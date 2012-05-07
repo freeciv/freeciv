@@ -2573,11 +2573,13 @@ static void update_simple_ai_types(void)
 
   unit_type_iterate(punittype) {
     if (A_NEVER != punittype->require_advance
-	&& !utype_has_flag(punittype, F_CIVILIAN)
-	&& !uclass_has_flag(utype_class(punittype), UCF_MISSILE)
-	&& !utype_has_flag(punittype, F_NO_LAND_ATTACK)
+        && !utype_has_flag(punittype, F_CIVILIAN)
+        && !uclass_has_flag(utype_class(punittype), UCF_MISSILE)
+        && !(utype_class(punittype)->move_type == UMT_SEA
+             && (!uclass_has_flag(utype_class(punittype), UCF_ATTACK_NON_NATIVE)
+                 || utype_has_flag(punittype, F_ONLY_NATIVE_ATTACK)))
         && !utype_fuel(punittype)
-	&& punittype->transport_capacity < 8) {
+        && punittype->transport_capacity < 8) {
       simple_ai_types[i] = punittype;
       i++;
     }

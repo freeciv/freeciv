@@ -97,8 +97,8 @@ bool unit_can_defend_here(const struct unit *punit)
 ****************************************************************************/
 bool can_attack_non_native(const struct unit_type *utype)
 {
-  return (utype_class(utype)->move_type == UMT_SEA
-          && !utype_has_flag(utype, F_NO_LAND_ATTACK));
+  return uclass_has_flag(utype_class(utype), UCF_ATTACK_NON_NATIVE)
+         && !utype_has_flag(utype, F_ONLY_NATIVE_ATTACK);
 }
 
 /****************************************************************************

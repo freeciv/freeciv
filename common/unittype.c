@@ -49,7 +49,7 @@ static const char *flag_names[] = {
   "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", 
   "AEGIS", "Marines", "Partial_Invis", "Settlers", "Diplomat",
   "Trireme", "Nuclear", "Spy", "Transform", "Paratroopers",
-  "Cities", "No_Land_Attack",
+  "Cities", "Only_Native_Attack",
   "AddToCity", "Fanatic", "GameLoss", "Unique", "Unbribable", 
   "Undisbandable", "SuperSpy", "NoHome", "NoVeteran", "Bombarder",
   "CityBuster", "NoBuild", "BadWallAttacker", "BadCityDefender",

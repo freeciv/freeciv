@@ -1340,6 +1340,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
 	    _("  * Doesn't prevent enemy cities from working the tile it's on.\n"));
   }
+  if (uclass_has_flag(utype_class(utype), UCF_ATTACK_NON_NATIVE)
+      && !utype_has_flag(utype, F_ONLY_NATIVE_ATTACK)) {
+    CATLSTR(buf, bufsz,
+	    _("  * Can attack units on non-native tiles.\n"));
+  }
 
   if (utype->need_improvement) {
     cat_snprintf(buf, bufsz,
@@ -1508,9 +1513,9 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
             _("* Is invisible except when next to an enemy unit or city.\n"));
   }
-  if (utype_has_flag(utype, F_NO_LAND_ATTACK)) {
+  if (utype_has_flag(utype, F_ONLY_NATIVE_ATTACK)) {
     CATLSTR(buf, bufsz,
-            _("* Can only attack units on ocean tiles (no land attacks).\n"));
+            _("* Can only attack units on native tiles.\n"));
   }
   if (utype_has_flag(utype, F_MARINES)) {
     CATLSTR(buf, bufsz,

@@ -96,6 +96,8 @@ veteran_move_bonus = 0, 0, 0, 0
 ; "CanPillage"    = Unit can pillage tile infrastructure
 ; "DoesntOccupyTile"  = Even if this kind of enemy unit is on tile, cities can
 ;                       still work that tile
+; "AttackNonNative"   = Unit can attack units on non-native tiles. Unit type flag
+;                       "Only_Native_Attack" can override this
 ;
 ; */ <-- avoid gettext warnings
 
@@ -132,7 +134,7 @@ flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
 name          = _("?unitclass:Sea")
 min_speed     = 2
 hp_loss_pct   = 0
-flags         = "DamageSlows"
+flags         = "DamageSlows", "AttackNonNative"
 
 [unitclass_trireme]
 ; /* TRANS: Unit class: used adjectivally */
@@ -243,7 +245,7 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; "Transform"	= can transform terrain
 ; "Paratroopers"= (land only) can paradrop
 ; "Cities"	= can disband to produce a city
-; "No_Land_Attack" = (sea only) cannot attack targets on land
+; "Only_Native_Attack" = cannot attack targets on non-native tiles even if unit class can
 ; "AddToCity"	= can disband to add a single point of population to a city
 ;		  (see cities.ruleset for limitation of this ability)
 ; "Fanatic"	= can only be built by governments that allow them
@@ -1361,7 +1363,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
-flags         = "BadCityDefender", "No_Land_Attack"
+flags         = "BadCityDefender"
 roles         = "Ferryboat"
 helptext      = _("\
 The Trireme is your first boat unit. It can act\
@@ -1659,7 +1661,7 @@ uk_food       = 0
 uk_gold       = 0
 cargo         = "Missile"
 flags         = "Partial_Invis", "BadCityDefender",
-	        "No_Land_Attack", "Shield2Gold"
+	        "Only_Native_Attack", "Shield2Gold"
 roles         = "Hunter"
 helptext      = _("\
 Traveling under the surface of the ocean, Submarines have\
@@ -1693,7 +1695,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Air", "Missile", "Helicopter"
-flags         = "BadCityDefender", "No_Land_Attack", "Shield2Gold"
+flags         = "BadCityDefender", "Only_Native_Attack", "Shield2Gold"
 roles         = ""
 helptext      = _("\
 The Carrier is a mobile airport.\

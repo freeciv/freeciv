@@ -69,6 +69,9 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 /* Cities can still work tile when enemy unit on it */
 #define SPECENUM_VALUE12 UCF_DOESNT_OCCUPY_TILE
 #define SPECENUM_VALUE12NAME "DoesntOccupyTile"
+/* Can attack against units on non-native tiles */
+#define SPECENUM_VALUE13 UCF_ATTACK_NON_NATIVE
+#define SPECENUM_VALUE13NAME "AttackNonNative"
 /* keep this last */
 #define SPECENUM_COUNT UCF_COUNT
 #include "specenum_gen.h"
@@ -111,7 +114,7 @@ enum unit_flag_id {
   F_IGTER,
   F_ONEATTACK,   
   F_PIKEMEN,     
-  F_HORSE,       
+  F_HORSE,
   F_IGWALL,           /* Ignores EFT_DEFEND_BONUS (for example city walls) */
   F_FIELDUNIT,   
   F_AEGIS,
@@ -125,7 +128,7 @@ enum unit_flag_id {
   F_TRANSFORM,        /* Can transform terrain types (Engineers) */
   F_PARATROOPERS,
   F_CITIES,           /* Can build cities */
-  F_NO_LAND_ATTACK,   /* Cannot attack vs land squares (Submarine) */
+  F_ONLY_NATIVE_ATTACK, /* Cannot attack vs non-native tiles even if class can */
   F_ADD_TO_CITY,      /* unit can add to city population */
   F_FANATIC,          /* Only Fundamentalist government can build
 			 these units */

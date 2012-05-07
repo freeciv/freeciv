@@ -83,6 +83,8 @@ veteran_move_bonus = 0, 0
 ; "CanPillage"    = Unit can pillage tile infrastructure
 ; "DoesntOccupyTile"  = Even if this kind of enemy unit is on tile, cities can
 ;                       still work that tile
+; "AttackNonNative"   = Unit can attack units on non-native tiles. Unit type flag
+;                       "Only_Native_Attack" can override this
 ;
 ; */ <-- avoid gettext warnings
 
@@ -100,7 +102,7 @@ flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
 name          = _("?unitclass:Sea")
 min_speed     = 2
 hp_loss_pct   = 0
-flags         = "DamageSlows"
+flags         = "DamageSlows", "AttackNonNative"
 
 [unitclass_air]
 ; /* TRANS: Unit class: used adjectivally */
@@ -945,7 +947,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Partial_Invis", "No_Land_Attack"
+flags         = "Partial_Invis", "Only_Native_Attack"
 roles         = "Hunter"
 helptext      = _("\
 Traveling under the surface of the ocean, Submarines have\
