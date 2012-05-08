@@ -2305,10 +2305,12 @@ void handle_unit_orders(struct player *pplayer,
         if (!base_by_number(packet->base[i])) {
           return;
         }
+        break;
       case ACTIVITY_GEN_ROAD:
         if (!road_by_number(packet->road[i])) {
           return;
         }
+        break;
       default:
 	return;
       }
