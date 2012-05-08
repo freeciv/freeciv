@@ -4605,6 +4605,9 @@ int fill_sprite_array(struct tileset *t,
       log_error("fill_sprite_array() tile (%d,%d) has no terrain!",
                 TILE_XY(ptile));
     }
+  } else {
+    BV_CLR_ALL(tspecial);
+    BV_CLR_ALL(troad);
   }
 
   switch (layer) {
