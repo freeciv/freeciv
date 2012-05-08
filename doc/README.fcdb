@@ -110,6 +110,7 @@ The following lua functions are provided by Freeciv:
 configuration file is shown on the right:
 
                                 [fcdb]
+  fcdb.param.BACKEND            backend="mysql"
   fcdb.param.HOST               host="localhost"
   fcdb.param.USER               user="Freeciv"
   fcdb.param.PORT               port="3306"
