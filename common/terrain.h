@@ -49,9 +49,6 @@ BV_DEFINE(bv_special, S_LAST);
 {                                                                          \
   enum tile_special_type special = 0;                                      \
   for (; special < S_LAST; special++) {                                    \
-    if (special == S_OLD_FORTRESS || special == S_OLD_AIRBASE) {           \
-      continue;                                                            \
-    }
     
 #define tile_special_type_iterate_end                                      \
   }                                                                        \

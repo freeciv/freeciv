@@ -41,8 +41,6 @@ enum tile_special_type infrastructure_specials[] = {
   S_IRRIGATION,
   S_FARMLAND,
   S_MINE,
-  S_OLD_FORTRESS,
-  S_OLD_AIRBASE,
   S_LAST
 };
 
@@ -514,10 +512,8 @@ static const char *tile_special_type_names[] =
   N_("Mine"),
   N_("Pollution"),
   N_("Hut"),
-  N_("Fortress"), /* Obsolete, placeholder for backward compatibility */
   N_("River"),
   N_("Farmland"),
-  N_("Airbase"),  /* Obsolete, placeholder for backward compatibility */
   N_("Fallout")
 };
 

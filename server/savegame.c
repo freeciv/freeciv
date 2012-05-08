@@ -3419,7 +3419,13 @@ static void game_load_internal(struct section_file *file)
     nmod = num_special_types + (4 - (num_special_types % 4));
     special_order = fc_calloc(nmod, sizeof(*special_order));
     for (j = 0; j < num_special_types; j++) {
-      special_order[j] = special_by_rule_name(modname[j]);
+      if (!strcmp("Fortress", modname[j])) {
+        special_order[j] = S_OLD_FORTRESS;
+      } else if (!strcmp("Airbase", modname[j])) {
+        special_order[j] = S_OLD_AIRBASE;
+      } else {
+        special_order[j] = special_by_rule_name(modname[j]);
+      }
     }
     free(modname);
     for (; j < nmod; j++) {

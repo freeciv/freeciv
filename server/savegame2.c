@@ -1790,10 +1790,6 @@ static void sg_save_savefile(struct savedata *saving)
       modname[j] = special_rule_name(j);
     } tile_special_type_iterate_end;
 
-    /* Obsoleted entries */
-    modname[S_OLD_FORTRESS] = "Obsolete";
-    modname[S_OLD_AIRBASE] = "Obsolete";
-
     secfile_insert_str_vec(saving->file, modname, S_LAST,
                            "savefile.specials_vector");
     free(modname);
@@ -4719,13 +4715,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
     } else {
       target = S_LAST;
     }
-  }
-  if (target == S_OLD_FORTRESS) {
-    target = S_LAST;
-    pbase = base_type_by_rule_name("Fortress");
-  } else if (target == S_OLD_AIRBASE) {
-    target = S_LAST;
-    pbase = base_type_by_rule_name("Airbase");
   }
 
   if (target == S_OLD_ROAD) {

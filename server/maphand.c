@@ -441,9 +441,6 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
     info.spec_sprite[0] = '\0';
   }
 
-  info.special[S_OLD_FORTRESS] = FALSE;
-  info.special[S_OLD_AIRBASE] = FALSE;
-
   conn_list_iterate(dest, pconn) {
     struct player *pplayer = pconn->playing;
 
