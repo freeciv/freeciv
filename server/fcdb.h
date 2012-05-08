@@ -30,6 +30,8 @@
 #define SPECENUM_VALUE5NAME "table_user"
 #define SPECENUM_VALUE6     FCDB_OPTION_TYPE_TABLE_LOG
 #define SPECENUM_VALUE6NAME "table_log"
+#define SPECENUM_VALUE7     FCDB_OPTION_TYPE_BACKEND
+#define SPECENUM_VALUE7NAME "backend"
 #define SPECENUM_COUNT      FCDB_OPTION_TYPE_COUNT
 #include "specenum_gen.h"
 

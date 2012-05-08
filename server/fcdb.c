@@ -47,6 +47,9 @@
  * some dummy functions are defiend. */
 #ifdef HAVE_FCDB
 
+/* Default database backend */
+#define DEFAULT_FCDB_BACKEND  "mysql"
+
 /* where our mysql database is located and how to get to it */
 #define DEFAULT_FCDB_HOST     "localhost"
 #define DEFAULT_FCDB_PORT     "3306"
@@ -271,6 +274,7 @@ bool fcdb_init(const char *conf_file)
 #define fcdb_set_option_default(_type, _default)                            \
   fcdb_set_option(&fcdb_config[_type], _default, AOS_DEFAULT)
 
+  fcdb_set_option_default(FCDB_OPTION_TYPE_BACKEND, DEFAULT_FCDB_BACKEND);
   fcdb_set_option_default(FCDB_OPTION_TYPE_HOST, DEFAULT_FCDB_HOST);
   fcdb_set_option_default(FCDB_OPTION_TYPE_PORT, DEFAULT_FCDB_PORT);
   fcdb_set_option_default(FCDB_OPTION_TYPE_USER, DEFAULT_FCDB_USER);

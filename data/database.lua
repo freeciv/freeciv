@@ -28,6 +28,13 @@ local function connect()
     dbh:close()
   end
 
+  local backend = fcdb.option(fcdb.param.BACKEND)
+  if backend ~= 'mysql' then
+    log.error('Database backend \'%s\' not yet supported, only \'mysql\'',
+              backend)
+    return fcdb.status.ERROR
+  end
+
   -- Load the database parameters.
   local database = fcdb.option(fcdb.param.DATABASE)
   local user     = fcdb.option(fcdb.param.USER)
