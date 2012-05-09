@@ -4155,9 +4155,8 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   } specialist_type_iterate_end;
 
   for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-    sg_warn_ret_val(secfile_lookup_int(loading->file, &pcity->trade[i],
-                                      "%s.traderoute%d", citystr, i),
-                    FALSE, "%s", secfile_error());
+    pcity->trade[i] = secfile_lookup_int_default(loading->file, 0,
+                                                 "%s.traderoute%d", citystr, i);
   }
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &pcity->food_stock,

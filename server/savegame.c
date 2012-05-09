@@ -2524,10 +2524,9 @@ static void player_load_cities(struct player *plr, int plrno,
     } specialist_type_iterate_end;
 
     for (j = 0; j < MAX_TRADE_ROUTES; j++) {
-      fc_assert_exit_msg(secfile_lookup_int(file, &pcity->trade[j],
-                                            "player%d.c%d.traderoute%d",
-                                            plrno, i, j),
-                         "%s", secfile_error());
+      pcity->trade[j] = secfile_lookup_int_default(file, 0,
+                                                   "player%d.c%d.traderoute%d",
+                                                   plrno, i, j);
     }
 
     fc_assert_exit_msg(secfile_lookup_int(file, &pcity->food_stock,
