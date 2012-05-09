@@ -431,14 +431,28 @@ static void xaw_key_unit_build_wonder(Widget w, XEvent *event, String *argv, Car
 static void xaw_key_unit_connect_road(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if (is_menu_item_active(MENU_ORDER, MENU_ORDER_CONNECT_ROAD)) {
-    key_unit_connect(ACTIVITY_ROAD, NULL);
+    struct road_type *proad = road_by_special(S_ROAD);
+
+    if (proad != NULL) {
+      struct act_tgt tgt = { .type = ATT_ROAD,
+                             .obj.road = road_number(proad) };
+
+      key_unit_connect(ACTIVITY_GEN_ROAD, &tgt);
+    }
   }
 }
 
 static void xaw_key_unit_connect_rail(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if (is_menu_item_active(MENU_ORDER, MENU_ORDER_CONNECT_RAIL)) {
-    key_unit_connect(ACTIVITY_RAILROAD, NULL);
+    struct road_type *prail = road_by_special(S_RAILROAD);
+
+    if (prail != NULL) {
+      struct act_tgt tgt = { .type = ATT_ROAD,
+                             .obj.road = road_number(prail) };
+
+      key_unit_connect(ACTIVITY_GEN_ROAD, &tgt);
+    }
   }
 }
 

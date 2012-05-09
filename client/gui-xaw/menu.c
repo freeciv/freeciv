@@ -396,6 +396,8 @@ void real_menus_update(void)
       struct tile *ptile = NULL;
       bool can_build;
       struct unit_list *punits = get_units_in_focus();
+      bool road_conn_possible;
+      struct road_type *proad;
 
       XtSetSensitive(menus[MENU_ORDER]->button, True);
 
@@ -446,10 +448,33 @@ void real_menus_update(void)
 			   units_have_flag(punits, F_UNDISBANDABLE, FALSE));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_EXPLORE, 
 			   can_units_do_activity(punits, ACTIVITY_EXPLORE));
+
+      proad = road_by_special(S_ROAD);
+      if (proad != NULL) {
+        struct act_tgt tgt = { .type = ATT_ROAD,
+                               .obj.road = road_number(proad) }; 
+
+        road_conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD,
+                                                  &tgt);
+      } else {
+        road_conn_possible = FALSE;
+      }
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT_ROAD,
-			   can_units_do_connect(punits, ACTIVITY_ROAD, NULL));
+			   road_conn_possible);
+
+      proad = road_by_special(S_RAILROAD);
+      if (proad != NULL) {
+        struct act_tgt tgt = { .type = ATT_ROAD,
+                               .obj.road = road_number(proad) }; 
+
+        road_conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD,
+                                                  &tgt);
+      } else {
+        road_conn_possible = FALSE;
+      }
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT_RAIL,
-			   can_units_do_connect(punits, ACTIVITY_RAILROAD, NULL));
+                           road_conn_possible);
+
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT_IRRIGATE,
 			   can_units_do_connect(punits, ACTIVITY_IRRIGATE, NULL));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_GOTO_CITY,

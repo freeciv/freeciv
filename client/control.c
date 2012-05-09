@@ -1127,20 +1127,6 @@ bool can_unit_do_connect(struct unit *punit,
   struct terrain *pterrain = tile_terrain(ptile);
   struct road_type *proad = NULL;
 
-  switch (activity) {
-   case ACTIVITY_ROAD:
-     proad = road_by_special(S_OLD_ROAD);
-     break;
-   case ACTIVITY_RAILROAD:
-     proad = road_by_special(S_OLD_RAILROAD);
-     break;
-   case ACTIVITY_GEN_ROAD:
-     fc_assert(tgt->type == ATT_ROAD);
-     proad = road_by_number(tgt->obj.road);
-   default:
-     break;
-  }
-
   /* HACK: This code duplicates that in
    * can_unit_do_activity_targeted_at(). The general logic here is that
    * the connect is allowed if both:
@@ -1149,9 +1135,11 @@ bool can_unit_do_connect(struct unit *punit,
    *     (a) the activity has already been completed at this tile
    *     (b) it can be done by the unit at this tile. */
   switch (activity) {
-  case ACTIVITY_ROAD:
-  case ACTIVITY_RAILROAD:
   case ACTIVITY_GEN_ROAD:
+    fc_assert(tgt->type == ATT_ROAD);
+
+    proad = road_by_number(tgt->obj.road);
+
     if (proad == NULL) {
       return FALSE;
     }

@@ -1102,7 +1102,14 @@ static void build_mine_callack(GtkAction *action, gpointer data)
 *****************************************************************/
 static void connect_road_callback(GtkAction *action, gpointer data)
 {
-  key_unit_connect(ACTIVITY_ROAD, NULL);
+  struct road_type *proad = road_by_special(S_ROAD);
+
+  if (proad != NULL) {
+    struct act_tgt tgt = { .type = ATT_ROAD,
+                           .obj.road = road_number(proad) };
+
+    key_unit_connect(ACTIVITY_GEN_ROAD, &tgt);
+  }
 }
 
 /****************************************************************
@@ -1110,7 +1117,14 @@ static void connect_road_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void connect_rail_callback(GtkAction *action, gpointer data)
 {
-  key_unit_connect(ACTIVITY_RAILROAD, NULL);
+  struct road_type *prail = road_by_special(S_RAILROAD);
+
+  if (prail != NULL) {
+    struct act_tgt tgt = { .type = ATT_ROAD,
+                           .obj.road = road_number(prail) };
+
+    key_unit_connect(ACTIVITY_GEN_ROAD, &tgt);
+  }
 }
 
 /****************************************************************
@@ -1980,6 +1994,8 @@ void real_menus_update(void)
   GtkMenu *menu;
   char acttext[128], irrtext[128], mintext[128], transtext[128];
   struct terrain *pterrain;
+  bool road_conn_possible;
+  struct road_type *proad;
 
   if (NULL == ui_manager && !can_client_change_view()) {
     return;
@@ -2157,10 +2173,31 @@ void real_menus_update(void)
                       can_units_do(punits, can_unit_do_autosettlers));
   menus_set_sensitive(unit_group, "UNIT_EXPLORE",
                       can_units_do_activity(punits, ACTIVITY_EXPLORE));
-  menus_set_sensitive(unit_group, "CONNECT_ROAD",
-                      can_units_do_connect(punits, ACTIVITY_ROAD, NULL));
-  menus_set_sensitive(unit_group, "CONNECT_RAIL",
-                      can_units_do_connect(punits, ACTIVITY_RAILROAD, NULL));
+
+  proad = road_by_special(S_ROAD);
+  if (proad != NULL) {
+    struct act_tgt tgt = { .type = ATT_ROAD,
+                           .obj.road = road_number(proad) }; 
+
+    road_conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD,
+                                              &tgt);
+  } else {
+    road_conn_possible = FALSE;
+  }
+  menus_set_sensitive(unit_group, "CONNECT_ROAD", road_conn_possible);
+
+  proad = road_by_special(S_RAILROAD);
+  if (proad != NULL) {
+    struct act_tgt tgt = { .type = ATT_ROAD,
+                           .obj.road = road_number(proad) }; 
+
+    road_conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD,
+                                              &tgt);
+  } else {
+    road_conn_possible = FALSE;
+  }
+  menus_set_sensitive(unit_group, "CONNECT_RAIL", road_conn_possible);
+
   menus_set_sensitive(unit_group, "CONNECT_IRRIGATION",
                       can_units_do_connect(punits, ACTIVITY_IRRIGATE, NULL));
   menus_set_sensitive(unit_group, "DIPLOMAT_ACTION",

@@ -478,7 +478,6 @@ static int get_activity_time(const struct tile *ptile,
 {
   struct terrain *pterrain = tile_terrain(ptile);
   int activity_mc = 0;
-  struct road_type *proad;
 
   fc_assert_ret_val(hover_state == HOVER_CONNECT, -1);
   fc_assert_ret_val(terrain_control.may_road, -1);
@@ -498,31 +497,6 @@ static int get_activity_time(const struct tile *ptile,
     }
 
     activity_mc = pterrain->irrigation_time;
-    break;
-  case ACTIVITY_RAILROAD:
-  case ACTIVITY_ROAD:
-    if (!tile_has_special(ptile, S_ROAD)) {
-      if (pterrain->road_time == 0
-	  || (tile_has_special(ptile, S_RIVER)
-	      && !player_knows_techs_with_flag(pplayer, TF_BRIDGE))) {
-	/* 0 means road is impossible here (??) */
-	return -1;
-      }
-      proad = road_by_special(S_ROAD);
-      if (proad == NULL) {
-        return -1;
-      }
-      activity_mc += terrain_road_time(pterrain, road_number(proad));
-    }
-    if (connect_activity == ACTIVITY_ROAD
-        || tile_has_special(ptile, S_RAILROAD)) {
-      break;
-    }
-    proad = road_by_special(S_RAILROAD);
-    if (proad == NULL) {
-      return -1;
-    }
-    activity_mc +=  terrain_road_time(pterrain, road_number(proad));
     break;
   case ACTIVITY_GEN_ROAD:
     fc_assert(connect_tgt.type == ATT_ROAD);
@@ -595,14 +569,9 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
     return -1;
   }
 
-  if (connect_activity == ACTIVITY_GEN_ROAD) {
-    proad = road_by_number(connect_tgt.obj.road);
-  } else if (connect_activity == ACTIVITY_ROAD) {
-    proad = road_by_special(S_OLD_ROAD);
-  } else {
-    fc_assert(connect_activity == ACTIVITY_RAILROAD);
-    proad = road_by_special(S_OLD_RAILROAD);
-  }
+  fc_assert(connect_activity == ACTIVITY_GEN_ROAD);
+
+  proad = road_by_number(connect_tgt.obj.road);
 
   if (proad == NULL) {
     /* No suitable road type available */
@@ -1188,23 +1157,6 @@ void send_connect_route(enum unit_activity activity,
 	  p.orders[p.length] = ORDER_ACTIVITY;
 	  p.activity[p.length] = ACTIVITY_IRRIGATE;
 	  p.length++;
-	}
-	break;
-      case ACTIVITY_ROAD:
-      case ACTIVITY_RAILROAD:
-	if (!tile_has_special(old_tile, S_ROAD)) {
-	  /* Assume the unit can build the road or we wouldn't be here. */
-	  p.orders[p.length] = ORDER_ACTIVITY;
-	  p.activity[p.length] = ACTIVITY_ROAD;
-	  p.length++;
-	}
-	if (activity == ACTIVITY_RAILROAD) {
-	  if (!tile_has_special(old_tile, S_RAILROAD)) {
-	    /* Assume the unit can build the rail or we wouldn't be here. */
-	    p.orders[p.length] = ORDER_ACTIVITY;
-	    p.activity[p.length] = ACTIVITY_RAILROAD;
-	    p.length++;
-	  }
 	}
 	break;
       case ACTIVITY_GEN_ROAD:

@@ -169,10 +169,28 @@ static int unit_order_callback(struct widget *pOrder_Widget)
       key_unit_connect(ACTIVITY_IRRIGATE, NULL);
       break;
     case ID_UNIT_ORDER_CONNECT_ROAD:
-      key_unit_connect(ACTIVITY_ROAD, NULL);
+      {
+        struct road_type *proad = road_by_special(S_ROAD);
+
+        if (proad != NULL) {
+          struct act_tgt tgt = { .type = ATT_ROAD,
+                                 .obj.road = road_number(proad) };
+
+          key_unit_connect(ACTIVITY_GEN_ROAD, &tgt);
+        }
+      }
       break;
     case ID_UNIT_ORDER_CONNECT_RAILROAD:
-      key_unit_connect(ACTIVITY_RAILROAD, NULL);
+      {
+        struct road_type *prail = road_by_special(S_RAILROAD);
+
+        if (prail != NULL) {
+          struct act_tgt tgt = { .type = ATT_ROAD,
+                                 .obj.road = road_number(prail) };
+
+          key_unit_connect(ACTIVITY_GEN_ROAD, &tgt);
+        }
+      }
       break;
     case ID_UNIT_ORDER_PATROL:
       key_unit_patrol();
@@ -1323,16 +1341,46 @@ void real_menus_update(void)
 	local_hide(ID_UNIT_ORDER_CONNECT_IRRIGATE);
       }
 
-      if (can_unit_do_connect(pUnit, ACTIVITY_ROAD, NULL)) {
-	local_show(ID_UNIT_ORDER_CONNECT_ROAD);
-      } else {
-	local_hide(ID_UNIT_ORDER_CONNECT_ROAD);
+      {
+        struct road_type *proad = road_by_special(S_ROAD);
+        bool road_conn_possible;
+
+        if (proad != NULL) {
+          struct act_tgt tgt = { .type = ATT_ROAD,
+                                 .obj.road = road_number(proad) }; 
+
+          road_conn_possible = can_unit_do_connect(pUnit, ACTIVITY_GEN_ROAD,
+                                                   &tgt);
+        } else {
+          road_conn_possible = FALSE;
+        }
+
+        if (road_conn_possible) {
+          local_show(ID_UNIT_ORDER_CONNECT_ROAD);
+        } else {
+          local_hide(ID_UNIT_ORDER_CONNECT_ROAD);
+        }
       }
 
-      if (can_unit_do_connect(pUnit, ACTIVITY_RAILROAD, NULL)) {
-	local_show(ID_UNIT_ORDER_CONNECT_RAILROAD);
-      } else {
-	local_hide(ID_UNIT_ORDER_CONNECT_RAILROAD);
+      {
+        struct road_type *proad = road_by_special(S_RAILROAD);
+        bool road_conn_possible;
+
+        if (proad != NULL) {
+          struct act_tgt tgt = { .type = ATT_ROAD,
+                                 .obj.road = road_number(proad) }; 
+
+          road_conn_possible = can_unit_do_connect(pUnit, ACTIVITY_GEN_ROAD,
+                                                   &tgt);
+        } else {
+          road_conn_possible = FALSE;
+        }
+
+        if (road_conn_possible) {
+          local_show(ID_UNIT_ORDER_CONNECT_RAILROAD);
+        } else {
+          local_hide(ID_UNIT_ORDER_CONNECT_RAILROAD);
+        }
       }
 
       if (is_diplomat_unit(pUnit) &&
