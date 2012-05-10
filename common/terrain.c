@@ -36,8 +36,6 @@ static struct terrain civ_terrains[MAX_NUM_TERRAINS];
 static struct resource civ_resources[MAX_NUM_RESOURCES];
 
 enum tile_special_type infrastructure_specials[] = {
-  S_ROAD,
-  S_RAILROAD,
   S_IRRIGATION,
   S_FARMLAND,
   S_MINE,

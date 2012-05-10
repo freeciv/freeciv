@@ -541,16 +541,8 @@ static void tile_clear_unsupported_infrastructure(struct tile *ptile)
   bool ocean = is_ocean(pterr);
 
   for (i = 0; infrastructure_specials[i] != S_LAST; i++) {
-    switch (infrastructure_specials[i]) {
-    case S_ROAD:
-    case S_RAILROAD:
-      /* These are now handled separately as road types */
-      break;
-    default:
-      if (ocean) {
-	tile_clear_special(ptile, infrastructure_specials[i]);
-      }
-      break;
+    if (ocean) {
+      tile_clear_special(ptile, infrastructure_specials[i]);
     }
   }
 }

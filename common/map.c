@@ -95,7 +95,7 @@ static bool restrict_infra(const struct player *pplayer, const struct tile *t1,
   Return a bitfield of the specials on the tile that are infrastructure.
 ****************************************************************************/
 bv_special get_tile_infrastructure_set(const struct tile *ptile,
-					  int *pcount)
+                                       int *pcount)
 {
   bv_special pspresent;
   int i, count = 0;
