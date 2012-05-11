@@ -26,6 +26,18 @@ extern "C" {
 
 BV_DEFINE(bv_road_flags, RF_COUNT);
 
+struct road_type;
+
+/* get 'struct road_type_list' and related functions: */
+#define SPECLIST_TAG road_type
+#define SPECLIST_TYPE struct road_type
+#include "speclist.h"
+
+#define road_type_list_iterate(roadlist, proad) \
+    TYPED_LIST_ITERATE(struct road_type, roadlist, proad)
+#define road_type_list_iterate_end LIST_ITERATE_END
+
+
 struct road_type {
   int id;
   struct name_translation name;
@@ -42,6 +54,11 @@ struct road_type {
   bv_unit_classes native_to;
   bv_roads hidden_by;
   bv_road_flags flags;
+
+  /* Same information as in hidden_by, but iterating through this list is much
+   * faster than through all road types to check which ones are hidin this one.
+   * Only used client side. */
+  struct road_type_list *hiders;
 };
 
 #define ROAD_NONE (-1)

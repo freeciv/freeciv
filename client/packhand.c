@@ -2800,6 +2800,16 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
 ****************************************************************************/
 void handle_rulesets_ready(void)
 {
+  /* Setup road hiders caches */
+  road_type_iterate(proad) {
+    proad->hiders = road_type_list_new();
+    road_type_iterate(phider) {
+      if (BV_ISSET(proad->hidden_by, road_index(phider))) {
+        road_type_list_append(proad->hiders, phider);
+      }
+    } road_type_iterate_end;
+  } road_type_iterate_end;
+
   /* We are not going to crop any more sprites from big sprites, free them. */
   finish_loading_sprites(tileset);
 }

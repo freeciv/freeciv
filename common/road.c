@@ -80,6 +80,7 @@ void road_types_init(void)
   for (i = 0; i < MAX_ROAD_TYPES; i++) {
     roads[i].id = i;
     requirement_vector_init(&roads[i].reqs);
+    roads[i].hiders = NULL;
   }
 }
 
@@ -90,6 +91,10 @@ void road_types_free(void)
 {
   road_type_iterate(proad) {
     requirement_vector_free(&proad->reqs);
+    if (proad->hiders != NULL) {
+      road_type_list_destroy(proad->hiders);
+      proad->hiders = NULL;
+    }
   } road_type_iterate_end;
 }
 

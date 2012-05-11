@@ -3612,22 +3612,6 @@ static int fill_rail_corner_sprites(const struct tileset *t,
 }
 
 /**************************************************************************
-  Check if one road type would hide another.
-**************************************************************************/
-static bool road_hides_another(struct road_type *hider, struct road_type *hidden)
-{
-  if (hidden == NULL) {
-    return TRUE;
-  }
-
-  if (hider == NULL) {
-    return FALSE;
-  }
-
-  return BV_ISSET(hidden->hidden_by, road_index(hider));
-}
-
-/**************************************************************************
   Fill all road and rail sprites into the sprite array.
 **************************************************************************/
 static int fill_road_rail_sprite_array(const struct tileset *t,
@@ -3672,10 +3656,30 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
   } else {
     rail = FALSE;
   }
-  draw_single_road = road && (!pcity || !draw_cities)
-                     && (!rail || !road_hides_another(prail, proad));
-  draw_single_rail = rail && (!pcity || !draw_cities)
-                     && (!road || !road_hides_another(proad, prail));
+
+  if (road && (!pcity || !draw_cities)) {
+    draw_single_road = TRUE;
+    road_type_list_iterate(proad->hiders, phider) {
+      if (BV_ISSET(troad, road_index(phider))) {
+        draw_single_road = FALSE;
+        break;
+      }
+    } road_type_list_iterate_end;
+  } else {
+    draw_single_road = FALSE;
+  }
+  if (rail && (!pcity || !draw_cities)) {
+    draw_single_rail = TRUE;
+    road_type_list_iterate(prail->hiders, phider) {
+      if (BV_ISSET(troad, road_index(phider))) {
+        draw_single_rail = FALSE;
+        break;
+      }
+    } road_type_list_iterate_end;
+  } else {
+    draw_single_rail = FALSE;
+  }
+
   for (dir = 0; dir < 8; dir++) {
     bool roads_exist, rails_exist;
 
@@ -3696,12 +3700,37 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
      * connection. */
     roads_exist = road && road_near[dir];
     rails_exist = rail && rail_near[dir];
-    draw_road[dir] = roads_exist && (!rails_exist || !road_hides_another(prail, proad));
-    draw_rail[dir] = rails_exist && (!roads_exist || !road_hides_another(proad, prail));
+    draw_road[dir] = roads_exist;
+    if (roads_exist) {
+      road_type_list_iterate(proad->hiders, phider) {
+        if (BV_ISSET(troad, road_index(phider)) && BV_ISSET(troad_near[dir], road_index(phider))) {
+          draw_road[dir] = FALSE;
+          break;
+        }
+      } road_type_list_iterate_end;
+    }
+    draw_rail[dir] = rails_exist;
+    if (rails_exist) {
+      road_type_list_iterate(prail->hiders, phider) {
+        if (BV_ISSET(troad, road_index(phider)) && BV_ISSET(troad_near[dir], road_index(phider))) {
+          draw_rail[dir] = FALSE;
+          break;
+        }
+      } road_type_list_iterate_end;
+    }
 
-    /* Don't draw an isolated road/rail if there's any connection. */
-    draw_single_road &= !draw_road[dir] && !(draw_rail[dir] && road_hides_another(prail, proad));
-    draw_single_rail &= !draw_rail[dir] && !(draw_road[dir] && road_hides_another(proad, prail));
+    /* Don't draw an isolated road/rail if there's any connection.
+     * draw_single_road would be true in the first place only if start tile has road,
+     * so it will have road connection with any adjacent road tile. We check from real
+     * existence of road (road_near[dir]) and not from whether road gets drawn (draw_road[dir])
+     * as latter can be FALSE when road is simply hidden by another one, and we don't want to
+     * draw single road in that case either. */
+    if (draw_single_road && road_near[dir]) {
+      draw_single_road = FALSE;
+    }
+    if (draw_single_rail && rail_near[dir]) {
+      draw_single_rail = FALSE;
+    }
   }
 
   /* Draw road corners underneath rails (styles 0 and 1). */
