@@ -140,6 +140,7 @@ artists = "
    Darfur		Daniel Markstedt
    DDR			Jwnabd (Wikimedia Commons)
    Denmark		Jens Bech Madsen
+   DGB			Precious alex (Wikimedia Commons)
    Djibouti		Open Clip Art
    Dominica		Caleb Moore and Christian Schaller
    Dominican Republic	Daniel Markstedt and capellan2000 (Open Clip Art)
@@ -684,6 +685,7 @@ sprites =
 		"f.darfur", "flags/darfur"
 		"f.ddr", "flags/ddr"
 		"f.denmark", "flags/denmark"
+		"f.dgb", "flags/dgb"
 		"f.djibouti", "flags/djibouti"
 		"f.dominica", "flags/dominica"
 		"f.dominican_republic", "flags/dominican_republic"
