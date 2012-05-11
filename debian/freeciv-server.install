@@ -4,6 +4,10 @@ usr/share/man/man6/freeciv-server.6
 usr/share/applications/freeciv-server.desktop
 usr/share/games/freeciv/default
 usr/share/games/freeciv/default.serv
+usr/share/games/freeciv/multiplayer
+usr/share/games/freeciv/multiplayer.serv
+usr/share/games/freeciv/experimental
+usr/share/games/freeciv/experimental.serv
 usr/share/games/freeciv/nation
 usr/share/games/freeciv/civ1
 usr/share/games/freeciv/civ1.serv
