@@ -94,6 +94,7 @@ flag_files =				\
 		catalan.png		\
 		celtiberian.png		\
 		central_america.png	\
+		central_lithuania.png	\
 		chad.png		\
 		cham.png		\
 		chananea.png		\
@@ -631,6 +632,7 @@ flag_files =				\
 		catalan-large.png		\
 		celtiberian-large.png		\
 		central_america-large.png	\
+		central_lithuania-large.png	\
 		chad-large.png			\
 		cham-large.png		\
 		chananea-large.png		\
@@ -1170,6 +1172,7 @@ shield_files =					\
 		catalan-shield.png		\
 		celtiberian-shield.png		\
 		central_america-shield.png	\
+		central_lithuania-shield.png	\
 		chad-shield.png			\
 		cham-shield.png			\
 		chananea-shield.png		\
@@ -1707,6 +1710,7 @@ shield_files =					\
 		catalan-shield-large.png		\
 		celtiberian-shield-large.png		\
 		central_america-shield-large.png	\
+		central_lithuania-shield-large.png	\
 		chad-shield-large.png			\
 		cham-shield-large.png			\
 		chananea-shield-large.png		\
@@ -2246,6 +2250,7 @@ svg_files = 				\
 		catalan.svg		\
 		celtiberian.svg		\
 		central_america.svg	\
+		central_lithuania.svg	\
 		cham.svg		\
 		chananea.svg		\
 		chechnya.svg		\
