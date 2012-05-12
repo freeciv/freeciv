@@ -88,7 +88,6 @@ void player_restore_units(struct player *pplayer);
 void update_unit_activities(struct player *pplayer);
 
 /* various */
-enum goto_move_restriction get_activity_move_restriction(enum unit_activity activity);
 void place_partisans(struct tile *pcenter, struct player *powner,
                      int count, int sq_radius);
 bool teleport_unit_to_city(struct unit *punit, struct city *pcity, int move_cost,

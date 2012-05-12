@@ -1040,37 +1040,6 @@ void unit_assign_specific_activity_target(struct unit *punit,
 }
 
 /**************************************************************************
-  Return what kind of path should be selected for unit doing activity when
-  it moves.
-**************************************************************************/
-enum goto_move_restriction get_activity_move_restriction(enum unit_activity activity)
-{
-  enum goto_move_restriction restr;
-
-  switch (activity) {
-  case ACTIVITY_IRRIGATE:
-    restr = GOTO_MOVE_CARDINAL_ONLY;
-    break;
-  case ACTIVITY_POLLUTION:
-  case ACTIVITY_ROAD:
-  case ACTIVITY_MINE:
-  case ACTIVITY_FORTRESS:
-  case ACTIVITY_RAILROAD:
-  case ACTIVITY_PILLAGE:
-  case ACTIVITY_TRANSFORM:
-  case ACTIVITY_AIRBASE:
-  case ACTIVITY_FALLOUT:
-    restr = GOTO_MOVE_STRAIGHTEST;
-    break;
-  default:
-    restr = GOTO_MOVE_ANY;
-    break;
-  }
-
-  return (restr);
-}
-
-/**************************************************************************
   Find place to place partisans. Returns whether such spot was found, and
   if it has been found, dst_tile contains that tile.
 **************************************************************************/

@@ -60,12 +60,6 @@ enum diplomat_actions {
   DIPLOMAT_ANY_ACTION   /* leave this one last */
 };
 
-enum goto_move_restriction {
-  GOTO_MOVE_ANY,
-  GOTO_MOVE_CARDINAL_ONLY, /* No diagonal moves.  */
-  GOTO_MOVE_STRAIGHTEST
-};
-
 enum goto_route_type {
   ROUTE_GOTO, ROUTE_PATROL
 };
