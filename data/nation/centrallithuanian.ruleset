@@ -51,7 +51,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations = "Lithuanian", "Polish", "Belarussian", "Lipka Tatar", "Mazovian"
+civilwar_nations = "Lithuanian", "Polish", "Belarusian", "Lipka Tatar", "Mazovian"
 
 cities =
  "Wilno",                 ;Vilnius
