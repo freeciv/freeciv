@@ -1312,7 +1312,7 @@ void set_unit_activity_road(struct unit *punit,
   set_unit_activity_internal(punit, ACTIVITY_GEN_ROAD);
   punit->activity_target.type = ATT_ROAD;
   punit->activity_target.obj.road = road;
-  if (ACTIVITY_ROAD == punit->changed_from
+  if (ACTIVITY_GEN_ROAD == punit->changed_from
       && cmp_act_tgt(&punit->activity_target, &punit->changed_from_target)) {
     punit->activity_count = punit->changed_from_count;
   }
