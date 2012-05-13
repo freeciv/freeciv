@@ -379,6 +379,7 @@ sprites =
 		"f.shield.panama", "flags/panama-shield-large"
 		"f.shield.papua_newguinea", "flags/papua_newguinea-shield-large"
 		"f.shield.paraguay", "flags/paraguay-shield-large"
+		"f.shield.parthia", "flags/parthia-shield-large"
 		"f.shield.pashtun", "flags/pashtun-shield-large"
 		"f.shield.pelasgian", "flags/pelasgian-shield-large"
 		"f.shield.peru", "flags/peru-shield-large"

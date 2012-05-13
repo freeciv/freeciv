@@ -370,6 +370,7 @@ flag_files =				\
 		panama.png		\
 		papua_newguinea.png	\
 		paraguay.png		\
+		parthia.png		\
 		pashtun.png		\
 		pelasgian.png		\
 		peru.png		\
@@ -909,6 +910,7 @@ flag_files =				\
 		panama-large.png		\
 		papua_newguinea-large.png	\
 		paraguay-large.png		\
+		parthia-large.png		\
 		pashtun-large.png		\
 		pelasgian-large.png		\
 		peru-large.png			\
@@ -1450,6 +1452,7 @@ shield_files =					\
 		panama-shield.png		\
 		papua_newguinea-shield.png	\
 		paraguay-shield.png		\
+		parthia-shield.png		\
 		pashtun-shield.png		\
 		pelasgian-shield.png		\
 		peru-shield.png			\
@@ -1989,6 +1992,7 @@ shield_files =					\
 		panama-shield-large.png		\
 		papua_newguinea-shield-large.png	\
 		paraguay-shield-large.png		\
+		parthia-shield-large.png		\
 		pashtun-shield-large.png		\
 		pelasgian-shield-large.png		\
 		peru-shield-large.png			\
@@ -2530,6 +2534,7 @@ svg_files = 				\
 		panama.svg		\
 		papua_newguinea.svg	\
 		paraguay.svg		\
+		parthia.svg		\
 		pashtun.svg		\
 		pelasgian.svg		\
 		peru.svg		\
