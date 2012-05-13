@@ -506,13 +506,6 @@ struct tileset *tileset;
 int focus_unit_state = 0;
 
 
-/* Index of road type in tileset
- * Needed in transitional phase between old two roads and
- * new gen-roads systems. These tell remaining old code how to map
- * roads to new system. */
-#define TSI_ROAD 0
-#define TSI_RAIL 1
-
 static int fill_unit_type_sprite_array(const struct tileset *t,
                                        struct drawn_sprite *sprs,
                                        const struct unit_type *putype,
@@ -3531,12 +3524,14 @@ static int fill_unit_sprite_array(const struct tileset *t,
   Add any corner road sprites to the sprite array.
 **************************************************************************/
 static int fill_road_corner_sprites(const struct tileset *t,
+                                    const struct road_type *proad,
 				    struct drawn_sprite *sprs,
 				    bool road, bool *road_near,
-				    bool rail, bool *rail_near)
+				    bool hider, bool *hider_near)
 {
   struct drawn_sprite *saved_sprs = sprs;
   int i;
+  int road_idx = road_index(proad);
 
   fc_assert_ret_val(draw_roads_rails, 0);
 
@@ -3562,48 +3557,11 @@ static int fill_road_corner_sprites(const struct tileset *t,
       enum direction8 dir_cw = t->valid_tileset_dirs[cw];
       enum direction8 dir_ccw = t->valid_tileset_dirs[ccw];
 
-      if (t->sprites.roads[TSI_ROAD].corner[dir]
+      if (t->sprites.roads[road_idx].corner[dir]
 	  && (road_near[dir_cw] && road_near[dir_ccw]
-	      && !(rail_near[dir_cw] && rail_near[dir_ccw]))
-	  && !(road && road_near[dir] && !(rail && rail_near[dir]))) {
-	ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_ROAD].corner[dir]);
-      }
-    }
-  }
-
-  return sprs - saved_sprs;
-}
-
-/**************************************************************************
-  Add any corner rail sprites to the sprite array.
-**************************************************************************/
-static int fill_rail_corner_sprites(const struct tileset *t,
-				    struct drawn_sprite *sprs,
-				    bool rail, bool *rail_near)
-{
-  struct drawn_sprite *saved_sprs = sprs;
-  int i;
-
-  fc_assert_ret_val(draw_roads_rails, 0);
-
-  /* Rails going diagonally adjacent to this tile need to be
-   * partly drawn on this tile. */
-
-  for (i = 0; i < t->num_valid_tileset_dirs; i++) {
-    enum direction8 dir = t->valid_tileset_dirs[i];
-
-    if (!is_cardinal_tileset_dir(t, dir)) {
-      /* Draw corner sprites for this non-cardinal direction. */
-      int cw = (i + 1) % t->num_valid_tileset_dirs;
-      int ccw
-	= (i + t->num_valid_tileset_dirs - 1) % t->num_valid_tileset_dirs;
-      enum direction8 dir_cw = t->valid_tileset_dirs[cw];
-      enum direction8 dir_ccw = t->valid_tileset_dirs[ccw];
-
-      if (t->sprites.roads[TSI_RAIL].corner[dir]
-	  && rail_near[dir_cw] && rail_near[dir_ccw]
-	  && !(rail && rail_near[dir])) {
-	ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_RAIL].corner[dir]);
+	      && !(hider_near[dir_cw] && hider_near[dir_ccw]))
+	  && !(road && road_near[dir] && !(hider && hider_near[dir]))) {
+	ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].corner[dir]);
       }
     }
   }
@@ -3614,110 +3572,68 @@ static int fill_rail_corner_sprites(const struct tileset *t,
 /**************************************************************************
   Fill all road and rail sprites into the sprite array.
 **************************************************************************/
-static int fill_road_rail_sprite_array(const struct tileset *t,
-				       struct drawn_sprite *sprs,
-				       bv_roads troad,
-				       bv_roads *troad_near,
-				       const struct city *pcity)
+static int fill_road_sprite_array(const struct tileset *t,
+                                  const struct road_type *proad,
+                                  struct drawn_sprite *sprs,
+                                  bv_roads troad,
+                                  bv_roads *troad_near,
+                                  const struct city *pcity)
 {
   struct drawn_sprite *saved_sprs = sprs;
-  bool road, road_near[8], rail, rail_near[8];
-  bool draw_road[8], draw_single_road, draw_rail[8], draw_single_rail;
+  bool road, road_near[8], hider, hider_near[8];
+  bool draw_road[8], draw_single_road;
   enum direction8 dir;
-  struct road_type *proad = road_by_special(S_ROAD);
-  struct road_type *prail = road_by_special(S_RAILROAD);
   int road_idx = -1;
-  int rail_idx = -1;
 
   if (!draw_roads_rails) {
     /* Don't draw anything. */
     return 0;
   }
 
-  if (proad != NULL) {
-    road_idx = road_index(proad);
-  }
-  if (prail != NULL) {
-    rail_idx = road_index(prail);
-  }
+  road_idx = road_index(proad);
 
   /* Fill some data arrays. rail_near and road_near store whether road/rail
    * is present in the given direction.  draw_rail and draw_road store
    * whether road/rail is to be drawn in that direction.  draw_single_road
    * and draw_single_rail store whether we need an isolated road/rail to be
    * drawn. */
-  if (road_idx >= 0) {
-    road = BV_ISSET(troad, road_idx);
-  } else {
-    road = FALSE;
-  }
-  if (rail_idx >= 0) {
-    rail = BV_ISSET(troad, rail_idx);
-  } else {
-    rail = FALSE;
-  }
+  road = BV_ISSET(troad, road_idx);
 
-  if (road && (!pcity || !draw_cities)) {
+  hider = FALSE;
+  road_type_list_iterate(proad->hiders, phider) {
+    if (BV_ISSET(troad, road_index(phider))) {
+      hider = TRUE;
+      break;
+    }
+  } road_type_list_iterate_end;
+
+  if (road && (!pcity || !draw_cities) && !hider) {
     draw_single_road = TRUE;
-    road_type_list_iterate(proad->hiders, phider) {
-      if (BV_ISSET(troad, road_index(phider))) {
-        draw_single_road = FALSE;
-        break;
-      }
-    } road_type_list_iterate_end;
   } else {
     draw_single_road = FALSE;
   }
-  if (rail && (!pcity || !draw_cities)) {
-    draw_single_rail = TRUE;
-    road_type_list_iterate(prail->hiders, phider) {
-      if (BV_ISSET(troad, road_index(phider))) {
-        draw_single_rail = FALSE;
-        break;
-      }
-    } road_type_list_iterate_end;
-  } else {
-    draw_single_rail = FALSE;
-  }
 
   for (dir = 0; dir < 8; dir++) {
-    bool roads_exist, rails_exist;
+    bool roads_exist;
 
     /* Check if there is adjacent road/rail. */
-    if (road_idx >= 0) {
-      road_near[dir] = BV_ISSET(troad_near[dir], road_idx);
-    } else {
-      road_near[dir] = FALSE;
-    }
-    if (rail_idx >= 0) {
-      rail_near[dir] = BV_ISSET(troad_near[dir], rail_idx);
-    } else {
-      rail_near[dir] = FALSE;
-    }
+    road_near[dir] = BV_ISSET(troad_near[dir], road_idx);
 
     /* Draw rail/road if there is a connection from this tile to the
      * adjacent tile.  But don't draw road if there is also a rail
      * connection. */
     roads_exist = road && road_near[dir];
-    rails_exist = rail && rail_near[dir];
     draw_road[dir] = roads_exist;
-    if (roads_exist) {
-      road_type_list_iterate(proad->hiders, phider) {
-        if (BV_ISSET(troad, road_index(phider)) && BV_ISSET(troad_near[dir], road_index(phider))) {
+    hider_near[dir] = FALSE;
+    road_type_list_iterate(proad->hiders, phider) {
+      if (BV_ISSET(troad_near[dir], road_index(phider))) {
+        hider_near[dir] = TRUE;
+        if (BV_ISSET(troad, road_index(phider))) {
           draw_road[dir] = FALSE;
           break;
         }
-      } road_type_list_iterate_end;
-    }
-    draw_rail[dir] = rails_exist;
-    if (rails_exist) {
-      road_type_list_iterate(prail->hiders, phider) {
-        if (BV_ISSET(troad, road_index(phider)) && BV_ISSET(troad_near[dir], road_index(phider))) {
-          draw_rail[dir] = FALSE;
-          break;
-        }
-      } road_type_list_iterate_end;
-    }
+      }
+    } road_type_list_iterate_end;
 
     /* Don't draw an isolated road/rail if there's any connection.
      * draw_single_road would be true in the first place only if start tile has road,
@@ -3728,14 +3644,11 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
     if (draw_single_road && road_near[dir]) {
       draw_single_road = FALSE;
     }
-    if (draw_single_rail && rail_near[dir]) {
-      draw_single_rail = FALSE;
-    }
   }
 
-  /* Draw road corners underneath rails (styles 0 and 1). */
+  /* Draw road corners */
   sprs
-    += fill_road_corner_sprites(t, sprs, road, road_near, rail, rail_near);
+    += fill_road_corner_sprites(t, proad, sprs, road, road_near, hider, hider_near);
 
   if (t->roadstyle == 0) {
     /* With roadstyle 0, we simply draw one road/rail for every connection.
@@ -3743,20 +3656,11 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
      * necessary and it generally doesn't look very good. */
     int i;
 
-    /* First raw roads under rails. */
+    /* First fraw roads under rails. */
     if (road) {
       for (i = 0; i < t->num_valid_tileset_dirs; i++) {
 	if (draw_road[t->valid_tileset_dirs[i]]) {
-	  ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_ROAD].dir[i]);
-	}
-      }
-    }
-
-    /* Then draw rails over roads. */
-    if (rail) {
-      for (i = 0; i < t->num_valid_tileset_dirs; i++) {
-	if (draw_rail[t->valid_tileset_dirs[i]]) {
-	  ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_RAIL].dir[i]);
+	  ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].dir[i]);
 	}
       }
     }
@@ -3785,35 +3689,10 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
 
       /* Draw the cardinal/even roads first. */
       if (road_even_tileno != 0) {
-	ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_ROAD].even[road_even_tileno]);
+	ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].even[road_even_tileno]);
       }
       if (road_odd_tileno != 0) {
-	ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_ROAD].odd[road_odd_tileno]);
-      }
-    }
-
-    /* Then draw rails over roads. */
-    if (rail) {
-      int rail_even_tileno = 0, rail_odd_tileno = 0, i;
-
-      for (i = 0; i < t->num_valid_tileset_dirs / 2; i++) {
-	enum direction8 even = t->valid_tileset_dirs[2 * i];
-	enum direction8 odd = t->valid_tileset_dirs[2 * i + 1];
-
-	if (draw_rail[even]) {
-	  rail_even_tileno |= 1 << i;
-	}
-	if (draw_rail[odd]) {
-	  rail_odd_tileno |= 1 << i;
-	}
-      }
-
-      /* Draw the cardinal/even rails first. */
-      if (rail_even_tileno != 0) {
-	ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_RAIL].even[rail_even_tileno]);
-      }
-      if (rail_odd_tileno != 0) {
-	ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_RAIL].odd[rail_odd_tileno]);
+	ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].odd[road_odd_tileno]);
       }
     }
   } else {
@@ -3834,39 +3713,17 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
       }
 
       if (road_tileno != 0 || draw_single_road) {
-        ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_ROAD].total[road_tileno]);
-      }
-    }
-
-    /* Then draw rails over roads. */
-    if (rail) {
-      int rail_tileno = 0, i;
-
-      for (i = 0; i < t->num_valid_tileset_dirs; i++) {
-	enum direction8 dir = t->valid_tileset_dirs[i];
-
-	if (draw_rail[dir]) {
-	  rail_tileno |= 1 << i;
-	}
-      }
-
-      if (rail_tileno != 0 || draw_single_rail) {
-        ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_RAIL].total[rail_tileno]);
+        ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].total[road_tileno]);
       }
     }
   }
 
   /* Draw isolated rail/road separately (styles 0 and 1 only). */
   if (t->roadstyle == 0 || t->roadstyle == 1) { 
-    if (draw_single_rail) {
-      ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_RAIL].isolated);
-    } else if (draw_single_road) {
-      ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_ROAD].isolated);
+    if (draw_single_road) {
+      ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].isolated);
     }
   }
-
-  /* Draw rail corners over roads (styles 0 and 1). */
-  sprs += fill_rail_corner_sprites(t, sprs, rail, rail_near);
 
   return sprs - saved_sprs;
 }
@@ -4709,8 +4566,10 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_ROADS:
     if (NULL != pterrain) {
-      sprs += fill_road_rail_sprite_array(t, sprs,
-					  troad, troad_near, pcity);
+      road_type_iterate(proad) {
+        sprs += fill_road_sprite_array(t, proad, sprs,
+                                       troad, troad_near, pcity);
+      } road_type_iterate_end;
     }
     break;
 
@@ -5579,41 +5438,9 @@ struct sprite *get_basic_mine_sprite(const struct tileset *t)
 struct sprite *get_basic_special_sprite(const struct tileset *t,
                                         enum tile_special_type special)
 {
-  int i;
-
   switch (special) {
-  case S_ROAD:
-    for (i = 0; i < t->num_valid_tileset_dirs; i++) {
-      if (!t->valid_tileset_dirs[i]) {
-        continue;
-      }
-      if (t->roadstyle == 0) {
-        return t->sprites.roads[TSI_ROAD].dir[i];
-      } else if (t->roadstyle == 1) {
-        return t->sprites.roads[TSI_ROAD].even[1 << i];
-      } else if (t->roadstyle == 2) {
-        return t->sprites.roads[TSI_ROAD].total[1 << i];
-      }
-    }
-    return NULL;
-    break;
   case S_IRRIGATION:
     return t->sprites.tx.irrigation[0];
-    break;
-  case S_RAILROAD:
-    for (i = 0; i < t->num_valid_tileset_dirs; i++) {
-      if (!t->valid_tileset_dirs[i]) {
-        continue;
-      }
-      if (t->roadstyle == 0) {
-        return t->sprites.roads[TSI_RAIL].dir[i];
-      } else if (t->roadstyle == 1) {
-        return t->sprites.roads[TSI_RAIL].even[1 << i];
-      } else if (t->roadstyle == 2) {
-        return t->sprites.roads[TSI_RAIL].total[1 << i];
-      }
-    }
-    return NULL;
     break;
   case S_MINE:
     return get_basic_mine_sprite(t);
