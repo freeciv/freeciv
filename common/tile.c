@@ -904,11 +904,7 @@ bool tile_has_any_bases(const struct tile *ptile)
 ****************************************************************************/
 bool tile_has_road(const struct tile *ptile, const struct road_type *proad)
 {
-  /* TODO: Check from roads vector once it always contains correct value
-   *       (and specials do not) */
-  /* return BV_ISSET(ptile->roads, road_index(proad)); */
-
-  return tile_has_special(ptile, road_special(proad));
+  return BV_ISSET(ptile->roads, road_index(proad));
 }
 
 /****************************************************************************
@@ -921,8 +917,7 @@ void tile_add_road(struct tile *ptile, const struct road_type *proad)
 
     BV_SET(ptile->roads, road_index(proad));
 
-    /* Maintain information in old specials vector too. That's still the
-     * trusted information. */
+    /* Maintain information in old specials vector too. */
     if (spe != S_LAST) {
       BV_SET(ptile->special, spe);
     }
@@ -939,8 +934,7 @@ void tile_remove_road(struct tile *ptile, const struct road_type *proad)
 
     BV_CLR(ptile->roads, road_index(proad));
 
-    /* Maintain information in old specials vector too. That's still the
-     * trusted information. */
+    /* Maintain information in old specials vector too. */
     if (spe != S_LAST) {
       BV_CLR(ptile->special, spe);
     }
