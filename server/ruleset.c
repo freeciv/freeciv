@@ -2398,15 +2398,10 @@ static void load_ruleset_terrain(struct section_file *file)
       if (compat_rail) {
         ruleset_error(LOG_FATAL, "Multiple roads marked as compatibility \"Railroad\"");
       }
-      if (!compat_road) {
-        ruleset_error(LOG_FATAL, "Road with compatibility \"Road\" must be before one with compatibility \"Railroad\"");
-      }
       compat_rail = TRUE;
       proad->compat_special = S_OLD_RAILROAD;
     } else if (!fc_strcasecmp(special, "None")) {
       proad->compat_special = S_LAST;
-      ruleset_error(LOG_FATAL, "Compatibility special for road %s is still needed, \"None\" is not yet supported.",
-                    road_rule_name(proad));
     } else {
       ruleset_error(LOG_FATAL, "Illegal compatibility special \"%s\" for road %s",
                     special, road_rule_name(proad));
