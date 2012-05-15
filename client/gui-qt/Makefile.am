@@ -1,5 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
+include $(top_srcdir)/bootstrap/Makerules.mk
+
 noinst_LTLIBRARIES = libgui-qt.la
 AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common $(GUI_qt_CPPFLAGS)
 
@@ -74,8 +76,5 @@ libgui_qt_la_SOURCES = \
 	wldlg.h		\
 	$(MOC_FILES)
 
-# Generate meta object source from header
-meta_%.cpp: %.h
-	moc -o $@ $<
 
 CLEANFILES = $(MOC_FILES)

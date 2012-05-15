@@ -1,5 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
+include $(top_srcdir)/bootstrap/Makerules.mk
+
 bin_PROGRAMS =
 
 if MODINST_GTK
@@ -64,7 +66,3 @@ freeciv_mp_qt_LDADD = \
 		$(MP_qt_LIBS) \
 		$(MPICON)
 endif
-
-# Generate meta object source from header
-meta_%.cpp: %.h
-	moc -o $@ $<
