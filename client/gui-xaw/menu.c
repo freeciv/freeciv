@@ -790,10 +790,28 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
     key_unit_auto_explore();
     break;
   case MENU_ORDER_CONNECT_ROAD:
-    key_unit_connect(ACTIVITY_ROAD, NULL);
+    {
+      struct road_type *proad = road_by_special(S_ROAD);
+
+      if (proad != NULL) {
+        struct act_tgt tgt = { .type = ATT_ROAD,
+                               .obj.road = road_number(proad) }; 
+
+        key_unit_connect(ACTIVITY_GEN_ROAD, &tgt);
+      }
+    }
     break;
   case MENU_ORDER_CONNECT_RAIL:
-    key_unit_connect(ACTIVITY_RAILROAD, NULL);
+    {
+      struct road_type *proad = road_by_special(S_RAILROAD);
+
+      if (proad != NULL) {
+        struct act_tgt tgt = { .type = ATT_ROAD,
+                               .obj.road = road_number(proad) }; 
+
+        key_unit_connect(ACTIVITY_GEN_ROAD, &tgt);
+      }
+    }
     break;
   case MENU_ORDER_CONNECT_IRRIGATE:
     key_unit_connect(ACTIVITY_IRRIGATE, NULL);
