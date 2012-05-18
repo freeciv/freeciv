@@ -272,6 +272,7 @@ sprites =
 		"f.shield.kyrgyzstan", "flags/kyrgyzstan-shield-large"
 		"f.shield.labarum", "flags/labarum-shield-large"
 		"f.shield.laos", "flags/laos-shield-large"
+		"f.shield.latin_empire", "flags/latin_empire-shield-large"
 		"f.shield.latvia", "flags/latvia-shield-large"
 		"f.shield.lebanon", "flags/lebanon-shield-large"
 		"f.shield.lendian", "flags/lendian-shield-large"

@@ -296,6 +296,7 @@ match=2
 *include "nation/kyrgyz.ruleset"
 *include "nation/lankese.ruleset"
 *include "nation/laotian.ruleset"
+*include "nation/latin.ruleset"
 *include "nation/latvian.ruleset"
 *include "nation/lebanese.ruleset"
 *include "nation/lendian.ruleset"

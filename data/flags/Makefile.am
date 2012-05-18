@@ -263,6 +263,7 @@ flag_files =				\
 		kyrgyzstan.png		\
 		labarum.png		\
 		laos.png		\
+		latin_empire.png	\
 		latvia.png		\
 		lebanon.png		\
 		lendian.png		\
@@ -805,6 +806,7 @@ flag_files =				\
 		kyrgyzstan-large.png		\
 		labarum-large.png		\
 		laos-large.png		\
+		latin_empire-large.png		\
 		latvia-large.png		\
 		lebanon-large.png		\
 		lendian-large.png		\
@@ -1349,6 +1351,7 @@ shield_files =					\
 		kyrgyzstan-shield.png		\
 		labarum-shield.png		\
 		laos-shield.png			\
+		latin_empire-shield.png		\
 		latvia-shield.png		\
 		lebanon-shield.png		\
 		lendian-shield.png		\
@@ -1891,6 +1894,7 @@ shield_files =					\
 		kyrgyzstan-shield-large.png		\
 		labarum-shield-large.png		\
 		laos-shield-large.png			\
+		latin_empire-shield-large.png		\
 		latvia-shield-large.png		\
 		lebanon-shield-large.png		\
 		lendian-shield-large.png		\
@@ -2435,6 +2439,7 @@ svg_files = 				\
 		kyrgyzstan.svg		\
 		labarum.svg		\
 		laos.svg		\
+		latin_empire.svg	\
 		latvia.svg		\
 		lebanon.svg		\
 		lendian.svg		\

@@ -265,6 +265,7 @@ pkgdata_DATA = \
 		kyrgyz.ruleset \
 		lankese.ruleset \
 		laotian.ruleset \
+		latin.ruleset \
 		latvian.ruleset \
 		lebanese.ruleset \
 		lendian.ruleset \
