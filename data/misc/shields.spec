@@ -411,6 +411,7 @@ sprites =
 		"f.shield.rvn", "flags/rvn-shield"
 		"f.shield.rwanda", "flags/rwanda-shield"
 		"f.shield.ryukyu", "flags/ryukyu-shield"
+		"f.shield.sabinium", "flags/sabinium-shield"
 		"f.shield.sadr", "flags/sadr-shield"
 		"f.shield.saint_kitts_and_nevis", "flags/saint_kitts_and_nevis-shield"
 		"f.shield.saint_lucia", "flags/saint_lucia-shield"

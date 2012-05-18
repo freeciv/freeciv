@@ -411,6 +411,7 @@ artists = "
    RVN			J.M. Maalderink
    Rwanda		Cezary Biele
    Ryukyu		Daniel Markstedt
+   Sabinium		J.M. Maalderink
    SADR			J.M. Maalderink
    St. Kitts and Nevis	Denelson83 and Pumbaa80 (Wikimedia Commons)
    Saint Lucia		Kopp, Denelson83 and Zscout370 (Wikimedia Commons)
@@ -957,6 +958,7 @@ sprites =
 		"f.rvn", "flags/rvn"
 		"f.rwanda", "flags/rwanda"
 		"f.ryukyu", "flags/ryukyu"
+		"f.sabinium", "flags/sabinium"
 		"f.sadr", "flags/sadr"
 		"f.saint_kitts_and_nevis", "flags/saint_kitts_and_nevis"
 		"f.saint_lucia", "flags/saint_lucia"

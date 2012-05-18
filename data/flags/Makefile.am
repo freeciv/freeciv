@@ -403,6 +403,7 @@ flag_files =				\
 		russia.png		\
 		rwanda.png		\
 		ryukyu.png		\
+		sabinium.png		\
 		sadr.png		\
 		saint_kitts_and_nevis.png	\
 		saint_lucia.png		\
@@ -944,6 +945,7 @@ flag_files =				\
 		russia-large.png		\
 		rwanda-large.png		\
 		ryukyu-large.png		\
+		sabinium-large.png		\
 		sadr-large.png		\
 		saint_kitts_and_nevis-large.png	\
 		saint_lucia-large.png		\
@@ -1487,6 +1489,7 @@ shield_files =					\
 		russia-shield.png		\
 		rwanda-shield.png		\
 		ryukyu-shield.png		\
+		sabinium-shield.png		\
 		sadr-shield.png			\
 		saint_kitts_and_nevis-shield.png	\
 		saint_lucia-shield.png		\
@@ -2028,6 +2031,7 @@ shield_files =					\
 		russia-shield-large.png		\
 		rwanda-shield-large.png		\
 		ryukyu-shield-large.png		\
+		sabinium-shield-large.png		\
 		sadr-shield-large.png			\
 		saint_kitts_and_nevis-shield-large.png	\
 		saint_lucia-shield-large.png		\
@@ -2571,6 +2575,7 @@ svg_files = 				\
 		russia.svg		\
 		rwanda.svg		\
 		ryukyu.svg		\
+		sabinium.svg		\
 		sadr.svg		\
 		saint_kitts_and_nevis.svg	\
 		saint_lucia.svg		\

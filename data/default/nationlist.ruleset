@@ -427,6 +427,7 @@ match=2
 *include "nation/ruthenian.ruleset"
 *include "nation/rwandan.ruleset"
 *include "nation/ryukyuan.ruleset"
+*include "nation/sabine.ruleset"
 *include "nation/sahrawi.ruleset"
 *include "nation/saintlucian.ruleset"
 *include "nation/saka.ruleset"
