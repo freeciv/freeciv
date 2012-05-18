@@ -306,6 +306,7 @@ flag_files =				\
 		maya.png		\
 		mazovia.png		\
 		mecklenburg.png		\
+		median.png		\
 		metis.png		\
 		mexico.png		\
 		micronesia.png		\
@@ -846,6 +847,7 @@ flag_files =				\
 		maya-large.png		\
 		mazovia-large.png		\
 		mecklenburg-large.png		\
+		median-large.png		\
 		metis-large.png		\
 		mexico-large.png		\
 		micronesia-large.png		\
@@ -1388,6 +1390,7 @@ shield_files =					\
 		maya-shield.png			\
 		mazovia-shield.png		\
 		mecklenburg-shield.png		\
+		median-shield.png		\
 		metis-shield.png		\
 		mexico-shield.png		\
 		micronesia-shield.png		\
@@ -1928,6 +1931,7 @@ shield_files =					\
 		maya-shield-large.png			\
 		mazovia-shield-large.png		\
 		mecklenburg-shield-large.png		\
+		median-shield-large.png			\
 		metis-shield-large.png		\
 		mexico-shield-large.png		\
 		micronesia-shield-large.png		\
@@ -2470,6 +2474,7 @@ svg_files = 				\
 		maya.svg		\
 		mazovia.svg		\
 		mecklenburg.svg		\
+		median.svg		\
 		metis.svg		\
 		mexico.svg		\
 		micronesia.svg		\
