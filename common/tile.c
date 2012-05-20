@@ -471,7 +471,6 @@ enum known_type tile_get_known(const struct tile *ptile,
 int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
 {
   struct terrain *pterrain = tile_terrain(ptile);
-  struct road_type *proad;
 
   /* Make sure nobody uses old activities */
   fc_assert_ret_val(activity != ACTIVITY_FORTRESS
@@ -484,22 +483,10 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
   switch (activity) {
   case ACTIVITY_POLLUTION:
     return pterrain->clean_pollution_time * ACTIVITY_FACTOR;
-  case ACTIVITY_ROAD:
-    proad = road_by_special(S_OLD_ROAD);
-    if (proad == NULL) {
-      return FC_INFINITY;
-    }
-    return tile_activity_road_time(ptile, road_number(proad));
   case ACTIVITY_MINE:
     return pterrain->mining_time * ACTIVITY_FACTOR;
   case ACTIVITY_IRRIGATE:
     return pterrain->irrigation_time * ACTIVITY_FACTOR;
-  case ACTIVITY_RAILROAD:
-    proad = road_by_special(S_OLD_RAILROAD);
-    if (proad == NULL) {
-      return FC_INFINITY;
-    }
-    return tile_activity_road_time(ptile, road_number(proad));
   case ACTIVITY_TRANSFORM:
     return pterrain->transform_time * ACTIVITY_FACTOR;
   case ACTIVITY_FALLOUT:
@@ -745,30 +732,18 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act)
     tile_irrigate(ptile);
     return TRUE;
 
-  case ACTIVITY_ROAD: 
-    if (!is_ocean_tile(ptile)
-	&& !tile_has_special(ptile, S_ROAD)) {
-      tile_set_special(ptile, S_ROAD);
-      return TRUE;
-    }
-    return FALSE;
-
-  case ACTIVITY_RAILROAD:
-    if (!is_ocean_tile(ptile)
-	&& !tile_has_special(ptile, S_RAILROAD)
-	&& tile_has_special(ptile, S_ROAD)) {
-      tile_set_special(ptile, S_RAILROAD);
-      return TRUE;
-    }
-    return FALSE;
-
   case ACTIVITY_TRANSFORM:
     tile_transform(ptile);
     return TRUE;
-    
+
+  case ACTIVITY_OLD_ROAD:
+  case ACTIVITY_OLD_RAILROAD:
   case ACTIVITY_FORTRESS:
-  case ACTIVITY_PILLAGE: 
-  case ACTIVITY_AIRBASE:   
+  case ACTIVITY_AIRBASE:
+    fc_assert(FALSE);
+    return FALSE;
+
+  case ACTIVITY_PILLAGE:
   case ACTIVITY_BASE:
   case ACTIVITY_GEN_ROAD:
     /* do nothing  - not implemented */

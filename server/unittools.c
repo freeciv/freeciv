@@ -646,14 +646,10 @@ static int total_activity_base(struct tile *ptile, Base_type_id base)
 static int total_activity_road(struct tile *ptile, Road_type_id road)
 {
   int total = 0;
-  enum tile_special_type spe = road_special(road_by_number(road));
 
   unit_list_iterate (ptile->units, punit) {
     if (punit->activity == ACTIVITY_GEN_ROAD
         && punit->activity_target.obj.road == road) {
-      total += punit->activity_count;
-    } else if ((spe == S_ROAD && punit->activity == ACTIVITY_ROAD)
-               || (spe == S_RAILROAD && punit->activity == ACTIVITY_RAILROAD)) {
       total += punit->activity_count;
     }
   } unit_list_iterate_end;
@@ -753,14 +749,10 @@ static void update_unit_activity(struct unit *punit)
     break;
 
   case ACTIVITY_POLLUTION:
-  case ACTIVITY_ROAD:
   case ACTIVITY_MINE:
   case ACTIVITY_IRRIGATE:
-  case ACTIVITY_FORTRESS:
-  case ACTIVITY_RAILROAD:
   case ACTIVITY_PILLAGE:
   case ACTIVITY_TRANSFORM:
-  case ACTIVITY_AIRBASE:
   case ACTIVITY_FALLOUT:
   case ACTIVITY_BASE:
   case ACTIVITY_GEN_ROAD:
@@ -771,6 +763,12 @@ static void update_unit_activity(struct unit *punit)
       notify_unit_experience(punit);
     }
     break;
+  case ACTIVITY_OLD_ROAD:
+  case ACTIVITY_OLD_RAILROAD:
+  case ACTIVITY_FORTRESS:
+  case ACTIVITY_AIRBASE:
+    fc_assert(FALSE);
+    break;
   };
 
   unit_restore_movepoints(pplayer, punit);
@@ -778,11 +776,9 @@ static void update_unit_activity(struct unit *punit)
   switch (activity) {
   case ACTIVITY_IDLE:
   case ACTIVITY_FORTIFIED:
-  case ACTIVITY_FORTRESS:
   case ACTIVITY_SENTRY:
   case ACTIVITY_GOTO:
   case ACTIVITY_UNKNOWN:
-  case ACTIVITY_AIRBASE:
   case ACTIVITY_FORTIFYING:
   case ACTIVITY_CONVERT:
   case ACTIVITY_PATROL_UNUSED:
@@ -904,22 +900,13 @@ static void update_unit_activity(struct unit *punit)
     }
     break;
 
-  case ACTIVITY_ROAD:
-    if (total_activity (ptile, ACTIVITY_ROAD)
-	+ total_activity (ptile, ACTIVITY_RAILROAD)
-        >= tile_activity_time(ACTIVITY_ROAD, ptile)) {
-      tile_add_road(ptile, road_by_special(S_ROAD));
-      unit_activity_done = TRUE;
-    }
+  case ACTIVITY_OLD_ROAD:
+  case ACTIVITY_OLD_RAILROAD:
+  case ACTIVITY_FORTRESS:
+  case ACTIVITY_AIRBASE:
+    fc_assert(FALSE);
     break;
-
-  case ACTIVITY_RAILROAD:
-    if (total_activity_done(ptile, ACTIVITY_RAILROAD)) {
-      tile_add_road(ptile, road_by_special(S_RAILROAD));
-      unit_activity_done = TRUE;
-    }
-    break;
-  };
+  }
 
   if (unit_activity_done) {
     update_tile_knowledge(ptile);
@@ -2975,12 +2962,10 @@ static void check_unit_activity(struct unit *punit)
   case ACTIVITY_GOTO:
     break;
   case ACTIVITY_POLLUTION:
-  case ACTIVITY_ROAD:
   case ACTIVITY_MINE:
   case ACTIVITY_IRRIGATE:
   case ACTIVITY_FORTIFIED:
   case ACTIVITY_FORTRESS:
-  case ACTIVITY_RAILROAD:
   case ACTIVITY_PILLAGE:
   case ACTIVITY_TRANSFORM:
   case ACTIVITY_UNKNOWN:
@@ -2991,6 +2976,8 @@ static void check_unit_activity(struct unit *punit)
   case ACTIVITY_BASE:
   case ACTIVITY_GEN_ROAD:
   case ACTIVITY_CONVERT:
+  case ACTIVITY_OLD_ROAD:
+  case ACTIVITY_OLD_RAILROAD:
   case ACTIVITY_LAST:
     set_unit_activity(punit, ACTIVITY_IDLE);
     break;

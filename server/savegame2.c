@@ -978,7 +978,7 @@ static char activity2char(enum unit_activity activity)
     return 'w';
   case ACTIVITY_POLLUTION:
     return 'p';
-  case ACTIVITY_ROAD:
+  case ACTIVITY_OLD_ROAD:
     return 'r';
   case ACTIVITY_MINE:
     return 'm';
@@ -990,7 +990,7 @@ static char activity2char(enum unit_activity activity)
     return 't';
   case ACTIVITY_SENTRY:
     return 's';
-  case ACTIVITY_RAILROAD:
+  case ACTIVITY_OLD_RAILROAD:
     return 'l';
   case ACTIVITY_PILLAGE:
     return 'e';
@@ -4743,12 +4743,12 @@ static bool sg_load_player_unit(struct loaddata *loading,
     pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, punit, unit_tile(punit));
   }
 
-  if (activity == ACTIVITY_ROAD) {
+  if (activity == ACTIVITY_OLD_ROAD) {
     activity = ACTIVITY_GEN_ROAD;
-    proad = road_by_special(S_ROAD);
-  } else if (activity == ACTIVITY_RAILROAD) {
+    proad = road_by_special(S_OLD_ROAD);
+  } else if (activity == ACTIVITY_OLD_RAILROAD) {
     activity = ACTIVITY_GEN_ROAD;
-    proad = road_by_special(S_RAILROAD);
+    proad = road_by_special(S_OLD_RAILROAD);
   }
 
   /* We need changed_from == ACTIVITY_IDLE by now so that
@@ -4914,8 +4914,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
     if (len > 0) {
       const char *orders_unitstr, *dir_unitstr, *act_unitstr, *base_unitstr;
       const char *road_unitstr;
-      int road_idx = road_index(road_by_special(S_ROAD));
-      int rail_idx = road_index(road_by_special(S_RAILROAD));
+      int road_idx = road_index(road_by_special(S_OLD_ROAD));
+      int rail_idx = road_index(road_by_special(S_OLD_RAILROAD));
 
       punit->orders.list = fc_malloc(len * sizeof(*(punit->orders.list)));
       punit->orders.length = len;
@@ -4992,10 +4992,10 @@ static bool sg_load_player_unit(struct loaddata *loading,
           order->road = road;
         }
 
-        if (order->activity == ACTIVITY_ROAD) {
+        if (order->activity == ACTIVITY_OLD_ROAD) {
           order->activity = ACTIVITY_GEN_ROAD;
           order->road = road_idx;
-        } else if (order->activity == ACTIVITY_RAILROAD) {
+        } else if (order->activity == ACTIVITY_OLD_RAILROAD) {
           order->activity = ACTIVITY_GEN_ROAD;
           order->road = rail_idx;
         }

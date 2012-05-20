@@ -3427,10 +3427,6 @@ static int fill_unit_sprite_array(const struct tileset *t,
     case ACTIVITY_PILLAGE:
       s = t->sprites.unit.pillage;
       break;
-    case ACTIVITY_ROAD:
-    case ACTIVITY_RAILROAD:
-      s = t->sprites.unit.road;
-      break;
     case ACTIVITY_IRRIGATE:
       s = t->sprites.unit.irrigate;
       break;

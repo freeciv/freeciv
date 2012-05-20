@@ -128,27 +128,11 @@ static int road_bonus(struct tile *ptile, struct road_type *proad)
 
       if (!real_road[i]) {
 	unit_list_iterate(tile1->units, punit) {
-          int build_rnbr = -1;
-
           if (punit->activity == ACTIVITY_GEN_ROAD) {
-            build_rnbr = punit->activity_target.obj.road;
-          } else if (punit->activity == ACTIVITY_ROAD) {
-            struct road_type *pbr = road_by_special(S_ROAD);
+            /* If a road, or its dependency is being built here, consider as if it's already
+	     * built. */
+            int build_rnbr = punit->activity_target.obj.road;
 
-            if (pbr != NULL) {
-              build_rnbr = road_number(pbr);
-            }
-          } else if (punit->activity == ACTIVITY_RAILROAD) {
-            struct road_type *pbr = road_by_special(S_RAILROAD);
-
-            if (pbr != NULL) {
-              build_rnbr = road_number(pbr);
-            }
-          }
-
-          /* If a road, or its dependency is being built here, consider as if it's already
-	   * built. */
-          if (build_rnbr != -1) {
             if (build_rnbr == rnbr) {
               real_road[i] = TRUE;
               potential_road[i] = TRUE;

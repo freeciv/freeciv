@@ -73,13 +73,13 @@ enum output_type_id {
 enum unit_activity {
   ACTIVITY_IDLE = 0,
   ACTIVITY_POLLUTION = 1,
-  ACTIVITY_ROAD = 2,
+  ACTIVITY_OLD_ROAD = 2,               /* savegame compatibility */
   ACTIVITY_MINE = 3,
   ACTIVITY_IRRIGATE = 4,
   ACTIVITY_FORTIFIED = 5,
   ACTIVITY_FORTRESS = 6,
   ACTIVITY_SENTRY = 7,
-  ACTIVITY_RAILROAD = 8,
+  ACTIVITY_OLD_RAILROAD = 8,            /* savegame compatibility */
   ACTIVITY_PILLAGE = 9,
   ACTIVITY_GOTO = 10,
   ACTIVITY_EXPLORE = 11,

@@ -648,12 +648,10 @@ bool activity_requires_target(enum unit_activity activity)
     return TRUE;
   case ACTIVITY_IDLE:
   case ACTIVITY_POLLUTION:
-  case ACTIVITY_ROAD:
   case ACTIVITY_MINE:
   case ACTIVITY_IRRIGATE:
   case ACTIVITY_FORTIFIED:
   case ACTIVITY_SENTRY:
-  case ACTIVITY_RAILROAD:
   case ACTIVITY_GOTO:
   case ACTIVITY_EXPLORE:
   case ACTIVITY_TRANSFORM:
@@ -711,9 +709,6 @@ const char *get_activity_text(enum unit_activity activity)
     return _("Idle");
   case ACTIVITY_POLLUTION:
     return _("Pollution");
-  case ACTIVITY_ROAD:
-  case ACTIVITY_RAILROAD:
-    return road_name_translation(road_by_deprecated_activity(activity));
   case ACTIVITY_MINE:
     return _("Mine");
   case ACTIVITY_IRRIGATE:
@@ -722,8 +717,6 @@ const char *get_activity_text(enum unit_activity activity)
     return _("Fortifying");
   case ACTIVITY_FORTIFIED:
     return _("Fortified");
-  case ACTIVITY_FORTRESS:
-    return _("Fortress");
   case ACTIVITY_SENTRY:
     return _("Sentry");
   case ACTIVITY_PILLAGE:
@@ -734,8 +727,6 @@ const char *get_activity_text(enum unit_activity activity)
     return _("Explore");
   case ACTIVITY_TRANSFORM:
     return _("Transform");
-  case ACTIVITY_AIRBASE:
-    return _("Airbase");
   case ACTIVITY_FALLOUT:
     return _("Fallout");
   case ACTIVITY_BASE:
@@ -744,6 +735,10 @@ const char *get_activity_text(enum unit_activity activity)
     return _("Road");
   case ACTIVITY_CONVERT:
     return _("Convert");
+  case ACTIVITY_OLD_ROAD:
+  case ACTIVITY_OLD_RAILROAD:
+  case ACTIVITY_FORTRESS:
+  case ACTIVITY_AIRBASE:
   case ACTIVITY_UNKNOWN:
   case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_LAST:
@@ -1008,7 +1003,6 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   struct player *pplayer = unit_owner(punit);
   struct terrain *pterrain = tile_terrain(ptile);
   struct unit_class *pclass = unit_class(punit);
-  struct road_type *proad;
 
   switch(activity) {
   case ACTIVITY_IDLE:
@@ -1022,10 +1016,6 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   case ACTIVITY_FALLOUT:
     return (unit_has_type_flag(punit, F_SETTLERS)
 	    && tile_has_special(ptile, S_FALLOUT));
-
-  case ACTIVITY_ROAD:
-    proad = road_by_special(S_OLD_ROAD);
-    return proad != NULL && can_build_road(proad, punit, ptile);
 
   case ACTIVITY_MINE:
     /* Don't allow it if someone else is irrigating this tile.
@@ -1106,10 +1096,6 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
       return FALSE;
     }
     return TRUE;
-
-  case ACTIVITY_RAILROAD:
-    proad = road_by_special(S_OLD_RAILROAD);
-    return proad != NULL && can_build_road(proad, punit, ptile);
 
   case ACTIVITY_PILLAGE:
     {
@@ -1222,6 +1208,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   case ACTIVITY_CONVERT:
     return unit_can_convert(punit);
 
+  case ACTIVITY_OLD_ROAD:
+  case ACTIVITY_OLD_RAILROAD:
   case ACTIVITY_FORTRESS:
   case ACTIVITY_AIRBASE:
   case ACTIVITY_PATROL_UNUSED:
@@ -1457,8 +1445,8 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
     return;
   case ACTIVITY_POLLUTION:
   case ACTIVITY_FALLOUT:
-  case ACTIVITY_ROAD:
-  case ACTIVITY_RAILROAD:
+  case ACTIVITY_OLD_ROAD:
+  case ACTIVITY_OLD_RAILROAD:
   case ACTIVITY_MINE:
   case ACTIVITY_IRRIGATE:
   case ACTIVITY_TRANSFORM:
@@ -1773,13 +1761,9 @@ bool is_build_or_clean_activity(enum unit_activity activity)
 {
   switch (activity) {
   case ACTIVITY_POLLUTION:
-  case ACTIVITY_ROAD:
   case ACTIVITY_MINE:
   case ACTIVITY_IRRIGATE:
-  case ACTIVITY_FORTRESS:
-  case ACTIVITY_RAILROAD:
   case ACTIVITY_TRANSFORM:
-  case ACTIVITY_AIRBASE:
   case ACTIVITY_FALLOUT:
   case ACTIVITY_BASE:
     return TRUE;
