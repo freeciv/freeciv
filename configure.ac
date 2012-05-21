@@ -67,7 +67,7 @@ AC_DEFINE_UNQUOTED([FREECIV_DISTRIBUTOR], ["$FREECIV_DISTRIBUTOR"],
                    [Distribution this freeciv is built for])
 
 dnl Initialize automake stuff
-AM_INIT_AUTOMAKE([dist-xz])
+AM_INIT_AUTOMAKE
 
 dnl Use Automake 1.11 silent rules by default if available
 dnl verbose build using  make V=1
