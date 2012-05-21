@@ -39,7 +39,7 @@ extern "C" {
 #define MAX_LEN_VET_SHORT_NAME 8
 #define MAX_VET_LEVELS 20 /* see diplomat_success_vs_defender() */
 #define MAX_BASE_TYPES 32
-#define MAX_ROAD_TYPES 2 /* Cannot be changed without major code changes */
+#define MAX_ROAD_TYPES 8
 #define MAX_DISASTER_TYPES 10
 #define MAX_NUM_USER_UNIT_FLAGS 4
 #define MAX_NUM_LEADERS MAX_NUM_ITEMS

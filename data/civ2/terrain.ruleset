@@ -890,9 +890,6 @@ airbase may be attacked by land units.\
 ;
 ; Road types:
 ;
-; Current code allows maximum of two road types, of which first one must have
-; compat_special "Road" and second "Railroad"
-;
 ; name                    = translatable name as seen by user
 ; graphic                 = tag specifing preferred graphic
 ; graphic_alt             = tag for alternate graphic if preferred graphic is not 
