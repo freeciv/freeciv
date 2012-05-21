@@ -1139,11 +1139,7 @@ static void select_color_callback(GtkToolButton *button, gpointer data)
 /**************************************************************************
   Moves the tool kit to the toolkit view.
 **************************************************************************/
-#if !GTK_CHECK_VERSION(3, 0, 0)
-static gboolean move_toolkit(GtkWidget *toolkit_view, GdkEventExpose *event,
-#else
-static gboolean move_toolkit(GtkWidget *toolkit_view, cairo_t *cr,
-#endif
+static gboolean move_toolkit(GtkWidget *toolkit_view,
                              gpointer data)
 {
   struct inputline_toolkit *ptoolkit = (struct inputline_toolkit *) data;
@@ -1194,18 +1190,13 @@ static gboolean move_toolkit(GtkWidget *toolkit_view, cairo_t *cr,
     gtk_widget_show_all(ptoolkit->main_widget);
   }
 
-  return TRUE;
+  return FALSE;
 }
 
 /**************************************************************************
   Show/Hide the toolbar.
 **************************************************************************/
 static gboolean set_toolbar_visibility(GtkWidget *w,
-                                       #if !GTK_CHECK_VERSION(3, 0, 0)
-                                       GdkEventExpose *event,
-                                       #else
-                                       cairo_t *cr,
-                                       #endif
                                        gpointer data)
 {
   struct inputline_toolkit *ptoolkit = (struct inputline_toolkit *) data;
@@ -1265,13 +1256,8 @@ GtkWidget *inputline_toolkit_view_new(void)
 
   /* Main widget. */
   toolkit_view = gtk_vbox_new(FALSE, 0);
-#if !GTK_CHECK_VERSION(3, 0, 0)
-  g_signal_connect(toolkit_view, "expose-event",
+  g_signal_connect_after(toolkit_view, "map",
                    G_CALLBACK(move_toolkit), &toolkit);
-#else
-  g_signal_connect(toolkit_view, "draw",
-                   G_CALLBACK(move_toolkit), &toolkit);
-#endif
 
   /* Button box. */
   bbox = gtk_hbox_new(FALSE, 12);
@@ -1310,13 +1296,8 @@ void chatline_init(void)
 
   vbox = gtk_vbox_new(FALSE, 2);
   toolkit.main_widget = vbox;
-#if !GTK_CHECK_VERSION(3, 0, 0)
-  g_signal_connect(vbox, "expose-event",
+  g_signal_connect_after(vbox, "map",
                    G_CALLBACK(set_toolbar_visibility), &toolkit);
-#else
-  g_signal_connect(vbox, "draw",
-                   G_CALLBACK(set_toolbar_visibility), &toolkit);
-#endif
 
   entry = gtk_entry_new();
   toolkit.entry = entry;
