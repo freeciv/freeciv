@@ -44,7 +44,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations = "westphalian", "palatinate", "luxembourgish"
+civilwar_nations = "westphalian", "palatinate", "german belgian"
 
 cities =
  "Köln",

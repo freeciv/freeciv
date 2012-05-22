@@ -33,7 +33,7 @@ city_style = "Celtic"
 init_techs=""
 init_buildings=""
 init_units=""
-conflicts_with="flemish", "walloon"
+conflicts_with="flemish", "walloon", "german belgian"
 civilwar_nations="flemish", "walloon", "congolese"
 
 ; Alternating Flemish and Walloon names

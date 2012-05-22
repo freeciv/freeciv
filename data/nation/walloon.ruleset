@@ -35,7 +35,7 @@ city_style = "european"
 init_techs=""
 init_buildings=""
 init_units=""
-civilwar_nations="flemish", "french", "luxembourgish"
+civilwar_nations="german belgian", "luxembourgish"
 
 cities =
  "Namur (river)",

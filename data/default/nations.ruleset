@@ -237,6 +237,7 @@ match=2
 *include "nation/genoese.ruleset"
 *include "nation/georgian.ruleset"
 *include "nation/german.ruleset"
+*include "nation/germanbelgian.ruleset"
 *include "nation/germanic.ruleset"
 *include "nation/ghana.ruleset"
 *include "nation/ghanaian.ruleset"

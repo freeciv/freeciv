@@ -133,6 +133,7 @@ flag_files =				\
 		darfur.png		\
 		ddr.png			\
 		denmark.png		\
+		dgb.png			\
 		djibouti.png		\
 		dominica.png		\
 		dominican_republic.png	\
@@ -671,6 +672,7 @@ flag_files =				\
 		darfur-large.png		\
 		ddr-large.png			\
 		denmark-large.png		\
+		dgb-large.png			\
 		djibouti-large.png		\
 		dominica-large.png		\
 		dominican_republic-large.png	\
@@ -1211,6 +1213,7 @@ shield_files =					\
 		darfur-shield.png		\
 		ddr-shield.png			\
 		denmark-shield.png		\
+		dgb-shield.png		\
 		djibouti-shield.png		\
 		dominica-shield.png		\
 		dominican_republic-shield.png	\
@@ -1749,6 +1752,7 @@ shield_files =					\
 		darfur-shield-large.png			\
 		ddr-shield-large.png			\
 		denmark-shield-large.png		\
+		dgb-shield-large.png			\
 		djibouti-shield-large.png		\
 		dominica-shield-large.png		\
 		dominican_republic-shield-large.png	\
@@ -2289,6 +2293,7 @@ svg_files = 				\
 		darfur.svg		\
 		ddr.svg			\
 		denmark.svg		\
+		dgb.svg			\
 		djibouti.svg		\
 		dominica.svg		\
 		dominican_republic.svg	\
