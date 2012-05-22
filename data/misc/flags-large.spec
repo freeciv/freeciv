@@ -412,6 +412,7 @@ sprites =
 		"f.rvn", "flags/rvn-large"
 		"f.rwanda", "flags/rwanda-large"
 		"f.ryukyu", "flags/ryukyu-large"
+		"f.sabinium", "flags/sabinium-large"
 		"f.sadr", "flags/sadr-large"
 		"f.saint_kitts_and_nevis", "flags/saint_kitts_and_nevis-large"
 		"f.saint_lucia", "flags/saint_lucia-large"
