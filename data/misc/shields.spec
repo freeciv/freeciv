@@ -314,6 +314,7 @@ sprites =
 		"f.shield.maya", "flags/maya-shield"
 		"f.shield.mazovia", "flags/mazovia-shield"
 		"f.shield.mecklenburg", "flags/mecklenburg-shield"
+		"f.shield.median", "flags/median-shield"
 		"f.shield.metis", "flags/metis-shield"
 		"f.shield.mexico", "flags/mexico-shield"
 		"f.shield.micronesia", "flags/micronesia-shield"

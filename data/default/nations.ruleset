@@ -358,6 +358,7 @@ match=2
 *include "nation/mayan.ruleset"
 *include "nation/mazovian.ruleset"
 *include "nation/mecklenburgian.ruleset"
+*include "nation/median.ruleset"
 *include "nation/metis.ruleset"
 *include "nation/mexican.ruleset"
 *include "nation/miao.ruleset"
