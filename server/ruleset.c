@@ -4015,7 +4015,7 @@ static void send_ruleset_nations(struct conn_list *dest)
 
     packet.init_government_id = government_number(n->init_government);
     fc_assert(ARRAY_SIZE(packet.init_techs) == ARRAY_SIZE(n->init_techs));
-    for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
+    for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
       packet.init_techs[i] = n->init_techs[i];
     }
     fc_assert(ARRAY_SIZE(packet.init_units) == ARRAY_SIZE(n->init_units));
