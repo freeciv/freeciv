@@ -47,7 +47,8 @@ init_units=""
 
 conflicts_with = "asturian", "leonese", "castilian", "galician", "aragonese", "catalan",
                  "occitan", "spanish", "portuguese"
-civilwar_nations="asturian", "andalusi", "basque", "vandalic", "ostrogothic", "sarmatian"
+civilwar_nations="asturian", "andalusi", "basque", "vandalic", "ostrogothic", "sarmatian",
+                 "suebian"
 
 cities=
 "Tolosa",		;Toulouse (first capital)

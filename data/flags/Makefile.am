@@ -455,6 +455,7 @@ flag_files =				\
 		srivijaya.png		\
 		stpatrick.png		\
 		sudan.png		\
+		suebian.png		\
 		sumeria.png		\
 		suriname.png		\
 		svg.png			\
@@ -991,6 +992,7 @@ flag_files =				\
 		srivijaya-large.png		\
 		stpatrick-large.png		\
 		sudan-large.png		\
+		suebian-large.png		\
 		sumeria-large.png		\
 		suriname-large.png		\
 		svg-large.png			\
@@ -1529,6 +1531,7 @@ shield_files =					\
 		srivijaya-shield.png		\
 		stpatrick-shield.png		\
 		sudan-shield.png		\
+		suebian-shield.png		\
 		sumeria-shield.png		\
 		suriname-shield.png		\
 		svg-shield.png			\
@@ -2065,6 +2068,7 @@ shield_files =					\
 		srivijaya-shield-large.png		\
 		stpatrick-shield-large.png		\
 		sudan-shield-large.png		\
+		suebian-shield-large.png		\
 		sumeria-shield-large.png		\
 		suriname-shield-large.png		\
 		svg-shield-large.png			\
@@ -2603,6 +2607,7 @@ svg_files = 				\
 		srivijaya.svg		\
 		stpatrick.svg		\
 		sudan.svg		\
+		suebian.svg		\
 		sumeria.svg		\
 		suriname.svg		\
 		svg.svg			\

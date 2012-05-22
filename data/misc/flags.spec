@@ -463,6 +463,7 @@ artists = "
    Sri Vijaya		Dan Cottrell and Daniel Markstedt
    St. Patrick		Vasco Alexandre Da Silva Costa
    Sudan		Tobias Jakobs
+   Suebian		Andrzej G.
    Sumeria		Franz Mach, Jason Short, Daniel Markstedt
    Suriname		Vzb83 (Wikimedia Commons)
    SVG			SKopp (Wikimedia Commons)
@@ -1004,6 +1005,7 @@ sprites =
 		"f.srivijaya", "flags/srivijaya"
 ;		"f.stpatrick", "flags/stpatrick"	; Alternate Irish 
 		"f.sudan", "flags/sudan"
+		"f.suebian", "flags/suebian"
 		"f.sumeria", "flags/sumeria"
 		"f.suriname", "flags/suriname"
 		"f.svg", "flags/svg"
