@@ -152,6 +152,7 @@ match=2
 *include "nation/celtiberian.ruleset"
 *include "nation/centralafrican.ruleset"
 *include "nation/centralamerican.ruleset"
+*include "nation/centrallithuanian.ruleset"
 *include "nation/chadian.ruleset"
 *include "nation/cham.ruleset"
 *include "nation/chananean.ruleset"
