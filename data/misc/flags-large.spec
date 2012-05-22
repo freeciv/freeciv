@@ -272,6 +272,7 @@ sprites =
 		"f.kyrgyzstan", "flags/kyrgyzstan-large"
 		"f.labarum", "flags/labarum-large"		; used by Western Roman
 		"f.laos", "flags/laos-large"
+		"f.latin_empire", "flags/latin_empire-large"
 		"f.latvia", "flags/latvia-large"
 		"f.lebanon", "flags/lebanon-large"
 		"f.lendian", "flags/lendian-large"

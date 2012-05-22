@@ -44,7 +44,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations="Knights Templar", "Arab", "Mamluk", "Armenian", "Seljuk", "Teutonic", "Cypriot"
+civilwar_nations="Knights Templar", "Arab", "Mamluk", "Armenian", "Seljuk", "Latin", "Cypriot"
 
 conflicts_with="Israeli", "Israelite", "Lebanese", "Syrian"
 

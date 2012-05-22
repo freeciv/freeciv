@@ -270,6 +270,7 @@ artists = "
    Kyrgyzstan		-xfi-
    Labarum		J.M. Maalderink
    Laos			Sebastian Koppehel
+   Latin Empire		Andrzej G.
    Latvia		Lauris Bukšis
    Lebanon		Tobias Jakobs
    Lendian		J.M. Maalderink
@@ -818,6 +819,7 @@ sprites =
 		"f.kyrgyzstan", "flags/kyrgyzstan"
 		"f.labarum", "flags/labarum"		; used by Western Roman
 		"f.laos", "flags/laos"
+		"f.latin_empire", "flags/latin_empire"
 		"f.latvia", "flags/latvia"
 		"f.lebanon", "flags/lebanon"
 		"f.lendian", "flags/lendian"
