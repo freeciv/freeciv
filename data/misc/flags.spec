@@ -378,6 +378,7 @@ artists = "
    Paeonia		Andrzej G., J.M. Maalderink and Mysid
    Papua New Guinea	Tobias Jakobs
    Paraguay		Vzb83 (Wikimedia Commons)
+   Parthia		Andrzej G.
    Pashtun		Paul Zastoupil
    Pelasgian		Andrzej G.
    Peru			Brett Roper
@@ -922,6 +923,7 @@ sprites =
 		"f.panama", "flags/panama"
 		"f.papua_newguinea", "flags/papua_newguinea"
 		"f.paraguay", "flags/paraguay"
+		"f.parthia", "flags/parthia"
 		"f.pashtun", "flags/pashtun"
 		"f.pelasgian", "flags/pelasgian"
 		"f.peru", "flags/peru"
