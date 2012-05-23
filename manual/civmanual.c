@@ -515,23 +515,33 @@ int main(int argc, char **argv)
     struct cmdhelp *help = cmdhelp_new(argv[0]);
 
 #ifdef DEBUG
-    cmdhelp_add(help, "d", "debug NUM",
+    cmdhelp_add(help, "d",
+                  /* TRANS: "debug" is exactly what user must type, do not translate. */
+                _("debug NUM"),
                 _("Set debug log level (%d to %d, or %d:file1,min,max:...)"),
                 LOG_FATAL, LOG_DEBUG, LOG_DEBUG);
 #else
-    cmdhelp_add(help, "d", "debug NUM",
+    cmdhelp_add(help, "d",
+                  /* TRANS: "debug" is exactly what user must type, do not translate. */
+                _("debug NUM"),
                 _("Set debug log level (%d to %d)"),
                 LOG_FATAL, LOG_VERBOSE);
 #endif /* DEBUG */
 #ifndef NDEBUG
-    cmdhelp_add(help, "F", "Fatal [SIGNAL]",
+    cmdhelp_add(help, "F",
+                  /* TRANS: "Fatal" is exactly what user must type, do not translate. */
+                _("Fatal [SIGNAL]"),
                 _("Raise a signal on failed assertion"));
 #endif /* NDEBUG */
     cmdhelp_add(help, "h", "help",
                 _("Print a summary of the options"));
-    cmdhelp_add(help, "l", "log FILE",
+    cmdhelp_add(help, "l",
+                  /* TRANS: "log" is exactly what user must type, do not translate. */
+                _("log FILE"),
                 _("Use FILE as logfile"));
-    cmdhelp_add(help, "r", "ruleset RULESET",
+    cmdhelp_add(help, "r",
+                  /* TRANS: "ruleset" is exactly what user must type, do not translate. */
+                _("ruleset RULESET"),
                 _("Make manual for RULESET"));
     cmdhelp_add(help, "v", "version",
                 _("Print the version number"));
