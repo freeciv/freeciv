@@ -160,8 +160,9 @@ static gboolean intro_expose(GtkWidget *w, GdkEventExpose *ev)
     pango_layout_set_font_description(layout,
          pango_font_description_from_string("Sans Bold 10"));
 
-    fc_snprintf(msgbuf, sizeof(msgbuf), "%s%s",
-                word_version(), VERSION_STRING);
+    /* TRANS: "version 2.4.0, gui-gtk-2.0 client" */
+    fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, %s client"),
+                word_version(), VERSION_STRING, client_string);
     pango_layout_set_text(layout, msgbuf, -1);
 
     pango_layout_get_pixel_size(layout, &width, &height);
