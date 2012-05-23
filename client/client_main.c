@@ -337,45 +337,71 @@ int client_main(int argc, char *argv[])
     } else if (is_option("--help", argv[i])) {
       struct cmdhelp *help = cmdhelp_new(argv[0]);
 
-      cmdhelp_add(help, "A", "Announce PROTO",
+      cmdhelp_add(help, "A",
+                  /* TRANS: "Announce" is exactly what user must type, do not translate. */
+                  _("Announce PROTO"),
                   _("Announce game in LAN using protocol PROTO "
                     "(IPv4/IPv6/none)"));
       cmdhelp_add(help, "a", "autoconnect",
                   _("Skip connect dialog"));
 #ifdef DEBUG
-      cmdhelp_add(help, "d", "debug NUM",
+      cmdhelp_add(help, "d",
+                  /* TRANS: "debug" is exactly what user must type, do not translate. */
+                  _("debug NUM"),
                   _("Set debug log level (%d to %d, or "
                     "%d:file1,min,max:...)"), LOG_FATAL, LOG_DEBUG,
                   LOG_DEBUG);
 #else
-      cmdhelp_add(help, "d", "debug NUM",
+      cmdhelp_add(help, "d",
+                  /* TRANS: "debug" is exactly what user must type, do not translate. */
+                  _("debug NUM"),
                   _("Set debug log level (%d to %d)"),
                   LOG_FATAL, LOG_VERBOSE);
 #endif /* DEBUG */
 #ifndef NDEBUG
-      cmdhelp_add(help, "F", "Fatal [SIGNAL]",
+      cmdhelp_add(help, "F",
+                  /* TRANS: "Fatal" is exactly what user must type, do not translate. */
+                  _("Fatal [SIGNAL]"),
                   _("Raise a signal on failed assertion"));
 #endif /* NDEBUG */
       cmdhelp_add(help, "h", "help",
                   _("Print a summary of the options"));
-      cmdhelp_add(help, "l", "log FILE",
+      cmdhelp_add(help, "l",
+                  /* TRANS: "log" is exactly what user must type, do not translate. */
+                  _("log FILE"),
                   _("Use FILE as logfile (spawned server also uses this)"));
-      cmdhelp_add(help, "M", "Meta HOST",
+      cmdhelp_add(help, "M",
+                  /* TRANS: "Meta" is exactly what user must type, do not translate. */
+                  _("Meta HOST"),
                   _("Connect to the metaserver at HOST"));
-      cmdhelp_add(help, "n", "name NAME",
+      cmdhelp_add(help, "n",
+                  /* TRANS: "name" is exactly what user must type, do not translate. */
+                  _("name NAME"),
                   _("Use NAME as username on server"));
-      cmdhelp_add(help, "p", "port PORT",
+      cmdhelp_add(help, "p",
+                  /* TRANS: "port" is exactly what user must type, do not translate. */
+                  _("port PORT"),
                   _("Connect to server port PORT (usually with -a)"));
-      cmdhelp_add(help, "P", "Plugin PLUGIN",
+      cmdhelp_add(help, "P",
+                  /* TRANS: "Plugin" is exactly what user must type, do not translate. */
+                  _("Plugin PLUGIN"),
                   _("Use PLUGIN for sound output %s"),
                   audio_get_all_plugin_names());
-      cmdhelp_add(help, "r", "read FILE",
+      cmdhelp_add(help, "r",
+                  /* TRANS: "read" is exactly what user must type, do not translate. */
+                  _("read FILE"),
                   _("Read startup script FILE (for spawned server only)"));
-      cmdhelp_add(help, "s", "server HOST",
+      cmdhelp_add(help, "s",
+                  /* TRANS: "server" is exactly what user must type, do not translate. */
+                  _("server HOST"),
                   _("Connect to the server at HOST (usually with -a)"));
-      cmdhelp_add(help, "S", "Sound FILE",
+      cmdhelp_add(help, "S",
+                  /* TRANS: "Sound" is exactly what user must type, do not translate. */
+                  _("Sound FILE"),
                   _("Read sound tags from FILE"));
-      cmdhelp_add(help, "t", "tiles FILE",
+      cmdhelp_add(help, "t",
+                  /* TRANS: "tiles" is exactly what user must type, do not translate. */
+                  _("tiles FILE"),
                   _("Use data file FILE.tilespec for tiles"));
       cmdhelp_add(help, "v", "version",
                   _("Print the version number"));

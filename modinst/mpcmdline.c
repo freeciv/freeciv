@@ -57,9 +57,13 @@ int fcmp_parse_cmdline(int argc, char *argv[])
 
       cmdhelp_add(help, "h", "help",
                   _("Print a summary of the options"));
-      cmdhelp_add(help, "L", "List URL",
+      cmdhelp_add(help, "L",
+                  /* TRANS: "List" is exactly what user must type, do not translate. */
+                  _("List URL"),
                   _("Load modpack list from given URL"));
-      cmdhelp_add(help, "p", "prefix DIR",
+      cmdhelp_add(help, "p",
+                  /* TRANS: "prefix" is exactly what user must type, do not translate. */
+                  _("prefix DIR"),
                   _("Install modpacks to given directory hierarchy"));
       cmdhelp_add(help, "v", "version",
                   _("Print the version number"));

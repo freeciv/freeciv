@@ -325,11 +325,15 @@ int main(int argc, char *argv[])
   if (showhelp) {
     struct cmdhelp *help = cmdhelp_new(argv[0]);
 
-    cmdhelp_add(help, "A", "Announce PROTO",
+    cmdhelp_add(help, "A",
+                /* TRANS: "Announce" is exactly what user must type, do not translate. */
+                _("Announce PROTO"),
                 _("Announce game in LAN using protocol PROTO "
                   "(IPv4/IPv6/none)"));
 #ifdef HAVE_FCDB
-    cmdhelp_add(help, "D", "Database FILE",
+    cmdhelp_add(help, "D",
+                /* TRANS: "Database" is exactly what user must type, do not translate. */
+                _("Database FILE"),
                 _("Enable database connection with configuration from "
                   "FILE."));
     cmdhelp_add(help, "a", "auth",
@@ -339,52 +343,84 @@ int main(int argc, char *argv[])
     cmdhelp_add(help, "N", "Newusers",
                 _("Allow new users to login if auth is enabled."));
 #endif /* HAVE_FCDB */
-    cmdhelp_add(help, "b", "bind ADDR",
+    cmdhelp_add(help, "b",
+                /* TRANS: "bind" is exactly what user must type, do not translate. */
+                _("bind ADDR"),
                 _("Listen for clients on ADDR"));
     cmdhelp_add(help, "B", "Bind-meta ADDR",
                 _("Connect to metaserver from this address"));
 #ifdef DEBUG
-    cmdhelp_add(help, "d", "debug NUM",
+    cmdhelp_add(help, "d",
+                /* TRANS: "debug" is exactly what user must type, do not translate. */
+                _("debug NUM"),
                 _("Set debug log level (%d to %d, or %d:file1,min,max:...)"),
                 LOG_FATAL, LOG_DEBUG, LOG_DEBUG);
 #else  /* DEBUG */
-    cmdhelp_add(help, "d", "debug NUM",
+    cmdhelp_add(help, "d",
+                /* TRANS: "debug" is exactly what user must type, do not translate. */
+                _("debug NUM"),
                 _("Set debug log level (%d to %d)"), LOG_FATAL, LOG_VERBOSE);
 #endif /* DEBUG */
 #ifndef NDEBUG
-    cmdhelp_add(help, "F", "Fatal [SIGNAL]",
+    cmdhelp_add(help, "F",
+                /* TRANS: "Fatal" is exactly what user must type, do not translate. */
+                _("Fatal [SIGNAL]"),
                 _("Raise a signal on failed assertion"));
 #endif
-    cmdhelp_add(help, "f", "file FILE",
+    cmdhelp_add(help, "f",
+                /* TRANS: "file" is exactly what user must type, do not translate. */
+                _("file FILE"),
                 _("Load saved game FILE"));
     cmdhelp_add(help, "h", "help",
                 _("Print a summary of the options"));
-    cmdhelp_add(help, "i", "identity ADDR",
+    cmdhelp_add(help, "i",
+                /* TRANS: "identity" is exactly what user must type, do not translate. */
+                _("identity ADDR"),
                 _("Be known as ADDR at metaserver"));
-    cmdhelp_add(help, "l", "log FILE",
+    cmdhelp_add(help, "l",
+                /* TRANS: "log" is exactly what user must type, do not translate. */
+                _("log FILE"),
                 _("Use FILE as logfile"));
     cmdhelp_add(help, "m", "meta",
                 _("Notify metaserver and send server's info"));
-    cmdhelp_add(help, "M", "Metaserver ADDR",
+    cmdhelp_add(help, "M",
+                /* TRANS: "Metaserver" is exactly what user must type, do not translate. */
+                _("Metaserver ADDR"),
                 _("Set ADDR as metaserver address"));
-    cmdhelp_add(help, "p", "port PORT",
+    cmdhelp_add(help, "p",
+                /* TRANS: "port" is exactly what user must type, do not translate. */
+                _("port PORT"),
                 _("Listen for clients on port PORT"));
-    cmdhelp_add(help, "q", "quitidle TIME",
+    cmdhelp_add(help, "q",
+                /* TRANS: "quitidle" is exactly what user must type, do not translate. */
+                _("quitidle TIME"),
                 _("Quit if no players for TIME seconds"));
     cmdhelp_add(help, "e", "exit-on-end",
                 _("When a game ends, exit instead of restarting"));
-    cmdhelp_add(help, "s", "saves DIR",
+    cmdhelp_add(help, "s",
+                /* TRANS: "saves" is exactly what user must type, do not translate. */
+                _("saves DIR"),
                 _("Save games to directory DIR"));
-    cmdhelp_add(help, NULL, "scenarios DIR",
+    cmdhelp_add(help, NULL,
+                /* TRANS: "scenarios" is exactly what user must type, do not translate. */
+                _("scenarios DIR"),
                 _("Search for scenarios in directory DIR"));
-    cmdhelp_add(help, "S", "Serverid ID",
+    cmdhelp_add(help, "S",
+                /* TRANS: "Serverid" is exactly what user must type, do not translate. */
+                _("Serverid ID"),
                 _("Sets the server id to ID"));
-    cmdhelp_add(help, "r", "read FILE",
+    cmdhelp_add(help, "r",
+                /* TRANS: "read" is exactly what user must type, do not translate. */
+                _("read FILE"),
                 _("Read startup script FILE"));
-    cmdhelp_add(help, "R", "Ranklog FILE",
+    cmdhelp_add(help, "R",
+                /* TRANS: "Ranklog" is exactly what user must type, do not translate. */
+                _("Ranklog FILE"),
                 _("Use FILE as ranking logfile"));
 #ifdef AI_MODULES
-    cmdhelp_add(help, "L", "LoadAI MODULE",
+    cmdhelp_add(help, "L",
+                /* TRANS: "LoadAI" is exactly what user must type, do not translate. */
+                _("LoadAI MODULE"),
                 _("Load ai module MODULE. Can appear multiple times"));
 #endif /* AI_MODULES */
     cmdhelp_add(help, "v", "version",
