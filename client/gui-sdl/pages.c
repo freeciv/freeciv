@@ -137,6 +137,7 @@ static void show_main_page(void)
   SDL_Surface *pBackground;
   int h = 0;
   SDL_Rect area;
+  char verbuf[200];
     
   /* create dialog */
   pStartMenu = fc_calloc(1, sizeof(struct SMALL_DLG));
@@ -146,9 +147,11 @@ static void show_main_page(void)
   pStartMenu->pEndWidgetList = pWindow;
 
   area = pWindow->area;
-  
+
   /* Freeciv version */
-  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, "Freeciv "VERSION,
+  /* TRANS: Freeciv 2.4.0, gui-sdl client */
+  fc_snprintf(verbuf, sizeof(verbuf), _("Freeciv %s, %s client"), VERSION_STRING, client_string);
+  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, verbuf,
             adj_font(12),
             (WF_SELLECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
