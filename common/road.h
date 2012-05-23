@@ -48,7 +48,7 @@ struct road_type {
   int build_time;
   int tile_incr[O_LAST];
   int tile_bonus[O_LAST];
-  enum tile_special_type compat_special;
+  enum road_compat compat;
 
   struct requirement_vector reqs;
   bv_unit_classes native_to;
@@ -70,8 +70,8 @@ Road_type_id road_number(const struct road_type *proad);
 
 struct road_type *road_by_number(Road_type_id id);
 
-enum tile_special_type road_special(const struct road_type *proad);
-struct road_type *road_by_special(enum tile_special_type spe);
+enum road_compat road_compat_special(const struct road_type *proad);
+struct road_type *road_by_compat_special(enum road_compat compat);
 
 const char *road_name_translation(struct road_type *road);
 const char *road_rule_name(struct road_type *road);
@@ -94,9 +94,6 @@ bool player_can_build_road(const struct road_type *road,
 
 bool is_native_tile_to_road(const struct road_type *proad,
                             const struct tile *ptile);
-
-void fill_road_vector_from_specials(bv_roads *roads, bv_special *specials);
-void fill_special_vector_from_roads(bv_roads *roads, bv_special *specials);
 
 /* Initialization and iteration */
 void road_types_init(void);

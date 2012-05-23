@@ -449,7 +449,7 @@ void real_menus_update(void)
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_EXPLORE, 
 			   can_units_do_activity(punits, ACTIVITY_EXPLORE));
 
-      proad = road_by_special(S_ROAD);
+      proad = road_by_compat_special(RC_ROAD);
       if (proad != NULL) {
         struct act_tgt tgt = { .type = ATT_ROAD,
                                .obj.road = road_number(proad) }; 
@@ -462,7 +462,7 @@ void real_menus_update(void)
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT_ROAD,
 			   road_conn_possible);
 
-      proad = road_by_special(S_RAILROAD);
+      proad = road_by_compat_special(RC_RAILROAD);
       if (proad != NULL) {
         struct act_tgt tgt = { .type = ATT_ROAD,
                                .obj.road = road_number(proad) }; 
@@ -791,7 +791,7 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
     break;
   case MENU_ORDER_CONNECT_ROAD:
     {
-      struct road_type *proad = road_by_special(S_ROAD);
+      struct road_type *proad = road_by_compat_special(RC_ROAD);
 
       if (proad != NULL) {
         struct act_tgt tgt = { .type = ATT_ROAD,
@@ -803,7 +803,7 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
     break;
   case MENU_ORDER_CONNECT_RAIL:
     {
-      struct road_type *proad = road_by_special(S_RAILROAD);
+      struct road_type *proad = road_by_compat_special(RC_RAILROAD);
 
       if (proad != NULL) {
         struct act_tgt tgt = { .type = ATT_ROAD,

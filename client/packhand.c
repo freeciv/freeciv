@@ -3169,7 +3169,7 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   }
   fc_assert(proad->reqs.size == p->reqs_count);
 
-  proad->compat_special = p->compat_special;
+  proad->compat = p->compat;
 
   proad->native_to = p->native_to;
   proad->hidden_by = p->hidden_by;

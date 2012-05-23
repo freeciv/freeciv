@@ -1533,10 +1533,10 @@ static void player_load_units(struct player *plr, int plrno,
 
     if (target == S_OLD_ROAD) {
       target = S_LAST;
-      proad = road_by_special(S_ROAD);
+      proad = road_by_compat_special(RC_ROAD);
     } else if (target == S_OLD_RAILROAD) {
       target = S_LAST;
-      proad = road_by_special(S_RAILROAD);
+      proad = road_by_compat_special(RC_RAILROAD);
     }
 
     if (activity == ACTIVITY_PATROL_UNUSED) {
@@ -1560,10 +1560,10 @@ static void player_load_units(struct player *plr, int plrno,
 
     if (activity == ACTIVITY_OLD_ROAD) {
       activity = ACTIVITY_GEN_ROAD;
-      proad = road_by_special(S_OLD_ROAD);
+      proad = road_by_compat_special(RC_ROAD);
     } else if (activity == ACTIVITY_OLD_RAILROAD) {
       activity = ACTIVITY_GEN_ROAD;
-      proad = road_by_special(S_OLD_RAILROAD);
+      proad = road_by_compat_special(RC_RAILROAD);
     }
 
     if (activity == ACTIVITY_BASE) {
@@ -1678,8 +1678,8 @@ static void player_load_units(struct player *plr, int plrno,
 
     /* load the unit orders */
     if (has_capability("orders", savefile_options)) {
-      int road_idx = road_index(road_by_special(S_OLD_ROAD));
-      int rail_idx = road_index(road_by_special(S_OLD_RAILROAD));
+      int road_idx = road_index(road_by_compat_special(RC_ROAD));
+      int rail_idx = road_index(road_by_compat_special(RC_RAILROAD));
 
       int len = secfile_lookup_int_default(file, 0,
 			"player%d.u%d.orders_length", plrno, i);

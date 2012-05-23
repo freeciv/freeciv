@@ -537,15 +537,8 @@ enum tile_special_type special_by_rule_name(const char *name)
 ****************************************************************************/
 const char *special_name_translation(enum tile_special_type type)
 {
-  struct road_type *road;
-
   fc_assert_ret_val(ARRAY_SIZE(tile_special_type_names) == S_LAST, NULL);
   fc_assert_ret_val(type >= 0 && type < S_LAST, NULL);
-
-  road = road_by_special(type);
-  if (road != NULL) {
-    return road_name_translation(road);
-  }
 
   return _(tile_special_type_names[type]);
 }

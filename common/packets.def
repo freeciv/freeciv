@@ -226,6 +226,7 @@ type RIVER_MOVE         = uint8(enum special_river_move)
 type SPECIAL            = uint16(enum tile_special_type)
 type SSET_CLASS         = uint8(enum sset_class)
 type SSET_TYPE          = uint8(enum sset_type)
+type ROAD_COMPAT        = uint8(enum road_compat)
 
 # typedefs for bit vectors
 type BV_BASE_FLAGS      = bitvector(bv_base_flags)
@@ -1441,7 +1442,7 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   UINT16 tile_bonus[O_LAST];
   UINT8 reqs_count;
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
-  SPECIAL compat_special;
+  ROAD_COMPAT compat;
   BV_UNIT_CLASSES native_to;
   BV_ROADS hidden_by;
   BV_ROAD_FLAGS flags;

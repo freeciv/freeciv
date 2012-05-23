@@ -99,25 +99,25 @@ void road_types_free(void)
 }
 
 /****************************************************************************
-  Return tile special that represents this road type.
+  Return tile special that used to represent this road type.
 ****************************************************************************/
-enum tile_special_type road_special(const struct road_type *proad)
+enum road_compat road_compat_special(const struct road_type *proad)
 {
-  return proad->compat_special;
+  return proad->compat;
 }
 
 /****************************************************************************
-  Return road type represented by given special, or NULL if special does
-  not represent road type at all.
+  Return road type represented by given compatibility special, or NULL if
+  special does not represent road type at all.
 ****************************************************************************/
-struct road_type *road_by_special(enum tile_special_type spe)
+struct road_type *road_by_compat_special(enum road_compat compat)
 {
-  if (spe == S_LAST) {
+  if (compat == RC_NONE) {
     return NULL;
   }
 
   road_type_iterate(proad) {
-    if (road_special(proad) == spe) {
+    if (road_compat_special(proad) == compat) {
       return proad;
     }
   } road_type_iterate_end;
@@ -255,32 +255,6 @@ bool is_road_near_tile(const struct tile *ptile, const struct road_type *proad)
   } adjc_iterate_end;
 
   return FALSE;
-}
-
-/****************************************************************************
-  Sets road types that are present in special. This only adds roads,
-  any road already present in vector are left intact.
-****************************************************************************/
-void fill_road_vector_from_specials(bv_roads *roads, bv_special *specials)
-{
-  road_type_iterate(proad) {
-    if (contains_special(*specials, road_special(proad))) {
-      BV_SET(*roads, road_index(proad));
-    }
-  } road_type_iterate_end;
-}
-
-/****************************************************************************
-  Sets specials that represent road types present in roads.
-  This only adds specials, any special already present in vector are left intact.
-****************************************************************************/
-void fill_special_vector_from_roads(bv_roads *roads, bv_special *specials)
-{
-  road_type_iterate(proad) {
-    if (BV_ISSET(*roads, road_index(proad))) {
-      BV_SET(*specials, road_special(proad));
-    }
-  } road_type_iterate_end;
 }
 
 /****************************************************************************

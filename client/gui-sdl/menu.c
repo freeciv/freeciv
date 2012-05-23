@@ -170,7 +170,7 @@ static int unit_order_callback(struct widget *pOrder_Widget)
       break;
     case ID_UNIT_ORDER_CONNECT_ROAD:
       {
-        struct road_type *proad = road_by_special(S_ROAD);
+        struct road_type *proad = road_by_compat_special(RC_ROAD);
 
         if (proad != NULL) {
           struct act_tgt tgt = { .type = ATT_ROAD,
@@ -182,7 +182,7 @@ static int unit_order_callback(struct widget *pOrder_Widget)
       break;
     case ID_UNIT_ORDER_CONNECT_RAILROAD:
       {
-        struct road_type *prail = road_by_special(S_RAILROAD);
+        struct road_type *prail = road_by_compat_special(RC_RAILROAD);
 
         if (prail != NULL) {
           struct act_tgt tgt = { .type = ATT_ROAD,
@@ -560,7 +560,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Connect road */
-  proad = road_by_special(S_ROAD);
+  proad = road_by_compat_special(RC_ROAD);
 
   if (proad != NULL) {
     fc_snprintf(cBuf, sizeof(cBuf),
@@ -580,7 +580,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Connect railroad */
-  prail = road_by_special(S_RAILROAD);
+  prail = road_by_compat_special(RC_RAILROAD);
   if (prail != NULL) {
     fc_snprintf(cBuf, sizeof(cBuf),
                 _("Connect With %s (%s)"),
@@ -1102,7 +1102,7 @@ void real_menus_update(void)
       }
 
       if (proad != NULL) {
-        enum tile_special_type spe = road_special(proad);
+        enum road_compat compat = road_compat_special(proad);
 
 	time = tile_activity_road_time(pTile, road_number(proad));
 
@@ -1112,7 +1112,7 @@ void real_menus_update(void)
                     "R", time, 
                     PL_("turn", "turns", time));
 
-	if (spe == S_RAILROAD) {
+	if (compat == RC_RAILROAD) {
 	  pOrder_Road_Button->theme = pTheme->ORailRoad_Icon;
 	} else {
 	  pOrder_Road_Button->theme = pTheme->ORoad_Icon;
@@ -1342,7 +1342,7 @@ void real_menus_update(void)
       }
 
       {
-        struct road_type *proad = road_by_special(S_ROAD);
+        struct road_type *proad = road_by_compat_special(RC_ROAD);
         bool road_conn_possible;
 
         if (proad != NULL) {
@@ -1363,7 +1363,7 @@ void real_menus_update(void)
       }
 
       {
-        struct road_type *proad = road_by_special(S_RAILROAD);
+        struct road_type *proad = road_by_compat_special(RC_RAILROAD);
         bool road_conn_possible;
 
         if (proad != NULL) {

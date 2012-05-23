@@ -2288,8 +2288,8 @@ static void sg_save_settings(struct savedata *saving)
 ****************************************************************************/
 void mainmap_specials_to_roads(void)
 {
-  struct road_type *proad = road_by_special(S_OLD_ROAD);
-  struct road_type *prail = road_by_special(S_OLD_RAILROAD);
+  struct road_type *proad = road_by_compat_special(RC_ROAD);
+  struct road_type *prail = road_by_compat_special(RC_RAILROAD);
 
   whole_map_iterate(ptile) {
     if (tile_has_special(ptile, S_OLD_ROAD)) {
@@ -2306,8 +2306,8 @@ void mainmap_specials_to_roads(void)
 ****************************************************************************/
 void plrmap_specials_to_roads(struct player *plr)
 {
-  struct road_type *proad = road_by_special(S_OLD_ROAD);
-  struct road_type *prail = road_by_special(S_OLD_RAILROAD);
+  struct road_type *proad = road_by_compat_special(RC_ROAD);
+  struct road_type *prail = road_by_compat_special(RC_RAILROAD);
   int road_no = -1;
   int rail_no = -1;
 
@@ -4718,10 +4718,10 @@ static bool sg_load_player_unit(struct loaddata *loading,
 
   if (target == S_OLD_ROAD) {
     target = S_LAST;
-    proad = road_by_special(S_ROAD);
+    proad = road_by_compat_special(RC_ROAD);
   } else if (target == S_OLD_RAILROAD) {
     target = S_LAST;
-    proad = road_by_special(S_RAILROAD);
+    proad = road_by_compat_special(RC_RAILROAD);
   }
 
   if (activity == ACTIVITY_PATROL_UNUSED) {
@@ -4745,10 +4745,10 @@ static bool sg_load_player_unit(struct loaddata *loading,
 
   if (activity == ACTIVITY_OLD_ROAD) {
     activity = ACTIVITY_GEN_ROAD;
-    proad = road_by_special(S_OLD_ROAD);
+    proad = road_by_compat_special(RC_ROAD);
   } else if (activity == ACTIVITY_OLD_RAILROAD) {
     activity = ACTIVITY_GEN_ROAD;
-    proad = road_by_special(S_OLD_RAILROAD);
+    proad = road_by_compat_special(RC_RAILROAD);
   }
 
   /* We need changed_from == ACTIVITY_IDLE by now so that
@@ -4815,12 +4815,12 @@ static bool sg_load_player_unit(struct loaddata *loading,
 
   if (road == -1) {
     if (cfspe == S_OLD_ROAD) {
-      proad = road_type_by_rule_name("Road");
+      proad = road_by_compat_special(RC_ROAD);
       if (proad) {
         road = road_index(proad);
       }
     } else if (cfspe == S_OLD_RAILROAD) {
-      proad = road_by_special(S_RAILROAD);
+      proad = road_by_compat_special(RC_RAILROAD);
       if (proad) {
         road = road_index(proad);
       }
@@ -4914,8 +4914,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
     if (len > 0) {
       const char *orders_unitstr, *dir_unitstr, *act_unitstr, *base_unitstr;
       const char *road_unitstr;
-      int road_idx = road_index(road_by_special(S_OLD_ROAD));
-      int rail_idx = road_index(road_by_special(S_OLD_RAILROAD));
+      int road_idx = road_index(road_by_compat_special(RC_ROAD));
+      int rail_idx = road_index(road_by_compat_special(RC_RAILROAD));
 
       punit->orders.list = fc_malloc(len * sizeof(*(punit->orders.list)));
       punit->orders.length = len;
