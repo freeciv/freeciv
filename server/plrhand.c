@@ -1280,6 +1280,9 @@ void server_remove_player(struct player *pplayer)
     city_refresh_queue_processing();
   }
 
+  /* AI type lost control of this player */
+  CALL_PLR_AI_FUNC(lost_control, pplayer, pplayer);
+
   /* We have to clear all player data before the ai memory is freed because
    * some function may depend on it. */
   player_clear(pplayer, TRUE);
