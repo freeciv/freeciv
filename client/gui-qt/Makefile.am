@@ -77,7 +77,7 @@ libgui_qt_la_SOURCES = \
 	$(MOC_FILES)
 
 # Generate meta object source from header
-meta_%.cpp: %.h
+$(MOC_FILES) : meta_%.cpp: %.h
 	moc -o $@ $<
 
 CLEANFILES = $(MOC_FILES)
