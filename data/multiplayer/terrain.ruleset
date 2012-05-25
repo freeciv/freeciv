@@ -1036,6 +1036,7 @@ They have no effect on gameplay.\
 ; graphic                 = tag specifing preferred graphic
 ; graphic_alt             = tag for alternate graphic if preferred graphic is not 
 ;                           present. Can use eg "-" for no alternate graphic.
+; activity_gfx            = tag specifing graphic for unit building road
 ; reqs                    = requirements to build the road (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; move_cost               = how much movement it takes to to travel
@@ -1064,6 +1065,7 @@ They have no effect on gameplay.\
 name           = _("Road")
 graphic        = "road"
 graphic_alt    = "-"
+activity_gfx   = "unit.road"
 reqs           =
     { "type", "name", "range"
       "UnitFlag", "Settlers", "Local"
@@ -1084,6 +1086,7 @@ hidden_by      = "Railroad"
 name           = _("Railroad")
 graphic        = "rail"
 graphic_alt    = "-"
+activity_gfx   = "unit.road"
 reqs           =
     { "type", "name", "range"
       "Tech", "Railroad", "Player"

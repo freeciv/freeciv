@@ -3155,6 +3155,7 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   names_set(&proad->name, p->name, p->rule_name);
   sz_strlcpy(proad->graphic_str, p->graphic_str);
   sz_strlcpy(proad->graphic_alt, p->graphic_alt);
+  sz_strlcpy(proad->activity_gfx, p->activity_gfx);
 
   proad->move_cost = p->move_cost;
   proad->build_time = p->build_time;

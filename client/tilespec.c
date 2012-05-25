@@ -237,7 +237,8 @@ struct named_sprites {
       /* for roadstyle 0 and 1 */
       *isolated,
       *corner[8], /* Indexed by direction; only non-cardinal dirs used. */
-      *total[MAX_INDEX_VALID];     /* includes all possibilities */
+      *total[MAX_INDEX_VALID],     /* includes all possibilities */
+      *activity;
   } roads[MAX_ROAD_TYPES];
   struct {
     struct sprite_vector unit;
@@ -259,7 +260,6 @@ struct named_sprites {
       *mine,
       *pillage,
       *pollution,
-      *road,
       *sentry,
       *stack,
       *loaded,
@@ -2334,7 +2334,6 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(unit.mine,	        "unit.mine");
   SET_SPRITE(unit.pillage,	"unit.pillage");
   SET_SPRITE(unit.pollution,    "unit.pollution");
-  SET_SPRITE(unit.road,	        "unit.road");
   SET_SPRITE(unit.sentry,	"unit.sentry");
   SET_SPRITE(unit.convert,      "unit.convert");      
   SET_SPRITE(unit.stack,	"unit.stack");
@@ -2896,6 +2895,13 @@ void tileset_setup_road(struct tileset *t,
       }
     }
   }
+
+  t->sprites.roads[id].activity = load_sprite(t, proad->activity_gfx);
+  if (t->sprites.roads[id].activity == NULL) {
+    log_fatal("Missing %s building activity tag \"%s\".",
+              road_rule_name(proad), proad->activity_gfx);
+    exit(EXIT_FAILURE);
+  }
 }
 
 /****************************************************************************
@@ -3452,8 +3458,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
       s = t->sprites.bases[punit->activity_target.obj.base].activity;
       break;
     case ACTIVITY_GEN_ROAD:
-      /* TODO: Road type specific activity icon */
-      s = t->sprites.unit.road;
+      s = t->sprites.roads[punit->activity_target.obj.road].activity;
       break;
     case ACTIVITY_CONVERT:
       s = t->sprites.unit.convert;

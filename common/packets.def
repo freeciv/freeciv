@@ -1436,6 +1436,7 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   STRING rule_name[MAX_LEN_NAME];
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
+  STRING activity_gfx[MAX_LEN_NAME];
   UINT8 move_cost;
   UINT8 build_time;
   UINT16 tile_incr[O_LAST];

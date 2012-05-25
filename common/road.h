@@ -43,6 +43,7 @@ struct road_type {
   struct name_translation name;
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
+  char activity_gfx[MAX_LEN_NAME];
 
   int move_cost;
   int build_time;
@@ -74,7 +75,7 @@ enum road_compat road_compat_special(const struct road_type *proad);
 struct road_type *road_by_compat_special(enum road_compat compat);
 
 const char *road_name_translation(struct road_type *road);
-const char *road_rule_name(struct road_type *road);
+const char *road_rule_name(const struct road_type *road);
 struct road_type *road_type_by_rule_name(const char *name);
 
 bool is_road_card_near(const struct tile *ptile, const struct road_type *proad);

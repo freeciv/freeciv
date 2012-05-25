@@ -2368,6 +2368,9 @@ static void load_ruleset_terrain(struct section_file *file)
     sz_strlcpy(proad->graphic_alt,
                secfile_lookup_str_default(file, "-",
                                           "%s.graphic_alt", section));
+    sz_strlcpy(proad->activity_gfx,
+               secfile_lookup_str_default(file, "-",
+                                          "%s.activity_gfx", section));
 
     if (!secfile_lookup_int(file, &proad->move_cost,
                             "%s.move_cost", section)) {
@@ -4201,6 +4204,7 @@ static void send_ruleset_roads(struct conn_list *dest)
 
     sz_strlcpy(packet.graphic_str, r->graphic_str);
     sz_strlcpy(packet.graphic_alt, r->graphic_alt);
+    sz_strlcpy(packet.activity_gfx, r->activity_gfx);
 
     packet.move_cost = r->move_cost;
     packet.build_time = r->build_time;

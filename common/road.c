@@ -136,7 +136,7 @@ const char *road_name_translation(struct road_type *road)
 /****************************************************************************
   Return untranslated name of this road type.
 ****************************************************************************/
-const char *road_rule_name(struct road_type *road)
+const char *road_rule_name(const struct road_type *road)
 {
   return rule_name(&road->name);
 }
