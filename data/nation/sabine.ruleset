@@ -37,7 +37,7 @@ init_units=""
 
 conflicts_with="Western Roman", "Italian", "Papal", "Ostrogothic"
                ; "Langobardic"
-civilwar_nations = "Roman" ; samnite
+civilwar_nations = "Roman", "Samnite"
 
 ; The Latin city names come from ancient Sabinium region.
 

@@ -436,6 +436,7 @@ match=2
 *include "nation/salvadoran.ruleset"
 *include "nation/sami.ruleset"
 *include "nation/sammarinese.ruleset"
+*include "nation/samnite.ruleset"
 *include "nation/samoan.ruleset"
 *include "nation/samogitian.ruleset"
 *include "nation/santomean.ruleset"
