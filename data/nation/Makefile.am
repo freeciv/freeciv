@@ -306,6 +306,7 @@ pkgdata_DATA = \
 		mazovian.ruleset \
 		mecklenburgian.ruleset \
 		median.ruleset \
+		messapian.ruleset \
 		metis.ruleset \
 		mexican.ruleset \
 		miao.ruleset \

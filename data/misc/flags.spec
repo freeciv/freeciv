@@ -315,6 +315,7 @@ artists = "
    Mazovia		J.M. Maalderink
    Mecklenburg		Daniel Markstedt
    Median		Dan Cottrell, Daniel Markstedt and J.M. Maalderink
+   Messapian		Andrzej G.
    Metis		J.M. Maalderink
    Mexico		Cezary Biele
    Micronesia		SKopp (Wikimedia commons)
@@ -866,6 +867,7 @@ sprites =
 		"f.mazovia", "flags/mazovia"
 		"f.mecklenburg", "flags/mecklenburg"
 		"f.median", "flags/median"
+		"f.messapian", "flags/messapian"
 		"f.metis", "flags/metis"
 		"f.mexico", "flags/mexico"
 		"f.micronesia", "flags/micronesia"
