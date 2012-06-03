@@ -74,6 +74,7 @@ sprites =
 		"f.shield.biafra", "flags/biafra-shield-large"
 		"f.shield.bolivia", "flags/bolivia-shield-large"
 		"f.shield.boer", "flags/boer-shield-large"
+		"f.shield.boii", "flags/boii-shield-large"
 		"f.shield.bophuthatswana", "flags/bophuthatswana-shield-large"
 		"f.shield.bosnia", "flags/bosnia-shield-large"
 		"f.shield.bosporus", "flags/bosporus-shield-large"

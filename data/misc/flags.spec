@@ -73,6 +73,7 @@ artists = "
    Biafra		J.M. Maalderink
    Brandenburg		Madden (Wikimedia Commons)
    Boer			Caleb Moore
+   Boii			Andrzej G.
    Bolivia		Caleb Moore
    Bophuthatswana	Washiucho (Wikimedia Commons)
    Bosnia		Daniel McRae
@@ -624,6 +625,7 @@ sprites =
 		"f.bhutan", "flags/bhutan"
 		"f.biafra", "flags/biafra"
 		"f.boer", "flags/boer"			; old south african
+		"f.boii", "flags/boii"
 		"f.bolivia", "flags/bolivia"
 		"f.bophuthatswana", "flags/bophuthatswana"
 		"f.bosnia", "flags/bosnia"
