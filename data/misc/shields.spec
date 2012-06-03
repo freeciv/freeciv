@@ -387,6 +387,7 @@ sprites =
 		"f.shield.peru", "flags/peru-shield"
 		"f.shield.philippines", "flags/philippines-shield"
 		"f.shield.phoenicia", "flags/phoenicia-shield"
+		"f.shield.phrygian", "flags/phrygian-shield"
 		"f.shield.pict", "flags/pict-shield"
 		"f.shield.piedmont", "flags/piedmont-shield"
 		"f.shield.pirate", "flags/pirate-shield"
