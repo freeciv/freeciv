@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-20 18:18+0200\n"
-"PO-Revision-Date: 2012-05-20 19:43+0200\n"
+"POT-Creation-Date: 2012-06-03 12:03+0200\n"
+"PO-Revision-Date: 2012-06-03 12:16+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -756,11 +756,11 @@ msgstr "Nom de la ciutat"
 #: client/cityrepdata.c:640 client/gui-gtk-2.0/citizensinfo.c:65
 #: client/gui-gtk-2.0/dialogs.c:452 client/gui-gtk-2.0/editprop.c:3437
 #: client/gui-gtk-2.0/editprop.c:4158 client/gui-gtk-2.0/gotodlg.c:213
-#: client/gui-gtk-2.0/pages.c:1295 client/gui-gtk-2.0/pages.c:2638
+#: client/gui-gtk-2.0/pages.c:1296 client/gui-gtk-2.0/pages.c:2639
 #: client/gui-gtk-3.0/citizensinfo.c:65 client/gui-gtk-3.0/dialogs.c:448
 #: client/gui-gtk-3.0/editprop.c:3437 client/gui-gtk-3.0/editprop.c:4158
-#: client/gui-gtk-3.0/gotodlg.c:213 client/gui-gtk-3.0/pages.c:1349
-#: client/gui-gtk-3.0/pages.c:2693 client/gui-sdl/repodlgs.c:2081
+#: client/gui-gtk-3.0/gotodlg.c:213 client/gui-gtk-3.0/pages.c:1351
+#: client/gui-gtk-3.0/pages.c:2695 client/gui-sdl/repodlgs.c:2081
 #: client/plrdlg_common.c:232
 msgid "Nation"
 msgstr "Nació"
@@ -1075,126 +1075,188 @@ msgstr "Especialistes: %s"
 msgid "Special"
 msgstr "Especial"
 
-#: client/client_main.c:341 server/civserver.c:329
+#. TRANS: "Announce" is exactly what user must type, do not translate.
+#: client/client_main.c:342 server/civserver.c:330
+msgid "Announce PROTO"
+msgstr "Announce PROTO"
+
+#: client/client_main.c:343 server/civserver.c:331
 msgid "Announce game in LAN using protocol PROTO (IPv4/IPv6/none)"
 msgstr ""
 "Anunciar partida a la LAN fent servir el protocol PROTO (IPv4/IPv6/none)"
 
-#: client/client_main.c:344
+#: client/client_main.c:346
 msgid "Skip connect dialog"
 msgstr "Saltar el diàleg de connexió"
 
-#: client/client_main.c:347 manual/civmanual.c:486 server/civserver.c:348
+#. TRANS: "debug" is exactly what user must type, do not translate.
+#: client/client_main.c:350 client/client_main.c:357 manual/civmanual.c:487
+#: manual/civmanual.c:493 server/civserver.c:355 server/civserver.c:361
+msgid "debug NUM"
+msgstr "debug NUM"
+
+#: client/client_main.c:351 manual/civmanual.c:488 server/civserver.c:356
 #, c-format
 msgid "Set debug log level (%d to %d, or %d:file1,min,max:...)"
 msgstr ""
 "Fixar el nivell de registre de depuració (%d a %d, o %d:fitx1,mín,màx:...)"
 
-#: client/client_main.c:352 manual/civmanual.c:490 server/civserver.c:352
+#: client/client_main.c:358 manual/civmanual.c:494 server/civserver.c:362
 #, c-format
 msgid "Set debug log level (%d to %d)"
 msgstr "Fixar el nivell de registre de depuració (%d a %d)"
 
-#: client/client_main.c:357 manual/civmanual.c:495 server/civserver.c:356
+#. TRANS: "Fatal" is exactly what user must type, do not translate.
+#: client/client_main.c:364 manual/civmanual.c:500 server/civserver.c:367
+msgid "Fatal [SIGNAL]"
+msgstr "Fatal [SENYAL]"
+
+#: client/client_main.c:365 manual/civmanual.c:501 server/civserver.c:368
 msgid "Raise a signal on failed assertion"
 msgstr "Enviar un senyal en cas que falli una asserció"
 
-#: client/client_main.c:360 manual/civmanual.c:498 modinst/mpcmdline.c:59
-#: server/civserver.c:361
+#: client/client_main.c:368 manual/civmanual.c:504 modinst/mpcmdline.c:59
+#: server/civserver.c:375
 msgid "Print a summary of the options"
 msgstr "Mostrar un resum de les opcions"
 
-#: client/client_main.c:362
+#. TRANS: "log" is exactly what user must type, do not translate.
+#: client/client_main.c:371 manual/civmanual.c:507 server/civserver.c:382
+msgid "log FILE"
+msgstr "log FITXER"
+
+#: client/client_main.c:372
 msgid "Use FILE as logfile (spawned server also uses this)"
 msgstr ""
-"Usa FILE com a fitxer de registre (el servidor llançat en paral·lel també el "
+"Usa FITXER com a fitxer de registre (el servidor llançat en paral·lel també "
+"el "
 "fa servir)"
 
-#: client/client_main.c:364
+#. TRANS: "Meta" is exactly what user must type, do not translate.
+#: client/client_main.c:375
+msgid "Meta HOST"
+msgstr "Meta HOST"
+
+#: client/client_main.c:376
 msgid "Connect to the metaserver at HOST"
 msgstr "Connectar amb el metaservidor a HOST"
 
-#: client/client_main.c:366
-msgid "Use NAME as username on server"
-msgstr "Utilitzar NAME com a nom d'usuari al servidor"
+#. TRANS: "name" is exactly what user must type, do not translate.
+#: client/client_main.c:379
+msgid "name NAME"
+msgstr "name NOM"
 
-#: client/client_main.c:368
+#: client/client_main.c:380
+msgid "Use NAME as username on server"
+msgstr "Utilitzar NOM com a nom d'usuari al servidor"
+
+#. TRANS: "port" is exactly what user must type, do not translate.
+#: client/client_main.c:383 server/civserver.c:392
+msgid "port PORT"
+msgstr "port PORT"
+
+#: client/client_main.c:384
 msgid "Connect to server port PORT (usually with -a)"
 msgstr "Connectar al port del servidor PORT (normalment amb -a)"
 
-#: client/client_main.c:370
+#. TRANS: "Plugin" is exactly what user must type, do not translate.
+#: client/client_main.c:387
+msgid "Plugin PLUGIN"
+msgstr "Plugin PLUGIN"
+
+#: client/client_main.c:388
 #, c-format
 msgid "Use PLUGIN for sound output %s"
 msgstr "Usar PLUGIN per sortida de so %s"
 
-#: client/client_main.c:373
+#. TRANS: "read" is exactly what user must type, do not translate.
+#: client/client_main.c:392 server/civserver.c:414
+msgid "read FILE"
+msgstr "read FITXER"
+
+#: client/client_main.c:393
 msgid "Read startup script FILE (for spawned server only)"
 msgstr ""
-"Llegir l'script d'inici FILE (només per al servidor llançat en paral·lel)"
+"Llegir l'script d'inici FITXER (només per al servidor llançat en paral·lel)"
 
-#: client/client_main.c:375
+#. TRANS: "server" is exactly what user must type, do not translate.
+#: client/client_main.c:396
+msgid "server HOST"
+msgstr "server HOST"
+
+#: client/client_main.c:397
 msgid "Connect to the server at HOST (usually with -a)"
 msgstr "Connectar al servidor HOST (normalment amb -a)"
 
-#: client/client_main.c:377
+#. TRANS: "Sound" is exactly what user must type, do not translate.
+#: client/client_main.c:400
+msgid "Sound FILE"
+msgstr "Sound FITXER"
+
+#: client/client_main.c:401
 msgid "Read sound tags from FILE"
-msgstr "Llegir marcadors de so des de FILE"
+msgstr "Llegir marcadors de so des de FITXER"
 
-#: client/client_main.c:379
+#. TRANS: "tiles" is exactly what user must type, do not translate.
+#: client/client_main.c:404
+msgid "tiles FILE"
+msgstr "tiles FITXER"
+
+#: client/client_main.c:405
 msgid "Use data file FILE.tilespec for tiles"
-msgstr "Usar fitxer de dades FILE.tilespec per caselles"
+msgstr "Usar fitxer de dades FITXER.tilespec per caselles"
 
-#: client/client_main.c:381 manual/civmanual.c:504 modinst/mpcmdline.c:65
-#: server/civserver.c:391
+#: client/client_main.c:407 manual/civmanual.c:514 modinst/mpcmdline.c:69
+#: server/civserver.c:427
 msgid "Print the version number"
 msgstr "Mostrar la versió"
 
-#: client/client_main.c:401 manual/civmanual.c:449 server/civserver.c:218
+#: client/client_main.c:427 manual/civmanual.c:449 server/civserver.c:218
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
 msgstr "Número de senyal de sistema no vàlid \"%s\".\n"
 
-#: client/client_main.c:403 client/client_main.c:426 client/client_main.c:440
+#: client/client_main.c:429 client/client_main.c:452 client/client_main.c:466
 msgid "Try using --help.\n"
 msgstr "Prova de fer servir --help.\n"
 
-#: client/client_main.c:424
+#: client/client_main.c:450
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr "Port no vàlid \"%s\" especificat amb l'opció --port.\n"
 
-#: client/client_main.c:438
+#: client/client_main.c:464
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr ""
 "Nivell de depuració incorrecte \"%s\" especificat amb l'opció --debug.\n"
 
-#: client/client_main.c:458
+#: client/client_main.c:484
 #, c-format
 msgid "Invalid announce protocol \"%s\".\n"
 msgstr "Protocol d'anunci no vàlid \"%s\".\n"
 
-#: client/client_main.c:465
+#: client/client_main.c:491
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Opció no reconeguda: \"%s\"\n"
 
-#: client/client_main.c:535
+#: client/client_main.c:561
 #, c-format
 msgid "Updating old metaserver address \"%s\"."
 msgstr "Actualitzant l'adreça antiga del metaservidor \"%s\"."
 
-#: client/client_main.c:537
+#: client/client_main.c:563
 #, c-format
 msgid "Default metaserver has been set to value \"%s\"."
 msgstr "S'ha fixat el metaservidor per defecte al valor \"%s\"."
 
-#: client/client_main.c:690
+#: client/client_main.c:716
 msgid "There was an error while auto connecting; aborting."
 msgstr ""
 "Hi ha hagut un error mentre em connectava automàticament; s'està avortant."
 
-#: client/client_main.c:768
+#: client/client_main.c:794
 msgid "Game started."
 msgstr "La partida ha començat."
 
@@ -1710,50 +1772,50 @@ msgstr "S'ha netejat la finestra de missatges."
 msgid "Select the %s color"
 msgstr "Seleccionar el color %s"
 
-#: client/gui-gtk-2.0/chatline.c:1326 client/gui-gtk-3.0/chatline.c:1340
+#: client/gui-gtk-2.0/chatline.c:1326 client/gui-gtk-3.0/chatline.c:1321
 msgid "Bold (Ctrl-B)"
 msgstr "Negreta (Ctrl-B)"
 
-#: client/gui-gtk-2.0/chatline.c:1334 client/gui-gtk-3.0/chatline.c:1348
+#: client/gui-gtk-2.0/chatline.c:1334 client/gui-gtk-3.0/chatline.c:1329
 msgid "Italic (Ctrl-I)"
 msgstr "Cursiva (Ctrl-I)"
 
-#: client/gui-gtk-2.0/chatline.c:1342 client/gui-gtk-3.0/chatline.c:1356
+#: client/gui-gtk-2.0/chatline.c:1342 client/gui-gtk-3.0/chatline.c:1337
 msgid "Strikethrough (Ctrl-S)"
 msgstr "Ratllat (Ctrl-S)"
 
-#: client/gui-gtk-2.0/chatline.c:1350 client/gui-gtk-3.0/chatline.c:1364
+#: client/gui-gtk-2.0/chatline.c:1350 client/gui-gtk-3.0/chatline.c:1345
 msgid "Underline (Ctrl-U)"
 msgstr "Subratllat (Ctrl-U)"
 
-#: client/gui-gtk-2.0/chatline.c:1358 client/gui-gtk-3.0/chatline.c:1372
+#: client/gui-gtk-2.0/chatline.c:1358 client/gui-gtk-3.0/chatline.c:1353
 msgid "Color (Ctrl-C)"
 msgstr "Color (Ctrl-C)"
 
-#: client/gui-gtk-2.0/chatline.c:1368 client/gui-gtk-3.0/chatline.c:1382
+#: client/gui-gtk-2.0/chatline.c:1368 client/gui-gtk-3.0/chatline.c:1363
 msgid "foreground"
 msgstr "color del tipus de lletra"
 
 #: client/gui-gtk-2.0/chatline.c:1371 client/gui-gtk-2.0/optiondlg.c:623
-#: client/gui-gtk-3.0/chatline.c:1385 client/gui-gtk-3.0/optiondlg.c:621
+#: client/gui-gtk-3.0/chatline.c:1366 client/gui-gtk-3.0/optiondlg.c:621
 msgid "Select the text color"
 msgstr "Seleccionar el color del text"
 
-#: client/gui-gtk-2.0/chatline.c:1384 client/gui-gtk-3.0/chatline.c:1398
+#: client/gui-gtk-2.0/chatline.c:1384 client/gui-gtk-3.0/chatline.c:1379
 msgid "background"
 msgstr "fons"
 
 #: client/gui-gtk-2.0/chatline.c:1388 client/gui-gtk-2.0/optiondlg.c:632
-#: client/gui-gtk-3.0/chatline.c:1402 client/gui-gtk-3.0/optiondlg.c:630
+#: client/gui-gtk-3.0/chatline.c:1383 client/gui-gtk-3.0/optiondlg.c:630
 msgid "Select the background color"
 msgstr "Seleccionar el color de fons"
 
 #. TRANS: "Return" means the return key.
-#: client/gui-gtk-2.0/chatline.c:1406 client/gui-gtk-3.0/chatline.c:1420
+#: client/gui-gtk-2.0/chatline.c:1406 client/gui-gtk-3.0/chatline.c:1401
 msgid "Send the chat (Return)"
 msgstr "Enviar el xat (Retorn)"
 
-#: client/gui-gtk-2.0/chatline.c:1423 client/gui-gtk-3.0/chatline.c:1437
+#: client/gui-gtk-2.0/chatline.c:1423 client/gui-gtk-3.0/chatline.c:1418
 msgid "Chat tools"
 msgstr "Eines de xat"
 
@@ -1763,9 +1825,9 @@ msgstr "#"
 
 #: client/gui-gtk-2.0/citizensinfo.c:64 client/gui-gtk-2.0/dialogs.c:448
 #: client/gui-gtk-2.0/editprop.c:3468 client/gui-gtk-2.0/editprop.c:3480
-#: client/gui-gtk-2.0/pages.c:2636 client/gui-gtk-3.0/citizensinfo.c:64
+#: client/gui-gtk-2.0/pages.c:2637 client/gui-gtk-3.0/citizensinfo.c:64
 #: client/gui-gtk-3.0/dialogs.c:444 client/gui-gtk-3.0/editprop.c:3468
-#: client/gui-gtk-3.0/editprop.c:3480 client/gui-gtk-3.0/pages.c:2691
+#: client/gui-gtk-3.0/editprop.c:3480 client/gui-gtk-3.0/pages.c:2693
 #: client/plrdlg_common.c:231
 msgid "Flag"
 msgstr "Bandera"
@@ -3051,13 +3113,13 @@ msgstr "ID"
 #: client/gui-gtk-2.0/editprop.c:3455 client/gui-gtk-2.0/editprop.c:3470
 #: client/gui-gtk-2.0/editprop.c:3482 client/gui-gtk-2.0/editprop.c:3492
 #: client/gui-gtk-2.0/editprop.c:4131 client/gui-gtk-2.0/editprop.c:4152
-#: client/gui-gtk-2.0/pages.c:1292 client/gui-gtk-2.0/pages.c:2626
+#: client/gui-gtk-2.0/pages.c:1293 client/gui-gtk-2.0/pages.c:2627
 #: client/gui-gtk-2.0/wldlg.c:998 client/gui-gtk-3.0/editprop.c:3430
 #: client/gui-gtk-3.0/editprop.c:3439 client/gui-gtk-3.0/editprop.c:3455
 #: client/gui-gtk-3.0/editprop.c:3470 client/gui-gtk-3.0/editprop.c:3482
 #: client/gui-gtk-3.0/editprop.c:3492 client/gui-gtk-3.0/editprop.c:4131
-#: client/gui-gtk-3.0/editprop.c:4152 client/gui-gtk-3.0/pages.c:1346
-#: client/gui-gtk-3.0/pages.c:2681 client/gui-gtk-3.0/wldlg.c:996
+#: client/gui-gtk-3.0/editprop.c:4152 client/gui-gtk-3.0/pages.c:1348
+#: client/gui-gtk-3.0/pages.c:2683 client/gui-gtk-3.0/wldlg.c:996
 #: data/Freeciv.in:97 manual/civmanual.c:364 modinst/modinst.c:283
 msgid "Name"
 msgstr "Nom"
@@ -3163,9 +3225,9 @@ msgid "Nations"
 msgstr "Nacions"
 
 #. TRANS: Image header
-#: client/gui-gtk-2.0/editprop.c:4107 client/gui-gtk-2.0/pages.c:1293
+#: client/gui-gtk-2.0/editprop.c:4107 client/gui-gtk-2.0/pages.c:1294
 #: client/gui-gtk-2.0/repodlgs.c:748 client/gui-gtk-2.0/wldlg.c:998
-#: client/gui-gtk-3.0/editprop.c:4107 client/gui-gtk-3.0/pages.c:1347
+#: client/gui-gtk-3.0/editprop.c:4107 client/gui-gtk-3.0/pages.c:1349
 #: client/gui-gtk-3.0/repodlgs.c:802 client/gui-gtk-3.0/wldlg.c:996
 #: modinst/modinst.c:293
 msgid "Type"
@@ -3328,8 +3390,8 @@ msgstr "Seen (Main)"
 msgid "Seen (Invis)"
 msgstr "Seen (Invis)"
 
-#: client/gui-gtk-2.0/editprop.c:6132 client/gui-gtk-2.0/pages.c:641
-#: client/gui-gtk-3.0/editprop.c:6138 client/gui-gtk-3.0/pages.c:695
+#: client/gui-gtk-2.0/editprop.c:6132 client/gui-gtk-2.0/pages.c:642
+#: client/gui-gtk-3.0/editprop.c:6138 client/gui-gtk-3.0/pages.c:697
 #: client/gui-sdl/citydlg.c:1995 client/gui-xaw/citydlg.c:1480
 #: client/text.c:164 common/unit.c:726
 msgid "Unknown"
@@ -3831,8 +3893,8 @@ msgstr "La boira millorada només funciona en \"true color\". Desactivant-la"
 msgid "Set local options"
 msgstr "Establir les opcions locals"
 
-#: client/gui-gtk-2.0/menu.c:131 client/gui-gtk-2.0/pages.c:1462
-#: client/gui-gtk-3.0/menu.c:131 client/gui-gtk-3.0/pages.c:1516
+#: client/gui-gtk-2.0/menu.c:131 client/gui-gtk-2.0/pages.c:1463
+#: client/gui-gtk-3.0/menu.c:131 client/gui-gtk-3.0/pages.c:1518
 #: client/gui-xaw/menu.c:563 data/Freeciv.in:3455 data/Freeciv.in:3464
 msgid "Game Settings"
 msgstr "Opcions de Partida"
@@ -4200,8 +4262,8 @@ msgstr "Commutar Penombra de _Guerra"
 msgid "Game/Scenario Properties"
 msgstr "Propietats de Partida/Escenari"
 
-#: client/gui-gtk-2.0/menu.c:1519 client/gui-gtk-2.0/pages.c:3245
-#: client/gui-gtk-3.0/menu.c:1519 client/gui-gtk-3.0/pages.c:3300
+#: client/gui-gtk-2.0/menu.c:1519 client/gui-gtk-2.0/pages.c:3246
+#: client/gui-gtk-3.0/menu.c:1519 client/gui-gtk-3.0/pages.c:3302
 msgid "Save Scenario"
 msgstr "Desar Escenari"
 
@@ -4541,334 +4603,342 @@ msgstr "Seleccionar un color"
 msgid "Reset"
 msgstr "Resetejar"
 
-#: client/gui-gtk-2.0/pages.c:234 client/gui-gtk-3.0/pages.c:288
+#. TRANS: "version 2.4.0, gui-gtk-2.0 client"
+#. TRANS: "version 2.4.0, gui-gtk-3.0 client"
+#: client/gui-gtk-2.0/pages.c:162 client/gui-gtk-3.0/pages.c:165
+#: client/gui-gtk-3.0/pages.c:206
+#, c-format
+msgid "%s%s, %s client"
+msgstr "%s%s, client %s"
+
+#: client/gui-gtk-2.0/pages.c:235 client/gui-gtk-3.0/pages.c:290
 msgid "Start _New Game"
 msgstr "Començar Partida _Nova"
 
-#: client/gui-gtk-2.0/pages.c:240 client/gui-gtk-3.0/pages.c:294
+#: client/gui-gtk-2.0/pages.c:241 client/gui-gtk-3.0/pages.c:296
 msgid "Start _Scenario Game"
 msgstr "Començar Partida en _Escenari"
 
-#: client/gui-gtk-2.0/pages.c:246 client/gui-gtk-3.0/pages.c:300
+#: client/gui-gtk-2.0/pages.c:247 client/gui-gtk-3.0/pages.c:302
 msgid "_Load Saved Game"
 msgstr "_Carregar Partida Desada"
 
-#: client/gui-gtk-2.0/pages.c:252 client/gui-gtk-3.0/pages.c:306
+#: client/gui-gtk-2.0/pages.c:253 client/gui-gtk-3.0/pages.c:308
 msgid "C_onnect to Network Game"
 msgstr "C_onnectar a Partida en Xarxa"
 
-#: client/gui-gtk-2.0/pages.c:259 client/gui-gtk-3.0/pages.c:313
+#: client/gui-gtk-2.0/pages.c:260 client/gui-gtk-3.0/pages.c:315
 msgid "Connect to Gaming _Zone"
 msgstr "Connectar a _Zona de Jocs"
 
-#: client/gui-gtk-2.0/pages.c:401 client/gui-gtk-3.0/pages.c:455
+#: client/gui-gtk-2.0/pages.c:402 client/gui-gtk-3.0/pages.c:457
 msgid "Select Location to Save"
 msgstr "Tria el Lloc on Desar"
 
-#: client/gui-gtk-2.0/pages.c:505 client/gui-gtk-2.0/pages.c:2835
-#: client/gui-gtk-2.0/pages.c:3042 client/gui-gtk-3.0/pages.c:559
-#: client/gui-gtk-3.0/pages.c:2890 client/gui-gtk-3.0/pages.c:3097
+#: client/gui-gtk-2.0/pages.c:506 client/gui-gtk-2.0/pages.c:2836
+#: client/gui-gtk-2.0/pages.c:3043 client/gui-gtk-3.0/pages.c:561
+#: client/gui-gtk-3.0/pages.c:2892 client/gui-gtk-3.0/pages.c:3099
 msgid "_Browse..."
 msgstr "_Navega..."
 
-#: client/gui-gtk-2.0/pages.c:964 client/gui-gtk-3.0/pages.c:1018
+#: client/gui-gtk-2.0/pages.c:965 client/gui-gtk-3.0/pages.c:1020
 #: client/gui-sdl/connectdlg.c:928 client/gui-xaw/connectdlg.c:444
 #: client/gui-xaw/connectdlg.c:446
 msgid "Passwords don't match, enter password."
 msgstr "Les contrasenyes no coincideixen, entra la contrasenya."
 
-#: client/gui-gtk-2.0/pages.c:1118 client/gui-gtk-2.0/pages.c:1161
-#: client/gui-gtk-3.0/pages.c:1172 client/gui-gtk-3.0/pages.c:1215
+#: client/gui-gtk-2.0/pages.c:1119 client/gui-gtk-2.0/pages.c:1162
+#: client/gui-gtk-3.0/pages.c:1174 client/gui-gtk-3.0/pages.c:1217
 msgid "Server Name"
 msgstr "Nom del servidor"
 
-#: client/gui-gtk-2.0/pages.c:1119 client/gui-gtk-2.0/pages.c:1162
-#: client/gui-gtk-3.0/pages.c:1173 client/gui-gtk-3.0/pages.c:1216
+#: client/gui-gtk-2.0/pages.c:1120 client/gui-gtk-2.0/pages.c:1163
+#: client/gui-gtk-3.0/pages.c:1175 client/gui-gtk-3.0/pages.c:1218
 #: client/gui-sdl/mapview.c:626 data/Freeciv.in:89
 msgid "Port"
 msgstr "Port"
 
-#: client/gui-gtk-2.0/pages.c:1120 client/gui-gtk-2.0/pages.c:1163
-#: client/gui-gtk-3.0/pages.c:1174 client/gui-gtk-3.0/pages.c:1217
+#: client/gui-gtk-2.0/pages.c:1121 client/gui-gtk-2.0/pages.c:1164
+#: client/gui-gtk-3.0/pages.c:1176 client/gui-gtk-3.0/pages.c:1219
 #: modinst/modinst.c:288
 msgid "Version"
 msgstr "Versió"
 
-#: client/gui-gtk-2.0/pages.c:1121 client/gui-gtk-2.0/pages.c:1164
-#: client/gui-gtk-3.0/pages.c:1175 client/gui-gtk-3.0/pages.c:1218
+#: client/gui-gtk-2.0/pages.c:1122 client/gui-gtk-2.0/pages.c:1165
+#: client/gui-gtk-3.0/pages.c:1177 client/gui-gtk-3.0/pages.c:1220
 msgid "Status"
 msgstr "Estat"
 
-#: client/gui-gtk-2.0/pages.c:1122 client/gui-gtk-2.0/pages.c:1165
-#: client/gui-gtk-3.0/pages.c:1176 client/gui-gtk-3.0/pages.c:1219
+#: client/gui-gtk-2.0/pages.c:1123 client/gui-gtk-2.0/pages.c:1166
+#: client/gui-gtk-3.0/pages.c:1178 client/gui-gtk-3.0/pages.c:1221
 #: client/gui-sdl/connectdlg.c:321 client/gui-sdl/plrdlg.c:337
 msgid "Players"
 msgstr "Jugadors"
 
-#: client/gui-gtk-2.0/pages.c:1123 client/gui-gtk-2.0/pages.c:1166
-#: client/gui-gtk-3.0/pages.c:1177 client/gui-gtk-3.0/pages.c:1220
+#: client/gui-gtk-2.0/pages.c:1124 client/gui-gtk-2.0/pages.c:1167
+#: client/gui-gtk-3.0/pages.c:1179 client/gui-gtk-3.0/pages.c:1222
 msgid "Humans"
 msgstr "Humans"
 
-#: client/gui-gtk-2.0/pages.c:1124 client/gui-gtk-2.0/pages.c:1167
-#: client/gui-gtk-3.0/pages.c:1178 client/gui-gtk-3.0/pages.c:1221
+#: client/gui-gtk-2.0/pages.c:1125 client/gui-gtk-2.0/pages.c:1168
+#: client/gui-gtk-3.0/pages.c:1180 client/gui-gtk-3.0/pages.c:1223
 msgid "Comment"
 msgstr "Comentari"
 
-#: client/gui-gtk-2.0/pages.c:1126 client/gui-gtk-3.0/pages.c:1180
+#: client/gui-gtk-2.0/pages.c:1127 client/gui-gtk-3.0/pages.c:1182
 msgid "Local _Area Network"
 msgstr "Xarxa d'_Area Local"
 
-#: client/gui-gtk-2.0/pages.c:1169 client/gui-gtk-3.0/pages.c:1223
+#: client/gui-gtk-2.0/pages.c:1170 client/gui-gtk-3.0/pages.c:1225
 msgid "Internet _Metaserver"
 msgstr "_Metaservidor d'Internet"
 
-#: client/gui-gtk-2.0/pages.c:1206 client/gui-gtk-3.0/pages.c:1260
+#: client/gui-gtk-2.0/pages.c:1207 client/gui-gtk-3.0/pages.c:1262
 msgid "_Host:"
 msgstr "_Host:"
 
-#: client/gui-gtk-2.0/pages.c:1223 client/gui-gtk-3.0/pages.c:1277
+#: client/gui-gtk-2.0/pages.c:1224 client/gui-gtk-3.0/pages.c:1279
 msgid "_Port:"
 msgstr "_Port:"
 
-#: client/gui-gtk-2.0/pages.c:1240 client/gui-gtk-3.0/pages.c:1294
+#: client/gui-gtk-2.0/pages.c:1241 client/gui-gtk-3.0/pages.c:1296
 msgid "_Login:"
 msgstr "_Login:"
 
-#: client/gui-gtk-2.0/pages.c:1258 client/gui-gtk-3.0/pages.c:1312
+#: client/gui-gtk-2.0/pages.c:1259 client/gui-gtk-3.0/pages.c:1314
 msgid "Pass_word:"
 msgstr "Contra_senya:"
 
-#: client/gui-gtk-2.0/pages.c:1276 client/gui-gtk-3.0/pages.c:1330
+#: client/gui-gtk-2.0/pages.c:1277 client/gui-gtk-3.0/pages.c:1332
 msgid "Conf_irm Password:"
 msgstr "Conf_irmar la Contrasenya:"
 
-#: client/gui-gtk-2.0/pages.c:1294 client/gui-gtk-3.0/pages.c:1348
+#: client/gui-gtk-2.0/pages.c:1295 client/gui-gtk-3.0/pages.c:1350
 #: data/Freeciv.in:81
 msgid "Host"
 msgstr "Host"
 
-#: client/gui-gtk-2.0/pages.c:1323 client/gui-gtk-3.0/pages.c:1377
+#: client/gui-gtk-2.0/pages.c:1324 client/gui-gtk-3.0/pages.c:1379
 msgid "C_onnect"
 msgstr "C_onnectar"
 
-#: client/gui-gtk-2.0/pages.c:1651 client/gui-gtk-3.0/pages.c:1705
+#: client/gui-gtk-2.0/pages.c:1652 client/gui-gtk-3.0/pages.c:1707
 #, c-format
 msgid "Connection name: %s"
 msgstr "Nom de connexió: %s"
 
-#: client/gui-gtk-2.0/pages.c:1654 client/gui-gtk-3.0/pages.c:1708
+#: client/gui-gtk-2.0/pages.c:1655 client/gui-gtk-3.0/pages.c:1710
 #, c-format
 msgid "Player name: %s"
 msgstr "Nom del jugador: %s"
 
-#: client/gui-gtk-2.0/pages.c:1659 client/gui-gtk-3.0/pages.c:1713
+#: client/gui-gtk-2.0/pages.c:1660 client/gui-gtk-3.0/pages.c:1715
 #, c-format
 msgid "Host: %s"
 msgstr "Host: %s"
 
-#: client/gui-gtk-2.0/pages.c:1667 client/gui-gtk-3.0/pages.c:1721
+#: client/gui-gtk-2.0/pages.c:1668 client/gui-gtk-3.0/pages.c:1723
 msgid "Player/conn info"
 msgstr "Info Jugador/conn"
 
-#: client/gui-gtk-2.0/pages.c:1700 client/gui-gtk-3.0/pages.c:1754
+#: client/gui-gtk-2.0/pages.c:1701 client/gui-gtk-3.0/pages.c:1756
 #, c-format
 msgid "%s info"
 msgstr "Info %s"
 
-#: client/gui-gtk-2.0/pages.c:1708 client/gui-gtk-3.0/pages.c:1762
+#: client/gui-gtk-2.0/pages.c:1709 client/gui-gtk-3.0/pages.c:1764
 msgid "Toggle player ready"
 msgstr "Commutar disponibilitat jugador"
 
-#: client/gui-gtk-2.0/pages.c:1714 client/gui-gtk-3.0/pages.c:1768
+#: client/gui-gtk-2.0/pages.c:1715 client/gui-gtk-3.0/pages.c:1770
 msgid "Pick nation"
 msgstr "Tria nació"
 
-#: client/gui-gtk-2.0/pages.c:1722 client/gui-gtk-3.0/pages.c:1776
+#: client/gui-gtk-2.0/pages.c:1723 client/gui-gtk-3.0/pages.c:1778
 msgid "Observe this player"
 msgstr "Observar aquest jugador"
 
-#: client/gui-gtk-2.0/pages.c:1729 client/gui-gtk-3.0/pages.c:1783
+#: client/gui-gtk-2.0/pages.c:1730 client/gui-gtk-3.0/pages.c:1785
 msgid "Take this player"
 msgstr "Agafar aquest jugador"
 
-#: client/gui-gtk-2.0/pages.c:1741 client/gui-gtk-3.0/pages.c:1795
+#: client/gui-gtk-2.0/pages.c:1742 client/gui-gtk-3.0/pages.c:1797
 msgid "Cut connection"
 msgstr "Tallar connexió"
 
-#: client/gui-gtk-2.0/pages.c:1752 client/gui-gtk-3.0/pages.c:1806
+#: client/gui-gtk-2.0/pages.c:1753 client/gui-gtk-3.0/pages.c:1808
 msgid "Aitoggle player"
 msgstr "Commutar IA per jugador"
 
-#: client/gui-gtk-2.0/pages.c:1760 client/gui-gtk-3.0/pages.c:1814
+#: client/gui-gtk-2.0/pages.c:1761 client/gui-gtk-3.0/pages.c:1816
 msgid "Remove player"
 msgstr "Eliminar jugador"
 
 #. TRANS: Give access level to a connection.
-#: client/gui-gtk-2.0/pages.c:1776 client/gui-gtk-3.0/pages.c:1830
+#: client/gui-gtk-2.0/pages.c:1777 client/gui-gtk-3.0/pages.c:1832
 #, c-format
 msgid "Give %s access"
 msgstr "Donar accés %s"
 
 #. TRANS: e.g., "Put on Team 5"
-#: client/gui-gtk-2.0/pages.c:1830 client/gui-gtk-3.0/pages.c:1884
+#: client/gui-gtk-2.0/pages.c:1831 client/gui-gtk-3.0/pages.c:1886
 #, c-format
 msgid "Put on %s"
 msgstr "Posar a %s"
 
-#: client/gui-gtk-2.0/pages.c:2086 client/gui-gtk-3.0/pages.c:2140
+#: client/gui-gtk-2.0/pages.c:2087 client/gui-gtk-3.0/pages.c:2142
 msgid "Not _ready"
 msgstr "No _preparat"
 
-#: client/gui-gtk-2.0/pages.c:2097 client/gui-gtk-2.0/pages.c:2705
-#: client/gui-gtk-3.0/pages.c:2151 client/gui-gtk-3.0/pages.c:2760
+#: client/gui-gtk-2.0/pages.c:2098 client/gui-gtk-2.0/pages.c:2706
+#: client/gui-gtk-3.0/pages.c:2153 client/gui-gtk-3.0/pages.c:2762
 msgid "_Ready"
 msgstr "_Totes Preparades"
 
-#: client/gui-gtk-2.0/pages.c:2101 client/gui-gtk-2.0/pages.c:2105
-#: client/gui-gtk-3.0/pages.c:2155 client/gui-gtk-3.0/pages.c:2159
+#: client/gui-gtk-2.0/pages.c:2102 client/gui-gtk-2.0/pages.c:2106
+#: client/gui-gtk-3.0/pages.c:2157 client/gui-gtk-3.0/pages.c:2161
 msgid "_Start"
 msgstr "_Iniciar"
 
-#: client/gui-gtk-2.0/pages.c:2113 client/gui-gtk-3.0/pages.c:2167
+#: client/gui-gtk-2.0/pages.c:2114 client/gui-gtk-3.0/pages.c:2169
 #, c-format
 msgid "_Take %s"
 msgstr "_Agafar %s"
 
-#: client/gui-gtk-2.0/pages.c:2117 client/gui-gtk-2.0/pages.c:2695
-#: client/gui-gtk-3.0/pages.c:2171 client/gui-gtk-3.0/pages.c:2750
+#: client/gui-gtk-2.0/pages.c:2118 client/gui-gtk-2.0/pages.c:2696
+#: client/gui-gtk-3.0/pages.c:2173 client/gui-gtk-3.0/pages.c:2752
 msgid "Pick _Nation"
 msgstr "Tria _Nació"
 
-#: client/gui-gtk-2.0/pages.c:2120 client/gui-gtk-3.0/pages.c:2174
+#: client/gui-gtk-2.0/pages.c:2121 client/gui-gtk-3.0/pages.c:2176
 msgid "_Take a Player"
 msgstr "_Agafar un Jugador"
 
-#: client/gui-gtk-2.0/pages.c:2128 client/gui-gtk-3.0/pages.c:2182
+#: client/gui-gtk-2.0/pages.c:2129 client/gui-gtk-3.0/pages.c:2184
 #, c-format
 msgid "_Observe %s"
 msgstr "_Observar %s"
 
-#: client/gui-gtk-2.0/pages.c:2133 client/gui-gtk-2.0/pages.c:2700
-#: client/gui-gtk-3.0/pages.c:2187 client/gui-gtk-3.0/pages.c:2755
+#: client/gui-gtk-2.0/pages.c:2134 client/gui-gtk-2.0/pages.c:2701
+#: client/gui-gtk-3.0/pages.c:2189 client/gui-gtk-3.0/pages.c:2757
 msgid "_Observe"
 msgstr "_Observar"
 
-#: client/gui-gtk-2.0/pages.c:2136 client/gui-gtk-3.0/pages.c:2190
+#: client/gui-gtk-2.0/pages.c:2137 client/gui-gtk-3.0/pages.c:2192
 msgid "Do not _observe"
 msgstr "No O_bservar"
 
 #. TRANS: "<Novice AI>"
-#: client/gui-gtk-2.0/pages.c:2266 client/gui-gtk-3.0/pages.c:2320
+#: client/gui-gtk-2.0/pages.c:2267 client/gui-gtk-3.0/pages.c:2322
 #: client/gui-xaw/pages.c:248
 #, c-format
 msgid "<%s AI>"
 msgstr "<IA %s>"
 
-#: client/gui-gtk-2.0/pages.c:2278 client/gui-gtk-3.0/pages.c:2332
+#: client/gui-gtk-2.0/pages.c:2279 client/gui-gtk-3.0/pages.c:2334
 #: client/gui-xaw/pages.c:255
 msgid "Random"
 msgstr "Aleatori"
 
-#: client/gui-gtk-2.0/pages.c:2352 client/gui-gtk-2.0/pages.c:2409
-#: client/gui-gtk-3.0/pages.c:2406 client/gui-gtk-3.0/pages.c:2463
+#: client/gui-gtk-2.0/pages.c:2353 client/gui-gtk-2.0/pages.c:2410
+#: client/gui-gtk-3.0/pages.c:2408 client/gui-gtk-3.0/pages.c:2465
 msgid "Observer"
 msgstr "Observador"
 
-#: client/gui-gtk-2.0/pages.c:2434 client/gui-gtk-3.0/pages.c:2488
+#: client/gui-gtk-2.0/pages.c:2435 client/gui-gtk-3.0/pages.c:2490
 msgid "Detached"
 msgstr "Desassociat"
 
-#: client/gui-gtk-2.0/pages.c:2550 client/gui-gtk-3.0/pages.c:2604
+#: client/gui-gtk-2.0/pages.c:2551 client/gui-gtk-3.0/pages.c:2606
 msgid "Number of _Players (including AI):"
 msgstr "_Nombre de Jugadors (comptant IA):"
 
-#: client/gui-gtk-2.0/pages.c:2575 client/gui-gtk-3.0/pages.c:2630
+#: client/gui-gtk-2.0/pages.c:2576 client/gui-gtk-3.0/pages.c:2632
 msgid "AI Skill _Level:"
 msgstr "Nivell de _Dificultat dels IA:"
 
-#: client/gui-gtk-2.0/pages.c:2601 client/gui-gtk-3.0/pages.c:2656
+#: client/gui-gtk-2.0/pages.c:2602 client/gui-gtk-3.0/pages.c:2658
 msgid "Ruleset _Version:"
 msgstr "_Versió de Joc de Regles:"
 
-#: client/gui-gtk-2.0/pages.c:2609 client/gui-gtk-3.0/pages.c:2664
+#: client/gui-gtk-2.0/pages.c:2610 client/gui-gtk-3.0/pages.c:2666
 msgid "_More Game Options..."
 msgstr "Més _Opcions de Joc..."
 
-#: client/gui-gtk-2.0/pages.c:2628 client/gui-gtk-3.0/pages.c:2683
+#: client/gui-gtk-2.0/pages.c:2629 client/gui-gtk-3.0/pages.c:2685
 msgid "Record"
 msgstr "Registrar"
 
-#: client/gui-gtk-2.0/pages.c:2630 client/gui-gtk-3.0/pages.c:2685
+#: client/gui-gtk-2.0/pages.c:2631 client/gui-gtk-3.0/pages.c:2687
 msgid "Rating"
 msgstr "Valoració"
 
-#: client/gui-gtk-2.0/pages.c:2632 client/gui-gtk-2.0/unitselect.c:470
-#: client/gui-gtk-3.0/pages.c:2687 client/gui-gtk-3.0/unitselect.c:470
+#: client/gui-gtk-2.0/pages.c:2633 client/gui-gtk-2.0/unitselect.c:470
+#: client/gui-gtk-3.0/pages.c:2689 client/gui-gtk-3.0/unitselect.c:470
 #: modinst/modinst.c:150
 msgid "Ready"
 msgstr "Preparat"
 
-#: client/gui-gtk-2.0/pages.c:2634 client/gui-gtk-3.0/pages.c:2689
+#: client/gui-gtk-2.0/pages.c:2635 client/gui-gtk-3.0/pages.c:2691
 msgid "?player:Leader"
 msgstr "Líder"
 
-#: client/gui-gtk-2.0/pages.c:2640 client/gui-gtk-3.0/pages.c:2695
+#: client/gui-gtk-2.0/pages.c:2641 client/gui-gtk-3.0/pages.c:2697
 #: client/plrdlg_common.c:235
 msgid "Team"
 msgstr "Equip"
 
-#: client/gui-gtk-2.0/pages.c:2759 client/gui-gtk-3.0/pages.c:2814
+#: client/gui-gtk-2.0/pages.c:2760 client/gui-gtk-3.0/pages.c:2816
 #: client/gui-sdl/chatline.c:197
 msgid "Choose Saved Game to Load"
 msgstr "Tria Partida Desada per Carregar"
 
-#: client/gui-gtk-2.0/pages.c:2815 client/gui-gtk-3.0/pages.c:2870
+#: client/gui-gtk-2.0/pages.c:2816 client/gui-gtk-3.0/pages.c:2872
 msgid "Choose Saved Game to _Load:"
 msgstr "Tria Partida Desada per _Carregar:"
 
-#: client/gui-gtk-2.0/pages.c:2902 client/gui-gtk-3.0/pages.c:2957
+#: client/gui-gtk-2.0/pages.c:2903 client/gui-gtk-3.0/pages.c:2959
 msgid "Choose a Scenario"
 msgstr "Tria un Escenari"
 
-#: client/gui-gtk-2.0/pages.c:2989 client/gui-gtk-3.0/pages.c:3044
+#: client/gui-gtk-2.0/pages.c:2990 client/gui-gtk-3.0/pages.c:3046
 msgid "Choose a _Scenario:"
 msgstr "Tria un _Escenari:"
 
-#: client/gui-gtk-2.0/pages.c:3022 client/gui-gtk-3.0/pages.c:3077
+#: client/gui-gtk-2.0/pages.c:3023 client/gui-gtk-3.0/pages.c:3079
 msgid "Filename:"
 msgstr "Nom de fitxer:"
 
-#: client/gui-gtk-2.0/pages.c:3210 client/gui-gtk-3.0/pages.c:3265
+#: client/gui-gtk-2.0/pages.c:3211 client/gui-gtk-3.0/pages.c:3267
 #: client/gui-sdl/optiondlg.c:832
 msgid "Save Game"
 msgstr "Desar la Partida"
 
-#: client/gui-gtk-2.0/pages.c:3210 client/gui-gtk-3.0/pages.c:3265
+#: client/gui-gtk-2.0/pages.c:3211 client/gui-gtk-3.0/pages.c:3267
 msgid "Saved _Games:"
 msgstr "Partides _Desades:"
 
-#: client/gui-gtk-2.0/pages.c:3211 client/gui-gtk-3.0/pages.c:3266
+#: client/gui-gtk-2.0/pages.c:3212 client/gui-gtk-3.0/pages.c:3268
 msgid "Save _Filename:"
 msgstr "Nom de _Fitxer a Desar:"
 
-#: client/gui-gtk-2.0/pages.c:3245 client/gui-gtk-3.0/pages.c:3300
+#: client/gui-gtk-2.0/pages.c:3246 client/gui-gtk-3.0/pages.c:3302
 msgid "Saved Sce_narios:"
 msgstr "Esce_naris Desats:"
 
-#: client/gui-gtk-2.0/pages.c:3246 client/gui-gtk-3.0/pages.c:3301
+#: client/gui-gtk-2.0/pages.c:3247 client/gui-gtk-3.0/pages.c:3303
 msgid "Save Sc_enario:"
 msgstr "Desar Esc_enari:"
 
-#: client/gui-gtk-2.0/pages.c:3274 client/gui-gtk-3.0/pages.c:3329
+#: client/gui-gtk-2.0/pages.c:3275 client/gui-gtk-3.0/pages.c:3331
 msgid "Save Map Image"
 msgstr "Desar Imatge de Mapa"
 
-#: client/gui-gtk-2.0/pages.c:3274 client/gui-gtk-3.0/pages.c:3329
+#: client/gui-gtk-2.0/pages.c:3275 client/gui-gtk-3.0/pages.c:3331
 msgid "Saved Map _Images:"
 msgstr "_Imatges de Mapa Desades:"
 
-#: client/gui-gtk-2.0/pages.c:3275 client/gui-gtk-3.0/pages.c:3330
+#: client/gui-gtk-2.0/pages.c:3276 client/gui-gtk-3.0/pages.c:3332
 msgid "Save _Map Images:"
 msgstr "Desar Imatges de _Mapa:"
 
@@ -5338,7 +5408,7 @@ msgstr "Enrere"
 msgid "Start"
 msgstr "Iniciar"
 
-#: client/gui-sdl/chatline.c:821 client/gui-sdl/pages.c:180
+#: client/gui-sdl/chatline.c:821 client/gui-sdl/pages.c:183
 msgid "Load Game"
 msgstr "Carregar una partida"
 
@@ -6253,7 +6323,7 @@ msgid "Toggle Mini Map Mode"
 msgstr "Activar/desactivar Mode Minimapa"
 
 #: client/gui-sdl/mapctrl.c:1653 client/gui-sdl/optiondlg.c:769
-#: client/gui-sdl/optiondlg.c:1324 client/gui-sdl/pages.c:236
+#: client/gui-sdl/optiondlg.c:1324 client/gui-sdl/pages.c:239
 #: data/Freeciv.in:1235
 msgid "Options"
 msgstr "Opcions"
@@ -6648,7 +6718,7 @@ msgstr "Desar Opcions Locals"
 msgid "Leave Game"
 msgstr "Deixar la Partida"
 
-#: client/gui-sdl/optiondlg.c:853 client/gui-sdl/pages.c:250
+#: client/gui-sdl/optiondlg.c:853 client/gui-sdl/pages.c:253
 #: client/gui-xaw/connectdlg.c:341 client/gui-xaw/menu.c:126
 #: data/Freeciv.in:136 data/Freeciv.in:3228
 msgid "Quit"
@@ -6666,23 +6736,29 @@ msgstr "llista treball buida"
 msgid "Add new worklist"
 msgstr "Afegir nova llista treball"
 
-#: client/gui-sdl/pages.c:165
+#. TRANS: Freeciv 2.4.0, gui-sdl client
+#: client/gui-sdl/pages.c:153
+#, c-format
+msgid "Freeciv %s, %s client"
+msgstr "Freeciv %s, client %s"
+
+#: client/gui-sdl/pages.c:168
 msgid "Start New Game"
 msgstr "Començar una partida nova"
 
-#: client/gui-sdl/pages.c:194
+#: client/gui-sdl/pages.c:197
 msgid "Join Game"
 msgstr "Unir-se a una partida"
 
-#: client/gui-sdl/pages.c:208
+#: client/gui-sdl/pages.c:211
 msgid "Join Pubserver"
 msgstr "Unir-se a Pubserver"
 
-#: client/gui-sdl/pages.c:222
+#: client/gui-sdl/pages.c:225
 msgid "Join LAN Server"
 msgstr "Unir-se a servidor de LAN"
 
-#: client/gui-sdl/pages.c:303
+#: client/gui-sdl/pages.c:306
 msgid "SDLClient welcomes you..."
 msgstr "El client SDL et dóna la benvinguda..."
 
@@ -13554,8 +13630,9 @@ msgstr "República"
 #: data/civ1/governments.ruleset:152 data/civ2/governments.ruleset:178
 #: data/nation/bosporan.ruleset:35 data/nation/byzantium.ruleset:29
 #: data/nation/etruscan.ruleset:33 data/nation/gallic.ruleset:31
-#: data/nation/holysee.ruleset:33 data/nation/ostrogothic.ruleset:32
-#: data/nation/palmyrene.ruleset:21 data/nation/roman.ruleset:51
+#: data/nation/holysee.ruleset:33 data/nation/latin.ruleset:45
+#: data/nation/ostrogothic.ruleset:32 data/nation/palmyrene.ruleset:21
+#: data/nation/roman.ruleset:51 data/nation/sabine.ruleset:28
 #: data/nation/vandalic.ruleset:30 data/nation/visigothic.ruleset:38
 #: data/nation/westernroman.ruleset:33
 #, c-format
@@ -13565,8 +13642,9 @@ msgstr "Cònsol %s"
 #: data/civ1/governments.ruleset:153 data/civ2/governments.ruleset:179
 #: data/nation/bosporan.ruleset:35 data/nation/byzantium.ruleset:29
 #: data/nation/etruscan.ruleset:33 data/nation/gallic.ruleset:31
-#: data/nation/holysee.ruleset:33 data/nation/ostrogothic.ruleset:32
-#: data/nation/roman.ruleset:51 data/nation/vandalic.ruleset:30
+#: data/nation/holysee.ruleset:33 data/nation/latin.ruleset:45
+#: data/nation/ostrogothic.ruleset:32 data/nation/roman.ruleset:51
+#: data/nation/sabine.ruleset:28 data/nation/vandalic.ruleset:30
 #: data/nation/visigothic.ruleset:38 data/nation/westernroman.ruleset:33
 #, c-format
 msgid "?female:Consul %s"
@@ -13796,10 +13874,10 @@ msgstr ""
 #: data/nation/chinese.ruleset:27 data/nation/ethiopian.ruleset:25
 #: data/nation/haitian.ruleset:27 data/nation/han.ruleset:26
 #: data/nation/holyroman.ruleset:35 data/nation/japanese.ruleset:21
-#: data/nation/manchu.ruleset:26 data/nation/mexican.ruleset:53
-#: data/nation/nestorian.ruleset:28 data/nation/southvietnamese.ruleset:25
-#: data/nation/taiwanese.ruleset:24 data/nation/toltec.ruleset:34
-#: data/nation/vietnamese.ruleset:22
+#: data/nation/latin.ruleset:43 data/nation/manchu.ruleset:26
+#: data/nation/mexican.ruleset:53 data/nation/nestorian.ruleset:28
+#: data/nation/southvietnamese.ruleset:25 data/nation/taiwanese.ruleset:24
+#: data/nation/toltec.ruleset:34 data/nation/vietnamese.ruleset:22
 #, c-format
 msgid "Emperor %s"
 msgstr "Emperador %s"
@@ -14001,9 +14079,10 @@ msgstr ""
 #: data/nation/egyptian.ruleset:26 data/nation/frankish.ruleset:40
 #: data/nation/german.ruleset:31 data/nation/han.ruleset:27
 #: data/nation/holyroman.ruleset:33 data/nation/holysee.ruleset:30
-#: data/nation/lorrain.ruleset:29 data/nation/norman.ruleset:23
-#: data/nation/occitan.ruleset:27 data/nation/prussian.ruleset:28
-#: data/nation/templar.ruleset:42 data/nation/teutonic.ruleset:32
+#: data/nation/latin.ruleset:41 data/nation/lorrain.ruleset:29
+#: data/nation/norman.ruleset:23 data/nation/occitan.ruleset:27
+#: data/nation/prussian.ruleset:28 data/nation/templar.ruleset:42
+#: data/nation/teutonic.ruleset:32
 #, c-format
 msgid "Chancellor %s"
 msgstr "Canceller %s"
@@ -14014,9 +14093,10 @@ msgstr "Canceller %s"
 #: data/nation/egyptian.ruleset:26 data/nation/frankish.ruleset:40
 #: data/nation/german.ruleset:31 data/nation/han.ruleset:27
 #: data/nation/holyroman.ruleset:33 data/nation/holysee.ruleset:30
-#: data/nation/lorrain.ruleset:29 data/nation/norman.ruleset:23
-#: data/nation/occitan.ruleset:27 data/nation/prussian.ruleset:28
-#: data/nation/templar.ruleset:42 data/nation/teutonic.ruleset:32
+#: data/nation/latin.ruleset:41 data/nation/lorrain.ruleset:29
+#: data/nation/norman.ruleset:23 data/nation/occitan.ruleset:27
+#: data/nation/prussian.ruleset:28 data/nation/templar.ruleset:42
+#: data/nation/teutonic.ruleset:32
 #, c-format
 msgid "?female:Chancellor %s"
 msgstr "Cancellera %s"
@@ -14300,11 +14380,13 @@ msgstr "Imperatrix %s"
 #: data/nation/epirote.ruleset:28 data/nation/etruscan.ruleset:31
 #: data/nation/frankish.ruleset:39 data/nation/greek.ruleset:21
 #: data/nation/hittite.ruleset:25 data/nation/hunnic.ruleset:37
+#: data/nation/latin.ruleset:39 data/nation/median.ruleset:29
 #: data/nation/mitanni.ruleset:30 data/nation/nubian.ruleset:32
 #: data/nation/ostrogothic.ruleset:30 data/nation/palatinate.ruleset:28
-#: data/nation/palmyrene.ruleset:19 data/nation/pelasgian.ruleset:24
-#: data/nation/phoenician.ruleset:27 data/nation/pictish.ruleset:24
-#: data/nation/roman.ruleset:47 data/nation/seleucid.ruleset:28
+#: data/nation/palmyrene.ruleset:19 data/nation/parthian.ruleset:33
+#: data/nation/pelasgian.ruleset:24 data/nation/phoenician.ruleset:27
+#: data/nation/pictish.ruleset:24 data/nation/roman.ruleset:47
+#: data/nation/sabine.ruleset:26 data/nation/seleucid.ruleset:28
 #: data/nation/sumerian.ruleset:26 data/nation/vandalic.ruleset:29
 #: data/nation/visigothic.ruleset:37 data/nation/westernroman.ruleset:29
 #, c-format
@@ -14320,10 +14402,12 @@ msgstr "Usurpador %s"
 #: data/nation/epirote.ruleset:28 data/nation/etruscan.ruleset:31
 #: data/nation/frankish.ruleset:39 data/nation/greek.ruleset:21
 #: data/nation/hittite.ruleset:25 data/nation/hunnic.ruleset:37
+#: data/nation/latin.ruleset:39 data/nation/median.ruleset:29
 #: data/nation/mitanni.ruleset:30 data/nation/nubian.ruleset:32
 #: data/nation/ostrogothic.ruleset:30 data/nation/palatinate.ruleset:28
-#: data/nation/pelasgian.ruleset:24 data/nation/phoenician.ruleset:27
-#: data/nation/pictish.ruleset:24 data/nation/roman.ruleset:47
+#: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
+#: data/nation/phoenician.ruleset:27 data/nation/pictish.ruleset:24
+#: data/nation/roman.ruleset:47 data/nation/sabine.ruleset:26
 #: data/nation/seleucid.ruleset:28 data/nation/sumerian.ruleset:26
 #: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:37
 #: data/nation/westernroman.ruleset:29
@@ -16651,18 +16735,20 @@ msgstr "Lady protectora %s"
 #: data/civ2/nations.ruleset:764 data/civ2/nations.ruleset:888
 #: data/nation/austrian.ruleset:49 data/nation/bolivian.ruleset:41
 #: data/nation/brandenburgian.ruleset:28 data/nation/catalan.ruleset:32
-#: data/nation/centralamerican.ruleset:28 data/nation/chilean.ruleset:31
+#: data/nation/centralamerican.ruleset:28
+#: data/nation/centrallithuanian.ruleset:47 data/nation/chilean.ruleset:31
 #: data/nation/chrobatian.ruleset:30 data/nation/colombian.ruleset:29
 #: data/nation/cypriot.ruleset:24 data/nation/dominicano.ruleset:27
 #: data/nation/finnish.ruleset:28 data/nation/genoese.ruleset:50
 #: data/nation/german.ruleset:32 data/nation/greaterpolish.ruleset:21
 #: data/nation/irish.ruleset:42 data/nation/italian.ruleset:42
-#: data/nation/kashubian.ruleset:29 data/nation/mazovian.ruleset:24
-#: data/nation/northumbrian.ruleset:39 data/nation/peruvian.ruleset:27
-#: data/nation/prussian.ruleset:29 data/nation/quebecois.ruleset:21
-#: data/nation/salvadoran.ruleset:41 data/nation/southafrican.ruleset:24
-#: data/nation/southamerican.ruleset:21 data/nation/southvietnamese.ruleset:24
-#: data/nation/teutonic.ruleset:29 data/nation/westernpomeranian.ruleset:30
+#: data/nation/kashubian.ruleset:29 data/nation/latin.ruleset:44
+#: data/nation/mazovian.ruleset:24 data/nation/northumbrian.ruleset:39
+#: data/nation/peruvian.ruleset:27 data/nation/prussian.ruleset:29
+#: data/nation/quebecois.ruleset:21 data/nation/salvadoran.ruleset:41
+#: data/nation/southafrican.ruleset:24 data/nation/southamerican.ruleset:21
+#: data/nation/southvietnamese.ruleset:24 data/nation/teutonic.ruleset:29
+#: data/nation/westernpomeranian.ruleset:30
 #, c-format
 msgid "Archbishop %s"
 msgstr "Arquebisbe %s"
@@ -16709,9 +16795,9 @@ msgstr ""
 #: data/nation/byzantium.ruleset:28 data/nation/californian.ruleset:36
 #: data/nation/centralafrican.ruleset:22 data/nation/ethiopian.ruleset:25
 #: data/nation/haitian.ruleset:27 data/nation/japanese.ruleset:21
-#: data/nation/mexican.ruleset:53 data/nation/nestorian.ruleset:28
-#: data/nation/southvietnamese.ruleset:25 data/nation/toltec.ruleset:34
-#: data/nation/vietnamese.ruleset:22
+#: data/nation/latin.ruleset:43 data/nation/mexican.ruleset:53
+#: data/nation/nestorian.ruleset:28 data/nation/southvietnamese.ruleset:25
+#: data/nation/toltec.ruleset:34 data/nation/vietnamese.ruleset:22
 #, c-format
 msgid "Empress %s"
 msgstr "Emperadriu %s"
@@ -16751,7 +16837,7 @@ msgstr "%s Xa"
 
 #: data/civ2/nations.ruleset:1453 data/nation/azeri.ruleset:36
 #: data/nation/iranian.ruleset:41 data/nation/khwarezmian.ruleset:28
-#: data/nation/persian.ruleset:23
+#: data/nation/median.ruleset:31 data/nation/persian.ruleset:23
 #, c-format
 msgid "%s Shahbanu"
 msgstr "%s Xahbanu"
@@ -23365,8 +23451,8 @@ msgstr ""
 msgid "Premiere %s"
 msgstr "Premiere %s"
 
-#: data/nation/acadian.ruleset:32 data/nation/paraguayan.ruleset:38
-#: data/nation/sammarinese.ruleset:25
+#: data/nation/acadian.ruleset:32 data/nation/germanbelgian.ruleset:27
+#: data/nation/paraguayan.ruleset:38 data/nation/sammarinese.ruleset:25
 #, c-format
 msgid "Abbot %s"
 msgstr "Abat %s"
@@ -23378,8 +23464,8 @@ msgstr "Abat %s"
 #: data/nation/brandenburgian.ruleset:28 data/nation/burgundian.ruleset:30
 #: data/nation/canadian.ruleset:26 data/nation/castilian.ruleset:32
 #: data/nation/catalan.ruleset:32 data/nation/centralamerican.ruleset:28
-#: data/nation/chiapanec.ruleset:34 data/nation/chilean.ruleset:31
-#: data/nation/colombian.ruleset:29
+#: data/nation/centrallithuanian.ruleset:47 data/nation/chiapanec.ruleset:34
+#: data/nation/chilean.ruleset:31 data/nation/colombian.ruleset:29
 #: data/nation/congolesebrazzaville.ruleset:28
 #: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:33
 #: data/nation/cuban.ruleset:24 data/nation/curonian.ruleset:30
@@ -23390,22 +23476,22 @@ msgstr "Abat %s"
 #: data/nation/french.ruleset:42 data/nation/galician.ruleset:22
 #: data/nation/genoese.ruleset:50 data/nation/greaterpolish.ruleset:21
 #: data/nation/honduran.ruleset:30 data/nation/irish.ruleset:42
-#: data/nation/italian.ruleset:42 data/nation/leonese.ruleset:22
-#: data/nation/liechtensteiner.ruleset:32 data/nation/luxembourgish.ruleset:29
-#: data/nation/maltese.ruleset:26 data/nation/mazovian.ruleset:24
-#: data/nation/milanese.ruleset:27 data/nation/monegasque.ruleset:30
-#: data/nation/norman.ruleset:25 data/nation/palatinate.ruleset:30
-#: data/nation/panamanian.ruleset:30 data/nation/paraguayan.ruleset:38
-#: data/nation/peruvian.ruleset:27 data/nation/piedmontese.ruleset:33
-#: data/nation/polish.ruleset:35 data/nation/portuguese.ruleset:27
-#: data/nation/quebecois.ruleset:21 data/nation/riograndense.ruleset:21
-#: data/nation/romansh.ruleset:29 data/nation/saintlucian.ruleset:24
-#: data/nation/salvadoran.ruleset:41 data/nation/sammarinese.ruleset:25
-#: data/nation/sardinian.ruleset:33 data/nation/savoyard.ruleset:32
-#: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:19
-#: data/nation/spanish.ruleset:41 data/nation/teutonic.ruleset:29
-#: data/nation/uruguayan.ruleset:24 data/nation/venezuelan.ruleset:34
-#: data/nation/yucatecan.ruleset:31
+#: data/nation/italian.ruleset:42 data/nation/latin.ruleset:44
+#: data/nation/leonese.ruleset:22 data/nation/liechtensteiner.ruleset:32
+#: data/nation/luxembourgish.ruleset:29 data/nation/maltese.ruleset:26
+#: data/nation/mazovian.ruleset:24 data/nation/milanese.ruleset:27
+#: data/nation/monegasque.ruleset:30 data/nation/norman.ruleset:25
+#: data/nation/palatinate.ruleset:30 data/nation/panamanian.ruleset:30
+#: data/nation/paraguayan.ruleset:38 data/nation/peruvian.ruleset:27
+#: data/nation/piedmontese.ruleset:33 data/nation/polish.ruleset:35
+#: data/nation/portuguese.ruleset:27 data/nation/quebecois.ruleset:21
+#: data/nation/riograndense.ruleset:21 data/nation/romansh.ruleset:29
+#: data/nation/saintlucian.ruleset:24 data/nation/salvadoran.ruleset:41
+#: data/nation/sammarinese.ruleset:25 data/nation/sardinian.ruleset:33
+#: data/nation/savoyard.ruleset:32 data/nation/silesian.ruleset:23
+#: data/nation/slovenian.ruleset:19 data/nation/spanish.ruleset:41
+#: data/nation/teutonic.ruleset:29 data/nation/uruguayan.ruleset:24
+#: data/nation/venezuelan.ruleset:34 data/nation/yucatecan.ruleset:31
 #, c-format
 msgid "Mother Superior %s"
 msgstr "Mare Superiora %s"
@@ -24002,11 +24088,12 @@ msgstr ""
 
 #: data/nation/alsatian.ruleset:25 data/nation/anhaltian.ruleset:31
 #: data/nation/badian.ruleset:22 data/nation/bavarian.ruleset:25
-#: data/nation/brandenburgian.ruleset:30 data/nation/hanoverian.ruleset:24
-#: data/nation/hessian.ruleset:30 data/nation/lippe.ruleset:28
-#: data/nation/mecklenburgian.ruleset:33 data/nation/oldenburgian.ruleset:34
-#: data/nation/palatinate.ruleset:32 data/nation/rhenish.ruleset:36
-#: data/nation/saxon.ruleset:20 data/nation/schleswig-holsteinian.ruleset:29
+#: data/nation/brandenburgian.ruleset:30 data/nation/germanbelgian.ruleset:26
+#: data/nation/hanoverian.ruleset:24 data/nation/hessian.ruleset:30
+#: data/nation/lippe.ruleset:28 data/nation/mecklenburgian.ruleset:33
+#: data/nation/oldenburgian.ruleset:34 data/nation/palatinate.ruleset:32
+#: data/nation/rhenish.ruleset:36 data/nation/saxon.ruleset:20
+#: data/nation/schleswig-holsteinian.ruleset:29
 #: data/nation/thuringian.ruleset:45 data/nation/wuerttembergian.ruleset:22
 #, c-format
 msgid "Minister-President %s"
@@ -24014,11 +24101,12 @@ msgstr "Ministre-President %s"
 
 #: data/nation/alsatian.ruleset:25 data/nation/anhaltian.ruleset:31
 #: data/nation/badian.ruleset:22 data/nation/bavarian.ruleset:25
-#: data/nation/brandenburgian.ruleset:30 data/nation/hanoverian.ruleset:24
-#: data/nation/hessian.ruleset:30 data/nation/lippe.ruleset:28
-#: data/nation/mecklenburgian.ruleset:33 data/nation/oldenburgian.ruleset:34
-#: data/nation/palatinate.ruleset:32 data/nation/rhenish.ruleset:36
-#: data/nation/saxon.ruleset:20 data/nation/schleswig-holsteinian.ruleset:29
+#: data/nation/brandenburgian.ruleset:30 data/nation/germanbelgian.ruleset:26
+#: data/nation/hanoverian.ruleset:24 data/nation/hessian.ruleset:30
+#: data/nation/lippe.ruleset:28 data/nation/mecklenburgian.ruleset:33
+#: data/nation/oldenburgian.ruleset:34 data/nation/palatinate.ruleset:32
+#: data/nation/rhenish.ruleset:36 data/nation/saxon.ruleset:20
+#: data/nation/schleswig-holsteinian.ruleset:29
 #: data/nation/thuringian.ruleset:45 data/nation/wuerttembergian.ruleset:22
 #, c-format
 msgid "?female:Minister-President %s"
@@ -24274,11 +24362,11 @@ msgstr ""
 #: data/nation/anhaltian.ruleset:32 data/nation/aragonese.ruleset:29
 #: data/nation/castilian.ruleset:31 data/nation/catalan.ruleset:30
 #: data/nation/crusader.ruleset:35 data/nation/flemish.ruleset:30
-#: data/nation/luxembourgish.ruleset:28 data/nation/neapolitan.ruleset:25
-#: data/nation/oldenburgian.ruleset:31 data/nation/piedmontese.ruleset:32
-#: data/nation/rhenish.ruleset:37 data/nation/sicilian.ruleset:29
-#: data/nation/tyrolian.ruleset:22 data/nation/vampire.ruleset:50
-#: data/nation/walloon.ruleset:27
+#: data/nation/latin.ruleset:42 data/nation/luxembourgish.ruleset:28
+#: data/nation/neapolitan.ruleset:25 data/nation/oldenburgian.ruleset:31
+#: data/nation/piedmontese.ruleset:32 data/nation/rhenish.ruleset:37
+#: data/nation/sicilian.ruleset:29 data/nation/tyrolian.ruleset:22
+#: data/nation/vampire.ruleset:50 data/nation/walloon.ruleset:27
 #, c-format
 msgid "Count %s"
 msgstr "Comte %s"
@@ -24286,34 +24374,34 @@ msgstr "Comte %s"
 #: data/nation/anhaltian.ruleset:32 data/nation/aragonese.ruleset:29
 #: data/nation/castilian.ruleset:31 data/nation/catalan.ruleset:30
 #: data/nation/crusader.ruleset:35 data/nation/flemish.ruleset:30
-#: data/nation/luxembourgish.ruleset:28 data/nation/neapolitan.ruleset:25
-#: data/nation/oldenburgian.ruleset:31 data/nation/piedmontese.ruleset:32
-#: data/nation/rhenish.ruleset:37 data/nation/sicilian.ruleset:29
-#: data/nation/tyrolian.ruleset:22 data/nation/vampire.ruleset:50
-#: data/nation/walloon.ruleset:27
+#: data/nation/latin.ruleset:42 data/nation/luxembourgish.ruleset:28
+#: data/nation/neapolitan.ruleset:25 data/nation/oldenburgian.ruleset:31
+#: data/nation/piedmontese.ruleset:32 data/nation/rhenish.ruleset:37
+#: data/nation/sicilian.ruleset:29 data/nation/tyrolian.ruleset:22
+#: data/nation/vampire.ruleset:50 data/nation/walloon.ruleset:27
 #, c-format
 msgid "Countess %s"
 msgstr "Comtessa %s"
 
 #: data/nation/anhaltian.ruleset:34 data/nation/badian.ruleset:25
-#: data/nation/curonian.ruleset:31 data/nation/florentine.ruleset:41
-#: data/nation/lithuanian.ruleset:29 data/nation/luxembourgish.ruleset:30
-#: data/nation/mecklenburgian.ruleset:32 data/nation/milanese.ruleset:28
-#: data/nation/moravian.ruleset:34 data/nation/occitan.ruleset:29
-#: data/nation/oldenburgian.ruleset:33 data/nation/rhenish.ruleset:39
-#: data/nation/schleswig-holsteinian.ruleset:28
+#: data/nation/centrallithuanian.ruleset:46 data/nation/curonian.ruleset:31
+#: data/nation/florentine.ruleset:41 data/nation/lithuanian.ruleset:29
+#: data/nation/luxembourgish.ruleset:30 data/nation/mecklenburgian.ruleset:32
+#: data/nation/milanese.ruleset:28 data/nation/moravian.ruleset:34
+#: data/nation/occitan.ruleset:29 data/nation/oldenburgian.ruleset:33
+#: data/nation/rhenish.ruleset:39 data/nation/schleswig-holsteinian.ruleset:28
 #: data/nation/thuringian.ruleset:44 data/nation/westphalian.ruleset:33
 #, c-format
 msgid "Grand Duke %s"
 msgstr "Gran Duc %s"
 
 #: data/nation/anhaltian.ruleset:34 data/nation/badian.ruleset:25
-#: data/nation/curonian.ruleset:31 data/nation/florentine.ruleset:41
-#: data/nation/lithuanian.ruleset:29 data/nation/luxembourgish.ruleset:30
-#: data/nation/mecklenburgian.ruleset:32 data/nation/milanese.ruleset:28
-#: data/nation/moravian.ruleset:34 data/nation/occitan.ruleset:29
-#: data/nation/oldenburgian.ruleset:33 data/nation/rhenish.ruleset:39
-#: data/nation/schleswig-holsteinian.ruleset:28
+#: data/nation/centrallithuanian.ruleset:46 data/nation/curonian.ruleset:31
+#: data/nation/florentine.ruleset:41 data/nation/lithuanian.ruleset:29
+#: data/nation/luxembourgish.ruleset:30 data/nation/mecklenburgian.ruleset:32
+#: data/nation/milanese.ruleset:28 data/nation/moravian.ruleset:34
+#: data/nation/occitan.ruleset:29 data/nation/oldenburgian.ruleset:33
+#: data/nation/rhenish.ruleset:39 data/nation/schleswig-holsteinian.ruleset:28
 #: data/nation/thuringian.ruleset:44 data/nation/westphalian.ruleset:33
 #, c-format
 msgid "Grand Duchess %s"
@@ -25043,12 +25131,14 @@ msgstr ""
 "en set províncies històriques. La seva llengua, l'Euskara, no té parents "
 "coneguts i se'n desconeixen els orígens."
 
-#: data/nation/basque.ruleset:32 data/nation/iranian.ruleset:40
+#: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:45
+#: data/nation/iranian.ruleset:40
 #, c-format
 msgid "Leader %s"
 msgstr "Líder %s"
 
-#: data/nation/basque.ruleset:32 data/nation/iranian.ruleset:40
+#: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:45
+#: data/nation/iranian.ruleset:40
 #, c-format
 msgid "?female:Leader %s"
 msgstr "Lideressa %s"
@@ -25931,14 +26021,14 @@ msgstr ""
 
 #: data/nation/cambodian.ruleset:25 data/nation/crusader.ruleset:33
 #: data/nation/holysee.ruleset:29 data/nation/khmer.ruleset:26
-#: data/nation/nestorian.ruleset:27
+#: data/nation/latin.ruleset:40 data/nation/nestorian.ruleset:27
 #, c-format
 msgid "Brother %s"
 msgstr "Germà %s"
 
 #: data/nation/cambodian.ruleset:25 data/nation/crusader.ruleset:33
 #: data/nation/holysee.ruleset:29 data/nation/khmer.ruleset:26
-#: data/nation/nestorian.ruleset:27
+#: data/nation/latin.ruleset:40 data/nation/nestorian.ruleset:27
 #, c-format
 msgid "Sister %s"
 msgstr "Germana %s"
@@ -26201,6 +26291,67 @@ msgstr "Director suprem %s"
 #, c-format
 msgid "Supreme Directrice %s"
 msgstr "Directora suprema %s"
+
+#: data/nation/centrallithuanian.ruleset:3
+msgid "Central Lithuanian"
+msgstr "Lituà central"
+
+#: data/nation/centrallithuanian.ruleset:4
+msgid "?plural:Central Lithuanians"
+msgstr "Lituans centrals"
+
+#. TRANS: The second and seventh letter in "Wladyslaw" should be
+#. TRANS: U+0142 LATIN SMALL LETTER L WITH STROKE if available in
+#. TRANS: your charset.
+#. TRANS: The first letter in "Zeligowski" should be
+#. TRANS: U+017B LATIN CAPITAL LETTER Z WITH DOT ABOVE if available in
+#. TRANS: your charset.
+#: data/nation/centrallithuanian.ruleset:12
+msgid ""
+"Lithuanian Poles are an ethnic minority in Lithuania, mainly in the "
+"Aukshtota region. They are a remnant of the Polish-Lithuatian Commonwealth - "
+"the Commonwealth of Two Nations, which was founded with the Union of Lublin "
+"in 1569. This state united the Kingdom of Poland with the Grand Duchy of "
+"Lithuania and was founded by the Lithuanian grand duke Jogaila, who was "
+"baptized with name Wladyslaw. The presence of the first Polish community in "
+"Lithuania dates back to duke Mindaugas of Lithuania. The first Poles came to "
+"Lithuania as role of prisoners of war taken during raids on the frontier "
+"lands (mainly to Mazovia). After uniting the two countries there was a very "
+"strong Polonization of the Lithuanian nobility. The Polish-speaking "
+"community in Lithuania survived the collapse and partition of the Polish "
+"state, co-existing with Lithuanian-speaking people. In 1920, the rebellious "
+"general Zeligowski announced the creation of a Republic of Central "
+"Lithuania, which was then incorporated into Poland. After World War II most "
+"of the Lithuanian Poles were displaced to Poland's new western territories."
+msgstr ""
+"Els polonesos lituans són una minoria ètnica a Lituània, principalment a la "
+"regió d'Aukstàitia.  Són el que queda de la Confederació de Polònia i "
+"Lituània - la Confederació de les Dues Nacions, que es va fundar amb la Unió "
+"de Lublin el 1569. Aquest estat va unir el Regne de Polònia amb el Gran "
+"Ducat de Lituània i fou fundat pel Gran Duc lituà Jogaila, que fou batejat "
+"amb el nom de Wladyslaw. La presència de la primera comunitat polonesa a "
+"Lituània es remunta al duc Mindaugas de Lituània. Els primers polonesos van "
+"arribar a Lituània com a presoners de guerra capturats durant incursions a "
+"les terres frontereres (principalment a Mazòvia). Després d'unir els dos "
+"països, hi va haver una forta polonització de la noblesa lituana. La "
+"comunitat de parla polonesa de Lituània va sobreviure el col·lapse i la "
+"partició de l'estat polonès, coexistint amb la gent de parla lituana. El "
+"1920, el general rebel Zeligowski va anunciar la creació d'una República de "
+"Lituània Central, que després es va afegir a Polònia. Després de la Segona "
+"Guerra Mundial, la majoria dels polonesos lituans foren desplaçats cap als "
+"nous territoris occidentals de Polònia."
+
+#: data/nation/centrallithuanian.ruleset:44 data/nation/chuvash.ruleset:28
+#: data/nation/volgagerman.ruleset:37
+#, c-format
+msgid "People's Commissar %s"
+msgstr "Comissari Popular %s"
+
+#: data/nation/centrallithuanian.ruleset:44 data/nation/chuvash.ruleset:28
+#: data/nation/volgagerman.ruleset:37
+#, c-format
+msgid "?female:People's Commissar %s"
+msgstr "Comissària Popular %s"
 
 #. TRANS: The last letter in "Habre" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -26636,16 +26787,6 @@ msgstr ""
 "búlgares i possiblement els huns. Avui en dia hi ha al voltant d'1,8 milions "
 "de txuvaixos, aproximadament la meitat dels quals viuen a la República de "
 "Txuvàixia, que forma part de la Federació Russa."
-
-#: data/nation/chuvash.ruleset:28 data/nation/volgagerman.ruleset:37
-#, c-format
-msgid "People's Commissar %s"
-msgstr "Comissari Popular %s"
-
-#: data/nation/chuvash.ruleset:28 data/nation/volgagerman.ruleset:37
-#, c-format
-msgid "?female:People's Commissar %s"
-msgstr "Comissària Popular %s"
 
 #: data/nation/circassian.ruleset:3
 msgid "Circassian"
@@ -28342,6 +28483,41 @@ msgstr ""
 "guerra es va partir en dos estats, que es van reunificar el 1990, al final "
 "de la guerra freda."
 
+#: data/nation/germanbelgian.ruleset:3
+msgid "German Belgian"
+msgstr "Belga alemany"
+
+#: data/nation/germanbelgian.ruleset:4
+msgid "?plural:German Belgians"
+msgstr "Belgues alemanys"
+
+#: data/nation/germanbelgian.ruleset:6
+msgid ""
+"The German-speaking Community is one of the three federal communities of "
+"Belgium, part of the Walloon Region in the extreme east of the country. The "
+"area was annexed by Belgium after the First World War to compensate the "
+"country for the German occupation during that war. With about 75,000 "
+"inhabitants the German-speaking Community comprises less than one percent of "
+"Belgium's population. Long neglected, the German-speaking Belgians now enjoy "
+"the same rights as their Flemish and French-speaking compatriots. As a "
+"result, they are often dubbed 'the best protected minority of Europe' and "
+"'the last true Belgians'."
+msgstr ""
+"La Comunitat germanòfona és una de les tres comunitats federals de Bèlgica, "
+"part de la regió de Valònia, a l'extrem més oriental del país. La zona fou "
+"annexionada per Bèlgica després de la Primera Guerra Mundial per compensar "
+"el país per l'ocupació alemanya durant aquella guerra. Amb uns 75.000 "
+"habitants, la Comunitat germanòfona comprèn menys d'un u per cent de la "
+"població de Bèlgica. Menyspreats durant molt de temps, avui en dia els "
+"belgues germanòfons gaudeixen dels mateixos drets que els seus compatriotes "
+"flamencs i francòfons. Per això se'ls anomena sovint 'la minoria més ben "
+"protegida d'Europa' i 'els darrers belgues autèntics'."
+
+#: data/nation/germanbelgian.ruleset:27 data/nation/northumbrian.ruleset:39
+#, c-format
+msgid "?female:Mother Superior %s"
+msgstr "Mare Superiora %s"
+
 #: data/nation/germanic.ruleset:3
 msgid "Germanic"
 msgstr "Germànic"
@@ -29996,13 +30172,15 @@ msgstr ""
 "separats, però va ser unificat sota la dinastia turca dels Anushtigínids, "
 "que va durar des de 1097 fins que Genguis Khan els va conquerir el 1231."
 
-#: data/nation/khwarezmian.ruleset:27 data/nation/persian.ruleset:22
+#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:30
+#: data/nation/parthian.ruleset:34 data/nation/persian.ruleset:22
 #: data/nation/seleucid.ruleset:29
 #, c-format
 msgid "Satrap %s"
 msgstr "Sàtrapa %s"
 
-#: data/nation/khwarezmian.ruleset:27 data/nation/persian.ruleset:22
+#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:30
+#: data/nation/parthian.ruleset:34 data/nation/persian.ruleset:22
 #: data/nation/seleucid.ruleset:29
 #, c-format
 msgid "?female:Satrap %s"
@@ -30267,6 +30445,31 @@ msgstr ""
 "guerra civil. El 1975, el comunista Pathet Lao va establir un règim "
 "socialista estricte. No obstant, el 1986 va començar la liberalització i un "
 "retorn gradual a l'empresa privada."
+
+#: data/nation/latin.ruleset:3
+msgid "Latin"
+msgstr "Llatí"
+
+#: data/nation/latin.ruleset:4
+msgid "?plural:Latins"
+msgstr "Llatins"
+
+#: data/nation/latin.ruleset:6
+msgid ""
+"The Latin Empire was a Medieval state created by Crusaders after their "
+"capture of Constantinople during the Fourth Crusade in 1204, intended as a "
+"Roman Catholic-friendly replacement of the Byzantine Empire. In Greek "
+"history the period of rule by the Latin Empire and its successor splinter "
+"realms is known as the \"Frankokratia\", rule of the Franks. The Empire "
+"ceased to exist when Constantinople was recaptured by the Byzantines in 1261."
+msgstr ""
+"L'Imperi Llatí fou un estat medieval creat pels croats després de capturar "
+"Constantinoble durant la Quarta Croada el 1204, amb la intenció de ser un "
+"substitut de l'Imperi Bizantí, fidel a l'Església Catòlica Romana. En la "
+"història de Grècia, el període de dominació de l'Imperi Llatí i dels regnes "
+"que se'n van disgregar es coneix com a \"Frankokratia\", o poder dels "
+"francs. L'Imperi va deixar d'existir quan Constantinoble fou recuperat pels "
+"bizantins el 1261."
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
@@ -31155,6 +31358,35 @@ msgstr ""
 "seves institucions feudals no van ser abolides fins la caiguda de la "
 "monarquia el 1918. Actualment, Mecklenburg forma els dos terços occidentals "
 "de l'estat alemany de Mecklenburg-Cispomerània."
+
+#: data/nation/median.ruleset:3
+msgid "Median"
+msgstr "Mede"
+
+#: data/nation/median.ruleset:4
+msgid "?plural:Medians"
+msgstr "Medes"
+
+#: data/nation/median.ruleset:6
+msgid ""
+"Media was an ancient Iranian state that was created by a Western Iranic "
+"people, the Medes, relatives of the European Scythians. Their state preceded "
+"the Persian Achaemenid Empire, which was formed as a result of a rebellion "
+"of the Persians against the Median ruler Astyages. It was the first multi-"
+"ethnic empire and controlled a vast area spanning from the Halys river to "
+"what is now Afghanistan."
+msgstr ""
+"Mèdia era un antic estat iranià que fou creat per un poble irànic "
+"occidental, els medes, parents dels escites europeus. El seu estat va "
+"precedir l'imperi aquemènida persa, que es va formar com a resultat d'una "
+"rebel·lió dels perses contra el dirigent mede Astíages. Fou el primer imperi "
+"multiètnic i va controlar una àrea molt gran que s'estenia des del riu Halis "
+"fins al que avui en dia és l'Afganistan."
+
+#: data/nation/median.ruleset:31
+#, c-format
+msgid "%s Shahanshah"
+msgstr "%s Xahanxa"
 
 #: data/nation/metis.ruleset:3
 msgid "Metis"
@@ -32075,11 +32307,6 @@ msgstr ""
 "principals de l'heptarquia anglosaxona, i el segle X es va incorporar a "
 "Anglaterra."
 
-#: data/nation/northumbrian.ruleset:39
-#, c-format
-msgid "?female:Mother Superior %s"
-msgstr "Mare Superiora %s"
-
 #: data/nation/norwegian.ruleset:3
 msgid "Norwegian"
 msgstr "Noruec"
@@ -32742,6 +32969,36 @@ msgstr ""
 "obstant, Paraguai va començar a veure un sistema democràtic de govern i un "
 "creixement econòmic impressionant."
 
+#: data/nation/parthian.ruleset:3
+msgid "Parthian"
+msgstr "Part"
+
+#: data/nation/parthian.ruleset:4
+msgid "?plural:Parthians"
+msgstr "Parts"
+
+#: data/nation/parthian.ruleset:6
+msgid ""
+"The Parthian were an originally nomadic people from Central Asia who "
+"inhabited the Parthia region of the Seleucid Empire. Under the leadership of "
+"the satrap Arsakes they drove the Seleucids from Iran, where they created "
+"their own strong empire. Their culture was Hellenistic."
+msgstr ""
+"Els parts eren un poble originalment nòmada de l'Àsia Central, que vivia a "
+"la regió de Pàrtia de l'Imperi Selèucida. Sota el lideratge del sàtrapa "
+"Arsaces, van foragitar els selèucides de l'Iran, on van crear el seu propi "
+"imperi poderós. Eren de cultura hel·lenística."
+
+#: data/nation/parthian.ruleset:35
+#, c-format
+msgid "Shah %s"
+msgstr "Xa %s"
+
+#: data/nation/parthian.ruleset:35
+#, c-format
+msgid "Shahbanu %s"
+msgstr "Xahbanu %s"
+
 #: data/nation/pashtun.ruleset:3
 msgid "Pashtun"
 msgstr "Paixtu"
@@ -33221,12 +33478,12 @@ msgstr ""
 "d'Orient o Imperi Bizantí va sobreviure gairebé mil anys més; la seva "
 "capital, Constantinoble, va caure en mans dels turcs el 1453."
 
-#: data/nation/roman.ruleset:48
+#: data/nation/roman.ruleset:48 data/nation/sabine.ruleset:27
 #, c-format
 msgid "Tribune %s"
 msgstr "Tribú %s"
 
-#: data/nation/roman.ruleset:48
+#: data/nation/roman.ruleset:48 data/nation/sabine.ruleset:27
 #, c-format
 msgid "?female:Tribune %s"
 msgstr "Tribuna %s"
@@ -33347,6 +33604,28 @@ msgstr ""
 "El regne Ryukyu (1372-1879) era la \"Terra de la Cortesia\", una nació "
 "marítima, pacífica i comercial que al final va ser envaïda, ocupada i "
 "annexionada pel Japó."
+
+#: data/nation/sabine.ruleset:3
+msgid "Sabine"
+msgstr "Sabí"
+
+#: data/nation/sabine.ruleset:4
+msgid "?plural:Sabines"
+msgstr "Sabins"
+
+#: data/nation/sabine.ruleset:6
+msgid ""
+"The Sabines were an Italic tribe whose language was closest to Umbrian. They "
+"had an impact on the history of Rome. The Sabines and the early Roman "
+"Republic regularly warred against each other, but eventually the Sabines "
+"were assimilated into the Roman culture. Several Roman families prided "
+"themselves on their Sabine origins."
+msgstr ""
+"Els sabins eren una tribu itàlica la llengua dels quals era propera a "
+"l'úmbric. Van influir en la història de Roma. Els sabins i la jove República "
+"Romana van tenir freqüents guerres entre ells, però al final els sabins "
+"foren assimilats a la cultura romana. Algunes famílies romanes s'enorgullien "
+"dels seus orígens sabins."
 
 #: data/nation/sahrawi.ruleset:3
 msgid "Sahrawi"
@@ -34656,6 +34935,39 @@ msgid ""
 msgstr ""
 "El 1820 Sudan va quedar sota domini d'Egipte i més endavant britànic. Sudan "
 "va aconseguir la independència el 1956."
+
+#: data/nation/suebian.ruleset:3
+msgid "Suebian"
+msgstr "Sueu"
+
+#: data/nation/suebian.ruleset:4
+msgid "?plural:Suebians"
+msgstr "Sueus"
+
+#: data/nation/suebian.ruleset:6
+msgid ""
+"The Suebians were an ancient West Germanic tribal confederation, which may "
+"have been formed by Ariovistus for his expedition to the Gaul. The Suebians "
+"included the Germanic tribes from the the Elbe river basin belonging to the "
+"Herminonic language group, such as the Marcomanni and Quadi. Between the "
+"first and fourth centuries AD they were a threat to Rome, often encroaching "
+"on the Danube provinces of the empire. In 405-406 AD the Suebians were "
+"forced to leave their lands by the Huns and during New Year's night in 405 "
+"years they crossed the frozen Rhine together with the Vandals and the Alans. "
+"They settled in the northwest of the Iberian Peninsula, where they "
+"established their own kingdom, which was conquered by the Visigoths in 585 "
+"AD."
+msgstr ""
+"Els sueus eren una antiga confederació tribal germànica occidental, que "
+"podria havia estat formada per Ariovist per la seva expedició a la Gàl·lia. "
+"Els sueus incloïen les tribus germàniques de la conca del riu Elba, que "
+"pertanyien al grup lingüístic herminònic, com els marcomanni i els quadi. "
+"Entre els segles I i IV d.C. foren una amenaça per a Roma, sovint "
+"atrinxerant-se a les províncies imperials del Danubi. Els anys 405-406, els "
+"sueus van ser forçats a deixar les seves terres pels huns, i durant la nit "
+"de Cap d'Any de 405 van travessar el Rin congelat, juntament amb els vàndals "
+"i els alans. Es van establir al nord-oest de la península Ibèrica, on van "
+"establir un regne propi, que fou conquerit pels visigots l'any 585."
 
 #: data/nation/sumerian.ruleset:3
 msgid "Sumerian"
@@ -37462,13 +37774,18 @@ msgstr "Més informació"
 msgid "Manual file %s successful written."
 msgstr "S'ha escrit correctament el fitxer de manual %s."
 
-#: manual/civmanual.c:500 server/civserver.c:365
+#: manual/civmanual.c:508 server/civserver.c:383
 msgid "Use FILE as logfile"
 msgstr "Usa FILE com a fitxer de registre"
 
-#: manual/civmanual.c:502
+#. TRANS: "ruleset" is exactly what user must type, do not translate.
+#: manual/civmanual.c:511
+msgid "ruleset RULESET"
+msgstr "ruleset JOC_DE_REGLES"
+
+#: manual/civmanual.c:512
 msgid "Make manual for RULESET"
-msgstr "Fer el manual per RULESET"
+msgstr "Fer el manual per JOC_DE_REGLES"
 
 #: modinst/download.c:97
 msgid "No URL given"
@@ -37596,11 +37913,21 @@ msgstr "Seleccionar quin modpack s'ha d'instal·lar"
 msgid "Freeciv modpack installer"
 msgstr "Instal·lador de modpacks de Freeciv"
 
-#: modinst/mpcmdline.c:61
+#. TRANS: "List" is exactly what user must type, do not translate.
+#: modinst/mpcmdline.c:62
+msgid "List URL"
+msgstr "List URL"
+
+#: modinst/mpcmdline.c:63
 msgid "Load modpack list from given URL"
 msgstr "Carregar llista de modpacks de la URL donada"
 
-#: modinst/mpcmdline.c:63
+#. TRANS: "prefix" is exactly what user must type, do not translate.
+#: modinst/mpcmdline.c:66
+msgid "prefix DIR"
+msgstr "prefix DIR"
+
+#: modinst/mpcmdline.c:67
 msgid "Install modpacks to given directory hierarchy"
 msgstr "Instal·lar modpacks a la jerarquia de directoris donada"
 
@@ -38463,79 +38790,134 @@ msgstr "Aquest és el servidor de %s"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Pots aprendre molt sobre a Freeciv a %s"
 
-#: server/civserver.c:333
-msgid "Enable database connection with configuration from FILE."
-msgstr "Permetre connexió de base de dades amb la configuració del FILE."
-
+#. TRANS: "Database" is exactly what user must type, do not translate.
 #: server/civserver.c:336
+msgid "Database FILE"
+msgstr "Database FITXER"
+
+#: server/civserver.c:337
+msgid "Enable database connection with configuration from FILE."
+msgstr "Permetre connexió de base de dades amb la configuració del FITXER."
+
+#: server/civserver.c:340
 msgid "Enable server authentication (requires --Database)."
 msgstr "  Permetre autenticació de servidor (requereix --Database)."
 
-#: server/civserver.c:338
+#: server/civserver.c:342
 msgid "Allow guests to login if auth is enabled."
 msgstr "Permetre que els convidats entrin si auth està permès."
 
-#: server/civserver.c:340
+#: server/civserver.c:344
 msgid "Allow new users to login if auth is enabled."
 msgstr " Permet als nous usuaris d'entrar si auth està permès."
 
-#: server/civserver.c:343
-msgid "Listen for clients on ADDR"
-msgstr "Escolta els clients a ADDR"
+#. TRANS: "bind" is exactly what user must type, do not translate.
+#: server/civserver.c:348
+msgid "bind ADDR"
+msgstr "bind ADR"
 
-#: server/civserver.c:345
+#: server/civserver.c:349
+msgid "Listen for clients on ADDR"
+msgstr "Escolta els clients a ADR"
+
+#: server/civserver.c:351
 msgid "Connect to metaserver from this address"
 msgstr "Connectar-se al metaservidor des d'aquesta adreça"
 
-#: server/civserver.c:359
+#. TRANS: "file" is exactly what user must type, do not translate.
+#: server/civserver.c:372
+msgid "file FILE"
+msgstr "file FITXER"
+
+#: server/civserver.c:373
 msgid "Load saved game FILE"
-msgstr "Carregar partida desada FILE"
+msgstr "Carregar partida desada FITXER"
 
-#: server/civserver.c:363
+#. TRANS: "identity" is exactly what user must type, do not translate.
+#: server/civserver.c:378
+msgid "identity ADDR"
+msgstr "identity ADR"
+
+#: server/civserver.c:379
 msgid "Be known as ADDR at metaserver"
-msgstr "Ser conegut com a ADDR al metaservidor"
+msgstr "Ser conegut com a ADR al metaservidor"
 
-#: server/civserver.c:367
+#: server/civserver.c:385
 msgid "Notify metaserver and send server's info"
 msgstr "Notificar el metaservidor i enviar-hi la informació del servidor"
 
-#: server/civserver.c:369
-msgid "Set ADDR as metaserver address"
-msgstr "Fixar ADDR com a adreça del metaservidor"
+#. TRANS: "Metaserver" is exactly what user must type, do not translate.
+#: server/civserver.c:388
+msgid "Metaserver ADDR"
+msgstr "Metaserver ADR"
 
-#: server/civserver.c:371
+#: server/civserver.c:389
+msgid "Set ADDR as metaserver address"
+msgstr "Fixar ADR com a adreça del metaservidor"
+
+#: server/civserver.c:393
 msgid "Listen for clients on port PORT"
 msgstr " Escoltar els clients al port PORT"
 
-#: server/civserver.c:373
-msgid "Quit if no players for TIME seconds"
-msgstr "Sortir si no hi ha jugadors en TIME segons"
+#. TRANS: "quitidle" is exactly what user must type, do not translate.
+#: server/civserver.c:396
+msgid "quitidle TIME"
+msgstr "quitidle TEMPS"
 
-#: server/civserver.c:375
+#: server/civserver.c:397
+msgid "Quit if no players for TIME seconds"
+msgstr "Sortir si no hi ha jugadors en TEMPS segons"
+
+#: server/civserver.c:399
 msgid "When a game ends, exit instead of restarting"
 msgstr "Quan una partida acaba, sortir en comptes de reiniciar"
 
-#: server/civserver.c:377
+#. TRANS: "saves" is exactly what user must type, do not translate.
+#: server/civserver.c:402
+msgid "saves DIR"
+msgstr "saves DIR"
+
+#: server/civserver.c:403
 msgid "Save games to directory DIR"
 msgstr "Desar les partides al directori DIR"
 
-#: server/civserver.c:379
+#. TRANS: "scenarios" is exactly what user must type, do not translate.
+#: server/civserver.c:406
+msgid "scenarios DIR"
+msgstr "scenarios DIR"
+
+#: server/civserver.c:407
 msgid "Search for scenarios in directory DIR"
 msgstr "Buscar escenaris al directori DIR"
 
-#: server/civserver.c:381
+#. TRANS: "Serverid" is exactly what user must type, do not translate.
+#: server/civserver.c:410
+msgid "Serverid ID"
+msgstr "Serverid ID"
+
+#: server/civserver.c:411
 msgid "Sets the server id to ID"
 msgstr "Canvia l'identificador de servidor a ID"
 
-#: server/civserver.c:383
+#: server/civserver.c:415
 msgid "Read startup script FILE"
 msgstr "Llegeix script d'inici FILE"
 
-#: server/civserver.c:385
-msgid "Use FILE as ranking logfile"
-msgstr "Usar FILE com a fitxer de registre de rànquings"
+#. TRANS: "Ranklog" is exactly what user must type, do not translate.
+#: server/civserver.c:418
+msgid "Ranklog FILE"
+msgstr "Ranklog FITXER"
 
-#: server/civserver.c:388
+#: server/civserver.c:419
+msgid "Use FILE as ranking logfile"
+msgstr "Usar FITXER com a fitxer de registre de rànquings"
+
+#. TRANS: "LoadAI" is exactly what user must type, do not translate.
+#: server/civserver.c:423
+msgid "LoadAI MODULE"
+msgstr "LoadAI MODULE"
+
+#: server/civserver.c:424
 msgid "Load ai module MODULE. Can appear multiple times"
 msgstr " Carregar mòdul d'IA MODULE. Pot aparèixer múltiples vegades"
 
@@ -40959,77 +41341,77 @@ msgstr "Has estat eliminat de la partida!"
 msgid "%s has been removed from the game."
 msgstr "%s ha estat eliminat de la partida."
 
-#: server/plrhand.c:1373
+#: server/plrhand.c:1376
 msgid "Please choose a non-blank name."
 msgstr "Si us plau, escull un nom no buit."
 
-#: server/plrhand.c:1386
+#: server/plrhand.c:1389
 msgid "That nation is already in use."
 msgstr "Aquesta nació ja està agafada."
 
-#: server/plrhand.c:1391
+#: server/plrhand.c:1394
 #, c-format
 msgid "Another player already has the name '%s'. Please choose another name."
 msgstr "Un altre jugador ja té el nom '%s'. Si us plau, escull un altre nom."
 
-#: server/plrhand.c:1415
+#: server/plrhand.c:1418
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Si us plau, escull un nom que contingui només caràcters ASCII"
 
-#: server/plrhand.c:1490 server/plrhand.c:1504
+#: server/plrhand.c:1493 server/plrhand.c:1507
 #, c-format
 msgid "Player no. %d"
 msgstr "Jugador número %d"
 
-#: server/plrhand.c:1519
+#: server/plrhand.c:1522
 msgid "A poorly-named player"
 msgstr "Un jugador amb un nom desafortunat"
 
-#: server/plrhand.c:1588 server/plrhand.c:1592
+#: server/plrhand.c:1591 server/plrhand.c:1595
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Has contactat amb els %s, governats per %s."
 
-#: server/plrhand.c:2093
+#: server/plrhand.c:2096
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "No s'ha pogut posar els %s en guerra civil - massa jugadors."
 
-#: server/plrhand.c:2099
+#: server/plrhand.c:2102
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr "No s'ha pogut posar els %s en guerra civil - no queden nacions."
 
-#: server/plrhand.c:2129
+#: server/plrhand.c:2132
 msgid "Your nation is thrust into civil war."
 msgstr "La teva nació es veu abocada a una guerra civil."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:2133
+#: server/plrhand.c:2136
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s és el líder rebel dels %s."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:2159
+#: server/plrhand.c:2162
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s declara la seva lleialtat als %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:2178
+#: server/plrhand.c:2181
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
 msgstr[0] "La guerra civil divideix els %s; els %s controlen ara %d ciutat."
 msgstr[1] "La guerra civil divideix els %s; els %s controlen ara %d ciutats."
 
-#: server/plrhand.c:2316
+#: server/plrhand.c:2319
 #, c-format
 msgid "Delegation to user '%s' defined."
 msgstr "Definida delegació a l'usuari '%s'."
 
-#: server/plrhand.c:2325
+#: server/plrhand.c:2328
 #, c-format
 msgid "Control of player '%s' delegated to you."
 msgstr "Se t'ha delegat el control del jugador '%s'."
@@ -47005,194 +47387,6 @@ msgstr "error %d (compilat sense strerror)"
 
 #~ msgid "Allows establishing one more trade route from each city."
 #~ msgstr "Permet d'establir una altra ruta comercial des de cada ciutat."
-
-#~ msgid "Central Lithuanian"
-#~ msgstr "Lituà central"
-
-#~ msgid "?plural:Central Lithuanians"
-#~ msgstr "Lituans centrals"
-
-#~ msgid ""
-#~ "Lithuanian Poles are an ethnic minority in Lithuania, mainly in the "
-#~ "Aukshtota region. They are a remnant of the Polish-Lithuatian "
-#~ "Commonwealth - the Commonwealth of Two Nations, which was founded with "
-#~ "the Union of Lublin in 1569. This state united the Kingdom of Poland with "
-#~ "the Grand Duchy of Lithuania and was founded by the Lithuanian grand duke "
-#~ "Jogaila, who was baptized with name Wladyslaw. The presence of the first "
-#~ "Polish community in Lithuania dates back to duke Mindaugas of Lithuania. "
-#~ "The first Poles came to Lithuania as role of prisoners of war taken "
-#~ "during raids on the frontier lands (mainly to Mazovia). After uniting the "
-#~ "two countries there was a very strong Polonization of the Lithuanian "
-#~ "nobility. The Polish-speaking community in Lithuania survived the "
-#~ "collapse and partition of the Polish state, co-existing with Lithuanian-"
-#~ "speaking people. In 1920, the rebellious general Zeligowski announced the "
-#~ "creation of a Republic of Central Lithuania, which was then incorporated "
-#~ "into Poland. After World War II most of the Lithuanian Poles were "
-#~ "displaced to Poland's new western territories."
-#~ msgstr ""
-#~ "Els polonesos lituans són una minoria ètnica a Lituània, principalment a "
-#~ "la regió d'Aukstàitia.  Són el que queda de la Confederació de Polònia i "
-#~ "Lituània - la Confederació de les Dues Nacions, que es va fundar amb la "
-#~ "Unió de Lublin el 1569. Aquest estat va unir el Regne de Polònia amb el "
-#~ "Gran Ducat de Lituània i fou fundat pel Gran Duc lituà Jogaila, que fou "
-#~ "batejat amb el nom de Wladyslaw. La presència de la primera comunitat "
-#~ "polonesa a Lituània es remunta al duc Mindaugas de Lituània. Els primers "
-#~ "polonesos van arribar a Lituània com a presoners de guerra capturats "
-#~ "durant incursions a les terres frontereres (principalment a Mazòvia). "
-#~ "Després d'unir els dos països, hi va haver una forta polonització de la "
-#~ "noblesa lituana. La comunitat de parla polonesa de Lituània va sobreviure "
-#~ "el col·lapse i la partició de l'estat polonès, coexistint amb la gent de "
-#~ "parla lituana. El 1920, el general rebel Zeligowski va anunciar la "
-#~ "creació d'una República de Lituània Central, que després es va afegir a "
-#~ "Polònia. Després de la Segona Guerra Mundial, la majoria dels polonesos "
-#~ "lituans foren desplaçats cap als nous territoris occidentals de Polònia."
-
-#~ msgid "German Belgian"
-#~ msgstr "Belga alemany"
-
-#~ msgid "?plural:German Belgians"
-#~ msgstr "Belgues alemanys"
-
-#~ msgid ""
-#~ "The German-speaking Community is one of the three federal communities of "
-#~ "Belgium, part of the Walloon Region in the extreme east of the country. "
-#~ "The area was annexed by Belgium after the First World War to compensate "
-#~ "the country for the German occupation during that war. With about 75,000 "
-#~ "inhabitants the German-speaking Community comprises less than one percent "
-#~ "of Belgium's population. Long neglected, the German-speaking Belgians now "
-#~ "enjoy the same rights as their Flemish and French-speaking compatriots. "
-#~ "As a result, they are often dubbed 'the best protected minority of "
-#~ "Europe' and 'the last true Belgians'."
-#~ msgstr ""
-#~ "La Comunitat germanòfona és una de les tres comunitats federals de "
-#~ "Bèlgica, part de la regió de Valònia, a l'extrem més oriental del país. "
-#~ "La zona fou annexionada per Bèlgica després de la Primera Guerra Mundial "
-#~ "per compensar el país per l'ocupació alemanya durant aquella guerra. Amb "
-#~ "uns 75.000 habitants, la Comunitat germanòfona comprèn menys d'un u per "
-#~ "cent de la població de Bèlgica. Menyspreats durant molt de temps, avui en "
-#~ "dia els belgues germanòfons gaudeixen dels mateixos drets que els seus "
-#~ "compatriotes flamencs i francòfons. Per això se'ls anomena sovint 'la "
-#~ "minoria més ben protegida d'Europa' i 'els darrers belgues autèntics'."
-
-#~ msgid "Latin"
-#~ msgstr "Llatí"
-
-#~ msgid "?plural:Latins"
-#~ msgstr "Llatins"
-
-#~ msgid ""
-#~ "The Latin Empire was a Medieval state created by Crusaders after their "
-#~ "capture of Constantinople during the Fourth Crusade in 1204, intended as "
-#~ "a Roman Catholic-friendly replacement of the Byzantine Empire. In Greek "
-#~ "history the period of rule by the Latin Empire and its successor splinter "
-#~ "realms is known as the \"Frankokratia\", rule of the Franks. The Empire "
-#~ "ceased to exist when Constantinople was recaptured by the Byzantines in "
-#~ "1261."
-#~ msgstr ""
-#~ "L'Imperi Llatí fou un estat medieval creat pels croats després de "
-#~ "capturar Constantinoble durant la Quarta Croada el 1204, amb la intenció "
-#~ "de ser un substitut de l'Imperi Bizantí, fidel a l'Església Catòlica "
-#~ "Romana. En la història de Grècia, el període de dominació de l'Imperi "
-#~ "Llatí i dels regnes que se'n van disgregar es coneix com a \"Frankokratia"
-#~ "\", o poder dels francs. L'Imperi va deixar d'existir quan Constantinoble "
-#~ "fou recuperat pels bizantins el 1261."
-
-#~ msgid "Median"
-#~ msgstr "Mede"
-
-#~ msgid "?plural:Medians"
-#~ msgstr "Medes"
-
-#~ msgid ""
-#~ "Media was an ancient Iranian state that was created by a Western Iranic "
-#~ "people, the Medes, relatives of the European Scythians. Their state "
-#~ "preceded the Persian Achaemenid Empire, which was formed as a result of a "
-#~ "rebellion of the Persians against the Median ruler Astyages. It was the "
-#~ "first multi-ethnic empire and controlled a vast area spanning from the "
-#~ "Halys river to what is now Afghanistan."
-#~ msgstr ""
-#~ "Mèdia era un antic estat iranià que fou creat per un poble irànic "
-#~ "occidental, els medes, parents dels escites europeus. El seu estat va "
-#~ "precedir l'imperi aquemènida persa, que es va formar com a resultat d'una "
-#~ "rebel·lió dels perses contra el dirigent mede Astíages. Fou el primer "
-#~ "imperi multiètnic i va controlar una àrea molt gran que s'estenia des del "
-#~ "riu Halis fins al que avui en dia és l'Afganistan."
-
-#~ msgid "%s Shahanshah"
-#~ msgstr "%s Xahanxa"
-
-#~ msgid "Parthian"
-#~ msgstr "Part"
-
-#~ msgid "?plural:Parthians"
-#~ msgstr "Parts"
-
-#~ msgid ""
-#~ "The Parthian were an originally nomadic people from Central Asia who "
-#~ "inhabited the Parthia region of the Seleucid Empire. Under the leadership "
-#~ "of the satrap Arsakes they drove the Seleucids from Iran, where they "
-#~ "created their own strong empire. Their culture was Hellenistic."
-#~ msgstr ""
-#~ "Els parts eren un poble originalment nòmada de l'Àsia Central, que vivia "
-#~ "a la regió de Pàrtia de l'Imperi Selèucida. Sota el lideratge del sàtrapa "
-#~ "Arsaces, van foragitar els selèucides de l'Iran, on van crear el seu "
-#~ "propi imperi poderós. Eren de cultura hel·lenística."
-
-#~ msgid "Shah %s"
-#~ msgstr "Xa %s"
-
-#~ msgid "Shahbanu %s"
-#~ msgstr "Xahbanu %s"
-
-#~ msgid "Sabine"
-#~ msgstr "Sabí"
-
-#~ msgid "?plural:Sabines"
-#~ msgstr "Sabins"
-
-#~ msgid ""
-#~ "The Sabines were an Italic tribe whose language was closest to Umbrian. "
-#~ "They had an impact on the history of Rome. The Sabines and the early "
-#~ "Roman Republic regularly warred against each other, but eventually the "
-#~ "Sabines were assimilated into the Roman culture. Several Roman families "
-#~ "prided themselves on their Sabine origins."
-#~ msgstr ""
-#~ "Els sabins eren una tribu itàlica la llengua dels quals era propera a "
-#~ "l'úmbric. Van influir en la història de Roma. Els sabins i la jove "
-#~ "República Romana van tenir freqüents guerres entre ells, però al final "
-#~ "els sabins foren assimilats a la cultura romana. Algunes famílies romanes "
-#~ "s'enorgullien dels seus orígens sabins."
-
-#~ msgid "Suebian"
-#~ msgstr "Sueu"
-
-#~ msgid "?plural:Suebians"
-#~ msgstr "Sueus"
-
-#~ msgid ""
-#~ "The Suebians were an ancient West Germanic tribal confederation, which "
-#~ "may have been formed by Ariovistus for his expedition to the Gaul. The "
-#~ "Suebians included the Germanic tribes from the the Elbe river basin "
-#~ "belonging to the Herminonic language group, such as the Marcomanni and "
-#~ "Quadi. Between the first and fourth centuries AD they were a threat to "
-#~ "Rome, often encroaching on the Danube provinces of the empire. In 405-406 "
-#~ "AD the Suebians were forced to leave their lands by the Huns and during "
-#~ "New Year's night in 405 years they crossed the frozen Rhine together with "
-#~ "the Vandals and the Alans. They settled in the northwest of the Iberian "
-#~ "Peninsula, where they established their own kingdom, which was conquered "
-#~ "by the Visigoths in 585 AD."
-#~ msgstr ""
-#~ "Els sueus eren una antiga confederació tribal germànica occidental, que "
-#~ "podria havia estat formada per Ariovist per la seva expedició a la "
-#~ "Gàl·lia. Els sueus incloïen les tribus germàniques de la conca del riu "
-#~ "Elba, que pertanyien al grup lingüístic herminònic, com els marcomanni i "
-#~ "els quadi. Entre els segles I i IV d.C. foren una amenaça per a Roma, "
-#~ "sovint atrinxerant-se a les províncies imperials del Danubi. Els anys "
-#~ "405-406, els sueus van ser forçats a deixar les seves terres pels huns, i "
-#~ "durant la nit de Cap d'Any de 405 van travessar el Rin congelat, "
-#~ "juntament amb els vàndals i els alans. Es van establir al nord-oest de la "
-#~ "península Ibèrica, on van establir un regne propi, que fou conquerit pels "
-#~ "visigots l'any 585."
 
 #~ msgid "% of Road bonus"
 #~ msgstr "% de bonificació per Camí"
