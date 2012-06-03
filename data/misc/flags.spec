@@ -64,6 +64,7 @@ artists = "
    Bashkortostan	Conscious (Wikimedia Commons)
    Bavarian		Jörgen Scheibengruber
    Belarus		Gregory Maxwell and Zachary Harden
+   Belgic		Andrzej G.
    Belgium		Daniel McRae
    Belize		Caleb Moore
    Bengal		Daniel Markstedt
@@ -617,6 +618,7 @@ sprites =
 		"f.bashkortostan", "flags/bashkortostan"
 		"f.bavarian", "flags/bavarian"
 		"f.belarus", "flags/belarus"
+		"f.belgic", "flags/belgic"
 		"f.belgium", "flags/belgium"
 		"f.belize", "flags/belize"
 		"f.bengal", "flags/bengal"

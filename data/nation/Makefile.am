@@ -60,6 +60,7 @@ pkgdata_DATA = \
 		bavarian.ruleset \
 		belarusian.ruleset \
 		belgian.ruleset \
+		belgic.ruleset \
 		belizean.ruleset \
 		bengali.ruleset \
 		benin.ruleset \

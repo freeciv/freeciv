@@ -65,6 +65,7 @@ sprites =
 		"f.bashkortostan", "flags/bashkortostan-large"
 		"f.bavarian", "flags/bavarian-large"
 		"f.belarus", "flags/belarus-large"
+		"f.belgic", "flags/belgic-large"
 		"f.belgium", "flags/belgium-large"
 		"f.belize", "flags/belize-large"
 		"f.bengal", "flags/bengal-large"
