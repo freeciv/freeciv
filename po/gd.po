@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-06 00:57+0300\n"
-"PO-Revision-Date: 2012-03-30 22:13+0100\n"
+"PO-Revision-Date: 2012-06-05 01:53+0100\n"
 "Last-Translator: Michael Bauer <fios@akerbeltz.org>\n"
 "Language-Team: Akerbeltz\n"
 "Language: gd\n"
@@ -415,12 +415,11 @@ msgid "%s is selling %s (not needed) for %d."
 msgstr "Tha %s a' reic %s (gun fheum air) air %d."
 
 #: ai/threaded/threadedai.c:41
-#, fuzzy
 msgid ""
 "This Freeciv compilation has no full threads implementation, threaded ai "
 "cannot be used."
 msgstr ""
-"Tha co-chruinneachadh Freeciv seo gun Thread Implementation, cha ghabh "
+"Tha co-chruinneachadh Freeciv seo gun Full Thread Implementation, cha ghabh "
 "Threadad AI a chleachdadh."
 
 #: client/agents/cma_core.c:391
@@ -1132,99 +1131,75 @@ msgid "Special"
 msgstr "Sònraichte"
 
 #: client/client_main.c:341 server/civserver.c:329
-#, fuzzy
 msgid "Announce game in LAN using protocol PROTO (IPv4/IPv6/none)"
-msgstr ""
-"  -A  --Announce PROTOCAL\tNochd an geama anns an LAN tron phrotocal PROTO "
-"(IPv4/IPv6/none)\n"
+msgstr "Nochd an geama anns an LAN tron phrotocal PROTO (IPv4/IPv6/none)"
 
 #: client/client_main.c:344
-#, fuzzy
 msgid "Skip connect dialog"
-msgstr "  -a, --autoconnect\tThoir leum thairis air còmhradh a' cheangail\n"
+msgstr "Thoir leum thairis air còmhradh a' cheangail"
 
 #: client/client_main.c:347 manual/civmanual.c:486 server/civserver.c:348
-#, fuzzy, c-format
+#, c-format
 msgid "Set debug log level (%d to %d, or %d:file1,min,max:...)"
 msgstr ""
-"  -d, --debug NUM\tSuidhich leibheil loga dì-bhugachaidh (%d gu %d no %d:"
-"file1,min,max:...)\n"
+"Suidhich leibheil loga dì-bhugachaidh (%d gu %d no %d:file1,min,max:...)"
 
 #: client/client_main.c:352 manual/civmanual.c:490 server/civserver.c:352
-#, fuzzy, c-format
+#, c-format
 msgid "Set debug log level (%d to %d)"
-msgstr "  -d, --debug NUM\tSuidhich leibheil loga dì-bhugachaidh (%d gu %d)\n"
+msgstr "Suidhich leibheil loga dì-bhugachaidh (%d gu %d)"
 
 #: client/client_main.c:357 manual/civmanual.c:495 server/civserver.c:356
-#, fuzzy
 msgid "Raise a signal on failed assertion"
-msgstr "  -F, --Fatal [SIGNAL]\tTog sanas na dh'fhàilligeas agairt\n"
+msgstr "Tog sanas na dh'fhàilligeas agairt"
 
 #: client/client_main.c:360 manual/civmanual.c:498 modinst/mpcmdline.c:59
 #: server/civserver.c:361
-#, fuzzy
 msgid "Print a summary of the options"
-msgstr "  -h, --help\t\tClò-bhuail gearr-chunntas nan roghainnean\n"
+msgstr "Clò-bhuail gearr-chunntas nan roghainnean"
 
 #: client/client_main.c:362
-#, fuzzy
 msgid "Use FILE as logfile (spawned server also uses this)"
 msgstr ""
-"  -l, --log FILE\tCleachd FILE mar logfile (tha an Spawned Server 'ga "
-"chleachdadh cuideachd)\n"
+"Cleachd FILE mar logfile (tha an Spawned Server 'ga chleachdadh cuideachd)"
 
 #: client/client_main.c:364
-#, fuzzy
 msgid "Connect to the metaserver at HOST"
-msgstr "  -M, --Meta HOST\tCeangail ris a' mheata-fhrithealaiche aig HOST\n"
+msgstr "Ceangail ris a' mheata-fhrithealaiche aig HOST"
 
 #: client/client_main.c:366
-#, fuzzy
 msgid "Use NAME as username on server"
-msgstr "  -n, --name NAME\tCleachd NAME mar ainm\n"
+msgstr "Cleachd NAME mar ainm"
 
 #: client/client_main.c:368
-#, fuzzy
 msgid "Connect to server port PORT (usually with -a)"
-msgstr ""
-"  -p, --port PORT\tCeangail ri port an fhrithealaiche PORT (le -a mar is "
-"trice)\n"
+msgstr "Ceangail ri port an fhrithealaiche PORT (le -a mar is trice)"
 
 #: client/client_main.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "Use PLUGIN for sound output %s"
-msgstr "  -P, --Plugin PLUGIN\tCleachd PLUGIN airson às-chur fuaime %s\n"
+msgstr "Cleachd PLUGIN airson às-chur fuaime %s"
 
 #: client/client_main.c:373
-#, fuzzy
 msgid "Read startup script FILE (for spawned server only)"
-msgstr ""
-"  -r, --read FILE\tLeugh an sgriobt tòiseachaidh FILE (airson an Spawned "
-"Server a-mhàin)\n"
+msgstr "Leugh an sgriobt tòiseachaidh FILE (airson an Spawned Server a-mhàin)"
 
 #: client/client_main.c:375
-#, fuzzy
 msgid "Connect to the server at HOST (usually with -a)"
-msgstr ""
-"  -p, --server HOST\tCeangail ris an fhrithealaiche HOST (le -a mar is "
-"trice)\n"
+msgstr "Ceangail ris an fhrithealaiche HOST (le -a mar is trice)"
 
 #: client/client_main.c:377
-#, fuzzy
 msgid "Read sound tags from FILE"
-msgstr "  -S, --Sound FILE\tLeugh na tagaichean fuaime o FILE\n"
+msgstr "Leugh na tagaichean fuaime o FILE"
 
 #: client/client_main.c:379
-#, fuzzy
 msgid "Use data file FILE.tilespec for tiles"
-msgstr ""
-"  -t, --tiles FILE\tCleachd am faidhle dàta FILE.tilespec airson leacagan\n"
+msgstr "Cleachd am faidhle dàta FILE.tilespec airson leacagan"
 
 #: client/client_main.c:381 manual/civmanual.c:504 modinst/mpcmdline.c:65
 #: server/civserver.c:391
-#, fuzzy
 msgid "Print the version number"
-msgstr "  -v, --version\t\tClò-bhuail àireamh an tionndaidh\n"
+msgstr "Clò-bhuail àireamh an tionndaidh"
 
 #: client/client_main.c:401 manual/civmanual.c:449 server/civserver.c:218
 #, c-format
@@ -1854,7 +1829,7 @@ msgstr "Innealan na cabadaich"
 
 #: client/gui-gtk-2.0/citizensinfo.c:63 client/gui-gtk-3.0/citizensinfo.c:63
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #: client/gui-gtk-2.0/citizensinfo.c:64 client/gui-gtk-2.0/dialogs.c:448
 #: client/gui-gtk-2.0/editprop.c:3468 client/gui-gtk-2.0/editprop.c:3480
@@ -2824,9 +2799,9 @@ msgstr "_Adhartas:"
 #: client/gui-gtk-3.0/diplomat_dialog.c:465
 #: client/gui-sdl/diplomat_dialog.c:344 client/gui-sdl/diplomat_dialog.c:945
 #: client/gui-xaw/diplomat_dialog.c:423 client/gui-xaw/diplomat_dialog.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "At %s's Discretion"
-msgstr "Na thogras am brathadair"
+msgstr "Na thogras %s"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:396
 #: client/gui-gtk-3.0/diplomat_dialog.c:396 data/Freeciv.in:2403
@@ -2926,9 +2901,9 @@ msgstr[3] ""
 #: client/gui-gtk-2.0/diplomat_dialog.c:657
 #: client/gui-gtk-3.0/diplomat_dialog.c:657
 #: client/gui-sdl/diplomat_dialog.c:566
-#, fuzzy, c-format
+#, c-format
 msgid "Choose Your %s's Strategy"
-msgstr "Tagh ro-innleachd a' bhrathadair agad"
+msgstr "Tagh ro-innleachd an aonaid agad (%s)"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:659
 #: client/gui-gtk-3.0/diplomat_dialog.c:659
@@ -2988,9 +2963,9 @@ msgstr "Dèan _sabotais air gnìomhachas"
 #: client/gui-gtk-2.0/diplomat_dialog.c:730
 #: client/gui-gtk-3.0/diplomat_dialog.c:730
 #: client/gui-xaw/diplomat_dialog.c:806
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s is waiting for your command."
-msgstr "Tha am brathadair a' feitheamh ri d' òrdugh"
+msgstr "Tha an t-aonad agad (%s) a' feitheamh ri d' òrdugh"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:734
 #: client/gui-gtk-3.0/diplomat_dialog.c:734
@@ -3290,7 +3265,7 @@ msgstr "Seòladh"
 #. TRANS: Tile property "Label" label in editor
 #: client/gui-gtk-2.0/editprop.c:4084 client/gui-gtk-3.0/editprop.c:4084
 msgid "?property:Label"
-msgstr ""
+msgstr "?property:Leubail"
 
 #: client/gui-gtk-2.0/editprop.c:4093 client/gui-gtk-3.0/editprop.c:4093
 msgid "Exclude Nations"
@@ -3950,12 +3925,11 @@ msgstr "(neo-aithnichte)"
 
 #: client/gui-gtk-2.0/luaconsole.c:196 client/gui-gtk-3.0/luaconsole.c:196
 msgid "Client Lua Console"
-msgstr ""
+msgstr "Consoil Lua a' chliant"
 
 #: client/gui-gtk-2.0/luaconsole.c:234 client/gui-gtk-3.0/luaconsole.c:234
-#, fuzzy
 msgid "Load Lua Script"
-msgstr "_Luchdaich an t-aonad"
+msgstr "Luchdaich sgriobt Lua"
 
 #: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk-3.0/mapctrl.c:196
 msgid "Build New City"
@@ -4056,14 +4030,12 @@ msgid "Save Game _As..."
 msgstr "Sàbhail _an geama mar..."
 
 #: client/gui-gtk-2.0/menu.c:1325 client/gui-gtk-3.0/menu.c:1325
-#, fuzzy
 msgid "Save Map _Image"
-msgstr "_Sàbhail an geama"
+msgstr "Sàbhail _dealbh dhen mhapa"
 
 #: client/gui-gtk-2.0/menu.c:1327 client/gui-gtk-3.0/menu.c:1327
-#, fuzzy
 msgid "Save _Map Image As..."
-msgstr "Sàbhail _an geama mar..."
+msgstr "Sàbhail dealbh a' _mhapa mar..."
 
 #: client/gui-gtk-2.0/menu.c:1329 client/gui-gtk-3.0/menu.c:1329
 msgid "_Leave"
@@ -4082,9 +4054,8 @@ msgid "Work_lists"
 msgstr "_Liostaichean obrach"
 
 #: client/gui-gtk-2.0/menu.c:1340 client/gui-gtk-3.0/menu.c:1340
-#, fuzzy
 msgid "Client _Lua Script"
-msgstr "lua <sgriobt>"
+msgstr "Sgriobt _Lua a' chliant"
 
 #: client/gui-gtk-2.0/menu.c:1344 client/gui-gtk-3.0/menu.c:1344
 msgid "?noun:_View"
@@ -4255,7 +4226,7 @@ msgstr "Na c_rìochan nàiseanta "
 
 #: client/gui-gtk-2.0/menu.c:1435 client/gui-gtk-3.0/menu.c:1435
 msgid "Native Tiles"
-msgstr ""
+msgstr "Leacagan tùsail"
 
 #: client/gui-gtk-2.0/menu.c:1438 client/gui-gtk-3.0/menu.c:1438
 msgid "City Full Bar"
@@ -4395,9 +4366,8 @@ msgid "Same Type _Everywhere"
 msgstr "An dearbh sheòrsa àit_e sam bith"
 
 #: client/gui-gtk-2.0/menu.c:1562 client/gui-gtk-3.0/menu.c:1562
-#, fuzzy
 msgid "Unit selection dialog"
-msgstr "Taghadh aonaid"
+msgstr "Còmradh taghadh aonaid"
 
 #: client/gui-gtk-2.0/menu.c:1565 client/gui-gtk-3.0/menu.c:1565
 msgid "_Wait"
@@ -4572,9 +4542,9 @@ msgstr "Soitheach-fà_nais"
 #. TRANS: Connect with some road type (Road/Railroad)
 #: client/gui-gtk-2.0/menu.c:2010 client/gui-gtk-2.0/menu.c:2014
 #: client/gui-gtk-3.0/menu.c:2009 client/gui-gtk-3.0/menu.c:2013
-#, fuzzy, c-format
+#, c-format
 msgid "Connect With %s"
-msgstr "Dèan ceangal le rathad"
+msgstr "Dèan ceangal le %s"
 
 #: client/gui-gtk-2.0/menu.c:2131 client/gui-gtk-3.0/menu.c:2130
 msgid "Help _Build Wonder"
@@ -4592,9 +4562,9 @@ msgstr "Stèidhich slighe malai_rt"
 
 #. TRANS: Build road of specific type (Road/Railroad)
 #: client/gui-gtk-2.0/menu.c:2175 client/gui-gtk-3.0/menu.c:2174
-#, fuzzy, c-format
+#, c-format
 msgid "Build %s"
-msgstr "Draoidh %s"
+msgstr "Tog %s"
 
 #. TRANS: %s is a unit type.
 #: client/gui-gtk-2.0/menu.c:2188 client/gui-gtk-3.0/menu.c:2187
@@ -5009,29 +4979,24 @@ msgid "Save _Filename:"
 msgstr "Sàbhail ainm an _fhaidhle:"
 
 #: client/gui-gtk-2.0/pages.c:3245 client/gui-gtk-3.0/pages.c:3300
-#, fuzzy
 msgid "Saved Sce_narios:"
-msgstr "Sàbhail an cnàmh-sgeul"
+msgstr "Sàbhail _cnàmh-sgeulan:"
 
 #: client/gui-gtk-2.0/pages.c:3246 client/gui-gtk-3.0/pages.c:3301
-#, fuzzy
 msgid "Save Sc_enario:"
-msgstr "Sàbhail an cnàmh-sgeul"
+msgstr "_Sàbhail an cnàmh-sgeul:"
 
 #: client/gui-gtk-2.0/pages.c:3274 client/gui-gtk-3.0/pages.c:3329
-#, fuzzy
 msgid "Save Map Image"
-msgstr "_Sàbhail an geama"
+msgstr "Sàbhail dealbh dhen mhapa"
 
 #: client/gui-gtk-2.0/pages.c:3274 client/gui-gtk-3.0/pages.c:3329
-#, fuzzy
 msgid "Saved Map _Images:"
-msgstr "_Sàbhail an geama"
+msgstr "Sàbhail d_ealbhan dhen mhapa:"
 
 #: client/gui-gtk-2.0/pages.c:3275 client/gui-gtk-3.0/pages.c:3330
-#, fuzzy
 msgid "Save _Map Images:"
-msgstr "_Sàbhail an geama"
+msgstr "Sàbhail de_albhan dhen mhapa:"
 
 #: client/gui-gtk-2.0/plrdlg.c:322 client/gui-gtk-3.0/plrdlg.c:329
 msgid "_Meet"
@@ -5301,9 +5266,8 @@ msgstr ""
 "Tha thu a' cleachdadh an t-seata %s an-dràsta."
 
 #: client/gui-gtk-2.0/unitselect.c:96 client/gui-gtk-3.0/unitselect.c:96
-#, fuzzy
 msgid "Description"
-msgstr "Tuairisgeul:"
+msgstr "Tuairisgeul"
 
 #: client/gui-gtk-2.0/unitselect.c:254 client/gui-gtk-3.0/unitselect.c:255
 #: client/gui-sdl/dialogs.c:1076
@@ -5311,32 +5275,28 @@ msgid "Unit selection"
 msgstr "Taghadh aonaid"
 
 #: client/gui-gtk-2.0/unitselect.c:274 client/gui-gtk-3.0/unitselect.c:274
-#, fuzzy
 msgid "_Tile"
-msgstr "Leacag"
+msgstr "_Leacag"
 
 #: client/gui-gtk-2.0/unitselect.c:275 client/gui-gtk-3.0/unitselect.c:275
-#, fuzzy
 msgid "C_ontinent"
-msgstr "Mòr-thir"
+msgstr "_Mòr-thir"
 
 #: client/gui-gtk-2.0/unitselect.c:276 client/gui-gtk-3.0/unitselect.c:276
-#, fuzzy
 msgid "_Land"
-msgstr "Talamh"
+msgstr "_Talamh"
 
 #: client/gui-gtk-2.0/unitselect.c:277 client/gui-gtk-3.0/unitselect.c:277
 msgid "_Sea"
-msgstr ""
+msgstr "M_uir"
 
 #: client/gui-gtk-2.0/unitselect.c:278 client/gui-gtk-3.0/unitselect.c:278
 msgid "_Both"
-msgstr ""
+msgstr "_An dà chuid"
 
 #: client/gui-gtk-2.0/unitselect.c:279 client/gui-gtk-3.0/unitselect.c:279
-#, fuzzy
 msgid "_World"
-msgstr "_Obair"
+msgstr "_Saoghal"
 
 #: client/gui-gtk-2.0/unitselect.c:479 client/gui-gtk-3.0/unitselect.c:479
 #: common/unit.c:704
@@ -5344,19 +5304,16 @@ msgid "Sentry"
 msgstr "Freiceadan"
 
 #: client/gui-gtk-2.0/unitselect.c:501 client/gui-gtk-3.0/unitselect.c:501
-#, fuzzy
 msgid "_Deselect"
-msgstr "_Tagh"
+msgstr "_Dì-thagh"
 
 #: client/gui-gtk-2.0/unitselect.c:515 client/gui-gtk-3.0/unitselect.c:515
-#, fuzzy
 msgid "C_enter"
-msgstr "Meadhan"
+msgstr "Mea_dhanaich"
 
 #: client/gui-gtk-2.0/unitselect.c:524 client/gui-gtk-3.0/unitselect.c:524
-#, fuzzy
 msgid "_Focus"
-msgstr "Dèan fòcas air an aonad"
+msgstr "Dèan _fòcas"
 
 #: client/gui-gtk-2.0/voteinfo_bar.c:148 client/gui-gtk-3.0/voteinfo_bar.c:148
 msgid "_YES"
@@ -5433,21 +5390,26 @@ msgstr "Atharraich _an cinneasachadh"
 
 #: client/gui-qt/fc_client.cpp:134
 msgid "This is Qt-client for Freeciv."
-msgstr ""
+msgstr "Seo an cliant Qt airson Freeciv."
 
 #: client/gui-qt/fc_client.cpp:137
 msgid ""
 "In this early Qt-client development phase the only way to connect server is "
 "via commandline autoconnect parameter \"-a\""
 msgstr ""
+"Chan eil dòigh ann ceangal a dhèanamh slighe frithealaiche ach leis a' "
+"pharamadair fhèin-cheangail \"-a\" san loidhne-àitheantan leis gu bheil an "
+"cliant Qt aig ìre bhunasach dhen leasachadh."
 
 #: client/gui-qt/fc_client.cpp:244
 msgid "Freeciv is covered by the GPL."
-msgstr ""
+msgstr "Tha Freeciv fo cheadachas GPL."
 
 #: client/gui-qt/fc_client.cpp:245
 msgid "See file COPYING distributed with freeciv for full license text."
 msgstr ""
+"Thoir sùil airson an fhaidhle COPYING a gheibhear an cois gach lethbhreac de "
+"Freeciv airson teacsa iomlan a' cheadachais."
 
 #: client/gui-qt/mapview.cpp:51 client/gui-stub/mapview.c:42
 #, c-format
@@ -5457,6 +5419,10 @@ msgid ""
 "Gold %d\n"
 "Tax: %d Lux: %d Sci: %d"
 msgstr ""
+"Sluagh: %s\n"
+"Bliadhna: %s\n"
+"Òr %d\n"
+"Cìs: %d Sògh: %d Saidh: %d"
 
 #: client/gui-sdl/caravan_dialog.c:137
 #, c-format
@@ -6686,9 +6652,9 @@ msgid "Connect With Irrigation"
 msgstr "Dèan ceangal le uisgeachadh"
 
 #: client/gui-sdl/menu.c:544 client/gui-sdl/menu.c:560
-#, fuzzy, c-format
+#, c-format
 msgid "Connect With %s (%s)"
-msgstr "Dèan ceangal le rathad"
+msgstr "Dèan ceangal le %s (%s)"
 
 #: client/gui-sdl/menu.c:575 client/gui-xaw/menu.c:201
 msgid "Auto Explore"
@@ -6781,9 +6747,9 @@ msgstr "Stèidhich slighe malairt"
 #. TRANS: "Build Road (R) 1 turn"
 #: client/gui-sdl/menu.c:823 client/gui-sdl/menu.c:828
 #: client/gui-sdl/menu.c:1077 client/gui-sdl/menu.c:1085
-#, fuzzy, c-format
+#, c-format
 msgid "Build %s (%s) %d %s"
-msgstr "(a' togail %s ann an %s (%s, %s))\n"
+msgstr "Tog %s (%s) %d %s"
 
 #: client/gui-sdl/menu.c:849 client/gui-xaw/menu.c:212
 msgid "Help Build Wonder"
@@ -7723,8 +7689,7 @@ msgstr "Dè an t-ainm ùr a bu mhath leat?"
 
 #: client/helpdata.c:137
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
-msgstr ""
-"Talamh     Rathad   Uisgeachadh     Mèinnearachd         Cruth-atharraich\n"
+msgstr "Talamh     Rathad   Uisgeachadh     Mèinnearachd         Cruth-atharraich\n"
 
 #: client/helpdata.c:220
 msgid "Time taken for the following activities is independent of terrain:\n"
@@ -7820,16 +7785,16 @@ msgid "Requires the %s terrain special on the tile.\n"
 msgstr "Feumaidh seo an sònrachas talamhainn %s air an leacag.\n"
 
 #: client/helpdata.c:363
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires the %s terrain special on the tile or a cardinally adjacent tile.\n"
-msgstr "Feumaidh seo an sònrachas talamhainn a leanas: %s\n"
+msgstr "Feumaidh seo an sònrachas talamhain (%s) air an leacag no air dlùth-leacag "
+"dha.\n"
 
 #: client/helpdata.c:369
 #, c-format
 msgid "Requires the %s terrain special on the tile or an adjacent tile.\n"
-msgstr ""
-"Feumaidh seo an sònrachas talamhainn %s air an leacag fhèin no tè ri taobh.\n"
+msgstr "Feumaidh seo an sònrachas talamhainn %s air an leacag fhèin no tè ri taobh.\n"
 
 #: client/helpdata.c:386
 #, c-format
@@ -7837,9 +7802,10 @@ msgid "Requires the %s terrain on the tile.\n"
 msgstr "Feumaidh seo an talamh %s air an leacag.\n"
 
 #: client/helpdata.c:390
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s terrain on the tile or a cardinally adjacent tile.\n"
-msgstr "Feumaidh seo an sònrachas talamhainn a leanas: %s\n"
+msgstr "Feumaidh seo talamhainn sònraichte (%s) air an leacag no air dlùth-leacag "
+"dha.\n"
 
 #: client/helpdata.c:395
 #, c-format
@@ -7893,9 +7859,10 @@ msgid "Requires %s terrain class on the tile.\n"
 msgstr "Feumaidh seo an seòrsa talamhainn a leanas, %s, air an leacag.\n"
 
 #: client/helpdata.c:563
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s terrain class on a cardinally adjacent tile.\n"
-msgstr "Feumaidh seo talamh air an dèid %s a thogail.\n"
+msgstr "Feumaidh seo seòrsa talamhainn sònraichte (%s) air an leacag no air dlùth-"
+"leacag dha.\n"
 
 #: client/helpdata.c:569
 #, c-format
@@ -7910,9 +7877,9 @@ msgstr ""
 "\n"
 
 #: client/helpdata.c:590
-#, fuzzy, c-format
+#, c-format
 msgid "Requires a %s on a cardinally adjacent tile.\n"
-msgstr "Feumaidh seo talamh air an dèid %s a thogail.\n"
+msgstr "Feumaidh seo %s air dlùth-leacag dha.\n"
 
 #: client/helpdata.c:594
 #, c-format
@@ -8324,8 +8291,7 @@ msgstr ""
 
 #: client/helpdata.c:1562
 msgid "* Ignores terrain effects (treats all tiles as roads).\n"
-msgstr ""
-"* Tha e coma co-dhiù ge be dè an talamh (a' siubhal air gach leacag mar gum "
+msgstr "* Tha e coma co-dhiù ge be dè an talamh (a' siubhal air gach leacag mar gum "
 "be rathad a tha ann).\n"
 
 #: client/helpdata.c:1565
@@ -8567,8 +8533,7 @@ msgstr "* Aig aonadan %s a ghnàth.\n"
 msgid ""
 "  * Such units can move onto this tile even if it would not normally be "
 "suitable terrain.\n"
-msgstr ""
-"  * 'S urrainn do dh'aonadan d' an leithid a ghluasad air an leacag seo fiù "
+msgstr "  * 'S urrainn do dh'aonadan d' an leithid a ghluasad air an leacag seo fiù "
 "mur e talamh freagarrach dhaibh a tha ann a ghnàth.\n"
 
 #: client/helpdata.c:1940
@@ -9007,9 +8972,9 @@ msgid "%s%d Unhappy"
 msgstr "%s%d mì-thoilichte"
 
 #: client/helpdata.c:2520
-#, fuzzy, c-format
+#, c-format
 msgid "Initial government is %s.\n"
-msgstr "?nationgovernment:%s, %s"
+msgstr "'S e %s an riaghaltas tùsail a bhios ann.\n"
 
 #. TRANS: %s is an and-separated list of techs
 #: client/helpdata.c:2537
@@ -9017,21 +8982,22 @@ msgstr "?nationgovernment:%s, %s"
 msgid ""
 "Starts with knowledge of %s in addition to the standard starting "
 "technologies.\n"
-msgstr ""
+msgstr "Tòisichear le eòlas sònraichte (%s) a bharrachd air na teicneolasan "
+"bunasach.\n"
 
 #. TRANS: %s is an and-separated list of techs
 #: client/helpdata.c:2542
-#, fuzzy, c-format
+#, c-format
 msgid "Starts with knowledge of %s.\n"
-msgstr "Chaidh eòlais air %s a theagasg dhut."
+msgstr "Tòisichear le eòlas sònraichte (%s).\n"
 
 #. TRANS: a unit type followed by a count. For instance,
 #. * "Fighter (2)" means two Fighters. Count is never 1.
 #. * Used in a list.
 #: client/helpdata.c:2579
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d)"
-msgstr "%s %s (%s)"
+msgstr "%s (%d)"
 
 #. TRANS: %s is an and-separated list of unit types
 #. * possibly with counts. Plurality is in total number of
@@ -9040,28 +9006,28 @@ msgstr "%s %s (%s)"
 #, c-format
 msgid "Starts with the following additional unit: %s.\n"
 msgid_plural "Starts with the following additional units: %s.\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Tòisichear leis an aonad a bharrachd seo: %s.\n"
+msgstr[1] "Tòisichear leis an dà aonad a bharrachd seo: %s.\n"
+msgstr[2] "Tòisichear leis na h-aonadan a bharrachd seo: %s.\n"
+msgstr[3] "Tòisichear leis na h-aonadan a bharrachd seo: %s.\n"
 
 #. TRANS: %s is an and-separated list of improvements
 #: client/helpdata.c:2621
 #, c-format
 msgid ""
 "First city will get %s for free in addition to the standard improvements.\n"
-msgstr ""
+msgstr "Gheibh a' chiad bhail %s saor an-asgaidh a bharrachd air na leasachaidhean "
+"bunasach.\n"
 
 #. TRANS: %s is an and-separated list of improvements
 #: client/helpdata.c:2626
 #, c-format
 msgid "First city will get %s for free.\n"
-msgstr ""
+msgstr "Gheibh a' chiad bhaile %s saor an-asgaidh.\n"
 
 #: client/luaconsole_common.c:111
-#, fuzzy
 msgid "This is the Client Lua Console."
-msgstr "Chan eil an roghainn Booleach."
+msgstr "Seo consoil a' chliant Lua."
 
 #: client/mapctrl_common.c:397
 #, c-format
@@ -9445,15 +9411,14 @@ msgid "Setting this option will draw the national borders."
 msgstr "Ma shuidhicheas tu an roghainn seo, chithear na crìochan nàiseanta."
 
 #: client/options.c:1863
-#, fuzzy
 msgid "Draw whether tiles are native"
-msgstr "Tarraing an talamh"
+msgstr "Tarraing an e leacagan tùsail a tha annta gus nach eil"
 
 #: client/options.c:1864
-#, fuzzy
 msgid "Setting this option will draw the tiles that unit cannot enter."
 msgstr ""
-"Ma shuidhicheas tu an roghainn seo, chithear na h-aonadan air a' mhapa."
+"Ma shuidhicheas tu an roghainn seo, tairngidh seo na leacagan nach urrainn "
+"do dh'aonad a dhol a-steach dhaibh."
 
 #: client/options.c:1869
 msgid "Show dead players in Nations report"
@@ -9514,14 +9479,12 @@ msgid "Combat animation step time (milliseconds)"
 msgstr "Àm beothachadh gluasad na sabaide (mili-dhiogan)"
 
 #: client/options.c:1895
-#, fuzzy
 msgid ""
 "This option controls the speed of combat animation between units on the "
 "mapview.  Set it to 0 to disable animation entirely."
 msgstr ""
-"Tha an roghainn seo a' cumail smachd air an àm a bheir beothachadh de "
-"dh'aonad nuair a ghluaiseas e air a' mhapa. Cuir seo gu 0 gus casg a chur "
-"air a' bheothachadh gu tur."
+"Tha an roghainn seo a' cumail smachd air astar a' bheothachaidh sabaid eadar "
+"aonadan. Cuir seo gu 0 gus casg a chur air a' bheothachadh gu tur."
 
 #: client/options.c:1900
 msgid "Show icons in the technology tree"
@@ -9844,8 +9807,7 @@ msgstr "Mapa breath rilif na talamhainn"
 
 #: client/options.c:2034
 msgid "The relief layer shows all terrains on the map."
-msgstr ""
-"Tha breath na rilife a' sealltainn gach seòrsa talamhainn air a' mhapa."
+msgstr "Tha breath na rilife a' sealltainn gach seòrsa talamhainn air a' mhapa."
 
 #: client/options.c:2037
 msgid "Borders layer"
@@ -9905,92 +9867,96 @@ msgstr ""
 
 #: client/options.c:2064
 msgid "Image format"
-msgstr ""
+msgstr "Fòrmat an deilbh"
 
 #: client/options.c:2065
-#, fuzzy
 msgid "The image toolkit and file format used for map images."
 msgstr ""
-"Chan urrainn dhan ppm toolkit a chruthachadh ach ìomhaighean dhen t-seòrsa "
-"ppm."
+"An image toolkit agus fòrmat faidhle a thèid an cleachdadh airson dealbhan "
+"mapa."
 
 #: client/options.c:2070
 msgid "Zoom factor for map images"
-msgstr ""
+msgstr "Am factar sùm airson dealbhan mapa"
 
 #: client/options.c:2071
-#, fuzzy
 msgid "The magnification used for map images."
-msgstr ""
-"Chan urrainn dhan ppm toolkit a chruthachadh ach ìomhaighean dhen t-seòrsa "
-"ppm."
+msgstr "Am meudachadh a chleachdar airson dealbhan mapa."
 
 #: client/options.c:2074
-#, fuzzy
 msgid "Show area within borders"
-msgstr "Crìochan nàiseanta"
+msgstr "Seall an raon eadar na crìochan"
 
 #: client/options.c:2075
 msgid "If set, the territory of each nation is shown on the saved image."
 msgstr ""
+"Ma shuidhicheas tu seo, chithear an talamh aig gach nàisean air an dealbh a "
+"thèid a shàbhaladh."
 
 #: client/options.c:2079
-#, fuzzy
 msgid "Show borders"
-msgstr "Crìochan nàiseanta"
+msgstr "Seall na crìochan"
 
 #: client/options.c:2080
 msgid "If set, the border of each nation is shown on the saved image."
 msgstr ""
+"Ma shuidhicheas tu seo, chithear na crìochan aig gach nàisean air an dealbh "
+"a thèid a shàbhaladh."
 
 #: client/options.c:2084
-#, fuzzy
 msgid "Show cities"
-msgstr "Seall _a h-uile baile"
+msgstr "Seall na bailtean"
 
 #: client/options.c:2085
 msgid "If set, cities are shown on the saved image."
 msgstr ""
+"Ma shuidhicheas tu seo, chithear na bailtean air an dealbh a thèid a "
+"shàbhaladh."
 
 #: client/options.c:2088
-#, fuzzy
 msgid "Show fog of war"
-msgstr "Ceò a' chogaidh san fhoir-shealladh"
+msgstr "Seall ceò a' chogaidh"
 
 #: client/options.c:2089
 msgid "If set, the extent of fog of war is shown on the saved image."
 msgstr ""
+"Ma shuidhicheas tu seo, chithear ceò a' chogaidh air an dealbh a thèid a "
+"shàbhaladh."
 
 #: client/options.c:2093
-#, fuzzy
 msgid "Show full terrain"
-msgstr "Seall _a h-uile baile"
+msgstr "Seall an talamh slàn"
 
 #: client/options.c:2094
 msgid ""
 "If set, terrain relief is shown with different colors in the saved image; "
 "otherwise, only land and water are distinguished."
 msgstr ""
+"Ma shuidhicheas tu seo, chithear rilif na talamhainn ann an diofar dathan "
+"san dealbh a thèid a shàbhaladh; air neo chan fhaicear ach tìr is muir."
 
 #: client/options.c:2099
-#, fuzzy
 msgid "Show units"
-msgstr "Aonadan %s"
+msgstr "Seall na h-aonadan"
 
 #: client/options.c:2100
 msgid "If set, units are shown in the saved image."
 msgstr ""
+"Ma shuidhicheas tu seo, chithear na h-aonadan air an dealbh a thèid a "
+"shàbhaladh."
 
 #: client/options.c:2103
-#, fuzzy
 msgid "Map image file name"
-msgstr "write <file-name>"
+msgstr "Ainm faidhle dealbh a' mhapa"
 
 #: client/options.c:2104
 msgid ""
 "The base part of the filename for saved map images. A string identifying the "
 "game turn and map options will be appended."
 msgstr ""
+"A' phàirt bhunaiteach de dh'ainm an fhaidhle airson dealbhan dhen mhapa a "
+"thèid a shàbhaladh. Thèid dàta a chur ris a shònraicheas cuairt a' gheama "
+"agus roghainnean a' mhapa."
 
 #: client/options.c:2110 client/options.c:2312
 msgid "Show map scrollbars"
@@ -10434,9 +10400,8 @@ msgid "Interface"
 msgstr "Eadar-aghaidh"
 
 #: client/options.c:2625
-#, fuzzy
 msgid "Map Image"
-msgstr "Ìomhaigh"
+msgstr "Dealbh a' mhapa"
 
 #: client/options.c:2627
 msgid "Network"
@@ -10581,12 +10546,12 @@ msgstr "Cha do ghabh %s sam bith fhàsachadh."
 #: client/servers.c:131
 #, c-format
 msgid "Latest %s release of freeciv is %s, this is %s."
-msgstr ""
+msgstr "'S e %2$s an tionndadh %1$s as ùire de freeciv ach seo %3$s."
 
 #: client/servers.c:135
 #, c-format
 msgid "There is no newer %s release of freeciv available."
-msgstr ""
+msgstr "Chan eil tionndadh %s nas ùire de freeciv ri fhaighinn."
 
 #: client/servers.c:369 utility/netfile.c:102
 msgid "Could not open temp file."
@@ -10795,12 +10760,12 @@ msgstr "I:%d D:%d CL:%d PB:%d/%d (%s)"
 #: client/text.c:385
 #, c-format
 msgid "Bribe cost: %d"
-msgstr ""
+msgstr "Cosgais na brìb: %d"
 
 #: client/text.c:388
 #, c-format
 msgid "Estimated bribe cost: > %d"
-msgstr ""
+msgstr "Tuairmse air cosgais na brìb: > %d"
 
 #. TRANS: "5 more" units on this tile
 #: client/text.c:395
@@ -10996,9 +10961,9 @@ msgid "Bulbs per turn: %d - %d = %d"
 msgstr "Builg a' chuairt:  %d - %d = %d"
 
 #: client/text.c:985
-#, fuzzy, c-format
+#, c-format
 msgid "Bulbs per turn: %d"
-msgstr "Builg gach cuairt:  %d"
+msgstr "Builg gach cuairt: %d"
 
 #: client/text.c:994
 #, c-format
@@ -11151,15 +11116,14 @@ msgid "no research target."
 msgstr "chan eil amas rannsachaidh ann."
 
 #: client/text.c:1330
-#, fuzzy
 msgid "No progress"
-msgstr "Dùn"
+msgstr "Gun adhartas"
 
 #. TRANS: <tech>: <amount>/<total bulbs>
 #: client/text.c:1339
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %d/%d (%s, %s)."
-msgstr "%s ann an %s (%s, %s)\n"
+msgstr "%s: %d/%d (%s, %s)."
 
 #: client/text.c:1367
 msgid "Shows the progress of global warming:"
@@ -11968,12 +11932,11 @@ msgstr ""
 #: common/fc_cmdhelp.c:127
 #, c-format
 msgid "Try \"%s -- --help\" for more."
-msgstr ""
+msgstr "Feuch \"%s -- --help\" airson barrachd."
 
 #: common/fc_cmdhelp.c:133
-#, fuzzy
 msgid "Pass any following options to the UI."
-msgstr "      --\t\tSìn gin dhe na roghainnean a leanas fhan IF.\n"
+msgstr "Sìn gin dhe na roghainnean a leanas fhan IF."
 
 #: common/government.c:403
 #, c-format
@@ -11990,9 +11953,8 @@ msgid "not checked"
 msgstr "gun sgrùdadh"
 
 #: common/mapimg.c:302
-#, fuzzy
 msgid "error"
-msgstr "Mearachd"
+msgstr "mearachd"
 
 #: common/mapimg.c:426
 msgid "Standard ppm files"
@@ -12003,48 +11965,43 @@ msgid "ImageMagick"
 msgstr "ImageMagick"
 
 #: common/mapimg.c:467
-#, fuzzy
 msgid "internal error"
-msgstr "Mearachd air an taobh a-staigh."
+msgstr "mearachd inntearnail"
 
 #: common/mapimg.c:581
-#, fuzzy
 msgid "no players, only terrain"
-msgstr "Gun cheanglaichean chluicheadairean"
+msgstr "gun chluicheadairean, talamh a-mhàin"
 
 #: common/mapimg.c:582
-#, fuzzy
 msgid "one image per player"
-msgstr "Leacagan an cluichdeadair"
+msgstr "aon dealbh gach cluicheadair"
 
 #: common/mapimg.c:583
-#, fuzzy
 msgid "one image per human player"
-msgstr "Ceadaichte eadar cluicheadairean daonna a-mhàin"
+msgstr "aon dealbh gach cluicheadair daonna"
 
 #: common/mapimg.c:584
-#, fuzzy
 msgid "all players on a single image"
-msgstr "Gach cluicheadair air an aon mhòr-thir"
+msgstr "gach cluicheadair air an aon dealbh"
 
 #: common/mapimg.c:585
 msgid "just the player named with 'plrname'"
-msgstr ""
+msgstr "dìreach an cluicheadair air a bheil \"plrname\""
 
 #: common/mapimg.c:586
 msgid "just the player specified with 'plrid'"
-msgstr ""
+msgstr "dìreach an cluicheadair air a bheil \"plrid\""
 
 #: common/mapimg.c:587
 msgid "one image per player in 'plrbv'"
-msgstr ""
+msgstr "aon chluicheadair gach cluicheadair ann an \"plrbv\""
 
 #. TRANS: This is help for a server command, so keywords like
 #. * "define" in the first column are server keywords that must not
 #. * be translated. Do not translate keywords in single quotes, but
 #. * strings in <angle brackets> should be translated.
 #: common/mapimg.c:677
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This command controls the creation of map images. Supported arguments:\n"
 "  define <mapdef>  - define a map image; returns numeric <id>\n"
@@ -12092,262 +12049,269 @@ msgid ""
 " 'zoom=3:map=cu:show=plrbv:plrbv=010011:format=jpg'\n"
 " 'zoom=1:map=t:show=none:format=magick|jpg'"
 msgstr ""
-"Roghainnean sònrachaidhean ìomhaighean a' mhapa a tha ri fhaighinn "
-"<mapdef>:\n"
+"Tha smachd aig an uidheam-smachd seo air cruthachadh mhapaichean. "
+"Argamaidean ris a bheil taic:\n"
+"  define <mapdef>  - mìnich dealbh de mhapa; tillidh e <id> àireamhach\n"
+"  show <id>|all    - liostaich mìneachaidhean mapa no seall fear sònraichte\n"
+"  create <id>|all  - sàbhail dealbh(an) dhen mhapa làithreach a làimh\n"
+"  delete <id>|all  - sguab às mìneachaidhean a' mhapa\n"
+"  colortest        - cruthaich dealbh(an) deuchainneil a sheallas gach dath\n"
 "\n"
-"ainm                 mìneachadh (bunaiteach)\n"
+"Faodaidh iomadh mìneachadh a bhith beò aig an aon àm. Tha iomadh roghainn "
+"(le leth-chòileanan eatarra) ann am mìneachadh de <mapdef>:\n"
 "\n"
-"fòrmat <tool|format>  %-10s fòrmat ìomhaighe\n"
-"seall <show>          %-10s seall na cluicheadairean\n"
-"  plrname <name>                  ainm a' chluicheadair (ma tha "
-"'show=plrname')\n"
-"  plrid <id>                      da a' chluicheadair (ma tha 'show=plrid')\n"
-"  plrbv <bit vector>              bitvector a' chluicheadair (ma tha "
-"'show=plrbv')\n"
-"cuairtean <turns>    %-10s sàbhail gach <value> cuairt (0 = gun fhèin-"
-"shàbhaladh)\n"
-"sùm <zoom>           %-10s factar an t-sùim (1 <= sùm <= 5)\n"
-"mapa <map>           %-10s mìneachadh a' mhapa\n"
+"option                 (default)  description\n"
 "\n"
-"<tool|format> = cleachd toolkit <tool> leis an fhòrmat ìomhaighe <format>\n"
+"format=<[tool|]format> %-10s file format\n"
+"show=<show>            %-10s which players to show\n"
+"  plrname=<name>                    player name\n"
+"  plrid=<id>                        numeric player id\n"
+"  plrbv=<bit vector>                see example; first char = id 0\n"
+"turns=<turns>          %-10s save image each <turns> turns\n"
+"                                  (0=no autosave, save with 'create')\n"
+"zoom=<zoom>            %-10s magnification factor (1-5)\n"
+"map=<map>              %-10s which map layers to draw\n"
+"\n"
+"<[tool|]format> = use image format <format>, optionally specifying toolkit "
+"<tool>. The following toolkits and formats are compiled in:\n"
 "%s\n"
-"<show> = (%s)\n"
 "\n"
-"<map> = mìneachadh ìomhaigh a' mhapa; faodaidh na leanas a bhith ann: \n"
-" - 'a' seall an àrainn am broinn nan crìochan\n"
-" - 'b' seall na crìochan\n"
-" - 'c' seall na bailtean\n"
-" - 'f' seall ceò a' chogaidh (ri làimh cluicheadair leis fhèin a-mhàin)\n"
-" - 'k' na seall ach eòlas a' chluicheadair (on fhrithealaiche a-mhàin)\n"
-" - 't' seann an àrainn gu lèir\n"
-" - 'u' seall na h-aonadan\n"
+"<show> determines which players are represented and how many images are "
+"saved by this definition:\n"
+"%s\n"
 "\n"
-"Eisimpleirean:\n"
+"<map> can contain one or more of the following layers:\n"
+" - 'a' show area within borders of specified players\n"
+" - 'b' show borders of specified players\n"
+" - 'c' show cities of specified players\n"
+" - 'f' show fog of war (single-player images only)\n"
+" - 'k' show only player knowledge (single-player images only)\n"
+" - 't' full display of terrain types\n"
+" - 'u' show units of specified players\n"
+"\n"
+"Examples of <mapdef>:\n"
 " 'zoom=1:map=tcub:show=all:format=ppm|ppm'\n"
 " 'zoom=2:map=tcub:show=each:format=png'\n"
 " 'zoom=1:map=tcub:show=plrname:plrname=Otto:format=gif'\n"
 " 'zoom=3:map=cu:show=plrbv:plrbv=010011:format=jpg'\n"
-" 'zoom=1:map=t:show=none:format=magickwand|jpg'"
+" 'zoom=1:map=t:show=none:format=magick|jpg'"
 
 #: common/mapimg.c:763
-#, fuzzy
 msgid "no map definition"
-msgstr "Chan eil mìneachadh mapa ann!"
+msgstr "chan eil mìneachadh mapa ann"
 
 #: common/mapimg.c:769
-#, fuzzy, c-format
+#, c-format
 msgid "map definition string too long (max %d characters)"
 msgstr ""
-"Tha mìneachadh a' mhapa ro fhada (%d caractair(ean) air a' char as motha)."
+"tha mìneachadh a' mhapa ro fhada (%d caractair(ean) air a' char as motha)"
 
 #: common/mapimg.c:775
-#, fuzzy, c-format
+#, c-format
 msgid "maximum number of map definitions reached (%d)"
 msgstr ""
-"Ràinig thu àireamh as motha de mhìneachaidhean mapa a tha ceadaichte (%d)."
+"ràinig thu àireamh as motha de mhìneachaidhean mapa a tha ceadaichte (%d)"
 
 #: common/mapimg.c:783
-#, fuzzy, c-format
+#, c-format
 msgid "duplicate of map image definition %d ('%s')"
-msgstr "Dùblachadh mìneachadh ìomhaigh a' mhapa %d ('%s')."
+msgstr "dùblachadh mìneachadh ìomhaigh a' mhapa %d ('%s')"
 
 #: common/mapimg.c:804 common/mapimg.c:808
-#, fuzzy, c-format
+#, c-format
 msgid "unknown map option: '%s'"
-msgstr "Roghainn mapa neo-aithnichte '%s'."
+msgstr "roghainn mapa neo-aithnichte '%s'"
 
 #: common/mapimg.c:824
-#, fuzzy, c-format
+#, c-format
 msgid "'show=%s' but no player name 'plrname'"
-msgstr "'show=%s' ach as aonais ainm a' chluicheadair."
+msgstr "'show=%s' ach as aonais ainm \"plrname\" a' chluicheadair"
 
 #: common/mapimg.c:831
-#, fuzzy, c-format
+#, c-format
 msgid "'show=%s' but no player id 'plrid'"
-msgstr "'show=%s' ach as aonais DA a' chluicheadair."
+msgstr "'show=%s' ach as aonais ID \"plrid\" a' chluicheadair"
 
 #: common/mapimg.c:838
-#, fuzzy, c-format
+#, c-format
 msgid "'show=%s' but no player bitvector 'plrbv'"
-msgstr "'show=%s' ach as aonais bitvector a' chluicheadair."
+msgstr "'show=%s' ach as aonais bitvector \"plrbv\" a' chluicheadair"
 
 #: common/mapimg.c:991
-#, fuzzy, c-format
+#, c-format
 msgid "invalid character in bitvector: '%c' (%s)"
-msgstr "Tha caractair mì-dhligheach sa bitvector: '%c' (%s)."
+msgstr "tha caractar mì-dhligheach sa bitvector: '%c' (%s)"
 
 #: common/mapimg.c:1012
-#, fuzzy, c-format
+#, c-format
 msgid "'plrid' should be between 0 and %d"
-msgstr "Bu chòir do 'turns' a bhith eadar 0 agus 99."
+msgstr "bu chòir do \"plrid\" a bhith eadar 0 agus %d"
 
 #: common/mapimg.c:1028
-#, fuzzy, c-format
+#, c-format
 msgid "player name too long: '%s' (max: %lu)"
-msgstr "Tha ainm a' chluicheadair ro fhada: '%s' (as motha: %lu)."
+msgstr "tha ainm a' chluicheadair ro fhada: '%s' (as motha: %lu)"
 
 #: common/mapimg.c:1058
-#, fuzzy
 msgid "'turns' should be between 0 and 99"
-msgstr "Bu chòir do 'turns' a bhith eadar 0 agus 99."
+msgstr "bu chòir do \"turns\" a bhith eadar 0 agus 99"
 
 #: common/mapimg.c:1076
-#, fuzzy
 msgid "'zoom' factor should be between 1 and 5"
-msgstr "Bu chòir dhan fhactar 'zoom' a bhith eadar 1 agus 5."
+msgstr "bu chòir dhan fhactar \"zoom\" a bhith eadar 1 agus 5"
 
 #: common/mapimg.c:1095
-#, fuzzy, c-format
+#, c-format
 msgid "invalid value for option '%s': '%s'"
-msgstr "Luach mì-dhligheach airson na roghainne '%s': '%s'."
+msgstr "luach mì-dhligheach airson na roghainne '%s': '%s'"
 
 #: common/mapimg.c:1119
-#, fuzzy
 msgid "map definition not checked (game not started)"
-msgstr "Cha deach mìneachadh a' mhapa a sgrùdadh (geama gun tòiseachadh)."
+msgstr "cha deach mìneachadh a' mhapa a sgrùdadh (geama gun tòiseachadh)"
 
 #: common/mapimg.c:1123
-#, fuzzy, c-format
+#, c-format
 msgid "map definition deactivated: %s"
-msgstr "Mìneachadh a' mhapa air a chur à comas: %s."
+msgstr "mìneachadh a' mhapa air a chur à comas: %s"
 
 #: common/mapimg.c:1222
-#, fuzzy, c-format
+#, c-format
 msgid "Detailed information for map image definition %d\n"
-msgstr "Dùblachadh mìneachadh ìomhaigh a' mhapa %d ('%s')."
+msgstr "Dùblachadh mìneachadh ìomhaigh a' mhapa %d\n"
 
 #: common/mapimg.c:1225
-#, fuzzy, c-format
+#, c-format
 msgid "  - status:                   %s (%s)\n"
-msgstr "Iomlain:                     %9d%9d%9d%9d"
+msgstr "  - staid:                   %s (%s)\n"
 
 #: common/mapimg.c:1228
-#, fuzzy, c-format
+#, c-format
 msgid "  - status:                   %s\n"
-msgstr "Iomlain:                     %9d%9d%9d%9d"
+msgstr "  - staid:                   %s\n"
 
 #: common/mapimg.c:1231
 #, c-format
 msgid "  - file name string:         %s\n"
-msgstr ""
+msgstr "  - snàithlean ainm an fhaidhle:         %s\n"
 
 #: common/mapimg.c:1233
 #, c-format
 msgid "  - image toolkit:            %s\n"
-msgstr ""
+msgstr "  - acainnean deilbh:            %s\n"
 
 #: common/mapimg.c:1235
 #, c-format
 msgid "  - image format:             %s\n"
-msgstr ""
+msgstr "  - fòrmat deilbh:            %s\n"
 
 #: common/mapimg.c:1237
 #, c-format
 msgid "  - zoom factor:              %d\n"
-msgstr ""
+msgstr "  - factar sùm:              %d\n"
 
 #: common/mapimg.c:1239
-#, fuzzy, c-format
+#, c-format
 msgid "  - show area within borders: %s\n"
-msgstr "Crìochan nàiseanta"
+msgstr "  - seall an raon am broinn nan crìochan: %s\n"
 
 #: common/mapimg.c:1240 common/mapimg.c:1242 common/mapimg.c:1244
 #: common/mapimg.c:1246 common/mapimg.c:1248 common/mapimg.c:1252
-#, fuzzy
 msgid "yes"
-msgstr "Teachd."
+msgstr "tha"
 
 #: common/mapimg.c:1240 common/mapimg.c:1242 common/mapimg.c:1244
 #: common/mapimg.c:1246 common/mapimg.c:1248 common/mapimg.c:1252
-#, fuzzy
 msgid "no"
-msgstr "chan eil gin"
+msgstr "chan eil"
 
 #: common/mapimg.c:1241
 #, c-format
 msgid "  - show borders:             %s\n"
-msgstr ""
+msgstr "  - seall na crìochan:             %s\n"
 
 #: common/mapimg.c:1243
 #, c-format
 msgid "  - show cities:              %s\n"
-msgstr ""
+msgstr "  - seall na bailtean:              %s\n"
 
 #: common/mapimg.c:1245
 #, c-format
 msgid "  - show fog of war:          %s\n"
-msgstr ""
+msgstr "  - seall ceò a' chogaidh:          %s\n"
 
 #: common/mapimg.c:1247
 #, c-format
 msgid "  - show player knowledge:    %s\n"
-msgstr ""
+msgstr "  - seall eòlas a' chluicheadair:    %s\n"
 
 #: common/mapimg.c:1249
 #, c-format
 msgid "  - show terrain:             %s\n"
-msgstr ""
+msgstr "  - seall an talamh:             %s\n"
 
 #: common/mapimg.c:1250
 msgid "full"
-msgstr ""
+msgstr "slàn"
 
 #: common/mapimg.c:1250
 msgid "basic"
-msgstr ""
+msgstr "bunasach"
 
 #: common/mapimg.c:1251
 #, c-format
 msgid "  - show units:               %s\n"
-msgstr ""
+msgstr "  - seall na h-aonadan:               %s\n"
 
 #: common/mapimg.c:1253
 #, c-format
 msgid "  - players included:         %s"
-msgstr ""
+msgstr "  - cluicheadairean air an gabhail a-steach:         %s"
 
 #: common/mapimg.c:1263
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "  - player name:              %s"
-msgstr "Àm siubhail:        N/A     "
+msgstr ""
+"\n"
+"  - ainm a' chluicheadair:              %s"
 
 #: common/mapimg.c:1267
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "  - player id:                %d"
 msgstr ""
 "\n"
-"Rathad-iarainn           %3d"
+"  - ID cluicheadair:                %d"
 
 #: common/mapimg.c:1271
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "  - players:                  %s"
-msgstr "Iomlain:                     %9d%9d%9d%9d"
+msgstr ""
+"\n"
+"  - cluicheadairean:                  %s"
 
 #: common/mapimg.c:1327 common/mapimg.c:1565
-#, fuzzy
 msgid "map definition not checked or error"
-msgstr "Cha deach mìneachadh a' mhapa a sgrùdadh no thachair mearachd."
+msgstr "cha deach mìneachadh a' mhapa a sgrùdadh no thachair mearachd"
 
 #: common/mapimg.c:1548
-#, fuzzy, c-format
+#, c-format
 msgid "no map definition with id %d"
-msgstr "Chan eil mìneachadh mapa ann ris a bheil an DA %d."
+msgstr "chan eil mìneachadh mapa ann ris a bheil an ID %d"
 
 #: common/mapimg.c:1654
-#, fuzzy, c-format
+#, c-format
 msgid "unknown player name: '%s'"
-msgstr "Ainm a' chluicheadair: %s"
+msgstr "ainm cluicheadair neo-aithnichte: '%s'"
 
 #: common/mapimg.c:1670
-#, fuzzy, c-format
+#, c-format
 msgid "invalid player id: %d"
-msgstr "DA cluicheadair mhì-dhligheach: %d."
+msgstr "ID cluicheadair mì-dhligheach: %d"
 
 #: common/mapimg.c:1855
 #, c-format
@@ -12355,31 +12319,28 @@ msgid "Turn: %4d - Year: %10s"
 msgstr "Cuairt: %4d - Bliadhna: %10s"
 
 #: common/mapimg.c:2010
-#, fuzzy
 msgid "toolkit not defined"
-msgstr "Toolkit gun mhìneachadh!"
+msgstr "toolkit gun mhìneachadh"
 
 #: common/mapimg.c:2060 common/mapimg.c:2268
-#, fuzzy
 msgid "error generating the file name"
-msgstr "Mearachd le gineadh ainm an fhaidhle."
+msgstr "mearachd le gineadh ainm an fhaidhle"
 
 #: common/mapimg.c:2234
-#, fuzzy, c-format
+#, c-format
 msgid "error saving map image '%s'"
-msgstr "Mearachd le sàbhaladh ìomhaigh a' mhapa: '%s'."
+msgstr "mearachd le sàbhaladh ìomhaigh a' mhapa: '%s'"
 
 #: common/mapimg.c:2262
-#, fuzzy
 msgid "the ppm toolkit can only create images in the ppm format"
 msgstr ""
-"Chan urrainn dhan ppm toolkit a chruthachadh ach ìomhaighean dhen t-seòrsa "
-"ppm."
+"chan urrainn dhan ppm toolkit a chruthachadh ach ìomhaighean dhen t-seòrsa "
+"ppm"
 
 #: common/mapimg.c:2274
-#, fuzzy, c-format
+#, c-format
 msgid "could not open file: %s"
-msgstr "Cha do ghabh am faidhle a leanas fhosgladh: %s."
+msgstr "cha do ghabh am faidhle a leanas fhosgladh: %s"
 
 #: common/packets.c:408 common/packets.c:453
 msgid "decoding error"
@@ -12490,10 +12451,10 @@ msgstr "Feumaidh tu mìorbhail airson riatanasan air feadh eilein."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:653
-#, fuzzy
 msgid "Surviving requirements are only supported at world and player ranges."
 msgstr ""
-"Feumaidh an saoghal air fad a bhith fo bhuaidh de riatanasan mairsinneachd."
+"Chan eil taic do riatanasan mairsinneachd ach aig ìre an t-saoghail is a' "
+"chluicheadair."
 
 #: common/requirements.c:1351 common/requirements.c:1428
 #, c-format
@@ -16669,8 +16630,8 @@ msgid ""
 "units) despite fog-of-war. It allows all players to start building spaceship "
 "parts (assuming they have researched the necessary technologies)."
 msgstr ""
-"Chì an cluicheadair a thogas seo am mapa air fad -- agus bidh fiosrachadh ùr-"
-"nodha aig a' chluicheadair air gach leacag is baile (ach chan ann air "
+"Chì an cluicheadair a thogas seo am mapa air fad -- agus bidh fiosrachadh "
+"ùr-nodha aig a' chluicheadair air gach leacag is baile (ach chan ann air "
 "aonadan) an dh'aindeoin ceò a' chogaidh. Bheir seo comas dhan a h-uile "
 "cluicheadair tòiseachadh air soitheach-fànais a thogail (fhad 's a tha an "
 "teicneolas iomchaidh aca)."
@@ -17025,12 +16986,11 @@ msgstr ""
 
 #: data/civ2/nations.ruleset:339
 msgid "Celtic"
-msgstr ""
+msgstr "Ceilteach"
 
 #: data/civ2/nations.ruleset:340
-#, fuzzy
 msgid "?plural:Celts"
-msgstr "?plural:muinntir na Breatainne Bige"
+msgstr "?plural:muinntir nan Ceilteach"
 
 #: data/civ2/nations.ruleset:342 data/nation/briton.ruleset:6
 msgid ""
@@ -18509,18 +18469,18 @@ msgid "Default ruleset"
 msgstr "Na riaghailtean bunaiteach"
 
 #: data/default/game.ruleset:21
-#, fuzzy
 msgid "You are playing Freeciv with default ruleset for single player games."
-msgstr "Tha thu a' cluich Freeciv leis na riaghailtean bunaiteach."
+msgstr ""
+"Tha thu a' cluich Freeciv leis na riaghailtean bunaiteach airson geamannan "
+"aon chluicheadair."
 
 #: data/default/game.ruleset:200 data/experimental/game.ruleset:206
 #: data/multiplayer/game.ruleset:204
 msgid "CE"
-msgstr ""
+msgstr "AD"
 
 #: data/default/game.ruleset:201 data/experimental/game.ruleset:207
 #: data/multiplayer/game.ruleset:205
-#, fuzzy
 msgid "BCE"
 msgstr "RC"
 
@@ -18882,17 +18842,15 @@ msgstr "?unitclass:Tìr mòr"
 
 #: data/experimental/units.ruleset:394
 msgid "journeyman"
-msgstr ""
+msgstr "neach-ceàird"
 
 #: data/experimental/units.ruleset:394
-#, fuzzy
 msgid "working man"
-msgstr "Lìonra"
+msgstr "obraiche"
 
 #: data/experimental/units.ruleset:394
-#, fuzzy
 msgid "foreman"
-msgstr "Marcshluagh"
+msgstr "forman"
 
 #: data/Freeciv.in:68
 msgid "Connect to Freeciv Server"
@@ -19236,9 +19194,8 @@ msgid "Establish trade route"
 msgstr "Stèidhich slighe malairt"
 
 #: data/Freeciv.in:2299 data/Freeciv.in:2325
-#, fuzzy
 msgid "Choose Your Covert Strategy"
-msgstr "Tagh ro-innleachd an dìoplomait agad"
+msgstr "Tagh ro-innleachd dhìomhair agad"
 
 #: data/Freeciv.in:2333
 msgid "Investigate City (free)"
@@ -23876,9 +23833,9 @@ msgstr ""
 #: data/nation/somaliland.ruleset:24 data/nation/somali.ruleset:35
 #: data/nation/tongan.ruleset:22 data/nation/tswana.ruleset:29
 #: data/nation/zulu.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "Elder %s"
-msgstr "faisg air %s"
+msgstr "Èildear %s"
 
 #: data/nation/aborigines.ruleset:28 data/nation/estonian.ruleset:22
 #: data/nation/greek.ruleset:23 data/nation/maori.ruleset:26
@@ -23887,19 +23844,17 @@ msgstr "faisg air %s"
 #: data/nation/somaliland.ruleset:24 data/nation/somali.ruleset:35
 #: data/nation/tongan.ruleset:22 data/nation/tswana.ruleset:29
 #: data/nation/zulu.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Elder %s"
-msgstr "?female:Ceann Comhairle"
+msgstr "?female:Ban-èildear %s"
 
 #: data/nation/abyssinian.ruleset:3
-#, fuzzy
 msgid "Abyssinian"
-msgstr "muinntir Bhabaloin"
+msgstr "muinntir Abyssinia"
 
 #: data/nation/abyssinian.ruleset:4
-#, fuzzy
 msgid "?plural:Abyssinians"
-msgstr "?plural:muinntir Aisirea"
+msgstr "?plural:muinntir Abyssinia"
 
 #: data/nation/abyssinian.ruleset:6
 msgid ""
@@ -23907,6 +23862,10 @@ msgid ""
 "ruled historical states in the Horn of Africa, the most prominent being the "
 "Aksumite Kingdom and the Ethiopian Empire."
 msgstr ""
+"'S e muinntir Semitigeach air a bheil Habesha no Itiopaich cuideachd a tha "
+"ann am muinntir Abyssinia. Bha rìoghachdan aca gu eachdraidheil air Còrn "
+"Afraga agus 's e Rìoghachd Aksum agus Impireachd nan Itiopach an dà thè a b' "
+"ainmeile dhiubh."
 
 #: data/nation/acadian.ruleset:3
 msgid "Acadian"
@@ -23937,9 +23896,9 @@ msgstr ""
 
 #: data/nation/acadian.ruleset:31 data/nation/french.ruleset:41
 #: data/nation/quebecois.ruleset:20 data/nation/tahitian.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Premiere %s"
-msgstr "An làthair"
+msgstr "Premiere %s"
 
 #: data/nation/acadian.ruleset:32 data/nation/paraguayan.ruleset:38
 #: data/nation/sammarinese.ruleset:25
@@ -24050,14 +24009,12 @@ msgid "?female:Governor %s"
 msgstr "?female:Riaghlaiche %s"
 
 #: data/nation/acrean.ruleset:3
-#, fuzzy
 msgid "Acrean"
-msgstr "muinntir Araimea"
+msgstr "muinntir Acre"
 
 #: data/nation/acrean.ruleset:4
-#, fuzzy
 msgid "?plural:Acreans"
-msgstr "?plural:muinntir Araimea"
+msgstr "?plural:muinntir Acre"
 
 #: data/nation/acrean.ruleset:6
 msgid ""
@@ -24067,16 +24024,22 @@ msgid ""
 "Petropolis of 1903, after which Acre was annexed to Brazil. Acre is one of "
 "the world's most important rubber producing regions."
 msgstr ""
+"'S e Acre an stàit as fhaide siar sa Bhraisil. Bha an sgìre fo smachd "
+"Bhoilibhia gu ruige 1899 nuair a dh'èirich na tuinichean Braisileach ann an "
+"aramach agus ghairm iad Stàit Neo-eisimeileach Acre. Ghèill Boilibhia a cuid "
+"tagraidh air an sgìre ann an Cùmhnant Petropolis ann an 1903 agus bha Acre "
+"'na phàirt dhen Bhraisil o sin a-mach. 'S e aon dhe na sgìrean as "
+"cudromaiche san t-saoghal a chruthaicheas rubair a tha ann an-diugh."
 
 #: data/nation/acrean.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Baron %s"
-msgstr "ann an %s"
+msgstr "Baran %s"
 
 #: data/nation/acrean.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Baroness %s"
-msgstr "ann an %s"
+msgstr "Bana-bharan %s"
 
 #: data/nation/acrean.ruleset:32 data/nation/bissauguinean.ruleset:23
 #: data/nation/californian.ruleset:35 data/nation/capeverdean.ruleset:25
@@ -24180,20 +24143,20 @@ msgid "?female:Mullah %s"
 msgstr "?female:Mulla %s"
 
 #: data/nation/african.ruleset:3
-#, fuzzy
 msgid "African"
-msgstr "muinntir Aimeireaga"
+msgstr "muinntir Afraga"
 
 #: data/nation/african.ruleset:4
-#, fuzzy
 msgid "?plural:African"
-msgstr "?plural:muinntir Aimeireaga"
+msgstr "?plural:muinntir Afraga"
 
 #: data/nation/african.ruleset:6
 msgid ""
 "Africa: the cradle of humanity. It is the world's second largest continent "
 "and also its second most populous."
 msgstr ""
+"Afraga: creadhall mac an duine. An dàrna mòr-thìr as motha san t-saoghal "
+"agus cuideachd an dàrna mòr-thir as sluaghmhoire."
 
 #: data/nation/ainu.ruleset:3
 msgid "Ainu"
@@ -24239,14 +24202,12 @@ msgstr ""
 "fàs air coirce Innseanach, casabha, buntàta milis is yam."
 
 #: data/nation/alandalus.ruleset:3
-#, fuzzy
 msgid "Andalusi"
-msgstr "Apaiz nagusi"
+msgstr "Andalusi"
 
 #: data/nation/alandalus.ruleset:4
-#, fuzzy
 msgid "?plural:Andalusis"
-msgstr "?plural:muinntir Beangal"
+msgstr "?plural:muinntir Al-Andalus"
 
 #: data/nation/alandalus.ruleset:6
 msgid ""
@@ -24320,18 +24281,18 @@ msgstr "Cailif %s"
 #: data/nation/kuwaiti.ruleset:30 data/nation/moroccan.ruleset:30
 #: data/nation/omani.ruleset:31 data/nation/ottoman.ruleset:30
 #: data/nation/qatari.ruleset:23 data/nation/saudi.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Vizier %s"
-msgstr "faisg air %s"
+msgstr "Bisir %s"
 
 #: data/nation/alandalus.ruleset:34 data/nation/arab.ruleset:22
 #: data/nation/bahraini.ruleset:28 data/nation/emirati.ruleset:27
 #: data/nation/kuwaiti.ruleset:30 data/nation/moroccan.ruleset:30
 #: data/nation/omani.ruleset:31 data/nation/ottoman.ruleset:30
 #: data/nation/qatari.ruleset:23 data/nation/saudi.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Vizier %s"
-msgstr "?female:Ceann Comhairle"
+msgstr "?female:Bana-bhisir %s"
 
 #: data/nation/albanian.ruleset:3
 msgid "Albanian"
@@ -24484,14 +24445,12 @@ msgid "?female:%s Dey"
 msgstr "?female:%s Dey"
 
 #: data/nation/alsatian.ruleset:3
-#, fuzzy
 msgid "Alsatian"
-msgstr "muinntir na h-Airmeine"
+msgstr "muinntir na h-Alsaise"
 
 #: data/nation/alsatian.ruleset:4
-#, fuzzy
 msgid "?plural:Alsatians"
-msgstr "?plural:muinntir an Ostair"
+msgstr "?plural:muinntir na h-Alsaise"
 
 #: data/nation/alsatian.ruleset:6
 msgid ""
@@ -24503,6 +24462,14 @@ msgid ""
 "and France 4 times in less than a century. Since 1944 it has been in French "
 "hands."
 msgstr ""
+"'S e sgìre san Roinn-Eòrpa air crìochan na Frainge 's na Gearmailte a tha "
+"san Alsas. Bha i 'na pàirt de dh'Impireachd Naomh na Ròimhe sna meadhan-"
+"aoisean, dòrnan de stàit-bhailtean gu math beartach. Ghabh an Fraing os "
+"làimh na bailtean Alsasach mean air mhean san 17mh agus san 18mh linn ach as "
+"dèidh sin, chaidh cogadh a dhèanamh airson na sgìre na bu trice na sgìre "
+"sam bith eile san Roinn-Eòrpa, a' dol air ais is air adhart eadar a' "
+"Ghearmailt agus an Fhraing 4 turais ann an ceud bliadhna. 'S ann aig an "
+"Fhraing a bha i a-mach o 1944."
 
 #: data/nation/alsatian.ruleset:25 data/nation/anhaltian.ruleset:31
 #: data/nation/badian.ruleset:22 data/nation/bavarian.ruleset:25
@@ -24670,6 +24637,13 @@ msgid ""
 "had become a world superpower; its cultural, economical and political "
 "influence on the rest of the world is enormous."
 msgstr ""
+"Fhuair Stàitean Aonaichte Aimeireaga neo-eisimeileachd on Bhreatainn Mhòr an "
+"dèidh aramach eadar 1776 is 1783 AD. Ghairm iad bun-reachd ann an 1789, aon "
+"dhe na poblachdan ionadach ùra a bu tràithe. Leudaich na Stàitean Aonaichte "
+"an talamh aca air tìr-mòr Aimeireaga a Tuath an toiseach agus thall thairis "
+"cuideachd an uairsin. Bha an dùthaich 'na stàite fhìor chumhachdach aig "
+"deireadh na 20mh linn agus tha buaidh anabarrach mhòr aice air cultar, "
+"eaconamaidh is poileataigeachd an t-saoghail air fad."
 
 #: data/nation/andorran.ruleset:3
 msgid "Andorran"
@@ -24700,14 +24674,14 @@ msgid "Dictatress %s"
 msgstr "Ceannsalaiche %s"
 
 #: data/nation/andorran.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Co-Prince %s"
-msgstr "An làthair"
+msgstr "Co-phrionnsa %s"
 
 #: data/nation/andorran.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Co-Princess %s"
-msgstr "Àrd-bhan-sagart"
+msgstr "Co-bhana-phrionnsa %s"
 
 #: data/nation/angolan.ruleset:3
 msgid "Angolan"
@@ -24736,14 +24710,12 @@ msgstr ""
 "dheireadh thall ann an 2002 an dèidh lethcheud bliadhna de shabaid."
 
 #: data/nation/anhaltian.ruleset:3
-#, fuzzy
 msgid "Anhaltian"
-msgstr "muinntir na h-Antartaig"
+msgstr "muinntir Anhalt"
 
 #: data/nation/anhaltian.ruleset:4
-#, fuzzy
 msgid "?plural:Anhaltians"
-msgstr "?plural:muinntir an Ostair"
+msgstr "?plural:muinntir Anhalt"
 
 #: data/nation/anhaltian.ruleset:6
 msgid ""
@@ -24756,6 +24728,16 @@ msgid ""
 "Anhalt finally ceased to exist when the allies decided to merge it with the "
 "former Prussian Province of Saxony to form the state of Saxony-Anhalt."
 msgstr ""
+"'S e stàit na Gearmailte a bha ann an Anhalt. B' àbhaist dha a bhith 'a "
+"dùthaich 's e air sgoltadh o Shagsainn ann an 1212. Fad cuid mhath dhe "
+"h-eachdraidh, bha e air a sgaradh ann an iomadh sgìre fo smachd an dearbh "
+"theaghlaich. Fhuair cunntaichean Anhalt inbhe dhiùcaichean nuair a chaidh "
+"Impireachd Naomh na Ròimhe a leigeil mu sgaoil le Napoleon ann an 1806. "
+"Chaidh a co-aonadh a-rithist san aon diùcachd ann an 1863. Nuair rinneadh a' "
+"chùis air rìghrean na Gearmailte ann an 1918, rinneadh saor-stàit dhi. "
+"Chaidh Anhalt à bith gu tur an dèidh an Dàrna Chogaidh Mhòir nuair a chuir "
+"an caidreachas còmhla e ri seann sgìre Phruiseach Shagsainn gus Sasgsainn-"
+"Anhalt a chruthachadh."
 
 #: data/nation/anhaltian.ruleset:32 data/nation/aragonese.ruleset:29
 #: data/nation/castilian.ruleset:31 data/nation/catalan.ruleset:30
@@ -24858,12 +24840,11 @@ msgstr "?female:Ban-Impire %s"
 
 #: data/nation/antiguan.ruleset:3
 msgid "Antiguan and Barbudan"
-msgstr ""
+msgstr "muinntir Aintìoga is Barbuda"
 
 #: data/nation/antiguan.ruleset:4
-#, fuzzy
 msgid "?plural:Antiguans and Barbudans"
-msgstr "?plural:muinntir Bhabaloin"
+msgstr "?plural:muinntir Aintìoga is Barbuda"
 
 #: data/nation/antiguan.ruleset:6
 msgid ""
@@ -24871,16 +24852,18 @@ msgid ""
 "two eponymous islands as well as a number of smaller islets. The country has "
 "been independent from the United Kingdom since 1981."
 msgstr ""
+"'S e dùthaich ann an taobh an ear Muir nan Caraibh a tha ann an Aintìoga is "
+"Barbuda, a' gabhail a-steach an dà eilean sin agus feadhainn bheaga a "
+"bharrachd. Fhuair an dùthaich neo-eisimeileachd on Rìoghachd Aonaichte ann "
+"an 1981."
 
 #: data/nation/antillean.ruleset:3
-#, fuzzy
 msgid "Antillean"
-msgstr "Airtilearaidh"
+msgstr "muinntir Aintilia"
 
 #: data/nation/antillean.ruleset:4
-#, fuzzy
 msgid "?plural:Antilleans"
-msgstr "?plural:muinntir Aildirea"
+msgstr "?plural:muinntir Aintilia"
 
 #: data/nation/antillean.ruleset:6
 msgid ""
@@ -24892,6 +24875,14 @@ msgid ""
 "the Netherlands, the other three islands have been directly integrated into "
 "the Netherlands as special municipalities."
 msgstr ""
+"Chaidh eileanan Aruba, Bonaire, Curaçao, Saba, Saint Martin agus Saint "
+"Eustatius a thuineachadh leis na Duitsich san 17mh linn. Tha an sluagh ann "
+"'na mheasgachadh de dh'Eòrpaich, Afraganaich is muinntir Aimeireaga a Deas. "
+"Fhuair Eileanan Aintilia nan Tìrean Ìsle fèin-riaghladh ann an 1954 agus "
+"chaidh iad a leigeil mu sgaoil ann an 2010. Tha Aruba, Curaçao is Saint "
+"Martin 'nan dùthchannan am broinn Rìoghachd nan Tìrean Ìsle a-nis agus "
+"chaidh na trì eileanan eile a chur ris na Tìrean Ìsle mar sgìrean "
+"sònraichte."
 
 #: data/nation/apache.ruleset:3
 msgid "Apache"
@@ -25089,14 +25080,12 @@ msgid "?female:Asantehene %s"
 msgstr "?female:Asantehene %s"
 
 #: data/nation/assamese.ruleset:3
-#, fuzzy
 msgid "Assamese"
-msgstr "?plural:muinntir Araimea"
+msgstr "?plural:muinntir Asam"
 
 #: data/nation/assamese.ruleset:4
-#, fuzzy
 msgid "?plural:Assamese"
-msgstr "?plural:muinntir Araimea"
+msgstr "?plural:muinntir Asam"
 
 #: data/nation/assamese.ruleset:6
 msgid ""
@@ -25106,6 +25095,11 @@ msgid ""
 "by the mighty Mughal Empire, effectively halting the Mughals' eastward "
 "expansion."
 msgstr ""
+"Chaidh Rìoghachd Asam (Āhom) a stèidheachadh ann an 1228 air feadh bun-"
+"chnuic an Himalaya le buidhnean de Shan a thàinig às an àite far a bheil "
+"ear-thuath Miànmar an-diugh. Bha rìghrean Asam ainmeil 's iad air buaidh a "
+"thoirt air grunn airm Impireachd nam Mughal is leis a sin, a' cur casg air "
+"fàs Impireachd nam Mughal dhan ear."
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
@@ -25152,9 +25146,9 @@ msgstr ""
 "choimhearsnachd fèin-riaghlaidh san Spàinn an-diugh."
 
 #: data/nation/asturian.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Princess %s"
-msgstr "?female:Prìomh Mhinistear"
+msgstr "?female:Bana-phrionnsa %s"
 
 #: data/nation/atlantean.ruleset:3
 msgid "Atlantean"
@@ -25225,14 +25219,14 @@ msgstr ""
 "Chogaidh Mhòir ann an 1945 nuair a ghabh an Caidreachas seilbh na dùthcha."
 
 #: data/nation/austrian.ruleset:46
-#, fuzzy, c-format
+#, c-format
 msgid "Archduke %s"
-msgstr "Boghadairean"
+msgstr "Àrd-diùc %s"
 
 #: data/nation/austrian.ruleset:46
-#, fuzzy, c-format
+#, c-format
 msgid "Archduchess %s"
-msgstr "Boghadairean"
+msgstr "Àrd-bhan-diùc %s"
 
 #: data/nation/austrian.ruleset:47 data/nation/german.ruleset:34
 #, c-format
@@ -25245,14 +25239,12 @@ msgid "Kaiserin %s"
 msgstr "Kaiserin %s"
 
 #: data/nation/avar.ruleset:3
-#, fuzzy
 msgid "Avar"
-msgstr "Aymara"
+msgstr "muinntir nan Avar"
 
 #: data/nation/avar.ruleset:4
-#, fuzzy
 msgid "?plural:Avars"
-msgstr "?plural:Aymara"
+msgstr "?plural:muinntir nan Avar"
 
 #: data/nation/avar.ruleset:6
 msgid ""
@@ -25264,6 +25256,14 @@ msgid ""
 "Gradually they lost power and political importance and eventually the Avars "
 "blended with Slavic peoples."
 msgstr ""
+"'S e caidreachas iniltearan àrsaidh a bha anns na h-Avar no Avar na "
+"Eòrp-Àisea. Bha iomadh sluagh 'nam measg ach thathar sa bheachd gum b' e a' "
+"Phroto-Bhulgairis am prìomh chànan nam measg, am broinn fo-bhuidheann chànan "
+"Turcach Oghuz ach chan eil dad a chinnt a thaobh fìor thùsan nan Avar. "
+"Faodaidh gum b' e buidheann Rouran no Hephthalite a bha annta o thùsa. "
+"Chaidh an ceannsachadh le treubhan Slàbhach ionadail an dèidh dhaibh "
+"còmhnaidh a ghabhail ann am Pannonia. Chaill iad an cuid cumhachd mean air "
+"mhean agus cho-aonaich iad leis na sluaghan Slàbhach aig a' cheann thall."
 
 #: data/nation/aymara.ruleset:3
 msgid "Aymara"
@@ -25339,14 +25339,12 @@ msgid "Margravine %s"
 msgstr "Markgräfin %s"
 
 #: data/nation/bahamian.ruleset:3
-#, fuzzy
 msgid "Bahamian"
-msgstr "muinntir Babhairea"
+msgstr "muinntir Eileanan Bhathama"
 
 #: data/nation/bahamian.ruleset:4
-#, fuzzy
 msgid "?plural:Bahamians"
-msgstr "?plural:muinntir Babhairea"
+msgstr "?plural:muinntir Eileanan Bhathama"
 
 #: data/nation/bahamian.ruleset:6
 msgid ""
@@ -25359,16 +25357,24 @@ msgid ""
 "The Bahamas are the most developed country of Latin America and the "
 "Caribbean as well as the world's wealthiest black-majority country."
 msgstr ""
+"'S e badan de dh'eileanan ann an Aimeireaga a Tuath a tha ann an Eileanan "
+"Bhathama. B' ann am badeigin sna h-Eileanan Bhathama a chuir Columbus cas "
+"air tìr a' chiad turas. Chuireadh às dhan t-sluagh tùsail an uairsin ach cha "
+"robh cus ùidh aig daoine annta gus an deach an tuineachadh le muinntir "
+"Bhreatainn san 17mh linn. Tha Eileanan Bhathama air a bhith 'nan dùthaich "
+"neo-eisimeileach sa Cho-fhlaitheas a-mach o 1973. Tha iad ainmeil air an "
+"cuid thràighean an-diugh ach cuideachd mar aonad ionmhais far cladaich. 'S e "
+"Eileanan Bhathama an dùthaich as leasaichte ann an Aimeireaga Laideannach "
+"agus ann am Muir nan Caraib cuideachd agus an dùthaich as beartaiche sa "
+"bheil a' mhòrchuid 'nan daoine dubha."
 
 #: data/nation/bahraini.ruleset:3
-#, fuzzy
 msgid "Bahraini"
-msgstr "Borbach"
+msgstr "muinntir Bachrain"
 
 #: data/nation/bahraini.ruleset:4
-#, fuzzy
 msgid "?plural:Bahrainis"
-msgstr "?plural:Borbaich"
+msgstr "?plural:muinntir Bachrain"
 
 #: data/nation/bahraini.ruleset:6
 msgid ""
@@ -25378,32 +25384,39 @@ msgid ""
 "became a constitutional monarchy in 2001 but a pro-democracy uprising in "
 "2011 was violently crushed."
 msgstr ""
+"'S dùthaich a tha 'na eilean ann an Camas nam Peirseach a tha ann am "
+"Bachrain, an dùthaich as lugha san Ear-Mheadhan. Fhuair Bachrain neo-"
+"eisimeileachd on Pheirse san 18mh linn ach bha e 'na chosantaireachd "
+"Bhreatannach gu ruige 1971. Rinneadh monarcachd bhun-reachdail dhi ann an "
+"2011 ach a dh'aindeoin sin chaidh aramach airson deamocrasaidh a chur sìos "
+"gu brùideil ann an 2011."
 
 #: data/nation/bahraini.ruleset:26 data/nation/sudanese.ruleset:19
-#, fuzzy, c-format
+#, c-format
 msgid "Mahdi %s"
-msgstr "Malikta"
+msgstr "Mahdī %s"
 
 #: data/nation/bahraini.ruleset:26 data/nation/sudanese.ruleset:19
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Mahdi %s"
-msgstr "?female:Taoiseach"
+msgstr "?female:Mahdī %s"
 
 #: data/nation/bangladeshi.ruleset:3
-#, fuzzy
 msgid "Bangladeshi"
-msgstr "Long-chatha"
+msgstr "muinntir Bangla-Deis"
 
 #: data/nation/bangladeshi.ruleset:4
-#, fuzzy
 msgid "?plural:Bangladeshis"
-msgstr "?plural:muinntir Beangal"
+msgstr "?plural:muinntir Bangla-Deis"
 
 #: data/nation/bangladeshi.ruleset:6
 msgid ""
 "The People's Republic of Bangladesh was formed from the former Pakistani "
 "territory of East Bengal following a war of independence."
 msgstr ""
+"Chaidh Sluagh-phoblachd Bangla-Deis a chruthachadh an dèidh cogadh neo-"
+"eisimeileachd air bun-stèidh seann ranntair Beangal an Ear a bhiodh 'na "
+"pàirt de Phagastàn."
 
 #: data/nation/bangladeshi.ruleset:23 data/nation/bengali.ruleset:27
 #, c-format
@@ -25416,14 +25429,12 @@ msgid "?female:Nabob %s"
 msgstr "?female:Nōbab %s"
 
 #: data/nation/barbadian.ruleset:3
-#, fuzzy
 msgid "Barbadian"
-msgstr "Borbach"
+msgstr "muinntir Barbados"
 
 #: data/nation/barbadian.ruleset:4
-#, fuzzy
 msgid "?plural:Barbadians"
-msgstr "?plural:Muinntir Bhorbach"
+msgstr "?plural:muinntir Barbados"
 
 #: data/nation/barbadian.ruleset:6
 msgid ""
@@ -25434,6 +25445,13 @@ msgid ""
 "been independent since 1966. Barbados is a major international tourist "
 "destination and one of the most developed countries of the Caribbean."
 msgstr ""
+"'S e dùthaich a tha 'na eilean a tha ann am Barbados, mu 100km ear air "
+"Eileanan Windward sa Chuan Siar. 'S e muinntir Arawak a b' àbhaist a bhith "
+"a' fuireach ann ach lorg muinntir Phortagail an t-eilean mun bhliadhna 1500 "
+"agus nuair a thuinich na Sasannaich Barbados ann an 1627, cha do lorg iad "
+"duine beò ann. Tha i air a bhith 'na dùthaich neo-eisimeileach a-mach o "
+"1966. Tha Barbados 'na cheann-uidhe cudromach do luchd-turasachd agus aon "
+"dhe na dùthchannan as leasaichte ann am Muir nan Caraib."
 
 #: data/nation/barbarian.ruleset:3 server/stdinhand.c:3442
 #: server/stdinhand.c:6088
@@ -25500,9 +25518,9 @@ msgstr ""
 "eil cinnt cò às a thàinig i."
 
 #: data/nation/basque.ruleset:32 data/nation/iranian.ruleset:40
-#, fuzzy, c-format
+#, c-format
 msgid "Leader %s"
-msgstr "faisg air %s"
+msgstr "Ceannard %s"
 
 #: data/nation/basque.ruleset:32 data/nation/iranian.ruleset:40
 #, c-format
@@ -25510,14 +25528,14 @@ msgid "?female:Leader %s"
 msgstr "?female:Ceannard %s"
 
 #: data/nation/basque.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "Lehendakari %s"
-msgstr "Lehendakari"
+msgstr "Lehendakari %s"
 
 #: data/nation/basque.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Lehendakari %s"
-msgstr "?female:Lehendakari"
+msgstr "?female:Lehendakari %s"
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
@@ -25592,14 +25610,12 @@ msgid "Stadtholdress %s"
 msgstr "Stadhouder %s"
 
 #: data/nation/belizean.ruleset:3
-#, fuzzy
 msgid "Belizean"
-msgstr "muinntir na Beilge"
+msgstr "muinntir Beilìs"
 
 #: data/nation/belizean.ruleset:4
-#, fuzzy
 msgid "?plural:Belizeans"
-msgstr "?plural:muinntir na Beilge"
+msgstr "?plural:muinntir Beilìs"
 
 #: data/nation/belizean.ruleset:6
 msgid ""
@@ -25610,16 +25626,24 @@ msgid ""
 "diverse, its population consisting of Creoles, Mayans, Spanish-speaking "
 "mestizos, Garifunas, Chinese, Mennonites, and Indians."
 msgstr ""
+"'S e Beilìs an dùthaich as lugha ann am Meadhan Aimeireaga. Bha e taobh "
+"a-staigh rìoghachdan nam Maya aig àm ach chaidh a thuineachadh le "
+"spùinneadairean is logairean Breatannach san 17mh linn. Fhuair Beilìs, no "
+"Honduras na Breatainne mar a bha oirre roimhe, inbhe tuineachas a' chrùin "
+"ann an 1862. Tha i air a bhith 'na dùthaich neo-eisimeileach a-mach o 1981. "
+"Tha measgachadh mòr de shluaghan ann, a' gabhail a-steach muinntir "
+"Crìtheolach, Maya, mestizos a bhruidhneas Spàinntis, Garifuna, Sìnich, "
+"Mennonitich is Innseanaich."
 
 #: data/nation/belizean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Superintendent %s"
-msgstr "?female:An t-Urramach"
+msgstr "?female:Feumannach %s"
 
 #: data/nation/belizean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Superintendent %s"
-msgstr "?female:An t-Urramach"
+msgstr "?female:Ban-fheumannach %s"
 
 #: data/nation/bengali.ruleset:3
 msgid "Bengali"
@@ -25643,14 +25667,12 @@ msgstr ""
 "taobh an iar dheth ann an stàit Innseanach na h-Iar-Bheangaile."
 
 #: data/nation/beninese.ruleset:3
-#, fuzzy
 msgid "Beninese"
-msgstr "Mèinnean"
+msgstr "muinntir Beinin"
 
 #: data/nation/beninese.ruleset:4
-#, fuzzy
 msgid "?plural:Beninese"
-msgstr "?plural:muinntir na h-Argantain"
+msgstr "?plural:muinntir Beinin"
 
 #: data/nation/beninese.ruleset:6
 msgid ""
@@ -25659,6 +25681,11 @@ msgid ""
 "in 1972 and renamed the country Benin three years later. Multiparty rule "
 "returned in 1990."
 msgstr ""
+"B' e seo làrach rìoghachd Dahomey ach chaidh a thuineachadh leis an Fhraing "
+"san 19mh linn. Fhuair Dahomey neo-eisimeileachd ann an 1960 ach ghlac "
+"Marxistich smachd air an dùthaich ann an 1972 's thug iad Beinin oirre trì "
+"bliadhna an dèidh sin. Chaidh riaghladh ioma-phàirtaidhean a thilleadh ann "
+"an 1990."
 
 #: data/nation/benin.ruleset:3
 msgid "Benin"
@@ -25768,30 +25795,30 @@ msgid "?female:Colonel %s"
 msgstr "?female:Còirneal %s"
 
 #: data/nation/bissauguinean.ruleset:3
-#, fuzzy
 msgid "Bissau-Guinean"
-msgstr "?plural:muinntir Bosna-Hearsagobhana"
+msgstr "?plural:muinntir Gini-Bioso"
 
 #: data/nation/bissauguinean.ruleset:4
-#, fuzzy
 msgid "?plural:Bissau-Guineans"
-msgstr "?plural:muinntir Bosna-Hearsagobhana"
+msgstr "?plural:muinntir Gini-Bioso"
 
 #: data/nation/bissauguinean.ruleset:6
 msgid ""
 "Guinea-Bissau is a country in West Africa. Formerly known as Portuguese "
 "Guinea, it declared independence in 1973."
 msgstr ""
+"'S e dùthaich ann an Afraga an Iar a tha ann an Gini-Bioso. 'S e Gini na "
+"Portagaile a bha oirre roimhe agus fhuair i neo-eismeileachd ann an 1973."
 
 #: data/nation/bissauguinean.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Captain-Major %s"
-msgstr "ann an %s"
+msgstr "Caiptean Màidsear %s"
 
 #: data/nation/bissauguinean.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Captain-Major %s"
-msgstr "?female:Taoiseach"
+msgstr "?female:Bana-Chaiptean Màidsear %s"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -25844,14 +25871,14 @@ msgid "?female:General %s"
 msgstr "?female:General %s"
 
 #: data/nation/boer.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "State President %s"
-msgstr "An làthair"
+msgstr "Ceann-suidhe na Stàite %s"
 
 #: data/nation/boer.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:State President %s"
-msgstr "?female:Prìomh Mhinistear"
+msgstr "?female:Ceann-suidhe na Stàite %s"
 
 #: data/nation/bolivian.ruleset:3
 msgid "Bolivian"
@@ -26080,17 +26107,17 @@ msgstr ""
 #: data/nation/holyroman.ruleset:32 data/nation/russian.ruleset:46
 #: data/nation/scottishgaelic.ruleset:36 data/nation/scottish.ruleset:23
 #: data/nation/spanish.ruleset:39
-#, fuzzy, c-format
+#, c-format
 msgid "Pretender %s"
-msgstr "Iongantas: %s"
+msgstr "Tagarach %s"
 
 #: data/nation/british.ruleset:23 data/nation/english.ruleset:25
 #: data/nation/holyroman.ruleset:32 data/nation/russian.ruleset:46
 #: data/nation/scottishgaelic.ruleset:36 data/nation/scottish.ruleset:23
 #: data/nation/spanish.ruleset:39
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Pretender %s"
-msgstr "?female:Prìomh Mhinistear"
+msgstr "?female:Ban-tagarach %s"
 
 #: data/nation/british.ruleset:24 data/nation/chimu.ruleset:26
 #: data/nation/english.ruleset:26 data/nation/frisian.ruleset:36
@@ -26120,14 +26147,12 @@ msgid "?plural:Britons"
 msgstr "?plural:Muinntir Bhriotainn"
 
 #: data/nation/bruneian.ruleset:3
-#, fuzzy
 msgid "Bruneian"
-msgstr "muinntir na Bealaruise"
+msgstr "muinntir Bhrùnaigh"
 
 #: data/nation/bruneian.ruleset:4
-#, fuzzy
 msgid "?plural:Bruneians"
-msgstr "?plural:muinntir na Beilge"
+msgstr "?plural:muinntir Bhrùnaigh"
 
 #: data/nation/bruneian.ruleset:6
 msgid ""
@@ -26136,6 +26161,11 @@ msgid ""
 "century later thanks to its control of the maritime trade in much of "
 "Southeast Asia. Brunei was a British protectorate from 1888 to 1984."
 msgstr ""
+"'S e dùthaich ann am Borneo a tha ann am Brùnaigh Dàr as-Salàm am measg nan "
+"eileanan Malaidheach. Tha an t-sultanachd a' dol air ais dhan 14mh linn agus "
+"bha i 'na stàit chumhachdach mu cheud bliadhna an dèidh sin taing dhan "
+"smachd a bha aice air cuid mhath de mhalairt mara ann an Ear-Dheas Àisea. "
+"Bha Brùnaigh 'na chosantaireachd Bhreatannach eadar 1888 is 1984."
 
 #: data/nation/bruneian.ruleset:23 data/nation/circassian.ruleset:36
 #: data/nation/comorian.ruleset:25 data/nation/crimeantatar.ruleset:41
@@ -26268,14 +26298,12 @@ msgstr ""
 "a' chogaidh."
 
 #: data/nation/buryat.ruleset:3
-#, fuzzy
 msgid "Buryat"
-msgstr "Ceanaich e!"
+msgstr "muinntir nam Buryat"
 
 #: data/nation/buryat.ruleset:4
-#, fuzzy
 msgid "?plural:Buryats"
-msgstr "?plural:muinntir na Breatainne Bige"
+msgstr "?plural:muinntir nam Buryat"
 
 #: data/nation/buryat.ruleset:6
 msgid ""
@@ -26288,6 +26316,14 @@ msgid ""
 "half-million Buryats in the world as well as the center of Buddhism in "
 "Russia."
 msgstr ""
+"A-rèir sgrìobhainnean eachdraidheil nam Mongol, b' iad na Buryat na "
+"Mongolaich a bha a' fuireach sna coilltean faisg air Loch Baikal. Chaidh an "
+"ceannsachadh le Züchi ann an 1207, am mac as sine aig Čingiz Khan. Nuair a "
+"ghabh an Ruis os làimh dùthaich nam Buryat air cùmhnantan ann an 1689 is "
+"1728, chaidh an sgaradh o chorr nam Mongolach agus thòisich iad air fèin-"
+"aithne eadar-dhealaichte a chruthachadh dhaibh fhèin. Tha a' chuid as motha "
+"de na Buryat a' fuireach ann am Poblachd nam Buryat an-diugh, faisg air leth "
+"mhillean dhiubh agus tha e am meadhan nan sluaghan Buddhach san Ruis."
 
 #: data/nation/byzantium.ruleset:3
 msgid "Byzantine"
@@ -26425,14 +26461,12 @@ msgstr ""
 #. TRANS: U+00F1 LATIN SMALL LETTER N WITH TILDE if available in
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 241.
 #: data/nation/canari.ruleset:6
-#, fuzzy
 msgid "Canari"
-msgstr "san Fhaoilleach"
+msgstr "muinntir nan Cañari"
 
 #: data/nation/canari.ruleset:7
-#, fuzzy
 msgid "?plural:Canaris"
-msgstr "?plural:muinntir Babhairea"
+msgstr "?plural:muinntir nan Cañari"
 
 #: data/nation/canari.ruleset:9
 msgid ""
@@ -26447,16 +26481,25 @@ msgid ""
 "resitance. They rebelled during the Incan civil war and sided with the "
 "Spanish during their conquest of the Inca empire."
 msgstr ""
+"'S e sìobhaltas ro-Cholombach a bha anns na Cañari far a bheil Eacuador an-"
+"diugh. Tha an cuid freumhan a' nochdadh a-mach on 6mh linn. Gu h-annasach, "
+"cha robh iad a' dèanamh adhradh dhan ghrian mar a bha a' mhòrchuid sna "
+"Beanntan Andach. 'S mathaid gun robh ceangal aig Cañari ri Mochica a thaobh "
+"cànain ach bha a' chuid a bu mhotha dhiubh a' bruidhinn Ceatsua aig àm "
+"ceannsachadh nan Spàinnteach. Stèidhich na Cañari caidreachas aotram le "
+"Guapdondelig mar mheadhan poileataigeach aca, an t-àite far a bheil Cuenca "
+"an-diugh, ceanna-bhaile sgìre Azuay. Chaidh an ceannsachadh leis na h-Inca "
+"aig deireadh na 15mh linn ged a chuir iad 'nan aghaidh gu làidir. Dh'èirich "
+"iad ann an aramach rè cogadh sìobhalta nan Inca agus ghabh iad taobh nan "
+"Spàinnteach nuair a bha iadsa a' ceannsachadh Impireachd nan Inca."
 
 #: data/nation/capeverdean.ruleset:3
-#, fuzzy
 msgid "Cape Verdean"
-msgstr "?plural:muinntir Araimea"
+msgstr "?plural:muinntir a' Chip Uaine"
 
 #: data/nation/capeverdean.ruleset:4
-#, fuzzy
 msgid "?plural:Cape Verdean"
-msgstr "?plural:muinntir Araimea"
+msgstr "?plural:muinntir a' Chip Uaine"
 
 #: data/nation/capeverdean.ruleset:6
 msgid ""
@@ -26466,16 +26509,22 @@ msgid ""
 "Atlantic slave trade. The islands declared independence from Portugal in "
 "1975. The Cape Verdean population is of mixed European and African descent."
 msgstr ""
+"'S e buidheann de dh'eileanan far cladach taobh an Iar Afraga a tha sa Cheap "
+"Uaine. Tha coltas nach robh duine sam bith a' fuireach ann nuair a chaidh "
+"na h-eileanan a thuineachadh leis na Portagailich san 15mh linn. Bha an Ceap "
+"Uaine an teis-mheadhan malairt nan tràillean thairis air a' Chuan Siar. "
+"Ghairm na h-eileanan neo-eisimeileachd on Phortagail ann an 1975. Tha an "
+"sluagh measgaichte, de shinnsireachd Eòrpach agus Afragach."
 
 #: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:34
-#, fuzzy, c-format
+#, c-format
 msgid "Admiral %s"
-msgstr "Èimir"
+msgstr "Àrd-mharaiche %s"
 
 #: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:34
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Admiral %s"
-msgstr "?female:Prìomh Mhinistear"
+msgstr "?female:Ban-àrd-mharaiche %s"
 
 #: data/nation/castilian.ruleset:3
 msgid "Castilian"
@@ -26610,14 +26659,12 @@ msgstr "Stiùiriche as Àirde %s"
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E9.
 #: data/nation/chadian.ruleset:6
-#, fuzzy
 msgid "Chadian"
-msgstr "Cealgaireachd"
+msgstr "muinntir na Seàd"
 
 #: data/nation/chadian.ruleset:7
-#, fuzzy
 msgid "?plural:Chadians"
-msgstr "?plural:muinntir Babhairea"
+msgstr "?plural:muinntir na Seàd"
 
 #: data/nation/chadian.ruleset:9
 msgid ""
@@ -26626,6 +26673,11 @@ msgid ""
 "remains one of the poorest countries of the world. From 1982 to 1990 Hissene "
 "Habre led a notoriously brutal dictatorship."
 msgstr ""
+"'S e dùthaich gun chosta ann an Afraga a tha san t-Seàd. Tha i far an robh "
+"Impireachd Kanem-Bornu roimhe 's chaidh a thuineachadh leis an Fhraing ann "
+"an 1900. Fhuair e neo-eismeileachd ann an 1960 ach tha i fhathast am measg "
+"nan dùthchannan as bochd san t-saoghal. Bha an dùthaich fo smachd Hissène "
+"Habré eadar 1982 is 1990, deachdair anabarrach brùideil."
 
 #: data/nation/cham.ruleset:3
 msgid "Cham"
@@ -26735,14 +26787,12 @@ msgstr ""
 "thùsanaich ann an Aimeireaga a Tuath an-diugh."
 
 #: data/nation/chiapanec.ruleset:3
-#, fuzzy
 msgid "Chiapanec"
-msgstr "Atharraich gu:"
+msgstr "muinntir Chiapas"
 
 #: data/nation/chiapanec.ruleset:4
-#, fuzzy
 msgid "?plural:Chiapanecs"
-msgstr "?plural:muinntir na Seapaine"
+msgstr "?plural:muinntir Chiapas"
 
 #: data/nation/chiapanec.ruleset:6
 msgid ""
@@ -26754,16 +26804,22 @@ msgid ""
 "cities, Mayan peoples and natural wealth have made it one of Mexico's mayor "
 "tourist destinations."
 msgstr ""
+"'S e stàit ann an taobh a deas Meagsago a tha ann an Chiapas. Chaidh a "
+"riaghladh o Ghuatamala ann an linn an tuineachais ach ann an 1824, an dèidh "
+"greiseig de neo-eisimeileachd, chuir iad romhpa a dhol ann an aonadh le "
+"Meagsago. Tha cuid mhath dhen t-sluagh ann an Chiapas 'nan tùsanaich (sluagh "
+"Maya mar is trice). Bha còmhstri eadar an sluagh dùthchail tùsanach agus "
+"elite nan Ladino rè cuid mhath dhe h-eachdraidh. Leis na bailtean à linn an "
+"tuineachais, an sluagh Maya agus na goireasan nàdarra ann, tha fèill mhòr "
+"aig an luchd-turais air an stàit."
 
 #: data/nation/chickasaw.ruleset:3
-#, fuzzy
 msgid "Chickasaw"
-msgstr "?plural:muinntir Aimeireaga"
+msgstr "?plural:muinntir nan Chickasaw"
 
 #: data/nation/chickasaw.ruleset:4
-#, fuzzy
 msgid "?plural:Chickasaws"
-msgstr "?plural:muinntir Aimeireaga"
+msgstr "?plural:muinntir nan Chickasaw"
 
 #: data/nation/chickasaw.ruleset:6
 msgid ""
@@ -26772,6 +26828,11 @@ msgid ""
 "of first contact with Europeans. The name \"Mississippi\" itself originates "
 "from a Chickasaw word meaning \"Without Source.\""
 msgstr ""
+"Seo aon dhe na treubhan air a bheil Na Còig Treubhan Sìobhalta. Bha "
+"còmhnaidh aca gu sònraichte far a bheil taobh tuath na stàite Mississipi sna "
+"Stàitean Aonaichte an-diugh nuair a ràinig na h-Eòrpaich. 'S e facal à "
+"cànan nan Chickasaw a tha ann am \"Mississippi\" fhèin 's tha e a' ciallachadh "
+"\"gun mhàthar-uisge\"."
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
@@ -26835,14 +26896,12 @@ msgstr ""
 "cha mhòr dà thrian dhen t-sluagh aig taobh tuath nam Beanntan Andach."
 
 #: data/nation/chinook.ruleset:3
-#, fuzzy
 msgid "Chinook"
-msgstr "?plural:Ainu"
+msgstr "?plural:muinntir nan Chinook"
 
 #: data/nation/chinook.ruleset:4
-#, fuzzy
 msgid "?plural:Chinooks"
-msgstr "?plural:Ainu"
+msgstr "?plural:muinntir nan Chinook"
 
 #: data/nation/chinook.ruleset:6
 msgid ""
@@ -26854,16 +26913,21 @@ msgid ""
 "Whites throughout Oregon, Washington, British Columbia and all the way to "
 "Alaska."
 msgstr ""
+"'S e buidheann de coimhearsnachdan aig an robh na dearbh ghnàthasan is an "
+"aon chànan a bh sa Chaidreachas Chinook. Bha còmhnaidh aca air bruachan "
+"abhainn Columbia far a bheil Oregon is Washington sna Stàitean Aonaichte an-"
+"diugh. Chithear cho cudromach 's a bha iad 's an cànan aca 'na bhun-stèidh "
+"do chànan pidgin a chleachadh a chum malairt is conaltraidh eadar nan "
+"tùsanaich 's na h-Eòrpaich air feadh Oregon, Washington, British Columbia is "
+"tuath gu Alasga."
 
 #: data/nation/choctaw.ruleset:3
-#, fuzzy
 msgid "Choctaw"
-msgstr "?plural:muinntir na h-Alba"
+msgstr "?plural:muinntir nan Choctaw"
 
 #: data/nation/choctaw.ruleset:4
-#, fuzzy
 msgid "?plural:Choctaws"
-msgstr "?plural:muinntir na h-Alba"
+msgstr "?plural:muinntir nan Choctaw"
 
 #: data/nation/choctaw.ruleset:6
 msgid ""
@@ -26877,6 +26941,18 @@ msgid ""
 "managed to escape removal and stay behind. The word \"Oklahoma\" itself is "
 "derived from a Choctaw language term meaning \"red people\"."
 msgstr ""
+"Seo aon dhe na treubhan air a bheil Na Còig Treubhan Sìobhalta 's bha "
+"còmhnaidh aca gu tradaiseanta ann am meadhan is taobh a deas nan sgìrean far "
+"a bheil stàit Mississippi sna Stàitean Aonaichte an-diugh. 'S iad na "
+"Spàinntich a thachair riutha an toiseach san 16mh linn agus bha iad ann an "
+"caidreachas leis na Frangaich fad ùine mhòr mus do ghabh iad taobh Co-"
+"bhanntachd nan Stàitean ann an Cogadh Sìobhalta Aimeireaga. Tha a chuid as "
+"motha dhiubh a' fuireach ann an Oklahoma an-diugh as dèidh do riaghaltas nan "
+"SA am fuadachadh o dhùthaich an sinnsirean fon Cheann-suidhe Andrew Jackson "
+"ann an 1831. Ge-tà, tha coimhearsnachd bhèothail dhiubh ann am Mississippi "
+"fhèin fhathast a chaidh a stèidheachadh le Choctaw a theich air falbh aig àm "
+"am fuadachadh. 'S e facal Choctaw a tha ann an \"Oklahoma\" fhèin a tha a' "
+"ciallachadh \"daoine ruadha\"."
 
 #: data/nation/chola.ruleset:3
 msgid "Chola"
@@ -26936,12 +27012,11 @@ msgstr ""
 
 #: data/nation/chuvash.ruleset:3
 msgid "Chuvash"
-msgstr ""
+msgstr "Muinntir nan Chuvash"
 
 #: data/nation/chuvash.ruleset:4
-#, fuzzy
 msgid "?plural:Chuvashes"
-msgstr "?plural:muinntir Dùthaich nam Basgach"
+msgstr "?plural:muinntir nan Chuvash"
 
 #: data/nation/chuvash.ruleset:6
 msgid ""
@@ -26950,26 +27025,29 @@ msgid ""
 "possibily Huns. Today there are about 1.8 million Chuvashes, about half of "
 "them in the Republic of Chuvashia, which is part of the Russian Federation."
 msgstr ""
+"'S e muinntir Turcach ann an taobh an ear Ruis na Roinn-Eòrpa agus taobh an "
+"iar Sibir a tha sna Chuvash. Faodaidh gur iad sìol nan seann treubhan "
+"Turcach Bulgaireach agus nan Hunnach. Tha mu 1.8 millean Chuvash ann an-"
+"diugh, an dàrna leth dhiubh ann am Poblachd Chuvashia a tha 'na phàirt dhen "
+"Chaidreachas Ruiseach."
 
 #: data/nation/chuvash.ruleset:28 data/nation/volgagerman.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "People's Commissar %s"
-msgstr "?female:Taoiseach"
+msgstr "?female:Comasar nan Daoine %s"
 
 #: data/nation/chuvash.ruleset:28 data/nation/volgagerman.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:People's Commissar %s"
-msgstr "?female:Taoiseach"
+msgstr "?female:Comasar nan Daoine %s"
 
 #: data/nation/circassian.ruleset:3
-#, fuzzy
 msgid "Circassian"
-msgstr "?plural:muinntir Aisirea"
+msgstr "?plural:muinntir Circassia"
 
 #: data/nation/circassian.ruleset:4
-#, fuzzy
 msgid "?plural:Circassians"
-msgstr "?plural:muinntir Aisirea"
+msgstr "?plural:muinntir Circassia"
 
 #: data/nation/circassian.ruleset:7
 #, no-c-format
@@ -26985,6 +27063,16 @@ msgid ""
 "of the Russian Empire. Today less than 10% of the Circassian population "
 "lives in their original homeland."
 msgstr ""
+"'S iad sluagh tùsail air taobh a tuath nam Beanntan Cabhcasach a tha sna "
+"Circassaich. Tha cànan nan Circassach (non nan Adyghe) 'na bhall de "
+"theaghlach Cabhcasach Iar-tuathach 's tha dàimh aige ri Kabard, Abchas is "
+"Ubykh. Nochd na Circassaich mar aonad air choireigin mu 6,000 bliadhna air "
+"ais. Ge-tà, cha robh aonadh poileataigeach aca ro thric ach chaidh aca a "
+"chur an aghaidh iomadh iomairt ceannsachaidh thairis air na linntean o "
+"impireachdan mòra na h-eachdraidh, Cha deach an ceannsachadh gu tur gu ruige "
+"meadhan na 19mh linn nuair a dh'fhulaing iad ceannsachadh is sluagh-mhort "
+"fo Impireachd na Ruise. Tha nas lugha na 10% dhen t-sluagh aca a' fuireach "
+"'nan dùthaich thùsail an-diugh."
 
 #: data/nation/circassian.ruleset:34 data/nation/ghaznavid.ruleset:31
 #: data/nation/lipkatatar.ruleset:28 data/nation/seljuk.ruleset:38
@@ -27042,14 +27130,12 @@ msgstr ""
 "Kansas, Oklahoma gu lèir agus cuid mhath dhen taobh iar-thuath Texas."
 
 #: data/nation/comorian.ruleset:3
-#, fuzzy
 msgid "Comorian"
-msgstr "muinntir Aimeireaga"
+msgstr "muinntir Chomoros"
 
 #: data/nation/comorian.ruleset:4
-#, fuzzy
 msgid "?plural:Comorians"
-msgstr "?plural:muinntir Aimeireaga"
+msgstr "?plural:muinntir Chomoros"
 
 #: data/nation/comorian.ruleset:6
 msgid ""
@@ -33518,14 +33604,13 @@ msgid "?female:Duchess %s"
 msgstr "?female:Buruzagi"
 
 #: data/nation/scottishgaelic.ruleset:3
-#, fuzzy
 msgid "Scottish Gaelic"
-msgstr "Muinntir na h-Alba"
+msgstr "Gàidheil na h-Alba"
 
 #: data/nation/scottishgaelic.ruleset:4
 #, fuzzy
 msgid "?plural:Scottish Gaels"
-msgstr "?plural:Muinntir na h-Alba"
+msgstr "?plural:Gàidheil na h-Alba"
 
 #: data/nation/scottishgaelic.ruleset:6
 msgid ""
@@ -33539,16 +33624,27 @@ msgid ""
 "remain, about half of which live in the Scottish Highlands and Islands, the "
 "other half all over Scotland, in particular the Central Belt."
 msgstr ""
+"Thàinig an dà chuid a' Ghàidhlig agus na Gàidheil a dh'Alba à Èirinn ri linn "
+"rìoghachd Dhail Riada. Ghabh iad còmhnaidh ann an Earra Ghàidheal an "
+"toiseach agus leudaich iad an cuid talamh gu luath 's iad a' gabhail os "
+"làimh sgìrean nan Cruithneach suas gus a' bhliadhna 843 AD nuair a cho-"
+"aonaich Coinneach MacAilpein rìoghachd nan Gàidheal agus nan Cruithneach. 'S "
+"i a' Ghàidhlig a bha aig a' chuid a bu mhotha dhen t-sluagh air feadh Alba "
+"ann an linn Calum III, cho fada deas ri Srath Chluaidh, Gall-Ghaidhealaibh "
+"is cuid de Lodainn is nan Crìochan. Chan eil air fhàgail an-diugh ach mu "
+"60,000 de luchd-bruidhinn na Gàidhlig an-diugh, an dàrna cuid dhiubh sna "
+"h-eileanan agus air a' Ghàidhealachd agus a' chuid eile air feadh na h-Alba, "
+"gu h-àraidh ann an Roinn a' Mheadhain."
 
 #: data/nation/scottishgaelic.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "Clan Chief %s"
-msgstr "Ceannard %s"
+msgstr "Ceann-cinnidh %s"
 
 #: data/nation/scottishgaelic.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Clan Chief %s"
-msgstr "?female:Ceannard %s"
+msgstr "?female:Ceann-cinnidh %s"
 
 #: data/nation/scottishgaelic.ruleset:39 data/nation/scottish.ruleset:26
 #, c-format
@@ -36900,17 +36996,15 @@ msgstr "Barrachd fiosrachaidh"
 #: manual/civmanual.c:407
 #, c-format
 msgid "Manual file %s successful written."
-msgstr ""
+msgstr "Chaidh am faidhle %s a sgrìobhadh a làimh."
 
 #: manual/civmanual.c:500 server/civserver.c:365
-#, fuzzy
 msgid "Use FILE as logfile"
-msgstr "  -l, --log FILE\tCleachd FILE mar fhaidhle loga\n"
+msgstr "Cleachd FILE mar fhaidhle loga"
 
 #: manual/civmanual.c:502
-#, fuzzy
 msgid "Make manual for RULESET"
-msgstr "  -r, --ruleset RULESET\tCruthaich treòir airson RULESET\n"
+msgstr "Cruthaich treòir airson RULESET"
 
 #: modinst/download.c:97
 msgid "No URL given"
@@ -36926,9 +37020,8 @@ msgid "Installing modpack %s from %s"
 msgstr "A' stàladh modpack %s o %s"
 
 #: modinst/download.c:114
-#, fuzzy
 msgid "Cannot install to given directory hierarchy"
-msgstr "Cha ghabh an t-eòlaire dachaigh agad a lorg"
+msgstr "Cha ghabh a stàladh san rangachd eòlaire a shònraich thu"
 
 #: modinst/download.c:120 modinst/download.c:282
 msgid "Cannot determine control directory"
@@ -36943,9 +37036,8 @@ msgid "Downloading modpack control file."
 msgstr "A' luchdadh a-nuas faidhle smachd modpack."
 
 #: modinst/download.c:134
-#, fuzzy
 msgid "Failed to get and parse modpack control file"
-msgstr "Dh'fhàillig cruthachadh a' chluicheadair ùir %s."
+msgstr "Dh'fhàillig faighinn is parsadh dhen fhaidhle smachd modpack"
 
 #: modinst/download.c:140
 msgid "Modpack control file has no capability string"
@@ -36957,7 +37049,7 @@ msgstr "Tha am faidhle smachd modpack neo-chòrdail"
 
 #: modinst/download.c:156
 msgid "Illegal modpack type"
-msgstr ""
+msgstr "Seòrsa modpack mì-dhligheach"
 
 #: modinst/download.c:208
 #, c-format
@@ -36980,7 +37072,7 @@ msgstr "Dh'fhàillig stàladh cuid dhen modpack."
 
 #: modinst/download.c:292
 msgid "Cannot fetch and parse modpack list"
-msgstr ""
+msgstr "Cha ghabh an liosta modpack fhaighinn 's a pharsadh"
 
 #: modinst/download.c:298
 msgid "Modpack list has no capability string"
@@ -37013,13 +37105,12 @@ msgstr "?"
 
 #. TRANS: License of modpack is not known
 #: modinst/modinst.c:234
-#, fuzzy
 msgid "?license:Unknown"
-msgstr "Neo-aithnichte"
+msgstr "?license:Neo-aithnichte"
 
 #: modinst/modinst.c:298
 msgid "License"
-msgstr ""
+msgstr "Ceadachas"
 
 #: modinst/modinst.c:303
 msgid "URL"
@@ -37042,14 +37133,12 @@ msgid "Freeciv modpack installer"
 msgstr "Stàlaichear Freeciv modpack"
 
 #: modinst/mpcmdline.c:61
-#, fuzzy
 msgid "Load modpack list from given URL"
-msgstr ""
-"Cha do ghabh faidhle smachd modpack a luchdadh a-nuas on URL a chuir thu ann"
+msgstr "Luchdaich an liosta modpack on URL a chuir thu ann"
 
 #: modinst/mpcmdline.c:63
 msgid "Install modpacks to given directory hierarchy"
-msgstr ""
+msgstr "Stàlaich na modpacks san rangachd eòlaire a shònraich thu"
 
 #: server/aiiface.c:83
 #, c-format
@@ -37088,11 +37177,10 @@ msgid "Setup of ai module %s failed."
 msgstr "Dh'fhàillig suidheachadh mòideal na h-Inntinne Fhuadain %s."
 
 #: server/aiiface.c:176
-#, fuzzy
 msgid "Failed to setup default ai module, cannot continue."
 msgstr ""
-"Dh'fhàillig luchdadh mòideal bunaiteach na h-Inntinne Fhuadain, chan urrainn "
-"dhut leantainn air adhart."
+"Dh'fhàillig suidheachadh mòideal bunaiteach na h-Inntinne Fhuadain, chan "
+"urrainn dhut leantainn air adhart."
 
 #: server/auth.c:88
 #, c-format
@@ -37971,117 +38059,82 @@ msgid "You can learn a lot about Freeciv at %s"
 msgstr "Gheibh thu barrachd fiosrachaidh mu Freeciv air %s"
 
 #: server/civserver.c:333
-#, fuzzy
 msgid "Enable database connection with configuration from FILE."
-msgstr ""
-"  -a  --auth FAIDHLE\tDèan dearbhadh frithealaiche comasach leis a' cho-"
-"chumadh o FAIDHLE.\n"
+msgstr "Dèan dearbhadh frithealaiche comasach leis a' cho-chumadh o FILE."
 
 #: server/civserver.c:336
-#, fuzzy
 msgid "Enable server authentication (requires --Database)."
-msgstr ""
-"  -a  --auth    \tCuir dearbhadh frithealaiche an comas (feum air --"
-"Database).\n"
+msgstr "Cuir dearbhadh frithealaiche an comas (feum air --Database)."
 
 #: server/civserver.c:338
-#, fuzzy
 msgid "Allow guests to login if auth is enabled."
-msgstr ""
-"  -G  --Guests  \tThoir cead do dh'aoighean logadh a-steach ma bhios auth an "
-"comas.\n"
+msgstr "Thoir cead do dh'aoighean logadh a-steach ma bhios auth an comas."
 
 #: server/civserver.c:340
-#, fuzzy
 msgid "Allow new users to login if auth is enabled."
 msgstr ""
-"  -N  --Newusers\tThoir cead do chleachdaichean ùra logadh a-steach ma bhios "
-"auth an comas.\n"
+"Thoir cead do chleachdaichean ùra logadh a-steach ma bhios auth an comas."
 
 #: server/civserver.c:343
-#, fuzzy
 msgid "Listen for clients on ADDR"
-msgstr "  -b  --bind ADDR\tCum cluas ri cliantan air ADDR\n"
+msgstr "Cum cluas ri cliantan air ADDR"
 
 #: server/civserver.c:345
-#, fuzzy
 msgid "Connect to metaserver from this address"
-msgstr ""
-"  -M, --Bind-meta ADDR\tCeangail ri meata-fhrithealaiche on t-seòladh seo\n"
+msgstr "Ceangail ri meata-fhrithealaiche on t-seòladh seo"
 
 #: server/civserver.c:359
-#, fuzzy
 msgid "Load saved game FILE"
-msgstr "_Luchdaich geama a chaidh a shàbhaladh"
+msgstr "Luchdaich FILE geama a chaidh a shàbhaladh"
 
 #: server/civserver.c:363
-#, fuzzy
 msgid "Be known as ADDR at metaserver"
-msgstr ""
-"  -i, --identity ADDR\tBidh ADDR air mar ainm aig a' mheata-fhrithealaiche\n"
+msgstr "Bidh ADDR air mar ainm aig a' mheata-fhrithealaiche"
 
 #: server/civserver.c:367
-#, fuzzy
 msgid "Notify metaserver and send server's info"
 msgstr ""
-"  -m, --meta\t\tLeig fios dhan mheata-fhrithealaiche is cuir fiosrachadh an "
-"fhrithealaiche\n"
+"Leig fios dhan mheata-fhrithealaiche is cuir fiosrachadh an fhrithealaiche"
 
 #: server/civserver.c:369
-#, fuzzy
 msgid "Set ADDR as metaserver address"
-msgstr "metaserver <seòladh>"
+msgstr "Suidhich ADDR mar sheòladh a' metaserver"
 
 #: server/civserver.c:371
-#, fuzzy
 msgid "Listen for clients on port PORT"
-msgstr "  -p, --port PORT\tCum cluas ri cliantan air port PORT\n"
+msgstr "Cum cluas ri cliantan air port PORT"
 
 #: server/civserver.c:373
-#, fuzzy
 msgid "Quit if no players for TIME seconds"
-msgstr ""
-"  -q, --quitidle TIME\tDùin e mura bi cluicheadairean ann as dèidh TIME "
-"diog\n"
+msgstr "Dùin e mura bi cluicheadairean ann as dèidh TIME diog"
 
 #: server/civserver.c:375
-#, fuzzy
 msgid "When a game ends, exit instead of restarting"
-msgstr ""
-"  -e, --exit-on-end\tNuair a thig geama gu crìoch, dùin e is na ath-thòisich "
-"e\n"
+msgstr "Nuair a thig geama gu crìoch, dùin e is na ath-thòisich e"
 
 #: server/civserver.c:377
-#, fuzzy
 msgid "Save games to directory DIR"
-msgstr "  -s, --saves DIR\tSàbhail geamannan dhan eòlaire DIR\n"
+msgstr "Sàbhail geamannan dhan eòlaire DIR"
 
 #: server/civserver.c:379
-#, fuzzy
 msgid "Search for scenarios in directory DIR"
-msgstr "  -s, --saves DIR\tSàbhail geamannan dhan eòlaire DIR\n"
+msgstr "Sàbhail geamannan dhan eòlaire DIR"
 
 #: server/civserver.c:381
-#, fuzzy
 msgid "Sets the server id to ID"
-msgstr "  -S, --Serverid ID\tSuidhich dearbh-aithne an fhrithealaiche mar ID\n"
+msgstr "Suidhich dearbh-aithne an fhrithealaiche mar ID"
 
 #: server/civserver.c:383
-#, fuzzy
 msgid "Read startup script FILE"
-msgstr "  -r, --read FILE\tLeugh an sgriobt startup FILE\n"
+msgstr "Leugh an sgriobt startup FILE"
 
 #: server/civserver.c:385
-#, fuzzy
 msgid "Use FILE as ranking logfile"
-msgstr "  -R, --Ranklog FILE\tCleachd FILE mar fhaidhle loga rangachadh\n"
+msgstr "Cleachd FILE mar fhaidhle loga rangachadh"
 
 #: server/civserver.c:388
-#, fuzzy
 msgid "Load ai module MODULE. Can appear multiple times"
-msgstr ""
-"  -L, --LoadAI MODULE\tLuchdaich mòideal na h-IF MODULE. Faodaidh seo "
-"nochdadh iomadh turas\n"
+msgstr "Luchdaich mòideal na h-IF MODULE. Faodaidh seo nochdadh iomadh turas"
 
 #: server/commands.c:53
 msgid "Start the game, or restart after loading a savegame."
@@ -38153,7 +38206,6 @@ msgid "Show a list of various things."
 msgstr "Seall liosta de ghrunn rudan."
 
 #: server/commands.c:96
-#, fuzzy
 msgid ""
 "Show a list of:\n"
 " - the player colors,\n"
@@ -38166,11 +38218,17 @@ msgid ""
 " - the running votes.\n"
 "The argument may be abbreviated, and defaults to 'players' if absent."
 msgstr ""
-"Seall liosta de na ceanglaichean ris an fhrithealaiche, an dubh-liosta agad, "
-"liosta nan cluicheadairean sa gheama, na cnàmh-sgeulan a tha ri fhaighinn, "
-"sgiobannan nan cluicheadairean no na bhòtaichean a tha a' dol. Faodaidh gum "
-"bi an argamaid 'na ghiorrachadh agus bidh e 'na 'players' a ghnàth mur eil "
-"gin ann."
+"Seall liosta de:\n"
+" - dhathan nan cluicheadairean,\n"
+" - na ceanglaichean ris an fhrithealaiche,\n"
+" - na daoine a tha thu a' leigeil seachad,\n"
+" - liosta nan ìomhaighean mapa mìnichte,\n"
+" - liosta nan cluicheadairean sa gheama,\n"
+" - na cnàmh-sgeulan a tha ri fhaighinn,\n"
+" - sgiobannan nan cluicheadairean no\n"
+" - na bhòtaichean a tha a' dol.\n"
+"Faodaidh gum bi an argamaid 'na ghiorrachadh agus bidh e 'na 'players' a "
+"ghnàth mur eil gin ann."
 
 #: server/commands.c:112
 msgid "Quit the game and shutdown the server."
@@ -38578,7 +38636,6 @@ msgid "Create an AI player with a given name."
 msgstr "Cruthaich cluicheadair IF le ainm sònraichte."
 
 #: server/commands.c:321
-#, fuzzy
 msgid ""
 "With the 'create' command a new player with the given name is created.\n"
 "If the game was started, the command checks for free player slots and, if no "
@@ -38592,7 +38649,11 @@ msgstr ""
 "'create'.\n"
 "Ma thòisich an geama mu thràth, lorgaidh an àithne àite bàn airson a' "
 "chluicheadair agus mur eil àite bàn ann, feuchaidh e ri àite cluicheadair "
-"mairbh a chleachdadh. Cha bhi aonadan no bailtean aig a' chluicheadair ùr."
+"mairbh a chleachdadh. Cha bhi aonadan no bailtean aig a' chluicheadair ùr.\n"
+"'S urrainn dhut am paramadair IF a chleachdadh a chum mòideal na h-IF a "
+"thaghadh a bhios aig a' chluicheadair chruthaichte sin. Feumaidh seo Freeciv "
+"a chaidh a cho-chruinneachadh le taic mòideal na h-Inntinne Fhuadain agus "
+"gun deach am mòideal sin a luchdadh."
 
 #: server/commands.c:335
 msgid "Set yourself in away mode. The AI will watch your back."
@@ -38938,7 +38999,6 @@ msgid "Define the color of a player."
 msgstr "Sònraich dath a' chluicheadair."
 
 #: server/commands.c:492
-#, fuzzy
 msgid ""
 "This command is used to set the color of a player's nation. The color is "
 "defined using a hexadecimal notation (HEX) for the combination of Red, "
@@ -39102,13 +39162,17 @@ msgid ""
 "lua file <script file>\n"
 "lua <script line> (deprecated)"
 msgstr ""
+"lua cmd <loidhne an sgriobt>\n"
+"lua file <faidhle an sgriobt>\n"
+"lua <loidhne an sgriobt> (cha mholar seo tuilleadh)"
 
 #: server/commands.c:581
-#, fuzzy
 msgid ""
 "Evaluate a line of freeciv script or a freeciv script file in the current "
 "game."
-msgstr "Luachaich loidhne dhen sgriobt ann am Freeciv sa gheama làithreach."
+msgstr ""
+"Luachaich loidhne de sgriobt freeciv no faidhle sgriobt freeciv sa gheama "
+"làithreach."
 
 #. TRANS: translate text between <>
 #: server/commands.c:587
@@ -39165,36 +39229,30 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/commands.c:619
-#, fuzzy
 msgid ""
 "fcdb reload\n"
 "fcdb lua <script>"
 msgstr ""
-"fcdb [reload]\n"
-"fcdb [lua] <scriobt>"
+"fcdb reload\n"
+"fcdb lua <scriobt>"
 
 #: server/commands.c:621
-#, fuzzy
 msgid "Manage the authentication database."
-msgstr ""
-"  -a  --auth    \tCuir dearbhadh frithealaiche an comas (feum air --"
-"Database).\n"
+msgstr "Stiùirich an stòr-dàta dearbhaidh."
 
 #: server/commands.c:622
-#, fuzzy
 msgid ""
 "The argument 'reload' causes the database script file to be re-read after a "
 "change, while the argument 'lua' evaluates a line of Lua script in the "
 "context of the Lua instance for the database."
 msgstr ""
-"Àitheantan a tha co-cheangailte ri taic stòr-dàta Freeciv. 'S urrainn dhut "
-"faidhle an sgriobt aiseag leis an argamaid [reload] as dèidh atharrachaidh. "
-"Leis an argamaid [lua], 's urrainn dhut loidhne dhen sgriobt lua a luachadh "
-"ann an co-theacsa an lua sin airson stòr-dàta Freeciv."
+"'S urrainn dhut faidhle an sgriobt aiseag leis an argamaid \"reload\" as dèidh "
+"atharrachaidh ach leis an argamaid \"lua\", 's urrainn dhut loidhne dhen "
+"sgriobt \"lua\" a luachadh ann an co-theacsa an \"lua\" sin airson an stòir-"
+"dhàta."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:629
-#, fuzzy
 msgid ""
 "mapimg define <mapdef>\n"
 "mapimg show <id>|all\n"
@@ -39202,12 +39260,11 @@ msgid ""
 "mapimg delete <id>|all\n"
 "mapimg colortest"
 msgstr ""
-"mapimg colortest\n"
-"mapimg create <id>|all\n"
 "mapimg define <mapdef>\n"
-"mapimg delete <id>|all\n"
 "mapimg show <id>|all\n"
-"mapimg help"
+"mapimg create <id>|all\n"
+"mapimg delete <id>|all\n"
+"mapimg colortest"
 
 #: server/commands.c:634
 msgid "Create image files of the world/player map."
@@ -40219,9 +40276,9 @@ msgstr ""
 
 #. TRANS: Further information about option will follow.
 #: server/fcdb.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "fcdb option \"%s\":"
-msgstr "Roghainn dearbhachaidh \"%s\":"
+msgstr "roghainn fcdb \"%s\":"
 
 #. TRANS: After 'fcdb option "user":'. Option value
 #. may have been inserted between these.
@@ -40245,17 +40302,17 @@ msgid " (set)"
 msgstr " (suidhich)"
 
 #: server/fcdb.c:186
-#, fuzzy, c-format
+#, c-format
 msgid "Illegal value for fcdb port: \"%s\""
-msgstr "Luach mì-dhligheach airson port dearbhachaidh: \"%s\""
+msgstr "Luach mì-dhligheach airson port fcdb: \"%s\""
 
 #: server/fcdb.c:235
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot load fcdb config file '%s':\n"
 "%s"
 msgstr ""
-"Cha ghabh am faidhle auth config \"%s\" a luchdadh:\n"
+"Cha ghabh am faidhle-rèiteachaidh fcdb \"%s\" a luchdadh:\n"
 "%s"
 
 #: server/gamehand.c:171
@@ -40284,6 +40341,7 @@ msgstr ""
 #: server/generator/mapgen.c:1469
 msgid "The server couldn't allocate starting positions."
 msgstr ""
+"Cha b' urrainn dhan fhrithealaiche na h-àitichean tòiseachaidh a roinneadh."
 
 #: server/generator/mapgen.c:2112
 msgid "High landmass - this may take a few seconds."
@@ -41144,10 +41202,11 @@ msgstr ""
 
 #: server/savegame2.c:3084 server/savegame.c:5279 server/srv_main.c:1920
 #: server/srv_main.c:1925
-#, fuzzy, c-format
+#, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr ""
-"Chaidh %s a chur ris mar chluicheadair air leibheail %s fo smachd na h-IF."
+"Chaidh %s a chur ris mar chluicheadair air leibheail %s fo smachd na h-IF (%"
+"s)."
 
 #: server/savegame2.c:3089 server/savegame.c:5284
 #, c-format
@@ -41169,9 +41228,8 @@ msgid "freeciv 2.3.0"
 msgstr "freeciv 2.3.0"
 
 #: server/savegame2.c:5910
-#, fuzzy
 msgid "freeciv 2.4.0"
-msgstr "freeciv 2.3.0"
+msgstr "freeciv 2.4.0"
 
 #: server/savegame2.c:5961
 #, c-format
@@ -42438,7 +42496,6 @@ msgid "Minimum distance between cities"
 msgstr "Astar as lugha eadar bailtean"
 
 #: server/settings.c:1487
-#, fuzzy
 msgid ""
 "When a player attempts to found a new city, there may be no other city in "
 "this distance. For example, when this value is 3, there have to be at least "
@@ -42446,9 +42503,7 @@ msgid ""
 msgstr ""
 "Chan urrainn do bhaile a bhith nas fhaisge air baile ùr a tha cluicheadair "
 "airson stèidheachadh. Mar eisimpleir, ma bhios an luach seo aig 3, feumaidh "
-"dà àite bàn a bhith air gach taobh dheth air a' char as lugha. Ma chuireas "
-"tu seo gu 0 (an roghainn bhunaiteach), thèid an luach ann an seata nan "
-"riaghailtean a chleachdadh."
+"dà àite bàn a bhith air gach taobh dheth air a' char as lugha."
 
 #: server/settings.c:1497
 msgid "Technology trading"
@@ -43166,7 +43221,6 @@ msgstr "Nochd am mapa"
 #. * strings between parentheses and in uppercase must not be
 #. * translated.
 #: server/settings.c:1970
-#, fuzzy
 msgid ""
 "If \"Reveal map at game start\" (START) is set, the initial state of the "
 "entire map will be known to all players from the start of the game, although "
@@ -43174,12 +43228,12 @@ msgid ""
 "for dead players\" (DEAD) is set, dead players can see the entire map, if "
 "they are alone in their team."
 msgstr ""
-"Ma chuireas tu an roghainn seo gu \"Nochd am mapa aig toiseach a' gheama"
-"\" (MAP_SEEN), chì gach cluicheadair am mapa air fad on toiseach ged a bhios "
-"ceò a' chogaidh ann fhathast (a-rèir na roghainne 'fogofwar'). Ma chuireas "
-"tu an roghainn seo gu \"Thoir air falbh ceò a' chogaidh airson "
-"cluicheadairean marbha\" (MAP_DEAD), chì cluicheadairean marbha am mapa gu "
-"lèir mur eil duine sam bith eile san sgioba ach iad fhèin."
+"Ma thaghas tu an roghainn \"Nochd am mapa aig toiseach a' gheama\" (START), "
+"chì gach cluicheadair am mapa air fad on toiseach ged a bhios ceò a' "
+"chogaidh ann fhathast (a-rèir na roghainne 'fogofwar'). Ma thaghas tu \"Thoir "
+"air falbh ceò a' chogaidh airson cluicheadairean marbha\" (DEAD), chì "
+"cluicheadairean marbha am mapa gu lèir mur eil duine sam bith eile san "
+"sgioba ach iad fhèin."
 
 #: server/settings.c:1981
 msgid "Maximum seconds per turn"
@@ -43190,7 +43244,6 @@ msgstr "Ùine as fhaide de chuairt (ann an diogan)"
 #. * \"timeoutincrease\" is a command name and must not to be
 #. * translated.
 #: server/settings.c:1986
-#, fuzzy
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
 "turn ends automatically. Zero means there is no timeout. In servers compiled "
@@ -43202,16 +43255,17 @@ msgid ""
 msgstr ""
 "Thig cuairt gu crìoch leis fhèin mur an do bhriog gach cluicheadair air "
 "\\*Cuairt deiseil\\* mus do dh'fhalbh an ùine sei. Cha bhi timeout ann ma "
-"chuireas tu seo gu neoini. Ma chaidh a thionail air frithealaiche le dì-"
-"bhugadh, bidh e sa mhodh deuchainn autogame ma chuireas tu seo gu -1. Chan "
-"fhaod ach ceanglaichean aig a bheil leibheil inntrigidh Hack an timeout a "
-"chur gu àireamh nas lugha na 30 diogan. Cleachd seo leis an àithne "
-"\"timeoutincrease\\* airson uaireadair innsginneach."
+"chuireas tu seo gu neoini. Ma chaidh a thionail air frithealaiche le "
+"dì-bhugadh, bidh e sa mhodh deuchainn autogame ma chuireas tu seo gu -1. "
+"Chan fhaod ach ceanglaichean aig a bheil leibheil inntrigidh Hack an timeout "
+"a chur gu àireamh nas lugha na 30 diogan. Cleachd seo leis an àithne "
+"\"timeoutincrease\\* airson uaireadair innsginneach. Thathar a' coimhead air "
+"a' chiad chuairt mar chuairt shònraichte 's bidh e fo smachd na roghainn "
+"\"first_timeout\"."
 
 #: server/settings.c:2000
-#, fuzzy
 msgid "First turn timeout"
-msgstr "dh'fhalbh an ùine air a' phing"
+msgstr "Timeout na ciad chuairt"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * should not be translated.
@@ -43222,6 +43276,10 @@ msgid ""
 "If set to -1, the special treatment of T0 will be disabled.\n"
 "See also 'timeout'."
 msgstr ""
+"Ma tha seo nas motha na 0, mairidh T0 \"first_timeout\" diogan.\n"
+"Ma tha seo na 0, cha bhi timeout aig T0.\n"
+"Ma tha seo na -1, cha dèid T0 a làimhseachadh mar chuairt shònraichte.\n"
+"Faic \"timeout\" cuideachd."
 
 #: server/settings.c:2012
 msgid "Timeout at least n seconds when enemy moved"
@@ -43404,17 +43462,16 @@ msgstr "Cuairtean gach fèin-sàbhaladh"
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
 #: server/settings.c:2127
-#, fuzzy
 msgid ""
 "The game will be automatically saved per this number of turns. See also "
 "setting 'autosaves'."
 msgstr ""
 "Thèid an geama a shàbhaladh gu fèin-obrachail aig deireadh na cuairte seo. "
-"Ma chuireas tu seo gu neoini, cha dèid an geama a fhèin-shàbhaladh idir."
+"Faic an roghainn \"autosaves\" cuideachd."
 
 #: server/settings.c:2133
 msgid "Which savegames are generated automatically"
-msgstr ""
+msgstr "Na savegames a thèid a chruthachadh gu fèin-obrachail"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -43431,6 +43488,15 @@ msgid ""
 "- \"Server interrupted\" (INTERRUPT): Save when server quits due to "
 "interrupt."
 msgstr ""
+"Tha smachd aige seo air dè seòrsa de autosave a thèid a ghintinn:\n"
+"- \"Cuairt ùr\" (TURN): Sàbhail aig toiseach cuairt, aon turas gach "
+"\"saveturns\" turais.\n"
+"- \"Crìoch a' gheama\" (GAMEOVER): An sàbhaladh mu dheireadh nuair a thig an "
+"geama gu crìoch.\n"
+"- \"Gun chluicheadair ceangailte\" (QUITIDLE): Sàbhail mus ath-thòisich am "
+"frithealaiche air sgàth gainnead chluicheadairean.\n"
+"- \"Briseadh a-steach air an fhrithealaiche\" (INTERRUPT): Sàbhail ma "
+"dh'fhalbhas am frithealaiche air sgàth rudeigin a bhris a-steach air."
 
 #: server/settings.c:2151
 msgid "Savegame compression level"
@@ -43975,13 +44041,12 @@ msgstr "Seo deireadh a' gheama..."
 #: server/srv_main.c:2490
 msgid "Failed to create suitable map, retrying with another mapseed"
 msgstr ""
+"Dh'fhàillig cruthachadh a' mhapa, a' feuchainn ris a-rithist le sìol mapa "
+"eile"
 
 #: server/srv_main.c:2502
-#, fuzzy
 msgid "Cannot create suitable map with given settings."
-msgstr ""
-"Cha ghabh aonad a chruthachadh aig %s a chionn 's gu bheil dearbh-aithne an "
-"aonaid a thagh thu (%d) mì-dhligheach."
+msgstr "Cha ghabh aonad a chruthachadh leis an roghainnean a thagh thu."
 
 #: server/srv_main.c:2702
 msgid "Now accepting new client connections."
@@ -44132,7 +44197,7 @@ msgstr "Tha %s fo smachd cluicheadair daonna a-nis."
 
 #: server/stdinhand.c:843
 msgid "Wrong number of arguments to create command."
-msgstr ""
+msgstr "Àireamh chearr de dh'argamaidean 's cha ghabh an àithne a chruthachadh."
 
 #: server/stdinhand.c:898
 msgid "A living user already exists by that name."
@@ -44195,9 +44260,9 @@ msgstr ""
 "ann."
 
 #: server/stdinhand.c:1062
-#, fuzzy, c-format
+#, c-format
 msgid "There is no AI type %s."
-msgstr "Tha eil àite cluicheadair saor ann airson %s."
+msgstr "Chan eil IF dhen t-seòrsa %s ann."
 
 #. TRANS: <name> replacing <name> ...
 #: server/stdinhand.c:1079
@@ -44206,9 +44271,9 @@ msgid "%s replacing %s as an AI-controlled player."
 msgstr "A' cur %s an àite %s mar chluicheadair fo smachd na h-IF."
 
 #: server/stdinhand.c:1094
-#, fuzzy, c-format
+#, c-format
 msgid "%s has been added as an AI-controlled player (%s)."
-msgstr "Chaidh %s a chur ris mar chluicheadair fo smachd na h-IF."
+msgstr "Chaidh %s a chur ris mar chluicheadair fo smachd na h-IF (%s)."
 
 #: server/stdinhand.c:1137
 #, c-format
@@ -45075,22 +45140,27 @@ msgstr ""
 
 #: server/stdinhand.c:3928
 msgid "Two arguments needed. See '/help playercolor'."
-msgstr ""
+msgstr "Tha feum air dà argamaid. Faic '/help playercolor'."
 
 #: server/stdinhand.c:3940
-#, fuzzy, c-format
+#, c-format
 msgid "No player with the name '%s' found or ambiguous name."
-msgstr "Chan eil cluicheadair ann air a bheil an t-ainm '%s'."
+msgstr ""
+"Chan eil cluicheadair ann air a bheil an t-ainm \"%s\" air neo tha ainm "
+"dà-sheaghach aca."
 
 #: server/stdinhand.c:3956
 msgid ""
 "A player color can only be reset if the game is in the initial state and "
 "'plrcolormode' is set to PLR_SET."
 msgstr ""
+"Cha ghabh dath cluicheadair ath-shuidheachadh ach ma bhios an geama sa staid "
+"thùsail agus ma tha 'plrcolormode' 'na PLR_SET."
 
 #: server/stdinhand.c:3966
 msgid "Invalid player color definition. See '/help playercolor'."
 msgstr ""
+"Mìneachadh mì-dhligheach airson dath cluicheadair. Faic '/help playercolor'."
 
 #: server/stdinhand.c:3973
 #, c-format
@@ -45098,11 +45168,13 @@ msgid ""
 "Please set 'plrcolormode' to PLR_SET to define the color for the player %s "
 "before the game starts."
 msgstr ""
+"Tagh PLR_SET airson 'plrcolormode' gus dath a' chluicheadair %s a "
+"shònrachadh mus tòisich a' gheama."
 
 #: server/stdinhand.c:3982
-#, fuzzy, c-format
+#, c-format
 msgid "Color of player %s set to [%s]."
-msgstr "Chaidh an cluicheadair %s a chur san sgioba %s."
+msgstr "Chaidh dath a' chluicheadair %s atharradh gu [%s]."
 
 #: server/stdinhand.c:4025
 msgid "Goodbye."
@@ -45215,258 +45287,248 @@ msgstr "Chaidh na roghainnean ath thòiseachadh."
 #: server/stdinhand.c:4579
 #, c-format
 msgid "Fall back to old syntax '%slua <script command>'."
-msgstr ""
+msgstr "Till gu seann syntax '%slua <àithne sgriobt>'."
 
 #: server/stdinhand.c:4589
-#, fuzzy, c-format
+#, c-format
 msgid "No lua command or lua script file. See '%shelp lua'."
-msgstr "Cha ghabh scriptfile na loidhne àithne '%s' a leughadh. "
+msgstr "Chan eil àithne \"lua\" no faidhle sgriobt \"lua\" ann. Faic '%shelp lua'."
 
 #: server/stdinhand.c:4612
-#, fuzzy, c-format
+#, c-format
 msgid "Freeciv script '%s' disallowed for security reasons."
 msgstr ""
-"Chan eil an t-ainm \"%s\" ceadaichte air sgàth adhbharan tèarainteachd."
+"Chan eil an sgriobt Freeciv \"%s\" ceadaichte air sgàth adhbharan "
+"tèarainteachd."
 
 #: server/stdinhand.c:4626
-#, fuzzy, c-format
+#, c-format
 msgid "No Freeciv script found by the name '%s'."
-msgstr "Cha deach sgriobt àithne a lorg air a bheil \"%s\"."
+msgstr "Cha deach sgriobt Freeciv a lorg air a bheil \"%s\"."
 
 #: server/stdinhand.c:4648
-#, fuzzy, c-format
+#, c-format
 msgid "Loading Freeciv script file '%s'."
-msgstr "A' luchdadh faidhle an sgriobt: %s"
+msgstr "A' luchdadh faidhle sgriobt Freeciv: %s"
 
 #: server/stdinhand.c:4656
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot read Freeciv script '%s'."
-msgstr "Cha ghabh scriptfile na loidhne àithne '%s' a leughadh. "
+msgstr "Cha ghabh an sgriobt Freeciv \"%s\" a leughadh. "
 
 #: server/stdinhand.c:4704
 msgid "Game was not started - delegation not possible."
-msgstr ""
+msgstr "Cha deach an geama a thòiseachadh - cha b' urrainn dhuinn a thiomnadh."
 
 #. TRANS: do not translate the command 'delegate'.
 #: server/stdinhand.c:4745
-#, fuzzy, c-format
+#, c-format
 msgid "Valid arguments for 'delegate' are: %s."
-msgstr "Argamaid mhì-dhligheach %d."
+msgstr "Tha na leanas 'nan argamaidea dligheach airson \"delegates\": %s."
 
 #: server/stdinhand.c:4764 server/stdinhand.c:4794 server/stdinhand.c:4821
 #: server/stdinhand.c:4847
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown player name: '%s'"
-msgstr "Ainm a' chluicheadair: %s"
+msgstr "Ainm cluicheadair neo-aithnichte: \"%s\""
 
 #: server/stdinhand.c:4772
 msgid "Please define a player for whom the delegation should be canceled."
-msgstr ""
+msgstr "Sònraich cluicheadair a thèid crìoch a chur air an tiomnadh air a shon."
 
 #: server/stdinhand.c:4783
-#, fuzzy
 msgid "You can't restore control of a player from the console."
-msgstr "Chan urrainn an %s gluasad cho fada on mhuir."
+msgstr "Chan urrainn dhuinn smachd air cluicheadair aiseag on chonsoil."
 
 #: server/stdinhand.c:4802
 msgid "Please define a player for whom the delegation should be shown."
-msgstr ""
+msgstr "Sònraich cluicheadair a thèid an tiomnadh a shealltainn air a shon."
 
 #: server/stdinhand.c:4813
-#, fuzzy
 msgid "You can't take a player from the console."
-msgstr "Chan urrainn dhut cluicheadair ùr a ghabhail os làimh aig an àm seo."
+msgstr "Chan urrainn dhut cluicheadair a ghabhail os làimh on chonsoil."
 
 #: server/stdinhand.c:4827
-#, fuzzy
 msgid "Please define a player to take control of."
-msgstr "%s air chall on a chaill thu smachd air %s."
+msgstr "Sònraich cluicheadair gus a ghabhail os làimh."
 
 #: server/stdinhand.c:4838
 msgid "Please define a username to whom the control is delegated."
-msgstr ""
+msgstr "Sònraich ainm-cleachdaiche a chaidh smachd a thiomnadh dhaibh."
 
 #: server/stdinhand.c:4855
-#, fuzzy
 msgid "You do not control a player."
-msgstr "Chan eil thu co-cheangailte ri cluicheadair."
+msgstr "Chan eil smachd agad air cluicheadair."
 
 #: server/stdinhand.c:4876
-#, fuzzy
 msgid "Delegation to yourself?"
-msgstr "Chaidh sìneadh smachd dhan chleachdaiche '%s' a shònrachadh."
+msgstr "'Ga thiomnadh dhut fhèin?"
 
 #: server/stdinhand.c:4884
 msgid ""
 "You can't define a delegation if you are in delegation mode. See '/list "
 "delegation'"
 msgstr ""
+"Chan urrainn dhut tiomnadh a shònrachadh ma tha thu sa mhodh tiomnaidh. Faic "
+"'/list delegation'"
 
 #: server/stdinhand.c:4892
-#, fuzzy, c-format
+#, c-format
 msgid "Define delegation for player '%s' to user '%s'."
-msgstr "Chaidh sìneadh smachd dhan chleachdaiche '%s' a shònrachadh."
+msgstr "Sònraich an tiomnadh dhen chluicheadair \"%s\" dhan chleachdaiche \"%s\"."
 
 #: server/stdinhand.c:4905 server/stdinhand.c:4920
 #, c-format
 msgid "No delegation defined for %s."
-msgstr ""
+msgstr "Chan deach tiomnadh a shònrachadh airson %s."
 
 #: server/stdinhand.c:4909
-#, fuzzy, c-format
+#, c-format
 msgid "Control of player '%s' delegated to user '%s'."
-msgstr "Chaidh an smachd air a' chluicheadair '%s' a shìneadh dhut. "
+msgstr "Chaidh an smachd air a' chluicheadair \"%s\" a thiomnadh dha \"%s\"."
 
 #: server/stdinhand.c:4927
-#, fuzzy
 msgid "Delegation canceled."
-msgstr "Chaidh an fhèill a chur dheth ann an %s."
+msgstr "Dh'fhàillig an tiomnadh."
 
 #: server/stdinhand.c:4939
-#, fuzzy
 msgid "Please restore first your original connection."
-msgstr "Falamhaich òrduighean nan aonadan nuair a thèid an taghadh"
+msgstr "Aisig an ceangal tùsail agad an toiseach."
 
 #: server/stdinhand.c:4946
-#, fuzzy
 msgid "Please cancel first your own delegation."
-msgstr "Falamhaich òrduighean nan aonadan nuair a thèid an taghadh"
+msgstr "Sguir dhen tiomnadh agad fhèin an toiseach."
 
 #: server/stdinhand.c:4953
-#, fuzzy, c-format
+#, c-format
 msgid "You already control %s."
-msgstr "Tha smachd aig %s air %s mu thràth."
+msgstr "Tha smachd agad air %s mu thràth."
 
 #: server/stdinhand.c:4962
-#, fuzzy, c-format
+#, c-format
 msgid "A user is connected to player '%s'."
-msgstr "Chan eil ceangal ann air a bheil %s."
+msgstr "Tha ceangal aig cluicheadair ris a' chluicheadair \"%s\"."
 
 #: server/stdinhand.c:4971
 msgid "You are currently using a delegation. Cancel it first."
 msgstr ""
+"Tha thu a' cleachdadh tiomnadh an-dràsta. Feumaidh tu sguir dheth an "
+"toiseach."
 
 #: server/stdinhand.c:4978
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to take control of '%s'."
-msgstr "%s air chall on a chaill thu smachd air %s."
+msgstr "Dh'fhàillig ort \"%s\" a ghabhail os làimh."
 
 #: server/stdinhand.c:4984
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is now controlling player '%s'."
-msgstr "Chan eil %s fo smachd na h-Inntinne Fhuadain."
+msgstr "'S ann aig \"%s\" a tha smachd air a' chluicheadair \"%s\" a-nis."
 
 #: server/stdinhand.c:4996
-#, fuzzy
 msgid "There is no original player to restore."
-msgstr "Tha eil àite cluicheadair saor ann airson %s."
+msgstr "Tha eil cluicheadair tùsail ann a ghabhas aiseag."
 
 #: server/stdinhand.c:5006
 msgid "Player data do not match."
-msgstr ""
+msgstr "Chan eil dàta nan cluicheadair a-rèir a chèile."
 
 #: server/stdinhand.c:5013
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to restore control over '%s'."
-msgstr "Dh'fhàillig cruthachadh a' chluicheadair ùir %s."
+msgstr "Dh'fhàillig aiseag an smachd air \"%s\"."
 
 #: server/stdinhand.c:5020
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is now connected as: %s."
-msgstr "Chan eil %s air ceangal a dhèanamh."
+msgstr "Tha \"%s\" air ceangal a dhèanamh mar %s."
 
 #: server/stdinhand.c:5101
-#, fuzzy
 msgid "Ambiguous 'mapimg' command."
-msgstr "Ainm dà-sheaghadh air an roghainn."
+msgstr "Àithne dhà-sheaghadh \"mapimg\"."
 
 #: server/stdinhand.c:5127 server/stdinhand.c:5376
-#, fuzzy, c-format
+#, c-format
 msgid "The valid arguments are: %s."
-msgstr "Argamaid mhì-dhligheach %d."
+msgstr "Tha na leanas 'nan argamaidean dligheach: %s."
 
 #: server/stdinhand.c:5142
-#, fuzzy
 msgid "Missing argument for 'mapimg define'."
-msgstr "Argamaid a dhìth airson \"%s\".\n"
+msgstr "Argamaid a dhìth airson \"mapimg define\"."
 
 #: server/stdinhand.c:5148
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't add definition: %s."
-msgstr "Cha ghabh an savefile a luchdadh: %s"
+msgstr "Cha ghabh am mìneachadh a chur ris: %s."
 
 #: server/stdinhand.c:5154
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't use definition: %s."
-msgstr "Mìneachadh ainm sgòir mì-dhligheach '%s'"
+msgstr "Cha ghabh am mìneachadh a chleachdadh: %s."
 
 #: server/stdinhand.c:5161
-#, fuzzy, c-format
+#, c-format
 msgid "Defined as map image definition %d: '%s'."
-msgstr "Dùblachadh mìneachadh ìomhaigh a' mhapa %d ('%s')."
+msgstr "Chaidh a mhìneachadh mar mhìneachadh ìomhaigh mapa %d: \"%s\"."
 
 #: server/stdinhand.c:5171
-#, fuzzy
 msgid "Missing argument for 'mapimg delete'."
-msgstr "Argamaid a dhìth airson \"%s\".\n"
+msgstr "Tha argamaid a dhìth airson \"mapimg delete\"."
 
 #: server/stdinhand.c:5182
-#, fuzzy
 msgid "All map image definitions deleted."
-msgstr "Liosta nan aonadan tùsail aig na cluicheadairean"
+msgstr "Chaidh gach mìneachadh ìomhaigh mapa a sguabadh às."
 
 #: server/stdinhand.c:5192
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't delete definition: %s."
-msgstr "Mìneachadh ainm sgòir mì-dhligheach '%s'"
+msgstr "Cha ghabh am mìneachadh a sguabadh às: %s."
 
 #: server/stdinhand.c:5195
-#, fuzzy, c-format
+#, c-format
 msgid "Map image definition %d deleted."
-msgstr "Sònrachadh meud a' mhapa"
+msgstr "Chaidh am mìneachadh ìomhaigh mapa %d a sguabadh às."
 
 #: server/stdinhand.c:5200
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument for 'mapimg delete': '%s'."
-msgstr "Argamaid a dhìth airson \"%s\".\n"
+msgstr "Droch-argamaid \"mapimg delete\": \"%s\"."
 
 #: server/stdinhand.c:5223
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't show definition: %s."
-msgstr "Mìneachadh ainm sgòir mì-dhligheach '%s'"
+msgstr "Cha ghabh am mìneachadh a shealltainn: %s."
 
 #: server/stdinhand.c:5228
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument for 'mapimg show': '%s'."
-msgstr "Argamaid a dhìth airson \"%s\".\n"
+msgstr "Droch-argamaid \"mapimg show\": \"%s\"."
 
 #: server/stdinhand.c:5239
 msgid "Map color test images saved."
-msgstr ""
+msgstr "Chaidh dealbhan deuchainneil dath a' mhapa a shàbhaladh."
 
 #: server/stdinhand.c:5245
-#, fuzzy
 msgid "Missing argument for 'mapimg create'."
-msgstr "Argamaid a dhìth airson \"%s\".\n"
+msgstr "Tha argamaid a dhìth airson \"mapimg create\"."
 
 #: server/stdinhand.c:5262 server/stdinhand.c:5279
-#, fuzzy, c-format
+#, c-format
 msgid "Error saving map image %d: %s."
-msgstr "Mearachd le sàbhaladh ìomhaigh a' mhapa: '%s'."
+msgstr "Mearachd le sàbhaladh ìomhaigh a' mhapa %d: %s."
 
 #: server/stdinhand.c:5284
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument for 'mapimg create': '%s'."
-msgstr "Argamaid a dhìth airson \"%s\".\n"
+msgstr "Droch-argamaid \"mapimg create\": \"%s\"."
 
 #: server/stdinhand.c:5328
 msgid "Freeciv database script deactivated at compile time."
-msgstr ""
+msgstr "Chaidh sgriobt stòr-dàta Freeciv a chur à gnìomh aig àm an trusaidh."
 
 #: server/stdinhand.c:5346
-#, fuzzy
 msgid "Ambiguous fcdb command."
-msgstr "Ainm dà-sheaghadh air an roghainn."
+msgstr "Àithne dhà-sheaghadh fcdb."
 
 #: server/stdinhand.c:5474
 msgid "Not enough human players; game will not start."
@@ -45614,23 +45676,23 @@ msgid "<no connections>"
 msgstr "<gun cheanglaichean>"
 
 #: server/stdinhand.c:5977
-#, fuzzy
 msgid "List of all delegations:"
-msgstr "Liosta nan sgioba:"
+msgstr "Liosta nan tiomnaidhean uile:"
 
 #: server/stdinhand.c:5984
-#, fuzzy, c-format
+#, c-format
 msgid "Control over player '%s' delegated to user '%s'%s."
-msgstr "Chaidh an smachd air a' chluicheadair '%s' a shìneadh dhut. "
+msgstr ""
+"Chaidh an smachd air a' chluicheadair \"%s\" a thiomnadh dhan chleachdaiche \"%"
+"s\"%s."
 
 #: server/stdinhand.c:5986
 msgid " (active)"
-msgstr ""
+msgstr " (gnìomhach)"
 
 #: server/stdinhand.c:5992
-#, fuzzy
 msgid "No delegations defined."
-msgstr "Chaidh sìneadh smachd dhan chleachdaiche '%s' a shònrachadh."
+msgstr "Chan deach tiomnadh a shònrachadh."
 
 #: server/stdinhand.c:6017
 msgid "Your ignore list:"
@@ -45645,9 +45707,9 @@ msgid "<no players>"
 msgstr "<chan eil cluicheadairean ann>"
 
 #: server/stdinhand.c:6067
-#, fuzzy, c-format
+#, c-format
 msgid ", user %s"
-msgstr "cleachdaiche %s,"
+msgstr ", cleachdaiche %s"
 
 #: server/stdinhand.c:6071
 msgid ", ready"
@@ -45664,7 +45726,7 @@ msgstr ", marbh"
 #: server/stdinhand.c:6095
 #, c-format
 msgid ", %s"
-msgstr ""
+msgstr ", %s"
 
 #: server/stdinhand.c:6096
 #, c-format
@@ -45672,18 +45734,18 @@ msgid ", difficulty level %s"
 msgstr ", leibheil an duilgheadais %s"
 
 #: server/stdinhand.c:6102
-#, fuzzy, c-format
+#, c-format
 msgid ", %d connection:"
 msgid_plural ", %d connections:"
-msgstr[0] " %d cheangal:"
-msgstr[1] " %d cheangal:"
-msgstr[2] " %d ceanglaichean:"
-msgstr[3] " %d ceangal:"
+msgstr[0] ", %d cheangal:"
+msgstr[1] ", %d cheangal:"
+msgstr[2] ", %d ceanglaichean:"
+msgstr[3] ", %d ceangal:"
 
 #: server/stdinhand.c:6109
-#, fuzzy, c-format
+#, c-format
 msgid "%s from %s (command access level %s), bufsize=%dkb"
-msgstr "  %s o %s (leibheil inntrigeadh àitheantan %s), bufsize=%dkb"
+msgstr "%s o %s (leibheil inntrigeadh àitheantan %s), bufsize=%dkb"
 
 #: server/stdinhand.c:6114
 msgid " (observer mode)"
@@ -45708,29 +45770,26 @@ msgstr[2] "%2d : '%s' : %d cluicheadairean :"
 msgstr[3] "%2d : '%s' : %d cluicheadair :"
 
 #: server/stdinhand.c:6183
-#, fuzzy
 msgid "No map image definitions."
-msgstr "Liosta nan aonadan tùsail aig na cluicheadairean"
+msgstr "Chan eil mìneachadh ìomhaigh mapa ann."
 
 #: server/stdinhand.c:6185
-#, fuzzy
 msgid "List of map image definitions:"
-msgstr "Liosta nan aonadan tùsail aig na cluicheadairean"
+msgstr "Liosta de mhìneachaidhean ìomhaigh mapa:"
 
 #: server/stdinhand.c:6190
-#, fuzzy, c-format
+#, c-format
 msgid "[%2d] %s"
-msgstr "%d %s"
+msgstr "[%2d] %s"
 
 #: server/stdinhand.c:6201
-#, fuzzy
 msgid "List of player colors:"
-msgstr "Liosta nan cluicheadairean:"
+msgstr "Liosta dathan nan cluicheadairean:"
 
 #: server/stdinhand.c:6207
-#, fuzzy, c-format
+#, c-format
 msgid "%s (user %s): [%s]"
-msgstr "%s (àireamh %d) le %s: %s"
+msgstr "%s (cleachdaiche %s): [%s]"
 
 #: server/stdinhand.c:6264
 #, c-format
