@@ -73,8 +73,6 @@ struct settlermap {
 
   This calculates the overall benefit of connecting the civilization; this
   is independent from the local tile (trade) bonus granted by the road.
-
-  "special" must be either S_ROAD or S_RAILROAD.
 **************************************************************************/
 static int road_bonus(struct tile *ptile, struct road_type *proad)
 {

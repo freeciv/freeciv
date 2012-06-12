@@ -602,6 +602,7 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
 void tile_add_special(struct tile *ptile, enum tile_special_type special)
 {
   fc_assert_ret(special != S_OLD_FORTRESS && special != S_OLD_AIRBASE);
+  fc_assert_ret(special != S_OLD_ROAD && special != S_OLD_RAILROAD);
 
   tile_set_special(ptile, special);
 
@@ -612,15 +613,11 @@ void tile_add_special(struct tile *ptile, enum tile_special_type special)
   case S_IRRIGATION:
     tile_clear_special(ptile, S_MINE);
     break;
-  case S_RAILROAD:
-    tile_add_special(ptile, S_ROAD);
-    break;
   case S_MINE:
     tile_clear_special(ptile, S_IRRIGATION);
     tile_clear_special(ptile, S_FARMLAND);
     break;
 
-  case S_ROAD:
   case S_POLLUTION:
   case S_HUT:
   case S_RIVER:
@@ -637,6 +634,7 @@ void tile_add_special(struct tile *ptile, enum tile_special_type special)
 void tile_remove_special(struct tile *ptile, enum tile_special_type special)
 {
   fc_assert_ret(special != S_OLD_FORTRESS && special != S_OLD_AIRBASE);
+  fc_assert_ret(special != S_OLD_ROAD && special != S_OLD_RAILROAD);
 
   tile_clear_special(ptile, special);
 
@@ -644,11 +642,7 @@ void tile_remove_special(struct tile *ptile, enum tile_special_type special)
   case S_IRRIGATION:
     tile_clear_special(ptile, S_FARMLAND);
     break;
-  case S_ROAD:
-    tile_clear_special(ptile, S_RAILROAD);
-    break;
 
-  case S_RAILROAD:
   case S_MINE:
   case S_POLLUTION:
   case S_HUT:

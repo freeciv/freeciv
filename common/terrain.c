@@ -606,15 +606,9 @@ bool is_native_terrain_to_special(enum tile_special_type special,
 {
   /* FIXME: The special definition should be moved into the ruleset. */
   switch (special) {
-  case S_ROAD:
-    return (terrain_control.may_road
-            && 0 != pterrain->road_time);
   case S_IRRIGATION:
     return (terrain_control.may_irrigate
             && pterrain == pterrain->irrigation_result);
-  case S_RAILROAD:
-    return (terrain_control.may_road
-            && 0 != pterrain->road_time);
   case S_MINE:
     return (terrain_control.may_mine
             && pterrain == pterrain->mining_result);
@@ -629,8 +623,11 @@ bool is_native_terrain_to_special(enum tile_special_type special,
             && pterrain == pterrain->irrigation_result);
   case S_FALLOUT:
     return !terrain_has_flag(pterrain, TER_NO_POLLUTION);
+  case S_OLD_ROAD:
+  case S_OLD_RAILROAD:
   case S_OLD_FORTRESS:
   case S_OLD_AIRBASE:
+    fc_assert(FALSE);
   case S_LAST:
     break;
   }
@@ -823,9 +820,7 @@ const char *get_infrastructure_text(bv_special spe, bv_bases bases, bv_roads roa
 ****************************************************************************/
 enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe)
 {
-  if (spe == S_RAILROAD) {
-    return S_ROAD;
-  } else if (spe == S_FARMLAND) {
+  if (spe == S_FARMLAND) {
     return S_IRRIGATION;
   } else {
     return S_LAST;

@@ -273,10 +273,8 @@ static bool edit_tile_special_handling(struct tile *ptile,
                                        bool remove_mode,
                                        bool send_tile_info)
 {
-  /* Roads are not handled as part of specials, but separately */
-  if (special == S_ROAD || special == S_RAILROAD) {
-    return FALSE;
-  }
+  fc_assert_ret_val(special != S_OLD_FORTRESS && special != S_OLD_AIRBASE, FALSE);
+  fc_assert_ret_val(special != S_OLD_ROAD && special != S_OLD_RAILROAD, FALSE);
 
   if (remove_mode) {
     if (!tile_has_special(ptile, special)) {
