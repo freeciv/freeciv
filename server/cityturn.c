@@ -2116,11 +2116,13 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   }
 
   /* Buy back is cheap, conquered cities are also cheap */
-  if (city_owner(pcity) != pcity->original) {
-    if (pplayer == pcity->original) {
-      cost /= 2;            /* buy back: 50% price reduction */
-    } else {
-      cost = cost * 2 / 3;  /* buy conquered: 33% price reduction */
+  if (!game.info.citizen_nationality) {
+    if (city_owner(pcity) != pcity->original) {
+      if (pplayer == pcity->original) {
+        cost /= 2;            /* buy back: 50% price reduction */
+      } else {
+        cost = cost * 2 / 3;  /* buy conquered: 33% price reduction */
+      }
     }
   }
 
@@ -2141,7 +2143,16 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   cost *= size;
   cost *= game.server.incite_total_factor;
   cost = cost / (dist + 3);
-  
+
+  if (game.info.citizen_nationality) {
+    int cost_per_citizen = cost / pcity->size;
+    int natives = citizens_nation_get(pcity, city_owner(pcity)->slot);
+    int tgt_cit = citizens_nation_get(pcity, pplayer->slot);
+    int third_party = pcity->size - natives - tgt_cit;
+
+    cost = cost_per_citizen * (natives + 0.7 * third_party + 0.5 * tgt_cit); 
+  }
+
   cost += (cost * get_city_bonus(pcity, EFT_INCITE_COST_PCT)) / 100;
   cost /= 100;
 
