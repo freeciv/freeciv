@@ -801,7 +801,7 @@ static void set_savegame_special(bv_special *specials,
     enum tile_special_type sp = index[i];
     struct base_type *pbase;
 
-    if (sp >= S_LAST) {
+    if (sp == S_LAST) {
       continue;
     }
     if (map.server.have_rivers_overlay && sp != S_RIVER) {
