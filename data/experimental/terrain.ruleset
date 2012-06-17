@@ -1070,6 +1070,7 @@ activity_gfx   = "unit.road"
 reqs           =
     { "type", "name", "range"
       "UnitFlag", "Settlers", "Local"
+      "TerrainClass", "Land", "Local"
     }
 move_cost      = 2
 built_time     = 0
@@ -1094,6 +1095,7 @@ reqs           =
       "Tech", "Railroad", "Player"
       "Road", "Road", "Local"
       "UnitFlag", "Settlers", "Local"
+      "TerrainClass", "Land", "Local"
     }
 move_cost      = 1
 build_time     = 3
