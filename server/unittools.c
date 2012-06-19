@@ -1544,9 +1544,6 @@ void wipe_unit(struct unit *punit)
 	/* Could use unload_unit_from_transporter here, but that would
 	 * call send_unit_info for the transporter unnecessarily. */
 	pull_unit_from_transporter(pcargo, punit);
-        if (!can_unit_exist_at_tile(pcargo, ptile)) {
-          drowning++;
-        }
 	if (pcargo->activity == ACTIVITY_SENTRY) {
 	  /* Activate sentried units - like planes on a disbanded carrier.
 	   * Note this will activate ground units even if they just change
