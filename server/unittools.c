@@ -1607,7 +1607,7 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason)
 
     /* First save undisbandable and gameloss units */
     unit_list_iterate_safe(ptile->units, pcargo) {
-      if (!unit_transported(punit)
+      if (!unit_transported(pcargo)
           && !can_unit_exist_at_tile(pcargo, ptile)
           && (unit_has_type_flag(pcargo, F_UNDISBANDABLE)
            || unit_has_type_flag(pcargo, F_GAMELOSS))) {
