@@ -46,7 +46,7 @@ bool fc_ai_threaded_setup(struct ai_type *ai)
 
   strncpy(ai->name, "threaded", sizeof(ai->name));
 
-  tai_set_self(ai);
+  tai_init_self(ai);
 
   ai->funcs.player_alloc = tai_player_alloc;
   ai->funcs.player_free = tai_player_free;

@@ -36,16 +36,29 @@ enum tai_abort_msg_class
   TAI_ABORT_NONE
 };
 
-static enum tai_abort_msg_class tai_check_messages(struct player *pplayer);
+static enum tai_abort_msg_class tai_check_messages(void);
 
 static struct ai_type *self = NULL;
+
+struct tai_thr
+{
+  int num_players;
+  struct tai_msgs msgs_to;
+  struct tai_reqs reqs_from;
+  bool thread_running;
+  fc_thread ait;
+} thrai;
 
 /**************************************************************************
   Set pointer to ai type of the threaded ai.
 **************************************************************************/
-void tai_set_self(struct ai_type *ai)
+void tai_init_self(struct ai_type *ai)
 {
   self = ai;
+
+  thrai.thread_running = FALSE;
+
+  thrai.num_players = 0;
 }
 
 /**************************************************************************
@@ -61,22 +74,20 @@ struct ai_type *tai_get_self(void)
 **************************************************************************/
 static void tai_thread_start(void *arg)
 {
-  struct player *pplayer = (struct player *) arg;
-  struct tai_plr *data = tai_player_data(pplayer);
   bool finished = FALSE;
 
   log_debug("New AI thread launched");
 
   /* Just wait until we are signaled to shutdown */
-  fc_allocate_mutex(&data->msgs_to.mutex);
+  fc_allocate_mutex(&thrai.msgs_to.mutex);
   while (!finished) {
-    fc_thread_cond_wait(&data->msgs_to.thr_cond, &data->msgs_to.mutex);
+    fc_thread_cond_wait(&thrai.msgs_to.thr_cond, &thrai.msgs_to.mutex);
 
-    if (tai_check_messages(pplayer) <= TAI_ABORT_EXIT) {
+    if (tai_check_messages() <= TAI_ABORT_EXIT) {
       finished = TRUE;
     }
   }
-  fc_release_mutex(&data->msgs_to.mutex);
+  fc_release_mutex(&thrai.msgs_to.mutex);
 
   log_debug("AI thread exiting");
 }
@@ -84,24 +95,20 @@ static void tai_thread_start(void *arg)
 /**************************************************************************
   Handle messages from message queue.
 **************************************************************************/
-enum tai_abort_msg_class tai_check_messages(struct player *pplayer)
+static enum tai_abort_msg_class tai_check_messages(void)
 {
   enum tai_abort_msg_class ret_abort= TAI_ABORT_NONE;
-  struct tai_plr *data;
 
-  data = tai_player_data(pplayer);
-
-  taimsg_list_allocate_mutex(data->msgs_to.msglist);
-  while(taimsg_list_size(data->msgs_to.msglist) > 0) {
+  taimsg_list_allocate_mutex(thrai.msgs_to.msglist);
+  while(taimsg_list_size(thrai.msgs_to.msglist) > 0) {
     struct tai_msg *msg;
     enum tai_abort_msg_class new_abort = TAI_ABORT_NONE;
 
-    msg = taimsg_list_get(data->msgs_to.msglist, 0);
-    taimsg_list_remove(data->msgs_to.msglist, msg);
-    taimsg_list_release_mutex(data->msgs_to.msglist);
+    msg = taimsg_list_get(thrai.msgs_to.msglist, 0);
+    taimsg_list_remove(thrai.msgs_to.msglist, msg);
+    taimsg_list_release_mutex(thrai.msgs_to.msglist);
 
-    log_debug("Plr thr \"%s\" got %s", player_name(pplayer),
-              taimsgtype_name(msg->type));
+    log_debug("Plr thr got %s", taimsgtype_name(msg->type));
 
     switch(msg->type) {
     case TAI_MSG_FIRST_ACTIVITIES:
@@ -125,9 +132,9 @@ enum tai_abort_msg_class tai_check_messages(struct player *pplayer)
 
     FC_FREE(msg);
 
-    taimsg_list_allocate_mutex(data->msgs_to.msglist);
+    taimsg_list_allocate_mutex(thrai.msgs_to.msglist);
   }
-  taimsg_list_release_mutex(data->msgs_to.msglist);
+  taimsg_list_release_mutex(thrai.msgs_to.msglist);
 
   return ret_abort;
 }
@@ -140,11 +147,6 @@ void tai_player_alloc(struct player *pplayer)
   struct tai_plr *player_data = fc_calloc(1, sizeof(struct tai_plr));
 
   player_set_ai_data(pplayer, tai_get_self(), player_data);
-
-  player_data->thread_running = FALSE;
-
-  player_data->msgs_to.msglist = taimsg_list_new();
-  player_data->reqs_from.reqlist = taireq_list_new();
 }
 
 /**************************************************************************
@@ -152,17 +154,7 @@ void tai_player_alloc(struct player *pplayer)
 **************************************************************************/
 void tai_player_free(struct player *pplayer)
 {
-  struct tai_plr *player_data = tai_player_data(pplayer);
-
-  if (player_data != NULL) {
-    tai_control_lost(pplayer);
-    fc_thread_cond_destroy(&player_data->msgs_to.thr_cond);
-    fc_destroy_mutex(&player_data->msgs_to.mutex);
-    taimsg_list_destroy(player_data->msgs_to.msglist);
-    taireq_list_destroy(player_data->reqs_from.reqlist);
-    player_set_ai_data(pplayer, tai_get_self(), NULL);
-    FC_FREE(player_data);
-  }
+  player_set_ai_data(pplayer, tai_get_self(), NULL);
 }
 
 /**************************************************************************
@@ -170,13 +162,20 @@ void tai_player_free(struct player *pplayer)
 **************************************************************************/
 void tai_control_gained(struct player *pplayer)
 {
-  struct tai_plr *player_data = tai_player_data(pplayer);
+  thrai.num_players++;
 
-  player_data->thread_running = TRUE;
+  log_debug("%s now under threaded AI (%d)", pplayer->name, thrai.num_players);
 
-  fc_thread_cond_init(&player_data->msgs_to.thr_cond);
-  fc_init_mutex(&player_data->msgs_to.mutex);
-  fc_thread_start(&player_data->ait, tai_thread_start, pplayer);
+  if (!thrai.thread_running) {
+    thrai.msgs_to.msglist = taimsg_list_new();
+    thrai.reqs_from.reqlist = taireq_list_new();
+
+    thrai.thread_running = TRUE;
+ 
+    fc_thread_cond_init(&thrai.msgs_to.thr_cond);
+    fc_init_mutex(&thrai.msgs_to.mutex);
+    fc_thread_start(&thrai.ait, tai_thread_start, NULL);
+  }
 }
 
 /**************************************************************************
@@ -184,15 +183,20 @@ void tai_control_gained(struct player *pplayer)
 **************************************************************************/
 void tai_control_lost(struct player *pplayer)
 {
-  struct tai_plr *player_data = tai_player_data(pplayer);
+  thrai.num_players--;
 
-  if (player_data->thread_running) {
-    struct tai_msg *thrq_msg = fc_malloc(sizeof(*thrq_msg));
+  log_debug("%s no longer under threaded AI (%d)", pplayer->name, thrai.num_players);
 
+  if (thrai.num_players <= 0) {
     tai_send_msg(TAI_MSG_THR_EXIT, pplayer, NULL);
 
-    fc_thread_wait(&player_data->ait);
-    player_data->thread_running = FALSE;
+    fc_thread_wait(&thrai.ait);
+    thrai.thread_running = FALSE;
+
+    fc_thread_cond_destroy(&thrai.msgs_to.thr_cond);
+    fc_destroy_mutex(&thrai.msgs_to.mutex);
+    taimsg_list_destroy(thrai.msgs_to.msglist);
+    taireq_list_destroy(thrai.reqs_from.reqlist);
   }
 }
 
@@ -201,50 +205,43 @@ void tai_control_lost(struct player *pplayer)
 **************************************************************************/
 void tai_refresh(struct player *pplayer)
 {
-  struct tai_plr *player_data = tai_player_data(pplayer);
-
-  if (player_data->thread_running) {
-    taireq_list_allocate_mutex(player_data->reqs_from.reqlist);
-    while(taireq_list_size(player_data->reqs_from.reqlist) > 0) {
+  if (thrai.thread_running) {
+    taireq_list_allocate_mutex(thrai.reqs_from.reqlist);
+    while(taireq_list_size(thrai.reqs_from.reqlist) > 0) {
        struct tai_req *req;
 
-       req = taireq_list_get(player_data->reqs_from.reqlist, 0);
-       taireq_list_remove(player_data->reqs_from.reqlist, req);
+       req = taireq_list_get(thrai.reqs_from.reqlist, 0);
+       taireq_list_remove(thrai.reqs_from.reqlist, req);
 
-       taireq_list_release_mutex(player_data->reqs_from.reqlist);
+       taireq_list_release_mutex(thrai.reqs_from.reqlist);
 
-       log_debug("Plr thr \"%s\" sent %s", player_name(pplayer),
-                 taireqtype_name(req->type));
+       log_normal("Plr thr sent %s", taireqtype_name(req->type));
 
        FC_FREE(req);
 
-       taireq_list_allocate_mutex(player_data->reqs_from.reqlist);
+       taireq_list_allocate_mutex(thrai.reqs_from.reqlist);
      }
-    taireq_list_release_mutex(player_data->reqs_from.reqlist);
+    taireq_list_release_mutex(thrai.reqs_from.reqlist);
   }
 }
 
 /**************************************************************************
   Send message to thread.
 **************************************************************************/
-void tai_msg_to_thr(struct player *pplayer, struct tai_msg *msg)
+void tai_msg_to_thr(struct tai_msg *msg)
 {
-  struct tai_plr *player_data = tai_player_data(pplayer);
-
-  fc_allocate_mutex(&player_data->msgs_to.mutex);
-  taimsg_list_append(player_data->msgs_to.msglist, msg);
-  fc_thread_cond_signal(&player_data->msgs_to.thr_cond);
-  fc_release_mutex(&player_data->msgs_to.mutex);
+  fc_allocate_mutex(&thrai.msgs_to.mutex);
+  taimsg_list_append(thrai.msgs_to.msglist, msg);
+  fc_thread_cond_signal(&thrai.msgs_to.thr_cond);
+  fc_release_mutex(&thrai.msgs_to.mutex);
 }
 
 /**************************************************************************
   Thread sends message.
 **************************************************************************/
-void tai_req_from_thr(struct player *pplayer, struct tai_req *req)
+void tai_req_from_thr(struct tai_req *req)
 {
-  struct tai_plr *player_data = tai_player_data(pplayer);
-
-  taireq_list_allocate_mutex(player_data->reqs_from.reqlist);
-  taireq_list_append(player_data->reqs_from.reqlist, req);
-  taireq_list_release_mutex(player_data->reqs_from.reqlist);
+  taireq_list_allocate_mutex(thrai.reqs_from.reqlist);
+  taireq_list_append(thrai.reqs_from.reqlist, req);
+  taireq_list_release_mutex(thrai.reqs_from.reqlist);
 }

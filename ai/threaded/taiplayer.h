@@ -38,14 +38,11 @@ struct tai_reqs
 
 struct tai_plr
 {
-  struct tai_msgs msgs_to;
-  struct tai_reqs reqs_from;
-  bool thread_running;
-  fc_thread ait;
+  char unused;
 };
 
 struct ai_type *tai_get_self(void);
-void tai_set_self(struct ai_type *ai);
+void tai_init_self(struct ai_type *ai);
 
 void tai_player_alloc(struct player *pplayer);
 void tai_player_free(struct player *pplayer);
@@ -53,9 +50,9 @@ void tai_control_gained(struct player *pplayer);
 void tai_control_lost(struct player *pplayer);
 void tai_refresh(struct player *pplayer);
 
-void tai_msg_to_thr(struct player *pplayer, struct tai_msg *msg);
+void tai_msg_to_thr(struct tai_msg *msg);
 
-void tai_req_from_thr(struct player *pplayer, struct tai_req *req);
+void tai_req_from_thr(struct tai_req *req);
 
 static inline struct tai_plr *tai_player_data(const struct player *pplayer)
 {

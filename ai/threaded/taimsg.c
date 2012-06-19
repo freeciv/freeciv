@@ -32,7 +32,7 @@ void tai_send_msg(enum taimsgtype type, struct player *pplayer,
   msg->plr = pplayer;
   msg->data = data;
 
-  tai_msg_to_thr(pplayer, msg);
+  tai_msg_to_thr(msg);
 }
 
 /**************************************************************************        
@@ -47,7 +47,7 @@ void tai_send_req(enum taireqtype type, struct player *pplayer,
   req->plr = pplayer;
   req->data = data;
 
-  tai_req_from_thr(pplayer, req);
+  tai_req_from_thr(req);
 }
 
 /**************************************************************************
