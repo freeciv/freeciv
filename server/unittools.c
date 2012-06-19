@@ -1595,7 +1595,6 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason)
   struct unit_type *putype_save = unit_type(punit); /* for notify messages */
   int drowning = 0;
   int saved_id = punit->id;
-  int homecity_id = punit->homecity;
 
   /* First pull all units off of the transporter. */
   if (get_transporter_occupancy(punit) > 0) {
@@ -1603,9 +1602,6 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason)
       /* Could use unit_transport_unload_send here, but that would
        * call send_unit_info for the transporter unnecessarily. */
       unit_transport_unload(pcargo);
-      if (!can_unit_exist_at_tile(pcargo, ptile)) {
-        drowning++;
-      }
       if (pcargo->activity == ACTIVITY_SENTRY) {
         /* Activate sentried units - like planes on a disbanded carrier.
          * Note this will activate ground units even if they just change
@@ -1631,9 +1627,6 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason)
     /* Now remove the unit. */
     server_remove_unit(punit);
   }
-
-  /* update unit upkeep */
-  city_units_upkeep(game_city_by_number(homecity_id));
 
   /* Finally reassign, bounce, or destroy all units that cannot exist at this
    * location without transport. */
@@ -1698,6 +1691,7 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason)
       }
     } unit_list_iterate_safe_end;
   }
+  fc_assert(drowning==0);
 }
 
 /****************************************************************************
