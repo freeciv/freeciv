@@ -1172,7 +1172,7 @@ static bool load_ruleset_veteran(struct section_file *file,
       rs_sanity_veteran(path, "veteran_raise_chance", i,
                         (vlist_raise[i] < 0), vlist_raise[i] = 0);
       rs_sanity_veteran(path, "veteran_work_raise_chance", i,
-                        (vlist_raise[i] < 0), vlist_wraise[i] = 0);
+                        (vlist_wraise[i] < 0), vlist_wraise[i] = 0);
       rs_sanity_veteran(path, "veteran_move_bonus", i,
                         (vlist_move[i] < 0), vlist_move[i] = 0);
       if (i == 0) {
@@ -1187,7 +1187,7 @@ static bool load_ruleset_veteran(struct section_file *file,
         rs_sanity_veteran(path, "veteran_raise_chance", i,
                           (vlist_raise[i] != 0), vlist_raise[i] = 0);
         rs_sanity_veteran(path, "veteran_work_raise_chance", i,
-                          (vlist_raise[i] != 0), vlist_wraise[i] = 0);
+                          (vlist_wraise[i] != 0), vlist_wraise[i] = 0);
       } else {
         /* All elements inbetween. */
         rs_sanity_veteran(path, "veteran_power_fact", i,
@@ -1196,7 +1196,7 @@ static bool load_ruleset_veteran(struct section_file *file,
         rs_sanity_veteran(path, "veteran_raise_chance", i,
                           (vlist_raise[i] > 100), vlist_raise[i] = 100);
         rs_sanity_veteran(path, "veteran_work_raise_chance", i,
-                          (vlist_raise[i] > 100), vlist_wraise[i] = 100);
+                          (vlist_wraise[i] > 100), vlist_wraise[i] = 100);
       }
 
       veteran_system_definition(*vsystem, i, vlist_name[i], vlist_power[i],
