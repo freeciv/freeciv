@@ -3924,10 +3924,9 @@ static bool playercolor_command(struct connection *caller,
 
   if (ntokens != 2) {
     if (!check) {
-      cmd_reply(CMD_PLAYERCOLOR, caller, C_FAIL,
+      cmd_reply(CMD_PLAYERCOLOR, caller, C_SYNTAX,
                 _("Two arguments needed. See '/help playercolor'."));
     }
-
     ret = FALSE;
     goto cleanup;
   }
@@ -3936,45 +3935,57 @@ static bool playercolor_command(struct connection *caller,
 
   if (!pplayer) {
     if (!check) {
+      cmd_reply_no_such_player(CMD_PLAYERCOLOR, caller, token[0], match_result);
+    }
+    ret = FALSE;
+    goto cleanup;
+  }
+
+  if (!game_was_started() && game.server.plrcolormode != PLRCOL_PLR_SET) {
+    if (!check) {
       cmd_reply(CMD_PLAYERCOLOR, caller, C_FAIL,
-                _("No player with the name '%s' found or ambiguous name."),
-                token[0]);
+                _("Can only set player color prior to game start if "
+                  "'plrcolormode' is PLR_SET."));
     }
     ret = FALSE;
     goto cleanup;
   }
 
   if (0 == fc_strcasecmp(token[1], "reset")) {
-    if (!game_was_started() && game.server.plrcolormode != PLRCOL_PLR_SET) {
-      if (!check) {
-        rgbcolor_destroy(pplayer->rgb);
-      }
-      goto cleanup;
+    if (!game_was_started()) {
+      prgbcolor = NULL;
     } else {
       if (!check) {
         cmd_reply(CMD_PLAYERCOLOR, caller, C_FAIL,
-                  _("A player color can only be reset if the game is in the "
-                    "initial state and 'plrcolormode' is set to PLR_SET."));
+                  _("Can only unset player color before game starts."));
       }
       ret = FALSE;
       goto cleanup;
     }
-  }
-
-  if (!rgbcolor_from_hex(&prgbcolor, token[1])) {
-    cmd_reply(CMD_PLAYERCOLOR, caller, C_FAIL,
-              _("Invalid player color definition. See '/help playercolor'."));
+  } else if (!rgbcolor_from_hex(&prgbcolor, token[1])) {
+    if (!check) {
+      cmd_reply(CMD_PLAYERCOLOR, caller, C_SYNTAX,
+                _("Invalid player color definition. See '/help playercolor'."));
+    }
     ret = FALSE;
     goto cleanup;
   }
 
-  if (!game_was_started() && game.server.plrcolormode != PLRCOL_PLR_SET) {
-    cmd_reply(CMD_PLAYERCOLOR, caller, C_FAIL,
-              _("Please set 'plrcolormode' to PLR_SET to define the color "
-                "for the player %s before the game starts."),
-              player_name(pplayer));
-    ret = FALSE;
+  if (check) {
     goto cleanup;
+  }
+
+  if (prgbcolor != NULL) {
+    players_iterate(pother) {
+      if (pother != pplayer && pother->rgb != NULL
+          && rgbcolors_are_equal(pother->rgb, prgbcolor)) {
+        cmd_reply(CMD_PLAYERCOLOR, caller, C_WARNING,
+                  /* TRANS: "... [c0ffee] for Caesar ... to Hammurabi." */
+                  _("Warning: new color [%s] for %s is identical to %s."),
+                  player_color_ftstr(pother), player_name(pplayer),
+                  player_name(pother));
+      }
+    } players_iterate_end;
   }
 
   server_player_set_color(pplayer, prgbcolor);

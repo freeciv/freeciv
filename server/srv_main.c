@@ -2542,11 +2542,9 @@ static void srv_ready(void)
       } players_iterate_end;
     } players_iterate_end;
 
-    /* (Re-)Assign each player a color using the color definitions
-     * from the current ruleset. */
-    players_iterate(pplayer) {
-      server_player_set_color(pplayer, NULL);
-    } players_iterate_end;
+    /* Assign colors from the ruleset for any players who weren't
+     * explicitly assigned colors during the pregame. */
+    assign_player_colors();
 
     /* Save all settings for the 'reset game' command. */
     settings_game_start();

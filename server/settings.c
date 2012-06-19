@@ -182,6 +182,9 @@ int settings_list_cmp(const struct setting *const *pset1,
     fc_snprintf(_buf, _buf_len, format, ## __VA_ARGS__);                    \
   }
 
+static bool set_enum_value(struct setting *pset, int val);
+static int read_enum_value(const struct setting *pset);
+
 /****************************************************************************
   Enumerator name accessors.
 
@@ -314,10 +317,10 @@ static const struct sset_val_name *borders_name(int borders)
 static const struct sset_val_name *plrcol_name(int plrcol)
 {
   switch (plrcol) {
-  NAME_CASE(PLRCOL_PLR_ORDER, "PLR_ORDER",  N_("player color (ordered)"));
-  NAME_CASE(PLRCOL_PLR_RANDOM, "PLR_RANDOM", N_("player color (random)"));
-  NAME_CASE(PLRCOL_PLR_SET, "PLR_SET",    N_("player color (set/random)"));
-  NAME_CASE(PLRCOL_TEAM_ORDER, "TEAM_ORDER", N_("team color (ordered)"));
+  NAME_CASE(PLRCOL_PLR_ORDER,  "PLR_ORDER",  N_("Per-player, in order"));
+  NAME_CASE(PLRCOL_PLR_RANDOM, "PLR_RANDOM", N_("Per-player, random"));
+  NAME_CASE(PLRCOL_PLR_SET,    "PLR_SET",    N_("Set manually"));
+  NAME_CASE(PLRCOL_TEAM_ORDER, "TEAM_ORDER", N_("Per-team, in order"));
   }
   return NULL;
 }
@@ -469,6 +472,22 @@ static void scorelog_action(const struct setting *pset)
 static void aifill_action(const struct setting *pset)
 {
   aifill(*pset->integer.pvalue);
+}
+
+/*************************************************************************
+  Clear any user-set player colors in modes other than PLRCOL_PLR_SET.
+*************************************************************************/
+static void plrcol_action(const struct setting *pset)
+{
+  if (read_enum_value(pset) != PLRCOL_PLR_SET) {
+    players_iterate(pplayer) {
+      server_player_set_color(pplayer, NULL);
+    } players_iterate_end;
+  }
+  if (!game_was_started()) {
+    /* Update clients with new color scheme. */
+    send_player_info_c(NULL, NULL);
+  }
 }
 
 /*************************************************************************
@@ -1621,22 +1640,31 @@ static struct setting settings[] = {
 
   GEN_ENUM("plrcolormode", game.server.plrcolormode,
            SSET_RULES, SSET_INTERNAL, SSET_RARE, SSET_TO_CLIENT,
-           N_("How to pick the player color"),
+           N_("How to pick player colors"),
            /* TRANS: The strings between double quotes are also translated
-            * separately (they must match!). The strings between paranthesis
-            * and in uppercase must not to be translated. */
-           N_("- \"player color (ordered)\" (PLR_ORDER): select the color "
-              "for each player according to the order of the color "
-              "definition.\n"
-              "- \"player color (random)\" (PLR_RANDOM): select a random "
-              "color for each player.\n"
-              "- \"player color (set/random)\" (PLR_SET): use the color set "
-              "via the playercolor command. For players without a color a "
-              "random value will be selected.\n"
-              "- \"team color (ordered)\" (TEAM_ORDER): select the color "
-              "for one team depending on the order of the color "
-              "definition."),
-           NULL, NULL, plrcol_name, GAME_DEFAULT_PLRCOLORMODE)
+            * separately (they must match!). The strings between single quotes
+            * are setting names and shouldn't be translated. The strings
+            * between parentheses and in uppercase must not be translated. */
+           N_("This setting determines how player colors are chosen. Player "
+              "colors are used in the Nations report, for national borders on "
+              "the map, and so on.\n"
+              "- \"Per-player, in order\" (PLR_ORDER): colors are assigned to "
+              "individual players in order from a list defined by the "
+              "ruleset.\n"
+              "- \"Per-player, random\" (PLR_RANDOM): colors are assigned "
+              "to invididual players randomly from the set defined by the "
+              "ruleset.\n"
+              "- \"Set manually\" (PLR_SET): colors can be set with the "
+              "'playercolor' command before the game starts; these are not "
+              "restricted to the ruleset colors. Any players for which no "
+              "color is set when the game starts get a random color from the "
+              "ruleset.\n"
+              "- \"Per-team, in order\" (TEAM_ORDER): colors are assigned to "
+              "teams from the list in the ruleset. Every player on the same "
+              "team gets the same color.\n"
+              "Regardless of this setting, individual player colors can be "
+              "changed after the game starts with the 'playercolor' command."),
+           NULL, plrcol_action, plrcol_name, GAME_DEFAULT_PLRCOLORMODE)
 
   /* Flexible rules: these can be changed after the game has started.
    *
