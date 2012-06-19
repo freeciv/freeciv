@@ -499,6 +499,46 @@ int count_terrain_property_near_tile(const struct tile *ptile,
   return count;
 }
 
+/****************************************************************************
+  Returns TRUE iff any cardinally adjacent tile contains the given resource.
+****************************************************************************/
+bool is_resource_card_near(const struct tile *ptile,
+                           const struct resource *pres,
+                           bool check_self)
+{
+  if (!pres) {
+    return FALSE;
+  }
+
+  cardinal_adjc_iterate(ptile, adjc_tile) {
+    if (tile_resource(adjc_tile) == pres) {
+      return TRUE;
+    }
+  } cardinal_adjc_iterate_end;
+
+  return check_self && tile_resource(ptile) == pres;
+}
+
+/****************************************************************************
+  Returns TRUE iff any adjacent tile contains the given resource.
+****************************************************************************/
+bool is_resource_near_tile(const struct tile *ptile,
+                           const struct resource *pres,
+                           bool check_self)
+{
+  if (!pres) {
+    return FALSE;
+  }
+
+  adjc_iterate(ptile, adjc_tile) {
+    if (tile_resource(adjc_tile) == pres) {
+      return TRUE;
+    }
+  } adjc_iterate_end;
+
+  return check_self && tile_resource(ptile) == pres;
+}
+
 /* Names of specials.
  * (These must correspond to enum tile_special_type.)
  */

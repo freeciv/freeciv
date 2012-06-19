@@ -284,6 +284,13 @@ int count_terrain_property_near_tile(const struct tile *ptile,
 				     bool cardinal_only, bool percentage,
 				     enum mapgen_terrain_property prop);
 
+bool is_resource_card_near(const struct tile *ptile,
+                           const struct resource *pres,
+                           bool check_self);
+bool is_resource_near_tile(const struct tile *ptile,
+                           const struct resource *pres,
+                           bool check_self);
+
 /* General resource accessor functions. */
 Resource_type_id resource_count(void);
 Resource_type_id resource_index(const struct resource *presource);

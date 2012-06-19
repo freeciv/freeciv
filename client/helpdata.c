@@ -395,6 +395,32 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     break;
 
+  case VUT_RESOURCE:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      cat_snprintf(buf, bufsz, _("Requires the %s resource on the tile.\n"),
+                   resource_name_translation(preq->source.value.resource));
+      return TRUE;
+    case REQ_RANGE_CADJACENT:
+      cat_snprintf(buf, bufsz,_("Requires the %s resource on the tile or "
+                                "a cardinally adjacent tile.\n"),
+                   resource_name_translation(preq->source.value.resource));
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+      cat_snprintf(buf, bufsz,_("Requires the %s resource on the tile or "
+                                "an adjacent tile.\n"),
+                   resource_name_translation(preq->source.value.resource));
+      return TRUE;
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_NATION:
     switch (preq->range) {
     case REQ_RANGE_PLAYER:

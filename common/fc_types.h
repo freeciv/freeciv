@@ -245,6 +245,7 @@ typedef union {
   struct unit_type *utype;
   struct base_type *base;
   struct road_type *road;
+  struct resource *resource;
 
   enum ai_level ai_level;
   enum citytile_type citytile;
@@ -308,6 +309,8 @@ typedef union {
 /* Keep this last. */
 #define SPECENUM_VALUE20 VUT_ROAD
 #define SPECENUM_VALUE20NAME "Road"
+#define SPECENUM_VALUE21 VUT_RESOURCE
+#define SPECENUM_VALUE21NAME "Resource"
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"
 
