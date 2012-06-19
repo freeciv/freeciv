@@ -589,30 +589,6 @@ void player_set_color(struct player *pplayer,
 }
 
 /****************************************************************************
-  Return the player color as featured text string.
-****************************************************************************/
-const char *player_color_ftstr(struct player *pplayer)
-{
-  static char buf[64];
-  char hex[16];
-
-  fc_assert_ret_val(pplayer != NULL, NULL);
-
-  buf[0] = '\0';
-  if (pplayer->rgb != NULL
-      && rgbcolor_to_hex(pplayer->rgb, hex, sizeof(hex))) {
-    struct ft_color plrcolor = FT_COLOR("#000000", hex);
-
-    featured_text_apply_tag(hex, buf, sizeof(buf), TTT_COLOR, 0,
-                            FT_OFFSET_UNSET, plrcolor);
-  } else {
-    cat_snprintf(buf, sizeof(buf), _("no color"));
-  }
-
-  return buf;
-}
-
-/****************************************************************************
   Clear all player data. If full is set, then the nation and the team will
   be cleared too.
 ****************************************************************************/

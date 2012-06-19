@@ -1933,6 +1933,9 @@ void handle_player_info(const struct packet_player_info *pinfo)
     tileset_player_init(tileset, pplayer);
 
     rgbcolor_destroy(prgbcolor);
+
+    /* Queue a map update -- may need to redraw borders, etc. */
+    update_map_canvas_visible();
   }
 
   if (new_player) {

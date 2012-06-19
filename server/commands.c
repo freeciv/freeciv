@@ -489,19 +489,21 @@ static struct command commands[] = {
    N_("playercolor <player-name> <color>\n"
       "playercolor <player-name> reset"),
    N_("Define the color of a player."),
-   N_("This command is used to set the color of a player's nation. The "
-      "color is defined using a hexadecimal notation (HEX) for the "
-      "combination of Red, Green, and Blue color values (RGB). The lowest "
-      "value is 0 (in HEX: 00). The highest value is 255 (in HEX: FF). The "
-      "color definition starts with a '#' sign followed be the HEX values "
-      "for the three colors, i.e '#ff0000' for red. In server scripts, the "
-      "'#' sign must be escaped or the color definition must be quoted.\n"
-      "In initial game state the color can only be defined if the "
-      "'plrcolormode' setting is set to 'PLR_SET'. The "
-      "defined color can be removed using the reset argument.\n"
-      "For a running game, this command redefines the player color. The "
-      "change will be visible in the following turn.\n"
-      "To list the player colors use 'list colors'."), NULL,
+   N_("This command sets the color of a specific player, overriding any color "
+      "assigned according to the 'plrcolormode' setting.\n"
+      "The color is defined using hexadecimal notation (hex) for the "
+      "combination of Red, Green, and Blue color components (RGB), similarly "
+      "to HTML. For each component, the lowest (darkest) value is 0 (in "
+      "hex: 00), and the highest value is 255 (in hex: FF). The color "
+      "definition is simply the three hex values concatenated together "
+      "(RRGGBB). For example, the following command sets Caesar to pure red:\n"
+      "  playercolor Caesar ff0000\n"
+      "Before the game starts, this command can only be used if the "
+      "'plrcolormode' setting is set to 'PLR_SET'; a player's color can be "
+      "unset again by specifying 'reset'.\n"
+      "Once the game has started and colors have been assigned, this command "
+      "changes the player color in any mode; 'reset' cannot be used.\n"
+      "To list the player colors, use 'list colors'."), NULL,
    CMD_ECHO_NONE, VCF_NONE, 0
   },
   {"endgame",	ALLOW_ADMIN,

@@ -869,10 +869,19 @@ static void package_player_info(struct player *plr,
     packet->color_green = plr->rgb->g;
     packet->color_blue = plr->rgb->b;
   } else {
-    /* Use dummy values. */
-    packet->color_red = 0;
-    packet->color_green = 0;
-    packet->color_blue = 0;
+    /* In pregame, send the color we expect to use, for consistency with
+     * '/list colors' etc. */
+    const struct rgbcolor *preferred = player_preferred_color(plr);
+    if (preferred != NULL) {
+      packet->color_red = preferred->r;
+      packet->color_green = preferred->g;
+      packet->color_blue = preferred->b;
+    } else {
+      /* Can't tell the client 'no color', so use dummy values (black). */
+      packet->color_red = 0;
+      packet->color_green = 0;
+      packet->color_blue = 0;
+    }
   }
 
   /* Only send score if we have contact */
@@ -1133,49 +1142,157 @@ void server_player_init(struct player *pplayer, bool initmap,
 }
 
 /****************************************************************************
-  Set the player's color. If 'prgbcolor' is not NULL the called should free
-  the pointer as player_set_color() copies the data.
+  If a player's color will be predictable when colors are assigned (or
+  assignment has already happened), return that color. Otherwise (if the
+  player's color is yet to be assigned randomly), return NULL.
 ****************************************************************************/
-void server_player_set_color(struct player *pplayer,
-                             struct rgbcolor *prgbcolor)
+const struct rgbcolor *player_preferred_color(struct player *pplayer)
 {
-  struct rgbcolor *plrcolor;
-
-  if (prgbcolor == NULL) {
+  if (pplayer->rgb) {
+    return pplayer->rgb;
+  } else if (playercolor_count() == 0) {
+    /* If a ruleset isn't loaded, there are no colors to choose from. */
+    return NULL;
+  } else {
     int colorid;
-
     switch (game.server.plrcolormode) {
+    case PLRCOL_PLR_SET: /* player color (set) */
+    case PLRCOL_PLR_RANDOM: /* player color (random) */
+      /* These depend on other players and will be assigned at game start. */
+      return NULL;
     default:
       log_error("Invalid value for 'game.server.plrcolormode' (%d)!",
                 game.server.plrcolormode);
       /* no break - using 'PLRCOL_PLR_ORDER' as fallback */
     case PLRCOL_PLR_ORDER: /* player color (ordered) */
-      colorid = player_index(pplayer) % playercolor_count();
-      break;
-    case PLRCOL_PLR_RANDOM: /* player color (random) */
-    case PLRCOL_PLR_SET: /* player color (set) */
-      colorid = fc_rand(playercolor_count());
+      colorid = player_number(pplayer) % playercolor_count();
       break;
     case PLRCOL_TEAM_ORDER: /* team color (ordered) */
-      colorid = team_index(pplayer->team) % playercolor_count();
+      colorid = team_number(pplayer->team) % playercolor_count();
       break;
     }
+    return playercolor_get(colorid);
+  }
+}
 
-    plrcolor = playercolor_get(colorid);
+/****************************************************************************
+  Permanently assign colors to any players that don't already have them.
+  First assign preferred colors, then assign the rest randomly, trying to
+  avoid clashes.
+****************************************************************************/
+void assign_player_colors(void)
+{
+  struct rgbcolor_list *spare_colors =
+    rgbcolor_list_copy(game.server.plr_colors);
+  int needed = player_count();
+
+  players_iterate(pplayer) {
+    const struct rgbcolor *autocolor;
+    /* Assign the deterministic colors. */
+    if (!pplayer->rgb
+        && (autocolor = player_preferred_color(pplayer))) {
+      player_set_color(pplayer, autocolor);
+    }
+    if (pplayer->rgb) {
+      /* One fewer random color needed. */
+      needed--;
+      /* Try to avoid clashes between explicit and random colors. */
+      rgbcolor_list_iterate(spare_colors, prgbcolor) {
+        if (rgbcolors_are_equal(pplayer->rgb, prgbcolor)) {
+          rgbcolor_list_remove(spare_colors, prgbcolor);
+        }
+      } rgbcolor_list_iterate_end;
+    }
+  } players_iterate_end;
+
+  if (needed == 0) {
+    /* No random colors needed */
+    rgbcolor_list_destroy(spare_colors);
+    return;
+  }
+
+  fc_assert(game.server.plrcolormode == PLRCOL_PLR_RANDOM
+            || game.server.plrcolormode == PLRCOL_PLR_SET);
+
+  if (needed > rgbcolor_list_size(spare_colors)) {
+    log_verbose("Not enough unique colors for all players; there will be "
+                "duplicates");
+    /* Fallback: start again from full set of ruleset colors.
+     * No longer attempt to avoid clashes with explicitly assigned colors. */
+    rgbcolor_list_destroy(spare_colors);
+    spare_colors = rgbcolor_list_copy(game.server.plr_colors);
+  }
+  /* We may still not have enough, if there are more players than
+   * ruleset-defined colors. If so, top up with duplicates. */
+  if (needed > rgbcolor_list_size(spare_colors)) {
+    int i, origsize = rgbcolor_list_size(spare_colors);
+    /* Shuffle so that duplicates aren't biased to start of list */
+    rgbcolor_list_shuffle(spare_colors);
+    /* Duplication process avoids one color being hit lots of times */
+    for (i = origsize; i < needed; i++) {
+      rgbcolor_list_append(spare_colors,
+                           rgbcolor_list_get(spare_colors, i - origsize));
+    }
+  }
+  /* Shuffle (including mixing any duplicates up) */
+  rgbcolor_list_shuffle(spare_colors);
+
+  /* Finally, assign shuffled colors to players. */
+  players_iterate(pplayer) {
+    if (!pplayer->rgb) {
+      player_set_color(pplayer, rgbcolor_list_front(spare_colors));
+      rgbcolor_list_pop_front(spare_colors);
+    }
+  } players_iterate_end;
+
+  rgbcolor_list_destroy(spare_colors);
+}
+
+/****************************************************************************
+  Set the player's color. If 'prgbcolor' is not NULL the caller should free
+  the pointer, as player_set_color() copies the data.
+****************************************************************************/
+void server_player_set_color(struct player *pplayer,
+                             const struct rgbcolor *prgbcolor)
+{
+  if (prgbcolor != NULL) {
+    player_set_color(pplayer, prgbcolor);
   } else {
-    plrcolor = prgbcolor;
+    /* Server only: this can be NULL in pregame. */
+    fc_assert_ret(!game_was_started());
+    rgbcolor_destroy(pplayer->rgb);
+    pplayer->rgb = NULL;
+  }
+  /* Update clients */
+  send_player_info_c(pplayer, NULL);
+}
+
+/****************************************************************************
+  Return the player color as featured text string.
+  (In pregame, this uses the color the player will take, if known, even if
+  not assigned yet.)
+****************************************************************************/
+const char *player_color_ftstr(struct player *pplayer)
+{
+  static char buf[64];
+  char hex[16];
+  const struct rgbcolor *prgbcolor;
+
+  fc_assert_ret_val(pplayer != NULL, NULL);
+
+  buf[0] = '\0';
+  prgbcolor = player_preferred_color(pplayer);
+  if (prgbcolor != NULL
+      && rgbcolor_to_hex(prgbcolor, hex, sizeof(hex))) {
+    struct ft_color plrcolor = FT_COLOR("#000000", hex);
+
+    featured_text_apply_tag(hex, buf, sizeof(buf), TTT_COLOR, 0,
+                            FT_OFFSET_UNSET, plrcolor);
+  } else {
+    cat_snprintf(buf, sizeof(buf), _("no color"));
   }
 
-  fc_assert_ret(plrcolor != NULL);
-
-  /* Set the color for 'game.server.plrcolormode' = 'PLRCOL_PLR_ORDER',
-   * 'PLRCOL_PLR_RANDOM' and 'PLRCOL_TEAM_ORDER'. If
-   * 'game.server.plrcolormode' is equal to 'PLRCOL_PLR_SET' the color is
-   * only set if 'prgbcolor' is not NULL. */
-  if (game.server.plrcolormode != PLRCOL_PLR_SET || prgbcolor != NULL) {
-    /* 'plrcolor' will be copied into the player struct. */
-    player_set_color(pplayer, plrcolor);
-  }
+  return buf;
 }
 
 /********************************************************************** 
@@ -1215,9 +1332,8 @@ struct player *server_create_player(int player_id, const char *ai_type,
    *       parameters set to what they really need. */
   server_player_init(pplayer, FALSE, FALSE);
   if (game_was_started()) {
-    /* This function uses fc_rand which is initialised at game start. The
-     * player colors will be reset at game start. */
-    server_player_set_color(pplayer, prgbcolor);
+    /* Find a color for the new player. */
+    assign_player_colors();
   }
 
   return pplayer;

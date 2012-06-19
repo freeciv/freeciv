@@ -23,8 +23,11 @@ enum plr_info_level { INFO_MINIMUM, INFO_MEETING, INFO_EMBASSY, INFO_FULL };
 
 struct player *server_create_player(int player_id, const char *ai_type,
                                     struct rgbcolor *prgbcolor);
+const struct rgbcolor *player_preferred_color(struct player *pplayer);
+void assign_player_colors(void);
 void server_player_set_color(struct player *pplayer,
-                             struct rgbcolor *prgbcolor);
+                             const struct rgbcolor *prgbcolor);
+const char *player_color_ftstr(struct player *pplayer);
 void server_player_init(struct player *pplayer, bool initmap,
                         bool needs_team);
 void server_remove_player(struct player *pplayer);

@@ -56,6 +56,19 @@ struct rgbcolor *rgbcolor_copy(const struct rgbcolor *prgbcolor)
 }
 
 /****************************************************************************
+  Test whether two rgbcolor structures represent the exact same color value.
+  (Does not attempt to determine whether they are visually distinguishable.)
+****************************************************************************/
+bool rgbcolors_are_equal(const struct rgbcolor *c1, const struct rgbcolor *c2)
+{
+  fc_assert_ret_val(c1 != NULL && c2 != NULL, FALSE);
+
+  /* No check of cached 'color' member -- if values are equal, it should be
+   * equivalent */
+  return (c1->r == c2->r && c1->g == c2->g && c1->b == c2->b);
+}
+
+/****************************************************************************
   Free rgbcolor structure.
 ****************************************************************************/
 void rgbcolor_destroy(struct rgbcolor *prgbcolor)
@@ -154,11 +167,15 @@ bool rgbcolor_from_hex(struct rgbcolor **prgbcolor, const char *hex)
   fc_assert_ret_val(*prgbcolor == NULL, FALSE);
   fc_assert_ret_val(hex != NULL, FALSE);
 
-  if (strlen(hex) != 7 || hex[0]!= '#') {
+  if (hex[0] == '#') {
+    hex++;
+  }
+
+  if (strlen(hex) != 6) {
     return FALSE;
   }
 
-  fc_snprintf(hex2, sizeof(hex2), "0x%s", hex + 1);
+  fc_snprintf(hex2, sizeof(hex2), "0x%s", hex);
   if (!sscanf(hex2, "%x", &rgb)) {
     return FALSE;
   }

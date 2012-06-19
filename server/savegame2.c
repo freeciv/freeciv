@@ -3199,6 +3199,8 @@ static void sg_load_players_basic(struct loaddata *loading)
     if (!rgbcolor_load(loading->file, &prgbcolor, "player%d.color",
                        pslot_id)) {
       log_verbose("No color defined for player %d.", pslot_id);
+      /* If game is already running, server_create_player() will assign
+       * a color, else colors will be assigned on game start */
     }
 
     /* Create player. */

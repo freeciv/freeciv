@@ -290,7 +290,6 @@ int player_slot_max_used_number(void);
 struct player *player_new(struct player_slot *pslot);
 void player_set_color(struct player *pplayer,
                       const struct rgbcolor *prgbcolor);
-const char *player_color_ftstr(struct player *pplayer);
 void player_clear(struct player *pplayer, bool full);
 void player_destroy(struct player *pplayer);
 
