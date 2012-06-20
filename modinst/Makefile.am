@@ -47,9 +47,9 @@ freeciv_modpack_LDADD = \
 		$(MPICON)
 endif
 
-if MODINST_QT
-
 MOC_FILES = meta_mpgui_qt.cpp
+
+if MODINST_QT
 
 freeciv_mp_qt_SOURCES = \
 	mpgui_qt.cpp	\
