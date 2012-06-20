@@ -107,14 +107,8 @@ bool can_attack_non_native(const struct unit_type *utype)
 ****************************************************************************/
 bool can_attack_from_non_native(const struct unit_type *utype)
 {
-  /* It's clear that UMT_LAND should not be able to attack from
-   * non-native (unless F_MARINES) and it's clear that UMT_SEA
-   * should be able to attack from non-native. It's not clear what to do
-   * with UMT_BOTH. At the moment we return FALSE for
-   * them. One can always give "Marines" flag for them. This should be
-   * generalized for unit_classes anyway. */
-  return (utype_class(utype)->move_type == UMT_SEA
-          || utype_has_flag(utype, F_MARINES));
+  return uclass_has_flag(utype_class(utype), UCF_ATT_FROM_NON_NATIVE)
+         || utype_has_flag(utype, F_MARINES);
 }
 
 /****************************************************************************

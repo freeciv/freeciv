@@ -72,6 +72,9 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 /* Can attack against units on non-native tiles */
 #define SPECENUM_VALUE13 UCF_ATTACK_NON_NATIVE
 #define SPECENUM_VALUE13NAME "AttackNonNative"
+/* Can launch attack from non-native tile (to native tile) */
+#define SPECENUM_VALUE14 UCF_ATT_FROM_NON_NATIVE
+#define SPECENUM_VALUE14NAME "AttFromNonNative"
 /* keep this last */
 #define SPECENUM_COUNT UCF_COUNT
 #include "specenum_gen.h"

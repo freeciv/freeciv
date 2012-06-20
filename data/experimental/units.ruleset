@@ -98,6 +98,10 @@ veteran_move_bonus = 0, 0, 0, 0
 ;                       still work that tile
 ; "AttackNonNative"   = Unit can attack units on non-native tiles. Unit type flag
 ;                       "Only_Native_Attack" can override this
+; "AttFromNonNative"  = Unit can launch attach from non-native tile (against native one)
+;                       This applies for both attacking from transport or cities. If only
+;                       some unit types of the class should get this property, use type flag
+;                       "Marines"
 ;
 ; */ <-- avoid gettext warnings
 
@@ -134,14 +138,14 @@ flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
 name          = _("?unitclass:Sea")
 min_speed     = 2
 hp_loss_pct   = 0
-flags         = "DamageSlows", "AttackNonNative"
+flags         = "DamageSlows", "AttackNonNative", "AttFromNonNative"
 
 [unitclass_trireme]
 ; /* TRANS: Unit class: used adjectivally */
 name          = _("?unitclass:Trireme")
 min_speed     = 2
 hp_loss_pct   = 0
-flags         = "DamageSlows", "RiverNative"
+flags         = "DamageSlows", "RiverNative", "AttFromNonNative"
 
 [unitclass_heli]
 ; /* TRANS: Unit class: used adjectivally */
@@ -234,7 +238,7 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; "IgWall"	= ignore effect of city walls
 ; "FieldUnit"	= cause unhappiness even when not being aggressive
 ; "AEGIS"	= fivefold increased defence against "AirUnit" attacks
-; "Marines"	= (land only) can attack from transports
+; "Marines"	= can attack from non-native tile (from transport or city)
 ; "Partial_Invis" = visible only to adjancent units; does not hide transported
 ;		  units other than missiles
 ; "Settlers"	= can irrigate and build roads
