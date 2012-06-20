@@ -86,10 +86,11 @@ bool road_has_flag(const struct road_type *proad, enum road_flag_id flag);
 bool is_native_road_to_uclass(const struct road_type *proad,
                               const struct unit_class *pclass);
 
-bool can_build_road(struct road_type *road,
+bool road_can_be_built(const struct road_type *proad, const struct tile *ptile);
+bool can_build_road(struct road_type *proad,
 		    const struct unit *punit,
 		    const struct tile *ptile);
-bool player_can_build_road(const struct road_type *road,
+bool player_can_build_road(const struct road_type *proad,
 			   const struct player *pplayer,
 			   const struct tile *ptile);
 

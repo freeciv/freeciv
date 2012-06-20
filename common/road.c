@@ -168,22 +168,34 @@ bool is_native_road_to_uclass(const struct road_type *proad,
 }
 
 /****************************************************************************
-  Tells if player can build road to tile with suitable unit.
+  Tells if road can build to tile if all other requirements are met.
 ****************************************************************************/
-static bool can_build_road_base(const struct road_type *road,
-                                const struct player *pplayer,
-                                const struct tile *ptile)
+bool road_can_be_built(const struct road_type *proad, const struct tile *ptile)
 {
   if (!terrain_control.may_road) {
     return FALSE;
   }
 
-  if (tile_has_road(ptile, road)) {
+  if (tile_has_road(ptile, proad)) {
     /* Road exist already */
     return FALSE;
   }
 
   if (tile_terrain(ptile)->road_time == 0) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Tells if player can build road to tile with suitable unit.
+****************************************************************************/
+static bool can_build_road_base(const struct road_type *proad,
+                                const struct player *pplayer,
+                                const struct tile *ptile)
+{
+  if (!road_can_be_built(proad, ptile)) {
     return FALSE;
   }
 
@@ -198,34 +210,34 @@ static bool can_build_road_base(const struct road_type *road,
 /****************************************************************************
   Tells if player can build road to tile with suitable unit.
 ****************************************************************************/
-bool player_can_build_road(const struct road_type *road,
+bool player_can_build_road(const struct road_type *proad,
                            const struct player *pplayer,
                            const struct tile *ptile)
 {
-  if (!can_build_road_base(road, pplayer, ptile)) {
+  if (!can_build_road_base(proad, pplayer, ptile)) {
     return FALSE;
   }
 
   return are_reqs_active(pplayer, NULL, NULL, ptile,
-                         NULL, NULL, NULL, &road->reqs,
+                         NULL, NULL, NULL, &proad->reqs,
                          RPT_POSSIBLE);
 }
 
 /****************************************************************************
   Tells if unit can build road on tile.
 ****************************************************************************/
-bool can_build_road(struct road_type *road,
+bool can_build_road(struct road_type *proad,
 		    const struct unit *punit,
 		    const struct tile *ptile)
 {
   struct player *pplayer = unit_owner(punit);
 
-  if (!can_build_road_base(road, pplayer, ptile)) {
+  if (!can_build_road_base(proad, pplayer, ptile)) {
     return FALSE;
   }
 
   return are_reqs_active(pplayer, NULL, NULL, ptile,
-                         unit_type(punit), NULL, NULL, &road->reqs,
+                         unit_type(punit), NULL, NULL, &proad->reqs,
                          RPT_CERTAIN);
 }
 
