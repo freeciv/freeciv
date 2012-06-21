@@ -55,6 +55,9 @@ bool is_ground_unit(const struct unit *punit);
 bool is_sailing_unittype(const struct unit_type *punittype);
 bool is_ground_unittype(const struct unit_type *punittype);
 
+bool is_city_channel_tile(const struct unit_class *punitclass,
+                          const struct tile *ptile);
+
 bool is_native_tile(const struct unit_type *punittype,
                     const struct tile *ptile);
 bool is_native_tile_to_class(const struct unit_class *punitclass,
@@ -67,7 +70,7 @@ bool is_native_to_class(const struct unit_class *punitclass,
                         const struct terrain *pterrain,
                         bv_special special, bv_bases bases,
                         bv_roads roads);
-bool is_native_near_tile(const struct unit_type *utype, const struct tile *ptile);
+bool is_native_near_tile(const struct unit_class *uclass, const struct tile *ptile);
 bool can_exist_at_tile(const struct unit_type *utype,
                        const struct tile *ptile);
 bool can_unit_exist_at_tile(const struct unit *punit, const struct tile *ptile);

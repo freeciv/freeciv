@@ -149,8 +149,8 @@ bool is_ground_unittype(const struct unit_type *punittype)
 /****************************************************************************
   Check for a city channel.
 ****************************************************************************/
-static bool is_city_channel_tile(const struct unit_class *punitclass,
-                                 const struct tile *ptile)
+bool is_city_channel_tile(const struct unit_class *punitclass,
+                          const struct tile *ptile)
 {
   struct dbv tile_processed = { 0, NULL };
   struct tile_list *process_queue = tile_list_new();
@@ -200,7 +200,7 @@ bool can_exist_at_tile(const struct unit_type *utype,
    * arrived to city. */
   if (NULL != tile_city(ptile)
       && (uclass_has_flag(utype_class(utype), UCF_BUILD_ANYWHERE)
-          || is_native_near_tile(utype, ptile)
+          || is_native_near_tile(utype_class(utype), ptile)
           || (1 == game.info.citymindist
               && is_city_channel_tile(utype_class(utype), ptile)))) {
     return TRUE;
@@ -311,14 +311,14 @@ bool is_native_to_class(const struct unit_class *punitclass,
 /****************************************************************************
   Is there native tile adjacent to given tile
 ****************************************************************************/
-bool is_native_near_tile(const struct unit_type *utype, const struct tile *ptile)
+bool is_native_near_tile(const struct unit_class *uclass, const struct tile *ptile)
 {
-  if (is_native_tile(utype, ptile)) {
+  if (is_native_tile_to_class(uclass, ptile)) {
     return TRUE;
   }
 
   adjc_iterate(ptile, ptile2) {
-    if (is_native_tile(utype, ptile2)) {
+    if (is_native_tile_to_class(uclass, ptile2)) {
       return TRUE;
     }
   } adjc_iterate_end;
