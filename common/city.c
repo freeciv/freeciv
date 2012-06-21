@@ -865,7 +865,7 @@ bool can_city_build_unit_direct(const struct city *pcity,
 
   /* You can't build naval units inland. */
   if (!uclass_has_flag(utype_class(punittype), UCF_BUILD_ANYWHERE)
-      && !is_native_near_tile(punittype, pcity->tile)) {
+      && !is_native_near_tile(utype_class(punittype), pcity->tile)) {
     return FALSE;
   }
   return TRUE;
@@ -904,7 +904,7 @@ bool can_city_build_unit_later(const struct city *pcity,
   /* Some units can be built only in certain cities -- for instance,
      ships may be built only in cities adjacent to ocean. */
   if (!uclass_has_flag(utype_class(punittype), UCF_BUILD_ANYWHERE)
-      && !is_native_near_tile(punittype, pcity->tile)) {
+      && !is_native_near_tile(utype_class(punittype), pcity->tile)) {
     return FALSE;
   }
 
