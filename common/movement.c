@@ -174,7 +174,7 @@ bool is_city_channel_tile(const struct unit_class *punitclass,
       }
     } adjc_iterate_end;
 
-    if (0 == tile_list_size(process_queue)) {
+    if (found || 0 == tile_list_size(process_queue)) {
       break; /* No more tile to process. */
     } else {
       ptile = tile_list_front(process_queue);
