@@ -105,7 +105,7 @@ void aiferry_init_stats(struct player *pplayer)
 
     if (is_sailing_unit(punit)) {
       unit_class_iterate(punitclass) {
-        if (punitclass->move_type == UMT_LAND
+        if (dai_uclass_move_type(punitclass) == UMT_LAND
             && can_unit_type_transport(unit_type(punit), punitclass)) {
           /* Can transport some land units. */
           ai->stats.boats++;
@@ -163,7 +163,7 @@ void dai_ferry_init_ferry(struct unit *ferry)
     struct unit_ai *unit_data = def_ai_unit_data(ferry);
 
     unit_class_iterate(punitclass) {
-      if (punitclass->move_type == UMT_LAND
+      if (dai_uclass_move_type(punitclass) == UMT_LAND
           && can_unit_type_transport(unit_type(ferry), punitclass)) {
         /* Can transport some land units, so is consider ferry */
         struct ai_plr *ai = dai_plr_data_get(unit_owner(ferry));

@@ -2149,10 +2149,12 @@ void dai_manage_unit(struct player *pplayer, struct unit *punit)
 
   if (get_transporter_capacity(punit) > 0) {
     unit_class_iterate(pclass) {
+      enum unit_move_type mt = dai_uclass_move_type(pclass);
+
       /* FIXME: UMT_BOTH units need ferry only if they use fuel */
       if (can_unit_type_transport(unit_type(punit), pclass)
-          && (pclass->move_type == UMT_LAND
-              || (pclass->move_type == UMT_BOTH
+          && (mt == UMT_LAND
+              || (mt == UMT_BOTH
                   && !uclass_has_flag(pclass, UCF_MISSILE)))) {
         is_ferry = TRUE;
         break;
@@ -2565,6 +2567,14 @@ void dai_consider_tile_dangerous(struct tile *ptile, struct unit *punit,
 }
 
 /*************************************************************************
+  Returns move type of the unit class.
+**************************************************************************/
+enum unit_move_type dai_uclass_move_type(const struct unit_class *pclass)
+{
+  return pclass->move_type;
+}
+
+/*************************************************************************
   Updates the global array simple_ai_types.
 **************************************************************************/
 static void update_simple_ai_types(void)
@@ -2575,7 +2585,7 @@ static void update_simple_ai_types(void)
     if (A_NEVER != punittype->require_advance
         && !utype_has_flag(punittype, F_CIVILIAN)
         && !uclass_has_flag(utype_class(punittype), UCF_MISSILE)
-        && !(utype_class(punittype)->move_type == UMT_SEA
+        && !(dai_uclass_move_type(utype_class(punittype)) == UMT_SEA
              && (!uclass_has_flag(utype_class(punittype), UCF_ATTACK_NON_NATIVE)
                  || utype_has_flag(punittype, F_ONLY_NATIVE_ATTACK)))
         && !utype_fuel(punittype)

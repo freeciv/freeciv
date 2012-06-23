@@ -546,10 +546,12 @@ void dai_fill_unit_param(struct pf_parameter *parameter,
   if (unit_data->task != AIUNIT_HUNTER
       && get_transporter_capacity(punit) > 0) {
     unit_class_iterate(uclass) {
+      enum unit_move_type mt = dai_uclass_move_type(uclass);
+
       /* FIXME: UMT_BOTH units need ferry only if they use fuel */
       if (can_unit_type_transport(unit_type(punit), uclass)
-          && (uclass->move_type == UMT_LAND
-              || (uclass->move_type == UMT_BOTH
+          && (mt == UMT_LAND
+              || (mt == UMT_BOTH
                   && !uclass_has_flag(uclass, UCF_MISSILE)))) {
         is_ferry = TRUE;
         break;

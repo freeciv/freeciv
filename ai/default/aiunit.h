@@ -111,6 +111,8 @@ bool is_on_unit_upgrade_path(const struct unit_type *test,
 void dai_consider_tile_dangerous(struct tile *ptile, struct unit *punit,
 				 enum danger_consideration *result);
 
+enum unit_move_type dai_uclass_move_type(const struct unit_class *pclass);
+
 /* Call this after rulesets are loaded */
 void dai_units_ruleset_init(void);
 

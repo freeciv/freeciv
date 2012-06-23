@@ -514,7 +514,7 @@ static unsigned int assess_danger(struct city *pcity)
         }
       } else {
         unit_class_iterate(punitclass) {
-          if (punitclass->move_type == UMT_LAND
+          if (dai_uclass_move_type(punitclass) == UMT_LAND
               && can_unit_type_transport(unit_type(punit), punitclass)) {
             /* It can transport some land moving units! */
 
