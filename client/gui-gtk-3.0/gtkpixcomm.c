@@ -182,6 +182,10 @@ gtk_pixcomm_new(gint width, gint height)
   p->w = width; p->h = height;
   gtk_misc_get_padding(GTK_MISC(p), &xpad, &ypad);
   gtk_widget_set_size_request(GTK_WIDGET(p), width + xpad * 2, height + ypad * 2);
+#if GTK_CHECK_VERSION(3, 0, 0)
+  gtk_widget_set_halign(GTK_WIDGET(p), GTK_ALIGN_CENTER);
+  gtk_widget_set_valign(GTK_WIDGET(p), GTK_ALIGN_CENTER);
+#endif
 
   p->is_scaled = FALSE;
   p->scale = 1.0;
@@ -330,9 +334,11 @@ void gtk_pixcomm_copyto(GtkPixcomm *p, struct sprite *src, gint x, gint y)
   GtkMisc *misc = GTK_MISC(p);
   GtkPixcommPrivate *priv = GTK_PIXCOMM_GET_PRIVATE(p);
   int width, height, xpad, ypad;
+  GtkAllocation allocation;
   cairo_t *cr = cairo_create(priv->surface);
 
   gtk_misc_get_padding(misc, &xpad, &ypad);
+  gtk_widget_get_allocation(GTK_WIDGET(p), &allocation);
 
   fc_assert_ret(GTK_IS_PIXCOMM(p));
   fc_assert_ret(src != NULL);
@@ -342,7 +348,10 @@ void gtk_pixcomm_copyto(GtkPixcomm *p, struct sprite *src, gint x, gint y)
   cairo_set_source_surface(cr, src->surface, x, y);
   cairo_paint(cr);
   cairo_destroy(cr);
-  gtk_widget_queue_draw_area(GTK_WIDGET(p), x + xpad, y + ypad, width, height);
+  gtk_widget_queue_draw_area(GTK_WIDGET(p),
+      allocation.x + x + xpad,
+      allocation.y + y + ypad,
+      width, height);
 }
 
 static gboolean
@@ -379,7 +388,7 @@ gtk_pixcomm_get_preferred_width(GtkWidget *widget, gint *minimal_width,
   int xpad;
 
   gtk_misc_get_padding(GTK_MISC(widget), &xpad, NULL);
-  *minimal_width = *natural_width = GTK_PIXCOMM(widget)->w + xpad;
+  *minimal_width = *natural_width = GTK_PIXCOMM(widget)->w + xpad * 2;
 }
 
 static void
@@ -389,6 +398,6 @@ gtk_pixcomm_get_preferred_height(GtkWidget *widget, gint *minimal_height,
   int ypad;
 
   gtk_misc_get_padding(GTK_MISC(widget), NULL, &ypad);
-  *minimal_height = *natural_height = GTK_PIXCOMM(widget)->h + ypad;
+  *minimal_height = *natural_height = GTK_PIXCOMM(widget)->h + ypad * 2;
 }
 #endif /* GTK 3 */
