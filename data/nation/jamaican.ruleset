@@ -1,7 +1,7 @@
 [nation_jamaican]
 
 name=_("Jamaican")
-plural=_("?plural:Jamaican")
+plural=_("?plural:Jamaicans")
 groups="Modern", "American"
 legend=_("Columbus landed on Jamaica in 1494. The island was colonized by\
  the Spanish but in 1655 it was conquered by the English, who turned the\
