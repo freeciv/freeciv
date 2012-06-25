@@ -1073,7 +1073,7 @@ reqs           =
       "TerrainClass", "Land", "Local"
     }
 move_cost      = 2
-built_time     = 0
+build_time     = 0
 food_incr      = 0
 shield_incr    = 0
 trade_incr     = 1
