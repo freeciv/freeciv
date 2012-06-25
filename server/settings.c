@@ -479,12 +479,12 @@ static void aifill_action(const struct setting *pset)
 *************************************************************************/
 static void plrcol_action(const struct setting *pset)
 {
-  if (read_enum_value(pset) != PLRCOL_PLR_SET) {
-    players_iterate(pplayer) {
-      server_player_set_color(pplayer, NULL);
-    } players_iterate_end;
-  }
   if (!game_was_started()) {
+    if (read_enum_value(pset) != PLRCOL_PLR_SET) {
+      players_iterate(pplayer) {
+        server_player_set_color(pplayer, NULL);
+      } players_iterate_end;
+    }
     /* Update clients with new color scheme. */
     send_player_info_c(NULL, NULL);
   }
