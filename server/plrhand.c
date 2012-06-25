@@ -1331,7 +1331,10 @@ struct player *server_create_player(int player_id, const char *ai_type,
    *       will later make another server_player_init() call anyway, with boolean
    *       parameters set to what they really need. */
   server_player_init(pplayer, FALSE, FALSE);
-  if (game_was_started()) {
+
+  if (prgbcolor) {
+    player_set_color(pplayer, prgbcolor);
+  } else if (game_was_started()) {
     /* Find a color for the new player. */
     assign_player_colors();
   }
