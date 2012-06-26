@@ -544,9 +544,7 @@ bool is_resource_near_tile(const struct tile *ptile,
  */
 static const char *tile_special_type_names[] =
 {
-  N_("Road"),
   N_("Irrigation"),
-  N_("Railroad"),
   N_("Mine"),
   N_("Pollution"),
   N_("Hut"),
@@ -1021,7 +1019,7 @@ const char *terrain_alteration_name_translation(enum terrain_alteration talter)
    case TA_CAN_MINE:
      return special_name_translation(S_MINE);
    case TA_CAN_ROAD:
-     return special_name_translation(S_ROAD);
+     return _("Road");
    default:
      return NULL;
   }

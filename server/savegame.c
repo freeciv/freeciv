@@ -60,7 +60,6 @@
 #include "notify.h"
 #include "plrhand.h"
 #include "ruleset.h"
-#include "savegame2.h"
 #include "score.h"
 #include "settings.h"
 #include "spacerace.h"
@@ -250,6 +249,7 @@ static const char num_chars[] =
   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-+";
 
 static void set_savegame_special(bv_special *specials, bv_bases *bases,
+                    bv_roads *roads,
 		    char ch, const enum tile_special_type *index);
 
 static void game_load_internal(struct section_file *file);
@@ -728,7 +728,7 @@ static void map_load_tiles(struct section_file *file)
  * unspecified). Here S_LAST means an unused bit (but see also resource
  * recovery). */
 static const enum tile_special_type default_specials[] = {
-  S_LAST, S_ROAD, S_IRRIGATION, S_RAILROAD,
+  S_LAST, S_OLD_ROAD, S_IRRIGATION, S_OLD_RAILROAD,
   S_MINE, S_POLLUTION, S_HUT, S_OLD_FORTRESS,
   S_LAST, S_RIVER, S_FARMLAND, S_OLD_AIRBASE,
   S_FALLOUT, S_LAST, S_LAST, S_LAST
@@ -763,7 +763,7 @@ static void map_load_rivers_overlay(struct section_file *file,
 
       LOAD_MAP_DATA(ch, nat_y, ptile,
 	secfile_lookup_str(file, buf, nat_y),
-        set_savegame_special(&ptile->special, NULL, ch, special_order + 4 * j));
+        set_savegame_special(&ptile->special, NULL, NULL, ch, special_order + 4 * j));
     } special_halfbyte_iterate_end;
   } else {
     /* Get the bits of the special flags which contain the river special
@@ -771,7 +771,7 @@ static void map_load_rivers_overlay(struct section_file *file,
     fc_assert_ret(S_LAST <= 32);
     LOAD_MAP_DATA(ch, line, ptile,
       secfile_lookup_str(file, "map.n%03d", line),
-      set_savegame_special(&ptile->special, NULL, ch, default_specials + 8));
+      set_savegame_special(&ptile->special, NULL, NULL, ch, default_specials + 8));
   }
 }
 
@@ -784,6 +784,7 @@ static void map_load_rivers_overlay(struct section_file *file,
 ****************************************************************************/
 static void set_savegame_special(bv_special *specials,
                                  bv_bases *bases,
+                                 bv_roads *roads,
 				 char ch,
 				 const enum tile_special_type *index)
 {
@@ -799,7 +800,6 @@ static void set_savegame_special(bv_special *specials,
 
   for (i = 0; i < 4; i++) {
     enum tile_special_type sp = index[i];
-    struct base_type *pbase;
 
     if (sp == S_LAST) {
       continue;
@@ -812,6 +812,8 @@ static void set_savegame_special(bv_special *specials,
       /* Pre 2.2 savegames have fortresses and airbases as part of specials */
       if (sp == S_OLD_FORTRESS) {
         if (bases) {
+          struct base_type *pbase;
+
           pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, NULL, NULL);
           if (pbase) {
             BV_SET(*bases, base_index(pbase));
@@ -819,9 +821,29 @@ static void set_savegame_special(bv_special *specials,
         }
       } else if (sp == S_OLD_AIRBASE) {
         if (bases) {
+          struct base_type *pbase;
+
           pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, NULL, NULL);
           if (pbase) {
             BV_SET(*bases, base_index(pbase));
+          }
+        }
+      } else if (sp == S_OLD_ROAD) {
+        if (roads) {
+          struct road_type *proad;
+
+          proad = road_by_compat_special(RC_ROAD);
+          if (proad) {
+            BV_SET(*roads, road_index(proad));
+          }
+        }
+      } else if (sp == S_OLD_RAILROAD) {
+        if (roads) {
+          struct road_type *proad;
+
+          proad = road_by_compat_special(RC_RAILROAD);
+          if (proad) {
+            BV_SET(*roads, road_index(proad));
           }
         }
       } else {
@@ -949,22 +971,27 @@ static void map_load(struct section_file *file,
 
       LOAD_MAP_DATA(ch, nat_y, ptile,
 	  secfile_lookup_str(file, buf, nat_y),
-          set_savegame_special(&ptile->special, &ptile->bases, ch, special_order + 4 * j));
+          set_savegame_special(&ptile->special, &ptile->bases, &ptile->roads,
+                               ch, special_order + 4 * j));
     } special_halfbyte_iterate_end;
   } else {
     /* get 4-bit segments of 16-bit "special" field. */
     LOAD_MAP_DATA(ch, nat_y, ptile,
 	    secfile_lookup_str(file, "map.l%03d", nat_y),
-            set_savegame_special(&ptile->special, &ptile->bases, ch, default_specials + 0));
+            set_savegame_special(&ptile->special, &ptile->bases, &ptile->roads,
+                                 ch, default_specials + 0));
     LOAD_MAP_DATA(ch, nat_y, ptile,
 	    secfile_lookup_str(file, "map.u%03d", nat_y),
-            set_savegame_special(&ptile->special, &ptile->bases, ch, default_specials + 4));
+            set_savegame_special(&ptile->special, &ptile->bases, &ptile->roads,
+                                 ch, default_specials + 4));
     LOAD_MAP_DATA(ch, nat_y, ptile,
 	    secfile_lookup_str(file, "map.n%03d", nat_y),
-            set_savegame_special(&ptile->special, &ptile->bases, ch, default_specials + 8));
+            set_savegame_special(&ptile->special, &ptile->bases, &ptile->roads,
+                                 ch, default_specials + 8));
     LOAD_MAP_DATA(ch, nat_y, ptile,
 	    secfile_lookup_str(file, "map.f%03d", nat_y),
-            set_savegame_special(&ptile->special, &ptile->bases, ch, default_specials + 12));
+            set_savegame_special(&ptile->special, &ptile->bases, &ptile->roads,
+                                 ch, default_specials + 12));
     /* Setup resources (from half-bytes 1 and 3 of old savegames) */
     LOAD_MAP_DATA(ch, nat_y, ptile,
 	secfile_lookup_str(file, "map.l%03d", nat_y),
@@ -3011,6 +3038,7 @@ static void player_load_vision(struct player *plr, int plrno,
 	    secfile_lookup_str(file, buf, nat_y),
 	    set_savegame_special(&map_get_player_tile(ptile, plr)->special,
                                  &map_get_player_tile(ptile, plr)->bases,
+                                 &map_get_player_tile(ptile, plr)->roads,
 				 ch, special_order + 4 * j));
       } special_halfbyte_iterate_end;
     } else {
@@ -3019,17 +3047,20 @@ static void player_load_vision(struct player *plr, int plrno,
 	  secfile_lookup_str(file, "player%d.map_l%03d", plrno, nat_y),
 	  set_savegame_special(&map_get_player_tile(ptile, plr)->special,
                                &map_get_player_tile(ptile, plr)->bases,
+                               &map_get_player_tile(ptile, plr)->roads,
 			       ch, default_specials + 0));
       LOAD_MAP_DATA(ch, nat_y, ptile,
 	  secfile_lookup_str(file, "player%d.map_u%03d", plrno, nat_y),
 	  set_savegame_special(&map_get_player_tile(ptile, plr)->special,
                                &map_get_player_tile(ptile, plr)->bases,
+                               &map_get_player_tile(ptile, plr)->roads,
 			       ch, default_specials + 4));
       LOAD_MAP_DATA(ch, nat_y, ptile,
 	  secfile_lookup_str_default (file, NULL, "player%d.map_n%03d",
 				      plrno, nat_y),
 	  set_savegame_special(&map_get_player_tile(ptile, plr)->special,
                                &map_get_player_tile(ptile, plr)->bases,
+                               &map_get_player_tile(ptile, plr)->roads,
 			       ch, default_specials + 8));
       LOAD_MAP_DATA(ch, nat_y, ptile,
 	secfile_lookup_str(file, "map.l%03d", nat_y),
@@ -3418,9 +3449,13 @@ static void game_load_internal(struct section_file *file)
     nmod = num_special_types + (4 - (num_special_types % 4));
     special_order = fc_calloc(nmod, sizeof(*special_order));
     for (j = 0; j < num_special_types; j++) {
-      if (!strcmp("Fortress", modname[j])) {
+      if (!strcasecmp("Road", modname[j])) {
+        special_order[j] = S_OLD_ROAD;
+      } else if (!strcasecmp("Railroad", modname[j])) {
+        special_order[j] = S_OLD_RAILROAD;
+      } else if (!strcasecmp("Fortress", modname[j])) {
         special_order[j] = S_OLD_FORTRESS;
-      } else if (!strcmp("Airbase", modname[j])) {
+      } else if (!strcasecmp("Airbase", modname[j])) {
         special_order[j] = S_OLD_AIRBASE;
       } else {
         special_order[j] = special_by_rule_name(modname[j]);
@@ -3994,7 +4029,6 @@ static void game_load_internal(struct section_file *file)
           map_load(file, savefile_options,
                    special_order, num_special_types,
                    base_order, num_base_types);
-          mainmap_specials_to_roads();
           return;
         }
         map_load_tiles(file);
@@ -4057,7 +4091,6 @@ static void game_load_internal(struct section_file *file)
   map_load(file, savefile_options,
            special_order, num_special_types,
            base_order, num_base_types);
-  mainmap_specials_to_roads();
 
   if (!game.info.is_new_game) {
     int *worked_tiles = NULL; /* temporary map for worked tiles */
@@ -4263,7 +4296,6 @@ static void game_load_internal(struct section_file *file)
                          special_order, num_special_types,
                          improvement_order, improvement_order_size,
                          base_order, num_base_types);
-      plrmap_specials_to_roads(pplayer);
     } players_iterate_end;
 
     /* We do this here since if the did it in player_load, player 1

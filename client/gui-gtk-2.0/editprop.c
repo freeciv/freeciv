@@ -902,9 +902,7 @@ static int propval_as_string(struct propval *pv, char *buf, int buflen)
   case VALTYPE_BV_SPECIAL:
     tile_special_type_iterate(spe) {
       if (BV_ISSET(pv->data.v_bv_special, spe)) {
-        if (spe != S_ROAD && spe != S_RAILROAD) {
-          count++;
-        }
+        count++;
       }
     } tile_special_type_iterate_end;
     /* TRANS: "The number of terrain specials (e.g. hut,
@@ -3620,13 +3618,11 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
   case OPID_TILE_SPECIALS:
     gtk_list_store_clear(store);
     tile_special_type_iterate(spe) {
-      if (spe != S_ROAD && spe != S_RAILROAD) {
-        id = spe;
-        name = special_name_translation(spe);
-        present = BV_ISSET(pv->data.v_bv_special, spe);
-        gtk_list_store_append(store, &iter);
-        gtk_list_store_set(store, &iter, 0, present, 1, id, 2, name, -1);
-      }
+      id = spe;
+      name = special_name_translation(spe);
+      present = BV_ISSET(pv->data.v_bv_special, spe);
+      gtk_list_store_append(store, &iter);
+      gtk_list_store_set(store, &iter, 0, present, 1, id, 2, name, -1);
     } tile_special_type_iterate_end;
     propval_as_string(pv, buf, sizeof(buf));
     gtk_label_set_text(GTK_LABEL(ev->panel_label), buf);

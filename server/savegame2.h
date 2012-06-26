@@ -19,7 +19,4 @@ void savegame2_load(struct section_file *file);
 void savegame2_save(struct section_file *file, const char *save_reason,
                     bool scenario);
 
-void mainmap_specials_to_roads(void);
-void plrmap_specials_to_roads(struct player *plr);
-
 #endif /* FC__SAVEGAME2_H */

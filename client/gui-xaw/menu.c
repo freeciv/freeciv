@@ -75,9 +75,6 @@
 #define TEXT_ORDER_CITY_BUILD   0
 #define TEXT_ORDER_CITY_ADD_TO  1
 
-#define TEXT_ORDER_ROAD_ROAD      0
-#define TEXT_ORDER_ROAD_RAILROAD  1
-
 #define TEXT_ORDER_IRRIGATE_IRRIGATE   0
 #define TEXT_ORDER_IRRIGATE_FARMLAND   1
 #define TEXT_ORDER_IRRIGATE_CHANGE_TO  2
@@ -170,8 +167,7 @@ static struct MenuEntry view_menu_entries[]={
 static struct MenuEntry order_menu_entries[]={
     { { N_("Build City"),
         N_("Add to City"), 0          },     "b", MENU_ORDER_BUILD_CITY, 0 },
-    { { N_("Build Road"),
-        N_("Build Railroad"), 0       },     "r", MENU_ORDER_ROAD, 0 },
+    { { N_("Build Road"), 0           },     "r", MENU_ORDER_ROAD, 0 },
     { { N_("Build Irrigation"),
         N_("Build Farmland"),
         N_("Change to %s"), 0         },     "i", MENU_ORDER_IRRIGATE, 0 },
@@ -551,14 +547,6 @@ void real_menus_update(void)
       } else {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_POLLUTION,
 			  TEXT_ORDER_POLLUTION_POLLUTION, NULL);
-      }
-
-      if (tile_has_special(ptile, S_ROAD)) {
-	menu_entry_rename(MENU_ORDER, MENU_ORDER_ROAD,
-			  TEXT_ORDER_ROAD_RAILROAD, NULL);
-      } else {
-	menu_entry_rename(MENU_ORDER, MENU_ORDER_ROAD,
-			  TEXT_ORDER_ROAD_ROAD, NULL);
       }
     }
   }
@@ -1132,8 +1120,8 @@ void menu_entry_rename(enum MenuIndex menu, enum MenuID id, int var,
   char *item;
 
   for (i = 0; pmenu->entries[i].id != MENU_END_OF_LIST; i++) {
-    if(pmenu->entries[i].id==id) {
-      item=menu_entry_text(menu, i, var, terr);
+    if (pmenu->entries[i].id == id) {
+      item = menu_entry_text(menu, i, var, terr);
       XtVaSetValues(pmenu->entries[i].w, XtNlabel, item, NULL);
       return;
     }

@@ -428,7 +428,7 @@ static void worklist_save(struct section_file *file,
                           int max_length, const char *path, ...);
 static void unit_ordering_calc(void);
 static void unit_ordering_apply(void);
-static void sg_special_set(bv_special *specials, char ch,
+static void sg_special_set(bv_special *specials, bv_roads *roads, char ch,
                            const enum tile_special_type *index,
                            bool rivers_overlay);
 static char sg_special_get(bv_special specials,
@@ -1225,7 +1225,8 @@ static void unit_ordering_apply(void)
   in four to a character in hex notation. 'index' is a mapping of
   savegame bit -> special bit. S_LAST is used to mark unused savegame bits.
 ****************************************************************************/
-static void sg_special_set(bv_special *specials, char ch,
+static void sg_special_set(bv_special *specials, bv_roads *roads,
+                           char ch,
                            const enum tile_special_type *index,
                            bool rivers_overlay)
 {
@@ -1242,7 +1243,7 @@ static void sg_special_set(bv_special *specials, char ch,
   for (i = 0; i < 4; i++) {
     enum tile_special_type sp = index[i];
 
-    if (sp >= S_LAST) {
+    if (sp == S_LAST) {
       continue;
     }
     if (rivers_overlay && sp != S_RIVER) {
@@ -1250,7 +1251,27 @@ static void sg_special_set(bv_special *specials, char ch,
     }
 
     if (bin & (1 << i)) {
-      set_special(specials, sp);
+      if (sp == S_OLD_ROAD) {
+        if (roads) {
+          struct road_type *proad;
+
+          proad = road_by_compat_special(RC_ROAD);
+          if (proad) {
+            BV_SET(*roads, road_index(proad));
+          }
+        }
+      } else if (sp == S_OLD_RAILROAD) {
+        if (roads) {
+          struct road_type *proad;
+
+          proad = road_by_compat_special(RC_RAILROAD);
+          if (proad) {
+            BV_SET(*roads, road_index(proad));
+          }
+        }
+      } else {
+        set_special(specials, sp);
+      }
     }
   }
 }
@@ -1659,7 +1680,13 @@ static void sg_load_savefile(struct loaddata *loading)
     loading->special.order = fc_calloc(nmod,
                                        sizeof(*loading->special.order));
     for (j = 0; j < loading->special.size; j++) {
-      loading->special.order[j] = special_by_rule_name(modname[j]);
+      if (!strcasecmp("Road", modname[j])) {
+        loading->special.order[j] = S_OLD_ROAD;
+      } else if (!strcasecmp("Railroad", modname[j])) {
+        loading->special.order[j] = S_OLD_RAILROAD;
+      } else {
+        loading->special.order[j] = special_by_rule_name(modname[j]);
+      }
     }
     free(modname);
     for (; j < nmod; j++) {
@@ -2284,53 +2311,6 @@ static void sg_save_settings(struct savedata *saving)
  * ======================================================================= */
 
 /****************************************************************************
-  Fill main map road vectors with roads indicated by (old savegame) specials
-****************************************************************************/
-void mainmap_specials_to_roads(void)
-{
-  struct road_type *proad = road_by_compat_special(RC_ROAD);
-  struct road_type *prail = road_by_compat_special(RC_RAILROAD);
-
-  whole_map_iterate(ptile) {
-    if (tile_has_special(ptile, S_OLD_ROAD)) {
-      tile_add_road(ptile, proad);
-    }
-    if (tile_has_special(ptile, S_OLD_RAILROAD)) {
-      tile_add_road(ptile, prail);
-    }
-  } whole_map_iterate_end;
-}
-
-/****************************************************************************
-  Fill player map road vectors with roads indicated by (old savegame) specials
-****************************************************************************/
-void plrmap_specials_to_roads(struct player *plr)
-{
-  struct road_type *proad = road_by_compat_special(RC_ROAD);
-  struct road_type *prail = road_by_compat_special(RC_RAILROAD);
-  int road_no = -1;
-  int rail_no = -1;
-
-  if (proad != NULL) {
-    road_no = road_number(proad);
-  }
-  if (prail != NULL) {
-    rail_no = road_number(prail);
-  }
-
-  whole_map_iterate(ptile) {
-    struct player_tile *pptile = map_get_player_tile(ptile, plr);
-
-    if (contains_special(pptile->special, S_OLD_ROAD) && road_no >= 0) {
-      BV_SET(pptile->roads, road_no);
-    }
-    if (contains_special(pptile->special, S_OLD_RAILROAD) && rail_no >= 0) {
-      BV_SET(pptile->roads, rail_no);
-    }
-  } whole_map_iterate_end;
-}
-
-/****************************************************************************
   Load '[map'].
 ****************************************************************************/
 static void sg_load_map(struct loaddata *loading)
@@ -2592,7 +2572,7 @@ static void sg_load_map_tiles_specials(struct loaddata *loading,
    * the rivers overlay but no other specials. Scenarios that encode things
    * this way should have the "riversoverlay" capability. */
   halfbyte_iterate_special(j, loading->special.size) {
-    LOAD_MAP_CHAR(ch, ptile, sg_special_set(&ptile->special, ch,
+    LOAD_MAP_CHAR(ch, ptile, sg_special_set(&ptile->special, &ptile->roads, ch,
                                             loading->special.order + 4 * j,
                                             rivers_overlay),
                   loading->file, "map.spe%02d_%04d", j);
@@ -3404,7 +3384,6 @@ static void sg_load_players(struct loaddata *loading)
      player map we do this afterwards */
   players_iterate(pplayer) {
     sg_load_player_vision(loading, pplayer);
-    plrmap_specials_to_roads(pplayer);
     /* Check the sucess of the function above. */
     sg_check_ret();
   } players_iterate_end;
@@ -5476,6 +5455,7 @@ static void sg_load_player_vision(struct loaddata *loading,
     LOAD_MAP_CHAR(ch, ptile,
                   sg_special_set(
                     &map_get_player_tile(ptile, plr)->special,
+                    &map_get_player_tile(ptile, plr)->roads,
                     ch, loading->special.order + 4 * j, FALSE),
                   loading->file, "player%d.map_spe%02d_%04d", plrno, j);
   } halfbyte_iterate_special_end;

@@ -378,10 +378,6 @@ static inline bool tile_really_has_any_specials(const struct tile *ptile)
 
   BV_CLR(specials, S_RESOURCE_VALID);
 
-  /* Roads are no longer edited as part of specials */
-  BV_CLR(specials, S_ROAD); 
-  BV_CLR(specials, S_RAILROAD);
-
   return BV_ISSET_ANY(specials);
 }
 
@@ -496,9 +492,7 @@ static void editor_grab_tool(const struct tile *ptile)
     int count = 0, i, special = -1;
 
     tile_special_type_iterate(s) {
-      if (s != S_ROAD && s != S_RAILROAD) {
-        specials_array[count++] = s;
-      }
+      specials_array[count++] = s;
     } tile_special_type_iterate_end;
 
     /* Grab specials in reverse order of enum tile_special_type. */

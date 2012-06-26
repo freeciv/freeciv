@@ -860,23 +860,21 @@ static void editbar_reload_tileset(struct editbar *eb)
   gtk_list_store_clear(store);
 
   tile_special_type_iterate(special) {
-    if (special != S_ROAD && special != S_RAILROAD) {
-      gtk_list_store_append(store, &iter);
-      gtk_list_store_set(store, &iter,
-                         TVS_COL_ID, special,
-                         TVS_COL_NAME, special_name_translation(special),
-                         -1);
-      sprite = get_basic_special_sprite(tileset, special);
-      if (sprite == NULL) {
-        continue;
-      }
-      pixbuf = sprite_get_pixbuf(sprite);
-      if (pixbuf == NULL) {
-        continue;
-      }
-
-      gtk_list_store_set(store, &iter, TVS_COL_IMAGE, pixbuf, -1);
+    gtk_list_store_append(store, &iter);
+    gtk_list_store_set(store, &iter,
+                       TVS_COL_ID, special,
+                       TVS_COL_NAME, special_name_translation(special),
+                       -1);
+    sprite = get_basic_special_sprite(tileset, special);
+    if (sprite == NULL) {
+      continue;
     }
+    pixbuf = sprite_get_pixbuf(sprite);
+    if (pixbuf == NULL) {
+      continue;
+    }
+
+    gtk_list_store_set(store, &iter, TVS_COL_IMAGE, pixbuf, -1);
   } tile_special_type_iterate_end;
 
   tvs = eb->tool_selectors[ETT_ROAD];
