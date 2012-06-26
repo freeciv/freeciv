@@ -433,7 +433,7 @@ static void check_vote(struct vote *pvote)
       break;
     }
 
-    log_error("Unkown vote cast variant: %d.", pvc->vote_cast);
+    log_error("Unknown vote cast variant: %d.", pvc->vote_cast);
     pvote->abstain++;
   } vote_cast_list_iterate_end;
 
