@@ -116,7 +116,7 @@ static void complain_ambiguous(struct connection *pconn, const char *name,
                 _("%s is an anonymous name. Use connection name."), name);
     break;
   default:
-    log_error("Unkown variant in %s(): %d.", __FUNCTION__, player_conn);
+    log_error("Unknown variant in %s(): %d.", __FUNCTION__, player_conn);
   }
 }
 
