@@ -21,6 +21,8 @@ extern "C" {
 /* Tile with this road is considered native for units traveling the road. */
 #define SPECENUM_VALUE0 RF_NATIVE_TILE
 #define SPECENUM_VALUE0NAME "NativeTile"
+#define SPECENUM_VALUE1 RF_CONNECT_LAND
+#define SPECENUM_VALUE1NAME "ConnectLand"
 #define SPECENUM_COUNT RF_COUNT
 #include "specenum_gen.h"
 

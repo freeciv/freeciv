@@ -1085,6 +1085,9 @@ They have no effect on gameplay.\
 ;                           type not to show on UI if both present.
 ; flags
 ;   - "NativeTile"        = Units consider tile native regardless of terrain
+;   - "ConnectLand"       = Roads on Oceanic tiles are drawn to connect to adjacent
+;                           Land tiles even if they have no road. This affects
+;                           appearance only
 ;
 ; */ <-- avoid gettext warnings
 

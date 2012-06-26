@@ -3578,17 +3578,30 @@ static int fill_road_sprite_array(const struct tileset *t,
                                   struct drawn_sprite *sprs,
                                   bv_roads troad,
                                   bv_roads *troad_near,
+                                  struct terrain *tterrain_near[8],
                                   const struct city *pcity)
 {
   struct drawn_sprite *saved_sprs = sprs;
   bool road, road_near[8], hider, hider_near[8];
+  bool land_near[8], hland_near[8];
   bool draw_road[8], draw_single_road;
   enum direction8 dir;
   int road_idx = -1;
+  bool cl = FALSE;
 
   if (!draw_roads_rails) {
     /* Don't draw anything. */
     return 0;
+  }
+
+  if (road_has_flag(proad, RF_CONNECT_LAND)) {
+    cl = TRUE;
+  } else {
+    int i;
+
+    for (i = 0; i < 8; i++) {
+      land_near[i] = FALSE;
+    }
   }
 
   road_idx = road_index(proad);
@@ -3619,19 +3632,34 @@ static int fill_road_sprite_array(const struct tileset *t,
 
     /* Check if there is adjacent road/rail. */
     road_near[dir] = BV_ISSET(troad_near[dir], road_idx);
+    if (cl) {
+      land_near[dir] = (tterrain_near[dir] != T_UNKNOWN
+                        && !terrain_has_flag(tterrain_near[dir], TER_OCEANIC));
+    }
 
     /* Draw rail/road if there is a connection from this tile to the
      * adjacent tile.  But don't draw road if there is also a rail
      * connection. */
-    roads_exist = road && road_near[dir];
+    roads_exist = road && (road_near[dir] || land_near[dir]);
     draw_road[dir] = roads_exist;
     hider_near[dir] = FALSE;
+    hland_near[dir] = tterrain_near[dir] != T_UNKNOWN
+                      && !terrain_has_flag(tterrain_near[dir], TER_OCEANIC);
     road_type_list_iterate(proad->hiders, phider) {
+      bool hider_dir = FALSE;
+      bool land_dir = FALSE;
+
       if (BV_ISSET(troad_near[dir], road_index(phider))) {
         hider_near[dir] = TRUE;
+        hider_dir = TRUE;
+      }
+      if (hland_near[dir]
+          && road_has_flag(phider, RF_CONNECT_LAND)) {
+        land_dir = TRUE;
+      }
+      if (hider_dir || land_dir) {
         if (BV_ISSET(troad, road_index(phider))) {
           draw_road[dir] = FALSE;
-          break;
         }
       }
     } road_type_list_iterate_end;
@@ -4569,7 +4597,8 @@ int fill_sprite_array(struct tileset *t,
     if (NULL != pterrain) {
       road_type_iterate(proad) {
         sprs += fill_road_sprite_array(t, proad, sprs,
-                                       troad, troad_near, pcity);
+                                       troad, troad_near,
+                                       tterrain_near, pcity);
       } road_type_iterate_end;
     }
     break;
