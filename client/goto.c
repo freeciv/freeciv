@@ -1160,10 +1160,12 @@ void send_connect_route(enum unit_activity activity,
 	}
 	break;
       case ACTIVITY_GEN_ROAD:
-        p.orders[p.length] = ORDER_ACTIVITY;
-        p.activity[p.length] = ACTIVITY_GEN_ROAD;
-        p.road[p.length] = tgt->obj.road;
-        p.length++;
+        if (!tile_has_road(old_tile, road_by_number(tgt->obj.road))) {
+          p.orders[p.length] = ORDER_ACTIVITY;
+          p.activity[p.length] = ACTIVITY_GEN_ROAD;
+          p.road[p.length] = tgt->obj.road;
+          p.length++;
+        }
         break;
       default:
         log_error("Invalid connect activity: %d.", activity);
