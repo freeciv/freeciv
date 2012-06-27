@@ -67,6 +67,10 @@ Any_Government
 Capital_City
     The city with this effect is the capital city.
 
+Gov_Center
+    The city with this effect is governmental center. Corruption and
+    waste depends on distance to nearest such city.
+
 Enable_Nuke
     Allows the production of nuclear weapons.
 

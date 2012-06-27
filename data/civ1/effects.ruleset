@@ -842,6 +842,14 @@ reqs	=
       "Building", "Palace", "City"
     }
 
+[effect_palace_gov_center]
+name	= "Gov_Center"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Palace", "City"
+    }
+
 [effect_power_plant]
 name	= "Output_Bonus"
 value	= 50

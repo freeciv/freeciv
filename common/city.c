@@ -1590,6 +1590,14 @@ bool is_capital(const struct city *pcity)
 }
 
 /**************************************************************************
+  Return TRUE iff this city is governmental center.
+**************************************************************************/
+bool is_gov_center(const struct city *pcity)
+{
+  return (get_city_bonus(pcity, EFT_GOV_CENTER) != 0);
+}
+
+/**************************************************************************
  Whether a city should have visible walls
 **************************************************************************/
 bool city_got_citywalls(const struct city *pcity)
@@ -2968,13 +2976,32 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total)
   }
 
   if (waste_by_dist > 0) {
-    const struct city *capital = player_capital(city_owner(pcity));
+    const struct city *gov_center = NULL;
+    int min_dist = FC_INFINITY;
 
-    if (!capital) {
-      return total; /* no capital - no income */
+    /* Check the special case that city itself is gov center
+     * before expensive iteration through all cities. */
+    if (is_gov_center(pcity)) {
+      gov_center = pcity;
+      min_dist = 0;
     } else {
-      waste_level += waste_by_dist
-                     * real_map_distance(capital->tile, pcity->tile);
+      city_list_iterate(city_owner(pcity)->cities, gc) {
+        /* Do not recheck current city */
+        if (gc != pcity && is_gov_center(gc)) {
+          int dist = real_map_distance(gc->tile, pcity->tile);
+
+          if (dist < min_dist) {
+            gov_center = gc;
+            min_dist = dist;
+          }
+        }
+      } city_list_iterate_end;
+    }
+
+    if (gov_center == NULL) {
+      return total; /* no gov center - no income */
+    } else {
+      waste_level += waste_by_dist * min_dist;
     }
   }
 
