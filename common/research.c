@@ -52,6 +52,7 @@ void player_researches_init(void)
     research_array[i].tech_goal = A_UNSET;
     research_array[i].researching = A_UNSET;
     research_array[i].researching_saved = A_UNKNOWN;
+    research_array[i].future_tech = 0;
   }
 }
 
