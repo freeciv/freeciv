@@ -1266,7 +1266,6 @@ void set_unit_activity_targeted(struct unit *punit,
 				struct act_tgt *new_target)
 {
   fc_assert_ret(activity_requires_target(new_activity));
-  fc_assert_ret(new_activity != ACTIVITY_BASE);
 
   set_unit_activity_internal(punit, new_activity);
   punit->activity_target = *new_target;
