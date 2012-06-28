@@ -1061,6 +1061,8 @@ They have no effect on gameplay.\
 ;   - "ConnectLand"       = Roads on Oceanic tiles are drawn to connect to adjacent
 ;                           Land tiles even if they have no road. This affects
 ;                           appearance only
+;   - "RequiresBridge"    = Road cannot be built to river tiles without
+;                           appropriate technologies
 ;
 ; */ <-- avoid gettext warnings
 
@@ -1085,6 +1087,7 @@ trade_bonus    = 0
 compat_special = "Road"
 native_to      = "Land"
 hidden_by      = "Railroad"
+flags          = "RequiresBridge"
 
 [road_railroad]
 name           = _("Railroad")
@@ -1108,3 +1111,4 @@ shield_bonus   = 50
 trade_bonus    = 0
 compat_special = "Railroad"
 native_to      = "Land"
+flags          = "RequiresBridge"

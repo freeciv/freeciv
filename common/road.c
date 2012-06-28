@@ -200,6 +200,7 @@ static bool can_build_road_base(const struct road_type *proad,
   }
 
   if (tile_has_special(ptile, S_RIVER)
+      && road_has_flag(proad, RF_REQUIRES_BRIDGE)
       && !player_knows_techs_with_flag(pplayer, TF_BRIDGE)) {
     return FALSE;
   }

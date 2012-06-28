@@ -23,6 +23,8 @@ extern "C" {
 #define SPECENUM_VALUE0NAME "NativeTile"
 #define SPECENUM_VALUE1 RF_CONNECT_LAND
 #define SPECENUM_VALUE1NAME "ConnectLand"
+#define SPECENUM_VALUE2 RF_REQUIRES_BRIDGE
+#define SPECENUM_VALUE2NAME "RequiresBridge"
 #define SPECENUM_COUNT RF_COUNT
 #include "specenum_gen.h"
 
