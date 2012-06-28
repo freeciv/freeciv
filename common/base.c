@@ -160,8 +160,8 @@ bool is_base_near_tile(const struct tile *ptile, const struct base_type *pbase)
 /**************************************************************************
   Can unit build base to given tile?
 **************************************************************************/
-bool can_build_base(const struct unit *punit, const struct base_type *pbase,
-                    const struct tile *ptile)
+static bool base_can_be_built(const struct base_type *pbase,
+                              const struct tile *ptile)
 {
   if (tile_city(ptile)) {
     /* Bases cannot be built inside cities */
@@ -180,6 +180,35 @@ bool can_build_base(const struct unit *punit, const struct base_type *pbase,
 
   if (tile_has_base(ptile, pbase)) {
     /* Exist already */
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Tells if player can build base to tile with suitable unit.
+****************************************************************************/
+bool player_can_build_base(const struct base_type *pbase,
+                           const struct player *pplayer,
+                           const struct tile *ptile)
+{
+  if (!base_can_be_built(pbase, ptile)) {
+    return FALSE;
+  }
+
+  return are_reqs_active(pplayer, NULL, NULL, ptile,
+                         NULL, NULL, NULL, &pbase->reqs,
+                         RPT_POSSIBLE);
+}
+
+/**************************************************************************
+  Can unit build base to given tile?
+**************************************************************************/
+bool can_build_base(const struct unit *punit, const struct base_type *pbase,
+                    const struct tile *ptile)
+{
+  if (!base_can_be_built(pbase, ptile)) {
     return FALSE;
   }
 

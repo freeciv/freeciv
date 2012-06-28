@@ -637,6 +637,28 @@ int get_turns_for_road_at(const struct unit *punit,
 }
 
 /**************************************************************************
+  Return the estimated number of turns for the worker unit to start and
+  complete the base road at the given location.  This assumes no other
+  worker units are helping out, and doesn't take account of any work
+  already done by this unit.
+**************************************************************************/
+int get_turns_for_base_at(const struct unit *punit,
+                          const struct base_type *pbase,
+                          const struct tile *ptile)
+{
+  /* FIXME: This is just an approximation since we don't account for
+   * get_activity_rate_this_turn. */
+  int speed = get_activity_rate(punit);
+  int time = tile_activity_base_time(ptile, base_number(pbase));
+
+  if (time >= 0 && speed >= 0) {
+    return (time - 1) / speed + 1; /* round up */
+  } else {
+    return FC_INFINITY;
+  }
+}
+
+/**************************************************************************
   Return TRUE if activity requires some sort of target to be specified.
 **************************************************************************/
 bool activity_requires_target(enum unit_activity activity)

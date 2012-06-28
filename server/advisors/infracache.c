@@ -32,6 +32,7 @@
 struct worker_activity_cache {
   int act[ACTIVITY_LAST];
   int road[MAX_ROAD_TYPES];
+  int base[MAX_BASE_TYPES];
 };
 
 static int adv_calc_irrigate(const struct city *pcity,
@@ -45,6 +46,8 @@ static int adv_calc_fallout(const struct city *pcity,
                             const struct tile *ptile, int best);
 static int adv_calc_road(const struct city *pcity, const struct tile *ptile,
                          const struct road_type *proad);
+static int adv_calc_base(const struct city *pcity, const struct tile *ptile,
+                         const struct base_type *pbase);
 
 /**************************************************************************
   Calculate the benefit of irrigating the given tile.
@@ -316,6 +319,43 @@ static int adv_calc_road(const struct city *pcity, const struct tile *ptile,
 }
 
 /**************************************************************************
+  Calculate the benefit of building a base at the given tile.
+
+  The return value is the goodness of the tile after the base is built.
+  This should be compared to the goodness of the tile currently (see
+  city_tile_value(); note that this depends on the AI's weighting
+  values).
+
+  This function does not calculate the benefit of tile defense bonus and
+  many other typical base propoerties, just bonuses it gives to city.
+**************************************************************************/
+static int adv_calc_base(const struct city *pcity, const struct tile *ptile,
+                         const struct base_type *pbase)
+{
+  int goodness = -1;
+
+  fc_assert_ret_val(ptile != NULL, -1)
+
+  if (player_can_build_base(pbase, city_owner(pcity), ptile)) {
+    struct tile *vtile = tile_virtual_new(ptile);
+
+    tile_add_base(vtile, pbase);
+
+    base_type_iterate(cbase) {
+      if (BV_ISSET(pbase->conflicts, base_index(cbase))
+          && tile_has_base(vtile, cbase)) {
+        tile_remove_base(vtile, cbase);
+      }
+    } base_type_iterate_end;
+
+    goodness = city_tile_value(pcity, vtile, 0, 0);
+    tile_virtual_destroy(vtile);
+  }
+
+  return goodness;
+}
+
+/**************************************************************************
   Returns city_tile_value of the best tile worked by or available to pcity.
 **************************************************************************/
 static int best_worker_tile_value(struct city *pcity)
@@ -377,6 +417,10 @@ void initialize_infrastructure_cache(struct player *pplayer)
         adv_city_worker_road_set(pcity, cindex, proad,
                                  adv_calc_road(pcity, ptile, proad));
       } road_type_iterate_end;
+      base_type_iterate(pbase) {
+        adv_city_worker_base_set(pcity, cindex, pbase,
+                                 adv_calc_base(pcity, ptile, pbase));
+      } base_type_iterate_end;
     } city_tile_iterate_index_end;
   } city_list_iterate_end;
 }
@@ -483,6 +527,32 @@ void adv_city_worker_road_set(struct city *pcity, int city_tile_index,
 }
 
 /**************************************************************************
+  Set the value for base on tile 'city_tile_index' of
+  city 'pcity'.
+**************************************************************************/
+void adv_city_worker_base_set(struct city *pcity, int city_tile_index,
+                              const struct base_type *pbase, int value)
+{
+  if (pcity->server.adv->act_cache_radius_sq
+      != city_map_radius_sq_get(pcity)) {
+    log_debug("update activity cache for %s: radius_sq changed from "
+              "%d to %d", city_name(pcity),
+              pcity->server.adv->act_cache_radius_sq,
+              city_map_radius_sq_get(pcity));
+    adv_city_update(pcity);
+  }
+
+  fc_assert_ret(NULL != pcity);
+  fc_assert_ret(NULL != pcity->server.adv);
+  fc_assert_ret(NULL != pcity->server.adv->act_cache);
+  fc_assert_ret(pcity->server.adv->act_cache_radius_sq
+                == city_map_radius_sq_get(pcity));
+  fc_assert_ret(city_tile_index < city_map_tiles_from_city(pcity));
+
+  (pcity->server.adv->act_cache[city_tile_index]).base[base_index(pbase)] = value;
+}
+
+/**************************************************************************
   Return the value for road on tile 'city_tile_index' of
   city 'pcity'.
 **************************************************************************/
@@ -497,6 +567,23 @@ int adv_city_worker_road_get(const struct city *pcity, int city_tile_index,
   fc_assert_ret_val(city_tile_index < city_map_tiles_from_city(pcity), 0);
 
   return (pcity->server.adv->act_cache[city_tile_index]).road[road_index(proad)];
+}
+
+/**************************************************************************
+  Return the value for base on tile 'city_tile_index' of
+  city 'pcity'.
+**************************************************************************/
+int adv_city_worker_base_get(const struct city *pcity, int city_tile_index,
+                             const struct base_type *pbase)
+{
+  fc_assert_ret_val(NULL != pcity, 0);
+  fc_assert_ret_val(NULL != pcity->server.adv, 0);
+  fc_assert_ret_val(NULL != pcity->server.adv->act_cache, 0);
+  fc_assert_ret_val(pcity->server.adv->act_cache_radius_sq
+                     == city_map_radius_sq_get(pcity), 0);
+  fc_assert_ret_val(city_tile_index < city_map_tiles_from_city(pcity), 0);
+
+  return (pcity->server.adv->act_cache[city_tile_index]).base[base_index(pbase)];
 }
 
 /**************************************************************************

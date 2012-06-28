@@ -490,6 +490,24 @@ int settler_evaluate_improvements(struct unit *punit,
               }
             }
           } road_type_iterate_end;
+
+          base_type_iterate(pbase) {
+            struct act_tgt target = { .type = ATT_BASE, .obj.base = base_number(pbase) };
+            int base_value = adv_city_worker_base_get(pcity, cindex, pbase);
+
+            if (base_value > 0) {
+
+              time = pos.turn + get_turns_for_base_at(punit, pbase, ptile);
+
+              if (can_unit_do_activity_targeted_at(punit, ACTIVITY_BASE, &target,
+                                                   ptile)) {
+                consider_settler_action(pplayer, ACTIVITY_BASE, &target, 0, base_value,
+                                        oldv, in_use, time,
+                                        &best_newv, &best_oldv,
+                                        best_act, best_target, best_tile, ptile);
+              }
+            }
+          } base_type_iterate_end;
         } /* endif: can we finish sooner than current worker, if any? */
       } /* endif: are we travelling to a legal destination? */
     } city_tile_iterate_index_end;
