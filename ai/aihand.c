@@ -132,9 +132,9 @@ void ai_calc_data(struct player *pplayer, int *trade, int *expenses)
   TODO: Audit the use of pplayer->ai.maxbuycost in the code elsewhere,
   then add support for it here.
 **************************************************************************/
-static void ai_manage_taxes(struct player *pplayer) 
+static void ai_manage_taxes(struct player *pplayer)
 {
-  int maxrate = (ai_handicap(pplayer, H_RATES) 
+  int maxrate = (ai_handicap(pplayer, H_RATES)
                  ? get_player_bonus(pplayer, EFT_MAX_RATES) : 100);
   bool celebrate = TRUE;
   int can_celebrate = 0, total_cities = 0;
@@ -146,6 +146,8 @@ static void ai_manage_taxes(struct player *pplayer)
   if (!game.info.changable_tax) {
     return; /* This ruleset does not support changing tax rates. */
   }
+
+  maxrate = CLIP(34, maxrate, 100);
 
   if (government_of_player(pplayer) == game.government_during_revolution) {
     return; /* This government does not support changing tax rates. */
