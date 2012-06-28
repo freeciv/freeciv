@@ -446,7 +446,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
       /* TRANS: %s is a single kind of unit (e.g., "Settlers"). */
-      cat_snprintf(buf, bufsz, _("Requires %s.\n"),
+      cat_snprintf(buf, bufsz, Q_("?unit:Requires %s.\n"),
                    utype_name_translation(preq->source.value.utype));
       return TRUE;
     case REQ_RANGE_CADJACENT:
@@ -472,7 +472,8 @@ static bool insert_requirement(char *buf, size_t bufsz,
         if (role_units_translations(&astr, preq->source.value.unitflag,
                                     TRUE)) {
           /* TRANS: %s is a list of unit types separated by "or". */
-          cat_snprintf(buf, bufsz, _("Requires %s.\n"), astr_str(&astr));
+          cat_snprintf(buf, bufsz, Q_("?ulist:Requires %s.\n"),
+                       astr_str(&astr));
           astr_free(&astr);
           return TRUE;
         }
@@ -494,7 +495,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
       /* TRANS: %s is a single unit class (e.g., "Air"). */
-      cat_snprintf(buf, bufsz, _("Requires %s units.\n"),
+      cat_snprintf(buf, bufsz, Q_("?uclass:Requires %s units.\n"),
                    uclass_name_translation(preq->source.value.uclass));
       return TRUE;
     case REQ_RANGE_CADJACENT:
@@ -526,7 +527,8 @@ static bool insert_requirement(char *buf, size_t bufsz,
       switch (preq->range) {
       case REQ_RANGE_LOCAL:
         /* TRANS: %s is a list of unit classes separated by "or". */
-        cat_snprintf(buf, bufsz, _("Requires %s units.\n"), astr_str(&list));
+        cat_snprintf(buf, bufsz, Q_("?uclasslist:Requires %s units.\n"),
+                     astr_str(&list));
         done = TRUE;
         break;
       case REQ_RANGE_CADJACENT:
@@ -547,12 +549,14 @@ static bool insert_requirement(char *buf, size_t bufsz,
     break;
 
   case VUT_OTYPE:
-    cat_snprintf(buf, bufsz, _("Applies only to %s.\n"),
+    /* TRANS: Applies only to food. */
+    cat_snprintf(buf, bufsz, Q_("?output:Applies only to %s.\n"),
                  get_output_name(preq->source.value.outputtype));
     return TRUE;
 
   case VUT_SPECIALIST:
-    cat_snprintf(buf, bufsz, _("Applies only to %s.\n"),
+    /* TRANS: Applies only to scientist */
+    cat_snprintf(buf, bufsz, Q_("?specialist:Applies only to %s.\n"),
                  specialist_plural_translation(preq->source.value.specialist));
     return TRUE;
 
