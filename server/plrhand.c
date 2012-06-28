@@ -176,6 +176,21 @@ void kill_player(struct player *pplayer)
 }
 
 /**************************************************************************
+  Return player maxrate in legal range.
+**************************************************************************/
+static int get_player_maxrate(struct player *pplayer)
+{
+  int maxrate = get_player_bonus(pplayer, EFT_MAX_RATES);
+
+  if (maxrate == 0) {
+    return 100; /* effects not initialized yet */
+  }
+
+  /* 34 + 33 + 33 = 100 */
+  return CLIP(34, maxrate, 100);
+}
+
+/**************************************************************************
   Handle a client or AI request to change the tax/luxury/science rates.
   This function does full sanity checking.
 **************************************************************************/
@@ -191,7 +206,7 @@ void handle_player_rates(struct player *pplayer,
                   _("Cannot change rates before game start."));
     return;
   }
-	
+
   if (tax + luxury + science != 100) {
     return;
   }
@@ -199,7 +214,7 @@ void handle_player_rates(struct player *pplayer,
       || science > 100) {
     return;
   }
-  maxrate = get_player_bonus(pplayer, EFT_MAX_RATES);
+  maxrate = get_player_maxrate(pplayer);
   if (tax > maxrate || luxury > maxrate || science > maxrate) {
     const char *rtype;
 
@@ -254,7 +269,7 @@ static void finish_revolution(struct player *pplayer)
 
   if (!pplayer->ai_controlled) {
     /* Keep luxuries if we have any.  Try to max out science. -GJW */
-    int max = get_player_bonus(pplayer, EFT_MAX_RATES);
+    int max = get_player_maxrate(pplayer);
 
     /* only change rates if one exceeds the maximal rate */
     if (pplayer->economic.science > max || pplayer->economic.tax > max
@@ -1450,10 +1465,7 @@ struct player_economic player_limit_to_max_rates(struct player *pplayer)
 
   economic = pplayer->economic;
 
-  maxrate = get_player_bonus(pplayer, EFT_MAX_RATES);
-  if (maxrate == 0) {
-    maxrate = 100; /* effects not initialized yet */
-  }
+  maxrate = get_player_maxrate(pplayer);
 
   surplus = 0;
   if (economic.luxury > maxrate) {
