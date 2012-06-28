@@ -200,6 +200,8 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; uk_*          = upkeep costs, these are used as base values in the game
 ; cargo         = Unit classes this unit can transport
 ; city_size     = Initial size of the cities Settlers type unit builds
+; targets       = list of unit classes this unit can attack against even
+;                 if they have Unreachable unit class flag
 ; flags         = special flag strings
 ; roles         = special role strings
 ; sound_move	= optional sound effect when the unit moves
