@@ -198,9 +198,9 @@ enum celebration {
   At the end the remaining is divided on science/gold/luxury depending on the
   AI settings.
 *****************************************************************************/
-static void ai_manage_taxes(struct player *pplayer) 
+static void ai_manage_taxes(struct player *pplayer)
 {
-  int maxrate = (ai_handicap(pplayer, H_RATES) 
+  int maxrate = (ai_handicap(pplayer, H_RATES)
                  ? get_player_bonus(pplayer, EFT_MAX_RATES) : 100);
   struct player_research *research = player_research_get(pplayer);
   enum celebration celebrate = AI_CELEBRATION_UNCHECKED;
@@ -227,6 +227,8 @@ static void ai_manage_taxes(struct player *pplayer)
   if (!game.info.changable_tax) {
     return; /* This ruleset does not support changing tax rates. */
   }
+
+  maxrate = CLIP(34, maxrate, 100);
 
   if (government_of_player(pplayer) == game.government_during_revolution) {
     return; /* This government does not support changing tax rates. */
