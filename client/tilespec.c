@@ -3334,18 +3334,11 @@ static int fill_unit_type_sprite_array(const struct tileset *t,
                                        enum direction8 facing)
 {
   struct drawn_sprite *save_sprs = sprs;
-  int uidx = utype_index(putype);
+  struct sprite *uspr = get_unittype_sprite(t, putype, facing);
 
-  if (direction8_is_valid(facing)
-      &&t->sprites.units.facing[uidx][facing] != NULL) {
-    ADD_SPRITE(t->sprites.units.facing[uidx][facing], TRUE,
-               FULL_TILE_X_OFFSET + t->unit_offset_x,
-               FULL_TILE_Y_OFFSET + t->unit_offset_y);
-  } else {
-    ADD_SPRITE(t->sprites.units.icon[uidx], TRUE,
-               FULL_TILE_X_OFFSET + t->unit_offset_x,
-               FULL_TILE_Y_OFFSET + t->unit_offset_y);
-  }
+  ADD_SPRITE(uspr, TRUE,
+             FULL_TILE_X_OFFSET + t->unit_offset_x,
+             FULL_TILE_Y_OFFSET + t->unit_offset_y);
 
   return sprs - save_sprs;
 }
