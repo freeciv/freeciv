@@ -114,6 +114,7 @@ match=2
 *include "nation/bavarian.ruleset"
 *include "nation/belarusian.ruleset"
 *include "nation/belgian.ruleset"
+*include "nation/belgic.ruleset"
 *include "nation/belizean.ruleset"
 *include "nation/bengali.ruleset"
 *include "nation/benin.ruleset"
