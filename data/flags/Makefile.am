@@ -64,6 +64,7 @@ flag_files =				\
 		bhutan.png		\
 		biafra.png		\
 		boer.png		\
+		boii.png		\
 		bolivia.png		\
 		bophuthatswana.png	\
 		bosnia.png		\
@@ -611,6 +612,7 @@ flag_files =				\
 		bhutan-large.png		\
 		biafra-large.png		\
 		boer-large.png		\
+		boii-large.png		\
 		bolivia-large.png		\
 		bophuthatswana-large.png	\
 		bosnia-large.png		\
@@ -1160,6 +1162,7 @@ shield_files =					\
 		bhutan-shield.png		\
 		biafra-shield.png		\
 		boer-shield.png			\
+		boii-shield.png			\
 		bolivia-shield.png		\
 		bophuthatswana-shield.png	\
 		bosnia-shield.png		\
@@ -1707,6 +1710,7 @@ shield_files =					\
 		bhutan-shield-large.png		\
 		biafra-shield-large.png		\
 		boer-shield-large.png			\
+		boii-shield-large.png			\
 		bolivia-shield-large.png		\
 		bophuthatswana-shield-large.png		\
 		bosnia-shield-large.png		\
@@ -2256,6 +2260,7 @@ svg_files = 				\
 		bhutan.svg		\
 		biafra.svg		\
 		boer.svg		\
+		boii.svg		\
 		bolivia.svg		\
 		bophuthatswana.svg	\
 		bosporus.svg		\

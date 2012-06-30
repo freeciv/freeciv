@@ -68,6 +68,7 @@ pkgdata_DATA = \
 		biafran.ruleset \
 		bissauguinean.ruleset \
 		boer.ruleset \
+		boian.ruleset \
 		bolivian.ruleset \
 		bosnia.ruleset \
 		bosporan.ruleset \

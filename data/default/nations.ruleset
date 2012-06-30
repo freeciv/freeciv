@@ -122,6 +122,7 @@ match=2
 *include "nation/biafran.ruleset"
 *include "nation/bissauguinean.ruleset"
 *include "nation/boer.ruleset"
+*include "nation/boian.ruleset"
 *include "nation/bolivian.ruleset"
 *include "nation/bosnia.ruleset"
 *include "nation/bosporan.ruleset"

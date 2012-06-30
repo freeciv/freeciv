@@ -73,6 +73,7 @@ sprites =
 		"f.bhutan", "flags/bhutan-large"
 		"f.biafra", "flags/biafra-large"
 		"f.boer", "flags/boer-large"			; old south african
+		"f.boii", "flags/boii-large"
 		"f.bolivia", "flags/bolivia-large"
 		"f.bophuthatswana", "flags/bophuthatswana-large"
 		"f.bosnia", "flags/bosnia-large"
