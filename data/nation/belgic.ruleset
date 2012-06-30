@@ -6,9 +6,9 @@ groups="Ancient", "European"
 legend=_("The Belgae were an Ancient Celtic tribe that inhabited the area\
  that would later become the Roman province of Gallia Belgica. Their origin\
  was perhaps mixed Celtic and Germanic, because they had come to Gaul from\
- behind the Rhine and and included some Germanic elements, but the names\
+ behind the Rhine and included some Germanic elements, but the names\
  of their chiefs were Gallic. Julius Caesar famously called the Belgae the\
- bravest amongst the inhabitants of Gaul. They put up stiff resitance\
+ bravest amongst the inhabitants of Gaul. They put up stiff resistance\
  against Caesar's legions but eventually succumbed to the Romans. The\
  modern country of Belgium derives its name from the Belgae.")
 leaders = {

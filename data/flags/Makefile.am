@@ -56,6 +56,7 @@ flag_files =				\
 		bashkortostan.png	\
 		bavarian.png		\
 		belarus.png		\
+		belgic.png		\
 		belgium.png		\
 		belize.png		\
 		bengal.png		\
@@ -604,6 +605,7 @@ flag_files =				\
 		bashkortostan-large.png	\
 		bavarian-large.png		\
 		belarus-large.png		\
+		belgic-large.png		\
 		belgium-large.png		\
 		belize-large.png		\
 		bengal-large.png		\
@@ -1154,6 +1156,7 @@ shield_files =					\
 		bashkortostan-shield.png	\
 		bavarian-shield.png		\
 		belarus-shield.png		\
+		belgic-shield.png		\
 		belgium-shield.png		\
 		belize-shield.png		\
 		bengal-shield.png		\
@@ -1702,6 +1705,7 @@ shield_files =					\
 		bashkortostan-shield-large.png	\
 		bavarian-shield-large.png		\
 		belarus-shield-large.png		\
+		belgic-shield-large.png			\
 		belgium-shield-large.png		\
 		belize-shield-large.png			\
 		bengal-shield-large.png			\
@@ -2252,6 +2256,7 @@ svg_files = 				\
 		bashkortostan.svg	\
 		bavarian.svg		\
 		belarus.svg		\
+		belgic.svg		\
 		belgium.svg		\
 		belize.svg		\
 		bengal.svg		\
