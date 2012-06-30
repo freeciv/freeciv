@@ -1102,7 +1102,7 @@ static void build_mine_callack(GtkAction *action, gpointer data)
 *****************************************************************/
 static void connect_road_callback(GtkAction *action, gpointer data)
 {
-  struct road_type *proad = road_by_compat_special(RC_ROAD);
+  struct road_type *proad = road_by_compat_special(ROCO_ROAD);
 
   if (proad != NULL) {
     struct act_tgt tgt = { .type = ATT_ROAD,
@@ -1117,7 +1117,7 @@ static void connect_road_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void connect_rail_callback(GtkAction *action, gpointer data)
 {
-  struct road_type *prail = road_by_compat_special(RC_RAILROAD);
+  struct road_type *prail = road_by_compat_special(ROCO_RAILROAD);
 
   if (prail != NULL) {
     struct act_tgt tgt = { .type = ATT_ROAD,
@@ -2041,7 +2041,7 @@ void real_menus_update(void)
     char road_buf[500];
     struct road_type *proad;
 
-    proad = road_by_compat_special(RC_ROAD);
+    proad = road_by_compat_special(ROCO_ROAD);
     if (proad != NULL) {
       /* TRANS: Connect with some road type (Road/Railroad) */
       snprintf(road_buf, sizeof(road_buf), _("Connect With %s"),
@@ -2049,7 +2049,7 @@ void real_menus_update(void)
       menus_rename(unit_group, "CONNECT_ROAD", road_buf);
     }
 
-    proad = road_by_compat_special(RC_RAILROAD);
+    proad = road_by_compat_special(ROCO_RAILROAD);
     if (proad != NULL) {
       snprintf(road_buf, sizeof(road_buf), _("Connect With %s"),
                road_name_translation(proad));
@@ -2173,7 +2173,7 @@ void real_menus_update(void)
   menus_set_sensitive(unit_group, "UNIT_EXPLORE",
                       can_units_do_activity(punits, ACTIVITY_EXPLORE));
 
-  proad = road_by_compat_special(RC_ROAD);
+  proad = road_by_compat_special(ROCO_ROAD);
   if (proad != NULL) {
     struct act_tgt tgt = { .type = ATT_ROAD,
                            .obj.road = road_number(proad) }; 
@@ -2185,7 +2185,7 @@ void real_menus_update(void)
   }
   menus_set_sensitive(unit_group, "CONNECT_ROAD", road_conn_possible);
 
-  proad = road_by_compat_special(RC_RAILROAD);
+  proad = road_by_compat_special(ROCO_RAILROAD);
   if (proad != NULL) {
     struct act_tgt tgt = { .type = ATT_ROAD,
                            .obj.road = road_number(proad) }; 

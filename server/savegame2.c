@@ -1255,7 +1255,7 @@ static void sg_special_set(bv_special *specials, bv_roads *roads,
         if (roads) {
           struct road_type *proad;
 
-          proad = road_by_compat_special(RC_ROAD);
+          proad = road_by_compat_special(ROCO_ROAD);
           if (proad) {
             BV_SET(*roads, road_index(proad));
           }
@@ -1264,7 +1264,7 @@ static void sg_special_set(bv_special *specials, bv_roads *roads,
         if (roads) {
           struct road_type *proad;
 
-          proad = road_by_compat_special(RC_RAILROAD);
+          proad = road_by_compat_special(ROCO_RAILROAD);
           if (proad) {
             BV_SET(*roads, road_index(proad));
           }
@@ -4699,10 +4699,10 @@ static bool sg_load_player_unit(struct loaddata *loading,
 
   if (target == S_OLD_ROAD) {
     target = S_LAST;
-    proad = road_by_compat_special(RC_ROAD);
+    proad = road_by_compat_special(ROCO_ROAD);
   } else if (target == S_OLD_RAILROAD) {
     target = S_LAST;
-    proad = road_by_compat_special(RC_RAILROAD);
+    proad = road_by_compat_special(ROCO_RAILROAD);
   }
 
   if (activity == ACTIVITY_PATROL_UNUSED) {
@@ -4726,10 +4726,10 @@ static bool sg_load_player_unit(struct loaddata *loading,
 
   if (activity == ACTIVITY_OLD_ROAD) {
     activity = ACTIVITY_GEN_ROAD;
-    proad = road_by_compat_special(RC_ROAD);
+    proad = road_by_compat_special(ROCO_ROAD);
   } else if (activity == ACTIVITY_OLD_RAILROAD) {
     activity = ACTIVITY_GEN_ROAD;
-    proad = road_by_compat_special(RC_RAILROAD);
+    proad = road_by_compat_special(ROCO_RAILROAD);
   }
 
   /* We need changed_from == ACTIVITY_IDLE by now so that
@@ -4796,12 +4796,12 @@ static bool sg_load_player_unit(struct loaddata *loading,
 
   if (road == -1) {
     if (cfspe == S_OLD_ROAD) {
-      proad = road_by_compat_special(RC_ROAD);
+      proad = road_by_compat_special(ROCO_ROAD);
       if (proad) {
         road = road_index(proad);
       }
     } else if (cfspe == S_OLD_RAILROAD) {
-      proad = road_by_compat_special(RC_RAILROAD);
+      proad = road_by_compat_special(ROCO_RAILROAD);
       if (proad) {
         road = road_index(proad);
       }
@@ -4895,8 +4895,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
     if (len > 0) {
       const char *orders_unitstr, *dir_unitstr, *act_unitstr, *base_unitstr;
       const char *road_unitstr;
-      int road_idx = road_index(road_by_compat_special(RC_ROAD));
-      int rail_idx = road_index(road_by_compat_special(RC_RAILROAD));
+      int road_idx = road_index(road_by_compat_special(ROCO_ROAD));
+      int rail_idx = road_index(road_by_compat_special(ROCO_RAILROAD));
 
       punit->orders.list = fc_malloc(len * sizeof(*(punit->orders.list)));
       punit->orders.length = len;

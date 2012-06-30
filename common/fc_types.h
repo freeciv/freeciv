@@ -435,7 +435,7 @@ struct act_tgt {
 };
 
 /* Road type compatibility with old specials based roads. */
-enum road_compat { RC_ROAD, RC_RAILROAD, RC_NONE };
+enum road_compat { ROCO_ROAD, ROCO_RAILROAD, ROCO_NONE };
 
 /*
  * Maximum number of trade routes a city can have in any situation.

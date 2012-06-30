@@ -431,7 +431,7 @@ static void xaw_key_unit_build_wonder(Widget w, XEvent *event, String *argv, Car
 static void xaw_key_unit_connect_road(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if (is_menu_item_active(MENU_ORDER, MENU_ORDER_CONNECT_ROAD)) {
-    struct road_type *proad = road_by_compat_special(RC_ROAD);
+    struct road_type *proad = road_by_compat_special(ROCO_ROAD);
 
     if (proad != NULL) {
       struct act_tgt tgt = { .type = ATT_ROAD,
@@ -445,7 +445,7 @@ static void xaw_key_unit_connect_road(Widget w, XEvent *event, String *argv, Car
 static void xaw_key_unit_connect_rail(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if (is_menu_item_active(MENU_ORDER, MENU_ORDER_CONNECT_RAIL)) {
-    struct road_type *prail = road_by_compat_special(RC_RAILROAD);
+    struct road_type *prail = road_by_compat_special(ROCO_RAILROAD);
 
     if (prail != NULL) {
       struct act_tgt tgt = { .type = ATT_ROAD,

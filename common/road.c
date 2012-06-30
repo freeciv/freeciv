@@ -112,7 +112,7 @@ enum road_compat road_compat_special(const struct road_type *proad)
 ****************************************************************************/
 struct road_type *road_by_compat_special(enum road_compat compat)
 {
-  if (compat == RC_NONE) {
+  if (compat == ROCO_NONE) {
     return NULL;
   }
 

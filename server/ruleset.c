@@ -2396,15 +2396,15 @@ static void load_ruleset_terrain(struct section_file *file)
         ruleset_error(LOG_FATAL, "Multiple roads marked as compatibility \"Road\"");
       }
       compat_road = TRUE;
-      proad->compat = RC_ROAD;
+      proad->compat = ROCO_ROAD;
     } else if (!fc_strcasecmp(special, "Railroad")) {
       if (compat_rail) {
         ruleset_error(LOG_FATAL, "Multiple roads marked as compatibility \"Railroad\"");
       }
       compat_rail = TRUE;
-      proad->compat = RC_RAILROAD;
+      proad->compat = ROCO_RAILROAD;
     } else if (!fc_strcasecmp(special, "None")) {
-      proad->compat = RC_NONE;
+      proad->compat = ROCO_NONE;
     } else {
       ruleset_error(LOG_FATAL, "Illegal compatibility special \"%s\" for road %s",
                     special, road_rule_name(proad));

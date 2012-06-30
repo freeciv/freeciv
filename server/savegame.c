@@ -832,7 +832,7 @@ static void set_savegame_special(bv_special *specials,
         if (roads) {
           struct road_type *proad;
 
-          proad = road_by_compat_special(RC_ROAD);
+          proad = road_by_compat_special(ROCO_ROAD);
           if (proad) {
             BV_SET(*roads, road_index(proad));
           }
@@ -841,7 +841,7 @@ static void set_savegame_special(bv_special *specials,
         if (roads) {
           struct road_type *proad;
 
-          proad = road_by_compat_special(RC_RAILROAD);
+          proad = road_by_compat_special(ROCO_RAILROAD);
           if (proad) {
             BV_SET(*roads, road_index(proad));
           }
@@ -1560,10 +1560,10 @@ static void player_load_units(struct player *plr, int plrno,
 
     if (target == S_OLD_ROAD) {
       target = S_LAST;
-      proad = road_by_compat_special(RC_ROAD);
+      proad = road_by_compat_special(ROCO_ROAD);
     } else if (target == S_OLD_RAILROAD) {
       target = S_LAST;
-      proad = road_by_compat_special(RC_RAILROAD);
+      proad = road_by_compat_special(ROCO_RAILROAD);
     }
 
     if (activity == ACTIVITY_PATROL_UNUSED) {
@@ -1587,10 +1587,10 @@ static void player_load_units(struct player *plr, int plrno,
 
     if (activity == ACTIVITY_OLD_ROAD) {
       activity = ACTIVITY_GEN_ROAD;
-      proad = road_by_compat_special(RC_ROAD);
+      proad = road_by_compat_special(ROCO_ROAD);
     } else if (activity == ACTIVITY_OLD_RAILROAD) {
       activity = ACTIVITY_GEN_ROAD;
-      proad = road_by_compat_special(RC_RAILROAD);
+      proad = road_by_compat_special(ROCO_RAILROAD);
     }
 
     if (activity == ACTIVITY_BASE) {
@@ -1705,8 +1705,8 @@ static void player_load_units(struct player *plr, int plrno,
 
     /* load the unit orders */
     if (has_capability("orders", savefile_options)) {
-      int road_idx = road_index(road_by_compat_special(RC_ROAD));
-      int rail_idx = road_index(road_by_compat_special(RC_RAILROAD));
+      int road_idx = road_index(road_by_compat_special(ROCO_ROAD));
+      int rail_idx = road_index(road_by_compat_special(ROCO_RAILROAD));
 
       int len = secfile_lookup_int_default(file, 0,
 			"player%d.u%d.orders_length", plrno, i);
