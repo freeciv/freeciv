@@ -317,6 +317,7 @@ sprites =
 		"f.mazovia", "flags/mazovia-large"
 		"f.mecklenburg", "flags/mecklenburg-large"
 		"f.median", "flags/median-large"
+		"f.messapian", "flags/messapian-large"
 		"f.metis", "flags/metis-large"
 		"f.mexico", "flags/mexico-large"
 		"f.micronesia", "flags/micronesia-large"

@@ -317,6 +317,7 @@ sprites =
 		"f.shield.mazovia", "flags/mazovia-shield-large"
 		"f.shield.mecklenburg", "flags/mecklenburg-shield-large"
 		"f.shield.median", "flags/median-shield-large"
+		"f.shield.messapian", "flags/messapian-shield-large"
 		"f.shield.metis", "flags/metis-shield-large"
 		"f.shield.mexico", "flags/mexico-shield-large"
 		"f.shield.micronesia", "flags/micronesia-shield-large"
