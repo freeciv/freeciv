@@ -613,15 +613,15 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
         struct sell_data sd = { 0, 0, building };
         GtkWidget *w;
         gint res;
-        char buf[128];
+        gchar *buf;
         const char *imprname = improvement_name_translation(building);
 
         /* Ask confirmation */
-        fc_snprintf(buf, sizeof(buf),
-                    _("Are you sure you want to sell those %s?"), imprname);
+        buf = g_strdup_printf(_("Are you sure you want to sell those %s?"), imprname);
         w = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
                                    GTK_MESSAGE_QUESTION,
                                    GTK_BUTTONS_YES_NO, "%s", buf);
+        g_free(buf);
         res = gtk_dialog_run(GTK_DIALOG(w));    /* Synchron. */
         gtk_widget_destroy(w);
         if (res == GTK_RESPONSE_NO) {
@@ -634,17 +634,19 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
           /* FIXME: plurality of sd.count is ignored! */
           /* TRANS: "Sold 3 Harbour for 90 gold." (Pluralisation is in gold --
            * second %d -- not in buildings.) */
-          fc_snprintf(buf, sizeof(buf), PL_("Sold %d %s for %d gold.",
-                                            "Sold %d %s for %d gold.",
-                                            sd.gold),
-                      sd.count, imprname, sd.gold);
+          w = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
+                                     GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
+                                     PL_("Sold %d %s for %d gold.",
+                                         "Sold %d %s for %d gold.",
+                                         sd.gold),
+                                     sd.count, imprname, sd.gold);
         } else {
-          fc_snprintf(buf, sizeof(buf), _("No %s could be sold."),
-                      imprname);
+          w = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
+                                     GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
+                                     _("No %s could be sold."),
+                                     imprname);
         }
-        w = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
-                                   GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
-                                   "%s", buf);
+
         g_signal_connect(w, "response",
                          G_CALLBACK(gtk_widget_destroy), NULL);
         gtk_window_present(GTK_WINDOW(w));      /* Asynchron. */
@@ -1981,9 +1983,9 @@ static void update_total_buy_cost(void)
   g_list_free(rows);
 
   if (total > 0) {
-    char buf[128];
-    fc_snprintf(buf, sizeof(buf), _("Total Buy Cost: %d"), total);
+    gchar *buf = g_strdup_printf(_("Total Buy Cost: %d"), total);
     gtk_label_set_text(GTK_LABEL(label), buf);
+    g_free(buf);
   } else {
     gtk_label_set_text(GTK_LABEL(label), NULL);
   }

@@ -1661,7 +1661,7 @@ static void conn_menu_connection_command(GObject *object, gpointer data)
 static void show_conn_popup(struct player *pplayer, struct connection *pconn)
 {
   GtkWidget *popup;
-  char buf[1024] = "";
+  char buf[4096] = "";
 
   if (pconn) {
     cat_snprintf(buf, sizeof(buf), _("Connection name: %s"),
@@ -1708,14 +1708,15 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
 {
   GtkWidget *menu;
   GtkWidget *item;
-  char buf[128];
+  gchar *buf;
 
   menu = gtk_menu_new();
   object_put(G_OBJECT(menu), pplayer, pconn);
 
-  fc_snprintf(buf, sizeof(buf), _("%s info"),
-              pconn ? pconn->username : player_name(pplayer));
+  buf = g_strdup_printf(_("%s info"),
+                        pconn ? pconn->username : player_name(pplayer));
   item = gtk_menu_item_new_with_label(buf);
+  g_free(buf);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect_swapped(item, "activate",
                            G_CALLBACK(conn_menu_info_chosen), menu);
@@ -1789,9 +1790,10 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
     /* No item for hack access; that would be a serious security hole. */
     for (level = cmdlevel_min(); level < client.conn.access_level; level++) {
       /* TRANS: Give access level to a connection. */
-      fc_snprintf(buf, sizeof(buf), _("Give %s access"),
-                  cmdlevel_name(level));
+      buf = g_strdup_printf(_("Give %s access"),
+                            cmdlevel_name(level));
       item = gtk_menu_item_new_with_label(buf);
+      g_free(buf);
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
       g_object_set_data_full(G_OBJECT(item), "command",
                              g_strdup_printf("cmdlevel %s",
@@ -1843,9 +1845,10 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
       }
 
       /* TRANS: e.g., "Put on Team 5" */
-      fc_snprintf(buf, sizeof(buf), _("Put on %s"),
-                  team_slot_name_translation(tslot));
+      buf = g_strdup_printf(_("Put on %s"),
+                            team_slot_name_translation(tslot));
       item = gtk_menu_item_new_with_label(buf);
+      g_free(buf);
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
       object_put(G_OBJECT(item), pplayer, NULL);
       g_signal_connect(item, "activate", G_CALLBACK(conn_menu_team_chosen),

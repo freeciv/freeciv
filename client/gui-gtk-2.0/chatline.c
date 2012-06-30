@@ -1109,7 +1109,6 @@ static void color_selected(GtkDialog *dialog, gint res, gpointer data)
 **************************************************************************/
 static void select_color_callback(GtkToolButton *button, gpointer data)
 {
-  char buf[64];
   GtkWidget *dialog, *selection;
   /* "fg_color" or "bg_color". */
   const gchar *color_target = g_object_get_data(G_OBJECT(button),
@@ -1117,7 +1116,7 @@ static void select_color_callback(GtkToolButton *button, gpointer data)
   GdkColor *current_color = g_object_get_data(G_OBJECT(data), color_target);
 
   /* TRANS: "text" or "background". */
-  fc_snprintf(buf, sizeof(buf), _("Select the %s color"),
+  gchar *buf = g_strdup_printf(_("Select the %s color"),
               (const char *) g_object_get_data(G_OBJECT(button),
                                                "color_info"));
   dialog = gtk_dialog_new_with_buttons(buf, NULL, GTK_DIALOG_MODAL,
@@ -1138,6 +1137,7 @@ static void select_color_callback(GtkToolButton *button, gpointer data)
   }
 
   gtk_widget_show_all(dialog);
+  g_free(buf);
 }
 
 /**************************************************************************

@@ -595,7 +595,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
     {
       GtkWidget *hbox, *label, *image, *button, *event_box;
       gint w, h;
-      char buf[256];
+      gchar *buf;
 
       gtk_icon_size_lookup_for_settings(
         gtk_settings_get_for_screen(gtk_widget_get_screen(vbox)),
@@ -613,8 +613,9 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       g_signal_connect_swapped(button, "clicked",
 	  G_CALLBACK(gui_dialog_delete_tab_handler), dlg);
 
-      fc_snprintf(buf, sizeof(buf), _("Close Tab:\n%s"), _("Ctrl+W"));
+      buf = g_strdup_printf(_("Close Tab:\n%s"), _("Ctrl+W"));
       gtk_widget_set_tooltip_text(button, buf);
+      g_free(buf);
 
       image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
       gtk_misc_set_padding(GTK_MISC(image), 0, 0);
@@ -623,7 +624,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 
       gtk_widget_show_all(hbox);
-      
+
       event_box = gtk_event_box_new();
       gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
       gtk_container_add(GTK_CONTAINER(event_box), hbox);

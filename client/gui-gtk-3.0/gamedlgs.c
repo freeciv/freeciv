@@ -342,8 +342,6 @@ static GtkWidget *create_rates_dialog(void)
 *****************************************************************/
 void popup_rates_dialog(void)
 {
-  char buf[64];
-
   if (!can_client_issue_orders()) {
     return;
   }
@@ -355,10 +353,11 @@ void popup_rates_dialog(void)
     return;
   }
 
-  fc_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
+  gchar *buf = g_strdup_printf(_("%s max rate: %d%%"),
       government_name_for_player(client.conn.playing),
       get_player_bonus(client.conn.playing, EFT_MAX_RATES));
   gtk_label_set_text(GTK_LABEL(rates_gov_label), buf);
-  
+  g_free(buf);
+
   gtk_window_present(GTK_WINDOW(rates_dialog_shell));
 }
