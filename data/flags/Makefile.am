@@ -379,6 +379,7 @@ flag_files =				\
 		peru.png		\
 		philippines.png		\
 		phoenicia.png		\
+		phrygian.png		\
 		pict.png		\
 		piedmont.png		\
 		pirate.png		\
@@ -925,6 +926,7 @@ flag_files =				\
 		peru-large.png			\
 		philippines-large.png		\
 		phoenicia-large.png		\
+		phrygian-large.png		\
 		pict-large.png			\
 		piedmont-large.png		\
 		pirate-large.png		\
@@ -1473,6 +1475,7 @@ shield_files =					\
 		peru-shield.png			\
 		philippines-shield.png		\
 		phoenicia-shield.png		\
+		phrygian-shield.png		\
 		pict-shield.png			\
 		piedmont-shield.png		\
 		pirate-shield.png		\
@@ -2019,6 +2022,7 @@ shield_files =					\
 		peru-shield-large.png			\
 		philippines-shield-large.png		\
 		phoenicia-shield-large.png		\
+		phrygian-shield-large.png		\
 		pict-shield-large.png			\
 		piedmont-shield-large.png		\
 		pirate-shield-large.png		\
@@ -2567,6 +2571,7 @@ svg_files = 				\
 		peru.svg		\
 		philippines.svg		\
 		phoenicia.svg		\
+		phrygian.svg		\
 		pict.svg		\
 		piedmont.svg		\
 		pirate.svg		\

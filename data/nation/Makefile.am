@@ -375,6 +375,7 @@ pkgdata_DATA = \
 		persian.ruleset \
 		peruvian.ruleset \
 		phoenician.ruleset \
+		phrygian.ruleset \
 		pictish.ruleset \
 		piedmontese.ruleset \
 		pirate.ruleset \

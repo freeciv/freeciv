@@ -429,6 +429,7 @@ match=2
 *include "nation/peruvian.ruleset"
 *include "nation/pashtun.ruleset"
 *include "nation/phoenician.ruleset"
+*include "nation/phrygian.ruleset"
 *include "nation/pictish.ruleset"
 *include "nation/piedmontese.ruleset"
 *include "nation/pirate.ruleset"
