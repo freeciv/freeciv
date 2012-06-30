@@ -1,0 +1,159 @@
+; This is Alien World governments ruleset.
+
+[datafile]
+description="Alien World governments data for Freeciv"
+options="+Freeciv-ruleset-Devel-2012.Feb.28"
+
+[governments]
+during_revolution = "Anarchy"
+
+; /* <-- avoid gettext warnings
+;
+; Below: The individual government types, one per section.
+;
+; The actual tag used (the * in [government_*]) does not matter, except 
+; it must be unique within this file, and it may be used in debug 
+; output when reading this file.
+;
+; For the "official" rulesets, the order of these sections should not
+; be changed because that would break backward compatability with 
+; savegames.  (In particular, if Fundamentalism is added to default
+; ruleset, should be added at end.)
+;
+; Notes on fields:
+
+; name        = translatable name as seen by user
+; rule_name   = (optional) name for savegames, rulesets etc; if not
+;               present, 'name' is used. Since the name used in savegames
+;               must not change, use this when renaming a government after a
+;               ruleset has been released.
+; reqs        = requirements for this government (see README.effects)
+; graphic     = tag specifing preferred graphic
+; graphic_alt = alternate graphics tag if preferred is not found;
+;               should be a standard tag if preferred is not;
+;		otherwise may be "-"
+; ai_better   = AI will not consider this government for use if the
+;               government listed here is available
+
+; ruler_titles = ruler titles by nation, "-" is default, and non-matched 
+;	         nations are ignored 
+
+; helptext = optional help text string; should escape all raw newlines 
+;	     so that xgettext parsing works
+;
+; */ <-- avoid gettext warnings
+
+;------------------------------------------------------------------------
+[government_anarchy]
+
+name        = _("Anarchy")
+; No reqs
+graphic     = "gov.anarchy"
+graphic_alt = "-"
+
+ruler_male_title = _("Usurper %s")
+ruler_female_title = _("?female:Usurper %s")
+
+helptext = _("\
+Anarchy happens between government changes.\
+")
+
+;------------------------------------------------------------------------
+[government_despotism]
+
+name        = _("Despotism")
+reqs =
+   { "type", "name", "range"
+; No requirements
+   }
+graphic     = "gov.despotism"
+graphic_alt = "-"
+
+ruler_male_title = _("Leader %s")
+ruler_female_title = _("Leader %s")
+
+helptext = _("\
+This is the only available form of government in the beginning.\n\n\
+Max tax/science/lux rate is 40%.\n\n\
+Despotism suffers 20% penalty to both trade and production.\
+")
+
+;------------------------------------------------------------------------
+[government_communism]
+
+name        = _("Communism")
+reqs =
+   { "type", "name", "range"
+     "Tech", "Faction Government", "Player"
+   }
+graphic     = "gov.communism"
+graphic_alt = "-"
+
+ruler_male_title = _("Comrade %s")
+ruler_female_title = _("?female:Comrade %s")
+
+helptext = _("\
+Government type for military might.\n\n\
+Max tax/science/lux rate is 60%.\n\n\
+Communism suffers 20% penalty to trade.\
+")
+
+;------------------------------------------------------------------------
+[government_democracy]
+
+name        = _("Democracy")
+reqs =
+   { "type", "name", "range"
+     "Tech", "Faction Government", "Player"
+   }
+graphic     = "gov.democracy"
+graphic_alt = "-"
+
+ruler_male_title = _("President %s")
+ruler_female_title = _("?female:President %s")
+
+helptext = _("\
+Government type of freedom.\n\n\
+Max tax/science/lux rate is 70%.\n\n\
+Democracy suffers 20% penalty to production.\
+")
+
+;------------------------------------------------------------------------
+[government_dual_communism]
+
+name        = _("Dual Communism")
+reqs =
+   { "type", "name", "range"
+     "Tech", "Dual Government", "Player"
+   }
+graphic     = "gov.monarchy"
+graphic_alt = "-"
+
+ruler_male_title = _("Comrade %s")
+ruler_female_title = _("?female:Comrade %s")
+
+helptext = _("\
+Government type for military might for both humans and aliens alike.\n\n\
+Max tax/science/lux rate is 80%.\n\n\
+Dual Communism gains 20% production bonus.\
+")
+
+;------------------------------------------------------------------------
+[government_dual_democracy]
+
+name        = _("Dual Democracy")
+reqs =
+   { "type", "name", "range"
+     "Tech", "Dual Government", "Player"
+   }
+graphic     = "gov.republic"
+graphic_alt = "-"
+
+ruler_male_title = _("President %s")
+ruler_female_title = _("?female:President %s")
+
+helptext = _("\
+Government type of freedom for both humans and aliens alike.\n\n\
+Max tax/science/lux rate is 90%.\n\n\
+Dual Democracy gains 20% trade bonus.\
+")

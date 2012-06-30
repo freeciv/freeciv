@@ -1,0 +1,35 @@
+[nation_jw]
+
+name = _("J&W Corporation")
+plural = _("?plural:JeeWees")
+groups = "Alien World"
+legend = _("J&W Corporation ship was heading to establish another \
+branch.\n\n\
+* 40% bonus to trade.")
+
+leaders = {
+ "name", "sex"
+ "Big J", "male"
+ "Great W", "female"
+}
+
+flag = "jw"
+flag_alt = "russia"
+city_style = "Human"
+
+init_techs=""
+init_buildings=""
+init_units=""
+
+trait_trader       = 300
+trait_expansionist = 70
+
+; /* <-- avoid gettext warnings
+;
+; */
+
+cities =
+  "Marketing", "Production", "Development", "Sales", "Support",
+  "Recruiting", "Espionage", "Finances", "Taxes", "Bugfixing",
+  "Research", "Testing", "Statistics", "Legal", "Blackmailing",
+  "Training", "Documenting", "Combat", "Maintenance"

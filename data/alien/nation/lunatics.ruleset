@@ -1,0 +1,25 @@
+[nation_lunatic]
+
+name = _("Lunatic")
+plural = _("?plural:Lunatics")
+legend = _("Something drove them crazy, made them escape the society to seas.")
+
+leaders = {
+ "name", "sex"
+ "No more Moons", "Female"
+}
+
+flag = "lunatic"
+flag_alt = "pirate"
+city_style = "Human"
+
+init_techs=""
+init_buildings=""
+init_units=""
+
+cities = "Bottom of the Sea"
+
+is_playable = 0
+barbarian_type = "Sea"
+
+; nothing more needed for barbarians

@@ -1,0 +1,33 @@
+[nation_adventurers]
+
+name = _("Adventurers")
+plural = _("?plural:Adventurers")
+groups = "Alien World"
+legend = _("Without any destination, they were just traveling around, looking \
+for trouble.\n\n\
+* All units have one extra movement point")
+
+leaders = {
+ "name", "sex"
+ "Indiana Jones", "male"
+ "Lara Croft", "female"
+}
+
+flag = "adventurers"
+flag_alt = "denmark"
+city_style = "Human"
+
+init_techs=""
+init_buildings=""
+init_units=""
+
+trait_expansionist = 150
+
+; /* <-- avoid gettext warnings
+;
+; */
+
+cities =
+  "Lost Temple", "Black Forest", "Dark Alley", "Alien Planet",
+  "Hostile Moon", "Strange Nebula", "Broken Ship", "Deadly Encounter",
+  "Jungle", "Icy Peaks"

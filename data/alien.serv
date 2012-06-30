@@ -1,0 +1,16 @@
+# Server commands for Freeciv Alien World ruleset
+#
+
+rulesetdir alien
+
+set topology WRAPX|WRAPY
+set aifill 5
+
+set sciencebox 150
+set foodbox 150
+
+set revolen 7
+
+set citymindist 3
+
+set startunits cx

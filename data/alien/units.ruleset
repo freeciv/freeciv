@@ -1,0 +1,1304 @@
+; This is Alien World units ruleset.
+
+[datafile]
+description="Alien World unit data for Freeciv"
+options="+Freeciv-ruleset-Devel-2012.Feb.28"
+
+[flags]
+; Names for custom unit type flags.
+; names =
+
+[veteran_system]
+; What are the names of the levels?
+veteran_names = _("Regular"), _("Elite")
+
+; The percentage chance of increasing level through combat
+veteran_raise_chance = 10, 0
+
+; The percentage chance of a settler/engineer increasing level through
+; performing useful work (per turn)
+veteran_work_raise_chance = 0, 0
+
+; Power factors are as a percentage.
+; +50% is represented by 150
+veteran_power_fact = 100, 200
+
+; The additional number of movement points granted for different veteran
+; levels.  These are thirds of points, so to increase movement
+; by a whole point 3 must be specified.
+veteran_move_bonus = 0, 0
+
+; /* <-- avoid gettext warnings
+;
+; Unit classes
+; The number can be variable, up to 32
+; When adding new classes, remember to check effects.ruleset also.
+; Eg. if you divide class 'Land' to two separate classes, you may
+; want add effect giving City Walls defence bonus against new class
+; too.
+;
+; The actual tag used (the * in [unitclass_*]) does not matter, except 
+; it must be unique within this file, and it may be used in debug 
+; output when reading this file.
+;
+; ** Fields **
+;
+; name          = translatable name as seen by user
+; rule_name     = (optional) name for savegames, rulesets etc; if not
+;                 present, 'name' is used. Since the name used in savegames
+;                 must not change, use this when renaming a unit class after a
+;                 ruleset has been released.
+; move_type     = Where unit moves; "Land", "Sea", or "Both".
+;                 This is optional field. If it's not
+;                 given, move type is automatically determined from native
+;                 terrains. You need to set it only if you want to set move
+;                 type "Both" for unit that has no native Land terrains or
+;                 for unit that has no native Oceanic terrains.
+; min_speed     = Minimum speed after damage and effects
+; hp_loss_pct   = Hitpoints lost each turn if unit not in city or airbase
+; hut_behavior  = What happens to huts when unit enters tile: "Normal", "Nothing" or
+;                 "Frighten"
+; flags         = List of unit class flags
+;
+; ** Unit class Flags **
+;
+; "TerrainSpeed"   = Units use terrain spesific speed
+; "TerrainDefense" = Units gain defense bonus from terrain
+; "DamageSlows"    = Damages units are slowed down
+; "CanOccupyCity"  = Military units of this class can occupy enemy cities
+; "Missile"        = Unit is destroyed when it attacks
+; "BuildAnywhere"  = Unit can be built even in the middle of non-native terrain
+; "Unreachable"    = Unit can be attacked only by units with "AttackAny" flag or on
+;                    city or airbase
+; "CollectRansom"  = Unit can collect ransom when killing lone barbarian leader
+; "ZOC"            = Unit is subject to ZOC rules. Unit type flag "IgZOC" can
+;                    override this
+; "CanFortify"     = Unit can fortify at land tiles
+; "CanPillage"     = Unit can pillage tile infrastructure
+; "DoesntOccupyTile"  = Even if this kind of enemy unit is on tile, cities can
+;                       still work that tile
+; "AttackNonNative"   = Unit can attack units on non-native tiles. Unit type flag
+;                       "Only_Native_Attack" can override this
+; "AttFromNonNative"  = Unit can launch attach from non-native tile (against native one)
+;                       This applies for both attacking from transport or cities. If only
+;                       some unit types of the class should get this property, use type flag
+;                       "Marines"
+;
+; */ <-- avoid gettext warnings
+
+[unitclass_earthly]
+name          = _("?unitclass:Earthly")
+min_speed     = 1
+hp_loss_pct   = 0
+flags         = "DamageSlows", "TerrainSpeed", "CanFortify", "ZOC",
+                "CollectRansom", "BuildAnywhere", "CanOccupyCity",
+                "CanPillage", "TerrainDefense"
+
+[unitclass_native]
+name          = _("?unitclass:Native")
+min_speed     = 1
+hp_loss_pct   = 0
+flags         = "DamageSlows", "TerrainSpeed", "CanFortify", "ZOC",
+                "CollectRansom", "BuildAnywhere", "CanOccupyCity",
+                "CanPillage", "TerrainDefense"
+
+[unitclass_sea]
+name          = _("?unitclass:Sea")
+min_speed     = 1
+hp_loss_pct   = 0
+flags         = "DamageSlows", "TerrainSpeed", "CanPillage", "AttackNonNative",
+                "AttFromNonNative"
+
+[unitclass_amphibious]
+name          = _("?unitclass:Amphibious")
+min_speed     = 1
+hp_loss_pct   = 0
+flags         = "DamageSlows", "TerrainSpeed", "CanFortify", "ZOC",
+                "CollectRansom", "BuildAnywhere", "CanOccupyCity",
+                "CanPillage", "TerrainDefense"
+
+[unitclass_antigravity]
+name          = _("?unitclass:Antigravity")
+min_speed     = 1
+hp_loss_pct   = 0
+flags         = "Unreachable"
+
+[unitclass_burrowing]
+name          = _("?unitclass:Burrowing")
+min_speed     = 1
+hp_loss_pct   = 0
+flags         = "Unreachable", "DamageSlows", "CanPillage"
+
+[unitclass_missile]
+name          = _("?unitclass:Missile")
+min_speed     = 1
+hp_loss_pct   = 0
+flags         = "Missile", "DoesntOccupyTile"
+
+; Below: The individual units, one per section.
+;
+; The number can be variable, up to 200.  
+; However for the "official" rulesets, units should not be removed 
+; because that would break backward compatability with savegames.
+;
+; The order here matters: later units are considered "better" for
+; a given flag or role.  
+;
+; The actual tag used (the * in [unit_*]) does not matter, except 
+; it must be unique within this file, and it may be used in debug 
+; output when reading this file.
+;
+; ** Fields **
+;
+; name          = translatable name as seen by user
+; rule_name     = (optional) name for savegames, rulesets etc; if not
+;                 present, 'name' is used. Since the name used in savegames
+;                 must not change, use this when renaming a unit after a
+;                 ruleset has been released.
+; graphic       = tag specifing preferred graphic
+; graphic_alt	= tag for alternate garphic if preferred graphic is not 
+;		  present; especially if preferred graphic is non-standard, 
+;		  this should be a standard tag.  Otherwise can use eg "-" 
+;		  for no alternate graphic.
+; tech_req      = required advance, names from techs.ruleset, or special:
+;                 "None" => available from start
+; impr_req	= required city improvement, names from buildings.ruleset
+; gov_req       = required government, names from governments.ruleset
+; obsolete_by   = can be upgraded to and made obsolete by another unit by name
+; convert_to    = can be converted to another type of unit by name
+; convert_time  = time it takes to convert to another unit type
+; class         = One of the classes listed above
+; transport_cap = Number of units (ground, or air/missiles, depending on flags)
+; fuel          = number of turns air units can fly before they crash. For
+;                 barbarians this is used as lifetime instead. If this is zero,
+;                 the unit has unlimited fuel, despite flying.
+; uk_*          = upkeep costs, these are used as base values in the game
+; cargo         = Unit classes this unit can transport
+; city_size     = Initial size of the cities Settlers type unit builds
+; targets       = list of unit classes this unit can attack against even
+;                 if they have Unreachable unit class flag
+; flags         = special flag strings
+;
+; veteran_names = Special veteran level for this unit. See the definitions in
+;                 game.ruleset. All of the veteran_* entries have to have the
+;                 same length!
+; veteran_raise_chance =
+; veteran_work_raise_chance =
+; veteran_power_fact =
+; veteran_move_bonus =
+;
+; roles         = special role strings
+; sound_move	= optional sound effect when the unit moves
+; sound_move_alt= optional alternative sound effect if above not
+;		  supported in client
+; sound_fight	= optional sound effect when the unit fights
+; sound_fight_alt= optional alternative sound effect if above not
+;		   supported in client
+; helptext	= optional help text string; should escape all raw newlines 
+;		  so that xgettext parsing works
+;
+; ** Flags **
+;
+; "HelpWonder"	= can help build wonders
+; "TradeRoute"	= can establish trade routes
+; "IgZOC"	= ignore Zones of Control (ZOC) even if unit class has "ZOC" flag
+; "NonMil"      = a non-military unit: no attacks; no martial law; can enter
+;                 peaceful borders; DoesntOccupyTile
+; "IgTer"	= ignore terrain/road/rail, treat every tile as 1/3 move cost
+; "OneAttack"	= can only make a single attack, regardless of movement points
+; "Pikemen"	= double defence power against "Horse" flag units
+; "Horse"	= (no effect)
+; "IgWall"	= ignore effect of city walls
+; "FieldUnit"	= cause unhappiness even when not being aggressive
+; "AEGIS"	= fivefold increased defence against "AirUnit" attacks
+; "AttackAny"   = can attack unreachable units
+; "Marines"	= can attack from non-native tile (from transport or city)
+; "Partial_Invis" = visible only to adjancent units; does not hide transported
+;		  units other than missiles
+; "Settlers"	= can irrigate and build roads
+; "Diplomat"	= can do diplomat actions (see diplchance server option)
+; "Spy"		= can do poison and sabotage, _must_ be "Diplomat" also
+; "Trireme"	= (sea only) cannot leave shoreline
+; "Nuclear"	= nuke!
+; "Transform"	= can transform terrain
+; "Paratroopers"= (land only) can paradrop
+; "Cities"	= can disband to produce a city
+; "Only_Native_Attack" = cannot attack targets on non-native tiles even if unit class can
+; "AddToCity"	= can disband to add a single point of population to a city
+;		  (see cities.ruleset for limitation of this ability)
+; "Fanatic"	= can only be built by governments that allow them
+;		  (see data/civ2/governments.ruleset, Fanaticism government)
+; "Unique"	= a player can only have one of these units in the game at
+;		  the same time; barbarians cannot use this at present
+; "GameLoss"	= losing one of these units means you lose the game, but it
+;		  is produced without homecity and upkeep
+; "Unbribable"	= this unit cannot be bribed
+; "Undisbandable" = this unit cannot be disbanded, will not drown, and will not
+;		  disband due to lack of shields to upkeep it in homecity;
+;		  if not given enough food to upkeep it, homecity will shrink 
+;		  every turn it cannot do so, however
+; "SuperSpy"	= this unit always wins diplomatic contests, that is, unless
+;		  it encounters another SuperSpy, in which case defender wins;
+;		  can also be used on non-diplomat units, in which case it can
+;		  protect cities from diplomats; also 100% spy survival chance
+; "NoHome"	= this unit has no homecity and will be free of all upkeep, and
+;		  therefore will not revolt along with its city of origin should
+;		  it be incited
+; "NoVeteran"   = this unit cannot become veteran
+; "Bombarder"   = this unit cannot kill other units, only damage them, but
+;                 also is not harmed by return fire when attacking; the field
+;                 bombard_rate regulates its number of shots
+; "CityBuster"  = this unit has double firepower against cities
+; "NoBuild"     = this unit cannot be built
+; "BadWallAttacker"	= the firepower of this unit is set to 1 if
+;                 attacking a city
+;		  defended by a city wall (or other city building defense)
+; "BadCityDefender"	= if attacked while in a city, firepower is set to 1
+;		  and firepower of attacker is doubled (the Pearl Harbour
+;                 rule)
+; "Helicopter"  = defends very badly against "Fighter" units
+; "AirUnit"     = very bad at attacking "AEGIS" units
+; "Fighter"     = good attacker against "Helicopter" units
+; "BarbarianOnly" = only barbarians can build this unit
+; "Shield2Gold" = Switch from shield upkeep to gold upkeep possible
+; "Capturable"  = can be captured by units with "Capturer" flag
+; "Capturer"    = can capture units with flag "Capturable" instead of
+;                 fighting them
+;
+; Following flag strings require extra fields:
+;  "Paratroopers"
+;   paratroopers_range = the maximal range the unit can be paradropped to
+;   paratroopers_mr_req = the move rate which is required at least for
+;                         paradropping
+;   paratroopers_mr_sub = the move rate which is subtracted after paradropping
+;  "Bombarder"
+;   bombard_rate = the number of shots fired at enemy units when attacking
+;
+; ** Roles **
+;
+; "FirstBuild"	= first to be built when city founded
+; "Explorer"	= initial explorer unit (only one unit can have this flag)
+; "Hut"		= can be found in a hut
+; "HutTech"	= can be found in a hut, but its techs required
+; "Partisan"	= can be created as a partisan (only one unit can have this 
+;                 flag), see end of this file for its tech requirements option
+; "DefendOk"	= AI hint: ok for defending with
+; "DefendGood"	= AI hint: good for defending with
+; "AttackFast"	= AI hint: quick attacking unit (unused)
+; "AttackStrong"= AI hint: strong attacker (unused)
+; "Ferryboat"	= AI hint: useful for ferrying
+; "Barbarian"	= can be created as barbarian
+; "BarbarianTech" = can be created as barbarian, if someone has
+;		    researched its tech requirements
+; "BarbarianBoat" = can be created as barbarian
+; "BarbarianBuild" = can be built by barbarians
+; "BarbarianBuildTech" = can be built by barbarians if someone has
+;		         researched its tech requirements
+; "BarbarianLeader" = this unit is the barbarian leader (only one)
+; "BarbarianSea" = can be created as a sea barbarian
+; "BarbarianSeaTech" = can be created as a sea barbarian if someone
+;		       has researched its tech requirements
+; "Cities"	= can disband to produce a city
+; "Settlers"	= can irrigate and build roads
+; "GameLoss"	= losing one of these units means you lose the game, but it
+;		  is produced without homecity and upkeep
+; "Diplomat"	= can do diplomat actions (see diplchance server option)
+; "Hunter"      = AI hint: good for hunting other units
+;
+; */ <-- avoid gettext warnings
+
+[unit_settlers]
+name          = _("Settlers")
+class         = "Earthly"
+tech_req      = "None"
+obsolete_by   = "Native Settlers"
+graphic       = "u.settlers"
+graphic_alt   = "-"
+sound_move    = "m_settlers"
+sound_move_alt = "m_generic"
+sound_fight   = "f_settlers"
+sound_fight_alt = "f_generic"
+build_cost    = 40
+pop_cost      = 1
+attack        = 0
+defense       = 0
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = "Cities", "Capturable"
+roles         = "Cities"
+helptext      = _("\
+This is Earth technology settler. \
+Most military enemy units can capture it instead of killing it.\
+")
+
+[unit_native_settlers]
+name          = _("Native Settlers")
+class         = "Native"
+tech_req      = "Organic Structures"
+obsolete_by   = "None"
+graphic       = "u.native_settlers"
+graphic_alt   = "u.worker"
+sound_move    = "m_worker"
+sound_move_alt = "m_generic"
+sound_fight   = "f_worker"
+sound_fight_alt = "f_generic"
+build_cost    = 40
+pop_cost      = 1
+attack        = 0
+defense       = 0
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = "Cities", "Capturable"
+roles         = "Cities"
+helptext      = _("\
+This is native Settler that can enter radiating areas. \
+Most military enemy units can capture it instead of killing it.\
+")
+
+[unit_engineer]
+name          = _("Engineer")
+class         = "Earthly"
+tech_req      = "None"
+obsolete_by   = "Native Engineer"
+graphic       = "u.engineer"
+graphic_alt   = "u.engineers"
+sound_move    = "m_engineers"
+sound_move_alt = "m_generic"
+sound_fight   = "f_engineers"
+sound_fight_alt = "f_generic"
+build_cost    = 20
+pop_cost      = 0
+attack        = 0
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "Settlers", "NonMil"
+roles         = "Settlers"
+helptext      = _("\
+This is Earth technology engineer.\
+")
+
+[unit_native_engineer]
+name          = _("Native Engineer")
+class         = "Native"
+tech_req      = "Smart Aliens"
+obsolete_by   = "None"
+graphic       = "u.native_engineer"
+graphic_alt   = "u.archers"
+sound_move    = "m_archers"
+sound_move_alt = "m_generic"
+sound_fight   = "f_archers"
+sound_fight_alt = "f_generic"
+build_cost    = 20
+pop_cost      = 0
+attack        = 0
+defense       = 3
+hitpoints     = 20
+firepower     = 1
+move_rate     = 2
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "Settlers", "NonMil"
+roles         = "Settlers"
+helptext      = _("\
+Native version of the Engineer unit.\
+")
+
+[unit_water_engineer]
+name          = _("Water Engineer")
+class         = "Amphibious"
+tech_req      = "Ocean Cities"
+obsolete_by   = "None"
+graphic       = "u.water_engineer"
+graphic_alt   = "u.legion"
+sound_move    = "m_legion"
+sound_move_alt = "m_generic"
+sound_fight   = "f_legion"
+sound_fight_alt = "f_generic"
+build_cost    = 20
+pop_cost      = 1
+attack        = 0
+defense       = 3
+hitpoints     = 20
+firepower     = 1
+move_rate     = 2
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+city_size     = 2
+flags         = "Cities", "Settlers", "NonMil"
+roles         = "Cities", "Settlers"
+helptext      = _("\
+Amphibious Engineer that can also establish new cities on Ocean.\
+Cities it builds, start at size 2.")
+
+[unit_star_marines]
+name          = _("Star Marines")
+class         = "Earthly"
+tech_req      = "None"
+obsolete_by   = "None"
+graphic       = "u.star_marines"
+graphic_alt   = "u.marines"
+sound_move    = "m_marines"
+sound_move_alt = "m_generic"
+sound_fight   = "f_marines"
+sound_fight_alt = "f_generic"
+build_cost    = 10
+pop_cost      = 0
+attack        = 1
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "Capturer"
+roles         = "DefendOk", "FirstBuild", "Barbarian", "BarbarianSea"
+helptext      = _("\
+This unit may be built from the start of the game.  It is the\
+ weakest military unit.\
+")
+
+[unit_cyborgs]
+name          = _("Cyborgs")
+class         = "Earthly"
+tech_req      = "Cybernetics"
+obsolete_by   = "None"
+graphic       = "u.cyborgs"
+graphic_alt   = "u.pikemen"
+sound_move    = "m_pikemen"
+sound_move_alt = "m_generic"
+sound_fight   = "f_pikemen"
+sound_fight_alt = "f_generic"
+build_cost    = 20
+pop_cost      = 0
+attack        = 2
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "Capturer"
+roles         = "DefendOk", "Barbarian", "BarbarianSea", "BarbarianLeader"
+helptext      = _("\
+Attack power to the early game.\
+")
+
+[unit_tank]
+name          = _("Tank")
+class         = "Earthly"
+tech_req      = "Brute Force"
+obsolete_by   = "None"
+graphic       = "u.tank"
+graphic_alt   = "u.armor"
+sound_move    = "m_armor"
+sound_move_alt = "m_generic"
+sound_fight   = "f_armor"
+sound_fight_alt = "f_generic"
+build_cost    = 20
+pop_cost      = 0
+attack        = 4
+defense       = 2
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "Capturer"
+roles         = "DefendOk", "BarbarianBuild"
+helptext      = _("\
+This is the most powerful Earth technology unit.\
+")
+
+[unit_warmonster]
+name          = _("War Monster")
+class         = "Native"
+tech_req      = "War Monsters"
+obsolete_by   = "None"
+graphic       = "u.war_monster"
+graphic_alt   = "u.alpine_troops"
+sound_move    = "m_alpine_troops"
+sound_move_alt = "m_generic"
+sound_fight   = "f_alpine_troops"
+sound_fight_alt = "f_generic"
+build_cost    = 30
+pop_cost      = 0
+attack        = 3
+defense       = 3
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "Capturer"
+roles         = "DefendOk"
+helptext      = _("\
+As a native unit, this can move and fight on radiating areas too.\
+")
+
+[unit_crusher]
+name          = _("Crusher")
+class         = "Native"
+tech_req      = "Alien Training"
+obsolete_by   = "None"
+graphic       = "u.crusher"
+graphic_alt   = "u.horsemen"
+sound_move    = "m_horsemen"
+sound_move_alt = "m_generic"
+sound_fight   = "f_horsemen"
+sound_fight_alt = "f_generic"
+build_cost    = 20
+pop_cost      = 0
+attack        = 3
+defense       = 3
+hitpoints     = 10
+firepower     = 1
+move_rate     = 3
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "Capturer"
+roles         = "DefendOk"
+helptext      = _("\
+Alien lifeform trained to be fast.\
+")
+
+[unit_cyber_alien]
+name          = _("Cyber Alien")
+class         = "Native"
+tech_req      = "Cyber Aliens"
+obsolete_by   = "None"
+graphic       = "u.cyber_alien"
+graphic_alt   = "u.musketeers"
+sound_move    = "m_musketeers"
+sound_move_alt = "m_generic"
+sound_fight   = "f_musketeers"
+sound_fight_alt = "f_generic"
+build_cost    = 30
+pop_cost      = 0
+attack        = 4
+defense       = 3
+hitpoints     = 10
+firepower     = 1
+move_rate     = 2
+vision_radius_sq = 5
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "Capturer"
+roles         = "DefendOk"
+helptext      = _("\
+Alien lifeform with cybernetic implants. Good in combat, and has better \
+vision than any purely organic unit.")
+
+[unit_rex]
+name          = _("Rex")
+class         = "Native"
+tech_req      = "Synthetic Food"
+obsolete_by   = "None"
+graphic       = "u.rex"
+graphic_alt   = "u.knights"
+sound_move    = "m_knights"
+sound_move_alt = "m_generic"
+sound_fight   = "f_knights"
+sound_fight_alt = "f_generic"
+build_cost    = 50
+pop_cost      = 0
+attack        = 8
+defense       = 4
+hitpoints     = 20
+firepower     = 1
+move_rate     = 3
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "Capturer"
+helptext      = _("\
+Most powerful alien lifeform.\
+")
+
+[unit_paradropper]
+name          = _("Paradropper")
+class         = "Native"
+tech_req      = "Paradrop"
+obsolete_by   = "None"
+graphic       = "u.paradropper"
+graphic_alt   = "u.paratroopers"
+sound_move    = "m_paratroopers"
+sound_move_alt = "m_generic"
+sound_fight   = "f_paratroopers"
+sound_fight_alt = "f_generic"
+build_cost    = 50
+pop_cost      = 0
+attack        = 6
+defense       = 3
+hitpoints     = 20
+firepower     = 1
+move_rate     = 3
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "Paratroopers", "Capturer"
+paratroopers_range  = 10
+paratroopers_mr_req = 1
+paratroopers_mr_sub = 1
+helptext      = _("\
+Alien lifeform able to paradrop.\
+")
+
+[unit_turtle]
+name          = _("Turtle Defender")
+class         = "Earthly"
+tech_req      = "Composites"
+obsolete_by   = "None"
+graphic       = "u.turtle_defender"
+graphic_alt   = "u.mech_inf"
+sound_move    = "m_mech_inf"
+sound_move_alt = "m_generic"
+sound_fight   = "f_mech_inf"
+sound_fight_alt = "f_generic"
+build_cost    = 20
+pop_cost      = 0
+attack        = 1
+defense       = 3
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "Capturer"
+roles         = "DefendGood"
+helptext      = _("\
+This is excellent defense vehicle.\
+")
+
+[unit_earth_sub]
+name          = _("Earth Sub")
+class         = "Burrowing"
+tech_req      = "Burrowing"
+obsolete_by   = "None"
+graphic       = "u.earth_sub"
+graphic_alt   = "u.submarine"
+sound_move    = "m_submarine"
+sound_move_alt = "m_generic"
+sound_fight   = "f_submarine"
+sound_fight_alt = "f_generic"
+build_cost    = 60
+pop_cost      = 0
+attack        = 4
+defense       = 2
+hitpoints     = 20
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+targets       = "Burrowing"
+flags         = "Capturer"
+helptext      = _("\
+Burrow through earth. Only some special units can attack against Earth Sub. \
+These can pass ocean tiles only through Burrow Tubes.")
+
+[unit_hunter]
+name          = _("Hunter")
+class         = "Burrowing"
+tech_req      = "Supermodule"
+obsolete_by   = "None"
+graphic       = "u.hunter"
+graphic_alt   = "u.frigate"
+sound_move    = "m_frigate"
+sound_move_alt = "m_generic"
+sound_fight   = "f_frigate"
+sound_fight_alt = "f_generic"
+build_cost    = 160
+pop_cost      = 0
+attack        = 7
+defense       = 3
+hitpoints     = 30
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+targets       = "Antigravity", "Burrowing"
+flags         = "Settlers", "Capturer"
+roles         = "Hunter"
+helptext      = _("\
+Burrowing unit that also has capability to attack Antigravity units with \
+its own minimissiles.\n\n\
+It's also an settler type unit for hostile areas, well capable of defending \
+itself.")
+
+[unit_light_saucer]
+name          = _("Light Saucer")
+class         = "Antigravity"
+tech_req      = "Antigravity"
+obsolete_by   = "None"
+graphic       = "u.light_saucer"
+graphic_alt   = "u.fighter"
+sound_move    = "m_fighter"
+sound_move_alt = "m_generic"
+sound_fight   = "f_fighter"
+sound_fight_alt = "f_generic"
+build_cost    = 80
+pop_cost      = 0
+attack        = 4
+defense       = 2
+hitpoints     = 20
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 4
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+targets       = "Antigravity"
+flags         = "Capturer"
+helptext      = _("\
+Nobody, but some of the other Antigravity units and Hunters can attack this unit. \
+This unit itself can attack other Antigravity units.")
+
+[unit_bomb_saucer]
+name          = _("Bomb Saucer")
+class         = "Antigravity"
+tech_req      = "Unified Theory"
+obsolete_by   = "None"
+graphic       = "u.bomb_saucer"
+graphic_alt   = "u.bomber"
+sound_move    = "m_bomber"
+sound_move_alt = "m_generic"
+sound_fight   = "f_bomber"
+sound_fight_alt = "f_generic"
+build_cost    = 90
+pop_cost      = 0
+attack        = 8
+defense       = 3
+hitpoints     = 20
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 4
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "Bombarder", "Capturer"
+bombard_rate  = 5
+helptext      = _("\
+Nobody, but some of the other Antigravity and Hunters units can attack this unit.")
+
+[unit_spitter]
+name          = _("Spitter")
+class         = "Native"
+tech_req      = "Spitter Control"
+obsolete_by   = "Heavy Spitter"
+graphic       = "u.spitter"
+graphic_alt   = "u.catapult"
+sound_move    = "m_catapult"
+sound_move_alt = "m_generic"
+sound_fight   = "f_catapult"
+sound_fight_alt = "f_generic"
+build_cost    = 10
+pop_cost      = 0
+attack        = 2
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "Bombarder"
+bombard_rate  = 3
+helptext      = _("\
+This alien lifeform is first bombarding unit.\
+")
+
+[unit_heavy_spitter]
+name          = _("Heavy Spitter")
+class         = "Native"
+tech_req      = "Modified Spitter"
+obsolete_by   = "None"
+graphic       = "u.heavy_spitter"
+graphic_alt   = "u.cannon"
+sound_move    = "m_cannon"
+sound_move_alt = "m_generic"
+sound_fight   = "f_cannon"
+sound_fight_alt = "f_generic"
+build_cost    = 20
+pop_cost      = 0
+attack        = 4
+defense       = 2
+hitpoints     = 20
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 3
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+cargo         = "Missile"
+flags         = "Bombarder"
+bombard_rate  = 5
+helptext      = _("\
+This improved spitter can both make bombard attacks, and transport missiles \
+next to targets.")
+
+[unit_explorer]
+name          = _("Explorer")
+class         = "Earthly"
+tech_req      = "None"
+obsolete_by   = "Scout Animal"
+graphic       = "u.explorer"
+graphic_alt   = "-"
+sound_move    = "m_explorer"
+sound_move_alt = "m_generic"
+sound_fight   = "f_explorer"
+sound_fight_alt = "f_generic"
+build_cost    = 30
+pop_cost      = 0
+attack        = 0
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 2
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = "IgZOC", "NonMil"
+roles         = "Explorer"
+helptext      = _("\
+Like all Earthly units, Explorer are unable to enter radiating tiles. \
+They can maintain themselves, no upkeep cost to homecity.\
+")
+
+[unit_native_scout]
+name          = _("Scout Animal")
+class         = "Native"
+tech_req      = "Alien Taming"
+obsolete_by   = "None"
+graphic       = "u.scout_animal"
+graphic_alt   = "u.warriors"
+sound_move    = "m_warriors"
+sound_move_alt = "m_generic"
+sound_fight   = "f_warriors"
+sound_fight_alt = "f_generic"
+build_cost    = 10
+pop_cost      = 0
+attack        = 0
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 2
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = "IgZOC", "NonMil"
+roles         = "Explorer"
+helptext      = _("\
+This is native scout animal that can enter any land terrain.\
+")
+
+[unit_raft]
+name          = _("Raft")
+class         = "Sea"
+tech_req      = "None"
+obsolete_by   = "None"
+graphic       = "u.raft"
+graphic_alt   = "u.trireme"
+sound_move    = "m_trireme"
+sound_move_alt = "m_generic"
+sound_fight   = "f_trireme"
+sound_fight_alt = "f_generic"
+build_cost    = 20
+pop_cost      = 0
+attack        = 0
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 2
+vision_radius_sq = 2
+transport_cap = 2
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+cargo         = "Earthly", "Native"
+flags         = "Trireme"
+roles         = "Ferryboat"
+helptext      = _("\
+  This vessel allows coastal travel, but not on Boiling Seas.\
+")
+
+[unit_ship]
+name          = _("Ship")
+class         = "Sea"
+tech_req      = "Travel"
+obsolete_by   = "None"
+graphic       = "u.ship"
+graphic_alt   = "u.caravel"
+sound_move    = "m_caravel"
+sound_move_alt = "m_generic"
+sound_fight   = "f_caravel"
+sound_fight_alt = "f_generic"
+build_cost    = 30
+pop_cost      = 0
+attack        = 1
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 2
+vision_radius_sq = 2
+transport_cap = 2
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+cargo         = "Earthly", "Native"
+flags         = ""
+roles         = "Ferryboat", "BarbarianBoat"
+helptext      = _("\
+  This is basic ship type. It has no any special equipment, so \
+it cannot enter boiling seas.\
+")
+
+[unit_destroyer]
+name          = _("Destroyer")
+class         = "Sea"
+tech_req      = "Naval Superiority"
+obsolete_by   = "Battle Unit"
+graphic       = "u.destroyer"
+graphic_alt   = "-"
+sound_move    = "m_destroyer"
+sound_move_alt = "m_generic"
+sound_fight   = "f_destroyer"
+sound_fight_alt = "f_generic"
+build_cost    = 40
+pop_cost      = 0
+attack        = 5
+defense       = 2
+hitpoints     = 10
+firepower     = 1
+move_rate     = 3
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = ""
+helptext      = _("\
+This vessel is for battle! Too bad it cannot enter boiling oceans.\
+")
+
+[unit_battle_unit]
+name          = _("Battle Unit")
+class         = "Amphibious"
+tech_req      = "Amphibious Tactics"
+obsolete_by   = "None"
+graphic       = "u.battle_unit"
+graphic_alt   = "u.battleship"
+sound_move    = "m_battleship"
+sound_move_alt = "m_generic"
+sound_fight   = "f_battleship"
+sound_fight_alt = "f_generic"
+build_cost    = 60
+pop_cost      = 0
+attack        = 7
+defense       = 3
+hitpoints     = 20
+firepower     = 1
+move_rate     = 3
+vision_radius_sq = 5
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = "Capturer"
+helptext      = _("\
+Amphibious battle machine.")
+
+[unit_amphibious_transport]
+name          = _("Amphibious Transport")
+class         = "Amphibious"
+tech_req      = "Thermal Module"
+obsolete_by   = "None"
+graphic       = "u.amphi_transport"
+graphic_alt   = "u.ironclad"
+sound_move    = "m_ironclad"
+sound_move_alt = "m_generic"
+sound_fight   = "f_ironclad"
+sound_fight_alt = "f_generic"
+build_cost    = 40
+pop_cost      = 0
+attack        = 0
+defense       = 2
+hitpoints     = 10
+firepower     = 1
+move_rate     = 3
+vision_radius_sq = 2
+transport_cap = 3
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+cargo         = "Earthly", "Native"
+flags         = ""
+roles         = "Ferryboat"
+helptext      = _("\
+This is first unit that can enter boiling oceans - and more.\
+")
+
+[unit_freight]
+name          = _("Freight")
+class         = "Earthly"
+tech_req      = "Faction Politics"
+obsolete_by   = "Caravan"
+graphic       = "u.freight"
+graphic_alt   = "-"
+sound_move    = "m_freight"
+sound_move_alt = "m_generic"
+sound_fight   = "f_freight"
+sound_fight_alt = "f_generic"
+build_cost    = 50
+pop_cost      = 0
+attack        = 0
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 3
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = "HelpWonder", "TradeRoute", "IgZOC", "NonMil"
+roles         = ""
+helptext      = _("Earth technology unit that can establish traderoutes and \
+transfer goods to help building wonders in other cities.");
+
+[unit_caravan]
+name          = _("Caravan")
+class         = "Native"
+tech_req      = "Smart Aliens"
+obsolete_by   = "None"
+graphic       = "u.caravan"
+graphic_alt   = "-"
+sound_move    = "m_caravan"
+sound_move_alt = "m_generic"
+sound_fight   = "f_caravan"
+sound_fight_alt = "f_generic"
+build_cost    = 50
+pop_cost      = 0
+attack        = 0
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 3
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = "HelpWonder", "TradeRoute", "IgZOC", "NonMil"
+roles         = ""
+helptext      = _("Native caravan unit, that can move on all land terrains.")
+
+[unit_stealth_spy]
+name          = _("Stealth Spy")
+class         = "Earthly"
+tech_req      = "Stealth Module"
+obsolete_by   = "None"
+graphic       = "u.stealth_spy"
+graphic_alt   = "u.diplomat"
+sound_move    = "m_diplomat"
+sound_move_alt = "m_generic"
+sound_fight   = "f_diplomat"
+sound_fight_alt = "f_generic"
+build_cost    = 30
+pop_cost      = 0
+attack        = 0
+defense       = 0
+hitpoints     = 10
+firepower     = 1
+move_rate     = 2
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = "Diplomat", "IgZOC", "NonMil", "Partial_Invis"
+roles         = "Diplomat"
+helptext      = _("\
+Stealth Spy can make diplomatic actions, and is invisible until \
+next to enemy unit or city.");
+
+[unit_teleporting_missile]
+name          = _("Teleporting Missile")
+class         = "Missile"
+tech_req      = "Teleportation"
+obsolete_by   = "None"
+graphic       = "u.telep_missile"
+graphic_alt   = "u.cruise_missile"
+sound_move    = "m_cruise_missile"
+sound_move_alt = "m_generic"
+sound_fight   = "f_cruise_missile"
+sound_fight_alt = "f_generic"
+build_cost    = 60
+pop_cost      = 0
+attack        = 11
+defense       = 0
+hitpoints     = 10
+firepower     = 3
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 1
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+helptext      = _("\
+Teleporting Missile can teleport and attack to neighbour tile.")
+
+[unit_antiburrow_missile]
+name          = _("Antiburrow Missile")
+class         = "Missile"
+tech_req      = "Crust Defense"
+obsolete_by   = "None"
+graphic       = "u.antib_missile"
+graphic_alt   = "u.nuclear"
+sound_move    = "m_nuclear"
+sound_move_alt = "m_generic"
+sound_fight   = "f_nuclear"
+sound_fight_alt = "f_generic"
+build_cost    = 80
+pop_cost      = 0
+attack        = 11
+defense       = 0
+hitpoints     = 10
+firepower     = 3
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 1
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+targtes       = "Burrowing"
+helptext      = _("\
+Missile that can attack also against burrowing units. \
+Since more expensive than normal Teleporting Missile, does not \
+completely replace it.")

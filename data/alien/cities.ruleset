@@ -1,0 +1,122 @@
+; This is Alien World cities ruleset.
+
+[datafile]
+description="Alien World cities data for Freeciv"
+options="+Freeciv-ruleset-Devel-2012.Feb.28"
+
+; /* <-- avoid gettext warnings
+;
+; A specialist is a city citizen who is not a tile worker.  Usually the
+; player can control what specialist each citizen is, so long as the
+; requirements for that specialist are met.
+;
+; Below are the entries for the specialists, one per specialist type.
+; The tag name (in [specialist_*]) doesn't matter so long as it's unique.
+; For each specialist the following fields may be set:
+;
+;
+; name		= name as seen by user 
+; short_name    = one-character "short name" used (for instance) in cityrep
+; name          = translatable (plural) name as seen by user
+; rule_name     = (optional) name for savegames, rulesets etc; if not
+;                 present, 'name' is used. Since the name used in savegames
+;                 must not change, this is used when renaming a specialist
+;                 after a ruleset has been released. (The original specialist
+;                 names in the default ruleset were not designed to be
+;                 user-visible.)
+; short_name    = one-character "short name" used (for instance) in cityrep;
+;                 should be first character/abbrevation of "name"
+; reqs		= requirements to have the specialist pick (see
+;		  effects.ruleset and README.effects for help on requirements)
+; helptext      = optional help text string; should escape all raw newlines
+;                 so that xgettext parsing works
+;
+; */ <-- avoid gettext warnings
+
+[specialist_elvis]
+name            = _("elvis")
+short_name      = _("?Elvis:E")
+reqs            =
+    { "type", "name", "range"
+; No requirements
+    }
+
+[specialist_scientist]
+name		= _("scientist")
+short_name	= _("?Scientist:S")
+reqs		=
+    { "type", "name", "range"
+; Nothing
+    }
+
+[specialist_taxman]
+name		= _("taxman")
+short_name	= _("?Taxman:T")
+reqs		=
+    { "type", "name", "range"
+; Nothing
+    }
+
+[parameters]
+add_to_size_limit  = 8		; cities >= this cannot be added to.
+angry_citizens = 1              ; set to zero to disable angry citizens
+celebrate_size_limit = 3        ; cities >= can celebrate
+
+changable_tax = 1		; set to zero to disallow changing of tax rates
+
+;forced_science = 0		; set these fields when changeable_tax is turned off
+;forced_luxury = 100
+;forced_gold = 0
+
+vision_reveal_tiles = 1         ; civ1 & 2 default zero
+
+[citizen]
+nationality = 1                 ; account for the nationality of the citizens
+
+; /* <-- avoid gettext warnings
+;
+; City styles define the way cities are drawn
+;
+; name          = translatable name as seen by user
+; rule_name     = (optional) name for savegames, rulesets etc; if not
+;                 present, 'name' is used. Since the name used in savegames
+;                 must not change, use this when renaming a city style after a
+;                 ruleset has been released.
+; graphic     = group of tiles to use, see cities spec for
+;               more info on city tiles
+; oceanic_graphic      = group of tiles to use for oceanic cities. If this
+;                        is omitted, same graphics as for land cities is used
+; citizens_graphic     = group of citizens tiles to use, see citizens/small
+;                        spec for more info on citizens tiles
+; reqs        = requirements for this city style (see README.effects)
+; replaced_by = which style replaced this one
+;
+; */ <-- avoid gettext warnings
+
+[citystyle_human]
+name        = _("?citystyle:Human")
+graphic     = "city.human"
+graphic_alt = "city.classical"
+oceanic_graphic      = "city.ocean"
+oceanic_graphic_alt  = "city.classical"
+citizens_graphic     = "human"
+citizens_graphic_alt = "ancient"
+reqs =
+   { "type", "name", "range"
+; No requirements
+   }
+replaced_by = "Dual"
+
+[citystyle_dual]
+name        = _("?citystyle:Dual")
+graphic     = "city.dual"
+graphic_alt = "city.modern"
+oceanic_graphic      = "city.ocean"
+oceanic_graphic_alt  = "city.modern"
+citizens_graphic     = "dual"
+citizens_graphic_alt = "modern"
+reqs =
+   { "type", "name", "range"
+     "Tech", "Alien Rights", "Player"
+   }
+replaced_by = "-"

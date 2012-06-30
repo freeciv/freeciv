@@ -1,0 +1,715 @@
+; This is Alien World techs ruleset.
+
+[datafile]
+description="Alien World technology data for Freeciv"
+options="+Freeciv-ruleset-Devel-2012.Feb.28"
+
+; /* <-- avoid gettext warnings
+;
+; Below: The individual advances, one per section.
+; The number can be variable, up to 196.
+;
+; The actual tag used (the * in [advance_*]) does not matter, except 
+; it must be unique within this file, and it may be used in debug 
+; output when reading this file.
+;
+; Notes:
+;
+; name          = translatable name as seen by user
+; rule_name     = (optional) name for savegames, rulesets etc; if not
+;                 present, 'name' is used. Since the name used in savegames
+;                 must not change, use this when renaming a tech after a
+;                 ruleset has been released.
+; req1, req2	= advances required before researching this one
+; root_req      = tech required before acquiring this tech, by any
+;     means, inherited by all techs that require this tech in turn unless
+;     "None" is given here explicitly; and you can make a tech available
+;     only through the init_tech of a nation by making it root_req itself.
+; flags         = special flag strings
+; graphic       = icon for technology
+; graphic_alt   = alternate icon
+; helptext	= optional help text string (set units ruleset for examples)
+; bonus_message = text seen when a player is the first to 
+;                 discover an bonus tech.
+; cost		= if tech_cost_style is set to 2, this field is read for
+;		  information on how much a tech costs
+;
+; Special values for req1 and req2 are "None" (first section below) 
+; and "Never" (never available).  If only one tech is required, 
+; it should be listed as req1.
+;
+; Following flag strings are possible
+;
+; "Bonus_Tech" = player gets extra tech if rearched first
+; "Bridge"   = "Settler" unit types can build bridges over rivers
+; "Farmland" = "Settler" unit types can build farmland
+; "Population_Pollution_Inc" = Increase the pollution factor created by
+;                              population by one
+; "Build_Airborne" = from now on can build air units (for use by AI)
+;
+; */ <-- avoid gettext warnings
+
+[advance_alien_rights]
+name        = _("Alien Rights")
+req1        = "Smart Aliens"
+req2        = "Burrowing"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("They're smart. Should they have rights too?\n\n\
+Alien Forest tiles produce +1 production.\
+");
+
+[advance_alien_taming]
+name        = _("Alien Taming")
+req1        = "None"
+req2        = "None"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Some of the Alien lifeforms now work for us.")
+
+[advance_alien_training]
+name        = _("Alien Training")
+req1        = "War Monsters"
+req2        = "Virtual Reality Training"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Trained native lifeforms - deadly.")
+
+[advance_amphibious_tactics]
+name        = _("Amphibious Tactics")
+req1        = "Ocean Cities"
+req2        = "Modified Spitter"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Warfare with amphibious units.")
+
+[advance_antigravity]
+name        = _("Antigravity")
+req1        = "Gravity Manipulation"
+req2        = "Brain Development"
+flags       = "Build_Airborne"
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Even if normal method of flying is impossible in this world\
+ antigravity works. We just need to master it.")
+
+[advance_burrowing]
+name        = _("Burrowing")
+req1        = "Thermal Module"
+req2        = "Cyber Aliens"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Since it seems to be impossible to fly in this world, we\
+ focus on opposite direction. Burrowing through earth is possible.")
+
+[advance_brain_development]
+name        = _("Brain Development")
+req1        = "Smart Aliens"
+req2        = "None"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("")
+
+[advance_brute_force]
+name        = _("Brute Force")
+req1        = "Faction Politics"
+req2        = "Mining"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("It's time to make more powerfull weapons than ever before.")
+
+[advance_city_defense]
+name        = _("City Defense")
+req1        = "Force Channeling"
+req2        = "Manufacturing"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Advanced form of force channeling allows us to protect \
+city size objects with channeled radiation energy.")
+
+[advance_commercial_antigravity]
+name        = _("Commercial Antigravity");
+req1        = "Antigravity"
+req2        = "None"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Antigravity is not only for military. It has commercial \
+applications as well.")
+
+[advance_communication]
+name        = _("Communication");
+req1        = "City Defense"
+req2        = "Data Storage"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Conventional radio does not work here. Develop working alternative \
+that takes advantage of the local radiation. You'll get contact to other factions.")
+
+[advance_composites]
+name        = _("Composites");
+req1        = "None"
+req2        = "None"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Stronger materials mean stronger armors.")
+
+[advance_crust_defense]
+name        = _("Crust Defense");
+req1        = "Modified Spitter"
+req2        = "Strong Force"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Defense against burrowing units.")
+
+[advance_cyber_aliens]
+name        = _("Cyber Aliens")
+req1        = "Protein Modifications"
+req2        = "Alien Training"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Alliance of the machine and alien organisms.")
+
+[advance_cybermodules]
+name        = _("Cybermodules")
+req1        = "Cybernetics"
+req2        = "Composites"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Standardized cyber units save money - or make money to those \
+producing them.")
+
+[advance_cybernetics]
+name        = _("Cybernetics")
+req1        = "None"
+req2        = "None"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Making old Earth technology better than before is relatively easy \
+task to do. For small investment, cybernetics gives us much better attack units.")
+
+[advance_data_storage]
+name        = _("Data Storage")
+req1        = "Cybermodules"
+req2        = "Faction Politics"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Needs to archive all the media produced for and by politics \
+drive development of better data storage methods.")
+
+[advance_deep_pumping]
+name        = _("Deep Pumping")
+req1        = "Water Flow"
+req2        = "Crust Defense"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("We can pump water from the depths of the crust. We no longer
+need any of the adjacent tiles to have water in order to build irrigation.")
+
+[advance_deneb_radar]
+name        = _("Deneb Radar")
+req1        = "Communication"
+req2        = "None"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Not really an conventional radar, but named so as it fills similar role. \
+It's based on Deneb 7 radiation and works on this planet.")
+
+[advance_dual_government]
+name        = _("Dual Government")
+req1        = "Alien Rights"
+req2        = "None"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Government should consider both Humans and Native \
+aliens.")
+
+[advance_escape]
+name        = _("Escape")
+req1        = "Supermodule"
+req2        = "Martial Law"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("We are finally able to escape force field surrounding \
+Deneb 7. In addition to technical insight it requires correct attitude.")
+
+[advance_faction_government]
+name        = _("Faction Government")
+req1        = "None"
+req2        = "None"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Familiar government types adjusted to local environment.")
+
+[advance_faction_politics]
+name        = _("Faction Politics")
+req1        = "Faction Government"
+req2        = "Research Methods"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Human relations in this situation, where various factions \
+have been forced to this strange planet, are quite unlike anything seen \
+before. It very well deserves small study. Maybe we then can co-operate \
+with other factions.")
+
+[advance_food_regeneration]
+name        = _("Food Regeneration")
+req1        = "Regeneration"
+req2        = "High-Tech Filtering"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("If what we harvest grows back faster, we get more food. \
+It's simple as that.\n\n\
+Farmland tiles get additional 50% food production bonus.")
+
+[advance_force_channeling]
+name        = _("Force Channeling")
+req1        = "Radiation Resistance"
+req2        = "None"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Radiation is obstacle for us, but now also an resource. \
+We know how to channel Deneb 7's power to our own use.\n\n\
+Engineers can build Force Fortresses.")
+
+[advance_gravity_manipulation]
+name        = _("Gravity Manipulation")
+req1        = "Burrowing"
+req2        = "Teleportation"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("From inside the crust we gather information required to \
+understand how gravity works and what one can do with it.")
+
+[advance_global_knowledge]
+name        = _("Global Knowledge")
+req1        = "Dual Government"
+req2        = "Antigravity"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Information flows to us. We learn any tech known by \
+four other civilizations.")
+
+[advance_high_tech_filtering]
+name        = _("High-Tech Filtering")
+req1        = "Water Flow"
+req2        = "Stealth Module"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("You can get a lot of things from ocean if you know how.")
+
+[advance_happiness]
+name        = _("Happiness")
+req1        = "Mood Manipulation"
+req2        = "Mental Powers"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Simply knowing this tech makes two content citizens happy \
+in each city.")
+
+[advance_low_level_orbit]
+name        = _("Low-Level Orbit")
+req1        = "Unified Theory"
+req2        = "Global Knowledge"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("With further advances in antigravitics we are able to enter \
+orbit even if we still are prisoners of the force field surronding Deneb 7.\n\n\
+Makes Antigrav Ports more efficient. They can airlift three units instead of \
+just one.")
+
+[advance_maglev]
+name        = _("Maglev")
+req1        = "Strong Force"
+req2        = "Gravity Manipulation"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Using planet's own power available everywhere land travel\
+ speeds can reach levels never seen before.")
+
+[advance_manufacturing]
+name        = _("Manufacturing")
+req1        = "None"
+req2        = "None"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("It takes some research to even make basic manufacturing\
+ in this alien world.")
+
+[advance_martial_law]
+name        = _("Martial Law")
+req1        = "Happiness"
+req2        = "Paradrop"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Effective martial law requires that we can react quickly, \
+to immediately send forces where they are needed.\n\n\
+Maximum martial law for cities with Secret Police is increased \
+from two to five.")
+
+[advance_mental_powers]
+name        = _("Mental Powers")
+req1        = "Soul"
+req2        = "Specialist Training"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("I WANT\n\n\
+One way to resist radiation is willpower.\n\n\
+Simply knowing this tech allows cities to grow 3 sizes bigger.")
+
+[advance_mining]
+name        = _("Mining")
+req1        = "Manufacturing"
+req2        = "Cybernetics"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Earthly mining technologies were not sufficient for heavy \
+scale mining on this planet.")
+
+[advance_modified_spitter]
+name        = _("Modified Spitter")
+req1        = "Smart Aliens"
+req2        = "Teleportation"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("We already know how to make modifications to alien \
+lifeforms. Let's improve spitters.")
+
+[advance_mood_manipulation]
+name        = _("Mood Manipulation")
+req1        = "Dual Government"
+req2        = "Regeneration"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("People are happy if they believe that they are happy.")
+
+[advance_naval_superiority]
+name        = _("Naval Superiority")
+req1        = "Travel"
+req2        = "Brute Force"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("It's no longer enough to replicate old Earth technologies. We \
+want superiority.")
+
+[advance_new_frontier]
+name        = _("New Frontier")
+req1        = "Naval Superiority"
+req2        = "War Monsters"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("We finally fully realize that we are not limited to what \
+we had as part of Earth empire.\n\n\
+Increases max tax/science/lux rate by 10%.")
+
+[advance_ocean_cities]
+name        = _("Ocean Cities");
+req1        = "Deneb Radar"
+req2        = "Thermal Module"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Cities on ocean. Why not?")
+
+[advance_organic_structures]
+name        = _("Organic Structures");
+req1        = "Radiation Resistance"
+req2        = "Composites"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("The art of making armor from alien organisms resistant to \
+Deneb 7's strange radiation allows us to enter new areas.\n\n\
+Cities can work radiating tiles.")
+
+[advance_paradrop]
+name        = _("Paradrop");
+req1        = "Low-Level Orbit"
+req2        = "Mental Powers"
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("It's easy to fall all the way from orbit, but to hit \
+small target and to be ready to act immediately after landing are hard \
+for aliens. They need extra mental powers for that.")
+
+[advance_personal_contact]
+name        = _("Personal Contact");
+req1        = "Virtual Entertainment"
+req2        = "Teleportation"
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("With Virtual Reality it's like actor actually was there \
+with you. When you allow actors to teleport to meet their audience, maybe \
+she is.\n\n\
+Stealth Spies protecting your cities against enemy Spies will get 40% bonus. \
+It also gets 40% harder for enemies to sabotage specific buildings.")
+
+[advance_protein_modifications]
+name        = _("Protein Modifications");
+req1        = "Organic Structures"
+req2        = "Spitter Control"
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Turns out we can make alien lifeforms edible.\n\n\
+Engineers can build Farmland, which increases tile food production by 50%.")
+flags       = "Farmland"
+
+[advance_radiation_resistance]
+name        = _("Radiation Resistance");
+req1        = "Alien Taming"
+req2        = "None"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("By closely examining alien lifeform and how they survive \
+the radiation, we are able to build some radiation resistance to our cities. \
+\n\nSimply knowing this tech allows cities to grow 1 size bigger.")
+
+[advance_regeneration]
+name        = _("Regeneration");
+req1        = "Protein Modifications"
+req2        = "New Frontier"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("We know how aliens regenerate, we know how self-repairing machines \
+regenerate, we know how Earth organisms regenerate.")
+
+[advance_research_methods]
+name        = _("Research Methods");
+req1        = "None"
+req2        = "None"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Research methods suitable for tackling challenges here \
+allow us to gain knowledge much faster.\n\n\
+Simply knowing this tech increases science output by 35%.")
+
+[advance_smart_aliens]
+name        = _("Smart Aliens");
+req1        = "Cyber Aliens"
+req2        = "Communication"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Once we have given some smarts, backed with some remote \
+control, to them, they can work on more demanding tasks.")
+
+[advance_soul]
+name        = _("Soul");
+req1        = "Alien Rights"
+req2        = "Personal Contact"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("By combining our knowledge about humans and aliens \
+we finally understand universal concept of soul.\n\n\
+We can cause terror in our enemies. Once somebody knows Soul, two content \
+citizens is converted to unhappy in every city in the world unless \
+owner of the city also knows Soul.")
+
+[advance_specialist_training]
+name        = _("Specialist Training");
+req1        = "Brain Development"
+req2        = "Amphibious Tactics"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Based on our Tactics teaching techniques, we can teach our \
+specialists trick or two.\n\n\
+Output of all specialists doubles.")
+
+[advance_spitter_control]
+name        = _("Spitter Control");
+req1        = "Research Methods"
+req2        = "Alien Taming"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Alien lifeforms spitting solid objects are interesting research \
+subject.")
+
+[advance_stealth_module]
+name        = _("Stealth Module");
+req1        = "Thermal Module"
+req2        = "Communication"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Even when we know this technology making our units invisible, it's \
+far too expensive to be used for armies. It's perfect for individuals in espionage \
+mission.")
+
+[advance_strong_force]
+name        = _("Strong Force");
+req1        = "Deneb Radar"
+req2        = "Burrowing"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("We are quite capable of making different energy fields out of \
+radiation. We can still improve, though.\n\n\
+Allows Engineers to build Towers instead of Force Fortresses.")
+
+[advance_strong_resistance]
+name        = _("Strong Resistance");
+req1        = "Strong Force"
+req2        = "None"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("We get better at building resistance against radiation.\n\n\
+Simply knowing this tech allows cities to grow 2 sizes bigger.")
+
+[advance_supermodule]
+name        = _("Supermodule");
+req1        = "Underground Habitat"
+req2        = "Low-Level Orbit"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Supermodule combines lesser modules in one extremely efficient \
+pack.")
+
+[advance_synthetic_food]
+name        = _("Synthetic Food");
+req1        = "Food Regeneration"
+req2        = "Soul"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("This is completely new, and extremely efficient, way of \
+making synthetic food.\n\n\
+As their food consumption is no longer an problem, we can grow bigger, meaner, \
+aliens.")
+
+[advance_teleportation]
+name        = _("Teleportation");
+req1        = "New Frontier"
+req2        = "Stealth Module"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("We can teleport relatively small objects relatively short \
+distances. This reduces problem of not being able to fly.")
+
+[advance_thermal_control]
+name        = _("Thermal Module");
+req1        = "Naval Superiority"
+req2        = "Force Channeling"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("To be competent in boiling waters requires good control of \
+temperature surrounding vessels. Also, knowledge about basic module \
+technology allows more advanced modules in the future.\n\n\
+Cities can work Boiling Ocean tiles.")
+
+[advance_underground_habitat]
+name        = _("Underground Habitat");
+req1        = "Deep Pumping"
+req2        = "Synthetic Food"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("If needed, we can produce everything we need without \
+ever leaving underground bunker.")
+
+[advance_travel]
+name        = _("Travel");
+req1        = "Manufacturing"
+req2        = "None"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Once we master ship manufacturing, traveling more \
+hospitable seas of Deneb 7 proved to be no different from \
+other planets.")
+
+[advance_unified_theory]
+name        = _("Unified Theory");
+req1        = "Strong Resistance"
+req2        = "Commercial Antigravity"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("We now understand that radiation and antigravity are two \
+sides of the same phenomenom.")
+
+[advance_virtual_reality]
+name        = _("Virtual Entertainment");
+req1        = "Virtual Reality Training"
+req2        = "None"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Another tech that Earth has long been close to mastering.")
+
+[advance_virtual_reality_training]
+name        = _("Virtual Reality Training");
+req1        = "Data Storage"
+req2        = "Travel"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("Virtual Reality provides excellent way to train our forces, both \
+infantry and naval forces.")
+
+[advance_warmonsters]
+name        = _("War Monsters");
+req1        = "Spitter Control"
+req2        = "Brute Force"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("We can tame monsters suitable for war. These might be relatively \
+weak, but they are the only thing that can wage war on radiating areas for the time \
+being.")
+
+[advance_water_flow]
+name        = _("Water Flow")
+req1        = "Ocean Cities"
+req2        = "None"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("We understand Deneb 7 fluid dynamics and can get water to flow \
+where we want. Irrigation becomes possible in tiles adjacent to cities and rivers.")

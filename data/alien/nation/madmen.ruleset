@@ -1,0 +1,25 @@
+[nation_madmen]
+
+name = _("Madmen")
+plural = _("?plural:Madmen")
+legend = _("They have escaped society, and attack it for no sane reason.")
+
+leaders = {
+ "name", "sex"
+ "Brainworm", "male"
+}
+
+flag = "madmen"
+flag_alt = "barbarian"
+city_style = "Human"
+
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+cities = "Brain"
+
+is_playable = 0
+barbarian_type = "Land"
+
+; nothing more needed for barbarians

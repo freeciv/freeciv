@@ -1,0 +1,33 @@
+[nation_kindergarden]
+
+name = _("Kindergarden")
+plural = _("?plural:Children")
+groups = "Alien World"
+legend = _("Deneb 5 ended vacation of children and their parents. Everyone \
+had kids, so obviously there was nobody supporting zero child policy.\n\n\
+* Granary is not emptied when city grows, but set to 25% full")
+
+leaders = {
+ "name", "sex"
+ "Father", "Male"
+ "Mother", "Female"
+}
+
+flag = "kindergarden"
+flag_alt = "sweden"
+city_style = "Human"
+
+init_techs=""
+init_buildings=""
+init_units=""
+
+trait_expansionist = 250
+trait_trader       = 30
+
+; /* <-- avoid gettext warnings
+;
+; */
+
+cities =
+  "Toy", "Hakka", "Spaceship", "Doll", "Lego", "Nailgame", "Puzzle",
+  "Ball", "Book", "Slimerium", "Balloon"

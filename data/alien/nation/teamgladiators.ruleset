@@ -1,0 +1,37 @@
+[nation_team_gladiators]
+
+name = _("Team Gladiators")
+plural = _("?plural:Athletes")
+groups = "Alien World"
+legend = _("Spaceball is sport of massive teams. Team Gladiators ship contained \
+enough players to start entire planetary faction.\n\n\
+* Builds veteran units\n\
+* Each city receives free unit upkeep worth one shield")
+
+leaders = {
+ "name", "sex"
+ "Defense Coach", "male"
+ "Attack Coach", "female"
+}
+
+flag = "teamgladiators"
+flag_alt = "france"
+city_style = "Human"
+
+init_techs=""
+init_buildings=""
+init_units=""
+
+trait_trader       = 35
+trait_expansionist = 40
+
+; /* <-- avoid gettext warnings
+;
+; */
+
+cities =
+  "Spaceball", "Diving", "Tennis", "Hunting", "Racing",
+  "Soccer", "Gliding", "Civing", "Riding", "Springing",
+  "Running", "Hockey", "Powerbiting", "Orienteering",
+  "Boxing", "Marathon", "Rolling", "Cheerleading",
+  "Tracking"
