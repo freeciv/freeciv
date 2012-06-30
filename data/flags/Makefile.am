@@ -493,6 +493,7 @@ flag_files =				\
 		tonga.png		\
 		transnistria.png	\
 		transylvania.png	\
+		trebizond.png		\
 		trinidad_and_tobago.png	\
 		trnc.png		\
 		tuareg.png		\
@@ -1037,6 +1038,7 @@ flag_files =				\
 		tonga-large.png		\
 		transnistria-large.png		\
 		transylvania-large.png	\
+		trebizond-large.png		\
 		trinidad_and_tobago-large.png	\
 		trnc-large.png			\
 		tuareg-large.png		\
@@ -1583,6 +1585,7 @@ shield_files =					\
 		tonga-shield.png		\
 		transnistria-shield.png		\
 		transylvania-shield.png		\
+		trebizond-shield.png		\
 		trinidad_and_tobago-shield.png	\
 		trnc-shield.png			\
 		tuareg-shield.png		\
@@ -2127,6 +2130,7 @@ shield_files =					\
 		tonga-shield-large.png		\
 		transnistria-shield-large.png		\
 		transylvania-shield-large.png		\
+		trebizond-shield-large.png		\
 		trinidad_and_tobago-shield-large.png	\
 		trnc-shield-large.png			\
 		tuareg-shield-large.png			\
@@ -2673,6 +2677,7 @@ svg_files = 				\
 		tonga.svg		\
 		transnistria.svg	\
 		transylvania.svg	\
+		trebizond.svg		\
 		trinidad_and_tobago.svg	\
 		trnc.svg		\
 		tuareg.svg		\

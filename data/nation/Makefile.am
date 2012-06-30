@@ -379,6 +379,7 @@ pkgdata_DATA = \
 		pirate.ruleset \
 		polish.ruleset \
 		polynesian.ruleset \
+		pontic.ruleset \
 		portuguese.ruleset \
 		prussian.ruleset \
 		puertorican.ruleset \

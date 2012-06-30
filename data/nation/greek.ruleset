@@ -30,7 +30,7 @@ city_style = "Classical"
 init_techs=""
 init_buildings=""
 init_units=""
-civilwar_nations="macedon", "epirote", "Byzantine", "Cretan"
+civilwar_nations="macedon", "epirote", "Byzantine", "Cretan", "Pontic"
 
 cities =
 ; Original city list with native Greek orthography

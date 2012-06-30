@@ -433,6 +433,7 @@ match=2
 *include "nation/pirate.ruleset"
 *include "nation/polish.ruleset"
 *include "nation/polynesian.ruleset"
+*include "nation/pontic.ruleset"
 *include "nation/portuguese.ruleset"
 *include "nation/prussian.ruleset"
 *include "nation/puertorican.ruleset"
