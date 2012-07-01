@@ -364,7 +364,6 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
 		     struct color *pcolor,
 		     const char *text)
 {
-  PangoRectangle rect;
   cairo_t *cr;
 
   if (!layout) {
@@ -384,15 +383,13 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
   pango_layout_set_font_description(layout, FONT(font));
   pango_layout_set_text(layout, text, -1);
 
-  pango_layout_get_pixel_extents(layout, NULL, &rect);
-
   if (fonts[font].shadowed) {
     cairo_set_source_rgb(cr, 0, 0, 0);
-    cairo_move_to(cr, canvas_x - rect.x + 1, canvas_y - rect.y + 1);
+    cairo_move_to(cr, canvas_x + 1, canvas_y + 1);
     pango_cairo_show_layout (cr, layout);
   }
 
-  cairo_move_to(cr, canvas_x - rect.x, canvas_y - rect.y);
+  cairo_move_to(cr, canvas_x, canvas_y);
   cairo_set_source_rgb(cr, pcolor->r, pcolor->g, pcolor->b);
   pango_cairo_show_layout(cr, layout);
 
