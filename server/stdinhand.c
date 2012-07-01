@@ -679,6 +679,9 @@ static bv_handicap handicap_of_skill_level(int level)
    case AI_LEVEL_EXPERIMENTAL:
      BV_SET(handicap, H_EXPERIMENTAL);
      break;
+   case AI_LEVEL_CHEATING:
+     BV_SET(handicap, H_RATES);
+     break;
   }
 
   return handicap;
