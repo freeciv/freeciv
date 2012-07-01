@@ -11,11 +11,6 @@
 description="Multiplayer nations data for Freeciv"
 options="+Freeciv-ruleset-Devel-2012.Feb.28"
 
-; Descriptions of nation groups
-; name 		= name of the group
-; match		= How much the AI will try to select a nation in the same
-;                 group
-
 [compatibility]
 ; Initial government for all the nations that do not
 ; have it explicitly defined

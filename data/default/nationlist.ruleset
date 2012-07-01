@@ -1,3 +1,9 @@
+
+; Descriptions of nation groups
+; name 		= name of the group
+; match		= How much the AI will try to select a nation in the same
+;                 group
+
 [ngroup_ancient]
 name=_("?nationgroup:Ancient")
 match=2
