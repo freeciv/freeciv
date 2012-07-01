@@ -13,15 +13,15 @@
 description="Civ1-equivalent nations data for Freeciv"
 options="+Freeciv-2.4-ruleset"
 
-; Descriptions of nation groups
-; name 		= name of the group
-; match		= How much the AI will try to select a nation in the same
-;                 group
-
 [compatibility]
 ; Initial government for all the nations that do not
 ; have it explicitly defined
 default_government = "Despotism"
+
+; Descriptions of nation groups
+; name 		= name of the group
+; match		= How much the AI will try to select a nation in the same
+;                 group
 
 [ngroup_ancient]
 name=_("?nationgroup:Ancient")
