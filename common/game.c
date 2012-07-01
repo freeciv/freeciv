@@ -156,7 +156,13 @@ void game_remove_unit(struct unit *punit)
 {
   struct city *pcity;
 
-  pcity = player_city_by_number(unit_owner(punit), punit->homecity);
+  /* It's possible that during city transfer homecity/unit owner
+   * information is inconsistent, and client then tries to remove
+   * now unseen unit so that homecity is not in the list of cities
+   * of the player (seemingly) owning the unit.
+   * Thus cannot use player_city_by_number() here, but have to
+   * consider cities of all players. */
+  pcity = game_city_by_number(punit->homecity);
   if (pcity) {
     unit_list_remove(pcity->units_supported, punit);
 
