@@ -31,8 +31,8 @@ ruler_titles = {
  "government",      "male_title",       "female_title"
  "Anarchy",        _("Pretender %s"),   _("?female:Pretender %s")
  "Democracy",      _("Chancellor %s"),  _("?female:Chancellor %s") 
- "Fundamentalism", _("Pope %s"),        _("?female:Popess %s")
- "Monarchy",       _("Emperor %s"),     _("?female:Empress %s")
+ "Fundamentalism", _("Pope %s"),        _("Popess %s")
+ "Monarchy",       _("Emperor %s"),     _("Empress %s")
 }
 
 flag         = "hre"

@@ -28,7 +28,7 @@ city_style = "Asian"
 ruler_titles = {
  "government",      "male_title",   "female_title"
  "Despotism",       _("%s Khan"),   _("%s Khatan")
- "Monarchy",        _("%s Khagan"), _("%s Khagan")
+ "Monarchy",        _("%s Khagan"), _("?female:%s Khagan")
 }
 
 init_techs=""

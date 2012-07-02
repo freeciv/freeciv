@@ -13,7 +13,7 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",              "female_title"
- "Monarchy",        _("Emperor %s"),           _("?female:Empress %s")
+ "Monarchy",        _("Emperor %s"),           _("Empress %s")
 }
 ; emperor penguins
 
