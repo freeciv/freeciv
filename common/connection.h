@@ -75,6 +75,7 @@ struct conn_pattern_list;
 /* User may issue *all* commands - dangerous! */
 #define SPECENUM_VALUE5 ALLOW_HACK
 #define SPECENUM_VALUE5NAME "hack"
+#define SPECENUM_COUNT CMDLEVEL_COUNT
 #include "specenum_gen.h"
 
 /***************************************************************************
