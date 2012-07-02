@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 21-May-12.
+Last minor update was 30-Jun-12.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -469,10 +469,10 @@ After compilation, the important results are:
   - The "client/freeciv-<GUI>" and "server/freeciv-server" binaries.
   - The "data/" directory, which contains the graphics and scenarios.
   - The "po/" directory, which contains the localization files.
-  - The "civ" and "ser" scripts.
+  - The "fcgui" and "fcser" scripts.
 
 It's perfectly feasible to play Freeciv in this directory, without
-installing it.  If you do this, the "civ" and "ser" scripts may be
+installing it.  If you do this, the "fcgui" and "fcser" scripts may be
 useful, although they are not as necessary as they used to be.
 
 See the README file for more information.
