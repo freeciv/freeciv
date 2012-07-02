@@ -576,8 +576,10 @@ extern struct civ_game game;
 
 #define RS_MAX_VALUE                             10000
 
-#define RS_DEFAULT_POS_YEAR_LABEL                "AD"
-#define RS_DEFAULT_NEG_YEAR_LABEL                "BC"
+/* TRANS: year label (Anno Domini) */
+#define RS_DEFAULT_POS_YEAR_LABEL                N_("AD")
+/* TRANS: year label (Before Christ) */
+#define RS_DEFAULT_NEG_YEAR_LABEL                N_("BC")
 
 #define RS_DEFAULT_ILLNESS_ON                    FALSE
 

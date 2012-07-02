@@ -196,8 +196,10 @@ start_year = -4000
 ; Year 1 instead of 0.
 skip_year_0 = 1
 
-; What labels are used of positive and negative years.
+; What labels are used for positive and negative years.
+; /* TRANS: year label (Common Era) */
 positive_label = _("CE")
+; /* TRANS: year label (Before Common Era) */
 negative_label = _("BCE")
 
 [playercolors]
