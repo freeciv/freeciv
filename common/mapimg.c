@@ -765,7 +765,7 @@ bool mapimg_define(const char *maparg, bool check)
   }
 
   if (strlen(maparg) > MAX_LEN_MAPARG) {
-    /* to long map definition string */
+    /* too long map definition string */
     MAPIMG_LOG(_("map definition string too long (max %d characters)"),
                MAX_LEN_MAPARG);
     return FALSE;
@@ -1002,7 +1002,7 @@ static bool mapimg_define_arg(struct mapdef *pmapdef, enum mapdef_arg arg,
     break;
 
   case MAPDEF_PLRID:
-    /* player definition - player id; will be check by mapimg_isvalid()
+    /* player definition - player id; will be checked by mapimg_isvalid()
      * which calls mapimg_checkplayers() */
     {
       int plrid;
@@ -1021,7 +1021,7 @@ static bool mapimg_define_arg(struct mapdef *pmapdef, enum mapdef_arg arg,
     break;
 
   case MAPDEF_PLRNAME:
-    /* player definition - player name; will be check by mapimg_isvalid()
+    /* player definition - player name; will be checked by mapimg_isvalid()
      * which calls mapimg_checkplayers() */
     {
       if (strlen(val) > sizeof(pmapdef->player.name)) {

@@ -3923,10 +3923,8 @@ static bool playercolor_command(struct connection *caller,
   ntokens = get_tokens(str, token, 2, TOKEN_DELIMITERS);
 
   if (ntokens != 2) {
-    if (!check) {
-      cmd_reply(CMD_PLAYERCOLOR, caller, C_SYNTAX,
-                _("Two arguments needed. See '/help playercolor'."));
-    }
+    cmd_reply(CMD_PLAYERCOLOR, caller, C_SYNTAX,
+              _("Two arguments needed. See '/help playercolor'."));
     ret = FALSE;
     goto cleanup;
   }
@@ -3934,19 +3932,15 @@ static bool playercolor_command(struct connection *caller,
   pplayer = player_by_name_prefix(token[0], &match_result);
 
   if (!pplayer) {
-    if (!check) {
-      cmd_reply_no_such_player(CMD_PLAYERCOLOR, caller, token[0], match_result);
-    }
+    cmd_reply_no_such_player(CMD_PLAYERCOLOR, caller, token[0], match_result);
     ret = FALSE;
     goto cleanup;
   }
 
   if (!game_was_started() && game.server.plrcolormode != PLRCOL_PLR_SET) {
-    if (!check) {
-      cmd_reply(CMD_PLAYERCOLOR, caller, C_FAIL,
-                _("Can only set player color prior to game start if "
-                  "'plrcolormode' is PLR_SET."));
-    }
+    cmd_reply(CMD_PLAYERCOLOR, caller, C_FAIL,
+              _("Can only set player color prior to game start if "
+                "'plrcolormode' is PLR_SET."));
     ret = FALSE;
     goto cleanup;
   }
@@ -3955,23 +3949,15 @@ static bool playercolor_command(struct connection *caller,
     if (!game_was_started()) {
       prgbcolor = NULL;
     } else {
-      if (!check) {
-        cmd_reply(CMD_PLAYERCOLOR, caller, C_FAIL,
-                  _("Can only unset player color before game starts."));
-      }
+      cmd_reply(CMD_PLAYERCOLOR, caller, C_FAIL,
+                _("Can only unset player color before game starts."));
       ret = FALSE;
       goto cleanup;
     }
   } else if (!rgbcolor_from_hex(&prgbcolor, token[1])) {
-    if (!check) {
-      cmd_reply(CMD_PLAYERCOLOR, caller, C_SYNTAX,
-                _("Invalid player color definition. See '/help playercolor'."));
-    }
+    cmd_reply(CMD_PLAYERCOLOR, caller, C_SYNTAX,
+              _("Invalid player color definition. See '/help playercolor'."));
     ret = FALSE;
-    goto cleanup;
-  }
-
-  if (check) {
     goto cleanup;
   }
 
@@ -3986,6 +3972,10 @@ static bool playercolor_command(struct connection *caller,
                   player_name(pother));
       }
     } players_iterate_end;
+  }
+
+  if (check) {
+    goto cleanup;
   }
 
   server_player_set_color(pplayer, prgbcolor);
@@ -5156,13 +5146,16 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
       /* 'mapimg define <mapstr>' */
       if (!mapimg_define(token[1], check)) {
         cmd_reply(CMD_MAPIMG, caller, C_FAIL,
-                  _("Couldn't add definition: %s."), mapimg_error());
+                  _("Can't use definition: %s."), mapimg_error());
         ret = FALSE;
-      } else if (!check && game_was_started()
+      } else if (check) {
+        /* Validated OK, bail out now */
+        goto cleanup;
+      } else if (game_was_started()
                  && mapimg_isvalid(mapimg_count() - 1) == NULL) {
         /* game was started - error in map image definition check */
         cmd_reply(CMD_MAPIMG, caller, C_FAIL,
-                  _("Couldn't use definition: %s."), mapimg_error());
+                  _("Can't use definition: %s."), mapimg_error());
         ret = FALSE;
       } else {
         int id = mapimg_count() - 1;
