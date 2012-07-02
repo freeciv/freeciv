@@ -36,7 +36,7 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",      "female_title"
- "Fundamentalism",  _("Archbishop %s"),      _("?female:Mother Superior %s")
+ "Fundamentalism",  _("Archbishop %s"),      _("Mother Superior %s")
 }
 
 flag = "northumbria"
