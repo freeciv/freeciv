@@ -64,13 +64,17 @@ def make_documentation(file):
  * - SPECENUM_ZERO: can be defined only if SPECENUM_BITWISE was also defined.
  * It defines a 0 value.  Note that if you don't declare this value, 0 passed
  * to the 'foo_is_valid()' function will return 0.
- * - SPECENUM_COUNT: The number of elements in the enum for use in static
- * structs. It can not be used in combination with SPECENUM_BITWISE.
- * SPECENUM_is_valid() will return the invalid element for it.
+ * - SPECENUM_COUNT: a name for the maximum enumeration number plus 1. For
+ * enums where every element from 0 to the maximum is defined, this is the
+ * number of elements in the enum. This value is suitable to size an array
+ * indexed by the enum. It can not be used in combination with
+ * SPECENUM_BITWISE. SPECENUM_is_valid() will return the invalid element
+ * for it.
  *
  * SPECENUM_VALUE%dNAME, SPECENUM_ZERONAME, SPECENUM_COUNTNAME: Can be used
- * to bind the name of the particular enumerator.  If not defined, the
- * default name for 'FOO_FIRST' is '"FOO_FIRST"'.
+ * to bind a string to the particular enumerator to be returned by
+ * SPECENUM_name(), etc. If not defined, the default name for 'FOO_FIRST'
+ * is '"FOO_FIRST"'.
  *
  * Assuming SPECENUM_NAME were 'foo', including this file would provide
  * the definition for the enumeration type 'enum foo', and prototypes for

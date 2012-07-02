@@ -2835,8 +2835,7 @@ static void load_ruleset_nations(struct section_file *file)
   struct government *default_government = NULL;
   const char *filename = secfile_name(file);
   struct section_list *sec;
-  int trait_count = trait_max() + 1;
-  int default_traits[trait_count];
+  int default_traits[TRAIT_COUNT];
   enum trait tr;
 
   (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);

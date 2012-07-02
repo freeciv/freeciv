@@ -30,10 +30,9 @@
 void ai_traits_init(struct player *pplayer)
 {
   enum trait tr;
-  int num = trait_max() + 1;
 
   pplayer->ai_common.traits = fc_realloc(pplayer->ai_common.traits,
-                                         sizeof(struct ai_trait) * num);
+                                         sizeof(struct ai_trait) * TRAIT_COUNT);
 
   for (tr = trait_begin(); tr != trait_end(); tr = trait_next(tr)) {
     pplayer->ai_common.traits[tr].mod = 0;

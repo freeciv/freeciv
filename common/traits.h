@@ -24,6 +24,7 @@ extern "C" {
 #define SPECENUM_VALUE1NAME "Trader"
 #define SPECENUM_VALUE2 TRAIT_AGGRESSIVE
 #define SPECENUM_VALUE2NAME "Aggressive"
+#define SPECENUM_COUNT TRAIT_COUNT
 #include "specenum_gen.h"
 
 #define TRAIT_DEFAULT_VALUE 50
