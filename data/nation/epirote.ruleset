@@ -26,7 +26,7 @@ city_style = "Classical"
 
 ruler_titles = { "government", "male_title",     "female_title"
                  "Anarchy",    _("Usurper %s"),  _("?female:Usurper %s")
-                 "Democracy",  _("Speaker %s"),  _("Speaker %s") 
+                 "Democracy",  _("Speaker %s"),  _("?female:Speaker %s") 
                  "Despotism",  _("Tyrant %s"),   _("?female:Tyrant %s")
 }
 

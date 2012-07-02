@@ -24,7 +24,7 @@ leaders = {
 ruler_titles = {
  "government",     "male_title",                "female_title"
  "Democracy",      _("Minister-President %s"),  _("?female:Minister-President %s")
- "Fundamentalism", _("Abbot %s"),               _("?female:Mother Superior %s")
+ "Fundamentalism", _("Abbot %s"),               _("Mother Superior %s")
 }
 
 flag="dgb"

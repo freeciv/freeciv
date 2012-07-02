@@ -26,8 +26,8 @@ city_style = "Celtic"
 
 ruler_titles = {
  "government",      "male_title",      "female_title"
- "Despotism",       _("Voivode %s"),      _("Voivode %s")
- "Fundamentalism",  _("Elder %s"),        _("Elder %s")
+ "Despotism",       _("Voivode %s"),      _("?female:Voivode %s")
+ "Fundamentalism",  _("Elder %s"),        _("?female:Elder %s")
  "Monarchy",        _("Grand Prince %s"), _("Grand Princess %s")
 }
 
