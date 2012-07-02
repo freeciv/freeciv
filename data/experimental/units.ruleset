@@ -1350,7 +1350,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
-flags         = "BadCityDefender", "No_Land_Attack"
+flags         = "BadCityDefender", "No_Land_Attack", "Marines"
 roles         = "Ferryboat"
 helptext      = _("\
 The Trireme is your first boat unit. It can act\
