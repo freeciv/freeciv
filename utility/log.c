@@ -360,16 +360,13 @@ void vdo_log(const char *file, const char *function, int line,
              bool print_from_where, enum log_level level,
              const char *message, va_list args)
 {
-  static bool recursive = FALSE;
   char buf_where[MAX_LEN_LOG_LINE];
   char buf_msg[MAX_LEN_LOG_LINE];
 
-  if (recursive) {
-    fc_fprintf(stderr, _("Error: recursive calls to log.\n"));
-    return;
-  }
-
-  recursive = TRUE;
+  /* There used to be check against recursive logging here, but
+   * the way it worked prevented any kind of simultaneous logging,
+   * not just recursive. Multiple threads should be able to log
+   * simultaneously. */
 
   fc_vsnprintf(buf_msg, sizeof(buf_msg), message, args);
   fc_snprintf(buf_where, sizeof(buf_where), "in %s() [%s::%d]: ",
@@ -379,8 +376,6 @@ void vdo_log(const char *file, const char *function, int line,
   if (log_pre_callback) {
     log_pre_callback(level, print_from_where, buf_where, buf_msg);
   }
-
-  recursive = FALSE;
 }
 
 /*****************************************************************************
