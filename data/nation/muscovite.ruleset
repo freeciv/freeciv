@@ -4,7 +4,7 @@ name=_("Muscovite")
 plural=_("?plural:Muscovites")
 groups="Medieval", "European"
 legend=_("Moscow emerged as a regional power and successor to the Kievan\
- Rus' in the 12th century AD. Under the Rurikid dynasty, the Muscovites\
+ Rus' in the 12th century CE. Under the Rurikid dynasty, the Muscovites\
  consolidated power through alliances with the Golden Horde and the\
  Orthodox Church, eventually subduing surrounding cities and principalities\
  including the Novgorod Republic.")

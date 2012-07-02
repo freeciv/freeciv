@@ -4,7 +4,7 @@ name=_("Viking")
 plural=_("?plural:Vikings")
 groups="Medieval", "European"
 legend=_("The Vikings raided and traded along the coasts of Europe\
- between 800 AD and 1100 AD. Viking raiders eventually became the rulers\
+ between 800 CE and 1100 CE. Viking raiders eventually became the rulers\
  of Normandy, Russia, and a short-lived kingdom in Sicily.")
 
 leaders = {

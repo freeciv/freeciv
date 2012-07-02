@@ -13,12 +13,12 @@ legend=_("The P'urhepecha or Tarascans are a people native to the modern\
  capital city. Their kings were the perennial enemy of the Aztec empire,\
  who attempted an unsuccessful invasion of the P'urhepecha lands. When the\
  Spanish arrived and began their conquest of Mexico in 1519, the Aztecs\
- sent an embassy seeking the support of the P'urhepecha, but was refused.\
+ sent an embassy seeking the support of the P'urhepecha, but were rebuffed.\
  The conquistadores' reputation preceded them and the P'urhepecha offered\
  to become a subject state of the King of Spain rather than meet the same\
  fate as their former enemies, the Aztecs. Nevertheless, the transition to\
  Spanish rule was not smooth and devolved into violence. The empire,\
- founded around 1450 AD, collapsed in 1530.")
+ founded around 1450 CE, collapsed in 1530.")
 
 leaders = {
  "name",                "sex"

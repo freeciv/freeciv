@@ -4,7 +4,7 @@ name=_("Georgian")
 plural=_("?plural:Georgians")
 groups="Ancient", "Medieval", "Early Modern", "Modern", "European", "Asian"
 legend=_("The Georgians were one of the first peoples in history to adopt\
- Christianity, in the 300s AD.")
+ Christianity, in the 300s CE.")
 
 leaders = {
  "name",                        "sex"

@@ -4,10 +4,10 @@ name=_("Israelite")
 plural=_("?plural:Israelites")
 groups="Ancient", "Asian"
 legend=_("Israel was a Jewish kingdom on the eastern shore of the\
- Mediterranean founded around 1000 BC. Much of its history is told in the\
+ Mediterranean founded around 1000 BCE. Much of its history is told in the\
  holy books of the Abrahamic religions. The last Jewish kingdom was\
- destroyed by the Romans in the 1st century AD, leaving the Jews\
- scattered around the world for 19 centuries.")
+ destroyed by the Romans in the 1st century CE, leaving the Jews\
+ scattered around the world for nineteen centuries.")
 
 leaders = {
  "name",                "sex"

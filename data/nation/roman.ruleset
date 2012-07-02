@@ -3,15 +3,15 @@
 name=_("Roman")
 plural=_("?plural:Romans")
 groups="Ancient", "European"
-legend=_("Rome was, in legend, founded by Romulus in 753 BC. At its\
+legend=_("Rome was, in legend, founded by Romulus in 753 BCE. At its\
  height, Rome controlled much of Europe, northern Africa and the Near\
  East. Roman culture adopted much of the civilizations it conquered, such\
  as the Greeks and Etruscans, and forms one of the bases of the Western\
  culture. Even today, Roman influence in fields such as law, philosophy\
  and language remains enormous. The Roman civilization spanned more than\
  a millennium; first as a kingdom, later as a republic and then from 27\
- BC onward as an empire. The empire was split in the 4th century AD. The\
- Western Roman Empire fell in 476 AD, the Eastern Roman or Byzantine\
+ BCE onward as an empire. The empire was split in the 4th century CE. The\
+ Western Roman Empire fell in 476 CE, the Eastern Roman or Byzantine\
  Empire survived almost a thousand years more; its capital Constantinople\
  fell to the Turks in 1453.")
 

@@ -4,7 +4,7 @@ name=_("Palmyrene")
 plural=_("?plural:Palmyrenes")
 groups= "Asian", "Ancient"
 legend=_("Palmyra was a breakaway Roman state in Asia governed by queen\
- Zenobia. In 273 AD Aurelian brought it back under Roman control.")
+ Zenobia. In 273 CE Aurelian brought it back under Roman control.")
 
 leaders = {
  "name",                        "sex"

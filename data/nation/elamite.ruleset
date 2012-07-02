@@ -4,8 +4,8 @@ name=_("Elamite")
 plural=_("?plural:Elamites")
 groups="Asian", "Ancient"
 legend=_("Elam was an ancient civilization located in the area of modern\
- southwest Iran, which arose around 3100 BC. The Elamite language,\
- written in cuneiform, is of unknown origin. In 643 BC the Elamite\
+ southwest Iran, which arose around 3100 BCE. The Elamite language,\
+ written in cuneiform, is of unknown origin. In 643 BCE the Elamite\
  civilization was destroyed by the Assyrians under Assurbanipal.")
 
 leaders = {

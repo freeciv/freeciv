@@ -4,7 +4,7 @@ name=_("Babylonian")
 plural=_("?plural:Babylonians")
 groups="Ancient", "Asian"
 legend=_("Babylon was the dominant city of Mesopotamia from the 18th to\
- 7th centuries BC under a succession of peoples including Amorites,\
+ 7th centuries BCE under a succession of peoples including Amorites,\
  Kassites, Assyrians, and Chaldeans.")
 
 leaders = {

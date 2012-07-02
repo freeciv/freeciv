@@ -5,13 +5,13 @@ plural=_("?plural:Newfoundlanders")
 groups="American"
 
 legend=_("In precolumbian times Newfoundland and Labrador were settled\
- by the Beothuk, though around 1000 AD for a short time Vikings also\
+ by the Beothuk, though around 1000 CE for a short time Vikings also\
  settled there. From the late 15th century onward Newfoundland was visited\
  by the Portuguese and English. England and France contested the island\
  until 1713, when France relinquished its claims. Newfoundland became a\
  dominion in 1907. Badly hit by the Great Depression, in 1934 it\
  voluntarily surrendered its sovereignty to the UK. Newfoundland passed\
- to Canada in 1949, currently it is known as the Province of Newfoundland\
+ to Canada in 1949; currently it is known as the Province of Newfoundland\
  and Labrador.")
 
 leaders = {

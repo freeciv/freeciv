@@ -4,7 +4,7 @@ name=_("Ghaznavid")
 plural=_("?plural:Ghaznavids")
 groups="Asian", "Medieval"
 legend=_("The Ghaznavids were a Sunni Muslim dynasty of Turkish origin,\
- reigning from 977 to 1186 AD in Afghanistan and Northern India, and at\
+ reigning from 977 to 1186 CE in Afghanistan and Northern India, and at\
  the peak of their power also in eastern Iran and Central Asia.")
 leaders = {
  "name",                "sex"

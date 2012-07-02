@@ -4,9 +4,9 @@ name=_("Boer")
 plural=_("?plural:Boers")
 groups= "African"
 legend=_("The Boers were descendants of Dutch colonists who settled in\
- South Africa after 1650 AD. After migrating into the hinterland after the\
+ South Africa after 1650 CE. After migrating into the hinterland after the\
  British takeover of South Africa, they briefly controlled a number of\
- republics, inclulcind the Transvaal and the Orange Free State, before\
+ republics, including the Transvaal and the Orange Free State, before\
  being defeated by the British in the war of 1899-1902.")
 
 leaders = {

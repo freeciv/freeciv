@@ -5,10 +5,10 @@ plural=_("?plural:Rapa Nui")
 groups="Oceanian", "Medieval", "Early Modern"
 legend=_("The Rapa Nui are the native Polynesian inhabitants of Easter\
  Island. They have inhabited the island since the end of the first\
- millennium AD. They are famous for having built large statues called\
+ millennium CE. They are famous for having built large statues called\
  moai. This civilization was destroyed due to internal conflicts; in 1888\
  the island was annexed by Chile. Their script Rongorongo has never been\
- decyphered.")
+ deciphered.")
 
 leaders = {
  "name",                          "sex"

@@ -4,7 +4,7 @@ name=_("Celtiberian")
 plural=_("?plural:Celtiberians")
 groups="Ancient", "European"
 legend=_("The Celtiberians were a people from East-Central Spain that lived\
- during the last millennium BC. They were of mixed Celtic and Iberian\
+ during the last millennium BCE. They were of mixed Celtic and Iberian\
  descent and were defeated by Rome in the Numantian War.")
 
 leaders = {

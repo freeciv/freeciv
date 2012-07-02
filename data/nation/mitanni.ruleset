@@ -5,7 +5,7 @@ plural=_("?plural:Mitanni")
 groups="Ancient", "Asian"
 legend=_("Mitanni was an ancient Hurrian kingdom in what is now Northern\
  Syria and Iraq. Mitanni was at the height of its power during the 14th\
- century BC, during which it rivalled Egypt.")
+ century BCE, during which it rivalled Egypt.")
 leaders = {
  "name",              "sex"
  "Artašumara",        "Male"

@@ -7,7 +7,7 @@ legend=_("The Roman Empire was first divided by Diocletian in 286 and\
  split for good upon Theodosius' death in 395. Unlike its Eastern\
  counterpart, the Byzantine empire, the Western Roman Empire was not\
  capable of resisting barbarian invasions and economic disintegration.\
- The last Western Roman emperor was deposed in 476 AD.")
+ The last Western Roman emperor was deposed in 476 CE.")
 
 leaders = {
  "name",                "sex"

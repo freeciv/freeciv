@@ -6,7 +6,7 @@ groups="Ancient", "European"
 legend=_("The Kingdom of Macedonia was located in the southern Balkans.\
  Under Alexander the Great it became one of the most powerful states in\
  the world but it splintered into several states after Alexander's\
- death. Macedonia was eventually conquered by Rome in 146 BC. ")
+ death. Macedonia was eventually conquered by Rome in 146 BCE.")
 
 leaders = {
  "name",                "sex"

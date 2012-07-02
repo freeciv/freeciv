@@ -4,7 +4,7 @@ name=_("Japanese")
 plural=_("?plural:Japanese")
 groups="Medieval", "Early Modern", "Modern", "Asian"
 legend=_("According to traditional Japanese mythology, Japan was founded\
- in the 7th century BC by the ancestral Emperor Jimmu.")
+ in the 7th century BCE by the ancestral Emperor Jimmu.")
 
 leaders = {
  "name",                "sex"

@@ -3,7 +3,7 @@
 name=_("Arab")
 plural=_("?plural:Arabs")
 groups="Medieval", "Asian", "African"
-legend=_("The Arab/Islamic civilization of 622 AD-1495 AD.")
+legend=_("The Arab/Islamic civilization of 622 to 1495 CE.")
 
 leaders = {
  "name",                "sex"

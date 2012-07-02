@@ -7,7 +7,7 @@ groups="Ancient", "African"
 conflicts_with="phoenician"
 legend=_("The Carthaginians, descendants of Phoenician traders,\
  ran a naval empire in the Mediterranean from the 5th to 2nd centuries\
- BC. Carthage was destroyed by Rome in 146 BC.")
+ BCE. Carthage was destroyed by Rome in 146 BCE.")
 
 leaders = {
  "name",                "sex"

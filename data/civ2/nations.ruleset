@@ -156,7 +156,7 @@ groups="Ancient"
 ; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 233. */
 legend=_("The Azteca, a Nahuatl speaking people from the Sonoran desert,\
  seized control of the Toltec-derived civilizations of Central Mexico\
- during the 15th century AD, reviving the practice of human sacrifice.\
+ during the 15th century, reviving the practice of human sacrifice.\
  They were conquered by the Spanish under Cortes in 1521.")
 
 leaders = {
@@ -643,7 +643,7 @@ name=_("English")
 plural=_("?plural:English")
 groups="Modern"
 legend=_("England was unified by Alfred the Great of Wessex in the late\
- 9th century AD, only to be conquered by William of Normandy a century\
+ 9th century, only to be conquered by William of Normandy a century\
  later, in the last successful invasion of the country.")
 
 leaders = {
@@ -876,8 +876,8 @@ plural = _("?plural:Germans")
 groups  = "Modern"
 
 legend = _("Germany was united in 1871 by the Prussian military \
-force.  After World War I it became a republic, but fell into \
-Nazism 1933 and started World War II.  After the war it was split \
+force. After World War I it became a republic, but fell into \
+Nazism in 1933 and started World War II. After the war it was split \
 into two states, which reunited in 1990 at the end of the Cold War.")
 
 leaders = {
@@ -1515,7 +1515,7 @@ cities =
 name=_("Roman")
 plural=_("?plural:Romans")
 groups="Ancient"
-legend=_("Rome was, in legend, founded by Romulus in 753 BC.  At its\
+legend=_("Rome was, in legend, founded by Romulus in 753 BC. At its\
  height, Rome controlled nearly all of Europe, northern Africa and\
  Mesopotamia.")
 
@@ -1750,8 +1750,9 @@ plural=_("?plural:Spanish")
 groups="Modern"
 legend=_("The modern Spanish nation was formed when the rulers of the\
  kingdoms of Castile and Aragon led the recapture of the Iberian\
- peninsula from the Moslems.  The Reconquista was completed in 1492 AD,\
- the same year Columbus sailed.")
+ peninsula from the Moslems. The Reconquista was completed in 1492,\
+ the same year Columbus sailed. Spain then went on to create an empire\
+ on which the sun never set.")
 
 leaders = {
  "name",                "sex"

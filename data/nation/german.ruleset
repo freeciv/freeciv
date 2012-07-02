@@ -6,7 +6,7 @@ groups  = "Modern", "European"
 
 legend = _("Germany was united in 1871 by the Prussian military \
 force. After World War I it became a republic, but fell into \
-Nazism 1933 and started World War II. After the war it was split \
+Nazism in 1933 and started World War II. After the war it was split \
 into two states, which reunited in 1990 at the end of the Cold War.")
 
 leaders = {

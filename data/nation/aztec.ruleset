@@ -8,7 +8,7 @@ groups="Medieval", "American"
 ; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 233. */
 legend=_("The Azteca, a Nahuatl speaking people from the Sonoran desert,\
  seized control of the Toltec-derived civilizations of Central Mexico\
- during the 15th century AD, reviving the practice of human sacrifice.\
+ during the 15th century, reviving the practice of human sacrifice.\
  They were conquered by the Spanish under Cortes in 1521.")
 
 leaders = {

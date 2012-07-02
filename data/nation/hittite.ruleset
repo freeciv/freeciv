@@ -3,7 +3,7 @@
 name=_("Hittite")
 plural=_("?plural:Hittites")
 groups="Ancient", "Asian"
-legend=_("The Hittite kingdom lasted from about 1680 BC to about 1180 BC.\
+legend=_("The Hittite kingdom lasted from about 1680 BCE to about 1180 BCE.\
  They were the first civilization to discover iron working. At its height,\
  they controlled central Anatolia, north-western Syria and Mesopotamia down\
  to Babylon.")

@@ -5,7 +5,7 @@ plural = _("?plural:Papal States")
 groups="Medieval", "Early Modern", "Modern", "European"
 legend=_("The Papal States were the territories on the Italian Peninsula\
  and elsewhere under the direct sovereign rule by the Roman Catholic popes.\
- Established in the 8th century AD from territory donated to the Church by\
+ Established in the 8th century CE from territory donated to the Church by\
  the pious and the wealthy, the Papal States grew to become the dominant\
  power in Italy for centuries.")
 

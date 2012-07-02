@@ -5,7 +5,7 @@ plural=_("?plural:Bengalis")
 groups="Asian", "Medieval"
 legend=_("Bengal is a region in the easternmost part of the Indian\
  subcontinent. The first recorded independent king of the Bengali is\
- Shashanka who reigned around 606 AD. Today the People's Republic of\
+ Shashanka who reigned around 606 CE. Today the People's Republic of\
  Bangladesh occupies the eastern part of the region, while the western part\
  is the Indian state of West Bengal.")
 

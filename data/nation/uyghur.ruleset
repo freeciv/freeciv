@@ -4,7 +4,7 @@ name=_("Uyghur")
 plural=_("?plural:Uyghurs")
 groups="Medieval", "Early Modern", "Asian"
 legend=_("Uyghur was an east Turk empire and civilization. At its height in\
- 820 AD it controlled most of Central and North Asia. After clashing with\
+ 820 CE it controlled most of Central and North Asia. After clashing with\
  the Chinese for several centuries, they were finally subdued by the Qing\
  dynasty in the 1700s. Today, descendants of the Uyghur form the\
  populations of the Central Asian states of Uzbekistan, Kazakhstan and\
