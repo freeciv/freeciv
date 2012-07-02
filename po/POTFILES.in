@@ -161,6 +161,7 @@ common/connection.c
 common/events.c
 common/fc_cmdhelp.c
 common/game.c
+common/game.h
 common/government.c
 common/mapimg.c
 common/packets.c
