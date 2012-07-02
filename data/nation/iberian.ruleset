@@ -5,7 +5,7 @@ plural=_("?plural:Iberians")
 groups="Ancient", "European"
 legend=_("The Iberians were non-Indo-European inhabitants of the\
  ancient Iberian Peninsula. Very little is known about their history.\
- They were subjugated by Rome in the last centuries BC.")
+ They were subjugated by Rome in the last centuries BCE.")
 
 leaders = {
  "name",        "sex"

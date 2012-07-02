@@ -5,11 +5,11 @@ plural=_("?plural:Phrygians")
 groups="Ancient", "Asian"
 legend=_("The Phrygians were an ancient Indo-European people, probably\
  related to the Greeks or Thracians. They arrived in Anatolia around the\
- twelfth century BC, at the time of the invasion of the Sea Peoples in the\
- Eastern Mediterranian region. By some historians the arrival of Phrygians\
- has been associated with the fall of the Hittite State. After the Macedonian\
- conquest of the Achaemenid Empire and after the arrival of the Galatians\
- to Anatolia the Phrygians succumbed to Hellenization.")
+ twelfth century BCE, at the time of the invasion of the Sea Peoples in the\
+ Eastern Mediterranean region. The arrival of the Phrygians has been\
+ associated by some historians with the fall of the Hittite State. After the\
+ Macedonian conquest of the Achaemenid Empire and after the arrival of the\
+ Galatians to Anatolia, the Phrygians succumbed to Hellenization.")
 leaders = {
  "name",                "sex"
  "Barsine",             "Female"

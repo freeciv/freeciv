@@ -4,12 +4,12 @@ name=_("American")
 plural=_("?plural:Americans")
 groups="Early Modern", "Modern", "American"
 legend=_("The United States of America achieved its independence from\
- Great Britain after a revolution in 1776-1783 AD. Its constitution was\
+ Great Britain after a revolution in 1776-1783 CE. Its constitution was\
  proclaimed in 1789, making the country one of the first modern\
- representative republics. The United States then started to expanded its\
+ representative republics. The United States then started to expand its\
  territory, first on the North American mainland and later also overseas.\
  By the 20th century the country had become a world superpower; its\
- cultural, economical and political influence on the rest of the world is\
+ cultural, economic and political influence on the rest of the world is\
  enormous.")
 
 leaders = {

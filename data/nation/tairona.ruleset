@@ -7,11 +7,11 @@ groups="American"
 legend=_("A Chibchan-speaking people related to the Kuna of Panama and the\
  Muisca of central Colombia, the Tairona inhabit the modern Magdalena and\
  La Guajira Departments of northern Colombia. Their city of Teyuna was\
- founded sometime around 500 BC. The Tairona, living in a mountainous\
+ founded sometime around 500 BCE. The Tairona, living in a mountainous\
  area, built stone steps and terraces on steep hillsides in order to farm\
  the region. Though they fought against the Spanish for 75 years,\
  eventually they succumbed to the various pressures that all Native\
- American peoples were subject to at the period.")
+ American peoples were subject to during this period.")
 
 leaders = {
  "name",                "sex"

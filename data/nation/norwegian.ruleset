@@ -4,7 +4,7 @@ name=_("Norwegian")
 plural=_("?plural:Norwegians")
 groups="Medieval", "Modern", "European"
 legend=_("After centuries of Danish rule, the Norwegians made their\
- own constitution in Eidsvoll, 1814 AD. Finally, in 1905 AD the Norwegians\
+ own constitution in Eidsvoll, 1814 CE. Finally, in 1905 CE the Norwegians\
  got their independence after a union with Sweden.")
 
 leaders = {

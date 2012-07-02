@@ -3,7 +3,7 @@
 name = _("Italian")
 plural = _("?plural:Italians")
 groups="Medieval", "Modern", "European"
-legend=_("The Italian nation was unified in 1870 AD after decades of\
+legend=_("The Italian nation was unified in 1870 CE after decades of\
  campaigning by indigenous nationalists. It was a monarchy under the\
  House of Savoy until 1922, then a fascist state until 1945 after which\
  democracy was restored by the World War II victors.")

@@ -3,7 +3,7 @@
 name=_("Turkmen")
 plural=_("?plural:Turkmens")
 groups="Modern", "Asian"
-legend=_("Turkmen tribes were first united in the 11th century AD under\
+legend=_("Turkmen tribes were first united in the 11th century CE under\
  Togrul Beg, second ruler of the Seljuk Empire. As the Seljuk state broke\
  down under the pressure from encroaching Mongols, the Turkmens started\
  a westward migration. They eventually settled in the lands between\

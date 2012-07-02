@@ -3,7 +3,7 @@
 name=_("Maltese")
 plural=_("?plural:Maltese")
 groups="European", "Modern", "Early Modern"
-legend=_("Malta was first settled around 5200 BC. Over the centuries,\
+legend=_("Malta was first settled around 5200 BCE. Over the centuries,\
  the islands have been ruled by the Phoenicians, Romans, Fatimids,\
  Sicilians, Knights Hospitaller, French, and British. Malta became\
  independent in 1964 and joined the EU in 2004.")

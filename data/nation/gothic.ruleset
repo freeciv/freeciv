@@ -5,8 +5,8 @@ plural=_("?plural:Goths")
 groups="Ancient", "European"
 legend = _("The Goths were an East Germanic people who originated in what\
  is now Poland or possibly in Scandinavia. They dominated Southeastern\
- Europe in the fourth century AD. The Goths played a major role in the\
- fall of the Roman Empire, sacking Rome itself in 410 AD. The Visigoths\
+ Europe in the fourth century CE. The Goths played a major role in the\
+ fall of the Roman Empire, sacking Rome itself in 410 CE. The Visigoths\
  conquered Roman Iberia while the Ostrogoths founded a kingdom in Italy.")
 leaders= {
  "name",              "sex"

@@ -3,10 +3,10 @@
 name=_("Khmer")
 plural=_("?plural:Khmers")
 groups="Asian", "Medieval"
-legend=_("The Khmer Empire, established in 802 AD, dominated Southeast\
+legend=_("The Khmer Empire, established in 802 CE, dominated Southeast\
  Asia for many centuries during the Middle Ages. Heavily influenced by\
  Indian culture, the Khmers were great builders who erected innumerable\
- stone temples to Hindu dieties. The Khmers today are the majority\
+ stone temples to Hindu deities. The Khmers today are the majority\
  ethnicity of Cambodia.")
 
 leaders = {

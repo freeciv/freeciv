@@ -3,7 +3,7 @@
 name=_("Martian")
 plural=_("?plural:Martians")
 groups="Imaginary"
-legend=_("Marsmen landed on Earth in 4000 BC!")
+legend=_("Marsmen landed on Earth in 4000 BCE!")
 
 leaders = {
  "name",                        "sex"

@@ -3,7 +3,7 @@
 name=_("Vietnamese")
 plural=_("?plural:Vietnamese")
 groups="Medieval", "Early Modern", "Modern", "Asian"
-legend=_("The Vietnamese nation was founded in the first century AD by\
+legend=_("The Vietnamese nation was founded in the first century CE by\
  twin sisters who became the war leaders of a revolt against a Chinese\
  military governor.")
 

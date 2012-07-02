@@ -3,10 +3,10 @@
 name=_("Apache")
 plural=_("?plural:Apaches")
 groups="American"
-legend=_("The Apaches is a group of Athabascan speaking Indian tribes\
+legend=_("The Apaches are a group of Athabascan speaking Indian tribes\
  living in Arizona, New Mexico and Oklahoma. Apache groups include the\
  Western, Chiricahua, Mescalero, Jicarilla, Lipan and Plains Apache.\
- They came from the Far North around 1000 AD. The Apache are known as\
+ They came from the Far North around 1000 CE. The Apache are known as\
  fierce warriors. In the 19th century it took the United States half a\
  century to subdue them.")
 

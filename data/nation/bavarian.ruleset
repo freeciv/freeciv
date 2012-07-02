@@ -3,7 +3,7 @@
 name=_("Bavarian")
 plural=_("?plural:Bavarians")
 groups="Medieval", "Early Modern", "European"
-legend=_("Bavaria, before national unification in 1870 AD, was one of the\
+legend=_("Bavaria, before national unification in 1870 CE, was one of the\
  largest of the German kingdoms.") 
 
 leaders = {

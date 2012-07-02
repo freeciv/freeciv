@@ -5,9 +5,9 @@ plural=_("?plural:Ossetians")
 groups="Asian", "Medieval", "Modern", "European"
 legend=_("Modern Ossetians are the successors of the Alans of Ancient\
  history, who fled into the mountains during the Hunnic invasions. Around\
- 800 AD an Alanic kingdom emerged in the Northern Caucasus, which\
+ 800 CE an Alanic kingdom emerged in the Northern Caucasus, which\
  continued to exist until the Mongol invasions. Nowadays Ossetians live\
- in the Republic of North Ossetia (part of Russian Federation) and in the\
+ in the Republic of North Ossetia (part of the Russian Federation) and in the\
  partially recognized Republic of South Ossetia.")
 
 leaders = {

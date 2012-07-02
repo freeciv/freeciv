@@ -4,7 +4,7 @@ name=_("Tongan")
 plural=_("?plural:Tongans")
 groups="Medieval", "Modern", "Oceanian"
 legend=_("An island group in the Southern Pacific, Tonga was settled by\
- Polynesians around 1000 BC. Although the islands became a British\
+ Polynesians around 1000 BCE. Although the islands became a British\
  protectorate in the 19th century, they are the only country in Oceania\
  to have escaped actual colonization.")
 

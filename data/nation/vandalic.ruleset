@@ -5,9 +5,9 @@ plural=_("?plural:Vandals")
 groups="Ancient", "Medieval", "European", "African"
 legend=_("The Vandals were an East Germanic people originating from what\
  is now Southern Poland and Slovakia. They entered the Roman Empire in\
- the early 5th century AD. Led by Geiseric, they eventually founded a\
+ the early 5th century CE. Led by Geiseric, they eventually founded a\
  kingdom in Carthage. The Vandals are perhaps best known for their sack\
- of Rome in 455 AD. In 534 AD Belisarius conquered the Vandalic kingdom\
+ of Rome in 455 CE. In 534 CE Belisarius conquered the Vandalic kingdom\
  for the Byzantine Empire.")
 
 leaders = {

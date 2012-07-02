@@ -3,11 +3,11 @@
 name=_("Australian")
 plural=_("?plural:Australians")
 groups="Modern", "Oceanian"
-legend=_("Australia was founded as a British penal colony in 1788 AD.\
- Originally comprising of several colonies (New South Wales, Victoria,\
+legend=_("Australia was founded as a British penal colony in 1788 CE.\
+ Originally comprising several colonies (New South Wales, Victoria,\
  Queensland, South Australia, Western Australia and Tasmania) it\
  became a single country in 1902.\
- It is the only country on earth to occupy an entire continent.")
+ It is the only country on Earth to occupy an entire continent.")
 
 leaders = {
  "name",                "sex"

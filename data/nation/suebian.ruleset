@@ -4,16 +4,16 @@ name=_("Suebian")
 plural=_("?plural:Suebians")
 groups="Ancient", "Medieval", "European"
 legend=_("The Suebians were an ancient West Germanic tribal confederation,\
- which may have been formed by Ariovistus for his expedition to the Gaul.\
+ which may have been formed by Ariovistus for his expedition to Gaul.\
  The Suebians included the Germanic tribes from the the Elbe river basin\
  belonging to the Herminonic language group, such as the Marcomanni and\
- Quadi. Between the first and fourth centuries AD they were a threat to\
+ Quadi. Between the first and fourth centuries CE they were a threat to\
  Rome, often encroaching on the Danube provinces of the empire. In 405-406\
- AD the Suebians were forced to leave their lands by the Huns and during\
- New Year's night in 405 years they crossed the frozen Rhine together with\
+ CE the Suebians were forced to leave their lands by the Huns and during\
+ New Year's night in 405 CE they crossed the frozen Rhine together with\
  the Vandals and the Alans. They settled in the northwest of the Iberian\
  Peninsula, where they established their own kingdom, which was conquered\
- by the Visigoths in 585 AD.")
+ by the Visigoths in 585 CE.")
 leaders = {
  "name",                "sex"
  "Ariovistus",          "Male"        ;probably a suebian chieftain, known in
