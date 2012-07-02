@@ -1455,7 +1455,7 @@ static bool cmdlevel_command(struct connection *caller, char *str, bool check)
   /* A level name was supplied; set the level. */
   level = cmdlevel_by_name(arg[0], fc_strcasecmp);
   if (!cmdlevel_is_valid(level)) {
-    const char *cmdlevel_names[cmdlevel_max()];
+    const char *cmdlevel_names[CMDLEVEL_COUNT];
     struct astring astr = ASTRING_INIT;
     int i = 0;
 
