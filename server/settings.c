@@ -660,17 +660,11 @@ static bool startunits_callback(const char *value,
                                 size_t reject_msg_len)
 {
   int len = strlen(value), i;
-  bool have_founder = FALSE;
 
   /* We check each character individually to see if it's valid, and
    * also make sure there is at least one city founder. */
 
   for (i = 0; i < len; i++) {
-    /* Check for a city founder */
-    if (value[i] == 'c') {
-      have_founder = TRUE;
-      continue;
-    }
     /* TODO: add 'f' back in here when we can support ferry units */
     if (strchr("cwxksdDaA", value[i])) {
       continue;
@@ -681,13 +675,6 @@ static bool startunits_callback(const char *value,
                       _("Starting units string validation failed at "
                         "character '%c'. Try \"help startunits\"."),
                       value[i]);
-    return FALSE;
-  }
-
-  if (!have_founder) {
-    settings_snprintf(reject_msg, reject_msg_len,
-                      _("No city founder ('c') within the starting units "
-                        "string: '%s'. Try \"help startunits\"."), value);
     return FALSE;
   }
 

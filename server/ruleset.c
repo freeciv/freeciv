@@ -1633,9 +1633,6 @@ static void load_ruleset_units(struct section_file *file)
   role_unit_precalcs();
      
   /* Check some required flags and roles etc: */
-  if(num_role_units(F_CITIES)==0) {
-    ruleset_error(LOG_FATAL, "\"%s\": No flag=cities units?", filename);
-  }
   if(num_role_units(F_SETTLERS)==0) {
     ruleset_error(LOG_FATAL, "\"%s\": No flag=settler units?", filename);
   }
