@@ -3273,6 +3273,9 @@ static void load_ruleset_cities(struct section_file *file)
   game.info.citizen_nationality =
     secfile_lookup_bool_default(file, FALSE,
                                 "citizen.nationality");
+  game.info.citizen_convert_speed =
+    secfile_lookup_int_default(file, 50, "citizen.convert_speed");
+
   /* City Styles ... */
 
   sec = secfile_sections_by_name_prefix(file, CITYSTYLE_SECTION_PREFIX);

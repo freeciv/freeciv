@@ -510,6 +510,9 @@ void update_city_activities(struct player *pplayer)
     int i = 0, r;
 
     city_list_iterate(pplayer->cities, pcity) {
+      citizens_convert(pcity);
+
+      /* Add cities to array for later random order handling */
       cities[i++] = pcity;
     } city_list_iterate_end;
 

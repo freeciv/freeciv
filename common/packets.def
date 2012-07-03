@@ -415,6 +415,7 @@ PACKET_GAME_INFO = 16; sc
   UINT8 celebratesize;
   BOOL changable_tax;
   BOOL citizen_nationality;
+  UINT16 citizen_convert_speed;
   UINT8 citymindist;
   UINT32 cooling;
   UINT32 coolinglevel;
