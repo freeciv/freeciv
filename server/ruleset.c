@@ -4982,7 +4982,7 @@ static bool sanity_check_ruleset_data(void)
     int chain_length = 0;
     struct unit_type *upgraded = putype;
 
-    while(upgraded != NULL) {
+    while (upgraded != NULL) {
       upgraded = upgraded->obsoleted_by;
       chain_length++;
       if (chain_length > num_utypes) {
@@ -5085,6 +5085,47 @@ static bool sanity_check_ruleset_data(void)
       }
     } unit_class_iterate_end;
   } terrain_type_iterate_end;
+
+  /* Check that all unit classes can exist somewhere */
+  unit_class_iterate(pclass) {
+    if (!uclass_has_flag(pclass, UCF_BUILD_ANYWHERE)) {
+      bool can_exist = FALSE;
+
+      terrain_type_iterate(pterr) {
+        if (BV_ISSET(pterr->native_to, uclass_index(pclass))) {
+          can_exist = TRUE;
+          break;
+        }
+      } terrain_type_iterate_end;
+
+      if (!can_exist) {
+        base_type_iterate(pbase) {
+          if (BV_ISSET(pbase->native_to, uclass_index(pclass))
+              && base_has_flag(pbase, BF_NATIVE_TILE)) {
+            can_exist = TRUE;
+            break;
+          }
+        } base_type_iterate_end;
+      }
+
+      if (!can_exist) {
+        road_type_iterate(proad) {
+          if (BV_ISSET(proad->native_to, uclass_index(pclass))
+             && road_has_flag(proad, RF_NATIVE_TILE)) {
+            can_exist = TRUE;
+            break;
+          }
+        } road_type_iterate_end;
+      }
+
+      if (!can_exist) {
+        ruleset_error(LOG_FATAL,
+                      "Unit class %s cannot exist anywhere.",
+                      uclass_rule_name(pclass));
+        ok = FALSE;
+      }
+    }
+  } unit_class_iterate_end;
 
   return ok;
 }
