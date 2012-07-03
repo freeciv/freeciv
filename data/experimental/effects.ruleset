@@ -74,7 +74,7 @@ reqs    =
     }
 
 
-; Vision benefit from fortress watchtowers
+; Vision benefit from fortress watchtowers to Land units
 [effect_fortress_vision]
 type    = "Unit_Vision_Radius_Sq"
 value   = 8
@@ -82,6 +82,18 @@ reqs    =
     { "type", "name", "range"
       "Base", "Fortress", "tile"
       "Tech", "Invention", "player"
+      "UnitClass", "Land", "Local"
+    }
+
+; Vision benefit from fortress watchtowers to Big Land units
+[effect_fortress_vision_bl]
+type    = "Unit_Vision_Radius_Sq"
+value   = 8
+reqs    =
+    { "type", "name", "range"
+      "Base", "Fortress", "tile"
+      "Tech", "Invention", "player"
+      "UnitClass", "Big Land", "Local"
     }
 
 ; basic free tech upkeep
