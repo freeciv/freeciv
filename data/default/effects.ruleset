@@ -79,6 +79,7 @@ reqs    =
     { "type", "name", "range"
       "Base", "Fortress", "tile"
       "Tech", "Invention", "player"
+      "UnitClass", "Land", "Local"
     }
 
 ; basic free tech upkeep
