@@ -300,7 +300,7 @@ int the_function_starts_here(int value)
   These groups are divided by an empty line. The order of these groups is as
   follows:
 
-    1) config.h (see below)
+    1) fc_config.h (see below)
     2) system include files which are OS-independent (part of C-standard or
        POSIX)
     3) system include files which are OS-dependent or conditional includes
@@ -319,10 +319,12 @@ int the_function_starts_here(int value)
 
   It is very important that '#include <fc_config.h>' is at the top of
   every .c file (it need not be included from .h files). Some definitions in
-  config.h will affect how the code is compiled, without which you can end
+  fc_config.h will affect how the code is compiled, without which you can end
   up with bad and untraceable memory bugs.
 
+    #ifdef HAVE_CONFIG_H
     #include <fc_config.h>
+    #endif
 
     #include <stdlib.h>
 
