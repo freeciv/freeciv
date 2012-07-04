@@ -6,7 +6,15 @@ dist_noinst_DATA = \
 		server.ico 	\
 		clienticon.rc 	\
 		mpicon.rc	\
-		servericon.rc
+		servericon.rc	\
+		installer/create-freeciv-gtk2-nsi.sh	\
+		installer/create-freeciv-sdl-nsi.sh	\
+		installer/freeciv-gtk2.cmd		\
+		installer/freeciv-modpack.cmd		\
+		installer/freeciv-sdl.cmd		\
+		installer/freeciv-server.cmd		\
+		installer/Freeciv.url			\
+		installer/Makefile
 
 if MINGW32
 nodist_noinst_DATA = 		\
