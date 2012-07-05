@@ -3765,14 +3765,25 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
   }
 
   if (!check) {
-    cmd_reply(CMD_RULESETDIR, caller, C_OK, 
-              _("Ruleset directory set to \"%s\""), str);
+    bool success = TRUE;
 
     log_verbose("set_rulesetdir() does load_rulesets() with \"%s\"", str);
     sz_strlcpy(game.server.rulesetdir, str);
 
     /* load the ruleset (and game settings defined in the ruleset) */
-    load_rulesets();
+    if (load_rulesets()) {
+      cmd_reply(CMD_RULESETDIR, caller, C_OK, 
+                _("Ruleset directory set to \"%s\""), str);
+    } else {
+      cmd_reply(CMD_RULESETDIR, caller, C_SYNTAX,
+                _("Failed loading rulesets from directory \"%s\""), str);
+
+      success = FALSE;
+
+      /* While loading of the requested ruleset failed, we might
+       * have changed ruleset from third one to default. Handle
+       * rest of the ruleset changing accordingly. */
+    }
 
     if (game.est_connections) {
       /* Now that the rulesets are loaded we immediately send updates to any
@@ -3781,6 +3792,8 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
     }
     /* list changed values */
     show_changed(caller, check, read_recursion);
+
+    return success;
   }
 
   return TRUE;

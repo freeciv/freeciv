@@ -141,7 +141,12 @@ static bool manual_command(void)
 
   /* Reset aifill to zero */
   game.info.aifill = 0;
-  load_rulesets();
+
+  if (!load_rulesets()) {
+    /* Failed to load correct ruleset */
+    return FALSE;
+  }
+
   for (manuals = 0; manuals < MANUAL_COUNT; manuals++) {
     int i;
     int ri;
@@ -451,6 +456,7 @@ int main(int argc, char **argv)
   bool showhelp = FALSE;
   bool showvers = FALSE;
   char *option = NULL;
+  int retval = EXIT_SUCCESS;
 
   init_nls();
   registry_module_init();
@@ -554,9 +560,12 @@ int main(int argc, char **argv)
     exit(EXIT_SUCCESS);
   }
 
-  manual_command();
+  if (!manual_command()) {
+    retval = EXIT_FAILURE;
+  }
+
   con_log_close();
   registry_module_close();
 
-  return EXIT_SUCCESS;
+  return retval;
 }

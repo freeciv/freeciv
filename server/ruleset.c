@@ -111,7 +111,9 @@ static char *terrain_sections = NULL;
 static char *base_sections = NULL;
 static char *road_sections = NULL;
 
-static struct section_file *openload_ruleset_file(const char *whichset);
+static bool load_rulesetdir(const char *rsdir);
+static struct section_file *openload_ruleset_file(const char *whichset,
+                                                  const char *rsdir);
 static const char *check_ruleset_capabilities(struct section_file *file,
                                               const char *us_capstr,
                                               const char *filename);
@@ -136,7 +138,7 @@ static void load_ruleset_terrain(struct section_file *file);
 static void load_ruleset_cities(struct section_file *file);
 static void load_ruleset_effects(struct section_file *file);
 
-static void load_ruleset_game(void);
+static void load_ruleset_game(const char *rsdir);
 
 static void send_ruleset_techs(struct conn_list *dest);
 static void send_ruleset_unit_classes(struct conn_list *dest);
@@ -237,11 +239,12 @@ static const char *valid_ruleset_filename(const char *subdir,
   Do initial section_file_load on a ruleset file.
   "whichset" = "techs", "units", "buildings", "terrain", ...
 **************************************************************************/
-static struct section_file *openload_ruleset_file(const char *whichset)
+static struct section_file *openload_ruleset_file(const char *whichset,
+                                                  const char *rsdir)
 {
   char sfilename[512];
-  const char *dfilename = valid_ruleset_filename(game.server.rulesetdir,
-                                                 whichset, RULES_SUFFIX);
+  const char *dfilename = valid_ruleset_filename(rsdir, whichset,
+                                                 RULES_SUFFIX);
   struct section_file *secfile;
 
   /* Need to save a copy of the filename for following message, since
@@ -259,10 +262,10 @@ static struct section_file *openload_ruleset_file(const char *whichset)
 /**************************************************************************
   Parse script file.
 **************************************************************************/
-static void openload_script_file(const char *whichset)
+static void openload_script_file(const char *whichset, const char *rsdir)
 {
-  const char *dfilename = valid_ruleset_filename(game.server.rulesetdir,
-                                                 whichset, SCRIPT_SUFFIX);
+  const char *dfilename = valid_ruleset_filename(rsdir, whichset,
+                                                 SCRIPT_SUFFIX);
 
   if (!script_server_do_file(NULL, dfilename)) {
     ruleset_error(LOG_FATAL, "\"%s\": could not load ruleset script.",
@@ -3427,7 +3430,7 @@ static int secfile_lookup_int_default_min_max(struct section_file *file,
 /**************************************************************************
   Load ruleset file.
 **************************************************************************/
-static void load_ruleset_game(void)
+static void load_ruleset_game(const char *rsdir)
 {
   struct section_file *file;
   const char *sval, **svec;
@@ -3440,7 +3443,7 @@ static void load_ruleset_game(void)
   struct section_list *sec;
   int nval;
 
-  file = openload_ruleset_file("game");
+  file = openload_ruleset_file("game", rsdir);
   filename = secfile_name(file);
 
   /* section: datafile */
@@ -4498,11 +4501,35 @@ static void reset_player_nations(void)
 }
 
 /**************************************************************************
-  Loads the ruleset currently given in game.rulesetdir.
+  Loads the rulesets.
+**************************************************************************/
+bool load_rulesets(void)
+{
+  if (load_rulesetdir(game.server.rulesetdir)) {
+    return TRUE;
+  }
 
+  /* Fallback to default one, but not if that's what we tried already */
+  if (strcmp(GAME_DEFAULT_RULESETDIR, game.server.rulesetdir)) {
+    if (load_rulesetdir(GAME_DEFAULT_RULESETDIR)) {
+      /* We're in sane state as fallback ruleset loading succeeded,
+       * but return failure to indicate that this is not what caller
+       * wanted. */
+      sz_strlcpy(game.server.rulesetdir, GAME_DEFAULT_RULESETDIR);
+
+      return FALSE;
+    }
+  }
+
+  /* Cannot load even default ruleset, we're in completely unusable state */
+  exit(EXIT_FAILURE);
+}
+
+/**************************************************************************
+  Loads the rulesets from directory.
   This may be called more than once and it will free any stale data.
 **************************************************************************/
-void load_rulesets(void)
+static bool load_rulesetdir(const char *rsdir)
 {
   struct section_file *techfile, *unitfile, *buildfile, *govfile, *terrfile;
   struct section_file *cityfile, *nationfile, *effectfile;
@@ -4518,28 +4545,28 @@ void load_rulesets(void)
   reset_player_nations();
   server.playable_nations = 0;
 
-  techfile = openload_ruleset_file("techs");
+  techfile = openload_ruleset_file("techs", rsdir);
   load_tech_names(techfile);
 
-  buildfile = openload_ruleset_file("buildings");
+  buildfile = openload_ruleset_file("buildings", rsdir);
   load_building_names(buildfile);
 
-  govfile = openload_ruleset_file("governments");
+  govfile = openload_ruleset_file("governments", rsdir);
   load_government_names(govfile);
 
-  unitfile = openload_ruleset_file("units");
+  unitfile = openload_ruleset_file("units", rsdir);
   load_unit_names(unitfile);
 
-  terrfile = openload_ruleset_file("terrain");
+  terrfile = openload_ruleset_file("terrain", rsdir);
   load_terrain_names(terrfile);
 
-  cityfile = openload_ruleset_file("cities");
+  cityfile = openload_ruleset_file("cities", rsdir);
   load_citystyle_names(cityfile);
 
-  nationfile = openload_ruleset_file("nations");
+  nationfile = openload_ruleset_file("nations", rsdir);
   load_nation_names(nationfile);
 
-  effectfile = openload_ruleset_file("effects");
+  effectfile = openload_ruleset_file("effects", rsdir);
 
   load_ruleset_techs(techfile);
   load_ruleset_cities(cityfile);
@@ -4549,7 +4576,7 @@ void load_rulesets(void)
   load_ruleset_buildings(buildfile);
   load_ruleset_nations(nationfile);
   load_ruleset_effects(effectfile);
-  load_ruleset_game();
+  load_ruleset_game(rsdir);
 
   /* Init nations we just loaded. */
   init_available_nations();
@@ -4578,8 +4605,8 @@ void load_rulesets(void)
   script_server_free();
 
   script_server_init();
-  openload_script_file("default");
-  openload_script_file("script");
+  openload_script_file("default", rsdir);
+  openload_script_file("script", rsdir);
 
   /* Build advisors unit class cache corresponding to loaded rulesets */
   adv_units_ruleset_init();
@@ -4593,6 +4620,8 @@ void load_rulesets(void)
     game.info.aifill = server.playable_nations;
     aifill(game.info.aifill);
   }
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -4602,7 +4631,7 @@ void reload_rulesets_settings(void)
 {
   struct section_file *file;
 
-  file = openload_ruleset_file("game");
+  file = openload_ruleset_file("game", game.server.rulesetdir);
   settings_ruleset(file, "settings");
   secfile_destroy(file);
 }
