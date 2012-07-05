@@ -63,9 +63,9 @@ struct color *color_alloc(int r, int g, int b)
   struct color *color = fc_malloc(sizeof(*color));
   GdkColormap *cmap = gtk_widget_get_default_colormap();
 
-  color->color.red = r << 8;
-  color->color.green = g << 8;
-  color->color.blue = b << 8;
+  color->color.red = (r << 8) + r;
+  color->color.green = (g << 8) + g;
+  color->color.blue = (b << 8) + b;
   gdk_rgb_find_color(cmap, &color->color);
 
   return color;
