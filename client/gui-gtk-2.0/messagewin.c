@@ -308,7 +308,7 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
 
   fc_assert_ret(NULL != pdialog);
 
-  if (gui_gtk2_message_chat_location == GUI_GTK2_MSGCHAT_SPLIT) {
+  if (gui_gtk2_message_chat_location == GUI_GTK_MSGCHAT_SPLIT) {
     notebook = right_notebook;
   } else {
     notebook = bottom_notebook;

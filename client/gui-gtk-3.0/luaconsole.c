@@ -186,7 +186,7 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
 
   fc_assert_ret(NULL != pdialog);
 
-  if (gui_gtk3_message_chat_location == GUI_GTK3_MSGCHAT_SPLIT) {
+  if (gui_gtk3_message_chat_location == GUI_GTK_MSGCHAT_SPLIT) {
     notebook = right_notebook;
   } else {
     notebook = bottom_notebook;
