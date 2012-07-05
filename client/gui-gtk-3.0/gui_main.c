@@ -1516,6 +1516,55 @@ int main(int argc, char **argv)
 }
 
 /**************************************************************************
+  Migrate gtk3 client specific options from gtk2 client options.
+**************************************************************************/
+static void migrate_options_from_gtk2(void)
+{
+  log_normal("Migrating options from gtk2 to gtk3 client");
+
+#define MIGRATE_OPTION(opt) gui_gtk3_##opt = gui_gtk2_##opt;
+#define MIGRATE_STR_OPTION(opt) \
+  strncpy(gui_gtk3_##opt, gui_gtk2_##opt, sizeof(gui_gtk3_##opt));
+
+  /* Default theme name is never migrated */
+  MIGRATE_OPTION(map_scrollbars);
+  MIGRATE_OPTION(dialogs_on_top);
+  MIGRATE_OPTION(show_task_icons);
+  MIGRATE_OPTION(enable_tabs);
+  MIGRATE_OPTION(better_fog);
+  MIGRATE_OPTION(show_chat_message_time);
+  MIGRATE_OPTION(new_messages_go_to_top);
+  MIGRATE_OPTION(show_message_window_buttons);
+  MIGRATE_OPTION(metaserver_tab_first);
+  MIGRATE_OPTION(allied_chat_only);
+  MIGRATE_OPTION(message_chat_location);
+  MIGRATE_OPTION(small_display_layout);
+  MIGRATE_OPTION(mouse_over_map_focus);
+  MIGRATE_OPTION(chatline_autocompletion);
+  MIGRATE_OPTION(citydlg_xsize);
+  MIGRATE_OPTION(citydlg_ysize);
+
+  MIGRATE_STR_OPTION(font_city_label);
+  MIGRATE_STR_OPTION(font_notify_label);
+  MIGRATE_STR_OPTION(font_spaceship_label);
+  MIGRATE_STR_OPTION(font_help_label);
+  MIGRATE_STR_OPTION(font_help_link);
+  MIGRATE_STR_OPTION(font_help_text);
+  MIGRATE_STR_OPTION(font_chatline);
+  MIGRATE_STR_OPTION(font_beta_label);
+  MIGRATE_STR_OPTION(font_small);
+  MIGRATE_STR_OPTION(font_comment_label);
+  MIGRATE_STR_OPTION(font_city_names);
+  MIGRATE_STR_OPTION(font_city_productions);
+  MIGRATE_STR_OPTION(font_reqtree_text);
+
+#undef MIGRATE_OPTION
+#undef MIGRATE_STR_OPTION
+
+  gui_gtk3_migrated_from_gtk2 = TRUE;
+}
+
+/**************************************************************************
   Called from client_main(), is what it's named.
 **************************************************************************/
 void ui_main(int argc, char **argv)
@@ -1556,6 +1605,10 @@ void ui_main(int argc, char **argv)
   gtk_widget_realize(toplevel);
   gtk_widget_set_name(toplevel, "Freeciv");
   root_window = gtk_widget_get_window(toplevel);
+
+  if (!gui_gtk3_migrated_from_gtk2) {
+    migrate_options_from_gtk2();
+  }
 
   if (fullscreen_mode) {
     gtk_window_fullscreen(GTK_WINDOW(toplevel));
