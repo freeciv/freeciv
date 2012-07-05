@@ -78,6 +78,9 @@ char default_chat_logfile[512] = GUI_DEFAULT_CHAT_LOGFILE;
 bool save_options_on_exit = TRUE;
 bool fullscreen_mode = FALSE;
 
+/** Migrations **/
+bool gui_gtk3_migrated_from_gtk2 = FALSE;
+
 /** Local Options: **/
 
 bool solid_color_behind_units = FALSE;
@@ -1389,8 +1392,8 @@ struct client_option {
  * ohelp: The help text for the client option.  Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
- * ospec: A gui_type enumerator which determin for what particular client
- *        gui this option is for. Sets to GUI_STUB for common options.
+ * ospec: A gui_type enumerator which determines for what particular client
+ *        gui this option is for. Set to GUI_STUB for common options.
  * odef:  The default string for this client option.
  * ocb:   A callback function of type void (*)(struct option *) called when
  *        the option changed.
@@ -5054,24 +5057,29 @@ void options_load(void)
     secfile_lookup_bool_default(sf, fullscreen_mode,
                                 "%s.fullscreen_mode", prefix);
 
+  /* Settings migrations */
+  gui_gtk3_migrated_from_gtk2 =
+    secfile_lookup_bool_default(sf, gui_gtk3_migrated_from_gtk2,
+                                "%s.migration_gtk3_from_gtk2", prefix);
+
   /* Backwards compatibility for removed options replaced by entirely "new"
    * options. The equivalent "new" option will override these, if set. */
 
   /* Removed in 2.3 */
   /* Note: this overrides the previously specified default for
    * gui_gtk2_message_chat_location */
+  /* gtk3 client never had the old form of this option. The overridden
+   * gui_gtk2_ value will be propagated to gui_gtk3_ later by
+   * migrate_options_from_gtk2() if necessary. */
   if (secfile_lookup_bool_default(sf, FALSE,
                                   "%s.gui_gtk2_merge_notebooks", prefix)) {
     gui_gtk2_message_chat_location = GUI_GTK2_MSGCHAT_MERGED;
-    gui_gtk3_message_chat_location = GUI_GTK3_MSGCHAT_MERGED;
   } else if (secfile_lookup_bool_default(sf, FALSE,
                                          "%s.gui_gtk2_split_bottom_notebook",
                                          prefix)) {
     gui_gtk2_message_chat_location = GUI_GTK2_MSGCHAT_SPLIT;
-    gui_gtk3_message_chat_location = GUI_GTK3_MSGCHAT_SPLIT;
   } else {
     gui_gtk2_message_chat_location = GUI_GTK2_MSGCHAT_SEPARATE;
-    gui_gtk3_message_chat_location = GUI_GTK3_MSGCHAT_SEPARATE;
   }
 
   /* Load all the regular options */
@@ -5128,6 +5136,10 @@ void options_save(void)
 
   secfile_insert_bool(sf, save_options_on_exit, "client.save_options_on_exit");
   secfile_insert_bool(sf, fullscreen_mode, "client.fullscreen_mode");
+
+  /* Migrations */
+  secfile_insert_bool(sf, gui_gtk3_migrated_from_gtk2,
+                      "client.migration_gtk3_from_gtk2");
 
   client_options_iterate_all(poption) {
     client_option_save(poption, sf);

@@ -56,6 +56,9 @@ extern char default_chat_logfile[512];
 extern bool save_options_on_exit;
 extern bool fullscreen_mode;
 
+/** Migrations **/
+extern bool gui_gtk3_migrated_from_gtk2;
+
 /** Local Options: **/
 
 extern bool solid_color_behind_units;
