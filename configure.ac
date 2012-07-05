@@ -286,8 +286,8 @@ if test -z "$localedir"; then
 fi
 
 dnl I18n support
-ALL_LINGUAS="ar cs ca da de el en_GB eo es et fa fi fr ga gd he hu it ja ko lt 
-nl nb no pl pt pt_BR ro ru sr sv tr uk zh_CN"
+ALL_LINGUAS="ar bg cs ca da de el en_GB eo es et fa fi fr ga gd he hu it ja 
+ko lt nl nb no pl pt pt_BR ro ru sr sv tr uk zh_CN"
 
 AC_ARG_ENABLE([nls],
 [  --disable-nls        do not add localization support],
