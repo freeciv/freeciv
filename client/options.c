@@ -170,7 +170,7 @@ bool gui_gtk2_new_messages_go_to_top = FALSE;
 bool gui_gtk2_show_message_window_buttons = TRUE;
 bool gui_gtk2_metaserver_tab_first = FALSE;
 bool gui_gtk2_allied_chat_only = FALSE;
-int gui_gtk2_message_chat_location = GUI_GTK2_MSGCHAT_MERGED;
+int gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_MERGED;
 bool gui_gtk2_small_display_layout = TRUE;
 bool gui_gtk2_mouse_over_map_focus = FALSE;
 bool gui_gtk2_chatline_autocompletion = TRUE;
@@ -202,12 +202,12 @@ bool gui_gtk3_new_messages_go_to_top = FALSE;
 bool gui_gtk3_show_message_window_buttons = TRUE;
 bool gui_gtk3_metaserver_tab_first = FALSE;
 bool gui_gtk3_allied_chat_only = FALSE;
-int gui_gtk3_message_chat_location = GUI_GTK2_MSGCHAT_MERGED;
+int gui_gtk3_message_chat_location = GUI_GTK_MSGCHAT_MERGED;
 bool gui_gtk3_small_display_layout = TRUE;
 bool gui_gtk3_mouse_over_map_focus = FALSE;
 bool gui_gtk3_chatline_autocompletion = TRUE;
-int gui_gtk3_citydlg_xsize = GUI_GTK2_CITYDLG_DEFAULT_XSIZE;
-int gui_gtk3_citydlg_ysize = GUI_GTK2_CITYDLG_DEFAULT_YSIZE;
+int gui_gtk3_citydlg_xsize = GUI_GTK3_CITYDLG_DEFAULT_XSIZE;
+int gui_gtk3_citydlg_ysize = GUI_GTK3_CITYDLG_DEFAULT_YSIZE;
 char gui_gtk3_font_city_label[512] = "Monospace 8";
 char gui_gtk3_font_notify_label[512] = "Monospace Bold 9";
 char gui_gtk3_font_spaceship_label[512] = "Monospace 8";
@@ -1656,6 +1656,7 @@ struct client_option {
 static const struct copt_val_name
   *gui_gtk_message_chat_location_name(int value)
 {
+  /* Order must match enum GUI_GTK_MSGCHAT_* */
   static const struct copt_val_name names[] = {
     /* TRANS: enum value for 'gui_gtk2/gtk3_message_chat_location' */
     { "SPLIT",    N_("Split") },
@@ -2181,7 +2182,7 @@ static struct client_option client_options[] = {
   GEN_ENUM_OPTION(gui_gtk2_message_chat_location,
                   N_("Messages and Chat reports location"),
                   /* TRANS: The strings used in the UI for 'Split' etc are
-                   * tagged 'gui_gtk2_message_chat_location' */
+                   * tagged 'gui_gtk2/gtk3_message_chat_location' */
                   N_("Controls where the Messages and Chat reports "
                      "appear relative to the main view containing the map.\n"
                      "'Split' allows all three to be seen simultaneously, "
@@ -2195,7 +2196,7 @@ static struct client_option client_options[] = {
                      "allows a larger map view on small screens.\n"
                      "This option requires a restart in order to take "
                      "effect."), COC_INTERFACE, GUI_GTK2,
-                  GUI_GTK2_MSGCHAT_MERGED /* Ignored! See options_load(). */,
+                  GUI_GTK_MSGCHAT_MERGED /* Ignored! See options_load(). */,
                   gui_gtk_message_chat_location_name, NULL),
   GEN_BOOL_OPTION(gui_gtk2_small_display_layout,
                   N_("Arrange widgets for small displays"),
@@ -2383,7 +2384,7 @@ static struct client_option client_options[] = {
   GEN_ENUM_OPTION(gui_gtk3_message_chat_location,
                   N_("Messages and Chat reports location"),
                   /* TRANS: The strings used in the UI for 'Split' etc are
-                   * tagged 'gui_gtk3_message_chat_location' */
+                   * tagged 'gui_gtk2/gtk3_message_chat_location' */
                   N_("Controls where the Messages and Chat reports "
                      "appear relative to the main view containing the map.\n"
                      "'Split' allows all three to be seen simultaneously, "
@@ -2397,7 +2398,7 @@ static struct client_option client_options[] = {
                      "allows a larger map view on small screens.\n"
                      "This option requires a restart in order to take "
                      "effect."), COC_INTERFACE, GUI_GTK3,
-                  GUI_GTK3_MSGCHAT_MERGED /* Ignored! See options_load(). */,
+                  GUI_GTK_MSGCHAT_MERGED /* Ignored! See options_load(). */,
                   gui_gtk_message_chat_location_name, NULL),
   GEN_BOOL_OPTION(gui_gtk3_small_display_layout,
                   N_("Arrange widgets for small displays"),
@@ -5073,13 +5074,13 @@ void options_load(void)
    * migrate_options_from_gtk2() if necessary. */
   if (secfile_lookup_bool_default(sf, FALSE,
                                   "%s.gui_gtk2_merge_notebooks", prefix)) {
-    gui_gtk2_message_chat_location = GUI_GTK2_MSGCHAT_MERGED;
+    gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_MERGED;
   } else if (secfile_lookup_bool_default(sf, FALSE,
                                          "%s.gui_gtk2_split_bottom_notebook",
                                          prefix)) {
-    gui_gtk2_message_chat_location = GUI_GTK2_MSGCHAT_SPLIT;
+    gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_SPLIT;
   } else {
-    gui_gtk2_message_chat_location = GUI_GTK2_MSGCHAT_SEPARATE;
+    gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_SEPARATE;
   }
 
   /* Load all the regular options */

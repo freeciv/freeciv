@@ -141,12 +141,12 @@ extern bool gui_gtk2_metaserver_tab_first;
 extern bool gui_gtk2_allied_chat_only;
 enum {
   /* Order must match strings in
-   * options.c:gui_gtk2_message_chat_location_name() */
-  GUI_GTK2_MSGCHAT_SPLIT,
-  GUI_GTK2_MSGCHAT_SEPARATE,
-  GUI_GTK2_MSGCHAT_MERGED
+   * options.c:gui_gtk_message_chat_location_name() */
+  GUI_GTK_MSGCHAT_SPLIT,
+  GUI_GTK_MSGCHAT_SEPARATE,
+  GUI_GTK_MSGCHAT_MERGED
 };
-extern int gui_gtk2_message_chat_location; /* enum GUI_GTK2_MSGCHAT_* */
+extern int gui_gtk2_message_chat_location; /* enum GUI_GTK_MSGCHAT_* */
 extern bool gui_gtk2_small_display_layout;
 extern bool gui_gtk2_mouse_over_map_focus;
 extern bool gui_gtk2_chatline_autocompletion;
@@ -179,14 +179,7 @@ extern bool gui_gtk3_new_messages_go_to_top;
 extern bool gui_gtk3_show_message_window_buttons;
 extern bool gui_gtk3_metaserver_tab_first;
 extern bool gui_gtk3_allied_chat_only;
-enum {
-  /* Order must match strings in
-   * options.c:gui_gtk3_message_chat_location_name() */
-  GUI_GTK3_MSGCHAT_SPLIT,
-  GUI_GTK3_MSGCHAT_SEPARATE,
-  GUI_GTK3_MSGCHAT_MERGED
-};
-extern int gui_gtk3_message_chat_location; /* enum GUI_GTK2_MSGCHAT_* */
+extern int gui_gtk3_message_chat_location; /* enum GUI_GTK_MSGCHAT_* */
 extern bool gui_gtk3_small_display_layout;
 extern bool gui_gtk3_mouse_over_map_focus;
 extern bool gui_gtk3_chatline_autocompletion;
