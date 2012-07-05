@@ -62,9 +62,9 @@ struct color *color_alloc(int r, int g, int b)
 {
   struct color *color = fc_malloc(sizeof(*color));
 
-  color->color.red = r << 8;
-  color->color.green = g << 8;
-  color->color.blue = b << 8;
+  color->color.red = (r << 8) + r;
+  color->color.green = (g << 8) + g;
+  color->color.blue = (b << 8) + b;
 
   color->r = (double)r/255;
   color->g = (double)g/255;
