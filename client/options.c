@@ -5061,11 +5061,11 @@ void options_load(void)
   /* Note: this overrides the previously specified default for
    * gui_gtk2_message_chat_location */
   if (secfile_lookup_bool_default(sf, FALSE,
-                                  "%s.gui_gtk_merge_notebooks", prefix)) {
+                                  "%s.gui_gtk2_merge_notebooks", prefix)) {
     gui_gtk2_message_chat_location = GUI_GTK2_MSGCHAT_MERGED;
     gui_gtk3_message_chat_location = GUI_GTK3_MSGCHAT_MERGED;
   } else if (secfile_lookup_bool_default(sf, FALSE,
-                                         "%s.gui_gtk_split_bottom_notebook",
+                                         "%s.gui_gtk2_split_bottom_notebook",
                                          prefix)) {
     gui_gtk2_message_chat_location = GUI_GTK2_MSGCHAT_SPLIT;
     gui_gtk3_message_chat_location = GUI_GTK3_MSGCHAT_SPLIT;
