@@ -139,7 +139,7 @@ install-env-sdl: install-env-common
 	
 installer-common: clean-install-common install-freeciv-$(GUI) install-env-$(GUI)
 	# extract Freeciv version
-	$(eval FREECIV_VERSION := $(shell grep "#define VERSION \"" build-$(GUI)/config.h | sed -e 's/#define VERSION //'))
+	$(eval FREECIV_VERSION := $(shell ../../fc_version))
 	# create NSIS script
 	./create-freeciv-$(GUI)-nsi.sh install-$(GUI) $(FREECIV_VERSION) > Freeciv-$(FREECIV_VERSION)-$(GUI).nsi
 	# create installer executable
