@@ -527,13 +527,13 @@ modular, so there are some observations to do:
   For further information, see:
   <http://www.freeciv.org/wiki/How_to_Contribute>.
 
-  Also, name patch files descriptively (e.g. "fix-foo-bug-0.diff" is good,
-  but "freeciv.diff" is not).
+  Also, name patch files descriptively (e.g. "fix-foo-bug-0.patch" is good,
+  but "freeciv.patch" is not).
 
 - When doing a "diff" for a patch, be sure to exclude unnecessary files by
   using the "-X" argument to "diff". E.g.:
 
-    % diff -ruN -Xdiff_ignore freeciv_svn freeciv >/tmp/fix-foo-bug-0.diff
+    % diff -ruN -Xdiff_ignore freeciv_svn freeciv >/tmp/fix-foo-bug-0.patch
 
   A suggested "diff_ignore" file is included in the Freeciv distribution.
 
