@@ -212,6 +212,14 @@ data/experimental/governments.ruleset
 data/experimental/techs.ruleset
 data/experimental/terrain.ruleset
 data/experimental/units.ruleset
+data/civ2civ3/buildings.ruleset
+data/civ2civ3/cities.ruleset
+data/civ2civ3/game.ruleset
+data/civ2civ3/governments.ruleset
+data/civ2civ3/nations.ruleset
+data/civ2civ3/techs.ruleset
+data/civ2civ3/terrain.ruleset
+data/civ2civ3/units.ruleset
 data/Freeciv.in
 data/helpdata.txt
 data/multiplayer/buildings.ruleset

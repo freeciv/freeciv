@@ -1,0 +1,465 @@
+
+==========================================================
+Civ2Civ3 Ruleset for Freeciv v2.5 (Updated 2012/7/4)
+==========================================================
+by David Fernandez, aka Bardo
+
+
+OBJECTIVES:
+-----------
+- The main purpose is to get a gameplay more similar to civ3, keeping the combat system from civ2.
+- Reduced micromanagement as much as possible. Don't be afraid by the amount of changes, I think this ruleset is easier to learn than default rules, and it is designed so there is not a big disadvantage when you do not play optimally. I hope both rookies and experienced players can enjoy it.
+- Removed the rules that allowed a sudden boost: mainly Rapture growth, national Trade routes, and the big bonuses from Republic and Democracy.
+The result should be a simpler and more linear development of your cities and a slower paced gameplay. With governments that keep a similar balance along the different ages, and smoother effects of terrains, units, buildings and wonders.
+- All the new rules have been adapted so AI can play with them, and to avoid possible exploits by human players.
+- It uses most of the optional rules and new features included in the official Experimental ruleset, and I try to give feedback about them to the developers.
+
+I wish to keep it updated and to improve it with the comments from the players.
+
+
+INFO:
+-----
+- Help Texts have been updated (mainly Buildings and Wonders), so the info showed ingame already takes into account the changed rules. Note that some graphical tables from the Manual will not match (mainly Terrains and Governments), so better use the tables in this ReadMe as reference.
+- I suggest New players to start a game with 12 players or so, AI skill level Normal, and default ruleset options (Small continental map with 100 land tiles per player). This way AI will progress at similar pace than real history.
+- Cheating AI level was adjusted for these rules, I suggest Experienced players to use it.
+CHEATING AI: +40% Science, Luxury, Gold and Shield production, -20% pollution, +20 AI love
+
+The following is a full list of changes compared to default ruleset...
+
+
+CORE CHANGES:
+-------------
+- No Rapture Grow (celebration only causes additional trade per tile, same than civ3). Foodbox readjusted to keep a constant city growth.
+- Rebalanced Trade Routes: halved the revenues, caravans and freights can only travel on roads/rivers.
+- Unit upkeep changed from Shields to Gold under some governments (similar to civ3).
+- Specialists output reduced to 2 (same that civ2). There are wonders that increase them to 3 for all players.
+- The cost of each Tech is equal to the number of Steps needed to get the tech (Tech Cost = Base Cost * Number of Parents). It is a linear formula more similar to civ2, and it fits better with the new reduced bonuses from Trade and Science.
+- Techs are cheaper if already discovered by other nations you have embassy with: tech_leakage = 1
+- Added +10 to AI_love for AI players, to reduce the amount of wars.
+
+OPTIONAL RULES:
+- Every player starts with 1 free tech, 1 settler, 1 worker and 1 explorer.
+- Min distance between cities = 3.
+If you like smallpox, I suggest to disable this option and to enable the citizen migration (server setting in sociological tab).
+- Initial national border equal to city radius: radius_sq_city = 5 (2 tiles)
+- Disabled national trade routes: trademindist = 999.
+- Enabled risk of plague at cities with pop greater than 4. Chances reduced by the buildings Aqueduct and Sewer System, the tech Medicine, and the wonder Cure for Cancer:
+illness_on = 1, illness_min_size = 5, illness_base_factor = 10
+- Road/Railroads can't be used in enemy territory. Unreachable units do not protect reachable ones.
+
+
+FOODBOX:
+--------
+- City FoodBox Size uniformed to even the population wasted when you build settlers at larger cities (similar to civ3):
+granary_food_ini = 20, 20, 20, 20, 20, 30, 30, 40
+granary_food_inc = 0
+- Granary size is fixed to 10 food for every city size.
+Cities with Pop <= 4 receives this granary effect for free, so they can create settlers at best rate even without granary. (This free granary helps the AI to build settlers optimally).
+
+CITY   FOODBOX   SETTLER    FOODBOX   SETTLER
+SIZE    NEW       NEW        OLD       OLD
+1      20        -          20        - 
+2      20(10)#   -          30(15)    20(5-15) 
+3      20(10)#   20(20)     40(20)    30(10-20) 
+4      20(10)#   20(20)     50(25)    40(15-25) 
+5      20(10)    30(20)     60(30)    50(20-30) 
+6      30(10)    40(20)     70(35)    60(25-35) 
+7      30(10)    50(30)     80(40)    70(30-40) 
+8      40(10)    60(40)     90(45)    80(35-45) 
+9      40(10)    70(50)     100(50)   90(40-50)
+10     40(10)    80(60)     110(55)   100(45-55)
+11     40(10)    80(60)     120(60)   110(50-60)
+12     40(10)    80(60)     130(65)   120(55-65)
+13     40(10)    80(60)     140(70)   130(60-70)
+14     40(10)    80(60)     150(75)   140(65-75)
+15     ...       ...        ...       ...
+
+# Granary effect for free when city grows to this city level.
+FOODBOX = Foodbox size at that city level. (In brackets = Granary size).
+SETTLER = Food needed to recover the population if you create a settler at that city size. (In brackets = The same but with granary).
+NEW = This Ruleset. OLD = Default ruleset
+
+TIP: In order to keep max growth, you should build the Granary before city grows larger than Pop 4 (same that Aqueduct at Pop 8, and Sewer System at Pop 16).
+TIP: Optimal production of settlers occurs at any city with Pop <= 4, or cities with granary and Pop <= 6. 
+
+
+TERRAIN:
+--------
+- Jungles receive +1 shield (1/1/0). Swamps can be irrigated for +1 food (to 2/0/0). Tundra can be mined for +1 shield (instead of irrigated) and roads gives +1 trade (up to 1/1/1).
+- Deserts with a river receive 1 extra food from irrigation (to boost growth at terrains like Nile flood).
+- Reduced food bonus by 1 to some affected Special resources: Oasis and Spice.
+- Hills receive 1 shield for free, and +2 from mines, same than civ3, (was 0 and +3).
+- Mountains give extra vision range. Cities can not be placed over Mountains. Land units starting the turn over a Mountain receive a -1 penalty to movement (this way it is not so good for cavalry to end the turn on mountains).
+- Lake tiles receive for free +1 food (2/0/2), while Harbours and Offshore Platforms do not affect them. Lakes do not enable wonders that needs a coastal city.
+- Deep oceans produce no food (1 food with Harbour). Offshore Platforms increase the production only if there is a buoy in the deep ocean tile.
+- Jungles and Forests are not affected by Pollution nor by Global warming.
+
+- Minimum city output = 1/0/0 (was 1/1/0). City central tile now produces +1 shield except at terrains that can be irrigated and mined at same time (to workaround this hardcoded effect).
+As resultant, city central tile always increases by 1 the output of the original tile, once irrigated/mined/roaded (Compare CITY and MAX1 in next table).
+So, no matter the tile where you place your city, you never waste any resource (for example, with default rules a city placed over bonused grassland was wasting the shield bonus).
+
+TILE      F/P/T  IRRIG(t)   MINE(t)    ROAD  *CITY   MAX1   MAX2 
+Deep     *0/0/2  NO         NO         NO            1/0/2  1/1/2
+Ocean     1/0/2  NO         NO         NO            2/0/2  2/1/2
+Lake     *2/0/2  NO         NO         NO            2/0/2  2/0/2
+Swamp     1/0/0 *+1(10)    *NO         +0(4)  2/1/0  2/0/0  3/0/0
+Glacier   0/0/0  NO         +1(10)     +0(4)         0/1/0  0/1/0
+Tundra    1/0/0 *NO        *+1(5)     *+1(2)  1/2!1  1/1/1  1/1/1
+Desert    0/1/0  +1(5)      +1(5)      +1(2)  1/2!1  0/2/1  0/3/1
+Plains    1/1/0  +1(5)      Forest(15) +1(2)  2/2/1  2/1/1  3/1/1
+Grassland 2/0/0  +1(5)      Forest(15) +1(2)  3/1/1  3/0/1  4/0/1
+Jungle   *1/1/0 *Swamp(5)  *NO         +0(4)  1/2/0  1/1/0  1/1/0
+Forest    1/2/0  Plain(10) *NO         +0(4)  1/3/0  1/2/0  1/3/0
+Hills    *1/1/0  +1(10)    *+2(10)     +0(4)  2/3!0  1/3/0  1/4/0
+Mountains 0/1/0  NO         +1(10)     +0(6)         0/2/0  0/3/0
+
+CITY = central city tile; MAX1 = irrigated/mined/roaded/harbour; MAX2 = farmland/railroad/offshore.
+! = You have to mine this city tile to get max output (Tundra, Desert, Hill).
+* = Changes compared to default ruleset. Most affected are Jungles, Swamps and Tundras.
+
+TIP: The optimal tiles to place your initial cities are those with bonus resources or rivers, and MAX output equal or greater than 2/1/1. Plains are always good places for cities, as well as Flood Desert (desert with river), or Grassland (better with resource and/or river). Hills allow good defensive cities too (once mined).
+
+
+DEFENSE:
+--------
+- Halved the terrain defense bonuses, now more similar to civ3 values:
+
+TERRAIN           NEW    OLD
+Forest           +25%   +50%
+Jungles          +25%   +50%
+Swamp            +25%   +50%
+Hills            +50%   +100%
+Mountains        +100%  +200%
+
+RIVER            +25%   +50%
+FORTRESS         +100%  +100%
+
+- Every City receives an inherent Defend_Bonus = +50% against Land units
+- Every City with Pop>=8 receives an additional free Defend_Bonus = +50% against Land units, and against Sea/Trireme.
+- Walls effect reduced from 200% to 100%, and cost reduced from 60 to 30.
+- Great Wall gives additional Defend_Bonus = +50% against Land units, and the effect Unit_No_Lose_Pop in every city.
+The total city defense is similar to default ruleset, but here cities receive some wall bonus for free, and large cities receive an extra bonus, like in civ3:
+
+LAND             BASE   (+WALL)  (+GREAT WALL)
+Town (Pop<8)     +50%    +150%(-) +200%(=)
+City (Pop>=8)    +100%   +200%(=) +250%(+)
+
+SEA/TRIREME      BASE   (+COASTAL DEFENSE)
+Town (Pop<8)     +0%     +100%(=)
+City (Pop>=8)    +50%    +150%(+)
+
+
+GOVERNMENTS:
+------------
+                  Anarch    Tribal    Despot    Monarc    Fundam    Republ    Democr    Federat   Commun   
+Tax/Lux/Cie Rate  0         60        60        70        70        80        90        90        80       
+Output per tile   -1(if>2)# -1(if>2)# -1(if>2)# 0         0         +1Trade   +1Trade   0         0        
+Celebration Bonus (no -1)   (no -1)   (no -1)  (+1Trade)  0        (+1Trade) (+1Trade) (+1Trade)  0        
+                                                                                       
+Unit Upkeep       Shield    Shield    Gold      Gold      Gold      Sh+Gd     Gold      Gold      Shield   
+Free Units        2\4       2\4       2\4       3\6       2\2       1\2      (1\2)      1\2       3\3      
+Gold Upkeep       0         0         x1        x1        x2        x1        x2        x2        0        
+Shield Upkeep     x1        x1        0         0         0         x1        0         0         x1       
+Mil Unhappiness   0         0         0         -1        -1        -1        -2        -1        -1       
+Martial Law       +1        0         +1        +1(Max3)  0         0         0         0         +2(Max3) 
+                                                                                       
+Civil war %       99        90        80        70        60        40        30        20        50       
+Empire Size       0         /7        /5        /10       /6        /8        /16       /12       /14      
+Special           +NoUpkeep +1 Move   +75%Gold  +50%Gold  +Tithes   +Bribe   +Brib/Sub  +Subvert  +NoUpkeep
+                  -50%Lux  (Land/Mil) (Palace)  (Palace)  -50%Sci   -Revolt  -Rev/Sen   -Senate   (Cost=1) 
+                  -NoTaxes                                Fanatic             Partisan            Partisan 
+                                                                                        
+Base Corruption   0%        30%       20%       10%       15%       25%       5%        0%        30%      
+Corrup by Dist    1*        1*        1*        1*        1*        1*        1*        0*        0        
+Base Waste        30%       0%        10%       20%       15%       5%        25%       30%       0%       
+Waste by Dist     1**       1**       1**       1**       1**       1**       1**       0**       0        
+
+* Corruption by Distance is increased by 1 until The Corporation is researched by the player.
+** Waste by Distance is increased by 1 until Trade is researched by the player.
+# This penalty is negated by The Pyramids wonder, and the penalty dissapears for everybody when The Pyramids become obsolete.
++ Partisans appear in conquered cities (democratic or communist) if Guerrilla Warfare has been researched by any player.
+
+- Added Fundamentalism (available with Theology), Tribal (available at start) and Federation (available with Democracy).
+- "Base Corruption/Waste": Modern governments cause less Trade Corruption, but more Wasted Production. The total % lost (Waste + Corruption) is equal for all governments.
+- "Unit Upkeep": Tribal and Communism use the standard unit upkeep by Shields, while the other governments use Gold upkeep (x2 gold per unit for modern governments). Republic uses both gold and shield upkeep.
+If a city supports more units with gold upkeep than its population size, each extra unit will waste one food. If the population shrinks due to starvation, one of those extra units will be disbanded.
+- "Empire Size": Modern governments have double size limit than his ancient counterpart, to minimize this non linear effect. Empire Base Size is equal to Empire Step Size for every government.
+
+- The bonus "+1 Trade" under Republic and Democracy does not affect oceanic tiles. This way, oceanic tiles are more even to land tiles under any government.
+- Republic receives Revolution_When_Unhappy and Unbribable_Units, Federation receives Has_senate and No_Incite (Democracy receives all them).
+
+- Under Tribal government, every military land unit gains an additional movement point. They are tribal warriors, maintained with Shields instead of Gold.
+- Under Communism you do not pay upkeep for buildings that cost 1 Gold. Communism cancels the bonus from Mysticism and Theology (to Temples and Cathedrals).
+- Under Fundamentalism you receive extra Gold from Tithes, but -50% to Science.
+- The Bonus to production at Palace (under Despotism and Monarchy) switched from Shields to Gold.
+
+- Most governments are affected by military unhappiness due to units out of national borders (same than Republic in default ruleset).
+- "Free Units" (per Town\City): means units free of gold\shield upkeep and also free of military unhappiness. By default 2 free units per city (upkeep and unhappiness), and 2 additional free units at cities with Pop >= 8. Democracy does not receive units free of gold upkeep, just 1 unit free of mil unhappiness per city (2 if Pop >= 8 ).
+TIP: If a city is not paying any unit upkeep (showed in city panel), it can not suffer military unhappiness.
+
+TIP: There is some hurry to get Monarchy or Republic (or to build Pyramids), in order to avoid the initial penalty to output per tile. However, the Corruption and Waste are evened for all governments, so there are no big differences, and every government could be used at any technological age. The choice depends on the role of your civilization.
+
+
+TECHS:
+------
+- Added new wonders: Mausoleum of Mausolos (available with Ceremonial Burial), and Statue of Zeus (available with Polytheism). Oracle of Delphi renamed to Temple of Artemis (in order to allow all 7 wonders).
+- Moved Great Wall to Construction (was Masonry). Moved King Richard's Crusade to Chivalry, so it requires Monarchy and Knights. Women Suffrage moved to Conscription, so it requires Democracy. Switched Darwin's Voyage and Eiffel Tower (Darwin was earlier than Eiffel). Shakespeare's Theatre available with Sanitation (was Medicine).
+
+- Diplomats available with Alphabet (was Writing), and Migrants with Pottery, so every initial tech allows some unit or building.
+- Coastal defense moved to Magnetism*. AI loves defense improvements and this change encourages them to develop frigates/galleons early in game.
+Now AI aims to Monarchy or Republic, then to Magnetism* or Gunpowder with similar chances.
+(*) The labels and icons for "Magnetism" and "Navigation" were switched, because compass was already used by historical caravels, while sextants were not invented until the age of galleons/frigates.
+- Bridge Building merged to old Engineering in the tech tree. Added modern "Engineering" in the Industrial Ages that allows Destroyers (was Electricity) and Transports (was Industrialization), and it is required for Steel (Cruiser), Amphibious Warfare (Ports), and Combustion (Submarines).
+- Battleship available with Mass Production instead of Automobile. Mfg Plant available with Plastics (was Robotics).
+- Nuclear Fission requires Refrigeration, in order to delay the Atomic age, and to force the AI to research farms. Communism requires Theology (Fundamentalism) instead of Philosophy, to encourage AI to research all governments.
+- Fusion Power enables new unit, Geoengineers, to perform terrain transformations, that were simplified so there is no need to chain more than one transformation in the same terrain.
+
+Special effects:
+- Astronomy: Increases units vision when in fortresses.
+- Invention: Halves upgrade cost of your units.
+- Medicine: Reduces by 30% the chance of illness in your cities.
+- Electricity: Increases city vision radius, and the effect of Colosseums.
+- Trade: Decreases one-time the corruption of trade caused by distance to capital.
+- The Corporation: Decreases one-time the corruption of trade caused by distance to capital.
+
+The Techs, Buildings, Wonders and Units are the same than civ2, but some requirements have been changed to improve a bit the historical accuracy, to encourage the use of every military unit, and to avoid units or wonders becoming obsolete too soon. The following is a list of some inaccuracies from default tech tree that were addressed in the new tree:
+- Pikemen were available without Phalanxs; Musketeers without Pikemen; Ironclads without Frigates; Destroyers without Ironclads; Armors without Artillery; Mech Infantry without Barracks III.
+- Cathedrals did not require Construction nor Masonry. Ironclads and Eiffel Tower were available without Iron Working. Chivalry and Pikemen did not need Iron nor Bronze.
+- Pottery was not needed to research Trade, Economics, Explosives, Invention, or Sanitation.
+- Chemistry was not related to Athomic theory, Refrigeration, Gunpowder, Steam engine, or Steel.
+- Theory of Gravity did not need Physics, Invention, or even The Wheel, and it was not needed for Automobile, Robotics, or Miniaturization.
+- Offshore Platforms did not require Refining, Combustion or Explosives. Miniaturization was not needed for Rocketry or Laser.
+
+In the new tree, you are forced to research most of the ancient techs before you can research the modern ones, but overall, researching paths are similar to default tree.
+
+
+BUILDINGS:
+----------
+- Courthouse: Make_Content = 1, and reduce to half any kind of waste (trade, shields or food).
+Added new effect: food wasted by distance to Palace = -1% food each 2 tiles.
+For example, cities at distance 20 of the Palace lose -10% food (-5% with courthouse), so they lose -1 food when their production reaches 10 food per turn (20 food per turn with courthouse), noticeable when city reaches size 5 or so (around city size 10 with courthouse).
+- Police Station: Make_Content = 2, and reduces unhappiness caused by 1 military unit.
+- Colosseum upkeep reduced from 4 to 3 (and renamed to Amphitheatre). University from 3 to 2.
+- Science bonus by buildings (Library, University and Research Lab) restored to civ2 values (50%). There are wonders that double the effect later.
+- Production bonus by Factory and Mfg Plant reduced to +25% each (was +50%), so the Power Plants are as important as the Factories. Upkeep reduced by one gold, too. Mfg Plants allows the construction of 2 items per turn. 
+- Super Highways give +50% to Gold/Luxuries, and they produce extra trade at tiles with roads but without farmlands (the default effect was overpowered under democracy/republic).
+- Pollution caused by population is increased by buildings instead of by techs (else the AI seems to avoid those techs with negative effects):
+Industrialization->Factory; Automobile->Highways; Plastics->Mfg Plant; Mass Production->Offshore platforms. 
+- Aqueduct is cheaper near rivers or lakes. Sewer System is needed to grow larger than pop 16 (instead of 12). Each one reduces the chances of illness by -30%.
+- Space Components and Modules require a Research Lab and Mfg Plant present in the city.
+- Adjusted the Pollution of all Power Plants, and increased building cost of Nuclear Plants:
+
+               Cost  Upkeep   Shields     Pollution(+Recycle)
+Power plant    130   4       +50%/+100%   100%(50%)
+Hydro plant    180   4       +50%/+100%   50% (25%)
+(+Hoover Dam)  (=)  (=)         (=)       25% (0%)
+Nuclear plant  240   2       +50%/+100%   50% (25%)
+Solar plant    320   4       +50%/+100%   25% (0%)
+
+
+UNITS:
+------
+- Settlers pop cost increased to 2 and removed food upkeep. New unit Migrants available to work, or to migrate 1 pop, they can't create cities and can be captured. Costs more similar to civ3:
+Settlers:  pop_cost = 2, cost = 30, upkeep = 1
+Migrants:  pop_cost = 1, cost = 10, upkeep = 1
+Workers:   pop_cost = 0, cost = 20, upkeep = 1
+
+- Non-military units now belongs to a new unit class that can not pillage, nor capture cities.
+- Created a new unit class for Caravans and Freights that can only travel on roads, railroads, rivers or ships. They can only establish trade routes to foreign cities. And they can be captured.
+- Wheeled units can't move to mountains, jungles and swamps, unless they are traveling on a road (Using "Big land" from Experimental ruleset). Those units can't pillage nor capture cities. They need Galleons or Transports to travel by sea.
+- Pikemen defense increased to 3, the cost to 30, and removed the double attack vs horses. Else, I think the bonus vs horses make obsolete the chivalry period before it starts.
+- Archers ignore Zone of Control, so they are useful to escort Legions or even medieval units. Archers set as default barbarian units.
+- Added Elephants from civ2, available with Polytheism: (at/def/mov-hp,cost) = (2/2/2-10,30). Obsolete by Knights.
+- Added Crusaders from civ2, available with Monotheism: (5/1/2-10,40). Obsolete by Dragoons.
+- Added Fanatics from civ2, available with Guerrilla, under Fundamentalism government: (5/5/1-20,20). They cost 1 population, but do not cause unhappiness and do not need upkeep.
+- Infantry units can capture enemy Migrants (as slaves) and Caravans/Freights (as loot).
+- Alpine Troops changed to (7/4/1) and Partisan to (4/5/1), so Riflemen do not become obsolete as city defenders until Guerrilla or Marine are researched, and all modern infantry are somehow useful.
+- Given Marine ability to Legion, Musketeer, and Rifleman. This way, one-tile islands can be assaulted early in game. Yet, the Marine unit is still the best offensive/defensive infantry.
+- Removed transport capability from Frigates, to force the use of Galleons. Caravel can not attack to land.
+- Ironclad hit points reduced from 30 to 20 (same attack than Frigates and still much better defense). Battleship hit points reduced to 30 (was 40), and Submarines to 20 with defense 5 (was 30 with defense 2). Doubled the defense of Destroyers against Submarines. Now there is a Rock-paper-scissors relation between Destroyer-Cruiser-Submarine.
+- All units that had Firepower 2 now have Firepower 1, in order to even the power of naval, air, and artillery units, and to simplify the mental calculation to compare them.
+- Artillery and Howitzer receive the ability CityBuster, so their firepower is 1 in open field, and 2 against cities. Removed Ignore Walls for Howitzer (that would bypass the new city defense bonuses).
+- Bombers and Helicopters receive the Bombarder ability, so they can damage land units, but they can not kill them, and can not be damaged while attacking. Note they still can kill or die against naval units.
+Halved the attack so it is harder to bombard land enemies successfully. Increased hit points so it is still possible to kill naval units.
+- Helicopters can carry 1 infantry unit, do not cause unhappiness inside national borders, and Fighters do not gain extra attack against them.
+- Fighter defense increased to 4 and Stealth Fighter to 7, so they can be useful to protect bombers. 
+- Nuclear weapons can be built with Nuclear Fission, but you need Advanced Flight to move them, and Rocketry to get max movement.
+
+UNIT            Att  Def  Mov  FP   HP   Cost   
+Warrior         1    1    1    1    10   10
+Phalanx         1    2    1    1    10   20
+Archers         3    2    1    1    10   30  *IgZOC
+Swordsmen       4    2    1    1    10   40  *Marines
+Pikemen         1   *3    1    1    10  *30  *(No bonus anti-horse)
+Musketeers      3    3    1    1    20  *40  *Marines
+Riflemen        5    4    1    1    20  *50  *Marines
+Alpine Troops  *7   *4    1    1    20  *60   IgTer
+Partisan        4   *5    1    1    20  *60   IgTer, IgZOC
+Fanatics       *5   *5    1    1    20   20  *1 Pop, No upkeep
+Marines         8    5    1    1    20   60   Marines
+Paratroopers    6    4    1    1    20   60   Paratroopers
+                         
+Horsemen        2    1    2    1    10   20
+Chariot         3    1    2    1    10   30
+Elephants       2    2    2    1    10   30
+Crusaders       5    1    2    1    10   40
+Knights         4    2    2    1    10   40
+Dragoons        5    2    2    1    20   50
+Cavalry         8    3    2    1    20   60
+Mech. Inf.      6    6    3    1    30  *70  *Wheeled
+Armor           10   5    3    1    30   80  *Wheeled
+                         
+Catapult        6    1    1    1    10   40  *Wheeled
+Cannon          8    1    1    1    20  *50  *Wheeled
+Artillery       10  *2    1   *1(2) 20  *60  *Wheeled,*CityBuster
+Howitzer        12   2    2   *1(2) 30   70  *Wheeled,*CityBuster
+                         
+Trireme         1    1    3    1    10   40   Cargo 2, Coastal
+Caravel         2    1    3    1    10  *50   Cargo 3
+Galleon         0    2    4    1    20  *50   Cargo 4
+Transport       0    3    5    1    30  *60   Cargo 8
+Carrier        *0    9    5   *1    40   160  Cargo 8
+                         
+Frigate         4    2    4    1    20  *60  *No Cargo
+Ironclad        4    4    4    1   *20  *70  
+Destroyer       4    4    6    1    30  *80  *(x2 def anti-submarine)
+Cruiser         6    6    5   *1    30  *90  
+AEGIS Cruiser   8    8    5   *1    30  *100 *(x5 def anti-missile)
+Battleship      12   12   4   *1   *30   160 
+Submarine       12  *5    5   *1   *20  *70   Cargo 8, Invis
+                         
+Fighter         4   *4    10  *1    20   60   Fighter
+Bomber         *6    1    8   *1   *30  *100 *Bombard 2, FieldUnit
+Helicopter     *5   *2    6   *1   *30  *70  *Bombard 1,*Cargo 1
+Stealth Fighter 8   *7    14  *1    20   80   Fighter, Invis
+Stealth Bomber *9    3    12  *1   *30  *120 *Bombard 3, FieldUnit, Invis
+                         
+Cruise Missile  18   0    12  *1(2) 10  *50  *CityBuster, FieldUnit
+Nuclear         99   0    16   1    10   160  Nuclear, FieldUnit
+
+FP = Firepower, HP = Hit Points
+* = Changes compared to default ruleset. Most affected are modern infantry, air units, and all units that had 2 firepower.
+
+
+WONDERS:
+--------
+Readjusted effects for most wonders. Restored all civ2 costs.
+- Modified every wonder effects that worked as if you'd have certain buildings in every city.
+- Replaced every effect Make_Happy, Force_content, and No_unhappy, by additional luxury in the central city tile. Else they would allow a possible exploit to avoid unhappiness caused by military units.
+- Replaced effect that gives a percentage bonus to science output, by additional science in the central city tile. This way, they do not multiply the effect of other wonders like Colossus, and it is not an advantage to build them all in the same city.
+- Some Wonders require certain building in the city to be built.
+
+FULL LIST OF WONDERS
+(#) = Global effect, "Name", Cost, Obsolete, Effect
+
+- "Pyramids" 200, Obsolete by Railroad (that increases even more the shield production):
++1 Shield per worked tile in the city (already producing shields). Disables tile penalty under Despotism/Tribal governments.
+- "Colossus" 200, Obsolete by Automobile (that allows building to increase trade even more):
++1 Trade per worked tile in the city (already producing trade).
+- "Copernicus' Observatory" 300, Obsolete by Computers (that increases even more the science production):
++1 Science per worked tile in the city.
+
+- "Hanging Gardens" 200, Obsolete by Electricity (that increases Colosseum effect):
++1 Content in every city. +4 Luxury in the city where it is built.
+- "Mausoleum of Mausolos" 200, Obsolete by Explosives:
++1 Content in every city with Walls. Your cities cannot be incited to revolt. +3 Content where it is built.
+- "Temple of Artemis" 200, Requires Temple, Obsolete by Theology (enables wonder with similar effect):
++2 Content in every city with Temple.
+- "Michelangelo's Chapel" 400, Requires Cathedral:
++3 Content in every city with Cathedral.
+
+- "J.S. Bach's Cathedral" 400:
++2 Luxuries in every city.
+- "Cure For Cancer" 600:
++2 Luxuries in every city. -10% chance of illness.
+
+- (#)"Shakespeare's Theatre" 300:
+Elvis Specialist_Output = 3 for Every Nation. +1 Luxury in every city, +6 Luxury where it is built.
+- (#)"A.Smith's Trading Co" 400, Requires Stock Exchange:
+Taxman Specialist_Output = 3 for Every Nation. Free upkeep for buildings that cost 1 gold, in every city with Stock Exchange.
+- (#)"Darwin's Voyage" 400:
+Scientist Specialist_Output = 3 for Every Nation. +1 Science in every city.
+
+- (#)"Great Library" 300, Requires Library:
+Doubles the effect of Library for Every Nation. Gives an immediate technology advance. +4 Science where it is built.
+- (#)"Isaac Newton's College" 400, Requires University:
+Doubles the effect of University for Every Nation. Gives an immediate technology advance. +6 Science where it is built.
+- (#)"Internet" 600, Requires Research Lab:
+Doubles the effect of Research Lab for Every Nation. Gives an immediate technology advance. Reveals all cities in the map for the owner.
+
+- "Lighthouse" 200, Obsolete by Engineering (Destroyer):
++1 move, and Veteran built, for Trireme and Sea units.
+- "Magellan's Expedition" 400, Obsolete by Nuclear Power (that increases even more movement of sea units):
++1 move, and +50% chance to become veteran, for Sea units (No triremes).
+- "Sun Tzu's War Academy" 300, Obsolete by Mobile Warfare:
+Veteran built, and +50% chance to become veteran, for Military Land units (No wheeled).
+
+- "Statue of Zeus" 200, Obsolete by Conscription (enables wonder with similar effect):
++1 Military Content, +1 unit free of upkeep per city.
+- "King Richard's Crusade" 300, Obsolete by Communism (Police Station):
++1 Military Content. Under Monarchy: neutralises all military unhappiness.
+- "Women's Suffrage" 600:
++1 Military Content. Under Democracy: +2 Military Content. Summed to Police Stations effect.
+
+- "Marco Polo's Embassy" 200, No obsolete:
+Embassy with all players.
+- "Eiffel Tower" 300:
++10 to AI love for the owner. Reduces the pollution caused by the population in all your cities (-25%).
+- "Statue of Liberty" 400:
+Disables Has_Senate effect, No Anarchy periods when government changes.
+- (#)"United Nations" 600:
++10 to AI love for the owner. Revolution_When_Unhappy for Every Nation. 
+
+- "Great Wall" 300, Obsolete by Machine Tools (Artillery):
++50% Defense bonus against land units in every city, and cities do not lose Population due to attacks.
+- "Leonardo's Workshop" 400, Obsolete by Combustion:
+Upgrades one obsolete unit per game turn.
+- "Hoover Dam" 600, Requires Factory:
+Gives to every Hydro Plant the same effect than Solar Plants (-25% pollution).
+- (#)"Manhattan Project" 600:
+Enables nuclear units for Every Nation.
+- (#)"Apollo Program" 600:
+Enables space race for Every Nation. Makes entire map permanently visible for the owner.
+
+Special "Cold War" effect: if Manhattan Project and United Nations were built, every nation with nuclear power receives the Has_Senate effect, until the Apollo Program is finished. 
+
+
+MAYOR CHANGES SINCE v0.1
+----------------
+
+Changes:
+- Wonders and Governments rebalanced again. Now AIs use all governments and build almost every wonder.
+Doubled the unit upkeep for Democratic and Fundamentalist governments. Fundamentalism receives -50% penalty to Science instead of penalty to Luxury. Communists do not pay upkeep for buildings with cost=1. Republic use both gold and shields for unit upkeep. Readjusted Empire Sizes.
+- Readjusted Tech Tree requirements, and Tech Costs. Now AI reaches future techs.
+- Foodbox sizes more similar to civ3. Granary keeps same amount of food for every city size.
+- Removed population cost for Workers and Engineers. Created Migrants instead, that can migrate 1 population among cities, and can be captured.
+- Added waste of food for cities far from the Palace (halved by Courthouse).
+- Deserts with river gain +2 food from irrigation. No cities over Mountains. No pollution over Forests or Jungles. 
+- Pollution caused by population increased by certain Buildings instead of by Techs. Adjusted effect of Super highways and Offshore platforms.
+- Production bonus by Factory and Mfg Plant reduced to +25% each (was +50%).
+- Enabled Trade Routes again, but only to foreign cities. Halved the revenues compared to default ruleset. Caravans/Freights can only travel over roads/rivers, and can be captured.
+- Terrain transformations available with Fusion Power.
+- The Waste and Corruption caused by distance to capital are reduced with the discovery of Trade and The Corporation (respectively).
+- Units with Gold upkeep need also Food upkeep if the city supports more units than its population size.
+- Aqueduct is cheaper if the city is placed near rivers or lakes.
+- Harder AI levels are less agresive against other AIs, but against human players AIs behave now the same than in default rules.
+- Minor adjustments to governments: free units and corruption/waste.
+
+Units:
+- Minor adjustments to some costs, mainly infantry, ships, bombarders and missiles.
+- Fanatics 1 pop cost and no military unhappiness. Crusaders available for every government.
+- Given Marine ability to Legion, Musketeer and Rifleman.
+- Disabled trireme capability to navigate rivers. Caravels keep default stats, but they can't attack to land.
+- Reduced hit points of Ironclad, Submarine and Battleship. Doubled the defense of Destroyers against Submarines.
+- Reduced firepower to 1 for every unit.
+- Given CityBuster to Artillery and Howitzer (halved firepower in open field), and to Cruise Missile.
+- Given Bombarder ability to Helicopters and Bombers, and increased hit points. Helicopters can carry 1 infantry unit.
+
+Known bugs/glitches:
+- The mines placed over tundra terrains are not showed in the map.
+
+
+THANKS:
+-------
+To every people who collaborated to create this wonderful Freeciv game, included Sid Meier and Firaxis ;)
+Specially to those who programmed the Ruleset modding capabilities and the AI capable to play with them.

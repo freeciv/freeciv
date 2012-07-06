@@ -1,0 +1,1745 @@
+
+; Modifying this file:
+; You should not modify this file except to make bugfixes or
+; for other "maintenance".  If you want to make custom changes,
+; you should create a new datadir subdirectory and copy this file
+; into that directory, and then modify that copy.  Then use the
+; command "rulesetdir <mysubdir>" in the server to have freeciv
+; use your new customized file.
+
+; Note that the freeciv AI may not cope well with anything more
+; than minor changes.
+
+[datafile]
+description="Civ2Civ3 buildings data for Freeciv"
+options="+Freeciv-ruleset-Devel-2012.Feb.28"
+
+; /* <-- avoid gettext warnings
+;
+; Below: The individual buildings, one per section.
+; (Buildings = City Improvements and Wonders)
+;
+; The actual tag used (the * in [building_*]) does not matter, except 
+; it must be unique within this file, and it may be used in debug 
+; output when reading this file.
+;
+; Notes:
+;
+; name          = translatable name as seen by user
+; rule_name     = (optional) name for savegames, rulesets etc; if not
+;                 present, 'name' is used. Since the name used in savegames
+;                 must not change, use this when renaming a building after a
+;                 ruleset has been released.
+; genus	        = genus; one of:
+;                 "GreatWonder", "SmallWonder", "Improvement", "Special".
+; reqs		= requirements to build the building (see effects.ruleset
+;		  and README.effects for help on requirements)
+; graphic	= icon of improvement (used in city dialog)
+; graphic_alt	= alternate icon of improvement
+; obsolete_by	= advance which makes building obsolete; special
+;		  value "None" means does not become obsolete
+; build_cost	= production shields required to build
+; upkeep	= monetary upkeep value
+; sabotage	= percent chance of diplomat sabotage being successful
+; flags         = special flag strings
+;
+; */ <-- avoid gettext warnings
+
+[building_airport]
+name		= _("Airport")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Radio", "Player"
+    }
+graphic	= "b.airport"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 120
+upkeep		= 3
+sabotage	= 100
+sound		= "b_airport"
+sound_alt	= "b_generic"
+helptext	= _("\
+Allows a city to produce veteran air units (including helicopters). \
+ Also, damaged air units (again, including helicopters) which stay in\
+ town for one full turn without moving are completely restored.\
+"), _("\
+Two cities with Airports can airlift one unit per turn. \
+ Airlifting instantly transports the unit from one city to another\
+ and will use all of the unit's movement points.  A unit must have\
+ some movement points left to be airlifted.\
+")
+
+[building_aqueduct]
+name		= _("Aqueduct")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range", "negated"
+      "Tech", "Construction", "Player", 0
+      "Special", "River", "Adjacent", 1
+      "Terrain", "Lake", "Adjacent", 1
+    }
+graphic	= "b.aqueduct"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 60
+upkeep		= 2
+sabotage	= 100
+sound		= "b_aqueduct"
+sound_alt	= "b_generic"
+helptext	= _("\
+Allows a city to grow larger than size 8 and reduces the chance of plague\
+ within the city (-30%).  A Sewer System is required for a city to grow larger\
+ than size 16.\
+")
+
+[building_aqueduct_lake]
+name		= _("Aqueduct, near Lake")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range", "negated"
+      "Terrain", "Lake", "Adjacent", 0
+    }
+graphic	= "b.aqueduct"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 20
+upkeep		= 0
+sabotage	= 100
+sound		= "b_aqueduct"
+sound_alt	= "b_generic"
+helptext	= _("\
+Allows a city to grow larger than size 8 and reduces the chance of plague\
+ within the city (-30%).  A Sewer System is required for a city to grow larger\
+ than size 16.\
+")
+
+[building_aqueduct_river]
+name		= _("Aqueduct, near River")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range", "negated"
+      "Special", "River", "Adjacent", 0
+      "Terrain", "Lake", "Adjacent", 1
+    }
+graphic	= "b.aqueduct"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 20
+upkeep		= 0
+sabotage	= 100
+sound		= "b_aqueduct"
+sound_alt	= "b_generic"
+helptext	= _("\
+Allows a city to grow larger than size 8 and reduces the chance of plague\
+ within the city (-30%).  A Sewer System is required for a city to grow larger\
+ than size 16.\
+")
+
+[building_bank]
+name		= _("Bank")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Banking", "Player"
+      "Building", "Marketplace", "City"
+    }
+graphic	= "b.bank"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 80
+upkeep		= 2
+sabotage	= 100
+sound		= "b_bank"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Increases the luxury and tax output in a city by an additional 50%. \
+ The total bonus is 100% if there are Marketplace and Bank together\
+ in the same city.\
+")
+
+[building_barracks]
+name		= _("Barracks")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Warrior Code", "Player"
+    }
+graphic	= "b.barracks_i"
+graphic_alt	= "-"
+obsolete_by	= "Gunpowder"
+replaced_by	= "Barracks II"
+build_cost	= 30
+upkeep		= 1
+sabotage	= 100
+sound		= "b_barracks_i"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+With a Barracks, each new land unit built in a city will\
+ automatically have Veteran status, which means that its attack and\
+ defense strengths are increased by 50%.  Also, damaged land units\
+ which stay in town for one full turn without moving are completely\
+ restored.\
+")
+
+[building_barracks_ii]
+name		= _("Barracks II")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Gunpowder", "Player"
+    }
+graphic	= "b.barracks_ii"
+graphic_alt	= "b.barracks_i"
+obsolete_by	= "Mobile Warfare"
+replaced_by	= "Barracks III"
+build_cost	= 30
+upkeep		= 1
+sabotage	= 100
+sound		= "b_barracks_ii"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+With a Barracks, each new land unit built in a city will\
+ automatically have Veteran status, which means that its attack and\
+ defense strengths are increased by 50%.  Also, damaged land units\
+ which stay in town for one full turn without moving are completely\
+ restored.\
+")
+
+[building_barracks_iii]
+name		= _("Barracks III")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Mobile Warfare", "Player"
+    }
+graphic	= "b.barracks_iii"
+graphic_alt	= "b.barracks_i"
+obsolete_by	= "None"
+build_cost	= 30
+upkeep		= 1
+sabotage	= 100
+sound		= "b_barracks_iii"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+With a Barracks, each new land unit built in a city will\
+ automatically have Veteran status, which means that its attack and\
+ defense strengths are increased by 50%.  Also, damaged land units\
+ which stay in town for one full turn without moving are completely\
+ restored.\
+")
+
+[building_cathedral]
+name		= _("Cathedral")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Monotheism", "Player"
+      "Building", "Temple", "City"
+    }
+graphic	= "b.cathedral"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 80
+upkeep		= 3
+sabotage	= 100
+sound		= "b_cathedral"
+sound_alt	= "b_generic"
+helptext	= _("\
+A Cathedral makes 3 unhappy citizens content in a city, making it\
+ easier to maintain order in that city; however, it does not affect\
+ citizens made unhappy by military activity.  The discovery of Theology\
+ increases the effect of a Cathedral, making an additional unhappy\
+ citizen content.\
+")
+
+[building_city_walls]
+name		= _("City Walls")
+genus		= "Improvement"
+flags		= "VisibleByOthers"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Masonry", "Player"
+    }
+graphic	= "b.city_walls"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 30
+upkeep		= 0
+sabotage	= 50
+sound		= "b_city_walls"
+sound_alt	= "b_generic"
+helptext	= _("\
+City Walls make it easier to defend a city.  They double the defense\
+ strength of units within the city against land units.  They are\
+ ineffective against aircraft, helicopter, missile and sea units.\
+ City Walls also prevent the loss of population which occurs when\
+ a defending unit is destroyed by a land unit.\
+")
+
+[building_coastal_defense]
+name		= _("Coastal Defense")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Navigation", "Player"
+      "TerrainClass", "Oceanic", "Adjacent"
+    }
+graphic	= "b.coastal_defense"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 60
+upkeep		= 1
+sabotage	= 100
+sound		= "b_coastal_defense"
+sound_alt	= "b_generic"
+helptext	= _("\
+Increases the defense strength of units within a city by a factor\
+ of 2 when defending against bombardments from enemy ships.\
+")
+
+[building_colosseum]
+name            = _("Amphitheatre")
+rule_name		= _("Colosseum")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Construction", "Player"
+    }
+graphic	= "b.colosseum"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 70
+upkeep		= 3
+sabotage	= 100
+sound		= "b_colosseum"
+sound_alt	= "b_generic"
+helptext	= _("\
+Entertains the citizens of a city, making 3 unhappy citizens content. \
+ (Four after the discovery of Electricity.)  However, it does not\
+ affect citizens made unhappy by military activity.\
+")
+; NOTE:
+; For Civ2 the "Electricity" condition should be "Electronics"
+
+[building_courthouse]
+name		= _("Courthouse")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Code of Laws", "Player"
+    }
+graphic	= "b.courthouse"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 60
+upkeep		= 1
+sabotage	= 100
+sound		= "b_courthouse"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Reduces the corruption and waste in a city by 50%, it makes 1 unhappy\
+ citizen content (unless that citizen is unhappy about military activity),\
+ and it also makes the revolt cost of the city 4 times bigger. \
+")
+
+[building_factory]
+name		= _("Factory")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Industrialization", "Player"
+    }
+graphic	= "b.factory"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 140
+upkeep		= 3
+sabotage	= 100
+sound		= "b_factory"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Increases the shield production in a city by 25%.  This increase may\
+ contribute significantly to pollution caused by shield production. \
+ The Factory also increases the pollution caused by the population\
+ of the city (+25%).\
+")
+
+[building_granary]
+name		= _("Granary")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Pottery", "Player"
+    }
+graphic	= "b.granary"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 40
+upkeep		= 1
+sabotage	= 100
+sound		= "b_granary"
+sound_alt	= "b_generic"
+helptext	= _("\
+Whenever a city with a Granary shrinks or grows, the foodbox keeps\
+ 10 stored food.  This helps a city to grow faster and more easily\
+ withstand famine.\
+")
+; NOTE:
+; In Civ2, city size reduction does not generate food like this.
+; Dare I ask where this food comes from?? :-)
+
+[building_harbour]
+name            = _("Harbor")
+rule_name       = "Harbour"     ; en_GB spelling used originally
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Seafaring", "Player"
+      "Terrain", "Ocean", "Adjacent"
+    }
+graphic	= "b.harbour"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 40
+upkeep		= 1
+sabotage	= 100
+sound		= "b_harbour"
+sound_alt	= "b_generic"
+helptext	= _("\
+Gives one extra food resource on all Oceanic tiles.  The city needs\
+ to be coastal to build this improvement.\
+")
+
+[building_hydro_plant]
+name		= _("Hydro Plant")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Electronics", "Player"
+      "Building", "Factory", "City"
+      "Special", "River", "Adjacent"
+    }
+graphic	= "b.hydro_plant"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 180
+upkeep		= 4
+sabotage	= 100
+sound		= "b_hydro_plant"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Increases by 25% the effect of a Factory and another 25% the effect\
+ of a Mfg. Plant, and also reduces the amount of pollution generated\
+ by shield production to 50%.\
+"), _("\
+A Hydro Plant, in combination with a Factory and Mfg. Plant together\
+ give a 100% production bonus, with pollution only 50% of the equivalent\
+ combination with a Power Plant. The pollution is reduced to 25% if\
+ combined with a Recycling Center.\
+"), _("\
+In each city, only one Power Plant, Hydro Plant, Nuclear Plant, or\
+ Solar Plant can take effect at any one time.\
+")
+
+[building_library]
+name		= _("Library")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Writing", "Player"
+    }
+graphic	= "b.library"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 60
+upkeep		= 1
+sabotage	= 100
+sound		= "b_library"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Increases the science output in a city by 50% (by 100% if the\
+ Great Library wonder was built by any player).\
+")
+
+[building_marketplace]
+name		= _("Marketplace")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Currency", "Player"
+    }
+graphic	= "b.marketplace"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 60
+upkeep		= 0
+sabotage	= 100
+sound		= "b_marketplace"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Increases the luxury and tax output in a city by 50%.\
+")
+
+[building_mass_transit]
+name		= _("Mass Transit")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Mass Production", "Player"
+    }
+graphic	= "b.mass_transit"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 120
+upkeep		= 2
+sabotage	= 100
+sound		= "b_mass_transit"
+sound_alt	= "b_generic"
+helptext	= _("\
+Reduces the pollution generated by the population\
+ in a city by 50%.\
+")
+
+[building_mfg_plant]
+name		= _("Mfg. Plant")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Plastics", "Player"
+      "Building", "Factory", "City"
+    }
+graphic	= "b.mfg_plant"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 220
+upkeep		= 5
+sabotage	= 100
+sound		= "b_mfg_plant"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Increases the shield production in a city by an additional 25%. \
+ The bonus is 50% if there is any Power Plant in the same city.\
+"), _("\
+Manufacturing Plants also increase the pollution caused by the population\
+ of the city (+25%).\
+")
+
+[building_nuclear_plant]
+name		= _("Nuclear Plant")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Nuclear Power", "Player"
+      "Building", "Factory", "City"
+    }
+graphic	= "b.nuclear_plant"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 240
+upkeep		= 2
+sabotage	= 100
+sound		= "b_nuclear_plant"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Increases by 25% the effect of a Factory and another 25% the effect\
+ of a Mfg. Plant, and also reduces the amount of pollution generated\
+ by shield production to 50%.\
+"), _("\
+A Nuclear Plant, in combination with a Factory and Mfg. Plant together\
+ give a 100% production bonus, with pollution only 50% of the equivalent\
+ combination with a Power Plant. The pollution is reduced to 25% if\
+ combined with a Recycling Center.\
+"), _("\
+In each city, only one Power Plant, Hydro Plant, Nuclear Plant, or\
+ Solar Plant can take effect at any one time.\
+")
+
+[building_offshore_platform]
+name		= _("Offshore Platform")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Miniaturization", "Player"
+      "Terrain", "Ocean", "Adjacent"
+    }
+graphic	= "b.offshore_platform"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 120
+upkeep		= 3
+sabotage	= 100
+sound		= "b_offshore_platform"
+sound_alt	= "b_generic"
+helptext	= _("\
+Adds 1 extra shield resource on all Oceanic tiles worked by a city.  The\
+ city needs to be coastal to build this improvement.  Deep ocean tiles\
+ need a buoy placed in the tile to take advantage of the shield bonus\
+ (buoys are tile improvements available with the discovery of Radar).\
+"), _("\
+Offshore Platforms also increase the pollution caused by the population\
+ of the city (+25%).\
+")
+
+[building_palace]
+name		= _("Palace")
+genus		= "SmallWonder"
+flags		= "SaveSmallWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Masonry", "Player"
+    }
+graphic	= "b.palace"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 70
+upkeep		= 0
+sabotage	= 0
+sound		= "b_palace"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Makes a city the capital and the center of your government. \
+ Corruption in other cities is related to how far away from the\
+ capital they are, except when the government is Democracy or\
+ Communism.  The cost of inciting a revolt in a city also depends\
+ upon the city's distance from the capital (under all forms of\
+ government).\
+"), _("\
+Take good care of your capital, as its loss may result in your\
+ empire plunging into civil war. Losing your current palace also\
+ results in losing whatever spaceship you might have.\
+"),
+; /* xgettext:no-c-format */
+_("\
+Under Despotism the city containing the palace gains a +75%\
+ gold bonus, and under Monarchy a +50% gold bonus.\
+")
+
+[building_police_station]
+name		= _("Police Station")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Communism", "Player"
+    }
+graphic	= "b.police_station"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 50
+upkeep		= 2
+sabotage	= 100
+sound		= "b_police_station"
+sound_alt	= "b_generic"
+helptext	= _("\
+Makes 2 unhappy citizens content.  And it neutralises\
+ the unhappiness caused by 1 military unit.\
+")
+; NOTE:
+; For Civ2 this should reduce unhappiness by one for *each* unit
+; outside a city that is causing at least one unhappiness.
+
+[building_port_facility]
+name		= _("Port Facility")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Amphibious Warfare", "Player"
+      "TerrainClass", "Oceanic", "Adjacent"
+    }
+graphic	= "b.port_facility"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 60
+upkeep		= 3
+sabotage	= 100
+sound		= "b_port_facility"
+sound_alt	= "b_generic"
+helptext	= _("\
+Allows a city to build veteran sea units.  Also, damaged sea units\
+ which stay in town for one full turn without moving are completely\
+ restored.\
+")
+
+[building_power_plant]
+name		= _("Power Plant")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Refining", "Player"
+      "Building", "Factory", "City"
+    }
+graphic	= "b.power_plant"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 130
+upkeep		= 4
+sabotage	= 100
+sound		= "b_power_plant"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Increases by 25% the effect of a Factory and another 25% the\
+ effect of a Mfg. Plant.  A Power Plant in combination with\
+ either a Factory or Mfg. Plant gives a 50% production bonus over\
+ the level without any of these improvements; a Power Plant,\
+ Factory, and Mfg. Plant together give a 100% production bonus. \
+ The extra production may lead to the city generating more\
+ pollution.\
+"), _("\
+In each city, only one Power Plant, Hydro Plant, Nuclear Plant, or\
+ Solar Plant can take effect at any one time.\
+")
+
+[building_recycling_center]
+name		= _("Recycling Center")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Recycling", "Player"
+    }
+graphic	= "b.recycling_center"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 140
+upkeep		= 2
+sabotage	= 100
+sound		= "b_recycling_center"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Building a Recycling Center reduces the amount of pollution\
+ generated by production in a city by 50%.\
+")
+
+[building_research_lab]
+name		= _("Research Lab")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Computers", "Player"
+      "Building", "University", "City"
+    }
+graphic	= "b.research_lab"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 120
+upkeep		= 3
+sabotage	= 100
+sound		= "b_research_lab"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Increases the luxury and tax output in a city by an additional 50%\
+ (by 100% if the Internet wonder was built by any player).\
+"), _("\
+The total bonus is 150% if there are Library, University and\
+ Research Lab together in the same city. (300% if Great Library,\
+ Isaac Newton's College, and Internet were already built).\
+")
+
+[building_sam_battery]
+name		= _("SAM Battery")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Rocketry", "Player"
+    }
+graphic	= "b.sam_battery"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 70
+upkeep		= 2
+sabotage	= 100
+sound		= "b_sam_battery"
+sound_alt	= "b_generic"
+helptext	= _("\
+Doubles the defense of all units inside the city when attacked by\
+ aircrafts (including helicopters).\
+")
+
+[building_sdi_defense]
+name		= _("SDI Defense")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Laser", "Player"
+    }
+graphic	= "b.sdi_defense"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 140
+upkeep		= 4
+sabotage	= 100
+sound		= "b_sdi_defense"
+sound_alt	= "b_generic"
+helptext	= _("\
+Protects a city and its environs (up to 2 tiles away) from attacks\
+ by Nuclear units.  A Nuclear unit attacking a city with SDI Defense,\
+ or attacking a unit (or deliberately exploded) within range, is shot\
+ down and simply has no effect.  Also, doubles defense for units in\
+ the city against non-nuclear missiles.\
+")
+; NOTE:
+; Civ2 does not document the "Unit_Defend"/"Missile" aspect; does it apply or not?
+
+[building_sewer_system]
+name		= _("Sewer System")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Sanitation", "Player"
+      "MinSize", "9", "City"
+    }
+graphic	= "b.sewer_system"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 80
+upkeep		= 2
+sabotage	= 100
+sound		= "b_sewer_system"
+sound_alt	= "b_generic"
+helptext	= _("\
+Allows a city to grow larger than size 16.  Pre-requirement is an\
+ Aqueduct for a city to grow larger than size 8.  The Sewer System\
+ further reduces the chance of a plague (-30%).\
+")
+
+[building_solar_plant]
+name		= _("Solar Plant")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Environmentalism", "Player"
+      "Building", "Factory", "City"
+    }
+graphic	= "b.solar_plant"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 320
+upkeep		= 4
+sabotage	= 100
+sound		= "b_solar_plant"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Increases by 25% the effect of a Factory and another 25% the effect\
+ of a Mfg. Plant, and also reduces the amount of pollution generated\
+ by shield production to 25%.\
+"), _("\
+A Solar Plant, in combination with a Factory and Mfg. Plant together\
+ give a 100% production bonus, with pollution only 25% of the equivalent\
+ combination with a Power Plant.  The Solar Plant eliminates all pollution\
+ generated by production in the city if combined with a Recycling Center.\
+"), _("\
+In each city, only one Power Plant, Hydro Plant, Nuclear Plant, or\
+ Solar Plant can take effect at any one time.\
+")
+
+[building_space_component]
+name		= _("Space Component")
+genus		= "Special"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Superconductors", "Player"
+      "Building", "Factory", "City"
+      "Building", "Mfg. Plant", "City"
+      "Building", "Library", "City"
+      "Building", "University", "City"
+      "Building", "Research Lab", "City"
+    }
+graphic	= "b.space_component"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 160
+upkeep		= 0
+sabotage	= 100
+sound		= "b_space_component"
+sound_alt	= "b_generic"
+helptext	= _("\
+Space Components can be differentiated into Propulsion and Fuel\
+ Components.  Each pair of them reduces your spaceship's travel\
+ time.  You can build up to 8 pairs.\
+"), _("\
+Before you can build any spaceship parts, the Apollo Program wonder\
+ must have been built by any player.\
+")
+
+[building_space_module]
+name		= _("Space Module")
+genus		= "Special"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Environmentalism", "Player"
+      "Building", "Factory", "City"
+      "Building", "Mfg. Plant", "City"
+      "Building", "Library", "City"
+      "Building", "University", "City"
+      "Building", "Research Lab", "City"
+    }
+graphic	= "b.space_modules"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 320
+upkeep		= 0
+sabotage	= 100
+sound		= "b_space_module"
+sound_alt	= "b_generic"
+helptext	= _("\
+Space Modules are the most expensive parts of spaceships.  There\
+ are three different types of Space Module:\
+"), _("\
+- Habitation Module: provides living space for 10,000 people.\
+"), _("\
+- Life Support Module: provides food and water for the population of\
+  one Habitation Module.\
+"), _("\
+- Solar Panels: provides the energy needed for any two of the other\
+  Modules.\
+"), _("\
+You can build up to 4 Space Modules of each kind.\
+"), _("\
+Before you can build any spaceship parts, the Apollo Program wonder\
+ must have been built by any player.\
+")
+
+[building_space_structural]
+name		= _("Space Structural")
+genus		= "Special"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Space Flight", "Player"
+      "Building", "Factory", "City"
+      "Building", "Library", "City"
+      "Building", "University", "City"
+      "Building", "Research Lab", "City"
+    }
+graphic	= "b.space_structural"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 80
+upkeep		= 0
+sabotage	= 100
+sound		= "b_space_structural"
+sound_alt	= "b_generic"
+helptext	= _("\
+Space Structurals form the base of your spaceship.  All other\
+ spaceship parts need to be connected to Structurals in order to\
+ function.  You can build up to 32 Space Structurals.\
+"), _("\
+Before you can build any spaceship parts, the Apollo Program wonder\
+ must have been built by any player.\
+")
+
+[building_stock_exchange]
+name		= _("Stock Exchange")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Economics", "Player"
+      "Building", "Bank", "City"
+    }
+graphic	= "b.stock_exchange"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 120
+upkeep		= 3
+sabotage	= 100
+sound		= "b_stock_exchange"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Increases the luxury and tax output in a city by an additional 50%. \
+ The total bonus is 150% if there are Marketplace, Bank, and\
+ Stock Exchange together in the same city.\
+")
+
+[building_super_highways]
+name		= _("Super Highways")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Automobile", "Player"
+    }
+graphic	= "b.super_highways"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 120
+upkeep		= 3
+sabotage	= 100
+sound		= "b_super_highways"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Increases the luxury and tax output in a city by an additional 50%.\
+"), _("\
+Each tile around the city with roads, and without farmlands, that\
+ is already generating some trade, produces one extra trade resource.\
+"), _("\
+Super Highways also increase the pollution caused by the population\
+ of the city (+25%).\
+")
+
+[building_supermarket]
+name		= _("Supermarket")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Refrigeration", "Player"
+    }
+graphic	= "b.supermarket"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 80
+upkeep		= 3
+sabotage	= 100
+sound		= "b_supermarket"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Increases the food resources by 50% on each farmland tile which\
+ is being used around the city.  Farmland tiles are those which\
+ have been irrigated a second time.\
+")
+
+[building_temple]
+name		= _("Temple")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Ceremonial Burial", "Player"
+    }
+graphic	= "b.temple"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 30
+upkeep		= 1
+sabotage	= 100
+sound		= "b_temple"
+sound_alt	= "b_generic"
+helptext	= _("\
+Makes one unhappy citizen content.  The Mysticism advance doubles\
+ this effect.  With both Mysticism and the Temple of Artemis,\
+ 4 citizens are made content. \
+ Does not affect citizens made unhappy by military activity.\
+")
+
+[building_university]
+name		= _("University")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "University", "Player"
+      "Building", "Library", "City"
+    }
+graphic	= "b.university"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 120
+upkeep		= 2
+sabotage	= 100
+sound		= "b_university"
+sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Increases the luxury and tax output in a city by an additional 50%\
+ (by 100% if the Great Library wonder was built by any player).\
+"), _("\
+The total bonus is 100% if there are Library and University\
+ together in the same city (200% if Great Library and Isaac\
+ Newton's College were already built).
+")
+
+[building_apollo_program]
+name		= _("Apollo Program")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Space Flight", "Player"
+    }
+graphic	= "b.apollo_program"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 600
+upkeep		= 0
+sabotage	= 0
+sound		= "w_apollo_program"
+sound_alt	= "w_generic"
+helptext	= _("\
+The entire map becomes permanently visible to the player who owns it\
+ -- the player always has up-to-date knowledge of all terrain and\
+ cities (but not units) despite fog-of-war.  It allows all players to\
+ start building spaceship parts (assuming they have researched the\
+ necessary technologies).\
+")
+
+[building_asmiths_trading_co]
+name		= _("A.Smith's Trading Co.")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Economics", "Player"
+      "Building", "Stock Exchange", "City"
+    }
+graphic	= "b.asmiths_trading_co"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 400
+upkeep		= 0
+sabotage	= 0
+sound		= "w_asmiths_trading_co"
+sound_alt	= "w_generic"
+helptext	= _("\
+City improvements which would normally have an upkeep of 1 are free\
+ of upkeep, for every city with a Stock Exchange.  It also increases\
+ to 3 the output of Taxman specialists for every nation.\
+")
+
+[building_colossus]
+name		= _("Colossus")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Bronze Working", "Player"
+    }
+graphic	= "b.colossus"
+graphic_alt	= "-"
+obsolete_by	= "Automobile"
+build_cost	= 200
+upkeep		= 0
+sabotage	= 0
+sound		= "w_colossus"
+sound_alt	= "w_generic"
+helptext	= _("\
+Each tile around the city where this wonder is built that is already\
+ generating some trade produces one extra trade resource.\
+")
+
+[building_copernicus_observatory]
+name		= _("Copernicus' Observatory")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Astronomy", "Player"
+    }
+graphic	= "b.copernicus_observatory"
+graphic_alt	= "-"
+obsolete_by	= "Computers"
+build_cost	= 300
+upkeep		= 0
+sabotage	= 0
+sound		= "w_copernicus_observatory"
+sound_alt	= "w_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Each worked tile in the city where this wonder is built produces\
+ one extra science bulb.\
+")
+
+[building_cure_for_cancer]
+name		= _("Cure For Cancer")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Genetic Engineering", "Player"
+    }
+graphic	= "b.cure_for_cancer"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 600
+upkeep		= 0
+sabotage	= 0
+sound		= "w_cure_for_cancer"
+sound_alt	= "w_generic"
+helptext	= _("\
+This stunning technological achievement makes one content\
+ citizen happy in each of your cities (2 extra luxury per\
+ city).  It further reduces the possibility for an illness\
+ in the city (-10%).\
+")
+; NB: In Civ2 this makes 1 content citizen happy in all cities.
+
+[building_darwins_voyage]
+name		= _("Darwin's Voyage")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Steam Engine", "Player"
+    }
+graphic	= "b.darwins_voyage"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 300
+upkeep		= 0
+sabotage	= 0
+sound		= "w_darwins_voyage"
+sound_alt	= "w_generic"
+helptext	= _("\
+Charles Darwin's voyage sparked the discovery of the evolution\
+ of the species, which inspired greater confidence in science. \
+ All your cities generate 1 extra science bulb.  It also increases\
+ to 3 the output of Scientist specialists for every nation.\
+")
+
+[building_eiffel_tower]
+name		= _("Eiffel Tower")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Railroad", "Player"
+    }
+graphic	= "b.eiffel_tower"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 300
+upkeep		= 0
+sabotage	= 0
+sound		= "w_eiffel_tower"
+sound_alt	= "w_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Your reputation and goodwill among other nations is recovered twice\
+ as fast.  It also reduces the pollution caused by the population\
+ (-25% pollution) in all your cities.\
+")
+
+[building_great_library]
+name		= _("Great Library")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Literacy", "Player"
+      "Building", "Library", "City"
+    }
+graphic	= "b.great_library"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 300
+upkeep		= 0
+sabotage	= 0
+sound		= "w_great_library"
+sound_alt	= "w_generic"
+helptext	= _("\
+Gives an immediate technology advance.  And 4 extra science bulbs\
+ in the city where it is built. \
+ It also doubles the effect of Libraries for every nation.\
+")
+
+[building_great_wall]
+name		= _("Great Wall")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Construction", "Player"
+    }
+graphic	= "b.great_wall"
+graphic_alt	= "-"
+obsolete_by	= "Machine Tools"
+build_cost	= 300
+upkeep		= 0
+sabotage	= 0
+sound		= "w_great_wall"
+sound_alt	= "w_generic"
+helptext	= _("\
+Works as an extra City Wall (+50% defense bonus) in all your cities.\
+")
+; NOTE:
+; Civ2 also doubles attack -vs- barbs,
+; and enemies are forced to offer cease-fire or peace.
+
+[building_hanging_gardens]
+name		= _("Hanging Gardens")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Pottery", "Player"
+    }
+graphic	= "b.hanging_gardens"
+graphic_alt	= "-"
+obsolete_by	= "Electricity"
+build_cost	= 200
+upkeep		= 0
+sabotage	= 0
+sound		= "w_hanging_gardens"
+sound_alt	= "w_generic"
+helptext	= _("\
+Makes one unhappy citizen content in every city. \
+ And creates 4 extra luxuries in the city where it is located.\
+")
+
+[building_hoover_dam]
+name		= _("Hoover Dam")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Electronics", "Player"
+      "Special", "River", "Adjacent"
+      "Building", "Factory", "City"
+    }
+graphic	= "b.hoover_dam"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 600
+upkeep		= 0
+sabotage	= 0
+sound		= "w_hoover_dam"
+sound_alt	= "w_generic"
+helptext	= _("\
+Works as if you had a Hydro Plant in the city where it is placed,\
+ and reduces the pollution caused by Hydro Plants in all your cities\
+ to same values than Solar Plants (-25% pollution).\
+")
+
+[building_isaac_newtons_college]
+name		= _("Isaac Newton's College")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Theory of Gravity", "Player"
+      "Building", "University", "City"
+    }
+graphic	= "b.isaac_newtons_college"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 400
+upkeep		= 0
+sabotage	= 0
+sound		= "w_isaac_newtons_college"
+sound_alt	= "w_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Gives an immediate technology advance.  And 6 extra science bulbs\
+ in the city where it is built. \
+ It also doubles the effect of Universities for every nation.\
+")
+
+[building_js_bachs_cathedral]
+name		= _("J.S. Bach's Cathedral")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Theology", "Player"
+    }
+graphic	= "b.js_bachs_cathedral"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 400
+upkeep		= 0
+sabotage	= 0
+sound		= "w_js_bachs_cathedral"
+sound_alt	= "w_generic"
+helptext	= _("\
+Makes one content citizen happy in every city (2 extra luxury\
+ per city).\
+")
+
+[building_king_richards_crusade]
+name		= _("King Richard's Crusade")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Chivalry", "Player"
+    }
+graphic	= "b.king_richards_crusade"
+graphic_alt	= "-"
+obsolete_by	= "Communism"
+build_cost	= 300
+upkeep		= 0
+sabotage	= 0
+sound		= "w_king_richards_crusade"
+sound_alt	= "w_generic"
+helptext	= _("\
+It neutralises the unhappiness caused by 1 aggressively\
+ deployed military unit per city.  Under Monarchy government,\
+ it neutralises all the unhappiness caused by military units.\
+")
+
+[building_leonardos_workshop]
+name		= _("Leonardo's Workshop")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Invention", "Player"
+    }
+graphic	= "b.leonardos_workshop"
+graphic_alt	= "-"
+obsolete_by	= "Combustion"
+build_cost	= 400
+upkeep		= 0
+sabotage	= 0
+sound		= "w_leonardos_workshop"
+sound_alt	= "w_generic"
+helptext	= _("\
+Upgrades one obsolete unit per game turn.\
+")
+
+[building_lighthouse]
+name		= _("Lighthouse")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Map Making", "Player"
+      "Terrain", "Ocean", "Adjacent"
+    }
+graphic	= "b.lighthouse"
+graphic_alt	= "-"
+obsolete_by	= "Engineering"
+build_cost	= 200
+upkeep		= 0
+sabotage	= 0
+sound		= "w_lighthouse"
+sound_alt	= "w_generic"
+helptext	= _("\
+Gives all your sea units 1 additional movement point.  Makes all your\
+ new military sea units veterans (for all your cities).\
+")
+
+[building_magellans_expedition]
+name		= _("Magellan's Expedition")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Magnetism", "Player"
+      "Terrain", "Ocean", "Adjacent"
+    }
+graphic	= "b.magellans_expedition"
+graphic_alt	= "-"
+obsolete_by	= "Nuclear Power"
+build_cost	= 400
+upkeep		= 0
+sabotage	= 0
+sound		= "w_magellans_expedition"
+sound_alt	= "w_generic"
+helptext	= _("\
+Gives all your sea units 1 additional movement point. The chance\
+ of a sea unit getting the next veteran level after a battle\
+ increases by half.\
+")
+
+[building_manhattan_project]
+name		= _("Manhattan Project")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Nuclear Fission", "Player"
+    }
+graphic	= "b.manhattan_project"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 600
+upkeep		= 0
+sabotage	= 0
+sound		= "w_manhattan_project"
+sound_alt	= "w_generic"
+;helptext is set in client/helpdata.c:helptext_wonder()
+;helptext	=
+
+[building_marco_polos_embassy]
+name		= _("Marco Polo's Embassy")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Trade", "Player"
+    }
+graphic	= "b.marco_polos_embassy"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 200
+upkeep		= 0
+sabotage	= 0
+sound		= "w_marco_polos_embassy"
+sound_alt	= "w_generic"
+helptext	= _("\
+The player who owns it gets an embassy with all players.\
+")
+
+[building_michelangelos_chapel]
+name		= _("Michelangelo's Chapel")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Monotheism", "Player"
+      "Building", "Cathedral", "City"
+    }
+graphic	= "b.michelangelos_chapel"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 400
+upkeep		= 0
+sabotage	= 0
+sound		= "w_michelangelos_chapel"
+sound_alt	= "w_generic"
+helptext	= _("\
+Doubles the effect of Cathedrals.  This makes 3 additional unhappy\
+ citizens content in each city; however, it does not affect citizens\
+ made unhappy by military activity.\
+")
+
+[building_mausoleum_of_mausolos]
+name		= _("Mausoleum of Mausolos")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Ceremonial Burial", "Player"
+    }
+graphic	= "b.oracle"
+graphic_alt	= "-"
+obsolete_by	= "Explosives"
+build_cost	= 200
+upkeep		= 0
+sabotage	= 0
+sound		= "w_oracle"
+sound_alt	= "w_generic"
+helptext	= _("\
+Makes one unhappy citizen content in every city with Walls. \
+ And 3 additional unhappy citizen content in the city where it is built. \
+ No one of your cities can be incited to revolt.\
+")
+
+[building_statue_of_zeus]
+name		= _("Statue of Zeus")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Polytheism", "Player"
+    }
+graphic	= "b.oracle"
+graphic_alt	= "-"
+obsolete_by	= "Conscription"
+build_cost	= 200
+upkeep		= 0
+sabotage	= 0
+sound		= "w_oracle"
+sound_alt	= "w_generic"
+helptext	= _("\
+It neutralises the unhappiness caused by 1 military unit per city,\
+ and it increases by 1 the units free of upkeep per city.\
+")
+
+[building_temple_of_artemis]
+name		= _("Temple of Artemis")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Mysticism", "Player"
+      "Building", "Temple", "City"
+    }
+graphic	= "b.oracle"
+graphic_alt	= "-"
+obsolete_by	= "Theology"
+build_cost	= 200
+upkeep		= 0
+sabotage	= 0
+sound		= "w_oracle"
+sound_alt	= "w_generic"
+helptext	= _("\
+Makes 2 additional unhappy citizens content in every city with\
+ a Temple.  Does not affect citizens made unhappy by military\
+ activity.\
+")
+
+[building_pyramids]
+name		= _("Pyramids")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Masonry", "Player"
+    }
+graphic	= "b.pyramids"
+graphic_alt	= "-"
+obsolete_by	= "Railroad"
+build_cost	= 200
+upkeep		= 0
+sabotage	= 0
+sound		= "w_pyramids"
+sound_alt	= "w_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Each tile around the city where this wonder is built that is already\
+ generating some shield produces one extra shield resource. \
+ Under Despotism or Tribal governments, the Pyramids cancel the penalty\
+ from worked tiles with output greater than 2.\
+")
+
+[building_internet]
+name		= _("Internet")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Computers", "Player"
+      "Building", "Research Lab", "City"
+    }
+graphic	= "b.seti_program"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 600
+upkeep		= 0
+sabotage	= 0
+sound		= "w_seti_program"
+sound_alt	= "w_generic"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Reveals all cities in the map.  Gives an immediate technology\
+ advance. And doubles the effect of Research Labs for every nation.\
+")
+
+[building_shakespeares_theatre]
+name		= _("Shakespeare's Theatre")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Sanitation", "Player"
+    }
+graphic	= "b.shakespeares_theatre"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 300
+upkeep		= 0
+sabotage	= 0
+sound		= "w_shakespeares_theatre"
+sound_alt	= "w_generic"
+helptext	= _("\
+Gives 1 additional luxury to every city, and 6 luxuries to the city\
+ where it is located.  It also increases to 3 the output of Elvis\
+ specialists for every nation.\
+")
+
+[building_statue_of_liberty]
+name		= _("Statue of Liberty")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Democracy", "Player"
+    }
+graphic	= "b.statue_of_liberty"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 400
+upkeep		= 0
+sabotage	= 0
+sound		= "w_statue_of_liberty"
+sound_alt	= "w_generic"
+helptext	= _("\
+Gives you freedom to break any diplomatic agreement even if your government\
+ has a senate.  It also allows to change the government without the transition\
+ period of Anarchy.\
+")
+
+[building_sun_tzus_war_academy]
+name		= _("Sun Tzu's War Academy")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Feudalism", "Player"
+    }
+graphic	= "b.sun_tzus_war_academy"
+graphic_alt	= "-"
+obsolete_by	= "Mobile Warfare"
+build_cost	= 300
+upkeep		= 0
+sabotage	= 0
+sound		= "w_sun_tzus_war_academy"
+sound_alt	= "w_generic"
+helptext	= _("\
+All your new military land units start at the first veteran level.  The\
+ chance of a land unit getting the next veteran level after a battle\
+ increases by half.\
+")
+
+[building_united_nations]
+name		= _("United Nations")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Communism", "Player"
+    }
+graphic	= "b.united_nations"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 600
+upkeep		= 0
+sabotage	= 0
+sound		= "w_united_nations"
+sound_alt	= "w_generic"
+helptext	= _("\
+Creates a world senate that may prevent declarations of\
+ war in some circumstances.  It allows to every nation\
+ to choose any government, including those that have not\
+ yet been researched.  If any player's city is in revolt\
+ for more than two turns, that player's government falls. \
+ Also, your reputation and goodwill among other nations is\
+ recovered twice as fast.\
+")
+; NOTE: 
+; This does not match Civ1 or Civ2, but diplomatic effects are 
+; not very effective in multiplayer, and hitpoints effects do not
+; apply for Civ1.  Note in Civ1 Pyramids have a gov-change effect,
+; but become obsolete, and the Statue of Liberty does not exist.
+; NOTE:
+; In Civ2 this provides embassies, forces peaceful enemies and
+; allows Democracy to declare war 50% of the time.
+
+[building_womens_suffrage]
+name		= _("Women's Suffrage")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Conscription", "Player"
+    }
+graphic	= "b.womens_suffrage"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 600
+upkeep		= 0
+sabotage	= 0
+sound		= "w_womens_suffrage"
+sound_alt	= "w_generic"
+helptext	= _("\
+It reduces the unhappiness caused by aggressively deployed military\
+ units owned by that city by 2 under Democracy and 1 under Republic\
+ or Federation -- in other words, it neutralises the unhappiness\
+ caused by a single military unit per city.\
+")
+; NOTE:
+; For Civ2 this should reduce unhappiness by one for *each* unit
+; outside a city that is causing at least one unhappiness.
+
+[building_capitalization]
+name		= _("Coinage")
+genus		= "Special"
+flags		= "Gold"
+reqs	=
+    { "type", "name", "range"
+
+    }
+graphic	= "b.capitalization"
+graphic_alt	= "-"
+obsolete_by	= "None"
+build_cost	= 999
+upkeep		= 0
+sabotage	= 0
+; FIXME: this is the real helptext; restore when have a subordnate analogue
+; /* (ignore for gettext until fixed)
+;helptext	= _("\
+;This is not a normal improvement.  Instead, setting a city's\
+; production to Capitalization means its shield production is\
+; converted to tax output (money).\
+;")
+; */
+helptext	= _("\
+This is not a normal improvement.  Instead, setting a city's\
+ production to Coinage means its shield production is\
+ converted to tax output (money, coins!).\
+")

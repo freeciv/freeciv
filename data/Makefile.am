@@ -29,7 +29,8 @@ SERVER_FILES = \
 	civ2.serv \
 	default.serv \
 	experimental.serv \
-	multiplayer.serv
+	multiplayer.serv \
+	civ2civ3.serv
 else
 SERVER_FILES =
 endif
@@ -59,7 +60,8 @@ EXTRA_DIST = \
 	civ2.serv	\
 	default.serv	\
 	experimental.serv \
-	multiplayer.serv
+	multiplayer.serv \
+	civ2civ3.serv
 
 if CLIENT
 CLIENTDATADIRS = amplio2 misc flags buildings cimpletoon isotrident trident\
@@ -69,7 +71,7 @@ CLIENTDATADIRS =
 endif
 
 if SERVER
-SERVERDATADIRS = default classic civ1 civ2 experimental multiplayer scenarios nation
+SERVERDATADIRS = default classic civ1 civ2 experimental multiplayer civ2civ3 scenarios nation
 else
 SERVERDATADIRS = 
 endif

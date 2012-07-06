@@ -21,6 +21,7 @@ EXTRA_DIST =			\
 	README.packaging	\
 	README.ruleset_experimental \
 	README.ruleset_multiplayer \
+	README.ruleset_civ2civ3	\
 	README.rulesets		\
 	README.scorelog		\
 	README.SDLClient	\
