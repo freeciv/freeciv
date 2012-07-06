@@ -14,29 +14,13 @@ else
 SSUBDIRS =
 endif
 
-if SERVER
-if CLIENT
-MSUBDIRS = manual
-else
-MSUBDIRS = 
-endif
-else
-MSUBDIRS = 
-endif
-
 if MAKE_DATA
 DSUBDIRS = data
 else
 DSUBDIRS =
 endif
 
-if MODINST
-MODSUBDIRS = modinst
-else
-MODSUBDIRS =
-endif
-
-SUBDIRS = $(DSUBDIRS) dependencies utility common tests win32 $(SSUBDIRS) $(CSUBDIRS) po doc $(MSUBDIRS) $(MODSUBDIRS)
+SUBDIRS = $(DSUBDIRS) dependencies utility common tests win32 $(SSUBDIRS) $(CSUBDIRS) po doc tools
 
 ## Automake should distribute config.rpath automatically - and new
 ## versions probably do. We still support versions that do not, so

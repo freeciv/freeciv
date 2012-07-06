@@ -1377,8 +1377,7 @@ AC_CONFIG_FILES([Makefile
           server/advisors/Makefile
 	  server/generator/Makefile
 	  server/scripting/Makefile
-	  manual/Makefile
-          modinst/Makefile
+          tools/Makefile
 	  po/Makefile.in
 	  doc/Makefile
 	  doc/man/Makefile
@@ -1396,7 +1395,7 @@ AC_CONFIG_FILES([Makefile
 	  data/Freeciv
 	  client/freeciv.desktop:bootstrap/freeciv.desktop.in
 	  server/freeciv-server.desktop:bootstrap/freeciv-server.desktop.in
-	  modinst/freeciv-modpack.desktop:bootstrap/freeciv-modpack.desktop.in])
+	  tools/freeciv-modpack.desktop:bootstrap/freeciv-modpack.desktop.in])
 AC_CONFIG_FILES([fcgui:bootstrap/fcgui.in], [chmod +x fcgui])
 AC_CONFIG_FILES([fcser:bootstrap/fcser.in], [chmod +x fcser])
 
