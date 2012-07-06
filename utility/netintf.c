@@ -635,9 +635,11 @@ int find_next_free_port(int starting_port, enum fc_addr_family family)
    case FC_ADDR_IPV4:
      gafamily = AF_INET;
      break;
+#ifdef IPV6_SUPPORT
    case FC_ADDR_IPV6:
      gafamily = AF_INET6;
      break;
+#endif /* IPV6_SUPPORT */
    case FC_ADDR_ANY:
      gafamily = AF_UNSPEC;
      break;
