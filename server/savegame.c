@@ -3413,7 +3413,7 @@ static void game_load_internal(struct section_file *file)
   }
 
   /* load rulesets */
-  if (load_rulesets()) {
+  if (!load_rulesets()) {
     /* Failed to load correct ruleset */
     exit(EXIT_FAILURE);
   }
