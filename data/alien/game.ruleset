@@ -69,14 +69,14 @@ autoupgrade_veteran_loss = 0
 pillage_select		= 1
 
 ; Method of paying unit and improvement gold upkeep
-; 0 - The player's total gold must be non-negative after paying upkeep
-;     costs associated with each city. If for any city the player's gold
+; 0 - The player`s total gold must be non-negative after paying upkeep
+;     costs associated with each city. If for any city the player`s gold
 ;     is negative, random buildings in the city are sold off. If the gold
 ;     is still negative, then supported units with gold upkeep are
 ;     disbanded.
-; 1 - In the first step, the player's total gold must be non-negative after
+; 1 - In the first step, the player`s total gold must be non-negative after
 ;     paying upkeep for all buildings within a city. If for any city the
-;     player's gold is negative, random buildings in the city are sold off.
+;     player`s gold is negative, random buildings in the city are sold off.
 ;     In the second step, gold upkeep for all units is paid in a lump sum.
 ;     If the player does not have enough gold, random units with gold upkeep
 ;     are disbanded.
@@ -121,7 +121,7 @@ illness_on               = 0
 illness_base_factor      = 50
 ; minimum city size for illness
 illness_min_size         = 2
-; factor for how much trading with a plagued city increases our city's
+; factor for how much trading with a plagued city increases our city`s
 ; chance for plague (in percent)
 illness_trade_infection  = 0
 ; factor for how much pollution within a city increases its chance for

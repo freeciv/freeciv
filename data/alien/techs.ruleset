@@ -114,7 +114,6 @@ req2        = "None"
 flags       = ""
 graphic     = "a.alphabet"
 graphic_alt = "-"
-helptext    = _("")
 
 [advance_brute_force]
 name        = _("Brute Force")
@@ -219,7 +218,7 @@ req2        = "Crust Defense"
 flags       = ""
 graphic     = "a.alphabet"
 graphic_alt = "-"
-helptext    = _("We can pump water from the depths of the crust. We no longer
+helptext    = _("We can pump water from the depths of the crust. We no longer\
 need any of the adjacent tiles to have water in order to build irrigation.")
 
 [advance_deneb_radar]
