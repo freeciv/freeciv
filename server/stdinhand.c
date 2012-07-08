@@ -4959,6 +4959,15 @@ static bool delegate_command(struct connection *caller, char *arg,
       goto cleanup;
     }
 
+    if (!player_delegation_get(dplayer)
+        || strcmp(player_delegation_get(dplayer), caller->username) != 0) {
+      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                _("Control of player '%s' has not been delegated to you."),
+                player_name(dplayer));
+      ret = FALSE;
+      goto cleanup;
+    }
+
     /* If the player is controlled by another user, fail. */
     if (dplayer->is_connected) {
       cmd_reply(CMD_TAKE, caller, C_FAIL,
