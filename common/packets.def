@@ -1438,6 +1438,7 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   STRING activity_gfx[MAX_LEN_NAME];
   UINT8 move_cost;
   UINT8 build_time;
+  BOOL buildable;
   UINT16 tile_incr[O_LAST];
   UINT16 tile_bonus[O_LAST];
   UINT8 reqs_count;

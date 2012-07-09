@@ -1070,6 +1070,7 @@ They have no effect on gameplay.\
 ;                           movement point.
 ; build_time              = how many movement points it takes to build this road. Value of
 ;                           0 means that terrain specific value is used instead.
+; buildable               = Can road be built? Defaults to true
 ; food_incr               = food production added to tile
 ; shield_incr             = shield production added to tile
 ; trade_incr              = trade production added to tile

@@ -176,6 +176,11 @@ bool road_can_be_built(const struct road_type *proad, const struct tile *ptile)
     return FALSE;
   }
 
+ if (!proad->buildable) {
+    /* Road type not buildable. */
+    return FALSE;
+  }
+
   if (tile_has_road(ptile, proad)) {
     /* Road exist already */
     return FALSE;

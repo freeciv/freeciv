@@ -3162,6 +3162,7 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
 
   proad->move_cost = p->move_cost;
   proad->build_time = p->build_time;
+  proad->buildable = p->buildable;
 
   output_type_iterate(o) {
     proad->tile_incr[o] = p->tile_incr[o];
