@@ -1649,12 +1649,14 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
   Ocean tile can be claimed iff one of the following conditions stands:
   a) it is an inland lake not larger than MAXIMUM_OCEAN_SIZE
   b) it is adjacent to only one continent and not more than two ocean tiles
-  c) It is one tile away from a city
+  c) It is one tile away from a border source
+  d) Player knows tech with Claim_Ocean flag
   The source which claims the ocean has to be placed on the correct continent.
   in case a) The continent which surrounds the inland lake
   in case b) The only continent which is adjacent to the tile
 *************************************************************************/
-static bool is_claimable_ocean(struct tile *ptile, struct tile *source)
+static bool is_claimable_ocean(struct tile *ptile, struct tile *source,
+                               struct player *pplayer)
 {
   Continent_id cont = tile_continent(ptile);
   Continent_id source_cont = tile_continent(source);
@@ -1668,6 +1670,10 @@ static bool is_claimable_ocean(struct tile *ptile, struct tile *source)
 
   if (ptile == source) {
     /* Source itself is always claimable. */
+    return TRUE;
+  }
+
+  if (num_known_tech_with_flag(pplayer, TF_CLAIM_OCEAN) > 0) {
     return TRUE;
   }
 
@@ -1851,7 +1857,7 @@ void map_claim_border(struct tile *ptile, struct player *owner)
     }
 
     if (is_ocean_tile(dtile)) {
-      if (is_claimable_ocean(dtile, ptile)) {
+      if (is_claimable_ocean(dtile, ptile, owner)) {
         map_claim_ownership(dtile, owner, ptile);
       }
     } else {

@@ -87,6 +87,9 @@ typedef int Tech_type_id;
 /* Player can build air units */
 #define SPECENUM_VALUE4 TF_BUILD_AIRBORNE
 #define SPECENUM_VALUE4NAME "Build_Airborne"
+/* Player can claim ocean tiles non-adjacent to border source */ 
+#define SPECENUM_VALUE5 TF_CLAIM_OCEAN
+#define SPECENUM_VALUE5NAME "Claim_Ocean"
 /* Keep this last. */
 #define SPECENUM_COUNT TF_COUNT
 #include "specenum_gen.h"
