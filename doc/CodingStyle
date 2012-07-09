@@ -6,11 +6,35 @@ If you want to hack Freeciv, and want your patches to be accepted, it helps
 to follow some simple style rules. Yes, some of these are a bit nit-picky,
 but wars are fought over the silliest things ...
 
-- Freeciv is programmed in plain C with some C99 features. This means that:
-  - C++-style comments (i.e., // comments) are forbidden.
-  - Declaring variables in the middle of the function body is forbidden
-    (unless you are using C99 dynamic arrays and you need to check the size
-    of the array before you declare it).
+- This style is used for all code in Freeciv. Freeciv gtk-clients use
+  this style, not gtk style.
+
+- Freeciv is mostly programmed in C, C89 with some C99 features.
+  Qt parts are programmed in C++. Even C++ parts should have mostly
+  consistent style with C parts, so where not otherwise noted, this
+  guide applies to C++ parts too. Headers that are included to both
+  C and C++ source files follow C style.
+
+- C++-style comments (i.e., // comments) are forbidden in C code.
+  They should be used for single-line comments in C++ code.
+
+- Declaring variables in the middle of the function body is forbidden
+  (unless you are using C99 dynamic arrays and you need to check the size
+   of the array before you declare it).
+
+- Where variable is logically boolean, 'bool' type should be used even in
+  C code. To make sure that the type is defined, include utility/support.h.
+  In C code boolean values are uppercase macros 'TRUE' and 'FALSE'.
+  In C++ code lowercase boolean values 'true' and 'false' should be used.
+
+- Functions that take no arguments should be declared and defined with
+  'void' argument list in C code, and empty argument list in C++ code.
+
+  C:
+    int no_arguments(void);
+
+  C++:
+    int no_arguments();
 
 - Use K&R indentation style with indentation 2 (if in doubt, use "indent -kr
   -i2 -l77", but beware that that will probably mangle the _() macros used
