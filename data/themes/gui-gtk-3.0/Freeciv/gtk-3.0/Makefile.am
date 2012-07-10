@@ -10,9 +10,6 @@ SUBDIRS = Arrows Buttons Check-Radio Combo Frame-Gap Handles Lines \
 pkgdata_DATA =          	\
 	bg.png			\
 	gtk.css			\
-	gtkrc			\
-	menubar.css		\
-	menubar.rc		\
-	panel.rc
+	menubar.css
 
 EXTRA_DIST = $(pkgdata_DATA)
