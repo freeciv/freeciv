@@ -294,8 +294,10 @@ bool fcdb_init(const char *conf_file)
     /* Print all options in LOG_DEBUG level... */
     fcdb_print_config(LOG_DEBUG, SST_ALL, TRUE);
 
-    /* ...and those missing from config file with LOG_NORMAL too */
-    fcdb_print_config(LOG_NORMAL, SST_DEFAULT, FALSE);
+    /* ...and those missing from config file with LOG_VERBOSE too.
+     * (Missing options are valid; for instance a file-based backend like
+     * SQLIte has no need of server/port/etc.) */
+    fcdb_print_config(LOG_VERBOSE, SST_DEFAULT, FALSE);
 
   } else {
     log_debug("No fcdb config file. Using defaults");
