@@ -17,7 +17,10 @@ database access script logs the time and IP address of each attempted
 login, although this information is not used by the Freeciv server itself.
 
 To use the Freeciv database and authentication, the server has to be built
-with the '--enable-fcdb' and '--enable-auth' options to 'configure'.
+with the '--enable-fcdb' and '--enable-auth' options to 'configure'. It
+must also be installed properly, as it searches for database.lua in the
+install location; the server cannot simply be run from a build directory if
+authentication is required.
 
 ================================
  Quick setup: SQLite
@@ -136,10 +139,13 @@ The following server command-line options are relevant to authentication:
  Lua script database.lua
 ================================
 
-This script (which lives by default in data/database.lua) is responsible
-for checking usernames, fetching passwords, and saving new users (if
---Newusers is enabled). It encapsulates access to the database backend, and
-hence the details of the table layout.
+This script is responsible for checking usernames, fetching passwords, and
+saving new users (if --Newusers is enabled). It encapsulates access to the
+database backend, and hence the details of the table layout.
+
+The script lives in data/database.lua in the source tree, and is installed
+to 'sysconfdir'; depending on the options given to 'configure' at build
+time, this may be a location like /usr/local/etc/freeciv/database.lua.
 
 The supplied version supports basic authentication against a SQLite or
 MySQL database; if that's sufficient for you, it's not necessary to

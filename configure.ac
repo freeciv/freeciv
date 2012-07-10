@@ -1039,6 +1039,8 @@ AC_MSG_CHECKING([for SIGPIPE])
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <signal.h>]], [[signal (SIGPIPE, SIG_IGN)]])],[AC_MSG_RESULT([yes])
                 AC_DEFINE(HAVE_SIGPIPE, 1, [sigpipe support])],[AC_MSG_RESULT([no])])
 
+FC_CONF_PATH="$sysconfdir/freeciv"
+
 dnl export where the datadir is going to be installed
 FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
 
@@ -1051,6 +1053,7 @@ else
   DEFAULT_SAVE_PATH=".:~/.freeciv/saves"
   DEFAULT_SCENARIO_PATH=".:data/scenarios:~/.freeciv/$DATASUBDIR/scenarios:~/.freeciv/scenarios:$datadir/freeciv/scenarios"
 fi
+CPPFLAGS="$CPPFLAGS -DFC_CONF_PATH=\"\\\"$FC_CONF_PATH\\\"\""
 CPPFLAGS="$CPPFLAGS -DDEFAULT_DATA_PATH=\"\\\"$DEFAULT_DATA_PATH\\\"\""
 CPPFLAGS="$CPPFLAGS -DDEFAULT_SAVES_PATH=\"\\\"$DEFAULT_SAVES_PATH\\\"\""
 CPPFLAGS="$CPPFLAGS -DDEFAULT_SCENARIO_PATH=\"\\\"$DEFAULT_SCENARIO_PATH\\\"\""

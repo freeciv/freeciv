@@ -39,6 +39,10 @@ Updating from 2.3 to 2.4
   We recommend packagers build in support for at least SQLite, even if
   they did not support MySQL in previous versions, so that their users
   can run servers with authentication without rebuilding.
+* There's a new script file database.lua, used for authentication,
+  installed into sysconfdir (e.g. /usr/local/etc/freeciv/database.lua).
+  Server operators might want to tweak this, so we recommend it's treated
+  as a configuration file (e.g., conffile in Debian).
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

@@ -189,12 +189,7 @@ bool script_fcdb_init(const char *fcdb_luafile)
 
   if (!fcdb_luafile) {
     /* Use default freeciv database lua file. */
-    fcdb_luafile = fileinfoname(get_data_dirs(), SCRIPT_FCDB_LUA_FILE);
-  }
-
-  if (!fcdb_luafile) {
-    log_error("Freeciv database script '%s' not in data path.", fcdb_luafile);
-    return FALSE;
+    fcdb_luafile = FC_CONF_PATH "/" SCRIPT_FCDB_LUA_FILE;
   }
 
   fcl = luascript_new(NULL);

@@ -1,5 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
+pkgsysconfdir = $(sysconfdir)/$(PACKAGE)
+
 if CLIENT
 CLIENT_FILES =				\
 	hex2t.tilespec			\
@@ -24,16 +26,20 @@ endif
 
 if SERVER
 SERVER_FILES = \
-	database.lua \
 	civ1.serv \
 	civ2.serv \
 	default.serv \
 	experimental.serv \
 	multiplayer.serv
+
+SERVER_CONF = database.lua
+
 else
 SERVER_FILES =
+SERVER_CONF =
 endif
 
+pkgsysconf_DATA = $(SERVER_CONF)
 pkgdata_DATA = $(SERVER_FILES) $(CLIENT_FILES)
 
 # Freeciv.rc was originally for gui-gtk but is also used by gui-sdl
