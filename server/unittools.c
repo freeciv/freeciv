@@ -671,8 +671,9 @@ void notify_unit_experience(struct unit *punit)
 
   notify_player(unit_owner(punit), unit_tile(punit),
                 E_UNIT_BECAME_VET, ftc_server,
-                /* TRANS: Your <unit> became ... */
-                _("Your %s became more experienced and became %s."),
+                /* TRANS: Your <unit> became ... rank of <veteran level>. */
+                _("Your %s became more experienced and achieved the rank "
+                  "of %s."),
                 unit_link(punit), name_translation(&vlevel->name));
 }
 
