@@ -3,40 +3,121 @@
 ===========================================================================
 
 The Freeciv server allows the authentication of users, although by default
-it is not enabled and anyone can connect with any name.
+it is not enabled, and anyone can connect with any name.
 
 In order to support authentication, the Freeciv server needs access to a
 database backend in which to store the credentials. To support different
 database backends, the database access code is written in Lua using luasql.
-In principle, luasql supports MySQL, Postgres and SQLite3 backends, and the
-Freeciv server can be built with any or all of these; however, the supplied
-scripts currently only support the MySQL backend.
+In principle, luasql supports SQLite3, MySQL, and Postgres backends, and
+the Freeciv server can be built with any or all of these; however, the
+supplied scripts currently do not support Postgres out of the box.
 
-================================
- Basic usage
-================================
+As well as storing and retrieving usernames and passwords, the supplied
+database access script logs the time and IP address of each attempted
+login, although this information is not used by the Freeciv server itself.
 
 To use the Freeciv database and authentication, the server has to be built
 with the '--enable-fcdb' and '--enable-auth' options to 'configure'.
 
-The supplied scripts/setup_auth_server.sh can be used to create database
-tables in an existing MySQL database, and a suitable config file describing
-that database, which can be passed to the server's '--Database' option.
+================================
+ Quick setup: SQLite
+================================
+
+The simplest setup is to use the SQLite backend. In this setup, the
+authentication data is stored in a simple file accessed directly by the
+Freeciv server; there is no need for a separate database server process.
+
+In order to use this, the server must have been built with
+'--enable-fcdb=sqlite3'.
+
+To set this up, first create a database configuration file called something
+like fc_auth.conf, with the 'database' key specifying where the database
+file is to live (of course it must be readable and writable by the Freeciv
+server):
+
+  [fcdb]
+  backend="sqlite"
+  database="/my/path/to/freeciv.sqlite"
+
+(For more information on the format of this file, see below. There are more
+settings available, but this file is entirely sufficient for a SQLite
+setup.)
+
+Now start the server with
+  freeciv-server --Database fc_auth.conf --auth --Newusers
+
+The first time you do this, you need to create the database file and its
+tables with the following server command:
+  /fcdb lua sqlite_createdb()
+
+Now you can create some users by connecting with the client; due to the
+--Newusers flag, when you connect with the client with a previously unknown
+username, the server will prompt for a password and save the new account to
+the database.
+
+You may want to prepopulate the users table this way and then restart the
+server without --Newusers for the actual game, or you can run the game with
+--Newusers.
+
+--------------------------------
+ Advanced SQLite usage
+--------------------------------
+
+SQLite supports working with a temporary database in memory which is never
+written to disk. To do this, specify 'database=":memory:"' in the
+configuration file. The database will last only for the lifetime of the
+freeciv-server process; its contents will be lost if the server quits or
+crashes (it is not saved in the saved game file). You'll probably need the
+--Newusers option :)
+
+================================
+ MySQL
+================================
+
+This setup uses a network connection to a separate MySQL database server.
+
+In order to use this, the server must have been built with
+'--enable-fcdb=mysql'.
+
+Before Freeciv version 2.4, MySQL was the only database backend supported
+by Freeciv. You can still use an existing MySQL authentication database
+with 2.4. Note however that the format of the configuration file has
+changed slightly from that supplied to the --auth option:
+ - Section header is now '[fcdb]' instead of '[auth]'
+ - You should add 'backend="mysql"'
+ - the 'table' directive is now called 'table_user', and the default table
+   name is now 'fcdb_auth'; if your setup relied on the old default, you'll
+   need 'table_user="auth"'
+ - the 'login_table' directive is now called 'table_log', and the default
+   table name is now 'fcdb_log'; if your setup relied on the old default,
+   you'll need 'table_log="loginlog"'
+
+If you want to use MySQL for a fresh userbase, the supplied
+scripts/setup_auth_server.sh can be used to create database tables in an
+existing MySQL database, and a suitable config file describing that
+database, which can be passed to the server's '--Database' option.
 
 Before running this script, you will need to have a MySQL database server
 running, with a user account for the Freeciv server and a database to
 contain the data (ideally empty). (The space required for a Freeciv user
 database is very small.)
 
-Having created the tables and config file, the following arguments to the
-server are relevant:
-  --Database <conffile>
+Having created the tables and config file, you should be able to invoke the
+server in a similar way to SQLite.
+
+================================
+ Command-line options
+================================
+
+The following server command-line options are relevant to authentication:
+
+  -D, --Database <conffile>
       Specifies a configuration file describing how to connect to the
       database. Without this, all authentication will fail.
-  --auth
+  -a, --auth
       Enable authentication. Without this, anyone will be able to connect
       without authentication, and --Database has no effect.
-  --Guests
+  -G, --Guests
       Allow guests. These are usernames with names starting "guest". If
       enabled, any number of guests may connect without accounts in the
       database; if a guest name is already in use by a connection, a new
@@ -44,7 +125,7 @@ server are relevant:
       Once connected, guests have the same privileges as any other account.
       If this option is not specified, accounts are required to connect,
       and guest account names are forbidden.
-  --Newusers
+  -N, --Newusers
       Allow Freeciv clients to create new user accounts through the Freeciv
       protocol.
       Without this, only accounts which already exist in the database can
@@ -60,8 +141,9 @@ for checking usernames, fetching passwords, and saving new users (if
 --Newusers is enabled). It encapsulates access to the database backend, and
 hence the details of the table layout.
 
-The supplied version supports basic authentication against a MySQL
-database; if that's sufficient for you, it's not necessary to read on.
+The supplied version supports basic authentication against a SQLite or
+MySQL database; if that's sufficient for you, it's not necessary to
+read on.
 
 Freeciv expects the following lua functions to be defined in database.lua:
 
@@ -128,5 +210,13 @@ data, etc.
  TODO
 ================================
 
-* Lua scripts for postgres and sqlite
+* Move password comparison / policy to Lua script
+  <http://gna.org/patch/?3386>
+* Give database.lua access to do more stuff <http://gna.org/bugs/?19729>
+* Allow setting cmdlevel per-user, etc <http://gna.org/patch/?3388>
+* Give database.lua access to game signals and events
+  <http://gna.org/patch/?3385>
+* Allow arbitrary config keys in config file to be read by database.lua
+  <http://gna.org/bugs/?19909>
+* Lua script for postgres <http://gna.org/patch/?3387>
 * Improve this README
