@@ -5864,7 +5864,7 @@ msgstr "%sの民族が不適切です。 %sに変更します。"
 msgid "current version"
 msgstr "現在のバージョン"
 
-# cf. http://www.freeciv.org/index.php/Localization#Should_I_try_to_translate_.22Freeciv.22.3F
+# cf. http://www.freeciv.org/wiki/Localization#Should_I_try_to_translate_.22Freeciv.22.3F
 # Should I try to translate "Freeciv"?
 # No, just leave it "Freeciv" wherever you find it.
 # (Also, note that the "c" in "Freeciv" is not capitalized.)
@@ -17061,7 +17061,7 @@ msgstr ""
 "オプションを受け付けます。GTKのマニュアルを参照してください。\n"
 "\n"
 
-# cf. http://www.freeciv.org/index.php/Localization#Should_I_try_to_translate_.22Freeciv.22.3F
+# cf. http://www.freeciv.org/wiki/Localization#Should_I_try_to_translate_.22Freeciv.22.3F
 # Should I try to translate "Freeciv"?
 # No, just leave it "Freeciv" wherever you find it.
 # (Also, note that the "c" in "Freeciv" is not capitalized.)
@@ -17605,7 +17605,7 @@ msgstr "言語"
 msgid "Copying"
 msgstr "著作権"
 
-# cf. http://www.freeciv.org/index.php/Localization#Should_I_try_to_translate_.22Freeciv.22.3F
+# cf. http://www.freeciv.org/wiki/Localization#Should_I_try_to_translate_.22Freeciv.22.3F
 # Should I try to translate "Freeciv"?
 # No, just leave it "Freeciv" wherever you find it.
 # (Also, note that the "c" in "Freeciv" is not capitalized.)
@@ -21797,7 +21797,7 @@ msgstr ""
 "兵，マスケット兵，ライフル兵。"
 
 # yasu, clefs
-# http://www.freeciv.org/index.php/Combat
+# http://www.freeciv.org/wiki/Combat
 # によると，ここの記載とは違って，都市内で防御態勢を取るとさらに50%上積み
 # されるようです。(原文の問題)
 #: data/helpdata.txt:122

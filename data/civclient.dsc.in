@@ -4,7 +4,7 @@
 Author = See http://www.freeciv.org/wiki/People
 CommandLine = @bindir@/freeciv-gtk2
 Frontend = any
-Homepage = http://www.freeciv.org/
+Homepage = @WIKI_URL@
 Name = Freeciv
 ProtocolEngine = Freeciv
 ProtocolVersion = @NETWORK_CAPSTRING_MANDATORY@

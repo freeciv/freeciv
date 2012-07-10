@@ -57,7 +57,7 @@ system.
 
   1. A copy of the "current stable" FreeCiv v1.12.4 distribution kit. The
      "current stable" FreeCiv v1.12.0 source files can be found at
-     ftp://ftp.freeciv.org/freeciv/stable/freeciv-1.12.0.tar.gz
+     http://download.gna.org/freeciv/stable/OLD/freeciv-1.12.0.tar.gz
 
   2. A installed copy of Digital Equipments DEC C compiler. If you do not
      have a copy of the DEC C compiler you can obtain a copy via the

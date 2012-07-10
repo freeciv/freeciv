@@ -332,7 +332,7 @@ Pour avoir beaucoup plus de renseignements à propos du client, du
 serveur et des concepts et règles du jeu, consultez le manuel de Freeciv
 disponible sur le site web :
 
-  http://fr.freeciv.wikia.com/wiki/Manuel
+  http://www.freeciv.org/wiki-fr/Manuel
 
 
 Fin de la partie :
