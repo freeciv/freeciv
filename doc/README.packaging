@@ -33,6 +33,12 @@ Updating from 2.3 to 2.4
 * New tileset cimpletoon. It depends on amplio2 (files) being present,
   and has just units of its own. Unlike units in any other tileset, these
   units have orientation (different gfx depending where unit faces)
+* Authentication/database support has been generalised using luasql.
+  Server can be built against any or all of SQLite, MySQL, and Postgres;
+  only the first two are supported out of the box.
+  We recommend packagers build in support for at least SQLite, even if
+  they did not support MySQL in previous versions, so that their users
+  can run servers with authentication without rebuilding.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
