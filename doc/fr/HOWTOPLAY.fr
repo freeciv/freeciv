@@ -10,7 +10,7 @@ Si vous n'avez jamais joué aux jeux Civilization, il sera plus facile de
 commencer par lire le "Freeciv Manual", disponible séparément aux
 endroits suivants :
 
-     http://fr.freeciv.wikia.com/wiki/Manuel
+     http://www.freeciv.org/wiki-fr/Manuel
      http://download.gna.org/freeciv/contrib/manual/
 
 Si vous cherchez des idées pour jouer à Freeciv, continuez à lire !
@@ -164,7 +164,7 @@ Q : Y-a-t-il d'autres stratégies ?
 	Il y a un certain nombre de tutoriaux et de guides de stratégie
 disponibles sur les pages web de Freeciv :
 
-	 http://fr.freeciv.wikia.com/wiki/Documentation
+	 http://www.freeciv.org/wiki-fr/Documentation
 
 L'aide en ligne de Freeciv décrit également une autre stratégie.
 

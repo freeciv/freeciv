@@ -19449,7 +19449,7 @@ msgstr ""
 "兵，マスケット兵，ライフル兵。"
 
 # yasu, clefs
-# http://www.freeciv.org/index.php/Combat
+# http://www.freeciv.org/wiki/Combat
 # によると，ここの記載とは違って，都市内で防御態勢を取るとさらに50%上積み
 # されるようです。(原文の問題)
 #: data/helpdata.txt:122
