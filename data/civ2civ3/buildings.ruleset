@@ -1059,7 +1059,7 @@ Increases the luxury and tax output in a city by an additional 50%\
 "), _("\
 The total bonus is 100% if there are Library and University\
  together in the same city (200% if Great Library and Isaac\
- Newton's College were already built).
+ Newton's College were already built).\
 ")
 
 [building_apollo_program]
