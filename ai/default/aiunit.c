@@ -2529,6 +2529,11 @@ void dai_consider_tile_dangerous(struct tile *ptile, struct unit *punit,
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(ptile);
 
+  if (!pplayer->ai_controlled) {
+    /* Use advisors code for humans. */
+    return;
+  }
+
   if (pcity && pplayers_allied(city_owner(pcity), unit_owner(punit))
       && !is_non_allied_unit_tile(ptile, pplayer)) {
     /* We will be safe in a friendly city */
