@@ -3,7 +3,7 @@
 [GameInfo]
 Author = See http://www.freeciv.org/wiki/People
 Description = Freeciv strategy game
-Homepage = http://www.freeciv.org/
+Homepage = @WIKI_URL@
 Name = Freeciv
 Version = @VERSION@
 

@@ -7,7 +7,7 @@
 # Ask Hjorth Larsen <asklarsen@gmail.com>, 2010, 2011.
 #
 #   For ordlister og konventioner henvises til siden 
-#   http://da.freeciv.wikia.com/wiki/Overs%C3%A6ttelsesmanual
+#   http://www.freeciv.org/wiki-da/Overs%C3%A6ttelsesmanual
 #
 #  ' ' -> ' '
 #  " " -> » «
