@@ -398,11 +398,17 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Settlers", "NonMil", "Airbase", "NoVeteran"
-veteran_names             = _("journeyman"), _("working man"), _("foreman")
-veteran_raise_chance      = 40, 20, 0
-veteran_work_raise_chance = 66, 33, 0
-veteran_power_fact        = 100, 150, 200
+flags         = "Settlers", "NonMil", "Airbase"
+veteran_names             =
+; /* TRANS: Worker veteran level */
+  _("?worker_level:apprentice"),
+; /* TRANS: Worker veteran level */
+  _("?worker_level:journeyman"),
+; /* TRANS: Worker veteran level */
+  _("?worker_level:master")
+veteran_raise_chance      = 0, 0, 0
+veteran_work_raise_chance = 2, 1, 0
+veteran_power_fact        = 100, 125, 150
 veteran_move_bonus        = 0, 0, 0
 roles         = "Settlers"
 helptext      = _("\
@@ -436,7 +442,18 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Settlers", "NonMil", "Transform", "Airbase", "NoVeteran"
+flags         = "Settlers", "NonMil", "Transform", "Airbase"
+veteran_names             =
+; /* TRANS: Worker veteran level */
+  _("?worker_level:apprentice"),
+; /* TRANS: Worker veteran level */
+  _("?worker_level:journeyman"),
+; /* TRANS: Worker veteran level */
+  _("?worker_level:master")
+veteran_raise_chance      = 0, 0, 0
+veteran_work_raise_chance = 2, 1, 0
+veteran_power_fact        = 100, 125, 150
+veteran_move_bonus        = 0, 0, 0
 roles         = "Settlers"
 helptext      = _("\
 Engineers are similar to Workers, but they work twice as fast and\
