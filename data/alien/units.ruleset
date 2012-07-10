@@ -1239,6 +1239,11 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "Diplomat", "IgZOC", "NonMil", "Partial_Invis"
+veteran_names = _("Regular"), _("Elite")
+veteran_raise_chance = 10, 0
+veteran_work_raise_chance = 0, 0
+veteran_power_fact = 100, 110
+veteran_move_bonus = 0, 0
 roles         = "Diplomat"
 helptext      = _("\
 Stealth Spy can make diplomatic actions, and is invisible until \
