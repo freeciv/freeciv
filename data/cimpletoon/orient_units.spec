@@ -492,4 +492,13 @@ tiles = { "row", "column", "tag"
   51,  6, "u.barbarian_leader_se"
   51,  7, "u.barbarian_leader_s"
 
+  52,  0, "u.fanatics_sw"
+  52,  1, "u.fanatics_w"
+  52,  2, "u.fanatics_nw"
+  52,  3, "u.fanatics_n"
+  52,  4, "u.fanatics_ne"
+  52,  5, "u.fanatics_e"
+  52,  6, "u.fanatics_se"
+  52,  7, "u.fanatics_s"
+
 }
