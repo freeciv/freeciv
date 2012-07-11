@@ -1241,6 +1241,7 @@ void contemplate_new_city(struct city *pcity)
       cityresult_destroy(result);
     } else {
       CITY_LOG(LOG_DEBUG, pcity, "want no city");
+      city_data->founder_want = 0;
     }
   }
   unit_virtual_destroy(virtualunit);
