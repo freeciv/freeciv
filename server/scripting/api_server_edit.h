@@ -50,6 +50,8 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
 void api_edit_create_base(lua_State *L, Tile *ptile, const char *name,
                           struct player *pplayer);
 
+void api_edit_create_road(lua_State *L, Tile *ptile, const char *name);
+
 void api_edit_climate_change(lua_State *L, enum climate_change_type type,
                              int effect);
 Player *api_edit_civil_war(lua_State *L, Player *pplayer, int probability);

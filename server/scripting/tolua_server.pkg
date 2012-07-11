@@ -98,6 +98,8 @@ module edit {
   void api_edit_create_base
     @ create_base (lua_State *L, Tile *ptile, const char *name,
                    Player *pplayer);
+  void api_edit_create_road
+    @ create_road (lua_State *L, Tile *ptile, const char *name);
   Player *api_edit_create_player
     @ create_player(lua_State *L, const char *username, Nation_Type *nation);
   void api_edit_change_gold
@@ -146,6 +148,10 @@ end
 
 function create_base(tile, name, player)
   edit.create_base(tile, name, player)
+end
+
+function create_road(tile, name)
+  edit.create_road(tile, name)
 end
 
 function create_player(username, nation)
@@ -220,6 +226,10 @@ end
 -- Server functions for Tile module
 function Tile:create_base(name, player)
   return edit.create_base(self, name, player)
+end
+
+function Tile:create_road(name)
+  return edit.create_road(self, name)
 end
 
 function Tile:unleash_barbarians()

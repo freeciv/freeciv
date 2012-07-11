@@ -301,6 +301,27 @@ void api_edit_create_base(lua_State *L, Tile *ptile, const char *name,
 }
 
 /*****************************************************************************
+  Add a new road.
+*****************************************************************************/
+void api_edit_create_road(lua_State *L, Tile *ptile, const char *name)
+{
+  struct road_type *proad;
+
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_ARG_NIL(L, ptile, 2, Tile);
+
+  if (!name) {
+    return;
+  }
+
+  proad = road_type_by_rule_name(name);
+
+  if (proad) {
+    tile_add_road(ptile, proad);
+  }
+}
+
+/*****************************************************************************
   Global climate change.
 *****************************************************************************/
 void api_edit_climate_change(lua_State *L, enum climate_change_type type,
