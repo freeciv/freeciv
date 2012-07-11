@@ -71,9 +71,6 @@ libcivutility_la_LIBADD = $(UTILITY_LIBS)
 
 BUILT_SOURCES = specenum_gen.h
 
-# specenum.h must be generated before it can be included.
-%.o : specenum_gen.h
-
 specenum_gen.h: specenum_generate
 .INTERMEDIATE: specenum_generate
 specenum_generate: generate_specenum.py

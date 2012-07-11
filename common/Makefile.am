@@ -118,11 +118,6 @@ libfreeciv_la_LIBADD = \
 
 BUILT_SOURCES = packets_gen.c packets_gen.h
 
-# packets_gen.h must be generated before it can be included.
-# Automatic dependencies are only generated during first
-# build. We need dependency for that first build.
-%.o : packets_gen.h
-
 # ./generate_packets.py makes both packets_gen.[ch]
 #
 # Feed the dependence through a fake intermediate file to avoid
