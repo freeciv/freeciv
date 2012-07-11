@@ -41,6 +41,27 @@ AC_DEFUN([FC_CHECK_MAGICKWAND],
     AC_MSG_RESULT([$WAND_LIBS])
 
     wand=yes
+
+    dnl
+    dnl MagickWand uses -lbz2 (at least on opensuse) - test it
+    dnl
+    ac_save_CFLAGS="$CFLAGS"
+    ac_save_LIBS="$LIBS"
+    CFLAGS="$CFLAGS $WAND_CFLAGS"
+    LIBS="$WAND_LIBS $LIBS"
+
+    AC_MSG_CHECKING([for all development tools needed for MagickWand])
+    AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <wand/magick_wand.h>]],
+[MagickWand *mw = NewMagickWand();])], [AC_MSG_RESULT([yes])],
+[AC_MSG_RESULT([no])
+wand=no
+AC_MSG_WARN([MagickWand deactivated due to missing development packages.])])
+
+    dnl
+    dnl reset variables to old values
+    dnl
+    CFLAGS="$ac_save_CFLAGS"
+    LIBS="$ac_save_LIBS"
   fi
 
   AC_SUBST(WAND_CFLAGS)
