@@ -155,7 +155,7 @@ static int dai_evaluate_tile_for_air_attack(struct unit *punit,
 
   balanced_cost = build_cost_balanced(unit_type(punit));
 
-  sortie_time = (unit_has_type_flag(punit, F_ONEATTACK) ? 1 : 0);
+  sortie_time = (unit_has_type_flag(punit, UTYF_ONEATTACK) ? 1 : 0);
 
   profit = kill_desire(victim_cost, unit_attack, unit_cost, victim_defence, 1) 
     - SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING;

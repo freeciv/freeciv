@@ -20,7 +20,7 @@ extern "C" {
 
 #include "fc_types.h"
 #include "unit.h"		/* for diplomat_actions */
-#include "unittype.h"		/* for unit_flag_id */
+#include "unittype.h"		/* for unit_type_flag_id */
 
 /* get 'struct unit_list' and related functions: */
 #define SPECLIST_TAG unit
@@ -75,8 +75,8 @@ bool can_units_do_base_gui(const struct unit_list *punits,
                            enum base_gui_type base_gui);
 bool can_units_do_diplomat_action(const struct unit_list *punits,
 				  enum diplomat_actions action);
-bool units_have_flag(const struct unit_list *punits, enum unit_flag_id flag,
-		     bool has_flag);
+bool units_have_type_flag(const struct unit_list *punits,
+                          enum unit_type_flag_id flag, bool has_flag);
 bool units_are_occupied(const struct unit_list *punits);
 bool units_can_load(const struct unit_list *punits);
 bool units_can_unload(const struct unit_list *punits);

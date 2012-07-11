@@ -218,7 +218,7 @@ void handle_unit_diplomat_query(struct connection *pc,
     return;
   }
 
-  if (!unit_has_type_flag(pdiplomat, F_DIPLOMAT)) {
+  if (!unit_has_type_flag(pdiplomat, UTYF_DIPLOMAT)) {
     /* Shouldn't happen */
     log_error("handle_unit_diplomat_query() %s (%d) is not diplomat",
               unit_rule_name(pdiplomat), diplomat_id);
@@ -247,7 +247,7 @@ void handle_unit_diplomat_query(struct connection *pc,
   case DIPLOMAT_SABOTAGE:
     if (pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_SABOTAGE,
 					pcity->tile)
-     && unit_has_type_flag(pdiplomat, F_SPY)) {
+     && unit_has_type_flag(pdiplomat, UTYF_SPY)) {
       spy_send_sabotage_list(pc, pdiplomat, pcity);
     }
     break;
@@ -277,7 +277,7 @@ void handle_unit_diplomat_action(struct player *pplayer,
     return;
   }
 
-  if (!unit_has_type_flag(pdiplomat, F_DIPLOMAT)) {
+  if (!unit_has_type_flag(pdiplomat, UTYF_DIPLOMAT)) {
     /* Shouldn't happen */
     log_error("handle_unit_diplomat_action() %s (%d) is not diplomat",
               unit_rule_name(pdiplomat), diplomat_id);
@@ -474,7 +474,7 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
     return;
   }
 
-  if (unit_has_type_flag(punit, F_UNDISBANDABLE)) {
+  if (unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
     /* refuse to kill ourselves */
     notify_player(unit_owner(punit), unit_tile(punit),
                   E_BAD_COMMAND, ftc_server,
@@ -491,7 +491,7 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
      * your ally receives those shields. Should it be like this? Why not?
      * That's why we must use city_owner instead of pplayer -- Zamar */
 
-    if (unit_has_type_flag(punit, F_HELP_WONDER)) {
+    if (unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
       /* Count this just like a caravan that was added to a wonder.
        * However don't actually give the city the extra shields unless
        * they are building a wonder (but switching to a wonder later in
@@ -554,7 +554,7 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
     {
       struct astring astr = ASTRING_INIT;
 
-      if (role_units_translations(&astr, F_CITIES, TRUE)) {
+      if (role_units_translations(&astr, UTYF_CITIES, TRUE)) {
         notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                       /* TRANS: %s is list of units separated by "or". */
                       _("Only %s can build a city."), astr_str(&astr));
@@ -569,7 +569,7 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
     {
       struct astring astr = ASTRING_INIT;
 
-      if (role_units_translations(&astr, F_ADD_TO_CITY, TRUE)) {
+      if (role_units_translations(&astr, UTYF_ADD_TO_CITY, TRUE)) {
         notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                       /* TRANS: %s is list of units separated by "or". */
                       _("Only %s can add to a city."), astr_str(&astr));
@@ -1006,7 +1006,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
                           TILE_XY(unit_tile(pdefender)));
     fc_assert_ret_val_msg(!pplayers_allied(unit_owner(punit),
                                            unit_owner(pdefender))
-                          || (unit_has_type_flag(punit, F_NUCLEAR)
+                          || (unit_has_type_flag(punit, UTYF_NUCLEAR)
                               && punit == pdefender), TRUE,
                           "Trying to attack a unit with which you have "
                           "alliance at (%d, %d).",
@@ -1087,12 +1087,12 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
                     "Trying to attack a unit with which you have peace "
                     "or cease-fire at (%d, %d).", TILE_XY(def_tile));
   fc_assert_ret_msg(!pplayers_allied(pplayer, unit_owner(pdefender))
-                    || (unit_has_type_flag(punit, F_NUCLEAR)
+                    || (unit_has_type_flag(punit, UTYF_NUCLEAR)
                         && punit == pdefender),
                     "Trying to attack a unit with which you have alliance "
                     "at (%d, %d).", TILE_XY(def_tile));
 
-  if (unit_has_type_flag(punit, F_NUCLEAR)) {
+  if (unit_has_type_flag(punit, UTYF_NUCLEAR)) {
     if ((pcity = sdi_try_defend(pplayer, def_tile))) {
       /* FIXME: Remove the hard coded reference to SDI defense. */
       notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_ATT, ftc_server,
@@ -1159,7 +1159,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
     city_refresh(pcity);
     send_city_info(NULL, pcity);
   }
-  if (unit_has_type_flag(punit, F_ONEATTACK)) 
+  if (unit_has_type_flag(punit, UTYF_ONEATTACK)) 
     punit->moves_left = 0;
   pwinner = (punit->hp > 0) ? punit : pdefender;
   winner_id = pwinner->id;
@@ -1281,7 +1281,7 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
     {
       struct astring astr = ASTRING_INIT;
 
-      if (role_units_translations(&astr, F_MARINES, TRUE)) {
+      if (role_units_translations(&astr, UTYF_MARINES, TRUE)) {
         notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,
                       /* TRANS: %s is list of units separated by "or". */
                       _("Only %s can attack from sea."), astr_str(&astr));
@@ -1371,7 +1371,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 
   /* Caravans.  If city is allied (inc. ours) we would have a popup
    * asking if we are moving on. */
-  if (unit_has_type_flag(punit, F_TRADE_ROUTE) && pcity
+  if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE) && pcity
       && !pplayers_allied(city_owner(pcity), pplayer) ) {
     return base_handle_unit_establish_trade(pplayer, punit->id, pcity);
   }
@@ -1449,11 +1449,11 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
       return FALSE;
     }
 
-    if (unit_has_type_flag(punit, F_CAPTURER) && pcity == NULL) {
+    if (unit_has_type_flag(punit, UTYF_CAPTURER) && pcity == NULL) {
       bool capture_possible = TRUE;
 
       unit_list_iterate(pdesttile->units, to_capture) {
-        if (!unit_has_type_flag(to_capture, F_CAPTURABLE)) {
+        if (!unit_has_type_flag(to_capture, UTYF_CAPTURABLE)) {
           capture_possible = FALSE;
           break;
         }
@@ -1505,7 +1505,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     }
 
     /* Are we a bombarder? */
-    if (unit_has_type_flag(punit, F_BOMBARDER)) {
+    if (unit_has_type_flag(punit, UTYF_BOMBARDER)) {
       /* Only land can be bombarded, if the target is on ocean, fall
        * through to attack. */
       if (!is_ocean_tile(pdesttile)) {
@@ -1540,7 +1540,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
       fc_assert_ret_val(is_enemy_city_tile(pdesttile, pplayer) != NULL,
                         TRUE);
 
-      if (unit_has_type_flag(punit, F_NUCLEAR)) {
+      if (unit_has_type_flag(punit, UTYF_NUCLEAR)) {
         if (unit_move(punit, pcity->tile, 0)) {
           /* Survived dangers of moving */
           unit_attack_handling(punit, punit); /* Boom! */
@@ -1595,7 +1595,7 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
     return;
   }
 
-  if (!unit_has_type_flag(punit, F_HELP_WONDER)) {
+  if (!unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
     return;
   }
   pcity_dest = tile_city(unit_tile(punit));
@@ -1648,7 +1648,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     return FALSE;
   }
 
-  if (!unit_has_type_flag(punit, F_TRADE_ROUTE)) {
+  if (!unit_has_type_flag(punit, UTYF_TRADE_ROUTE)) {
     return FALSE;
   }
 

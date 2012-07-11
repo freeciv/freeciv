@@ -352,7 +352,7 @@ int settler_evaluate_improvements(struct unit *punit,
       unit_list_iterate(ptile->units, aunit) {
         if (unit_owner(aunit) == pplayer
             && aunit->id != punit->id
-            && unit_has_type_flag(aunit, F_SETTLERS)) {
+            && unit_has_type_flag(aunit, UTYF_SETTLERS)) {
           consider = FALSE;
         }
       } unit_list_iterate_end;
@@ -565,12 +565,12 @@ void auto_settler_findwork(struct player *pplayer,
   CHECK_UNIT(punit);
 
   fc_assert_ret(pplayer && punit);
-  fc_assert_ret(unit_has_type_flag(punit, F_CITIES)
-                || unit_has_type_flag(punit, F_SETTLERS));
+  fc_assert_ret(unit_has_type_flag(punit, UTYF_CITIES)
+                || unit_has_type_flag(punit, UTYF_SETTLERS));
 
   /*** Try find some work ***/
 
-  if (unit_has_type_flag(punit, F_SETTLERS)) {
+  if (unit_has_type_flag(punit, UTYF_SETTLERS)) {
     TIMING_LOG(AIT_WORKERS, TIMER_START);
     settler_evaluate_improvements(punit, &best_act, &best_target,
                                   &best_tile, &path, state);
@@ -750,8 +750,8 @@ void auto_settlers_player(struct player *pplayer)
    * from the human player and take precedence. */
   unit_list_iterate_safe(pplayer->units, punit) {
     if ((punit->ai_controlled || pplayer->ai_controlled)
-        && (unit_has_type_flag(punit, F_SETTLERS)
-            || unit_has_type_flag(punit, F_CITIES))
+        && (unit_has_type_flag(punit, UTYF_SETTLERS)
+            || unit_has_type_flag(punit, UTYF_CITIES))
         && !unit_has_orders(punit)
         && punit->moves_left > 0) {
       log_debug("%s settler at (%d, %d) is ai controlled.",

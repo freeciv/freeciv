@@ -1057,10 +1057,10 @@ static void load_unit_names(struct section_file *file)
   }
 
   for (i = 0; i < user_flags; i++) {
-    set_user_unit_flag_name(F_USER_FLAG_1 + i, flaglist[i]);
+    set_user_unit_type_flag_name(UTYF_USER_FLAG_1 + i, flaglist[i]);
   }
   for (; i < MAX_NUM_USER_UNIT_FLAGS; i++) {
-    set_user_unit_flag_name(F_USER_FLAG_1 + i, NULL);
+    set_user_unit_type_flag_name(UTYF_USER_FLAG_1 + i, NULL);
   }
   if (flaglist) {
     free(flaglist);
@@ -1299,7 +1299,7 @@ static void load_ruleset_units(struct section_file *file)
         log_error("\"%s\" unit_class \"%s\": bad flag name \"%s\".",
                   filename, uclass_rule_name(uc), sval);
         ival = unit_flag_by_rule_name(sval);
-        if (ival != F_LAST) {
+        if (ival != UTYF_LAST) {
           log_error("\"%s\" unit_class \"%s\": unit_type flag!",
                     filename, uclass_rule_name(uc));
         }
@@ -1559,7 +1559,7 @@ static void load_ruleset_units(struct section_file *file)
     const int i = utype_index(u);
 
     BV_CLR_ALL(u->flags);
-    fc_assert(!utype_has_flag(u, F_LAST - 1));
+    fc_assert(!utype_has_flag(u, UTYF_LAST - 1));
 
     slist = secfile_lookup_str_vec(file, &nval, "%s.flags",
                                    section_name(section_list_get(sec, i)));
@@ -1569,7 +1569,7 @@ static void load_ruleset_units(struct section_file *file)
         continue;
       }
       ival = unit_flag_by_rule_name(sval);
-      if (F_LAST == ival) {
+      if (UTYF_LAST == ival) {
         log_error("\"%s\" unit_type \"%s\": bad flag name \"%s\".",
                   filename, utype_rule_name(u),  sval);
         ival = unit_class_flag_id_by_name(sval, fc_strcasecmp);
@@ -1624,7 +1624,7 @@ static void load_ruleset_units(struct section_file *file)
       u->require_advance = A_NEVER;
     }
 
-    if (utype_has_flag(u, F_SETTLERS)
+    if (utype_has_flag(u, UTYF_SETTLERS)
         && u->city_size <= 0) {
       ruleset_error(LOG_ERROR, "\"%s\": Unit %s would build size %d cities",
                     filename, utype_rule_name(u), u->city_size);
@@ -1636,16 +1636,16 @@ static void load_ruleset_units(struct section_file *file)
   role_unit_precalcs();
      
   /* Check some required flags and roles etc: */
-  if(num_role_units(F_SETTLERS)==0) {
+  if (num_role_units(UTYF_SETTLERS) == 0) {
     ruleset_error(LOG_FATAL, "\"%s\": No flag=settler units?", filename);
   }
-  if(num_role_units(L_EXPLORER)==0) {
+  if (num_role_units(L_EXPLORER) == 0) {
     ruleset_error(LOG_FATAL, "\"%s\": No role=explorer units?", filename);
   }
-  if(num_role_units(L_FERRYBOAT)==0) {
+  if (num_role_units(L_FERRYBOAT) == 0) {
     ruleset_error(LOG_FATAL, "\"%s\": No role=ferryboat units?", filename);
   }
-  if(num_role_units(L_FIRSTBUILD)==0) {
+  if (num_role_units(L_FIRSTBUILD) == 0) {
     ruleset_error(LOG_FATAL, "\"%s\": No role=firstbuild units?", filename);
   }
   if (0 == num_role_units(L_BARBARIAN)

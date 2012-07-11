@@ -278,7 +278,7 @@ const char *popup_info_text(struct tile *ptile)
     unit_list_iterate(get_units_in_focus(), pfocus_unit) {
       struct city *hcity = game_city_by_number(pfocus_unit->homecity);
 
-      if (unit_has_type_flag(pfocus_unit, F_TRADE_ROUTE)
+      if (unit_has_type_flag(pfocus_unit, UTYF_TRADE_ROUTE)
 	  && can_cities_trade(hcity, pcity)
 	  && can_establish_trade_route(hcity, pcity)) {
 	/* TRANS: "Trade from Warsaw: 5" */
@@ -1146,7 +1146,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
 
     memset(types_count, 0, sizeof(types_count));
     unit_list_iterate(punits, punit) {
-      if (unit_has_type_flag(punit, F_CIVILIAN)) {
+      if (unit_has_type_flag(punit, UTYF_CIVILIAN)) {
 	nonmil++;
       } else {
 	mil++;
@@ -1176,7 +1176,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
 
     for (i = 0; i < 2; i++) {
       if (top[i] && types_count[utype_index(top[i])] > 0) {
-	if (utype_has_flag(top[i], F_CIVILIAN)) {
+	if (utype_has_flag(top[i], UTYF_CIVILIAN)) {
 	  nonmil -= types_count[utype_index(top[i])];
 	} else {
 	  mil -= types_count[utype_index(top[i])];
@@ -1297,7 +1297,7 @@ bool get_units_disband_info(char *buf, size_t bufsz,
     fc_snprintf(buf, bufsz, _("No units to disband!"));
     return FALSE;
   } else if (unit_list_size(punits) == 1) {
-    if (unit_has_type_flag(unit_list_front(punits), F_UNDISBANDABLE)) {
+    if (unit_has_type_flag(unit_list_front(punits), UTYF_UNDISBANDABLE)) {
       fc_snprintf(buf, bufsz, _("%s refuses to disband!"),
                   unit_name_translation(unit_list_front(punits)));
       return FALSE;
@@ -1310,7 +1310,7 @@ bool get_units_disband_info(char *buf, size_t bufsz,
   } else {
     int count = 0;
     unit_list_iterate(punits, punit) {
-      if (!unit_has_type_flag(punit, F_UNDISBANDABLE)) {
+      if (!unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
         count++;
       }
     } unit_list_iterate_end;

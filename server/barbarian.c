@@ -588,7 +588,7 @@ static void try_summon_barbarians(void)
     boat = find_a_unit_type(L_BARBARIAN_BOAT,-1);
 
     if (is_native_tile(boat, utile)
-        && (!utype_has_flag(boat, F_TRIREME) || is_safe_ocean(utile))) {
+        && (!utype_has_flag(boat, UTYF_TRIREME) || is_safe_ocean(utile))) {
       int cap;
 
       ptrans = create_unit(barbarians, utile, boat, 0, 0, -1);

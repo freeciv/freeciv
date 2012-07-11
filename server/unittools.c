@@ -189,7 +189,7 @@ static bool maybe_become_veteran_real(struct unit *punit, bool settler)
   fc_assert_ret_val(vlevel != NULL, FALSE);
 
   if (punit->veteran + 1 >= vsystem->levels
-      || unit_has_type_flag(punit, F_NO_VETERAN)) {
+      || unit_has_type_flag(punit, UTYF_NO_VETERAN)) {
     return FALSE;
   } else if (!settler) {
     int mod = 100 + get_unittype_bonus(unit_owner(punit), unit_tile(punit),
@@ -199,7 +199,7 @@ static bool maybe_become_veteran_real(struct unit *punit, bool settler)
      * For example with a base chance of 50% for green units and a modifier
      * of +50% the end chance is 75%. */
     chance = vlevel->raise_chance * mod / 100;
-  } else if (settler && unit_has_type_flag(punit, F_SETTLERS)) {
+  } else if (settler && unit_has_type_flag(punit, UTYF_SETTLERS)) {
     chance = vlevel->work_raise_chance;
   } else {
     /* No battle and no work done. */
@@ -504,7 +504,7 @@ static void unit_restore_hitpoints(struct unit *punit)
   punit->hp += get_unit_bonus(punit, EFT_UNIT_RECOVER);
 
   if (!punit->homecity && 0 < game.server.killunhomed
-      && !unit_has_type_flag(punit, F_GAMELOSS)) {
+      && !unit_has_type_flag(punit, UTYF_GAMELOSS)) {
     /* Hit point loss of units without homecity; at least 1 hp! */
     /* Gameloss units are immune to this effect. */
     int hp_loss = MAX(unit_type(punit)->hp * game.server.killunhomed / 100,
@@ -1365,7 +1365,7 @@ void transform_unit(struct unit *punit, struct unit_type *to_unit,
   punit->hp = MAX(punit->hp * unit_type(punit)->hp / old_hp, 1);
   punit->moves_left = punit->moves_left * unit_move_rate(punit) / old_mr;
 
-  if (utype_has_flag(to_unit, F_NO_VETERAN)) {
+  if (utype_has_flag(to_unit, UTYF_NO_VETERAN)) {
     punit->veteran = 0;
   } else if (is_free) {
     punit->veteran = MAX(punit->veteran
@@ -1420,7 +1420,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   unit_tile_set(punit, ptile);
 
   pcity = game_city_by_number(homecity_id);
-  if (utype_has_flag(type, F_NOHOME)) {
+  if (utype_has_flag(type, UTYF_NOHOME)) {
     punit->homecity = 0; /* none */
   } else {
     punit->homecity = homecity_id;
@@ -1451,7 +1451,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
 
   unit_list_prepend(pplayer->units, punit);
   unit_list_prepend(ptile->units, punit);
-  if (pcity && !utype_has_flag(type, F_NOHOME)) {
+  if (pcity && !utype_has_flag(type, UTYF_NOHOME)) {
     fc_assert(city_owner(pcity) == pplayer);
     unit_list_prepend(pcity->units_supported, punit);
     /* Refresh the unit's homecity. */
@@ -1529,8 +1529,8 @@ static void server_remove_unit(struct unit *punit)
   vision_free(punit->server.vision);
   punit->server.vision = NULL;
 
-  /* check if this unit had F_GAMELOSS flag */
-  if (unit_has_type_flag(punit, F_GAMELOSS) && unit_owner(punit)->is_alive) {
+  /* check if this unit had UTYF_GAMELOSS flag */
+  if (unit_has_type_flag(punit, UTYF_GAMELOSS) && unit_owner(punit)->is_alive) {
     notify_conn(game.est_connections, ptile, E_UNIT_LOST_MISC, ftc_server,
                 _("Unable to defend %s, %s has lost the game."),
                 unit_link(punit),
@@ -1638,14 +1638,14 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason)
     unit_list_iterate_safe(ptile->units, pcargo) {
       if (!unit_transported(pcargo)
           && !can_unit_exist_at_tile(pcargo, ptile)
-          && (unit_has_type_flag(pcargo, F_UNDISBANDABLE)
-           || unit_has_type_flag(pcargo, F_GAMELOSS))) {
+          && (unit_has_type_flag(pcargo, UTYF_UNDISBANDABLE)
+           || unit_has_type_flag(pcargo, UTYF_GAMELOSS))) {
         struct unit *ptransport = transport_from_tile(pcargo, ptile);
         if (ptransport != NULL) {
           unit_transport_load(pcargo, ptransport, FALSE);
           send_unit_info(NULL, pcargo);
         } else {
-          if (unit_has_type_flag(pcargo, F_UNDISBANDABLE)) {
+          if (unit_has_type_flag(pcargo, UTYF_UNDISBANDABLE)) {
             pcity = find_closest_city(unit_tile(pcargo), NULL,
                                       unit_owner(pcargo), TRUE, FALSE, FALSE,
                                       TRUE, FALSE);
@@ -1658,7 +1658,7 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason)
                             city_link(pcity));
 	    }
           }
-          if (!unit_has_type_flag(pcargo, F_UNDISBANDABLE) || !pcity) {
+          if (!unit_has_type_flag(pcargo, UTYF_UNDISBANDABLE) || !pcity) {
             unit_lost_with_transport(pplayer, pcargo, putype_save);
           }
         }
@@ -2429,7 +2429,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   struct player *pplayer = unit_owner(punit);
   struct player_tile *plrtile;
 
-  if (!unit_has_type_flag(punit, F_PARATROOPERS)) {
+  if (!unit_has_type_flag(punit, UTYF_PARATROOPERS)) {
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("This unit type can not be paradropped."));
     return FALSE;
@@ -2546,7 +2546,7 @@ static bool hut_get_limited(struct unit *punit)
                       "You found %d gold.", cred), cred);
     pplayer->economic.gold += cred;
   } else if (city_exists_within_max_city_map(unit_tile(punit), TRUE)
-             || unit_has_type_flag(punit, F_GAMELOSS)) {
+             || unit_has_type_flag(punit, UTYF_GAMELOSS)) {
     notify_player(pplayer, unit_tile(punit),
                   E_HUT_BARB_CITY_NEAR, ftc_server,
                   _("An abandoned village is here."));
@@ -2714,7 +2714,7 @@ static bool unit_survive_autoattack(struct unit *punit)
     penemywin = unit_win_chance(penemy, punit_defender);
 
     if ((penemywin > 1.0 - punitwin
-         || unit_has_type_flag(punit, F_DIPLOMAT)
+         || unit_has_type_flag(punit, UTYF_DIPLOMAT)
          || get_transporter_capacity(punit) > 0)
         && penemywin > threshold) {
 #ifdef REALLY_DEBUG_THIS

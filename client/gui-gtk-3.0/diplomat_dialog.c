@@ -92,7 +92,7 @@ void popup_bribe_dialog(struct unit *punit, int cost)
                                         client_player()->economic.gold),
               client_player()->economic.gold);
 
-  if (unit_has_type_flag(punit, F_UNBRIBABLE)) {
+  if (unit_has_type_flag(punit, UTYF_UNBRIBABLE)) {
     shell = popup_choice_dialog(GTK_WINDOW(toplevel), _("Ooops..."),
                                  _("This unit cannot be bribed!"),
                                  GTK_STOCK_OK, NULL, NULL, NULL);
@@ -660,7 +660,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
              unit_name_translation(punit),
              city_name(pcity));
 
-    if (!unit_has_type_flag(punit, F_SPY)){
+    if (!unit_has_type_flag(punit, UTYF_SPY)) {
       shl = popup_choice_dialog(GTK_WINDOW(toplevel),
         astr_str(&title), astr_str(&text),
 	_("Establish _Embassy"), diplomat_embassy_callback, NULL,

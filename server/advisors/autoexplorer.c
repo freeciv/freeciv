@@ -81,7 +81,7 @@ static bool player_may_explore(const struct tile *ptile,
                                const bv_unit_type_flags unit_flags)
 {
   /* Don't allow military units to cross borders. */
-  if (!BV_ISSET(unit_flags, F_CIVILIAN)
+  if (!BV_ISSET(unit_flags, UTYF_CIVILIAN)
       && !player_can_invade_tile(pplayer, ptile)) {
     return FALSE;
   }
@@ -304,7 +304,7 @@ enum unit_move_result manage_auto_explorer(struct unit *punit)
 
   UNIT_LOG(LOG_DEBUG, punit, "auto-exploring.");
 
-  if (pplayer->ai_controlled && unit_has_type_flag(punit, F_GAMELOSS)) {
+  if (pplayer->ai_controlled && unit_has_type_flag(punit, UTYF_GAMELOSS)) {
     UNIT_LOG(LOG_DEBUG, punit, "exploration too dangerous!");
     return MR_BAD_ACTIVITY; /* too dangerous */
   }

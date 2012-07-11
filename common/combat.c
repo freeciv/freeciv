@@ -314,16 +314,16 @@ void get_modified_firepower(const struct unit *attacker,
   *def_fp = unit_type(defender)->firepower;
 
   /* Check CityBuster flag */
-  if (unit_has_type_flag(attacker, F_CITYBUSTER) && pcity) {
+  if (unit_has_type_flag(attacker, UTYF_CITYBUSTER) && pcity) {
     *att_fp *= 2;
   }
 
   /*
-   * F_BADWALLATTACKER sets the firepower of the attacking unit to 1 if
+   * UTYF_BADWALLATTACKER sets the firepower of the attacking unit to 1 if
    * an EFT_DEFEND_BONUS applies (such as a land unit attacking a city with
    * city walls).
    */
-  if (unit_has_type_flag(attacker, F_BADWALLATTACKER)
+  if (unit_has_type_flag(attacker, UTYF_BADWALLATTACKER)
       && get_unittype_bonus(unit_owner(defender), unit_tile(defender),
                             unit_type(attacker), EFT_DEFEND_BONUS) > 0) {
     *att_fp = 1;
@@ -331,7 +331,7 @@ void get_modified_firepower(const struct unit *attacker,
 
   /* pearl harbour - defender's firepower is reduced to one, 
    *                 attacker's is multiplied by two         */
-  if (unit_has_type_flag(defender, F_BADCITYDEFENDER)
+  if (unit_has_type_flag(defender, UTYF_BADCITYDEFENDER)
       && tile_city(unit_tile(defender))) {
     *att_fp *= 2;
     *def_fp = 1;
@@ -341,8 +341,8 @@ void get_modified_firepower(const struct unit *attacker,
    * When attacked by fighters, helicopters have their firepower
    * reduced to 1.
    */
-  if (unit_has_type_flag(defender, F_HELICOPTER)
-      && unit_has_type_flag(attacker, F_FIGHTER)) {
+  if (unit_has_type_flag(defender, UTYF_HELICOPTER)
+      && unit_has_type_flag(attacker, UTYF_FIGHTER)) {
     *def_fp = 1;
   }
 
@@ -499,24 +499,25 @@ static int defense_multiplication(const struct unit_type *att_type,
   fc_assert_ret_val(NULL != def_type, 0);
 
   if (NULL != att_type) {
-    if (utype_has_flag(def_type, F_PIKEMEN)
-	&& utype_has_flag(att_type, F_HORSE)) {
+    if (utype_has_flag(def_type, UTYF_PIKEMEN)
+	&& utype_has_flag(att_type, UTYF_HORSE)) {
       defensepower *= 2;
     }
 
-    if (utype_has_flag(def_type, F_AEGIS)
-        && utype_has_flag(att_type, F_AIRUNIT)) {
+    if (utype_has_flag(def_type, UTYF_AEGIS)
+        && utype_has_flag(att_type, UTYF_AIRUNIT)) {
       defensepower *= 5;
     }
 
-    if (!utype_has_flag(att_type, F_IGWALL)) {
+    if (!utype_has_flag(att_type, UTYF_IGWALL)) {
       /* This applies even if pcity is NULL. */
       mod = 100 + get_unittype_bonus(def_player, ptile,
 				     att_type, EFT_DEFEND_BONUS);
       defensepower = MAX(0, defensepower * mod / 100);
     }
 
-    if (utype_has_flag(att_type, F_FIGHTER) && utype_has_flag(def_type, F_HELICOPTER)) {
+    if (utype_has_flag(att_type, UTYF_FIGHTER)
+        && utype_has_flag(def_type, UTYF_HELICOPTER)) {
       defensepower /= 2;
     }
   }
@@ -640,7 +641,7 @@ struct unit *get_defender(const struct unit *attacker,
 
       fc_assert_action(0 <= unit_def, continue);
 
-      if (unit_has_type_flag(defender, F_GAMELOSS)
+      if (unit_has_type_flag(defender, UTYF_GAMELOSS)
           && !is_stack_vulnerable(unit_tile(defender))) {
         unit_def = -1; /* then always use leader as last defender. */
         /* FIXME: multiple gameloss units with varying defense value

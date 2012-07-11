@@ -622,17 +622,17 @@ Direction api_methods_unit_orientation_get(lua_State *L, Unit *punit)
 bool api_methods_unit_type_has_flag(lua_State *L, Unit_Type *punit_type,
                                     const char *flag)
 {
-  enum unit_flag_id id;
+  enum unit_type_flag_id id;
 
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, punit_type, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, flag, 3, string, FALSE);
 
   id = unit_flag_by_rule_name(flag);
-  if (id != F_LAST) {
+  if (id != UTYF_LAST) {
     return utype_has_flag(punit_type, id);
   } else {
-    luascript_error(L, "Unit flag \"%s\" does not exist", flag);
+    luascript_error(L, "Unit type flag \"%s\" does not exist", flag);
     return FALSE;
   }
 }

@@ -1392,7 +1392,7 @@ void present_units_callback(Widget w, XtPointer client_data,
 	|| !can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
       XtSetSensitive(XtNameToWidget(wd, "*button3"), FALSE);
     }
-    if (unit_has_type_flag(punit, F_UNDISBANDABLE)) {
+    if (unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
       XtSetSensitive(XtNameToWidget(wd, "*button4"), FALSE);
     }
     if (punit->homecity == pcity->id) {
@@ -1659,7 +1659,7 @@ static void support_units_callback(Widget w, XtPointer client_data,
 			     disband_callback, punit->id, 1,
 			     present_units_cancel_callback, 0, 0,
 			     NULL);
-        if (unit_has_type_flag(punit, F_UNDISBANDABLE)) {
+        if (unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
           XtSetSensitive(XtNameToWidget(wd, "*button3"), FALSE);
         }
       }

@@ -212,13 +212,13 @@ static void count_my_units(struct player *pplayer)
       adv->stats.units.sea++;
     }
 
-    if (unit_has_type_flag(punit, F_TRIREME)) {
+    if (unit_has_type_flag(punit, UTYF_TRIREME)) {
       adv->stats.units.triremes++;
     }
     if (uclass_has_flag(unit_class(punit), UCF_MISSILE)) {
       adv->stats.units.missiles++;
     }
-    if (unit_has_type_flag(punit, F_PARATROOPERS)) {
+    if (unit_has_type_flag(punit, UTYF_PARATROOPERS)) {
       adv->stats.units.paratroopers++;
     }
     if (can_upgrade_unittype(pplayer, unit_type(punit)) >= 0) {
@@ -267,7 +267,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 
   TIMING_LOG(AIT_AIDATA, TIMER_START);
 
-  nuke_units = num_role_units(F_NUCLEAR);
+  nuke_units = num_role_units(UTYF_NUCLEAR);
   danger_of_nukes = FALSE;
 
   /*** Threats ***/
@@ -297,7 +297,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
     } city_list_iterate_end;
 
     unit_list_iterate(aplayer->units, punit) {
-      if (unit_has_type_flag(punit, F_IGWALL)) {
+      if (unit_has_type_flag(punit, UTYF_IGWALL)) {
         adv->threats.igwall = TRUE;
       }
 
@@ -340,14 +340,14 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
       }
 
       /* If he builds nukes, worry a lot. */
-      if (unit_has_type_flag(punit, F_NUCLEAR)) {
+      if (unit_has_type_flag(punit, UTYF_NUCLEAR)) {
         danger_of_nukes = TRUE;
       }
     } unit_list_iterate_end;
 
     /* Check for nuke capability */
     for (i = 0; i < nuke_units; i++) {
-      struct unit_type *nuke = get_role_unit(F_NUCLEAR, i);
+      struct unit_type *nuke = get_role_unit(UTYF_NUCLEAR, i);
 
       if (can_player_build_unit_direct(aplayer, nuke)) { 
         adv->threats.nuclear = 1;
@@ -413,7 +413,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
   unit_list_iterate(pplayer->units, punit) {
     struct tile *ptile = unit_tile(punit);
 
-    if (!is_ocean_tile(ptile) && unit_has_type_flag(punit, F_SETTLERS)) {
+    if (!is_ocean_tile(ptile) && unit_has_type_flag(punit, UTYF_SETTLERS)) {
       adv->stats.workers[(int)tile_continent(unit_tile(punit))]++;
     }
   } unit_list_iterate_end;

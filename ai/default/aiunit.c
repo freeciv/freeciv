@@ -933,7 +933,7 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
       int attacks;
       struct ai_city *city_data = def_ai_city_data(pcity);
 
-      if (unit_has_type_flag(punit, F_ONEATTACK)) {
+      if (unit_has_type_flag(punit, UTYF_ONEATTACK)) {
         attacks = 1;
       } else {
         attacks = unit_type(punit)->move_rate;
@@ -955,7 +955,7 @@ bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
                     struct tile **ferry_dest, struct tile **beachhead_tile)
 {
   if (NULL == tile_city(dest_tile)
-      || utype_has_flag(cargo_type, F_MARINES)) {
+      || utype_has_flag(cargo_type, UTYF_MARINES)) {
     /* Unit can directly go to 'ptile'. */
     struct tile *best_tile = NULL;
     int best_cost = PF_IMPOSSIBLE_MC, cost;
@@ -1422,8 +1422,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         continue;
       }
 
-      if ((unit_has_type_flag(aunit, F_CIVILIAN)
-           || unit_has_type_flag(aunit, F_TRADE_ROUTE))
+      if ((unit_has_type_flag(aunit, UTYF_CIVILIAN)
+           || unit_has_type_flag(aunit, UTYF_TRADE_ROUTE))
           && 0 == punit->id) {
         /* We will not build units just to chase caravans. */
         continue;
@@ -1841,7 +1841,8 @@ static void dai_manage_caravan(struct player *pplayer, struct unit *punit)
     return;
   }
 
-  if (unit_has_type_flag(punit, F_TRADE_ROUTE) || unit_has_type_flag(punit, F_HELP_WONDER)) {
+  if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)
+      || unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
     caravan_parameter_init_from_unit(&parameter, punit);
     if (log_do_output_for_level(LOG_CARAVAN2)) {
       parameter.callback = caravan_optimize_callback;
@@ -2162,18 +2163,18 @@ void dai_manage_unit(struct player *pplayer, struct unit *punit)
     } unit_class_iterate_end;
   }
 
-  if ((unit_has_type_flag(punit, F_DIPLOMAT))
-      || (unit_has_type_flag(punit, F_SPY))) {
+  if ((unit_has_type_flag(punit, UTYF_DIPLOMAT))
+      || (unit_has_type_flag(punit, UTYF_SPY))) {
     TIMING_LOG(AIT_DIPLOMAT, TIMER_START);
     dai_manage_diplomat(pplayer, punit);
     TIMING_LOG(AIT_DIPLOMAT, TIMER_STOP);
     return;
-  } else if (unit_has_type_flag(punit, F_SETTLERS)
-	     ||unit_has_type_flag(punit, F_CITIES)) {
+  } else if (unit_has_type_flag(punit, UTYF_SETTLERS)
+	     ||unit_has_type_flag(punit, UTYF_CITIES)) {
     dai_manage_settler(pplayer, punit);
     return;
-  } else if (unit_has_type_flag(punit, F_TRADE_ROUTE)
-             || unit_has_type_flag(punit, F_HELP_WONDER)) {
+  } else if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)
+             || unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
     TIMING_LOG(AIT_CARAVAN, TIMER_START);
     dai_manage_caravan(pplayer, punit);
     TIMING_LOG(AIT_CARAVAN, TIMER_STOP);
@@ -2181,7 +2182,7 @@ void dai_manage_unit(struct player *pplayer, struct unit *punit)
   } else if (unit_has_type_role(punit, L_BARBARIAN_LEADER)) {
     dai_manage_barbarian_leader(pplayer, punit);
     return;
-  } else if (unit_has_type_flag(punit, F_PARATROOPERS)) {
+  } else if (unit_has_type_flag(punit, UTYF_PARATROOPERS)) {
     dai_manage_paratrooper(pplayer, punit);
     return;
   } else if (is_ferry && unit_data->task != AIUNIT_HUNTER) {
@@ -2588,11 +2589,11 @@ static void update_simple_ai_types(void)
 
   unit_type_iterate(punittype) {
     if (A_NEVER != punittype->require_advance
-        && !utype_has_flag(punittype, F_CIVILIAN)
+        && !utype_has_flag(punittype, UTYF_CIVILIAN)
         && !uclass_has_flag(utype_class(punittype), UCF_MISSILE)
         && !(dai_uclass_move_type(utype_class(punittype)) == UMT_SEA
              && (!uclass_has_flag(utype_class(punittype), UCF_ATTACK_NON_NATIVE)
-                 || utype_has_flag(punittype, F_ONLY_NATIVE_ATTACK)))
+                 || utype_has_flag(punittype, UTYF_ONLY_NATIVE_ATTACK)))
         && !utype_fuel(punittype)
         && punittype->transport_capacity < 8) {
       simple_ai_types[i] = punittype;

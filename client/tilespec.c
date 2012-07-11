@@ -4265,7 +4265,7 @@ static int fill_grid_sprite_array(const struct tileset *t,
       unit[i] = FALSE;
       if (tile) {
         unit_list_iterate(pfocus_units, pfocus_unit) {
-          if (unit_has_type_flag(pfocus_unit, F_CITIES)
+          if (unit_has_type_flag(pfocus_unit, UTYF_CITIES)
               && !unit_has_orders(pfocus_unit)
               && city_can_be_built_here(unit_tile(pfocus_unit), pfocus_unit)
               && city_tile_to_city_map(&dummy_x, &dummy_y,

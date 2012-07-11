@@ -1035,7 +1035,7 @@ static void build_city_callback(GtkAction *action, gpointer data)
        get an eventual error message from the server if we try. */
     if (unit_can_add_or_build_city(punit)) {
       request_unit_build_city(punit);
-    } else if (unit_has_type_flag(punit, F_HELP_WONDER)) {
+    } else if (unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
       request_unit_caravan_action(punit, PACKET_UNIT_HELP_BUILD_WONDER);
     }
   } unit_list_iterate_end;
@@ -2125,7 +2125,7 @@ void real_menus_update(void)
             (can_units_do(punits, unit_can_add_or_build_city)
              || can_units_do(punits, unit_can_help_build_wonder_here)));
   menus_set_sensitive(unit_group, "GO_BUILD_CITY",
-                      units_have_flag(punits, F_CITIES, TRUE));
+                      units_have_type_flag(punits, UTYF_CITIES, TRUE));
   menus_set_sensitive(unit_group, "BUILD_ROAD",
                       (can_units_do_any_road(punits)
                        || can_units_do(punits,
@@ -2154,7 +2154,7 @@ void real_menus_update(void)
   menus_set_sensitive(unit_group, "DO_PILLAGE",
                       can_units_do_activity(punits, ACTIVITY_PILLAGE));
   menus_set_sensitive(unit_group, "UNIT_DISBAND",
-                      units_have_flag(punits, F_UNDISBANDABLE, FALSE));
+                      units_have_type_flag(punits, UTYF_UNDISBANDABLE, FALSE));
   menus_set_sensitive(unit_group, "UNIT_UPGRADE",
                       units_can_upgrade(punits));
   /* "UNIT_CONVERT" dealt with below */
@@ -2204,9 +2204,9 @@ void real_menus_update(void)
                       can_units_do_diplomat_action(punits,
                                                    DIPLOMAT_ANY_ACTION));
   menus_set_sensitive(unit_group, "EXPLODE_NUKE",
-                      units_have_flag(punits, F_NUCLEAR, TRUE));
+                      units_have_type_flag(punits, UTYF_NUCLEAR, TRUE));
 
-  if (units_have_flag(punits, F_HELP_WONDER, TRUE)) {
+  if (units_have_type_flag(punits, UTYF_HELP_WONDER, TRUE)) {
     menus_rename(unit_group, "BUILD_CITY", _("Help _Build Wonder"));
   } else {
     bool city_on_tile = FALSE;
@@ -2220,7 +2220,7 @@ void real_menus_update(void)
       }
     } unit_list_iterate_end;
     
-    if (city_on_tile && units_have_flag(punits, F_ADD_TO_CITY, TRUE)) {
+    if (city_on_tile && units_have_type_flag(punits, UTYF_ADD_TO_CITY, TRUE)) {
       menus_rename(unit_group, "BUILD_CITY", _("Add to City"));
     } else {
       /* refresh default order */
@@ -2228,9 +2228,9 @@ void real_menus_update(void)
     }
   }
 
-  if (units_have_flag(punits, F_TRADE_ROUTE, TRUE)) {
+  if (units_have_type_flag(punits, UTYF_TRADE_ROUTE, TRUE)) {
     menus_rename(unit_group, "BUILD_ROAD", _("Establish Trade _Route"));
-  } else if (units_have_flag(punits, F_SETTLERS, TRUE)) {
+  } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
     char road_item[500];
     struct road_type *proad = NULL;
 
@@ -2343,7 +2343,7 @@ void real_menus_update(void)
     menus_rename(unit_group, "BUILD_FORTRESS", _("Build Type A Base"));
   }
 
-  if (units_have_flag(punits, F_PARATROOPERS, TRUE)) {
+  if (units_have_type_flag(punits, UTYF_PARATROOPERS, TRUE)) {
     menus_rename(unit_group, "CLEAN_POLLUTION", _("Drop _Paratrooper"));
   } else {
     menus_rename(unit_group, "CLEAN_POLLUTION", _("Clean _Pollution"));

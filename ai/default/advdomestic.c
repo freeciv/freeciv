@@ -82,7 +82,7 @@ static void dai_choose_help_wonder(struct city *pcity,
   struct unit_type *unit_type;
   struct city *wonder_city = game_city_by_number(ai->wonder_city);
 
-  if (num_role_units(F_HELP_WONDER) == 0) {
+  if (num_role_units(UTYF_HELP_WONDER) == 0) {
     /* No such units available in the ruleset */
     return;
   }
@@ -99,7 +99,7 @@ static void dai_choose_help_wonder(struct city *pcity,
 
   /* Count existing caravans */
   unit_list_iterate(pplayer->units, punit) {
-    if (unit_has_type_flag(punit, F_HELP_WONDER)
+    if (unit_has_type_flag(punit, UTYF_HELP_WONDER)
         && tile_continent(unit_tile(punit)) == continent)
       caravans++;
   } unit_list_iterate_end;
@@ -107,18 +107,18 @@ static void dai_choose_help_wonder(struct city *pcity,
   /* Count caravans being built */
   city_list_iterate(pplayer->cities, acity) {
     if (VUT_UTYPE == acity->production.kind
-        && utype_has_flag(acity->production.value.utype, F_HELP_WONDER)
+        && utype_has_flag(acity->production.value.utype, UTYF_HELP_WONDER)
         && tile_continent(acity->tile) == continent) {
       caravans++;
     }
   } city_list_iterate_end;
 
-  unit_type = best_role_unit(pcity, F_HELP_WONDER);
+  unit_type = best_role_unit(pcity, UTYF_HELP_WONDER);
 
   if (!unit_type) {
     /* We cannot build such units yet
      * but we will consider it to stimulate science */
-    unit_type = get_role_unit(F_HELP_WONDER, 0);
+    unit_type = get_role_unit(UTYF_HELP_WONDER, 0);
   }
 
   /* Check if wonder needs a little help. */
@@ -139,14 +139,14 @@ static void dai_choose_help_wonder(struct city *pcity,
     if (want > choice->want) {
       /* This sets our tech want in cases where we cannot actually build
        * the unit. */
-      unit_type = dai_wants_role_unit(pplayer, pcity, F_HELP_WONDER, want);
+      unit_type = dai_wants_role_unit(pplayer, pcity, UTYF_HELP_WONDER, want);
       if (unit_type != NULL) {
         choice->want = want;
         choice->type = CT_CIVILIAN;
         choice->value.utype = unit_type;
       } else {
         CITY_LOG(LOG_DEBUG, pcity,
-                 "would but could not build F_HELP_WONDER unit, bumped reqs");
+                 "would but could not build UTYF_HELP_WONDER unit, bumped reqs");
       }
     }
   }
@@ -177,7 +177,7 @@ static void dai_choose_trade_route(struct city *pcity,
     return;
   }
 
-  if (num_role_units(F_TRADE_ROUTE) == 0) {
+  if (num_role_units(UTYF_TRADE_ROUTE) == 0) {
     /* No such units available in the ruleset */
     return;
   }
@@ -195,12 +195,12 @@ static void dai_choose_trade_route(struct city *pcity,
     return;
   }
 
-  unit_type = best_role_unit(pcity, F_TRADE_ROUTE);
+  unit_type = best_role_unit(pcity, UTYF_TRADE_ROUTE);
 
   if (!unit_type) {
     /* We cannot build such units yet
      * but we will consider it to stimulate science */
-    unit_type = get_role_unit(F_TRADE_ROUTE, 0);
+    unit_type = get_role_unit(UTYF_TRADE_ROUTE, 0);
   }
 
   trade_routes = city_num_trade_routes(pcity);
@@ -253,7 +253,7 @@ static void dai_choose_trade_route(struct city *pcity,
   if (want > choice->want) {
     /* This sets our tech want in cases where we cannot actually build
      * the unit. */
-    unit_type = dai_wants_role_unit(pplayer, pcity, F_TRADE_ROUTE, want);
+    unit_type = dai_wants_role_unit(pplayer, pcity, UTYF_TRADE_ROUTE, want);
     if (unit_type != NULL) {
       choice->want = want;
       choice->type = CT_CIVILIAN;
@@ -283,7 +283,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   init_choice(choice);
 
   /* Find out desire for workers (terrain improvers) */
-  settler_type = best_role_unit(pcity, F_SETTLERS);
+  settler_type = best_role_unit(pcity, UTYF_SETTLERS);
 
   /* The worker want is calculated in settlers.c called from
    * ai_manage_cities.  The expand value is the % that the AI should
@@ -303,18 +303,18 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       CITY_LOG(LOG_DEBUG, pcity, "desires terrain improvers with passion %d", 
                settler_want);
       dai_choose_role_unit(pplayer, pcity, choice, CT_CIVILIAN,
-                           F_SETTLERS, settler_want, FALSE);
+                           UTYF_SETTLERS, settler_want, FALSE);
     }
     /* Terrain improvers don't use boats (yet) */
 
   } else if (!settler_type && settler_want > 0) {
     /* Can't build settlers. Lets stimulate science */
-    dai_wants_role_unit(pplayer, pcity, F_SETTLERS, settler_want);
+    dai_wants_role_unit(pplayer, pcity, UTYF_SETTLERS, settler_want);
   }
 
   /* Find out desire for city founders */
   /* Basically, copied from above and adjusted. -- jjm */
-  founder_type = best_role_unit(pcity, F_CITIES);
+  founder_type = best_role_unit(pcity, UTYF_CITIES);
 
   /* founder_want calculated in aisettlers.c */
   founder_want = city_data->founder_want;
@@ -341,7 +341,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d",
                founder_want);
       dai_choose_role_unit(pplayer, pcity, choice, CT_CIVILIAN,
-                           F_CITIES, founder_want,
+                           UTYF_CITIES, founder_want,
                            city_data->founder_boat);
 
     } else if (founder_want < -choice->want) {
@@ -368,7 +368,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   } else if (!founder_type
              && (founder_want > choice->want || founder_want < -choice->want)) {
     /* Can't build founders. Lets stimulate science */
-    dai_wants_role_unit(pplayer, pcity, F_CITIES, founder_want);
+    dai_wants_role_unit(pplayer, pcity, UTYF_CITIES, founder_want);
   }
 
   {
@@ -420,7 +420,7 @@ void dai_wonder_city_distance(struct player *pplayer,
     return;
   }
 
-  punittype = best_role_unit_for_player(pplayer, F_HELP_WONDER);
+  punittype = best_role_unit_for_player(pplayer, UTYF_HELP_WONDER);
   if (!punittype) {
     return;
   }

@@ -764,7 +764,7 @@ static void kill_dying_players(void)
         && 0 == unit_list_size(pplayer->units)) {
       player_status_add(pplayer, PSTATUS_DYING);
     }
-    /* also F_GAMELOSS in unittools server_remove_unit() */
+    /* also UTYF_GAMELOSS in unittools server_remove_unit() */
     if (player_status_check(pplayer, PSTATUS_DYING)) {
       /* Can't get more dead than this. */
       voter_died = voter_died || pplayer->is_connected;
@@ -1075,7 +1075,7 @@ static void end_turn(void)
       continue;
     }
     unit_list_iterate(pplayer->units, punit) {
-      if (unit_has_type_flag(punit, F_CITIES)) {
+      if (unit_has_type_flag(punit, UTYF_CITIES)) {
         settlers++;
       }
     } unit_list_iterate_end;

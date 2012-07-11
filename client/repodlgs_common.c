@@ -208,7 +208,7 @@ void disband_all_units(struct unit_type *punittype, bool in_cities_only,
     return;
   }
 
-  if (utype_has_flag(punittype, F_UNDISBANDABLE)) {
+  if (utype_has_flag(punittype, UTYF_UNDISBANDABLE)) {
     fc_snprintf(message, message_sz, _("%s cannot be disbanded."),
                 utype_name_translation(punittype));
     return;

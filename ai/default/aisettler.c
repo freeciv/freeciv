@@ -1039,7 +1039,7 @@ BUILD_CITY:
 
   /*** Try find some work ***/
 
-  if (unit_has_type_flag(punit, F_SETTLERS)) {
+  if (unit_has_type_flag(punit, UTYF_SETTLERS)) {
     TIMING_LOG(AIT_WORKERS, TIMER_START);
     best_impr = settler_evaluate_improvements(punit, &best_act, &best_target,
                                               &best_tile, &path, state);
@@ -1050,7 +1050,7 @@ BUILD_CITY:
     TIMING_LOG(AIT_WORKERS, TIMER_STOP);
   }
 
-  if (unit_has_type_flag(punit, F_CITIES)) {
+  if (unit_has_type_flag(punit, UTYF_CITIES)) {
     struct cityresult *result;
 
     /* may use a boat: */
@@ -1205,10 +1205,10 @@ void contemplate_new_city(struct city *pcity)
   struct unit *virtualunit;
   struct tile *pcenter = city_tile(pcity);
   struct player *pplayer = city_owner(pcity);
-  struct unit_type *unit_type = best_role_unit(pcity, F_CITIES); 
+  struct unit_type *unit_type = best_role_unit(pcity, UTYF_CITIES); 
 
   if (unit_type == NULL) {
-    log_debug("No F_CITIES role unit available");
+    log_debug("No UTYF_CITIES role unit available");
     return;
   }
 

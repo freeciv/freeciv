@@ -94,7 +94,7 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
   log_debug("poison: unit: %d", pdiplomat->id);
 
   /* If not a Spy, can't poison. */
-  if (!unit_has_type_flag(pdiplomat, F_SPY))
+  if (!unit_has_type_flag(pdiplomat, UTYF_SPY))
     return;
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
@@ -211,7 +211,7 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
                        city_tile(pcity), city_link(pcity));
 
   /* Spies always survive. Diplomats never do. */
-  if (!unit_has_type_flag(pdiplomat, F_SPY)) {
+  if (!unit_has_type_flag(pdiplomat, UTYF_SPY)) {
     wipe_unit(pdiplomat, ULR_USED);
   } else {
     send_unit_info (pplayer, pdiplomat);
@@ -312,7 +312,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
                        city_tile(pcity), city_link(pcity));
 
   /* Spies always survive. Diplomats never do. */
-  if (!unit_has_type_flag(pdiplomat, F_SPY)) {
+  if (!unit_has_type_flag(pdiplomat, UTYF_SPY)) {
     wipe_unit(pdiplomat, ULR_USED);
   } else {
     send_unit_info (pplayer, pdiplomat);
@@ -349,7 +349,7 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   log_debug("sabotage-unit: unit: %d", pdiplomat->id);
 
   /* If not a Spy, can't sabotage unit. */
-  if (!unit_has_type_flag(pdiplomat, F_SPY))
+  if (!unit_has_type_flag(pdiplomat, UTYF_SPY))
     return;
 
   /* N.B: unit_link() always returns the same pointer. */
@@ -459,7 +459,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
     return;
   }
 
-  if (unit_has_type_flag(pvictim, F_UNBRIBABLE)) {
+  if (unit_has_type_flag(pvictim, UTYF_UNBRIBABLE)) {
     notify_player(pplayer, unit_tile(pdiplomat),
                   E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("You cannot bribe the %s!"),
@@ -579,7 +579,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   log_debug("steal-tech: unit: %d", pdiplomat->id);
 
   /* If not a Spy, do something random. */
-  if (!unit_has_type_flag(pdiplomat, F_SPY)) {
+  if (!unit_has_type_flag(pdiplomat, UTYF_SPY)) {
     technology = A_UNSET;
   }
 
@@ -594,7 +594,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   /* Check if the Diplomat/Spy succeeds with his/her task. */
   /* (Twice as difficult if target is specified.) */
   /* (If already stolen from, impossible for Diplomats and harder for Spies.) */
-  if (pcity->server.steal > 0 && !unit_has_type_flag(pdiplomat, F_SPY)) {
+  if (pcity->server.steal > 0 && !unit_has_type_flag(pdiplomat, UTYF_SPY)) {
     /* Already stolen from: Diplomat always fails! */
     count = 1;
     log_debug("steal-tech: difficulty: impossible");
@@ -616,7 +616,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   }
   
   if (count > 0) {
-    if (pcity->server.steal > 0 && !unit_has_type_flag(pdiplomat, F_SPY)) {
+    if (pcity->server.steal > 0 && !unit_has_type_flag(pdiplomat, UTYF_SPY)) {
       notify_player(pplayer, city_tile(pcity),
                     E_MY_DIPLOMAT_FAILED, ftc_server,
                     _("%s was expecting your attempt to steal technology "
@@ -834,7 +834,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   log_debug("sabotage: unit: %d", pdiplomat->id);
 
   /* If not a Spy, do something random. */
-  if (!unit_has_type_flag(pdiplomat, F_SPY))
+  if (!unit_has_type_flag(pdiplomat, UTYF_SPY))
     improvement = B_LAST;
 
   /* Twice as difficult if target is specified. */
@@ -1080,18 +1080,18 @@ static bool diplomat_success_vs_defender(struct unit *pattacker,
 {
   int chance = 50; /* Base 50% chance */
 
-  if (unit_has_type_flag(pattacker, F_SUPERSPY)) {
+  if (unit_has_type_flag(pattacker, UTYF_SUPERSPY)) {
     return TRUE;
   }
-  if (unit_has_type_flag(pdefender, F_SUPERSPY)) {
+  if (unit_has_type_flag(pdefender, UTYF_SUPERSPY)) {
     return FALSE;
   }
 
   /* Add or remove 25% if spy flag. */
-  if (unit_has_type_flag(pattacker, F_SPY)) {
+  if (unit_has_type_flag(pattacker, UTYF_SPY)) {
     chance += 25;
   }
-  if (unit_has_type_flag(pdefender, F_SPY)) {
+  if (unit_has_type_flag(pdefender, UTYF_SPY)) {
     chance -= 25;
   }
 
@@ -1154,16 +1154,16 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
   unit_list_iterate(ptile->units, punit) {
     struct player *uplayer = unit_owner(punit);
 
-    if (unit_has_type_flag(punit, F_DIPLOMAT)
-        || unit_has_type_flag(punit, F_SUPERSPY)) {
-      /* A F_SUPERSPY unit may not actually be a spy, but a superboss
+    if (unit_has_type_flag(punit, UTYF_DIPLOMAT)
+        || unit_has_type_flag(punit, UTYF_SUPERSPY)) {
+      /* A UTYF_SUPERSPY unit may not actually be a spy, but a superboss
        * which we cannot allow puny diplomats from getting the better
        * of. Note that diplomat_success_vs_defender() is always TRUE
-       * if the attacker is F_SUPERSPY. Hence F_SUPERSPY vs F_SUPERSPY
+       * if the attacker is UTYF_SUPERSPY. Hence UTYF_SUPERSPY vs UTYF_SUPERSPY
        * in a diplomatic contest always kills the attacker. */
 
       if (diplomat_success_vs_defender(pdiplomat, punit, ptile) 
-          && !unit_has_type_flag(punit, F_SUPERSPY)) {
+          && !unit_has_type_flag(punit, UTYF_SUPERSPY)) {
         /* Defending Spy/Diplomat dies. */
 
         /* N.B.: *_link() always returns the same pointer. */
@@ -1320,8 +1320,8 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
                               FALSE, FALSE, TRUE, FALSE);
 
   if (spyhome
-      && unit_has_type_flag(pdiplomat, F_SPY)
-      && (unit_has_type_flag(pdiplomat, F_SUPERSPY)
+      && unit_has_type_flag(pdiplomat, UTYF_SPY)
+      && (unit_has_type_flag(pdiplomat, UTYF_SUPERSPY)
           || fc_rand (100) < escapechance)) {
     /* Attacking Spy/Diplomat survives. */
     notify_player(pplayer, ptile, E_MY_DIPLOMAT_ESCAPE, ftc_server,
@@ -1431,9 +1431,11 @@ int count_diplomats_on_tile(struct tile *ptile)
 {
   int count = 0;
 
-  unit_list_iterate((ptile)->units, punit)
-    if (unit_has_type_flag(punit, F_DIPLOMAT))
+  unit_list_iterate((ptile)->units, punit) {
+    if (unit_has_type_flag(punit, UTYF_DIPLOMAT)) {
       count++;
-  unit_list_iterate_end;
+    }
+  } unit_list_iterate_end;
+
   return count;
 }

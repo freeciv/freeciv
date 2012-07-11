@@ -109,70 +109,70 @@ struct unit_class {
    See data/default/units.ruleset for documentation of their effects.
    Change the array *flag_names[] in unittype.c accordingly.
 */
-enum unit_flag_id { 
-  F_TRADE_ROUTE=0,
-  F_HELP_WONDER,
-  F_IGZOC,     
-  F_CIVILIAN,      
-  F_IGTER,
-  F_ONEATTACK,   
-  F_PIKEMEN,     
-  F_HORSE,
-  F_IGWALL,           /* Ignores EFT_DEFEND_BONUS (for example city walls) */
-  F_FIELDUNIT,   
-  F_AEGIS,
-  F_MARINES,     
-  F_PARTIAL_INVIS,    /* Invisibile except when adjacent (Submarine) */   
-  F_SETTLERS,         /* Does not include ability to found cities */
-  F_DIPLOMAT,    
-  F_TRIREME,          /* Trireme sinking effect */
-  F_NUCLEAR,          /* Nuclear attack effect */
-  F_SPY,              /* Enhanced spy abilities */
-  F_TRANSFORM,        /* Can transform terrain types (Engineers) */
-  F_PARATROOPERS,
-  F_CITIES,           /* Can build cities */
-  F_ONLY_NATIVE_ATTACK, /* Cannot attack vs non-native tiles even if class can */
-  F_ADD_TO_CITY,      /* unit can add to city population */
-  F_FANATIC,          /* Only Fundamentalist government can build
-			 these units */
-  F_GAMELOSS,         /* Losing this unit means losing the game */
-  F_UNIQUE,           /* A player can only have one unit of this type */
-  F_UNBRIBABLE,       /* Cannot be bribed */
-  F_UNDISBANDABLE,    /* Cannot be disbanded, won't easily go away */
-  F_SUPERSPY,         /* Always wins diplomatic contests */
-  F_NOHOME,           /* Has no homecity */
-  F_NO_VETERAN,       /* Cannot increase veteran level */
-  F_BOMBARDER,        /* Has the ability to bombard */
-  F_CITYBUSTER,       /* Gets double firepower against cities */
-  F_NOBUILD,          /* Unit cannot be built (barb leader etc) */
-  F_BADWALLATTACKER,  /* Firepower set to 1 when EFT_DEFEND_BONUS applies
-                       * (for example, land unit attacking city with walls) */
-  F_BADCITYDEFENDER,  /* Firepower set to 1 and attackers x2 when in city */
-  F_HELICOPTER,       /* Defends badly against F_FIGHTER units */
-  F_AIRUNIT,          /* Bad at attacking F_AEGIS units */
-  F_FIGHTER,          /* Good at attacking F_HELICOPTER units */
-  F_BARBARIAN_ONLY,   /* Only barbarians can build this unit */
-  F_SHIELD2GOLD,      /* upkeep can switch from shield to gold */
-  F_CAPTURABLE,       /* Unit can be captured */
-  F_CAPTURER,         /* Unit can capture other */
-  F_USER_FLAG_1,      /* User defined flags start here */
-  F_LAST_USER_FLAG = F_USER_FLAG_1 + MAX_NUM_USER_UNIT_FLAGS - 1,
-  F_LAST
+enum unit_type_flag_id { 
+  UTYF_TRADE_ROUTE=0,
+  UTYF_HELP_WONDER,
+  UTYF_IGZOC,
+  UTYF_CIVILIAN,
+  UTYF_IGTER,
+  UTYF_ONEATTACK,
+  UTYF_PIKEMEN,
+  UTYF_HORSE,
+  UTYF_IGWALL,           /* Ignores EFT_DEFEND_BONUS (for example city walls) */
+  UTYF_FIELDUNIT,
+  UTYF_AEGIS,
+  UTYF_MARINES,
+  UTYF_PARTIAL_INVIS,    /* Invisibile except when adjacent (Submarine) */   
+  UTYF_SETTLERS,         /* Does not include ability to found cities */
+  UTYF_DIPLOMAT,
+  UTYF_TRIREME,          /* Trireme sinking effect */
+  UTYF_NUCLEAR,          /* Nuclear attack effect */
+  UTYF_SPY,              /* Enhanced spy abilities */
+  UTYF_TRANSFORM,        /* Can transform terrain types (Engineers) */
+  UTYF_PARATROOPERS,
+  UTYF_CITIES,           /* Can build cities */
+  UTYF_ONLY_NATIVE_ATTACK, /* Cannot attack vs non-native tiles even if class can */
+  UTYF_ADD_TO_CITY,      /* unit can add to city population */
+  UTYF_FANATIC,          /* Only Fundamentalist government can build
+                            these units */
+  UTYF_GAMELOSS,         /* Losing this unit means losing the game */
+  UTYF_UNIQUE,           /* A player can only have one unit of this type */
+  UTYF_UNBRIBABLE,       /* Cannot be bribed */
+  UTYF_UNDISBANDABLE,    /* Cannot be disbanded, won't easily go away */
+  UTYF_SUPERSPY,         /* Always wins diplomatic contests */
+  UTYF_NOHOME,           /* Has no homecity */
+  UTYF_NO_VETERAN,       /* Cannot increase veteran level */
+  UTYF_BOMBARDER,        /* Has the ability to bombard */
+  UTYF_CITYBUSTER,       /* Gets double firepower against cities */
+  UTYF_NOBUILD,          /* Unit cannot be built (barb leader etc) */
+  UTYF_BADWALLATTACKER,  /* Firepower set to 1 when EFT_DEFEND_BONUS applies
+                          * (for example, land unit attacking city with walls) */
+  UTYF_BADCITYDEFENDER,  /* Firepower set to 1 and attackers x2 when in city */
+  UTYF_HELICOPTER,       /* Defends badly against UTYF_FIGHTER units */
+  UTYF_AIRUNIT,          /* Bad at attacking UTYF_AEGIS units */
+  UTYF_FIGHTER,          /* Good at attacking UTYF_HELICOPTER units */
+  UTYF_BARBARIAN_ONLY,   /* Only barbarians can build this unit */
+  UTYF_SHIELD2GOLD,      /* upkeep can switch from shield to gold */
+  UTYF_CAPTURABLE,       /* Unit can be captured */
+  UTYF_CAPTURER,         /* Unit can capture other */
+  UTYF_USER_FLAG_1,      /* User defined flags start here */
+  UTYF_LAST_USER_FLAG = UTYF_USER_FLAG_1 + MAX_NUM_USER_UNIT_FLAGS - 1,
+  UTYF_LAST
 };
-#define F_MAX 64
+#define UTYF_MAX 64
 
 /* Unit "roles": these are similar to unit flags but differ in that
    they don't represent intrinsic properties or abilities of units,
    but determine which units are used (mainly by the server or AI)
    in various circumstances, or "roles".
    Note that in some cases flags can act as roles, eg, we don't need
-   a role for "settlers", because we can just use F_SETTLERS.
-   (Now have to consider F_CITIES too)
+   a role for "settlers", because we can just use UTYF_SETTLERS.
+   (Now have to consider UTYF_CITIES too)
    So we make sure flag values and role values are distinct,
    so some functions can use them interchangably.
    See data/default/units.ruleset for documentation of their effects.
 */
-#define L_FIRST F_MAX
+#define L_FIRST UTYF_MAX
 enum unit_role_id {
   L_FIRSTBUILD=L_FIRST, /* is built first when city established */
   L_EXPLORER,           /* initial explorer unit */
@@ -201,7 +201,7 @@ enum unit_role_id {
 };
 #define L_MAX 64
 
-BV_DEFINE(bv_unit_type_flags, F_MAX);
+BV_DEFINE(bv_unit_type_flags, UTYF_MAX);
 BV_DEFINE(bv_unit_type_roles, L_MAX);
 
 struct veteran_level {
@@ -297,17 +297,17 @@ const char *utype_values_string(const struct unit_type *punittype);
 const char *utype_values_translation(const struct unit_type *punittype);
 
 /* General unit type flag and role routines */
-bool unit_has_type_flag(const struct unit *punit, enum unit_flag_id flag);
+bool unit_has_type_flag(const struct unit *punit, enum unit_type_flag_id flag);
 bool utype_has_flag(const struct unit_type *punittype, int flag);
 
 bool unit_has_type_role(const struct unit *punit, enum unit_role_id role);
 bool utype_has_role(const struct unit_type *punittype, int role);
 
-enum unit_flag_id unit_flag_by_rule_name(const char *s);
+enum unit_type_flag_id unit_flag_by_rule_name(const char *s);
 enum unit_role_id unit_role_by_rule_name(const char *s);
 
-void set_user_unit_flag_name(enum unit_flag_id id, const char *name);
-const char *unit_flag_rule_name(enum unit_flag_id id);
+void set_user_unit_type_flag_name(enum unit_type_flag_id id, const char *name);
+const char *unit_type_flag_rule_name(enum unit_type_flag_id id);
 const char *unit_role_rule_name(enum unit_role_id id);
 
 bool unit_can_take_over(const struct unit *punit);
@@ -394,7 +394,7 @@ bool can_player_build_unit_now(const struct player *p,
 /* Initialization and iteration */
 void unit_types_init(void);
 void unit_types_free(void);
-void unit_flags_free(void);
+void unit_type_flags_free(void);
 
 struct unit_type *unit_type_array_first(void);
 const struct unit_type *unit_type_array_last(void);

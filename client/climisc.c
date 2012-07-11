@@ -579,7 +579,7 @@ bool city_building_present(const struct city *pcity,
 static int target_get_section(struct universal target)
 {
   if (VUT_UTYPE == target.kind) {
-    if (utype_has_flag(target.value.utype, F_CIVILIAN)) {
+    if (utype_has_flag(target.value.utype, UTYF_CIVILIAN)) {
       return 2;
     } else {
       return 3;
@@ -618,7 +618,7 @@ static int my_cmp(const void *p1, const void *p2)
 
  section 0: normal buildings
  section 1: Capitalization
- section 2: F_CIVILIAN units
+ section 2: UTYF_CIVILIAN units
  section 3: other units
  section 4: small wonders
  section 5: great wonders

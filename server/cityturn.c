@@ -866,7 +866,7 @@ static void city_populate(struct city *pcity)
      */
     unit_list_iterate_safe(pcity->units_supported, punit) {
       if (unit_type(punit)->upkeep[O_FOOD] > 0 
-          && !unit_has_type_flag(punit, F_UNDISBANDABLE)) {
+          && !unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
 
         notify_player(city_owner(pcity), city_tile(pcity),
                       E_UNIT_LOST_MISC, ftc_server,
@@ -1307,7 +1307,7 @@ void choose_build_target(struct player *pplayer, struct city *pcity)
   switch (pcity->production.kind) {
   case VUT_UTYPE:
     /* We can build a unit again unless it's unique or we have lost the tech. */
-    if (!utype_has_flag(pcity->production.value.utype, F_UNIQUE)
+    if (!utype_has_flag(pcity->production.value.utype, UTYF_UNIQUE)
         && can_city_build_unit_now(pcity, pcity->production.value.utype)) {
       return;
     }
@@ -1428,7 +1428,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
     unit_list_iterate_safe(pcity->units_supported, punit) {
       if (utype_upkeep_cost(unit_type(punit), pplayer, O_SHIELD) > 0
 	  && pcity->surplus[O_SHIELD] < 0
-          && !unit_has_type_flag(punit, F_UNDISBANDABLE)) {
+          && !unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
         notify_player(pplayer, city_tile(pcity),
                       E_UNIT_LOST_MISC, ftc_server,
                       _("%s can't upkeep %s, unit disbanded."),
@@ -1440,7 +1440,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
   }
 
   if (pcity->surplus[O_SHIELD] < 0) {
-    /* Special case: F_UNDISBANDABLE. This nasty unit won't go so easily.
+    /* Special case: UTYF_UNDISBANDABLE. This nasty unit won't go so easily.
      * It'd rather make the citizens pay in blood for their failure to upkeep
      * it! If we make it here all normal units are already disbanded, so only
      * undisbandable ones remain. */
@@ -1448,7 +1448,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
       int upkeep = utype_upkeep_cost(unit_type(punit), pplayer, O_SHIELD);
 
       if (upkeep > 0 && pcity->surplus[O_SHIELD] < 0) {
-        fc_assert_action(unit_has_type_flag(punit, F_UNDISBANDABLE),
+        fc_assert_action(unit_has_type_flag(punit, UTYF_UNDISBANDABLE),
                          continue);
         notify_player(pplayer, city_tile(pcity),
                       E_UNIT_LOST_MISC, ftc_server,

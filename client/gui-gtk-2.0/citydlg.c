@@ -2173,7 +2173,7 @@ static gboolean supported_unit_callback(GtkWidget * w, GdkEventButton * ev,
       GINT_TO_POINTER(punit->id));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
-    if (unit_has_type_flag(punit, F_UNDISBANDABLE)) {
+    if (unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
       gtk_widget_set_sensitive(item, FALSE);
     }
 
@@ -2274,7 +2274,7 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
       GINT_TO_POINTER(punit->id));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
-    if (unit_has_type_flag(punit, F_UNDISBANDABLE)) {
+    if (unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
       gtk_widget_set_sensitive(item, FALSE);
     }
 

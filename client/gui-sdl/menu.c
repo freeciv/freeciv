@@ -1124,7 +1124,7 @@ void real_menus_update(void)
       }
       
 	/* unit_can_est_trade_route_here(pUnit) */
-      if (pCity && unit_has_type_flag(pUnit, F_TRADE_ROUTE)
+      if (pCity && unit_has_type_flag(pUnit, UTYF_TRADE_ROUTE)
           && (pHomecity = game_city_by_number(pUnit->homecity))
           && can_cities_trade(pHomecity, pCity)) {
 	int revenue = get_caravan_enter_city_trade_bonus(pHomecity, pCity);
@@ -1309,7 +1309,7 @@ void real_menus_update(void)
       }
 
       if (can_unit_do_autosettlers(pUnit)) {
-	if (unit_has_type_flag(pUnit, F_SETTLERS)) {
+	if (unit_has_type_flag(pUnit, UTYF_SETTLERS)) {
 	  if(pOrder_Automate_Unit_Button->theme != pTheme->OAutoSett_Icon) {
 	    fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto Settler"), "A");
 	    pOrder_Automate_Unit_Button->theme = pTheme->OAutoSett_Icon;
@@ -1390,7 +1390,7 @@ void real_menus_update(void)
 	local_hide(ID_UNIT_ORDER_DIPLOMAT_DLG);
       }
 
-      if (unit_has_type_flag(pUnit, F_NUCLEAR)) {
+      if (unit_has_type_flag(pUnit, UTYF_NUCLEAR)) {
 	local_show(ID_UNIT_ORDER_NUKE);
       } else {
 	local_hide(ID_UNIT_ORDER_NUKE);

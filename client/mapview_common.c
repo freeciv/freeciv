@@ -150,7 +150,7 @@ void refresh_unit_mapcanvas(struct unit *punit, struct tile *ptile,
 {
   if (full_refresh && draw_native) {
     queue_mapview_update(UPDATE_MAP_CANVAS_VISIBLE);
-  } else if (full_refresh && unit_has_type_flag(punit, F_CITIES)) {
+  } else if (full_refresh && unit_has_type_flag(punit, UTYF_CITIES)) {
     queue_mapview_tile_update(ptile, TILE_UPDATE_CITYMAP);
   } else {
     queue_mapview_tile_update(ptile, TILE_UPDATE_UNIT);
@@ -2269,7 +2269,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
     unit_list_iterate(tile1->units, psettler) {
       if ((NULL == client.conn.playing
            || unit_owner(psettler) == client.conn.playing)
-          && unit_has_type_flag(psettler, F_CITIES)
+          && unit_has_type_flag(psettler, UTYF_CITIES)
           && city_can_be_built_here(unit_tile(psettler), psettler)) {
         if (!closest_settler) {
           closest_settler = psettler;

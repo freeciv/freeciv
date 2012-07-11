@@ -209,7 +209,7 @@ static void dai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
    * FIXME: that assumes that most units have move_rate == SINGLE_MOVE;
    * not true for all rule-sets */
   danger /= (unit_type(punit)->move_rate / SINGLE_MOVE);
-  if (unit_has_type_flag(punit, F_IGTER)) {
+  if (unit_has_type_flag(punit, UTYF_IGTER)) {
     danger /= 1.5;
   }
 
@@ -487,7 +487,7 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
       }
     } else if ((pcity && pplayers_allied(city_owner(pcity), pplayer))
                || (uclass_has_flag(unit_class(punit), UCF_ATTACK_NON_NATIVE)
-                   && !unit_has_type_flag(punit, F_ONLY_NATIVE_ATTACK))) {
+                   && !unit_has_type_flag(punit, UTYF_ONLY_NATIVE_ATTACK))) {
       /* Not ocean, but allied city or can bombard, checking if there is
        * good ocean adjacent */
       adjc_iterate(ptile, tmp_tile) {
@@ -613,22 +613,22 @@ void dai_fill_unit_param(struct pf_parameter *parameter,
     parameter->get_zoc = NULL;
   }
 
-  if ((unit_has_type_flag(punit, F_DIPLOMAT))
-      || (unit_has_type_flag(punit, F_SPY))) {
+  if ((unit_has_type_flag(punit, UTYF_DIPLOMAT))
+      || (unit_has_type_flag(punit, UTYF_SPY))) {
     /* Default tile behaviour */
-  } else if (unit_has_type_flag(punit, F_SETTLERS)) {
+  } else if (unit_has_type_flag(punit, UTYF_SETTLERS)) {
     parameter->get_TB = no_fights;
-  } else if (long_path && unit_has_type_flag(punit, F_CITIES)) {
+  } else if (long_path && unit_has_type_flag(punit, UTYF_CITIES)) {
     /* Default tile behaviour;
      * move as far along the path to the destination as we can;
      * that is, ignore the presence of enemy units when computing the
      * path.
      */
-  } else if (unit_has_type_flag(punit, F_CITIES)) {
+  } else if (unit_has_type_flag(punit, UTYF_CITIES)) {
     /* Short path */
     parameter->get_TB = no_fights;
-  } else if (unit_has_type_flag(punit, F_TRADE_ROUTE)
-             || unit_has_type_flag(punit, F_HELP_WONDER)) {
+  } else if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)
+             || unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
     parameter->get_TB = no_fights;
   } else if (unit_has_type_role(punit, L_BARBARIAN_LEADER)) {
     /* Avoid capture */

@@ -98,7 +98,7 @@ bool unit_can_defend_here(const struct unit *punit)
 bool can_attack_non_native(const struct unit_type *utype)
 {
   return uclass_has_flag(utype_class(utype), UCF_ATTACK_NON_NATIVE)
-         && !utype_has_flag(utype, F_ONLY_NATIVE_ATTACK);
+         && !utype_has_flag(utype, UTYF_ONLY_NATIVE_ATTACK);
 }
 
 /****************************************************************************
@@ -108,7 +108,7 @@ bool can_attack_non_native(const struct unit_type *utype)
 bool can_attack_from_non_native(const struct unit_type *utype)
 {
   return uclass_has_flag(utype_class(utype), UCF_ATT_FROM_NON_NATIVE)
-         || utype_has_flag(utype, F_MARINES);
+         || utype_has_flag(utype, UTYF_MARINES);
 }
 
 /****************************************************************************
@@ -207,7 +207,7 @@ bool can_exist_at_tile(const struct unit_type *utype,
   }
 
   /* A trireme unit cannot exist in an ocean tile without access to land. */
-  if (utype_has_flag(utype, F_TRIREME) && !is_safe_ocean(ptile)) {
+  if (utype_has_flag(utype, UTYF_TRIREME) && !is_safe_ocean(ptile)) {
     return FALSE;
   }
 
@@ -507,7 +507,7 @@ unit_move_to_tile_test(const struct unit_type *punittype,
     /* 6) */
     if (utype_move_type(punittype) == UMT_LAND
         && is_ocean_tile(src_tile)      /* Moving from ocean */
-        && !utype_has_flag(punittype, F_MARINES)) {
+        && !utype_has_flag(punittype, UTYF_MARINES)) {
       /* Most ground units can't move into cities from ships. (Note this
        * check is only for movement, not attacking: most ground units
        * can't attack from ship at *any* units on land.) */
@@ -541,12 +541,12 @@ unit_move_to_tile_test(const struct unit_type *punittype,
   }
 
   /* 10) */
-  if (utype_has_flag(punittype, F_TRIREME) && !is_safe_ocean(dst_tile)) {
+  if (utype_has_flag(punittype, UTYF_TRIREME) && !is_safe_ocean(dst_tile)) {
     return MR_TRIREME;
   }
 
   /* 11) */
-  if (!utype_has_flag(punittype, F_CIVILIAN)
+  if (!utype_has_flag(punittype, UTYF_CIVILIAN)
       && !player_can_invade_tile(unit_owner, dst_tile)) {
     return MR_PEACE;
   }

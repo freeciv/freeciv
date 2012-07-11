@@ -1226,8 +1226,8 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
    * uniqueness, so we don't mention it here.) */
 
   if (building_has_effect(pimprove, EFT_ENABLE_NUKE)
-      && num_role_units(F_NUCLEAR) > 0) {
-    struct unit_type *u = get_role_unit(F_NUCLEAR, 0);
+      && num_role_units(UTYF_NUCLEAR) > 0) {
+    struct unit_type *u = get_role_unit(UTYF_NUCLEAR, 0);
 
     cat_snprintf(buf, bufsz,
 		 /* TRANS: 'Allows all players with knowledge of atomic
@@ -1333,7 +1333,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                _("* Belongs to %s unit class.\n"),
                uclass_name_translation(utype_class(utype)));
   if (uclass_has_flag(utype_class(utype), UCF_CAN_OCCUPY_CITY)
-      && !utype_has_flag(utype, F_CIVILIAN)) {
+      && !utype_has_flag(utype, UTYF_CIVILIAN)) {
     CATLSTR(buf, bufsz, _("  * Can occupy empty enemy cities.\n"));
   }
   if (!uclass_has_flag(utype_class(utype), UCF_TERRAIN_SPEED)) {
@@ -1352,7 +1352,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz, _("  * Gets used up in making an attack.\n"));
   }
   if (uclass_has_flag(utype_class(utype), UCF_CAN_FORTIFY)
-      && !utype_has_flag(utype, F_SETTLERS)) {
+      && !utype_has_flag(utype, UTYF_SETTLERS)) {
     CATLSTR(buf, bufsz,
             /* xgettext:no-c-format */
             _("  * May fortify, granting a 50% defensive bonus.\n"));
@@ -1366,12 +1366,12 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 	    _("  * Can pillage tile improvements.\n"));
   }
   if (uclass_has_flag(utype_class(utype), UCF_DOESNT_OCCUPY_TILE)
-      && !utype_has_flag(utype, F_CIVILIAN)) {
+      && !utype_has_flag(utype, UTYF_CIVILIAN)) {
     CATLSTR(buf, bufsz,
 	    _("  * Doesn't prevent enemy cities from working the tile it's on.\n"));
   }
   if (uclass_has_flag(utype_class(utype), UCF_ATTACK_NON_NATIVE)
-      && !utype_has_flag(utype, F_ONLY_NATIVE_ATTACK)) {
+      && !utype_has_flag(utype, UTYF_ONLY_NATIVE_ATTACK)) {
     CATLSTR(buf, bufsz,
 	    _("  * Can attack units on non-native tiles.\n"));
   }
@@ -1388,10 +1388,10 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                  government_name_translation(utype->need_government));
   }
   
-  if (utype_has_flag(utype, F_NOBUILD)) {
+  if (utype_has_flag(utype, UTYF_NOBUILD)) {
     CATLSTR(buf, bufsz, _("* May not be built in cities.\n"));
   }
-  if (utype_has_flag(utype, F_BARBARIAN_ONLY)) {
+  if (utype_has_flag(utype, UTYF_BARBARIAN_ONLY)) {
     CATLSTR(buf, bufsz, _("* Only barbarians may build this.\n"));
   }
   {
@@ -1418,13 +1418,13 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                  _("* May be converted into %s.\n"),
                  utype_name_translation(utype->converted_to));
   }
-  if (utype_has_flag(utype, F_NOHOME)) {
+  if (utype_has_flag(utype, UTYF_NOHOME)) {
     CATLSTR(buf, bufsz, _("* Never has a home city.\n"));
   }
-  if (utype_has_flag(utype, F_GAMELOSS)) {
+  if (utype_has_flag(utype, UTYF_GAMELOSS)) {
     CATLSTR(buf, bufsz, _("* Losing this unit will lose you the game!\n"));
   }
-  if (utype_has_flag(utype, F_UNIQUE)) {
+  if (utype_has_flag(utype, UTYF_UNIQUE)) {
     CATLSTR(buf, bufsz,
 	    _("* Each player may only have one of this type of unit.\n"));
   }
@@ -1453,10 +1453,10 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                  utype->transport_capacity, astr_str(&list));
     astr_free(&list);
   }
-  if (utype_has_flag(utype, F_TRIREME)) {
+  if (utype_has_flag(utype, UTYF_TRIREME)) {
     CATLSTR(buf, bufsz, _("* Must stay next to coast.\n"));
   }
-  if (utype_has_flag(utype, F_TRADE_ROUTE)) {
+  if (utype_has_flag(utype, UTYF_TRADE_ROUTE)) {
     cat_snprintf(buf, bufsz,
                  /* TRANS: "Manhattan" distance is the distance along
                   * gridlines, with no diagonals allowed. */
@@ -1465,12 +1465,12 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                    " distance] from this unit's home city).\n"),
                  game.info.trademindist);
   }
-  if (utype_has_flag(utype, F_HELP_WONDER)) {
+  if (utype_has_flag(utype, UTYF_HELP_WONDER)) {
     cat_snprintf(buf, bufsz,
 		 _("* Can help build wonders (adds %d production).\n"),
 		 utype_build_shield_cost(utype));
   }
-  if (utype_has_flag(utype, F_UNDISBANDABLE)) {
+  if (utype_has_flag(utype, UTYF_UNDISBANDABLE)) {
     CATLSTR(buf, bufsz, _("* May not be disbanded.\n"));
   } else {
     CATLSTR(buf, bufsz,
@@ -1478,17 +1478,17 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 	    _("* May be disbanded in a city to recover 50% of the"
 	      " production cost.\n"));
   }
-  if (utype_has_flag(utype, F_CITIES)) {
+  if (utype_has_flag(utype, UTYF_CITIES)) {
     CATLSTR(buf, bufsz, _("* Can build new cities.\n"));
   }
-  if (utype_has_flag(utype, F_ADD_TO_CITY)) {
+  if (utype_has_flag(utype, UTYF_ADD_TO_CITY)) {
     cat_snprintf(buf, bufsz,
 		 _("* Can add on %d population to cities of no more than"
 		   " size %d.\n"),
 		 utype_pop_value(utype),
 		 game.info.add_to_size_limit - utype_pop_value(utype));
   }
-  if (utype_has_flag(utype, F_SETTLERS)) {
+  if (utype_has_flag(utype, UTYF_SETTLERS)) {
     char buf2[1024];
 
     /* Roads, rail, mines, irrigation. */
@@ -1516,103 +1516,103 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz, _("* Can clean pollution from tiles.\n"));
     CATLSTR(buf, bufsz, _("* Can clean nuclear fallout from tiles.\n"));
   }
-  if (utype_has_flag(utype, F_TRANSFORM)) {
+  if (utype_has_flag(utype, UTYF_TRANSFORM)) {
     CATLSTR(buf, bufsz, _("* Can transform tiles.\n"));
   }
   /* FIXME: bases -- but there is no good way to find out which bases a unit
    * can conceivably build currently, so we have to remain silent. */
-  if (utype_has_flag(utype, F_DIPLOMAT)) {
-    if (utype_has_flag(utype, F_SPY)) {
+  if (utype_has_flag(utype, UTYF_DIPLOMAT)) {
+    if (utype_has_flag(utype, UTYF_SPY)) {
       CATLSTR(buf, bufsz, _("* Can perform diplomatic actions,"
 			    " plus special spy abilities.\n"));
     } else {
       CATLSTR(buf, bufsz, _("* Can perform diplomatic actions.\n"));
     }
   }
-  if (utype_has_flag(utype, F_DIPLOMAT)
-      || utype_has_flag(utype, F_SUPERSPY)) {
+  if (utype_has_flag(utype, UTYF_DIPLOMAT)
+      || utype_has_flag(utype, UTYF_SUPERSPY)) {
     CATLSTR(buf, bufsz, _("* Defends cities against diplomatic actions.\n"));
   }
-  if (utype_has_flag(utype, F_SUPERSPY)) {
+  if (utype_has_flag(utype, UTYF_SUPERSPY)) {
     CATLSTR(buf, bufsz, _("* Will never lose a diplomat-versus-diplomat fight.\n"));
   }
-  if (utype_has_flag(utype, F_UNBRIBABLE)) {
+  if (utype_has_flag(utype, UTYF_UNBRIBABLE)) {
     CATLSTR(buf, bufsz, _("* May not be bribed.\n"));
   }
-  if (utype_has_flag(utype, F_PARTIAL_INVIS)) {
+  if (utype_has_flag(utype, UTYF_PARTIAL_INVIS)) {
     CATLSTR(buf, bufsz,
             _("* Is invisible except when next to an enemy unit or city.\n"));
   }
-  if (utype_has_flag(utype, F_ONLY_NATIVE_ATTACK)) {
+  if (utype_has_flag(utype, UTYF_ONLY_NATIVE_ATTACK)) {
     CATLSTR(buf, bufsz,
             _("* Can only attack units on native tiles.\n"));
   }
-  if (utype_has_flag(utype, F_MARINES)) {
+  if (utype_has_flag(utype, UTYF_MARINES)) {
     CATLSTR(buf, bufsz,
 	    _("* Can attack from aboard sea units: against"
 	      " enemy cities and onto land tiles.\n"));
   }
-  if (utype_has_flag(utype, F_PARATROOPERS)) {
+  if (utype_has_flag(utype, UTYF_PARATROOPERS)) {
     cat_snprintf(buf, bufsz,
 		 _("* Can be paradropped from a friendly city or suitable base"
 		   " (range: %d tiles).\n"),
 		 utype->paratroopers_range);
   }
-  if (utype_has_flag(utype, F_PIKEMEN)) {
+  if (utype_has_flag(utype, UTYF_PIKEMEN)) {
     CATLSTR(buf, bufsz,
             _("* Gets double defense against units specified as 'mounted'.\n"));
   }
-  if (utype_has_flag(utype, F_HORSE)) {
+  if (utype_has_flag(utype, UTYF_HORSE)) {
     CATLSTR(buf, bufsz,
 	    _("* Counts as 'mounted' against certain defenders.\n"));
   }
-  if (utype_has_flag(utype, F_HELICOPTER)) {
+  if (utype_has_flag(utype, UTYF_HELICOPTER)) {
     CATLSTR(buf, bufsz,
             _("* Counts as 'helicopter' against certain attackers.\n"));
   }
-  if (utype_has_flag(utype, F_FIGHTER)) {
+  if (utype_has_flag(utype, UTYF_FIGHTER)) {
     CATLSTR(buf, bufsz,
             _("* Very good at attacking 'helicopter' units.\n"));
   }
-  if (utype_has_flag(utype, F_AIRUNIT)) {
+  if (utype_has_flag(utype, UTYF_AIRUNIT)) {
     CATLSTR(buf, bufsz,
             _("* Very bad at attacking AEGIS units.\n"));
   }
   if (!uclass_has_flag(utype_class(utype), UCF_MISSILE)
-      && utype_has_flag(utype, F_ONEATTACK)) {
+      && utype_has_flag(utype, UTYF_ONEATTACK)) {
     CATLSTR(buf, bufsz,
 	    _("* Making an attack ends this unit's turn.\n"));
   }
-  if (utype_has_flag(utype, F_NUCLEAR)) {
+  if (utype_has_flag(utype, UTYF_NUCLEAR)) {
     CATLSTR(buf, bufsz,
 	    _("* This unit's attack causes a nuclear explosion!\n"));
   }
-  if (utype_has_flag(utype, F_CITYBUSTER)) {
+  if (utype_has_flag(utype, UTYF_CITYBUSTER)) {
     CATLSTR(buf, bufsz,
 	    _("* Gets double firepower when attacking cities.\n"));
   }
-  if (utype_has_flag(utype, F_IGWALL)) {
+  if (utype_has_flag(utype, UTYF_IGWALL)) {
     CATLSTR(buf, bufsz, _("* Ignores the effects of city walls.\n"));
   }
-  if (utype_has_flag(utype, F_BOMBARDER)) {
+  if (utype_has_flag(utype, UTYF_BOMBARDER)) {
     cat_snprintf(buf, bufsz,
 		 _("* Does bombard attacks (%d per turn).  These attacks will"
 		   " only damage (never kill) the defender, but have no risk"
 		   " for the attacker.\n"),
 		 utype->bombard_rate);
   }
-  if (utype_has_flag(utype, F_AEGIS)) {
+  if (utype_has_flag(utype, UTYF_AEGIS)) {
     CATLSTR(buf, bufsz,
 	    _("* Gets quintuple defense against missiles and aircraft.\n"));
   }
-  if (utype_has_flag(utype, F_IGTER)) {
+  if (utype_has_flag(utype, UTYF_IGTER)) {
     CATLSTR(buf, bufsz,
 	    _("* Ignores terrain effects (treats all tiles as roads).\n"));
   }
-  if (utype_has_flag(utype, F_IGZOC)) {
+  if (utype_has_flag(utype, UTYF_IGZOC)) {
     CATLSTR(buf, bufsz, _("* Ignores zones of control.\n"));
   }
-  if (utype_has_flag(utype, F_CIVILIAN)) {
+  if (utype_has_flag(utype, UTYF_CIVILIAN)) {
     CATLSTR(buf, bufsz,
             _("* A non-military unit:\n"));
     CATLSTR(buf, bufsz,
@@ -1624,17 +1624,17 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
             _("  * Doesn't prevent enemy cities from working the tile it's on.\n"));
   }
-  if (utype_has_flag(utype, F_FIELDUNIT)) {
+  if (utype_has_flag(utype, UTYF_FIELDUNIT)) {
     CATLSTR(buf, bufsz,
             _("* A field unit: one unhappiness applies even when non-aggressive.\n"));
   }
-  if (utype_has_flag(utype, F_CAPTURER)) {
+  if (utype_has_flag(utype, UTYF_CAPTURER)) {
     CATLSTR(buf, bufsz, _("* Can capture some enemy units.\n"));
   }
-  if (utype_has_flag(utype, F_CAPTURABLE)) {
+  if (utype_has_flag(utype, UTYF_CAPTURABLE)) {
     CATLSTR(buf, bufsz, _("* Can be captured by some enemy units.\n"));
   }
-  if (utype_has_flag(utype, F_NO_VETERAN)) {
+  if (utype_has_flag(utype, UTYF_NO_VETERAN)) {
     CATLSTR(buf, bufsz, _("* Will never achieve veteran status.\n"));
   } else {
     /* Some units can never become veteran through combat in practice. */
@@ -1644,7 +1644,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         && utype->defense_strength == 0);
     switch(utype_move_type(utype)) {
       case UMT_BOTH:
-        if (!utype_has_flag(utype, F_NOBUILD))
+        if (!utype_has_flag(utype, UTYF_NOBUILD))
           CATLSTR(buf, bufsz,
                   _("* Will be built as a veteran in cities with appropriate"
                     " training facilities (see Airport).\n"));
@@ -1653,14 +1653,15 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                   _("* May be promoted after defeating an enemy unit.\n"));
         break;
       case UMT_LAND:
-        if (utype_has_flag(utype, F_DIPLOMAT)||utype_has_flag(utype, F_SPY)) {
+        if (utype_has_flag(utype, UTYF_DIPLOMAT)
+            || utype_has_flag(utype, UTYF_SPY)) {
           CATLSTR(buf, bufsz,
                   _("* Will be built as a veteran under communist governments.\n"));
           if (veteran_through_combat)
             CATLSTR(buf, bufsz,
                     _("* May be promoted after a successful mission.\n"));
         } else {
-          if (!utype_has_flag(utype, F_NOBUILD))
+          if (!utype_has_flag(utype, UTYF_NOBUILD))
             CATLSTR(buf, bufsz,
                     _("* Will be built as a veteran in cities with appropriate"
                       " training facilities (see Barracks).\n"));
@@ -1670,7 +1671,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         }
         break;
       case UMT_SEA:
-        if (!utype_has_flag(utype, F_NOBUILD))
+        if (!utype_has_flag(utype, UTYF_NOBUILD))
           CATLSTR(buf, bufsz,
                   _("* Will be built as a veteran in cities with appropriate"
                     " training facilities (see Port Facility).\n"));
@@ -1688,7 +1689,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         break;
     }
   }
-  if (utype_has_flag(utype, F_SHIELD2GOLD)) {
+  if (utype_has_flag(utype, UTYF_SHIELD2GOLD)) {
     /* FIXME: the conversion shield => gold is activated if
      *        EFT_SHIELD2GOLD_FACTOR is not equal null; how to determine
      *        possible sources? */
@@ -1819,7 +1820,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
             _("* Increases the pollution generated by the population.\n"));
 
   if (advance_has_flag(i, TF_BRIDGE)
-      && role_units_translations(&astr, F_SETTLERS, FALSE)) {
+      && role_units_translations(&astr, UTYF_SETTLERS, FALSE)) {
     cat_snprintf(buf, bufsz,
                  /* TRANS: %s is list of units separated by "and". */
                  _("* Allows %s to build roads on river tiles.\n"),
@@ -1827,7 +1828,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
   }
 
   if (advance_has_flag(i, TF_FARMLAND)
-      && role_units_translations(&astr, F_SETTLERS, FALSE)) {
+      && role_units_translations(&astr, UTYF_SETTLERS, FALSE)) {
     cat_snprintf(buf, bufsz,
                  /* TRANS: %s is list of units separated by "and". */
                  _("* Allows %s to upgrade irrigation to farmland.\n"),
@@ -2115,7 +2116,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
     Output_type_id output_type = O_LAST;
     struct unit_class *unitclass = NULL;
     struct unit_type *unittype = NULL;
-    enum unit_flag_id unitflag = F_LAST;
+    enum unit_type_flag_id unitflag = UTYF_LAST;
     struct strvec *outputs = strvec_new();
     struct astring outputs_or = ASTRING_INIT;
     struct astring outputs_and = ASTRING_INIT;
@@ -2145,7 +2146,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
          }
          break;
        case VUT_UTFLAG:
-         if (unitflag == F_LAST) {
+         if (unitflag == UTYF_LAST) {
            /* FIXME: We should list all the unit flag requirements,
             *        not only first one. */
            unitflag = preq->source.value.unitflag;
@@ -2372,10 +2373,10 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
           cat_snprintf(buf, bufsz,
                        _("* Veteran %s units.\n"),
                        utype_name_translation(unittype));
-        } else if (unitflag != F_LAST) {
+        } else if (unitflag != UTYF_LAST) {
           cat_snprintf(buf, bufsz,
                        _("* Veteran %s units.\n"),
-                       unit_flag_rule_name(unitflag));
+                       unit_type_flag_rule_name(unitflag));
         } else {
           CATLSTR(buf, bufsz, _("* Veteran units.\n"));
         }

@@ -238,7 +238,7 @@ void dai_data_phase_begin(struct player *pplayer, bool is_new_phase)
 
   BV_CLR_ALL(ai->stats.diplomat_reservations);
   unit_list_iterate(pplayer->units, punit) {
-    if (unit_has_type_flag(punit, F_DIPLOMAT)
+    if (unit_has_type_flag(punit, UTYF_DIPLOMAT)
         && def_ai_unit_data(punit)->task == AIUNIT_ATTACK) {
       /* Heading somewhere on a mission, reserve target. */
       struct city *pcity = tile_city(punit->goto_tile);

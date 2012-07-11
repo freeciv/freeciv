@@ -117,7 +117,7 @@ void popup_bribe_dialog(struct unit *punit, int cost)
                                           client_player()->economic.gold),
               client_player()->economic.gold);
 
-  if (unit_has_type_flag(punit, F_UNBRIBABLE)) {
+  if (unit_has_type_flag(punit, UTYF_UNBRIBABLE)) {
     popup_message_dialog(toplevel, "diplomatbribedialog",
                          _("This unit cannot be bribed!"),
                          diplomat_bribe_no_callback, 0, 0, NULL);
@@ -744,7 +744,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
              unit_name_translation(punit),
              city_name(pcity));
 
-    if (!unit_has_type_flag(punit, F_SPY)) {
+    if (!unit_has_type_flag(punit, UTYF_SPY)) {
       diplomat_dialog =
         popup_message_dialog(toplevel, "diplomatdialog", astr_str(&text),
 			       diplomat_embassy_callback, 0, 1,

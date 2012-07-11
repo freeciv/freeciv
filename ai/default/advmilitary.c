@@ -336,7 +336,7 @@ static unsigned int assess_danger_unit(const struct city *pcity,
 
   *move_time = PF_IMPOSSIBLE_MC;
 
-  if (utype_has_flag(punittype, F_PARATROOPERS)
+  if (utype_has_flag(punittype, UTYF_PARATROOPERS)
       && 0 < punittype->paratroopers_range) {
     *move_time = (real_map_distance(ptile, unit_tile(punit))
                   / punittype->paratroopers_range);
@@ -354,7 +354,7 @@ static unsigned int assess_danger_unit(const struct city *pcity,
     if ((PF_IMPOSSIBLE_MC == *move_time
          || *move_time > pos.turn)) {
       *move_time = pos.turn;
-      if (!utype_has_flag(punittype, F_MARINES)) {
+      if (!utype_has_flag(punittype, UTYF_MARINES)) {
         (*move_time)++;
       }
     }
@@ -477,10 +477,10 @@ static unsigned int assess_danger(struct city *pcity)
   city_data->has_diplomat = FALSE;
 
   unit_list_iterate(ptile->units, punit) {
-    if (unit_has_type_flag(punit, F_DIPLOMAT)) {
+    if (unit_has_type_flag(punit, UTYF_DIPLOMAT)) {
       city_data->has_diplomat = TRUE;
     }
-    if (unit_has_type_flag(punit, F_PIKEMEN)) {
+    if (unit_has_type_flag(punit, UTYF_PIKEMEN)) {
       pikemen = TRUE;
     }
   } unit_list_iterate_end;
@@ -529,16 +529,16 @@ static unsigned int assess_danger(struct city *pcity)
         } unit_class_iterate_end;
       }
 
-      if (unit_has_type_flag(punit, F_HORSE)) {
+      if (unit_has_type_flag(punit, UTYF_HORSE)) {
         if (pikemen) {
           vulnerability /= 2;
         } else {
-          (void) dai_wants_role_unit(pplayer, pcity, F_PIKEMEN,
+          (void) dai_wants_role_unit(pplayer, pcity, UTYF_PIKEMEN,
                                      vulnerability / MAX(move_time, 1));
         }
       }
 
-      if (unit_has_type_flag(punit, F_DIPLOMAT) && 2 >= move_time) {
+      if (unit_has_type_flag(punit, UTYF_DIPLOMAT) && 2 >= move_time) {
         city_data->diplomat_threat = TRUE;
       }
 
@@ -547,14 +547,14 @@ static unsigned int assess_danger(struct city *pcity)
         vulnerability /= move_time;
       }
 
-      if (unit_has_type_flag(punit, F_NUCLEAR)) {
+      if (unit_has_type_flag(punit, UTYF_NUCLEAR)) {
         defender = ai_find_source_building(pcity, EFT_NUKE_PROOF,
                                            unit_class(punit),
                                            unit_move_type_invalid());
         if (defender != B_LAST) {
           danger_reduced[defender] += vulnerability / MAX(move_time, 1);
         }
-      } else if (!unit_has_type_flag(punit, F_IGWALL)) {
+      } else if (!unit_has_type_flag(punit, UTYF_IGWALL)) {
         defender = ai_find_source_building(pcity, EFT_DEFEND_BONUS,
                                            unit_class(punit),
                                            unit_move_type_invalid());
@@ -627,8 +627,8 @@ int dai_unit_defence_desirability(const struct unit_type *punittype)
 
   /* Sea and helicopters often have their firepower set to 1 when
    * defending. We can't have such units as defenders. */
-  if (!utype_has_flag(punittype, F_BADCITYDEFENDER)
-      && !utype_has_flag(punittype, F_HELICOPTER)) {
+  if (!utype_has_flag(punittype, UTYF_BADCITYDEFENDER)
+      && !utype_has_flag(punittype, UTYF_HELICOPTER)) {
     /* Sea units get 1 firepower in Pearl Harbour,
      * and helicopters very bad against fighters */
     desire *= punittype->firepower;
@@ -636,10 +636,10 @@ int dai_unit_defence_desirability(const struct unit_type *punittype)
   desire *= defense;
   desire += punittype->move_rate / SINGLE_MOVE;
   desire += attack;
-  if (utype_has_flag(punittype, F_PIKEMEN)) {
+  if (utype_has_flag(punittype, UTYF_PIKEMEN)) {
     desire += desire / 2;
   }
-  if (utype_has_flag(punittype, F_GAMELOSS)) {
+  if (utype_has_flag(punittype, UTYF_GAMELOSS)) {
     desire /= 10; /* but might actually be worth it */
   }
   return desire;
@@ -658,19 +658,19 @@ int dai_unit_attack_desirability(const struct unit_type *punittype)
   desire *= punittype->firepower;
   desire *= attack;
   desire += defense;
-  if (utype_has_flag(punittype, F_IGTER)) {
+  if (utype_has_flag(punittype, UTYF_IGTER)) {
     desire += desire / 2;
   }
-  if (utype_has_flag(punittype, F_GAMELOSS)) {
+  if (utype_has_flag(punittype, UTYF_GAMELOSS)) {
     desire /= 10; /* but might actually be worth it */
   }
-  if (utype_has_flag(punittype, F_CITYBUSTER)) {
+  if (utype_has_flag(punittype, UTYF_CITYBUSTER)) {
     desire += desire / 2;
   }
-  if (utype_has_flag(punittype, F_MARINES)) {
+  if (utype_has_flag(punittype, UTYF_MARINES)) {
     desire += desire / 4;
   }
-  if (utype_has_flag(punittype, F_IGWALL)) {
+  if (utype_has_flag(punittype, UTYF_IGWALL)) {
     desire += desire / 4;
   }
   return desire;
@@ -715,7 +715,7 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
       desire /= 2; /* not good, just ok */
     }
 
-    if (utype_has_flag(punittype, F_FIELDUNIT)) {
+    if (utype_has_flag(punittype, UTYF_FIELDUNIT)) {
       /* Causes unhappiness even when in defense, so not a good
        * idea for a defender, unless it is _really_ good */
       desire /= 2;
@@ -1298,7 +1298,7 @@ static void adjust_ai_unit_choice(struct city *pcity,
 
   /* Sanity */
   if (!is_unit_choice_type(choice->type)
-      || utype_has_flag(choice->value.utype, F_CIVILIAN)
+      || utype_has_flag(choice->value.utype, UTYF_CIVILIAN)
       || do_make_unit_veteran(pcity, choice->value.utype)) {
     return;
   }

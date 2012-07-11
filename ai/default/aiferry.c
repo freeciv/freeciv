@@ -1046,7 +1046,8 @@ void dai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 
       fc_assert_ret(NULL != boss);
 
-      if (unit_has_type_flag(boss, F_SETTLERS) || unit_has_type_flag(boss, F_CITIES)) {
+      if (unit_has_type_flag(boss, UTYF_SETTLERS)
+          || unit_has_type_flag(boss, UTYF_CITIES)) {
         /* Temporary hack: settlers all go in the end, forcing them 
          * earlier might mean uninitialised cache, so just wait for them */
         return;

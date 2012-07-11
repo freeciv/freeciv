@@ -658,7 +658,7 @@ static void unitdisband_callback_yes(Widget w, XtPointer client_data, XtPointer 
   }
 
   unit_list_iterate(punits, punit) {
-    if (!unit_has_type_flag(punit, F_UNDISBANDABLE)) {
+    if (!unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
       request_unit_disband(punit);
     }
   } unit_list_iterate_end;

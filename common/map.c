@@ -744,9 +744,9 @@ static int tile_move_cost_ptrs(const struct unit *punit,
     return SINGLE_MOVE;
   }
 
-  /* Railroad check has to be before F_IGTER check so that F_IGTER
-   * units are not penalized. F_IGTER affects also entering and
-   * leaving ships, so F_IGTER check has to be before native terrain
+  /* Railroad check has to be before UTYF_IGTER check so that UTYF_IGTER
+   * units are not penalized. UTYF_IGTER affects also entering and
+   * leaving ships, so UTYF_IGTER check has to be before native terrain
    * check. We want to give railroad bonus only to native units. */
   if (!restrict_infra(pplayer, t1, t2)) {
     road_type_iterate(proad) {
@@ -763,7 +763,7 @@ static int tile_move_cost_ptrs(const struct unit *punit,
     return road_cost;
   }
 
-  if (punit && unit_has_type_flag(punit, F_IGTER)) {
+  if (punit && unit_has_type_flag(punit, UTYF_IGTER)) {
     return MOVE_COST_IGTER;
   }
   if (!native) {

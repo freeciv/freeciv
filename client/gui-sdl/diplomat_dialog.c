@@ -562,7 +562,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
   
   is_unit_move_blocked = TRUE;
   pCity = tile_city(ptile);
-  spy = unit_has_type_flag(pUnit, F_SPY);
+  spy = unit_has_type_flag(pUnit, UTYF_SPY);
   
   pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
   pDiplomat_Dlg->diplomat_id = pUnit->id;
@@ -853,7 +853,7 @@ void popup_sabotage_dialog(struct city *pCity)
   SDL_Rect area, area2;
   int n, w = 0, h, imp_h = 0, y;
   
-  if (pDiplomat_Dlg || !pUnit || !unit_has_type_flag(pUnit, F_SPY)) {
+  if (pDiplomat_Dlg || !pUnit || !unit_has_type_flag(pUnit, UTYF_SPY)) {
     return;
   }
   

@@ -105,17 +105,17 @@ static struct unit_type *dai_hunter_guess_best(struct city *pcity,
       }
     } unit_class_iterate_end;
 
-    if (utype_has_flag(ut, F_IGTER)) {
+    if (utype_has_flag(ut, UTYF_IGTER)) {
       desire += desire / 2;
     }
-    if (utype_has_flag(ut, F_PARTIAL_INVIS)) {
+    if (utype_has_flag(ut, UTYF_PARTIAL_INVIS)) {
       desire += desire / 4;
     }
     if (!can_attack_non_native(ut)) {
       desire -= desire / 4; /* less flexibility */
     }
     /* Causes continual unhappiness */
-    if (utype_has_flag(ut, F_FIELDUNIT)) {
+    if (utype_has_flag(ut, UTYF_FIELDUNIT)) {
       desire /= 2;
     }
 
@@ -183,7 +183,7 @@ static void dai_hunter_missile_want(struct player *pplayer,
               * ut->move_rate) / UNITTYPE_COSTS(ut) + 1;
 
     /* Causes continual unhappiness */
-    if (utype_has_flag(ut, F_FIELDUNIT)) {
+    if (utype_has_flag(ut, UTYF_FIELDUNIT)) {
       desire /= 2;
     }
 
@@ -371,11 +371,11 @@ static void dai_hunter_juiciness(struct player *pplayer, struct unit *punit,
 
   unit_list_iterate(unit_tile(target)->units, sucker) {
     *stackthreat += ATTACK_POWER(sucker);
-    if (unit_has_type_flag(sucker, F_GAMELOSS)) {
+    if (unit_has_type_flag(sucker, UTYF_GAMELOSS)) {
       *stackcost += 1000;
       *stackthreat += 5000;
     }
-    if (unit_has_type_flag(sucker, F_DIPLOMAT)) {
+    if (unit_has_type_flag(sucker, UTYF_DIPLOMAT)) {
       *stackthreat += 500; /* extra threatening */
     }
     *stackcost += unit_build_shield_cost(sucker);
@@ -448,9 +448,9 @@ int dai_hunter_manage(struct player *pplayer, struct unit *punit)
          * of each turn. */
         continue;
       }
-      if (!unit_has_type_flag(target, F_DIPLOMAT)
+      if (!unit_has_type_flag(target, UTYF_DIPLOMAT)
           && get_transporter_capacity(target) == 0
-          && !unit_has_type_flag(target, F_GAMELOSS)) {
+          && !unit_has_type_flag(target, UTYF_GAMELOSS)) {
         /* Won't hunt this one. */
         continue;
       }

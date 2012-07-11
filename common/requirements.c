@@ -100,7 +100,7 @@ struct universal universal_by_rule_name(const char *kind,
     break;
   case VUT_UTFLAG:
     source.value.unitflag = unit_flag_by_rule_name(value);
-    if (source.value.unitflag != F_LAST) {
+    if (source.value.unitflag != UTYF_LAST) {
       return source;
     }
     break;
@@ -1012,7 +1012,7 @@ static bool is_unittype_in_range(const struct unit_type *target_unittype,
 ****************************************************************************/
 static bool is_unitflag_in_range(const struct unit_type *target_unittype,
 				 enum req_range range, bool survives,
-				 enum unit_flag_id unitflag,
+				 enum unit_type_flag_id unitflag,
                                  enum req_problem_type prob_type)
 {
   /* If no target_unittype is given, we allow the req to be met.  This is
@@ -1449,7 +1449,7 @@ const char *universal_rule_name(const struct universal *psource)
   case VUT_UTYPE:
     return utype_rule_name(psource->value.utype);
   case VUT_UTFLAG:
-    return unit_flag_rule_name(psource->value.unitflag);
+    return unit_type_flag_rule_name(psource->value.unitflag);
   case VUT_UCLASS:
     return uclass_rule_name(psource->value.uclass);
   case VUT_UCFLAG:
@@ -1521,7 +1521,7 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_UTFLAG:
     cat_snprintf(buf, bufsz, _("\"%s\" units"),
 		 /* flag names are never translated */
-		 unit_flag_rule_name(psource->value.unitflag));
+		 unit_type_flag_rule_name(psource->value.unitflag));
     return buf;
   case VUT_UCLASS:
     cat_snprintf(buf, bufsz, _("%s units"),

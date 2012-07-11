@@ -40,7 +40,7 @@ static inline int single_move_cost(const struct pf_parameter *param,
                                    const struct tile *dest_tile)
 {
   if (!tile_city(dest_tile)
-      && BV_ISSET(param->unit_flags, F_TRIREME)
+      && BV_ISSET(param->unit_flags, UTYF_TRIREME)
       && !is_safe_ocean(dest_tile)) {
     return PF_IMPOSSIBLE_MC;
   } else if (uclass_has_flag(param->uclass, UCF_TERRAIN_SPEED)) {
@@ -175,7 +175,7 @@ static int normal_move_unit(const struct tile *ptile, enum direction8 dir,
       move_cost = PF_IMPOSSIBLE_MC;
     }
   } else if (!is_native_tile_to_class(param->uclass, ptile)) {
-    if (!BV_ISSET(param->unit_flags, F_MARINES)
+    if (!BV_ISSET(param->unit_flags, UTYF_MARINES)
         && (is_non_allied_unit_tile(ptile1, param->owner) 
             || is_non_allied_city_tile(ptile1, param->owner))) {
       move_cost = PF_IMPOSSIBLE_MC;
@@ -215,7 +215,7 @@ static int land_attack_move(const struct tile *src_tile,
     if (!is_non_allied_unit_tile(tgt_tile, param->owner)
         && !is_non_allied_city_tile(tgt_tile, param->owner)) {
       move_cost = tile_terrain(tgt_tile)->movement_cost * SINGLE_MOVE;
-    } else if (BV_ISSET(param->unit_flags, F_MARINES)) {
+    } else if (BV_ISSET(param->unit_flags, UTYF_MARINES)) {
       /* Can attack!! */
       move_cost = single_move_cost(param, src_tile, tgt_tile);
     } else {
@@ -322,7 +322,7 @@ static int igter_move_unit(const struct tile *ptile,
       move_cost = PF_IMPOSSIBLE_MC;
     }
   } else if (!is_native_tile_to_class(param->uclass, ptile)) {
-    if (!BV_ISSET(param->unit_flags, F_MARINES)
+    if (!BV_ISSET(param->unit_flags, UTYF_MARINES)
         && (is_non_allied_unit_tile(ptile1, param->owner) 
             || is_non_allied_city_tile(ptile1, param->owner))) {
       move_cost = PF_IMPOSSIBLE_MC;
@@ -392,7 +392,7 @@ static int amphibious_move(const struct tile *ptile, enum direction8 dir,
     cost = amphibious->sea.get_MC(ptile, dir, ptile1, &amphibious->sea);
     scale = amphibious->sea_scale;
   } else if (src_ferry && dst_psng) {
-    /* Disembark; use land movement function to handle F_MARINES */
+    /* Disembark; use land movement function to handle UTYF_MARINES */
     cost = amphibious->land.get_MC(ptile, dir, ptile1, &amphibious->land);
     scale = amphibious->land_scale;
   } else if (src_ferry) {
@@ -741,7 +741,7 @@ static void pft_fill_utype_default_parameter(struct pf_parameter *parameter,
   }
   parameter->owner = powner;
 
-  if (!BV_ISSET(parameter->unit_flags, F_CIVILIAN)) {
+  if (!BV_ISSET(parameter->unit_flags, UTYF_CIVILIAN)) {
     parameter->can_invade_tile = player_can_invade_tile;
   } else {
     parameter->can_invade_tile = NULL;
@@ -770,7 +770,7 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
   }
   parameter->owner = unit_owner(punit);
 
-  if (!BV_ISSET(parameter->unit_flags, F_CIVILIAN)) {
+  if (!BV_ISSET(parameter->unit_flags, UTYF_CIVILIAN)) {
     parameter->can_invade_tile = player_can_invade_tile;
   } else {
     parameter->can_invade_tile = NULL;
@@ -787,7 +787,7 @@ static void pft_fill_parameter(struct pf_parameter *parameter,
 {
   switch (utype_move_type(punittype)) {
   case UMT_LAND:
-    if (utype_has_flag(punittype, F_IGTER)) {
+    if (utype_has_flag(punittype, UTYF_IGTER)) {
       parameter->get_MC = igter_move_unit;
     } else {
       parameter->get_MC = normal_move_unit;

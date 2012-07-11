@@ -209,8 +209,8 @@ bool can_units_do_diplomat_action(const struct unit_list *punits,
   If has_flag is false, returns true iff any of the units don't have the
   flag.
 ****************************************************************************/
-bool units_have_flag(const struct unit_list *punits, enum unit_flag_id flag,
-		     bool has_flag)
+bool units_have_type_flag(const struct unit_list *punits,
+                          enum unit_type_flag_id flag, bool has_flag)
 {
   unit_list_iterate(punits, punit) {
     if (EQ(has_flag, unit_has_type_flag(punit, flag))) {

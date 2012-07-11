@@ -441,7 +441,8 @@ void real_menus_update(void)
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONVERT,
 			   units_can_convert(punits));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_DISBAND,
-			   units_have_flag(punits, F_UNDISBANDABLE, FALSE));
+			   units_have_type_flag(punits, UTYF_UNDISBANDABLE,
+                                                FALSE));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_EXPLORE, 
 			   can_units_do_activity(punits, ACTIVITY_EXPLORE));
 
@@ -485,7 +486,7 @@ void real_menus_update(void)
 			   can_units_do_diplomat_action(punits,
 							DIPLOMAT_ANY_ACTION));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_NUKE,
-                           units_have_flag(punits, F_NUCLEAR, TRUE));
+                           units_have_type_flag(punits, UTYF_NUCLEAR, TRUE));
 
       /* FiXME: very odd, iterating for the first entry! */
       unit_list_iterate(punits, punit) {
@@ -496,7 +497,7 @@ void real_menus_update(void)
       tinfo = tile_terrain(ptile);
       can_build = !(tile_city(ptile));
 
-      if (units_have_flag(punits, F_CITIES, TRUE)) {
+      if (units_have_type_flag(punits, UTYF_CITIES, TRUE)) {
 	if (!can_build) {
 	  menu_entry_rename(MENU_ORDER, MENU_ORDER_BUILD_CITY,
 			  TEXT_ORDER_CITY_ADD_TO, NULL);
@@ -541,7 +542,7 @@ void real_menus_update(void)
 			  TEXT_ORDER_TRANSFORM_TERRAIN, NULL);
       }
 
-      if (units_have_flag(punits, F_PARATROOPERS, TRUE)) {
+      if (units_have_type_flag(punits, UTYF_PARATROOPERS, TRUE)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_POLLUTION,
 			  TEXT_ORDER_POLLUTION_PARADROP, NULL);
       } else {

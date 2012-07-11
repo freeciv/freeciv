@@ -280,13 +280,13 @@ static void dai_city_choose_build(struct player *pplayer, struct city *pcity)
     CITY_LOG(LOG_WANT, pcity, "Falling back - didn't want to build soldiers,"
 	     " workers, caravans, settlers, or buildings!");
     city_data->choice.want = 1;
-    if (best_role_unit(pcity, F_TRADE_ROUTE)) {
+    if (best_role_unit(pcity, UTYF_TRADE_ROUTE)) {
       city_data->choice.value.utype
-        = best_role_unit(pcity, F_TRADE_ROUTE);
+        = best_role_unit(pcity, UTYF_TRADE_ROUTE);
       city_data->choice.type = CT_CIVILIAN;
-    } else if (best_role_unit(pcity, F_SETTLERS)) {
+    } else if (best_role_unit(pcity, UTYF_SETTLERS)) {
       city_data->choice.value.utype
-        = best_role_unit(pcity, F_SETTLERS);
+        = best_role_unit(pcity, UTYF_SETTLERS);
       city_data->choice.type = CT_CIVILIAN;
     } else {
       CITY_LOG(LOG_ERROR, pcity, "Cannot even build a fallback "
@@ -402,7 +402,7 @@ static void dai_upgrade_units(struct city *pcity, int limit, bool military)
         int real_limit = limit;
 
         /* Triremes are DANGEROUS!! We'll do anything to upgrade 'em. */
-        if (unit_has_type_flag(punit, F_TRIREME)) {
+        if (unit_has_type_flag(punit, UTYF_TRIREME)) {
           real_limit = expenses;
         }
         if (pplayer->economic.gold - cost > real_limit) {
@@ -510,7 +510,7 @@ static void dai_spend_gold(struct player *pplayer)
     }
 
     if (is_unit_choice_type(bestchoice.type)
-        && utype_has_flag(bestchoice.value.utype, F_CITIES)) {
+        && utype_has_flag(bestchoice.value.utype, UTYF_CITIES)) {
       if (get_city_bonus(pcity, EFT_GROWTH_FOOD) == 0
           && bestchoice.value.utype->pop_cost > 0
           && city_size_get(pcity) <= bestchoice.value.utype->pop_cost) {
@@ -636,7 +636,7 @@ static int unit_foodbox_cost(struct unit *punit)
   Estimates the want for a terrain improver (aka worker) by creating a 
   virtual unit and feeding it to settler_evaluate_improvements.
 
-  TODO: AI does not ship F_SETTLERS around, only F_CITIES - Per
+  TODO: AI does not ship UTYF_SETTLERS around, only UTYF_CITIES - Per
 **************************************************************************/
 static void contemplate_terrain_improvements(struct city *pcity)
 {
@@ -648,11 +648,11 @@ static void contemplate_terrain_improvements(struct city *pcity)
   struct tile *pcenter = city_tile(pcity);
   struct player *pplayer = city_owner(pcity);
   struct adv_data *ai = adv_data_get(pplayer);
-  struct unit_type *unit_type = best_role_unit(pcity, F_SETTLERS);
+  struct unit_type *unit_type = best_role_unit(pcity, UTYF_SETTLERS);
   Continent_id place = tile_continent(pcenter);
 
   if (unit_type == NULL) {
-    log_debug("No F_SETTLERS role unit available");
+    log_debug("No UTYF_SETTLERS role unit available");
     return;
   }
 

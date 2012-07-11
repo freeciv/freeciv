@@ -721,7 +721,7 @@ bool city_production_build_units(const struct city *pcity,
   }
 
   utype = pcity->production.value.utype;
-  if (utype_pop_value(utype) != 0 || utype_has_flag(utype, F_UNIQUE)) {
+  if (utype_pop_value(utype) != 0 || utype_has_flag(utype, UTYF_UNIQUE)) {
     /* unit with population cost or unique unit means that only one unit can
      * be build */
     (*num_units)++;

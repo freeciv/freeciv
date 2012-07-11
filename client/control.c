@@ -939,7 +939,7 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
     pcity = game_city_by_number(victim_id);
     punit = game_unit_by_number(victim_id);
 
-    if (!pdiplomat || !unit_has_type_flag(pdiplomat, F_DIPLOMAT))
+    if (!pdiplomat || !unit_has_type_flag(pdiplomat, UTYF_DIPLOMAT))
       continue;
 
     if (punit
@@ -1149,7 +1149,7 @@ bool can_unit_do_connect(struct unit *punit,
     /* Special case for irrigation: only irrigate to make S_IRRIGATION,
      * never to transform tiles. */
     return (terrain_control.may_irrigate
-            && unit_has_type_flag(punit, F_SETTLERS)
+            && unit_has_type_flag(punit, UTYF_SETTLERS)
             && (tile_has_special(ptile, S_IRRIGATION)
                 || (pterrain == pterrain->irrigation_result
                     && can_be_irrigated(ptile, punit)
@@ -1642,7 +1642,7 @@ void request_unit_nuke(struct unit_list *punits)
     return;
   }
   unit_list_iterate(punits, punit) {
-    if (unit_has_type_flag(punit, F_NUCLEAR)) {
+    if (unit_has_type_flag(punit, UTYF_NUCLEAR)) {
       can = TRUE;
       break;
     }
@@ -2646,7 +2646,7 @@ void key_unit_build_city(void)
 void key_unit_build_wonder(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (unit_has_type_flag(punit, F_HELP_WONDER)) {
+    if (unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
       request_unit_caravan_action(punit, PACKET_UNIT_HELP_BUILD_WONDER);
     }
   } unit_list_iterate_end;
@@ -2726,7 +2726,7 @@ void key_unit_patrol(void)
 void key_unit_trade_route(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (unit_has_type_flag(punit, F_TRADE_ROUTE)) {
+    if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)) {
       request_unit_caravan_action(punit, PACKET_UNIT_ESTABLISH_TRADE);
     }
   } unit_list_iterate_end;

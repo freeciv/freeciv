@@ -340,7 +340,7 @@ void dai_choose_paratrooper(struct player *pplayer, struct city *pcity,
   unit_type_iterate(u_type) {
     struct unit *virtual_unit;
 
-    if (!utype_has_flag(u_type, F_PARATROOPERS)) {
+    if (!utype_has_flag(u_type, UTYF_PARATROOPERS)) {
       continue;
     }
     if (A_NEVER == u_type->require_advance) {
