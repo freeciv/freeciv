@@ -752,8 +752,11 @@ static int tile_move_cost_ptrs(const struct unit *punit,
     road_type_iterate(proad) {
       if ((!punit || is_native_road_to_uclass(proad, pclass))
           && tile_has_road(t1, proad) && tile_has_road(t2, proad)) {
-        if (road_cost == -1 || road_cost > proad->move_cost) {
-          road_cost = proad->move_cost;
+        if (!road_has_flag(proad, RF_CARDINAL_ONLY)
+            || is_move_cardinal(t1, t2)) {
+          if (road_cost == -1 || road_cost > proad->move_cost) {
+            road_cost = proad->move_cost;
+          }
         }
       }
     } road_type_iterate_end;

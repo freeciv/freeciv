@@ -3527,6 +3527,10 @@ static int fill_road_corner_sprites(const struct tileset *t,
   int i;
   int road_idx = road_index(proad);
 
+  if (road_has_flag(proad, RF_CARDINAL_ONLY)) {
+    return 0;
+  }
+
   fc_assert_ret_val(draw_roads_rails, 0);
 
   /* Roads going diagonally adjacent to this tile need to be
@@ -3624,10 +3628,16 @@ static int fill_road_sprite_array(const struct tileset *t,
     bool roads_exist;
 
     /* Check if there is adjacent road/rail. */
-    road_near[dir] = BV_ISSET(troad_near[dir], road_idx);
-    if (cl) {
-      land_near[dir] = (tterrain_near[dir] != T_UNKNOWN
-                        && !terrain_has_flag(tterrain_near[dir], TER_OCEANIC));
+    if (!road_has_flag(proad, RF_CARDINAL_ONLY)
+        || is_cardinal_tileset_dir(t, dir)) {
+      road_near[dir] = BV_ISSET(troad_near[dir], road_idx);
+      if (cl) {
+        land_near[dir] = (tterrain_near[dir] != T_UNKNOWN
+                          && !terrain_has_flag(tterrain_near[dir], TER_OCEANIC));
+      }
+    } else {
+      road_near[dir] = FALSE;
+      land_near[dir] = FALSE;
     }
 
     /* Draw rail/road if there is a connection from this tile to the
@@ -3642,17 +3652,20 @@ static int fill_road_sprite_array(const struct tileset *t,
       bool hider_dir = FALSE;
       bool land_dir = FALSE;
 
-      if (BV_ISSET(troad_near[dir], road_index(phider))) {
-        hider_near[dir] = TRUE;
-        hider_dir = TRUE;
-      }
-      if (hland_near[dir]
-          && road_has_flag(phider, RF_CONNECT_LAND)) {
-        land_dir = TRUE;
-      }
-      if (hider_dir || land_dir) {
-        if (BV_ISSET(troad, road_index(phider))) {
-          draw_road[dir] = FALSE;
+      if (!road_has_flag(phider, RF_CARDINAL_ONLY)
+          || is_cardinal_tileset_dir(t, dir)) {
+        if (BV_ISSET(troad_near[dir], road_index(phider))) {
+          hider_near[dir] = TRUE;
+          hider_dir = TRUE;
+        }
+        if (hland_near[dir]
+            && road_has_flag(phider, RF_CONNECT_LAND)) {
+          land_dir = TRUE;
+        }
+        if (hider_dir || land_dir) {
+          if (BV_ISSET(troad, road_index(phider))) {
+            draw_road[dir] = FALSE;
+          }
         }
       }
     } road_type_list_iterate_end;

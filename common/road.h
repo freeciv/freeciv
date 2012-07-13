@@ -25,6 +25,8 @@ extern "C" {
 #define SPECENUM_VALUE1NAME "ConnectLand"
 #define SPECENUM_VALUE2 RF_REQUIRES_BRIDGE
 #define SPECENUM_VALUE2NAME "RequiresBridge"
+#define SPECENUM_VALUE3 RF_CARDINAL_ONLY
+#define SPECENUM_VALUE3NAME "CardinalOnly"
 #define SPECENUM_COUNT RF_COUNT
 #include "specenum_gen.h"
 

@@ -922,6 +922,7 @@ airbase may be attacked by land units.\
 ;                           appearance only
 ;   - "RequiresBridge"    = Road cannot be built to river tiles without
 ;                           appropriate technologies
+;   - "CardinalOnly"      = Only cardinal moves are possible along the road
 ;
 ; */ <-- avoid gettext warnings
 

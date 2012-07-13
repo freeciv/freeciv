@@ -645,6 +645,7 @@ flags        = "ParadropFrom", "NoAggressive"
 ;                           appearance only
 ;   - "RequiresBridge"    = Road cannot be built to river tiles without
 ;                           appropriate technologies
+;   - "CardinalOnly"      = Only cardinal moves are possible along the road
 ;
 ; */ <-- avoid gettext warnings
 
