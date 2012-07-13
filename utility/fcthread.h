@@ -62,7 +62,6 @@ void fc_thread_cond_destroy(fc_thread_cond *cond);
 void fc_thread_cond_wait(fc_thread_cond *cond, fc_mutex *mutex);
 void fc_thread_cond_signal(fc_thread_cond *cond);
 
-bool has_thread_impl(void);
 bool has_thread_cond_impl(void);
 
 #ifdef __cplusplus
