@@ -7,7 +7,7 @@ $!                    byer@mail.ourservers.net
 $!
 $!
 $! This script checks the file names and library paths and then compiles
-$! and links FreeCiv for OpenVMS using DEC C and DEC C TCP/IP socket routines.
+$! and links Freeciv for OpenVMS using DEC C and DEC C TCP/IP socket routines.
 $!
 $!      P1      ALL             Build Everything.
 $!              IMLIB		Just Build The IMLIB Library.
@@ -1910,7 +1910,7 @@ $!    We Are Going To Exit As We Need That To Compile.
 $!
 $     WRITE SYS$OUTPUT ""
 $     WRITE SYS$OUTPUT "I Can't Seem To Find The GTK Directory In SYS$DISK:[-.-].  Since It Is"
-$     WRITE SYS$OUTPUT "Needed To Compile The FreeCiv Client, This Needs To Be Resolved."
+$     WRITE SYS$OUTPUT "Needed To Compile The Freeciv Client, This Needs To Be Resolved."
 $     WRITE SYS$OUTPUT ""
 $!
 $!    Time To Exit.
@@ -1943,7 +1943,7 @@ $!    We Are Going To Exit As We Need That To Compile.
 $!
 $     WRITE SYS$OUTPUT ""
 $     WRITE SYS$OUTPUT "I Can't Seem To Find The IMLIB Directory In SYS$DISK:[-.-].  Since It Is"
-$     WRITE SYS$OUTPUT "Needed To Compile The FreeCiv Client, This Needs To Be Resolved."
+$     WRITE SYS$OUTPUT "Needed To Compile The Freeciv Client, This Needs To Be Resolved."
 $     WRITE SYS$OUTPUT ""
 $!
 $!    Time To Exit.
@@ -1972,7 +1972,7 @@ $!    We Are Going To Exit As We Need That To Compile.
 $!
 $     WRITE SYS$OUTPUT ""
 $     WRITE SYS$OUTPUT "I Can't Seem To Find The SYS$DISK:[]IMLIB_CONFIG.H_VMS File.  Since It Is"
-$     WRITE SYS$OUTPUT "Needed To Compile The FreeCiv Client, This Needs To Be Resolved."
+$     WRITE SYS$OUTPUT "Needed To Compile The Freeciv Client, This Needs To Be Resolved."
 $     WRITE SYS$OUTPUT ""
 $!
 $!    Time To Exit.
@@ -2017,7 +2017,7 @@ $!  We Are Going To Exit As We Need That To Compile.
 $!
 $   WRITE SYS$OUTPUT ""
 $   WRITE SYS$OUTPUT "I Can't Seem To Find The SYS$DISK:[]CONFIG.H_VMS File.  Since It Is"
-$   WRITE SYS$OUTPUT "Needed To Compile FreeCiv This Needs To Be Resolved."
+$   WRITE SYS$OUTPUT "Needed To Compile Freeciv This Needs To Be Resolved."
 $   WRITE SYS$OUTPUT ""
 $!
 $!  Time To Exit.

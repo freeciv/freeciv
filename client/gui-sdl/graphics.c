@@ -156,7 +156,7 @@ void screen_rect_to_layer_rect(struct gui_layer *gui_layer, SDL_Rect *dest_rect)
   }
 }
 
-/* ============ FreeCiv sdl graphics function =========== */
+/* ============ Freeciv sdl graphics function =========== */
 
 int alphablit(SDL_Surface *src, SDL_Rect *srcrect, 
               SDL_Surface *dst, SDL_Rect *dstrect) {
@@ -3287,7 +3287,7 @@ SDL_Surface *ResizeSurfaceBox(const SDL_Surface * pSrc,
   return result;  
 }
 
-/* ============ FreeCiv game graphics function =========== */
+/* ============ Freeciv game graphics function =========== */
 
 /**************************************************************************
   Return whether the client supports isometric view (isometric tilesets).

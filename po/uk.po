@@ -1,4 +1,4 @@
-# FreeCiv ukrainian translation 
+# Freeciv ukrainian translation 
 # Copyright (C)2003 Roman Festchook
 # This file is distributed under the same license as the freeciv package.
 # Roman Festchook <roma@polesye.net>, 2003.
