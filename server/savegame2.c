@@ -2072,7 +2072,7 @@ static void sg_save_scenario(struct savedata *saving)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  if (!saving->scenario && !game.scenario.is_scenario) {
+  if (!saving->scenario || !game.scenario.is_scenario) {
     return;
   }
 
