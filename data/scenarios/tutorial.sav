@@ -4,6 +4,53 @@ name=_("Tutorial")
 description=_("Play this tutorial scenario to get an\
  introduction to Freeciv.")
 
+[savefile]
+options=" +version2"
+version=20
+reason="Scenario"
+rulesetdir="classic"
+improvement_size=68
+improvement_vector="Airport","Aqueduct","Bank","Barracks","Barracks II","Barracks III","Cathedral","City Walls","Coastal Defense","Colosseum","Courthouse","Factory","Granary","Harbour","Hydro Plant","Library","Marketplace","Mass Transit","Mfg. Plant","Nuclear Plant","Offshore Platform","Palace","Police Station","Port Facility","Power Plant","Recycling Center","Research Lab","SAM Battery","SDI Defense","Sewer System","Solar Plant","Space Component","Space Module","Space Structural","Stock Exchange","Super Highways","Supermarket","Temple","University","Apollo Program","A.Smith's Trading Co.","Colossus","Copernicus' Observatory","Cure For Cancer","Darwin's Voyage","Eiffel Tower","Great Library","Great Wall","Hanging Gardens","Hoover Dam","Isaac Newton's College","J.S. Bach's Cathedral","King Richard's Crusade","Leonardo's Workshop","Lighthouse","Magellan's Expedition","Manhattan Project","Marco Polo's Embassy","Michelangelo's Chapel","Oracle","Pyramids","SETI Program","Shakespeare's Theatre","Statue of Liberty","Sun Tzu's War Academy","United Nations","Women's Suffrage","Coinage"
+technology_size=88
+technology_vector="A_NONE","Advanced Flight","Alphabet","Amphibious Warfare","Astronomy","Atomic Theory","Automobile","Banking","Bridge Building","Bronze Working","Ceremonial Burial","Chemistry","Chivalry","Code of Laws","Combined Arms","Combustion","Communism","Computers","Conscription","Construction","Currency","Democracy","Economics","Electricity","Electronics","Engineering","Environmentalism","Espionage","Explosives","Feudalism","Flight","Fusion Power","Genetic Engineering","Guerilla Warfare","Gunpowder","Horseback Riding","Industrialization","Invention","Iron Working","Labor Union","Laser","Leadership","Literacy","Machine Tools","Magnetism","Map Making","Masonry","Mass Production","Mathematics","Medicine","Metallurgy","Miniaturization","Mobile Warfare","Monarchy","Monotheism","Mysticism","Navigation","Nuclear Fission","Nuclear Power","Philosophy","Physics","Plastics","Polytheism","Pottery","Radio","Railroad","Recycling","Refining","Refrigeration","Robotics","Rocketry","Sanitation","Seafaring","Space Flight","Stealth","Steam Engine","Steel","Superconductors","Tactics","The Corporation","The Republic","The Wheel","Theology","Theory of Gravity","Trade","University","Warrior Code","Writing"
+specials_size=7
+specials_vector="Irrigation","Mine","Pollution","Hut","River","Farmland","Fallout"
+bases_size=4
+bases_vector="Fortress","Airbase","Buoy","Ruins"
+roads_size=2
+roads_vector="Road","Railroad"
+
+[game]
+version=20499
+server_state="S_S_INITIAL"
+meta_patches=""
+meta_usermessage=FALSE
+meta_server="http://meta.freeciv.org/metaserver.phtml"
+serverid=""
+skill_level=3
+phase_mode=0
+phase_mode_stored=0
+scoreturn=20
+timeoutint=0
+timeoutintinc=0
+timeoutinc=0
+timeoutincmult=1
+timeoutcounter=1
+turn=0
+year=-4000
+year_0_hack=FALSE
+globalwarming=0
+heating=0
+warminglevel=3
+nuclearwinter=0
+cooling=0
+coolinglevel=3
+save_players=FALSE
+save_known=TRUE
+
+[random]
+save=FALSE
+
 [script]
 code=$
 function has_unit_type_name(unit, utype_name) 
@@ -381,115 +428,17 @@ signal.connect('hut_enter', 'hut_entered_callback')
 print(_("Loading tutorial events."))
 $
 
-[game]
-version=20099
-server_state=0
-metapatches=""
-metatopic=""
-metamessage=""
-metaserver="http://meta.freeciv.org/metaserver.phtml"
-gold=50
-tech=0
-skill_level=3
-timeout=0
-timeoutint=0
-timeoutintinc=0
-timeoutinc=0
-timeoutincmult=1
-timeoutcounter=1
-info.timeoutaddenemymove=0
-end_year=2000
-year=-4000
-turn=0
-simultaneous_phases_now=0
-simultaneous_phases_stored=1
-researchcost=20
-min_players=1
-max_players=30
-nplayers=0
-heating=0
-globalwarming=0
-warminglevel=0
-nuclearwinter=0
-cooling=0
-coolinglevel=0
-notradesize=0
-fulltradesize=1
-unhappysize=4
-angrycitizen=1
-cityfactor=14
-citymindist=0
-civilwarsize=10
-contactturns=20
-rapturedelay=1
-diplcost=0
-freecost=0
-conquercost=0
-foodbox=10
-techpenalty=100
-razechance=20
-civstyle=2
-save_nturns=10
-save_name="civgame"
-aifill=2
-; Should set "novice" as well.
-scorelog=0
-id=""
-fogofwar=1
-spacerace=1
-auto_ai_toggle=0
-diplchance=80
-aqueductloss=0
-killcitizen=1
-turnblock=1
-savepalace=1
-fixedlength=0
-barbarians=2
-onsetbarbs=60
-revolen=0
-occupychance=0
-autoattack=0
-demography="NASRLPEMOqrb"
-borders=7
-happyborders=1
-diplomacy=0
-watchtower_vision=0
-watchtower_extra_vision=2
-allowed_city_names=1
-settlers=2
-explorer=1
-start_units="cx"
-dispersion=0
-randseed=0
-save_random=0
-rulesetdir="classic"
-
-[savefile]
-options="startoptions spacerace2 rulesets diplchance_percent worklists2 map_editor known32fix turn attributes watchtower rulesetdir client_worklists orders startunits turn_last_built improvement_order technology_order embassies"
-reason="User request"
-improvement_order="Airport", "Aqueduct", "Bank", "Barracks", "Barracks II", "Barracks III", "Cathedral", "City Walls", "Coastal Defense", "Colosseum", "Courthouse", "Factory", "Granary", "Harbour", "Hydro Plant", "Library", "Marketplace", "Mass Transit", "Mfg. Plant", "Nuclear Plant", "Offshore Platform", "Palace", "Police Station", "Port Facility", "Power Plant", "Recycling Center", "Research Lab", "SAM Battery", "SDI Defense", "Sewer System", "Space Component", "Space Module", "Space Structural", "Stock Exchange", "Super Highways", "Supermarket", "Temple", "University", "Apollo Program", "A.Smith's Trading Co.", "Colossus", "Copernicus' Observatory", "Cure For Cancer", "Darwin's Voyage", "Eiffel Tower", "Great Library", "Great Wall", "Hanging Gardens", "Hoover Dam", "Isaac Newton's College", "J.S. Bach's Cathedral", "King Richard's Crusade", "Leonardo's Workshop", "Lighthouse", "Magellan's Expedition", "Manhattan Project", "Marco Polo's Embassy", "Michelangelo's Chapel", "Oracle", "Pyramids", "SETI Program", "Shakespeare's Theatre", "Statue of Liberty", "Sun Tzu's War Academy", "United Nations", "Women's Suffrage", "Coinage"
-technology_order="A_NONE", "Advanced Flight", "Alphabet", "Amphibious Warfare", "Astronomy", "Atomic Theory", "Automobile", "Banking", "Bridge Building", "Bronze Working", "Ceremonial Burial", "Chemistry", "Chivalry", "Code of Laws", "Combined Arms", "Combustion", "Communism", "Computers", "Conscription", "Construction", "Currency", "Democracy", "Economics", "Electricity", "Electronics", "Engineering", "Environmentalism", "Espionage", "Explosives", "Feudalism", "Flight", "Fundamentalism", "Fusion Power", "Genetic Engineering", "Guerilla Warfare", "Gunpowder", "Horseback Riding", "Industrialization", "Invention", "Iron Working", "Labor Union", "Laser", "Leadership", "Literacy", "Machine Tools", "Magnetism", "Map Making", "Masonry", "Mass Production", "Mathematics", "Medicine", "Metallurgy", "Miniaturization", "Mobile Warfare", "Monarchy", "Monotheism", "Mysticism", "Navigation", "Nuclear Fission", "Nuclear Power", "Philosophy", "Physics", "Plastics", "Polytheism", "Pottery", "Radio", "Railroad", "Recycling", "Refining", "Refrigeration", "Robotics", "Rocketry", "Sanitation", "Seafaring", "Space Flight", "Stealth", "Steam Engine", "Steel", "Superconductors", "Tactics", "The Corporation", "The Republic", "The Wheel", "Theology", "Theory of Gravity", "Trade", "University", "Warrior Code", "Writing"
-
 [map]
-mountains=30
-grass=35
-swampsize=5
-deserts=5
-riverlength=5
-forestsize=20
-topology_id=5
-size=1
-width=8
-height=8
-seed=0
-landpercent=30
-riches=250
-wetness=50
-steepness=30
-huts=50
-generator=1
-have_huts=0
-temperature=50
-alltemperate=0
-tinyisles=0
-separatepoles=1
+have_huts = FALSE
+
+[settings]
+
+set = {"name", "value", "gamestart"
+"aifill", 2, 2
+"topology", "ISO|WRAPX", "ISO|WRAPX"
+"mapsize", "FULLSIZE", "FULLSIZE"
+"size", 1, 1
+}
+
+set_count = 4
+gamestart_valid = TRUE
