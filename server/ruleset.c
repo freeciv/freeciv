@@ -4754,7 +4754,6 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
      case VUT_MINSIZE: /* Breaks nothing, but has no sense either */
      case VUT_MINYEAR:
      case VUT_AI_LEVEL:
-     case VUT_TERRAINCLASS:
      case VUT_TERRAINALTER: /* Local range only */
      case VUT_CITYTILE:
        /* There can be only one requirement of these types (with current
@@ -4771,6 +4770,15 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
      case VUT_RESOURCE:
        /* There can be only up to max_tiles requirements of these types */
        if (max_tiles != -1 && rc > max_tiles) {
+         log_error("%s: Requirement list has more %s requirements than "
+                   "can ever be fullfilled.", list_for,
+                   universal_type_rule_name(&preq->source));
+         return FALSE;
+       }
+       break;
+
+     case VUT_TERRAINCLASS:
+       if (rc > 2 || (max_tiles != -1 && rc > max_tiles)) {
          log_error("%s: Requirement list has more %s requirements than "
                    "can ever be fullfilled.", list_for,
                    universal_type_rule_name(&preq->source));
