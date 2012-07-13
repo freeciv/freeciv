@@ -1359,21 +1359,27 @@ void transform_unit(struct unit *punit, struct unit_type *to_unit,
 
   punit->utype = to_unit;
 
+  /* New type may not have the same veteran system, and we may want to
+   * knock some levels off. */
+  if (utype_has_flag(to_unit, UTYF_NO_VETERAN)) {
+    punit->veteran = 0;
+  } else {
+    punit->veteran = MIN(punit->veteran,
+                         utype_veteran_system(to_unit)->levels - 1);
+    if (is_free) {
+      punit->veteran = MAX(punit->veteran
+                           - game.server.autoupgrade_veteran_loss, 0);
+    } else {
+      punit->veteran = MAX(punit->veteran
+                           - game.server.upgrade_veteran_loss, 0);
+    }
+  }
+
   /* Scale HP and MP, rounding down.  Be careful with integer arithmetic,
    * and don't kill the unit.  unit_move_rate is used to take into account
    * global effects like Magellan's Expedition. */
   punit->hp = MAX(punit->hp * unit_type(punit)->hp / old_hp, 1);
   punit->moves_left = punit->moves_left * unit_move_rate(punit) / old_mr;
-
-  if (utype_has_flag(to_unit, UTYF_NO_VETERAN)) {
-    punit->veteran = 0;
-  } else if (is_free) {
-    punit->veteran = MAX(punit->veteran
-                         - game.server.autoupgrade_veteran_loss, 0);
-  } else {
-    punit->veteran = MAX(punit->veteran
-                         - game.server.upgrade_veteran_loss, 0);
-  }
 
   unit_forget_last_activity(punit);
 
