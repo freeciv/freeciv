@@ -9139,7 +9139,7 @@ msgid ""
 "same as using the -P command-line option."
 msgstr ""
 "Ha problémáid vannak a hanggal, próbáld megváltoztatni a hangplugint.  Az új "
-"pluginnak nincs hatása, addig, míg újra nem indul a FreeCiv.  "
+"pluginnak nincs hatása, addig, míg újra nem indul a Freeciv.  "
 "Megváltoztatásával hasonló érthetõ el, mint a -P parancssori paraméterrel."
 
 #: client/options.c:1717

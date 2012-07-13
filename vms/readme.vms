@@ -12,7 +12,7 @@ For help or problems with these directions please e-mail
 What platforms are supported?
 - -----------------------------
 
-The FreeCiv v1.12.0 CIVCLIENT and CIVSERVER for OpenVMS so far has only
+The Freeciv v1.12.0 CIVCLIENT and CIVSERVER for OpenVMS so far has only
 been tested by me personally on the following Alpha platforms.
 
    * AlphaStation-250 4/166, OpenVMS v7.2, DEC C v6.0-001, DECWindows Motif
@@ -22,7 +22,7 @@ been tested by me personally on the following Alpha platforms.
    * AlphaStation 500/333, OpenVMS v7.2, DEC C v6.0-001, DECWindows Motif
      v1.2.5, Multinet TCP/IP v4.2a
 
-The FreeCiv v1.12.0 CIVSERVER for OpenVMS has only been tested by me
+The Freeciv v1.12.0 CIVSERVER for OpenVMS has only been tested by me
 personally on the following VAX platforms.
 
    * VAXStation-4000/60, OpenVMS v7.2, DEC C v6.0-001, DECWindows Motif
@@ -32,31 +32,31 @@ personally on the following VAX platforms.
    * VAXServer-3300, OpenVMS v7.2, DEC C v6.0-001, DECWindows Motif v1.2.5,
      Multinet TCP/IP v4.2a
 
-Note: Currently the FreeCiv CIVCLIENT is only supported on the Alpha
-platform. The FreeCiv CIVSERVER is suppored on both the VAX and Alpha
+Note: Currently the Freeciv CIVCLIENT is only supported on the Alpha
+platform. The Freeciv CIVSERVER is suppored on both the VAX and Alpha
 platforms.
 
-The problem with having a FreeCiv CIVCLIENT for VAX is the IMLIB and GTK+
+The problem with having a Freeciv CIVCLIENT for VAX is the IMLIB and GTK+
 graphics libraries haven't been ported to VAX yet, they have been ported to
 Alpha and hopefully someone will port them to VAX.
 
 One should have no problems with older versions of OpenVMS just as long as
 one is using the DEC C compiler and DECWindows Motif, but I've only tested
-FreeCiv on OpenVMS v7.2 with DEC C v6.0-001.
+Freeciv on OpenVMS v7.2 with DEC C v6.0-001.
 
 But having said that, I would be happy to help someone having problems with
 older C compilers and older versions of OpenVMS.
 
   ========================================================================
 
-What do I need to build FreeCiv v1.12.0 for OpenVMS?
+What do I need to build Freeciv v1.12.0 for OpenVMS?
 - ----------------------------------------------------
 
-O.k., here's is what you need to build FreeCiv v1.12.0 on an OpenVMS
+O.k., here's is what you need to build Freeciv v1.12.0 on an OpenVMS
 system.
 
-  1. A copy of the "current stable" FreeCiv v1.12.4 distribution kit. The
-     "current stable" FreeCiv v1.12.0 source files can be found at
+  1. A copy of the "current stable" Freeciv v1.12.4 distribution kit. The
+     "current stable" Freeciv v1.12.0 source files can be found at
      http://download.gna.org/freeciv/stable/OLD/freeciv-1.12.0.tar.gz
 
   2. A installed copy of Digital Equipments DEC C compiler. If you do not
@@ -71,9 +71,9 @@ system.
      copy of an OpenVMS GNU ZIP utility you can obtain a copy at
      http://www.openvms.digital.com/freeware/gzip/
 
-If you want to build the FreeCiv X CIVCLIENT you will also need to have the
-following. You can build just the FreeCiv CIVSERVER without having to build
-the FreeCiv X CIVCLIENT.
+If you want to build the Freeciv X CIVCLIENT you will also need to have the
+following. You can build just the Freeciv CIVSERVER without having to build
+the Freeciv X CIVCLIENT.
 
   1. DECWindows Motif installed and running along with the compiler
      libraries for DECWindows Motif.
@@ -97,7 +97,7 @@ the FreeCiv X CIVCLIENT.
 
   ========================================================================
 
-Building FreeCiv v1.12.0 for OpenVMS.
+Building Freeciv v1.12.0 for OpenVMS.
 - ------------------------------------
 
 O.k. You have everything outlined in the previous section and you want to
@@ -109,17 +109,17 @@ DISK$WORK:[000000]
   1. If needed, install the DEC C compiler, DECWindows Motif, OpenVMS TAR
      or GNU ZIP for OpenVMS.
 
-  2. If you are planning on building the FreeCiv v1.12.0 X CIVCLIENT you
+  2. If you are planning on building the Freeciv v1.12.0 X CIVCLIENT you
      will need to compile, link and install the OpenVMS Porting Library if
      it is not already installed.
 
-  3. If you are planning on building the FreeCiv v1.12.0 X CIVCLIENT you
+  3. If you are planning on building the Freeciv v1.12.0 X CIVCLIENT you
      will need to compile and link the GTK+ For OpenVMS Alpha kit.
 
      Note: You need to unpack the GTK+ kit in the same directory root where
-     you will be unpacking FreeCiv and the directory needs to start with
+     you will be unpacking Freeciv and the directory needs to start with
      GTK as the compile script will look for a directory starting with GTK
-     in the same root directory as the FreeCiv distribution.
+     in the same root directory as the Freeciv distribution.
 
              Example:
 
@@ -133,7 +133,7 @@ DISK$WORK:[000000]
      GTK+ patch kit can be found at
      http://www.ourservers.net/openvms_ports/gtk/gtk_contents.html
 
-  4. Unpack the Unix FreeCiv v1.12.0 distribution file
+  4. Unpack the Unix Freeciv v1.12.0 distribution file
      FREECIV-1.12.0.TAR-GZ into a directory of your choice.
 
              $ SET DEFAULT DISK$WORK:[000000]
@@ -141,9 +141,9 @@ DISK$WORK:[000000]
              $ TAR -vxf FREECIV-1_12_0.TAR
 
 
-  5. If building the FreeCiv v1.12.0 X CIVCLIENT, unpack the IMLIB v1.9.8.1
+  5. If building the Freeciv v1.12.0 X CIVCLIENT, unpack the IMLIB v1.9.8.1
      distribution file IMLIB-1_9_8_1.TAR-GZ into THE SAME DIRECTORY where
-     you unpacked the FreeCiv v1.12.0 files.
+     you unpacked the Freeciv v1.12.0 files.
 
              $ SET DEFAULT DISK$WORK:[000000]
              $ GUNZIP [.DOWNLOAD]IMLIB-1_9_8_1.TAR-GZ
@@ -158,7 +158,7 @@ DISK$WORK:[000000]
              IMLIB-1_9_8_1.DIR
 
 
-     If you are just building the FreeCiv v1.12.0 server you should only
+     If you are just building the Freeciv v1.12.0 server you should only
      see the FREECIV-1_12_0 directory unless you also installed the other
      files to build the client later.
 
@@ -168,7 +168,7 @@ DISK$WORK:[000000]
              $ DEFINE/NOLOG PORTING_LIB DISK$CARTMAN:[PORTING_LIB.]
 
 
-  8. Go to the FreeCiv [.VMS] directory where you will find the compile
+  8. Go to the Freeciv [.VMS] directory where you will find the compile
      script VMS_BUILD.COM. The VMS_BUILD.COM script accepts the following
      parameters.
 
@@ -191,7 +191,7 @@ DISK$WORK:[000000]
      If you execute VMS_BUILD.COM without any options the script will
      default to "ALL" and "NODEBUG".
 
-     Note: If you are JUST building the FreeCiv server and haven't unpacked
+     Note: If you are JUST building the Freeciv server and haven't unpacked
      any of the necessary files for the X client (i.e. GLIB, IMLIB, GTK and
      Mozilla) then DON'T use the options ALL, CLIENTLIB, GTKCLIENTLIB or
      CIVCLIENT as the script will complain about the necessary files not
@@ -216,18 +216,18 @@ DISK$WORK:[000000]
      more depending on the build parameters you gave) in your [.VMS]
      directory.
 
-             CIVCLIENT-AXP.EXE               AXP FreeCiv v1.12.0 GTK-GUI Client.
-             CIVSERVER-AXP.EXE               AXP FreeCiv v1.12.0 Server.
+             CIVCLIENT-AXP.EXE               AXP Freeciv v1.12.0 GTK-GUI Client.
+             CIVSERVER-AXP.EXE               AXP Freeciv v1.12.0 Server.
 
-             CIVCLIENT-AXP.EXE-DEBUG         AXP FreeCiv v1.12.0 GTK-GUI Client With OpenVMS Debug Information.
-             CIVCSERVER-AXP.EXE-DEBUG        AXP FreeCiv v1.12.0 Server With OpenVMS Debug Information.
+             CIVCLIENT-AXP.EXE-DEBUG         AXP Freeciv v1.12.0 GTK-GUI Client With OpenVMS Debug Information.
+             CIVCSERVER-AXP.EXE-DEBUG        AXP Freeciv v1.12.0 Server With OpenVMS Debug Information.
 
-             CIVSERVER-VAX.EXE               VAX FreeCiv v1.12.0 Server.
-             CIVSERVER-VAX.EXE-DEBUG         VAX FreeCiv v1.12.0 Server With OpenVMS Debug Information.
+             CIVSERVER-VAX.EXE               VAX Freeciv v1.12.0 Server.
+             CIVSERVER-VAX.EXE-DEBUG         VAX Freeciv v1.12.0 Server With OpenVMS Debug Information.
 
   ========================================================================
 
-Customizing FreeCiv v1.12.0 for OpenVMS.
+Customizing Freeciv v1.12.0 for OpenVMS.
 - ----------------------------------------
 
 Basically, the only customizations that need to be done is to define some
@@ -241,14 +241,14 @@ defined in Unix format.
 
         $ DEFINE/SYSTEM FREECIV_PATH "/DISK$WORK/FREECIV-1_12_0/DATA"
 
-If you plan to run FreeCiv alot (either the server or client) I would
+If you plan to run Freeciv alot (either the server or client) I would
 define the above logical in your system startup file.
 
-You also need to define a symbol for the FreeCiv server.
+You also need to define a symbol for the Freeciv server.
 
         $ CIVSERVER :== $DISK$WORK:[FREECIV-1_12_0.VMS]CIVSREVER.EXE-AXP
 
-If you plan to run FreeCiv alot (either the server or client) I would put
+If you plan to run Freeciv alot (either the server or client) I would put
 this in your system login file.
 
 For the CIVCLIENT, you need to define the following logicals to point to
@@ -260,7 +260,7 @@ where you have your GTK+ and OpenVMS Porting libraries.
         $ DEFINE/SYSTEM LIBGTK DISK$WORK:[GTK128.GTK.GTK]LIBGTK.EXE
         $ DEFINE/SYSTEM VMS_JACKETS DISK$CARTMAN:[PORTING_LIB.LIB]VMS_JACKETS.EXE
 
-I would also define a symbol for the FreeCiv client.
+I would also define a symbol for the Freeciv client.
 
         $ CIVCLIENT :== $DISK$WORK:[FREECIV-1_12_0.VMS]CIVCLIENT-AXP.EXE
 
@@ -271,26 +271,26 @@ defining the client symbol in your system login file.
 
   ========================================================================
 
-Testing FreeCiv v1.12.0 for OpenVMS.
+Testing Freeciv v1.12.0 for OpenVMS.
 - -----------------------------------
 
 You have done the following:
 
-   * Compiled FreeCiv v1.12.0 for OpenVMS as outlined in Building FreeCiv
+   * Compiled Freeciv v1.12.0 for OpenVMS as outlined in Building Freeciv
      v1.12.0 for OpenVMS.
 
    * Defined the appropriate logicals and symbols to suite your
-     installation as outlined in Customizing FreeCiv v1.12.0 for OpenVMS.
+     installation as outlined in Customizing Freeciv v1.12.0 for OpenVMS.
 
-And now you want to test FreeCiv to make sure it works. Here's how you can
+And now you want to test Freeciv to make sure it works. Here's how you can
 test things out.
 
-FreeCiv Client:
+Freeciv Client:
 
   1. Make sure you have your X display set up properly so you can display X
      windows processes.
 
-  2. Launch the FreeCiv client.
+  2. Launch the Freeciv client.
 
              $ CIVCLIENT
 
@@ -299,7 +299,7 @@ FreeCiv Client:
      the connection box.
 
   3. Click on the Metaserver tab and press the Update button. You should
-     see a list of available FreeCiv servers you can connect to.
+     see a list of available Freeciv servers you can connect to.
 
   4. Select a server that show a Status of Pregame and click on the Connect
      button.
@@ -310,12 +310,12 @@ FreeCiv Client:
 
   6. Enjoy.
 
-FreeCiv Server:
+Freeciv Server:
 
   1. Make sure you have your X display set up properly so you can display X
      windows processes.
 
-  2. Run the FreeCiv server process in debug mode and to send information
+  2. Run the Freeciv server process in debug mode and to send information
      to the Metaserver.
 
              $ CIVSERVER -D 3 -M
@@ -324,7 +324,7 @@ FreeCiv Server:
   3. The server should start in debug mode and you will get the server
      prompt.
 
-  4. Launch the FreeCiv client in a different window.
+  4. Launch the Freeciv client in a different window.
 
              $ CIVCLIENT
 
@@ -333,7 +333,7 @@ FreeCiv Server:
      the connection box.
 
   5. Click on the Metaserver tab and press the Update button. You should
-     see a list of available FreeCiv servers you can connect to.
+     see a list of available Freeciv servers you can connect to.
 
   6. You should see your server listed in the Metaserver list. Click on
      your server and click on the Connect button.
@@ -354,11 +354,11 @@ used to report to the public Metaserver that you are running a public game.
 If you want to run a private game, don't use the -M option. Most of the
 type just typing CIVSERVER will be enough to run a game.
 
-The FreeCiv server has other options for loading saved games etc. If you
+The Freeciv server has other options for loading saved games etc. If you
 use the -H option you will see a list of all the options and typing HELP
 inside the server process will show a list of server options you can
 change/execute from the server command line.
 
 Note: All file names and paths need to be in Unix format.
 
-For more information on running a FreeCiv server, see the FreeCiv WWW site.
+For more information on running a Freeciv server, see the Freeciv WWW site.
