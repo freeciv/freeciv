@@ -362,7 +362,7 @@ effect, the system is designed to degrade smoothly so it should work
 just fine.
 
 (A note on scale: it might be tempting to label London as !ocean, i.e.
-not adjacent to an ocean.  However, on a reasonably-sized FreeCiv world
+not adjacent to an ocean.  However, on a reasonably-sized Freeciv world
 map, London will be adjacent to the ocean; labeling it !ocean will tend
 to give bad results. This is a limitation of the system, and should be
 taken into account when labelling cities.)
