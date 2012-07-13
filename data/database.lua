@@ -106,7 +106,7 @@ function sql_time()
 end
 
 -- Set up tables for an SQLite database.
--- (Since there's no concept of user rights, we can do this directly from Lua,
+-- (Since there`s no concept of user rights, we can do this directly from Lua,
 -- without needing a separate script like MySQL. The server operator can do
 -- "/fcdb lua sqlite_createdb()" from the server prompt.)
 function sqlite_createdb()
