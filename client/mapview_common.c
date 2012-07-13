@@ -2126,6 +2126,8 @@ void move_unit_map_canvas(struct unit *punit,
   static struct timer *anim_timer = NULL;
   struct tile *dest_tile;
   int dest_x, dest_y, src_x, src_y;
+  int prev_x = -1;
+  int prev_y = -1;
 
   /* only works for adjacent-square moves */
   if (dx < -1 || dx > 1 || dy < -1 || dy > 1 || (dx == 0 && dy == 0)) {
@@ -2175,24 +2177,31 @@ void move_unit_map_canvas(struct unit *punit,
       new_x = start_x + canvas_dx * (mytime / timing_sec);
       new_y = start_y + canvas_dy * (mytime / timing_sec);
 
-      /* Backup the canvas store to the temp store. */
-      canvas_copy(mapview.tmp_store, mapview.store,
-		  new_x, new_y, new_x, new_y,
-		  tileset_unit_width(tileset), tileset_unit_height(tileset));
+      if (new_x != prev_x || new_y != prev_y) {
+        /* Backup the canvas store to the temp store. */
+        canvas_copy(mapview.tmp_store, mapview.store,
+                    new_x, new_y, new_x, new_y,
+                    tileset_unit_width(tileset), tileset_unit_height(tileset));
 
-      /* Draw */
-      put_unit(punit, mapview.store, new_x, new_y);
-      dirty_rect(new_x, new_y, tileset_unit_width(tileset), tileset_unit_height(tileset));
+        /* Draw */
+        put_unit(punit, mapview.store, new_x, new_y);
+        dirty_rect(new_x, new_y, tileset_unit_width(tileset), tileset_unit_height(tileset));
 
-      /* Flush. */
-      flush_dirty();
-      gui_flush();
+        /* Flush. */
+        flush_dirty();
+        gui_flush();
 
-      /* Restore the backup.  It won't take effect until the next flush. */
-      canvas_copy(mapview.store, mapview.tmp_store,
-		  new_x, new_y, new_x, new_y,
-		  tileset_unit_width(tileset), tileset_unit_height(tileset));
-      dirty_rect(new_x, new_y, tileset_unit_width(tileset), tileset_unit_height(tileset));
+        /* Restore the backup.  It won't take effect until the next flush. */
+        canvas_copy(mapview.store, mapview.tmp_store,
+                    new_x, new_y, new_x, new_y,
+                    tileset_unit_width(tileset), tileset_unit_height(tileset));
+        dirty_rect(new_x, new_y, tileset_unit_width(tileset), tileset_unit_height(tileset));
+
+        prev_x = new_x;
+        prev_y = new_y;
+      } else {
+        fc_usleep(500);
+      }
     } while (mytime < timing_sec);
   }
 }
