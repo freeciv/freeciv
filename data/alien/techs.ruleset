@@ -56,7 +56,7 @@ name        = _("Alien Rights")
 req1        = "Smart Aliens"
 req2        = "Burrowing"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.alien_rights"
 graphic_alt = "-"
 helptext    = _("They're smart. Should they have rights too?\n\n\
 Alien Forest tiles produce +1 production.\
@@ -67,7 +67,7 @@ name        = _("Alien Taming")
 req1        = "None"
 req2        = "None"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.alien_taming"
 graphic_alt = "-"
 helptext    = _("Some of the Alien lifeforms now work for us.")
 
@@ -76,7 +76,7 @@ name        = _("Alien Training")
 req1        = "War Monsters"
 req2        = "Virtual Reality Training"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.alien_training"
 graphic_alt = "-"
 helptext    = _("Trained native lifeforms - deadly.")
 
@@ -85,7 +85,7 @@ name        = _("Amphibious Tactics")
 req1        = "Ocean Cities"
 req2        = "Modified Spitter"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.amphibious_tactics"
 graphic_alt = "-"
 helptext    = _("Warfare with amphibious units.")
 
@@ -94,7 +94,7 @@ name        = _("Antigravity")
 req1        = "Gravity Manipulation"
 req2        = "Brain Development"
 flags       = "Build_Airborne"
-graphic     = "a.alphabet"
+graphic     = "a.antigravity"
 graphic_alt = "-"
 helptext    = _("Even if normal method of flying is impossible in this world\
  antigravity works. We just need to master it.")
@@ -104,7 +104,7 @@ name        = _("Burrowing")
 req1        = "Thermal Module"
 req2        = "Cyber Aliens"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.burrowing"
 graphic_alt = "-"
 helptext    = _("Since it seems to be impossible to fly in this world, we\
  focus on opposite direction. Burrowing through earth is possible.")
@@ -114,7 +114,7 @@ name        = _("Brain Development")
 req1        = "Smart Aliens"
 req2        = "None"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.brain_development"
 graphic_alt = "-"
 
 [advance_brute_force]
@@ -122,7 +122,7 @@ name        = _("Brute Force")
 req1        = "Faction Politics"
 req2        = "Mining"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.brute_force"
 graphic_alt = "-"
 helptext    = _("It's time to make more powerfull weapons than ever before.")
 
@@ -131,7 +131,7 @@ name        = _("City Defense")
 req1        = "Force Channeling"
 req2        = "Manufacturing"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.city_defense"
 graphic_alt = "-"
 helptext    = _("Advanced form of force channeling allows us to protect \
 city size objects with channeled radiation energy.")
@@ -141,7 +141,7 @@ name        = _("Commercial Antigravity");
 req1        = "Antigravity"
 req2        = "None"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.comm_antigrav"
 graphic_alt = "-"
 helptext    = _("Antigravity is not only for military. It has commercial \
 applications as well.")
@@ -151,7 +151,7 @@ name        = _("Communication");
 req1        = "City Defense"
 req2        = "Data Storage"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.communication"
 graphic_alt = "-"
 helptext    = _("Conventional radio does not work here. Develop working alternative \
 that takes advantage of the local radiation. You'll get contact to other factions.")
@@ -161,7 +161,7 @@ name        = _("Composites");
 req1        = "None"
 req2        = "None"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.composites"
 graphic_alt = "-"
 helptext    = _("Stronger materials mean stronger armors.")
 
@@ -170,7 +170,7 @@ name        = _("Crust Defense");
 req1        = "Modified Spitter"
 req2        = "Strong Force"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.crust_defense"
 graphic_alt = "-"
 helptext    = _("Defense against burrowing units.")
 
@@ -179,7 +179,7 @@ name        = _("Cyber Aliens")
 req1        = "Protein Modifications"
 req2        = "Alien Training"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.cyber_aliens"
 graphic_alt = "-"
 helptext    = _("Alliance of the machine and alien organisms.")
 
@@ -188,7 +188,7 @@ name        = _("Cybermodules")
 req1        = "Cybernetics"
 req2        = "Composites"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.cybermodules"
 graphic_alt = "-"
 helptext    = _("Standardized cyber units save money - or make money to those \
 producing them.")
@@ -198,7 +198,7 @@ name        = _("Cybernetics")
 req1        = "None"
 req2        = "None"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.cybernetics"
 graphic_alt = "-"
 helptext    = _("Making old Earth technology better than before is relatively easy \
 task to do. For small investment, cybernetics gives us much better attack units.")
@@ -208,7 +208,7 @@ name        = _("Data Storage")
 req1        = "Cybermodules"
 req2        = "Faction Politics"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.data_storage"
 graphic_alt = "-"
 helptext    = _("Needs to archive all the media produced for and by politics \
 drive development of better data storage methods.")
@@ -218,7 +218,7 @@ name        = _("Deep Pumping")
 req1        = "Water Flow"
 req2        = "Crust Defense"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.deep_pumping"
 graphic_alt = "-"
 helptext    = _("We can pump water from the depths of the crust. We no longer\
 need any of the adjacent tiles to have water in order to build irrigation.")
@@ -228,7 +228,7 @@ name        = _("Deneb Radar")
 req1        = "Communication"
 req2        = "None"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.deneb_radar"
 graphic_alt = "-"
 helptext    = _("Not really an conventional radar, but named so as it fills similar role. \
 It's based on Deneb 7 radiation and works on this planet.")
@@ -238,7 +238,7 @@ name        = _("Dual Government")
 req1        = "Alien Rights"
 req2        = "None"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.dual_gov"
 graphic_alt = "-"
 helptext    = _("Government should consider both Humans and Native \
 aliens.")
@@ -248,7 +248,7 @@ name        = _("Escape")
 req1        = "Supermodule"
 req2        = "Martial Law"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.escape"
 graphic_alt = "-"
 helptext    = _("We are finally able to escape force field surrounding \
 Deneb 7. In addition to technical insight it requires correct attitude.")
@@ -258,7 +258,7 @@ name        = _("Faction Government")
 req1        = "None"
 req2        = "None"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.fact_gov"
 graphic_alt = "-"
 helptext    = _("Familiar government types adjusted to local environment.")
 
@@ -267,7 +267,7 @@ name        = _("Faction Politics")
 req1        = "Faction Government"
 req2        = "Research Methods"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.fact_politics"
 graphic_alt = "-"
 helptext    = _("Human relations in this situation, where various factions \
 have been forced to this strange planet, are quite unlike anything seen \
@@ -279,7 +279,7 @@ name        = _("Food Regeneration")
 req1        = "Regeneration"
 req2        = "High-Tech Filtering"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.food_regen"
 graphic_alt = "-"
 helptext    = _("If what we harvest grows back faster, we get more food. \
 It's simple as that.\n\n\
@@ -290,7 +290,7 @@ name        = _("Force Channeling")
 req1        = "Radiation Resistance"
 req2        = "None"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.force_channel"
 graphic_alt = "-"
 helptext    = _("Radiation is obstacle for us, but now also an resource. \
 We know how to channel Deneb 7's power to our own use.\n\n\
@@ -301,7 +301,7 @@ name        = _("Gravity Manipulation")
 req1        = "Burrowing"
 req2        = "Teleportation"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.grav_manip"
 graphic_alt = "-"
 helptext    = _("From inside the crust we gather information required to \
 understand how gravity works and what one can do with it.")
@@ -311,7 +311,7 @@ name        = _("Global Knowledge")
 req1        = "Dual Government"
 req2        = "Antigravity"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.glob_knowledge"
 graphic_alt = "-"
 helptext    = _("Information flows to us. We learn any tech known by \
 four other civilizations.")
@@ -321,7 +321,7 @@ name        = _("High-Tech Filtering")
 req1        = "Water Flow"
 req2        = "Stealth Module"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.ht_filter"
 graphic_alt = "-"
 helptext    = _("You can get a lot of things from ocean if you know how.")
 
@@ -330,7 +330,7 @@ name        = _("Happiness")
 req1        = "Mood Manipulation"
 req2        = "Mental Powers"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.happiness"
 graphic_alt = "-"
 helptext    = _("Simply knowing this tech makes two content citizens happy \
 in each city.")
@@ -340,7 +340,7 @@ name        = _("Low-Level Orbit")
 req1        = "Unified Theory"
 req2        = "Global Knowledge"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.low_level_orbit"
 graphic_alt = "-"
 helptext    = _("With further advances in antigravitics we are able to enter \
 orbit even if we still are prisoners of the force field surronding Deneb 7.\n\n\
@@ -352,7 +352,7 @@ name        = _("Maglev")
 req1        = "Strong Force"
 req2        = "Gravity Manipulation"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.maglev"
 graphic_alt = "-"
 helptext    = _("Using planet's own power available everywhere land travel\
  speeds can reach levels never seen before.")
@@ -362,7 +362,7 @@ name        = _("Manufacturing")
 req1        = "None"
 req2        = "None"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.manufacturing"
 graphic_alt = "-"
 helptext    = _("It takes some research to even make basic manufacturing\
  in this alien world.")
@@ -372,7 +372,7 @@ name        = _("Martial Law")
 req1        = "Happiness"
 req2        = "Paradrop"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.martial_law"
 graphic_alt = "-"
 helptext    = _("Effective martial law requires that we can react quickly, \
 to immediately send forces where they are needed.\n\n\
@@ -384,7 +384,7 @@ name        = _("Mental Powers")
 req1        = "Soul"
 req2        = "Specialist Training"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.mental_powers"
 graphic_alt = "-"
 helptext    = _("I WANT\n\n\
 One way to resist radiation is willpower.\n\n\
@@ -395,7 +395,7 @@ name        = _("Mining")
 req1        = "Manufacturing"
 req2        = "Cybernetics"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.mining"
 graphic_alt = "-"
 helptext    = _("Earthly mining technologies were not sufficient for heavy \
 scale mining on this planet.")
@@ -405,7 +405,7 @@ name        = _("Modified Spitter")
 req1        = "Smart Aliens"
 req2        = "Teleportation"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.mod_spitter"
 graphic_alt = "-"
 helptext    = _("We already know how to make modifications to alien \
 lifeforms. Let's improve spitters.")
@@ -415,7 +415,7 @@ name        = _("Mood Manipulation")
 req1        = "Dual Government"
 req2        = "Regeneration"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.mood_manip"
 graphic_alt = "-"
 helptext    = _("People are happy if they believe that they are happy.")
 
@@ -424,7 +424,7 @@ name        = _("Naval Superiority")
 req1        = "Travel"
 req2        = "Brute Force"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.naval_superiority"
 graphic_alt = "-"
 helptext    = _("It's no longer enough to replicate old Earth technologies. We \
 want superiority.")
@@ -434,7 +434,7 @@ name        = _("New Frontier")
 req1        = "Naval Superiority"
 req2        = "War Monsters"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.new_frontier"
 graphic_alt = "-"
 helptext    = _("We finally fully realize that we are not limited to what \
 we had as part of Earth empire.\n\n\
@@ -445,7 +445,7 @@ name        = _("Ocean Cities");
 req1        = "Deneb Radar"
 req2        = "Thermal Module"
 flags       = "Claim_Ocean"
-graphic     = "a.alphabet"
+graphic     = "a.ocean_cities"
 graphic_alt = "-"
 helptext    = _("Cities on ocean. Why not?")
 
@@ -454,7 +454,7 @@ name        = _("Organic Structures");
 req1        = "Radiation Resistance"
 req2        = "Composites"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.organic_struct"
 graphic_alt = "-"
 helptext    = _("The art of making armor from alien organisms resistant to \
 Deneb 7's strange radiation allows us to enter new areas.\n\n\
@@ -464,7 +464,7 @@ Cities can work radiating tiles.")
 name        = _("Paradrop");
 req1        = "Low-Level Orbit"
 req2        = "Mental Powers"
-graphic     = "a.alphabet"
+graphic     = "a.paradrop"
 graphic_alt = "-"
 helptext    = _("It's easy to fall all the way from orbit, but to hit \
 small target and to be ready to act immediately after landing are hard \
@@ -474,7 +474,7 @@ for aliens. They need extra mental powers for that.")
 name        = _("Personal Contact");
 req1        = "Virtual Entertainment"
 req2        = "Teleportation"
-graphic     = "a.alphabet"
+graphic     = "a.personal_contact"
 graphic_alt = "-"
 helptext    = _("With Virtual Reality it's like actor actually was there \
 with you. When you allow actors to teleport to meet their audience, maybe \
@@ -486,7 +486,7 @@ It also gets 40% harder for enemies to sabotage specific buildings.")
 name        = _("Protein Modifications");
 req1        = "Organic Structures"
 req2        = "Spitter Control"
-graphic     = "a.alphabet"
+graphic     = "a.protein_mod"
 graphic_alt = "-"
 helptext    = _("Turns out we can make alien lifeforms edible.\n\n\
 Engineers can build Farmland, which increases tile food production by 50%.")
@@ -497,7 +497,7 @@ name        = _("Radiation Resistance");
 req1        = "Alien Taming"
 req2        = "None"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.rad_resist"
 graphic_alt = "-"
 helptext    = _("By closely examining alien lifeform and how they survive \
 the radiation, we are able to build some radiation resistance to our cities. \
@@ -508,7 +508,7 @@ name        = _("Regeneration");
 req1        = "Protein Modifications"
 req2        = "New Frontier"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.regeneration"
 graphic_alt = "-"
 helptext    = _("We know how aliens regenerate, we know how self-repairing machines \
 regenerate, we know how Earth organisms regenerate.")
@@ -518,7 +518,7 @@ name        = _("Research Methods");
 req1        = "None"
 req2        = "None"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.research_methods"
 graphic_alt = "-"
 helptext    = _("Research methods suitable for tackling challenges here \
 allow us to gain knowledge much faster.\n\n\
@@ -529,7 +529,7 @@ name        = _("Smart Aliens");
 req1        = "Cyber Aliens"
 req2        = "Communication"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.smart_aliens"
 graphic_alt = "-"
 helptext    = _("Once we have given some smarts, backed with some remote \
 control, to them, they can work on more demanding tasks.")
@@ -539,7 +539,7 @@ name        = _("Soul");
 req1        = "Alien Rights"
 req2        = "Personal Contact"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.soul"
 graphic_alt = "-"
 helptext    = _("By combining our knowledge about humans and aliens \
 we finally understand universal concept of soul.\n\n\
@@ -552,7 +552,7 @@ name        = _("Specialist Training");
 req1        = "Brain Development"
 req2        = "Amphibious Tactics"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.spec_training"
 graphic_alt = "-"
 helptext    = _("Based on our Tactics teaching techniques, we can teach our \
 specialists trick or two.\n\n\
@@ -563,7 +563,7 @@ name        = _("Spitter Control");
 req1        = "Research Methods"
 req2        = "Alien Taming"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.spitter_ctrl"
 graphic_alt = "-"
 helptext    = _("Alien lifeforms spitting solid objects are interesting research \
 subject.")
@@ -573,7 +573,7 @@ name        = _("Stealth Module");
 req1        = "Thermal Module"
 req2        = "Communication"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.stealth_module"
 graphic_alt = "-"
 helptext    = _("Even when we know this technology making our units invisible, it's \
 far too expensive to be used for armies. It's perfect for individuals in espionage \
@@ -584,7 +584,7 @@ name        = _("Strong Force");
 req1        = "Deneb Radar"
 req2        = "Burrowing"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.strong_force"
 graphic_alt = "-"
 helptext    = _("We are quite capable of making different energy fields out of \
 radiation. We can still improve, though.\n\n\
@@ -595,7 +595,7 @@ name        = _("Strong Resistance");
 req1        = "Strong Force"
 req2        = "None"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.strong_resistance"
 graphic_alt = "-"
 helptext    = _("We get better at building resistance against radiation.\n\n\
 Simply knowing this tech allows cities to grow 2 sizes bigger.")
@@ -605,7 +605,7 @@ name        = _("Supermodule");
 req1        = "Underground Habitat"
 req2        = "Low-Level Orbit"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.supermodule"
 graphic_alt = "-"
 helptext    = _("Supermodule combines lesser modules in one extremely efficient \
 pack.")
@@ -615,7 +615,7 @@ name        = _("Synthetic Food");
 req1        = "Food Regeneration"
 req2        = "Soul"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.synth_food"
 graphic_alt = "-"
 helptext    = _("This is completely new, and extremely efficient, way of \
 making synthetic food.\n\n\
@@ -627,7 +627,7 @@ name        = _("Teleportation");
 req1        = "New Frontier"
 req2        = "Stealth Module"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.teleportation"
 graphic_alt = "-"
 helptext    = _("We can teleport relatively small objects relatively short \
 distances. This reduces problem of not being able to fly.")
@@ -637,7 +637,7 @@ name        = _("Thermal Module");
 req1        = "Naval Superiority"
 req2        = "Force Channeling"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.thermal_ctrl"
 graphic_alt = "-"
 helptext    = _("To be competent in boiling waters requires good control of \
 temperature surrounding vessels. Also, knowledge about basic module \
@@ -649,7 +649,7 @@ name        = _("Underground Habitat");
 req1        = "Deep Pumping"
 req2        = "Synthetic Food"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.underground_habitat"
 graphic_alt = "-"
 helptext    = _("If needed, we can produce everything we need without \
 ever leaving underground bunker.")
@@ -659,7 +659,7 @@ name        = _("Travel");
 req1        = "Manufacturing"
 req2        = "None"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.travel"
 graphic_alt = "-"
 helptext    = _("Once we master ship manufacturing, traveling more \
 hospitable seas of Deneb 7 proved to be no different from \
@@ -670,7 +670,7 @@ name        = _("Unified Theory");
 req1        = "Strong Resistance"
 req2        = "Commercial Antigravity"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.unified_theory"
 graphic_alt = "-"
 helptext    = _("We now understand that radiation and antigravity are two \
 sides of the same phenomenom.")
@@ -680,7 +680,7 @@ name        = _("Virtual Entertainment");
 req1        = "Virtual Reality Training"
 req2        = "None"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.virt_entertain"
 graphic_alt = "-"
 helptext    = _("Another tech that Earth has long been close to mastering.")
 
@@ -689,7 +689,7 @@ name        = _("Virtual Reality Training");
 req1        = "Data Storage"
 req2        = "Travel"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.vr_training"
 graphic_alt = "-"
 helptext    = _("Virtual Reality provides excellent way to train our forces, both \
 infantry and naval forces.")
@@ -699,7 +699,7 @@ name        = _("War Monsters");
 req1        = "Spitter Control"
 req2        = "Brute Force"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.war_monsters"
 graphic_alt = "-"
 helptext    = _("We can tame monsters suitable for war. These might be relatively \
 weak, but they are the only thing that can wage war on radiating areas for the time \
@@ -710,7 +710,7 @@ name        = _("Water Flow")
 req1        = "Ocean Cities"
 req2        = "None"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.water_flow"
 graphic_alt = "-"
 helptext    = _("We understand Deneb 7 fluid dynamics and can get water to flow \
 where we want. Irrigation becomes possible in tiles adjacent to cities and rivers.")
