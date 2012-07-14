@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
 #endif
 
 // gui-qt
+#include "fc_client.h"
 #include "qtg_cxxside.h"
 
 #include "messagewin.h"
@@ -27,6 +28,7 @@
 void meswin_dialog_popup(bool raise)
 {
   /* PORTME */
+  qDebug("Messwin dialog popup\n");
 }
 
 /**************************************************************************
@@ -35,7 +37,8 @@ void meswin_dialog_popup(bool raise)
 bool meswin_dialog_is_open(void)
 {
   /* PORTME */
-  return FALSE;
+  qDebug("Messwin open check\n");
+  return TRUE;
 }
 
 /**************************************************************************
@@ -43,5 +46,24 @@ bool meswin_dialog_is_open(void)
 **************************************************************************/
 void real_meswin_dialog_update(void)
 {
-  /* PORTME */
+  qDebug("Messwin update\n");
+  int  i, num;
+  const struct message *pmsg;
+
+  gui()->messages_window->clearContents();
+  gui()->messages_window->setRowCount(0);
+
+  num = meswin_get_num_messages();
+
+  for (i = 0; i < num; i++) {
+    QTableWidgetItem *item;
+    item = new QTableWidgetItem();
+    pmsg = meswin_get_message(i);
+    gui()->messages_window->insertRow(i);
+    item->setText(QString::fromUtf8(pmsg->descr));
+    gui()->messages_window->setItem(i, 0, item);
+  }
+
+  gui()->messages_window->resizeColumnToContents(0);
+  gui()->messages_window->resizeRowsToContents();
 }

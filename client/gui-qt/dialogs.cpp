@@ -15,6 +15,9 @@
 #include <fc_config.h>
 #endif
 
+// Qt
+#include <QDialog>
+
 // common
 #include "game.h"
 #include "government.h"

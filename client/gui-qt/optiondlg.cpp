@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,6 +23,25 @@
 
 #include "optiondlg.h"
 
+// client
+#include "options.h"
+
+
+#define SPECLIST_TAG option_dialog
+#define SPECLIST_TYPE struct option_dialog
+#include "speclist.h"
+#define option_dialogs_iterate(pdialog) \
+  TYPED_LIST_ITERATE(struct option_dialog, option_dialogs, pdialog)
+#define option_dialogs_iterate_end  LIST_ITERATE_END
+
+enum {
+  RESPONSE_CANCEL,
+  RESPONSE_OK,
+  RESPONSE_APPLY,
+  RESPONSE_RESET,
+  RESPONSE_REFRESH,
+  RESPONSE_SAVE
+};
 
 /****************************************************************************
   Popup the option dialog for the option set.

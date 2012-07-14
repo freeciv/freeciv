@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ const char **gfx_fileextensions(void)
 
   /* hack to allow stub to run */
   static const char *ext[] = {
-    "png",	/* png should be the default. */
+    "png",  /* png should be the default. */
     /* ...etc... */
     NULL
   };
@@ -83,13 +83,30 @@ struct sprite *qtg_crop_sprite(struct sprite *source,
                                struct sprite *mask,
                                int mask_offset_x, int mask_offset_y)
 {
-  /* FIXME: Add mask handling */
+
+  if (!width || !height) {
+    return NULL;
+  }
 
   sprite *cropped = new sprite;
 
-  cropped->pm = new QPixmap;
+  cropped->pm = new QPixmap(width, height);
+  cropped->pm->fill(Qt::transparent);
+  QRectF source_rect(x,y,width, height);
+  QRectF dest_rect(0,0,width, height);
 
-  *cropped->pm = source->pm->copy(x, y, width, height);
+  QPainter p;
+  p.begin(cropped->pm);
+  p.drawPixmap(dest_rect, *source->pm,source_rect);
+  p.end();
+
+
+  if(mask) {
+    p.begin(cropped->pm);
+    p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+    p.drawPixmap(mask_offset_x-x,mask_offset_y-y,*mask->pm);
+    p.end();
+  }
 
   return cropped;
 }

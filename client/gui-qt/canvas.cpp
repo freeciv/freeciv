@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996-2005 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,13 +16,12 @@
 #endif
 
 // Qt
-#include "QGraphicsPixmapItem"
+#include <QFontMetrics>
 
-// gui-qt
-#include "qtg_cxxside.h"
-#include "sprite.h"
-
+// qt-client
 #include "canvas.h"
+#include "sprite.h"
+#include "colors.h"
 
 /****************************************************************************
   Create a canvas of the given size.
@@ -31,6 +30,7 @@ struct canvas *qtg_canvas_create(int width, int height)
 {
   struct canvas *store = new canvas;
 
+  store->map_pixmap = QPixmap(width, height);
   return store;
 }
 
@@ -47,10 +47,22 @@ void qtg_canvas_free(struct canvas *store)
   Copies an area from the source canvas to the destination canvas.
 ****************************************************************************/
 void qtg_canvas_copy(struct canvas *dest, struct canvas *src,
-		     int src_x, int src_y, int dest_x, int dest_y, int width,
-		     int height)
+                     int src_x, int src_y, int dest_x, int dest_y, int width,
+                     int height)
 {
-  /* PORTME */
+
+  QRectF source_rect(src_x, src_y, width, height);
+  QRectF dest_rect(dest_x, dest_y, width, height);
+  QPainter p;
+
+  if (!width || !height) {
+    return;
+  }
+
+  p.begin(&dest->map_pixmap);
+  p.drawPixmap(dest_rect, src->map_pixmap, source_rect);
+  p.end();
+
 }
 
 /****************************************************************************
@@ -61,11 +73,11 @@ void qtg_canvas_put_sprite(struct canvas *pcanvas,
                            struct sprite *sprite,
                            int offset_x, int offset_y, int width, int height)
 {
-  QGraphicsPixmapItem *gpmi;
-  QPixmap pm = sprite->pm->copy(offset_x, offset_y, width, height);
+  QPainter p;
 
-  gpmi = pcanvas->scene.addPixmap(pm);
-  gpmi->setPos(canvas_x, canvas_y);
+  p.begin(&pcanvas->map_pixmap);
+  p.drawPixmap(canvas_x, canvas_y, *sprite->pm, offset_x, offset_y, width, height);
+  p.end();
 }
 
 /****************************************************************************
@@ -75,10 +87,11 @@ void qtg_canvas_put_sprite_full(struct canvas *pcanvas,
                                 int canvas_x, int canvas_y,
                                 struct sprite *sprite)
 {
-  QGraphicsPixmapItem *gpmi;
+  int width, height;
 
-  gpmi = pcanvas->scene.addPixmap(*sprite->pm);
-  gpmi->setPos(canvas_x, canvas_y);
+  get_sprite_dimensions(sprite, &width, &height);
+  canvas_put_sprite(pcanvas, canvas_x, canvas_y, sprite,
+                    0, 0, width, height);
 }
 
 /****************************************************************************
@@ -90,7 +103,14 @@ void qtg_canvas_put_sprite_fogged(struct canvas *pcanvas,
                                   struct sprite *psprite,
                                   bool fog, int fog_x, int fog_y)
 {
-  /* PORTME */
+  QPainter p;
+
+  /* no idea where its drawn so lets keep CompositionMode_Multiply
+   * to see where it is really used */
+  p.begin(&pcanvas->map_pixmap);
+  p.setCompositionMode(QPainter::CompositionMode_Multiply);
+  p.drawPixmap(canvas_x, canvas_y, *psprite->pm);
+  p.end();
 }
 
 /****************************************************************************
@@ -101,7 +121,16 @@ void qtg_canvas_put_rectangle(struct canvas *pcanvas,
                               int canvas_x, int canvas_y,
                               int width, int height)
 {
-  /* PORTME */
+
+  QBrush brush(pcolor->qcolor);
+  QPen pen(pcolor->qcolor);
+  QPainter p;
+
+  p.begin(&pcanvas->map_pixmap);
+  p.setPen(pen);
+  p.setBrush(brush);
+  p.drawRect(canvas_x, canvas_y, width, height);
+  p.end();
 }
 
 /****************************************************************************
@@ -111,16 +140,24 @@ void qtg_canvas_fill_sprite_area(struct canvas *pcanvas,
                                  struct sprite *psprite, struct color *pcolor,
                                  int canvas_x, int canvas_y)
 {
-  /* PORTME */
+  int width, height;
+
+  get_sprite_dimensions(psprite, &width, &height);
+  qtg_canvas_put_rectangle(pcanvas, pcolor, canvas_x, canvas_y, width, height);
 }
 
 /****************************************************************************
-  Fill the area covered by the sprite with the given color.
+  Fill the area covered by the sprite with fog.
 ****************************************************************************/
 void qtg_canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
                                 int canvas_x, int canvas_y)
 {
-  /* PORTME */
+  QPainter p;
+
+  p.begin(&pcanvas->map_pixmap);
+  p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+  p.drawPixmap(canvas_x, canvas_y, *psprite->pm);
+  p.end();
 }
 
 /****************************************************************************
@@ -130,7 +167,35 @@ void qtg_canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
                          enum line_type ltype, int start_x, int start_y,
                          int dx, int dy)
 {
-  /* PORTME */
+  QPen pen;
+  QPainter p;
+
+  pen.setColor(pcolor->qcolor);
+
+  switch (ltype) {
+  case LINE_NORMAL:
+    pen.setWidth(1);
+    break;
+  case LINE_BORDER:
+    pen.setStyle(Qt::DashLine);
+    pen.setDashOffset(4);
+    pen.setWidth(2);
+    break;
+  case LINE_TILE_FRAME:
+    pen.setWidth(2);
+    break;
+  case LINE_GOTO:
+    pen.setWidth(2);
+    break;
+  default:
+    pen.setWidth(1);
+    break;
+  }
+
+  p.begin(&pcanvas->map_pixmap);
+  p.setPen(pen);
+  p.drawLine(start_x, start_y, start_x + dx, start_y + dy);
+  p.end();
 }
 
 /****************************************************************************
@@ -140,7 +205,36 @@ void qtg_canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
                                 enum line_type ltype, int start_x, int start_y,
                                 int dx, int dy)
 {
-  /* PORTME */
+  QPen pen;
+  pen.setColor(pcolor->qcolor);
+  QPainter p;
+
+  switch (ltype) {
+  case LINE_NORMAL:
+    pen.setWidth(1);
+    break;
+  case LINE_BORDER:
+    pen.setStyle(Qt::DashLine);
+    pen.setDashOffset(4);
+    pen.setWidth(2);
+    break;
+  case LINE_TILE_FRAME:
+    pen.setWidth(2);
+    break;
+  case LINE_GOTO:
+    pen.setWidth(2);
+    break;
+  default:
+    pen.setWidth(1);
+    break;
+  }
+
+  p.begin(&pcanvas->map_pixmap);
+  p.setPen(pen);
+  // what curve ?
+  //p.drawArc(start_x,start_y,dx,dy); ?
+  p.drawLine(start_x, start_y, start_x + dx, start_y + dy);
+  p.end();
 }
 
 /****************************************************************************
@@ -148,15 +242,21 @@ void qtg_canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
   include the ascent and descent of the text.  Either of width or height
   may be NULL in which case those values simply shouldn't be filled out.
 ****************************************************************************/
-void qtg_get_text_size(int *width, int *height,
-                       enum client_font font, const char *text)
+void qtg_get_text_size (int *width, int *height,
+                        enum client_font font, const char *text)
 {
-  /* PORTME */
+  /* FIXME -> add font handling */
+  QFont afont;
+  int fontheight = 12;
+  afont.setPixelSize(fontheight);
+  QFontMetrics fm(afont);
+
   if (width) {
-    *width = 0;
+    *width = fm.width(QString::fromUtf8(text));
   }
+
   if (height) {
-    *height = 0;
+    *height = fm.height();
   }
 }
 
@@ -169,5 +269,19 @@ void qtg_canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
                          enum client_font font, struct color *pcolor,
                          const char *text)
 {
-  /* PORTME */
+  QPainter p;
+  QPen pen;
+  QFont afont;
+  int fontheight = 12;
+  QColor color(pcolor->qcolor);
+
+  pen.setColor(color);
+  afont.setPixelSize(fontheight);
+
+  p.begin(&pcanvas->map_pixmap);
+  p.setPen(pen);
+  p.setFont(afont);
+  p.drawText(canvas_x, canvas_y + fontheight, QString::fromUtf8(text));
+  p.end();
+  /* FIXME */ /*ADD DIFFERENT FONT HANDLING */
 }

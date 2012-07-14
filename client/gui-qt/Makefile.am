@@ -10,7 +10,10 @@ AM_CFLAGS = $(GUI_qt_CFLAGS) $(SOUND_CFLAGS)
 AM_CXXFLAGS = $(GUI_qt_CXXFLAGS) $(SOUND_CFLAGS)
 
 MOC_FILES = \
-	meta_fc_client.cpp
+	meta_fc_client.cpp	\
+	meta_ratesdlg.cpp	\
+	meta_mapview.cpp	\
+	meta_menu.cpp
 
 libgui_qt_la_SOURCES = \
 	canvas.cpp	\

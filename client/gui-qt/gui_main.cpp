@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 
 // Qt
 #include <QApplication>
+#include <QScrollBar>
 
 // utility
 #include "fciconv.h"
@@ -33,18 +34,25 @@
 #include "editgui_g.h"
 #include "ggz_g.h"
 #include "options.h"
+#include "tilespec.h"
+#include "sprite.h"
 
 // gui-qt
 #include "fc_client.h"
 #include "qtg_cxxside.h"
 
-static fc_client *freeciv_qt;
-static QApplication *qapp;
 
+static QApplication *qapp;
+static fc_client *freeciv_qt;
 const char *client_string = "gui-qt";
 
 const char * const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = FALSE;
+
+static QPixmap *unit_pixmap;
+
+void reset_unit_table(void);
+static void populate_unit_pixmap_table(void);
 
 /****************************************************************************
   Return fc_client instance
@@ -77,7 +85,6 @@ void qtg_ui_init()
 int main(int argc, char **argv)
 {
   setup_gui_funcs();
-
   return client_main(argc, argv);
 }
 
@@ -88,8 +95,15 @@ int main(int argc, char **argv)
 void qtg_ui_main(int argc, char *argv[])
 {
   qapp = new QApplication(argc, argv);
+  QPixmap *qpm = new QPixmap;
+  tileset_init(tileset);
+  tileset_load_tiles(tileset);
+  populate_unit_pixmap_table();
+  qpm = get_icon_sprite(tileset, ICON_FREECIV)->pm;
+  QIcon app_icon;
+  app_icon = ::QIcon(*qpm);
+  qapp->setWindowIcon(app_icon);
   freeciv_qt = new fc_client();
-
   freeciv_qt->main(qapp);
 }
 
@@ -211,11 +225,10 @@ void qtg_real_focus_units_changed(void)
 ****************************************************************************/
 void qtg_add_idle_callback(void (callback)(void *), void *data)
 {
-  /* PORTME */
-
-  /* This is a reasonable fallback if it's not ported. */
-  log_error("Unimplemented add_idle_callback.");
-  (callback)(data);
+  call_me_back *cb= new call_me_back; /* removed in mr_idler:idling() */
+  cb->callback = callback;
+  cb->data = data;
+  gui()->mr_idler.add_callback(cb);
 }
 
 /****************************************************************************
@@ -280,4 +293,24 @@ void qtg_gui_update_font(const char *font_name, const char *font_value)
 enum gui_type qtg_get_gui_type()
 {
   return GUI_QT;
+}
+
+/**************************************************************************
+  Called when the tileset is changed to reset the unit pixmap table.
+**************************************************************************/
+void reset_unit_table(void)
+{
+ /* FIXME */
+}
+
+/**************************************************************************
+  Called to build the unit_below pixmap table.  This is the table on the
+  left of the screen that shows all of the inactive units in the current
+  tile.
+
+  It may be called again if the tileset changes.
+**************************************************************************/
+static void populate_unit_pixmap_table(void)
+{
+  unit_pixmap = new QPixmap(tileset_unit_width(tileset), tileset_unit_height(tileset));
 }

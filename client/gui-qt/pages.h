@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996-2004 - The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,5 +16,21 @@
 extern "C" {
 #include "pages_g.h"
 }
+
+// Qt
+#include <QMenuBar>
+#include <QtGui>
+#include <QSizePolicy>
+
+// gui-qt
+#include "fc_client.h"
+#include "qtg_cxxside.h"
+
+struct player;
+struct connection;
+struct server_scan;
+
+void create_conn_menu (player*, connection*);
+void server_scan_error (server_scan*, const char*);
 
 #endif  /* FC__PAGES_H */

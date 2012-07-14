@@ -18,4 +18,38 @@ extern "C" {
 #include "menu_g.h"
 }
 
+// Qt
+#include <QMenuBar>
+#include <QObject>
+
+class mr_menu : public QMenuBar
+{
+  Q_OBJECT
+public:
+  mr_menu() {};
+  void setup_menus();
+private slots:
+  /* help menu */
+  void slot_menu_copying();
+  void slot_about_qt();
+
+  /*used by work menu*/
+  void slot_build_city();
+  void slot_build_road();
+  void slot_build_irrigation();
+  void slot_build_mine();
+
+  /*used by unit menu */
+  void slot_unit_sentry();
+
+  /*used by combat menu*/
+  void slot_unit_fortify();
+
+  /*used by view menu*/
+  void slot_center_view();
+
+  /*used by civilization menu */
+  void slot_popup_tax_rates();
+};
+
 #endif /* FC__MENU_H */
