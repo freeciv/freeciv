@@ -1586,7 +1586,7 @@ bool have_cities_trade_route(const struct city *pc1, const struct city *pc2)
 **************************************************************************/
 bool is_capital(const struct city *pcity)
 {
-  return (get_city_bonus(pcity, EFT_CAPITAL_CITY) != 0);
+  return (get_city_bonus(pcity, EFT_CAPITAL_CITY) > 0);
 }
 
 /**************************************************************************
@@ -1594,7 +1594,7 @@ bool is_capital(const struct city *pcity)
 **************************************************************************/
 bool is_gov_center(const struct city *pcity)
 {
-  return (get_city_bonus(pcity, EFT_GOV_CENTER) != 0);
+  return (get_city_bonus(pcity, EFT_GOV_CENTER) > 0);
 }
 
 /**************************************************************************
