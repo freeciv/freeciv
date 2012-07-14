@@ -1998,8 +1998,9 @@ void unit_set_ai_data(struct unit *punit, const struct ai_type *ai,
 
 /*****************************************************************************
   Calculate how expensive it is to bribe the unit. The cost depends on the
-  distance to the capital and government form. For a damaged unit the price is
-  reduced.
+  distance to the capital, the owner's treasury, and the build cost of the
+  unit. For a damaged unit the price is reduced. For a veteran unit, it is
+  increased.
 
   The bribe cost for settlers are halved.
 **************************************************************************/
@@ -2032,8 +2033,17 @@ int unit_bribe_cost(struct unit *punit)
   }
 
   /* Veterans are not cheap. */
-  /* FIXME: Should this depend on the veteran level? */
-  cost += cost * punit->veteran / 3;
+  {
+    const struct veteran_level *vlevel
+      = utype_veteran_level(unit_type(punit), punit->veteran);
+    fc_assert_ret_val(vlevel != NULL, 0);
+    cost = cost * vlevel->power_fact / 100;
+    if (unit_type(punit)->move_rate > 0) {
+      cost += cost * vlevel->move_bonus / unit_type(punit)->move_rate;
+    } else {
+      cost += cost * vlevel->move_bonus / SINGLE_MOVE;
+    }
+  }
 
   /* Cost now contains the basic bribe cost.  We now reduce it by:
    *    bribecost = cost/2 + cost/2 * damage/hp
