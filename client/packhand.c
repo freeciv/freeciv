@@ -2890,7 +2890,7 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
 
     for (i = 0; i < p->veteran_levels; i++) {
       veteran_system_definition(u->veteran, i, p->veteran_name[i],
-                                p->power_fact[i], 0, 0, p->move_bonus[i]);
+                                p->power_fact[i], p->move_bonus[i], 0, 0);
     }
   }
 
@@ -3347,8 +3347,8 @@ void handle_ruleset_game(const struct packet_ruleset_game *packet)
 
   for (i = 0; i < packet->veteran_levels; i++) {
     veteran_system_definition(game.veteran, i, packet->veteran_name[i],
-                              packet->power_fact[i], 0, 0,
-                              packet->move_bonus[i]);
+                              packet->power_fact[i], packet->move_bonus[i],
+                              0, 0);
   }
 
   if (game.plr_bg_color) {
