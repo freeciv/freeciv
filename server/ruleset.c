@@ -3272,6 +3272,9 @@ static void load_ruleset_cities(struct section_file *file)
   game.server.vision_reveal_tiles =
     secfile_lookup_bool_default(file, FALSE, "parameters.vision_reveal_tiles");
 
+  game.info.pop_report_zeroes =
+    secfile_lookup_int_default(file, 1, "parameters.pop_report_zeroes");
+
   /* Citizens configuration. */
   game.info.citizen_nationality =
     secfile_lookup_bool_default(file, FALSE,

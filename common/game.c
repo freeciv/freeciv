@@ -642,14 +642,15 @@ bool is_player_phase(const struct player *pplayer, int phase)
 
 /****************************************************************************
   Return a prettily formatted string containing the population text.  The
-  population is passed in as the number of citizens, in thousands.
+  population is passed in as the number of citizens, in unit
+  (tens/hundreds/thousands...) defined in cities.ruleset.
 ****************************************************************************/
 const char *population_to_text(int thousand_citizen)
 {
   /* big_int_to_text can't handle negative values, and in any case we'd
    * better not have a negative population. */
   fc_assert_ret_val(thousand_citizen >= 0, NULL);
-  return big_int_to_text(thousand_citizen, 3);
+  return big_int_to_text(thousand_citizen, game.info.pop_report_zeroes - 1);
 }
 
 /****************************************************************************
