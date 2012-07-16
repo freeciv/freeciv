@@ -2616,6 +2616,9 @@ static bool do_city_migration(struct city *pcity_from,
 
   /* reduce size of giver */
   if (city_size_get(pcity_from) == 1) {
+    /* Preserve nationality of city's only citizen */
+    pplayer_citizen = player_slot_get_player(citizens_random(pcity_from));
+
     /* do not destroy wonders */
     city_built_iterate(pcity_from, pimprove) {
       if (is_wonder(pimprove)) {
