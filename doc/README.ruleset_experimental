@@ -1,11 +1,11 @@
 ----------------------------------------------------------------------
-                   Experimental Freeciv Rulesets
+                   Experimental Freeciv Ruleset
 ----------------------------------------------------------------------
 
 This ruleset tries to use the new features available since freeciv 2.2. It
 is based on the default ruleset. The changes can be extracted by
 
-#> diff -ur data/default data/experimental/
+#> diff -ur data/default/ data/experimental/
 
 If the changes in this ruleset result in a working game (especially with
 regard to the AI) they could be included in the default ruleset for next
@@ -19,11 +19,11 @@ this file.
 1. Changes compared to the default ruleset
    ---------------------------------------
 
-- Plagues are activated. Aqueducts and Sewer Systems reduce the chance
-  of plague in a city, as do the new Hospital and Genetic Laboratory
-  buildings. Building the wonder 'Cure for Cancer' further reduces the
-  possibility of plague for your entire empire (in combination with the
-  other buildings, plague can be eradicated in a city).
+- Plagues are activated. Temples, Aqueducts, Sewer Systems reduce the
+  chance of plague in a city, as do the new Hospital and Genetic Laboratory
+  buildings. The effect of Aqueducts is reduced after Industrialization
+  is discovered. Building the wonder 'Cure for Cancer' further reduces
+  the possibility of plague for your entire empire.
 
 - The Genetic Laboratory increases the food output by 25% if the city
   size exceeds 20.
@@ -32,18 +32,31 @@ this file.
   the different governments are defined; cities belonging to more
   representative governments are more attractive for cross-border migration.
 
+- Tracking of the nationality of citizens is enabled. At the moment, this
+  affects the cost of inciting a city to revolt and the chance of
+  migration.
+
 - After The Corporation is researched, the upkeep for most modern military
   units (Riflemen onwards) is changed from shields to gold, and cities
   no longer maintain any such units for free, regardless of government.
   Gold upkeep for units is tallied empire-wide (unlike buildings), and if
   funds run out, random units are disbanded.
 
-- An new unit class Big Land is introduced, comprising all "siege" units
+- A new unit class Big Land is introduced, comprising all "siege" units
   (Catapult, Cannon etc) and Freight. Units of this type are restricted
   to flat terrain and cannot move into difficult terrain such as hills
   and forest, unless roads are built.
 
 - Triremes can move on rivers (but later ships cannot).
+
+- Mech. Inf. can carry up to 3 missile units (including while they
+  themselves are being transported on a boat).
+
+- Workers and Engineers (but not Settlers) have their own veteran system.
+  Every turn when they do useful work, there is a small chance that they
+  will be promoted. They will never be promoted through combat.
+  The levels and their effect on terrain alteration speed are:
+  apprentice (1x) -> journeyman (1.25x) -> master (1.5x)
 
 - Activate variable city radii:
     radius 1 (radius_sq =  2): start
@@ -52,6 +65,7 @@ this file.
     radius 4 (radius_sq = 17): city size 30 + Railroad + Mass Transit +
                                Super Highway
   The vision range of the city is adapted accordingly.
+  The city graphics from the tileset change with the city radius.
 
 - The number of build slots for units is increased at radius 3 and 4.
 
@@ -67,6 +81,11 @@ this file.
   transferred between civilizations, there is a small chance that each of
   the parties will forget the technology in question.
 
+- Most technologies have "root_req" requirements. This means that it is
+  not possible to acquire the technology by any means unless you already
+  possess its "root_req". Currently-unreachable requirements are entirely
+  hidden by default in the Gtk client, so when the game starts you can
+  only see a few techs; you can see the rest with the "Show all" button.
 
 
 2. Use the new ruleset
