@@ -896,6 +896,9 @@ plague can spread via trade routes (without regard for nationality); \
 after a city has been struck by plague, it will remain infectious to \
 its trade partners for several turns, increasing the risk of plague in \
 those cities by a factor depending on the size of both cities.\
+"), _("\
+If migration is enabled, citizens will tend to prefer cities with a \
+lower risk of plague.\
 ")
 
 [help_migration]
@@ -931,6 +934,8 @@ effect of their build cost).\
  - Capital cities are more attractive than other cities, all other \
 factors being equal; in addition, citizens will never migrate out of a \
 capital city.\
+"), _("\
+ - A high risk of plague reduces a city's attractiveness.\
 "), _("\
  - Food surplus. (A food deficit reduces the desirability of a city.)\
 "), _("\
