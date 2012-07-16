@@ -706,6 +706,21 @@ just grown and adjust the role in which the new citizen has been \
 placed. You can set different priorities for a city with the Citizen \
 Governor; see its help section.\
 "), _("\
+In the default ruleset, citizens always consider their nationality to \
+be that of their home city. However, in some rulesets, citizens' \
+nationality can differ from that of the state they inhabit. When a \
+city grows due to food surplus, new citizens take the nationality of \
+the city's current owner, but when a city is conquered or otherwise \
+transferred, its citizens retain their original nationality, as do any \
+immigrants. Citizens of another nationality will work in your cities \
+just the same as your own, and behave the same in most respects, but \
+their presence makes it cheaper for agents of their associated state \
+to incite a revolt in your cities, and if migration is enabled, they \
+have an increased tendency to migrate to their state's cities. Over \
+time, citizens may be assimilated into their home city, depending on \
+ruleset settings. If nationality is enabled, you can see the cultural \
+makeup of your cities in the City dialog, on the Happiness tab.\
+"), _("\
 Cities may be enhanced with a wide variety of buildings, which can \
 improve their productivity, their military strength, or give them \
 new abilities. See the sections on City Improvements and Wonders of \
@@ -926,6 +941,9 @@ without a compelling reason.)\
 "), _("\
  - The number of happy citizens. (To a lesser extent, unhappy and \
 angry citizens reduce the desirability of a city.)\
+"), _("\
+ - In rulesets where nationality is enabled, citizens have a strong \
+preference to move to cities of their own nationality.\
 "), _("\
  - The presence of any wonder in a city will greatly increase its \
 desirability (further wonders do not contribute except by the lesser \
