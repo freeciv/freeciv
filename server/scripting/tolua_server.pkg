@@ -99,7 +99,8 @@ module edit {
     @ create_base (lua_State *L, Tile *ptile, const char *name,
                    Player *pplayer);
   Player *api_edit_create_player
-    @ create_player(lua_State *L, const char *username, Nation_Type *nation);
+    @ create_player(lua_State *L, const char *username, Nation_Type *nation,
+                    const char *ai);
   void api_edit_change_gold
     @ change_gold (lua_State *L, Player *pplayer, int amount);
   Tech_Type *api_edit_give_technology
@@ -149,7 +150,7 @@ function create_base(tile, name, player)
 end
 
 function create_player(username, nation)
-  return edit.create_player(username, nation)
+  return edit.create_player(username, nation, nil)
 end
 
 function change_gold(pplayer, amount)
