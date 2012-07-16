@@ -201,7 +201,7 @@ void api_edit_create_city(lua_State *L, Player *pplayer, Tile *ptile,
   Create a new player.
 *****************************************************************************/
 Player *api_edit_create_player(lua_State *L, const char *username,
-                               Nation_Type *pnation)
+                               Nation_Type *pnation, const char *ai)
 {
   struct player *pplayer = NULL;
   char buf[128] = "";
@@ -209,16 +209,19 @@ Player *api_edit_create_player(lua_State *L, const char *username,
 
   LUASCRIPT_CHECK_STATE(L, NULL);
   LUASCRIPT_CHECK_ARG_NIL(L, username, 2, string, NULL);
+  if (!ai) {
+    ai = default_ai_type_name();
+  }
 
   fcl = luascript_get_fcl(L);
 
   LUASCRIPT_CHECK(L, fcl != NULL, "Undefined freeciv lua state!", NULL);
 
   if (game_was_started()) {
-    create_command_newcomer(username, default_ai_type_name(), FALSE, pnation,
-                            &pplayer, buf, sizeof(buf));
+    create_command_newcomer(username, ai, FALSE, pnation, &pplayer,
+                            buf, sizeof(buf));
   } else {
-    create_command_pregame(username, default_ai_type_name(), FALSE, &pplayer,
+    create_command_pregame(username, ai, FALSE, &pplayer,
                            buf, sizeof(buf));
   }
 
