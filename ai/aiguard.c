@@ -99,7 +99,7 @@ void aiguard_check_charge_unit(const struct unit *charge)
   }
 
   fc_assert_ret(guard == NULL
-                || BODYGUARD_WANTED <= guard_data->bodyguard);
+                || (guard_data && BODYGUARD_WANTED <= guard_data->bodyguard));
 
   if (guard && guard_data->charge != charge->id) {
     UNIT_LOG(LOG_DEBUG, charge,
