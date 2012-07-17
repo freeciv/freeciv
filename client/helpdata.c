@@ -2162,11 +2162,22 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 
       switch (peffect->type) {
       case EFT_UNHAPPY_FACTOR:
+        /* FIXME: EFT_MAKE_CONTENT_MIL_PER would cancel this out. We assume
+         * no-one will set both, so we don't bother handling it. */
         cat_snprintf(buf, bufsz,
                      PL_("* Military units away from home and field units"
                          " will each cause %d citizen to become unhappy.\n",
                          "* Military units away from home and field units"
                          " will each cause %d citizens to become unhappy.\n",
+                         peffect->value),
+                     peffect->value);
+        break;
+      case EFT_MAKE_CONTENT_MIL:
+        cat_snprintf(buf, bufsz,
+                     PL_("* Each of your cities will avoid %d unhappiness"
+                         " caused by units.\n",
+                         "* Each of your cities will avoid %d unhappiness"
+                         " caused by units.\n",
                          peffect->value),
                      peffect->value);
         break;
@@ -2202,7 +2213,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is the output type, like 'shield' or 'gold'. */
                        _("* You pay no %s upkeep for your units.\n"),
-                       astr_str(&outputs_and));
+                       astr_str(&outputs_or));
         } else if (peffect->value == 0) {
           CATLSTR(buf, bufsz,
                   _("* You pay no upkeep for your units.\n"));
