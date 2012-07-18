@@ -10,7 +10,7 @@
 --   GNU General Public License for more details.
 
 function city_destroyed_callback(city, loser, destroyer)
-  create_base(city.tile, "Ruins", NIL)
+  city.tile:create_base("Ruins", NIL)
   -- continue processing
   return false
 end
@@ -25,9 +25,9 @@ darw_id = darw_btype.id
 function building_built_handler(btype, city)
   local player, id = city.owner, btype.id
   if id == darw_id then
-    if give_technology(player, tevo_tech, "researched") then
-      give_technology(player, nil, "researched")
-      give_technology(player, nil, "researched")
+    if player:give_technology(tevo_tech, "researched") then
+      player:give_technology(nil, "researched")
+      player:give_technology(nil, "researched")
     end
   end
 end
@@ -47,7 +47,7 @@ function tech_researched_handler(tech, player, how)
 
   id = tech.id
   if id == phil_id and how == "researched" then
-    give_technology(player, nil, "researched")
+    player:give_technology(nil, "researched")
   end
 end 
 
