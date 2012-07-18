@@ -36,8 +36,8 @@ EXTRA_tolua_SOURCES = \
 
 tolua_DEPENDENCIES = \
 	$(LUA_AS_DEPENDENCY) \
-	../lib/libtolua.a
+	../lib/libtolua.la
 
 tolua_LDFLAGS = \
 	$(LUA_LIBS) \
-	../lib/libtolua.a -lm
+	../lib/libtolua.la -lm
