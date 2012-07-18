@@ -10,7 +10,7 @@
 --   GNU General Public License for more details.
 
 function city_destroyed_callback(city, loser, destroyer)
-  create_base(city.tile, "Ruins", NIL)
+  city.tile:create_base("Ruins", NIL)
   -- continue processing
   return false
 end
