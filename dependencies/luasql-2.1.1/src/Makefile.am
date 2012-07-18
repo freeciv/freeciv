@@ -1,13 +1,13 @@
 ## Process this file with automake to produce Makefile.in
 
 ## Must be set before adding anything
-noinst_LIBRARIES =
+noinst_LTLIBRARIES =
 
 AM_CPPFLAGS = -I../src $(LUA_CFLAGS) $(FCDB_MYSQL_CFLAGS) $(FCDB_POSTGRES_CFLAGS)
 
 if FCDB_MYSQL
-noinst_LIBRARIES += libluasql_mysql.a
-libluasql_mysql_a_SOURCES = \
+noinst_LTLIBRARIES += libluasql_mysql.la
+libluasql_mysql_la_SOURCES = \
 		luasql.h	\
 		luasql.c	\
 		ls_mysql.h	\
@@ -15,8 +15,8 @@ libluasql_mysql_a_SOURCES = \
 endif
 
 if FCDB_POSTGRES
-noinst_LIBRARIES += libluasql_postgres.a
-libluasql_postgres_a_SOURCES = \
+noinst_LTLIBRARIES += libluasql_postgres.la
+libluasql_postgres_la_SOURCES = \
 		luasql.h	\
 		luasql.c	\
 		ls_postgres.h	\
@@ -24,8 +24,8 @@ libluasql_postgres_a_SOURCES = \
 endif
 
 if FCDB_SQLITE3
-noinst_LIBRARIES += libluasql_sqlite3.a
-libluasql_sqlite3_a_SOURCES = \
+noinst_LTLIBRARIES += libluasql_sqlite3.la
+libluasql_sqlite3_la_SOURCES = \
 		luasql.h	\
 		luasql.c	\
 		ls_sqlite3.h	\

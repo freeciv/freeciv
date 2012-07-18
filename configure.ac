@@ -1169,7 +1169,7 @@ fi
 
 if test "x$sys_lua" = "xfalse" ; then
   LUA_CFLAGS="-I\$(top_srcdir)/dependencies/lua-5.1/src"
-  LUA_LIBS="\$(top_builddir)/dependencies/lua-5.1/src/liblua.a"
+  LUA_LIBS="\$(top_builddir)/dependencies/lua-5.1/src/liblua.la"
   LUA_AS_DEPENDENCY="$LUA_LIBS"
 fi
 
@@ -1182,13 +1182,13 @@ if test x$enable_fcdb = xyes ; then
   LUASQL_CFLAGS="-I\$(top_srcdir)/dependencies/luasql-2.1.1/src"
   LUASQL_LIBS=""
   if test x$fcdb_mysql = xyes ; then
-    LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql-2.1.1/src/libluasql_mysql.a"
+    LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql-2.1.1/src/libluasql_mysql.la"
   fi
   if test x$fcdb_postgres = xyes ; then
-    LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql-2.1.1/src/libluasql_postgres.a"
+    LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql-2.1.1/src/libluasql_postgres.la"
   fi
   if test x$fcdb_sqlite3 = xyes ; then
-    LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql-2.1.1/src/libluasql_sqlite3.a"
+    LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql-2.1.1/src/libluasql_sqlite3.la"
   fi
   LUASQL_AS_DEPENDENCY="$LUASQL_LIBS"
 
@@ -1198,7 +1198,7 @@ if test x$enable_fcdb = xyes ; then
 fi
 
 TOLUA_CFLAGS="-I\$(top_srcdir)/dependencies/tolua-5.1/include"
-TOLUA_LIBS="\$(top_builddir)/dependencies/tolua-5.1/src/lib/libtolua.a"
+TOLUA_LIBS="\$(top_builddir)/dependencies/tolua-5.1/src/lib/libtolua.la"
 TOLUA_AS_DEPENDENCY="$TOLUA_LIBS"
 AC_SUBST([TOLUA_CFLAGS])
 AC_SUBST([TOLUA_LIBS])

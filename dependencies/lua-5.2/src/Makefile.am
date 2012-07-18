@@ -1,10 +1,10 @@
 ## Process this file with automake to produce Makefile.in
 
-noinst_LIBRARIES = liblua.a
+noinst_LTLIBRARIES = liblua.la
 
 AM_CPPFLAGS =
 
-liblua_a_SOURCES = 	\
+liblua_la_SOURCES = 	\
 	localluaconf.h	\
 	lapi.c		\
 	lapi.h		\
