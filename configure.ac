@@ -1207,6 +1207,22 @@ AC_SUBST([TOLUA_AS_DEPENDENCY])
 TOLUA="\$(top_builddir)/dependencies/tolua-5.1/src/bin/tolua$EXEEXT"
 AC_SUBST([TOLUA])
 
+AC_ARG_ENABLE([fcweb],
+[  --fcweb        build fcweb version of server [[false]]],
+[case "${enableval}" in
+  yes)
+    fcweb=true ;;
+  no)
+    fcweb=false ;;
+  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-fcweb]) ;;
+esac], [fcweb=false])
+
+AM_CONDITIONAL([FREECIV_WEB], [test "x$fcweb" = "xtrue"])
+if test "x$fcweb" = "xtrue" ; then
+  AC_DEFINE([FREECIV_WEB], [1], [Build freeciv-web version])
+fi
+
+
 dnl Freeciv uses a non-standard macro, Q_(), to handle cases of qualified
 dnl translatable strings and macro PL_() to handle plural forms.
 dnl Since the Gettext supplied Autoconf support
