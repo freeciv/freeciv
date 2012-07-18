@@ -3677,3 +3677,59 @@ reqs    =
     { "type", "name", "range"
       "Building", "Mfg. Plant", "City"
     }
+
+[effect_city_image_1]
+name    = "City_Image"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "MinSize", "4", "City"
+    }
+
+[effect_city_image_2]
+name    = "City_Image"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "MinSize", "8", "City"
+    }
+
+[effect_city_image_3]
+name    = "City_Image"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "MinSize", "12", "City"
+    }
+
+[effect_city_image_4]
+name    = "City_Image"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "MinSize", "16", "City"
+    }
+
+[effect_irrigate_src_ocean]
+name    = "Irrig_Possible"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "TerrainClass", "Oceanic", "CAdjacent"
+    }
+
+[effect_irrigate_src_river]
+name    = "Irrig_Possible"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Special", "River", "CAdjacent"
+    }
+
+[effect_irrigate_src_irrigation]
+name    = "Irrig_Possible"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Special", "Irrigation", "CAdjacent"
+    }
