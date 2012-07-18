@@ -5792,6 +5792,71 @@ static void compat_load_020400(struct loaddata *loading)
       }
     }
   }
+
+  /* Server setting migration. */
+  {
+    int set_count;
+    if (secfile_lookup_int(loading->file, &set_count, "settings.set_count")) {
+      int i, new_opt = set_count;
+      bool gamestart_valid
+        = secfile_lookup_bool_default(loading->file, FALSE,
+                                      "settings.gamestart_valid");
+      for (i = 0; i < set_count; i++) {
+        const char *name
+          = secfile_lookup_str(loading->file, "settings.set%d.name", i);
+        if (!name) {
+          continue;
+        }
+
+        /* In 2.3.x and prior, saveturns=0 meant no turn-based saves.
+         * This is now controlled by the "autosaves" setting. */
+        if (!fc_strcasecmp("saveturns", name)) {
+          int nturns, nturns_start;
+          (void) secfile_lookup_int(loading->file, &nturns,
+                                    "settings.set%d.value", i);
+          (void) secfile_lookup_int(loading->file, &nturns_start,
+                                    "settings.set%d.gamestart", i);
+          if (nturns == 0 || (gamestart_valid && nturns_start == 0)) {
+            /* Invent a new "autosaves" setting */
+            /* XXX: hardcodes details from GAME_AUTOSAVES_DEFAULT
+             * and settings.c:autosaves_name() (but these defaults reflect
+             * 2.3's behaviour) */
+            const char *const nosave = "GAMEOVER|QUITIDLE|INTERRUPT",
+                       *const save = "TURN|GAMEOVER|QUITIDLE|INTERRUPT";
+            secfile_replace_int(loading->file, new_opt+1, "settings.set_count");
+            secfile_insert_str(loading->file, "autosaves",
+                               "settings.set%d.name", new_opt);
+            if (nturns == 0) {
+              secfile_insert_str(loading->file, nosave,
+                                 "settings.set%d.value", new_opt);
+              /* Pick something valid for saveturns */
+              secfile_replace_int(loading->file, GAME_DEFAULT_SAVETURNS,
+                                  "settings.set%d.value", i);
+            } else {
+              secfile_insert_str(loading->file, save,
+                                 "settings.set%d.value", new_opt);
+            }
+            if (gamestart_valid) {
+              if (nturns_start == 0) {
+                secfile_insert_str(loading->file, nosave,
+                                   "settings.set%d.gamestart", new_opt);
+                secfile_replace_int(loading->file, GAME_DEFAULT_SAVETURNS,
+                                    "settings.set%d.gamestart", i);
+              } else {
+                secfile_insert_str(loading->file, save,
+                                   "settings.set%d.gamestart", new_opt);
+              }
+            }
+          }
+        } else if (!fc_strcasecmp("autosaves", name)) {
+          /* Sanity check. This won't trigger on an option we've just
+           * invented, as the loop won't include it. */
+          log_sg("Unexpected \"autosaves\" setting found in pre-2.4 "
+                 "savefile. It may have been overridden.");
+        }
+      }
+    }
+  }
 }
 
 /****************************************************************************
@@ -5893,6 +5958,27 @@ static void compat_save_020400(struct savedata *saving)
         }
       }
       FC_FREE(known_old);
+    }
+  }
+
+  /* Propagate autosaves without TURN set back to saveturns=0. */
+  /* XXX doesn't check gamestart value */
+  /* XXX doesn't remove autosaves option */
+  if (!(game.server.autosaves & 1<<AS_TURN)) {
+    int set_count;
+    if (secfile_lookup_int(saving->file, &set_count, "settings.set_count")) {
+      int i;
+      for (i = 0; i < set_count; i++) {
+        if (!fc_strcasecmp("saveturns",
+                           secfile_lookup_str(saving->file,
+                                              "settings.set%d.name", i))) {
+          secfile_replace_int(saving->file, 0, "settings.set%d.value", i);
+          break;
+        }
+      }
+      /* Should have found a "saveturns" to modify */
+      sg_warn(i < set_count, "Didn't find 'saveturns' to modify, "
+                             "'autosaves' setting lost");
     }
   }
 }
