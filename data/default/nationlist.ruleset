@@ -338,6 +338,7 @@ match=2
 *include "nation/maori.ruleset"
 *include "nation/mapuche.ruleset"
 *include "nation/marathi.ruleset"
+*include "nation/marshallese.ruleset"
 *include "nation/martian.ruleset"
 *include "nation/mauritian.ruleset"
 *include "nation/mauritanian.ruleset"
