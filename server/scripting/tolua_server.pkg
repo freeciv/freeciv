@@ -194,7 +194,7 @@ function Player:change_gold(amount)
 end
 
 function Player:give_technology(tech, reason)
-  edit.give_technologychange_gold(self, tech, reason)
+  edit.give_technology(self, tech, reason)
 end
 
 function Player:civil_war(probability)
