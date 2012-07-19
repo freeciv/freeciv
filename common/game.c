@@ -304,7 +304,6 @@ static void game_defaults(bool keep_ruleset_value)
   game.info.sciencebox       = GAME_DEFAULT_SCIENCEBOX;
   game.info.shieldbox        = GAME_DEFAULT_SHIELDBOX;
   game.info.skill_level      = GAME_DEFAULT_SKILL_LEVEL;
-  game.info.slow_invasions   = RS_DEFAULT_SLOW_INVASIONS;
   game.info.victory_conditions = GAME_DEFAULT_VICTORY_CONDITIONS;
   game.info.team_pooled_research = GAME_DEFAULT_TEAM_POOLED_RESEARCH;
   game.info.tech             = GAME_DEFAULT_TECHLEVEL;

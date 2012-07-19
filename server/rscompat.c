@@ -170,6 +170,8 @@ bool rscompat_names(struct rscompat_info *info)
       const char *helptxt;
     } new_flags_31[] = {
       { N_("Infra"), N_("Can build infrastructure.") },
+      { N_("BeachLander"), N_("Won't lose all movement when moving from"
+                              " non-native terrain to native terrain.") },
     };
 
     /* Some unit class flags moved to the ruleset between 3.0 and 3.1.
@@ -602,10 +604,6 @@ void rscompat_postprocess(struct rscompat_info *info)
     enabler->action = ACTION_TRANSPORT_UNLOAD;
     action_enabler_add(enabler);
 
-    enabler = action_enabler_new();
-    enabler->action = ACTION_TRANSPORT_DISEMBARK1;
-    action_enabler_add(enabler);
-
     /* Update action enablers. */
     action_enablers_iterate(ae) {
       if (action_enabler_obligatory_reqs_missing(ae)) {
@@ -776,6 +774,249 @@ bool rscompat_auto_attack_3_1(struct rscompat_info *compat,
     auto_perf->alternatives[1] = ACTION_BOMBARD;
     auto_perf->alternatives[2] = ACTION_ATTACK;
     auto_perf->alternatives[3] = ACTION_SUICIDE_ATTACK;
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Replace slow_invasions and friends.
+**************************************************************************/
+bool rscompat_old_slow_invasions_3_1(struct rscompat_info *compat,
+                                     bool slow_invasions)
+{
+  if (compat->ver_effects < 20 && compat->ver_game < 20) {
+    /* BeachLander and slow_invasions has moved to the ruleset. Use a "fake
+     * generalized" Transport Disembark and Conquer City to handle it. */
+
+    struct action_enabler *enabler;
+    struct requirement e_req;
+
+    enabler = action_enabler_new();
+    enabler->action = ACTION_TRANSPORT_DISEMBARK1;
+
+    if (slow_invasions) {
+      /* Use for disembarking from native terrain so disembarking from
+       * non native terain is handled by "Transport Disembark 2". */
+      e_req = req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
+                              FALSE, TRUE, TRUE, USP_NATIVE_TILE);
+      requirement_vector_append(&enabler->actor_reqs, e_req);
+    }
+
+    action_enabler_add(enabler);
+
+    if (slow_invasions) {
+      /* Make disembarking from non native terrain a different action. */
+
+      struct effect *peffect;
+      struct action *paction;
+
+      struct action_enabler_list *to_upgrade;
+
+
+      /* Add the actions */
+
+      /* Use "Transport Disembark 2" for disembarking from non native. */
+      paction = action_by_number(ACTION_TRANSPORT_DISEMBARK2);
+      /* "Transport Disembark" and "Transport Disembark 2" won't appear in
+       * the same action selection dialog given their opposite
+       * requirements. */
+      paction->quiet = TRUE;
+      /* Make what is happening clear. */
+      /* TRANS: _Disembark from non native (100% chance of success). */
+      sz_strlcpy(paction->ui_name, N_("%sDisembark from non native%s"));
+
+
+      /* Use "Conquer City 2" for conquring from non native. */
+      paction = action_by_number(ACTION_CONQUER_CITY2);
+      /* "Conquer City" and "Conquer City 2" won't appear in
+       * the same action selection dialog given their opposite
+       * requirements. */
+      paction->quiet = TRUE;
+      /* Make what is happening clear. */
+      /* TRANS: _Conquer City from non native (100% chance of success). */
+      sz_strlcpy(paction->ui_name, N_("%Conquer City from non native%s"));
+
+
+      /* Enablers for disembark */
+
+      /* City center counts as native. */
+      enabler = action_enabler_new();
+      enabler->action = ACTION_TRANSPORT_DISEMBARK1;
+      e_req = req_from_values(VUT_CITYTILE,
+                              REQ_RANGE_LOCAL,
+                              FALSE, TRUE, TRUE,
+                              CITYT_CENTER);
+      requirement_vector_append(&enabler->actor_reqs, e_req);
+      action_enabler_add(enabler);
+
+
+      /* No TerrainSpeed sees everything as native. */
+      enabler = action_enabler_new();
+      enabler->action = ACTION_TRANSPORT_DISEMBARK1;
+      e_req = req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
+                              FALSE, FALSE, TRUE,
+                              UCF_TERRAIN_SPEED);
+      requirement_vector_append(&enabler->actor_reqs, e_req);
+      action_enabler_add(enabler);
+
+
+      /* "BeachLander" sees everything as native. */
+      enabler = action_enabler_new();
+      enabler->action = ACTION_TRANSPORT_DISEMBARK1;
+      e_req = req_from_str("UnitFlag", "Local",
+                           FALSE, TRUE, TRUE,
+                           "BeachLander");
+      requirement_vector_append(&enabler->actor_reqs, e_req);
+      action_enabler_add(enabler);
+
+
+      /* "Transport Disembark 2" enabler */
+      enabler = action_enabler_new();
+      enabler->action = ACTION_TRANSPORT_DISEMBARK2;
+
+      /* Native terrain is native. */
+      e_req = req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
+                              FALSE, FALSE, TRUE, USP_NATIVE_TILE);
+      requirement_vector_append(&enabler->actor_reqs, e_req);
+
+      /* City is native. */
+      e_req = req_from_values(VUT_CITYTILE,
+                              REQ_RANGE_LOCAL,
+                              FALSE, FALSE, TRUE,
+                              CITYT_CENTER);
+      requirement_vector_append(&enabler->actor_reqs, e_req);
+
+      /* "BeachLander" sees everything as native. */
+      e_req = req_from_str("UnitFlag", "Local",
+                           FALSE, FALSE, TRUE,
+                           "BeachLander");
+      requirement_vector_append(&enabler->actor_reqs, e_req);
+
+      /* No TerrainSpeed sees everything as native. */
+      e_req = req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
+                              FALSE, TRUE, TRUE,
+                              UCF_TERRAIN_SPEED);
+      requirement_vector_append(&enabler->actor_reqs, e_req);
+
+      action_enabler_add(enabler);
+
+
+      /* Take movement for disembarking and conquering native terrain from
+       * non native terrain */
+
+      /* Take movement for disembarking from non native terrain */
+      peffect = effect_new(EFT_ACTION_SUCCESS_MOVE_COST,
+                           MAX_MOVE_FRAGS, NULL);
+
+      /* The reduction only applies to "Transport Disembark 2". */
+      effect_req_append(peffect, req_from_str("Action", "Local",
+                                              FALSE, TRUE, TRUE,
+                                              "Transport Disembark 2"));
+
+      /* No reduction here unless disembarking to native terrain. */
+      effect_req_append(peffect, req_from_values(VUT_UNITSTATE,
+                                                 REQ_RANGE_LOCAL,
+                                                 FALSE, TRUE, TRUE,
+                                                 USP_NATIVE_TILE));
+
+
+      /* Take movement for conquering from non native terrain */
+      peffect = effect_new(EFT_ACTION_SUCCESS_MOVE_COST,
+                           MAX_MOVE_FRAGS, NULL);
+
+      /* The reduction only applies to "Conquer City 2". */
+      effect_req_append(peffect, req_from_str("Action", "Local",
+                                              FALSE, TRUE, TRUE,
+                                              "Conquer City 2"));
+
+      /* No reduction here unless disembarking to native terrain. */
+      effect_req_append(peffect, req_from_values(VUT_UNITSTATE,
+                                                 REQ_RANGE_LOCAL,
+                                                 FALSE, TRUE, TRUE,
+                                                 USP_NATIVE_TILE));
+
+      /* Upgrade exisiting Conquer City action enablers */
+      to_upgrade = action_enabler_list_copy(
+            action_enablers_for_action(ACTION_CONQUER_CITY));
+
+      action_enabler_list_iterate(to_upgrade, conquer_city_enabler) {
+        /* City center counts as native. */
+        enabler = action_enabler_copy(conquer_city_enabler);
+        e_req = req_from_values(VUT_CITYTILE,
+                                REQ_RANGE_LOCAL,
+                                FALSE, TRUE, TRUE,
+                                CITYT_CENTER);
+        requirement_vector_append(&enabler->actor_reqs, e_req);
+        action_enabler_add(enabler);
+      } action_enabler_list_iterate_end;
+
+
+      action_enabler_list_iterate(to_upgrade, conquer_city_enabler) {
+        /* No TerrainSpeed sees everything as native. */
+        enabler = action_enabler_copy(conquer_city_enabler);
+        e_req = req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
+                                FALSE, FALSE, TRUE,
+                                UCF_TERRAIN_SPEED);
+        requirement_vector_append(&enabler->actor_reqs, e_req);
+        action_enabler_add(enabler);
+      } action_enabler_list_iterate_end;
+
+
+      action_enabler_list_iterate(to_upgrade, conquer_city_enabler) {
+        /* "BeachLander" sees everything as native. */
+        enabler = action_enabler_copy(conquer_city_enabler);
+        e_req = req_from_str("UnitFlag", "Local",
+                             FALSE, TRUE, TRUE,
+                             "BeachLander");
+        requirement_vector_append(&enabler->actor_reqs, e_req);
+        action_enabler_add(enabler);
+      } action_enabler_list_iterate_end;
+
+
+      action_enabler_list_iterate(to_upgrade, conquer_city_enabler) {
+        /* Use "Conquer City 2" for conquring from non native. */
+        enabler = action_enabler_copy(conquer_city_enabler);
+        enabler->action = ACTION_CONQUER_CITY2;
+
+        /* Native terrain is native. */
+        e_req = req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
+                                FALSE, FALSE, TRUE, USP_NATIVE_TILE);
+        requirement_vector_append(&enabler->actor_reqs, e_req);
+
+        /* City is native. */
+        e_req = req_from_values(VUT_CITYTILE,
+                                REQ_RANGE_LOCAL,
+                                FALSE, FALSE, TRUE,
+                                CITYT_CENTER);
+        requirement_vector_append(&enabler->actor_reqs, e_req);
+
+        /* No TerrainSpeed sees everything as native. */
+        e_req = req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
+                                FALSE, TRUE, TRUE,
+                                UCF_TERRAIN_SPEED);
+        requirement_vector_append(&enabler->actor_reqs, e_req);
+
+        /* "BeachLander" sees everything as native. */
+        e_req = req_from_str("UnitFlag", "Local",
+                             FALSE, FALSE, TRUE,
+                             "BeachLander");
+        requirement_vector_append(&enabler->actor_reqs, e_req);
+
+        action_enabler_add(enabler);
+      } action_enabler_list_iterate_end;
+
+
+      action_enabler_list_iterate(to_upgrade, conquer_city_enabler) {
+        /* Use for conquering from native terrain so conquest from
+         * non native terain is handled by "Conquer City 2". */
+        e_req = req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
+                                FALSE, TRUE, TRUE, USP_NATIVE_TILE);
+        requirement_vector_append(&conquer_city_enabler->actor_reqs, e_req);
+      } action_enabler_list_iterate_end;
+
+      action_enabler_list_destroy(to_upgrade);
+    }
   }
 
   return TRUE;

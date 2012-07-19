@@ -130,3 +130,12 @@ reqs    =
       "UnitClassFlag", "CanFortify",   "Local", TRUE
       "UnitFlag",      "Cant_Fortify", "Local", FALSE
     }
+
+[effect_action_success_move_cost_from_non_native]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",      "name",                  "range", "present"
+      "Action",    "Transport Disembark 2", "Local", TRUE
+      "UnitState", "OnNativeTile",          "Local", TRUE
+    }

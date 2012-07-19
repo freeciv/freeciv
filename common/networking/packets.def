@@ -562,7 +562,6 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT32 sciencebox;
   UINT32 shieldbox;
   UINT32 skill_level;
-  BOOL slow_invasions;
   VICTORY_CONDITIONS victory_conditions;
   BOOL team_pooled_research;
   UINT32 tech;

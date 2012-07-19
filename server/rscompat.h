@@ -73,6 +73,8 @@ bool rscompat_old_effect_3_1(const char *type, struct section_file *file,
                              const char *sec_name, struct rscompat_info *compat);
 void rscompat_extra_adjust_3_1(struct rscompat_info *compat,
                                struct extra_type *pextra);
+bool rscompat_old_slow_invasions_3_1(struct rscompat_info *compat,
+                                     bool slow_invasions);
 
 #ifdef __cplusplus
 }

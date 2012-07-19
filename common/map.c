@@ -789,23 +789,16 @@ int tile_move_cost_ptrs(const struct civ_map *nmap,
             ? MOVE_COST_IGTER : SINGLE_MOVE);
 
   } else if (!is_native_tile_to_class(pclass, t1)) {
-    if (game.info.slow_invasions
-        && !utype_has_flag(punittype, UTYF_BEACH_LANDER)
-        && tile_city(t1) == NULL) {
-      /* If "slowinvasions" option is turned on, units moving from
-       * non-native terrain (from transport) to native terrain lose all
-       * their movement unless they have the BeachLander unit type flag.
-       * e.g. ground units moving from sea to land */
-      if (punit != NULL) {
-        return punit->moves_left;
-      } else {
-        /* Needs to be bigger than SINGLE_MOVE * move_rate * MAX(1, fuel)
-         * for the most mobile unit possible. */
-        return FC_INFINITY;
-      }
+    if (tile_city(t1) == NULL) {
+      /* Disembarking from transport. */
+
+      /* UTYF_IGTER units get move benefit. */
+      return (utype_has_flag(punittype, UTYF_IGTER)
+              ? MOVE_COST_IGTER : SINGLE_MOVE);
     } else {
-      /* Disembarking from transport or leaving port.
-       * UTYF_IGTER units get move benefit. */
+      /* Leaving port. */
+
+      /* UTYF_IGTER units get move benefit. */
       return (utype_has_flag(punittype, UTYF_IGTER)
               ? MOVE_COST_IGTER : SINGLE_MOVE);
     }

@@ -1101,9 +1101,6 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.server.incite_total_factor,
                    RS_DEFAULT_INCITE_TOTAL_FCT,
                    "incite_cost.total_factor", NULL);
-  save_default_bool(sfile, game.info.slow_invasions,
-                    RS_DEFAULT_SLOW_INVASIONS,
-                    "global_unit_options.slow_invasions", NULL);
 
   {
     /* Action auto performers aren't ready to be exposed in the ruleset

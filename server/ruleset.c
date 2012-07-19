@@ -6288,11 +6288,6 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                            RS_MAX_INCITE_TOTAL_FCT,
                                            "incite_cost.total_factor");
 
-    /* section: global_unit_options */
-    game.info.slow_invasions
-      = secfile_lookup_bool_default(file, RS_DEFAULT_SLOW_INVASIONS,
-                                    "global_unit_options.slow_invasions");
-
     if (ok) {
       /* Auto attack. */
       struct action_auto_perf *auto_perf;
@@ -6613,6 +6608,16 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         } section_list_iterate_end;
         section_list_destroy(sec);
       }
+    }
+  }
+
+  if (compat->compat_mode) {
+    bool slow_invasions
+      = secfile_lookup_bool_default(file, TRUE,
+                                    "global_unit_options.slow_invasions");
+
+    if (!rscompat_old_slow_invasions_3_1(compat, slow_invasions)) {
+      ok = FALSE;
     }
   }
 

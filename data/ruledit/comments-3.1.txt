@@ -434,8 +434,6 @@ utypes = "\
 ;                 less\n\
 ; \"OneAttack\" = can only make a single attack, regardless of movement points\n\
 ; \"FieldUnit\" = cause unhappiness even when not being aggressive\n\
-; \"BeachLander\" = won\'t lose all its movement when moving from non-native\n\
-;                 terrain to native terrain even if slow_invasions is on.\n\
 ; \"Settlers\"  = can irrigate and build roads\n\
 ; \"Diplomat\"  = can defend against diplomat actions (see diplchance\n\
 ;                 server option)\n\

@@ -187,14 +187,6 @@ improvement_factor = 1
 unit_factor = 2
 total_factor = 100
 
-[global_unit_options]
-; Shore landing style
-;  FALSE - normal movement
-;  TRUE  - (default) slow invasions by removing all
-;          movement points from ground units moving
-;          from ocean tile to land
-slow_invasions = FALSE
-
 [combat_rules]
 ; If tired_attack is set to TRUE, units that attack with less than a single
 ; move point (per move_fragments in terrain.ruleset) will have their attack
