@@ -589,7 +589,7 @@ class Variant:
                 return '(has_capability("%s", pc->capability) && has_capability("%s", our_capability))'%(cap,cap)
             t=(map(lambda x,f=f: f(x),self.poscaps)+
                map(lambda x,f=f: '!'+f(x),self.negcaps))
-            self.condition=string.join(t," && ")
+            self.condition=" && ".join(t)
         else:
             self.condition="TRUE"
         self.key_fields=list(filter(lambda x:x.is_key,self.fields))
@@ -638,7 +638,7 @@ class Variant:
     # statistical counters of this packet.
     def get_stats(self):
         names=map(lambda x:'"'+x.name+'"',self.other_fields)
-        names=string.join(names,", ")
+        names=", ".join(names)
 
         return '''static int stats_%(name)s_sent;
 static int stats_%(name)s_discarded;
