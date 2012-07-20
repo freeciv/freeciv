@@ -482,6 +482,7 @@ void dirty_all(void)
 **************************************************************************/
 void flush_dirty(void)
 {
+  gdk_window_process_updates(gtk_widget_get_window(map_canvas), FALSE);
 }
 
 /****************************************************************************
