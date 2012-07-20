@@ -19,6 +19,11 @@ if CLIENT_GUI_GTK_2_0
 CLIENT_FILES += \
 	freeciv.rc-2.0	\
 	gtk_menus.xml
+else
+if CLIENT_GUI_GTK_3_0
+CLIENT_FILES += \
+	gtk_menus.xml
+endif
 endif
 else
 CLIENT_FILES =
