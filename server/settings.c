@@ -2842,7 +2842,8 @@ static const char *setting_bitwise_to_str(const struct setting *pset,
     if (0 == strvec_size(vec)) {
       /* No value. */
       fc_assert(0 == value);
-      fc_strlcpy(buf, _("no value"), buf_len);
+      /* TRANS: Bitwise setting has no bits set. */
+      fc_strlcpy(buf, _("empty value"), buf_len);
       strvec_destroy(vec);
       return buf;
     }
