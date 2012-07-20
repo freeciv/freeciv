@@ -401,3 +401,60 @@ gtk_pixcomm_get_preferred_height(GtkWidget *widget, gint *minimal_height,
   *minimal_height = *natural_height = GTK_PIXCOMM(widget)->h + ypad * 2;
 }
 #endif /* GTK 3 */
+
+/***************************************************************************
+  Create new gtkpixcomm from sprite.
+***************************************************************************/
+GtkWidget*
+gtk_pixcomm_new_from_sprite(struct sprite *sprite)
+{
+  GtkPixcomm *p;
+  GtkPixcommPrivate *priv;
+  cairo_t *cr;
+  int xpad, ypad;
+
+  p = g_object_new(gtk_pixcomm_get_type(), NULL);
+  priv = GTK_PIXCOMM_GET_PRIVATE(p);
+  get_sprite_dimensions(sprite, &p->w, &p->h);
+  gtk_misc_get_padding(GTK_MISC(p), &xpad, &ypad);
+  gtk_widget_set_size_request(GTK_WIDGET(p), p->w + xpad * 2, p->h + ypad * 2);
+#if GTK_CHECK_VERSION(3, 0, 0)
+  gtk_widget_set_halign(GTK_WIDGET(p), GTK_ALIGN_CENTER);
+  gtk_widget_set_valign(GTK_WIDGET(p), GTK_ALIGN_CENTER);
+#endif
+
+  p->is_scaled = FALSE;
+  p->scale = 1.0;
+
+  priv->surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, p->w, p->h);
+  cr = cairo_create(priv->surface);
+  cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
+  cairo_set_source_surface(cr, sprite->surface, 0, 0);
+  cairo_paint(cr);
+  cairo_destroy(cr);
+
+  return GTK_WIDGET(p);
+}
+
+/***************************************************************************
+  Draw sprite to gtkpixcomm. Grkpixcomm dimensions may change.
+***************************************************************************/
+void gtk_pixcomm_set_from_sprite(GtkPixcomm *p, struct sprite *sprite)
+{
+  GtkPixcommPrivate *priv;
+  cairo_t *cr;
+  int width, height;
+  get_sprite_dimensions(sprite, &width, &height);
+  priv = GTK_PIXCOMM_GET_PRIVATE(p);
+
+  cairo_surface_destroy(priv->surface);
+  priv->surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
+  cr = cairo_create(priv->surface);
+  cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
+  cairo_set_source_surface(cr, sprite->surface, 0, 0);
+  cairo_paint(cr);
+  cairo_destroy(cr);
+  p->w = width;
+  p->h = height;
+  gtk_widget_queue_resize(GTK_WIDGET(p));
+}
