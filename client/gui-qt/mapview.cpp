@@ -82,6 +82,7 @@ map_view::map_view() : QWidget()
 void map_view::paintEvent(QPaintEvent *event)
 {
   QPainter painter;
+
   painter.begin(this);
 
   // painter.setRenderHint(QPainter::Antialiasing);
@@ -96,10 +97,10 @@ void map_view::paintEvent(QPaintEvent *event)
 **************************************************************************/
 void map_view::paint(QPainter *painter, QPaintEvent *event)
 {
-  QSize s;
+  int width = mapview.store->map_pixmap.width();
+  int height = mapview.store->map_pixmap.height();
 
-  s = size();
-  painter->drawPixmap(0, 0, s.width(), s.height(), mapview.store->map_pixmap);
+  painter->drawPixmap(0, 0, width, height, mapview.store->map_pixmap);
 }
 
 /**************************************************************************
@@ -187,11 +188,10 @@ void update_info_label(void)
   QRect source_rect(0, 0, w, h);
   QRect dest_rect(0, 0, w, h);
   final.fill (Qt::black);
-
+  QString s = QString::fromLatin1(textyear(game.info.year)) + "  ( "
+  +_("Turn") + ":" + QString::number(game.info.turn)+" )";
   if (client.conn.playing != NULL) {
-    gui()->game_info_label->set_turn_info (
-      QString::fromLatin1(textyear(game.info.year)));
-
+    gui()->game_info_label->set_turn_info(s);
     eco_info = "<font color='purple'>G:"
                + QString::number(client.conn.playing->economic.gold)
                + "</font>" + "<font color='blue'>|R:"
@@ -335,7 +335,6 @@ void info_label::set_indicator_icons(QPixmap* bulb, QPixmap* sol,
 void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
                          struct sprite *flake, struct sprite *gov)
 {
-  qDebug("set indi icons");
   gui()->game_info_label->set_indicator_icons(bulb->pm, sol->pm, flake->pm,
                                               gov->pm);
 }
@@ -356,7 +355,6 @@ struct canvas *get_overview_window(void)
 void flush_mapcanvas(int canvas_x, int canvas_y,
                      int pixel_width, int pixel_height)
 {
-  qDebug("flush_mapcanvas\n");
   gui()->mapview_wdg->update(canvas_x - pixel_width,
                              canvas_y - pixel_height,
                              3 * pixel_width, 3 * pixel_height);
@@ -422,7 +420,6 @@ void update_map_canvas_scrollbars_size(void)
 ****************************************************************************/
 void update_city_descriptions(void)
 {
-  qDebug("update_city_descriptions\n");
   update_map_canvas_visible();
 }
 
@@ -478,7 +475,6 @@ void tileset_changed(void)
 void get_overview_area_dimensions(int *width, int *height)
 {
   /* PORTME */
-  qDebug("get_overview_area_dimension\n");
   *width = 0;
   *height = 0;
 }
@@ -491,7 +487,6 @@ void get_overview_area_dimensions(int *width, int *height)
 ****************************************************************************/
 void overview_size_changed(void)
 {
-  qDebug("overview_size_changed\n");
   /* PORTME */
 }
 

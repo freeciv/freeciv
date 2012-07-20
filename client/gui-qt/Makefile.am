@@ -13,7 +13,8 @@ MOC_FILES = \
 	meta_fc_client.cpp	\
 	meta_ratesdlg.cpp	\
 	meta_mapview.cpp	\
-	meta_menu.cpp
+	meta_menu.cpp		\
+	meta_citydlg.cpp
 
 libgui_qt_la_SOURCES = \
 	canvas.cpp	\

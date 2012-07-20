@@ -24,6 +24,53 @@ extern QApplication *qapp;
 ****************************************************************************/
 fc_client::fc_client() : QObject()
 {
+  /**
+   * Somehow freeciv-client-common asks to switch to page when all widgets
+   * haven't been created yet by Qt, even constructor finished job,
+   * so we null all Qt objects, so while switching we will know if they
+   * were created.
+   * After adding new QObjects null them here.
+   */
+  main_window = NULL;
+  main_wdg = NULL;
+  connect_lan = NULL;
+  connect_metaserver = NULL;
+  central_layout = NULL;
+  output_window = NULL;
+  scenarios_view = NULL;
+  connect_host_edit = NULL;
+  connect_port_edit = NULL;
+  connect_login_edit = NULL;
+  connect_password_edit = NULL;
+  connect_confirm_password_edit = NULL;
+  button = NULL;
+  button_box = NULL;
+  server_notifier = NULL;
+  chat_line = NULL;
+  connect_tab_widget = NULL;
+  lan_widget = NULL;
+  wan_widget = NULL;
+  info_widget = NULL;
+  saves_load = NULL;
+  scenarios_load = NULL;
+  start_players = NULL;
+  meta_scan_timer = NULL;
+  lan_scan_timer = NULL;
+  status_bar = NULL;
+  status_bar_label = NULL;
+  menu_bar = NULL;
+  mapview_wdg = NULL;
+  messages_window = NULL;
+  game_info_label = NULL;
+  central_wdg = NULL;
+  for (int i = 0; i < LAST_WIDGET; i++) {
+    dock_widget[i] = NULL;
+  }
+
+  for (int i = 0; i <= PAGE_GGZ; i++) {
+    pages_layout[i] = NULL;
+    pages[i] = NULL;
+  }
   main_window = new QMainWindow;
   central_wdg = new QWidget;
   central_layout = new QGridLayout;
@@ -38,7 +85,7 @@ fc_client::fc_client() : QObject()
   status_bar_label = new QLabel;
   status_bar_label->setAlignment(Qt::AlignCenter);
   status_bar->addWidget(status_bar_label, 1);
-  set_status_bar(tr(_("Welcome to Freeciv")));
+  set_status_bar(_("Welcome to Freeciv"));
 
   // PAGE_MAIN
   pages[PAGE_MAIN] = new QWidget(central_wdg);

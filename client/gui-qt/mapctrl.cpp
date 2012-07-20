@@ -42,7 +42,21 @@
 **************************************************************************/
 void popup_newcity_dialog(struct unit *punit, const char *suggestname)
 {
-  /* PORTME */
+  bool ok;
+  QString text = QInputDialog::getText(gui()->central_wdg,
+                                       _("Build New City"),
+                                       _("What should we call our new city?"),
+                                       QLineEdit::Normal,
+                                       QString::fromUtf8(suggestname), &ok);
+  int index=tile_index(unit_tile(punit));
+
+  if (!ok) {
+    cancel_city(index_to_tile(index));
+  } else {
+    finish_city(index_to_tile(index), text.toLocal8Bit().data());
+  }
+
+  return;
 }
 
 /**************************************************************************
@@ -99,7 +113,6 @@ void map_view::keyPressEvent(QKeyEvent * event)
     case Qt::Key_Up:
     case Qt::Key_8:
       key_unit_move(DIR8_NORTH);
-      qDebug("NBORTH");
       return;
     case Qt::Key_Left:
     case Qt::Key_4:
@@ -147,6 +160,7 @@ void map_view::keyPressEvent(QKeyEvent * event)
 void map_view::mousePressEvent(QMouseEvent *event)
 {
   struct tile* ptile;
+  struct city *pcity;
   int i;
 
   if (event->button() == Qt::RightButton) {
@@ -155,8 +169,16 @@ void map_view::mousePressEvent(QMouseEvent *event)
 
   i = 0;
 
+  /* Left Button */
   if (event->button() == Qt::LeftButton) {
     ptile = canvas_pos_to_tile(event->x(), event->y());
+    /* check if over city */
+    if(((pcity = tile_city(ptile)) != NULL)
+       && (city_owner(pcity) == client.conn.playing)) {
+    qtg_real_city_dialog_popup(pcity);
+    return;
+    }
+    /* check if clicked unit */
     unit_list_iterate(ptile->units, punit) {
       i++;
 

@@ -119,9 +119,16 @@ void mr_menu::setup_menus()
 ****************************************************************************/
 void mr_menu::slot_menu_copying()
 {
-  real_output_window_append(_("Freeciv is covered by the GPL."), NULL, -1);
-  real_output_window_append(_("See file COPYING distributed with "
-                              "freeciv for full license text."), NULL, -1);
+  QMessageBox info;
+  QString s = QString::fromUtf8(_("Freeciv is covered by the GPL. "))
+              + QString::fromUtf8(_("See file COPYING distributed with "
+                                    "freeciv for full license text."));
+  info.setText(s);
+  info.setStandardButtons(QMessageBox::Ok);
+  info.setDefaultButton(QMessageBox::Cancel);
+  info.setIcon(QMessageBox::Information);
+  info.setWindowTitle(_("Copying"));
+  info.exec();
 }
 
 /****************************************************************

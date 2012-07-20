@@ -28,7 +28,6 @@
 void meswin_dialog_popup(bool raise)
 {
   /* PORTME */
-  qDebug("Messwin dialog popup\n");
 }
 
 /**************************************************************************
@@ -37,7 +36,6 @@ void meswin_dialog_popup(bool raise)
 bool meswin_dialog_is_open(void)
 {
   /* PORTME */
-  qDebug("Messwin open check\n");
   return TRUE;
 }
 
@@ -46,7 +44,6 @@ bool meswin_dialog_is_open(void)
 **************************************************************************/
 void real_meswin_dialog_update(void)
 {
-  qDebug("Messwin update\n");
   int  i, num;
   const struct message *pmsg;
 

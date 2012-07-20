@@ -71,9 +71,9 @@ void fc_client::create_main_page(void)
   free_main_pic->setPixmap(main_graphics);
   pages_layout[PAGE_MAIN]->addWidget(free_main_pic,
                                      0, 0, 1, 2, Qt::AlignCenter);
-  buttons_names << tr(_("Start new game")) << tr(_("Start scenario game"))
-                << tr(_("Load saved game")) << tr(_("Connect to network game"))
-                << tr(_("Options")) << tr(_("Quit"));
+  buttons_names << _("Start new game") << _("Start scenario game")
+                << _("Load saved game") << _("Connect to network game")
+                << _("Options") << _("Quit");
 
   buttons_nr = buttons_names.count();
 
@@ -169,8 +169,8 @@ void fc_client::create_network_page(void)
   connect_password_edit->setEchoMode(QLineEdit::Password);
   connect_confirm_password_edit->setEchoMode(QLineEdit::Password);
 
-  connect_password_edit->setPlaceholderText("*****");
-  connect_confirm_password_edit->setPlaceholderText("*****");
+  connect_password_edit->setDisabled(true);
+  connect_confirm_password_edit->setDisabled(true);
   connect_confirm_password_edit->setReadOnly (true);
   connect_tab_widget = new QTabWidget;
   connect_lan = new QWidget;
@@ -227,8 +227,8 @@ void fc_client::create_network_page(void)
 
   QLabel *connect_msg;
   QStringList label_names;
-  label_names << tr(_("Connect")) << tr(_("Port")) << tr(_("Login"))
-              << tr(_("Password")) << tr(_("Confirm Password"));
+  label_names << _("Connect") << _("Port") << _("Login")
+              << _("Password") << _("Confirm Password");
   connect_msg = new QLabel;
 
   for (int i = 0; i < label_names.count(); i++) {
@@ -310,7 +310,7 @@ void fc_client::create_load_page()
   saves_load = new QTableWidget;
 
   QStringList sav;
-  sav << tr(_("Choose Saved Game to Load")) << tr(_("Time"));
+  sav << _("Choose Saved Game to Load") << _("Time");
 
   saves_load->setRowCount (0);
   saves_load->setColumnCount (sav.count());
@@ -398,8 +398,8 @@ void fc_client::create_start_page()
   start_players = new QTableWidget;
   QStringList player_widget_list;
 
-  player_widget_list << tr(_("Name")) << tr(_("Ready")) << tr(_("Leader"))
-                     << tr(_("Flag")) << tr(_("Nation"));
+  player_widget_list << _("Name") << _("Ready") << _("Leader")
+                     << _("Flag") << _("Nation");
   start_players->setRowCount(0);
   start_players->setColumnCount(player_widget_list.count());
   start_players->setHorizontalHeaderLabels(player_widget_list);
@@ -408,23 +408,23 @@ void fc_client::create_start_page()
   header->resizeSections(QHeaderView::ResizeToContents);
   QPushButton *but;
   but = new QPushButton;
-  but->setText(tr(_("More Game Options")));
+  but->setText(_("More Game Options"));
   pages_layout[PAGE_START]->addWidget(but, 6, 0);
   pages_layout[PAGE_START]->addWidget(start_players, 0, 0, 5, 4);
   but = new QPushButton;
-  but->setText(tr(_("Disconnect")));
+  but->setText(_("Disconnect"));
   QObject::connect(but, SIGNAL(clicked()), this, SLOT(slot_disconnect()));
   pages_layout[PAGE_START]->addWidget(but, 7, 0);
   but = new QPushButton;
-  but->setText(tr(_("Pick Nation")));
+  but->setText(_("Pick Nation"));
   pages_layout[PAGE_START]->addWidget(but, 7, 1);
   but = new QPushButton;
-  but->setText(tr(_("Observe")));
+  but->setText(_("Observe"));
   pages_layout[PAGE_START]->addWidget(but, 7, 2);
   QObject::connect(but, SIGNAL(clicked()), this,
                    SLOT(slot_pregame_observe()));
   but = new QPushButton;
-  but->setText(tr(_("Start")));
+  but->setText(_("Start"));
   pages_layout[PAGE_START]->addWidget(but, 7, 3);
   QObject::connect(but, SIGNAL(clicked()), this,
                    SLOT(slot_pregame_start()));
@@ -704,9 +704,10 @@ void fc_client::create_dock_widgets()
   messages_window->setEditTriggers(QAbstractItemView::NoEditTriggers);
   messages_window->verticalHeader()->setVisible(false);
   messages_window->horizontalHeader()->setVisible(false);
+  messages_window->setFocusPolicy(Qt::NoFocus);
   QHeaderView *header;
   header = messages_window->horizontalHeader();
-  header->resizeSections(QHeaderView::Interactive);
+  header->resizeSections(QHeaderView::Stretch);
   output_window->setReadOnly(true);
   output_window->setVisible(true);
   chat_line->setVisible(true);
@@ -732,6 +733,7 @@ void fc_client::create_dock_widgets()
       dock_widget[i]->setFeatures(QDockWidget::DockWidgetMovable
                                   | QDockWidget::DockWidgetFloatable);
       dock_widget[i]->setWindowTitle(_("Messages"));
+      dock_widget[i]->setFocusPolicy(Qt::NoFocus);
       break;
     default:
       break;
@@ -864,6 +866,8 @@ void fc_client::slot_connect()
 
   switch (connection_status) {
   case LOGIN_TYPE:
+    connect_password_edit->setDisabled(true);
+    connect_confirm_password_edit->setDisabled(true);
     sz_strlcpy(user_name, connect_login_edit->text().toLatin1().data());
     sz_strlcpy(server_host, connect_host_edit->text().toLatin1().data());
     server_port = atoi(connect_port_edit->text().toLatin1().data());
@@ -877,6 +881,8 @@ void fc_client::slot_connect()
 
     return;
   case NEW_PASSWORD_TYPE:
+    connect_password_edit->setDisabled(false);
+    connect_confirm_password_edit->setDisabled(false);
     sz_strlcpy(password, connect_password_edit->text().toLatin1().data());
     sz_strlcpy(reply.password,
                connect_confirm_password_edit->text().toLatin1().data());
@@ -892,6 +898,8 @@ void fc_client::slot_connect()
 
     return;
   case ENTER_PASSWORD_TYPE:
+    connect_password_edit->setDisabled(false);
+    connect_confirm_password_edit->setDisabled(false);
     sz_strlcpy(reply.password,
                connect_password_edit->text().toLatin1().data());
     send_packet_authentication_reply(&client.conn, &reply);

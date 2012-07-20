@@ -221,6 +221,10 @@ void tax_rates_dialog::check(QString qo)
     if (!sci_lock) {
       sci = MIN(MAX(10 - tax - lux, 0), maxrate);
     }
+
+    if (sci + tax + lux != 10) {
+      tax_slider->setValue(MIN(MAX(10 - lux - sci, 0), maxrate));
+    }
   } else if (qo == "LUX") {
 
     if (!tax_lock) {
@@ -228,7 +232,11 @@ void tax_rates_dialog::check(QString qo)
     }
 
     if (!sci_lock) {
-      sci = MIN (MAX (10 - lux - tax, 0), maxrate);
+      sci = MIN(MAX(10 - lux - tax, 0), maxrate);
+    }
+
+    if (sci + tax + lux != 10) {
+      lux_slider->setValue(MIN(MAX(10 - tax - sci, 0), maxrate));
     }
   } else if (qo == "SCI") {
     if (!lux_lock) {
@@ -237,6 +245,10 @@ void tax_rates_dialog::check(QString qo)
 
     if (!tax_lock) {
       tax = MIN(MAX(10 - lux - sci, 0), maxrate);
+    }
+
+    if (sci + tax + lux != 10) {
+      sci_slider->setValue(MIN(MAX(10 - tax - lux, 0), maxrate));
     }
   }
 
