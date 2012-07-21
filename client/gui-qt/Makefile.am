@@ -22,6 +22,7 @@ libgui_qt_la_SOURCES = \
 	chatline.cpp	\
 	chatline.h	\
 	citydlg.cpp	\
+	citydlg.h	\
 	cityrep.cpp	\
 	cityrep.h	\
 	colors.cpp	\
