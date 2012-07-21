@@ -329,7 +329,7 @@ artists = "
    Mixtec		J.M. Maalderink
    Moldova		Caleb Moore and Reisio
    Moluccas		J.M. Maalderink
-   Mon			Stefan Fussan (Wikimedia Commons)
+   Mon			Tonyjeff (Wikimedia Commons) and Daniel Markstedt
    Monaco (alternative)	Zachary Harden
    Mongolia		Sebastian Koppehel
    Montenegro		Bugoslav (Wikimedia Commons)
