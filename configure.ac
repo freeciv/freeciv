@@ -1159,12 +1159,16 @@ AC_ARG_ENABLE([sys-lua],
   *)   AC_MSG_ERROR([bad value ${enableval} for --enable-sys-lua]) ;;
 esac], [sys_lua=false])
 
+dnl There's wide divergence on what the pkg-config file for Lua is called
+dnl See http://lua-users.org/lists/lua-l/2008-09/msg00184.html
 if test "x$sys_lua" = "xtrue" || test "x$sys_lua" = "xtest" ; then
   PKG_CHECK_MODULES([LUA], [lua5.1], [sys_lua=true],
+    [PKG_CHECK_MODULES([LUA], [lua-5.1], [sys_lua=true],
+      [PKG_CHECK_MODULES([LUA], [lua >= 5.1 lua < 5.2], [sys_lua=true],
 [if test "x$sys_lua" = "xtrue" ; then
   AC_MSG_ERROR([Use of included lua disabled, and no lua found from system])
 fi
-sys_lua=false])
+sys_lua=false])])])
 fi
 
 if test "x$sys_lua" = "xfalse" ; then
