@@ -572,18 +572,6 @@ int api_methods_tile_sq_distance(lua_State *L, Tile *ptile1, Tile *ptile2)
 }
 
 /*****************************************************************************
-  Set tile label text
-*****************************************************************************/
-bool api_methods_tile_set_label(lua_State *L, Tile *ptile, const char *label)
-{
-  LUASCRIPT_CHECK_STATE(L, FALSE);
-  LUASCRIPT_CHECK_SELF(L, ptile, FALSE);
-  LUASCRIPT_CHECK_ARG_NIL(L, label, 3, string, FALSE);
-
-  return tile_set_label(ptile, label);
-}
-
-/*****************************************************************************
   Can punit found a city on its tile?
 *****************************************************************************/
 bool api_methods_unit_city_can_be_built_here(lua_State *L, Unit *punit)

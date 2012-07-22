@@ -223,8 +223,6 @@ module Tile {
     @ num_units (lua_State *L, Tile *self);
   int api_methods_tile_sq_distance
     @ sq_distance (lua_State *L, Tile *self, Tile *other);
-  void api_methods_tile_set_label
-    @ set_label (lua_State *L, Tile *self, const char *label);
 }
 
 $[

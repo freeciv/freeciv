@@ -110,7 +110,6 @@ Tile *api_methods_private_tile_for_outward_index(lua_State *L, Tile *pstart,
                                                  int index);
 Unit_List_Link *api_methods_private_tile_unit_list_head(lua_State *L,
                                                         Tile *ptile);
-bool api_methods_tile_set_label(lua_State *L, Tile *ptile, const char *label);
 
 /* Unit */
 bool api_methods_unit_city_can_be_built_here(lua_State *L, Unit *punit);

@@ -51,6 +51,7 @@ void api_edit_create_base(lua_State *L, Tile *ptile, const char *name,
                           struct player *pplayer);
 
 void api_edit_create_road(lua_State *L, Tile *ptile, const char *name);
+void api_edit_tile_set_label(lua_State *L, Tile *ptile, const char *label);
 
 void api_edit_climate_change(lua_State *L, enum climate_change_type type,
                              int effect);

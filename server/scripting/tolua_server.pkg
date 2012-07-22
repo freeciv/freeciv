@@ -100,6 +100,8 @@ module edit {
                    Player *pplayer);
   void api_edit_create_road
     @ create_road (lua_State *L, Tile *ptile, const char *name);
+  void api_edit_tile_set_label
+    @ tile_set_label (lua_State *L, Tile *ptile, const char *label);
   Player *api_edit_create_player
     @ create_player(lua_State *L, const char *username, Nation_Type *nation,
                     const char *ai);
@@ -235,6 +237,10 @@ end
 
 function Tile:place_partisans(player, count, sq_radius)
   return edit.place_partisans(self, player, count, sq_radius)
+end
+
+function Tile:set_label(label)
+  edit.tile_set_label(self, label)
 end
 
 $]
