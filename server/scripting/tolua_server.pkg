@@ -151,10 +151,6 @@ function create_base(tile, name, player)
   edit.create_base(tile, name, player)
 end
 
-function create_road(tile, name)
-  edit.create_road(tile, name)
-end
-
 function create_player(username, nation)
   return edit.create_player(username, nation, nil)
 end
