@@ -54,13 +54,10 @@ bool api_server_was_started(lua_State *L)
 *****************************************************************************/
 bool api_server_save(lua_State *L, const char *filename)
 {
-  char allowed[]
-    = "1234567890+-_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
   LUASCRIPT_CHECK_STATE(L, FALSE);
 
   /* Limit the allowed characters in the filename. */
-  if (filename != NULL && strspn(filename, allowed) != strlen(filename)) {
+  if (filename != NULL && !is_safe_filename(filename)) {
     return FALSE;
   }
 
