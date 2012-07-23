@@ -502,6 +502,7 @@ req2     = "Trade"
 flags    = ""
 graphic     = "a.medicine"
 graphic_alt = "-"
+; /* xgettext:no-c-format */
 helptext = _("Reduces by 30% the chance of illness in your cities.")
 cost     = 120
 
