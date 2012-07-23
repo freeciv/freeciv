@@ -124,7 +124,7 @@ module edit {
     @ unit_turn(lua_State *L, Unit *punit, Direction dir);
   void api_edit_player_victory
     @ player_victory (lua_State *L, Player *self);
-  bool *api_edit_unit_move
+  bool api_edit_unit_move
     @ unit_move(lua_State *L, Unit *self, Tile *moveto, int movecost);
 }
 
@@ -194,11 +194,11 @@ function Player:change_gold(amount)
 end
 
 function Player:give_technology(tech, reason)
-  edit.give_technology(self, tech, reason)
+  return edit.give_technology(self, tech, reason)
 end
 
 function Player:civil_war(probability)
-  edit.civil_war(self, probability)
+  return edit.civil_war(self, probability)
 end
 
 function Player:victory()
@@ -211,7 +211,7 @@ function Unit:teleport(dest)
 end
 
 function Unit:turn(direction)
-  return edit.unit_turn(self, direction)
+  edit.unit_turn(self, direction)
 end
 
 function Unit:move(moveto, movecost)
@@ -220,7 +220,7 @@ end
 
 -- Server functions for Tile module
 function Tile:create_base(name, player)
-  return edit.create_base(self, name, player)
+  edit.create_base(self, name, player)
 end
 
 function Tile:unleash_barbarians()
@@ -228,7 +228,7 @@ function Tile:unleash_barbarians()
 end
 
 function Tile:place_partisans(player, count, sq_radius)
-  return edit.place_partisans(self, player, count, sq_radius)
+  edit.place_partisans(self, player, count, sq_radius)
 end
 
 $]
