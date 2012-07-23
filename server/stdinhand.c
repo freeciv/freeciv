@@ -1548,11 +1548,12 @@ static const char *optname_accessor(int i)
 **************************************************************************/
 static const char *olvlname_accessor(int i)
 {
-  /* for 0->4, uses option levels, otherwise returns a setting name */
-  if (i < OLEVELS_NUM) {
-    return sset_level_name(i);
+  if (i == 0) {
+    return "rulesetdir";
+  } else if (i < OLEVELS_NUM+1) {
+    return sset_level_name(i-1);
   } else {
-    return optname_accessor(i-OLEVELS_NUM);
+    return optname_accessor(i-OLEVELS_NUM-1);
   }
 }
 #endif
@@ -5173,14 +5174,16 @@ static bool show_list(struct connection *caller, char *arg)
 /**************************************************************************
   A generalised generator function: text and state are "standard"
   parameters to a readline generator function;
-  num is number of possible completions, and index2str is a function
-  which returns each possible completion string by index.
+  num is number of possible completions, or -1 if this is not known and 
+  index2str should be iterated until it returns NULL;
+  index2str is a function which returns each possible completion string
+  by index (it may return NULL).
 **************************************************************************/
 static char *generic_generator(const char *text, int state, int num,
 			       const char*(*index2str)(int))
 {
   static int list_index, len;
-  const char *name;
+  const char *name = ""; /* dummy non-NULL string */
   char *mytext = local_to_internal_string_malloc(text);
 
   /* This function takes a string (text) in the local format and must return
@@ -5199,7 +5202,7 @@ static char *generic_generator(const char *text, int state, int num,
   }
 
   /* Return the next name which partially matches: */
-  while (list_index < num) {
+  while ((num < 0 && name) || (list_index < num)) {
     name = index2str(list_index);
     list_index++;
 
@@ -5235,8 +5238,36 @@ static char *option_generator(const char *text, int state)
 **************************************************************************/
 static char *olevel_generator(const char *text, int state)
 {
-  return generic_generator(text, state, settings_number() + OLEVELS_NUM,
+  return generic_generator(text, state, settings_number() + OLEVELS_NUM + 1,
                            olvlname_accessor);
+}
+
+/**************************************************************************
+  Accessor for values of the enum/bitwise option defined by
+  'completion_option'.
+**************************************************************************/
+static int completion_option;
+static const char *option_value_accessor(int idx) {
+  const struct setting *pset = setting_by_number(completion_option);
+  switch (setting_type(pset)) {
+  case SSET_ENUM:
+    return setting_enum_val(pset, idx, FALSE);
+    break;
+  case SSET_BITWISE:
+    return setting_bitwise_bit(pset, idx, FALSE);
+    break;
+  default:
+    fc_assert_ret_val(0, NULL);
+  }
+}
+
+/**************************************************************************
+  The valid arguments to "set OPT", where OPT is the enumerated or
+  bitwise option previously defined by completion_option
+**************************************************************************/
+static char *option_value_generator(const char *text, int state)
+{
+  return generic_generator(text, state, -1, option_value_accessor);
 }
 
 /**************************************************************************
@@ -5304,6 +5335,22 @@ static char *cmdlevel_arg2_generator(const char *text, int state)
 }
 
 /**************************************************************************
+  The valid arguments for the argument to "reset".
+**************************************************************************/
+static char *reset_generator(const char *text, int state)
+{
+  return generic_generator(text, state, reset_args_max() + 1, reset_accessor);
+}
+
+/**************************************************************************
+  The valid arguments for the argument to "vote".
+**************************************************************************/
+static char *vote_generator(const char *text, int state)
+{
+  return generic_generator(text, state, -1, vote_arg_accessor);
+}
+
+/**************************************************************************
 The valid first arguments to "help".
 **************************************************************************/
 static char *help_generator(const char *text, int state)
@@ -5320,23 +5367,34 @@ static char *list_generator(const char *text, int state)
 }
 
 /**************************************************************************
-returns whether the characters before the start position in rl_line_buffer
-is of the form [non-alpha]*cmd[non-alpha]*
-allow_fluff changes the regexp to [non-alpha]*cmd[non-alpha].*
+  Generalised version of contains_str_before_start, which searches the
+  N'th token in rl_line_buffer (0=first).
 **************************************************************************/
-static bool contains_str_before_start(int start, const char *cmd, bool allow_fluff)
+static bool contains_token_before_start(int start, int token, const char *arg,
+                                        bool allow_fluff)
 {
   char *str_itr = rl_line_buffer;
-  int cmd_len = strlen(cmd);
+  int arg_len = strlen(arg);
 
+  /* Swallow unwanted tokens and their preceding delimiters */
+  while (token--) {
+    while (str_itr < rl_line_buffer + start && !fc_isalnum(*str_itr)) {
+      str_itr++;
+    }
+    while (str_itr < rl_line_buffer + start && fc_isalnum(*str_itr)) {
+      str_itr++;
+    }
+  }
+
+  /* Swallow any delimiters before the token we're interested in */
   while (str_itr < rl_line_buffer + start && !fc_isalnum(*str_itr)) {
     str_itr++;
   }
 
-  if (fc_strncasecmp(str_itr, cmd, cmd_len) != 0) {
+  if (fc_strncasecmp(str_itr, arg, arg_len) != 0) {
     return FALSE;
   }
-  str_itr += cmd_len;
+  str_itr += arg_len;
 
   if (fc_isalnum(*str_itr)) {
     /* Not a distinct word. */
@@ -5355,7 +5413,19 @@ static bool contains_str_before_start(int start, const char *cmd, bool allow_flu
 }
 
 /**************************************************************************
-...
+  Returns whether the text between the start of rl_line_buffer and the
+  start position is of the form [non-alpha]*cmd[non-alpha]*
+  allow_fluff changes the regexp to [non-alpha]*cmd[non-alpha].*
+**************************************************************************/
+static bool contains_str_before_start(int start, const char *cmd,
+                                      bool allow_fluff)
+{
+  return contains_token_before_start(start, 0, cmd, allow_fluff);
+}
+
+/**************************************************************************
+  Return whether we are completing command name. This can be either
+  command itself, or argument to 'help'.
 **************************************************************************/
 static bool is_command(int start)
 {
@@ -5374,22 +5444,6 @@ static bool is_command(int start)
   }
   return TRUE;
 }
-
-/**************************************************************************
-Commands that may be followed by a player name
-**************************************************************************/
-static const int player_cmd[] = {
-  CMD_AITOGGLE,
-  CMD_NOVICE,
-  CMD_EASY,
-  CMD_NORMAL,
-  CMD_HARD,
-  CMD_CHEATING,
-  CMD_EXPERIMENTAL,
-  CMD_REMOVE,
-  CMD_TEAM,
-  -1
-};
 
 /**************************************************************************
 number of tokens in rl_line_buffer before start
@@ -5416,7 +5470,23 @@ static int num_tokens(int start)
 }
 
 /**************************************************************************
-...
+Commands that may be followed by a player name
+**************************************************************************/
+static const int player_cmd[] = {
+  CMD_AITOGGLE,
+  CMD_NOVICE,
+  CMD_EASY,
+  CMD_NORMAL,
+  CMD_HARD,
+  CMD_CHEATING,
+  CMD_EXPERIMENTAL,
+  CMD_REMOVE,
+  CMD_TEAM,
+  -1
+};
+
+/**************************************************************************
+  Return whether we are completing player name argument.
 **************************************************************************/
 static bool is_player(int start)
 {
@@ -5433,11 +5503,31 @@ static bool is_player(int start)
 }
 
 /**************************************************************************
-...
+Commands that may be followed by a connection name
+**************************************************************************/
+static const int connection_cmd[] = {
+  CMD_CUT,
+  CMD_KICK,
+  -1
+};
+
+/**************************************************************************
+  Return whether we are completing connection name argument.
 **************************************************************************/
 static bool is_connection(int start)
 {
-  return contains_str_before_start(start, command_name_by_number(CMD_CUT), FALSE);
+  int i = 0;
+
+  while (connection_cmd[i] != -1) {
+    if (contains_str_before_start(start,
+                                  command_name_by_number(connection_cmd[i]),
+                                  FALSE)) {
+      return TRUE;
+    }
+    i++;
+  }
+
+  return FALSE;
 }
 
 /**************************************************************************
@@ -5516,6 +5606,34 @@ static bool is_option_level(int start)
 }
 
 /**************************************************************************
+  Returns TRUE if the readline buffer string is such that we expect an
+  enumerated value at the given position. The option for which values
+  should be completed is written to opt_p.
+**************************************************************************/
+static bool is_enum_option_value(int start, int *opt_p)
+{
+  if (contains_str_before_start(start, command_name_by_number(CMD_SET),
+                                TRUE)) {
+    settings_iterate(pset) {
+      if (setting_type(pset) != SSET_ENUM
+          && setting_type(pset) != SSET_BITWISE) {
+        continue;
+      }
+      /* Allow a single token for enum options, multiple for bitwise
+       * (the separator | will separate tokens for these purposes) */
+      if (contains_token_before_start(start, 1, setting_name(pset),
+                                      setting_type(pset) == SSET_BITWISE)) {
+        *opt_p = setting_number(pset);
+        /* Suppress appended space for bitwise options (user may want |) */
+        rl_completion_suppress_append = (setting_type(pset) == SSET_BITWISE);
+        return TRUE;
+      }
+    } settings_iterate_end;
+  }
+  return FALSE;
+}
+
+/**************************************************************************
 Commands that may be followed by a filename
 **************************************************************************/
 static const int filename_cmd[] = {
@@ -5544,7 +5662,27 @@ static bool is_filename(int start)
 }
 
 /**************************************************************************
-...
+  Return whether we are completing argument for reset command
+**************************************************************************/
+static bool is_reset(int start)
+{
+  return contains_str_before_start(start,
+                                   command_name_by_number(CMD_RESET),
+                                   FALSE);
+}
+
+/**************************************************************************
+  Return whether we are completing argument for vote command
+**************************************************************************/
+static bool is_vote(int start)
+{
+  return contains_str_before_start(start,
+                                   command_name_by_number(CMD_VOTE),
+                                   FALSE);
+}
+
+/**************************************************************************
+  Return whether we are completing help command argument.
 **************************************************************************/
 static bool is_help(int start)
 {
@@ -5592,11 +5730,19 @@ char **freeciv_completion(char *text, int start, int end)
     matches = completion_matches(text, option_generator);
   } else if (is_option_level(start)) {
     matches = completion_matches(text, olevel_generator);
+  } else if (is_enum_option_value(start, &completion_option)) {
+    matches = completion_matches(text, option_value_generator);
   } else if (is_filename(start)) {
     /* This function we get from readline */
     matches = completion_matches(text, filename_completion_function);
-  } else /* We have no idea what to do */
+  } else if (is_reset(start)) {
+    matches = completion_matches(text, reset_generator);
+  } else if (is_vote(start)) {
+    matches = completion_matches(text, vote_generator);
+  } else {
+    /* We have no idea what to do */
     matches = NULL;
+  }
 
   /* Don't automatically try to complete with filenames */
   rl_attempted_completion_over = 1;
@@ -5605,4 +5751,3 @@ char **freeciv_completion(char *text, int start, int end)
 }
 
 #endif /* HAVE_LIBREADLINE */
-
