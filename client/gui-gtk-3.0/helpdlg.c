@@ -750,6 +750,13 @@ static void help_update_improvement(const struct help_item *pitem,
     gtk_label_set_text(GTK_LABEL(help_ilabel[5]), REQ_LABEL_NEVER);
 /*    create_tech_tree(help_improvement_tree, 0, advance_count(), 3);*/
   }
+    if (get_building_sprite(tileset, imp)) {
+      struct sprite *sprite = get_building_sprite(tileset, imp);
+
+      gtk_pixcomm_set_from_sprite(GTK_PIXCOMM(help_tile), sprite);
+      gtk_widget_show(help_tile);
+    }
+
   gtk_widget_show(help_itable);
 
   helptext_building(buf, sizeof(buf), client.conn.playing, pitem->text, imp);
@@ -802,6 +809,13 @@ static void help_update_wonder(const struct help_item *pitem,
     gtk_label_set_text(GTK_LABEL(help_wlabel[5]), REQ_LABEL_NONE);
 /*    create_tech_tree(help_improvement_tree, 0, advance_count(), 3); */
   }
+    if (get_building_sprite(tileset, imp)) {
+      struct sprite *sprite = get_building_sprite(tileset, imp);
+
+      gtk_pixcomm_set_from_sprite(GTK_PIXCOMM(help_tile), sprite);
+      gtk_widget_show(help_tile);
+    }
+
   gtk_widget_show(help_wtable);
 
   helptext_building(buf, sizeof(buf), client.conn.playing, pitem->text, imp);
@@ -857,15 +871,13 @@ static void help_update_unit_type(const struct help_item *pitem,
     gtk_text_buffer_set_text(help_text, buf, -1);
     gtk_widget_show(help_text_sw);
 
-    gtk_pixcomm_clear(GTK_PIXCOMM(help_tile));
-    {
-      struct canvas store;
+    if (get_unittype_sprite(tileset, utype, direction8_invalid())) {
+      struct sprite *sprite = get_unittype_sprite(tileset, utype,
+                                                  direction8_invalid());
 
-      store.surface = gtk_pixcomm_get_surface(GTK_PIXCOMM(help_tile));
-      store.drawable = NULL;
-      create_overlay_unit(&store, utype);
+      gtk_pixcomm_set_from_sprite(GTK_PIXCOMM(help_tile), sprite);
+      gtk_widget_show(help_tile);
     }
-    gtk_widget_show(help_tile);
   }
   else {
     gtk_label_set_text(GTK_LABEL(help_ulabel[0][1]), "0");
@@ -937,13 +949,10 @@ static void help_update_tech(const struct help_item *pitem, char *title)
     my_chomp(buf, len);
 
     if (get_tech_sprite(tileset, i)) {
-      GdkPixbuf *pixbuf = sprite_get_pixbuf(get_tech_sprite(tileset, i));
+      struct sprite *sprite = get_tech_sprite(tileset, i);
 
-      w = gtk_image_new_from_pixbuf(pixbuf);
-      g_object_unref(G_OBJECT(pixbuf));
-      gtk_widget_set_name(w, "help_tech_image");
-      gtk_box_pack_start(GTK_BOX(help_vbox), w, FALSE, FALSE, 0);
-      gtk_widget_show(w);
+      gtk_pixcomm_set_from_sprite(GTK_PIXCOMM(help_tile), sprite);
+      gtk_widget_show(help_tile);
     }
 
     w = gtk_text_view_new();
