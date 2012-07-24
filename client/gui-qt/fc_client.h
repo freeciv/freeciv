@@ -94,6 +94,7 @@ class fc_client : public QObject
   QWidget *pages[ (int) PAGE_GGZ + 1];
   QWidget *connect_lan;
   QWidget *connect_metaserver;
+  QWidget *game_main_widget;
 
   QGridLayout *central_layout;
   QGridLayout *pages_layout[PAGE_GGZ + 1];
@@ -146,11 +147,20 @@ public:
 
   void append_output_window(const QString &);
   void set_status_bar(QString);
+  int add_game_tab(QWidget *widget, QString title, int index);
+  void rm_game_tab(int index); /* doesn't delete widget */
 
   mr_idle mr_idler;
   QTableWidget *messages_window;
   info_label *game_info_label;
   QWidget *central_wdg;
+  QTabWidget *game_tab_widget;
+  int gimme_place();
+  int gimme_index_of(QString str);
+  void add_repo_dlg(QString str);
+  void remove_repo_dlg(QString str);
+  bool is_repo_dlg_open(QString str);
+  void remove_place(int index);
 
 private slots:
 
@@ -170,6 +180,7 @@ private slots:
   void slot_pregame_observe();
   void slot_pregame_start();
   void update_network_lists();
+  bool slot_close_widget(int index);
 
 protected slots:
 
@@ -198,9 +209,10 @@ private:
   void handle_authentication_req(
     enum authentication_type type, const char *message);
 
-
   enum client_pages page;
   bool observer_mode;
+  QList<int> places;
+  QStringList opened_repo_dlgs;
 
 protected:
   void timerEvent(QTimerEvent *);

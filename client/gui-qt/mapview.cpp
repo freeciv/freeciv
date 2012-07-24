@@ -103,6 +103,20 @@ void map_view::paint(QPainter *painter, QPaintEvent *event)
   painter->drawPixmap(0, 0, width, height, mapview.store->map_pixmap);
 }
 
+/****************************************************************************
+  Called when map view has been resized
+****************************************************************************/
+void map_view::resizeEvent(QResizeEvent* event)
+{
+  QSize size;
+
+  size = event->size();
+
+  if (C_S_RUNNING == client_state()) {
+    map_canvas_resized(size.width(), size.height());
+  }
+}
+
 /**************************************************************************
   Constructor for information label
 **************************************************************************/

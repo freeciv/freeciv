@@ -32,6 +32,7 @@
 #include "fc_client.h"
 #include "chatline.h"
 #include "ratesdlg.h"
+#include "repodlgs.h"
 
 #include "menu.h"
 
@@ -103,6 +104,10 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("Tax rates"));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_popup_tax_rates()));
 
+  act = menu->addAction(_("Research"));
+  act->setShortcut(QKeySequence(tr("F6")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_show_research_tab()));
+
   /* Help Menu */
   menu = this->addMenu(_("Help"));
   act = menu->addAction(_("Copying"));
@@ -130,6 +135,15 @@ void mr_menu::slot_menu_copying()
   info.setWindowTitle(_("Copying"));
   info.exec();
 }
+
+/***************************************************************************
+  Slot for showing research tab
+***************************************************************************/
+void mr_menu::slot_show_research_tab()
+{
+  science_report_dialog_popup(false);
+}
+
 
 /****************************************************************
   Action "BUILD_CITY"

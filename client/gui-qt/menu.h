@@ -50,6 +50,7 @@ private slots:
 
   /*used by civilization menu */
   void slot_popup_tax_rates();
+  void slot_show_research_tab();
 };
 
 #endif /* FC__MENU_H */

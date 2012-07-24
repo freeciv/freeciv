@@ -63,6 +63,7 @@ fc_client::fc_client() : QObject()
   messages_window = NULL;
   game_info_label = NULL;
   central_wdg = NULL;
+  game_tab_widget = NULL;
   for (int i = 0; i < LAST_WIDGET; i++) {
     dock_widget[i] = NULL;
   }
@@ -392,8 +393,8 @@ void fc_client::slot_pregame_start()
 }
 
 /****************************************************************************
- * Shows all widgets for given layout
- ***************************************************************************/
+  Shows all widgets for given layout
+****************************************************************************/
 void fc_client::show_children(const QLayout* layout, bool show)
 {
   QLayoutItem *item = NULL;
@@ -416,15 +417,76 @@ void fc_client::show_children(const QLayout* layout, bool show)
 }
 
 /****************************************************************************
-  Called when map view has been resized
+  Finds not used index on game_view_tab and returns it
 ****************************************************************************/
-void map_view::resizeEvent(QResizeEvent* event)
+int fc_client::gimme_place()
 {
-  QSize size;
+  int is_not_in;
 
-  size = event->size();
+  for (int i = 1; i < 1000; i++) {
+    is_not_in = places.indexOf(i);
 
-  if (C_S_RUNNING == client_state()) {
-    map_canvas_resized(size.width(), size.height());
+    if (is_not_in == -1) {
+      places.append(i);
+      places.indexOf(i);
+      return i;
+    }
   }
+
+  log_error("Failed to find place for new tab widget");
+  return 0;
+}
+
+/****************************************************************************
+  Removes given index from list of used indexes
+****************************************************************************/
+void fc_client::remove_place(int index)
+{
+  places.removeAll(index);
+}
+
+/****************************************************************************
+  Checks if given report is opened, if you create new report as tab on game
+  page, figure out some original string and put in in repodlg.h as comment to
+  that QWidget class.
+****************************************************************************/
+bool fc_client::is_repo_dlg_open(QString str)
+{
+  int i;
+
+  i = opened_repo_dlgs.indexOf(str);
+
+  if (i == -1) {
+    return false;
+  }
+
+  return true;
+}
+
+/****************************************************************************
+  Returns index on game tab page of given report dialog 
+****************************************************************************/
+int fc_client::gimme_index_of(QString str)
+{
+  int i;
+
+  i = opened_repo_dlgs.indexOf(str);
+
+  return places.at(i);
+}
+
+/****************************************************************************
+  Adds new report dialog string to the list marking it as opened
+****************************************************************************/
+void fc_client::add_repo_dlg(QString str)
+{
+  opened_repo_dlgs.append(str);
+}
+
+/****************************************************************************
+  Removes report dialog string from the list marking it as closed
+****************************************************************************/
+void fc_client::remove_repo_dlg(QString str)
+{
+  opened_repo_dlgs.removeAll(str);
 }

@@ -435,19 +435,74 @@ void fc_client::create_start_page()
 ***************************************************************************/
 void fc_client::create_game_page()
 {
-  pages_layout[PAGE_GAME] = new QGridLayout;
+  QGridLayout *game_layout;
+  QSizePolicy game_info_label_policy;
 
+  pages_layout[PAGE_GAME] = new QGridLayout;
+  game_main_widget = new QWidget;
+  game_layout = new QGridLayout;
+  game_tab_widget = new QTabWidget;
+  game_tab_widget->setTabPosition(QTabWidget::South);
+  game_tab_widget->setDocumentMode(false);
   mapview_wdg = new map_view();
   mapview_wdg->setFocusPolicy(Qt::WheelFocus);
 
   game_info_label = new info_label;
-  QSizePolicy game_info_label_policy;
   game_info_label_policy.setHorizontalPolicy(QSizePolicy::Expanding);
   game_info_label_policy.setVerticalPolicy(QSizePolicy::Fixed);
   game_info_label->setSizePolicy(game_info_label_policy);
-  mapview_wdg->setMinimumSize(600, 400);
-  pages_layout[PAGE_GAME]->addWidget(mapview_wdg, 1, 0);
+
+  game_layout->addWidget(mapview_wdg, 1, 0);
+  game_main_widget->setLayout(game_layout);
+
+  game_tab_widget->setMinimumSize(600,400);
+  game_tab_widget->setTabsClosable(true);
+  add_game_tab(game_main_widget, "View", 0);
+
+  QObject::connect(game_tab_widget, SIGNAL(tabCloseRequested(int)),
+                   SLOT(slot_close_widget(int)));
+
+  pages_layout[PAGE_GAME]->addWidget(game_tab_widget, 1, 0);
   pages_layout[PAGE_GAME]->addWidget(game_info_label, 2, 0);
+}
+
+/***************************************************************************
+  Closes given widget on game tab view, returns if succeeded
+***************************************************************************/
+bool fc_client::slot_close_widget(int index)
+{
+  bool ret = false;
+
+  QWidget *w = game_tab_widget->widget(index);
+
+  /** we wont close map view
+   * even requested, Qt cannot set one of tab widgets
+   * without close button, only all or none */
+  if (w != game_main_widget) {
+    game_tab_widget->removeTab(index);
+    ret = w->close();
+    delete w;
+  } else {
+    ret = false;
+  }
+
+  return ret;
+}
+
+/***************************************************************************
+  Inserts tab widget to game view page
+***************************************************************************/
+int fc_client::add_game_tab(QWidget *widget, QString title, int index)
+{
+  return game_tab_widget->insertTab(index,widget, title);
+}
+
+/***************************************************************************
+  Removes given tab widget from game page
+***************************************************************************/
+void fc_client::rm_game_tab(int index)
+{
+  game_tab_widget->removeTab(index);
 }
 
 /***************************************************************************
