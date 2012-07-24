@@ -179,7 +179,7 @@ static bv_pixel pixel_border_hexa(const struct tile *ptile,
 static void base_coor_hexa(struct img *pimg, int *base_x, int *base_y,
                            int x, int y);
 
-/* isomeric hexa topology */
+/* isometric hexa topology */
 static struct tile_shape tile_isohexa = {
   .x = {
           2, 3, 4, 5,
@@ -2629,8 +2629,10 @@ static bv_pixel pixel_border_rect(const struct tile *ptile,
   }
 
   pnext = mapstep(ptile, DIR8_NORTH);
-  if (!pnext || mapimg.mapimg_tile_owner(pnext, pplayer,
-                                         knowledge) != owner) {
+  if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
+                                          knowledge) != TILE_UNKNOWN
+                 && mapimg.mapimg_tile_owner(pnext, pplayer,
+                                             knowledge) != owner)) {
     BV_SET(pixel, 0);
     BV_SET(pixel, 1);
     BV_SET(pixel, 2);
@@ -2640,8 +2642,10 @@ static bv_pixel pixel_border_rect(const struct tile *ptile,
   }
 
   pnext = mapstep(ptile, DIR8_EAST);
-  if (!pnext || mapimg.mapimg_tile_owner(pnext, pplayer,
-                                         knowledge) != owner) {
+  if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
+                                          knowledge) != TILE_UNKNOWN
+                 && mapimg.mapimg_tile_owner(pnext, pplayer,
+                                             knowledge) != owner)) {
     BV_SET(pixel, 5);
     BV_SET(pixel, 11);
     BV_SET(pixel, 17);
@@ -2651,8 +2655,10 @@ static bv_pixel pixel_border_rect(const struct tile *ptile,
   }
 
   pnext = mapstep(ptile, DIR8_SOUTH);
-  if (!pnext || mapimg.mapimg_tile_owner(pnext, pplayer,
-                                         knowledge) != owner) {
+  if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
+                                          knowledge) != TILE_UNKNOWN
+                 && mapimg.mapimg_tile_owner(pnext, pplayer,
+                                             knowledge) != owner)) {
     BV_SET(pixel, 30);
     BV_SET(pixel, 31);
     BV_SET(pixel, 32);
@@ -2662,8 +2668,10 @@ static bv_pixel pixel_border_rect(const struct tile *ptile,
   }
 
   pnext = mapstep(ptile, DIR8_WEST);
-  if (!pnext || mapimg.mapimg_tile_owner(pnext, pplayer,
-                                         knowledge) != owner) {
+  if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
+                                          knowledge) != TILE_UNKNOWN
+                 && mapimg.mapimg_tile_owner(pnext, pplayer,
+                                             knowledge) != owner)) {
     BV_SET(pixel, 0);
     BV_SET(pixel, 6);
     BV_SET(pixel, 12);
@@ -2845,8 +2853,10 @@ static bv_pixel pixel_border_hexa(const struct tile *ptile,
   }
 
   pnext = mapstep(ptile, DIR8_WEST);
-  if (!pnext || mapimg.mapimg_tile_owner(pnext, pplayer,
-                                         knowledge) != owner) {
+  if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
+                                          knowledge) != TILE_UNKNOWN
+                 && mapimg.mapimg_tile_owner(pnext, pplayer,
+                                             knowledge) != owner)) {
     BV_SET(pixel, 0);
     BV_SET(pixel, 2);
     BV_SET(pixel, 6);
@@ -2855,16 +2865,20 @@ static bv_pixel pixel_border_hexa(const struct tile *ptile,
   /* not used: DIR8_NORTHWEST */
 
   pnext = mapstep(ptile, DIR8_NORTH);
-  if (!pnext || mapimg.mapimg_tile_owner(pnext, pplayer,
-                                         knowledge) != owner) {
+  if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
+                                          knowledge) != TILE_UNKNOWN
+                 && mapimg.mapimg_tile_owner(pnext, pplayer,
+                                             knowledge) != owner)) {
     BV_SET(pixel, 1);
     BV_SET(pixel, 5);
     BV_SET(pixel, 11);
   }
 
   pnext = mapstep(ptile, DIR8_NORTHEAST);
-  if (!pnext || mapimg.mapimg_tile_owner(pnext, pplayer,
-                                         knowledge) != owner) {
+  if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
+                                          knowledge) != TILE_UNKNOWN
+                 && mapimg.mapimg_tile_owner(pnext, pplayer,
+                                             knowledge) != owner)) {
     BV_SET(pixel, 11);
     BV_SET(pixel, 17);
     BV_SET(pixel, 23);
@@ -2872,8 +2886,10 @@ static bv_pixel pixel_border_hexa(const struct tile *ptile,
   }
 
   pnext = mapstep(ptile, DIR8_EAST);
-  if (!pnext || mapimg.mapimg_tile_owner(pnext, pplayer,
-                                         knowledge) != owner) {
+  if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
+                                          knowledge) != TILE_UNKNOWN
+                 && mapimg.mapimg_tile_owner(pnext, pplayer,
+                                             knowledge) != owner)) {
     BV_SET(pixel, 29);
     BV_SET(pixel, 33);
     BV_SET(pixel, 35);
@@ -2882,16 +2898,20 @@ static bv_pixel pixel_border_hexa(const struct tile *ptile,
   /* not used. DIR8_SOUTHEAST */
 
   pnext = mapstep(ptile, DIR8_SOUTH);
-  if (!pnext || mapimg.mapimg_tile_owner(pnext, pplayer,
-                                         knowledge) != owner) {
+  if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
+                                          knowledge) != TILE_UNKNOWN
+                 && mapimg.mapimg_tile_owner(pnext, pplayer,
+                                             knowledge) != owner)) {
     BV_SET(pixel, 24);
     BV_SET(pixel, 30);
     BV_SET(pixel, 34);
   }
 
   pnext = mapstep(ptile, DIR8_SOUTHWEST);
-  if (!pnext || mapimg.mapimg_tile_owner(pnext, pplayer,
-                                         knowledge) != owner) {
+  if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
+                                          knowledge) != TILE_UNKNOWN
+                 && mapimg.mapimg_tile_owner(pnext, pplayer,
+                                             knowledge) != owner)) {
     BV_SET(pixel, 6);
     BV_SET(pixel, 12);
     BV_SET(pixel, 18);
@@ -3069,8 +3089,10 @@ static bv_pixel pixel_border_isohexa(const struct tile *ptile,
   }
 
   pnext = mapstep(ptile, DIR8_NORTH);
-  if (!pnext || mapimg.mapimg_tile_owner(pnext, pplayer,
-                                         knowledge) != owner) {
+  if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
+                                          knowledge) != TILE_UNKNOWN
+                 && mapimg.mapimg_tile_owner(pnext, pplayer,
+                                             knowledge) != owner)) {
     BV_SET(pixel, 0);
     BV_SET(pixel, 1);
     BV_SET(pixel, 2);
@@ -3080,24 +3102,30 @@ static bv_pixel pixel_border_isohexa(const struct tile *ptile,
   /* not used: DIR8_NORTHEAST */
 
   pnext = mapstep(ptile, DIR8_EAST);
-  if (!pnext || mapimg.mapimg_tile_owner(pnext, pplayer,
-                                         knowledge) != owner) {
+  if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
+                                          knowledge) != TILE_UNKNOWN
+                 && mapimg.mapimg_tile_owner(pnext, pplayer,
+                                             knowledge) != owner)) {
     BV_SET(pixel, 3);
     BV_SET(pixel, 9);
     BV_SET(pixel, 17);
   }
 
   pnext = mapstep(ptile, DIR8_SOUTHEAST);
-  if (!pnext || mapimg.mapimg_tile_owner(pnext, pplayer,
-                                         knowledge) != owner) {
+  if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
+                                          knowledge) != TILE_UNKNOWN
+                 && mapimg.mapimg_tile_owner(pnext, pplayer,
+                                             knowledge) != owner)) {
     BV_SET(pixel, 25);
     BV_SET(pixel, 31);
     BV_SET(pixel, 35);
   }
 
   pnext = mapstep(ptile, DIR8_SOUTH);
-  if (!pnext || mapimg.mapimg_tile_owner(pnext, pplayer,
-                                         knowledge) != owner) {
+  if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
+                                          knowledge) != TILE_UNKNOWN
+                 && mapimg.mapimg_tile_owner(pnext, pplayer,
+                                             knowledge) != owner)) {
     BV_SET(pixel, 32);
     BV_SET(pixel, 33);
     BV_SET(pixel, 34);
@@ -3107,16 +3135,20 @@ static bv_pixel pixel_border_isohexa(const struct tile *ptile,
   /* not used: DIR8_SOUTHWEST */
 
   pnext = mapstep(ptile, DIR8_WEST);
-  if (!pnext || mapimg.mapimg_tile_owner(pnext, pplayer,
-                                         knowledge) != owner) {
+  if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
+                                          knowledge) != TILE_UNKNOWN
+                 && mapimg.mapimg_tile_owner(pnext, pplayer,
+                                             knowledge) != owner)) {
     BV_SET(pixel, 18);
     BV_SET(pixel, 26);
     BV_SET(pixel, 32);
   }
 
   pnext = mapstep(ptile, DIR8_NORTHWEST);
-  if (!pnext || mapimg.mapimg_tile_owner(pnext, pplayer,
-                                         knowledge) != owner) {
+  if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
+                                          knowledge) != TILE_UNKNOWN
+                 && mapimg.mapimg_tile_owner(pnext, pplayer,
+                                             knowledge) != owner)) {
     BV_SET(pixel, 0);
     BV_SET(pixel, 4);
     BV_SET(pixel, 10);
