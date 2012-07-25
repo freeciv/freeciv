@@ -148,49 +148,6 @@ static void main_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
   This is called whenever the intro graphic needs a graphics refresh.
 **************************************************************************/
-#if !GTK_CHECK_VERSION(3, 0, 0)
-static gboolean intro_expose(GtkWidget *w, GdkEventExpose *ev)
-{
-  static PangoLayout *layout;
-  static int width, height;
-  GtkAllocation allocation;
-  cairo_t *cr;
-
-  if (!layout) {
-    char msgbuf[128];
-
-    layout = pango_layout_new(gtk_widget_create_pango_context(w));
-    pango_layout_set_font_description(layout,
-         pango_font_description_from_string("Sans Bold 10"));
-
-    /* TRANS: "version 2.4.0, gui-gtk-3.0 client" */
-    fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, %s client"),
-                word_version(), VERSION_STRING, client_string);
-    pango_layout_set_text(layout, msgbuf, -1);
-
-    pango_layout_get_pixel_size(layout, &width, &height);
-  }
-  gtk_widget_get_allocation(w, &allocation);
-
-  cr = gdk_cairo_create(gtk_widget_get_window(w)); 
-  gdk_cairo_region(cr, ev->region);
-  cairo_clip(cr);
-  cairo_set_source_rgb(cr, 0, 0, 0);
-  cairo_move_to(cr, allocation.x + allocation.width - width - 3,
-                allocation.y + allocation.height - height - 3);
-  pango_cairo_show_layout(cr, layout);
-
-  cairo_set_source_rgb(cr, 1, 1, 1);
-  cairo_move_to(cr, allocation.x + allocation.width - width - 4,
-                allocation.y + allocation.height - height - 4);
-  pango_cairo_show_layout(cr, layout);
-  cairo_destroy(cr);
-
-  return TRUE;
-}
-
-#else /* GTK 3 */
-
 static gboolean intro_expose(GtkWidget *w, cairo_t *cr)
 {
   static PangoLayout *layout;
@@ -225,7 +182,6 @@ static gboolean intro_expose(GtkWidget *w, cairo_t *cr)
 
   return TRUE;
 }
-#endif /* GTK 3 */ 
 
 #ifdef GGZ_GTK
 /****************************************************************************
@@ -260,13 +216,8 @@ GtkWidget *create_main_page(void)
   gtk_container_add(GTK_CONTAINER(align), frame);
 
   image = gtk_image_new_from_file(tileset_main_intro_filename(tileset));
-#if !GTK_CHECK_VERSION(3, 0, 0)
-  g_signal_connect_after(image, "expose_event",
-                         G_CALLBACK(intro_expose), NULL);
-#else  /* GTK 3 */
   g_signal_connect_after(image, "draw",
                          G_CALLBACK(intro_expose), NULL);
-#endif /* GTK 3 */
   gtk_container_add(GTK_CONTAINER(frame), image);
 
 #if IS_BETA_VERSION

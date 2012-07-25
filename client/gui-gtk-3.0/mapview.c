@@ -310,32 +310,6 @@ struct canvas *get_overview_window(void)
 }
 
 /**************************************************************************
-  Overview canvas exposed
-**************************************************************************/
-#if !GTK_CHECK_VERSION(3, 0, 0)
-gboolean overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
-{
-  gpointer source = (can_client_change_view()) ?
-                     (gpointer)overview.window : (gpointer)radar_gfx_sprite;
-
-  if (source) {
-    cairo_surface_t *surface = (can_client_change_view()) ?
-                                overview.window->surface :
-                                radar_gfx_sprite->surface;
-    cairo_t *cr = gdk_cairo_create(overview_canvas->window);
-
-    gdk_cairo_region(cr, ev->region);
-    cairo_clip(cr);
-    cairo_set_source_surface(cr, surface, 0, 0);
-    cairo_paint(cr);
-    cairo_destroy(cr);
-  }
-  return TRUE;
-}
-
-#else /* GTK 3 */
-
-/**************************************************************************
   Redraw overview canvas
 **************************************************************************/
 gboolean overview_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data)
@@ -353,7 +327,6 @@ gboolean overview_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data)
   }
   return TRUE;
 }
-#endif /* GTK 3 */
 
 /****************************************************************************
   Freeze the drawing of the map.
@@ -396,32 +369,6 @@ gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
 }
 
 /**************************************************************************
-  Map canvas exposed
-**************************************************************************/
-#if !GTK_CHECK_VERSION(3, 0, 0)
-gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
-{
-  if (can_client_change_view() && map_exists() && !mapview_is_frozen()) {
-    cairo_t *cr;
-
-    /* First we mark the area to be updated as dirty.  Then we unqueue
-     * any pending updates, to make sure only the most up-to-date data
-     * is written (otherwise drawing bugs happen when old data is copied
-     * to screen).  Then we draw all changed areas to the screen. */
-    unqueue_mapview_updates(FALSE);
-    cr = gdk_cairo_create(map_canvas->window);
-    gdk_cairo_region(cr, ev->region);
-    cairo_clip(cr);
-    cairo_set_source_surface(cr, mapview.store->surface, 0, 0);
-    cairo_paint(cr);
-    cairo_destroy(cr);
-  }
-  return TRUE;
-}
-
-#else /* GTK 3 */
-
-/**************************************************************************
   Redraw map canvas.
 **************************************************************************/
 gboolean map_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data)
@@ -437,7 +384,6 @@ gboolean map_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data)
   }
   return TRUE;
 }
-#endif /* GTK 3 */
 
 /**************************************************************************
   Flush the given part of the canvas buffer (if there is one) to the

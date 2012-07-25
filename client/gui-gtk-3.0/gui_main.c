@@ -92,7 +92,6 @@
 #include "luaconsole.h"
 #include "spaceshipdlg.h"
 #include "repodlgs.h"
-#include "resources.h"
 #include "voteinfo_bar.h"
 
 #include "gui_main.h"
@@ -1078,13 +1077,8 @@ static void setup_widgets(void)
                       align);
   gtk_container_add(GTK_CONTAINER(align), overview_canvas);
  
-#if !GTK_CHECK_VERSION(3, 0, 0)
-  g_signal_connect(overview_canvas, "expose-event",
-        	   G_CALLBACK(overview_canvas_expose), NULL);
-#else  /* GTK 3 */
   g_signal_connect(overview_canvas, "draw",
         	   G_CALLBACK(overview_canvas_draw), NULL);
-#endif /* GTK 3 */
 
   g_signal_connect(overview_canvas, "motion_notify_event",
         	   G_CALLBACK(move_overviewcanvas), NULL);
@@ -1324,13 +1318,8 @@ static void setup_widgets(void)
   gtk_table_attach(GTK_TABLE(map_widget), map_vertical_scrollbar, 1, 2, 0, 1,
                    0, GTK_EXPAND|GTK_SHRINK|GTK_FILL, 0, 0);
 
-#if !GTK_CHECK_VERSION(3, 0, 0)
-  g_signal_connect(map_canvas, "expose_event",
-                   G_CALLBACK(map_canvas_expose), NULL);
-#else  /* GTK 3 */
   g_signal_connect(map_canvas, "draw",
                    G_CALLBACK(map_canvas_draw), NULL);
-#endif /* GTK 3 */
 
   g_signal_connect(map_canvas, "configure_event",
                    G_CALLBACK(map_canvas_configure), NULL);
@@ -1569,9 +1558,6 @@ static void migrate_options_from_gtk2(void)
 **************************************************************************/
 void ui_main(int argc, char **argv)
 {
-#if !GTK_CHECK_VERSION(3, 0, 0)
-  const gchar *home;
-#endif /* !GTK3 */
   guint sig;
 
   parse_options(argc, argv);
@@ -1582,20 +1568,6 @@ void ui_main(int argc, char **argv)
 
   /* GTK withdraw gtk options. Process GTK arguments */
   gtk_init(&argc, &argv);
-
-#if !GTK_CHECK_VERSION(3, 0, 0)
-  /* Load resources */
-  gtk_rc_parse_string(fallback_resources);
-
-  home = g_get_home_dir();
-  if (home) {
-    gchar *str;
-
-    str = g_build_filename(home, ".freeciv.rc-2.0", NULL);
-    gtk_rc_parse(str);
-    g_free(str);
-  }
-#endif /* !GTK3 */
 
   toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   g_signal_connect(toplevel, "key_press_event",

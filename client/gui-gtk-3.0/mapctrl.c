@@ -52,11 +52,6 @@
 
 #include "mapctrl.h"
 
-#if !GTK_CHECK_VERSION(3, 0, 0)
-#define gtk_widget_get_allocated_width(a) (a)->allocation.width
-#define gtk_widget_get_allocated_height(a) (a)->allocation.height
-#endif /* GTK 3 */
-
 struct tmousepos { int x, y; };
 extern gint cur_x, cur_y;
 
