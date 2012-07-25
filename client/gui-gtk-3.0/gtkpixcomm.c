@@ -41,24 +41,19 @@
 
 #include <gtk/gtk.h>
 
+/* gui-gtk-3.0 */
 #include "gui_main.h"
+
 #include "gtkpixcomm.h"
 
-
-#if !GTK_CHECK_VERSION(3, 0, 0)
-static gboolean gtk_pixcomm_expose     (GtkWidget *widget, GdkEventExpose *ev);
-static void	gtk_pixcomm_size_request (GtkWidget *widget, GtkRequisition *requisition);
-static void	gtk_pixcomm_destroy    (GtkObject *object);
-#else  /* GTK 3 */
-static gboolean gtk_pixcomm_draw     (GtkWidget *widget, cairo_t *cr);
-static void	gtk_pixcomm_destroy    (GtkWidget *object);
+static gboolean gtk_pixcomm_draw(GtkWidget *widget, cairo_t *cr);
+static void gtk_pixcomm_destroy(GtkWidget *object);
 static void
 gtk_pixcomm_get_preferred_width(GtkWidget *widget, gint *minimal_width,
                                 gint *natural_width);
 static void
 gtk_pixcomm_get_preferred_height(GtkWidget *widget, gint *minimal_height,
                                  gint *natural_height);
-#endif /* GTK 3 */
 
 static GtkMiscClass *parent_class;
 
@@ -78,23 +73,14 @@ G_DEFINE_TYPE (GtkPixcomm, gtk_pixcomm, GTK_TYPE_MISC)
 static void
 gtk_pixcomm_class_init(GtkPixcommClass *klass)
 {
-#if !GTK_CHECK_VERSION(3, 0, 0)
-  GtkObjectClass *object_class = GTK_OBJECT_CLASS(klass);
-#endif
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
 
   parent_class = g_type_class_peek_parent(klass);
 
-#if !GTK_CHECK_VERSION(3, 0, 0)
-  object_class->destroy = gtk_pixcomm_destroy;
-  widget_class->expose_event = gtk_pixcomm_expose;
-  widget_class->size_request = gtk_pixcomm_size_request;
-#else
   widget_class->destroy = gtk_pixcomm_destroy;
   widget_class->draw = gtk_pixcomm_draw;
   widget_class->get_preferred_width = gtk_pixcomm_get_preferred_width;
   widget_class->get_preferred_height = gtk_pixcomm_get_preferred_height;
-#endif
   g_type_class_add_private (widget_class, sizeof(GtkPixcommPrivate));
 }
 
@@ -110,45 +96,10 @@ gtk_pixcomm_init(GtkPixcomm *pixcomm)
   priv->surface = NULL;
 }
 
-#if !GTK_CHECK_VERSION(3, 0, 0)
-static void
-gtk_pixcomm_size_request (GtkWidget *p, GtkRequisition *requisition)
-{
-  int xpad, ypad;
-
-  gtk_misc_get_padding(GTK_MISC(p), &xpad, &ypad);
-  requisition->width = GTK_PIXCOMM(p)->w + xpad * 2;
-  requisition->height = GTK_PIXCOMM(p)->h + ypad * 2;
-  GTK_WIDGET_CLASS (gtk_pixcomm_parent_class)->size_request (p, requisition);
-}
-#endif
-
 /***************************************************************************
   Destroy pixcomm instance
 ***************************************************************************/
-#if !GTK_CHECK_VERSION(3, 0, 0)
-static void
-gtk_pixcomm_destroy(GtkObject *object)
-{
-  GtkPixcomm *p = GTK_PIXCOMM(object);
-  GtkPixcommPrivate *priv = GTK_PIXCOMM_GET_PRIVATE(p);
-
-  g_object_freeze_notify(G_OBJECT(p));
-  
-  cairo_surface_destroy(priv->surface);
-  priv->surface = NULL;
-
-  g_object_thaw_notify(G_OBJECT(p));
-
-  if (GTK_OBJECT_CLASS(parent_class)->destroy) {
-    (*GTK_OBJECT_CLASS(parent_class)->destroy)(object);
-  }
-}
-
-#else /* GTK 3 */
-
-static void
-gtk_pixcomm_destroy(GtkWidget *object)
+static void gtk_pixcomm_destroy(GtkWidget *object)
 {
   GtkPixcomm *p = GTK_PIXCOMM(object);
   GtkPixcommPrivate *priv = GTK_PIXCOMM_GET_PRIVATE(p);
@@ -164,7 +115,6 @@ gtk_pixcomm_destroy(GtkWidget *object)
     (*GTK_WIDGET_CLASS(parent_class)->destroy)(object);
   }
 }
-#endif /* GTK 3 */
 
 /***************************************************************************
   Create new pixcomm instance
@@ -182,10 +132,8 @@ gtk_pixcomm_new(gint width, gint height)
   p->w = width; p->h = height;
   gtk_misc_get_padding(GTK_MISC(p), &xpad, &ypad);
   gtk_widget_set_size_request(GTK_WIDGET(p), width + xpad * 2, height + ypad * 2);
-#if GTK_CHECK_VERSION(3, 0, 0)
   gtk_widget_set_halign(GTK_WIDGET(p), GTK_ALIGN_CENTER);
   gtk_widget_set_valign(GTK_WIDGET(p), GTK_ALIGN_CENTER);
-#endif
 
   p->is_scaled = FALSE;
   p->scale = 1.0;
@@ -246,89 +194,6 @@ gtk_pixcomm_clear(GtkPixcomm *p)
 /***************************************************************************
   Copy sprite to pixcomm
 ***************************************************************************/
-#if !GTK_CHECK_VERSION(3, 0, 0)
-void gtk_pixcomm_copyto(GtkPixcomm *p, struct sprite *src, gint x, gint y)
-{
-  fc_assert_ret(GTK_IS_PIXCOMM(p));
-  fc_assert_ret(src != NULL);
-  GtkWidget *widget = GTK_WIDGET(p);
-  GtkMisc *misc = GTK_MISC(p);
-  GtkPixcommPrivate *priv = GTK_PIXCOMM_GET_PRIVATE(p);
-  int width, height, offset_x, offset_y;
-  gfloat xalign;
-  cairo_t *cr = cairo_create(priv->surface);
-
-  if (gtk_widget_get_direction(widget) == GTK_TEXT_DIR_LTR) {
-    xalign = misc->xalign;
-  } else {
-    xalign = 1.0 - misc->xalign;
-  }
- 
-  offset_x = floor(widget->allocation.x + misc->xpad
-             + ((widget->allocation.width - widget->requisition.width) *
-             xalign));
-  offset_y = floor(widget->allocation.y + misc->ypad 
-             + ((widget->allocation.height - widget->requisition.height) *
-             misc->yalign));
-
-  get_sprite_dimensions(src, &width, &height);
-  cairo_rectangle(cr, x, y, width, height);
-  cairo_set_source_surface(cr, src->surface, x, y);
-  cairo_paint(cr);
-  cairo_destroy(cr);
-  gtk_widget_queue_draw_area(GTK_WIDGET(p), offset_x, offset_y, width, height);
-}
-
-/***************************************************************************
-  Draw pixcomm
-***************************************************************************/
-static gboolean
-gtk_pixcomm_expose(GtkWidget *widget, GdkEventExpose *ev)
-{
-  GtkPixcommPrivate *priv;
-  fc_assert_ret_val(GTK_IS_PIXCOMM(widget), FALSE);
-  fc_assert_ret_val(ev!=NULL, FALSE);
-  priv = GTK_PIXCOMM_GET_PRIVATE(GTK_PIXCOMM(widget));
-
-  if (gtk_widget_is_drawable(widget)) {
-    GtkPixcomm *p;
-    GtkMisc *misc;
-    gint x, y;
-    gfloat xalign;
-
-    p = GTK_PIXCOMM(widget);
-    misc = GTK_MISC(widget);
-
-    if (gtk_widget_get_direction(widget) == GTK_TEXT_DIR_LTR) {
-      xalign = misc->xalign;
-    } else {
-      xalign = 1.0 - misc->xalign;
-    }
-
-    x = floor(widget->allocation.x + misc->xpad
-	+ ((widget->allocation.width - widget->requisition.width) *
-	  xalign));
-    y = floor(widget->allocation.y + misc->ypad 
-	+ ((widget->allocation.height - widget->requisition.height) *
-	  misc->yalign));
-
-    {
-      cairo_t *cr = gdk_cairo_create(widget->window);
-
-      gdk_cairo_region(cr, ev->region);
-      cairo_clip(cr);
-      cairo_translate(cr, x, y);
-      if (p->is_scaled) cairo_scale(cr, p->scale, p->scale);
-      cairo_set_source_surface(cr, priv->surface, 0, 0);
-      cairo_paint(cr);
-      cairo_destroy(cr);
-    }
-  }
-  return FALSE;
-}
-
-#else /* GTK 3 */
-
 void gtk_pixcomm_copyto(GtkPixcomm *p, struct sprite *src, gint x, gint y)
 {
   GtkMisc *misc = GTK_MISC(p);
@@ -354,8 +219,10 @@ void gtk_pixcomm_copyto(GtkPixcomm *p, struct sprite *src, gint x, gint y)
       width, height);
 }
 
-static gboolean
-gtk_pixcomm_draw(GtkWidget *widget, cairo_t *cr)
+/***************************************************************************
+  Draw pixcomm
+***************************************************************************/
+static gboolean gtk_pixcomm_draw(GtkWidget *widget, cairo_t *cr)
 {
   GtkPixcommPrivate *priv;
   GtkPixcomm *p;
@@ -381,6 +248,9 @@ gtk_pixcomm_draw(GtkWidget *widget, cairo_t *cr)
   return FALSE;
 }
 
+/***************************************************************************
+  Get width pixcomm uses.
+***************************************************************************/
 static void
 gtk_pixcomm_get_preferred_width(GtkWidget *widget, gint *minimal_width,
                                 gint *natural_width)
@@ -391,6 +261,9 @@ gtk_pixcomm_get_preferred_width(GtkWidget *widget, gint *minimal_width,
   *minimal_width = *natural_width = GTK_PIXCOMM(widget)->w + xpad * 2;
 }
 
+/***************************************************************************
+  Get height pixcomm uses.
+***************************************************************************/
 static void
 gtk_pixcomm_get_preferred_height(GtkWidget *widget, gint *minimal_height,
                                 gint *natural_height)
@@ -400,7 +273,6 @@ gtk_pixcomm_get_preferred_height(GtkWidget *widget, gint *minimal_height,
   gtk_misc_get_padding(GTK_MISC(widget), NULL, &ypad);
   *minimal_height = *natural_height = GTK_PIXCOMM(widget)->h + ypad * 2;
 }
-#endif /* GTK 3 */
 
 /***************************************************************************
   Create new gtkpixcomm from sprite.
@@ -418,10 +290,8 @@ gtk_pixcomm_new_from_sprite(struct sprite *sprite)
   get_sprite_dimensions(sprite, &p->w, &p->h);
   gtk_misc_get_padding(GTK_MISC(p), &xpad, &ypad);
   gtk_widget_set_size_request(GTK_WIDGET(p), p->w + xpad * 2, p->h + ypad * 2);
-#if GTK_CHECK_VERSION(3, 0, 0)
   gtk_widget_set_halign(GTK_WIDGET(p), GTK_ALIGN_CENTER);
   gtk_widget_set_valign(GTK_WIDGET(p), GTK_ALIGN_CENTER);
-#endif
 
   p->is_scaled = FALSE;
   p->scale = 1.0;

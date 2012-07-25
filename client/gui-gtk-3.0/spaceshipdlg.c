@@ -168,11 +168,7 @@ void popdown_spaceship_dialog(struct player *pplayer)
   Spaceship dialog canvas got exposed
 *****************************************************************/
 static gboolean spaceship_image_canvas_expose(GtkWidget *widget,
-					      #if !GTK_CHECK_VERSION(3, 0, 0)
-					      GdkEventExpose *ev,
-					      #else
 					      cairo_t *cr,
-					      #endif
 					      gpointer data)
 {
   struct spaceship_dialog *pdialog = (struct spaceship_dialog *)data;
@@ -181,19 +177,9 @@ static gboolean spaceship_image_canvas_expose(GtkWidget *widget,
     .drawable = NULL
   };
 
-#if !GTK_CHECK_VERSION(3, 0, 0)
-  cairo_t *cr = gdk_cairo_create(gtk_widget_get_window(pdialog->image_canvas));
-  gdk_cairo_region(cr, ev->region);
-  cairo_clip(cr);
-#endif /* GTK 3 */
-
   store.drawable = cr;
 
   put_spaceship(&store, 0, 0, pdialog->pplayer);
-
-#if !GTK_CHECK_VERSION(3, 0, 0)
-  cairo_destroy(cr);
-#endif
 
   return TRUE;
 }
@@ -267,14 +253,9 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   gtk_widget_set_events(pdialog->image_canvas, GDK_EXPOSURE_MASK);
   gtk_container_add(GTK_CONTAINER(frame), pdialog->image_canvas);
   gtk_widget_realize(pdialog->image_canvas);
-  
-#if !GTK_CHECK_VERSION(3, 0, 0)
-  g_signal_connect(pdialog->image_canvas, "expose_event",
-		   G_CALLBACK(spaceship_image_canvas_expose), pdialog);
-#else
+
   g_signal_connect(pdialog->image_canvas, "draw",
 		   G_CALLBACK(spaceship_image_canvas_expose), pdialog);
-#endif
 
   pdialog->info_label = gtk_label_new(get_spaceship_descr(NULL));
 

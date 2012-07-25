@@ -89,12 +89,8 @@ static void science_diagram_button_release_callback(GtkWidget *widget,
                                                     GdkEventButton *event,
                                                     gpointer data);
 static gboolean science_diagram_update(GtkWidget *widget,
-                                   #if !GTK_CHECK_VERSION(3, 0, 0)
-                                   GdkEventExpose *event,
-                                   #else
-                                   cairo_t *cr,
-                                   #endif
-                                   gpointer data);
+                                       cairo_t *cr,
+                                       gpointer data);
 static GtkWidget *science_diagram_new(void);
 static void science_diagram_data(GtkWidget *widget, bool reachable);
 static void science_diagram_center(GtkWidget *diagram, Tech_type_id tech);
@@ -231,11 +227,7 @@ static void science_diagram_button_release_callback(GtkWidget *widget,
 /****************************************************************************
   Draw the invalidated portion of the reqtree.
 ****************************************************************************/
-#if !GTK_CHECK_VERSION(3, 0, 0)
-static gboolean science_diagram_update(GtkWidget *widget, GdkEventExpose *ev, gpointer data)
-#else
 static gboolean science_diagram_update(GtkWidget *widget, cairo_t *cr, gpointer data)
-#endif
 {
   /* FIXME: this currently redraws everything! */
   struct canvas canvas = {
@@ -244,15 +236,6 @@ static gboolean science_diagram_update(GtkWidget *widget, cairo_t *cr, gpointer 
   };
   struct reqtree *reqtree = g_object_get_data(G_OBJECT(widget), "reqtree");
   int width, height;
-
-#if !GTK_CHECK_VERSION(3, 0, 0)
-
-  cairo_t *cr = gdk_cairo_create(gtk_layout_get_bin_window(GTK_LAYOUT(widget)));
-  gdk_cairo_region(cr, ev->region);
-  cairo_clip(cr);
-
-#else /* GTK 3 */
-
   GtkAdjustment *hadjustment;
   GtkAdjustment *vadjustment;
   gint hadjustment_value;
@@ -266,16 +249,10 @@ static gboolean science_diagram_update(GtkWidget *widget, cairo_t *cr, gpointer 
 
   cairo_translate(cr, -hadjustment_value, -vadjustment_value);
 
-#endif /* GTK 3 */
-
   canvas.drawable = cr;
 
   get_reqtree_dimensions(reqtree, &width, &height);
   draw_reqtree(reqtree, &canvas, 0, 0, 0, 0, width, height);
-
-#if !GTK_CHECK_VERSION(3, 0, 0)
-  cairo_destroy(cr);
-#endif
 
   return TRUE;
 }
@@ -292,13 +269,8 @@ static GtkWidget *science_diagram_new(void)
   gtk_widget_add_events(diagram,
                         GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK
                         | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK);
-#if !GTK_CHECK_VERSION(3, 0, 0)
-  g_signal_connect(diagram, "expose-event",
-                   G_CALLBACK(science_diagram_update), NULL);
-#else
   g_signal_connect(diagram, "draw",
                    G_CALLBACK(science_diagram_update), NULL);
-#endif
   g_signal_connect(diagram, "button-release-event",
                    G_CALLBACK(science_diagram_button_release_callback),
                    NULL);
@@ -603,9 +575,7 @@ static void science_report_init(struct science_report *preport)
   preport->reachable_techs = GTK_COMBO_BOX(w);
 
   w = gtk_progress_bar_new();
-  #if GTK_CHECK_VERSION(3, 0, 0)
   gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(w), TRUE);
-  #endif
   gtk_table_attach_defaults(GTK_TABLE(table), w, 2, 5, 0, 1);
   gtk_widget_set_size_request(w, -1, 25);
   preport->progress_bar = GTK_PROGRESS_BAR(w);

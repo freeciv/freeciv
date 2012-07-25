@@ -34,72 +34,11 @@
 
 #include "themes_g.h"
 
-/* Array of default files. First num_default_files positions
- * are files returned by gtk_rc_get_default_files() on client startup.
- * There are two extra postions allocated in the array - one for
- * specific Freeciv file and one for NULL. */
-#if !GTK_CHECK_VERSION(3, 0, 0)
-static char** default_files;
-static int num_default_files;
-
-/****************************************************************************
-  Initialize the default_files array.
-****************************************************************************/
-static void load_default_files(void)
-{
-  int i = 0;
-  gchar** f;
-  
-  if (default_files != NULL) {
-    return;
-  }
-  
-  f = gtk_rc_get_default_files();
-
-  if (f != NULL) {
-    for (i = 0; f[i] ; i++) {
-      /* nothing */
-    }
-  }
-  num_default_files = i;
-  default_files = fc_malloc(sizeof(char*) * (i + 2));
-  
-  for (i = 0; i < num_default_files; i++) {
-    default_files[i] = fc_strdup(f[i]);
-  }
-  default_files[i] = default_files[i + 1] = NULL;
-}
-#endif /* !GTK3 */
-
 /*****************************************************************************
   Loads a gtk theme directory/theme_name
 *****************************************************************************/
 void gui_load_theme(const char *directory, const char *theme_name)
 {
-#if !GTK_CHECK_VERSION(3, 0, 0)
-  GtkStyle *style;
-  char buf[strlen(directory) + strlen(theme_name) + 32];
-  
-  load_default_files();
-  default_files[num_default_files] = buf;
-  default_files[num_default_files + 1] = NULL;
-  
-  /* Gtk theme is a directory containing gtk-3.0/gtkrc file */
-  fc_snprintf(buf, sizeof(buf), "%s/%s/gtk-3.0/gtkrc", directory,
-              theme_name);
-
-  gtk_rc_set_default_files(default_files);
-
-  gtk_rc_reparse_all_for_settings(gtk_settings_get_for_screen(
-     gtk_widget_get_screen(turn_done_button)), TRUE);
-    
-  /* the turn done button must have its own style. otherwise when we flash
-     the turn done button other widgets may flash too. */
-  if (!(style = gtk_rc_get_style(turn_done_button))) {
-    style = gtk_widget_get_style(turn_done_button);
-  }
-  gtk_widget_set_style(turn_done_button, gtk_style_copy(style));
-#else /* !GTK3 */
   GtkCssProvider *css_provider;
   GError *error = NULL;
   char buf[strlen(directory) + strlen(theme_name) + 32];
@@ -116,7 +55,6 @@ void gui_load_theme(const char *directory, const char *theme_name)
       gtk_widget_get_screen(toplevel),
       GTK_STYLE_PROVIDER(css_provider),
       GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-#endif /* GTK3 */
 }
 
 /*****************************************************************************
@@ -139,27 +77,10 @@ void gui_clear_theme(void)
     
   /* still no theme loaded -> load system default theme */
   if (!theme_loaded) {
-#if !GTK_CHECK_VERSION(3, 0, 0)
-    GtkStyle *style;
-
-    load_default_files();
-    default_files[num_default_files] = NULL;
-    gtk_rc_set_default_files(default_files);
-    gtk_rc_reparse_all_for_settings(gtk_settings_get_for_screen(
-        gtk_widget_get_screen(turn_done_button)), TRUE);
-      
-    /* the turn done button must have its own style. otherwise when we flash
-       the turn done button other widgets may flash too. */
-    if (!(style = gtk_rc_get_style(turn_done_button))) {
-      style = gtk_widget_get_style(turn_done_button);
-    }
-    gtk_widget_set_style(turn_done_button, gtk_style_copy(style));
-#else /* !GTK3 */
     gtk_style_context_add_provider_for_screen(
         gtk_widget_get_screen(toplevel),
         GTK_STYLE_PROVIDER(gtk_css_provider_get_default()),
         GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-#endif /* GTK3 */
   }
 }
 
@@ -235,13 +156,8 @@ char **get_useable_themes_in_directory(const char *directory, int *count)
     char buf[strlen(directory) + strlen(entry->d_name) + 32];
     struct stat stat_result;
 
-#if !GTK_CHECK_VERSION(3, 0, 0)
-    fc_snprintf(buf, sizeof(buf),
-                "%s/%s/gtk-3.0/gtkrc", directory, entry->d_name);
-#else /* !GTK3 */
     fc_snprintf(buf, sizeof(buf),
                 "%s/%s/gtk-3.0/gtk.css", directory, entry->d_name);
-#endif /* GTK3 */
 
     if (fc_stat(buf, &stat_result) != 0) {
       /* File doesn't exist */

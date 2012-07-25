@@ -68,11 +68,6 @@
 
 #include "citydlg.h"
 
-#if !GTK_CHECK_VERSION(3, 0, 0)
-#define gtk_widget_get_allocated_width(a) (a)->allocation.width
-#define gtk_widget_get_allocated_height(a) (a)->allocation.height
-#endif
-
 #define CITYMAP_WIDTH MIN(512, canvas_width)
 #define CITYMAP_HEIGHT (CITYMAP_WIDTH * canvas_height / canvas_width)
 #define CITYMAP_SCALE ((double)CITYMAP_WIDTH / (double)canvas_width)
@@ -375,26 +370,6 @@ static struct city_dialog *get_city_dialog(struct city *pcity)
 /***************************************************************************
   Redraw map canvas on expose.
 ****************************************************************************/
-#if !GTK_CHECK_VERSION(3, 0, 0)
-static gboolean canvas_exposed_cb(GtkWidget *w, GdkEventExpose *event,
-			      gpointer data)
-{
-  struct city_dialog *pdialog = data;
-
-  cairo_t *cr = gdk_cairo_create(gtk_widget_get_window(w));
-
-  gdk_cairo_region(cr, event->region);
-  cairo_clip(cr);
-  cairo_scale(cr, CITYMAP_SCALE, CITYMAP_SCALE);
-  cairo_set_source_surface(cr, pdialog->map_canvas_store_unscaled, 0, 0);
-  cairo_paint(cr);
-  cairo_destroy(cr);
-
-  return TRUE;
-}
-
-#else  /* GTK 3 */
-
 static gboolean canvas_exposed_cb(GtkWidget *w, cairo_t *cr,
                                   gpointer data)
 {
@@ -406,7 +381,6 @@ static gboolean canvas_exposed_cb(GtkWidget *w, cairo_t *cr,
 
   return TRUE;
 }
-#endif /* GTK 3 */
 
 /***************************************************************************
   Create a city map widget; used in the overview and in the happiness page.
@@ -434,13 +408,8 @@ static void city_dialog_map_create(struct city_dialog *pdialog,
   gtk_widget_set_size_request(darea, CITYMAP_WIDTH, CITYMAP_HEIGHT);
   g_signal_connect(ebox, "button-press-event",
                    G_CALLBACK(button_down_citymap), pdialog);
-#if !GTK_CHECK_VERSION(3, 0, 0)
-  g_signal_connect(darea, "expose-event",
-                   G_CALLBACK(canvas_exposed_cb), pdialog);
-#else
   g_signal_connect(darea, "draw",
                    G_CALLBACK(canvas_exposed_cb), pdialog);
-#endif
   gtk_container_add(GTK_CONTAINER(ebox), darea);
 
   /* save all widgets for the city map */
@@ -889,9 +858,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
                                  rend, "text", 1, "strikethrough", 3, NULL);
 
   bar = gtk_progress_bar_new();
-  #if GTK_CHECK_VERSION(3, 0, 0)
   gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(bar), TRUE);
-  #endif
   pdialog->overview.production_bar = bar;
   gtk_container_add(GTK_CONTAINER(production_combo), bar);
   gtk_combo_box_set_wrap_width(GTK_COMBO_BOX(production_combo), 3);
@@ -1059,9 +1026,7 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 
   /* The label is set in city_dialog_update_building() */
   bar = gtk_progress_bar_new();
-  #if GTK_CHECK_VERSION(3, 0, 0)
   gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(bar), TRUE);
-  #endif
   pdialog->production.production_bar = bar;
   gtk_box_pack_start(GTK_BOX(hbox), bar, TRUE, TRUE, 0);
   gtk_progress_bar_set_text(GTK_PROGRESS_BAR(bar), _("%d/%d %d turns"));
