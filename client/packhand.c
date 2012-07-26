@@ -3120,6 +3120,7 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
   sz_strlcpy(pbase->graphic_str, p->graphic_str);
   sz_strlcpy(pbase->graphic_alt, p->graphic_alt);
   sz_strlcpy(pbase->activity_gfx, p->activity_gfx);
+  sz_strlcpy(pbase->act_gfx_alt, p->act_gfx_alt);
   pbase->buildable = p->buildable;
   pbase->pillageable = p->pillageable;
 
@@ -3159,6 +3160,7 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   sz_strlcpy(proad->graphic_str, p->graphic_str);
   sz_strlcpy(proad->graphic_alt, p->graphic_alt);
   sz_strlcpy(proad->activity_gfx, p->activity_gfx);
+  sz_strlcpy(proad->act_gfx_alt, p->act_gfx_alt);
 
   proad->move_cost = p->move_cost;
   proad->build_time = p->build_time;

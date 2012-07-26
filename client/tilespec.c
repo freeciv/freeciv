@@ -2898,9 +2898,12 @@ void tileset_setup_road(struct tileset *t,
 
   t->sprites.roads[id].activity = load_sprite(t, proad->activity_gfx);
   if (t->sprites.roads[id].activity == NULL) {
-    log_fatal("Missing %s building activity tag \"%s\".",
-              road_rule_name(proad), proad->activity_gfx);
-    exit(EXIT_FAILURE);
+    t->sprites.roads[id].activity = load_sprite(t, proad->act_gfx_alt);
+    if (t->sprites.roads[id].activity == NULL) {
+      log_fatal("Missing %s building activity tag \"%s\" and alternative \"%s\".",
+                road_rule_name(proad), proad->activity_gfx, proad->act_gfx_alt);
+      exit(EXIT_FAILURE);
+    }
   }
 }
 
@@ -2961,9 +2964,12 @@ void tileset_setup_base(struct tileset *t,
 
   t->sprites.bases[id].activity = load_sprite(t, pbase->activity_gfx);
   if (t->sprites.bases[id].activity == NULL) {
-    log_fatal("Missing %s building activity tag \"%s\".",
-              base_rule_name(pbase), pbase->activity_gfx);
-    exit(EXIT_FAILURE);
+    t->sprites.bases[id].activity = load_sprite(t, pbase->act_gfx_alt);
+    if (t->sprites.bases[id].activity == NULL) {
+      log_fatal("Missing %s building activity tag \"%s\" and alternative \"%s\".",
+                base_rule_name(pbase), pbase->activity_gfx, pbase->act_gfx_alt);
+      exit(EXIT_FAILURE);
+    }
   }
 }
 

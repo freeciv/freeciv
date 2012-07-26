@@ -524,6 +524,7 @@ identifier  = "g"
 ; graphic_alt	          = tag for alternate graphic if preferred graphic is not 
 ;                           present. Can use eg "-" for no alternate graphic.
 ; activity_gfx            = tag specifing graphic for unit building base
+; act_gfx_alt             = tag for alternative graphic for unit building base
 ; reqs 	                  = requirements to build the base (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; gui_type                = How gui should handle this base. Fortress/Airbase/Other
@@ -554,7 +555,8 @@ identifier  = "g"
 name          = _("Tower")
 graphic       = "base.fortress"
 graphic_alt   = "-"
-activity_gfx  = "unit.fortress"
+activity_gfx  = "unit.tower"
+act_gfx_alt   = "unit.fortress"
 buildable     = 1
 reqs          =
     { "type", "name", "range"
@@ -573,7 +575,8 @@ flags         = "NoAggressive", "NoStackDeath"
 name          = _("Force Fortress")
 graphic       = "base.fortress"
 graphic_alt   = "-"
-activity_gfx  = "unit.fortress"
+activity_gfx  = "unit.force_fortress"
+act_gfx_alt   = "unit.fortress"
 buildable     = 1
 reqs          =
     { "type", "name", "range"
@@ -592,7 +595,8 @@ flags         = "NoAggressive"
 name         = _("Antigrav Base")
 graphic      = "base.airbase"
 graphic_alt  = "-"
-activity_gfx = "unit.airbase"
+activity_gfx = "unit.antigrav_base"
+act_gfx_alt  = "unit.airbase"
 buildable    = 1
 reqs         =
     { "type", "name", "range"
@@ -616,8 +620,9 @@ flags        = "ParadropFrom", "NoAggressive"
 ; name                    = translatable name as seen by user
 ; graphic                 = tag specifing preferred graphic
 ; graphic_alt             = tag for alternate graphic if preferred graphic is not
-; activity_gfx            = tag specifing graphic for unit building road
 ;                           present. Can use eg "-" for no alternate graphic.
+; activity_gfx            = tag specifing graphic for unit building road
+; act_gfx_alt             = tag for alternative graphic for unit building road
 ; reqs                    = requirements to build the road (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; move_cost               = how much movement it takes to to travel
@@ -654,6 +659,7 @@ name           = _("Road")
 graphic        = "road"
 graphic_alt    = "-"
 activity_gfx   = "unit.road"
+act_gfx_alt    = "-"
 reqs           =
     { "type", "name", "range"
       "UnitFlag", "Settlers", "Local"
@@ -675,7 +681,8 @@ hidden_by      = "Highway", "Maglev"
 name           = _("Highway")
 graphic        = "highway"
 graphic_alt    = "road"
-activity_gfx   = "unit.road"
+activity_gfx   = "unit.highway"
+act_gfx_alt    = "unit.road"
 reqs           =
     { "type", "name", "range"
       "Tech", "Brute Force", "Player"
@@ -699,7 +706,8 @@ hidden_by      = "Maglev"
 name           = _("Maglev")
 graphic        = "maglev"
 graphic_alt    = "rail"
-activity_gfx   = "unit.road"
+activity_gfx   = "unit.maglev"
+act_gfx_alt    = "unit.road"
 reqs           =
     { "type", "name", "range"
       "Tech", "Maglev", "Player"
@@ -722,7 +730,8 @@ native_to      = "Earthly", "Native"
 name           = _("Tunnel")
 graphic        = "tunnel"
 graphic_alt    = "rail"
-activity_gfx   = "unit.road"
+activity_gfx   = "unit.tunnel"
+act_gfx_alt    = "unit.road"
 reqs           =
     { "type", "name", "range"
       "Tech", "Strong Resistance", "Player"
@@ -745,7 +754,8 @@ flags          = "NativeTile"
 name           = _("Burrow Tube")
 graphic        = "tunnel"
 graphic_alt    = "road"
-activity_gfx   = "unit.road"
+activity_gfx   = "unit.tube"
+act_gfx_alt    = "unit.road"
 reqs           =
     { "type", "name", "range"
       "Tech", "Burrowing", "Player"

@@ -2259,6 +2259,9 @@ static void load_ruleset_terrain(struct section_file *file)
     sz_strlcpy(pbase->activity_gfx,
                secfile_lookup_str_default(file, "-",
                                           "%s.activity_gfx", section));
+    sz_strlcpy(pbase->act_gfx_alt,
+               secfile_lookup_str_default(file, "-",
+                                          "%s.act_gfx_alt", section));
 
     reqs = lookup_req_list(file, section, "reqs", base_rule_name(pbase));
     requirement_vector_copy(&pbase->reqs, reqs);
@@ -2371,6 +2374,9 @@ static void load_ruleset_terrain(struct section_file *file)
     sz_strlcpy(proad->activity_gfx,
                secfile_lookup_str_default(file, "-",
                                           "%s.activity_gfx", section));
+    sz_strlcpy(proad->act_gfx_alt,
+               secfile_lookup_str_default(file, "-",
+                                          "%s.act_gfx_alt", section));
 
     if (!secfile_lookup_int(file, &proad->move_cost,
                             "%s.move_cost", section)) {
@@ -4168,6 +4174,7 @@ static void send_ruleset_bases(struct conn_list *dest)
     sz_strlcpy(packet.graphic_str, b->graphic_str);
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
     sz_strlcpy(packet.activity_gfx, b->activity_gfx);
+    sz_strlcpy(packet.act_gfx_alt, b->act_gfx_alt);
     packet.buildable = b->buildable;
     packet.pillageable = b->pillageable;
 
@@ -4213,6 +4220,7 @@ static void send_ruleset_roads(struct conn_list *dest)
     sz_strlcpy(packet.graphic_str, r->graphic_str);
     sz_strlcpy(packet.graphic_alt, r->graphic_alt);
     sz_strlcpy(packet.activity_gfx, r->activity_gfx);
+    sz_strlcpy(packet.act_gfx_alt, r->act_gfx_alt);
 
     packet.move_cost = r->move_cost;
     packet.build_time = r->build_time;
