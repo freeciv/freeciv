@@ -891,7 +891,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 /**************************************************************************
   Cut str to at max len bytes in a utf8 friendly way
 **************************************************************************/
-static char *my_chomp(char *str, size_t len)
+static char *fc_chomp(char *str, size_t len)
 {
   gchar *i;
 
@@ -935,7 +935,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
 
     helptext_advance(buf, sizeof(buf), client.conn.playing, pitem->text, i);
     len = strlen(buf);
-    my_chomp(buf, len);
+    fc_chomp(buf, len);
 
     if (get_tech_sprite(tileset, i)) {
       GdkPixbuf *pixbuf = sprite_get_pixbuf(get_tech_sprite(tileset, i));
