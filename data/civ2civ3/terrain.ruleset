@@ -222,9 +222,9 @@ cooler_drier_result  = "terrain_tundra"
 native_to            = "Sea", "Air", "Missile", "Helicopter", "Trireme"
 flags                = "Oceanic", "NoCities", "NoPollution", "FreshWater"
 property_ocean_depth = 0
-color.r              = 0
-color.g              = 0
-color.b              = 220
+color.r              = 46
+color.g              = 120
+color.b              = 182
 helptext             = _("\
 Lakes are substantial bodies of fresh water.\
 ")
@@ -263,8 +263,8 @@ native_to            = "Sea", "Air", "Missile", "Helicopter", "Trireme"
 flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"
 property_ocean_depth = 32
 color.r              = 0
-color.g              = 0
-color.b              = 200
+color.g              = 46
+color.b              = 137
 helptext             = _("\
 Shallow oceans are mostly found near coastlines, and are often rich\
  sources of food and other resources. They can be traversed by sea\
@@ -305,8 +305,8 @@ native_to            = "Sea", "Air", "Missile", "Helicopter"
 flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"
 property_ocean_depth = 87
 color.r              = 0
-color.g              = 0
-color.b              = 170
+color.g              = 33
+color.b              = 129
 helptext             = _("\
 Deep oceans cover much of the world away from coastlines, and only\
  seaworthy units (not including Triremes) can travel on them.\
@@ -389,9 +389,9 @@ flags                = "CanHaveRiver"
 property_dry         = 100
 property_tropical    = 50
 property_temperate   = 20
-color.r              = 212
-color.g              = 179
-color.b              = 101
+color.r              = 214
+color.g              = 185
+color.b              = 106
 helptext             = _("\
 Deserts are regions of extreme dryness, making agriculture and\
  trade very difficult.\
@@ -475,9 +475,9 @@ native_to            = "Land", "Small Land", "Big Land", "Air", "Missile", "Heli
 flags                = "Starter", "CanHaveRiver"
 property_green       = 50
 property_temperate   = 50
-color.r              = 10
-color.g              = 123
-color.b              = 2
+color.r              = 11
+color.g              = 138
+color.b              = 4
 helptext             = _("\
 Grasslands afford exceptional agricultural opportunities.\
 ")
@@ -516,9 +516,9 @@ native_to            = "Land", "Small Land", "Big Land", "Air", "Missile", "Heli
 flags                = "Starter", "CanHaveRiver"
 property_green       = 50
 property_mountainous = 30
-color.r              = 142
-color.g              = 121
-color.b              = 63
+color.r              = 24
+color.g              = 97
+color.b              = 5
 helptext             = _("\
 In addition to being amenable to agriculture, Hills are frequently\
  rich in resources.\
@@ -559,8 +559,8 @@ flags                = "CanHaveRiver", "NoPollution"
 property_foliage     = 50
 property_tropical    = 50
 property_wet         = 50
-color.r              = 54
-color.g              = 162
+color.r              = 55
+color.g              = 156
 color.b              = 38
 helptext             = _("\
 Jungles are densely overgrown, making agriculture somewhat\
@@ -600,9 +600,9 @@ cooler_drier_result  = "no"
 native_to            = "Land", "Small Land", "Air", "Missile", "Helicopter"
 flags                = "NoCities", "CanHaveRiver"
 property_mountainous = 70
-color.r              = 167
-color.g              = 77
-color.b              = 38
+color.r              = 129
+color.g              = 127
+color.b              = 118
 helptext             = _("\
 Mountains are regions of extreme altitude, making agriculture and\
  trade very difficult.\
@@ -642,9 +642,9 @@ native_to            = "Land", "Small Land", "Big Land", "Air", "Missile", "Heli
 flags                = "Starter", "CanHaveRiver"
 property_green       = 50
 property_temperate   = 50
-color.r              = 138
-color.g              = 168
-color.b              = 60
+color.r              = 122
+color.g              = 156
+color.b              = 46
 helptext             = _("\
 Plains are very broad, sparse regions, which makes trade slightly\
  inconvenient.\
@@ -686,9 +686,9 @@ property_wet         = 100
 property_tropical    = 10
 property_temperate   = 10
 property_cold        = 10
-color.r              = 44
-color.g              = 64
-color.b              = 44
+color.r              = 48
+color.g              = 85
+color.b              = 97
 helptext             = _("\
 Swamps suffer from an over-abundance of water, making agriculture\
  somewhat problematic.\
@@ -727,9 +727,9 @@ cooler_drier_result  = "no"
 native_to            = "Land", "Small Land", "Big Land", "Air", "Missile", "Helicopter"
 flags                = "NoBarbs", "CanHaveRiver"
 property_cold        = 50
-color.r              = 74
-color.g              = 74
-color.b              = 74
+color.r              = 188
+color.g              = 188
+color.b              = 188
 helptext             = _("\
 Tundra are broad, cold regions, fit for some agriculture and little\
  else.\
