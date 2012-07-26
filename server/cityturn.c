@@ -1177,6 +1177,19 @@ static bool worklist_change_build_target(struct player *pplayer,
                                         API_TYPE_CITY, pcity,
                                         API_TYPE_STRING, "need_terrainclass");
 	      break;
+	    case VUT_TERRFLAG:
+              notify_player(pplayer, city_tile(pcity),
+                            E_CITY_CANTBUILD, ftc_server,
+                            _("%s can't build %s from the worklist; "
+                              "%s terrain flag is required.  Postponing..."),
+                            city_link(pcity),
+                            city_improvement_name_translation(pcity, ptarget),
+                            terrain_flag_id_name(preq->source.value.terrainflag));
+              script_server_signal_emit("building_cant_be_built", 3,
+                                        API_TYPE_BUILDING_TYPE, ptarget,
+                                        API_TYPE_CITY, pcity,
+                                        API_TYPE_STRING, "need_terrainflag");
+	      break;
             case VUT_ROAD:
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,

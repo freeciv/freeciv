@@ -80,6 +80,13 @@ struct universal universal_by_rule_name(const char *kind,
       return source;
     }
     break;
+  case VUT_TERRFLAG:
+    source.value.terrainflag
+      = terrain_flag_id_by_name(value, fc_strcasecmp);
+    if (terrain_flag_id_is_valid(source.value.terrainflag)) {
+      return source;
+    }
+    break;
   case VUT_RESOURCE:
     source.value.resource = resource_by_rule_name(value);
     if (source.value.resource != NULL) {
@@ -229,6 +236,9 @@ struct universal universal_by_number(const enum universals_n kind,
       return source;
     }
     break;
+  case VUT_TERRFLAG:
+    source.value.terrainflag = value;
+    return source;
   case VUT_RESOURCE:
     source.value.resource = resource_by_number(value);
     if (source.value.resource != NULL) {
@@ -327,6 +337,8 @@ int universal_number(const struct universal *source)
     return source->value.special;
   case VUT_TERRAIN:
     return terrain_number(source->value.terrain);
+  case VUT_TERRFLAG:
+    return source->value.terrainflag;
   case VUT_RESOURCE:
     return resource_number(source->value.resource);
   case VUT_NATION:
@@ -396,6 +408,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_IMPROVEMENT:
     case VUT_SPECIAL:
     case VUT_TERRAIN:
+    case VUT_TERRFLAG:
     case VUT_RESOURCE:
     case VUT_UTYPE:
     case VUT_UTFLAG:
@@ -435,6 +448,7 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_TERRAIN:
   case VUT_RESOURCE:
   case VUT_TERRAINCLASS:
+  case VUT_TERRFLAG:
   case VUT_BASE:
   case VUT_ROAD:
     invalid = (req.range != REQ_RANGE_LOCAL
@@ -874,6 +888,37 @@ static bool is_terrain_class_in_range(const struct tile *target_tile,
 }
 
 /****************************************************************************
+  Is there a terrain with the given flag within range of the target?
+****************************************************************************/
+static bool is_terrainflag_in_range(const struct tile *target_tile,
+                                    enum req_range range, bool survives,
+                                    enum terrain_flag_id terrflag)
+{
+  if (!target_tile) {
+    return FALSE;
+  }
+
+  switch (range) {
+  case REQ_RANGE_LOCAL:
+    /* The requirement is filled if the tile has the terrain with correct flag. */
+    return terrain_has_flag(tile_terrain(target_tile), terrflag);
+  case REQ_RANGE_CADJACENT:
+    return is_terrain_flag_card_near(target_tile, terrflag);
+  case REQ_RANGE_ADJACENT:
+    return is_terrain_flag_near_tile(target_tile, terrflag);
+  case REQ_RANGE_CITY:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_WORLD:
+  case REQ_RANGE_COUNT:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  return FALSE;
+}
+
+/****************************************************************************
   Is there a source base type within range of the target?
 ****************************************************************************/
 static bool is_base_type_in_range(const struct tile *target_tile,
@@ -1185,6 +1230,11 @@ bool is_req_active(const struct player *target_player,
 			       req->range, req->survives,
 			       req->source.value.terrain);
     break;
+  case VUT_TERRFLAG:
+    eval = is_terrainflag_in_range(target_tile,
+                                   req->range, req->survives,
+                                   req->source.value.terrainflag);
+    break;
   case VUT_RESOURCE:
     eval = is_resource_in_range(target_tile,
                                 req->range, req->survives,
@@ -1340,6 +1390,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_TERRAIN:
   case VUT_RESOURCE:
   case VUT_TERRAINCLASS:
+  case VUT_TERRFLAG:
   case VUT_TERRAINALTER:
   case VUT_BASE:
     /* Terrains, specials and bases aren't really unchanging; in fact they're
@@ -1380,6 +1431,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.special == psource2->value.special;
   case VUT_TERRAIN:
     return psource1->value.terrain == psource2->value.terrain;
+  case VUT_TERRFLAG:
+    return psource1->value.terrainflag == psource2->value.terrainflag;
   case VUT_RESOURCE:
     return psource1->value.resource == psource2->value.resource;
   case VUT_NATION:
@@ -1442,6 +1495,8 @@ const char *universal_rule_name(const struct universal *psource)
     return special_rule_name(psource->value.special);
   case VUT_TERRAIN:
     return terrain_rule_name(psource->value.terrain);
+  case VUT_TERRFLAG:
+    return terrain_flag_id_name(psource->value.terrainflag);
   case VUT_RESOURCE:
     return resource_rule_name(psource->value.resource);
   case VUT_NATION:
@@ -1553,6 +1608,11 @@ const char *universal_name_translation(const struct universal *psource,
     /* TRANS: "Land terrain" */
     cat_snprintf(buf, bufsz, _("%s terrain"),
                  terrain_class_name_translation(psource->value.terrainclass));
+    return buf;
+  case VUT_TERRFLAG:
+    cat_snprintf(buf, bufsz, _("\"%s\" terrain"),
+                 /* flag names are never translated */
+                 terrain_flag_id_name(psource->value.terrainflag));
     return buf;
   case VUT_BASE:
     /* TRANS: "Fortress base" */

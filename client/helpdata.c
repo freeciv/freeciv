@@ -599,6 +599,32 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     break;
 
+  case VUT_TERRFLAG:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      cat_snprintf(buf, bufsz, _("Requires \"%s\" terrain flag on the tile.\n"),
+                   terrain_flag_id_name(preq->source.value.terrainflag));
+      return TRUE;
+    case REQ_RANGE_CADJACENT:
+      cat_snprintf(buf, bufsz,
+                   _("Requires \"%s\" terrain flag on a cardinally adjacent tile.\n"),
+                   terrain_flag_id_name(preq->source.value.terrainflag));
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+      cat_snprintf(buf, bufsz,
+                   _("Requires \"%s\" terrain flag on an adjacent tile.\n"),
+                   terrain_flag_id_name(preq->source.value.terrainflag));
+      return TRUE;
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_BASE:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
