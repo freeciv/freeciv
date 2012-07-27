@@ -2454,23 +2454,23 @@ static void srv_ready(void)
       || (MAPGEN_SCENARIO == map.server.generator
           && game.info.is_new_game)) {
     int i;
-    bool random_seed = map.server.seed == 0 ? TRUE : FALSE;
-    int max = random_seed ? 2 : 1;
+    bool retry_ok = (map.server.seed == 0 && map.server.generator != MAPGEN_SCENARIO);
+    int max = retry_ok ? 2 : 1;
     bool created = FALSE;
     struct unit_type *utype = crole_to_unit_type(game.server.start_units[0], NULL);
     for (i = 0; !created && i < max ; i++) {
       created = map_fractal_generate(TRUE, utype);
-      if (!created) {
-        if (i == 0 && random_seed) {
+      if (!created && retry_ok) {
+        if (i == 0 && max > 1) {
+          /* We will retry only if max attempts allow it */
           log_error(_("Failed to create suitable map, retrying with another mapseed"));
         }
         /* Reset mapseed so generator knows to use new one */
         map.server.seed = 0;
 
-        /* Remove starting positions already placed to old map */
-        whole_map_iterate(ptile) {
-          map_startpos_remove(ptile);
-        } whole_map_iterate_end;
+        /* Remove old information already present in tiles */
+        map_free();
+        map_allocate(); /* NOT map_init() as that would overwrite settings */
       }
     }
     if (!created) {
