@@ -752,7 +752,7 @@ flags          = "NativeTile"
 
 [road_burrow_tube]
 name           = _("Burrow Tube")
-graphic        = "tunnel"
+graphic        = "burrow_tube"
 graphic_alt    = "road"
 activity_gfx   = "unit.tube"
 act_gfx_alt    = "unit.road"
