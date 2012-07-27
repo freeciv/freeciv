@@ -448,6 +448,33 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 }
 
 /****************************************************************************
+  Is player about to lose tech?
+****************************************************************************/
+static bool lose_tech(struct player *plr)
+{
+  struct player_research *research;
+
+  if (game.server.techloss_forgiveness < 0) {
+    /* Tech loss disabled */
+    return FALSE;
+  }
+
+  research = player_research_get(plr);
+
+  if (research->techs_researched == 0 && research->future_tech == 0) {
+    /* No tech to lose */
+    return FALSE;
+  }
+
+  if (research->bulbs_researched <
+      -total_bulbs_required(plr) * game.server.techloss_forgiveness / 100) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/****************************************************************************
   Adds the given number of bulbs into the player's tech and (if necessary and
   'check_tech' is TRUE) completes the research. If the total number of bulbs
   is negative due to tech upkeep, one (randomly chosen) tech is lost.
@@ -469,8 +496,7 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
    * - try to reduce the number of future techs
    * - or lose one random tech
    * after that the number of bulbs available is set to zero */
-  if (game.info.tech_upkeep_style > 0 && research->bulbs_researched < 0
-      && (research->techs_researched > 0 || research->future_tech > 0)) {
+  if (lose_tech(plr)) {
     if (research->future_tech > 0) {
       notify_player(plr, NULL, E_TECH_GAIN, ftc_server,
                     _("Insufficient science output. We lost Future Tech. %d."),

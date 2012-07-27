@@ -1427,6 +1427,17 @@ static struct setting settings[] = {
           NULL, NULL,
 	  GAME_MIN_FREECOST, GAME_MAX_FREECOST, GAME_DEFAULT_FREECOST)
 
+  GEN_INT("techlossforgiveness", game.server.techloss_forgiveness,
+	  SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
+	  N_("Negative bulbs allowed before losing tech"),
+          N_("When your number of bulbs gets negative value lower than "
+             "this percentage of current research cost, you lose one "
+             "tech and number of bulbs is restored to 0. Special value -1 "
+             "disables tech loss completely."),
+          NULL, NULL,
+	  GAME_MIN_TECHLOSSFG, GAME_MAX_TECHLOSSFG,
+	  GAME_DEFAULT_TECHLOSSFG)
+
   GEN_INT("foodbox", game.info.foodbox,
 	  SSET_RULES, SSET_ECONOMICS, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("Food required for a city to grow"),
