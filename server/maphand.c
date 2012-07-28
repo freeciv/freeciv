@@ -1756,11 +1756,12 @@ void map_claim_border(struct tile *ptile, struct player *owner)
       continue;
     }
 
-    if (!map_is_known(dtile, owner) && BORDERS_EXPAND != game.info.borders) {
+    if (!map_is_known(dtile, owner) && game.info.borders < BORDERS_EXPAND) {
       continue;
     }
 
-    if (NULL != dclaimer && dclaimer != ptile) {
+    /* Always claim source itself (distance, dr, to it 0) */
+    if (dr != 0 && NULL != dclaimer && dclaimer != ptile) {
       struct city *ccity = tile_city(dclaimer);
       int strength_old, strength_new;
 
