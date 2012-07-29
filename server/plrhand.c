@@ -1864,18 +1864,34 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
    * PREFERRED - we can use this nation and it is on the choices list.
    * UNWANTED - we can use this nation, but we really don't want to. */
   nations_iterate(pnation) {
+    index = nation_index(pnation);
+
     if (pnation->player
         || (only_available && !pnation->is_available)
         || (barb_type != nation_barbarian_type(pnation))
         || (barb_type == NOT_A_BARBARIAN && !is_nation_playable(pnation))) {
       /* Nation is unplayable or already used: don't consider it. */
-      index = nation_index(pnation);
       nations_used[index] = UNAVAILABLE;
       match[index] = 0;
       continue;
     }
 
-    index = nation_index(pnation);
+    if (get_allowed_nation_groups()) {
+      /* Don't consider any nations outside the set of allowed groups. */
+      bool allowed = FALSE;
+      nation_group_list_iterate(get_allowed_nation_groups(), pgroup) {
+        if (nation_is_in_group(pnation, pgroup)) {
+          allowed = TRUE;
+          break;
+        }
+      } nation_group_list_iterate_end;
+      if (!allowed) {
+        nations_used[index] = UNAVAILABLE;
+        match[index] = 0;
+        continue;
+      }
+    }
+
     nations_used[index] = AVAILABLE;
 
     /* Determine which nations look good with nations already in the game,

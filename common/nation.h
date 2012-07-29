@@ -165,6 +165,9 @@ enum barbarian_type nation_barbarian_type(const struct nation_type *nation);
 bool can_conn_edit_players_nation(const struct connection *pconn,
 				  const struct player *pplayer);
 
+void set_allowed_nation_groups(struct nation_group_list *plist);
+const struct nation_group_list *get_allowed_nation_groups(void);
+
 /* General nation leader accessor functions. */
 const struct nation_leader_list *
 nation_leaders(const struct nation_type *pnation);
@@ -208,6 +211,8 @@ struct nation_group *nation_group_by_number(int id);
 struct nation_group *nation_group_by_rule_name(const char *name);
 
 void nation_group_set_match(struct nation_group *pgroup, int match);
+void nation_group_set_set(struct nation_group *pgroup, bool is_set);
+bool nation_group_is_a_set(const struct nation_group *pgroup);
 
 const char *nation_group_untranslated_name(const struct nation_group *pgroup);
 const char *nation_group_rule_name(const struct nation_group *pgroup);
