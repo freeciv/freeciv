@@ -135,8 +135,10 @@ void create_tmap(bool real)
       /* near ocean temperature can be 15 % more "temperate" */
       float temperate = (0.15 * (map.server.temperature / 100 - t
                                  / MAX_COLATITUDE)
-                         * 2 * MIN(50 , count_ocean_near_tile(ptile,
-                                                              FALSE, TRUE))
+                         * 2 * MIN(50, count_terrain_class_near_tile(ptile,
+                                                                     FALSE,
+                                                                     TRUE,
+                                                                     TC_OCEAN))
                          / 100);
 
       tmap(ptile) =  t * (1.0 + temperate) * (1.0 + height);

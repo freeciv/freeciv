@@ -125,12 +125,9 @@ struct resource {
 /*this tile is not safe as coast, (all ocean / ice) */
 #define SPECENUM_VALUE5 TER_UNSAFE_COAST
 #define SPECENUM_VALUE5NAME "UnsafeCoast"
-/* This is an water terrain. */
-#define SPECENUM_VALUE6 TER_OCEANIC
-#define SPECENUM_VALUE6NAME "Oceanic"
 /* Fresh water terrain */
-#define SPECENUM_VALUE7 TER_FRESHWATER
-#define SPECENUM_VALUE7NAME "FreshWater"
+#define SPECENUM_VALUE6 TER_FRESHWATER
+#define SPECENUM_VALUE6NAME "FreshWater"
 #include "specenum_gen.h"
 
 #define TER_MAX 64 /* Changing this breaks network compatability. */
@@ -174,6 +171,8 @@ struct terrain {
   char identifier; /* Single-character identifier used in savegames. */
 
 #define TERRAIN_UNKNOWN_IDENTIFIER 'u'
+
+  enum terrain_class class;
 
   int movement_cost;
   int defense_bonus; /* % defense bonus - defaults to zero */
@@ -256,16 +255,10 @@ int count_terrain_flag_near_tile(const struct tile *ptile,
 				 enum terrain_flag_id flag);
 
 /* Terrain-specific functions. */
-#define is_ocean(pterrain) ((pterrain) != T_UNKNOWN			\
-			    && terrain_has_flag((pterrain), TER_OCEANIC))
+#define is_ocean(pterrain) ((pterrain) != T_UNKNOWN \
+                            && terrain_type_terrain_class(pterrain) == TC_OCEAN)
 #define is_ocean_tile(ptile) \
   is_ocean(tile_terrain(ptile))
-#define is_ocean_card_near(ptile) \
-  is_terrain_flag_card_near(ptile, TER_OCEANIC)
-#define is_ocean_near_tile(ptile) \
-  is_terrain_flag_near_tile(ptile, TER_OCEANIC)
-#define count_ocean_near_tile(ptile, cardinal_only, percentage)		\
-  count_terrain_flag_near_tile(ptile, cardinal_only, percentage, TER_OCEANIC)
 
 bool terrain_has_resource(const struct terrain *pterrain,
 			  const struct resource *presource);
@@ -348,10 +341,12 @@ int count_special_near_tile(const struct tile *ptile,
 /* Functions to operate on a terrain class. */
 const char *terrain_class_name_translation(enum terrain_class tclass);
 
-bool terrain_belongs_to_class(const struct terrain *pterrain,
-                              enum terrain_class tclass);
+enum terrain_class terrain_type_terrain_class(const struct terrain *pterrain);
 bool is_terrain_class_card_near(const struct tile *ptile, enum terrain_class tclass);
 bool is_terrain_class_near_tile(const struct tile *ptile, enum terrain_class tclass);
+int count_terrain_class_near_tile(const struct tile *ptile,
+                                  bool cardinal_only, bool percentage,
+                                  enum terrain_class tclass);
 
 /* Functions to deal with possible terrain alterations. */
 const char *terrain_alteration_name_translation(enum terrain_alteration talter);

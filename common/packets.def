@@ -1357,6 +1357,7 @@ end
 PACKET_RULESET_TERRAIN = 151; sc, lsend
   TERRAIN id;
 
+  UINT8 class;
   BV_TERRAIN_FLAGS flags;
   BV_UNIT_CLASSES native_to;
 

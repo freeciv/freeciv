@@ -646,7 +646,7 @@ int map_distance(const struct tile *tile0, const struct tile *tile1)
 *************************************************************************/
 bool is_cardinally_adj_to_ocean(const struct tile *ptile)
 {
-  return count_terrain_flag_near_tile(ptile, TRUE, FALSE, TER_OCEANIC) > 0;
+  return is_terrain_class_card_near(ptile, TC_OCEAN);
 }
 
 /****************************************************************************
@@ -686,7 +686,8 @@ a sufficient number of adjacent tiles that are not ocean.
 **************************************************************************/
 bool can_reclaim_ocean(const struct tile *ptile)
 {
-  int land_tiles = 100 - count_ocean_near_tile(ptile, FALSE, TRUE);
+  int land_tiles = 100 - count_terrain_class_near_tile(ptile, FALSE, TRUE,
+                                                       TC_OCEAN);
 
   return land_tiles >= terrain_control.ocean_reclaim_requirement_pct;
 }
@@ -698,7 +699,7 @@ a sufficient number of adjacent tiles that are ocean.
 **************************************************************************/
 bool can_channel_land(const struct tile *ptile)
 {
-  int ocean_tiles = count_ocean_near_tile(ptile, FALSE, TRUE);
+  int ocean_tiles = count_terrain_class_near_tile(ptile, FALSE, TRUE, TC_OCEAN);
 
   return ocean_tiles >= terrain_control.land_channel_requirement_pct;
 }

@@ -295,7 +295,7 @@ static void pf_normal_node_init(struct pf_normal_map *pfnm,
     struct city *pcity = tile_city(ptile);
     struct terrain *pterrain = tile_terrain(ptile);
     bool my_zoc = (NULL != pcity || pterrain == T_UNKNOWN
-                   || terrain_has_flag(pterrain, TER_OCEANIC)
+                   || terrain_type_terrain_class(pterrain) == TC_OCEAN
                    || params->get_zoc(params->owner, ptile));
     /* ZoC rules cannot prevent us from moving into/attacking an occupied
      * tile. Other rules can, but we don't care about them here. */
@@ -919,7 +919,7 @@ static void pf_danger_node_init(struct pf_danger_map *pfdm,
     struct city *pcity = tile_city(ptile);
     struct terrain *pterrain = tile_terrain(ptile);
     bool my_zoc = (NULL != pcity || pterrain == T_UNKNOWN
-                   || terrain_has_flag(pterrain, TER_OCEANIC)
+                   || terrain_type_terrain_class(pterrain) == TC_OCEAN
                    || params->get_zoc(params->owner, ptile));
     /* ZoC rules cannot prevent us from moving into/attacking an occupied
      * tile. Other rules can, but we don't care about them here. */
@@ -1767,7 +1767,7 @@ static void pf_fuel_node_init(struct pf_fuel_map *pffm,
     struct city *pcity = tile_city(ptile);
     struct terrain *pterrain = tile_terrain(ptile);
     bool my_zoc = (NULL != pcity || pterrain == T_UNKNOWN
-                   || terrain_has_flag(pterrain, TER_OCEANIC)
+                   || terrain_type_terrain_class(pterrain) == TC_OCEAN
                    || params->get_zoc(params->owner, ptile));
     /* ZoC rules cannot prevent us from moving into/attacking an occupied
      * tile. Other rules can, but we don't care about them here. */

@@ -367,7 +367,7 @@ static unsigned int assess_danger_unit(const struct city *pcity,
       && !can_attack_non_native(punittype)) {
     return 0;
   }
-  if (is_sailing_unit(punit) && !is_ocean_near_tile(ptile)) {
+  if (is_sailing_unit(punit) && !is_terrain_class_near_tile(ptile, TC_OCEAN)) {
     return 0;
   }
 
@@ -849,7 +849,7 @@ static void process_attacker_want(struct city *pcity,
   struct pf_parameter parameter;
   struct pf_map *pfm;
   struct pf_position pos;
-  bool shore = is_ocean_near_tile(pcity->tile);
+  bool shore = is_terrain_class_near_tile(pcity->tile, TC_OCEAN);
   int orig_move_type = utype_move_type(best_choice->value.utype);
   int victim_count = 1;
   int needferry = 0;

@@ -909,66 +909,74 @@ bool get_preferred_pillage(struct act_tgt *tgt,
 }
 
 /****************************************************************************
-  Does terrain type belong to terrain class?
+  What terrain class terrain type belongs to.
 ****************************************************************************/
-bool terrain_belongs_to_class(const struct terrain *pterrain,
-                              enum terrain_class class)
+enum terrain_class terrain_type_terrain_class(const struct terrain *pterrain)
 {
-  switch(class) {
-   case TC_LAND:
-     return !is_ocean(pterrain);
-   case TC_OCEAN:
-     return is_ocean(pterrain);
-  }
-
-  fc_assert(FALSE);
-  return FALSE;
+  return pterrain->class;
 }
 
 /****************************************************************************
   Is there terrain of the given class cardinally near tile?
 ****************************************************************************/
-bool is_terrain_class_card_near(const struct tile *ptile, enum terrain_class class)
+bool is_terrain_class_card_near(const struct tile *ptile,
+                                enum terrain_class tclass)
 {
-  switch(class) {
-   case TC_LAND:
-     cardinal_adjc_iterate(ptile, adjc_tile) {
-       struct terrain* pterrain = tile_terrain(adjc_tile);
-       if (T_UNKNOWN != pterrain
-           && !terrain_has_flag(pterrain, TER_OCEANIC)) {
-         return TRUE;
-       }
-     } cardinal_adjc_iterate_end;
-     return FALSE;
-   case TC_OCEAN:
-     return is_ocean_card_near(ptile);
-  }
+  cardinal_adjc_iterate(ptile, adjc_tile) {
+    struct terrain* pterrain = tile_terrain(adjc_tile);
 
-  fc_assert(FALSE);
+    if (pterrain != T_UNKNOWN) {
+      if (terrain_type_terrain_class(pterrain) == tclass) {
+        return TRUE;
+      }
+    }
+  } cardinal_adjc_iterate_end;
+
   return FALSE;
 }
 
 /****************************************************************************
   Is there terrain of the given class near tile?
 ****************************************************************************/
-bool is_terrain_class_near_tile(const struct tile *ptile, enum terrain_class class)
+bool is_terrain_class_near_tile(const struct tile *ptile,
+                                enum terrain_class tclass)
 {
-  switch(class) {
-   case TC_LAND:
-     adjc_iterate(ptile, adjc_tile) {
-       struct terrain* pterrain = tile_terrain(adjc_tile);
-       if (T_UNKNOWN != pterrain
-           && !terrain_has_flag(pterrain, TER_OCEANIC)) {
-         return TRUE;
-       }
-     } adjc_iterate_end;
-     return FALSE;
-   case TC_OCEAN:
-     return is_ocean_near_tile(ptile);
+  adjc_iterate(ptile, adjc_tile) {
+    struct terrain* pterrain = tile_terrain(adjc_tile);
+
+    if (pterrain != T_UNKNOWN) {
+      if (terrain_type_terrain_class(pterrain) == tclass) {
+        return TRUE;
+      }
+    }
+  } adjc_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Return the number of adjacent tiles that have given terrain class.
+****************************************************************************/
+int count_terrain_class_near_tile(const struct tile *ptile,
+                                  bool cardinal_only, bool percentage,
+                                  enum terrain_class tclass)
+{
+  int count = 0, total = 0;
+
+  variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
+    struct terrain *pterrain = tile_terrain(adjc_tile);
+    if (T_UNKNOWN != pterrain
+        && terrain_type_terrain_class(pterrain) == tclass) {
+      count++;
+    }
+    total++;
+  } variable_adjc_iterate_end;
+
+  if (percentage) {
+    count = count * 100 / total;
   }
 
-  fc_assert(FALSE);
-  return FALSE;
+  return count;
 }
 
 /****************************************************************************

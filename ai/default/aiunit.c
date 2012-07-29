@@ -1179,7 +1179,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
                                         aiferry_find_boat(punit, 1, NULL));
     }
 
-    if (0 == punit->id && is_ocean_near_tile(punit_tile)) {
+    if (0 == punit->id && is_terrain_class_near_tile(punit_tile, TC_OCEAN)) {
       harbor = TRUE;
     }
   }
@@ -2430,7 +2430,7 @@ static void dai_manage_barbarian_leader(struct player *pplayer,
 
   /* Disappearance - 33% chance on coast, when older than barbarian life
    * span. */
-  if (is_ocean_near_tile(unit_tile(leader))
+  if (is_terrain_class_near_tile(unit_tile(leader), TC_OCEAN)
       && (leader->server.birth_turn + BARBARIAN_MIN_LIFESPAN
           < game.info.turn)) {
     if (fc_rand(3) == 0) {

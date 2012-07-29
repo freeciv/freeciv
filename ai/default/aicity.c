@@ -1357,7 +1357,7 @@ static int improvement_effect_value(struct player *pplayer,
               /* FIXME: This ignores riverboats on some rulesets.
                         We should analyze rulesets when game starts
                         and have relevant checks here. */
-              && is_ocean_near_tile(pcity->tile))) {
+              && is_terrain_class_near_tile(pcity->tile, TC_OCEAN))) {
         if (ai->threats.continent[tile_continent(pcity->tile)]) {
           v += amount;
         } else {

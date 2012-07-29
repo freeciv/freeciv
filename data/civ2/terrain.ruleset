@@ -106,6 +106,7 @@ fallout_trade_penalty=50
 ; identifier           = single-character identifier used in savegames.  This
 ;                        must be unique for each terrain, and changing it will
 ;                        break savegame compatibility.
+; class                = Terrain class terrain belongs to: "Land" or "Oceanic"
 ; movement_cost        = typically 1 to 3
 ; defense_bonus        = percent added to defense; typically 0% to 200%
 ; food                 = normal food production
@@ -156,14 +157,6 @@ fallout_trade_penalty=50
 ;                        separately).
 ;   - UnsafeCoast      = This terrain does not provide a safe voyage for
 ;                        F_TRIRIEME units.
-;   - Oceanic          = This is an "ocean" terrain.  This has a big effect
-;                        on gameplay.  Naval units can move on oceanic terrain,
-;                        while land units cannot.  Oceanic tiles can be used
-;                        as a water source for irrigation.  Cities built next
-;                        to oceanic terrain can build naval improvements and
-;                        units.  Most terrain improvements can only be built
-;                        on land.  Oceanic terrain has no zones of control.
-;                        The list goes on.
 ;   - FreshWater       = This terrain is used for small bodies of water.
 ; property_*           = specific property % values used by mapgen.  Most
 ;                        terrains will have 0 for most values.
@@ -190,6 +183,7 @@ name                 = _("Ocean")
 graphic              = "coast"
 graphic_alt          = "-"
 identifier           = " "
+class                = "Oceanic"
 movement_cost        = 1
 defense_bonus        = 0
 food                 = 1
@@ -212,7 +206,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile", "Helicopter"
-flags                = "Oceanic", "UnsafeCoast", "NoCities", "NoPollution"
+flags                = "UnsafeCoast", "NoCities", "NoPollution"
 property_ocean_depth = 36
 color.r              = 0
 color.g              = 46
@@ -227,6 +221,7 @@ name                 = _("Glacier")
 graphic              = "arctic"
 graphic_alt          = "-"
 identifier           = "a"
+class                = "Land"
 movement_cost        = 2
 defense_bonus        = 0
 food                 = 0
@@ -265,6 +260,7 @@ name                 = _("Desert")
 graphic              = "desert"
 graphic_alt          = "-"
 identifier           = "d"
+class                = "Land"
 movement_cost        = 1
 defense_bonus        = 0
 food                 = 0
@@ -304,6 +300,7 @@ name                 = _("Forest")
 graphic              = "forest"
 graphic_alt          = "-"
 identifier           = "f"
+class                = "Land"
 movement_cost        = 2
 defense_bonus        = 50
 food                 = 1
@@ -344,6 +341,7 @@ name                 = _("Grassland")
 graphic              = "grassland"
 graphic_alt          = "-"
 identifier           = "g"
+class                = "Land"
 movement_cost        = 1
 defense_bonus        = 0
 food                 = 2
@@ -381,6 +379,7 @@ name                 = _("Hills")
 graphic              = "hills"
 graphic_alt          = "-"
 identifier           = "h"
+class                = "Land"
 movement_cost        = 2
 defense_bonus        = 100
 food                 = 1
@@ -419,6 +418,7 @@ name                 = _("Jungle")
 graphic              = "jungle"
 graphic_alt          = "-"
 identifier           = "j"
+class                = "Land"
 movement_cost        = 2
 defense_bonus        = 50
 food                 = 1
@@ -458,6 +458,7 @@ name                 = _("Mountains")
 graphic              = "mountains"
 graphic_alt          = "-"
 identifier           = "m"
+class                = "Land"
 movement_cost        = 3
 defense_bonus        = 200
 food                 = 0
@@ -495,6 +496,7 @@ name                 = _("Plains")
 graphic              = "plains"
 graphic_alt          = "-"
 identifier           = "p"
+class                = "Land"
 movement_cost        = 1
 defense_bonus        = 0
 food                 = 1
@@ -534,6 +536,7 @@ name                 = _("Swamp")
 graphic              = "swamp"
 graphic_alt          = "-"
 identifier           = "s"
+class                = "Land"
 movement_cost        = 2
 defense_bonus        = 50
 food                 = 1
@@ -574,6 +577,7 @@ name                 = _("Tundra")
 graphic              = "tundra"
 graphic_alt          = "-"
 identifier           = "t"
+class                = "Land"
 movement_cost        = 1
 defense_bonus        = 0
 food                 = 1

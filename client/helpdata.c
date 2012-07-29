@@ -1916,12 +1916,12 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz, "\n");
   }
   if (terrain_has_flag(pterrain, TER_UNSAFE_COAST)
-      && !terrain_has_flag(pterrain, TER_OCEANIC)) {
+      && terrain_type_terrain_class(pterrain) != TC_OCEAN) {
     CATLSTR(buf, bufsz,
 	    _("* The coastline of this terrain is unsafe."));
     CATLSTR(buf, bufsz, "\n");
   }
-  if (terrain_has_flag(pterrain, TER_OCEANIC)) {
+  if (terrain_type_terrain_class(pterrain) == TC_OCEAN) {
     CATLSTR(buf, bufsz,
 	    _("* Land units cannot travel on oceanic terrains."));
     CATLSTR(buf, bufsz, "\n");

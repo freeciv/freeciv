@@ -677,7 +677,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
     UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "will have to go to (%d,%d) by boat",
              TILE_XY(dest_tile));
 
-    if (!is_ocean_near_tile(unit_tile(punit))) {
+    if (!is_terrain_class_near_tile(unit_tile(punit), TC_OCEAN)) {
       struct pf_path *path_to_ferry = NULL;
 
       boatid = aiferry_find_boat(punit, 2, &path_to_ferry);
@@ -701,7 +701,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
       pf_path_destroy(path_to_ferry);
     }
 
-    if (!is_ocean_near_tile(unit_tile(punit))) {
+    if (!is_terrain_class_near_tile(unit_tile(punit), TC_OCEAN)) {
       /* Still haven't reached the coast */
       return FALSE;
     }

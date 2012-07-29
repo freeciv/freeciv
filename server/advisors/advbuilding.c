@@ -211,7 +211,7 @@ void building_advisor(struct player *pplayer)
         }
       }
 
-      if (is_ocean_near_tile(pcity->tile)) {
+      if (is_terrain_class_near_tile(pcity->tile, TC_OCEAN)) {
         value /= 2;
       }
       /* Downtown is the number of cities within a certain pf range.

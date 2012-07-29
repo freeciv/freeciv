@@ -870,7 +870,7 @@ static bool is_terrain_class_in_range(const struct tile *target_tile,
   switch (range) {
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has the terrain of correct class. */
-    return terrain_belongs_to_class(tile_terrain(target_tile), class);
+    return (terrain_type_terrain_class(tile_terrain(target_tile)) == class);
   case REQ_RANGE_CADJACENT:
     return is_terrain_class_card_near(target_tile, class);
   case REQ_RANGE_ADJACENT:

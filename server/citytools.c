@@ -790,7 +790,7 @@ struct city *find_closest_city(const struct tile *ptile,
        * - (if required) only cities known by the player */
       if ((best_dist == -1 || city_dist < best_dist)
           && (!only_continent || con == tile_continent(pcity->tile))
-          && (!only_ocean || is_ocean_near_tile(city_tile(pcity)))
+          && (!only_ocean || is_terrain_class_near_tile(city_tile(pcity), TC_OCEAN))
           && (!only_known
               || (map_is_known(city_tile(pcity), pplayer)
                   && map_get_player_site(city_tile(pcity), pplayer)->identity
@@ -2551,7 +2551,7 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
   adjc_iterate(ptile, tile1) {
     struct city *pcity = tile_city(tile1);
 
-    if (pcity && !is_ocean_near_tile(tile1)) {
+    if (pcity && !is_terrain_class_near_tile(tile1, TC_OCEAN)) {
       struct player *pplayer = city_owner(pcity);
 
       /* Sell all buildings (but not Wonders) that must be next to the ocean */

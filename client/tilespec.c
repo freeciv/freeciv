@@ -3639,7 +3639,7 @@ static int fill_road_sprite_array(const struct tileset *t,
       road_near[dir] = BV_ISSET(troad_near[dir], road_idx);
       if (cl) {
         land_near[dir] = (tterrain_near[dir] != T_UNKNOWN
-                          && !terrain_has_flag(tterrain_near[dir], TER_OCEANIC));
+                          && terrain_type_terrain_class(tterrain_near[dir]) != TC_OCEAN);
       }
     } else {
       road_near[dir] = FALSE;
@@ -3653,7 +3653,7 @@ static int fill_road_sprite_array(const struct tileset *t,
     draw_road[dir] = roads_exist;
     hider_near[dir] = FALSE;
     hland_near[dir] = tterrain_near[dir] != T_UNKNOWN
-                      && !terrain_has_flag(tterrain_near[dir], TER_OCEANIC);
+      && terrain_type_terrain_class(tterrain_near[dir]) != TC_OCEAN;
     road_type_list_iterate(proad->hiders, phider) {
       bool hider_dir = FALSE;
       bool land_dir = FALSE;
@@ -4576,7 +4576,7 @@ int fill_sprite_array(struct tileset *t,
   case LAYER_WATER:
     if (NULL != pterrain) {
       if (draw_terrain && !solid_bg
-       && terrain_has_flag(pterrain, TER_OCEANIC)) {
+          && terrain_type_terrain_class(pterrain) == TC_OCEAN) {
 	for (dir = 0; dir < 4; dir++) {
 	  if (contains_special(tspecial_near[DIR4_TO_DIR8[dir]], S_RIVER)) {
 	    ADD_SPRITE_SIMPLE(t->sprites.tx.river_outlet[dir]);
@@ -4596,7 +4596,7 @@ int fill_sprite_array(struct tileset *t,
 	  enum direction8 dir = t->cardinal_tileset_dirs[i];
 
 	  if (contains_special(tspecial_near[dir], S_RIVER)
-	      || terrain_has_flag(tterrain_near[dir], TER_OCEANIC)) {
+	      || terrain_type_terrain_class(tterrain_near[dir]) == TC_OCEAN) {
 	    tileno |= 1 << i;
 	  }
 	}

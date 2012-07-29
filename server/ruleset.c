@@ -2037,6 +2037,7 @@ static void load_ruleset_terrain(struct section_file *file)
     const char **slist;
     const int i = terrain_index(pterrain);
     const char *tsection = &terrain_sections[i * MAX_SECTION_LABEL];
+    const char *cstr;
 
     sz_strlcpy(pterrain->graphic_str,
 	       secfile_lookup_str(file,"%s.graphic", tsection));
@@ -2063,6 +2064,13 @@ static void load_ruleset_terrain(struct section_file *file)
                       tsection,
                       &terrain_sections[j * MAX_SECTION_LABEL]);
       }
+    }
+
+    cstr = secfile_lookup_str(file, "%s.class", tsection);
+    pterrain->class = terrain_class_by_name(cstr, fc_strcasecmp);
+    if (!terrain_class_is_valid(pterrain->class)) {
+      ruleset_error(LOG_FATAL, "\"%s\": [%s] unknown class \"%s\"",
+                    filename, tsection, cstr);
     }
 
     if (!secfile_lookup_int(file, &pterrain->movement_cost,
@@ -4095,6 +4103,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
     struct resource **r;
 
     packet.id = terrain_number(pterrain);
+    packet.class = pterrain->class;
     packet.native_to = pterrain->native_to;
 
     sz_strlcpy(packet.name, untranslated_name(&pterrain->name));

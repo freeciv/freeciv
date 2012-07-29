@@ -77,12 +77,11 @@ fallout_trade_penalty=50
 ; /* <-- avoid gettext warnings
 ;
 ; Below: The individual terrain types, one per section.
-; For now, the number of such sections must be kept the same (=12).
-; Also, terrains should be in the same order as defined in common/map.h,
-; and have similar roles/effects, as some things are still hardwired.
-; The actual tag used (the * in [terrain_*]) does not matter, except 
-; it must be unique for each terrain, and it may be used in debug 
-; output when reading this file.
+;
+; The actual tag used (the * in [terrain_*]) must be unique for each terrain,
+; should contain the specific strings found in the nation city_name lists,
+; and may be used in debug output when reading this file.
+; Some have been chosen to avoid the city_name lists (_peaks, _water).
 ;
 ; Notes:
 ;
@@ -101,6 +100,7 @@ fallout_trade_penalty=50
 ; identifier           = single-character identifier used in savegames.  This
 ;                        must be unique for each terrain, and changing it will
 ;                        break savegame compatibility.
+; class                = Terrain class terrain belongs to: "Land" or "Oceanic"
 ; movement_cost        = typically 1 to 3
 ; defense_bonus        = percent added to defense; typically 0% to 200%
 ; food                 = normal food production
@@ -151,14 +151,6 @@ fallout_trade_penalty=50
 ;                        separately).
 ;   - UnsafeCoast      = This terrain does not provide a safe coast for
 ;                        F_TRIRIEME units.
-;   - Oceanic          = This is an "ocean" terrain.  This has a big effect
-;                        on gameplay.  Naval units can move on oceanic terrain,
-;                        while land units cannot.  Oceanic tiles can be used
-;                        as a water source for irrigation.  Cities built next
-;                        to oceanic terrain can build naval improvements and
-;                        units.  Most terrain improvements can only be built
-;                        on land.  Oceanic terrain has no zones of control.
-;                        The list goes on.
 ;   - FreshWater       = This terrain is used for small bodies of water.
 ; property_*           = specific property % values used by mapgen.  Most
 ;                        terrains will have 0 for most values.
@@ -185,6 +177,7 @@ name                 = _("Grassland")
 graphic              = "grassland"
 graphic_alt	     = "-"
 identifier	     = "g"
+class                = "Land"
 movement_cost        = 1
 defense_bonus        = 0
 food                 = 2
@@ -224,6 +217,7 @@ name                 = _("Alien Forest")
 graphic              = "alien_forest"
 graphic_alt	     = "forest"
 identifier	     = "f"
+class                = "Land"
 movement_cost        = 2
 defense_bonus        = 50
 food                 = 1
@@ -266,6 +260,7 @@ name                 = _("Radiating Rocks")
 graphic              = "radiating_rocks"
 graphic_alt	     = "desert"
 identifier	     = "d"
+class                = "Land"
 movement_cost        = 2
 defense_bonus        = 50
 food                 = 0
@@ -307,6 +302,7 @@ name                 = _("Hills")
 graphic              = "hills"
 graphic_alt          = "-"
 identifier           = "h"
+class                = "Land"
 movement_cost        = 2
 defense_bonus        = 150
 food                 = 1
@@ -345,6 +341,7 @@ name                 = _("Thick Mountains")
 graphic              = "mountains"
 graphic_alt          = "-"
 identifier           = "m"
+class                = "Land"
 movement_cost        = 3
 defense_bonus        = 200
 food                 = 0
@@ -383,6 +380,7 @@ name                 = _("Ocean")
 graphic              = "ocean"
 graphic_alt          = "coast"
 identifier           = " "
+class                = "Oceanic"
 movement_cost        = 1
 defense_bonus        = 0
 food                 = 1
@@ -407,7 +405,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Amphibious", "Antigravity", "Missile"
-flags                = "Oceanic", "UnsafeCoast"
+flags                = "UnsafeCoast"
 property_ocean_depth = 35
 color.r              = 0
 color.g              = 0
@@ -421,6 +419,7 @@ name                 = _("Boiling Ocean")
 graphic              = "boiling_ocean"
 graphic_alt          = "floor"
 identifier           = "b"
+class                = "Oceanic"
 movement_cost        = 1
 defense_bonus        = 0
 food                 = 1
@@ -445,7 +444,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Amphibious", "Antigravity", "Missile"
-flags                = "Oceanic", "UnsafeCoast"
+flags                = "UnsafeCoast"
 property_ocean_depth = 70
 color.r              = 30
 color.g              = 30

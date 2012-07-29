@@ -1273,7 +1273,7 @@ static void city_select_coastal_callback(GtkMenuItem *item, gpointer data)
   for (itree_begin(model, &it); !itree_end(&it); itree_next(&it)) {
     struct city *pcity = city_model_get(model, TREE_ITER_PTR(it));
 
-    if (NULL != pcity && is_ocean_near_tile(pcity->tile)) {
+    if (NULL != pcity && is_terrain_class_near_tile(pcity->tile, TC_OCEAN)) {
       itree_select(city_selection, &it);
     }
   }

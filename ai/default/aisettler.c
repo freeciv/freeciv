@@ -584,7 +584,7 @@ static int defense_bonus(const struct cityresult *result)
 **************************************************************************/
 static int naval_bonus(const struct cityresult *result)
 {
-  bool ocean_adjacent = is_ocean_near_tile(result->tile);
+  bool ocean_adjacent = is_terrain_class_near_tile(result->tile, TC_OCEAN);
 
   /* Adjust for ocean adjacency, which is nice */
   if (ocean_adjacent) {
@@ -882,7 +882,8 @@ static struct cityresult *find_best_city_placement(struct unit *punit,
     ferry = game_unit_by_number(ferry_id);
   }
 
-  if (ferry || (use_virt_boat && is_ocean_near_tile(unit_tile(punit))
+  if (ferry || (use_virt_boat
+                && is_terrain_class_near_tile(unit_tile(punit), TC_OCEAN)
                 && tile_city(unit_tile(punit)))) {
     if (!ferry) {
       /* No boat?  Get a virtual one! */
@@ -1220,7 +1221,7 @@ void contemplate_new_city(struct city *pcity)
 
   if (pplayer->ai_controlled) {
     struct cityresult *result;
-    bool is_coastal = is_ocean_near_tile(pcenter);
+    bool is_coastal = is_terrain_class_near_tile(pcenter, TC_OCEAN);
     struct ai_city *city_data = def_ai_city_data(pcity);
 
     result = find_best_city_placement(virtualunit, is_coastal, is_coastal);
