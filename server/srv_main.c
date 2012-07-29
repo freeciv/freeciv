@@ -2004,6 +2004,53 @@ static void generate_players(void)
     }
   } players_iterate_end;
 
+  /* Calculate the union of the nation sets of assigned nations.
+   * Further assignments (here and throughout the game) will be limited
+   * to this subset of nations. */
+  {
+    struct nation_group_list *sets = nation_group_list_new();
+    players_iterate(pplayer) {
+      int nsets = 0;
+      if (!pplayer->nation) {
+        continue;
+      }
+      nation_group_list_iterate(pplayer->nation->groups, pgroup) {
+        if (nation_group_is_a_set(pgroup)) {
+          if (!nation_group_list_search(sets, pgroup)) {
+            nation_group_list_append(sets, pgroup);
+          }
+          nsets++;
+        }
+      } nation_group_list_iterate_end;
+      if (nsets == 0) {
+        /* Nation is in no explicit sets. Treat it as being in a virtual
+         * set of all nations. This is signalled as NULL. */
+        nation_group_list_destroy(sets);
+        sets = NULL;
+        /* Since the union can't get any bigger after this, bail out now. */
+        break;
+      }
+    } players_iterate_end;
+
+    /* Were there any assigned nations? If so, the list will either have
+     * some members or have been set to NULL to indicate no restrictions. */
+    if (sets && nation_group_list_size(sets) == 0) {
+      /* No -- fall back to default behaviour.
+       * If there are any sets defined, use the first one (we rely on
+       * sets being loaded from the ruleset before other groups),
+       * otherwise no restrictions. */
+      struct nation_group *first = nation_group_by_number(0);
+      if (first && nation_group_is_a_set(first)) {
+        nation_group_list_append(sets, first);
+      } else {
+        nation_group_list_destroy(sets);
+        sets = NULL;
+      }
+    }
+    /* Configure pick_a_nation(). */
+    set_allowed_nation_groups(sets);
+  }
+
   if (0 < nations_to_assign && 0 < map_startpos_count()) {
     /* We're running a scenario game with specified start positions.
      * Prefer nations assigned to those positions. */

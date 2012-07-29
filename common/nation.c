@@ -45,6 +45,9 @@ struct nation_group {
 
       /* How much the AI will try to select a nation in the same group */
       int match;
+
+      /* Whether to treat the group as a self-contained subset */
+      bool set;
     } server;
 
     struct {
@@ -665,7 +668,7 @@ struct nation_group *nation_group_new(const char *name)
   struct nation_group *pgroup;
 
   if (MAX_NUM_NATION_GROUPS <= num_nation_groups) {
-    log_error("Too many groups of nations (%d is the maximum).",
+    log_error("Too many groups/sets of nations (%d is the maximum).",
               MAX_NUM_NATION_GROUPS);
     return NULL;
   }
@@ -674,12 +677,13 @@ struct nation_group *nation_group_new(const char *name)
   pgroup = nation_groups + num_nation_groups;
   name_set(&pgroup->name, name);
   if (NULL != nation_group_by_rule_name(rule_name(&pgroup->name))) {
-    log_error("Duplicate nation group name %s.", rule_name(&pgroup->name));
+    log_error("Duplicate nation group/set name %s.", rule_name(&pgroup->name));
     return NULL;
   }
 
   if (is_server()) {
     pgroup->server.match = 0;
+    pgroup->server.set = FALSE;
   }
   num_nation_groups++;
 
@@ -726,6 +730,28 @@ void nation_group_set_match(struct nation_group *pgroup, int match)
   fc_assert_ret(is_server());
   fc_assert_ret(NULL != pgroup);
   pgroup->server.match = match;
+}
+
+/****************************************************************************
+  Set whether the group is considered a self-contained subset.
+  Server only function.
+****************************************************************************/
+void nation_group_set_set(struct nation_group *pgroup, bool is_set)
+{
+  fc_assert_ret(is_server());
+  fc_assert_ret(NULL != pgroup);
+  pgroup->server.set = is_set;
+}
+
+/****************************************************************************
+  Return whether the group is considered a self-contained subset.
+  Server only function.
+****************************************************************************/
+bool nation_group_is_a_set(const struct nation_group *pgroup)
+{
+  fc_assert_ret_val(is_server(), FALSE);
+  fc_assert_ret_val(NULL != pgroup, FALSE);
+  return pgroup->server.set;
 }
 
 /****************************************************************************
@@ -859,6 +885,29 @@ bool can_conn_edit_players_nation(const struct connection *pconn,
           || (game.info.is_new_game
 	      && ((!pconn->observer && pconn->playing == pplayer)
 	           || pconn->access_level >= ALLOW_CTRL)));
+}
+
+/****************************************************************************
+  Set the nation groups that random nation selection is allowed to pick from.
+  If NULL, there are no restrictions.
+  Ownership of plist is passed to this module. Any previous list is freed.
+****************************************************************************/
+static struct nation_group_list *allowed_nation_groups = NULL;
+void set_allowed_nation_groups(struct nation_group_list *plist)
+{
+  if (allowed_nation_groups) {
+    nation_group_list_destroy(allowed_nation_groups);
+  }
+  allowed_nation_groups = plist;
+}
+
+/****************************************************************************
+  Get the nation groups that random nation selection is allowed to pick from.
+  If NULL, there are no restrictions.
+****************************************************************************/
+const struct nation_group_list *get_allowed_nation_groups(void)
+{
+  return allowed_nation_groups;
 }
 
 /****************************************************************************

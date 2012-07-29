@@ -88,6 +88,7 @@
 #define EFFECT_SECTION_PREFIX "effect_"
 #define GOVERNMENT_SECTION_PREFIX "government_"
 #define NATION_GROUP_SECTION_PREFIX "ngroup" /* without underscore? */
+#define NATION_SET_SECTION_PREFIX "nset" /* without underscore? */
 #define NATION_SECTION_PREFIX "nation" /* without underscore? */
 #define RESOURCE_SECTION_PREFIX "resource_"
 #define BASE_SECTION_PREFIX "base_"
@@ -2670,6 +2671,23 @@ static void load_ruleset_nations(struct section_file *file)
                                     "compatibility.default_government");
   if (sval != NULL) {
     default_government = government_by_rule_name(sval);
+  }
+
+  set_allowed_nation_groups(NULL);
+
+  sec = secfile_sections_by_name_prefix(file, NATION_SET_SECTION_PREFIX);
+  if (sec) {
+    section_list_iterate(sec, psection) {
+      struct nation_group *pset;
+
+      name = secfile_lookup_str(file, "%s.name", section_name(psection));
+      if (NULL == name) {
+        ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
+      }
+      pset = nation_group_new(name);
+      nation_group_set_set(pset, TRUE);
+    } section_list_iterate_end;
+    section_list_destroy(sec);
   }
 
   sec = secfile_sections_by_name_prefix(file, NATION_GROUP_SECTION_PREFIX);

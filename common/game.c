@@ -455,6 +455,7 @@ void game_free(void)
   map_free();
   idex_free();
   team_slots_free();
+  set_allowed_nation_groups(NULL);
   game_ruleset_free();
   cm_free();
 }
