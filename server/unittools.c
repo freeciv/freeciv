@@ -2971,6 +2971,11 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
         && (!tile_owner(pdesttile)
             || pplayers_at_war(tile_owner(pdesttile), pplayer))) {
       map_claim_ownership(pdesttile, pplayer, pdesttile);
+
+      /* Clear borders from old owner. New owner may not know all those
+       * tiles and thus does not claim them when borders mode is less
+       * than EXPAND. */
+      map_clear_border(pdesttile);
       map_claim_border(pdesttile, pplayer);
       city_thaw_workers_queue();
       city_refresh_queue_processing();
