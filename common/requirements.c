@@ -1479,12 +1479,21 @@ bool are_universals_equal(const struct universal *psource1,
 *****************************************************************************/
 const char *universal_rule_name(const struct universal *psource)
 {
+  static char buffer[10];
+
   switch (psource->kind) {
   case VUT_NONE:
+    return "(none)";
   case VUT_CITYTILE:
+    if (psource->value.citytile == CITYT_CENTER) {
+      return "Center";
+    } else {
+      return "(none)";
+    }
   case VUT_MINYEAR:
-    /* TRANS: missing value */
-    return N_("(none)");
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.minyear);
+
+    return buffer;
   case VUT_ADVANCE:
     return advance_rule_name(psource->value.advance);
   case VUT_GOVERNMENT:
@@ -1514,7 +1523,9 @@ const char *universal_rule_name(const struct universal *psource)
   case VUT_SPECIALIST:
     return specialist_rule_name(psource->value.specialist);
   case VUT_MINSIZE:
-    return N_("Size %d");
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.minsize);
+
+    return buffer;
   case VUT_AI_LEVEL:
     return ai_level_name(psource->value.ai_level);
   case VUT_TERRAINCLASS:

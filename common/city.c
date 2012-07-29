@@ -3289,7 +3289,7 @@ bool is_free_worked(const struct city *pcity, const struct tile *ptile)
 **************************************************************************/
 enum citytile_type citytile_by_rule_name(const char *name)
 {
-  if (!fc_strcasecmp(name, "center")) {
+  if (!fc_strcasecmp(name, "Center")) {
     return CITYT_CENTER;
   }
 
