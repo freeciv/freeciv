@@ -102,7 +102,7 @@ tiles = { "row", "column", "tag"
   2, 14, "u.worker"		; [GB]
   2, 15, "u.leader"		; [GB]
   2, 16, "u.barbarian_leader"	; FiftyNine
-;  2, 17, "u.refugee"		; Eleazar
+  2, 17, "u.refugee"		; Eleazar
 ;  3, 15, "u.train"		; Eleazar
 
 }
