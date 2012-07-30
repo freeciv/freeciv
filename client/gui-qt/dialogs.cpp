@@ -22,6 +22,9 @@
 #include "game.h"
 #include "government.h"
 
+// client
+#include "packhand.h"
+
 // gui-qt
 #include "qtg_cxxside.h"
 
@@ -101,11 +104,42 @@ void races_toggles_set_sensitive(void)
 /**************************************************************************
   Popup a dialog asking if the player wants to start a revolution.
 **************************************************************************/
-void popup_revolution_dialog(void)
+void popup_revolution_dialog(struct government *government)
 {
-  /* PORTME */
+  QMessageBox ask(gui()->central_wdg);
+  int ret;
+
+  if (0 > client.conn.playing->revolution_finishes) {
+    ask.setText(_("You say you wanna revolution?"));
+    ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
+    ask.setDefaultButton(QMessageBox::Cancel);
+    ask.setIcon(QMessageBox::Warning);
+    ask.setWindowTitle(_("Revolution!"));
+    ret = ask.exec();
+
+    switch (ret) {
+    case QMessageBox::Cancel:
+      break;
+    case QMessageBox::Ok:
+      revolution_response(government);
+      break;
+    }
+  } else {
+    revolution_response(government);
+  }
 }
 
+/***************************************************************************
+  Starts revolution with targeted government as target or anarchy otherwise
+***************************************************************************/
+void revolution_response(struct government *government)
+{
+  if (!government) {
+    start_revolution();
+  } else {
+    set_government_choice(government);
+  }
+}
 /**************************************************************************
   Popup a dialog giving a player choices when their caravan arrives at
   a city (other than its home city).  Example:

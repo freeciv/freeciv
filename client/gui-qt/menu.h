@@ -21,13 +21,20 @@ extern "C" {
 // Qt
 #include <QMenuBar>
 #include <QObject>
+#include <QSignalMapper>
 
 class mr_menu : public QMenuBar
 {
   Q_OBJECT
+  QMenu *menu;
+  QMenu *gov_menu;
+  QList<QAction*> gov_list;
 public:
-  mr_menu() {};
+  mr_menu();
   void setup_menus();
+  void setup_gov_menu();
+  void gov_menu_sensitive();
+  void rm_gov_menu();
 private slots:
   /* help menu */
   void slot_menu_copying();
@@ -51,6 +58,13 @@ private slots:
   /*used by civilization menu */
   void slot_popup_tax_rates();
   void slot_show_research_tab();
+  void slot_gov_change(const int &target);
+  void revolution();
+
+private:
+  int gov_count;
+  int gov_target;
+  QSignalMapper *signal_gov_mapper;
 };
 
 #endif /* FC__MENU_H */

@@ -132,7 +132,6 @@ class fc_client : public QObject
   QStatusBar *status_bar;
   QLabel *status_bar_label;
 
-  mr_menu* menu_bar;
 
 public:
   fc_client();
@@ -154,6 +153,7 @@ public:
   QTableWidget *messages_window;
   info_label *game_info_label;
   QWidget *central_wdg;
+  mr_menu *menu_bar;
   QTabWidget *game_tab_widget;
   int gimme_place();
   int gimme_index_of(QString str);

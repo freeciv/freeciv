@@ -18,6 +18,7 @@ extern "C" {
 #include "dialogs_g.h"
 }
 
-void popup_revolution_dialog(void);
+void popup_revolution_dialog(struct government *government = NULL);
+void revolution_response(struct government *government);
 
 #endif /* FC__DIALOGS_H */

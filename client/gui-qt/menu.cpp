@@ -37,6 +37,8 @@
 #include "menu.h"
 
 extern QApplication *qapp;
+extern void revolution_response(struct government *government);
+extern void popup_revolution_dialog(struct government *government = 0);
 /**************************************************************************
   Initialize menus (sensitivity, name, etc.) based on the
   current state and current ruleset, etc.  Call menus_update().
@@ -44,6 +46,8 @@ extern QApplication *qapp;
 void real_menus_init(void)
 {
   /* PORTME */
+  gui()->menu_bar->rm_gov_menu();
+  gui()->menu_bar->setup_gov_menu();
 }
 
 /**************************************************************************
@@ -53,6 +57,13 @@ void real_menus_init(void)
 void real_menus_update(void)
 {
   /* PORTME */
+  gui()->menu_bar->gov_menu_sensitive();
+}
+
+mr_menu::mr_menu() : QMenuBar()
+{
+  gov_menu = NULL;
+  signal_gov_mapper = NULL;
 }
 
 /****************************************************************************
@@ -60,7 +71,6 @@ void real_menus_update(void)
 ****************************************************************************/
 void mr_menu::setup_menus()
 {
-  QMenu *menu;
   QAction *act;
 
   /* View Menu */
@@ -99,10 +109,14 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(tr("m")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_build_mine()));
 
-  /* Help Menu */
+  /* Civilization menu */
   menu = this->addMenu(_("Civilization"));
   act = menu->addAction(_("Tax rates"));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_popup_tax_rates()));
+  menu->addSeparator();
+
+  gov_menu= menu->addMenu(_("Government"));
+  menu->addSeparator();
 
   act = menu->addAction(_("Research"));
   act->setShortcut(QKeySequence(tr("F6")));
@@ -117,6 +131,109 @@ void mr_menu::setup_menus()
   connect(act, SIGNAL(triggered()), this, SLOT(slot_about_qt()));
 
   this->setVisible(false);
+}
+
+/****************************************************************************
+  Builds government menu and adds to gov_menu as submenu
+****************************************************************************/
+void mr_menu::setup_gov_menu()
+{
+  QAction *act;
+  struct government *gov;
+  struct government *revol_gov;
+  int j = 2;
+
+  revol_gov = game.government_during_revolution;
+  if (gov_menu && gov_menu->isEmpty()) {
+    gov_count = government_count();
+
+    if (signal_gov_mapper) {
+      delete signal_gov_mapper;
+    }
+
+    signal_gov_mapper = new QSignalMapper;
+    act = gov_menu->addAction(QString::fromUtf8(_("Revolution...")));
+    connect(act, SIGNAL(triggered()), this, SLOT(revolution()));
+    gov_list.insert(0, act);
+    act = gov_menu->addSeparator();
+    gov_list.insert(1, act);
+
+    if (gov_count > 0) {
+      for (int i = 0; i < gov_count; i++) {
+        gov = government_by_number(i);
+        if (gov != revol_gov) { /** skip revolution goverment */
+          act = gov_menu->addAction(QString::fromUtf8(
+                                      gov->name._private_translated_));
+          gov_list.insert(j, act); /** governments on list start from 2
+                                    *  second (1) is separator, first (0)
+                                    *  is "Revolution..." text
+                                    *  list is needed to set menus
+                                    *  enabled/disabled and to remove it
+                                    *  after starting new game */
+          j++;
+          connect(act, SIGNAL(triggered()), signal_gov_mapper, SLOT(map()));
+          signal_gov_mapper->setMapping(act, i);
+        }
+      }
+    }
+    connect(signal_gov_mapper, SIGNAL(mapped(const int &)),
+             this, SLOT(slot_gov_change(const int &)));
+  }
+}
+
+/****************************************************************************
+  Calls revolutions MessageBox
+****************************************************************************/
+void mr_menu::revolution()
+{
+  popup_revolution_dialog();
+}
+
+/****************************************************************************
+  Enables/Disables goverment submenu items
+****************************************************************************/
+void mr_menu::gov_menu_sensitive()
+{
+  int i, j;
+  QAction *act;
+  struct government *gover;
+
+  i = gov_list.count();
+
+  for (j = 2; j < i; j++) {
+    act = gov_list.at(j);
+    gover = government_by_number(j-1);
+
+    if (can_change_to_government(client.conn.playing, gover)) {
+      act->setEnabled(true);
+    } else {
+      act->setDisabled(true);
+    }
+  }
+}
+
+/****************************************************************************
+  Removes all item in government submenu
+****************************************************************************/
+void mr_menu::rm_gov_menu()
+{
+  QAction *act;
+
+  while (!gov_list.empty()) {
+    act = gov_list.takeFirst();
+    gov_menu->removeAction(act);
+    /** gov menu should be empty now, reinit it using setup_gov_menu */
+  }
+}
+
+/****************************************************************************
+  User has choosen target governement in menu
+****************************************************************************/
+void mr_menu::slot_gov_change (const int &target)
+{
+  struct government *gov;
+  gov = government_by_number(target);
+  revolution_response(gov);
 }
 
 /****************************************************************************
