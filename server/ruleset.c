@@ -50,6 +50,7 @@
 #include "road.h"
 #include "specialist.h"
 #include "tech.h"
+#include "traderoutes.h"
 #include "unit.h"
 #include "unittype.h"
 
@@ -3480,6 +3481,7 @@ static void load_ruleset_game(const char *rsdir)
   size_t gni_tmp;
   struct section_list *sec;
   int nval;
+  const char *name;
 
   file = openload_ruleset_file("game", rsdir);
   filename = secfile_name(file);
@@ -3888,6 +3890,23 @@ static void load_ruleset_game(const char *rsdir)
 
     free(svec);
   } disaster_type_iterate_end;
+
+  for (i = 0; (name = secfile_lookup_str_default(file, NULL,
+                                                 "trade.settings%d.type",
+                                                 i)); i++) {
+    enum trade_route_type type = trade_route_type_by_name(name);
+
+    if (type == TRT_LAST) {
+      ruleset_error(LOG_FATAL,
+                    "\"%s\" unknown trade route type \"%s\".",
+                    filename, name);
+    } else {
+      struct trade_route_settings *set = trade_route_settings_by_type(type);
+
+      set->trade_pct = secfile_lookup_int_default(file, 100,
+                                                  "trade.settings%d.pct", i);
+    }
+  }
 
   settings_ruleset(file, "settings");
 
@@ -4310,6 +4329,25 @@ static void send_ruleset_disasters(struct conn_list *dest)
 }
 
 /**************************************************************************
+  Send the disaster ruleset information (all individual disaster types) to the
+  specified connections.
+**************************************************************************/
+static void send_ruleset_trade_routes(struct conn_list *dest)
+{
+  struct packet_ruleset_trade packet;
+  enum trade_route_type type;
+
+  for (type = TRT_NATIONAL; type < TRT_LAST; type++) {
+    struct trade_route_settings *set = trade_route_settings_by_type(type);
+
+    packet.id = type;
+    packet.trade_pct = set->trade_pct;
+
+    lsend_packet_ruleset_trade(dest, &packet);
+  }
+}
+
+/**************************************************************************
   Send the government ruleset information to the specified connections.
   One packet per government type, and for each type one per ruler title.
 **************************************************************************/
@@ -4690,6 +4728,7 @@ void send_rulesets(struct conn_list *dest)
 
   send_ruleset_game(dest);
   send_ruleset_disasters(dest);
+  send_ruleset_trade_routes(dest);
   send_ruleset_team_names(dest);
   send_ruleset_techs(dest);
   send_ruleset_governments(dest);

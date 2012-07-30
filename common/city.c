@@ -1506,16 +1506,13 @@ int trade_between_cities(const struct city *pc1, const struct city *pc2)
 
   if (NULL != pc1 && NULL != pc1->tile
       && NULL != pc2 && NULL != pc2->tile) {
+
     bonus = real_map_distance(pc1->tile, pc2->tile)
             + city_size_get(pc1) + city_size_get(pc2);
 
-    if (tile_continent(pc1->tile) != tile_continent(pc2->tile)) {
-      bonus *= 2;
-    }
-    if (city_owner(pc1) == city_owner(pc2)) {
-      bonus /= 2;
-    }
-    bonus /= 6;
+    bonus = bonus * trade_route_type_trade_pct(cities_trade_route_type(pc1, pc2)) / 100;
+
+    bonus /= 12;
   }
 
   return bonus;

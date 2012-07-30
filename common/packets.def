@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 226
+Max id: 227
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -1463,6 +1463,11 @@ PACKET_RULESET_DISASTER = 224; sc, lsend
   REQUIREMENT nreqs[MAX_NUM_REQS:nreqs_count];
   UINT8 frequency;
   BV_DISASTER_EFFECTS effects;
+end
+
+PACKET_RULESET_TRADE = 227; sc, lsend
+  UINT8 id;
+  UINT16 trade_pct;
 end
 
 /**************************************************************************

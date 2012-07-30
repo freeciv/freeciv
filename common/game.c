@@ -41,6 +41,7 @@
 #include "spaceship.h"
 #include "specialist.h"
 #include "tech.h"
+#include "traderoutes.h"
 #include "unit.h"
 #include "unitlist.h"
 
@@ -493,6 +494,7 @@ void game_ruleset_init(void)
   nation_groups_init();
   ruleset_cache_init();
   disaster_types_init();
+  trade_route_types_init();
   terrains_init();
   base_types_init();
   road_types_init();

@@ -43,6 +43,7 @@
 #include "road.h"
 #include "spaceship.h"
 #include "specialist.h"
+#include "traderoutes.h"
 #include "unit.h"
 #include "unitlist.h"
 #include "worklist.h"
@@ -3211,6 +3212,18 @@ void handle_ruleset_disaster(const struct packet_ruleset_disaster *p)
   pdis->frequency = p->frequency;
 
   pdis->effects = p->effects;
+}
+
+/****************************************************************************
+  Handle a packet about a particular trade route type.
+****************************************************************************/
+void handle_ruleset_trade(const struct packet_ruleset_trade *p)
+{
+  struct trade_route_settings *pset = trade_route_settings_by_type(p->id);
+
+  if (pset != NULL) {
+    pset->trade_pct = p->trade_pct;
+  }
 }
 
 /****************************************************************************

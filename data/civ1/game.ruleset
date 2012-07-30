@@ -264,6 +264,20 @@ nreqs          =
 frequency      = 10
 effects        = "ReducePopulation"
 
+;
+; Trade settings
+;
+; For each of the trade route types; "National", "NationalIC", "IN", "INIC":
+; "pct" - Trade income %
+; 
+[trade]
+settings =
+  { "type",       "pct"
+    "National",   100
+    "NationalIC", 200
+    "IN",         200
+    "INIC",       400
+  }
 
 [playercolors]
 background.r = 86
