@@ -4726,14 +4726,27 @@ int fill_sprite_array(struct tileset *t,
   case LAYER_SPECIAL3:
     if (NULL != pterrain) {
       if (ptile && draw_fortress_airbase) {
+        bool show_flag = FALSE;
+        struct player *owner = base_owner(ptile);
+
         base_type_iterate(pbase) {
-          if (tile_has_base(ptile, pbase)
-              && t->sprites.bases[base_index(pbase)].foreground) {
-            /* Draw fortress front in iso-view (non-iso view only has a fortress
-             * back). */
-            ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].foreground);
+          if (tile_has_base(ptile, pbase)) {
+            if (t->sprites.bases[base_index(pbase)].foreground) {
+              /* Draw fortress front in iso-view (non-iso view only has a fortress
+               * back). */
+              ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].foreground);
+            }
+            if (base_has_flag(pbase, BF_SHOW_FLAG)) {
+              show_flag = TRUE;
+            }
           }
         } base_type_iterate_end;
+
+        if (show_flag && owner != NULL) {
+          ADD_SPRITE(get_nation_flag_sprite(t, nation_of_player(owner)), TRUE,
+                     FULL_TILE_X_OFFSET + t->city_flag_offset_x,
+                     FULL_TILE_Y_OFFSET + t->city_flag_offset_y);
+        }
       }
     }
     break;

@@ -342,3 +342,11 @@ bool territory_claiming_base(const struct base_type *pbase)
 {
   return pbase->border_sq >= 0;
 }
+
+/**************************************************************************
+  Who owns bases on tile
+**************************************************************************/
+struct player *base_owner(const struct tile *ptile)
+{
+  return tile_owner(ptile);
+}

@@ -976,6 +976,7 @@ shield      = 3 ; glacier used to have 4
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
 ;   - "NativeTile"        = Units consider tile native regardless of terrain
+;   - "ShowFlag"          = Draw owner's flag
 ; helptext                = optional help text string; should escape all raw 
 ;                           newlines so that xgettext parsing works
 ;
