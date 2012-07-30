@@ -3033,7 +3033,7 @@ void handle_ruleset_terrain(const struct packet_ruleset_terrain *p)
 
   fc_assert_ret_msg(NULL != pterrain, "Bad terrain %d.", p->id);
 
-  pterrain->class = p->class;
+  pterrain->tclass = p->tclass;
   pterrain->native_to = p->native_to;
   names_set(&pterrain->name, p->name, p->rule_name);
   sz_strlcpy(pterrain->graphic_str, p->graphic_str);

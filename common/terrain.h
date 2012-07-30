@@ -172,7 +172,7 @@ struct terrain {
 
 #define TERRAIN_UNKNOWN_IDENTIFIER 'u'
 
-  enum terrain_class class;
+  enum terrain_class tclass;
 
   int movement_cost;
   int defense_bonus; /* % defense bonus - defaults to zero */

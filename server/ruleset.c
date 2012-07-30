@@ -2067,8 +2067,8 @@ static void load_ruleset_terrain(struct section_file *file)
     }
 
     cstr = secfile_lookup_str(file, "%s.class", tsection);
-    pterrain->class = terrain_class_by_name(cstr, fc_strcasecmp);
-    if (!terrain_class_is_valid(pterrain->class)) {
+    pterrain->tclass = terrain_class_by_name(cstr, fc_strcasecmp);
+    if (!terrain_class_is_valid(pterrain->tclass)) {
       ruleset_error(LOG_FATAL, "\"%s\": [%s] unknown class \"%s\"",
                     filename, tsection, cstr);
     }
@@ -4103,7 +4103,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
     struct resource **r;
 
     packet.id = terrain_number(pterrain);
-    packet.class = pterrain->class;
+    packet.tclass = pterrain->tclass;
     packet.native_to = pterrain->native_to;
 
     sz_strlcpy(packet.name, untranslated_name(&pterrain->name));

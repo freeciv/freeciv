@@ -913,7 +913,7 @@ bool get_preferred_pillage(struct act_tgt *tgt,
 ****************************************************************************/
 enum terrain_class terrain_type_terrain_class(const struct terrain *pterrain)
 {
-  return pterrain->class;
+  return pterrain->tclass;
 }
 
 /****************************************************************************
