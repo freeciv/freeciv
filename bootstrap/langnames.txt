@@ -1,0 +1,35 @@
+ar Arabic
+bg Bulgarian
+ca Catalan
+cs Czesh
+da Danish
+de German
+el Greek
+en_GB British English
+eo Esperanto
+es Spanish
+et Estonian
+fa Persian
+fi Finnish
+fr French
+ga Irish
+gd Scottish Gaelic
+he Hebrew
+hu Hungarian
+in Indonesian
+it Italian
+ja Japanese
+ko Korean
+lt Lithuanian
+nl Dutch
+no Norwegian
+pl Polish
+pt_BR Brazilian Portuguese
+pt Portuguese
+ro Romanian
+ru Russian
+sr Serbian
+sv Swedish
+tr Turkish
+uk Ukrainian
+zh_CN Chinese
