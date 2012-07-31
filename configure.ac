@@ -1113,13 +1113,29 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <signal.h>]], [[signal (SIGPIPE, S
 
 FC_CONF_PATH="$sysconfdir/freeciv"
 
+AC_ARG_ENABLE([crosser],
+[  --enable-crosser        build version to be used with crosser environment],
+[case "${enableval}" in
+  yes) crosser=yes ;;
+  no)  crosser=no ;;
+  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-crosser]) ;;
+esac], [crosser=no])
+if test x$crosser = xyes && test x$MINGW32 != xyes ; then
+  AC_MSG_ERROR([--enable-crosser is Windows build specific option])
+fi
+
 dnl export where the datadir is going to be installed
 FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
 
 if test x"$MINGW32" = xyes; then
-  DEFAULT_DATA_PATH=".;data;~/.freeciv/$DATASUBDIR;$datadir/freeciv"
   DEFAULT_SAVE_PATH=".;~/.freeciv/saves"
-  DEFAULT_SCENARIO_PATH=".;data/scenarios;~/.freeciv/$DATASUBDIR/scenarios;~/.freeciv/scenarios;$datadir/freeciv/scenarios"
+  if test x$crosser = xyes ; then
+    DEFAULT_DATA_PATH=".;data;~/.freeciv/$DATASUBDIR;$datadir/freeciv;../share/freeciv"
+    DEFAULT_SCENARIO_PATH=".;data/scenarios;~/.freeciv/$DATASUBDIR/scenarios;~/.freeciv/scenarios;$datadir/freeciv/scenarios;../share/freeciv/scenarios"
+  else
+    DEFAULT_DATA_PATH=".;data;~/.freeciv/$DATASUBDIR;$datadir/freeciv"
+    DEFAULT_SCENARIO_PATH=".;data/scenarios;~/.freeciv/$DATASUBDIR/scenarios;~/.freeciv/scenarios;$datadir/freeciv/scenarios"
+  fi
 else
   DEFAULT_DATA_PATH=".:data:~/.freeciv/$DATASUBDIR:$datadir/freeciv"
   DEFAULT_SAVE_PATH=".:~/.freeciv/saves"
