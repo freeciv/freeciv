@@ -339,7 +339,7 @@ instead of just testing if the returning package is NULL as we sometimes
 return a NULL packet even if everything is OK (receive_packet_goto_route).
 **************************************************************************/
 void *get_packet_from_connection(struct connection *pc,
-				 enum packet_type *ptype, bool * presult)
+				 enum packet_type *ptype, bool *presult)
 {
   int len_read;
   int whole_packet_len;
@@ -394,6 +394,14 @@ void *get_packet_from_connection(struct connection *pc,
 
   if ((unsigned)whole_packet_len > pc->buffer->ndata) {
     return NULL;		/* not all data has been read */
+  }
+
+  if (whole_packet_len < header_size) {
+    log_verbose("The packet size is reported to be less than header alone. "
+                "The connection will be closed now.");
+    connection_close(pc, _("illegal packet size"));
+
+    return NULL;
   }
 
 #ifdef USE_COMPRESSION
