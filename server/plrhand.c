@@ -1978,6 +1978,21 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
     }
   }
 
+  /* If we get this far and a restriction to nation set(s) is in force,
+   * _permanently_ remove the restriction and try again (recursively,
+   * but it can only happen once per game).
+   * This should get us a nation if possible, and have the side-effect that
+   * future picked nations won't honor the restrictions.
+   * (This is dirty; it would be better to have prevented attempts to
+   * create more players than the restrictions permit via playable_nations
+   * or similar.) */
+  if (get_allowed_nation_groups()) {
+    log_verbose("Unable to honor restricted nation set(s). Removing "
+                "restrictions for the rest of the game.");
+    set_allowed_nation_groups(NULL);  /* no restrictions */
+    return pick_a_nation(choices, ignore_conflicts, only_available, barb_type);
+  }
+
   log_error("No nation found!");
   return NO_NATION_SELECTED;
 }
