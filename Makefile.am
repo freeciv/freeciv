@@ -40,6 +40,7 @@ EXTRA_DIST=	autogen.sh 			\
 		bootstrap/freeciv.spec.in	\
 		bootstrap/config.rpath		\
 		bootstrap/Makerules.mk		\
+		bootstrap/langnames.txt		\
 		m4/ac_path_lib.m4		\
 		m4/alsa.m4			\
 		m4/c99.m4			\
