@@ -15,7 +15,7 @@ IS_BETA_VERSION=0
 NEXT_STABLE_VERSION="2.4.0"
 
 # 0 to disable display of release month until we can make better estimate
-RELEASE_MONTH=0
+RELEASE_MONTH=2
 
 DATASUBDIR=2.4
 DEFAULT_FOLLOW_TAG=stable
