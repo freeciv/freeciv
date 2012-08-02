@@ -75,9 +75,6 @@ self-explanatory. A few points:
 - Rulesets must be in UTF-8; translatable texts should be American English
   ASCII.
 
-Properties of units and advances are now fairly well generalised.
-Properties of buildings are still rather inflexible.
-
 (See utility/fciconv.[ch])
 The data charset is used in all data files and network transactions.
 This is UTF-8. Currently, the rulesets are in latin1 (ISO-8859-1).
@@ -103,8 +100,6 @@ units.ruleset:
       - "BarbarianBoat"  (move_type must be "Sea")
       - "BarbarianSea"
 
-    - There must be at least one unit with flag "Cities".
-
   Limitations:
 
     - These unit flag combinations won't work:
@@ -112,15 +107,10 @@ units.ruleset:
 
     - These flags and roles work only for move_type "Land" units:
       - "Partisan"
-      - "Settler"
       - "IgTer"
-      - "Marines"
       - "Airbase"
       - "Barbarian"
       - "BarbarianTech"
-
-    - These flags and roles work only for move_type "Sea" units:
-      - "No_Land_Attack"
 
 ----------------------------------------------------------------------
 Implementation details:
@@ -163,4 +153,4 @@ different versions of Freeciv is kept in the wiki at http://www.freeciv.org/
 The URLs below list the differences between the freeciv versions from 2.2.x
 to the current version:
 
-http://www.freeciv.org/wiki/How_to_update_a_ruleset_from_2.2_to_2.3
+http://www.freeciv.org/wiki/How_to_update_a_ruleset_from_2.4_to_2.5
