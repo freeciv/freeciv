@@ -66,6 +66,29 @@ by client to (public) server so in case there's any problems with certain
 clients, we know a bit more what kind of code they are using.
 
 ----------------------------------------------------------------------
+Announcement of new versions
+----------------------------
+As of 2.4, the Freeciv client displays the latest available version if
+it's newer than the running version. This information comes from the
+metaserver.
+
+The metaserver maintains several different versions to report here,
+distinguished by "follow tags". The default follow tag is "stable",
+updated when a new source release is made, but for instance Windows
+builds will follow a different tag such as "win32", which will only be
+updated when a new Windows binary is available.
+
+This mechanism is primary intended for the Freeciv maintainers, since
+updates to the metaserver need to be made be us. However, if you
+maintain a significant version/package of Freeciv, you can contact us
+and ask to be allocated a tag to pass to 'configure --with-followtag';
+thereafter you'd need to let us know whenever you make a new release
+so we can update the metaserver.
+
+(This is unlikely to be of use to Linux distribution packagers, who
+have their own means of distributing updates.)
+
+----------------------------------------------------------------------
 Shared libfreeciv
 -----------------
 Libfreeciv contains code common to server and client. By default it's
