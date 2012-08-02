@@ -1556,7 +1556,7 @@ by supplying its hostname and port number (5556 by default). \
 If the server is started with the -m flag, it will report to \
 the metaserver,\
 "), "\
-  http://meta.freeciv.org/metaserver.phtml\
+  http://meta.freeciv.org/metaserver.php\
 ", _("\
 The client can fetch this page, too: use the Metaserver button \
 in the connection dialog.  If it never shows any results, check \
