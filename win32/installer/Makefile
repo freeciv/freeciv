@@ -34,7 +34,7 @@ build-freeciv-common:
 	# create build directory
 	mkdir -p build-$(GUI)
 	# configure
-	cd build-$(GUI); ../../../configure --enable-client=$(GUI)
+	cd build-$(GUI); ../../../configure --enable-client=$(GUI) --with-followtag="win32"
 	# make
 	make -C build-$(GUI)
 
