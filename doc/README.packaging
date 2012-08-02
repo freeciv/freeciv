@@ -113,7 +113,7 @@ Sadly we have not resources to keep public servers for many different
 Freeciv versions running. To give your users ability to play on public
 servers, try to provide them as current Freeciv version as possible.
 To see list of currently running public servers, see
-"http://meta.freeciv.org/metaserver.phtml" Note that from the web you
+"http://meta.freeciv.org/metaserver.php" Note that from the web you
 can see complete list, while list shown by Freeciv client only lists
 compatible servers.
 
