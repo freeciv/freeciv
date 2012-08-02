@@ -40,6 +40,7 @@
 #include <windows.h>
 #include <lmcons.h>	/* UNLEN */
 #include <shlobj.h>
+#include <direct.h>
 #endif
 
 /* utility */
