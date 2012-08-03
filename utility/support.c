@@ -682,7 +682,9 @@ size_t fc_strlcat(char *dest, const char *src, size_t n)
 #define VSNP_BUF_SIZE (64*1024)
 int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
 {
+#ifdef HAVE_WORKING_VSNPRINTF
   int r;
+#endif
 
   /* This may be overzealous, but I suspect any triggering of these to
    * be bugs.  */
@@ -696,8 +698,9 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
   str[n - 1] = 0;
 
   /* Convert C99 return value to C89.  */
-  if (r >= n)
+  if (r >= n) {
     return -1;
+  }
 
   return r;
 #else  /* HAVE_WORKING_VSNPRINTF */
@@ -718,9 +721,9 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
       }
     }
 #ifdef HAVE_VSNPRINTF
-    r = vsnprintf(buf, n, format, ap);
+    vsnprintf(buf, n, format, ap);
 #else
-    r = vsprintf(buf, format, ap);
+    vsprintf(buf, format, ap);
 #endif /* HAVE_VSNPRINTF */
     buf[VSNP_BUF_SIZE - 1] = '\0';
     len = strlen(buf);
