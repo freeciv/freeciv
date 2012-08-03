@@ -30,6 +30,14 @@
 #include "repodlgs.h"
 
 /****************************************************************************
+  Compare unit_items (used for techs) by name
+****************************************************************************/
+bool comp_less_than(const qlist_item &q1, const qlist_item &q2)
+{
+  return (q1.tech_str < q2.tech_str);
+}
+
+/****************************************************************************
   Constructor for research diagram
 ****************************************************************************/
 research_diagram::research_diagram(QWidget *parent): QWidget(parent)
@@ -196,7 +204,7 @@ void science_report::update_report()
 
   struct player_research *research = player_research_get(client_player());
   const char *text;
-  int total = total_bulbs_required(client.conn.playing);
+  int total;
   int done = research->bulbs_researched;
   QVariant qvar, qres;
   double not_used;
@@ -211,6 +219,12 @@ void science_report::update_report()
 
   if (goal_list) {
     delete goal_list;
+  }
+
+  if (research->researching != A_UNSET) {
+    total = total_bulbs_required(client.conn.playing);
+  } else  {
+    total = -1;
   }
 
   curr_list = new QList<qlist_item>;
@@ -259,7 +273,14 @@ void science_report::update_report()
   }
   advance_index_iterate_end;
 
+  /** sort both lists */
+   qSort(goal_list->begin(), goal_list->end(), comp_less_than);
+   qSort(curr_list->begin(), curr_list->end(), comp_less_than);
+
   /** fill combo boxes */
+  researching_combo->blockSignals(true);
+  goal_combo->blockSignals(true);
+  
   researching_combo->clear();
   goal_combo->clear();
   for (int i = 0; i < curr_list->count(); i++) {
@@ -275,23 +296,36 @@ void science_report::update_report()
   /** set current tech and goal */
   qres = research->researching;
 
-  for (int i = 0; i < researching_combo->count(); i++) {
-    qvar = researching_combo->itemData(i);
+  if (qres == A_UNSET) {
+    researching_combo->insertItem(0, _("None"), A_UNSET);
+    researching_combo->setCurrentIndex(0);
+  } else {
+    for (int i = 0; i < researching_combo->count(); i++) {
+      qvar = researching_combo->itemData(i);
 
-    if (qvar == qres) {
-      researching_combo->setCurrentIndex(i);
+      if (qvar == qres) {
+        researching_combo->setCurrentIndex(i);
+      }
     }
   }
 
   qres = research->tech_goal;
 
-  for (int i = 0; i < goal_combo->count(); i++) {
-    qvar = goal_combo->itemData(i);
+  if (qres == A_UNSET) {
+    goal_combo->insertItem(0, _("None"), A_UNSET);
+    goal_combo->setCurrentIndex(0);
+  } else {
+    for (int i = 0; i < goal_combo->count(); i++) {
+      qvar = goal_combo->itemData(i);
 
-    if (qvar == qres) {
-      goal_combo->setCurrentIndex(i);
+      if (qvar == qres) {
+        goal_combo->setCurrentIndex(i);
+      }
     }
   }
+
+  researching_combo->blockSignals(false);
+  goal_combo->blockSignals(false);
 
   update_reqtree();
 }

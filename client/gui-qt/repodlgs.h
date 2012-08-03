@@ -100,4 +100,6 @@ private slots:
   void goal_tech_changed(int index);
 };
 
+bool comp_less_than(const qlist_item &q1, const qlist_item &q2);
+
 #endif /* FC__REPODLGS_H */
