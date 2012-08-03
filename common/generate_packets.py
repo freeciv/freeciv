@@ -486,11 +486,13 @@ class Field:
 for (;;) {
   int i;
 
-  dio_get_uint8(&din, &i);
-  if(i == 255) {
+  if (!dio_get_uint8(&din, &i)) {
     break;
   }
-  if(i > %(array_size_u)s) {
+  if (i == 255) {
+    break;
+  }
+  if (i > %(array_size_u)s) {
     freelog(LOG_ERROR, "packets_gen.c: WARNING: ignoring intra array diff");
   } else {
     %(c)s
