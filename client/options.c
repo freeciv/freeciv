@@ -1649,7 +1649,7 @@ static struct client_option client_options[] = {
                     "find out about games on the internet.  Don't change "
                     "this from its default value unless you know what "
                     "you're doing."),
-                 COC_NETWORK, GUI_LAST, META_URL, NULL),
+                 COC_NETWORK, GUI_LAST, DEFAULT_METASERVER_OPTION, NULL),
   GEN_STR_LIST_OPTION(default_sound_set_name,
                       N_("Soundset"),
                       N_("This is the soundset that will be used.  Changing "
