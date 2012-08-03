@@ -89,6 +89,11 @@ do
   esac
 done
 
+if test "x$string" = "x" ; then
+  echo "Not setting empty capability string, use -s \"string\"" >&2
+  exit 1
+fi
+
 case $capability in
   aimodules )
     careful
