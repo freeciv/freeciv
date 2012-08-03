@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+Freeciv-tilespec-Devel-2011.Aug.10"
+options = "+Freeciv-tilespec-Devel-2012.Aug.04"
 
 ; A simple name for the tileset specified by this file:
 name = "Trident"
@@ -20,9 +20,6 @@ small_tile_height  = 20
 ; Basic tile style.
 is_hex = 0
 is_isometric = 0
-
-; Use roadstyle 1 (old non-iso style)
-roadstyle = 1
 
 ; Was fogstyle 0 (old iso style)
 fogstyle = 2
@@ -184,3 +181,10 @@ is_blended = 0
 num_layers = 1
 layer0_match_type = "tundra"
 layer0_match_with = "tundra"
+
+[roads]
+styles =
+    { "name", "style"
+      "road", 1
+      "rail", 1
+    }

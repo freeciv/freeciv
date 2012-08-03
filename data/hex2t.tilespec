@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+Freeciv-tilespec-Devel-2011.Aug.10"
+options = "+Freeciv-tilespec-Devel-2012.Aug.04"
 
 ; A simple name for the tileset specified by this file:
 name = "hex-2 tileset"
@@ -21,9 +21,6 @@ small_tile_height  = 20
 hex_side = 24
 is_hex = 1
 is_isometric = 1
-
-; Use roadstyle 0 (old iso style)
-roadstyle = 0
 
 ; Use fogstyle 0 (old iso style)
 fogstyle = 0
@@ -180,3 +177,10 @@ layer0_match_type = "land"
 is_blended = 1
 num_layers = 1
 layer0_match_type = "land"
+
+[roads]
+styles =
+    { "name", "style"
+      "road", 0
+      "rail", 0
+    }

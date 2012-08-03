@@ -94,16 +94,6 @@ options include:
                           height in isometric tileset
   small_tile_width      : the width of icon sprites
   small_tile_height     : the height of icon sprites
-  roadstyle             : Specifies how roads and rail are drawn.
-                          0 : A single sprite is drawn for every connection
-                              the tile has; only 8 sprites are needed.
-                          1 : A single sprite is drawn for all cardinal
-                              connections and a second sprite is drawn
-                              for all diagonal connections; 32 sprites are
-                              needed.
-                          2 : One sprite is drawn to show roads in all
-                              directions. There are thus 256 road and 256
-                              rail sprites (64 for a hex tileset).
   fogstyle              : Specifies how fog is drawn.
                           0 : Code automatically adds fog.
                           1 : A single fog sprite is drawn on top of all
@@ -225,6 +215,26 @@ more than 3 layers (either in this section or in the [tile_XXX] sections).
                            used by terrains for this layer.
                            First letter of the match_type must be unique
                            within layer.
+
+  Road options
+  ------------
+
+  Tilespec should define style of road graphics for each road type in
+  section [roads] like:
+
+  [roads]
+  styles =
+      { "name", "style"
+        "road", 0
+        "rail", 0
+      }
+
+  0 : A single sprite is drawn for every connection the tile has;
+      only 8 sprites are needed.
+  1 : A single sprite is drawn for all cardinal connections and a second
+      sprite is drawn for all diagonal connections; 32 sprites are needed.
+  2 : One sprite is drawn to show roads in all directions. There are thus
+      256 road and 256 rail sprites (64 for a hex tileset).
 
 ----------------------------------------------------------------------
 Individual spec files:

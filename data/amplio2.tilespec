@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+Freeciv-tilespec-Devel-2011.Aug.10"
+options = "+Freeciv-tilespec-Devel-2012.Aug.04"
 
 ; A simple name for the tileset specified by this file:
 name = "amplio2"
@@ -23,9 +23,6 @@ is_isometric = 1
 
 ; Do not blend hills and mountains together.
 is_mountainous = 0
-
-; Use roadstyle 0 (old iso style)
-roadstyle = 0
 
 ; Fogstyle 2, darkness_style 4 : blended fog
 fogstyle = 2
@@ -207,3 +204,10 @@ layer0_match_type = "land"
 is_blended = 1
 num_layers = 1
 layer0_match_type = "land"
+
+[roads]
+styles =
+    { "name", "style"
+      "road", 0
+      "rail", 0
+    }

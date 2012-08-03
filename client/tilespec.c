@@ -73,7 +73,7 @@
 
 #include "tilespec.h"
 
-#define TILESPEC_CAPSTR "+Freeciv-tilespec-Devel-2011.Aug.10 duplicates_ok"
+#define TILESPEC_CAPSTR "+Freeciv-tilespec-Devel-2012.Aug.04 duplicates_ok"
 /*
  * Tilespec capabilities acceptable to this program:
  *
@@ -228,6 +228,7 @@ struct named_sprites {
     struct sprite *frame[NUM_CURSOR_FRAMES];
   } cursor[CURSOR_LAST];
   struct {
+    int roadstyle;
     struct sprite
       /* for roadstyle 0 */
       *dir[8],     /* all entries used */
@@ -445,6 +446,13 @@ static void drawing_data_destroy(struct drawing_data *draw);
 #define SPECHASH_DATA_FREE drawing_data_destroy
 #include "spechash.h"
 
+#define SPECHASH_TAG rstyle
+#define SPECHASH_KEY_TYPE char *
+#define SPECHASH_DATA_TYPE int *
+#define SPECHASH_KEY_VAL genhash_str_val_func
+#define SPECHASH_KEY_COMP genhash_str_comp_func
+#include "spechash.h"
+
 struct tileset {
   char name[512];
   int priority;
@@ -462,7 +470,6 @@ struct tileset {
 
   int city_names_font_size, city_productions_font_size;
 
-  int roadstyle;
   enum fog_style fogstyle;
   enum darkness_style darkness_style;
 
@@ -492,6 +499,8 @@ struct tileset {
 
   /* This hash table maps terrain graphic strings to drawing data. */
   struct drawing_hash *tile_hash;
+
+  struct rstyle_hash *rstyle_hash;
 
   struct named_sprites sprites;
 
@@ -936,6 +945,10 @@ static void tileset_free_toplevel(struct tileset *t)
   if (t->tile_hash) {
     drawing_hash_destroy(t->tile_hash);
     t->tile_hash = NULL; /* Helpful for sanity. */
+  }
+  if (t->rstyle_hash) {
+    rstyle_hash_destroy(t->rstyle_hash);
+    t->rstyle_hash = NULL;
   }
 
   for (i = 0; i < MAX_NUM_LAYERS; i++) {
@@ -1432,6 +1445,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   const int spl = strlen(TILE_SECTION_PREFIX);
   struct tileset *t = NULL;
   int ei1, ei2;
+  const char *roadname;
 
   fname = tilespec_fullname(tileset_name);
   if (!fname) {
@@ -1554,11 +1568,9 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
               t->full_tile_width, t->full_tile_height,
               t->small_sprite_width, t->small_sprite_height);
 
-  if (!secfile_lookup_int(file, &t->roadstyle, "tilespec.roadstyle")
-      /* FIXME: use specenum to load this. */
-      || !secfile_lookup_int(file, &ei1,
-                             "tilespec.fogstyle")
-      /* FIXME: use specenum to load this. */
+  /* FIXME: use specenum to load these. */
+  if (!secfile_lookup_int(file, &ei1,
+                          "tilespec.fogstyle")
       || !secfile_lookup_int(file, &ei2,
                              "tilespec.darkness_style")) {
     log_error("Tileset \"%s\" invalid: %s", t->name, secfile_error());
@@ -1800,6 +1812,24 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   } section_list_iterate_end;
   section_list_destroy(sections);
   sections = NULL;
+
+  t->rstyle_hash = rstyle_hash_new();
+
+  for (i = 0; (roadname = secfile_lookup_str_default(file, NULL,
+                                                     "roads.styles%d.name",
+                                                     i)); i++) {
+    int *style = fc_malloc(sizeof(int));
+    char *name = fc_malloc(strlen(roadname) + 1);
+
+    *style = secfile_lookup_int_default(file, 0,
+                                        "roads.styles%d.style", i);
+    strcpy(name, roadname);
+
+    if (!rstyle_hash_insert(t->rstyle_hash, name, style)) {
+      log_error("warning: duplicate roadstyle entry [%s].", roadname);
+      goto ON_ERROR;
+    }
+  }
 
   spec_filenames = secfile_lookup_str_vec(file, &num_spec_files,
                                           "tilespec.files");
@@ -2801,9 +2831,22 @@ void tileset_setup_road(struct tileset *t,
   char full_alt_name[MAX_LEN_NAME + strlen("r._isolated")];
   const int id = road_index(proad);
   int i;
+  int *roadstyle;
+
+  if (!rstyle_hash_lookup(t->rstyle_hash, proad->graphic_str,
+                          &roadstyle)
+      && !rstyle_hash_lookup(t->rstyle_hash, proad->graphic_alt,
+                             &roadstyle)) {
+    log_fatal("No roadstyle for \"%s\" or \"%s\".",
+              proad->graphic_str,
+              proad->graphic_alt);
+    exit(EXIT_FAILURE);
+  }
+
+  t->sprites.roads[id].roadstyle = *roadstyle;
 
   /* Isolated road graphics are used by roadstyle 0 and 1*/
-  if (t->roadstyle == 0 || t->roadstyle == 1) {
+  if (*roadstyle == 0 || *roadstyle == 1) {
     fc_snprintf(full_tag_name, sizeof(full_tag_name),
                 "r.%s_isolated", proad->graphic_str);
     fc_snprintf(full_alt_name, sizeof(full_alt_name),
@@ -2812,7 +2855,7 @@ void tileset_setup_road(struct tileset *t,
     SET_SPRITE_ALT(roads[id].isolated, full_tag_name, full_alt_name);
   }
 
-  if (t->roadstyle == 0) {
+  if (*roadstyle == 0) {
     /* Roadstyle 0 has just 8 additional sprites for both road and rail:
      * one for the road/rail going off in each direction. */
     for (i = 0; i < t->num_valid_tileset_dirs; i++) {
@@ -2826,7 +2869,7 @@ void tileset_setup_road(struct tileset *t,
 
       SET_SPRITE_ALT(roads[id].dir[i], full_tag_name, full_alt_name);
     }
-  } else if (t->roadstyle == 1) {
+  } else if (*roadstyle == 1) {
     int num_index = 1 << (t->num_valid_tileset_dirs / 2), j;
 
     /* Roadstyle 1 has 32 additional sprites for both road and rail:
@@ -2879,7 +2922,7 @@ void tileset_setup_road(struct tileset *t,
   }
 
   /* Corner road/rail graphics are used by roadstyle 0 and 1. */
-  if (t->roadstyle == 0 || t->roadstyle == 1) {
+  if (*roadstyle == 0 || *roadstyle == 1) {
     for (i = 0; i < t->num_valid_tileset_dirs; i++) {
       enum direction8 dir = t->valid_tileset_dirs[i];
 
@@ -3591,6 +3634,7 @@ static int fill_road_sprite_array(const struct tileset *t,
   enum direction8 dir;
   int road_idx = -1;
   bool cl = FALSE;
+  int roadstyle;
 
   if (!draw_roads_rails) {
     /* Don't draw anything. */
@@ -3691,7 +3735,9 @@ static int fill_road_sprite_array(const struct tileset *t,
   sprs
     += fill_road_corner_sprites(t, proad, sprs, road, road_near, hider, hider_near);
 
-  if (t->roadstyle == 0) {
+  roadstyle = t->sprites.roads[road_idx].roadstyle;
+
+  if (roadstyle == 0) {
     /* With roadstyle 0, we simply draw one road/rail for every connection.
      * This means we only need a few sprites, but a lot of drawing is
      * necessary and it generally doesn't look very good. */
@@ -3705,7 +3751,7 @@ static int fill_road_sprite_array(const struct tileset *t,
 	}
       }
     }
-  } else if (t->roadstyle == 1) {
+  } else if (roadstyle == 1) {
     /* With roadstyle 1, we draw one sprite for cardinal road connections,
      * one sprite for diagonal road connections, and the same for rail.
      * This means we need about 4x more sprites than in style 0, but up to
@@ -3760,7 +3806,7 @@ static int fill_road_sprite_array(const struct tileset *t,
   }
 
   /* Draw isolated rail/road separately (styles 0 and 1 only). */
-  if (t->roadstyle == 0 || t->roadstyle == 1) { 
+  if (roadstyle == 0 || roadstyle == 1) { 
     if (draw_single_road) {
       ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].isolated);
     }
@@ -5534,6 +5580,7 @@ int fill_basic_road_sprite_array(const struct tileset *t,
   struct drawn_sprite *saved_sprs = sprs;
   int index;
   int i;
+  int roadstyle;
 
   if (!t || !sprs || !proad) {
     return 0;
@@ -5545,15 +5592,17 @@ int fill_basic_road_sprite_array(const struct tileset *t,
     return 0;
   }
 
+  roadstyle = t->sprites.roads[index].roadstyle;
+
   for (i = 0; i < t->num_valid_tileset_dirs; i++) {
     if (!t->valid_tileset_dirs[i]) {
       continue;
     }
-    if (t->roadstyle == 0) {
+    if (roadstyle == 0) {
       ADD_SPRITE_FULL(t->sprites.roads[index].dir[i]);
-    } else if (t->roadstyle == 1) {
+    } else if (roadstyle == 1) {
       ADD_SPRITE_FULL(t->sprites.roads[index].even[1 << i]);
-    } else if (t->roadstyle == 2) {
+    } else if (roadstyle == 2) {
       ADD_SPRITE_FULL(t->sprites.roads[index].total[1 << i]);
     }
   }
