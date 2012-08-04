@@ -37,7 +37,6 @@
 #include "menu.h"
 
 extern QApplication *qapp;
-extern void revolution_response(struct government *government);
 extern void popup_revolution_dialog(struct government *government = 0);
 /**************************************************************************
   Initialize menus (sensitivity, name, etc.) based on the
@@ -233,7 +232,7 @@ void mr_menu::slot_gov_change (const int &target)
 {
   struct government *gov;
   gov = government_by_number(target);
-  revolution_response(gov);
+  popup_revolution_dialog(gov);
 }
 
 /****************************************************************************
