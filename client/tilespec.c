@@ -2715,14 +2715,14 @@ struct sprite *tiles_lookup_sprite_tag_alt(struct tileset *t,
   Helper function to load sprite for one unit orientation
 ***********************************************************************/
 static bool tileset_setup_unit_direction(struct tileset *t,
-                                         struct unit_type *ut,
+                                         int uidx,
+                                         const char *base_str,
                                          enum direction8 dir,
-                                         char *dirsuffix)
+                                         const char *dirsuffix)
 {
   char buf[2048];
-  int uidx = utype_index(ut);
 
-  fc_snprintf(buf, sizeof(buf), "%s_%s", ut->graphic_str, dirsuffix);
+  fc_snprintf(buf, sizeof(buf), "%s_%s", base_str, dirsuffix);
 
   /* We don't use _alt graphics here, as that could lead to loading
    * real icon gfx, but alternative orientation gfx. Tileset author
@@ -2737,16 +2737,18 @@ static bool tileset_setup_unit_direction(struct tileset *t,
 }
 
 /**********************************************************************
-  Set unit_type sprite value; should only happen after
-  tilespec_load_tiles().
+  Try to setup all unit type sprites from single tag
 ***********************************************************************/
-void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
+bool static tileset_setup_unit_type_from_tag(struct tileset *t,
+                                             int uidx, const char *tag)
 {
   bool facing_sprites = TRUE;
 
-#define LOAD_FACING_SPRITE(dir, dname) \
-  if (!tileset_setup_unit_direction(t, ut, dir, dname)) { \
-    facing_sprites = FALSE; \
+  t->sprites.units.icon[uidx] = load_sprite(t, tag);
+
+#define LOAD_FACING_SPRITE(dir, dname)                           \
+  if (!tileset_setup_unit_direction(t, uidx, tag, dir, dname)) { \
+    facing_sprites = FALSE;                                      \
   }
 
   LOAD_FACING_SPRITE(DIR8_NORTHWEST, "nw");
@@ -2758,17 +2760,29 @@ void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
   LOAD_FACING_SPRITE(DIR8_SOUTH, "s");
   LOAD_FACING_SPRITE(DIR8_SOUTHEAST, "se");
 
-#undef LOAD_FACING_SPRITE
+  if (!facing_sprites && t->sprites.units.icon[uidx] == NULL) {
+    /* Neither icon gfx or orientation sprites */
+    return FALSE;
+  }
 
-  if (facing_sprites) {
-    /* Never use alt icon if we have orientation sprites as better fallback */
-    t->sprites.units.icon[utype_index(ut)] = load_sprite(t, ut->graphic_str);
-  } else {
-    t->sprites.units.icon[utype_index(ut)] =
-      tiles_lookup_sprite_tag_alt(t, LOG_FATAL, ut->graphic_str,
-                                  ut->graphic_alt, "unit_type",
-                                  utype_rule_name(ut));
-    /* should maybe do something if NULL, eg generic default? */
+  return TRUE;
+
+#undef LOAD_FACING_SPRITE
+}
+
+/**********************************************************************
+  Set unit_type sprite value; should only happen after
+  tilespec_load_tiles().
+***********************************************************************/
+void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
+{
+  int uidx = utype_index(ut);
+
+  if (!tileset_setup_unit_type_from_tag(t, uidx, ut->graphic_str)
+      && !tileset_setup_unit_type_from_tag(t, uidx, ut->graphic_alt)) {
+    log_fatal("Missing %s unit tag \"%s\" and alternative \"%s\".",
+              utype_rule_name(ut), ut->graphic_str, ut->graphic_alt);
+    exit(EXIT_FAILURE);
   }
 }
 
