@@ -2597,10 +2597,9 @@ void city_refresh_vision(struct city *pcity)
 }
 
 /**************************************************************************
-  Updates the squared city radius. If the radius is changed and
-  arrange_workers is set to TRUE auto_arrange_workers() is called.
+  Updates the squared city radius. Returns if the radius is changed.
 **************************************************************************/
-bool city_map_update_radius_sq(struct city *pcity, bool arrange_workers)
+bool city_map_update_radius_sq(struct city *pcity)
 {
 
   fc_assert_ret_val(pcity != NULL, FALSE);
@@ -2643,9 +2642,7 @@ bool city_map_update_radius_sq(struct city *pcity, bool arrange_workers)
   if (city_tiles_old < city_tiles_new) {
     /* increased number of city tiles */
     city_refresh_vision(pcity);
-    if (arrange_workers) {
-      auto_arrange_workers(pcity);
-    }
+    auto_arrange_workers(pcity);
   } else {
     /* reduced number of city tiles */
     int workers = 0;
@@ -2689,9 +2686,7 @@ bool city_map_update_radius_sq(struct city *pcity, bool arrange_workers)
     }
 
     city_refresh_vision(pcity);
-    if (arrange_workers) {
-      auto_arrange_workers(pcity);
-    }
+    auto_arrange_workers(pcity);
   }
 
   /* if city is under AI control update it */

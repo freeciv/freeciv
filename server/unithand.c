@@ -635,10 +635,8 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
   /* Make the new people something, otherwise city fails the checks */
   pcity->specialists[DEFAULT_SPECIALIST] += unit_pop_value(punit);
   citizens_update(pcity);
-  /* update squared city radius; no worker arrangement needed - it is done
-   * unconditionally below */
-  city_map_update_radius_sq(pcity, FALSE);
-  auto_arrange_workers(pcity);
+  /* Refresh the city data. */
+  city_refresh(pcity);
   notify_player(pplayer, city_tile(pcity), E_CITY_BUILD, ftc_server,
                 _("%s added to aid %s in growing."),
                 unit_tile_link(punit),

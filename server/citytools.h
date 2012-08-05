@@ -102,7 +102,7 @@ bool city_map_update_tile_now(struct tile *ptile);
 void city_map_update_all(struct city *pcity);
 void city_map_update_all_cities_for_player(struct player *pplayer);
 
-bool city_map_update_radius_sq(struct city *pcity, bool arrange_workers);
+bool city_map_update_radius_sq(struct city *pcity);
 
 void city_landlocked_sell_coastal_improvements(struct tile *ptile);
 void city_refresh_vision(struct city *pcity);

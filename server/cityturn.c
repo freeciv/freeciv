@@ -141,6 +141,8 @@ static void check_city_migrations_player(const struct player *pplayer);
 void city_refresh(struct city *pcity)
 {
   pcity->server.needs_refresh = FALSE;
+
+  city_map_update_radius_sq(pcity);
   city_units_upkeep(pcity); /* update unit upkeep */
   city_refresh_from_main_map(pcity, NULL);
 }
@@ -650,27 +652,19 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
   /* First try to kill off the specialists */
   loss_remain = pop_loss - city_reduce_specialists(pcity, pop_loss);
 
-  /* Update number of people in each feelings category.
-   * This must be after new city size and specialists counts
-   * have been set, and before any auto_arrange_workers() */
-  city_refresh(pcity);
-
   if (loss_remain > 0) {
     /* Take it out on workers */
     loss_remain -= city_reduce_workers(pcity, loss_remain);
   }
 
-  /* check squared city radius */
-  if (city_map_update_radius_sq(pcity, TRUE)) {
-    city_refresh(pcity);
-  }
+  /* Update number of people in each feelings category.
+   * This also updates the city radius if needed. */
+  city_refresh(pcity);
 
   /* Update citizens. */
   citizens_update(pcity);
-  /* Rearrange workers. */
-  auto_arrange_workers(pcity);
+
   /* Send city data. */
-  send_city_info(city_owner(pcity), pcity);
   sync_cities();
 
   fc_assert_ret_val_msg(0 == loss_remain, TRUE,
@@ -792,13 +786,9 @@ static bool city_increase_size(struct city *pcity)
     pcity->specialists[DEFAULT_SPECIALIST]++; /* or else city is !sane */
   }
 
-  /* Check squared city radius */
-  city_map_update_radius_sq(pcity, TRUE);
   /* Update citizens. */
   citizens_update(pcity);
-  /* Update workers. */
-  auto_arrange_workers(pcity);
-
+  /* Refresh the city data; this also checks the squared city radius. */
   city_refresh(pcity);
 
   /* Update cities that have trade routes with us */
@@ -1600,9 +1590,8 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     if (space_part) {
       /* space ship part build */
       send_spaceship_info(pplayer, NULL);
-    }
-    if (!space_part || city_map_update_radius_sq(pcity, TRUE)) {
-      /* new building or updated squared city radius */
+    } else {
+      /* Update city data. */
       city_refresh(pcity);
     }
 

@@ -4064,13 +4064,11 @@ static void sg_load_player_cities(struct loaddata *loading,
     vision_reveal_tiles(pcity->server.vision, game.server.vision_reveal_tiles);
     city_refresh_vision(pcity);
 
-    /* Check the squared city radius. Must be after improvements, as the
-     * effect City_Radius_SQ could be influenced by improvements; and after
-     * the vision is defined, as the function calls city_refresh_vision(). */
-    if (city_map_update_radius_sq(pcity, FALSE)) {
-      /* squared city radius has been changed - repair the city */
-      auto_arrange_workers(pcity);
-    }
+    /* Refresh the city. This also checks the squared city radius. Thus, it
+     * must be after improvements, as the effect City_Radius_SQ could be
+     * influenced by improvements; and after the vision is defined, as the
+     * function calls city_refresh_vision(). */
+    city_refresh(pcity);
 
     city_list_append(plr->cities, pcity);
   }
