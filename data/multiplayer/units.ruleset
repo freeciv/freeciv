@@ -2009,6 +2009,9 @@ The actions available to Diplomats in a city are:\
 In some game strategies, hordes of Diplomats can be used to wreak\
  havoc on the enemy.  Little wonder that Diplomats are often\
  viewed with suspicion and fear!\
+"), _("\
+Diplomats built under a Communist government will start at the first\
+ veteran level (secretary).\
 ")
 
 [unit_spy]
@@ -2075,6 +2078,9 @@ A Spy can also be used to:\n\
 A Spy that survives the more aggressive actions (sabotage, theft,\
  inciting rebellion, and poisoning) escapes to the safety of the\
  nearest friendly city.\
+"), _("\
+Spies built under a Communist government will start at the first\
+ veteran level (handler).\
 ")
 
 [unit_caravan]

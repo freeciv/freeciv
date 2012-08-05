@@ -1610,8 +1610,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         break;
       case UMT_LAND:
         if (utype_has_flag(utype, F_DIPLOMAT)||utype_has_flag(utype, F_SPY)) {
-          CATLSTR(buf, bufsz,
-                  _("* Will be built as a veteran under communist governments.\n"));
           if (veteran_through_combat)
             CATLSTR(buf, bufsz,
                     _("* May be promoted after a successful mission.\n"));
