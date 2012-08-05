@@ -503,15 +503,6 @@ reqs    =
       "Gov", "Democracy", "Player"
     }
 
-[effect_communism_0]
-name    = "Veteran_Build"
-value   = 1
-reqs    =
-    { "type",       "name",      "range"
-      "Gov", "Communism", "Player"
-      "UnitFlag", "Diplomat", "Local"
-    }
-
 [effect_revolution_0]
 name    = "Revolution_When_Unhappy"
 value   = 1
