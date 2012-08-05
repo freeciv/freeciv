@@ -1910,6 +1910,8 @@ A Spy can also be used to:\n\
 A Spy that survives the more aggressive actions (sabotage, theft,\
  inciting rebellion, and poisoning) escapes to the safety of the\
  nearest friendly city.\
+"), _("\
+Spies built under a Communist government will be built as veteran.\
 ")
 
 [unit_caravan]
