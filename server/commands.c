@@ -241,7 +241,7 @@ static struct command commands[] = {
   },
   {"metamessage", ALLOW_CTRL,
    /* TRANS: translate text between <> only */
-   N_("metainfo <meta-line>"),
+   N_("metamessage <meta-line>"),
    N_("Set metaserver info line."),
    N_("Set user defined metaserver info line. If parameter is omitted, "
       "previously set metamessage will be removed. For most of the time "
@@ -251,7 +251,7 @@ static struct command commands[] = {
   },
   {"metapatches", ALLOW_HACK,
    /* TRANS: translate text between <> only */
-   N_("metapatch <meta-line>"),
+   N_("metapatches <meta-line>"),
    N_("Set metaserver patches line."), NULL, NULL,
    CMD_ECHO_ADMINS, VCF_NONE, 0
   },
