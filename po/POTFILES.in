@@ -775,6 +775,7 @@ modinst/download.c
 modinst/download.h
 modinst/modinst.c
 modinst/mpcmdline.c
+po/Strings.txt
 server/aiiface.c
 server/auth.c
 server/barbarian.c
