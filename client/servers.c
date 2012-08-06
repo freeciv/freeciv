@@ -133,9 +133,9 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
     char vertext[2048];
 
     if (cvercmp_greater(latest_ver, my_comparable)) {
-      /* TRANS: Type is something like "stable", "S2_4", "winbuild" */
+      /* TRANS: Type is version tag name like "stable", "S2_4", "win32" */
       fc_snprintf(vertext, sizeof(vertext), _("Latest %s release of freeciv is %s, this is %s."),
-                  FOLLOWTAG, latest_ver, my_comparable);
+                  Q_("?vertag:" FOLLOWTAG), latest_ver, my_comparable);
     } else {
       fc_snprintf(vertext, sizeof(vertext),
                   _("There is no newer %s release of freeciv available."),

@@ -50,7 +50,7 @@ POFILES = @POFILES@
 GMOFILES = @GMOFILES@
 
 # Keep this in one line, since configure replaces it when NLS disabled
-DISTFILES = ChangeLog Makefile.in.in POTFILES.in POTFILES.skip $(PACKAGE).pot $(POFILES) $(GMOFILES)
+DISTFILES = ChangeLog Makefile.in.in POTFILES.in POTFILES.skip Strings.txt $(PACKAGE).pot $(POFILES) $(GMOFILES)
 
 POTFILES = \
 

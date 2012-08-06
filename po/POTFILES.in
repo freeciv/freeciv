@@ -781,6 +781,7 @@ data/scenarios/italy-100x100-v1.5.sav
 data/scenarios/japan-88x100-v1.3.sav
 data/scenarios/north_america_116x100-v1.2.sav
 data/scenarios/tutorial.sav
+po/Strings.txt
 tools/civmanual.c
 tools/download.c
 tools/download.h
