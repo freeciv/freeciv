@@ -299,21 +299,34 @@ GdkPixbuf *surface_get_pixbuf(cairo_surface_t *surf, int width, int height)
     unsigned char *end = p + 4 * width;
     unsigned char tmp;
 
+#define DIV_UNc(a,b) (((guint16) (a) * 0xFF + ((b) / 2)) / (b))
+
     while (p < end) {
       tmp = p[0];
 
 #ifdef WORDS_BIGENDIAN
-      p[0] = p[1];
-      p[1] = p[2];
-      p[2] = p[3];
-      p[3] = tmp;
+      if (tmp != 0) {
+        p[0] = DIV_UNc(p[1], tmp);
+        p[1] = DIV_UNc(p[2], tmp);
+        p[2] = DIV_UNc(p[3], tmp);
+        p[3] = tmp;
+      } else {
+        p[1] = p[2] = p[3] = 0;
+      }
 #else  /* WORDS_BIGENDIAN */
-      p[0] = p[2];
-      p[2] = tmp;
+      if (p[3] != 0) {
+        p[0] = DIV_UNc(p[2], p[3]);
+        p[1] = DIV_UNc(p[1], p[3]);
+        p[2] = DIV_UNc(tmp, p[3]);
+      } else {
+        p[0] = p[1] = p[2] = 0;
+      }
 #endif /* WORDS_BIGENDIAN */
 
       p += 4;
     }
+
+#undef DIV_UNc
 
     pixels += rowstride;
   }
