@@ -1318,7 +1318,7 @@ void request_unit_select(struct unit_list *punits,
   punit_first = unit_list_get(punits, 0);
 
   if (seltype == SELTYPE_SINGLE) {
-    unit_focus_add(punit_first);
+    unit_focus_set(punit_first);
     return;
   }
 
