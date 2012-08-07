@@ -78,6 +78,7 @@ static const char *luascript_unsafe_symbols[] = {
   Lua libraries to load (all default libraries, excluding operating system
   and library loading modules). See linit.c in Lua 5.1 for the default list.
 *****************************************************************************/
+#if LUA_VERSION_NUM == 501
 static luaL_Reg luascript_lualibs[] = {
   /* Using default libraries excluding: package, io and os */
   {"", luaopen_base},
@@ -87,7 +88,22 @@ static luaL_Reg luascript_lualibs[] = {
   {LUA_DBLIBNAME, luaopen_debug},
   {NULL, NULL}
 };
-
+#elif LUA_VERSION_NUM == 502
+static luaL_Reg luascript_lualibs[] = {
+  /* Using default libraries excluding: package, io and os */
+  {"_G", luaopen_base},
+  {LUA_COLIBNAME, luaopen_coroutine},
+  {LUA_TABLIBNAME, luaopen_table},
+  {LUA_STRLIBNAME, luaopen_string},
+  {LUA_BITLIBNAME, luaopen_bit32},
+  {LUA_MATHLIBNAME, luaopen_math},
+  {LUA_DBLIBNAME, luaopen_debug},
+  {NULL, NULL}
+};
+#else  /* LUA_VERSION_NUM */
+#error "Unsupported lua version"
+#endif /* LUA_VERSION_NUM */
+ 
 static int luascript_report(struct fc_lua *fcl, int status, const char *code);
 static void luascript_traceback_func_save(lua_State *L);
 static void luascript_traceback_func_push(lua_State *L);
