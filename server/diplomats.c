@@ -1307,7 +1307,16 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
   int escapechance;
   struct city *spyhome;
 
-  escapechance = game.server.diplchance + pdiplomat->veteran * 5;
+  /* Veteran level's power factor's effect on escape chance is relative to
+   * unpromoted unit's power factor */
+  {
+    const struct veteran_level
+      *vunit = utype_veteran_level(unit_type(pdiplomat), pdiplomat->veteran);
+    const struct veteran_level
+      *vbase = utype_veteran_level(unit_type(pdiplomat), 0);
+    escapechance = game.server.diplchance
+      + (vunit->power_fact - vbase->power_fact);
+  }
 
   if (pcity) {
     ptile = pcity->tile;
