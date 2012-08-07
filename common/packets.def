@@ -1366,7 +1366,7 @@ PACKET_RULESET_TERRAIN = 151; sc, lsend
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
 
-  UINT8 movement_cost;
+  UINT8 movement_cost; # Whole movement points (not multiplied by SINGLE_MOVE)
   SINT16 defense_bonus;
 
   UINT8 output[O_LAST];

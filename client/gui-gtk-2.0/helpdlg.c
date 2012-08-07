@@ -32,6 +32,7 @@
 /* common */
 #include "city.h"
 #include "government.h"
+#include "movement.h"
 #include "specialist.h"
 #include "tech.h"
 #include "unit.h"
@@ -827,7 +828,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     gtk_label_set_text(GTK_LABEL(help_ulabel[0][4]), buf);
     sprintf(buf, "%d", utype->defense_strength);
     gtk_label_set_text(GTK_LABEL(help_ulabel[1][1]), buf);
-    sprintf(buf, "%d", utype->move_rate/3);
+    sprintf(buf, "%s", move_points_text(utype->move_rate, NULL, NULL, FALSE));
     gtk_label_set_text(GTK_LABEL(help_ulabel[1][4]), buf);
     sprintf(buf, "%d", utype->firepower);
     gtk_label_set_text(GTK_LABEL(help_ulabel[2][1]), buf);

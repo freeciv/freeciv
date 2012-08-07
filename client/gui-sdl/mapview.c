@@ -765,10 +765,11 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	    
 	  pUType = unit_type(aunit);
           pHome_City = game_city_by_number(aunit->homecity);
-          fc_snprintf(buffer, sizeof(buffer), "%s (%d,%d,%d)%s\n%s\n(%d/%d)\n%s",
+          fc_snprintf(buffer, sizeof(buffer), "%s (%d,%d,%s)%s\n%s\n(%d/%d)\n%s",
 		utype_name_translation(pUType),
 		pUType->attack_strength,
-		pUType->defense_strength, pUType->move_rate / SINGLE_MOVE,
+                pUType->defense_strength,
+                move_points_text(pUType->move_rate, NULL, NULL, FALSE),
                 (aunit->veteran ? _("\nveteran") : ""),
                 unit_activity_text(aunit),
 		aunit->hp, pUType->hp,

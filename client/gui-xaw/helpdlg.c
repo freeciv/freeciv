@@ -35,6 +35,7 @@
 #include "genlist.h"
 #include "government.h"
 #include "mem.h"
+#include "movement.h"
 #include "shared.h"
 #include "specialist.h"
 #include "tech.h"
@@ -839,7 +840,8 @@ static void help_update_unit_type(const struct help_item *pitem,
     xaw_set_label(help_unit_attack_data, buf);
     sprintf(buf, "%d ", punittype->defense_strength);
     xaw_set_label(help_unit_def_data, buf);
-    sprintf(buf, "%d ", punittype->move_rate/3);
+    sprintf(buf, "%s ", move_points_text(punittype->move_rate,
+                                         NULL, NULL, FALSE));
     xaw_set_label(help_unit_move_data, buf);
     sprintf(buf, "%d ", punittype->firepower);
     xaw_set_label(help_unit_fp_data, buf);

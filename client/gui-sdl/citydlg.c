@@ -719,10 +719,11 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
         
     pUType = unit_type(pUnit);
     pHome_City = game_city_by_number(pUnit->homecity);
-    fc_snprintf(cBuf, sizeof(cBuf), "%s (%d,%d,%d)%s\n%s\n(%d/%d)\n%s",
+    fc_snprintf(cBuf, sizeof(cBuf), "%s (%d,%d,%s)%s\n%s\n(%d/%d)\n%s",
 		utype_name_translation(pUType),
 		pUType->attack_strength,
-		pUType->defense_strength, pUType->move_rate / SINGLE_MOVE,
+                pUType->defense_strength,
+                move_points_text(pUType->move_rate, NULL, NULL, FALSE),
                 (pUnit->veteran ? _("\nveteran") : ""),
                 unit_activity_text(pUnit),
 		pUnit->hp, pUType->hp,

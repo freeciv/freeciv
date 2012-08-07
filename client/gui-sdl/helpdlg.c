@@ -773,10 +773,11 @@ void popup_unit_info(Unit_type_id type_id)
           pUnitType->happy_cost, PL_("citizen", "citizens", pUnitType->happy_cost));
     }
 
-    cat_snprintf(buf, sizeof(buf), "\n%s %d %s %d %s %d\n%s %d %s %d %s %d",
+    cat_snprintf(buf, sizeof(buf), "\n%s %d %s %d %s %s\n%s %d %s %d %s %d",
               _("Attack:"), pUnitType->attack_strength,
               _("Defense:"), pUnitType->defense_strength,
-              _("Move:"), pUnitType->move_rate / SINGLE_MOVE,
+              _("Move:"), move_points_text(pUnitType->move_rate,
+                                           NULL, NULL, FALSE),
               _("Vision:"), pUnitType->vision_radius_sq,
               _("FirePower:"), pUnitType->firepower,
               _("Hitpoints:"), pUnitType->hp);

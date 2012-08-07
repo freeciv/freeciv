@@ -1107,25 +1107,25 @@ void unit_select_dialog_popup(struct tile *ptile)
     pUnitType = unit_type(pUnit);
         
     if (unit_owner(pUnit) == client.conn.playing) {
-      fc_snprintf(cBuf , sizeof(cBuf), _("Contact %s (%d / %d) %s(%d,%d,%d) %s"),
+      fc_snprintf(cBuf , sizeof(cBuf), _("Contact %s (%d / %d) %s(%d,%d,%s) %s"),
             pUnit->veteran ? _("Veteran") : "" ,
             pUnit->hp, pUnitType->hp,
             utype_name_translation(pUnitType),
             pUnitType->attack_strength,
             pUnitType->defense_strength,
-            (pUnitType->move_rate / SINGLE_MOVE),
+            move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
 	    unit_activity_text(pUnit));
     } else {
       int att_chance, def_chance;
       
-      fc_snprintf(cBuf , sizeof(cBuf), _("%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"),
+      fc_snprintf(cBuf , sizeof(cBuf), _("%s %s %s(A:%d D:%d M:%s FP:%d) HP:%d%%"),
             nation_adjective_for_player(unit_owner(pUnit)),
             (pUnit->veteran ? _("Veteran") : ""),
             utype_name_translation(pUnitType),
             pUnitType->attack_strength,
             pUnitType->defense_strength,
-            (pUnitType->move_rate / SINGLE_MOVE),
-      	    pUnitType->firepower,
+            move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
+            pUnitType->firepower,
 	    (pUnit->hp * 100 / pUnitType->hp + 9) / 10);
       
       /* calculate chance to win */
@@ -1855,13 +1855,13 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         pUnitType = unit_type(pUnit);
         if (unit_owner(pUnit) == client.conn.playing) {
           fc_snprintf(cBuf, sizeof(cBuf),
-            _("Activate %s (%d / %d) %s (%d,%d,%d) %s"),
+            _("Activate %s (%d / %d) %s (%d,%d,%s) %s"),
             pUnit->veteran ? _("Veteran") : "" ,
             pUnit->hp, pUnitType->hp,
             utype_name_translation(pUnitType),
             pUnitType->attack_strength,
             pUnitType->defense_strength,
-            (pUnitType->move_rate / SINGLE_MOVE),
+            move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
 	    unit_activity_text(pUnit));
     
 	  create_active_iconlabel(pBuf, pWindow->dst, pStr,
@@ -1873,14 +1873,14 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 	} else {
 	  int att_chance, def_chance;
 	  
-          fc_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"),
+          fc_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%s FP:%d) HP:%d%%"),
             nation_adjective_for_player(unit_owner(pUnit)),
             (pUnit->veteran ? _("Veteran") : ""),
             utype_name_translation(pUnitType),
             pUnitType->attack_strength,
             pUnitType->defense_strength,
-            (pUnitType->move_rate / SINGLE_MOVE),
-      	    pUnitType->firepower,
+            move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
+            pUnitType->firepower,
 	    ((pUnit->hp * 100) / pUnitType->hp));
     
           /* calculate chance to win */
@@ -1972,13 +1972,13 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 	 || (unit_owner(pUnit) == client.conn.playing))
         {
           fc_snprintf(cBuf, sizeof(cBuf),
-            _("Activate %s (%d / %d) %s (%d,%d,%d) %s"),
+            _("Activate %s (%d / %d) %s (%d,%d,%s) %s"),
             pUnit->veteran ? _("Veteran") : "" ,
             pUnit->hp, pUnitType->hp,
             utype_name_translation(pUnitType),
             pUnitType->attack_strength,
             pUnitType->defense_strength,
-            (pUnitType->move_rate / SINGLE_MOVE),
+            move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
 	    unit_activity_text(pUnit));
     
 	  create_active_iconlabel(pBuf, pWindow->dst, pStr,
@@ -1999,14 +1999,14 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         } else {
 	  int att_chance, def_chance;
 	
-          fc_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"),
+          fc_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%s FP:%d) HP:%d%%"),
             nation_adjective_for_player(unit_owner(pUnit)),
             (pUnit->veteran ? _("Veteran") : ""),
             utype_name_translation(pUnitType),
             pUnitType->attack_strength,
             pUnitType->defense_strength,
-            (pUnitType->move_rate / SINGLE_MOVE),
-      	    pUnitType->firepower,
+            move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
+            pUnitType->firepower,
 	    ((pUnit->hp * 100) / pUnitType->hp));
     
 	    /* calculate chance to win */
