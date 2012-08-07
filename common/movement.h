@@ -98,6 +98,9 @@ int unit_class_transporter_capacity(const struct tile *ptile,
                                     const struct unit_class *pclass);
 struct unit *transport_from_tile(struct unit *punit, struct tile *ptile);
 
+const char *move_points_text(int mp, const char *prefix, const char *none,
+                             bool align);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

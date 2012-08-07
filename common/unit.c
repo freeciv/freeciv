@@ -1318,39 +1318,19 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
   case ACTIVITY_IDLE:
     if (utype_fuel(unit_type(punit))) {
       int rate, f;
-      rate = unit_type(punit)->move_rate / SINGLE_MOVE;
+      rate = unit_type(punit)->move_rate;
       f = ((punit->fuel) - 1);
 
-      if ((punit->moves_left % SINGLE_MOVE) != 0) {
-        if (punit->moves_left / SINGLE_MOVE > 0) {
-          astr_add_line(astr, "%s: (%d)%d %d/%d", _("Moves"),
-                        ((rate * f) + (punit->moves_left / SINGLE_MOVE)),
-                        punit->moves_left / SINGLE_MOVE,
-                        punit->moves_left % SINGLE_MOVE, SINGLE_MOVE);
-        } else {
-          astr_add_line(astr, "%s: (%d)%d/%d", _("Moves"),
-                        ((rate * f) + (punit->moves_left / SINGLE_MOVE)),
-                        punit->moves_left % SINGLE_MOVE, SINGLE_MOVE);
-        }
-      } else {
-        astr_add_line(astr, "%s: (%d)%d", _("Moves"),
-                      rate * f + punit->moves_left / SINGLE_MOVE,
-                      punit->moves_left / SINGLE_MOVE);
-      }
+      /* Add in two parts as move_points_text() returns ptr to static
+       * End result: "Moves: (fuel)moves_left" */
+      astr_add_line(astr, "%s: (%s)", _("Moves"),
+                    move_points_text((rate * f) + punit->moves_left,
+                                     NULL, NULL, FALSE));
+      astr_add(astr, "%s",
+               move_points_text(punit->moves_left, NULL, NULL, FALSE));
     } else {
-      if ((punit->moves_left % SINGLE_MOVE) != 0) {
-        if (punit->moves_left / SINGLE_MOVE > 0) {
-          astr_add_line(astr, "%s: %d %d/%d", _("Moves"),
-                        punit->moves_left / SINGLE_MOVE,
-                        punit->moves_left % SINGLE_MOVE, SINGLE_MOVE);
-        } else {
-          astr_add_line(astr, "%s: %d/%d", _("Moves"),
-                        punit->moves_left % SINGLE_MOVE, SINGLE_MOVE);
-        }
-      } else {
-        astr_add_line(astr, "%s: %d", _("Moves"),
-                      punit->moves_left / SINGLE_MOVE);
-      }
+      astr_add_line(astr, "%s: %s", _("Moves"),
+                    move_points_text(punit->moves_left, NULL, NULL, FALSE));
     }
     return;
   case ACTIVITY_POLLUTION:

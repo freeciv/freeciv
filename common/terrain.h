@@ -178,7 +178,7 @@ struct terrain {
 
 #define TERRAIN_UNKNOWN_IDENTIFIER 'u'
 
-  int movement_cost;
+  int movement_cost; /* whole MP, not scaled by SINGLE_MOVE */
   int defense_bonus; /* % defense bonus - defaults to zero */
 
   int output[O_LAST];

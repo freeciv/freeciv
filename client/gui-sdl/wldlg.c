@@ -1519,25 +1519,28 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
         turns = city_turns_to_build(pCity, cid_production(cid_encode_unit(un)), TRUE);
         if (turns == FC_INFINITY) {
           fc_snprintf(cBuf, sizeof(cBuf),
-		    _("(%d/%d/%d)\n%d/%d %s\nnever"),
+		    _("(%d/%d/%s)\n%d/%d %s\nnever"),
 		    pUnit->attack_strength,
-		    pUnit->defense_strength, pUnit->move_rate / SINGLE_MOVE,
+                    pUnit->defense_strength,
+                    move_points_text(pUnit->move_rate, NULL, NULL, FALSE),
 		    pCity->shield_stock, utype_build_shield_cost(un),
 	  	    PL_("shield","shields", utype_build_shield_cost(un)));
         } else {
           fc_snprintf(cBuf, sizeof(cBuf),
-		    _("(%d/%d/%d)\n%d/%d %s\n%d %s"),
+		    _("(%d/%d/%s)\n%d/%d %s\n%d %s"),
 		    pUnit->attack_strength,
-		    pUnit->defense_strength, pUnit->move_rate / SINGLE_MOVE,
+                    pUnit->defense_strength,
+                    move_points_text(pUnit->move_rate, NULL, NULL, FALSE),
 		    pCity->shield_stock, utype_build_shield_cost(un), 
 	  	    PL_("shield","shields", utype_build_shield_cost(un)),
 		    turns, PL_("turn", "turns", turns));
         }
       } else {
         fc_snprintf(cBuf, sizeof(cBuf),
-		    _("(%d/%d/%d)\n%d %s"),
+		    _("(%d/%d/%s)\n%d %s"),
 		    pUnit->attack_strength,
-		    pUnit->defense_strength, pUnit->move_rate / SINGLE_MOVE,
+                    pUnit->defense_strength,
+                    move_points_text(pUnit->move_rate, NULL, NULL, FALSE),
 		    utype_build_shield_cost(un),
 		    PL_("shield","shields", utype_build_shield_cost(un)));
       }

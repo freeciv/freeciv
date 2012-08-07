@@ -23,6 +23,7 @@
 #include "support.h"
 
 /* common */
+#include "astring.h"
 #include "base.h"
 #include "effects.h"
 #include "fc_types.h"
@@ -610,4 +611,56 @@ int unit_class_transporter_capacity(const struct tile *ptile,
   } unit_list_iterate_end;
 
   return availability;
+}
+
+/****************************************************************************
+  Render movement points as text, including fractional movement points,
+  scaled by SINGLE_MOVE. Returns a pointer to a static buffer.
+  'prefix' is a string put in front of all numeric output.
+  'none' is the string to display in place of the integer part if no
+  movement points (or NULL to just say 0).
+  'align' controls whether this is for a fixed-width table, in which case
+  padding spaces will be included to make all such strings line up when
+  right-aligned.
+****************************************************************************/
+const char *move_points_text(int mp, const char *prefix, const char *none,
+                             bool align)
+{
+  static struct astring str = ASTRING_INIT;
+  static int denomlen = 0;
+  int pad1, pad2;
+  if (denomlen == 0) {
+    /* String length of denominator for fractional representation of
+     * movement points, for padding */
+    char denomstr[10];
+    fc_snprintf(denomstr, sizeof(denomstr), "%d", SINGLE_MOVE);
+    denomlen = strlen(denomstr);
+  }
+  if (align) {
+    pad1 = denomlen;     /* numerator or denominator */
+    pad2 = denomlen*2+2; /* everything right of integer part */
+  } else {
+    pad1 = pad2 = 0;
+  }
+  if (!prefix) {
+    prefix = "";
+  }
+  astr_clear(&str);
+  if (mp == 0 && none) {
+    /* No movement points, special representation */
+    astr_add(&str, "%s%*s", none, pad2, "");
+  } else if ((mp % SINGLE_MOVE) == 0) {
+    /* Integer move bonus */
+    astr_add(&str, "%s%d%*s", prefix, mp / SINGLE_MOVE, pad2, "");
+  } else if (mp < SINGLE_MOVE) {
+    /* Fractional move bonus */
+    astr_add(&str, "%s%*d/%*d", prefix,
+             pad1, mp % SINGLE_MOVE, pad1, SINGLE_MOVE);
+  } else {
+    /* Integer + fractional move bonus */
+    astr_add(&str,
+             "%s%d %*d/%*d", prefix, mp / SINGLE_MOVE,
+             pad1, mp % SINGLE_MOVE, pad1, SINGLE_MOVE);
+  }
+  return astr_str(&str);
 }

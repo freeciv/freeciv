@@ -380,17 +380,15 @@ const char *utype_values_string(const struct unit_type *punittype)
 {
   static char buffer[256];
 
+  /* Print in two parts as move_points_text() returns a static buffer */
+  fc_snprintf(buffer, sizeof(buffer), "%d/%d/%s",
+              punittype->attack_strength,
+              punittype->defense_strength,
+              move_points_text(punittype->move_rate, NULL, NULL, FALSE));
   if (utype_fuel(punittype)) {
-    fc_snprintf(buffer, sizeof(buffer), "%d/%d/%d(%d)",
-                punittype->attack_strength,
-                punittype->defense_strength,
-                punittype->move_rate / 3,
-                punittype->move_rate / 3 * utype_fuel(punittype));
-  } else {
-    fc_snprintf(buffer, sizeof(buffer), "%d/%d/%d",
-                punittype->attack_strength,
-                punittype->defense_strength,
-                punittype->move_rate / 3);
+    cat_snprintf(buffer, sizeof(buffer), "(%s)",
+                 move_points_text(punittype->move_rate * utype_fuel(punittype),
+                                  NULL, NULL, FALSE));
   }
   return buffer;
 }
