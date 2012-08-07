@@ -1140,6 +1140,21 @@ int utype_veteran_levels(const struct unit_type *punittype)
 }
 
 /****************************************************************************
+  Return whether this unit type's veteran system, if any, confers a power
+  factor bonus at any level (it could just add extra moves).
+****************************************************************************/
+bool utype_veteran_has_power_bonus(const struct unit_type *punittype)
+{
+  int i, initial_power_fact = utype_veteran_level(punittype, 0)->power_fact;
+  for (i = 1; i < utype_veteran_levels(punittype); i++) {
+    if (utype_veteran_level(punittype, i)->power_fact > initial_power_fact) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+/****************************************************************************
   Allocate new veteran system structure with given veteran level count.
 ****************************************************************************/
 struct veteran_system *veteran_system_new(int count)

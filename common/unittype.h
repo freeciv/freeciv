@@ -208,8 +208,8 @@ struct veteran_level {
   struct name_translation name; /* level/rank name */
   int power_fact; /* combat/work speed/diplomatic power factor (in %) */
   int move_bonus;
-  int raise_chance;
-  int work_raise_chance;
+  int raise_chance; /* server only */
+  int work_raise_chance; /* server only */
 };
 
 struct veteran_system {
@@ -354,6 +354,7 @@ const struct veteran_system *
 int utype_veteran_levels(const struct unit_type *punittype);
 const struct veteran_level *
   utype_veteran_level(const struct unit_type *punittype, int level);
+bool utype_veteran_has_power_bonus(const struct unit_type *punittype);
 
 struct veteran_system *veteran_system_new(int count);
 void veteran_system_destroy(struct veteran_system *vsystem);
