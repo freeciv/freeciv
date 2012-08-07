@@ -237,8 +237,8 @@ effects        = "ReducePopulation"
 ; Trade settings
 ;
 ; For each of the trade route types; "National", "NationalIC", "IN", "INIC":
-; "pct" - Trade income %
-; 
+; "pct" - Trade income %. If this is 0, trade route cannot be established at all
+;
 [trade]
 settings =
   { "type",       "pct"
