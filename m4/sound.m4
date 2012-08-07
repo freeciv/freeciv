@@ -30,7 +30,7 @@ AC_DEFUN([FC_CHECK_SOUND],[
       if test "x$SDL_mixer" = "xyes"; then
         SOUND_CFLAGS="$SOUND_CFLAGS $SDL_CFLAGS"
         SOUND_LIBS="$SOUND_LIBS -lSDL_mixer $SDL_LIBS"
-        AC_DEFINE(AUDIO_SDL, 1, [SDL_Mixer support])
+        AC_DEFINE([AUDIO_SDL], [1], [SDL_Mixer support])
         AC_MSG_RESULT([yes])
         SOUND_SDL_OK=true
       else

@@ -125,8 +125,8 @@ make readline library pass the test.)
                          have_new_readline_lib=1, have_new_readline_lib=0)
                if test "$have_new_readline_lib" = "1"; then
                    SERVER_LIBS="-lreadline $SERVER_LIBS $HAVE_TERMCAP"
-                   AC_DEFINE_UNQUOTED(HAVE_LIBREADLINE, 1, [Readline support])
-                   AC_DEFINE_UNQUOTED(HAVE_NEWLIBREADLINE, 1, [Modern readline])
+                   AC_DEFINE_UNQUOTED([HAVE_LIBREADLINE], [1], [Readline support])
+                   AC_DEFINE_UNQUOTED([HAVE_NEWLIBREADLINE], [1], [Modern readline])
                else
                    if test "$WITH_READLINE" = "yes"; then
                        AC_MSG_ERROR(Specified --with-readline but the 
@@ -142,7 +142,7 @@ Configuring server without readline support.)
                        have_readline_lib=1, have_readline_lib=0)
                    if test "$have_readline_lib" = "1"; then
                        SERVER_LIBS="-lreadline $SERVER_LIBS $HAVE_TERMCAP"
-                       AC_DEFINE_UNQUOTED(HAVE_LIBREADLINE, 1, [Readline support])
+                       AC_DEFINE_UNQUOTED([HAVE_LIBREADLINE], [1], [Readline support])
                    else
                        if test "$WITH_READLINE" = "yes"; then
                            AC_MSG_ERROR(Specified --with-readline but the 

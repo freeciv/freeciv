@@ -130,7 +130,7 @@ dnl check if a database backend is available
 if test "x$fcdb_mysql" = "xyes" || test "x$fcdb_postgres" = "xyes" \
    || test "x$fcdb_sqlite3" = "xyes"; then
   enable_fcdb=yes
-  AC_DEFINE(HAVE_FCDB,1,[ ])
+  AC_DEFINE([HAVE_FCDB], [1], [Database backend available])
 else
   enable_fcdb=no
 fi
@@ -571,7 +571,7 @@ AC_C99_STDINT_H
 
 dnl BeOS-specific settings
 if test x`$UNAME -s` = xBeOS ; then
-  AC_DEFINE(SOCKET_ZERO_ISNT_STDIN, 1, [BeOS-specific setting])
+  AC_DEFINE([SOCKET_ZERO_ISNT_STDIN], [1], [BeOS-specific setting])
   CFLAGS="$CFLAGS -Wno-multichar"
   LDFLAGS="$LDFLAGS -x none"
   if test x$enable_debug = xyes ; then
@@ -637,7 +637,7 @@ dnl note this has to match the path installed by po/Makefile
 if test x"$MINGW32" != "xyes"; then
   CPPFLAGS="$CPPFLAGS -DLOCALEDIR=\"\\\"$localedir\\\"\""
 else
-  AC_DEFINE_UNQUOTED(LOCALEDIR, "./share/locale", [Locale directory (windows)])
+  AC_DEFINE_UNQUOTED([LOCALEDIR], ["./share/locale"], [Locale directory (windows)])
 fi
 
 CPPFLAGS="$CPPFLAGS -DBINDIR=\"\\\"$bindir\\\"\""
@@ -646,7 +646,7 @@ COMMON_LIBS=-lm
 
 dnl Check for zlib
 AC_CHECK_LIB(z, gzgets,
-  [AC_DEFINE(HAVE_LIBZ, 1, [zlib is available])
+  [AC_DEFINE([HAVE_LIBZ], [1], [zlib is available])
 UTILITY_LIBS="${UTILITY_LIBS} -lz"
 COMMON_LIBS="$COMMON_LIBS -lz"], 
   AC_MSG_ERROR([Could not find zlib library.]))
@@ -663,13 +663,13 @@ fi
 dnl Check for bzip2 compression
 AC_CHECK_LIB(bz2, BZ2_bzReadOpen,
   [AC_CHECK_HEADERS([bzlib.h],
-   [AC_DEFINE(HAVE_LIBBZ2, 1, [libbzip2 is available])
+   [AC_DEFINE([HAVE_LIBBZ2], [1], [libbzip2 is available])
 UTILITY_LIBS="${UTILITY_LIBS} -lbz2"])])
 
 dnl Check for xz compression
 AC_CHECK_LIB(lzma, lzma_code,
   [AC_CHECK_HEADERS([lzma.h],
-   [AC_DEFINE(HAVE_LIBLZMA, 1, [liblzma is available])
+   [AC_DEFINE([HAVE_LIBLZMA], [1], [liblzma is available])
 UTILITY_LIBS="${UTILITY_LIBS} -llzma"])])
 
 AC_SUBST([UTILITY_CFLAGS])
@@ -1068,7 +1068,7 @@ AC_CHECK_FUNCS([bind connect fileno flock ftime gethostbyname gethostname \
                 backtrace])
 
 AC_MSG_CHECKING(for working gettimeofday)
-  FC_CHECK_GETTIMEOFDAY_RUNTIME(,AC_DEFINE(HAVE_GETTIMEOFDAY, 1,
+  FC_CHECK_GETTIMEOFDAY_RUNTIME(,AC_DEFINE([HAVE_GETTIMEOFDAY], [1],
 	[Define if the gettimeofday function works and is sane.]),)
 
 dnl Check for extra socket libraries.
@@ -1099,17 +1099,17 @@ dnl and not in LIBS.
 dnl Now check if non blocking sockets are possible
 dnl (if fcntl or ioctl exists)
 
-AC_CHECK_FUNC(fcntl,
-              [AC_DEFINE(HAVE_FCNTL, 1, [fcntl support])
-               AC_DEFINE(NONBLOCKING_SOCKETS, 1, [nonblocking sockets support])],
-               [AC_CHECK_FUNC(ioctl, 
-                             [AC_DEFINE(HAVE_IOCTL, 1, [ioctl support])
-                              AC_DEFINE(NONBLOCKING_SOCKETS, 1, [nonblocking sockets support])])])
+AC_CHECK_FUNC([fcntl],
+              [AC_DEFINE([HAVE_FCNTL], [1], [fcntl support])
+               AC_DEFINE([NONBLOCKING_SOCKETS], [1], [nonblocking sockets support])],
+               [AC_CHECK_FUNC([ioctl], 
+                             [AC_DEFINE([HAVE_IOCTL], [1], [ioctl support])
+                              AC_DEFINE([NONBLOCKING_SOCKETS], [1], [nonblocking sockets support])])])
 
 dnl Checks if SIGPIPE is usable
 AC_MSG_CHECKING([for SIGPIPE])
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <signal.h>]], [[signal (SIGPIPE, SIG_IGN)]])],[AC_MSG_RESULT([yes])
-                AC_DEFINE(HAVE_SIGPIPE, 1, [sigpipe support])],[AC_MSG_RESULT([no])])
+                AC_DEFINE([HAVE_SIGPIPE], [1], [sigpipe support])],[AC_MSG_RESULT([no])])
 
 FC_CONF_PATH="$sysconfdir/freeciv"
 

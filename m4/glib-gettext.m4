@@ -51,7 +51,7 @@ glib_DEFUN([GLIB_LC_MESSAGES],
     AC_CACHE_CHECK([for LC_MESSAGES], am_cv_val_LC_MESSAGES,
       [AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <locale.h>]], [[return LC_MESSAGES]])],[am_cv_val_LC_MESSAGES=yes],[am_cv_val_LC_MESSAGES=no])])
     if test $am_cv_val_LC_MESSAGES = yes; then
-      AC_DEFINE(HAVE_LC_MESSAGES, 1,
+      AC_DEFINE([HAVE_LC_MESSAGES], [1],
         [Define if your <locale.h> file defines LC_MESSAGES.])
     fi
   fi])
@@ -191,7 +191,7 @@ glib_DEFUN([GLIB_WITH_NLS],
       fi
   
       if test "$gt_cv_have_gettext" = "yes"; then
-	AC_DEFINE(HAVE_GETTEXT,1,
+	AC_DEFINE([HAVE_GETTEXT], [1],
 	  [Define if the GNU gettext() function is already present or preinstalled.])
 	GLIB_PATH_PROG_WITH_TEST(MSGFMT, msgfmt,
 	  [test -z "`$ac_dir/$ac_word -h 2>&1 | grep 'dv '`"], no)dnl
@@ -245,7 +245,7 @@ msgstr ""
     ])
 
     if test "$gt_cv_have_gettext" = "yes" ; then
-      AC_DEFINE(ENABLE_NLS, 1,
+      AC_DEFINE([ENABLE_NLS], [1],
         [always defined to indicate that i18n is enabled])
     fi
 
@@ -393,7 +393,7 @@ fi
 prefix="$glib_save_prefix"
 exec_prefix="$glib_save_exec_prefix"
 datarootdir="$glib_save_datarootdir"
-AC_DEFINE_UNQUOTED($1, "$localedir",
+AC_DEFINE_UNQUOTED([$1], ["$localedir"],
   [Define the location where the catalogs will be installed])
 ])
 

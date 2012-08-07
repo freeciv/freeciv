@@ -69,7 +69,7 @@ AC_DEFUN([FC_CHECK_X_LIB], [
         || test $ac_tr_lib = HAVE_LIBXPM  \
         || test $ac_tr_lib = HAVE_LIBXAW  \
         || test $ac_tr_lib = HAVE_LIBXAW3D); then
-      AC_DEFINE_UNQUOTED($ac_tr_lib)
+      AC_DEFINE_UNQUOTED([$ac_tr_lib], [1], [Have $ac_tr_lib])
       X_EXTRA_LIBS="-l$1 $X_EXTRA_LIBS"
     else
       AC_MSG_ERROR([Invalid define of $ac_tr_lib in $1])
