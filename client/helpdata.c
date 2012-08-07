@@ -1567,6 +1567,10 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (utype_has_flag(utype, F_SUPERSPY)) {
     CATLSTR(buf, bufsz, _("* Will never lose a diplomat-versus-diplomat fight.\n"));
   }
+  if (utype_has_flag(utype, F_SPY)
+      && utype_has_flag(utype, F_SUPERSPY)) {
+    CATLSTR(buf, bufsz, _("* Will always survive a spy mission.\n"));
+  }
   if (utype_has_flag(utype, F_UNBRIBABLE)) {
     CATLSTR(buf, bufsz, _("* May not be bribed.\n"));
   }
@@ -1739,12 +1743,17 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         CATLSTR(buf, bufsz,
                 _("  * Veterans have increased strength in combat.\n"));
       }
+      /* SUPERSPY always wins/escapes */
       if ((utype_has_flag(utype, F_DIPLOMAT)
            || utype_has_flag(utype, F_SPY))
           && !utype_has_flag(utype, F_SUPERSPY)) {
         CATLSTR(buf, bufsz,
                 _("  * Veterans have improved chances in diplomatic "
                   "contests.\n"));
+        if (utype_has_flag(utype, F_SPY)) {
+          CATLSTR(buf, bufsz,
+                  _("  * Veterans are more likely to survive missions.\n"));
+        }
       }
       if (utype_has_flag(utype, F_SETTLERS)
           || utype_has_flag(utype, F_TRANSFORM)) {

@@ -1749,7 +1749,7 @@ static struct setting settings[] = {
           SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_SITUATIONAL,
           SSET_TO_CLIENT,
           N_("Base chance for diplomats and spies to succeed"),
-          N_("The chance of a spy returning from a successful mission and "
+          N_("The base chance of a spy returning from a successful mission and "
              "the base chance of success for diplomats and spies."),
           NULL, NULL,
           GAME_MIN_DIPLCHANCE, GAME_MAX_DIPLCHANCE, GAME_DEFAULT_DIPLCHANCE)
