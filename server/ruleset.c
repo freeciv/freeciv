@@ -2739,7 +2739,10 @@ static void load_ruleset_nations(struct section_file *file)
     for (j = 0; j < dim; j++) {
       pconflict = nation_by_rule_name(vec[j]);
 
-      if (NULL != pconflict) {
+      if (pnation == pconflict) {
+        ruleset_error(LOG_ERROR, "Nation %s conflicts with itself",
+                      nation_rule_name(pnation));
+      } else if (NULL != pconflict) {
         nation_list_append(pnation->server.conflicts_with, pconflict);
       } else {
         /* For nation authors, this would probably be considered an error.
@@ -2931,7 +2934,10 @@ static void load_ruleset_nations(struct section_file *file)
       /* No test for duplicate nations is performed.  If there is a duplicate
        * entry it will just cause that nation to have an increased
        * probability of being chosen. */
-      if (NULL != pconflict) {
+      if (pconflict == pnation) {
+        ruleset_error(LOG_ERROR, "Nation %s is its own civil war nation",
+                      nation_rule_name(pnation));
+      } else if (NULL != pconflict) {
         nation_list_append(pnation->server.civilwar_nations, pconflict);
         nation_list_append(pconflict->server.parent_nations, pnation);
       } else {
