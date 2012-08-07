@@ -1077,7 +1077,9 @@ be built as veteran by means of certain city improvements or other \
 influences; once built, units can also become veteran through \
 experience (such as surviving combat), which may provide further \
 levels of bonuses beyond those available from their initial training.\
-"), _("\
+"), "\
+$VeteranLevels\
+", _("\
 Units which have been damaged in combat will regain hit points each \
 turn in which they are not moved. Normally, a unit which has not \
 moved will regain one hit point per turn. Units which are fortified \

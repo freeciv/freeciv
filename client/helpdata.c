@@ -125,9 +125,68 @@ void free_help_texts(void)
 }
 
 /****************************************************************************
-  Insert generated text for the helpdata "name".
+  Insert fixed-width table describing veteran system.
+  If only one veteran level, inserts 'nolevels' if non-NULL.
+  Otherwise, insert 'intro' then a table.
 ****************************************************************************/
-static void insert_generated_text(char *outbuf, size_t outlen, const char *name)
+static bool insert_veteran_help(char *outbuf, size_t outlen,
+                                const struct veteran_system *veteran,
+                                const char *intro, const char *nolevels)
+{
+  /* game.veteran can be NULL in pregame; if so, keep quiet about
+   * veteran levels */
+  if (!veteran) {
+    return FALSE;
+  }
+
+  fc_assert_ret_val(veteran->levels >= 1, FALSE);
+
+  if (veteran->levels == 1) {
+    /* Only a single veteran level. Don't bother to name it. */
+    if (nolevels) {
+      CATLSTR(outbuf, outlen, nolevels);
+      return TRUE;
+    } else {
+      return FALSE;
+    }
+  } else {
+    int i;
+    fc_assert_ret_val(veteran->definitions != NULL, FALSE);
+    if (intro) {
+      CATLSTR(outbuf, outlen, intro);
+      CATLSTR(outbuf, outlen, "\n\n");
+    }
+    /* raise_chance and work_raise_chance don't get to the client, so we
+     * can't report them */
+    CATLSTR(outbuf, outlen,
+            /* TRANS: Header for fixed-width veteran level table.
+             * TRANS: Translators cannot change column widths :(
+             * TRANS: "Level name" left-justified, other two right-justified */
+            _("Veteran level      Power factor   Move bonus\n"));
+    CATLSTR(outbuf, outlen,
+            /* TRANS: Part of header for veteran level table. */
+            _("--------------------------------------------"));
+    for (i = 0; i < veteran->levels; i++) {
+      const struct veteran_level *level = &veteran->definitions[i];
+      const char *name = name_translation(&level->name);
+      /* Use get_internal_string_length() for correct alignment with
+       * multibyte character encodings */
+      cat_snprintf(outbuf, outlen,
+          "\n%s%*s %4d%% %12s",
+          name, MAX(0, 25 - (int)get_internal_string_length(name)), "",
+          level->power_fact,
+          /* e.g. "-    ", "+ 1/3", "+ 1    ", "+ 2 2/3" */
+          move_points_text(level->move_bonus, "+ ", "-", TRUE));
+    }
+    return TRUE;
+  }
+}
+
+/****************************************************************************
+  Insert generated text for the helpdata "name".
+  Returns TRUE if anything was added.
+****************************************************************************/
+static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
 {
   if (0 == strcmp (name, "TerrainAlterations")) {
     int rail_time = -1, clean_pollution_time = -1, clean_fallout_time = -1;
@@ -243,6 +302,11 @@ static void insert_generated_text(char *outbuf, size_t outlen, const char *name)
         }
       } base_type_iterate_end;
     }
+    return TRUE;
+  } else if (0 == strcmp (name, "VeteranLevels")) {
+    return insert_veteran_help(outbuf, outlen, game.veteran,
+        _("In this ruleset, the following veteran levels are defined:"),
+        _("This ruleset has no default veteran levels defined."));
   } else if (0 == strcmp (name, "FreecivVersion")) {
     const char *ver = freeciv_name_version();
     cat_snprintf(outbuf, outlen,
@@ -250,8 +314,10 @@ static void insert_generated_text(char *outbuf, size_t outlen, const char *name)
                   * "Freeciv version 2.3.0-beta1 (beta version)" (translated).
                   * Second %s is client_string, e.g., "gui-gtk-2.0". */
                  _("This is %s, %s client."), ver, client_string);
+    return TRUE;
   }
-  return;
+  log_error("Unknown directive '$%s' in help", name);
+  return FALSE;
 }
 
 /****************************************************************
@@ -975,13 +1041,16 @@ void boot_help_texts(struct player *pplayer)
 
       long_buffer[0] = '\0';
       for (i=0; i<npara; i++) {
+        bool inserted;
         const char *para = paras[i];
         if(strncmp(para, "$", 1)==0) {
-          insert_generated_text(long_buffer, sizeof(long_buffer), para+1);
+          inserted =
+            insert_generated_text(long_buffer, sizeof(long_buffer), para+1);
         } else {
           sz_strlcat(long_buffer, _(para));
+          inserted = TRUE;
         }
-        if (i!=npara-1) {
+        if (inserted && i!=npara-1) {
           sz_strlcat(long_buffer, "\n\n");
         }
       }
@@ -1281,6 +1350,8 @@ static int techs_with_flag_string(char *buf, size_t bufsz,
 char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 		    const char *user_text, struct unit_type *utype)
 {
+  bool can_be_veteran;
+
   fc_assert_ret_val(NULL != buf && 0 < bufsz && NULL != user_text, NULL);
 
   if (!utype) {
@@ -1288,6 +1359,10 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     fc_strlcpy(buf, user_text, bufsz);
     return buf;
   }
+
+  can_be_veteran = !utype_has_flag(utype, F_NO_VETERAN)
+    && utype_veteran_levels(utype) > 1;
+
   buf[0] = '\0';
 
   cat_snprintf(buf, bufsz,
@@ -1590,58 +1665,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (utype_has_flag(utype, F_CAPTURABLE)) {
     CATLSTR(buf, bufsz, _("* Can be captured by some enemy units.\n"));
   }
-  if (utype_has_flag(utype, F_NO_VETERAN)) {
-    CATLSTR(buf, bufsz, _("* Will never achieve veteran status.\n"));
-  } else {
-    /* Some units can never become veteran through combat in practice. */
-    bool veteran_through_combat =
-      !((utype->attack_strength == 0
-         || uclass_has_flag(utype_class(utype), UCF_MISSILE))
-        && utype->defense_strength == 0);
-    switch(utype_move_type(utype)) {
-      case UMT_BOTH:
-        if (!utype_has_flag(utype, F_NOBUILD))
-          CATLSTR(buf, bufsz,
-                  _("* Will be built as a veteran in cities with appropriate"
-                    " training facilities (see Airport).\n"));
-        if (veteran_through_combat)
-          CATLSTR(buf, bufsz,
-                  _("* May be promoted after defeating an enemy unit.\n"));
-        break;
-      case UMT_LAND:
-        if (utype_has_flag(utype, F_DIPLOMAT)||utype_has_flag(utype, F_SPY)) {
-          if (veteran_through_combat)
-            CATLSTR(buf, bufsz,
-                    _("* May be promoted after a successful mission.\n"));
-        } else {
-          if (!utype_has_flag(utype, F_NOBUILD))
-            CATLSTR(buf, bufsz,
-                    _("* Will be built as a veteran in cities with appropriate"
-                      " training facilities (see Barracks).\n"));
-          if (veteran_through_combat)
-            CATLSTR(buf, bufsz,
-                    _("* May be promoted after defeating an enemy unit.\n"));
-        }
-        break;
-      case UMT_SEA:
-        if (!utype_has_flag(utype, F_NOBUILD))
-          CATLSTR(buf, bufsz,
-                  _("* Will be built as a veteran in cities with appropriate"
-                    " training facilities (see Port Facility).\n"));
-        if (veteran_through_combat)
-          CATLSTR(buf, bufsz,
-                  _("* May be promoted after defeating an enemy unit.\n"));
-        break;
-      default:          /* should never happen in default rulesets */
-        if (veteran_through_combat)
-          CATLSTR(buf, bufsz,
-                  _("* May be promoted through combat or training.\n"));
-        else
-          CATLSTR(buf, bufsz,
-                  _("* May be built as a veteran through training.\n"));
-        break;
-    }
-  }
   if (utype_has_flag(utype, F_SHIELD2GOLD)) {
     /* FIXME: the conversion shield => gold is activated if
      *        EFT_SHIELD2GOLD_FACTOR is not equal null; how to determine
@@ -1692,8 +1715,54 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       astr_free(&list);
     }
   }
+  if (!can_be_veteran) {
+    /* Only mention this if the game generally has veteran levels. */
+    if (game.veteran->levels > 1) {
+      CATLSTR(buf, bufsz, _("* Will never achieve veteran status.\n"));
+    }
+  } else {
+    /* Not useful currently: */
+#if 0
+    /* Some units can never become veteran through combat in practice. */
+    bool veteran_through_combat =
+      !((utype->attack_strength == 0
+         || uclass_has_flag(utype_class(utype), UCF_MISSILE))
+        && utype->defense_strength == 0);
+#endif
+    /* FIXME: if we knew the raise chances on the client, we could be
+     * more specific here about whether veteran status can be acquired
+     * through combat/missions/work. */
+    CATLSTR(buf, bufsz, _("* May acquire veteran status.\n"));
+    if (utype_veteran_has_power_bonus(utype)) {
+      if (utype->attack_strength > 0
+          || utype->defense_strength > 0) {
+        CATLSTR(buf, bufsz,
+                _("  * Veterans have increased strength in combat.\n"));
+      }
+      if ((utype_has_flag(utype, F_DIPLOMAT)
+           || utype_has_flag(utype, F_SPY))
+          && !utype_has_flag(utype, F_SUPERSPY)) {
+        CATLSTR(buf, bufsz,
+                _("  * Veterans have improved chances in diplomatic "
+                  "contests.\n"));
+      }
+      if (utype_has_flag(utype, F_SETTLERS)
+          || utype_has_flag(utype, F_TRANSFORM)) {
+        CATLSTR(buf, bufsz,
+                _("  * Veterans work faster.\n"));
+      }
+    }
+  }
   if (strlen(buf) > 0) {
     CATLSTR(buf, bufsz, "\n");
+  }
+  if (can_be_veteran && utype->veteran) {
+    /* The case where the unit has only a single veteran level has already
+     * been handled above, so keep quiet here if that happens */
+    if (insert_veteran_help(buf, bufsz, utype->veteran,
+            _("This type of unit has its own veteran levels:"), NULL)) {
+      CATLSTR(buf, bufsz, "\n\n");
+    }
   }
   if (NULL != utype->helptext) {
     strvec_iterate(utype->helptext, text) {
