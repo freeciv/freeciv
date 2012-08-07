@@ -58,7 +58,6 @@ city_style="Celtic"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -171,7 +170,6 @@ city_style="Tropical"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -268,7 +266,6 @@ city_style="Babylonian"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -324,7 +321,6 @@ city_style="Classical"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -362,7 +358,6 @@ city_style="Celtic"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -441,7 +436,6 @@ city_style="Asian"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -581,7 +575,6 @@ city_style="Babylonian"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -659,7 +652,6 @@ city_style="European"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -770,7 +762,6 @@ city_style="Celtic"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -894,7 +885,6 @@ city_style   = "European"
 
 init_techs = ""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -1042,7 +1032,6 @@ city_style="Classical"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -1193,7 +1182,6 @@ city_style="Asian"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -1286,7 +1274,6 @@ city_style="Asian"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -1399,7 +1386,6 @@ city_style="Asian"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities=
@@ -1460,7 +1446,6 @@ city_style="Classical"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -1533,7 +1518,6 @@ city_style = "Classical"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -1590,7 +1574,6 @@ city_style = "European"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -1677,7 +1660,6 @@ city_style="Celtic"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -1768,7 +1750,6 @@ city_style = "Classical"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -1837,7 +1818,6 @@ city_style="European"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
@@ -1916,7 +1896,6 @@ city_style="Tropical"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 cities =
