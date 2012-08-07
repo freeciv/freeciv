@@ -1128,6 +1128,22 @@ const struct veteran_level *
 }
 
 /****************************************************************************
+  Return translated name of the given veteran level.
+  NULL if this unit type doesn't have different veteran levels.
+****************************************************************************/
+const char *utype_veteran_name_translation(const struct unit_type *punittype,
+                                           int level)
+{
+  if (utype_has_flag(punittype, UTYF_NO_VETERAN)
+      || utype_veteran_levels(punittype) <= 1) {
+    return NULL;
+  } else {
+    const struct veteran_level *vlvl = utype_veteran_level(punittype, level);
+    return name_translation(&vlvl->name);
+  }
+}
+
+/****************************************************************************
   Return veteran levels of the given unit type.
 ****************************************************************************/
 int utype_veteran_levels(const struct unit_type *punittype)

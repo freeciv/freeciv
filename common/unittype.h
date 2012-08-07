@@ -354,6 +354,8 @@ const struct veteran_system *
 int utype_veteran_levels(const struct unit_type *punittype);
 const struct veteran_level *
   utype_veteran_level(const struct unit_type *punittype, int level);
+const char *utype_veteran_name_translation(const struct unit_type *punittype,
+                                           int level);
 bool utype_veteran_has_power_bonus(const struct unit_type *punittype);
 
 struct veteran_system *veteran_system_new(int count);
