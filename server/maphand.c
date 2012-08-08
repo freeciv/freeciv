@@ -1637,6 +1637,23 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
   struct terrain *newter = tile_terrain(ptile);
 
   fix_tile_on_terrain_change(ptile, oldter, TRUE);
+
+  /* Check for saltwater filling freshwater lake */
+  if (is_ocean(newter) && !terrain_has_flag(newter, TER_FRESHWATER)) {
+    adjc_iterate(ptile, atile) {
+      if (terrain_has_flag(tile_terrain(atile), TER_FRESHWATER)) {
+        struct terrain *aold = tile_terrain(atile);
+
+        tile_set_terrain(atile, newter);
+
+        /* Recursive, but as lakes as lakes are of limited size, this
+         * won't recurse so much as to cause stack problems. */
+        check_terrain_change(atile, aold);
+        update_tile_knowledge(atile);
+      }
+    } adjc_iterate_end;
+  }
+
   if (need_to_reassign_continents(oldter, newter)) {
     assign_continent_numbers();
     send_all_known_tiles(NULL);
