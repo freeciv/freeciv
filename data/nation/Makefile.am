@@ -98,6 +98,7 @@ pkgdata_DATA = \
 		castilian.ruleset \
 		catalan.ruleset \
 		celtiberian.ruleset \
+		celtic.ruleset \
 		centralafrican.ruleset \
 		centralamerican.ruleset \
 		centrallithuanian.ruleset \

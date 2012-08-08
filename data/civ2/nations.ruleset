@@ -340,9 +340,13 @@ cities =
 name=_("Celtic")
 plural=_("?plural:Celts")
 groups="Ancient"
-legend=_("The Britons were the inhabitants of most of Great Britain\
- during the Iron Age. They spoke Brythonic Celtic languages and are the\
- ancestors of the modern Welsh, Cornish and Breton people.")
+legend=_("The Celts were an Indo-European ethno-linguistic complex in Western\
+ Europe, probably originating from the area between the upper Rhine and\
+ upper Danube, from the Urnfield culture and the western group of the\
+ Hallstatt culture. The Celts were known as cruel and savage warriors\
+ who terrorized the ancient civilized peoples of Europe and Asia Minor.\
+ The Celts colonized much of Europe and had a large influence on the\
+ development of European civilization.")
 
 leaders = {
  "name",                "sex"
@@ -351,13 +355,15 @@ leaders = {
 }
 
 ruler_titles = {
- "government",     "male_title",       "female_title"
- "Despotism",	   _("Chieftain %s"),  _("?female:Chieftain %s")
- "Fundamentalism", _("Druid %s"),      _("?female:Druid %s")
- "Monarchy",       _("High King %s"),  _("High Queen %s")
+ "government",     "male_title",          "female_title"
+ "Despotism",      _("Great Warrior %s"), _("?female:Great Warrior %s")
+ "Communism",      _("Brother %s"),       _("Sister %s")
+ "Republic",       _("Spokesman %s"),     _("Spokeswoman %s")
+ "Democracy",      _("Speaker %s"),       _("?female:Speaker %s")
+ "Fundamentalism", _("High Druid %s"),    _("?female:High Druid %s")
 } 
 
-flag="britannia"
+flag="celtic"
 flag_alt="-"
 city_style="Celtic"
 
@@ -366,48 +372,53 @@ init_buildings=""
 init_units=""
 
 cities =
- "Werulamion",
- "Camulodunon",
- "Londinion",
- "Eboracon",
- "Windolanda",
- "Dubris",
- "Bannawenta",
- "Callewa",
- "Dewa",
- "Corinion",
- "Durowernon",
- "Glewon",
- "Isca",
- "Lindo",
- "Abona",
- "Moridunon",
- "Isurion",
- "Windomora",
- "Petuaria",
- "Lactodoron",
- "Ratae",
- "Durnowaria",
- "Wenta",
- "Wenone",
- "Isannawantia",
- "Uriconon",
- "Nowiomagos",
- "Magiowinter",
- "Coria",
- "Luguwalion",
- "Senodunon",
- "Ledrid",
- "Dubras",
- "Ardotalia",
- "Concangis",
- "Durocornowion",
- "Letoceton",
- "Mamucion",
- "Lindinis",
- "Winowia",
- "Cructan",
- "Luention"
+    ;Urnfield culture:
+    "Knoviz",
+    "Milavce",
+    "Velatice",
+    "Baierdorf",
+    "Čaka",
+    "Unstrut",
+    "Châtenay",
+    "Lingolsheim",
+    "Marburg",
+    "Hanau",
+    "Friedberger",
+    "Goloring",
+    ;Halstatt culture:
+    "Halstatt",
+    "Gräfenbühl",
+    "Hochmichele",
+    "Hochdorf",
+    "Heuneburg",
+    "Châtillon-sur-Seine",
+    "Vix",
+    "Molpír",
+    "Býčí Skála",
+    "Frögg",
+    "Hirschlanden",
+    "Glauberg",
+    ;La Téne culture:
+    "La Téne",
+    "Engehalbinsel",
+    "Jolimont",
+    "Manching",
+    "Mormont",
+    "Münsingen",
+    "Petinesca",
+    "Basel",
+    "Bibracte",
+    "Erstfeld",
+    "Bopfingen",
+    "Fellbach-Schmiden",
+    "Kleinaspergle",
+    "Waldalgesheim",
+    "Dürrnberg",
+    "Donnersberg",
+    "Vill",
+    "Sandberg",
+    "Titelberg",
+    "Reinheim"
 
 [nation_chinese]
 

@@ -135,6 +135,7 @@ match=2
 *include "nation/castilian.ruleset"
 *include "nation/catalan.ruleset"
 *include "nation/celtiberian.ruleset"
+*include "nation/celtic.ruleset"
 *include "nation/centralafrican.ruleset"
 *include "nation/centralamerican.ruleset"
 *include "nation/centrallithuanian.ruleset"

@@ -102,6 +102,7 @@ artists = "
    Cartago		Daniel Markstedt and Matt Jecrell
    Catalan		Xavier Conde Rueda
    Celtiberian		J.M. Maalderink
+   Celtic		AnonMoos (Wikimedia Commons)
    Central America	Connormah (Wikimedia Commons) and J.M. Maalderink
    Central Lithuania	Halibutt (Wikimedia Commons)
    Chad			J.M. Maalderink
@@ -658,6 +659,7 @@ sprites =
 		"f.castile", "flags/castile"
 		"f.catalan", "flags/catalan"
 		"f.celtiberian", "flags/celtiberian"
+		"f.celtic", "flags/celtic"
 		"f.central_america", "flags/central_america"
 		"f.central_lithuania", "flags/central_lithuania"
 		"f.chad", "flags/chad"
