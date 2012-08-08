@@ -1117,7 +1117,7 @@ fi
 
 if test "x$sys_lua" = "xfalse" ; then
   LUA_CFLAGS="-I\$(top_srcdir)/dependencies/lua-5.1/src"
-  LUA_LIBS="\$(top_builddir)/dependencies/lua-5.1/src/liblua.la"
+  LUA_LIBS="\$(top_builddir)/dependencies/lua-5.1/src/liblua.la -lm"
   LUA_AS_DEPENDENCY="$LUA_LIBS"
 fi
 
