@@ -1148,20 +1148,19 @@ static void setup_widgets(void)
                      G_CALLBACK(taxrates_callback), GINT_TO_POINTER(i));
 
     sprite = i < 5 ? get_tax_sprite(tileset, O_SCIENCE) : get_tax_sprite(tileset, O_GOLD);
-    econ_label[i] = gtk_image_new_from_pixbuf(sprite_get_pixbuf(sprite));
+    econ_label[i] = gtk_pixcomm_new_from_sprite(sprite);
     gtk_container_add(GTK_CONTAINER(ebox), econ_label[i]);
   }
 
   /* science, environmental, govt, timeout */
   bulb_label
-    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(client_research_sprite()));
+    = gtk_pixcomm_new_from_sprite(client_research_sprite());
   sun_label
-    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(client_warming_sprite()));
+    = gtk_pixcomm_new_from_sprite(client_warming_sprite());
   flake_label
-    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(client_cooling_sprite()));
+    = gtk_pixcomm_new_from_sprite(client_cooling_sprite());
   government_label
-    = gtk_image_new_from_pixbuf(sprite_get_pixbuf
-				(client_government_sprite()));
+    = gtk_pixcomm_new_from_sprite(client_government_sprite());
 
   for (i = 0; i < 4; i++) {
     GtkWidget *w;
