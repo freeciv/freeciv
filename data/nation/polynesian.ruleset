@@ -2,7 +2,8 @@
 
 name=_("Polynesian")
 plural=_("?plural:Polynesian")
-groups= "Oceanian"
+groups= "Oceanian", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("Polynesian culture stretches from Hawaii to New Zealand to\
  Easter Island and covers all the islands in between.")
 

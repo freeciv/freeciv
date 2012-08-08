@@ -2,7 +2,8 @@
 
 name=_("Celtic")
 plural=_("?plural:Celts")
-groups="Ancient", "European"
+groups="Ancient", "European", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("The Celts were an Indo-European ethno-linguistic complex in Western\
  Europe, probably originating from the area between the upper Rhine and\
  upper Danube, from the Urnfield culture and the western group of the\

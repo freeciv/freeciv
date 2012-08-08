@@ -2,7 +2,8 @@
 
 name=_("Hunnic")
 plural=_("?plural:Huns")
-groups="Ancient", "European", "Asian"
+groups="Ancient", "European", "Asian", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("The European Huns were an ancient tribal confederation who first\
  appeared in the 4th century. The Huns inhabited the Eurasian steppes and\
  were known as formidable horse archers. In the fifth century CE they\

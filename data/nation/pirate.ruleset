@@ -2,6 +2,8 @@
 
 name=_("Pirate")
 plural=_("?plural:Pirates")
+groups="Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("As long as honest men have sailed the seas, pirates have been a\
  scourge of them and of all coastal dwelling peoples.")
 

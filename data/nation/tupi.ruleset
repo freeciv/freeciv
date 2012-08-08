@@ -2,8 +2,9 @@
 
 name=_("Tupi")
 plural=_("?plural:Tupi")
-groups="American"
+groups="American", "Core"
 
+; /* TRANS: Legend for nation in "core" set */
 legend=_("The Tupi are a native Brazilian people related to the Guarani who\
  inhabited the modern Brazilian states of Paraiba, Pernambuco, Ceara, Rio\
  Grande do Norte, Alagoas, Sergipe and others as well. Their chiefdoms were\

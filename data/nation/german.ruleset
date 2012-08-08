@@ -2,8 +2,9 @@
 
 name   = _("German")
 plural = _("?plural:Germans")
-groups  = "Modern", "European"
+groups  = "Modern", "European", "Core"
 
+; /* TRANS: Legend for nation in "core" set */
 legend = _("Germany was united in 1871 by the Prussian military \
 force. After World War I it became a republic, but fell into \
 Nazism in 1933 and started World War II. After the war it was split \

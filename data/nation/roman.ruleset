@@ -2,7 +2,8 @@
 
 name=_("Roman")
 plural=_("?plural:Romans")
-groups="Ancient", "European"
+groups="Ancient", "European", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("Rome was, in legend, founded by Romulus in 753 BCE. At its\
  height, Rome controlled much of Europe, northern Africa and the Near\
  East. Roman culture adopted much of the civilizations it conquered, such\

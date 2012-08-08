@@ -2,7 +2,8 @@
 
 name=_("Persian")
 plural=_("?plural:Persians")
-groups="Ancient", "Medieval", "Early Modern", "Asian"
+groups="Ancient", "Medieval", "Early Modern", "Asian", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("The first Persian (Achaemenid) Empire lasted from 550 BCE to 330\
  BCE; the second (Sassanid) from 226 CE to 642 CE.")
 

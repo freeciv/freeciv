@@ -2,7 +2,8 @@
 
 name=_("Mongol")
 plural=_("?plural:Mongols")
-groups="Medieval", "Early Modern", "Modern", "Asian"
+groups="Medieval", "Early Modern", "Modern", "Asian", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("In the centuries after their unification by Chinggis Khan, the\
  Mongols conquered the largest empire in human history, encompassing most\
  of the continent of Asia. They became notorious for their utter\

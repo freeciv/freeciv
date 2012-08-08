@@ -2,7 +2,8 @@
 
 name=_("Portuguese")
 plural=_("?plural:Portuguese")
-groups="Medieval", "Early Modern", "Modern", "European"
+groups="Medieval", "Early Modern", "Modern", "European", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("Portugal founded the first of the great mercantile empires\
  in the 1400s on the shipbuilding advances funded by Prince Henry the\
  Navigator.")

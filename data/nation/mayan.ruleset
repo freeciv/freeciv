@@ -2,7 +2,8 @@
 
 name=_("Mayan")
 plural=_("?plural:Mayas")
-groups="Ancient", "Medieval", "Early Modern", "American"
+groups="Ancient", "Medieval", "Early Modern", "American", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("The Mayans were a Mesoamerican civilization. They are\
  famous for building great pyramids and palaces in the jungle.")
 

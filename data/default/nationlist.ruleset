@@ -1,9 +1,11 @@
 
-; Descriptions of nation groups
+; Descriptions of nation sets/groups
 ; name 		= name of the group
 ; match		= How much the AI will try to select a nation in the same
-;                 group
+;                 group (ngroups only)
 
+[nset_core]
+name=_("?nationset:Core")
 [ngroup_ancient]
 name=_("?nationgroup:Ancient")
 match=2

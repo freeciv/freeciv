@@ -2,7 +2,8 @@
 
 name=_("Iroquois")
 plural=_("?plural:Iroquois")
-groups="Medieval", "Early Modern", "American"
+groups="Medieval", "Early Modern", "American", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("The Iroquois Confederacy - known as Haudenosaunee in their own\
  language - was a North American group of nations with common language and\
  culture. They were based in what is now upstate New York and consisted\
