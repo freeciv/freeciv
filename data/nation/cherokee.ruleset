@@ -2,7 +2,8 @@
 
 name=_("Cherokee")
 plural=_("?plural:Cherokees")
-groups="American"
+groups="American", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("The Cherokee nation is the largest Native American\
  nation in North America today.")
 

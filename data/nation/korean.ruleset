@@ -2,7 +2,8 @@
 
 name=_("Korean")
 plural=_("?plural:Koreans")
-groups="Ancient", "Medieval", "Early Modern", "Asian"
+groups="Ancient", "Medieval", "Early Modern", "Asian", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("According to legend, the first Korean kingdom was founded in\
  prehistory by the ancestral Tangun in southern Manchuria. The Korean\
  kingdoms were united in 668 by king Munmu. Today the Korean peninsula is\

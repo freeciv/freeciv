@@ -2,7 +2,8 @@
 
 name=_("Khmer")
 plural=_("?plural:Khmers")
-groups="Asian", "Medieval"
+groups="Asian", "Medieval", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("The Khmer Empire, established in 802 CE, dominated Southeast\
  Asia for many centuries during the Middle Ages. Heavily influenced by\
  Indian culture, the Khmers were great builders who erected innumerable\

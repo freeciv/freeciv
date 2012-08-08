@@ -2,8 +2,9 @@
 
 name=_("Taino")
 plural=_("?plural:Taino")
-groups="American"
+groups="American", "Core"
 
+; /* TRANS: Legend for nation in "core" set */
 legend=_("Native inhabitants of the Bahamas, Cuba, Hispaniola, Puerto Rico,\
  Jamaica, and other Caribbean islands who gave us the root words for\
  hurricane, tobacco, potato, canoe, barbeque, hammock, and yucca. They were\

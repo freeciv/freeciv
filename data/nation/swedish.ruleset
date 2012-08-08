@@ -2,7 +2,8 @@
 
 name=_("Swedish")
 plural=_("?plural:Swedes")
-groups="Medieval", "Early Modern", "Modern", "European"
+groups="Medieval", "Early Modern", "Modern", "European", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("The Kingdom of Sweden was christianized and consolidated as a\
  political entity by the 12th century CE. The country rose to prominence as\
  one of the great powers of Europe in the 17th century, following\

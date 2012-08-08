@@ -2,7 +2,8 @@
 
 name=_("Chinese")
 plural=_("?plural:Chinese")
-groups="Modern", "Asian"
+groups="Modern", "Asian", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("China is the oldest major civilization that is still in\
  existence today, with written records dating back over 3,500 years.\
  After first being unified by the Qin dynasty in 221 BCE, China alternated\

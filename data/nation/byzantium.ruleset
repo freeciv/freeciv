@@ -2,7 +2,8 @@
 
 name=_("Byzantine")
 plural=_("?plural:Byzantines")
-groups="Medieval", "Asian", "European"
+groups="Medieval", "Asian", "European", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("At the time of the decline of the old Roman empire, the Emperor\
  Constantine moved the empire's capital to Byzantium and formed a new empire\
  mostly known as the Eastern Roman empire or the Byzantine empire. This\

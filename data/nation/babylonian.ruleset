@@ -2,7 +2,8 @@
 
 name=_("Babylonian")
 plural=_("?plural:Babylonians")
-groups="Ancient", "Asian"
+groups="Ancient", "Asian", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("Babylon was the dominant city of Mesopotamia from the 18th to\
  7th centuries BCE under a succession of peoples including Amorites,\
  Kassites, Assyrians, and Chaldeans.")

@@ -2,7 +2,8 @@
 
 name=_("Sumerian")
 plural=_("?plural:Sumerians")
-groups="Ancient", "Asian"
+groups="Ancient", "Asian", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("Sumer controlled southern Mesopotamia until the rise of\
  Babylonia. Tablets of Sumerian writing some 5500 years old have been\
  found, pre-dating every other writing in history.")

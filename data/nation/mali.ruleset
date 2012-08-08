@@ -2,7 +2,8 @@
 
 name=_("Mali")
 plural=_("?plural:Malis")
-groups="Medieval", "African"
+groups="Medieval", "African", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("Sub-Saharan Africa has been a cultural and ethnical melting pot\
  for millennia. In medieval times, the region was home to a succession of\
  empires called the Sahelian kingdoms. Of these, the Islamic Mali Empire\

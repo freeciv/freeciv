@@ -2,7 +2,8 @@
 
 name=_("Songhai")
 plural=_("?plural:Songhai")
-groups="Medieval", "African"
+groups="Medieval", "African", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("The Songhai people established a state in the 11th century CE\
  centered on the city of Gao. Following the decline of the Mali empire\
  a few hundred years later, the Songhai established an empire of their own\

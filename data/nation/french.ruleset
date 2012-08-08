@@ -2,7 +2,8 @@
 
 name=_("French")
 plural=_("?plural:French")
-groups="Modern", "Early Modern", "Medieval", "European"
+groups="Modern", "Early Modern", "Medieval", "European", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("France has long been a major power in Europe. French conquerors\
  like Emperor Napoleon and King Charlemagne united large parts of Europe\
  under the French flag. The country also built the world's second largest\

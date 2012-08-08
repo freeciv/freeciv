@@ -2,7 +2,8 @@
 
 name=_("Brazilian")
 plural=_("?plural:Brazilians")
-groups="Modern", "American"
+groups="Modern", "American", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("Brazil was founded as a colony of Portugal but became\
  independent in 1822 as a result of Portugal's occupation by Napoleonic\
  France. The country was first established as an empire under the exiled\

@@ -2,9 +2,10 @@
 
 name=_("Carthaginian")
 plural=_("?plural:Carthaginians")
-groups="Ancient", "African"
+groups="Ancient", "African", "Core"
 ; Carthage being a successor-state of the Phoenician empire
 conflicts_with="phoenician"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("The Carthaginians, descendants of Phoenician traders,\
  ran a naval empire in the Mediterranean from the 5th to 2nd centuries\
  BCE. Carthage was destroyed by Rome in 146 BCE.")

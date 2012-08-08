@@ -2,7 +2,8 @@
 
 name=_("Russian")
 plural=_("?plural:Russians")
-groups="Early Modern", "Modern", "European", "Asian"
+groups="Early Modern", "Modern", "European", "Asian", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("Russia is the largest country in the world, occupying a huge\
  part of both Europe and Asia. According to legend, Slavic tribes of\
  Novgorod invited the Varangian (Viking) king Oleg to bring order to\

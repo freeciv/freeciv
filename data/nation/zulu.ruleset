@@ -2,7 +2,8 @@
 
 name=_("Zulu")
 plural=_("?plural:Zulus")
-groups="African", "Early Modern"
+groups="African", "Early Modern", "Core"
+; /* TRANS: Legend for nation in "core" set */
 legend=_("The Zulus are a warlike Bantu people who migrated from\
  west-central Africa into southern Africa beginning in the early 1700s,\
  conquering the native Khoisan peoples and clashing with European settlers.")

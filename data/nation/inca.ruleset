@@ -2,8 +2,9 @@
 
 name=_("Inca")
 plural=_("?plural:Incas")
-groups="Medieval", "American"
+groups="Medieval", "American", "Core"
 
+; /* TRANS: Legend for nation in "core" set */
 legend=_("The Inca were an Amerind people of the Northern Andes who\
  conquered an empire stretching along the west coast of South America\
  from what is now southern Chile nearly to the Equator. They had the bad\
