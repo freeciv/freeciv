@@ -3626,6 +3626,7 @@ void settings_game_load(struct section_file *file, const char *section)
   const char *name;
   char reject_msg[256], buf[256];
   int i, set_count;
+  int oldcitymindist = game.info.citymindist; /* backwards compat, see below */
 
   if (!secfile_lookup_int(file, &set_count, "%s.set_count", section)) {
     /* Old savegames and scenarios doesn't contain this, not an error. */
@@ -3815,6 +3816,16 @@ void settings_game_load(struct section_file *file, const char *section)
         }
       }
     } settings_iterate_end;
+  }
+
+  /* Backwards compatibility for pre-2.4 savegames: citymindist=0 used to mean
+   * take from ruleset min_dist_bw_cities, but that no longer exists.
+   * This is here rather than in savegame2.c compat functions, as we need
+   * to have loaded the relevant ruleset to know what to set it to (the
+   * ruleset and any 'citymindist' setting it contains will have been loaded
+   * before this function was called). */
+  if (game.info.citymindist == 0) {
+    game.info.citymindist = oldcitymindist;
   }
 
   settings_iterate(SSET_ALL, pset) {
