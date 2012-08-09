@@ -1,5 +1,5 @@
 /*
-** $Id: llex.c,v 2.59 2011/11/30 12:43:51 roberto Exp $
+** $Id: llex.c,v 2.61 2012/01/23 23:05:51 roberto Exp $
 ** Lexical Analyzer
 ** See Copyright Notice in lua.h
 */
@@ -67,7 +67,7 @@ void luaX_init (lua_State *L) {
   for (i=0; i<NUM_RESERVED; i++) {
     TString *ts = luaS_new(L, luaX_tokens[i]);
     luaS_fix(ts);  /* reserved words are never collected */
-    ts->tsv.reserved = cast_byte(i+1);  /* reserved word */
+    ts->tsv.extra = cast_byte(i+1);  /* reserved word */
   }
 }
 
@@ -222,6 +222,10 @@ static void trydecpoint (LexState *ls, SemInfo *seminfo) {
 
 
 /* LUA_NUMBER */
+/*
+** this function is quite liberal in what it accepts, as 'luaO_str2d'
+** will reject ill-formed numerals.
+*/
 static void read_numeral (LexState *ls, SemInfo *seminfo) {
   const char *expo = "Ee";
   int first = ls->current;
@@ -487,8 +491,8 @@ static int llex (LexState *ls, SemInfo *seminfo) {
           ts = luaX_newstring(ls, luaZ_buffer(ls->buff),
                                   luaZ_bufflen(ls->buff));
           seminfo->ts = ts;
-          if (ts->tsv.reserved > 0)  /* reserved word? */
-            return ts->tsv.reserved - 1 + FIRST_RESERVED;
+          if (isreserved(ts))  /* reserved word? */
+            return ts->tsv.extra - 1 + FIRST_RESERVED;
           else {
             return TK_NAME;
           }
