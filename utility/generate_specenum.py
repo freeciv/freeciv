@@ -76,6 +76,10 @@ def make_documentation(file):
  * SPECENUM_name(), etc. If not defined, the default name for 'FOO_FIRST'
  * is '"FOO_FIRST"'.
  *
+ * SPECENUM_NAMEOVERRIDE: call callback function foo_name_cb(enum foo),
+ * defined by specnum user, to get name of the enum value. If the function
+ * returns NULL, compiled in names are used.
+ *
  * Assuming SPECENUM_NAME were 'foo', including this file would provide
  * the definition for the enumeration type 'enum foo', and prototypes for
  * the following functions:
@@ -188,6 +192,7 @@ extern "C" {
     macros.append("SPECENUM_ZERO")
     macros.append("SPECENUM_MIN_VALUE")
     macros.append("SPECENUM_MAX_VALUE")
+    macros.append("SPECENUM_NAMEOVERRIDE")
 
 def make_enum(file):
     file.write('''
@@ -352,11 +357,23 @@ static inline enum SPECENUM_NAME SPECENUM_FOO(_next)(enum SPECENUM_NAME e)
 
 def make_name(file):
     file.write('''
+#ifdef SPECENUM_NAMEOVERRIDE
+char *SPECENUM_FOO(_name_cb)(enum SPECENUM_NAME value);
+#endif /* SPECENUM_NAMEOVERRIDE */
+
 /**************************************************************************
   Returns the name of the enumerator.
 **************************************************************************/
 static inline const char *SPECENUM_FOO(_name)(enum SPECENUM_NAME enumerator)
 {
+#ifdef SPECENUM_NAMEOVERRIDE
+  char *name = SPECENUM_FOO(_name_cb)(enumerator);
+
+  if (name != NULL) {
+    return name;
+  }
+#endif /* SPECENUM_NAMEOVERRIDE */
+
   switch (enumerator) {
 #ifdef SPECENUM_ZERO
   case SPECENUM_ZERO:
