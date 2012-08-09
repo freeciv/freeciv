@@ -3697,8 +3697,16 @@ static void game_load_internal(struct section_file *file)
       secfile_lookup_int_default(file, GAME_DEFAULT_TRADEMINDIST, "game.trademindist");
     game.info.angrycitizen =
       secfile_lookup_bool_default(file, GAME_DEFAULT_ANGRYCITIZEN, "game.angrycitizen");
-    game.info.citymindist =
-      secfile_lookup_int_default(file, GAME_DEFAULT_CITYMINDIST, "game.citymindist");
+    {
+      /* Backwards compatibility. Prior to 2.4, citymindist==0 meant to take
+       * it from ruleset min_dist_bw_cities, but that no longer exists. */
+      int citymindist =
+        secfile_lookup_int_default(file, GAME_DEFAULT_CITYMINDIST,
+                                   "game.citymindist");
+      if (citymindist != 0) {
+        game.info.citymindist = citymindist;
+      } /* else leave it at ruleset/server default */
+    }
     game.info.rapturedelay =
       secfile_lookup_int_default(file, GAME_DEFAULT_RAPTUREDELAY, "game.rapturedelay");
     game.server.diplcost =
