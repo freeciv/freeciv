@@ -243,9 +243,9 @@ effects        = "ReducePopulation"
 settings =
   { "type",       "pct"
     "National",   100
-    "NationalIC", 200
-    "IN",         200
-    "INIC",       400
+    "NationalIC", 100
+    "IN",         300
+    "INIC",       300
   }
 
 [playercolors]
