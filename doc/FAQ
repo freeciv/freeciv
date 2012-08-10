@@ -75,7 +75,7 @@
              3.25 How do I change the font?
              3.26 I am having problems with accented characters. What
                gives?
-             3.27 How can i change the language of my client/server?
+             3.27 How can I change the language of my client/server?
              3.28 How do I get the latest development code?
              3.29 How do I disable full screen mode?
              3.30 What are the system requirements ?
@@ -143,30 +143,44 @@
 
 1.2 How do I play multiplayer?
 
-   There are two sorts of multiplayer games to play: local games and
-   global games. The below directions are for the gtk client. Other
-   clients behave similarly.
+   You can either join a network game run by someone else, or host your
+   own.
 
-   To play a local game, simply start up a new game the way you normally
-   would. When you get to the pre-game screen hold on and wait for other
-   players to connect. Now your fellow players (on the same LAN) should
-   launch their clients, choose Connect to Network Game and then Local
-   Area Network. You should see the existing server listed; double-click
-   on it to join.
+   To join a network game, choose Connect to Network Game and then
+   Internet Metaserver. A list of active servers should come up;
+   double-click one to join it.
 
-   To play a global game, you do not start the game yourself but connect
-   to a server already running on the internet. Choose Connect to Network
-   Game and then Internet Metaserver. A list of active servers should come
-   up; double-click one to join it.
+   You can also choose to directly connect to a specific server (including
+   ones not on the metaserver list), provided you know the IP address and
+   port of the server you're connecting to. This server will then show up
+   under Local Area Network.
 
-   You can also choose to directly connect to a specific server, provided
-   you know the IP address and port of the server you're connecting to.
-   This server will then show up under Local Area Network. You may want to
-   start up the server by hand (with freeciv-server in a terminal or by
-   double-clicking on the executable) and connect to it directly from all
-   clients. You may also start up the server with the -m command-line
-   option to make it report to the Metaserver and allow other players to
-   connect to it through the Internet Metaserver tab.
+   To host your own game, we recommend starting a separate server by hand.
+   (It has been possible to host a network game from the client, but we
+   don't recommend it, as if the client crashes or quits, the server and
+   hence the game will be lost.)
+
+   To start the server, enter freeciv-server in a terminal or by
+   double-clicking on the executable. This will start up a text-based
+   interface.
+
+   If all players are on the same LAN, they should launch their clients,
+   choose Connect to Network Game and then Local Area Network. You should
+   see the existing server listed; double-click on it to join.
+
+   To play over the Internet, players will need to enter the hostname and
+   port into their clients, so the host will need to tell the other
+   players those details. You may also start up the server with the -m
+   command-line option to make it report to the Metaserver and allow other
+   players to connect to it through the Internet Metaserver tab.
+
+   Note that hosting an Internet server from a home Internet connection is
+   often problematic, due to firewalling and NAT that can make the server
+   unreachable from the wider Internet. The metaserver does not currently
+   check that a server is reachable before publishing it, so unfortunately
+   it is entirely possible to publish the existence of a game that no-one
+   will be able to connect to. Safely bypassing NAT and firewalls is
+   beyond the scope of this FAQ.
 
 -------
 
@@ -197,8 +211,11 @@
 
    Go to the Nations report, select the player, then choose Cancel Treaty
    from the bottom-located Diplomacy menu. This drops you from "cease
-   fire" or "armistice" into "war". If you've already signed a permanent
-   treaty with the player you may have to do it more than once.
+   fire", "armistice", or "peace" into "war". If you've already signed a
+   permanent "alliance" treaty with the player, you will have to cancel
+   treaties several times to get to "war".
+
+   See the in-game help on Diplomacy for more detail.
 
 -------
 
@@ -245,8 +262,13 @@
    through the chatline by:
 /set spacerace 0
 
-   You cannot change the conquest victory condition. A player who defeats
-   all enemies will always win the game.
+   . From 2.4, you can allow space races without them ending the game by
+   instead changing the endspaceship setting.
+
+   A single player who defeats all enemies will always win the game --
+   this conquest victory condition cannot be changed. An alliance of
+   players may also win the game; this is controlled by the alliedvictory
+   server setting.
 
 -------
 
@@ -254,7 +276,7 @@
 
    No, it isn't. It's a feature. Your government is probably despotism,
    which has a -1 output whenever a tile produces more than 2 units of
-   food/production/trade. You should change your government (See
+   food/production/trade. You should change your government (see
    Government) to get rid of this penalty.
 
 -------
@@ -306,7 +328,8 @@ games?
    corner). Click the transport to display a list of the transported
    engineers and activate them. Then give them the order of transforming
    this tile to swamp. This will take a very long time though, so you'd
-   better try with 6 engineers at a time.
+   better try with 6 engineers at a time. There must be 3 adjacent land
+   tiles to the ocean tile you are transforming.
 
 -------
 
@@ -333,7 +356,8 @@ games?
    World maps can be created using the built-in map editor. It is also
    possible to edit running games: Just enable Editing Mode from the Edit
    menu. (You may also unzip and edit any savegame with a text editor, if
-   you're ambitious).
+   you're ambitious, although the format is not documented and is subject
+   to change.)
 
    You can create rulesets or "modpacks" - alternative sets of units,
    buildings, and technologies. Several different rulesets come with the
@@ -341,8 +365,8 @@ games?
    mode), and civ2 (Civilization 2 compatibility mode). Use the rulesetdir
    command (see rulesetdir) to change the ruleset (as in /rulesetdir
    civ2). Note the ruleset mechanism is still being refined from version
-   to version. In the GTK2 client you are able to choose the ruleset from
-   a dropdown on the pregame screen.
+   to version. In the GTK client you are able to choose the ruleset from a
+   dropdown on the pregame screen.
 
    Finally, upgrade! Freeciv continues to improve from version to version:
    a rule may change when the mailing list agrees it is 'wrong'. See, for
@@ -389,6 +413,12 @@ games?
    In Freeciv 2.2 an alternating movement server option (phasemode) is
    available, in which only one player can move their units at a time.
 
+   Other server settings to mitigate this problem include:
+     * timeaddenemymove (which extends the turn timeout when an enemy's
+       unit is seen moving)
+     * (since 2.3.x) unitwaittime (which imposes a minimum time between
+       moves of a single unit on successive turns).
+
 -------
 
 1.16 I am far superior to my opponent but his last city is on a 1x1 island so I
@@ -412,7 +442,7 @@ cannot conquer it, and he won't give up. What can I do?
    Learn more at the Freeciv Forums.
 
    You can also turn off Fog of War. That way, you will see the attacks of
-   the AI. Just type /set fogofwar 0' on the chat line before the game
+   the AI. Just type '/set fogofwar 0' on the chat line before the game
    starts.
 
 -------
@@ -470,11 +500,12 @@ cannot conquer it, and he won't give up. What can I do?
    do this you need to set your topology before the game starts
 /set topology 13
 
-   and switch to a isometric hexagonal tileset (isophex is included with
-   the game). Note if you do it wrong, you may end up playing with a
-   rectangular tileset on a "true" hexagonal grid or to play with a
-   hexagonal tileset on a rectangular grid - this is probably not what you
-   want.
+   and switch to a isometric hexagonal tileset (Game > Options >Local
+   options and choose a different tileset from the drop-down; isophex is
+   included with the game). Note if you do it wrong, you may end up
+   playing with a rectangular tileset on a "true" hexagonal grid or to
+   play with a hexagonal tileset on a rectangular grid - this is probably
+   not what you want.
 
    You may also play with overhead hexagonal, in which case you want to
    set the topology index to 9 and use the hex2t tileset.
@@ -496,8 +527,8 @@ freeciv-gtk2 -t hex2t
 
    See also the How do I play against computer players? section.
 
-   The GTK2 client has a GUI for setting up teams - just right click on
-   any player and assign it to any team. You may also use the command-line
+   The GTK client has a GUI for setting up teams - just right click on any
+   player and assign it to any team. You may also use the command-line
    interface (through the chatline.)
 
    First of all try the /list command. This will show you all players
@@ -542,7 +573,7 @@ freeciv-gtk2 -t hex2t
 
 1.23 I can't see trade routes in the city dialog (GTK+)
 
-   In the GTK2 client, you can see the effect of trade routes by left
+   In the GTK client, you can see the effect of trade routes by left
    clicking and holding on the trade value in the Info panel of the city
    dialog.
 
@@ -617,8 +648,8 @@ freeciv-gtk2 -t hex2t
    running, or you used -p to start it on a different port, or your
    system's network configuration is broken.
 
-   To start your local server, go to /usr/local/bin/ and run
-   freeciv-server. Then type start to begin!
+   To start your local server, run freeciv-server. Then type start at the
+   server prompt to begin!
 mike@localhost:/usr/local/bin$ ./freeciv-server
 This is the server for Freeciv version 2.2.3
 You can learn a lot about Freeciv at http://www.freeciv.org/
@@ -671,8 +702,8 @@ Starting game.
 
 3.5 Am I using the latest version? Do I need to upgrade?
 
-   The current stable Freeciv version is 2.2.3. For an overview of changes
-   that went into this release, see the NEWS-2.2.3 article.
+   The current stable Freeciv version is 2.3.2. For an overview of changes
+   that went into this release, see the NEWS-2.3.2 article.
 
    The NEWS-#.#.# article is only updated for a new release; updates to
    Subversion are listed in the freeciv-commits archives (see Mailing
@@ -683,13 +714,14 @@ Starting game.
    contributed binaries.
 
    It's unlikely that all precompiled binaries and ports have been updated
-   to 2.2.3 yet. If you can contribute, please do! Prepare a package and
+   to 2.3.2 yet. If you can contribute, please do! Prepare a package and
    announce it to freeciv-dev@gna.org.
 
-   Clients and servers of different versions are often incompatible due to
-   changes in the client/server protocol. You will see incompatibilities
-   as a 'mismatching capabilities' error. For example, 2.0.0 and 2.0.8 are
-   compatible; 2.0.0 and 2.2.3 are not.
+   Clients and servers of different major versions are generally
+   incompatible due to changes in the client/server protocol. You will see
+   incompatibilities as a 'mismatched capabilities' error. Different minor
+   versions should be compatible, however. For example, 2.0.0 and 2.0.8
+   are compatible; 2.0.0 and 2.3.2 are not.
 
 -------
 
@@ -737,7 +769,7 @@ set home=C:\freeciv
 
    If for some reason you can't use the start-screen interface for loading
    a game, you can load one directly through the server command line (see
-   Command-line_options). You can start freeciv-server with the -f option,
+   Command-line options). You can start freeciv-server with the -f option,
    for example:
 freeciv-server -f freeciv-T0175-Y01250-auto.sav.bz2
 
@@ -748,14 +780,14 @@ freeciv-server -f freeciv-T0175-Y01250-auto.sav.bz2
 
 3.10 The server cannot save games!
 
-   In a local game the games will be saved into the default Freeciv save
-   directory (typically ~/.freeciv/saves/). If you are running the server
-   from the command line, however, any savegames will be stored in the
-   current directory. If the saveturns server variable is set, the server
-   will periodically save the game automatically (which can take a lot of
-   disk space in some cases). In any case, you should check the ownership,
-   permissions, and disk space/quota for the directory or partition you're
-   trying to save to.
+   In a local game started from the client, the games will be saved into
+   the default Freeciv save directory (typically ~/.freeciv/saves/). If
+   you are running the server from the command line, however, any
+   savegames will be stored in the current directory. If the saveturns
+   server variable is set, the server will periodically save the game
+   automatically (which can take a lot of disk space in some cases). In
+   any case, you should check the ownership, permissions, and disk
+   space/quota for the directory or partition you're trying to save to.
 
 -------
 
@@ -928,7 +960,7 @@ freeciv-gtk2 --tiles trident
    for the gtk2 client.
 
    There is also a client option in the Local Client sub-menu under
-   Options (gtk2 client) or Local Settings (xaw client) menu.
+   Options (gtk client) or Local Settings (xaw client) menu.
 
 -------
 
@@ -937,19 +969,25 @@ freeciv-gtk2 --tiles trident
    The look and feel of your GUI is mainly determined by the Freeciv
    client you use.
 
-   The original client is based on the Athena widget set (Xaw), which is
-   fast and very widely available, but many users find it old-fashioned.
-   The client can also be compiled to use Xaw3d. New features are
-   sometimes implemented in the GTK+ 2 version only, but the Xaw one still
-   has a speed advantage.
+   The recommended client is the Gtk client. This has the most features.
 
-   Both xaw and gtk clients compile and run on any Unix variant we are
+   The SDL client provides a more immersive experience, but lags behind
+   somewhat in features.
+
+   The original client was based on the Athena widget set (Xaw), which is
+   fast and and the time more widely available, but it is no longer as
+   well-maintained as the Gtk client and lacks some features. Many users
+   find it old-fashioned, but it does still have a speed advantage. The
+   client can also be compiled to use Xaw3d.
+
+   All of these clients should compile and run on any Unix variant we are
    aware of, not just the ones for which our download section provides
    native installation support.
 
-   For Amiga and MS Windows, clients exist that use the native windowing
-   system rather than X11. Neither of them are actively maintained any
-   longer, however.
+   For Amiga and MS Windows, clients have existed that use the native
+   windowing system rather than X11. Neither of them are actively
+   maintained any longer, however; for Windows, the Gtk and SDL clients
+   are recommended.
 
    Some details of the GUI can be configured from the running client.
 
@@ -1009,16 +1047,8 @@ cities to the list for an existing nation?
 
 3.25 How do I change the font?
 
-   For the GTK+ 2.0 client, you can specify fonts in
-   $HOME/.freeciv.rc-2.0, which can be copied from the freeciv.rc-2.0 that
-   comes with Freeciv and edited with a text editor. Use Pango font names
-   such as displayed by a tool like then Gnome Font Preferences.
-
-   For example,
-style "help_text"
-{
-font_name = "Monospace 9"
-}
+   For the Gtk client, once the game has started, you can change the fonts
+   in Game > Options > Local Client, on the Font tab.
 
    For the Xaw client, you can change the font with X resources. You can
    specify them on the command line with the -xrm command-line option, or
@@ -1027,7 +1057,7 @@ font_name = "Monospace 9"
    To change the main font, try something like:
 freeciv-xaw -- -xrm "Freeciv*.font: 8x16"
 
-   If the font isn't fixed width, some on the dialogs won't look right,
+   If the font isn't fixed-width, some of the dialogs won't look right,
    but they'll still work.
 
    Note that on Microsoft Windows systems the $HOME environment variable
@@ -1063,43 +1093,27 @@ set HOME="C:\Documents And Settings\(your username goes here)\Application Data"
        terminal input and output of the server, and will not have any
        effect on client behavior.
 
-     * In the XAW client, the problem occurrs for the exact same reason as
+     * In the XAW client, the problem occurs for the exact same reason as
        in the server. The solution is the same: change your locale to use
        UTF-8. If this isn't possible you may improve things by installing
        GNU libiconv. GNU's iconv library has better transliteration
        support than the iconv that comes on most unix-like systems.
 
-     * There is no fix available for the Win32 (windows native) client.
-       However with transliteration there shouldn't be much problem.
-
-     * The GTK+ 2 client should not have any character problems. If you do
+     * The GTK+ client should not have any character problems. If you do
        it is probably a font issue.
 
 -------
 
-3.27 How can i change the language of my client/server?
+3.27 How can I change the language of my client/server?
 
-   On Linux, it may be possible to start the (gtk2) client in the
-   following fashion (for US English):
-LANG=en_US freeciv-gtk2
-
-   For a server in another language start is with (for German):
-LANG=de_DE freeciv-server
-
-   On Windows create a simple batch file (e.g. freeciv.bat, in the same
-   directory, where you have installed the package) and then run this file
-   instead of freeciv-gtk2.exe or freeciv-sdl.exe (do not forget to change
-   the target of all shortcuts pointing to this new file). The batch
-   consists of 2 lines (example given for the gtk2 client):
-set LANG=EN
-freeciv-gtk2.exe
+   See Interface Language.
 
 -------
 
 3.28 How do I get the latest development code?
 
-   A snapshot of the development code is made every day; simply retrieve
-   the latest version with your browser.
+   A snapshot of the development code is made every day and can be
+   retrieved with your browser.
 
    This is development code; it may contain new features, bugs, and
    incompatibilities with older versions.
@@ -1128,7 +1142,7 @@ freeciv-gtk2.exe
 
 3.29 How do I disable full screen mode?
 
-   In the GTK2 client, go to View and select Full Screen. It may not take
+   In the GTK client, go to View and select Full Screen. It may not take
    effect until the next time you start the client.
 
    In the SDL client, open the Options dialogue, select Video options,
@@ -1152,28 +1166,32 @@ freeciv-gtk2.exe
 
 3.30.2 Processor
 
-   We recommend at least a 100Mhz processor. If you find your game running
+   We recommend at least a 100MHz processor. If you find your game running
    too slow, these may be the reasons:
-     * Too little memory
-       Swapping memory pages on disc (virtual memory) is really slow. Look
-       at the memory requirements above.
-     * Large map
-       Larger map doesn't necessary mean a more challenging or enjoyable
-       game. You may try a smaller map.
-     * Many AI players
-       Again, having more players doesn't necessary mean a more
-       challenging or enjoyable game.
-     * City Governor (CMA)
-       This is a really useful client side agent which helps you to
-       organize our citizens. However, it consumes many CPU cycles.
+
+   Too little memory
+          Swapping memory pages on disc (virtual memory) is really slow.
+          Look at the memory requirements above.
+
+   Large map
+          Larger map doesn't necessary mean a more challenging or
+          enjoyable game. You may try a smaller map.
+
+   Many AI players
+          Again, having more players doesn't necessary mean a more
+          challenging or enjoyable game.
+
+   City Governor (CMA)
+          This is a really useful client side agent which helps you to
+          organize our citizens. However, it consumes many CPU cycles.
 
 -------
 
 3.30.3 Graphic display
 
-   The GTK2 client works well on 1024x800 or higher resolutions. On
-   smaller screens you may want to enable the Arrange widgets for small
-   displays option under Interface tab in local options.
+   The GTK client works well on 1024x800 or higher resolutions. On smaller
+   screens you may want to enable the Arrange widgets for small displays
+   option under Interface tab in local options.
 
 -------
 
@@ -1182,7 +1200,7 @@ freeciv-gtk2.exe
    A 56Kb modem should be enough to play a typical online game. However,
    many players suggest that a large ping is a big disadvantage. Your ISP
    mustn't block ports 5556 - 5600, because these are the ports which
-   pubserver's servers are run on.
+   typical servers are run on.
 
 -------
 
@@ -1214,8 +1232,8 @@ freeciv-gtk2.exe
 
    If you used one of the self installer versions then there's a program
    group with the name chosen at installation time (for example,
-   Freeciv-2.2.3.) Just go to click on
-   Start→Programs→Freeciv-2.2.3→Freeciv
+   Freeciv-2.3.2.) Just go to click on
+   Start→Programs→Freeciv-2.3.2→Freeciv
 
    That's it! You should be up and running.
 
@@ -1248,21 +1266,31 @@ freeciv-gtk2.exe
 
 4.5 How do I use a different tileset?
 
-   The first thing to do is to download the tileset you want to use from
-   Tilesets.
+   Since 2.3, some popular tilesets are available through the "Freeciv
+   Modpack Installer" utility. To install these, just launch the installer
+   from the Start menu, and choose the one you want; it should then be
+   automatically downloaded and made available for the current user.
+
+   Otherwise, the first thing to do is to download the tileset you want to
+   use (e.g., from Tilesets).
 
    Then you have to unpack the tileset into the DATA or root directory in
    your Freeciv directory (so if your Freeciv directory is
-   C:\FREECIV-2.2.3, then you'd tell 7-Zip to extract to
-   C:\FREECIV-2.2.3\DATA.) Make sure you tell your extraction program to
+   C:\FREECIV-2.3.2, then you'd tell 7-Zip to extract to
+   C:\FREECIV-2.3.2\DATA.) Make sure you tell your extraction program to
    extract into the subdirectories in the file.
 
-   Once that's done you can start using the new tileset (FINALLY!) You
-   have to pass an argument to the Freeciv client so the easiest way to do
-   that is to open a Command Prompt (from
+   Once that's done you can start using the new tileset (FINALLY!)
+
+   The more advanced Freeciv clients, including the gtk version, have an
+   in-game GUI option to select tileset. Find it under local client
+   options.
+
+   Another way to accomplish this is to pass a command-line argument to
+   the Freeciv client when you start it. Open a Command Prompt (from
    Start→Programs→Accessories→Command Prompt in my case, sometimes called
    an MS-DOS Window). Change to the Freeciv directory (for example, cd
-   \FREECIV-2.2.3) and start the client with the --tiles tilesetname
+   \FREECIV-2.3.2) and start the client with the --tiles tilesetname
    option. For example for the gtk2 client,
 FREECIV-GTK2 --tiles freeland
 
@@ -1272,9 +1300,12 @@ FREECIV-GTK2 --tiles freeland
 
 4.6 How do I use a different ruleset?
 
-   A different ruleset can be used by downloading the ruleset and
-   extracting it in the Freeciv root or data directory
-   (C:\FREECIV-2.2.3\DATA, for example). This should create a subdirectory
+   Again, this is easiest if the ruleset is available through the "Freeciv
+   Modpack Installer" utility that's shipped with Freeciv since 2.3.
+
+   Otherwise, a different ruleset can be used by downloading the ruleset
+   and extracting it in the Freeciv root or data directory
+   (C:\FREECIV-2.3.2\DATA, for example). This should create a subdirectory
    with the ruleset name (ancients, for example.)
 
    Then you need to tell the server to use it. This is done by typing
@@ -1288,7 +1319,7 @@ FREECIV-GTK2 --tiles freeland
 
    The ruleset files (and other configuration files) are stored with UNIX
    line endings which Notepad doesn't handle correctly. Please an
-   alternative editor like notepad2 or notepad++ instead.
+   alternative editor like WordPad, notepad2, or notepad++ instead.
 
 -------
 
