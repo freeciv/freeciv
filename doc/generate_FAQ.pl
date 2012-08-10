@@ -167,20 +167,15 @@ sub readGraph
 sub editTag
 {
   # look for on last line
-  if ( $graph[-1] =~ s/ Edit href= Edit$// ) { return 1; }
+  if ( $graph[-1] =~ s/ \[[^]]*\] Edit$// ) { return 1; }
   if ( 2 > @graph ) { return 0; }
-  if ( $graph[-1] eq "Edit href= Edit" )
+  if ( $graph[-1] =~ m/^\[[^]]*\] Edit$/ )
   {
     pop( @graph );
     return 1;
   }
   # look for split
-  if ( $graph[-1]eq"Edit" && $graph[-2]=~s/ Edit href=$// )
-  {
-    pop( @graph );
-    return 1;
-  }
-  if ( $graph[-1]eq"href= Edit" && $graph[-2]=~s/ Edit$// )
+  if ( $graph[-1]eq"Edit" && $graph[-2]=~s/ \[[^]]*\]$// )
   {
     pop( @graph );
     return 1;
