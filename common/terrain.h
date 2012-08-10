@@ -128,6 +128,15 @@ struct resource {
 /* Fresh water terrain */
 #define SPECENUM_VALUE6 TER_FRESHWATER
 #define SPECENUM_VALUE6NAME "FreshWater"
+#define SPECENUM_VALUE7 TER_USER_1
+#define SPECENUM_VALUE8 TER_USER_2
+#define SPECENUM_VALUE9 TER_USER_3
+#define SPECENUM_VALUE10 TER_USER_4
+#define SPECENUM_VALUE11 TER_USER_5
+#define SPECENUM_VALUE12 TER_USER_6
+#define SPECENUM_VALUE13 TER_USER_7
+#define SPECENUM_VALUE14 TER_USER_LAST
+#define SPECENUM_NAMEOVERRIDE
 #include "specenum_gen.h"
 
 #define TER_MAX 64 /* Changing this breaks network compatability. */
@@ -253,6 +262,7 @@ bool is_terrain_flag_near_tile(const struct tile *ptile,
 int count_terrain_flag_near_tile(const struct tile *ptile,
 				 bool cardinal_only, bool percentage,
 				 enum terrain_flag_id flag);
+void set_user_terrain_flag_name(enum terrain_flag_id id, const char *name);
 
 /* Terrain-specific functions. */
 #define is_ocean(pterrain) ((pterrain) != T_UNKNOWN \

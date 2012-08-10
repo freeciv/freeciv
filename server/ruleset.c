@@ -1837,9 +1837,30 @@ static void load_terrain_names(struct section_file *file)
 {
   int nval = 0;
   struct section_list *sec;
+  size_t user_flags;
+  const char **flaglist;
+  int i;
   const char *filename = secfile_name(file);
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
+
+  /* User terrain flag names */
+  flaglist = secfile_lookup_str_vec(file, &user_flags, "flags.names");
+
+  if (user_flags > TER_USER_LAST - TER_USER_1) {
+    ruleset_error(LOG_FATAL, "\"%s\": Too many user terrain flags!",
+                  filename);
+  }
+
+  for (i = 0; i < user_flags; i++) {
+    set_user_terrain_flag_name(TER_USER_1 + i, flaglist[i]);
+  }
+  for (; i < TER_USER_LAST - TER_USER_1; i++) {
+    set_user_terrain_flag_name(TER_USER_1 + i, NULL);
+  }
+  if (flaglist) {
+    free(flaglist);
+  }
 
   /* terrain names */
 

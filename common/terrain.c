@@ -42,6 +42,8 @@ enum tile_special_type infrastructure_specials[] = {
   S_LAST
 };
 
+static char *user_terrain_flag_names[TER_USER_LAST-TER_USER_1];
+
 /****************************************************************************
   Initialize terrain and resource structures.
 ****************************************************************************/
@@ -1065,4 +1067,35 @@ int terrain_road_time(const struct terrain *pterrain,
     /* Road specific build time */
     return proad->build_time;
   }
+}
+
+/**************************************************************************
+  Sets user defined name for terrain flag.
+**************************************************************************/
+void set_user_terrain_flag_name(enum terrain_flag_id id, const char *name)
+{
+  int tfid = id - TER_USER_1;
+
+  fc_assert_ret(id >= TER_USER_1 && id < TER_USER_LAST);
+
+  if (user_terrain_flag_names[tfid] != NULL) {
+    free(user_terrain_flag_names[tfid]);
+    user_terrain_flag_names[tfid] = NULL;
+  }
+
+  if (name && name[0] != '\0') {
+    user_terrain_flag_names[tfid] = fc_strdup(name);
+  }
+}
+
+/**************************************************************************
+  Terrain flag name callback, called from specenum code.
+**************************************************************************/
+char *terrain_flag_id_name_cb(enum terrain_flag_id flag)
+{
+  if (flag < TER_USER_1 || flag > TER_USER_LAST) {
+    return NULL;
+  }
+
+  return user_terrain_flag_names[flag-TER_USER_1];
 }
