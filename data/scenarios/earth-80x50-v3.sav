@@ -91,7 +91,7 @@ set={"name","value","gamestart"
 "shieldbox",100,100
 "fulltradesize",1,1
 "notradesize",0,0
-"citymindist",0,0
+"citymindist",2,2
 "trading_tech",TRUE,TRUE
 "trading_gold",TRUE,TRUE
 "trading_city",TRUE,TRUE
