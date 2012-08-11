@@ -61,7 +61,7 @@ void dai_player_alloc(struct player *pplayer)
 **************************************************************************/
 void dai_player_free(struct player *pplayer)
 {
-  struct ai_plr *player_data = def_ai_player_data(pplayer);
+  struct ai_plr *player_data = def_ai_player_data(pplayer, default_ai_get_self());
 
   dai_data_close(pplayer);
 

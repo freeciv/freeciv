@@ -248,7 +248,7 @@ int assess_defense_quadratic(struct city *pcity)
   int defense = 0, walls = 0;
   /* This can be an arg if needed, but we don't need to change it now. */
   const bool igwall = FALSE;
-  struct ai_city *city_data = def_ai_city_data(pcity);
+  struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
 
   /* wallvalue = 10, walls = 10,
    * wallvalue = 40, walls = 20,
@@ -280,7 +280,7 @@ One unit only, mostly for findjob; handling boats correctly. 980803 -- Syela
 int assess_defense_unit(struct city *pcity, struct unit *punit, bool igwall)
 {
   return base_assess_defense_unit(pcity, punit, igwall, TRUE,
-				  def_ai_city_data(pcity)->wallvalue);
+				  def_ai_city_data(pcity, default_ai_get_self())->wallvalue);
 }
 
 /********************************************************************** 
@@ -450,7 +450,7 @@ static unsigned int assess_danger(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = city_tile(pcity);
-  struct ai_city *city_data = def_ai_city_data(pcity);
+  struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
   struct pf_reverse_map *pcity_map;
   unsigned int danger_reduced[B_LAST]; /* How much such danger there is that
                                         * building would help against. */
@@ -694,7 +694,7 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
   int best = -1;
   struct unit_type *best_unit_type = NULL;
   int best_unit_cost = 1;
-  struct ai_city *city_data = def_ai_city_data(pcity);
+  struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
 
   memset(tech_desire, 0, sizeof(tech_desire));
 
@@ -861,7 +861,7 @@ static void process_attacker_want(struct city *pcity,
   fc_assert(orig_move_type == UMT_SEA || orig_move_type == UMT_LAND);
 
   if (acity != NULL) {
-    acity_data = def_ai_city_data(acity);
+    acity_data = def_ai_city_data(acity, default_ai_get_self());
   }
 
   if (orig_move_type == UMT_LAND && !boat && boattype) {
@@ -1098,7 +1098,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   struct pf_map *ferry_map = NULL;
   int move_time;
   struct adv_choice best_choice;
-  struct ai_city *city_data = def_ai_city_data(pcity);
+  struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
   struct ai_city *acity_data;
 
   init_choice(&best_choice);
@@ -1137,7 +1137,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
   attack = adv_unit_att_rating(myunit);
   if (acity) {
-    acity_data = def_ai_city_data(acity);
+    acity_data = def_ai_city_data(acity, default_ai_get_self());
     attack += acity_data->attack;
   }
   attack *= attack;
@@ -1327,7 +1327,7 @@ void military_advisor_choose_build(struct player *pplayer,
   unsigned int our_def, urgency;
   struct tile *ptile = pcity->tile;
   struct unit *virtualunit;
-  struct ai_city *city_data = def_ai_city_data(pcity);
+  struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
 
   init_choice(choice);
 

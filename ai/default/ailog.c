@@ -37,7 +37,7 @@
 **************************************************************************/
 void dai_city_log(char *buffer, int buflength, const struct city *pcity)
 {
-  struct ai_city *city_data = def_ai_city_data(pcity);
+  struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
 
   fc_snprintf(buffer, buflength, "d%d u%d g%d",
               city_data->danger, city_data->urgency,
@@ -49,7 +49,7 @@ void dai_city_log(char *buffer, int buflength, const struct city *pcity)
 **************************************************************************/
 void dai_unit_log(char *buffer, int buflength, const struct unit *punit)
 {
-  struct unit_ai *unit_data = def_ai_unit_data(punit);
+  struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
 
   fc_snprintf(buffer, buflength, "%d %d",
               unit_data->bodyguard, unit_data->ferryboat);
@@ -112,7 +112,7 @@ void real_bodyguard_log(const char *file, const char *function, int line,
   int charge_y = -1;
   const char *type = "guard";
   const char *s = "none";
-  struct unit_ai *unit_data = def_ai_unit_data(punit);
+  struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
 
   pcity = game_city_by_number(unit_data->charge);
   pcharge = game_unit_by_number(unit_data->charge);

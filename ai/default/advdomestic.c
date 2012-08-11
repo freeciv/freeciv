@@ -74,7 +74,7 @@ static void dai_choose_help_wonder(struct city *pcity,
 {
   struct player *pplayer = city_owner(pcity);
   Continent_id continent = tile_continent(pcity->tile);
-  struct ai_city *city_data = def_ai_city_data(pcity);
+  struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
   /* Total count of caravans available or already being built 
    * on this continent */
   int caravans = 0;
@@ -278,7 +278,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   struct unit_type *settler_type;
   struct unit_type *founder_type;
   int settler_want, founder_want;
-  struct ai_city *city_data = def_ai_city_data(pcity);
+  struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
 
   init_choice(choice);
 
@@ -413,7 +413,8 @@ void dai_wonder_city_distance(struct player *pplayer,
   struct city *wonder_city = game_city_by_number(adv->wonder_city);
 
   city_list_iterate(pplayer->cities, acity) {
-    def_ai_city_data(acity)->distance_to_wonder_city = 0; /* unavailable */
+    /* Mark unavailable */
+    def_ai_city_data(acity, default_ai_get_self())->distance_to_wonder_city = 0;
   } city_list_iterate_end;
 
   if (wonder_city == NULL) {
@@ -440,7 +441,7 @@ void dai_wonder_city_distance(struct player *pplayer,
       continue;
     }
     if (city_owner(acity) == pplayer) {
-      def_ai_city_data(acity)->distance_to_wonder_city = move_cost;
+      def_ai_city_data(acity, default_ai_get_self())->distance_to_wonder_city = move_cost;
     }
   } pf_map_move_costs_iterate_end;
 

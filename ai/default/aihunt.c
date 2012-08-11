@@ -403,7 +403,7 @@ int dai_hunter_manage(struct player *pplayer, struct unit *punit)
   struct pf_parameter parameter;
   struct pf_map *pfm;
   int limit = unit_move_rate(punit) * 6;
-  struct unit_ai *unit_data = def_ai_unit_data(punit);
+  struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
   struct unit *original_target = game_unit_by_number(unit_data->target);
   int original_threat = 0, original_cost = 0;
 
@@ -442,7 +442,7 @@ int dai_hunter_manage(struct player *pplayer, struct unit *punit)
         continue;
       }
 
-      target_data = def_ai_unit_data(target);
+      target_data = def_ai_unit_data(target, default_ai_get_self());
       if (BV_ISSET(target_data->hunted, player_index(pplayer))) {
         /* Can't hunt this one.  The bit is cleared in the beginning
          * of each turn. */

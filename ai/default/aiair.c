@@ -96,7 +96,7 @@ static bool dai_should_we_air_attack_tile(struct unit *punit,
    * attack anything.  Production should not happen if there is an idle 
    * unit of the same type nearby */
   if (acity && punit->id != 0
-      && def_ai_city_data(acity)->invasion.occupy == 0
+      && def_ai_city_data(acity, default_ai_get_self())->invasion.occupy == 0
       && !unit_can_take_over(punit)) {
     /* No units capable of occupying are invading */
     log_debug("Don't want to attack %s, although we could",
@@ -270,7 +270,7 @@ static struct tile *dai_find_strategic_airbase(const struct unit *punit,
     }
 
     if ((pcity = tile_city(ptile))
-        && def_ai_city_data(pcity)->grave_danger != 0) {
+        && def_ai_city_data(pcity, default_ai_get_self())->grave_danger != 0) {
       best_tile = ptile;
       break; /* Fly there immediately!! */
     }
@@ -363,7 +363,7 @@ void dai_manage_airunit(struct player *pplayer, struct unit *punit)
       if (punit->fuel == 1) {
 	UNIT_LOG(LOG_DEBUG, punit, "Oops, fallin outta the sky");
       }
-      def_ai_unit_data(punit)->done = TRUE; /* Won't help trying again */
+      def_ai_unit_data(punit, default_ai_get_self())->done = TRUE; /* Won't help trying again */
       return;
     }
 
@@ -392,7 +392,7 @@ void dai_manage_airunit(struct player *pplayer, struct unit *punit)
       log_debug("%s will fly to (%i, %i) (%s) to fight there",
                 unit_rule_name(punit), TILE_XY(dst_tile),
                 tile_city(dst_tile) ? city_name(tile_city(dst_tile)) : "");
-      def_ai_unit_data(punit)->done = TRUE; /* Wait for next turn */
+      def_ai_unit_data(punit, default_ai_get_self())->done = TRUE; /* Wait for next turn */
       if (!adv_follow_path(punit, path, dst_tile)) {
         pf_path_destroy(path);
         return; /* The unit died. */
@@ -401,7 +401,7 @@ void dai_manage_airunit(struct player *pplayer, struct unit *punit)
     } else {
       log_debug("%s cannot find anything to kill and is staying put", 
                 unit_rule_name(punit));
-      def_ai_unit_data(punit)->done = TRUE;
+      def_ai_unit_data(punit, default_ai_get_self())->done = TRUE;
       unit_activity_handling(punit, ACTIVITY_IDLE);
     }
   }

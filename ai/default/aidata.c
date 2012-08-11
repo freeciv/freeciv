@@ -43,7 +43,7 @@ static void dai_diplomacy_destroy(const struct player *plr1,
 ****************************************************************************/
 void dai_data_init(struct player *pplayer)
 {
-  struct ai_plr *ai = def_ai_player_data(pplayer);
+  struct ai_plr *ai = def_ai_player_data(pplayer, default_ai_get_self());
 
   ai->phase_initialized = FALSE;
 
@@ -90,7 +90,7 @@ void dai_data_init(struct player *pplayer)
 ****************************************************************************/
 void dai_data_close(struct player *pplayer)
 {
-  struct ai_plr *ai = def_ai_player_data(pplayer);
+  struct ai_plr *ai = def_ai_player_data(pplayer, default_ai_get_self());
 
   /* Free autosettler. */
   dai_auto_settler_free(ai);
@@ -114,7 +114,7 @@ void dai_data_close(struct player *pplayer)
 **************************************************************************/
 bool is_ai_data_phase_open(struct player *pplayer)
 {
-  struct ai_plr *ai = def_ai_player_data(pplayer);
+  struct ai_plr *ai = def_ai_player_data(pplayer, default_ai_get_self());
 
   return ai->phase_initialized;
 }
@@ -124,7 +124,7 @@ bool is_ai_data_phase_open(struct player *pplayer)
 ****************************************************************************/
 void dai_data_phase_begin(struct player *pplayer, bool is_new_phase)
 {
-  struct ai_plr *ai = def_ai_player_data(pplayer);
+  struct ai_plr *ai = def_ai_player_data(pplayer, default_ai_get_self());
 
   /* Note that this refreshes advisor data if needed. ai_plr_data_get()
      is expected to refresh advisor data if needed, and ai_plr_data_get()
@@ -239,7 +239,7 @@ void dai_data_phase_begin(struct player *pplayer, bool is_new_phase)
   BV_CLR_ALL(ai->stats.diplomat_reservations);
   unit_list_iterate(pplayer->units, punit) {
     if (unit_has_type_flag(punit, UTYF_DIPLOMAT)
-        && def_ai_unit_data(punit)->task == AIUNIT_ATTACK) {
+        && def_ai_unit_data(punit, default_ai_get_self())->task == AIUNIT_ATTACK) {
       /* Heading somewhere on a mission, reserve target. */
       struct city *pcity = tile_city(punit->goto_tile);
 
@@ -262,7 +262,7 @@ void dai_data_phase_begin(struct player *pplayer, bool is_new_phase)
       continue;
     }
     unit_list_iterate(aplayer->units, punit) {
-      struct unit_ai *unit_data = def_ai_unit_data(punit);
+      struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
 
       if (!unit_data->cur_pos) {
         /* Start tracking */
@@ -282,7 +282,7 @@ void dai_data_phase_begin(struct player *pplayer, bool is_new_phase)
 ****************************************************************************/
 void dai_data_phase_finished(struct player *pplayer)
 {
-  struct ai_plr *ai = def_ai_player_data(pplayer);
+  struct ai_plr *ai = def_ai_player_data(pplayer, default_ai_get_self());
 
   if (!ai->phase_initialized) {
     return;
@@ -299,7 +299,7 @@ void dai_data_phase_finished(struct player *pplayer)
 ****************************************************************************/
 struct ai_plr *dai_plr_data_get(struct player *pplayer)
 {
-  struct ai_plr *ai = def_ai_player_data(pplayer);
+  struct ai_plr *ai = def_ai_player_data(pplayer, default_ai_get_self());
 
   fc_assert_ret_val(ai != NULL, NULL);
 
@@ -357,7 +357,7 @@ static void dai_diplomacy_new(const struct player *plr1,
   fc_assert_ret(plr2 != NULL);
 
   const struct ai_dip_intel **player_intel_slot
-    = def_ai_player_data(plr1)->diplomacy.player_intel_slots
+    = def_ai_player_data(plr1, default_ai_get_self())->diplomacy.player_intel_slots
       + player_index(plr2);
 
   fc_assert_ret(*player_intel_slot == NULL);
@@ -398,7 +398,7 @@ struct ai_dip_intel *dai_diplomacy_get(const struct player *plr1,
   fc_assert_ret_val(plr2 != NULL, NULL);
 
   const struct ai_dip_intel **player_intel_slot
-    = def_ai_player_data(plr1)->diplomacy.player_intel_slots
+    = def_ai_player_data(plr1, default_ai_get_self())->diplomacy.player_intel_slots
       + player_index(plr2);
 
   fc_assert_ret_val(player_intel_slot != NULL, NULL);
@@ -416,7 +416,7 @@ static void dai_diplomacy_destroy(const struct player *plr1,
   fc_assert_ret(plr2 != NULL);
 
   const struct ai_dip_intel **player_intel_slot
-    = def_ai_player_data(plr1)->diplomacy.player_intel_slots
+    = def_ai_player_data(plr1, default_ai_get_self())->diplomacy.player_intel_slots
       + player_index(plr2);
 
   if (*player_intel_slot != NULL) {

@@ -125,7 +125,7 @@ static struct city *find_neediest_airlift_city(const struct player *pplayer)
   int most_urgent = 0;
 
   city_list_iterate(pplayer->cities, pcity) {
-    struct ai_city *city_data = def_ai_city_data(pcity);
+    struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
 
     if (pcity->airlift) {
       if (city_data->urgency > most_urgent) {
@@ -168,8 +168,8 @@ static void dai_airlift(struct player *pplayer)
       struct city *pcity = tile_city(ptile);
 
       if (pcity) {
-        struct ai_city *city_data = def_ai_city_data(pcity);
-        struct unit_ai *unit_data = def_ai_unit_data(punit);
+        struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
+        struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
 
         if (city_data->urgency == 0
             && city_data->danger - DEFENCE_POWER(punit) < comparison
@@ -632,7 +632,7 @@ static void dai_military_bodyguard(struct player *pplayer, struct unit *punit)
   if (dai_military_rampage(punit, BODYGUARD_RAMPAGE_THRESHOLD,
                            RAMPAGE_FREE_CITY_OR_BETTER)
       && same_pos(unit_tile(punit), ptile)) {
-    def_ai_unit_data(punit)->done = TRUE; /* Stay with charge */
+    def_ai_unit_data(punit, default_ai_get_self())->done = TRUE; /* Stay with charge */
   }
 }
 
@@ -725,13 +725,13 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
     if (ai_fuzzy(pplayer, TRUE)
         && NULL != pcity
         && city_owner(pcity) == pplayer
-        && (data = def_ai_city_data(pcity))
+        && (data = def_ai_city_data(pcity, default_ai_get_self()))
         && 0 < data->urgency) {
       if (NULL != best_data
           && (0 < best_data->grave_danger
               || best_data->urgency > data->urgency
               || ((best_data->danger > data->danger
-                   || AIUNIT_DEFEND_HOME == def_ai_unit_data(punit)->task)
+                   || AIUNIT_DEFEND_HOME == def_ai_unit_data(punit, default_ai_get_self())->task)
                   && 0 == data->grave_danger))) {
         /* Chances are we'll be between cities when we are needed the most!
          * Resuming pf_map_move_costs_iterate()... */
@@ -789,7 +789,7 @@ static void dai_military_findjob(struct player *pplayer, struct unit *punit)
     return;
   }
 
-  unit_data = def_ai_unit_data(punit);
+  unit_data = def_ai_unit_data(punit, default_ai_get_self());
 
   /* If I am a bodyguard, check whether I can do my job. */
   if (unit_data->task == AIUNIT_ESCORT
@@ -803,7 +803,7 @@ static void dai_military_findjob(struct player *pplayer, struct unit *punit)
     struct ai_city *city_data = NULL;
 
     if (acity != NULL) {
-      city_data = def_ai_city_data(acity);
+      city_data = def_ai_city_data(acity, default_ai_get_self());
     }
 
     /* Check if the city we are on our way to rescue is still in danger,
@@ -890,7 +890,7 @@ static void dai_military_defend(struct player *pplayer,struct unit *punit)
       UNIT_LOG(LOG_DEBUG, punit, "go to defend %s", city_name(pcity));
       if (same_pos(unit_tile(punit), pcity->tile)) {
         UNIT_LOG(LOG_DEBUG, punit, "go defend successful");
-        def_ai_unit_data(punit)->done = TRUE;
+        def_ai_unit_data(punit, default_ai_get_self())->done = TRUE;
       } else {
         (void) dai_gothere(pplayer, punit, pcity->tile);
       }
@@ -931,7 +931,7 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
         && HOSTILE_PLAYER(pplayer, city_owner(pcity))
 	&& (dest || !has_defense(pcity))) {
       int attacks;
-      struct ai_city *city_data = def_ai_city_data(pcity);
+      struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
 
       if (unit_has_type_flag(punit, UTYF_ONEATTACK)) {
         attacks = 1;
@@ -1098,7 +1098,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       continue;
     }
     city_list_iterate(aplayer->cities, acity) {
-      struct ai_city *city_data = def_ai_city_data(acity);
+      struct ai_city *city_data = def_ai_city_data(acity, default_ai_get_self());
 
       reinforcements_cost_and_value(punit, acity->tile,
                                     &city_data->attack,
@@ -1122,7 +1122,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
                        (unit_can_take_over(aunit)
                         ? INVASION_OCCUPY : INVASION_ATTACK));
         if ((pcity = tile_city(aunit->goto_tile))) {
-          struct ai_city *city_data = def_ai_city_data(pcity);
+          struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
 
           city_data->attack += adv_unit_att_rating(aunit);
           city_data->bcost += unit_build_shield_cost(aunit);
@@ -1131,7 +1131,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       invasion_funct(aunit, FALSE, unit_move_rate(aunit) / SINGLE_MOVE,
                      (unit_can_take_over(aunit)
                       ? INVASION_OCCUPY : INVASION_ATTACK));
-    } else if (def_ai_unit_data(aunit)->passenger != 0
+    } else if (def_ai_unit_data(aunit, default_ai_get_self())->passenger != 0
                && !same_pos(unit_tile(aunit), unit_tile(punit))) {
       /* It's a transport with reinforcements */
       if (aunit->activity == ACTIVITY_GOTO) {
@@ -1284,7 +1284,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         }
       }
 
-      acity_data = def_ai_city_data(acity);
+      acity_data = def_ai_city_data(acity, default_ai_get_self());
 
       reserves = (acity_data->invasion.attack
                   - unit_list_size(acity->tile->units));
@@ -1837,7 +1837,7 @@ static void dai_manage_caravan(struct player *pplayer, struct unit *punit)
 
   CHECK_UNIT(punit);
 
-  if (def_ai_unit_data(punit)->task != AIUNIT_NONE) {
+  if (def_ai_unit_data(punit, default_ai_get_self())->task != AIUNIT_NONE) {
     return;
   }
 
@@ -1918,7 +1918,7 @@ static void dai_manage_hitpoint_recovery(struct unit *punit)
     dai_unit_new_task(punit, AIUNIT_NONE, NULL);  
     return;
   } else {
-    def_ai_unit_data(punit)->done = TRUE; /* sit tight */
+    def_ai_unit_data(punit, default_ai_get_self())->done = TRUE; /* sit tight */
   }
 }
 
@@ -1928,7 +1928,7 @@ static void dai_manage_hitpoint_recovery(struct unit *punit)
 **************************************************************************/
 void dai_manage_military(struct player *pplayer, struct unit *punit)
 {
-  struct unit_ai *unit_data = def_ai_unit_data(punit);
+  struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
   int id = punit->id;
 
   CHECK_UNIT(punit);
@@ -2018,7 +2018,7 @@ void dai_manage_military(struct player *pplayer, struct unit *punit)
       UNIT_LOG(LOG_DEBUG, punit, "no more exploring either");
       break;
     };
-    def_ai_unit_data(punit)->done = (punit->moves_left <= 0);
+    def_ai_unit_data(punit, default_ai_get_self())->done = (punit->moves_left <= 0);
     break;
   case AIUNIT_RECOVER:
     TIMING_LOG(AIT_RECOVER, TIMER_START);
@@ -2034,7 +2034,7 @@ void dai_manage_military(struct player *pplayer, struct unit *punit)
 
   /* If we are still alive, either sentry or fortify. */
   if ((punit = game_unit_by_number(id))) {
-    struct unit_ai *unit_data = def_ai_unit_data(punit);
+    struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
     struct city *pcity = tile_city(unit_tile(punit));
 
     if (unit_list_find(unit_tile(punit)->units,
@@ -2086,7 +2086,7 @@ static bool unit_can_be_retired(struct unit *punit)
 **************************************************************************/
 static void dai_manage_settler(struct player *pplayer, struct unit *punit)
 {
-  struct unit_ai *unit_data = def_ai_unit_data(punit);
+  struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
 
   punit->ai_controlled = TRUE;
   unit_data->done = TRUE; /* we will manage this unit later... ugh */
@@ -2115,7 +2115,7 @@ void dai_manage_unit(struct player *pplayer, struct unit *punit)
 
   /* Don't manage the unit if it is under human orders. */
   if (unit_has_orders(punit)) {
-    struct unit_ai *unit_data = def_ai_unit_data(punit);
+    struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
 
     UNIT_LOG(LOG_VERBOSE, punit, "is under human orders, aborting AI control.");
     dai_unit_new_task(punit, AIUNIT_NONE, NULL);
@@ -2140,7 +2140,7 @@ void dai_manage_unit(struct player *pplayer, struct unit *punit)
     aiguard_request_guard(punit);
   }
 
-  unit_data = def_ai_unit_data(punit);
+  unit_data = def_ai_unit_data(punit, default_ai_get_self());
 
   if (punit->moves_left <= 0) {
     /* Can do nothing */
@@ -2241,7 +2241,7 @@ static void dai_set_defenders(struct player *pplayer)
     /* The idea here is that we should never keep more than two
      * units in permanent defense. */
     int total_defense = 0;
-    int total_attack = def_ai_city_data(pcity)->danger;
+    int total_attack = def_ai_city_data(pcity, default_ai_get_self())->danger;
     bool emergency = FALSE;
     int count = 0;
 
@@ -2250,7 +2250,7 @@ static void dai_set_defenders(struct player *pplayer)
       struct unit *best = NULL;
 
       unit_list_iterate(pcity->tile->units, punit) {
-        struct unit_ai *unit_data = def_ai_unit_data(punit);
+        struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
 
        if ((unit_data->task == AIUNIT_NONE || emergency)
            && unit_data->task != AIUNIT_DEFEND_HOME
@@ -2301,7 +2301,7 @@ void dai_manage_units(struct player *pplayer)
 
   /* Clear previous orders, if desirable, here. */
   unit_list_iterate(pplayer->units, punit) {
-    struct unit_ai *unit_data = def_ai_unit_data(punit);
+    struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
 
     unit_data->done = FALSE;
     if (unit_data->task == AIUNIT_DEFEND_HOME) {
@@ -2314,7 +2314,7 @@ void dai_manage_units(struct player *pplayer)
   dai_set_defenders(pplayer);
 
   unit_list_iterate_safe(pplayer->units, punit) {
-    if (!unit_transported(punit) && !def_ai_unit_data(punit)->done) {
+    if (!unit_transported(punit) && !def_ai_unit_data(punit, default_ai_get_self())->done) {
       /* Though it is usually the passenger who drives the transport,
        * the transporter is responsible for managing its passengers. */
       dai_manage_unit(pplayer, punit);
@@ -2642,7 +2642,7 @@ void dai_unit_init(struct unit *punit)
 **************************************************************************/
 void dai_unit_turn_end(struct unit *punit)
 {
-  struct unit_ai *unit_data = def_ai_unit_data(punit);
+  struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
 
   fc_assert_ret(unit_data != NULL);
 
@@ -2654,7 +2654,7 @@ void dai_unit_turn_end(struct unit *punit)
 **************************************************************************/
 void dai_unit_close(struct unit *punit)
 {
-  struct unit_ai *unit_data = def_ai_unit_data(punit);
+  struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
 
   fc_assert_ret(unit_data != NULL);
 
@@ -2674,7 +2674,7 @@ void dai_unit_close(struct unit *punit)
 void dai_unit_save(struct section_file *file, const struct unit *punit,
 		   const char *unitstr)
 {
-  struct unit_ai *unit_data = def_ai_unit_data(punit);
+  struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
 
   secfile_insert_int(file, unit_data->passenger, "%s.passenger", unitstr);
   secfile_insert_int(file, unit_data->ferryboat, "%s.ferryboat", unitstr);
@@ -2688,7 +2688,7 @@ void dai_unit_save(struct section_file *file, const struct unit *punit,
 void dai_unit_load(const struct section_file *file, struct unit *punit,
 		   const char *unitstr)
 {
-  struct unit_ai *unit_data = def_ai_unit_data(punit);
+  struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
 
   unit_data->passenger
     = secfile_lookup_int_default(file, 0, "%s.passenger", unitstr);

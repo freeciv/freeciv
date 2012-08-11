@@ -48,7 +48,7 @@ enum bodyguard_enum {
 **************************************************************************/
 void aiguard_check_guard(const struct unit *guard)
 {
-  struct unit_ai *guard_data = def_ai_unit_data(guard);
+  struct unit_ai *guard_data = def_ai_unit_data(guard, default_ai_get_self());
   const struct unit *charge_unit = game_unit_by_number(guard_data->charge);
   const struct city *charge_city = game_city_by_number(guard_data->charge);
   const struct player *guard_owner = unit_owner(guard);
@@ -61,7 +61,7 @@ void aiguard_check_guard(const struct unit *guard)
 
   if (charge_unit) {
     charge_owner = unit_owner(charge_unit);
-    charge_data = def_ai_unit_data(charge_unit);
+    charge_data = def_ai_unit_data(charge_unit, default_ai_get_self());
   } else if (charge_city) {
     charge_owner = city_owner(charge_city);
   }
@@ -90,13 +90,13 @@ void aiguard_check_guard(const struct unit *guard)
 **************************************************************************/
 void aiguard_check_charge_unit(const struct unit *charge)
 {
-  struct unit_ai *charge_data = def_ai_unit_data(charge);
+  struct unit_ai *charge_data = def_ai_unit_data(charge, default_ai_get_self());
   const struct player *charge_owner = unit_owner(charge);
   const struct unit *guard = game_unit_by_number(charge_data->bodyguard);
   struct unit_ai *guard_data = NULL;
 
   if (guard) {
-    guard_data = def_ai_unit_data(guard);
+    guard_data = def_ai_unit_data(guard, default_ai_get_self());
   }
 
   fc_assert_ret(guard == NULL
@@ -117,7 +117,7 @@ void aiguard_check_charge_unit(const struct unit *charge)
 **************************************************************************/
 void aiguard_clear_charge(struct unit *guard)
 {
-  struct unit_ai *guard_data = def_ai_unit_data(guard);
+  struct unit_ai *guard_data = def_ai_unit_data(guard, default_ai_get_self());
   struct unit *charge_unit = game_unit_by_number(guard_data->charge);
   struct city *charge_city = game_city_by_number(guard_data->charge);
 
@@ -126,7 +126,7 @@ void aiguard_clear_charge(struct unit *guard)
 
   if (charge_unit) {
     BODYGUARD_LOG(LOGLEVEL_BODYGUARD, guard, "unassigned (unit)");
-    def_ai_unit_data(charge_unit)->bodyguard = BODYGUARD_NONE;
+    def_ai_unit_data(charge_unit, default_ai_get_self())->bodyguard = BODYGUARD_NONE;
   } else if (charge_city) {
     BODYGUARD_LOG(LOGLEVEL_BODYGUARD, guard, "unassigned (city)");
   }
@@ -146,13 +146,13 @@ void aiguard_clear_charge(struct unit *guard)
 **************************************************************************/
 void aiguard_clear_guard(struct unit *charge)
 {
-  struct unit_ai *charge_data = def_ai_unit_data(charge);
+  struct unit_ai *charge_data = def_ai_unit_data(charge, default_ai_get_self());
 
   if (0 < charge_data->bodyguard) {
     struct unit *guard = game_unit_by_number(charge_data->bodyguard);
 
     if (guard) {
-      struct unit_ai *guard_data = def_ai_unit_data(guard);
+      struct unit_ai *guard_data = def_ai_unit_data(guard, default_ai_get_self());
 
       if (guard_data->charge == charge->id) {
         /* charge doesn't want us anymore */
@@ -182,8 +182,8 @@ void aiguard_assign_guard_unit(struct unit *charge, struct unit *guard)
   aiguard_clear_charge(guard);
   aiguard_clear_guard(charge);
 
-  def_ai_unit_data(guard)->charge = charge->id;
-  def_ai_unit_data(charge)->bodyguard = guard->id;
+  def_ai_unit_data(guard, default_ai_get_self())->charge = charge->id;
+  def_ai_unit_data(charge, default_ai_get_self())->bodyguard = guard->id;
 
   BODYGUARD_LOG(LOGLEVEL_BODYGUARD, guard, "assigned charge");
   CHECK_GUARD(guard);
@@ -195,7 +195,7 @@ void aiguard_assign_guard_unit(struct unit *charge, struct unit *guard)
 **************************************************************************/
 void aiguard_assign_guard_city(struct city *charge, struct unit *guard)
 {
-  struct unit_ai *guard_data = def_ai_unit_data(guard);
+  struct unit_ai *guard_data = def_ai_unit_data(guard, default_ai_get_self());
 
   fc_assert_ret(charge != NULL);
   fc_assert_ret(guard != NULL);
@@ -229,7 +229,7 @@ void aiguard_request_guard(struct unit *punit)
   aiguard_clear_guard(punit);
 
   UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "requests a guard");
-  def_ai_unit_data(punit)->bodyguard = BODYGUARD_WANTED;
+  def_ai_unit_data(punit, default_ai_get_self())->bodyguard = BODYGUARD_WANTED;
 
   CHECK_CHARGE_UNIT(punit);
 }
@@ -240,7 +240,7 @@ void aiguard_request_guard(struct unit *punit)
 bool aiguard_wanted(struct unit *charge)
 {
   CHECK_CHARGE_UNIT(charge);
-  return (def_ai_unit_data(charge)->bodyguard == BODYGUARD_WANTED);
+  return (def_ai_unit_data(charge, default_ai_get_self())->bodyguard == BODYGUARD_WANTED);
 }
 
 /**************************************************************************
@@ -249,7 +249,7 @@ bool aiguard_wanted(struct unit *charge)
 bool aiguard_has_charge(struct unit *guard)
 {
   CHECK_GUARD(guard);
-  return (def_ai_unit_data(guard)->charge != BODYGUARD_NONE);
+  return (def_ai_unit_data(guard, default_ai_get_self())->charge != BODYGUARD_NONE);
 }
 
 /**************************************************************************
@@ -258,7 +258,7 @@ bool aiguard_has_charge(struct unit *guard)
 bool aiguard_has_guard(struct unit *charge)
 {
   CHECK_CHARGE_UNIT(charge);
-  return (0 < def_ai_unit_data(charge)->bodyguard);
+  return (0 < def_ai_unit_data(charge, default_ai_get_self())->bodyguard);
 }
 
 /**************************************************************************
@@ -268,7 +268,7 @@ bool aiguard_has_guard(struct unit *charge)
 struct unit *aiguard_guard_of(struct unit *charge)
 {
   CHECK_CHARGE_UNIT(charge);
-  return game_unit_by_number(def_ai_unit_data(charge)->bodyguard);
+  return game_unit_by_number(def_ai_unit_data(charge, default_ai_get_self())->bodyguard);
 }
 
 /**************************************************************************
@@ -278,7 +278,7 @@ struct unit *aiguard_guard_of(struct unit *charge)
 struct unit *aiguard_charge_unit(struct unit *guard)
 {
   CHECK_GUARD(guard);
-  return game_unit_by_number(def_ai_unit_data(guard)->charge);
+  return game_unit_by_number(def_ai_unit_data(guard, default_ai_get_self())->charge);
 }
 
 /**************************************************************************
@@ -288,7 +288,7 @@ struct unit *aiguard_charge_unit(struct unit *guard)
 struct city *aiguard_charge_city(struct unit *guard)
 {
   CHECK_GUARD(guard);
-  return game_city_by_number(def_ai_unit_data(guard)->charge);
+  return game_city_by_number(def_ai_unit_data(guard, default_ai_get_self())->charge);
 }
 
 /**************************************************************************
@@ -297,7 +297,7 @@ struct city *aiguard_charge_city(struct unit *guard)
 **************************************************************************/
 void aiguard_update_charge(struct unit *guard)
 {
-  struct unit_ai *guard_data = def_ai_unit_data(guard);
+  struct unit_ai *guard_data = def_ai_unit_data(guard, default_ai_get_self());
   const struct unit *charge_unit = game_unit_by_number(guard_data->charge);
   const struct city *charge_city = game_city_by_number(guard_data->charge);
   const struct player *guard_owner = unit_owner(guard);

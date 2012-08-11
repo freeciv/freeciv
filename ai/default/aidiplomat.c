@@ -126,7 +126,7 @@ void dai_choose_diplomat_defensive(struct player *pplayer,
      we have other defensive troops, and we don't already have a diplomat
      to protect us. If we see an enemy diplomat and we don't have diplomat
      tech... race it! */
-  struct ai_city *city_data = def_ai_city_data(pcity);
+  struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
 
   if (def != 0 && city_data->diplomat_threat
       && !city_data->has_diplomat) {
@@ -168,7 +168,7 @@ void dai_choose_diplomat_offensive(struct player *pplayer,
                                    struct adv_choice *choice)
 {
   struct unit_type *ut = best_role_unit(pcity, UTYF_DIPLOMAT);
-  struct ai_plr *ai = def_ai_player_data(pplayer);
+  struct ai_plr *ai = def_ai_player_data(pplayer, default_ai_get_self());
   int expenses;
 
   dai_calc_data(pplayer, NULL, &expenses, NULL);
@@ -457,7 +457,7 @@ static struct city *dai_diplomat_defend(struct player *pplayer,
 
   if (pcity 
       && count_diplomats_on_tile(pcity->tile) == 1
-      && def_ai_city_data(pcity)->urgency > 0) {
+      && def_ai_city_data(pcity, default_ai_get_self())->urgency > 0) {
     /* Danger and we are only diplomat present - stay. */
     return pcity;
   }
@@ -477,7 +477,7 @@ static struct city *dai_diplomat_defend(struct player *pplayer,
       continue;
     }
 
-    city_data = def_ai_city_data(acity);
+    city_data = def_ai_city_data(acity, default_ai_get_self());
     urgency = city_data->urgency;
     dipls = (count_diplomats_on_tile(ptile)
              - (same_pos(ptile, unit_tile(punit)) ? 1 : 0));
@@ -649,7 +649,7 @@ void dai_manage_diplomat(struct player *pplayer, struct unit *punit)
   /* If we are the only diplomat in a threatened city, then stay to defend */
   pcity = tile_city(unit_tile(punit)); /* we may have moved */
   if (pcity) {
-    struct ai_city *city_data = def_ai_city_data(pcity);
+    struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
 
     if (count_diplomats_on_tile(unit_tile(punit)) == 1
         && (city_data->diplomat_threat
@@ -657,13 +657,13 @@ void dai_manage_diplomat(struct player *pplayer, struct unit *punit)
       UNIT_LOG(LOG_DIPLOMAT, punit, "stays to protect %s (urg %d)", 
                city_name(pcity), city_data->urgency);
       dai_unit_new_task(punit, AIUNIT_NONE, NULL); /* abort mission */
-      def_ai_unit_data(punit)->done = TRUE;
+      def_ai_unit_data(punit, default_ai_get_self())->done = TRUE;
       pf_map_destroy(pfm);
       return;
     }
   }
 
-  unit_data = def_ai_unit_data(punit);
+  unit_data = def_ai_unit_data(punit, default_ai_get_self());
 
   /* Check if existing target still makes sense */
   if (unit_data->task == AIUNIT_ATTACK
@@ -734,7 +734,7 @@ void dai_manage_diplomat(struct player *pplayer, struct unit *punit)
       UNIT_LOG(LOG_DIPLOMAT, punit, "going idle");
     } else {
       UNIT_LOG(LOG_DIPLOMAT, punit, "could not find a job");
-      def_ai_unit_data(punit)->done = TRUE;
+      def_ai_unit_data(punit, default_ai_get_self())->done = TRUE;
       pf_map_destroy(pfm);
       return;
     }
@@ -772,7 +772,7 @@ void dai_manage_diplomat(struct player *pplayer, struct unit *punit)
     }
     pf_path_destroy(path);
   } else {
-    def_ai_unit_data(punit)->done = TRUE;
+    def_ai_unit_data(punit, default_ai_get_self())->done = TRUE;
   }
   pf_map_destroy(pfm);
 }

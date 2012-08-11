@@ -281,7 +281,7 @@ bool dai_gothere(struct player *pplayer, struct unit *punit,
     return FALSE;
   }
 
-  if (def_ai_unit_data(punit)->ferryboat > 0
+  if (def_ai_unit_data(punit, default_ai_get_self())->ferryboat > 0
       && !unit_transported(punit)) {
     /* We probably just landed, release our boat */
     aiferry_clear_boat(punit);
@@ -537,7 +537,7 @@ void dai_fill_unit_param(struct pf_parameter *parameter,
                                       / unit_type(punit)->move_rate);
   const bool barbarian = is_barbarian(unit_owner(punit));
   bool is_ferry = FALSE;
-  struct unit_ai *unit_data = def_ai_unit_data(punit);
+  struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
 
   /* This function is now always omniscient and should not be used
    * for human players any more. */
@@ -716,7 +716,7 @@ void dai_unit_new_task(struct unit *punit, enum ai_unit_task task,
                        struct tile *ptile)
 {
   struct unit *bodyguard = aiguard_guard_of(punit);
-  struct unit_ai *unit_data = def_ai_unit_data(punit);
+  struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
 
   /* If the unit is under (human) orders we shouldn't control it.
    * Allow removal of old role with AIUNIT_NONE. */
@@ -754,7 +754,7 @@ void dai_unit_new_task(struct unit *punit, enum ai_unit_task task,
     struct unit *target = game_unit_by_number(unit_data->target);
 
     if (target) {
-      BV_CLR(def_ai_unit_data(target)->hunted, player_index(unit_owner(punit)));
+      BV_CLR(def_ai_unit_data(target, default_ai_get_self())->hunted, player_index(unit_owner(punit)));
       UNIT_LOG(LOGLEVEL_HUNT, target, "no longer hunted (new task %d, old %d)",
                task, unit_data->task);
     }
@@ -785,13 +785,13 @@ void dai_unit_new_task(struct unit *punit, enum ai_unit_task task,
     struct unit *target = game_unit_by_number(unit_data->target);
 
     fc_assert_ret(target != NULL);
-    BV_SET(def_ai_unit_data(target)->hunted, player_index(unit_owner(punit)));
+    BV_SET(def_ai_unit_data(target, default_ai_get_self())->hunted, player_index(unit_owner(punit)));
     UNIT_LOG(LOGLEVEL_HUNT, target, "is being hunted");
 
     /* Grab missiles lying around and bring them along */
     unit_list_iterate(unit_tile(punit)->units, missile) {
       if (unit_owner(missile) == unit_owner(punit)
-          && def_ai_unit_data(missile)->task != AIUNIT_ESCORT
+          && def_ai_unit_data(missile, default_ai_get_self())->task != AIUNIT_ESCORT
           && !unit_transported(missile)
           && unit_owner(missile) == unit_owner(punit)
           && uclass_has_flag(unit_class(missile), UCF_MISSILE)
@@ -896,7 +896,7 @@ bool dai_unit_attack(struct unit *punit, struct tile *ptile)
   alive = (game_unit_by_number(sanity) != NULL);
 
   if (alive && same_pos(ptile, unit_tile(punit))
-      && bodyguard != NULL  && def_ai_unit_data(bodyguard)->charge == punit->id) {
+      && bodyguard != NULL  && def_ai_unit_data(bodyguard, default_ai_get_self())->charge == punit->id) {
     dai_unit_bodyguard_move(bodyguard, ptile);
     /* Clumsy bodyguard might trigger an auto-attack */
     alive = (game_unit_by_number(sanity) != NULL);
@@ -980,7 +980,7 @@ bool dai_unit_move(struct unit *punit, struct tile *ptile)
   if (game_unit_by_number(sanity) && same_pos(ptile, unit_tile(punit))) {
     struct unit *bodyguard = aiguard_guard_of(punit);
     if (is_ai && bodyguard != NULL
-        && def_ai_unit_data(bodyguard)->charge == punit->id) {
+        && def_ai_unit_data(bodyguard, default_ai_get_self())->charge == punit->id) {
       dai_unit_bodyguard_move(bodyguard, ptile);
     }
     return TRUE;
