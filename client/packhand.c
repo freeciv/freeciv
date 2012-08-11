@@ -3184,6 +3184,8 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   proad->hidden_by = p->hidden_by;
   proad->flags = p->flags;
 
+  PACKET_STRVEC_EXTRACT(proad->helptext, p->helptext);
+
   tileset_setup_road(tileset, proad);
 }
 

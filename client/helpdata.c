@@ -60,8 +60,8 @@
 /* This must be in same order as enum in helpdlg_g.h */
 static const char * const help_type_names[] = {
   "(Any)", "(Text)", "Units", "Improvements", "Wonders",
-  "Techs", "Terrain", "Bases", "Specialists", "Governments", "Ruleset",
-  "Nations", NULL
+  "Techs", "Terrain", "Bases", "Roads", "Specialists", "Governments",
+  "Ruleset", "Nations", NULL
 };
 
 /*define MAX_LAST (MAX(MAX(MAX(A_LAST,B_LAST),U_LAST),terrain_count()))*/
@@ -1013,6 +1013,16 @@ void boot_help_texts(struct player *pplayer)
               pitem->text = fc_strdup("");
               help_list_append(category_nodes, pitem);
             } base_type_iterate_end;
+            break;
+          case HELP_ROAD:
+            road_type_iterate(proad) {
+              pitem = new_help_item(current_type);
+              fc_snprintf(name, sizeof(name), "%*s%s", level, "",
+                          road_name_translation(proad));
+              pitem->topic = fc_strdup(name);
+              pitem->text = fc_strdup("");
+              help_list_append(category_nodes, pitem);
+            } road_type_iterate_end;
             break;
           case HELP_SPECIALIST:
             specialist_type_iterate(sp) {
@@ -2133,6 +2143,84 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
             _("* Allows the owner to see normally invisible units in an "
               "area around the tile.\n"));
+  }
+
+  if (user_text && user_text[0] != '\0') {
+    CATLSTR(buf, bufsz, "\n\n");
+    CATLSTR(buf, bufsz, user_text);
+  }
+}
+
+/****************************************************************************
+  Append misc dynamic text for roads.
+  Assumes build time is handled in the GUI front-end.
+
+  pplayer may be NULL.
+****************************************************************************/
+void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
+                   const char *user_text, struct road_type *proad)
+{
+  fc_assert_ret(NULL != buf && 0 < bufsz);
+  buf[0] = '\0';
+
+  if (!proad) {
+    log_error("Unknown road!");
+    return;
+  }
+
+  if (NULL != proad->helptext) {
+    strvec_iterate(proad->helptext, text) {
+      cat_snprintf(buf, bufsz, "%s\n\n", _(text));
+    } strvec_iterate_end;
+  }
+
+  /* XXX Non-zero requirement vector is not a good test of whether
+   * insert_requirement() will give any output. */
+  if (requirement_vector_size(&proad->reqs) > 0) {
+    if (proad->buildable) {
+      CATLSTR(buf, bufsz, _("Requirements to build:\n"));
+    }
+    requirement_vector_iterate(&proad->reqs, preq) {
+      (void) insert_requirement(buf, bufsz, pplayer, preq);
+    } requirement_vector_iterate_end;
+    CATLSTR(buf, bufsz, "\n");
+  }
+
+  {
+    const char *classes[uclass_count()];
+    int i = 0;
+
+    unit_class_iterate(uclass) {
+      if (is_native_road_to_uclass(proad, uclass)) {
+        classes[i++] = uclass_name_translation(uclass);
+      }
+    } unit_class_iterate_end;
+
+    if (0 < i) {
+      struct astring list = ASTRING_INIT;
+
+      /* TRANS: %s is a list of unit classes separated by "and". */
+      cat_snprintf(buf, bufsz, _("* Can be traveled by %s units.\n"),
+                   astr_build_and_list(&list, classes, i));
+      astr_free(&list);
+
+      if (road_has_flag(proad, RF_NATIVE_TILE)) {
+        CATLSTR(buf, bufsz,
+                _("  * Such units can move onto this tile even if it would "
+                  "not normally be suitable terrain.\n"));
+      }
+    }
+  }
+
+  if (!proad->buildable) {
+    CATLSTR(buf, bufsz, _("* Cannot be built.\n"));
+  }
+
+  if (road_has_flag(proad, RF_REQUIRES_BRIDGE)) {
+    /* TODO: List actual technologies. */
+    CATLSTR(buf, bufsz,
+            _("* Cannot be built to river tiles unless some technology "
+              "allowing bridge building is knowns.\n"));
   }
 
   if (user_text && user_text[0] != '\0') {

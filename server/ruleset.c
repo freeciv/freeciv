@@ -2489,6 +2489,8 @@ static void load_ruleset_terrain(struct section_file *file)
     }
     free(slist);
 
+    proad->helptext = lookup_strvec(file, section, "helptext");
+
   } road_type_iterate_end;
 
   secfile_check_unused(file);
@@ -4303,6 +4305,8 @@ static void send_ruleset_roads(struct conn_list *dest)
     packet.native_to = r->native_to;
     packet.hidden_by = r->hidden_by;
     packet.flags = r->flags;
+
+    PACKET_STRVEC_COMPUTE(packet.helptext, r->helptext);
 
     lsend_packet_ruleset_road(dest, &packet);
   } road_type_iterate_end;

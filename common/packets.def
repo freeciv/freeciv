@@ -1451,6 +1451,7 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   BV_UNIT_CLASSES native_to;
   BV_ROADS hidden_by;
   BV_ROAD_FLAGS flags;
+  STRING helptext[MAX_LEN_PACKET];
 end
 
 PACKET_RULESET_DISASTER = 224; sc, lsend

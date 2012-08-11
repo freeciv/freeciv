@@ -12,7 +12,8 @@
 ; 'generate' = means replace this node with generated list of game
 ;	       elements; current categories are: 
 ;	          "Units", "Improvements", "Wonders", "Techs", 
-;		  "Terrain", "Governments", "Ruleset", "Nations"
+;		  "Terrain", "Bases", "Roads", "Specialists",
+;                 "Governments", "Ruleset", "Nations"
 ;              As for 'name', the number of spaces before the category
 ;              name indicates nesting level for display.
 ;
@@ -397,6 +398,9 @@ Engineers is highly vulnerable to enemy attacks.\
 "), "\
 $TerrainAlterations\
 "
+
+[help_gen_roads]
+generate = "  Roads"
 
 [help_gen_bases]
 generate = "  Bases"

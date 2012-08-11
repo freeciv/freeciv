@@ -1083,6 +1083,8 @@ They have no effect on gameplay.\
 ;   - "RequiresBridge"    = Road cannot be built to river tiles without
 ;                           appropriate technologies
 ;   - "CardinalOnly"      = Only cardinal moves are possible along the road
+; helptext                = optional help text string; should escape all raw 
+;                           newlines so that xgettext parsing works
 ;
 ; */ <-- avoid gettext warnings
 

@@ -68,6 +68,8 @@ struct road_type {
    * faster than through all road types to check which ones are hidin this one.
    * Only used client side. */
   struct road_type_list *hiders;
+
+  struct strvec *helptext;
 };
 
 #define ROAD_NONE (-1)
@@ -85,6 +87,7 @@ struct road_type *road_by_compat_special(enum road_compat compat);
 const char *road_name_translation(struct road_type *road);
 const char *road_rule_name(const struct road_type *road);
 struct road_type *road_type_by_rule_name(const char *name);
+struct road_type *road_type_by_translated_name(const char *name);
 
 bool is_road_card_near(const struct tile *ptile, const struct road_type *proad);
 bool is_road_near_tile(const struct tile *ptile, const struct road_type *proad);

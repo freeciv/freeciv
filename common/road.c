@@ -17,6 +17,7 @@
 
 /* utility */
 #include "fcintl.h"
+#include "string_vector.h"
 
 /* common */
 #include "fc_types.h"
@@ -81,6 +82,7 @@ void road_types_init(void)
     roads[i].id = i;
     requirement_vector_init(&roads[i].reqs);
     roads[i].hiders = NULL;
+    roads[i].helptext = NULL;
   }
 }
 
@@ -94,6 +96,10 @@ void road_types_free(void)
     if (proad->hiders != NULL) {
       road_type_list_destroy(proad->hiders);
       proad->hiders = NULL;
+    }
+    if (NULL != proad->helptext) {
+      strvec_destroy(proad->helptext);
+      proad->helptext = NULL;
     }
   } road_type_iterate_end;
 }
@@ -151,6 +157,21 @@ struct road_type *road_type_by_rule_name(const char *name)
 
   road_type_iterate(proad) {
     if (!fc_strcasecmp(road_rule_name(proad), qs)) {
+      return proad;
+    }
+  } road_type_iterate_end;
+
+  return NULL;
+}
+
+/**************************************************************************
+  Returns road type matching the translated name, or NULL if there is no
+  road type with that name.
+**************************************************************************/
+struct road_type *road_type_by_translated_name(const char *name)
+{
+  road_type_iterate(proad) {
+    if (0 == strcmp(road_name_translation(proad), name)) {
       return proad;
     }
   } road_type_iterate_end;

@@ -1097,6 +1097,33 @@ static void help_update_base(const struct help_item *pitem,
 }
 
 /**************************************************************************
+  Help page for roads.
+**************************************************************************/
+static void help_update_road(const struct help_item *pitem,
+                             char *title)
+{
+  char buf[4096];
+  struct road_type *proad = road_type_by_translated_name(title);
+
+  if (!proad) {
+    strcat(buf, pitem->text);
+  } else {
+    /* FIXME use actual widgets */
+    buf[0] = '\0';
+    if (proad->buildable) {
+      /* TRANS: Build cost for bases in help. "MP" = movement points */
+      sprintf(buf, _("Build: %d MP\n"), proad->build_time);
+    }
+    strcat(buf, "\n\n");
+    helptext_road(buf + strlen(buf), sizeof(buf) - strlen(buf),
+                  client.conn.playing, pitem->text, proad);
+  }
+  create_help_page(HELP_TEXT);
+  set_title_topic(pitem);
+  XtVaSetValues(help_text, XtNstring, buf, NULL);
+}
+
+/**************************************************************************
   This is currently just a text page, with special text:
 **************************************************************************/
 static void help_update_specialist(const struct help_item *pitem,
@@ -1184,6 +1211,9 @@ static void help_update_dialog(const struct help_item *pitem)
     break;
   case HELP_BASE:
     help_update_base(pitem, top);
+    break;
+  case HELP_ROAD:
+    help_update_road(pitem, top);
     break;
   case HELP_SPECIALIST:
     help_update_specialist(pitem, top);
