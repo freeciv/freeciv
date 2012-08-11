@@ -18,7 +18,9 @@ NEXT_STABLE_VERSION="2.4.0"
 RELEASE_MONTH=2
 
 DATASUBDIR=2.4
-DEFAULT_FOLLOW_TAG=stable
+# Change this back for RCs/stable release
+#DEFAULT_FOLLOW_TAG=stable
+DEFAULT_FOLLOW_TAG=S2_4
 
 # Freeciv network capstring: see documentation in common/capstr.c
 #
