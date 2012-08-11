@@ -1111,8 +1111,6 @@ AC_MSG_CHECKING([for SIGPIPE])
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <signal.h>]], [[signal (SIGPIPE, SIG_IGN)]])],[AC_MSG_RESULT([yes])
                 AC_DEFINE([HAVE_SIGPIPE], [1], [sigpipe support])],[AC_MSG_RESULT([no])])
 
-FC_CONF_PATH="$sysconfdir/freeciv"
-
 AC_ARG_ENABLE([crosser],
 [  --enable-crosser        build version to be used with crosser environment],
 [case "${enableval}" in
@@ -1130,13 +1128,16 @@ FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
 if test x"$MINGW32" = xyes; then
   DEFAULT_SAVE_PATH=".;~/.freeciv/saves"
   if test x$crosser = xyes ; then
+    FC_CONF_PATH="../etc/freeciv"
     DEFAULT_DATA_PATH=".;data;~/.freeciv/$DATASUBDIR;$datadir/freeciv;../share/freeciv"
     DEFAULT_SCENARIO_PATH=".;data/scenarios;~/.freeciv/$DATASUBDIR/scenarios;~/.freeciv/scenarios;$datadir/freeciv/scenarios;../share/freeciv/scenarios"
   else
+    FC_CONF_PATH="etc/freeciv"
     DEFAULT_DATA_PATH=".;data;~/.freeciv/$DATASUBDIR;$datadir/freeciv"
     DEFAULT_SCENARIO_PATH=".;data/scenarios;~/.freeciv/$DATASUBDIR/scenarios;~/.freeciv/scenarios;$datadir/freeciv/scenarios"
   fi
 else
+  FC_CONF_PATH="$sysconfdir/freeciv"
   DEFAULT_DATA_PATH=".:data:~/.freeciv/$DATASUBDIR:$datadir/freeciv"
   DEFAULT_SAVE_PATH=".:~/.freeciv/saves"
   DEFAULT_SCENARIO_PATH=".:data/scenarios:~/.freeciv/$DATASUBDIR/scenarios:~/.freeciv/scenarios:$datadir/freeciv/scenarios"
