@@ -1413,6 +1413,7 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_TRADE_REVENUE_BONUS:
   case EFT_TILE_WORKABLE:
   case EFT_IRRIG_POSSIBLE:
+  case EFT_TRANSFORM_POSSIBLE:
     break;
     /* This has no effect for AI */
   case EFT_VISIBLE_WALLS:

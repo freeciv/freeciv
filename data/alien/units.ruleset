@@ -220,7 +220,6 @@ flags         = "Missile", "DoesntOccupyTile"
 ; "Spy"		= can do poison and sabotage, _must_ be "Diplomat" also
 ; "Trireme"	= (sea only) cannot leave shoreline
 ; "Nuclear"	= nuke!
-; "Transform"	= can transform terrain
 ; "Paratroopers"= (land only) can paradrop
 ; "Cities"	= can disband to produce a city
 ; "Only_Native_Attack" = cannot attack targets on non-native tiles even if unit class can

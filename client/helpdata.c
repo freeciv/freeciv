@@ -1627,9 +1627,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz, _("* Can clean pollution from tiles.\n"));
     CATLSTR(buf, bufsz, _("* Can clean nuclear fallout from tiles.\n"));
   }
-  if (utype_has_flag(utype, UTYF_TRANSFORM)) {
-    CATLSTR(buf, bufsz, _("* Can transform tiles.\n"));
-  }
   /* FIXME: bases -- but there is no good way to find out which bases a unit
    * can conceivably build currently, so we have to remain silent. */
   if (utype_has_flag(utype, UTYF_DIPLOMAT)) {
@@ -1835,8 +1832,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                   _("  * Veterans are more likely to survive missions.\n"));
         }
       }
-      if (utype_has_flag(utype, UTYF_SETTLERS)
-          || utype_has_flag(utype, UTYF_TRANSFORM)) {
+      if (utype_has_flag(utype, UTYF_SETTLERS)) {
         CATLSTR(buf, bufsz,
                 _("  * Veterans work faster.\n"));
       }

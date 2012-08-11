@@ -15,8 +15,9 @@ options="+Freeciv-ruleset-Devel-2012.Feb.28"
 
 [flags]
 ; Names for custom unit type flags.
-names = "Airbase"
+names = "Airbase", "Transform"
 ; Airbase - can build airbases. See airbase definition in terrain.ruleset
+; Transform - can transform terrain.
 
 [veteran_system]
 ; What are the names of the levels?

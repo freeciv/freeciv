@@ -128,7 +128,6 @@ enum unit_type_flag_id {
   UTYF_TRIREME,          /* Trireme sinking effect */
   UTYF_NUCLEAR,          /* Nuclear attack effect */
   UTYF_SPY,              /* Enhanced spy abilities */
-  UTYF_TRANSFORM,        /* Can transform terrain types (Engineers) */
   UTYF_PARATROOPERS,
   UTYF_CITIES,           /* Can build cities */
   UTYF_ONLY_NATIVE_ATTACK, /* Cannot attack vs non-native tiles even if class can */

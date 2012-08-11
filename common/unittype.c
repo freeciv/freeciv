@@ -48,7 +48,7 @@ static const char *type_flag_names[] = {
   "TradeRoute", "HelpWonder", "IgZOC", "NonMil", "IgTer", 
   "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", 
   "AEGIS", "Marines", "Partial_Invis", "Settlers", "Diplomat",
-  "Trireme", "Nuclear", "Spy", "Transform", "Paratroopers",
+  "Trireme", "Nuclear", "Spy", "Paratroopers",
   "Cities", "Only_Native_Attack",
   "AddToCity", "Fanatic", "GameLoss", "Unique", "Unbribable", 
   "Undisbandable", "SuperSpy", "NoHome", "NoVeteran", "Bombarder",

@@ -3733,3 +3733,11 @@ reqs    =
     { "type", "name", "range"
       "Special", "Irrigation", "CAdjacent"
     }
+
+[effect_transform]
+type    = "Transform_Possible"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "UnitFlag", "Transform", "Local"
+    }

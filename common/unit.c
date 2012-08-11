@@ -1225,7 +1225,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 		|| can_channel_land(ptile))
 	    && (!terrain_has_flag(pterrain->transform_result, TER_NO_CITIES)
 		|| !(tile_city(ptile)))
-	    && unit_has_type_flag(punit, UTYF_TRANSFORM));
+            && get_tile_bonus(ptile, punit, EFT_TRANSFORM_POSSIBLE) > 0);
 
   case ACTIVITY_CONVERT:
     return unit_can_convert(punit);

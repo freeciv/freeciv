@@ -20,8 +20,9 @@ options="+Freeciv-ruleset-Devel-2012.Feb.28"
 
 [flags]
 ; Names for custom unit type flags.
-names = "Airbase"
+names = "Airbase", "Transform"
 ; Airbase - can build airbases. See airbase definition in terrain.ruleset
+; Transform - can transform terrain.
 
 [veteran_system]
 ; What are the names of the levels?
@@ -258,7 +259,6 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; "Spy"		= can do poison and sabotage, _must_ be "Diplomat" also
 ; "Trireme"	= (sea only) cannot leave shoreline
 ; "Nuclear"	= nuke!
-; "Transform"	= can transform terrain
 ; "Paratroopers"= (land only) can paradrop
 ; "Cities"	= can disband to produce a city
 ; "Only_Native_Attack" = cannot attack targets on non-native tiles even if unit class can
