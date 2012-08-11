@@ -34,7 +34,7 @@ build-freeciv-common:
 	# create build directory
 	mkdir -p build-$(GUI)
 	# configure
-	cd build-$(GUI); ../../../configure --enable-client=$(GUI) --with-followtag="win32"
+	cd build-$(GUI); ../../../configure --enable-client=$(GUI) --with-followtag="win32" --enable-fcdb=sqlite3
 	# make
 	make -C build-$(GUI)
 
@@ -50,6 +50,7 @@ install-freeciv-common:
 	make -C build-$(GUI) DESTDIR=`pwd`/install-$(GUI) install
 	# reorder directory layout
 	mv install-$(GUI)/usr/local/bin/* install-$(GUI)/
+	mv install-$(GUI)/usr/local/etc install-$(GUI)/
 	mv install-$(GUI)/usr/local/share/freeciv install-$(GUI)/data
 	mkdir -p install-$(GUI)/share
 	mv install-$(GUI)/usr/local/share/locale install-$(GUI)/share/
@@ -88,11 +89,9 @@ COMMON_DLLS := \
 	intl.dll \
 	libatk-1.0-0.dll \
 	libbz2-2.dll \
-	libidn-11.dll \
-	libeay32.dll \
-	libssl32.dll \
 	libcurl.dll \
 	libcairo-2.dll \
+	libeay32.dll \
 	libexpat-1.dll \
 	libfontconfig-1.dll \
 	libgcc_s_dw2-1.dll \
@@ -105,12 +104,15 @@ COMMON_DLLS := \
 	libgthread-2.0-0.dll \
 	libgtk-win32-2.0-0.dll \
 	libiconv-2.dll \
+	libidn-11.dll \
 	libogg-0.dll \
 	libpango-1.0-0.dll \
 	libpangocairo-1.0-0.dll \
 	libpangoft2-1.0-0.dll \
 	libpangowin32-1.0-0.dll \
 	libpng14-14.dll \
+	libsqlite3-0.dll \
+	libssl32.dll \
 	libvorbis-0.dll \
 	libvorbisfile-3.dll \
 	zlib1.dll
