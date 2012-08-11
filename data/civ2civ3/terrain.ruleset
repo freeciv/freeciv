@@ -166,6 +166,9 @@ fallout_trade_penalty=50
 ;   - UnsafeCoast      = This terrain does not provide a safe voyage for
 ;                        F_TRIRIEME units.
 ;   - FreshWater       = This terrain is used for small bodies of water.
+;                        If this becomes adjacent to non-FreshWater terrain,
+;                        the whole contiguous FreshWater area will be flooded
+;                        with the non-FreshWater terrain.
 ; property_*           = specific property % values used by mapgen.  Most
 ;                        terrains will have 0 for most values.
 ;  - mountainous       = degree to which this terrain is mountainous

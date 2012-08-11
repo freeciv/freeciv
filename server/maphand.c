@@ -1636,6 +1636,27 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
 {
   struct terrain *newter = tile_terrain(ptile);
 
+  /* Check if new terrain is a freshwater terrain next to non-freshwater.
+   * In that case, the new terrain is *changed*. */
+  if (is_ocean(newter) && terrain_has_flag(newter, TER_FRESHWATER)) {
+    bool nonfresh = FALSE;
+    adjc_iterate(ptile, atile) {
+      if (is_ocean(tile_terrain(atile))
+          && !terrain_has_flag(tile_terrain(atile), TER_FRESHWATER)) {
+        nonfresh = TRUE;
+        break;
+      }
+    } adjc_iterate_end;
+    if (nonfresh) {
+      /* Need to pick a new, non-freshwater ocean type for this tile.
+       * We don't want e.g. Deep Ocean to be propagated to this tile
+       * and then to a whole lake by the flooding below, so we pick
+       * the shallowest non-fresh oceanic type. */
+      newter = most_shallow_ocean();
+      tile_change_terrain(ptile, newter);
+    }
+  }
+
   fix_tile_on_terrain_change(ptile, oldter, TRUE);
 
   /* Check for saltwater filling freshwater lake */
@@ -1644,7 +1665,7 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
       if (terrain_has_flag(tile_terrain(atile), TER_FRESHWATER)) {
         struct terrain *aold = tile_terrain(atile);
 
-        tile_set_terrain(atile, newter);
+        tile_change_terrain(atile, newter);
 
         /* Recursive, but as lakes as lakes are of limited size, this
          * won't recurse so much as to cause stack problems. */
