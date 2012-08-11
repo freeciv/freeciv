@@ -265,6 +265,8 @@ Changes and new features for rulesets/modpacks/scenarios
      * The behavior where the senate of representative governments is
        bypassed has moved from the Any_Government to the No_Anarchy
        effect. GNA#19107
+     * The 'min_dist_bw_cities' ruleset item has been retired; use the
+       'citymindist' option instead. GNAPATCH#2537
      * Many changes to ruleset Lua scripting -- for full details see the
        Lua reference manual. These are all backward compatible.
        Highlights:
