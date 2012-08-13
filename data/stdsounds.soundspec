@@ -192,7 +192,7 @@ m_trireme = "stdsounds/inh2o.ogg" ; [pox]
 ;w_womens_suffrage = ""
 
 
-; This list contains all events up to E_UNIT_BUILT_POP_COST
+; This list contains all events up to E_DISASTER
 ; (as numbered in common/events.h), in the sorted order.
 ; Alphabetical sorting is based on these tag names,
 ; as the message names and contents change. {was}
@@ -228,6 +228,7 @@ m_trireme = "stdsounds/inh2o.ogg" ; [pox]
 ;e_destroyed = ""
 ;e_diplomacy = ""
 ;e_diplomatic_incident = ""
+;e_disaster = ""
 ;e_enemy_diplomat_bribe = ""
 ;e_enemy_diplomat_embassy = ""
 ;e_enemy_diplomat_failed = ""

@@ -70,6 +70,7 @@ static const char *event_sections[] = {
 /*
  * Holds information about all event types. The entries don't have
  * to be sorted.
+ * Every E_* event defined in common/events.h should have an entry here.
  */
 static struct {
   const char *enum_name;
