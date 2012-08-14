@@ -1168,7 +1168,14 @@ const struct rgbcolor *player_preferred_color(struct player *pplayer)
   } else if (playercolor_count() == 0) {
     /* If a ruleset isn't loaded, there are no colors to choose from. */
     return NULL;
+  } else if (game.server.plrcolormode == PLRCOL_NATION_ORDER) {
+    if (pplayer->nation != NO_NATION_SELECTED) {
+      return nation_color(nation_of_player(pplayer)); /* may be NULL */
+    } else {
+      return NULL; /* don't know nation, hence don't know color */
+    }
   } else {
+    /* Modes indexing into game-defined player colors */
     int colorid;
     switch (game.server.plrcolormode) {
     case PLRCOL_PLR_SET: /* player color (set) */
@@ -1226,8 +1233,25 @@ void assign_player_colors(void)
     return;
   }
 
+  if (game.server.plrcolormode == PLRCOL_NATION_ORDER) {
+    /* Additionally, try to avoid color clashes with certain nations not
+     * yet in play (barbarians). */
+    nations_iterate(pnation) {
+      const struct rgbcolor *ncol = nation_color(pnation);
+      if (ncol && nation_barbarian_type(pnation) != NOT_A_BARBARIAN) {
+        /* Don't use this color. */
+        rgbcolor_list_iterate(spare_colors, prgbcolor) {
+          if (rgbcolors_are_equal(ncol, prgbcolor)) {
+            rgbcolor_list_remove(spare_colors, ncol);
+          }
+        } rgbcolor_list_iterate_end;
+      }
+    } nations_iterate_end;
+  }
+
   fc_assert(game.server.plrcolormode == PLRCOL_PLR_RANDOM
-            || game.server.plrcolormode == PLRCOL_PLR_SET);
+            || game.server.plrcolormode == PLRCOL_PLR_SET
+            || game.server.plrcolormode == PLRCOL_NATION_ORDER);
 
   if (needed > rgbcolor_list_size(spare_colors)) {
     log_verbose("Not enough unique colors for all players; there will be "
@@ -1349,10 +1373,7 @@ struct player *server_create_player(int player_id, const char *ai_type,
 
   if (prgbcolor) {
     player_set_color(pplayer, prgbcolor);
-  } else if (game_was_started()) {
-    /* Find a color for the new player. */
-    assign_player_colors();
-  }
+  } /* else caller must ensure a color is assigned if game has started */
 
   return pplayer;
 }
@@ -2037,6 +2058,9 @@ static struct player *split_player(struct player *pplayer)
        TRUE, FALSE, NOT_A_BARBARIAN));
   server_player_set_name(cplayer,
                          pick_random_player_name(nation_of_player(cplayer)));
+  fc_assert(game_was_started());
+  /* Find a color for the new player. */
+  assign_player_colors();
 
   /* Send information about the used player slot to all connections. */
   send_player_info_c(cplayer, NULL);

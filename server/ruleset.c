@@ -3035,6 +3035,10 @@ static void load_ruleset_nations(struct section_file *file)
       }
     }
 
+    /* Nation player color preference, if any */
+    fc_assert_ret(pnation->server.rgb == NULL);
+    rgbcolor_load(file, &pnation->server.rgb, "%s.color", sec_name);
+
     /* Load nation traits */
     ruleset_load_traits(pnation->server.traits, file, sec_name, "trait_");
     for (tr = trait_begin(); tr != trait_end(); tr = trait_next(tr)) {

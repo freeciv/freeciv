@@ -316,10 +316,11 @@ static const struct sset_val_name *borders_name(int borders)
 static const struct sset_val_name *plrcol_name(int plrcol)
 {
   switch (plrcol) {
-  NAME_CASE(PLRCOL_PLR_ORDER,  "PLR_ORDER",  N_("Per-player, in order"));
-  NAME_CASE(PLRCOL_PLR_RANDOM, "PLR_RANDOM", N_("Per-player, random"));
-  NAME_CASE(PLRCOL_PLR_SET,    "PLR_SET",    N_("Set manually"));
-  NAME_CASE(PLRCOL_TEAM_ORDER, "TEAM_ORDER", N_("Per-team, in order"));
+  NAME_CASE(PLRCOL_PLR_ORDER,    "PLR_ORDER",    N_("Per-player, in order"));
+  NAME_CASE(PLRCOL_PLR_RANDOM,   "PLR_RANDOM",   N_("Per-player, random"));
+  NAME_CASE(PLRCOL_PLR_SET,      "PLR_SET",      N_("Set manually"));
+  NAME_CASE(PLRCOL_TEAM_ORDER,   "TEAM_ORDER",   N_("Per-team, in order"));
+  NAME_CASE(PLRCOL_NATION_ORDER, "NATION_ORDER", N_("Per-nation, in order"));
   }
   return NULL;
 }
@@ -890,6 +891,28 @@ static bool topology_callback(unsigned value, struct connection *caller,
     return FALSE;
   }
 
+  return TRUE;
+}
+
+/*************************************************************************
+  Validate that the player color mode can be used.
+*************************************************************************/
+static bool plrcol_validate(int value, struct connection *caller,
+                            char *reject_msg, size_t reject_msg_len)
+{
+  enum plrcolor_mode mode = value;
+  if (mode == PLRCOL_NATION_ORDER) {
+    nations_iterate(pnation) {
+      if (nation_color(pnation)) {
+        /* At least one nation has a color. Allow this mode. */
+        return TRUE;
+      }
+    } nations_iterate_end;
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("No nations in the currently loaded ruleset have "
+                        "associated colors."));
+    return FALSE;
+  }
   return TRUE;
 }
 
@@ -1667,9 +1690,14 @@ static struct setting settings[] = {
               "- \"Per-team, in order\" (TEAM_ORDER): colors are assigned to "
               "teams from the list in the ruleset. Every player on the same "
               "team gets the same color.\n"
+              "- \"Per-nation, in order\" (NATION_ORDER): if the ruleset "
+              "defines a color for a player's nation, the player takes that "
+              "color. Any players whose nations don't have associated colors "
+              "get a random color from the list in the ruleset.\n"
               "Regardless of this setting, individual player colors can be "
               "changed after the game starts with the 'playercolor' command."),
-           NULL, plrcol_action, plrcol_name, GAME_DEFAULT_PLRCOLORMODE)
+           plrcol_validate, plrcol_action, plrcol_name,
+           GAME_DEFAULT_PLRCOLORMODE)
 
   /* Flexible rules: these can be changed after the game has started.
    *

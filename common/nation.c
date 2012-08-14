@@ -570,6 +570,7 @@ static void nation_init(struct nation_type *pnation)
     pnation->server.civilwar_nations = nation_list_new();
     pnation->server.parent_nations = nation_list_new();
     pnation->server.conflicts_with = nation_list_new();
+    /* server.rgb starts out NULL */
     pnation->server.traits = fc_calloc(TRAIT_COUNT, sizeof(int));
   }
 }
@@ -588,6 +589,7 @@ static void nation_free(struct nation_type *pnation)
     nation_list_destroy(pnation->server.civilwar_nations);
     nation_list_destroy(pnation->server.parent_nations);
     nation_list_destroy(pnation->server.conflicts_with);
+    rgbcolor_destroy(pnation->server.rgb);
     FC_FREE(pnation->server.traits);
   }
 
@@ -636,6 +638,16 @@ int city_style_of_nation(const struct nation_type *pnation)
 {
   NATION_CHECK(pnation, return 0);
   return pnation->city_style;
+}
+
+/****************************************************************************
+  Returns nation's player color preference, or NULL if none.
+  Server only function.
+****************************************************************************/
+const struct rgbcolor *nation_color(const struct nation_type *pnation)
+{
+  NATION_CHECK(pnation, return NULL);
+  return pnation->server.rgb;
 }
 
 /****************************************************************************

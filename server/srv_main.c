@@ -2497,6 +2497,7 @@ static void srv_ready(void)
 
   if (game.info.is_new_game) {
     game.info.year = game.server.start_year;
+    /* Must come before assign_player_colors() */
     generate_players();
     final_ruleset_adjustments();
   }
@@ -2598,7 +2599,9 @@ static void srv_ready(void)
     } players_iterate_end;
 
     /* Assign colors from the ruleset for any players who weren't
-     * explicitly assigned colors during the pregame. */
+     * explicitly assigned colors during the pregame.
+     * This must come after generate_players() since it can depend on
+     * assigned nations. */
     assign_player_colors();
 
     /* Save all settings for the 'reset game' command. */

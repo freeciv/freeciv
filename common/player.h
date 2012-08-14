@@ -44,7 +44,8 @@ enum plrcolor_mode {
   PLRCOL_PLR_ORDER,
   PLRCOL_PLR_RANDOM,
   PLRCOL_PLR_SET,
-  PLRCOL_TEAM_ORDER
+  PLRCOL_TEAM_ORDER,
+  PLRCOL_NATION_ORDER
 };
 
 struct player_slot;

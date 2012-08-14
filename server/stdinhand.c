@@ -984,6 +984,8 @@ enum rfc_status create_command_newcomer(const char *name,
   player_set_nation(pplayer, pnation);
   pplayer->government = pnation->init_government;
   pplayer->target_government = pnation->init_government;
+  /* Find a color for the new player. */
+  assign_player_colors();
 
   /* TRANS: keep one space at the beginning of the string. */
   cat_snprintf(buf, buflen, _(" Nation of the new player: %s."),

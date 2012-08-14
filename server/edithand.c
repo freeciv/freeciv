@@ -1106,6 +1106,10 @@ void handle_edit_player_create(struct connection *pc, int tag)
 
   player_set_nation(pplayer, pnation);
   server_player_set_name(pplayer, pick_random_player_name(pnation));
+  if (game_was_started()) {
+    /* Find a color for the new player. */
+    assign_player_colors();
+  }
   sz_strlcpy(pplayer->username, ANON_USER_NAME);
   pplayer->is_connected = FALSE;
   pplayer->government = pnation->init_government;

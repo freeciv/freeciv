@@ -127,6 +127,10 @@ static struct player *create_barbarian_player(enum barbarian_type type)
   nation = pick_a_nation(NULL, FALSE, TRUE, type);
   player_set_nation(barbarians, nation);
   sz_strlcpy(barbarians->name, pick_random_player_name(nation));
+  if (game_was_started()) {
+    /* Find a color for the new player. */
+    assign_player_colors();
+  }
 
   server.nbarbarians++;
   game.server.max_players = MAX(player_count(), game.server.max_players);
