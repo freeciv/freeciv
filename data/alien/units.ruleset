@@ -1301,7 +1301,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-targtes       = "Burrowing"
+targets       = "Burrowing"
 helptext      = _("\
 Missile that can attack also against burrowing units. \
 Since more expensive than normal Teleporting Missile, does not \
