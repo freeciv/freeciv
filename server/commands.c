@@ -529,7 +529,7 @@ static struct command commands[] = {
   {"lua", ALLOW_ADMIN,
    /* TRANS: translate text between <> only */
    N_("lua <script>"),
-   N_("Evaluate a line of freeciv script in the current game."), NULL,
+   N_("Evaluate a line of Freeciv script in the current game."), NULL,
    CMD_ECHO_ADMINS, VCF_NONE, 0
   },
   {"kick", ALLOW_CTRL,

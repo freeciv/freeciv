@@ -1139,7 +1139,7 @@ static void make_land(void)
   fc_assert_exit_msg(NULL != land_fill,
                      "No land terrain type could be found for the purpose "
                      "of temporarily filling in land tiles during map "
-                     "generation. This could be an error in freeciv, or a "
+                     "generation. This could be an error in Freeciv, or a "
                      "mistake in the terrain.ruleset file. Please make sure "
                      "there is at least one land terrain type in the "
                      "ruleset, or use a different map generator. If this "
