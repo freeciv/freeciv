@@ -197,7 +197,7 @@ bool script_fcdb_init(const char *fcdb_luafile)
     luascript_destroy(fcl);
     fcl = NULL;
 
-    log_error("Error loading the freeciv database lua definition.");
+    log_error("Error loading the Freeciv database lua definition.");
     return FALSE;
   }
 
@@ -221,7 +221,7 @@ bool script_fcdb_init(const char *fcdb_luafile)
 
   if (luascript_do_file(fcl, fcdb_luafile)
       || !script_fcdb_functions_check(fcdb_luafile)) {
-    log_error("Error loading the freeciv database lua script '%s'.",
+    log_error("Error loading the Freeciv database lua script '%s'.",
               fcdb_luafile);
     script_fcdb_free();
     return FALSE;

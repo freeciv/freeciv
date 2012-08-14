@@ -243,7 +243,7 @@ void mr_menu::slot_menu_copying()
   QMessageBox info;
   QString s = QString::fromUtf8(_("Freeciv is covered by the GPL. "))
               + QString::fromUtf8(_("See file COPYING distributed with "
-                                    "freeciv for full license text."));
+                                    "Freeciv for full license text."));
   info.setText(s);
   info.setStandardButtons(QMessageBox::Ok);
   info.setDefaultButton(QMessageBox::Cancel);

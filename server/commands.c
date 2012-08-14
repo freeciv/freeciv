@@ -324,7 +324,7 @@ static struct command commands[] = {
       "and, if no free slots are available, it tries to reuse the slots of "
       "dead players. The new player has no units or cities.\n"
       "AI type parameter can be used to select which AI module will be "
-      "used for created player. This requires that freeciv has been "
+      "used for created player. This requires that Freeciv has been "
       "compiled with AI module support and respective module has been "
       "loaded."), NULL,
    CMD_ECHO_ALL, VCF_NONE, 50
@@ -580,7 +580,7 @@ static struct command commands[] = {
    N_("lua cmd <script line>\n"
       "lua file <script file>\n"
       "lua <script line> (deprecated)"),
-   N_("Evaluate a line of freeciv script or a freeciv script file in the "
+   N_("Evaluate a line of Freeciv script or a Freeciv script file in the "
       "current game."), NULL, NULL,
    CMD_ECHO_ADMINS, VCF_NONE, 0
   },

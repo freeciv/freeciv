@@ -35,7 +35,7 @@ void api_signal_connect(lua_State *L, const char *signal_name,
 
   fcl = luascript_get_fcl(L);
 
-  LUASCRIPT_CHECK(L, fcl != NULL, "Undefined freeciv lua state!");
+  LUASCRIPT_CHECK(L, fcl != NULL, "Undefined Freeciv lua state!");
 
   luascript_signal_callback(fcl, signal_name, callback_name, TRUE);
 }
@@ -54,7 +54,7 @@ void api_signal_remove(lua_State *L, const char *signal_name,
 
   fcl = luascript_get_fcl(L);
 
-  LUASCRIPT_CHECK(L, fcl != NULL, "Undefined freeciv lua state!");
+  LUASCRIPT_CHECK(L, fcl != NULL, "Undefined Freeciv lua state!");
 
   luascript_signal_callback(fcl, signal_name, callback_name, FALSE);
 }
@@ -73,7 +73,7 @@ bool api_signal_defined(lua_State *L, const char *signal_name,
 
   fcl = luascript_get_fcl(L);
 
-  LUASCRIPT_CHECK(L, fcl != NULL, "Undefined freeciv lua state!", FALSE);
+  LUASCRIPT_CHECK(L, fcl != NULL, "Undefined Freeciv lua state!", FALSE);
 
   return luascript_signal_callback_defined(fcl, signal_name, callback_name);
 }
@@ -91,7 +91,7 @@ const char *api_signal_callback_by_index(lua_State *L,
 
   fcl = luascript_get_fcl(L);
 
-  LUASCRIPT_CHECK(L, fcl != NULL, "Undefined freeciv lua state!", NULL);
+  LUASCRIPT_CHECK(L, fcl != NULL, "Undefined Freeciv lua state!", NULL);
 
   return luascript_signal_callback_by_index(fcl, signal_name, index);
 }
@@ -108,7 +108,7 @@ const char *api_signal_by_index(lua_State *L, int index)
 
   fcl = luascript_get_fcl(L);
 
-  LUASCRIPT_CHECK(L, fcl != NULL, "Undefined freeciv lua state!", NULL);
+  LUASCRIPT_CHECK(L, fcl != NULL, "Undefined Freeciv lua state!", NULL);
 
   return luascript_signal_by_index(fcl, index);
 }
