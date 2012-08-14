@@ -30,7 +30,7 @@ const char *api_fcdb_option(lua_State *L, enum fcdb_option_type type)
 {
   LUASCRIPT_CHECK_STATE(L, NULL);
   LUASCRIPT_CHECK_ARG(L, fcdb_option_type_is_valid(type), 2,
-                      "Invalid freeciv database option type.", NULL);
+                      "Invalid Freeciv database option type.", NULL);
 
   return fcdb_option_get(type);
 }
