@@ -1332,7 +1332,10 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
     /* Update happiness (the unit may no longer cause unrest). */
     if (home) {
-      city_refresh(home);
+      if (city_refresh(home)) {
+        /* Shouldn't happen, but better be safe than sorry. */
+        auto_arrange_workers(home);
+      }
       sanity_check_city(home);
       send_city_info(city_owner(home), home);
     }
@@ -1821,7 +1824,13 @@ void send_all_known_cities(struct conn_list *dest)
 void send_player_cities(struct player *pplayer)
 {
   city_list_iterate(pplayer->cities, pcity) {
-    city_refresh(pcity);
+    if (city_refresh(pcity)) {
+      log_error("%s radius changed while sending to player.",
+                city_name(pcity));
+
+      /* Make sure that no workers in illegal position outside radius. */
+      auto_arrange_workers(pcity);
+    }
     send_city_info(pplayer, pcity);
   }
   city_list_iterate_end;
@@ -2000,6 +2009,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
                 packet->size, ppl, city_name(pcity));
       /* Try to fix */
       city_refresh(pcity);
+      auto_arrange_workers(pcity);
 
       /* And repackage */
       recursion = TRUE;
@@ -2271,7 +2281,9 @@ void building_lost(struct city *pcity, const struct impr_type *pimprove)
   }
 
   /* update city; influence of effects (buildings, ...) on unit upkeep */
-  city_refresh(pcity);
+  if (city_refresh(pcity)) {
+    auto_arrange_workers(pcity);
+  }
 
   /* Re-update the city's visible area.  This updates fog if the vision
    * range increases or decreases. */
@@ -2642,7 +2654,6 @@ bool city_map_update_radius_sq(struct city *pcity)
   if (city_tiles_old < city_tiles_new) {
     /* increased number of city tiles */
     city_refresh_vision(pcity);
-    auto_arrange_workers(pcity);
   } else {
     /* reduced number of city tiles */
     int workers = 0;
@@ -2686,7 +2697,6 @@ bool city_map_update_radius_sq(struct city *pcity)
     }
 
     city_refresh_vision(pcity);
-    auto_arrange_workers(pcity);
   }
 
   /* if city is under AI control update it */

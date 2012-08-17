@@ -21,7 +21,7 @@
 struct conn_list;
 struct cm_result;
 
-void city_refresh(struct city *pcity);          /* call if city has changed */
+bool city_refresh(struct city *pcity);          /* call if city has changed */
 void city_refresh_for_player(struct player *pplayer); /* tax/govt changed */
 
 void city_refresh_queue_add(struct city *pcity);

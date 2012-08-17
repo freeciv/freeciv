@@ -136,15 +136,20 @@ static bool do_city_migration(struct city *pcity_from,
 static void check_city_migrations_player(const struct player *pplayer);
 
 /**************************************************************************
-  Updates unit upkeeps and city internal cached data.
+  Updates unit upkeeps and city internal cached data. Returns whether
+  city radius has changed.
 **************************************************************************/
-void city_refresh(struct city *pcity)
+bool city_refresh(struct city *pcity)
 {
+  bool retval;
+
   pcity->server.needs_refresh = FALSE;
 
-  city_map_update_radius_sq(pcity);
+  retval = city_map_update_radius_sq(pcity);
   city_units_upkeep(pcity); /* update unit upkeep */
   city_refresh_from_main_map(pcity, NULL);
+
+  return retval;
 }
 
 /**************************************************************************
@@ -154,10 +159,12 @@ void city_refresh(struct city *pcity)
 void city_refresh_for_player(struct player *pplayer)
 {
   conn_list_do_buffer(pplayer->connections);
-  city_list_iterate(pplayer->cities, pcity)
-    city_refresh(pcity);
+  city_list_iterate(pplayer->cities, pcity) {
+    if (city_refresh(pcity)) {
+      auto_arrange_workers(pcity);
+    }
     send_city_info(pplayer, pcity);
-  city_list_iterate_end;
+  } city_list_iterate_end;
   conn_list_do_unbuffer(pplayer->connections);
 }
 
@@ -188,7 +195,9 @@ void city_refresh_queue_processing(void)
 
   city_list_iterate(city_refresh_queue, pcity) {
     if (pcity->server.needs_refresh) {
-      city_refresh(pcity);
+      if (city_refresh(pcity)) {
+        auto_arrange_workers(pcity);
+      }
       send_city_info(city_owner(pcity), pcity);
     }
   } city_list_iterate_end;
@@ -219,7 +228,9 @@ void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
   } city_built_iterate_end;
 
   if (sold && refresh) {
-    city_refresh(pcity);
+    if (city_refresh(pcity)) {
+      auto_arrange_workers(pcity);
+    }
     send_city_info(pplayer, pcity);
     send_player_info_c(pplayer, NULL); /* Send updated gold to all */
   }
@@ -298,6 +309,7 @@ void auto_arrange_workers(struct city *pcity)
 
   /* Now start actually rearranging. */
   city_refresh(pcity);
+
   sanity_check_city(pcity);
   cm_clear_cache(pcity);
 
@@ -371,7 +383,12 @@ void auto_arrange_workers(struct city *pcity)
     cm_print_result(cmr);
   }
 
-  city_refresh(pcity);
+  if (city_refresh(pcity)) {
+    log_error("%s radius changed when already arranged workers.",
+              city_name(pcity));
+    /* Can't do anything - don't want to enter infinite recursive loop
+     * by trying to arrange workers more. */
+  }
   sanity_check_city(pcity);
 
   cm_result_destroy(cmr);
@@ -664,6 +681,8 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
   /* Update citizens. */
   citizens_update(pcity);
 
+  auto_arrange_workers(pcity);
+
   /* Send city data. */
   sync_cities();
 
@@ -675,7 +694,11 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
 
   /* Update cities that have trade routes with us */
   trade_routes_iterate(pcity, pcity2) {
-    city_refresh(pcity2);
+    if (city_refresh(pcity2)) {
+      /* This should never happen, but if it does, make sure not to
+       * leave workers outside city radius. */
+      auto_arrange_workers(pcity2);
+    }
   } trade_routes_iterate_end;
 
   sanity_check_city(pcity);
@@ -791,9 +814,15 @@ static bool city_increase_size(struct city *pcity)
   /* Refresh the city data; this also checks the squared city radius. */
   city_refresh(pcity);
 
+  auto_arrange_workers(pcity);
+
   /* Update cities that have trade routes with us */
   trade_routes_iterate(pcity, pcity2) {
-    city_refresh(pcity2);
+    if (city_refresh(pcity2)) {
+      /* This should never happen, but if it does, make sure not to
+       * leave workers outside city radius. */
+      auto_arrange_workers(pcity2);
+    }
   } trade_routes_iterate_end;
 
   notify_player(powner, city_tile(pcity), E_CITY_GROWTH, ftc_server,
@@ -1592,7 +1621,9 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
       send_spaceship_info(pplayer, NULL);
     } else {
       /* Update city data. */
-      city_refresh(pcity);
+      if (city_refresh(pcity)) {
+        auto_arrange_workers(pcity);
+      }
     }
 
     /* Move to the next thing in the worklist */
@@ -2236,7 +2267,9 @@ static void update_city_activity(struct city *pcity)
   pplayer = city_owner(pcity);
   gov = government_of_city(pcity);
 
-  city_refresh(pcity);
+  if (city_refresh(pcity)) {
+    auto_arrange_workers(pcity);
+  }
 
   /* Reporting of celebrations rewritten, copying the treatment of disorder below,
      with the added rapture rounds count.  991219 -- Jing */
@@ -2342,7 +2375,9 @@ static void update_city_activity(struct city *pcity)
                     government_name_translation(gov));
       handle_player_change_government(pplayer, government_number(gov));
     }
-    city_refresh(pcity);
+    if (city_refresh(pcity)) {
+      auto_arrange_workers(pcity);
+    }
     sanity_check_city(pcity);
   }
 }
@@ -2711,7 +2746,9 @@ static bool do_city_migration(struct city *pcity_from,
     }
     city_reduce_size(pcity_from, 1, pplayer_from);
     city_refresh_vision(pcity_from);
-    city_refresh(pcity_from);
+    if (city_refresh(pcity_from)) {
+      auto_arrange_workers(pcity_from);
+    }
   }
 
   /* This should be _before_ the size of the city is increased. Thus, the
@@ -2744,7 +2781,9 @@ static bool do_city_migration(struct city *pcity_from,
   }
   city_increase_size(pcity_to);
   city_refresh_vision(pcity_to);
-  city_refresh(pcity_to);
+  if (city_refresh(pcity_to)) {
+    auto_arrange_workers(pcity_to);
+  }
 
   log_debug("[M] T%d migration successful (%s -> %s)",
             game.info.turn, name_from, name_to);
