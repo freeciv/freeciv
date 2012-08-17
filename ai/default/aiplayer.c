@@ -47,7 +47,7 @@ struct ai_type *default_ai_get_self(void)
   Initialize player for use with default AI. Note that this is called
   for all players, not just for those default AI is controlling.
 **************************************************************************/
-void dai_player_alloc(struct player *pplayer)
+void dai_player_alloc(struct ai_type *ait, struct player *pplayer)
 {
   struct ai_plr *player_data = fc_calloc(1, sizeof(struct ai_plr));
 
@@ -59,7 +59,7 @@ void dai_player_alloc(struct player *pplayer)
 /**************************************************************************
   Free player from use with default AI.
 **************************************************************************/
-void dai_player_free(struct player *pplayer)
+void dai_player_free(struct ai_type *ait, struct player *pplayer)
 {
   struct ai_plr *player_data = def_ai_player_data(pplayer, default_ai_get_self());
 
@@ -74,7 +74,8 @@ void dai_player_free(struct player *pplayer)
 /**************************************************************************
   Store player specific data to savegame
 **************************************************************************/
-void dai_player_save(struct player *pplayer, struct section_file *file, int plrno)
+void dai_player_save(struct ai_type *ait, struct player *pplayer,
+                     struct section_file *file, int plrno)
 {
   players_iterate(aplayer) {
     struct ai_dip_intel *adip = dai_diplomacy_get(pplayer, aplayer);
@@ -105,7 +106,8 @@ void dai_player_save(struct player *pplayer, struct section_file *file, int plrn
 /**************************************************************************
   Load player specific data from savegame
 **************************************************************************/
-void dai_player_load(struct player *pplayer, struct section_file *file, int plrno)
+void dai_player_load(struct ai_type *ait, struct player *pplayer,
+                     struct section_file *file, int plrno)
 {
   players_iterate(aplayer) {
     struct ai_dip_intel *adip = dai_diplomacy_get(pplayer, aplayer);

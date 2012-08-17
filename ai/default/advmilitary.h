@@ -22,7 +22,7 @@ void military_advisor_choose_tech(struct player *pplayer,
 				  struct adv_choice *choice);
 void  military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				    struct adv_choice *choice);
-void dai_assess_danger_player(struct player *pplayer);
+void dai_assess_danger_player(struct ai_type *ait, struct player *pplayer);
 int assess_defense_quadratic(struct city *pcity);
 int assess_defense_unit(struct city *pcity, struct unit *punit, bool igwall);
 int assess_defense(struct city *pcity);

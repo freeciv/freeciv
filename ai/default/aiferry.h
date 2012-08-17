@@ -33,7 +33,7 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path);
 /* 
  * Initializes aiferry stats for a new unit
  */
-void dai_ferry_init_ferry(struct unit *ferry);
+void dai_ferry_init_ferry(struct ai_type *ait, struct unit *ferry);
 
 /*
  * Release the boat reserved in punit's ai.ferryboat field.

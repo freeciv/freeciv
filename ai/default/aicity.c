@@ -748,7 +748,7 @@ void dai_manage_cities(struct player *pplayer)
     ASSERT_CHOICE(city_data->choice);
   } city_list_iterate_end;
   /* Reset auto settler state for the next run. */
-  dai_auto_settler_reset(pplayer);
+  dai_auto_settler_reset(default_ai_get_self(), pplayer);
 
   city_list_iterate(pplayer->cities, pcity) {
     dai_city_choose_build(pplayer, pcity);
@@ -882,7 +882,7 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
 /**************************************************************************
   Initialize city for use with default AI.
 **************************************************************************/
-void dai_city_alloc(struct city *pcity)
+void dai_city_alloc(struct ai_type *ait, struct city *pcity)
 {
   struct ai_city *city_data = fc_calloc(1, sizeof(struct ai_city));
 
@@ -894,7 +894,7 @@ void dai_city_alloc(struct city *pcity)
 /**************************************************************************
   Free city from use with default AI.
 **************************************************************************/
-void dai_city_free(struct city *pcity)
+void dai_city_free(struct ai_type *ait, struct city *pcity)
 {
   struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
 
@@ -907,8 +907,8 @@ void dai_city_free(struct city *pcity)
 /**************************************************************************
   Write ai city segments to savefile
 **************************************************************************/
-void dai_city_save(struct section_file *file, const struct city *pcity,
-		   const char *citystr)
+void dai_city_save(struct ai_type *ait, struct section_file *file,
+                   const struct city *pcity, const char *citystr)
 {
   struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
 
@@ -933,8 +933,8 @@ void dai_city_save(struct section_file *file, const struct city *pcity,
 /**************************************************************************
   Load ai city segment from savefile
 **************************************************************************/
-void dai_city_load(const struct section_file *file, struct city *pcity,
-		   const char *citystr)
+void dai_city_load(struct ai_type *ait, const struct section_file *file,
+                   struct city *pcity, const char *citystr)
 {
   struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
 
@@ -1903,7 +1903,8 @@ static bool should_force_recalc(struct city *pcity)
   increase the want for technologies that will enable buildings with
   desirable effects.
 **************************************************************************/
-void dai_build_adv_adjust(struct player *pplayer, struct city *wonder_city)
+void dai_build_adv_adjust(struct ai_type *ait, struct player *pplayer,
+                          struct city *wonder_city)
 {
   struct adv_data *ai = adv_data_get(pplayer);
 
@@ -2015,7 +2016,7 @@ void dai_build_adv_adjust(struct player *pplayer, struct city *wonder_city)
 /************************************************************************** 
   Is it ok for advisor code to consider given city as wonder city?
 **************************************************************************/
-void dai_consider_wonder_city(struct city *pcity, bool *result)
+void dai_consider_wonder_city(struct ai_type *ait, struct city *pcity, bool *result)
 {
   if (def_ai_city_data(pcity, default_ai_get_self())->grave_danger > 0) {
     *result = FALSE;

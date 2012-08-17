@@ -35,7 +35,8 @@
 /**************************************************************************
   Produce logline fragment for srv_log.
 **************************************************************************/
-void dai_city_log(char *buffer, int buflength, const struct city *pcity)
+void dai_city_log(struct ai_type *ait, char *buffer, int buflength,
+                  const struct city *pcity)
 {
   struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
 
@@ -47,7 +48,8 @@ void dai_city_log(char *buffer, int buflength, const struct city *pcity)
 /**************************************************************************
   Produce logline fragment for srv_log.
 **************************************************************************/
-void dai_unit_log(char *buffer, int buflength, const struct unit *punit)
+void dai_unit_log(struct ai_type *ait, char *buffer, int buflength,
+                  const struct unit *punit)
 {
   struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
 

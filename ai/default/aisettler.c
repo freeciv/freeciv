@@ -980,8 +980,8 @@ void dai_auto_settler_init(struct ai_plr *ai)
 /**************************************************************************
   Auto settler that can also build cities.
 **************************************************************************/
-void dai_auto_settler_run(struct player *pplayer, struct unit *punit,
-			  struct settlermap *state)
+void dai_auto_settler_run(struct ai_type *ait, struct player *pplayer,
+                          struct unit *punit, struct settlermap *state)
 {
   int best_impr = 0;            /* best terrain improvement we can do */
   enum unit_activity best_act;
@@ -1024,7 +1024,7 @@ BUILD_CITY:
           /* Only known way to end in here is that hut turned in to a city
            * when settler entered tile. So this is not going to lead in any
            * serious recursion. */
-          dai_auto_settler_run(pplayer, punit, state);
+          dai_auto_settler_run(ait, pplayer, punit, state);
 
           return;
        } else {
@@ -1115,7 +1115,7 @@ CLEANUP:
 /**************************************************************************
   Reset ai settler engine.
 **************************************************************************/
-void dai_auto_settler_reset(struct player *pplayer)
+void dai_auto_settler_reset(struct ai_type *ait, struct player *pplayer)
 {
   struct ai_plr *ai = dai_plr_data_get(pplayer);
 

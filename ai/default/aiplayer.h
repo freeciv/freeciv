@@ -23,11 +23,13 @@ struct ai_type *default_ai_get_self(void);
 
 void default_ai_set_self(struct ai_type *ai);
 
-void dai_player_alloc(struct player *pplayer);
-void dai_player_free(struct player *pplayer);
+void dai_player_alloc(struct ai_type *ait, struct player *pplayer);
+void dai_player_free(struct ai_type *ait, struct player *pplayer);
 
-void dai_player_save(struct player *pplayer, struct section_file *file, int plrno);
-void dai_player_load(struct player *pplayer, struct section_file *file, int plrno);
+void dai_player_save(struct ai_type *ait, struct player *pplayer,
+                     struct section_file *file, int plrno);
+void dai_player_load(struct ai_type *ait, struct player *pplayer,
+                     struct section_file *file, int plrno);
 
 static inline struct ai_city *def_ai_city_data(const struct city *pcity,
                                                struct ai_type *deftype)

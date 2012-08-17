@@ -153,7 +153,8 @@ int military_amortize(struct player *pplayer, struct city *pcity,
   This function is used for example to check if pplayer can leave
   his city undefended when aplayer's units are near it.
 ***********************************************************************/
-void dai_consider_plr_dangerous(struct player *plr1, struct player *plr2,
+void dai_consider_plr_dangerous(struct ai_type *ait, struct player *plr1,
+                                struct player *plr2,
 				enum danger_consideration *result)
 {
   struct ai_dip_intel *adip;
@@ -688,8 +689,8 @@ bool dai_unit_goto(struct unit *punit, struct tile *ptile)
 /**************************************************************************
   Adviser task for unit has been changed.
 **************************************************************************/
-void dai_unit_new_adv_task(struct unit *punit, enum adv_unit_task task,
-			   struct tile *ptile)
+void dai_unit_new_adv_task(struct ai_type *ait, struct unit *punit,
+                           enum adv_unit_task task, struct tile *ptile)
 {
   /* Keep ai_unit_task in sync with adv task */
   switch(task) {
@@ -908,8 +909,8 @@ bool dai_unit_attack(struct unit *punit, struct tile *ptile)
 /**************************************************************************
   Ai unit moving function called from AI interface.
 **************************************************************************/
-void dai_unit_move_or_attack(struct unit *punit, struct tile *ptile,
-			     struct pf_path *path, int step)
+void dai_unit_move_or_attack(struct ai_type *ait, struct unit *punit,
+                             struct tile *ptile, struct pf_path *path, int step)
 {
   if (step == path->length - 1) {
     (void) dai_unit_attack(punit, ptile);
@@ -1109,7 +1110,8 @@ bool dai_choose_role_unit(struct player *pplayer, struct city *pcity,
 /**************************************************************************
   Consider overriding building target selected by common advisor code.
 **************************************************************************/
-void dai_build_adv_override(struct city *pcity, struct adv_choice *choice)
+void dai_build_adv_override(struct ai_type *ait, struct city *pcity,
+                            struct adv_choice *choice)
 {
   struct impr_type *chosen;
   int want;

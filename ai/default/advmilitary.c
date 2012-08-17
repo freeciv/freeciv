@@ -382,7 +382,7 @@ static unsigned int assess_danger_unit(const struct city *pcity,
 
   This is necessary to initialize some ai data before some ai calculations.
 ****************************************************************************/
-void dai_assess_danger_player(struct player *pplayer)
+void dai_assess_danger_player(struct ai_type *ait, struct player *pplayer)
 {
   /* Do nothing if game is not running */
   if (S_S_RUNNING == server_state()) {

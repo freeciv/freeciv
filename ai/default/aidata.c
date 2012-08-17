@@ -122,7 +122,8 @@ bool is_ai_data_phase_open(struct player *pplayer)
 /****************************************************************************
   Make and cache lots of calculations needed for other functions.
 ****************************************************************************/
-void dai_data_phase_begin(struct player *pplayer, bool is_new_phase)
+void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
+                          bool is_new_phase)
 {
   struct ai_plr *ai = def_ai_player_data(pplayer, default_ai_get_self());
 
@@ -280,7 +281,7 @@ void dai_data_phase_begin(struct player *pplayer, bool is_new_phase)
 /****************************************************************************
   Clean up ai data after phase finished.
 ****************************************************************************/
-void dai_data_phase_finished(struct player *pplayer)
+void dai_data_phase_finished(struct ai_type *ait, struct player *pplayer)
 {
   struct ai_plr *ai = def_ai_player_data(pplayer, default_ai_get_self());
 
@@ -315,14 +316,14 @@ struct ai_plr *dai_plr_data_get(struct player *pplayer)
 
     /* See adv_data_get() */
     if (ai->phase_initialized) {
-      dai_data_phase_finished(pplayer);
-      dai_data_phase_begin(pplayer, FALSE);
+      dai_data_phase_finished(default_ai_get_self(), pplayer);
+      dai_data_phase_begin(default_ai_get_self(), pplayer, FALSE);
     } else {
       /* wrong order */
       log_debug("%s advisor data phase closed when adv_data_get() called",
                 player_name(pplayer));
-      dai_data_phase_begin(pplayer, FALSE);
-      dai_data_phase_finished(pplayer);
+      dai_data_phase_begin(default_ai_get_self(), pplayer, FALSE);
+      dai_data_phase_finished(default_ai_get_self(), pplayer);
     }
   }
 

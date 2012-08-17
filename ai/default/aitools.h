@@ -38,8 +38,8 @@ int military_amortize(struct player *pplayer, struct city *pcity,
                       int value, int delay, int build_cost);
 int stack_cost(struct unit *pattacker, struct unit *pdefender);
 
-void dai_unit_move_or_attack(struct unit *punit, struct tile *ptile,
-			     struct pf_path *path, int step);
+void dai_unit_move_or_attack(struct ai_type *ait, struct unit *punit,
+                             struct tile *ptile, struct pf_path *path, int step);
 
 void dai_fill_unit_param(struct pf_parameter *parameter,
                          struct adv_risk_cost *risk_cost,
@@ -57,8 +57,8 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni);
 
 void dai_unit_new_task(struct unit *punit, enum ai_unit_task task, 
                        struct tile *ptile);
-void dai_unit_new_adv_task(struct unit *punit, enum adv_unit_task task,
-                           struct tile *ptile);
+void dai_unit_new_adv_task(struct ai_type *ait, struct unit *punit,
+                           enum adv_unit_task task, struct tile *ptile);
 bool dai_unit_make_homecity(struct unit *punit, struct city *pcity);
 bool dai_unit_attack(struct unit *punit, struct tile *ptile);
 bool dai_unit_move(struct unit *punit, struct tile *ptile);
@@ -75,10 +75,12 @@ bool is_unit_choice_type(enum choice_type type);
 bool dai_choose_role_unit(struct player *pplayer, struct city *pcity,
                           struct adv_choice *choice, enum choice_type type,
                           int role, int want, bool need_boat);
-void dai_build_adv_override(struct city *pcity, struct adv_choice *choice);
+void dai_build_adv_override(struct ai_type *ait, struct city *pcity,
+                            struct adv_choice *choice);
 bool dai_assess_military_unhappiness(struct city *pcity);
 
-void dai_consider_plr_dangerous(struct player *plr1, struct player *plr2,
+void dai_consider_plr_dangerous(struct ai_type *ait, struct player *plr1,
+                                struct player *plr2,
                                 enum danger_consideration *result);
 
 #endif  /* FC__AITOOLS_H */
