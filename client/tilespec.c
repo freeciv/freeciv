@@ -453,11 +453,13 @@ static void drawing_data_destroy(struct drawing_data *draw);
 #define SPECHASH_KEY_COMP genhash_str_comp_func
 #include "spechash.h"
 
+enum ts_type { TS_OVERVIEW, TS_ISOMETRIC };
+
 struct tileset {
   char name[512];
   int priority;
 
-  bool is_isometric;
+  enum ts_type type;
   int hex_width, hex_height;
 
   int normal_tile_width, normal_tile_height;
@@ -581,7 +583,7 @@ const char *tileset_get_name(const struct tileset *t)
 ****************************************************************************/
 bool tileset_is_isometric(const struct tileset *t)
 {
-  return t->is_isometric;
+  return t->type == TS_ISOMETRIC;
 }
 
 /****************************************************************************
@@ -1446,6 +1448,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   struct tileset *t = NULL;
   int ei1, ei2;
   const char *roadname;
+  const char *tstr;
 
   fname = tilespec_fullname(tileset_name);
   if (!fname) {
@@ -1478,10 +1481,23 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 
   sz_strlcpy(t->name, tileset_name);
   if (!secfile_lookup_int(file, &t->priority, "tilespec.priority")
-      || !secfile_lookup_bool(file, &t->is_isometric,
-                              "tilespec.is_isometric")
       || !secfile_lookup_bool(file, &is_hex, "tilespec.is_hex")) {
     log_error("Tileset \"%s\" invalid: %s", t->name, secfile_error());
+    goto ON_ERROR;
+  }
+
+  tstr = secfile_lookup_str(file, "tilespec.type");
+  if (tstr == NULL) {
+    log_error("Tileset \"%s\": no tileset type", t->name);
+    goto ON_ERROR;
+  }
+
+  if (!fc_strcasecmp(tstr, "overview")) {
+    t->type = TS_OVERVIEW;
+  } else if (!fc_strcasecmp(tstr, "isometric")) {
+    t->type = TS_ISOMETRIC;
+  } else {
+    log_error("Tileset \"%s\": unknown tileset type \"%s\"", t->name, tstr);
     goto ON_ERROR;
   }
 
@@ -1495,22 +1511,24 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
       goto ON_ERROR;
     }
 
-    if (t->is_isometric) {
+    if (t->type == TS_ISOMETRIC) {
       t->hex_height = hex_side;
     } else {
       t->hex_width = hex_side;
     }
     /* Hex tilesets are drawn the same as isometric. */
-    t->is_isometric = TRUE;
+    /* FIXME: There will be other legal values to be used with hex
+     * tileset in the future, and this would just overwrite it. */
+    t->type = TS_ISOMETRIC;
   }
 
-  if (t->is_isometric && !isometric_view_supported()) {
+  if (t->type == TS_ISOMETRIC && !isometric_view_supported()) {
     log_normal(_("Client does not support isometric tilesets."));
     log_normal(_("Using default tileset instead."));
     fc_assert(tileset_name != NULL);
     goto ON_ERROR;
   }
-  if (!t->is_isometric && !overhead_view_supported()) {
+  if (t->type == TS_OVERVIEW && !overhead_view_supported()) {
     log_normal(_("Client does not support overhead view tilesets."));
     log_normal(_("Using default tileset instead."));
     fc_assert(tileset_name != NULL);
@@ -1545,7 +1563,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     log_error("Tileset \"%s\" invalid: %s", t->name, secfile_error());
     goto ON_ERROR;
   }
-  if (t->is_isometric) {
+  if (t->type == TS_ISOMETRIC) {
     t->full_tile_width = t->normal_tile_width;
     t->full_tile_height = 3 * t->normal_tile_height / 2;
   } else {
@@ -1582,7 +1600,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   if (t->darkness_style < DARKNESS_NONE
       || t->darkness_style > DARKNESS_CORNER
       || (t->darkness_style == DARKNESS_ISORECT
-          && (!t->is_isometric || t->hex_width > 0 || t->hex_height > 0))) {
+          && (t->type == TS_OVERVIEW || t->hex_width > 0 || t->hex_height > 0))) {
     log_error("Invalid darkness style set in tileset \"%s\".", t->name);
     goto ON_ERROR;
   }
@@ -2292,7 +2310,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(arrow[ARROW_RIGHT], "s.right_arrow");
   SET_SPRITE(arrow[ARROW_PLUS], "s.plus");
   SET_SPRITE(arrow[ARROW_MINUS], "s.minus");
-  if (t->is_isometric) {
+  if (t->type == TS_ISOMETRIC) {
     SET_SPRITE(dither_tile, "t.dither_tile");
   }
 
@@ -3939,8 +3957,8 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
       int food = city_tile_output_now(pcity, ptile, O_FOOD);
       int shields = city_tile_output_now(pcity, ptile, O_SHIELD);
       int trade = city_tile_output_now(pcity, ptile, O_TRADE);
-      const int ox = t->is_isometric ? t->normal_tile_width / 3 : 0;
-      const int oy = t->is_isometric ? -t->normal_tile_height / 3 : 0;
+      const int ox = t->type == TS_ISOMETRIC ? t->normal_tile_width / 3 : 0;
+      const int oy = t->type == TS_ISOMETRIC ? -t->normal_tile_height / 3 : 0;
 
       food = CLIP(0, food, NUM_TILES_DIGITS - 1);
       shields = CLIP(0, shields, NUM_TILES_DIGITS - 1);
@@ -4148,8 +4166,8 @@ static int fill_terrain_sprite_array(struct tileset *t,
 	const int count = dlp->match_indices;
 	int array_index = 0;
 	enum direction8 dir = dir_ccw(DIR4_TO_DIR8[i]);
-	int x = (t->is_isometric ? iso_offsets[i][0] : noniso_offsets[i][0]);
-	int y = (t->is_isometric ? iso_offsets[i][1] : noniso_offsets[i][1]);
+	int x = (t->type == TS_ISOMETRIC ? iso_offsets[i][0] : noniso_offsets[i][0]);
+	int y = (t->type == TS_ISOMETRIC ? iso_offsets[i][1] : noniso_offsets[i][1]);
 	int m[3] = {MATCH(dir_ccw(dir)), MATCH(dir), MATCH(dir_cw(dir))};
 	struct sprite *s;
 
@@ -4707,7 +4725,7 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_GRID1:
-    if (t->is_isometric) {
+    if (t->type == TS_ISOMETRIC) {
       sprs += fill_grid_sprite_array(t, sprs, ptile, pedge, pcorner,
 				     punit, pcity, citymode);
     }
@@ -4724,16 +4742,16 @@ int fill_sprite_array(struct tileset *t,
       /* For iso-view the city.wall graphics include the full city, whereas
        * for non-iso view they are an overlay on top of the base city
        * graphic. */
-      if (!t->is_isometric || !pcity->client.walls) {
+      if (t->type == TS_OVERVIEW || !pcity->client.walls) {
 	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.tile, pcity));
       }
-      if (t->is_isometric && pcity->client.walls) {
+      if (t->type == TS_ISOMETRIC && pcity->client.walls) {
 	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.wall, pcity));
       }
       if (!draw_full_citybar && pcity->client.occupied) {
 	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.occupied, pcity));
       }
-      if (!t->is_isometric && pcity->client.walls) {
+      if (t->type == TS_OVERVIEW && pcity->client.walls) {
 	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.wall, pcity));
       }
       if (pcity->client.unhappy) {
@@ -4856,7 +4874,7 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_GRID2:
-    if (!t->is_isometric) {
+    if (t->type == TS_OVERVIEW) {
       sprs += fill_grid_sprite_array(t, sprs, ptile, pedge, pcorner,
 				     punit, pcity, citymode);
     }

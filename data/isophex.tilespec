@@ -18,9 +18,9 @@ small_tile_width   = 15
 small_tile_height  = 20
 
 ; Basic tile style.
+type = "overview"
 hex_side = 16
 is_hex = 1
-is_isometric = 0
 
 ; Use fogstyle 0 (old iso style)
 fogstyle = 0

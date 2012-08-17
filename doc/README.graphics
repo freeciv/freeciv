@@ -71,6 +71,9 @@ options include:
   ------------------------
   options               : A capability string, currently "+tilespec4"
   name                  : the name of the tileset
+  type                  : general type of tileset, different types have
+                          quite different format. Supported types are
+                          "overview" and "isometric"
   city_names_font       : an X font string
   city_productions_font : an X font string
   main_intro_file       : GFX file for the intro graphics
@@ -141,7 +144,6 @@ options include:
 
   Booleans (0 or 1)
   -----------------
-  is_isometric          : set to 1 for an iso-view tileset
   is_hex                : set to 1 for a hexagonal tileset. If is_isometric
                           is also specified then you have an iso-hex tileset.
                           Hex tilesets should be used with topologies 8-11 and

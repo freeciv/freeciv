@@ -18,8 +18,8 @@ small_tile_width   = 15
 small_tile_height  = 20
 
 ; Basic tile style.
+type = "isometric"
 is_hex = 0
-is_isometric = 1
 
 ; Do not blend hills and mountains together.
 is_mountainous = 0
