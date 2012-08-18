@@ -424,6 +424,11 @@ static void check_units(const char *file, const char *function, int line)
         /* Transporter capacity will be checked when transporter itself
          * is checked */
       }
+
+      /* Check that cargo is marked as transported with this unit */
+      unit_list_iterate(unit_transport_cargo(punit), pcargo) {
+        SANITY_CHECK(unit_transport_get(pcargo) == punit);
+      } unit_list_iterate_end;
     } unit_list_iterate_end;
   } players_iterate_end;
 }
