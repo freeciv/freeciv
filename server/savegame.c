@@ -3193,6 +3193,10 @@ static void player_load_vision(struct player *plr, int plrno,
       pdcity->unhappy = secfile_lookup_bool_default(file, FALSE,
                                       "player%d.dc%d.unhappy", plrno, i);
 
+      /* Old savegames never have real city image information, so set
+       * it to special value "server doesn't know" */
+      pdcity->city_image = -100;
+
       /* Initialise list of improvements */
       BV_CLR_ALL(pdcity->improvements);
 

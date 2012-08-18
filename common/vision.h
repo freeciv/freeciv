@@ -124,6 +124,7 @@ struct vision_site {
   bool walls;
   bool happy;
   bool unhappy;
+  int city_image;
 
   bv_imprs improvements;
 };

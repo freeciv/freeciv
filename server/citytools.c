@@ -1722,6 +1722,7 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
 
   packet->occupied = pdcity->occupied;
   packet->walls = pdcity->walls;
+  packet->city_image = pdcity->city_image;
 
   packet->happy = pdcity->happy;
   packet->unhappy = pdcity->unhappy;
@@ -2065,6 +2066,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->was_happy = pcity->was_happy;
 
   packet->walls = city_got_citywalls(pcity);
+  packet->city_image = get_city_bonus(pcity, EFT_CITY_IMAGE);
 
   BV_CLR_ALL(packet->improvements);
   improvement_iterate(pimprove) {
@@ -2089,12 +2091,13 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   bv_imprs improvements;
   struct tile *pcenter = city_tile(pcity);
   struct vision_site *pdcity = map_get_player_city(pcenter, pplayer);
-  /* pcity->occupied isn't used at the server, so we go straight to the
+  /* pcity->client.occupied isn't used at the server, so we go straight to the
    * unit list to check the occupied status. */
   bool occupied = (unit_list_size(pcenter->units) > 0);
   bool walls = city_got_citywalls(pcity);
   bool happy = city_happy(pcity);
   bool unhappy = city_unhappy(pcity);
+  int city_image = get_city_bonus(pcity, EFT_CITY_IMAGE);
 
   BV_CLR_ALL(improvements);
   improvement_iterate(pimprove) {
@@ -2121,6 +2124,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
 	  && pdcity->walls == walls
 	  && pdcity->happy == happy
 	  && pdcity->unhappy == unhappy
+          && pdcity->city_image == city_image
 	  && BV_ARE_EQUAL(pdcity->improvements, improvements)
           && vision_site_size_get(pdcity) == city_size_get(pcity)
 	  && vision_site_owner(pdcity) == city_owner(pcity)
@@ -2131,6 +2135,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   vision_site_update_from_city(pdcity, pcity);
   pdcity->occupied = occupied;
   pdcity->walls = walls;
+  pdcity->city_image = city_image;
   pdcity->happy = happy;
   pdcity->unhappy = unhappy;
   pdcity->improvements = improvements;

@@ -5639,6 +5639,8 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
                                               "%s.happy", citystr);
   pdcity->unhappy = secfile_lookup_bool_default(loading->file, FALSE,
                                                 "%s.unhappy", citystr);
+  pdcity->city_image = secfile_lookup_int_default(loading->file, -100,
+                                                  "%s.city_image", citystr);
 
   return TRUE;
 }
@@ -5789,6 +5791,7 @@ static void sg_save_player_vision(struct savedata *saving,
       secfile_insert_bool(saving->file, pdcity->walls, "%s.walls", buf);
       secfile_insert_bool(saving->file, pdcity->happy, "%s.happy", buf);
       secfile_insert_bool(saving->file, pdcity->unhappy, "%s.unhappy", buf);
+      secfile_insert_int(saving->file, pdcity->city_image, "%s.city_image", buf);
 
       /* Save improvement list as bitvector. Note that improvement order
        * is saved in savefile.improvement.order. */

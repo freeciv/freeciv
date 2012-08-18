@@ -401,6 +401,7 @@ struct city {
       bool walls;
       bool happy;
       bool unhappy;
+      int  city_image;
 
       /* The color is an index into the city_colors array in mapview_common */
       bool colored;

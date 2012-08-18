@@ -2181,7 +2181,15 @@ static struct sprite *get_city_sprite(const struct city_sprite *city_sprite,
   }
 
   /* Get the sprite with the index defined by the effects. */
-  img_index = get_city_bonus(pcity, EFT_CITY_IMAGE);
+  img_index = pcity->client.city_image;
+  if (img_index == -100) {
+    /* Server doesn't know right value as this is from old savegame.
+     * Guess here based on *client* side information as was done in
+     * versions where information was not saved to savegame - this should
+     * give us right answer of what city looked like by the time it was
+     * put under FoW. */
+    img_index = get_city_bonus(pcity, EFT_CITY_IMAGE);
+  }
   img_index = CLIP(0, img_index, num_thresholds - 1);
 
   return thresholds[img_index].sprite;
