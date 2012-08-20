@@ -1068,15 +1068,19 @@ static void build_road_callback(GtkAction *action, gpointer data)
     struct road_type *proad = next_road_for_tile(unit_tile(punit),
                                                  unit_owner(punit),
                                                  punit);
+    bool building_road = FALSE;
 
     if (proad != NULL) {
       struct act_tgt tgt = { .type = ATT_ROAD, .obj.road = road_number(proad) };
 
       if (can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, &tgt)) {
         request_new_unit_activity_road(punit, proad);
-      } else if (unit_can_est_trade_route_here(punit)) {
-        request_unit_caravan_action(punit, PACKET_UNIT_ESTABLISH_TRADE);
+        building_road = TRUE;
       }
+    }
+
+    if (!building_road && unit_can_est_trade_route_here(punit)) {
+      request_unit_caravan_action(punit, PACKET_UNIT_ESTABLISH_TRADE);
     }
   } unit_list_iterate_end;
 }
