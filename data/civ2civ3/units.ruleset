@@ -450,7 +450,7 @@ Workers are similar to Settlers in that they can improve terrain --\
 name          = _("Engineers")
 class         = "Small Land"
 tech_req      = "Explosives"
-obsolete_by   = "Geoengineers"
+obsolete_by   = "None"
 graphic       = "u.engineers"
 graphic_alt   = "-"
 sound_move    = "m_engineers"
@@ -471,44 +471,12 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
-flags         = "Settlers", "NonMil", "Airbase"
+flags         = "Settlers", "NonMil", "Airbase", "Transform"
 roles         = "Settlers"
 helptext      = _("\
 Engineers are similar to Workers, but they work twice as fast,\
  move twice as fast, and they may increase his veteran level\
  by performing useful work.\
-")
-
-[unit_geoengineers]
-name          = _("Geoengineers")
-class         = "Small Land"
-tech_req      = "Fusion Power"
-obsolete_by   = "None"
-graphic       = "u.geoengineers"
-graphic_alt   = "u.engineers"
-sound_move    = "m_engineers"
-sound_move_alt = "m_generic"
-sound_fight   = "f_engineers"
-sound_fight_alt = "f_generic"
-build_cost    = 40
-pop_cost      = 0
-attack        = 0
-defense       = 2
-hitpoints     = 20
-firepower     = 1
-move_rate     = 2
-vision_radius_sq = 2
-transport_cap = 0
-fuel          = 0
-uk_happy      = 0
-uk_shield     = 1
-uk_food       = 0
-uk_gold       = 1
-flags         = "Settlers", "NonMil", "Transform", "Airbase"
-roles         = "Settlers"
-helptext      = _("\
-Geoengineers are Engineers that can perform major terrain\
- transformations (for example, converting Ocean into Swamp).\
 ")
 
 [unit_warriors]

@@ -1,6 +1,6 @@
 
 ==========================================================
-Civ2Civ3 Ruleset for Freeciv v2.5 (Updated 2012/7/4)
+Civ2Civ3 Ruleset for Freeciv v2.5 (Updated 09-Aug-2012)
 ==========================================================
 by David Fernandez, aka Bardo
 
@@ -212,7 +212,7 @@ Now AI aims to Monarchy or Republic, then to Magnetism* or Gunpowder with simila
 - Bridge Building merged to old Engineering in the tech tree. Added modern "Engineering" in the Industrial Ages that allows Destroyers (was Electricity) and Transports (was Industrialization), and it is required for Steel (Cruiser), Amphibious Warfare (Ports), and Combustion (Submarines).
 - Battleship available with Mass Production instead of Automobile. Mfg Plant available with Plastics (was Robotics).
 - Nuclear Fission requires Refrigeration, in order to delay the Atomic age, and to force the AI to research farms. Communism requires Theology (Fundamentalism) instead of Philosophy, to encourage AI to research all governments.
-- Fusion Power enables new unit, Geoengineers, to perform terrain transformations, that were simplified so there is no need to chain more than one transformation in the same terrain.
+- Fusion Power enables Engineers to perform terrain transformations, that were simplified so there is no need to chain more than one transformation in the same terrain.
 
 Special effects:
 - Astronomy: Increases units vision when in fortresses.
