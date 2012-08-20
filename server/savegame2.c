@@ -639,6 +639,10 @@ static void savegame2_save_real(struct section_file *file,
   saving = savedata_new(file, save_reason, scenario, version);
   sg_success = TRUE;
 
+  /* [scenario] */
+  /* This should be first section so scanning through all scenarios just for
+   * names and descriptions would go faster. */
+  sg_save_scenario(saving);
   /* [savefile] */
   sg_save_savefile(saving);
   /* [game] */
@@ -647,8 +651,6 @@ static void savegame2_save_real(struct section_file *file,
   sg_save_random(saving);
   /* [script] */
   sg_save_script(saving);
-  /* [scenario] */
-  sg_save_scenario(saving);
   /* [settings] */
   sg_save_settings(saving);
   /* [map] */
