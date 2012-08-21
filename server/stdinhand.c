@@ -747,6 +747,25 @@ static bool save_command(struct connection *caller, char *arg, bool check)
 }
 
 /**************************************************************************
+  For command "scensave foo";
+  Save the game, with filename=arg, provided server state is ok.
+**************************************************************************/
+#ifdef DEBUG
+static bool scensave_command(struct connection *caller, char *arg, bool check)
+{
+  if (is_restricted(caller)) {
+    cmd_reply(CMD_SAVE, caller, C_FAIL,
+              _("You cannot save games manually on this server."));
+    return FALSE;
+  }
+  if (!check) {
+    save_game(arg, "Scenario", TRUE);
+  }
+  return TRUE;
+}
+#endif /* DEBUG */
+
+/**************************************************************************
   Handle ai player ai toggling.
 **************************************************************************/
 void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
@@ -4251,7 +4270,11 @@ static bool handle_stdin_input_real(struct connection *caller,
   case CMD_REMOVE:
     return remove_player_command(caller, arg, check);
   case CMD_SAVE:
-    return save_command(caller,arg, check);
+    return save_command(caller, arg, check);
+#ifdef DEBUG
+  case CMD_SCENSAVE:
+    return scensave_command(caller, arg, check);
+#endif
   case CMD_LOAD:
     return load_command(caller, arg, check);
   case CMD_METAPATCHES:

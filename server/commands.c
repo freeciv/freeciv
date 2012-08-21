@@ -542,6 +542,21 @@ static struct command commands[] = {
       "and use the 'start' command once players have reconnected."), NULL,
    CMD_ECHO_ADMINS, VCF_NONE, 0
   },
+#ifdef DEBUG
+  {"scensave",	ALLOW_ADMIN,
+   /* TRANS: translate text between <> only */
+   N_("scensave\n"
+      "scensave <file-name>"),
+   N_("Save game to file as scenario."),
+   N_("Save the current game to file <file-name> as scenario. If no file-name "
+      "argument is given saves to \"<auto-save name prefix><year>m.sav[.gz]\". "
+      "To reload a savegame created by 'scensave', start the server with "
+      "the command-line argument:\n"
+      "    '--file <filename>' or '-f <filename>'\n"
+      "and use the 'start' command once players have reconnected."), NULL,
+   CMD_ECHO_ADMINS, VCF_NONE, 0
+  },
+#endif /* DEBUG */
   {"load",      ALLOW_CTRL,
    /* TRANS: translate text between <> only */
    N_("load\n"

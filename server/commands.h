@@ -80,6 +80,9 @@ enum command_id {
   CMD_SURRENDER, /* not really harmful, info level */
   CMD_REMOVE,
   CMD_SAVE,
+#ifdef DEBUG
+  CMD_SCENSAVE,
+#endif
   CMD_LOAD,
   CMD_READ_SCRIPT,
   CMD_WRITE_SCRIPT,
