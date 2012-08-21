@@ -25,6 +25,9 @@ Gameplay more similar to civ3, keeping the combat system from civ2.\
 \n\n\
 Adapted for single player, with AI less aggressive at start,\
  but more challenging at the end.\
+\n\n\
+Detailed description of the differences from the classic ruleset can be \
+found in README.ruleset_civ2civ3.\
 ")
 
 [options]
