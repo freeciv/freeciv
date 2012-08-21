@@ -198,7 +198,7 @@ enum celebration {
   At the end the remaining is divided on science/gold/luxury depending on the
   AI settings.
 *****************************************************************************/
-static void dai_manage_taxes(struct player *pplayer)
+static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
 {
   int maxrate = (ai_handicap(pplayer, H_RATES)
                  ? get_player_bonus(pplayer, EFT_MAX_RATES) : 100);
@@ -460,7 +460,7 @@ static void dai_manage_taxes(struct player *pplayer)
     /* Check if we celebrate - the city state must be restored at the end! */
     city_list_iterate(pplayer->cities, pcity) {
       struct cm_result *cmr = cm_result_new(pcity);
-      struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
+      struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
       cm_clear_cache(pcity);
       cm_query_result(pcity, &cmp, cmr); /* burn some CPU */
@@ -562,7 +562,7 @@ static void dai_manage_taxes(struct player *pplayer)
                rates[AI_RATE_LUX], rates[AI_RATE_TAX]);
     } else {
       /* We need more trade to get a positive gold and science balance. */
-      if (!adv_wants_science(pplayer) || dai_on_war_footing(pplayer)) {
+      if (!adv_wants_science(pplayer) || dai_on_war_footing(ait, pplayer)) {
         /* Go for gold (improvements and units) and risk the loss of a
          * tech. */
         rates[AI_RATE_TAX] = maxrate;
@@ -586,7 +586,7 @@ static void dai_manage_taxes(struct player *pplayer)
   }
 
   /* Put the remaining to tax or science. */
-  if (!adv_wants_science(pplayer) || dai_on_war_footing(pplayer)) {
+  if (!adv_wants_science(pplayer) || dai_on_war_footing(ait, pplayer)) {
     rates[AI_RATE_TAX] = MIN(maxrate, rates[AI_RATE_TAX]
                                       + RATE_REMAINS(rates));
     rates[AI_RATE_LUX] = MIN(maxrate, rates[AI_RATE_LUX]
@@ -632,7 +632,7 @@ static void dai_manage_taxes(struct player *pplayer)
     city_list_iterate(pplayer->cities, pcity) {
       struct cm_result *cmr = cm_result_new(pcity);
 
-      if (def_ai_city_data(pcity, default_ai_get_self())->celebrate == TRUE) {
+      if (def_ai_city_data(pcity, ait)->celebrate == TRUE) {
         log_base(LOGLEVEL_TAX, "setting %s to celebrate", city_name(pcity));
         cm_query_result(pcity, &cmp, cmr);
         if (cmr->found_a_valid) {
@@ -721,7 +721,7 @@ void dai_do_first_activities(struct ai_type *ait, struct player *pplayer)
    * to eliminate the source of danger */
 
   TIMING_LOG(AIT_UNITS, TIMER_START);
-  dai_manage_units(pplayer); 
+  dai_manage_units(ait, pplayer);
   TIMING_LOG(AIT_UNITS, TIMER_STOP);
   /* STOP.  Everything else is at end of turn. */
 
@@ -744,10 +744,10 @@ void dai_do_last_activities(struct ai_type *ait, struct player *pplayer)
 
   dai_manage_government(pplayer);
   TIMING_LOG(AIT_TAXES, TIMER_START);
-  dai_manage_taxes(pplayer);
+  dai_manage_taxes(ait, pplayer);
   TIMING_LOG(AIT_TAXES, TIMER_STOP);
   TIMING_LOG(AIT_CITIES, TIMER_START);
-  dai_manage_cities(pplayer);
+  dai_manage_cities(ait, pplayer);
   TIMING_LOG(AIT_CITIES, TIMER_STOP);
   TIMING_LOG(AIT_TECH, TIMER_START);
   dai_manage_tech(pplayer); 

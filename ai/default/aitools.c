@@ -159,7 +159,7 @@ void dai_consider_plr_dangerous(struct ai_type *ait, struct player *plr1,
 {
   struct ai_dip_intel *adip;
 
-  adip = dai_diplomacy_get(plr1, plr2);
+  adip = dai_diplomacy_get(ait, plr1, plr2);
 
   if (adip->countdown >= 0) {
     /* Don't trust our war target */
@@ -172,7 +172,8 @@ void dai_consider_plr_dangerous(struct ai_type *ait, struct player *plr1,
   be facing at our destination and tries to find/request a bodyguard if 
   needed.
 ****************************************************************************/
-static void dai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
+static void dai_gothere_bodyguard(struct ai_type *ait,
+                                  struct unit *punit, struct tile *dest_tile)
 {
   struct player *pplayer = unit_owner(punit);
   unsigned int danger = 0;
@@ -188,12 +189,12 @@ static void dai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
 
   /* Estimate enemy attack power. */
   unit_list_iterate(dest_tile->units, aunit) {
-    if (HOSTILE_PLAYER(pplayer, unit_owner(aunit))) {
+    if (HOSTILE_PLAYER(ait, pplayer, unit_owner(aunit))) {
       danger += adv_unit_att_rating(aunit);
     }
   } unit_list_iterate_end;
   dcity = tile_city(dest_tile);
-  if (dcity && HOSTILE_PLAYER(pplayer, city_owner(dcity))) {
+  if (dcity && HOSTILE_PLAYER(ait, pplayer, city_owner(dcity))) {
     /* Assume enemy will build another defender, add it's attack strength */
     struct unit_type *d_type = dai_choose_defender_versus(dcity, punit);
 
@@ -245,8 +246,8 @@ static void dai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
   TODO: A big one is rendezvous points.  When this is implemented, we won't
   have to be at the coast to ask for a boat to come to us.
 ****************************************************************************/
-bool dai_gothere(struct player *pplayer, struct unit *punit,
-                 struct tile *dest_tile)
+bool dai_gothere(struct ai_type *ait, struct player *pplayer,
+                 struct unit *punit, struct tile *dest_tile)
 {
   CHECK_UNIT(punit);
 
@@ -257,22 +258,22 @@ bool dai_gothere(struct player *pplayer, struct unit *punit,
 
   /* See if we need a bodyguard at our destination */
   /* FIXME: If bodyguard is _really_ necessary, don't go anywhere */
-  dai_gothere_bodyguard(punit, dest_tile);
+  dai_gothere_bodyguard(ait, punit, dest_tile);
 
   if (unit_transported(punit)
-      || !goto_is_sane(punit, dest_tile, TRUE)) {
+      || !goto_is_sane(ait, punit, dest_tile, TRUE)) {
     /* Must go by boat, call an aiferryboat function */
-    if (!aiferry_gobyboat(pplayer, punit, dest_tile)) {
+    if (!aiferry_gobyboat(ait, pplayer, punit, dest_tile)) {
       return FALSE;
     }
   }
 
   /* Go where we should be going if we can, and are at our destination 
    * if we are on a ferry */
-  if (goto_is_sane(punit, dest_tile, TRUE) && punit->moves_left > 0) {
+  if (goto_is_sane(ait, punit, dest_tile, TRUE) && punit->moves_left > 0) {
     punit->goto_tile = dest_tile;
     UNIT_LOG(LOGLEVEL_GOTHERE, punit, "Walking to (%d,%d)", TILE_XY(dest_tile));
-    if (!dai_unit_goto(punit, dest_tile)) {
+    if (!dai_unit_goto(ait, punit, dest_tile)) {
       /* died */
       return FALSE;
     }
@@ -285,7 +286,7 @@ bool dai_gothere(struct player *pplayer, struct unit *punit,
   if (def_ai_unit_data(punit, default_ai_get_self())->ferryboat > 0
       && !unit_transported(punit)) {
     /* We probably just landed, release our boat */
-    aiferry_clear_boat(punit);
+    aiferry_clear_boat(ait, punit);
   }
   
   /* Dead unit shouldn't reach this point */
@@ -372,7 +373,8 @@ void dai_log_path(struct unit *punit,
   as far along the computed path is it can; the movement code will impose
   all the real constraints (ZoC, etc).
 **************************************************************************/
-bool dai_unit_goto_constrained(struct unit *punit, struct tile *ptile,
+bool dai_unit_goto_constrained(struct ai_type *ait, struct unit *punit,
+                               struct tile *ptile,
                                struct pf_parameter *parameter)
 {
   bool alive = TRUE;
@@ -392,7 +394,7 @@ bool dai_unit_goto_constrained(struct unit *punit, struct tile *ptile,
     UNIT_LOG(LOG_DEBUG, punit, "constrained goto: already there!");
     send_unit_info(NULL, punit);
     return TRUE;
-  } else if (!goto_is_sane(punit, ptile, FALSE)) {
+  } else if (!goto_is_sane(ait, punit, ptile, FALSE)) {
     UNIT_LOG(LOG_DEBUG, punit, "constrained goto: 'insane' goto!");
     punit->activity = ACTIVITY_IDLE;
     send_unit_info(NULL, punit);
@@ -424,7 +426,8 @@ bool dai_unit_goto_constrained(struct unit *punit, struct tile *ptile,
   Basic checks as to whether a GOTO is possible. The target 'ptile' should
   be on the same continent as punit is, up to embarkation/disembarkation.
 ****************************************************************************/
-bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
+bool goto_is_sane(struct ai_type *ait, struct unit *punit,
+                  struct tile *ptile, bool omni)
 {
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(ptile);
@@ -483,7 +486,7 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
       } adjc_iterate_end;
     }
     if (is_ocean_tile(ptile)) {
-      if (dai_channel(pplayer, target_cont, my_cont)) {
+      if (dai_channel(ait, pplayer, target_cont, my_cont)) {
         return TRUE; /* Ocean -> Ocean travel ok. */
       }
     } else if ((pcity && pplayers_allied(city_owner(pcity), pplayer))
@@ -493,7 +496,7 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
        * good ocean adjacent */
       adjc_iterate(ptile, tmp_tile) {
         if (is_ocean_tile(tmp_tile)
-            && dai_channel(pplayer, my_cont, tile_continent(tmp_tile))) {
+            && dai_channel(ait, pplayer, my_cont, tile_continent(tmp_tile))) {
           return TRUE;
         }
       } adjc_iterate_end;
@@ -676,14 +679,15 @@ void dai_fill_unit_param(struct pf_parameter *parameter,
   Go to specified destination but do not disturb existing role or activity
   and do not clear the role's destination. Return FALSE iff we died.
 **************************************************************************/
-bool dai_unit_goto(struct unit *punit, struct tile *ptile)
+bool dai_unit_goto(struct ai_type *ait, struct unit *punit, struct tile *ptile)
 {
   struct pf_parameter parameter;
   struct adv_risk_cost risk_cost;
 
   UNIT_LOG(LOG_DEBUG, punit, "ai_unit_goto to %d,%d", TILE_XY(ptile));
   dai_fill_unit_param(&parameter, &risk_cost, punit, ptile);
-  return dai_unit_goto_constrained(punit, ptile, &parameter);
+
+  return dai_unit_goto_constrained(ait, punit, ptile, &parameter);
 }
 
 /**************************************************************************
@@ -695,13 +699,13 @@ void dai_unit_new_adv_task(struct ai_type *ait, struct unit *punit,
   /* Keep ai_unit_task in sync with adv task */
   switch(task) {
    case AUT_AUTO_SETTLER:
-     dai_unit_new_task(punit, AIUNIT_AUTO_SETTLER, ptile);
+     dai_unit_new_task(ait, punit, AIUNIT_AUTO_SETTLER, ptile);
      break;
    case AUT_BUILD_CITY:
-     dai_unit_new_task(punit, AIUNIT_BUILD_CITY, ptile);
+     dai_unit_new_task(ait, punit, AIUNIT_BUILD_CITY, ptile);
      break;
    case AUT_NONE:
-     dai_unit_new_task(punit, AIUNIT_NONE, ptile);
+     dai_unit_new_task(ait, punit, AIUNIT_NONE, ptile);
      break;
   }
 }
@@ -713,8 +717,8 @@ void dai_unit_new_adv_task(struct ai_type *ait, struct unit *punit,
   reserve its target, and try to load it with cruise missiles or nukes
   to bring along.
 **************************************************************************/
-void dai_unit_new_task(struct unit *punit, enum ai_unit_task task,
-                       struct tile *ptile)
+void dai_unit_new_task(struct ai_type *ait, struct unit *punit,
+                       enum ai_unit_task task, struct tile *ptile)
 {
   struct unit *bodyguard = aiguard_guard_of(punit);
   struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
@@ -729,7 +733,7 @@ void dai_unit_new_task(struct unit *punit, enum ai_unit_task task,
 
   /* Free our ferry.  Most likely it has been done already. */
   if (task == AIUNIT_NONE || task == AIUNIT_DEFEND_HOME) {
-    aiferry_clear_boat(punit);
+    aiferry_clear_boat(ait, punit);
   }
 
   if (punit->activity == ACTIVITY_GOTO) {
@@ -774,7 +778,7 @@ void dai_unit_new_task(struct unit *punit, enum ai_unit_task task,
   punit->goto_tile = ptile; /* May be NULL. */
 
   if (unit_data->task == AIUNIT_NONE && bodyguard) {
-    dai_unit_new_task(bodyguard, AIUNIT_NONE, NULL);
+    dai_unit_new_task(ait, bodyguard, AIUNIT_NONE, NULL);
   }
 
   /* Reserve city spot, _unless_ we want to add ourselves to a city. */
@@ -798,7 +802,7 @@ void dai_unit_new_task(struct unit *punit, enum ai_unit_task task,
           && uclass_has_flag(unit_class(missile), UCF_MISSILE)
           && can_unit_load(missile, punit)) {
         UNIT_LOG(LOGLEVEL_HUNT, missile, "loaded on hunter");
-        dai_unit_new_task(missile, AIUNIT_ESCORT, unit_tile(target));
+        dai_unit_new_task(ait, missile, AIUNIT_ESCORT, unit_tile(target));
         unit_transport_load_send(missile, punit);
       }
     } unit_list_iterate_end;

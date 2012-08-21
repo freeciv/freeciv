@@ -66,7 +66,7 @@ struct ai_city {
   int settler_want;
 };
 
-void dai_manage_cities(struct player *pplayer);
+void dai_manage_cities(struct ai_type *ait, struct player *pplayer);
 
 void dai_city_alloc(struct ai_type *ait, struct city *pcity);
 void dai_city_free(struct ai_type *ait, struct city *pcity);
@@ -77,13 +77,15 @@ void dai_city_save(struct ai_type *ait, struct section_file *file,
 void dai_city_load(struct ai_type *ait, const struct section_file *file,
                    struct city *pcity, const char *citystr);
 
-void want_techs_for_improvement_effect(struct player *pplayer,
+void want_techs_for_improvement_effect(struct ai_type *ait,
+                                       struct player *pplayer,
                                        const struct city *pcity,
                                        const struct impr_type *pimprove,
                                        struct tech_vector *needed_techs,
                                        int building_want);
 
-void dont_want_tech_obsoleting_impr(struct player *pplayer,
+void dont_want_tech_obsoleting_impr(struct ai_type *ait,
+                                    struct player *pplayer,
                                     const struct city *pcity,
                                     const struct impr_type *pimprove,
                                     int building_want);

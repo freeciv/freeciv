@@ -80,13 +80,18 @@
 #define LOG_CARAVAN       LOG_DEBUG
 #define LOG_CARAVAN2      LOG_DEBUG
 
-static void dai_manage_caravan(struct player *pplayer, struct unit *punit);
-static void dai_manage_barbarian_leader(struct player *pplayer,
+static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
+                               struct unit *punit);
+static void dai_manage_barbarian_leader(struct ai_type *ait,
+                                        struct player *pplayer,
                                         struct unit *leader);
 
-static void dai_military_findjob(struct player *pplayer,struct unit *punit);
-static void dai_military_defend(struct player *pplayer,struct unit *punit);
-static void dai_military_attack(struct player *pplayer,struct unit *punit);
+static void dai_military_findjob(struct ai_type *ait,
+                                 struct player *pplayer,struct unit *punit);
+static void dai_military_defend(struct ai_type *ait, struct player *pplayer,
+                                struct unit *punit);
+static void dai_military_attack(struct ai_type *ait, struct player *pplayer,
+                                struct unit *punit);
 
 static bool unit_role_defender(const struct unit_type *punittype);
 static int unit_def_rating_sq(const struct unit *punit,
@@ -584,7 +589,8 @@ bool dai_military_rampage(struct unit *punit, int thresh_adj,
   If we are not covering our charge's ass, go do it now. Also check if we
   can kick some ass, which is always nice.
 **************************************************************************/
-static void dai_military_bodyguard(struct player *pplayer, struct unit *punit)
+static void dai_military_bodyguard(struct ai_type *ait, struct player *pplayer,
+                                   struct unit *punit)
 {
   struct unit *aunit = aiguard_charge_unit(punit);
   struct city *acity = aiguard_charge_city(punit);
@@ -609,22 +615,22 @@ static void dai_military_bodyguard(struct player *pplayer, struct unit *punit)
   } else {
     /* should be impossible */
     BODYGUARD_LOG(LOG_DEBUG, punit, "we lost our charge");
-    dai_unit_new_task(punit, AIUNIT_NONE, NULL);
+    dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
     return;
   }
 
   if (same_pos(unit_tile(punit), ptile)) {
     BODYGUARD_LOG(LOG_DEBUG, punit, "at RV");
   } else {
-    if (goto_is_sane(punit, ptile, TRUE)) {
+    if (goto_is_sane(ait, punit, ptile, TRUE)) {
       BODYGUARD_LOG(LOG_DEBUG, punit, "meeting charge");
-      if (!dai_gothere(pplayer, punit, ptile)) {
+      if (!dai_gothere(ait, pplayer, punit, ptile)) {
         /* We died */
         return;
       }
     } else {
       BODYGUARD_LOG(LOG_DEBUG, punit, "can not meet charge");
-      dai_unit_new_task(punit, AIUNIT_NONE, NULL);
+      dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
     }
   }
   /* We might have stopped because of an enemy nearby.
@@ -657,7 +663,8 @@ static bool unit_role_defender(const struct unit_type *punittype)
   bodyguard units with higher defence than us, or military units with higher
   attack than us.
 ****************************************************************************/
-int look_for_charge(struct player *pplayer, struct unit *punit,
+int look_for_charge(struct ai_type *ait, struct player *pplayer,
+                    struct unit *punit,
                     struct unit **aunit, struct city **acity)
 {
   struct pf_parameter parameter;
@@ -737,7 +744,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
          * Resuming pf_map_move_costs_iterate()... */
         continue;
       }
-      def = (data->danger - assess_defense_quadratic(pcity));
+      def = (data->danger - assess_defense_quadratic(ait, pcity));
       if (def <= 0) {
         continue;
       }
@@ -771,7 +778,8 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
 /********************************************************************** 
   See if we have a specific job for the unit.
 ***********************************************************************/
-static void dai_military_findjob(struct player *pplayer, struct unit *punit)
+static void dai_military_findjob(struct ai_type *ait,
+                                 struct player *pplayer, struct unit *punit)
 {
   struct unit_type *punittype = unit_type(punit);
   struct unit_ai *unit_data;
@@ -785,7 +793,7 @@ static void dai_military_findjob(struct player *pplayer, struct unit *punit)
       /* land barbarians pillage */
       unit_activity_handling(punit, ACTIVITY_PILLAGE);
     }
-    dai_unit_new_task(punit, AIUNIT_NONE, NULL);
+    dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
     return;
   }
 
@@ -812,10 +820,10 @@ static void dai_military_findjob(struct player *pplayer, struct unit *punit)
          && adv_unit_def_rating_basic(punit) > adv_unit_def_rating_basic(aunit)) 
         || (acity && city_owner(acity) == unit_owner(punit)
             && city_data->urgency != 0 
-            && city_data->danger > assess_defense_quadratic(acity))) {
+            && city_data->danger > assess_defense_quadratic(ait, acity))) {
       return; /* Yep! */
     } else {
-      dai_unit_new_task(punit, AIUNIT_NONE, NULL); /* Nope! */
+      dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL); /* Nope! */
     }
   }
 
@@ -824,7 +832,7 @@ static void dai_military_findjob(struct player *pplayer, struct unit *punit)
        && punit->hp < punittype->hp)
       || punit->hp < punittype->hp * 0.25) { /* WAG */
     UNIT_LOG(LOGLEVEL_RECOVERY, punit, "set to hp recovery");
-    dai_unit_new_task(punit, AIUNIT_RECOVER, NULL);
+    dai_unit_new_task(ait, punit, AIUNIT_RECOVER, NULL);
     return;
   }
 
@@ -836,13 +844,13 @@ static void dai_military_findjob(struct player *pplayer, struct unit *punit)
     struct city *acity;
     struct unit *aunit;
 
-    look_for_charge(pplayer, punit, &aunit, &acity);
+    look_for_charge(ait, pplayer, punit, &aunit, &acity);
     if (acity) {
-      dai_unit_new_task(punit, AIUNIT_ESCORT, acity->tile);
+      dai_unit_new_task(ait, punit, AIUNIT_ESCORT, acity->tile);
       aiguard_assign_guard_city(acity, punit);
       BODYGUARD_LOG(LOG_DEBUG, punit, "going to defend city");
     } else if (aunit) {
-      dai_unit_new_task(punit, AIUNIT_ESCORT, unit_tile(aunit));
+      dai_unit_new_task(ait, punit, AIUNIT_ESCORT, unit_tile(aunit));
       aiguard_assign_guard_unit(aunit, punit);
       BODYGUARD_LOG(LOG_DEBUG, punit, "going to defend unit");
     }
@@ -859,7 +867,8 @@ static void dai_military_findjob(struct player *pplayer, struct unit *punit)
   TODO: Add make homecity.
   TODO: Add better selection of city to defend.
 ***********************************************************************/
-static void dai_military_defend(struct player *pplayer,struct unit *punit)
+static void dai_military_defend(struct ai_type *ait, struct player *pplayer,
+                                struct unit *punit)
 {
   struct city *pcity = aiguard_charge_city(punit);
 
@@ -890,9 +899,9 @@ static void dai_military_defend(struct player *pplayer,struct unit *punit)
       UNIT_LOG(LOG_DEBUG, punit, "go to defend %s", city_name(pcity));
       if (same_pos(unit_tile(punit), pcity->tile)) {
         UNIT_LOG(LOG_DEBUG, punit, "go defend successful");
-        def_ai_unit_data(punit, default_ai_get_self())->done = TRUE;
+        def_ai_unit_data(punit, ait)->done = TRUE;
       } else {
-        (void) dai_gothere(pplayer, punit, pcity->tile);
+        (void) dai_gothere(ait, pplayer, punit, pcity->tile);
       }
     } else {
       UNIT_LOG(LOG_VERBOSE, punit, "defending nothing...?");
@@ -910,8 +919,8 @@ static void dai_military_defend(struct player *pplayer,struct unit *punit)
 
   If dest == TRUE then a valid goto is presumed.
 **************************************************************************/
-static void invasion_funct(struct unit *punit, bool dest, int radius,
-			   int which)
+static void invasion_funct(struct ai_type *ait, struct unit *punit,
+                           bool dest, int radius, int which)
 {
   struct tile *ptile;
   struct player *pplayer = unit_owner(punit);
@@ -928,7 +937,7 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
     struct city *pcity = tile_city(tile1);
 
     if (pcity
-        && HOSTILE_PLAYER(pplayer, city_owner(pcity))
+        && HOSTILE_PLAYER(ait, pplayer, city_owner(pcity))
 	&& (dest || !has_defense(pcity))) {
       int attacks;
       struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
@@ -1017,7 +1026,8 @@ bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
 
   punit->id == 0 means that the unit is virtual (considered to be built).
 ****************************************************************************/
-int find_something_to_kill(struct player *pplayer, struct unit *punit,
+int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
+                           struct unit *punit,
                            struct tile **pdest_tile, struct pf_path **ppath,
                            struct pf_map **pferrymap,
                            struct unit **pferryboat,
@@ -1093,7 +1103,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   /* Reset enemy cities data. */
   players_iterate(aplayer) {
     /* See comment below in next usage of HOSTILE_PLAYER. */
-    if ((punit->id == 0 && !HOSTILE_PLAYER(pplayer, aplayer))
+    if ((punit->id == 0 && !HOSTILE_PLAYER(ait, pplayer, aplayer))
         || (punit->id != 0 && !pplayers_at_war(pplayer, aplayer))) {
       continue;
     }
@@ -1118,7 +1128,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     /* dealing with invasion stuff */
     if (IS_ATTACKER(aunit)) {
       if (aunit->activity == ACTIVITY_GOTO) {
-        invasion_funct(aunit, TRUE, 0,
+        invasion_funct(ait, aunit, TRUE, 0,
                        (unit_can_take_over(aunit)
                         ? INVASION_OCCUPY : INVASION_ATTACK));
         if ((pcity = tile_city(aunit->goto_tile))) {
@@ -1128,16 +1138,16 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
           city_data->bcost += unit_build_shield_cost(aunit);
         } 
       }
-      invasion_funct(aunit, FALSE, unit_move_rate(aunit) / SINGLE_MOVE,
+      invasion_funct(ait, aunit, FALSE, unit_move_rate(aunit) / SINGLE_MOVE,
                      (unit_can_take_over(aunit)
                       ? INVASION_OCCUPY : INVASION_ATTACK));
     } else if (def_ai_unit_data(aunit, default_ai_get_self())->passenger != 0
                && !same_pos(unit_tile(aunit), unit_tile(punit))) {
       /* It's a transport with reinforcements */
       if (aunit->activity == ACTIVITY_GOTO) {
-        invasion_funct(aunit, TRUE, 1, INVASION_OCCUPY);
+        invasion_funct(ait, aunit, TRUE, 1, INVASION_OCCUPY);
       }
-      invasion_funct(aunit, FALSE, 2, INVASION_OCCUPY);
+      invasion_funct(ait, aunit, FALSE, 2, INVASION_OCCUPY);
     }
   } unit_list_iterate_end;
   /* end horrible initialization subroutine */
@@ -1168,7 +1178,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     ferryboat = unit_transport_get(punit);
 
     /* First check if we can use the boat we are currently loaded to. */
-    if (ferryboat == NULL || !is_boat_free(ferryboat, punit, 0)) {
+    if (ferryboat == NULL || !is_boat_free(ait, ferryboat, punit, 0)) {
       /* No, we cannot control current boat */
       ferryboat = NULL;
     }
@@ -1176,7 +1186,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     if (NULL == ferryboat) {
       /* Try to find new boat */
       ferryboat = player_unit_by_number(pplayer,
-                                        aiferry_find_boat(punit, 1, NULL));
+                                        aiferry_find_boat(ait, punit, 1, NULL));
     }
 
     if (0 == punit->id && is_terrain_class_near_tile(punit_tile, TC_OCEAN)) {
@@ -1209,7 +1219,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
      * which units to build, we want to calculate in danger and which
      * players we want to make war with in the future. We do _not_ want
      * to do this when actually making attacks. */
-    if ((punit->id == 0 && !HOSTILE_PLAYER(pplayer, aplayer))
+    if ((punit->id == 0 && !HOSTILE_PLAYER(ait, pplayer, aplayer))
         || (punit->id != 0 && !pplayers_at_war(pplayer, aplayer))) {
       continue; /* Not an enemy. */
     }
@@ -1553,7 +1563,8 @@ struct city *find_nearest_safe_city(struct unit *punit)
   TODO: Is it not possible to remove this special casing for barbarians?
   FIXME: enum unit_move_result
 **************************************************************************/
-static void dai_military_attack_barbarian(struct player *pplayer,
+static void dai_military_attack_barbarian(struct ai_type *ait,
+                                          struct player *pplayer,
                                           struct unit *punit)
 {
   struct city *pc;
@@ -1570,7 +1581,7 @@ static void dai_military_attack_barbarian(struct player *pplayer,
     if (can_unit_exist_at_tile(punit, unit_tile(punit))) {
       UNIT_LOG(LOG_DEBUG, punit, "Barbarian heading to conquer %s",
                city_name(pc));
-      (void) dai_gothere(pplayer, punit, pc->tile);
+      (void) dai_gothere(ait, pplayer, punit, pc->tile);
     } else {
       struct unit *ferry = NULL;
 
@@ -1579,14 +1590,14 @@ static void dai_military_attack_barbarian(struct player *pplayer,
 
         /* We already are in a boat so it needs no
          * free capacity */
-        if (!is_boat_free(ferry, punit, 0)) {
+        if (!is_boat_free(ait, ferry, punit, 0)) {
           /* We cannot control our ferry. */
           ferry = NULL;
         }
       } else {
         /* We are not in a boat yet. Search for one. */
         unit_list_iterate(unit_tile(punit)->units, aunit) {
-          if (is_boat_free(aunit, punit, 1)
+          if (is_boat_free(ait, aunit, punit, 1)
               && unit_transport_load(punit, aunit, FALSE)) {
             ferry = aunit;
             break;
@@ -1597,7 +1608,7 @@ static void dai_military_attack_barbarian(struct player *pplayer,
       if (ferry) {
 	UNIT_LOG(LOG_DEBUG, punit, "Barbarian sailing to conquer %s",
 		 city_name(pc));
-	(void)aiferry_goto_amphibious(ferry, punit, pc->tile);
+	(void) aiferry_goto_amphibious(ait, ferry, punit, pc->tile);
       } else {
         /* This is not an error. Somebody else might be in charge
          * of the ferry. */
@@ -1615,7 +1626,8 @@ static void dai_military_attack_barbarian(struct player *pplayer,
   looking for trouble elsewhere. If there is nothing to kill, sailing units 
   go home, others explore while barbs go berserk.
 **************************************************************************/
-static void dai_military_attack(struct player *pplayer, struct unit *punit)
+static void dai_military_attack(struct ai_type *ait, struct player *pplayer,
+                                struct unit *punit)
 {
   struct tile *dest_tile;
   int id = punit->id;
@@ -1646,7 +1658,7 @@ static void dai_military_attack(struct player *pplayer, struct unit *punit)
     struct unit *ferryboat;
 
     /* Then find enemies the hard way */
-    find_something_to_kill(pplayer, punit, &dest_tile, &path,
+    find_something_to_kill(ait, pplayer, punit, &dest_tile, &path,
                            NULL, &ferryboat, NULL, NULL);
     if (!same_pos(unit_tile(punit), dest_tile)) {
       if (!is_tiles_adjacent(unit_tile(punit), dest_tile)
@@ -1663,7 +1675,7 @@ static void dai_military_attack(struct player *pplayer, struct unit *punit)
         }
         if (NULL != ferryboat) {
           /* Need a boat. */
-          aiferry_gobyboat(pplayer, punit, dest_tile);
+          aiferry_gobyboat(ait, pplayer, punit, dest_tile);
           pf_path_destroy(path);
           return;
         }
@@ -1723,7 +1735,7 @@ static void dai_military_attack(struct player *pplayer, struct unit *punit)
   if (is_sailing_unit(punit) && pcity) {
     /* Sail somewhere */
     UNIT_LOG(LOG_DEBUG, punit, "sailing to nearest safe house.");
-    (void) dai_unit_goto(punit, pcity->tile);
+    (void) dai_unit_goto(ait, punit, pcity->tile);
   } else if (!is_barbarian(pplayer)) {
     /* Nothing else to do, so try exploring. */
     switch (manage_auto_explorer(punit)) {
@@ -1741,11 +1753,11 @@ static void dai_military_attack(struct player *pplayer, struct unit *punit)
     /* You can still have some moves left here, but barbarians should
        not sit helplessly, but advance towards nearest known enemy city */
     UNIT_LOG(LOG_DEBUG, punit, "attack: barbarian");
-    dai_military_attack_barbarian(pplayer, punit);
+    dai_military_attack_barbarian(ait, pplayer, punit);
   }
   if ((punit = game_unit_by_number(id)) && punit->moves_left > 0) {
     UNIT_LOG(LOG_DEBUG, punit, "attack: giving up unit to defense");
-    dai_military_defend(pplayer, punit);
+    dai_military_defend(ait, pplayer, punit);
   }
 }
 
@@ -1755,7 +1767,7 @@ static void dai_military_attack(struct player *pplayer, struct unit *punit)
   trade, if it's already there.  After this call, the unit may no longer
   exist (it might have been used up, or may have died travelling).
 **************************************************************************/
-static void dai_caravan_goto(struct player *pplayer,
+static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                              struct unit *punit,
                              const struct city *pcity,
                              bool help_wonder)
@@ -1772,7 +1784,7 @@ static void dai_caravan_goto(struct player *pplayer,
              punit->id,
              TILE_XY(unit_tile(punit)),
              help_wonder ? "help a wonder" : "trade", city_name(pcity));
-    alive = dai_unit_goto(punit, pcity->tile); 
+    alive = dai_unit_goto(ait, punit, pcity->tile); 
   }
 
   /* if moving didn't kill us, and we got to the destination, handle it. */
@@ -1830,7 +1842,8 @@ static void caravan_optimize_callback(const struct caravan_result *result,
   TODO list
   - use ferries.
 **************************************************************************/
-static void dai_manage_caravan(struct player *pplayer, struct unit *punit)
+static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
+                               struct unit *punit)
 {
   struct caravan_parameter parameter;
   struct caravan_result result;
@@ -1852,7 +1865,7 @@ static void dai_manage_caravan(struct player *pplayer, struct unit *punit)
   }
 
   if (result.dest != NULL) {
-    dai_caravan_goto(pplayer, punit, result.dest, result.help_wonder);
+    dai_caravan_goto(ait, pplayer, punit, result.dest, result.help_wonder);
     return; /* that may have clobbered the unit */
   }
   else {
@@ -1867,7 +1880,8 @@ static void dai_manage_caravan(struct player *pplayer, struct unit *punit)
  This function goes wait a unit in a city for the hitpoints to recover. 
  If something is attacking our city, kill it yeahhh!!!.
 **************************************************************************/
-static void dai_manage_hitpoint_recovery(struct unit *punit)
+static void dai_manage_hitpoint_recovery(struct ai_type *ait,
+                                         struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(unit_tile(punit));
@@ -1898,15 +1912,15 @@ static void dai_manage_hitpoint_recovery(struct unit *punit)
     if (safe) {
       UNIT_LOG(LOGLEVEL_RECOVERY, punit, "going to %s to recover",
                city_name(safe));
-      if (!dai_unit_goto(punit, safe->tile)) {
+      if (!dai_unit_goto(ait, punit, safe->tile)) {
         log_base(LOGLEVEL_RECOVERY, "died trying to hide and recover");
         return;
       }
     } else {
       /* oops */
       UNIT_LOG(LOGLEVEL_RECOVERY, punit, "didn't find a city to recover in!");
-      dai_unit_new_task(punit, AIUNIT_NONE, NULL);
-      dai_military_attack(pplayer, punit);
+      dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
+      dai_military_attack(ait, pplayer, punit);
       return;
     }
   }
@@ -1915,7 +1929,7 @@ static void dai_manage_hitpoint_recovery(struct unit *punit)
   if (punit->hp == punittype->hp) {
     /* we are ready to go out and kick ass again */
     UNIT_LOG(LOGLEVEL_RECOVERY, punit, "ready to kick ass again!");
-    dai_unit_new_task(punit, AIUNIT_NONE, NULL);  
+    dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);  
     return;
   } else {
     def_ai_unit_data(punit, default_ai_get_self())->done = TRUE; /* sit tight */
@@ -1926,9 +1940,10 @@ static void dai_manage_hitpoint_recovery(struct unit *punit)
   Decide what to do with a military unit. It will be managed once only.
   It is up to the caller to try again if it has moves left.
 **************************************************************************/
-void dai_manage_military(struct player *pplayer, struct unit *punit)
+void dai_manage_military(struct ai_type *ait, struct player *pplayer,
+                         struct unit *punit)
 {
-  struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
+  struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
   int id = punit->id;
 
   CHECK_UNIT(punit);
@@ -1952,7 +1967,7 @@ void dai_manage_military(struct player *pplayer, struct unit *punit)
 
   /* Since military units re-evaluate their actions every turn,
      we must make sure that previously reserved ferry is freed. */
-  aiferry_clear_boat(punit);
+  aiferry_clear_boat(ait, punit);
 
   TIMING_LOG(AIT_HUNTER, TIMER_START);
   /* Try hunting with this unit */
@@ -1960,13 +1975,13 @@ void dai_manage_military(struct player *pplayer, struct unit *punit)
     int result, sanity = punit->id;
 
     UNIT_LOG(LOGLEVEL_HUNT, punit, "is qualified as hunter");
-    result = dai_hunter_manage(pplayer, punit);
+    result = dai_hunter_manage(ait, pplayer, punit);
     if (NULL == game_unit_by_number(sanity)) {
       TIMING_LOG(AIT_HUNTER, TIMER_STOP);
       return; /* died */
     }
     if (result == -1) {
-      (void) dai_hunter_manage(pplayer, punit); /* More carnage */
+      (void) dai_hunter_manage(ait, pplayer, punit); /* More carnage */
       TIMING_LOG(AIT_HUNTER, TIMER_STOP);
       return;
     } else if (result >= 1) {
@@ -1974,16 +1989,16 @@ void dai_manage_military(struct player *pplayer, struct unit *punit)
       return; /* Done moving */
     } else if (unit_data->task == AIUNIT_HUNTER) {
       /* This should be very rare */
-      dai_unit_new_task(punit, AIUNIT_NONE, NULL);
+      dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
     }
   } else if (unit_data->task == AIUNIT_HUNTER) {
-    dai_unit_new_task(punit, AIUNIT_NONE, NULL);
+    dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
   }
   TIMING_LOG(AIT_HUNTER, TIMER_STOP);
 
   /* Do we have a specific job for this unit? If not, we default
    * to attack. */
-  dai_military_findjob(pplayer, punit);
+  dai_military_findjob(ait, pplayer, punit);
 
   switch (unit_data->task) {
   case AIUNIT_AUTO_SETTLER:
@@ -1992,18 +2007,18 @@ void dai_manage_military(struct player *pplayer, struct unit *punit)
     break;
   case AIUNIT_DEFEND_HOME:
     TIMING_LOG(AIT_DEFENDERS, TIMER_START);
-    dai_military_defend(pplayer, punit);
+    dai_military_defend(ait, pplayer, punit);
     TIMING_LOG(AIT_DEFENDERS, TIMER_STOP);
     break;
   case AIUNIT_ATTACK:
   case AIUNIT_NONE:
     TIMING_LOG(AIT_ATTACK, TIMER_START);
-    dai_military_attack(pplayer, punit);
+    dai_military_attack(ait, pplayer, punit);
     TIMING_LOG(AIT_ATTACK, TIMER_STOP);
     break;
   case AIUNIT_ESCORT: 
     TIMING_LOG(AIT_BODYGUARD, TIMER_START);
-    dai_military_bodyguard(pplayer, punit);
+    dai_military_bodyguard(ait, pplayer, punit);
     TIMING_LOG(AIT_BODYGUARD, TIMER_STOP);
     break;
   case AIUNIT_EXPLORE:
@@ -2022,7 +2037,7 @@ void dai_manage_military(struct player *pplayer, struct unit *punit)
     break;
   case AIUNIT_RECOVER:
     TIMING_LOG(AIT_RECOVER, TIMER_START);
-    dai_manage_hitpoint_recovery(punit);
+    dai_manage_hitpoint_recovery(ait, punit);
     TIMING_LOG(AIT_RECOVER, TIMER_STOP);
     break;
   case AIUNIT_HUNTER:
@@ -2105,7 +2120,8 @@ static void dai_manage_settler(struct player *pplayer, struct unit *punit)
  several flags the first one in order of appearance in this function
  will be used.
 **************************************************************************/
-void dai_manage_unit(struct player *pplayer, struct unit *punit)
+void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
+                     struct unit *punit)
 {
   struct unit_ai *unit_data;
   struct unit *bodyguard = aiguard_guard_of(punit);
@@ -2118,7 +2134,7 @@ void dai_manage_unit(struct player *pplayer, struct unit *punit)
     struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
 
     UNIT_LOG(LOG_VERBOSE, punit, "is under human orders, aborting AI control.");
-    dai_unit_new_task(punit, AIUNIT_NONE, NULL);
+    dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
     unit_data->done = TRUE;
     return;
   }
@@ -2140,7 +2156,7 @@ void dai_manage_unit(struct player *pplayer, struct unit *punit)
     aiguard_request_guard(punit);
   }
 
-  unit_data = def_ai_unit_data(punit, default_ai_get_self());
+  unit_data = def_ai_unit_data(punit, ait);
 
   if (punit->moves_left <= 0) {
     /* Can do nothing */
@@ -2166,7 +2182,7 @@ void dai_manage_unit(struct player *pplayer, struct unit *punit)
   if ((unit_has_type_flag(punit, UTYF_DIPLOMAT))
       || (unit_has_type_flag(punit, UTYF_SPY))) {
     TIMING_LOG(AIT_DIPLOMAT, TIMER_START);
-    dai_manage_diplomat(pplayer, punit);
+    dai_manage_diplomat(ait, pplayer, punit);
     TIMING_LOG(AIT_DIPLOMAT, TIMER_STOP);
     return;
   } else if (unit_has_type_flag(punit, UTYF_SETTLERS)
@@ -2176,24 +2192,24 @@ void dai_manage_unit(struct player *pplayer, struct unit *punit)
   } else if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)
              || unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
     TIMING_LOG(AIT_CARAVAN, TIMER_START);
-    dai_manage_caravan(pplayer, punit);
+    dai_manage_caravan(ait, pplayer, punit);
     TIMING_LOG(AIT_CARAVAN, TIMER_STOP);
     return;
   } else if (unit_has_type_role(punit, L_BARBARIAN_LEADER)) {
-    dai_manage_barbarian_leader(pplayer, punit);
+    dai_manage_barbarian_leader(ait, pplayer, punit);
     return;
   } else if (unit_has_type_flag(punit, UTYF_PARATROOPERS)) {
-    dai_manage_paratrooper(pplayer, punit);
+    dai_manage_paratrooper(ait, pplayer, punit);
     return;
   } else if (is_ferry && unit_data->task != AIUNIT_HUNTER) {
     TIMING_LOG(AIT_FERRY, TIMER_START);
-    dai_manage_ferryboat(pplayer, punit);
+    dai_manage_ferryboat(ait, pplayer, punit);
     TIMING_LOG(AIT_FERRY, TIMER_STOP);
     return;
   } else if (utype_fuel(unit_type(punit))
              && unit_data->task != AIUNIT_ESCORT) {
     TIMING_LOG(AIT_AIRUNIT, TIMER_START);
-    dai_manage_airunit(pplayer, punit);
+    dai_manage_airunit(ait, pplayer, punit);
     TIMING_LOG(AIT_AIRUNIT, TIMER_STOP);
     return;
   } else if (is_losing_hp(punit)) {
@@ -2207,7 +2223,7 @@ void dai_manage_unit(struct player *pplayer, struct unit *punit)
   } else if (is_military_unit(punit)) {
     TIMING_LOG(AIT_MILITARY, TIMER_START);
     UNIT_LOG(LOG_DEBUG, punit, "recruit unit for the military");
-    dai_manage_military(pplayer,punit); 
+    dai_manage_military(ait, pplayer, punit); 
     TIMING_LOG(AIT_MILITARY, TIMER_STOP);
     return;
   } else {
@@ -2221,8 +2237,8 @@ void dai_manage_unit(struct player *pplayer, struct unit *punit)
       break;
     default:
       UNIT_LOG(LOG_DEBUG, punit, "fell through all unit tasks, defending");
-      dai_unit_new_task(punit, AIUNIT_DEFEND_HOME, NULL);
-      dai_military_defend(pplayer, punit);
+      dai_unit_new_task(ait, punit, AIUNIT_DEFEND_HOME, NULL);
+      dai_military_defend(ait, pplayer, punit);
       break;
     };
     return;
@@ -2235,13 +2251,13 @@ void dai_manage_unit(struct player *pplayer, struct unit *punit)
 
   TODO: Make homecity, respect homecity.
 **************************************************************************/
-static void dai_set_defenders(struct player *pplayer)
+static void dai_set_defenders(struct ai_type *ait, struct player *pplayer)
 {
   city_list_iterate(pplayer->cities, pcity) {
     /* The idea here is that we should never keep more than two
      * units in permanent defense. */
     int total_defense = 0;
-    int total_attack = def_ai_city_data(pcity, default_ai_get_self())->danger;
+    int total_attack = def_ai_city_data(pcity, ait)->danger;
     bool emergency = FALSE;
     int count = 0;
 
@@ -2250,12 +2266,12 @@ static void dai_set_defenders(struct player *pplayer)
       struct unit *best = NULL;
 
       unit_list_iterate(pcity->tile->units, punit) {
-        struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
+        struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
 
-       if ((unit_data->task == AIUNIT_NONE || emergency)
-           && unit_data->task != AIUNIT_DEFEND_HOME
-           && unit_owner(punit) == pplayer) {
-          int want = assess_defense_unit(pcity, punit, FALSE);
+        if ((unit_data->task == AIUNIT_NONE || emergency)
+            && unit_data->task != AIUNIT_DEFEND_HOME
+            && unit_owner(punit) == pplayer) {
+          int want = assess_defense_unit(ait, pcity, punit, FALSE);
 
           if (want > best_want) {
             best_want = want;
@@ -2275,7 +2291,7 @@ static void dai_set_defenders(struct player *pplayer)
 
         total_defense += best_want;
         UNIT_LOG(loglevel, best, "Defending city");
-        dai_unit_new_task(best, AIUNIT_DEFEND_HOME, pcity->tile);
+        dai_unit_new_task(ait, best, AIUNIT_DEFEND_HOME, pcity->tile);
         count++;
       }
     }
@@ -2293,7 +2309,7 @@ static void dai_set_defenders(struct player *pplayer)
   when its role has accomplished its mission or the manage function
   fails to have or no longer has any use for the unit.
 **************************************************************************/
-void dai_manage_units(struct player *pplayer) 
+void dai_manage_units(struct ai_type *ait, struct player *pplayer) 
 {
   TIMING_LOG(AIT_AIRLIFT, TIMER_START);
   dai_airlift(pplayer);
@@ -2305,19 +2321,19 @@ void dai_manage_units(struct player *pplayer)
 
     unit_data->done = FALSE;
     if (unit_data->task == AIUNIT_DEFEND_HOME) {
-      dai_unit_new_task(punit, AIUNIT_NONE, NULL);
+      dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
     }
   } unit_list_iterate_end;
 
   /* Find and set city defenders first - figure out which units are
    * allowed to leave home. */
-  dai_set_defenders(pplayer);
+  dai_set_defenders(ait, pplayer);
 
   unit_list_iterate_safe(pplayer->units, punit) {
     if (!unit_transported(punit) && !def_ai_unit_data(punit, default_ai_get_self())->done) {
       /* Though it is usually the passenger who drives the transport,
        * the transporter is responsible for managing its passengers. */
-      dai_manage_unit(pplayer, punit);
+      dai_manage_unit(ait, pplayer, punit);
     }
   } unit_list_iterate_safe_end;
 }
@@ -2344,7 +2360,8 @@ bool is_on_unit_upgrade_path(const struct unit_type *test,
   not possible it runs away. When on coast, it may disappear with 33%
   chance.
 ****************************************************************************/
-static void dai_manage_barbarian_leader(struct player *pplayer,
+static void dai_manage_barbarian_leader(struct ai_type *ait,
+                                        struct player *pplayer,
                                         struct unit *leader)
 {
   struct tile *leader_tile = unit_tile(leader), *safest_tile;
@@ -2365,19 +2382,19 @@ static void dai_manage_barbarian_leader(struct player *pplayer,
     return;
   }
 
-  if (is_boss_of_boat(leader)) {
+  if (is_boss_of_boat(ait, leader)) {
     /* We are in charge. Of course, since we are the leader...
      * But maybe somebody more militaristic should lead our ship to battle! */
   
     /* First release boat from leaders lead */
-    aiferry_clear_boat(leader);
+    aiferry_clear_boat(ait, leader);
   
     unit_list_iterate(leader_tile->units, warrior) {
       if (!unit_has_type_role(warrior, L_BARBARIAN_LEADER)
           && get_transporter_capacity(warrior) == 0
           && warrior->moves_left > 0) {
         /* This seems like a good warrior to lead us in to conquest! */
-        dai_manage_unit(pplayer, warrior);
+        dai_manage_unit(ait, pplayer, warrior);
 
         /* If we reached our destination, ferryboat already called
          * ai_manage_unit() for leader. So no need to continue here.
@@ -2509,7 +2526,7 @@ static void dai_manage_barbarian_leader(struct player *pplayer,
       return;
     }
 
-    (void) dai_unit_goto(leader, safest_tile);
+    (void) dai_unit_goto(ait, leader, safest_tile);
     fc_assert(!same_pos(unit_tile(leader), leader_tile));
     leader_tile = unit_tile(leader);
   } while (0 < leader->moves_left);
@@ -2661,10 +2678,10 @@ void dai_unit_close(struct ai_type *ait, struct unit *punit)
 
   aiguard_clear_charge(punit);
   aiguard_clear_guard(punit);
-  aiferry_clear_boat(punit);
+  aiferry_clear_boat(ait, punit);
 
   if (unit_data != NULL) {
-    unit_set_ai_data(punit, default_ai_get_self(), NULL);
+    unit_set_ai_data(punit, ait, NULL);
     FC_FREE(unit_data);
   }
 }

@@ -17,9 +17,10 @@
 
 #include "fc_types.h"
 
-void dai_manage_airunit(struct player *pplayer, struct unit *punit);
-bool dai_choose_attacker_air(struct player *pplayer, struct city *pcity, 
-                             struct adv_choice *choice);
+void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
+                        struct unit *punit);
+bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
+                             struct city *pcity, struct adv_choice *choice);
 
 int dai_evaluate_tile_for_attack(struct unit *punit, struct tile *dst_tile);
 

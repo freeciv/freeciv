@@ -59,7 +59,7 @@
 
 #include "advmilitary.h"
 
-static unsigned int assess_danger(struct city *pcity);
+static unsigned int assess_danger(struct ai_type *ait, struct city *pcity);
 
 /**************************************************************************
   Choose the best unit the city can build to defend against attacker v.
@@ -243,12 +243,12 @@ static int base_assess_defense_unit(struct city *pcity, struct unit *punit,
 /********************************************************************** 
 Need positive feedback in m_a_c_b and bodyguard routines. -- Syela
 ***********************************************************************/
-int assess_defense_quadratic(struct city *pcity)
+int assess_defense_quadratic(struct ai_type *ait, struct city *pcity)
 {
   int defense = 0, walls = 0;
   /* This can be an arg if needed, but we don't need to change it now. */
   const bool igwall = FALSE;
-  struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
+  struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
   /* wallvalue = 10, walls = 10,
    * wallvalue = 40, walls = 20,
@@ -277,10 +277,11 @@ int assess_defense_quadratic(struct city *pcity)
 /**************************************************************************
 One unit only, mostly for findjob; handling boats correctly. 980803 -- Syela
 **************************************************************************/
-int assess_defense_unit(struct city *pcity, struct unit *punit, bool igwall)
+int assess_defense_unit(struct ai_type *ait, struct city *pcity,
+                        struct unit *punit, bool igwall)
 {
   return base_assess_defense_unit(pcity, punit, igwall, TRUE,
-				  def_ai_city_data(pcity, default_ai_get_self())->wallvalue);
+				  def_ai_city_data(pcity, ait)->wallvalue);
 }
 
 /********************************************************************** 
@@ -290,13 +291,14 @@ It's unclear whether this should treat settlers/caravans as defense. -- Syela
 TODO: It looks like this is never used while deciding if we should attack
 pcity, if we have pcity defended properly, so I think it should. --pasky
 ***********************************************************************/
-static int assess_defense_backend(struct city *pcity, bool igwall)
+static int assess_defense_backend(struct ai_type *ait, struct city *pcity,
+                                  bool igwall)
 {
   /* Estimate of our total city defensive might */
   int defense = 0;
 
   unit_list_iterate(pcity->tile->units, punit) {
-    defense += assess_defense_unit(pcity, punit, igwall);
+    defense += assess_defense_unit(ait, pcity, punit, igwall);
   } unit_list_iterate_end;
 
   return defense;
@@ -305,18 +307,18 @@ static int assess_defense_backend(struct city *pcity, bool igwall)
 /************************************************************************** 
   Estimate defense strength of city
 **************************************************************************/
-int assess_defense(struct city *pcity)
+int assess_defense(struct ai_type *ait, struct city *pcity)
 {
-  return assess_defense_backend(pcity, FALSE);
+  return assess_defense_backend(ait, pcity, FALSE);
 }
 
 /************************************************************************** 
   Estimate defense strength of city without considering how buildings
   help defense
 **************************************************************************/
-static int assess_defense_igwall(struct city *pcity)
+static int assess_defense_igwall(struct ai_type *ait, struct city *pcity)
 {
-  return assess_defense_backend(pcity, TRUE);
+  return assess_defense_backend(ait, pcity, TRUE);
 }
 
 /****************************************************************************
@@ -387,7 +389,7 @@ void dai_assess_danger_player(struct ai_type *ait, struct player *pplayer)
   /* Do nothing if game is not running */
   if (S_S_RUNNING == server_state()) {
     city_list_iterate(pplayer->cities, pcity) {
-      (void) assess_danger(pcity);
+      (void) assess_danger(ait, pcity);
     } city_list_iterate_end;
   }
 }
@@ -446,11 +448,11 @@ static void dai_reevaluate_building(struct city *pcity, int *value,
   afraid of a boat laden with enemies if it stands on the coast (i.e.
   is directly reachable by this boat).
 ****************************************************************************/
-static unsigned int assess_danger(struct city *pcity)
+static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = city_tile(pcity);
-  struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
+  struct ai_city *city_data = def_ai_city_data(pcity, ait);
   struct pf_reverse_map *pcity_map;
   unsigned int danger_reduced[B_LAST]; /* How much such danger there is that
                                         * building would help against. */
@@ -589,7 +591,7 @@ static unsigned int assess_danger(struct city *pcity)
    * this effect. */
   /* FIXME: Accept only buildings helping unit classes we actually use.
    *        Now we consider any land mover helper suitable. */
-  defense = assess_defense_igwall(pcity);
+  defense = assess_defense_igwall(ait, pcity);
 
   for (i = 0; i < B_LAST; i++) {
     if (0 < danger_reduced[i]) {
@@ -681,8 +683,9 @@ int dai_unit_attack_desirability(const struct unit_type *punittype)
   type in choice. Also sets the technology want for the units we can't 
   build yet.
 **************************************************************************/
-static bool process_defender_want(struct player *pplayer, struct city *pcity,
-                                  unsigned int danger, struct adv_choice *choice)
+static bool process_defender_want(struct ai_type *ait, struct player *pplayer,
+                                  struct city *pcity, unsigned int danger,
+                                  struct adv_choice *choice)
 {
   /* FIXME: We check if city got defense effect against *some*
    * unit type. Sea unit danger might cause us to build defenses
@@ -694,7 +697,7 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
   int best = -1;
   struct unit_type *best_unit_type = NULL;
   int best_unit_cost = 1;
-  struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
+  struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
   memset(tech_desire, 0, sizeof(tech_desire));
 
@@ -833,7 +836,8 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
   best_choice is pre-filled with our current choice, we only
   consider units of the same move_type as best_choice
 ****************************************************************************/
-static void process_attacker_want(struct city *pcity,
+static void process_attacker_want(struct ai_type *ait,
+                                  struct city *pcity,
                                   int value,
                                   struct unit_type *victim_unit_type,
                                   struct player *victim_player,
@@ -861,7 +865,7 @@ static void process_attacker_want(struct city *pcity,
   fc_assert(orig_move_type == UMT_SEA || orig_move_type == UMT_LAND);
 
   if (acity != NULL) {
-    acity_data = def_ai_city_data(acity, default_ai_get_self());
+    acity_data = def_ai_city_data(acity, ait);
   }
 
   if (orig_move_type == UMT_LAND && !boat && boattype) {
@@ -1075,8 +1079,9 @@ This function
 If the target is overseas, the function might suggest building a ferry
 to carry a land attack unit, instead of the land attack unit itself.
 **************************************************************************/
-static void kill_something_with(struct player *pplayer, struct city *pcity, 
-				struct unit *myunit, struct adv_choice *choice)
+static void kill_something_with(struct ai_type *ait, struct player *pplayer,
+                                struct city *pcity, struct unit *myunit,
+                                struct adv_choice *choice)
 {
   /* Our attack rating (with reinforcements) */
   int attack;
@@ -1098,7 +1103,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   struct pf_map *ferry_map = NULL;
   int move_time;
   struct adv_choice best_choice;
-  struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
+  struct ai_city *city_data = def_ai_city_data(pcity, ait);
   struct ai_city *acity_data;
 
   init_choice(&best_choice);
@@ -1108,7 +1113,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
   fc_assert_ret(is_military_unit(myunit) && !utype_fuel(unit_type(myunit)));
 
-  if (city_data->danger != 0 && assess_defense(pcity) == 0) {
+  if (city_data->danger != 0 && assess_defense(ait, pcity) == 0) {
     /* Defence comes first! */
     goto cleanup;
   }
@@ -1119,7 +1124,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     return;
   }
 
-  best_choice.want = find_something_to_kill(pplayer, myunit, &ptile, NULL,
+  best_choice.want = find_something_to_kill(ait, pplayer, myunit, &ptile, NULL,
                                             &ferry_map, &ferryboat,
                                             &boattype, &move_time);
   if (NULL == ptile
@@ -1137,7 +1142,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
   attack = adv_unit_att_rating(myunit);
   if (acity) {
-    acity_data = def_ai_city_data(acity, default_ai_get_self());
+    acity_data = def_ai_city_data(acity, ait);
     attack += acity_data->attack;
   }
   attack *= attack;
@@ -1146,7 +1151,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     /* Rating of enemy defender */
     int vulnerability;
 
-    if (!HOSTILE_PLAYER(pplayer, city_owner(acity))) {
+    if (!HOSTILE_PLAYER(ait, pplayer, city_owner(acity))) {
       /* Not a valid target */
       goto cleanup;
     }
@@ -1206,14 +1211,14 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   }
 
   if (NULL == ferry_map) {
-    process_attacker_want(pcity, benefit, def_type, def_owner,
+    process_attacker_want(ait, pcity, benefit, def_type, def_owner,
                           def_vet, ptile,
                           &best_choice, NULL, NULL, NULL);
   } else { 
     /* Attract a boat to our city or retain the one that's already here */
     fc_assert_ret(is_ground_unit(myunit));
     best_choice.need_boat = TRUE;
-    process_attacker_want(pcity, benefit, def_type, def_owner,
+    process_attacker_want(ait, pcity, benefit, def_type, def_owner,
                           def_vet, ptile,
                           &best_choice, ferry_map, ferryboat, boattype);
   }
@@ -1235,7 +1240,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
                            L_FERRYBOAT, choice->want, TRUE);
       if (UMT_SEA == utype_move_type(choice->value.utype)) {
 #ifdef DEBUG
-        struct ai_plr *ai = dai_plr_data_get(pplayer);
+        struct ai_plr *ai = dai_plr_data_get(ait, pplayer);
 
         log_debug("kill_something_with() %s has chosen attacker ferry, "
                   "%s, want=%d, %d of %d free",
@@ -1259,7 +1264,8 @@ cleanup:
     where want is a value between 1 and 100.
     if want is 0 this advisor doesn't want anything
 ***********************************************************************/
-static void dai_unit_consider_bodyguard(struct city *pcity,
+static void dai_unit_consider_bodyguard(struct ai_type *ait,
+                                        struct city *pcity,
                                         struct unit_type *punittype,
                                         struct adv_choice *choice)
 {
@@ -1272,7 +1278,7 @@ static void dai_unit_consider_bodyguard(struct city *pcity,
                                     do_make_unit_veteran(pcity, punittype));
 
   if (choice->want < 100) {
-    const int want = look_for_charge(pplayer, virtualunit, &aunit, &acity);
+    const int want = look_for_charge(ait, pplayer, virtualunit, &aunit, &acity);
 
     if (want > choice->want) {
       choice->want = want;
@@ -1318,7 +1324,8 @@ static void adjust_ai_unit_choice(struct city *pcity,
   It records its choice into adv_choice struct.
   If 'choice->want' is 0 this advisor doesn't want anything.
 ****************************************************************************/
-void military_advisor_choose_build(struct player *pplayer,
+void military_advisor_choose_build(struct ai_type *ait,
+                                   struct player *pplayer,
                                    struct city *pcity,
                                    struct adv_choice *choice)
 {
@@ -1327,21 +1334,21 @@ void military_advisor_choose_build(struct player *pplayer,
   unsigned int our_def, urgency;
   struct tile *ptile = pcity->tile;
   struct unit *virtualunit;
-  struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
+  struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
   init_choice(choice);
 
-  urgency = assess_danger(pcity);
+  urgency = assess_danger(ait, pcity);
   /* Changing to quadratic to stop AI from building piles 
    * of small units -- Syela */
   /* It has to be AFTER assess_danger thanks to wallvalue. */
-  our_def = assess_defense_quadratic(pcity); 
+  our_def = assess_defense_quadratic(ait, pcity); 
 
   if (pcity->id == ai->wonder_city && city_data->grave_danger == 0) {
     return; /* Other cities can build our defenders, thank you! */
   }
 
-  dai_choose_diplomat_defensive(pplayer, pcity, choice, our_def);
+  dai_choose_diplomat_defensive(ait, pplayer, pcity, choice, our_def);
 
   /* Otherwise no need to defend yet */
   if (city_data->danger != 0) {
@@ -1400,7 +1407,7 @@ void military_advisor_choose_build(struct player *pplayer,
                choice->want);
     } else if (danger > 0 && num_defenders <= urgency) {
       /* Consider building defensive units units */
-      if (process_defender_want(pplayer, pcity, danger, choice)) {
+      if (process_defender_want(ait, pplayer, pcity, danger, choice)) {
         /* Potential defender found */
         if (urgency == 0
             && choice->value.utype->defense_strength == 1) {
@@ -1436,7 +1443,7 @@ void military_advisor_choose_build(struct player *pplayer,
   /* Consider making a land bodyguard */
   punittype = dai_choose_bodyguard(pcity, UMT_LAND, L_DEFEND_GOOD);
   if (punittype) {
-    dai_unit_consider_bodyguard(pcity, punittype, choice);
+    dai_unit_consider_bodyguard(ait, pcity, punittype, choice);
   }
 
   /* If we are in severe danger, don't consider attackers. This is probably
@@ -1449,16 +1456,16 @@ void military_advisor_choose_build(struct player *pplayer,
   }
 
   /* Consider making an offensive diplomat */
-  dai_choose_diplomat_offensive(pplayer, pcity, choice);
+  dai_choose_diplomat_offensive(ait, pplayer, pcity, choice);
 
   /* Consider making a sea bodyguard */
   punittype = dai_choose_bodyguard(pcity, UMT_SEA, L_DEFEND_GOOD);
   if (punittype) {
-    dai_unit_consider_bodyguard(pcity, punittype, choice);
+    dai_unit_consider_bodyguard(ait, pcity, punittype, choice);
   }
 
   /* Consider making an airplane */
-  (void) dai_choose_attacker_air(pplayer, pcity, choice);
+  (void) dai_choose_attacker_air(ait, pplayer, pcity, choice);
 
   /* Consider making a paratrooper */
   dai_choose_paratrooper(pplayer, pcity, choice);
@@ -1469,7 +1476,7 @@ void military_advisor_choose_build(struct player *pplayer,
   if (punittype) {
     virtualunit = unit_virtual_create(pplayer, pcity, punittype,
                                       do_make_unit_veteran(pcity, punittype));
-    kill_something_with(pplayer, pcity, virtualunit, choice);
+    kill_something_with(ait, pplayer, pcity, virtualunit, choice);
     unit_virtual_destroy(virtualunit);
   }
 
@@ -1479,12 +1486,12 @@ void military_advisor_choose_build(struct player *pplayer,
   punittype = dai_choose_attacker(pcity, UMT_LAND);
   if (punittype) {
     virtualunit = unit_virtual_create(pplayer, pcity, punittype, 1);
-    kill_something_with(pplayer, pcity, virtualunit, choice);
+    kill_something_with(ait, pplayer, pcity, virtualunit, choice);
     unit_virtual_destroy(virtualunit);
   }
 
   /* Consider a hunter */
-  dai_hunter_choice(pplayer, pcity, choice);
+  dai_hunter_choice(ait, pplayer, pcity, choice);
 
   /* Consider veteran level enhancing buildings before non-urgent units */
   adjust_ai_unit_choice(pcity, choice);

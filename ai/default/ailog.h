@@ -24,18 +24,19 @@ void dai_city_log(struct ai_type *ait, char *buffer, int buflength,
 void dai_unit_log(struct ai_type *ait, char *buffer, int buflength,
                   const struct unit *punit);
 
-void real_diplo_log(const char *file, const char *function, int line,
+void real_diplo_log(struct ai_type *ait,
+                    const char *file, const char *function, int line,
                     enum log_level level, bool notify,
                     const struct player *pplayer,
                     const struct player *aplayer, const char *msg, ...)
-                   fc__attribute((__format__ (__printf__, 8, 9)));
-#define DIPLO_LOG(loglevel, pplayer, aplayer, msg, ...)                     \
+                   fc__attribute((__format__ (__printf__, 9, 10)));
+#define DIPLO_LOG(ait, loglevel, pplayer, aplayer, msg, ...)                \
 {                                                                           \
   bool notify = BV_ISSET(pplayer->server.debug, PLAYER_DEBUG_DIPLOMACY);    \
   enum log_level level = (notify ? LOG_AI_TEST                              \
                           : MIN(loglevel, LOGLEVEL_PLAYER));                \
   if (log_do_output_for_level(level)) {                                     \
-    real_diplo_log(__FILE__, __FUNCTION__, __FC_LINE__, level, notify,      \
+    real_diplo_log(ait, __FILE__, __FUNCTION__, __FC_LINE__, level, notify, \
                    pplayer, aplayer, msg, ## __VA_ARGS__);                  \
   }                                                                         \
 }

@@ -176,7 +176,8 @@ static struct tile* find_best_tile_to_paradrop_to(struct unit *punit)
 /**********************************************************************
  This function does manage the paratrooper units of the AI.
 **********************************************************************/
-void dai_manage_paratrooper(struct player *pplayer, struct unit *punit)
+void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
+                            struct unit *punit)
 {
   struct city *pcity = tile_city(unit_tile(punit));
   struct tile *ptile_dest = NULL;
@@ -237,14 +238,14 @@ void dai_manage_paratrooper(struct player *pplayer, struct unit *punit)
 
     if (acity) {
       UNIT_LOG(LOGLEVEL_PARATROOPER, punit, "Going to %s", city_name(acity));
-      if (!dai_unit_goto(punit, acity->tile)) {
+      if (!dai_unit_goto(ait, punit, acity->tile)) {
 	/* die or unsuccessfull move */
 	return;
       }
     } else {
       UNIT_LOG(LOGLEVEL_PARATROOPER, punit,
 	       "didn't find city to go and recover.");
-      dai_manage_military(pplayer, punit);
+      dai_manage_military(ait, pplayer, punit);
     }
   }
 }

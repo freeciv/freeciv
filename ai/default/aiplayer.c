@@ -53,7 +53,7 @@ void dai_player_alloc(struct ai_type *ait, struct player *pplayer)
 
   player_set_ai_data(pplayer, default_ai_get_self(), player_data);
 
-  dai_data_init(pplayer);
+  dai_data_init(ait, pplayer);
 }
 
 /**************************************************************************
@@ -63,7 +63,7 @@ void dai_player_free(struct ai_type *ait, struct player *pplayer)
 {
   struct ai_plr *player_data = def_ai_player_data(pplayer, default_ai_get_self());
 
-  dai_data_close(pplayer);
+  dai_data_close(ait, pplayer);
 
   if (player_data != NULL) {
     player_set_ai_data(pplayer, default_ai_get_self(), NULL);
@@ -78,7 +78,7 @@ void dai_player_save(struct ai_type *ait, struct player *pplayer,
                      struct section_file *file, int plrno)
 {
   players_iterate(aplayer) {
-    struct ai_dip_intel *adip = dai_diplomacy_get(pplayer, aplayer);
+    struct ai_dip_intel *adip = dai_diplomacy_get(ait, pplayer, aplayer);
     char buf[32];
 
     fc_snprintf(buf, sizeof(buf), "player%d.ai%d", plrno,
@@ -110,7 +110,7 @@ void dai_player_load(struct ai_type *ait, struct player *pplayer,
                      struct section_file *file, int plrno)
 {
   players_iterate(aplayer) {
-    struct ai_dip_intel *adip = dai_diplomacy_get(pplayer, aplayer);
+    struct ai_dip_intel *adip = dai_diplomacy_get(ait, pplayer, aplayer);
     char buf[32];
 
     fc_snprintf(buf, sizeof(buf), "player%d.ai%d", plrno,

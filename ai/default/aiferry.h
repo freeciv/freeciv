@@ -23,12 +23,13 @@ struct pft_amphibious;
 /* 
  * Initialize ferrybaot-related statistics in the ai data.
  */
-void aiferry_init_stats(struct player *pplayer);
+void aiferry_init_stats(struct ai_type *ait, struct player *pplayer);
 
 /* 
  * Find the nearest boat.  Can be called from inside the continents too 
  */
-int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path);
+int aiferry_find_boat(struct ai_type *ait, struct unit *punit,
+                      int cap, struct pf_path **path);
 
 /* 
  * Initializes aiferry stats for a new unit
@@ -38,35 +39,38 @@ void dai_ferry_init_ferry(struct ai_type *ait, struct unit *ferry);
 /*
  * Release the boat reserved in punit's ai.ferryboat field.
  */
-void aiferry_clear_boat(struct unit *punit);
+void aiferry_clear_boat(struct ai_type *ait, struct unit *punit);
 
 /*
  * Go to the destination by hitching a ride on a boat.  Will try to find 
  * a beachhead but it works better if dst_tile is on the coast.
  * Loads a bodyguard too, if necessary.
  */
-bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
-		      struct tile *dst_tile);
+bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
+                      struct unit *punit, struct tile *dst_tile);
 /*
  * Go to the destination on a particular boat.  Will try to find 
  * a beachhead but it works better if ptile is on the coast.
  */
-bool aiferry_goto_amphibious(struct unit *ferry,
+bool aiferry_goto_amphibious(struct ai_type *ait, struct unit *ferry,
 			     struct unit *passenger, struct tile *ptile);
 
-bool dai_amphibious_goto_constrained(struct unit *ferry,
+bool dai_amphibious_goto_constrained(struct ai_type *ait,
+                                     struct unit *ferry,
                                      struct unit *passenger,
                                      struct tile *ptile,
                                      struct pft_amphibious *parameter);
 
-bool is_boat_free(struct unit *boat, struct unit *punit, int cap);
-bool is_boss_of_boat(struct unit *punit);
+bool is_boat_free(struct ai_type *ait, struct unit *boat,
+                  struct unit *punit, int cap);
+bool is_boss_of_boat(struct ai_type *ait, struct unit *punit);
 
 /*
  * Main boat managing function.  Gets units on board to where they want to
  * go and then looks for new passengers or (if it fails) for a city which
  * will build a passenger soon.
  */
-void dai_manage_ferryboat(struct player *pplayer, struct unit *punit);
+void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
+                          struct unit *punit);
 
 #endif /* FC__AIFERRY_H */

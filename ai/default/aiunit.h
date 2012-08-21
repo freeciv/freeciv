@@ -61,9 +61,9 @@ struct unit_ai {
 #define IS_ATTACKER(punit) \
   (unit_type(punit)->attack_strength \
         > unit_type(punit)->transport_capacity)
-#define HOSTILE_PLAYER(pplayer, aplayer)                                    \
+#define HOSTILE_PLAYER(ait, pplayer, aplayer)                            \
   (WAR(pplayer, aplayer)                                                    \
-   || dai_diplomacy_get(pplayer, aplayer)->countdown >= 0)
+   || dai_diplomacy_get(ait, pplayer, aplayer)->countdown >= 0)
 #define UNITTYPE_COSTS(ut)						\
   (ut->pop_cost * 3 + ut->happy_cost					\
    + ut->upkeep[O_SHIELD] + ut->upkeep[O_FOOD] + ut->upkeep[O_GOLD])
@@ -80,18 +80,22 @@ extern struct unit_type *simple_ai_types[U_LAST];
 #define BODYGUARD_RAMPAGE_THRESHOLD (SHIELD_WEIGHTING * 4)
 bool dai_military_rampage(struct unit *punit, int thresh_adj,
                           int thresh_move);
-void dai_manage_units(struct player *pplayer); 
-void dai_manage_unit(struct player *pplayer, struct unit *punit);
-void dai_manage_military(struct player *pplayer,struct unit *punit);
+void dai_manage_units(struct ai_type *ait, struct player *pplayer); 
+void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
+                     struct unit *punit);
+void dai_manage_military(struct ai_type *ait, struct player *pplayer,
+                         struct unit *punit);
 struct city *find_nearest_safe_city(struct unit *punit);
-int look_for_charge(struct player *pplayer, struct unit *punit,
+int look_for_charge(struct ai_type *ait, struct player *pplayer,
+                    struct unit *punit,
                     struct unit **aunit, struct city **acity);
 
 bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
                     struct tile *dest_tile,
                     const struct unit_type *cargo_type,
                     struct tile **ferry_dest, struct tile **beachhead_tile);
-int find_something_to_kill(struct player *pplayer, struct unit *punit,
+int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
+                           struct unit *punit,
                            struct tile **pdest_tile, struct pf_path **ppath,
                            struct pf_map **pferrymap,
                            struct unit **pferryboat,

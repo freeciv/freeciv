@@ -118,7 +118,8 @@ static int count_stealable_techs(struct player *pplayer, struct player *tplayer)
   values in choice. The values 16000 and 3000 used below are totally
   arbitrary but seem to work.
 ***********************************************************************/
-void dai_choose_diplomat_defensive(struct player *pplayer,
+void dai_choose_diplomat_defensive(struct ai_type *ait,
+                                   struct player *pplayer,
                                    struct city *pcity,
                                    struct adv_choice *choice, int def)
 {
@@ -126,7 +127,7 @@ void dai_choose_diplomat_defensive(struct player *pplayer,
      we have other defensive troops, and we don't already have a diplomat
      to protect us. If we see an enemy diplomat and we don't have diplomat
      tech... race it! */
-  struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
+  struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
   if (def != 0 && city_data->diplomat_threat
       && !city_data->has_diplomat) {
@@ -163,12 +164,13 @@ void dai_choose_diplomat_defensive(struct player *pplayer,
   Calculates our need for diplomats as offensive units. May replace
   values in choice.
 ***********************************************************************/
-void dai_choose_diplomat_offensive(struct player *pplayer,
+void dai_choose_diplomat_offensive(struct ai_type *ait,
+                                   struct player *pplayer,
                                    struct city *pcity,
                                    struct adv_choice *choice)
 {
   struct unit_type *ut = best_role_unit(pcity, UTYF_DIPLOMAT);
-  struct ai_plr *ai = def_ai_player_data(pplayer, default_ai_get_self());
+  struct ai_plr *ai = def_ai_player_data(pplayer, ait);
   int expenses;
 
   dai_calc_data(pplayer, NULL, &expenses, NULL);
@@ -208,7 +210,7 @@ void dai_choose_diplomat_offensive(struct player *pplayer,
       return;
     }
     incite_cost = city_incite_cost(pplayer, acity);
-    if (HOSTILE_PLAYER(pplayer, city_owner(acity))
+    if (HOSTILE_PLAYER(ait, pplayer, city_owner(acity))
         && (incite_cost < INCITE_IMPOSSIBLE_COST)
         && (incite_cost < pplayer->economic.gold - expenses)) {
       /* incite gain (FIXME: we should count wonders too but need to
@@ -292,7 +294,8 @@ void dai_choose_diplomat_offensive(struct player *pplayer,
   is allied. Then we steal, incite, sabotage or poison the city, in that
   order of priority.
 **************************************************************************/
-static void dai_diplomat_city(struct unit *punit, struct city *ctarget)
+static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
+                              struct city *ctarget)
 {
   struct player *pplayer = unit_owner(punit);
   struct player *tplayer = city_owner(ctarget);
@@ -353,7 +356,7 @@ static void dai_diplomat_city(struct unit *punit, struct city *ctarget)
   UNIT_LOG(LOG_DIPLOMAT, punit,
            "decides to stand idle outside enemy city %s!",
            city_name(ctarget));
-  dai_unit_new_task(punit, AIUNIT_NONE, NULL);
+  dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
 }
 
 /*****************************************************************************
@@ -445,7 +448,8 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
 /**************************************************************************
   Go to nearest/most threatened city (can be the current city too).
 **************************************************************************/
-static struct city *dai_diplomat_defend(struct player *pplayer,
+static struct city *dai_diplomat_defend(struct ai_type *ait,
+                                        struct player *pplayer,
                                         struct unit *punit,
                                         const struct unit_type *utype,
                                         struct pf_map *pfm)
@@ -457,7 +461,7 @@ static struct city *dai_diplomat_defend(struct player *pplayer,
 
   if (pcity 
       && count_diplomats_on_tile(pcity->tile) == 1
-      && def_ai_city_data(pcity, default_ai_get_self())->urgency > 0) {
+      && def_ai_city_data(pcity, ait)->urgency > 0) {
     /* Danger and we are only diplomat present - stay. */
     return pcity;
   }
@@ -477,7 +481,7 @@ static struct city *dai_diplomat_defend(struct player *pplayer,
       continue;
     }
 
-    city_data = def_ai_city_data(acity, default_ai_get_self());
+    city_data = def_ai_city_data(acity, ait);
     urgency = city_data->urgency;
     dipls = (count_diplomats_on_tile(ptile)
              - (same_pos(ptile, unit_tile(punit)) ? 1 : 0));
@@ -512,7 +516,8 @@ static struct city *dai_diplomat_defend(struct player *pplayer,
   the ordeal, FALSE if not or we expended all our movement.
   Will try to bribe a ship on the coast as well as land stuff.
 **************************************************************************/
-static bool dai_diplomat_bribe_nearby(struct player *pplayer, 
+static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
+                                      struct player *pplayer, 
                                       struct unit *punit, struct pf_map *pfm)
 {
   int gold_avail, expenses;
@@ -533,7 +538,7 @@ static bool dai_diplomat_bribe_nearby(struct player *pplayer,
     }
 
     if (!pvictim
-        || !HOSTILE_PLAYER(pplayer, unit_owner(pvictim))
+        || !HOSTILE_PLAYER(ait, pplayer, unit_owner(pvictim))
         || unit_list_size(ptile->units) > 1
         || (tile_city(ptile)
          && get_city_bonus(tile_city(ptile), EFT_NO_INCITE) > 0)
@@ -621,7 +626,8 @@ static bool dai_diplomat_bribe_nearby(struct player *pplayer,
   we should send diplomats by boat eventually. I just don't know how that
   part of the code works, yet - Per
 **************************************************************************/
-void dai_manage_diplomat(struct player *pplayer, struct unit *punit)
+void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
+                         struct unit *punit)
 {
   struct city *pcity, *ctarget = NULL;
   struct pf_parameter parameter;
@@ -640,7 +646,7 @@ void dai_manage_diplomat(struct player *pplayer, struct unit *punit)
   pcity = tile_city(unit_tile(punit));
 
   /* Look for someone to bribe */
-  if (!dai_diplomat_bribe_nearby(pplayer, punit, pfm)) {
+  if (!dai_diplomat_bribe_nearby(ait, pplayer, punit, pfm)) {
     /* Died or ran out of moves */
     pf_map_destroy(pfm);
     return;
@@ -649,21 +655,21 @@ void dai_manage_diplomat(struct player *pplayer, struct unit *punit)
   /* If we are the only diplomat in a threatened city, then stay to defend */
   pcity = tile_city(unit_tile(punit)); /* we may have moved */
   if (pcity) {
-    struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
+    struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
     if (count_diplomats_on_tile(unit_tile(punit)) == 1
         && (city_data->diplomat_threat
             || city_data->urgency > 0)) {
       UNIT_LOG(LOG_DIPLOMAT, punit, "stays to protect %s (urg %d)", 
                city_name(pcity), city_data->urgency);
-      dai_unit_new_task(punit, AIUNIT_NONE, NULL); /* abort mission */
-      def_ai_unit_data(punit, default_ai_get_self())->done = TRUE;
+      dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL); /* abort mission */
+      def_ai_unit_data(punit, ait)->done = TRUE;
       pf_map_destroy(pfm);
       return;
     }
   }
 
-  unit_data = def_ai_unit_data(punit, default_ai_get_self());
+  unit_data = def_ai_unit_data(punit, ait);
 
   /* Check if existing target still makes sense */
   if (unit_data->task == AIUNIT_ATTACK
@@ -691,7 +697,7 @@ void dai_manage_diplomat(struct player *pplayer, struct unit *punit)
     }
     if (failure) {
       UNIT_LOG(LOG_DIPLOMAT, punit, "mission aborted");
-      dai_unit_new_task(punit, AIUNIT_NONE, NULL);
+      dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
     }
   }
 
@@ -718,7 +724,7 @@ void dai_manage_diplomat(struct player *pplayer, struct unit *punit)
       task = AIUNIT_ATTACK;
       aiguard_request_guard(punit);
       UNIT_LOG(LOG_DIPLOMAT, punit, "going on attack");
-    } else if ((ctarget = dai_diplomat_defend(pplayer, punit,
+    } else if ((ctarget = dai_diplomat_defend(ait, pplayer, punit,
                                               unit_type(punit), pfm))
                != NULL) {
       task = AIUNIT_DEFEND_HOME;
@@ -734,12 +740,12 @@ void dai_manage_diplomat(struct player *pplayer, struct unit *punit)
       UNIT_LOG(LOG_DIPLOMAT, punit, "going idle");
     } else {
       UNIT_LOG(LOG_DIPLOMAT, punit, "could not find a job");
-      def_ai_unit_data(punit, default_ai_get_self())->done = TRUE;
+      def_ai_unit_data(punit, ait)->done = TRUE;
       pf_map_destroy(pfm);
       return;
     }
 
-    dai_unit_new_task(punit, task, ctarget->tile);
+    dai_unit_new_task(ait, punit, task, ctarget->tile);
     fc_assert(punit->moves_left > 0 && ctarget 
               && unit_data->task != AIUNIT_NONE);
   }
@@ -765,14 +771,14 @@ void dai_manage_diplomat(struct player *pplayer, struct unit *punit)
                  dist, ctarget ? city_name(ctarget) : "(none)");
         if (dist == 1) {
           /* Do our stuff */
-          dai_unit_new_task(punit, AIUNIT_NONE, NULL);
-          dai_diplomat_city(punit, ctarget);
+          dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
+          dai_diplomat_city(ait, punit, ctarget);
         }
       }
     }
     pf_path_destroy(path);
   } else {
-    def_ai_unit_data(punit, default_ai_get_self())->done = TRUE;
+    def_ai_unit_data(punit, ait)->done = TRUE;
   }
   pf_map_destroy(pfm);
 }

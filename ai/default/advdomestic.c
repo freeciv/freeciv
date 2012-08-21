@@ -68,13 +68,14 @@
  * advanced enough to build caravans, the corresponding tech will be 
  * stimulated.
  ***************************************************************************/
-static void dai_choose_help_wonder(struct city *pcity,
+static void dai_choose_help_wonder(struct ai_type *ait,
+                                   struct city *pcity,
                                    struct adv_choice *choice,
                                    struct adv_data *ai)
 {
   struct player *pplayer = city_owner(pcity);
   Continent_id continent = tile_continent(pcity->tile);
-  struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
+  struct ai_city *city_data = def_ai_city_data(pcity, ait);
   /* Total count of caravans available or already being built 
    * on this continent */
   int caravans = 0;
@@ -270,15 +271,15 @@ static void dai_choose_trade_route(struct city *pcity,
 
   If want is 0, this advisor doesn't want anything.
 ***************************************************************************/
-void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
-				   struct adv_choice *choice)
+void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
+                                   struct city *pcity, struct adv_choice *choice)
 {
   struct adv_data *ai = adv_data_get(pplayer);
   /* Unit type with certain role */
   struct unit_type *settler_type;
   struct unit_type *founder_type;
   int settler_want, founder_want;
-  struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
+  struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
   init_choice(choice);
 
@@ -348,7 +349,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       /* We need boats to colonize! */
       /* We might need boats even if there are boats free,
        * if they are blockaded or in inland seas. */
-      struct ai_plr *ai = dai_plr_data_get(pplayer);
+      struct ai_plr *ai = dai_plr_data_get(ait, pplayer);
 
       CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d and asks"
 	       " for a new boat (%d of %d free)",
@@ -376,7 +377,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
     init_choice(&cur);
     /* Consider building caravan-type units to aid wonder construction */  
-    dai_choose_help_wonder(pcity, &cur, ai);
+    dai_choose_help_wonder(ait, pcity, &cur, ai);
     copy_if_better_choice(&cur, choice);
 
     init_choice(&cur);
@@ -414,7 +415,7 @@ void dai_wonder_city_distance(struct ai_type *ait, struct player *pplayer,
 
   city_list_iterate(pplayer->cities, acity) {
     /* Mark unavailable */
-    def_ai_city_data(acity, default_ai_get_self())->distance_to_wonder_city = 0;
+    def_ai_city_data(acity, ait)->distance_to_wonder_city = 0;
   } city_list_iterate_end;
 
   if (wonder_city == NULL) {
@@ -441,7 +442,7 @@ void dai_wonder_city_distance(struct ai_type *ait, struct player *pplayer,
       continue;
     }
     if (city_owner(acity) == pplayer) {
-      def_ai_city_data(acity, default_ai_get_self())->distance_to_wonder_city = move_cost;
+      def_ai_city_data(acity, ait)->distance_to_wonder_city = move_cost;
     }
   } pf_map_move_costs_iterate_end;
 

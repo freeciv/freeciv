@@ -62,7 +62,8 @@ void dai_unit_log(struct ai_type *ait, char *buffer, int buflength,
     
   where ti is timer, co countdown and lo love for target, who is e.
 **************************************************************************/
-void real_diplo_log(const char *file, const char *function, int line,
+void real_diplo_log(struct ai_type *ait, const char *file,
+                    const char *function, int line,
                     enum log_level level, bool notify,
                     const struct player *pplayer,
                     const struct player *aplayer, const char *msg, ...)
@@ -73,7 +74,7 @@ void real_diplo_log(const char *file, const char *function, int line,
   const struct ai_dip_intel *adip;
 
   /* Don't use ai_data_get since it can have side effects. */
-  adip = dai_diplomacy_get(pplayer, aplayer);
+  adip = dai_diplomacy_get(ait, pplayer, aplayer);
 
   fc_snprintf(buffer, sizeof(buffer), "%s->%s(l%d,c%d,d%d%s): ",
               player_name(pplayer),

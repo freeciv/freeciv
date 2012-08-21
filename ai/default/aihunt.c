@@ -212,7 +212,8 @@ static void dai_hunter_missile_want(struct player *pplayer,
 /**************************************************************************
   Support function for ai_hunter_choice()
 **************************************************************************/
-static void eval_hunter_want(struct player *pplayer, struct city *pcity,
+static void eval_hunter_want(struct ai_type *ait, struct player *pplayer,
+                             struct city *pcity,
                              struct adv_choice *choice,
 			     struct unit_type *best_type,
                              int veteran)
@@ -221,7 +222,7 @@ static void eval_hunter_want(struct player *pplayer, struct city *pcity,
   int want = 0;
 
   virtualunit = unit_virtual_create(pplayer, pcity, best_type, veteran);
-  want = dai_hunter_manage(pplayer, virtualunit);
+  want = dai_hunter_manage(ait, pplayer, virtualunit);
   unit_virtual_destroy(virtualunit);
   if (want > choice->want) {
     CITY_LOG(LOGLEVEL_HUNT, pcity, "pri hunter w/ want %d", want);
@@ -235,8 +236,8 @@ static void eval_hunter_want(struct player *pplayer, struct city *pcity,
 /**************************************************************************
   Check if we want to build a hunter.
 **************************************************************************/
-void dai_hunter_choice(struct player *pplayer, struct city *pcity,
-                       struct adv_choice *choice)
+void dai_hunter_choice(struct ai_type *ait, struct player *pplayer,
+                       struct city *pcity, struct adv_choice *choice)
 {
   struct unit_type *best_land_hunter
     = dai_hunter_guess_best(pcity, UMT_LAND);
@@ -256,11 +257,11 @@ void dai_hunter_choice(struct player *pplayer, struct city *pcity,
   }
 
   if (best_sea_hunter) {
-    eval_hunter_want(pplayer, pcity, choice, best_sea_hunter, 
+    eval_hunter_want(ait, pplayer, pcity, choice, best_sea_hunter, 
                      do_make_unit_veteran(pcity, best_sea_hunter));
   }
   if (best_land_hunter) {
-    eval_hunter_want(pplayer, pcity, choice, best_land_hunter, 
+    eval_hunter_want(ait, pplayer, pcity, choice, best_land_hunter, 
                      do_make_unit_veteran(pcity, best_land_hunter));
   }
 }
@@ -284,7 +285,8 @@ bool dai_hunter_qualify(struct player *pplayer, struct unit *punit)
   might attempt to intercept _us_. We assign missiles to a hunter in
   ai_unit_new_role().
 **************************************************************************/
-static void dai_hunter_try_launch(struct player *pplayer,
+static void dai_hunter_try_launch(struct ai_type *ait,
+                                  struct player *pplayer,
                                   struct unit *punit,
                                   struct unit *target)
 {
@@ -344,7 +346,7 @@ static void dai_hunter_try_launch(struct player *pplayer,
           unit_transport_unload_send(missile);
         }
         missile->goto_tile = unit_tile(sucker);
-        if (dai_unit_goto(missile, unit_tile(sucker))) {
+        if (dai_unit_goto(ait, missile, unit_tile(sucker))) {
           /* We survived; did they? */
           sucker = game_unit_by_number(target_sanity); /* Sanity */
           if (sucker && is_tiles_adjacent(unit_tile(sucker),
@@ -397,7 +399,8 @@ static void dai_hunter_juiciness(struct player *pplayer, struct unit *punit,
 
   We set punit->server.ai->target to target's id.
 **************************************************************************/
-int dai_hunter_manage(struct player *pplayer, struct unit *punit)
+int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
+                      struct unit *punit)
 {
   bool is_virtual = (punit->id == 0);
   struct pf_parameter parameter;
@@ -524,15 +527,15 @@ int dai_hunter_manage(struct player *pplayer, struct unit *punit)
       }
 
       /* This assigns missiles to us */
-      dai_unit_new_task(punit, AIUNIT_HUNTER, unit_tile(target));
+      dai_unit_new_task(ait, punit, AIUNIT_HUNTER, unit_tile(target));
 
       /* Check if we can nuke it */
-      dai_hunter_try_launch(pplayer, punit, target);
+      dai_hunter_try_launch(ait, pplayer, punit, target);
 
       /* Check if we have nuked it */
       if (target != game_unit_by_number(sanity_target)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished by cargo (pre)");
-        dai_unit_new_task(punit, AIUNIT_NONE, NULL);
+        dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
         pf_map_destroy(pfm);
         return -1; /* try again */
       }
@@ -548,16 +551,16 @@ int dai_hunter_manage(struct player *pplayer, struct unit *punit)
 
       if (target != game_unit_by_number(sanity_target)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished");
-        dai_unit_new_task(punit, AIUNIT_NONE, NULL);
+        dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
         pf_map_destroy(pfm);
         return -1; /* try again */
       }
 
       /* Check if we can nuke it now */
-      dai_hunter_try_launch(pplayer, punit, target);
+      dai_hunter_try_launch(ait, pplayer, punit, target);
       if (target != game_unit_by_number(sanity_target)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished by cargo (post)");
-        dai_unit_new_task(punit, AIUNIT_NONE, NULL);
+        dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
         pf_map_destroy(pfm);
         return -1; /* try again */
       }

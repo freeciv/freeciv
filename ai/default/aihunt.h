@@ -17,9 +17,10 @@
 
 #include "fc_types.h"
 
-void dai_hunter_choice(struct player *pplayer, struct city *pcity,
-                      struct adv_choice *choice);
+void dai_hunter_choice(struct ai_type *ait, struct player *pplayer,
+                       struct city *pcity, struct adv_choice *choice);
 bool dai_hunter_qualify(struct player *pplayer, struct unit *punit);
-int dai_hunter_manage(struct player *pplayer, struct unit *punit);
+int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
+                      struct unit *punit);
 
 #endif /* FC__AIHUNT_H */
