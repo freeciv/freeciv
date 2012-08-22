@@ -799,12 +799,12 @@ void adv_best_government(struct player *pplayer)
        * a very small amount here to choose govt in cases where
        * we have no cities yet. */
       bonus += get_player_bonus(pplayer, EFT_VETERAN_BUILD) > 0 ? 3 : 0;
-      bonus -= get_player_bonus(pplayer, EFT_REVOLUTION_WHEN_UNHAPPY) ? 3 : 0;
-      bonus += get_player_bonus(pplayer, EFT_NO_INCITE) ? 4 : 0;
-      bonus += get_player_bonus(pplayer, EFT_UNBRIBABLE_UNITS) ? 2 : 0;
-      bonus += get_player_bonus(pplayer, EFT_INSPIRE_PARTISANS) ? 3 : 0;
-      bonus += get_player_bonus(pplayer, EFT_RAPTURE_GROW) ? 2 : 0;
-      bonus += get_player_bonus(pplayer, EFT_FANATICS) ? 3 : 0;
+      bonus -= get_player_bonus(pplayer, EFT_REVOLUTION_WHEN_UNHAPPY) > 0 ? 3 : 0;
+      bonus += get_player_bonus(pplayer, EFT_NO_INCITE) > 0 ? 4 : 0;
+      bonus += get_player_bonus(pplayer, EFT_UNBRIBABLE_UNITS) > 0 ? 2 : 0;
+      bonus += get_player_bonus(pplayer, EFT_INSPIRE_PARTISANS) > 0 ? 3 : 0;
+      bonus += get_player_bonus(pplayer, EFT_RAPTURE_GROW) > 0 ? 2 : 0;
+      bonus += get_player_bonus(pplayer, EFT_FANATICS) > 0 ? 3 : 0;
       bonus += get_player_bonus(pplayer, EFT_OUTPUT_INC_TILE) * 8;
 
       val += (val * bonus) / 100;
