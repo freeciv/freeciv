@@ -2613,7 +2613,7 @@ void unit_transport_load_send(struct unit *punit, struct unit *ptrans)
   fc_assert_ret(punit);
   fc_assert_ret(ptrans);
 
-  fc_assert_ret(unit_transport_load(punit, ptrans, FALSE));
+  unit_transport_load(punit, ptrans, FALSE);
 
   send_unit_info(NULL, punit);
   send_unit_info(NULL, ptrans);
@@ -2631,7 +2631,8 @@ void unit_transport_unload_send(struct unit *punit)
   ptrans = unit_transport_get(punit);
 
   fc_assert_ret(ptrans);
-  fc_assert(unit_transport_unload(punit));
+
+  unit_transport_unload(punit);
 
   send_unit_info(NULL, punit);
   send_unit_info(NULL, ptrans);
