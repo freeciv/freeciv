@@ -1350,10 +1350,14 @@ void log_civ_score_now(void)
     struct plrdata_slot *plrdata = score_log->plrdata
                                    + player_slot_index(pslot);
     if (plrdata->name != NULL
-        && player_slot_is_used(pslot)
-        && !GOOD_PLAYER(player_slot_get_player(pslot))) {
-      fprintf(score_log->fp, "delplayer %d %d\n", game.info.turn - 1, i);
-      plrdata_slot_free(plrdata);
+        && player_slot_is_used(pslot)) {
+      struct player *pplayer = player_slot_get_player(pslot);
+
+      if (!GOOD_PLAYER(pplayer)) {
+        fprintf(score_log->fp, "delplayer %d %d\n", game.info.turn - 1,
+                player_number(pplayer));
+        plrdata_slot_free(plrdata);
+      }
     }
   } player_slots_iterate_end;
 
