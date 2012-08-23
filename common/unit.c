@@ -2223,10 +2223,6 @@ bool unit_transport_unload(struct unit *pcargo)
 
   /* For the server (also save for the client). */
   pcargo->transporter = NULL;
-  /* For the client - needed as the client does not know all units. */
-  if (!is_server()) {
-    pcargo->client.transported_by = -1;
-  }
 
   return TRUE;
 }
