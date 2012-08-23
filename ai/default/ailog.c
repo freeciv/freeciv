@@ -38,7 +38,7 @@
 void dai_city_log(struct ai_type *ait, char *buffer, int buflength,
                   const struct city *pcity)
 {
-  struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
+  struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
   fc_snprintf(buffer, buflength, "d%d u%d g%d",
               city_data->danger, city_data->urgency,
@@ -51,7 +51,7 @@ void dai_city_log(struct ai_type *ait, char *buffer, int buflength,
 void dai_unit_log(struct ai_type *ait, char *buffer, int buflength,
                   const struct unit *punit)
 {
-  struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
+  struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
 
   fc_snprintf(buffer, buflength, "%d %d",
               unit_data->bodyguard, unit_data->ferryboat);
@@ -101,7 +101,8 @@ void real_diplo_log(struct ai_type *ait, const char *file,
     2: Polish Mech. Inf.[485] bodyguard (38,22){Riflemen:574@37,23} was ...
   note that these messages are likely to wrap if long.
 **************************************************************************/
-void real_bodyguard_log(const char *file, const char *function, int line,
+void real_bodyguard_log(struct ai_type *ait, const char *file,
+                        const char *function, int line,
                         enum log_level level,  bool notify,
                         const struct unit *punit, const char *msg, ...)
 {
@@ -115,7 +116,7 @@ void real_bodyguard_log(const char *file, const char *function, int line,
   int charge_y = -1;
   const char *type = "guard";
   const char *s = "none";
-  struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
+  struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
 
   pcity = game_city_by_number(unit_data->charge);
   pcharge = game_unit_by_number(unit_data->charge);

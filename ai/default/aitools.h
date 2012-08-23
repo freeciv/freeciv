@@ -41,7 +41,8 @@ int stack_cost(struct unit *pattacker, struct unit *pdefender);
 void dai_unit_move_or_attack(struct ai_type *ait, struct unit *punit,
                              struct tile *ptile, struct pf_path *path, int step);
 
-void dai_fill_unit_param(struct pf_parameter *parameter,
+void dai_fill_unit_param(struct ai_type *ait,
+                         struct pf_parameter *parameter,
                          struct adv_risk_cost *risk_cost,
                          struct unit *punit, struct tile *ptile);
 bool dai_gothere(struct ai_type *ait, struct player *pplayer,
@@ -62,8 +63,9 @@ void dai_unit_new_task(struct ai_type *ait, struct unit *punit,
 void dai_unit_new_adv_task(struct ai_type *ait, struct unit *punit,
                            enum adv_unit_task task, struct tile *ptile);
 bool dai_unit_make_homecity(struct unit *punit, struct city *pcity);
-bool dai_unit_attack(struct unit *punit, struct tile *ptile);
-bool dai_unit_move(struct unit *punit, struct tile *ptile);
+bool dai_unit_attack(struct ai_type *ait, struct unit *punit,
+                     struct tile *ptile);
+bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile);
 
 void dai_government_change(struct player *pplayer, struct government *gov);
 int dai_gold_reserve(struct player *pplayer);

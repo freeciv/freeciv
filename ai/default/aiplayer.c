@@ -51,7 +51,7 @@ void dai_player_alloc(struct ai_type *ait, struct player *pplayer)
 {
   struct ai_plr *player_data = fc_calloc(1, sizeof(struct ai_plr));
 
-  player_set_ai_data(pplayer, default_ai_get_self(), player_data);
+  player_set_ai_data(pplayer, ait, player_data);
 
   dai_data_init(ait, pplayer);
 }
@@ -61,12 +61,12 @@ void dai_player_alloc(struct ai_type *ait, struct player *pplayer)
 **************************************************************************/
 void dai_player_free(struct ai_type *ait, struct player *pplayer)
 {
-  struct ai_plr *player_data = def_ai_player_data(pplayer, default_ai_get_self());
+  struct ai_plr *player_data = def_ai_player_data(pplayer, ait);
 
   dai_data_close(ait, pplayer);
 
   if (player_data != NULL) {
-    player_set_ai_data(pplayer, default_ai_get_self(), NULL);
+    player_set_ai_data(pplayer, ait, NULL);
     FC_FREE(player_data);
   }
 }

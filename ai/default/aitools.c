@@ -178,12 +178,12 @@ static void dai_gothere_bodyguard(struct ai_type *ait,
   struct player *pplayer = unit_owner(punit);
   unsigned int danger = 0;
   struct city *dcity;
-  struct unit *guard = aiguard_guard_of(punit);
+  struct unit *guard = aiguard_guard_of(ait, punit);
   const struct veteran_level *vlevel;
 
   if (is_barbarian(unit_owner(punit))) {
     /* barbarians must have more courage (ie less brains) */
-    aiguard_clear_guard(punit);
+    aiguard_clear_guard(ait, punit);
     return;
   }
 
@@ -227,9 +227,9 @@ static void dai_gothere_bodyguard(struct ai_type *ait,
       UNIT_LOG(LOGLEVEL_BODYGUARD, punit, 
                "want bodyguard @(%d, %d) danger=%d, my_def=%d", 
                TILE_XY(dest_tile), danger, my_def);
-      aiguard_request_guard(punit);
+      aiguard_request_guard(ait, punit);
     } else {
-      aiguard_clear_guard(punit);
+      aiguard_clear_guard(ait, punit);
     }
   }
 
@@ -283,7 +283,7 @@ bool dai_gothere(struct ai_type *ait, struct player *pplayer,
     return FALSE;
   }
 
-  if (def_ai_unit_data(punit, default_ai_get_self())->ferryboat > 0
+  if (def_ai_unit_data(punit, ait)->ferryboat > 0
       && !unit_transported(punit)) {
     /* We probably just landed, release our boat */
     aiferry_clear_boat(ait, punit);
@@ -531,7 +531,7 @@ bool goto_is_sane(struct ai_type *ait, struct unit *punit,
      For ferries, the destination may be a coastal land tile,
      in which case the ferry should stop on an adjacent tile.
 **************************************************************************/
-void dai_fill_unit_param(struct pf_parameter *parameter,
+void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
                          struct adv_risk_cost *risk_cost,
                          struct unit *punit, struct tile *ptile)
 {
@@ -541,7 +541,7 @@ void dai_fill_unit_param(struct pf_parameter *parameter,
                                       / unit_type(punit)->move_rate);
   const bool barbarian = is_barbarian(unit_owner(punit));
   bool is_ferry = FALSE;
-  struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
+  struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
 
   /* This function is now always omniscient and should not be used
    * for human players any more. */
@@ -685,7 +685,7 @@ bool dai_unit_goto(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   struct adv_risk_cost risk_cost;
 
   UNIT_LOG(LOG_DEBUG, punit, "ai_unit_goto to %d,%d", TILE_XY(ptile));
-  dai_fill_unit_param(&parameter, &risk_cost, punit, ptile);
+  dai_fill_unit_param(ait, &parameter, &risk_cost, punit, ptile);
 
   return dai_unit_goto_constrained(ait, punit, ptile, &parameter);
 }
@@ -720,8 +720,8 @@ void dai_unit_new_adv_task(struct ai_type *ait, struct unit *punit,
 void dai_unit_new_task(struct ai_type *ait, struct unit *punit,
                        enum ai_unit_task task, struct tile *ptile)
 {
-  struct unit *bodyguard = aiguard_guard_of(punit);
-  struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
+  struct unit *bodyguard = aiguard_guard_of(ait, punit);
+  struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
 
   /* If the unit is under (human) orders we shouldn't control it.
    * Allow removal of old role with AIUNIT_NONE. */
@@ -759,16 +759,17 @@ void dai_unit_new_task(struct ai_type *ait, struct unit *punit,
     struct unit *target = game_unit_by_number(unit_data->target);
 
     if (target) {
-      BV_CLR(def_ai_unit_data(target, default_ai_get_self())->hunted, player_index(unit_owner(punit)));
+      BV_CLR(def_ai_unit_data(target, ait)->hunted,
+             player_index(unit_owner(punit)));
       UNIT_LOG(LOGLEVEL_HUNT, target, "no longer hunted (new task %d, old %d)",
                task, unit_data->task);
     }
   }
 
-  aiguard_clear_charge(punit);
+  aiguard_clear_charge(ait, punit);
   /* Record the city to defend; our goto may be to transport. */
   if (task == AIUNIT_DEFEND_HOME && ptile && tile_city(ptile)) {
-    aiguard_assign_guard_city(tile_city(ptile), punit);
+    aiguard_assign_guard_city(ait, tile_city(ptile), punit);
   }
 
   unit_data->task = task;
@@ -790,13 +791,13 @@ void dai_unit_new_task(struct ai_type *ait, struct unit *punit,
     struct unit *target = game_unit_by_number(unit_data->target);
 
     fc_assert_ret(target != NULL);
-    BV_SET(def_ai_unit_data(target, default_ai_get_self())->hunted, player_index(unit_owner(punit)));
+    BV_SET(def_ai_unit_data(target, ait)->hunted, player_index(unit_owner(punit)));
     UNIT_LOG(LOGLEVEL_HUNT, target, "is being hunted");
 
     /* Grab missiles lying around and bring them along */
     unit_list_iterate(unit_tile(punit)->units, missile) {
       if (unit_owner(missile) == unit_owner(punit)
-          && def_ai_unit_data(missile, default_ai_get_self())->task != AIUNIT_ESCORT
+          && def_ai_unit_data(missile, ait)->task != AIUNIT_ESCORT
           && !unit_transported(missile)
           && unit_owner(missile) == unit_owner(punit)
           && uclass_has_flag(unit_class(missile), UCF_MISSILE)
@@ -855,7 +856,8 @@ bool dai_unit_make_homecity(struct unit *punit, struct city *pcity)
   bodyguard has not. This is an ai_unit_* auxiliary function, do not use 
   elsewhere.
 **************************************************************************/
-static void dai_unit_bodyguard_move(struct unit *bodyguard, struct tile *ptile)
+static void dai_unit_bodyguard_move(struct ai_type *ait,
+                                    struct unit *bodyguard, struct tile *ptile)
 {
   struct unit *punit;
   struct player *pplayer;
@@ -863,11 +865,11 @@ static void dai_unit_bodyguard_move(struct unit *bodyguard, struct tile *ptile)
   fc_assert_ret(bodyguard != NULL);
   pplayer = unit_owner(bodyguard);
   fc_assert_ret(pplayer != NULL);
-  punit = aiguard_charge_unit(bodyguard);
+  punit = aiguard_charge_unit(ait, bodyguard);
   fc_assert_ret(punit != NULL);
 
-  CHECK_GUARD(bodyguard);
-  CHECK_CHARGE_UNIT(punit);
+  CHECK_GUARD(ait, bodyguard);
+  CHECK_CHARGE_UNIT(ait, punit);
 
   if (!is_tiles_adjacent(ptile, unit_tile(bodyguard))) {
     return;
@@ -875,20 +877,20 @@ static void dai_unit_bodyguard_move(struct unit *bodyguard, struct tile *ptile)
 
   if (bodyguard->moves_left <= 0) {
     /* should generally should not happen */
-    BODYGUARD_LOG(LOG_DEBUG, bodyguard, "was left behind by charge");
+    BODYGUARD_LOG(ait, LOG_DEBUG, bodyguard, "was left behind by charge");
     return;
   }
 
   unit_activity_handling(bodyguard, ACTIVITY_IDLE);
-  (void) dai_unit_move(bodyguard, ptile);
+  (void) dai_unit_move(ait, bodyguard, ptile);
 }
 
 /**************************************************************************
   Move and attack with an ai unit. We do not wait for server reply.
 **************************************************************************/
-bool dai_unit_attack(struct unit *punit, struct tile *ptile)
+bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile)
 {
-  struct unit *bodyguard = aiguard_guard_of(punit);
+  struct unit *bodyguard = aiguard_guard_of(ait, punit);
   int sanity = punit->id;
   bool alive;
 
@@ -901,8 +903,8 @@ bool dai_unit_attack(struct unit *punit, struct tile *ptile)
   alive = (game_unit_by_number(sanity) != NULL);
 
   if (alive && same_pos(ptile, unit_tile(punit))
-      && bodyguard != NULL  && def_ai_unit_data(bodyguard, default_ai_get_self())->charge == punit->id) {
-    dai_unit_bodyguard_move(bodyguard, ptile);
+      && bodyguard != NULL  && def_ai_unit_data(bodyguard, ait)->charge == punit->id) {
+    dai_unit_bodyguard_move(ait, bodyguard, ptile);
     /* Clumsy bodyguard might trigger an auto-attack */
     alive = (game_unit_by_number(sanity) != NULL);
   }
@@ -917,9 +919,9 @@ void dai_unit_move_or_attack(struct ai_type *ait, struct unit *punit,
                              struct tile *ptile, struct pf_path *path, int step)
 {
   if (step == path->length - 1) {
-    (void) dai_unit_attack(punit, ptile);
+    (void) dai_unit_attack(ait, punit, ptile);
   } else {
-    (void) dai_unit_move(punit, ptile);
+    (void) dai_unit_move(ait, punit, ptile);
   }
 }
 
@@ -931,7 +933,7 @@ void dai_unit_move_or_attack(struct ai_type *ait, struct unit *punit,
   we can tell the calling function what happened to the move request.
   (Right now it is not a big problem, since we call the server directly.)
 **************************************************************************/
-bool dai_unit_move(struct unit *punit, struct tile *ptile)
+bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
 {
   struct unit *bodyguard;
   int sanity = punit->id;
@@ -960,7 +962,7 @@ bool dai_unit_move(struct unit *punit, struct tile *ptile)
 
   /* don't leave bodyguard behind */
   if (is_ai
-      && (bodyguard = aiguard_guard_of(punit))
+      && (bodyguard = aiguard_guard_of(ait, punit))
       && same_pos(unit_tile(punit), unit_tile(bodyguard))
       && bodyguard->moves_left == 0) {
     UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "does not want to leave "
@@ -983,10 +985,10 @@ bool dai_unit_move(struct unit *punit, struct tile *ptile)
 
   /* handle the results */
   if (game_unit_by_number(sanity) && same_pos(ptile, unit_tile(punit))) {
-    struct unit *bodyguard = aiguard_guard_of(punit);
+    struct unit *bodyguard = aiguard_guard_of(ait, punit);
     if (is_ai && bodyguard != NULL
-        && def_ai_unit_data(bodyguard, default_ai_get_self())->charge == punit->id) {
-      dai_unit_bodyguard_move(bodyguard, ptile);
+        && def_ai_unit_data(bodyguard, ait)->charge == punit->id) {
+      dai_unit_bodyguard_move(ait, bodyguard, ptile);
     }
     return TRUE;
   }

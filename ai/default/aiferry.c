@@ -646,12 +646,12 @@ bool aiferry_goto_amphibious(struct ai_type *ait, struct unit *ferry,
   struct adv_risk_cost land_risk_cost;
   struct adv_risk_cost sea_risk_cost;
 
-  dai_fill_unit_param(&parameter.land, &land_risk_cost, passenger, ptile);
+  dai_fill_unit_param(ait, &parameter.land, &land_risk_cost, passenger, ptile);
   if (parameter.land.get_TB != no_fights) {
     /* Use the ferry to go around danger areas: */
     parameter.land.get_TB = no_intermediate_fights;
   }
-  dai_fill_unit_param(&parameter.sea, &sea_risk_cost, ferry, ptile);
+  dai_fill_unit_param(ait, &parameter.sea, &sea_risk_cost, ferry, ptile);
   pft_fill_amphibious_parameter(&parameter);
 
   /* Move as far along the path to the destination as we can;
@@ -730,7 +730,7 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
     aiferry_psngr_meet_boat(ait, punit, ferryboat);
 
     if (is_tiles_adjacent(unit_tile(punit), unit_tile(ferryboat))) {
-      (void) dai_unit_move(punit, unit_tile(ferryboat));
+      (void) dai_unit_move(ait, punit, unit_tile(ferryboat));
     }
 
     if (!can_unit_load(punit, ferryboat)) {
@@ -752,7 +752,7 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
 
     /* Check if we are the passenger-in-charge */
     if (is_boat_free(ait, ferryboat, punit, 0)) {
-      struct unit *bodyguard = aiguard_guard_of(punit);
+      struct unit *bodyguard = aiguard_guard_of(ait, punit);
 
       UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, 
 	       "got boat[%d](moves left: %d), going (%d,%d)",
@@ -766,7 +766,7 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
         if (!goto_is_sane(ait, bodyguard, unit_tile(punit), TRUE)
             || !dai_unit_goto(ait, bodyguard, unit_tile(punit))) {
           /* Bodyguard can't get there or died en route */
-          aiguard_request_guard(punit);
+          aiguard_request_guard(ait, punit);
           bodyguard = NULL;
         } else if (bodyguard->moves_left <= 0) {
           /* Wait for me, I'm cooooming!! */
@@ -776,7 +776,7 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
         } else {
           /* Crap bodyguard. Got stuck somewhere. Ditch it! */
           UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "ditching useless bodyguard");
-          aiguard_request_guard(punit);
+          aiguard_request_guard(ait, punit);
           dai_unit_new_task(ait, bodyguard, AIUNIT_NONE, NULL);
           bodyguard = NULL;
         }

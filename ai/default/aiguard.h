@@ -18,26 +18,28 @@
 #include "fc_types.h"
 
 #ifndef NDEBUG
-#define CHECK_GUARD(guard) aiguard_check_guard(guard)
-#define CHECK_CHARGE_UNIT(charge) aiguard_check_charge_unit(charge)
+#define CHECK_GUARD(ait, guard) aiguard_check_guard(ait, guard)
+#define CHECK_CHARGE_UNIT(ait, charge) aiguard_check_charge_unit(ait, charge)
 #else
-#define CHECK_GUARD(guard) (void)0
-#define CHECK_CHARGE_UNIT(charge) (void)0
+#define CHECK_GUARD(ait, guard) (void)0
+#define CHECK_CHARGE_UNIT(ait, charge) (void)0
 #endif
 
-void aiguard_check_guard(const struct unit *guard);
-void aiguard_check_charge_unit(const struct unit *charge);
-void aiguard_clear_charge(struct unit *guard);
-void aiguard_clear_guard(struct unit *charge);
-void aiguard_assign_guard_unit(struct unit *charge, struct unit *guard);
-void aiguard_assign_guard_city(struct city *charge, struct unit *guard);
-void aiguard_request_guard(struct unit *punit);
-bool aiguard_wanted(struct unit *charge);
-bool aiguard_has_charge(struct unit *charge);
-bool aiguard_has_guard(struct unit *charge);
-struct unit *aiguard_guard_of(struct unit *charge);
-struct unit *aiguard_charge_unit(struct unit *guard);
-struct city *aiguard_charge_city(struct unit *guard);
-void aiguard_update_charge(struct unit *guard);
+void aiguard_check_guard(struct ai_type *ait, const struct unit *guard);
+void aiguard_check_charge_unit(struct ai_type *ait, const struct unit *charge);
+void aiguard_clear_charge(struct ai_type *ait, struct unit *guard);
+void aiguard_clear_guard(struct ai_type *ait, struct unit *charge);
+void aiguard_assign_guard_unit(struct ai_type *ait, struct unit *charge,
+                               struct unit *guard);
+void aiguard_assign_guard_city(struct ai_type *ait, struct city *charge,
+                               struct unit *guard);
+void aiguard_request_guard(struct ai_type *ait, struct unit *punit);
+bool aiguard_wanted(struct ai_type *ait, struct unit *charge);
+bool aiguard_has_charge(struct ai_type *ait, struct unit *charge);
+bool aiguard_has_guard(struct ai_type *ait, struct unit *charge);
+struct unit *aiguard_guard_of(struct ai_type *ait, struct unit *charge);
+struct unit *aiguard_charge_unit(struct ai_type *ait, struct unit *guard);
+struct city *aiguard_charge_city(struct ai_type *ait, struct unit *guard);
+void aiguard_update_charge(struct ai_type *ait, struct unit *guard);
 
 #endif	/* FC__AIGUARD_H */

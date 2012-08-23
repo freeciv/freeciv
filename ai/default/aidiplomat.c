@@ -722,7 +722,7 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
 
     if (ctarget) {
       task = AIUNIT_ATTACK;
-      aiguard_request_guard(punit);
+      aiguard_request_guard(ait, punit);
       UNIT_LOG(LOG_DIPLOMAT, punit, "going on attack");
     } else if ((ctarget = dai_diplomat_defend(ait, pplayer, punit,
                                               unit_type(punit), pfm))

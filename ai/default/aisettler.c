@@ -1008,7 +1008,7 @@ void dai_auto_settler_run(struct ai_type *ait, struct player *pplayer,
 
 BUILD_CITY:
 
-  if (def_ai_unit_data(punit, default_ai_get_self())->task == AIUNIT_BUILD_CITY) {
+  if (def_ai_unit_data(punit, ait)->task == AIUNIT_BUILD_CITY) {
     struct tile *ptile = punit->goto_tile;
     int sanity = punit->id;
 
@@ -1203,7 +1203,7 @@ static bool dai_do_build_city(struct ai_type *ait, struct player *pplayer,
   initialize_infrastructure_cache(pplayer);
 
   /* Init ai.choice. Handling ferryboats might use it. */
-  init_choice(&def_ai_city_data(pcity, default_ai_get_self())->choice);
+  init_choice(&def_ai_city_data(pcity, ait)->choice);
 
   return TRUE;
 }
@@ -1233,7 +1233,7 @@ void contemplate_new_city(struct ai_type *ait, struct city *pcity)
   if (pplayer->ai_controlled) {
     struct cityresult *result;
     bool is_coastal = is_terrain_class_near_tile(pcenter, TC_OCEAN);
-    struct ai_city *city_data = def_ai_city_data(pcity, default_ai_get_self());
+    struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
     result = find_best_city_placement(ait, virtualunit, is_coastal, is_coastal);
 

@@ -54,7 +54,8 @@
 /*****************************************************************************
   Find best tile the paratrooper should jump to.
 *****************************************************************************/
-static struct tile* find_best_tile_to_paradrop_to(struct unit *punit)
+static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
+                                                  struct unit *punit)
 {
   int best = 0;
   int val;
@@ -72,7 +73,7 @@ static struct tile* find_best_tile_to_paradrop_to(struct unit *punit)
     acity = tile_city(ptile);
     if (acity && city_owner(acity) == unit_owner(punit)
         && unit_list_size(ptile->units) == 0) {
-      val = city_size_get(acity) * def_ai_city_data(acity, default_ai_get_self())->urgency;
+      val = city_size_get(acity) * def_ai_city_data(acity, ait)->urgency;
       if (val > best) {
 	best = val;
 	best_tile = ptile;
@@ -208,7 +209,7 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
   }
 
   if (can_unit_paradrop(punit)) {
-    ptile_dest = find_best_tile_to_paradrop_to(punit);
+    ptile_dest = find_best_tile_to_paradrop_to(ait, punit);
 
     if (ptile_dest) {
       if (do_paradrop(punit, ptile_dest)) {

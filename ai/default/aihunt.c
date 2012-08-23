@@ -351,7 +351,7 @@ static void dai_hunter_try_launch(struct ai_type *ait,
           sucker = game_unit_by_number(target_sanity); /* Sanity */
           if (sucker && is_tiles_adjacent(unit_tile(sucker),
                                           unit_tile(missile))) {
-            dai_unit_attack(missile, unit_tile(sucker));
+            dai_unit_attack(ait, missile, unit_tile(sucker));
           }
         }
         target = game_unit_by_number(target_sanity); /* Sanity */
@@ -406,7 +406,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
   struct pf_parameter parameter;
   struct pf_map *pfm;
   int limit = unit_move_rate(punit) * 6;
-  struct unit_ai *unit_data = def_ai_unit_data(punit, default_ai_get_self());
+  struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
   struct unit *original_target = game_unit_by_number(unit_data->target);
   int original_threat = 0, original_cost = 0;
 
@@ -445,7 +445,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
         continue;
       }
 
-      target_data = def_ai_unit_data(target, default_ai_get_self());
+      target_data = def_ai_unit_data(target, ait);
       if (BV_ISSET(target_data->hunted, player_index(pplayer))) {
         /* Can't hunt this one.  The bit is cleared in the beginning
          * of each turn. */
