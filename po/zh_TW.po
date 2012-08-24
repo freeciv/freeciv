@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.4.99-dev\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-23 23:15+0800\n"
-"PO-Revision-Date: 2012-08-24 23:05+0800\n"
+"POT-Creation-Date: 2012-08-24 23:55+0800\n"
+"PO-Revision-Date: 2012-08-24 23:43+0800\n"
 "Last-Translator: Zhang Xiaowei <zero00072@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <zero00072@gmail.com>\n"
 "Language: zh_TW\n"
@@ -198,8 +198,8 @@ msgid_plural ""
 "*%s (AI)* We will honor our alliance and declare war on %s in %d turns.  "
 "Hold on - we are coming!"
 msgstr[0] ""
-"*%1$s (AI)* 我們會兌現同盟的宣言，將在 %3$d 回合內向 %2$s 宣戰。再撐一下，\n"
-"我們馬上來了！"
+"*%1$s (AI)* 我們會兌現同盟的宣言，將在 %3$d 回合內向 %2$s 宣戰。再撐一下，我"
+"們馬上來了！"
 
 #: ai/default/advdiplomacy.c:1350
 #, c-format
@@ -33968,7 +33968,7 @@ msgstr "歡迎來到位於 %2$s 埠口 %3$d 的 %1$s 伺服器。"
 #: server/connecthand.c:168
 #, c-format
 msgid "Welcome to the %s Server at port %d."
-msgstr "歡啟來到位於埠口 %2$d 的 %1$s 伺服器。"
+msgstr "歡迎來到位於埠口 %2$d 的 %1$s 伺服器。"
 
 #: server/connecthand.c:176 server/connecthand.c:265
 #, c-format
