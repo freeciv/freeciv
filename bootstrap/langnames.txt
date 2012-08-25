@@ -33,4 +33,5 @@ sr Serbian
 sv Swedish
 tr Turkish
 uk Ukrainian
-zh_CN Chinese
+zh_CN Simplified Chinese
+zh_TW Traditional Chinese
