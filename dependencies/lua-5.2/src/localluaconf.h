@@ -17,6 +17,9 @@
 #include <fc_config.h>
 #endif
 
+/* Lua headers want to define VERSION to lua version */
+#undef VERSION
+
 #ifdef HAVE_MKSTEMP
 #define LUA_USE_MKSTEMP
 #endif
