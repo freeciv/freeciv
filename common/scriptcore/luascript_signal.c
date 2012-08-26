@@ -222,14 +222,15 @@ void luascript_signal_create_valist(struct fc_lua *fcl,
   } else {
     enum api_types *parg_types = fc_calloc(nargs, sizeof(*parg_types));
     int i;
+    char *sn = fc_malloc(strlen(signal_name) + 1);
 
     for (i = 0; i < nargs; i++) {
       *(parg_types + i) = va_arg(args, int);
     }
     luascript_signal_hash_insert(fcl->signals, signal_name,
                                  signal_new(nargs, parg_types));
-    /* FIXME: cast of 'const char *' to 'char *'. */
-    luascript_signal_name_list_append(fcl->signal_names, (char *)signal_name);
+    strcpy(sn, signal_name);
+    luascript_signal_name_list_append(fcl->signal_names, sn);
   }
 }
 
@@ -312,6 +313,15 @@ bool luascript_signal_callback_defined(struct fc_lua *fcl,
 }
 
 /*****************************************************************************
+  Callback for freeing memory where luascript_signal_name_list has signal
+  name.
+*****************************************************************************/
+static void sn_free(char *name)
+{
+  FC_FREE(name);
+}
+
+/*****************************************************************************
   Initialize script signals and callbacks.
 *****************************************************************************/
 void luascript_signal_init(struct fc_lua *fcl)
@@ -320,7 +330,7 @@ void luascript_signal_init(struct fc_lua *fcl)
 
   if (NULL == fcl->signals) {
     fcl->signals = luascript_signal_hash_new();
-    fcl->signal_names = luascript_signal_name_list_new();
+    fcl->signal_names = luascript_signal_name_list_new_full(sn_free);
   }
 }
 
