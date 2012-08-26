@@ -25,24 +25,6 @@
 
 #include "aiplayer.h"
 
-static struct ai_type *self = NULL;
-
-/**************************************************************************
-  Set pointer to ai type of the default ai.
-**************************************************************************/
-void default_ai_set_self(struct ai_type *ai)
-{
-  self = ai;
-}
-
-/**************************************************************************
-  Get pointer to ai type of the default ai.
-**************************************************************************/
-struct ai_type *default_ai_get_self(void)
-{
-  return self;
-}
-
 /**************************************************************************
   Initialize player for use with default AI. Note that this is called
   for all players, not just for those default AI is controlling.

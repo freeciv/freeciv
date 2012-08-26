@@ -19,10 +19,6 @@
 struct player;
 struct ai_plr;
 
-struct ai_type *default_ai_get_self(void);
-
-void default_ai_set_self(struct ai_type *ai);
-
 void dai_player_alloc(struct ai_type *ait, struct player *pplayer);
 void dai_player_free(struct ai_type *ait, struct player *pplayer);
 
