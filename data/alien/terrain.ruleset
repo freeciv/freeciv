@@ -685,6 +685,12 @@ trade_bonus    = 0
 compat_special = "Road"
 native_to      = "Earthly", "Native"
 hidden_by      = "Highway", "Maglev"
+helptext       = _("\
+Basic Road is available for building from the beginning of the game.\
+\n\n\
+Movement via Road costs 2/3 movement points. Having Road on Grassland
+tile provides increase of +1 to trade on that tile.\
+")
 
 [road_highway]
 name           = _("Highway")
@@ -710,6 +716,11 @@ trade_bonus    = 0
 compat_special = "Railroad"
 native_to      = "Earthly", "Native"
 hidden_by      = "Maglev"
+helptext       = _("\
+You can upgrade Roads to Highways.\
+\n\n\
+Movement via Highway costs 1/3 movement points.\
+")
 
 [road_maglev]
 name           = _("Maglev")
@@ -734,6 +745,12 @@ shield_bonus   = 50
 trade_bonus    = 0
 compat_special = "None"
 native_to      = "Earthly", "Native"
+helptext       = _("\
+You can upgrade Highways to Maglevs.\
+\n\n\
+Units can move via Maglevs indefinitely, Shield production of any \
+tile with Maglev is increased by 50%.\
+")
 
 [road_tunnel]
 name           = _("Tunnel")
@@ -758,6 +775,10 @@ trade_bonus    = 0
 compat_special = "None"
 native_to      = "Earthly"
 flags          = "NativeTile"
+helptext       = _("\
+Earthly units can travel on radiating tiles with tunnel built on them.\
+Tunnel provides no increase to unit speed.\
+")
 
 [road_burrow_tube]
 name           = _("Burrow Tube")
@@ -782,3 +803,6 @@ trade_bonus    = 0
 compat_special = "None"
 native_to      = "Burrowing"
 flags          = "NativeTile", "ConnectLand"
+helptext       = _("\
+Burrow Tubes provide the only way for burrowing units to cross oceans.\
+")
