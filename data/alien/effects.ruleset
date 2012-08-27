@@ -217,21 +217,12 @@ reqs    =
       "Building", "Basic Infrastructure", "City"
     }
 
-[effect_forest_city]
+[effect_radiating_city]
 name    = "Size_Adj"
 value   = -1
 reqs    =
     { "type", "name", "range"
-      "Terrain", "Alien Forest", "Local"
-      "Building", "Basic Infrastructure", "City"
-    }
-
-[effect_rocks_city]
-name    = "Size_Adj"
-value   = -1
-reqs    =
-    { "type", "name", "range"
-      "Terrain", "Radiating Rocks", "Local"
+      "TerrainFlag", "Radiating", "Local"
       "Building", "Basic Infrastructure", "City"
     }
 
@@ -708,21 +699,12 @@ reqs    =
       "Terrain", "Grassland", "Local"
     }
 
-[effect_workable_alien_forest]
+[effect_workable_radiating]
 name    = "Tile_Workable"
 value   = 1
 reqs    =
     { "type", "name", "range"
-      "Terrain", "Alien Forest", "Local"
-      "Tech", "Organic Structures", "Player"
-    }
-
-[effect_workable_radiating_rocks]
-name    = "Tile_Workable"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "Terrain", "Radiating Rocks", "Local"
+      "TerrainFlag", "Radiating", "Local"
       "Tech", "Organic Structures", "Player"
     }
 

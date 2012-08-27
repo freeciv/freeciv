@@ -12,7 +12,7 @@ may_transform=1      ; 0 means no, 1 means yes
 
 [flags]
 ; Names for custom terrain flags.
-;names = ""
+names = "Radiating"
 
 [parameters]
 
@@ -249,7 +249,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Native", "Burrowing", "Antigravity", "Missile"
-flags                = "CanHaveRiver"
+flags                = "CanHaveRiver", "Radiating"
 property_dry         = 60
 property_foliage     = 50
 color.r              = 43
@@ -292,7 +292,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Native", "Burrowing", "Antigravity", "Missile"
-flags                = "CanHaveRiver"
+flags                = "CanHaveRiver", "Radiating"
 property_dry         = 70
 property_tropical    = 50
 color.r              = 205
@@ -762,7 +762,7 @@ reqs           =
     { "type", "name", "range"
       "Tech", "Strong Resistance", "Player"
       "UnitFlag", "Settlers", "Local"
-      "TerrainClass", "Land", "Local"
+      "TerrainFlag", "Radiating", "Local"
     }
 move_cost      = 9
 build_time     = 3
