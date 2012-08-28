@@ -40,7 +40,7 @@
 #include "aitools.h"
 #include "aiunit.h"
 
-#include "defaultai.h"
+#include "classicai.h"
 
 /* This function is only needed as symbol in module. Nevertheless
    gcc requires that there is prior prototype. */

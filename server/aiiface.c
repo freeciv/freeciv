@@ -30,7 +30,7 @@
 #include "autosettlers.h"
 
 /* ai/default */
-#include "defaultai.h"
+#include "classicai.h"
 
 #include "aiiface.h"
 
