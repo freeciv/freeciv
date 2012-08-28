@@ -1340,3 +1340,7 @@ reqs    =
     { "type", "name", "range"
       "Special", "Irrigation", "CAdjacent"
     }
+
+[effect_mining]
+type    = "Mining_Possible"
+value   = 1

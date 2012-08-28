@@ -230,8 +230,10 @@ struct requirement;
 #define SPECENUM_VALUE86NAME "Gov_Center"
 #define SPECENUM_VALUE87 EFT_TRANSFORM_POSSIBLE
 #define SPECENUM_VALUE87NAME "Transform_Possible"
+#define SPECENUM_VALUE88 EFT_MINING_POSSIBLE
+#define SPECENUM_VALUE88NAME "Mining_Possible"
 /* keep this last */
-#define SPECENUM_VALUE88 EFT_LAST
+#define SPECENUM_VALUE89 EFT_LAST
 #include "specenum_gen.h"
 
 /* An effect is provided by a source.  If the source is present, and the

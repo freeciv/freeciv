@@ -809,6 +809,10 @@ reqs    =
     "Tech", "Deep Pumping", "Player"
   }
 
+[effect_mining]
+type    = "Mining_Possible"
+value   = 1
+
 [effect_personal_contact]
 name    = "Spy_Resistant"
 value   = 40

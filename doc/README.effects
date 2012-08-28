@@ -343,6 +343,10 @@ Irrig_Possible
     If value > 0, unit can irrigate target tile. In addition to requirements given
     to this effect, unit must also have Settlers flag.
 
+Mining_Possible
+    If value > 0, unit can build mine to target tile. In addition to requirements given
+    to this effect, terrain type must be one to which mine can be built.
+
 Transform_Possible
     If value > 0, unit can transform target tile. In addition to requirements given
     to this effect, terrain type needs to be one that can be transformed.

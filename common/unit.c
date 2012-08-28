@@ -1045,7 +1045,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     if (terrain_control.may_mine
 	&& unit_has_type_flag(punit, UTYF_SETTLERS)
 	&& ((pterrain == pterrain->mining_result
-	     && !tile_has_special(ptile, S_MINE))
+	     && !tile_has_special(ptile, S_MINE)
+             && get_tile_bonus(ptile, punit, EFT_MINING_POSSIBLE) > 0)
 	    || (pterrain != pterrain->mining_result
 		&& pterrain->mining_result != T_NONE
 		&& (!is_ocean(pterrain)
