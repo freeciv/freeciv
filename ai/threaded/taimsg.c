@@ -53,7 +53,7 @@ void tai_send_req(enum taireqtype type, struct player *pplayer,
 /**************************************************************************
   Time for phase first activities
 **************************************************************************/
-void tai_first_activities(struct player *pplayer)
+void tai_first_activities(struct ai_type *ait, struct player *pplayer)
 {
   tai_send_msg(TAI_MSG_FIRST_ACTIVITIES, pplayer, NULL);
 }
@@ -61,7 +61,7 @@ void tai_first_activities(struct player *pplayer)
 /**************************************************************************
   Player phase has finished
 **************************************************************************/
-void tai_phase_finished(struct player *pplayer)
+void tai_phase_finished(struct ai_type *ait, struct player *pplayer)
 {
   tai_send_msg(TAI_MSG_PHASE_FINISHED, pplayer, NULL);
 }

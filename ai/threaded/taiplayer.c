@@ -38,8 +38,6 @@ enum tai_abort_msg_class
 
 static enum tai_abort_msg_class tai_check_messages(void);
 
-static struct ai_type *self = NULL;
-
 struct tai_thr
 {
   int num_players;
@@ -50,23 +48,13 @@ struct tai_thr
 } thrai;
 
 /**************************************************************************
-  Set pointer to ai type of the threaded ai.
+  Initialize ai thread.
 **************************************************************************/
-void tai_init_self(struct ai_type *ai)
+void tai_init_threading(void)
 {
-  self = ai;
-
   thrai.thread_running = FALSE;
 
   thrai.num_players = 0;
-}
-
-/**************************************************************************
-  Get pointer to ai type of the threaded ai.
-**************************************************************************/
-struct ai_type *tai_get_self(void)
-{
-  return self;
 }
 
 /**************************************************************************
@@ -142,25 +130,25 @@ static enum tai_abort_msg_class tai_check_messages(void)
 /**************************************************************************
   Initialize player for use with threaded AI.
 **************************************************************************/
-void tai_player_alloc(struct player *pplayer)
+void tai_player_alloc(struct ai_type *ait, struct player *pplayer)
 {
   struct tai_plr *player_data = fc_calloc(1, sizeof(struct tai_plr));
 
-  player_set_ai_data(pplayer, tai_get_self(), player_data);
+  player_set_ai_data(pplayer, ait, player_data);
 }
 
 /**************************************************************************
   Free player from use with threaded AI.
 **************************************************************************/
-void tai_player_free(struct player *pplayer)
+void tai_player_free(struct ai_type *ait, struct player *pplayer)
 {
-  player_set_ai_data(pplayer, tai_get_self(), NULL);
+  player_set_ai_data(pplayer, ait, NULL);
 }
 
 /**************************************************************************
   We actually control the player
 **************************************************************************/
-void tai_control_gained(struct player *pplayer)
+void tai_control_gained(struct ai_type *ait, struct player *pplayer)
 {
   thrai.num_players++;
 
@@ -181,7 +169,7 @@ void tai_control_gained(struct player *pplayer)
 /**************************************************************************
   We no longer control the player
 **************************************************************************/
-void tai_control_lost(struct player *pplayer)
+void tai_control_lost(struct ai_type *ait, struct player *pplayer)
 {
   thrai.num_players--;
 
@@ -203,7 +191,7 @@ void tai_control_lost(struct player *pplayer)
 /**************************************************************************
   Check for messages sent by player thread
 **************************************************************************/
-void tai_refresh(struct player *pplayer)
+void tai_refresh(struct ai_type *ait, struct player *pplayer)
 {
   if (thrai.thread_running) {
     taireq_list_allocate_mutex(thrai.reqs_from.reqlist);

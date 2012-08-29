@@ -41,22 +41,22 @@ struct tai_plr
   char unused;
 };
 
-struct ai_type *tai_get_self(void);
-void tai_init_self(struct ai_type *ai);
+void tai_init_threading(void);
 
-void tai_player_alloc(struct player *pplayer);
-void tai_player_free(struct player *pplayer);
-void tai_control_gained(struct player *pplayer);
-void tai_control_lost(struct player *pplayer);
-void tai_refresh(struct player *pplayer);
+void tai_player_alloc(struct ai_type *ait, struct player *pplayer);
+void tai_player_free(struct ai_type *ait, struct player *pplayer);
+void tai_control_gained(struct ai_type *ait,struct player *pplayer);
+void tai_control_lost(struct ai_type *ait, struct player *pplayer);
+void tai_refresh(struct ai_type *ait, struct player *pplayer);
 
 void tai_msg_to_thr(struct tai_msg *msg);
 
 void tai_req_from_thr(struct tai_req *req);
 
-static inline struct tai_plr *tai_player_data(const struct player *pplayer)
+static inline struct tai_plr *tai_player_data(struct ai_type *ait,
+                                              const struct player *pplayer)
 {
-  return (struct tai_plr *)player_ai_data(pplayer, tai_get_self());
+  return (struct tai_plr *)player_ai_data(pplayer, ait);
 }
 
 #endif /* FC__TAIPLAYER_H */
