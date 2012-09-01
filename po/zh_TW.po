@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.4.99-dev\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-08-26 21:43+0800\n"
-"PO-Revision-Date: 2012-08-30 22:33+0800\n"
+"PO-Revision-Date: 2012-09-01 03:03+0800\n"
 "Last-Translator: Zhang Xiaowei <zero00072@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <zero00072@gmail.com>\n"
 "Language: zh_TW\n"
@@ -1138,7 +1138,7 @@ msgstr "顯示版本號"
 #: client/client_main.c:427 manual/civmanual.c:449 server/civserver.c:218
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
-msgstr "不合法的信號「%s」。\n"
+msgstr "不正確的信號「%s」。\n"
 
 #: client/client_main.c:429 client/client_main.c:452 client/client_main.c:466
 msgid "Try using --help.\n"
@@ -1147,17 +1147,17 @@ msgstr "試著用 --help。\n"
 #: client/client_main.c:450
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
-msgstr "用了不合法的埠口「%s」在 --port 的選項。\n"
+msgstr "用了不正確的埠口「%s」在 --port 的選項。\n"
 
 #: client/client_main.c:464
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
-msgstr "用了不合法的除錯等級「%s」在 --debug 選項。\n"
+msgstr "用了不正確的除錯等級「%s」在 --debug 選項。\n"
 
 #: client/client_main.c:484
 #, c-format
 msgid "Invalid announce protocol \"%s\".\n"
-msgstr "公告了不合法的協定「%s」。\n"
+msgstr "公告了不正確的協定「%s」。\n"
 
 #: client/client_main.c:491
 #, c-format
@@ -1855,7 +1855,7 @@ msgstr "納稅人"
 
 #: client/gui-gtk-2.0/citydlg.c:1137 client/gui-gtk-3.0/citydlg.c:1162
 msgid "Disband if build settler at size 1"
-msgstr "當建築尺寸為 1 時解散"
+msgstr "當尺寸為 1 時可用移民解散"
 
 #: client/gui-gtk-2.0/citydlg.c:1140 client/gui-gtk-3.0/citydlg.c:1165
 msgid "Overview page"
@@ -3117,20 +3117,20 @@ msgstr "黃金"
 
 #: client/gui-gtk-2.0/editprop.c:4167 client/gui-gtk-3.0/editprop.c:4167
 msgid "Year"
-msgstr ""
+msgstr "年代"
 
 #: client/gui-gtk-2.0/editprop.c:4169 client/gui-gtk-3.0/editprop.c:4169
 #: modinst/download.h:32
 msgid "Scenario"
-msgstr ""
+msgstr "劇情"
 
 #: client/gui-gtk-2.0/editprop.c:4171 client/gui-gtk-3.0/editprop.c:4171
 msgid "Scenario Name"
-msgstr ""
+msgstr "劇情名稱"
 
 #: client/gui-gtk-2.0/editprop.c:4173 client/gui-gtk-3.0/editprop.c:4173
 msgid "Scenario Description"
-msgstr ""
+msgstr "劇情描述"
 
 #: client/gui-gtk-2.0/editprop.c:4176 client/gui-gtk-3.0/editprop.c:4176
 msgid "Save Players"
@@ -3896,7 +3896,7 @@ msgstr "太空競賽"
 #: client/gui-gtk-2.0/menu.c:1392 client/gui-gtk-3.0/menu.c:1392
 #: client/gui-xaw/menu.c:262 client/include/helpdlg_g.h:35
 msgid "About Ruleset"
-msgstr "關於規則"
+msgstr "關於規則定義"
 
 #: client/gui-gtk-2.0/menu.c:1394 client/gui-gtk-3.0/menu.c:1394
 #: client/gui-xaw/menu.c:263 client/include/helpdlg_g.h:36
@@ -4663,7 +4663,7 @@ msgstr "AI 技能等級(_L)："
 
 #: client/gui-gtk-2.0/pages.c:2602 client/gui-gtk-3.0/pages.c:2609
 msgid "Ruleset _Version:"
-msgstr "規則版本(_V)："
+msgstr "規則定義版本(_V)："
 
 #: client/gui-gtk-2.0/pages.c:2610 client/gui-gtk-3.0/pages.c:2617
 msgid "_More Game Options..."
@@ -8476,7 +8476,7 @@ msgstr ""
 
 #: client/options.c:1708 modinst/download.h:34
 msgid "Soundset"
-msgstr ""
+msgstr "音效包"
 
 #: client/options.c:1709
 msgid ""
@@ -8486,7 +8486,7 @@ msgstr ""
 
 #: client/options.c:1714
 msgid "Sound plugin"
-msgstr ""
+msgstr "音效外掛"
 
 #: client/options.c:1715
 msgid ""
@@ -10481,7 +10481,7 @@ msgstr "（旁觀者）"
 #: common/connection.c:860
 #, c-format
 msgid "\"%s\" is not a valid pattern type"
-msgstr "「%s」不是合法的模式類型"
+msgstr "「%s」不是正確的模式類型"
 
 #: common/connection.c:871
 msgid "Missing pattern type"
@@ -13193,12 +13193,12 @@ msgstr "%s 第一書記"
 #: data/civ1/nations.ruleset:894 data/civ2/nations.ruleset:1023
 #: data/nation/greek.ruleset:3
 msgid "Greek"
-msgstr "希臘人"
+msgstr "古希臘人"
 
 #: data/civ1/nations.ruleset:895 data/civ2/nations.ruleset:1024
 #: data/nation/greek.ruleset:4
 msgid "?plural:Greeks"
-msgstr "希臘人"
+msgstr "古希臘人"
 
 #. TRANS: Legend for nation in "core" set
 #: data/civ1/nations.ruleset:897 data/civ2/nations.ruleset:1026
@@ -15399,11 +15399,11 @@ msgstr "%s 牧師"
 
 #: data/civ2/nations.ruleset:305 data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
-msgstr ""
+msgstr "迦太基人"
 
 #: data/civ2/nations.ruleset:306 data/nation/carthaginian.ruleset:4
 msgid "?plural:Carthaginians"
-msgstr ""
+msgstr "迦太基人"
 
 #: data/civ2/nations.ruleset:308
 msgid ""
@@ -15414,11 +15414,11 @@ msgstr ""
 
 #: data/civ2/nations.ruleset:335 data/nation/celtic.ruleset:3
 msgid "Celtic"
-msgstr ""
+msgstr "凱爾特人"
 
 #: data/civ2/nations.ruleset:336 data/nation/celtic.ruleset:4
 msgid "?plural:Celts"
-msgstr ""
+msgstr "凱爾特人"
 
 #. TRANS: Legend for nation in "core" set
 #: data/civ2/nations.ruleset:338 data/nation/celtic.ruleset:7
@@ -15641,11 +15641,11 @@ msgstr "%s 宗主教"
 
 #: data/civ2/nations.ruleset:1648 data/nation/sioux.ruleset:3
 msgid "Sioux"
-msgstr ""
+msgstr "蘇族人"
 
 #: data/civ2/nations.ruleset:1649 data/nation/sioux.ruleset:4
 msgid "?plural:Sioux"
-msgstr ""
+msgstr "蘇族"
 
 #. TRANS: Legend for nation in "core" set
 #: data/civ2/nations.ruleset:1651 data/nation/sioux.ruleset:7
@@ -15657,11 +15657,11 @@ msgstr ""
 
 #: data/civ2/nations.ruleset:1736 data/nation/spanish.ruleset:3
 msgid "Spanish"
-msgstr ""
+msgstr "西班牙人"
 
 #: data/civ2/nations.ruleset:1737 data/nation/spanish.ruleset:4
 msgid "?plural:Spanish"
-msgstr ""
+msgstr "西班牙人"
 
 #. TRANS: Legend for nation in "core" set
 #: data/civ2/nations.ruleset:1739 data/nation/spanish.ruleset:7
@@ -15701,11 +15701,11 @@ msgstr "%s 樞機主教"
 
 #: data/civ2/nations.ruleset:1807 data/nation/viking.ruleset:3
 msgid "Viking"
-msgstr ""
+msgstr "維京人"
 
 #: data/civ2/nations.ruleset:1808 data/nation/viking.ruleset:4
 msgid "?plural:Vikings"
-msgstr ""
+msgstr "維京人"
 
 #: data/civ2/nations.ruleset:1810
 msgid ""
@@ -17015,7 +17015,7 @@ msgstr ""
 
 #: data/experimental/game.ruleset:21
 msgid "Experimental ruleset"
-msgstr "實驗性規則"
+msgstr "實驗性規則定義"
 
 #: data/experimental/game.ruleset:24
 msgid ""
@@ -22931,11 +22931,11 @@ msgstr ""
 
 #: data/nation/castilian.ruleset:3
 msgid "Castilian"
-msgstr ""
+msgstr "卡斯提爾人"
 
 #: data/nation/castilian.ruleset:4
 msgid "?plural:Castilians"
-msgstr ""
+msgstr "卡斯提爾人"
 
 #: data/nation/castilian.ruleset:6
 msgid ""
@@ -22947,11 +22947,11 @@ msgstr ""
 
 #: data/nation/catalan.ruleset:3
 msgid "Catalan"
-msgstr ""
+msgstr "加泰隆尼亞人"
 
 #: data/nation/catalan.ruleset:4
 msgid "?plural:Catalans"
-msgstr ""
+msgstr "加泰隆尼亞人"
 
 #: data/nation/catalan.ruleset:6
 msgid ""
@@ -22968,11 +22968,11 @@ msgstr ""
 
 #: data/nation/celtiberian.ruleset:3
 msgid "Celtiberian"
-msgstr ""
+msgstr "凱爾特伊比利亞人"
 
 #: data/nation/celtiberian.ruleset:4
 msgid "?plural:Celtiberians"
-msgstr ""
+msgstr "凱爾特伊比利亞人"
 
 #: data/nation/celtiberian.ruleset:6
 msgid ""
@@ -23029,11 +23029,11 @@ msgstr ""
 
 #: data/nation/centrallithuanian.ruleset:3
 msgid "Central Lithuanian"
-msgstr ""
+msgstr "中立陶宛人"
 
 #: data/nation/centrallithuanian.ruleset:4
 msgid "?plural:Central Lithuanians"
-msgstr ""
+msgstr "中立陶宛人"
 
 #. TRANS: The second and seventh letter in "Wladyslaw" should be
 #. TRANS: U+0142 LATIN SMALL LETTER L WITH STROKE if available in
@@ -23160,11 +23160,11 @@ msgstr ""
 
 #: data/nation/cherokee.ruleset:3
 msgid "Cherokee"
-msgstr ""
+msgstr "切羅基人"
 
 #: data/nation/cherokee.ruleset:4
 msgid "?plural:Cherokees"
-msgstr ""
+msgstr "切羅基人"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/cherokee.ruleset:7
@@ -23412,11 +23412,11 @@ msgstr ""
 
 #: data/nation/chuvash.ruleset:3
 msgid "Chuvash"
-msgstr ""
+msgstr "楚瓦什人"
 
 #: data/nation/chuvash.ruleset:4
 msgid "?plural:Chuvashes"
-msgstr ""
+msgstr "楚瓦什人"
 
 #: data/nation/chuvash.ruleset:6
 msgid ""
@@ -23428,11 +23428,11 @@ msgstr ""
 
 #: data/nation/circassian.ruleset:3
 msgid "Circassian"
-msgstr ""
+msgstr "切爾卡斯亞人"
 
 #: data/nation/circassian.ruleset:4
 msgid "?plural:Circassians"
-msgstr ""
+msgstr "切爾卡斯亞人"
 
 #: data/nation/circassian.ruleset:7
 #, no-c-format
@@ -23581,11 +23581,11 @@ msgstr ""
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
-msgstr ""
+msgstr "康沃爾人"
 
 #: data/nation/cornish.ruleset:4
 msgid "?plural:Cornish"
-msgstr ""
+msgstr "康沃爾人"
 
 #: data/nation/cornish.ruleset:6
 msgid ""
@@ -23595,11 +23595,11 @@ msgstr ""
 
 #: data/nation/corsican.ruleset:3
 msgid "Corsican"
-msgstr ""
+msgstr "科西嘉人"
 
 #: data/nation/corsican.ruleset:4
 msgid "?plural:Corsicans"
-msgstr ""
+msgstr "科西嘉人"
 
 #: data/nation/corsican.ruleset:6
 msgid ""
@@ -23625,11 +23625,11 @@ msgstr "%s 首席總司令"
 
 #: data/nation/cossack.ruleset:3
 msgid "Cossack"
-msgstr ""
+msgstr "哥薩克人"
 
 #: data/nation/cossack.ruleset:4
 msgid "?plural:Cossacks"
-msgstr ""
+msgstr "哥薩克人"
 
 #: data/nation/cossack.ruleset:6
 msgid ""
@@ -23683,11 +23683,11 @@ msgstr ""
 
 #: data/nation/cretan.ruleset:3
 msgid "Cretan"
-msgstr ""
+msgstr "克里特人"
 
 #: data/nation/cretan.ruleset:4
 msgid "?plural:Cretans"
-msgstr ""
+msgstr "克里特人"
 
 #: data/nation/cretan.ruleset:6
 msgid ""
@@ -23702,11 +23702,11 @@ msgstr ""
 
 #: data/nation/crimeantatar.ruleset:3
 msgid "Crimean Tatar"
-msgstr ""
+msgstr "克里米亞韃靼人"
 
 #: data/nation/crimeantatar.ruleset:4
 msgid "?plural:Crimean Tatars"
-msgstr ""
+msgstr "克里米亞韃靼人"
 
 #: data/nation/crimeantatar.ruleset:6
 msgid ""
@@ -23717,11 +23717,11 @@ msgstr ""
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
-msgstr ""
+msgstr "克羅埃西亞人"
 
 #: data/nation/croatian.ruleset:4
 msgid "?plural:Croatians"
-msgstr ""
+msgstr "克羅埃西亞人"
 
 #: data/nation/croatian.ruleset:6
 msgid ""
@@ -23770,11 +23770,11 @@ msgstr ""
 
 #: data/nation/curonian.ruleset:3
 msgid "Curonian"
-msgstr ""
+msgstr "庫爾斯人"
 
 #: data/nation/curonian.ruleset:4
 msgid "?plural:Curonians"
-msgstr ""
+msgstr "庫爾斯人"
 
 #: data/nation/curonian.ruleset:6
 msgid ""
@@ -23786,11 +23786,11 @@ msgstr ""
 
 #: data/nation/cuyavian.ruleset:3
 msgid "Cuyavian"
-msgstr ""
+msgstr "庫亞維人"
 
 #: data/nation/cuyavian.ruleset:4
 msgid "?plural:Cuyavians"
-msgstr ""
+msgstr "庫亞維人"
 
 #: data/nation/cuyavian.ruleset:6
 msgid ""
@@ -23800,11 +23800,11 @@ msgstr ""
 
 #: data/nation/cypriot.ruleset:3
 msgid "Cypriot"
-msgstr ""
+msgstr "賽普勒斯人"
 
 #: data/nation/cypriot.ruleset:4
 msgid "?plural:Cypriots"
-msgstr ""
+msgstr "賽普勒斯人"
 
 #: data/nation/cypriot.ruleset:6
 msgid ""
@@ -23835,11 +23835,11 @@ msgstr ""
 
 #: data/nation/czechoslovak.ruleset:3
 msgid "Czechoslovakian"
-msgstr ""
+msgstr "捷克斯洛伐克人"
 
 #: data/nation/czechoslovak.ruleset:4
 msgid "?plural:Czechoslovakians"
-msgstr ""
+msgstr "捷克斯洛伐克人"
 
 #: data/nation/czechoslovak.ruleset:6
 msgid ""
@@ -23851,11 +23851,11 @@ msgstr ""
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
-msgstr ""
+msgstr "捷克人"
 
 #: data/nation/czech.ruleset:4
 msgid "?plural:Czechs"
-msgstr ""
+msgstr "捷克人"
 
 #: data/nation/czech.ruleset:6
 msgid ""
@@ -23895,11 +23895,11 @@ msgstr ""
 
 #: data/nation/danish.ruleset:3
 msgid "Danish"
-msgstr ""
+msgstr "丹麥人"
 
 #: data/nation/danish.ruleset:4
 msgid "?plural:Danes"
-msgstr ""
+msgstr "丹麥人"
 
 #. TRANS: Legend for nation in "core" set
 #. TRANS: The third letter in "Blatand" should be
@@ -23997,11 +23997,11 @@ msgstr ""
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
-msgstr ""
+msgstr "荷蘭人"
 
 #: data/nation/dutch.ruleset:4
 msgid "?plural:Dutch"
-msgstr ""
+msgstr "荷蘭人"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/dutch.ruleset:7
@@ -24014,11 +24014,11 @@ msgstr ""
 
 #: data/nation/eastgerman.ruleset:3
 msgid "East German"
-msgstr ""
+msgstr "東德人"
 
 #: data/nation/eastgerman.ruleset:4
 msgid "?plural:East Germans"
-msgstr ""
+msgstr "東德人"
 
 #: data/nation/eastgerman.ruleset:6
 msgid ""
@@ -24142,11 +24142,11 @@ msgstr ""
 
 #: data/nation/epirote.ruleset:3
 msgid "Epirote"
-msgstr ""
+msgstr "伊庇魯斯人"
 
 #: data/nation/epirote.ruleset:4
 msgid "?plural:Epirotes"
-msgstr ""
+msgstr "伊庇魯斯人"
 
 #: data/nation/epirote.ruleset:6
 msgid ""
@@ -24212,11 +24212,11 @@ msgstr ""
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
-msgstr ""
+msgstr "愛沙尼亞人"
 
 #: data/nation/estonian.ruleset:4
 msgid "?plural:Estonians"
-msgstr ""
+msgstr "愛沙尼亞人"
 
 #: data/nation/estonian.ruleset:6
 msgid ""
@@ -24236,11 +24236,11 @@ msgstr "%s 守護者"
 
 #: data/nation/ethiopian.ruleset:3
 msgid "Ethiopian"
-msgstr ""
+msgstr "衣索比亞人"
 
 #: data/nation/ethiopian.ruleset:4
 msgid "?plural:Ethiopians"
-msgstr ""
+msgstr "衣索比亞人"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/ethiopian.ruleset:7
@@ -24251,11 +24251,11 @@ msgstr ""
 
 #: data/nation/etruscan.ruleset:3
 msgid "Etruscan"
-msgstr ""
+msgstr "伊特拉斯坎人"
 
 #: data/nation/etruscan.ruleset:4
 msgid "?plural:Etruscans"
-msgstr ""
+msgstr "伊特拉斯坎人"
 
 #: data/nation/etruscan.ruleset:6
 msgid ""
@@ -24331,11 +24331,11 @@ msgstr ""
 
 #: data/nation/faroese.ruleset:3
 msgid "Faroese"
-msgstr ""
+msgstr "法羅人"
 
 #: data/nation/faroese.ruleset:4
 msgid "?plural:Faroese"
-msgstr ""
+msgstr "法羅人"
 
 #: data/nation/faroese.ruleset:6
 msgid ""
@@ -24348,11 +24348,11 @@ msgstr ""
 
 #: data/nation/fijian.ruleset:3
 msgid "Fijian"
-msgstr ""
+msgstr "斐濟人"
 
 #: data/nation/fijian.ruleset:4
 msgid "?plural:Fijians"
-msgstr ""
+msgstr "斐濟人"
 
 #: data/nation/fijian.ruleset:6
 msgid ""
@@ -24400,11 +24400,11 @@ msgstr ""
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
-msgstr ""
+msgstr "芬蘭人"
 
 #: data/nation/finnish.ruleset:4
 msgid "?plural:Finns"
-msgstr ""
+msgstr "芬蘭人"
 
 #: data/nation/finnish.ruleset:6
 msgid ""
@@ -24414,11 +24414,11 @@ msgstr ""
 
 #: data/nation/flemish.ruleset:3
 msgid "Flemish"
-msgstr ""
+msgstr "佛萊明人"
 
 #: data/nation/flemish.ruleset:4
 msgid "?plural:Flemings"
-msgstr ""
+msgstr "佛萊明人"
 
 #: data/nation/flemish.ruleset:6
 msgid ""
@@ -24431,11 +24431,11 @@ msgstr ""
 
 #: data/nation/florentine.ruleset:3
 msgid "Florentine"
-msgstr ""
+msgstr "佛羅倫斯人"
 
 #: data/nation/florentine.ruleset:4
 msgid "?plural:Florentines"
-msgstr ""
+msgstr "佛羅倫斯人"
 
 #: data/nation/florentine.ruleset:6
 msgid ""
@@ -24480,11 +24480,11 @@ msgstr "%s 市長"
 
 #: data/nation/franconian.ruleset:3
 msgid "Franconian"
-msgstr ""
+msgstr "法蘭克尼亞人"
 
 #: data/nation/franconian.ruleset:4
 msgid "?plural:Franconians"
-msgstr ""
+msgstr "法蘭克尼亞人"
 
 #: data/nation/franconian.ruleset:6
 msgid ""
@@ -24506,11 +24506,11 @@ msgstr "%s 采邑主教"
 
 #: data/nation/frankish.ruleset:3
 msgid "Frankish"
-msgstr ""
+msgstr "法蘭克人"
 
 #: data/nation/frankish.ruleset:4
 msgid "?plural:Franks"
-msgstr ""
+msgstr "法蘭克人"
 
 #: data/nation/frankish.ruleset:6
 msgid ""
@@ -24561,11 +24561,11 @@ msgstr "%s 公民"
 
 #: data/nation/frisian.ruleset:3
 msgid "Frisian"
-msgstr ""
+msgstr "弗里斯蘭人"
 
 #: data/nation/frisian.ruleset:4
 msgid "?plural:Frisians"
-msgstr ""
+msgstr "弗里斯蘭人"
 
 #: data/nation/frisian.ruleset:6
 msgid ""
@@ -24582,11 +24582,11 @@ msgstr ""
 
 #: data/nation/friulian.ruleset:3
 msgid "Friulian"
-msgstr ""
+msgstr "佛里烏利人"
 
 #: data/nation/friulian.ruleset:4
 msgid "?plural:Friulian"
-msgstr ""
+msgstr "佛里烏利人"
 
 #: data/nation/friulian.ruleset:6
 msgid ""
@@ -24640,11 +24640,11 @@ msgstr ""
 
 #: data/nation/gaelic.ruleset:3
 msgid "Gaelic"
-msgstr ""
+msgstr "蓋爾人"
 
 #: data/nation/gaelic.ruleset:4
 msgid "?plural:Gaels"
-msgstr ""
+msgstr "蓋爾人"
 
 #: data/nation/gaelic.ruleset:6
 msgid ""
@@ -24668,11 +24668,11 @@ msgstr "%s 總理"
 
 #: data/nation/galician.ruleset:3
 msgid "Galician"
-msgstr ""
+msgstr "加利西亞人"
 
 #: data/nation/galician.ruleset:4
 msgid "?plural:Galicians"
-msgstr ""
+msgstr "加利西亞人"
 
 #: data/nation/galician.ruleset:6
 msgid "Galicia is a region in the northwest of Spain, just above Portugal."
@@ -24680,11 +24680,11 @@ msgstr ""
 
 #: data/nation/gallic.ruleset:3
 msgid "Gallic"
-msgstr ""
+msgstr "高盧人"
 
 #: data/nation/gallic.ruleset:4
 msgid "?plural:Gauls"
-msgstr ""
+msgstr "高盧人"
 
 #: data/nation/gallic.ruleset:6
 msgid ""
@@ -24729,11 +24729,11 @@ msgstr "%s 曼薩"
 
 #: data/nation/genoese.ruleset:3
 msgid "Genoese"
-msgstr ""
+msgstr "熱那亞人"
 
 #: data/nation/genoese.ruleset:4
 msgid "?plural:Genoese"
-msgstr ""
+msgstr "熱那亞人"
 
 #: data/nation/genoese.ruleset:6
 msgid ""
@@ -24773,11 +24773,11 @@ msgstr ""
 
 #: data/nation/germanbelgian.ruleset:3
 msgid "German Belgian"
-msgstr ""
+msgstr "比利時德語人"
 
 #: data/nation/germanbelgian.ruleset:4
 msgid "?plural:German Belgians"
-msgstr ""
+msgstr "比利時德語社群"
 
 #: data/nation/germanbelgian.ruleset:6
 msgid ""
@@ -24794,11 +24794,11 @@ msgstr ""
 
 #: data/nation/germanic.ruleset:3
 msgid "Germanic"
-msgstr ""
+msgstr "日耳曼人"
 
 #: data/nation/germanic.ruleset:4
 msgid "?plural:Germanics"
-msgstr ""
+msgstr "日耳曼人"
 
 #: data/nation/germanic.ruleset:6
 msgid ""
@@ -24919,11 +24919,11 @@ msgstr ""
 
 #: data/nation/gothic.ruleset:3
 msgid "Gothic"
-msgstr ""
+msgstr "哥德人"
 
 #: data/nation/gothic.ruleset:4
 msgid "?plural:Goths"
-msgstr ""
+msgstr "哥德人"
 
 #: data/nation/gothic.ruleset:6
 msgid ""
@@ -24936,11 +24936,11 @@ msgstr ""
 
 #: data/nation/greaterpolish.ruleset:3
 msgid "Greater Polish"
-msgstr ""
+msgstr "大波蘭人"
 
 #: data/nation/greaterpolish.ruleset:4
 msgid "?plural:Greater Poles"
-msgstr ""
+msgstr "大波蘭人"
 
 #: data/nation/greaterpolish.ruleset:6
 msgid ""
@@ -25146,11 +25146,11 @@ msgstr ""
 
 #: data/nation/hanoverian.ruleset:3
 msgid "Hanoverian"
-msgstr ""
+msgstr "漢諾威人"
 
 #: data/nation/hanoverian.ruleset:4
 msgid "?plural:Hanoverians"
-msgstr ""
+msgstr "漢諾威人"
 
 #: data/nation/hanoverian.ruleset:6
 msgid ""
@@ -25184,11 +25184,11 @@ msgstr ""
 
 #: data/nation/hansa.ruleset:3
 msgid "Hanseatic"
-msgstr ""
+msgstr "漢薩人"
 
 #: data/nation/hansa.ruleset:4
 msgid "?plural:Hanseatic League"
-msgstr ""
+msgstr "漢薩人"
 
 #: data/nation/hansa.ruleset:6
 msgid ""
@@ -25218,11 +25218,11 @@ msgstr ""
 
 #: data/nation/hawaiian.ruleset:3
 msgid "Hawaiian"
-msgstr ""
+msgstr "夏威夷人"
 
 #: data/nation/hawaiian.ruleset:4
 msgid "?plural:Hawaiians"
-msgstr ""
+msgstr "夏威夷人"
 
 #: data/nation/hawaiian.ruleset:7
 msgid ""
@@ -25233,11 +25233,11 @@ msgstr ""
 
 #: data/nation/hellenic.ruleset:3
 msgid "Hellenic"
-msgstr ""
+msgstr "希臘人"
 
 #: data/nation/hellenic.ruleset:4
 msgid "?plural:Hellenes"
-msgstr ""
+msgstr "希臘人"
 
 #: data/nation/hellenic.ruleset:6
 msgid ""
@@ -25247,11 +25247,11 @@ msgstr ""
 
 #: data/nation/helvetian.ruleset:3
 msgid "Helvetian"
-msgstr ""
+msgstr "赫爾維西亞人"
 
 #: data/nation/helvetian.ruleset:4
 msgid "?plural:Helvetians"
-msgstr ""
+msgstr "赫爾維西亞人"
 
 #: data/nation/helvetian.ruleset:6
 msgid ""
@@ -25287,11 +25287,11 @@ msgstr ""
 
 #: data/nation/hessian.ruleset:3
 msgid "Hessian"
-msgstr ""
+msgstr "黑森人"
 
 #: data/nation/hessian.ruleset:4
 msgid "?plural:Hessians"
-msgstr ""
+msgstr "黑森人"
 
 #: data/nation/hessian.ruleset:6
 msgid ""
@@ -25354,11 +25354,11 @@ msgstr ""
 
 #: data/nation/holyroman.ruleset:3
 msgid "Holy Roman"
-msgstr ""
+msgstr "神聖羅馬人"
 
 #: data/nation/holyroman.ruleset:4
 msgid "?plural:Holy Romans"
-msgstr ""
+msgstr "神聖羅馬人"
 
 #: data/nation/holyroman.ruleset:7
 msgid ""
@@ -25402,13 +25402,13 @@ msgstr ""
 #: data/nation/templar.ruleset:41 data/nation/teutonic.ruleset:31
 #, c-format
 msgid "Grand Master %s"
-msgstr ""
+msgstr "%s 大團長"
 
 #: data/nation/holysee.ruleset:32 data/nation/maltese.ruleset:28
 #: data/nation/templar.ruleset:41 data/nation/teutonic.ruleset:31
 #, c-format
 msgid "Grand Mistress %s"
-msgstr ""
+msgstr "%s 大團長"
 
 #: data/nation/honduran.ruleset:3
 msgid "Honduran"
@@ -25443,11 +25443,11 @@ msgstr ""
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
-msgstr ""
+msgstr "匈牙利人"
 
 #: data/nation/hungarian.ruleset:4
 msgid "?plural:Hungarians"
-msgstr ""
+msgstr "匈牙利人"
 
 #: data/nation/hungarian.ruleset:6
 msgid "Legend says that Hungary was founded by Arpad in the 9th century."
@@ -25477,11 +25477,11 @@ msgstr ""
 
 #: data/nation/iberian.ruleset:3
 msgid "Iberian"
-msgstr ""
+msgstr "伊比利亞人"
 
 #: data/nation/iberian.ruleset:4
 msgid "?plural:Iberians"
-msgstr ""
+msgstr "伊比利亞人"
 
 #: data/nation/iberian.ruleset:6
 msgid ""
@@ -25492,11 +25492,11 @@ msgstr ""
 
 #: data/nation/icelandic.ruleset:3
 msgid "Icelandic"
-msgstr ""
+msgstr "冰島人"
 
 #: data/nation/icelandic.ruleset:4
 msgid "?plural:Icelanders"
-msgstr ""
+msgstr "冰島人"
 
 #: data/nation/icelandic.ruleset:6
 msgid ""
@@ -25508,11 +25508,11 @@ msgstr ""
 
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
-msgstr ""
+msgstr "伊利里亞人"
 
 #: data/nation/illyrian.ruleset:4
 msgid "?plural:Illyrians"
-msgstr ""
+msgstr "伊利里亞人"
 
 #: data/nation/illyrian.ruleset:6
 msgid ""
@@ -25525,11 +25525,11 @@ msgstr ""
 
 #: data/nation/inca.ruleset:3
 msgid "Inca"
-msgstr ""
+msgstr "印加人"
 
 #: data/nation/inca.ruleset:4
 msgid "?plural:Incas"
-msgstr ""
+msgstr "印加人"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/inca.ruleset:8
@@ -25662,11 +25662,11 @@ msgstr ""
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
-msgstr ""
+msgstr "愛爾蘭人"
 
 #: data/nation/irish.ruleset:4
 msgid "?plural:Irish"
-msgstr ""
+msgstr "愛爾蘭人"
 
 #: data/nation/irish.ruleset:6
 msgid ""
@@ -25679,11 +25679,11 @@ msgstr ""
 
 #: data/nation/iroquois.ruleset:3
 msgid "Iroquois"
-msgstr ""
+msgstr "易洛魁人"
 
 #: data/nation/iroquois.ruleset:4
 msgid "?plural:Iroquois"
-msgstr ""
+msgstr "易洛魁人"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/iroquois.ruleset:7
@@ -25750,11 +25750,11 @@ msgstr ""
 
 #: data/nation/italian.ruleset:3
 msgid "Italian"
-msgstr ""
+msgstr "義大利人"
 
 #: data/nation/italian.ruleset:4
 msgid "?plural:Italians"
-msgstr ""
+msgstr "義大利人"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/italian.ruleset:7
@@ -25887,11 +25887,11 @@ msgstr ""
 
 #: data/nation/kalmyk.ruleset:3
 msgid "Kalmyk"
-msgstr ""
+msgstr "卡爾梅克人"
 
 #: data/nation/kalmyk.ruleset:4
 msgid "?plural:Kalmyks"
-msgstr ""
+msgstr "卡爾梅克人"
 
 #: data/nation/kalmyk.ruleset:6
 msgid ""
@@ -25938,11 +25938,11 @@ msgstr ""
 
 #: data/nation/karelian.ruleset:3
 msgid "Karelian"
-msgstr ""
+msgstr "卡累利阿人"
 
 #: data/nation/karelian.ruleset:4
 msgid "?plural:Karelians"
-msgstr ""
+msgstr "卡累利阿人"
 
 #: data/nation/karelian.ruleset:6
 msgid ""
@@ -25986,11 +25986,11 @@ msgstr ""
 
 #: data/nation/kashubian.ruleset:3
 msgid "Kashubian"
-msgstr ""
+msgstr "卡舒比人"
 
 #: data/nation/kashubian.ruleset:4
 msgid "?plural:Kashubians"
-msgstr ""
+msgstr "卡舒比人"
 
 #: data/nation/kashubian.ruleset:6
 msgid ""
@@ -26052,11 +26052,11 @@ msgstr ""
 
 #: data/nation/khazar.ruleset:3
 msgid "Khazar"
-msgstr ""
+msgstr "可薩人"
 
 #: data/nation/khazar.ruleset:4
 msgid "?plural:Khazars"
-msgstr ""
+msgstr "可薩人"
 
 #: data/nation/khazar.ruleset:6
 msgid ""
@@ -26128,11 +26128,11 @@ msgstr "%s 總督"
 
 #: data/nation/kiribati.ruleset:3
 msgid "Kiribati"
-msgstr ""
+msgstr "吉里巴斯人"
 
 #: data/nation/kiribati.ruleset:4
 msgid "?plural:I-Kiribati"
-msgstr ""
+msgstr "吉里巴斯人"
 
 #: data/nation/kiribati.ruleset:6
 msgid ""
@@ -26198,11 +26198,11 @@ msgstr ""
 
 #: data/nation/kosovar.ruleset:3
 msgid "Kosovar"
-msgstr ""
+msgstr "科索沃人"
 
 #: data/nation/kosovar.ruleset:4
 msgid "?plural:Kosovars"
-msgstr ""
+msgstr "科索沃人"
 
 #: data/nation/kosovar.ruleset:6
 msgid ""
@@ -26348,11 +26348,11 @@ msgstr ""
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
-msgstr ""
+msgstr "拉脫維亞人"
 
 #: data/nation/latvian.ruleset:4
 msgid "?plural:Latvians"
-msgstr ""
+msgstr "拉脫維亞人"
 
 #: data/nation/latvian.ruleset:7
 msgid ""
@@ -26403,11 +26403,11 @@ msgstr ""
 
 #: data/nation/leonese.ruleset:3
 msgid "Leonese"
-msgstr ""
+msgstr "雷昂人"
 
 #: data/nation/leonese.ruleset:4
 msgid "?plural:Leonese"
-msgstr ""
+msgstr "雷昂人"
 
 #: data/nation/leonese.ruleset:6
 msgid ""
@@ -26457,11 +26457,11 @@ msgstr ""
 
 #: data/nation/liburnian.ruleset:3
 msgid "Liburnian"
-msgstr ""
+msgstr "利布爾尼安語人"
 
 #: data/nation/liburnian.ruleset:4
 msgid "?plural:Liburnians"
-msgstr ""
+msgstr "利布爾尼安語人"
 
 #: data/nation/liburnian.ruleset:6
 msgid ""
@@ -26489,11 +26489,11 @@ msgstr ""
 
 #: data/nation/liechtensteiner.ruleset:3
 msgid "Liechtensteiner"
-msgstr ""
+msgstr "列支敦斯登人"
 
 #: data/nation/liechtensteiner.ruleset:4
 msgid "?plural:Liechtensteiners"
-msgstr ""
+msgstr "列支敦斯登人"
 
 #: data/nation/liechtensteiner.ruleset:6
 msgid ""
@@ -26505,11 +26505,11 @@ msgstr ""
 
 #: data/nation/lipkatatar.ruleset:3
 msgid "Lipka Tatar"
-msgstr ""
+msgstr "立陶宛韃靼人"
 
 #: data/nation/lipkatatar.ruleset:4
 msgid "?plural:Lipka Tatars"
-msgstr ""
+msgstr "立陶宛韃靼人"
 
 #: data/nation/lipkatatar.ruleset:6
 msgid ""
@@ -26522,11 +26522,11 @@ msgstr ""
 
 #: data/nation/lippe.ruleset:3
 msgid "Lippian"
-msgstr ""
+msgstr "利珀人"
 
 #: data/nation/lippe.ruleset:4
 msgid "?plural:Lippians"
-msgstr ""
+msgstr "利珀人"
 
 #: data/nation/lippe.ruleset:6
 msgid ""
@@ -26536,11 +26536,11 @@ msgstr ""
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
-msgstr ""
+msgstr "立陶宛人"
 
 #: data/nation/lithuanian.ruleset:4
 msgid "?plural:Lithuanians"
-msgstr ""
+msgstr "立陶宛人"
 
 #: data/nation/lithuanian.ruleset:6
 msgid ""
@@ -26567,11 +26567,11 @@ msgstr ""
 
 #: data/nation/lorrain.ruleset:3
 msgid "Lorrain"
-msgstr ""
+msgstr "洛林人"
 
 #: data/nation/lorrain.ruleset:4
 msgid "?plural:Lorrains"
-msgstr ""
+msgstr "洛林人"
 
 #: data/nation/lorrain.ruleset:6
 msgid ""
@@ -26601,11 +26601,11 @@ msgstr ""
 
 #: data/nation/luxembourgish.ruleset:3
 msgid "Luxembourgish"
-msgstr ""
+msgstr "盧森堡人"
 
 #: data/nation/luxembourgish.ruleset:4
 msgid "?plural:Luxembourgians"
-msgstr ""
+msgstr "盧森堡人"
 
 #: data/nation/luxembourgish.ruleset:6
 msgid ""
@@ -26632,11 +26632,11 @@ msgstr ""
 
 #: data/nation/macedonian.ruleset:3
 msgid "Macedonian"
-msgstr ""
+msgstr "南斯拉夫馬其頓人"
 
 #: data/nation/macedonian.ruleset:4
 msgid "?plural:Macedonians"
-msgstr ""
+msgstr "南斯拉夫馬其頓人"
 
 #: data/nation/macedonian.ruleset:6
 msgid ""
@@ -26646,11 +26646,11 @@ msgstr ""
 
 #: data/nation/macedon.ruleset:3
 msgid "Macedon"
-msgstr ""
+msgstr "馬其頓人"
 
 #: data/nation/macedon.ruleset:4
 msgid "?plural:Macedons"
-msgstr ""
+msgstr "馬其頓人"
 
 #: data/nation/macedon.ruleset:6
 msgid ""
@@ -26788,11 +26788,11 @@ msgstr ""
 
 #: data/nation/mali.ruleset:3
 msgid "Mali"
-msgstr ""
+msgstr "馬利人"
 
 #: data/nation/mali.ruleset:4
 msgid "?plural:Malis"
-msgstr ""
+msgstr "馬利人"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/mali.ruleset:7
@@ -26807,11 +26807,11 @@ msgstr ""
 
 #: data/nation/maltese.ruleset:3
 msgid "Maltese"
-msgstr ""
+msgstr "馬爾他人"
 
 #: data/nation/maltese.ruleset:4
 msgid "?plural:Maltese"
-msgstr ""
+msgstr "馬爾他人"
 
 #: data/nation/maltese.ruleset:6
 msgid ""
@@ -26825,13 +26825,13 @@ msgstr ""
 #: data/nation/teutonic.ruleset:30
 #, c-format
 msgid "Master %s"
-msgstr ""
+msgstr "%s 團長"
 
 #: data/nation/maltese.ruleset:27 data/nation/templar.ruleset:40
 #: data/nation/teutonic.ruleset:30
 #, c-format
 msgid "Mistress %s"
-msgstr ""
+msgstr "%s 團長"
 
 #: data/nation/mamluk.ruleset:3
 msgid "Mamluk"
@@ -26881,11 +26881,11 @@ msgstr ""
 
 #: data/nation/manx.ruleset:3
 msgid "Manx"
-msgstr ""
+msgstr "曼島人"
 
 #: data/nation/manx.ruleset:4
 msgid "?plural:Manx"
-msgstr ""
+msgstr "曼島人"
 
 #: data/nation/manx.ruleset:6
 msgid ""
@@ -26912,11 +26912,11 @@ msgstr "%s 首席部長"
 
 #: data/nation/maori.ruleset:3
 msgid "Maori"
-msgstr ""
+msgstr "毛利人"
 
 #: data/nation/maori.ruleset:4
 msgid "?plural:Maori"
-msgstr ""
+msgstr "毛利人"
 
 #: data/nation/maori.ruleset:6
 msgid ""
@@ -27017,11 +27017,11 @@ msgstr ""
 
 #: data/nation/mayan.ruleset:3
 msgid "Mayan"
-msgstr ""
+msgstr "馬雅人"
 
 #: data/nation/mayan.ruleset:4
 msgid "?plural:Mayas"
-msgstr ""
+msgstr "馬雅人"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/mayan.ruleset:7
@@ -27032,11 +27032,11 @@ msgstr ""
 
 #: data/nation/mazovian.ruleset:3
 msgid "Mazovian"
-msgstr ""
+msgstr "馬佐夫舍人"
 
 #: data/nation/mazovian.ruleset:4
 msgid "?plural:Mazovians"
-msgstr ""
+msgstr "馬佐夫舍人"
 
 #: data/nation/mazovian.ruleset:6
 msgid "Mazovia is a historic and geographic region of central-eastern Poland."
@@ -27044,11 +27044,11 @@ msgstr ""
 
 #: data/nation/mecklenburgian.ruleset:3
 msgid "Mecklenburgian"
-msgstr ""
+msgstr "梅克倫堡人"
 
 #: data/nation/mecklenburgian.ruleset:4
 msgid "?plural:Mecklenburgians"
-msgstr ""
+msgstr "梅克倫堡人"
 
 #: data/nation/mecklenburgian.ruleset:6
 msgid ""
@@ -27087,11 +27087,11 @@ msgstr ""
 
 #: data/nation/messapian.ruleset:3
 msgid "Messapian"
-msgstr ""
+msgstr "梅薩比人"
 
 #: data/nation/messapian.ruleset:4
 msgid "?plural:Messapians"
-msgstr ""
+msgstr "梅薩比人"
 
 #: data/nation/messapian.ruleset:6
 msgid ""
@@ -27166,11 +27166,11 @@ msgstr ""
 
 #: data/nation/micronesian.ruleset:3
 msgid "Micronesian"
-msgstr ""
+msgstr "密克羅尼西亞人"
 
 #: data/nation/micronesian.ruleset:4
 msgid "?plural:Micronesian"
-msgstr ""
+msgstr "密克羅尼西亞人"
 
 #: data/nation/micronesian.ruleset:6
 msgid ""
@@ -27197,11 +27197,11 @@ msgstr ""
 
 #: data/nation/milanese.ruleset:3
 msgid "Milanese"
-msgstr ""
+msgstr "米蘭人"
 
 #: data/nation/milanese.ruleset:4
 msgid "?plural:Milanese"
-msgstr ""
+msgstr "米蘭人"
 
 #: data/nation/milanese.ruleset:6
 msgid ""
@@ -27270,11 +27270,11 @@ msgstr ""
 
 #: data/nation/moldovan.ruleset:3
 msgid "Moldovan"
-msgstr ""
+msgstr "摩爾多瓦人"
 
 #: data/nation/moldovan.ruleset:4
 msgid "?plural:Moldovans"
-msgstr ""
+msgstr "摩爾多瓦人"
 
 #: data/nation/moldovan.ruleset:6
 msgid ""
@@ -27307,11 +27307,11 @@ msgstr ""
 
 #: data/nation/monegasque.ruleset:3
 msgid "Monegasque"
-msgstr ""
+msgstr "摩納哥人"
 
 #: data/nation/monegasque.ruleset:4
 msgid "?plural:Monegasque"
-msgstr ""
+msgstr "摩納哥人"
 
 #: data/nation/monegasque.ruleset:6
 msgid ""
@@ -27350,11 +27350,11 @@ msgstr ""
 
 #: data/nation/montenegrin.ruleset:3
 msgid "Montenegrin"
-msgstr ""
+msgstr "蒙特內哥羅人"
 
 #: data/nation/montenegrin.ruleset:4
 msgid "?plural:Montenegrins"
-msgstr ""
+msgstr "蒙特內哥羅人"
 
 #: data/nation/montenegrin.ruleset:6
 msgid ""
@@ -27523,11 +27523,11 @@ msgstr ""
 
 #: data/nation/nauruan.ruleset:3
 msgid "Nauruan"
-msgstr ""
+msgstr "諾魯人"
 
 #: data/nation/nauruan.ruleset:4
 msgid "?plural:Nauruans"
-msgstr ""
+msgstr "諾魯人"
 
 #: data/nation/nauruan.ruleset:6
 msgid ""
@@ -27652,11 +27652,11 @@ msgstr ""
 
 #: data/nation/newzealand.ruleset:3
 msgid "New Zealand"
-msgstr ""
+msgstr "紐西蘭人"
 
 #: data/nation/newzealand.ruleset:4
 msgid "?plural:New Zealanders"
-msgstr ""
+msgstr "紐西蘭人"
 
 #: data/nation/newzealand.ruleset:6
 msgid ""
@@ -28243,11 +28243,11 @@ msgstr ""
 
 #: data/nation/papuanewguinean.ruleset:3
 msgid "Papua New Guinean"
-msgstr ""
+msgstr "巴布亞紐幾內亞人"
 
 #: data/nation/papuanewguinean.ruleset:4
 msgid "?plural:Papua New Guineans"
-msgstr ""
+msgstr "巴布亞紐幾內亞人"
 
 #: data/nation/papuanewguinean.ruleset:6
 msgid ""
@@ -28489,11 +28489,11 @@ msgstr ""
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
-msgstr ""
+msgstr "波蘭人"
 
 #: data/nation/polish.ruleset:4
 msgid "?plural:Poles"
-msgstr ""
+msgstr "波蘭人"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/polish.ruleset:7
@@ -28504,11 +28504,11 @@ msgstr ""
 
 #: data/nation/polynesian.ruleset:3
 msgid "Polynesian"
-msgstr ""
+msgstr "玻里尼西亞人"
 
 #: data/nation/polynesian.ruleset:4
 msgid "?plural:Polynesian"
-msgstr ""
+msgstr "玻里尼西亞人"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/polynesian.ruleset:7
@@ -28542,11 +28542,11 @@ msgstr ""
 
 #: data/nation/portuguese.ruleset:3
 msgid "Portuguese"
-msgstr ""
+msgstr "葡萄牙人"
 
 #: data/nation/portuguese.ruleset:4
 msgid "?plural:Portuguese"
-msgstr ""
+msgstr "葡萄牙人"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/portuguese.ruleset:7
@@ -28649,11 +28649,11 @@ msgstr ""
 
 #: data/nation/rapanui.ruleset:3
 msgid "Rapa Nui"
-msgstr ""
+msgstr "拉帕努伊人"
 
 #: data/nation/rapanui.ruleset:4
 msgid "?plural:Rapa Nui"
-msgstr ""
+msgstr "拉帕努伊人"
 
 #: data/nation/rapanui.ruleset:6
 msgid ""
@@ -29039,11 +29039,11 @@ msgstr ""
 
 #: data/nation/samoan.ruleset:3
 msgid "Samoan"
-msgstr ""
+msgstr "薩摩亞人"
 
 #: data/nation/samoan.ruleset:4
 msgid "?plural:Samoans"
-msgstr ""
+msgstr "薩摩亞人"
 
 #: data/nation/samoan.ruleset:6
 msgid ""
@@ -29654,11 +29654,11 @@ msgstr ""
 
 #: data/nation/solomonislander.ruleset:3
 msgid "Solomon Islander"
-msgstr ""
+msgstr "索羅門群島人"
 
 #: data/nation/solomonislander.ruleset:4
 msgid "?plural:Solomon Islanders"
-msgstr ""
+msgstr "索羅門群島人"
 
 #: data/nation/solomonislander.ruleset:6
 msgid ""
@@ -29706,11 +29706,11 @@ msgstr ""
 
 #: data/nation/songhai.ruleset:3
 msgid "Songhai"
-msgstr ""
+msgstr "桑海人"
 
 #: data/nation/songhai.ruleset:4
 msgid "?plural:Songhai"
-msgstr ""
+msgstr "桑海人"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/songhai.ruleset:7
@@ -30013,11 +30013,11 @@ msgstr ""
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
-msgstr ""
+msgstr "瑞典人"
 
 #: data/nation/swedish.ruleset:4
 msgid "?plural:Swedes"
-msgstr ""
+msgstr "瑞典人"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/swedish.ruleset:7
@@ -30078,11 +30078,11 @@ msgstr "%s 謝赫"
 
 #: data/nation/tahitian.ruleset:3
 msgid "Tahitian"
-msgstr ""
+msgstr "大溪地人"
 
 #: data/nation/tahitian.ruleset:4
 msgid "?plural:Tahitians"
-msgstr ""
+msgstr "大溪地人"
 
 #: data/nation/tahitian.ruleset:6
 msgid ""
@@ -30097,11 +30097,11 @@ msgstr ""
 
 #: data/nation/taino.ruleset:3
 msgid "Taino"
-msgstr ""
+msgstr "泰諾族人"
 
 #: data/nation/taino.ruleset:4
 msgid "?plural:Taino"
-msgstr ""
+msgstr "泰諾族"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/taino.ruleset:8
@@ -30440,11 +30440,11 @@ msgstr ""
 
 #: data/nation/tongan.ruleset:3
 msgid "Tongan"
-msgstr ""
+msgstr "東加人"
 
 #: data/nation/tongan.ruleset:4
 msgid "?plural:Tongans"
-msgstr ""
+msgstr "東加人"
 
 #: data/nation/tongan.ruleset:6
 msgid ""
@@ -30566,11 +30566,11 @@ msgstr ""
 
 #: data/nation/tupi.ruleset:3
 msgid "Tupi"
-msgstr ""
+msgstr "圖皮人"
 
 #: data/nation/tupi.ruleset:4
 msgid "?plural:Tupi"
-msgstr ""
+msgstr "圖皮人"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/tupi.ruleset:8
@@ -30848,11 +30848,11 @@ msgstr ""
 
 #: data/nation/vanuatuan.ruleset:3
 msgid "Vanuatuan"
-msgstr ""
+msgstr "萬那杜人"
 
 #: data/nation/vanuatuan.ruleset:4
 msgid "?plural:Ni-Vanuatu"
-msgstr ""
+msgstr "萬那杜人"
 
 #: data/nation/vanuatuan.ruleset:6
 msgid ""
@@ -32042,100 +32042,100 @@ msgstr ""
 
 #: modinst/download.c:97
 msgid "No URL given"
-msgstr ""
+msgstr "沒有提供網址"
 
 #: modinst/download.c:102
 msgid "This does not look like modpack URL"
-msgstr ""
+msgstr "這個看起來不像是模組包的網址"
 
 #: modinst/download.c:111
 #, c-format
 msgid "Installing modpack %s from %s"
-msgstr ""
+msgstr "從 %2$s 安裝 %1$s 模組包"
 
 #: modinst/download.c:114
 msgid "Cannot install to given directory hierarchy"
-msgstr ""
+msgstr "不能安裝到指定的目錄"
 
 #: modinst/download.c:120 modinst/download.c:282
 msgid "Cannot determine control directory"
-msgstr ""
+msgstr "偵測不到操作的目錄"
 
 #: modinst/download.c:124 modinst/download.c:226 modinst/download.c:286
 msgid "Cannot create required directories"
-msgstr ""
+msgstr "不能新增需求的目錄"
 
 #: modinst/download.c:128
 msgid "Downloading modpack control file."
-msgstr ""
+msgstr "下載模組包操作檔案。"
 
 #: modinst/download.c:134
 msgid "Failed to get and parse modpack control file"
-msgstr ""
+msgstr "獲得並分析模組包操作檔案失敗"
 
 #: modinst/download.c:140
 msgid "Modpack control file has no capability string"
-msgstr ""
+msgstr "模組包操作檔案含有不相容的字串"
 
 #: modinst/download.c:150
 msgid "Modpack control file is incompatible"
-msgstr ""
+msgstr "模組包操作檔案不相容"
 
 #: modinst/download.c:156
 msgid "Illegal modpack type"
-msgstr ""
+msgstr "不正確的模組包類型"
 
 #: modinst/download.c:208
 #, c-format
 msgid "Illegal path for %s"
-msgstr ""
+msgstr "%s 為不正確的路徑"
 
 #: modinst/download.c:233
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "正在下載 %s"
 
 #: modinst/download.c:242
 #, c-format
 msgid "Failed to download %s"
-msgstr ""
+msgstr "%s 下載失敗"
 
 #: modinst/download.c:261
 msgid "Some parts of the modpack failed to install."
-msgstr ""
+msgstr "模組包的一些部分安裝失敗。"
 
 #: modinst/download.c:292
 msgid "Cannot fetch and parse modpack list"
-msgstr ""
+msgstr "不能截取並分析模組包列表"
 
 #: modinst/download.c:298
 msgid "Modpack list has no capability string"
-msgstr ""
+msgstr "模組包列表沒有相容的字串"
 
 #: modinst/download.c:308
 msgid "Modpack list is incompatible"
-msgstr ""
+msgstr "模組包列表不相容"
 
 #: modinst/download.h:26
 msgid "Ruleset"
-msgstr ""
+msgstr "規則定義"
 
 #: modinst/download.h:30
 msgid "Modpack"
-msgstr ""
+msgstr "模組包"
 
 #: modinst/modinst.c:172
 msgid "Another download already active"
-msgstr ""
+msgstr "其他的檔案正在下載"
 
 #: modinst/modinst.c:185
 msgid "Failed to start downloader"
-msgstr ""
+msgstr "開啟下載管理員失敗"
 
 #. TRANS: Unknown modpack type
 #: modinst/modinst.c:227
 msgid "?"
-msgstr ""
+msgstr "？"
 
 #. TRANS: License of modpack is not known
 #: modinst/modinst.c:234
@@ -32152,58 +32152,58 @@ msgstr "網址"
 
 #: modinst/modinst.c:309
 msgid "Install modpack"
-msgstr ""
+msgstr "安裝模組包"
 
 #: modinst/modinst.c:315
 msgid "Modpack URL"
-msgstr ""
+msgstr "模組包網址"
 
 #: modinst/modinst.c:332
 msgid "Select modpack to install"
-msgstr ""
+msgstr "選擇要安裝的模組包"
 
 #: modinst/modinst.c:397
 msgid "Freeciv modpack installer"
-msgstr ""
+msgstr "Freeciv 模組包安裝程式"
 
 #. TRANS: "List" is exactly what user must type, do not translate.
 #: modinst/mpcmdline.c:62
 msgid "List URL"
-msgstr ""
+msgstr "List 網址"
 
 #: modinst/mpcmdline.c:63
 msgid "Load modpack list from given URL"
-msgstr ""
+msgstr "從提供的網址中獲得模組包"
 
 #. TRANS: "prefix" is exactly what user must type, do not translate.
 #: modinst/mpcmdline.c:66
 msgid "prefix DIR"
-msgstr ""
+msgstr "prefix 目錄"
 
 #: modinst/mpcmdline.c:67
 msgid "Install modpacks to given directory hierarchy"
-msgstr ""
+msgstr "安裝模組包到指定的目錄"
 
 #. TRANS: Version tag name received from metaserver
 #: po/Strings.txt:12
 msgid "?vertag:stable"
-msgstr ""
+msgstr "穩定版"
 
 #: po/Strings.txt:13
 msgid "?vertag:win32"
-msgstr ""
+msgstr "win32"
 
 #: po/Strings.txt:14
 msgid "?vertag:S2_4"
-msgstr ""
+msgstr "S2_4"
 
 #: po/Strings.txt:15
 msgid "?vertag:S2_5"
-msgstr ""
+msgstr "S2_5"
 
 #: po/Strings.txt:16
 msgid "?vertag:crosser"
-msgstr ""
+msgstr "跨版本"
 
 #: server/aiiface.c:83
 #, c-format
@@ -32986,13 +32986,13 @@ msgstr ""
 #: server/civserver.c:320
 #, c-format
 msgid "This is the server for %s"
-msgstr ""
+msgstr "這是 %s 的伺服器"
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: server/civserver.c:322
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
-msgstr ""
+msgstr "你可以了解更多有關於 Freeciv 的資訊在 %s"
 
 #. TRANS: "Database" is exactly what user must type, do not translate.
 #: server/civserver.c:336
@@ -35633,7 +35633,7 @@ msgstr ""
 
 #: server/ruleset.c:4193
 msgid "Loading rulesets."
-msgstr ""
+msgstr "正在讀取規則定義。"
 
 #: server/ruleset.c:4270
 msgid "Reducing aifill because there are not enough playable nations."
