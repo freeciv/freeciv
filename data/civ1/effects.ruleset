@@ -1344,3 +1344,11 @@ reqs    =
 [effect_mining]
 type    = "Mining_Possible"
 value   = 1
+
+[effect_irrig_tf]
+type    = "Irrig_TF_Possible"
+value   = 1
+
+[effect_mining_tf]
+type    = "Mining_TF_Possible"
+value   = 1

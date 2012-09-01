@@ -1049,6 +1049,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
              && get_tile_bonus(ptile, punit, EFT_MINING_POSSIBLE) > 0)
 	    || (pterrain != pterrain->mining_result
 		&& pterrain->mining_result != T_NONE
+                && get_tile_bonus(ptile, punit, EFT_MINING_TF_POSSIBLE) > 0
 		&& (!is_ocean(pterrain)
 		    || is_ocean(pterrain->mining_result)
 		    || can_reclaim_ocean(ptile))
@@ -1079,6 +1080,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
              && can_be_irrigated(ptile, punit))
 	    || (pterrain != pterrain->irrigation_result
 		&& pterrain->irrigation_result != T_NONE
+                && get_tile_bonus(ptile, punit, EFT_IRRIG_TF_POSSIBLE) > 0
 		&& (!is_ocean(pterrain)
 		    || is_ocean(pterrain->irrigation_result)
 		    || can_reclaim_ocean(ptile))

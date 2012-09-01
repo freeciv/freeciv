@@ -340,16 +340,27 @@ Tile_Workable
     If value != 0, city can work target tile.
 
 Irrig_Possible
-    If value > 0, unit can irrigate target tile. In addition to requirements given
-    to this effect, unit must also have Settlers flag.
+    If value > 0, unit can build irrigation to target tile. In addition to
+    requirements given to this effect, unit must also have Settlers flag.
 
 Mining_Possible
-    If value > 0, unit can build mine to target tile. In addition to requirements given
-    to this effect, terrain type must be one to which mine can be built.
+    If value > 0, unit can build mine to target tile. In addition to
+    requirements given to this effect, terrain type must be one to which mine
+    can be built.
 
 Transform_Possible
-    If value > 0, unit can transform target tile. In addition to requirements given
-    to this effect, terrain type needs to be one that can be transformed.
+    If value > 0, unit can transform target tile. In addition to requirements
+    given to this effect, terrain type needs to be one that can be transformed.
+
+Irrig_TF_Possible
+    If value > 0, unit can transform target tile terrain to another by irrigating.
+    In addition to requirements given to this effect, terrain must be one that
+    can be transformed by irrigating.
+
+Mining_TF_Possible
+    If value > 0, unit can transform target tile terrain to another by mining.
+    In addition to requirements given to this effect, terrain must be one that
+    can be transformed by mining.
 
 Migration_Pct
     Increase the calculated migration score for the a city by amount in
