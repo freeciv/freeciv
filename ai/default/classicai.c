@@ -100,7 +100,7 @@ static void cai_player_save(struct player *pplayer, struct section_file *file,
 {
   struct ai_type *deftype = classic_ai_get_self();
 
-  dai_player_save(deftype, pplayer, file, plrno);
+  dai_player_save(deftype, "ai", pplayer, file, plrno);
 }
 
 /**************************************************************************
@@ -111,7 +111,7 @@ static void cai_player_load(struct player *pplayer, struct section_file *file,
 {
   struct ai_type *deftype = classic_ai_get_self();
 
-  dai_player_load(deftype, pplayer, file, plrno);
+  dai_player_load(deftype, "ai", pplayer, file, plrno);
 }
 
 /**************************************************************************
@@ -172,7 +172,7 @@ static void cai_city_save(struct section_file *file, const struct city *pcity,
 {
   struct ai_type *deftype = classic_ai_get_self();
 
-  dai_city_save(deftype, file, pcity, citystr);
+  dai_city_save(deftype, "ai", file, pcity, citystr);
 }
 
 /**************************************************************************
@@ -183,7 +183,7 @@ static void cai_city_load(const struct section_file *file, struct city *pcity,
 {
   struct ai_type *deftype = classic_ai_get_self();
 
-  dai_city_load(deftype, file, pcity, citystr);
+  dai_city_load(deftype, "ai", file, pcity, citystr);
 }
 
 /**************************************************************************
@@ -296,7 +296,7 @@ static void cai_unit_save(struct section_file *file, const struct unit *punit,
 {
   struct ai_type *deftype = classic_ai_get_self();
 
-  dai_unit_save(deftype, file, punit, unitstr);
+  dai_unit_save(deftype, "", file, punit, unitstr);
 }
 
 /**************************************************************************
@@ -307,7 +307,7 @@ static void cai_unit_load(const struct section_file *file, struct unit *punit,
 {
   struct ai_type *deftype = classic_ai_get_self();
 
-  dai_unit_load(deftype, file, punit, unitstr);
+  dai_unit_load(deftype, "", file, punit, unitstr);
 }
 
 /**************************************************************************

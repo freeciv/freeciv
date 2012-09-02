@@ -56,14 +56,14 @@ void dai_player_free(struct ai_type *ait, struct player *pplayer)
 /**************************************************************************
   Store player specific data to savegame
 **************************************************************************/
-void dai_player_save(struct ai_type *ait, struct player *pplayer,
-                     struct section_file *file, int plrno)
+void dai_player_save(struct ai_type *ait, const char *aitstr,
+                     struct player *pplayer, struct section_file *file, int plrno)
 {
   players_iterate(aplayer) {
     struct ai_dip_intel *adip = dai_diplomacy_get(ait, pplayer, aplayer);
     char buf[32];
 
-    fc_snprintf(buf, sizeof(buf), "player%d.ai%d", plrno,
+    fc_snprintf(buf, sizeof(buf), "player%d.%s%d", plrno, aitstr,
                 player_index(aplayer));
 
     secfile_insert_int(file, adip->spam,
@@ -88,14 +88,14 @@ void dai_player_save(struct ai_type *ait, struct player *pplayer,
 /**************************************************************************
   Load player specific data from savegame
 **************************************************************************/
-void dai_player_load(struct ai_type *ait, struct player *pplayer,
-                     struct section_file *file, int plrno)
+void dai_player_load(struct ai_type *ait, const char *aitstr,
+                     struct player *pplayer, struct section_file *file, int plrno)
 {
   players_iterate(aplayer) {
     struct ai_dip_intel *adip = dai_diplomacy_get(ait, pplayer, aplayer);
     char buf[32];
 
-    fc_snprintf(buf, sizeof(buf), "player%d.ai%d", plrno,
+    fc_snprintf(buf, sizeof(buf), "player%d.%s%d", plrno, aitstr,
                 player_index(aplayer));
 
     adip->spam

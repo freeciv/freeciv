@@ -135,9 +135,11 @@ void dai_unit_close(struct ai_type *ait, struct unit *punit);
   }									\
 }
 
-void dai_unit_save(struct ai_type *ait, struct section_file *file,
+void dai_unit_save(struct ai_type *ait, const char *aitstr,
+                   struct section_file *file,
                    const struct unit *punit, const char *unitstr);
-void dai_unit_load(struct ai_type *ait, const struct section_file *file,
+void dai_unit_load(struct ai_type *ait, const char *aitstr,
+                   const struct section_file *file,
                    struct unit *punit, const char *unitstr);
 
 #endif  /* FC__AIUNIT_H */

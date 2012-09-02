@@ -2691,31 +2691,41 @@ void dai_unit_close(struct ai_type *ait, struct unit *punit)
 /**************************************************************************
   Save AI data of a unit.
 **************************************************************************/
-void dai_unit_save(struct ai_type *ait, struct section_file *file,
+void dai_unit_save(struct ai_type *ait, const char *aitstr,
+                   struct section_file *file,
                    const struct unit *punit, const char *unitstr)
 {
   struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
 
-  secfile_insert_int(file, unit_data->passenger, "%s.passenger", unitstr);
-  secfile_insert_int(file, unit_data->ferryboat, "%s.ferryboat", unitstr);
-  secfile_insert_int(file, unit_data->charge, "%s.charge", unitstr);
-  secfile_insert_int(file, unit_data->bodyguard, "%s.bodyguard", unitstr);
+  secfile_insert_int(file, unit_data->passenger, "%s.%spassenger",
+                     unitstr, aitstr);
+  secfile_insert_int(file, unit_data->ferryboat, "%s.%sferryboat",
+                     unitstr, aitstr);
+  secfile_insert_int(file, unit_data->charge, "%s.%scharge",
+                     unitstr, aitstr);
+  secfile_insert_int(file, unit_data->bodyguard, "%s.%sbodyguard",
+                     unitstr, aitstr);
 }
 
 /**************************************************************************
   Load AI data of a unit.
 **************************************************************************/
-void dai_unit_load(struct ai_type *ait, const struct section_file *file,
+void dai_unit_load(struct ai_type *ait, const char *aitstr,
+                   const struct section_file *file,
                    struct unit *punit, const char *unitstr)
 {
   struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
 
   unit_data->passenger
-    = secfile_lookup_int_default(file, 0, "%s.passenger", unitstr);
+    = secfile_lookup_int_default(file, 0, "%s.%spassenger",
+                                 unitstr, aitstr);
   unit_data->ferryboat
-    = secfile_lookup_int_default(file, 0, "%s.ferryboat", unitstr);
+    = secfile_lookup_int_default(file, 0, "%s.%sferryboat",
+                                 unitstr, aitstr);
   unit_data->charge
-    = secfile_lookup_int_default(file, 0, "%s.charge", unitstr);
+    = secfile_lookup_int_default(file, 0, "%s.%scharge",
+                                 unitstr, aitstr);
   unit_data->bodyguard
-    = secfile_lookup_int_default(file, 0, "%s.bodyguard", unitstr);
+    = secfile_lookup_int_default(file, 0, "%s.%sbodyguard",
+                                 unitstr, aitstr);
 }

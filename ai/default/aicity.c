@@ -914,56 +914,61 @@ void dai_city_free(struct ai_type *ait, struct city *pcity)
 /**************************************************************************
   Write ai city segments to savefile
 **************************************************************************/
-void dai_city_save(struct ai_type *ait, struct section_file *file,
-                   const struct city *pcity, const char *citystr)
+void dai_city_save(struct ai_type *ait, const char *aitstr,
+                   struct section_file *file, const struct city *pcity,
+                   const char *citystr)
 {
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
   /* FIXME: remove this when the urgency is properly recalculated. */
-  secfile_insert_int(file, city_data->urgency, "%s.ai.urgency", citystr);
+  secfile_insert_int(file, city_data->urgency, "%s.%s.urgency", citystr, aitstr);
 
   /* avoid fc_rand recalculations on subsequent reload. */
-  secfile_insert_int(file, city_data->building_turn, "%s.ai.building_turn",
-                     citystr);
-  secfile_insert_int(file, city_data->building_wait, "%s.ai.building_wait",
-                     citystr);
+  secfile_insert_int(file, city_data->building_turn, "%s.%s.building_turn",
+                     citystr, aitstr);
+  secfile_insert_int(file, city_data->building_wait, "%s.%s.building_wait",
+                     citystr, aitstr);
 
   /* avoid fc_rand and expensive recalculations on subsequent reload. */
-  secfile_insert_int(file, city_data->founder_turn, "%s.ai.founder_turn",
-                     citystr);
-  secfile_insert_int(file, city_data->founder_want, "%s.ai.founder_want",
-                     citystr);
-  secfile_insert_bool(file, city_data->founder_boat, "%s.ai.founder_boat",
-                      citystr);
+  secfile_insert_int(file, city_data->founder_turn, "%s.%s.founder_turn",
+                     citystr, aitstr);
+  secfile_insert_int(file, city_data->founder_want, "%s.%s.founder_want",
+                     citystr, aitstr);
+  secfile_insert_bool(file, city_data->founder_boat, "%s.%s.founder_boat",
+                      citystr, aitstr);
 }
 
 /**************************************************************************
   Load ai city segment from savefile
 **************************************************************************/
-void dai_city_load(struct ai_type *ait, const struct section_file *file,
+void dai_city_load(struct ai_type *ait, const char *aitstr,
+                   const struct section_file *file,
                    struct city *pcity, const char *citystr)
 {
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
   /* FIXME: remove this when the urgency is properly recalculated. */
   city_data->urgency
-    = secfile_lookup_int_default(file, 0, "%s.ai.urgency", citystr);
+    = secfile_lookup_int_default(file, 0, "%s.%s.urgency", citystr, aitstr);
 
   /* avoid fc_rand recalculations on subsequent reload. */
   city_data->building_turn
-    = secfile_lookup_int_default(file, 0, "%s.ai.building_turn", citystr);
+    = secfile_lookup_int_default(file, 0, "%s.%s.building_turn", citystr,
+                                 aitstr);
   city_data->building_wait
     = secfile_lookup_int_default(file, BUILDING_WAIT_MINIMUM,
-                                 "%s.ai.building_wait", citystr);
+                                 "%s.%s.building_wait", citystr, aitstr);
 
   /* avoid fc_rand and expensive recalculations on subsequent reload. */
   city_data->founder_turn
-    = secfile_lookup_int_default(file, 0, "%s.ai.founder_turn", citystr);
+    = secfile_lookup_int_default(file, 0, "%s.%s.founder_turn", citystr,
+                                 aitstr);
   city_data->founder_want
-    = secfile_lookup_int_default(file, 0, "%s.ai.founder_want", citystr);
+    = secfile_lookup_int_default(file, 0, "%s.%s.founder_want", citystr,
+                                 aitstr);
   city_data->founder_boat
     = secfile_lookup_bool_default(file, (city_data->founder_want < 0),
-                                  "%s.ai.founder_boat", citystr);
+                                  "%s.%s.founder_boat", citystr, aitstr);
 }
 
 /**************************************************************************

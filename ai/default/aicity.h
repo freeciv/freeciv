@@ -72,9 +72,11 @@ void dai_city_alloc(struct ai_type *ait, struct city *pcity);
 void dai_city_free(struct ai_type *ait, struct city *pcity);
 
 struct section_file;
-void dai_city_save(struct ai_type *ait, struct section_file *file,
+void dai_city_save(struct ai_type *ait, const char *aitstr,
+                   struct section_file *file,
                    const struct city *pcity, const char *citystr);
-void dai_city_load(struct ai_type *ait, const struct section_file *file,
+void dai_city_load(struct ai_type *ait, const char *aitstr,
+                   const struct section_file *file,
                    struct city *pcity, const char *citystr);
 
 void want_techs_for_improvement_effect(struct ai_type *ait,
