@@ -16,7 +16,7 @@ AC_DEFUN([FC_CHECK_SOUND],[
     ac_save_CPPFLAGS="$CPPFLAGS"
     ac_save_CFLAGS="$CFLAGS"
     ac_save_LIBS="$LIBS"
-    CPPFLAGS="$CFLAGS $SDL_CFLAGS"
+    CPPFLAGS="$CPPFLAGS $SDL_CFLAGS"
     CFLAGS="$CFLAGS $SDL_CFLAGS"
     LIBS="$LIBS $SDL_LIBS"
     AC_CHECK_HEADER([SDL_mixer.h], [SDL_mixer_h=1], [SDL_mixer_h=0])
