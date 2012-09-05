@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.4.99-dev\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-08-26 21:43+0800\n"
-"PO-Revision-Date: 2012-09-01 03:03+0800\n"
+"PO-Revision-Date: 2012-09-04 18:12+0800\n"
 "Last-Translator: Zhang Xiaowei <zero00072@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <zero00072@gmail.com>\n"
 "Language: zh_TW\n"
@@ -31,7 +31,7 @@ msgstr "*%1$s (AI)* %3$s，請先解除與 %2$s 的同盟。"
 msgid ""
 "*%s (AI)* I would like to see you keep your distance from %s for some time, "
 "%s."
-msgstr "*%1$s (AI)* %3$s，我想看到你和 %2$s 保持距離。"
+msgstr "*%1$s (AI)* %3$s，我想看到您和 %2$s 保持距離。"
 
 #: ai/default/advdiplomacy.c:370
 #, c-format
@@ -48,17 +48,17 @@ msgstr "*%s (AI)* %s，我希望停戰約定久了再談。"
 #: ai/default/advdiplomacy.c:398
 #, c-format
 msgid "*%s (AI)* I simply do not trust you with an alliance yet, %s."
-msgstr "*%s (AI)* %s，我還能不信任跟你同盟。"
+msgstr "*%s (AI)* %s，我還能不信任跟您同盟。"
 
 #: ai/default/advdiplomacy.c:492
 #, c-format
 msgid "*%s (AI)* I do not know the city you mention."
-msgstr "*%s (AI)* 我不知道你說的是哪座城市。"
+msgstr "*%s (AI)* 我不知道您說的是哪座城市。"
 
 #: ai/default/advdiplomacy.c:522
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
-msgstr "*%s (AI)* 抱歉，和你分享視野不是一個明智的決定。"
+msgstr "*%s (AI)* 抱歉，和您分享視野不是一個明智的決定。"
 
 #: ai/default/advdiplomacy.c:630
 #, c-format
@@ -90,39 +90,39 @@ msgstr "*%s (AI)* 同意，%s，明哲保身。"
 msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
 "other better?"
-msgstr "*%s (AI)* 同意 %s！你願意給我們一個機會停戰直到我們互相了解彼此嗎？"
+msgstr "*%s (AI)* 同意 %s！您願意給我們一個機會停戰直到我們互相了解彼此嗎？"
 
 #: ai/default/advdiplomacy.c:1172
 #, c-format
 msgid "*%s (AI)* Space will never be yours. "
-msgstr "*%s (AI)* 太空現在不再只是你的了。"
+msgstr "*%s (AI)* 太空現在不再只是您的了。"
 
 #: ai/default/advdiplomacy.c:1177
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
-msgstr "*%s (AI)* 我再也不能忍受你那下三濫的把戲了！來戰吧！"
+msgstr "*%s (AI)* 我再也不能忍受您那下三濫的把戲了！來戰吧！"
 
 #: ai/default/advdiplomacy.c:1183
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
-msgstr "*%s (AI)* 和平嘛……，以後還有的是時候談。"
+msgstr "*%s (AI)* 和平嘛...，以後還有的是時候談。"
 
 #: ai/default/advdiplomacy.c:1188
 #, c-format
 msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
 "away with your crimes?"
-msgstr "*%s (AI)* 看來我不得不背棄你！難道你想從這濤天大罪中脫身嗎？"
+msgstr "*%s (AI)* 看來我不得不背棄您！難道您想從這濤天大罪中脫身嗎？"
 
 #: ai/default/advdiplomacy.c:1194
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
-msgstr "*%s (AI)* 為你偷雞摸狗的行為贖罪吧！"
+msgstr "*%s (AI)* 為您偷雞摸狗的行為贖罪吧！"
 
 #: ai/default/advdiplomacy.c:1201
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
-msgstr "*%s (AI)* 你畢生最大的錯誤就是你侵略了 %s，而這會是最後一次了。"
+msgstr "*%s (AI)* 您畢生最大的錯誤就是您侵略了 %s，而這會是最後一次了。"
 
 #: ai/default/advdiplomacy.c:1283
 #, c-format
@@ -140,7 +140,7 @@ msgstr[0] ""
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
 "alliance!"
-msgstr "*%s (AI)* 早就知道你會雪中送炭了。為我們輝煌的同盟萬歲！"
+msgstr "*%s (AI)* 早就知道您會雪中送炭了。為我們輝煌的同盟萬歲！"
 
 #: ai/default/advdiplomacy.c:1299
 #, c-format
@@ -154,7 +154,7 @@ msgid_plural ""
 "us and do likewise!"
 msgstr[0] ""
 "*%s (AI)* %s 為了一己之私而違背了與我們簽下的合約。我們將在 %d 回合裡以眼還"
-"眼，期望你能與我們聯手。 "
+"眼，期望您能與我們聯手。 "
 
 #: ai/default/advdiplomacy.c:1312
 #, c-format
@@ -170,7 +170,7 @@ msgstr[0] "*%s (AI)* 我打算打劫 %s 的富裕文明。我們將在 %d 回合
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
-msgstr "*%s (AI)* 如果你想撈上一筆的話，歡迎加入行動！"
+msgstr "*%s (AI)* 如果您想撈上一筆的話，歡迎加入行動！"
 
 #: ai/default/advdiplomacy.c:1325
 #, c-format
@@ -187,7 +187,7 @@ msgstr[0] ""
 #: ai/default/advdiplomacy.c:1335
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
-msgstr "*%s (AI)* 身為我們輝煌同盟的一員，我們期望你能在這場戰爭中伸出援手。"
+msgstr "*%s (AI)* 身為我們輝煌同盟的一員，我們期望您能在這場戰爭中伸出援手。"
 
 #: ai/default/advdiplomacy.c:1341
 #, c-format
@@ -211,7 +211,7 @@ msgid_plural ""
 "turns.  We expect you to do likewise."
 msgstr[0] ""
 "*%1$s (AI)* 我們會兌現與 %2$s 同盟的宣言，將在 %4$d 回合裡向 %3$s 宣戰。期望"
-"你也能這麼做！"
+"您也能這麼做！"
 
 #: ai/default/advdiplomacy.c:1419
 #, c-format
@@ -219,7 +219,7 @@ msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betrays your true "
 "intentions, and I will have no more of our alliance!"
 msgstr ""
-"*%s (AI)* 你想獨佔太空的野心有如司馬昭之心！我們的同盟將會同如這張破紙到此為"
+"*%s (AI)* 您想獨佔太空的野心有如司馬昭之心！我們的同盟將會同如這張破紙到此為"
 "止。"
 
 #: ai/default/advdiplomacy.c:1434
@@ -227,26 +227,26 @@ msgstr ""
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
 "offensive."
-msgstr "*%s (AI)* 你想單方面主宰外太空的野心很冒犯其他人。"
+msgstr "*%s (AI)* 您想單方面主宰外太空的野心很冒犯其他人。"
 
 #: ai/default/advdiplomacy.c:1437
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
 "take action!"
-msgstr "*%s (AI)* 如果你再不停止建造那愚蠢的太空載具的話，休怪我不客氣！"
+msgstr "*%s (AI)* 如果您再不停止建造那愚蠢的太空載具的話，休怪我不客氣！"
 
 #: ai/default/advdiplomacy.c:1548
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
-msgstr "*%s (AI)* 抱歉，和你分享視野不再是一個明智的選擇。<"
+msgstr "*%s (AI)* 抱歉，和您分享視野不再是一個明智的選擇。"
 
 #: ai/default/advdiplomacy.c:1619
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
 "our enemy, %s."
-msgstr "*%s (AI)* 你好！我們最信賴的盟友。麻煩你摧毀掉我們的敵人 %s。"
+msgstr "*%s (AI)* 您好！我們最信賴的盟友。麻煩您摧毀掉我們的敵人 %s。"
 
 #: ai/default/advdiplomacy.c:1625
 #, c-format
@@ -254,7 +254,7 @@ msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
 "%s. Why do I need to remind you of your promises?"
 msgstr ""
-"*%s (AI)* 盟友你好！我好像沒看到你跟敵人 %s 作戰。需要我提醒你實現諾言嗎？"
+"*%s (AI)* 盟友您好！我好像沒看到您跟敵人 %s 作戰。需要我提醒您實現諾言嗎？"
 
 #: ai/default/advdiplomacy.c:1632
 #, c-format
@@ -263,7 +263,7 @@ msgid ""
 "peace with our mortal enemy, %s! This is unacceptable; our alliance is no "
 "more!"
 msgstr ""
-"*%s (AI)* 那個垃圾，我們作了一項同盟協議，我們不能接受你與我們的宿敵 %s 狼狽"
+"*%s (AI)* 那個垃圾，我們作了一項同盟協議，我們不能接受您與我們的宿敵 %s 狼狽"
 "為奸！我們的同盟就此化為雲煙！"
 
 #: ai/default/advdiplomacy.c:1662
@@ -271,12 +271,12 @@ msgstr ""
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
 "an alliance?"
-msgstr "*%s (AI)* 朋友你好！你願意給我們一個機會說服你加入一個同盟嗎？"
+msgstr "*%s (AI)* 朋友您好！您願意給我們一個機會說服您加入一個同盟嗎？"
 
 #: ai/default/advdiplomacy.c:1677
 #, c-format
 msgid "*%s (AI)* Greetings neighbor, may we suggest more peaceful relations?"
-msgstr "*%s (AI)* 鄰居你好！你願意給我們一個機會當朋友嗎？"
+msgstr "*%s (AI)* 鄰居您好！您願意給我們一個機會當朋友嗎？"
 
 #: ai/default/advdiplomacy.c:1692
 #, c-format
@@ -284,7 +284,7 @@ msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
 "cessation of hostilities?"
 msgstr ""
-"*%s (AI)* 我們已經厭倦了長期的流血了。你願意給我們一個機會停止敵視對方嗎？"
+"*%s (AI)* 我們已經厭倦了長期的流血了。您願意給我們一個機會停止敵視對方嗎？"
 
 #: ai/default/advdiplomacy.c:1852
 #, c-format
@@ -292,7 +292,7 @@ msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! Honor "
 "our glorious alliance and your name will never be forgotten!"
 msgstr ""
-"*%s (AI)* 我們被 %s 野蠻地攻擊了！需要你伸出援手！兌現我們輝煌的同盟誓言，你"
+"*%s (AI)* 我們被 %s 野蠻地攻擊了！需要您伸出援手！兌現我們輝煌的同盟誓言，您"
 "的名字我們將沒齒難忘！"
 
 #: ai/default/aicity.c:308 server/citytools.c:2406
@@ -308,7 +308,7 @@ msgstr "%1$s 正在 %3$s 建造%2$s。"
 #: ai/default/aicity.c:781
 #, c-format
 msgid "%s is selling %s (not needed) for %d."
-msgstr "%s 賣了%s（不需要的），獲得 %d。"
+msgstr "%s 賣了%s(不需要的)，獲得 %d。"
 
 #: ai/threaded/threadedai.c:41
 msgid ""
@@ -321,14 +321,14 @@ msgstr "這個 Freeciv 的編譯版沒有實現完整的執行緒，不能使用
 msgid ""
 "The citizen governor can't fulfill the requirements for %s. Passing back "
 "control."
-msgstr "%s 市長沒有兌現承諾。將收回控制權。"
+msgstr "%s 代理市長沒有兌現承諾。將收回控制權。"
 
 #: client/agents/cma_core.c:400 client/agents/cma_core.c:422
 #, c-format
 msgid ""
 "The citizen governor has gotten confused dealing with %s.  You may want to "
 "have a look."
-msgstr "%s 市長搞雜了政務。你得瞧一瞧。"
+msgstr "%s 代理市長搞雜了政務。您得瞧一瞧。"
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:431 client/gui-sdl/mapview.c:159
@@ -372,7 +372,7 @@ msgstr[0] "%d 回合"
 #: client/agents/cma_fec.c:334
 #, c-format
 msgid "People (W/%s)"
-msgstr "人口（勞/%s）"
+msgstr "人口(勞/%s)"
 
 #: client/agents/cma_fec.c:348
 msgid " happy"
@@ -422,7 +422,7 @@ msgstr "重視科技"
 #: client/attribute.c:368
 msgid ""
 "There has been a CMA error. Your citizen governor settings may be broken."
-msgstr "市長辦公室發生一個錯誤。你可能會失去市長的政策。"
+msgstr "市長辦公室發生一個錯誤。您可能會失去對代理市長的政策。"
 
 #: client/attribute.c:372
 msgid "Old attributes detected and removed."
@@ -473,7 +473,7 @@ msgstr ""
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it "
 "under certain conditions;"
-msgstr "Freeciv 是自由軟體，歡迎你在符合的條件下發佈程式的拷貝；"
+msgstr "Freeciv 是自由軟體，歡迎您在符合的條件下發佈程式的拷貝；"
 
 #: client/chatline_common.c:144
 msgid "See the \"Copying\" item on the Help menu."
@@ -481,7 +481,7 @@ msgstr "更多資訊請參閱幫助選單中的「授權」"
 
 #: client/chatline_common.c:146
 msgid "Now ... Go give 'em hell!"
-msgstr "現在……進入修羅道吧！"
+msgstr "現在...進入修羅道吧！"
 
 #: client/chatline_common.c:158
 #, c-format
@@ -568,7 +568,7 @@ msgstr "%+4d：交易稅\n"
 #: client/gui-sdl/inteldlg.c:326 client/gui-xaw/inteldlg.c:281
 #: server/stdinhand.c:326
 msgid "(unknown)"
-msgstr "（未知）"
+msgstr "(未知)"
 
 #: client/citydlg_common.c:478
 #, c-format
@@ -583,7 +583,7 @@ msgstr "%+4d：什一稅\n"
 #: client/citydlg_common.c:510
 #, c-format
 msgid "%+4d : Bonus from %s (%+d%%)\n"
-msgstr "%+4d：來自%s的獎勵（%+d%%）\n"
+msgstr "%+4d：來自%s的獎勵(%+d%%)\n"
 
 #: client/citydlg_common.c:524
 #, c-format
@@ -673,7 +673,7 @@ msgstr "和平"
 
 #: client/cityrepdata.c:521
 msgid "(worklist)"
-msgstr "（工作表）"
+msgstr "(工作表)"
 
 #: client/cityrepdata.c:638
 msgid "?city:Name"
@@ -948,7 +948,7 @@ msgstr "瘟"
 
 #: client/cityrepdata.c:709
 msgid "(%)"
-msgstr "（%）"
+msgstr "(%)"
 
 #: client/cityrepdata.c:709
 msgid "Plague risk"
@@ -964,7 +964,7 @@ msgstr "統治者"
 #: client/gui-sdl/cma_fe.c:898 client/gui-xaw/menu.c:267
 #: client/include/helpdlg_g.h:33 data/Freeciv.in:1477 data/helpdata.txt:1753
 msgid "Citizen Governor"
-msgstr "市長"
+msgstr "代理市長"
 
 #. TRANS: "BS" = "build slots"
 #: client/cityrepdata.c:715
@@ -1012,7 +1012,7 @@ msgstr "Announce 協定"
 
 #: client/client_main.c:343 server/civserver.c:331
 msgid "Announce game in LAN using protocol PROTO (IPv4/IPv6/none)"
-msgstr "　公告區域網域內的遊戲使用下列的協定（IPv4/IPv6/none）"
+msgstr "　公告區域網域內的遊戲使用下列的協定(IPv4/IPv6/none)"
 
 #: client/client_main.c:346
 msgid "Skip connect dialog"
@@ -1027,12 +1027,12 @@ msgstr "debug 等級"
 #: client/client_main.c:351 manual/civmanual.c:488 server/civserver.c:356
 #, c-format
 msgid "Set debug log level (%d to %d, or %d:file1,min,max:...)"
-msgstr "　設定除錯記錄等級（%d 到 %d，或者 %d:file1,min,max:……）"
+msgstr "　設定除錯記錄等級(%d 到 %d，或者 %d:file1,min,max:...)"
 
 #: client/client_main.c:358 manual/civmanual.c:494 server/civserver.c:362
 #, c-format
 msgid "Set debug log level (%d to %d)"
-msgstr "　設定除錯記錄等級（%d 到 %d）"
+msgstr "　設定除錯記錄等級(%d 到 %d)"
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
 #: client/client_main.c:364 manual/civmanual.c:500 server/civserver.c:367
@@ -1055,7 +1055,7 @@ msgstr "log 檔案"
 
 #: client/client_main.c:372
 msgid "Use FILE as logfile (spawned server also uses this)"
-msgstr "　選擇要作記錄的檔案（此選項也會影響到隨之啟動的伺服器）"
+msgstr "　選擇要作記錄的檔案(此選項也會影響到隨之啟動的伺服器)"
 
 #. TRANS: "Meta" is exactly what user must type, do not translate.
 #: client/client_main.c:375
@@ -1082,7 +1082,7 @@ msgstr "port 埠口"
 
 #: client/client_main.c:384
 msgid "Connect to server port PORT (usually with -a)"
-msgstr "　連接伺服器上的此埠口（常伴隨著 -a 使用）"
+msgstr "　連接伺服器上的此埠口(常伴隨著 -a 使用)"
 
 #. TRANS: "Plugin" is exactly what user must type, do not translate.
 #: client/client_main.c:387
@@ -1092,7 +1092,7 @@ msgstr "Plugin 外掛"
 #: client/client_main.c:388
 #, c-format
 msgid "Use PLUGIN for sound output %s"
-msgstr "　使用 %s 裡的選項當作輸出聲音的外掛"
+msgstr "　使用%s裡的選項當作輸出聲音的外掛"
 
 #. TRANS: "read" is exactly what user must type, do not translate.
 #: client/client_main.c:392 server/civserver.c:414
@@ -1101,7 +1101,7 @@ msgstr "read 檔案"
 
 #: client/client_main.c:393
 msgid "Read startup script FILE (for spawned server only)"
-msgstr "　讀取初始化的腳本檔案（只對隨之啟動的伺服器有用）"
+msgstr "　讀取初始化的腳本檔案(只對隨之啟動的伺服器有用)"
 
 #. TRANS: "server" is exactly what user must type, do not translate.
 #: client/client_main.c:396
@@ -1110,7 +1110,7 @@ msgstr "server 主機"
 
 #: client/client_main.c:397
 msgid "Connect to the server at HOST (usually with -a)"
-msgstr "　連接到主機上的伺服器（常伴隨著 -a 使用）"
+msgstr "　連接到主機上的伺服器(常伴隨著 -a 使用)"
 
 #. TRANS: "Sound" is exactly what user must type, do not translate.
 #: client/client_main.c:400
@@ -1138,7 +1138,7 @@ msgstr "顯示版本號"
 #: client/client_main.c:427 manual/civmanual.c:449 server/civserver.c:218
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
-msgstr "不正確的信號「%s」。\n"
+msgstr "不正確的信號\"%s\"。\n"
 
 #: client/client_main.c:429 client/client_main.c:452 client/client_main.c:466
 msgid "Try using --help.\n"
@@ -1147,32 +1147,32 @@ msgstr "試著用 --help。\n"
 #: client/client_main.c:450
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
-msgstr "用了不正確的埠口「%s」在 --port 的選項。\n"
+msgstr "用了不正確的埠口\"%s\"在 --port 的選項。\n"
 
 #: client/client_main.c:464
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
-msgstr "用了不正確的除錯等級「%s」在 --debug 選項。\n"
+msgstr "用了不正確的除錯等級\"%s\"在 --debug 選項。\n"
 
 #: client/client_main.c:484
 #, c-format
 msgid "Invalid announce protocol \"%s\".\n"
-msgstr "公告了不正確的協定「%s」。\n"
+msgstr "公告了不正確的協定\"%s\"。\n"
 
 #: client/client_main.c:491
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
-msgstr "無法辨識的選項：「%s」\n"
+msgstr "無法辨識的選項：\"%s\"\n"
 
 #: client/client_main.c:561
 #, c-format
 msgid "Updating old metaserver address \"%s\"."
-msgstr "更新了舊的中介伺服器地址「%s」。"
+msgstr "更新了舊的中介伺服器地址\"%s\"。"
 
 #: client/client_main.c:563
 #, c-format
 msgid "Default metaserver has been set to value \"%s\"."
-msgstr "預設的中介伺服器更換為「%s」。"
+msgstr "預設的中介伺服器更換為\"%s\"。"
 
 #: client/client_main.c:716
 msgid "There was an error while auto connecting; aborting."
@@ -1300,7 +1300,7 @@ msgstr "未知的原因"
 #: client/clinet.c:145
 #, c-format
 msgid "Lost connection to server (%s)!"
-msgstr "失去與伺服器（%s）的連線！"
+msgstr "失去與伺服器(%s)的連線！"
 
 #: client/clinet.c:185
 msgid "Failed looking up host."
@@ -1349,7 +1349,7 @@ msgstr "每 %4$f 秒自動以「%3$s」連線到伺服器「%1$s」埠口 %2$d �
 
 #: client/connectdlg_common.c:218
 msgid "Starting server..."
-msgstr "啟動伺服器……"
+msgstr "啟動伺服器..."
 
 #: client/connectdlg_common.c:374
 msgid "Couldn't start the server."
@@ -1357,7 +1357,7 @@ msgstr "無法啟動伺服器。"
 
 #: client/connectdlg_common.c:376 client/connectdlg_common.c:411
 msgid "You'll have to start one manually. Sorry..."
-msgstr "抱歉，你必須手動啟動……"
+msgstr "抱歉，您必須手動啟動..."
 
 #: client/connectdlg_common.c:407
 msgid "Couldn't connect to the server."
@@ -1370,7 +1370,7 @@ msgstr "我們大概沒辦法在這裡啟動它。"
 #: client/connectdlg_common.c:538
 msgid ""
 "Established control over the server. You have command access level 'hack'."
-msgstr "已建立了伺服器的操作權。你已獲得「駭客」等級的授權。"
+msgstr "已建立了伺服器的操作權。您已獲得「駭客」等級的授權。"
 
 #: client/connectdlg_common.c:544
 msgid ""
@@ -1404,7 +1404,7 @@ msgstr "沒有一條可以到達目的地的路線呀！"
 
 #: client/control.c:2537
 msgid "Oh my! You seem to have no capital!"
-msgstr "我的天！你根本就沒有首都呀！"
+msgstr "我的天！您根本就沒有首都呀！"
 
 #: client/editor.c:140 client/gui-gtk-2.0/editprop.c:4051
 #: client/gui-gtk-2.0/menu.c:1368 client/gui-gtk-3.0/editprop.c:4051
@@ -1569,13 +1569,13 @@ msgstr "只有 GGZ 的用戶端需要使用 ggz 模式！\n"
 
 #: client/global_worklist.c:357
 msgid "(noname)"
-msgstr "（無名稱）"
+msgstr "(無名稱)"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:82
 #: client/gui-gtk-3.0/caravan_dialog.c:82
 #, c-format
 msgid "Help build _Wonder (%d remaining)"
-msgstr "協助建造奇觀(_W)（還需要 %d）"
+msgstr "協助建造奇觀(還需要 %d)(_W)"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:87
 #: client/gui-gtk-3.0/caravan_dialog.c:87
@@ -1587,7 +1587,7 @@ msgstr "協助建造奇觀(_W)"
 #: client/gui-gtk-3.0/caravan_dialog.c:103
 #, c-format
 msgid "Your %s Has Arrived"
-msgstr "你的%s到達了"
+msgstr "您的%s到達了"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:105
 #: client/gui-gtk-3.0/caravan_dialog.c:105 client/gui-xaw/dialogs.c:456
@@ -1596,13 +1596,13 @@ msgid ""
 "Your %s from %s reaches the city of %s.\n"
 "What now?"
 msgstr ""
-"你來自 %2$s 的%1$s到達了 %3$s。\n"
+"您來自 %2$s 的%1$s到達了 %3$s。\n"
 "接下來該怎麼做？"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:121
 #: client/gui-gtk-3.0/caravan_dialog.c:121
 msgid "Establish _Trade route"
-msgstr "連通絲路(_T)"
+msgstr "建立貿易路線(_T)"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:122
 #: client/gui-gtk-3.0/caravan_dialog.c:122
@@ -1692,7 +1692,7 @@ msgstr ""
 #. TRANS: "Return" means the return key.
 #: client/gui-gtk-2.0/chatline.c:1406 client/gui-gtk-3.0/chatline.c:1401
 msgid "Send the chat (Return)"
-msgstr "傳送訊息（Enter）"
+msgstr "傳送訊息(Enter)"
 
 #: client/gui-gtk-2.0/chatline.c:1423 client/gui-gtk-3.0/chatline.c:1418
 msgid "Chat tools"
@@ -1808,7 +1808,7 @@ msgstr "購買(_B)"
 
 #: client/gui-gtk-2.0/citydlg.c:853 client/gui-gtk-3.0/citydlg.c:877
 msgid "I_mprovements:"
-msgstr "改善設施(_m)："
+msgstr "改善設施(_M)："
 
 #: client/gui-gtk-2.0/citydlg.c:871 client/gui-gtk-2.0/citydlg.c:1056
 #: client/gui-gtk-2.0/wldlg.c:998 client/gui-gtk-3.0/citydlg.c:895
@@ -1818,11 +1818,11 @@ msgstr "資訊"
 
 #: client/gui-gtk-2.0/citydlg.c:984 client/gui-gtk-3.0/citydlg.c:1008
 msgid "P_roduction"
-msgstr "產業(_r)"
+msgstr "產業(_R)"
 
 #: client/gui-gtk-2.0/citydlg.c:1043 client/gui-gtk-3.0/citydlg.c:1068
 msgid "Happ_iness"
-msgstr "幸福（_i）"
+msgstr "幸福(_I)"
 
 #: client/gui-gtk-2.0/citydlg.c:1106 client/gui-gtk-3.0/citydlg.c:1131
 msgid "_Governor"
@@ -1855,7 +1855,7 @@ msgstr "納稅人"
 
 #: client/gui-gtk-2.0/citydlg.c:1137 client/gui-gtk-3.0/citydlg.c:1162
 msgid "Disband if build settler at size 1"
-msgstr "當尺寸為 1 時可用移民解散"
+msgstr "當規模為 1 時可用拓荒者移民解散"
 
 #: client/gui-gtk-2.0/citydlg.c:1140 client/gui-gtk-3.0/citydlg.c:1165
 msgid "Overview page"
@@ -1892,11 +1892,11 @@ msgstr "下一次打開"
 
 #: client/gui-gtk-2.0/citydlg.c:1220 client/gui-gtk-3.0/citydlg.c:1245
 msgid "R_ename..."
-msgstr "重新命名(_e)……"
+msgstr "重新命名(_E)..."
 
 #: client/gui-gtk-2.0/citydlg.c:1375 client/gui-gtk-3.0/citydlg.c:1397
 msgid "_List present units..."
-msgstr "列出獎勵單位(_L)……"
+msgstr "列出獎勵單位(_L)..."
 
 #: client/gui-gtk-2.0/citydlg.c:1385 client/gui-gtk-3.0/citydlg.c:1407
 msgid "_Prev city"
@@ -1936,7 +1936,7 @@ msgstr "封鎖"
 #, c-format
 msgid "Production (up to %d unit per turn):"
 msgid_plural "Production (up to %d units per turn):"
-msgstr[0] "產業（每回合 %d 單位）："
+msgstr[0] "產業(每回合 %d 單位)："
 
 #: client/gui-gtk-2.0/citydlg.c:1908 client/gui-gtk-3.0/citydlg.c:1920
 #, c-format
@@ -1951,7 +1951,7 @@ msgstr "%d 個獎勵的單位"
 #: client/gui-gtk-2.0/citydlg.c:2134 client/gui-gtk-2.0/cityrep.c:1147
 #: client/gui-gtk-3.0/citydlg.c:2148 client/gui-gtk-3.0/cityrep.c:1147
 msgid "Cen_ter"
-msgstr "置中(_t)"
+msgstr "置中(_T)"
 
 #: client/gui-gtk-2.0/citydlg.c:2140 client/gui-gtk-2.0/citydlg.c:2198
 #: client/gui-gtk-3.0/citydlg.c:2154 client/gui-gtk-3.0/citydlg.c:2212
@@ -1961,7 +1961,7 @@ msgstr "讓單位活動(_A)"
 #: client/gui-gtk-2.0/citydlg.c:2146 client/gui-gtk-2.0/citydlg.c:2204
 #: client/gui-gtk-3.0/citydlg.c:2160 client/gui-gtk-3.0/citydlg.c:2218
 msgid "Activate unit, _close dialog"
-msgstr "讓單位活動，關閉對話框(_c)"
+msgstr "讓單位活動，關閉對話框(_C)"
 
 #: client/gui-gtk-2.0/citydlg.c:2152 client/gui-gtk-2.0/citydlg.c:2253
 #: client/gui-gtk-3.0/citydlg.c:2166 client/gui-gtk-3.0/citydlg.c:2267
@@ -1991,7 +1991,7 @@ msgstr "設為家鄉(H)"
 
 #: client/gui-gtk-2.0/citydlg.c:2270 client/gui-gtk-3.0/citydlg.c:2284
 msgid "U_pgrade unit"
-msgstr "升級單位(_p)"
+msgstr "升級單位(_P)"
 
 #: client/gui-gtk-2.0/citydlg.c:2617 client/gui-gtk-2.0/diplomat_dialog.c:90
 #: client/gui-gtk-2.0/diplomat_dialog.c:567 client/gui-gtk-2.0/repodlgs.c:1507
@@ -2065,7 +2065,7 @@ msgstr "想要將這個城市換成什麼名字呢？"
 #: client/gui-gtk-2.0/cityrep.c:621 client/gui-gtk-3.0/cityrep.c:621
 #, c-format
 msgid "Are you sure you want to sell those %s?"
-msgstr "你確定要賣掉那些%s嗎？"
+msgstr "您確定要賣掉那些%s嗎？"
 
 #. TRANS: "Sold 3 Harbour for 90 gold." (Pluralisation is in gold --
 #. * second %d -- not in buildings.)
@@ -2084,7 +2084,7 @@ msgstr "沒有%s可以賣。"
 
 #: client/gui-gtk-2.0/cityrep.c:964 client/gui-gtk-3.0/cityrep.c:964
 msgid "(no worklists defined)"
-msgstr "（沒有定義任何工作表）"
+msgstr "(沒有定義任何工作表)"
 
 #: client/gui-gtk-2.0/cityrep.c:1039 client/gui-gtk-3.0/cityrep.c:1039
 msgid "_Production"
@@ -2124,11 +2124,11 @@ msgstr "清空工作表(_W)"
 
 #: client/gui-gtk-2.0/cityrep.c:1086 client/gui-gtk-3.0/cityrep.c:1086
 msgid "Gover_nor"
-msgstr "統治著(_n)"
+msgstr "統治著(_N)"
 
 #: client/gui-gtk-2.0/cityrep.c:1091 client/gui-gtk-3.0/cityrep.c:1091
 msgid "S_ell"
-msgstr "販賣(_e)"
+msgstr "販賣(_E)"
 
 #: client/gui-gtk-2.0/cityrep.c:1096 client/gui-gtk-2.0/menu.c:1541
 #: client/gui-gtk-2.0/unitselect.c:492 client/gui-gtk-3.0/cityrep.c:1096
@@ -2261,11 +2261,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cma_fe.c:265 client/gui-gtk-3.0/cma_fe.c:265
 msgid "Prese_ts:"
-msgstr "預設方針(_t)："
+msgstr "預設方針(_T)："
 
 #: client/gui-gtk-2.0/cma_fe.c:281 client/gui-gtk-3.0/cma_fe.c:281
 msgid "Ne_w"
-msgstr "新增(_w)"
+msgstr "新增(_W)"
 
 #: client/gui-gtk-2.0/cma_fe.c:301 client/gui-gtk-3.0/cma_fe.c:301
 #: client/gui-xaw/repodlgs.c:763
@@ -2290,11 +2290,11 @@ msgstr "慶祝"
 
 #: client/gui-gtk-2.0/cma_fe.c:462 client/gui-gtk-3.0/cma_fe.c:462
 msgid "Governor Enabl_ed"
-msgstr "人民自治"
+msgstr "指定代理市長(_E)"
 
 #: client/gui-gtk-2.0/cma_fe.c:467 client/gui-gtk-3.0/cma_fe.c:467
 msgid "Governor Disabl_ed"
-msgstr "中央直轄"
+msgstr "取消代理市長(_E)"
 
 #: client/gui-gtk-2.0/cma_fe.c:533 client/gui-gtk-3.0/cma_fe.c:533
 #: client/gui-sdl/cma_fe.c:259 client/gui-sdl/cma_fe.c:334
@@ -2319,17 +2319,17 @@ msgstr ""
 #: client/gui-gtk-2.0/dialogs.c:202 client/gui-gtk-2.0/messagewin.c:354
 #: client/gui-gtk-3.0/dialogs.c:200 client/gui-gtk-3.0/messagewin.c:354
 msgid "Goto _Location"
-msgstr "過去事件所在地"
+msgstr "過去事件所在地(_L)"
 
 #: client/gui-gtk-2.0/dialogs.c:207 client/gui-gtk-2.0/messagewin.c:358
 #: client/gui-gtk-3.0/dialogs.c:205 client/gui-gtk-3.0/messagewin.c:358
 msgid "I_nspect City"
-msgstr "巡視城市(_n)"
+msgstr "巡視城市(_N)"
 
 #: client/gui-gtk-2.0/dialogs.c:292 client/gui-gtk-3.0/dialogs.c:288
 #: client/gui-sdl/dialogs.c:2570 client/gui-xaw/dialogs.c:527
 msgid "You say you wanna revolution?"
-msgstr "你真的想要革命？"
+msgstr "您真的想要革命？"
 
 #: client/gui-gtk-2.0/dialogs.c:293 client/gui-gtk-3.0/dialogs.c:289
 #: client/gui-sdl/dialogs.c:2589 data/Freeciv.in:2488
@@ -2362,7 +2362,7 @@ msgstr "編輯民族"
 #: client/gui-gtk-2.0/dialogs.c:566 client/gui-gtk-3.0/dialogs.c:562
 #: data/Freeciv.in:3176
 msgid "What Nation Will You Be?"
-msgstr "你想當哪個民族？"
+msgstr "您想當哪個民族？"
 
 #: client/gui-gtk-2.0/dialogs.c:568 client/gui-gtk-3.0/dialogs.c:564
 #: client/gui-sdl/chatline.c:810 data/Freeciv.in:3428
@@ -2379,7 +2379,7 @@ msgstr "選擇一個民族"
 
 #: client/gui-gtk-2.0/dialogs.c:606 client/gui-gtk-3.0/dialogs.c:602
 msgid "_Properties"
-msgstr "屬性(_p)"
+msgstr "屬性(_P)"
 
 #: client/gui-gtk-2.0/dialogs.c:628 client/gui-gtk-3.0/dialogs.c:625
 msgid "_Leader:"
@@ -2495,7 +2495,7 @@ msgstr "條約(_P)"
 
 #: client/gui-gtk-2.0/diplodlg.c:496 client/gui-gtk-3.0/diplodlg.c:496
 msgid "Cancel _all meetings"
-msgstr "取消所有會議(_a)"
+msgstr "取消所有會議(_A)"
 
 #: client/gui-gtk-2.0/diplodlg.c:572 client/gui-gtk-2.0/diplodlg.c:640
 #: client/gui-gtk-3.0/diplodlg.c:572 client/gui-gtk-3.0/diplodlg.c:641
@@ -2516,11 +2516,11 @@ msgstr "同意條約"
 #: client/gui-gtk-2.0/diplodlg.c:723 client/gui-gtk-2.0/diplodlg.c:806
 #: client/gui-gtk-3.0/diplodlg.c:723 client/gui-gtk-3.0/diplodlg.c:805
 msgid "Add Clause..."
-msgstr "增加條件……"
+msgstr "增加條件..."
 
 #: client/gui-gtk-2.0/diplodlg.c:873 client/gui-gtk-3.0/diplodlg.c:872
 msgid "C_lauses:"
-msgstr "條件(_l)："
+msgstr "條件(_L)："
 
 #: client/gui-gtk-2.0/diplodlg.c:918 client/gui-gtk-3.0/diplodlg.c:917
 msgid "--- This treaty is blank. Please add some clauses. ---"
@@ -2756,7 +2756,7 @@ msgstr "產業破壞(_S)"
 #: client/gui-xaw/diplomat_dialog.c:806
 #, c-format
 msgid "Your %s is waiting for your command."
-msgstr "%s正在等待你下達指令。"
+msgstr "%s正在等待您下達指令。"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:734
 #: client/gui-gtk-3.0/diplomat_dialog.c:734
@@ -3219,7 +3219,7 @@ msgstr "尋找城市"
 
 #: client/gui-gtk-2.0/finddlg.c:113 client/gui-gtk-3.0/finddlg.c:113
 msgid "Ci_ties:"
-msgstr "城市(_t)："
+msgstr "城市(_T)："
 
 #: client/gui-gtk-2.0/gamedlgs.c:232 client/gui-gtk-3.0/gamedlgs.c:232
 msgid "Select tax, luxury and science rates"
@@ -3366,7 +3366,7 @@ msgstr "清除連結"
 #: client/gui-gtk-2.0/gui_main.c:2002 client/gui-gtk-3.0/gui_main.c:1981
 #: modinst/modinst.c:102
 msgid "Are you sure you want to quit?"
-msgstr "你確定要離開嗎？"
+msgstr "您確定要離開嗎？"
 
 #: client/gui-gtk-2.0/gui_stuff.c:614 client/gui-gtk-3.0/gui_stuff.c:616
 #, c-format
@@ -3598,13 +3598,13 @@ msgstr ""
 #: client/gui-xaw/helpdlg.c:1012
 #, c-format
 msgid "+%d Trade / %d"
-msgstr ""
+msgstr "+%d 貿易 / %d"
 
 #: client/gui-gtk-2.0/helpdlg.c:1109 client/gui-gtk-3.0/helpdlg.c:1118
 #: client/gui-xaw/helpdlg.c:1016
 #, c-format
 msgid "no extra / %d"
-msgstr ""
+msgstr "無效果 / %d"
 
 #: client/gui-gtk-2.0/helpdlg.c:1112 client/gui-gtk-2.0/helpdlg.c:1116
 #: client/gui-gtk-2.0/helpdlg.c:1130 client/gui-gtk-3.0/helpdlg.c:1121
@@ -3618,19 +3618,19 @@ msgstr "n/a"
 #: client/gui-xaw/helpdlg.c:1025
 #, c-format
 msgid "+%d Food / %d"
-msgstr ""
+msgstr "+%d 食物 / %d"
 
 #: client/gui-gtk-2.0/helpdlg.c:1133 client/gui-gtk-3.0/helpdlg.c:1142
 #: client/gui-xaw/helpdlg.c:1039
 #, c-format
 msgid "+%d Res. / %d"
-msgstr ""
+msgstr "+%d 資源 / %d"
 
 #. TRANS: "MP" = movement points
 #: client/gui-gtk-2.0/helpdlg.c:1178 client/gui-gtk-3.0/helpdlg.c:1187
 #, c-format
 msgid "%d MP"
-msgstr ""
+msgstr "%d 移動力"
 
 #: client/gui-gtk-2.0/inteldlg.c:48 client/gui-gtk-3.0/inteldlg.c:48
 msgid "Ruler:"
@@ -3669,7 +3669,7 @@ msgstr ""
 #: client/gui-gtk-2.0/inteldlg.c:406 client/gui-gtk-3.0/inteldlg.c:406
 #: common/tech.c:1027
 msgid "(Unknown)"
-msgstr "（未知）"
+msgstr "(未知)"
 
 #: client/gui-gtk-2.0/luaconsole.c:196 client/gui-gtk-3.0/luaconsole.c:196
 msgid "Client Lua Console"
@@ -3733,7 +3733,7 @@ msgstr "改善(_I)"
 
 #: client/gui-gtk-2.0/menu.c:1296 client/gui-gtk-3.0/menu.c:1296
 msgid "C_ivilization"
-msgstr "文明(_i)"
+msgstr "文明(_I)"
 
 #: client/gui-gtk-2.0/menu.c:1297 client/gui-gtk-3.0/menu.c:1297
 msgid "_Help"
@@ -3797,7 +3797,7 @@ msgstr "尋找城市(_F)"
 
 #: client/gui-gtk-2.0/menu.c:1337 client/gui-gtk-3.0/menu.c:1337
 msgid "Work_lists"
-msgstr "工作表(_l)"
+msgstr "工作表(_L)"
 
 #: client/gui-gtk-2.0/menu.c:1340 client/gui-gtk-3.0/menu.c:1340
 msgid "Client _Lua Script"
@@ -3948,7 +3948,7 @@ msgstr "關於 Freeciv"
 
 #: client/gui-gtk-2.0/menu.c:1418 client/gui-gtk-3.0/menu.c:1418
 msgid "Save Options on _Exit"
-msgstr "離開時儲存設定"
+msgstr "離開時儲存設定(_E)"
 
 #: client/gui-gtk-2.0/menu.c:1422 client/gui-gtk-3.0/menu.c:1422
 msgid "_Editing Mode"
@@ -3956,7 +3956,7 @@ msgstr "編輯模式(_E)"
 
 #: client/gui-gtk-2.0/menu.c:1426 client/gui-gtk-3.0/menu.c:1426
 msgid "Cit_y Outlines"
-msgstr "城市管轄<(_y)"
+msgstr "城市管轄(_Y)"
 
 #: client/gui-gtk-2.0/menu.c:1428 client/gui-gtk-3.0/menu.c:1428
 msgid "City Output"
@@ -3968,7 +3968,7 @@ msgstr "地圖格線(_G)"
 
 #: client/gui-gtk-2.0/menu.c:1432 client/gui-gtk-3.0/menu.c:1432
 msgid "National _Borders"
-msgstr "國土邊界"
+msgstr "國土邊界(_B)"
 
 #: client/gui-gtk-2.0/menu.c:1435 client/gui-gtk-3.0/menu.c:1435
 msgid "Native Tiles"
@@ -3984,7 +3984,7 @@ msgstr "城市名稱(_N)"
 
 #: client/gui-gtk-2.0/menu.c:1442 client/gui-gtk-3.0/menu.c:1442
 msgid "City G_rowth"
-msgstr "城市成長(_r)"
+msgstr "城市成長(_R)"
 
 #: client/gui-gtk-2.0/menu.c:1444 client/gui-gtk-3.0/menu.c:1444
 msgid "City _Production Levels"
@@ -3996,7 +3996,7 @@ msgstr "城市購買成本"
 
 #: client/gui-gtk-2.0/menu.c:1449 client/gui-gtk-3.0/menu.c:1449
 msgid "City Tra_deroutes"
-msgstr "城市貿易路線(_d)"
+msgstr "城市貿易路線(_D)"
 
 #: client/gui-gtk-2.0/menu.c:1453 client/gui-gtk-3.0/menu.c:1453
 msgid "_Terrain"
@@ -4004,7 +4004,7 @@ msgstr "地形(_T)"
 
 #: client/gui-gtk-2.0/menu.c:1455 client/gui-gtk-3.0/menu.c:1455
 msgid "C_oastline"
-msgstr "海岸線(_o)"
+msgstr "海岸線(_O)"
 
 #: client/gui-gtk-2.0/menu.c:1458 client/gui-gtk-3.0/menu.c:1458
 msgid "_Roads & Rails"
@@ -4028,11 +4028,11 @@ msgstr "附加物(_S)"
 
 #: client/gui-gtk-2.0/menu.c:1469 client/gui-gtk-3.0/menu.c:1469
 msgid "Po_llution & Fallout"
-msgstr "污染與放射性落塵(_l)"
+msgstr "污染與放射性落塵(_L)"
 
 #: client/gui-gtk-2.0/menu.c:1471 client/gui-gtk-3.0/menu.c:1471
 msgid "Citi_es"
-msgstr "城市(_e)"
+msgstr "城市(_E)"
 
 #: client/gui-gtk-2.0/menu.c:1475 client/gui-gtk-3.0/menu.c:1475
 msgid "Unit Solid Background"
@@ -4044,7 +4044,7 @@ msgstr "單位盾形圖示"
 
 #: client/gui-gtk-2.0/menu.c:1479 client/gui-gtk-3.0/menu.c:1479
 msgid "Focu_s Unit"
-msgstr "聚焦的單位(_s)"
+msgstr "聚焦的單位(_S)"
 
 #: client/gui-gtk-2.0/menu.c:1481 client/gui-gtk-3.0/menu.c:1481
 msgid "Fog of _War"
@@ -4093,7 +4093,7 @@ msgstr "建造基地(_B)"
 
 #: client/gui-gtk-2.0/menu.c:1550 client/gui-gtk-3.0/menu.c:1550
 msgid "_Single Unit (Unselect Others)"
-msgstr "單選單位(_S)"
+msgstr "單選單位(選擇未選擇的)(_S)"
 
 #: client/gui-gtk-2.0/menu.c:1552 client/gui-gtk-3.0/menu.c:1552
 msgid "_All On Tile"
@@ -4129,7 +4129,7 @@ msgstr "出發(_G)"
 
 #: client/gui-gtk-2.0/menu.c:1573 client/gui-gtk-3.0/menu.c:1573
 msgid "Go _to/Airlift to City..."
-msgstr "出發/空運到城市……(_t)"
+msgstr "出發/空運到城市...(_T)"
 
 #: client/gui-gtk-2.0/menu.c:1575 client/gui-gtk-3.0/menu.c:1575
 msgid "_Return to Nearest City"
@@ -4137,7 +4137,7 @@ msgstr "回到最近的城市(_R)"
 
 #: client/gui-gtk-2.0/menu.c:1577 client/gui-gtk-3.0/menu.c:1577
 msgid "Auto E_xplore"
-msgstr "自動探索(_x)"
+msgstr "自動探索(_X)"
 
 #: client/gui-gtk-2.0/menu.c:1579 client/gui-gtk-3.0/menu.c:1579
 msgid "_Patrol"
@@ -4149,7 +4149,7 @@ msgstr "站崗(_S)"
 
 #: client/gui-gtk-2.0/menu.c:1584 client/gui-gtk-3.0/menu.c:1584
 msgid "Uns_entry All On Tile"
-msgstr "解除區塊上所有崗哨(_e)"
+msgstr "解除區塊上所有崗哨(_E)"
 
 #: client/gui-gtk-2.0/menu.c:1587 client/gui-gtk-3.0/menu.c:1587
 msgid "_Load"
@@ -4161,17 +4161,17 @@ msgstr "卸載(_U)"
 
 #: client/gui-gtk-2.0/menu.c:1591 client/gui-gtk-3.0/menu.c:1591
 msgid "U_nload All From Transporter"
-msgstr "從運輸船上卸載全部(_n)"
+msgstr "從運輸船上卸載全部(_N)"
 
 #: client/gui-gtk-2.0/menu.c:1596 client/gui-gtk-2.0/menu.c:2200
 #: client/gui-gtk-3.0/menu.c:1596 client/gui-gtk-3.0/menu.c:2199
 msgid "Upgr_ade"
-msgstr "升級(_a)"
+msgstr "升級(_A)"
 
 #: client/gui-gtk-2.0/menu.c:1598 client/gui-gtk-2.0/menu.c:2220
 #: client/gui-gtk-3.0/menu.c:1598 client/gui-gtk-3.0/menu.c:2219
 msgid "C_onvert"
-msgstr "轉換(_o)"
+msgstr "轉換(_O)"
 
 #: client/gui-gtk-2.0/menu.c:1600 client/gui-gtk-2.0/repodlgs.c:1112
 #: client/gui-gtk-3.0/menu.c:1600 client/gui-gtk-3.0/repodlgs.c:1141
@@ -4185,7 +4185,7 @@ msgstr "建造城市(_B)"
 
 #: client/gui-gtk-2.0/menu.c:1606 client/gui-gtk-3.0/menu.c:1606
 msgid "Go _to and Build city"
-msgstr "出發去建造城市(_t)"
+msgstr "出發去建造城市(_T)"
 
 #: client/gui-gtk-2.0/menu.c:1608 client/gui-gtk-3.0/menu.c:1608
 msgid "_Auto Settler"
@@ -4210,21 +4210,21 @@ msgstr "建造礦山(_M)"
 
 #: client/gui-gtk-2.0/menu.c:1618 client/gui-gtk-3.0/menu.c:1618
 msgid "Connect With Roa_d"
-msgstr "連接道路(_d)"
+msgstr "連接道路(_D)"
 
 #: client/gui-gtk-2.0/menu.c:1620 client/gui-gtk-3.0/menu.c:1620
 msgid "Connect With Rai_l"
-msgstr "連接鐵路(_l)"
+msgstr "連接鐵路(_L)"
 
 #: client/gui-gtk-2.0/menu.c:1622 client/gui-gtk-3.0/menu.c:1622
 msgid "Connect With Irri_gation"
-msgstr "連接灌溉(_g)"
+msgstr "連接灌溉(_G)"
 
 #: client/gui-gtk-2.0/menu.c:1625 client/gui-gtk-2.0/menu.c:2254
 #: client/gui-gtk-2.0/menu.c:2259 client/gui-gtk-3.0/menu.c:1625
 #: client/gui-gtk-3.0/menu.c:2253 client/gui-gtk-3.0/menu.c:2258
 msgid "Transf_orm Terrain"
-msgstr "改造地形(_o)"
+msgstr "改造地形(_O)"
 
 #: client/gui-gtk-2.0/menu.c:1627 client/gui-gtk-2.0/menu.c:2275
 #: client/gui-gtk-3.0/menu.c:1627 client/gui-gtk-3.0/menu.c:2274
@@ -4262,11 +4262,11 @@ msgstr "政府(_G)"
 
 #: client/gui-gtk-2.0/menu.c:1672 client/gui-gtk-3.0/menu.c:1672
 msgid "_Tax Rates..."
-msgstr "稅率……(_T)"
+msgstr "稅率(_T)..."
 
 #: client/gui-gtk-2.0/menu.c:1675 client/gui-gtk-3.0/menu.c:1675
 msgid "_Revolution..."
-msgstr "革命……(_R)"
+msgstr "革命(_R)..."
 
 #: client/gui-gtk-2.0/menu.c:1702 client/gui-gtk-3.0/menu.c:1702
 msgid "_Center View"
@@ -4294,7 +4294,7 @@ msgstr "以%s連接"
 
 #: client/gui-gtk-2.0/menu.c:2131 client/gui-gtk-3.0/menu.c:2130
 msgid "Help _Build Wonder"
-msgstr "幫助建造奇觀(_B)"
+msgstr "協助建造奇觀(_B)"
 
 #: client/gui-gtk-2.0/menu.c:2145 client/gui-gtk-3.0/menu.c:2144
 #: client/gui-sdl/menu.c:861 client/gui-sdl/menu.c:1055
@@ -4316,13 +4316,13 @@ msgstr "建造%s"
 #: client/gui-gtk-2.0/menu.c:2188 client/gui-gtk-3.0/menu.c:2187
 #, c-format
 msgid "Upgr_ade to %s"
-msgstr ""
+msgstr "升級成%s(_A)"
 
 #. TRANS: %s is a unit type.
 #: client/gui-gtk-2.0/menu.c:2208 client/gui-gtk-3.0/menu.c:2207
 #, c-format
 msgid "C_onvert to %s"
-msgstr ""
+msgstr "轉換成%s(_O)"
 
 #: client/gui-gtk-2.0/menu.c:2229 client/gui-gtk-2.0/menu.c:2242
 #: client/gui-gtk-3.0/menu.c:2228 client/gui-gtk-3.0/menu.c:2241
@@ -4333,12 +4333,12 @@ msgstr "改造成%s"
 
 #: client/gui-gtk-2.0/menu.c:2235 client/gui-gtk-3.0/menu.c:2234
 msgid "Bu_ild Farmland"
-msgstr "開發農田(_i)"
+msgstr "開發農田(_I)"
 
 #: client/gui-gtk-2.0/menu.c:2250 client/gui-gtk-3.0/menu.c:2249
 #, c-format
 msgid "Transf_orm to %s"
-msgstr "改建成%s(_o)"
+msgstr "改建成%s(_O)"
 
 #: client/gui-gtk-2.0/menu.c:2267 client/gui-gtk-3.0/menu.c:2266
 msgid "_Fortify Unit"
@@ -4346,18 +4346,18 @@ msgstr "駐守單位(_F)"
 
 #: client/gui-gtk-2.0/menu.c:2273 client/gui-gtk-3.0/menu.c:2272
 msgid "Drop _Paratrooper"
-msgstr ""
+msgstr "傘兵空降(_P)"
 
 #. TRANS: %s is a government name
 #: client/gui-gtk-2.0/menu.c:2348 client/gui-gtk-3.0/menu.c:2347
 #, c-format
 msgid "%s..."
-msgstr ""
+msgstr "%s..."
 
 #: client/gui-gtk-2.0/messagedlg.c:68 client/gui-gtk-3.0/messagedlg.c:68
 #: client/gui-xaw/menu.c:117 data/Freeciv.in:1272
 msgid "Message Options"
-msgstr ""
+msgstr "訊息選項"
 
 #: client/gui-gtk-2.0/messagedlg.c:77 client/gui-gtk-3.0/messagedlg.c:77
 msgid ""
@@ -4429,7 +4429,7 @@ msgstr "讀取舊檔(_L)"
 
 #: client/gui-gtk-2.0/pages.c:253 client/gui-gtk-3.0/pages.c:259
 msgid "C_onnect to Network Game"
-msgstr "連接到網路遊戲(_o)"
+msgstr "連接到網路遊戲(_O)"
 
 #: client/gui-gtk-2.0/pages.c:260 client/gui-gtk-3.0/pages.c:266
 msgid "Connect to Gaming _Zone"
@@ -4443,7 +4443,7 @@ msgstr "選擇位置以儲存"
 #: client/gui-gtk-2.0/pages.c:3043 client/gui-gtk-3.0/pages.c:512
 #: client/gui-gtk-3.0/pages.c:2843 client/gui-gtk-3.0/pages.c:3050
 msgid "_Browse..."
-msgstr "瀏覽(_B)……"
+msgstr "瀏覽(_B)..."
 
 #: client/gui-gtk-2.0/pages.c:965 client/gui-gtk-3.0/pages.c:971
 #: client/gui-sdl/connectdlg.c:928 client/gui-xaw/connectdlg.c:444
@@ -4511,11 +4511,11 @@ msgstr "登入(_L)："
 
 #: client/gui-gtk-2.0/pages.c:1259 client/gui-gtk-3.0/pages.c:1265
 msgid "Pass_word:"
-msgstr "密碼(_w)："
+msgstr "密碼(_W)："
 
 #: client/gui-gtk-2.0/pages.c:1277 client/gui-gtk-3.0/pages.c:1283
 msgid "Conf_irm Password:"
-msgstr "確認密碼(_i)："
+msgstr "再輸入一次密碼(_I)："
 
 #: client/gui-gtk-2.0/pages.c:1295 client/gui-gtk-3.0/pages.c:1301
 #: data/Freeciv.in:81
@@ -4524,7 +4524,7 @@ msgstr "主機"
 
 #: client/gui-gtk-2.0/pages.c:1324 client/gui-gtk-3.0/pages.c:1330
 msgid "C_onnect"
-msgstr "連線(_o)"
+msgstr "連線(_O)"
 
 #: client/gui-gtk-2.0/pages.c:1652 client/gui-gtk-3.0/pages.c:1658
 #, c-format
@@ -4592,7 +4592,7 @@ msgstr "加入 %s"
 
 #: client/gui-gtk-2.0/pages.c:2087 client/gui-gtk-3.0/pages.c:2093
 msgid "Not _ready"
-msgstr "還沒好(_r)"
+msgstr "還沒好(_R)"
 
 #: client/gui-gtk-2.0/pages.c:2098 client/gui-gtk-2.0/pages.c:2706
 #: client/gui-gtk-3.0/pages.c:2104 client/gui-gtk-3.0/pages.c:2713
@@ -4630,7 +4630,7 @@ msgstr "旁觀(_O)"
 
 #: client/gui-gtk-2.0/pages.c:2137 client/gui-gtk-3.0/pages.c:2143
 msgid "Do not _observe"
-msgstr "不再旁觀(_o)"
+msgstr "不再旁觀(_O)"
 
 #. TRANS: "<Novice AI>"
 #: client/gui-gtk-2.0/pages.c:2267 client/gui-gtk-3.0/pages.c:2273
@@ -4655,7 +4655,7 @@ msgstr "已離開"
 
 #: client/gui-gtk-2.0/pages.c:2551 client/gui-gtk-3.0/pages.c:2557
 msgid "Number of _Players (including AI):"
-msgstr "玩家數量(_P)（抱括 AI）："
+msgstr "玩家數量(包括 AI)(_P)："
 
 #: client/gui-gtk-2.0/pages.c:2576 client/gui-gtk-3.0/pages.c:2583
 msgid "AI Skill _Level:"
@@ -4667,7 +4667,7 @@ msgstr "規則定義版本(_V)："
 
 #: client/gui-gtk-2.0/pages.c:2610 client/gui-gtk-3.0/pages.c:2617
 msgid "_More Game Options..."
-msgstr "更多遊戲選項(_M)……"
+msgstr "更多遊戲選項(_M)..."
 
 #: client/gui-gtk-2.0/pages.c:2629 client/gui-gtk-3.0/pages.c:2636
 msgid "Record"
@@ -4699,7 +4699,7 @@ msgstr "選擇要載入的遊戲存檔"
 
 #: client/gui-gtk-2.0/pages.c:2816 client/gui-gtk-3.0/pages.c:2823
 msgid "Choose Saved Game to _Load:"
-msgstr "選擇要載入的遊戲存檔（_L）："
+msgstr "選擇要載入的遊戲存檔(_L)："
 
 #: client/gui-gtk-2.0/pages.c:2903 client/gui-gtk-3.0/pages.c:2910
 msgid "Choose a Scenario"
@@ -4728,11 +4728,11 @@ msgstr "儲存檔案名稱(_F)："
 
 #: client/gui-gtk-2.0/pages.c:3246 client/gui-gtk-3.0/pages.c:3253
 msgid "Saved Sce_narios:"
-msgstr "儲存的劇情(_n)："
+msgstr "儲存的劇情(_N)："
 
 #: client/gui-gtk-2.0/pages.c:3247 client/gui-gtk-3.0/pages.c:3254
 msgid "Save Sc_enario:"
-msgstr "儲存劇情(_e)："
+msgstr "儲存劇情(_E)："
 
 #: client/gui-gtk-2.0/pages.c:3275 client/gui-gtk-3.0/pages.c:3282
 msgid "Save Map Image"
@@ -4768,7 +4768,7 @@ msgstr "棄權的玩家"
 
 #: client/gui-gtk-2.0/plrdlg.c:517 client/gui-gtk-3.0/plrdlg.c:524
 msgid "Di_plomacy"
-msgstr "外交(_p)"
+msgstr "外交(_P)"
 
 #: client/gui-gtk-2.0/plrdlg.c:522 client/gui-gtk-3.0/plrdlg.c:529
 msgid "_Intelligence"
@@ -4968,7 +4968,7 @@ msgid ""
 "You are currently using %s."
 msgstr ""
 "此地圖包建議使用 %s 的佈景主題。\n"
-"你目前用的是 %s。"
+"您目前用的是 %s。"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:51 client/gui-gtk-3.0/tileset_dlg.c:51
 msgid "Preferred tileset"
@@ -5005,7 +5005,7 @@ msgstr "區塊(_T)"
 
 #: client/gui-gtk-2.0/unitselect.c:275 client/gui-gtk-3.0/unitselect.c:275
 msgid "C_ontinent"
-msgstr "大陸(_o)"
+msgstr "大陸(_O)"
 
 #: client/gui-gtk-2.0/unitselect.c:276 client/gui-gtk-3.0/unitselect.c:276
 msgid "_Land"
@@ -5034,7 +5034,7 @@ msgstr "反向選擇(_D)"
 
 #: client/gui-gtk-2.0/unitselect.c:515 client/gui-gtk-3.0/unitselect.c:515
 msgid "C_enter"
-msgstr "置中(_e)"
+msgstr "置中(_E)"
 
 #: client/gui-gtk-2.0/unitselect.c:524 client/gui-gtk-3.0/unitselect.c:524
 msgid "_Focus"
@@ -5111,7 +5111,7 @@ msgstr "加入全域工作表(_A)"
 
 #: client/gui-gtk-2.0/wldlg.c:1237 client/gui-gtk-3.0/wldlg.c:1235
 msgid "Change Prod_uction"
-msgstr "改變產業(_u)"
+msgstr "改變產業(_U)"
 
 #: client/gui-qt/fc_client.cpp:134
 msgid "This is Qt-client for Freeciv."
@@ -6506,29 +6506,29 @@ msgstr "加入區域網路伺服器"
 
 #: client/gui-sdl/pages.c:306
 msgid "SDLClient welcomes you..."
-msgstr "SDL 用戶端歡迎您……"
+msgstr "SDL 用戶端歡迎您..."
 
 #. TRANS: Dead -- Rest In Peace -- Reqia In Pace
 #: client/gui-sdl/plrdlg.c:429 client/plrdlg_common.c:178
 msgid "R.I.P."
-msgstr ""
+msgstr "R.I.P."
 
 #: client/gui-sdl/plrdlg.c:653 client/plrdlg_common.c:236
 #: server/stdinhand.c:3445 server/stdinhand.c:6104
 msgid "AI"
-msgstr ""
+msgstr "AI"
 
 #: client/gui-sdl/plrdlg.c:657 client/plrdlg_common.c:184
 msgid "done"
-msgstr ""
+msgstr "已完成"
 
 #: client/gui-sdl/plrdlg.c:659 client/plrdlg_common.c:186
 msgid "moving"
-msgstr ""
+msgstr "正在動作"
 
 #: client/gui-sdl/plrdlg.c:662
 msgid "disconnected"
-msgstr ""
+msgstr "失去連線"
 
 #: client/gui-sdl/repodlgs.c:349
 msgid "active"
@@ -7211,7 +7211,7 @@ msgstr ""
 #, c-format
 msgid "(idle %d turn)"
 msgid_plural "(idle %d turns)"
-msgstr[0] "（閒置 %d 回合）"
+msgstr[0] "(閒置 %d 回合)"
 
 #: client/gui-xaw/plrdlg.c:359
 msgid "You need an embassy to establish a diplomatic meeting."
@@ -7323,47 +7323,47 @@ msgstr ""
 #: client/helpdata.c:343
 #, c-format
 msgid "Requires you to have researched the %s technology.\n"
-msgstr ""
+msgstr "需要您已經研發出了%s。\n"
 
 #: client/helpdata.c:349
 #, c-format
 msgid "Requires that any player has researched the %s technology.\n"
-msgstr ""
+msgstr "需要任何玩家已經研發出了%s。\n"
 
 #: client/helpdata.c:366
 #, c-format
 msgid "Requires the %s government.\n"
-msgstr ""
+msgstr "需要%s政府。\n"
 
 #: client/helpdata.c:375
 #, c-format
 msgid "Requires that the %s wonder has been built by any player.\n"
-msgstr ""
+msgstr "需要任何玩家已經建了%s奇觀。\n"
 
 #: client/helpdata.c:384
 #, c-format
 msgid "Requires you to own the %s wonder.\n"
-msgstr ""
+msgstr "需要您擁有了%s奇觀。\n"
 
 #: client/helpdata.c:393
 #, c-format
 msgid "Requires the %s wonder to be owned by you and on the same continent.\n"
-msgstr ""
+msgstr "需要您擁有了%s奇觀，並且在同一個大陸上。\n"
 
 #: client/helpdata.c:402
 #, c-format
 msgid "Requires the %s building in the city.\n"
-msgstr ""
+msgstr "需要城市裡已建造%s。\n"
 
 #: client/helpdata.c:408
 #, c-format
 msgid "Only applies to \"%s\" buildings.\n"
-msgstr ""
+msgstr "只會套用到「%s」建築。\n"
 
 #: client/helpdata.c:424
 #, c-format
 msgid "Requires the %s terrain special on the tile.\n"
-msgstr ""
+msgstr "需要在有%s地形附加物的區塊上。\n"
 
 #: client/helpdata.c:429
 #, c-format
@@ -7374,12 +7374,12 @@ msgstr ""
 #: client/helpdata.c:435
 #, c-format
 msgid "Requires the %s terrain special on the tile or an adjacent tile.\n"
-msgstr ""
+msgstr "需要在有%s地形附加物的區塊上或鄰近區塊。\n"
 
 #: client/helpdata.c:452
 #, c-format
 msgid "Requires the %s terrain on the tile.\n"
-msgstr ""
+msgstr "需要在%s地形的區塊上。\n"
 
 #: client/helpdata.c:456
 #, c-format
@@ -7389,68 +7389,68 @@ msgstr ""
 #: client/helpdata.c:461
 #, c-format
 msgid "Requires the %s terrain on the tile or an adjacent tile.\n"
-msgstr ""
+msgstr "需要在%s地形的區塊上或鄰近區塊。\n"
 
 #: client/helpdata.c:478
 #, c-format
 msgid "Requires that you are playing the %s nation.\n"
-msgstr ""
+msgstr "需要您扮演%s種族。\n"
 
 #: client/helpdata.c:482
 #, c-format
 msgid "Requires the %s nation in the game.\n"
-msgstr ""
+msgstr "需要%s種族在遊戲裡。\n"
 
 #. TRANS: %s is a single kind of unit (e.g., "Settlers").
 #: client/helpdata.c:500
 #, c-format
 msgid "?unit:Requires %s.\n"
-msgstr ""
+msgstr "需要%s。\n"
 
 #. TRANS: %s is a list of unit types separated by "or".
 #: client/helpdata.c:526
 #, c-format
 msgid "?ulist:Requires %s.\n"
-msgstr ""
+msgstr "需要%s。\n"
 
 #. TRANS: %s is a single unit class (e.g., "Air").
 #: client/helpdata.c:549
 #, c-format
 msgid "?uclass:Requires %s units.\n"
-msgstr ""
+msgstr "需要%s單位。\n"
 
 #. TRANS: %s is a list of unit classes separated by "or".
 #: client/helpdata.c:581
 #, c-format
 msgid "?uclasslist:Requires %s units.\n"
-msgstr ""
+msgstr "需要%s單位。\n"
 
 #. TRANS: Applies only to food.
 #: client/helpdata.c:604
 #, c-format
 msgid "?output:Applies only to %s.\n"
-msgstr ""
+msgstr "只會套用到%s。\n"
 
 #. TRANS: Applies only to scientist
 #: client/helpdata.c:610
 #, c-format
 msgid "?specialist:Applies only to %s.\n"
-msgstr ""
+msgstr "只會套用到%s。\n"
 
 #: client/helpdata.c:615
 #, c-format
 msgid "Requires a minimum size of %d.\n"
-msgstr ""
+msgstr "需要比 %d 還大的尺寸。\n"
 
 #: client/helpdata.c:620
 #, c-format
 msgid "Requires AI player of level %s.\n"
-msgstr ""
+msgstr "需要 AI 玩家是%s等級。\n"
 
 #: client/helpdata.c:627
 #, c-format
 msgid "Requires %s terrain class on the tile.\n"
-msgstr ""
+msgstr "需要在%s。\n"
 
 #: client/helpdata.c:633
 #, c-format
@@ -7460,12 +7460,12 @@ msgstr ""
 #: client/helpdata.c:639
 #, c-format
 msgid "Requires %s terrain class on an adjacent tile.\n"
-msgstr ""
+msgstr "需要鄰接%s。\n"
 
 #: client/helpdata.c:656
 #, c-format
 msgid "Requires a %s on the tile.\n"
-msgstr ""
+msgstr "需要一個%s在那區塊上。\n"
 
 #: client/helpdata.c:660
 #, c-format
@@ -7480,7 +7480,7 @@ msgstr ""
 #: client/helpdata.c:678
 #, c-format
 msgid "Requires we reached the year %d.\n"
-msgstr ""
+msgstr "需要在過了第 %d 年。\n"
 
 #: client/helpdata.c:686
 #, c-format
@@ -7489,7 +7489,7 @@ msgstr ""
 
 #: client/helpdata.c:703
 msgid "Applies only to city centers.\n"
-msgstr ""
+msgstr "只套用到城市中心。\n"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
 #: client/helpdata.c:757 client/helpdata.c:1336 client/text.c:1629
@@ -7501,18 +7501,18 @@ msgstr ""
 #: client/helpdata.c:763
 #, c-format
 msgid "Allows %s."
-msgstr ""
+msgstr "可蓋%s。"
 
 #: client/helpdata.c:766
 #, c-format
 msgid "Allows %s (with %s)."
-msgstr ""
+msgstr "可蓋%s(搭配%s)。"
 
 #. TRANS: "%*s" is replaced with spaces
 #: client/helpdata.c:927
 #, c-format
 msgid "%*sRivers"
-msgstr ""
+msgstr "%*s河川"
 
 #: client/helpdata.c:1007
 msgid "Current ruleset contains no description."
@@ -7534,7 +7534,7 @@ msgstr ""
 #: client/helpdata.c:1244
 #, c-format
 msgid "* The discovery of %s will make %s obsolete.\n"
-msgstr ""
+msgstr "* 研發%s後%s會被淘汰。\n"
 
 #: client/helpdata.c:1252
 msgid ""
@@ -7547,7 +7547,7 @@ msgstr ""
 #: client/helpdata.c:1265
 #, c-format
 msgid "* Allows all players with knowledge of %s to build %s units.\n"
-msgstr ""
+msgstr "* 讓所有已經學會%s的玩家可製造%s。\n"
 
 #: client/helpdata.c:1278
 #, c-format
@@ -7938,7 +7938,7 @@ msgstr[0] ""
 
 #: client/helpdata.c:1828
 msgid "You cannot research this technology."
-msgstr "你不能研發這項科技。"
+msgstr "您不能研發這項科技。"
 
 #: client/helpdata.c:1833
 msgid " This number may vary depending on what other players research.\n"
@@ -7951,13 +7951,13 @@ msgstr ""
 
 #: client/helpdata.c:1851
 msgid "* Increases the pollution generated by the population.\n"
-msgstr ""
+msgstr "* 因人口數而加劇污染產生。\n"
 
 #. TRANS: %s is list of units separated by "and".
 #: client/helpdata.c:1857
 #, c-format
 msgid "* Allows %s to build roads on river tiles.\n"
-msgstr ""
+msgstr "* 允許%s在河川上造路。\n"
 
 #. TRANS: %s is list of units separated by "and".
 #: client/helpdata.c:1865
@@ -7975,31 +7975,31 @@ msgstr "允許%s將灌概升級至農田。\n"
 msgid ""
 "* To preserve this technology for our nation some bulbs are needed each "
 "turn.\n"
-msgstr ""
+msgstr "每回合需要更多燈泡，好為我們一族保存這項科技。\n"
 
 #: client/helpdata.c:1920
 msgid "* Pollution cannot be generated on this terrain."
-msgstr ""
+msgstr "* 這個地形不會被污染。"
 
 #: client/helpdata.c:1923
 msgid "* Fallout cannot be generated on this terrain."
-msgstr ""
+msgstr "* 這個地形不會有放射性落塵。"
 
 #: client/helpdata.c:1928
 msgid "* You cannot build cities on this terrain."
-msgstr ""
+msgstr "* 您不能在這個地形上建造城市。"
 
 #: client/helpdata.c:1934
 msgid "* The coastline of this terrain is unsafe."
-msgstr ""
+msgstr "* 此地形的海岸線不安全。"
 
 #: client/helpdata.c:1939
 msgid "* Land units cannot travel on oceanic terrains."
-msgstr ""
+msgstr "* 陸上單位不能在海洋地形上行走。"
 
 #: client/helpdata.c:1984
 msgid "Requirements to build:\n"
-msgstr ""
+msgstr "建造的需求：\n"
 
 #. TRANS: %s is a list of unit classes separated by "and".
 #: client/helpdata.c:2006
@@ -8353,7 +8353,7 @@ msgstr ""
 #: client/helpdata.c:2585
 #, c-format
 msgid "%s%d Unhappy"
-msgstr ""
+msgstr "%s%d 憂愁"
 
 #: client/helpdata.c:2611
 #, c-format
@@ -8380,7 +8380,7 @@ msgstr ""
 #: client/helpdata.c:2670
 #, c-format
 msgid "%s (%d)"
-msgstr "%s（%d）"
+msgstr "%s(%d)"
 
 #. TRANS: %s is an and-separated list of unit types
 #. * possibly with counts. Plurality is in total number of
@@ -8763,7 +8763,7 @@ msgstr ""
 
 #: client/options.c:1885
 msgid "Unit movement animation time (milliseconds)"
-msgstr "單位移動動畫長度（微秒）"
+msgstr "單位移動動畫長度(微秒)"
 
 #: client/options.c:1886
 msgid ""
@@ -8773,7 +8773,7 @@ msgstr ""
 
 #: client/options.c:1891
 msgid "Mapview recentering time (milliseconds)"
-msgstr "地圖置中延遲長度（微秒）"
+msgstr "地圖置中延遲長度(微秒)"
 
 #: client/options.c:1892
 msgid ""
@@ -8784,7 +8784,7 @@ msgstr ""
 
 #: client/options.c:1898
 msgid "Combat animation step time (milliseconds)"
-msgstr "戰鬥動畫步進長度（微秒）"
+msgstr "戰鬥動畫步進長度(微秒)"
 
 #: client/options.c:1899
 msgid ""
@@ -8815,7 +8815,7 @@ msgstr ""
 
 #: client/options.c:1919
 msgid "Color to highlight your player/user name"
-msgstr "利用顏色標註你的玩家/使用者名稱"
+msgstr "利用顏色標註您的玩家/使用者名稱"
 
 #: client/options.c:1920
 msgid ""
@@ -9660,7 +9660,7 @@ msgstr ""
 #: client/servers.c:139
 #, c-format
 msgid "There is no newer %s release of Freeciv available."
-msgstr ""
+msgstr "沒有比 Freeciv %s 更新的版本可以用。"
 
 #: client/servers.c:373 utility/netfile.c:102
 msgid "Could not open temp file."
@@ -9738,7 +9738,7 @@ msgstr "國土"
 #: client/text.c:183
 #, c-format
 msgid "Territory of %s (%s)"
-msgstr "%s（%s）的國土"
+msgstr "%s(%s)的國土"
 
 #. TRANS: "Territory of <username> (<nation + team>)
 #. * (<number> turn cease-fire)"
@@ -9746,14 +9746,14 @@ msgstr "%s（%s）的國土"
 #, c-format
 msgid "Territory of %s (%s) (%d turn cease-fire)"
 msgid_plural "Territory of %s (%s) (%d turn cease-fire)"
-msgstr[0] "%s（%s）的國土（停戰 %d 回合）"
+msgstr[0] "%s(%s)的國土(停戰 %d 回合)"
 
 #. TRANS: "Territory of <username>
 #. * (<nation + team> | <diplomatic state>)"
 #: client/text.c:203
 #, c-format
 msgid "Territory of %s (%s | %s)"
-msgstr "%s（%s | %s）的國圖土"
+msgstr "%s(%s | %s)的國圖土"
 
 #: client/text.c:208
 msgid "Unclaimed territory"
@@ -9763,7 +9763,7 @@ msgstr "無主地"
 #: client/text.c:223
 #, c-format
 msgid "City: %s | %s (%s)"
-msgstr "城市：%s | %s（%s）"
+msgstr "城市：%s | %s(%s)"
 
 #. TRANS:  "City: <city name> | <username>
 #. * (<nation + team>, <number> turn cease-fire)"
@@ -9771,14 +9771,14 @@ msgstr "城市：%s | %s（%s）"
 #, c-format
 msgid "City: %s | %s (%s, %d turn cease-fire)"
 msgid_plural "City: %s | %s (%s, %d turn cease-fire)"
-msgstr[0] "城市：%s | %s（%s，停戰 %d 回合）"
+msgstr[0] "城市：%s | %s(%s，停戰 %d 回合)"
 
 #. TRANS: "City: <city name> | <username>
 #. * (<nation + team>, <diplomatic state>)"
 #: client/text.c:240
 #, c-format
 msgid "City: %s | %s (%s, %s)"
-msgstr "城市：%s | %s（%s，%s）"
+msgstr "城市：%s | %s(%s，%s)"
 
 #: client/text.c:249
 #, c-format
@@ -9823,13 +9823,13 @@ msgstr "活動：%s"
 #: client/text.c:315 client/text.c:339
 #, c-format
 msgid "Unit: %s | %s (%s, %s)"
-msgstr "單位：%s | %s（%s，%s）"
+msgstr "單位：%s | %s(%s，%s)"
 
 #. TRANS: "Unit: <unit type> | <username> (<nation + team>)"
 #: client/text.c:320
 #, c-format
 msgid "Unit: %s | %s (%s)"
-msgstr "單位：%s | %s（%s）"
+msgstr "單位：%s | %s(%s)"
 
 #. TRANS:  "Unit: <unit type> | <username> (<nation + team>,
 #. * <number> turn cease-fire)"
@@ -9837,7 +9837,7 @@ msgstr "單位：%s | %s（%s）"
 #, c-format
 msgid "Unit: %s | %s (%s, %d turn cease-fire)"
 msgid_plural "Unit: %s | %s (%s, %d turn cease-fire)"
-msgstr[0] "單位：%s | %s（%s，停戰 %d 回合）"
+msgstr[0] "單位：%s | %s(%s，停戰 %d 回合)"
 
 #. TRANS: "Chance to win: A:95% D:46%"
 #: client/text.c:364
@@ -9866,7 +9866,7 @@ msgstr "預估賄賂成本： 大於 %d"
 #: client/text.c:395
 #, c-format
 msgid "  (%d more)"
-msgstr "（%d 個以上）"
+msgstr "(%d 個以上)"
 
 #. TRANS: on own line immediately following \n, ... <city>
 #: client/text.c:510
@@ -9973,12 +9973,12 @@ msgstr "人口數：%s"
 #: client/text.c:911
 #, c-format
 msgid "Year: %s (T%d)"
-msgstr "紀年：%s（%d 回）"
+msgstr "紀年：%s(%d 回)"
 
 #: client/text.c:915
 #, c-format
 msgid "Gold: %d (%+d)"
-msgstr "黃金：%d（%+d）"
+msgstr "黃金：%d(%+d)"
 
 #: client/text.c:918
 #, c-format
@@ -9996,7 +9996,7 @@ msgstr "正在移動：%s"
 
 #: client/text.c:940
 msgid "(Click for more info)"
-msgstr "（按一下以查看更多資訊）"
+msgstr "(按一下以查看更多資訊)"
 
 #: client/text.c:958
 #, c-format
@@ -10463,20 +10463,20 @@ msgstr "來自 %2$s 的 %1$s"
 #: common/connection.c:470
 #, c-format
 msgid " (%s)"
-msgstr "（%s）"
+msgstr "(%s)"
 
 #: common/connection.c:472
 msgid " (connection incomplete)"
-msgstr "（連線不成功）"
+msgstr "(連線不成功)"
 
 #: common/connection.c:476
 #, c-format
 msgid " (player %s)"
-msgstr "（玩家 %s）"
+msgstr "(玩家 %s)"
 
 #: common/connection.c:480
 msgid " (observer)"
-msgstr "（旁觀者）"
+msgstr "(旁觀者)"
 
 #: common/connection.c:860
 #, c-format
@@ -10636,7 +10636,7 @@ msgstr "核爆了"
 
 #: common/events.c:106
 msgid "Released from citizen governor"
-msgstr "從市長手中解放了"
+msgstr "解除了代理市長"
 
 #: common/events.c:107
 msgid "Suggest Growth Throttling"
@@ -10956,13 +10956,13 @@ msgid ""
 "Usage: %s [option ...]\n"
 "Valid option are:\n"
 msgstr ""
-"用法：%s [選項……]\n"
+"用法：%s [選項...]\n"
 "可用的選項有：\n"
 
 #: common/fc_cmdhelp.c:127
 #, c-format
 msgid "Try \"%s -- --help\" for more."
-msgstr "試著用「%s -- --help」了解更多。"
+msgstr "試著用\"%s -- --help\"了解更多。"
 
 #: common/fc_cmdhelp.c:133
 msgid "Pass any following options to the UI."
@@ -11463,7 +11463,7 @@ msgstr ""
 #: common/requirements.c:1438
 #, c-format
 msgid "%s terrain"
-msgstr ""
+msgstr "%s地形"
 
 #. TRANS: "Fortress base"
 #: common/requirements.c:1443
@@ -11657,12 +11657,12 @@ msgstr "Freeciv 版本 %s %s"
 
 #: common/version.c:42
 msgid "(beta version)"
-msgstr "（測試版本）"
+msgstr "(測試版本)"
 
 #: common/version.c:44
 #, c-format
 msgid "Freeciv version %s (%s)"
-msgstr "Freeciv 版本 %s（%s）"
+msgstr "Freeciv 版本 %s(%s)"
 
 #: common/version.c:47
 #, c-format
@@ -11820,7 +11820,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:186 data/civ2/buildings.ruleset:238
 #: data/default/buildings.ruleset:264 data/experimental/buildings.ruleset:269
 msgid "Colosseum"
-msgstr "競技場"
+msgstr "羅馬競技場"
 
 #: data/civ1/buildings.ruleset:200
 msgid ""
@@ -13926,7 +13926,7 @@ msgstr "神秘主義"
 #: data/default/techs.ruleset:504 data/experimental/techs.ruleset:556
 #: data/multiplayer/techs.ruleset:513
 msgid "Improves the effect of Temples."
-msgstr "提高廟宇的能力。"
+msgstr "提高廟宇的效果。"
 
 #: data/civ1/techs.ruleset:397 data/civ2/techs.ruleset:503
 #: data/default/techs.ruleset:507 data/experimental/techs.ruleset:559
@@ -14062,8 +14062,7 @@ msgstr "海洋"
 msgid ""
 "Oceans cover much of the world, and only sea units (Triremes and other "
 "boats) can travel on them."
-msgstr ""
-"海洋覆蓋了整個世界，而只有海上單位（三列槳座戰船或其他船）可以航行在上面。"
+msgstr "海洋覆蓋了整個世界，而只有海上單位(三列槳座戰船或其他船)可以航行在上面。"
 
 #: data/civ1/terrain.ruleset:221
 msgid "Arctic"
@@ -14137,7 +14136,7 @@ msgstr "叢林"
 #: data/default/terrain.ruleset:551 data/experimental/terrain.ruleset:553
 #: data/multiplayer/terrain.ruleset:551
 msgid "Jungles are densely overgrown, making agriculture somewhat problematic."
-msgstr "叢林擁有更密集的林材，不利於發展農業。"
+msgstr "叢林擁有更密集的木材，不利於發展農業。"
 
 #: data/civ1/terrain.ruleset:443 data/civ2/terrain.ruleset:454
 #: data/default/terrain.ruleset:557 data/experimental/terrain.ruleset:559
@@ -14307,7 +14306,7 @@ msgid ""
 "if its supporting city runs out of food. Settlers in a Republic or Democracy "
 "require twice as much food per turn."
 msgstr ""
-"拓荒者的健康仰賴你所提供的食物，當食物不足時拓荒者可能暴斃。在共和制和民主制"
+"拓荒者的健康仰賴您所提供的食物，當食物不足時拓荒者可能暴斃。在共和制和民主制"
 "下，拓荒者每一回合需要雙倍的食物。"
 
 #: data/civ1/units.ruleset:239
@@ -15737,11 +15736,11 @@ msgstr "聯合兵種"
 #: data/civ2/techs.ruleset:176 data/default/techs.ruleset:187
 #: data/experimental/techs.ruleset:202 data/multiplayer/techs.ruleset:187
 msgid "Reduces the effect of Cathedrals."
-msgstr ""
+msgstr "降低大教堂的效果。"
 
 #: data/civ2/techs.ruleset:201
 msgid "Allows Settlers and Engineers to build fortresses."
-msgstr ""
+msgstr "允許拓荒者和工程師建造森林。"
 
 #: data/civ2/techs.ruleset:220 data/default/techs.ruleset:231
 #: data/experimental/techs.ruleset:251 data/multiplayer/techs.ruleset:231
@@ -15752,7 +15751,7 @@ msgstr "經濟學"
 #: data/civ2/techs.ruleset:234 data/default/techs.ruleset:245
 #: data/experimental/techs.ruleset:267
 msgid "Improves the effect of Colosseums."
-msgstr ""
+msgstr "提高羅馬競技場的效果。"
 
 #: data/civ2/techs.ruleset:253 data/default/techs.ruleset:264
 #: data/experimental/techs.ruleset:288 data/multiplayer/techs.ruleset:264
@@ -15802,7 +15801,7 @@ msgstr "一神論"
 #: data/civ2/techs.ruleset:525 data/default/techs.ruleset:529
 #: data/experimental/techs.ruleset:584 data/multiplayer/techs.ruleset:538
 msgid "Gives sea units one extra move."
-msgstr ""
+msgstr "讓海上單位擁有額外動力。"
 
 #: data/civ2/techs.ruleset:532 data/default/techs.ruleset:536
 #: data/experimental/techs.ruleset:592
@@ -15858,7 +15857,7 @@ msgstr "神學"
 #: data/civ2/techs.ruleset:722 data/default/techs.ruleset:726
 #: data/experimental/techs.ruleset:804 data/multiplayer/techs.ruleset:734
 msgid "Improves the effect of Cathedrals."
-msgstr ""
+msgstr "提高大教堂的效果。"
 
 #: data/civ2/techs.ruleset:749 data/default/techs.ruleset:753
 #: data/experimental/techs.ruleset:834 data/multiplayer/techs.ruleset:761
@@ -16640,7 +16639,7 @@ msgstr ""
 
 #: data/default/default.lua:74
 msgid "You found a friendly city."
-msgstr ""
+msgstr "您找到了一個友好的城市。"
 
 #: data/default/default.lua:78
 msgid "Friendly nomads are impressed by you, and join you."
@@ -16666,11 +16665,11 @@ msgstr ""
 
 #: data/default/game.ruleset:18
 msgid "Default ruleset"
-msgstr ""
+msgstr "預設的規則定義"
 
 #: data/default/game.ruleset:21
 msgid "You are playing Freeciv with default ruleset for single player games."
-msgstr ""
+msgstr "您正在玩的 Freeciv 使用了單人遊戲中預設的規則定義。"
 
 #. TRANS: year label (Common Era)
 #: data/default/game.ruleset:201 data/experimental/game.ruleset:207
@@ -16723,17 +16722,17 @@ msgstr "架空"
 #: data/default/techs.ruleset:212 data/experimental/techs.ruleset:230
 #: data/multiplayer/techs.ruleset:212
 msgid "Allows Settlers, Workers and Engineers to build fortresses."
-msgstr ""
+msgstr "允許拓荒者、勞動者和工程師建造森林。"
 
 #: data/default/techs.ruleset:359 data/experimental/techs.ruleset:394
 #: data/multiplayer/techs.ruleset:368
 msgid "Increases units' vision when in fortresses."
-msgstr ""
+msgstr "增加單位在森林間的視野。"
 
 #: data/default/techs.ruleset:580 data/experimental/techs.ruleset:640
 #: data/multiplayer/techs.ruleset:589
 msgid "Allows Workers and Engineers to build airbases and buoys."
-msgstr ""
+msgstr "允許勞動者和工程師建造空軍基地和浮標。"
 
 #: data/default/terrain.ruleset:197 data/experimental/terrain.ruleset:199
 #: data/multiplayer/terrain.ruleset:197
@@ -17515,7 +17514,7 @@ msgstr ""
 #. TRANS: Game state for local server
 #: data/Freeciv.in:3381 data/Freeciv.in:3382 server/sernet.c:1472
 msgid "Pregame"
-msgstr ""
+msgstr "賽前準備"
 
 #: data/Freeciv.in:3398
 msgid "  Name             Ready  Leader           Nation          Team "
@@ -17882,7 +17881,7 @@ msgstr ""
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:322
 msgid " Terrain Alterations"
-msgstr ""
+msgstr " 地形改造"
 
 #: data/helpdata.txt:323
 msgid ""
@@ -17994,7 +17993,7 @@ msgstr ""
 #. TRANS: Preserve the leading spaces: they control nesting
 #: data/helpdata.txt:406
 msgid "  Pillaging"
-msgstr ""
+msgstr "  打劫"
 
 #: data/helpdata.txt:407
 msgid ""
@@ -18027,7 +18026,7 @@ msgstr ""
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:431
 msgid " Villages"
-msgstr ""
+msgstr " 村莊"
 
 #: data/helpdata.txt:432
 msgid ""
@@ -18049,7 +18048,7 @@ msgstr ""
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:448
 msgid " National Borders"
-msgstr ""
+msgstr " 國土疆界"
 
 #: data/helpdata.txt:449
 msgid ""
@@ -18094,7 +18093,7 @@ msgstr ""
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:483
 msgid " Food"
-msgstr ""
+msgstr " 食物"
 
 #: data/helpdata.txt:484
 msgid ""
@@ -18127,7 +18126,7 @@ msgstr ""
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:509
 msgid " Production"
-msgstr ""
+msgstr " 產業"
 
 #: data/helpdata.txt:510
 msgid ""
@@ -18215,7 +18214,7 @@ msgstr ""
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:578
 msgid " Trade"
-msgstr ""
+msgstr " 貿易"
 
 #: data/helpdata.txt:579
 msgid ""
@@ -18413,7 +18412,7 @@ msgstr ""
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:731
 msgid " Specialists"
-msgstr ""
+msgstr " 專家"
 
 #: data/helpdata.txt:732
 msgid ""
@@ -18440,7 +18439,7 @@ msgstr ""
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:753
 msgid " Happiness"
-msgstr ""
+msgstr " 幸福"
 
 #: data/helpdata.txt:754
 msgid ""
@@ -18587,7 +18586,7 @@ msgstr ""
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:863
 msgid " Pollution"
-msgstr ""
+msgstr " 污染"
 
 #: data/helpdata.txt:864
 msgid ""
@@ -18630,7 +18629,7 @@ msgstr ""
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:896
 msgid " Plague"
-msgstr ""
+msgstr " 瘟疫"
 
 #: data/helpdata.txt:897
 msgid "Plague is a ruleset option, and is not enabled in the default ruleset."
@@ -18663,7 +18662,7 @@ msgstr ""
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:920
 msgid " Migration"
-msgstr ""
+msgstr " 人口流動"
 
 #: data/helpdata.txt:921
 msgid ""
@@ -19977,17 +19976,21 @@ msgid ""
 "\n"
 "First, check whether a localization is already in progress for your language:"
 msgstr ""
+"Freeciv 提供了很多語言版本。閱讀在 README 檔案中 Native Language Support 章節"
+"的指示以了解如何使用其中的語言。\n"
+"\n"
+"首先，檢查您的語言本地化是否已經在進行中："
 
 #: data/helpdata.txt:1949
 msgid ""
 "If you would like to add a localization (translation) for your language, "
 "please see the instructions at:"
-msgstr ""
+msgstr "如果您想要為您的語言新增一個本地化(翻譯)，請看一下指示："
 
 #: data/helpdata.txt:1954
 msgid ""
 "You are also welcome to send any questions to the translation mailing list:"
-msgstr ""
+msgstr "也歡迎您傳送任何的問題到翻譯者的郵件列表："
 
 #: data/helpdata.txt:1970
 msgid "Freeciv is covered by the GPL, which is included here: "
@@ -19999,7 +20002,7 @@ msgid ""
 "    (they are no longer involved, please don't mail them!)"
 msgstr ""
 "  原始作者：\n"
-"    （他們沒有參與了，請不要寄信給他們！）"
+"    (他們沒有參與了，請不要寄信給他們！)"
 
 #: data/helpdata.txt:2281
 msgid "  Present administrators: "
@@ -20010,7 +20013,7 @@ msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:"
 msgstr ""
-"如果你發現任何臭蟲，請傳送臭蟲報告給我們。最好的方法是拜訪 Freeciv 臭蟲追蹤系"
+"如果您發現任何臭蟲，請傳送臭蟲報告給我們。最好的方法是拜訪 Freeciv 臭蟲追蹤系"
 "統："
 
 #: data/helpdata.txt:2293
@@ -20024,7 +20027,7 @@ msgstr ""
 
 #: data/multiplayer/buildings.ruleset:77
 msgid "Amphitheater"
-msgstr ""
+msgstr "圓形競技場"
 
 #: data/multiplayer/buildings.ruleset:593
 msgid ""
@@ -20368,7 +20371,7 @@ msgstr "奶油色"
 
 #: data/multiplayer/techs.ruleset:245
 msgid "Improves the effect of Amphitheaters."
-msgstr ""
+msgstr "提高圓形競技場的效果。"
 
 #: data/multiplayer/techs.ruleset:270
 msgid "Having this advance decreases pollution in all your cities by 50%."
@@ -31455,7 +31458,7 @@ msgstr ""
 
 #: data/scenarios/british-isles-85x80-v2.80.sav:3
 msgid "British Isles (classic/medium)"
-msgstr "不列顛群島（典型/中等）"
+msgstr "不列顛群島(典型/中等)"
 
 #: data/scenarios/british-isles-85x80-v2.80.sav:4
 msgid "Classic-style 85x80 map of the British Isles."
@@ -31463,7 +31466,7 @@ msgstr "典型的不列顛群島 85x80 地圖。"
 
 #: data/scenarios/earth-160x90-v2.sav:3
 msgid "Earth (classic/large)"
-msgstr "地球（典型/大）"
+msgstr "地球(典型/大)"
 
 #: data/scenarios/earth-160x90-v2.sav:4
 msgid "Classic-style 160x90 map of the Earth."
@@ -31471,7 +31474,7 @@ msgstr "典型的地球 160x90 地圖。"
 
 #: data/scenarios/earth-80x50-v3.sav:44
 msgid "Earth (classic/small)"
-msgstr "地球（典型/小）"
+msgstr "地球(典型/小)"
 
 #: data/scenarios/earth-80x50-v3.sav:45
 msgid "Classic-style 80x50 map of the Earth."
@@ -31479,7 +31482,7 @@ msgstr "典型的地球 80x50 地圖。"
 
 #: data/scenarios/europe-200x100-v2.sav:3
 msgid "Europe (classic/giant)"
-msgstr "歐洲（典型/巨大）"
+msgstr "歐洲(典型/巨大)"
 
 #: data/scenarios/europe-200x100-v2.sav:4
 msgid "Classic-style 200x100 map of Europe."
@@ -31487,7 +31490,7 @@ msgstr "典型的歐洲 200x100 地圖。"
 
 #: data/scenarios/france-140x90-v2.sav:3
 msgid "France (classic/large)"
-msgstr "法國（典型/大）"
+msgstr "法國(典型/大)"
 
 #: data/scenarios/france-140x90-v2.sav:4
 msgid "Classic-style 140x90 map of France."
@@ -31495,7 +31498,7 @@ msgstr "典型的法國 140x90 地圖。"
 
 #: data/scenarios/hagworld-120x60-v1.2.sav:5
 msgid "Earth (classic/medium)"
-msgstr "地球（典型/中）"
+msgstr "地球(典型/中)"
 
 #: data/scenarios/hagworld-120x60-v1.2.sav:6
 msgid "Classic-style 120x60 map of the Earth."
@@ -31503,17 +31506,17 @@ msgstr "典型的地球 120x60 地圖。"
 
 #: data/scenarios/iberian-peninsula-136x100-v1.0.sav:3
 msgid "Iberian Peninsula (classic/large)"
-msgstr "伊比利半島（典型/大）"
+msgstr "伊比利半島(典型/大)"
 
 #: data/scenarios/iberian-peninsula-136x100-v1.0.sav:4
 msgid ""
 "Classic-style 136x100 map of the Iberian Peninsula (modern-day Spain and "
 "Portugal)."
-msgstr "典型的伊比利半島（現代的西班牙與葡萄牙） 136x100 地圖。"
+msgstr "典型的伊比利半島(現代的西班牙與葡萄牙) 136x100 地圖。"
 
 #: data/scenarios/italy-100x100-v1.5.sav:3
 msgid "Italy (classic/medium)"
-msgstr "義大利（典型/中等）"
+msgstr "義大利(典型/中等)"
 
 #: data/scenarios/italy-100x100-v1.5.sav:4
 msgid "Classic-style 100x100 map of Italy."
@@ -31521,7 +31524,7 @@ msgstr "典型的義大利 100x100 地圖。"
 
 #: data/scenarios/japan-88x100-v1.3.sav:4
 msgid "Japan (classic/medium)"
-msgstr "日本（典型/中等）"
+msgstr "日本(典型/中等)"
 
 #: data/scenarios/japan-88x100-v1.3.sav:5
 msgid "Classic-style 88x100 map of Japan."
@@ -31529,7 +31532,7 @@ msgstr "典型的日本 88x100 地圖。"
 
 #: data/scenarios/north_america_116x100-v1.2.sav:4
 msgid "North America (classic/medium)"
-msgstr "北美洲（典型/中等）"
+msgstr "北美洲(典型/中等)"
 
 #: data/scenarios/north_america_116x100-v1.2.sav:5
 msgid "Classic-style 116x100 map of North America."
@@ -31541,7 +31544,7 @@ msgstr "指南"
 
 #: data/scenarios/tutorial.sav:4
 msgid "Play this tutorial scenario to get an introduction to Freeciv."
-msgstr "這個指南劇情可以幫助你對 Freeciv 有一個初步的認識。"
+msgstr "這個指南劇情可以幫助您對 Freeciv 有一個初步的認識。"
 
 #: data/scenarios/tutorial.sav:19
 msgid ""
@@ -31551,8 +31554,8 @@ msgid ""
 "and using your settlers to find a good place to build\n"
 "a city.  Use the number pad to move units around."
 msgstr ""
-"歡迎來到 Freeciv。你領導著一個文明。你的工作是要征服全世界！你應該先用探險\n"
-"家探索四周的地圖，然後用你的拓荒者尋找一個可以立命的場所建立城市。利用你的\n"
+"歡迎來到 Freeciv。您領導著一個文明。您的工作是要征服全世界！您應該先用探險\n"
+"家探索四周的地圖，然後用您的拓荒者尋找一個可以立命的場所建立城市。利用您的\n"
 "數字鍵盤來移動單位。"
 
 #: data/scenarios/tutorial.sav:35
@@ -31874,6 +31877,8 @@ msgid ""
 "<h1>Freeciv %s server options</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s 伺服器選項</h1>\n"
+"\n"
 
 #: manual/civmanual.c:177
 #, c-format
@@ -31929,6 +31934,8 @@ msgid ""
 "<h1>Freeciv %s server commands</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s 伺服器指令</h1>\n"
+"\n"
 
 #: manual/civmanual.c:252
 #, c-format
@@ -31959,6 +31966,8 @@ msgid ""
 "<h1>Freeciv %s terrain help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s 地形幫助</h1>\n"
+"\n"
 
 #: manual/civmanual.c:279
 msgid "Move cost"
@@ -31998,6 +32007,8 @@ msgid ""
 "<h1>Freeciv %s buildings help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s 建築幫助</h1>\n"
+"\n"
 
 #: manual/civmanual.c:359
 #, c-format
@@ -32005,22 +32016,24 @@ msgid ""
 "<h1>Freeciv %s wonders help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s 奇觀幫助</h1>\n"
+"\n"
 
 #: manual/civmanual.c:364
 msgid "Upkeep"
-msgstr ""
+msgstr "維持"
 
 #: manual/civmanual.c:365
 msgid "Requirement"
-msgstr ""
+msgstr "需要"
 
 #: manual/civmanual.c:365
 msgid "Obsolete by"
-msgstr ""
+msgstr "被淘汰"
 
 #: manual/civmanual.c:365
 msgid "More info"
-msgstr ""
+msgstr "更多資訊"
 
 #: manual/civmanual.c:407
 #, c-format
@@ -32034,11 +32047,11 @@ msgstr ""
 #. TRANS: "ruleset" is exactly what user must type, do not translate.
 #: manual/civmanual.c:511
 msgid "ruleset RULESET"
-msgstr ""
+msgstr "ruleset 規則定義"
 
 #: manual/civmanual.c:512
 msgid "Make manual for RULESET"
-msgstr ""
+msgstr "為規則定義製作手冊"
 
 #: modinst/download.c:97
 msgid "No URL given"
@@ -32360,30 +32373,30 @@ msgstr ""
 
 #: server/cityhand.c:264
 msgid "You have already sold something here this turn."
-msgstr ""
+msgstr "您已經在這回合的這裡賣了一些東西。"
 
 #: server/cityhand.c:275
 #, c-format
 msgid "You sell %s in %s for %d gold."
 msgid_plural "You sell %s in %s for %d gold."
-msgstr[0] ""
+msgstr[0] "您用 %3$d 的黃金賣了 %2$s 裡的%1$s。"
 
 #: server/cityhand.c:317
 msgid "Cannot buy in city created this turn."
-msgstr ""
+msgstr "不能在城市剛成立的這回合買。"
 
 #: server/cityhand.c:323
 msgid "You have already bought this turn."
-msgstr ""
+msgstr "您已經在這回合買了。"
 
 #: server/cityhand.c:329
 #, c-format
 msgid "You don't buy %s!"
-msgstr ""
+msgstr "您沒有買 %s！"
 
 #: server/cityhand.c:336
 msgid "Can't buy units when city is in disorder."
-msgstr ""
+msgstr "不能在城市紊亂時買單位。"
 
 #. TRANS: This whole string is only ever used when included in one
 #. * other string (search for this string to find it).
@@ -32391,7 +32404,7 @@ msgstr ""
 #, c-format
 msgid "%d gold required."
 msgid_plural "%d gold required."
-msgstr[0] ""
+msgstr[0] "還需要 %d 的黃金。"
 
 #. TRANS: %s is a pre-pluralised string:
 #. * "%d gold required."
@@ -32399,53 +32412,53 @@ msgstr[0] ""
 #, c-format
 msgid "%s You only have %d gold."
 msgid_plural "%s You only have %d gold."
-msgstr[0] ""
+msgstr[0] "%s您只剩下 %d 的黃金。"
 
 #. TRANS: bought an unit.
 #. TRANS: bought an improvement .
 #: server/cityhand.c:377 server/cityhand.c:383
 #, c-format
 msgid "You bought %s in %s."
-msgstr ""
+msgstr "您在 %2$s 裡買了%1$s。"
 
 #: server/cityhand.c:483
 msgid "You have bought this turn, can't change."
-msgstr ""
+msgstr "您已經在這回合買了它，不能悔手。"
 
 #: server/citytools.c:347
 #, c-format
 msgid "You already have a city called %s."
-msgstr ""
+msgstr "您已經有一個名為 %s 的城市了。"
 
 #: server/citytools.c:359
 #, c-format
 msgid "A city called %s already exists."
-msgstr ""
+msgstr "名為 %s 的城市早就出現過了。"
 
 #: server/citytools.c:387
 #, c-format
 msgid "Can't use %s as a city name. It is reserved for %s."
-msgstr ""
+msgstr "不能用 %s 當城市名。它被保留給%s。"
 
 #: server/citytools.c:405
 #, c-format
 msgid ""
 "%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
-msgstr ""
+msgstr "%s 不是可用的名稱。只有 ASCII 編碼或規則定義中的名稱可以用。"
 
 #: server/citytools.c:525
 #, c-format
 msgid "City no. %d"
-msgstr ""
+msgstr "城市編號 %d"
 
 #: server/citytools.c:532
 msgid "A poorly-named city"
-msgstr ""
+msgstr "缺少命名的城市"
 
 #: server/citytools.c:578
 #, c-format
 msgid "Changed homecity of %s to %s."
-msgstr ""
+msgstr "%s的家鄉搬到了 %s。"
 
 #: server/citytools.c:592
 #, c-format
@@ -32489,7 +32502,7 @@ msgstr ""
 #: server/citytools.c:1340
 #, c-format
 msgid "You have founded %s."
-msgstr ""
+msgstr "您發現了 %s。"
 
 #: server/citytools.c:1420
 #, c-format
@@ -32564,7 +32577,7 @@ msgstr ""
 #: server/citytools.c:2435
 #, c-format
 msgid "%s is building %s%s."
-msgstr ""
+msgstr "%s正在建造%s%s。"
 
 #: server/citytools.c:2602
 #, c-format
@@ -32629,7 +32642,7 @@ msgstr ""
 #: server/cityturn.c:813
 #, c-format
 msgid "%s grows to size %d."
-msgstr ""
+msgstr "%s 成長到規模 %d 了。"
 
 #: server/cityturn.c:876
 #, c-format
@@ -32750,7 +32763,7 @@ msgstr ""
 #: server/cityturn.c:1477 server/cityturn.c:1610
 #, c-format
 msgid "%s is building %s, which is no longer available."
-msgstr ""
+msgstr "%s 正在建造%s，但這項產物已不再需要了。"
 
 #: server/cityturn.c:1516
 #, c-format
@@ -32787,7 +32800,7 @@ msgstr ""
 #: server/cityturn.c:1676
 #, c-format
 msgid "%s is finished building %s."
-msgstr ""
+msgstr "%s 建造%s成功了。"
 
 #. TRANS: <unit> cost... <city> shrinks...
 #: server/cityturn.c:1684
@@ -32992,7 +33005,7 @@ msgstr "這是 %s 的伺服器"
 #: server/civserver.c:322
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
-msgstr "你可以了解更多有關於 Freeciv 的資訊在 %s"
+msgstr "您可以了解更多有關於 Freeciv 的資訊在 %s"
 
 #. TRANS: "Database" is exactly what user must type, do not translate.
 #: server/civserver.c:336
@@ -33996,17 +34009,17 @@ msgstr ""
 #: server/connecthand.c:237
 #, c-format
 msgid "You are logged in as '%s' connected to no player."
-msgstr "你正以「%s」的身份登入，無玩家連線。"
+msgstr "您正以「%s」的身份登入，無玩家連線。"
 
 #: server/connecthand.c:241
 #, c-format
 msgid "You are logged in as '%s' connected to an anonymous player."
-msgstr "你正以「%s」的身份登入，與一個匿名玩家連線。"
+msgstr "您正以「%s」的身份登入，與一個匿名玩家連線。"
 
 #: server/connecthand.c:246
 #, c-format
 msgid "You are logged in as '%s' connected to %s."
-msgstr "你正以「%s」的身份登入，與 %s 連線。"
+msgstr "您正以「%s」的身份登入，與 %s 連線。"
 
 #: server/connecthand.c:260
 #, c-format
@@ -35161,7 +35174,7 @@ msgstr "剔除玩家 %s。"
 
 #: server/plrhand.c:1372
 msgid "You've been removed from the game!"
-msgstr "你已經從遊戲中被剔除了！"
+msgstr "您已經從遊戲中被剔除了！"
 
 #: server/plrhand.c:1375
 #, c-format
@@ -35430,7 +35443,7 @@ msgstr ""
 #: server/report.c:350
 #, c-format
 msgid "%2d: The %s City of %s (%s) of size %d, "
-msgstr "%2d：%s的 %s 市（%s）規模為 %d，"
+msgstr "%2d：%s的 %s 市(%s)規模為 %d，"
 
 #: server/report.c:356
 #, c-format
@@ -35518,7 +35531,7 @@ msgstr[0] " 頓"
 #: server/report.c:881
 #, c-format
 msgid "(ranked %d)"
-msgstr "（評價 %d）"
+msgstr "(評價 %d)"
 
 #: server/report.c:997 server/report.c:1024
 msgid "Demographics Report:"
@@ -35544,7 +35557,7 @@ msgid ""
 "(M goods)"
 msgstr ""
 "貿易\n"
-"（百萬貨品）"
+"(百萬貨品)"
 
 #. TRANS: "M tons" = million tons
 #: server/report.c:1468
@@ -35553,7 +35566,7 @@ msgid ""
 "(M tons)"
 msgstr ""
 "產業\n"
-"（百萬噸）"
+"(百萬噸)"
 
 #: server/report.c:1469
 msgid "Cities\n"
@@ -35569,7 +35582,7 @@ msgid ""
 "(months)"
 msgstr ""
 "兵役\n"
-"（月）"
+"(月)"
 
 #: server/report.c:1472
 msgid "Wonders\n"
@@ -35581,7 +35594,7 @@ msgid ""
 "(%)"
 msgstr ""
 "研究速度\n"
-"（%）"
+"(%)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
 #: server/report.c:1475
@@ -35590,7 +35603,7 @@ msgid ""
 "(sq. mi.)"
 msgstr ""
 "國土面積\n"
-"（平方英里）"
+"(平方英里)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
 #: server/report.c:1477
@@ -35599,7 +35612,7 @@ msgid ""
 "(sq. mi.)"
 msgstr ""
 "拓荒面積\n"
-"（平方英里）"
+"(平方英里)"
 
 #: server/report.c:1478
 msgid ""
@@ -35607,7 +35620,7 @@ msgid ""
 "(%)"
 msgstr ""
 "文化\n"
-"（%）"
+"(%)"
 
 #: server/report.c:1479
 msgid "Spaceship\n"
@@ -35651,7 +35664,7 @@ msgstr ""
 #: server/srv_main.c:1900
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
-msgstr "%s 以%s級 AI 操作玩家的身份加入（%s）"
+msgstr "%s 以%s級 AI 操作玩家的身份加入(%s)"
 
 #: server/savegame2.c:3103 server/savegame.c:5327
 #, c-format
@@ -35779,39 +35792,39 @@ msgstr "六角"
 
 #: server/settings.c:240
 msgid "Scenario map"
-msgstr ""
+msgstr "劇情地圖"
 
 #: server/settings.c:241
 msgid "Fully random height"
-msgstr ""
+msgstr "完全亂數"
 
 #: server/settings.c:242
 msgid "Pseudo-fractal height"
-msgstr ""
+msgstr "仿碎形"
 
 #: server/settings.c:243
 msgid "Island-based"
-msgstr ""
+msgstr "以島嶼為基礎"
 
 #: server/settings.c:255
 msgid "Generator's choice"
-msgstr ""
+msgstr "隨機"
 
 #: server/settings.c:257
 msgid "One player per continent"
-msgstr ""
+msgstr "一洲一玩家"
 
 #: server/settings.c:259
 msgid "Two or three players per continent"
-msgstr ""
+msgstr "一洲二到三玩家"
 
 #: server/settings.c:261
 msgid "All players on a single continent"
-msgstr ""
+msgstr "全部玩家同大陸"
 
 #: server/settings.c:263
 msgid "Depending on size of continents"
-msgstr ""
+msgstr "依據大陸的尺寸判斷"
 
 #: server/settings.c:274
 msgid "Land moving units"
@@ -35891,19 +35904,19 @@ msgstr ""
 
 #: server/settings.c:350
 msgid "No restrictions"
-msgstr ""
+msgstr "無限制"
 
 #: server/settings.c:351
 msgid "Unique to a player"
-msgstr ""
+msgstr "針對玩家唯一"
 
 #: server/settings.c:352
 msgid "Globally unique"
-msgstr ""
+msgstr "全球唯一"
 
 #: server/settings.c:353
 msgid "No city name stealing"
-msgstr ""
+msgstr "不能搶奪城市名"
 
 #: server/settings.c:364
 msgid "No barbarians"
@@ -36115,7 +36128,7 @@ msgstr ""
 
 #: server/settings.c:977
 msgid "Map area (in thousands of tiles)"
-msgstr "地圖面積（千個區塊）"
+msgstr "地圖面積(千個區塊)"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -36398,7 +36411,7 @@ msgstr ""
 
 #: server/settings.c:1237
 msgid "Amount of huts (minor tribe villages)"
-msgstr "茅舍數量（小村莊）"
+msgstr "茅舍數量(小村莊)"
 
 #: server/settings.c:1238
 msgid ""
@@ -36500,7 +36513,7 @@ msgstr ""
 
 #: server/settings.c:1338
 msgid "Area where initial units are located"
-msgstr ""
+msgstr "起始單位佔多少地"
 
 #: server/settings.c:1339
 msgid "This is the radius within which the initial units are dispersed."
@@ -36679,7 +36692,7 @@ msgstr ""
 
 #: server/settings.c:1505
 msgid "Minimum distance between cities"
-msgstr ""
+msgstr "城市間最短矩離"
 
 #: server/settings.c:1506
 msgid ""
@@ -36690,7 +36703,7 @@ msgstr ""
 
 #: server/settings.c:1516
 msgid "Technology trading"
-msgstr ""
+msgstr "交流科技"
 
 #: server/settings.c:1517
 msgid ""
@@ -36699,7 +36712,7 @@ msgstr ""
 
 #: server/settings.c:1523
 msgid "Gold trading"
-msgstr ""
+msgstr "交流黃金"
 
 #: server/settings.c:1524
 msgid "If turned off, trading gold in the diplomacy dialog is not allowed."
@@ -36707,7 +36720,7 @@ msgstr ""
 
 #: server/settings.c:1530
 msgid "City trading"
-msgstr ""
+msgstr "交換城市"
 
 #: server/settings.c:1531
 msgid "If turned off, trading cities in the diplomacy dialog is not allowed."
@@ -36727,7 +36740,7 @@ msgstr ""
 
 #: server/settings.c:1548
 msgid "Number of turns between rapture effect"
-msgstr ""
+msgstr "狂歡效果維持回合"
 
 #: server/settings.c:1549
 msgid ""
@@ -36820,7 +36833,7 @@ msgstr ""
 
 #: server/settings.c:1625
 msgid "Allowed city names"
-msgstr ""
+msgstr "允許的城市命名"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between parantheses
@@ -36886,7 +36899,7 @@ msgstr ""
 
 #: server/settings.c:1700
 msgid "Length in turns of revolution"
-msgstr ""
+msgstr "革命回合長度"
 
 #: server/settings.c:1701
 msgid ""
@@ -36969,7 +36982,7 @@ msgstr ""
 
 #: server/settings.c:1772
 msgid "Minimum number of cities for civil war"
-msgstr ""
+msgstr "內戰所需最少城市數"
 
 #: server/settings.c:1773
 msgid ""
@@ -37049,7 +37062,7 @@ msgstr ""
 
 #: server/settings.c:1840
 msgid "Whether to use natural city names"
-msgstr ""
+msgstr "是否使用城市原始的名稱"
 
 #: server/settings.c:1841
 msgid ""
@@ -37059,7 +37072,7 @@ msgstr ""
 
 #: server/settings.c:1847
 msgid "Whether to enable citizen migration"
-msgstr ""
+msgstr "市民是否流動"
 
 #. TRANS: The strings between single quotes are setting names
 #. * and should not be translated.
@@ -37081,7 +37094,7 @@ msgstr ""
 
 #: server/settings.c:1868
 msgid "Number of turns between migrations from a city"
-msgstr ""
+msgstr "人口流動所需回合"
 
 #. TRANS: Do not translate 'migration' setting name.
 #: server/settings.c:1870
@@ -37096,7 +37109,7 @@ msgstr ""
 
 #: server/settings.c:1883
 msgid "Whether migration is limited by food"
-msgstr ""
+msgstr "滿足糧食需求而流動"
 
 #. TRANS: Do not translate 'migration' setting name.
 #: server/settings.c:1885
@@ -37108,7 +37121,7 @@ msgstr ""
 
 #: server/settings.c:1893
 msgid "Maximum distance citizens may migrate"
-msgstr ""
+msgstr "人口流動的最遠距離"
 
 #. TRANS: Do not translate 'migration' setting name.
 #: server/settings.c:1895
@@ -37122,7 +37135,7 @@ msgstr ""
 
 #: server/settings.c:1907
 msgid "Percent probability for migration within the same nation"
-msgstr ""
+msgstr "同族間人口流動的機率"
 
 #. TRANS: Do not translate 'migration' setting name.
 #: server/settings.c:1909
@@ -37136,7 +37149,7 @@ msgstr ""
 
 #: server/settings.c:1920
 msgid "Percent probability for migration between foreign cities"
-msgstr ""
+msgstr "移民外族的機率"
 
 #. TRANS: Do not translate 'migration' setting name.
 #: server/settings.c:1922
@@ -37196,7 +37209,7 @@ msgstr ""
 
 #: server/settings.c:1985
 msgid "Turn the game ends"
-msgstr ""
+msgstr "遊戲最終回合數"
 
 #: server/settings.c:1986
 msgid "The game will end at the end of the given turn."
@@ -39522,27 +39535,27 @@ msgstr ""
 #: server/techtools.c:352
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
-msgstr ""
+msgstr "學習到了%s。我們的科技將注重在%s；末來目標是%s。"
 
 #: server/techtools.c:369
 #, c-format
 msgid "Learned %s. Scientists do not know what to research next."
-msgstr ""
+msgstr "學習到了%s。科學家不知道下一個研究方向。"
 
 #: server/techtools.c:374
 #, c-format
 msgid "Learned %s. Scientists choose to research %s."
-msgstr ""
+msgstr "學習到了%s。科學家選擇研究%s。"
 
 #: server/techtools.c:381
 #, c-format
 msgid "Learned %s. "
-msgstr ""
+msgstr "學習到了%s。"
 
 #: server/techtools.c:384
 #, c-format
 msgid "Researching %s."
-msgstr ""
+msgstr "正在研究%s。"
 
 #: server/techtools.c:408
 msgid ""
@@ -39587,12 +39600,12 @@ msgstr "科技目標為%s。"
 #: server/techtools.c:975
 #, c-format
 msgid "You steal %s from the %s."
-msgstr "你從 %2$s 那竊取了%1$s。"
+msgstr "您從 %2$s 那竊取了%1$s。"
 
 #: server/techtools.c:980
 #, c-format
 msgid "The %s stole %s from you!"
-msgstr "%s 從你那竊取了%s！"
+msgstr "%s 從您那竊取了%s！"
 
 #: server/techtools.c:985
 #, c-format
@@ -40186,13 +40199,13 @@ msgstr ""
 #: utility/astring.c:239
 #, c-format
 msgid "?or-list-single:%s"
-msgstr ""
+msgstr "%s"
 
 #. TRANS: "or"-separated string list with 2 items.
 #: utility/astring.c:242
 #, c-format
 msgid "?or-list:%s or %s"
-msgstr ""
+msgstr "%s或者%s"
 
 #. TRANS: start of the a "or"-separated string list with more than two
 #. * items.
@@ -40206,47 +40219,47 @@ msgstr ""
 #: utility/astring.c:252
 #, c-format
 msgid "?or-list:, %s"
-msgstr ""
+msgstr "、%s"
 
 #. TRANS: end of the a "or"-separated string list with more than two
 #. * items.
 #: utility/astring.c:256
 #, c-format
 msgid "?or-list:, or %s"
-msgstr ""
+msgstr "或者%s"
 
 #. TRANS: "and"-separated string list with one single item.
 #: utility/astring.c:277
 #, c-format
 msgid "?and-list-single:%s"
-msgstr ""
+msgstr "%s"
 
 #. TRANS: "and"-separated string list with 2 items.
 #: utility/astring.c:280
 #, c-format
 msgid "?and-list:%s and %s"
-msgstr ""
+msgstr "%s和%s"
 
 #. TRANS: start of the a "and"-separated string list with more than two
 #. * items.
 #: utility/astring.c:286
 #, c-format
 msgid "?and-list:%s"
-msgstr ""
+msgstr "%s"
 
 #. TRANS: next elements of a "and"-separated string list with more
 #. * than two items.
 #: utility/astring.c:290
 #, c-format
 msgid "?and-list:, %s"
-msgstr ""
+msgstr "、%s"
 
 #. TRANS: end of the a "and"-separated string list with more than two
 #. * items.
 #: utility/astring.c:294
 #, c-format
 msgid "?and-list:, and %s"
-msgstr ""
+msgstr "和%s"
 
 #: utility/fciconv.c:132
 #, c-format
