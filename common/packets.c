@@ -342,8 +342,8 @@ void *get_packet_from_connection(struct connection *pc,
   struct data_in din;
 #ifdef USE_COMPRESSION
   bool compressed_packet = FALSE;
-  int header_size = 0;
 #endif
+  int header_size = 3;
 
   *presult = FALSE;
 
