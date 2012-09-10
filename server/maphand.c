@@ -222,7 +222,8 @@ bool upgrade_city_roads(struct city *pcity)
 
   road_type_iterate(proad) {
     if (!tile_has_road(ptile, proad)) {
-      if (player_can_build_road(proad, pplayer, ptile)) {
+      if (road_has_flag(proad, RF_ALWAYS_ON_CITY_CENTER)
+          || player_can_build_road(proad, pplayer, ptile)) {
         tile_add_road(pcity->tile, proad);
         upgradet = TRUE;
       }
