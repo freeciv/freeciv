@@ -4,7 +4,7 @@
 
 AC_DEFUN([FC_CHECK_MAGICKWAND],
 [
-  AC_ARG_WITH(magickwand,
+  AC_ARG_WITH([magickwand],
               [  --with-magickwand[=DIR]   Imagemagick installation directory (optional)],
               magickwand_dir="$withval", magickwand_dir="")
 
@@ -14,12 +14,29 @@ AC_DEFUN([FC_CHECK_MAGICKWAND],
 
     for i in /usr/local /usr;
     do
-      test -r $i/bin/MagickWand-config && WAND_CONFIG_PATH=$i/bin && break
+      test -r $i/bin/${host}-MagicWand-config &&
+      WAND_CONFIG_PATH=$i/bin && WAND_CONFIG_NAME=${host}-MagickWand-config &&
+      break
     done
+
+    if test x$WAND_CONFIG_PATH = x ; then
+      for i in /usr/local /usr;
+      do
+        test -r $i/bin/MagickWand-config &&
+        WAND_CONFIG_PATH=$i/bin && WAND_CONFIG_NAME=MagickWand-config && break
+      done
+    fi
   else
     AC_MSG_CHECKING([for MagickWand-config])
 
-    test -r $magickwand_dir/MagickWand-config && WAND_CONFIG_PATH=$magickwand_dir
+    if test -r $magickwand_dir/${host}-MagickWand-config &&
+    WAND_CONFIG_PATH=$magickwand_dir && WAND_CONFIG_NAME=${host}-MagickWand-config
+    then
+      :
+    else
+      test -r $magickwand_dir/MagickWand-config &&
+      WAND_CONFIG_PATH=$magickwand_dir && WAND_CONFIG_NAME=MagickWand-config
+    fi
   fi
 
   if test -z "$WAND_CONFIG_PATH"; then
@@ -32,12 +49,12 @@ AC_DEFUN([FC_CHECK_MAGICKWAND],
   else
     AC_MSG_RESULT([found in $WAND_CONFIG_PATH])
 
-    AC_MSG_CHECKING([for MagickWand-config --cflags])
-    WAND_CFLAGS="`$WAND_CONFIG_PATH/MagickWand-config --cflags`"
+    AC_MSG_CHECKING([for $WAND_CONFIG_NAME --cflags])
+    WAND_CFLAGS="`$WAND_CONFIG_PATH/$WAND_CONFIG_NAME --cflags`"
     AC_MSG_RESULT([$WAND_CFLAGS])
 
-    AC_MSG_CHECKING([for MagickWand-config --libs])
-    WAND_LIBS="`$WAND_CONFIG_PATH/MagickWand-config --libs`"
+    AC_MSG_CHECKING([for $WAND_CONFIG_NAME --libs])
+    WAND_LIBS="`$WAND_CONFIG_PATH/$WAND_CONFIG_NAME --libs`"
     AC_MSG_RESULT([$WAND_LIBS])
 
     wand=yes
