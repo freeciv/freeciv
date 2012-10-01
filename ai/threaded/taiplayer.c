@@ -23,6 +23,9 @@
 #include "city.h"
 #include "unit.h"
 
+/* ai/default */
+#include "aiplayer.h"
+
 #include "taiplayer.h"
 
 /* What level of operation we should abort because
@@ -135,6 +138,9 @@ void tai_player_alloc(struct ai_type *ait, struct player *pplayer)
   struct tai_plr *player_data = fc_calloc(1, sizeof(struct tai_plr));
 
   player_set_ai_data(pplayer, ait, player_data);
+
+  /* Default AI */
+  dai_data_init(ait, pplayer);
 }
 
 /**************************************************************************
@@ -142,7 +148,15 @@ void tai_player_alloc(struct ai_type *ait, struct player *pplayer)
 **************************************************************************/
 void tai_player_free(struct ai_type *ait, struct player *pplayer)
 {
-  player_set_ai_data(pplayer, ait, NULL);
+  struct tai_plr *player_data = player_ai_data(pplayer, ait);
+
+  /* Default AI */
+  dai_data_close(ait, pplayer);
+
+  if (player_data != NULL) {
+    player_set_ai_data(pplayer, ait, NULL);
+    FC_FREE(player_data);
+  }
 }
 
 /**************************************************************************

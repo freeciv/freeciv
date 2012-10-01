@@ -19,6 +19,9 @@
 /* common */
 #include "player.h"
 
+/* ai/default */
+#include "aidata.h"
+
 /* ai/threaded */
 #include "taimsg.h"
 
@@ -38,7 +41,7 @@ struct tai_reqs
 
 struct tai_plr
 {
-  char unused;
+  struct ai_plr defai; /* Keep this first so default ai finds it */
 };
 
 void tai_init_threading(void);
