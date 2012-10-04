@@ -1190,13 +1190,11 @@ fi
 
 if test "x$sys_lua" = "xfalse" ; then
   LUA_CFLAGS="-I\$(top_srcdir)/dependencies/lua-5.1/src"
-  LUA_LIBS="\$(top_builddir)/dependencies/lua-5.1/src/liblua.la -lm"
-  LUA_AS_DEPENDENCY="$LUA_LIBS"
+  LUA_LIBS="\$(top_builddir)/dependencies/lua-5.1/src/liblua.la"
 fi
 
 AC_SUBST([LUA_CFLAGS])
 AC_SUBST([LUA_LIBS])
-AC_SUBST([LUA_AS_DEPENDENCY])
 AM_CONDITIONAL([SYS_LUA], [test "x$sys_lua" = "xtrue"])
 
 if test x$enable_fcdb = xyes ; then

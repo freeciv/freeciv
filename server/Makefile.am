@@ -142,36 +142,26 @@ srvlibs = \
  $(top_builddir)/server/scripting/libscripting_fcdb.la \
  $(top_builddir)/server/scripting/libscripting_server.la
 
-libfreeciv_srv_la_DEPENDENCIES = \
- $(srvlibs)
-
 libfreeciv_srv_la_LIBADD = \
  $(srvlibs)
-
-exe_dependencies = \
- $(top_builddir)/common/libfreeciv.la \
- ./libfreeciv-srv.la \
- $(LUA_AS_DEPENDENCY) $(TOLUA_AS_DEPENDENCY) $(LUASQL_AS_DEPENDENCY)
 
 exe_ldflags = $(GGZDMOD_LDFLAGS)
 
 exe_ldadd = \
  ./libfreeciv-srv.la \
  $(top_builddir)/common/libfreeciv.la \
+ $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
  $(INTLLIBS) \
  $(MAPIMG_WAND_LIBS) \
- $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
  $(FCDB_MYSQL_LIBS) $(FCDB_POSTGRES_LIBS) $(FCDB_SQLITE3_LIBS) \
  $(SERVER_LIBS) $(LIB_GGZDMOD) $(SERVERICON)
 
 if FREECIV_WEB
 freeciv_web_SOURCES = $(exe_sources)
-freeciv_web_DEPENDENCIES = $(exe_dependencies)
 freeciv_web_LDFLAGS = $(exe_ldflags)
 freeciv_web_LDADD = $(exe_ldadd)
 else
 freeciv_server_SOURCES = $(exe_sources)
-freeciv_server_DEPENDENCIES = $(exe_dependencies)
 freeciv_server_LDFLAGS = $(exe_ldflags)
 freeciv_server_LDADD = $(exe_ldadd)
 endif

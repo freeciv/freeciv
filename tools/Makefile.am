@@ -42,20 +42,17 @@ freeciv_manual_SOURCES = \
 
 # This is a bit of a hack.  The program links in with the server lib
 # but also uses some files from the client.
-freeciv_manual_DEPENDENCIES = \
- $(top_builddir)/common/libfreeciv.la \
- $(top_builddir)/server/libfreeciv-srv.la \
- $(top_builddir)/client/helpdata.lo \
- $(LUA_AS_DEPENDENCY) $(TOLUA_AS_DEPENDENCY) $(LUASQL_AS_DEPENDENCY)
+EXTRA_freeciv_manual_DEPENDENCIES = \
+ $(top_builddir)/client/helpdata.lo
 
 freeciv_manual_LDFLAGS = $(GGZDMOD_LDFLAGS)
 
 freeciv_manual_LDADD = \
  $(top_builddir)/server/libfreeciv-srv.la \
  ../client/helpdata.lo \
- $(top_builddir)/common/libfreeciv.la $(INTLLIBS) \
- $(MAPIMG_WAND_LIBS) \
+ $(top_builddir)/common/libfreeciv.la \
  $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
+ $(INTLLIBS)  $(MAPIMG_WAND_LIBS) \
  $(FCDB_MYSQL_LIBS) $(FCDB_POSTGRES_LIBS) $(FCDB_SQLITE3_LIBS) \
  $(SERVER_LIBS) $(LIB_GGZDMOD)
 
@@ -77,8 +74,8 @@ freeciv_modpack_LDFLAGS = $(MP_gtk_LDFLAGS)
 freeciv_modpack_LDADD = \
 		libfcmp.la \
 		$(top_builddir)/common/libfreeciv.la \
-		$(MAPIMG_WAND_LIBS) \
 		$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
+		$(MAPIMG_WAND_LIBS) \
 		$(MP_gtk_LIBS) \
 		$(MPICON)
 endif
@@ -97,8 +94,8 @@ CLEANFILES = $(MOC_FILES)
 freeciv_mp_qt_LDADD = \
 		libfcmp.la \
 		$(top_builddir)/common/libfreeciv.la \
-		$(MAPIMG_WAND_LIBS) \
 		$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
+		$(MAPIMG_WAND_LIBS) \
 		$(MP_qt_LIBS) \
 		$(MPICON)
 endif
