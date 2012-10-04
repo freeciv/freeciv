@@ -34,10 +34,6 @@ EXTRA_tolua_SOURCES = \
 	lua/variable.lua \
 	lua/verbatim.lua
 
-tolua_DEPENDENCIES = \
-	$(LUA_AS_DEPENDENCY) \
-	../lib/libtolua.la
-
-tolua_LDFLAGS = \
+tolua_LDADD = \
 	$(LUA_LIBS) \
-	../lib/libtolua.la -lm
+	../lib/libtolua.la

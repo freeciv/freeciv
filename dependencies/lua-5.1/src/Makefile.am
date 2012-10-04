@@ -4,6 +4,8 @@ noinst_LTLIBRARIES = liblua.la
 
 AM_CPPFLAGS =
 
+liblua_la_LIBADD = -lm
+
 liblua_la_SOURCES = 	\
 	localluaconf.h	\
 	lapi.c		\
