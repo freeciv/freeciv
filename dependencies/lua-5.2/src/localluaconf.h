@@ -33,4 +33,8 @@
 #define LUA_USE_ULONGJMP
 #endif
 
+#ifdef HAVE_LIBREADLINE
+#define LUA_USE_READLINE
+#endif
+
 #endif /* FC__LOCALLUACONF_H */
