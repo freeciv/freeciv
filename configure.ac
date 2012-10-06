@@ -1146,10 +1146,8 @@ fi
 
 TOLUA_CFLAGS="-I\$(top_srcdir)/dependencies/tolua-5.1/include"
 TOLUA_LIBS="\$(top_builddir)/dependencies/tolua-5.1/src/lib/libtolua.la"
-TOLUA_AS_DEPENDENCY="$TOLUA_LIBS"
 AC_SUBST([TOLUA_CFLAGS])
 AC_SUBST([TOLUA_LIBS])
-AC_SUBST([TOLUA_AS_DEPENDENCY])
 
 TOLUA="\$(top_builddir)/dependencies/tolua-5.1/src/bin/tolua$EXEEXT"
 AC_SUBST([TOLUA])
