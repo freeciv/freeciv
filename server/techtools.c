@@ -551,6 +551,13 @@ static void player_tech_lost(struct player* plr, Tech_type_id tech)
 {
   bool old_gov[government_count()];
 
+  if (tech == A_FUTURE) {
+    player_research_get(plr)->future_tech--;
+    player_research_update(plr);
+
+    return;
+  }
+
   fc_assert_ret(valid_advance_by_number(tech));
 
   /* old available governments */
