@@ -632,8 +632,7 @@ void adv_data_init(struct player *pplayer)
   }
   adv = pplayer->server.adv;
 
-  adv->government_want = fc_calloc(government_count() + 1,
-                                   sizeof(*adv->government_want));
+  adv->government_want = NULL;
 
   adv->dipl.adv_dipl_slots = fc_calloc(player_slot_count(),
                                        sizeof(*adv->dipl.adv_dipl_slots));
@@ -663,6 +662,9 @@ void adv_data_default(struct player *pplayer)
   fc_assert_ret(adv != NULL);
 
   adv->govt_reeval = 0;
+  adv->government_want = fc_realloc(adv->government_want,
+                                   (government_count() + 1)
+                                    * sizeof(*adv->government_want));
   memset(adv->government_want, 0,
          (government_count() + 1) * sizeof(*adv->government_want));
 
