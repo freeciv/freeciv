@@ -1594,7 +1594,7 @@ static void add_resources(int prob)
       }
     }
   } whole_map_iterate_end;
-  
+
   map.server.have_resources = TRUE;
 }
 
