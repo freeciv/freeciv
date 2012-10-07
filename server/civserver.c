@@ -434,6 +434,15 @@ int main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
   }
 
+#ifdef HAVE_FCDB
+  if (srvarg.auth_enabled && !srvarg.fcdb_enabled) {
+    fc_fprintf(stderr,
+               _("Requested authentication with --auth, "
+                 "but no --Database given\n"));
+    exit(EXIT_FAILURE);
+  }
+#endif /* HAVE_FCDB */
+
   /* disallow running as root -- too dangerous */
   dont_run_as_root(argv[0], "freeciv_server");
 
