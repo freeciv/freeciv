@@ -837,8 +837,7 @@ void ai_data_init(struct player *pplayer)
     }
   } players_iterate_end;
 
-  ai->government_want = fc_calloc(government_count() + 1,
-                                  sizeof(*ai->government_want));
+  ai->government_want = NULL;
 
   ai_data_default(pplayer);
 }
@@ -853,6 +852,8 @@ void ai_data_default(struct player *pplayer)
   fc_assert_ret(ai != NULL);
 
   ai->govt_reeval = 0;
+  ai->government_want = fc_realloc(ai->government_want,
+                                   (government_count() + 1) * sizeof(*ai->government_want));
   memset(ai->government_want, 0,
          (government_count() + 1) * sizeof(*ai->government_want));
 
