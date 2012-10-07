@@ -481,7 +481,7 @@ PACKET_GAME_INFO = 16; sc
   UINT8 tech_upkeep_style;
   UINT32 timeout;
   BOOL tired_attack;
-  UINT8 trademindist;
+  UINT16 trademindist;
   BOOL trading_city;
   BOOL trading_gold;
   BOOL trading_tech;
