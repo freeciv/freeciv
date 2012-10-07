@@ -2514,6 +2514,10 @@ static void srv_ready(void)
         }
         /* Reset mapseed so generator knows to use new one */
         map.server.seed = 0;
+        /* One should never set this to false in scenario map that had resources
+         * placed. We are safe side here as map generation is retried only if this is
+         * not scenario map at all. */
+        map.server.have_resources = FALSE;
 
         /* Remove old information already present in tiles */
         map_free();
