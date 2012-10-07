@@ -305,7 +305,7 @@ static void game_defaults(void)
   game.info.team_pooled_research = GAME_DEFAULT_TEAM_POOLED_RESEARCH;
   game.info.tech             = GAME_DEFAULT_TECHLEVEL;
   game.info.timeout          = GAME_DEFAULT_TIMEOUT;
-  game.info.trademindist     = GAME_DEFAULT_TRADEMINDIST;
+  game.info.trademindist_new = GAME_DEFAULT_TRADEMINDIST;
   game.info.trading_city     = GAME_DEFAULT_TRADING_CITY;
   game.info.trading_gold     = GAME_DEFAULT_TRADING_GOLD;
   game.info.trading_tech     = GAME_DEFAULT_TRADING_TECH;

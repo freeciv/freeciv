@@ -33,7 +33,7 @@ DEFAULT_FOLLOW_TAG=S2_4
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
 NETWORK_CAPSTRING_MANDATORY="+Freeciv-2.4-network"
-NETWORK_CAPSTRING_OPTIONAL="rules_finished"
+NETWORK_CAPSTRING_OPTIONAL="rules_finished trademindist_size"
 
 FREECIV_DISTRIBUTOR=""
 

@@ -1532,7 +1532,7 @@ static struct setting settings[] = {
               "is not allowed."), NULL, NULL,
            GAME_DEFAULT_TRADING_CITY)
 
-  GEN_INT("trademindist", game.info.trademindist,
+  GEN_INT("trademindist", game.info.trademindist_new,
           SSET_RULES, SSET_ECONOMICS, SSET_RARE, SSET_TO_CLIENT,
           N_("Minimum distance for trade routes"),
           N_("In order for two cities in the same civilization to establish "

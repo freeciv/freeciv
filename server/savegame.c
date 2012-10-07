@@ -4800,7 +4800,7 @@ static void game_load_internal(struct section_file *file)
       secfile_lookup_bool_default(file, GAME_DEFAULT_TRADING_GOLD,
                                   "game.trading_gold");
 
-    game.info.trademindist =
+    game.info.trademindist_new =
       secfile_lookup_int_default(file, GAME_DEFAULT_TRADEMINDIST, "game.trademindist");
     game.info.angrycitizen =
       secfile_lookup_bool_default(file, GAME_DEFAULT_ANGRYCITIZEN, "game.angrycitizen");
@@ -5727,7 +5727,7 @@ void game_save(struct section_file *file, const char *save_reason,
   secfile_insert_bool(file, game.info.trading_city, "game.trading_city");
   secfile_insert_bool(file, game.info.trading_tech, "game.trading_tech");
   secfile_insert_bool(file, game.info.trading_gold, "game.trading_gold");
-  secfile_insert_int(file, game.info.trademindist, "game.trademindist");
+  secfile_insert_int(file, game.info.trademindist_new, "game.trademindist");
   secfile_insert_bool(file, game.info.angrycitizen, "game.angrycitizen");
   secfile_insert_int(file, game.info.citymindist, "game.citymindist");
   secfile_insert_int(file, game.server.civilwarsize, "game.civilwarsize");
