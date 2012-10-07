@@ -198,6 +198,12 @@ static void ai_choose_trade_route(struct city *pcity,
   }
 
   trade_routes = city_num_trade_routes(pcity);
+  /* Count also caravans enroute to establish traderoutes */
+  unit_list_iterate(pcity->units_supported, punit) {
+    if (unit_has_type_flag(punit, F_TRADE_ROUTE)) {
+      trade_routes++;
+    }
+  } unit_list_iterate_end;
 
   /* We consider only initial benefit from establishing trade route.
    * We may actually get only initial benefit if both cities already
