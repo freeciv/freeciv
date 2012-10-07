@@ -486,6 +486,8 @@ void send_game_info(struct conn_list *dest)
     ginfo.seconds_to_phasedone2 = ginfo.seconds_to_phasedone = -1.0;
   }
 
+  ginfo.trademindist_old = ginfo.trademindist_new;
+
   conn_list_iterate(dest, pconn) {
     send_packet_game_info(pconn, &ginfo);
   }

@@ -1666,6 +1666,9 @@ void handle_game_info(const struct packet_game_info *pinfo)
      * timer. */
     set_seconds_to_turndone(seconds_to_phasedone);
   }
+  if (!has_capability("trademindist_size", client.conn.capability)) {
+    game.info.trademindist_new = game.info.trademindist_old;
+  }
   if (boot_help) {
     boot_help_texts(client.conn.playing); /* reboot, after setting game.spacerace */
   }
@@ -1675,7 +1678,7 @@ void handle_game_info(const struct packet_game_info *pinfo)
   if (update_aifill_button) {
     update_start_page();
   }
-  
+
   if (can_client_change_view()) {
     update_info_label();
   }

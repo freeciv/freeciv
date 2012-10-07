@@ -1386,7 +1386,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                  _("* Can establish trade routes (must travel to target"
                    " city and must be at least %d tiles [in Manhattan"
                    " distance] from this unit's home city).\n"),
-                 game.info.trademindist);
+                 game.info.trademindist_new);
   }
   if (utype_has_flag(utype, F_HELP_WONDER)) {
     cat_snprintf(buf, bufsz,
