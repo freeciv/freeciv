@@ -47,25 +47,6 @@ tiles = { "row", "column", "tag"
  3,  6, "tx.s_river_n1e1s1w0"
  3,  7, "tx.s_river_n1e1s1w1"
 
-; Rivers as overlay
-
- 2,  0, "t.t_river_n0e0s0w0"
- 2,  1, "t.t_river_n0e0s0w1"
- 2,  2, "t.t_river_n0e0s1w0"
- 2,  3, "t.t_river_n0e0s1w1"
- 2,  4, "t.t_river_n0e1s0w0"
- 2,  5, "t.t_river_n0e1s0w1"
- 2,  6, "t.t_river_n0e1s1w0"
- 2,  7, "t.t_river_n0e1s1w1"
- 3,  0, "t.t_river_n1e0s0w0"
- 3,  1, "t.t_river_n1e0s0w1"
- 3,  2, "t.t_river_n1e0s1w0"
- 3,  3, "t.t_river_n1e0s1w1"
- 3,  4, "t.t_river_n1e1s0w0"
- 3,  5, "t.t_river_n1e1s0w1"
- 3,  6, "t.t_river_n1e1s1w0"
- 3,  7, "t.t_river_n1e1s1w1"
-
 ;river outlets
 
  10, 0, "tx.river_outlet_n"

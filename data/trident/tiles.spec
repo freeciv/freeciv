@@ -165,26 +165,6 @@ tiles = { "row", "column", "tag"
   7, 14, "t.l0.tundra_n1e0s0w0"
   7, 15, "t.l0.tundra_n0e0s0w0"
 
-; Rivers (as terrain type), and whether terrain to north, south, 
-; east, west is also river terrain, or ocean:
-
-  8,  0, "t.t_river_n0e0s0w0"
-  8,  1, "t.t_river_n1e0s0w0"
-  8,  2, "t.t_river_n0e1s0w0"
-  8,  3, "t.t_river_n1e1s0w0"
-  8,  4, "t.t_river_n0e0s1w0"
-  8,  5, "t.t_river_n1e0s1w0"
-  8,  6, "t.t_river_n0e1s1w0"
-  8,  7, "t.t_river_n1e1s1w0"
-  8,  8, "t.t_river_n0e0s0w1"
-  8,  9, "t.t_river_n1e0s0w1"
-  8, 10, "t.t_river_n0e1s0w1"
-  8, 11, "t.t_river_n1e1s0w1"
-  8, 12, "t.t_river_n0e0s1w1"
-  8, 13, "t.t_river_n1e0s1w1"
-  8, 14, "t.t_river_n0e1s1w1"
-  8, 15, "t.t_river_n1e1s1w1"
-
 ; Rivers (as special type), and whether north, south, east, west 
 ; also has river or is ocean:
 

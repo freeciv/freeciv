@@ -48,13 +48,13 @@ lake_max_size = 0
 ;   3 - 1/3 movement cost for any river to river move (classic Freeciv)
 river_move_mode=0
 
-; percent added to defense if tile is Civ2-style river
+; percent added to defense if tile is river
 river_defense_bonus=0
 
-; amount added to trade production if tile is Civ2-style river
+; amount added to trade production if tile is river
 river_trade_incr=0
 
-; help text for Civ2-style rivers
+; help text for rivers
 river_help_text=""
 
 ; percent added to trade production if road and city has superhighways
