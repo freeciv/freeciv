@@ -173,7 +173,7 @@ void ai_init(void)
 #endif /* AI_MOD_STATIC_CLASSIC */
 
   if (failure) {
-    log_fatal(_("Failed to setup default ai module, cannot continue."));
+    log_fatal(_("Failed to setup default AI module, cannot continue."));
     exit(EXIT_FAILURE);
   }
 
@@ -184,7 +184,7 @@ void ai_init(void)
   if (ai != NULL) {
     init_ai(ai);
     if (!fc_ai_threaded_setup(ai)) {
-      log_error("Failed to setup threaded ai");
+      log_error(_("Failed to setup threaded AI module"));
     }
   }
 #endif /* AI_MOD_STATIC_THREADED */
