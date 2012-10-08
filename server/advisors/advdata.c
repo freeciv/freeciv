@@ -593,7 +593,7 @@ struct adv_data *adv_data_get(struct player *pplayer)
        instead of making intrusive fixes for actual bug in stable branch,
        do not assert for non-debug builds of stable versions. */
 #if defined(DEBUG) || defined(IS_DEVEL_VERSION)
-  fc_assert(adv->phase_is_initialized);
+  fc_assert(adv->phase_is_initialized || game.info.phase_mode != PMT_CONCURRENT);
 #endif
 
   if (adv->num_continents != map.num_continents
@@ -601,15 +601,21 @@ struct adv_data *adv_data_get(struct player *pplayer)
     /* we discovered more continents, recalculate! */
 
     if (adv->phase_is_initialized) {
-      /* KLUDGE for buggy situations. Only call these in this order if
-         inside data phase.
+      /* Only call these in this order if inside data phase.
          This is blanket "fix" for all cases where adv_data_get() is called
          at illegal time. This at least minimize bad effects of such calls. */
       adv_data_phase_done(pplayer);
       adv_data_phase_init(pplayer, FALSE);
     } else {
       /* Call them in "wrong" order so we return recalculated data to caller,
-         but leave data phase closed. */
+         but leave data phase closed.
+         This is blanket "fix" for all cases where adv_data_get() is called
+         at illegal time. This at least minimize bad effects of such calls.
+
+         Arguably this is not buggy at all but works just as designed in
+         case of being called in alternate movement mode for players
+         other than currently moving one (for diplomacy between the two,
+         for example) */
       log_debug("%s advisor data phase closed when adv_data_get() called",
                 player_name(pplayer));
       adv_data_phase_init(pplayer, FALSE);
