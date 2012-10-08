@@ -20,7 +20,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "pgsql/libpq-fe.h"
+#include "libpq-fe.h"
 
 #include "lua.h"
 #include "lauxlib.h"
