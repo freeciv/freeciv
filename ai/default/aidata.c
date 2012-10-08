@@ -306,7 +306,7 @@ struct ai_plr *ai_plr_data_get(struct player *pplayer)
   /* This assert really is required. See longer comment
      in adv_data_get() for equivalent code. */
 #if defined(DEBUG) || defined(IS_DEVEL_VERSION)
-  fc_assert(ai->phase_initialized);
+  fc_assert(ai->phase_initialized || game.info.phase_mode != PMT_CONCURRENT);
 #endif
 
   if (ai->last_num_continents != map.num_continents
