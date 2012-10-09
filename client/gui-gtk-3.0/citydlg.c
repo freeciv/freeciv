@@ -2120,8 +2120,8 @@ static void city_menu_position(GtkMenu *menu, gint *x, gint *y,
 
   gdk_window_get_origin(gtk_widget_get_window(widget), &xpos, &ypos);
 
-  xpos += allocation.x;
-  ypos += allocation.y;
+  xpos += allocation.x + allocation.width/2;
+  ypos += allocation.y + allocation.height/2;
 
   *x = xpos;
   *y = ypos;
