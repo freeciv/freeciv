@@ -167,7 +167,7 @@ void api_actions_change_gold(Player *pplayer, int amount)
 }
 
 /**************************************************************************
-  Give pplayer technology ptech.  Quietly returns A_NONE (zero) if 
+  Give pplayer technology ptech.  Quietly returns NULL if 
   player already has this tech; otherwise returns the tech granted.
   Use NULL for ptech to grant a random tech.
   sends script signal "tech_researched" with the given reason
@@ -199,7 +199,7 @@ Tech_Type *api_actions_give_technology(Player *pplayer, Tech_Type *ptech,
                        API_TYPE_STRING, reason);
     return result;
   } else {
-    return advance_by_number(A_NONE);
+    return NULL;
   }
 }
 
