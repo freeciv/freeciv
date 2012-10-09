@@ -3,7 +3,8 @@
 MAN_PAGES = 			\
 	freeciv-server.6	\
 	freeciv-client.6	\
-	freeciv-modpack.6
+	freeciv-modpack.6	\
+	freeciv-manual.6
 
 MAN_LINKS = 			\
 	freeciv-gtk2.6		\

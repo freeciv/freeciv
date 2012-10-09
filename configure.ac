@@ -1350,6 +1350,7 @@ AC_CONFIG_FILES([Makefile
 	  doc/man/Makefile
           doc/man/freeciv-client.6
           doc/man/freeciv-server.6
+          doc/man/freeciv-manual.6
 	  doc/man/freeciv-modpack.6
 	  doc/ca/Makefile
 	  doc/de/Makefile
