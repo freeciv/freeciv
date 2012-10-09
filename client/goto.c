@@ -504,6 +504,9 @@ static int get_activity_time(const struct tile *ptile,
       struct road_type *proad = road_by_number(connect_tgt.obj.road);
 
       if (!tile_has_road(ptile, proad)) {
+        if (!player_can_build_road(proad, pplayer, ptile)) {
+          return -1;
+        }
         activity_mc += terrain_road_time(pterrain, connect_tgt.obj.road);
       }
     }
