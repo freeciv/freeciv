@@ -244,7 +244,7 @@ void api_edit_change_gold(lua_State *L, Player *pplayer, int amount)
 }
 
 /*****************************************************************************
-  Give pplayer technology ptech. Quietly returns A_NONE (zero) if
+  Give pplayer technology ptech. Quietly returns NULL if
   player already has this tech; otherwise returns the tech granted.
   Use NULL for ptech to grant a random tech.
   sends script signal "tech_researched" with the given reason
@@ -277,7 +277,7 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
                               API_TYPE_STRING, reason);
     return result;
   } else {
-    return advance_by_number(A_NONE);
+    return NULL;
   }
 }
 
