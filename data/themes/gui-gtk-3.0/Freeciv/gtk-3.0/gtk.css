@@ -188,6 +188,18 @@ GtkTreeMenu.menu {
   background-color: #d7d7d7;
 }
 
+#Freeciv #city_info_label {
+  font: Monospace 8;
+}
+
+#Freeciv #help_label {
+  color: #FF0000;
+}
+
+#Freeciv #help_link {
+  color: #0000FF;
+}
+
 GtkTreeView {
 /*
   #Comment out the ythickness setting below for thicker column headers.
