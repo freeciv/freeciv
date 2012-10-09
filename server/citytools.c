@@ -1980,6 +1980,8 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   /* The nationality of the citizens. */
   packet->nationalities_count = 0;
   if (game.info.citizen_nationality == TRUE) {
+    int cit = 0;
+
     player_slots_iterate(pslot) {
       citizens nationality = citizens_nation_get(pcity, pslot);
       if (nationality != 0) {
@@ -1991,8 +1993,12 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
         packet->nation_citizens[packet->nationalities_count]
           = nationality;
         packet->nationalities_count++;
+
+        cit += nationality;
       }
     } player_slots_iterate_end;
+
+    fc_assert(cit == packet->size);
   }
 
   if (packet->size != ppl) {
