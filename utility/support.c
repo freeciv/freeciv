@@ -87,6 +87,10 @@
 #ifdef HAVE_STRINGS_H
 #  include <strings.h>
 #endif
+#ifdef HAVE_LIBGEN_H
+/* POSIX version of basename() */
+#  include <libgen.h>
+#endif
 
 #ifdef HAVE_LIBZ
 #include <zlib.h>
