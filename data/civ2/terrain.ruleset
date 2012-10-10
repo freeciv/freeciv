@@ -927,12 +927,11 @@ airbase may be attacked by land units.\
 ; trade_bonus             = percent added to trade production
 ; compat_special          = road type used in old savegames with just two road specials:
 ;                           "Road", "Railroad", or "None"
-; native_to               = List of unit classes that consider tile
-;                           with this road native even if terrain is not
+; native_to               = List of unit classes that can use this road.
 ; hidden_by               = List of road types that will make this road
 ;                           type not to show on UI if both present.
 ; flags
-;   - "NativeTile"        = Units consider tile native regardless of terrain
+;   - "NativeTile"        = Native units consider tile native regardless of terrain
 ;   - "ConnectLand"       = Roads on Oceanic tiles are drawn to connect to adjacent
 ;                           Land tiles even if they have no road. This affects
 ;                           appearance only
