@@ -37,6 +37,7 @@
 #include "packets.h"
 
 /* server */
+#include "citytools.h"
 #include "connecthand.h"
 #include "ggzserver.h"
 #include "maphand.h"
@@ -387,6 +388,11 @@ void init_new_game(void)
     struct tile *ptile = player_startpos[player_index(pplayer)];
 
     fc_assert_action(NULL != ptile, continue);
+
+    /* Place first city */
+    if (game.server.start_city) {
+      create_city(pplayer, ptile, city_name_suggestion(pplayer, ptile));
+    }
 
     /* Place the first unit. */
     if (place_starting_unit(ptile, pplayer,

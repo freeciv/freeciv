@@ -146,6 +146,10 @@ static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
     return FALSE;
   }
 
+  if (game.server.start_city && terrain_has_flag(tile_terrain(ptile), TER_NO_CITIES)) {
+    return FALSE;
+  }
+
   /* A longstanding bug allowed starting positions to exist on poles,
    * sometimes.  This hack prevents it by setting a fixed distance from
    * the pole (dependent on map temperature) that a start pos must be.

@@ -155,6 +155,7 @@ struct civ_game {
       bool savepalace;
       bool homecaughtunits;
       char start_units[MAX_LEN_STARTUNIT];
+      bool start_city;
       int start_year;
       int techloss_forgiveness;
       int techlost_donor;
@@ -277,6 +278,7 @@ extern struct civ_game game;
 #define GAME_MAX_GOLD            50000
 
 #define GAME_DEFAULT_START_UNITS  "ccwwx"
+#define GAME_DEFAULT_START_CITY  FALSE
 
 #define GAME_DEFAULT_DISPERSION  0
 #define GAME_MIN_DISPERSION      0

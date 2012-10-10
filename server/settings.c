@@ -1342,6 +1342,13 @@ static struct setting settings[] = {
 		"    A   = Strong attack unit (eg., Catapult)\n"),
              startunits_callback, NULL, GAME_DEFAULT_START_UNITS)
 
+  GEN_BOOL("startcity", game.server.start_city,
+           SSET_GAME_INIT, SSET_SOCIOLOGY, SSET_VITAL, SSET_TO_CLIENT,
+           N_("Whether player starts with a city"),
+           N_("If this is set, game will start with player's first "
+              "city already founded to starting location."),
+           NULL, NULL, GAME_DEFAULT_START_CITY)         
+
   GEN_INT("dispersion", game.server.dispersion,
 	  SSET_GAME_INIT, SSET_SOCIOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("Area where initial units are located"),
