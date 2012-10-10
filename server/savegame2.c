@@ -553,7 +553,6 @@ static void compat_load_020500(struct loaddata *loading);
 
 struct compatibility {
   int version;
-  const struct sset_val_name name;
   const load_version_func_t load;
 };
 
@@ -571,17 +570,15 @@ struct compatibility {
  * - compat_load_020500 to load old savegame. */
 static struct compatibility compat[] = {
   /* dummy; equal to the current version (last element) */
-  { 0, { "CURRENT", N_("current version") }, NULL },
+  { 0, NULL },
   /* version 1 and 2 is not used */
   /* version 3: first savegame2 format, so no compat functions for translation
    * from previous format */
-  { 3, { "2.3.0", N_("freeciv 2.3.0") }, NULL },
+  { 3, NULL },
   /* version 4 to 9 are reserved for possible changes in 2.3.x */
-  { 10, { "2.4.0", N_("freeciv 2.4.0") },
-    compat_load_020400 },
+  { 10, compat_load_020400 },
   /* version 11 to 19 are reserved for possible changes in 2.4.x */
-  { 20, { "2.5.0", N_("freeciv 2.5.0 (development)") },
-    compat_load_020500 },
+  { 20, compat_load_020500 },
   /* Current savefile version is listed above this line; it corresponds to
      the definitions in this file. */
 };
