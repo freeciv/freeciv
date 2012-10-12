@@ -119,12 +119,12 @@ static GdkPixbuf *create_player_icon(const struct player *plr)
   cr = cairo_create(surface);
 
   color = get_color(tileset, COLOR_PLAYER_COLOR_BACKGROUND);
-  cairo_set_source_rgb(cr, color->r, color->g, color->b);
+  gdk_cairo_set_source_rgba(cr, &color->color);
   cairo_rectangle(cr, 0, 0, width, height);
   cairo_fill(cr);
 
   color = get_player_color(tileset, plr);
-  cairo_set_source_rgb(cr, color->r, color->g, color->b);
+  gdk_cairo_set_source_rgba(cr, &color->color);
   cairo_rectangle(cr, 1, 1, width - 2, height - 2);
   cairo_fill(cr);
 

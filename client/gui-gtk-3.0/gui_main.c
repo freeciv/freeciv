@@ -1293,12 +1293,15 @@ static void setup_widgets(void)
   gtk_widget_set_size_request(map_canvas, 300, 300);
   gtk_widget_set_can_focus(map_canvas, TRUE);
 
+#if 0
+/* FIXME */
   for (i = 0; i < 5; i++) {
     gtk_widget_modify_bg(GTK_WIDGET(overview_canvas), i,
 			 &get_color(tileset, COLOR_OVERVIEW_UNKNOWN)->color);
     gtk_widget_modify_bg(GTK_WIDGET(map_canvas), i,
 			 &get_color(tileset, COLOR_MAPVIEW_UNKNOWN)->color);
   }
+#endif
 
   gtk_widget_add_events(map_canvas, GDK_EXPOSURE_MASK
                                    |GDK_BUTTON_PRESS_MASK

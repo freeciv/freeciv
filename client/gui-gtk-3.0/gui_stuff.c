@@ -426,10 +426,7 @@ static void gui_dialog_switch_page_handler(GtkNotebook *notebook,
   n = gtk_notebook_page_num(GTK_NOTEBOOK(dlg->v.tab.notebook), dlg->vbox);
 
   if (n == num) {
-    GtkRcStyle *rc_style = gtk_widget_get_modifier_style(dlg->v.tab.label);
-
-    rc_style->color_flags[GTK_STATE_ACTIVE] &= ~GTK_RC_FG;
-    gtk_widget_modify_style(dlg->v.tab.label, rc_style);
+    gtk_widget_override_color(dlg->v.tab.label, GTK_STATE_FLAG_NORMAL, NULL);
   }
 }
 
@@ -845,9 +842,9 @@ void gui_dialog_present(struct gui_dialog *dlg)
 
       if (current != n) {
 	GtkWidget *label = dlg->v.tab.label;
-	GdkColor color = {.red = 255 << 8, .green = 0, .blue = 0};
+	GdkRGBA color = {.red = 1.0, .green = 0, .blue = 0, .alpha = 1.0};
 
-	gtk_widget_modify_fg(label, GTK_STATE_ACTIVE, &color);
+	gtk_widget_override_color(label, GTK_STATE_FLAG_NORMAL, &color);
       }
     }
     break;
@@ -897,9 +894,9 @@ void gui_dialog_alert(struct gui_dialog *dlg)
 
       if (current != n) {
         GtkWidget *label = dlg->v.tab.label;
-        GdkColor color = {.red = 0, .green = 0, .blue = 255 << 8};
+        GdkRGBA color = {.red = 0, .green = 0, .blue =1.0, .alpha = 1.0};
 
-        gtk_widget_modify_fg(label, GTK_STATE_ACTIVE, &color);
+        gtk_widget_override_color(label, GTK_STATE_FLAG_NORMAL, &color);
       }
     }
     break;

@@ -156,7 +156,7 @@ void canvas_put_rectangle(struct canvas *pcanvas,
     cairo_save(cr);
   }
 
-  cairo_set_source_rgb(cr, pcolor->r, pcolor->g, pcolor->b);
+  gdk_cairo_set_source_rgba(cr, &pcolor->color);
   cairo_rectangle(cr, canvas_x, canvas_y, width, height);
   cairo_fill(cr);
 
@@ -253,7 +253,7 @@ void canvas_put_line(struct canvas *pcanvas,
     break;
   }
 
-  cairo_set_source_rgb(cr, pcolor->r, pcolor->g, pcolor->b);
+  gdk_cairo_set_source_rgba(cr, &pcolor->color);
   cairo_move_to(cr, start_x, start_y);
   cairo_line_to(cr, start_x + dx, start_y + dy);
   cairo_stroke(cr);
@@ -305,7 +305,7 @@ void canvas_put_curved_line(struct canvas *pcanvas,
     break;
   }
 
-  cairo_set_source_rgb(cr, pcolor->r, pcolor->g, pcolor->b);
+  gdk_cairo_set_source_rgba(cr, &pcolor->color);
   cairo_move_to(cr, start_x, start_y);
   cairo_curve_to(cr, end_x, start_y, start_x, end_y, end_x, end_y);
   cairo_stroke(cr);
@@ -390,7 +390,7 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
   }
 
   cairo_move_to(cr, canvas_x, canvas_y);
-  cairo_set_source_rgb(cr, pcolor->r, pcolor->g, pcolor->b);
+  gdk_cairo_set_source_rgba(cr, &pcolor->color);
   pango_cairo_show_layout(cr, layout);
 
   if (!pcanvas->drawable) {

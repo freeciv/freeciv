@@ -62,14 +62,10 @@ struct color *color_alloc(int r, int g, int b)
 {
   struct color *color = fc_malloc(sizeof(*color));
 
-  color->color.red = (r << 8) + r;
-  color->color.green = (g << 8) + g;
-  color->color.blue = (b << 8) + b;
-
-  color->r = (double)r/255;
-  color->g = (double)g/255;
-  color->b = (double)b/255;
-  color->a = 1.0;
+  color->color.red = (double)r/255;
+  color->color.green = (double)g/255;
+  color->color.blue = (double)b/255;
+  color->color.alpha = 1.0;
 
   return color;
 }
@@ -80,22 +76,4 @@ struct color *color_alloc(int r, int g, int b)
 void color_free(struct color *color)
 {
   free(color);
-}
-
-/****************************************************************************
-  Fill the string with the color in "#rrggbb" mode.  Use it instead of
-  gdk_color() which have been included in gtk2.12 version only.
-****************************************************************************/
-size_t color_to_string(GdkColor *color, char *string, size_t length)
-{
-  fc_assert_ret_val(NULL != string, 0);
-  fc_assert_ret_val(0 < length, 0);
-
-  if (NULL == color) {
-    string[0] = '\0';
-    return 0;
-  } else {
-    return fc_snprintf(string, length, "#%02x%02x%02x",
-                       color->red >> 8, color->green >> 8, color->blue >> 8);
-  }
 }

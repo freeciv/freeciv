@@ -660,7 +660,7 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
   }
 
   cr = gdk_cairo_create(gtk_widget_get_window(map_canvas));
-  cairo_set_source_rgb(cr, pcolor->r, pcolor->g, pcolor->b);
+  gdk_cairo_set_source_rgba(cr, &pcolor->color);
   cairo_set_line_width(cr, 2.0);
   cairo_set_dash(cr, dashes, 2, 0);
   cairo_set_operator(cr, CAIRO_OPERATOR_DIFFERENCE);

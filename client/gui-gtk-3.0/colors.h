@@ -18,11 +18,7 @@
 #include "colors_g.h"
 
 struct color {
-  GdkColor color;
-  double r;
-  double g;
-  double b;
-  double a;
+  GdkRGBA color;
 };
 
 enum Display_color_type {
@@ -30,7 +26,5 @@ enum Display_color_type {
 };
 
 enum Display_color_type get_visual(void);
-
-size_t color_to_string(GdkColor *color, char *string, size_t length);
 
 #endif  /* FC__COLORS_H */

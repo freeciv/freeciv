@@ -240,10 +240,10 @@ option_dialog_get(const struct option_set *poptset)
 ****************************************************************************/
 static void option_color_destroy_notify(gpointer data)
 {
-  GdkColor *color = (GdkColor *) data;
+  GdkRGBA *color = (GdkRGBA *) data;
 
   if (NULL != color) {
-    gdk_color_free(color);
+    gdk_rgba_free(color);
   }
 }
 
@@ -251,9 +251,9 @@ static void option_color_destroy_notify(gpointer data)
   Set the color of a button.
 ****************************************************************************/
 static void option_color_set_button_color(GtkButton *button,
-                                          const GdkColor *new_color)
+                                          const GdkRGBA *new_color)
 {
-  GdkColor *current_color = g_object_get_data(G_OBJECT(button), "color");
+  GdkRGBA *current_color = g_object_get_data(G_OBJECT(button), "color");
   GtkWidget *child;
 
   if (NULL == new_color) {
@@ -268,11 +268,11 @@ static void option_color_set_button_color(GtkButton *button,
 
     /* Apply the new color. */
     if (NULL != current_color) {
-      /* We already have a GdkColor pointer. */
+      /* We already have a GdkRGBA pointer. */
       *current_color = *new_color;
     } else {
-      /* We need to make a GdkColor pointer. */
-      current_color = gdk_color_copy(new_color);
+      /* We need to make a GdkRGBA pointer. */
+      current_color = gdk_rgba_copy(new_color);
       g_object_set_data_full(G_OBJECT(button), "color", current_color,
                              option_color_destroy_notify);
     }
@@ -281,11 +281,16 @@ static void option_color_set_button_color(GtkButton *button,
     }
 
     /* Update the button. */
-    pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, 16, 16);
-    gdk_pixbuf_fill(pixbuf,
-                    ((guint32)(current_color->red & 0xff00) << 16)
-                    | ((current_color->green & 0xff00) << 8) |
-                    (current_color->blue & 0xff00) | 0xff);
+    {
+      cairo_surface_t *surface = cairo_image_surface_create(
+          CAIRO_FORMAT_RGB24, 16, 16);
+      cairo_t *cr = cairo_create(surface);
+      gdk_cairo_set_source_rgba(cr, current_color);
+      cairo_paint(cr);
+      cairo_destroy(cr);
+      pixbuf = gdk_pixbuf_get_from_surface(surface, 0, 0, 16, 16);
+      cairo_surface_destroy(surface);
+    }
     child = gtk_image_new_from_pixbuf(pixbuf);
     gtk_container_add(GTK_CONTAINER(button), child);
     gtk_widget_show(child);
@@ -304,11 +309,11 @@ static void color_selector_response_callback(GtkDialog *dialog,
     option_color_set_button_color(GTK_BUTTON(data), NULL);
   } else if (res == GTK_RESPONSE_OK) {
     /* Apply the new color. */
-    GtkColorSelection *selection =
-      GTK_COLOR_SELECTION(g_object_get_data(G_OBJECT(dialog), "selection"));
-    GdkColor new_color;
+    GtkColorChooser *chooser =
+      GTK_COLOR_CHOOSER(g_object_get_data(G_OBJECT(dialog), "chooser"));
+    GdkRGBA new_color;
 
-    gtk_color_selection_get_current_color(selection, &new_color);
+    gtk_color_chooser_get_rgba(chooser, &new_color);
     option_color_set_button_color(GTK_BUTTON(data), &new_color);
   }
 
@@ -320,8 +325,8 @@ static void color_selector_response_callback(GtkDialog *dialog,
 ****************************************************************************/
 static void option_color_select_callback(GtkButton *button, gpointer data)
 {
-  GtkWidget *dialog, *selection;
-  GdkColor *current_color = g_object_get_data(G_OBJECT(button), "color");
+  GtkWidget *dialog, *chooser;
+  GdkRGBA *current_color = g_object_get_data(G_OBJECT(button), "color");
 
   dialog = gtk_dialog_new_with_buttons(_("Select a color"), NULL,
                                        GTK_DIALOG_MODAL,
@@ -332,13 +337,12 @@ static void option_color_select_callback(GtkButton *button, gpointer data)
   g_signal_connect(dialog, "response",
                    G_CALLBACK(color_selector_response_callback), button);
 
-  selection = gtk_color_selection_new();
-  g_object_set_data(G_OBJECT(dialog), "selection", selection);
-  gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), selection,
+  chooser = gtk_color_chooser_widget_new();
+  g_object_set_data(G_OBJECT(dialog), "chooser", chooser);
+  gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), chooser,
                      FALSE, FALSE, 0);
   if (current_color) {
-    gtk_color_selection_set_current_color(GTK_COLOR_SELECTION(selection),
-                                          current_color);
+    gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(chooser), current_color);
   }
 
   gtk_widget_show_all(dialog);
@@ -771,12 +775,12 @@ static inline void option_dialog_option_color_set(struct option *poption,
                                                   struct ft_color color)
 {
   GtkWidget *w = option_get_gui_data(poption);
-  GdkColor gdk_color;
+  GdkRGBA gdk_color;
 
   /* Update the foreground button. */
   if (NULL != color.foreground
       && '\0' != color.foreground[0]
-      && gdk_color_parse(color.foreground, &gdk_color)) {
+      && gdk_rgba_parse(&gdk_color, color.foreground)) {
     option_color_set_button_color(g_object_get_data(G_OBJECT(w),
                                                     "fg_button"),
                                   &gdk_color);
@@ -788,7 +792,7 @@ static inline void option_dialog_option_color_set(struct option *poption,
   /* Update the background button. */
   if (NULL != color.background
       && '\0' != color.background[0]
-      && gdk_color_parse(color.background, &gdk_color)) {
+      && gdk_rgba_parse(&gdk_color, color.background)) {
     option_color_set_button_color(g_object_get_data(G_OBJECT(w),
                                                     "bg_button"),
                                   &gdk_color);
@@ -935,22 +939,24 @@ static void option_dialog_option_apply(struct option *poption)
 
   case OT_COLOR:
     {
-      char fg_color_text[32], bg_color_text[32];
+      gchar *fg_color_text = NULL, *bg_color_text = NULL;
       GObject *button;
-      GdkColor *color;
+      GdkRGBA *color;
 
       /* Get foreground color. */
       button = g_object_get_data(G_OBJECT(w), "fg_button");
       color = g_object_get_data(button, "color");
-      color_to_string(color, fg_color_text, sizeof(fg_color_text));
+      if (color) fg_color_text = gdk_rgba_to_string(color);
 
       /* Get background color. */
       button = g_object_get_data(G_OBJECT(w), "bg_button");
       color = g_object_get_data(button, "color");
-      color_to_string(color, bg_color_text, sizeof(bg_color_text));
+      if (color) bg_color_text = gdk_rgba_to_string(color);
 
       (void) option_color_set(poption,
                               ft_color(fg_color_text, bg_color_text));
+      g_free(fg_color_text);
+      g_free(bg_color_text);
     }
     break;
 
