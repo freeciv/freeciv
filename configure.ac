@@ -361,7 +361,7 @@ fi
 AM_CONDITIONAL(EXP_AI_MODULES, test "x$exp_aimodules" = "xyes")
 
 AC_ARG_ENABLE([ai-static],
-[  --enable-ai-static     statically link listed modules to server],
+[  --enable-ai-static      statically link listed modules to server],
 [static_modules="${enableval}"],
 [static_modules="classic"])
 
@@ -435,7 +435,7 @@ ALL_LINGUAS="ar bg cs ca da de el en_GB eo es et fa fi fr ga gd he hu id it ja
 ko lt nl nb no pl pt pt_BR ro ru sr sv tr uk zh_CN zh_TW"
 
 AC_ARG_ENABLE([nls],
-[  --disable-nls        do not add localization support],
+[  --disable-nls           do not add localization support],
 [case "${enableval}" in
   yes) USE_NLS=yes ;;
   no)  USE_NLS=no  ;;

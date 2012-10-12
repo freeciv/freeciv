@@ -21,7 +21,7 @@ if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ; then
     AC_MSG_CHECKING([Qt headers])
 
     AC_ARG_WITH([qt-includes],
-                [  --with-qt-includes path to Qt includes],
+                [  --with-qt-includes      path to Qt includes],
                 [FC_QT_CLIENT_COMPILETEST([$withval])],
 [POTENTIAL_PATHS="/usr/include /usr/include/qt4"
 dnl First test without any additional include paths to see if it works already
@@ -38,7 +38,7 @@ done])
 
       AC_MSG_CHECKING([Qt libraries])
       AC_ARG_WITH([qt-libs],
-                  [  --with-qt-libs path to Qt libraries],
+                  [  --with-qt-libs          path to Qt libraries],
                   [FC_QT_CLIENT_LINKTEST([$withval])],
 [POTENTIAL_PATHS="/usr/lib/qt4"
 dnl First test without any additional library paths to see if it works already
