@@ -148,10 +148,7 @@ struct universal universal_by_rule_name(const char *kind,
     break;
   case VUT_MINYEAR:
     source.value.minyear = atoi(value);
-    if (source.value.minyear >= GAME_START_YEAR) {
-      return source;
-    }
-    break;
+    return source;
   case VUT_TERRAINALTER:
     source.value.terrainalter
       = terrain_alteration_by_name(value, fc_strcasecmp);
