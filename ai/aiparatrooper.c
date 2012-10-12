@@ -257,10 +257,9 @@ void ai_manage_paratrooper(struct player *pplayer, struct unit *punit)
 static int calculate_want_for_paratrooper(struct unit *punit,
 				          struct tile *ptile_city)
 {
-
-  int range = unit_type(punit)->paratroopers_range;
-  int profit = 0;
   struct unit_type* u_type = unit_type(punit);
+  int range = u_type->paratroopers_range;
+  int profit = 0;
   struct player* pplayer = unit_owner(punit);
   int total, total_cities;
 
@@ -279,10 +278,12 @@ static int calculate_want_for_paratrooper(struct unit *punit,
     if (!map_is_known(ptile, pplayer)) {
       continue;
     }
-    
+
     /* We prefer jumping to other continents. On the same continent we 
-     * can fight traditionally */    
-    if (tile_continent(ptile_city) != tile_continent(ptile)) {
+     * can fight traditionally.
+     * FIXME: Handle ocean cities we can attack. */    
+    if (!is_ocean_tile(ptile)
+        && tile_continent(ptile_city) != tile_continent(ptile)) {
       if (get_continent_size(tile_continent(ptile)) < 3) {
         /* Tiny island are hard to conquer with traditional units */
         multiplier = 10;
