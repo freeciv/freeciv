@@ -4393,7 +4393,7 @@ static bool end_command(struct connection *caller, char *str, bool check)
       return TRUE;
     }
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
-                _("Game ended in a draw."));
+                _("Game is over."));
     set_server_state(S_S_OVER);
     force_end_of_sniff = TRUE;
     cmd_reply(CMD_END_GAME, caller, C_OK,

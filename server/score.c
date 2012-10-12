@@ -396,29 +396,32 @@ int total_player_citizens(const struct player *pplayer)
   surrendered or dead. Exception: the winner of the spacerace and his 
   teammates will win of course.
 
+  In games ended by /endgame, endturn, or any other interruption not caused
+  by satisfaction of victory conditions, for each team is calculated the sum
+  of the scores of any belonging member which is alive and has not
+  surrendered; all the players in the team with the higest sum of scores win.
+  This condition is signaled to the function by the boolean "interrupt".
+
   Barbarians do not count as winners or losers.
 
-  Games ending by endturn results in a draw, we don't rank in that case.
+  If interrupt is true, rank players by team score rather than by alive/dead
+  status.
 **************************************************************************/
-void rank_users(void)
+void rank_users(bool interrupt)
 {
   FILE *fp;
-  int i;
+  int i, t_winner_score = 0;
   enum victory_state { VS_NONE, VS_LOSER, VS_WINNER };
   enum victory_state plr_state[player_slot_count()];
   struct player *spacerace_winner = NULL;
-
-  /* game ending via endturn results in a draw. We don't rank. */
-  if (game.info.turn > game.server.end_turn) {
-    return;
-  }
+  struct team *t_winner = NULL;
 
   /* don't output ranking info if we haven't enabled it via cmdline */
   if (!srvarg.ranklog_filename) {
     return;
   }
 
-  fp = fc_fopen(srvarg.ranklog_filename,"w");
+  fp = fc_fopen(srvarg.ranklog_filename, "w");
 
   /* don't fail silently, at least print an error */
   if (!fp) {
@@ -450,46 +453,80 @@ void rank_users(void)
     } players_iterate_end;
   }
 
-  /* first pass: locate those alive who haven't surrendered, set them to win;
-   * barbarians won't count, and everybody else is a loser for now. */
-  players_iterate(pplayer) {
-    if (is_barbarian(pplayer)) {
-      plr_state[player_index(pplayer)] = VS_NONE;
-    } else if (pplayer->is_alive
-               && !player_status_check(pplayer, PSTATUS_SURRENDER)) {
-      plr_state[player_index(pplayer)] = VS_WINNER;
-    } else {
-      plr_state[player_index(pplayer)] = VS_LOSER;
-    }
-  } players_iterate_end;
+  if (interrupt == FALSE) {
+    /* game ended for a victory condition */
 
-  /* second pass: find the teammates of those winners, they win too. */
-  players_iterate(pplayer) {
-    if (plr_state[player_index(pplayer)] == VS_WINNER) {
-      players_iterate(aplayer) {
-        if (aplayer->team == pplayer->team) {
-          plr_state[player_index(aplayer)] = VS_WINNER;
+    /* first pass: locate those alive who haven't surrendered, set them to
+     * win; barbarians won't count, and everybody else is a loser for now. */
+    players_iterate(pplayer) {
+      if (is_barbarian(pplayer)) {
+	plr_state[player_index(pplayer)] = VS_NONE;
+      } else if (pplayer->is_alive
+		 && !player_status_check(pplayer, PSTATUS_SURRENDER)) {
+	plr_state[player_index(pplayer)] = VS_WINNER;
+      } else {
+	plr_state[player_index(pplayer)] = VS_LOSER;
+      }
+    } players_iterate_end;
+
+    /* second pass: find the teammates of those winners, they win too. */
+    players_iterate(pplayer) {
+      if (plr_state[player_index(pplayer)] == VS_WINNER) {
+	players_iterate(aplayer) {
+	  if (aplayer->team == pplayer->team) {
+	    plr_state[player_index(aplayer)] = VS_WINNER;
+	  }
+	} players_iterate_end;
+      }
+    } players_iterate_end;
+  } else {
+
+    /* game ended via endturn */
+    /* i) determine the winner team */
+    teams_iterate(pteam) {
+      int t_score = 0;
+      const struct player_list *members = team_members(pteam);
+      player_list_iterate(members, pplayer) {
+	if (pplayer->is_alive
+	    && !player_status_check(pplayer, PSTATUS_SURRENDER)) {
+	  t_score += get_civ_score(pplayer);
         }
-      } players_iterate_end;
-    }
-  } players_iterate_end;
+      } player_list_iterate_end;
+      if (t_score > t_winner_score) {
+	t_winner = pteam;
+	t_winner_score = t_score;
+      }
+    } teams_iterate_end;
+  
+    /* ii) set all the members of the team as winners, the others as losers */
+    players_iterate(pplayer) {
+      if (pplayer->team == t_winner) {
+	plr_state[player_index(pplayer)] = VS_WINNER;
+      } else {
+        /* if no winner team is found (each one as same score) all them lose */
+	plr_state[player_index(pplayer)] = VS_LOSER;
+      }
+    } players_iterate_end;
+  }
 
   /* write out ranking information to file */
   fprintf(fp, "turns: %d\n", game.info.turn);
   fprintf(fp, "winners: ");
   players_iterate(pplayer) {
     if (plr_state[player_index(pplayer)] == VS_WINNER) {
-      fprintf(fp, "%s (%s,%s), ", pplayer->ranked_username,
-                                  player_name(pplayer),
-                                  pplayer->username);
+      fprintf(fp, "%s,%s,%s,%i,, ", pplayer->ranked_username,
+                                    player_name(pplayer),
+	                            pplayer->username,
+	                            get_civ_score(pplayer));
     }
   } players_iterate_end;
   fprintf(fp, "\nlosers: ");
   players_iterate(pplayer) {
     if (plr_state[player_index(pplayer)] == VS_LOSER) {
-      fprintf(fp, "%s (%s,%s), ", pplayer->ranked_username,
-                                  player_name(pplayer),
-                                  pplayer->username);
+      fprintf(fp, "%s,%s,%s,%i,, ", pplayer->ranked_username,
+                                    player_name(pplayer),
+	                            pplayer->username,
+	                            get_civ_score(pplayer));
     }
   } players_iterate_end;
   fprintf(fp, "\n");

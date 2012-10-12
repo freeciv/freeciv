@@ -351,7 +351,7 @@ bool check_for_game_over(void)
 
   if (0 == candidates) {
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
-                _("Game ended in a draw."));
+                _("Game is over."));
     ggz_report_victory();
     return TRUE;
   } else if (0 < defeated) {
@@ -481,7 +481,7 @@ bool check_for_game_over(void)
   /* Quit if we are past the turn limit. */
   if (game.info.turn > game.server.end_turn) {
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
-                _("Game ended in a draw as the turn limit was exceeded."));
+                _("Game ended as the turn limit was exceeded."));
     ggz_report_victory();
     return TRUE;
   }
@@ -2328,8 +2328,17 @@ static void srv_running(void)
 
     if (S_S_OVER != server_state() && check_for_game_over()) {
       set_server_state(S_S_OVER);
-      /* this goes here, because we don't rank users after an /endgame */
-      rank_users();
+      if (game.info.turn > game.server.end_turn) {
+	/* endturn was reached - rank users based on team scores */
+	rank_users(TRUE);
+      } else { 
+	/* game ended for victory conditions - rank users based on survival */
+	rank_users(FALSE);
+      }
+    } else if ((check_for_game_over() && game.info.turn > game.server.end_turn)
+	       || S_S_OVER == server_state()) {
+      /* game terminated by /endgame command - calculate team scores */
+      rank_users(TRUE);
     }
   }
 
