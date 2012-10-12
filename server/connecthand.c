@@ -688,6 +688,7 @@ void connection_detach(struct connection *pconn)
     pconn->playing = NULL;
     pconn->observer = FALSE;
     restore_access_level(pconn);
+    strcpy(pplayer->ranked_username, ANON_USER_NAME);
 
     /* If any other (non-observing) conn is attached to  this player, the
      * player is still connected. */
