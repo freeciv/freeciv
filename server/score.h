@@ -21,6 +21,6 @@ int get_civ_score(const struct player *pplayer);
 
 int total_player_citizens(const struct player *pplayer);
 
-void rank_users(void);
+void rank_users(bool);
 
 #endif /* FC__SCORE_H */
