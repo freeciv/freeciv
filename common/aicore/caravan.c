@@ -123,6 +123,7 @@ void caravan_result_init_zero(struct caravan_result *result)
   result->arrival_time = 0;
   result->value = 0;
   result->help_wonder = FALSE;
+  result->required_boat = FALSE;
 }
 
 /***************************************************************************
@@ -137,9 +138,18 @@ static void caravan_result_init(struct caravan_result *result,
   result->src = src;
   result->dest = dest;
   result->arrival_time = arrival_time;
-
+  
   result->value = 0;
   result->help_wonder = FALSE;
+  if ((src != NULL) && (dest != NULL)) {
+    if (tile_continent(src->tile) != tile_continent(dest->tile)) {
+      result->required_boat = TRUE;
+    } else {
+      result->required_boat = FALSE;
+    }
+  } else {
+    result->required_boat = FALSE;
+  }
 }
 
 /***************************************************************************
@@ -395,17 +405,29 @@ static void get_discounted_reward(const struct unit *caravan,
   const struct city *dest = result->dest;
   int arrival_time = result->arrival_time;
   double discount = parameter->discount;
-
+  struct player *pplayer_src = city_owner(src);
+  struct player *pplayer_dest = city_owner(dest);
+  
   /* if no foreign trade is allowed, just quit. */
-  if (!parameter->allow_foreign_trade && city_owner(src) != city_owner(dest)) {
+  if (!parameter->allow_foreign_trade && pplayer_src != pplayer_dest) {
     caravan_result_init_zero(result);
     return;
+  } else {
+    /* foreign trade allowed, we only do business with allies */
+    if (pplayers_allied(pplayer_src, pplayer_dest)) {
+      /* do some business */
+    } else {
+      caravan_result_init_zero(result);
+      return;
+    }
   }
-
-  trade = trade_benefit(city_owner(src), src, dest, parameter);
+  
+  trade = trade_benefit(pplayer_src, src, dest, parameter);
   windfall = windfall_benefit(src, dest, parameter);
   wonder = wonder_benefit(caravan, arrival_time, dest, parameter);
-
+  /* we want to aid for wonder building */
+  wonder *= 2;
+  
   if (parameter->horizon == FC_INFINITY) {
     trade = perpetuity(trade, discount);
   } else {
@@ -516,14 +538,15 @@ static void caravan_find_best_destination_notransit(const struct unit *caravan,
                                                    struct caravan_result *best)
 {
   struct caravan_result current;
-
-  caravan_result_init(best, game_city_by_number(caravan->homecity), NULL, 0);
+  struct city *pcity = game_city_by_number(caravan->homecity);
+  
+  caravan_result_init(best, pcity, NULL, 0);
   current = *best;
-
+  
   cities_iterate(dest) {
-    current.dest = dest;
+    caravan_result_init(&current, pcity, dest, 0);
     get_discounted_reward(caravan, param, &current);
-
+    
     if (caravan_result_compare(&current, best) > 0) {
       *best = current;
     }

@@ -79,7 +79,11 @@
 #define LOGLEVEL_RECOVERY LOG_DEBUG
 #define LOG_CARAVAN       LOG_DEBUG
 #define LOG_CARAVAN2      LOG_DEBUG
+#define LOG_CARAVAN3      LOG_DEBUG
 
+static bool dai_find_boat_for_unit(struct ai_type *ait, struct unit *punit);
+static bool dai_caravan_can_trade_cities_diff_cont(struct player *pplayer, 
+                                                   struct unit *punit);
 static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
                                struct unit *punit);
 static void dai_manage_barbarian_leader(struct ai_type *ait,
@@ -1762,34 +1766,102 @@ static void dai_military_attack(struct ai_type *ait, struct player *pplayer,
   }
 }
 
+/*************************************************************************
+  Request a boat for a unit to transport it to another continent.
+  Return wheter is alive or not
+*************************************************************************/
+static bool dai_find_boat_for_unit(struct ai_type *ait, struct unit *punit)
+{
+  bool alive = TRUE;
+  int ferryboat = 0;
+  struct pf_path *path_to_ferry = NULL;
+
+  UNIT_LOG(LOG_CARAVAN, punit, "requesting a boat!");
+  ferryboat = aiferry_find_boat(ait, punit, 1, &path_to_ferry);
+  /* going to meet the boat */
+  if ((ferryboat <= 0)) {
+    UNIT_LOG(LOG_CARAVAN, punit, 
+             "in find_boat_for_unit cannot find any boats.");
+    /* if we are undefended on the country side go to a city */
+    struct city *current_city = tile_city(unit_tile(punit));
+    if (current_city == NULL) {
+      struct city *city_near = find_nearest_safe_city(punit);
+      if (city_near != NULL) {
+        alive = dai_unit_goto(ait, punit, city_near->tile);
+      }
+    }
+  } else {
+    if (path_to_ferry != NULL) {
+      if (!adv_unit_execute_path(punit, path_to_ferry)) { 
+        /* Died. */
+        pf_path_destroy(path_to_ferry);
+        path_to_ferry = NULL;
+        alive = FALSE;
+      } else {
+        pf_path_destroy(path_to_ferry);
+        path_to_ferry = NULL;
+        alive = TRUE;
+      }
+    }
+  }
+  return alive;
+}
 
 /*************************************************************************
   Send the caravan to the specified city, or make it help the wonder /
   trade, if it's already there.  After this call, the unit may no longer
   exist (it might have been used up, or may have died travelling).
+  It uses the ferry system to trade among continents.
 **************************************************************************/
 static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                              struct unit *punit,
-                             const struct city *pcity,
-                             bool help_wonder)
+                             const struct city *dest_city,
+                             bool help_wonder,
+                             bool required_boat, bool request_boat)
 {
   bool alive = TRUE;
+  struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
 
-  fc_assert_ret(NULL != pcity);
+  fc_assert_ret(NULL != dest_city);
 
-  /* if we're not there yet, and we can move, move. */
-  if (!same_pos(pcity->tile, unit_tile(punit)) && punit->moves_left != 0) {
-    log_base(LOG_CARAVAN, "%s %s[%d](%d,%d) going to %s in %s",
+  /* if we're not there yet, and we can move, move... */
+  if (!same_pos(dest_city->tile, unit_tile(punit))
+      && punit->moves_left != 0) {
+    log_base(LOG_CARAVAN, "%s %s[%d](%d,%d) task %s going to %s in %s %s",
              nation_rule_name(nation_of_unit(punit)),
-             unit_rule_name(punit),
-             punit->id,
-             TILE_XY(unit_tile(punit)),
-             help_wonder ? "help a wonder" : "trade", city_name(pcity));
-    alive = dai_unit_goto(ait, punit, pcity->tile); 
+             unit_rule_name(punit), punit->id, TILE_XY(unit_tile(punit)),
+             dai_unit_task_rule_name(unit_data->task),
+             help_wonder ? "help a wonder" : "trade", city_name(dest_city),
+             required_boat ? "with a boat" : "");
+    if (required_boat) {
+      /* to trade with boat */
+      if (request_boat) {
+        /* Try to find new boat */
+        alive = dai_find_boat_for_unit(ait, punit);
+      } else {
+        /* if we are not being transported then ask for a boat again */
+        alive = TRUE;
+        if (!unit_transported(punit) &&
+            (tile_continent(unit_tile(punit))
+             != tile_continent(dest_city->tile))) {
+          alive = dai_find_boat_for_unit(ait, punit);
+        }
+      }
+      if (alive)  {
+	alive = dai_gothere(ait, pplayer, punit, dest_city->tile);
+      }
+    } else {
+      /* to trade without boat */
+      alive = dai_unit_goto(ait, punit, dest_city->tile);
+    }
   }
 
   /* if moving didn't kill us, and we got to the destination, handle it. */
-  if (alive && same_pos(pcity->tile, unit_tile(punit))) {
+  if (alive && same_pos(dest_city->tile, unit_tile(punit))) {
+    /* release the boat! */
+    if (unit_transported(punit)) {
+      aiferry_clear_boat(ait, punit);
+    }
     if (help_wonder) {
         /*
          * We really don't want to just drop all caravans in immediately.
@@ -1801,7 +1873,7 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                unit_rule_name(punit),
                punit->id,
                TILE_XY(unit_tile(punit)),
-               city_name(pcity));
+               city_name(dest_city));
       handle_unit_help_build_wonder(pplayer, punit->id);
     } else {
       log_base(LOG_CARAVAN, "%s %s[%d](%d,%d) creates trade route in %s",
@@ -1809,7 +1881,7 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                unit_rule_name(punit),
                punit->id,
                TILE_XY(unit_tile(punit)),
-               city_name(pcity));
+               city_name(dest_city));
       handle_unit_establish_trade(pplayer, punit->id);
     }
   }
@@ -1824,7 +1896,7 @@ static void caravan_optimize_callback(const struct caravan_result *result,
 {
   const struct unit *caravan = data;
 
-  log_base(LOG_CARAVAN2, "%s %s[%d](%d,%d) %s: %s %s worth %g",
+  log_base(LOG_CARAVAN3, "%s %s[%d](%d,%d) %s: %s %s worth %g",
            nation_rule_name(nation_of_unit(caravan)),
            unit_rule_name(caravan),
            caravan->id,
@@ -1835,45 +1907,215 @@ static void caravan_optimize_callback(const struct caravan_result *result,
            result->value);
 }
 
+/*****************************************************************************
+  Evaluate if a unit is tired of waiting for a boat at home continent
+*****************************************************************************/
+static bool dai_is_unit_tired_waiting_boat(struct ai_type *ait,
+                                           struct unit *punit)
+{
+  struct tile *src = NULL, *dest = NULL, *src_home_city = NULL;
+  struct city *phome_city = NULL;
+  struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
+  bool required_boat = FALSE;
+  
+  if ((unit_data->task != AIUNIT_NONE)) {
+    src = unit_tile(punit);
+    phome_city = game_city_by_number(punit->homecity);
+    if (phome_city != NULL) {
+      src_home_city = city_tile(phome_city);
+    }
+    dest = punit->goto_tile;
+
+    if (src == NULL || dest == NULL) {
+      return FALSE;
+    }
+    /* if we're not at home continent */
+    if (src != src_home_city) {
+      return FALSE;
+    }
+
+    required_boat = (tile_continent(src) == 
+                     tile_continent(dest)) ? FALSE : TRUE;
+    if (utype_move_type(unit_type(punit)) != UMT_LAND) {
+      /* Can travel on ocean itself */
+      required_boat = FALSE;
+    }
+
+    if (required_boat) {
+      if (unit_transported(punit)) {
+        /* if we're being transported */
+        return FALSE;
+      }
+      if ((punit->server.birth_turn + 15 < game.info.turn)) {
+        /* we are tired of waiting */
+        int ferrys = aiferry_avail_boats(ait, punit->owner);
+
+        if (ferrys <= 0) {
+          /* there are no ferrys available... give up */
+          return TRUE;
+        } else {
+          if (punit->server.birth_turn + 20 < game.info.turn) {
+            /* we are feed up! */
+            return TRUE;
+          }
+        }
+      }
+    }
+  }
+
+  return FALSE;
+}
+
+/*****************************************************************************
+  Check if a caravan can make a trade route to a city on a different
+  continent.
+*****************************************************************************/
+static bool dai_caravan_can_trade_cities_diff_cont(struct player *pplayer,
+                                                   struct unit *punit) {
+  struct city *pcity = game_city_by_number(punit->homecity);
+  Continent_id continent = tile_continent(pcity->tile);
+
+  /* Look for proper destination city at different continent. */
+  city_list_iterate(pplayer->cities, acity) {
+    if (can_cities_trade(pcity, acity)) {
+      if (tile_continent(acity->tile) != continent) {
+        return TRUE;
+      }
+    }
+  } city_list_iterate_end;
+
+  players_iterate(aplayer) {
+    if (aplayer == pplayer || !aplayer->is_alive) {
+      continue;
+    }
+    if (pplayers_allied(pplayer, aplayer)) {      
+      city_list_iterate(aplayer->cities, acity) {
+        if (can_cities_trade(pcity, acity)) {
+          if (tile_continent(acity->tile) != continent) {
+            return TRUE;
+          }
+        }
+      } city_list_iterate_end;
+    } players_iterate_end;
+  }
+
+  return FALSE;
+}
+
 /*************************************************************************
   Use caravans for building wonders, or send caravans to establish
-  trade with a city on the same continent, owned by yourself or an
-  ally.
+  trade with a city, owned by yourself or an ally.
 
-  TODO list
-  - use ferries.
+  We use ferries for trade across the sea.
 **************************************************************************/
 static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
                                struct unit *punit)
 {
   struct caravan_parameter parameter;
   struct caravan_result result;
+  const struct city *src = NULL;
+  const struct city *dest = NULL;
+  struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
+  bool help_wonder = FALSE;
+  bool required_boat = FALSE;
+  bool request_boat = FALSE;
+  bool tired_of_waiting_boat = FALSE;
 
   CHECK_UNIT(punit);
 
-  if (def_ai_unit_data(punit, ait)->task != AIUNIT_NONE) {
+  if (!unit_has_type_flag(punit, UTYF_TRADE_ROUTE) &&
+      !unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
+    /* we only want units that can establish trade or help build wonders */
     return;
   }
 
-  if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)
-      || unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
+  log_base(LOG_CARAVAN2, "%s %s[%d](%d,%d) task %s to (%d,%d)",
+           nation_rule_name(nation_of_unit(punit)),
+           unit_rule_name(punit), punit->id, TILE_XY(unit_tile(punit)),
+           dai_unit_task_rule_name(unit_data->task), 
+           TILE_XY(punit->goto_tile));
+
+  if ((unit_data->task == AIUNIT_TRADE || 
+       unit_data->task == AIUNIT_WONDER)) {
+    /* we are moving to our destination */
+    /* we check to see if our current goal is feasible */
+    struct city *city_orig = game_city_by_number(punit->homecity);
+    struct city *city_dest = tile_city(punit->goto_tile);
+    if ((city_dest == NULL) || 
+         !pplayers_allied(city_orig->owner, city_dest->owner) || 
+       (unit_data->task == AIUNIT_TRADE && 
+         !(can_cities_trade(city_orig, city_dest) && 
+           can_establish_trade_route(city_orig, city_dest))) ||
+        (unit_data->task == AIUNIT_WONDER && 
+         !is_wonder(city_dest->production.value.building))) {
+      /* destination invalid! */
+      dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
+      log_base(LOG_CARAVAN2, "%s %s[%d](%d,%d) destination invalid!",
+               nation_rule_name(nation_of_unit(punit)),
+               unit_rule_name(punit), punit->id, TILE_XY(unit_tile(punit)));
+    } else {
+      /* destination valid, are we tired of waiting for a boat? */
+      if (dai_is_unit_tired_waiting_boat(ait, punit)) {
+        aiferry_clear_boat(ait, punit);
+        dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
+        log_base(LOG_CARAVAN2, "%s %s[%d](%d,%d) unit tired of waiting!",
+                 nation_rule_name(nation_of_unit(punit)),
+                 unit_rule_name(punit), punit->id, TILE_XY(unit_tile(punit)));
+        tired_of_waiting_boat = TRUE;
+      } else {
+        src = city_orig;
+        dest = city_dest;
+        help_wonder = (unit_data->task == AIUNIT_WONDER) ? TRUE : FALSE;
+        required_boat = (tile_continent(src->tile) == 
+                         tile_continent(dest->tile)) ? FALSE : TRUE;
+        request_boat = FALSE;
+      }
+    }
+  }
+
+  if (unit_data->task == AIUNIT_NONE) {
     caravan_parameter_init_from_unit(&parameter, punit);
+    parameter.allow_foreign_trade = TRUE;
+
     if (log_do_output_for_level(LOG_CARAVAN2)) {
       parameter.callback = caravan_optimize_callback;
       parameter.callback_data = punit;
     }
+    if (dai_caravan_can_trade_cities_diff_cont(pplayer, punit)) {
+      parameter.ignore_transit_time = TRUE;
+    }
+    if (tired_of_waiting_boat) {
+      parameter.allow_foreign_trade = FALSE;
+      parameter.ignore_transit_time = FALSE;
+    }
     caravan_find_best_destination(punit, &parameter, &result);
+    if (result.dest != NULL) {
+      /* we did find a new destination for the unit */
+      src = result.src;
+      dest = result.dest;
+      help_wonder = result.help_wonder;
+      required_boat = (tile_continent(src->tile) ==
+                       tile_continent(dest->tile)) ? FALSE : TRUE;
+      request_boat = required_boat;
+      dai_unit_new_task(ait, punit,
+                        (help_wonder) ? AIUNIT_WONDER : AIUNIT_TRADE,
+                        dest->tile);
+    } else {
+      dest = NULL;
+    }
   }
 
-  if (result.dest != NULL) {
-    dai_caravan_goto(ait, pplayer, punit, result.dest, result.help_wonder);
+  if (dest != NULL) {
+    dai_caravan_goto(ait, pplayer, punit, dest, help_wonder, 
+                     required_boat, request_boat);
     return; /* that may have clobbered the unit */
-  }
-  else {
-    /*
-     * We have nowhere to go!
-     * Should we become a defensive unit?
-     */
+  } else {
+    /* We have nowhere to go! */
+     log_base(LOG_CARAVAN2, "%s %s[%d](%d,%d), nothing to do!",
+              nation_rule_name(nation_of_unit(punit)),
+              unit_rule_name(punit), punit->id,
+              TILE_XY(unit_tile(punit)));
+     /* Should we become a defensive unit? */
   }
 }
 

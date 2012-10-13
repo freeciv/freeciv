@@ -27,7 +27,7 @@
  * don't have anything better to set it to.
  * The optimization does not take into account other caravans in transit.
  * It also knows nothing about moving caravans except what pathfinding will
- * tell it -- ferries, for instance, aren't handled.  Set ignore_transit_time
+ * tell it -- ferries, for instance, aren't handled here. Set ignore_transit_time
  * to work around this.
  */
 
@@ -42,6 +42,7 @@ struct caravan_result {
 
   double value;
   bool help_wonder;
+  bool required_boat;
 };
 
 struct caravan_parameter {
@@ -80,7 +81,7 @@ struct caravan_parameter {
 
     /*
      * Allow trading with allies and peaceful neighbours.
-     * BUG: currently we consider enemies too.
+     * BUG: currently we only consider allies.
      */
     bool allow_foreign_trade;
 

@@ -154,10 +154,10 @@ static void dai_choose_help_wonder(struct ai_type *ait,
 }
 
 /***************************************************************************
- * Evaluate the need for units (like caravans) that create trade routes.
- * If pplayer is not advanced enough to build caravans, the corresponding
- * tech will be stimulated.
- ***************************************************************************/
+  Evaluate the need for units (like caravans) that create trade routes.
+  If pplayer is not advanced enough to build caravans, the corresponding
+  tech will be stimulated.
+****************************************************************************/
 static void dai_choose_trade_route(struct city *pcity,
                                    struct adv_choice *choice,
                                    struct adv_data *ai)
@@ -170,7 +170,14 @@ static void dai_choose_trade_route(struct city *pcity,
   int max_routes;
   Continent_id continent = tile_continent(pcity->tile);
   bool dest_city_found = FALSE;
+  bool dest_city_nat_different_cont = FALSE;
+  bool dest_city_nat_same_cont = FALSE;
+  bool dest_city_in_different_cont = FALSE;
+  bool dest_city_in_same_cont = FALSE;
+  bool prefer_different_cont;
+  int pct = 0;
   int trader_trait;
+  bool need_boat = FALSE;
 
   if (city_list_size(pplayer->cities) < 5) {
     /* Consider trade routes only if enough destination cities.
@@ -183,16 +190,77 @@ static void dai_choose_trade_route(struct city *pcity,
     return;
   }
 
-  /* Look for proper destination city at the same continent. */
-  city_list_iterate(pplayer->cities, acity) {
-    if (can_cities_trade(pcity, acity) && tile_continent(acity->tile) == continent) {
-      dest_city_found = TRUE;
-      break;
-    }
-  } city_list_iterate_end;
+  if (trade_route_type_trade_pct(TRT_NATIONAL_IC) >
+      trade_route_type_trade_pct(TRT_NATIONAL)) {
+    prefer_different_cont = TRUE;
+  } else {
+    prefer_different_cont = FALSE;
+  }
 
-  if(!dest_city_found) {
-    /* No proper destination city at the same continent. */
+  /* Look for proper destination city for trade. */
+  if (trade_route_type_trade_pct(TRT_NATIONAL) > 0
+      || trade_route_type_trade_pct(TRT_NATIONAL_IC) > 0) {
+    /* National traderoutes have value */
+    city_list_iterate(pplayer->cities, acity) {
+      if (can_cities_trade(pcity, acity)) {
+        dest_city_found = TRUE;
+        if (tile_continent(acity->tile) != continent) {
+          dest_city_nat_different_cont = TRUE;
+          if (prefer_different_cont) {
+            break;
+          }
+        } else {
+          dest_city_nat_same_cont = TRUE;
+          if (!prefer_different_cont) {
+            break;
+          }
+        }
+      }
+    } city_list_iterate_end;
+  }
+
+  /* FIXME: This check should consider more about relative
+   * income from different traderoute types. This works just
+   * with more typical ruleset setups. */
+  if (prefer_different_cont && !dest_city_nat_different_cont) {
+    if (trade_route_type_trade_pct(TRT_IN_IC) >
+        trade_route_type_trade_pct(TRT_IN)) {
+      prefer_different_cont = TRUE;
+    } else {
+      prefer_different_cont = FALSE;
+    }
+
+    players_iterate(aplayer) {
+      if (aplayer == pplayer || !aplayer->is_alive) {
+	continue;
+      }
+      if (pplayers_allied(pplayer, aplayer)) {
+        city_list_iterate(aplayer->cities, acity) {
+          if (can_cities_trade(pcity, acity)) {
+            dest_city_found = TRUE;
+            if (tile_continent(acity->tile) != continent) {
+              dest_city_in_different_cont = TRUE;
+              if (prefer_different_cont) {
+                break;
+              }
+            } else {
+              dest_city_in_same_cont = TRUE;
+              if (!prefer_different_cont) {
+                break;
+              }
+            }
+          }
+        } city_list_iterate_end;
+      }
+      if ((dest_city_in_different_cont && prefer_different_cont)
+          || (dest_city_in_same_cont && !prefer_different_cont)) {
+        break;
+      }
+    } players_iterate_end;
+  }
+
+  if (!dest_city_found) {
+    /* No proper destination city. */
     return;
   }
 
@@ -223,6 +291,33 @@ static void dai_choose_trade_route(struct city *pcity,
   income = (10 + 10) * (1.75 * pcity->surplus[O_TRADE]) / 24 * 3;
   bonus = get_city_bonus(pcity, EFT_TRADE_REVENUE_BONUS);
   income = (float)income * pow(2.0, (double)bonus / 1000.0);
+
+  if (dest_city_nat_same_cont) {
+    pct = trade_route_type_trade_pct(TRT_NATIONAL);
+  }
+  if (dest_city_in_same_cont) {
+    int typepct = trade_route_type_trade_pct(TRT_IN);
+
+    pct = MAX(pct, typepct);
+  }
+  if (dest_city_nat_different_cont) {
+    int typepct = trade_route_type_trade_pct(TRT_NATIONAL_IC);
+
+    if (typepct > pct) {
+      pct = typepct;
+      need_boat = TRUE;
+    }
+  }
+  if (dest_city_in_different_cont) {
+    int typepct = trade_route_type_trade_pct(TRT_IN_IC);
+
+    if (typepct > pct) {
+      pct = typepct;
+      need_boat = TRUE;
+    }
+  }
+
+  income = pct * income / 100;
 
   want = income * ai->gold_priority + income * ai->science_priority;
 
@@ -256,7 +351,8 @@ static void dai_choose_trade_route(struct city *pcity,
 
   CITY_LOG(LOG_DEBUG, pcity,
            "want for trade route unit is %d (expected initial income %d)",
-           want, income);
+           want,
+           income);
 
   if (want > choice->want) {
     /* This sets our tech want in cases where we cannot actually build
@@ -266,6 +362,7 @@ static void dai_choose_trade_route(struct city *pcity,
       choice->want = want;
       choice->type = CT_CIVILIAN;
       choice->value.utype = unit_type;
+      choice->need_boat = need_boat;
     } else {
       CITY_LOG(LOG_DEBUG, pcity,
                "would but could not build trade route unit, bumped reqs");

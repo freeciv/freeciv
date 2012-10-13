@@ -25,7 +25,8 @@ struct section_file;
 
 enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_SETTLER, AIUNIT_BUILD_CITY,
                     AIUNIT_DEFEND_HOME, AIUNIT_ATTACK, AIUNIT_ESCORT, 
-                    AIUNIT_EXPLORE, AIUNIT_RECOVER, AIUNIT_HUNTER };
+                    AIUNIT_EXPLORE, AIUNIT_RECOVER, AIUNIT_HUNTER,
+                    AIUNIT_TRADE, AIUNIT_WONDER };
 
 struct unit_ai {
   /* The following are unit ids or special indicator values (<=0) */

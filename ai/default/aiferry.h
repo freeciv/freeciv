@@ -31,6 +31,11 @@ void aiferry_init_stats(struct ai_type *ait, struct player *pplayer);
 int aiferry_find_boat(struct ai_type *ait, struct unit *punit,
                       int cap, struct pf_path **path);
 
+/*
+ * How many boats are available 
+ */
+int aiferry_avail_boats(struct ai_type *ait, struct player *pplayer);
+
 /* 
  * Initializes aiferry stats for a new unit
  */

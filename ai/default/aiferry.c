@@ -224,8 +224,13 @@ static void aiferry_request_boat(struct ai_type *ait, struct unit *punit)
   struct ai_plr *ai = dai_plr_data_get(ait, unit_owner(punit));
   struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
 
-  /* First clear the previous assignments (just in case). */
-  aiferry_clear_boat(ait, punit);
+  /* First clear the previous assignments (just in case there are). 
+   * Substract virtual units or already counted */
+  if ((punit->id == 0) || 
+      ((ai->stats.passengers > 0) && 
+       (unit_data->ferryboat == FERRY_WANTED))) {
+    aiferry_clear_boat(ait, punit);
+  }
 
   /* Now add ourselves to the list of potential passengers */
   ai->stats.passengers++;
@@ -278,7 +283,7 @@ static void aiferry_make_available(struct ai_type *ait, struct unit *pferry)
   Returns the number of available boats.  A simple accessor made to perform 
   debug checks.
 **************************************************************************/
-static int aiferry_avail_boats(struct ai_type *ait, struct player *pplayer)
+int aiferry_avail_boats(struct ai_type *ait, struct player *pplayer)
 {
   struct ai_plr *ai = dai_plr_data_get(ait, pplayer);
 
@@ -313,7 +318,6 @@ static int aiferry_avail_boats(struct ai_type *ait, struct player *pplayer)
 
   return ai->stats.available_boats;
 }
-
 
 /* ================== functions to find a boat ========================= */
 

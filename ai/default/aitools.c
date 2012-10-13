@@ -92,6 +92,10 @@ const char *dai_unit_task_rule_name(const enum ai_unit_task task)
      return "Recover";
    case AIUNIT_HUNTER:
      return "Hunter";
+   case AIUNIT_TRADE:
+     return "Trade";
+   case AIUNIT_WONDER:
+     return "Wonder";
   }
   /* no default, ensure all types handled somehow */
   log_error("Unsupported ai_unit_task %d.", task);
