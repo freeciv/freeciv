@@ -76,7 +76,7 @@ static void cma_active_callback(GtkWidget *w, gpointer data);
 static void cma_activate_preset_callback(GtkTreeView *view, GtkTreePath *path,
 				         GtkTreeViewColumn *col, gpointer data);
 
-static void hscale_changed(GtkAdjustment *get, gpointer data);
+static void hscale_changed(GtkWidget *get, gpointer data);
 static void set_hscales(const struct cm_parameter *const parameter,
 			struct cma_dialog *pdialog);
 
@@ -324,27 +324,29 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
     gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i + 1, i + 2);
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 
-    pdialog->minimal_surplus[i] =
-	GTK_ADJUSTMENT(gtk_adjustment_new(-20, -20, 20, 1, 1, 0));
+    pdialog->minimal_surplus[i] = hscale =
+        gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
+    gtk_range_set_range(GTK_RANGE(hscale), -20, 20);
+    gtk_range_set_increments(GTK_RANGE(hscale), 1, 1);
 
-    hscale = gtk_hscale_new(GTK_ADJUSTMENT(pdialog->minimal_surplus[i]));
     gtk_table_attach_defaults(GTK_TABLE(table), hscale, 1, 2, i + 1, i + 2);
     gtk_scale_set_digits(GTK_SCALE(hscale), 0);
     gtk_scale_set_value_pos(GTK_SCALE(hscale), GTK_POS_LEFT);
 
     g_signal_connect(pdialog->minimal_surplus[i],
-		     "value_changed",
+		     "value-changed",
 		     G_CALLBACK(hscale_changed), pdialog);
 
-    pdialog->factor[i] =
-	GTK_ADJUSTMENT(gtk_adjustment_new(1, 0, 25, 1, 1, 0));
+    pdialog->factor[i] = hscale =
+        gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
+    gtk_range_set_range(GTK_RANGE(hscale), 0, 25);
+    gtk_range_set_increments(GTK_RANGE(hscale), 1, 1);
 
-    hscale = gtk_hscale_new(GTK_ADJUSTMENT(pdialog->factor[i]));
     gtk_table_attach_defaults(GTK_TABLE(table), hscale, 2, 3, i + 1, i + 2);
     gtk_scale_set_digits(GTK_SCALE(hscale), 0);
     gtk_scale_set_value_pos(GTK_SCALE(hscale), GTK_POS_LEFT);
 
-    g_signal_connect(pdialog->factor[i], "value_changed",
+    g_signal_connect(pdialog->factor[i], "value-changed",
 		     G_CALLBACK(hscale_changed), pdialog);
   } output_type_iterate_end;
 
@@ -368,17 +370,18 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   g_signal_connect(pdialog->happy_button, "toggled",
 		   G_CALLBACK(hscale_changed), pdialog);
 
-  pdialog->factor[O_LAST] =
-      GTK_ADJUSTMENT(gtk_adjustment_new(0, 0, 50, 1, 1, 0));
+  pdialog->factor[O_LAST] = hscale =
+      gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
+  gtk_range_set_range(GTK_RANGE(hscale), 0, 50);
+  gtk_range_set_increments(GTK_RANGE(hscale), 1, 1);
 
-  hscale = gtk_hscale_new(GTK_ADJUSTMENT(pdialog->factor[O_LAST]));
   gtk_table_attach_defaults(GTK_TABLE(table), hscale, 2, 3,
 			    O_LAST + 1, O_LAST + 2);
   gtk_scale_set_digits(GTK_SCALE(hscale), 0);
   gtk_scale_set_value_pos(GTK_SCALE(hscale), GTK_POS_LEFT);
 
   g_signal_connect(pdialog->factor[O_LAST],
-		   "value_changed",
+		   "value-changed",
 		   G_CALLBACK(hscale_changed), pdialog);
 
   /* buttons */
@@ -682,21 +685,21 @@ static void set_hscales(const struct cm_parameter *const parameter,
 {
   allow_refreshes = 0;
   output_type_iterate(i) {
-    gtk_adjustment_set_value(pdialog->minimal_surplus[i],
-			     parameter->minimal_surplus[i]);
-    gtk_adjustment_set_value(pdialog->factor[i], parameter->factor[i]);
+    gtk_range_set_value(GTK_RANGE(pdialog->minimal_surplus[i]),
+                        parameter->minimal_surplus[i]);
+    gtk_range_set_value(GTK_RANGE(pdialog->factor[i]), parameter->factor[i]);
   } output_type_iterate_end;
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pdialog->happy_button),
 			       parameter->require_happy);
-  gtk_adjustment_set_value(pdialog->factor[O_LAST],
-			   parameter->happy_factor);
+  gtk_range_set_value(GTK_RANGE(pdialog->factor[O_LAST]),
+                      parameter->happy_factor);
   allow_refreshes = 1;
 }
 
 /************************************************************************
  callback if we moved the sliders.
 *************************************************************************/
-static void hscale_changed(GtkAdjustment *get, gpointer data)
+static void hscale_changed(GtkWidget *get, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
   struct cm_parameter param;
@@ -707,12 +710,15 @@ static void hscale_changed(GtkAdjustment *get, gpointer data)
 
   cmafec_get_fe_parameter(pdialog->pcity, &param);
   output_type_iterate(i) {
-    param.minimal_surplus[i] = (int) (gtk_adjustment_get_value(pdialog->minimal_surplus[i]));
-    param.factor[i] = (int) (gtk_adjustment_get_value(pdialog->factor[i]));
+    param.minimal_surplus[i] =
+        (int) (gtk_range_get_value(GTK_RANGE(pdialog->minimal_surplus[i])));
+    param.factor[i] =
+        (int) (gtk_range_get_value(GTK_RANGE(pdialog->factor[i])));
   } output_type_iterate_end;
   param.require_happy =
       (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pdialog->happy_button)) ? 1 : 0);
-  param.happy_factor = (int) (gtk_adjustment_get_value(pdialog->factor[O_LAST]));
+  param.happy_factor =
+      (int) (gtk_range_get_value(GTK_RANGE(pdialog->factor[O_LAST])));
 
   /* save the change */
   cmafec_set_fe_parameter(pdialog->pcity, &param);

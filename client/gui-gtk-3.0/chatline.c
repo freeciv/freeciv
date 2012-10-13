@@ -549,7 +549,7 @@ void scroll_if_necessary(GtkTextView *textview, GtkTextMark *scroll_target)
   fc_assert_ret(GTK_IS_SCROLLED_WINDOW(sw));
 
   vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sw));
-  val = gtk_adjustment_get_value(GTK_ADJUSTMENT(vadj));
+  val = gtk_adjustment_get_value(vadj);
   g_object_get(G_OBJECT(vadj), "upper", &upper,
                "page-size", &page_size, NULL);
   max = upper - page_size;
@@ -971,7 +971,7 @@ bool chatline_is_scrolled_to_bottom(void)
 
   sw = gtk_widget_get_parent(w);
   vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sw));
-  val = gtk_adjustment_get_value(GTK_ADJUSTMENT(vadj));
+  val = gtk_adjustment_get_value(vadj);
   g_object_get(G_OBJECT(vadj), "upper", &upper,
                "page-size", &page_size, NULL);
   max = upper - page_size;
