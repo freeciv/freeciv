@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-24 08:34+0200\n"
-"PO-Revision-Date: 2012-09-24 09:14+0200\n"
+"POT-Creation-Date: 2012-10-14 16:40+0200\n"
+"PO-Revision-Date: 2012-10-14 18:41+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -720,22 +720,22 @@ msgid "?diplomatic_state:Team"
 msgstr "Equip"
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:518 common/requirements.c:533
+#: common/requirements.c:515 common/requirements.c:530
 msgid "World-ranged requirements are only supported for wonders."
 msgstr "Requeriments a nivell mundial només se suporten per meravelles."
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:549
+#: common/requirements.c:546
 msgid "Player-ranged requirements are only supported for wonders."
 msgstr "Requeriments a nivell de jugador només se suporten per meravelles."
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:571
+#: common/requirements.c:568
 msgid "Island-ranged requirements are only supported for wonders."
 msgstr "Requeriments a nivell d'illa només se suporten per meravelles"
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:621
+#: common/requirements.c:618
 msgid "Surviving requirements are only supported at world range."
 msgstr "Requeriments de supervivència només se suporten a nivell mundial."
 
@@ -745,7 +745,7 @@ msgstr "Requeriments de supervivència només se suporten a nivell mundial."
 #. TRANS: missing value
 #. TRANS: "Resources: (none)".
 #. TRANS: "Conflicts with: (none)" (bases)
-#: common/requirements.c:1229 common/requirements.c:1283
+#: common/requirements.c:1226 common/requirements.c:1280
 #: client/gui-gtk-2.0/helpdlg.c:1098 client/gui-gtk-2.0/helpdlg.c:1192
 #: client/gui-gtk-2.0/inteldlg.c:407 client/gui-xaw/helpdlg.c:1005
 #: client/gui-xaw/helpdlg.c:1090
@@ -753,51 +753,51 @@ msgstr "Requeriments de supervivència només se suporten a nivell mundial."
 msgid "(none)"
 msgstr "(cap)"
 
-#: common/requirements.c:1255 common/requirements.c:1332
+#: common/requirements.c:1252 common/requirements.c:1329
 #, c-format
 msgid "Size %d"
 msgstr "Mida %d"
 
-#: common/requirements.c:1310 common/requirements.c:1319
+#: common/requirements.c:1307 common/requirements.c:1316
 #, c-format
 msgid "\"%s\" units"
 msgstr "\"%s\" unitats"
 
-#: common/requirements.c:1315
+#: common/requirements.c:1312
 #, c-format
 msgid "%s units"
 msgstr "%s unitats"
 
 #. TRANS: "Hard AI"
-#: common/requirements.c:1337
+#: common/requirements.c:1334
 #, c-format
 msgid "%s AI"
 msgstr "IA %s"
 
 #. TRANS: "Land terrain"
-#: common/requirements.c:1342
+#: common/requirements.c:1339
 #, c-format
 msgid "%s terrain"
 msgstr "Terreny %s"
 
 #. TRANS: "Fortress base"
-#: common/requirements.c:1347
+#: common/requirements.c:1344
 #, c-format
 msgid "%s base"
 msgstr "Base %s"
 
-#: common/requirements.c:1351
+#: common/requirements.c:1348
 #, c-format
 msgid "After %s"
 msgstr "A partir de %s"
 
 #. TRANS: "Irrigation possible"
-#: common/requirements.c:1356
+#: common/requirements.c:1353
 #, c-format
 msgid "%s possible"
 msgstr "%s factible"
 
-#: common/requirements.c:1360
+#: common/requirements.c:1357
 msgid "City center tile"
 msgstr "Casella del centre de la ciutat"
 
@@ -3843,7 +3843,7 @@ msgstr "%s s'ha refusat. Nom de login duplicat [%s]."
 msgid "Lost connection: %s."
 msgstr "Connexió perduda: %s."
 
-#: server/connecthand.c:678
+#: server/connecthand.c:679
 #, c-format
 msgid "Detaching from %s."
 msgstr "S'està desassociant de %s."
@@ -4652,11 +4652,11 @@ msgstr "Cap unitat situada per %s!"
 msgid "Year: %s"
 msgstr "Any: %s"
 
-#: server/gamehand.c:539
+#: server/gamehand.c:541
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
 msgstr "El temps màxim per torn ha superat el valor màxim, el fixo al màxim."
 
-#: server/gamehand.c:547
+#: server/gamehand.c:549
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "El temps màxim per torn no pot ser negatiu, el poso a zero."
 
@@ -7950,7 +7950,7 @@ msgstr "La partida s'ha acabat amb victòria de %s."
 
 #: server/srv_main.c:450
 msgid "Game ended in a draw as the turn limit was exceeded."
-msgstr "La partida s'ha acabat en empat perque s'ha passat el límit de torns."
+msgstr "La partida s'ha acabat en empat perquè s'ha passat el límit de torns."
 
 #: server/srv_main.c:461
 #, c-format
@@ -9548,7 +9548,7 @@ msgstr "Producció de ciència massa baixa. Hem perdut Tecnologia del Futur %d."
 msgid "Insufficient science output. We lost %s."
 msgstr "Producció de ciència insuficient. Hem perdut %s."
 
-#: server/techtools.c:572
+#: server/techtools.c:579
 #, c-format
 msgid ""
 "The required technology for our government '%s' was lost. The citizens have "
@@ -9557,7 +9557,7 @@ msgstr ""
 "La tecnologia requerida per al nostre govern '%s' s'ha perdut. Els ciutadans "
 "han començat una revolució per obtenir '%s'."
 
-#: server/techtools.c:595
+#: server/techtools.c:602
 #, c-format
 msgid ""
 "The required technology for our new government '%s' was lost. The citizens "
@@ -9566,32 +9566,32 @@ msgstr ""
 "La tecnologia requerida per al nostre nou govern '%s' s'ha perdut. Els "
 "ciutadans trien '%s' com a nou objectiu de govern."
 
-#: server/techtools.c:633 server/techtools.c:645
+#: server/techtools.c:640 server/techtools.c:652
 #, c-format
 msgid "%s can't build %s. The required technology was lost."
 msgstr "%s no pot construir %s. La tecnologia requerida s'ha perdut."
 
-#: server/techtools.c:762
+#: server/techtools.c:769
 #, c-format
 msgid "Technology goal is %s."
 msgstr "L'objectiu tecnològic és %s."
 
-#: server/techtools.c:945
+#: server/techtools.c:952
 #, c-format
 msgid "You steal %s from the %s."
 msgstr "Robes %s dels %s."
 
-#: server/techtools.c:950
+#: server/techtools.c:957
 #, c-format
 msgid "The %s stole %s from you!"
 msgstr "Els %s et roben %s!"
 
-#: server/techtools.c:955
+#: server/techtools.c:962
 #, c-format
 msgid "The %s have stolen %s from the %s."
 msgstr "Els %s han robat %s dels %s."
 
-#: server/techtools.c:1075
+#: server/techtools.c:1082
 #, c-format
 msgid "Too bad! You made a mistake transferring the tech %s and lost it."
 msgstr ""
@@ -13841,11 +13841,11 @@ msgstr "Inici del torn %d"
 msgid "Welcome"
 msgstr "Benvingut"
 
-#: client/packhand.c:1874
+#: client/packhand.c:1877
 msgid "AI mode is now ON."
 msgstr "El mode IA està actiu ara."
 
-#: client/packhand.c:1876
+#: client/packhand.c:1879
 msgid "AI mode is now OFF."
 msgstr "El mode IA està apagat ara."
 
@@ -23328,7 +23328,7 @@ msgstr ""
 
 #: data/helpdata.txt:1250
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
-msgstr "La força base de l'atacant és 12, que puja a 18 perque és veterà."
+msgstr "La força base de l'atacant és 12, que puja a 18 perquè és veterà."
 
 #: data/helpdata.txt:1253
 msgid ""
@@ -29253,8 +29253,7 @@ msgid ""
 "level."
 msgstr ""
 "Els diplomàtics que es construeixin sota un govern comunista començaran amb "
-"el "
-"primer nivell de veterania."
+"el primer nivell de veterania."
 
 #: data/default/units.ruleset:1945 data/experimental/units.ruleset:1960
 #: data/multiplayer/units.ruleset:2044
@@ -40106,7 +40105,7 @@ msgstr ""
 "Teodosi, el 395, va quedar partit definitivament. A diferència del seu "
 "equivalent d'Orient, l'Imperi Bizantí, l'Imperi Romà d'Occident no va ser "
 "capaç de resistir les invasions bàrbares i la desintegració econòmica. "
-"L'últim emperador romà d'Occident va ser destituït el 476 d.C."
+"L'últim emperador romà d'Occident va ser deposat el 476 d.C."
 
 #: data/nation/westernroman.ruleset:29
 #, c-format
