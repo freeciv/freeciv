@@ -11,14 +11,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-11 21:56+0100\n"
-"PO-Revision-Date: 2012-08-03 01:35+0200\n"
+"POT-Creation-Date: 2012-10-14 16:42+0200\n"
+"PO-Revision-Date: 2012-10-14 19:03+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 "X-Generator: Lokalize 1.4\n"
 
@@ -35,8 +35,8 @@ msgstr "*%s (IA)* Primer trenca l'aliança amb %s, %s."
 #: ai/default/advdiplomacy.c:356
 #, c-format
 msgid ""
-"*%s (AI)* I would like to see you keep your distance from %s for some time, %"
-"s."
+"*%s (AI)* I would like to see you keep your distance from %s for some time, "
+"%s."
 msgstr ""
 "*%s (IA)* M'agradaria que mantinguessis les distàncies amb %s una estona, %s."
 
@@ -301,8 +301,8 @@ msgstr ""
 #: ai/default/advdiplomacy.c:1625
 #, c-format
 msgid ""
-"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
-"s. Why do I need to remind you of your promises?"
+"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
+"%s. Why do I need to remind you of your promises?"
 msgstr ""
 "*%s (IA)* Salutacions aliat, veig que encara no has declarat la guerra al "
 "nostre enemic %s. Com és que t'he de recordar les teves promeses?"
@@ -393,7 +393,7 @@ msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:431 client/gui-sdl/mapview.c:159
-#: server/console.c:71 server/srv_main.c:2526 utility/log.c:516
+#: server/console.c:71 server/srv_main.c:2539 utility/log.c:516
 #: utility/netintf.c:93 utility/registry.c:893
 #, c-format
 msgid "Please report this message at %s"
@@ -1406,8 +1406,8 @@ msgstr "error de lectura"
 #, c-format
 msgid "Failed to contact server \"%s\" at port %d as \"%s\" after %d attempts"
 msgstr ""
-"No s'ha pogut contactar el servidor \"%s\" port %d com a  \"%s\" després de %"
-"d intents"
+"No s'ha pogut contactar el servidor \"%s\" port %d com a  \"%s\" després de "
+"%d intents"
 
 #: client/clinet.c:529
 msgid "Connection to server refused. Please start the server."
@@ -3778,7 +3778,7 @@ msgstr "?techhelp:"
 #: client/gui-gtk-2.0/inteldlg.c:410 client/gui-gtk-3.0/helpdlg.c:1109
 #: client/gui-gtk-3.0/helpdlg.c:1203 client/gui-gtk-3.0/inteldlg.c:410
 #: client/gui-xaw/helpdlg.c:1007 client/gui-xaw/helpdlg.c:1092
-#: common/requirements.c:1325 common/requirements.c:1379
+#: common/requirements.c:1322 common/requirements.c:1376
 #, c-format
 msgid "(none)"
 msgstr "(cap)"
@@ -5835,14 +5835,14 @@ msgid "Disband"
 msgstr "Desmobilitzar"
 
 #: client/gui-sdl/dialogs.c:1110
-#, fuzzy, c-format
+#, c-format
 msgid "Contact %s (%d / %d) %s(%d,%d,%s) %s"
-msgstr "Contactar %s (%d / %d) %s(%d,%d,%d) %s"
+msgstr "Contactar %s (%d / %d) %s(%d,%d,%s) %s"
 
 #: client/gui-sdl/dialogs.c:1121
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s %s(A:%d D:%d M:%s FP:%d) HP:%d%%"
-msgstr "%s %s %s(A:%d D:%d M:%d PF:%d) V:%d%%"
+msgstr "%s %s %s(A:%d D:%d M:%s PF:%d) PV:%d%%"
 
 #. TRANS: "CtW" = "Chance to Win"
 #: client/gui-sdl/dialogs.c:1134 client/gui-sdl/dialogs.c:1889
@@ -5894,14 +5894,14 @@ msgid "Paradrop here"
 msgstr "Paracaigudistes aquí"
 
 #: client/gui-sdl/dialogs.c:1858 client/gui-sdl/dialogs.c:1975
-#, fuzzy, c-format
+#, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%s) %s"
-msgstr "Activar %s (%d / %d) %s (%d,%d,%d) %s"
+msgstr "Activar %s (%d / %d) %s (%d,%d,%s) %s"
 
 #: client/gui-sdl/dialogs.c:1876 client/gui-sdl/dialogs.c:2002
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s %s (A:%d D:%d M:%s FP:%d) HP:%d%%"
-msgstr "%s %s %s (A:%d D:%d M:%d PA:%d) PV:%d%% "
+msgstr "%s %s %s (A:%d D:%d M:%s PF:%d) PV:%d%% "
 
 #: client/gui-sdl/dialogs.c:1938 data/Freeciv.in:579
 msgid "Ready all"
@@ -6079,8 +6079,8 @@ msgstr "No s'ha pogut convertir la imatge des de l'arxiu %s al format %d."
 #, c-format
 msgid "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
 msgstr ""
-"No s'ha pogut crear l'Sprite (superfície) de mida %d x %d %d Bits en format %"
-"d"
+"No s'ha pogut crear l'Sprite (superfície) de mida %d x %d %d Bits en format "
+"%d"
 
 #: client/gui-sdl/graphics.c:564
 #, c-format
@@ -7066,34 +7066,34 @@ msgid "shields into gold"
 msgstr "escuts a or"
 
 #: client/gui-sdl/wldlg.c:1522
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%d/%d/%s)\n"
 "%d/%d %s\n"
 "never"
 msgstr ""
-"(%d/%d/%d)\n"
+"(%d/%d/%s)\n"
 "%d/%d %s\n"
 "mai"
 
 #: client/gui-sdl/wldlg.c:1530
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%d/%d/%s)\n"
 "%d/%d %s\n"
 "%d %s"
 msgstr ""
-"(%d/%d/%d)\n"
+"(%d/%d/%s)\n"
 "%d/%d %s\n"
 "%d %s"
 
 #: client/gui-sdl/wldlg.c:1540
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%d/%d/%s)\n"
 "%d %s"
 msgstr ""
-"(%d/%d/%d)\n"
+"(%d/%d/%s)\n"
 "%d %s"
 
 #: client/gui-xaw/citydlg.c:224
@@ -7589,12 +7589,12 @@ msgstr "Quin ha de ser el nom nou?"
 #. * TRANS: "Level name" left-justified, other two right-justified
 #: client/helpdata.c:165
 msgid "Veteran level      Power factor   Move bonus\n"
-msgstr ""
+msgstr "Nivell veterania   Factor de potència  Bonus de moviment\n"
 
 #. TRANS: Part of header for veteran level table.
 #: client/helpdata.c:168
 msgid "--------------------------------------------"
-msgstr ""
+msgstr "----------------------------------------------------------"
 
 #: client/helpdata.c:196
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
@@ -7640,10 +7640,11 @@ msgstr ""
 #: client/helpdata.c:308
 msgid "In this ruleset, the following veteran levels are defined:"
 msgstr ""
+"En aquest joc de regles, es defineixen els següents nivells de veterania:"
 
 #: client/helpdata.c:309
 msgid "This ruleset has no default veteran levels defined."
-msgstr ""
+msgstr "Aquest joc de regles no té definits nivells de veterania."
 
 #. TRANS: First %s is version string, e.g.,
 #. * "Freeciv version 2.3.0-beta1 (beta version)" (translated).
@@ -8120,7 +8121,7 @@ msgstr "* Mai no perdrà una lluita de diplomàtic contra diplomàtic.\n"
 
 #: client/helpdata.c:1572
 msgid "* Will always survive a spy mission.\n"
-msgstr ""
+msgstr "* Sempre sobreviurà una missió d'espionatge.\n"
 
 #: client/helpdata.c:1575
 msgid "* May not be bribed.\n"
@@ -8282,30 +8283,31 @@ msgid "* Will never achieve veteran status.\n"
 msgstr "* No aconseguirà mai veterania.\n"
 
 #: client/helpdata.c:1739
-#, fuzzy
 msgid "* May acquire veteran status.\n"
-msgstr "* No aconseguirà mai veterania.\n"
+msgstr "* Pot aconseguir veterania.\n"
 
 #: client/helpdata.c:1744
 msgid "  * Veterans have increased strength in combat.\n"
-msgstr ""
+msgstr " * Els veterans tenen més força en el combat.\n"
 
 #: client/helpdata.c:1751
 msgid "  * Veterans have improved chances in diplomatic contests.\n"
 msgstr ""
+" * Els veterans tenen millors possibilitats en lluites diplomàtiques.\n"
 
 #: client/helpdata.c:1755
 msgid "  * Veterans are more likely to survive missions.\n"
 msgstr ""
+" * Els veterans tenen una probabilitat superior de sobreviure a les "
+"missions.\n"
 
 #: client/helpdata.c:1761
-#, fuzzy
 msgid "  * Veterans work faster.\n"
-msgstr "* Unitats %s veteranes.\n"
+msgstr " * Els veterans treballen més ràpid.\n"
 
 #: client/helpdata.c:1772
 msgid "This type of unit has its own veteran levels:"
-msgstr ""
+msgstr "Aquest tipus d'unitat té nivells de veterania propis:"
 
 #: client/helpdata.c:1811
 #, c-format
@@ -10267,11 +10269,11 @@ msgstr "Inici del torn %d"
 msgid "Welcome"
 msgstr "Benvingut"
 
-#: client/packhand.c:1978
+#: client/packhand.c:1981
 msgid "AI mode is now ON."
 msgstr "El mode IA està actiu ara."
 
-#: client/packhand.c:1980
+#: client/packhand.c:1983
 msgid "AI mode is now OFF."
 msgstr "El mode IA està apagat ara."
 
@@ -10340,31 +10342,26 @@ msgstr "Desmobilitzada %d %s."
 msgid "No %s could be disbanded."
 msgstr "No s'ha pogut desmobilitzar cap %s."
 
-#. TRANS: Type is version tag name like "stable", "S2_4", "win32"
-#: client/servers.c:131
-#, c-format
-msgid "Latest %s release of freeciv is %s, this is %s."
-msgstr "L'última versió %s de freeciv és %s, aquesta és %s."
-
-#: client/servers.c:132
-msgid "?vertag:"
-msgstr ""
-
 #: client/servers.c:135
 #, c-format
-msgid "There is no newer %s release of freeciv available."
-msgstr "No hi ha disponible cap versió %s de freeciv més nova."
+msgid "Latest %s release of Freeciv is %s, this is %s."
+msgstr "L'última versió %s de Freeciv és la %s, aquesta és la %s."
 
-#: client/servers.c:369 utility/netfile.c:102
+#: client/servers.c:139
+#, c-format
+msgid "There is no newer %s release of Freeciv available."
+msgstr "No hi ha disponible cap versió %s de Freeciv més nova."
+
+#: client/servers.c:373 utility/netfile.c:102
 msgid "Could not open temp file."
 msgstr "No s'ha pogut obrir l'arxiu temporal."
 
-#: client/servers.c:393
+#: client/servers.c:397
 #, c-format
 msgid "Failed to read the metaserver data from http://%s."
 msgstr "No s'han pogut llegir les dades de metaservidor de http://%s."
 
-#: client/servers.c:416
+#: client/servers.c:420
 #, c-format
 msgid ""
 "Failed to parse the metaserver data from http://%s:\n"
@@ -10373,12 +10370,12 @@ msgstr ""
 "No s'han pogut processar les dades de metaservidor de http://%s:\n"
 "%s."
 
-#: client/servers.c:449
+#: client/servers.c:453
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
 msgstr ""
 "Valor de metaservidor o $http_proxy invàlids, ha de començar amb 'http://'"
 
-#: client/servers.c:465
+#: client/servers.c:469
 msgid "Failed looking up metaserver's host"
 msgstr "Fallada en buscar el host del metaservidor"
 
@@ -10548,9 +10545,9 @@ msgstr "Prob. guanyar: A:%d%% D:%d%%"
 #. TRANS: A is attack power, D is defense power, FP is firepower,
 #. * HP is hitpoints (current and max).
 #: client/text.c:371
-#, fuzzy, c-format
+#, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d"
-msgstr "A:%d D:%d PF:%d V:%d/%d (%s)"
+msgstr "A:%d D:%d PF:%d PV:%d/%d"
 
 #: client/text.c:385
 #, c-format
@@ -12109,9 +12106,8 @@ msgid "could not open file: %s"
 msgstr "no s'ha pogut obrir l'arxiu: %s"
 
 #: common/packets.c:392
-#, fuzzy
 msgid "illegal packet size"
-msgstr "Tipus de modpack il·legal"
+msgstr "Mida de paquet il·legal"
 
 #: common/packets.c:416 common/packets.c:461
 msgid "decoding error"
@@ -12202,72 +12198,72 @@ msgid "?diplomatic_state:Team"
 msgstr "Equip"
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:523 common/requirements.c:538
+#: common/requirements.c:520 common/requirements.c:535
 msgid "World-ranged requirements are only supported for wonders."
 msgstr "Requeriments a nivell mundial només se suporten per meravelles."
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:563 common/requirements.c:579
+#: common/requirements.c:560 common/requirements.c:576
 msgid "Player-ranged requirements are only supported for wonders."
 msgstr "Requeriments a nivell de jugador només se suporten per meravelles."
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:601
+#: common/requirements.c:598
 msgid "Island-ranged requirements are only supported for wonders."
 msgstr "Requeriments a nivell d'illa només se suporten per meravelles"
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:653
+#: common/requirements.c:650
 msgid "Surviving requirements are only supported at world and player ranges."
 msgstr ""
 "Els requeriments de supervivència només se suporten a nivell mundial i de "
 "jugador."
 
-#: common/requirements.c:1351 common/requirements.c:1428
+#: common/requirements.c:1348 common/requirements.c:1425
 #, c-format
 msgid "Size %d"
 msgstr "Mida %d"
 
-#: common/requirements.c:1406 common/requirements.c:1415
+#: common/requirements.c:1403 common/requirements.c:1412
 #, c-format
 msgid "\"%s\" units"
 msgstr "\"%s\" unitats"
 
-#: common/requirements.c:1411
+#: common/requirements.c:1408
 #, c-format
 msgid "%s units"
 msgstr "%s unitats"
 
 #. TRANS: "Hard AI"
-#: common/requirements.c:1433
+#: common/requirements.c:1430
 #, c-format
 msgid "%s AI"
 msgstr "IA %s"
 
 #. TRANS: "Land terrain"
-#: common/requirements.c:1438
+#: common/requirements.c:1435
 #, c-format
 msgid "%s terrain"
 msgstr "Terreny %s"
 
 #. TRANS: "Fortress base"
-#: common/requirements.c:1443
+#: common/requirements.c:1440
 #, c-format
 msgid "%s base"
 msgstr "Base %s"
 
-#: common/requirements.c:1447
+#: common/requirements.c:1444
 #, c-format
 msgid "After %s"
 msgstr "A partir de %s"
 
 #. TRANS: "Irrigation possible"
-#: common/requirements.c:1452
+#: common/requirements.c:1449
 #, c-format
 msgid "%s possible"
 msgstr "%s factible"
 
-#: common/requirements.c:1456
+#: common/requirements.c:1453
 msgid "City center tile"
 msgstr "Casella del centre de la ciutat"
 
@@ -16755,16 +16751,23 @@ msgid ""
 "civilized peoples of Europe and Asia Minor. The Celts colonized much of "
 "Europe and had a large influence on the development of European civilization."
 msgstr ""
+"Els celtes foren un complex etnolingüístic indoeuropeu de l'Europa "
+"Occidental, que probablement van tenir el seu origen a la zona entre el Rin "
+"superior i el Danubi superior, a partir de la cultura dels camps d'urnes i "
+"del grup occidental de la cultura de Hallstatt. Els celtes es coneixien com a "
+"guerrers cruels i salvatges que terroritzaven els antics pobles civilitzats "
+"d'Europa i l'Àsia Menor. Els celtes van colonitzar gran part d'Europa i van "
+"tenir una gran influència en el desenvolupament de la civilització europea."
 
 #: data/civ2/nations.ruleset:354 data/nation/celtic.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "Great Warrior %s"
-msgstr "Gran Faraó %s"
+msgstr "Gran Guerrer %s"
 
 #: data/civ2/nations.ruleset:354 data/nation/celtic.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Great Warrior %s"
-msgstr "Gran Faraona %s"
+msgstr "Gran Guerrera %s"
 
 #: data/civ2/nations.ruleset:355 data/nation/belgic.ruleset:31
 #: data/nation/cambodian.ruleset:25 data/nation/celtic.ruleset:38
@@ -17806,6 +17809,7 @@ msgstr ""
 #: data/civ2/units.ruleset:1907
 msgid "Spies built under a Communist government will be built as veteran."
 msgstr ""
+"Els Espies formats sota un govern Comunista es formaran com a veterans."
 
 #: data/civ2/units.ruleset:1951 data/default/units.ruleset:2027
 #: data/experimental/units.ruleset:2064 data/multiplayer/units.ruleset:2126
@@ -18226,9 +18230,8 @@ msgid "BCE"
 msgstr "a.C."
 
 #: data/default/nations.ruleset:25
-#, fuzzy
 msgid "?nationset:Core"
-msgstr "?nation:Neutrals"
+msgstr "?nationset:Nucli"
 
 #: data/default/nations.ruleset:30
 msgid "?nationgroup:Medieval"
@@ -18494,13 +18497,12 @@ msgstr "ambaixador"
 
 #: data/default/units.ruleset:1913 data/experimental/units.ruleset:1950
 #: data/multiplayer/units.ruleset:2012
-#, fuzzy
 msgid ""
 "Diplomats built under a Communist government will start at the first veteran "
 "level (secretary)."
 msgstr ""
-"Totes les noves unitats marítimes teves construïdes en ciutats del mateix "
-"continent comencen al primer nivell de veterania."
+"Els Diplomàtics formats sota un govern Comunista començaran al primer nivell "
+"de veterania (secretari)."
 
 #. TRANS: Spy veteran level
 #: data/default/units.ruleset:1946 data/experimental/units.ruleset:1983
@@ -18528,13 +18530,12 @@ msgstr "mestre espia"
 
 #: data/default/units.ruleset:1982 data/experimental/units.ruleset:2019
 #: data/multiplayer/units.ruleset:2081
-#, fuzzy
 msgid ""
 "Spies built under a Communist government will start at the first veteran "
 "level (handler)."
 msgstr ""
-"Totes les noves unitats marítimes teves construïdes en ciutats del mateix "
-"continent comencen al primer nivell de veterania."
+"Els Espies formats sota un govern Comunista començaran al primer nivell de "
+"veterania (responsable)."
 
 #: data/default/units.ruleset:2090 data/experimental/units.ruleset:2127
 #: data/multiplayer/units.ruleset:2190
@@ -21682,7 +21683,7 @@ msgstr ""
 
 #: data/helpdata.txt:1274
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
-msgstr "La força base de l'atacant és 12, que puja a 18 perque és veterà."
+msgstr "La força base de l'atacant és 12, que puja a 18 perquè és veterà."
 
 #: data/helpdata.txt:1277
 msgid ""
@@ -23347,9 +23348,8 @@ msgstr "Blau"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:268
-#, fuzzy
 msgid "?team name:Purple"
-msgstr "Atzur"
+msgstr "Porpra"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:270
@@ -23363,9 +23363,8 @@ msgstr "Magenta"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:274
-#, fuzzy
 msgid "?team name:Cornflower"
-msgstr "Groc"
+msgstr "Atzur clar"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:276
@@ -23374,9 +23373,8 @@ msgstr "Maragda"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:278
-#, fuzzy
 msgid "?team name:Salmon"
-msgstr "Cian"
+msgstr "Salmó"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:280
@@ -23385,9 +23383,8 @@ msgstr "Verd"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:282
-#, fuzzy
 msgid "?team name:Burgundy"
-msgstr "Blau"
+msgstr "Borgonya"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:284
@@ -23416,9 +23413,8 @@ msgstr "Atzur"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:294
-#, fuzzy
 msgid "?team name:Gold"
-msgstr "Vermell"
+msgstr "Daurat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:296
@@ -23427,63 +23423,53 @@ msgstr "Caqui"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:298
-#, fuzzy
 msgid "?team name:Butter"
-msgstr "Blau"
+msgstr "Mantega"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:300
-#, fuzzy
 msgid "?team name:Mint"
-msgstr "Rosa"
+msgstr "Menta"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:302
-#, fuzzy
 msgid "?team name:Lime"
-msgstr "Blanc"
+msgstr "Llima"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:304
-#, fuzzy
 msgid "?team name:Peach"
-msgstr "Vermell"
+msgstr "Préssec"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:306
-#, fuzzy
 msgid "?team name:Vermilion"
-msgstr "Groc"
+msgstr "Vermelló"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:308
-#, fuzzy
 msgid "?team name:Puce"
-msgstr "Quince"
+msgstr "Castany rogenc"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:310
-#, fuzzy
 msgid "?team name:Mustard"
-msgstr "Jade"
+msgstr "Mostassa"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:312
-#, fuzzy
 msgid "?team name:Aubergine"
-msgstr "Atzur"
+msgstr "Albergínia"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:314
-#, fuzzy
 msgid "?team name:Brown"
-msgstr "Verd"
+msgstr "Marró"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:316
-#, fuzzy
 msgid "?team name:Pumpkin"
-msgstr "Rosa"
+msgstr "Carbassa"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:318
@@ -23492,9 +23478,8 @@ msgstr "Turquesa"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:320
-#, fuzzy
 msgid "?team name:Crimson"
-msgstr "Rosa"
+msgstr "Carmí"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:322
@@ -23503,9 +23488,8 @@ msgstr "Lavanda"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:324
-#, fuzzy
 msgid "?team name:Cream"
-msgstr "Cian"
+msgstr "Crema"
 
 #: data/multiplayer/techs.ruleset:245
 msgid "Improves the effect of Amphitheaters."
@@ -27140,8 +27124,8 @@ msgid ""
 "coastline between Malibu and Paso Robles inland towards the San Joaquin "
 "valley, the Chumash lived in large permanent villages and maintained a semi-"
 "monetized economy. These villages came to be ruled by hereditary chiefs, who "
-"could be male or female. At time of contact, the population was likely 8-"
-"18,000 people, though perhaps as high as 22,000. The Spanish established "
+"could be male or female. At time of contact, the population was likely "
+"8-18,000 people, though perhaps as high as 22,000. The Spanish established "
 "five missions in Chumash land. As a result of disease and other byproducts "
 "of colonial rule, the population fell to less than 3,000 in 1831."
 msgstr ""
@@ -31268,7 +31252,6 @@ msgid "?plural:Majapahit"
 msgstr "?plural:Majapahit"
 
 #: data/nation/majapahit.ruleset:7
-#, fuzzy
 msgid ""
 "This empire began in 1293 CE when a local prince used invading Yuan dynasty "
 "troops to his own advantage by having them defeat his enemies and then "
@@ -31279,11 +31262,11 @@ msgid ""
 "1500 when they were eclipsed by the Sultanate of Malacca and the rise of "
 "Islam in the Indonesian world."
 msgstr ""
-"Aquest imperi va començar el 1293 d.C quan un príncep local va utilitzar les "
+"Aquest imperi va començar el 1293 EC quan un príncep local va utilitzar les "
 "tropes invasores de la dinastia Yuan en benefici propi fent que derrotessin "
 "els seus enemics, i foragitant-les després. Els Majapahit, amb centre a "
 "l'est de Java, van ser influïts fortament pel budisme i l'hinduisme i van "
-"ser una potència regional de primer ordre a la regió de les illes del sudest "
+"ser una potència regional de primer ordre a la regió de les illes del sud-est "
 "asiàtic, posició que els permetia de controlar bona part del comerç entre la "
 "Xina, l'Índia i l'Orient Mitjà. Va durar fins el 1500, quan van ser "
 "eclipsats pel sultanat de Malaca i l'ascens de l'Islam al món indonesi."
@@ -31434,17 +31417,16 @@ msgid "?plural:Maltese"
 msgstr "Maltesos"
 
 #: data/nation/maltese.ruleset:6
-#, fuzzy
 msgid ""
 "Malta was first settled around 5200 BCE. Over the centuries, the islands "
 "have been ruled by the Phoenicians, Romans, Fatimids, Sicilians, Knights "
 "Hospitaller, French, and British. Malta became independent in 1964 and "
 "joined the EU in 2004."
 msgstr ""
-"Malta va poblar-se per primera vegada al voltant de l'any 5.200 a.C. Al "
+"Malta va poblar-se per primera vegada al voltant de l'any 5.200 AEC. Al "
 "llarg dels segles, les illes han estat dominades pels fenicis, els romans, "
 "els fatimites, els sicilians, els Cavallers Hospitalaris, els francesos, i "
-"els britànics. Malta va obtenir la independència el 1964 i va afegir-se a la "
+"els britànics. Malta va obtenir la independència el 1964 i va ingressar a la "
 "Unió Europea el 2004."
 
 #: data/nation/maltese.ruleset:27 data/nation/templar.ruleset:40
@@ -31522,7 +31504,6 @@ msgid "?plural:Manx"
 msgstr "Manx"
 
 #: data/nation/manx.ruleset:6
-#, fuzzy
 msgid ""
 "The Isle of Man is an island in the British Isles located between Britain "
 "and Ireland. Formally not a part of United Kingdom, it is a self-governing "
@@ -31537,7 +31518,7 @@ msgstr ""
 "Corona Britànica amb autogovern. Durant l'Edat Mitjana fou el centre del "
 "Regne de Mann i les Illes, i després de la Senyoria de Man. Man destaca per "
 "tenir el parlament actiu més antic del món, el Tynwald, que existeix des de "
-"l'any 979 d.C. Des de 1765, l'illa depèn de la Gran Bretanya."
+"l'any 979 EC. Des de 1765, l'illa depèn de la Gran Bretanya."
 
 #: data/nation/manx.ruleset:35 data/nation/westindian.ruleset:23
 #: data/nation/zanzibari.ruleset:27
@@ -31628,9 +31609,8 @@ msgid "?plural:Martians"
 msgstr "Marcians"
 
 #: data/nation/martian.ruleset:6
-#, fuzzy
 msgid "Marsmen landed on Earth in 4000 BCE!"
-msgstr "Els marcians van arribar a la Terra l'any 4000 a.C.!"
+msgstr "Els marcians van arribar a la Terra l'any 4000 AEC!"
 
 #: data/nation/mauritanian.ruleset:3
 msgid "Mauritanian"
@@ -33220,13 +33200,12 @@ msgid "?plural:Palmyrenes"
 msgstr "Palmirens"
 
 #: data/nation/palmyrene.ruleset:6
-#, fuzzy
 msgid ""
 "Palmyra was a breakaway Roman state in Asia governed by queen Zenobia. In "
 "273 CE Aurelian brought it back under Roman control."
 msgstr ""
 "Palmira fou un estat asiàtic escindit de Roma i governat per la reina "
-"Zenòbia. El 273 d.C. Aurelià el va retornar al domini romà."
+"Zenòbia. El 273 EC, Aurelià el va retornar al domini romà."
 
 #: data/nation/panamanian.ruleset:3
 msgid "Panamanian"
@@ -33296,7 +33275,6 @@ msgid "?plural:Papuans"
 msgstr "Papús"
 
 #: data/nation/papuan.ruleset:6
-#, fuzzy
 msgid ""
 "The Papuans are the indigenous inhabitants of the island of New Guinea. They "
 "are the descendants of the people who first settled the island 40,000 years "
@@ -33434,13 +33412,12 @@ msgstr ""
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/persian.ruleset:7
-#, fuzzy
 msgid ""
 "The first Persian (Achaemenid) Empire lasted from 550 BCE to 330 BCE; the "
 "second (Sassanid) from 226 CE to 642 CE."
 msgstr ""
-"El primer imperi persa (Aquemènida), va durar des del 550 a.C fins el 330 a."
-"C; el segon (Sassànida), des del 226 d.C fins el 642 d.C."
+"El primer imperi persa (Aquemènida), va durar des del 550 AEC fins el 330 "
+"AEC; el segon (Sassànida), des del 226 EC fins el 642 EC."
 
 #: data/nation/peruvian.ruleset:3
 msgid "Peruvian"
@@ -33796,7 +33773,6 @@ msgid "?plural:Rapa Nui"
 msgstr "Rapanuis"
 
 #: data/nation/rapanui.ruleset:6
-#, fuzzy
 msgid ""
 "The Rapa Nui are the native Polynesian inhabitants of Easter Island. They "
 "have inhabited the island since the end of the first millennium CE. They are "
@@ -33805,7 +33781,7 @@ msgid ""
 "Chile. Their script Rongorongo has never been deciphered."
 msgstr ""
 "Els rapanuis són els habitants nadius polinesis de l'Illa de Pasqua. Han "
-"viscut a l'illa des del final del primer mil·leni d.C. Són famosos per haver "
+"viscut a l'illa des del final del primer mil·leni EC. Són famosos per haver "
 "construït grans estàtues anomenades moai. Aquesta civilització fou destruïda "
 "degut a conflictes interns; el 1888, l'illa fou annexionada per Xile. La "
 "seva escriptura Rongorongo no s'ha desxifrat mai."
@@ -33927,7 +33903,6 @@ msgstr ""
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/roman.ruleset:7
-#, fuzzy
 msgid ""
 "Rome was, in legend, founded by Romulus in 753 BCE. At its height, Rome "
 "controlled much of Europe, northern Africa and the Near East. Roman culture "
@@ -33940,15 +33915,15 @@ msgid ""
 "CE, the Eastern Roman or Byzantine Empire survived almost a thousand years "
 "more; its capital Constantinople fell to the Turks in 1453."
 msgstr ""
-"Segons la llegenda, Roma fou fundada per Ròmul el 753 a.C. En el seu apogeu, "
+"Segons la llegenda, Roma fou fundada per Ròmul el 753 AEC. En el seu apogeu, "
 "Roma controlava bona part d'Europa, el nord d'Àfrica i l'Orient Pròxim. La "
 "cultura romana va adoptar molt de les civilitzacions que va conquerir, com "
 "els grecs i els etruscos, i forma una de les bases de la cultura occidental. "
 "Fins i tot avui en dia, la influència romana en camps com el dret, la "
 "filosofia i la llengua continua sent enorme. La civilització romana va "
 "allargar-se durant més d'un mil·lenni; primer com a regne, després com a "
-"república i finalment, des de l'any 27 a.C., com a imperi. L'imperi es va "
-"partir el segle IV d.C. L'Imperi Romà d'Occident va caure l'any 476; el "
+"república i finalment, des de l'any 27 EC, com a imperi. L'imperi es va "
+"partir el segle IV EC. L'Imperi Romà d'Occident va caure l'any 476; el "
 "d'Orient o Imperi Bizantí va sobreviure gairebé mil anys més; la seva "
 "capital, Constantinoble, va caure en mans dels turcs el 1453."
 
@@ -34255,7 +34230,6 @@ msgid "?plural:Sammarinese"
 msgstr "Santmarinesos"
 
 #: data/nation/sammarinese.ruleset:6
-#, fuzzy
 msgid ""
 "San Marino is a tiny landlocked country on the Italian Peninsula. It is the "
 "oldest independent republic in the world. According to legend, it was "
@@ -34263,7 +34237,7 @@ msgid ""
 msgstr ""
 "San Marino és un petit país interior de la Península Itàlica. És la "
 "república independent més antiga del món. Segons la llegenda, va ser fundat "
-"per Sant Marí el 301 d.C."
+"per Sant Marí el 301 EC."
 
 #: data/nation/sammarinese.ruleset:27
 #, c-format
@@ -34304,7 +34278,6 @@ msgid "?plural:Samoans"
 msgstr "Samoans"
 
 #: data/nation/samoan.ruleset:6
-#, fuzzy
 msgid ""
 "Samoa is a country occupying the Western part of the Samoan islands of the "
 "Central Pacific; the Eastern part is governed by the United States as "
@@ -34316,7 +34289,7 @@ msgstr ""
 "Samoa és un país que ocupa la part occidental de l'arxipèlag de Samoa, al "
 "Pacífic Central; la part oriental està governada pels Estats Units com a "
 "Samoa Nord-americana. Samoa fou colonitzada per pobles austronesis al "
-"voltant de l'any 1500 a.C. Fou probablement des de Samoa que els polinesis "
+"voltant de l'any 1500 AEC. Fou probablement des de Samoa que els polinesis "
 "van començar la seva expansió per tot el Pacífic. Colonitzada per Alemanya i "
 "Nova Zelanda, Samoa va obtenir la independència el 1962."
 
@@ -34565,7 +34538,6 @@ msgid "?plural:Scottish Gaels"
 msgstr "Gaèlics escocesos"
 
 #: data/nation/scottishgaelic.ruleset:6
-#, fuzzy
 msgid ""
 "Both Gaels and the Gaelic language were brought to Scotland by the Dalriada "
 "dynasty from Ireland. They first settled in Argyll (Earra Ghaidheal or the "
@@ -34617,15 +34589,14 @@ msgid "?plural:Scots"
 msgstr "Escocesos"
 
 #: data/nation/scottish.ruleset:6
-#, fuzzy
 msgid ""
 "Scotland, originally settled in late Roman times by Irish raiders who "
 "displaced the native Picts, was an independent kingdom from around 1034 CE "
 "to the Union of Crowns with England in 1701."
 msgstr ""
 "Escòcia, colonitzada originalment a finals de l'època romana per saquejadors "
-"irlandesos que van desplaçar els Pictes nadius, va ser un regne independent "
-"des d'aproximadament l'any 1034 d.C. fins la Unió de Corones amb Anglaterra "
+"irlandesos que van desplaçar els pictes nadius, va ser un regne independent "
+"des d'aproximadament l'any 1034 EC. fins la Unió de Corones amb Anglaterra "
 "el 1701."
 
 #: data/nation/scythian.ruleset:3
@@ -34637,7 +34608,6 @@ msgid "?plural:Scythians"
 msgstr "Escites"
 
 #: data/nation/scythian.ruleset:6
-#, fuzzy
 msgid ""
 "The Scythians or Scyths were an Ancient Iranian people of horse-riding "
 "nomadic pastoralists who throughout Classical Antiquity dominated the Pontic-"
@@ -34653,7 +34623,7 @@ msgstr ""
 "aquella època com Escitia. Cap a l'Antiguitat tardana, els sàrmates, que "
 "eren un poble pròxim, van arribar a dominar els escites en aquesta àrea. "
 "Bona part de la informació que ha perdurat sobre els escites prové de "
-"l'historiador grec Heròdot (al voltant de 440 a.C.) a les seves 'Històries' "
+"l'historiador grec Heròdot (al voltant de 440 AEC.) a les seves 'Històries' "
 "i d'Ovidi al seu poema d'exili 'Epistulae ex Ponto', i arqueològicament dels "
 "treballs exquisits d'orfebreria trobats en túmuls funeraris a Ucraïna i al "
 "sud de Rússia."
@@ -34667,7 +34637,6 @@ msgid "?plural:Seleucids"
 msgstr "Selèucides"
 
 #: data/nation/seleucid.ruleset:6
-#, fuzzy
 msgid ""
 "The Seleucid Empire was one of the diadochi states founded when Alexander "
 "the Great's generals carved up his empire after his death. It was named "
@@ -34679,7 +34648,7 @@ msgstr ""
 "els generals d'Alexandre el Gran van repartir-se el seu imperi després de la "
 "seva mort. Es va anomenar així pel seu fundador Seleuc I Nicàtor. Amb el seu "
 "centre a Síria, els selèucides foren l'estat diàdoc més potent però van "
-"acabar sucumbint a Roma el segle I a.C."
+"acabar sucumbint a Roma el segle I AEC."
 
 #: data/nation/seljuk.ruleset:3
 msgid "Seljuk"
@@ -34690,7 +34659,6 @@ msgid "?plural:Seljuks"
 msgstr "Seljúcides"
 
 #: data/nation/seljuk.ruleset:6
-#, fuzzy
 msgid ""
 "The Seljuks were a Turkic horde whose name comes from their founder Seljuk. "
 "After the victory over the Ghaznavids in 1040 CE they created their own "
@@ -35101,7 +35069,6 @@ msgid "?plural:Solomon Islanders"
 msgstr "Salomonesos"
 
 #: data/nation/solomonislander.ruleset:6
-#, fuzzy
 msgid ""
 "Solomon Islands is a country in Melanesia, located between Papua New Guinea "
 "and Vanuatu. Inhabited by Austronesian peoples since 4000 BCE, the islands "
@@ -35110,7 +35077,7 @@ msgid ""
 "Guadalcanal. Solomon Islands has been independent since 1978."
 msgstr ""
 "Les Illes Salomó són un país de Melanèsia, ubicat entre Papua Nova Guinea i "
-"Vanuatu. Habitat per pobles austronesis des del 4000 a.C., les illes van "
+"Vanuatu. Habitat per pobles austronesis des del 4000 AEC., les illes van "
 "convertir-se en protectorat britànic el segle XIX. Les illes van viure "
 "batalles cruentes durant la Segona Guerra Mundial, inclosa la famosa batalla "
 "de Guadalcanal. Les Illes Salomó han estat independents des de 1978."
@@ -35213,7 +35180,6 @@ msgid "?plural:Basotho"
 msgstr "Basuts"
 
 #: data/nation/sotho.ruleset:6
-#, fuzzy
 msgid ""
 "A Bantu people in Southern Africa, the ancestors of the Basotho first "
 "arrived in the region by the end of the first millennium CE. The Basotho "
@@ -35222,7 +35188,7 @@ msgid ""
 "Lesotho and almost twice that number in South Africa."
 msgstr ""
 "Els avantpassats dels basuts, un poble bantú de l'Àfrica Austral, van "
-"arribar per primer cop a la regió cap al final del primer mil·lenni d.C. Els "
+"arribar per primer cop a la regió cap al final del primer mil·lenni EC. Els "
 "basuts van formar un estat unificat a principis del segle XIX amb el rei "
 "Moshoeshoe I. Avui en dia, hi ha uns 2 milions de basuts al Regne de "
 "Lesotho, i gairebé el doble a Sud-àfrica."
@@ -35392,7 +35358,6 @@ msgid "?plural:Sri Vijaya"
 msgstr "Srivijaia"
 
 #: data/nation/srivijaya.ruleset:7
-#, fuzzy
 msgid ""
 "Sri Vijaya was an empire centered on Palembang in eastern Sumatra and "
 "extended its control through much of the coastal regions of Sumatra, Java, "
@@ -35403,7 +35368,7 @@ msgstr ""
 "Sri Vijaia va ser un imperi amb centre a Palembang, a l'est de Sumatra, que "
 "va estendre el seu control per bona part de les regions costaneres de "
 "Sumatra, Java, Borneu i la península malaia. Es va fundar en algun moment "
-"del segle III d.C. i va durar fins al voltant del 1400, caient primer en "
+"del segle III EC. i va durar fins al voltant del 1400, caient primer en "
 "mans dels Jambi, després dels Singhasari i altres potències regionals, "
 "inclosa la dinastia Xola del sud de l'Índia."
 
@@ -35432,7 +35397,6 @@ msgid "?plural:Suebians"
 msgstr "Sueus"
 
 #: data/nation/suebian.ruleset:6
-#, fuzzy
 msgid ""
 "The Suebians were an ancient West Germanic tribal confederation, which may "
 "have been formed by Ariovistus for his expedition to Gaul. The Suebians "
@@ -35447,10 +35411,10 @@ msgid ""
 "CE."
 msgstr ""
 "Els sueus eren una antiga confederació tribal germànica occidental, que "
-"podria havia estat formada per Ariovist per la seva expedició a la Gàl·lia. "
+"podria havia estat formada per Ariovist per a la seva expedició a la Gàl·lia. "
 "Els sueus incloïen les tribus germàniques de la conca del riu Elba, que "
 "pertanyien al grup lingüístic herminònic, com els marcomanni i els quadi. "
-"Entre els segles I i IV d.C. foren una amenaça per a Roma, sovint "
+"Entre els segles I i IV EC. foren una amenaça per a Roma, sovint "
 "atrinxerant-se a les províncies imperials del Danubi. Els anys 405-406, els "
 "sueus van ser forçats a deixar les seves terres pels huns, i durant la nit "
 "de Cap d'Any de 405 van travessar el Rin congelat, juntament amb els vàndals "
@@ -35570,7 +35534,6 @@ msgstr "Suecs"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/swedish.ruleset:7
-#, fuzzy
 msgid ""
 "The Kingdom of Sweden was christianized and consolidated as a political "
 "entity by the 12th century CE. The country rose to prominence as one of the "
@@ -35581,7 +35544,7 @@ msgid ""
 "since 1814."
 msgstr ""
 "El Regne de Suècia va ser cristianitzat i es va consolidar com a ens polític "
-"el segle XII d.C. El país va guanyar prominència com a gran potència europea "
+"el segle XII EC. El país va guanyar prominència com a gran potència europea "
 "el segle XVII, després de conquestes militars notables per part dels "
 "anomenats Reis Guerrers. No obstant, degut al deteriorament de l'economia i "
 "a diverses desfetes desastroses davant de Rússia, Suècia va perdre aviat la "
@@ -35648,7 +35611,6 @@ msgid "?plural:Tahitians"
 msgstr "Tahitians"
 
 #: data/nation/tahitian.ruleset:6
-#, fuzzy
 msgid ""
 "The islands of what is now French Polynesia were first settled by Polynesian "
 "peoples in the 3rd century CE. France established a protectorate over "
@@ -35659,7 +35621,7 @@ msgid ""
 "island."
 msgstr ""
 "Les illes del que ara és la Polinèsia Francesa foren colonitzades per pobles "
-"polinesis al segle III d.C. França va establir un protectorat a Tahití, "
+"polinesis al segle III EC. França va establir un protectorat a Tahití, "
 "l'illa principal de l'arxipèlag, el 1842. El 1889, tota la zona es va "
 "declarar colònia francesa. Les illes continuen sent una col·lectivitat "
 "d'ultramar de França, però gaudeixen d'una important autonomia interna. A "
@@ -35711,7 +35673,6 @@ msgid "?plural:Tairona"
 msgstr "?plural:Tairona"
 
 #: data/nation/tairona.ruleset:7
-#, fuzzy
 msgid ""
 "A Chibchan-speaking people related to the Kuna of Panama and the Muisca of "
 "central Colombia, the Tairona inhabit the modern Magdalena and La Guajira "
@@ -35725,7 +35686,7 @@ msgstr ""
 "Els Tairona, poble relacionat amb els Kuna de Panamà i els Muisca de "
 "Colòmbia central que parla xibxa, viuen al nord de Colòmbia, als "
 "departaments de Magdalena i La Guajira. La seva ciutat de Teyuna es va "
-"fundar al voltant de l'any 500 a.C. Els Tairona, que vivien en una zona de "
+"fundar al voltant de l'any 500 AEC. Els Tairona, que vivien en una zona de "
 "muntanya, van construir escales i feixes de pedra en pendents pronunciats "
 "per poder llaurar a la regió. Encara que van lluitar contra els espanyols "
 "durant 75 anys, al final van cedir a les diferents pressions a les quals "
@@ -35910,12 +35871,11 @@ msgstr "Tailandesos"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/thai.ruleset:7
-#, fuzzy
 msgid ""
 "The Thai kingdom was the only country in Southeast Asia to preserve its "
 "independence through the colonial era of the 18th and 19th centuries CE."
 msgstr ""
-"El regne Tai va ésser l'únic país del Sudest d'Àsia que va preservar la seva "
+"El regne Tai va ésser l'únic país del Sud-est d'Àsia que va conservar la seva "
 "independència durant l'era colonial dels segles XVIII i XIX."
 
 #: data/nation/thracian.ruleset:3
@@ -36142,7 +36102,6 @@ msgid "?plural:Tongans"
 msgstr "Tongalesos"
 
 #: data/nation/tongan.ruleset:6
-#, fuzzy
 msgid ""
 "An island group in the Southern Pacific, Tonga was settled by Polynesians "
 "around 1000 BCE. Although the islands became a British protectorate in the "
@@ -36150,7 +36109,7 @@ msgid ""
 "colonization."
 msgstr ""
 "Tonga, un grup d'illes del Pacífic Sud, fou colonitzada per polinesis al "
-"voltant de l'any 1000 a.C. Encara que les illes van convertir-se en "
+"voltant de l'any 1000 AEC. Encara que les illes van convertir-se en "
 "protectorat britànic el segle XIX, són l'únic país d'Oceania que s'han "
 "escapat d'una colonització real."
 
@@ -36284,7 +36243,6 @@ msgid "?plural:Tunisians"
 msgstr "Tunisians"
 
 #: data/nation/tunisian.ruleset:6
-#, fuzzy
 msgid ""
 "The Phoenicians founded Carthage in the area where Tunisia is today. "
 "Carthage later became a major power in the Mediterranean region until it was "
@@ -36295,9 +36253,9 @@ msgid ""
 "But in 1881 Tunisia was invaded by the French and was made a French "
 "protectorate. The country became independent in 1956."
 msgstr ""
-"Els fenicis van fundar Cartago a l'àrea on Tunísia es troba actualment. "
+"Els fenicis van fundar Cartago a la zona de la Tunísia actual. "
 "Cartago es va convertir més endavant en una potència de la regió "
-"mediterrània fins a la seva desfeta a mans dels romans l'any 146 a.C. Més "
+"mediterrània fins a la seva desfeta a mans dels romans l'any 146 AEC. Més "
 "tard, la conquesta dels musulmans el segle VII va aportar immigració dels "
 "països àrabs i otomans. Però van haver-hi també molts jueus i musulmans "
 "espanyols que s'hi van traslladar a finals del segle XVI. Tunísia va "
@@ -36364,7 +36322,6 @@ msgid "?plural:Turkmens"
 msgstr "Turcmans"
 
 #: data/nation/turkmen.ruleset:6
-#, fuzzy
 msgid ""
 "Turkmen tribes were first united in the 11th century CE under Togrul Beg, "
 "second ruler of the Seljuk Empire. As the Seljuk state broke down under the "
@@ -36372,7 +36329,7 @@ msgid ""
 "migration. They eventually settled in the lands between the Amu Darya river "
 "and the Caspian Sea, approximately the location of today's Turkmenistan."
 msgstr ""
-"Les tribus turcmanes es van unificar per primera vegada el segle XI d.C. "
+"Les tribus turcmanes es van unificar per primera vegada el segle XI EC"
 "sota Togrul Beg, el segon dirigent de l'Imperi Seljúcida. Mentre l'estat "
 "seljúcida es desintegrava sota la pressió de les invasions mongols, els "
 "turcmans van començar una migració cap a l'oest. Finalment van establir-se a "
@@ -36577,7 +36534,6 @@ msgid "?plural:Uyghurs"
 msgstr "Uigurs"
 
 #: data/nation/uyghur.ruleset:6
-#, fuzzy
 msgid ""
 "Uyghur was an east Turk empire and civilization. At its height in 820 CE it "
 "controlled most of Central and North Asia. After clashing with the Chinese "
@@ -36587,12 +36543,12 @@ msgid ""
 "main minority of the Xinjiang province of China."
 msgstr ""
 "Uyghur era un imperi i civilització dels turcs orientals. En el moment del "
-"seu apogeu, l'any 820 d.C., controlava la major part de l'Àsia Central i del "
+"seu apogeu, l'any 820 EC., controlava la major part de l'Àsia Central i del "
 "Nord. Després de lluitar contra els xinesos durant segles, al final van ser "
 "sotmesos per la dinastia Qing el segle XVIII. Avui en dia, els descendents "
 "dels uigurs formen les poblacions dels estats asiàtics d'Uzbekistan, "
 "Kazakhstan i Kirguizistan. També formen la minoria principal de la província "
-"xina de Xinjiang."
+"xinesa de Xinjiang."
 
 #: data/nation/uzbek.ruleset:3
 msgid "Uzbek"
@@ -36635,7 +36591,6 @@ msgid "?plural:Vandals"
 msgstr "Vàndals"
 
 #: data/nation/vandalic.ruleset:6
-#, fuzzy
 msgid ""
 "The Vandals were an East Germanic people originating from what is now "
 "Southern Poland and Slovakia. They entered the Roman Empire in the early 5th "
@@ -36645,9 +36600,9 @@ msgid ""
 msgstr ""
 "Els vàndals foren un poble germànic oriental que provenia del que avui en "
 "dia és el sud de Polònia i Eslovàquia. Van entrar a l'Imperi Romà a "
-"principis del segle V d.C. Liderats per Genseric, van acabar fundant un "
+"principis del segle V EC. Liderats per Genseric, van acabar fundant un "
 "regne a Cartago. Els vàndals són potser més coneguts pel seu saqueig de Roma "
-"el 455 d.C. L'any 534 d.C., Belisari va conquerir el regne vàndal per a "
+"el 455 EC. L'any 534 EC., Belisari va conquerir el regne vàndal per a "
 "l'Imperi Bizantí."
 
 #: data/nation/vanuatuan.ruleset:3
@@ -36839,24 +36794,23 @@ msgid "?plural:Vietnamese"
 msgstr "?plural:Vietnamites"
 
 #: data/nation/vietnamese.ruleset:6
-#, fuzzy
 msgid ""
 "The Vietnamese nation was founded in the first century CE by twin sisters "
 "who became the war leaders of a revolt against a Chinese military governor."
 msgstr ""
-"La nació Vietnamita va ésser fundada el primer segle d. C. per unes germanes "
+"La nació vietnamita va ésser fundada el primer segle de l'era comuna per unes "
+"germanes "
 "bessones que van liderar una revolta contra el governador militar Xinès."
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/viking.ruleset:7
-#, fuzzy
 msgid ""
 "The Vikings raided and traded along the coasts of Europe between 800 CE and "
 "1100 CE. Viking raiders eventually became the rulers of Normandy, Russia, "
 "and a short-lived kingdom in Sicily."
 msgstr ""
 "Els Víkings feien incursions i comerciaven al llarg de les costes europees "
-"entre els anys 800 d.C. i 1100 d.C. Pirates víkings van acabar convertint-se "
+"entre els anys 800 EC. i 1100 EC. Pirates víkings van acabar convertint-se "
 "en dirigents de Normandia, Rússia i d'un regne de curta durada a Sicília."
 
 #: data/nation/vincentian.ruleset:3
@@ -36893,7 +36847,6 @@ msgid "?plural:Visigoths"
 msgstr "Visigots"
 
 #: data/nation/visigothic.ruleset:6
-#, fuzzy
 msgid ""
 "The Thervingi or Visigoths were an East Germanic people, one of the two "
 "tribes of the Goths. They probably originated from Scandinavia. In the 3rd "
@@ -36908,7 +36861,7 @@ msgstr ""
 "Els teruings o visigots eren un poble germànic oriental, una de les dues "
 "tribus dels gots. Probablement van tenir el seu origen a Escandinàvia. El "
 "segle III van emigrar cap al sud, a la Ucraïna moderna. Després van "
-"travessar el Danubi i van saquejar Roma el 410 d.C. Reconeguts pels romans "
+"travessar el Danubi i van saquejar Roma el 410 EC. Reconeguts pels romans "
 "com a foederati, van acabar establint-se al voltant de Tolosa, on van formar "
 "un regne. Els visigots van aconseguir de conquerir tota la península Ibèrica "
 "i van traslladar la seva capital a Toledo. Van perdre tots els seus "
@@ -37111,7 +37064,6 @@ msgid "?plural:West Romans"
 msgstr "Romans d'Occident"
 
 #: data/nation/westernroman.ruleset:6
-#, fuzzy
 msgid ""
 "The Roman Empire was first divided by Diocletian in 286 and split for good "
 "upon Theodosius' death in 395. Unlike its Eastern counterpart, the Byzantine "
@@ -37123,7 +37075,7 @@ msgstr ""
 "Teodosi, el 395, va quedar partit definitivament. A diferència del seu "
 "equivalent d'Orient, l'Imperi Bizantí, l'Imperi Romà d'Occident no va ser "
 "capaç de resistir les invasions bàrbares i la desintegració econòmica. "
-"L'últim emperador romà d'Occident va ser destituït el 476 d.C."
+"L'últim emperador romà d'Occident va ser deposat el 476 EC."
 
 #: data/nation/westindian.ruleset:3
 msgid "West Indian"
@@ -38452,23 +38404,23 @@ msgstr "Instal·lar modpacks a la jerarquia de directoris donada"
 #. TRANS: Version tag name received from metaserver
 #: po/Strings.txt:12
 msgid "?vertag:stable"
-msgstr ""
+msgstr "estable"
 
 #: po/Strings.txt:13
 msgid "?vertag:win32"
-msgstr ""
+msgstr "win32"
 
 #: po/Strings.txt:14
 msgid "?vertag:S2_4"
-msgstr ""
+msgstr "S2_4"
 
 #: po/Strings.txt:15
 msgid "?vertag:S2_5"
-msgstr ""
+msgstr "S2_5"
 
 #: po/Strings.txt:16
 msgid "?vertag:crosser"
-msgstr ""
+msgstr "crosser"
 
 #: server/aiiface.c:83
 #, c-format
@@ -38506,9 +38458,13 @@ msgid "Setup of ai module %s failed."
 msgstr "La configuració del mòdul IA %s ha fallat"
 
 #: server/aiiface.c:176
-msgid "Failed to setup default ai module, cannot continue."
+msgid "Failed to setup default AI module, cannot continue."
 msgstr ""
 "No s'ha pogut configurar el mòdul IA predeterminat, no es pot continuar."
+
+#: server/aiiface.c:187
+msgid "Failed to setup threaded AI module"
+msgstr "No s'ha pogut inicialitzar el mòdul d'IA enfilat"
 
 #: server/auth.c:88
 #, c-format
@@ -39014,8 +38970,8 @@ msgstr ""
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball, la ciutat ha de ser de mida %"
-"d.  S'ajorna..."
+"%s no pot construir %s de la llista de treball, la ciutat ha de ser de mida "
+"%d.  S'ajorna..."
 
 #: server/cityturn.c:1146
 #, c-format
@@ -39032,8 +38988,8 @@ msgid ""
 "%s can't build %s from the worklist; %s terrain class is required.  "
 "Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball, necessita classe de terreny %"
-"s.  S'ajorna..."
+"%s no pot construir %s de la llista de treball, necessita classe de terreny "
+"%s.  S'ajorna..."
 
 #: server/cityturn.c:1186
 #, c-format
@@ -39460,6 +39416,10 @@ msgstr "LoadAI MODULE"
 msgid "Load ai module MODULE. Can appear multiple times"
 msgstr " Carregar mòdul d'IA MODULE. Pot aparèixer múltiples vegades"
 
+#: server/civserver.c:440
+msgid "Requested authentication with --auth, but no --Database given\n"
+msgstr "S'ha demanat autenticació amb --auth, però no s'ha donat --Database\n"
+
 #: server/commands.c:53
 msgid "Start the game, or restart after loading a savegame."
 msgstr "Iniciar el joc, o reiniciar després de carregar una partida desada."
@@ -39802,9 +39762,8 @@ msgstr "Escollir un nou directori de jocs de regles o modificacions (modpack)."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:244
-#, fuzzy
 msgid "metamessage <meta-line>"
-msgstr "metapatch <meta-línia>"
+msgstr "metamessage <meta-línia>"
 
 #: server/commands.c:245
 msgid "Set metaserver info line."
@@ -39824,9 +39783,8 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/commands.c:254
-#, fuzzy
 msgid "metapatches <meta-line>"
-msgstr "metapatch <meta-línia>"
+msgstr "metapatches <meta-línia>"
 
 #: server/commands.c:255
 msgid "Set metaserver patches line."
@@ -39950,7 +39908,7 @@ msgid ""
 "free slots are available, it tries to reuse the slots of dead players. The "
 "new player has no units or cities.\n"
 "AI type parameter can be used to select which AI module will be used for "
-"created player. This requires that freeciv has been compiled with AI module "
+"created player. This requires that Freeciv has been compiled with AI module "
 "support and respective module has been loaded."
 msgstr ""
 "Amb la comanda 'create' es crea un jugador nou amb el nom donat.\n"
@@ -39958,7 +39916,7 @@ msgstr ""
 "i, si no en troba cap de lliure, prova de reutilitzar els espais dels "
 "jugadors morts. El jugador nou no té unitats ni ciutats.\n"
 "El paràmetre de tipus d'IA es pot utilitzar per seleccionar quin mòdul d'IA "
-"s'utilitza per al jugador creat. Això requereix que freeciv s'hagi compilat "
+"s'utilitza per al jugador creat. Això requereix que Freeciv s'hagi compilat "
 "amb suport de mòduls d'IA i que el mòdul respectiu s'hagi carregat."
 
 #: server/commands.c:335
@@ -40294,7 +40252,6 @@ msgid "Define the color of a player."
 msgstr "Definir el color d'un jugador."
 
 #: server/commands.c:492
-#, fuzzy
 msgid ""
 "This command sets the color of a specific player, overriding any color "
 "assigned according to the 'plrcolormode' setting.\n"
@@ -40312,18 +40269,24 @@ msgid ""
 "changes the player color in any mode; 'reset' cannot be used.\n"
 "To list the player colors, use 'list colors'."
 msgstr ""
-"Aquesta comanda s'utilitza per fixar el color de la nació d'un jugador. El "
-"color es defineix amb una notació hexadecimal (HEX) per a la combinació dels "
-"valors de Vermell (R), Verd (G) i Blau (B). El valor més petit és 0 (en HEX: "
-"00). El valor més alt és 255 (en HEX: FF). La definició del color comença "
-"amb un símbol '#' seguit pels valors HEX dels tres colors, és a dir, "
-"'#ff0000' per al vermell. En scripts de servidor, el símbol '#' s'ha "
-"d'escapar o la definició del color s'ha de posar entre cometes.\n"
-"En l'estat inicial del joc, el color només es pot definir si el paràmetre "
-"'plrcolormode' té el valor de 'PLR_SET'. El color definit es pot treure amb "
+"Aquesta comanda fixa el color d'un jugador concret, i té preferència sobre "
+"qualsevol color que s'hagi assignat seguint el paràmetre 'plrcolormode'.\n"
+"El color es defineix amb una notació hexadecimal (hexa) per a la combinació "
+"dels "
+"components de color Vermell (R), Verd (G) i Blau (B), de forma semblant a "
+"l'HTML. Per a cada component, el valor més baix (fosc) és 0 (en hexa: "
+"00), i el valor més alt és 255 (en hexa: FF). La definició del color és "
+"simplement els tres valors hexadecimals concatenats (RRGGBB). Per exemple, la "
+"següent comanda fa que el color de Caesar sigui vermell pur:\n"
+" playercolor Caesar ff0000\n"
+"Abans de començar la partida, aquesta comanda només es pot fer servir si el "
+"paràmetre "
+"'plrcolormode' té el valor de 'PLR_SET'; el color d'un jugador es pot tirar "
+"enrere amb "
 "l'argument reset.\n"
-"Per una partida en curs, aquesta comanda redefineix el color del jugador. El "
-"canvi serà visible al torn següent.\n"
+"Quan la partida ja ha començat i s'han assignat els colors, aquesta comanda "
+"modifica el color del jugador en qualsevol mode; 'reset' no es pot fer "
+"servir.\n"
 "Per llistar els colors dels jugadors, utilitzeu 'list colors'."
 
 #: server/commands.c:512
@@ -40382,9 +40345,9 @@ msgid ""
 "and use the 'start' command once players have reconnected."
 msgstr ""
 "Desar la partida actual al fitxer <nom-fitxer>. Si no s'especifica cap nom "
-"de fitxer es desa a \"<Prefix dels noms de desar automàtic><any>m.sav[.gz]"
-"\". Per a tornar a carregar una partida desada amb 'save', s'ha d'iniciar el "
-"servidor amb l'argument de la línia de comanda: \n"
+"de fitxer es desa a \"<Prefix dels noms de desar automàtic><any>m.sav[."
+"gz]\". Per a tornar a carregar una partida desada amb 'save', s'ha d'iniciar "
+"el servidor amb l'argument de la línia de comanda: \n"
 "    '--file <nomfitxer>' o '-f <nomfitxer>'\n"
 "i usar la comanda 'start' un cop els jugadors s'hagin reconnectat."
 
@@ -40460,10 +40423,10 @@ msgstr ""
 
 #: server/commands.c:583
 msgid ""
-"Evaluate a line of freeciv script or a freeciv script file in the current "
+"Evaluate a line of Freeciv script or a Freeciv script file in the current "
 "game."
 msgstr ""
-"Avaluar una línia de script de freeciv o un fitxer de script de freeciv en "
+"Avaluar una línia de script de Freeciv o un fitxer de script de Freeciv en "
 "la partida actual."
 
 #. TRANS: translate text between <>
@@ -40710,7 +40673,7 @@ msgstr "%s s'ha refusat. Nom de login duplicat [%s]."
 msgid "Lost connection: %s."
 msgstr "Connexió perduda: %s."
 
-#: server/connecthand.c:709
+#: server/connecthand.c:710
 #, c-format
 msgid "Detaching from %s."
 msgstr "S'està desassociant de %s."
@@ -41381,8 +41344,8 @@ msgid ""
 "No more players can be added because the maximum number of players (%d) has "
 "been reached."
 msgstr ""
-"No es poden afegir més jugadors perquè s'ha arribat al màxim de jugadors (%"
-"d)."
+"No es poden afegir més jugadors perquè s'ha arribat al màxim de jugadors "
+"(%d)."
 
 #: server/edithand.c:994
 #, c-format
@@ -41390,8 +41353,8 @@ msgid ""
 "No more players can be added because there are no available nations (%d "
 "used)."
 msgstr ""
-"No es poden afegir més jugadors perquè no queden nacions (se'n fan servir %"
-"d)."
+"No es poden afegir més jugadors perquè no queden nacions (se'n fan servir "
+"%d)."
 
 #: server/edithand.c:1003
 msgid "Player cannot be created because random nation selection failed."
@@ -41555,11 +41518,11 @@ msgstr ""
 msgid "No units placed for %s!"
 msgstr "Cap unitat situada per %s!"
 
-#: server/gamehand.c:549
+#: server/gamehand.c:551
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
 msgstr "El temps màxim per torn ha superat el valor màxim, el fixo al màxim."
 
-#: server/gamehand.c:557
+#: server/gamehand.c:559
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "El temps màxim per torn no pot ser negatiu, el poso a zero."
 
@@ -41982,8 +41945,8 @@ msgstr ""
 #, c-format
 msgid "%s %s reports on the most MILITARIZED Civilizations in the World."
 msgstr ""
-"L'informe de %2$s sobre les civilitzacions MÉS MILITARITZADES del món el %1"
-"$s."
+"L'informe de %2$s sobre les civilitzacions MÉS MILITARITZADES del món el "
+"%1$s."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:90
@@ -42266,12 +42229,12 @@ msgstr "Ho sento, l'informe demogràfic no està disponible."
 msgid "%s %s (%s)"
 msgstr "%2$s dels %1$s (%3$s)"
 
-#: server/report.c:1460
+#: server/report.c:1464
 msgid "Population\n"
 msgstr "Població\n"
 
 #. TRANS: "M goods" = million goods
-#: server/report.c:1462
+#: server/report.c:1466
 msgid ""
 "Trade\n"
 "(M goods)"
@@ -42280,7 +42243,7 @@ msgstr ""
 "(M béns)"
 
 #. TRANS: "M tons" = million tons
-#: server/report.c:1464
+#: server/report.c:1468
 msgid ""
 "Production\n"
 "(M tons)"
@@ -42288,15 +42251,15 @@ msgstr ""
 "Producció\n"
 "(M tones)"
 
-#: server/report.c:1465
+#: server/report.c:1469
 msgid "Cities\n"
 msgstr "Ciutats\n"
 
-#: server/report.c:1466
+#: server/report.c:1470
 msgid "Technologies\n"
 msgstr "Tecnologies\n"
 
-#: server/report.c:1467
+#: server/report.c:1471
 msgid ""
 "Military Service\n"
 "(months)"
@@ -42304,11 +42267,11 @@ msgstr ""
 "Servei militar\n"
 "(mesos)"
 
-#: server/report.c:1468
+#: server/report.c:1472
 msgid "Wonders\n"
 msgstr "Meravelles\n"
 
-#: server/report.c:1469
+#: server/report.c:1473
 msgid ""
 "Research Speed\n"
 "(%)"
@@ -42317,7 +42280,7 @@ msgstr ""
 "(%)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
-#: server/report.c:1471
+#: server/report.c:1475
 msgid ""
 "Land Area\n"
 "(sq. mi.)"
@@ -42326,7 +42289,7 @@ msgstr ""
 "(milles²)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
-#: server/report.c:1473
+#: server/report.c:1477
 msgid ""
 "Settled Area\n"
 "(sq. mi.)"
@@ -42334,7 +42297,7 @@ msgstr ""
 "Àrea colonitzada\n"
 "(milles²)"
 
-#: server/report.c:1474
+#: server/report.c:1478
 msgid ""
 "Literacy\n"
 "(%)"
@@ -42342,19 +42305,19 @@ msgstr ""
 "Alfabetització\n"
 "(%)"
 
-#: server/report.c:1475
+#: server/report.c:1479
 msgid "Spaceship\n"
 msgstr "Nau espacial\n"
 
-#: server/report.c:1476
+#: server/report.c:1480
 msgid "Built Units\n"
 msgstr "Unitats Construïdes\n"
 
-#: server/report.c:1477
+#: server/report.c:1481
 msgid "Killed Units\n"
 msgstr "Unitats Matades\n"
 
-#: server/report.c:1478
+#: server/report.c:1482
 msgid "Unit Losses\n"
 msgstr "Unitats Perdudes\n"
 
@@ -42383,36 +42346,36 @@ msgstr ""
 "partides desades antigues o pot indicar que el fitxer desat no és correcte. "
 "Continua coneixent el risc."
 
-#: server/savegame2.c:3096 server/savegame.c:5322 server/srv_main.c:1895
+#: server/savegame2.c:3098 server/savegame.c:5322 server/srv_main.c:1895
 #: server/srv_main.c:1900
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s s'ha afegit com a jugador de nivell %s controlat per IA (%s)."
 
-#: server/savegame2.c:3101 server/savegame.c:5327
+#: server/savegame2.c:3103 server/savegame.c:5327
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s s'ha afegit com a jugador humà."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame2.c:3124 server/savegame.c:5374
+#: server/savegame2.c:3126 server/savegame.c:5374
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s tenia una nació no vàlida; canviant a %s."
 
-#: server/savegame2.c:6010
+#: server/savegame2.c:6012
 msgid "current version"
 msgstr "versió actual"
 
-#: server/savegame2.c:6014
+#: server/savegame2.c:6016
 msgid "freeciv 2.3.0"
 msgstr "freeciv 2.3.0"
 
-#: server/savegame2.c:6016
+#: server/savegame2.c:6018
 msgid "freeciv 2.4.0"
 msgstr "freeciv 2.4.0"
 
-#: server/savegame2.c:6067
+#: server/savegame2.c:6069
 #, c-format
 msgid ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
@@ -42420,7 +42383,7 @@ msgstr ""
 "Executa funció de compatibilitat per a versió: <%d (fitxer desat: %d; "
 "servidor: %d)."
 
-#: server/savegame2.c:6101
+#: server/savegame2.c:6103
 #, c-format
 msgid "Run compatibility function for version: <%d (want: %d, server: %d)."
 msgstr ""
@@ -42761,8 +42724,8 @@ msgid ""
 "Allowed take string validation failed at character: '%c'. Try \"help "
 "allowtake\"."
 msgstr ""
-"La validació de la cadena de 'Permisos per prendre' ha fallat al caràcter: '%"
-"c'. Prova \"help allowtake\"."
+"La validació de la cadena de 'Permisos per prendre' ha fallat al caràcter: "
+"'%c'. Prova \"help allowtake\"."
 
 #: server/settings.c:682
 #, c-format
@@ -42802,8 +42765,8 @@ msgstr ""
 #: server/settings.c:741
 #, c-format
 msgid ""
-"Requested value (%d) is greater than number of available start positions (%"
-"d). Keeping old value."
+"Requested value (%d) is greater than number of available start positions "
+"(%d). Keeping old value."
 msgstr ""
 "El valor sol·licitat (%d) és més gran que el nombre de posicions d'inici "
 "disponibles (%d). Es manté el valor anterior."
@@ -43843,9 +43806,8 @@ msgstr ""
 "per la seva nació."
 
 #: server/settings.c:1643
-#, fuzzy
 msgid "How to pick player colors"
-msgstr "Com triar el color del jugador"
+msgstr "Com triar els colors dels jugadors"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single quotes
@@ -43991,13 +43953,13 @@ msgid "Base chance for diplomats and spies to succeed"
 msgstr "Probabilitat base d'èxit per diplomàtics i espies"
 
 #: server/settings.c:1752
-#, fuzzy
 msgid ""
 "The base chance of a spy returning from a successful mission and the base "
 "chance of success for diplomats and spies."
 msgstr ""
-"La probabilitat que un espia torni d'una missió reeixida i la probabilitat "
-"bàsica d'èxit per diplomàtics i espies."
+"La probabilitat base que un espia torni d'una missió reeixida i la "
+"probabilitat "
+"base d'èxit per a diplomàtics i espies."
 
 #: server/settings.c:1759
 msgid "Whether to allow space race"
@@ -44989,8 +44951,8 @@ msgid "Scenario victory to %s."
 msgstr "Victòria d'escenari per %s."
 
 #: server/srv_main.c:350 server/stdinhand.c:4369
-msgid "Game ended in a draw."
-msgstr "La partida ha acabat en un empat"
+msgid "Game is over."
+msgstr "La partida ha acabat."
 
 #: server/srv_main.c:384 server/srv_main.c:520
 #, c-format
@@ -45009,8 +44971,8 @@ msgid "Game ended in victory for %s."
 msgstr "La partida s'ha acabat amb victòria de %s."
 
 #: server/srv_main.c:480
-msgid "Game ended in a draw as the turn limit was exceeded."
-msgstr "La partida s'ha acabat en empat perque s'ha passat el límit de torns."
+msgid "Game ended as the turn limit was exceeded."
+msgstr "La partida s'ha acabat en empat perquè s'ha passat el límit de torns."
 
 #: server/srv_main.c:491
 #, c-format
@@ -45122,7 +45084,7 @@ msgstr ""
 msgid "%s rules the %s."
 msgstr "%s governa els %s."
 
-#: server/srv_main.c:2342
+#: server/srv_main.c:2351
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -45130,31 +45092,31 @@ msgstr ""
 "Aquest programa freeciv-server té suport d'autenticació de jugadors, però "
 "ara mateix no es fa servir."
 
-#: server/srv_main.c:2411
+#: server/srv_main.c:2420
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "S'està enviant informació al metaservidor <%s>."
 
-#: server/srv_main.c:2415
+#: server/srv_main.c:2424
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 "No es comença sense connexió de metaservidor sol·licitada explícitament."
 
-#: server/srv_main.c:2436
+#: server/srv_main.c:2445
 msgid "The game is over..."
 msgstr "La partida ha acabat..."
 
-#: server/srv_main.c:2513
+#: server/srv_main.c:2522
 msgid "Failed to create suitable map, retrying with another mapseed"
 msgstr ""
 "No s'ha pogut crear un mapa apropiat, es torna a provar amb una altra llavor "
 "de mapa"
 
-#: server/srv_main.c:2524
+#: server/srv_main.c:2537
 msgid "Cannot create suitable map with given settings."
 msgstr "No es pot crear un mapa adequat amb els paràmetres donats."
 
-#: server/srv_main.c:2722
+#: server/srv_main.c:2735
 msgid "Now accepting new client connections."
 msgstr "S'estan acceptant noves connexions de clients."
 
@@ -45428,8 +45390,8 @@ msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
 "'%s'."
 msgstr ""
-"No es pot disminuir el nivell d'accés de comanda '%s' per a la connexió '%"
-"s'; només tens '%s'."
+"No es pot disminuir el nivell d'accés de comanda '%s' per a la connexió "
+"'%s'; només tens '%s'."
 
 #: server/stdinhand.c:1365
 #, c-format
@@ -45734,8 +45696,8 @@ msgstr "Votació"
 #: server/stdinhand.c:2366
 #, c-format
 msgid ""
-"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of %"
-"d players."
+"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of "
+"%d players."
 msgstr ""
 "%s %d \"%s\" (cal %0.0f%%%s): %d a favor, %d en contra, i %d abstencions "
 "sobre %d jugadors."
@@ -46444,9 +46406,9 @@ msgid "You already control %s."
 msgstr "Ja controleu %s."
 
 #: server/stdinhand.c:4964
-#, fuzzy, c-format
+#, c-format
 msgid "Control of player '%s' has not been delegated to you."
-msgstr "Se t'ha delegat el control del jugador '%s'."
+msgstr "No se t'ha delegat el control del jugador '%s'."
 
 #: server/stdinhand.c:4973
 #, c-format
@@ -46499,9 +46461,9 @@ msgid "Missing argument for 'mapimg define'."
 msgstr "Falta l'argument per a 'mapimg define'."
 
 #: server/stdinhand.c:5159 server/stdinhand.c:5168
-#, fuzzy, c-format
+#, c-format
 msgid "Can't use definition: %s."
-msgstr "No s'ha pogut utilitzar definició: %s."
+msgstr "No es pot utilitzar definició: %s."
 
 #: server/stdinhand.c:5175
 #, c-format
@@ -46900,7 +46862,7 @@ msgstr "Producció de ciència massa baixa. Hem perdut Tecnologia del Futur %d."
 msgid "Insufficient science output. We lost %s."
 msgstr "Producció de ciència insuficient. Hem perdut %s."
 
-#: server/techtools.c:576
+#: server/techtools.c:583
 #, c-format
 msgid ""
 "The required technology for our government '%s' was lost. The citizens have "
@@ -46909,7 +46871,7 @@ msgstr ""
 "La tecnologia requerida per al nostre govern '%s' s'ha perdut. Els ciutadans "
 "han començat una revolució per obtenir '%s'."
 
-#: server/techtools.c:599
+#: server/techtools.c:606
 #, c-format
 msgid ""
 "The required technology for our new government '%s' was lost. The citizens "
@@ -46918,32 +46880,32 @@ msgstr ""
 "La tecnologia requerida per al nostre nou govern '%s' s'ha perdut. Els "
 "ciutadans trien '%s' com a nou objectiu de govern."
 
-#: server/techtools.c:637 server/techtools.c:649
+#: server/techtools.c:644 server/techtools.c:656
 #, c-format
 msgid "%s can't build %s. The required technology was lost."
 msgstr "%s no pot construir %s. La tecnologia requerida s'ha perdut."
 
-#: server/techtools.c:766
+#: server/techtools.c:773
 #, c-format
 msgid "Technology goal is %s."
 msgstr "L'objectiu tecnològic és %s."
 
-#: server/techtools.c:975
+#: server/techtools.c:982
 #, c-format
 msgid "You steal %s from the %s."
 msgstr "Robes %s dels %s."
 
-#: server/techtools.c:980
+#: server/techtools.c:987
 #, c-format
 msgid "The %s stole %s from you!"
 msgstr "Els %s et roben %s!"
 
-#: server/techtools.c:985
+#: server/techtools.c:992
 #, c-format
 msgid "The %s have stolen %s from the %s."
 msgstr "Els %s han robat %s dels %s."
 
-#: server/techtools.c:1105
+#: server/techtools.c:1112
 #, c-format
 msgid "Too bad! You made a mistake transferring the tech %s and lost it."
 msgstr ""
@@ -47255,9 +47217,9 @@ msgstr "El teu %s s'ha quedat sense combustible."
 
 #. TRANS: Your <unit> became ... rank of <veteran level>.
 #: server/unittools.c:675
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s became more experienced and achieved the rank of %s."
-msgstr "Els teus %s han guanyat experiència i s'han convertit en %s."
+msgstr "Els teus %s han guanyat experiència i han assolit el nivell de %s."
 
 #: server/unittools.c:1082
 #, c-format
@@ -47450,64 +47412,64 @@ msgstr ""
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "La teva sobrevolada ha espantat a la tribu, s'escampen aterrits."
 
-#: server/unittools.c:2758
+#: server/unittools.c:2759
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Les ordres per %s s'han avortat en veure moviment d'enemics."
 
-#: server/unittools.c:3295
+#: server/unittools.c:3296
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Les ordres per %s s'han avortat perquè hi ha unitats a la vora."
 
-#: server/unittools.c:3346
+#: server/unittools.c:3347
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr ""
 "Les ordres per %s s'han avortat perquè no s'ha pogut construir la ciutat."
 
-#: server/unittools.c:3362
+#: server/unittools.c:3363
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 "Les ordres per %s s'han avortat perquè provoquen una activitat no vàlida."
 
-#: server/unittools.c:3381
+#: server/unittools.c:3382
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "Les ordres per %s s'han avortat perquè donen una ubicació no vàlida."
 
-#: server/unittools.c:3391
+#: server/unittools.c:3392
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "Les ordres per %s s'han avortat perquè hi ha unitats al mig del pas."
 
-#: server/unittools.c:3416
+#: server/unittools.c:3417
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Les ordres per %s s'han avortat per moviment incorrecte."
 
-#: server/unittools.c:3457
+#: server/unittools.c:3458
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "L'intent de canviar la ciutat d'origen per %s ha fallat."
 
-#: server/unittools.c:3468
+#: server/unittools.c:3469
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "L'intent d'establir una ruta comercial per %s ha fallat."
 
-#: server/unittools.c:3480
+#: server/unittools.c:3481
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "L'intent de construir meravella per %s ha fallat"
 
-#: server/unittools.c:3489
+#: server/unittools.c:3490
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "El teu %s té ordres incorrectes"
 
-#: server/unittools.c:3587
+#: server/unittools.c:3588
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."
@@ -47839,15 +47801,18 @@ msgid_plural "seconds"
 msgstr[0] "segon"
 msgstr[1] "segons"
 
-#: utility/support.c:421
+#: utility/support.c:425
 #, c-format
 msgid "error %ld (failed FormatMessage)"
 msgstr "error %ld (Missatge de format fallat)"
 
-#: utility/support.c:434
+#: utility/support.c:438
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "error %d (compilat sense strerror)"
+
+#~ msgid "Game ended in a draw."
+#~ msgstr "La partida ha acabat en un empat"
 
 #~ msgid ""
 #~ "* Will be built as a veteran in cities with appropriate training "
@@ -47990,8 +47955,8 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgstr "No s'ha trobat cap jugador amb el nom de '%s' o és un nom ambigu."
 
 #~ msgid ""
-#~ "Please set 'plrcolormode' to PLR_SET to define the color for the player %"
-#~ "s before the game starts."
+#~ "Please set 'plrcolormode' to PLR_SET to define the color for the player "
+#~ "%s before the game starts."
 #~ msgstr ""
 #~ "Si us plau, doneu a 'plrcolormode' el valor PLR_SET per definir el color "
 #~ "per al jugador %s abans de començar la partida."
