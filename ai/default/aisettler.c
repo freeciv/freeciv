@@ -1097,9 +1097,14 @@ BUILD_CITY:
       UNIT_LOG(LOG_DEBUG, punit, "improves terrain instead of founding");
       /* Terrain improvements follows the old model, and is recalculated
        * each turn. */
+      if (result) {
+        /* We had a city result, just worse than best impr */
+        cityresult_destroy(result);
+      }
       adv_unit_new_task(punit, AUT_AUTO_SETTLER, best_tile);
     } else {
       UNIT_LOG(LOG_DEBUG, punit, "cannot find work");
+      fc_assert(result == NULL);
       dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
       goto CLEANUP;
     }
