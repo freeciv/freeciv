@@ -1186,11 +1186,14 @@ static int improvement_effect_value(struct player *pplayer,
       players_iterate(aplayer) {
 	int potential = aplayer->bulbs_last_turn
 	  + city_list_size(aplayer->cities) + 1;
-	if (valid_advance(pimprove->obsolete_by)) {
-	  turns = MIN(turns, 
-		      total_bulbs_required_for_goal(aplayer, advance_number(pimprove->obsolete_by))
-		      / (potential + 1));
-	}
+
+        if (potential > 0) {
+          if (valid_advance(pimprove->obsolete_by)) {
+            turns = MIN(turns,
+                        total_bulbs_required_for_goal(aplayer, advance_number(pimprove->obsolete_by))
+                        / (potential + 1));
+          }
+        }
 	if (players_on_same_team(aplayer, pplayer)) {
 	  continue;
 	}
