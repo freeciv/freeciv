@@ -57,6 +57,7 @@ struct road_type {
   int move_cost;
   int build_time;
   bool buildable;
+  bool pillageable;
   int tile_incr[O_LAST];
   int tile_bonus[O_LAST];
   enum road_compat compat;

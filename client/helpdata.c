@@ -2211,6 +2211,10 @@ void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
   if (!proad->buildable) {
     CATLSTR(buf, bufsz, _("* Cannot be built.\n"));
   }
+  if (proad->pillageable) {
+    CATLSTR(buf, bufsz,
+            _("* Can be pillaged by units.\n"));
+  }
 
   if (road_has_flag(proad, RF_REQUIRES_BRIDGE)) {
     /* TODO: List actual technologies. */

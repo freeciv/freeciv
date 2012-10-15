@@ -147,8 +147,10 @@ bv_roads get_tile_pillageable_road_set(const struct tile *ptile, int *pcount)
   BV_CLR_ALL(rspresent);
   road_type_iterate(proad) {
     if (tile_has_road(ptile, proad)) {
-      BV_SET(rspresent, road_index(proad));
-      count++;
+      if (proad->pillageable) {
+        BV_SET(rspresent, road_index(proad));
+        count++;
+      }
     }
   } road_type_iterate_end;
   if (pcount) {
