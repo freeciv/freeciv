@@ -584,7 +584,7 @@ static int defense_bonus(const struct cityresult *result)
         (defense_bonus * terrain_control.river_defense_bonus) / 100;
   }
 
-  return 100 / result->total * (100 / defense_bonus * DEFENSE_EMPHASIS);
+  return 100 / (result->total + 1) * (100 / defense_bonus * DEFENSE_EMPHASIS);
 }
 
 /**************************************************************************
