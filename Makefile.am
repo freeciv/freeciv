@@ -27,7 +27,6 @@ SUBDIRS = $(DSUBDIRS) dependencies utility common tests win32 $(SSUBDIRS) $(CSUB
 ## it's in the list below.
 ## It should also install it automatically when running autogen.sh.
 EXTRA_DIST=	autogen.sh 			\
-		config.mac.h			\
 		configure.ac			\
 		diff_ignore			\
 		bootstrap/fcgui.in		\
