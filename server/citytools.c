@@ -2714,9 +2714,6 @@ bool city_map_update_radius_sq(struct city *pcity)
   /* if city is under AI control update it */
   adv_city_update(pcity);
 
-  /* Force a sync of the city after the change. */
-  send_city_info(city_owner(pcity), pcity);
-
   notify_player(city_owner(pcity), city_tile(pcity), E_CITY_RADIUS_SQ,
                 ftc_server, _("The size of the city map of %s is %s."),
                 city_name(pcity),

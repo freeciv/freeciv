@@ -149,6 +149,11 @@ bool city_refresh(struct city *pcity)
   city_units_upkeep(pcity); /* update unit upkeep */
   city_refresh_from_main_map(pcity, NULL);
 
+  if (retval) {
+    /* Force a sync of the city after the change. */
+    send_city_info(city_owner(pcity), pcity);
+  }
+
   return retval;
 }
 
@@ -674,12 +679,12 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
     loss_remain -= city_reduce_workers(pcity, loss_remain);
   }
 
+  /* Update citizens. */
+  citizens_update(pcity);
+
   /* Update number of people in each feelings category.
    * This also updates the city radius if needed. */
   city_refresh(pcity);
-
-  /* Update citizens. */
-  citizens_update(pcity);
 
   auto_arrange_workers(pcity);
 
@@ -811,6 +816,7 @@ static bool city_increase_size(struct city *pcity)
 
   /* Update citizens. */
   citizens_update(pcity);
+
   /* Refresh the city data; this also checks the squared city radius. */
   city_refresh(pcity);
 
