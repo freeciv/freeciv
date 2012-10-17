@@ -565,7 +565,8 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
          */
         return;
       }
-      if (goto_tile != punit->goto_tile || old_pos != unit_tile(punit)) {
+      if (goto_tile != punit->goto_tile || old_pos != unit_tile(punit)
+          || punit->activity != ACTIVITY_IDLE) {
         /* Actions of the displaced settler somehow caused this settler
          * to get a new job, or to already move toward current job.
          * (A displaced B, B displaced C, C displaced A)
