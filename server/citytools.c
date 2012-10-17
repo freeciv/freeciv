@@ -1287,6 +1287,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   /* Update citizens. */
   citizens_update(pcity);
+  city_refresh(pcity);
 
   /* Claim the ground we stand on */
   tile_set_owner(ptile, saved_owner, saved_claimer);

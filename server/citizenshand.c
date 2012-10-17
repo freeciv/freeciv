@@ -58,10 +58,6 @@ void citizens_update(struct city *pcity)
     citizens_print(pcity);
   }
 
-  /* Update feelings. */
-  city_refresh(pcity);
-  sanity_check_city(pcity);
-
   if (game.info.citizen_nationality != TRUE) {
     return;
   }

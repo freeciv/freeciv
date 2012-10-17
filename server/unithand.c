@@ -666,6 +666,7 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
   /* Make the new people something, otherwise city fails the checks */
   pcity->specialists[DEFAULT_SPECIALIST] += unit_pop_value(punit);
   citizens_update(pcity);
+  city_refresh(pcity);
   /* update squared city radius; no worker arrangement needed - it is done
    * unconditionally below */
   city_map_update_radius_sq(pcity, FALSE);

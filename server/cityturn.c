@@ -662,6 +662,7 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
 
   /* Update citizens. */
   citizens_update(pcity);
+  city_refresh(pcity);
   /* Rearrange workers. */
   auto_arrange_workers(pcity);
   /* Send city data. */
@@ -795,6 +796,7 @@ static bool city_increase_size(struct city *pcity)
   city_map_update_radius_sq(pcity, TRUE);
   /* Update citizens. */
   citizens_update(pcity);
+  city_refresh(pcity);
   /* Update workers. */
   auto_arrange_workers(pcity);
 
