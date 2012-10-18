@@ -415,8 +415,6 @@ gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
 **************************************************************************/
 gboolean leave_mapcanvas(GtkWidget *widget, GdkEventCrossing *event)
 {
-  int canvas_x, canvas_y;
-
   if (gtk_notebook_get_current_page(GTK_NOTEBOOK(top_notebook))
       != gtk_notebook_page_num(GTK_NOTEBOOK(top_notebook), map_widget)) {
     /* Map is not currently topmost tab. Do not use tile specific cursors. */
@@ -427,11 +425,10 @@ gboolean leave_mapcanvas(GtkWidget *widget, GdkEventCrossing *event)
   /* Bizarrely, this function can be called even when we don't "leave"
    * the map canvas, for instance, it gets called any time the mouse is
    * clicked. */
-  gdk_window_get_pointer(gtk_widget_get_window(map_canvas), &canvas_x, &canvas_y, NULL);
   if (map_exists()
-      && canvas_x >= 0 && canvas_y >= 0
-      && canvas_x < mapview.width && canvas_y < mapview.height) {
-    control_mouse_cursor(canvas_pos_to_tile(canvas_x, canvas_y));
+      && event->x >= 0 && event->y >= 0
+      && event->x < mapview.width && event->y < mapview.height) {
+    control_mouse_cursor(canvas_pos_to_tile(event->x, event->y));
   } else {
     update_mouse_cursor(CURSOR_DEFAULT);
   }
