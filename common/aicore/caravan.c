@@ -313,6 +313,11 @@ static double trade_benefit(const struct player *caravan_owner,
   if (!can_cities_trade(src, dest) || !can_establish_trade_route(src, dest)) {
     return 0;
   }
+  if (max_trade_routes(src) <= 0 || max_trade_routes(dest) <= 0) {
+    /* Can't create new traderoutes even by replacing old ones if
+     * there's no slots at all. */
+    return 0;
+  }
 
   if (!param->convert_trade) {
     bool countloser = param->account_for_broken_routes;
