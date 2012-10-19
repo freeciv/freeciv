@@ -2095,7 +2095,6 @@ static void city_menu_position(GtkMenu *menu, gint *x, gint *y,
 {
   GtkWidget *widget;
   GtkAllocation allocation;
-  GtkRequisition requisition;
   gint xpos;
   gint ypos;
 
@@ -2104,7 +2103,6 @@ static void city_menu_position(GtkMenu *menu, gint *x, gint *y,
   widget = GTK_WIDGET(data);
 
   gtk_widget_get_allocation(widget, &allocation);
-  gtk_widget_get_child_requisition(GTK_WIDGET(menu), &requisition);
 
   gdk_window_get_origin(gtk_widget_get_window(widget), &xpos, &ypos);
 
