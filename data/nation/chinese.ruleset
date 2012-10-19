@@ -26,7 +26,7 @@ leaders = {
 ruler_titles = {
  "government",      "male_title",      "female_title"
  "Monarchy",        _("Emperor %s"),   _("Empress Dowager %s")
- "Communism",       _("Chairman %s"),  _("Chairperson %s")
+ "Communism",       _("Chairman %s"),  _("Chairwoman %s")
 }
 
 flag="china"
