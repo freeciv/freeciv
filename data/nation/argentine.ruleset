@@ -27,7 +27,7 @@ ruler_titles = {
  "government",     "male_title",        "female_title"
  "Communism",      _("Comandante %s"),  _("Comandanta %s")
  "Despotism",      _("Caudillo %s"),    _("Caudilla %s")
- "Fundamentalism", _("Cardinal %s"),    _("?female:Cardinal %s")
+ "Fundamentalism", _("Cardinal %s"),    _("Mother Superior %s")
  "Monarchy",       _("Viceroy %s"),     _("Vicereine %s")
 }
 

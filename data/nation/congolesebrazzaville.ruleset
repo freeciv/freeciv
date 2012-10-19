@@ -25,7 +25,7 @@ leaders = {
 ruler_titles = {
  "government",     "male_title",     "female_title"
  "Communism",      _("Chairman %s"), _("Chairwoman %s")
- "Monarchy",       _("Bishop %s"),   _("Mother Superior %s")
+ "Fundamentalism", _("Bishop %s"),   _("Mother Superior %s")
 }
 
 flag="r_congo"

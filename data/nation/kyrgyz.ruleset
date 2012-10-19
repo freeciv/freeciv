@@ -21,7 +21,7 @@ ruler_titles = {
  "government",      "male_title",      "female_title"
  "Despotism",       _("%s Khan"),      _("%s Khatan")
  "Monarchy",        _("%s Khagan"),    _("?female:%s Khagan")
- "Communism",       _("Chairman %s"),  _("Chairperson %s")
+ "Communism",       _("Chairman %s"),  _("Chairwoman %s")
 }
 
 flag="kyrgyzstan"

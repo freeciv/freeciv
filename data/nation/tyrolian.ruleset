@@ -22,7 +22,7 @@ ruler_titles = {
  "Despotism",      _("Count %s"),           _("Countess %s")
  "Fundamentalism", _("Prince-Bishop %s"),   _("Princess-Bishop %s")
  "Monarchy",       _("Princely Count %s"),  _("Princely Countess %s")
- "Republic",       _("Stadtholder %s"),     _("Stadholdress %s")
+ "Republic",       _("Stadtholder %s"),     _("Stadtholdress %s")
 }
 
 flag="tyrol"

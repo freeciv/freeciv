@@ -26,6 +26,12 @@ leaders = {
  "Shim'on Bar Giora",	"Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ "Anarchy",         _("Usurper %s"),     _("?female:Usurper %s")
+ "Democracy",       _("Judge %s"),       _("?female:Judge %s")
+}
+
 flag="israel_ancient"
 flag_alt = "israel"
 city_style = "Babylonian"

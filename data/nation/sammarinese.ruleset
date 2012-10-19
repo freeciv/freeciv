@@ -23,7 +23,6 @@ ruler_titles = {
  "Communism",       _("Chairman %s"),       _("Chairwoman %s")
  "Democracy",       _("Councillor %s"),     _("?female:Councillor %s")
  "Fundamentalism",  _("Abbot %s"),          _("Mother Superior %s")
- "Monarchy",        _("Duke %s"),           _("Duchess %s")
  "Republic",        _("Captain-Regent %s"), _("?female:Captain-Regent %s")
 }
 
