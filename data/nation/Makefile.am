@@ -185,6 +185,7 @@ pkgdata_DATA = \
 		gambian.ruleset \
 		genoese.ruleset \
 		georgian.ruleset \
+		gepid.ruleset \
 		german.ruleset \
 		germanbelgian.ruleset \
 		germanic.ruleset \
@@ -266,6 +267,7 @@ pkgdata_DATA = \
 		kurd.ruleset \
 		kuwaiti.ruleset \
 		kyrgyz.ruleset \
+		langobardic.ruleset \
 		lankese.ruleset \
 		laotian.ruleset \
 		latin.ruleset \

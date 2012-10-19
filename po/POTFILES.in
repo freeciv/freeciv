@@ -409,6 +409,7 @@ data/nation/gallic.ruleset
 data/nation/gambian.ruleset
 data/nation/genoese.ruleset
 data/nation/georgian.ruleset
+data/nation/gepid.ruleset
 data/nation/german.ruleset
 data/nation/germanbelgian.ruleset
 data/nation/germanic.ruleset
@@ -490,6 +491,7 @@ data/nation/kuna.ruleset
 data/nation/kurd.ruleset
 data/nation/kuwaiti.ruleset
 data/nation/kyrgyz.ruleset
+data/nation/langobardic.ruleset
 data/nation/lankese.ruleset
 data/nation/laotian.ruleset
 data/nation/latin.ruleset

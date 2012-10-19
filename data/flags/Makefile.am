@@ -177,6 +177,7 @@ flag_files =				\
 		gambia.png		\
 		gaul.png		\
 		georgia.png		\
+		gepid.png		\
 		germanic.png		\
 		germany.png		\
 		gokturk.png		\
@@ -265,6 +266,7 @@ flag_files =				\
 		kuwait.png		\
 		kyrgyzstan.png		\
 		labarum.png		\
+		lombardy.png		\
 		laos.png		\
 		latin_empire.png	\
 		latvia.png		\
@@ -728,6 +730,7 @@ flag_files =				\
 		gambia-large.png		\
 		gaul-large.png		\
 		georgia-large.png		\
+		gepid-large.png			\
 		germanic-large.png		\
 		germany-large.png		\
 		gokturk-large.png		\
@@ -816,6 +819,7 @@ flag_files =				\
 		kuwait-large.png		\
 		kyrgyzstan-large.png		\
 		labarum-large.png		\
+		lombardy-large.png		\
 		laos-large.png		\
 		latin_empire-large.png		\
 		latvia-large.png		\
@@ -1281,6 +1285,7 @@ shield_files =					\
 		gambia-shield.png		\
 		gaul-shield.png			\
 		georgia-shield.png		\
+		gepid-shield.png		\
 		germanic-shield.png		\
 		germany-shield.png		\
 		ghana-shield.png		\
@@ -1369,6 +1374,7 @@ shield_files =					\
 		kuwait-shield.png		\
 		kyrgyzstan-shield.png		\
 		labarum-shield.png		\
+		lombardy-shield.png		\
 		laos-shield.png			\
 		latin_empire-shield.png		\
 		latvia-shield.png		\
@@ -1832,6 +1838,7 @@ shield_files =					\
 		gambia-shield-large.png			\
 		gaul-shield-large.png			\
 		georgia-shield-large.png		\
+		gepid-shield-large.png			\
 		germanic-shield-large.png		\
 		germany-shield-large.png		\
 		ghana-shield-large.png		\
@@ -1920,6 +1927,7 @@ shield_files =					\
 		kuwait-shield-large.png			\
 		kyrgyzstan-shield-large.png		\
 		labarum-shield-large.png		\
+		lombardy-shield-large.png		\
 		laos-shield-large.png			\
 		latin_empire-shield-large.png		\
 		latvia-shield-large.png		\
@@ -2385,6 +2393,7 @@ svg_files = 				\
 		gambia.svg		\
 		gaul.svg		\
 		georgia.svg		\
+		gepid.svg		\
 		germanic.svg		\
 		germany.svg		\
 		ghana.svg		\
@@ -2473,6 +2482,7 @@ svg_files = 				\
 		kuwait.svg		\
 		kyrgyzstan.svg		\
 		labarum.svg		\
+		lombardy.svg		\
 		laos.svg		\
 		latin_empire.svg	\
 		latvia.svg		\

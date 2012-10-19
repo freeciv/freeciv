@@ -184,6 +184,7 @@ artists = "
    Gambia		J.M. Maalderink
    Gaul			Daniel Markstedt and Kilian Valkhof
    Georgia		Christian Schaller
+   Gepid		Andrzej G.
    Germanic		Andrzej G.
    Germany		Philipp Sadleder
    Ghana		J.M. Maalderink
@@ -289,6 +290,7 @@ artists = "
    Lippe		ludger1961 (Wikimedia Commons) and J.M. Maalderink
    Lipka Tatar		Aotearoa (Wikimedia Commons)
    Lithuania		Christian Schaller
+   Lombardy		Flanker (Wikimedia Commons)
    Lorraine		J.M. Maalderink
    Luna			Daniel Markstedt
    Lusatia		J.M. Maalderink
@@ -741,6 +743,7 @@ sprites =
 		"f.gambia", "flags/gambia"
 		"f.gaul", "flags/gaul"
 		"f.georgia", "flags/georgia"
+		"f.gepid", "flags/gepid"
 		"f.germanic", "flags/germanic"
 		"f.germany", "flags/germany"
 		"f.ghana", "flags/ghana"
@@ -846,6 +849,7 @@ sprites =
 		"f.lipkatatar", "flags/lipkatatar"
 		"f.lippe", "flags/lippe"
 		"f.lithuania", "flags/lithuania"
+		"f.lombardy", "flags/lombardy"
 		"f.lorraine", "flags/lorraine"
 		"f.luna", "flags/luna"
 		"f.lusatia", "flags/lusatia"
