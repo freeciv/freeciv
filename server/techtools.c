@@ -948,10 +948,14 @@ Tech_type_id give_random_initial_tech(struct player *pplayer)
   Returns the stolen tech or A_NONE if no tech was found.
 ****************************************************************************/
 Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
-            	        Tech_type_id preferred)
+                          Tech_type_id preferred)
 {
   Tech_type_id stolen_tech = A_NONE;
-  
+
+  if (get_player_bonus(victim, EFT_NOT_TECH_SOURCE) > 0) {
+    return A_NONE;
+  }
+
   if (preferred == A_UNSET) {
     int j = 0;
     advance_index_iterate(A_FIRST, i) {

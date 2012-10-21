@@ -236,8 +236,10 @@ struct requirement;
 #define SPECENUM_VALUE89NAME "Irrig_TF_Possible"
 #define SPECENUM_VALUE90 EFT_MINING_TF_POSSIBLE
 #define SPECENUM_VALUE90NAME "Mining_TF_Possible"
+#define SPECENUM_VALUE91 EFT_NOT_TECH_SOURCE
+#define SPECENUM_VALUE91NAME "Not_Tech_Source"
 /* keep this last */
-#define SPECENUM_VALUE91 EFT_LAST
+#define SPECENUM_VALUE92 EFT_LAST
 #include "specenum_gen.h"
 
 /* An effect is provided by a source.  If the source is present, and the

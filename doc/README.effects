@@ -291,6 +291,9 @@ Fanatics
 No_Diplomacy
     Cannot use any diplomacy.
 
+Not_Tech_Source
+    Tech cannot be received from this player by any means.
+
 Trade_Revenue_Bonus
     Trade revenue is multiplied by pow(2, amount/1000). The amount value is 
 taken from the caravan's home city.

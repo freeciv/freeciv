@@ -1423,6 +1423,7 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_HAPPINESS_TO_GOLD:
   case EFT_FANATICS:
   case EFT_NO_DIPLOMACY:
+  case EFT_NOT_TECH_SOURCE:
   case EFT_OUTPUT_PENALTY_TILE:
   case EFT_OUTPUT_INC_TILE_CELEBRATE:
   case EFT_TRADE_REVENUE_BONUS:
