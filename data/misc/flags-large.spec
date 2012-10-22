@@ -86,6 +86,7 @@ sprites =
 		"f.brittany", "flags/brittany-large"
 		"f.brunei", "flags/brunei-large"
 		"f.bulgaria", "flags/bulgaria-large"
+		"f.burgundic", "flags/burgundic-large"
 		"f.burgundy", "flags/burgundy-large"
 		"f.burkina_faso", "flags/burkina_faso-large"
 		"f.burundi", "flags/burundi-large"

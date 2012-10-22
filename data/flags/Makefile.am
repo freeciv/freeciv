@@ -77,6 +77,7 @@ flag_files =				\
 		brittany.png		\
 		brunei.png		\
 		bulgaria.png		\
+		burgundic.png		\
 		burgundy.png		\
 		burkina_faso.png	\
 		burundi.png		\
@@ -630,6 +631,7 @@ flag_files =				\
 		brittany-large.png		\
 		brunei-large.png		\
 		bulgaria-large.png		\
+		burgundic-large.png		\
 		burgundy-large.png		\
 		burkina_faso-large.png	\
 		burundi-large.png		\
@@ -1185,6 +1187,7 @@ shield_files =					\
 		brittany-shield.png		\
 		brunei-shield.png		\
 		bulgaria-shield.png		\
+		burgundic-shield.png		\
 		burgundy-shield.png		\
 		burkina_faso-shield.png		\
 		burundi-shield.png		\
@@ -1738,6 +1741,7 @@ shield_files =					\
 		brittany-shield-large.png		\
 		brunei-shield-large.png			\
 		bulgaria-shield-large.png		\
+		burgundic-shield-large.png		\
 		burgundy-shield-large.png		\
 		burkina_faso-shield-large.png		\
 		burundi-shield-large.png		\
@@ -2293,6 +2297,7 @@ svg_files = 				\
 		brittany.svg		\
 		brunei.svg		\
 		bulgaria.svg		\
+		burgundic.svg		\
 		burgundy.svg		\
 		burkina_faso.svg	\
 		burundi.svg		\

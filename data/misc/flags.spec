@@ -85,6 +85,7 @@ artists = "
    Brittany		Lexicon
    Brunei		Gustav Broberg 
    Bulgaria		Daniel McRae
+   Burgundic		Andrzej G.
    Burgundy		Daniel Markstedt
    Burkina Faso		Gabbe (Wikimedia Commons)
    Burundi		Sebastian Koppehel
@@ -643,6 +644,7 @@ sprites =
 		"f.brittany", "flags/brittany"
 		"f.brunei", "flags/brunei"
 		"f.bulgaria", "flags/bulgaria"
+		"f.burgundic", "flags/burgundic"
 		"f.burgundy", "flags/burgundy"
 		"f.burkina_faso", "flags/burkina_faso"
 		"f.burundi", "flags/burundi"
