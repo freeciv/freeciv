@@ -82,6 +82,7 @@ pkgdata_DATA = \
 		bruneian.ruleset \
 		bulgarian.ruleset \
 		burgundian.ruleset \
+		burgundic.ruleset \
 		burkinabe.ruleset \
 		burmese.ruleset \
 		burundi.ruleset \
