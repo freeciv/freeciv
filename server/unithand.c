@@ -1635,7 +1635,9 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   char punit_link[MAX_LEN_LINK];
   int revenue, i;
   bool can_establish, home_full = FALSE, dest_full = FALSE;
-  struct city *pcity_homecity; 
+  int home_max;
+  int dest_max;
+  struct city *pcity_homecity;
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
   struct city *pcity_out_of_home = NULL, *pcity_out_of_dest = NULL;
 
@@ -1693,16 +1695,18 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   can_establish = !have_cities_trade_route(pcity_homecity, pcity_dest);
     
   if (can_establish) {
-    home_full = (city_num_trade_routes(pcity_homecity) == max_trade_routes(pcity_homecity));
-    dest_full = (city_num_trade_routes(pcity_dest) == max_trade_routes(pcity_dest));
+    home_max = max_trade_routes(pcity_homecity);
+    dest_max = max_trade_routes(pcity_dest);
+    home_full = (city_num_trade_routes(pcity_homecity) == home_max);
+    dest_full = (city_num_trade_routes(pcity_dest) == dest_max);
   }
-  
+
   if (home_full || dest_full) {
     int slot, trade = trade_between_cities(pcity_homecity, pcity_dest);
 
     /* See if there's a trade route we can cancel at the home city. */
     if (home_full) {
-      if (get_city_min_trade_route(pcity_homecity, &slot) < trade) {
+      if (home_max > 0 && get_city_min_trade_route(pcity_homecity, &slot) < trade) {
         pcity_out_of_home = game_city_by_number(pcity_homecity->trade[slot]);
         fc_assert(pcity_out_of_home != NULL);
       } else {
@@ -1723,7 +1727,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     
     /* See if there's a trade route we can cancel at the dest city. */
     if (can_establish && dest_full) {
-      if (get_city_min_trade_route(pcity_dest, &slot) < trade) {
+      if (dest_max > 0 && get_city_min_trade_route(pcity_dest, &slot) < trade) {
         pcity_out_of_dest = game_city_by_number(pcity_dest->trade[slot]);
         fc_assert(pcity_out_of_dest != NULL);
       } else {

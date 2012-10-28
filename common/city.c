@@ -1470,14 +1470,26 @@ int get_city_min_trade_route(const struct city *pcity, int *slot)
 bool can_establish_trade_route(const struct city *pc1, const struct city *pc2)
 {
   int trade = -1;
+  int maxpc1;
+  int maxpc2;
 
   if (!pc1 || !pc2 || pc1 == pc2
       || !can_cities_trade(pc1, pc2)
       || have_cities_trade_route(pc1, pc2)) {
     return FALSE;
   }
+
+  /* First check if cities can have trade routes at all. */
+  maxpc1 = max_trade_routes(pc1);
+  if (maxpc1 <= 0) {
+    return FALSE;
+  }
+  maxpc2 = max_trade_routes(pc2);
+  if (maxpc2 <= 0) {
+    return FALSE;
+  }
     
-  if (city_num_trade_routes(pc1) == max_trade_routes(pc1)) {
+  if (city_num_trade_routes(pc1) == maxpc1) {
     trade = trade_between_cities(pc1, pc2);
     /* can we replace trade route? */
     if (get_city_min_trade_route(pc1, NULL) >= trade) {
@@ -1485,7 +1497,7 @@ bool can_establish_trade_route(const struct city *pc1, const struct city *pc2)
     }
   }
   
-  if (city_num_trade_routes(pc2) == max_trade_routes(pc2)) {
+  if (city_num_trade_routes(pc2) == maxpc2) {
     if (trade == -1) {
       trade = trade_between_cities(pc1, pc2);
     }
