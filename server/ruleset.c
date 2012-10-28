@@ -3601,6 +3601,7 @@ static void load_ruleset_game(const char *rsdir)
                                          RS_MIN_UPGRADE_VETERAN_LOSS,
                                          RS_MAX_UPGRADE_VETERAN_LOSS,
                                          "civstyle.autoupgrade_veteran_loss");
+
   /* TODO: move to new section research */
   game.info.base_tech_cost
     = secfile_lookup_int_default_min_max(file,
@@ -3805,6 +3806,14 @@ static void load_ruleset_game(const char *rsdir)
                                          RS_MIN_TECH_UPKEEP_DIVIDER,
                                          RS_MAX_TECH_UPKEEP_DIVIDER,
                                          "research.tech_upkeep_divider");
+
+  sval = secfile_lookup_str(file, "research.free_tech_method");
+  game.info.free_tech_method = free_tech_method_by_name(sval, fc_strcasecmp);
+  if (!free_tech_method_is_valid(game.info.free_tech_method)) {
+    log_error("Bad value %s for free_tech_method. Using "
+              "\"Goal\".", sval);
+    game.info.free_tech_method = FTM_GOAL;
+  }
 
   /* section: calendar */
   game.info.calendar_skip_0

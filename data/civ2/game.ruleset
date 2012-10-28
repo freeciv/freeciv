@@ -151,6 +151,11 @@ radius_sq_city = 17
 ; Border radius square increased by this amount / point of city size
 size_effect    = 1
 
+; Method of selecting techs given for free
+; "Goal" - Towards player`s goal, random if no goal
+; "Random" - Random available tech
+free_tech_method = "Random"
+
 [calendar]
 ; Year 1 instead of 0.
 skip_year_0 = 1

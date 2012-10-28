@@ -226,6 +226,7 @@ type SPECIAL            = uint16(enum tile_special_type)
 type SSET_CLASS         = uint8(enum sset_class)
 type SSET_TYPE          = uint8(enum sset_type)
 type ROAD_COMPAT        = uint8(enum road_compat)
+type FTM                = uint8(enum free_tech_method)
 
 # typedefs for bit vectors
 type BV_BASE_FLAGS      = bitvector(bv_base_flags)
@@ -479,6 +480,7 @@ PACKET_GAME_INFO = 16; sc
   UINT8 tech_leakage;
   UINT16 tech_upkeep_divider;
   UINT8 tech_upkeep_style;
+  FTM free_tech_method;
   UINT32 timeout;
   BOOL tired_attack;
   UINT16 trademindist;

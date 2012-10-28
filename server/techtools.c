@@ -52,7 +52,6 @@
 #undef TECH_UPKEEP_DEBUGGING
 
 static Tech_type_id pick_random_tech_researched(struct player* plr);
-static Tech_type_id pick_random_tech(struct player* plr);
 static void player_tech_lost(struct player* plr, Tech_type_id tech);
 static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech);
 
@@ -408,11 +407,8 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
                         "world join your civilization: you get "
                         "an immediate advance."));
     }
-    
-    if (research->researching == A_UNSET) {
-      choose_random_tech(plr);
-    }
-    tech_researched(plr);
+
+    give_immediate_free_tech(plr);
   }
 
   /*
@@ -696,7 +692,7 @@ static void player_tech_lost(struct player* plr, Tech_type_id tech)
   Returns random researchable tech or A_FUTURE.
   No side effects
 ****************************************************************************/
-static Tech_type_id pick_random_tech(struct player* plr) 
+Tech_type_id pick_random_tech(struct player* plr) 
 {
   int chosen, researchable = 0;
 
@@ -1105,7 +1101,7 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
 Tech_type_id give_random_free_tech(struct player* pplayer)
 {
   Tech_type_id tech;
-  
+
   tech = pick_random_tech(pplayer);
   do_free_cost(pplayer, tech);
   found_new_tech(pplayer, tech, FALSE, TRUE);
@@ -1118,7 +1114,8 @@ Tech_type_id give_random_free_tech(struct player* pplayer)
 Tech_type_id give_immediate_free_tech(struct player* pplayer)
 {
   Tech_type_id tech;
-  if (player_research_get(pplayer)->researching == A_UNSET) {
+  if (player_research_get(pplayer)->researching == A_UNSET
+      || game.info.free_tech_method == FTM_RANDOM) {
     return give_random_free_tech(pplayer);
   }
   tech = player_research_get(pplayer)->researching;

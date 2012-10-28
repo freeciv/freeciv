@@ -183,6 +183,13 @@ typedef int Unit_Class_id;
 #define SPECENUM_VALUE7NAME "Southeast"
 #include "specenum_gen.h"
 
+#define SPECENUM_NAME free_tech_method
+#define SPECENUM_VALUE0 FTM_GOAL
+#define SPECENUM_VALUE0NAME "Goal"
+#define SPECENUM_VALUE1 FTM_RANDOM
+#define SPECENUM_VALUE1NAME "Random"
+#include "specenum_gen.h"
+
 /* Some code requires compile time value for number of directions, and
  * cannot use specenum function call direction8_max(). */
 #define DIR8_MAGIC_MAX 8

@@ -193,6 +193,11 @@ tech_upkeep_style = 0
 ; upkeep cost is divided by this value
 tech_upkeep_divider = 2000
 
+; Method of selecting techs given for free
+; "Goal" - Towards player`s goal, random if no goal
+; "Random" - Random available tech
+free_tech_method = "Goal"
+
 [calendar]
 ; Year in the beginning of the game
 start_year = -4000

@@ -40,4 +40,6 @@ Tech_type_id give_random_initial_tech(struct player *pplayer);
 bool tech_transfer(struct player *plr_recv, struct player *plr_donor,
                    Tech_type_id tech);
 
+Tech_type_id pick_random_tech(struct player* plr);
+
 #endif  /* FC__TECHTOOLS_H */
