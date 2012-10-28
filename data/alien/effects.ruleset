@@ -13,7 +13,7 @@ options="+Freeciv-ruleset-Devel-2012.Feb.28"
 ; Effects for nations are in separate file
 *include "alien/nation_effects.ruleset"
 
-[effect_barb1]
+[effect_madmen1]
 name    = "No_Diplomacy"
 value   = 1
 reqs    =
@@ -21,8 +21,24 @@ reqs    =
       "Nation", "Madmen", "Player"
     }
 
-[effect_barb2]
+[effect_madmen2]
+name    = "Not_Tech_Source"
+value   = 1
+reqs    =
+    { "type",   "name", "range"
+      "Nation", "Madmen", "Player"
+    }
+
+[effect_lunatic1]
 name    = "No_Diplomacy"
+value   = 1
+reqs    =
+    { "type",   "name", "range"
+      "Nation", "Lunatic", "Player"
+    }
+
+[effect_lunatic2]
+name    = "Not_Tech_Source"
 value   = 1
 reqs    =
     { "type",   "name", "range"
