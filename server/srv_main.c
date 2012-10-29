@@ -815,7 +815,8 @@ static void begin_turn(bool is_new_turn)
    * player for ranking purposes. */
   players_iterate(pplayer) {
     if (strcmp(pplayer->ranked_username, ANON_USER_NAME) == 0
-        && pplayer->user_turns++ > TURNS_NEEDED_TO_RANK) {
+        && pplayer->user_turns++ > TURNS_NEEDED_TO_RANK
+	&& pplayer->is_alive) {
       sz_strlcpy(pplayer->ranked_username, pplayer->username);
     }
   } players_iterate_end;
