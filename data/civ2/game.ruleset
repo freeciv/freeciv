@@ -152,8 +152,9 @@ radius_sq_city = 17
 size_effect    = 1
 
 ; Method of selecting techs given for free
-; "Goal" - Towards player`s goal, random if no goal
-; "Random" - Random available tech
+; "Goal"     - Towards player`s goal, random if no goal
+; "Random"   - Random researchable tech
+; "Cheapest" - Cheapest researchable tech, random among equal cost ones
 free_tech_method = "Random"
 
 [calendar]

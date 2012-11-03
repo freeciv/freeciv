@@ -263,8 +263,10 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
   } else {
     /* Can't just call give_immediate_free_tech() here as we want
      * to pass correct reason to emitted signal. */
-    if (player_research_get(pplayer)->researching == A_UNSET
-        || game.info.free_tech_method == FTM_RANDOM) {
+    if (game.info.free_tech_method == FTM_CHEAPEST) {
+      id = pick_cheapest_tech(pplayer);
+    } else if (player_research_get(pplayer)->researching == A_UNSET
+               || game.info.free_tech_method == FTM_RANDOM) {
       id = pick_random_tech(pplayer);
     } else {
       id = player_research_get(pplayer)->researching;

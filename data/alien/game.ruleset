@@ -179,8 +179,9 @@ tech_upkeep_style = 0
 tech_upkeep_divider = 2000
 
 ; Method of selecting techs given for free
-; "Goal" - Towards player`s goal, random if no goal
-; "Random" - Random available tech
+; "Goal"     - Towards player`s goal, random if no goal
+; "Random"   - Random researchable tech
+; "Cheapest" - Cheapest researchable tech, random among equal cost ones
 free_tech_method = "Goal"
 
 [calendar]

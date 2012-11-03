@@ -719,6 +719,54 @@ Tech_type_id pick_random_tech(struct player* plr)
 }
 
 /****************************************************************************
+  Returns cheapest researchable tech, random among equal cost ones.
+****************************************************************************/
+Tech_type_id pick_cheapest_tech(struct player* plr)
+{
+  int cheapest_cost = -1;
+  int cheapest_amount;
+  Tech_type_id cheapest = A_NONE;
+  int chosen;
+
+  advance_index_iterate(A_FIRST, i) {
+    if (player_invention_state(plr, i) == TECH_PREREQS_KNOWN) {
+      int cost = base_total_bulbs_required(plr, i);
+
+      if (cost < cheapest_cost || cheapest_cost == -1) {
+        cheapest_cost = cost;
+        cheapest_amount = 1;
+        cheapest = i;
+      } else if (cost == cheapest_cost) {
+        cheapest_amount++;
+      }
+    }
+  } advance_index_iterate_end;
+  if (cheapest_cost == -1) {
+    return A_FUTURE;
+  }
+  if (cheapest_amount == 1) {
+    /* No need to get random one among the 1 cheapest */
+    return cheapest;
+  }
+
+  chosen = fc_rand(cheapest_amount) + 1;
+
+  advance_index_iterate(A_FIRST, i) {
+    if (player_invention_state(plr, i) == TECH_PREREQS_KNOWN
+        && base_total_bulbs_required(plr, i) == cheapest_cost) {
+      chosen--;
+      if (chosen == 0) {
+        return i;
+      }
+    }
+  } advance_index_iterate_end;
+
+  fc_assert(FALSE);
+
+  return A_NONE;
+}
+
+/****************************************************************************
   Finds and chooses (sets) a random research target from among all those
   available until plr->research->researching != A_UNSET.
   Player may research more than one tech in this function.
@@ -1114,11 +1162,15 @@ Tech_type_id give_random_free_tech(struct player* pplayer)
 Tech_type_id give_immediate_free_tech(struct player* pplayer)
 {
   Tech_type_id tech;
-  if (player_research_get(pplayer)->researching == A_UNSET
+
+  if (game.info.free_tech_method == FTM_CHEAPEST) {
+    tech = pick_cheapest_tech(pplayer);
+  } else if (player_research_get(pplayer)->researching == A_UNSET
       || game.info.free_tech_method == FTM_RANDOM) {
     return give_random_free_tech(pplayer);
+  } else {
+    tech = player_research_get(pplayer)->researching;
   }
-  tech = player_research_get(pplayer)->researching;
   do_free_cost(pplayer, tech);
   found_new_tech(pplayer, tech, FALSE, TRUE);
   return tech;

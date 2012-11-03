@@ -188,6 +188,8 @@ typedef int Unit_Class_id;
 #define SPECENUM_VALUE0NAME "Goal"
 #define SPECENUM_VALUE1 FTM_RANDOM
 #define SPECENUM_VALUE1NAME "Random"
+#define SPECENUM_VALUE2 FTM_CHEAPEST
+#define SPECENUM_VALUE2NAME "Cheapest"
 #include "specenum_gen.h"
 
 /* Some code requires compile time value for number of directions, and
