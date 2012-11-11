@@ -302,7 +302,7 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
     }
     /* <SHIFT> + <ALT> + RMB : Show/hide workers. */
     else if ((ev->state & GDK_SHIFT_MASK) && (ev->state & GDK_MOD1_MASK)) {
-      overlay_workers_at_city();
+      key_city_overlay(ev->x, ev->y);
     }
     /* <SHIFT + CONTROL> + RMB: Paste Production. */
     else if ((ev->state & GDK_SHIFT_MASK) && (ev->state & GDK_CONTROL_MASK)
@@ -474,15 +474,4 @@ gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev, gpointer dat
 void center_on_unit(void)
 {
   request_center_focus_unit();
-}
-
-/**************************************************************************
-  Shows/hides overlay on the map for the city at this location
-**************************************************************************/
-void overlay_workers_at_city(void)
-{
-  int x, y;
-  
-  gdk_window_get_pointer(gtk_widget_get_window(map_canvas), &x, &y, NULL);
-  key_city_overlay(x, y);
 }
