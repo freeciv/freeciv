@@ -28,7 +28,7 @@ DATASUBDIR=2.3
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
 NETWORK_CAPSTRING_MANDATORY="+Freeciv-2.3-network"
-NETWORK_CAPSTRING_OPTIONAL="timeout_extended_range eg_report_size rules_finishedtrademindist_size"
+NETWORK_CAPSTRING_OPTIONAL="timeout_extended_range eg_report_size rules_finished trademindist_size"
 
 if test x$VERSION_SCRIPT_SILENT != xyes ; then
   VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}${VERSION_LABEL}
