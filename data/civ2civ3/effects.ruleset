@@ -168,6 +168,10 @@ nreqs   =
       "UnitClass", "Missile", "Local"
     }
 
+[effect_trade_routes]
+type    = "Max_Trade_Routes"
+value   = 4
+
 ; Base vision range - radius of vision is sqrt(5) = 2.24
 [effect_city_vision]
 type    = "City_Vision_Radius_Sq"
