@@ -499,14 +499,14 @@ static int defense_multiplication(const struct unit_type *att_type,
   fc_assert_ret_val(NULL != def_type, 0);
 
   if (NULL != att_type) {
+    int defense_multiplier = 1 + combat_bonus_against(def_type->bonuses, att_type,
+                                                      CBONUS_DEFENSE_MULTIPLIER);
+
+    defensepower *= defense_multiplier;
+
     if (utype_has_flag(def_type, UTYF_PIKEMEN)
 	&& utype_has_flag(att_type, UTYF_HORSE)) {
       defensepower *= 2;
-    }
-
-    if (utype_has_flag(def_type, UTYF_AEGIS)
-        && utype_has_flag(att_type, UTYF_AIRUNIT)) {
-      defensepower *= 5;
     }
 
     if (!utype_has_flag(att_type, UTYF_IGWALL)) {
@@ -710,4 +710,22 @@ bool is_stack_vulnerable(const struct tile *ptile)
   return (game.info.killstack
           && !tile_has_base_flag(ptile, BF_NO_STACK_DEATH)
           && NULL == tile_city(ptile));
+}
+
+/**************************************************************************
+  Get bonus value against given unit type from bonus list.
+**************************************************************************/
+int combat_bonus_against(const struct combat_bonus_list *list,
+                         const struct unit_type *enemy,
+                         enum combat_bonus_type type)
+{
+  int value = 0;
+
+  combat_bonus_list_iterate(list, pbonus) {
+    if (pbonus->type == type && utype_has_flag(enemy, pbonus->flag)) {
+      value += pbonus->value;
+    }
+  } combat_bonus_list_iterate_end;
+
+  return value;
 }

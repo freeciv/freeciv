@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 227
+Max id: 228
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -227,6 +227,8 @@ type SSET_CLASS         = uint8(enum sset_class)
 type SSET_TYPE          = uint8(enum sset_type)
 type ROAD_COMPAT        = uint8(enum road_compat)
 type FTM                = uint8(enum free_tech_method)
+type UTYF               = uint8(enum unit_type_flag_id)
+type CBONUS_TYPE        = uint8(enum combat_bonus_type)
 
 # typedefs for bit vectors
 type BV_BASE_FLAGS      = bitvector(bv_base_flags)
@@ -1207,6 +1209,13 @@ PACKET_RULESET_UNIT = 140; sc, lsend
 
   BV_UTYPE_FLAGS flags;
   BV_UTYPE_ROLES roles;
+end
+
+PACKET_RULESET_UNIT_BONUS = 228; sc, lsend
+  UNIT_TYPE   unit;
+  UTYF        flag;
+  CBONUS_TYPE type;
+  UINT8       value;
 end
 
 PACKET_RULESET_GAME = 141; sc, lsend

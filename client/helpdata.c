@@ -1686,10 +1686,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
             _("* Very good at attacking 'helicopter' units.\n"));
   }
-  if (utype_has_flag(utype, UTYF_AIRUNIT)) {
-    CATLSTR(buf, bufsz,
-            _("* Very bad at attacking AEGIS units.\n"));
-  }
   if (!uclass_has_flag(utype_class(utype), UCF_MISSILE)
       && utype_has_flag(utype, UTYF_ONEATTACK)) {
     CATLSTR(buf, bufsz,
@@ -1712,10 +1708,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 		   " only damage (never kill) the defender, but have no risk"
 		   " for the attacker.\n"),
 		 utype->bombard_rate);
-  }
-  if (utype_has_flag(utype, UTYF_AEGIS)) {
-    CATLSTR(buf, bufsz,
-	    _("* Gets quintuple defense against missiles and aircraft.\n"));
   }
   if (utype_has_flag(utype, UTYF_IGTER)) {
     CATLSTR(buf, bufsz,

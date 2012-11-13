@@ -120,7 +120,6 @@ enum unit_type_flag_id {
   UTYF_HORSE,
   UTYF_IGWALL,           /* Ignores EFT_DEFEND_BONUS (for example city walls) */
   UTYF_FIELDUNIT,
-  UTYF_AEGIS,
   UTYF_MARINES,
   UTYF_PARTIAL_INVIS,    /* Invisibile except when adjacent (Submarine) */   
   UTYF_SETTLERS,         /* Does not include ability to found cities */
@@ -148,7 +147,6 @@ enum unit_type_flag_id {
                           * (for example, land unit attacking city with walls) */
   UTYF_BADCITYDEFENDER,  /* Firepower set to 1 and attackers x2 when in city */
   UTYF_HELICOPTER,       /* Defends badly against UTYF_FIGHTER units */
-  UTYF_AIRUNIT,          /* Bad at attacking UTYF_AEGIS units */
   UTYF_FIGHTER,          /* Good at attacking UTYF_HELICOPTER units */
   UTYF_BARBARIAN_ONLY,   /* Only barbarians can build this unit */
   UTYF_SHIELD2GOLD,      /* upkeep can switch from shield to gold */
@@ -203,6 +201,26 @@ enum unit_role_id {
 BV_DEFINE(bv_unit_type_flags, UTYF_MAX);
 BV_DEFINE(bv_unit_type_roles, L_MAX);
 
+#define SPECENUM_NAME combat_bonus_type
+#define SPECENUM_VALUE0 CBONUS_DEFENSE_MULTIPLIER
+#define SPECENUM_VALUE0NAME "DefenseMultiplier"
+#include "specenum_gen.h"
+
+struct combat_bonus {
+  enum unit_type_flag_id  flag;
+  enum combat_bonus_type  type;
+  int                     value;
+};
+
+/* get 'struct combat_bonus_list' and related functions: */
+#define SPECLIST_TAG combat_bonus
+#define SPECLIST_TYPE struct combat_bonus
+#include "speclist.h"
+
+#define combat_bonus_list_iterate(bonuslist, pbonus) \
+    TYPED_LIST_ITERATE(struct combat_bonus, bonuslist, pbonus)
+#define combat_bonus_list_iterate_end LIST_ITERATE_END
+
 struct veteran_level {
   struct name_translation name; /* level/rank name */
   int power_fact; /* combat/work speed/diplomatic power factor (in %) */
@@ -240,6 +258,7 @@ struct unit_type {
   int transport_capacity;
   int hp;
   int firepower;
+  struct combat_bonus_list *bonuses;
 
 #define U_NOT_OBSOLETED (NULL)
   struct unit_type *obsoleted_by;

@@ -47,13 +47,13 @@ static struct unit_class unit_classes[UCL_LAST];
 static const char *type_flag_names[] = {
   "TradeRoute", "HelpWonder", "IgZOC", "NonMil", "IgTer", 
   "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", 
-  "AEGIS", "Marines", "Partial_Invis", "Settlers", "Diplomat",
+  "Marines", "Partial_Invis", "Settlers", "Diplomat",
   "Trireme", "Nuclear", "Spy", "Paratroopers",
   "Cities", "Only_Native_Attack",
   "AddToCity", "Fanatic", "GameLoss", "Unique", "Unbribable", 
   "Undisbandable", "SuperSpy", "NoHome", "NoVeteran", "Bombarder",
   "CityBuster", "NoBuild", "BadWallAttacker", "BadCityDefender",
-  "Helicopter", "AirUnit", "Fighter", "BarbarianOnly", "Shield2Gold",
+  "Helicopter", "Fighter", "BarbarianOnly", "Shield2Gold",
   "Capturable", "Capturer"
 };
 static char *user_type_flag_names[MAX_NUM_USER_UNIT_FLAGS]
@@ -963,6 +963,7 @@ void unit_types_init(void)
   for (i = 0; i < ARRAY_SIZE(unit_types); i++) {
     unit_types[i].item_number = i;
     unit_types[i].veteran = NULL;
+    unit_types[i].bonuses = combat_bonus_list_new();
   }
 }
 
@@ -975,6 +976,10 @@ static void unit_type_free(struct unit_type *punittype)
     strvec_destroy(punittype->helptext);
     punittype->helptext = NULL;
     veteran_system_destroy(punittype->veteran);
+    combat_bonus_list_iterate(punittype->bonuses, pbonus) {
+      FC_FREE(pbonus);
+    } combat_bonus_list_iterate_end;
+    combat_bonus_list_destroy(punittype->bonuses);
   }
 }
 

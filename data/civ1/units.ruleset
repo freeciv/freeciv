@@ -165,6 +165,10 @@ flags         = "Missile", "Unreachable", "DoesntOccupyTile"
 ; city_size     = Initial size of the cities Settlers type unit builds
 ; targets       = list of unit classes this unit can attack against even
 ;                 if they have Unreachable unit class flag
+; bonuses       = definitions of combat bonuses against specific other units
+; bonuses.flag  = flag of the unit that bonus applies against
+; bonuses.type  = type of the bonus. See below
+; bonuses.value = value of the bonus. Sum of these is used if multiple apply.
 ; flags         = special flag strings
 ;
 ; veteran_names = Special veteran level for this unit. See the definitions in
@@ -184,6 +188,13 @@ flags         = "Missile", "Unreachable", "DoesntOccupyTile"
 ;		   supported in client
 ; helptext	= optional help text string; should escape all raw newlines 
 ;		  so that xgettext parsing works
+;
+;
+; ** Bonuses **
+;
+; "DefenseMultiplier" = Add defense value 'value' times. Value of 1 means multiplication
+;                       by 2, value 2 by 3...
+;
 ;
 ; Following flag strings require extra fields:  (but do not appear in Civ1)
 ;  "Paratroopers"
@@ -690,7 +701,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 targets       = "Air", "Missile"
-flags         = "FieldUnit", "Fighter", "AirUnit"
+flags         = "FieldUnit", "Fighter"
 roles         = ""
 helptext      = _("\
 Fighters are your first airborne units. They can\
@@ -722,7 +733,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "OneAttack", "AirUnit"
+flags         = "FieldUnit", "OneAttack"
 roles         = ""
 helptext      = _("\
 Bombers are specialized airborne units that may\
@@ -1055,7 +1066,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "OneAttack", "Nuclear", "AirUnit"
+flags         = "FieldUnit", "OneAttack", "Nuclear"
 roles         = ""
 helptext      = _("\
 You can build Nuclear units when you have the required advance, and\

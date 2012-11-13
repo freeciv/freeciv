@@ -2903,6 +2903,25 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
 }
 
 /****************************************************************************
+  Packet ruleset_unit_bonus handler.
+****************************************************************************/
+void handle_ruleset_unit_bonus(const struct packet_ruleset_unit_bonus *p)
+{
+  struct unit_type *u = utype_by_number(p->unit);
+  struct combat_bonus *bonus;
+
+  fc_assert_ret_msg(NULL != u, "Bad unit_type %d.", p->unit);
+
+  bonus = malloc(sizeof(*bonus));
+
+  bonus->flag  = p->flag;
+  bonus->type  = p->type;
+  bonus->value = p->value;
+
+  combat_bonus_list_append(u->bonuses, bonus);
+}
+
+/****************************************************************************
   Packet ruleset_tech handler.
 ****************************************************************************/
 void handle_ruleset_tech(const struct packet_ruleset_tech *p)

@@ -387,6 +387,57 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
 }
 
 /**************************************************************************
+  Load combat bonus list
+**************************************************************************/
+static bool lookup_cbonus_list(struct combat_bonus_list *list,
+                               struct section_file *file,
+                               const char *sec,
+                               const char *sub)
+{
+  const char *flag;
+  int j;
+  const char *filename;
+  bool success = TRUE;
+
+  filename = secfile_name(file);
+
+  for (j = 0; (flag = secfile_lookup_str_default(file, NULL, "%s.%s%d.flag",
+                                                 sec, sub, j)); j++) {
+    struct combat_bonus *bonus = fc_malloc(sizeof(*bonus));
+    const char *type;
+
+    bonus->flag = unit_flag_by_rule_name(flag);
+    if (bonus->flag == UTYF_LAST) {
+      log_error("\"%s\": unknown flag name \"%s\" in '%s.%s'.",
+                filename, flag, sec, sub);
+      FC_FREE(bonus);
+      success = FALSE;
+      continue;
+    }
+    type = secfile_lookup_str(file, "%s.%s%d.type", sec, sub, j);
+    bonus->type = combat_bonus_type_by_name(type, fc_strcasecmp);
+    if (!combat_bonus_type_is_valid(bonus->type)) {
+      log_error("\"%s\": unknown bonus type \"%s\" in '%s.%s'.",
+                filename, type, sec, sub);
+      FC_FREE(bonus);
+      success = FALSE;
+      continue;
+    }
+    if (!secfile_lookup_int(file, &bonus->value, "%s.%s%d.value",
+                            sec, sub, j)) {
+      log_error("\"%s\": failed to get value from '%s.%s%d'.",
+                filename, sec, sub, j);
+      FC_FREE(bonus);
+      success = FALSE;
+      continue;
+    }
+    combat_bonus_list_append(list, bonus);
+  }
+
+  return success;
+}
+
+/**************************************************************************
  Lookup a string prefix.entry in the file and return the corresponding
  advances pointer.  If (!required), return A_NEVER for match "Never" or
  can't match.  If (required), die when can't match.  Note the first tech
@@ -1480,6 +1531,8 @@ static void load_ruleset_units(struct section_file *file)
                     utype_rule_name(u),
                     u->firepower);
     }
+
+    lookup_cbonus_list(u->bonuses, file, sec_name, "bonuses");
 
     output_type_iterate(o) {
       u->upkeep[o] = secfile_lookup_int_default(file, 0, "%s.uk_%s",
@@ -4041,6 +4094,17 @@ static void send_ruleset_units(struct conn_list *dest)
     PACKET_STRVEC_COMPUTE(packet.helptext, u->helptext);
 
     lsend_packet_ruleset_unit(dest, &packet);
+
+    combat_bonus_list_iterate(u->bonuses, pbonus) {
+      struct packet_ruleset_unit_bonus bonuspacket;
+
+      bonuspacket.unit  = packet.id;
+      bonuspacket.flag  = pbonus->flag;
+      bonuspacket.type  = pbonus->type;
+      bonuspacket.value = pbonus->value;
+
+      lsend_packet_ruleset_unit_bonus(dest, &bonuspacket);
+    } combat_bonus_list_iterate_end;
   } unit_type_iterate_end;
 }
 

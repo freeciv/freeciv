@@ -23,9 +23,10 @@ options="+Freeciv-ruleset-Devel-2012.Feb.28"
 
 [flags]
 ; Names for custom unit type flags.
-names = "Airbase", "Transform"
-; Airbase - can build airbases. See airbase definition in terrain.ruleset
+names = "Airbase", "Transform", "AirUnit"
+; Airbase   - can build airbases. See airbase definition in terrain.ruleset
 ; Transform - can transform terrain.
+; AirUnit   - very bad at attacking AEGIS units
 
 [veteran_system]
 ; What are the names of the levels?
@@ -207,6 +208,10 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; city_size     = Initial size of the cities Settlers type unit builds
 ; targets       = list of unit classes this unit can attack against even
 ;                 if they have Unreachable unit class flag
+; bonuses       = definitions of combat bonuses against specific other units
+; bonuses.flag  = flag of the unit that bonus applies against
+; bonuses.type  = type of the bonus. See below
+; bonuses.value = value of the bonus. Sum of these is used if multiple apply.
 ; flags         = special flag strings
 ;
 ; veteran_names = Special veteran level for this unit. See the definitions in
@@ -227,6 +232,13 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; helptext	= optional help text string; should escape all raw newlines 
 ;		  so that xgettext parsing works
 ;
+;
+; ** Bonuses **
+;
+; "DefenseMultiplier" = Add defense value 'value' times. Value of 1 means multiplication
+;                       by 2, value 2 by 3...
+;
+;
 ; ** Flags **
 ;
 ; "HelpWonder"	= can help build wonders
@@ -240,7 +252,6 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; "Horse"	= (no effect)
 ; "IgWall"	= ignore effect of city walls
 ; "FieldUnit"	= cause unhappiness even when not being aggressive
-; "AEGIS"	= fivefold increased defence against "AirUnit" attacks
 ; "Marines"	= can attack from non-native tile (from transport or city)
 ; "Partial_Invis" = visible only to adjancent units; does not hide transported
 ;		  units other than missiles
@@ -285,7 +296,6 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;		  and firepower of attacker is doubled (the Pearl Harbour
 ;                 rule)
 ; "Helicopter"  = defends very badly against "Fighter" units
-; "AirUnit"     = very bad at attacking "AEGIS" units
 ; "Fighter"     = good attacker against "Helicopter" units
 ; "BarbarianOnly" = only barbarians can build this unit
 ; "Shield2Gold" = Switch from shield upkeep to gold upkeep possible
@@ -1618,7 +1628,11 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "AEGIS", "BadCityDefender", "Shield2Gold"
+bonuses       =
+   { "flag", "type", "value"
+     "AirUnit", "DefenseMultiplier", 4
+   }
+flags         = "BadCityDefender", "Shield2Gold"
 roles         = "DefendGood"
 helptext      = _("\
 The AEGIS Cruiser is equipped with an advanced\
