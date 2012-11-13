@@ -1326,7 +1326,7 @@ GtkWidget *create_network_page(void)
   gtk_box_pack_start(GTK_BOX(hbox), sw, TRUE, TRUE, 0);
 
 
-  bbox = gtk_hbutton_box_new();
+  bbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(bbox), GTK_BUTTONBOX_END);
   gtk_box_set_spacing(GTK_BOX(bbox), 12);
   gtk_box_pack_start(GTK_BOX(sbox), bbox, FALSE, FALSE, 2);
@@ -2853,7 +2853,7 @@ GtkWidget *create_load_page(void)
   gtk_container_add(GTK_CONTAINER(sw), view);
   gtk_box_pack_start(GTK_BOX(sbox), sw, TRUE, TRUE, 0);
 
-  bbox = gtk_hbutton_box_new();
+  bbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(bbox), GTK_BUTTONBOX_END);
   gtk_box_set_spacing(GTK_BOX(bbox), 12);
   gtk_box_pack_start(GTK_BOX(box), bbox, FALSE, FALSE, 0);
@@ -3060,7 +3060,7 @@ GtkWidget *create_scenario_page(void)
   gtk_box_pack_start(GTK_BOX(descbox), filenamebox, FALSE, FALSE, 5);
   gtk_container_add(GTK_CONTAINER(align), descbox);
 
-  bbox = gtk_hbutton_box_new();
+  bbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(bbox), GTK_BUTTONBOX_END);
   gtk_box_set_spacing(GTK_BOX(bbox), 12);
   gtk_box_pack_start(GTK_BOX(vbox), bbox, FALSE, FALSE, 0);

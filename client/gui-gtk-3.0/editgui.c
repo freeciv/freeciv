@@ -535,7 +535,7 @@ static struct editbar *editbar_create(void)
 
   editbar_add_mode_button(eb, ETM_ERASE);
 
-  separator = gtk_vseparator_new();
+  separator = gtk_separator_new(GTK_ORIENTATION_VERTICAL);
   gtk_box_pack_start(GTK_BOX(hbox), separator, FALSE, FALSE, 0);
 
   editbar_add_tool_button(eb, ETT_TERRAIN);
@@ -549,7 +549,7 @@ static struct editbar *editbar_create(void)
   editbar_add_tool_button(eb, ETT_STARTPOS);
   editbar_add_tool_button(eb, ETT_COPYPASTE);
 
-  separator = gtk_vseparator_new();
+  separator = gtk_separator_new(GTK_ORIENTATION_VERTICAL);
   gtk_box_pack_start(GTK_BOX(hbox), separator, FALSE, FALSE, 0);
 
   /* Player POV indicator. */

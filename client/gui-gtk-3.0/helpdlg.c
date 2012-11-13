@@ -714,7 +714,7 @@ static void create_help_dialog(void)
   g_signal_connect(help_tree_collapse, "clicked",
 		   G_CALLBACK(help_tech_tree_collapse_callback), help_tree);
 
-  help_tree_buttons_hbox = gtk_hbutton_box_new();
+  help_tree_buttons_hbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_container_add(GTK_CONTAINER(help_tree_buttons_hbox), help_tree_expand);
   gtk_container_add(GTK_CONTAINER(help_tree_buttons_hbox), help_tree_collapse);
   gtk_box_pack_start(GTK_BOX(help_box), help_tree_buttons_hbox,
@@ -989,7 +989,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
       gtk_text_buffer_set_text(txt, buf, -1);
     }
 
-    w = gtk_hseparator_new();
+    w = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
     gtk_box_pack_start(GTK_BOX(help_vbox), w, TRUE, TRUE, 5);
     gtk_widget_show(w);
 

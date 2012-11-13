@@ -274,7 +274,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   g_signal_connect(view, "key-press-event",
 		   G_CALLBACK(cma_preset_key_pressed_callback), pdialog);
 
-  hbox = gtk_hbutton_box_new();
+  hbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_EDGE);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
@@ -386,7 +386,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
 
   /* buttons */
 
-  hbox = gtk_hbutton_box_new();
+  hbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_EDGE);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 

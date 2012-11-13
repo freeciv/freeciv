@@ -1204,7 +1204,7 @@ GtkWidget *create_worklist(void)
 		   GTK_FILL, GTK_FILL, 0, 0);
 
   /* add bottom menu and buttons. */
-  bbox = gtk_hbutton_box_new();
+  bbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(bbox), GTK_BUTTONBOX_END);
   gtk_box_set_spacing(GTK_BOX(bbox), 10);
   gtk_box_pack_start(GTK_BOX(editor), bbox, FALSE, FALSE, 0);
