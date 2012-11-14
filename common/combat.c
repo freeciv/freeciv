@@ -504,11 +504,6 @@ static int defense_multiplication(const struct unit_type *att_type,
 
     defensepower *= defense_multiplier;
 
-    if (utype_has_flag(def_type, UTYF_PIKEMEN)
-	&& utype_has_flag(att_type, UTYF_HORSE)) {
-      defensepower *= 2;
-    }
-
     if (!utype_has_flag(att_type, UTYF_IGWALL)) {
       /* This applies even if pcity is NULL. */
       mod = 100 + get_unittype_bonus(def_player, ptile,

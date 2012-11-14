@@ -456,13 +456,14 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
   struct pf_reverse_map *pcity_map;
   unsigned int danger_reduced[B_LAST]; /* How much such danger there is that
                                         * building would help against. */
-  bool pikemen = FALSE;
   int i;
   int defender;
   unsigned int urgency = 0;
   int igwall_threat = 0;
   int defense;
   int total_danger = 0;
+  int defense_bonuses[U_LAST];
+  bool defender_type_handled[U_LAST];
 
   TIMING_LOG(AIT_DANGER, TIMER_START);
 
@@ -478,12 +479,47 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
   city_data->diplomat_threat = FALSE;
   city_data->has_diplomat = FALSE;
 
+  unit_type_iterate(utype) {
+    defense_bonuses[utype_index(utype)] = 0;
+    defender_type_handled[utype_index(utype)] = FALSE;
+  } unit_type_iterate_end;
+
   unit_list_iterate(ptile->units, punit) {
+    bool bonuses_exist = FALSE;
+    struct unit_type *def = unit_type(punit);
+
     if (unit_has_type_flag(punit, UTYF_DIPLOMAT)) {
       city_data->has_diplomat = TRUE;
     }
-    if (unit_has_type_flag(punit, UTYF_PIKEMEN)) {
-      pikemen = TRUE;
+    if (!defender_type_handled[utype_index(def)]) {
+      /* This is first defender of this type. Calculate defender type
+       * specific bonuses. */
+
+      /* Vast majority of units have no Defense Multiplier bonus.
+       * Do not waste time on iterating through all unit types in the
+       * typical case by first checking if such bonuses exist against
+       * any units. */
+      combat_bonus_list_iterate(def->bonuses, pbonus) {
+        if (pbonus->type == CBONUS_DEFENSE_MULTIPLIER) {
+          bonuses_exist = TRUE;
+          break;
+        }
+      } combat_bonus_list_iterate_end;
+
+      if (bonuses_exist) {
+        unit_type_iterate(utype) {
+          int bonus;
+          int idx = utype_index(utype);
+
+          bonus = combat_bonus_against(def->bonuses, utype,
+                                       CBONUS_DEFENSE_MULTIPLIER);
+          if (bonus > defense_bonuses[idx]) {
+            defense_bonuses[idx] = bonus;
+          }
+        } unit_type_iterate_end;
+      }
+
+      defender_type_handled[utype_index(def)] = TRUE;
     }
   } unit_list_iterate_end;
 
@@ -499,6 +535,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
     unit_list_iterate(aplayer->units, punit) {
       int move_time;
       unsigned int vulnerability;
+      int defbonus = defense_bonuses[utype_index(unit_type(punit))];
 
       vulnerability = assess_danger_unit(pcity, pcity_map,
                                          punit, &move_time);
@@ -531,14 +568,12 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
         } unit_class_iterate_end;
       }
 
-      if (unit_has_type_flag(punit, UTYF_HORSE)) {
-        if (pikemen) {
-          vulnerability /= 2;
-        } else {
-          (void) dai_wants_role_unit(pplayer, pcity, UTYF_PIKEMEN,
-                                     vulnerability / MAX(move_time, 1));
-        }
+      if (defbonus > 1) {
+        defbonus = (defbonus + 1) / 2;
       }
+      vulnerability /= (defbonus + 1);
+      (void) dai_wants_defender_against(pplayer, pcity, unit_type(punit),
+                                        vulnerability / MAX(move_time, 1));
 
       if (unit_has_type_flag(punit, UTYF_DIPLOMAT) && 2 >= move_time) {
         city_data->diplomat_threat = TRUE;
@@ -626,6 +661,7 @@ int dai_unit_defence_desirability(const struct unit_type *punittype)
   int desire = punittype->hp;
   int attack = punittype->attack_strength;
   int defense = punittype->defense_strength;
+  int maxbonus = 0;
 
   /* Sea and helicopters often have their firepower set to 1 when
    * defending. We can't have such units as defenders. */
@@ -638,9 +674,17 @@ int dai_unit_defence_desirability(const struct unit_type *punittype)
   desire *= defense;
   desire += punittype->move_rate / SINGLE_MOVE;
   desire += attack;
-  if (utype_has_flag(punittype, UTYF_PIKEMEN)) {
-    desire += desire / 2;
+
+  combat_bonus_list_iterate(punittype->bonuses, pbonus) {
+    if (pbonus->type == CBONUS_DEFENSE_MULTIPLIER
+        && pbonus->value > maxbonus) {
+      maxbonus = pbonus->value;
+    }
+  } combat_bonus_list_iterate_end;
+  if (maxbonus > 1) {
+    maxbonus = (maxbonus + 1) / 2;
   }
+  desire += desire * maxbonus; 
   if (utype_has_flag(punittype, UTYF_GAMELOSS)) {
     desire /= 10; /* but might actually be worth it */
   }

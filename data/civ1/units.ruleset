@@ -7,7 +7,7 @@
 ; command "rulesetdir <mysubdir>" in the server to have freeciv
 ; use your new customized file.
 
-; See data/default/units.ruleset for more information.
+; See data/classic/units.ruleset for more information.
 
 [datafile]
 description="Civ1-style unit_type data for Freeciv"

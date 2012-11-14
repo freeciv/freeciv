@@ -7,7 +7,7 @@
 ; command "rulesetdir <mysubdir>" in the server to have freeciv
 ; use your new customized file.
 
-; See data/default/units.ruleset for more information.
+; See data/classic/units.ruleset for more information.
 
 [datafile]
 description="Civ2 unit_type data for Freeciv (approximate)"
@@ -19,6 +19,7 @@ names = "Airbase", "Transform", "AirUnit"
 ; Airbase   - can build airbases. See airbase definition in terrain.ruleset
 ; Transform - can transform terrain.
 ; AirUnit   - very bad at attacking AEGIS units
+; Horse     - bad at attacking Pikemen units
 
 [veteran_system]
 ; What are the names of the levels?
@@ -452,7 +453,11 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Pikemen"
+bonuses       =
+   { "flag", "type", "value"
+     "Horse", "DefenseMultiplier", 1
+   }
+flags         = ""
 roles         = "DefendGood", "FirstBuild"
 helptext      = _("\
 Equipped with long pikes, Pikemen replaces Phalanx\

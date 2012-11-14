@@ -116,8 +116,6 @@ enum unit_type_flag_id {
   UTYF_CIVILIAN,
   UTYF_IGTER,
   UTYF_ONEATTACK,
-  UTYF_PIKEMEN,
-  UTYF_HORSE,
   UTYF_IGWALL,           /* Ignores EFT_DEFEND_BONUS (for example city walls) */
   UTYF_FIELDUNIT,
   UTYF_MARINES,

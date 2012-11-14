@@ -267,7 +267,7 @@ Workers:   pop_cost = 0, cost = 20, upkeep = 1
 - Non-military units now belongs to a new unit class that can not pillage, nor capture cities.
 - Created a new unit class for Caravans and Freights that can only travel on roads, railroads, rivers or ships. They can only establish trade routes to foreign cities. And they can be captured.
 - Wheeled units can't move to mountains, jungles and swamps, unless they are traveling on a road (Using "Big land" from Experimental ruleset). Those units can't pillage nor capture cities. They need Galleons or Transports to travel by sea.
-- Pikemen defense increased to 3, the cost to 30, and removed the double attack vs horses. Else, I think the bonus vs horses make obsolete the chivalry period before it starts.
+- Pikemen defense increased to 3, the cost to 30, and removed the double defense vs horses. Else, I think the bonus vs horses make obsolete the chivalry period before it starts.
 - Archers ignore Zone of Control, so they are useful to escort Legions or even medieval units. Archers set as default barbarian units.
 - Added Elephants from civ2, available with Polytheism: (at/def/mov-hp,cost) = (2/2/2-10,30). Obsolete by Knights.
 - Added Crusaders from civ2, available with Monotheism: (5/1/2-10,40). Obsolete by Dragoons.

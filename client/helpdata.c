@@ -1670,14 +1670,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 		   " (range: %d tiles).\n"),
 		 utype->paratroopers_range);
   }
-  if (utype_has_flag(utype, UTYF_PIKEMEN)) {
-    CATLSTR(buf, bufsz,
-            _("* Gets double defense against units specified as 'mounted'.\n"));
-  }
-  if (utype_has_flag(utype, UTYF_HORSE)) {
-    CATLSTR(buf, bufsz,
-	    _("* Counts as 'mounted' against certain defenders.\n"));
-  }
   if (utype_has_flag(utype, UTYF_HELICOPTER)) {
     CATLSTR(buf, bufsz,
             _("* Counts as 'helicopter' against certain attackers.\n"));

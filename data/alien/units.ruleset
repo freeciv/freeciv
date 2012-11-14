@@ -217,8 +217,6 @@ flags         = "Missile", "DoesntOccupyTile"
 ;                 peaceful borders; DoesntOccupyTile
 ; "IgTer"	= ignore terrain/road/rail, treat every tile as 1/3 move cost
 ; "OneAttack"	= can only make a single attack, regardless of movement points
-; "Pikemen"	= double defence power against "Horse" flag units
-; "Horse"	= (no effect)
 ; "IgWall"	= ignore effect of city walls
 ; "FieldUnit"	= cause unhappiness even when not being aggressive
 ; "AttackAny"   = can attack unreachable units

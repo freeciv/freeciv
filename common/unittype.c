@@ -46,7 +46,7 @@ static struct unit_class unit_classes[UCL_LAST];
 
 static const char *type_flag_names[] = {
   "TradeRoute", "HelpWonder", "IgZOC", "NonMil", "IgTer", 
-  "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", 
+  "OneAttack", "IgWall", "FieldUnit", 
   "Marines", "Partial_Invis", "Settlers", "Diplomat",
   "Trireme", "Nuclear", "Spy", "Paratroopers",
   "Cities", "Only_Native_Attack",
