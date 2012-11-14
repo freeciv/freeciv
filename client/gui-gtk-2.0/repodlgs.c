@@ -85,9 +85,9 @@ static bool science_report_combo_get_active(GtkComboBox *combo,
                                             const char **name);
 static void science_report_combo_set_active(GtkComboBox *combo,
                                             Tech_type_id tech);
-static void science_diagram_button_release_callback(GtkWidget *widget,
-                                                    GdkEventButton *event,
-                                                    gpointer data);
+static gboolean science_diagram_button_release_callback(GtkWidget *widget,
+                                                        GdkEventButton *event,
+                                                        gpointer data);
 static void science_diagram_update(GtkWidget *widget, gpointer data);
 static GtkWidget *science_diagram_new(void);
 static void science_diagram_data(GtkWidget *widget, bool reachable);
@@ -190,15 +190,14 @@ static void science_report_combo_set_active(GtkComboBox *combo,
 /****************************************************************************
   Change tech goal, research or open help dialog.
 ****************************************************************************/
-static void science_diagram_button_release_callback(GtkWidget *widget,
-                                                    GdkEventButton *event,
-                                                    gpointer data)
+static gboolean science_diagram_button_release_callback(GtkWidget *widget,
+    GdkEventButton *event, gpointer data)
 {
   struct reqtree *reqtree = g_object_get_data(G_OBJECT(widget), "reqtree");
   Tech_type_id tech = get_tech_on_reqtree(reqtree, event->x, event->y);
 
   if (tech == A_NONE) {
-    return;
+    return TRUE;
   }
 
   if (event->button == 3) {
@@ -220,6 +219,7 @@ static void science_diagram_button_release_callback(GtkWidget *widget,
       }
     }
   }
+  return TRUE;
 }
 
 /****************************************************************************
