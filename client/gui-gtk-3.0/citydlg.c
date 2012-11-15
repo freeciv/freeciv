@@ -676,7 +676,7 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
 					 GtkWidget **info_label)
 {
   int i;
-  GtkWidget *hbox, *table, *label, *ebox;
+  GtkWidget *table, *label, *ebox;
 
   static const char *output_label[NUM_INFO_FIELDS] = { N_("Food:"),
     N_("Prod:"),
@@ -693,25 +693,47 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
   };
   static bool output_label_done;
 
-  hbox = gtk_hbox_new(TRUE, 0);	/* to give the table padding inside the frame */
-
-  table = gtk_table_new(NUM_INFO_FIELDS, 2, FALSE);
-  gtk_table_set_row_spacing(GTK_TABLE(table), 2, 10);
-  gtk_table_set_row_spacing(GTK_TABLE(table), 5, 10);
-  gtk_table_set_row_spacing(GTK_TABLE(table), 7, 10);
-  gtk_table_set_col_spacing(GTK_TABLE(table), 0, 5);
-  gtk_box_pack_start(GTK_BOX(hbox), table, FALSE, FALSE, 4);
+  table = gtk_grid_new();
+  g_object_set(table, "margin", 4, NULL);
 
   intl_slist(ARRAY_SIZE(output_label), output_label, &output_label_done);
 
   for (i = 0; i < NUM_INFO_FIELDS; i++) {
     label = gtk_label_new(output_label[i]);
+    switch (i) {
+      case 2:
+      case 5:
+      case 7:
+        gtk_widget_set_margin_bottom(label, 5);
+        break;
+      case 3:
+      case 6:
+      case 8:
+        gtk_widget_set_margin_top(label, 5);
+        break;
+      default:
+        break;
+    }
+    gtk_widget_set_margin_right(label, 5);
     gtk_widget_set_name(label, "city_label");	/* for font style? */
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-    gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i + 1, GTK_FILL, 0,
-		     0, 0);
+    gtk_grid_attach(GTK_GRID(table), label, 0, i, 1, 1);
 
     ebox = gtk_event_box_new();
+    switch (i) {
+      case 2:
+      case 5:
+      case 7:
+        gtk_widget_set_margin_bottom(ebox, 5);
+        break;
+      case 3:
+      case 6:
+      case 8:
+        gtk_widget_set_margin_top(ebox, 5);
+        break;
+      default:
+        break;
+    }
     gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
     g_object_set_data(G_OBJECT(ebox), "pdialog", pdialog);
     g_signal_connect(ebox, "button_press_event",
@@ -725,12 +747,11 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
 
     gtk_container_add(GTK_CONTAINER(ebox), label);
 
-    gtk_table_attach(GTK_TABLE(table), ebox, 1, 2, i, i + 1, GTK_FILL, 0,
-		     0, 0);
+    gtk_grid_attach(GTK_GRID(table), ebox, 1, i, 1, 1);
   }
 
-  gtk_widget_show_all(hbox);
-  return hbox;
+  gtk_widget_show_all(table);
+  return table;
 }
 
 /****************************************************************
