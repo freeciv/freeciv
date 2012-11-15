@@ -751,7 +751,9 @@ static void tearoff_callback(GtkWidget *b, gpointer data)
 **************************************************************************/
 static GtkWidget *detached_widget_new(void)
 {
-  return gtk_hbox_new(FALSE, 2);
+  GtkWidget *hgrid = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(hgrid), 2);
+  return hgrid;
 }
 
 /**************************************************************************
@@ -763,11 +765,14 @@ static GtkWidget *detached_widget_fill(GtkWidget *ahbox)
   GtkWidget *b, *avbox;
 
   b = gtk_toggle_button_new();
-  gtk_box_pack_start(GTK_BOX(ahbox), b, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(ahbox), b);
   g_signal_connect(b, "toggled", G_CALLBACK(tearoff_callback), ahbox);
 
-  avbox = gtk_vbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(ahbox), avbox, TRUE, TRUE, 0);
+  avbox = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(avbox),
+                                 GTK_ORIENTATION_VERTICAL);
+
+  gtk_container_add(GTK_CONTAINER(ahbox), avbox);
   return avbox;
 }
 
@@ -798,8 +803,6 @@ static void populate_unit_pixmap_table(void)
     num_units_below = CLIP(1, num_units_below, MAX_NUM_UNITS_BELOW);
   }
 
-  gtk_table_resize(GTK_TABLE(table), 2, MAX(1,num_units_below));
-
   /* Top row: the active unit. */
   /* Note, we ref this and other widgets here so that we can unref them
    * in reset_unit_table. */
@@ -811,7 +814,7 @@ static void populate_unit_pixmap_table(void)
   gtk_event_box_set_visible_window(GTK_EVENT_BOX(unit_pixmap_button), FALSE);
   g_object_ref(unit_pixmap_button);
   gtk_container_add(GTK_CONTAINER(unit_pixmap_button), unit_pixmap);
-  gtk_table_attach_defaults(GTK_TABLE(table), unit_pixmap_button, 0, 1, 0, 1);
+  gtk_grid_attach(GTK_GRID(table), unit_pixmap_button, 0, 0, 1, 1);
   g_signal_connect(unit_pixmap_button, "button_press_event",
 		   G_CALLBACK(select_unit_pixmap_callback), 
 		   GINT_TO_POINTER(-1));
@@ -833,8 +836,8 @@ static void populate_unit_pixmap_table(void)
                        G_CALLBACK(select_unit_pixmap_callback),
                        GINT_TO_POINTER(i));
 
-      gtk_table_attach_defaults(GTK_TABLE(table), unit_below_pixmap_button[i],
-                                i, i + 1, 1, 2);
+      gtk_grid_attach(GTK_GRID(table), unit_below_pixmap_button[i],
+                      i, 1, 1, 1);
       gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]));
     }
   }
@@ -855,12 +858,12 @@ static void populate_unit_pixmap_table(void)
 
   if (!gui_gtk3_small_display_layout) {
     /* Display on bottom row. */
-    gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap_button,
-                              MAX_NUM_UNITS_BELOW, MAX_NUM_UNITS_BELOW+1, 1, 2);
+    gtk_grid_attach(GTK_GRID(table), more_arrow_pixmap_button,
+                    MAX_NUM_UNITS_BELOW, 1, 1, 1);
   } else {
     /* Display on top row (there is no bottom row). */
-    gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap_button,
-                              MAX_NUM_UNITS_BELOW, MAX_NUM_UNITS_BELOW+1, 0, 1);
+    gtk_grid_attach(GTK_GRID(table), more_arrow_pixmap_button,
+                    MAX_NUM_UNITS_BELOW, 0, 1, 1);
   }
 
   gtk_widget_show_all(table);
@@ -921,7 +924,7 @@ void enable_menus(bool enable)
 {
   if (enable) {
     main_menubar = setup_menus(toplevel);
-    gtk_box_pack_start(GTK_BOX(top_vbox), main_menubar, FALSE, FALSE, 0);
+    gtk_grid_attach_next_to(GTK_GRID(top_vbox), main_menubar, NULL, GTK_POS_TOP, 1, 1);
     menus_init();
     gtk_widget_show_all(main_menubar);
   } else {
@@ -957,9 +960,9 @@ static gboolean right_notebook_button_release(GtkWidget *widget,
 **************************************************************************/
 static void setup_widgets(void)
 {
-  GtkWidget *page, *box, *ebox, *hbox, *sbox, *align, *label;
+  GtkWidget *page, *ebox, *hgrid, *hgrid2, *sbox, *label;
   GtkWidget *frame, *table, *table2, *paned, *hpaned, *sw, *text;
-  GtkWidget *button, *view, *vbox, *vgrid, *right_vbox = NULL;
+  GtkWidget *button, *view, *vgrid, *right_vbox = NULL;
   int i;
   char buf[256];
   struct sprite *sprite;
@@ -978,11 +981,14 @@ static void setup_widgets(void)
   toplevel_tabs = notebook;
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), FALSE);
   gtk_notebook_set_show_border(GTK_NOTEBOOK(notebook), FALSE);
-  box = gtk_vbox_new(FALSE, 4);
-  gtk_container_add(GTK_CONTAINER(toplevel), box);
-  gtk_box_pack_start(GTK_BOX(box), notebook, TRUE, TRUE, 0);
+  vgrid = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 4);
+  gtk_container_add(GTK_CONTAINER(toplevel), vgrid);
+  gtk_container_add(GTK_CONTAINER(vgrid), notebook);
   statusbar = create_statusbar();
-  gtk_box_pack_start(GTK_BOX(box), statusbar, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(vgrid), statusbar);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
       create_main_page(), NULL);
@@ -998,6 +1004,7 @@ static void setup_widgets(void)
   editgui_create_widgets();
 
   ingame_votebar = voteinfo_bar_new(FALSE);
+  g_object_set(ingame_votebar, "margin", 2, NULL);
 
   /* *** everything in the top *** */
 
@@ -1008,21 +1015,22 @@ static void setup_widgets(void)
                                       GTK_SHADOW_ETCHED_IN);
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), page, NULL);
 
-  top_vbox = gtk_vbox_new(FALSE, 5);
-  hbox = gtk_hbox_new(FALSE, 0);
+  top_vbox = gtk_grid_new();
+  gtk_grid_set_row_spacing(GTK_GRID(top_vbox), 5);
+  hgrid = gtk_grid_new();
 
   if (gui_gtk3_small_display_layout) {
     /* The window is divided into two horizontal panels: overview +
      * civinfo + unitinfo, main view + message window. */
-    right_vbox = gtk_vbox_new(FALSE, 0);
-    gtk_box_pack_end(GTK_BOX(hbox), right_vbox, TRUE, TRUE, 0);
-    gtk_box_pack_end(GTK_BOX(right_vbox), ingame_votebar, FALSE, FALSE, 2);
+    right_vbox = gtk_grid_new();
+    gtk_container_add(GTK_CONTAINER(hgrid), right_vbox);
 
     paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
     gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(page),
                                           top_vbox);
-    gtk_box_pack_end(GTK_BOX(top_vbox), hbox, TRUE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(right_vbox), paned, TRUE, TRUE, 0);
+    gtk_container_add(GTK_CONTAINER(top_vbox), hgrid);
+    gtk_container_add(GTK_CONTAINER(right_vbox), paned);
+    gtk_container_add(GTK_CONTAINER(right_vbox), ingame_votebar);
 
     /* Overview size designed for small displays (netbooks). */
     overview_canvas_store_width = OVERVIEW_CANVAS_STORE_WIDTH_NETBOOK;
@@ -1033,7 +1041,7 @@ static void setup_widgets(void)
     paned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
     gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(page), paned);
     gtk_paned_pack1(GTK_PANED(paned), top_vbox, TRUE, FALSE);
-    gtk_box_pack_end(GTK_BOX(top_vbox), hbox, TRUE, TRUE, 0);
+    gtk_container_add(GTK_CONTAINER(top_vbox), hgrid);
 
     /* Overview size designed for netbooks. */
     overview_canvas_store_width = OVERVIEW_CANVAS_STORE_WIDTH;
@@ -1046,15 +1054,16 @@ static void setup_widgets(void)
 #endif
 
   /* this holds the overview canvas, production info, etc. */
-  vbox = gtk_vbox_new(FALSE, 3);
-  gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
+  vgrid = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_column_spacing(GTK_GRID(vgrid), 3);
+  gtk_container_add(GTK_CONTAINER(hgrid), vgrid);
 
   /* overview canvas */
   ahbox = detached_widget_new();
-  gtk_box_pack_start(GTK_BOX(vbox), ahbox, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(vgrid), ahbox);
   avbox = detached_widget_fill(ahbox);
-
-  align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
 
   overview_scrolled_window = gtk_scrolled_window_new(NULL, NULL);
   gtk_container_set_border_width(GTK_CONTAINER (overview_scrolled_window), 1);
@@ -1062,6 +1071,8 @@ static void setup_widgets(void)
                                     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   overview_canvas = gtk_drawing_area_new();
+  gtk_widget_set_halign(overview_canvas, GTK_ALIGN_CENTER);
+  gtk_widget_set_valign(overview_canvas, GTK_ALIGN_CENTER);
   gtk_widget_set_size_request(overview_canvas, overview_canvas_store_width,
 		              overview_canvas_store_height);
   gtk_widget_set_size_request(overview_scrolled_window, overview_canvas_store_width,
@@ -1070,12 +1081,11 @@ static void setup_widgets(void)
   gtk_widget_add_events(overview_canvas, GDK_EXPOSURE_MASK
         			        |GDK_BUTTON_PRESS_MASK
 				        |GDK_POINTER_MOTION_MASK);
-  gtk_box_pack_start(GTK_BOX(avbox), overview_scrolled_window, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(avbox), overview_scrolled_window);
 
   gtk_scrolled_window_add_with_viewport (
                       GTK_SCROLLED_WINDOW (overview_scrolled_window), 
-                      align);
-  gtk_container_add(GTK_CONTAINER(align), overview_canvas);
+                      overview_canvas);
  
   g_signal_connect(overview_canvas, "draw",
         	   G_CALLBACK(overview_canvas_draw), NULL);
@@ -1089,24 +1099,24 @@ static void setup_widgets(void)
   /* The rest */
 
   ahbox = detached_widget_new();
-  gtk_box_pack_start(GTK_BOX(vbox), ahbox, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(vgrid), ahbox);
   avbox = detached_widget_fill(ahbox);
 
   /* Info on player's civilization, when game is running. */
   frame = gtk_frame_new("");
-  gtk_box_pack_start(GTK_BOX(avbox), frame, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(avbox), frame);
 
   main_frame_civ_name = frame;
 
-  vbox = gtk_vbox_new(FALSE, 0);
-  gtk_container_add(GTK_CONTAINER(frame), vbox);
+  vgrid = gtk_grid_new();
+  gtk_container_add(GTK_CONTAINER(frame), vgrid);
 
   ebox = gtk_event_box_new();
   gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
   gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
   g_signal_connect(ebox, "button_press_event",
                    G_CALLBACK(show_info_popup), NULL);
-  gtk_box_pack_start(GTK_BOX(vbox), ebox, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(vgrid), ebox);
 
   label = gtk_label_new(NULL);
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
@@ -1207,8 +1217,11 @@ static void setup_widgets(void)
 
   /* Selected unit status */
 
-  unit_info_box = gtk_vbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(avbox), unit_info_box, FALSE, FALSE, 0);
+  unit_info_box = gtk_grid_new();
+  gtk_widget_set_hexpand(unit_info_box, FALSE);
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(unit_info_box),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_container_add(GTK_CONTAINER(avbox), unit_info_box);
 
   /* In edit mode the unit_info_box widget is replaced by the
    * editinfobox, so we need to add a ref here so that it is
@@ -1217,7 +1230,7 @@ static void setup_widgets(void)
   g_object_ref(unit_info_box);
 
   unit_info_frame = gtk_frame_new("");
-  gtk_box_pack_start(GTK_BOX(unit_info_box), unit_info_frame, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(unit_info_box), unit_info_frame);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
@@ -1227,19 +1240,21 @@ static void setup_widgets(void)
   gtk_container_add(GTK_CONTAINER(unit_info_frame), sw);
 
   label = gtk_label_new(NULL);
+  gtk_widget_set_hexpand(label, TRUE);
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
   gtk_misc_set_padding(GTK_MISC(label), 2, 2);
   gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), label);
   unit_info_label = label;
 
-  box = gtk_hbox_new(FALSE,0);
-  gtk_box_pack_start(GTK_BOX(unit_info_box), box, FALSE, FALSE, 0);
+  hgrid2 = gtk_grid_new();
+  gtk_container_add(GTK_CONTAINER(unit_info_box), hgrid2);
 
-  table = gtk_table_new(0, 0, FALSE);
-  gtk_box_pack_start(GTK_BOX(box), table, FALSE, FALSE, 5);
+  table = gtk_grid_new();
+  g_object_set(table, "margin", 5, NULL);
+  gtk_container_add(GTK_CONTAINER(hgrid2), table);
 
-  gtk_table_set_row_spacings(GTK_TABLE(table), 2);
-  gtk_table_set_col_spacings(GTK_TABLE(table), 2);
+  gtk_grid_set_row_spacing(GTK_GRID(table), 2);
+  gtk_grid_set_column_spacing(GTK_GRID(table), 2);
 
   unit_pixmap_table = table;
 
@@ -1255,13 +1270,13 @@ static void setup_widgets(void)
   if (gui_gtk3_small_display_layout) {
     gtk_paned_pack1(GTK_PANED(paned), top_notebook, TRUE, TRUE);
   } else if (gui_gtk3_message_chat_location == GUI_GTK_MSGCHAT_MERGED) {
-    right_vbox = gtk_vbox_new(FALSE, 0);
+    right_vbox = gtk_grid_new();
 
-    gtk_box_pack_start(GTK_BOX(right_vbox), top_notebook, TRUE, TRUE, 0);
-    gtk_box_pack_end(GTK_BOX(right_vbox), ingame_votebar, FALSE, FALSE, 2);
-    gtk_box_pack_start(GTK_BOX(hbox), right_vbox, TRUE, TRUE, 0);
+    gtk_container_add(GTK_CONTAINER(right_vbox), top_notebook);
+    gtk_container_add(GTK_CONTAINER(right_vbox), ingame_votebar);
+    gtk_container_add(GTK_CONTAINER(hgrid), right_vbox);
   } else {
-    gtk_box_pack_start(GTK_BOX(hbox), top_notebook, TRUE, TRUE, 0);
+    gtk_container_add(GTK_CONTAINER(hgrid), top_notebook);
   }
 
   map_widget = gtk_grid_new();
@@ -1350,18 +1365,21 @@ static void setup_widgets(void)
     gtk_paned_pack2(GTK_PANED(paned), sbox, FALSE, TRUE);
     avbox = detached_widget_fill(sbox);
 
-    vbox = gtk_vbox_new(FALSE, 0);
+    vgrid = gtk_grid_new();
+    gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
+                                   GTK_ORIENTATION_VERTICAL);
     if (!gui_gtk3_small_display_layout) {
-      gtk_box_pack_start(GTK_BOX(vbox), ingame_votebar, FALSE, FALSE, 2);
+      gtk_container_add(GTK_CONTAINER(vgrid), ingame_votebar);
     }
-    gtk_box_pack_start(GTK_BOX(avbox), vbox, TRUE, TRUE, 0);
+    gtk_container_add(GTK_CONTAINER(avbox), vgrid);
 
     if (gui_gtk3_small_display_layout) {
       hpaned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
     } else {
       hpaned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
     }
-    gtk_box_pack_start(GTK_BOX(vbox), hpaned, TRUE, TRUE, 4);
+    gtk_container_add(GTK_CONTAINER(vgrid), hpaned);
+    g_object_set(hpaned, "margin", 4, NULL);
     bottom_hpaned = hpaned;
 
     bottom_notebook = gtk_notebook_new();
@@ -1380,19 +1398,23 @@ static void setup_widgets(void)
     }
   }
 
-  vbox = gtk_vbox_new(FALSE, 0);
+  vgrid = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
+                                 GTK_ORIENTATION_VERTICAL);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
   				 GTK_POLICY_ALWAYS);
-  gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(vgrid), sw);
 
   label = gtk_label_new(_("Chat"));
-  gtk_notebook_append_page(GTK_NOTEBOOK(bottom_notebook), vbox, label);
+  gtk_notebook_append_page(GTK_NOTEBOOK(bottom_notebook), vgrid, label);
 
   text = gtk_text_view_new_with_buffer(message_buffer);
+  gtk_widget_set_hexpand(text, TRUE);
+  gtk_widget_set_vexpand(text, TRUE);
   set_message_buffer_view_link_handlers(text);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
   gtk_container_add(GTK_CONTAINER(sw), text);
@@ -1411,7 +1433,8 @@ static void setup_widgets(void)
 
   /* the chat line */
   view = inputline_toolkit_view_new();
-  gtk_box_pack_start(GTK_BOX(vbox), view, FALSE, FALSE, 3);
+  gtk_container_add(GTK_CONTAINER(vgrid), view);
+  g_object_set(view, "margin", 3, NULL);
 
   button = gtk_check_button_new_with_label(_("Allies Only"));
   gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);

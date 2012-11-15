@@ -1569,8 +1569,10 @@ static void replace_widget(GtkWidget *old, GtkWidget *new)
     return;
   }
 
+  gtk_widget_hide(old);
   gtk_container_remove(GTK_CONTAINER(parent), old);
-  gtk_box_pack_start(GTK_BOX(parent), new, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(parent), new);
+  gtk_widget_show_all(new);
 }
 
 /****************************************************************************
