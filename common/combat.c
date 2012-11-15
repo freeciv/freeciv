@@ -499,6 +499,7 @@ static int defense_multiplication(const struct unit_type *att_type,
   fc_assert_ret_val(NULL != def_type, 0);
 
   if (NULL != att_type) {
+    int defense_divider;
     int defense_multiplier = 1 + combat_bonus_against(def_type->bonuses, att_type,
                                                       CBONUS_DEFENSE_MULTIPLIER);
 
@@ -511,10 +512,9 @@ static int defense_multiplication(const struct unit_type *att_type,
       defensepower = MAX(0, defensepower * mod / 100);
     }
 
-    if (utype_has_flag(att_type, UTYF_FIGHTER)
-        && utype_has_flag(def_type, UTYF_HELICOPTER)) {
-      defensepower /= 2;
-    }
+    defense_divider = 1 + combat_bonus_against(att_type->bonuses, def_type,
+                                               CBONUS_DEFENSE_DIVIDER);
+    defensepower /= defense_divider;
   }
 
   if (!pcity) {

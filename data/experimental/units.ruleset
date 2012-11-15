@@ -1230,7 +1230,11 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-targets       = "Air", "Missile" 
+targets       = "Air", "Missile"
+bonuses       =
+   { "flag", "type", "value"
+     "Helicopter", "DefenseDivider", 1
+   }
 flags         = "AirUnit", "Fighter", "Shield2Gold"
 roles         = ""
 helptext      = _("\
@@ -1333,6 +1337,10 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 targets       = "Air", "Missile"
+bonuses       =
+   { "flag", "type", "value"
+     "Helicopter", "DefenseDivider", 1
+   }
 flags         = "Partial_Invis", "AirUnit", "Fighter", "Shield2Gold"
 roles         = ""
 helptext      = _("\

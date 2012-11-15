@@ -202,6 +202,8 @@ BV_DEFINE(bv_unit_type_roles, L_MAX);
 #define SPECENUM_NAME combat_bonus_type
 #define SPECENUM_VALUE0 CBONUS_DEFENSE_MULTIPLIER
 #define SPECENUM_VALUE0NAME "DefenseMultiplier"
+#define SPECENUM_VALUE1 CBONUS_DEFENSE_DIVIDER
+#define SPECENUM_VALUE1NAME "DefenseDivider"
 #include "specenum_gen.h"
 
 struct combat_bonus {

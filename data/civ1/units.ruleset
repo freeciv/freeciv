@@ -701,7 +701,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 targets       = "Air", "Missile"
-flags         = "FieldUnit", "Fighter"
+flags         = "FieldUnit"
 roles         = ""
 helptext      = _("\
 Fighters are your first airborne units. They can\
