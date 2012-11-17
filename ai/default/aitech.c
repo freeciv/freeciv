@@ -256,7 +256,8 @@ struct unit_type *dai_wants_defender_against(struct player *pplayer,
 
   unit_type_iterate(deftype) {
     int mp = combat_bonus_against(deftype->bonuses, att, CBONUS_DEFENSE_MULTIPLIER) + 1;
-    int def = deftype->defense_strength * mp;
+    int div = combat_bonus_against(att->bonuses, deftype, CBONUS_DEFENSE_DIVIDER) + 1;
+    int def = deftype->defense_strength * mp / div;
 
     def_values[utype_index(deftype)] = def;
 
