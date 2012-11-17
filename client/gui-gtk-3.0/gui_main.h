@@ -21,9 +21,9 @@
 /* network string charset conversion */
 gchar *ntoh_str(const gchar *netstr);
 
-extern GtkStyle *city_names_style;
-extern GtkStyle *city_productions_style;
-extern GtkStyle *reqtree_text_style;
+extern PangoFontDescription *city_names_style;
+extern PangoFontDescription *city_productions_style;
+extern PangoFontDescription *reqtree_text_style;
 
 #define single_tile_pixmap (mapview.single_tile->pixmap)
 

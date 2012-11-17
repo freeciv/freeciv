@@ -999,48 +999,34 @@ void gui_dialog_set_return_dialog(struct gui_dialog *dlg,
 **************************************************************************/
 void gui_update_font(const char *font_name, const char *font_value)
 {
-  char str[512];
+  char *str;
+  GtkCssProvider *provider;
 
-  fc_snprintf(str, sizeof(str),
-              "style \"ext-%s\" {\n"
-              "  font_name = \"%s\"\n"
-              "}\n"
-              "\n"
-              "widget \"Freeciv*.%s\" style \"ext-%s\"",
-              font_name, font_value, font_name, font_name);
+  str = g_strdup_printf("#Freeciv #%s { font: %s;}", font_name, font_value);
 
-  gtk_rc_parse_string(str);
+  provider = gtk_css_provider_new();
+  gtk_css_provider_load_from_data(GTK_CSS_PROVIDER(provider),
+    str, -1, NULL);
+  gtk_style_context_add_provider_for_screen(
+    gtk_widget_get_screen(toplevel), GTK_STYLE_PROVIDER(provider),
+    GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+  g_free(str);
 }
 
 /****************************************************************************
   Update a font option which is not attached to a widget.
 ****************************************************************************/
 void gui_update_font_full(const char *font_name, const char *font_value,
-                          GtkStyle **pstyle)
+                          PangoFontDescription **font_desc)
 {
-  GtkSettings *settings;
-  GdkScreen *screen;
-  GtkStyle *style;
-  char buf[64];
+  PangoFontDescription *f_desc;
 
   gui_update_font(font_name, font_value);
 
-  screen = gtk_widget_get_screen(toplevel);
-  settings = gtk_settings_get_for_screen(screen);
+  f_desc = pango_font_description_from_string(font_value);
+  pango_font_description_free(*font_desc);
 
-  fc_snprintf(buf, sizeof(buf), "Freeciv*.%s", font_name);
-  style = gtk_rc_get_style_by_paths(settings, buf, NULL, G_TYPE_NONE);
-
-  if (style) {
-    g_object_ref(style);
-  } else {
-    style = gtk_style_new();
-  }
-
-  if (*pstyle) {
-    g_object_unref(*pstyle);
-  }
-  *pstyle = style;
+  *font_desc = f_desc;
 }
 
 /****************************************************************************

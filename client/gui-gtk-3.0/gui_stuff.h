@@ -124,7 +124,7 @@ void gui_dialog_set_return_dialog(struct gui_dialog *dlg,
                                   struct gui_dialog *return_dialog);
 
 void gui_update_font_full(const char *font_name, const char *font_value,
-                          GtkStyle **pstyle);
+                          PangoFontDescription **font_desc);
 
 void disable_gobject_callback(GObject *obj, GCallback cb);
 void enable_gobject_callback(GObject *obj, GCallback cb);

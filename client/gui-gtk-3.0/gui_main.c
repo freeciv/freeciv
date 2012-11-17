@@ -125,9 +125,9 @@ GtkWidget *map_widget;
 static GtkWidget *bottom_hpaned;
 
 int city_names_font_size = 0, city_productions_font_size = 0;
-GtkStyle *city_names_style = NULL;
-GtkStyle *city_productions_style = NULL;
-GtkStyle *reqtree_text_style = NULL;
+PangoFontDescription *city_names_style = NULL;
+PangoFontDescription *city_productions_style = NULL;
+PangoFontDescription *reqtree_text_style = NULL;
 
 GtkWidget *main_frame_civ_name;
 GtkWidget *main_label_info;
@@ -220,11 +220,11 @@ void set_city_names_font_sizes(int my_city_names_font_size,
   city_names_font_size = my_city_names_font_size;
   city_productions_font_size = my_city_productions_font_size;
   if (city_names_style) {
-    pango_font_description_set_size(city_names_style->font_desc,
+    pango_font_description_set_size(city_names_style,
                                     PANGO_SCALE * city_names_font_size);
   }
   if (city_productions_style) {
-    pango_font_description_set_size(city_productions_style->font_desc,
+    pango_font_description_set_size(city_productions_style,
                                     PANGO_SCALE * city_productions_font_size);
   }
 }
@@ -1576,6 +1576,7 @@ static void migrate_options_from_gtk2(void)
 **************************************************************************/
 void ui_main(int argc, char **argv)
 {
+  PangoFontDescription *toplevel_font_name;
   guint sig;
 
   parse_options(argc, argv);
@@ -1626,16 +1627,19 @@ void ui_main(int argc, char **argv)
     }
   } options_iterate_end;
 
+  toplevel_font_name = pango_context_get_font_description(
+                           gtk_widget_get_pango_context(toplevel));
+
   if (NULL == city_names_style) {
-    city_names_style = gtk_style_new();
+    city_names_style = pango_font_description_copy(toplevel_font_name);
     log_error("city_names_style should have been set by options.");
   }
   if (NULL == city_productions_style) {
-    city_productions_style = gtk_style_new();
+    city_productions_style = pango_font_description_copy(toplevel_font_name);
     log_error("city_productions_style should have been set by options.");
   }
   if (NULL == reqtree_text_style) {
-    reqtree_text_style = gtk_style_new();
+    reqtree_text_style = pango_font_description_copy(toplevel_font_name);
     log_error("reqtree_text_style should have been set by options.");
   }
 

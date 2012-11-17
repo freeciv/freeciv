@@ -319,14 +319,14 @@ void canvas_put_curved_line(struct canvas *pcanvas,
 
 static PangoLayout *layout;
 static struct {
-  GtkStyle **styles;
+  PangoFontDescription **styles;
   bool shadowed;
 } fonts[FONT_COUNT] = {
   {&city_names_style, TRUE},
   {&city_productions_style, TRUE},
   {&reqtree_text_style, FALSE}
 };
-#define FONT(font) ((*fonts[font].styles)->font_desc)
+#define FONT(font) (*fonts[font].styles)
 
 /****************************************************************************
   Return the size of the given text in the given font.  This size should
