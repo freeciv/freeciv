@@ -267,6 +267,7 @@ sprites =
 		"f.khwarezm", "flags/khwarezm-large"
 		"f.kiev", "flags/kiev-large"
 		"f.kiribati", "flags/kiribati-large"
+		"f.komi", "flags/komi-large"
 		"f.kongo", "flags/kongo-large"
 		"f.korea", "flags/korea-large"
 		"f.korea_ancient", "flags/korea_ancient-large"

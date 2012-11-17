@@ -265,6 +265,7 @@ artists = "
    Khwarezm		Dan Cottrell and Daniel Markstedt
    Kiev			Maxim (http://logograd.narod.ru/)
    Kiribati		Patricia Fidi
+   Komi			J.M. Maalderink
    Kongo		Daniel Markstedt
    Korea		Stephen Silver
    Korea (ancient)	Mysid
@@ -825,6 +826,7 @@ sprites =
 		"f.khwarezm", "flags/khwarezm"
 		"f.kiev", "flags/kiev"
 		"f.kiribati", "flags/kiribati"
+		"f.komi", "flags/komi"
 		"f.kongo", "flags/kongo"
 		"f.korea", "flags/korea"
 		"f.korea_ancient", "flags/korea_ancient"

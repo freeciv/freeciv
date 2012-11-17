@@ -266,6 +266,7 @@ sprites =
 		"f.shield.khwarezm", "flags/khwarezm-shield"
 		"f.shield.kiev", "flags/kiev-shield"
 		"f.shield.kiribati", "flags/kiribati-shield"
+		"f.shield.komi", "flags/komi-shield"
 		"f.shield.kongo", "flags/kongo-shield"
 		"f.shield.korea", "flags/korea-shield"
 		"f.shield.korea_ancient", "flags/korea_ancient-shield"
