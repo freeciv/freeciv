@@ -213,20 +213,28 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   GtkCellRenderer *rend;
   GtkWidget *view;
   GtkTreeViewColumn *column;
+  gint layout_width;
 
   cmafec_get_fe_parameter(pcity, &param);
   pdialog = fc_malloc(sizeof(struct cma_dialog));
   pdialog->pcity = pcity;
-  pdialog->shell = gtk_vbox_new(FALSE, 8);
+  pdialog->shell = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(pdialog->shell),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing(GTK_GRID(pdialog->shell), 8);
   gtk_container_set_border_width(GTK_CONTAINER(pdialog->shell), 8);
   g_signal_connect(pdialog->shell, "destroy",
 		   G_CALLBACK(cma_dialog_destroy_callback), pdialog);
 
-  page = gtk_hbox_new(FALSE, 12);
-  gtk_box_pack_start(GTK_BOX(pdialog->shell), page, TRUE, TRUE, 0);
+  page = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(page), 12);
+  gtk_container_add(GTK_CONTAINER(pdialog->shell), page);
 
-  vbox = gtk_vbox_new(FALSE, 2);
-  gtk_box_pack_start(GTK_BOX(page), vbox, TRUE, TRUE, 0);
+  vbox = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing(GTK_GRID(pdialog->shell), 2);
+  gtk_container_add(GTK_CONTAINER(page), vbox);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
@@ -238,6 +246,8 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   pdialog->store = store;
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  gtk_widget_set_hexpand(view, TRUE);
+  gtk_widget_set_vexpand(view, TRUE);
   g_object_unref(store);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
   pdialog->preset_list = view;
@@ -264,10 +274,10 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
                        "mnemonic-widget", view,
                        "label", _("Prese_ts:"),
                        "xalign", 0.0, "yalign", 0.5, NULL);
-  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), label);
 
   gtk_container_add(GTK_CONTAINER(sw), view);
-  gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), sw);
 
   g_signal_connect(view, "row_activated",
 		   G_CALLBACK(cma_activate_preset_callback), pdialog);
@@ -276,7 +286,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
 
   hbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_EDGE);
-  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
   button = gtk_button_new_with_mnemonic(_("Ne_w"));
   image = gtk_image_new_from_stock(GTK_STOCK_NEW, GTK_ICON_SIZE_BUTTON);
@@ -293,13 +303,18 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
 
   /* the right-hand side */
 
-  vbox = gtk_vbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(page), vbox, FALSE, FALSE, 2);
+  vbox = gtk_grid_new();
+  g_object_set(vbox, "margin", 2, NULL);
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_container_add(GTK_CONTAINER(page), vbox);
 
   /* Result */
 
   frame = gtk_frame_new(_("Results"));
-  gtk_box_pack_start(GTK_BOX(vbox), frame, TRUE, FALSE, 0);
+  gtk_widget_set_vexpand(frame, TRUE);
+  gtk_widget_set_valign(frame, GTK_ALIGN_CENTER);
+  gtk_container_add(GTK_CONTAINER(vbox), frame);
 
   pdialog->result_label =
       gtk_label_new("food\n prod\n trade\n\n people\n grow\n prod\n name");
@@ -310,7 +325,8 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   /* Minimal Surplus and Factor */
 
   table = gtk_grid_new();
-  gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 2);
+  g_object_set(table, "margin", 2, NULL);
+  gtk_container_add(GTK_CONTAINER(vbox), table);
 
   label = gtk_label_new(_("Minimal Surplus"));
   gtk_misc_set_alignment(GTK_MISC(label), 0.1, 0.5);
@@ -328,6 +344,9 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
         gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
     gtk_range_set_range(GTK_RANGE(hscale), -20, 20);
     gtk_range_set_increments(GTK_RANGE(hscale), 1, 1);
+    pango_layout_get_pixel_size(gtk_scale_get_layout(GTK_SCALE(hscale)),
+                                &layout_width, NULL);
+    gtk_widget_set_size_request(hscale, layout_width + 51 * 2, -1);
 
     gtk_grid_attach(GTK_GRID(table), hscale, 1, i + 1, 1, 1);
     gtk_scale_set_digits(GTK_SCALE(hscale), 0);
@@ -341,6 +360,9 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
         gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
     gtk_range_set_range(GTK_RANGE(hscale), 0, 25);
     gtk_range_set_increments(GTK_RANGE(hscale), 1, 1);
+    pango_layout_get_pixel_size(gtk_scale_get_layout(GTK_SCALE(hscale)),
+                                &layout_width, NULL);
+    gtk_widget_set_size_request(hscale, layout_width + 26 * 2, -1);
 
     gtk_grid_attach(GTK_GRID(table), hscale, 2, i + 1, 1, 1);
     gtk_scale_set_digits(GTK_SCALE(hscale), 0);
@@ -369,6 +391,9 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
       gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
   gtk_range_set_range(GTK_RANGE(hscale), 0, 50);
   gtk_range_set_increments(GTK_RANGE(hscale), 1, 1);
+  pango_layout_get_pixel_size(gtk_scale_get_layout(GTK_SCALE(hscale)),
+                              &layout_width, NULL);
+  gtk_widget_set_size_request(hscale, layout_width + 51 * 2, -1);
 
   gtk_grid_attach(GTK_GRID(table), hscale, 2, O_LAST + 1, 1, 1);
   gtk_scale_set_digits(GTK_SCALE(hscale), 0);
@@ -382,7 +407,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
 
   hbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_EDGE);
-  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
   button = gtk_button_new_from_stock(GTK_STOCK_HELP);
   g_signal_connect(button, "clicked",

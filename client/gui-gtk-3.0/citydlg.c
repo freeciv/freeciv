@@ -1146,14 +1146,14 @@ static void create_and_append_cma_page(struct city_dialog *pdialog)
   GtkWidget *page, *label;
   const char *tab_title = _("_Governor");
 
-  page = gtk_vbox_new(FALSE, 0);
+  page = gtk_grid_new();
 
   label = gtk_label_new_with_mnemonic(tab_title);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
   pdialog->cma_editor = create_cma_dialog(pdialog->pcity);
-  gtk_box_pack_start(GTK_BOX(page), pdialog->cma_editor->shell, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(page), pdialog->cma_editor->shell);
 
   gtk_widget_show(page);
 }
