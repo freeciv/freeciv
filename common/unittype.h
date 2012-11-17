@@ -28,6 +28,8 @@ extern "C" {
 struct astring;         /* Actually defined in "utility/astring.h". */
 struct strvec;          /* Actually defined in "utility/string_vector.h". */
 
+struct ai_type;
+
 #define U_LAST MAX_NUM_ITEMS
 /*
   U_LAST is a value which is guaranteed to be larger than all
@@ -292,6 +294,8 @@ struct unit_type {
   bv_unit_classes targets; /* Can attack these classes even if they are otherwise "Unreachable" */
 
   struct strvec *helptext;
+
+  void *ais[FC_AI_LAST];
 };
 
 /* General unit and unit type (matched) routines */
@@ -430,6 +434,10 @@ const struct unit_type *unit_type_array_last(void);
     }									\
   }									\
 }
+
+void *utype_ai_data(const struct unit_type *ptype, const struct ai_type *ai);
+void utype_set_ai_data(struct unit_type *ptype, const struct ai_type *ai,
+                       void *data);
 
 /* Initialization and iteration */
 void unit_classes_init(void);

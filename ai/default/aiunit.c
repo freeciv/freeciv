@@ -2875,6 +2875,22 @@ void dai_units_ruleset_init(struct ai_type *ait)
    *       cache; see the comment to struct unit_type *simple_ai_types at
    *       the beginning of this file. */
   update_simple_ai_types();
+
+  unit_type_iterate(ptype) {
+    struct unit_type_ai *utai = fc_malloc(sizeof(*utai));
+
+    utype_set_ai_data(ptype, ait, utai);
+  } unit_type_iterate_end;
+}
+
+/****************************************************************************
+  Close AI unit type data
+****************************************************************************/
+void dai_units_ruleset_close(struct ai_type *ait)
+{
+  unit_type_iterate(ptype) {
+    utype_set_ai_data(ptype, ait, NULL); 
+  } unit_type_iterate_end;
 }
 
 /**************************************************************************

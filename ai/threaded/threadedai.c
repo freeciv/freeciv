@@ -229,6 +229,15 @@ static void twai_units_ruleset_init(void)
 /**************************************************************************
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
+static void twai_units_ruleset_close(void)
+{
+  TAI_AIT;
+  TAI_DFUNC(dai_units_ruleset_close);
+}
+
+/**************************************************************************
+  Call default ai with threaded ai type as parameter.
+**************************************************************************/
 static void twai_unit_alloc(struct unit *punit)
 {
   TAI_AIT;
@@ -488,6 +497,7 @@ bool fc_ai_threaded_setup(struct ai_type *ai)
   ai->funcs.build_adv_adjust_want = twai_build_adv_adjust;
 
   ai->funcs.units_ruleset_init = twai_units_ruleset_init;
+  ai->funcs.units_ruleset_close = twai_units_ruleset_close;
 
   ai->funcs.unit_alloc = twai_unit_alloc;
   ai->funcs.unit_free = twai_unit_free;

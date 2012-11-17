@@ -45,6 +45,11 @@ struct unit_ai {
   enum ai_unit_task task;
 };
 
+struct unit_type_ai
+{
+  bool unused;
+};
+
 /* Simple military macros */
 
 /* pplayers_at_war() thinks no contacts equals war, which often is
@@ -119,8 +124,8 @@ void dai_consider_tile_dangerous(struct ai_type *ait, struct tile *ptile,
 
 enum unit_move_type dai_uclass_move_type(const struct unit_class *pclass);
 
-/* Call this after rulesets are loaded */
 void dai_units_ruleset_init(struct ai_type *ait);
+void dai_units_ruleset_close(struct ai_type *ait);
 
 void dai_unit_init(struct ai_type *ait, struct unit *punit);
 void dai_unit_turn_end(struct ai_type *ait, struct unit *punit);

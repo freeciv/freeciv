@@ -229,6 +229,16 @@ static void cai_units_ruleset_init(void)
 /**************************************************************************
   Call default ai with classic ai type as parameter.
 **************************************************************************/
+static void cai_units_ruleset_close(void)
+{
+  struct ai_type *deftype = classic_ai_get_self();
+
+  dai_units_ruleset_close(deftype);
+}
+
+/**************************************************************************
+  Call default ai with classic ai type as parameter.
+**************************************************************************/
 static void cai_unit_init(struct unit *punit)
 {
   struct ai_type *deftype = classic_ai_get_self();
@@ -492,6 +502,7 @@ bool fc_ai_classic_setup(struct ai_type *ai)
   ai->funcs.build_adv_adjust_want = cai_build_adv_adjust;
 
   ai->funcs.units_ruleset_init = cai_units_ruleset_init;
+  ai->funcs.units_ruleset_close = cai_units_ruleset_close;
 
   /* FIXME: We should allocate memory only for units owned by
      default ai in unit_got. We track no data

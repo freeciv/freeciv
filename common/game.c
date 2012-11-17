@@ -510,6 +510,8 @@ void game_ruleset_init(void)
 ***************************************************************/
 void game_ruleset_free(void)
 {
+  CALL_FUNC_EACH_AI(units_ruleset_close);
+
   specialists_free();
   techs_free();
   governments_free();

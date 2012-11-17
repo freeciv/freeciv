@@ -220,6 +220,8 @@ enum barbarian_type {
   SEA_BARBARIAN = 2
 };
 
+#define FC_AI_LAST 3
+
 /*
  * Citytile requirement types. 
  */

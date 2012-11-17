@@ -22,9 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Nov.14"
-
-#define FC_AI_LAST 3
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2012.Nov.18"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef DEBUG
@@ -123,6 +121,9 @@ struct ai_type
 
     /* Called for every AI type when unit ruleset has been loaded. */
     void (*units_ruleset_init)(void);
+
+    /* Called for every AI type before unit ruleset gets reloaded. */
+    void (*units_ruleset_close)(void);
 
     /* Called for every AI type when new unit is added to game. */
     void (*unit_alloc)(struct unit *punit);

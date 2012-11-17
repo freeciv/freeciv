@@ -1227,3 +1227,20 @@ void veteran_system_definition(struct veteran_system *vsystem, int level,
   vlevel->raise_chance = vlist_raise;
   vlevel->work_raise_chance = vlist_wraise;
 }
+
+/**************************************************************************
+  Return pointer to ai data of given unit type and ai type.
+**************************************************************************/
+void *utype_ai_data(const struct unit_type *ptype, const struct ai_type *ai)
+{
+  return ptype->ais[ai_type_number(ai)];
+}
+
+/**************************************************************************
+  Attach ai data to unit type
+**************************************************************************/
+void utype_set_ai_data(struct unit_type *ptype, const struct ai_type *ai,
+                       void *data)
+{
+  ptype->ais[ai_type_number(ai)] = data;
+}
