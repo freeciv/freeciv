@@ -1154,8 +1154,7 @@ static gboolean move_toolkit(GtkWidget *toolkit_view,
 
     if (!gtk_widget_get_parent(button_box)) {
       /* Attach to the toolkit button_box. */
-      gtk_box_pack_end(GTK_BOX(ptoolkit->button_box), button_box,
-                       FALSE, FALSE, 0);
+      gtk_container_add(GTK_CONTAINER(ptoolkit->button_box), button_box);
     }
     gtk_widget_show_all(ptoolkit->main_widget);
 
@@ -1172,10 +1171,8 @@ static gboolean move_toolkit(GtkWidget *toolkit_view,
 
   } else {
     /* First time attached to a parent. */
-    gtk_box_pack_start(GTK_BOX(toolkit_view), ptoolkit->main_widget,
-                       TRUE, TRUE, 0);
-    gtk_box_pack_end(GTK_BOX(ptoolkit->button_box), button_box,
-                     FALSE, FALSE, 0);
+    gtk_container_add(GTK_CONTAINER(toolkit_view), ptoolkit->main_widget);
+    gtk_container_add(GTK_CONTAINER(ptoolkit->button_box), button_box);
     gtk_widget_show_all(ptoolkit->main_widget);
   }
 
@@ -1244,12 +1241,15 @@ GtkWidget *inputline_toolkit_view_new(void)
   GtkWidget *toolkit_view, *bbox;
 
   /* Main widget. */
-  toolkit_view = gtk_vbox_new(FALSE, 0);
+  toolkit_view = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(toolkit_view),
+                                 GTK_ORIENTATION_VERTICAL);
   g_signal_connect_after(toolkit_view, "map",
                    G_CALLBACK(move_toolkit), &toolkit);
 
   /* Button box. */
-  bbox = gtk_hbox_new(FALSE, 12);
+  bbox = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(bbox), 12);
   g_object_set_data(G_OBJECT(toolkit_view), "button_box", bbox);
 
   return toolkit_view;
@@ -1261,8 +1261,8 @@ GtkWidget *inputline_toolkit_view_new(void)
 void inputline_toolkit_view_append_button(GtkWidget *toolkit_view,
                                           GtkWidget *button)
 {
-  gtk_box_pack_start(GTK_BOX(g_object_get_data(G_OBJECT(toolkit_view),
-                     "button_box")), button, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(g_object_get_data(G_OBJECT(toolkit_view),
+                    "button_box")), button);
 }
 
 /**************************************************************************
@@ -1283,17 +1283,22 @@ void chatline_init(void)
   /* Inputline toolkit. */
   memset(&toolkit, 0, sizeof(toolkit));
 
-  vbox = gtk_vbox_new(FALSE, 2);
+  vbox = gtk_grid_new();
+  gtk_grid_set_row_spacing(GTK_GRID(vbox), 2);
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+                                 GTK_ORIENTATION_VERTICAL);
   toolkit.main_widget = vbox;
   g_signal_connect_after(vbox, "map",
                    G_CALLBACK(set_toolbar_visibility), &toolkit);
 
   entry = gtk_entry_new();
+  g_object_set(entry, "margin", 2, NULL);
+  gtk_widget_set_hexpand(entry, TRUE);
   toolkit.entry = entry;
 
   /* First line: toolbar */
   toolbar = gtk_toolbar_new();
-  gtk_box_pack_start(GTK_BOX(vbox), toolbar, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), toolbar);
   gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar), GTK_ICON_SIZE_MENU);
   gtk_toolbar_set_show_arrow(GTK_TOOLBAR(toolbar), FALSE);
   gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_BOTH_HORIZ);
@@ -1390,31 +1395,29 @@ void chatline_init(void)
                               _("Send the chat (Return)"));
 
   /* Second line */
-  hbox = gtk_hbox_new(FALSE, 4);
-  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  hbox = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
+  gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
   /* Toggle button. */
   button = gtk_toggle_button_new();
-  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
-  gtk_container_add(GTK_CONTAINER(button),
-#ifdef GTK_STOCK_EDIT
-                    gtk_image_new_from_stock(GTK_STOCK_EDIT,
-#else
-                    gtk_image_new_from_stock(GTK_STOCK_PREFERENCES,
-#endif
-                                             GTK_ICON_SIZE_MENU));
+  g_object_set(button, "margin", 2, NULL);
+  gtk_container_add(GTK_CONTAINER(hbox), button);
+  gtk_button_set_image(GTK_BUTTON(button),
+                       gtk_image_new_from_stock(GTK_STOCK_EDIT,
+                                                GTK_ICON_SIZE_MENU));
   g_signal_connect(button, "toggled", G_CALLBACK(button_toggled), &toolkit);
   gtk_widget_set_tooltip_text(GTK_WIDGET(button), _("Chat tools"));
   toolkit.toggle_button = button;
 
   /* Entry. */
-  gtk_box_pack_start(GTK_BOX(hbox), entry, TRUE, TRUE, 2);
+  gtk_container_add(GTK_CONTAINER(hbox), entry);
   g_signal_connect(entry, "activate", G_CALLBACK(inputline_return), NULL);
   g_signal_connect(entry, "key_press_event",
                    G_CALLBACK(inputline_handler), NULL);
 
   /* Button box. */
-  bbox = gtk_hbox_new(FALSE, 0);
-  gtk_box_pack_end(GTK_BOX(hbox), bbox, FALSE, FALSE, 0);
+  bbox = gtk_grid_new();
+  gtk_container_add(GTK_CONTAINER(hbox), bbox);
   toolkit.button_box = bbox;
 }
