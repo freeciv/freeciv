@@ -373,20 +373,23 @@ static gboolean canvas_exposed_cb(GtkWidget *w, cairo_t *cr,
 static void city_dialog_map_create(struct city_dialog *pdialog,
                                    struct city_map_canvas *map_canvas)
 {
-  GtkWidget *sw, *align, *ebox, *darea;
+  GtkWidget *sw, *ebox, *darea;
 
   sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_min_content_width(GTK_SCROLLED_WINDOW(sw),
+                                            CITYMAP_WIDTH);
+  gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw),
+                                             CITYMAP_HEIGHT);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_NONE);
 
-  align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
-  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), align);
-
   ebox = gtk_event_box_new();
+  gtk_widget_set_halign(ebox, GTK_ALIGN_CENTER);
+  gtk_widget_set_valign(ebox, GTK_ALIGN_CENTER);
   gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
-  gtk_container_add(GTK_CONTAINER(align), ebox);
+  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), ebox);
 
   darea = gtk_drawing_area_new();
   gtk_widget_add_events(darea, GDK_BUTTON_PRESS_MASK);
@@ -1071,59 +1074,65 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 ****************************************************************************/
 static void create_and_append_happiness_page(struct city_dialog *pdialog)
 {
-  GtkWidget *page, *label, *table, *align, *right, *left, *frame;
+  GtkWidget *page, *label, *table, *right, *left, *frame;
   const char *tab_title = _("Happ_iness");
 
   /* main page */
-  page = gtk_hbox_new(FALSE, 6);
+  page = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(page), 6);
   gtk_container_set_border_width(GTK_CONTAINER(page), 8);
   label = gtk_label_new_with_mnemonic(tab_title);
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
   /* left: info, citizens */
-  left = gtk_vbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(page), left, FALSE, TRUE, 0);
+  left = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(left),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_container_add(GTK_CONTAINER(page), left);
 
   /* upper left: info */
   frame = gtk_frame_new(_("Info"));
-  gtk_box_pack_start(GTK_BOX(left), frame, FALSE, TRUE, 0);
-
-  align = gtk_alignment_new(0.5, 0, 0, 0);
-  gtk_container_add(GTK_CONTAINER(frame), align);
+  gtk_container_add(GTK_CONTAINER(left), frame);
 
   table = create_city_info_table(pdialog,
                                  pdialog->happiness.info_ebox,
                                  pdialog->happiness.info_label);
-  gtk_container_add(GTK_CONTAINER(align), table);
+  gtk_widget_set_halign(table, GTK_ALIGN_CENTER);
+  gtk_container_add(GTK_CONTAINER(frame), table);
 
   /* lower left: citizens */
   if (game.info.citizen_nationality == TRUE) {
-    pdialog->happiness.citizens = gtk_vbox_new(FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(left), pdialog->happiness.citizens,
-                       TRUE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(pdialog->happiness.citizens),
-                       citizens_dialog_display(pdialog->pcity),
-                       TRUE, TRUE, 0);
+    pdialog->happiness.citizens = gtk_grid_new();
+    gtk_orientable_set_orientation(
+        GTK_ORIENTABLE(pdialog->happiness.citizens),
+        GTK_ORIENTATION_VERTICAL);
+    gtk_container_add(GTK_CONTAINER(left), pdialog->happiness.citizens);
+    gtk_container_add(GTK_CONTAINER(pdialog->happiness.citizens),
+                       citizens_dialog_display(pdialog->pcity));
   }
 
   /* right: city map, happiness */
-  right = gtk_vbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(page), right, TRUE, TRUE, 0);
+  right = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(right),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_container_add(GTK_CONTAINER(page), right);
 
   /* upper right: city map */
   frame = gtk_frame_new(_("City map"));
   gtk_widget_set_size_request(frame, CITY_MAP_MIN_SIZE_X,
                               CITY_MAP_MIN_SIZE_Y);
-  gtk_box_pack_start(GTK_BOX(right), frame, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(right), frame);
 
   city_dialog_map_create(pdialog, &pdialog->happiness.map_canvas);
   gtk_container_add(GTK_CONTAINER(frame), pdialog->happiness.map_canvas.sw);
 
   /* lower right: happiness */
-  pdialog->happiness.widget = gtk_vbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(right), pdialog->happiness.widget, FALSE, TRUE, 0);
-  gtk_box_pack_start(GTK_BOX(pdialog->happiness.widget),
-                     get_top_happiness_display(pdialog->pcity), TRUE, TRUE, 0);
+  pdialog->happiness.widget = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(pdialog->happiness.widget),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_container_add(GTK_CONTAINER(right), pdialog->happiness.widget);
+  gtk_container_add(GTK_CONTAINER(pdialog->happiness.widget),
+                    get_top_happiness_display(pdialog->pcity));
 
   /* show page */
   gtk_widget_show_all(page);
@@ -3031,12 +3040,11 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
 
   /* reinitialize happiness, and cma dialogs */
   if (game.info.citizen_nationality == TRUE) {
-    gtk_box_pack_start(GTK_BOX(pdialog->happiness.citizens),
-                       citizens_dialog_display(pdialog->pcity),
-                       TRUE, TRUE, 0);
+    gtk_container_add(GTK_CONTAINER(pdialog->happiness.citizens),
+                      citizens_dialog_display(pdialog->pcity));
   }
-  gtk_box_pack_start(GTK_BOX(pdialog->happiness.widget),
-                     get_top_happiness_display(pdialog->pcity), TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(pdialog->happiness.widget),
+                    get_top_happiness_display(pdialog->pcity));
   if (!client_is_observer()) {
     fc_assert(pdialog->cma_editor != NULL);
     pdialog->cma_editor->pcity = new_pcity;

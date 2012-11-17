@@ -169,7 +169,7 @@ static int citizens_dialog_default_sort_column(void) {
 static struct citizens_dialog
   *citizens_dialog_create(const struct city *pcity)
 {
-  GtkWidget *frame, *align, *sw;
+  GtkWidget *frame, *sw;
   struct citizens_dialog *pdialog = fc_malloc(sizeof(struct citizens_dialog));
   int i;
 
@@ -185,6 +185,7 @@ static struct citizens_dialog
 
   pdialog->list
     = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->sort));
+  gtk_widget_set_halign(pdialog->list, GTK_ALIGN_CENTER);
   g_object_unref(pdialog->sort);
 
   for (i = 0; i < num_citizens_cols; i++) {
@@ -237,16 +238,13 @@ static struct citizens_dialog
     }
   }
 
-  align = gtk_alignment_new(0.5, 0.0, 0.0, 0.0);
-  gtk_container_add(GTK_CONTAINER(align), pdialog->list);
-
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC,
                                  GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_NONE);
-  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), align);
+  gtk_container_add(GTK_CONTAINER(sw), pdialog->list);
 
   frame = gtk_frame_new(_("Citizens"));
   gtk_container_add(GTK_CONTAINER(frame), sw);

@@ -187,7 +187,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
 {
   int i;
   struct happiness_dialog *pdialog;
-  GtkWidget *hbox, *ebox, *cbox, *label, *table;
+  GtkWidget *ebox, *label, *table;
 
   static const char *happiness_label_str[NUM_HAPPINESS_MODIFIERS] = {
     N_("Cities:"),
@@ -201,26 +201,24 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
   pdialog = fc_malloc(sizeof(struct happiness_dialog));
   pdialog->pcity = pcity;
 
-  pdialog->shell = gtk_vbox_new(FALSE, 0);
+  pdialog->shell = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(pdialog->shell),
+                                 GTK_ORIENTATION_VERTICAL);
 
   pdialog->cityname_label = gtk_frame_new(_("Happiness"));
-  gtk_box_pack_start(GTK_BOX(pdialog->shell),
-                     pdialog->cityname_label, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(pdialog->shell), pdialog->cityname_label);
 
-  hbox = gtk_hbox_new(TRUE, 0);
-
-  table = gtk_table_new(NUM_HAPPINESS_MODIFIERS + 1, 2, FALSE);
-  gtk_table_set_col_spacing(GTK_TABLE(table), 0, 5);
-  gtk_box_pack_start(GTK_BOX(hbox), table, FALSE, FALSE, 4);
+  table = gtk_grid_new();
+  g_object_set(table, "margin", 4, NULL);
+  gtk_grid_set_row_spacing(GTK_GRID(table), 10);
 
   intl_slist(ARRAY_SIZE(happiness_label_str), happiness_label_str,
              &happiness_label_str_done);
 
-  gtk_container_add(GTK_CONTAINER(pdialog->cityname_label), hbox);
+  gtk_container_add(GTK_CONTAINER(pdialog->cityname_label), table);
 
   for (i = 0; i < NUM_HAPPINESS_MODIFIERS; i++) {
     /* set spacing between lines of citizens*/
-    gtk_table_set_row_spacing(GTK_TABLE(table), i, 10);
 
     /* happiness labels */
     label = gtk_label_new(happiness_label_str[i]);
@@ -228,26 +226,22 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
     gtk_widget_set_name(label, "city_label");
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 
-    gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i + 1,
-                     GTK_FILL, GTK_EXPAND | GTK_SHRINK, 0, 0);
+    gtk_grid_attach(GTK_GRID(table), label, 0, i, 1, 1);
 
     /* list of citizens */
     ebox = gtk_event_box_new();
+    gtk_widget_set_margin_left(ebox, 5);
     gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
     g_object_set_data(G_OBJECT(ebox), "pdialog", pdialog);
     g_signal_connect(ebox, "button_press_event",
                      G_CALLBACK(show_happiness_popup), GUINT_TO_POINTER(i));
     pdialog->happiness_ebox[i] = ebox;
 
-    cbox = gtk_vbox_new(FALSE, 2);
     pdialog->hpixmaps[i] = gtk_pixcomm_new(PIXCOMM_WIDTH, PIXCOMM_HEIGHT);
-    gtk_box_pack_start(GTK_BOX(cbox), pdialog->hpixmaps[i], FALSE, FALSE, 0);
+    gtk_container_add(GTK_CONTAINER(ebox), pdialog->hpixmaps[i]);
     gtk_misc_set_alignment(GTK_MISC(pdialog->hpixmaps[i]), 0, 0);
 
-    gtk_container_add(GTK_CONTAINER(ebox), cbox);
-
-    gtk_table_attach(GTK_TABLE(table), ebox, 1, 2, i, i + 1,
-                     GTK_FILL, GTK_EXPAND | GTK_SHRINK, 0, 0);
+    gtk_grid_attach(GTK_GRID(table), ebox, 1, i, 1, 1);
   }
 
   /* TRANS: the width of this text defines the width of the city dialog. */
@@ -255,8 +249,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
                           "click on the citizens."));
   gtk_widget_set_name(label, "city_label");
   gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-  gtk_table_attach(GTK_TABLE(table), label, 0, 2, NUM_HAPPINESS_MODIFIERS,
-                   NUM_HAPPINESS_MODIFIERS + 1, GTK_FILL, 0, 0, 0);
+  gtk_grid_attach(GTK_GRID(table), label, 0, NUM_HAPPINESS_MODIFIERS, 2, 1);
 
   gtk_widget_show_all(pdialog->shell);
   dialog_list_prepend(dialog_list, pdialog);
