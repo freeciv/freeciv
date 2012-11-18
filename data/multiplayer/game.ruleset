@@ -368,6 +368,7 @@ names =
 [settings]
 set =
     { "name", "value", "lock"
+      "minplayers", 2, FALSE
       "generator", "ISLAND", FALSE
       "topology", "WRAPX|WRAPY", FALSE
       "startpos", "SINGLE", FALSE
