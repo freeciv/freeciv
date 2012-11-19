@@ -1486,6 +1486,10 @@ static void server_remove_unit(struct unit *punit)
     player_status_add(unit_owner(punit), PSTATUS_DYING);
   }
 
+  script_signal_emit("unit_lost", 2,
+                     API_TYPE_UNIT, punit,
+                     API_TYPE_PLAYER, unit_owner(punit));
+
   script_remove_exported_object(punit);
   game_remove_unit(punit);
   punit = NULL;
@@ -1539,7 +1543,6 @@ void wipe_unit(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
   struct unit_type *putype_save = unit_type(punit); /* for notify messages */
   int drowning = 0;
-  int saved_id = punit->id;
   int homecity_id = punit->homecity;
 
   /* First pull all units off of the transporter. */
@@ -1566,14 +1569,8 @@ void wipe_unit(struct unit *punit)
     } unit_list_iterate_end;
   }
 
-  script_signal_emit("unit_lost", 2,
-                     API_TYPE_UNIT, punit,
-                     API_TYPE_PLAYER, pplayer);
-
-  if (unit_alive(saved_id)) {
-    /* Now remove the unit. */
-    server_remove_unit(punit);
-  }
+  /* Now remove the unit. */
+  server_remove_unit(punit);
 
   /* update unit upkeep */
   city_units_upkeep(game_city_by_number(homecity_id));
