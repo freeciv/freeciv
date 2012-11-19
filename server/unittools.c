@@ -1453,7 +1453,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   We remove the unit and see if it's disappearance has affected the homecity
   and the city it was in.
 **************************************************************************/
-static void server_remove_unit(struct unit *punit)
+static void server_remove_unit(struct unit *punit, enum unit_loss_reason reason)
 {
   struct tile *ptile = unit_tile(punit);
   struct city *pcity = tile_city(ptile);
@@ -1513,6 +1513,11 @@ static void server_remove_unit(struct unit *punit)
     player_status_add(unit_owner(punit), PSTATUS_DYING);
   }
 
+  script_server_signal_emit("unit_lost", 3,
+                            API_TYPE_UNIT, punit,
+                            API_TYPE_PLAYER, unit_owner(punit),
+                            API_TYPE_STRING, unit_loss_reason_name(reason));
+
   script_server_remove_exported_object(punit);
   game_remove_unit(punit);
   punit = NULL;
@@ -1553,7 +1558,7 @@ static void unit_lost_with_transport(const struct player *pplayer,
                 _("%s lost when %s was lost."),
                 unit_tile_link(pcargo),
                 utype_name_translation(ptransport));
-  server_remove_unit(pcargo);
+  server_remove_unit(pcargo, ULR_NONNATIVE_TERR);
 }
 
 /**************************************************************************
@@ -1566,7 +1571,6 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason)
   struct player *pplayer = unit_owner(punit);
   struct unit_type *putype_save = unit_type(punit); /* for notify messages */
   int drowning = 0;
-  int saved_id = punit->id;
 
   /* First pull all units off of the transporter. */
   if (get_transporter_occupancy(punit) > 0) {
@@ -1590,15 +1594,8 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason)
     } unit_list_iterate_end;
   }
 
-  script_server_signal_emit("unit_lost", 3,
-                            API_TYPE_UNIT, punit,
-                            API_TYPE_PLAYER, pplayer,
-                            API_TYPE_STRING, unit_loss_reason_name(reason));
-
-  if (unit_alive(saved_id)) {
-    /* Now remove the unit. */
-    server_remove_unit(punit);
-  }
+  /* Now remove the unit. */
+  server_remove_unit(punit, reason);
 
   /* Finally reassign, bounce, or destroy all units that cannot exist at this
    * location without transport. */
@@ -2434,7 +2431,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
                   _("Your %s paradropped into the %s and was lost."),
                   unit_tile_link(punit),
                   terrain_name_translation(tile_terrain(ptile)));
-    server_remove_unit(punit);
+    server_remove_unit(punit, ULR_NONNATIVE_TERR);
     return TRUE;
   }
 
@@ -2447,7 +2444,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
                   _("Your %s was killed by enemy units at the "
                     "paradrop destination."),
                   unit_tile_link(punit));
-    server_remove_unit(punit);
+    server_remove_unit(punit, ULR_KILLED);
     return TRUE;
   }
 
