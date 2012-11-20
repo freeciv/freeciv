@@ -13,6 +13,11 @@
 description="Civ1-style unit_type data for Freeciv"
 options="+Freeciv-ruleset-Devel-2012.Feb.28"
 
+[control]
+; Names for custom unit type flags.
+; flags =
+;   { "name", "helptxt" }
+
 [veteran_system]
 ; What are the names of the levels?
 veteran_names = _("green"), _("veteran")

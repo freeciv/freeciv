@@ -1426,6 +1426,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 		    const char *user_text, struct unit_type *utype)
 {
   bool can_be_veteran;
+  int flagid;
 
   fc_assert_ret_val(NULL != buf && 0 < bufsz && NULL != user_text, NULL);
 
@@ -1538,6 +1539,17 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (utype_has_flag(utype, UTYF_UNIQUE)) {
     CATLSTR(buf, bufsz,
 	    _("* Each player may only have one of this type of unit.\n"));
+  }
+  for (flagid = UTYF_USER_FLAG_1 ; flagid < UTYF_LAST; flagid++) {
+    if (utype_has_flag(utype, flagid)) {
+      const char *helptxt = unit_type_flag_helptxt(flagid);
+
+      if (helptxt != NULL) {
+        CATLSTR(buf, bufsz, "* ");
+        CATLSTR(buf, bufsz, _(helptxt));
+        CATLSTR(buf, bufsz, "\n");
+      }
+    }
   }
   if (utype->pop_cost > 0) {
     cat_snprintf(buf, bufsz,

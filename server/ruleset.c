@@ -1082,29 +1082,28 @@ static void load_unit_names(struct section_file *file)
 {
   struct section_list *sec;
   int nval = 0;
-  size_t user_flags;
-  const char **flaglist;
   int i;
   const char *filename = secfile_name(file);
+  const char *flag;
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
 
   /* User unit flag names */
-  flaglist = secfile_lookup_str_vec(file, &user_flags, "flags.names");
+  for (i = 0; (flag = secfile_lookup_str_default(file, NULL, "control.flags%d.name", i)) ;
+       i++) {
+    const char *helptxt = secfile_lookup_str_default(file, NULL, "control.flags%d.helptxt",
+                                                     i);
 
-  if (user_flags > MAX_NUM_USER_UNIT_FLAGS) {
-    ruleset_error(LOG_FATAL, "\"%s\": Too many user unit type flags!",
-                  filename);
+    if (i > MAX_NUM_USER_UNIT_FLAGS) {
+      ruleset_error(LOG_FATAL, "\"%s\": Too many user unit type flags!",
+                    filename);
+    }
+
+    set_user_unit_type_flag_name(UTYF_USER_FLAG_1 + i, flag, helptxt);
   }
 
-  for (i = 0; i < user_flags; i++) {
-    set_user_unit_type_flag_name(UTYF_USER_FLAG_1 + i, flaglist[i]);
-  }
   for (; i < MAX_NUM_USER_UNIT_FLAGS; i++) {
-    set_user_unit_type_flag_name(UTYF_USER_FLAG_1 + i, NULL);
-  }
-  if (flaglist) {
-    free(flaglist);
+    set_user_unit_type_flag_name(UTYF_USER_FLAG_1 + i, NULL, NULL);
   }
 
   /* Unit classes */
@@ -4028,7 +4027,22 @@ static void send_ruleset_unit_classes(struct conn_list *dest)
 static void send_ruleset_units(struct conn_list *dest)
 {
   struct packet_ruleset_unit packet;
+  struct packet_ruleset_unit_flag fpacket;
   int i;
+
+  for (i = 0; i < MAX_NUM_USER_UNIT_FLAGS; i++) {
+    const char *helptxt;
+
+    fpacket.id = i + UTYF_USER_FLAG_1;
+    helptxt = unit_type_flag_helptxt(i + UTYF_USER_FLAG_1);
+    if (helptxt == NULL) {
+      fpacket.helptxt[0] = '\0';
+    } else {
+      sz_strlcpy(fpacket.helptxt, helptxt);
+    }
+
+    lsend_packet_ruleset_unit_flag(dest, &fpacket);
+  }
 
   unit_type_iterate(u) {
     packet.id = utype_number(u);

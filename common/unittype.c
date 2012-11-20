@@ -46,7 +46,7 @@ static struct unit_class unit_classes[UCL_LAST];
 
 static const char *type_flag_names[] = {
   "TradeRoute", "HelpWonder", "IgZOC", "NonMil", "IgTer", 
-  "OneAttack", "IgWall", "FieldUnit", 
+  "OneAttack", "IgWall", "FieldUnit",
   "Marines", "Partial_Invis", "Settlers", "Diplomat",
   "Trireme", "Nuclear", "Spy", "Paratroopers",
   "Cities", "Only_Native_Attack",
@@ -56,8 +56,15 @@ static const char *type_flag_names[] = {
   "Helicopter", "Fighter", "BarbarianOnly", "Shield2Gold",
   "Capturable", "Capturer"
 };
-static char *user_type_flag_names[MAX_NUM_USER_UNIT_FLAGS]
-  = { NULL, NULL, NULL, NULL };
+
+struct user_unit_type_flag
+{
+  char *name;
+  char *helptxt;
+};
+
+static struct user_unit_type_flag user_type_flags[MAX_NUM_USER_UNIT_FLAGS];
+
 static const char *role_names[] = {
   "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",
   "DefendOk", "DefendGood", "AttackFast", "AttackStrong",
@@ -550,21 +557,44 @@ struct unit_class *unit_class_by_rule_name(const char *s)
 }
 
 /**************************************************************************
+  Initialize user unit type flags.
+**************************************************************************/
+void user_unit_type_flags_init(void)
+{
+  int i;
+
+  for (i = 0; i < MAX_NUM_USER_UNIT_FLAGS; i++) {
+    user_type_flags[i].name = NULL;
+    user_type_flags[i].helptxt = NULL;
+  }
+}
+
+/**************************************************************************
   Sets user defined name for unit flag.
 **************************************************************************/
-void set_user_unit_type_flag_name(enum unit_type_flag_id id, const char *name)
+void set_user_unit_type_flag_name(enum unit_type_flag_id id, const char *name,
+                                  const char *helptxt)
 {
   int ufid = id - UTYF_USER_FLAG_1;
 
   fc_assert_ret(id >= UTYF_USER_FLAG_1 && id < UTYF_LAST);
 
-  if (user_type_flag_names[ufid] != NULL) {
-    free(user_type_flag_names[ufid]);
-    user_type_flag_names[ufid] = NULL;
+  if (user_type_flags[ufid].name != NULL) {
+    free(user_type_flags[ufid].name);
+    user_type_flags[ufid].name = NULL;
   }
 
   if (name && name[0] != '\0') {
-    user_type_flag_names[ufid] = fc_strdup(name);
+    user_type_flags[ufid].name = fc_strdup(name);
+  }
+
+  if (user_type_flags[ufid].helptxt != NULL) {
+    free(user_type_flags[ufid].helptxt);
+    user_type_flags[ufid].helptxt = NULL;
+  }
+
+  if (helptxt && helptxt[0] != '\0') {
+    user_type_flags[ufid].helptxt = fc_strdup(helptxt);
   }
 }
 
@@ -584,8 +614,8 @@ enum unit_type_flag_id unit_flag_by_rule_name(const char *s)
     }
   }
   for (i = 0; i < MAX_NUM_USER_UNIT_FLAGS; i++) {
-    if (user_type_flag_names[i] != NULL
-        && fc_strcasecmp(user_type_flag_names[i], s) == 0) {
+    if (user_type_flags[i].name != NULL
+        && fc_strcasecmp(user_type_flags[i].name, s) == 0) {
       return i + UTYF_USER_FLAG_1;
     }
   }
@@ -605,7 +635,17 @@ const char *unit_type_flag_rule_name(enum unit_type_flag_id id)
     return type_flag_names[id];
   }
 
-  return user_type_flag_names[id - UTYF_USER_FLAG_1];
+  return user_type_flags[id - UTYF_USER_FLAG_1].name;
+}
+
+/**************************************************************************
+  Return the (untranslated) helptxt of the user unit flag.
+**************************************************************************/
+const char *unit_type_flag_helptxt(enum unit_type_flag_id id)
+{
+  fc_assert(id >= UTYF_USER_FLAG_1 && id < UTYF_LAST);
+
+  return user_type_flags[id - UTYF_USER_FLAG_1].helptxt;
 }
 
 /**************************************************************************
@@ -1001,9 +1041,13 @@ void unit_type_flags_free(void)
   int i;
 
   for (i = 0; i < MAX_NUM_USER_UNIT_FLAGS; i++) {
-    if (user_type_flag_names[i] != 0) {
-      free(user_type_flag_names[i]);
-      user_type_flag_names[i] = NULL;
+    if (user_type_flags[i].name != 0) {
+      free(user_type_flags[i].name);
+      user_type_flags[i].name = NULL;
+    }
+    if (user_type_flags[i].helptxt != 0) {
+      free(user_type_flags[i].helptxt);
+      user_type_flags[i].helptxt = NULL;
     }
   }
 }

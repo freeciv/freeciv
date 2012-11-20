@@ -4,9 +4,10 @@
 description="Alien World unit data for Freeciv"
 options="+Freeciv-ruleset-Devel-2012.Feb.28"
 
-[flags]
+[control]
 ; Names for custom unit type flags.
-; names =
+; flags =
+;   { "name", "helptxt" }
 
 [veteran_system]
 ; What are the names of the levels?

@@ -328,8 +328,11 @@ bool utype_has_role(const struct unit_type *punittype, int role);
 enum unit_type_flag_id unit_flag_by_rule_name(const char *s);
 enum unit_role_id unit_role_by_rule_name(const char *s);
 
-void set_user_unit_type_flag_name(enum unit_type_flag_id id, const char *name);
+void user_unit_type_flags_init(void);
+void set_user_unit_type_flag_name(enum unit_type_flag_id id, const char *name,
+                                  const char *helptxt);
 const char *unit_type_flag_rule_name(enum unit_type_flag_id id);
+const char *unit_type_flag_helptxt(enum unit_type_flag_id id);
 const char *unit_role_rule_name(enum unit_role_id id);
 
 bool unit_can_take_over(const struct unit *punit);

@@ -21,13 +21,15 @@
 description="Experimental unit data for Freeciv"
 options="+Freeciv-ruleset-Devel-2012.Feb.28"
 
-[flags]
+[control]
 ; Names for custom unit type flags.
-names = "Airbase", "Transform", "AirUnit", "Horse"
-; Airbase   - can build airbases. See airbase definition in terrain.ruleset
-; Transform - can transform terrain.
-; AirUnit   - very bad at attacking AEGIS units
-; Horse     - bad at attacking Pikemen units
+flags =
+  { "name", "helptxt"
+    "Airbase", _("Can build Airbases.") 
+    "Transform", _("Can transform terrain.")
+    "AirUnit", _("Very bad at attacking AEGIS.")
+    "Horse", _("Attack value halved when attacking Pikemen.")
+  }
 
 [veteran_system]
 ; What are the names of the levels?

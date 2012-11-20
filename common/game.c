@@ -503,6 +503,7 @@ void game_ruleset_init(void)
   unit_classes_init();
   unit_types_init();
   specialists_init();
+  user_unit_type_flags_init();
 }
 
 /***************************************************************

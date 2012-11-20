@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 228
+Max id: 229
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -1216,6 +1216,11 @@ PACKET_RULESET_UNIT_BONUS = 228; sc, lsend
   UTYF        flag;
   CBONUS_TYPE type;
   UINT8       value;
+end
+
+PACKET_RULESET_UNIT_FLAG = 229; sc, lsend
+  UINT8       id;
+  STRING      helptxt[MAX_LEN_PACKET];
 end
 
 PACKET_RULESET_GAME = 141; sc, lsend
