@@ -776,7 +776,7 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
 static void create_and_append_overview_page(struct city_dialog *pdialog)
 {
   GtkWidget *page, *middle, *bottom;
-  GtkWidget *hbox, *right, *vbox, *align, *frame, *table;
+  GtkWidget *hbox, *right, *vbox, *frame, *table;
   GtkWidget *label, *sw, *view, *bar, *production_combo;
   GtkCellRenderer *rend;
   GtkListStore *store;
@@ -786,32 +786,39 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   int unit_height = tileset_tile_height(tileset) * 3 / 2;
 
   /* main page */
-  page = gtk_vbox_new(FALSE, 0);
+  page = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(page),
+                                 GTK_ORIENTATION_VERTICAL);
   gtk_container_set_border_width(GTK_CONTAINER(page), 8);
   label = gtk_label_new_with_mnemonic(tab_title);
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
   /* middle: city map, improvements */
-  middle = gtk_hbox_new(TRUE, 6);
-  gtk_box_pack_start(GTK_BOX(page), middle, TRUE, TRUE, 0);
+  middle = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(middle), 6);
+  gtk_container_add(GTK_CONTAINER(page), middle);
 
   /* city map */
   frame = gtk_frame_new(_("City map"));
   gtk_widget_set_size_request(frame, CITY_MAP_MIN_SIZE_X,
                               CITY_MAP_MIN_SIZE_Y);
-  gtk_box_pack_start(GTK_BOX(middle), frame, FALSE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(middle), frame);
 
   city_dialog_map_create(pdialog, &pdialog->overview.map_canvas);
   gtk_container_add(GTK_CONTAINER(frame), pdialog->overview.map_canvas.sw);
 
   /* improvements */
-  vbox = gtk_vbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(middle), vbox, TRUE, TRUE, 0);
+  vbox = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_container_add(GTK_CONTAINER(middle), vbox);
 
   store = gtk_list_store_new(5, G_TYPE_POINTER, GDK_TYPE_PIXBUF,
                              G_TYPE_STRING, G_TYPE_INT, G_TYPE_BOOLEAN);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  gtk_widget_set_hexpand(view, TRUE);
+  gtk_widget_set_vexpand(view, TRUE);
   g_object_unref(store);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
   gtk_widget_set_name(view, "small_font");
@@ -838,10 +845,11 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 
   label = g_object_new(GTK_TYPE_LABEL, "label", _("Production:"),
                        "xalign", 0.0, "yalign", 0.5, NULL);
-  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), label);
 
-  hbox = gtk_hbox_new(FALSE, 10);
-  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  hbox = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(hbox), 10);
+  gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
   production_store = gtk_list_store_new(4, GDK_TYPE_PIXBUF, G_TYPE_STRING,
                                         G_TYPE_INT, G_TYPE_BOOLEAN);
@@ -849,8 +857,9 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 
   production_combo =
     gtk_combo_box_new_with_model(GTK_TREE_MODEL(production_store));
+  gtk_widget_set_hexpand(production_combo, TRUE);
   pdialog->overview.production_combo = production_combo;
-  gtk_box_pack_start(GTK_BOX(hbox), production_combo, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(hbox), production_combo);
   g_object_unref(production_store);
   g_signal_connect(production_combo, "changed",
                    G_CALLBACK(change_production_callback), pdialog);
@@ -877,8 +886,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 
   pdialog->overview.buy_command = gtk_stockbutton_new(GTK_STOCK_EXECUTE,
                                                       _("_Buy"));
-  gtk_box_pack_start(GTK_BOX(hbox), pdialog->overview.buy_command,
-                     FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(hbox), pdialog->overview.buy_command);
   g_signal_connect(pdialog->overview.buy_command, "clicked",
                    G_CALLBACK(buy_callback), pdialog);
 
@@ -886,43 +894,45 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
                        "mnemonic-widget", view,
                        "label", _("I_mprovements:"),
                        "xalign", 0.0, "yalign", 0.5, NULL);
-  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), label);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), sw);
 
   gtk_container_add(GTK_CONTAINER(sw), view);
 
   /* bottom: info, units */
-  bottom = gtk_hbox_new(FALSE, 6);
-  gtk_box_pack_start(GTK_BOX(page), bottom, FALSE, TRUE, 0);
+  bottom = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(hbox), 6);
+  gtk_container_add(GTK_CONTAINER(page), bottom);
 
   /* info */
   frame = gtk_frame_new(_("Info"));
-  gtk_box_pack_start(GTK_BOX(bottom), frame, FALSE, TRUE, 0);
-
-  align = gtk_alignment_new(0.5, 0.5, 0, 0);
-  gtk_container_add(GTK_CONTAINER(frame), align);
+  gtk_container_add(GTK_CONTAINER(bottom), frame);
 
   table = create_city_info_table(pdialog,
                                  pdialog->overview.info_ebox,
                                  pdialog->overview.info_label);
-  gtk_container_add(GTK_CONTAINER(align), table);
+  gtk_widget_set_halign(table, GTK_ALIGN_CENTER);
+  gtk_widget_set_valign(table, GTK_ALIGN_CENTER);
+  gtk_container_add(GTK_CONTAINER(frame), table);
 
   /* right: present and supported units (overview page) */
-  right = gtk_vbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(bottom), right, TRUE, TRUE, 0);
+  right = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(right),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_container_add(GTK_CONTAINER(bottom), right);
 
   pdialog->overview.supported_units_frame = gtk_frame_new("");
-  gtk_box_pack_start(GTK_BOX(right), pdialog->overview.supported_units_frame,
-                     TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(right),
+                    pdialog->overview.supported_units_frame);
   pdialog->overview.present_units_frame = gtk_frame_new("");
-  gtk_box_pack_start(GTK_BOX(right), pdialog->overview.present_units_frame,
-                     TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(right),
+                    pdialog->overview.present_units_frame);
 
   /* supported units */
   sw = gtk_scrolled_window_new(NULL, NULL);
