@@ -3481,6 +3481,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
 {
   struct drawn_sprite *save_sprs = sprs;
   int ihp;
+  struct unit_type *ptype = unit_type(punit);
 
   if (backdrop) {
     if (!solid_color_behind_units) {
@@ -3493,7 +3494,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
   }
 
   /* Add the sprite for the unit type. */
-  sprs += fill_unit_type_sprite_array(t, sprs, unit_type(punit),
+  sprs += fill_unit_type_sprite_array(t, sprs, ptype,
                                       punit->facing);
 
   if (t->sprites.unit.loaded && unit_transported(punit)) {
@@ -3575,16 +3576,17 @@ static int fill_unit_sprite_array(const struct tileset *t,
   }
 
   if (t->sprites.unit.lowfuel
-      && utype_fuel(unit_type(punit))
+      && utype_fuel(ptype)
       && punit->fuel == 1
       && punit->moves_left <= 2 * SINGLE_MOVE) {
     /* Show a low-fuel graphic if the plane has 2 or fewer moves left. */
     ADD_SPRITE_FULL(t->sprites.unit.lowfuel);
   }
   if (t->sprites.unit.tired
-      && punit->moves_left < SINGLE_MOVE) {
+      && punit->moves_left < SINGLE_MOVE
+      && ptype->move_rate > 0) {
     /* Show a "tired" graphic if the unit has fewer than one move
-     * remaining. */
+     * remaining, except for units for which it's full movement. */
     ADD_SPRITE_FULL(t->sprites.unit.tired);
   }
 
@@ -3596,7 +3598,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
     ADD_SPRITE_FULL(t->sprites.unit.vet_lev[punit->veteran]);
   }
 
-  ihp = ((NUM_TILES_HP_BAR-1)*punit->hp) / unit_type(punit)->hp;
+  ihp = ((NUM_TILES_HP_BAR-1)*punit->hp) / ptype->hp;
   ihp = CLIP(0, ihp, NUM_TILES_HP_BAR-1);
   ADD_SPRITE_FULL(t->sprites.unit.hp_bar[ihp]);
 
