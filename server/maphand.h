@@ -109,6 +109,9 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
                          struct tile *psource);
 void map_clear_border(struct tile *ptile);
 
+void map_claim_base(struct tile *ptile, struct base_type *pbase,
+                    struct player *powner, struct player *ploser);
+
 void terrain_changed(struct tile *ptile);
 void check_terrain_change(struct tile *ptile, struct terrain *oldter);
 void fix_tile_on_terrain_change(struct tile *ptile,

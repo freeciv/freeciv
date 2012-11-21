@@ -1752,13 +1752,11 @@ static void map_unit_homecity_enqueue(struct tile *ptile)
 }
 
 /*************************************************************************
-  Claim ownership of a single tile.  If ignore_loss is not NULL, then
-  it won't remove the effect of this base from the former tile owner.
+  Claim ownership of a single tile.
 *************************************************************************/
-static void map_claim_ownership_full(struct tile *ptile,
-                                     struct player *powner,
-                                     struct tile *psource,
-                                     struct base_type *ignore_loss)
+static void map_claim_border_ownership(struct tile *ptile,
+                                       struct player *powner,
+                                       struct tile *psource)
 {
   struct player *ploser = tile_owner(ptile);
 
@@ -1776,30 +1774,6 @@ static void map_claim_ownership_full(struct tile *ptile,
         shared_vision_change_seen(powner, ptile, radius_sq, TRUE);
       }
     }
-  }
-
-  if (ploser != powner) {
-    base_type_iterate(pbase) {
-      if (tile_has_base(ptile, pbase)) {
-        /* Transfer base provided vision to new owner */
-        if (powner) {
-          const v_radius_t old_radius_sq = V_RADIUS(-1, -1);
-          const v_radius_t new_radius_sq = V_RADIUS(pbase->vision_main_sq,
-                                                    pbase->vision_invis_sq);
-
-          map_vision_update(powner, ptile, old_radius_sq, new_radius_sq,
-                            game.server.vision_reveal_tiles);
-        }
-        if (ploser && pbase != ignore_loss) {
-          const v_radius_t old_radius_sq = V_RADIUS(pbase->vision_main_sq,
-                                                    pbase->vision_invis_sq);
-          const v_radius_t new_radius_sq = V_RADIUS(-1, -1);
-
-          map_vision_update(ploser, ptile, old_radius_sq, new_radius_sq,
-                            game.server.vision_reveal_tiles);
-        }
-      }
-    } base_type_iterate_end;
   }
 
   tile_set_owner(ptile, powner, psource);
@@ -1826,7 +1800,13 @@ static void map_claim_ownership_full(struct tile *ptile,
 void map_claim_ownership(struct tile *ptile, struct player *powner,
                          struct tile *psource)
 {
-  map_claim_ownership_full(ptile, powner, psource, NULL);
+  struct player *base_loser = base_owner(ptile);
+
+  map_claim_border_ownership(ptile, powner, psource);
+
+  base_type_iterate(pbase) {
+    map_claim_base(ptile, pbase, powner, base_loser);
+  } base_type_iterate_end;
 }
 
 /*************************************************************************
@@ -1861,6 +1841,10 @@ void map_claim_border(struct tile *ptile, struct player *owner)
 
     if (dr != 0 && is_border_source(dtile)) {
       /* Do not claim border sources other than self */
+      /* Note that this is extremely important at the moment for
+       * base claiming to work correctly in case there's two
+       * fortresses near each other. There could be infinite
+       * recursion in them claiming each other. */
       continue;
     }
 
@@ -1936,6 +1920,58 @@ void map_calculate_borders(void)
 }
 
 /****************************************************************************
+  Claim base to players ownership.
+****************************************************************************/
+void map_claim_base(struct tile *ptile, struct base_type *pbase,
+                    struct player *powner, struct player *ploser)
+{
+  if (!tile_has_base(ptile, pbase)) {
+    return;
+  }
+
+  /* Transfer base provided vision to new owner */
+  if (powner != NULL) {
+    const v_radius_t old_radius_sq = V_RADIUS(-1, -1);
+    const v_radius_t new_radius_sq = V_RADIUS(pbase->vision_main_sq,
+                                              pbase->vision_invis_sq);
+
+    map_vision_update(powner, ptile, old_radius_sq, new_radius_sq,
+                      game.server.vision_reveal_tiles);
+  }
+
+  if (ploser != NULL) {
+    const v_radius_t old_radius_sq = V_RADIUS(pbase->vision_main_sq,
+                                              pbase->vision_invis_sq);
+    const v_radius_t new_radius_sq = V_RADIUS(-1, -1);
+
+    map_vision_update(ploser, ptile, old_radius_sq, new_radius_sq,
+                      game.server.vision_reveal_tiles);
+  }
+
+  if (BORDERS_DISABLED != game.info.borders
+      && territory_claiming_base(pbase) && powner != ploser) {
+    /* Clear borders from old owner. New owner may not know all those
+     * tiles and thus does not claim them when borders mode is less
+     * than EXPAND. */
+    if (ploser != NULL) {
+      /* Set this particular tile owner by NULL so in recursion
+       * both loser and owner will be NULL. */
+      map_claim_border_ownership(ptile, NULL, ptile);
+      map_clear_border(ptile);
+    }
+
+    /* We here first claim this tile ownership -> now on base_owner()
+     * will return new owner. Then we claim border, which will recursively
+     * lead to this tile and base being claimed. But at that point
+     * ploser == powner and above check will abort the recursion. */
+    map_claim_border_ownership(ptile, powner, ptile);
+    map_claim_border(ptile, powner);
+    city_thaw_workers_queue();
+    city_refresh_queue_processing();
+  }
+}
+
+/****************************************************************************
   Change the sight points for the vision source, fogging or unfogging tiles
   as needed.
 
@@ -1966,7 +2002,6 @@ void vision_clear_sight(struct vision *vision)
 void create_base(struct tile *ptile, struct base_type *pbase,
                  struct player *pplayer)
 {
-  bool done_new_vision = FALSE;
   bool bases_destroyed = FALSE;
 
   base_type_iterate(old_base) {
@@ -1985,29 +2020,9 @@ void create_base(struct tile *ptile, struct base_type *pbase,
 
   /* Claim base if it has "ClaimTerritory" flag */
   if (territory_claiming_base(pbase) && pplayer) {
-    /* Normally map_claim_ownership will enact the new base's vision effect
-     * as a side effect, except for the nasty special case where we already
-     * own the tile. */
-    if (pplayer != tile_owner(ptile))
-      done_new_vision = TRUE;
-    map_claim_ownership_full(ptile, pplayer, ptile, pbase);
-    map_claim_border(ptile, pplayer);
-    city_thaw_workers_queue();
-    city_refresh_queue_processing();
-  }
-  if (!done_new_vision) {
-    struct player *owner = tile_owner(ptile);
-
-    if (NULL != owner
-        && (0 < pbase->vision_main_sq || 0 < pbase->vision_invis_sq)) {
-      const v_radius_t old_radius_sq = V_RADIUS(-1, -1);
-      const v_radius_t new_radius_sq =
-          V_RADIUS(0 < pbase->vision_main_sq ? pbase->vision_main_sq : -1,
-                   0 < pbase->vision_invis_sq ? pbase->vision_invis_sq : -1);
-
-      map_vision_update(owner, ptile, old_radius_sq, new_radius_sq,
-                        game.server.vision_reveal_tiles);
-    }
+    map_claim_base(ptile, pbase, pplayer, NULL);
+  } else {
+    map_claim_base(ptile, pbase, tile_owner(ptile), NULL);
   }
 
   if (bases_destroyed) {

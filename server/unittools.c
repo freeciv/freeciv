@@ -3079,19 +3079,13 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   ASSERT_VISION(new_vision);
 
   /* Claim ownership of fortress? */
-  if (BORDERS_DISABLED != game.info.borders
-      && tile_has_claimable_base(pdesttile, unit_type(punit))
-      && (!tile_owner(pdesttile)
-          || pplayers_at_war(tile_owner(pdesttile), pplayer))) {
-    map_claim_ownership(pdesttile, pplayer, pdesttile);
+  if (!base_owner(pdesttile)
+      || pplayers_at_war(base_owner(pdesttile), pplayer)) {
+    struct player *old_owner = base_owner(pdesttile);
 
-    /* Clear borders from old owner. New owner may not know all those
-     * tiles and thus does not claim them when borders mode is less
-     * than EXPAND. */
-    map_clear_border(pdesttile);
-    map_claim_border(pdesttile, pplayer);
-    city_thaw_workers_queue();
-    city_refresh_queue_processing();
+    base_type_iterate(pbase) {
+      map_claim_base(pdesttile, pbase, pplayer, old_owner);
+    } base_type_iterate_end;
   }
 
   /* Send updated information to anyone watching.  If the unit moves
