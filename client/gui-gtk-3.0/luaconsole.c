@@ -197,7 +197,9 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
 
   box = GTK_WIDGET(pdialog->shell->vbox);
 
-  vbox = gtk_vbox_new(FALSE, 0);
+  vbox = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+                                 GTK_ORIENTATION_VERTICAL);
   gtk_box_pack_start(GTK_BOX(box), vbox, TRUE, TRUE, 0);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
@@ -205,9 +207,11 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
                                       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-  gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), sw);
 
   text = gtk_text_view_new_with_buffer(pdialog->message_buffer);
+  gtk_widget_set_hexpand(text, TRUE);
+  gtk_widget_set_vexpand(text, TRUE);
   set_message_buffer_view_link_handlers(text);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
   gtk_container_add(GTK_CONTAINER(sw), text);
@@ -222,7 +226,8 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
 
   /* The lua console input line. */
   entry = gtk_entry_new();
-  gtk_box_pack_start(GTK_BOX(vbox), entry, FALSE, TRUE, 2);
+  g_object_set(entry, "margin", 2, NULL);
+  gtk_container_add(GTK_CONTAINER(vbox), entry);
   g_signal_connect(entry, "activate", G_CALLBACK(luaconsole_input_return),
                    NULL);
   g_signal_connect(entry, "key_press_event",
