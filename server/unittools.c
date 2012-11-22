@@ -2377,6 +2377,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
                   _("Your %s paradropped into the %s and was lost."),
                   unit_tile_link(punit),
                   terrain_name_translation(tile_terrain(ptile)));
+    pplayer->score.units_lost++;
     server_remove_unit(punit);
     return TRUE;
   }
@@ -2390,6 +2391,10 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
                   _("Your %s was killed by enemy units at the "
                     "paradrop destination."),
                   unit_tile_link(punit));
+    /* TODO: Should defender score.units_killed get increased too?
+     * What if there's units of several allied players? Should the
+     * city owner or owner of the first/random unit get the kill? */
+    pplayer->score.units_lost++;
     server_remove_unit(punit);
     return TRUE;
   }
