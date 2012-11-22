@@ -236,12 +236,18 @@ static GtkWidget *create_worklists_report(void)
   g_signal_connect(shell, "destroy",
 		   G_CALLBACK(worklists_destroy_callback), NULL);
 
-  vbox = gtk_vbox_new(FALSE, 2);
+  vbox = gtk_grid_new();
+  gtk_grid_set_row_spacing(GTK_GRID(vbox), 2);
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+                                 GTK_ORIENTATION_VERTICAL);
   gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), vbox);
 
   worklists_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
 
   list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(worklists_store));
+  gtk_widget_set_hexpand(list, TRUE);
+  gtk_widget_set_vexpand(list, TRUE);
+
   g_object_unref(worklists_store);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(list), FALSE);
 
@@ -255,13 +261,12 @@ static GtkWidget *create_worklists_report(void)
     rend, "text", 0, NULL);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw), 200);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
   gtk_container_add(GTK_CONTAINER(sw), list);
-
-  gtk_widget_set_size_request(sw, -1, 200);
 
   label = g_object_new(GTK_TYPE_LABEL,
 		       "use-underline", TRUE,
@@ -269,8 +274,8 @@ static GtkWidget *create_worklists_report(void)
 		       "label", _("_Worklists:"),
 		       "xalign", 0.0, "yalign", 0.5, NULL);
 
-  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), label);
+  gtk_container_add(GTK_CONTAINER(vbox), sw);
   gtk_widget_show_all(vbox);
 
   return shell;
@@ -1075,15 +1080,18 @@ GtkWidget *create_worklist(void)
 
 
   /* create shell. */ 
-  editor = gtk_vbox_new(FALSE, 6);
+  editor = gtk_grid_new();
+  gtk_grid_set_row_spacing(GTK_GRID(editor), 6);
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(editor),
+                                 GTK_ORIENTATION_VERTICAL);
   g_signal_connect(editor, "destroy", G_CALLBACK(worklist_destroy), ptr);
   g_object_set_data(G_OBJECT(editor), "data", ptr);
 
   ptr->editor = editor;
 
   /* add source and target lists.  */
-  table = gtk_table_new(2, 5, FALSE);
-  gtk_box_pack_start(GTK_BOX(editor), table, TRUE, TRUE, 0);
+  table = gtk_grid_new();
+  gtk_container_add(GTK_CONTAINER(editor), table);
 
   group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 
@@ -1092,10 +1100,11 @@ GtkWidget *create_worklist(void)
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_table_attach(GTK_TABLE(table), sw, 3, 5, 1, 2,
-		   GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+  gtk_grid_attach(GTK_GRID(table), sw, 3, 1, 2, 1);
 
   src_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(src_store));
+  gtk_widget_set_hexpand(src_view, TRUE);
+  gtk_widget_set_vexpand(src_view, TRUE);
   g_object_unref(src_store);
   gtk_size_group_add_widget(group, src_view);
   gtk_widget_set_name(src_view, "small_font");
@@ -1108,24 +1117,22 @@ GtkWidget *create_worklist(void)
 		       "mnemonic-widget", src_view,
 		       "label", _("Source _Tasks:"),
 		       "xalign", 0.0, "yalign", 0.5, NULL);
-  gtk_table_attach(GTK_TABLE(table), label, 3, 4, 0, 1,
-		   GTK_FILL, GTK_FILL, 0, 0);
+  gtk_grid_attach(GTK_GRID(table), label, 3, 0, 1, 1);
 
   check = gtk_check_button_new_with_mnemonic(_("Show _Future Targets"));
-  gtk_table_attach(GTK_TABLE(table), check, 4, 5, 0, 1,
-		   0, GTK_FILL, 0, 0);
+  gtk_grid_attach(GTK_GRID(table), check, 4, 0, 1, 1);
   g_signal_connect(check, "toggled", G_CALLBACK(future_callback), ptr);
 
 
-  table2 = gtk_table_new(5, 1, FALSE);
-  gtk_table_attach(GTK_TABLE(table), table2, 2, 3, 1, 2,
-		   GTK_FILL, GTK_FILL, 0, 0);
+  table2 = gtk_grid_new();
+  gtk_grid_attach(GTK_GRID(table), table2, 2, 1, 1, 1);
 
   button = gtk_button_new();
+  gtk_widget_set_margin_top(button, 24);
+  gtk_widget_set_margin_bottom(button, 24);
   ptr->prepend_cmd = button;
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
-  gtk_table_attach(GTK_TABLE(table2), button, 0, 1, 0, 1,
-      0, GTK_EXPAND|GTK_FILL, 0, 24);
+  gtk_grid_attach(GTK_GRID(table2), button, 0, 0, 1, 1);
 
   arrow = gtk_arrow_new(GTK_ARROW_LEFT, GTK_SHADOW_NONE);
   gtk_container_add(GTK_CONTAINER(button), arrow);
@@ -1136,7 +1143,7 @@ GtkWidget *create_worklist(void)
   button = gtk_button_new();
   ptr->up_cmd = button;
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
-  gtk_table_attach(GTK_TABLE(table2), button, 0, 1, 1, 2, 0, 0, 0, 0);
+  gtk_grid_attach(GTK_GRID(table2), button, 0, 1, 1, 1);
 
   arrow = gtk_arrow_new(GTK_ARROW_UP, GTK_SHADOW_NONE);
   gtk_container_add(GTK_CONTAINER(button), arrow);
@@ -1147,7 +1154,7 @@ GtkWidget *create_worklist(void)
   button = gtk_button_new();
   ptr->down_cmd = button;
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
-  gtk_table_attach(GTK_TABLE(table2), button, 0, 1, 2, 3, 0, 0, 0, 0);
+  gtk_grid_attach(GTK_GRID(table2), button, 0, 2, 1, 1);
 
   arrow = gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_IN);
   gtk_container_add(GTK_CONTAINER(button), arrow);
@@ -1156,10 +1163,11 @@ GtkWidget *create_worklist(void)
   gtk_widget_set_sensitive(ptr->down_cmd, FALSE);
 
   button = gtk_button_new();
+  gtk_widget_set_margin_top(button, 24);
+  gtk_widget_set_margin_bottom(button, 24);
   ptr->append_cmd = button;
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
-  gtk_table_attach(GTK_TABLE(table2), button, 0, 1, 3, 4,
-      0, GTK_EXPAND|GTK_FILL, 0, 24);
+  gtk_grid_attach(GTK_GRID(table2), button, 0, 3, 1, 1);
 
   arrow = gtk_arrow_new(GTK_ARROW_LEFT, GTK_SHADOW_NONE);
   gtk_container_add(GTK_CONTAINER(button), arrow);
@@ -1168,10 +1176,11 @@ GtkWidget *create_worklist(void)
   gtk_widget_set_sensitive(ptr->append_cmd, FALSE);
 
   button = gtk_button_new();
+  gtk_widget_set_margin_top(button, 24);
+  gtk_widget_set_margin_bottom(button, 24);
   ptr->remove_cmd = button;
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
-  gtk_table_attach(GTK_TABLE(table2), button, 0, 1, 4, 5,
-      0, GTK_EXPAND|GTK_FILL, 0, 24);
+  gtk_grid_attach(GTK_GRID(table2), button, 0, 4, 1, 1);
   
   arrow = gtk_arrow_new(GTK_ARROW_RIGHT, GTK_SHADOW_IN);
   gtk_container_add(GTK_CONTAINER(button), arrow);
@@ -1184,10 +1193,11 @@ GtkWidget *create_worklist(void)
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_table_attach(GTK_TABLE(table), sw, 0, 2, 1, 2,
-		   GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+  gtk_grid_attach(GTK_GRID(table), sw, 0, 1, 2, 1);
 
   dst_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(dst_store));
+  gtk_widget_set_hexpand(dst_view, TRUE);
+  gtk_widget_set_vexpand(dst_view, TRUE);
   g_object_unref(dst_store);
   gtk_size_group_add_widget(group, dst_view);
   gtk_widget_set_name(dst_view, "small_font");
@@ -1200,14 +1210,13 @@ GtkWidget *create_worklist(void)
 		       "mnemonic-widget", dst_view,
 		       "label", _("Target _Worklist:"),
 		       "xalign", 0.0, "yalign", 0.5, NULL);
-  gtk_table_attach(GTK_TABLE(table), label, 0, 1, 0, 1,
-		   GTK_FILL, GTK_FILL, 0, 0);
+  gtk_grid_attach(GTK_GRID(table), label, 0, 0, 1, 1);
 
   /* add bottom menu and buttons. */
   bbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(bbox), GTK_BUTTONBOX_END);
   gtk_box_set_spacing(GTK_BOX(bbox), 10);
-  gtk_box_pack_start(GTK_BOX(editor), bbox, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(editor), bbox);
 
   menubar = gtk_aux_menu_bar_new();
   gtk_container_add(GTK_CONTAINER(bbox), menubar);
