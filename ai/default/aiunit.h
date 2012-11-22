@@ -47,7 +47,7 @@ struct unit_ai {
 
 struct unit_type_ai
 {
-  bool unused;
+  bool firepower1;
 };
 
 /* Simple military macros */

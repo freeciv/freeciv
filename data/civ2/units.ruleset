@@ -21,6 +21,7 @@ flags =
     "Transform", _("Can transform terrain.")
     "AirUnit", _("Very bad at attacking AEGIS.")
     "Horse", _("Attack value halved when attacking Pikemen.")
+    "Helicopter", _("Defends very badly against Fighters.")
   }
 
 [veteran_system]
@@ -1156,8 +1157,9 @@ targets       = "Air", "Missile"
 bonuses       =
    { "flag", "type", "value"
      "Helicopter", "DefenseDivider", 1
+     "Helicopter", "Firepower1", 1
    }
-flags         = "Fighter", "AirUnit"
+flags         = "AirUnit"
 roles         = ""
 helptext      = _("\
 Fighters are your first airborne units. They can\
@@ -1262,8 +1264,9 @@ targets       = "Air", "Missile"
 bonuses       =
    { "flag", "type", "value"
      "Helicopter", "DefenseDivider", 1
+     "Helicopter", "Firepower1", 1
    }
-flags         = "Fighter", "AirUnit"
+flags         = "AirUnit"
 roles         = ""
 helptext      = _("\
 An improved Fighter, with improved attack and a higher movement\

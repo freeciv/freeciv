@@ -2879,7 +2879,23 @@ void dai_units_ruleset_init(struct ai_type *ait)
   unit_type_iterate(ptype) {
     struct unit_type_ai *utai = fc_malloc(sizeof(*utai));
 
+    utai->firepower1 = FALSE;
+
     utype_set_ai_data(ptype, ait, utai);
+  } unit_type_iterate_end;
+
+  unit_type_iterate(punittype) {
+    combat_bonus_list_iterate(punittype->bonuses, pbonus) {
+      if (pbonus->type == CBONUS_FIREPOWER1) {
+        unit_type_iterate(penemy) {
+          if (utype_has_flag(penemy, pbonus->flag)) {
+            struct unit_type_ai *utai = utype_ai_data(penemy, ait);
+
+            utai->firepower1 = TRUE;
+          }
+        } unit_type_iterate_end;
+      }
+    } combat_bonus_list_iterate_end;
   } unit_type_iterate_end;
 }
 

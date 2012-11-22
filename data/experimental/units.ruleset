@@ -29,6 +29,7 @@ flags =
     "Transform", _("Can transform terrain.")
     "AirUnit", _("Very bad at attacking AEGIS.")
     "Horse", _("Attack value halved when attacking Pikemen.")
+    "Helicopter", _("Defends very badly against Fighters.")
   }
 
 [veteran_system]
@@ -296,8 +297,6 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; "BadCityDefender"	= if attacked while in a city, firepower is set to 1
 ;		  and firepower of attacker is doubled (the Pearl Harbour
 ;                 rule)
-; "Helicopter"  = defends very badly against "Fighter" units
-; "Fighter"     = good attacker against "Helicopter" units
 ; "BarbarianOnly" = only barbarians can build this unit
 ; "Shield2Gold" = Switch from shield upkeep to gold upkeep possible
 ; "Capturable"  = can be captured by units with "Capturer" flag
@@ -1236,8 +1235,9 @@ targets       = "Air", "Missile"
 bonuses       =
    { "flag", "type", "value"
      "Helicopter", "DefenseDivider", 1
+     "Helicopter", "Firepower1", 1
    }
-flags         = "AirUnit", "Fighter", "Shield2Gold"
+flags         = "AirUnit", "Shield2Gold"
 roles         = ""
 helptext      = _("\
 Fighters are your first airborne units. They can\
@@ -1342,8 +1342,9 @@ targets       = "Air", "Missile"
 bonuses       =
    { "flag", "type", "value"
      "Helicopter", "DefenseDivider", 1
+     "Helicopter", "Firepower1", 1
    }
-flags         = "Partial_Invis", "AirUnit", "Fighter", "Shield2Gold"
+flags         = "Partial_Invis", "AirUnit", "Shield2Gold"
 roles         = ""
 helptext      = _("\
 An improved Fighter, with improved attack and a higher movement\

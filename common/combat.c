@@ -341,8 +341,8 @@ void get_modified_firepower(const struct unit *attacker,
    * When attacked by fighters, helicopters have their firepower
    * reduced to 1.
    */
-  if (unit_has_type_flag(defender, UTYF_HELICOPTER)
-      && unit_has_type_flag(attacker, UTYF_FIGHTER)) {
+  if (combat_bonus_against(unit_type(attacker)->bonuses, unit_type(defender),
+                           CBONUS_FIREPOWER1)) {
     *def_fp = 1;
   }
 

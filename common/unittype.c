@@ -53,7 +53,7 @@ static const char *type_flag_names[] = {
   "AddToCity", "Fanatic", "GameLoss", "Unique", "Unbribable", 
   "Undisbandable", "SuperSpy", "NoHome", "NoVeteran", "Bombarder",
   "CityBuster", "NoBuild", "BadWallAttacker", "BadCityDefender",
-  "Helicopter", "Fighter", "BarbarianOnly", "Shield2Gold",
+  "BarbarianOnly", "Shield2Gold",
   "Capturable", "Capturer"
 };
 

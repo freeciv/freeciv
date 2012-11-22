@@ -163,7 +163,8 @@ static struct unit_type *dai_choose_attacker(struct city *pcity,
   We should only be passed with L_DEFEND_GOOD role for now, since this
   is the only role being considered worthy of bodyguarding in findjob.
 **************************************************************************/
-static struct unit_type *dai_choose_bodyguard(struct city *pcity,
+static struct unit_type *dai_choose_bodyguard(struct ai_type *ait,
+                                              struct city *pcity,
                                               enum unit_move_type move_type,
                                               enum unit_role_id role)
 {
@@ -185,7 +186,7 @@ static struct unit_type *dai_choose_bodyguard(struct city *pcity,
 
     /* Now find best */
     if (can_city_build_unit_now(pcity, punittype)) {
-      const int desire = dai_unit_defence_desirability(punittype);
+      const int desire = dai_unit_defence_desirability(ait, punittype);
 
       if (desire > best
 	  || (desire == best && utype_build_shield_cost(punittype) <=
@@ -656,7 +657,8 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
   How much we would want that unit to defend a city? (Do not use this 
   function to find bodyguards for ships or air units.)
 **************************************************************************/
-int dai_unit_defence_desirability(const struct unit_type *punittype)
+int dai_unit_defence_desirability(struct ai_type *ait,
+                                  const struct unit_type *punittype)
 {
   int desire = punittype->hp;
   int attack = punittype->attack_strength;
@@ -666,7 +668,7 @@ int dai_unit_defence_desirability(const struct unit_type *punittype)
   /* Sea and helicopters often have their firepower set to 1 when
    * defending. We can't have such units as defenders. */
   if (!utype_has_flag(punittype, UTYF_BADCITYDEFENDER)
-      && !utype_has_flag(punittype, UTYF_HELICOPTER)) {
+      && !((struct unit_type_ai *)utype_ai_data(punittype, ait))->firepower1) {
     /* Sea units get 1 firepower in Pearl Harbour,
      * and helicopters very bad against fighters */
     desire *= punittype->firepower;
@@ -756,7 +758,7 @@ static bool process_defender_want(struct ai_type *ait, struct player *pplayer,
       continue;
     }
 
-    desire = dai_unit_defence_desirability(punittype);
+    desire = dai_unit_defence_desirability(ait, punittype);
 
     if (!utype_has_role(punittype, L_DEFEND_OK)) {
       desire /= 2; /* not good, just ok */
@@ -1485,7 +1487,7 @@ void military_advisor_choose_build(struct ai_type *ait,
   }
 
   /* Consider making a land bodyguard */
-  punittype = dai_choose_bodyguard(pcity, UMT_LAND, L_DEFEND_GOOD);
+  punittype = dai_choose_bodyguard(ait, pcity, UMT_LAND, L_DEFEND_GOOD);
   if (punittype) {
     dai_unit_consider_bodyguard(ait, pcity, punittype, choice);
   }
@@ -1503,7 +1505,7 @@ void military_advisor_choose_build(struct ai_type *ait,
   dai_choose_diplomat_offensive(ait, pplayer, pcity, choice);
 
   /* Consider making a sea bodyguard */
-  punittype = dai_choose_bodyguard(pcity, UMT_SEA, L_DEFEND_GOOD);
+  punittype = dai_choose_bodyguard(ait, pcity, UMT_SEA, L_DEFEND_GOOD);
   if (punittype) {
     dai_unit_consider_bodyguard(ait, pcity, punittype, choice);
   }

@@ -146,8 +146,6 @@ enum unit_type_flag_id {
   UTYF_BADWALLATTACKER,  /* Firepower set to 1 when EFT_DEFEND_BONUS applies
                           * (for example, land unit attacking city with walls) */
   UTYF_BADCITYDEFENDER,  /* Firepower set to 1 and attackers x2 when in city */
-  UTYF_HELICOPTER,       /* Defends badly against UTYF_FIGHTER units */
-  UTYF_FIGHTER,          /* Good at attacking UTYF_HELICOPTER units */
   UTYF_BARBARIAN_ONLY,   /* Only barbarians can build this unit */
   UTYF_SHIELD2GOLD,      /* upkeep can switch from shield to gold */
   UTYF_CAPTURABLE,       /* Unit can be captured */
@@ -206,6 +204,8 @@ BV_DEFINE(bv_unit_type_roles, L_MAX);
 #define SPECENUM_VALUE0NAME "DefenseMultiplier"
 #define SPECENUM_VALUE1 CBONUS_DEFENSE_DIVIDER
 #define SPECENUM_VALUE1NAME "DefenseDivider"
+#define SPECENUM_VALUE2 CBONUS_FIREPOWER1
+#define SPECENUM_VALUE2NAME "Firepower1"
 #include "specenum_gen.h"
 
 struct combat_bonus {
