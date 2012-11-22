@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-31 13:25+0100\n"
-"PO-Revision-Date: 2012-03-30 22:13+0100\n"
+"POT-Creation-Date: 2012-10-13 00:42+0300\n"
+"PO-Revision-Date: 2012-11-21 10:54+0100\n"
 "Last-Translator: Michael Bauer <fios@akerbeltz.org>\n"
 "Language-Team: Akerbeltz\n"
+"Language: gd\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: gd\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
 "X-Generator: Virtaal 0.7.1-beta1\n"
@@ -39,11 +39,11 @@ msgstr "Malairt"
 msgid "Gold"
 msgstr "Òr"
 
-#: common/city.c:85 server/plrhand.c:200 client/gui-gtk-2.0/gamedlgs.c:267
+#: common/city.c:85 server/plrhand.c:215 client/gui-gtk-2.0/gamedlgs.c:267
 msgid "Luxury"
 msgstr "Sòghalachd"
 
-#: common/city.c:86 server/plrhand.c:202 client/gui-gtk-2.0/gamedlgs.c:287
+#: common/city.c:86 server/plrhand.c:217 client/gui-gtk-2.0/gamedlgs.c:287
 msgid "Science"
 msgstr "Saidheans"
 
@@ -476,7 +476,7 @@ msgid "Built unit with population cost"
 msgstr "Aonad air a thogail le cosgais sluaigh"
 
 #. TRANS: "vote" as a process
-#: common/events.c:170 server/stdinhand.c:4001
+#: common/events.c:170 server/stdinhand.c:4002
 msgid "New vote"
 msgstr "Bhòt ùr"
 
@@ -593,7 +593,7 @@ msgstr "Bliadhna ùr"
 
 #. TRANS: <year> <label> -> "1000 BC"
 #. TRANS: <year> <label> -> "1000 AD"
-#: common/game.c:656 common/game.c:660 client/gui-sdl/wldlg.c:1439
+#: common/game.c:662 common/game.c:666 client/gui-sdl/wldlg.c:1439
 #, c-format
 msgid "%d %s"
 msgstr "%d %s"
@@ -608,7 +608,11 @@ msgstr "Mghr. %s"
 msgid "Ms. %s"
 msgstr "B.-Mhgr. %s"
 
-#: common/packets.c:408 common/packets.c:453
+#: common/packets.c:392
+msgid "illegal packet size"
+msgstr "pacaid de mheud mì-dhligheach"
+
+#: common/packets.c:416 common/packets.c:461
 msgid "decoding error"
 msgstr "mearachd 'ga dhì-chòdachadh"
 
@@ -1293,25 +1297,25 @@ msgstr[3] " (%d ath-innse gu h-iomlan)"
 msgid "Please report this message at %s"
 msgstr "Thoir fios mun teachdaireachd seo aig %s"
 
-#: utility/shared.c:206
+#: utility/shared.c:207
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "Argamaid fhalamh airson \"%s\".\n"
 
-#: utility/shared.c:210
+#: utility/shared.c:211
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "Argamaid a dhìth airson \"%s\".\n"
 
 #. TRANS: <FREECIV_DATA_PATH> configuration error
 #. TRANS: <FREECIV_SAVE_PATH> configuration error
-#: utility/shared.c:949 utility/shared.c:994 utility/shared.c:1054
+#: utility/shared.c:950 utility/shared.c:995 utility/shared.c:1055
 #, c-format
 msgid "\"%s\" is set but empty; trying \"%s\" instead."
 msgstr "Tha \"%s\" air a shuidheachadh euch \"%s\" 'na àite."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:955
+#: utility/shared.c:956
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" data directories instead."
 msgstr ""
@@ -1319,7 +1323,7 @@ msgstr ""
 "dàta \"%s\" bunaiteach 'na àite."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1001
+#: utility/shared.c:1002
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" save directories instead."
 msgstr ""
@@ -1327,7 +1331,7 @@ msgstr ""
 "sàbhalaidh \"%s\" bunaiteach 'na àite."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1061
+#: utility/shared.c:1062
 #, c-format
 msgid ""
 "\"%s\" is set but empty; using default \"%s\" scenario directories instead."
@@ -1336,65 +1340,65 @@ msgstr ""
 "cnàmh-sgeulan \"%s\" bunaiteach 'na àite."
 
 #. TRANS: "...: <externally translated error string>."
-#: utility/shared.c:1130
+#: utility/shared.c:1131
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Cha do ghabh am pasgan dàta %s a leughadh: %s."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1352
+#: utility/shared.c:1353
 #, c-format
 msgid "The path may be set via the \"%s\" environment variable."
 msgstr ""
 "Feumaidh tu an t-slighe a shuidheachadh le caochladair na h-àrainneachd \"%s"
 "\"."
 
-#: utility/shared.c:1354
+#: utility/shared.c:1355
 #, c-format
 msgid "Current path is: \"%s\""
 msgstr "Seo an t-slighe làithreach: \"%s\""
 
-#: utility/shared.c:1355
+#: utility/shared.c:1356
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "Tha feum air an fhaidhle \"%s\" ...a' sgur dheth!"
 
-#: utility/shared.c:1544
+#: utility/shared.c:1545
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr ""
 "%s: Mearachd mharbhtach: tha thu a' feuchainn mo ruith mar uile-"
 "chleachdaiche!\n"
 
-#: utility/shared.c:1546
+#: utility/shared.c:1547
 msgid "Use a non-privileged account instead.\n"
 msgstr "Cleachd cunntas gun phribhleidean na àite.\n"
 
-#: utility/shared.c:1562
+#: utility/shared.c:1563
 msgid "exact match"
 msgstr "sàr-chèile"
 
-#: utility/shared.c:1563
+#: utility/shared.c:1564
 msgid "only match"
 msgstr "cèile"
 
-#: utility/shared.c:1564
+#: utility/shared.c:1565
 msgid "ambiguous"
 msgstr "teagmhach"
 
-#: utility/shared.c:1565
+#: utility/shared.c:1566
 msgid "empty"
 msgstr "falamh"
 
-#: utility/shared.c:1566
+#: utility/shared.c:1567
 msgid "too long"
 msgstr "ro fhada"
 
-#: utility/shared.c:1567
+#: utility/shared.c:1568
 msgid "non-match"
 msgstr "gun chèile"
 
-#: utility/shared.c:1888
+#: utility/shared.c:1889
 msgid "day"
 msgid_plural "days"
 msgstr[0] "latha"
@@ -1402,7 +1406,7 @@ msgstr[1] "latha"
 msgstr[2] "làithean"
 msgstr[3] "latha"
 
-#: utility/shared.c:1893
+#: utility/shared.c:1894
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "uair a thìde"
@@ -1410,7 +1414,7 @@ msgstr[1] "uair a thìde"
 msgstr[2] "uairean a thìde"
 msgstr[3] "uair a thìde"
 
-#: utility/shared.c:1899
+#: utility/shared.c:1900
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "mhionaid"
@@ -1418,7 +1422,7 @@ msgstr[1] "mhionaid"
 msgstr[2] "mionaidean"
 msgstr[3] "mionaid"
 
-#: utility/shared.c:1905
+#: utility/shared.c:1906
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "diog"
@@ -1426,11 +1430,11 @@ msgstr[1] "dhiog"
 msgstr[2] "diogan"
 msgstr[3] "diog"
 
-#: utility/shared.c:2171 client/gui-gtk-2.0/editprop.c:856
+#: utility/shared.c:2172 client/gui-gtk-2.0/editprop.c:856
 msgid "TRUE"
 msgstr "TRUE"
 
-#: utility/shared.c:2171 client/gui-gtk-2.0/editprop.c:856
+#: utility/shared.c:2172 client/gui-gtk-2.0/editprop.c:856
 msgid "FALSE"
 msgstr "FALSE"
 
@@ -1474,8 +1478,8 @@ msgstr "*%s (IF)* Bris ur caidreachas le %s an toiseach, %s."
 #: ai/advdiplomacy.c:341
 #, c-format
 msgid ""
-"*%s (AI)* I would like to see you keep your distance from %s for some time, %"
-"s."
+"*%s (AI)* I would like to see you keep your distance from %s for some time, "
+"%s."
 msgstr "*%s (IF)* B' fhearr leam mura dig thu ro dhlùth air %s fad greis, %s."
 
 #: ai/advdiplomacy.c:355
@@ -1788,8 +1792,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1611
 #, c-format
 msgid ""
-"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
-"s. Why do I need to remind you of your promises?"
+"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
+"%s. Why do I need to remind you of your promises?"
 msgstr ""
 "*%s (IF)* Fàilte oirbh, a chaidreabhaich. Chì mi nach tug sibh ionnsaigh air "
 "ar nàmhaid fhathast, %s. Carson a tha againn ri ur gealladh a thoirt nur "
@@ -2375,8 +2379,8 @@ msgid ""
 "%s can't build %s from the worklist; tech %s not yet available.  "
 "Postponing..."
 msgstr ""
-"Cha dèid aig %s %s on liosta obrach a thogail; chan eil an teicneolas seo (%"
-"s) ri làimh fhathast. A' cur an dàil..."
+"Cha dèid aig %s %s on liosta obrach a thogail; chan eil an teicneolas seo "
+"(%s) ri làimh fhathast. A' cur an dàil..."
 
 #: server/cityturn.c:1079
 #, c-format
@@ -3243,8 +3247,8 @@ msgstr "Tagh eòlaire riaghailtean ùr no modpack."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:223
-msgid "metainfo <meta-line>"
-msgstr "metainfo <meata-loidhne>"
+msgid "metamessage <meta-line>"
+msgstr "metamessage <meta-line>"
 
 #: server/commands.c:224
 msgid "Set metaserver info line."
@@ -3266,8 +3270,8 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/commands.c:233
-msgid "metapatch <meta-line>"
-msgstr "metapatch <meata-loidhne>"
+msgid "metapatches <meta-line>"
+msgstr "metapatches <meta-line>"
 
 #: server/commands.c:234
 msgid "Set metaserver patches line."
@@ -3861,7 +3865,7 @@ msgid "lua <script>"
 msgstr "lua <sgriobt>"
 
 #: server/commands.c:532
-msgid "Evaluate a line of freeciv script in the current game."
+msgid "Evaluate a line of Freeciv script in the current game."
 msgstr "Luachaich loidhne dhen sgriobt ann am Freeciv sa gheama làithreach."
 
 #. TRANS: translate text between <>
@@ -4027,7 +4031,7 @@ msgstr "%s air a dhiùltadh: Ainm air a dhùblachadh [%s]."
 msgid "Lost connection: %s."
 msgstr "Ceangal air chall: %s."
 
-#: server/connecthand.c:678
+#: server/connecthand.c:679
 #, c-format
 msgid "Detaching from %s."
 msgstr "A' briseadh o %s."
@@ -4472,15 +4476,15 @@ msgstr ""
 #, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating %s."
 msgstr ""
-"Sgrios aonad %s, %s, aonad %s, %s, fhad 's a bhathar a' sìoladh a-steach a %"
-"s."
+"Sgrios aonad %s, %s, aonad %s, %s, fhad 's a bhathar a' sìoladh a-steach a "
+"%s."
 
 #: server/diplomats.c:1245
 #, c-format
 msgid "Your %s eliminated a %s %s while infiltrating %s."
 msgstr ""
-"Sgrios an %s agad aonad aig %s, %s, fhad 's a bhathar a' sìoladh a-steach a %"
-"s."
+"Sgrios an %s agad aonad aig %s, %s, fhad 's a bhathar a' sìoladh a-steach a "
+"%s."
 
 #: server/diplomats.c:1253
 #, c-format
@@ -4893,13 +4897,13 @@ msgstr "Cha deach aonad sam bith a chur ann airson %s!"
 msgid "Year: %s"
 msgstr "Bliadhna: %s"
 
-#: server/gamehand.c:539
+#: server/gamehand.c:541
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
 msgstr ""
 "Chaidh crìoch-ùine na cuairte thar an luach cheadaichte, ga shuidheachadh "
 "air an luach as motha a tha ceadaichte."
 
-#: server/gamehand.c:547
+#: server/gamehand.c:549
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr ""
 "Tha crìoch-ùine na cuairte nas lugha na neoini, ga shuidheachadh aig neoini."
@@ -4922,8 +4926,8 @@ msgid ""
 "Map size calculated for %d (land) tiles per player and %d player(s) too "
 "small. Setting map size to the minimal size %d."
 msgstr ""
-"Tha meud a' mhapa a chaidh àireamhachadh airson %d leacag (talamhainn) agus %"
-"d cluicheadair(ean) ro bheag. Ag atharrachadh meud a' mhapa gun mheud as "
+"Tha meud a' mhapa a chaidh àireamhachadh airson %d leacag (talamhainn) agus "
+"%d cluicheadair(ean) ro bheag. Ag atharrachadh meud a' mhapa gun mheud as "
 "lugha de %d."
 
 #: server/generator/mapgen_topology.c:298
@@ -4932,8 +4936,8 @@ msgid ""
 "Map size calculated for %d (land) tiles per player and %d player(s) too "
 "large. Setting map size to the maximal size %d."
 msgstr ""
-"Tha meud a' mhapa a chaidh àireamhachadh airson %d leacag (talamhainn) agus %"
-"d cluicheadair(ean) ro mhòr. Ag atharrachadh meud a' mhapa gun mheud as "
+"Tha meud a' mhapa a chaidh àireamhachadh airson %d leacag (talamhainn) agus "
+"%d cluicheadair(ean) ro mhòr. Ag atharrachadh meud a' mhapa gun mheud as "
 "motha de %d."
 
 #: server/generator/mapgen_topology.c:303
@@ -5053,13 +5057,13 @@ msgstr ""
 "      Tha obraichean a' tighinn còmhla air an ceann fhìn agus a' leasachadh "
 "gach baile le rathaidean-iarainn."
 
-#: server/maphand.c:1486
+#: server/maphand.c:1483
 #, c-format
 msgid "Moved your %s due to changing terrain."
 msgstr ""
 "Chaidh an %s agad a ghluasad air sgàth 's gu bheil an talamh ag atharrachadh."
 
-#: server/maphand.c:1503
+#: server/maphand.c:1500
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
 msgstr ""
@@ -5080,26 +5084,26 @@ msgstr "Frithealaiche meata: droch sheòladh: <%s %d>."
 msgid "The %s are no more!"
 msgstr "Chan eil na %s ann tuilleadh!"
 
-#: server/plrhand.c:182
+#: server/plrhand.c:197
 msgid "Cannot change rates before game start."
 msgstr "Cha ghabh na rèitichean atharrachadh mus toisich an geama."
 
-#: server/plrhand.c:198 client/gui-gtk-2.0/gamedlgs.c:247
+#: server/plrhand.c:213 client/gui-gtk-2.0/gamedlgs.c:247
 msgid "Tax"
 msgstr "Cìsean"
 
-#: server/plrhand.c:206
+#: server/plrhand.c:221
 #, c-format
 msgid "%s rate exceeds the max rate for %s."
 msgstr ""
 "Tha rèit de %s a' dol thar an rèit as motha a tha ceadaichte airson %s."
 
-#: server/plrhand.c:241
+#: server/plrhand.c:256
 #, c-format
 msgid "%s now governs the %s as a %s."
 msgstr "Tha %s a' riaghladh na %s mar %s a-nis."
 
-#: server/plrhand.c:264
+#: server/plrhand.c:279
 #, c-format
 msgid ""
 "The tax rates for the %s are changed from %3d%%/%3d%%/%3d%% (tax/luxury/"
@@ -5110,7 +5114,7 @@ msgstr ""
 
 #. TRANS: this is a message event so don't make it
 #. * too long.
-#: server/plrhand.c:334
+#: server/plrhand.c:349
 #, c-format
 msgid ""
 "The %s have incited a revolt! %d turn of anarchy will ensue! Target "
@@ -5131,32 +5135,32 @@ msgstr[3] ""
 "Bhrosnaich na %s aramach! Bidh ain-riaghailt ann fad %d cuairt! 'S e %s an "
 "riaghaltas a thathar ag amas air."
 
-#: server/plrhand.c:347
+#: server/plrhand.c:362
 msgid "Revolution: returning to anarchy."
 msgstr "Aramach: a' tilleadh gu ain-riaghailt."
 
-#: server/plrhand.c:403
+#: server/plrhand.c:418
 msgid "You should choose a new government from the government menu."
 msgstr "Bu chòir dhut riaghaltas ùr a thaghadh o chlàr-taice nan riaghaltasan."
 
-#: server/plrhand.c:428
+#: server/plrhand.c:443
 msgid "Tax rate exceeded the max rate; adjusted."
 msgstr "Chaidh rèit na cìse thar na tha ceadaichte; air a chur ceart."
 
-#: server/plrhand.c:432
+#: server/plrhand.c:447
 msgid "Science rate exceeded the max rate; adjusted."
 msgstr "Chaidh rèit an t-saidheans thar na tha ceadaichte; air a chur ceart."
 
-#: server/plrhand.c:436
+#: server/plrhand.c:451
 msgid "Luxury rate exceeded the max rate; adjusted."
 msgstr "Chaidh rèit na sòghalachd thar na tha ceadaichte; air a chur ceart."
 
-#: server/plrhand.c:491
+#: server/plrhand.c:506
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "Chan eil %s a' toirt co-shealladh dhuinn tuilleadh!"
 
-#: server/plrhand.c:502
+#: server/plrhand.c:517
 #, c-format
 msgid ""
 "The senate will not allow you to break treaty with the %s.  You must either "
@@ -5165,7 +5169,7 @@ msgstr ""
 "Cha leig an seanadh leat an còrdadh leis na %s a bhriseadh. Feumaidh tu an "
 "seanadh a leigeil mu sgaoil no feitheamh ri cothrom nas fhearr."
 
-#: server/plrhand.c:553
+#: server/plrhand.c:568
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
@@ -5173,7 +5177,7 @@ msgstr ""
 "Tha an seanadh a' dol le do bhile a chionn 's gu bheil na %s gar sìor "
 "bhuaireadh."
 
-#: server/plrhand.c:558
+#: server/plrhand.c:573
 #, c-format
 msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
@@ -5182,12 +5186,12 @@ msgstr ""
 "Tha an seanadh a' diùltadh briseadh ar còrdaidh leis na %s ach tha e furasta "
 "gu leòr dhut seanadh ùr a lorg."
 
-#: server/plrhand.c:591
+#: server/plrhand.c:606
 #, c-format
 msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "Dh'atharraich an dàimh dhioplomasach eadar na %s is na %s gu %s."
 
-#: server/plrhand.c:597
+#: server/plrhand.c:612
 #, c-format
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
@@ -5196,7 +5200,7 @@ msgstr ""
 "Chuir %s crìoch air a' chòrdadh dioplomasach! Tha an dàimh dioplomasach "
 "eadar na %s is na %s na %s a-nis."
 
-#: server/plrhand.c:615
+#: server/plrhand.c:630
 #, c-format
 msgid ""
 "%s has attacked your ally %s! You cancel your alliance to the aggressor."
@@ -5204,7 +5208,7 @@ msgstr ""
 "Thug %s ionnsaigh air do chaidreach %s! Tha thusa a' cur crìoch air do "
 "chaidreachas leis an ionnsaigheach."
 
-#: server/plrhand.c:627
+#: server/plrhand.c:642
 #, c-format
 msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
@@ -5213,82 +5217,82 @@ msgstr ""
 "Thug %s, a tha nad sgioba, ionnsaigh air %s. Tha dleastanas ort crìoch a "
 "chur air do chaidreachas le %s."
 
-#: server/plrhand.c:1161
+#: server/plrhand.c:1176
 #, c-format
 msgid "Removing player %s."
 msgstr "A' toirt air falbh an cluicheadair %s."
 
-#: server/plrhand.c:1164
+#: server/plrhand.c:1179
 msgid "You've been removed from the game!"
 msgstr "Chaidh do thoirt air falbh on gheama!"
 
-#: server/plrhand.c:1167
+#: server/plrhand.c:1182
 #, c-format
 msgid "%s has been removed from the game."
 msgstr "Chaidh %s a thoirt air falbh on gheama."
 
-#: server/plrhand.c:1273
+#: server/plrhand.c:1288
 msgid "Please choose a non-blank name."
 msgstr "Saoil nach cleachd thu ainm nach eil bàn?"
 
-#: server/plrhand.c:1286
+#: server/plrhand.c:1301
 msgid "That nation is already in use."
 msgstr "Tha an nàisean seo 'ga chleachdadh mu thràth."
 
-#: server/plrhand.c:1291
+#: server/plrhand.c:1306
 #, c-format
 msgid "Another player already has the name '%s'. Please choose another name."
 msgstr "Tha an t-sinm '%s' aig cluicheadair eile mu thràth. Tagh ainm eile."
 
-#: server/plrhand.c:1315
+#: server/plrhand.c:1330
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Tha agad ri ainm a thaghadh anns nach eil ach caractairean ASCII."
 
-#: server/plrhand.c:1390 server/plrhand.c:1404
+#: server/plrhand.c:1405 server/plrhand.c:1419
 #, c-format
 msgid "Player no. %d"
 msgstr "Cluicheadair %d"
 
-#: server/plrhand.c:1419
+#: server/plrhand.c:1434
 msgid "A poorly-named player"
 msgstr "Cluicheadair le droch ainm"
 
-#: server/plrhand.c:1489 server/plrhand.c:1493
+#: server/plrhand.c:1504 server/plrhand.c:1508
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Choinnich thu ris na %s a' chiad turas agus iad fo riadhladh %s."
 
-#: server/plrhand.c:1970
+#: server/plrhand.c:1985
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr ""
 "Cha do ghabh cogadh catharra a bhrosnachadh ann an %s - cus chluicheadairean."
 
-#: server/plrhand.c:1976
+#: server/plrhand.c:1991
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr ""
 "Cha do ghaibh cogadh catharra a bhrosnachadh ann an %s - chan eil nàisean "
 "air fhàgail."
 
-#: server/plrhand.c:2006
+#: server/plrhand.c:2021
 msgid "Your nation is thrust into civil war."
 msgstr "Thuir do nàisean ann an cogadh catharra."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:2010
+#: server/plrhand.c:2025
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "Tha %s na cheannard aramach nan %s."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:2030
+#: server/plrhand.c:2045
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "Tha %s a' cur an cèill a chaidreachas leis na %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:2048
+#: server/plrhand.c:2063
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -5302,8 +5306,8 @@ msgstr[3] "Tha cogadh catharra a' sgaradh %s; fhuair na %s %d baile."
 #, c-format
 msgid "%s %s reports on the RICHEST Civilizations in the World."
 msgstr ""
-"Tha %2$s a' dèanamh aithris air na sìobhaltasan as BEARTAICHE san t-saoghal %"
-"1$s."
+"Tha %2$s a' dèanamh aithris air na sìobhaltasan as BEARTAICHE san t-saoghal "
+"%1$s."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:87
@@ -5326,8 +5330,8 @@ msgstr ""
 #, c-format
 msgid "%s %s reports on the HAPPIEST Civilizations in the World."
 msgstr ""
-"Tha %2$s a' dèanamh aithris air na sìobhaltasan as TOILICHTE san t-saoghal %1"
-"$s."
+"Tha %2$s a' dèanamh aithris air na sìobhaltasan as TOILICHTE san t-saoghal "
+"%1$s."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:93
@@ -5641,12 +5645,12 @@ msgstr "Duilich, chan eil an aithisg sluagh-eòlais ri fhaighinn."
 msgid "%s %s (%s)"
 msgstr "%s %s (%s)"
 
-#: server/report.c:1433
+#: server/report.c:1437
 msgid "Population\n"
 msgstr "Sluagh\n"
 
 #. TRANS: "M goods" = million goods
-#: server/report.c:1435
+#: server/report.c:1439
 msgid ""
 "Trade\n"
 "(M goods)"
@@ -5655,7 +5659,7 @@ msgstr ""
 "(Mill. bathar)"
 
 #. TRANS: "M tons" = million tons
-#: server/report.c:1437
+#: server/report.c:1441
 msgid ""
 "Production\n"
 "(M tons)"
@@ -5663,15 +5667,15 @@ msgstr ""
 "Cinneasachadh\n"
 "(Mill. tunna)"
 
-#: server/report.c:1438
+#: server/report.c:1442
 msgid "Cities\n"
 msgstr "Bailtean\n"
 
-#: server/report.c:1439
+#: server/report.c:1443
 msgid "Technologies\n"
 msgstr "Teicneolasan\n"
 
-#: server/report.c:1440
+#: server/report.c:1444
 msgid ""
 "Military Service\n"
 "(months)"
@@ -5679,11 +5683,11 @@ msgstr ""
 "Seirbheis san arm\n"
 "(mìosan)"
 
-#: server/report.c:1441
+#: server/report.c:1445
 msgid "Wonders\n"
 msgstr "Mìorbhailean\n"
 
-#: server/report.c:1442
+#: server/report.c:1446
 msgid ""
 "Research Speed\n"
 "(%)"
@@ -5692,7 +5696,7 @@ msgstr ""
 "(%)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
-#: server/report.c:1444
+#: server/report.c:1448
 msgid ""
 "Land Area\n"
 "(sq. mi.)"
@@ -5701,7 +5705,7 @@ msgstr ""
 "(mìle cg.)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
-#: server/report.c:1446
+#: server/report.c:1450
 msgid ""
 "Settled Area\n"
 "(sq. mi.)"
@@ -5709,7 +5713,7 @@ msgstr ""
 "Talamh tuinichte\n"
 "(mìle cg.)"
 
-#: server/report.c:1447
+#: server/report.c:1451
 msgid ""
 "Literacy\n"
 "(%)"
@@ -5717,19 +5721,19 @@ msgstr ""
 "Ìre litreachais\n"
 "(%s)"
 
-#: server/report.c:1448
+#: server/report.c:1452
 msgid "Spaceship\n"
 msgstr "Soitheach-fànais\n"
 
-#: server/report.c:1449
+#: server/report.c:1453
 msgid "Built Units\n"
 msgstr "Aonadan air a thogail\n"
 
-#: server/report.c:1450
+#: server/report.c:1454
 msgid "Killed Units\n"
 msgstr "Aonadan air marbhadh\n"
 
-#: server/report.c:1451
+#: server/report.c:1455
 msgid "Unit Losses\n"
 msgstr "Aonadan a chaidh a chall\n"
 
@@ -5761,14 +5765,14 @@ msgstr ""
 "de gheama a chaidh a shàbhaladh. Lean air adhart air do chunnart fhèin."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:4456
+#: server/savegame.c:4490
 msgid ""
 "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 msgstr ""
 "Chaidh an geama seo a shàbhaladh le seata riaghailtean na talmhainn "
 "\"chlasaigeach\" ach chan eil taic ann dha tuilleadh."
 
-#: server/savegame.c:4464
+#: server/savegame.c:4498
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -5778,39 +5782,39 @@ msgstr ""
 "riaghailtean ('%s' is '%s') tuilleadh. Cleachd '%s'."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:4505
+#: server/savegame.c:4539
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr ""
 "Chaidh an geama seo a shàbhaladh ro fhad air ais, tha feum air tionndadh "
 "1.9.0 air a' char as lugha."
 
-#: server/savegame.c:5243 server/savegame2.c:3049 server/srv_main.c:1837
-#: server/srv_main.c:1841
+#: server/savegame.c:5278 server/savegame2.c:3061 server/srv_main.c:1825
+#: server/srv_main.c:1829
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr ""
 "Chaidh %s a chur ris mar chluicheadair air leibheail %s fo smachd na h-IF."
 
-#: server/savegame.c:5247 server/savegame2.c:3053
+#: server/savegame.c:5282 server/savegame2.c:3065
 #, c-format
 msgid "%s has been added as human player."
 msgstr "Chaidh %s a chur ris mar chluicheadair daonna."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame.c:5292 server/savegame2.c:3072
+#: server/savegame.c:5327 server/savegame2.c:3084
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "Bha nàisean mì-dhligheach aig %s; ag atharrachadh gu %s."
 
-#: server/savegame2.c:5411
+#: server/savegame2.c:5431
 msgid "current version"
 msgstr "an tionndadh làithreach"
 
-#: server/savegame2.c:5415
+#: server/savegame2.c:5435
 msgid "freeciv 2.3.0"
 msgstr "freeciv 2.3.0"
 
-#: server/savegame2.c:5465
+#: server/savegame2.c:5485
 #, c-format
 msgid ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
@@ -5818,7 +5822,7 @@ msgstr ""
 "Ruith am foincsean co-chòrdalachd airson tionndadh: <%d (faidhle sàbhalaidh: "
 "%d; frithealaiche: %d)."
 
-#: server/savegame2.c:5499
+#: server/savegame2.c:5519
 #, c-format
 msgid "Run compatibility function for version: <%d (want: %d, server: %d)."
 msgstr ""
@@ -6102,8 +6106,8 @@ msgstr ""
 #: server/settings.c:669
 #, c-format
 msgid ""
-"Requested value (%d) is greater than number of available start positions (%"
-"d). Keeping old value."
+"Requested value (%d) is greater than number of available start positions "
+"(%d). Keeping old value."
 msgstr ""
 "Tha an luach a chaidh iarraidh (%d) nas motha na àireamh nan ionadan "
 "tòiseachaidh a tha ri fhaighinn (%d). A' cumail an t-seann luach."
@@ -6138,8 +6142,8 @@ msgid ""
 "'unitwaittime' has to be lower than 2/3 of the 'timeout' setting (= %d). "
 "Please change 'timeout' first."
 msgstr ""
-"Feumaidh 'unitwaittime' a bhith nas lugha na 2/3 dhen roghainn 'timeout' (= %"
-"d). Atharraich  'timeout' an toiseach."
+"Feumaidh 'unitwaittime' a bhith nas lugha na 2/3 dhen roghainn 'timeout' (= "
+"%d). Atharraich  'timeout' an toiseach."
 
 #: server/settings.c:752 server/settings.c:810 server/settings.c:830
 msgid "For an isometric or hexagonal map the ysize must be even."
@@ -8064,27 +8068,28 @@ msgstr "Chan eil an roghainn 'na àireamhaiche."
 msgid "\"%s\""
 msgstr "\"%s\""
 
-#: server/settings.c:2845
-msgid "no value"
+#. TRANS: Bitwise setting has no bits set.
+#: server/settings.c:2846
+msgid "empty value"
 msgstr "gun luach"
 
-#: server/settings.c:2897
+#: server/settings.c:2898
 msgid "This setting is not a bitwise."
 msgstr "Chan e bitwise a tha san roghainn seo."
 
-#: server/settings.c:3155 server/settings.c:3175 server/settings.c:3195
-#: server/settings.c:3219 server/settings.c:3243
+#: server/settings.c:3156 server/settings.c:3176 server/settings.c:3196
+#: server/settings.c:3220 server/settings.c:3244
 #, c-format
 msgid "Ruleset: '%s' has been set to %s."
 msgstr "Seata riaghailtean: Chaidh '%s' a shuidheachadh gu %s."
 
-#: server/settings.c:3260
+#: server/settings.c:3261
 #, c-format
 msgid "Ruleset: '%s' has been locked by the ruleset."
 msgstr "Seata riaghailtean: Chaidh '%s' a ghlasadh le seata nan riaghailtean."
 
-#: server/settings.c:3515 server/settings.c:3540 server/settings.c:3562
-#: server/settings.c:3589 server/settings.c:3616
+#: server/settings.c:3516 server/settings.c:3541 server/settings.c:3563
+#: server/settings.c:3590 server/settings.c:3617
 #, c-format
 msgid "Savegame: '%s' has been set to %s."
 msgstr "Savegame: Chaidh '%s' a shuidheachadh gu %s."
@@ -8285,13 +8290,13 @@ msgstr ""
 "Chaidh soitheach-fànais %s air chall 's e gun treòrachadh on phrìomh bhaile!"
 
 #. TRANS: Another entry in winners list (", the Tibetans")
-#: server/srv_main.c:282 server/srv_main.c:431
+#: server/srv_main.c:282 server/srv_main.c:406
 #, c-format
 msgid "?winners:, the %s"
 msgstr "?winners:, %s"
 
 #. TRANS: Beginning of the winners list ("the French")
-#: server/srv_main.c:286 server/srv_main.c:426
+#: server/srv_main.c:286 server/srv_main.c:401
 #, c-format
 msgid "?winners:the %s"
 msgstr "?winners:%s"
@@ -8302,45 +8307,45 @@ msgstr "?winners:%s"
 msgid "Scenario victory to %s."
 msgstr "Bhuannaich %s an cnàmh-sgeul seo."
 
-#: server/srv_main.c:322 server/stdinhand.c:4184
+#: server/srv_main.c:322 server/stdinhand.c:4185
 msgid "Game ended in a draw."
 msgstr "Chrìochnaich an geama le buaidh co-ionnann."
 
-#: server/srv_main.c:355 server/srv_main.c:514
+#: server/srv_main.c:355 server/srv_main.c:489
 #, c-format
 msgid "Team victory to %s."
 msgstr "'S e an sgioba %s a thug buaidh."
 
 #. TRANS: There can be several winners listed
-#: server/srv_main.c:438
+#: server/srv_main.c:413
 #, c-format
 msgid "Allied victory to %s."
 msgstr "Thug an sgioba %s buaidh còmhla."
 
-#: server/srv_main.c:464 server/srv_main.c:523
+#: server/srv_main.c:439 server/srv_main.c:498
 #, c-format
 msgid "Game ended in victory for %s."
 msgstr "Chrìochnaich an geama le buaidh %s."
 
-#: server/srv_main.c:475
+#: server/srv_main.c:450
 msgid "Game ended in a draw as the turn limit was exceeded."
 msgstr ""
 "Chrìochnaich an geama le buaidh cho-ionnann a chionn 's gun deachas thairis "
 "air àireamh nan cuairtean."
 
-#: server/srv_main.c:486
+#: server/srv_main.c:461
 #, c-format
 msgid "The %s spaceship has arrived at Alpha Centauri."
 msgstr "Ràinig soitheach-fànais %s Alpha Centauri."
 
-#: server/srv_main.c:642 server/srv_main.c:653
+#: server/srv_main.c:617 server/srv_main.c:628
 #, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr ""
 "Chaidh %s a leigeil mu sgaoil a chionn 's gun do chuir thu d' ainm ri "
 "cùmhnant sìthe le %s."
 
-#: server/srv_main.c:692
+#: server/srv_main.c:667
 #, c-format
 msgid ""
 "Concerned citizens point out that the cease-fire with %s will run out soon."
@@ -8348,13 +8353,13 @@ msgstr ""
 "Tha saoranaich fo dhragh a' cur 'nad chuimhne gum falbh an ùine air a' stad-"
 "losgaidh le %s a dh'aithghearr."
 
-#: server/srv_main.c:701 server/srv_main.c:706
+#: server/srv_main.c:676 server/srv_main.c:681
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr ""
 "Dh'fhalbh an ùine air a' stad-losgaidh le %s. Tha thu a' cogadh ri %s a-nis."
 
-#: server/srv_main.c:724
+#: server/srv_main.c:699
 #, c-format
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
@@ -8364,47 +8369,47 @@ msgstr ""
 "ri chèile a-nis. Tha thusa a' cur crìoch air a' chaidreachas agad leis an dà "
 "dhiubh."
 
-#: server/srv_main.c:1203 server/srv_main.c:1206
+#: server/srv_main.c:1191 server/srv_main.c:1194
 #, c-format
 msgid "Unsupported compression type %d."
 msgstr "Seòrsa de dhùmhlachadh (%d) nach eil taic ann ris."
 
-#: server/srv_main.c:1236
+#: server/srv_main.c:1224
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Dh'fhàillig sàbhaladh a' gheama mar %s"
 
-#: server/srv_main.c:1238
+#: server/srv_main.c:1226
 #, c-format
 msgid "Game saved as %s"
 msgstr "Chaidh an geama a shàbhaladh mar %s"
 
-#: server/srv_main.c:1272
+#: server/srv_main.c:1260
 msgid "The game is already running."
 msgstr "Tha an geama sin a' ruith mu thràth."
 
-#: server/srv_main.c:1280
+#: server/srv_main.c:1268
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 "Chaill %s an t-inneal-smachd cmdlevel aig toiseach a' gheama. A' cleachdadh "
 "bhòtadh a-mach o seo."
 
-#: server/srv_main.c:1287
+#: server/srv_main.c:1275
 msgid "Starting game."
 msgstr "A' tòiseachadh a' gheama."
 
-#: server/srv_main.c:1358
+#: server/srv_main.c:1346
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "iarrtas airson aithisg neo-aithnichte (dhen t-seòrsa %d)"
 
-#: server/srv_main.c:1438
+#: server/srv_main.c:1426
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Rabhadh: a' diùltadh an t-seann chliant %s"
 
-#: server/srv_main.c:1448
+#: server/srv_main.c:1436
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
@@ -8412,38 +8417,38 @@ msgstr ""
 "Tha an cliant agad ro shean. Feuch is faigh Freeciv 2.2. no tionndadh nas "
 "ùire dheth ma tha thu airson am frithealaiche seo a chleachdadh."
 
-#: server/srv_main.c:1506
+#: server/srv_main.c:1494
 msgid "You are not allowed to edit."
 msgstr "Chan eil cead deasachaidh agad."
 
-#: server/srv_main.c:1695
+#: server/srv_main.c:1683
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "Chan eil %s ri fhaighinn mar nàisean sa chluich seo."
 
-#: server/srv_main.c:1701
+#: server/srv_main.c:1689
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Tha %s aig cuideigin eile mu thràth."
 
-#: server/srv_main.c:1714
+#: server/srv_main.c:1702
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "Tha %s 'na riaghlaiche %s %s."
 
-#: server/srv_main.c:1770
+#: server/srv_main.c:1758
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr ""
 "Tha geama gu bhith tòiseachadh: tha %d a-mach à %d cluicheadairean deiseil "
 "ri cluich."
 
-#: server/srv_main.c:2082 server/srv_main.c:2086
+#: server/srv_main.c:2070 server/srv_main.c:2074
 #, c-format
 msgid "%s rules the %s."
 msgstr "Tha %s a' riaghladh %s."
 
-#: server/srv_main.c:2222
+#: server/srv_main.c:2210
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -8451,22 +8456,22 @@ msgstr ""
 "Tha taic aig a' phrògram-frithealaiche freeciv a chum dearbhadh "
 "chluicheadairean ach chan eil e 'ga chleachdadh an-dràsta fhèin."
 
-#: server/srv_main.c:2285
+#: server/srv_main.c:2273
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "A' cur an fhiosrachaidh dhan mheata-fhrithealaiche <%s>."
 
-#: server/srv_main.c:2289
+#: server/srv_main.c:2277
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 "Cha tòisichear as aonais iarrtas follaiseach airson ceangal meata-"
 "fhrithealaiche. "
 
-#: server/srv_main.c:2310
+#: server/srv_main.c:2298
 msgid "The game is over..."
 msgstr "Seo deireadh a' gheama..."
 
-#: server/srv_main.c:2563
+#: server/srv_main.c:2551
 msgid "Now accepting new client connections."
 msgstr "A' gabhail ri ceanglaichean ùra o chliantan a-nis"
 
@@ -8633,8 +8638,8 @@ msgstr "Tha cluicheadair beò ann mu thràth air a bheil an t-ainm seo."
 #, c-format
 msgid "Can't create players, nation %s conflicts with %s."
 msgstr ""
-"Cha ghabh cluicheadairean a chruthachadh, tha nàisean %s ann an còmhstri le %"
-"s."
+"Cha ghabh cluicheadairean a chruthachadh, tha nàisean %s ann an còmhstri le "
+"%s."
 
 #: server/stdinhand.c:889
 msgid "Can't create players, no nations available."
@@ -8706,7 +8711,7 @@ msgstr ""
 msgid "Removed player %s from the game."
 msgstr "%s air a thoirt air falbh on gheama."
 
-#: server/stdinhand.c:1166 server/stdinhand.c:3517 server/stdinhand.c:3673
+#: server/stdinhand.c:1166 server/stdinhand.c:3518 server/stdinhand.c:3674
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
 msgstr ""
@@ -8727,7 +8732,7 @@ msgstr "A' luchdadh faidhle an sgriobt '%s'."
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "Cha ghabh scriptfile na loidhne àithne '%s' a leughadh. "
 
-#: server/stdinhand.c:1207 server/stdinhand.c:4321
+#: server/stdinhand.c:1207 server/stdinhand.c:4322
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "Cha do ghabh faidhle an sgriobt '%s' a leughadh."
@@ -8829,14 +8834,14 @@ msgstr "Tha cuideigin eile 'na eagraiche geama mu thràth."
 msgid "Connection %s has opted to become the game organizer."
 msgstr "Chuir an ceangal %s roimhe a bhith 'na eagraiche geama."
 
-#: server/stdinhand.c:1580
+#: server/stdinhand.c:1581
 #, c-format
 msgid "Invalid argument %d."
 msgstr "Argamaid mhì-dhligheach %d."
 
-#: server/stdinhand.c:1587 server/stdinhand.c:1983 server/stdinhand.c:3074
-#: server/stdinhand.c:3223 server/stdinhand.c:3235 server/stdinhand.c:3407
-#: server/stdinhand.c:3505
+#: server/stdinhand.c:1588 server/stdinhand.c:1984 server/stdinhand.c:3075
+#: server/stdinhand.c:3224 server/stdinhand.c:3236 server/stdinhand.c:3408
+#: server/stdinhand.c:3506
 #, c-format
 msgid ""
 "Usage:\n"
@@ -8845,194 +8850,194 @@ msgstr ""
 "Cleachdadh:\n"
 "%s"
 
-#: server/stdinhand.c:1594
+#: server/stdinhand.c:1595
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "Chaidh an Dynamic Timeout a chur gu %d %d %d %d"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:1671
+#: server/stdinhand.c:1672
 #, c-format
 msgid "Option: %s  -  %s"
 msgstr "Roghainn: %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:1676
+#: server/stdinhand.c:1677
 #, c-format
 msgid "Option: %s"
 msgstr "Roghainn: %s"
 
-#: server/stdinhand.c:1683 server/stdinhand.c:4707
+#: server/stdinhand.c:1684 server/stdinhand.c:4708
 msgid "Description:"
 msgstr "Tuairisgeul:"
 
-#: server/stdinhand.c:1688
+#: server/stdinhand.c:1689
 #, c-format
 msgid "Status: %s"
 msgstr "Inbhe: %s"
 
-#: server/stdinhand.c:1689
+#: server/stdinhand.c:1690
 msgid "changeable"
 msgstr "so-atharrachte"
 
-#: server/stdinhand.c:1689
+#: server/stdinhand.c:1690
 msgid "fixed"
 msgstr "air a chàradh"
 
-#: server/stdinhand.c:1698 server/stdinhand.c:1718 server/stdinhand.c:1732
+#: server/stdinhand.c:1699 server/stdinhand.c:1719 server/stdinhand.c:1733
 msgid "Value:"
 msgstr "Luach:"
 
-#: server/stdinhand.c:1699 manual/civmanual.c:194
+#: server/stdinhand.c:1700 manual/civmanual.c:194
 msgid "Minimum:"
 msgstr "Meud as lugha:"
 
-#: server/stdinhand.c:1700 server/stdinhand.c:1718 server/stdinhand.c:1734
+#: server/stdinhand.c:1701 server/stdinhand.c:1719 server/stdinhand.c:1735
 #: manual/civmanual.c:195 manual/civmanual.c:228
 msgid "Default:"
 msgstr "Bunaiteach:"
 
-#: server/stdinhand.c:1701 manual/civmanual.c:196
+#: server/stdinhand.c:1702 manual/civmanual.c:196
 msgid "Maximum:"
 msgstr "Meud as motha:"
 
-#: server/stdinhand.c:1708 manual/civmanual.c:203
+#: server/stdinhand.c:1709 manual/civmanual.c:203
 msgid "Possible values:"
 msgstr "Luachan buailteach:"
 
-#: server/stdinhand.c:1726 manual/civmanual.c:215
+#: server/stdinhand.c:1727 manual/civmanual.c:215
 msgid "Possible values (option can take any number of these):"
 msgstr "Luachan buailteach (faodar gin dhiubh a thaghadh airson na roghainne):"
 
-#: server/stdinhand.c:1751
+#: server/stdinhand.c:1752
 msgid "Explanations are available for the following server options:"
 msgstr "Tha mìneachadh ann airson na roghainnean frithealaiche a leanas:"
 
-#: server/stdinhand.c:1796
+#: server/stdinhand.c:1797
 msgid "No explanation for that yet."
 msgstr "Chan eil mìneachadh ann airson sin fhathast."
 
-#: server/stdinhand.c:1799 server/stdinhand.c:2762
+#: server/stdinhand.c:1800 server/stdinhand.c:2763
 msgid "Ambiguous option name."
 msgstr "Ainm dà-sheaghadh air an roghainn."
 
-#: server/stdinhand.c:1818
+#: server/stdinhand.c:1819
 #, c-format
 msgid "Server Operator: %s"
 msgstr "Gnìomharaiche an fhrithealaiche: %s"
 
-#: server/stdinhand.c:1857
+#: server/stdinhand.c:1858
 #, c-format
 msgid "Connectmsg truncated to %u bytes."
 msgstr "Chaidh Connectmsg a ghearradh gu %u baidht."
 
-#: server/stdinhand.c:1903 server/stdinhand.c:1940 server/stdinhand.c:1958
+#: server/stdinhand.c:1904 server/stdinhand.c:1941 server/stdinhand.c:1959
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
 msgstr "Fhuair an cluicheadair '%s' leibheil sgilean IF '%s'."
 
-#: server/stdinhand.c:1945
+#: server/stdinhand.c:1946
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "Chan eil %s fo smachd na h-Inntinne Fhuadain."
 
-#: server/stdinhand.c:1965
+#: server/stdinhand.c:1966
 #, c-format
 msgid "Default AI skill level set to '%s'."
 msgstr ""
 "Chaidh leibheil sgilean bhunaiteach na h-Inntinne Fhuadain a chur gu '%s'."
 
-#: server/stdinhand.c:1980
+#: server/stdinhand.c:1981
 msgid "This command is client only."
 msgstr "'S e àithne cliant a-mhàin a tha seo."
 
-#: server/stdinhand.c:1989
+#: server/stdinhand.c:1990
 msgid "Only players may use the away command."
 msgstr "Chan fhaod ach cluicheadairean an àithne \"air falbh\" a chleachdadh."
 
-#: server/stdinhand.c:1993
+#: server/stdinhand.c:1994
 #, c-format
 msgid "%s set to away mode."
 msgstr "Tha %s sa mhodh \"air falbh\"."
 
-#: server/stdinhand.c:1999
+#: server/stdinhand.c:2000
 #, c-format
 msgid "%s returned to game."
 msgstr "Thill %s dhan gheama."
 
-#: server/stdinhand.c:2050
+#: server/stdinhand.c:2051
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "Duilich, chan eil cead agad an roghainn '%s' fhaicinn."
 
-#: server/stdinhand.c:2059
+#: server/stdinhand.c:2060
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "Roghainn neo-aithnichte '%s'."
 
-#: server/stdinhand.c:2072
+#: server/stdinhand.c:2073
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "'S e \"%s\" an t-eòlaire ruleset làithreach"
 
-#: server/stdinhand.c:2105
+#: server/stdinhand.c:2106
 msgid "All options with non-default values"
 msgstr "Gach roghainn aig nach eil na luachan bunaiteach."
 
-#: server/stdinhand.c:2108
+#: server/stdinhand.c:2109
 msgid "All options"
 msgstr "Gach roghainn"
 
-#: server/stdinhand.c:2111
+#: server/stdinhand.c:2112
 msgid "Vital options"
 msgstr "Roghainnean fìor chudromach"
 
-#: server/stdinhand.c:2114
+#: server/stdinhand.c:2115
 msgid "Situational options"
 msgstr "Roghainnean an t-suidheachaidh"
 
-#: server/stdinhand.c:2117
+#: server/stdinhand.c:2118
 msgid "Rarely used options"
 msgstr "Roghainnean nach cleachdar ach gu h-ainneamh"
 
-#: server/stdinhand.c:2120
+#: server/stdinhand.c:2121
 msgid "Options locked by the ruleset"
 msgstr "Tha na roghainnean air an glasadh le seata nan riaghailtean"
 
-#: server/stdinhand.c:2132
+#: server/stdinhand.c:2133
 msgid "In the column '##' the status of the option is shown:"
 msgstr "Chithear staid na roghainne sa cholbh '##':"
 
-#: server/stdinhand.c:2133
+#: server/stdinhand.c:2134
 msgid " - a '!' means the option is locked by the ruleset."
 msgstr ""
 " - 'S ciall do '!' gu bheil an roghainn air a ghlasadh le seata nan "
 "riaghailtean."
 
-#: server/stdinhand.c:2134
+#: server/stdinhand.c:2135
 msgid " - a '+' means you may change the option."
 msgstr " - 'S ciall do '+' gun urrainn dhut an roghainn atharrachadh."
 
-#: server/stdinhand.c:2135
+#: server/stdinhand.c:2136
 msgid " - a '=' means the option is on its default value."
 msgstr " - 'S ciall do '=' gu bheil an luach bunaiteach san roghainn. "
 
-#: server/stdinhand.c:2137
+#: server/stdinhand.c:2138
 #, c-format
 msgid "%-*s ## value (min, max)"
 msgstr "Luach ## %-*s (min,max)"
 
-#: server/stdinhand.c:2138
+#: server/stdinhand.c:2139
 msgid "Option"
 msgstr "Roghainn"
 
-#: server/stdinhand.c:2186
+#: server/stdinhand.c:2187
 msgid "A help text for each option is available via 'help <option>'."
 msgstr ""
 "Gheibhear teacsa cobharach airson gach roghainn leis an àithne 'help "
 "<roghainn>'."
 
-#: server/stdinhand.c:2190
+#: server/stdinhand.c:2191
 msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
 "Try 'show changed' to show settings with non-default values.\n"
@@ -9045,14 +9050,14 @@ msgstr ""
 "Feuch 'seall an fheadhainn ghlaiste' gus na roghainnean fhaicinn a chaidh a "
 "ghlasadh le seata nan riaghailtean."
 
-#: server/stdinhand.c:2218
+#: server/stdinhand.c:2219
 msgid "Cannot change teams once game has begun."
 msgstr ""
 "Cha ghabh na sgiobannan atharrachadh nuair a bhios an geama air tòiseachadh."
 
-#: server/stdinhand.c:2228 server/stdinhand.c:2364 server/stdinhand.c:2555
-#: server/stdinhand.c:2580 server/stdinhand.c:2623 server/stdinhand.c:2654
-#: server/stdinhand.c:2696 server/stdinhand.c:2721 server/stdinhand.c:2748
+#: server/stdinhand.c:2229 server/stdinhand.c:2365 server/stdinhand.c:2556
+#: server/stdinhand.c:2581 server/stdinhand.c:2624 server/stdinhand.c:2655
+#: server/stdinhand.c:2697 server/stdinhand.c:2722 server/stdinhand.c:2749
 #, c-format
 msgid ""
 "Undefined argument.  Usage:\n"
@@ -9061,18 +9066,18 @@ msgstr ""
 "Argamaid gun mhìneachadh. Cleachdadh:\n"
 "%s"
 
-#: server/stdinhand.c:2249
+#: server/stdinhand.c:2250
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
 msgstr ""
 "Chan eil sgioba ann air a bheil %s. Cuir ainm no àireamh dhligheach air gach "
 "sgioba."
 
-#: server/stdinhand.c:2256
+#: server/stdinhand.c:2257
 msgid "Cannot team a barbarian."
 msgstr "Chan fhaod borbaich a bhith ann an sgioba."
 
-#: server/stdinhand.c:2262
+#: server/stdinhand.c:2263
 #, c-format
 msgid "Player %s set to team %s."
 msgstr "Chaidh an cluicheadair %s a chur san sgioba %s."
@@ -9080,53 +9085,53 @@ msgstr "Chaidh an cluicheadair %s a chur san sgioba %s."
 #. TRANS: "Vote" or "Teamvote" is voting-as-a-process. Used as
 #. * part of a sentence.
 #. TRANS: "Vote" as a process. Used as part of a sentence.
-#: server/stdinhand.c:2290 server/voting.c:511
+#: server/stdinhand.c:2291 server/voting.c:511
 msgid "Teamvote"
 msgstr "Bhòt sgioba"
 
 #. TRANS: "Vote" as a process. Used as part of a sentence.
-#: server/stdinhand.c:2290 server/voting.c:516
+#: server/stdinhand.c:2291 server/voting.c:516
 msgid "Vote"
 msgstr "Bhòt"
 
 #. TRANS: "[Vote|Teamvote] 3 \"proposed change\" (needs ..."
-#: server/stdinhand.c:2293
+#: server/stdinhand.c:2294
 #, c-format
 msgid ""
-"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of %"
-"d players."
+"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of "
+"%d players."
 msgstr ""
 "%s %d \"%s\" (feum air %0.0f%%%s): %d air a shon, %d 'na aghaidh agus cha do "
 "bhòt %d a-mach à %d cluicheadair(ean)."
 
-#: server/stdinhand.c:2297
+#: server/stdinhand.c:2298
 msgid " no dissent"
 msgstr " gun eas-aonta"
 
-#: server/stdinhand.c:2305
+#: server/stdinhand.c:2306
 msgid "There are no votes going on."
 msgstr "Chan eil bhòt sam bith a' dol."
 
-#: server/stdinhand.c:2350 server/stdinhand.c:2475 server/stdinhand.c:4028
+#: server/stdinhand.c:2351 server/stdinhand.c:2476 server/stdinhand.c:4029
 msgid "You are not allowed to use this command."
 msgstr "Chan eil cead agad an àithne seo a chleachdadh."
 
-#: server/stdinhand.c:2359
+#: server/stdinhand.c:2360
 #, c-format
 msgid "The argument \"%s\" is ambiguous."
 msgstr "Tha an argamaid \"%s\" dà-sheaghach."
 
-#: server/stdinhand.c:2376
+#: server/stdinhand.c:2377
 msgid "There are no votes running."
 msgstr "Chan eil bhòt sam bith a' dol."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2379
+#: server/stdinhand.c:2380
 #, c-format
 msgid "No legal last vote (%d %s)."
 msgstr "Cha robh a' bhòt mu dheireadh laghail (%d %s)."
 
-#: server/stdinhand.c:2380
+#: server/stdinhand.c:2381
 msgid "other vote running"
 msgid_plural "other votes running"
 msgstr[0] "bhòt eile a tha a' dol"
@@ -9134,181 +9139,181 @@ msgstr[1] "bhòt eile a tha a' dol"
 msgstr[2] "bhòtaichean eile a tha a' dol"
 msgstr[3] "bhòt eile a tha a' dol"
 
-#: server/stdinhand.c:2387
+#: server/stdinhand.c:2388
 msgid "Value must be an integer."
 msgstr "Feumaidh an luach a bhith 'na àireamh shlàn."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2394 server/stdinhand.c:2484
+#: server/stdinhand.c:2395 server/stdinhand.c:2485
 #, c-format
 msgid "No such vote (%d)."
 msgstr "Chan eil a leithid a bhòt ann (%d)."
 
-#: server/stdinhand.c:2400
+#: server/stdinhand.c:2401
 msgid "You are not allowed to vote on that."
 msgstr "Chan eil cead agad bhòtadh ann."
 
-#: server/stdinhand.c:2405
+#: server/stdinhand.c:2406
 #, c-format
 msgid "You voted for \"%s\""
 msgstr "Chuir thu bhòt airson \"%s\""
 
-#: server/stdinhand.c:2409
+#: server/stdinhand.c:2410
 #, c-format
 msgid "You voted against \"%s\""
 msgstr "Chuir thu bhòt an aghaidh \"%s\""
 
-#: server/stdinhand.c:2414
+#: server/stdinhand.c:2415
 #, c-format
 msgid "You abstained from voting on \"%s\""
 msgstr "Chuir thu romhad gun a bhith a' bhòtadh ann an \"%s\""
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2451
+#: server/stdinhand.c:2452
 msgid "Missing argument <vote number> or the string \"all\"."
 msgstr "Tha an argamaid <àireamh a' bhòt> a dhìth no an t-sreang \"all\"."
 
-#: server/stdinhand.c:2458
+#: server/stdinhand.c:2459
 msgid "You don't have any vote going on."
 msgstr "Chan eil bhòt sam bith a' dol agad."
 
-#: server/stdinhand.c:2465
+#: server/stdinhand.c:2466
 msgid "There isn't any vote going on."
 msgstr "Chan eil bhòt sam bith a' dol."
 
 #. TRANS: "votes" as a process
-#: server/stdinhand.c:2471
+#: server/stdinhand.c:2472
 msgid "All votes have been removed."
 msgstr "Chaidh gach bhòt a thoirt air falbh."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2490
+#: server/stdinhand.c:2491
 #, c-format
 msgid "You are not allowed to cancel this vote (%d)."
 msgstr "Chan eil cead agad crìoch a chur air a' bhòt seo (%d)."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2497
+#: server/stdinhand.c:2498
 msgid "Usage: /cancelvote [<vote number>|all]"
 msgstr "Cleachdadh: /cancelvote [<àireamh a' bhòt>|all]"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2507
+#: server/stdinhand.c:2508
 #, c-format
 msgid "%s has canceled the vote \"%s\" (number %d)."
 msgstr "Chuir %s crìoch air a' bhòt \"%s\" (àireamh a %d)."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2514
+#: server/stdinhand.c:2515
 #, c-format
 msgid "The vote \"%s\" (number %d) has been canceled."
 msgstr "Chaidh crìoch a chur air a' bhòt \"%s\" (àireamh a %d)."
 
-#: server/stdinhand.c:2535
+#: server/stdinhand.c:2536
 msgid "Can only use this command once game has begun."
 msgstr ""
 "Chan urrainn dhut an àithne seo a chleachdadh ach nuair a bhios an geama air "
 "tòiseachadh."
 
-#: server/stdinhand.c:2566
+#: server/stdinhand.c:2567
 #, c-format
 msgid "%s diplomacy no longer debugged"
 msgstr "Cha dèid dìoplomasachd %s a dhì-bhugadh tuilleadh"
 
-#: server/stdinhand.c:2570
+#: server/stdinhand.c:2571
 #, c-format
 msgid "%s diplomacy debugged"
 msgstr "Thèid dìoplomasachd %s a dhì-bhugadh"
 
-#: server/stdinhand.c:2591
+#: server/stdinhand.c:2592
 #, c-format
 msgid "%s tech no longer debugged"
 msgstr "Cha dèid teicneolas %s a dhì-bhugadh tuilleadh"
 
-#: server/stdinhand.c:2595
+#: server/stdinhand.c:2596
 #, c-format
 msgid "%s tech debugged"
 msgstr "Thèid teicneolas %s a dhì-bhugadh"
 
-#: server/stdinhand.c:2611 server/stdinhand.c:2614
+#: server/stdinhand.c:2612 server/stdinhand.c:2615
 #, c-format
 msgid "players=%d cities=%d citizens=%d units=%d"
 msgstr "cluicheadairean=%d bailtean=%d saoranaich=%d aonadan=%d"
 
-#: server/stdinhand.c:2628 server/stdinhand.c:2659
+#: server/stdinhand.c:2629 server/stdinhand.c:2660
 msgid "Value 2 & 3 must be integer."
 msgstr "Feumaidh luach 2 ┐ 3 a bhith 'na àireamh shlàn."
 
-#: server/stdinhand.c:2632 server/stdinhand.c:2663
+#: server/stdinhand.c:2633 server/stdinhand.c:2664
 msgid "Bad map coordinates."
 msgstr "Droch cho-chomharran mapa."
 
-#: server/stdinhand.c:2637
+#: server/stdinhand.c:2638
 msgid "No city at this coordinate."
 msgstr "Chan eil baile air na co-chomharran seo."
 
-#: server/stdinhand.c:2642
+#: server/stdinhand.c:2643
 #, c-format
 msgid "%s no longer debugged"
 msgstr "Cha dèid %s a dhì-bhugadh tuilleadh"
 
-#: server/stdinhand.c:2669 server/stdinhand.c:2710
+#: server/stdinhand.c:2670 server/stdinhand.c:2711
 #, c-format
 msgid "%s %s no longer debugged."
 msgstr "Cha dèid %s %s a dhì-bhugadh tuilleadh."
 
-#: server/stdinhand.c:2684
+#: server/stdinhand.c:2685
 msgid "Ferry system is no longer in debug mode."
 msgstr "Chan eil an siostam aiseig sa mhodh dì-bhugaidh tuilleadh."
 
-#: server/stdinhand.c:2688
+#: server/stdinhand.c:2689
 msgid "Ferry system in debug mode."
 msgstr "Tha an siostam aiseig sa mhodh dì-bhugaidh."
 
-#: server/stdinhand.c:2701
+#: server/stdinhand.c:2702
 msgid "Value 2 must be integer."
 msgstr "Feumaidh luach 2 a bhith 'na àireamh shlàn."
 
-#: server/stdinhand.c:2705
+#: server/stdinhand.c:2706
 #, c-format
 msgid "Unit %d does not exist."
 msgstr "Chan eil an t-aonad %d ann tuilleadh."
 
-#: server/stdinhand.c:2759
+#: server/stdinhand.c:2760
 #, c-format
 msgid "Option '%s' not recognized."
 msgstr "Chan eil an roghainn '%s' 'ga aithneachadh."
 
 #. TRANS: 'rulesetdir' is the command. Do not translate.
-#: server/stdinhand.c:2767
+#: server/stdinhand.c:2768
 #, c-format
 msgid "Use the '%srulesetdir' command to change the ruleset directory."
 msgstr ""
 "Cleachd an àithne '%srulesetdir' gus eòlaire seata nan riaghailtean "
 "atharrachadh."
 
-#: server/stdinhand.c:2809
+#: server/stdinhand.c:2810
 #, c-format
 msgid "The parameter %s should only contain +- and 0-9."
 msgstr ""
 "Cha bu chòir a bhith sa pharamadair %s ach +- is àireamhan eadar 0 is 9."
 
-#: server/stdinhand.c:2897
+#: server/stdinhand.c:2898
 #, c-format
 msgid "Console: '%s' has been set to %s."
 msgstr "Consol: Chaidh '%s' a shuidheachadh gu %s."
 
-#: server/stdinhand.c:2939
+#: server/stdinhand.c:2940
 msgid "Sorry, one can't observe globally in this game."
 msgstr ""
 "Duilich, chan eil coimheadaichean uile-choitcheann ceadaichte sa gheama seo."
 
-#: server/stdinhand.c:2947
+#: server/stdinhand.c:2948
 msgid "You cannot take a new player at this time."
 msgstr "Chan urrainn dhut cluicheadair ùr a ghabhail os làimh aig an àm seo."
 
 #. TRANS: Do not translate "maxplayers".
-#: server/stdinhand.c:2955
+#: server/stdinhand.c:2956
 #, c-format
 msgid ""
 "You cannot take a new player because the maximum of %d player has already "
@@ -9333,190 +9338,190 @@ msgstr[3] ""
 "na tha ceadaichte de chluicheadairean (%d) ann mu thràth (an roghainn "
 "maxplayers)."
 
-#: server/stdinhand.c:2967
+#: server/stdinhand.c:2968
 msgid "You cannot take a new player because there are no free player slots."
 msgstr ""
 "Chan urrainn dhut cluicheadair ùr a ghabhail os làimh a chionn 's gu bheil "
 "àitichean cluicheadair saora ann."
 
-#: server/stdinhand.c:2979
+#: server/stdinhand.c:2980
 msgid "Sorry, one can't observe barbarians in this game."
 msgstr "Duilich, chan eil coimhead air borbaich sa gheama seo."
 
-#: server/stdinhand.c:2982
+#: server/stdinhand.c:2983
 msgid "Sorry, one can't take barbarians in this game."
 msgstr "Duilich, chan urrainn dhut borbaich a ghabhail os làimh sa gheama seo."
 
-#: server/stdinhand.c:2991
+#: server/stdinhand.c:2992
 msgid "Sorry, one can't observe dead players in this game."
 msgstr "Duilich, chan eil coimhead air cluicheadairean marbha sa gheama seo."
 
-#: server/stdinhand.c:2995
+#: server/stdinhand.c:2996
 msgid "Sorry, one can't take dead players in this game."
 msgstr ""
 "Duilich, chan urrainn dhut cluicheadairean marbha a ghabhail os làimh sa "
 "gheama seo."
 
-#: server/stdinhand.c:3005
+#: server/stdinhand.c:3006
 msgid "Sorry, one can't observe AI players in this game."
 msgstr ""
 "Duilich, chan eil coimhead air cluicheadairean na h-Inntinne Fhuadain sa "
 "gheama seo."
 
-#: server/stdinhand.c:3008
+#: server/stdinhand.c:3009
 msgid "Sorry, one can't take AI players in this game."
 msgstr ""
 "Duilich, chan eil cluicheadairean na h-Inntinne Fhuadain a ghabhail os làimh "
 "sa gheama seo."
 
-#: server/stdinhand.c:3018
+#: server/stdinhand.c:3019
 msgid "Sorry, one can't observe human players in this game."
 msgstr "Duilich, chan eil coimhead air cluicheadairean daonna sa gheama seo."
 
-#: server/stdinhand.c:3022
+#: server/stdinhand.c:3023
 msgid "Sorry, one can't take human players in this game."
 msgstr ""
 "Duilich, chan urrainn dhut cluicheadairean daonna a ghabhail os làimh sa "
 "gheama seo."
 
-#: server/stdinhand.c:3032
+#: server/stdinhand.c:3033
 msgid "Sorry, one can't observe in this game."
 msgstr "Duilich, chan eil coimheadaichean ceadaichte sa gheama seo."
 
-#: server/stdinhand.c:3037
+#: server/stdinhand.c:3038
 msgid "Sorry, one can't take players in this game."
 msgstr ""
 "Duilich, chan urrainn dhut cluicheadairean a ghabhail os làimh sa gheama seo."
 
-#: server/stdinhand.c:3044
+#: server/stdinhand.c:3045
 msgid "Sorry, one can't take players already connected in this game."
 msgstr ""
 "Duilich, chan urrainn dhut cluicheadairean a ghabhail os làimh sa gheama seo "
 "ma tha iad air ceangal a dhèanamh mu thràth."
 
-#: server/stdinhand.c:3081 server/stdinhand.c:3230
+#: server/stdinhand.c:3082 server/stdinhand.c:3231
 msgid "Only the player name form is allowed."
 msgstr "Chan eil ceadaichte ach cruth ainmean chluicheadairean."
 
-#: server/stdinhand.c:3131
+#: server/stdinhand.c:3132
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
 msgstr ""
 "Tha smachd aig %s air %s mu thràth. Chuireadh tu às do %s nan cleachdadh tu "
 "'observe'."
 
-#: server/stdinhand.c:3142
+#: server/stdinhand.c:3143
 #, c-format
 msgid "%s is already observing %s."
 msgstr "Tha %s a' coimhead air %s mu thràth."
 
-#: server/stdinhand.c:3147
+#: server/stdinhand.c:3148
 #, c-format
 msgid "%s is already observing."
 msgstr "Tha %s a' coimhead air cuideigin mu thràth."
 
-#: server/stdinhand.c:3179
+#: server/stdinhand.c:3180
 #, c-format
 msgid "%s now observes %s"
 msgstr "Tha %s a' coimhead air %s a-nis."
 
-#: server/stdinhand.c:3183
+#: server/stdinhand.c:3184
 #, c-format
 msgid "%s now observes"
 msgstr "Tha %s a' coimhead a-nis."
 
-#: server/stdinhand.c:3251
+#: server/stdinhand.c:3252
 msgid "You cannot issue \"/take -\" when the game has already started."
 msgstr ""
 "Chan urrainn dhut an àithne \"/take -\" a thoirt nuair a bhios an geama air "
 "tòiseachadh."
 
-#: server/stdinhand.c:3281
+#: server/stdinhand.c:3282
 #, c-format
 msgid "%s already controls %s."
 msgstr "Tha smachd aig %s air %s mu thràth."
 
-#: server/stdinhand.c:3295
+#: server/stdinhand.c:3296
 #, c-format
 msgid "There is no free player slot for %s."
 msgstr "Tha eil àite cluicheadair saor ann airson %s."
 
-#: server/stdinhand.c:3313
+#: server/stdinhand.c:3314
 #, c-format
 msgid "Reassigned nation to %s by server console."
 msgstr "Chaidh an nàisean a chur an làmhan %s le consoil an fhrithealaiche."
 
-#: server/stdinhand.c:3317
+#: server/stdinhand.c:3318
 #, c-format
 msgid "Reassigned nation to %s by %s."
 msgstr "Chaidh an nàisean a chur an làmhan %s le %s."
 
-#: server/stdinhand.c:3360
+#: server/stdinhand.c:3361
 #, c-format
 msgid "%s now controls %s (%s, %s)."
 msgstr "Tha smachd aig %s air %s (%s, %s)."
 
-#: server/stdinhand.c:3364 server/stdinhand.c:4977
+#: server/stdinhand.c:3365 server/stdinhand.c:4978
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Borbach"
 
-#: server/stdinhand.c:3366 server/stdinhand.c:4979 client/plrdlg_common.c:236
+#: server/stdinhand.c:3367 server/stdinhand.c:4980 client/plrdlg_common.c:236
 #: client/gui-sdl/plrdlg.c:653
 msgid "AI"
 msgstr "IF"
 
-#: server/stdinhand.c:3367 server/stdinhand.c:4981
+#: server/stdinhand.c:3368 server/stdinhand.c:4982
 msgid "Human"
 msgstr "Mac an duine"
 
-#: server/stdinhand.c:3369
+#: server/stdinhand.c:3370
 msgid "Alive"
 msgstr "Beò"
 
-#: server/stdinhand.c:3370
+#: server/stdinhand.c:3371
 msgid "Dead"
 msgstr "Marbh"
 
-#: server/stdinhand.c:3373
+#: server/stdinhand.c:3374
 #, c-format
 msgid "%s failed to attach to any player."
 msgstr "Dh'fhàillig %s le ceangal a dhèanamh ri cluicheadair sam bith."
 
-#: server/stdinhand.c:3428
+#: server/stdinhand.c:3429
 msgid "You can not detach other users."
 msgstr "Chan urrainn dhut an ceangal aig cluicheadairean eile a bhriseadh."
 
-#: server/stdinhand.c:3437
+#: server/stdinhand.c:3438
 #, c-format
 msgid "%s is not attached to any player."
 msgstr "Chan eil %s co-cheangailte ri cluicheadair sam bith."
 
-#: server/stdinhand.c:3447
+#: server/stdinhand.c:3448
 #, c-format
 msgid "%s detaching from %s"
 msgstr "Tha %s a' briseadh o %s"
 
-#: server/stdinhand.c:3450
+#: server/stdinhand.c:3451
 #, c-format
 msgid "%s no longer observing."
 msgstr "Chan eil %s a' coimhead tuilleadh."
 
-#: server/stdinhand.c:3511
+#: server/stdinhand.c:3512
 msgid "Cannot load a game while another is running."
 msgstr "Chan urrainn dhut geama a luchdadh fhad 's a tha fear eile 'na ruith."
 
-#: server/stdinhand.c:3544
+#: server/stdinhand.c:3545
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr "Cha ghabh savegame no cnàmh-sgeul a lorg air a bheil \"%s\"."
 
-#: server/stdinhand.c:3557
+#: server/stdinhand.c:3558
 #, c-format
 msgid "Could not load savefile: %s"
 msgstr "Cha ghabh an savefile a luchdadh: %s"
 
-#: server/stdinhand.c:3654
+#: server/stdinhand.c:3655
 msgid ""
 "You must provide a ruleset name. Use \"/show ruleset\" to see what is the "
 "current ruleset."
@@ -9524,196 +9529,196 @@ msgstr ""
 "Feumaidh tu ainm a chur air seata nan riaghailtean. Cleachd \"/show ruleset"
 "\" gus seata nan riaghailtean làithreach fhaicinn."
 
-#: server/stdinhand.c:3660
+#: server/stdinhand.c:3661
 msgid "This setting can't be modified after the game has started."
 msgstr "Cha ghabh an roghainn seo atharrachadh as dhan gheama tòiseachadh."
 
-#: server/stdinhand.c:3666
+#: server/stdinhand.c:3667
 #, c-format
 msgid "Ruleset directory is already \"%s\""
 msgstr "Tha \"%s\" 'na eòlaire ruleset mu thràth"
 
-#: server/stdinhand.c:3682
+#: server/stdinhand.c:3683
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Cha deach an t-eòlaire \"%s\" a lorg"
 
-#: server/stdinhand.c:3688
+#: server/stdinhand.c:3689
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "Tha \"%s\" 'na eòlaire ruleset"
 
-#: server/stdinhand.c:3718 server/stdinhand.c:3754 server/stdinhand.c:4923
+#: server/stdinhand.c:3719 server/stdinhand.c:3755 server/stdinhand.c:4924
 msgid "That would be rather silly, since you are not a player."
 msgstr "Bhiodh sin car gòrach o nach eil thu 'nad chluicheadair."
 
-#: server/stdinhand.c:3725
+#: server/stdinhand.c:3726
 #, c-format
 msgid "%s. Try /help ignore"
 msgstr "%s. Feuch /help ignore"
 
-#: server/stdinhand.c:3737
+#: server/stdinhand.c:3738
 #, c-format
 msgid "Added pattern %s as entry %d to your ignore list."
 msgstr "Chaidh am pàtran %s a chur ris an dubh-liosta agad mar innteart %d."
 
-#: server/stdinhand.c:3763 server/stdinhand.c:4928
+#: server/stdinhand.c:3764 server/stdinhand.c:4929
 msgid "Your ignore list is empty."
 msgstr "Tha an dubh-liosta agad falamh."
 
-#: server/stdinhand.c:3770
+#: server/stdinhand.c:3771
 msgid "Missing range. Try /help unignore."
 msgstr "Tha rainse a dhìth. Feuch /help unignore."
 
-#: server/stdinhand.c:3779 server/stdinhand.c:3787 server/stdinhand.c:3793
+#: server/stdinhand.c:3780 server/stdinhand.c:3788 server/stdinhand.c:3794
 #, c-format
 msgid "\"%s\" is not a valid range. Try /help unignore."
 msgstr "Chan e rainse dhligheach a tha ann an \"%s\". Feuch /help unignore."
 
-#: server/stdinhand.c:3802
+#: server/stdinhand.c:3803
 #, c-format
 msgid "Invalid entry number: %d."
 msgstr "Àireamh innteirt mhì-dhligheach: %d."
 
-#: server/stdinhand.c:3805
+#: server/stdinhand.c:3806
 #, c-format
 msgid "Invalid range: %d to %d."
 msgstr "Rainse mhì-dhligheach: %d gu %d."
 
-#: server/stdinhand.c:3819
+#: server/stdinhand.c:3820
 #, c-format
 msgid "Removed pattern %s (entry %d) from your ignore list."
 msgstr ""
 "Chaidh am pàtran %s (innteart %d) a thoirt air falbh on dubh-liosta agad."
 
-#: server/stdinhand.c:3864
+#: server/stdinhand.c:3865
 msgid "Goodbye."
 msgstr "Mar sin leat."
 
-#: server/stdinhand.c:3907
+#: server/stdinhand.c:3908
 msgid "Sorry, you are not allowed to use server commands."
 msgstr ""
 "Duilich, chan eil cead agad na h-àitheantan frithealaiche seo a chleachdadh."
 
-#: server/stdinhand.c:3958
+#: server/stdinhand.c:3959
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr "Rabhadh: Thuigear '%s' de '%s' ach tha e dà-sheaghach. Feuch '%shelp'."
 
-#: server/stdinhand.c:3962
+#: server/stdinhand.c:3963
 #, c-format
 msgid "Unknown command '%s%s'.  Try '%shelp'."
 msgstr "Àithne neo-aithnichte '%s%s'. Feuch ri '%shelp'."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:3989
+#: server/stdinhand.c:3990
 msgid "Your new vote canceled your previous vote."
 msgstr "Chuir thu às dhan t-seann bhòt agad le do bhòt ùr."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:3996
+#: server/stdinhand.c:3997
 msgid "New teamvote"
 msgstr "Bhòt sgioba ùr"
 
 #. TRANS: "[New vote|New teamvote] (number 3)
 #. * by fred: proposed change"
-#: server/stdinhand.c:4008
+#: server/stdinhand.c:4009
 #, c-format
 msgid "%s (number %d) by %s: %s"
 msgstr "%s (àireamh %d) le %s: %s"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:4018
+#: server/stdinhand.c:4019
 #, c-format
 msgid "Your new vote (\"%s\") was not legal or was not recognized."
 msgstr "Cha robh do bhòt ùr (\"%s\") laghail no cha deach aithneachadh."
 
-#: server/stdinhand.c:4061
+#: server/stdinhand.c:4062
 msgid "(server prompt)"
 msgstr "(brodadh frithealaiche)"
 
-#: server/stdinhand.c:4188
+#: server/stdinhand.c:4189
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
 "A' cur crìoch air a' gheama. Tòisichidh am frithealaiche a-rithist nuair a "
 "bhios gach cliant air dì-cheangal."
 
-#: server/stdinhand.c:4193
+#: server/stdinhand.c:4194
 msgid "Cannot end the game: no game running."
 msgstr "Cha ghabh crìoch a chur air a' gheama: chan eil geama a' dol."
 
-#: server/stdinhand.c:4209
+#: server/stdinhand.c:4210
 #, c-format
 msgid "%s has conceded the game and can no longer win."
 msgstr "Ghèill %s an geama agus chan urrainn dhaibh buannachadh tuilleadh."
 
-#: server/stdinhand.c:4214
+#: server/stdinhand.c:4215
 msgid "You cannot surrender now."
 msgstr "'S urrainn dhut gèilleadh a-nis."
 
-#: server/stdinhand.c:4264
+#: server/stdinhand.c:4265
 msgid "Guessing argument 'ruleset'."
 msgstr "A' dèanamh tomhas air an argamaid 'ruleset'."
 
-#: server/stdinhand.c:4268
+#: server/stdinhand.c:4269
 msgid "Guessing argument 'game'."
 msgstr "A' dèanamh tomhas air an argamaid 'game'."
 
-#: server/stdinhand.c:4276
+#: server/stdinhand.c:4277
 msgid "The valid arguments are: 'game', 'ruleset', 'script' or 'default'."
 msgstr ""
 "Seo na h-argamaidean dligheach: 'game', 'ruleset', 'script' no 'default'."
 
-#: server/stdinhand.c:4291
+#: server/stdinhand.c:4292
 msgid "Reset all settings to the values at the game start."
 msgstr "Aisig gach roghainn dha na luachan a bha ann aig toiseach a' gheama."
 
-#: server/stdinhand.c:4294
+#: server/stdinhand.c:4295
 msgid "No saved settings from the game start available."
 msgstr "Cha deach roghainn sam bith a shàbhaladh aig toiseach a' gheama."
 
-#: server/stdinhand.c:4298
+#: server/stdinhand.c:4299
 msgid "No game started..."
 msgstr "Chan eil geama air a thòiseachadh..."
 
-#: server/stdinhand.c:4305
+#: server/stdinhand.c:4306
 msgid "Reset all settings to ruleset values."
 msgstr "Aisig gach roghainn gu luachan seata nan riaghailtean."
 
-#: server/stdinhand.c:4312
+#: server/stdinhand.c:4313
 msgid "Reset all settings and rereading the server start script."
 msgstr ""
 "Aisig gach roghainn agus ath leugh sgriobt tòiseachaidh an fhrithealaiche."
 
-#: server/stdinhand.c:4330
+#: server/stdinhand.c:4331
 msgid "Reset all settings to default values."
 msgstr "Aisig gach roghainn gu na luachan bunaiteach."
 
-#: server/stdinhand.c:4336
+#: server/stdinhand.c:4337
 msgid "Settings re-initialized."
 msgstr "Chaidh na roghainnean ath thòiseachadh."
 
-#: server/stdinhand.c:4419
+#: server/stdinhand.c:4420
 msgid "Not enough human players; game will not start."
 msgstr "Chan eil cluicheadairean daonna gu leòr ann 's cha tòisich an geama."
 
-#: server/stdinhand.c:4424
+#: server/stdinhand.c:4425
 msgid "No players; game will not start."
 msgstr "Chan eil cluicheadairean ann; cha tòisich an geama."
 
-#: server/stdinhand.c:4428
+#: server/stdinhand.c:4429
 msgid "Not enough nations for all players; game will not start."
 msgstr ""
 "Chan eil nàiseanan gu leòr ann airson a h-uile cluicheadair 's cha tòisich "
 "an geama."
 
-#: server/stdinhand.c:4437
+#: server/stdinhand.c:4438
 msgid "All players are ready; starting game."
 msgstr "Tha gach cluicheadair deiseil; a' tòiseachadh air a' gheama."
 
 #. TRANS: given when /start is invoked during gameover.
-#: server/stdinhand.c:4453
+#: server/stdinhand.c:4454
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
@@ -9722,24 +9727,24 @@ msgstr ""
 
 #. TRANS: given when /start is invoked while the game
 #. * is running.
-#: server/stdinhand.c:4460
+#: server/stdinhand.c:4461
 msgid "Cannot start the game: it is already running."
 msgstr "Cha ghabh an geama a thòiseachadh: tha e 'na ruith mu thràth."
 
-#: server/stdinhand.c:4491
+#: server/stdinhand.c:4492
 #, c-format
 msgid "Cutting connection %s."
 msgstr "A' briseadh a' cheangail %s."
 
-#: server/stdinhand.c:4492
+#: server/stdinhand.c:4493
 msgid "connection cut"
 msgstr "bhris an ceangal"
 
-#: server/stdinhand.c:4580
+#: server/stdinhand.c:4581
 msgid "You may not kick yourself."
 msgstr "Chan urrainn dhut breab a thoirt dhut fhèin."
 
-#: server/stdinhand.c:4603
+#: server/stdinhand.c:4604
 #, c-format
 msgid ""
 "There must be at least %d unique connections to the server for this command "
@@ -9748,11 +9753,11 @@ msgstr ""
 "Feumaidh %d ceangal àraidh a bhith ann ris an fhrithealaiche air a' char as "
 "lugha mus bi an àithne seo dligheach."
 
-#: server/stdinhand.c:4629
+#: server/stdinhand.c:4630
 msgid "kicked"
 msgstr "air a bhreabadh"
 
-#: server/stdinhand.c:4645
+#: server/stdinhand.c:4646
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -9792,95 +9797,95 @@ msgstr ""
 "  quit   -  gus an geama fhàgail"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:4682
+#: server/stdinhand.c:4683
 #, c-format
 msgid "Command: %s  -  %s"
 msgstr "Àithne: %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:4688
+#: server/stdinhand.c:4689
 #, c-format
 msgid "Command: %s"
 msgstr "Àithne: %s"
 
-#: server/stdinhand.c:4693
+#: server/stdinhand.c:4694
 msgid "Synopsis: "
 msgstr "Gearr-chunntas:"
 
-#: server/stdinhand.c:4702
+#: server/stdinhand.c:4703
 #, c-format
 msgid "Level: %s"
 msgstr "Leibheil: %s"
 
-#: server/stdinhand.c:4724
+#: server/stdinhand.c:4725
 msgid "The following server commands are available:"
 msgstr "Na na h-àitheantan frithealaiche a leanas ri làimh:"
 
-#: server/stdinhand.c:4785
+#: server/stdinhand.c:4786
 #, c-format
 msgid "Possible matches: %s"
 msgstr "Seisean buailteach: %s"
 
-#: server/stdinhand.c:4847
+#: server/stdinhand.c:4848
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Tha an argamaid cobharach '%s' dà-sheaghach."
 
-#: server/stdinhand.c:4854
+#: server/stdinhand.c:4855
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Chan eil seise aig an argamaid chobharach '%s'."
 
-#: server/stdinhand.c:4895
+#: server/stdinhand.c:4896
 msgid "List of connections to server:"
 msgstr "Liosta de cheanglaichean ris an fhrithealaiche:"
 
-#: server/stdinhand.c:4899
+#: server/stdinhand.c:4900
 msgid "<no connections>"
 msgstr "<gun cheanglaichean>"
 
-#: server/stdinhand.c:4932
+#: server/stdinhand.c:4933
 msgid "Your ignore list:"
 msgstr "An dubh-liosta agad:"
 
-#: server/stdinhand.c:4951
+#: server/stdinhand.c:4952
 msgid "List of players:"
 msgstr "Liosta nan cluicheadairean:"
 
-#: server/stdinhand.c:4956
+#: server/stdinhand.c:4957
 msgid "<no players>"
 msgstr "<chan eil cluicheadairean ann>"
 
-#: server/stdinhand.c:4973
+#: server/stdinhand.c:4974
 #, c-format
 msgid "user %s, "
 msgstr "cleachdaiche %s,"
 
-#: server/stdinhand.c:4984
+#: server/stdinhand.c:4985
 msgid ", Dead"
 msgstr ", marbh"
 
-#: server/stdinhand.c:4987
+#: server/stdinhand.c:4988
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", leibheil an duilgheadais %s"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: server/stdinhand.c:4992 server/stdinhand.c:4996 client/helpdata.c:658
+#: server/stdinhand.c:4993 server/stdinhand.c:4997 client/helpdata.c:658
 #: client/helpdata.c:1234 client/text.c:1568 client/text.c:1608
 #, c-format
 msgid "?clistmore:, %s"
 msgstr "?clistmore:, %s"
 
-#: server/stdinhand.c:5000
+#: server/stdinhand.c:5001
 msgid ", ready"
 msgstr ", deiseil"
 
-#: server/stdinhand.c:5004
+#: server/stdinhand.c:5005
 msgid ", not ready"
 msgstr ", chan eil e deiseil"
 
-#: server/stdinhand.c:5015
+#: server/stdinhand.c:5016
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
@@ -9889,25 +9894,25 @@ msgstr[1] " %d cheangal:"
 msgstr[2] " %d ceanglaichean:"
 msgstr[3] " %d ceangal:"
 
-#: server/stdinhand.c:5021
+#: server/stdinhand.c:5022
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s o %s (leibheil inntrigeadh àitheantan %s), bufsize=%dkb"
 
-#: server/stdinhand.c:5027
+#: server/stdinhand.c:5028
 msgid " (observer mode)"
 msgstr " (modh coimheadaiche)"
 
-#: server/stdinhand.c:5044
+#: server/stdinhand.c:5045
 msgid "List of scenarios available:"
 msgstr "Liosta de chnàmh-sgeulan a tha ri fhaighinn:"
 
-#: server/stdinhand.c:5065
+#: server/stdinhand.c:5066
 msgid "List of teams:"
 msgstr "Liosta nan sgioba:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:5075
+#: server/stdinhand.c:5076
 #, c-format
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
@@ -9916,7 +9921,7 @@ msgstr[1] "%2d : '%s' : %d chluicheadair :"
 msgstr[2] "%2d : '%s' : %d cluicheadairean :"
 msgstr[3] "%2d : '%s' : %d cluicheadair :"
 
-#: server/stdinhand.c:5131
+#: server/stdinhand.c:5132
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Droch argamaid liosta: '%s'. Feuch '%shelp list'."
@@ -9999,7 +10004,7 @@ msgstr ""
 msgid "Insufficient science output. We lost %s."
 msgstr "Chan eil rannsachadh gu leòr a' dol. Chaill sinn %s."
 
-#: server/techtools.c:572
+#: server/techtools.c:579
 #, c-format
 msgid ""
 "The required technology for our government '%s' was lost. The citizens have "
@@ -10008,7 +10013,7 @@ msgstr ""
 "Chaidh an teicneolas a dh'fheumas ar riaghaltas ('%s') air chall. Thòisich "
 "na saoranaich air reabhlaid a chum '%s'."
 
-#: server/techtools.c:595
+#: server/techtools.c:602
 #, c-format
 msgid ""
 "The required technology for our new government '%s' was lost. The citizens "
@@ -10017,34 +10022,34 @@ msgstr ""
 "Chaidh an teicneolas a dh'fheumas ar riaghaltas ùr ('%s') air chall. Thagh "
 "na saoranaich '%s' mar an riaghaltas ùr a bu toigh leotha."
 
-#: server/techtools.c:633 server/techtools.c:645
+#: server/techtools.c:640 server/techtools.c:652
 #, c-format
 msgid "%s can't build %s. The required technology was lost."
 msgstr ""
 "Chan urrainn %s %s a thogail. Chaidh an teicneolas air a bheil feum air "
 "chall."
 
-#: server/techtools.c:762
+#: server/techtools.c:769
 #, c-format
 msgid "Technology goal is %s."
 msgstr "'S e %s an ceann-uidhe teicneolais."
 
-#: server/techtools.c:945
+#: server/techtools.c:952
 #, c-format
 msgid "You steal %s from the %s."
 msgstr "Ghoid thu %s air %s."
 
-#: server/techtools.c:950
+#: server/techtools.c:957
 #, c-format
 msgid "The %s stole %s from you!"
 msgstr "Ghoid %s %s ort!"
 
-#: server/techtools.c:955
+#: server/techtools.c:962
 #, c-format
 msgid "The %s have stolen %s from the %s."
 msgstr "Ghoid %s %s air %s."
 
-#: server/techtools.c:1075
+#: server/techtools.c:1082
 #, c-format
 msgid "Too bad! You made a mistake transferring the tech %s and lost it."
 msgstr ""
@@ -10213,7 +10218,7 @@ msgstr "Chan urrann ach %s ionnsaigh a thoirt on mhuir."
 msgid "Cannot attack from sea."
 msgstr "Chan urrainn dha ionnsaigh a thoirt on mhuir."
 
-#: server/unithand.c:1228 server/unittools.c:2349
+#: server/unithand.c:1228 server/unittools.c:2351
 msgid "Cannot attack unless you declare war first."
 msgstr "Chan urrainn dhut ionnsaigh a thoirt mus do ghairm thu cogadh."
 
@@ -10227,7 +10232,7 @@ msgstr "Feumaidh na %s gluasad dhan àrainn fo do smachd."
 msgid "%s cannot move that far from the coast line."
 msgstr "Chan urrainn an %s gluasad cho fada on mhuir."
 
-#: server/unithand.c:1246 server/unittools.c:2356
+#: server/unithand.c:1246 server/unittools.c:2358
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr ""
@@ -10303,8 +10308,8 @@ msgstr ""
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr ""
-"Duilich, dhan urrainn an %s agad slighe malairt a stèidheachadh eadar %s is %"
-"s."
+"Duilich, dhan urrainn an %s agad slighe malairt a stèidheachadh eadar %s is "
+"%s."
 
 #: server/unithand.c:1640 server/unithand.c:1661
 #, c-format
@@ -10403,29 +10408,29 @@ msgstr "Chaidh %s agad a ghluasad."
 msgid "Disbanded your %s."
 msgstr "Chaidh %s agad fhàsachadh."
 
-#: server/unittools.c:1474
+#: server/unittools.c:1479
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Cha deach %s a dhìon gu soirbheachail, chaill %s an geama."
 
-#: server/unittools.c:1478
+#: server/unittools.c:1483
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 "Chaill thu an geama 's tu air an %s a chall! Bi nas fhaiceallaiche an ath "
 "thuras!"
 
-#: server/unittools.c:1521
+#: server/unittools.c:1526
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "Chaill %s nuair a thuit %s."
 
-#: server/unittools.c:1600
+#: server/unittools.c:1602
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "Theich %s à sgriosadh %s agus rinn iad air %s."
 
-#: server/unittools.c:1705
+#: server/unittools.c:1707
 #, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgid_plural "Barbarian leader captured; %d gold ransom paid."
@@ -10439,19 +10444,19 @@ msgstr[3] ""
 "Chaidh ceannard nam borbach a ghlacadh is fhuair thu %d òr de dh'ìoc-èirig."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1725
+#: server/unittools.c:1727
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "Shoirbhich an %1$s agad leis an ionnsaigh air aonad %3$s %2$s!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1734 server/unittools.c:1797
+#: server/unittools.c:1736 server/unittools.c:1799
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "Chaidh %1$s a chall an cois ionnsaigh %3$s %2$s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1772
+#: server/unittools.c:1774
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -10471,7 +10476,7 @@ msgstr[3] ""
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1807
+#: server/unittools.c:1809
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr ""
@@ -10479,7 +10484,7 @@ msgstr ""
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1823
+#: server/unittools.c:1825
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "Chaidh %1$s (agus %2$s) a chall an cois ionnsaigh %4$s %3$s."
@@ -10487,7 +10492,7 @@ msgstr "Chaidh %1$s (agus %2$s) a chall an cois ionnsaigh %4$s %3$s."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1834
+#: server/unittools.c:1836
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -10503,7 +10508,7 @@ msgstr[3] ""
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1849
+#: server/unittools.c:1851
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
@@ -10516,92 +10521,92 @@ msgstr[2] ""
 msgstr[3] ""
 "Chaidh %1$d aonad a chall nuair a thug %3$s %2$s ionnsaigh air %5$s %4$s."
 
-#: server/unittools.c:2120
+#: server/unittools.c:2122
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Chaidh an %s agad a sgriosadh le arm niùclasach aig %s."
 
-#: server/unittools.c:2123 server/unittools.c:2143
+#: server/unittools.c:2125 server/unittools.c:2145
 msgid "yourself"
 msgstr "thu fhèin"
 
-#: server/unittools.c:2127
+#: server/unittools.c:2129
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "Chaill %s %s an cois airm niùclasaich."
 
-#: server/unittools.c:2140
+#: server/unittools.c:2142
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "Chaidh %s a sgriosadh le arm niùclasach aig %s."
 
-#: server/unittools.c:2148
+#: server/unittools.c:2150
 #, c-format
 msgid "You nuked %s."
 msgstr "Leig thusa arm niùclasach air %s."
 
-#: server/unittools.c:2200
+#: server/unittools.c:2202
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "Spreadh %s arm niùclasach!"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2224 server/unittools.c:2232
+#: server/unittools.c:2226 server/unittools.c:2234
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr "Chan eil comas ann an %s %s a ghiùlan."
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2243
+#: server/unittools.c:2245
 #, c-format
 msgid "%s cannot be transported to %s."
 msgstr "Cha ghabh %s a ghiùlan ann (%s)."
 
-#: server/unittools.c:2253
+#: server/unittools.c:2255
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s air a ghiùlan gu soirbheachail."
 
-#: server/unittools.c:2312
+#: server/unittools.c:2314
 msgid "This unit type can not be paradropped."
 msgstr "Chan urrainn dhut paradrop a dhèanamh leis a leithid a dh'aonad."
 
-#: server/unittools.c:2322
+#: server/unittools.c:2324
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr ""
 "Chan urrainn dhut paradrop a dhèanamh le aonad a tha a' giùlan aonadan eile."
 
-#: server/unittools.c:2328
+#: server/unittools.c:2330
 msgid "The destination location is not known."
 msgstr "Chan eil ionad a' chinn-uidhe aithnichte."
 
-#: server/unittools.c:2338
+#: server/unittools.c:2340
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Cha ghabh paradrop a dhèanamh air %s leis an aonad seo."
 
-#: server/unittools.c:2367
+#: server/unittools.c:2369
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "Tha astar nas fhaide (%i) eadar an t-aonad 's a cheann-uidhe nas urrainn dha "
 "siubhal (%i)."
 
-#: server/unittools.c:2378
+#: server/unittools.c:2380
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Chaidh %s a leigeil air %s le paradrop agus chaidh a chall."
 
-#: server/unittools.c:2391
+#: server/unittools.c:2393
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 "Chaidh an %s agad a mharbhadh le aonadan do nàmhaid far an do leig thu às e "
 "le paradrop."
 
-#: server/unittools.c:2420 data/default/default.lua:22
+#: server/unittools.c:2422 data/default/default.lua:22
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -10610,92 +10615,92 @@ msgstr[1] "Lorg thu %d a dh'òr."
 msgstr[2] "Lorg thu %d a dh'òr."
 msgstr[3] "Lorg thu %d a dh'òr."
 
-#: server/unittools.c:2427 data/default/default.lua:94
+#: server/unittools.c:2429 data/default/default.lua:94
 msgid "An abandoned village is here."
 msgstr "Tha baile fàs an-seo."
 
-#: server/unittools.c:2430 data/default/default.lua:104
+#: server/unittools.c:2432 data/default/default.lua:104
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Chaidh an %s agad a mharbhadh le borbaich!"
 
-#: server/unittools.c:2459
+#: server/unittools.c:2461
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Chuir thu eagal air an fhine 's tu a' dol seachad orra le itealan; tha iad "
 "a' teicheadh ann an uamhann."
 
-#: server/unittools.c:2712
+#: server/unittools.c:2714
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad nuair a chunnacas gluasad an "
 "nàmhaid."
 
-#: server/unittools.c:3238
+#: server/unittools.c:3245
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad a chionn 's gu bheil aonadad "
 "faisg air."
 
-#: server/unittools.c:3289
+#: server/unittools.c:3296
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad a chionn 's gun do "
 "dh'fhàillig togail a' bhaile."
 
-#: server/unittools.c:3305
+#: server/unittools.c:3312
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad a chionn 's gun d' fhuair "
 "iad àithne mhì-dhligheach."
 
-#: server/unittools.c:3324
+#: server/unittools.c:3331
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad a chionn 's gun d' fhuair "
 "iad ionad mì-dhligheach."
 
-#: server/unittools.c:3334
+#: server/unittools.c:3341
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad a chionn 's gu bheil aonadan "
 "san t-slighe."
 
-#: server/unittools.c:3359
+#: server/unittools.c:3366
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad air sgàth gluasad a "
 "dh'fhàillig."
 
-#: server/unittools.c:3399
+#: server/unittools.c:3406
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr ""
 "Dh'fheuch thu ris am baile dachaigh aig %s atharrachadh ach dh'fhàillig e."
 
-#: server/unittools.c:3410
+#: server/unittools.c:3417
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Dh'fheuch thu ris an t-slighe malairt aig %s ach dh'fhàillig e."
 
-#: server/unittools.c:3422
+#: server/unittools.c:3429
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Dh'fheuch thu ri mìorbhail a thogail airson %s ach dh'fhàillig e."
 
-#: server/unittools.c:3431
+#: server/unittools.c:3438
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Tha òrduighean mì-dhligheach aig an aonad (%s) agad."
 
-#: server/unittools.c:3529
+#: server/unittools.c:3536
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."
@@ -11621,8 +11626,8 @@ msgstr "frithealaiche air a dhì-cheangal"
 #, c-format
 msgid "Failed to contact server \"%s\" at port %d as \"%s\" after %d attempts"
 msgstr ""
-"Cha do ghabh conaltradh a dhèanamh leis an fhrithealaiche \"%s\" tron phort %"
-"d mar \"%s\" an dèidh %d oidhirpean."
+"Cha do ghabh conaltradh a dhèanamh leis an fhrithealaiche \"%s\" tron phort "
+"%d mar \"%s\" an dèidh %d oidhirpean."
 
 #: client/clinet.c:527
 msgid "Connection to server refused. Please start the server."
@@ -12533,22 +12538,17 @@ msgstr ""
 "* Thèid a thogail mar seann ghaisgeach ann am bailtean far a bheil goireasan "
 "trèanaidh iomchaidh (faic Port-adhair).\n"
 
-#: client/helpdata.c:1576 client/helpdata.c:1592 client/helpdata.c:1602
+#: client/helpdata.c:1576 client/helpdata.c:1590 client/helpdata.c:1600
 msgid "* May be promoted after defeating an enemy unit.\n"
 msgstr ""
 "* Tha seans ann gun dèid àrdachadh as dèidh dha buaidh a thoirt air aonad "
 "nàimhdeil.\n"
 
-#: client/helpdata.c:1581
-msgid "* Will be built as a veteran under communist governments.\n"
-msgstr ""
-"* Thèid a thogail mar seann ghaisgeach fo riaghaltasan co-mhaoineach.\n"
-
-#: client/helpdata.c:1584
+#: client/helpdata.c:1582
 msgid "* May be promoted after a successful mission.\n"
 msgstr "* Tha seans ann gun dèid àrdachadh an cois misein shoirbheachail.\n"
 
-#: client/helpdata.c:1588
+#: client/helpdata.c:1586
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Barracks).\n"
@@ -12556,7 +12556,7 @@ msgstr ""
 "* Thèid a thogail mar seann ghaisgeach ann am bailtean far a bheil goireasan "
 "trèanaidh iomchaidh (faic Taigh-feachd).\n"
 
-#: client/helpdata.c:1598
+#: client/helpdata.c:1596
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Port Facility).\n"
@@ -12564,15 +12564,15 @@ msgstr ""
 "* Thèid a thogail mar seann ghaisgeach ann am bailtean far a bheil goireasan "
 "trèanaidh iomchaidh (faic \"Goireas puirt\").\n"
 
-#: client/helpdata.c:1607
+#: client/helpdata.c:1605
 msgid "* May be promoted through combat or training.\n"
 msgstr "* Tha seans ann gun dèid àrdachadh an cois sabaid no trèanaidh.\n"
 
-#: client/helpdata.c:1610
+#: client/helpdata.c:1608
 msgid "* May be built as a veteran through training.\n"
 msgstr "* Gabhaidh a thogail mar seann ghaisgeach tro thrèanadh.\n"
 
-#: client/helpdata.c:1619
+#: client/helpdata.c:1617
 msgid ""
 "* Under certain conditions the shield upkeep of this unit can be converted "
 "to gold upkeep.\n"
@@ -12580,14 +12580,14 @@ msgstr ""
 "* Gabhaidh na dh'fheumas an t-aonad seo de sgiathan airson a bheòshlaint a "
 "thionndadh 'na bheòshlaint òir.\n"
 
-#: client/helpdata.c:1627
+#: client/helpdata.c:1625
 #, c-format
 msgid "* Can attack against %s units, which are usually not reachable.\n"
 msgstr ""
 "* 'S urrainn dha ionnsaigh a thoirt air aonadan %s nach ruigear mar is "
 "trice.\n"
 
-#: client/helpdata.c:1644
+#: client/helpdata.c:1642
 #, c-format
 msgid "* Unit has to be in a city or a base after %d turn.\n"
 msgid_plural "* Unit has to be in a city or a base after %d turns.\n"
@@ -12601,7 +12601,7 @@ msgstr[3] ""
 "* Feumaidh an t-aonad a bhith ann am baile no bunait as dèidh %d cuairt.\n"
 
 #. TRANS: %s is a list of unit types separated by "or"
-#: client/helpdata.c:1655
+#: client/helpdata.c:1653
 #, c-format
 msgid "* Unit has to be in a city, a base, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, a base, or on a %s after %d turns.\n"
@@ -12618,13 +12618,13 @@ msgstr[3] ""
 "* Feumaidh an t-aonad a bhith ann am baile, bunait no air %s as dèidh %d "
 "cuairt.\n"
 
-#: client/helpdata.c:1702
+#: client/helpdata.c:1700
 #, c-format
 msgid "Starting now, researching %s would need %d bulbs."
 msgstr ""
 "Nan tòisicheamaid le %s an-dràsta, dh'fheumadh an rannsachadh %d builg."
 
-#: client/helpdata.c:1707
+#: client/helpdata.c:1705
 #, c-format
 msgid ""
 "To reach %s you need to obtain %d other technology first. The whole project "
@@ -12645,44 +12645,44 @@ msgstr[3] ""
 "Feumaidh tu %2$d teicneolas eile an toiseach mus ruig sinn %1$s. Feumaidh am "
 "pròiseact gu lèir %3$d builg airson a thoirt gu buil."
 
-#: client/helpdata.c:1719
+#: client/helpdata.c:1717
 msgid "You cannot research this technology."
 msgstr "Chan urrainn dhut an teicneolas seo a rannsachadh."
 
-#: client/helpdata.c:1724
+#: client/helpdata.c:1722
 msgid " This number may vary depending on what other players research.\n"
 msgstr ""
 " Atharraichidh an àireamh seo a-rèir na bhios na cluicheadairean eile a' "
 "rannsachadh.\n"
 
-#: client/helpdata.c:1736
+#: client/helpdata.c:1734
 #, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
 msgstr "* Gheibh a' chiad chluicheadair a rannsaicheas %s adhartas sa bhad.\n"
 
-#: client/helpdata.c:1742
+#: client/helpdata.c:1740
 msgid "* Increases the pollution generated by the population.\n"
 msgstr "* Cuiridh seo am meud an truailleadh a chruthaicheas an sluaigh.\n"
 
 #. TRANS: %s is list of units separated by "and".
-#: client/helpdata.c:1748
+#: client/helpdata.c:1746
 #, c-format
 msgid "* Allows %s to build roads on river tiles.\n"
 msgstr "* 'S urrainn %s rathaidean a thogail air ceàrnagan aibhne leis.\n"
 
 #. TRANS: %s is list of units separated by "and".
-#: client/helpdata.c:1756
+#: client/helpdata.c:1754
 #, c-format
 msgid "* Allows %s to upgrade roads to railroads.\n"
 msgstr "* 'S urrainn %s rathaidean àrdachadh gu rathaidean-iarainn leis.\n"
 
 #. TRANS: %s is list of units separated by "and".
-#: client/helpdata.c:1764
+#: client/helpdata.c:1762
 #, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
 msgstr "* 'S urrainn %s uisgeachadh àrdachadh gu fearann leis.\n"
 
-#: client/helpdata.c:1773
+#: client/helpdata.c:1771
 msgid ""
 "* To preserve this technology for our nation some bulbs are needed each "
 "turn.\n"
@@ -12690,37 +12690,37 @@ msgstr ""
 "* Bidh feum air grunn bhulg gach cuairt gus an teicneolas seo a ghlèidheadh "
 "dha ar nàisean.\n"
 
-#: client/helpdata.c:1811
+#: client/helpdata.c:1809
 msgid "* Pollution cannot be generated on this terrain."
 msgstr "* Cha ghabh truailleadh a ghineadh air an talamh seo."
 
-#: client/helpdata.c:1814
+#: client/helpdata.c:1812
 msgid "* Fallout cannot be generated on this terrain."
 msgstr "* Cha ghabh sileadh niùclasach a ghineadh air an talamh seo."
 
-#: client/helpdata.c:1819
+#: client/helpdata.c:1817
 msgid "* You cannot build cities on this terrain."
 msgstr "* Chan urrainn dhut bailtean a thogail air an talamh seo."
 
-#: client/helpdata.c:1825
+#: client/helpdata.c:1823
 msgid "* The coastline of this terrain is unsafe."
 msgstr "* Tha cladach na talamhainn seo neo-thèarainte."
 
-#: client/helpdata.c:1830
+#: client/helpdata.c:1828
 msgid "* Land units cannot travel on oceanic terrains."
 msgstr "* Chan urrainn do dh'aonadan talamhainn siubhal air a' mhuir."
 
-#: client/helpdata.c:1875
+#: client/helpdata.c:1873
 msgid "Requirements to build:\n"
 msgstr "Riatanasan mus gabh a thogail:\n"
 
 #. TRANS: %s is a list of unit classes separated by "and".
-#: client/helpdata.c:1897
+#: client/helpdata.c:1895
 #, c-format
 msgid "* Native to %s units.\n"
 msgstr "* Aig aonadan %s a ghnàth.\n"
 
-#: client/helpdata.c:1903
+#: client/helpdata.c:1901
 msgid ""
 "  * Such units can move onto this tile even if it would not normally be "
 "suitable terrain.\n"
@@ -12728,7 +12728,7 @@ msgstr ""
 "  * 'S urrainn do dh'aonadan d' an leithid a ghluasad air an leacag seo fiù "
 "mur e talamh freagarrach dhaibh a tha ann a ghnàth.\n"
 
-#: client/helpdata.c:1911
+#: client/helpdata.c:1909
 msgid ""
 "  * Such units situated here are not considered aggressive if this tile is "
 "within 3 tiles of a friendly city.\n"
@@ -12737,7 +12737,7 @@ msgstr ""
 "seo mur eil an leacag seo 3 leacagan o bhaile chàirdeil air a' char as "
 "motha.\n"
 
-#: client/helpdata.c:1916
+#: client/helpdata.c:1914
 msgid ""
 "  * Can be captured by such units if at war with the nation that currently "
 "owns it.\n"
@@ -12745,48 +12745,48 @@ msgstr ""
 "  * Gabhaidh a ghlacadh le aonadan d' an leithid ma tha thu a' cogadh ris an "
 "nàisean aig a bheil e an-dràsta.\n"
 
-#: client/helpdata.c:1921
+#: client/helpdata.c:1919
 #, c-format
 msgid "  * Such units get a %d%% defense bonus on this tile.\n"
 msgstr "  * Gheibh aonadan d' an leithid duais dìon %d%% air an leacag seo.\n"
 
-#: client/helpdata.c:1928
+#: client/helpdata.c:1926
 #, no-c-format
 msgid "  * Diplomatic units get a 25% defense bonus in diplomatic fights.\n"
 msgstr ""
 "  * Gheibh aonadan dìoplomasach duais dìon 25% ann an sabaidean "
 "dìoplomasach.\n"
 
-#: client/helpdata.c:1936
+#: client/helpdata.c:1934
 msgid "* Cannot be built.\n"
 msgstr "* Cha ghabh a thogail.\n"
 
-#: client/helpdata.c:1940
+#: client/helpdata.c:1938
 msgid "* Can be pillaged by units.\n"
 msgstr "* Gabhaidh a chreachadh le aonadan.\n"
 
-#: client/helpdata.c:1945
+#: client/helpdata.c:1943
 msgid ""
 "* Defeat of one unit does not cause death of all other units on this tile.\n"
 msgstr ""
 "* Cha bhàsaich gach aonad air an leacag ma thèid aonan dhiubh a mharbhadh.\n"
 
-#: client/helpdata.c:1950
+#: client/helpdata.c:1948
 msgid "* Units can paradrop from this tile.\n"
 msgstr "* Gabhaidh paradrop a dhèanamh on leacag seo.\n"
 
-#: client/helpdata.c:1954
+#: client/helpdata.c:1952
 msgid "* Extends national borders of the building nation.\n"
 msgstr ""
 "* Tha seo a' leudachadh crìochan nàiseanta an nàisein a tha 'ga thogail.\n"
 
-#: client/helpdata.c:1958
+#: client/helpdata.c:1956
 msgid "* Grants permanent vision of an area around the tile to its owner.\n"
 msgstr ""
 "* Tha seo a' toirt comas lèirsinn de dh'àrainn do sheilbheadair na "
 "leacaige.\n"
 
-#: client/helpdata.c:1963
+#: client/helpdata.c:1961
 msgid ""
 "* Allows the owner to see normally invisible units in an area around the "
 "tile.\n"
@@ -12794,12 +12794,12 @@ msgstr ""
 "* 'S urrainn dhan t-seilbheadair aonadan fhaicinn leis ann an àrainn na "
 "leacaige nach fhaiceadh e a ghnàth.\n"
 
-#: client/helpdata.c:2043
+#: client/helpdata.c:2041
 msgid "Features:\n"
 msgstr "Feartan:\n"
 
 #. TRANS: Empty output type list, should never happen.
-#: client/helpdata.c:2123 client/helpdata.c:2124
+#: client/helpdata.c:2121 client/helpdata.c:2122
 msgid "?outputlist: Nothing "
 msgstr "?outputlist: Chan eil gin"
 
@@ -12826,6 +12826,20 @@ msgstr[3] ""
 
 #: client/helpdata.c:2142
 #, c-format
+msgid "* Each of your cities will avoid %d unhappiness caused by units.\n"
+msgid_plural ""
+"* Each of your cities will avoid %d unhappiness caused by units.\n"
+msgstr[0] "* Seachnaidh gach baile agad %d de mhì-thoileachas a dh'adhbharaicheas "
+"aonadan.\n"
+msgstr[1] "* Seachnaidh gach baile agad %d de mhì-thoileachas a dh'adhbharaicheas "
+"aonadan.\n"
+msgstr[2] "* Seachnaidh gach baile agad %d de mhì-thoileachas a dh'adhbharaicheas "
+"aonadan.\n"
+msgstr[3] "* Seachnaidh gach baile agad %d de mhì-thoileachas a dh'adhbharaicheas "
+"aonadan.\n"
+
+#: client/helpdata.c:2151
+#, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, not including that caused "
 "by units.\n"
@@ -12845,7 +12859,7 @@ msgstr[3] ""
 "* Seachnaidh gach baile agad %d de mhì-thoileachas, as aonais a' mhì-"
 "thoileachais a dh'adhbharaicheas aonadan.\n"
 
-#: client/helpdata.c:2151
+#: client/helpdata.c:2160
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, including unhappiness "
@@ -12867,14 +12881,14 @@ msgstr[3] ""
 "thoileachas a dh'adhbharaicheas aonadan.\n"
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
-#: client/helpdata.c:2162
+#: client/helpdata.c:2171
 #, c-format
 msgid "* You pay %d times normal %s upkeep for your units.\n"
 msgstr ""
 "* Tha thu a' pàigheadh %d turais dhen chosgais àbhaisteach, %s, airson "
 "beòshlaint nan aonadan.\n"
 
-#: client/helpdata.c:2166
+#: client/helpdata.c:2175
 #, c-format
 msgid "* You pay %d times normal upkeep for your units.\n"
 msgstr ""
@@ -12882,19 +12896,19 @@ msgstr ""
 "nan aonadan agad.\n"
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
-#: client/helpdata.c:2171
+#: client/helpdata.c:2180
 #, c-format
 msgid "* You pay no %s upkeep for your units.\n"
 msgstr "* Chan eil thu a' pàigheadh %s airson beòshlaint nan aonadan agad.\n"
 
-#: client/helpdata.c:2175
+#: client/helpdata.c:2184
 msgid "* You pay no upkeep for your units.\n"
 msgstr "* Chan eil thu a' pàigheadh airson beòshlaint nan aonadan agad.\n"
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
 #. * There is currently no way to control the
 #. * singular/plural version of these.
-#: client/helpdata.c:2184
+#: client/helpdata.c:2193
 #, c-format
 msgid "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
 msgstr ""
@@ -12903,14 +12917,14 @@ msgstr ""
 
 #. TRANS: Amount is subtracted from upkeep cost
 #. * for each upkeep type.
-#: client/helpdata.c:2191
+#: client/helpdata.c:2200
 #, c-format
 msgid "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgstr ""
 "* Seachnaidh gach baile agad %d a phàigheadh airson beòshlaint nan aonadan "
 "agad.\n"
 
-#: client/helpdata.c:2198
+#: client/helpdata.c:2207
 #, c-format
 msgid "* If you lose your capital, the chance of civil war is %d%%.\n"
 msgstr ""
@@ -12918,7 +12932,7 @@ msgstr ""
 "cogadh catharra.\n"
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:2205
+#: client/helpdata.c:2214
 #, c-format
 msgid ""
 "* When you have %d cities, the first unhappy citizen will appear in each "
@@ -12928,7 +12942,7 @@ msgstr ""
 "anns gach baile air sgàth meud do shìobhaltais.\n"
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:2212
+#: client/helpdata.c:2221
 #, c-format
 msgid ""
 "* After the first unhappy citizen due to civilization size, for each %d "
@@ -12938,7 +12952,7 @@ msgstr ""
 "nochdaidh saoranach mì-thoilichte a bharrachd an cois gach %d baile eile "
 "agad.\n"
 
-#: client/helpdata.c:2220
+#: client/helpdata.c:2229
 #, c-format
 msgid ""
 "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
@@ -12946,11 +12960,11 @@ msgstr ""
 "* 'S e %d%% an reat as àirde as urrainn dhut suidheachadh airson saidheans, "
 "òr no sòghalachd.\n"
 
-#: client/helpdata.c:2225
+#: client/helpdata.c:2234
 msgid "* Has unlimited science/gold/luxuries rates.\n"
 msgstr "* Tha reataichean saidheans/òir/sòghalachd gun chuingeachadh aige.\n"
 
-#: client/helpdata.c:2230
+#: client/helpdata.c:2239
 #, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
@@ -12971,7 +12985,7 @@ msgstr[3] ""
 "* 'S urrainn dhan na h-aonadan agad lagh a' chogaidh a chur an sàs. Nì gach "
 "aonad an airm am broinn baile %d saoranach mì-thoilichte toilichte.\n"
 
-#: client/helpdata.c:2242
+#: client/helpdata.c:2251
 #, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
@@ -12988,26 +13002,26 @@ msgstr[3] ""
 "* 'S urrainn do suas gu %d aonad lagh a' chogaidh a chur an sàs anns gach "
 "baile.\n"
 
-#: client/helpdata.c:2252
+#: client/helpdata.c:2261
 msgid "* You may grow your cities by means of celebrations."
 msgstr "* 'S urrainn dhut fàs a thoirt air do bhailtean le fèilltean."
 
 #. TRANS: Preserve leading space. %d should always be
 #. * 2 or greater.
-#: client/helpdata.c:2257
+#: client/helpdata.c:2266
 #, c-format
 msgid " (Cities below size %d cannot grow in this way.)"
 msgstr " (Chan urrainn dhut fàs a thoirt air bailtean a tha nas lugha na %d)."
 
-#: client/helpdata.c:2263
+#: client/helpdata.c:2272
 msgid "* Your units cannot be bribed.\n"
 msgstr "* Cha ghabh na h-aonadan agad a bhrìbeadh.\n"
 
-#: client/helpdata.c:2266
+#: client/helpdata.c:2275
 msgid "* Your cities cannot be incited to revolt.\n"
 msgstr "* Cha ghabh do bhailtean a spreigeadh gu aramach.\n"
 
-#: client/helpdata.c:2270
+#: client/helpdata.c:2279
 msgid ""
 "* If any city is in disorder for more than two turns in a row, government "
 "will fall into anarchy.\n"
@@ -13015,41 +13029,41 @@ msgstr ""
 "* Ma bhios baile sam bith ann an aimhreit nas fhaide na dà chuairt an dèidh "
 "a chèile, bidh ain-riaghailt ann.\n"
 
-#: client/helpdata.c:2275
+#: client/helpdata.c:2284
 msgid "* Has a senate that may prevent declaration of war.\n"
 msgstr "* Tha seanadh ann a dh'fhaodadh casg a chur air gairm cogaidh.\n"
 
-#: client/helpdata.c:2279
+#: client/helpdata.c:2288
 msgid "* Allows partisans when cities are taken by the enemy.\n"
 msgstr ""
 "* Cuiridh seo partasain an comas nuair a ghabhas nàmhaid baile os làimh.\n"
 
-#: client/helpdata.c:2283
+#: client/helpdata.c:2292
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
 msgstr ""
 "* Bheir togalaichean dhut òr an àite duaisean an aghaidh mì-thoileachais.\n"
 
-#: client/helpdata.c:2287
+#: client/helpdata.c:2296
 msgid "* Pays no upkeep for fanatics.\n"
 msgstr "* Chan eil e a' pàigheadh airson beòshlaint nam fanataich.\n"
 
-#: client/helpdata.c:2290
+#: client/helpdata.c:2299
 msgid "* Has no unhappy citizens.\n"
 msgstr "* Chan eil saoranaich mhì-thoilichte ann.\n"
 
-#: client/helpdata.c:2300 client/helpdata.c:2304 client/helpdata.c:2308
+#: client/helpdata.c:2309 client/helpdata.c:2313 client/helpdata.c:2317
 #, c-format
 msgid "* Veteran %s units.\n"
 msgstr "* Aonadan sheann ghaisgeach (%s).\n"
 
-#: client/helpdata.c:2311
+#: client/helpdata.c:2320
 msgid "* Veteran units.\n"
 msgstr "* Aonadan sheann ghaisgeach.\n"
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:2317
+#: client/helpdata.c:2326
 #, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty, "
@@ -13060,13 +13074,13 @@ msgstr ""
 
 #. TRANS: Preserve leading space. %d should always be
 #. * 2 or greater.
-#: client/helpdata.c:2325 client/helpdata.c:2341
+#: client/helpdata.c:2334 client/helpdata.c:2350
 #, c-format
 msgid " (Cities below size %d will not celebrate.)"
 msgstr " (Cha chum bailtean a tha nas lugha na %d fèilltean.)"
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:2333
+#: client/helpdata.c:2342
 #, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d more of it while the "
@@ -13076,7 +13090,7 @@ msgstr ""
 "1 %1$s air air a' char as lugha 's fèill ann."
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:2349
+#: client/helpdata.c:2358
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgstr ""
@@ -13084,39 +13098,39 @@ msgstr ""
 "obair air %d a bharrachd.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2357
+#: client/helpdata.c:2366
 #, c-format
 msgid "* %s production is increased %d%%.\n"
 msgstr "* Chaidh cinneasachadh %s àrdachadh le %d%%.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2364
+#: client/helpdata.c:2373
 #, c-format
 msgid "* %s production will suffer massive losses.\n"
 msgstr "* Fulaingidh cinneasachadh %s call anabarrach mòr.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2369
+#: client/helpdata.c:2378
 #, c-format
 msgid "* %s production will suffer some losses.\n"
 msgstr "* Fulaingidh cinneasachadh %s cuid a chall.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2374
+#: client/helpdata.c:2383
 #, c-format
 msgid "* %s production will suffer a small amount of losses.\n"
 msgstr "* Fulaingidh cinneasachadh %s beagan caill.\n"
 
-#: client/helpdata.c:2380
+#: client/helpdata.c:2389
 msgid "* Increases the chance of plague within your cities.\n"
 msgstr "* Cuiridh seo an àirde cunnart plàighe 'nad bhailtean.\n"
 
-#: client/helpdata.c:2383
+#: client/helpdata.c:2392
 msgid "* Decreases the chance of plague within your cities.\n"
 msgstr "* Lùghdaichidh seo cunnart plàighe 'nad bhailtean.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2391
+#: client/helpdata.c:2400
 #, c-format
 msgid "* %s losses will increase quickly with distance from capital.\n"
 msgstr ""
@@ -13124,7 +13138,7 @@ msgstr ""
 "a dh'fhàsas call %s.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2397
+#: client/helpdata.c:2406
 #, c-format
 msgid "* %s losses will increase with distance from capital.\n"
 msgstr ""
@@ -13132,38 +13146,38 @@ msgstr ""
 "dh'fhàsas call %s.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2403
+#: client/helpdata.c:2412
 #, c-format
 msgid "* %s losses will increase slowly with distance from capital.\n"
 msgstr ""
 "* Fàsaidh call %s gu slaodach 's e a' dol nas fhaide on phrìomh bhaile.\n"
 
-#: client/helpdata.c:2410
+#: client/helpdata.c:2419
 msgid "* Increases the chance of migration into your cities.\n"
 msgstr "* Cuiridh seo an àirde buailteachd imrich dha do bailtean.\n"
 
-#: client/helpdata.c:2413
+#: client/helpdata.c:2422
 msgid "* Decreases the chance of migration into your cities.\n"
 msgstr "* Lùghdaichidh seo buailteachd imrich dha do bailtean.\n"
 
-#: client/helpdata.c:2431
+#: client/helpdata.c:2440
 #, c-format
 msgid "* Allows you to build %s.\n"
 msgstr "* Bheir seo comas dhut %s a thogail.\n"
 
 #. TRANS: "2 Food" or ", 1 Shield"
-#: client/helpdata.c:2457
+#: client/helpdata.c:2466
 #, c-format
 msgid "%s%d %s"
 msgstr "%s%d %s"
 
-#: client/helpdata.c:2458 client/helpdata.c:2466 client/gui-sdl/mapview.c:625
+#: client/helpdata.c:2467 client/helpdata.c:2475 client/gui-sdl/mapview.c:625
 #: client/gui-sdl/mapview.c:631 client/gui-sdl/mapview.c:637
 msgid "?blistmore:, "
 msgstr "?blistmore:, "
 
 #. TRANS: "2 Unhappy" or ", 1 Unhappy"
-#: client/helpdata.c:2465
+#: client/helpdata.c:2474
 #, c-format
 msgid "%s%d Unhappy"
 msgstr "%s%d mì-thoilichte"
@@ -14516,11 +14530,11 @@ msgstr "Toiseach na cuairte %d"
 msgid "Welcome"
 msgstr "Fàilte ort"
 
-#: client/packhand.c:1874
+#: client/packhand.c:1877
 msgid "AI mode is now ON."
 msgstr "Tha an Inntinn Fhuadain AIR a-nis."
 
-#: client/packhand.c:1876
+#: client/packhand.c:1879
 msgid "AI mode is now OFF."
 msgstr "Tha an Inntinn Fhuadain DHETH a-nis."
 
@@ -25625,7 +25639,7 @@ msgstr ""
 msgid "  Present administrators: "
 msgstr "  Rianairean làithreach:"
 
-#: data/helpdata.txt:2263
+#: data/helpdata.txt:2264
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:"
@@ -25633,7 +25647,7 @@ msgstr ""
 "Ma thachras tu air buga sam bith, nach cuir thu aithisg buga thugainn?  'S e "
 "am Freeciv Bug Tracking System an dòigh as fhearr gus seo a dhèanamh:"
 
-#: data/helpdata.txt:2268
+#: data/helpdata.txt:2269
 msgid ""
 "Please quote the above version information.  For more information about "
 "submitting bug reports see the file BUGS in the Freeciv distribution.  For "
@@ -27481,15 +27495,15 @@ msgstr "?unitclass:Adhair"
 msgid "?unitclass:Missile"
 msgstr "?unitclass:arm itealach"
 
-#: data/civ1/units.ruleset:189 data/civ2/units.ruleset:193
-#: data/default/units.ruleset:309 data/experimental/units.ruleset:324
-#: data/multiplayer/units.ruleset:309
+#: data/civ1/units.ruleset:191 data/civ2/units.ruleset:195
+#: data/default/units.ruleset:311 data/experimental/units.ruleset:326
+#: data/multiplayer/units.ruleset:311
 msgid "Settlers"
 msgstr "Tuinichean"
 
-#: data/civ1/units.ruleset:215 data/civ2/units.ruleset:219
-#: data/default/units.ruleset:335 data/experimental/units.ruleset:350
-#: data/multiplayer/units.ruleset:335
+#: data/civ1/units.ruleset:217 data/civ2/units.ruleset:221
+#: data/default/units.ruleset:337 data/experimental/units.ruleset:352
+#: data/multiplayer/units.ruleset:337
 msgid ""
 "Settlers are one of the key units in the game. As well as building new "
 "cities, they can also improve terrain, for instance by building irrigation, "
@@ -27502,8 +27516,8 @@ msgstr ""
 "Thoir sùil air an earrann mu 'Atharrachadh na talamhainn' airson barrachd "
 "fiosrachaidh."
 
-#: data/civ1/units.ruleset:220 data/default/units.ruleset:340
-#: data/experimental/units.ruleset:355
+#: data/civ1/units.ruleset:222 data/default/units.ruleset:342
+#: data/experimental/units.ruleset:357
 msgid ""
 "Upkeep for Settlers is in food as well as production, and a Settler can die "
 "if its supporting city runs out of food. Settlers in a Republic or Democracy "
@@ -27514,13 +27528,13 @@ msgstr ""
 "riutha. Feumaidh tuinichean ann am poblachd no deamocrasaidh dà thuras de "
 "bhiadh gach cuairt."
 
-#: data/civ1/units.ruleset:227
+#: data/civ1/units.ruleset:229
 msgid "Militia"
 msgstr "Mailisidh"
 
-#: data/civ1/units.ruleset:253 data/civ2/units.ruleset:300
-#: data/default/units.ruleset:448 data/experimental/units.ruleset:463
-#: data/multiplayer/units.ruleset:449
+#: data/civ1/units.ruleset:255 data/civ2/units.ruleset:302
+#: data/default/units.ruleset:450 data/experimental/units.ruleset:465
+#: data/multiplayer/units.ruleset:451
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest "
 "offensive unit."
@@ -27528,29 +27542,29 @@ msgstr ""
 "'S urrainn dhut an t-aonad seo a thogail o thoiseach a' gheama.  'S e seo an "
 "t-aonad ionnsaigheach as laige."
 
-#: data/civ1/units.ruleset:259 data/civ2/units.ruleset:306
-#: data/default/units.ruleset:454 data/experimental/units.ruleset:469
-#: data/multiplayer/units.ruleset:455
+#: data/civ1/units.ruleset:261 data/civ2/units.ruleset:308
+#: data/default/units.ruleset:456 data/experimental/units.ruleset:471
+#: data/multiplayer/units.ruleset:457
 msgid "Phalanx"
 msgstr "Falangas"
 
-#: data/civ1/units.ruleset:285 data/civ2/units.ruleset:332
-#: data/default/units.ruleset:480 data/experimental/units.ruleset:495
-#: data/multiplayer/units.ruleset:481
+#: data/civ1/units.ruleset:287 data/civ2/units.ruleset:334
+#: data/default/units.ruleset:482 data/experimental/units.ruleset:497
+#: data/multiplayer/units.ruleset:483
 msgid "The Phalanx is armored infantry, suitable for defending your cities."
 msgstr ""
 "'S e coisridh chaithbheartach a tha ann am falangas agus tha e math gus do "
 "bhailtean a dhìon."
 
-#: data/civ1/units.ruleset:290 data/civ2/units.ruleset:369
-#: data/default/units.ruleset:517 data/experimental/units.ruleset:532
-#: data/multiplayer/units.ruleset:518
+#: data/civ1/units.ruleset:292 data/civ2/units.ruleset:371
+#: data/default/units.ruleset:519 data/experimental/units.ruleset:534
+#: data/multiplayer/units.ruleset:520
 msgid "Legion"
 msgstr "Leigean"
 
-#: data/civ1/units.ruleset:316 data/civ2/units.ruleset:395
-#: data/default/units.ruleset:543 data/experimental/units.ruleset:558
-#: data/multiplayer/units.ruleset:544
+#: data/civ1/units.ruleset:318 data/civ2/units.ruleset:397
+#: data/default/units.ruleset:545 data/experimental/units.ruleset:560
+#: data/multiplayer/units.ruleset:546
 msgid ""
 "Legions are heavily armed and well disciplined infantry units with an "
 "excellent offensive value."
@@ -27558,13 +27572,13 @@ msgstr ""
 "'S e coisridh dheagh smachdaichte fo armaibh troma a tha ann an leigean a "
 "tha fìor luachmhor ann an ionnsaigh."
 
-#: data/civ1/units.ruleset:322 data/civ2/units.ruleset:433
-#: data/default/units.ruleset:581 data/experimental/units.ruleset:596
-#: data/multiplayer/units.ruleset:582
+#: data/civ1/units.ruleset:324 data/civ2/units.ruleset:435
+#: data/default/units.ruleset:583 data/experimental/units.ruleset:598
+#: data/multiplayer/units.ruleset:584
 msgid "Musketeers"
 msgstr "Musgadairean"
 
-#: data/civ1/units.ruleset:349
+#: data/civ1/units.ruleset:351
 msgid ""
 "Musketeers are infantry equipped with early firearms and replace Phalanx as "
 "the preferred city defender."
@@ -27573,28 +27587,28 @@ msgstr ""
 "agus tha iad a' dol an àite nam falangas mar am prìomh aonad a chum dìon "
 "baile."
 
-#: data/civ1/units.ruleset:356 data/civ2/units.ruleset:574
-#: data/default/units.ruleset:687 data/experimental/units.ruleset:702
-#: data/multiplayer/units.ruleset:723
+#: data/civ1/units.ruleset:358 data/civ2/units.ruleset:576
+#: data/default/units.ruleset:689 data/experimental/units.ruleset:704
+#: data/multiplayer/units.ruleset:725
 msgid "Riflemen"
 msgstr "Luchd-isnich"
 
-#: data/civ1/units.ruleset:382 data/civ2/units.ruleset:600
-#: data/default/units.ruleset:713 data/experimental/units.ruleset:728
-#: data/multiplayer/units.ruleset:749
+#: data/civ1/units.ruleset:384 data/civ2/units.ruleset:602
+#: data/default/units.ruleset:715 data/experimental/units.ruleset:730
+#: data/multiplayer/units.ruleset:751
 msgid ""
 "Riflemen are World War-era infantry, very good at defending your cities."
 msgstr ""
 "'S e coisridh à àm nan cogaidhean mòra a tha ann an luchd-isnich agus tha "
 "iad glè mhath ann an dìon baile."
 
-#: data/civ1/units.ruleset:388 data/civ2/units.ruleset:672
-#: data/default/units.ruleset:785 data/experimental/units.ruleset:800
-#: data/multiplayer/units.ruleset:821
+#: data/civ1/units.ruleset:390 data/civ2/units.ruleset:674
+#: data/default/units.ruleset:787 data/experimental/units.ruleset:802
+#: data/multiplayer/units.ruleset:823
 msgid "Mech. Inf."
 msgstr "Coisridh mheac."
 
-#: data/civ1/units.ruleset:414
+#: data/civ1/units.ruleset:416
 msgid ""
 "Mechanized Infantry; this unit has the strongest defense strength of any "
 "land unit, but is only available near the end of the technology tree."
@@ -27603,13 +27617,13 @@ msgstr ""
 "dìon as àirde ach chan fhaighear seo ach aig ceann thall craobh na "
 "teicneolasan."
 
-#: data/civ1/units.ruleset:421 data/civ2/units.ruleset:898
-#: data/default/units.ruleset:947 data/experimental/units.ruleset:962
-#: data/multiplayer/units.ruleset:1047
+#: data/civ1/units.ruleset:423 data/civ2/units.ruleset:900
+#: data/default/units.ruleset:949 data/experimental/units.ruleset:964
+#: data/multiplayer/units.ruleset:1049
 msgid "Cavalry"
 msgstr "Eachraidh"
 
-#: data/civ1/units.ruleset:447
+#: data/civ1/units.ruleset:449
 msgid ""
 "Cavalry are mounted warriors and an early shock-troop that can penetrate "
 "deep into enemy territory."
@@ -27617,13 +27631,13 @@ msgstr ""
 "'S e cathaich air muin each a tha san eachraidh, ceatharn luath a thèid a-"
 "steach domhain air àrainn nàimhdeil agus a nochd tràth san eachdraidh."
 
-#: data/civ1/units.ruleset:454 data/civ2/units.ruleset:738
-#: data/default/units.ruleset:851 data/experimental/units.ruleset:866
-#: data/multiplayer/units.ruleset:887
+#: data/civ1/units.ruleset:456 data/civ2/units.ruleset:740
+#: data/default/units.ruleset:853 data/experimental/units.ruleset:868
+#: data/multiplayer/units.ruleset:889
 msgid "Chariot"
 msgstr "Carbad"
 
-#: data/civ1/units.ruleset:480
+#: data/civ1/units.ruleset:482
 msgid ""
 "Chariots are horse-pulled war wagons, stronger but more expensive than "
 "Cavalry."
@@ -27631,28 +27645,28 @@ msgstr ""
 "'S e carbadan cogaidh each-tharraingte a tha ann an carbadan, nas làidire "
 "agus nas daoire na eachdraidh."
 
-#: data/civ1/units.ruleset:486 data/civ2/units.ruleset:834
-#: data/default/units.ruleset:883 data/experimental/units.ruleset:898
-#: data/multiplayer/units.ruleset:983
+#: data/civ1/units.ruleset:488 data/civ2/units.ruleset:836
+#: data/default/units.ruleset:885 data/experimental/units.ruleset:900
+#: data/multiplayer/units.ruleset:985
 msgid "Knights"
 msgstr "Ridirean"
 
-#: data/civ1/units.ruleset:513 data/civ2/units.ruleset:861
-#: data/default/units.ruleset:910 data/experimental/units.ruleset:925
-#: data/multiplayer/units.ruleset:1010
+#: data/civ1/units.ruleset:515 data/civ2/units.ruleset:863
+#: data/default/units.ruleset:912 data/experimental/units.ruleset:927
+#: data/multiplayer/units.ruleset:1012
 msgid "Knights are mounted and heavily armored warriors."
 msgstr ""
 "'S e cathaich air muin each a tha ann an ridir air a bheil caithbheart throm."
 
-#: data/civ1/units.ruleset:518 data/civ2/units.ruleset:929
-#: data/default/units.ruleset:978 data/experimental/units.ruleset:993
-#: data/multiplayer/units.ruleset:1078
+#: data/civ1/units.ruleset:520 data/civ2/units.ruleset:931
+#: data/default/units.ruleset:980 data/experimental/units.ruleset:995
+#: data/multiplayer/units.ruleset:1080
 msgid "Armor"
 msgstr "Caithbheart"
 
-#: data/civ1/units.ruleset:544 data/civ2/units.ruleset:955
-#: data/default/units.ruleset:1004 data/experimental/units.ruleset:1019
-#: data/multiplayer/units.ruleset:1104
+#: data/civ1/units.ruleset:546 data/civ2/units.ruleset:957
+#: data/default/units.ruleset:1006 data/experimental/units.ruleset:1021
+#: data/multiplayer/units.ruleset:1106
 msgid ""
 "Armors are motorized war wagons that are faster, stronger, and can take more "
 "damage than any mounted unit."
@@ -27660,15 +27674,15 @@ msgstr ""
 "'S e carbadan cogaidh motaraichte a tha ann an caithbheart a tha nas luaithe "
 "'s nas làidire agus a sheasas barrachd dochainn na aonad air muin each."
 
-#: data/civ1/units.ruleset:551 data/civ2/units.ruleset:962
-#: data/default/units.ruleset:1011 data/experimental/units.ruleset:1026
-#: data/multiplayer/units.ruleset:1111
+#: data/civ1/units.ruleset:553 data/civ2/units.ruleset:964
+#: data/default/units.ruleset:1013 data/experimental/units.ruleset:1028
+#: data/multiplayer/units.ruleset:1113
 msgid "Catapult"
 msgstr "Crann-tabhaill"
 
-#: data/civ1/units.ruleset:577 data/civ2/units.ruleset:988
-#: data/default/units.ruleset:1037 data/experimental/units.ruleset:1052
-#: data/multiplayer/units.ruleset:1137
+#: data/civ1/units.ruleset:579 data/civ2/units.ruleset:990
+#: data/default/units.ruleset:1039 data/experimental/units.ruleset:1054
+#: data/multiplayer/units.ruleset:1139
 msgid ""
 "Catapults are large rock-throwing machines of war. They are very strong "
 "attackers but equally weak defenders and will need an escort to be effective."
@@ -27677,15 +27691,15 @@ msgstr ""
 "creagan. Tha iad glè làidir a' toirt ionnsaigh ach chan eil ach comas dìon "
 "lag annta agus feumaidh iad coimheadachd mus bi iad èifeachdach."
 
-#: data/civ1/units.ruleset:584 data/civ2/units.ruleset:995
-#: data/default/units.ruleset:1044 data/experimental/units.ruleset:1059
-#: data/multiplayer/units.ruleset:1144
+#: data/civ1/units.ruleset:586 data/civ2/units.ruleset:997
+#: data/default/units.ruleset:1046 data/experimental/units.ruleset:1061
+#: data/multiplayer/units.ruleset:1146
 msgid "Cannon"
 msgstr "Canan"
 
-#: data/civ1/units.ruleset:610 data/civ2/units.ruleset:1021
-#: data/default/units.ruleset:1070 data/experimental/units.ruleset:1085
-#: data/multiplayer/units.ruleset:1170
+#: data/civ1/units.ruleset:612 data/civ2/units.ruleset:1023
+#: data/default/units.ruleset:1072 data/experimental/units.ruleset:1087
+#: data/multiplayer/units.ruleset:1172
 msgid ""
 "Cannons are large firearms that can fire heavy projectiles over long "
 "distances. They are very strong attackers but equally weak defenders and "
@@ -27695,13 +27709,13 @@ msgstr ""
 "air astar fada. Tha iad glè làidir a' toirt ionnsaigh ach chan eil ach comas "
 "dìon lag annta agus feumaidh iad coimheadachd mus bi iad èifeachdach."
 
-#: data/civ1/units.ruleset:618 data/civ2/units.ruleset:1029
-#: data/default/units.ruleset:1078 data/experimental/units.ruleset:1093
-#: data/multiplayer/units.ruleset:1178
+#: data/civ1/units.ruleset:620 data/civ2/units.ruleset:1031
+#: data/default/units.ruleset:1080 data/experimental/units.ruleset:1095
+#: data/multiplayer/units.ruleset:1180
 msgid "Artillery"
 msgstr "Airtilearaidh"
 
-#: data/civ1/units.ruleset:644
+#: data/civ1/units.ruleset:646
 msgid ""
 "The artillery is an upgraded cannon with improved defensive as well as "
 "offensive capabilities."
@@ -27709,15 +27723,15 @@ msgstr ""
 "'S canan leasaichte a tha san airtilearaidh aig a bheil an dà chuid comasan "
 "dìon is ionnsaighe nas fhearr."
 
-#: data/civ1/units.ruleset:650 data/civ2/units.ruleset:1094
-#: data/default/units.ruleset:1143 data/experimental/units.ruleset:1158
-#: data/multiplayer/units.ruleset:1243
+#: data/civ1/units.ruleset:652 data/civ2/units.ruleset:1096
+#: data/default/units.ruleset:1145 data/experimental/units.ruleset:1160
+#: data/multiplayer/units.ruleset:1245
 msgid "Fighter"
 msgstr "Sabaidiche"
 
-#: data/civ1/units.ruleset:677 data/civ2/units.ruleset:1121
-#: data/default/units.ruleset:1170 data/experimental/units.ruleset:1185
-#: data/multiplayer/units.ruleset:1270
+#: data/civ1/units.ruleset:679 data/civ2/units.ruleset:1123
+#: data/default/units.ruleset:1172 data/experimental/units.ruleset:1187
+#: data/multiplayer/units.ruleset:1272
 msgid ""
 "Fighters are your first airborne units. They can move anywhere and attack "
 "any unit."
@@ -27726,15 +27740,15 @@ msgstr ""
 "urrainn dhaibh a dhol àite sam bith agus ionnsaigh a thoirt air aonad sam "
 "bith."
 
-#: data/civ1/units.ruleset:683 data/civ2/units.ruleset:1127
-#: data/default/units.ruleset:1176 data/experimental/units.ruleset:1191
-#: data/multiplayer/units.ruleset:1276
+#: data/civ1/units.ruleset:685 data/civ2/units.ruleset:1129
+#: data/default/units.ruleset:1178 data/experimental/units.ruleset:1193
+#: data/multiplayer/units.ruleset:1278
 msgid "Bomber"
 msgstr "Bomadair"
 
-#: data/civ1/units.ruleset:709 data/civ2/units.ruleset:1153
-#: data/default/units.ruleset:1202 data/experimental/units.ruleset:1217
-#: data/multiplayer/units.ruleset:1302
+#: data/civ1/units.ruleset:711 data/civ2/units.ruleset:1155
+#: data/default/units.ruleset:1204 data/experimental/units.ruleset:1219
+#: data/multiplayer/units.ruleset:1304
 msgid ""
 "Bombers are specialized airborne units that may only attack ground targets, "
 "not other airborne units."
@@ -27744,13 +27758,13 @@ msgstr ""
 "eile."
 
 #. TRANS: unit type
-#: data/civ1/units.ruleset:717 data/civ2/units.ruleset:1262
-#: data/default/units.ruleset:1311 data/experimental/units.ruleset:1326
-#: data/multiplayer/units.ruleset:1410
+#: data/civ1/units.ruleset:719 data/civ2/units.ruleset:1264
+#: data/default/units.ruleset:1313 data/experimental/units.ruleset:1328
+#: data/multiplayer/units.ruleset:1412
 msgid "Trireme"
 msgstr "Trì-ràmhach"
 
-#: data/civ1/units.ruleset:744 data/civ2/units.ruleset:1289
+#: data/civ1/units.ruleset:746 data/civ2/units.ruleset:1291
 msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship and has "
 "rudimentary offensive capabilities, but may not stray too far from the shore."
@@ -27759,26 +27773,26 @@ msgstr ""
 "a ghiùlan agus tha comas beag ionnsaigh ann ach chan urrainn dha seòladh ro "
 "fhad air falbh on chladach."
 
-#: data/civ1/units.ruleset:751
+#: data/civ1/units.ruleset:753
 msgid "Sail"
 msgstr "Bàta-seòlaidh"
 
-#: data/civ1/units.ruleset:778
+#: data/civ1/units.ruleset:780
 msgid ""
 "The Sail replaces the Trireme and is much more reliable on the open seas."
 msgstr ""
 "Tha bàtaichean-seòlaidh a' dol an àite nan trì-ràmhaich agus tha iad fada "
 "nas earbsaiche air a' chuan mhòr."
 
-#: data/civ1/units.ruleset:784 data/civ2/units.ruleset:1363
-#: data/default/units.ruleset:1412 data/experimental/units.ruleset:1427
-#: data/multiplayer/units.ruleset:1511
+#: data/civ1/units.ruleset:786 data/civ2/units.ruleset:1365
+#: data/default/units.ruleset:1414 data/experimental/units.ruleset:1429
+#: data/multiplayer/units.ruleset:1513
 msgid "Frigate"
 msgstr "Frigead"
 
-#: data/civ1/units.ruleset:811 data/civ2/units.ruleset:1390
-#: data/default/units.ruleset:1439 data/experimental/units.ruleset:1454
-#: data/multiplayer/units.ruleset:1538
+#: data/civ1/units.ruleset:813 data/civ2/units.ruleset:1392
+#: data/default/units.ruleset:1441 data/experimental/units.ruleset:1456
+#: data/multiplayer/units.ruleset:1540
 msgid ""
 "The Frigate is a highly versatile boat unit, that is both a strong offensive "
 "unit as well as a decent transport ship."
@@ -27786,15 +27800,15 @@ msgstr ""
 "'S e bàta anabarrach iol-chomasach a tha ann am frigead agus tha comas dìon "
 "làidir ann agus tha e 'na bàta giùlain math."
 
-#: data/civ1/units.ruleset:818 data/civ2/units.ruleset:1397
-#: data/default/units.ruleset:1446 data/experimental/units.ruleset:1461
-#: data/multiplayer/units.ruleset:1545
+#: data/civ1/units.ruleset:820 data/civ2/units.ruleset:1399
+#: data/default/units.ruleset:1448 data/experimental/units.ruleset:1463
+#: data/multiplayer/units.ruleset:1547
 msgid "Ironclad"
 msgstr "Bàta iarann-sligeach"
 
-#: data/civ1/units.ruleset:844 data/civ2/units.ruleset:1423
-#: data/default/units.ruleset:1472 data/experimental/units.ruleset:1487
-#: data/multiplayer/units.ruleset:1571
+#: data/civ1/units.ruleset:846 data/civ2/units.ruleset:1425
+#: data/default/units.ruleset:1474 data/experimental/units.ruleset:1489
+#: data/multiplayer/units.ruleset:1573
 msgid ""
 "The Ironclad is an armored ship that is much more sturdy than the Frigate "
 "but loses the latter's transport capability."
@@ -27803,27 +27817,27 @@ msgstr ""
 "e fada nas bunanta na am frigead ach chan eil comas giùlain ann mar a tha "
 "san fhrigead."
 
-#: data/civ1/units.ruleset:851 data/civ2/units.ruleset:1464
-#: data/default/units.ruleset:1513 data/experimental/units.ruleset:1528
-#: data/multiplayer/units.ruleset:1612
+#: data/civ1/units.ruleset:853 data/civ2/units.ruleset:1466
+#: data/default/units.ruleset:1515 data/experimental/units.ruleset:1530
+#: data/multiplayer/units.ruleset:1614
 msgid "Cruiser"
 msgstr "Crùsair"
 
-#: data/civ1/units.ruleset:877 data/civ2/units.ruleset:1490
-#: data/default/units.ruleset:1539 data/experimental/units.ruleset:1554
-#: data/multiplayer/units.ruleset:1638
+#: data/civ1/units.ruleset:879 data/civ2/units.ruleset:1492
+#: data/default/units.ruleset:1541 data/experimental/units.ruleset:1556
+#: data/multiplayer/units.ruleset:1640
 msgid "The Cruiser is a strong offensive boat unit."
 msgstr "'S e aonad bàta ionnsaigheach làidir a tha ann an crùsair."
 
-#: data/civ1/units.ruleset:882 data/civ2/units.ruleset:1527
-#: data/default/units.ruleset:1576 data/experimental/units.ruleset:1591
-#: data/multiplayer/units.ruleset:1675
+#: data/civ1/units.ruleset:884 data/civ2/units.ruleset:1529
+#: data/default/units.ruleset:1578 data/experimental/units.ruleset:1593
+#: data/multiplayer/units.ruleset:1677
 msgid "Battleship"
 msgstr "Long-chogaidh"
 
-#: data/civ1/units.ruleset:908 data/civ2/units.ruleset:1553
-#: data/default/units.ruleset:1602 data/experimental/units.ruleset:1617
-#: data/multiplayer/units.ruleset:1701
+#: data/civ1/units.ruleset:910 data/civ2/units.ruleset:1555
+#: data/default/units.ruleset:1604 data/experimental/units.ruleset:1619
+#: data/multiplayer/units.ruleset:1703
 msgid ""
 "The Battleship is the supreme naval unit with excellent offensive and "
 "defensive values."
@@ -27831,15 +27845,15 @@ msgstr ""
 "'S e an long-chogaidh an t-aonad bàta as fhearr, le comasan ionnsaigheach is "
 "dìon fìor mhath."
 
-#: data/civ1/units.ruleset:914 data/civ2/units.ruleset:1559
-#: data/default/units.ruleset:1608 data/experimental/units.ruleset:1623
-#: data/multiplayer/units.ruleset:1707
+#: data/civ1/units.ruleset:916 data/civ2/units.ruleset:1561
+#: data/default/units.ruleset:1610 data/experimental/units.ruleset:1625
+#: data/multiplayer/units.ruleset:1709
 msgid "Submarine"
 msgstr "Bàta-tumaidh"
 
-#: data/civ1/units.ruleset:940 data/civ2/units.ruleset:1587
-#: data/default/units.ruleset:1636 data/experimental/units.ruleset:1651
-#: data/multiplayer/units.ruleset:1735
+#: data/civ1/units.ruleset:942 data/civ2/units.ruleset:1589
+#: data/default/units.ruleset:1638 data/experimental/units.ruleset:1653
+#: data/multiplayer/units.ruleset:1737
 msgid ""
 "Traveling under the surface of the ocean, Submarines have a very high "
 "strategic value, but a weak defense if caught off guard."
@@ -27848,21 +27862,21 @@ msgstr ""
 "innleachdail glè mhòr ann ach tha comas dìon car lag annta ma bheirear an "
 "sgiath-chùil dhiubh."
 
-#: data/civ1/units.ruleset:947 data/civ2/units.ruleset:1594
-#: data/default/units.ruleset:1643 data/experimental/units.ruleset:1658
-#: data/multiplayer/units.ruleset:1742
+#: data/civ1/units.ruleset:949 data/civ2/units.ruleset:1596
+#: data/default/units.ruleset:1645 data/experimental/units.ruleset:1660
+#: data/multiplayer/units.ruleset:1744
 msgid "Carrier"
 msgstr "Soitheach-giùlain"
-
-#: data/civ1/units.ruleset:974 data/civ2/units.ruleset:1621
-#: data/default/units.ruleset:1670 data/experimental/units.ruleset:1685
-#: data/multiplayer/units.ruleset:1769
-msgid "The Carrier is a mobile airport."
-msgstr "'S e port-adhair siùbhlach a tha ann an soitheach-giùlain."
 
 #: data/civ1/units.ruleset:976 data/civ2/units.ruleset:1623
 #: data/default/units.ruleset:1672 data/experimental/units.ruleset:1687
 #: data/multiplayer/units.ruleset:1771
+msgid "The Carrier is a mobile airport."
+msgstr "'S e port-adhair siùbhlach a tha ann an soitheach-giùlain."
+
+#: data/civ1/units.ruleset:978 data/civ2/units.ruleset:1625
+#: data/default/units.ruleset:1674 data/experimental/units.ruleset:1689
+#: data/multiplayer/units.ruleset:1773
 msgid ""
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
 "as losing a fully-equipped Carrier is VERY painful and expensive."
@@ -27870,15 +27884,15 @@ msgstr ""
 "GLIOCAS: Glèidh na soithichean-giùlain agad gu cùramach le luingean luatha "
 "agus long-chogaidh oir tha e GLÈ chosgail soitheach-giùlain làn a chall."
 
-#: data/civ1/units.ruleset:983 data/civ2/units.ruleset:1630
-#: data/default/units.ruleset:1679 data/experimental/units.ruleset:1694
-#: data/multiplayer/units.ruleset:1778
+#: data/civ1/units.ruleset:985 data/civ2/units.ruleset:1632
+#: data/default/units.ruleset:1681 data/experimental/units.ruleset:1696
+#: data/multiplayer/units.ruleset:1780
 msgid "Transport"
 msgstr "Giùlanair"
 
-#: data/civ1/units.ruleset:1010 data/civ2/units.ruleset:1657
-#: data/default/units.ruleset:1706 data/experimental/units.ruleset:1721
-#: data/multiplayer/units.ruleset:1805
+#: data/civ1/units.ruleset:1012 data/civ2/units.ruleset:1659
+#: data/default/units.ruleset:1708 data/experimental/units.ruleset:1723
+#: data/multiplayer/units.ruleset:1807
 msgid ""
 "The Transport cannot attack on its own but may defend itself when under "
 "attack."
@@ -27886,15 +27900,15 @@ msgstr ""
 "Chan urrainn dhan ghiùlanair ionnsaigh a thoirt e fhèin ach 's urrainn dha e "
 "fhèin a dhìon nuair a bheirear ionnsaigh air."
 
-#: data/civ1/units.ruleset:1016 data/civ2/units.ruleset:1698
-#: data/default/units.ruleset:1747 data/experimental/units.ruleset:1762
-#: data/multiplayer/units.ruleset:1846
+#: data/civ1/units.ruleset:1018 data/civ2/units.ruleset:1700
+#: data/default/units.ruleset:1749 data/experimental/units.ruleset:1764
+#: data/multiplayer/units.ruleset:1848
 msgid "Nuclear"
 msgstr "Aonad niùclasach"
 
-#: data/civ1/units.ruleset:1042 data/civ2/units.ruleset:1724
-#: data/default/units.ruleset:1773 data/experimental/units.ruleset:1788
-#: data/multiplayer/units.ruleset:1872
+#: data/civ1/units.ruleset:1044 data/civ2/units.ruleset:1726
+#: data/default/units.ruleset:1775 data/experimental/units.ruleset:1790
+#: data/multiplayer/units.ruleset:1874
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player."
@@ -27903,9 +27917,9 @@ msgstr ""
 "iomchaidh agad agus nuair a bhios Pròiseact Manhatten air a thogail aig "
 "cluicheadair air choireigin."
 
-#: data/civ1/units.ruleset:1045 data/civ2/units.ruleset:1727
-#: data/default/units.ruleset:1776 data/experimental/units.ruleset:1791
-#: data/multiplayer/units.ruleset:1875
+#: data/civ1/units.ruleset:1047 data/civ2/units.ruleset:1729
+#: data/default/units.ruleset:1778 data/experimental/units.ruleset:1793
+#: data/multiplayer/units.ruleset:1877
 msgid ""
 "On impact, the blast will destroy any unit in an area 3 tiles wide (3x3 "
 "squares for rectangular grids), including friendly units. Any city within "
@@ -27918,7 +27932,7 @@ msgstr ""
 "an spreadhaidh an dàrna leth dhe shluaigh agus tha leacagan talamhainn am "
 "broinn raon an spreadhaidh buailteach do shileadh niùclasach."
 
-#: data/civ1/units.ruleset:1050
+#: data/civ1/units.ruleset:1052
 msgid ""
 "Similar to pollution and global warming, the risk of global nuclear winter "
 "increases with fallout. If nuclear winter occurs, terrain across the globe "
@@ -27929,9 +27943,9 @@ msgstr ""
 "niùclasach, tionndaidhidh talamh air feadh na cruinne 'na fhàsaichean, "
 "tundra agus deigh. 'S urrainn do thuinichean sileadh niùclasach a ghlanadh."
 
-#: data/civ1/units.ruleset:1055 data/civ2/units.ruleset:1737
-#: data/default/units.ruleset:1786 data/experimental/units.ruleset:1801
-#: data/multiplayer/units.ruleset:1885
+#: data/civ1/units.ruleset:1057 data/civ2/units.ruleset:1739
+#: data/default/units.ruleset:1788 data/experimental/units.ruleset:1803
+#: data/multiplayer/units.ruleset:1887
 msgid ""
 "TIP 1:  Nuking the ocean will not generate fallout, and is a most effective "
 "(but expensive!!) way of getting rid of enemy ships."
@@ -27940,7 +27954,7 @@ msgstr ""
 "niùclasach agus 's e dòigh èifeachdach (ach daor) gus faighinn cuidhteas de "
 "shoithichean nàimhdeil."
 
-#: data/civ1/units.ruleset:1059
+#: data/civ1/units.ruleset:1061
 msgid ""
 "TIP 2:  You may be involved in a situation where you've invaded an enemy "
 "country en masse, but the enemy cities are too strong. Before using a "
@@ -27955,15 +27969,15 @@ msgstr ""
 "nochdas e! Lùghdaichidh seo cunnart de gheamhradh niùclasach. Ionnsaigh "
 "niùclasach èiceolach! "
 
-#: data/civ1/units.ruleset:1069 data/civ2/units.ruleset:1751
-#: data/default/units.ruleset:1800 data/experimental/units.ruleset:1815
-#: data/multiplayer/units.ruleset:1899
+#: data/civ1/units.ruleset:1071 data/civ2/units.ruleset:1753
+#: data/default/units.ruleset:1802 data/experimental/units.ruleset:1817
+#: data/multiplayer/units.ruleset:1901
 msgid "Diplomat"
 msgstr "Dioplomat"
 
-#: data/civ1/units.ruleset:1095 data/civ2/units.ruleset:1777
-#: data/default/units.ruleset:1826 data/experimental/units.ruleset:1841
-#: data/multiplayer/units.ruleset:1925
+#: data/civ1/units.ruleset:1097 data/civ2/units.ruleset:1779
+#: data/default/units.ruleset:1828 data/experimental/units.ruleset:1843
+#: data/multiplayer/units.ruleset:1927
 msgid ""
 "A Diplomat is an official that carries your dispatches and is authorized to "
 "deal with foreign dignitaries. He may also undertake various covert "
@@ -27976,9 +27990,9 @@ msgstr ""
 "do nàimhdean; dìonaidh dìoplomatan 'nad bhailtean fhèin an aghaidh gnìomhan "
 "mar seo."
 
-#: data/civ1/units.ruleset:1101 data/civ2/units.ruleset:1783
-#: data/default/units.ruleset:1832 data/experimental/units.ruleset:1847
-#: data/multiplayer/units.ruleset:1931
+#: data/civ1/units.ruleset:1103 data/civ2/units.ruleset:1785
+#: data/default/units.ruleset:1834 data/experimental/units.ruleset:1849
+#: data/multiplayer/units.ruleset:1933
 msgid ""
 "Many covert actions may be attempted even in peacetime, but the more "
 "aggressive actions will be discovered and cause diplomatic incidents, which "
@@ -27989,9 +28003,9 @@ msgstr ""
 "connspaid dhìoplomasach agus bheir seo cothrom do phoblachdan is "
 "deamocrasaidhean cùmhnantan a bhriseadh."
 
-#: data/civ1/units.ruleset:1105 data/civ2/units.ruleset:1787
-#: data/default/units.ruleset:1836 data/experimental/units.ruleset:1851
-#: data/multiplayer/units.ruleset:1935
+#: data/civ1/units.ruleset:1107 data/civ2/units.ruleset:1789
+#: data/default/units.ruleset:1838 data/experimental/units.ruleset:1853
+#: data/multiplayer/units.ruleset:1937
 msgid ""
 "If a foreign unit is alone on a tile, you may attempt to bribe it with your "
 "Diplomat. By paying a sum of gold the unit will immediately become yours; "
@@ -28006,9 +28020,9 @@ msgstr ""
 "tha aig riaghaltas deamocrasach a bhrìbeadh ge-tà. Ma bhrìbeas tu aonad rè "
 "àm sìthe, adhbharaichidh tu connspaid dhìoplomasach."
 
-#: data/civ1/units.ruleset:1112 data/civ2/units.ruleset:1794
-#: data/default/units.ruleset:1843 data/experimental/units.ruleset:1858
-#: data/multiplayer/units.ruleset:1942
+#: data/civ1/units.ruleset:1114 data/civ2/units.ruleset:1796
+#: data/default/units.ruleset:1845 data/experimental/units.ruleset:1860
+#: data/multiplayer/units.ruleset:1944
 msgid ""
 "Diplomats can also perform a number of actions in another player's city, "
 "although each Diplomat may attempt only one action. Most of these actions "
@@ -28025,15 +28039,15 @@ msgstr ""
 "tha a' cur ceann dhut. Ma bhàsaicheas an t-aonad a tha a' dìon, caillidh "
 "thusa aon phuing gluasaid agus 's urrainn dhut feuchainn ris a-rithist."
 
-#: data/civ1/units.ruleset:1119 data/civ2/units.ruleset:1801
-#: data/default/units.ruleset:1850 data/experimental/units.ruleset:1865
-#: data/multiplayer/units.ruleset:1949
-msgid "The actions available to Diplomats in a city are:"
-msgstr "Seo dhut na gnìomhan as urrainn do dhìoplomat a dhèanamh:"
-
 #: data/civ1/units.ruleset:1121 data/civ2/units.ruleset:1803
 #: data/default/units.ruleset:1852 data/experimental/units.ruleset:1867
 #: data/multiplayer/units.ruleset:1951
+msgid "The actions available to Diplomats in a city are:"
+msgstr "Seo dhut na gnìomhan as urrainn do dhìoplomat a dhèanamh:"
+
+#: data/civ1/units.ruleset:1123 data/civ2/units.ruleset:1805
+#: data/default/units.ruleset:1854 data/experimental/units.ruleset:1869
+#: data/multiplayer/units.ruleset:1953
 msgid ""
 " - \"Establish Embassy\": This action always succeeds, and gives permanent "
 "contact with the city's owner, as well as intelligence on their tax rates "
@@ -28043,9 +28057,9 @@ msgstr ""
 "e dhut conaltradh seasmhach leis an t-sìobhaltas aig a bheil am baile agus "
 "fàisneis air an cuid chìsean is teicneolais."
 
-#: data/civ1/units.ruleset:1125 data/civ2/units.ruleset:1807
-#: data/default/units.ruleset:1856 data/experimental/units.ruleset:1871
-#: data/multiplayer/units.ruleset:1955
+#: data/civ1/units.ruleset:1127 data/civ2/units.ruleset:1809
+#: data/default/units.ruleset:1858 data/experimental/units.ruleset:1873
+#: data/multiplayer/units.ruleset:1957
 msgid ""
 " - \"Investigate City\": Your unit attempts to report detailed information "
 "about the city: its status, what buildings and units are within, and what it "
@@ -28055,9 +28069,9 @@ msgstr ""
 "mionaideach air a' bhaile a lorg: staid a' bhaile, na togalaichean 's "
 "aonadan 'na bhroinn agus na tha e a' togail an-dràsta fhèin."
 
-#: data/civ1/units.ruleset:1129 data/civ2/units.ruleset:1811
-#: data/default/units.ruleset:1860 data/experimental/units.ruleset:1875
-#: data/multiplayer/units.ruleset:1959
+#: data/civ1/units.ruleset:1131 data/civ2/units.ruleset:1813
+#: data/default/units.ruleset:1862 data/experimental/units.ruleset:1877
+#: data/multiplayer/units.ruleset:1961
 msgid ""
 " - \"Sabotage City\": Your unit attempts either to disrupt all the city's "
 "work so far towards its current project, or to destroy an existing building "
@@ -28074,9 +28088,9 @@ msgstr ""
 "bhaile. Chan urrainn dhut sabotais a dhèanamh ach nuair a bhios tu a' cogadh "
 "ris a' chluicheadair ud."
 
-#: data/civ1/units.ruleset:1136 data/civ2/units.ruleset:1818
-#: data/default/units.ruleset:1867 data/experimental/units.ruleset:1882
-#: data/multiplayer/units.ruleset:1966
+#: data/civ1/units.ruleset:1138 data/civ2/units.ruleset:1820
+#: data/default/units.ruleset:1869 data/experimental/units.ruleset:1884
+#: data/multiplayer/units.ruleset:1968
 msgid ""
 " - \"Steal Technology\": Your unit attempts to learn the secrets of a random "
 "technology known to the city's owner but not to you. Technology may only be "
@@ -28089,9 +28103,9 @@ msgstr ""
 "'S urrainn dhut seo fheuchainn fiù mur eil thu a' cogadh ris a' "
 "chluicheadair ach adhbharaichidh tu connspaid dhìoplomasach."
 
-#: data/civ1/units.ruleset:1142 data/civ2/units.ruleset:1824
-#: data/default/units.ruleset:1873 data/experimental/units.ruleset:1888
-#: data/multiplayer/units.ruleset:1972
+#: data/civ1/units.ruleset:1144 data/civ2/units.ruleset:1826
+#: data/default/units.ruleset:1875 data/experimental/units.ruleset:1890
+#: data/multiplayer/units.ruleset:1974
 msgid ""
 " - \"Incite a Revolt\": In return for gold a foreign city will change "
 "allegiance and join your empire, bringing along all nearby units that call "
@@ -28113,9 +28127,9 @@ msgstr ""
 "ri aramach a bhrosnachadh fiù nuair a bhios sìth ann ach adhbharaichidh tu "
 "connspaid dhìoplomasach."
 
-#: data/civ1/units.ruleset:1152 data/civ2/units.ruleset:1834
-#: data/default/units.ruleset:1883 data/experimental/units.ruleset:1898
-#: data/multiplayer/units.ruleset:1982
+#: data/civ1/units.ruleset:1154 data/civ2/units.ruleset:1836
+#: data/default/units.ruleset:1885 data/experimental/units.ruleset:1900
+#: data/multiplayer/units.ruleset:1984
 msgid ""
 "In some game strategies, hordes of Diplomats can be used to wreak havoc on "
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
@@ -28125,14 +28139,14 @@ msgstr ""
 "gus nàmhaid a chur ann an mì-rian mòr. Chan iongnadh gu bheil mì-earbsa is "
 "eagal air daoine ro dhìoplomatan!"
 
-#: data/civ1/units.ruleset:1159 data/civ2/units.ruleset:1894
-#: data/default/units.ruleset:1943 data/experimental/units.ruleset:1958
-#: data/multiplayer/units.ruleset:2042
+#: data/civ1/units.ruleset:1161 data/civ2/units.ruleset:1898
+#: data/default/units.ruleset:1951 data/experimental/units.ruleset:1966
+#: data/multiplayer/units.ruleset:2050
 msgid "Caravan"
 msgstr "Carbhan"
 
-#: data/civ1/units.ruleset:1185 data/civ2/units.ruleset:1920
-#: data/default/units.ruleset:1969 data/experimental/units.ruleset:1984
+#: data/civ1/units.ruleset:1187 data/civ2/units.ruleset:1924
+#: data/default/units.ruleset:1977 data/experimental/units.ruleset:1992
 msgid ""
 "A Caravan carries goods or material for trading with distant cities and "
 "foreign countries, or to help build wonders in your cities."
@@ -28141,8 +28155,8 @@ msgstr ""
 "dùthchannan fad air falbh no 's urrainn dha taic a chur ri togail de "
 "mhìorbhail 'nad bhailtean."
 
-#: data/civ1/units.ruleset:1188 data/civ2/units.ruleset:1923
-#: data/default/units.ruleset:1972 data/experimental/units.ruleset:1987
+#: data/civ1/units.ruleset:1190 data/civ2/units.ruleset:1927
+#: data/default/units.ruleset:1980 data/experimental/units.ruleset:1995
 msgid ""
 "Every Caravan that is used to build a wonder will add 50 shields towards the "
 "production of the wonder."
@@ -28150,9 +28164,9 @@ msgstr ""
 "Cuiridh gach carabhan a chuireas taic ri togail de mhìorbhail 50 sgiath ri "
 "cinneasachadh na mìorbhaile."
 
-#: data/civ1/units.ruleset:1191 data/civ2/units.ruleset:1926
-#: data/default/units.ruleset:1975 data/experimental/units.ruleset:1990
-#: data/multiplayer/units.ruleset:2074
+#: data/civ1/units.ruleset:1193 data/civ2/units.ruleset:1930
+#: data/default/units.ruleset:1983 data/experimental/units.ruleset:1998
+#: data/multiplayer/units.ruleset:2082
 msgid ""
 "TIP:  You can stockpile a stack of Caravans in advance and bring them all "
 "into a city where you have started to build a wonder, and finish it in only "
@@ -28162,15 +28176,15 @@ msgstr ""
 "làimh agus an cuir a dh'ionnsaigh baile far an do thòisich thu air mìorbhail "
 "a thogail gus crìoch a chur air ann an cuairt!"
 
-#: data/civ1/units.ruleset:1198 data/civ2/units.ruleset:1996
-#: data/default/units.ruleset:2078 data/experimental/units.ruleset:2093
-#: data/multiplayer/units.ruleset:2178
+#: data/civ1/units.ruleset:1200 data/civ2/units.ruleset:2000
+#: data/default/units.ruleset:2086 data/experimental/units.ruleset:2101
+#: data/multiplayer/units.ruleset:2186
 msgid "Barbarian Leader"
 msgstr "Ceannard borbach"
 
-#: data/civ1/units.ruleset:1224 data/civ2/units.ruleset:2022
-#: data/default/units.ruleset:2105 data/experimental/units.ruleset:2120
-#: data/multiplayer/units.ruleset:2205
+#: data/civ1/units.ruleset:1226 data/civ2/units.ruleset:2026
+#: data/default/units.ruleset:2113 data/experimental/units.ruleset:2128
+#: data/multiplayer/units.ruleset:2213
 msgid ""
 "One Barbarian Leader appears every time there is a barbarian uprising "
 "somewhere in the world."
@@ -28178,7 +28192,7 @@ msgstr ""
 "Nochdaidh ceannard borbach gach turas a bhios aramach borbach ann am "
 "badeigin san t-saoghal."
 
-#: data/civ1/units.ruleset:1227
+#: data/civ1/units.ruleset:1229
 msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units."
@@ -29136,7 +29150,7 @@ msgstr ""
 msgid "?unitclass:Helicopter"
 msgstr "?unitclass:Heileacoptair"
 
-#: data/civ2/units.ruleset:224
+#: data/civ2/units.ruleset:226
 msgid ""
 "Upkeep for Settlers is in food as well as production, and a Settler can die "
 "if its supporting city runs out of food. Settlers in a Republic or Democracy "
@@ -29149,12 +29163,12 @@ msgstr ""
 "bhiadh gach cuairt agus trì turais ann an sòisealtasan co-mhaoineach is bun-"
 "chreidmheach."
 
-#: data/civ2/units.ruleset:232 data/default/units.ruleset:380
-#: data/experimental/units.ruleset:395 data/multiplayer/units.ruleset:381
+#: data/civ2/units.ruleset:234 data/default/units.ruleset:382
+#: data/experimental/units.ruleset:397 data/multiplayer/units.ruleset:383
 msgid "Engineers"
 msgstr "Einnseanairean"
 
-#: data/civ2/units.ruleset:258
+#: data/civ2/units.ruleset:260
 msgid ""
 "Engineers are similar to Settlers, but they work twice as fast and move "
 "twice as fast.  Engineers may also perform major terrain transformations "
@@ -29168,7 +29182,7 @@ msgstr ""
 "nach urrainn do thuiniche sam bith a dhèanamh; faic an earrann air "
 "'Atharrachadh na talamhainn' airson barrachd fiosrachaidh."
 
-#: data/civ2/units.ruleset:264
+#: data/civ2/units.ruleset:266
 msgid ""
 "TIP 1:  Upgrade Settlers to Engineers when possible, as Engineers require "
 "the same resources as ordinary Settlers."
@@ -29177,7 +29191,7 @@ msgstr ""
 "a dhèanamh, feumaidh einnseanairean an dearbh bheòshlaint 's a dh'fheumas "
 "tuinichean àbhaisteach."
 
-#: data/civ2/units.ruleset:267
+#: data/civ2/units.ruleset:269
 msgid ""
 "TIP 2:  If you manage to build Leonardo's Workshop, research Explosives "
 "before the Workshop becomes obsolete.  This way, your Settler units will be "
@@ -29187,18 +29201,18 @@ msgstr ""
 "stuthan-spreadhaidh mus dèid Bùth-obrach Leonardo o fheum.  Ma nì thu seo, "
 "thèid na tuinichean agad àrdachadh saor an-asgaidh."
 
-#: data/civ2/units.ruleset:274 data/default/units.ruleset:422
-#: data/experimental/units.ruleset:437 data/multiplayer/units.ruleset:423
+#: data/civ2/units.ruleset:276 data/default/units.ruleset:424
+#: data/experimental/units.ruleset:439 data/multiplayer/units.ruleset:425
 msgid "Warriors"
 msgstr "Cathaich"
 
-#: data/civ2/units.ruleset:337 data/default/units.ruleset:485
-#: data/experimental/units.ruleset:500 data/multiplayer/units.ruleset:486
+#: data/civ2/units.ruleset:339 data/default/units.ruleset:487
+#: data/experimental/units.ruleset:502 data/multiplayer/units.ruleset:488
 msgid "Archers"
 msgstr "Boghadairean"
 
-#: data/civ2/units.ruleset:363 data/default/units.ruleset:511
-#: data/experimental/units.ruleset:526 data/multiplayer/units.ruleset:512
+#: data/civ2/units.ruleset:365 data/default/units.ruleset:513
+#: data/experimental/units.ruleset:528 data/multiplayer/units.ruleset:514
 msgid ""
 "Archers fight with bows and arrows and have a good offensive value as well "
 "as decent defense."
@@ -29206,13 +29220,13 @@ msgstr ""
 "Nì boghadairean sabaid le boghan is saighdean agus tha iad math a' toirt "
 "ionnsaigh agus a' dìon."
 
-#: data/civ2/units.ruleset:401 data/default/units.ruleset:549
-#: data/experimental/units.ruleset:564 data/multiplayer/units.ruleset:550
+#: data/civ2/units.ruleset:403 data/default/units.ruleset:551
+#: data/experimental/units.ruleset:566 data/multiplayer/units.ruleset:552
 msgid "Pikemen"
 msgstr "Pìcearan"
 
-#: data/civ2/units.ruleset:427 data/default/units.ruleset:575
-#: data/experimental/units.ruleset:590 data/multiplayer/units.ruleset:576
+#: data/civ2/units.ruleset:429 data/default/units.ruleset:577
+#: data/experimental/units.ruleset:592 data/multiplayer/units.ruleset:578
 msgid ""
 "Equipped with long pikes, Pikemen replaces Phalanx as the preferred city "
 "defender."
@@ -29220,8 +29234,8 @@ msgstr ""
 "Tha pìcean fada aig pìcearan agus tha iad a' dol an àite nam falangasan mar "
 "phrìomh dhìonadair nam bailtean."
 
-#: data/civ2/units.ruleset:460 data/default/units.ruleset:608
-#: data/experimental/units.ruleset:623 data/multiplayer/units.ruleset:609
+#: data/civ2/units.ruleset:462 data/default/units.ruleset:610
+#: data/experimental/units.ruleset:625 data/multiplayer/units.ruleset:611
 msgid ""
 "Musketeers are infantry equipped with early firearms and replace Pikemen as "
 "the preferred city defender."
@@ -29230,15 +29244,15 @@ msgstr ""
 "agus tha iad a' dol an àite nam pìcearan mar am prìomh aonad a chum dìon "
 "baile."
 
-#: data/civ2/units.ruleset:467 data/multiplayer/units.ruleset:616
+#: data/civ2/units.ruleset:469 data/multiplayer/units.ruleset:618
 msgid "Fanatics"
 msgstr "Fanataich"
 
-#: data/civ2/units.ruleset:494 data/multiplayer/units.ruleset:643
+#: data/civ2/units.ruleset:496 data/multiplayer/units.ruleset:645
 msgid "Fanatics are warriors extremely devoted to a higher cause."
 msgstr "'S e cathaich a tha ann am fanataich a tha ro dhìleas do àrd-chùis."
 
-#: data/civ2/units.ruleset:496 data/multiplayer/units.ruleset:645
+#: data/civ2/units.ruleset:498 data/multiplayer/units.ruleset:647
 msgid ""
 "Fundamentalist nations can maintain Fanatic units without having to pay any "
 "shields for upkeep."
@@ -29246,13 +29260,13 @@ msgstr ""
 "Cumaidh nàiseanan bun-chreidmheach aonadan fanatach agus cha bhi aca "
 "sgiathan beòshlaint a phàigheadh air an son."
 
-#: data/civ2/units.ruleset:502 data/default/units.ruleset:615
-#: data/experimental/units.ruleset:630 data/multiplayer/units.ruleset:651
+#: data/civ2/units.ruleset:504 data/default/units.ruleset:617
+#: data/experimental/units.ruleset:632 data/multiplayer/units.ruleset:653
 msgid "Partisan"
 msgstr "Partasan"
 
-#: data/civ2/units.ruleset:528 data/default/units.ruleset:641
-#: data/experimental/units.ruleset:656 data/multiplayer/units.ruleset:677
+#: data/civ2/units.ruleset:530 data/default/units.ruleset:643
+#: data/experimental/units.ruleset:658 data/multiplayer/units.ruleset:679
 msgid ""
 "Partisans are guerilla fighters who are experts at using the terrain to "
 "their advantage."
@@ -29260,8 +29274,8 @@ msgstr ""
 "'S e sabaidichean guerilla a tha ann am partasain a tha fìor eòlach air "
 "cruth na tìre 's a chleachdas an t-èolas seo ann an sabaid."
 
-#: data/civ2/units.ruleset:531 data/default/units.ruleset:644
-#: data/experimental/units.ruleset:659 data/multiplayer/units.ruleset:680
+#: data/civ2/units.ruleset:533 data/default/units.ruleset:646
+#: data/experimental/units.ruleset:661 data/multiplayer/units.ruleset:682
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city -- "
 "they automatically assume defensive positions in the surrounding countryside "
@@ -29280,42 +29294,42 @@ msgstr ""
 " - Feumaidh eòlas a bhith agad air co-mhaoineas agus fùdar-gunna.\n"
 " - Feumaidh riaghaltas deamocratach no co-mhaoineach a bhith agad."
 
-#: data/civ2/units.ruleset:542 data/default/units.ruleset:655
-#: data/experimental/units.ruleset:670 data/multiplayer/units.ruleset:691
+#: data/civ2/units.ruleset:544 data/default/units.ruleset:657
+#: data/experimental/units.ruleset:672 data/multiplayer/units.ruleset:693
 msgid "Alpine Troops"
 msgstr "Feachdan ailpeach"
 
-#: data/civ2/units.ruleset:568 data/default/units.ruleset:681
-#: data/experimental/units.ruleset:696 data/multiplayer/units.ruleset:717
+#: data/civ2/units.ruleset:570 data/default/units.ruleset:683
+#: data/experimental/units.ruleset:698 data/multiplayer/units.ruleset:719
 msgid "Alpine Troops are highly mobile units as well as excellent defenders."
 msgstr ""
 "Tha feachdan ailpeach fìor mhath air gluasad mun cuairt agus tha iad "
 "anabarrach math air an dìon."
 
-#: data/civ2/units.ruleset:606 data/default/units.ruleset:719
-#: data/experimental/units.ruleset:734 data/multiplayer/units.ruleset:755
+#: data/civ2/units.ruleset:608 data/default/units.ruleset:721
+#: data/experimental/units.ruleset:736 data/multiplayer/units.ruleset:757
 msgid "Marines"
 msgstr "Saighdearean-mara"
 
-#: data/civ2/units.ruleset:632 data/default/units.ruleset:745
-#: data/experimental/units.ruleset:760 data/multiplayer/units.ruleset:781
+#: data/civ2/units.ruleset:634 data/default/units.ruleset:747
+#: data/experimental/units.ruleset:762 data/multiplayer/units.ruleset:783
 msgid "Marines are infantry who are experts at marine warfare."
 msgstr ""
 "'S e coisridh a tha sàr-eòlach air cogadh na mara a tha anns na saighdearan-"
 "mara."
 
-#: data/civ2/units.ruleset:637 data/default/units.ruleset:750
-#: data/experimental/units.ruleset:765 data/multiplayer/units.ruleset:786
+#: data/civ2/units.ruleset:639 data/default/units.ruleset:752
+#: data/experimental/units.ruleset:767 data/multiplayer/units.ruleset:788
 msgid "Paratroopers"
 msgstr "Para-trùpairean"
 
-#: data/civ2/units.ruleset:663 data/default/units.ruleset:776
-#: data/experimental/units.ruleset:791 data/multiplayer/units.ruleset:812
+#: data/civ2/units.ruleset:665 data/default/units.ruleset:778
+#: data/experimental/units.ruleset:793 data/multiplayer/units.ruleset:814
 msgid "Paratroopers are experts at airborne attacks."
 msgstr "Tha para-trùpairean sàr-eòlach air ionnsaighean adhair."
 
-#: data/civ2/units.ruleset:698 data/default/units.ruleset:811
-#: data/experimental/units.ruleset:826 data/multiplayer/units.ruleset:847
+#: data/civ2/units.ruleset:700 data/default/units.ruleset:813
+#: data/experimental/units.ruleset:828 data/multiplayer/units.ruleset:849
 msgid ""
 "The Mechanized Infantry has the strongest defensive strength of any land "
 "unit, but is only available near the end of the technology tree."
@@ -29323,13 +29337,13 @@ msgstr ""
 "'S a' choisridh mheacanaichte an t-aonad talamhainn aig a bheil neart dìon "
 "as àirde ach chan fhaighear seo ach aig ceann thall craobh na teicneolasan."
 
-#: data/civ2/units.ruleset:705 data/default/units.ruleset:818
-#: data/experimental/units.ruleset:833 data/multiplayer/units.ruleset:854
+#: data/civ2/units.ruleset:707 data/default/units.ruleset:820
+#: data/experimental/units.ruleset:835 data/multiplayer/units.ruleset:856
 msgid "Horsemen"
 msgstr "Marcshluagh"
 
-#: data/civ2/units.ruleset:731 data/default/units.ruleset:844
-#: data/experimental/units.ruleset:859 data/multiplayer/units.ruleset:880
+#: data/civ2/units.ruleset:733 data/default/units.ruleset:846
+#: data/experimental/units.ruleset:861 data/multiplayer/units.ruleset:882
 msgid ""
 "Horsemen are mounted warriors and an early shock-troop that can penetrate "
 "deep into enemy territory."
@@ -29337,8 +29351,8 @@ msgstr ""
 "'S e cathaich air muin each a tha san mharcshluagh, ceatharn luath a thèid a-"
 "steach domhain air àrainn nàimhdeil agus a nochd tràth san eachdraidh."
 
-#: data/civ2/units.ruleset:764 data/default/units.ruleset:877
-#: data/experimental/units.ruleset:892 data/multiplayer/units.ruleset:913
+#: data/civ2/units.ruleset:766 data/default/units.ruleset:879
+#: data/experimental/units.ruleset:894 data/multiplayer/units.ruleset:915
 msgid ""
 "Chariots are horse-pulled war wagons, stronger but more expensive than "
 "horsemen."
@@ -29346,11 +29360,11 @@ msgstr ""
 "'S e carbadan cogaidh each-tharraingte a tha ann an carbadan, nas làidire "
 "agus nas daoire na marcshluagh."
 
-#: data/civ2/units.ruleset:770 data/multiplayer/units.ruleset:919
+#: data/civ2/units.ruleset:772 data/multiplayer/units.ruleset:921
 msgid "Elephants"
 msgstr "Ailbhein"
 
-#: data/civ2/units.ruleset:796 data/multiplayer/units.ruleset:945
+#: data/civ2/units.ruleset:798 data/multiplayer/units.ruleset:947
 msgid ""
 "Elephants are towering animals trained for war that are often used as "
 "powerful shock troops, but defend poorly against most other units."
@@ -29359,38 +29373,38 @@ msgstr ""
 "agus thathar 'gan cleachdadh gus eagal a chur air nàmhaid ach chan eil iad "
 "ro mhath 'gan dìon fhèin."
 
-#: data/civ2/units.ruleset:802 data/multiplayer/units.ruleset:951
+#: data/civ2/units.ruleset:804 data/multiplayer/units.ruleset:953
 msgid "Crusaders"
 msgstr "Ridirean-croise"
 
-#: data/civ2/units.ruleset:828 data/multiplayer/units.ruleset:977
+#: data/civ2/units.ruleset:830 data/multiplayer/units.ruleset:979
 msgid ""
 "Crusaders are highly disciplined mounted warriors driven by a higher cause."
 msgstr ""
 "Tha ridirean-croise 'nan cathaich dheagh smachdaichte air muin each agus aig "
 "a bheil àrd-chùis."
 
-#: data/civ2/units.ruleset:866 data/default/units.ruleset:915
-#: data/experimental/units.ruleset:930 data/multiplayer/units.ruleset:1015
+#: data/civ2/units.ruleset:868 data/default/units.ruleset:917
+#: data/experimental/units.ruleset:932 data/multiplayer/units.ruleset:1017
 msgid "Dragoons"
 msgstr "Saighdear-eachraidh"
 
-#: data/civ2/units.ruleset:893 data/default/units.ruleset:942
-#: data/experimental/units.ruleset:957 data/multiplayer/units.ruleset:1042
+#: data/civ2/units.ruleset:895 data/default/units.ruleset:944
+#: data/experimental/units.ruleset:959 data/multiplayer/units.ruleset:1044
 msgid "Dragoons are mounted warriors carrying early firearms."
 msgstr ""
 "'S e cathaich air muin each a tha ann an saighdearan-eachraidh aig a bheil "
 "airm-losgaidh thràtha."
 
-#: data/civ2/units.ruleset:924 data/default/units.ruleset:973
-#: data/experimental/units.ruleset:988 data/multiplayer/units.ruleset:1073
+#: data/civ2/units.ruleset:926 data/default/units.ruleset:975
+#: data/experimental/units.ruleset:990 data/multiplayer/units.ruleset:1075
 msgid "Cavalry are mounted and highly trained soldiers."
 msgstr ""
 "'S e saighdearean air muin each agus a fhuair deagh thrèanadh a tha san "
 "eachdraidh."
 
-#: data/civ2/units.ruleset:1055 data/default/units.ruleset:1104
-#: data/experimental/units.ruleset:1119 data/multiplayer/units.ruleset:1204
+#: data/civ2/units.ruleset:1057 data/default/units.ruleset:1106
+#: data/experimental/units.ruleset:1121 data/multiplayer/units.ruleset:1206
 msgid ""
 "The artillery is an upgraded cannon. It is a very strong attacker but "
 "equally weak defender and will need an escort to be effective."
@@ -29399,13 +29413,13 @@ msgstr ""
 "ionnsaigh ach chan eil ach comas dìon lag annta agus feumaidh iad "
 "coimheadachd mus bi iad èifeachdach."
 
-#: data/civ2/units.ruleset:1062 data/default/units.ruleset:1111
-#: data/experimental/units.ruleset:1126 data/multiplayer/units.ruleset:1211
+#: data/civ2/units.ruleset:1064 data/default/units.ruleset:1113
+#: data/experimental/units.ruleset:1128 data/multiplayer/units.ruleset:1213
 msgid "Howitzer"
 msgstr "Hòbhaitsear"
 
-#: data/civ2/units.ruleset:1088 data/default/units.ruleset:1137
-#: data/experimental/units.ruleset:1152 data/multiplayer/units.ruleset:1237
+#: data/civ2/units.ruleset:1090 data/default/units.ruleset:1139
+#: data/experimental/units.ruleset:1154 data/multiplayer/units.ruleset:1239
 msgid ""
 "Howitzers are upgraded artillery with improved defensive as well as "
 "offensive capabilities."
@@ -29414,13 +29428,13 @@ msgstr ""
 "comasan dìon is ionnsaighe nas fhearr."
 
 #. TRANS: unit type
-#: data/civ2/units.ruleset:1161 data/default/units.ruleset:1210
-#: data/experimental/units.ruleset:1225 data/multiplayer/units.ruleset:1310
+#: data/civ2/units.ruleset:1163 data/default/units.ruleset:1212
+#: data/experimental/units.ruleset:1227 data/multiplayer/units.ruleset:1312
 msgid "Helicopter"
 msgstr "Heileacoptair"
 
-#: data/civ2/units.ruleset:1187 data/default/units.ruleset:1236
-#: data/experimental/units.ruleset:1251
+#: data/civ2/units.ruleset:1189 data/default/units.ruleset:1238
+#: data/experimental/units.ruleset:1253
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
@@ -29435,49 +29449,49 @@ msgstr ""
 "mìorbhail nan Nàiseanan Aonaichte agad, 's urrainn do dh'aonadan talamhainn "
 "ionnsaigh a thoirt air heileacoptairean."
 
-#: data/civ2/units.ruleset:1196 data/default/units.ruleset:1245
-#: data/experimental/units.ruleset:1260 data/multiplayer/units.ruleset:1344
+#: data/civ2/units.ruleset:1198 data/default/units.ruleset:1247
+#: data/experimental/units.ruleset:1262 data/multiplayer/units.ruleset:1346
 msgid "Stealth Fighter"
 msgstr "Sabaidiche dìth-chealtair"
 
-#: data/civ2/units.ruleset:1223 data/default/units.ruleset:1272
-#: data/experimental/units.ruleset:1287 data/multiplayer/units.ruleset:1371
+#: data/civ2/units.ruleset:1225 data/default/units.ruleset:1274
+#: data/experimental/units.ruleset:1289 data/multiplayer/units.ruleset:1373
 msgid "An improved Fighter, with improved attack and a higher movement radius."
 msgstr ""
 "'S e sabaidiche leasaichte a tha ann aig a bheil comas ionnsaigh nas fhearr "
 "agus puingean gluasaid a bharrachd."
 
-#: data/civ2/units.ruleset:1229 data/default/units.ruleset:1278
-#: data/experimental/units.ruleset:1293 data/multiplayer/units.ruleset:1377
+#: data/civ2/units.ruleset:1231 data/default/units.ruleset:1280
+#: data/experimental/units.ruleset:1295 data/multiplayer/units.ruleset:1379
 msgid "Stealth Bomber"
 msgstr "Bomadair dìth-chealtair"
 
-#: data/civ2/units.ruleset:1255 data/default/units.ruleset:1304
-#: data/experimental/units.ruleset:1319 data/multiplayer/units.ruleset:1403
+#: data/civ2/units.ruleset:1257 data/default/units.ruleset:1306
+#: data/experimental/units.ruleset:1321 data/multiplayer/units.ruleset:1405
 msgid "An improved Bomber, with improved attack and a higher movement radius."
 msgstr ""
 "'S e bomadair leasaichte a tha ann aig a bheil comas ionnsaigh nas fhearr "
 "agus puingean gluasaid a bharrachd."
 
-#: data/civ2/units.ruleset:1296 data/default/units.ruleset:1345
-#: data/experimental/units.ruleset:1360 data/multiplayer/units.ruleset:1444
+#: data/civ2/units.ruleset:1298 data/default/units.ruleset:1347
+#: data/experimental/units.ruleset:1362 data/multiplayer/units.ruleset:1446
 msgid "Caravel"
 msgstr "Carbhal"
 
-#: data/civ2/units.ruleset:1323
+#: data/civ2/units.ruleset:1325
 msgid ""
 "The Caravel replaces the Trireme and is much more reliable on the open seas."
 msgstr ""
 "Tha carbhalan a' dol an àite nan trì-ràmhaich agus tha iad fada nas "
 "earbsaiche air a' chuan mhòr."
 
-#: data/civ2/units.ruleset:1329 data/default/units.ruleset:1378
-#: data/experimental/units.ruleset:1393 data/multiplayer/units.ruleset:1477
+#: data/civ2/units.ruleset:1331 data/default/units.ruleset:1380
+#: data/experimental/units.ruleset:1395 data/multiplayer/units.ruleset:1479
 msgid "Galleon"
 msgstr "Gailleon"
 
-#: data/civ2/units.ruleset:1356 data/default/units.ruleset:1405
-#: data/experimental/units.ruleset:1420 data/multiplayer/units.ruleset:1504
+#: data/civ2/units.ruleset:1358 data/default/units.ruleset:1407
+#: data/experimental/units.ruleset:1422 data/multiplayer/units.ruleset:1506
 msgid ""
 "The Galleon is a pure transport ship and cannot attack other ships, though "
 "it may still defend itself when attacked."
@@ -29486,20 +29500,20 @@ msgstr ""
 "thoirt air bàtaichean eile ged a tha e comasach air a dhìon fhèin ma "
 "bheirear ionnsaigh air-san."
 
-#: data/civ2/units.ruleset:1430 data/default/units.ruleset:1479
-#: data/experimental/units.ruleset:1494 data/multiplayer/units.ruleset:1578
+#: data/civ2/units.ruleset:1432 data/default/units.ruleset:1481
+#: data/experimental/units.ruleset:1496 data/multiplayer/units.ruleset:1580
 msgid "Destroyer"
 msgstr "Sgriosadair"
 
-#: data/civ2/units.ruleset:1456 data/default/units.ruleset:1505
-#: data/experimental/units.ruleset:1520 data/multiplayer/units.ruleset:1604
+#: data/civ2/units.ruleset:1458 data/default/units.ruleset:1507
+#: data/experimental/units.ruleset:1522 data/multiplayer/units.ruleset:1606
 msgid "An improved Ironclad, with better move rate and vision."
 msgstr ""
 "'S e bàta iarann-sligeach leasaichte a tha ann aig a bheil comas gluasaid is "
 "lèirsinn nas fhearr."
 
-#: data/civ2/units.ruleset:1458 data/default/units.ruleset:1507
-#: data/experimental/units.ruleset:1522 data/multiplayer/units.ruleset:1606
+#: data/civ2/units.ruleset:1460 data/default/units.ruleset:1509
+#: data/experimental/units.ruleset:1524 data/multiplayer/units.ruleset:1608
 msgid ""
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports."
@@ -29507,25 +29521,25 @@ msgstr ""
 "GLIOCAS:  Aonad fìor luath a tha glè fheumail gus giùlanairean nàimhdeil a "
 "shealg."
 
-#: data/civ2/units.ruleset:1495 data/default/units.ruleset:1544
-#: data/experimental/units.ruleset:1559 data/multiplayer/units.ruleset:1643
+#: data/civ2/units.ruleset:1497 data/default/units.ruleset:1546
+#: data/experimental/units.ruleset:1561 data/multiplayer/units.ruleset:1645
 msgid "AEGIS Cruiser"
 msgstr "Crùsair AEGIS"
 
-#: data/civ2/units.ruleset:1521 data/default/units.ruleset:1570
-#: data/experimental/units.ruleset:1585 data/multiplayer/units.ruleset:1669
+#: data/civ2/units.ruleset:1523 data/default/units.ruleset:1572
+#: data/experimental/units.ruleset:1587 data/multiplayer/units.ruleset:1671
 msgid ""
 "The AEGIS Cruiser is equipped with an advanced defensive missile system."
 msgstr ""
 "Tha airm itealach adhartach aig crùsairean AEGIS leis an dìon iad iad fhèin."
 
-#: data/civ2/units.ruleset:1663 data/default/units.ruleset:1712
-#: data/experimental/units.ruleset:1727 data/multiplayer/units.ruleset:1811
+#: data/civ2/units.ruleset:1665 data/default/units.ruleset:1714
+#: data/experimental/units.ruleset:1729 data/multiplayer/units.ruleset:1813
 msgid "Cruise Missile"
 msgstr "Cruise Missile"
 
-#: data/civ2/units.ruleset:1689 data/default/units.ruleset:1738
-#: data/experimental/units.ruleset:1753 data/multiplayer/units.ruleset:1837
+#: data/civ2/units.ruleset:1691 data/default/units.ruleset:1740
+#: data/experimental/units.ruleset:1755 data/multiplayer/units.ruleset:1839
 msgid ""
 "The Cruise Missile is a long-distance missile that can strike deep into "
 "enemy territory."
@@ -29533,8 +29547,8 @@ msgstr ""
 "Tha an Cruise Missile 'na arm itealach a ruigeas cinn-uidhe fad air falbh "
 "agus an teis-mheadhain dùthaich do nàmhaid."
 
-#: data/civ2/units.ruleset:1692 data/default/units.ruleset:1741
-#: data/experimental/units.ruleset:1756 data/multiplayer/units.ruleset:1840
+#: data/civ2/units.ruleset:1694 data/default/units.ruleset:1743
+#: data/experimental/units.ruleset:1758 data/multiplayer/units.ruleset:1842
 msgid ""
 "TIP:  A handful of these can successfully keep the waters around your "
 "treasured homeland free of enemy ships."
@@ -29542,7 +29556,7 @@ msgstr ""
 "GLIOCAS:  Bidh badan dhiubh gu math èifeachdach gus am muir mun cuairt air "
 "do dhùthaich phrìseil a chumail saor o bhàtaichean do nàimhdean."
 
-#: data/civ2/units.ruleset:1732
+#: data/civ2/units.ruleset:1734
 msgid ""
 "Similar to pollution and global warming, the risk of global nuclear winter "
 "increases with fallout. If nuclear winter occurs, terrain across the globe "
@@ -29555,7 +29569,7 @@ msgstr ""
 "tundra agus deigh. 'S urrainn do thuinichean agus einnseanairean sileadh "
 "niùclasach a ghlanadh."
 
-#: data/civ2/units.ruleset:1741
+#: data/civ2/units.ruleset:1743
 msgid ""
 "TIP 2:  You may be involved in a situation where you've invaded an enemy "
 "country en masse, but the enemy cities are too strong. Before using a "
@@ -29570,21 +29584,21 @@ msgstr ""
 "san dearbh chuairt 's a nochdas e! Lùghdaichidh seo cunnart de gheamhradh "
 "niùclasach.  Ionnsaigh niùclasach èiceolach!"
 
-#: data/civ2/units.ruleset:1841 data/default/units.ruleset:1890
-#: data/experimental/units.ruleset:1905 data/multiplayer/units.ruleset:1989
+#: data/civ2/units.ruleset:1843 data/default/units.ruleset:1895
+#: data/experimental/units.ruleset:1910 data/multiplayer/units.ruleset:1994
 msgid "Spy"
 msgstr "Brathadair"
 
-#: data/civ2/units.ruleset:1867 data/default/units.ruleset:1916
-#: data/experimental/units.ruleset:1931 data/multiplayer/units.ruleset:2015
+#: data/civ2/units.ruleset:1869 data/default/units.ruleset:1921
+#: data/experimental/units.ruleset:1936 data/multiplayer/units.ruleset:2020
 msgid ""
 "A Spy is more skilled in the arts of espionage than her Diplomat predecessor."
 msgstr ""
 "Tha brathadairean nas ealanta air brathadaireachd na tha na dìoplomatan a "
 "bha agad roimhpe."
 
-#: data/civ2/units.ruleset:1869 data/default/units.ruleset:1918
-#: data/experimental/units.ruleset:1933 data/multiplayer/units.ruleset:2017
+#: data/civ2/units.ruleset:1871 data/default/units.ruleset:1923
+#: data/experimental/units.ruleset:1938 data/multiplayer/units.ruleset:2022
 msgid ""
 "She can perform all the functions of the Diplomat; refer to the Diplomat "
 "entry for more details. Unlike a Diplomat, a Spy may also survive an "
@@ -29599,8 +29613,8 @@ msgstr ""
 "brathadairean nas èifeachdaiche ann an dìon nam bailtean an aghaidh "
 "brathadairean is dìoplomatan cèin na bha na dìoplomatan iad fhèin."
 
-#: data/civ2/units.ruleset:1875 data/default/units.ruleset:1924
-#: data/experimental/units.ruleset:1939 data/multiplayer/units.ruleset:2023
+#: data/civ2/units.ruleset:1877 data/default/units.ruleset:1929
+#: data/experimental/units.ruleset:1944 data/multiplayer/units.ruleset:2028
 msgid ""
 "A Spy can also be used to:\n"
 " - sabotage an enemy unit (reducing its hit points to half), if it is alone "
@@ -29625,8 +29639,8 @@ msgstr ""
 " - sabotais air targaid àraidh sa bhaile (le buailteachd soirbheis nas "
 "lugha)."
 
-#: data/civ2/units.ruleset:1887 data/default/units.ruleset:1936
-#: data/experimental/units.ruleset:1951 data/multiplayer/units.ruleset:2035
+#: data/civ2/units.ruleset:1889 data/default/units.ruleset:1941
+#: data/experimental/units.ruleset:1956 data/multiplayer/units.ruleset:2040
 msgid ""
 "A Spy that survives the more aggressive actions (sabotage, theft, inciting "
 "rebellion, and poisoning) escapes to the safety of the nearest friendly city."
@@ -29635,25 +29649,31 @@ msgstr ""
 "goid, brosnachadh aramach agus puinnseanachadh), teichidh i dhan bhaile "
 "chàirdeil as fhaisge oirre an uairsin."
 
-#: data/civ2/units.ruleset:1933 data/default/units.ruleset:1982
-#: data/experimental/units.ruleset:1997 data/multiplayer/units.ruleset:2081
+#: data/civ2/units.ruleset:1893
+msgid "Spies built under a Communist government will be built as veteran."
+msgstr ""
+"Tòisichidh gach brathadair a thèid a thogail fo riaghaltas Comannach 'na "
+"aonad seann-ghaisgeach."
+
+#: data/civ2/units.ruleset:1937 data/default/units.ruleset:1990
+#: data/experimental/units.ruleset:2005 data/multiplayer/units.ruleset:2089
 msgid "Freight"
 msgstr "Frachd"
 
-#: data/civ2/units.ruleset:1959 data/default/units.ruleset:2008
-#: data/experimental/units.ruleset:2023
+#: data/civ2/units.ruleset:1963 data/default/units.ruleset:2016
+#: data/experimental/units.ruleset:2031
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
 msgstr ""
 "Tha an t-aonad frachd a' dol an àite a' charabhain agus tha e dà thuras nas "
 "luaithe."
 
-#: data/civ2/units.ruleset:1964 data/default/units.ruleset:2013
-#: data/experimental/units.ruleset:2028 data/multiplayer/units.ruleset:2113
+#: data/civ2/units.ruleset:1968 data/default/units.ruleset:2021
+#: data/experimental/units.ruleset:2036 data/multiplayer/units.ruleset:2121
 msgid "Explorer"
 msgstr "Taisgealaiche"
 
-#: data/civ2/units.ruleset:1990 data/default/units.ruleset:2039
-#: data/experimental/units.ruleset:2054 data/multiplayer/units.ruleset:2139
+#: data/civ2/units.ruleset:1994 data/default/units.ruleset:2047
+#: data/experimental/units.ruleset:2062 data/multiplayer/units.ruleset:2147
 msgid ""
 "Explorers are brave individuals that are very useful for mapping unknown "
 "territory."
@@ -29661,8 +29681,8 @@ msgstr ""
 "'S e daoine curanta a tha anns na taisgealaichean a tha glè fheumail gus "
 "àrainn neo-aithnichte a rùrachadh."
 
-#: data/civ2/units.ruleset:2025 data/default/units.ruleset:2108
-#: data/experimental/units.ruleset:2123 data/multiplayer/units.ruleset:2208
+#: data/civ2/units.ruleset:2029 data/default/units.ruleset:2116
+#: data/experimental/units.ruleset:2131 data/multiplayer/units.ruleset:2216
 msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units and helicopters."
@@ -30140,13 +30160,13 @@ msgstr "sàr aonad"
 msgid "?unitclass:Trireme"
 msgstr "?unitclass:Trì-ràmhach"
 
-#: data/default/units.ruleset:347 data/experimental/units.ruleset:362
-#: data/multiplayer/units.ruleset:348
+#: data/default/units.ruleset:349 data/experimental/units.ruleset:364
+#: data/multiplayer/units.ruleset:350
 msgid "?unit:Workers"
 msgstr "?unit:Obraichean"
 
-#: data/default/units.ruleset:373 data/experimental/units.ruleset:388
-#: data/multiplayer/units.ruleset:374
+#: data/default/units.ruleset:375 data/experimental/units.ruleset:390
+#: data/multiplayer/units.ruleset:376
 msgid ""
 "Workers are similar to Settlers in that they can improve terrain -- see the "
 "Terrain Alterations section of the help for more details of the available "
@@ -30157,8 +30177,8 @@ msgstr ""
 "fhiosrachadh mu na leasachaidhean a tha ri làimh. Ge-tà, chan urrainn do "
 "dh'obraichean bailtean ùra a chur air bhonn."
 
-#: data/default/units.ruleset:406 data/experimental/units.ruleset:421
-#: data/multiplayer/units.ruleset:407
+#: data/default/units.ruleset:408 data/experimental/units.ruleset:423
+#: data/multiplayer/units.ruleset:409
 msgid ""
 "Engineers are similar to Workers, but they work twice as fast and move twice "
 "as fast.  Engineers may also perform major terrain transformations (for "
@@ -30171,8 +30191,8 @@ msgstr ""
 "urrainn do thuiniche no obraiche sam bith a dhèanamh; faic an earrann air "
 "'Atharrachadh na talamhainn' airson barrachd fiosrachaidh."
 
-#: data/default/units.ruleset:412 data/experimental/units.ruleset:427
-#: data/multiplayer/units.ruleset:413
+#: data/default/units.ruleset:414 data/experimental/units.ruleset:429
+#: data/multiplayer/units.ruleset:415
 msgid ""
 "TIP 1:  Upgrade Workers to Engineers when possible, as Engineers require the "
 "same resources as ordinary Workers."
@@ -30181,8 +30201,8 @@ msgstr ""
 "a dhèanamh, feumaidh einnseanairean an dearbh bheòshlaint 's a dh'fheumas "
 "obraichean àbhaisteach."
 
-#: data/default/units.ruleset:415 data/experimental/units.ruleset:430
-#: data/multiplayer/units.ruleset:416
+#: data/default/units.ruleset:417 data/experimental/units.ruleset:432
+#: data/multiplayer/units.ruleset:418
 msgid ""
 "TIP 2:  If you manage to build Leonardo's Workshop, research Explosives "
 "before the Workshop becomes obsolete.  This way, your Workers units will be "
@@ -30192,8 +30212,8 @@ msgstr ""
 "stuthan-spreadhaidh mus dèid Bùth-obrach Leonardo o fheum.  Ma nì thu seo, "
 "thèid na h-obraichean agad àrdachadh saor an-asgaidh."
 
-#: data/default/units.ruleset:1338 data/experimental/units.ruleset:1353
-#: data/multiplayer/units.ruleset:1437
+#: data/default/units.ruleset:1340 data/experimental/units.ruleset:1355
+#: data/multiplayer/units.ruleset:1439
 msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship and has "
 "rudimentary offensive capabilities, but may not enter deep ocean tiles."
@@ -30202,15 +30222,15 @@ msgstr ""
 "a ghiùlan agus tha comas beag ionnsaigh ann ach chan urrainn dha seòladh air "
 "leacagan an aiginn."
 
-#: data/default/units.ruleset:1372 data/experimental/units.ruleset:1387
-#: data/multiplayer/units.ruleset:1471
+#: data/default/units.ruleset:1374 data/experimental/units.ruleset:1389
+#: data/multiplayer/units.ruleset:1473
 msgid "The Caravel replaces the Trireme and can enter any ocean tile."
 msgstr ""
 "Tha an carbhal a' dol an àite an trì-ràmhaich agus seòlaidh e air leacag "
 "cuain sam bith."
 
-#: data/default/units.ruleset:1781 data/experimental/units.ruleset:1796
-#: data/multiplayer/units.ruleset:1880
+#: data/default/units.ruleset:1783 data/experimental/units.ruleset:1798
+#: data/multiplayer/units.ruleset:1882
 msgid ""
 "Similar to pollution and global warming, the risk of global nuclear winter "
 "increases with fallout. If nuclear winter occurs, terrain across the globe "
@@ -30223,8 +30243,8 @@ msgstr ""
 "tundra agus deigh. 'S urrainn do thuinichean, obraichean agus einnseanairean "
 "sileadh niùclasach a ghlanadh."
 
-#: data/default/units.ruleset:1790 data/experimental/units.ruleset:1805
-#: data/multiplayer/units.ruleset:1889
+#: data/default/units.ruleset:1792 data/experimental/units.ruleset:1807
+#: data/multiplayer/units.ruleset:1891
 msgid ""
 "TIP 2:  You may be involved in a situation where you've invaded an enemy "
 "country en masse, but the enemy cities are too strong. Before using a "
@@ -30239,25 +30259,43 @@ msgstr ""
 "niùclasach a ghlanadh san dearbh chuairt 's a nochdas e! Lùghdaichidh seo "
 "cunnart de gheamhradh niùclasach.  Ionnsaigh niùclasach èiceolach!"
 
-#: data/default/units.ruleset:2045 data/experimental/units.ruleset:2060
-#: data/multiplayer/units.ruleset:2145
+#: data/default/units.ruleset:1889 data/experimental/units.ruleset:1904
+#: data/multiplayer/units.ruleset:1988
+msgid ""
+"Diplomats built under a Communist government will start at the first veteran "
+"level."
+msgstr ""
+"Tòisichidh gach dìoplomat air a' chiad leibheil de sheann ghaisgeachd ma "
+"thèid a thogail fo riaghaltas Comannach."
+
+#: data/default/units.ruleset:1945 data/experimental/units.ruleset:1960
+#: data/multiplayer/units.ruleset:2044
+msgid ""
+"Spies built under a Communist government will start at the first veteran "
+"level."
+msgstr ""
+"Tòisichidh gach brathadair air a' chiad leibheil de sheann ghaisgeachd ma "
+"thèid a thogail fo riaghaltas Comannach."
+
+#: data/default/units.ruleset:2053 data/experimental/units.ruleset:2068
+#: data/multiplayer/units.ruleset:2153
 msgid "?unit:Leader"
 msgstr "?unit:Ceannard"
 
-#: data/default/units.ruleset:2073 data/experimental/units.ruleset:2088
-#: data/multiplayer/units.ruleset:2173
+#: data/default/units.ruleset:2081 data/experimental/units.ruleset:2096
+#: data/multiplayer/units.ruleset:2181
 msgid "This is you. If you lose this unit, you lose the game. So don't."
 msgstr ""
 "Seo thusa. Ma chailleas tu an t-aonad seo, caillidh thu an geama. Feuch 's "
 "na dèan sin ma-tà!"
 
-#: data/default/units.ruleset:2114 data/experimental/units.ruleset:2129
-#: data/multiplayer/units.ruleset:2214
+#: data/default/units.ruleset:2122 data/experimental/units.ruleset:2137
+#: data/multiplayer/units.ruleset:2222
 msgid "AWACS"
 msgstr "AWACS"
 
-#: data/default/units.ruleset:2140 data/experimental/units.ruleset:2155
-#: data/multiplayer/units.ruleset:2240
+#: data/default/units.ruleset:2148 data/experimental/units.ruleset:2163
+#: data/multiplayer/units.ruleset:2248
 msgid ""
 "The AWACS (Airborne Warning and Control System) is an airplane with an "
 "advanced radar that can determine the location of enemy units over a wide "
@@ -30798,7 +30836,7 @@ msgstr ""
 "Cha leig thu leas an teicneolas seo ach a' chiad turas a thogas tu Turas "
 "Darwin."
 
-#: data/multiplayer/units.ruleset:340
+#: data/multiplayer/units.ruleset:342
 msgid ""
 "Upkeep for Settlers is in food as well as production, and a Settler can die "
 "if its supporting city runs out of food. Settlers in a Republic or Democracy "
@@ -30810,7 +30848,7 @@ msgstr ""
 "riutha. Feumaidh tuinichean ann am poblachd no deamocrasaidh dà thuras de "
 "bhiadh gach cuairt agus trì turais ann an sòisealtasan bun-chreidmheach."
 
-#: data/multiplayer/units.ruleset:1336
+#: data/multiplayer/units.ruleset:1338
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
@@ -30823,14 +30861,14 @@ msgstr ""
 "mur eil iad ann am baile no bunait adhair no air giùlanair agus 's urrainn "
 "do dh'aonadan talamhainn ionnsaigh a thoirt air heileacoptairean."
 
-#: data/multiplayer/units.ruleset:2068
+#: data/multiplayer/units.ruleset:2076
 msgid ""
 "A Caravan carries goods or material to help build wonders in your cities."
 msgstr ""
 "Giùlainidh carabhan bathar no stuthan gus taic a chur ri togail de "
 "mhìorbhail 'nad bhailtean."
 
-#: data/multiplayer/units.ruleset:2071
+#: data/multiplayer/units.ruleset:2079
 msgid ""
 "Every Caravan that is used to build a wonder will add 30 shields towards the "
 "production of the wonder."
@@ -30838,7 +30876,7 @@ msgstr ""
 "Cuiridh gach carabhan a chuireas taic ri togail de mhìorbhail 30 sgiath ri "
 "cinneasachadh na mìorbhaile."
 
-#: data/multiplayer/units.ruleset:2107
+#: data/multiplayer/units.ruleset:2115
 msgid ""
 "The Freight unit replaces the Caravan, and moves at twice the speed. Each "
 "Freight used to build a wonder will add 50 shields."
@@ -31005,15 +31043,16 @@ msgstr "Aba %s"
 #: data/nation/acadian.ruleset:32 data/nation/bavarian.ruleset:23
 #: data/nation/belgian.ruleset:25 data/nation/bolivian.ruleset:41
 #: data/nation/brandenburgian.ruleset:28
-#: data/nation/centralamerican.ruleset:28 data/nation/costarican.ruleset:26
-#: data/nation/curonian.ruleset:30 data/nation/dominicano.ruleset:27
-#: data/nation/easttimorese.ruleset:22 data/nation/ecuadorian.ruleset:37
-#: data/nation/flemish.ruleset:31 data/nation/franconian.ruleset:26
-#: data/nation/greaterpolish.ruleset:21 data/nation/honduran.ruleset:30
-#: data/nation/irish.ruleset:42 data/nation/leonese.ruleset:22
-#: data/nation/luxembourgish.ruleset:30 data/nation/maltese.ruleset:27
-#: data/nation/mazovian.ruleset:24 data/nation/milanese.ruleset:26
-#: data/nation/monegasque.ruleset:30 data/nation/palatinate.ruleset:29
+#: data/nation/centralamerican.ruleset:28 data/nation/chilean.ruleset:30
+#: data/nation/costarican.ruleset:26 data/nation/curonian.ruleset:30
+#: data/nation/dominicano.ruleset:27 data/nation/easttimorese.ruleset:22
+#: data/nation/ecuadorian.ruleset:37 data/nation/flemish.ruleset:31
+#: data/nation/franconian.ruleset:26 data/nation/greaterpolish.ruleset:21
+#: data/nation/honduran.ruleset:30 data/nation/irish.ruleset:42
+#: data/nation/leonese.ruleset:22 data/nation/luxembourgish.ruleset:30
+#: data/nation/maltese.ruleset:27 data/nation/mazovian.ruleset:24
+#: data/nation/milanese.ruleset:26 data/nation/monegasque.ruleset:30
+#: data/nation/northumbrian.ruleset:39 data/nation/palatinate.ruleset:29
 #: data/nation/panamanian.ruleset:30 data/nation/paraguayan.ruleset:38
 #: data/nation/piedmontese.ruleset:34 data/nation/salvadoran.ruleset:41
 #: data/nation/sammarinese.ruleset:25 data/nation/sicilian.ruleset:30
@@ -31673,9 +31712,10 @@ msgstr "Ceannard Mòr %s"
 
 #: data/nation/anishinaabe.ruleset:28 data/nation/cherokee.ruleset:22
 #: data/nation/comanche.ruleset:25 data/nation/iroquois.ruleset:26
-#: data/nation/maori.ruleset:23 data/nation/nimiipuu.ruleset:67
-#: data/nation/otomi.ruleset:35 data/nation/polynesian.ruleset:20
-#: data/nation/sioux.ruleset:26 data/nation/zulu.ruleset:36
+#: data/nation/maori.ruleset:23 data/nation/muskogee.ruleset:30
+#: data/nation/nimiipuu.ruleset:67 data/nation/otomi.ruleset:35
+#: data/nation/polynesian.ruleset:20 data/nation/sioux.ruleset:26
+#: data/nation/zulu.ruleset:36
 #, c-format
 msgid "?female:Great Chief %s"
 msgstr "?female:Ceannard Mòr %s"
@@ -32875,9 +32915,10 @@ msgstr "Impire %s"
 
 #: data/nation/brazilian.ruleset:28 data/nation/californian.ruleset:37
 #: data/nation/centralafrican.ruleset:22 data/nation/ethiopian.ruleset:23
-#: data/nation/haitian.ruleset:27 data/nation/japanese.ruleset:20
-#: data/nation/mexican.ruleset:53 data/nation/nestorian.ruleset:27
-#: data/nation/southvietnamese.ruleset:25 data/nation/vietnamese.ruleset:22
+#: data/nation/haitian.ruleset:27 data/nation/holyroman.ruleset:33
+#: data/nation/japanese.ruleset:20 data/nation/mexican.ruleset:53
+#: data/nation/nestorian.ruleset:27 data/nation/southvietnamese.ruleset:25
+#: data/nation/vietnamese.ruleset:22
 #, c-format
 msgid "Empress %s"
 msgstr "Ban-Impire %s"
@@ -33587,10 +33628,10 @@ msgstr "Caiptean Seanalair %s"
 msgid "?female:Captain General %s"
 msgstr "?female:Caiptean Seanalair %s"
 
-#: data/nation/chilean.ruleset:30 data/nation/northumbrian.ruleset:39
+#: data/nation/chilean.ruleset:31
 #, c-format
-msgid "?female:Mother Superior %s"
-msgstr "?female:Àrd Mhàthair %s"
+msgid "?female:Supreme Director %s"
+msgstr "?female:Ban-stiùiriche as Àirde %s"
 
 #: data/nation/chimu.ruleset:3
 msgid "Chimu"
@@ -33723,8 +33764,8 @@ msgid ""
 "coastline between Malibu and Paso Robles inland towards the San Joaquin "
 "valley, the Chumash lived in large permanent villages and maintained a semi-"
 "monetized economy. These villages came to be ruled by hereditary chiefs, who "
-"could be male or female. At time of contact, the population was likely 8-"
-"18,000 people, though perhaps as high as 22,000. The Spanish established "
+"could be male or female. At time of contact, the population was likely "
+"8-18,000 people, though perhaps as high as 22,000. The Spanish established "
 "five missions in Chumash land. As a result of disease and other byproducts "
 "of colonial rule, the population fell to less than 3,000 in 1831."
 msgstr ""
@@ -34600,8 +34641,8 @@ msgstr ""
 msgid "Pope %s"
 msgstr "Pàpa %s"
 
-#: data/nation/european.ruleset:23 data/nation/holysee.ruleset:29
-#: data/nation/westernroman.ruleset:30
+#: data/nation/european.ruleset:23 data/nation/holyroman.ruleset:32
+#: data/nation/holysee.ruleset:29 data/nation/westernroman.ruleset:30
 #, c-format
 msgid "Popess %s"
 msgstr "Bana-Phàpa %s"
@@ -35524,16 +35565,6 @@ msgstr ""
 "ranntairean eile gun àireamh a bha ann. Chaidh a leigeil mu sgaoil le "
 "Napoleon ann an 1806 agus chuir e Co-nasgadh na Rèine 'na h-àite."
 
-#: data/nation/holyroman.ruleset:32
-#, c-format
-msgid "?female:Popess %s"
-msgstr "?female:Ban-Phàpa %s"
-
-#: data/nation/holyroman.ruleset:33
-#, c-format
-msgid "?female:Empress %s"
-msgstr "?female:Ban-Impire %s"
-
 #: data/nation/holysee.ruleset:3
 msgid "Papal"
 msgstr "Muinntir Stàitean a' Phàpa"
@@ -35986,7 +36017,7 @@ msgid "Jamaican"
 msgstr "Muinntir Dhiameuga"
 
 #: data/nation/jamaican.ruleset:4
-msgid "?plural:Jamaican"
+msgid "?plural:Jamaicans"
 msgstr "?plural:Muinntir Dhiameuga"
 
 #: data/nation/jamaican.ruleset:6
@@ -42178,6 +42209,22 @@ msgstr "Na riaghailtean bunaiteach"
 #: data/default/game.ruleset:21
 msgid "You are playing Freeciv with default rules."
 msgstr "Tha thu a' cluich Freeciv leis na riaghailtean bunaiteach."
+
+#~ msgid "metainfo <meta-line>"
+#~ msgstr "metainfo <meata-loidhne>"
+
+#~ msgid "* Will be built as a veteran under communist governments.\n"
+#~ msgstr ""
+#~ "* Thèid a thogail mar seann ghaisgeach fo riaghaltasan co-mhaoineach.\n"
+
+#~ msgid "?female:Mother Superior %s"
+#~ msgstr "?female:Àrd Mhàthair %s"
+
+#~ msgid "?female:Popess %s"
+#~ msgstr "?female:Ban-Phàpa %s"
+
+#~ msgid "?female:Empress %s"
+#~ msgstr "?female:Ban-Impire %s"
 
 #~ msgid "_Cancel meeting"
 #~ msgstr "C_uir dheth a' choinneamh"
