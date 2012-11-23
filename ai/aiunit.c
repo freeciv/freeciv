@@ -2197,7 +2197,7 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
   if( is_barbarian(pplayer) ) {
     /* Todo: should be configurable */
     if (unit_can_be_retired(punit) && fc_rand(100) > 90) {
-      wipe_unit(punit);
+      wipe_unit(punit, FALSE, NULL);
       return;
     }
   }
@@ -2496,7 +2496,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
           < game.info.turn)) {
     if (fc_rand(3) == 0) {
       UNIT_LOG(LOG_DEBUG, leader, "barbarian leader disappearing...");
-      wipe_unit(leader);
+      wipe_unit(leader, FALSE, NULL);
       return;
     }
   }

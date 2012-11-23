@@ -258,7 +258,7 @@ bool unleash_barbarians(struct tile *ptile)
       || game.info.turn < game.server.onsetbarbarian
       || num_role_units(L_BARBARIAN) == 0) {
     unit_list_iterate_safe((ptile)->units, punit) {
-      wipe_unit(punit);
+      wipe_unit(punit, TRUE, NULL);
     } unit_list_iterate_safe_end;
     return FALSE;
   }
@@ -405,7 +405,7 @@ bool unleash_barbarians(struct tile *ptile)
     /* There's barbarian in this village! Kill the explorer. */
     unit_list_iterate_safe((ptile)->units, punit2) {
       if (unit_owner(punit2) != barbarians) {
-        wipe_unit(punit2);
+        wipe_unit(punit2, TRUE, NULL);
         alive = FALSE;
       } else {
         send_unit_info(NULL, punit2);

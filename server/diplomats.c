@@ -213,7 +213,7 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 
   /* Spies always survive. Diplomats never do. */
   if (!unit_has_type_flag(pdiplomat, F_SPY)) {
-    wipe_unit(pdiplomat);
+    wipe_unit(pdiplomat, FALSE, NULL);
   } else {
     send_unit_info (pplayer, pdiplomat);
   }
@@ -283,7 +283,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
                   unit_tile_link(pdiplomat),
                   city_link(pcity),
                   nation_plural_for_player(cplayer));
-    wipe_unit(pdiplomat);
+    wipe_unit(pdiplomat, TRUE, cplayer);
     return;
   }
 
@@ -314,7 +314,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 
   /* Spies always survive. Diplomats never do. */
   if (!unit_has_type_flag(pdiplomat, F_SPY)) {
-    wipe_unit(pdiplomat);
+    wipe_unit(pdiplomat, FALSE, NULL);
   } else {
     send_unit_info (pplayer, pdiplomat);
   }
@@ -640,7 +640,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     /* this may cause a diplomatic incident */
     maybe_cause_incident(DIPLOMAT_STEAL, pplayer, cplayer,
                          city_tile(pcity), city_link(pcity));
-    wipe_unit(pdiplomat);
+    wipe_unit(pdiplomat, TRUE, cplayer);
     return;
   } 
 
@@ -747,7 +747,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
                   nation_adjective_for_player(pplayer),
                   unit_tile_link(pdiplomat),
                   city_link(pcity));
-    wipe_unit(pdiplomat);
+    wipe_unit(pdiplomat, TRUE, cplayer);
     return;
   }
 
@@ -862,7 +862,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                   nation_adjective_for_player(pplayer),
                   unit_tile_link(pdiplomat),
                   city_link(pcity));
-    wipe_unit(pdiplomat);
+    wipe_unit(pdiplomat, TRUE, cplayer);
     return;
   }
 
@@ -1018,7 +1018,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                     unit_tile_link(pdiplomat),
                     improvement_name_translation(ptarget),
                     city_link(pcity));
-      wipe_unit(pdiplomat);
+      wipe_unit(pdiplomat, TRUE, cplayer);
       log_debug("sabotage: caught in capital or on city walls");
       return;
     }
@@ -1216,7 +1216,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
           notify_unit_experience(pdiplomat);
         }
         send_unit_info(pplayer, pdiplomat);
-        wipe_unit(punit);
+        wipe_unit(punit, TRUE, pplayer);
         return FALSE;
       } else {
         /* Attacking Spy/Diplomat dies. */
@@ -1272,7 +1272,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 	if (maybe_make_veteran(punit)) {
 	  notify_unit_experience(punit);
 	}
-	wipe_unit(pdiplomat);
+	wipe_unit(pdiplomat, TRUE, cplayer);
 	return FALSE;
       }
     }
@@ -1347,7 +1347,7 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
     }
   }
 
-  wipe_unit(pdiplomat);
+  wipe_unit(pdiplomat, FALSE, NULL);
 }
 
 /****************************************************************************
