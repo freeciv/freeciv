@@ -651,7 +651,7 @@ static void remove_illegal_armistice_units(struct player *plr1,
                       "your peace treaty with the %s."),
                     unit_tile_link(punit),
                     nation_plural_for_player(plr2));
-      wipe_unit(punit, ULR_ARMISTICE);
+      wipe_unit(punit, ULR_ARMISTICE, NULL);
     }
   } unit_list_iterate_safe_end;
   unit_list_iterate_safe(plr2->units, punit) {
@@ -662,7 +662,7 @@ static void remove_illegal_armistice_units(struct player *plr1,
                       "your peace treaty with the %s."),
                     unit_tile_link(punit),
                     nation_plural_for_player(plr1));
-      wipe_unit(punit, ULR_ARMISTICE);
+      wipe_unit(punit, ULR_ARMISTICE, NULL);
     }
   } unit_list_iterate_safe_end;
 }

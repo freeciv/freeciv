@@ -898,8 +898,7 @@ static void city_populate(struct city *pcity)
                       _("Famine feared in %s, %s lost!"), 
                       city_link(pcity), unit_tile_link(punit));
 
-        unit_owner(punit)->score.units_lost++;
-        wipe_unit(punit, ULR_STARVED);
+        wipe_unit(punit, ULR_STARVED, NULL);
 
         if (city_exist(saved_id)) {
           pcity->food_stock = (city_granary_size(city_size_get(pcity))
@@ -1873,7 +1872,7 @@ static bool sell_random_unit(struct player *pplayer,
   punit = unit_list_get(punitlist, r);
   gold_upkeep = punit->upkeep[O_GOLD];
 
-  /* All units in punitlist shopuld have gold upkeep! */
+  /* All units in punitlist should have gold upkeep! */
   fc_assert_ret_val(gold_upkeep > 0, FALSE);
 
   notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
@@ -1883,8 +1882,7 @@ static bool sell_random_unit(struct player *pplayer,
             unit_name_translation(punit));
 
   unit_list_remove(punitlist, punit);
-  pplayer->score.units_lost++;
-  wipe_unit(punit, ULR_SOLD);
+  wipe_unit(punit, ULR_SOLD, NULL);
 
   /* Get the upkeep gold back. */
   pplayer->economic.gold += gold_upkeep;
