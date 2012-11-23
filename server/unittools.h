@@ -117,7 +117,8 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
 			      struct unit_type *punittype, int veteran_level,
 			      int homecity_id, int moves_left, int hp_left,
 			      struct unit *ptrans);
-void wipe_unit(struct unit *punit, enum unit_loss_reason reason);
+void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
+               struct player *killer);
 void kill_unit(struct unit *pkiller, struct unit *punit, bool vet);
 
 struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,

@@ -147,7 +147,7 @@ void kill_player(struct player *pplayer)
 
   /* Remove all units that are still ours */
   unit_list_iterate_safe(pplayer->units, punit) {
-    wipe_unit(punit, ULR_PLAYER_DIED);
+    wipe_unit(punit, ULR_PLAYER_DIED, NULL);
   } unit_list_iterate_safe_end;
 
   /* Destroy any remaining cities */

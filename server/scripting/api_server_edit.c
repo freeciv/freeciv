@@ -151,12 +151,12 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest)
     struct city *pcity = tile_city(dest);
 
     if (!can_unit_exist_at_tile(punit, dest)) {
-      wipe_unit(punit, ULR_NONNATIVE_TERR);
+      wipe_unit(punit, ULR_NONNATIVE_TERR, NULL);
       return FALSE;
     }
     if (is_non_allied_unit_tile(dest, owner)
         || (pcity && !pplayers_allied(city_owner(pcity), owner))) {
-      wipe_unit(punit, ULR_STACK_CONFLICT);
+      wipe_unit(punit, ULR_STACK_CONFLICT, NULL);
       return FALSE;
     }
   }

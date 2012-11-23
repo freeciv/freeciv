@@ -1513,7 +1513,7 @@ static void check_units_single_tile(struct tile *ptile)
                       E_UNIT_LOST_MISC, ftc_server,
                       _("Disbanded your %s due to changing terrain."),
                       unit_tile_link(punit));
-        wipe_unit(punit, ULR_NONNATIVE_TERR);
+        wipe_unit(punit, ULR_NONNATIVE_TERR, NULL);
       }
     }
   } unit_list_iterate_safe_end;

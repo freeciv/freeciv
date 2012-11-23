@@ -359,8 +359,7 @@ void player_restore_units(struct player *pplayer)
                       unit_tile_link(punit));
       }
 
-      pplayer->score.units_lost++;
-      wipe_unit(punit, ULR_HP_LOSS);
+      wipe_unit(punit, ULR_HP_LOSS, NULL);
       continue; /* Continue iterating... */
     }
 
@@ -465,8 +464,7 @@ void player_restore_units(struct player *pplayer)
       notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
                     _("Your %s has run out of fuel."),
                     unit_tile_link(punit));
-      pplayer->score.units_lost++;
-      wipe_unit(punit, ULR_FUEL);
+      wipe_unit(punit, ULR_FUEL, NULL);
     } 
   } unit_list_iterate_safe_end;
 
@@ -1156,8 +1154,7 @@ void bounce_unit(struct unit *punit, bool verbose)
                   _("Disbanded your %s."),
                   unit_tile_link(punit));
   }
-  pplayer->score.units_lost++;
-  wipe_unit(punit, ULR_STACK_CONFLICT);
+  wipe_unit(punit, ULR_STACK_CONFLICT, NULL);
 }
 
 
@@ -1552,12 +1549,17 @@ static void server_remove_unit(struct unit *punit, enum unit_loss_reason reason)
 **************************************************************************/
 static void unit_lost_with_transport(const struct player *pplayer,
                                      struct unit *pcargo,
-                                     struct unit_type *ptransport)
+                                     struct unit_type *ptransport,
+                                     struct player *killer)
 {
   notify_player(pplayer, unit_tile(pcargo), E_UNIT_LOST_MISC, ftc_server,
                 _("%s lost when %s was lost."),
                 unit_tile_link(pcargo),
                 utype_name_translation(ptransport));
+  if (killer != NULL) {
+    killer->score.units_killed++;
+  }
+  unit_owner(pcargo)->score.units_lost++;
   server_remove_unit(pcargo, ULR_NONNATIVE_TERR);
 }
 
@@ -1565,7 +1567,8 @@ static void unit_lost_with_transport(const struct player *pplayer,
   Remove the unit, and passengers if it is a carrying any. Remove the 
   _minimum_ number, eg there could be another boat on the square.
 **************************************************************************/
-void wipe_unit(struct unit *punit, enum unit_loss_reason reason)
+void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
+               struct player *killer)
 {
   struct tile *ptile = unit_tile(punit);
   struct player *pplayer = unit_owner(punit);
@@ -1597,6 +1600,41 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason)
   /* Now remove the unit. */
   server_remove_unit(punit, reason);
 
+  switch (reason) {
+  case ULR_KILLED:
+  case ULR_EXECUTED:
+  case ULR_SDI:
+  case ULR_NUKE:
+  case ULR_BRIBED:
+  case ULR_CAPTURED:
+  case ULR_CAUGHT:
+  case ULR_ELIMINATED:
+    if (killer != NULL) {
+      killer->score.units_killed++;
+    }
+    pplayer->score.units_lost++;
+    break;
+  case ULR_BARB_UNLEASH:
+  case ULR_CITY_LOST:
+  case ULR_STARVED:
+  case ULR_NONNATIVE_TERR:
+  case ULR_ARMISTICE:
+  case ULR_HP_LOSS:
+  case ULR_FUEL:
+  case ULR_STACK_CONFLICT:
+  case ULR_SOLD:
+    pplayer->score.units_lost++;
+    break;
+  case ULR_RETIRED:
+  case ULR_DISBANDED:
+  case ULR_USED:
+  case ULR_EDITOR:
+  case ULR_PLAYER_DIED:
+  case ULR_DETONATED:
+  case ULR_MISSILE:
+    break;
+  }
+
   /* Finally reassign, bounce, or destroy all units that cannot exist at this
    * location without transport. */
   if (drowning) {
@@ -1627,7 +1665,7 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason)
 	    }
           }
           if (!unit_has_type_flag(pcargo, F_UNDISBANDABLE) || !pcity) {
-            unit_lost_with_transport(pplayer, pcargo, putype_save);
+            unit_lost_with_transport(pplayer, pcargo, putype_save, killer);
           }
         }
 
@@ -1650,7 +1688,7 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason)
           unit_transport_load(pcargo, ptransport, FALSE);
           send_unit_info(NULL, pcargo);
         } else {
-          unit_lost_with_transport(pplayer, pcargo, putype_save);
+          unit_lost_with_transport(pplayer, pcargo, putype_save, killer);
         }
 
         drowning--;
@@ -1665,7 +1703,7 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason)
 
 /****************************************************************************
   We don't really change owner of the unit, but create completely new
-  unit as it's copy. The new pointer to 'punit' is returned.
+  unit as its copy. The new pointer to 'punit' is returned.
 ****************************************************************************/
 struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
                                int homecity, enum unit_loss_reason reason)
@@ -1697,7 +1735,7 @@ struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
   }
 
   /* Be sure to wipe the converted unit! */
-  wipe_unit(punit, reason);
+  wipe_unit(punit, reason, NULL);
 
   return gained_unit;   /* Returns the replacement. */
 }
@@ -1760,9 +1798,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
                   nation_adjective_for_player(pvictor),
                   pkiller_link);
 
-    pvictor->score.units_killed++;
-    pvictim->score.units_lost++;
-    wipe_unit(punit, ULR_KILLED);
+    wipe_unit(punit, ULR_KILLED, pvictor);
   } else { /* unitcount > 1 */
     int i;
     int num_killed[player_slot_count()];
@@ -1889,9 +1925,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     unit_list_iterate_safe(ptile->units, punit2) {
       if (pplayers_at_war(pvictor, unit_owner(punit2))
 	  && is_unit_reachable_at(punit2, pkiller, ptile)) {
-        pvictor->score.units_killed++;
-        unit_owner(punit2)->score.units_lost++;
-        wipe_unit(punit2, ULR_KILLED);
+        wipe_unit(punit2, ULR_KILLED, pvictor);
       }
     } unit_list_iterate_safe_end;
   }
@@ -2181,9 +2215,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
                     nation_adjective_for_player(unit_owner(punit)),
                     unit_tile_link(punit));
     }
-    pplayer->score.units_killed++;
-    unit_owner(punit)->score.units_lost++;
-    wipe_unit(punit, ULR_NUKE);
+    wipe_unit(punit, ULR_NUKE, pplayer);
   } unit_list_iterate_safe_end;
 
   pcity = tile_city(ptile);
@@ -2487,8 +2519,7 @@ static bool hut_get_limited(struct unit *punit)
     notify_player(pplayer, unit_tile(punit), E_HUT_BARB_KILLED, ftc_server,
                   _("Your %s has been killed by barbarians!"),
                   unit_tile_link(punit));
-    pplayer->score.units_lost++;
-    wipe_unit(punit, ULR_BARB_UNLEASH);
+    wipe_unit(punit, ULR_BARB_UNLEASH, NULL);
     ok = FALSE;
   }
   return ok;

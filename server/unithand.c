@@ -542,7 +542,7 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
     send_city_info(city_owner(pcity), pcity);
   }
 
-  wipe_unit(punit, ULR_DISBANDED);
+  wipe_unit(punit, ULR_DISBANDED, NULL);
 }
 
 /**************************************************************************
@@ -675,7 +675,7 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
                 _("%s added to aid %s in growing."),
                 unit_tile_link(punit),
                 city_link(pcity));
-  wipe_unit(punit, ULR_USED);
+  wipe_unit(punit, ULR_USED, NULL);
 
   sanity_check_city(pcity);
 
@@ -709,7 +709,7 @@ static void city_build(struct player *pplayer, struct unit *punit,
 
     city_change_size(pcity, size);
   }
-  wipe_unit(punit, ULR_USED);
+  wipe_unit(punit, ULR_USED, NULL);
 }
 
 /**************************************************************************
@@ -1079,15 +1079,13 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
       notify_player(city_owner(pcity), def_tile, E_UNIT_WIN, ftc_server,
                     _("The nuclear attack on %s was avoided by"
                       " your SDI defense."), city_link(pcity));
-      pplayer->score.units_lost++;
-      city_owner(pcity)->score.units_killed++;
-      wipe_unit(punit, ULR_SDI);
+      wipe_unit(punit, ULR_SDI, city_owner(pcity));
       return;
     } 
 
     dlsend_packet_nuke_tile_info(game.est_connections, tile_index(def_tile));
 
-    wipe_unit(punit, ULR_DETONATED);
+    wipe_unit(punit, ULR_DETONATED, NULL);
     do_nuclear_explosion(pplayer, def_tile);
     return;
   }
@@ -1178,9 +1176,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
                   loser_link,
                   nation_adjective_for_player(unit_owner(pwinner)),
                   winner_link);
-    unit_owner(ploser)->score.units_lost++;
-    unit_owner(pwinner)->score.units_killed++;
-    wipe_unit(ploser, ULR_KILLED);
+    wipe_unit(ploser, ULR_KILLED, unit_owner(pwinner));
   } else {
     /* The defender lost, the attacker punit lives! */
     int winner_id = pwinner->id;
@@ -1196,7 +1192,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
               vet && !uclass_has_flag(unit_class(punit), UCF_MISSILE));
     if (unit_alive(winner_id)) {
       if (uclass_has_flag(unit_class(pwinner), UCF_MISSILE)) {
-        wipe_unit(pwinner, ULR_MISSILE);
+        wipe_unit(pwinner, ULR_MISSILE, NULL);
         return;
       }
     } else {
@@ -1599,7 +1595,7 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
                 city_link(pcity_dest), 
                 abs(build_points_left(pcity_dest)));
 
-  wipe_unit(punit, ULR_USED);
+  wipe_unit(punit, ULR_USED, NULL);
   send_player_info_c(pplayer, pplayer->connections);
   send_city_info(pplayer, pcity_dest);
   conn_list_do_unbuffer(pplayer->connections);
@@ -1745,7 +1741,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
                 homecity_link,
                 destcity_link,
                 revenue);
-  wipe_unit(punit, ULR_USED);
+  wipe_unit(punit, ULR_USED, NULL);
   pplayer->economic.gold += revenue;
   /* add bulbs and check for finished research */
   update_bulbs(pplayer, revenue, TRUE);

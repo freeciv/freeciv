@@ -984,7 +984,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 
   /* Check if we are an empty barbarian boat and so not needed */
   if (is_barbarian(pplayer) && get_transporter_occupancy(punit) == 0) {
-    wipe_unit(punit, ULR_RETIRED);
+    wipe_unit(punit, ULR_RETIRED, NULL);
     return;
   }
 
