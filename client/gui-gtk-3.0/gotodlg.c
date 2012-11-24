@@ -172,7 +172,10 @@ static void create_goto_dialog(void)
   gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dshell))),
         frame, TRUE, TRUE, 0);
 
-  vbox = gtk_vbox_new(FALSE, 6);
+  vbox = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing(GTK_GRID(vbox), 6);
   gtk_container_add(GTK_CONTAINER(frame), vbox);
 
   store = gtk_list_store_new(GD_COL_NUM, G_TYPE_INT, G_TYPE_STRING,
@@ -181,6 +184,8 @@ static void create_goto_dialog(void)
     GD_COL_CITY_NAME, GTK_SORT_ASCENDING);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  gtk_widget_set_hexpand(view, TRUE);
+  gtk_widget_set_vexpand(view, TRUE);
   g_object_unref(store);
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), TRUE);
@@ -225,12 +230,12 @@ static void create_goto_dialog(void)
   gtk_container_add(GTK_CONTAINER(sw), view);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
     GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-  gtk_widget_set_size_request(sw, -1, 200);
+  gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw), 200);
 
-  gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), sw);
 
   all_toggle = gtk_check_button_new_with_mnemonic(_("Show _All Cities"));
-  gtk_box_pack_start(GTK_BOX(vbox), all_toggle, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), all_toggle);
 
   g_signal_connect(all_toggle, "toggled", G_CALLBACK(update_goto_dialog), NULL);
 
