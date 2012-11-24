@@ -832,11 +832,15 @@ static bool is_terrain_alter_possible_in_range(const struct tile *target_tile,
 ****************************************************************************/
 static bool is_nation_in_range(const struct player *target_player,
 			       enum req_range range, bool survives,
-			       const struct nation_type *nation)
+			       const struct nation_type *nation,
+                               enum req_problem_type prob_type)
 {
   switch (range) {
   case REQ_RANGE_PLAYER:
-    return target_player && nation_of_player(target_player) == nation;
+    if (target_player == NULL) {
+      return prob_type == RPT_POSSIBLE;
+    }
+    return nation_of_player(target_player) == nation;
   case REQ_RANGE_WORLD:
     return (NULL != nation->player
             && (survives || nation->player->is_alive));
@@ -960,7 +964,11 @@ bool is_req_active(const struct player *target_player,
     break;
   case VUT_GOVERNMENT:
     /* The requirement is filled if the player is using the government. */
-    eval = (government_of_player(target_player) == req->source.value.govern);
+    if (target_player == NULL) {
+      eval = (prob_type == RPT_POSSIBLE);
+    } else {
+      eval = (government_of_player(target_player) == req->source.value.govern);
+    }
     break;
   case VUT_IMPROVEMENT:
     /* The requirement is filled if there's at least one of the building
@@ -972,39 +980,63 @@ bool is_req_active(const struct player *target_player,
 				     req->source.value.building) > 0);
     break;
   case VUT_SPECIAL:
-    eval = is_special_in_range(target_tile,
-			       req->range, req->survives,
-			       req->source.value.special);
+    if (target_tile == NULL) {
+      eval = (prob_type == RPT_POSSIBLE);
+    } else {
+      eval = is_special_in_range(target_tile,
+                                 req->range, req->survives,
+                                 req->source.value.special);
+    }
     break;
   case VUT_TERRAIN:
-    eval = is_terrain_in_range(target_tile,
-			       req->range, req->survives,
-			       req->source.value.terrain);
+    if (target_tile == NULL) {
+      eval = (prob_type == RPT_POSSIBLE);
+    } else {
+      eval = is_terrain_in_range(target_tile,
+                                 req->range, req->survives,
+                                 req->source.value.terrain);
+    }
     break;
   case VUT_NATION:
     eval = is_nation_in_range(target_player, req->range, req->survives,
-			      req->source.value.nation);
+                              req->source.value.nation, prob_type);
     break;
   case VUT_UTYPE:
-    eval = is_unittype_in_range(target_unittype,
-				req->range, req->survives,
-				req->source.value.utype);
+    if (target_unittype == NULL) {
+      eval = (prob_type == RPT_POSSIBLE);
+    } else {
+      eval = is_unittype_in_range(target_unittype,
+                                  req->range, req->survives,
+                                  req->source.value.utype);
+    }
     break;
   case VUT_UTFLAG:
-    eval = is_unitflag_in_range(target_unittype,
-				req->range, req->survives,
-				req->source.value.unitflag,
-                                prob_type);
+    if (target_unittype == NULL) {
+      eval = (prob_type == RPT_POSSIBLE);
+    } else {
+      eval = is_unitflag_in_range(target_unittype,
+                                  req->range, req->survives,
+                                  req->source.value.unitflag,
+                                  prob_type);
+    }
     break;
   case VUT_UCLASS:
-    eval = is_unitclass_in_range(target_unittype,
-				 req->range, req->survives,
-				 req->source.value.uclass);
+    if (target_unittype == NULL) {
+      eval = (prob_type == RPT_POSSIBLE);
+    } else {
+      eval = is_unitclass_in_range(target_unittype,
+                                   req->range, req->survives,
+                                   req->source.value.uclass);
+    }
     break;
   case VUT_UCFLAG:
-    eval = is_unitclassflag_in_range(target_unittype,
-				     req->range, req->survives,
-				     req->source.value.unitclassflag);
+    if (target_unittype == NULL) {
+      eval = (prob_type == RPT_POSSIBLE);
+    } else {
+      eval = is_unitclassflag_in_range(target_unittype,
+                                       req->range, req->survives,
+                                       req->source.value.unitclassflag);
+    }
     break;
   case VUT_OTYPE:
     eval = (target_output
@@ -1015,33 +1047,52 @@ bool is_req_active(const struct player *target_player,
 	    && target_specialist == req->source.value.specialist);
     break;
   case VUT_MINSIZE:
-    eval = target_city && target_city->size >= req->source.value.minsize;
+    if (target_city == NULL) {
+      eval = (prob_type == RPT_POSSIBLE);
+    } else {
+      eval = target_city->size >= req->source.value.minsize;
+    }
     break;
   case VUT_AI_LEVEL:
-    eval = target_player
-      && target_player->ai_controlled
-      && target_player->ai_common.skill_level == req->source.value.ai_level;
+    if (target_player == NULL) {
+      eval = (prob_type == RPT_POSSIBLE);
+    } else {
+      eval = target_player->ai_controlled
+        && target_player->ai_common.skill_level == req->source.value.ai_level;
+    }
     break;
   case VUT_TERRAINCLASS:
-    eval = is_terrain_class_in_range(target_tile,
-                                     req->range, req->survives,
-                                     req->source.value.terrainclass);
+    if (target_tile == NULL) {
+      eval = (prob_type == RPT_POSSIBLE);
+    } else {
+      eval = is_terrain_class_in_range(target_tile,
+                                       req->range, req->survives,
+                                       req->source.value.terrainclass);
+    }
     break;
   case VUT_BASE:
-    eval = is_base_type_in_range(target_tile,
-                                 req->range, req->survives,
-                                 req->source.value.base);
+    if (target_tile == NULL) {
+      eval = (prob_type == RPT_POSSIBLE);
+    } else {
+      eval = is_base_type_in_range(target_tile,
+                                   req->range, req->survives,
+                                   req->source.value.base);
+    }
     break;
   case VUT_MINYEAR:
     eval = game.info.year >= req->source.value.minyear;
     break;
   case VUT_TERRAINALTER:
-    eval = is_terrain_alter_possible_in_range(target_tile,
-                                              req->range, req->survives,
-                                              req->source.value.terrainalter);
+    if (target_tile == NULL) {
+      eval = (prob_type == RPT_POSSIBLE);
+    } else {
+      eval = is_terrain_alter_possible_in_range(target_tile,
+                                                req->range, req->survives,
+                                                req->source.value.terrainalter);
+    }
     break;
   case VUT_CITYTILE:
-    if (target_tile) {
+    if (target_tile != NULL) {
       if (req->source.value.citytile == CITYT_CENTER) {
         if (target_city) {
           eval = is_city_center(target_city, target_tile);
@@ -1055,7 +1106,7 @@ bool is_req_active(const struct player *target_player,
         return FALSE;
       }
     } else {
-      eval = FALSE;
+      eval = (prob_type == RPT_POSSIBLE);
     }
     break;
   case VUT_COUNT:
