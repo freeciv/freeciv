@@ -3115,10 +3115,15 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   ASSERT_VISION(new_vision);
 
   /* Claim ownership of fortress? */
-  if (!base_owner(pdesttile)
-      || pplayers_at_war(base_owner(pdesttile), pplayer)) {
+  if ((!base_owner(pdesttile)
+       || pplayers_at_war(base_owner(pdesttile), pplayer))
+      && tile_has_claimable_base(pdesttile, unit_type(punit))) {
     struct player *old_owner = base_owner(pdesttile);
 
+    /* Yes. We claim *all* bases if there's *any* claimable base(s).
+     * Even if original unit cannot claim other kind of bases, the
+     * first claimed base will have influence over other bases,
+     * or something like that. */
     base_type_iterate(pbase) {
       map_claim_base(pdesttile, pbase, pplayer, old_owner);
     } base_type_iterate_end;
