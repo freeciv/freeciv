@@ -1143,8 +1143,18 @@ bool can_unit_do_connect(struct unit *punit,
     if (proad == NULL) {
       return FALSE;
     }
-    return tile_has_road(ptile, proad)
-      || can_build_road(proad, punit, ptile);
+
+    if (tile_has_road(ptile, proad)) {
+      /* This tile has road, can unit build road to other tiles too? */
+      return are_reqs_active(NULL, NULL, NULL, NULL,
+                             unit_type(punit), NULL, NULL,
+                             &proad->reqs, RPT_POSSIBLE);
+    }
+
+    /* To start connect, unit must be able to build road to this
+     * particular tile. */
+    return can_build_road(proad, punit, ptile);
+    
   case ACTIVITY_IRRIGATE:
     /* Special case for irrigation: only irrigate to make S_IRRIGATION,
      * never to transform tiles. */
