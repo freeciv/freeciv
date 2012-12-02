@@ -527,6 +527,7 @@ static void science_report_goal_callback(GtkComboBox *combo, gpointer data)
 static void science_report_init(struct science_report *preport)
 {
   GtkWidget *frame, *table, *help_button, *reachable_button, *sw, *w;
+  GtkSizeGroup *group;
   GtkBox *vbox;
   GtkListStore *store;
   GtkCellRenderer *renderer;
@@ -541,6 +542,7 @@ static void science_report_init(struct science_report *preport)
   gui_dialog_set_default_response(preport->shell, GTK_RESPONSE_CLOSE);
 
   vbox = GTK_BOX(preport->shell->vbox);
+  group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 
   w = gtk_label_new(NULL);
   gtk_box_pack_start(vbox, w, FALSE, FALSE, 0);
@@ -550,15 +552,16 @@ static void science_report_init(struct science_report *preport)
   frame = gtk_frame_new(_("Researching"));
   gtk_box_pack_start(vbox, frame, FALSE, FALSE, 0);
 
-  table = gtk_table_new(1, 6, TRUE);
-  gtk_table_set_col_spacings(GTK_TABLE(table), 4);
+  table = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(table), 4);
   gtk_container_add(GTK_CONTAINER(frame), table);
 
   help_button = gtk_check_button_new_with_label(_("Help"));
-  gtk_table_attach(GTK_TABLE(table), help_button, 5, 6, 0, 1, 0, 0, 0, 0);
+  gtk_grid_attach(GTK_GRID(table), help_button, 5, 0, 1, 1);
 
   store = science_report_store_new();
   w = gtk_combo_box_new_with_model(GTK_TREE_MODEL(store));
+  gtk_size_group_add_widget(group, w);
   g_object_unref(G_OBJECT(store));
   renderer = gtk_cell_renderer_text_new();
   gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(w), renderer, TRUE);
@@ -567,12 +570,13 @@ static void science_report_init(struct science_report *preport)
   gtk_widget_set_sensitive(w, can_client_issue_orders());
   g_signal_connect(w, "changed", G_CALLBACK(science_report_current_callback),
                    help_button);
-  gtk_table_attach_defaults(GTK_TABLE(table), w, 0, 2, 0, 1);
+  gtk_grid_attach(GTK_GRID(table), w, 0, 0, 1, 1);
   preport->reachable_techs = GTK_COMBO_BOX(w);
 
   w = gtk_progress_bar_new();
+  gtk_widget_set_hexpand(w, TRUE);
   gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(w), TRUE);
-  gtk_table_attach_defaults(GTK_TABLE(table), w, 2, 5, 0, 1);
+  gtk_grid_attach(GTK_GRID(table), w, 2, 0, 1, 1);
   gtk_widget_set_size_request(w, -1, 25);
   preport->progress_bar = GTK_PROGRESS_BAR(w);
 
@@ -580,12 +584,13 @@ static void science_report_init(struct science_report *preport)
   frame = gtk_frame_new( _("Goal"));
   gtk_box_pack_start(vbox, frame, FALSE, FALSE, 0);
 
-  table = gtk_table_new(1, 6, TRUE);
-  gtk_table_set_col_spacings(GTK_TABLE(table), 4);
+  table = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(table), 4);
   gtk_container_add(GTK_CONTAINER(frame),table);
 
   store = science_report_store_new();
   w = gtk_combo_box_new_with_model(GTK_TREE_MODEL(store));
+  gtk_size_group_add_widget(group, w);
   g_object_unref(G_OBJECT(store));
   renderer = gtk_cell_renderer_text_new();
   gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(w), renderer, TRUE);
@@ -598,19 +603,19 @@ static void science_report_init(struct science_report *preport)
   gtk_widget_set_sensitive(w, can_client_issue_orders());
   g_signal_connect(w, "changed", G_CALLBACK(science_report_goal_callback),
                    help_button);
-  gtk_table_attach_defaults(GTK_TABLE(table), w, 0, 2, 0, 1);
+  gtk_grid_attach(GTK_GRID(table), w, 0, 0, 1, 1);
   preport->reachable_goals = GTK_COMBO_BOX(w);
 
   w = gtk_label_new(NULL);
-  gtk_table_attach_defaults(GTK_TABLE(table), w, 2, 5, 0, 1);
+  gtk_widget_set_hexpand(w, TRUE);
+  gtk_grid_attach(GTK_GRID(table), w, 2, 0, 1, 1);
   gtk_widget_set_size_request(w, -1, 25);
   preport->goal_label = GTK_LABEL(w);
 
   /* Toggle unreachable button. */
   /* TRANS: As in 'Show all (even currently not reachable) techs'. */
   reachable_button = gtk_toggle_button_new_with_label(_("Show all"));
-  gtk_table_attach(GTK_TABLE(table), reachable_button, 5, 6, 0, 1, 0, 0, 0,
-                   0);
+  gtk_grid_attach(GTK_GRID(table), reachable_button, 5, 0, 1, 1);
   g_signal_connect(reachable_button, "toggled",
                    G_CALLBACK(science_report_unreachable_callback), preport);
   gtk_widget_set_sensitive(reachable_button, can_client_issue_orders()
@@ -630,6 +635,7 @@ static void science_report_init(struct science_report *preport)
   science_report_update(preport);
   gui_dialog_show_all(preport->shell);
   gtk_widget_queue_draw(GTK_WIDGET(preport->drawing_area));
+  g_object_unref(group);
 
   /* This must be _after_ the dialog is drawn to really center it ... */
   science_report_redraw(preport);
