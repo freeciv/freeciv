@@ -475,7 +475,7 @@ static struct unit *find_best_focus_candidate(bool accept_current)
 	  && punit->client.focus_status == FOCUS_AVAIL
 	  && punit->activity == ACTIVITY_IDLE
 	  && !unit_has_orders(punit)
-	  && punit->moves_left > 0
+	  && (punit->moves_left > 0 || unit_type(punit)->move_rate == 0)
 	  && !punit->done_moving
 	  && !punit->ai_controlled) {
 	return punit;
