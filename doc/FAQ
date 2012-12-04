@@ -1157,16 +1157,16 @@ set HOME="C:\Documents And Settings\(your username goes here)\Application Data"
 
 3.30.1 Memory
 
-   In a typical game the server takes about 15MB of memory and the client
-   needs about 25MB. These values may change with larger maps or tilesets.
-   For a single player game you need to run both the client and the
-   server.
+   In a typical game the server takes about 30MB of memory and the client
+   needs about 200MB. These values may change with larger maps or
+   tilesets. For a single player game you need to run both the client and
+   the server.
 
 -------
 
 3.30.2 Processor
 
-   We recommend at least a 100MHz processor. If you find your game running
+   We recommend at least a 200MHz processor. If you find your game running
    too slow, these may be the reasons:
 
    Too little memory
