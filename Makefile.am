@@ -108,7 +108,8 @@ EXTRA_DIST=	autogen.sh 			\
 		vms/readme.vms			\
 		vms/vms_build.com		\
 		scripts/mapimg2anim		\
-		scripts/setup_auth_server.sh
+		scripts/setup_auth_server.sh	\
+		NEWS-2.4
 
 noinst_HEADERS= fc_version
 
