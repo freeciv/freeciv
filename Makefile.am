@@ -97,7 +97,8 @@ EXTRA_DIST=	autogen.sh 			\
 		vms/imlib_config.h_vms		\
 		vms/readme.vms			\
 		vms/vms_build.com		\
-		scripts/setup_auth_server.sh
+		scripts/setup_auth_server.sh	\
+		NEWS-2.3
 
 noinst_HEADERS= fc_version
 
