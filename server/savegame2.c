@@ -4563,6 +4563,7 @@ static void sg_load_player_units(struct loaddata *loading,
     const char *name;
     char buf[32];
     struct unit_type *type;
+    struct tile *ptile;
 
     fc_snprintf(buf, sizeof(buf), "player%d.u%d", plrno, i);
 
@@ -4587,8 +4588,10 @@ static void sg_load_player_units(struct loaddata *loading,
       punit->homecity = IDENTITY_NUMBER_ZERO;
     }
 
+    ptile = unit_tile(punit);
+
     /* allocate the unit's contribution to fog of war */
-    punit->server.vision = vision_new(unit_owner(punit), unit_tile(punit));
+    punit->server.vision = vision_new(unit_owner(punit), ptile);
     unit_refresh_vision(punit);
     /* NOTE: There used to be some map_set_known calls here.  These were
      * unneeded since unfogging the tile when the unit sees it will
@@ -4598,14 +4601,14 @@ static void sg_load_player_units(struct loaddata *loading,
     unit_list_prepend(unit_tile(punit)->units, punit);
 
     /* Claim ownership of fortress? */
-    if (tile_has_claimable_base(unit_tile(punit), unit_type(punit))
-        && (!tile_owner(unit_tile(punit))
-            || (tile_owner(unit_tile(punit))
-                && pplayers_at_war(tile_owner(unit_tile(punit)), plr)))) {
-      map_claim_ownership(unit_tile(punit), plr, unit_tile(punit));
-      map_claim_border(unit_tile(punit), plr);
-      /* city_thaw_workers_queue() later */
-      /* city_refresh() later */
+    if ((!base_owner(ptile)
+         || pplayers_at_war(base_owner(ptile), plr))
+        && tile_has_claimable_base(ptile, unit_type(punit))) {
+      struct player *old_owner = base_owner(ptile);
+
+      base_type_iterate(pbase) {
+        map_claim_base(ptile, pbase, plr, old_owner);
+      } base_type_iterate_end;
     }
   }
 }

@@ -1454,6 +1454,7 @@ static void player_load_units(struct player *plr, int plrno,
     int base;
     char unitstr[32];
     int ei;
+    struct tile *ptile;
 
     type_name = secfile_lookup_str(file, "player%d.u%d.type_by_name",
                                    plrno, i);
@@ -1489,7 +1490,8 @@ static void player_load_units(struct player *plr, int plrno,
     fc_assert_exit_msg(secfile_lookup_int(file, &nat_y, "player%d.u%d.y",
                                           plrno, i), "%s", secfile_error());
     unit_tile_set(punit, native_pos_to_tile(nat_x, nat_y));
-    if (NULL == unit_tile(punit)) {
+    ptile = unit_tile(punit);
+    if (NULL == ptile) {
       log_fatal("player%d.u%d invalid tile (%d, %d)",
                 plrno, i, nat_x, nat_y);
       exit(EXIT_FAILURE);
@@ -1579,10 +1581,10 @@ static void player_load_units(struct player *plr, int plrno,
 
     if (activity == ACTIVITY_FORTRESS) {
       activity = ACTIVITY_BASE;
-      pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, punit, unit_tile(punit));
+      pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, punit, ptile);
     } else if (activity == ACTIVITY_AIRBASE) {
       activity = ACTIVITY_BASE;
-      pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, punit, unit_tile(punit));
+      pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, punit, ptile);
     }
 
     if (activity == ACTIVITY_OLD_ROAD) {
@@ -1800,7 +1802,7 @@ static void player_load_units(struct player *plr, int plrno,
     }
 
     /* allocate the unit's contribution to fog of war */
-    punit->server.vision = vision_new(unit_owner(punit), unit_tile(punit));
+    punit->server.vision = vision_new(unit_owner(punit), ptile);
     unit_refresh_vision(punit);
     /* NOTE: There used to be some map_set_known calls here.  These were
      * unneeded since unfogging the tile when the unit sees it will
@@ -1808,17 +1810,17 @@ static void player_load_units(struct player *plr, int plrno,
 
     unit_list_append(plr->units, punit);
 
-    unit_list_prepend(unit_tile(punit)->units, punit);
+    unit_list_prepend(ptile->units, punit);
 
     /* Claim ownership of fortress? */
-    if (tile_has_claimable_base(unit_tile(punit), unit_type(punit))
-        && (!tile_owner(unit_tile(punit))
-            || (tile_owner(unit_tile(punit))
-                && pplayers_at_war(tile_owner(unit_tile(punit)), plr)))) {
-      map_claim_ownership(unit_tile(punit), plr, unit_tile(punit));
-      map_claim_border(unit_tile(punit), plr);
-      /* city_thaw_workers_queue() later */
-      /* city_refresh() later */
+    if ((!base_owner(ptile)
+         || pplayers_at_war(base_owner(ptile), plr))
+        && tile_has_claimable_base(ptile, unit_type(punit))) {
+      struct player *old_owner = base_owner(ptile);
+
+      base_type_iterate(pbase) {
+        map_claim_base(ptile, pbase, plr, old_owner);
+      } base_type_iterate_end;
     }
   }
 }
