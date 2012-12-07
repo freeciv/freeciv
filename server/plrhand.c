@@ -475,6 +475,38 @@ void update_players_after_alliance_breakup(struct player* pplayer,
    resolve_unit_stacks(pplayer, pplayer2, TRUE);
 }
 
+/**************************************************************************
+  If there's any units of new_owner on tile, they claim bases.
+**************************************************************************/
+static void maybe_claim_base(struct tile *ptile, struct player *new_owner,
+                             struct player *old_owner)
+{
+  bool claim = FALSE;
+
+  if (BORDERS_DISABLED == game.info.borders) {
+    return;
+  }
+
+  unit_list_iterate(ptile->units, punit) {
+    if (unit_owner(punit) == new_owner
+        && tile_has_claimable_base(ptile, unit_type(punit))) {
+      claim = TRUE;
+      break;
+    }
+  } unit_list_iterate_end;
+
+  if (claim) {
+    map_claim_ownership(ptile, new_owner, ptile);
+
+    /* Clear borders from old owner. New owner may not know all those
+     * tiles and thus does not claim them when borders mode is less
+     * than EXPAND. */
+    map_clear_border(ptile);
+    map_claim_border(ptile, new_owner);
+    city_thaw_workers_queue();
+    city_refresh_queue_processing();
+  }
+}
 
 /**************************************************************************
   Handles a player cancelling a "pact" with another player.
@@ -582,6 +614,17 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   }
   if (new_type == DS_WAR) {
     call_incident(INCIDENT_WAR, pplayer, pplayer2);
+
+    /* Claim bases where units are already standing */
+    whole_map_iterate(ptile) {
+      struct player *old_owner = tile_owner(ptile);
+
+      if (old_owner == pplayer2) {
+        maybe_claim_base(ptile, pplayer, old_owner);
+      } else if (old_owner == pplayer) {
+        maybe_claim_base(ptile, pplayer2, old_owner);
+      }
+    } whole_map_iterate_end;
   }
   ds_plrplr2->has_reason_to_cancel = 0;
 
