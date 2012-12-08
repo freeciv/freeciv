@@ -5,14 +5,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-03 11:58-0500\n"
+"POT-Creation-Date: 2012-12-08 12:06+0000\n"
 "PO-Revision-Date: 2011-01-29 07:42-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
-"Language: ga\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ga\n"
 "Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n < 11 ? "
 "3 : 4\n"
 
@@ -476,7 +476,7 @@ msgid "Built unit with population cost"
 msgstr "Tógadh aonad le costas daonra"
 
 #. TRANS: "vote" as a process
-#: common/events.c:170 server/stdinhand.c:4001
+#: common/events.c:170 server/stdinhand.c:4002
 msgid "New vote"
 msgstr "Toghchán nua"
 
@@ -608,7 +608,11 @@ msgstr "An tUasal %s"
 msgid "Ms. %s"
 msgstr "Bean %s"
 
-#: common/packets.c:408 common/packets.c:453
+#: common/packets.c:392
+msgid "illegal packet size"
+msgstr ""
+
+#: common/packets.c:416 common/packets.c:461
 msgid "decoding error"
 msgstr "earráid díchódaithe"
 
@@ -714,22 +718,22 @@ msgid "?diplomatic_state:Team"
 msgstr "?diplomatic_state:Foireann"
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:518 common/requirements.c:533
+#: common/requirements.c:515 common/requirements.c:530
 msgid "World-ranged requirements are only supported for wonders."
 msgstr ""
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:549
+#: common/requirements.c:546
 msgid "Player-ranged requirements are only supported for wonders."
 msgstr ""
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:571
+#: common/requirements.c:568
 msgid "Island-ranged requirements are only supported for wonders."
 msgstr ""
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:621
+#: common/requirements.c:618
 msgid "Surviving requirements are only supported at world range."
 msgstr ""
 
@@ -739,7 +743,7 @@ msgstr ""
 #. TRANS: missing value
 #. TRANS: "Resources: (none)".
 #. TRANS: "Conflicts with: (none)" (bases)
-#: common/requirements.c:1229 common/requirements.c:1283
+#: common/requirements.c:1277 common/requirements.c:1331
 #: client/gui-gtk-2.0/helpdlg.c:1098 client/gui-gtk-2.0/helpdlg.c:1192
 #: client/gui-gtk-2.0/inteldlg.c:407 client/gui-xaw/helpdlg.c:1005
 #: client/gui-xaw/helpdlg.c:1090
@@ -747,56 +751,56 @@ msgstr ""
 msgid "(none)"
 msgstr "(faic)"
 
-#: common/requirements.c:1255 common/requirements.c:1332
+#: common/requirements.c:1303 common/requirements.c:1380
 #, c-format
 msgid "Size %d"
 msgstr "Méid %d"
 
 # %s is a unit flag name - untranslatable: "CityBuster", or "Unbribable", etc.
-#: common/requirements.c:1310 common/requirements.c:1319
+#: common/requirements.c:1358 common/requirements.c:1367
 #, c-format
 msgid "\"%s\" units"
 msgstr "Aonaid \"%s\""
 
 # %s is the translated name of the unit class ("Settlers Units"?); FIXME
-#: common/requirements.c:1315
+#: common/requirements.c:1363
 #, c-format
 msgid "%s units"
 msgstr "Aonaid %s"
 
 # Away, Novice, Easy, Normal, Hard, Cheating... all adjs: OK
 #. TRANS: "Hard AI"
-#: common/requirements.c:1337
+#: common/requirements.c:1385
 #, c-format
 msgid "%s AI"
 msgstr "IS %s"
 
 # "Land" or "Oceanic"; "tír-raon aigeanach" would be weird
 #. TRANS: "Land terrain"
-#: common/requirements.c:1342
+#: common/requirements.c:1390
 #, c-format
 msgid "%s terrain"
 msgstr "Suíomh %s"
 
 #. TRANS: "Fortress base"
-#: common/requirements.c:1347
+#: common/requirements.c:1395
 #, c-format
 msgid "%s base"
 msgstr "Bunáit: %s"
 
 # %s is a year
-#: common/requirements.c:1351
+#: common/requirements.c:1399
 #, c-format
 msgid "After %s"
 msgstr "Tar éis %s"
 
 #. TRANS: "Irrigation possible"
-#: common/requirements.c:1356
+#: common/requirements.c:1404
 #, c-format
 msgid "%s possible"
 msgstr "%s indéanta"
 
-#: common/requirements.c:1360
+#: common/requirements.c:1408
 msgid "City center tile"
 msgstr ""
 
@@ -1312,26 +1316,26 @@ msgstr[4] " (%d uair ina iomláine)"
 msgid "Please report this message at %s"
 msgstr "Déan tuairisc ar an teachtaireacht seo ag %s"
 
-#: utility/shared.c:206
+#: utility/shared.c:207
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "Argóint fholamh le haghaidh \"%s\".\n"
 
-#: utility/shared.c:210
+#: utility/shared.c:211
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "Argóint ar iarraidh le haghaidh \"%s\".\n"
 
 #. TRANS: <FREECIV_DATA_PATH> configuration error
 #. TRANS: <FREECIV_SAVE_PATH> configuration error
-#: utility/shared.c:949 utility/shared.c:994 utility/shared.c:1054
+#: utility/shared.c:950 utility/shared.c:995 utility/shared.c:1055
 #, c-format
 msgid "\"%s\" is set but empty; trying \"%s\" instead."
 msgstr ""
 "Tá \"%s\" socraithe ach tá sé folamh; bainfear triail as \"%s\" ina ionad."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:955
+#: utility/shared.c:956
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" data directories instead."
 msgstr ""
@@ -1339,7 +1343,7 @@ msgstr ""
 "réamhshocraithe sonraí \"%s\" ina ionad."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1001
+#: utility/shared.c:1002
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" save directories instead."
 msgstr ""
@@ -1347,7 +1351,7 @@ msgstr ""
 "réamhshocraithe sábhála \"%s\" ina ionad."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1061
+#: utility/shared.c:1062
 #, c-format
 msgid ""
 "\"%s\" is set but empty; using default \"%s\" scenario directories instead."
@@ -1356,62 +1360,62 @@ msgstr ""
 "réamhshocraithe cnámhscéalta \"%s\" ina ionad."
 
 #. TRANS: "...: <externally translated error string>."
-#: utility/shared.c:1130
+#: utility/shared.c:1131
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Níorbh fhéidir comhadlann sonraí %s a léamh: %s."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1352
+#: utility/shared.c:1353
 #, c-format
 msgid "The path may be set via the \"%s\" environment variable."
 msgstr "Is féidir an chonair a shocrú tríd an athróg thimpeallachta \"%s\"."
 
-#: utility/shared.c:1354
+#: utility/shared.c:1355
 #, c-format
 msgid "Current path is: \"%s\""
 msgstr "An chonair faoi láthair: \"%s\""
 
-#: utility/shared.c:1355
+#: utility/shared.c:1356
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "Tá an comhad \"%s\" riachtanach... á thobscor!"
 
-#: utility/shared.c:1544
+#: utility/shared.c:1545
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr ""
 "%s: Earráid mharfach: tá tú ag iarraidh an clár a rith mar fhorúsáideoir!\n"
 
-#: utility/shared.c:1546
+#: utility/shared.c:1547
 msgid "Use a non-privileged account instead.\n"
 msgstr "Úsáid cuntas eile nach bhfuil ceadanna an fhorúsáideora aige.\n"
 
-#: utility/shared.c:1562
+#: utility/shared.c:1563
 msgid "exact match"
 msgstr "toradh beacht"
 
-#: utility/shared.c:1563
+#: utility/shared.c:1564
 msgid "only match"
 msgstr "an toradh amháin"
 
-#: utility/shared.c:1564
+#: utility/shared.c:1565
 msgid "ambiguous"
 msgstr "athbhríoch"
 
-#: utility/shared.c:1565
+#: utility/shared.c:1566
 msgid "empty"
 msgstr "folamh"
 
-#: utility/shared.c:1566
+#: utility/shared.c:1567
 msgid "too long"
 msgstr "rófhada"
 
-#: utility/shared.c:1567
+#: utility/shared.c:1568
 msgid "non-match"
 msgstr "neamh-chomhoiriúnach"
 
-#: utility/shared.c:1888
+#: utility/shared.c:1889
 msgid "day"
 msgid_plural "days"
 msgstr[0] "lá"
@@ -1420,7 +1424,7 @@ msgstr[2] "lá"
 msgstr[3] "lá"
 msgstr[4] "lá"
 
-#: utility/shared.c:1893
+#: utility/shared.c:1894
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "uair"
@@ -1429,7 +1433,7 @@ msgstr[2] "huaire"
 msgstr[3] "n-uaire"
 msgstr[4] "uair"
 
-#: utility/shared.c:1899
+#: utility/shared.c:1900
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "nóiméad"
@@ -1438,7 +1442,7 @@ msgstr[2] "nóiméad"
 msgstr[3] "nóiméad"
 msgstr[4] "nóiméad"
 
-#: utility/shared.c:1905
+#: utility/shared.c:1906
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "soicind"
@@ -1447,11 +1451,11 @@ msgstr[2] "shoicind"
 msgstr[3] "soicind"
 msgstr[4] "soicind"
 
-#: utility/shared.c:2171 client/gui-gtk-2.0/editprop.c:856
+#: utility/shared.c:2172 client/gui-gtk-2.0/editprop.c:856
 msgid "TRUE"
 msgstr "FÍOR"
 
-#: utility/shared.c:2171 client/gui-gtk-2.0/editprop.c:856
+#: utility/shared.c:2172 client/gui-gtk-2.0/editprop.c:856
 msgid "FALSE"
 msgstr "BRÉAGACH"
 
@@ -1466,13 +1470,13 @@ msgid "error %d (compiled without strerror)"
 msgstr "earráid %d (tiomsaithe gan strerror)"
 
 # nation plural, city_production_name, city
-#: ai/aicity.c:265 server/citytools.c:2380
+#: ai/aicity.c:265 server/citytools.c:2376
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "Stop na %s ar thógáil %s in %s"
 
 # nation plural, city_improvement_name, city
-#: ai/aicity.c:276 server/citytools.c:2418
+#: ai/aicity.c:276 server/citytools.c:2414
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "Thosaigh na %s ar thógáil %s in %s."
@@ -1501,8 +1505,8 @@ msgstr "*%s (IS)* Cuir deireadh leis an aontas le %s i dtús báire, a %s."
 #: ai/advdiplomacy.c:341
 #, c-format
 msgid ""
-"*%s (AI)* I would like to see you keep your distance from %s for some time, "
-"%s."
+"*%s (AI)* I would like to see you keep your distance from %s for some time, %"
+"s."
 msgstr ""
 "*%s (IS)* Táim ag iarraidh go bhfanfaidh tú amach ó %s ar fad tamaill, a %s."
 
@@ -1837,8 +1841,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1611
 #, c-format
 msgid ""
-"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
-"%s. Why do I need to remind you of your promises?"
+"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
+"s. Why do I need to remind you of your promises?"
 msgstr ""
 "*%s (IS)* Dia dhuit a chomhghuaillí, níor fhógair tú an cogadh lenár "
 "namhaid, %s. An ngá dom do gheallúintí a chur i gcuimhne duit? "
@@ -2185,26 +2189,26 @@ msgid "%s %s lost in transfer to %s %s"
 msgstr "%2$s %1$s caillte le linn aistrithe go %4$s (%3$s)"
 
 # %s = unit, city
-#: server/citytools.c:710
+#: server/citytools.c:709
 #, c-format
 msgid "%s lost along with control of %s."
 msgstr "Cailleadh %s, chomh maith le smacht ar %s."
 
 #. TRANS: <building> ... <city>
-#: server/citytools.c:908
+#: server/citytools.c:906
 #, c-format
 msgid "A replacement %s was built in %s."
 msgstr "Tógáladh %s nua i %s."
 
 # %s = city, city
-#: server/citytools.c:997
+#: server/citytools.c:995
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr ""
 "Bhí cathair darb ainm %s agat cheana.  Cuireadh ainm nua %s ar an gcathair."
 
 # %s = city
-#: server/citytools.c:1062
+#: server/citytools.c:1060
 #, c-format
 msgid ""
 "The people in %s are stunned by your technological insight!\n"
@@ -2215,19 +2219,19 @@ msgstr ""
 "le hiarnród."
 
 # %s = city
-#: server/citytools.c:1334
+#: server/citytools.c:1332
 #, c-format
 msgid "You have founded %s."
 msgstr "Bhunaigh tú %s."
 
 # %s = unit, city, terrain_name; FIXME
-#: server/citytools.c:1412
+#: server/citytools.c:1410
 #, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr "Bogadh %s ó chathair scortha %s toisc nach bhfuil aige fanacht ar %s."
 
 # city, unit; FIXME (prefix t if unit starts with vowel)
-#: server/citytools.c:1425
+#: server/citytools.c:1423
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
@@ -2235,19 +2239,19 @@ msgstr ""
 "Nuair a scoireadh %s, cailleadh an %s s'agat toisc nach raibh sé in ann éalú."
 
 # city
-#: server/citytools.c:1586
+#: server/citytools.c:1582
 #, c-format
 msgid "You destroy %s completely."
 msgstr "Díothaíonn tú %s."
 
 # city, player
-#: server/citytools.c:1589
+#: server/citytools.c:1585
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "Bhí %s díothaithe ag %s."
 
 # city
-#: server/citytools.c:1615
+#: server/citytools.c:1611
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
@@ -2258,7 +2262,7 @@ msgstr[3] "Ghabh tú %s; tá luach %d bpíosa óir ar do chuid creiche!"
 msgstr[4] "Ghabh tú %s; tá luach %d píosa óir ar do chuid creiche!"
 
 # player, city
-#: server/citytools.c:1622
+#: server/citytools.c:1618
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
@@ -2269,19 +2273,19 @@ msgstr[3] "Fuair %s bua ar %s agus ghoid sé %d bpíosa óir ón chathair."
 msgstr[4] "Fuair %s bua ar %s agus ghoid sé %d píosa óir ón chathair."
 
 # city
-#: server/citytools.c:1631
+#: server/citytools.c:1627
 #, c-format
 msgid "You conquer %s."
 msgstr "Faigheann tú bua ar %s."
 
 # player, city
-#: server/citytools.c:1634
+#: server/citytools.c:1630
 #, c-format
 msgid "%s conquered %s."
 msgstr "Fuair %s bua ar %s."
 
 # city
-#: server/citytools.c:1641
+#: server/citytools.c:1637
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
@@ -2292,7 +2296,7 @@ msgstr[3] "D'fhuascail tú %s! Tá luach %d bpíosa óir ar do chuid creiche."
 msgstr[4] "D'fhuascail tú %s! Tá luach %d píosa óir ar do chuid creiche."
 
 # player, city
-#: server/citytools.c:1648
+#: server/citytools.c:1644
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
@@ -2303,29 +2307,29 @@ msgstr[3] "D'fhuascail %s %s agus ghoid sé %d bpíosa óir ón chathair."
 msgstr[4] "D'fhuascail %s %s agus ghoid sé %d píosa óir ón chathair."
 
 # city
-#: server/citytools.c:1657
+#: server/citytools.c:1653
 #, c-format
 msgid "You have liberated %s!"
 msgstr "Bhí %s fuascailte agat!"
 
 # player, city
-#: server/citytools.c:1660
+#: server/citytools.c:1656
 #, c-format
 msgid "%s liberated %s."
 msgstr "D'fhuascail %s %s."
 
-#: server/citytools.c:2397
+#: server/citytools.c:2393
 msgid " from the worklist"
 msgstr " ón liosta oibre"
 
 # source = " from the worklist" always?
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:2409
+#: server/citytools.c:2405
 #, c-format
 msgid "%s is building %s%s."
 msgstr "Tá %s ag tógáil %s%s."
 
-#: server/citytools.c:2575
+#: server/citytools.c:2571
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
@@ -2336,16 +2340,16 @@ msgstr[3] "Dhíol tú %s in %s (atá talamhiata anois) ar %d bpíosa óir."
 msgstr[4] "Dhíol tú %s in %s (atá talamhiata anois) ar %d píosa óir."
 
 # %s = city, then "increased" or "decreased"
-#: server/citytools.c:2708
+#: server/citytools.c:2704
 #, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "Bhí méid an mhapa de %s %s."
 
-#: server/citytools.c:2710
+#: server/citytools.c:2706
 msgid "increased"
 msgstr "méadaithe"
 
-#: server/citytools.c:2711
+#: server/citytools.c:2707
 msgid "reduced"
 msgstr "laghdaithe"
 
@@ -2412,19 +2416,19 @@ msgid "Famine feared in %s, %s lost!"
 msgstr "Faitíos roimh ghorta i %s, cailleadh %s!"
 
 # city
-#: server/cityturn.c:873
+#: server/cityturn.c:872
 #, c-format
 msgid "Famine causes population loss in %s."
 msgstr "D'ísligh gorta an daonra in %s."
 
 # city
-#: server/cityturn.c:878
+#: server/cityturn.c:877
 #, c-format
 msgid "Famine destroys %s entirely."
 msgstr "Bhí %s díothaithe go hiomlán ag gorta."
 
 # city name... improvement
-#: server/cityturn.c:977
+#: server/cityturn.c:976
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech not yet available.  Postponing..."
@@ -2433,19 +2437,19 @@ msgstr ""
 "ar fáil go fóill. Á chur ar athló..."
 
 # city name... improvement
-#: server/cityturn.c:993 server/cityturn.c:1033
+#: server/cityturn.c:992 server/cityturn.c:1032
 #, c-format
 msgid "%s can't build %s from the worklist.  Purging..."
 msgstr "Ní féidir le %s %s ar an liosta oibriúcháin a thógáil. Ag cealú..."
 
-#: server/cityturn.c:1014 server/cityturn.c:1248 server/cityturn.c:1359
-#: server/cityturn.c:1405
+#: server/cityturn.c:1013 server/cityturn.c:1247 server/cityturn.c:1358
+#: server/cityturn.c:1404
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
 msgstr "Uasghrádadh táirgiú %s go %s in %s."
 
 # city name... improvement ...   "advance" 
-#: server/cityturn.c:1065
+#: server/cityturn.c:1064
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available.  "
@@ -2455,7 +2459,7 @@ msgstr ""
 "fáil go fóill. Á chur ar athló..."
 
 # city name... improvement ...   "advance" 
-#: server/cityturn.c:1079
+#: server/cityturn.c:1078
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; need to have %s first.  Postponing..."
@@ -2465,7 +2469,7 @@ msgstr ""
 
 # city name... improvement ....  government (Monarchy, Republic, Communism,
 # Anarchy, Depotism)
-#: server/cityturn.c:1093
+#: server/cityturn.c:1092
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs %s government.  Postponing..."
@@ -2476,7 +2480,7 @@ msgstr ""
 # city, improvement, "special_name" ("Road", "Irrigation", "Railroad", "Mine",
 # "Pollution", "Hut", "Fortress", "River", ...).  Fortunately "speisialta" is
 # unlenitable, undeclinable
-#: server/cityturn.c:1106
+#: server/cityturn.c:1105
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s special is required.  Postponing..."
@@ -2485,7 +2489,7 @@ msgstr ""
 "bheith acu. Á chur ar athló..."
 
 # city, improvment, terrain type "Land" or "Oceanic"
-#: server/cityturn.c:1119
+#: server/cityturn.c:1118
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
@@ -2494,7 +2498,7 @@ msgstr ""
 "bheith agat. Á chur ar athló..."
 
 # city, improvement, nation_plural
-#: server/cityturn.c:1134
+#: server/cityturn.c:1133
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only %s may build this.  Postponing..."
@@ -2503,7 +2507,7 @@ msgstr ""
 "%s é seo a thógáil. Á chur ar athló..."
 
 # city, improvement
-#: server/cityturn.c:1147
+#: server/cityturn.c:1146
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
@@ -2512,17 +2516,17 @@ msgstr ""
 "ar an gcathair. Á chur ar athló..."
 
 # city, improvement, ai_level (adj. Éasca, Crua, ...)
-#: server/cityturn.c:1162
+#: server/cityturn.c:1161
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only AI of level %s may build this.  "
 "Postponing..."
 msgstr ""
-"Ní féidir le %s %s ar an liosta oibriúcháin a thógáil; ní féidir ach le IS "
-"%s é seo a thógáil. Á chur ar athló..."
+"Ní féidir le %s %s ar an liosta oibriúcháin a thógáil; ní féidir ach le IS %"
+"s é seo a thógáil. Á chur ar athló..."
 
 # city, improvement, terrain (Land, Ocean)
-#: server/cityturn.c:1176
+#: server/cityturn.c:1175
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain class is required.  "
@@ -2532,16 +2536,16 @@ msgstr ""
 "bheith agat. Á chur ar athló..."
 
 # city, improvement, year as text
-#: server/cityturn.c:1202
+#: server/cityturn.c:1201
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available from %s.  Postponing..."
 msgstr ""
-"Ní féidir le %s %s ar an liosta oibriúcháin a thógáil; níl fáil air ach ó "
-"%s. Á chur ar athló..."
+"Ní féidir le %s %s ar an liosta oibriúcháin a thógáil; níl fáil air ach ó %"
+"s. Á chur ar athló..."
 
 # city, improvement
-#: server/cityturn.c:1240
+#: server/cityturn.c:1239
 #, c-format
 msgid "%s can't build %s from the worklist; reason unknown!  Postponing..."
 msgstr ""
@@ -2549,43 +2553,43 @@ msgstr ""
 "chur ar athló..."
 
 #. TRANS: The <city> worklist ....
-#: server/cityturn.c:1279
+#: server/cityturn.c:1278
 #, c-format
 msgid "The %s worklist is now empty."
 msgstr "Tá an liosta oibre atá ag %s folamh anois."
 
 # city... unit 
-#: server/cityturn.c:1427
+#: server/cityturn.c:1426
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
 msgstr "Níl %s in ann %s a chothú; díscaoileadh an t-aonad."
 
 # city... unit 
-#: server/cityturn.c:1448
+#: server/cityturn.c:1447
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "Éagann daoine i %s toisc nár chothaíodar %s!"
 
 # city... improvement
-#: server/cityturn.c:1493 server/cityturn.c:1626
+#: server/cityturn.c:1492 server/cityturn.c:1625
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "Tá %s ag tógáil %s, rud nach bhfuil ar fáil níos mó."
 
 # nation_plural, improvement, city
-#: server/cityturn.c:1532
+#: server/cityturn.c:1531
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "Chríochnaigh na %s %s a thógáil i %s."
 
 # city, improvement
-#: server/cityturn.c:1539
+#: server/cityturn.c:1538
 #, c-format
 msgid "%s has finished building %s."
 msgstr "Thóg %s %s."
 
 # improvement
-#: server/cityturn.c:1559
+#: server/cityturn.c:1558
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
@@ -2596,99 +2600,99 @@ msgstr[3] "Cuireann %s le taighde; faigheann tú %d dul chun cinn láithreach."
 msgstr[4] "Cuireann %s le taighde; faigheann tú %d dul chun cinn láithreach."
 
 # nation_plural, advance, improvement
-#: server/cityturn.c:1568 server/techtools.c:170
+#: server/cityturn.c:1567 server/techtools.c:170
 #, c-format
 msgid "The %s have acquired %s from %s."
 msgstr "Fuair na %s %s ó %s."
 
 # nation_plural
-#: server/cityturn.c:1576
+#: server/cityturn.c:1575
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "Thosaigh na %s ar spáslong a thógáil!"
 
 # city, unittype
-#: server/cityturn.c:1653
+#: server/cityturn.c:1652
 #, c-format
 msgid "%s can't build %s yet."
 msgstr "Níl %s in ann %s a thógáil fós."
 
 # city, unittype
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:1689
+#: server/cityturn.c:1688
 #, c-format
 msgid "%s is finished building %s."
 msgstr "Chríochnaigh na %s ar a %s a thógáil."
 
 #. TRANS: <unit> cost... <city> shrinks...
-#: server/cityturn.c:1697
+#: server/cityturn.c:1696
 #, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgstr ""
 
 # improvement, city
-#: server/cityturn.c:1779
+#: server/cityturn.c:1778
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "Ní féidir %s a chothú i %s; díoladh an foirgneamh!"
 
 # unit
-#: server/cityturn.c:1828
+#: server/cityturn.c:1827
 #, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "Níl go leor óir ann. Díscaoileadh %s."
 
 # city
-#: server/cityturn.c:2054
+#: server/cityturn.c:2052
 #, c-format
 msgid "Pollution near %s."
 msgstr "Truailliú i ngar do %s."
 
 # city
-#: server/cityturn.c:2209
+#: server/cityturn.c:2207
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr "Ceiliúradh in ómós duit i %s."
 
 # city
-#: server/cityturn.c:2215
+#: server/cityturn.c:2213
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "Cuireadh ceiliúradh ar ceal i %s."
 
 # city
-#: server/cityturn.c:2232
+#: server/cityturn.c:2230
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr "Tá %s faoi aicíd! Cailleadh daoine!"
 
 # city
-#: server/cityturn.c:2278
+#: server/cityturn.c:2276
 #, c-format
 msgid "Civil disorder in %s."
 msgstr "Corraíl shibhialta in %s."
 
 # city
-#: server/cityturn.c:2282
+#: server/cityturn.c:2280
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s."
 msgstr "Tá an chorraíl shibhialta ar siúl in %s go fóill."
 
 # city
-#: server/cityturn.c:2288
+#: server/cityturn.c:2286
 #, c-format
 msgid "Order restored in %s."
 msgstr "Tá síochán in %s arís."
 
 # government name
 # %s = Monarchy, Republic, Communism, Anarchy, Depotism
-#: server/cityturn.c:2299
+#: server/cityturn.c:2297
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "Threascair na daoine do rialtas (%s), tá do thír trí chéile."
 
 # city, unittype
-#: server/cityturn.c:2338
+#: server/cityturn.c:2336
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
@@ -2697,14 +2701,14 @@ msgstr ""
 
 # city, unittype
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:2367
+#: server/cityturn.c:2365
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "Is %2$s iad na daoine i %1$s ina dhiaidh dóibh scarúint."
 
 # city ... city
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2551
+#: server/cityturn.c:2549
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
@@ -2714,7 +2718,7 @@ msgstr ""
 
 # city ... city (nation adj.)
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2558
+#: server/cityturn.c:2556
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -2725,7 +2729,7 @@ msgstr ""
 
 # city (nation adj.) ... city
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2563
+#: server/cityturn.c:2561
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -2735,14 +2739,14 @@ msgstr ""
 "ar fáil!"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2578
+#: server/cityturn.c:2576
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
 msgstr "Níl ag imircigh ó %s dul chuig %s toisc gá feabhais ann!"
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:2585
+#: server/cityturn.c:2583
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
@@ -2751,7 +2755,7 @@ msgstr ""
 "go dtiocfaidh fás air."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2590
+#: server/cityturn.c:2588
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
@@ -2760,31 +2764,31 @@ msgstr ""
 "le go dtiocfaidh fás air!"
 
 # city
-#: server/cityturn.c:2626
+#: server/cityturn.c:2624
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "Bhí %s tréigthe ag a saoránaigh."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2648
+#: server/cityturn.c:2646
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr "Chuaigh imircigh ó %s go %s ar thóir saoil níos fearr."
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2654
+#: server/cityturn.c:2652
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr "Chuaigh imircigh ó %s go %s (%s) ar thóir saoil níos fearr."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2659
+#: server/cityturn.c:2657
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr "Chuaigh imircigh ó %s (%s) go %s ar thóir saoil níos fearr."
 
 # city, city
-#: server/cityturn.c:2833
+#: server/cityturn.c:2831
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr ""
@@ -2792,7 +2796,7 @@ msgstr ""
 "fearr."
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2854
+#: server/cityturn.c:2852
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -3231,8 +3235,9 @@ msgstr "Roghnaigh comhadlann nua rialacha nó pacáiste modhnaithe."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:223
-msgid "metainfo <meta-line>"
-msgstr "metainfo <meitilíne>"
+#, fuzzy
+msgid "metamessage <meta-line>"
+msgstr "metapatch <meitilíne>"
 
 #: server/commands.c:224
 msgid "Set metaserver info line."
@@ -3248,7 +3253,8 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/commands.c:233
-msgid "metapatch <meta-line>"
+#, fuzzy
+msgid "metapatches <meta-line>"
 msgstr "metapatch <meitilíne>"
 
 #: server/commands.c:234
@@ -3717,7 +3723,7 @@ msgid "lua <script>"
 msgstr "lua <script>"
 
 #: server/commands.c:532
-msgid "Evaluate a line of freeciv script in the current game."
+msgid "Evaluate a line of Freeciv script in the current game."
 msgstr ""
 
 #. TRANS: translate text between <>
@@ -3873,7 +3879,7 @@ msgstr ""
 msgid "Lost connection: %s."
 msgstr "Cailleadh an ceangal: %s."
 
-#: server/connecthand.c:678
+#: server/connecthand.c:679
 #, c-format
 msgid "Detaching from %s."
 msgstr "Á dhícheangal ó %s."
@@ -3924,8 +3930,8 @@ msgstr ""
 #, c-format
 msgid "You cannot form an alliance because you are at war with an ally of %s."
 msgstr ""
-"Ní féidir libh comhaontú toisc go bhfuil tú ag cur cogaidh ar chomhghuaillí "
-"%s."
+"Ní féidir libh comhaontú toisc go bhfuil tú ag cur cogaidh ar chomhghuaillí %"
+"s."
 
 # player name
 #: server/diplhand.c:255
@@ -4042,20 +4048,20 @@ msgid_plural ""
 "You agree on an armistice with the %s. In %d turns, it will become a peace "
 "treaty. Move your units out of %s territory."
 msgstr[0] ""
-"D'aontaigh tú ar shos cogaidh leis na %s. Beidh conradh síochána eadraibh i "
-"%d bhabhta. Bog d'aonaid ó limistéar %s."
+"D'aontaigh tú ar shos cogaidh leis na %s. Beidh conradh síochána eadraibh i %"
+"d bhabhta. Bog d'aonaid ó limistéar %s."
 msgstr[1] ""
-"D'aontaigh tú ar shos cogaidh leis na %s. Beidh conradh síochána eadraibh i "
-"%d bhabhta. Bog d'aonaid ó limistéar %s."
+"D'aontaigh tú ar shos cogaidh leis na %s. Beidh conradh síochána eadraibh i %"
+"d bhabhta. Bog d'aonaid ó limistéar %s."
 msgstr[2] ""
-"D'aontaigh tú ar shos cogaidh leis na %s. Beidh conradh síochána eadraibh i "
-"%d bhabhta. Bog d'aonaid ó limistéar %s."
+"D'aontaigh tú ar shos cogaidh leis na %s. Beidh conradh síochána eadraibh i %"
+"d bhabhta. Bog d'aonaid ó limistéar %s."
 msgstr[3] ""
-"D'aontaigh tú ar shos cogaidh leis na %s. Beidh conradh síochána eadraibh i "
-"%d mbabhta. Bog d'aonaid ó limistéar %s."
+"D'aontaigh tú ar shos cogaidh leis na %s. Beidh conradh síochána eadraibh i %"
+"d mbabhta. Bog d'aonaid ó limistéar %s."
 msgstr[4] ""
-"D'aontaigh tú ar shos cogaidh leis na %s. Beidh conradh síochána eadraibh i "
-"%d babhta. Bog d'aonaid ó limistéar %s."
+"D'aontaigh tú ar shos cogaidh leis na %s. Beidh conradh síochána eadraibh i %"
+"d babhta. Bog d'aonaid ó limistéar %s."
 
 # playername
 #: server/diplhand.c:553 server/diplhand.c:556
@@ -4258,8 +4264,8 @@ msgstr ""
 #, c-format
 msgid "Your %s could not find anything to sabotage in %s."
 msgstr ""
-"Ní raibh do %s in ann teacht ar aon rud le sabaitéireacht a dhéanamh air in "
-"%s."
+"Ní raibh do %s in ann teacht ar aon rud le sabaitéireacht a dhéanamh air in %"
+"s."
 
 # improvement
 #: server/diplomats.c:945
@@ -4730,11 +4736,11 @@ msgstr ""
 msgid "Year: %s"
 msgstr "Bliain: %s"
 
-#: server/gamehand.c:539
+#: server/gamehand.c:541
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
 msgstr ""
 
-#: server/gamehand.c:547
+#: server/gamehand.c:549
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr ""
 
@@ -4957,13 +4963,13 @@ msgid "Luxury rate exceeded the max rate; adjusted."
 msgstr ""
 
 # player
-#: server/plrhand.c:506
+#: server/plrhand.c:538
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr ""
 
 # nation_plural
-#: server/plrhand.c:517
+#: server/plrhand.c:549
 #, c-format
 msgid ""
 "The senate will not allow you to break treaty with the %s.  You must either "
@@ -4971,14 +4977,14 @@ msgid ""
 msgstr ""
 
 # nation_plural
-#: server/plrhand.c:568
+#: server/plrhand.c:600
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr ""
 
 # nation_plural
-#: server/plrhand.c:573
+#: server/plrhand.c:605
 #, c-format
 msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
@@ -4986,13 +4992,13 @@ msgid ""
 msgstr ""
 
 # nation_plural... nation_plural...  diplomatic_state (Cogadh, Sos Cogaidh...)
-#: server/plrhand.c:606
+#: server/plrhand.c:649
 #, c-format
 msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "Seo é an staid taidhleoireachta idir na %s agus na %s anois: %s."
 
 # player name... nation_plural... nation_plural...  diplomatic_state (Cogadh, Sos Cogaidh...)
-#: server/plrhand.c:612
+#: server/plrhand.c:655
 #, c-format
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
@@ -5002,14 +5008,14 @@ msgstr ""
 "taidhleoireachta idir na %s agus na %s anois: %s."
 
 # %s: player, player
-#: server/plrhand.c:630
+#: server/plrhand.c:673
 #, c-format
 msgid ""
 "%s has attacked your ally %s! You cancel your alliance to the aggressor."
 msgstr ""
 
 # player, nation_plural, player
-#: server/plrhand.c:642
+#: server/plrhand.c:685
 #, c-format
 msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
@@ -5018,84 +5024,84 @@ msgstr ""
 "D'fhógair do chéile imeartha %s cogadh ar na %s. Tá iallach ort do "
 "chomhaontas le %s a chur ar ceal."
 
-#: server/plrhand.c:1176
+#: server/plrhand.c:1219
 #, c-format
 msgid "Removing player %s."
 msgstr "Imreoir %s á bhaint."
 
-#: server/plrhand.c:1179
+#: server/plrhand.c:1222
 msgid "You've been removed from the game!"
 msgstr "Baineadh ón gcluiche thú!"
 
-#: server/plrhand.c:1182
+#: server/plrhand.c:1225
 #, c-format
 msgid "%s has been removed from the game."
 msgstr "Baineadh %s ón gcluiche."
 
-#: server/plrhand.c:1288
+#: server/plrhand.c:1331
 msgid "Please choose a non-blank name."
 msgstr "Roghnaigh ainm nach bhfuil folamh."
 
-#: server/plrhand.c:1301
+#: server/plrhand.c:1344
 msgid "That nation is already in use."
 msgstr "Tá an náisiún sin in úsáid cheana."
 
-#: server/plrhand.c:1306
+#: server/plrhand.c:1349
 #, c-format
 msgid "Another player already has the name '%s'. Please choose another name."
 msgstr ""
 
-#: server/plrhand.c:1330
+#: server/plrhand.c:1373
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Roghnaigh ainm nach bhfuil ach carachtair ASCII ann."
 
-#: server/plrhand.c:1405 server/plrhand.c:1419
+#: server/plrhand.c:1448 server/plrhand.c:1462
 #, c-format
 msgid "Player no. %d"
 msgstr "Imreoir uimh. %d"
 
-#: server/plrhand.c:1434
+#: server/plrhand.c:1477
 msgid "A poorly-named player"
 msgstr "Imreoir a bhfuil drochainm air"
 
-#: server/plrhand.c:1504 server/plrhand.c:1508
+#: server/plrhand.c:1547 server/plrhand.c:1551
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Chuaigh tú i dteagmháil leis na %s, faoi riail %s."
 
 # %s = nation_plural
-#: server/plrhand.c:1985
+#: server/plrhand.c:2028
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr ""
 
 # %s = nation_plural
-#: server/plrhand.c:1991
+#: server/plrhand.c:2034
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr ""
 
-#: server/plrhand.c:2021
+#: server/plrhand.c:2064
 msgid "Your nation is thrust into civil war."
 msgstr ""
 
 # player... nation_plural
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:2025
+#: server/plrhand.c:2068
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "Is é %s an duine ceannairceach atá i gceannas ar na %s."
 
 # city, nation_plural
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:2045
+#: server/plrhand.c:2088
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "Fógraíonn %s go bhfuil sé faoi ghéillsine ag na %s."
 
 # nation_plural
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:2063
+#: server/plrhand.c:2106
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -5457,43 +5463,43 @@ msgstr ""
 msgid "%s %s (%s)"
 msgstr "%2$s %1$s (%3$s)"
 
-#: server/report.c:1433
+#: server/report.c:1437
 msgid "Population\n"
 msgstr "Daonra\n"
 
 #. TRANS: "M goods" = million goods
-#: server/report.c:1435
+#: server/report.c:1439
 msgid ""
 "Trade\n"
 "(M goods)"
 msgstr ""
 
 #. TRANS: "M tons" = million tons
-#: server/report.c:1437
+#: server/report.c:1441
 msgid ""
 "Production\n"
 "(M tons)"
 msgstr ""
 
-#: server/report.c:1438
+#: server/report.c:1442
 msgid "Cities\n"
 msgstr "Cathracha\n"
 
-#: server/report.c:1439
+#: server/report.c:1443
 msgid "Technologies\n"
 msgstr "Teicneolaíocht\n"
 
-#: server/report.c:1440
+#: server/report.c:1444
 msgid ""
 "Military Service\n"
 "(months)"
 msgstr ""
 
-#: server/report.c:1441
+#: server/report.c:1445
 msgid "Wonders\n"
 msgstr "Iontais\n"
 
-#: server/report.c:1442
+#: server/report.c:1446
 msgid ""
 "Research Speed\n"
 "(%)"
@@ -5502,20 +5508,20 @@ msgstr ""
 "(%)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
-#: server/report.c:1444
+#: server/report.c:1448
 msgid ""
 "Land Area\n"
 "(sq. mi.)"
 msgstr ""
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
-#: server/report.c:1446
+#: server/report.c:1450
 msgid ""
 "Settled Area\n"
 "(sq. mi.)"
 msgstr ""
 
-#: server/report.c:1447
+#: server/report.c:1451
 msgid ""
 "Literacy\n"
 "(%)"
@@ -5523,19 +5529,19 @@ msgstr ""
 "Litearthacht\n"
 "(%)"
 
-#: server/report.c:1448
+#: server/report.c:1452
 msgid "Spaceship\n"
 msgstr "Spáslong\n"
 
-#: server/report.c:1449
+#: server/report.c:1453
 msgid "Built Units\n"
 msgstr "Aonaid Tógtha\n"
 
-#: server/report.c:1450
+#: server/report.c:1454
 msgid "Killed Units\n"
 msgstr "Aonaid Mharaithe\n"
 
-#: server/report.c:1451
+#: server/report.c:1455
 msgid "Unit Losses\n"
 msgstr "Aonaid Chaillte\n"
 
@@ -5579,39 +5585,39 @@ msgstr ""
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr ""
 
-#: server/savegame.c:5278 server/savegame2.c:3059 server/srv_main.c:1825
-#: server/srv_main.c:1829
+#: server/savegame.c:5278 server/savegame2.c:3061 server/srv_main.c:1826
+#: server/srv_main.c:1830
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "Cuireadh %s leis an gcluiche (IS %s)."
 
-#: server/savegame.c:5282 server/savegame2.c:3063
+#: server/savegame.c:5282 server/savegame2.c:3065
 #, c-format
 msgid "%s has been added as human player."
 msgstr "Cuireadh %s leis an gcluiche (imreoir daonna)."
 
 # %s = player, nation_plural
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame.c:5327 server/savegame2.c:3082
+#: server/savegame.c:5327 server/savegame2.c:3084
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "Bhí náisiún neamhbhailí ag %s; is é na %s anois."
 
-#: server/savegame2.c:5429
+#: server/savegame2.c:5431
 msgid "current version"
 msgstr "leagan reatha"
 
-#: server/savegame2.c:5433
+#: server/savegame2.c:5435
 msgid "freeciv 2.3.0"
 msgstr "freeciv 2.3.0"
 
-#: server/savegame2.c:5483
+#: server/savegame2.c:5485
 #, c-format
 msgid ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
 msgstr ""
 
-#: server/savegame2.c:5517
+#: server/savegame2.c:5519
 #, c-format
 msgid "Run compatibility function for version: <%d (want: %d, server: %d)."
 msgstr ""
@@ -5876,8 +5882,8 @@ msgstr ""
 #: server/settings.c:669
 #, c-format
 msgid ""
-"Requested value (%d) is greater than number of available start positions "
-"(%d). Keeping old value."
+"Requested value (%d) is greater than number of available start positions (%"
+"d). Keeping old value."
 msgstr ""
 
 #: server/settings.c:687
@@ -7361,27 +7367,29 @@ msgstr ""
 msgid "\"%s\""
 msgstr "\"%s\""
 
-#: server/settings.c:2845
-msgid "no value"
+#. TRANS: Bitwise setting has no bits set.
+#: server/settings.c:2846
+#, fuzzy
+msgid "empty value"
 msgstr "gan luach"
 
-#: server/settings.c:2897
+#: server/settings.c:2898
 msgid "This setting is not a bitwise."
 msgstr ""
 
-#: server/settings.c:3155 server/settings.c:3175 server/settings.c:3195
-#: server/settings.c:3219 server/settings.c:3243
+#: server/settings.c:3156 server/settings.c:3176 server/settings.c:3196
+#: server/settings.c:3220 server/settings.c:3244
 #, c-format
 msgid "Ruleset: '%s' has been set to %s."
 msgstr ""
 
-#: server/settings.c:3260
+#: server/settings.c:3261
 #, c-format
 msgid "Ruleset: '%s' has been locked by the ruleset."
 msgstr "Rialacha: tá '%s' faoi ghlas de réir na rialacha."
 
-#: server/settings.c:3515 server/settings.c:3540 server/settings.c:3562
-#: server/settings.c:3589 server/settings.c:3616
+#: server/settings.c:3516 server/settings.c:3541 server/settings.c:3563
+#: server/settings.c:3590 server/settings.c:3617
 #, c-format
 msgid "Savegame: '%s' has been set to %s."
 msgstr ""
@@ -7581,7 +7589,7 @@ msgstr "?winners:na %s"
 msgid "Scenario victory to %s."
 msgstr "Bhí an bua sa chnámhscéal seo leis %s."
 
-#: server/srv_main.c:322 server/stdinhand.c:4184
+#: server/srv_main.c:322 server/stdinhand.c:4185
 msgid "Game ended in a draw."
 msgstr ""
 
@@ -7641,103 +7649,103 @@ msgid ""
 "your alliance with both."
 msgstr ""
 
-#: server/srv_main.c:1191 server/srv_main.c:1194
+#: server/srv_main.c:1192 server/srv_main.c:1195
 #, c-format
 msgid "Unsupported compression type %d."
 msgstr "Ní thacaítear leis an gcineál comhbhrúite %d."
 
-#: server/srv_main.c:1224
+#: server/srv_main.c:1225
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Theip ar an cluiche a shábháil mar %s"
 
-#: server/srv_main.c:1226
+#: server/srv_main.c:1227
 #, c-format
 msgid "Game saved as %s"
 msgstr "Sábháladh an cluiche mar %s"
 
-#: server/srv_main.c:1260
+#: server/srv_main.c:1261
 msgid "The game is already running."
 msgstr "Tá an cluiche ag rith cheana."
 
-#: server/srv_main.c:1268
+#: server/srv_main.c:1269
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 
-#: server/srv_main.c:1275
+#: server/srv_main.c:1276
 msgid "Starting game."
 msgstr "Cluiche á thosú."
 
-#: server/srv_main.c:1346
+#: server/srv_main.c:1347
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "iarratas ar thuairisc anaithnid (cineál %d)"
 
-#: server/srv_main.c:1426
+#: server/srv_main.c:1427
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Rabhadh: seanchliant %s á dhiúltú"
 
-#: server/srv_main.c:1436
+#: server/srv_main.c:1437
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
 msgstr ""
 
-#: server/srv_main.c:1494
+#: server/srv_main.c:1495
 msgid "You are not allowed to edit."
 msgstr "Níl cead agat aon rud a chur in eagar."
 
 # nation_adj
-#: server/srv_main.c:1683
+#: server/srv_main.c:1684
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "Níl an náisiún %s ar fáil sa chnámhscéal seo."
 
 # nation_adj
-#: server/srv_main.c:1689
+#: server/srv_main.c:1690
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Tá an náisiún %s in úsáid cheana."
 
 # username, nation_adj, playername
-#: server/srv_main.c:1702
+#: server/srv_main.c:1703
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "Is é %s an rialtóir %s %s."
 
-#: server/srv_main.c:1758
+#: server/srv_main.c:1759
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "Fanacht le tús an chluiche: tá %d as %d imreoir réidh."
 
 # %s = player, nation_plural
-#: server/srv_main.c:2070 server/srv_main.c:2074
+#: server/srv_main.c:2071 server/srv_main.c:2075
 #, c-format
 msgid "%s rules the %s."
 msgstr "Tá %s i gceannas ar na %s."
 
-#: server/srv_main.c:2210
+#: server/srv_main.c:2211
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
 msgstr ""
 
-#: server/srv_main.c:2273
+#: server/srv_main.c:2274
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Faisnéis á seoladh go dtí meitifhreastalaí <%s>."
 
-#: server/srv_main.c:2277
+#: server/srv_main.c:2278
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 
-#: server/srv_main.c:2298
+#: server/srv_main.c:2299
 msgid "The game is over..."
 msgstr "Tá an cluiche críochnaithe..."
 
-#: server/srv_main.c:2551
+#: server/srv_main.c:2552
 msgid "Now accepting new client connections."
 msgstr "Glacadh le ceangail nua ó chliaint anois."
 
@@ -7967,7 +7975,7 @@ msgstr ""
 msgid "Removed player %s from the game."
 msgstr "Baineadh imreoir %s ón chluiche."
 
-#: server/stdinhand.c:1166 server/stdinhand.c:3517 server/stdinhand.c:3673
+#: server/stdinhand.c:1166 server/stdinhand.c:3518 server/stdinhand.c:3674
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
 msgstr "Ní cheadaítear an t-ainm \"%s\" mar gheall ar chúrsaí slándála."
@@ -7987,7 +7995,7 @@ msgstr "Comhad scripte '%s' á luchtú."
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "Ní féidir comhad scripte '%s' do líne na n-orduithe a léamh."
 
-#: server/stdinhand.c:1207 server/stdinhand.c:4321
+#: server/stdinhand.c:1207 server/stdinhand.c:4322
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "Níorbh fhéidir comhad scripte '%s' a léamh."
@@ -8074,14 +8082,14 @@ msgstr ""
 msgid "Connection %s has opted to become the game organizer."
 msgstr ""
 
-#: server/stdinhand.c:1580
+#: server/stdinhand.c:1581
 #, c-format
 msgid "Invalid argument %d."
 msgstr "Argóint neamhbhailí %d."
 
-#: server/stdinhand.c:1587 server/stdinhand.c:1983 server/stdinhand.c:3074
-#: server/stdinhand.c:3223 server/stdinhand.c:3235 server/stdinhand.c:3407
-#: server/stdinhand.c:3505
+#: server/stdinhand.c:1588 server/stdinhand.c:1984 server/stdinhand.c:3075
+#: server/stdinhand.c:3224 server/stdinhand.c:3236 server/stdinhand.c:3408
+#: server/stdinhand.c:3506
 #, c-format
 msgid ""
 "Usage:\n"
@@ -8090,218 +8098,218 @@ msgstr ""
 "Úsáid:\n"
 "%s"
 
-#: server/stdinhand.c:1594
+#: server/stdinhand.c:1595
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "Teorainn ama dinimiciúil: %d %d %d %d"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:1671
+#: server/stdinhand.c:1672
 #, c-format
 msgid "Option: %s  -  %s"
 msgstr "Rogha: %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:1676
+#: server/stdinhand.c:1677
 #, c-format
 msgid "Option: %s"
 msgstr "Rogha: %s"
 
-#: server/stdinhand.c:1683 server/stdinhand.c:4707
+#: server/stdinhand.c:1684 server/stdinhand.c:4708
 msgid "Description:"
 msgstr "Cur Síos:"
 
-#: server/stdinhand.c:1688
+#: server/stdinhand.c:1689
 #, c-format
 msgid "Status: %s"
 msgstr "Stádas: %s"
 
-#: server/stdinhand.c:1689
+#: server/stdinhand.c:1690
 msgid "changeable"
 msgstr "inathraithe"
 
-#: server/stdinhand.c:1689
+#: server/stdinhand.c:1690
 msgid "fixed"
 msgstr "socraithe"
 
-#: server/stdinhand.c:1698 server/stdinhand.c:1718 server/stdinhand.c:1732
+#: server/stdinhand.c:1699 server/stdinhand.c:1719 server/stdinhand.c:1733
 msgid "Value:"
 msgstr "Luach:"
 
-#: server/stdinhand.c:1699 manual/civmanual.c:194
+#: server/stdinhand.c:1700 manual/civmanual.c:194
 msgid "Minimum:"
 msgstr "Íosmhéid:"
 
-#: server/stdinhand.c:1700 server/stdinhand.c:1718 server/stdinhand.c:1734
+#: server/stdinhand.c:1701 server/stdinhand.c:1719 server/stdinhand.c:1735
 #: manual/civmanual.c:195 manual/civmanual.c:228
 msgid "Default:"
 msgstr "Réamhshocrú:"
 
-#: server/stdinhand.c:1701 manual/civmanual.c:196
+#: server/stdinhand.c:1702 manual/civmanual.c:196
 msgid "Maximum:"
 msgstr "Uasmhéid:"
 
-#: server/stdinhand.c:1708 manual/civmanual.c:203
+#: server/stdinhand.c:1709 manual/civmanual.c:203
 msgid "Possible values:"
 msgstr "Luachanna ceadaithe:"
 
-#: server/stdinhand.c:1726 manual/civmanual.c:215
+#: server/stdinhand.c:1727 manual/civmanual.c:215
 msgid "Possible values (option can take any number of these):"
 msgstr ""
 
-#: server/stdinhand.c:1751
+#: server/stdinhand.c:1752
 msgid "Explanations are available for the following server options:"
 msgstr "Tá cur síos ar fáil ar na roghanna freastalaí seo a leanas:"
 
-#: server/stdinhand.c:1796
+#: server/stdinhand.c:1797
 msgid "No explanation for that yet."
 msgstr "Níl aon mhíniú air sin fós."
 
-#: server/stdinhand.c:1799 server/stdinhand.c:2762
+#: server/stdinhand.c:1800 server/stdinhand.c:2763
 msgid "Ambiguous option name."
 msgstr "Ainm ilchiallach ar an rogha."
 
-#: server/stdinhand.c:1818
+#: server/stdinhand.c:1819
 #, c-format
 msgid "Server Operator: %s"
 msgstr "Oibreoir Freastalaí: %s"
 
-#: server/stdinhand.c:1857
+#: server/stdinhand.c:1858
 #, c-format
 msgid "Connectmsg truncated to %u bytes."
 msgstr ""
 
-#: server/stdinhand.c:1903 server/stdinhand.c:1940 server/stdinhand.c:1958
+#: server/stdinhand.c:1904 server/stdinhand.c:1941 server/stdinhand.c:1959
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
 msgstr ""
 
-#: server/stdinhand.c:1945
+#: server/stdinhand.c:1946
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "Níl an IS i gceannas ar %s."
 
-#: server/stdinhand.c:1965
+#: server/stdinhand.c:1966
 #, c-format
 msgid "Default AI skill level set to '%s'."
 msgstr "Leibhéal réamhshocraithe an IS: '%s'."
 
-#: server/stdinhand.c:1980
+#: server/stdinhand.c:1981
 msgid "This command is client only."
 msgstr "Is ordú do chliaint amháin é seo."
 
-#: server/stdinhand.c:1989
+#: server/stdinhand.c:1990
 msgid "Only players may use the away command."
 msgstr "Is imreoirí amháin atá in ann an t-ordú 'amuigh' a úsáid."
 
-#: server/stdinhand.c:1993
+#: server/stdinhand.c:1994
 #, c-format
 msgid "%s set to away mode."
 msgstr ""
 
-#: server/stdinhand.c:1999
+#: server/stdinhand.c:2000
 #, c-format
 msgid "%s returned to game."
 msgstr "D'fhill %s ar an gcluiche."
 
-#: server/stdinhand.c:2050
+#: server/stdinhand.c:2051
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "Tá bŕon orm, níl cead agat féachaint ar rogha '%s'."
 
-#: server/stdinhand.c:2059
+#: server/stdinhand.c:2060
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "Rogha anaithnid '%s'."
 
-#: server/stdinhand.c:2072
+#: server/stdinhand.c:2073
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "Is é \"%s\" an chomhadlann rialacha faoi láthair"
 
-#: server/stdinhand.c:2105
+#: server/stdinhand.c:2106
 msgid "All options with non-default values"
 msgstr ""
 
-#: server/stdinhand.c:2108
+#: server/stdinhand.c:2109
 msgid "All options"
 msgstr "Gach rogha"
 
-#: server/stdinhand.c:2111
+#: server/stdinhand.c:2112
 msgid "Vital options"
 msgstr "Roghanna riachtanacha"
 
-#: server/stdinhand.c:2114
+#: server/stdinhand.c:2115
 msgid "Situational options"
 msgstr "Roghanna de réir ócáide"
 
-#: server/stdinhand.c:2117
+#: server/stdinhand.c:2118
 msgid "Rarely used options"
 msgstr "Roghanna neamhchoitianta"
 
-#: server/stdinhand.c:2120
+#: server/stdinhand.c:2121
 msgid "Options locked by the ruleset"
 msgstr "Roghanna curtha faoi ghlas ag na rialacha"
 
-#: server/stdinhand.c:2132
+#: server/stdinhand.c:2133
 msgid "In the column '##' the status of the option is shown:"
 msgstr ""
 
-#: server/stdinhand.c:2133
+#: server/stdinhand.c:2134
 msgid " - a '!' means the option is locked by the ruleset."
 msgstr ""
 
-#: server/stdinhand.c:2134
+#: server/stdinhand.c:2135
 msgid " - a '+' means you may change the option."
 msgstr " - ciallaíonn '+' go bhfuil tú in ann an rogha a athrú"
 
-#: server/stdinhand.c:2135
+#: server/stdinhand.c:2136
 msgid " - a '=' means the option is on its default value."
 msgstr ""
 
-#: server/stdinhand.c:2137
+#: server/stdinhand.c:2138
 #, c-format
 msgid "%-*s ## value (min, max)"
 msgstr "%-*s ## luach (íos, uas)"
 
-#: server/stdinhand.c:2138
+#: server/stdinhand.c:2139
 msgid "Option"
 msgstr "Rogha"
 
-#: server/stdinhand.c:2186
+#: server/stdinhand.c:2187
 msgid "A help text for each option is available via 'help <option>'."
 msgstr ""
 
-#: server/stdinhand.c:2190
+#: server/stdinhand.c:2191
 msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
 "Try 'show changed' to show settings with non-default values.\n"
 "Try 'show locked' to show settings locked by the ruleset."
 msgstr ""
 
-#: server/stdinhand.c:2218
+#: server/stdinhand.c:2219
 msgid "Cannot change teams once game has begun."
 msgstr ""
 
-#: server/stdinhand.c:2228 server/stdinhand.c:2364 server/stdinhand.c:2555
-#: server/stdinhand.c:2580 server/stdinhand.c:2623 server/stdinhand.c:2654
-#: server/stdinhand.c:2696 server/stdinhand.c:2721 server/stdinhand.c:2748
+#: server/stdinhand.c:2229 server/stdinhand.c:2365 server/stdinhand.c:2556
+#: server/stdinhand.c:2581 server/stdinhand.c:2624 server/stdinhand.c:2655
+#: server/stdinhand.c:2697 server/stdinhand.c:2722 server/stdinhand.c:2749
 #, c-format
 msgid ""
 "Undefined argument.  Usage:\n"
 "%s"
 msgstr ""
 
-#: server/stdinhand.c:2249
+#: server/stdinhand.c:2250
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
 msgstr ""
 
-#: server/stdinhand.c:2256
+#: server/stdinhand.c:2257
 msgid "Cannot team a barbarian."
 msgstr ""
 
-#: server/stdinhand.c:2262
+#: server/stdinhand.c:2263
 #, c-format
 msgid "Player %s set to team %s."
 msgstr ""
@@ -8309,51 +8317,51 @@ msgstr ""
 #. TRANS: "Vote" or "Teamvote" is voting-as-a-process. Used as
 #. * part of a sentence.
 #. TRANS: "Vote" as a process. Used as part of a sentence.
-#: server/stdinhand.c:2290 server/voting.c:511
+#: server/stdinhand.c:2291 server/voting.c:511
 msgid "Teamvote"
 msgstr "Toghchán foirne"
 
 #. TRANS: "Vote" as a process. Used as part of a sentence.
-#: server/stdinhand.c:2290 server/voting.c:516
+#: server/stdinhand.c:2291 server/voting.c:516
 msgid "Vote"
 msgstr "Toghchán"
 
 #. TRANS: "[Vote|Teamvote] 3 \"proposed change\" (needs ..."
-#: server/stdinhand.c:2293
+#: server/stdinhand.c:2294
 #, c-format
 msgid ""
-"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of "
-"%d players."
+"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of %"
+"d players."
 msgstr ""
 
-#: server/stdinhand.c:2297
+#: server/stdinhand.c:2298
 msgid " no dissent"
 msgstr ""
 
-#: server/stdinhand.c:2305
+#: server/stdinhand.c:2306
 msgid "There are no votes going on."
 msgstr "Níl aon toghcháin ar siúl."
 
-#: server/stdinhand.c:2350 server/stdinhand.c:2475 server/stdinhand.c:4028
+#: server/stdinhand.c:2351 server/stdinhand.c:2476 server/stdinhand.c:4029
 msgid "You are not allowed to use this command."
 msgstr "Níl cead agat an t-ordú seo a úsáid."
 
-#: server/stdinhand.c:2359
+#: server/stdinhand.c:2360
 #, c-format
 msgid "The argument \"%s\" is ambiguous."
 msgstr "Tá argóint \"%s\" débhríoch."
 
-#: server/stdinhand.c:2376
+#: server/stdinhand.c:2377
 msgid "There are no votes running."
 msgstr "Níl aon toghcháin ar siúl."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2379
+#: server/stdinhand.c:2380
 #, c-format
 msgid "No legal last vote (%d %s)."
 msgstr ""
 
-#: server/stdinhand.c:2380
+#: server/stdinhand.c:2381
 msgid "other vote running"
 msgid_plural "other votes running"
 msgstr[0] "toghchán eile ar siúl"
@@ -8362,181 +8370,181 @@ msgstr[2] "toghcháin eile ar siúl"
 msgstr[3] "toghcháin eile ar siúl"
 msgstr[4] "toghcháin eile ar siúl"
 
-#: server/stdinhand.c:2387
+#: server/stdinhand.c:2388
 msgid "Value must be an integer."
 msgstr ""
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2394 server/stdinhand.c:2484
+#: server/stdinhand.c:2395 server/stdinhand.c:2485
 #, c-format
 msgid "No such vote (%d)."
 msgstr "Níl a leithéid de thoghchán ann (%d)."
 
-#: server/stdinhand.c:2400
+#: server/stdinhand.c:2401
 msgid "You are not allowed to vote on that."
 msgstr "Níl cead agat vóta a chaitheamh air sin."
 
-#: server/stdinhand.c:2405
+#: server/stdinhand.c:2406
 #, c-format
 msgid "You voted for \"%s\""
 msgstr "Vótáil tú le \"%s\""
 
-#: server/stdinhand.c:2409
+#: server/stdinhand.c:2410
 #, c-format
 msgid "You voted against \"%s\""
 msgstr "Vótáil tú in aghaidh \"%s\""
 
-#: server/stdinhand.c:2414
+#: server/stdinhand.c:2415
 #, c-format
 msgid "You abstained from voting on \"%s\""
 msgstr "Staon tú sa vótáil ar \"%s\""
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2451
+#: server/stdinhand.c:2452
 msgid "Missing argument <vote number> or the string \"all\"."
 msgstr "Argóint ar iarraidh: <uimhir an toghcháin> nó an teaghrán \"all\"."
 
-#: server/stdinhand.c:2458
+#: server/stdinhand.c:2459
 msgid "You don't have any vote going on."
 msgstr "Níl aon toghchán ar siúl agat."
 
-#: server/stdinhand.c:2465
+#: server/stdinhand.c:2466
 msgid "There isn't any vote going on."
 msgstr "Níl aon toghchán ar siúl."
 
 #. TRANS: "votes" as a process
-#: server/stdinhand.c:2471
+#: server/stdinhand.c:2472
 msgid "All votes have been removed."
 msgstr "Baineadh gach toghchán."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2490
+#: server/stdinhand.c:2491
 #, c-format
 msgid "You are not allowed to cancel this vote (%d)."
 msgstr "Níl cead agat an toghchán seo a chealú (%d)."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2497
+#: server/stdinhand.c:2498
 msgid "Usage: /cancelvote [<vote number>|all]"
 msgstr "Úsáid: /cancelvote [<uimhir an toghcháin>|all]"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2507
+#: server/stdinhand.c:2508
 #, c-format
 msgid "%s has canceled the vote \"%s\" (number %d)."
 msgstr "Chealaigh %s an toghchán \"%s\" (uimhir %d)."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2514
+#: server/stdinhand.c:2515
 #, c-format
 msgid "The vote \"%s\" (number %d) has been canceled."
 msgstr "Cealaíodh toghchán \"%s\" (uimhir %d)."
 
-#: server/stdinhand.c:2535
+#: server/stdinhand.c:2536
 msgid "Can only use this command once game has begun."
 msgstr ""
 
 # playername
-#: server/stdinhand.c:2566
+#: server/stdinhand.c:2567
 #, c-format
 msgid "%s diplomacy no longer debugged"
 msgstr ""
 
 # playername
-#: server/stdinhand.c:2570
+#: server/stdinhand.c:2571
 #, c-format
 msgid "%s diplomacy debugged"
 msgstr ""
 
 # playername
-#: server/stdinhand.c:2591
+#: server/stdinhand.c:2592
 #, c-format
 msgid "%s tech no longer debugged"
 msgstr ""
 
 # playername
-#: server/stdinhand.c:2595
+#: server/stdinhand.c:2596
 #, c-format
 msgid "%s tech debugged"
 msgstr ""
 
-#: server/stdinhand.c:2611 server/stdinhand.c:2614
+#: server/stdinhand.c:2612 server/stdinhand.c:2615
 #, c-format
 msgid "players=%d cities=%d citizens=%d units=%d"
 msgstr "imreoirí=%d cathracha=%d saoránaigh=%d aonaid=%d"
 
-#: server/stdinhand.c:2628 server/stdinhand.c:2659
+#: server/stdinhand.c:2629 server/stdinhand.c:2660
 msgid "Value 2 & 3 must be integer."
 msgstr ""
 
-#: server/stdinhand.c:2632 server/stdinhand.c:2663
+#: server/stdinhand.c:2633 server/stdinhand.c:2664
 msgid "Bad map coordinates."
 msgstr "Droch-chomhordanáidí ar an mapa."
 
-#: server/stdinhand.c:2637
+#: server/stdinhand.c:2638
 msgid "No city at this coordinate."
 msgstr "Níl aon chathair ag na comhordanáidí seo."
 
 # %s = city
-#: server/stdinhand.c:2642
+#: server/stdinhand.c:2643
 #, c-format
 msgid "%s no longer debugged"
 msgstr ""
 
 # %s nation_adj, unit
-#: server/stdinhand.c:2669 server/stdinhand.c:2710
+#: server/stdinhand.c:2670 server/stdinhand.c:2711
 #, c-format
 msgid "%s %s no longer debugged."
 msgstr ""
 
-#: server/stdinhand.c:2684
+#: server/stdinhand.c:2685
 msgid "Ferry system is no longer in debug mode."
 msgstr ""
 
-#: server/stdinhand.c:2688
+#: server/stdinhand.c:2689
 msgid "Ferry system in debug mode."
 msgstr ""
 
-#: server/stdinhand.c:2701
+#: server/stdinhand.c:2702
 msgid "Value 2 must be integer."
 msgstr ""
 
-#: server/stdinhand.c:2705
+#: server/stdinhand.c:2706
 #, c-format
 msgid "Unit %d does not exist."
 msgstr ""
 
-#: server/stdinhand.c:2759
+#: server/stdinhand.c:2760
 #, c-format
 msgid "Option '%s' not recognized."
 msgstr ""
 
 #. TRANS: 'rulesetdir' is the command. Do not translate.
-#: server/stdinhand.c:2767
+#: server/stdinhand.c:2768
 #, c-format
 msgid "Use the '%srulesetdir' command to change the ruleset directory."
 msgstr ""
 
-#: server/stdinhand.c:2809
+#: server/stdinhand.c:2810
 #, c-format
 msgid "The parameter %s should only contain +- and 0-9."
 msgstr ""
 
-#: server/stdinhand.c:2897
+#: server/stdinhand.c:2898
 #, c-format
 msgid "Console: '%s' has been set to %s."
 msgstr ""
 
-#: server/stdinhand.c:2939
+#: server/stdinhand.c:2940
 msgid "Sorry, one can't observe globally in this game."
 msgstr ""
 
-#: server/stdinhand.c:2947
+#: server/stdinhand.c:2948
 msgid "You cannot take a new player at this time."
 msgstr "Níl cead agat glacadh le himreoir nua ag an am seo."
 
 #. TRANS: Do not translate "maxplayers".
-#: server/stdinhand.c:2955
+#: server/stdinhand.c:2956
 #, c-format
 msgid ""
 "You cannot take a new player because the maximum of %d player has already "
@@ -8550,410 +8558,410 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: server/stdinhand.c:2967
+#: server/stdinhand.c:2968
 msgid "You cannot take a new player because there are no free player slots."
 msgstr ""
 
-#: server/stdinhand.c:2979
+#: server/stdinhand.c:2980
 msgid "Sorry, one can't observe barbarians in this game."
 msgstr ""
 
-#: server/stdinhand.c:2982
+#: server/stdinhand.c:2983
 msgid "Sorry, one can't take barbarians in this game."
 msgstr ""
 
-#: server/stdinhand.c:2991
+#: server/stdinhand.c:2992
 msgid "Sorry, one can't observe dead players in this game."
 msgstr ""
 
-#: server/stdinhand.c:2995
+#: server/stdinhand.c:2996
 msgid "Sorry, one can't take dead players in this game."
 msgstr ""
 
-#: server/stdinhand.c:3005
+#: server/stdinhand.c:3006
 msgid "Sorry, one can't observe AI players in this game."
 msgstr ""
 
-#: server/stdinhand.c:3008
+#: server/stdinhand.c:3009
 msgid "Sorry, one can't take AI players in this game."
 msgstr ""
 
-#: server/stdinhand.c:3018
+#: server/stdinhand.c:3019
 msgid "Sorry, one can't observe human players in this game."
 msgstr ""
 
-#: server/stdinhand.c:3022
+#: server/stdinhand.c:3023
 msgid "Sorry, one can't take human players in this game."
 msgstr ""
 
-#: server/stdinhand.c:3032
+#: server/stdinhand.c:3033
 msgid "Sorry, one can't observe in this game."
 msgstr ""
 
-#: server/stdinhand.c:3037
+#: server/stdinhand.c:3038
 msgid "Sorry, one can't take players in this game."
 msgstr ""
 
-#: server/stdinhand.c:3044
+#: server/stdinhand.c:3045
 msgid "Sorry, one can't take players already connected in this game."
 msgstr ""
 
-#: server/stdinhand.c:3081 server/stdinhand.c:3230
+#: server/stdinhand.c:3082 server/stdinhand.c:3231
 msgid "Only the player name form is allowed."
 msgstr ""
 
 # username, player, player
-#: server/stdinhand.c:3131
+#: server/stdinhand.c:3132
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
 msgstr ""
 
 # username, player
-#: server/stdinhand.c:3142
+#: server/stdinhand.c:3143
 #, c-format
 msgid "%s is already observing %s."
 msgstr ""
 
 # username
-#: server/stdinhand.c:3147
+#: server/stdinhand.c:3148
 #, c-format
 msgid "%s is already observing."
 msgstr ""
 
 # username, player
-#: server/stdinhand.c:3179
+#: server/stdinhand.c:3180
 #, c-format
 msgid "%s now observes %s"
 msgstr ""
 
 # username
-#: server/stdinhand.c:3183
+#: server/stdinhand.c:3184
 #, c-format
 msgid "%s now observes"
 msgstr ""
 
-#: server/stdinhand.c:3251
+#: server/stdinhand.c:3252
 msgid "You cannot issue \"/take -\" when the game has already started."
 msgstr ""
 
 # username, player
-#: server/stdinhand.c:3281
+#: server/stdinhand.c:3282
 #, c-format
 msgid "%s already controls %s."
 msgstr ""
 
 # username
-#: server/stdinhand.c:3295
+#: server/stdinhand.c:3296
 #, c-format
 msgid "There is no free player slot for %s."
 msgstr ""
 
 # username
-#: server/stdinhand.c:3313
+#: server/stdinhand.c:3314
 #, c-format
 msgid "Reassigned nation to %s by server console."
 msgstr ""
 
 # username, caller username
-#: server/stdinhand.c:3317
+#: server/stdinhand.c:3318
 #, c-format
 msgid "Reassigned nation to %s by %s."
 msgstr ""
 
 # username, player, ([Barbarian|AI|Human], [Alive|Dead])
-#: server/stdinhand.c:3360
+#: server/stdinhand.c:3361
 #, c-format
 msgid "%s now controls %s (%s, %s)."
 msgstr ""
 
-#: server/stdinhand.c:3364 server/stdinhand.c:4977
+#: server/stdinhand.c:3365 server/stdinhand.c:4978
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Barbarach"
 
-#: server/stdinhand.c:3366 server/stdinhand.c:4979 client/plrdlg_common.c:236
+#: server/stdinhand.c:3367 server/stdinhand.c:4980 client/plrdlg_common.c:236
 #: client/gui-sdl/plrdlg.c:653
 msgid "AI"
 msgstr "IS"
 
-#: server/stdinhand.c:3367 server/stdinhand.c:4981
+#: server/stdinhand.c:3368 server/stdinhand.c:4982
 msgid "Human"
 msgstr "Duine"
 
-#: server/stdinhand.c:3369
+#: server/stdinhand.c:3370
 msgid "Alive"
 msgstr "Beo"
 
-#: server/stdinhand.c:3370
+#: server/stdinhand.c:3371
 msgid "Dead"
 msgstr "Marbh"
 
 # username
-#: server/stdinhand.c:3373
+#: server/stdinhand.c:3374
 #, c-format
 msgid "%s failed to attach to any player."
 msgstr "Theip ar %s ceangal le himreoir ar bith."
 
-#: server/stdinhand.c:3428
+#: server/stdinhand.c:3429
 msgid "You can not detach other users."
 msgstr ""
 
 # username
-#: server/stdinhand.c:3437
+#: server/stdinhand.c:3438
 #, c-format
 msgid "%s is not attached to any player."
 msgstr "Níl %s ceangailte le himreoir ar bith."
 
 # username, player
-#: server/stdinhand.c:3447
+#: server/stdinhand.c:3448
 #, c-format
 msgid "%s detaching from %s"
 msgstr ""
 
 # username
-#: server/stdinhand.c:3450
+#: server/stdinhand.c:3451
 #, c-format
 msgid "%s no longer observing."
 msgstr ""
 
-#: server/stdinhand.c:3511
+#: server/stdinhand.c:3512
 msgid "Cannot load a game while another is running."
 msgstr ""
 
-#: server/stdinhand.c:3544
+#: server/stdinhand.c:3545
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr ""
 
-#: server/stdinhand.c:3557
+#: server/stdinhand.c:3558
 #, c-format
 msgid "Could not load savefile: %s"
 msgstr ""
 
-#: server/stdinhand.c:3654
+#: server/stdinhand.c:3655
 msgid ""
 "You must provide a ruleset name. Use \"/show ruleset\" to see what is the "
 "current ruleset."
 msgstr ""
 
-#: server/stdinhand.c:3660
+#: server/stdinhand.c:3661
 msgid "This setting can't be modified after the game has started."
 msgstr ""
 
-#: server/stdinhand.c:3666
+#: server/stdinhand.c:3667
 #, c-format
 msgid "Ruleset directory is already \"%s\""
 msgstr "Is é \"%s\" an chomhadlann rialacha cheana"
 
-#: server/stdinhand.c:3682
+#: server/stdinhand.c:3683
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Comhadlann rialacha \"%s\" gan aimsiú"
 
-#: server/stdinhand.c:3688
+#: server/stdinhand.c:3689
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "Is é \"%s\" an chomhadlann rialacha anois"
 
-#: server/stdinhand.c:3718 server/stdinhand.c:3754 server/stdinhand.c:4923
+#: server/stdinhand.c:3719 server/stdinhand.c:3755 server/stdinhand.c:4924
 msgid "That would be rather silly, since you are not a player."
 msgstr ""
 
-#: server/stdinhand.c:3725
+#: server/stdinhand.c:3726
 #, c-format
 msgid "%s. Try /help ignore"
 msgstr "%s. Bain triail as /help ignore"
 
-#: server/stdinhand.c:3737
+#: server/stdinhand.c:3738
 #, c-format
 msgid "Added pattern %s as entry %d to your ignore list."
 msgstr ""
 
-#: server/stdinhand.c:3763 server/stdinhand.c:4928
+#: server/stdinhand.c:3764 server/stdinhand.c:4929
 msgid "Your ignore list is empty."
 msgstr ""
 
-#: server/stdinhand.c:3770
+#: server/stdinhand.c:3771
 msgid "Missing range. Try /help unignore."
 msgstr "Raon ar iarraidh. Bain triail as /help unignore."
 
-#: server/stdinhand.c:3779 server/stdinhand.c:3787 server/stdinhand.c:3793
+#: server/stdinhand.c:3780 server/stdinhand.c:3788 server/stdinhand.c:3794
 #, c-format
 msgid "\"%s\" is not a valid range. Try /help unignore."
 msgstr ""
 
-#: server/stdinhand.c:3802
+#: server/stdinhand.c:3803
 #, c-format
 msgid "Invalid entry number: %d."
 msgstr ""
 
-#: server/stdinhand.c:3805
+#: server/stdinhand.c:3806
 #, c-format
 msgid "Invalid range: %d to %d."
 msgstr "Raon neamhbhailí: %d go %d."
 
-#: server/stdinhand.c:3819
+#: server/stdinhand.c:3820
 #, c-format
 msgid "Removed pattern %s (entry %d) from your ignore list."
 msgstr ""
 
-#: server/stdinhand.c:3864
+#: server/stdinhand.c:3865
 msgid "Goodbye."
 msgstr "Slán."
 
-#: server/stdinhand.c:3907
+#: server/stdinhand.c:3908
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "Níl cead agat orduithe freastalaí a thabhairt."
 
-#: server/stdinhand.c:3958
+#: server/stdinhand.c:3959
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
 
-#: server/stdinhand.c:3962
+#: server/stdinhand.c:3963
 #, c-format
 msgid "Unknown command '%s%s'.  Try '%shelp'."
 msgstr "Ordú anaithnid '%s%s'.  Bain triail as '%shelp'."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:3989
+#: server/stdinhand.c:3990
 msgid "Your new vote canceled your previous vote."
 msgstr "Bhí do thoghchán roimhe seo cealaithe ag do thoghchán nua."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:3996
+#: server/stdinhand.c:3997
 msgid "New teamvote"
 msgstr "Toghchán nua foirne"
 
 #. TRANS: "[New vote|New teamvote] (number 3)
 #. * by fred: proposed change"
-#: server/stdinhand.c:4008
+#: server/stdinhand.c:4009
 #, c-format
 msgid "%s (number %d) by %s: %s"
 msgstr "%s (uimhir %d) le %s: %s"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:4018
+#: server/stdinhand.c:4019
 #, c-format
 msgid "Your new vote (\"%s\") was not legal or was not recognized."
 msgstr ""
 
-#: server/stdinhand.c:4061
+#: server/stdinhand.c:4062
 msgid "(server prompt)"
 msgstr "(leid freastalaí)"
 
-#: server/stdinhand.c:4188
+#: server/stdinhand.c:4189
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
 
-#: server/stdinhand.c:4193
+#: server/stdinhand.c:4194
 msgid "Cannot end the game: no game running."
 msgstr ""
 
 # player
-#: server/stdinhand.c:4209
+#: server/stdinhand.c:4210
 #, c-format
 msgid "%s has conceded the game and can no longer win."
 msgstr ""
 
-#: server/stdinhand.c:4214
+#: server/stdinhand.c:4215
 msgid "You cannot surrender now."
 msgstr "Ní féidir leat géilleadh anois."
 
-#: server/stdinhand.c:4264
+#: server/stdinhand.c:4265
 msgid "Guessing argument 'ruleset'."
 msgstr ""
 
-#: server/stdinhand.c:4268
+#: server/stdinhand.c:4269
 msgid "Guessing argument 'game'."
 msgstr ""
 
-#: server/stdinhand.c:4276
+#: server/stdinhand.c:4277
 msgid "The valid arguments are: 'game', 'ruleset', 'script' or 'default'."
 msgstr "Seo iad na hargóintí bailí: 'game', 'ruleset', 'script' nó 'default'."
 
-#: server/stdinhand.c:4291
+#: server/stdinhand.c:4292
 msgid "Reset all settings to the values at the game start."
 msgstr ""
 
-#: server/stdinhand.c:4294
+#: server/stdinhand.c:4295
 msgid "No saved settings from the game start available."
 msgstr ""
 
-#: server/stdinhand.c:4298
+#: server/stdinhand.c:4299
 msgid "No game started..."
 msgstr "Níl aon chluiche tosaithe..."
 
-#: server/stdinhand.c:4305
+#: server/stdinhand.c:4306
 msgid "Reset all settings to ruleset values."
 msgstr ""
 
-#: server/stdinhand.c:4312
+#: server/stdinhand.c:4313
 msgid "Reset all settings and rereading the server start script."
 msgstr ""
 
-#: server/stdinhand.c:4330
+#: server/stdinhand.c:4331
 msgid "Reset all settings to default values."
 msgstr ""
 
-#: server/stdinhand.c:4336
+#: server/stdinhand.c:4337
 msgid "Settings re-initialized."
 msgstr ""
 
-#: server/stdinhand.c:4419
+#: server/stdinhand.c:4420
 msgid "Not enough human players; game will not start."
 msgstr ""
 
-#: server/stdinhand.c:4424
+#: server/stdinhand.c:4425
 msgid "No players; game will not start."
 msgstr ""
 
-#: server/stdinhand.c:4428
+#: server/stdinhand.c:4429
 msgid "Not enough nations for all players; game will not start."
 msgstr ""
 
-#: server/stdinhand.c:4437
+#: server/stdinhand.c:4438
 msgid "All players are ready; starting game."
 msgstr ""
 
 #. TRANS: given when /start is invoked during gameover.
-#: server/stdinhand.c:4453
+#: server/stdinhand.c:4454
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
 
 #. TRANS: given when /start is invoked while the game
 #. * is running.
-#: server/stdinhand.c:4460
+#: server/stdinhand.c:4461
 msgid "Cannot start the game: it is already running."
 msgstr ""
 
-#: server/stdinhand.c:4491
+#: server/stdinhand.c:4492
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Ceangal %s á bhriseadh."
 
-#: server/stdinhand.c:4492
+#: server/stdinhand.c:4493
 msgid "connection cut"
 msgstr "ceangal briste"
 
-#: server/stdinhand.c:4580
+#: server/stdinhand.c:4581
 msgid "You may not kick yourself."
 msgstr "Ní féidir cosc a chur ort féin."
 
-#: server/stdinhand.c:4603
+#: server/stdinhand.c:4604
 #, c-format
 msgid ""
 "There must be at least %d unique connections to the server for this command "
 "to be valid."
 msgstr ""
 
-#: server/stdinhand.c:4629
+#: server/stdinhand.c:4630
 msgid "kicked"
 msgstr "coiscthe"
 
-#: server/stdinhand.c:4645
+#: server/stdinhand.c:4646
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -8975,95 +8983,95 @@ msgid ""
 msgstr ""
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:4682
+#: server/stdinhand.c:4683
 #, c-format
 msgid "Command: %s  -  %s"
 msgstr "Ordú: %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:4688
+#: server/stdinhand.c:4689
 #, c-format
 msgid "Command: %s"
 msgstr "Ordú: %s"
 
-#: server/stdinhand.c:4693
+#: server/stdinhand.c:4694
 msgid "Synopsis: "
 msgstr "Achoimre: "
 
-#: server/stdinhand.c:4702
+#: server/stdinhand.c:4703
 #, c-format
 msgid "Level: %s"
 msgstr "Leibhéal: %s"
 
-#: server/stdinhand.c:4724
+#: server/stdinhand.c:4725
 msgid "The following server commands are available:"
 msgstr "Tá na horduithe seo a leanas ar fáil ar an bhfreastalaí seo:"
 
-#: server/stdinhand.c:4785
+#: server/stdinhand.c:4786
 #, c-format
 msgid "Possible matches: %s"
 msgstr ""
 
-#: server/stdinhand.c:4847
+#: server/stdinhand.c:4848
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr ""
 
-#: server/stdinhand.c:4854
+#: server/stdinhand.c:4855
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr ""
 
-#: server/stdinhand.c:4895
+#: server/stdinhand.c:4896
 msgid "List of connections to server:"
 msgstr ""
 
-#: server/stdinhand.c:4899
+#: server/stdinhand.c:4900
 msgid "<no connections>"
 msgstr ""
 
-#: server/stdinhand.c:4932
+#: server/stdinhand.c:4933
 msgid "Your ignore list:"
 msgstr ""
 
-#: server/stdinhand.c:4951
+#: server/stdinhand.c:4952
 msgid "List of players:"
 msgstr "Liosta imreoirí:"
 
-#: server/stdinhand.c:4956
+#: server/stdinhand.c:4957
 msgid "<no players>"
 msgstr "<gan imreoirí>"
 
-#: server/stdinhand.c:4973
+#: server/stdinhand.c:4974
 #, c-format
 msgid "user %s, "
 msgstr "úsáideoir %s, "
 
-#: server/stdinhand.c:4984
+#: server/stdinhand.c:4985
 msgid ", Dead"
 msgstr ", Marbh"
 
-#: server/stdinhand.c:4987
+#: server/stdinhand.c:4988
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", leibhéal deacrachta %s"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: server/stdinhand.c:4992 server/stdinhand.c:4996 client/helpdata.c:658
+#: server/stdinhand.c:4993 server/stdinhand.c:4997 client/helpdata.c:658
 #: client/helpdata.c:1234 client/text.c:1568 client/text.c:1608
 #, c-format
 msgid "?clistmore:, %s"
 msgstr "?clistmore:, %s"
 
-#: server/stdinhand.c:5000
+#: server/stdinhand.c:5001
 msgid ", ready"
 msgstr ", réidh"
 
-#: server/stdinhand.c:5004
+#: server/stdinhand.c:5005
 msgid ", not ready"
 msgstr ""
 
-#: server/stdinhand.c:5015
+#: server/stdinhand.c:5016
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
@@ -9074,25 +9082,25 @@ msgstr[3] " %d gceangal:"
 msgstr[4] " %d ceangal:"
 
 # username, address, accesslevel
-#: server/stdinhand.c:5021
+#: server/stdinhand.c:5022
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr ""
 
-#: server/stdinhand.c:5027
+#: server/stdinhand.c:5028
 msgid " (observer mode)"
 msgstr ""
 
-#: server/stdinhand.c:5044
+#: server/stdinhand.c:5045
 msgid "List of scenarios available:"
 msgstr "Liosta cnámhscéalta:"
 
-#: server/stdinhand.c:5065
+#: server/stdinhand.c:5066
 msgid "List of teams:"
 msgstr "Liosta foirne:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:5075
+#: server/stdinhand.c:5076
 #, c-format
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
@@ -9102,7 +9110,7 @@ msgstr[2] "%2d : '%s' : %d imreoir :"
 msgstr[3] "%2d : '%s' : %d n-imreoir :"
 msgstr[4] "%2d : '%s' : %d imreoir :"
 
-#: server/stdinhand.c:5131
+#: server/stdinhand.c:5132
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr ""
@@ -9187,7 +9195,7 @@ msgid "Insufficient science output. We lost %s."
 msgstr ""
 
 # government, government
-#: server/techtools.c:572
+#: server/techtools.c:579
 #, c-format
 msgid ""
 "The required technology for our government '%s' was lost. The citizens have "
@@ -9195,7 +9203,7 @@ msgid ""
 msgstr ""
 
 # government, government
-#: server/techtools.c:595
+#: server/techtools.c:602
 #, c-format
 msgid ""
 "The required technology for our new government '%s' was lost. The citizens "
@@ -9203,37 +9211,37 @@ msgid ""
 msgstr ""
 
 # city, improvement
-#: server/techtools.c:633 server/techtools.c:645
+#: server/techtools.c:640 server/techtools.c:652
 #, c-format
 msgid "%s can't build %s. The required technology was lost."
 msgstr ""
 
 # advance
-#: server/techtools.c:762
+#: server/techtools.c:769
 #, c-format
 msgid "Technology goal is %s."
 msgstr ""
 
 # advance, nation_plural
-#: server/techtools.c:945
+#: server/techtools.c:952
 #, c-format
 msgid "You steal %s from the %s."
 msgstr "Goideann tú %s ó na %s."
 
 # nation_plural, advance
-#: server/techtools.c:950
+#: server/techtools.c:957
 #, c-format
 msgid "The %s stole %s from you!"
 msgstr "Ghoid na %s %s uait!"
 
 # nation_plural, advance, nation_plural
-#: server/techtools.c:955
+#: server/techtools.c:962
 #, c-format
 msgid "The %s have stolen %s from the %s."
 msgstr "Ghoid na %s %s ó na %s."
 
 # advance
-#: server/techtools.c:1075
+#: server/techtools.c:1082
 #, c-format
 msgid "Too bad! You made a mistake transferring the tech %s and lost it."
 msgstr ""
@@ -9391,7 +9399,7 @@ msgstr "Chuir do TCS cosc ar ionsaí núicléach ar %s."
 # %s = unit, nation_adj, unit; FIXME (lenite last *two*)
 # from the... could be plural as well, leave out "an/na"? Compare fr.po
 #. TRANS: "Your Cannon ... the Polish Destroyer."
-#: server/unithand.c:1119
+#: server/unithand.c:1117
 #, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
 msgstr "Tháinig do %1$s slán as an ionsaí lag ó %3$s %2$s."
@@ -9399,63 +9407,63 @@ msgstr "Tháinig do %1$s slán as an ionsaí lag ó %3$s %2$s."
 # %s = unit, nation_adj, unit; FIXME (lenite last *two*)
 # against the... could be plural as well, leave out "an/na"? Compare fr.po
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unithand.c:1129
+#: server/unithand.c:1127
 #, c-format
 msgid "Your attacking %s failed against the %s %s!"
 msgstr "Theip ar do %1$s agus fogha a thabhairt faoi %3$s %2$s!"
 
-#: server/unithand.c:1207
+#: server/unithand.c:1203
 msgid "This type of troops cannot take over a city."
 msgstr "Ní féidir leis an cineál seo buíon cathair a fhorghabháil."
 
 #. TRANS: %s is list of units separated by "or".
-#: server/unithand.c:1217
+#: server/unithand.c:1213
 #, c-format
 msgid "Only %s can attack from sea."
 msgstr "Ní féidir ach le %s ionsaí a dhéanamh ón bhfarraige."
 
-#: server/unithand.c:1221
+#: server/unithand.c:1217
 msgid "Cannot attack from sea."
 msgstr "Ní féidir ionsaí a dhéanamh ón bhfarraige."
 
-#: server/unithand.c:1228 server/unittools.c:2346
+#: server/unithand.c:1224 server/unittools.c:2351
 msgid "Cannot attack unless you declare war first."
 msgstr "Ní féidir ionsaí a dhéanamh go dtí go bhfuil cogadh fógartha agat."
 
 # unit
-#: server/unithand.c:1233
+#: server/unithand.c:1229
 #, c-format
 msgid "%s can only move into your own zone of control."
 msgstr "Ní féidir le %s ach dul isteach i do chrios rialaithe féin."
 
 # unit
-#: server/unithand.c:1239
+#: server/unithand.c:1235
 #, c-format
 msgid "%s cannot move that far from the coast line."
 msgstr "Ní féidir le %s bogadh chomh fada sin ón líne chósta."
 
 # playername
-#: server/unithand.c:1246 server/unittools.c:2353
+#: server/unithand.c:1242 server/unittools.c:2358
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "Ní féidir ionradh a dhéanamh go dtí go ndéanann tú síocháin le %s."
 
-#: server/unithand.c:1292
+#: server/unithand.c:1288
 msgid "This unit has no moves left."
 msgstr "Níl bearta ar bith fágtha ag an aonad seo."
 
-#: server/unithand.c:1352
+#: server/unithand.c:1348
 msgid "No diplomat action possible."
 msgstr "Gníomh taidhleoireachta dodhéanta."
 
 # terrain name
-#: server/unithand.c:1355
+#: server/unithand.c:1351
 #, c-format
 msgid "Unit cannot perform diplomatic action from %s."
 msgstr "Ní féidir leis an aonad gníomh taidhleoireachta a dhéanamh ó %s."
 
 # player name
-#: server/unithand.c:1373
+#: server/unithand.c:1369
 #, c-format
 msgid "You must declare war on %s first.  Try using the Nations report (F3)."
 msgstr ""
@@ -9463,46 +9471,46 @@ msgstr ""
 "(F3)."
 
 #. TRANS: <unit> ... <unit>
-#: server/unithand.c:1415
+#: server/unithand.c:1411
 #, c-format
 msgid "Your %s succeeded in capturing the %s."
 msgstr "D'éirigh le do %s an %s a ghabháil."
 
 # %s = unit, nation_plural
 #. TRANS: <unit> ... <Poles>
-#: server/unithand.c:1420
+#: server/unithand.c:1416
 #, c-format
 msgid "Your %s was captured by the %s."
 msgstr "Bhí do %s gafa ag na %s."
 
-#: server/unithand.c:1445
+#: server/unithand.c:1441
 msgid "This unit is being transported, and so cannot bombard."
 msgstr "Tá an t-aonad seo á iompar, mar sin ní féidir leis bombardú."
 
-#: server/unithand.c:1457
+#: server/unithand.c:1453
 msgid "You can't attack there."
 msgstr "Ní féidir leat ionsaí san áit sin."
 
-#: server/unithand.c:1493
+#: server/unithand.c:1489
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "Níl an t-aonad iompartha comhaontaithe le gach aonad ná chathair ar tíl "
 "sprice."
 
 # unit, improvement, city
-#: server/unithand.c:1541
+#: server/unithand.c:1537
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "Cabhraíonn do %s leis an %s in %s a thógáil (%d fágtha)."
 
 # unit, improvement, city
-#: server/unithand.c:1543
+#: server/unithand.c:1539
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "Cabhraíonn do %s leis an %s in %s a thógáil (%d barrachas)."
 
 # %s = unit
-#: server/unithand.c:1596
+#: server/unithand.c:1592
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
@@ -9511,26 +9519,26 @@ msgstr ""
 "aige."
 
 # %s = unit, city, city
-#: server/unithand.c:1608
+#: server/unithand.c:1604
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "Tá brón orm, ní féidir le do %s trádbhealach a bhunú idir %s agus %s."
 
 # %s = unit
-#: server/unithand.c:1640 server/unithand.c:1661
+#: server/unithand.c:1636 server/unithand.c:1657
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "Tá brón orm, ní féidir le do %s trádbhealach a bhunú anseo!"
 
 # city
-#: server/unithand.c:1645 server/unithand.c:1666
+#: server/unithand.c:1641 server/unithand.c:1662
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
 msgstr "      Tá %2$d trádbhealach níos fearr ag cathair %1$s cheana!"
 
 # unit, city, city
 #. TRANS: ... Caravan ... Paris ... Stockholm, ...
-#: server/unithand.c:1688
+#: server/unithand.c:1684
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -9545,25 +9553,25 @@ msgstr[3] "Shroich do %s ó %s %s, agus tá luach %d bpíosa óir agus taighde."
 msgstr[4] "Shroich do %s ó %s %s, agus tá luach %d píosa óir agus taighde."
 
 # city, city
-#: server/unithand.c:1714
+#: server/unithand.c:1710
 #, c-format
 msgid "New trade route established from %s to %s."
 msgstr "Trádbhealach nua bunaithe ó %s go %s."
 
 # nation_plural, city, city
-#: server/unithand.c:1720
+#: server/unithand.c:1716
 #, c-format
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "Bunaíonn na %s trádbhealach idir cathair dá gcuid %s agus %s."
 
 # city, city
-#: server/unithand.c:1735 server/unithand.c:1757
+#: server/unithand.c:1731 server/unithand.c:1753
 #, c-format
 msgid "Trade route between %s and %s canceled."
 msgstr "Cealaíodh trádbhealach idir %s agus %s."
 
 # nation_plural, city, city
-#: server/unithand.c:1742 server/unithand.c:1764
+#: server/unithand.c:1738 server/unithand.c:1760
 #, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr "Chealaigh na %s an trádbhealach ó %s go cathair de do chuid %s."
@@ -9581,49 +9589,49 @@ msgid "Your %s has run out of hit points."
 msgstr ""
 
 # unit
-#: server/unittools.c:399
+#: server/unittools.c:398
 #, c-format
 msgid "Your %s has returned to refuel."
 msgstr "Tá do %s fillte le hathbhreoslú."
 
 # unit
-#: server/unittools.c:430
+#: server/unittools.c:429
 #, c-format
 msgid "Your %s has run out of fuel."
 msgstr ""
 
 #. TRANS: Your <unit> became ...
-#: server/unittools.c:647
+#: server/unittools.c:645
 #, c-format
 msgid "Your %s became more experienced and became %s."
 msgstr "Tá níos mó taithí faighte ag do %s agus anois is %s é."
 
 # unit, city
-#: server/unittools.c:1052
+#: server/unittools.c:1050
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr "Bhí do %s teileapórtáilte go %s."
 
 #. TRANS: A unit is moved to resolve stack conflicts.
-#: server/unittools.c:1115
+#: server/unittools.c:1113
 #, c-format
 msgid "Moved your %s."
 msgstr "Bogadh do %s."
 
 #. TRANS: A unit is disbanded to resolve stack conflicts.
-#: server/unittools.c:1126
+#: server/unittools.c:1124
 #, c-format
 msgid "Disbanded your %s."
 msgstr "Scaipeadh do %s."
 
 # unit, player
-#: server/unittools.c:1474
+#: server/unittools.c:1476
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Níorbh féidir le %2$s %1$s a chosaint, tá an cluiche caillte aige."
 
 # unit
-#: server/unittools.c:1478
+#: server/unittools.c:1480
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
@@ -9631,18 +9639,18 @@ msgstr ""
 "uair eile!"
 
 # unit, unit
-#: server/unittools.c:1521
+#: server/unittools.c:1528
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "Cailleadh %s nuair a bhí %s caillte."
 
 # unit, unit, city
-#: server/unittools.c:1597
+#: server/unittools.c:1608
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "Tá %s i ndiaidh éalú ó scriosadh %s, agus tá sé éalaithe go %s."
 
-#: server/unittools.c:1702
+#: server/unittools.c:1713
 #, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgid_plural "Barbarian leader captured; %d gold ransom paid."
@@ -9655,7 +9663,7 @@ msgstr[4] "Ceannaire barbarach gafa; airgead fuascailte %d píosa óir íoctha."
 # %s = unit, nation_adj, unit  FIXME 
 # against the... could be plural as well, leave out "an/na"? Compare fr.po
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1722
+#: server/unittools.c:1733
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "D'éirigh le do %1$s agus fogha a thabhairt faoi %3$s %2$s!"
@@ -9663,7 +9671,7 @@ msgstr "D'éirigh le do %1$s agus fogha a thabhairt faoi %3$s %2$s!"
 # %s = unit, nation_adj, unit  FIXME 
 # against the... could be plural as well, leave out "an/na"? Compare fr.po
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1731 server/unittools.c:1794
+#: server/unittools.c:1742 server/unittools.c:1803
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr ""
@@ -9671,7 +9679,7 @@ msgstr ""
 # %s = unit, nation_adj, unit  FIXME 
 # against the... could be plural as well, leave out "an/na"? Compare fr.po
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1769
+#: server/unittools.c:1778
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -9685,7 +9693,7 @@ msgstr[4] ""
 # %s = unit, nation_adj, unit, nation_adj, unit  FIXME 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1804
+#: server/unittools.c:1813
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "Cailleadh %1$s nuair a d'ionsaigh an %3$s %2$s an %5$s %4$s."
@@ -9693,7 +9701,7 @@ msgstr "Cailleadh %1$s nuair a d'ionsaigh an %3$s %2$s an %5$s %4$s."
 # %s = unit, unit, nation_adj, unit  FIXME 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1820
+#: server/unittools.c:1829
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr ""
@@ -9701,7 +9709,7 @@ msgstr ""
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1831
+#: server/unittools.c:1840
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -9714,7 +9722,7 @@ msgstr[4] ""
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1846
+#: server/unittools.c:1855
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
@@ -9726,43 +9734,43 @@ msgstr[3] ""
 msgstr[4] "Cailleadh %1$d aonad nuair a d'ionsaigh an %3$s %2$s an %5$s %4$s."
 
 # %s = unit, then either nation_plural or "yourself"; FIXME (na tusa?!)
-#: server/unittools.c:2117
+#: server/unittools.c:2124
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Dhíothaigh na %2$s do %1$s le buama núicléach."
 
 # used in the one above, and two down (by ~)
-#: server/unittools.c:2120 server/unittools.c:2140
+#: server/unittools.c:2127 server/unittools.c:2145
 msgid "yourself"
 msgstr "tusa"
 
 # nation_adj, unit
-#: server/unittools.c:2124
+#: server/unittools.c:2131
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "Díothaíodh %2$s %1$s le buama núicléach."
 
 # %s = unit, then either nation_plural or "yourself"; FIXME (na tusa?!)
-#: server/unittools.c:2137
+#: server/unittools.c:2142
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "Dhíothaigh na %2$s %1$s le buama núicléach."
 
 # city
-#: server/unittools.c:2145
+#: server/unittools.c:2150
 #, c-format
 msgid "You nuked %s."
 msgstr "Dhíothaigh tú %s le buama núicléach."
 
 # nation_plural
-#: server/unittools.c:2197
+#: server/unittools.c:2202
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "Phléasc na %s buama núicléach!"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2221 server/unittools.c:2229
+#: server/unittools.c:2226 server/unittools.c:2234
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr ""
@@ -9771,53 +9779,53 @@ msgstr ""
 # masculine and singular...
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2240
+#: server/unittools.c:2245
 #, c-format
 msgid "%s cannot be transported to %s."
 msgstr "Ní féidir %s a aistriú go %s."
 
 # unit
-#: server/unittools.c:2250
+#: server/unittools.c:2255
 #, c-format
 msgid "%s transported successfully."
 msgstr ""
 
-#: server/unittools.c:2309
+#: server/unittools.c:2314
 msgid "This unit type can not be paradropped."
 msgstr ""
 
-#: server/unittools.c:2319
+#: server/unittools.c:2324
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr ""
 
-#: server/unittools.c:2325
+#: server/unittools.c:2330
 msgid "The destination location is not known."
 msgstr ""
 
 # terrain_name
-#: server/unittools.c:2335
+#: server/unittools.c:2340
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr ""
 
-#: server/unittools.c:2364
+#: server/unittools.c:2369
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 
 # unit, terrain_name
-#: server/unittools.c:2375
+#: server/unittools.c:2380
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr ""
 
 # unit
-#: server/unittools.c:2388
+#: server/unittools.c:2394
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 
-#: server/unittools.c:2417 data/default/default.lua:22
+#: server/unittools.c:2427 data/default/default.lua:22
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -9827,88 +9835,88 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: server/unittools.c:2424 data/default/default.lua:94
+#: server/unittools.c:2434 data/default/default.lua:94
 msgid "An abandoned village is here."
 msgstr "Tá baile tréigthe anseo."
 
 # unit
-#: server/unittools.c:2427 data/default/default.lua:104
+#: server/unittools.c:2437 data/default/default.lua:104
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Mharaigh barbaraigh do %s!"
 
-#: server/unittools.c:2456
+#: server/unittools.c:2465
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 
 # unit
-#: server/unittools.c:2709
+#: server/unittools.c:2718
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 
 # unit
-#: server/unittools.c:3235
+#: server/unittools.c:3249
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr ""
 
 # unit
-#: server/unittools.c:3286
+#: server/unittools.c:3300
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr ""
 
 # unit
-#: server/unittools.c:3302
+#: server/unittools.c:3316
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 
 # unit
-#: server/unittools.c:3321
+#: server/unittools.c:3335
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 
 # unit
-#: server/unittools.c:3331
+#: server/unittools.c:3345
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr ""
 
 # unit
-#: server/unittools.c:3356
+#: server/unittools.c:3370
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr ""
 
 # unit
-#: server/unittools.c:3396
+#: server/unittools.c:3410
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr ""
 
 # unit
-#: server/unittools.c:3407
+#: server/unittools.c:3421
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr ""
 
 # unit
-#: server/unittools.c:3419
+#: server/unittools.c:3433
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr ""
 
 # unit
-#: server/unittools.c:3428
+#: server/unittools.c:3442
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr ""
 
 # %s = formatted time string
-#: server/unittools.c:3526
+#: server/unittools.c:3540
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."
@@ -11617,50 +11625,46 @@ msgid ""
 "(see Airport).\n"
 msgstr ""
 
-#: client/helpdata.c:1576 client/helpdata.c:1592 client/helpdata.c:1602
+#: client/helpdata.c:1576 client/helpdata.c:1590 client/helpdata.c:1600
 msgid "* May be promoted after defeating an enemy unit.\n"
 msgstr ""
 
-#: client/helpdata.c:1581
-msgid "* Will be built as a veteran under communist governments.\n"
-msgstr ""
-
-#: client/helpdata.c:1584
+#: client/helpdata.c:1582
 msgid "* May be promoted after a successful mission.\n"
 msgstr ""
 
-#: client/helpdata.c:1588
+#: client/helpdata.c:1586
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Barracks).\n"
 msgstr ""
 
-#: client/helpdata.c:1598
+#: client/helpdata.c:1596
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Port Facility).\n"
 msgstr ""
 
-#: client/helpdata.c:1607
+#: client/helpdata.c:1605
 msgid "* May be promoted through combat or training.\n"
 msgstr ""
 
-#: client/helpdata.c:1610
+#: client/helpdata.c:1608
 msgid "* May be built as a veteran through training.\n"
 msgstr ""
 
-#: client/helpdata.c:1619
+#: client/helpdata.c:1617
 msgid ""
 "* Under certain conditions the shield upkeep of this unit can be converted "
 "to gold upkeep.\n"
 msgstr ""
 
-#: client/helpdata.c:1627
+#: client/helpdata.c:1625
 #, c-format
 msgid "* Can attack against %s units, which are usually not reachable.\n"
 msgstr ""
 
-#: client/helpdata.c:1644
+#: client/helpdata.c:1642
 #, c-format
 msgid "* Unit has to be in a city or a base after %d turn.\n"
 msgid_plural "* Unit has to be in a city or a base after %d turns.\n"
@@ -11671,7 +11675,7 @@ msgstr[3] ""
 msgstr[4] ""
 
 #. TRANS: %s is a list of unit types separated by "or"
-#: client/helpdata.c:1655
+#: client/helpdata.c:1653
 #, c-format
 msgid "* Unit has to be in a city, a base, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, a base, or on a %s after %d turns.\n"
@@ -11681,12 +11685,12 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: client/helpdata.c:1702
+#: client/helpdata.c:1700
 #, c-format
 msgid "Starting now, researching %s would need %d bulbs."
 msgstr ""
 
-#: client/helpdata.c:1707
+#: client/helpdata.c:1705
 #, c-format
 msgid ""
 "To reach %s you need to obtain %d other technology first. The whole project "
@@ -11700,142 +11704,142 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: client/helpdata.c:1719
+#: client/helpdata.c:1717
 msgid "You cannot research this technology."
 msgstr "Ní féidir leat taighde a dhéanamh ar an teicneolaíocht seo."
 
-#: client/helpdata.c:1724
+#: client/helpdata.c:1722
 msgid " This number may vary depending on what other players research.\n"
 msgstr ""
 
-#: client/helpdata.c:1736
+#: client/helpdata.c:1734
 #, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
 msgstr ""
 
-#: client/helpdata.c:1742
+#: client/helpdata.c:1740
 msgid "* Increases the pollution generated by the population.\n"
 msgstr ""
 
 #. TRANS: %s is list of units separated by "and".
-#: client/helpdata.c:1748
+#: client/helpdata.c:1746
 #, c-format
 msgid "* Allows %s to build roads on river tiles.\n"
 msgstr ""
 
 #. TRANS: %s is list of units separated by "and".
-#: client/helpdata.c:1756
+#: client/helpdata.c:1754
 #, c-format
 msgid "* Allows %s to upgrade roads to railroads.\n"
 msgstr ""
 
 #. TRANS: %s is list of units separated by "and".
-#: client/helpdata.c:1764
+#: client/helpdata.c:1762
 #, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
 msgstr ""
 
-#: client/helpdata.c:1773
+#: client/helpdata.c:1771
 msgid ""
 "* To preserve this technology for our nation some bulbs are needed each "
 "turn.\n"
 msgstr ""
 
-#: client/helpdata.c:1811
+#: client/helpdata.c:1809
 msgid "* Pollution cannot be generated on this terrain."
 msgstr ""
 
-#: client/helpdata.c:1814
+#: client/helpdata.c:1812
 msgid "* Fallout cannot be generated on this terrain."
 msgstr ""
 
-#: client/helpdata.c:1819
+#: client/helpdata.c:1817
 msgid "* You cannot build cities on this terrain."
 msgstr ""
 
-#: client/helpdata.c:1825
+#: client/helpdata.c:1823
 msgid "* The coastline of this terrain is unsafe."
 msgstr ""
 
-#: client/helpdata.c:1830
+#: client/helpdata.c:1828
 msgid "* Land units cannot travel on oceanic terrains."
 msgstr ""
 
-#: client/helpdata.c:1875
+#: client/helpdata.c:1873
 msgid "Requirements to build:\n"
 msgstr ""
 
 #. TRANS: %s is a list of unit classes separated by "and".
-#: client/helpdata.c:1897
+#: client/helpdata.c:1895
 #, c-format
 msgid "* Native to %s units.\n"
 msgstr ""
 
-#: client/helpdata.c:1903
+#: client/helpdata.c:1901
 msgid ""
 "  * Such units can move onto this tile even if it would not normally be "
 "suitable terrain.\n"
 msgstr ""
 
-#: client/helpdata.c:1911
+#: client/helpdata.c:1909
 msgid ""
 "  * Such units situated here are not considered aggressive if this tile is "
 "within 3 tiles of a friendly city.\n"
 msgstr ""
 
-#: client/helpdata.c:1916
+#: client/helpdata.c:1914
 msgid ""
 "  * Can be captured by such units if at war with the nation that currently "
 "owns it.\n"
 msgstr ""
 
-#: client/helpdata.c:1921
+#: client/helpdata.c:1919
 #, c-format
 msgid "  * Such units get a %d%% defense bonus on this tile.\n"
 msgstr ""
 
-#: client/helpdata.c:1928
+#: client/helpdata.c:1926
 #, no-c-format
 msgid "  * Diplomatic units get a 25% defense bonus in diplomatic fights.\n"
 msgstr ""
 
-#: client/helpdata.c:1936
+#: client/helpdata.c:1934
 msgid "* Cannot be built.\n"
 msgstr ""
 
-#: client/helpdata.c:1940
+#: client/helpdata.c:1938
 msgid "* Can be pillaged by units.\n"
 msgstr ""
 
-#: client/helpdata.c:1945
+#: client/helpdata.c:1943
 msgid ""
 "* Defeat of one unit does not cause death of all other units on this tile.\n"
 msgstr ""
 
-#: client/helpdata.c:1950
+#: client/helpdata.c:1948
 msgid "* Units can paradrop from this tile.\n"
 msgstr ""
 
-#: client/helpdata.c:1954
+#: client/helpdata.c:1952
 msgid "* Extends national borders of the building nation.\n"
 msgstr ""
 
-#: client/helpdata.c:1958
+#: client/helpdata.c:1956
 msgid "* Grants permanent vision of an area around the tile to its owner.\n"
 msgstr ""
 
-#: client/helpdata.c:1963
+#: client/helpdata.c:1961
 msgid ""
 "* Allows the owner to see normally invisible units in an area around the "
 "tile.\n"
 msgstr ""
 
-#: client/helpdata.c:2043
+#: client/helpdata.c:2041
 msgid "Features:\n"
 msgstr "Gnéithe:\n"
 
 #. TRANS: Empty output type list, should never happen.
-#: client/helpdata.c:2123 client/helpdata.c:2124
+#: client/helpdata.c:2121 client/helpdata.c:2122
 msgid "?outputlist: Nothing "
 msgstr "?outputlist: Faic "
 
@@ -11855,12 +11859,9 @@ msgstr[4] ""
 
 #: client/helpdata.c:2142
 #, c-format
-msgid ""
-"* Each of your cities will avoid %d unhappiness, not including that caused "
-"by units.\n"
+msgid "* Each of your cities will avoid %d unhappiness caused by units.\n"
 msgid_plural ""
-"* Each of your cities will avoid %d unhappiness, not including that caused "
-"by units.\n"
+"* Each of your cities will avoid %d unhappiness caused by units.\n"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
@@ -11870,6 +11871,20 @@ msgstr[4] ""
 #: client/helpdata.c:2151
 #, c-format
 msgid ""
+"* Each of your cities will avoid %d unhappiness, not including that caused "
+"by units.\n"
+msgid_plural ""
+"* Each of your cities will avoid %d unhappiness, not including that caused "
+"by units.\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+
+#: client/helpdata.c:2160
+#, c-format
+msgid ""
 "* Each of your cities will avoid %d unhappiness, including unhappiness "
 "caused by units.\n"
 msgid_plural ""
@@ -11882,48 +11897,48 @@ msgstr[3] ""
 msgstr[4] ""
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
-#: client/helpdata.c:2162
+#: client/helpdata.c:2171
 #, c-format
 msgid "* You pay %d times normal %s upkeep for your units.\n"
 msgstr ""
 
-#: client/helpdata.c:2166
+#: client/helpdata.c:2175
 #, c-format
 msgid "* You pay %d times normal upkeep for your units.\n"
 msgstr ""
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
-#: client/helpdata.c:2171
+#: client/helpdata.c:2180
 #, c-format
 msgid "* You pay no %s upkeep for your units.\n"
 msgstr ""
 
-#: client/helpdata.c:2175
+#: client/helpdata.c:2184
 msgid "* You pay no upkeep for your units.\n"
 msgstr ""
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
 #. * There is currently no way to control the
 #. * singular/plural version of these.
-#: client/helpdata.c:2184
+#: client/helpdata.c:2193
 #, c-format
 msgid "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
 msgstr ""
 
 #. TRANS: Amount is subtracted from upkeep cost
 #. * for each upkeep type.
-#: client/helpdata.c:2191
+#: client/helpdata.c:2200
 #, c-format
 msgid "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgstr ""
 
-#: client/helpdata.c:2198
+#: client/helpdata.c:2207
 #, c-format
 msgid "* If you lose your capital, the chance of civil war is %d%%.\n"
 msgstr ""
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:2205
+#: client/helpdata.c:2214
 #, c-format
 msgid ""
 "* When you have %d cities, the first unhappy citizen will appear in each "
@@ -11931,24 +11946,24 @@ msgid ""
 msgstr ""
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:2212
+#: client/helpdata.c:2221
 #, c-format
 msgid ""
 "* After the first unhappy citizen due to civilization size, for each %d "
 "additional cities another unhappy citizen will appear.\n"
 msgstr ""
 
-#: client/helpdata.c:2220
+#: client/helpdata.c:2229
 #, c-format
 msgid ""
 "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 msgstr ""
 
-#: client/helpdata.c:2225
+#: client/helpdata.c:2234
 msgid "* Has unlimited science/gold/luxuries rates.\n"
 msgstr ""
 
-#: client/helpdata.c:2230
+#: client/helpdata.c:2239
 #, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
@@ -11962,7 +11977,7 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: client/helpdata.c:2242
+#: client/helpdata.c:2251
 #, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
@@ -11972,64 +11987,64 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: client/helpdata.c:2252
+#: client/helpdata.c:2261
 msgid "* You may grow your cities by means of celebrations."
 msgstr ""
 
 #. TRANS: Preserve leading space. %d should always be
 #. * 2 or greater.
-#: client/helpdata.c:2257
+#: client/helpdata.c:2266
 #, c-format
 msgid " (Cities below size %d cannot grow in this way.)"
 msgstr ""
 
-#: client/helpdata.c:2263
+#: client/helpdata.c:2272
 msgid "* Your units cannot be bribed.\n"
 msgstr ""
 
-#: client/helpdata.c:2266
+#: client/helpdata.c:2275
 msgid "* Your cities cannot be incited to revolt.\n"
 msgstr "* Ní féidir éirí amach a ghríosú i do chathracha.\n"
 
-#: client/helpdata.c:2270
+#: client/helpdata.c:2279
 msgid ""
 "* If any city is in disorder for more than two turns in a row, government "
 "will fall into anarchy.\n"
 msgstr ""
 
-#: client/helpdata.c:2275
+#: client/helpdata.c:2284
 msgid "* Has a senate that may prevent declaration of war.\n"
 msgstr ""
 
-#: client/helpdata.c:2279
+#: client/helpdata.c:2288
 msgid "* Allows partisans when cities are taken by the enemy.\n"
 msgstr ""
 
-#: client/helpdata.c:2283
+#: client/helpdata.c:2292
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
 msgstr ""
 
-#: client/helpdata.c:2287
+#: client/helpdata.c:2296
 msgid "* Pays no upkeep for fanatics.\n"
 msgstr ""
 
-#: client/helpdata.c:2290
+#: client/helpdata.c:2299
 msgid "* Has no unhappy citizens.\n"
 msgstr "* Níl aon saoránaigh míshásta ann.\n"
 
-#: client/helpdata.c:2300 client/helpdata.c:2304 client/helpdata.c:2308
+#: client/helpdata.c:2309 client/helpdata.c:2313 client/helpdata.c:2317
 #, c-format
 msgid "* Veteran %s units.\n"
 msgstr ""
 
-#: client/helpdata.c:2311
+#: client/helpdata.c:2320
 msgid "* Veteran units.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:2317
+#: client/helpdata.c:2326
 #, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty, "
@@ -12038,13 +12053,13 @@ msgstr ""
 
 #. TRANS: Preserve leading space. %d should always be
 #. * 2 or greater.
-#: client/helpdata.c:2325 client/helpdata.c:2341
+#: client/helpdata.c:2334 client/helpdata.c:2350
 #, c-format
 msgid " (Cities below size %d will not celebrate.)"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:2333
+#: client/helpdata.c:2342
 #, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d more of it while the "
@@ -12052,87 +12067,87 @@ msgid ""
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:2349
+#: client/helpdata.c:2358
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2357
+#: client/helpdata.c:2366
 #, c-format
 msgid "* %s production is increased %d%%.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2364
+#: client/helpdata.c:2373
 #, c-format
 msgid "* %s production will suffer massive losses.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2369
+#: client/helpdata.c:2378
 #, c-format
 msgid "* %s production will suffer some losses.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2374
+#: client/helpdata.c:2383
 #, c-format
 msgid "* %s production will suffer a small amount of losses.\n"
 msgstr ""
 
-#: client/helpdata.c:2380
+#: client/helpdata.c:2389
 msgid "* Increases the chance of plague within your cities.\n"
 msgstr ""
 
-#: client/helpdata.c:2383
+#: client/helpdata.c:2392
 msgid "* Decreases the chance of plague within your cities.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2391
+#: client/helpdata.c:2400
 #, c-format
 msgid "* %s losses will increase quickly with distance from capital.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2397
+#: client/helpdata.c:2406
 #, c-format
 msgid "* %s losses will increase with distance from capital.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2403
+#: client/helpdata.c:2412
 #, c-format
 msgid "* %s losses will increase slowly with distance from capital.\n"
 msgstr ""
 
-#: client/helpdata.c:2410
+#: client/helpdata.c:2419
 msgid "* Increases the chance of migration into your cities.\n"
 msgstr ""
 
-#: client/helpdata.c:2413
+#: client/helpdata.c:2422
 msgid "* Decreases the chance of migration into your cities.\n"
 msgstr ""
 
-#: client/helpdata.c:2431
+#: client/helpdata.c:2440
 #, c-format
 msgid "* Allows you to build %s.\n"
 msgstr ""
 
 #. TRANS: "2 Food" or ", 1 Shield"
-#: client/helpdata.c:2457
+#: client/helpdata.c:2466
 #, c-format
 msgid "%s%d %s"
 msgstr "%s%d %s"
 
-#: client/helpdata.c:2458 client/helpdata.c:2466 client/gui-sdl/mapview.c:625
+#: client/helpdata.c:2467 client/helpdata.c:2475 client/gui-sdl/mapview.c:625
 #: client/gui-sdl/mapview.c:631 client/gui-sdl/mapview.c:637
 msgid "?blistmore:, "
 msgstr "?blistmore:, "
 
 #. TRANS: "2 Unhappy" or ", 1 Unhappy"
-#: client/helpdata.c:2465
+#: client/helpdata.c:2474
 #, c-format
 msgid "%s%d Unhappy"
 msgstr "%s%d Míshásta"
@@ -13237,11 +13252,11 @@ msgstr ""
 msgid "Welcome"
 msgstr "Fáilte"
 
-#: client/packhand.c:1874
+#: client/packhand.c:1877
 msgid "AI mode is now ON."
 msgstr ""
 
-#: client/packhand.c:1876
+#: client/packhand.c:1879
 msgid "AI mode is now OFF."
 msgstr ""
 
@@ -14236,14 +14251,14 @@ msgstr "Tacar tíleanna réamhshocraithe á úsáid ina ionad."
 msgid "Client does not support overhead view tilesets."
 msgstr "Ní thacaíonn an cliaint le tacair tíleanna lastuas."
 
-#: client/tilespec.c:4353
+#: client/tilespec.c:4355
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
 "displayed as expected."
 msgstr ""
 
-#: client/tilespec.c:4673
+#: client/tilespec.c:4675
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -20202,6 +20217,7 @@ msgstr "Trádbhealaí"
 msgid "Darn"
 msgstr "A Dhiach"
 
+#. TRANS: Title for caravan popup
 #: data/Freeciv.in:2285
 msgid "Your Unit Has Arrived"
 msgstr "Shroich d'Aonad a Cheann Scríbe"
@@ -22789,13 +22805,13 @@ msgstr ""
 msgid "  Present administrators: "
 msgstr ""
 
-#: data/helpdata.txt:2263
+#: data/helpdata.txt:2264
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:"
 msgstr ""
 
-#: data/helpdata.txt:2268
+#: data/helpdata.txt:2269
 msgid ""
 "Please quote the above version information.  For more information about "
 "submitting bug reports see the file BUGS in the Freeciv distribution.  For "
@@ -24961,44 +24977,44 @@ msgid ""
 "fear!"
 msgstr ""
 
-#: data/civ1/units.ruleset:1161 data/civ2/units.ruleset:1896
-#: data/default/units.ruleset:1945 data/experimental/units.ruleset:1960
-#: data/multiplayer/units.ruleset:2044
+#: data/civ1/units.ruleset:1161 data/civ2/units.ruleset:1898
+#: data/default/units.ruleset:1951 data/experimental/units.ruleset:1966
+#: data/multiplayer/units.ruleset:2050
 msgid "Caravan"
 msgstr "Carbhán"
 
-#: data/civ1/units.ruleset:1187 data/civ2/units.ruleset:1922
-#: data/default/units.ruleset:1971 data/experimental/units.ruleset:1986
+#: data/civ1/units.ruleset:1187 data/civ2/units.ruleset:1924
+#: data/default/units.ruleset:1977 data/experimental/units.ruleset:1992
 msgid ""
 "A Caravan carries goods or material for trading with distant cities and "
 "foreign countries, or to help build wonders in your cities."
 msgstr ""
 
-#: data/civ1/units.ruleset:1190 data/civ2/units.ruleset:1925
-#: data/default/units.ruleset:1974 data/experimental/units.ruleset:1989
+#: data/civ1/units.ruleset:1190 data/civ2/units.ruleset:1927
+#: data/default/units.ruleset:1980 data/experimental/units.ruleset:1995
 msgid ""
 "Every Caravan that is used to build a wonder will add 50 shields towards the "
 "production of the wonder."
 msgstr ""
 
-#: data/civ1/units.ruleset:1193 data/civ2/units.ruleset:1928
-#: data/default/units.ruleset:1977 data/experimental/units.ruleset:1992
-#: data/multiplayer/units.ruleset:2076
+#: data/civ1/units.ruleset:1193 data/civ2/units.ruleset:1930
+#: data/default/units.ruleset:1983 data/experimental/units.ruleset:1998
+#: data/multiplayer/units.ruleset:2082
 msgid ""
 "TIP:  You can stockpile a stack of Caravans in advance and bring them all "
 "into a city where you have started to build a wonder, and finish it in only "
 "one turn!"
 msgstr ""
 
-#: data/civ1/units.ruleset:1200 data/civ2/units.ruleset:1998
-#: data/default/units.ruleset:2080 data/experimental/units.ruleset:2095
-#: data/multiplayer/units.ruleset:2180
+#: data/civ1/units.ruleset:1200 data/civ2/units.ruleset:2000
+#: data/default/units.ruleset:2086 data/experimental/units.ruleset:2101
+#: data/multiplayer/units.ruleset:2186
 msgid "Barbarian Leader"
 msgstr "Ceannaire Barbarach"
 
-#: data/civ1/units.ruleset:1226 data/civ2/units.ruleset:2024
-#: data/default/units.ruleset:2107 data/experimental/units.ruleset:2122
-#: data/multiplayer/units.ruleset:2207
+#: data/civ1/units.ruleset:1226 data/civ2/units.ruleset:2026
+#: data/default/units.ruleset:2113 data/experimental/units.ruleset:2128
+#: data/multiplayer/units.ruleset:2213
 msgid ""
 "One Barbarian Leader appears every time there is a barbarian uprising "
 "somewhere in the world."
@@ -26131,19 +26147,19 @@ msgid ""
 "minimizes the chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
 
-#: data/civ2/units.ruleset:1843 data/default/units.ruleset:1892
-#: data/experimental/units.ruleset:1907 data/multiplayer/units.ruleset:1991
+#: data/civ2/units.ruleset:1843 data/default/units.ruleset:1895
+#: data/experimental/units.ruleset:1910 data/multiplayer/units.ruleset:1994
 msgid "Spy"
 msgstr "Spiaire"
 
-#: data/civ2/units.ruleset:1869 data/default/units.ruleset:1918
-#: data/experimental/units.ruleset:1933 data/multiplayer/units.ruleset:2017
+#: data/civ2/units.ruleset:1869 data/default/units.ruleset:1921
+#: data/experimental/units.ruleset:1936 data/multiplayer/units.ruleset:2020
 msgid ""
 "A Spy is more skilled in the arts of espionage than her Diplomat predecessor."
 msgstr ""
 
-#: data/civ2/units.ruleset:1871 data/default/units.ruleset:1920
-#: data/experimental/units.ruleset:1935 data/multiplayer/units.ruleset:2019
+#: data/civ2/units.ruleset:1871 data/default/units.ruleset:1923
+#: data/experimental/units.ruleset:1938 data/multiplayer/units.ruleset:2022
 msgid ""
 "She can perform all the functions of the Diplomat; refer to the Diplomat "
 "entry for more details. Unlike a Diplomat, a Spy may also survive an "
@@ -26152,8 +26168,8 @@ msgid ""
 "Diplomats and Spies."
 msgstr ""
 
-#: data/civ2/units.ruleset:1877 data/default/units.ruleset:1926
-#: data/experimental/units.ruleset:1941 data/multiplayer/units.ruleset:2025
+#: data/civ2/units.ruleset:1877 data/default/units.ruleset:1929
+#: data/experimental/units.ruleset:1944 data/multiplayer/units.ruleset:2028
 msgid ""
 "A Spy can also be used to:\n"
 " - sabotage an enemy unit (reducing its hit points to half), if it is alone "
@@ -26166,37 +26182,41 @@ msgid ""
 " - sabotage predetermined city targets (with a reduced chance of success)."
 msgstr ""
 
-#: data/civ2/units.ruleset:1889 data/default/units.ruleset:1938
-#: data/experimental/units.ruleset:1953 data/multiplayer/units.ruleset:2037
+#: data/civ2/units.ruleset:1889 data/default/units.ruleset:1941
+#: data/experimental/units.ruleset:1956 data/multiplayer/units.ruleset:2040
 msgid ""
 "A Spy that survives the more aggressive actions (sabotage, theft, inciting "
 "rebellion, and poisoning) escapes to the safety of the nearest friendly city."
 msgstr ""
 
-#: data/civ2/units.ruleset:1935 data/default/units.ruleset:1984
-#: data/experimental/units.ruleset:1999 data/multiplayer/units.ruleset:2083
+#: data/civ2/units.ruleset:1893
+msgid "Spies built under a Communist government will be built as veteran."
+msgstr ""
+
+#: data/civ2/units.ruleset:1937 data/default/units.ruleset:1990
+#: data/experimental/units.ruleset:2005 data/multiplayer/units.ruleset:2089
 msgid "Freight"
 msgstr "Lasta"
 
-#: data/civ2/units.ruleset:1961 data/default/units.ruleset:2010
-#: data/experimental/units.ruleset:2025
+#: data/civ2/units.ruleset:1963 data/default/units.ruleset:2016
+#: data/experimental/units.ruleset:2031
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
 msgstr ""
 
-#: data/civ2/units.ruleset:1966 data/default/units.ruleset:2015
-#: data/experimental/units.ruleset:2030 data/multiplayer/units.ruleset:2115
+#: data/civ2/units.ruleset:1968 data/default/units.ruleset:2021
+#: data/experimental/units.ruleset:2036 data/multiplayer/units.ruleset:2121
 msgid "Explorer"
 msgstr "Taiscéalaí"
 
-#: data/civ2/units.ruleset:1992 data/default/units.ruleset:2041
-#: data/experimental/units.ruleset:2056 data/multiplayer/units.ruleset:2141
+#: data/civ2/units.ruleset:1994 data/default/units.ruleset:2047
+#: data/experimental/units.ruleset:2062 data/multiplayer/units.ruleset:2147
 msgid ""
 "Explorers are brave individuals that are very useful for mapping unknown "
 "territory."
 msgstr ""
 
-#: data/civ2/units.ruleset:2027 data/default/units.ruleset:2110
-#: data/experimental/units.ruleset:2125 data/multiplayer/units.ruleset:2210
+#: data/civ2/units.ruleset:2029 data/default/units.ruleset:2116
+#: data/experimental/units.ruleset:2131 data/multiplayer/units.ruleset:2216
 msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units and helicopters."
@@ -26638,25 +26658,39 @@ msgid ""
 "This minimizes the chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
 
-#: data/default/units.ruleset:2047 data/experimental/units.ruleset:2062
-#: data/multiplayer/units.ruleset:2147
+#: data/default/units.ruleset:1889 data/experimental/units.ruleset:1904
+#: data/multiplayer/units.ruleset:1988
+msgid ""
+"Diplomats built under a Communist government will start at the first veteran "
+"level."
+msgstr ""
+
+#: data/default/units.ruleset:1945 data/experimental/units.ruleset:1960
+#: data/multiplayer/units.ruleset:2044
+msgid ""
+"Spies built under a Communist government will start at the first veteran "
+"level."
+msgstr ""
+
+#: data/default/units.ruleset:2053 data/experimental/units.ruleset:2068
+#: data/multiplayer/units.ruleset:2153
 msgid "?unit:Leader"
 msgstr "?unit:Ceannaire"
 
-#: data/default/units.ruleset:2075 data/experimental/units.ruleset:2090
-#: data/multiplayer/units.ruleset:2175
+#: data/default/units.ruleset:2081 data/experimental/units.ruleset:2096
+#: data/multiplayer/units.ruleset:2181
 msgid "This is you. If you lose this unit, you lose the game. So don't."
 msgstr ""
 "Tusa.  Má chailleann tú an t-aonad seo, caillfidh tú an cluiche. Mar sin, ná "
 "caill."
 
-#: data/default/units.ruleset:2116 data/experimental/units.ruleset:2131
-#: data/multiplayer/units.ruleset:2216
+#: data/default/units.ruleset:2122 data/experimental/units.ruleset:2137
+#: data/multiplayer/units.ruleset:2222
 msgid "AWACS"
 msgstr "AWACS"
 
-#: data/default/units.ruleset:2142 data/experimental/units.ruleset:2157
-#: data/multiplayer/units.ruleset:2242
+#: data/default/units.ruleset:2148 data/experimental/units.ruleset:2163
+#: data/multiplayer/units.ruleset:2248
 msgid ""
 "The AWACS (Airborne Warning and Control System) is an airplane with an "
 "advanced radar that can determine the location of enemy units over a wide "
@@ -27106,18 +27140,18 @@ msgid ""
 "they may be attacked by ground units."
 msgstr ""
 
-#: data/multiplayer/units.ruleset:2070
+#: data/multiplayer/units.ruleset:2076
 msgid ""
 "A Caravan carries goods or material to help build wonders in your cities."
 msgstr ""
 
-#: data/multiplayer/units.ruleset:2073
+#: data/multiplayer/units.ruleset:2079
 msgid ""
 "Every Caravan that is used to build a wonder will add 30 shields towards the "
 "production of the wonder."
 msgstr ""
 
-#: data/multiplayer/units.ruleset:2109
+#: data/multiplayer/units.ruleset:2115
 msgid ""
 "The Freight unit replaces the Caravan, and moves at twice the speed. Each "
 "Freight used to build a wonder will add 50 shields."
@@ -29610,8 +29644,8 @@ msgid ""
 "coastline between Malibu and Paso Robles inland towards the San Joaquin "
 "valley, the Chumash lived in large permanent villages and maintained a semi-"
 "monetized economy. These villages came to be ruled by hereditary chiefs, who "
-"could be male or female. At time of contact, the population was likely "
-"8-18,000 people, though perhaps as high as 22,000. The Spanish established "
+"could be male or female. At time of contact, the population was likely 8-"
+"18,000 people, though perhaps as high as 22,000. The Spanish established "
 "five missions in Chumash land. As a result of disease and other byproducts "
 "of colonial rule, the population fell to less than 3,000 in 1831."
 msgstr ""
@@ -36234,6 +36268,9 @@ msgstr "Rialacha réamhshocraithe"
 #: data/default/game.ruleset:21
 msgid "You are playing Freeciv with default rules."
 msgstr "Tá tú ag imirt Freeciv de réir na rialacha réamhshocraithe."
+
+#~ msgid "metainfo <meta-line>"
+#~ msgstr "metainfo <meitilíne>"
 
 #~ msgid "?bzip2error:OK"
 #~ msgstr "?bzip2error:OK"
