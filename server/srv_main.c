@@ -719,6 +719,9 @@ static void update_diplomatics(void)
           state2->type = DS_WAR;
           state->turns_left = 0;
           state2->turns_left = 0;
+
+          enter_war(plr1, plr2);
+
           city_map_update_all_cities_for_player(plr1);
           city_map_update_all_cities_for_player(plr2);
           sync_cities();
