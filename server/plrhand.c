@@ -509,6 +509,23 @@ static void maybe_claim_base(struct tile *ptile, struct player *new_owner,
 }
 
 /**************************************************************************
+  Two players enter war.
+**************************************************************************/
+void enter_war(struct player *pplayer, struct player *pplayer2)
+{
+  /* Claim bases where units are already standing */
+  whole_map_iterate(ptile) {
+    struct player *old_owner = tile_owner(ptile);
+
+    if (old_owner == pplayer2) {
+      maybe_claim_base(ptile, pplayer, old_owner);
+    } else if (old_owner == pplayer) {
+      maybe_claim_base(ptile, pplayer2, old_owner);
+    }
+  } whole_map_iterate_end;
+}
+
+/**************************************************************************
   Handles a player cancelling a "pact" with another player.
 
   packet.id is id of player we want to cancel a pact with
@@ -615,16 +632,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   if (new_type == DS_WAR) {
     call_incident(INCIDENT_WAR, pplayer, pplayer2);
 
-    /* Claim bases where units are already standing */
-    whole_map_iterate(ptile) {
-      struct player *old_owner = tile_owner(ptile);
-
-      if (old_owner == pplayer2) {
-        maybe_claim_base(ptile, pplayer, old_owner);
-      } else if (old_owner == pplayer) {
-        maybe_claim_base(ptile, pplayer2, old_owner);
-      }
-    } whole_map_iterate_end;
+    enter_war(pplayer, pplayer2);
   }
   ds_plrplr2->has_reason_to_cancel = 0;
 

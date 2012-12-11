@@ -52,6 +52,7 @@ void check_player_max_rates(struct player *pplayer);
 void make_contact(struct player *pplayer1, struct player *pplayer2,
 		  struct tile *ptile);
 void maybe_make_contact(struct tile *ptile, struct player *pplayer);
+void enter_war(struct player *pplayer, struct player *pplayer2);
 
 void send_player_all_c(struct player *src, struct conn_list *dest);
 void send_player_info_c(struct player *src, struct conn_list *dest);
