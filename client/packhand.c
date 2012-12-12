@@ -1576,10 +1576,6 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       pcity->client.occupied = TRUE;
     }
 
-    if (punit->client.transported_by != -1) {
-      punit->client.transported_by = packet_unit->client.transported_by;
-    }
-
     need_units_report_update = TRUE;
   } /*** End of Create new unit ***/
 
