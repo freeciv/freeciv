@@ -2546,7 +2546,7 @@ static void add_tree_col(GtkWidget *treeview, GType gtype,
 **************************************************************************/
 GtkWidget *create_start_page(void)
 {
-  GtkWidget *box, *sbox, *table, *align, *vbox;
+  GtkWidget *box, *sbox, *table, *vbox;
   GtkWidget *view, *sw, *text, *toolkit_view, *button, *spin, *ai_lvl_combobox;
   GtkWidget *label;
   GtkWidget *rs_entry;
@@ -2558,24 +2558,30 @@ GtkWidget *create_start_page(void)
   static enum ai_level levels[AI_LEVEL_LAST];
   int i = 0;
 
-  box = gtk_vbox_new(FALSE, 8);
+  box = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(box),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing(GTK_GRID(box), 8);
   gtk_container_set_border_width(GTK_CONTAINER(box), 4);
 
-  sbox = gtk_hbox_new(FALSE, 12);
-  gtk_box_pack_start(GTK_BOX(box), sbox, FALSE, FALSE, 0);
+  sbox = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(sbox), 12);
+  gtk_container_add(GTK_CONTAINER(box), sbox);
 
-  align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
-  gtk_container_set_border_width(GTK_CONTAINER(align), 12);
-  gtk_box_pack_start(GTK_BOX(sbox), align, FALSE, FALSE, 0);
+  vbox = gtk_grid_new();
+  g_object_set(vbox, "margin", 12, NULL);
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing(GTK_GRID(vbox), 2);
+  gtk_widget_set_halign(vbox, GTK_ALIGN_CENTER);
+  gtk_widget_set_valign(vbox, GTK_ALIGN_CENTER);
+  gtk_container_add(GTK_CONTAINER(sbox), vbox);
 
-  vbox = gtk_vbox_new(FALSE, 2);
-  gtk_container_add(GTK_CONTAINER(align), vbox);
-
-  table = gtk_table_new(2, 3, FALSE);
+  table = gtk_grid_new();
   start_options_table = table;
-  gtk_table_set_row_spacings(GTK_TABLE(table), 2);
-  gtk_table_set_col_spacings(GTK_TABLE(table), 12);
-  gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
+  gtk_grid_set_row_spacing(GTK_GRID(table), 2);
+  gtk_grid_set_column_spacing(GTK_GRID(table), 12);
+  gtk_container_add(GTK_CONTAINER(vbox), table);
 
   spin = gtk_spin_button_new_with_range(1, MAX_NUM_PLAYERS, 1);
   start_aifill_spin = spin;
@@ -2585,7 +2591,7 @@ GtkWidget *create_start_page(void)
   g_signal_connect_after(spin, "value_changed",
                          G_CALLBACK(ai_fill_callback), NULL);
 
-  gtk_table_attach_defaults(GTK_TABLE(table), spin, 1, 2, 0, 1);
+  gtk_grid_attach(GTK_GRID(table), spin, 1, 0, 1, 1);
 
   label = g_object_new(GTK_TYPE_LABEL,
 		       "use-underline", TRUE,
@@ -2594,7 +2600,7 @@ GtkWidget *create_start_page(void)
                        "xalign", 0.0,
                        "yalign", 0.5,
                        NULL);
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
+  gtk_grid_attach(GTK_GRID(table), label, 0, 0, 1, 1);
 
   ai_lvl_combobox = gtk_combo_box_text_new();
 
@@ -2611,7 +2617,7 @@ GtkWidget *create_start_page(void)
   g_signal_connect(ai_lvl_combobox, "changed",
                    G_CALLBACK(ai_skill_callback), levels);
 
-  gtk_table_attach_defaults(GTK_TABLE(table), ai_lvl_combobox, 1, 2, 1, 2);
+  gtk_grid_attach(GTK_GRID(table), ai_lvl_combobox, 1, 1, 1, 1);
 
   label = g_object_new(GTK_TYPE_LABEL,
 		       "use-underline", TRUE,
@@ -2620,7 +2626,7 @@ GtkWidget *create_start_page(void)
                        "xalign", 0.0,
                        "yalign", 0.5,
                        NULL);
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 1, 2);
+  gtk_grid_attach(GTK_GRID(table), label, 0, 1, 1, 1);
 
   {
     GtkListStore *model = gtk_list_store_new(1, G_TYPE_STRING);
@@ -2637,7 +2643,7 @@ GtkWidget *create_start_page(void)
                    G_CALLBACK(ruleset_enter),
                    NULL);
 
-  gtk_table_attach_defaults(GTK_TABLE(table), ruleset_combo, 1, 2, 2, 3);
+  gtk_grid_attach(GTK_GRID(table), ruleset_combo, 1, 2, 1, 1);
 
   label = g_object_new(GTK_TYPE_LABEL,
 		       "use-underline", TRUE,
@@ -2646,18 +2652,20 @@ GtkWidget *create_start_page(void)
                        "xalign", 0.0,
                        "yalign", 0.5,
                        NULL);
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 2, 3);
+  gtk_grid_attach(GTK_GRID(table), label, 0, 2, 1, 1);
 
-  align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
   button = gtk_stockbutton_new(GTK_STOCK_PREFERENCES,
       _("_More Game Options..."));
+  g_object_set(button, "margin", 8, NULL);
+  gtk_widget_set_halign(button, GTK_ALIGN_CENTER);
+  gtk_widget_set_valign(button, GTK_ALIGN_CENTER);
   g_signal_connect(button, "clicked",
       G_CALLBACK(game_options_callback), NULL);
-  gtk_container_add(GTK_CONTAINER(align), button);
-  gtk_box_pack_start(GTK_BOX(vbox), align, FALSE, FALSE, 8);
+  gtk_container_add(GTK_CONTAINER(vbox), button);
 
   connection_list_store = connection_list_store_new();
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(connection_list_store));
+  gtk_widget_set_hexpand(view, TRUE);
   g_object_unref(G_OBJECT(connection_list_store));
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), TRUE);
   connection_list_view = GTK_TREE_VIEW(view);
@@ -2699,9 +2707,9 @@ GtkWidget *create_start_page(void)
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC,
                                  GTK_POLICY_ALWAYS);
-  gtk_widget_set_size_request(sw, -1, 200);
+  gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw), 200);
   gtk_container_add(GTK_CONTAINER(sw), view);
-  gtk_box_pack_start(GTK_BOX(sbox), sw, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(sbox), sw);
 
 
   sw = gtk_scrolled_window_new(NULL, NULL);
@@ -2710,9 +2718,11 @@ GtkWidget *create_start_page(void)
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC,
                                  GTK_POLICY_ALWAYS);
-  gtk_box_pack_start(GTK_BOX(box), sw, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(box), sw);
 
   text = gtk_text_view_new_with_buffer(message_buffer);
+  gtk_widget_set_hexpand(text, TRUE);
+  gtk_widget_set_vexpand(text, TRUE);
   start_message_area = text;
   gtk_widget_set_name(text, "chatline");
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_WORD);
@@ -2725,11 +2735,11 @@ GtkWidget *create_start_page(void)
   if (pregame_votebar == NULL) {
     pregame_votebar = voteinfo_bar_new(TRUE);
   }
-  gtk_box_pack_start(GTK_BOX(box), pregame_votebar, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(box), pregame_votebar);
   
 
   toolkit_view = inputline_toolkit_view_new();
-  gtk_box_pack_start(GTK_BOX(box), toolkit_view, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(box), toolkit_view);
 
   button = gtk_button_new_from_stock(GTK_STOCK_CANCEL);
   inputline_toolkit_view_append_button(toolkit_view, button);
