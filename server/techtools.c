@@ -397,6 +397,8 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   }
 
   if (bonus_tech_hack) {
+    int saved_bulbs;
+
     if (advance_by_number(tech_found)->bonus_message) {
       notify_research(plr, E_TECH_GAIN, ftc_server,
                       "%s", _(advance_by_number(tech_found)->bonus_message));
@@ -410,7 +412,13 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
     if (research->researching == A_UNSET) {
       choose_random_tech(plr);
     }
+    do_free_cost(plr, research->researching);
+    /* Save current number of bulbs so we can ignore changes made
+     * by tech_researched(). This is supposed to be free tech, not
+     * something having full cost. */
+    saved_bulbs = research->bulbs_researched;
     tech_researched(plr);
+    research->bulbs_researched = saved_bulbs;
   }
 
   /*
