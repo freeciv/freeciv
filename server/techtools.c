@@ -114,8 +114,8 @@ static void tech_researched(struct player *plr)
   }
 
   /* Deduct tech cost */
-  research->bulbs_researched = 
-      MAX(research->bulbs_researched - total_bulbs_required(plr), 0);
+  research->bulbs_researched
+    = research->bulbs_researched - total_bulbs_required(plr);
 
   /* cache researched technology for event signal, because found_new_tech() changes the research goal */
   Tech_type_id researched_tech = research->researching;
