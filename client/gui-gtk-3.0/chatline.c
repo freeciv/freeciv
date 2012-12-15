@@ -1169,6 +1169,9 @@ static gboolean move_toolkit(GtkWidget *toolkit_view,
                        FALSE, FALSE, 0);
     }
     gtk_widget_show_all(ptoolkit->main_widget);
+    if (!ptoolkit->toolbar_displayed) {
+      gtk_widget_hide(ptoolkit->toolbar);
+    }
 
     /* Hide all other buttons boxes. */
     list = gtk_container_get_children(GTK_CONTAINER(ptoolkit->button_box));
