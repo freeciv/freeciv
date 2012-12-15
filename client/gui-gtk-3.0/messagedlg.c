@@ -69,21 +69,22 @@ static void create_messageopt_dialog(void)
 
   gui_dialog_set_default_size(shell, -1, 450);
 
-  gui_dialog_add_button(shell, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
   gui_dialog_add_button(shell, GTK_STOCK_OK, GTK_RESPONSE_OK);
+  gui_dialog_add_button(shell, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 
   explanation = gtk_label_new(NULL);
+  g_object_set(explanation, "margin", 4, NULL);
   gtk_label_set_markup(GTK_LABEL(explanation),
     _("Where to display messages?\n"
       "<b>Out</b>put window ; "
       "<b>Mes</b>sages window ; "
       "<b>Pop</b>up individual window"));
   gtk_widget_set_name(explanation, "comment_label");
-  gtk_box_pack_start(GTK_BOX(shell->vbox), explanation, FALSE, FALSE, 4);
+  gtk_container_add(GTK_CONTAINER(shell->vbox), explanation);
   gtk_widget_show(explanation);	
 
   form = gtk_grid_new();
-  gtk_box_pack_start(GTK_BOX(shell->vbox), form, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(shell->vbox), form);
 
   for (n=0; n<NUM_LISTS; n++) {
     model[n] = gtk_list_store_new(5,

@@ -649,10 +649,10 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gui_dialog_new(&(pdialog->dialog), GTK_NOTEBOOK(notebook), pdialog, FALSE);
 
   /* Buttons */
-  gui_dialog_add_stockbutton(pdialog->dialog, GTK_STOCK_CANCEL,
-                             _("Cancel meeting"), RESPONSE_CANCEL_MEETING);
   gui_dialog_add_stockbutton(pdialog->dialog, GTK_STOCK_DND,
                              _("Accept treaty"), GTK_RESPONSE_ACCEPT);
+  gui_dialog_add_stockbutton(pdialog->dialog, GTK_STOCK_CANCEL,
+                             _("Cancel meeting"), RESPONSE_CANCEL_MEETING);
 
   /* Responces for one meeting. */
   gui_dialog_response_set_callback(pdialog->dialog, diplomacy_response);
@@ -852,7 +852,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   mainbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(mainbox),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_box_pack_start(GTK_BOX(pdialog->dialog->vbox), mainbox, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(pdialog->dialog->vbox), mainbox);
 
   store = gtk_list_store_new(1, G_TYPE_STRING);
   pdialog->store = store;

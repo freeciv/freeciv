@@ -73,9 +73,9 @@ void popup_find_dialog(void)
     gui_dialog_set_default_size(find_dialog_shell, -1, 240);
 
     gui_dialog_add_button(find_dialog_shell,
-	GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-    gui_dialog_add_button(find_dialog_shell,
 	GTK_STOCK_FIND, GTK_RESPONSE_ACCEPT);
+    gui_dialog_add_button(find_dialog_shell,
+	GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 
     gui_dialog_set_default_response(find_dialog_shell, GTK_RESPONSE_ACCEPT);
 
@@ -101,6 +101,7 @@ void popup_find_dialog(void)
     gtk_tree_view_append_column(GTK_TREE_VIEW(find_view), column);
 
     sw = gtk_scrolled_window_new(NULL, NULL);
+    g_object_set(sw, "margin", 2, NULL);
     gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
 	GTK_SHADOW_ETCHED_IN);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
@@ -112,10 +113,8 @@ void popup_find_dialog(void)
 	"mnemonic-widget", find_view,
 	"label", _("Ci_ties:"),
 	"xalign", 0.0, "yalign", 0.5, NULL);
-    gtk_box_pack_start(GTK_BOX(find_dialog_shell->vbox), label,
-	FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(find_dialog_shell->vbox), sw,
-	TRUE, TRUE, 2);
+    gtk_container_add(GTK_CONTAINER(find_dialog_shell->vbox), label);
+    gtk_container_add(GTK_CONTAINER(find_dialog_shell->vbox), sw);
 
     g_signal_connect(selection, "changed",
 	G_CALLBACK(find_selection_callback), store);

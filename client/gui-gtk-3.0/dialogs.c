@@ -111,7 +111,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(vbox), 2);
-  gtk_box_pack_start(GTK_BOX(shell->vbox), vbox, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(shell->vbox), vbox);
 
   headline_label = gtk_label_new(headline);   
   gtk_container_add(GTK_CONTAINER(vbox), headline_label);
