@@ -449,7 +449,7 @@ static void editbar_add_tool_button(struct editbar *eb,
       G_CALLBACK(editbar_tool_button_mouse_click), GINT_TO_POINTER(ett));
 
   hbox = eb->widget;
-  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(hbox), button);
   eb->tool_buttons[ett] = button;
 
   if (editor_tool_has_value(ett)) {
@@ -509,7 +509,7 @@ static void editbar_add_mode_button(struct editbar *eb,
       G_CALLBACK(editbar_mode_button_toggled), GINT_TO_POINTER(etm));
 
   hbox = eb->widget;
-  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(hbox), button);
   eb->mode_buttons[etm] = button;
 }
 
@@ -519,7 +519,7 @@ static void editbar_add_mode_button(struct editbar *eb,
 static struct editbar *editbar_create(void)
 {
   struct editbar *eb;
-  GtkWidget *hbox, *button, *combo, *image, *separator, *vbox, *evbox;
+  GtkWidget *hbox, *button, *combo, *image, *separator, *vbox;
   GtkListStore *store;
   GtkCellRenderer *cell;
   GdkPixbuf *pixbuf;
@@ -527,7 +527,8 @@ static struct editbar *editbar_create(void)
   
   eb = fc_calloc(1, sizeof(struct editbar));
 
-  hbox = gtk_hbox_new(FALSE, 4);
+  hbox = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
   eb->widget = hbox;
   eb->size_group = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
 
@@ -536,7 +537,7 @@ static struct editbar *editbar_create(void)
   editbar_add_mode_button(eb, ETM_ERASE);
 
   separator = gtk_separator_new(GTK_ORIENTATION_VERTICAL);
-  gtk_box_pack_start(GTK_BOX(hbox), separator, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(hbox), separator);
 
   editbar_add_tool_button(eb, ETT_TERRAIN);
   editbar_add_tool_button(eb, ETT_TERRAIN_RESOURCE);
@@ -550,11 +551,13 @@ static struct editbar *editbar_create(void)
   editbar_add_tool_button(eb, ETT_COPYPASTE);
 
   separator = gtk_separator_new(GTK_ORIENTATION_VERTICAL);
-  gtk_box_pack_start(GTK_BOX(hbox), separator, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(hbox), separator);
 
   /* Player POV indicator. */
-  vbox = gtk_vbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
+  vbox = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_container_add(GTK_CONTAINER(hbox), vbox);
 
   store = gtk_list_store_new(PPV_NUM_COLS,
                              GDK_TYPE_PIXBUF,
@@ -563,6 +566,8 @@ static struct editbar *editbar_create(void)
   eb->player_pov_store = store;
 
   combo = gtk_combo_box_new_with_model(GTK_TREE_MODEL(store));
+  gtk_widget_set_hexpand(combo, TRUE);
+  gtk_widget_set_halign(combo, GTK_ALIGN_CENTER);
 
   cell = gtk_cell_renderer_pixbuf_new();
   gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), cell, FALSE);
@@ -578,13 +583,11 @@ static struct editbar *editbar_create(void)
   g_signal_connect(combo, "changed",
                    G_CALLBACK(editbar_player_pov_combobox_changed), eb);
 
-  evbox = gtk_event_box_new();
-  gtk_widget_set_tooltip_text(evbox,
+  gtk_widget_set_tooltip_text(combo,
       _("Switch player point-of-view. Use this to edit "
         "from the perspective of different players, or "
         "even as a global observer."));
-  gtk_container_add(GTK_CONTAINER(evbox), combo);
-  gtk_box_pack_start(GTK_BOX(vbox), evbox, TRUE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), combo);
   eb->player_pov_combobox = combo;
 
   /* Property editor button. */
@@ -599,7 +602,7 @@ static struct editbar *editbar_create(void)
   gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
   g_signal_connect(button, "clicked",
       G_CALLBACK(editbar_player_properties_button_clicked), eb);
-  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(hbox), button);
   eb->player_properties_button = button;
 
   return eb;
@@ -1249,69 +1252,81 @@ static struct editinfobox *editinfobox_create(void)
   gtk_container_set_border_width(GTK_CONTAINER(frame), 4);
   ei->widget = frame;
 
-  vbox = gtk_vbox_new(FALSE, 8);
+  vbox = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing(GTK_GRID(vbox), 8);
   gtk_container_set_border_width(GTK_CONTAINER(vbox), 4);
   gtk_container_add(GTK_CONTAINER(frame), vbox);
 
   /* tool section */
-  hbox = gtk_hbox_new(FALSE, 8);
-  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  hbox = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(hbox), 8);
+  gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
   evbox = gtk_event_box_new();
   gtk_widget_set_tooltip_text(evbox, _("Click to change value if applicable."));
   g_signal_connect(evbox, "button_press_event",
       G_CALLBACK(editinfobox_handle_tool_image_button_press), NULL);
-  gtk_box_pack_start(GTK_BOX(hbox), evbox, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(hbox), evbox);
 
   image = gtk_image_new();
   gtk_container_add(GTK_CONTAINER(evbox), image);
   ei->tool_image = image;
 
-  vbox2 = gtk_vbox_new(FALSE, 4);
-  gtk_box_pack_start(GTK_BOX(hbox), vbox2, FALSE, FALSE, 0);
+  vbox2 = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox2),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing(GTK_GRID(vbox2), 4);
+  gtk_container_add(GTK_CONTAINER(hbox), vbox2);
 
   label = gtk_label_new(NULL);
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-  gtk_box_pack_start(GTK_BOX(vbox2), label, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox2), label);
   ei->tool_label = label;
 
   label = gtk_label_new(NULL);
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-  gtk_box_pack_start(GTK_BOX(vbox2), label, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox2), label);
   ei->tool_value_label = label;
 
   /* mode section */
-  hbox = gtk_hbox_new(FALSE, 8);
-  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  hbox = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(hbox), 8);
+  gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
   evbox = gtk_event_box_new();
   gtk_widget_set_tooltip_text(evbox, _("Click to change tool mode."));
   g_signal_connect(evbox, "button_press_event",
       G_CALLBACK(editinfobox_handle_mode_image_button_press), NULL);
-  gtk_box_pack_start(GTK_BOX(hbox), evbox, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(hbox), evbox);
 
   image = gtk_image_new();
   gtk_container_add(GTK_CONTAINER(evbox), image);
   ei->mode_image = image;
 
-  vbox2 = gtk_vbox_new(FALSE, 4);
-  gtk_box_pack_start(GTK_BOX(hbox), vbox2, FALSE, FALSE, 0);
+  vbox2 = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox2),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing(GTK_GRID(vbox2), 4);
+  gtk_container_add(GTK_CONTAINER(hbox), vbox2);
 
   label = gtk_label_new(NULL);
   fc_snprintf(buf, sizeof(buf), "<span weight=\"bold\">%s</span>",
               _("Mode"));
   gtk_label_set_markup(GTK_LABEL(label), buf);
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-  gtk_box_pack_start(GTK_BOX(vbox2), label, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox2), label);
 
   label = gtk_label_new(NULL);
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-  gtk_box_pack_start(GTK_BOX(vbox2), label, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox2), label);
   ei->mode_label = label;
 
   /* spinner section */
-  hbox = gtk_hbox_new(FALSE, 8);
-  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  hbox = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(hbox), 8);
+  gtk_container_add(GTK_CONTAINER(vbox), hbox);
   ei->size_hbox = hbox;
   spin = gtk_spin_button_new_with_range(1, 255, 1);
   gtk_widget_set_tooltip_text(spin,
@@ -1322,13 +1337,14 @@ static struct editinfobox *editinfobox_create(void)
   g_signal_connect(spin, "value-changed",
                    G_CALLBACK(editinfobox_spin_button_value_changed),
                    GINT_TO_POINTER(SPIN_BUTTON_SIZE));
-  gtk_box_pack_start(GTK_BOX(hbox), spin, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(hbox), spin);
   ei->size_spin_button = spin;
   label = gtk_label_new(_("Size"));
-  gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(hbox), label);
   
-  hbox = gtk_hbox_new(FALSE, 8);
-  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  hbox = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(hbox), 8);
+  gtk_container_add(GTK_CONTAINER(vbox), hbox);
   ei->count_hbox = hbox;
   spin = gtk_spin_button_new_with_range(1, 255, 1);
   gtk_widget_set_tooltip_text(spin,
@@ -1338,10 +1354,10 @@ static struct editinfobox *editinfobox_create(void)
   g_signal_connect(spin, "value-changed",
                    G_CALLBACK(editinfobox_spin_button_value_changed),
                    GINT_TO_POINTER(SPIN_BUTTON_COUNT));
-  gtk_box_pack_start(GTK_BOX(hbox), spin, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(hbox), spin);
   ei->count_spin_button = spin;
   label = gtk_label_new(_("Count"));
-  gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(hbox), label);
 
   /* combo section */
   store = gtk_list_store_new(TAP_NUM_COLS,
@@ -1365,13 +1381,11 @@ static struct editinfobox *editinfobox_create(void)
   g_signal_connect(combo, "changed",
                    G_CALLBACK(editinfobox_tool_applied_player_changed), ei);
 
-  evbox = gtk_event_box_new();
-  gtk_widget_set_tooltip_text(evbox,
+  gtk_widget_set_tooltip_text(combo,
       _("Use this to change the \"applied player\" tool parameter. "
         "This controls for example under which player units and cities "
         "are created."));
-  gtk_container_add(GTK_CONTAINER(evbox), combo);
-  gtk_box_pack_start(GTK_BOX(vbox), evbox, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), combo);
   ei->tool_applied_player_combobox = combo;
 
   /* We add a ref to the editinfobox widget so that it is
@@ -1641,6 +1655,8 @@ static void editinfobox_refresh(struct editinfobox *ei)
                        editor_tool_get_value_name(ett, value));
   }
 
+  replace_widget(unit_info_box, ei->widget);
+
   if (editor_tool_has_size(ett)) {
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(ei->size_spin_button),
                               editor_tool_get_size(ett));
@@ -1658,8 +1674,6 @@ static void editinfobox_refresh(struct editinfobox *ei)
   }
 
   refresh_tool_applied_player_combo(ei);
-
-  replace_widget(unit_info_box, ei->widget);
 }
 
 /****************************************************************************
