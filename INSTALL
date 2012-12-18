@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 07-Aug-11.
+Last minor update was 16-Dec-12.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -26,8 +26,8 @@ This document contains sections and subsections as follows:
      8. Reinier's libXpm Solaris Installation Notes:
      9. Mac OS X and Darwin notes:
     10. Debian GNU/Linux notes:
-    11. Cygwin notes:
-    12. Win32 ("native MS Windows") notes:
+    11. Windows notes:
+    12. Win32 ("native MS Windows client") notes:
 
 
 0. Prerequisites:
@@ -638,14 +638,25 @@ AM_PATH_GDK_IMLIB macro. It is a bug in debian that this macro isn't
 in gdk-imlib-dev, and it will hopefully be fixed in future debian
 releases.
 
-11. Cygwin notes:
-=================
+11. Windows notes:
+==================
+
+Windows version of Freeciv can be built either with MinGW or Cygwin.
+Official Windows binaries are built with MinGW, and they are self-contained
+packages. For using Cygwin version, you need Cygwin environment installed.
+
+Build instructions for MinGW versions are documented on top of file
+win32/installer/Makefile
 
 Cygwin specific installation notes can be found in doc/INSTALL-Cygwin.
 
 
-12. Win32 ("native MS Windows") notes:
-======================================
+12. Win32 ("native MS Windows client") notes:
+=============================================
+
+NOTE: This client has no maintainer at the moment, and it's not in working
+      condition.
+
 Requirements: a unix environment with gcc and binutils for windows (mingw32)
               for the native win32 client: libz and libpng
               (from http://download.gna.org/freeciv/requirements)
