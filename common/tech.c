@@ -430,7 +430,7 @@ static int tech_upkeep_calc(const struct player *pplayer)
     advance_index_iterate(A_NONE, i) {
       if (player_invention_state(pplayer, i) == TECH_KNOWN) {
         if (advances[i].preset_cost != -1) {
-          tech_bulb_sum = advances[i].preset_cost;
+          tech_bulb_sum += advances[i].preset_cost;
         } else {
           tech_bulb_sum += techcoststyle1[i];
         }
