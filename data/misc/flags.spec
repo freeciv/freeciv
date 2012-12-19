@@ -272,6 +272,7 @@ artists = "
    Kosovo		Cradel (Wikimedia Commons)
    Kuna Yala		J.M. Maalderink
    Kurd			Denelson83
+   Kushan		Andrzej G.
    Kuwait		J.M. Maalderink
    Kyrgyzstan		-xfi-
    Labarum		J.M. Maalderink
@@ -833,6 +834,7 @@ sprites =
 		"f.kosovo", "flags/kosovo"
 		"f.kuna_yala", "flags/kuna_yala"
 		"f.kurd", "flags/kurd"
+		"f.kushan", "flags/kushan"
 		"f.kuwait", "flags/kuwait"
 		"f.kyrgyzstan", "flags/kyrgyzstan"
 		"f.labarum", "flags/labarum"		; used by Western Roman
