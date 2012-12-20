@@ -4031,9 +4031,18 @@ static void send_ruleset_units(struct conn_list *dest)
   int i;
 
   for (i = 0; i < MAX_NUM_USER_UNIT_FLAGS; i++) {
+    const char *flagname;
     const char *helptxt;
 
     fpacket.id = i + UTYF_USER_FLAG_1;
+
+    flagname = unit_type_flag_rule_name(i + UTYF_USER_FLAG_1);
+    if (flagname == NULL) {
+      fpacket.name[0] = '\0';
+    } else {
+      sz_strlcpy(fpacket.name, flagname);
+    }
+
     helptxt = unit_type_flag_helptxt(i + UTYF_USER_FLAG_1);
     if (helptxt == NULL) {
       fpacket.helptxt[0] = '\0';
