@@ -342,7 +342,7 @@ artists = "
    Moravia		Tlusťa (Wikimedia Commons) and J.M. Maalderink
    Mordovia		Fibonacci (Wikimedia Commons)
    Morocco		Xiquet, Flad (Wikimedia Commons)
-   Moscow		Oren neu dag (Wikimedia Commons
+   Moscow		Oren neu dag (Wikimedia Commons)
    Mozambique		Tobias Jakobs
    Mughal		Orange Tuesday (Wikimedia Commons)
    Muskogee		Daniel Markstedt
@@ -370,6 +370,7 @@ artists = "
    North Korea		Zachary Harden
    Northumbria		J.M. Maalderink
    Norway		Christian Schaller
+   Novgorod		Loginname (Wikimedia Commons)
    Nubia		Daniel Markstedt
    Numidia		Lexicon and Dan Cottrell
    Nunavut		James Leigh
@@ -931,6 +932,7 @@ sprites =
 		"f.north_korea", "flags/north_korea"
 		"f.northumbria", "flags/northumbria"
 		"f.norway", "flags/norway"
+		"f.novgorod", "flags/novgorod"
 		"f.nubia", "flags/nubia"
 		"f.numidia", "flags/numidia"
 		"f.nunavut", "flags/nunavut"		; used by Inuit

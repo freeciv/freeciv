@@ -371,6 +371,7 @@ sprites =
 		"f.shield.north_korea", "flags/north_korea-shield-large"
 		"f.shield.northumbria", "flags/northumbria-shield-large"
 		"f.shield.norway", "flags/norway-shield-large"
+		"f.shield.novgorod", "flags/novgorod-shield-large"
 		"f.shield.nubia", "flags/nubia-shield-large"
 		"f.shield.numidia", "flags/numidia-shield-large"
 		"f.shield.nunavut", "flags/nunavut-shield-large"

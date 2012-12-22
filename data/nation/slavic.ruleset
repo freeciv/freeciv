@@ -47,14 +47,13 @@ conflicts_with="Ruthenian", "Russian", "Belarusian", "Ukrainian",
  "Bosnian-Herzegovinian", "Montenegrin", "Macedonian", "Bulgarian",
  "Silesian", "Greater Polish", "Mazovian", "Yugoslav", "Soviet",
  "Czechoslovakian", "Muscovite", "Vistulan", "Chrobatian", "Veletian",
- "Kashubian" ; Polabian Novgorodian
+ "Kashubian", "Novgorodian" ; Polabian
 civilwar_nations="Ruthenian", "Russian", "Belarusian", "Ukrainian",
  "Cossack", "Slovakian", "Moravian", "Czech", "Lendian", "Polish",
  "Western Pomeranian", "Sorbian", "Slovenian", "Croatian", "Serbian",
  "Bosnian-Herzegovinian", "Montenegrin", "Macedonian", "Bulgarian",
  "Silesian", "Greater Polish", "Mazovian", "Muscovite", "Vistulan",
- "Chrobatian", "Veletian", "Kashubian"
- ; Polabian Novgorodian
+ "Chrobatian", "Veletian", "Kashubian", "Novgorodian" ; Polabian
 
 cities=
 

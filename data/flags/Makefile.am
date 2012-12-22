@@ -362,6 +362,7 @@ flag_files =				\
 		northumbria.png		\
 		norway.png		\
 		normandy.png		\
+		novgorod.png		\
 		nubia.png		\
 		numidia.png		\
 		nunavut.png		\
@@ -918,6 +919,7 @@ flag_files =				\
 		northumbria-large.png		\
 		norway-large.png		\
 		normandy-large.png		\
+		novgorod-large.png		\
 		nubia-large.png		\
 		numidia-large.png		\
 		nunavut-large.png		\
@@ -1476,6 +1478,7 @@ shield_files =					\
 		north_korea-shield.png		\
 		northumbria-shield.png		\
 		norway-shield.png		\
+		novgorod-shield.png		\
 		nubia-shield.png		\
 		numidia-shield.png		\
 		nunavut-shield.png		\
@@ -2032,6 +2035,7 @@ shield_files =					\
 		north_korea-shield-large.png		\
 		northumbria-shield-large.png		\
 		norway-shield-large.png		\
+		novgorod-shield-large.png		\
 		nubia-shield-large.png		\
 		numidia-shield-large.png		\
 		nunavut-shield-large.png		\
@@ -2590,6 +2594,7 @@ svg_files = 				\
 		north_korea.svg		\
 		northumbria.svg		\
 		norway.svg		\
+		novgorod.svg		\
 		nubia.svg		\
 		numidia.svg		\
 		nunavut.svg		\

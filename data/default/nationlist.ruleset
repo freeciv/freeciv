@@ -395,6 +395,7 @@ match=2
 *include "nation/northkorean.ruleset"
 *include "nation/northumbrian.ruleset"
 *include "nation/norwegian.ruleset"
+*include "nation/novgorodian.ruleset"
 *include "nation/nubian.ruleset"
 *include "nation/numidian.ruleset"
 *include "nation/nuu-chah-nulth.ruleset"

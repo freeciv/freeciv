@@ -356,6 +356,7 @@ pkgdata_DATA = \
 		northkorean.ruleset \
 		northumbrian.ruleset \
 		norwegian.ruleset \
+		novgorodian.ruleset \
 		nubian.ruleset \
 		numidian.ruleset \
 		nuu-chah-nulth.ruleset \

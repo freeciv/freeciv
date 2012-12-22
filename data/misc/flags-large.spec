@@ -371,6 +371,7 @@ sprites =
 		"f.north_korea", "flags/north_korea-large"
 		"f.northumbria", "flags/northumbria-large"
 		"f.norway", "flags/norway-large"
+		"f.novgorod", "flags/novgorod-large"
 		"f.nubia", "flags/nubia-large"
 		"f.numidia", "flags/numidia-large"
 		"f.nunavut", "flags/nunavut-large"		; used by Inuit
