@@ -15,6 +15,8 @@
 #include <fc_config.h>
 #endif
 
+#include <stdarg.h>
+
 /* utility */
 #include "mem.h"
 #include "registry.h"
