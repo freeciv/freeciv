@@ -91,10 +91,9 @@ dnl all:                  Autodetect as many as possible [default].
 dnl mysql:                use mysql database
 dnl postgres:             use postgres database
 dnl comma-separated-list: Detect these or abort.
-AC_ARG_ENABLE(fcdb,
-[  --enable-fcdb[=no/all/mysql/postgres/sqlite3]
-                          database backends [[default=no]]
-                          (no, or list)],
+AC_ARG_ENABLE([fcdb],
+  AS_HELP_STRING([--enable-fcdb[=no/all/mysql/postgres/sqlite3]],
+                 [database backends [no](no, or list)]),
 [databases=${enableval}],
 [databases=no])
 
@@ -137,8 +136,8 @@ fi
 AM_CONDITIONAL(FCDB_DB, test "x$enable_fcdb" = "xyes")
 
 dnl  no=do not compile server,  yes=compile server,  *=error
-AC_ARG_ENABLE(server,
-[  --disable-server        do not compile the server],
+AC_ARG_ENABLE([server],
+  AS_HELP_STRING([--disable-server], [do not compile the server]),
 [case "${enableval}" in
   yes) server=yes ;;
   no)  server=no ;;
@@ -149,9 +148,8 @@ AM_CONDITIONAL(SERVER, test x$server = xyes)
 dnl yes     - Support for IPv6 required
 dnl no      - Legacy IPv4 support
 dnl test    - Try to enable IPv6 support
-AC_ARG_ENABLE(ipv6,
-[  --enable-ipv6=yes/no/test
-                          use IPv6 [[test]]],
+AC_ARG_ENABLE([ipv6],
+  AC_HELP_STRING([--enable-ipv6=yes/no/test], [use IPv6 [test]]),
 [case "${enableval}" in
   yes|no|test) ipv6=${enableval} ;;
   *)   AC_MSG_ERROR(bad value ${enableval} for --enable-ipv6) ;;
@@ -180,15 +178,15 @@ if test x$ipv6 != xno ; then
   fi
 fi
 
-AC_ARG_WITH(readline,
-[  --with-readline         support fancy command line editing],
+AC_ARG_WITH([readline],
+  AC_HELP_STRING([--with-readline], [support fancy command line editing]),
 WITH_READLINE=$withval,	dnl yes/no - required to use / never use
 WITH_READLINE="maybe"	dnl maybe  - use if found [default]
 )
 
 FOLLOWTAG=${DEFAULT_FOLLOW_TAG}
 AC_ARG_WITH([followtag],
-[  --with-followtag        version tag to follow],
+  AC_HELP_STRING([--with-followtag], [version tag to follow]),
 [FOLLOWTAG=${withval}])
 AC_DEFINE_UNQUOTED([FOLLOWTAG], ["${FOLLOWTAG}"], [Version tag to follow])
 
@@ -201,10 +199,9 @@ dnl all:                  Autodetect as many as possible [default].
 dnl no:                   No additional toolkits.
 dnl magickwand:           compile magickwand (imagemagick) support.
 dnl comma-separated-list: Detect these or abort.
-AC_ARG_ENABLE(mapimg,
-[  --enable-mapimg[=no/auto/magickwand]
-                          additional map image toolkits to compile
-                          [[default=auto]] (no, or list)],
+AC_ARG_ENABLE([mapimg],
+  AC_HELP_STRING([--enable-mapimg=no/auto/magickwand],
+                 [additional map image toolkits to compile [auto](no, or list)]),
 [toolkits=${enableval}],
 [enable_mapimg=auto])
 
@@ -230,11 +227,9 @@ dnl no:   Do not compile client.
 dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
 dnl comma-separated-list: Detect these or abort.
-AC_ARG_ENABLE(client,
-[  --enable-client[=auto/all/gtk2/gtk3/sdl/xaw/qt/stub]
-                          clients to compile [[auto]] (or list for multiple)
-                          maintained clients: gtk3/gtk2/sdl/xaw/stub
-                          clients in development: qt],
+AC_ARG_ENABLE([client],
+  AS_HELP_STRING([--enable-client=auto/all/gtk2/gtk3/sdl/xaw/qt/stub],
+                 [clients to compile [auto](list for multiple)]),
 [clients=${enableval}],
 [client=auto])
 
@@ -277,13 +272,13 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
   fi
 done
 
-AC_ARG_WITH(xaw,
-[  --with-xaw              use the Xaw widget set for the xaw client],
+AC_ARG_WITH([xaw],
+  AS_HELP_STRING([--with-xaw], [use the Xaw widget set for the xaw client]),
 WITH_XAW=1
 )
 
-AC_ARG_WITH(xaw3d,
-[  --with-xaw3d            use the Xaw3d widget set for the xaw client],
+AC_ARG_WITH([xaw3d],
+  AS_HELP_STRING([--with-xaw3d], [use the Xaw3d widget set for the xaw client]),
 WITH_XAW3D=1
 )
 
@@ -292,7 +287,7 @@ if test "x$WITH_XAW" != "x" && test "x$WITH_XAW3D" != "x" ; then
 fi
 
 AC_ARG_ENABLE([svnrev],
-[  --enable-svnrev         get svn revision to version information],
+  AS_HELP_STRING([--enable-svnrev], [get svn revision to version information]),
 [case "${enableval}" in
   yes) svnrev=true  ;;
   no)  svnrev=false ;;
@@ -303,9 +298,8 @@ if test x$svnrev = xtrue ; then
   AC_DEFINE([SVNREV], [1], [Get svn revision information to version number])
 fi
 
-AC_ARG_ENABLE(make_data,
-[  --disable-make-data     do not recurse make into data directories
-                          (ok to disable unless you will 'make install')],
+AC_ARG_ENABLE([make_data],
+  AS_HELP_STRING([--disable-make-data], [do not recurse make into data directories]),
 [case "${enableval}" in
   yes) make_data=true ;;
   no)  make_data=false ;;
@@ -313,9 +307,8 @@ AC_ARG_ENABLE(make_data,
 esac], [make_data=true])
 AM_CONDITIONAL(MAKE_DATA, test x$make_data = xtrue)
 
-AC_ARG_ENABLE(make_include,
-[  --enable-make-include   force make to recurse into include directory
-                          (useful for 'make tags')],
+AC_ARG_ENABLE([make_include],
+  AS_HELP_STRING([--enable-make-include], [force make to recurse into include directory]),
 [case "${enableval}" in
   yes) make_include=true ;;
   no)  make_include=false ;;
@@ -323,14 +316,13 @@ AC_ARG_ENABLE(make_include,
 esac], [make_include=false])
 AM_CONDITIONAL(MAKE_CLIENT_INCLUDE, test "$make_include" = "true")
 
-AC_ARG_WITH(efence,
-	[  --with-efence           use Electric Fence, malloc debugger ],
-	WITH_EFENCE=1
+AC_ARG_WITH([efence],
+  AS_HELP_STRING([--with-efence], [use Electric Fence, malloc debugger]),
+  WITH_EFENCE=1
 )
 
 AC_ARG_ENABLE([aimodules],
-[  --enable-aimodules      support for ai modules [[yes/no/experimental]]
-                          [[default=no]]],
+  AS_HELP_STRING([--enable-aimodules=yes/no/experimental], [support for ai modules [no]]),
 [case "${enableval}" in
   yes) enable_aimodules=yes ;;
   no)  enable_aimodules=no ;;
@@ -361,7 +353,7 @@ fi
 AM_CONDITIONAL(EXP_AI_MODULES, test "x$exp_aimodules" = "xyes")
 
 AC_ARG_ENABLE([ai-static],
-[  --enable-ai-static      statically link listed modules to server],
+  AS_HELP_STRING([--enable-ai-static], [statically link listed modules to server]),
 [static_modules="${enableval}"],
 [static_modules="classic"])
 
@@ -435,7 +427,7 @@ ALL_LINGUAS="ar bg cs ca da de el en_GB eo es et fa fi fr ga gd he hu id it ja
 ko lt nl nb no pl pt pt_BR ro ru sr sv tr uk zh_CN zh_TW"
 
 AC_ARG_ENABLE([nls],
-[  --disable-nls           do not add localization support],
+  AS_HELP_STRING([--disable-nls], [do not add localization support]),
 [case "${enableval}" in
   yes) USE_NLS=yes ;;
   no)  USE_NLS=no  ;;
@@ -816,7 +808,7 @@ AM_CONDITIONAL([CLIENT], [test "x$client" = "xyes"])
 
 dnl freeciv-modpack checks
 AC_ARG_ENABLE([fcmp],
-[  --enable-fcmp[[=no/yes/gtk/gtk2/gtk3/qt/all/auto]] build freeciv-modpack-program [[default=auto]]],
+  AS_HELP_STRING([--enable-fcmp=no/yes/gtk/gtk2/gtk3/qt/all/auto], [build freeciv-modpack-program [auto]]),
 [fc_mp=${enableval}],
 [fc_mp=auto])
 
@@ -1113,7 +1105,7 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <signal.h>]], [[signal (SIGPIPE, S
                 AC_DEFINE([HAVE_SIGPIPE], [1], [sigpipe support])],[AC_MSG_RESULT([no])])
 
 AC_ARG_ENABLE([crosser],
-[  --enable-crosser        build version to be used with crosser environment],
+  AS_HELP_STRING([--enable-crosser], [build version to be used with crosser environment]),
 [case "${enableval}" in
   yes) crosser=yes ;;
   no)  crosser=no ;;
@@ -1166,7 +1158,7 @@ fi
 AC_CHECK_FUNCS([isatty popen _longjmp])
 
 AC_ARG_ENABLE([sys-lua],
-[  --enable-sys-lua        use lua from system instead of one from freeciv tree [[false]]],
+  AS_HELP_STRING([--enable-sys-lua], [use lua from system instead of one from freeciv tree [false]]),
 [case "${enableval}" in
   yes)
     sys_lua=true ;;
@@ -1226,7 +1218,7 @@ TOLUA="\$(top_builddir)/dependencies/tolua-5.1/src/bin/tolua$EXEEXT"
 AC_SUBST([TOLUA])
 
 AC_ARG_ENABLE([fcweb],
-[  --enable-fcweb          build fcweb version of server [[false]]],
+  AS_HELP_STRING([--enable-fcweb], [build fcweb version of server [false]]),
 [case "${enableval}" in
   yes)
     fcweb=true ;;
