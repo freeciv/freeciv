@@ -111,50 +111,131 @@ struct unit_class {
    See data/default/units.ruleset for documentation of their effects.
    Change the array *flag_names[] in unittype.c accordingly.
 */
-enum unit_type_flag_id { 
-  UTYF_TRADE_ROUTE=0,
-  UTYF_HELP_WONDER,
-  UTYF_IGZOC,
-  UTYF_CIVILIAN,
-  UTYF_IGTER,
-  UTYF_ONEATTACK,
-  UTYF_IGWALL,           /* Ignores EFT_DEFEND_BONUS (for example city walls) */
-  UTYF_FIELDUNIT,
-  UTYF_MARINES,
-  UTYF_PARTIAL_INVIS,    /* Invisibile except when adjacent (Submarine) */   
-  UTYF_SETTLERS,         /* Does not include ability to found cities */
-  UTYF_DIPLOMAT,
-  UTYF_TRIREME,          /* Trireme sinking effect */
-  UTYF_NUCLEAR,          /* Nuclear attack effect */
-  UTYF_SPY,              /* Enhanced spy abilities */
-  UTYF_PARATROOPERS,
-  UTYF_CITIES,           /* Can build cities */
-  UTYF_ONLY_NATIVE_ATTACK, /* Cannot attack vs non-native tiles even if class can */
-  UTYF_ADD_TO_CITY,      /* unit can add to city population */
-  UTYF_FANATIC,          /* Only Fundamentalist government can build
-                            these units */
-  UTYF_GAMELOSS,         /* Losing this unit means losing the game */
-  UTYF_UNIQUE,           /* A player can only have one unit of this type */
-  UTYF_UNBRIBABLE,       /* Cannot be bribed */
-  UTYF_UNDISBANDABLE,    /* Cannot be disbanded, won't easily go away */
-  UTYF_SUPERSPY,         /* Always wins diplomatic contests */
-  UTYF_NOHOME,           /* Has no homecity */
-  UTYF_NO_VETERAN,       /* Cannot increase veteran level */
-  UTYF_BOMBARDER,        /* Has the ability to bombard */
-  UTYF_CITYBUSTER,       /* Gets double firepower against cities */
-  UTYF_NOBUILD,          /* Unit cannot be built (barb leader etc) */
-  UTYF_BADWALLATTACKER,  /* Firepower set to 1 when EFT_DEFEND_BONUS applies
-                          * (for example, land unit attacking city with walls) */
-  UTYF_BADCITYDEFENDER,  /* Firepower set to 1 and attackers x2 when in city */
-  UTYF_BARBARIAN_ONLY,   /* Only barbarians can build this unit */
-  UTYF_SHIELD2GOLD,      /* upkeep can switch from shield to gold */
-  UTYF_CAPTURABLE,       /* Unit can be captured */
-  UTYF_CAPTURER,         /* Unit can capture other */
-  UTYF_USER_FLAG_1,      /* User defined flags start here */
-  UTYF_LAST_USER_FLAG = UTYF_USER_FLAG_1 + MAX_NUM_USER_UNIT_FLAGS - 1,
-  UTYF_LAST
-};
+#define SPECENUM_NAME unit_type_flag_id
+#define SPECENUM_VALUE0 UTYF_TRADE_ROUTE
+#define SPECENUM_VALUE0NAME "TradeRoute"
+#define SPECENUM_VALUE1 UTYF_HELP_WONDER
+#define SPECENUM_VALUE1NAME "HelpWonder"
+#define SPECENUM_VALUE2 UTYF_IGZOC
+#define SPECENUM_VALUE2NAME "IgZOC"
+#define SPECENUM_VALUE3 UTYF_CIVILIAN
+#define SPECENUM_VALUE3NAME "NonMil"
+#define SPECENUM_VALUE4 UTYF_IGTER
+#define SPECENUM_VALUE4NAME "IgTer"
+#define SPECENUM_VALUE5 UTYF_ONEATTACK
+#define SPECENUM_VALUE5NAME "OneAttack"
+/* Ignores EFT_DEFEND_BONUS (for example city walls) */
+#define SPECENUM_VALUE6 UTYF_IGWALL
+#define SPECENUM_VALUE6NAME "IgWall"
+#define SPECENUM_VALUE7 UTYF_FIELDUNIT
+#define SPECENUM_VALUE7NAME "FieldUnit"
+#define SPECENUM_VALUE8 UTYF_MARINES
+#define SPECENUM_VALUE8NAME "Marines"
+/* Invisibile except when adjacent (Submarine) */
+#define SPECENUM_VALUE9 UTYF_PARTIAL_INVIS
+#define SPECENUM_VALUE9NAME "Partial_Invis"
+/* Does not include ability to found cities */
+#define SPECENUM_VALUE10 UTYF_SETTLERS
+#define SPECENUM_VALUE10NAME "Settlers"
+#define SPECENUM_VALUE11 UTYF_DIPLOMAT
+#define SPECENUM_VALUE11NAME "Diplomat"
+/* Trireme sinking effect */
+#define SPECENUM_VALUE12 UTYF_TRIREME
+#define SPECENUM_VALUE12NAME "Trireme"
+/* Nuclear attack effect */
+#define SPECENUM_VALUE13 UTYF_NUCLEAR
+#define SPECENUM_VALUE13NAME "Nuclear"
+/* Enhanced spy abilities */
+#define SPECENUM_VALUE14 UTYF_SPY
+#define SPECENUM_VALUE14NAME "Spy"
+#define SPECENUM_VALUE15 UTYF_PARATROOPERS
+#define SPECENUM_VALUE15NAME "Paratroopers"
+/* Can build cities */
+#define SPECENUM_VALUE16 UTYF_CITIES
+#define SPECENUM_VALUE16NAME "Cities"
+/* Cannot attack vs non-native tiles even if class can */
+#define SPECENUM_VALUE17 UTYF_ONLY_NATIVE_ATTACK
+#define SPECENUM_VALUE17NAME "Only_Native_Attack"
+/* unit can add to city population */
+#define SPECENUM_VALUE18 UTYF_ADD_TO_CITY
+#define SPECENUM_VALUE18NAME "AddToCity"
+/* Only Fundamentalist government can build these units */
+#define SPECENUM_VALUE19 UTYF_FANATIC
+#define SPECENUM_VALUE19NAME "Fanatic"
+/* Losing this unit means losing the game */
+#define SPECENUM_VALUE20 UTYF_GAMELOSS
+#define SPECENUM_VALUE20NAME "GameLoss"
+/* A player can only have one unit of this type */
+#define SPECENUM_VALUE21 UTYF_UNIQUE
+#define SPECENUM_VALUE21NAME "Unique"
+/* Cannot be bribed */
+#define SPECENUM_VALUE22 UTYF_UNBRIBABLE
+#define SPECENUM_VALUE22NAME "Unbribable"
+/* Cannot be disbanded, won't easily go away */
+#define SPECENUM_VALUE23 UTYF_UNDISBANDABLE
+#define SPECENUM_VALUE23NAME "Undisbandable"
+/* Always wins diplomatic contests */
+#define SPECENUM_VALUE24 UTYF_SUPERSPY
+#define SPECENUM_VALUE24NAME "SuperSpy"
+/* Has no homecity */
+#define SPECENUM_VALUE25 UTYF_NOHOME
+#define SPECENUM_VALUE25NAME "NoHome"
+/* Cannot increase veteran level */
+#define SPECENUM_VALUE26 UTYF_NO_VETERAN
+#define SPECENUM_VALUE26NAME "NoVeteran"
+/* Has the ability to bombard */
+#define SPECENUM_VALUE27 UTYF_BOMBARDER
+#define SPECENUM_VALUE27NAME "Bombarder"
+/* Gets double firepower against cities */
+#define SPECENUM_VALUE28 UTYF_CITYBUSTER
+#define SPECENUM_VALUE28NAME "CityBuster"
+/* Unit cannot be built (barb leader etc) */
+#define SPECENUM_VALUE29 UTYF_NOBUILD
+#define SPECENUM_VALUE29NAME "NoBuild"
+/* Firepower set to 1 when EFT_DEFEND_BONUS applies
+ * (for example, land unit attacking city with walls) */
+#define SPECENUM_VALUE30 UTYF_BADWALLATTACKER
+#define SPECENUM_VALUE30NAME "BadWallAttacker"
+/* Firepower set to 1 and attackers x2 when in city */
+#define SPECENUM_VALUE31 UTYF_BADCITYDEFENDER
+#define SPECENUM_VALUE31NAME "BadCityDefender"
+/* Only barbarians can build this unit */
+#define SPECENUM_VALUE32 UTYF_BARBARIAN_ONLY
+#define SPECENUM_VALUE32NAME "BarbarianOnly"
+/* upkeep can switch from shield to gold */
+#define SPECENUM_VALUE33 UTYF_SHIELD2GOLD
+#define SPECENUM_VALUE33NAME "Shield2Gold"
+/* Unit can be captured */
+#define SPECENUM_VALUE34 UTYF_CAPTURABLE
+#define SPECENUM_VALUE34NAME "Capturable"
+/* Unit can capture other */
+#define SPECENUM_VALUE35 UTYF_CAPTURER
+#define SPECENUM_VALUE35NAME "Capturer"
+
+#define SPECENUM_VALUE36 UTYF_USER_FLAG_1
+#define SPECENUM_VALUE37 UTYF_USER_FLAG_2
+#define SPECENUM_VALUE38 UTYF_USER_FLAG_3
+#define SPECENUM_VALUE39 UTYF_USER_FLAG_4
+#define SPECENUM_VALUE40 UTYF_USER_FLAG_5
+#define SPECENUM_VALUE41 UTYF_USER_FLAG_6
+#define SPECENUM_VALUE42 UTYF_USER_FLAG_7
+#define SPECENUM_VALUE43 UTYF_USER_FLAG_8
+#define SPECENUM_VALUE44 UTYF_USER_FLAG_9
+#define SPECENUM_VALUE45 UTYF_USER_FLAG_10
+#define SPECENUM_VALUE46 UTYF_USER_FLAG_11
+#define SPECENUM_VALUE47 UTYF_USER_FLAG_12
+#define SPECENUM_VALUE48 UTYF_USER_FLAG_13
+#define SPECENUM_VALUE49 UTYF_USER_FLAG_14
+#define SPECENUM_VALUE50 UTYF_USER_FLAG_15
+#define SPECENUM_VALUE51 UTYF_USER_FLAG_16
+
+#define UTYF_LAST_USER_FLAG UTYF_USER_FLAG_16
+#define MAX_NUM_USER_UNIT_FLAGS (UTYF_LAST_USER_FLAG - UTYF_USER_FLAG_1 + 1)
+#define SPECENUM_NAMEOVERRIDE
+#include "specenum_gen.h"
+
 #define UTYF_MAX 64
+
 
 /* Unit "roles": these are similar to unit flags but differ in that
    they don't represent intrinsic properties or abilities of units,
@@ -165,7 +246,7 @@ enum unit_type_flag_id {
    (Now have to consider UTYF_CITIES too)
    So we make sure flag values and role values are distinct,
    so some functions can use them interchangably.
-   See data/default/units.ruleset for documentation of their effects.
+   See data/classic/units.ruleset for documentation of their effects.
 */
 #define L_FIRST UTYF_MAX
 enum unit_role_id {
@@ -325,13 +406,11 @@ bool utype_has_flag(const struct unit_type *punittype, int flag);
 bool unit_has_type_role(const struct unit *punit, enum unit_role_id role);
 bool utype_has_role(const struct unit_type *punittype, int role);
 
-enum unit_type_flag_id unit_flag_by_rule_name(const char *s);
 enum unit_role_id unit_role_by_rule_name(const char *s);
 
 void user_unit_type_flags_init(void);
 void set_user_unit_type_flag_name(enum unit_type_flag_id id, const char *name,
                                   const char *helptxt);
-const char *unit_type_flag_rule_name(enum unit_type_flag_id id);
 const char *unit_type_flag_helptxt(enum unit_type_flag_id id);
 const char *unit_role_rule_name(enum unit_role_id id);
 

@@ -106,8 +106,8 @@ struct universal universal_by_rule_name(const char *kind,
     }
     break;
   case VUT_UTFLAG:
-    source.value.unitflag = unit_flag_by_rule_name(value);
-    if (source.value.unitflag != UTYF_LAST) {
+    source.value.unitflag = unit_type_flag_id_by_name(value, fc_strcasecmp);
+    if (unit_type_flag_id_is_valid(source.value.unitflag)) {
       return source;
     }
     break;
@@ -1572,7 +1572,7 @@ const char *universal_rule_name(const struct universal *psource)
   case VUT_UTYPE:
     return utype_rule_name(psource->value.utype);
   case VUT_UTFLAG:
-    return unit_type_flag_rule_name(psource->value.unitflag);
+    return unit_type_flag_id_name(psource->value.unitflag);
   case VUT_UCLASS:
     return uclass_rule_name(psource->value.uclass);
   case VUT_UCFLAG:
@@ -1645,8 +1645,8 @@ const char *universal_name_translation(const struct universal *psource,
     return buf;
   case VUT_UTFLAG:
     cat_snprintf(buf, bufsz, _("\"%s\" units"),
-		 /* flag names are never translated */
-		 unit_type_flag_rule_name(psource->value.unitflag));
+                 /* flag names are never translated */
+                 unit_type_flag_id_name(psource->value.unitflag));
     return buf;
   case VUT_UCLASS:
     cat_snprintf(buf, bufsz, _("%s units"),

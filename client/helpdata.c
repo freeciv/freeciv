@@ -1540,7 +1540,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
 	    _("* Each player may only have one of this type of unit.\n"));
   }
-  for (flagid = UTYF_USER_FLAG_1 ; flagid < UTYF_LAST; flagid++) {
+  for (flagid = UTYF_USER_FLAG_1 ; flagid <= UTYF_LAST_USER_FLAG; flagid++) {
     if (utype_has_flag(utype, flagid)) {
       const char *helptxt = unit_type_flag_helptxt(flagid);
 
@@ -2293,7 +2293,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
     Output_type_id output_type = O_LAST;
     struct unit_class *unitclass = NULL;
     struct unit_type *unittype = NULL;
-    enum unit_type_flag_id unitflag = UTYF_LAST;
+    enum unit_type_flag_id unitflag = unit_type_flag_id_invalid();
     struct strvec *outputs = strvec_new();
     struct astring outputs_or = ASTRING_INIT;
     struct astring outputs_and = ASTRING_INIT;
@@ -2323,7 +2323,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
          }
          break;
        case VUT_UTFLAG:
-         if (unitflag == UTYF_LAST) {
+         if (!unit_type_flag_id_is_valid(unitflag)) {
            /* FIXME: We should list all the unit flag requirements,
             *        not only first one. */
            unitflag = preq->source.value.unitflag;
@@ -2561,10 +2561,10 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
           cat_snprintf(buf, bufsz,
                        _("* Veteran %s units.\n"),
                        utype_name_translation(unittype));
-        } else if (unitflag != UTYF_LAST) {
+        } else if (unit_type_flag_id_is_valid(unitflag)) {
           cat_snprintf(buf, bufsz,
                        _("* Veteran %s units.\n"),
-                       unit_type_flag_rule_name(unitflag));
+                       unit_type_flag_id_name(unitflag));
         } else {
           CATLSTR(buf, bufsz, _("* Veteran units.\n"));
         }

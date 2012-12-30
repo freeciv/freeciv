@@ -616,8 +616,8 @@ bool api_methods_unit_type_has_flag(lua_State *L, Unit_Type *punit_type,
   LUASCRIPT_CHECK_SELF(L, punit_type, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, flag, 3, string, FALSE);
 
-  id = unit_flag_by_rule_name(flag);
-  if (id != UTYF_LAST) {
+  id = unit_type_flag_id_by_name(flag, fc_strcasecmp);
+  if (unit_type_flag_id_is_valid(id)) {
     return utype_has_flag(punit_type, id);
   } else {
     luascript_error(L, "Unit type flag \"%s\" does not exist", flag);

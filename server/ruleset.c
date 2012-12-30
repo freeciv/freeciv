@@ -406,8 +406,8 @@ static bool lookup_cbonus_list(struct combat_bonus_list *list,
     struct combat_bonus *bonus = fc_malloc(sizeof(*bonus));
     const char *type;
 
-    bonus->flag = unit_flag_by_rule_name(flag);
-    if (bonus->flag == UTYF_LAST) {
+    bonus->flag = unit_type_flag_id_by_name(flag, fc_strcasecmp);
+    if (!unit_type_flag_id_is_valid(bonus->flag)) {
       log_error("\"%s\": unknown flag name \"%s\" in '%s.%s'.",
                 filename, flag, sec, sub);
       FC_FREE(bonus);
@@ -1338,10 +1338,10 @@ static void load_ruleset_units(struct section_file *file)
       if (!unit_class_flag_id_is_valid(ival)) {
         log_error("\"%s\" unit_class \"%s\": bad flag name \"%s\".",
                   filename, uclass_rule_name(uc), sval);
-        ival = unit_flag_by_rule_name(sval);
-        if (ival != UTYF_LAST) {
-          log_error("\"%s\" unit_class \"%s\": unit_type flag!",
-                    filename, uclass_rule_name(uc));
+        ival = unit_type_flag_id_by_name(sval, fc_strcasecmp);
+        if (unit_type_flag_id_is_valid(ival)) {
+          log_error("\"%s\" unit_class \"%s\": unit_type flag \"%s\"!",
+                    filename, uclass_rule_name(uc), sval);
         }
       } else {
         BV_SET(uc->flags, ival);
@@ -1601,7 +1601,7 @@ static void load_ruleset_units(struct section_file *file)
     const int i = utype_index(u);
 
     BV_CLR_ALL(u->flags);
-    fc_assert(!utype_has_flag(u, UTYF_LAST - 1));
+    fc_assert(!utype_has_flag(u, UTYF_LAST_USER_FLAG - 1));
 
     slist = secfile_lookup_str_vec(file, &nval, "%s.flags",
                                    section_name(section_list_get(sec, i)));
@@ -1610,8 +1610,8 @@ static void load_ruleset_units(struct section_file *file)
       if (0 == strcmp(sval, "")) {
         continue;
       }
-      ival = unit_flag_by_rule_name(sval);
-      if (UTYF_LAST == ival) {
+      ival = unit_type_flag_id_by_name(sval, fc_strcasecmp);
+      if (!unit_type_flag_id_is_valid(ival)) {
         log_error("\"%s\" unit_type \"%s\": bad flag name \"%s\".",
                   filename, utype_rule_name(u),  sval);
         ival = unit_class_flag_id_by_name(sval, fc_strcasecmp);
@@ -4036,7 +4036,7 @@ static void send_ruleset_units(struct conn_list *dest)
 
     fpacket.id = i + UTYF_USER_FLAG_1;
 
-    flagname = unit_type_flag_rule_name(i + UTYF_USER_FLAG_1);
+    flagname = unit_type_flag_id_name(i + UTYF_USER_FLAG_1);
     if (flagname == NULL) {
       fpacket.name[0] = '\0';
     } else {

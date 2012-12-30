@@ -2925,7 +2925,7 @@ void handle_ruleset_unit_flag(const struct packet_ruleset_unit_flag *p)
   const char *flagname;
   const char *helptxt;
 
-  fc_assert_ret_msg(p->id >= UTYF_USER_FLAG_1 && p->id < UTYF_LAST, "Bad user flag %d.", p->id);
+  fc_assert_ret_msg(p->id >= UTYF_USER_FLAG_1 && p->id <= UTYF_LAST_USER_FLAG, "Bad user flag %d.", p->id);
 
   if (p->name[0] == '\0') {
     flagname = NULL;

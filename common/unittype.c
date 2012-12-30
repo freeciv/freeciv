@@ -44,19 +44,6 @@ static struct unit_class unit_classes[UCL_LAST];
    client/packhand.c (for the client)
 */
 
-static const char *type_flag_names[] = {
-  "TradeRoute", "HelpWonder", "IgZOC", "NonMil", "IgTer", 
-  "OneAttack", "IgWall", "FieldUnit",
-  "Marines", "Partial_Invis", "Settlers", "Diplomat",
-  "Trireme", "Nuclear", "Spy", "Paratroopers",
-  "Cities", "Only_Native_Attack",
-  "AddToCity", "Fanatic", "GameLoss", "Unique", "Unbribable", 
-  "Undisbandable", "SuperSpy", "NoHome", "NoVeteran", "Bombarder",
-  "CityBuster", "NoBuild", "BadWallAttacker", "BadCityDefender",
-  "BarbarianOnly", "Shield2Gold",
-  "Capturable", "Capturer"
-};
-
 struct user_unit_type_flag
 {
   char *name;
@@ -214,7 +201,7 @@ bool uclass_has_flag(const struct unit_class *punitclass,
 **************************************************************************/
 bool utype_has_flag(const struct unit_type *punittype, int flag)
 {
-  fc_assert_ret_val(flag >= 0 && flag < UTYF_LAST, FALSE);
+  fc_assert_ret_val(unit_type_flag_id_is_valid(flag), FALSE);
   return BV_ISSET(punittype->flags, flag);
 }
 
@@ -577,7 +564,7 @@ void set_user_unit_type_flag_name(enum unit_type_flag_id id, const char *name,
 {
   int ufid = id - UTYF_USER_FLAG_1;
 
-  fc_assert_ret(id >= UTYF_USER_FLAG_1 && id < UTYF_LAST);
+  fc_assert_ret(id >= UTYF_USER_FLAG_1 && id <= UTYF_LAST_USER_FLAG);
 
   if (user_type_flags[ufid].name != NULL) {
     free(user_type_flags[ufid].name);
@@ -599,43 +586,15 @@ void set_user_unit_type_flag_name(enum unit_type_flag_id id, const char *name,
 }
 
 /**************************************************************************
-  Convert flag names to enum; case insensitive;
-  returns UTYF_LAST if can't match.
+  Unit type flag name callback, called from specenum code.
 **************************************************************************/
-enum unit_type_flag_id unit_flag_by_rule_name(const char *s)
+char *unit_type_flag_id_name_cb(enum unit_type_flag_id flag)
 {
-  enum unit_type_flag_id i;
-
-  fc_assert_ret_val(ARRAY_SIZE(type_flag_names) == UTYF_USER_FLAG_1, UTYF_LAST);
-
-  for (i = 0; i < UTYF_USER_FLAG_1; i++) {
-    if (fc_strcasecmp(type_flag_names[i], s) == 0) {
-      return i;
-    }
-  }
-  for (i = 0; i < MAX_NUM_USER_UNIT_FLAGS; i++) {
-    if (user_type_flags[i].name != NULL
-        && fc_strcasecmp(user_type_flags[i].name, s) == 0) {
-      return i + UTYF_USER_FLAG_1;
-    }
+  if (flag < UTYF_USER_FLAG_1 || flag > UTYF_LAST_USER_FLAG) {
+    return NULL;
   }
 
-  return UTYF_LAST;
-}
-
-/**************************************************************************
-  Return the (untranslated) rule name of the unit flag.
-**************************************************************************/
-const char *unit_type_flag_rule_name(enum unit_type_flag_id id)
-{
-  fc_assert_ret_val(ARRAY_SIZE(type_flag_names) == UTYF_USER_FLAG_1, NULL);
-  fc_assert_ret_val(id >= 0 && id < UTYF_LAST, NULL);
-
-  if (id < UTYF_USER_FLAG_1) {
-    return type_flag_names[id];
-  }
-
-  return user_type_flags[id - UTYF_USER_FLAG_1].name;
+  return user_type_flags[flag - UTYF_USER_FLAG_1].name;
 }
 
 /**************************************************************************
@@ -643,7 +602,7 @@ const char *unit_type_flag_rule_name(enum unit_type_flag_id id)
 **************************************************************************/
 const char *unit_type_flag_helptxt(enum unit_type_flag_id id)
 {
-  fc_assert(id >= UTYF_USER_FLAG_1 && id < UTYF_LAST);
+  fc_assert(id >= UTYF_USER_FLAG_1 && id <= UTYF_LAST_USER_FLAG);
 
   return user_type_flags[id - UTYF_USER_FLAG_1].helptxt;
 }
@@ -883,7 +842,7 @@ void role_unit_precalcs(void)
     role_unit_precalcs_free();
   }
 
-  for (i = 0; i < UTYF_LAST; i++) {
+  for (i = 0; i <= UTYF_LAST_USER_FLAG; i++) {
     precalc_one(i, utype_has_flag);
   }
   for (i = L_FIRST; i < L_LAST; i++) {
@@ -897,7 +856,7 @@ How many unit types have specified role/flag.
 **************************************************************************/
 int num_role_units(int role)
 {
-  fc_assert_ret_val((role >= 0 && role < UTYF_LAST)
+  fc_assert_ret_val((role >= 0 && role <= UTYF_LAST_USER_FLAG)
                     || (role >= L_FIRST && role < L_LAST), -1);
   fc_assert_ret_val(!first_init, -1);
   return n_with_role[role];
@@ -909,7 +868,7 @@ Index -1 means (n-1), ie last one.
 **************************************************************************/
 struct unit_type *get_role_unit(int role, int index)
 {
-  fc_assert_ret_val((role >= 0 && role < UTYF_LAST)
+  fc_assert_ret_val((role >= 0 && role <= UTYF_LAST_USER_FLAG)
                     || (role >= L_FIRST && role < L_LAST), NULL);
   fc_assert_ret_val(!first_init, NULL);
   if (index==-1) {
@@ -928,7 +887,7 @@ struct unit_type *best_role_unit(const struct city *pcity, int role)
   struct unit_type *u;
   int j;
 
-  fc_assert_ret_val((role >= 0 && role < UTYF_LAST)
+  fc_assert_ret_val((role >= 0 && role <= UTYF_LAST_USER_FLAG)
                     || (role >= L_FIRST && role < L_LAST), NULL);
   fc_assert_ret_val(!first_init, NULL);
 
@@ -952,7 +911,7 @@ struct unit_type *best_role_unit_for_player(const struct player *pplayer,
 {
   int j;
 
-  fc_assert_ret_val((role >= 0 && role < UTYF_LAST)
+  fc_assert_ret_val((role >= 0 && role <= UTYF_LAST_USER_FLAG)
                     || (role >= L_FIRST && role < L_LAST), NULL);
   fc_assert_ret_val(!first_init, NULL);
 
@@ -976,7 +935,7 @@ struct unit_type *first_role_unit_for_player(const struct player *pplayer,
 {
   int j;
 
-  fc_assert_ret_val((role >= 0 && role < UTYF_LAST)
+  fc_assert_ret_val((role >= 0 && role <= UTYF_LAST_USER_FLAG)
                     || (role >= L_FIRST && role < L_LAST), NULL);
   fc_assert_ret_val(!first_init, NULL);
 
