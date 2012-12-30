@@ -3,9 +3,9 @@
 ----------------------------------------------------------------------
 
 This ruleset tries to use the new features available since freeciv 2.2. It
-is based on the default ruleset. The changes can be extracted by
+is based on the classic ruleset. The changes can be extracted by
 
-#> diff -ur data/default/ data/experimental/
+#> diff -ur data/classic/ data/experimental/
 
 If the changes in this ruleset result in a working game (especially with
 regard to the AI) they could be included in the default ruleset for next
@@ -16,7 +16,7 @@ this file.
 
 
 
-1. Changes compared to the default ruleset
+1. Changes compared to the classic ruleset
    ---------------------------------------
 
 - Plagues are activated. Temples, Aqueducts, Sewer Systems reduce the

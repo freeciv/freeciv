@@ -3,18 +3,18 @@
 ----------------------------------------------------------------------
 
 The 'multiplayer' ruleset is intended to rectify some game balance
-issues encountered on multiplayer servers with the default ruleset.
+issues encountered on multiplayer servers with the classic ruleset.
 It is based on the 'rewonder' ruleset designed by Madeline Book for
 Freeciv 2.1.
 
 
 
-1. Changes compared to the default ruleset
+1. Changes compared to the classic ruleset
    ---------------------------------------
 
 The differences can be extracted by
 
-#> diff -ur data/default data/multiplayer
+#> diff -ur data/classic data/multiplayer
 
 Gameplay
 --------
