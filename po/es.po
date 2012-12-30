@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-08 12:06+0000\n"
-"PO-Revision-Date: 2012-09-15 12:27+0200\n"
+"POT-Creation-Date: 2012-12-30 18:18+0100\n"
+"PO-Revision-Date: 2012-12-29 23:12+0100\n"
 "Last-Translator: Jordi Negrevernis i Font <jnegrevernis@jnfprogramari.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -4940,12 +4940,12 @@ msgstr "La tasa de ciencia excedía la tasa máxima; corregido."
 msgid "Luxury rate exceeded the max rate; adjusted."
 msgstr "La tasa de lujos excedía la tasa máxima; corregido."
 
-#: server/plrhand.c:538
+#: server/plrhand.c:555
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "¡%s ya no nos da visión compartida!"
 
-#: server/plrhand.c:549
+#: server/plrhand.c:566
 #, c-format
 msgid ""
 "The senate will not allow you to break treaty with the %s.  You must either "
@@ -4954,14 +4954,14 @@ msgstr ""
 "El Senado no permitirá romper tu pacto con los %s. Puedes disolver el Senado "
 "o esperar a otro momento más adecuado."
 
-#: server/plrhand.c:600
+#: server/plrhand.c:617
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr ""
 "El Senado ha aprobado tu ley por las constantes provocaciones de los %s."
 
-#: server/plrhand.c:605
+#: server/plrhand.c:622
 #, c-format
 msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
@@ -4970,12 +4970,12 @@ msgstr ""
 "El Senado se niega a romper el pacto con los %s, pero puedes buscarte un "
 "Senado nuevo sin problema."
 
-#: server/plrhand.c:649
+#: server/plrhand.c:657
 #, c-format
 msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "El estado diplomático entre los %s y los %s ahora es %s."
 
-#: server/plrhand.c:655
+#: server/plrhand.c:663
 #, c-format
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
@@ -4984,13 +4984,13 @@ msgstr ""
 "¡%s ha cancelado el acuerdo diplomático! El estado diplomático entre los %s "
 "y los %s ahora es %s."
 
-#: server/plrhand.c:673
+#: server/plrhand.c:681
 #, c-format
 msgid ""
 "%s has attacked your ally %s! You cancel your alliance to the aggressor."
 msgstr "¡%s ha atacado a tu aliado %s! Tu cancelas la alianza con el agresor."
 
-#: server/plrhand.c:685
+#: server/plrhand.c:693
 #, c-format
 msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
@@ -4999,81 +4999,81 @@ msgstr ""
 "Tu compañero de equipo %s ha declarado la guerra a %s. Así que tu eres "
 "obligado a cancelar la alianza con %s."
 
-#: server/plrhand.c:1219
+#: server/plrhand.c:1227
 #, c-format
 msgid "Removing player %s."
 msgstr "Se ha eliminado al jugador %s de la partida."
 
-#: server/plrhand.c:1222
+#: server/plrhand.c:1230
 msgid "You've been removed from the game!"
 msgstr "¡Te han echado de la partida!"
 
-#: server/plrhand.c:1225
+#: server/plrhand.c:1233
 #, c-format
 msgid "%s has been removed from the game."
 msgstr "Han echado a %s de la partida."
 
-#: server/plrhand.c:1331
+#: server/plrhand.c:1339
 msgid "Please choose a non-blank name."
 msgstr "Por favor, elige un nombre no vacío."
 
-#: server/plrhand.c:1344
+#: server/plrhand.c:1352
 msgid "That nation is already in use."
 msgstr "La nación ya se está usando."
 
-#: server/plrhand.c:1349
+#: server/plrhand.c:1357
 #, c-format
 msgid "Another player already has the name '%s'. Please choose another name."
 msgstr ""
 "Ya hay otro jugador llamado '%s' en esta partida. Por favor, elige otro "
 "nombre."
 
-#: server/plrhand.c:1373
+#: server/plrhand.c:1381
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Por favor, elige un nombre que contenga sólo caracteres ASCII."
 
-#: server/plrhand.c:1448 server/plrhand.c:1462
+#: server/plrhand.c:1456 server/plrhand.c:1470
 #, c-format
 msgid "Player no. %d"
 msgstr "Jugador nº %d"
 
-#: server/plrhand.c:1477
+#: server/plrhand.c:1485
 msgid "A poorly-named player"
 msgstr "Un jugador con mal nombre"
 
-#: server/plrhand.c:1547 server/plrhand.c:1551
+#: server/plrhand.c:1555 server/plrhand.c:1559
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Has contactado con los %s, gobernados por %s."
 
-#: server/plrhand.c:2028
+#: server/plrhand.c:2036
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "No se pudo instigar la guerra civil en %s - demasiados jugadores"
 
-#: server/plrhand.c:2034
+#: server/plrhand.c:2042
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr "No se pudo instigar la guerra civil de %s - demasiadas naciones"
 
-#: server/plrhand.c:2064
+#: server/plrhand.c:2072
 msgid "Your nation is thrust into civil war."
 msgstr "Tu nación ha entrado en guerra civil."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:2068
+#: server/plrhand.c:2076
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s se declara jefe de los territorios sublevados de los %s."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:2088
+#: server/plrhand.c:2096
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s declara una alianza con los %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:2106
+#: server/plrhand.c:2114
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -5547,8 +5547,8 @@ msgstr ""
 "La partida grabada es demasiado antigua, se requiere la versión 1.9.0 como "
 "mínimo."
 
-#: server/savegame.c:5278 server/savegame2.c:3061 server/srv_main.c:1826
-#: server/srv_main.c:1830
+#: server/savegame.c:5278 server/savegame2.c:3061 server/srv_main.c:1829
+#: server/srv_main.c:1833
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "Se ha añadido %s como el jugador %s controlado por el Ordenador."
@@ -8073,7 +8073,7 @@ msgstr ""
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr "La tregua con %s se ha acabado. Ahora estás en guerra con los %s."
 
-#: server/srv_main.c:699
+#: server/srv_main.c:702
 #, c-format
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
@@ -8082,47 +8082,47 @@ msgstr ""
 "La tregua entre %s y %s se ha acabado. Se han declarado la guerra. Así que "
 "tu cancelas la alianza con ellos dos."
 
-#: server/srv_main.c:1192 server/srv_main.c:1195
+#: server/srv_main.c:1195 server/srv_main.c:1198
 #, c-format
 msgid "Unsupported compression type %d."
 msgstr "Tipo de compresión no soportada %d."
 
-#: server/srv_main.c:1225
+#: server/srv_main.c:1228
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Error salvando la partida en el fichero %s"
 
-#: server/srv_main.c:1227
+#: server/srv_main.c:1230
 #, c-format
 msgid "Game saved as %s"
 msgstr "Partida salvada en el fichero %s"
 
-#: server/srv_main.c:1261
+#: server/srv_main.c:1264
 msgid "The game is already running."
 msgstr "La partida ya está en marcha."
 
-#: server/srv_main.c:1269
+#: server/srv_main.c:1272
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 "%s perdió el control a nivel de comandos al comienzo de la partida. Utiliza "
 "el voto a partir de ahora."
 
-#: server/srv_main.c:1276
+#: server/srv_main.c:1279
 msgid "Starting game."
 msgstr "Empezando la partida."
 
-#: server/srv_main.c:1347
+#: server/srv_main.c:1350
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "solicitud de informe desconocido (tipo %d)"
 
-#: server/srv_main.c:1427
+#: server/srv_main.c:1430
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Aviso: rechazando cliente antiguo %s"
 
-#: server/srv_main.c:1437
+#: server/srv_main.c:1440
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
@@ -8130,38 +8130,38 @@ msgstr ""
 "Tu cliente es muy antiguo. Para usar este servidor, actualiza tu cliente a "
 "la Freeciv versión 2.2 o posterior."
 
-#: server/srv_main.c:1495
+#: server/srv_main.c:1498
 msgid "You are not allowed to edit."
 msgstr "No se te permite editar."
 
-#: server/srv_main.c:1684
+#: server/srv_main.c:1687
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "La nación %s no está disponible en este escenario."
 
-#: server/srv_main.c:1690
+#: server/srv_main.c:1693
 #, c-format
 msgid "%s nation is already in use."
 msgstr "La nación %s está en uso."
 
-#: server/srv_main.c:1703
+#: server/srv_main.c:1706
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s es %s, el gobernante %s."
 
-#: server/srv_main.c:1759
+#: server/srv_main.c:1762
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr ""
 "Esperando para empezar la partida: %d de %d jugadores están preparados para "
 "empezar."
 
-#: server/srv_main.c:2071 server/srv_main.c:2075
+#: server/srv_main.c:2074 server/srv_main.c:2078
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s gobierna a los %s."
 
-#: server/srv_main.c:2211
+#: server/srv_main.c:2214
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -8169,21 +8169,21 @@ msgstr ""
 "Este programa servidor de Freeciv tiene soporte para autentificación de "
 "jugadores, pero no se está usando actualmente."
 
-#: server/srv_main.c:2274
+#: server/srv_main.c:2277
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Enviando información al metaservidor <%s>."
 
-#: server/srv_main.c:2278
+#: server/srv_main.c:2281
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 "No se reinicia sin haber solicitado expresamente una conexión al metaserver ."
 
-#: server/srv_main.c:2299
+#: server/srv_main.c:2302
 msgid "The game is over..."
 msgstr "¡La partida ha finalizado!"
 
-#: server/srv_main.c:2552
+#: server/srv_main.c:2555
 msgid "Now accepting new client connections."
 msgstr "Aceptando más conexiones de clientes."
 
@@ -9648,7 +9648,7 @@ msgstr "Hemos descubierto %s. "
 msgid "Researching %s."
 msgstr "Investigando %s."
 
-#: server/techtools.c:405
+#: server/techtools.c:407
 msgid ""
 "Great scientists from all the world join your civilization: you get an "
 "immediate advance."
@@ -9656,17 +9656,17 @@ msgstr ""
 "Grandes científicos de todo el mundo se unen a tu civilización: obtienes un "
 "descubrimiento inmediatamente."
 
-#: server/techtools.c:474
+#: server/techtools.c:482
 #, c-format
 msgid "Insufficient science output. We lost Future Tech. %d."
 msgstr "Insuficiente producción científica. Hemos perdido la Tecno. Futura %d."
 
-#: server/techtools.c:481
+#: server/techtools.c:489
 #, c-format
 msgid "Insufficient science output. We lost %s."
 msgstr "Insuficiente producción científica. Hemos perdido %s."
 
-#: server/techtools.c:579
+#: server/techtools.c:587
 #, c-format
 msgid ""
 "The required technology for our government '%s' was lost. The citizens have "
@@ -9675,7 +9675,7 @@ msgstr ""
 "La tecnología necesaria para nuestro gobierno '%s' se ha perdido. Los "
 "ciudadanos han comenzado una revolución hacia '%s'."
 
-#: server/techtools.c:602
+#: server/techtools.c:610
 #, c-format
 msgid ""
 "The required technology for our new government '%s' was lost. The citizens "
@@ -9684,32 +9684,32 @@ msgstr ""
 "La tecnología necesaria para nuestro nuevo gobierno '%s' se ha perdido. Los "
 "ciudadanos eligen '%s' como el nuevo gobierno objetivo."
 
-#: server/techtools.c:640 server/techtools.c:652
+#: server/techtools.c:648 server/techtools.c:660
 #, c-format
 msgid "%s can't build %s. The required technology was lost."
 msgstr "%s no puede construir %s. La tecnología necesaria se perdió."
 
-#: server/techtools.c:769
+#: server/techtools.c:777
 #, c-format
 msgid "Technology goal is %s."
 msgstr "La meta tecnológica es %s."
 
-#: server/techtools.c:952
+#: server/techtools.c:960
 #, c-format
 msgid "You steal %s from the %s."
 msgstr "Has robado %s a los %s."
 
-#: server/techtools.c:957
+#: server/techtools.c:965
 #, c-format
 msgid "The %s stole %s from you!"
 msgstr "¡Los %s te han robado %s!"
 
-#: server/techtools.c:962
+#: server/techtools.c:970
 #, c-format
 msgid "The %s have stolen %s from the %s."
 msgstr "Los %s han robado %s a los %s."
 
-#: server/techtools.c:1082
+#: server/techtools.c:1090
 #, c-format
 msgid "Too bad! You made a mistake transferring the tech %s and lost it."
 msgstr ""
@@ -38019,11 +38019,11 @@ msgstr ""
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
-msgstr "quebequés"
+msgstr "Quebequés"
 
 #: data/nation/quebecois.ruleset:4
 msgid "?plural:Quebecois"
-msgstr "quebequeses"
+msgstr "Quebequeses"
 
 #: data/nation/quebecois.ruleset:6
 msgid ""
@@ -38031,7 +38031,7 @@ msgid ""
 "Francophone population of America."
 msgstr ""
 "Quebec es una de las provincias más grandes de Canadá, albergando la mayoría "
-"de la población sajona de América."
+"de la población francófona de América."
 
 #. TRANS: The fourth letter in "Raramuri" should be
 #. TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in
