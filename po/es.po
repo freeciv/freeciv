@@ -15,11 +15,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-06 15:37+0800\n"
-"PO-Revision-Date: 2012-09-06 15:40+0800\n"
+"POT-Creation-Date: 2012-10-28 12:28+0100\n"
+"PO-Revision-Date: 2012-12-29 23:10+0100\n"
 "Last-Translator: Jordi Negrevernis i Font <jnegrevernis@jnfprogramari.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
-"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -40,8 +39,8 @@ msgstr "*%s (Ordenador)* Primero rompe tu alianza con %s, %s."
 #: ai/default/advdiplomacy.c:356
 #, c-format
 msgid ""
-"*%s (AI)* I would like to see you keep your distance from %s for some time, "
-"%s."
+"*%s (AI)* I would like to see you keep your distance from %s for some time, %"
+"s."
 msgstr ""
 "*%s (Ordenador)* Antes me gustaría que mantuvieses la distancia de %s por un "
 "poco más de tiempo, %s."
@@ -312,8 +311,8 @@ msgstr ""
 #: ai/default/advdiplomacy.c:1625
 #, c-format
 msgid ""
-"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
-"%s. Why do I need to remind you of your promises?"
+"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
+"s. Why do I need to remind you of your promises?"
 msgstr ""
 "*%s (Ordenador)* Saludos, aliado.  Veo que aún no has emprendido la guerra "
 "contra nuestro enemigo, %s.  ¿Por qué tengo que recordarte tus promesas?"
@@ -363,12 +362,12 @@ msgstr ""
 "necesitamos tu ayuda! ¡Honra nuestra gloriosa alianza y tu nombre nunca será "
 "olvidado!"
 
-#: ai/default/aicity.c:308 server/citytools.c:2406
+#: ai/default/aicity.c:308 server/citytools.c:2407
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "Los %s han dejado de construir %s en %s."
 
-#: ai/default/aicity.c:319 server/citytools.c:2444
+#: ai/default/aicity.c:319 server/citytools.c:2445
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "Los %s han empezado a construir %s en %s."
@@ -406,7 +405,7 @@ msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:431 client/gui-sdl/mapview.c:159
-#: server/console.c:71 server/srv_main.c:2526 utility/log.c:516
+#: server/console.c:71 server/srv_main.c:2539 utility/log.c:516
 #: utility/netintf.c:93 utility/registry.c:893
 #, c-format
 msgid "Please report this message at %s"
@@ -3794,7 +3793,7 @@ msgstr "?techhelp:"
 #: client/gui-gtk-2.0/inteldlg.c:410 client/gui-gtk-3.0/helpdlg.c:1109
 #: client/gui-gtk-3.0/helpdlg.c:1203 client/gui-gtk-3.0/inteldlg.c:410
 #: client/gui-xaw/helpdlg.c:1007 client/gui-xaw/helpdlg.c:1092
-#: common/requirements.c:1325 common/requirements.c:1379
+#: common/requirements.c:1322 common/requirements.c:1376
 #, c-format
 msgid "(none)"
 msgstr "(ninguno)"
@@ -10286,11 +10285,11 @@ msgstr "Comienzo del turno %d"
 msgid "Welcome"
 msgstr "Bienvenido"
 
-#: client/packhand.c:1978
+#: client/packhand.c:1981
 msgid "AI mode is now ON."
 msgstr "El control por ordenador ahora está ACTIVADO."
 
-#: client/packhand.c:1980
+#: client/packhand.c:1983
 msgid "AI mode is now OFF."
 msgstr "El control por ordenador ahora está DESACTIVADO."
 
@@ -12171,75 +12170,75 @@ msgid "?diplomatic_state:Team"
 msgstr "Grupo"
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:523 common/requirements.c:538
+#: common/requirements.c:520 common/requirements.c:535
 msgid "World-ranged requirements are only supported for wonders."
 msgstr ""
 "Los requisitos a nivel de Mundo sólo están soportados por las maravillas."
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:563 common/requirements.c:579
+#: common/requirements.c:560 common/requirements.c:576
 msgid "Player-ranged requirements are only supported for wonders."
 msgstr ""
 "Los requisitos a nivel de jugador sólo están soportados por las maravillas."
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:601
+#: common/requirements.c:598
 msgid "Island-ranged requirements are only supported for wonders."
 msgstr ""
 "Los requisitos a nivel de isla sólo están soportados por las maravillas."
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:653
+#: common/requirements.c:650
 msgid "Surviving requirements are only supported at world and player ranges."
 msgstr ""
 "Los requisitos de supervivencia sólo están soportados a nivel de Mundo y "
 "Jugador."
 
-#: common/requirements.c:1351 common/requirements.c:1428
+#: common/requirements.c:1348 common/requirements.c:1425
 #, c-format
 msgid "Size %d"
 msgstr "Tamaño %d"
 
-#: common/requirements.c:1406 common/requirements.c:1415
+#: common/requirements.c:1403 common/requirements.c:1412
 #, c-format
 msgid "\"%s\" units"
 msgstr "\"%s\" unidades"
 
-#: common/requirements.c:1411
+#: common/requirements.c:1408
 #, c-format
 msgid "%s units"
 msgstr "unidades %s"
 
 #. TRANS: "Hard AI"
-#: common/requirements.c:1433
+#: common/requirements.c:1430
 #, c-format
 msgid "%s AI"
 msgstr "Ordenador %s"
 
 #. TRANS: "Land terrain"
-#: common/requirements.c:1438
+#: common/requirements.c:1435
 #, c-format
 msgid "%s terrain"
 msgstr "terreno %s"
 
 #. TRANS: "Fortress base"
-#: common/requirements.c:1443
+#: common/requirements.c:1440
 #, c-format
 msgid "%s base"
 msgstr "base %s"
 
-#: common/requirements.c:1447
+#: common/requirements.c:1444
 #, c-format
 msgid "After %s"
 msgstr "Despues de %s"
 
 #. TRANS: "Irrigation possible"
-#: common/requirements.c:1452
+#: common/requirements.c:1449
 #, c-format
 msgid "%s possible"
 msgstr "%s posible"
 
-#: common/requirements.c:1456
+#: common/requirements.c:1453
 msgid "City center tile"
 msgstr "Casilla central de la ciudad"
 
@@ -13646,7 +13645,7 @@ msgid "Republic"
 msgstr "República"
 
 #: data/civ1/governments.ruleset:152 data/civ2/governments.ruleset:178
-#: data/nation/bosporan.ruleset:35 data/nation/byzantium.ruleset:30
+#: data/nation/bosporan.ruleset:35 data/nation/byzantium.ruleset:31
 #: data/nation/etruscan.ruleset:33 data/nation/gallic.ruleset:31
 #: data/nation/holysee.ruleset:33 data/nation/latin.ruleset:45
 #: data/nation/ostrogothic.ruleset:32 data/nation/palmyrene.ruleset:21
@@ -13658,7 +13657,7 @@ msgid "Consul %s"
 msgstr "Cónsul %s"
 
 #: data/civ1/governments.ruleset:153 data/civ2/governments.ruleset:179
-#: data/nation/bosporan.ruleset:35 data/nation/byzantium.ruleset:30
+#: data/nation/bosporan.ruleset:35 data/nation/byzantium.ruleset:31
 #: data/nation/etruscan.ruleset:33 data/nation/gallic.ruleset:31
 #: data/nation/holysee.ruleset:33 data/nation/latin.ruleset:45
 #: data/nation/ostrogothic.ruleset:32 data/nation/palmyrene.ruleset:21
@@ -13896,7 +13895,7 @@ msgstr ""
 #: data/civ1/nations.ruleset:318 data/civ2/nations.ruleset:440
 #: data/civ2/nations.ruleset:1277 data/nation/abyssinian.ruleset:24
 #: data/nation/antarctican.ruleset:16 data/nation/aztec.ruleset:32
-#: data/nation/brazilian.ruleset:29 data/nation/byzantium.ruleset:29
+#: data/nation/brazilian.ruleset:29 data/nation/byzantium.ruleset:30
 #: data/nation/californian.ruleset:36 data/nation/centralafrican.ruleset:22
 #: data/nation/chinese.ruleset:28 data/nation/ethiopian.ruleset:26
 #: data/nation/haitian.ruleset:27 data/nation/han.ruleset:26
@@ -13931,8 +13930,6 @@ msgid "Chairman %s"
 msgstr "Director %s"
 
 #: data/civ1/nations.ruleset:319 data/civ2/nations.ruleset:441
-#: data/nation/chinese.ruleset:29 data/nation/han.ruleset:28
-#: data/nation/kyrgyz.ruleset:24 data/nation/taiwanese.ruleset:25
 #, c-format
 msgid "Chairperson %s"
 msgstr "Presidente %s"
@@ -14105,28 +14102,30 @@ msgstr ""
 
 #: data/civ1/nations.ruleset:760 data/civ2/nations.ruleset:888
 #: data/nation/austrian.ruleset:49 data/nation/burgundian.ruleset:28
-#: data/nation/cantonese.ruleset:29 data/nation/crusader.ruleset:34
-#: data/nation/egyptian.ruleset:27 data/nation/frankish.ruleset:40
-#: data/nation/german.ruleset:32 data/nation/han.ruleset:27
-#: data/nation/holyroman.ruleset:33 data/nation/holysee.ruleset:30
-#: data/nation/latin.ruleset:41 data/nation/lorrain.ruleset:29
-#: data/nation/norman.ruleset:23 data/nation/occitan.ruleset:27
-#: data/nation/pontic.ruleset:34 data/nation/prussian.ruleset:28
-#: data/nation/templar.ruleset:42 data/nation/teutonic.ruleset:32
+#: data/nation/byzantium.ruleset:27 data/nation/cantonese.ruleset:29
+#: data/nation/crusader.ruleset:34 data/nation/egyptian.ruleset:27
+#: data/nation/frankish.ruleset:40 data/nation/german.ruleset:32
+#: data/nation/han.ruleset:27 data/nation/holyroman.ruleset:33
+#: data/nation/holysee.ruleset:30 data/nation/latin.ruleset:41
+#: data/nation/lorrain.ruleset:29 data/nation/norman.ruleset:23
+#: data/nation/occitan.ruleset:27 data/nation/pontic.ruleset:34
+#: data/nation/prussian.ruleset:28 data/nation/templar.ruleset:42
+#: data/nation/teutonic.ruleset:32
 #, c-format
 msgid "Chancellor %s"
 msgstr "Canciller %s"
 
 #: data/civ1/nations.ruleset:760 data/civ2/nations.ruleset:888
 #: data/nation/austrian.ruleset:49 data/nation/burgundian.ruleset:28
-#: data/nation/cantonese.ruleset:29 data/nation/crusader.ruleset:34
-#: data/nation/egyptian.ruleset:27 data/nation/frankish.ruleset:40
-#: data/nation/german.ruleset:32 data/nation/han.ruleset:27
-#: data/nation/holyroman.ruleset:33 data/nation/holysee.ruleset:30
-#: data/nation/latin.ruleset:41 data/nation/lorrain.ruleset:29
-#: data/nation/norman.ruleset:23 data/nation/occitan.ruleset:27
-#: data/nation/pontic.ruleset:34 data/nation/prussian.ruleset:28
-#: data/nation/templar.ruleset:42 data/nation/teutonic.ruleset:32
+#: data/nation/byzantium.ruleset:27 data/nation/cantonese.ruleset:29
+#: data/nation/crusader.ruleset:34 data/nation/egyptian.ruleset:27
+#: data/nation/frankish.ruleset:40 data/nation/german.ruleset:32
+#: data/nation/han.ruleset:27 data/nation/holyroman.ruleset:33
+#: data/nation/holysee.ruleset:30 data/nation/latin.ruleset:41
+#: data/nation/lorrain.ruleset:29 data/nation/norman.ruleset:23
+#: data/nation/occitan.ruleset:27 data/nation/pontic.ruleset:34
+#: data/nation/prussian.ruleset:28 data/nation/templar.ruleset:42
+#: data/nation/teutonic.ruleset:32
 #, c-format
 msgid "?female:Chancellor %s"
 msgstr "Cancillera %s"
@@ -14178,7 +14177,7 @@ msgid "The ancient Greeks, between Mycenae and the Roman conquest."
 msgstr "Los antiguos griegos, desde Micenas hasta la conquista romana."
 
 #: data/civ1/nations.ruleset:906 data/civ2/nations.ruleset:1036
-#: data/nation/bosporan.ruleset:34 data/nation/byzantium.ruleset:27
+#: data/nation/bosporan.ruleset:34 data/nation/byzantium.ruleset:28
 #: data/nation/cretan.ruleset:27 data/nation/cypriot.ruleset:23
 #: data/nation/greek.ruleset:23 data/nation/macedon.ruleset:24
 #: data/nation/pelasgian.ruleset:25 data/nation/pontic.ruleset:35
@@ -14187,7 +14186,7 @@ msgid "Despot %s"
 msgstr "Déspota %s"
 
 #: data/civ1/nations.ruleset:906 data/civ2/nations.ruleset:1036
-#: data/nation/bosporan.ruleset:34 data/nation/byzantium.ruleset:27
+#: data/nation/bosporan.ruleset:34 data/nation/byzantium.ruleset:28
 #: data/nation/cretan.ruleset:27 data/nation/cypriot.ruleset:23
 #: data/nation/greek.ruleset:23 data/nation/macedon.ruleset:24
 #: data/nation/pelasgian.ruleset:25 data/nation/pontic.ruleset:35
@@ -14412,16 +14411,17 @@ msgstr "Emperatriz %s"
 #: data/nation/epirote.ruleset:28 data/nation/etruscan.ruleset:31
 #: data/nation/frankish.ruleset:39 data/nation/greek.ruleset:22
 #: data/nation/hittite.ruleset:26 data/nation/hunnic.ruleset:38
-#: data/nation/latin.ruleset:39 data/nation/median.ruleset:29
-#: data/nation/mitanni.ruleset:30 data/nation/nubian.ruleset:32
-#: data/nation/ostrogothic.ruleset:30 data/nation/palatinate.ruleset:28
-#: data/nation/palmyrene.ruleset:19 data/nation/parthian.ruleset:33
-#: data/nation/pelasgian.ruleset:24 data/nation/phoenician.ruleset:27
-#: data/nation/pictish.ruleset:24 data/nation/pontic.ruleset:33
-#: data/nation/roman.ruleset:48 data/nation/sabine.ruleset:26
-#: data/nation/samnite.ruleset:26 data/nation/seleucid.ruleset:28
-#: data/nation/sumerian.ruleset:27 data/nation/vandalic.ruleset:29
-#: data/nation/visigothic.ruleset:37 data/nation/westernroman.ruleset:29
+#: data/nation/israelite.ruleset:31 data/nation/latin.ruleset:39
+#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
+#: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
+#: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
+#: data/nation/phoenician.ruleset:27 data/nation/pictish.ruleset:24
+#: data/nation/pontic.ruleset:33 data/nation/roman.ruleset:48
+#: data/nation/sabine.ruleset:26 data/nation/samnite.ruleset:26
+#: data/nation/seleucid.ruleset:28 data/nation/sumerian.ruleset:27
+#: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:37
+#: data/nation/westernroman.ruleset:29
 #, c-format
 msgid "Usurper %s"
 msgstr "Usurpador %s"
@@ -14435,16 +14435,17 @@ msgstr "Usurpador %s"
 #: data/nation/epirote.ruleset:28 data/nation/etruscan.ruleset:31
 #: data/nation/frankish.ruleset:39 data/nation/greek.ruleset:22
 #: data/nation/hittite.ruleset:26 data/nation/hunnic.ruleset:38
-#: data/nation/latin.ruleset:39 data/nation/median.ruleset:29
-#: data/nation/mitanni.ruleset:30 data/nation/nubian.ruleset:32
-#: data/nation/ostrogothic.ruleset:30 data/nation/palatinate.ruleset:28
-#: data/nation/palmyrene.ruleset:19 data/nation/parthian.ruleset:33
-#: data/nation/pelasgian.ruleset:24 data/nation/phoenician.ruleset:27
-#: data/nation/pictish.ruleset:24 data/nation/pontic.ruleset:33
-#: data/nation/roman.ruleset:48 data/nation/sabine.ruleset:26
-#: data/nation/samnite.ruleset:26 data/nation/seleucid.ruleset:28
-#: data/nation/sumerian.ruleset:27 data/nation/vandalic.ruleset:29
-#: data/nation/visigothic.ruleset:37 data/nation/westernroman.ruleset:29
+#: data/nation/israelite.ruleset:31 data/nation/latin.ruleset:39
+#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
+#: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
+#: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
+#: data/nation/phoenician.ruleset:27 data/nation/pictish.ruleset:24
+#: data/nation/pontic.ruleset:33 data/nation/roman.ruleset:48
+#: data/nation/sabine.ruleset:26 data/nation/samnite.ruleset:26
+#: data/nation/seleucid.ruleset:28 data/nation/sumerian.ruleset:27
+#: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:37
+#: data/nation/westernroman.ruleset:29
 #, c-format
 msgid "?female:Usurper %s"
 msgstr "Usurpadora %s"
@@ -14490,10 +14491,10 @@ msgstr ""
 #: data/nation/hanoverian.ruleset:22 data/nation/lorrain.ruleset:30
 #: data/nation/moravian.ruleset:33 data/nation/muscovite.ruleset:23
 #: data/nation/norman.ruleset:24 data/nation/prussian.ruleset:27
-#: data/nation/sammarinese.ruleset:26 data/nation/samogitian.ruleset:21
-#: data/nation/savoyard.ruleset:31 data/nation/saxon.ruleset:21
-#: data/nation/schleswig-holsteinian.ruleset:26 data/nation/serbian.ruleset:34
-#: data/nation/westphalian.ruleset:31 data/nation/wuerttembergian.ruleset:23
+#: data/nation/samogitian.ruleset:21 data/nation/savoyard.ruleset:31
+#: data/nation/saxon.ruleset:21 data/nation/schleswig-holsteinian.ruleset:26
+#: data/nation/serbian.ruleset:34 data/nation/westphalian.ruleset:31
+#: data/nation/wuerttembergian.ruleset:23
 #, c-format
 msgid "Duke %s"
 msgstr "Duque %s"
@@ -14505,10 +14506,10 @@ msgstr "Duque %s"
 #: data/nation/hanoverian.ruleset:22 data/nation/lorrain.ruleset:30
 #: data/nation/moravian.ruleset:33 data/nation/muscovite.ruleset:23
 #: data/nation/norman.ruleset:24 data/nation/prussian.ruleset:27
-#: data/nation/sammarinese.ruleset:26 data/nation/samogitian.ruleset:21
-#: data/nation/savoyard.ruleset:31 data/nation/saxon.ruleset:21
-#: data/nation/schleswig-holsteinian.ruleset:26 data/nation/serbian.ruleset:34
-#: data/nation/westphalian.ruleset:31 data/nation/wuerttembergian.ruleset:23
+#: data/nation/samogitian.ruleset:21 data/nation/savoyard.ruleset:31
+#: data/nation/saxon.ruleset:21 data/nation/schleswig-holsteinian.ruleset:26
+#: data/nation/serbian.ruleset:34 data/nation/westphalian.ruleset:31
+#: data/nation/wuerttembergian.ruleset:23
 #, c-format
 msgid "Duchess %s"
 msgstr "Duquesa %s"
@@ -16678,8 +16679,9 @@ msgstr ""
 #: data/nation/boer.ruleset:29 data/nation/confederate.ruleset:36
 #: data/nation/dutch.ruleset:39 data/nation/guatemalan.ruleset:33
 #: data/nation/guyanese.ruleset:26 data/nation/liberian.ruleset:31
-#: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:29 data/nation/vermont.ruleset:27
+#: data/nation/miskito.ruleset:34 data/nation/moluccan.ruleset:31
+#: data/nation/surinamese.ruleset:29 data/nation/texan.ruleset:29
+#: data/nation/vermont.ruleset:27
 #, c-format
 msgid "Reverend %s"
 msgstr "Reverendo %s"
@@ -16688,8 +16690,9 @@ msgstr "Reverendo %s"
 #: data/nation/boer.ruleset:29 data/nation/confederate.ruleset:36
 #: data/nation/dutch.ruleset:39 data/nation/guatemalan.ruleset:33
 #: data/nation/guyanese.ruleset:26 data/nation/liberian.ruleset:31
-#: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:29 data/nation/vermont.ruleset:27
+#: data/nation/miskito.ruleset:34 data/nation/moluccan.ruleset:31
+#: data/nation/surinamese.ruleset:29 data/nation/texan.ruleset:29
+#: data/nation/vermont.ruleset:27
 #, c-format
 msgid "?female:Reverend %s"
 msgstr "Reverenda %s"
@@ -16852,7 +16855,7 @@ msgstr ""
 
 #: data/civ2/nations.ruleset:1277 data/nation/abyssinian.ruleset:24
 #: data/nation/antarctican.ruleset:16 data/nation/aztec.ruleset:32
-#: data/nation/brazilian.ruleset:29 data/nation/byzantium.ruleset:29
+#: data/nation/brazilian.ruleset:29 data/nation/byzantium.ruleset:30
 #: data/nation/californian.ruleset:36 data/nation/centralafrican.ruleset:22
 #: data/nation/ethiopian.ruleset:26 data/nation/haitian.ruleset:27
 #: data/nation/holyroman.ruleset:35 data/nation/japanese.ruleset:22
@@ -16917,7 +16920,7 @@ msgstr "Ayatolá %s"
 
 #: data/civ2/nations.ruleset:1579 data/nation/abyssinian.ruleset:23
 #: data/nation/armenian.ruleset:25 data/nation/belarusian.ruleset:34
-#: data/nation/bulgarian.ruleset:31 data/nation/byzantium.ruleset:28
+#: data/nation/bulgarian.ruleset:31 data/nation/byzantium.ruleset:29
 #: data/nation/chuvash.ruleset:29 data/nation/cossack.ruleset:32
 #: data/nation/cretan.ruleset:28 data/nation/crusader.ruleset:36
 #: data/nation/ethiopian.ruleset:25 data/nation/friulian.ruleset:29
@@ -16935,7 +16938,7 @@ msgstr "Patriarca %s"
 
 #: data/civ2/nations.ruleset:1579 data/nation/abyssinian.ruleset:23
 #: data/nation/armenian.ruleset:25 data/nation/belarusian.ruleset:34
-#: data/nation/bulgarian.ruleset:31 data/nation/byzantium.ruleset:28
+#: data/nation/bulgarian.ruleset:31 data/nation/byzantium.ruleset:29
 #: data/nation/chuvash.ruleset:29 data/nation/cossack.ruleset:32
 #: data/nation/cretan.ruleset:28 data/nation/crusader.ruleset:36
 #: data/nation/cypriot.ruleset:24 data/nation/ethiopian.ruleset:25
@@ -17014,7 +17017,7 @@ msgstr "Caudilla %s"
 msgid "Cardinal %s"
 msgstr "Cardenal %s"
 
-#: data/civ2/nations.ruleset:1754 data/nation/argentine.ruleset:30
+#: data/civ2/nations.ruleset:1754
 #, c-format
 msgid "?female:Cardinal %s"
 msgstr "Cardenal %s"
@@ -18494,7 +18497,7 @@ msgid ""
 "Diplomats built under a Communist government will start at the first veteran "
 "level (secretary)."
 msgstr ""
-"Los diplomáticos construidos bajo un gobierno comunista se iniciará en el "
+"Los diplomáticos construidos bajo un gobierno comunista se iniciarán en el "
 "primer nivel de veteranía (secretario)."
 
 #. TRANS: Spy veteran level
@@ -18527,7 +18530,7 @@ msgid ""
 "Spies built under a Communist government will start at the first veteran "
 "level (handler)."
 msgstr ""
-"Los espías construidos bajo un gobierno comunista se iniciará en el primer "
+"Los espías construidos bajo un gobierno comunista se iniciarán en el primer "
 "nivel de veteranía (asistente)."
 
 #: data/default/units.ruleset:2090 data/experimental/units.ruleset:2127
@@ -23759,12 +23762,13 @@ msgid "Abbot %s"
 msgstr "Abad %s"
 
 #: data/nation/acadian.ruleset:32 data/nation/aragonese.ruleset:30
-#: data/nation/asturian.ruleset:30 data/nation/austrian.ruleset:50
-#: data/nation/badian.ruleset:24 data/nation/bavarian.ruleset:24
-#: data/nation/belgian.ruleset:25 data/nation/bolivian.ruleset:41
-#: data/nation/brandenburgian.ruleset:28 data/nation/burgundian.ruleset:30
-#: data/nation/canadian.ruleset:26 data/nation/castilian.ruleset:32
-#: data/nation/catalan.ruleset:32 data/nation/centralamerican.ruleset:28
+#: data/nation/argentine.ruleset:30 data/nation/asturian.ruleset:30
+#: data/nation/austrian.ruleset:50 data/nation/badian.ruleset:24
+#: data/nation/bavarian.ruleset:24 data/nation/belgian.ruleset:25
+#: data/nation/bolivian.ruleset:41 data/nation/brandenburgian.ruleset:28
+#: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:26
+#: data/nation/castilian.ruleset:32 data/nation/catalan.ruleset:32
+#: data/nation/centralamerican.ruleset:28
 #: data/nation/centrallithuanian.ruleset:47 data/nation/chiapanec.ruleset:34
 #: data/nation/chilean.ruleset:31 data/nation/colombian.ruleset:29
 #: data/nation/congolesebrazzaville.ruleset:28
@@ -23826,8 +23830,8 @@ msgstr ""
 #: data/nation/seljuk.ruleset:39 data/nation/singaporean.ruleset:32
 #: data/nation/somaliland.ruleset:23 data/nation/somali.ruleset:34
 #: data/nation/southyemeni.ruleset:23 data/nation/sudanese.ruleset:20
-#: data/nation/swahili.ruleset:35 data/nation/turk.ruleset:30
-#: data/nation/zanzibari.ruleset:28
+#: data/nation/swahili.ruleset:35 data/nation/turkmen.ruleset:26
+#: data/nation/turk.ruleset:30 data/nation/zanzibari.ruleset:28
 #, c-format
 msgid "Sultan %s"
 msgstr "Sultán %s"
@@ -23840,8 +23844,8 @@ msgstr "Sultán %s"
 #: data/nation/seljuk.ruleset:39 data/nation/singaporean.ruleset:32
 #: data/nation/somaliland.ruleset:23 data/nation/somali.ruleset:34
 #: data/nation/southyemeni.ruleset:23 data/nation/sudanese.ruleset:20
-#: data/nation/swahili.ruleset:35 data/nation/turk.ruleset:30
-#: data/nation/zanzibari.ruleset:28
+#: data/nation/swahili.ruleset:35 data/nation/turkmen.ruleset:26
+#: data/nation/turk.ruleset:30 data/nation/zanzibari.ruleset:28
 #, c-format
 msgid "Sultana %s"
 msgstr "Sultana %s"
@@ -23849,9 +23853,10 @@ msgstr "Sultana %s"
 #: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
 #: data/nation/filipino.ruleset:23 data/nation/greenlander.ruleset:27
-#: data/nation/kuna.ruleset:23 data/nation/puertorican.ruleset:30
-#: data/nation/quebecois.ruleset:22 data/nation/siberian.ruleset:24
-#: data/nation/vermont.ruleset:26 data/nation/westindian.ruleset:25
+#: data/nation/kuna.ruleset:23 data/nation/miskito.ruleset:35
+#: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
+#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
+#: data/nation/westindian.ruleset:25
 #, c-format
 msgid "Governor %s"
 msgstr "Gobernador %s"
@@ -23859,9 +23864,9 @@ msgstr "Gobernador %s"
 #: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
 #: data/nation/greenlander.ruleset:27 data/nation/kuna.ruleset:23
-#: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
-#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
-#: data/nation/westindian.ruleset:25
+#: data/nation/miskito.ruleset:35 data/nation/puertorican.ruleset:30
+#: data/nation/quebecois.ruleset:22 data/nation/siberian.ruleset:24
+#: data/nation/vermont.ruleset:26 data/nation/westindian.ruleset:25
 #, c-format
 msgid "?female:Governor %s"
 msgstr "Gobernadora %s"
@@ -24105,9 +24110,9 @@ msgstr "Sheikh %s"
 #: data/nation/emirati.ruleset:24 data/nation/himyarite.ruleset:31
 #: data/nation/jordanian.ruleset:27 data/nation/kurd.ruleset:28
 #: data/nation/kuwaiti.ruleset:27 data/nation/moroccan.ruleset:28
-#: data/nation/omani.ruleset:30 data/nation/qatari.ruleset:20
-#: data/nation/somaliland.ruleset:25 data/nation/somali.ruleset:36
-#: data/nation/tuareg.ruleset:37
+#: data/nation/omani.ruleset:30 data/nation/palestinian.ruleset:22
+#: data/nation/qatari.ruleset:20 data/nation/somaliland.ruleset:25
+#: data/nation/somali.ruleset:36 data/nation/tuareg.ruleset:37
 #, c-format
 msgid "Shaykha %s"
 msgstr "Shaykhah %s"
@@ -24121,7 +24126,7 @@ msgstr "Shaykhah %s"
 #: data/nation/sahrawi.ruleset:21 data/nation/saudi.ruleset:26
 #: data/nation/seljuk.ruleset:40 data/nation/songhai.ruleset:25
 #: data/nation/syrian.ruleset:21 data/nation/timurid.ruleset:27
-#: data/nation/tuareg.ruleset:39 data/nation/tunisian.ruleset:30
+#: data/nation/tuareg.ruleset:39 data/nation/tunisian.ruleset:29
 #: data/nation/turk.ruleset:31
 #, c-format
 msgid "Caliph %s"
@@ -24136,7 +24141,7 @@ msgstr "Califa %s"
 #: data/nation/sahrawi.ruleset:21 data/nation/saudi.ruleset:26
 #: data/nation/seljuk.ruleset:40 data/nation/songhai.ruleset:25
 #: data/nation/syrian.ruleset:21 data/nation/timurid.ruleset:27
-#: data/nation/tuareg.ruleset:39 data/nation/tunisian.ruleset:30
+#: data/nation/tuareg.ruleset:39 data/nation/tunisian.ruleset:29
 #: data/nation/turk.ruleset:31
 #, c-format
 msgid "Calipha %s"
@@ -24154,9 +24159,10 @@ msgstr "Vizier %s"
 
 #: data/nation/alandalus.ruleset:34 data/nation/arab.ruleset:23
 #: data/nation/bahraini.ruleset:28 data/nation/emirati.ruleset:27
-#: data/nation/kuwaiti.ruleset:30 data/nation/moroccan.ruleset:30
-#: data/nation/omani.ruleset:31 data/nation/ottoman.ruleset:30
-#: data/nation/qatari.ruleset:23 data/nation/saudi.ruleset:27
+#: data/nation/fulani.ruleset:35 data/nation/kuwaiti.ruleset:30
+#: data/nation/moroccan.ruleset:30 data/nation/omani.ruleset:31
+#: data/nation/ottoman.ruleset:30 data/nation/qatari.ruleset:23
+#: data/nation/saudi.ruleset:27
 #, c-format
 msgid "?female:Vizier %s"
 msgstr "Vizier %s"
@@ -24353,13 +24359,11 @@ msgid "Secretary General %s"
 msgstr "Secretario General %s"
 
 #: data/nation/algerian.ruleset:22 data/nation/libyan.ruleset:23
-#: data/nation/tunisian.ruleset:29
 #, c-format
 msgid "%s Dey"
 msgstr "%s Dey"
 
 #: data/nation/algerian.ruleset:22 data/nation/libyan.ruleset:23
-#: data/nation/tunisian.ruleset:29
 #, c-format
 msgid "?female:%s Dey"
 msgstr "%s Dey"
@@ -24594,9 +24598,9 @@ msgstr ""
 "Francesa - llevan el título (en gran medida honorífico) de co-príncipes de "
 "Andorra."
 
-#: data/nation/andorran.ruleset:23
+#: data/nation/andorran.ruleset:23 data/nation/ugandan.ruleset:32
 #, c-format
-msgid "Dictatress %s"
+msgid "?female:Dictator %s"
 msgstr "Dictadora %s"
 
 #: data/nation/andorran.ruleset:24
@@ -24909,10 +24913,10 @@ msgstr ""
 #: data/nation/argentine.ruleset:28 data/nation/bolivian.ruleset:39
 #: data/nation/chiapanec.ruleset:33 data/nation/colombian.ruleset:27
 #: data/nation/cuban.ruleset:22 data/nation/guatemalan.ruleset:32
-#: data/nation/mexican.ruleset:50 data/nation/nicaraguan.ruleset:31
-#: data/nation/paraguayan.ruleset:36 data/nation/peruvian.ruleset:24
-#: data/nation/salvadoran.ruleset:40 data/nation/southamerican.ruleset:19
-#: data/nation/uruguayan.ruleset:21
+#: data/nation/mexican.ruleset:50 data/nation/miskito.ruleset:32
+#: data/nation/nicaraguan.ruleset:31 data/nation/paraguayan.ruleset:36
+#: data/nation/peruvian.ruleset:24 data/nation/salvadoran.ruleset:40
+#: data/nation/southamerican.ruleset:19 data/nation/uruguayan.ruleset:21
 #, c-format
 msgid "Comandante %s"
 msgstr "Comandante %s"
@@ -24920,10 +24924,10 @@ msgstr "Comandante %s"
 #: data/nation/argentine.ruleset:28 data/nation/bolivian.ruleset:39
 #: data/nation/chiapanec.ruleset:33 data/nation/colombian.ruleset:27
 #: data/nation/cuban.ruleset:22 data/nation/guatemalan.ruleset:32
-#: data/nation/mexican.ruleset:50 data/nation/nicaraguan.ruleset:31
-#: data/nation/paraguayan.ruleset:36 data/nation/peruvian.ruleset:24
-#: data/nation/salvadoran.ruleset:40 data/nation/southamerican.ruleset:19
-#: data/nation/uruguayan.ruleset:21
+#: data/nation/mexican.ruleset:50 data/nation/miskito.ruleset:32
+#: data/nation/nicaraguan.ruleset:31 data/nation/paraguayan.ruleset:36
+#: data/nation/peruvian.ruleset:24 data/nation/salvadoran.ruleset:40
+#: data/nation/southamerican.ruleset:19 data/nation/uruguayan.ruleset:21
 #, c-format
 msgid "Comandanta %s"
 msgstr "Comandanta %s"
@@ -25545,7 +25549,7 @@ msgstr "Estatúder %s"
 #: data/nation/belgian.ruleset:26 data/nation/burgundian.ruleset:31
 #: data/nation/dutch.ruleset:40 data/nation/flemish.ruleset:32
 #: data/nation/frisian.ruleset:37 data/nation/luxembourgish.ruleset:31
-#: data/nation/walloon.ruleset:28
+#: data/nation/tyrolian.ruleset:25 data/nation/walloon.ruleset:28
 #, c-format
 msgid "Stadtholdress %s"
 msgstr "Estatúder %s"
@@ -26019,14 +26023,15 @@ msgstr ""
 "exilio de la familia real portuguesa. El imperio duró hasta el "
 "establecimiento de un gobierno republicano en 1889."
 
-#: data/nation/brazilian.ruleset:30 data/nation/comorian.ruleset:24
-#: data/nation/congolesebrazzaville.ruleset:27
+#: data/nation/brazilian.ruleset:30 data/nation/chinese.ruleset:29
+#: data/nation/comorian.ruleset:24 data/nation/congolesebrazzaville.ruleset:27
 #: data/nation/egyptianarab.ruleset:25 data/nation/finnish.ruleset:26
-#: data/nation/guyanese.ruleset:25 data/nation/iraqi.ruleset:21
+#: data/nation/guyanese.ruleset:25 data/nation/han.ruleset:28
+#: data/nation/iraqi.ruleset:21 data/nation/kyrgyz.ruleset:24
 #: data/nation/nepali.ruleset:28 data/nation/nimiipuu.ruleset:68
 #: data/nation/palestinian.ruleset:23 data/nation/sammarinese.ruleset:23
-#: data/nation/southvietnamese.ruleset:22 data/nation/tuvan.ruleset:30
-#: data/nation/walloon.ruleset:25
+#: data/nation/southvietnamese.ruleset:22 data/nation/taiwanese.ruleset:25
+#: data/nation/tuvan.ruleset:30 data/nation/walloon.ruleset:25
 #, c-format
 msgid "Chairwoman %s"
 msgstr "Directora %s"
@@ -26559,6 +26564,18 @@ msgstr ""
 "Los cartagineses, descendientes de los comerciantes fenicios, poseyeron un "
 "imperio naval en el Mediterráneo entre los siglos V y II AEC.  Roma destruyó "
 "Cartago en el 146 AEC."
+
+#: data/nation/carthaginian.ruleset:24 data/nation/israelite.ruleset:32
+#: data/nation/miskito.ruleset:33 data/nation/sardinian.ruleset:32
+#, c-format
+msgid "Judge %s"
+msgstr "Juez %s"
+
+#: data/nation/carthaginian.ruleset:24 data/nation/israelite.ruleset:32
+#: data/nation/miskito.ruleset:33 data/nation/sardinian.ruleset:32
+#, c-format
+msgid "?female:Judge %s"
+msgstr "Jueza %s"
 
 #: data/nation/castilian.ruleset:3
 msgid "Castilian"
@@ -27170,8 +27187,8 @@ msgid ""
 "coastline between Malibu and Paso Robles inland towards the San Joaquin "
 "valley, the Chumash lived in large permanent villages and maintained a semi-"
 "monetized economy. These villages came to be ruled by hereditary chiefs, who "
-"could be male or female. At time of contact, the population was likely "
-"8-18,000 people, though perhaps as high as 22,000. The Spanish established "
+"could be male or female. At time of contact, the population was likely 8-"
+"18,000 people, though perhaps as high as 22,000. The Spanish established "
 "five missions in Chumash land. As a result of disease and other byproducts "
 "of colonial rule, the population fell to less than 3,000 in 1831."
 msgstr ""
@@ -27241,14 +27258,14 @@ msgstr ""
 
 #: data/nation/circassian.ruleset:34 data/nation/ghaznavid.ruleset:31
 #: data/nation/lipkatatar.ruleset:28 data/nation/seljuk.ruleset:38
-#: data/nation/tunisian.ruleset:28 data/nation/turkmen.ruleset:26
+#: data/nation/tunisian.ruleset:28
 #, c-format
 msgid "%s Bey"
 msgstr "%s Bey"
 
 #: data/nation/circassian.ruleset:34 data/nation/ghaznavid.ruleset:31
 #: data/nation/lipkatatar.ruleset:28 data/nation/seljuk.ruleset:38
-#: data/nation/tunisian.ruleset:28 data/nation/turkmen.ruleset:26
+#: data/nation/tunisian.ruleset:28
 #, c-format
 msgid "?female:%s Bey"
 msgstr "%s Bey"
@@ -28706,11 +28723,6 @@ msgstr ""
 "1809. Fue uno de los imperios más poderosos en el África subsahariana antes "
 "de la conquista y colonización europea. El califato permaneció durante el "
 "período colonial y incluso posteriormente, aunque con menor poder."
-
-#: data/nation/fulani.ruleset:35
-#, c-format
-msgid "?female:Calipha %s"
-msgstr "Califa %s"
 
 #: data/nation/gabonese.ruleset:3
 msgid "Gabonese"
@@ -33260,11 +33272,6 @@ msgstr ""
 "Los palestinos son los habitantes árabes del antiguo Mandato Británico de "
 "Palestina."
 
-#: data/nation/palestinian.ruleset:22
-#, c-format
-msgid "?female:Sheikh %s"
-msgstr "Jeque %s"
-
 #: data/nation/palmyrene.ruleset:3
 msgid "Palmyrene"
 msgstr "Palmirano"
@@ -33541,14 +33548,12 @@ msgstr ""
 "Chanani."
 
 #: data/nation/phrygian.ruleset:3
-#, fuzzy
 msgid "Phrygian"
-msgstr "Persa"
+msgstr "Frigio"
 
 #: data/nation/phrygian.ruleset:4
-#, fuzzy
 msgid "?plural:Phrygians"
-msgstr "Persas"
+msgstr "Frigios"
 
 #: data/nation/phrygian.ruleset:6
 msgid ""
@@ -33560,16 +33565,21 @@ msgid ""
 "conquest of the Achaemenid Empire and after the arrival of the Galatians to "
 "Anatolia, the Phrygians succumbed to Hellenization."
 msgstr ""
+"Los Frigios eran un antiguo pueblo indoeuropeo, probablemente relacionado "
+"con los griegos o los tracios. Llegaron a Anatolia en el siglo XII AEC, en "
+"la época de la invasión de los pueblos marineros en la región del "
+"Mediterráneo Oriental. La llegada de los frigios se ha asociado por algunos "
+"historiadores con la caída del Estado Hitita. Después de la conquista "
+"macedónica del Imperio Aqueménida y después de la llegada de los Gálatas a "
+"Anatolia, los Frigios sucumbieron a la helenización."
 
 #: data/nation/pictish.ruleset:3
-#, fuzzy
 msgid "Pictish"
-msgstr "Británico"
+msgstr "Picto"
 
 #: data/nation/pictish.ruleset:4
-#, fuzzy
 msgid "?plural:Picts"
-msgstr "Piratas"
+msgstr "Pictos"
 
 #: data/nation/pictish.ruleset:6
 msgid ""
@@ -33580,6 +33590,12 @@ msgid ""
 "Middle Ages but by the 11th century they had been assimilated by the Gaelic "
 "Scots."
 msgstr ""
+"Los Pictos eran los habitantes indígenas de Caledonia, la Antigua Escocia. "
+"Eran probablemente celtas o tal vez pre-indoeuropeos celtizados. Los romanos "
+"les llamaban los pictos, \"pueblo pintado\" debido a su costumbre de "
+"tatuarse el cuerpo. Los Pictos sobrevivieron hasta bien entrada la Edad "
+"Media, pero en el siglo 11 que habían sido asimilados por el escoceses "
+"gaélicos."
 
 #: data/nation/piedmontese.ruleset:3
 msgid "Piedmontese"
@@ -33660,14 +33676,12 @@ msgstr ""
 "de Pascua y abarca todas las islas en el medio."
 
 #: data/nation/pontic.ruleset:3
-#, fuzzy
 msgid "Pontic"
-msgstr "Crecimiento"
+msgstr "Póntico"
 
 #: data/nation/pontic.ruleset:4
-#, fuzzy
 msgid "?plural:Pontians"
-msgstr "Macedonios"
+msgstr "Pónticos"
 
 #: data/nation/pontic.ruleset:6
 msgid ""
@@ -33683,6 +33697,18 @@ msgid ""
 "transfers after World War I most Pontic Greeks were deported and today the "
 "population of Pontus is almost exlusively Turkish."
 msgstr ""
+"Pontus es una región en la costa del Mar Negro de Asia Menor, actualmente "
+"parte de Turquía, pero históricamente parte del ámbito cultural griego. Un "
+"reino helenístico de Pontus fue fundado en el siglo tercero antes de Cristo, "
+"que alcanzó su máximo esplendor bajo Mitrídates el Grande antes de sucumbir "
+"a Roma. Después de siglos de dominación romana y bizantina, Pontus se "
+"convirtió en un estado independiente de nuevo cuando en 1204 el Imperio de "
+"Trebisonda fue creado como uno de los sucesores del Imperio bizantino que se "
+"desmoronaba. Bajo la dinastía Comneno, Trebisonda se mantuvo como el último "
+"resto del Imperio Romano, hasta que finalmente cayó a los otomanos en 1461. "
+"Durante los traslados de población turco-griegos después de la Segunda "
+"Guerra Mundial, los griegos pónticos fueron deportados prácticamente todos y "
+"hoy en día la población de Pontus es casi exclusivamente turca."
 
 #: data/nation/portuguese.ruleset:3
 msgid "Portuguese"
@@ -33752,17 +33778,16 @@ msgstr ""
 
 #: data/nation/purhepecha.ruleset:3
 msgid "P'urhepecha"
-msgstr "P'urhepecha"
+msgstr "Purépecha"
 
 #: data/nation/purhepecha.ruleset:4
 msgid "?plural:P'urhepecha"
-msgstr "P'urhepechas"
+msgstr "Purépechas"
 
 #. TRANS: The eighth letter in "Michoacan" should be
 #. TRANS: 00E1 LATIN SMALL LETTER O WITH ACUTE if available in
 #. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is E1.
 #: data/nation/purhepecha.ruleset:10
-#, fuzzy
 msgid ""
 "The P'urhepecha or Tarascans are a people native to the modern Mexican state "
 "of Michoacan, the heart of a former empire known to them as Irechikua "
@@ -33777,28 +33802,29 @@ msgid ""
 "smooth and devolved into violence. The empire, founded around 1450 CE, "
 "collapsed in 1530."
 msgstr ""
-"Los purépechas son un pueblo nativo del estado mexicano de Michoacán, el "
+"Los purépechas o tarascas son un pueblo nativo del estado mexicano de "
+"Michoacán, el "
 "corazón de un antiguo imperio conocido por ellos como Irechecua "
-"Tzintzuntzani, es decir, las \"tierras de Tzintzuntzan\", su capital. Sus "
-"reyes eran el enemigo eterno del imperio azteca, que intentó sin éxito una "
+"Ts'intsuntsani, es decir, las \"tierras de Tzintzuntzan\", su capital. Sus "
+"reyes eran el enemigo eterno del imperio azteca, que intentaron sin éxito "
+"una "
 "invasión de las tierras purépechas. Cuando los españoles llegaron y "
 "comenzaron la conquista de México en 1519, los aztecas enviaron una embajada "
-"buscando el apoyo de los purépechas, pero fue rechazado. La reputación de la "
+"buscando el apoyo de los purépechas, pero fue rechazada. La reputación de "
+"los "
 "conquistadores los precedió y los purépechas se ofrecieron a ser un reino "
 "vasallo del rey de España en lugar de correr la misma suerte que sus "
 "antiguos enemigos, los aztecas. Sin embargo, la transición a la dominación "
 "española no fue suave y degeneró en violencia. El imperio, fundado alrededor "
-"de 1450 dC, se derrumbó en 1530."
+"de 1450 EC, se derrumbó en 1530."
 
 #: data/nation/qatari.ruleset:3
-#, fuzzy
 msgid "Qatari"
-msgstr "Tártaro"
+msgstr "Catarí"
 
 #: data/nation/qatari.ruleset:4
-#, fuzzy
 msgid "?plural:Qataris"
-msgstr "Tártaros"
+msgstr "Cataríes"
 
 #: data/nation/qatari.ruleset:6
 msgid ""
@@ -33806,14 +33832,17 @@ msgid ""
 "the wealthiest countries of the world in terms of GDP per capita. Qatar is "
 "one of the world's few absolute monarchies."
 msgstr ""
+"Qatar es un emirato ubicado en una península en el golfo Pérsico. Es uno de "
+"los países más ricos del mundo en términos de PIB per cápita. Qatar es una "
+"de las pocas monarquías absolutas del mundo."
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
-msgstr "quebequés"
+msgstr "Quebequés"
 
 #: data/nation/quebecois.ruleset:4
 msgid "?plural:Quebecois"
-msgstr "quebequeses"
+msgstr "Quebequeses"
 
 #: data/nation/quebecois.ruleset:6
 msgid ""
@@ -33821,17 +33850,15 @@ msgid ""
 "Francophone population of America."
 msgstr ""
 "Quebec es una de las provincias más grandes de Canadá, albergando la mayoría "
-"de la población sajona de América."
+"de la población francófona de América."
 
 #: data/nation/rapanui.ruleset:3
-#, fuzzy
 msgid "Rapa Nui"
-msgstr "Tarahumara"
+msgstr "Rapa Nui"
 
 #: data/nation/rapanui.ruleset:4
-#, fuzzy
 msgid "?plural:Rapa Nui"
-msgstr "Tarahumaras"
+msgstr "Rapa Nui"
 
 #: data/nation/rapanui.ruleset:6
 msgid ""
@@ -33841,6 +33868,11 @@ msgid ""
 "destroyed due to internal conflicts; in 1888 the island was annexed by "
 "Chile. Their script Rongorongo has never been deciphered."
 msgstr ""
+"Los Rapa Nui son los habitantes polinesios nativos de la isla de Pascua. "
+"Ellos han habitado la isla desde finales del primer milenio. Son famosos por "
+"haber construido grandes estatuas llamadas moai. Esta civilización fue "
+"destruida debido a los conflictos internos, y en 1888 la isla fue anexada "
+"por Chile. Su alfabeto Rongorongo nunca ha sido descifrado."
 
 #. TRANS: The fourth letter in "Raramuri" should be
 #. TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in
@@ -33869,14 +33901,12 @@ msgstr ""
 "autoridades mexicanas."
 
 #: data/nation/rhenish.ruleset:3
-#, fuzzy
 msgid "Rhenish"
-msgstr "Ruso antiguo"
+msgstr "Renanio"
 
 #: data/nation/rhenish.ruleset:4
-#, fuzzy
 msgid "?plural:Rhenish"
-msgstr "Rusos Antiguos"
+msgstr "Renanios"
 
 #: data/nation/rhenish.ruleset:6
 msgid ""
@@ -33889,6 +33919,14 @@ msgid ""
 "between the German states of North Rhine-Westphalia, Rhineland-Palatinate "
 "and Saarland."
 msgstr ""
+"La Renania fue donde hubo tres electores del Sacro Imperio Romano, Colonia, "
+"Tréveris y Maguncia, así como numerosos territorios más pequeños. Los "
+"pequeños estados renanos fueron absorbidos gradualmente por Prusia a partir "
+"del siglo 17. La Provincia Prusiana de Rin fue erigida en 1822. Durante la "
+"Revolución Industrial, la región se convirtió en el corazón económico e "
+"industrial de Alemania. Desde el final de la Segunda Guerra Mundial la "
+"región del Rin se divide entre los estados alemanes de Renania del "
+"Norte-Westfalia, Renania-Palatinado y Sarre."
 
 #: data/nation/riffian.ruleset:3
 msgid "Riffian"
@@ -33967,18 +34005,30 @@ msgid ""
 "CE, the Eastern Roman or Byzantine Empire survived almost a thousand years "
 "more; its capital Constantinople fell to the Turks in 1453."
 msgstr ""
+"Roma fue, según la leyenda, fundada por Rómulo en el año 753 antes de Cristo."
+" En su apogeo, Roma controlaba gran parte de Europa, norte de África y el "
+"Oriente cercano. La cultura romana fue adoptada por la gran parte de las "
+"civilizaciones que conquistó, como los griegos y los etruscos, y constituye "
+"una de las bases de la cultura occidental. Incluso hoy en día, la influencia "
+"romana en campos como el derecho, la filosofía y la lengua sigue siendo "
+"enorme. La civilización romana se extendió por más de un milenio, primero "
+"como un reino, después como república y después del 27 AEC en adelante como "
+"un imperio. El imperio fue dividido en el siglo cuarto EC. El Imperio Romano "
+"de Occidente cayó el año 476 EC, el romano de Oriente o Imperio Bizantino "
+"sobrevivió casi mil años más, y su capital Constantinopla cayó ante los "
+"turcos en 1453."
 
 #: data/nation/roman.ruleset:49 data/nation/sabine.ruleset:27
 #: data/nation/samnite.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Tribune %s"
-msgstr "Tun %s"
+msgstr "Tribuno %s"
 
 #: data/nation/roman.ruleset:49 data/nation/sabine.ruleset:27
 #: data/nation/samnite.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Tribune %s"
-msgstr "Tun %s"
+msgstr "Tribuna %s"
 
 #: data/nation/roman.ruleset:51 data/nation/westernroman.ruleset:32
 #, c-format
@@ -33991,14 +34041,12 @@ msgid "%s Augusta"
 msgstr "%s Augusta"
 
 #: data/nation/romansh.ruleset:3
-#, fuzzy
 msgid "Romansh"
-msgstr "Romano"
+msgstr "Romanche"
 
 #: data/nation/romansh.ruleset:4
-#, fuzzy
 msgid "?plural:Romansh"
-msgstr "Romanos"
+msgstr "Romanches"
 
 #: data/nation/romansh.ruleset:6
 msgid ""
@@ -34011,10 +34059,17 @@ msgid ""
 "were the only territory of Europe were decision making was organized by "
 "taking votes."
 msgstr ""
+"Las personas romanches o retorromanos son habitantes del cantón suizo de los "
+"Grisones que hablan romanche, una lengua románica que conserva algunas "
+"características únicas y con una rica tradición oral. Aunque el romanche es "
+"una de las cuatro lenguas nacionales de Suiza y hay proyectos que se están "
+"llevando a cabo para salvar la lengua, la lengua está perdiendo terreno "
+"porque muchos de su hablantes están cambiando al alemán. Antes de la era "
+"napoleónica, las Tres Ligas de los Grisones fueron el único territorio de "
+"Europa donde la toma de decisiones se organizó mediante votos."
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/russian.ruleset:7
-#, fuzzy
 msgid ""
 "Russia is the largest country in the world, occupying a huge part of both "
 "Europe and Asia. According to legend, Slavic tribes of Novgorod invited the "
@@ -34028,11 +34083,16 @@ msgid ""
 "dissolution of the USSR in 1991 Russia appeared on the world map again, now "
 "as a federal republic."
 msgstr ""
-"Dice la leyenda que las tribus Eslavas y Finesas de Novgorod pidieron, en el "
-"año 862 al rey Rurik de Varangia (Vikingo), que pusiera orden en sus "
-"tierras. Rurik estableció Kievan Rus en su reino, el primer estado Ruso. "
-"Durante el siglo XI, Kievan Rus fue desintegrada en principados menores, los "
-"cuales fueron reunificados de nuevo en un único estado por Ivan III en el "
+"Rusia es el país más grande del mundo, y ocupa una gran parte de Europa y "
+"Asia. "
+"Dice la leyenda que las tribus Eslavas de Novgorod pidieron al rey Oleg de "
+"Varangia "
+"(Vikingo), que pusiera orden en sus tierras. Oleg estableció Kievan Rus en "
+"su reino, "
+"el primer estado Ruso. Durante el siglo XI, Kievan Rus fue desintegrada en "
+"principados "
+"menores, los cuales fueron reunificados de nuevo en un único estado por Ivan "
+"III en el "
 "siglo XV. Después de una victoria decisiva sobre Suecia y grandes conquistas "
 "territoriales, Pedro I de Rusia proclamó el Imperio Ruso en 1721. El Imperio "
 "Ruso duró hasta 1917, cuando la revolución socialista destronó al emperador "
@@ -34092,14 +34152,12 @@ msgstr ""
 "comercio marítimo que fue eventualmente invadida, ocupada y anexada a Japón."
 
 #: data/nation/sabine.ruleset:3
-#, fuzzy
 msgid "Sabine"
-msgstr "Hambruna"
+msgstr "Sabino"
 
 #: data/nation/sabine.ruleset:4
-#, fuzzy
 msgid "?plural:Sabines"
-msgstr "Daneses"
+msgstr "Sabinos"
 
 #: data/nation/sabine.ruleset:6
 msgid ""
@@ -34109,6 +34167,11 @@ msgid ""
 "were assimilated into the Roman culture. Several Roman families prided "
 "themselves on their Sabine origins."
 msgstr ""
+"Los Sabinos eran una tribu itálica cuyo lenguaje era muy cercano al de "
+"Umbría. Ellos tuvieron un gran impacto en la historia de Roma. Los sabinos "
+"se pelearon regularmente con la recién nacida República Romana, pero al "
+"final los Sabinos fueron asimilados por la cultura romana. Varias familias "
+"romanas se enorgullecían de sus orígenes Sabinos."
 
 #: data/nation/sahrawi.ruleset:3
 msgid "Sahrawi"
@@ -34132,14 +34195,12 @@ msgstr ""
 "estado luchando entre sí desde 1975."
 
 #: data/nation/saintlucian.ruleset:3
-#, fuzzy
 msgid "Saint Lucian"
-msgstr "Badenés"
+msgstr "Santaluciano"
 
 #: data/nation/saintlucian.ruleset:4
-#, fuzzy
 msgid "?plural:Saint Lucian"
-msgstr "Badeneses"
+msgstr "Santalucianos"
 
 #: data/nation/saintlucian.ruleset:6
 msgid ""
@@ -34149,16 +34210,19 @@ msgid ""
 "became independent in 1979. It a member both of the Commonwealth and La "
 "Francophonie. The economy is based on tourism, bananas and sugar."
 msgstr ""
+"Santa Lucía es una isla en el Caribe Oriental. Durante la época colonial, "
+"Santa Lucía cambió de manos entre Francia y Gran Bretaña no menos de catorce "
+"veces hasta que los británicos finalmente se la aseguraron en 1814. La isla "
+"se independizó en 1979. Es miembro tanto de la Commonwealth y la Francofonía."
+" La economía se basa en el turismo, el plátano y el azúcar."
 
 #: data/nation/saka.ruleset:3
-#, fuzzy
 msgid "Saka"
-msgstr "Eslovaco"
+msgstr "Saka"
 
 #: data/nation/saka.ruleset:4
-#, fuzzy
 msgid "?plural:Saka"
-msgstr "Saamis"
+msgstr "Sakas"
 
 #: data/nation/saka.ruleset:6
 msgid ""
@@ -34166,16 +34230,17 @@ msgid ""
 "were very closely related to the European Scythians, and were probably "
 "descendants of the Andronovo culture."
 msgstr ""
+"Los Saka fueron una antigua tribu iraní de las estepas de Asia Central. "
+"Estaban muy estrechamente relacionados con los escitas europeos, y que "
+"probablemente eran descendientes de la cultura Andronovo."
 
 #: data/nation/salishan.ruleset:3
-#, fuzzy
 msgid "Salishan"
-msgstr "Malí"
+msgstr "Salishano"
 
 #: data/nation/salishan.ruleset:4
-#, fuzzy
 msgid "?plural:Salishans"
-msgstr "Malíes"
+msgstr "Salishanos"
 
 #: data/nation/salishan.ruleset:6
 msgid ""
@@ -34187,6 +34252,13 @@ msgid ""
 "for their unusual characteristics. They have a large inventory of consonants "
 "and some even feature words without any vowels. "
 msgstr ""
+"Los Salishanos son un grupo lingüístico-cultural de los pueblos de la región "
+"del Pacífico Noroeste de los Estados Unidos y Canadá. Entre los Salishanos "
+"más famosos está el jefe Seattle, líder de la tribu Duwamish, del cual la "
+"ciudad de Seattle ha tomado su nombre. Otros conocidos miembros de la tribu "
+"Salish incluyen los Bella Coola (Nuxalk), Spokane y Coeur d'Alene. Las "
+"Lenguas Salish son famosas por sus características especiales. Tienen un "
+"gran inventario de consonantes y incluso algunas palabras no tienen vocales."
 
 #: data/nation/salvadoran.ruleset:3
 msgid "Salvadoran"
@@ -34252,7 +34324,6 @@ msgid "?plural:Sammarinese"
 msgstr "Sanmarinenses"
 
 #: data/nation/sammarinese.ruleset:6
-#, fuzzy
 msgid ""
 "San Marino is a tiny landlocked country on the Italian Peninsula. It is the "
 "oldest independent republic in the world. According to legend, it was "
@@ -34260,27 +34331,25 @@ msgid ""
 msgstr ""
 "San Marino es un pequeño país sin salida al mar en la península italiana. Es "
 "la república independiente más antigua del mundo. Según la leyenda, fue "
-"fundada por San Marino en el año 301 dC."
+"fundada por San Marino en el año 301 EC."
 
-#: data/nation/sammarinese.ruleset:27
+#: data/nation/sammarinese.ruleset:26
 #, c-format
 msgid "Captain-Regent %s"
 msgstr "Capitán General %s"
 
-#: data/nation/sammarinese.ruleset:27
+#: data/nation/sammarinese.ruleset:26
 #, c-format
 msgid "?female:Captain-Regent %s"
 msgstr "Capitana General %s"
 
 #: data/nation/samnite.ruleset:3
-#, fuzzy
 msgid "Samnite"
-msgstr "Saami"
+msgstr "Samnita"
 
 #: data/nation/samnite.ruleset:4
-#, fuzzy
 msgid "?plural:Samnites"
-msgstr "Elamitas"
+msgstr "Samnitas"
 
 #: data/nation/samnite.ruleset:6
 msgid ""
@@ -34289,16 +34358,19 @@ msgid ""
 "losing the wars with Rome the Samnites were subjected to Rome and became "
 "Romanized. They were good soldiers and famed as Roman gladiators."
 msgstr ""
+"Los Samnitas fueron una antigua confederación de tribus itálicas que "
+"hablaban el idioma osco y habitaban el centro de Italia, al sur de los "
+"Sabinos. Después de perder las guerras con Roma, los samnitas fueron "
+"sometidos por Roma y fueron romanizados. Eran buenos soldados y fueron "
+"famosos como gladiadores romanos."
 
 #: data/nation/samoan.ruleset:3
-#, fuzzy
 msgid "Samoan"
-msgstr "Samogitiano"
+msgstr "Samoano"
 
 #: data/nation/samoan.ruleset:4
-#, fuzzy
 msgid "?plural:Samoans"
-msgstr "Sajones"
+msgstr "Samoanos"
 
 #: data/nation/samoan.ruleset:6
 msgid ""
@@ -34309,16 +34381,22 @@ msgid ""
 "throughout the Pacific. Colonized by Germany and New Zealand, Samoa became "
 "independent in 1962."
 msgstr ""
+"Samoa es un país que ocupa la parte occidental de las islas de Samoa en el "
+"Pacífico Central, la parte oriental es gobernada por los Estados Unidos, es "
+"la Samoa Americana. Samoa fue colonizada por pueblos austronesios alrededor "
+"del año 1500 AEC. Probablemente fue desde Samoa que los polinesios "
+"comenzaron la expansión por todo el Pacífico. Colonizado por Alemania y "
+"Nueva Zelanda, Samoa alcanzó la independencia en 1962."
 
 #: data/nation/samoan.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "Chief of the Government %s"
-msgstr "Elige tu nuevo gobierno"
+msgstr "Gobernador %s"
 
 #: data/nation/samoan.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Chief of the Government %s"
-msgstr "Gobernadora"
+msgstr "Gobernadora %s"
 
 #: data/nation/samogitian.ruleset:3
 msgid "Samogitian"
@@ -34347,14 +34425,12 @@ msgstr ""
 #. TRANS: U+00ED LATIN SMALL LETTER I WITH ACUTE if available in
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 237.
 #: data/nation/santomean.ruleset:12
-#, fuzzy
 msgid "Santomean"
-msgstr "Dahomeo"
+msgstr "Santotomense"
 
 #: data/nation/santomean.ruleset:13
-#, fuzzy
 msgid "?plural:Santomeans"
-msgstr "Dahomeos"
+msgstr "Santotomenses"
 
 #: data/nation/santomean.ruleset:15
 msgid ""
@@ -34365,6 +34441,13 @@ msgid ""
 "Slavery was abolished in the 19th century and the country became independent "
 "in 1975. The islands' economy remains dependent on the export of cocoa."
 msgstr ""
+"Santo Tomé y Príncipe son dos islas en el Océano Atlántico frente a las "
+"costas de África. La isla principal lleva el nombre de Santo Tomás por los "
+"marineros portugueses que descubrieron por primera vez la isla el día de la "
+"fiesta del santo alrededor de 1470. Las islas se convirtieron en la primera "
+"plantación importante de una colonia europea. La esclavitud fue abolida en "
+"el siglo 19, y el país se independizó en 1975. La economía de las islas "
+"sigue dependiendo de la exportación de cacao."
 
 #: data/nation/sardinian.ruleset:3
 msgid "Sardinian"
@@ -34398,16 +34481,6 @@ msgstr ""
 "1718 Cerdeña fue entregada a la casa de Saboya, y se convirtió en parte "
 "integrante del Reino de Piamonte-Cerdeña, lo que llevó a su unificación "
 "nacional con Italia en 1861."
-
-#: data/nation/sardinian.ruleset:32
-#, c-format
-msgid "Judge %s"
-msgstr "Juez %s"
-
-#: data/nation/sardinian.ruleset:32
-#, c-format
-msgid "?female:Judge %s"
-msgstr "Jueza %s"
 
 #: data/nation/sarmatian.ruleset:3
 msgid "Sarmatian"
@@ -34494,14 +34567,12 @@ msgstr ""
 "Sacro Imperio Romano de 1356-1806."
 
 #: data/nation/scanian.ruleset:3
-#, fuzzy
 msgid "Scanian"
-msgstr "Acadiano"
+msgstr "Escaniano"
 
 #: data/nation/scanian.ruleset:4
-#, fuzzy
 msgid "?plural:Scanians"
-msgstr "Acadianos"
+msgstr "Escanianos"
 
 #: data/nation/scanian.ruleset:6
 msgid ""
@@ -34511,6 +34582,11 @@ msgid ""
 "Scania saw something of a national revival in the late 20th century with "
 "calls for greater autonomy within the Kingdom of Sweden."
 msgstr ""
+"Escania es la región más al sur de Suecia. Históricamente uno de los muchos "
+"reinos pequeños en Edad Vikinga de Escandinavia, se convirtió en parte de "
+"Dinamarca en tiempos medievales pero fue cedida a Suecia a través del "
+"Tratado de Roskilde en 1658. Scania vio algo de un renacimiento nacional en "
+"el siglo 20 con un llamado a una mayor autonomía dentro del Reino de Suecia."
 
 #: data/nation/schleswig-holsteinian.ruleset:3
 msgid "Schleswig-Holsteinian"
@@ -34539,14 +34615,12 @@ msgstr ""
 "Schleswig-Holstein es un estado de la República Federal de Alemania."
 
 #: data/nation/scottishgaelic.ruleset:3
-#, fuzzy
 msgid "Scottish Gaelic"
-msgstr "Escocés"
+msgstr "Gaélico-Escocés"
 
 #: data/nation/scottishgaelic.ruleset:4
-#, fuzzy
 msgid "?plural:Scottish Gaels"
-msgstr "Escoceses"
+msgstr "Gaélico-Escoceses"
 
 #: data/nation/scottishgaelic.ruleset:6
 msgid ""
@@ -34560,16 +34634,26 @@ msgid ""
 "remain, about half of which live in the Scottish Highlands and Islands, the "
 "other half living all over Scotland, in particular the Central Belt."
 msgstr ""
+"Ambos los gaélicos y el idioma gaélico fueron llevados a Escocia por la "
+"dinastía de Dalriada de Irlanda. Primero se establecieron en Argyll (Earra "
+"Ghaidheal o el litoral de la Gael) y pronto se expandieron aún más en "
+"territorio controlado por los pictos indígenas y que culminó con Kenneth Mac "
+"Alpin uniendo los reinos de los Pictos y los Gaélicos alrededor de 843 EC. "
+"En la época de Malcolm III, el gaélico fue la lengua de la mayoría de "
+"Escocia, hasta el sur de Strathclyde, Galloway y partes de Lothian y de las "
+"fronteras. Hoy en día todavía hay unos 60.000 hablantes de gaélico, cerca de "
+"la mitad de los cuales viven en las tierras altas escocesas y las islas, la "
+"otra mitad vive en toda Escocia, en particular en el Cinturón Central."
 
 #: data/nation/scottishgaelic.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "Clan Chief %s"
-msgstr "Jefe %s"
+msgstr "Jefe del Clan %s"
 
 #: data/nation/scottishgaelic.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Clan Chief %s"
-msgstr "Jefa %s"
+msgstr "Jefa del Clan %s"
 
 #: data/nation/scottishgaelic.ruleset:39 data/nation/scottish.ruleset:26
 #, c-format
@@ -34590,7 +34674,6 @@ msgid "?plural:Scots"
 msgstr "Escoceses"
 
 #: data/nation/scottish.ruleset:6
-#, fuzzy
 msgid ""
 "Scotland, originally settled in late Roman times by Irish raiders who "
 "displaced the native Picts, was an independent kingdom from around 1034 CE "
@@ -34598,7 +34681,8 @@ msgid ""
 msgstr ""
 "Escocia, originalmente colonizada hacia el final de Imperio Romano por "
 "invasores irlandeses que desplazaron a la población nativa de pictos, fue un "
-"reino independiente desde 1034 hasta la Unión de Coronas con Inglaterra en "
+"reino independiente desde 1034 EC hasta la Unión de las Coronas con "
+"Inglaterra en "
 "1701."
 
 #: data/nation/scythian.ruleset:3
@@ -34610,7 +34694,6 @@ msgid "?plural:Scythians"
 msgstr "Escitas"
 
 #: data/nation/scythian.ruleset:6
-#, fuzzy
 msgid ""
 "The Scythians or Scyths were an Ancient Iranian people of horse-riding "
 "nomadic pastoralists who throughout Classical Antiquity dominated the Pontic-"
@@ -34626,7 +34709,7 @@ msgstr ""
 "del Ponto-Caspio, conocida en su momento como Escitia. En la Antigüedad "
 "Tardía, los sármatas estrechamente relacionados con ellos vinieron a dominar "
 "a los escitas en esta área. Mucha de la información sobreviviente acerca de "
-"los escitas proviene del historiador griego Heródoto (c. 440 aC) en sus "
+"los escitas proviene del historiador griego Heródoto (c. 440 AEC) en sus "
 "Historias y de Ovidio en su poema del exilio Epistulae ex Ponto, y "
 "arqueológicamente de la exquisita orfebrería que se encuentran en túmulos "
 "escitas en Ucrania y el sur de Rusia."
@@ -34640,7 +34723,6 @@ msgid "?plural:Seleucids"
 msgstr "Seléucidas"
 
 #: data/nation/seleucid.ruleset:6
-#, fuzzy
 msgid ""
 "The Seleucid Empire was one of the diadochi states founded when Alexander "
 "the Great's generals carved up his empire after his death. It was named "
@@ -34648,21 +34730,19 @@ msgid ""
 "the most powerful of the diadochi states but eventually succumbed to Rome in "
 "the last century BCE."
 msgstr ""
-"El Imperio seléucida fue uno de los estados diádocos que se fundaron cuando "
+"El Imperio seléucida fue uno de los estados diádicos que se fundaron cuando "
 "los generales de Alejandro Magno se repartieron su imperio después de su "
 "muerte. El Imperio debe su nombre a su fundador Seleuco I Nicátor. Centrado "
-"en Siria, los seléucidas fueron el más poderoso de los estados diádocos pero "
+"en Siria, los seléucidas fueron el más poderoso de los estados diádicos pero "
 "finalmente sucumbieron a Roma en el último siglo antes de Cristo."
 
 #: data/nation/seljuk.ruleset:3
-#, fuzzy
 msgid "Seljuk"
-msgstr "Vender"
+msgstr "Selyúcida"
 
 #: data/nation/seljuk.ruleset:4
-#, fuzzy
 msgid "?plural:Seljuks"
-msgstr "Seléucidas"
+msgstr "selyúcidas"
 
 #: data/nation/seljuk.ruleset:6
 msgid ""
@@ -34675,16 +34755,22 @@ msgid ""
 "in the Sultanate of Rum, which would later form the basis of the Ottoman "
 "Turks."
 msgstr ""
+"Los selyúcidas fueron una horda turca cuyo nombre proviene de su fundador "
+"Selyuq. Después de la victoria sobre los gaznavidas en 1040 EC, crearon su "
+"propio estado. En 1055 EC los selyúcidas tomaron Bagdad, y su líder Beg "
+"Tugril tomó el título de sultán. Los selyúcidas son famosos por la derrota "
+"que le infligieron a los bizantinos en la batalla de Manzikert en 1071 EC. "
+"Después de la caída del Gran Imperio Selyuq en el siglo 12 los selyúcidas "
+"continuaron gobernando en el Sultanato de Rum, que más tarde sería la base "
+"de los turcos otomanos."
 
 #: data/nation/seminole.ruleset:3
-#, fuzzy
 msgid "Seminole"
-msgstr "Motor de vapor"
+msgstr "Seminola"
 
 #: data/nation/seminole.ruleset:4
-#, fuzzy
 msgid "?plural:Seminoles"
-msgstr "Polacos"
+msgstr "Seminolas"
 
 #: data/nation/seminole.ruleset:6
 msgid ""
@@ -34701,6 +34787,19 @@ msgid ""
 "\"Five Civilized Tribes\" for their relatively amiable relationships with "
 "White European settlers during the early era of U.S. expansion."
 msgstr ""
+"Los Seminolas surgieron en el siglo 18 a través de un proceso de "
+"etnogénesis, de los pequeños grupos de emigrantes Creek que huyan de la "
+"invasión de los colonos blancos en el estado de Georgia de los EE.UU. y de "
+"otros lugares al sur de la península de Florida, que en ese momento estaba "
+"bajo dominio español. Se entremezclaron con restos de otras tribus, más un "
+"número significativo de negros africanos liberados. Los líderes Seminolas se "
+"pusieron del lado de los Estados Unidos durante las llamadas guerras "
+"Seminola contra España, cuyo resultado fue la cesión de Florida a los EE.UU."
+", y la eliminación de la mayoría de los Seminolas en territorio indio en lo "
+"que hoy es Oklahoma. Junto con el Cherokee, Choctaw, Muskogee, y Chickasaw, "
+"los Seminolas son conocidos como uno de las \"Cinco Tribus Civilizadas\" por "
+"sus relaciones relativamente amistosas con los blancos colonizadores "
+"europeos durante la primera época de la expansión de EE.UU.."
 
 #: data/nation/senegalese.ruleset:3
 msgid "Senegalese"
@@ -34740,12 +34839,11 @@ msgstr ""
 
 #: data/nation/seychellois.ruleset:3
 msgid "Seychellois"
-msgstr ""
+msgstr "Seychelense"
 
 #: data/nation/seychellois.ruleset:4
-#, fuzzy
 msgid "?plural:Seychellois"
-msgstr "Escoceses"
+msgstr "Seychelenses"
 
 #: data/nation/seychellois.ruleset:6
 msgid ""
@@ -34759,16 +34857,23 @@ msgid ""
 "populated country of Africa and have the highest human development of the "
 "continent."
 msgstr ""
+"Las Seychelles son un archipiélago frente a la costa del este de África en "
+"el Océano Índico. Las islas han recibido la visita de mercaderes de "
+"Austronesia, de las Maldivas y árabes en la antigüedad, pero en la época de "
+"los descubrimientos europeos las Seychelles no tenía población indígena. Las "
+"Seychelles estuvieron intermitentemente bajo posesión francesa y británica "
+"hasta su independencia en 1976. Su población está formada por personas de "
+"ascendencia africana, china, europea, india y malgache. Las Seychelles son "
+"el país menos poblado de África y tienen el índice más alto de desarrollo "
+"humano del continente."
 
 #: data/nation/shan.ruleset:3
-#, fuzzy
 msgid "Shan"
-msgstr "Shawnee"
+msgstr "Shan"
 
 #: data/nation/shan.ruleset:4
-#, fuzzy
 msgid "?plural:Shans"
-msgstr "Sajones"
+msgstr "Shan"
 
 #: data/nation/shan.ruleset:6
 msgid ""
@@ -34778,6 +34883,11 @@ msgid ""
 "controlled much of today's Myanmar, Laos, Thailand, as well as China's "
 "Yunnan Province."
 msgstr ""
+"Los Shans son un grupo étnico relacionado con los tailandeses y los "
+"laosianos. Después de la caída del Reino Bagan dominado por los birmanos a "
+"los mongoles en 1287, se crearon una sucesión de reinos Shan conocidos por "
+"los historiadores como los estados de Shan, que  controlaban gran parte de "
+"la actual Myanmar, Laos, Tailandia, así como la provincia china de Yunnan."
 
 #: data/nation/shawnee.ruleset:3
 msgid "Shawnee"
@@ -34801,14 +34911,12 @@ msgstr ""
 "(actualmente Oklahoma)."
 
 #: data/nation/sherpa.ruleset:3
-#, fuzzy
 msgid "Sherpa"
-msgstr "Saharaui"
+msgstr "Sherpa"
 
 #: data/nation/sherpa.ruleset:4
-#, fuzzy
 msgid "?plural:Sherpas"
-msgstr "Sajones"
+msgstr "Sherpas"
 
 #: data/nation/sherpa.ruleset:6
 msgid ""
@@ -34822,6 +34930,16 @@ msgid ""
 "beginning of the 21st century, there have been calls for greater autonomy "
 "for the Sherpas within the federal republic."
 msgstr ""
+"Los Sherpas son una etnia que se asentó en la región del Himalaya del Nepal "
+"actual en el siglo 15. Son de las facciones tibetanas y hablan una lengua "
+"relacionada con el tibetano moderno aunque no son mutuamente inteligibles. "
+"Después de varios siglos de autonomía, las comunidades Sherpas fueron "
+"puestas bajo presión militar durante el siglo 18 por parte de los sistemas "
+"políticos hindúes, como el Imperio Sen de Bengala. En el siglo 18 los "
+"territorios Sherpas había sido anexados al Reino de Nepal. A raíz de la "
+"democratización del Nepal a principios del siglo 21, se han hecho "
+"llamamientos para una mayor autonomía de los Sherpas dentro de la república "
+"federal."
 
 #: data/nation/siberian.ruleset:3
 msgid "Siberian"
@@ -34868,12 +34986,11 @@ msgstr ""
 
 #: data/nation/sierraleonean.ruleset:3
 msgid "Sierra Leonean"
-msgstr ""
+msgstr "Sierraleonés"
 
 #: data/nation/sierraleonean.ruleset:4
-#, fuzzy
 msgid "?plural:Sierra Leoneans"
-msgstr "Siberianos"
+msgstr "Sierraleoneses"
 
 #: data/nation/sierraleonean.ruleset:6
 msgid ""
@@ -34883,6 +35000,11 @@ msgid ""
 "country passed through a civil war. Today, Sierra Leone remains one of the "
 "poorest countries in the world."
 msgstr ""
+"Sierra Leona es un país de África occidental. Fue fundado en 1792 como hogar "
+"para esclavos liberados y rápidamente pasó a ser una dependencia británica. "
+"Sierra Leona ha sido una república independiente desde 1961. En la década de "
+"1990 el país pasó por una guerra civil. Hoy en día, Sierra Leona sigue "
+"siendo uno de los países más pobres del mundo."
 
 #: data/nation/sikh.ruleset:3
 msgid "Sikh"
@@ -34955,14 +35077,12 @@ msgstr ""
 "Península Malaya."
 
 #: data/nation/sinhalese.ruleset:3
-#, fuzzy
 msgid "Sinhalese"
-msgstr "Senegalés"
+msgstr "Cingalés"
 
 #: data/nation/sinhalese.ruleset:4
-#, fuzzy
 msgid "?plural:Sinhalese"
-msgstr "Senegaleses"
+msgstr "Cingaleses"
 
 #: data/nation/sinhalese.ruleset:7
 msgid ""
@@ -34970,6 +35090,9 @@ msgid ""
 "legendary Prince Vijaya who settled the island of Sri Lanka together with "
 "700 followers in 543 BCE."
 msgstr ""
+"Los cingaleses de Sri Lanka remonta sus orígenes al príncipe semi-legendario "
+"Vijaya que se estableció en la isla de Sri Lanka junto con 700 seguidores en "
+"el año 543 AEC."
 
 #: data/nation/slavic.ruleset:3
 msgid "Slavic"
@@ -35027,14 +35150,12 @@ msgstr ""
 "Federación Yugoslava."
 
 #: data/nation/solomonislander.ruleset:3
-#, fuzzy
 msgid "Solomon Islander"
-msgstr "En la misma isla"
+msgstr "Salomonense"
 
 #: data/nation/solomonislander.ruleset:4
-#, fuzzy
 msgid "?plural:Solomon Islanders"
-msgstr "Islandeses"
+msgstr "Salomonenses"
 
 #: data/nation/solomonislander.ruleset:6
 msgid ""
@@ -35044,6 +35165,12 @@ msgid ""
 "of some fierce fighting during World War II, including the famous battle of "
 "Guadalcanal. Solomon Islands has been independent since 1978."
 msgstr ""
+"Las Islas Salomón son un país en Melanesia, que se encuentra entre Papua "
+"Nueva Guinea y Vanuatu. Habitada por pueblos austronesios desde el año 4000 "
+"AEC, la isla se convirtió en un protectorado británico en el siglo 19. Las "
+"islas fueron el escenario de algunos intensos combates durante la Segunda "
+"Guerra Mundial, incluyendo la famosa batalla de Guadalcanal. Las Islas "
+"Salomón ha sido independientes desde 1978."
 
 #: data/nation/somaliland.ruleset:3
 #, fuzzy
@@ -36317,11 +36444,6 @@ msgstr "Príncipe %s"
 msgid "Princely Countess %s"
 msgstr "Princesa %s"
 
-#: data/nation/tyrolian.ruleset:25
-#, fuzzy, c-format
-msgid "Stadholdress %s"
-msgstr "Estatúder %s"
-
 #: data/nation/ugandan.ruleset:3
 msgid "Ugandan"
 msgstr "Ugandés"
@@ -36341,11 +36463,6 @@ msgstr ""
 "una parte del lago Victoria, que está también en Kenia y Tanzania. Antaño, "
 "la parte sur del país fue parte del reino de Buganda. La moderna Uganda "
 "obtuvo su independencia en 1962."
-
-#: data/nation/ugandan.ruleset:32
-#, c-format
-msgid "?female:Dictator %s"
-msgstr "Dictadora %s"
 
 #. TRANS: There are two titles for king, kabaka and
 #. ;    mujaguzo. Kabaka is the material king, while
@@ -36876,12 +36993,11 @@ msgstr ""
 
 #: data/nation/werewolf.ruleset:4
 msgid "Werewolf"
-msgstr ""
+msgstr "Hombre Lobo"
 
 #: data/nation/werewolf.ruleset:5
-#, fuzzy
 msgid "?plural:Werewolves"
-msgstr "Polacos"
+msgstr "Hombres Lobo"
 
 #: data/nation/werewolf.ruleset:7
 msgid ""
@@ -36890,6 +37006,11 @@ msgid ""
 "to terrorize villages in search of human flesh and were often blamed for "
 "unexplained or particularly brutal killings."
 msgstr ""
+"Un hombre lobo es un ser humano que en determinadas circunstancias se "
+"transforma en una bestia parecida a un lobo. En Europa, durante la Edad "
+"Media, se creía que los hombres lobo aterrorizaban las aldeas en busca de "
+"carne humana y se los culpó a menudo de los asesinatos inexplicables o "
+"particularmente brutales."
 
 #: data/nation/westernpomeranian.ruleset:3
 msgid "Western Pomeranian"
@@ -36926,7 +37047,6 @@ msgid "?plural:West Romans"
 msgstr "Romanos Occidentales"
 
 #: data/nation/westernroman.ruleset:6
-#, fuzzy
 msgid ""
 "The Roman Empire was first divided by Diocletian in 286 and split for good "
 "upon Theodosius' death in 395. Unlike its Eastern counterpart, the Byzantine "
@@ -36936,10 +37056,10 @@ msgid ""
 msgstr ""
 "El Imperio Romano fue dividió por primera vez por Diocleciano en 286 y se "
 "dividió para siempre a la muerte de Teodosio en el 395. A diferencia de su "
-"contraparte oriental, el Imperio Bizantino, el Imperio Romano de Occidente "
+"parte oriental, el Imperio Bizantino, el Imperio Romano de Occidente "
 "no fue capaz de resistir las invasiones bárbaras y la desintegración "
 "económica. El último emperador romano occidental fue depuesto en el año 476 "
-"DC."
+"EC."
 
 #: data/nation/westindian.ruleset:3
 msgid "West Indian"
@@ -38334,16 +38454,20 @@ msgid "Setup of ai module %s failed."
 msgstr "Falló el intento de configuración del módulo de IA %s."
 
 #: server/aiiface.c:176
-msgid "Failed to setup default ai module, cannot continue."
+msgid "Failed to setup default AI module, cannot continue."
 msgstr ""
 "No se pudo configurar el módulo de IA por defecto, no se puede continuar."
+
+#: server/aiiface.c:187
+msgid "Failed to setup threaded AI module"
+msgstr "No se pudo cargar el módulo multi-hilo de IA"
 
 #: server/auth.c:88
 #, c-format
 msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
 msgstr ""
-"Atención: ya se ha adquirido el nombre de invitado '%s', se le renombra a "
-"'%s'."
+"Atención: ya se ha adquirido el nombre de invitado '%s', se le renombra a '%"
+"s'."
 
 #: server/auth.c:94
 msgid "Guests are not allowed on this server. Sorry."
@@ -38603,109 +38727,109 @@ msgstr ""
 "       Los obreros se reúnen espontáneamente e instalan vías férreas en la "
 "ciudad."
 
-#: server/citytools.c:1340
+#: server/citytools.c:1341
 #, c-format
 msgid "You have founded %s."
 msgstr "Has fundado %s."
 
-#: server/citytools.c:1420
+#: server/citytools.c:1421
 #, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr ""
 "Se ha movido tu %s a fuera de la ciudad abandonada %s porque no puede estar "
 "en %s."
 
-#: server/citytools.c:1433
+#: server/citytools.c:1434
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr "Cuando se abandonó %s, tu %s no pudo salir, y se quedó varado."
 
-#: server/citytools.c:1593
+#: server/citytools.c:1594
 #, c-format
 msgid "You destroy %s completely."
 msgstr "Destruyes %s por completo."
 
-#: server/citytools.c:1596
+#: server/citytools.c:1597
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%2$s ha destruido %1$s."
 
-#: server/citytools.c:1622
+#: server/citytools.c:1623
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] "¡Conquistas %s, y consigues un botín de %d monedas de oro!"
 msgstr[1] "¡Conquistas %s, y consigues un botín de %d monedas de oro!"
 
-#: server/citytools.c:1629
+#: server/citytools.c:1630
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s ha conquistado %s y ha conseguido un botín de %d monedas de oro."
 msgstr[1] "%s ha conquistado %s y ha conseguido un botín de %d monedas de oro."
 
-#: server/citytools.c:1638
+#: server/citytools.c:1639
 #, c-format
 msgid "You conquer %s."
 msgstr "Has conquistado %s."
 
-#: server/citytools.c:1641
+#: server/citytools.c:1642
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s ha conquistado %s."
 
-#: server/citytools.c:1648
+#: server/citytools.c:1649
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] "¡Has liberado %s! Consigues un botín de %d monedas de oro."
 msgstr[1] "¡Has liberado %s! Consigues un botín de %d monedas de oro."
 
-#: server/citytools.c:1655
+#: server/citytools.c:1656
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] "%s ha liberado %s y ha conseguido un botín de %d monedas de oro."
 msgstr[1] "%s ha liberado %s y ha conseguido un botín de %d monedas de oro."
 
-#: server/citytools.c:1664
+#: server/citytools.c:1665
 #, c-format
 msgid "You have liberated %s!"
 msgstr "¡Has liberado %s!"
 
-#: server/citytools.c:1667
+#: server/citytools.c:1668
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s ha liberado %s."
 
-#: server/citytools.c:2423
+#: server/citytools.c:2424
 msgid " from the worklist"
 msgstr " de la lista de tareas"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:2435
+#: server/citytools.c:2436
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s está produciendo %s%s."
 
-#: server/citytools.c:2602
+#: server/citytools.c:2603
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
 msgstr[0] "Vendes %s en %s (ahora en tierra) por %d moneda de oro."
 msgstr[1] "Vendes %s en %s (ahora en tierra) por %d monedas de oro."
 
-#: server/citytools.c:2735
+#: server/citytools.c:2736
 #, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "El tamaño del mapa de la ciudad de %s se ha %s."
 
-#: server/citytools.c:2737
+#: server/citytools.c:2738
 msgid "increased"
 msgstr "incrementado"
 
-#: server/citytools.c:2738
+#: server/citytools.c:2739
 msgid "reduced"
 msgstr "reducido"
 
@@ -38742,37 +38866,37 @@ msgstr "Atención: Puede haber hambruna en %s."
 msgid "WARNING, we're LOW on FUNDS %s."
 msgstr "ATENCIÓN, nos estamos quedando SIN FONDOS %s."
 
-#: server/cityturn.c:745
+#: server/cityturn.c:746
 #, c-format
 msgid "%s needs %s (being built) to grow beyond size %d."
 msgstr "%s necesita %s (en construcción) para crecer más allá del tamaño %d."
 
-#: server/cityturn.c:751
+#: server/cityturn.c:752
 #, c-format
 msgid "%s needs an improvement to grow beyond size %d."
 msgstr "%s necesita una mejora para crecer más allá del tamaño %d."
 
-#: server/cityturn.c:813
+#: server/cityturn.c:815
 #, c-format
 msgid "%s grows to size %d."
 msgstr "%s crece a tamaño %d."
 
-#: server/cityturn.c:876
+#: server/cityturn.c:878
 #, c-format
 msgid "Famine feared in %s, %s lost!"
 msgstr "¡Hambruna en %s, se ha perdido %s!"
 
-#: server/cityturn.c:892
+#: server/cityturn.c:894
 #, c-format
 msgid "Famine causes population loss in %s."
 msgstr "La hambruna ha reducido la población de %s."
 
-#: server/cityturn.c:897
+#: server/cityturn.c:899
 #, c-format
 msgid "Famine destroys %s entirely."
 msgstr "El hambre destruye %s por completo."
 
-#: server/cityturn.c:961
+#: server/cityturn.c:963
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech not yet available.  Postponing..."
@@ -38780,18 +38904,18 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas, porque todavía no se dispone "
 "de esa tecnología. Posponiendo..."
 
-#: server/cityturn.c:977 server/cityturn.c:1017
+#: server/cityturn.c:979 server/cityturn.c:1019
 #, c-format
 msgid "%s can't build %s from the worklist.  Purging..."
 msgstr "%s no puede producir %s de la lista de tareas. Eliminando..."
 
-#: server/cityturn.c:998 server/cityturn.c:1232 server/cityturn.c:1343
-#: server/cityturn.c:1389
+#: server/cityturn.c:1000 server/cityturn.c:1234 server/cityturn.c:1345
+#: server/cityturn.c:1391
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
 msgstr "La producción de %s se ha actualizado a %s en %s."
 
-#: server/cityturn.c:1049
+#: server/cityturn.c:1051
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available.  "
@@ -38800,7 +38924,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; la tecnología %s todavía no "
 "está disponible. Posponiendo..."
 
-#: server/cityturn.c:1063
+#: server/cityturn.c:1065
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; need to have %s first.  Postponing..."
@@ -38808,7 +38932,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; primero se necesita %s. "
 "Posponiendo..."
 
-#: server/cityturn.c:1077
+#: server/cityturn.c:1079
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs %s government.  Postponing..."
@@ -38816,7 +38940,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; primero se necesita la forma "
 "de gobierno %s. Posponiendo..."
 
-#: server/cityturn.c:1090
+#: server/cityturn.c:1092
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s special is required.  Postponing..."
@@ -38824,7 +38948,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; primero se requiere el %s "
 "especial. Posponiendo..."
 
-#: server/cityturn.c:1103
+#: server/cityturn.c:1105
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
@@ -38832,7 +38956,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; se necesita el terreno %s. "
 "Posponiendo..."
 
-#: server/cityturn.c:1118
+#: server/cityturn.c:1120
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only %s may build this.  Postponing..."
@@ -38840,7 +38964,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; sólo %s puede producir esto.  "
 "Posponiendo..."
 
-#: server/cityturn.c:1131
+#: server/cityturn.c:1133
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
@@ -38848,7 +38972,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; la ciudad tiene que ser del "
 "tamaño %d. Posponiendo..."
 
-#: server/cityturn.c:1146
+#: server/cityturn.c:1148
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only AI of level %s may build this.  "
@@ -38857,7 +38981,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; sólo ordenadores de nivel %s "
 "puede producir esto.  Posponiendo..."
 
-#: server/cityturn.c:1160
+#: server/cityturn.c:1162
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain class is required.  "
@@ -38866,7 +38990,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; se necesita la clase de "
 "terreno %s.  Posponiendo..."
 
-#: server/cityturn.c:1186
+#: server/cityturn.c:1188
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available from %s.  Postponing..."
@@ -38874,7 +38998,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; Sólo disponible para %s.  "
 "Posponiendo..."
 
-#: server/cityturn.c:1224
+#: server/cityturn.c:1226
 #, c-format
 msgid "%s can't build %s from the worklist; reason unknown!  Postponing..."
 msgstr ""
@@ -38882,37 +39006,37 @@ msgstr ""
 "Posponiendo..."
 
 #. TRANS: The <city> worklist ....
-#: server/cityturn.c:1263
+#: server/cityturn.c:1265
 #, c-format
 msgid "The %s worklist is now empty."
 msgstr "La lista de tareas de %s está vacía."
 
-#: server/cityturn.c:1411
+#: server/cityturn.c:1413
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
 msgstr "%s no puede pagar el sustento de %s, unidad disuelta."
 
-#: server/cityturn.c:1432
+#: server/cityturn.c:1434
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "¡Los ciudadanos de %s perecen por su fracaso para mantener %s!"
 
-#: server/cityturn.c:1477 server/cityturn.c:1610
+#: server/cityturn.c:1479 server/cityturn.c:1612
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "%s está produciendo %s, lo cual ya no está disponible."
 
-#: server/cityturn.c:1516
+#: server/cityturn.c:1518
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "Los %s han terminado de producir %s en %s."
 
-#: server/cityturn.c:1523
+#: server/cityturn.c:1525
 #, c-format
 msgid "%s has finished building %s."
 msgstr "%s ha terminado de producir %s."
 
-#: server/cityturn.c:1543
+#: server/cityturn.c:1545
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
@@ -38921,98 +39045,98 @@ msgstr[0] ""
 msgstr[1] ""
 "%s impulsa la investigación; consigues %d descubrimientos inmediatamente."
 
-#: server/cityturn.c:1552 server/techtools.c:173
+#: server/cityturn.c:1554 server/techtools.c:173
 #, c-format
 msgid "The %s have acquired %s from %s."
 msgstr "Los %s reciben %s de los %s."
 
-#: server/cityturn.c:1560
+#: server/cityturn.c:1562
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "¡Los %s han empezado a construir una nave espacial!"
 
-#: server/cityturn.c:1637
+#: server/cityturn.c:1639
 #, c-format
 msgid "%s can't build %s yet."
 msgstr "%s no puede producir aún %s."
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:1676
+#: server/cityturn.c:1678
 #, c-format
 msgid "%s is finished building %s."
 msgstr "%s ha terminado de producir %s."
 
 #. TRANS: <unit> cost... <city> shrinks...
-#: server/cityturn.c:1684
+#: server/cityturn.c:1686
 #, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgstr "Tu %s cuesta %d punto(s) de población. %s se reduce a tamaño %d."
 
-#: server/cityturn.c:1767
+#: server/cityturn.c:1769
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr ""
 "¡No hay suficiente dinero para mantener %s en %s, se vende el edificio!"
 
-#: server/cityturn.c:1818
+#: server/cityturn.c:1820
 #, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "No hay suficiente oro. Se desarticula %s."
 
-#: server/cityturn.c:2047
+#: server/cityturn.c:2049
 #, c-format
 msgid "Pollution near %s."
 msgstr "Contaminación cerca de %s."
 
-#: server/cityturn.c:2214
+#: server/cityturn.c:2216
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr "Celebraciones a lo grande en tu honor en %s."
 
-#: server/cityturn.c:2220
+#: server/cityturn.c:2222
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "Celebraciones canceladas en %s."
 
-#: server/cityturn.c:2237
+#: server/cityturn.c:2239
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr "%s ha sido alcanzado por una plaga! Se ha perdido población!"
 
-#: server/cityturn.c:2283
+#: server/cityturn.c:2285
 #, c-format
 msgid "Civil disorder in %s."
 msgstr "Disturbios en %s."
 
-#: server/cityturn.c:2287
+#: server/cityturn.c:2289
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s."
 msgstr "SIGUE HABIENDO DISTURBIOS en %s."
 
-#: server/cityturn.c:2293
+#: server/cityturn.c:2295
 #, c-format
 msgid "Order restored in %s."
 msgstr "Se ha restablecido el orden público en %s."
 
-#: server/cityturn.c:2304
+#: server/cityturn.c:2306
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "El pueblo ha derrocado a tu %s, tu nación está sumida en revueltas."
 
-#: server/cityturn.c:2344
+#: server/cityturn.c:2346
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
 "%s no puede producir %s todavía, y no podemos abandonar nuestra única ciudad."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:2373
+#: server/cityturn.c:2375
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "Se abandona %s; sus habitantes ahora son %s."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2570
+#: server/cityturn.c:2572
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
@@ -39021,7 +39145,7 @@ msgstr ""
 "disponible!"
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2577
+#: server/cityturn.c:2579
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -39031,7 +39155,7 @@ msgstr ""
 "disponible!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2582
+#: server/cityturn.c:2584
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -39041,7 +39165,7 @@ msgstr ""
 "disponible!"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2597
+#: server/cityturn.c:2599
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
@@ -39050,7 +39174,7 @@ msgstr ""
 "crecer!"
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:2604
+#: server/cityturn.c:2606
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
@@ -39059,7 +39183,7 @@ msgstr ""
 "crecer!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2609
+#: server/cityturn.c:2611
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
@@ -39067,37 +39191,37 @@ msgstr ""
 "Migrantes de %s (%s) no puede ir a %s, porque necesita una instalación para "
 "crecer!"
 
-#: server/cityturn.c:2651
+#: server/cityturn.c:2653
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "Los habitantes de %s abandonan su ciudad."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2687
+#: server/cityturn.c:2689
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr "Migrantes de %s se trasladan a %s en busca de una vida mejor."
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2693
+#: server/cityturn.c:2695
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr "Migrantes de %s se trasladan a %s (%s) en busca de una vida mejor."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2698
+#: server/cityturn.c:2700
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr "Migrantes de %s (%s) se trasladan a %s en busca de una vida mejor."
 
-#: server/cityturn.c:2885
+#: server/cityturn.c:2887
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr ""
 "Ciudadanos de %s están pensando en emigrar a %s para tener una vida mejor."
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2906
+#: server/cityturn.c:2908
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -39298,6 +39422,12 @@ msgstr "LoadAI MODULO"
 #: server/civserver.c:424
 msgid "Load ai module MODULE. Can appear multiple times"
 msgstr "Carga el módulo de IA MODULO. Puede aparecer múltiples veces"
+
+#: server/civserver.c:440
+msgid "Requested authentication with --auth, but no --Database given\n"
+msgstr ""
+"Se ha requerido la autenticación con --auth, pero no se ha especificado "
+"--Database\n"
 
 #: server/commands.c:53
 msgid "Start the game, or restart after loading a savegame."
@@ -39786,7 +39916,6 @@ msgid "Create an AI player with a given name."
 msgstr "Crea un jugador controlado por el ordenador."
 
 #: server/commands.c:321
-#, fuzzy
 msgid ""
 "With the 'create' command a new player with the given name is created.\n"
 "If the game was started, the command checks for free player slots and, if no "
@@ -39799,7 +39928,7 @@ msgstr ""
 "Con el comando 'crear' se crea un nuevo jugador con el nombre dado.\n"
 "Si el juego se inició, el comando comprueba que hay ranuras libres de "
 "jugador y, si no se dispone de ranuras libres, intenta volver a utilizar las "
-"ranuras de los jugadores muertos. El nuevo jugador no tiene unidades o "
+"ranuras de los jugadores muertos. El nuevo jugador no tiene unidades ni "
 "ciudades.\n"
 "El parámetro 'tipo IA' se puede utilizar para seleccionar el módulo de "
 "inteligencia artificial que será utilizada para el jugador creado. Esto "
@@ -40303,7 +40432,6 @@ msgstr ""
 "lua <linea de script> (depreciado)"
 
 #: server/commands.c:583
-#, fuzzy
 msgid ""
 "Evaluate a line of Freeciv script or a Freeciv script file in the current "
 "game."
@@ -40557,7 +40685,7 @@ msgstr "Rechazado %s: Nombre de usuario duplicado [%s]."
 msgid "Lost connection: %s."
 msgstr "Se ha cortado la conexión: %s."
 
-#: server/connecthand.c:709
+#: server/connecthand.c:710
 #, c-format
 msgid "Detaching from %s."
 msgstr "Abandonando a %s."
@@ -41208,16 +41336,16 @@ msgstr "¡No se posible que una ciudad tenga %s!"
 msgid ""
 "Invalid city food stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
-"Acopio de comida %d de la ciudad %s no válido (rango permitido es de %d a "
-"%d)."
+"Acopio de comida %d de la ciudad %s no válido (rango permitido es de %d a %"
+"d)."
 
 #: server/edithand.c:939
 #, c-format
 msgid ""
 "Invalid city shield stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
-"Cantidad de producción %d de la ciudad %s no válido (rango permitido es de "
-"%d a %d)."
+"Cantidad de producción %d de la ciudad %s no válido (rango permitido es de %"
+"d a %d)."
 
 #: server/edithand.c:986
 #, c-format
@@ -41320,8 +41448,8 @@ msgstr ""
 #, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
 msgstr ""
-"No se puede alternar la opción de la niebla de guerra para el Id de jugador "
-"%d no válida."
+"No se puede alternar la opción de la niebla de guerra para el Id de jugador %"
+"d no válida."
 
 #: server/edithand.c:1348 server/edithand.c:1387
 #, c-format
@@ -41406,13 +41534,13 @@ msgstr ""
 msgid "No units placed for %s!"
 msgstr "No hay unidades para %s!"
 
-#: server/gamehand.c:549
+#: server/gamehand.c:551
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
 msgstr ""
 "La duración máxima del turno ha excedido su valor máximo, fijándola a su "
 "máximo."
 
-#: server/gamehand.c:557
+#: server/gamehand.c:559
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "La duración máxima del turno es negativa, quedará a cero."
 
@@ -42641,8 +42769,8 @@ msgid ""
 "No city founder ('c') within the starting units string: '%s'. Try \"help "
 "startunits\"."
 msgstr ""
-"No hay ninguna unidad de colonos ('c') en la cadena de unidades iniciales: "
-"'%s'. Prueba \"help startunits\"."
+"No hay ninguna unidad de colonos ('c') en la cadena de unidades iniciales: '%"
+"s'. Prueba \"help startunits\"."
 
 #: server/settings.c:708
 msgid "Cannot set endturn earlier than current turn."
@@ -42665,11 +42793,11 @@ msgstr ""
 #: server/settings.c:741
 #, c-format
 msgid ""
-"Requested value (%d) is greater than number of available start positions "
-"(%d). Keeping old value."
+"Requested value (%d) is greater than number of available start positions (%"
+"d). Keeping old value."
 msgstr ""
-"El número proporcionado (%d) es mas alto que el nº de posiciones de inicio "
-"(%d). Se mantiene el valor anterior."
+"El número proporcionado (%d) es mas alto que el nº de posiciones de inicio (%"
+"d). Se mantiene el valor anterior."
 
 #: server/settings.c:759
 msgid "You are not allowed to set timeout values less than 30 seconds."
@@ -42702,8 +42830,8 @@ msgid ""
 "'unitwaittime' has to be lower than 2/3 of the 'timeout' setting (= %d). "
 "Please change 'timeout' first."
 msgstr ""
-"'unitwaittime' tiene que ser inferior a 2/3 de la configuración 'timeout' (="
-"%d). Por favor, cambie primero 'timeout'."
+"'unitwaittime' tiene que ser inferior a 2/3 de la configuración 'timeout' (=%"
+"d). Por favor, cambie primero 'timeout'."
 
 #: server/settings.c:824 server/settings.c:882 server/settings.c:902
 msgid "For an isometric or hexagonal map the ysize must be even."
@@ -44264,12 +44392,12 @@ msgid ""
 msgstr ""
 "Si todos los jugadores no han pulsado \"Fin del Turno\" antes de que "
 "transcurra este tiempo, el turno acaba automáticamente.  Cero indica que no "
-"hay duración máxima. En servidores compilados para depuración, un valor de "
-"-1 activa el modo autojuego para pruebas. Solo conexiones con nivel de "
-"acceso hack pueden asignar un valor menor a 30 segundos. Usa esta opción "
-"junto con el comando \"timeoutincrease\" para conseguir una duración de "
-"turno dinámica. El primer turno es tratado como un caso especial y es "
-"controlado por el ajuste 'first_timeout'."
+"hay duración máxima. En servidores compilados para depuración, un valor de -"
+"1 activa el modo autojuego para pruebas. Solo conexiones con nivel de acceso "
+"hack pueden asignar un valor menor a 30 segundos. Usa esta opción junto con "
+"el comando \"timeoutincrease\" para conseguir una duración de turno "
+"dinámica. El primer turno es tratado como un caso especial y es controlado "
+"por el ajuste 'first_timeout'."
 
 #: server/settings.c:2028
 msgid "First turn timeout"
@@ -44872,8 +45000,8 @@ msgid "Scenario victory to %s."
 msgstr "Victoria de escenario para %s."
 
 #: server/srv_main.c:350 server/stdinhand.c:4369
-msgid "Game ended in a draw."
-msgstr "La partida ha acabado en tablas."
+msgid "Game is over."
+msgstr "Fin de la partida."
 
 #: server/srv_main.c:384 server/srv_main.c:520
 #, c-format
@@ -44892,8 +45020,8 @@ msgid "Game ended in victory for %s."
 msgstr "La partida ha acabado con victoria para %s."
 
 #: server/srv_main.c:480
-msgid "Game ended in a draw as the turn limit was exceeded."
-msgstr "La partida ha acabado en tablas al sobrepasar el turno final."
+msgid "Game ended as the turn limit was exceeded."
+msgstr "La partida ha acabado al sobrepasarse el turno final límite."
 
 #: server/srv_main.c:491
 #, c-format
@@ -45007,7 +45135,7 @@ msgstr ""
 msgid "%s rules the %s."
 msgstr "%s gobierna a los %s."
 
-#: server/srv_main.c:2342
+#: server/srv_main.c:2351
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -45015,30 +45143,30 @@ msgstr ""
 "Este programa servidor de Freeciv tiene soporte para autentificación de "
 "jugadores, pero no se está usando actualmente."
 
-#: server/srv_main.c:2411
+#: server/srv_main.c:2420
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Enviando información al metaservidor <%s>."
 
-#: server/srv_main.c:2415
+#: server/srv_main.c:2424
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 "No se reinicia sin haber solicitado expresamente una conexión al metaserver ."
 
-#: server/srv_main.c:2436
+#: server/srv_main.c:2445
 msgid "The game is over..."
 msgstr "¡La partida ha finalizado!"
 
-#: server/srv_main.c:2513
+#: server/srv_main.c:2522
 msgid "Failed to create suitable map, retrying with another mapseed"
 msgstr ""
 "No se pudo crear un mapa adecuado, se volverá a intentar con otro mapseed"
 
-#: server/srv_main.c:2524
+#: server/srv_main.c:2537
 msgid "Cannot create suitable map with given settings."
 msgstr "No se puede crear un mapa adecuado con los ajustes proporcionados."
 
-#: server/srv_main.c:2722
+#: server/srv_main.c:2735
 msgid "Now accepting new client connections."
 msgstr "Aceptando más conexiones de clientes."
 
@@ -45625,8 +45753,8 @@ msgstr "Votar"
 #: server/stdinhand.c:2366
 #, c-format
 msgid ""
-"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of "
-"%d players."
+"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of %"
+"d players."
 msgstr ""
 "%s %d \"%s\" (necesita %0.0f%%%s): %d a favor, %d en contra, y %d "
 "abstenciones de %d jugadores."
@@ -46238,8 +46366,8 @@ msgstr "Usando la sintaxis vieja '%slua <comando script>'."
 #, c-format
 msgid "No lua command or lua script file. See '%shelp lua'."
 msgstr ""
-"No hay ningún comando lua o no existe el fichero de comandos lua. Mira "
-"'%shelp lua'."
+"No hay ningún comando lua o no existe el fichero de comandos lua. Mira '%"
+"shelp lua'."
 
 #: server/stdinhand.c:4614
 #, c-format
@@ -46807,7 +46935,7 @@ msgstr "Insuficiente producción científica. Hemos perdido la Tecno. Futura %d.
 msgid "Insufficient science output. We lost %s."
 msgstr "Insuficiente producción científica. Hemos perdido %s."
 
-#: server/techtools.c:576
+#: server/techtools.c:583
 #, c-format
 msgid ""
 "The required technology for our government '%s' was lost. The citizens have "
@@ -46816,7 +46944,7 @@ msgstr ""
 "La tecnología necesaria para nuestro gobierno '%s' se ha perdido. Los "
 "ciudadanos han comenzado una revolución hacia '%s'."
 
-#: server/techtools.c:599
+#: server/techtools.c:606
 #, c-format
 msgid ""
 "The required technology for our new government '%s' was lost. The citizens "
@@ -46825,32 +46953,32 @@ msgstr ""
 "La tecnología necesaria para nuestro nuevo gobierno '%s' se ha perdido. Los "
 "ciudadanos eligen '%s' como el nuevo gobierno objetivo."
 
-#: server/techtools.c:637 server/techtools.c:649
+#: server/techtools.c:644 server/techtools.c:656
 #, c-format
 msgid "%s can't build %s. The required technology was lost."
 msgstr "%s no puede construir %s. La tecnología necesaria se perdió."
 
-#: server/techtools.c:766
+#: server/techtools.c:773
 #, c-format
 msgid "Technology goal is %s."
 msgstr "La meta tecnológica es %s."
 
-#: server/techtools.c:975
+#: server/techtools.c:982
 #, c-format
 msgid "You steal %s from the %s."
 msgstr "Has robado %s a los %s."
 
-#: server/techtools.c:980
+#: server/techtools.c:987
 #, c-format
 msgid "The %s stole %s from you!"
 msgstr "¡Los %s te han robado %s!"
 
-#: server/techtools.c:985
+#: server/techtools.c:992
 #, c-format
 msgid "The %s have stolen %s from the %s."
 msgstr "Los %s han robado %s a los %s."
 
-#: server/techtools.c:1105
+#: server/techtools.c:1112
 #, c-format
 msgid "Too bad! You made a mistake transferring the tech %s and lost it."
 msgstr ""
@@ -46964,80 +47092,80 @@ msgstr "%s necesita una mejora para crecer, así que no puedes añadir %s."
 msgid "Can't add %s to %s."
 msgstr "No se pueden añadir %s a %s."
 
-#: server/unithand.c:674
+#: server/unithand.c:675
 #, c-format
 msgid "%s added to aid %s in growing."
 msgstr "Tu %s se ha añadido a %s para contribuir a su crecimiento."
 
-#: server/unithand.c:1076
+#: server/unithand.c:1077
 #, c-format
 msgid "Your %s was shot down by SDI defenses, what a waste."
 msgstr "Tu %s ha sido derribado por la defensa SDI, vaya desperdicio."
 
-#: server/unithand.c:1079
+#: server/unithand.c:1080
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Tu defensa SDI ha evitado un ataque nuclear sobre %s."
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
-#: server/unithand.c:1166
+#: server/unithand.c:1167
 #, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
 msgstr "Tu %1$s ha sobrevivido al patético ataque del %3$s %2$s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unithand.c:1176
+#: server/unithand.c:1177
 #, c-format
 msgid "Your attacking %s failed against the %s %s!"
 msgstr "¡Has perdido tu %1$s en un ataque contra un %3$s %2$s!"
 
-#: server/unithand.c:1254
+#: server/unithand.c:1255
 msgid "This type of troops cannot take over a city."
 msgstr "Las tropas de este tipo no pueden conquistar una ciudad."
 
 #. TRANS: %s is list of units separated by "or".
-#: server/unithand.c:1264
+#: server/unithand.c:1265
 #, c-format
 msgid "Only %s can attack from sea."
 msgstr "Sólo los %s pueden atacar desde el mar."
 
-#: server/unithand.c:1268
+#: server/unithand.c:1269
 msgid "Cannot attack from sea."
 msgstr "No se puede atacar desde el mar."
 
-#: server/unithand.c:1275 server/unittools.c:2405
+#: server/unithand.c:1276 server/unittools.c:2405
 msgid "Cannot attack unless you declare war first."
 msgstr "No puedes atacar si no declaras primero la guerra."
 
-#: server/unithand.c:1280
+#: server/unithand.c:1281
 #, c-format
 msgid "%s can only move into your own zone of control."
 msgstr "Sólo puedes mover tu %s a tu propia zona de control."
 
-#: server/unithand.c:1286
+#: server/unithand.c:1287
 #, c-format
 msgid "%s cannot move that far from the coast line."
 msgstr "%s no puede ir tan lejos de la costa."
 
-#: server/unithand.c:1293 server/unittools.c:2412
+#: server/unithand.c:1294 server/unittools.c:2412
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "No puedes invadir si no rompes antes el tratado de paz con %s."
 
-#: server/unithand.c:1339
+#: server/unithand.c:1340
 msgid "This unit has no moves left."
 msgstr "A esa unidad no le quedan movimientos."
 
-#: server/unithand.c:1399
+#: server/unithand.c:1400
 msgid "No diplomat action possible."
 msgstr "No hay acciones diplomáticas disponibles."
 
-#: server/unithand.c:1403
+#: server/unithand.c:1404
 #, c-format
 msgid "Unit cannot perform diplomatic action from %s."
 msgstr "La unidad no puede realizar acciones diplomáticas desde %s."
 
-#: server/unithand.c:1421
+#: server/unithand.c:1422
 #, c-format
 msgid "You must declare war on %s first.  Try using the Nations report (F3)."
 msgstr ""
@@ -47045,42 +47173,42 @@ msgstr ""
 "(F3)."
 
 #. TRANS: <unit> ... <unit>
-#: server/unithand.c:1464
+#: server/unithand.c:1465
 #, c-format
 msgid "Your %s succeeded in capturing the %s."
 msgstr "Tu %s ha conseguido capturar al %s."
 
 #. TRANS: <unit> ... <Poles>
-#: server/unithand.c:1469
+#: server/unithand.c:1470
 #, c-format
 msgid "Your %s was captured by the %s."
 msgstr "Tu %s ha sido capturado por el %s."
 
-#: server/unithand.c:1494
+#: server/unithand.c:1495
 msgid "This unit is being transported, and so cannot bombard."
 msgstr "Esta unidad está siendo transportada, y no puede bombardear."
 
-#: server/unithand.c:1506
+#: server/unithand.c:1507
 msgid "You can't attack there."
 msgstr "No puedes atacar ahí."
 
-#: server/unithand.c:1542
+#: server/unithand.c:1543
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "Una unidad transportada no está aliada con todas o alguna de las unidades en "
 "la casilla de destino."
 
-#: server/unithand.c:1590
+#: server/unithand.c:1591
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "Tu %s ayuda a construir %s en %s (quedan %d)."
 
-#: server/unithand.c:1592
+#: server/unithand.c:1593
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "Tu %s ayuda a construir %s en %s (%d de superávit)."
 
-#: server/unithand.c:1646
+#: server/unithand.c:1647
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
@@ -47088,23 +47216,23 @@ msgstr ""
 "Lo siento, tu %s no puede establecer una ruta comercial porque no pertenece "
 "a ninguna ciudad."
 
-#: server/unithand.c:1658
+#: server/unithand.c:1659
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "Lo siento, tu %s no puede establecer una ruta comercial entre %s y %s."
 
-#: server/unithand.c:1690 server/unithand.c:1711
+#: server/unithand.c:1691 server/unithand.c:1712
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "¡Lo siento, tu %s no puede establecer una ruta comercial aquí!"
 
-#: server/unithand.c:1695 server/unithand.c:1716
+#: server/unithand.c:1696 server/unithand.c:1717
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
 msgstr "      ¡La ciudad de %s ya tiene %d rutas comerciales mejores!"
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ...
-#: server/unithand.c:1738
+#: server/unithand.c:1739
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -47119,22 +47247,22 @@ msgstr[1] ""
 "Tu %s de %s ha llegado a %s, y hay unos beneficios totales de %d en oro e "
 "investigación."
 
-#: server/unithand.c:1764
+#: server/unithand.c:1765
 #, c-format
 msgid "New trade route established from %s to %s."
 msgstr "Nueva ruta comercial establecida de %s a %s."
 
-#: server/unithand.c:1770
+#: server/unithand.c:1771
 #, c-format
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "Los %s ha establecido una ruta comercial entre su ciudad %s y %s."
 
-#: server/unithand.c:1785 server/unithand.c:1807
+#: server/unithand.c:1786 server/unithand.c:1808
 #, c-format
 msgid "Trade route between %s and %s canceled."
 msgstr "La ruta comercial entre %s y %s ha sido cancelada."
 
-#: server/unithand.c:1792 server/unithand.c:1814
+#: server/unithand.c:1793 server/unithand.c:1815
 #, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr ""
@@ -47748,15 +47876,31 @@ msgid_plural "seconds"
 msgstr[0] "segundo"
 msgstr[1] "segundos"
 
-#: utility/support.c:421
+#: utility/support.c:425
 #, c-format
 msgid "error %ld (failed FormatMessage)"
 msgstr "error %ld (falló FormatMessage)"
 
-#: utility/support.c:434
+#: utility/support.c:438
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "error %d (se ha compilado sin strerror)"
+
+#~ msgid "Dictatress %s"
+#~ msgstr "Dictadora %s"
+
+#~ msgid "?female:Calipha %s"
+#~ msgstr "Califa %s"
+
+#~ msgid "?female:Sheikh %s"
+#~ msgstr "Jeque %s"
+
+#, fuzzy
+#~ msgid "Stadholdress %s"
+#~ msgstr "Estatúder %s"
+
+#~ msgid "Game ended in a draw."
+#~ msgstr "La partida ha acabado en tablas."
 
 #~ msgid ""
 #~ "* Will be built as a veteran in cities with appropriate training "
@@ -47890,8 +48034,8 @@ msgstr "error %d (se ha compilado sin strerror)"
 
 #, fuzzy
 #~ msgid ""
-#~ "Please set 'plrcolormode' to PLR_SET to define the color for the player "
-#~ "%s before the game starts."
+#~ "Please set 'plrcolormode' to PLR_SET to define the color for the player %"
+#~ "s before the game starts."
 #~ msgstr ""
 #~ "Por favor, asigna 'PLR_SET' a 'plrcolormode' para definir el color para "
 #~ "el jugador %s antes de que se inicie la partida."
