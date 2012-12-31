@@ -149,7 +149,7 @@ dnl yes     - Support for IPv6 required
 dnl no      - Legacy IPv4 support
 dnl test    - Try to enable IPv6 support
 AC_ARG_ENABLE([ipv6],
-  AC_HELP_STRING([--enable-ipv6=yes/no/test], [use IPv6 [test]]),
+  AS_HELP_STRING([--enable-ipv6=yes/no/test], [use IPv6 [test]]),
 [case "${enableval}" in
   yes|no|test) ipv6=${enableval} ;;
   *)   AC_MSG_ERROR(bad value ${enableval} for --enable-ipv6) ;;
@@ -179,14 +179,14 @@ if test x$ipv6 != xno ; then
 fi
 
 AC_ARG_WITH([readline],
-  AC_HELP_STRING([--with-readline], [support fancy command line editing]),
+  AS_HELP_STRING([--with-readline], [support fancy command line editing]),
 WITH_READLINE=$withval,	dnl yes/no - required to use / never use
 WITH_READLINE="maybe"	dnl maybe  - use if found [default]
 )
 
 FOLLOWTAG=${DEFAULT_FOLLOW_TAG}
 AC_ARG_WITH([followtag],
-  AC_HELP_STRING([--with-followtag], [version tag to follow]),
+  AS_HELP_STRING([--with-followtag], [version tag to follow]),
 [FOLLOWTAG=${withval}])
 AC_DEFINE_UNQUOTED([FOLLOWTAG], ["${FOLLOWTAG}"], [Version tag to follow])
 
@@ -200,7 +200,7 @@ dnl no:                   No additional toolkits.
 dnl magickwand:           compile magickwand (imagemagick) support.
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE([mapimg],
-  AC_HELP_STRING([--enable-mapimg=no/auto/magickwand],
+  AS_HELP_STRING([--enable-mapimg=no/auto/magickwand],
                  [additional map image toolkits to compile [auto](no, or list)]),
 [toolkits=${enableval}],
 [enable_mapimg=auto])
