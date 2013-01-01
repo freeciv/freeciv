@@ -41,7 +41,7 @@ AC_DEFUN([FC_XAW_CLIENT],
       AC_CHECK_HEADER([png.h],,
       [
         FC_NO_CLIENT([xaw], [libpng found but not png.h.
-You may need to install a libpng \"development\" package.])
+You may need to install a libpng "development" package.])
         no_png=yes
       ])
     ])

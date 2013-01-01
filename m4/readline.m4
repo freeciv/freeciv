@@ -65,8 +65,8 @@ AC_DEFUN([FC_HAS_READLINE],
                        have_readline_header=0)
        if test "$have_readline_header" = "0"; then
            if test "$WITH_READLINE" = "yes"; then
-               AC_MSG_ERROR(Did not find readline header file. 
-You may need to install a readline \"development\" package.)
+               AC_MSG_ERROR([Did not find readline header file. 
+You may need to install a readline "development" package.])
            else
                AC_MSG_WARN(Did not find readline header file. 
 Configuring server without readline support.)
