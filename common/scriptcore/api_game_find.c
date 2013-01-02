@@ -95,9 +95,9 @@ Unit_Type *api_find_role_unit_type(lua_State *L, const char *role_name,
   LUASCRIPT_CHECK_STATE(L, NULL);
   LUASCRIPT_CHECK_ARG_NIL(L, role_name, 2, string, NULL);
 
-  role = unit_role_by_rule_name(role_name);
+  role = unit_role_id_by_name(role_name, fc_strcasecmp);
 
-  if (role == L_LAST) {
+  if (!unit_role_id_is_valid(role)) {
     return NULL;
   }
 

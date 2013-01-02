@@ -1640,8 +1640,8 @@ static void load_ruleset_units(struct section_file *file)
       if(strcmp(sval,"")==0) {
 	continue;
       }
-      ival = unit_role_by_rule_name(sval);
-      if (ival==L_LAST) {
+      ival = unit_role_id_by_name(sval, fc_strcasecmp);
+      if (!unit_role_id_is_valid(ival)) {
         log_error("\"%s\" unit_type \"%s\": bad role name \"%s\".",
                   filename, utype_rule_name(u), sval);
       } else if ((ival == L_FERRYBOAT || ival == L_BARBARIAN_BOAT)

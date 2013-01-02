@@ -172,8 +172,8 @@ static struct unit_type *dai_choose_bodyguard(struct ai_type *ait,
   int best = 0;
 
   simple_ai_unit_type_iterate(punittype) {
-    /* Only consider units of given role, or any if L_LAST */
-    if (role != L_LAST) {
+    /* Only consider units of given role, or any if invalid given */
+    if (unit_role_id_is_valid(role)) {
       if (!utype_has_role(punittype, role)) {
         continue;
       }

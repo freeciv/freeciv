@@ -52,15 +52,6 @@ struct user_unit_type_flag
 
 static struct user_unit_type_flag user_type_flags[MAX_NUM_USER_UNIT_FLAGS];
 
-static const char *role_names[] = {
-  "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",
-  "DefendOk", "DefendGood", "AttackFast", "AttackStrong",
-  "Ferryboat", "Barbarian", "BarbarianTech", "BarbarianBoat",
-  "BarbarianBuild", "BarbarianBuildTech", "BarbarianLeader",
-  "BarbarianSea", "BarbarianSeaTech", "Cities", "Settlers",
-  "GameLoss", "Diplomat", "Hunter"
-};
-
 /**************************************************************************
   Return the first item of unit_types.
 **************************************************************************/
@@ -605,34 +596,6 @@ const char *unit_type_flag_helptxt(enum unit_type_flag_id id)
   fc_assert(id >= UTYF_USER_FLAG_1 && id <= UTYF_LAST_USER_FLAG);
 
   return user_type_flags[id - UTYF_USER_FLAG_1].helptxt;
-}
-
-/**************************************************************************
-  Convert role names to enum; case insensitive;
-  returns L_LAST if can't match.
-**************************************************************************/
-enum unit_role_id unit_role_by_rule_name(const char *s)
-{
-  enum unit_role_id i;
-
-  fc_assert_ret_val(ARRAY_SIZE(role_names) == (L_LAST - L_FIRST), L_LAST);
-
-  for(i = L_FIRST; i < L_LAST; i++) {
-    if (fc_strcasecmp(role_names[i - L_FIRST], s) == 0) {
-      return i;
-    }
-  }
-  return L_LAST;
-}
-
-/**************************************************************************
-  Return the (untranslated) rule name of the unit role.
-**************************************************************************/
-const char *unit_role_rule_name(enum unit_role_id id)
-{
-  fc_assert_ret_val(ARRAY_SIZE(role_names) == L_LAST, NULL);
-  fc_assert_ret_val(id >= 0 && id < L_LAST, NULL);
-  return role_names[id];
 }
 
 /**************************************************************************

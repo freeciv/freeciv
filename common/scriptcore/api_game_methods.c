@@ -637,8 +637,8 @@ bool api_methods_unit_type_has_role(lua_State *L, Unit_Type *punit_type,
   LUASCRIPT_CHECK_SELF(L, punit_type, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, role, 3, string, FALSE);
 
-  id = unit_role_by_rule_name(role);
-  if (id != L_LAST) {
+  id = unit_role_id_by_name(role, fc_strcasecmp);
+  if (unit_role_id_is_valid(id)) {
     return utype_has_role(punit_type, id);
   } else {
     luascript_error(L, "Unit role \"%s\" does not exist", role);

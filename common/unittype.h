@@ -228,6 +228,7 @@ struct unit_class {
 #define SPECENUM_VALUE49 UTYF_USER_FLAG_14
 #define SPECENUM_VALUE50 UTYF_USER_FLAG_15
 #define SPECENUM_VALUE51 UTYF_USER_FLAG_16
+/* Note that first role must have value next to last flag */
 
 #define UTYF_LAST_USER_FLAG UTYF_USER_FLAG_16
 #define MAX_NUM_USER_UNIT_FLAGS (UTYF_LAST_USER_FLAG - UTYF_USER_FLAG_1 + 1)
@@ -248,33 +249,82 @@ struct unit_class {
    so some functions can use them interchangably.
    See data/classic/units.ruleset for documentation of their effects.
 */
-#define L_FIRST UTYF_MAX
-enum unit_role_id {
-  L_FIRSTBUILD=L_FIRST, /* is built first when city established */
-  L_EXPLORER,           /* initial explorer unit */
-  L_HUT,                /* can be found in hut */
-  L_HUT_TECH,           /* can be found in hut, global tech required */
-  L_PARTISAN,           /* is created in Partisan circumstances */
-  L_DEFEND_OK,          /* ok on defense (AI) */
-  L_DEFEND_GOOD,        /* primary purpose is defense (AI) */
-  L_ATTACK_FAST,        /* quick attacking unit (Horse..Armor) (unused)*/
-  L_ATTACK_STRONG,      /* powerful attacking unit (Catapult..) (unused) */
-  L_FERRYBOAT,	        /* is useful for ferrying (AI) */
-  L_BARBARIAN,          /* barbarians unit, land only */
-  L_BARBARIAN_TECH,     /* barbarians unit, global tech required */
-  L_BARBARIAN_BOAT,     /* barbarian boat */
-  L_BARBARIAN_BUILD,    /* what barbarians should build */
-  L_BARBARIAN_BUILD_TECH, /* barbarians build when global tech */
-  L_BARBARIAN_LEADER,   /* barbarian leader */
-  L_BARBARIAN_SEA,      /* sea raider unit */
-  L_BARBARIAN_SEA_TECH, /* sea raider unit, global tech required */
-  L_CITIES,		/* can found cities */
-  L_SETTLERS,		/* can improve terrain */
-  L_GAMELOSS,		/* loss results in loss of game */
-  L_DIPLOMAT,		/* can do diplomat actions */
-  L_HUNTER,             /* AI hunter type unit */
-  L_LAST
-};
+#define L_FIRST UTYF_LAST_USER_FLAG
+
+#define SPECENUM_NAME unit_role_id
+/* is built first when city established */
+#define SPECENUM_VALUE52 L_FIRSTBUILD
+#define SPECENUM_VALUE52NAME "FirstBuild"
+/* initial explorer unit */
+#define SPECENUM_VALUE53 L_EXPLORER
+#define SPECENUM_VALUE53NAME "Explorer"
+/* can be found in hut */
+#define SPECENUM_VALUE54 L_HUT
+#define SPECENUM_VALUE54NAME "Hut"
+/* can be found in hut, global tech required */
+#define SPECENUM_VALUE55 L_HUT_TECH
+#define SPECENUM_VALUE55NAME "HutTech"
+/* is created in Partisan circumstances */
+#define SPECENUM_VALUE56 L_PARTISAN
+#define SPECENUM_VALUE56NAME "Partisan"
+/* ok on defense (AI) */
+#define SPECENUM_VALUE57 L_DEFEND_OK
+#define SPECENUM_VALUE57NAME "DefendOk"
+/* primary purpose is defense (AI) */
+#define SPECENUM_VALUE58 L_DEFEND_GOOD
+#define SPECENUM_VALUE58NAME "DefendGood"
+/* quick attacking unit (Horse..Armor) (unused)*/
+#define SPECENUM_VALUE59 L_ATTACK_FAST
+#define SPECENUM_VALUE59NAME "AttackFast"
+/* powerful attacking unit (Catapult..) (unused) */
+#define SPECENUM_VALUE60 L_ATTACK_STRONG
+#define SPECENUM_VALUE60NAME "AttackStrong"
+/* is useful for ferrying (AI) */
+#define SPECENUM_VALUE61 L_FERRYBOAT
+#define SPECENUM_VALUE61NAME "FerryBoat"
+/* barbarians unit, land only */
+#define SPECENUM_VALUE62 L_BARBARIAN
+#define SPECENUM_VALUE62NAME "Barbarian"
+/* barbarians unit, global tech required */
+#define SPECENUM_VALUE63 L_BARBARIAN_TECH
+#define SPECENUM_VALUE63NAME "BarbarianTech"
+/* barbarian boat */
+#define SPECENUM_VALUE64 L_BARBARIAN_BOAT
+#define SPECENUM_VALUE64NAME "BarbarianBoat"
+/* what barbarians should build */
+#define SPECENUM_VALUE65 L_BARBARIAN_BUILD
+#define SPECENUM_VALUE65NAME "BarbarianBuild"
+/* barbarians build when global tech */
+#define SPECENUM_VALUE66 L_BARBARIAN_BUILD_TECH
+#define SPECENUM_VALUE66NAME "BarbarianBuildTech"
+/* barbarian leader */
+#define SPECENUM_VALUE67 L_BARBARIAN_LEADER
+#define SPECENUM_VALUE67NAME "BarbarianLeader"
+/* sea raider unit */
+#define SPECENUM_VALUE68 L_BARBARIAN_SEA
+#define SPECENUM_VALUE68NAME "BarbarianSea"
+/* sea raider unit, global tech required */
+#define SPECENUM_VALUE69 L_BARBARIAN_SEA_TECH
+#define SPECENUM_VALUE69NAME "BarbarianSeaTech"
+/* can found cities */
+#define SPECENUM_VALUE70 L_CITIES
+#define SPECENUM_VALUE70NAME "Cities"
+/* can improve terrain */
+#define SPECENUM_VALUE71 L_SETTLERS
+#define SPECENUM_VALUE71NAME "Settlers"
+/* loss results in loss of game */
+#define SPECENUM_VALUE72 L_GAMELOSS
+#define SPECENUM_VALUE72NAME "GameLoss"
+/* can do diplomat actions */
+#define SPECENUM_VALUE73 L_DIPLOMAT
+#define SPECENUM_VALUE73NAME "Diplomat"
+/* AI hunter type unit */
+#define SPECENUM_VALUE74 L_HUNTER
+#define SPECENUM_VALUE74NAME "Hunter"
+#define L_LAST (L_HUNTER+1)
+
+#include "specenum_gen.h"
+
 #define L_MAX 64
 
 BV_DEFINE(bv_unit_type_flags, UTYF_MAX);
@@ -406,13 +456,10 @@ bool utype_has_flag(const struct unit_type *punittype, int flag);
 bool unit_has_type_role(const struct unit *punit, enum unit_role_id role);
 bool utype_has_role(const struct unit_type *punittype, int role);
 
-enum unit_role_id unit_role_by_rule_name(const char *s);
-
 void user_unit_type_flags_init(void);
 void set_user_unit_type_flag_name(enum unit_type_flag_id id, const char *name,
                                   const char *helptxt);
 const char *unit_type_flag_helptxt(enum unit_type_flag_id id);
-const char *unit_role_rule_name(enum unit_role_id id);
 
 bool unit_can_take_over(const struct unit *punit);
 bool utype_can_take_over(const struct unit_type *punittype);
