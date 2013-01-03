@@ -33,8 +33,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-06 23:16+0300\n"
-"PO-Revision-Date: 2012-08-27 23:29+0200\n"
+"POT-Creation-Date: 2012-10-10 21:09+0200\n"
+"PO-Revision-Date: 2012-12-30 23:01+0100\n"
 "Last-Translator: Marvin Gülker <quintus@quintilianus.eu>\n"
 "Language-Team: German Freeciv Translators <freeciv-de@googlegroups.com>\n"
 "Language: \n"
@@ -424,7 +424,7 @@ msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:431 client/gui-sdl/mapview.c:159
-#: server/console.c:71 server/srv_main.c:2526 utility/log.c:516
+#: server/console.c:71 server/srv_main.c:2530 utility/log.c:516
 #: utility/netintf.c:93 utility/registry.c:893
 #, c-format
 msgid "Please report this message at %s"
@@ -3239,7 +3239,7 @@ msgstr "Address"
 #. TRANS: Tile property "Label" label in editor
 #: client/gui-gtk-2.0/editprop.c:4084 client/gui-gtk-3.0/editprop.c:4084
 msgid "?property:Label"
-msgstr ""
+msgstr "Beschriftung"
 
 #: client/gui-gtk-2.0/editprop.c:4093 client/gui-gtk-3.0/editprop.c:4093
 msgid "Exclude Nations"
@@ -9597,7 +9597,6 @@ msgid "Clear unit orders on selection"
 msgstr "Auswahl löscht aktuelle Einheitenbefehle"
 
 #: client/options.c:2003
-#, fuzzy
 msgid ""
 "Enabling this option will cause unit orders to be cleared as soon as one or "
 "more units are selected. If this option is disabled, busy units will not "
@@ -9607,7 +9606,9 @@ msgid ""
 msgstr ""
 "Mit dieser Option löscht die Auswahl von Einheiten den aktuellen Befehl. "
 "Ohne diese Option wird der Befehl nur aufgehoben, wenn neue Befehle erteilt "
-"werden oder die Leertaste gedrückt wird."
+"werden oder die Leertaste gedrückt wird, wobei sie jedoch ausgewählt "
+"bleiben. Wird die Leertaste ein zweites Mal gedrückt, wird die Auswahl "
+"aufgehoben."
 
 # MG: "Abstimmbalken" klingt blöd. Andererseits sagt man im Deutschen auch "Fortschrittsbalken". Gegenvorschläge werden gerne angenommen.
 #: client/options.c:2012
@@ -10308,11 +10309,11 @@ msgstr "Beginn des %d. Zugs"
 msgid "Welcome"
 msgstr "Willkommen"
 
-#: client/packhand.c:1978
+#: client/packhand.c:1981
 msgid "AI mode is now ON."
 msgstr "KI-Modus EINGESCHALTET."
 
-#: client/packhand.c:1980
+#: client/packhand.c:1983
 msgid "AI mode is now OFF."
 msgstr "KI-Modus AUSGESCHALTET."
 
@@ -20200,6 +20201,15 @@ msgid ""
 "food-consuming units first, followed by citizens, until the food deficit "
 "ends."
 msgstr ""
+"Jede Stadt besitzt zur Speicherung von Nahrungspunkten einen Kornspeicher "
+"(die gleichnamige Stadtverbesserung im Standardregelwerk verbessert diese "
+"Einrichtung lediglich). Städte, die mehr Nahrung produzieren als sie "
+"benötigen, lagern den resultierenden Überschuss in ihrem Kornspeicher ein, "
+"wohingegen Städte, die weniger Nahrung produzieren, als sie benötigen, "
+"diesen langsam leeren. Wenn keine Nahrung mehr im Kornspeicher vorhanden "
+"ist, aber weiterhin benötigt wird, beginnt die Stadtbevölkerung zu hungern: "
+"Zunächst sterben von dieser Stadt mit Nahrung unterstützte Einheiten, dann "
+"Bürger, bis schließlich das Nahrungsdefizit aufgehoben wird."
 
 #: data/helpdata.txt:497
 msgid ""
@@ -20210,6 +20220,14 @@ msgid ""
 "only for small cities. (An alternative way for cities to grow is \"rapture"
 "\", described in the section on Happiness.)"
 msgstr ""
+"Ein großer Nahrungsüberschuss kann die Stadt wachsen lassen: Der städtische "
+"Kornspeicher hat eine begrenzte Kapazität, und ist er einmal gefüllt, wächst "
+"die Stadt um einen Bürger und der Kornspeicher wird vollständig entleert. Da "
+"jedoch das Fassungsvermögen des Kornspeichers zusammen mit der Bevölkerung "
+"zunimmt, kostet jeder Bürger mehr als der letzte, sodass diese Art des "
+"Wachsens lediglich für kleinere Städte interessant ist (alternativ können "
+"Städte auch mithilfe des Begeisterungseffektes wachsen, siehe den Abschnitt "
+"über Zufriedenheit)."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:509
@@ -20226,6 +20244,15 @@ msgid ""
 "disbanded at any time. If a unit is disbanded while in a city, half of its "
 "production cost will usually be put towards that city's surplus."
 msgstr ""
+"Produktionspunkte (auch „Schilde“ genannt) repräsentieren hergestellte "
+"Güter. Die meisten Einheiten benötigen einige Produktionspunkte zu ihrer "
+"Erhaltung und ziehen diese aus ihrer jeweiligen Heimatstadt ab (in "
+"autokratischen Staaten unterstützt jedoch jede Stadt einige wenige Einheiten "
+"umsonst). Geht die Produktion einer Stadt zu weit zurück, werden die "
+"Einheiten, deren Erhalt nicht weiter gewährleistet werden kann, automatisch "
+"aufgelöst; selbstverständlich können Sie die meisten Einheitentypen auch "
+"manuell jederzeit auflösen. Wird eine Einheit in einer Stadt aufgelöst, wird "
+"die Hälfte ihrer Produktionskosten der betreffenden Stadt gutgeschrieben."
 
 #: data/helpdata.txt:519
 msgid ""
@@ -20238,6 +20265,15 @@ msgid ""
 "added to their city's list of structures. Any leftover production points "
 "remain available to be applied towards the next project."
 msgstr ""
+"Überschüssige Produktionspunkte, die von keiner Einheit benötigt werden, "
+"werden auf das aktuelle Bauprojekt der Stadt angerechnet. Ganz wie "
+"Nahrungspunkte sich im Kornspeicher einer Stadt ansammeln und schließlich "
+"zum Wachstum der Stadt führen, wenn dieser gefüllt ist, sammeln sich "
+"Produktionspunkte bis die Baukosten des gewählten Projekts erfüllt sind. "
+"Fertiggestellte Projekte tauchen in der Stadt auf — während Einheiten auf "
+"der Karte erscheinen, werden Stadtverbesserungen und Wunder der Liste der "
+"Gebäude der Stadt hinzugefügt. Alle überschüssigen Produktionspunkte bleiben "
+"für das nächste Bauprojekt verfügbar."
 
 #: data/helpdata.txt:529
 msgid ""
@@ -20250,6 +20286,16 @@ msgid ""
 "number of slots. Units which cost city population to build are an exception "
 "to this rule; they can only be built singly, as can buildings."
 msgstr ""
+"Im Standardregelsatz kann eine Stadt unabhängig vom Prodkutionsüberschuss "
+"höchstens ein einzelnes Projekt pro Runde fertigstellen; in einigen "
+"Regelsätzen hingegen können Faktoren wie Stadtgrößte und Technologien es "
+"einer Stadt unter bestimmten Bedingungen ermöglichen, mehr als eine Einheit "
+"fertigzustellen. Eine Stadt mit mehreren „Bauplätzen“, die mit der "
+"Ausbildung einer Einheit beauftragt wurde, kann so viele Einheiten diesen "
+"speziellen Einheitentyps ausbilden, wie es ihr Produktionsüberschuss und die "
+"vorhandenen freien Bauplätze erlauben. Einheiten, die zu einer Reduktion der "
+"Stadtbevölkerung führen, stellen eine Ausnahme von dieser Regel da: sie "
+"können nur einzeln ausgebildet werden, genauso wie Gebäude."
 
 #: data/helpdata.txt:539
 msgid ""
@@ -20267,6 +20313,22 @@ msgid ""
 "following turn. This can be used to limit the number of units produced by "
 "highly productive cities."
 msgstr ""
+"Sie können Ihre Städte anweisen, mehrere Projekte nach einer sogenannten "
+"„Arbeitsliste“ zu bearbeiten, sodass Sie sich nicht alle paar Runden um jede "
+"Stadt einzeln kümmern müssen. Jeder Eintrag in dieser Liste beschreibt ein "
+"einzelnes Projekt (etwa eine Einheit); diese Liste wird dann der Reihe nach "
+"abgearbeitet, bis alle Aufträge ausführt wurden. Danach wird die betreffende "
+"Stadt falls möglich das letzte Bauprojekt erneut durchführen, andernfalls "
+"wählt sie eigenständig ein neues Projekt. Produziert die Stadt momentan Gold "
+"(im Standardregelsatz das Bauprojekt „Kapitalisierung“), arbeitet also an "
+"einem niemals endenden Projekt, wird die Stadt bei Eintrag eines neuen "
+"Projekts in die Arbeitsliste die Arbeit daran einstellen und stattdessen in "
+"der nächsten Runde das neue Projekt in Angriff nehmen. In Regelsätzen, dies "
+"es zulassen, kann eine Stadt aufeinanderfolgende gleichartige Bauprojekte in "
+"einer einzelnen Runde von der Arbeitsliste nehmen, wird jedoch ein "
+"andersartiges Bauprojekt erreicht, so steht die Produktion bis zur nächsten "
+"Runde still. Dies kann dazu genutzt werden, die Anzahl der von "
+"hochproduktiven Städten ausgebildeten Einheiten zu begrenzen."
 
 #: data/helpdata.txt:554
 msgid ""
@@ -20277,6 +20339,13 @@ msgid ""
 "buildings whose upkeep you cannot afford, both of which will be disbanded "
 "immediately after completion."
 msgstr ""
+"Es steht jedem Spieler weitestgehend frei, alle Einheiten und Gebäude zu "
+"bauen, die seine technologischen Errungenschaften verfügbar gemacht haben. "
+"Mögliche Einschränkungen können den Abschnitten über Einheiten, "
+"Stadtverbesserungen und Weltwundern entnommen werden. Seien Sie vorsichtig — "
+"das Spiel gibt Ihnen auch die Freiheit, Einheiten auszubilden und Gebäude zu "
+"errichten, sie Sie nicht unterhalten können, welche nach der Fertigstellung "
+"sofort aufgelöst bzw. abgerissen werden."
 
 #: data/helpdata.txt:561
 msgid ""
@@ -20286,18 +20355,30 @@ msgid ""
 "You can spend gold to complete a project in one turn by hitting the Buy "
 "button on the city dialog."
 msgstr ""
+"Sie können das aktuelle Bauprojekt einer Stadt jederzeit ändern, verlieren "
+"jedoch die Hälfte der angesammelten Produktionspunkte, wenn Sie von einem "
+"Gebäude, einer Einheit oder einem Wunder zu einem Projekt der zwei jeweils "
+"anderen Kategorien wechseln. Auch können Sie sich dafür entscheiden, Geld "
+"für die unverzügliche Fertigstellung eines Projekts auszugeben, indem Sie "
+"den „Kaufen“-Button benützen. In diesem Falle wird das Projekt innerhalb "
+"einer Runde fertiggestellt."
 
 #: data/helpdata.txt:567
 msgid ""
 "Some production points may be lost to waste, although there is no waste in "
 "the default rules. Waste can result in your cities not building anything."
 msgstr ""
+"Einige Produktionspunkte können aufgrund von Verschwendung verloren gehen, "
+"die dann auftritt, wenn Ihre Städte überhaupt nichts bauen. Im "
+"Standardregelsatz gibt es keine Verschwendung."
 
 #: data/helpdata.txt:571
 msgid ""
 "Cities with a large production output generate pollution; see the section on "
 "Cities for more information."
 msgstr ""
+"Städte mit einer starken Produktion verschmutzen außerdem die Umwelt; siehe "
+"dazu den Abschnitt über Städte."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:578
@@ -20314,6 +20395,14 @@ msgid ""
 "citizen morale; and science points (\"bulbs\") contribute towards the "
 "discovery of new technology."
 msgstr ""
+"Handelspunkte sind Ergebnis des Wohlstandes, der in einer Stadt durch Handel "
+"mit externen Kaufleuten generiert wird. Sie können durch Korruption, die von "
+"der Regierungsform abhängt und dazu neigt, mit steigender Entfernung von der "
+"Hauptstadt zuzunehmen, reduziert werden. Jede Stadt verteilt ihre übrig "
+"gebliebenen Handelspunkte auf drei Felder: Gold, das in Form von Steuern in "
+"Ihre Nationalschatzkammer fließt, Luxuspunkte, die Einfluss auf die Moral "
+"Ihrer Bürger haben und schließlich Forschungspunkte, die der Entwicklung "
+"neuer Technologien zugute kommen."
 
 #: data/helpdata.txt:587
 msgid ""
@@ -20322,6 +20411,11 @@ msgid ""
 "on any turn, you are constrained to multiples of ten percent, and most forms "
 "of government limit their maximum value."
 msgstr ""
+"Für Ihre gesamte Nation gilt ein einzelnes, festlegbares Verhältnis zwischen "
+"diesen drei Nutzungsarten von Handelspunkten. Obwohl Sie die Steuerraten "
+"theoretisch jede Runde anpassen könnten, sind sie auf Vielfache von zehn "
+"Prozent beschränkt und darüber hinaus durch die meisten Regierungsformen in "
+"ihren Maximalwerten begrenzt."
 
 #: data/helpdata.txt:592
 msgid ""
@@ -20335,6 +20429,16 @@ msgid ""
 "assigning citizens as entertainers in the default ruleset). See the section "
 "on Happiness for more details on the effect of luxuries."
 msgstr ""
+"Dieses einzelne, fixe Verhältnis ist für Gold- und Wissenschaftsausstoß als "
+"nationsweite Werte wenig problematisch. Anders verhält es sich jedoch mit "
+"Luxus: Dessen Effekt ist lokal — er betrifft nur die Stadt, die ihn "
+"hervorbringt, weshalb Sie, obwohl es praktisch wäre, wenn einige Städte ihre "
+"Handelspunkte in Luxus und andere sie in Gold oder Forschung investierten, "
+"Kompromisse werden eingehen müssen, die die Bedürfnisse aller Ihrer Städte "
+"in ihrer Gesamtheit berücksichtigen (es kann allerdings Wege geben, lokale "
+"Feineinstellungen vorzunehmen, etwa Unterhalter im Standardregelsatz). Siehe "
+"den Abschnitt über Zufriedenheit für mehr Informationen zu den Auswirkungen "
+"von Luxusgütern."
 
 #: data/helpdata.txt:603
 msgid ""
@@ -20346,6 +20450,14 @@ msgid ""
 "route\" command. (The minimum distance can be changed with the "
 "'trademindist' server option.)"
 msgstr ""
+"Abgesehen von der Bewirtschaftung von Land, das rare Rohstoffe birgt, und "
+"vom Zugang zu Wasser- und Landstraßen, gibt es die Möglichkeit, den Handel "
+"durch die Einrichtung von Handelswegen zwischen Ihren Städten zu "
+"unterstützen. Im Standardregelwerk können Sie Karawanen oder Lastwagen "
+"bauen, in eine mindestens neun Felder entfernte Stadt schicken und ihnen "
+"dort den Befehl zur Einrichtung einer Handelsroute geben (der erforderliche "
+"Mindestabstand zwischen den Städten kann über die Serveroption "
+"„trademindist“ geändert werden)."
 
 #: data/helpdata.txt:611
 msgid ""
@@ -20355,6 +20467,12 @@ msgid ""
 "their distance apart. Some advances make transportation easier and reduce "
 "this one-time revenue."
 msgstr ""
+"Die Zivilisation, der die die Handelsroute einrichtende Einheit angehört, "
+"erhält durch den Verkauf ihrer Handelsgüter einen sofortigen Bonus in Form "
+"von Gold und Forschungspunkten, dessen genauer Betrag von dem in den zwei "
+"nun verbundenen Städten bereits produzierten Handel und deren Entfernung "
+"abhängt. Einige Fortschritte vereinfachen zudem den Warentransport und "
+"schmälern dementsprechend diesen Einmalgewinn."
 
 #: data/helpdata.txt:617
 msgid ""
@@ -20368,6 +20486,16 @@ msgid ""
 "cities or only one of them; if you only own one city, trade in each city is "
 "doubled, but you only get the benefit from one end of the route."
 msgstr ""
+"Die beiden beteiligten Städte profitieren von einem dauerhaft eingerichteten "
+"Handelsweg gleichermaßen, indem sie jede Runde Handelspunkte generieren. Das "
+"Geschäftsvolumen des fortbestehenden Handels wächst zusammen mit der Größe "
+"der Städte und ihrer Entfernung; es wird verdoppelt, wenn sich die Städte "
+"auf verschiedenen Kontinenten befinden und ein weiteres Mal verdoppelt, wenn "
+"die Städte unterschiedlichen Nationen angehören. Diese letzte Bedingung hat "
+"zur Folge, dass der Nettogewinn für Ihre Nation stets derselbe ist, ganz "
+"gleich, ob sie nur eines, oder beide Enden der Handelsroute besitzen: Gehört "
+"Ihnen nur eine Stadt, wird der Handel in beiden Städten verdoppelt, aber Sie "
+"erhalten nur den Gewinn von einem Ende des Handelsweges."
 
 #: data/helpdata.txt:628
 msgid ""
@@ -20375,6 +20503,9 @@ msgid ""
 "can still gain initial revenue by entering the marketplace and selling trade "
 "goods, but it is reduced to a third.)"
 msgstr ""
+"(Existiert bereits eine Handelsroute zwischen zwei Städten, können Sie immer "
+"noch den Anfangsbonus erhalten, indem Sie den Marktplatz betreten und dort "
+"Ihre Güter verkaufen. Der Bonus wird jedoch auf ein Drittel reduziert.)"
 
 #: data/helpdata.txt:632
 msgid ""
@@ -20382,24 +20513,37 @@ msgid ""
 "establish more routes, the trade route with the smallest ongoing revenue is "
 "canceled if it would be less than the new route."
 msgstr ""
+"Eine Stadt kann nur an maximal vier Handelswege angeschlossen werden. Wenn "
+"Sie versuchen, weitere einzurichten, wird die Handelsroute mit dem "
+"geringsten Ertrag aufgegeben, falls dieser Ertrag geringer ausfiele, als bei "
+"der neuen Handelsroute der Fall wäre."
 
 #: data/helpdata.txt:636
 msgid ""
 "Beware: in rulesets where plague is enabled, it can travel along trade "
 "routes. See the section on Plague for more details."
 msgstr ""
+"Vorsicht: In Regelsätzen, in denen Seuchen aktiviert sind, können diese sich "
+"entlang von Handelswegen verbreiten. Siehe den Abschnitt über Seuchen für "
+"weitere Informationen."
 
 #: data/helpdata.txt:639
 msgid ""
 "To view the current trade routes of a city, click and hold over the Trade: "
 "line in the Overview tab in the city view."
 msgstr ""
+"Sie können die momentanen Handelsrouten einer Stadt einsehen, indem Sie in "
+"die Zeile „Handel:“ im Übersichtsreiter des Stadtialogs klicken und die "
+"Maustaste gedrückt halten."
 
 #: data/helpdata.txt:646
 msgid ""
 "Cities are your sole instrument for developing natural resources and "
 "channeling them toward expansion, technological progress, and warfare."
 msgstr ""
+"Städte sind Ihr einziges Instrument zum Abbau natürlicher Ressourcen und "
+"deren Verarbeitung zum Zwecke der Expansion, des technologischen "
+"Fortschritts und der Kriegsführung."
 
 #: data/helpdata.txt:649
 msgid ""
@@ -20411,6 +20555,15 @@ msgid ""
 "citizen a city disappears (in the default ruleset, this can leave ruins, "
 "although these have no effect on gameplay)."
 msgstr ""
+"Eine Stadt wird erstellt, wenn Sie einem Siedler auf einem passenden Feld "
+"den Befehl „Stadt gründen“ erteilen; der Siedler wird dazu aus dem Spiel "
+"entfernt und durch eine Stadt und ihren ersten Einwohner ersetzt. Im Laufe "
+"des Spiels kann sie wachsen und mehrere Dutzend Einwohner beherbergen, die "
+"teils in der Stadt arbeiten oder aber zu neuen Siedlern ausgebildet werden. "
+"Hungersnöte, Kriege und Seuchen führen zum Tod von Einwohnern und reduzieren "
+"die Stadtbevölkerung — mit dem Verlust des letzten Einwohners verschwindet "
+"eine Stadt (im Standardregelsatz kann dies Ruinen zurücklassen, die "
+"allerdings keinen weiteren Einfluss auf das Spielgeschehen nehmen)."
 
 #: data/helpdata.txt:658
 msgid ""
@@ -20420,6 +20573,12 @@ msgid ""
 "city center tile. In other rulesets it may be different, and may vary "
 "depending on factors such as the size of the city and known technologies."
 msgstr ""
+"Jede Stadt kann das sie umgebende Gelände bewirtschaften. Im "
+"Standardregelwerk betrifft dies einen Radius von ca. drei Feldern, d.h. 20 "
+"Felder auf rechteckigen Karten bzw. 18 auf hexagonalen, plus das Feld, auf "
+"dem die Stadt selbst steht. Dies kann in anderen Regelsätzen anders und u.U. "
+"sogar abhängig von Faktoren wie der Stadtgröße oder den erforschten "
+"Technologien sein."
 
 #: data/helpdata.txt:665
 msgid ""
@@ -20432,6 +20591,15 @@ msgid ""
 "Settlers, and Engineers could even transform the terrain to make the tile "
 "less productive."
 msgstr ""
+"Zum Abbau von Ressourcen muss ein Einwohner das betreffende Feld "
+"bewirtschaften. Dies ist jedoch nicht möglich, wenn ein Feld bereits von "
+"einer Nachbarstadt bewirtschaftet wird, sich eine feindliche Einheit auf ihm "
+"befindet, oder es hinter der Grenze zu einer anderen Nation liegt — Sie "
+"können dies ausnutzen und eine Stadt durch geschicktes Platzieren Ihrer "
+"Einheiten auf Feldern mit wertvollen Ressourcen belagern. Darüber hinaus "
+"können Sie Ihre Soldaten ein Feld plündern lassen, was zur Beschädigung "
+"vorhandener Geländeverbesserungen führt. Arbeiter, Siedler und Ingenieure "
+"können Gelände sogar so verändern, dass es weniger Ertrag abwirft."
 
 #: data/helpdata.txt:674
 msgid ""
@@ -20451,6 +20619,23 @@ msgid ""
 "when technology has made them available, railroads (because cities come with "
 "transportation built-in)."
 msgstr ""
+"In diesem Abschnitt wird beschrieben, wie die Erträge eines jeden Feldes "
+"durch sein Gelände, das Vorhandensein gewisser Rohstoffe wie Edelsteine oder "
+"Mineralien sowie durch Geländeverbesserungen wie Straßen, Bewässerungen und "
+"Minen beeinflusst werden. Beachten Sie dabei, dass jenes Feld, welches die "
+"Stadt selbst beherbergt — das Stadtzentrum — kostenlos von selbst "
+"bewirtschaftet wird, ohne, dass sich ein spezieller Einwohner darum kümmern "
+"müsste. Im Standardregelsatz wirft das Stadtfeld unabhängig vom Geländetyp "
+"in jedem Falle mindestens einen Nahrungs- und einen Produktionspunkt ab. Es "
+"erhält jedoch alle weiteren Boni, die der Geländetyp in Kombination mit "
+"einer Bewässerung bietet, denn Städte haben die Bewässerung sozusagen "
+"„eingebaut“ — diese kann jedoch auf die umliegenden Geländefelder erweitert "
+"werden. Um dies zu erreichen, müssen Sie auf dem Stadtfeld explizit eine "
+"Bewässerung einrichten (die für die Stadt selbst von keiner weiteren "
+"Bedeutung sein wird); schreiten Sie in der Wissenschaft voran, erhält das "
+"Stadtzentrum auf ähnliche Weise alle Boni, die mit Farmland verbunden sind. "
+"Außerdem gibt es im Stadtzentrum stets eine Straße und — mit ausreichendem "
+"technologischen Kenntnisstand — eine Eisenbahnlinie."
 
 #: data/helpdata.txt:691
 msgid ""
@@ -20462,6 +20647,16 @@ msgid ""
 "another tile to assign the citizen to work it, or click on the specialist "
 "icon to change their specialist role."
 msgstr ""
+"Im Stadtdialog können Sie Ihren Bürgern verschiedene Rollen zuweisen. "
+"Einwohner, die das die Stadt umgebende Land bewirtschaften, werden durch "
+"drei den jeweiligen Ertrag repräsentierende Zahlen dargestellt; durch einen "
+"Klick auf diese entfernen Sie den zugehörigen Bürger von seinem Feld und "
+"machen ihn stattdessen zu einem in der Stadt arbeitenden Spezialisten (siehe "
+"den Abschnitt über Spezialisten für mehr Informationen). Diese werden in der "
+"Zeile mit den Bürgericons angezeigt. Indem Sie erneut auf ein Feld in der "
+"Umgebung der Stadt klicken, wird dem Bürger das jeweilige Feld zur "
+"Bewirtschaftung zugewiesen; alternativ können Sie das Spezialisten-Symbol "
+"anklicken, um das genaue Fach des Spezialisten festzulegen."
 
 #: data/helpdata.txt:700
 msgid ""
@@ -20472,6 +20667,17 @@ msgid ""
 "role in which the new citizen has been placed. You can set different "
 "priorities for a city with the Citizen Governor; see its help section."
 msgstr ""
+"Durch einen Klick auf das Stadtzentrum signalisieren Sie der Stadt, die "
+"Bürger nach ihren eigenen Vorstellungen zu verteilen. Sie wird dies mit "
+"einem Fokus auf Nahrungsproduktion und daraus folgend Wachstum tun, sodass "
+"Sie mit einer baldigen Zunahme der Einwohnerzahl rechnen können (sofern das "
+"Gelände dies hergibt). Wächst eine Stadt, so wird den neu hinzugewonnen "
+"Bürgern ebenfalls automatisch eine Aufgabe zugewiesen, daher sollten sie "
+"vielleicht in frisch gewachsenen Städten vorbeischauen und die den neuen "
+"Bürgern zugewiesenen Rollen nach Ihren Vorstellungen korrigieren. Wird Ihnen "
+"dies im Laufe des Spiels zu anstrengend, können Sie mithilfe des "
+"Bürgermeisters unterschiedliche Prioritäten für eine Stadt einstellen; siehe "
+"den dazugehörigen Hilfeabschnitt."
 
 #: data/helpdata.txt:708
 msgid ""
@@ -20488,6 +20694,20 @@ msgid ""
 "cities. If nationality is enabled, you can see the cultural makeup of your "
 "cities in the City dialog, on the Happiness tab."
 msgstr ""
+"Im Standardregelsatz gehören alle Bürger einer Stadt stets der Nationalität "
+"der betreffenden Stadt an. Es ist jedoch in einigen Regelsätzen möglich, "
+"dass sich die Nationalität eines Bürgers von derjenigen seiner Stadt/seines "
+"Staates unterscheidet. Wenn die Stadt aufgrund eines Nahrungsüberschusses "
+"wächst, erhalten die neu hinzugekommenen Bürger die Nationalität der "
+"Stadtbesitzers, wird eine Stadt jedoch erobert oder anderweitig übertragen, "
+"behalten die Einwohner ihre ursprüngliche Nationalität, genauso Immigranten. "
+"Solche Bürger arbeiten in Ihren Städten grundsätzlich genauso wie alle "
+"anderen auch und verhalten sich in den meisten Fällen ebenfalls ganz normal, "
+"jedoch macht es ihre Anwesenheit für Agenten des ursprünglichen Staates "
+"einfacher, eine Revolute in der Stadt auszulösen. Ist Migration aktiviert, "
+"haben diese Bürger außerdem eine erhöhte Neigung zur Auswanderung in Städte "
+"„ihres“ Staats. Sind Nationalitäten aktiviert, können Sie die kulturelle "
+"Zusammensetzung Ihrer Städte im Reiter „Zufriedenheit“ überprüfen."
 
 #: data/helpdata.txt:722
 msgid ""
@@ -20496,6 +20716,10 @@ msgid ""
 "the sections on City Improvements and Wonders of the World for more "
 "information."
 msgstr ""
+"Städte können mit einer Unzahl von Gebäuden erweitert werden, von denen "
+"einige die städtische Produktion oder die militärische Stärke verbessern "
+"oder ihnen gänzlich neue Fertigkeiten zur Verfügung stellen. Siehe die "
+"Abschnitte über Stadtverbesserungen und Weltwunder für weitere Informationen."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:731
@@ -20510,6 +20734,13 @@ msgid ""
 "can stop working. A city may outgrow the land available for it to work, in "
 "which case some citizens must become specialists."
 msgstr ""
+"Die ersten Einwohner einer Stadt bearbeiten normalerweise das Land und "
+"arbeiten hart daran, dessen Rohstoffe an den Tag zu legen. Die Bürger einer "
+"Stadt können jedoch auch ganz andere Rollen, die sogenannter „Spezialisten“, "
+"annehmen; tatsächlich ist eine andere Rolle die einzige Möglichkeit, nicht "
+"auf dem Land zu arbeiten. Eine Stadt kann größer werden als das umgebende "
+"Land Arbeit zur Verfügung stellt, was ihre Bürger dazu zwingt, Spezialisten "
+"zu werden."
 
 #: data/helpdata.txt:739
 msgid ""
@@ -20517,12 +20748,18 @@ msgid ""
 "do not contribute to unhappiness or to celebration. See the section on "
 "Happiness for more details."
 msgstr ""
+"Alle Spezialisten genießen genügend Privilegien um stets zufrieden zu sein — "
+"sie tragen weder zu Unzufriedenheit noch zu Feierlichkeiten bei. Siehe den "
+"Abschnitt über Zufriedenheit für weitere Informationen."
 
 #: data/helpdata.txt:743
 msgid ""
 "This section describes the available specialist roles, their effects, and "
 "their requirements, if any."
 msgstr ""
+"In diesem Abschnitt beschäftigen wir uns mit den verschiedenen "
+"Spezialistenrollen, ihren Effekten, und, falls nötig, mit ihren "
+"Anforderungen."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:753
@@ -20530,7 +20767,6 @@ msgid " Happiness"
 msgstr " Zufriedenheit"
 
 #: data/helpdata.txt:754
-#, fuzzy
 msgid ""
 "Keeping your citizens happy (or at least content) is one of the most "
 "important objectives in Freeciv. When your citizens become unhappy, your "
@@ -20543,7 +20779,9 @@ msgstr ""
 "glücklich (oder zumindest zufrieden) zu halten, ist eine der wichtigsten "
 "Aufgaben in Freeciv. Wenn die Bürger unzufrieden werden, kommt es zu Aufruhr "
 "(der die Produktion verhindert); falls die Bürger glücklich sind, feiern sie "
-"(und die Produktion nimmt deutlich zu)."
+"(und die Produktion nimmt deutlich zu). Wenn Migration aktiviert ist, hat "
+"die Zufriedenheit einer Stadt auch Auswirkung auf deren Attraktivität für "
+"Migranten; siehe den Abschnitt über Migration für mehr Informationen."
 
 #: data/helpdata.txt:762
 msgid ""
@@ -20553,9 +20791,14 @@ msgid ""
 "default rules, each citizen in a city after the fourth will be generated "
 "unhappy, instead of content."
 msgstr ""
+"Jeder Bürger, der ein Landfeld bewirtschaftet, ist entweder glücklich, "
+"zufrieden, unzufrieden oder verärgert, wobei Zufriedenheit den normalen "
+"Zustand darstellt. Wenn Ihre Städte im Laufe der Zeit aber wachsen, werden "
+"die Bürger aufgrund von Überbevölkerung langsam unzufriedener; im "
+"Standardregelsatz werden ab dem vierten Bürger unzufriedene statt zufriedene "
+"Bürger generiert."
 
 #: data/helpdata.txt:768
-#, fuzzy
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
 "citizens, the city falls into disorder. A city in disorder produces no food "
@@ -20564,11 +20807,15 @@ msgid ""
 "to incite to revolt. Prolonged disorder under Democracy can lead to a "
 "spontaneous national revolution, overthrowing your government."
 msgstr ""
-"Wenn eine Stadt mehr unzufriedene als glückliche Bürger hat, kommt es zu "
-"Aufruhr. Während eines Aufruhrs wird nichts produziert; außerdem haben es "
-"feindliche Diplomaten und Spione leichter, eine Revolte in Gang zu bringen. "
-"Fortgesetzter Aufruhr kann unter einer 'Demokratie' zum spontanen Ausbruch "
-"einer Revolution führen."
+"Wenn eine Stadt mehr unzufriedene als glückliche Bürger hat, kommt es zum "
+"Aufruhr. Während eines Aufruhrs werden keine Produktions- und "
+"Nahrungsüberschüsse generiert, d.h. sowohl das Stadtwachstum als auch die "
+"Produktion stehen still; auch wird weder geforscht, noch werden Steuern "
+"eingetrieben, lediglich die Luxusproduktion bleibt erhalten. Darüberhinaus "
+"haben feindliche Diplomaten und Spione in einer solchen Stadt ein leichtes "
+"Spiel und können schnell eine Revolte in Gang setzen. In einem "
+"demokratischen Staat kann fortgesetzter Aufruhr zum spontanen Ausbruch einer "
+"Revolution führen, die Ihre Regierung absetzen wird."
 
 #: data/helpdata.txt:776
 msgid ""
@@ -20579,6 +20826,13 @@ msgid ""
 "cities are ever to work more than four terrain tiles at once, the problem of "
 "morale must be confronted more directly."
 msgstr ""
+"Es sollte noch einmal betont werden, dass nur die Bürger, die auf dem Land "
+"arbeiten, ihre Haltung verändern — Spezialisten genießen genügend "
+"Privilegien, um stets zufrieden zu sein (siehe den Abschnitt über "
+"Spezialisten). Aus diesem Grunde ist eine Lösung des Problems unzufriedener "
+"Bürger, die Betroffenen einfach als Spezialisten einzusetzen. Bewirtschaftet "
+"eine Stadt jedoch mehr als vier Geländefelder zugleich, muss das Problem "
+"direkter angegangen werden."
 
 #: data/helpdata.txt:784
 msgid ""
@@ -20586,6 +20840,11 @@ msgid ""
 "disorder but is without further benefit. Producing happy citizens can "
 "balance the effect of unhappy citizens and also bring other benefits."
 msgstr ""
+"Es gibt zahlreiche Wege, unzufriedene Bürger zufrieden zu stellen, was "
+"Aufruhr zwar verhindert, sonst aber keine weiteren Vorteile mit sich bringt. "
+"Wenn Sie stattdessen auf glückliche Bürger setzen, die den durch "
+"unzufriedene Bürger hervorgerufenen Effekt wieder aufheben, kommen Sie "
+"hingegen in den Genuss weiterer Boni."
 
 #: data/helpdata.txt:789
 msgid ""
@@ -20593,30 +20852,32 @@ msgid ""
 "citizens are happy and none remain unhappy. The effects of celebration vary; "
 "in the default ruleset, they depend on your government type:"
 msgstr ""
+"Ist eine Stadt groß genug und sind zumindest die Hälfte ihrer Einwohner "
+"glücklich und keine unzufrieden, wird die Stadt anfangen, zu feiern. Die "
+"Auswirkungen einer solchen Feier sind verschieden; im Standardregelsatz "
+"hängen sie von Ihrer Regierungsform ab:"
 
 #: data/helpdata.txt:793
-#, fuzzy
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for tiles which produce more than 2 points of any resource (food, "
 "production, or trade)."
 msgstr ""
-" - Unter 'Anarchie' und 'Diktatur' entfällt die Einschränkung für Felder, "
-"die mehr als zwei Einheiten produzieren (Nahrung, Schilde, Handel)."
+" • In einer Anarchie oder Diktatur entfällt die übliche Ertragseinschränkung "
+"von Feldern, die mehr als zwei Punkte produzieren (Nahrung, Produktion, "
+"Handel)."
 
 #: data/helpdata.txt:797
-#, fuzzy
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade point in any tile which "
 "already produces at least 1 trade."
 msgstr ""
-" - Unter 'Monarchie' und 'Kommunismus' erhält man den Handelsbonus, den "
-"sonst nur 'Republik' und 'Demokratie' haben: +1 in jedem Feld mit mindestens "
-"einem Handelspunkt."
+" • In einer Monarchie oder im Kommunismus erhält man den Handelsbonus, den "
+"sonst nur republikanische und demokratische Staaten genießen: +1 Handel auf "
+"jedem Feld mit mindestens einem Handelspunkt."
 
 #: data/helpdata.txt:801
-#, fuzzy
 msgid ""
 " - Under a Republic or a Democracy, your city will enter \"rapture\": its "
 "population will increase by 1 each turn until there is no excess food or "
@@ -20625,9 +20886,13 @@ msgid ""
 "surplus -- which can be difficult enough -- and then waiting dozens of turns "
 "for their granary to fill."
 msgstr ""
-" - Unter 'Republik' oder 'Demokratie' wächst eine Stadt jährlich um 1, bis "
-"keine überschüssige Nahrung mehr vorhanden ist oder die Anzahl der "
-"glücklichen Bürger zum Feiern nicht mehr ausreicht."
+" • In einer Republik oder Demokratie wird Ihre Stadt beginnen, rapide zu "
+"wachsen: die Bevölkerung nimmt jede Runde um eins zu, bis entweder keine "
+"überschüssige Nahrung mehr vorhanden oder nicht mehr genügend glückliche "
+"Bürger zum Feiern vorhanden sind. Ohne diesen Effekt können große Städte nur "
+"wachsen, indem sie einen Nahrungsüberschuss anstreben ‒ was schwierig genug "
+"sein kann ‒ und dutzende von Runden warten, bis sich ihr Nahrungslager "
+"gefüllt hat."
 
 #: data/helpdata.txt:808
 msgid ""
@@ -20637,6 +20902,12 @@ msgid ""
 "precise thresholds depend on government type; see the section on Government "
 "for details."
 msgstr ""
+"In kleinen Staaten ist wie schon beschrieben jeder fünfte Bürger der erste "
+"unzufriedene. Je mehr Städte Sie erhalten, desto mehr sinkt diese Grenze, um "
+"so die Schwierigkeit zu simulieren, die die Aufrechterhaltung der Ordnung in "
+"einem großen Imperium darstellt. Der genaue Grenzwert, ab dem die Reduktion "
+"einsetzt, hängt von der Regierungsform ab; siehe den Abschnitt über "
+"Regierungsformen für weitere Informationen."
 
 #: data/helpdata.txt:816
 msgid ""
@@ -20647,6 +20918,14 @@ msgid ""
 "unhappy before any unhappy citizens can be made content, but in all other "
 "respects behave as unhappy citizens."
 msgstr ""
+"Aus diesem Grunde ist es möglich, dass die Gründung oder Eroberung einer "
+"Stadt plötzlich großflächige Unruhen zur Folge hat; ein weiteres Wachstum "
+"Ihres Staates kann dann zu weiteren Abzügen führen. Wächst ein Staat über "
+"den Punkt hinaus, ab dem keine Bürger mehr von sich aus zufrieden sind, "
+"tauchen verärgerte Bürger auf, welche zunächst alle unzufrieden gemacht "
+"werden müssen, bevor ein unzufriedener Bürger zufrieden gestellt werden "
+"kann, die sich aber in allen anderen Situation wie gewöhnliche unzufriedene "
+"Bürger verhalten."
 
 #: data/helpdata.txt:826
 msgid ""
@@ -20657,6 +20936,13 @@ msgid ""
 "rates; see the section on Trade. Luxury points may also be produced by other "
 "means, such as entertainer specialists in the default ruleset."
 msgstr ""
+"Luxus macht Bürger glücklich. Je zwei Luxuspunkte, die eine Stadt "
+"produziert, wird ein zufriedener Bürger glücklich (sind keine zufriedenen "
+"Bürger mehr vorhanden, werden unzufriedene zunächst zufrieden, dann "
+"glücklich). Jede Stadt erhält abhängig vom Steuersatz Ihres Staats einige "
+"der der Handelspunkte, die sie produziert, als Luxuspunkte zurück; siehe den "
+"Abschnitt über Handel. Luxuspunkte können auch auf anderem Wege produziert "
+"werden, im Standardregelsatz etwa durch Unterhalter-Spezialisten."
 
 #: data/helpdata.txt:834
 msgid ""
@@ -20665,6 +20951,11 @@ msgid ""
 "the default rules. Some wonders of the world can also have this effect. See "
 "the appropriate sections for details."
 msgstr ""
+"Auch können diverse Stadterweiterungen diejenigen Bürger zufriedenstellen, "
+"die wegen Überbevölkerung unzufrieden sind. Darunter fallen im "
+"Standardregelsatz etwa der Tempel und das Kolosseum, auch einige Weltwunder "
+"besitzen diesen Effekt. Siehe die jeweiligen Abschnitte für weitere "
+"Informationen."
 
 #: data/helpdata.txt:839
 msgid ""
@@ -20678,6 +20969,18 @@ msgid ""
 "units (\"field units\") are inherently aggressive and cause unhappiness "
 "regardless of location."
 msgstr ""
+"Militäreinheiten haben ebenfalls Einfluss auf die Zufriedenheit einer Stadt. "
+"Unter einem autoritären Regime ist das hilfreich, weil es militärischen "
+"Einheiten möglich ist, in der Stadt, in der sie stationiert sind, "
+"Kriegsrecht anzuwenden. Im Gegensatz dazu werden Bürger repräsentativer "
+"Staaten unzufrieden, wenn ihre jeweilige Stadt Militäreinheiten unterstützt, "
+"die sich in einem aggressiven Zustand befinden. Dies schließt Einheiten ein, "
+"die sich nicht innerhalb Ihrer Nationalgrenzen, einer freundlich gesonnen "
+"Stadt (eingeschlossen Städte Ihrer Verbündeten) oder einer passenden "
+"Militärbasis im Radius von drei Feldern einer freundlich gesonnen Stadt "
+"befinden. Einige Einheiten jedoch, sogenannte »Feldeinheiten«, sind per "
+"definitionem aggressiv und führen unabhängig von ihrem Standort zu "
+"Unzufriedenheit."
 
 #: data/helpdata.txt:850
 msgid ""
@@ -20687,17 +20990,24 @@ msgid ""
 "special building -- the Police Station -- can offset this form of "
 "unhappiness."
 msgstr ""
+"Diese Art von Unzufriedenheit ist gänzlich verschieden von der durch "
+"Überbevölkerung hervorgerufenen und kann weder durch Luxus noch durch die "
+"meisten Stadtverbesserungen beseitigt werden. Im Standardregelsatz können "
+"nur bestimmte Weltwunder — etwa J.S. Bachs kathedrale — und ein spezielles "
+"Gebäude — die Polizeiwache — diese Form von Unzufriedenheit bekämpfen."
 
 #: data/helpdata.txt:856
 msgid ""
 "The Happiness tab on the city dialog will give detailed insight into the "
 "mood of the citizenry and its causes."
 msgstr ""
+"Der Zufriedenheits-Reiter im Stadtdialog gewährt Ihnen detaillierte Einsicht "
+"in die Haltung der Bürgerschaft und ihre Gründe dafür."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:863
 msgid " Pollution"
-msgstr " Verschmutzung"
+msgstr " Umweltverschmutzung"
 
 #: data/helpdata.txt:864
 msgid ""
@@ -20709,6 +21019,16 @@ msgid ""
 "the city dialog. (This chance of pollution also affects the risk of plague, "
 "if enabled in the ruleset; see the section on Plague.)"
 msgstr ""
+"Großstädte können von Umweltverschmutzung betroffen sein, insbesondere dann, "
+"wenn Ihre Zivilisation in der Industrialisierung voranschreitet. Die "
+"Wahrscheinlichkeit, dass Umweltverschmutzung um Ihre Städte herum auftritt, "
+"hängt von der Summe ihrer Produktion sowie dem technologischen Fortschritt "
+"als verstärkendem Katalysator ab. Überschreitet diese Summe den Wert 20, so "
+"ist der Überschuss gleich der prozentualen Wahrscheinlichkeit von "
+"Umweltverschmutzung in dieser Runde. Dieser Prozentsatz wird im Stadtdialog "
+"angezeigt (die Wahrscheinlichkeit von Umweltverschmutzung hat auch einen "
+"gewissen Einfluss auf das Seuchenrisiko in einer Stadt, falls dieses "
+"aktiviert wurde; siehe den Abschnitt über Seuchen)."
 
 #: data/helpdata.txt:873
 msgid ""
@@ -20717,6 +21037,11 @@ msgid ""
 "pollution can only be cleared by dispatching Workers, Settlers, or Engineers "
 "with the \"clean pollution\" order."
 msgstr ""
+"Umweltverschmutzung erscheint in Form von Schrott auf den die Stadt "
+"umgebenden Feldern. Ein derart verschmutztes Feld wirft nur die Hälfte des "
+"üblichen Ertrags an Nahrung, Produktion und Handel ab, kann aber von "
+"Arbeitern, Siedlern oder Ingenieuren mithilfe des Befehls "
+"„Umweltverschmutzung beseitigen“ gereinigt werden."
 
 #: data/helpdata.txt:878
 msgid ""
@@ -20727,6 +21052,14 @@ msgid ""
 "jungles and swamps, and inland tiles are lost to desert. This tends to "
 "devastate cities and leads to global impoverishment."
 msgstr ""
+"Wird ein ungenutztes Feld verschmutzt, kann die Versuchung bestehen, die "
+"Anstrengungen zur Reinigung der Einfachheit halber schlicht zu unterlassen. "
+"Dies hat jedoch wesentlich gravierendere Auswirkungen — jedes verschmutzte "
+"Feld erhöht die Chance einer globalen Erwärmung. Je weiter die globale "
+"Erderwärmung voranschreitet, desto mehr Küstenland verwandelt sich in "
+"Dschungel und Sumpf, und im Inland gelegene Felder werden von den Wüsten "
+"gefressen, wodurch Städte verheert werden und eine globale Verarmung "
+"eintritt."
 
 #: data/helpdata.txt:886
 msgid ""
@@ -20736,6 +21069,11 @@ msgid ""
 "an elevated risk of warming, its effects will be all the more severe when it "
 "does occur."
 msgstr ""
+"Die Gefahr globaler Erderwärmung ist kumulativ: Je länger verschmutzte "
+"Felder nicht gereinigt werden, desto akuter ist die Gefahr, die auch nach "
+"Bereinigung aller verschmutzten Felder nicht sofort gebannt wird. Vergeht "
+"eine lange Zeit unter erhöhtem Risiko globaler Erderwärmung, so werden ihre "
+"Auswirkungen umso verheerender sein, wenn sie schließlich eintritt."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:896
@@ -20745,6 +21083,8 @@ msgstr " Seuche"
 #: data/helpdata.txt:897
 msgid "Plague is a ruleset option, and is not enabled in the default ruleset."
 msgstr ""
+"Seuchen sind eine Option im Regelsatz, und im Standardregelwerk nicht "
+"aktiviert."
 
 #: data/helpdata.txt:900
 msgid ""
@@ -20753,6 +21093,11 @@ msgid ""
 "on city size. Rulesets which enable plague will typically have city "
 "improvements or other means to reduce the risk of plague."
 msgstr ""
+"Wird eine Stadt von einer Seuche heimgesucht, so wird ihre Bevölkerung um "
+"eins reduziert. Werden keine Gegenmaßnahmen ergriffen, führt dies zu einer "
+"Art makaberer, natürlicher Begrenzung der Stadtgröße. Regelsätze, in denen "
+"Seuchen aktiviert sind, bieten typischerweise durch Stadtverbesserungen oder "
+"anderweitig die Möglichkeit, das Seuchenrisiko zu verringern."
 
 #: data/helpdata.txt:906
 msgid ""
@@ -20763,18 +21108,27 @@ msgid ""
 "several turns, increasing the risk of plague in those cities by a factor "
 "depending on the size of both cities."
 msgstr ""
+"Die Seuchengefahr hängt von der Stadtgröße (überbevölkerte Städte führen zu "
+"ungesunden Lebensbedingungen) und von der erzeugten Umweltverschmutzung ab. "
+"Seuchen können sich ferner entlang von Handelsrouten verbreiten (und "
+"missachten dabei naturgemäß alle Arten von Nationalitäten); wurde eine Stadt "
+"von einer Seuche heimgesucht, bleibt sie noch viele weitere Runden für alle "
+"ihre Handelspartner infektiös, wodurch sich in diesen Städten die "
+"Seuchengefahr um einen von der Stadtgröße beider beteiligten Städte "
+"abhängigen Faktor erhöht."
 
 #: data/helpdata.txt:913
 msgid ""
 "If migration is enabled, citizens will tend to prefer cities with a lower "
 "risk of plague."
 msgstr ""
+"Wenn Migration eingeschaltet ist, ziehen Bürger es vor, in Städte mit "
+"geringerer Seuchengefahr zu ziehen."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:920
-#, fuzzy
 msgid " Migration"
-msgstr "Bewässerung"
+msgstr " Migration"
 
 #: data/helpdata.txt:921
 msgid ""
@@ -20782,6 +21136,10 @@ msgid ""
 "relative attractions of living in each city. Whether migration is enabled is "
 "controlled by the server option `migration'; it is disabled by default."
 msgstr ""
+"»Migration« bezeichnet den durch die relative Attraktivität des Lebens in "
+"einer anderen Stadt ausgelösten Umzug von Bürgern von einer Stadt in eine "
+"andere. Sie kann über die Serveroption »migration« kontrolliert werden, ist "
+"aber standardmäßig ausgeschaltet."
 
 #: data/helpdata.txt:926
 msgid ""
@@ -20789,6 +21147,11 @@ msgid ""
 "game may migrate to a nearby, more attractive city, either within the same "
 "nation or even across national borders (to a lesser extent, by default)."
 msgstr ""
+"Ist Migration eingeschaltet, so kann es hin und wieder vorkommen, dass ein "
+"Bürger einer Stadt sich entscheidet, in eine andere, nahegelegene Stadt "
+"umzuziehen, die ihm attraktiver erscheint. Diese muss nicht notwendigerweise "
+"derselben Nation wie die ursprüngliche Stadt angehören (auch wenn die Hürde "
+"einer Auswanderung in eine andere Nation standardmäßig höher ist)."
 
 #: data/helpdata.txt:931
 msgid ""
@@ -20798,22 +21161,34 @@ msgid ""
 "order of importance. (Each factor counts for much more in the citizen's "
 "current city, as they prefer not to move without a compelling reason.)"
 msgstr ""
+"Sie können die Migration von Bürgern nicht direkt verhindern oder "
+"anderweitig beeinflussen. Es ist jedoch möglich, die Attraktivität Ihrer "
+"Städte zu steigern, indem Sie die folgenden Faktoren berücksichtigen (jeder "
+"Faktor ist für die Stadt, in der ein Bürger zurzeit lebt, von ungleich "
+"größerer Bedeutung, da Bürger es vorziehen, nicht ohne schwerwiegenden Grund "
+"umzuziehen):"
 
 #: data/helpdata.txt:938
 msgid " - City size."
-msgstr ""
+msgstr " • Stadtgröße."
 
 #: data/helpdata.txt:940
 msgid ""
 " - The number of happy citizens. (To a lesser extent, unhappy and angry "
 "citizens reduce the desirability of a city.)"
 msgstr ""
+" • Die Anzahl glücklicher Bürger (unzufriedene und verärgerte Bürger haben "
+"zwar einen negativen Einfluss auf die Attraktivität einer Stadt, allerdings "
+"ist der durch glückliche Bürger verursachte Effekt größer)."
 
 #: data/helpdata.txt:943
 msgid ""
 " - In rulesets where nationality is enabled, citizens have a strong "
 "preference to move to cities of their own nationality."
 msgstr ""
+" • In Regelsätzen, in denen Nationalität eingeschaltet ist, ziehen Bürger "
+"den Umzug in eine Stadt der eigenen Nation stark dem Umzug in eine fremde "
+"Nation vor."
 
 #: data/helpdata.txt:946
 msgid ""
@@ -20821,20 +21196,29 @@ msgid ""
 "desirability (further wonders do not contribute except by the lesser effect "
 "of their build cost)."
 msgstr ""
+" • Die Existenz eines Weltwunders in einer Stadt wird deren Attraktivität "
+"stark steigern (weitere Weltwunder verstärken diesen Effekt abgesehen von "
+"den Baukosten nicht)."
 
 #: data/helpdata.txt:950
 msgid ""
 " - Capital cities are more attractive than other cities, all other factors "
 "being equal; in addition, citizens will never migrate out of a capital city."
 msgstr ""
+" • Hauptstädte sind attraktiver als andere Städte, wenn alle anderen "
+"Faktoren gleich sind; abgesehen davon werden Bürger niemals aus einer "
+"Hauptstadt emigrieren."
 
 #: data/helpdata.txt:954
 msgid " - A high risk of plague reduces a city's attractiveness."
 msgstr ""
+" • Ein erhöhtes Seuchenrisiko verringert die Attraktivität einer Stadt."
 
 #: data/helpdata.txt:956
 msgid " - Food surplus. (A food deficit reduces the desirability of a city.)"
 msgstr ""
+" • Nahrungsüberschuss (ein Mangel an Nahrung reduziert die Attraktivität "
+"einer Stadt)."
 
 #: data/helpdata.txt:958
 msgid ""
@@ -20842,21 +21226,23 @@ msgid ""
 "distance that a citizen is prepared to migrate is controlled by the server "
 "option `mgr_dist'."
 msgstr ""
+" • Weit entfernte Städte sind ein generell wenig wünschenswertes Ziel für "
+"potenzielle Migranten. Die maximale Entfernung, die ein Bürger "
+"zuzrückzulegen bereit ist, wird durch die Serveroption »mgr_dist« festgelegt."
 
 #: data/helpdata.txt:962
-#, fuzzy
 msgid " - Trade surplus."
-msgstr "%4d : Gesamtüberschuß"
+msgstr " • Handelsüberschuss."
 
 #: data/helpdata.txt:964
-#, fuzzy
 msgid " - Luxury and science output."
-msgstr "Wählen Sie Steuer-, Luxus- und Forschungsquote"
+msgstr " • Luxus- und Wissenschaftsausstoß."
 
 #: data/helpdata.txt:966
 msgid ""
 " - The quantity of city improvements (and wonders), measured by build cost."
 msgstr ""
+" • Die Menge an Stadterweiterungen (und Wundern), gemessen an den Baukosten."
 
 #: data/helpdata.txt:969
 msgid ""
@@ -20865,6 +21251,11 @@ msgid ""
 "cities; these are noted in other sections of the help. (The default ruleset "
 "contains no such effects.)"
 msgstr ""
+" • Abhängig vom Regelsatz können einige weitere Faktoren wie etwa die "
+"Regierungsform und Stadterweitungen hinzukommen, die die Attraktivität einer "
+"Stadt steigern oder senken; diese werden an den entsprechenden Stellen in "
+"der Hilfe angesprochen (das Standardregelwerk enthält keine derartigen "
+"Effekte)."
 
 #: data/helpdata.txt:974
 msgid ""
@@ -20873,6 +21264,11 @@ msgid ""
 "the server option `mgr_foodneeded' is set, they will not migrate to cities "
 "which would not have enough food to support them."
 msgstr ""
+"Ein Bürger wird niemals in eine Stadt umziehen, die aufgrund einer fehlenden "
+"Stadterweiterung wie etwa einem Aquädukt keine weiteren Bürger aufnehmen "
+"kann. Ist die Serveroption »mgr_foodneeded« gesetzt, so werden Bürger auch "
+"nicht in Städte ziehen, die nicht ausreichend Nahrung zu ihrer Versorgung "
+"zur Verfügung stellen könnten."
 
 #: data/helpdata.txt:979
 msgid ""
@@ -20882,12 +21278,20 @@ msgid ""
 "and the last citizen from your only remaining city will never migrate to "
 "another nation."
 msgstr ""
+"Migration kann sogar dazu führen, dass ganze Städte vollständig verlassen "
+"werden — Eigentumsrechte an Einheiten werden auf Ihre nächstgelegene Stadt "
+"übertragen —, jedoch wird dies nicht bei Städten, die Weltwunder "
+"beherbergen, geschehen, sodass das Weltwunder nicht zerstört wird. Auch wird "
+"der letzte verbliebene Bürger Ihrer letzten verbliebenen Stadt nicht zu "
+"einer anderen Nation überlaufen."
 
 #: data/helpdata.txt:985
 msgid ""
 "Several of the details of migration can be changed with the `mgr_*' server "
 "options."
 msgstr ""
+"Zahlreiche Details der Migration können mit den Serveroptionen der »mgr_*«-"
+"Gruppe feinjustiert werden."
 
 #: data/helpdata.txt:992
 msgid ""
@@ -20991,7 +21395,6 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:1082
-#, fuzzy
 msgid ""
 "Units which have been damaged in combat will regain hit points each turn in "
 "which they are not moved. Normally, a unit which has not moved will regain "
@@ -21004,18 +21407,21 @@ msgid ""
 "recovery (such as the United Nations in the default ruleset). Damaged units "
 "in Sentry mode will wake up when they have regained all of their hit points."
 msgstr ""
-"Im Kampf beschädigte Einheiten regenerieren 1 Trefferpunkt in jeder Runde, "
-"in der sie sich nicht bewegen. Landeinheiten in einer Stadt mit Kaserne, "
-"Marineeinheiten in einer Stadt mit Werft oder Luftwaffeneinheiten in einer "
-"Stadt mit Flughafen erhalten in einer Runde ohne Bewegung alle verlorenen "
-"Trefferpunkte zurück. In anderen Städten werden 1/3 der ursprünglichen "
-"Trefferpunkte zurückgewonnen. Einheiten in befestigten Stellungen erhalten "
-"1/4 der ursprünglichen Trefferpunkte, eingegrabene Einheiten 1 zusätzlichen "
-"Trefferpunkt zurück. Besitz ein Spieler das Weltwunder 'Vereinte Nationen', "
-"so erhalten alle beschädigten Einheiten 2 zusätzliche Trefferpunkte zurück. "
-"(Auch die, die sich bewegt haben.) Beschädigte Einheiten im 'Wachen'-Modus "
-"werden automatisch alarmiert, wenn sie wieder volle Kampfstärke erreicht "
-"haben."
+"Im Kampf verletzte Einheiten regenerieren Trefferpunkte in jeder Runde, in "
+"der sie nicht bewegt werden. Normalerweise regeneriert sich eine Einheit, "
+"die nicht bewegt wurde, um einen Trefferpunkt pro Runde, allerdings erhalten "
+"eingegrabene Einheiten einen extra Trefferpunkt. Verbleibt eine Einheit eine "
+"Runde lang in einer Stadt, erhält sie ein Drittel ihrer ursprünglichen "
+"Trefferpunkte zurück, darüberhinaus können Stadterweiterungen, die den "
+"jeweiligen Einheitentyp begünstigen, dies weiter verbessern. Auf dem Land "
+"können Basen die Regenerationsrate verbessern (beispielsweise haben "
+"Festungen im Standardregelsatz diesen Effekt), allerdings müssen Einheiten "
+"eine volle Runde auf dem betreffenden Feld verbleiben, um diesen "
+"Regenerationsbonus zu erhalten. Auch können Weltwunder — zum Beispiel die "
+"Vereinten Nationen im Standardregelsatz — den Regenerationsprozess "
+"beschleunigen. Beschädigte Einheiten, die sich im Bewachen-Modus befinden, "
+"werden automatisch alarmiert, wenn sie wieder ihre volle Kampfstärke "
+"erreicht haben."
 
 #: data/helpdata.txt:1095
 msgid ""
@@ -21029,9 +21435,18 @@ msgid ""
 "of the total; however, in some rulesets (but not the default) it will lose "
 "some or all of its veteran levels."
 msgstr ""
+"Im Laufe der Zeit werden neue Einheiten verfügbar werden, die vorangegangene "
+"Typen veralten. Erforschen Sie eine solche Technologie, so bleiben Ihre "
+"bisherigen Einheiten intakt, jedoch können Sie keine neuen Einheiten des "
+"obsoleten Typs errichten. Eine obsolete Einheit kann in eine Ihrer Städte "
+"bewegt werden, um sie dort gegen Bezahlung auf ihren neusten gleichwertigen "
+"Typ zu modernisieren, wobei sich die Kosten mit dem Unterschied zwischen den "
+"Produktionskosten der beiden Typen erhöhen. Wird eine Einheit modernisiert, "
+"bleiben ihre Treffer- und Bewegungspunkte als Anteil vom Ganzen erhalten; in "
+"einigen Regelsätzen (allerdings nicht im Standardregelsatz) wird sie zudem "
+"einige oder alle ihrer Veteranenränge verlieren."
 
 #: data/helpdata.txt:1113
-#, fuzzy
 msgid ""
 "Default Combat Rules\n"
 "--------------------"
@@ -21046,7 +21461,7 @@ msgid ""
 "missile).  The outcome depends on several factors, including chance."
 msgstr ""
 "Wenn eine Einheit eine andere Einheit angreift, wird entweder der Angreifer "
-"oder Verteidiger zerstört - niemals beide (außer bei Raketen). Der Ausgang "
+"oder Verteidiger zerstört — niemals beide (außer bei Raketen). Der Ausgang "
 "der Kampfhandlungen hängt von mehreren Faktoren ab, darunter auch dem Zufall."
 
 #: data/helpdata.txt:1119
@@ -21056,35 +21471,42 @@ msgid ""
 "defenders, but few for attackers, aside from veteran status; an attacking "
 "unit can mostly expect circumstance to work against it."
 msgstr ""
+"Die nachfolgende Beschreibung betrifft den Standardregelsatz, aber die Idee "
+"ist für jeden Regelsatz ähnlich. Beachten Sie außerdem, dass zahlreiche Boni "
+"für Verteidiger möglich sind, jedoch abgesehen vom Veteranenstatus kaum Boni "
+"für Angreifer verfügbar sind; eine angreifende Einheit kann meist davon "
+"ausgehen, dass die Umstände gegen sie arbeiten."
 
 #: data/helpdata.txt:1124
 msgid "First, the attacker's strength is modified."
 msgstr "Zunächst wird die Stärke des Angreifers modifiziert."
 
 #: data/helpdata.txt:1126
-#, fuzzy
 msgid ""
 " - If the attacker is a veteran, its strength is multiplied by the bonus "
 "associated with its veteran level."
-msgstr " - Bei Veteranen wird die Stärke mit 1,5 multipliziert."
+msgstr ""
+" • Bei Veteranen wird die Stärke mit dem Bonusfaktor des betreffenden "
+"Veteranengrades multipliziert."
 
 #: data/helpdata.txt:1129
 msgid "Next, the defender's strength is modified."
 msgstr "Danach wird die Stärke des Verteidigers modifiziert."
 
 #: data/helpdata.txt:1131
-#, fuzzy
 msgid ""
 " - If the defender is a veteran, then its strength is multiplied by the "
 "bonus associated with its veteran level."
-msgstr " - Bei Veteranen wird die Stärke mit 1,5 multipliziert."
+msgstr ""
+" • Bei Veteranen wird die Stärke mit dem Bonusfaktor des betreffenden "
+"Veteranengrades multipliziert."
 
 #: data/helpdata.txt:1134
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
 msgstr ""
-" - Danach wird die Stärke mit dem Verteidigungswert des Geländes "
+" • Danach wird die Stärke mit dem Verteidigungswert des Geländes "
 "multipliziert."
 
 #: data/helpdata.txt:1137
@@ -21092,40 +21514,41 @@ msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
 "defending against a mounted unit."
 msgstr ""
-" - Nun wird die Stärke des Verteidigers verdoppelt, wenn dieser ein "
-"'Lanzenkämpfer' und der Angreifer 'beritten' ist."
+" • Nun wird die Stärke des Verteidigers verdoppelt, wenn dieser vom Typ "
+"»Lanzenkämpfer« und der Angreifer eine berittene Einheit ist."
 
 #: data/helpdata.txt:1140
 msgid ""
 " - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
 msgstr ""
-" - Ist der Verteidiger ein AEGIS-Kreuzer und der Angreifer irgendein "
-"Flugkörper, wird die Verteidigung verfünffacht."
+" • Ist der Verteidiger ein AEGIS-Kreuzer und der Angreifer irgendein "
+"Fluggerät (eingeschlossen Raketen und Helikopter), wird die Verteidigung "
+"verfünffacht."
 
 #: data/helpdata.txt:1144
-#, fuzzy
 msgid ""
 " - The defender's strength is doubled again if it is in a city with a SAM "
 "Battery and the attacker is an air unit (other than a Helicopter or a "
 "missile)."
 msgstr ""
-" - Wenn sich der Verteidiger in einer Stadt mit einer SAM Batterie befindet "
-"und der Angreifer eine Luftwaffeneinheit (kein Hubschrauber!) ist, wird "
-"seine Stärke nochmals verdoppelt."
+" • Wenn sich der Verteidiger in einer Stadt mit einer SAM-Batterie befindet "
+"und der Angreifer eine Lufteinheit (abgesehen von Hubschraubern und Raketen) "
+"ist, wird seine Stärke nochmals verdoppelt."
 
 #: data/helpdata.txt:1148
-#, fuzzy
 msgid ""
 " - An SDI Defense doubles the defender's strength against missile attacks."
-msgstr " - SDI Verteidigung verdoppelt diese Stärke gegen Raketen nochmals."
+msgstr ""
+" • Eine SDI-Verteidung verdoppelt die Stärke des Verteidigers gegenüber "
+"Raketen nochmals."
 
 #: data/helpdata.txt:1151
 msgid ""
 " - If the attacker is a ship and the defender is in a city with a Coastal "
 "Defense, the defender's strength is doubled."
 msgstr ""
-" - Falls der Angreifer ein Schiff ist und sich der Verteidiger in einer "
+" • Falls der Angreifer ein Schiff ist und sich der Verteidiger in einer "
 "Stadt mit Küstenverteidigung befindet, wird seine Stärke verdoppelt."
 
 #: data/helpdata.txt:1154
@@ -21133,7 +21556,7 @@ msgid ""
 " - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
 msgstr ""
-" - Gegen Landeinheiten (außer Haubitzen) und Hubschrauber wird die "
+" • Gegen Landeinheiten (außer Haubitzen) und Hubschrauber wird die "
 "Verteidigungsstärke verdreifacht, falls sich der Verteidiger in einer Stadt "
 "mit Stadtmauern befindet."
 
@@ -21142,26 +21565,25 @@ msgid ""
 " - If the defender is in a fortress (and not a city), its strength is "
 "doubled."
 msgstr ""
-" - Befindet sich der Verteidiger in einer befestigten Stellung wird seine "
+" • Befindet sich der Verteidiger in einer befestigten Stellung wird seine "
 "Stärke verdoppelt."
 
 #: data/helpdata.txt:1161
-#, fuzzy
 msgid ""
 " - If the defender is a land unit, and is either fortified or inside a city, "
 "its strength is multiplied by 1.5."
 msgstr ""
-" - Bei Landeinheiten, die sich eingegraben haben oder in einer Stadt "
-"stationiert sind, wird die Stärke mit 1,5 multipliziert."
+" • Handelt es sich bei dem Verteidiger um eine Landeinheit, die sich "
+"eingegraben hat oder in einer Stadt stationiert ist, wird die Stärke mit 1,5 "
+"multipliziert."
 
 #: data/helpdata.txt:1164
-#, fuzzy
 msgid ""
 " - Finally, if the attacker is a fighter and the defender is a helicopter, "
 "the defender's strength is halved."
 msgstr ""
-" - Falls der Angreifer ein Schiff ist und sich der Verteidiger in einer "
-"Stadt mit Küstenverteidigung befindet, wird seine Stärke verdoppelt."
+" • Schließlich wird die Stärke des Verteidigers halbiert, wenn der Angreifer "
+"ein Jagdflugzeug ist und der Verteidiger ein Helikopter."
 
 #: data/helpdata.txt:1167
 msgid ""
@@ -21174,37 +21596,34 @@ msgstr ""
 
 #: data/helpdata.txt:1171
 msgid "The firepower of the attacker and defender are also modified."
-msgstr "Auch die Feuerkraft von Angreifer und Verteidiger werden angepaßt."
+msgstr "Auch die Feuerkraft von Angreifer und Verteidiger werden angepasst."
 
 #: data/helpdata.txt:1173
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
 msgstr ""
-" - Wenn der Verteidiger ein Schiff innerhalb einer Stadt ist, wird die "
+" • Wenn der Verteidiger ein Schiff innerhalb einer Stadt ist, wird die "
 "Feuerkraft des Angreifers verdoppelt und die Feuerkraft des Schiffes auf 1 "
 "reduziert."
 
 #: data/helpdata.txt:1176
-#, fuzzy
 msgid ""
 " - If a fighter is attacking a helicopter the firepower of the helicopter is "
 "set to 1."
 msgstr ""
-"- Wenn ein Jagdflugzeug einen Hubschrauber angreift, wird die Feuerkraft des "
-"Hubschraubers auf 1 reduziert."
+" • Wenn ein Jagdflugzeug einen Helikopter angreift, wird die Feuerkraft des "
+"Helikopters auf 1 reduziert."
 
 #: data/helpdata.txt:1179
-#, fuzzy
 msgid ""
 " - If a ship is attacking a land unit on land the firepower of both is set "
 "to 1."
 msgstr ""
-" - Wenn ein Schiff eine Landeinheit angreift, wird die Feuerkraft von beiden "
-"auf 1 reduziert."
+" • Wenn ein Schiff eine Landeinheit auf einem Landfeld angreift, wird die "
+"Feuerkraft von beiden auf 1 reduziert."
 
 #: data/helpdata.txt:1182
-#, fuzzy
 msgid ""
 "After these preliminaries, combat occurs, as long as both units are still "
 "alive (i.e., hit points are greater than 0).  Each round, a random number "
@@ -21220,22 +21639,21 @@ msgstr ""
 "diese Zahl größer als die Stärke des Verteidigers, verliert der Verteidiger "
 "Trefferpunkte entsprechend der Feuerkraft des Angreifers, im anderen Fall "
 "verliert der Angreifer entsprechend der Feuerkraft des Verteidigers. Die "
-"erste Einheit die keine Trefferpunkte mehr hat, verliert."
+"erste Einheit, die keine Trefferpunkte mehr hat, verliert."
 
 #: data/helpdata.txt:1197
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Whichever unit survives the fight has a chance of being promoted a veteran "
 "level.  In the default ruleset, if the winner's civilization has the Sun "
 "Tzu's War Academy (and if it isn't obsolete), the chance is increased by "
 "half."
 msgstr ""
-"Die siegreiche Einheit hat eine Chance von 50% Veteranen-Status zu erlangen. "
-"Besitzt die siegreiche Nation Sun Tzus Militärakademie (und ist diese nicht "
-"veraltet), wird der Veteranen-Status auf jeden Fall erlangt."
+"Die siegreiche Einheit hat die Chance, in einen Veteranengrad erhoben zu "
+"werden. Im Standardregelsatz wird diese Chance um 50% erhöht, wenn die "
+"siegreiche Nation Sun Tzus Militärakademie besitzt."
 
 #: data/helpdata.txt:1202
-#, fuzzy
 msgid ""
 "If the attacker is a land unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1."
@@ -21244,7 +21662,6 @@ msgstr ""
 "in einer Stadt ohne Stadtmauern befand, wird die Stadt um 1 verkleinert."
 
 #: data/helpdata.txt:1205
-#, fuzzy
 msgid ""
 "If the defender loses, and is not inside a city, fortress, or airbase, all "
 "other units at the defender's location are destroyed along with the defender."
@@ -21275,12 +21692,11 @@ msgstr ""
 "folgenden Werte in der Datei game.ruleset im Abschnitt combat_rules ändert: "
 
 #: data/helpdata.txt:1218
-#, fuzzy
 msgid ""
 " - killstack (default: 1). If set to 0, units on the same tile as a lost "
 "defender are not destroyed."
 msgstr ""
-" - killstack. (Standard: 1) Bei '0' werden Einheiten auf demselben Feld wie  "
+" • killstack (Standard: 1). Bei 0 werden Einheiten auf demselben Feld wie "
 "ein unterlegener Verteidiger nicht zerstört."
 
 #: data/helpdata.txt:1221
@@ -21288,6 +21704,8 @@ msgid ""
 " - tired_attack (default: 0). If set to 1, units that attack with only 2/3 "
 "or 1/3 moves left will attack with proportionally reduced strength."
 msgstr ""
+"• tired_attack (Standard: 0). Falls 1, greifen Einheiten, die nur 2/3 oder "
+"1/3 ihrer Bewegungspunkte besitzen, mit proportional reduzierter Stärke an."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:1229
@@ -21295,14 +21713,13 @@ msgid " Combat example 1"
 msgstr " Kampfbeispiel 1"
 
 #: data/helpdata.txt:1230
-#, fuzzy
 msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, FP:1) attacks a Musketeer (A:3, D:3, "
 "HP:20, FP:1) inside a city with City Walls built on a Forest tile.  Neither "
 "are veteran."
 msgstr ""
 "Kanonen (A:8, V:1, TP:20, FK:1) greifen Musketiere (A:3, V:3, TP:20, FK:1) "
-"in einer Stadt mit Stadtmauern im Wald an."
+"in einer Stadt mit Stadtmauern im Wald an. Keiner ist Veteran."
 
 #: data/helpdata.txt:1234
 msgid ""
@@ -21351,7 +21768,12 @@ msgid ""
 "might lose most of its hit points, or it might even lose the battle."
 msgstr ""
 "Da beide Einheiten 20 Trefferpunkte haben, wird der Verteidiger mit hoher "
-"Wahrscheinlichkeit gewinnen."
+"Wahrscheinlichkeit gewinnen; er wird wahrscheinlich etwa 40% seiner "
+"Trefferpunkte während des Kampfes verlieren. Ein solcher Ausgang ist jedoch "
+"keinesfalls sicher, solange beide Einheiten eine Stärke von Nicht-Null "
+"besitzen. Der Verteidiger kommt vielleicht unverletzt davon, er könnte aber "
+"auch die meisten seiner Trefferpunkte verlieren oder sogar im Kampf "
+"unterliegen."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:1268
@@ -21359,7 +21781,6 @@ msgid " Combat example 2"
 msgstr " Kampfbeispiel 2"
 
 #: data/helpdata.txt:1269
-#, fuzzy
 msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, FP:2) with 3 movement "
 "points attacks a veteran Alpine Troops (A:5, D:5, HP:20, FP:1) inside a city "
@@ -21430,11 +21851,10 @@ msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
 msgstr ""
-"Durch Kontrollzonen wird verhindert, daß man sich, in von feindlichen "
-"Einheiten zumindest teilweise kontrolliertem Gebiet, frei bewegen kann."
+"Durch Kontrollzonen wird verhindert, dass man sich in von feindlichen "
+"Einheiten zumindest teilweise kontrolliertem Gebiet frei bewegen kann."
 
 #: data/helpdata.txt:1314
-#, fuzzy
 msgid ""
 "The general rule is that a land unit which is adjacent to an enemy occupied "
 "tile cannot move directly to another tile which is also adjacent to an enemy "
@@ -21445,10 +21865,11 @@ msgstr ""
 "Grundsätzlich gilt, daß eine Landeinheit, die sich auf einem Feld befindet, "
 "das an ein von einer gegnerischen Einheit besetztes Feld angrenzt, sich "
 "nicht direkt auf ein anderes Feld begeben kann, das ebenfalls an ein von "
-"einer gegnerischen Einheit besetztes Feld angrenzt."
+"einer gegnerischen Einheit besetztes Feld angrenzt. Als angrenzend gilt "
+"dabei jedes der acht — bzw. sechs in hexagonalen Karten — Felder, die eine "
+"Einheit umgeben."
 
 #: data/helpdata.txt:1321
-#, fuzzy
 msgid ""
 "In the following special cases ZOC does not apply:\n"
 "- A unit moving directly into or out of a city.\n"
@@ -21458,16 +21879,17 @@ msgid ""
 "- The foreign unit is from a nation with which you have an Alliance pact."
 msgstr ""
 "In folgenden Fällen ist die Kontrollzone keine Hindernis:\n"
-" - für eine Einheit, die direkt in oder aus\n"
-"   einer Stadt zieht\n"
-" - für eine Einheit, die auf ein Feld zieht, auf dem\n"
-"   schon eine befreundete Einheit steht\n"
-" - für eine Einheit, die ausgeschifft wird\n"
-" - für Einheiten, die Kontrollzonen ignorieren\n"
-"   (z.B. Diplomaten)"
+"• für eine Einheit, die direkt in eine oder aus\n"
+"  einer Stadt zieht\n"
+"• für eine Einheit, die auf ein Feld zieht, auf dem\n"
+"  schon eine befreundete Einheit steht\n"
+"• für eine Einheit, die ausgeschifft wird\n"
+"• für Einheiten, die Kontrollzonen explizit ignorieren\n"
+"   (z.B. Diplomaten und Spione)<\n"
+"• die fremde Einheit gehört zu einer Nation, mit der Sie eine Allianz\n"
+"  eingegangen sind."
 
 #: data/helpdata.txt:1329
-#, fuzzy
 msgid ""
 "Notes:\n"
 "\n"
@@ -21490,17 +21912,25 @@ msgid ""
 msgstr ""
 "Anmerkungen:\n"
 "\n"
-"- Kontrollzonen wirken nur für Landeinheiten.\n"
+"• Kontrollzonen wirken nur für Landeinheiten.\n"
 "\n"
-"- Andere Einheiten errichten nur Kontrollzonen, wenn sie sich auf "
-"Landfeldern befinden (Schiffe innerhalb von Städten)\n"
+"• Andere Einheiten können zwar ebenfalls Kontrollzonen erzwingen, aber nur, "
+"wenn diese sich auf einem Landfeld befinden. Daraus folgt, dass "
+"Seestreitkräfte keine Kontrollzone besitzen (außer sie befinden sich in "
+"einer Stadt) und dass Flugeinheiten (Helikopter eingeschlossen) über "
+"Ozeanfeldern ebenfalls keine Kontrollzonen einrichten können.\n"
 "\n"
-"- Kontrollzonen verhindern keine Angriffe, sondern Bewegungen.\n"
+"• Kontrollzonen verhindern keine Angriffe, sondern Züge.\n"
 "\n"
-"- Leere feindliche Städte zählen nicht als feindlich besetztes Feld."
+"• Eine feindliche Stadt zählt nur dann als vom Feind besetztes Feld, wenn "
+"sich dort Einheiten aufhalten (das ist dieselbe Regel, die auch für jedes "
+"andere Feld gilt).\n"
+"\n"
+"• Einen Sonderfall stellt die Ausschiffung von Einheiten da, ein Zug _auf_ "
+"ein Ozeanfeld hingegen (also zurück auf ein Schiff) wird zugelassen, wenn es "
+"sich bei dem Schiff um eine freundlich gesonnene Einheit handelt."
 
 #: data/helpdata.txt:1349
-#, fuzzy
 msgid ""
 "TIP:  You can infiltrate enemy zones by first moving in a Diplomat (or some "
 "other unit which ignores ZOC), and then moving regular units onto the tile "
@@ -21511,7 +21941,7 @@ msgstr ""
 "HINWEIS: Man kann in feindliche Kontrollzonen eindringen, indem man zunächst "
 "einen Diplomaten (oder eine entsprechende Einheit) hineinführt. Reguläre "
 "Einheiten kann man jetzt auf das von dem Diplomaten besetzte Feld ziehen. "
-"Wenn man das wiederholt (und im Idealfall Einheiten zurückläßt, um die "
+"Wenn man das wiederholt (und im Idealfall Einheiten zurücklässt, um die "
 "Felder besetzt zu halten), kann man einen Weg durch feindliches Gebiet "
 "öffnen."
 
@@ -21523,9 +21953,9 @@ msgid ""
 "- The special case for land units disembarking is new."
 msgstr ""
 "Diese Regeln weichen von denen der Versionen bis 1.8.0 ab:\n"
-" - Leere feindliche Städte zählen nicht als feindlich\n"
-"   besetztes Feld.\n"
-" - die Sonderregel für auszuschiffende Einheiten ist neu."
+"• Leere feindliche Städte zählen nicht als feindlich\n"
+"  besetztes Feld.\n"
+"• die Sonderregel für auszuschiffende Einheiten ist neu."
 
 #: data/helpdata.txt:1365
 msgid ""
@@ -21598,7 +22028,6 @@ msgstr ""
 "Ein Bürgerkrieg dauert eine Runde, nach der zunächst 'Anarchie' herrscht."
 
 #: data/helpdata.txt:1401
-#, fuzzy
 msgid ""
 "The capture of your capital does not always lead to civil war.  If you have "
 "treated your people with kindness, you are more likely to retain their "
@@ -21631,29 +22060,26 @@ msgstr ""
 "geändert worden sein."
 
 #: data/helpdata.txt:1423
-#, fuzzy
 msgid ""
 "There are five diplomatic states between players: War, Cease-fire, "
 "Armistice, Peace, and Alliance. The first is the natural state, while the "
 "others can be achieved by signing diplomatic treaties."
 msgstr ""
-"     Es gibt fünf diplomatische Zustände zwischen Spielern: Krieg, "
-"Feuerpause, Waffenstillstand, Frieden und Bündnis. Krieg ist der anfängliche "
-"Zustand, die anderen Zustände können durch Unterzeichnen diplomatischer "
-"Abkommen erreicht werden."
+"Es gibt fünf diplomatische Zustände zwischen Spielern: Krieg, Feuerpause, "
+"Waffenstillstand, Frieden und Bündnis. Während Krieg der anfängliche Zustand "
+"ist, können die anderen Zustände durch den Abschluss diplomatischer Verträge "
+"erreicht werden."
 
 #: data/helpdata.txt:1427
-#, fuzzy
 msgid ""
 "During War, you can freely move your units inside enemy territory and attack "
 "their units and cities at will."
 msgstr ""
-"     Der anfängliche diplomatische Zustand zwischen Spielern ist Krieg. "
-"Während des Krieges kannst du deine Einheiten beliebig ins Land des Feindes "
-"bewegen und dessen Einheiten und Städte angreifen."
+"In Kriegszeiten können Sie Ihre Einheiten ungehindert in feindliches "
+"Territorium einmarschieren lassen und dort beliebig Einheiten und Städte "
+"angreifen."
 
 #: data/helpdata.txt:1430
-#, fuzzy
 msgid ""
 "When two players decide to end hostilities between them, they can agree on a "
 "Cease-fire treaty. This prevents each player from attacking the other, but "
@@ -21661,26 +22087,27 @@ msgid ""
 "number of turns, the Cease-fire will lead back to War. Upon first contact "
 "with an AI player, it will automatically offer you a Cease-fire treaty."
 msgstr ""
-"     Wenn sich zwei Spieler entscheiden, die Feindseligkeiten zwischen ihnen "
-"zu beenden, können sie eine Feuerpause vereinbaren. Nach einer Anzahl von "
-"Zügen endet die Feuerpause und es ist wieder Krieg. Beim ersten Kontakt mit "
-"einem KI-Spieler wird dieser dir eine Feuerpause anbieten."
+"Wenn sich zwei Spieler entscheiden, die Feindseligkeiten zwischen ihnen zu "
+"beenden, können sie eine Feuerpause vereinbaren, die für eine gewisse Anzahl "
+"von Zügen Angriffe des jeweils anderen unterbindet, ihm jedoch nicht "
+"verbietet, sich weiterhin im Territorium des Kontrahenten aufzuhalten. Nach "
+"Ende der Feuerpause befinden sich beide Spieler wieder im Krieg. Beim ersten "
+"Kontakt mit einem KI-Spieler wird dieser dir eine Feuerpause anbieten."
 
 #: data/helpdata.txt:1437
-#, fuzzy
 msgid ""
 "If you wish for a more permanent peaceful coexistence with another player, "
 "you may sign a peace pact. This will enter a transitional Armistice state, "
 "which after another set number of turns will turn into a permanent Peace. "
 "Breaking an Armistice will drop you directly back to War."
 msgstr ""
-"     Wenn du eine dauerhaftere Koexistenz mit dem anderen Spieler wünscht, "
-"kannst du einen Waffenstillstand vereinbaren, der nach einer Anzahl von "
-"Zügen zu einem dauerhaften Frieden wird. Der Bruch des Waffenstillstandes "
-"führt direkt in den Krieg."
+"Wenn Sie eine dauerhaftere, friedliche Koexistenz mit einem anderen Spieler "
+"anstreben, können Sie einen Friedensvertrag abschließen. Dies führt zunächst "
+"zu einem übergangsmäßigen Waffenstillstand, der nach einer weiteren Anzahl "
+"von Runden zu einem dauerhaften Frieden wird. Der Bruch des "
+"Waffenstillstandes führt direkt in den Krieg."
 
 #: data/helpdata.txt:1443
-#, fuzzy
 msgid ""
 "At the moment two players enter into the diplomatic state of Peace, all "
 "military units belonging to either player that happen to be within the "
@@ -21689,12 +22116,12 @@ msgid ""
 "you either declare War, or forge an Alliance. Breaking a Peace treaty will "
 "drop you directly back to War."
 msgstr ""
-"    In dem Moment, in dem zwei Spieler in den Frieden eintreten, werden alle "
-"Einheiten des einen Spielers, die sich in den Grenzen des anderen befinden, "
-"entsprechend dem Vertrag automatisch aufgelöst. Danach ist es nicht mehr "
-"möglich, Einheiten in das Gebiet des anderen Spielers zu bewegen, ohne "
-"entweder den Krieg zu erklären oder ein Bündnis zu schmieden. Ein Bruch des "
-"Friedens führt dich direkt zurück in den Krieg."
+"In dem Moment, in dem zwei Spieler in den Frieden eintreten, werden alle "
+"Einheiten des einen Spielers, die sich in den Grenzen des jeweils anderen "
+"befinden, entsprechend dem Vertrag automatisch aufgelöst. Danach ist es "
+"nicht mehr möglich, Einheiten in das Gebiet des anderen Spielers zu bewegen, "
+"ohne entweder den Krieg zu erklären oder ein Bündnis zu schmieden. Ein Bruch "
+"des Friedens führt dich direkt zurück in den Krieg."
 
 #: data/helpdata.txt:1450
 msgid ""
@@ -21709,6 +22136,21 @@ msgid ""
 "and shared vision, and will seriously consider trading technologies and "
 "cities, but in return will expect you to join its wars against other players."
 msgstr ""
+"Das Bündnis stellt den ultimativen diplomatischen Zustand zwischen zwei "
+"Spielern da. Derart alliierte Spieler können Einheiten in die Städte des "
+"Anderen bewegen, ihre Einheiten können sich auf demselben Feld aufhalten und "
+"erzwingen keine Kontrollzonen mehr. Bündnisverträge unterliegen jedoch "
+"einigen Restriktionen; so ist es etwa nicht möglich, ein Bündnis mit einem "
+"Spieler einzugehen, der sich im Krieg mit einem bestehenden Bundesgenossen "
+"befindet, ohne den Vertrag mit letzterem zu brechen. Erklären sich zwei "
+"Ihrer Bundesgenossen den Krieg, wird die Allianz mit dem dem Agressor "
+"automatisch nichtig. Der Bruch eines Bündnisses führt zunächst zu einer "
+"Waffenruhe.\n"
+"\n"
+"Ein alliierter KI-Spieler wird Ihnen gern Einblick in seine Weltkarte geben, "
+"seine Kartensicht zur Verfügung stellen und ernsthaft darüber nachdenken, "
+"mit Ihnen über Fortschritte und Städte zu verhandeln. Umgekehrt wird er von "
+"Ihnen erwarten, dass Sie an seiner Seite gegen seine Feinde kämpfen."
 
 #: data/helpdata.txt:1466
 msgid ""
@@ -21726,6 +22168,13 @@ msgid ""
 "and another player might grant technology in the terms of a pact. But "
 "otherwise advances must be discovered through the efforts of your own people."
 msgstr ""
+"Es gibt einige Möglichkeiten, Fortschritte von anderen Zivilisationen zu "
+"erhalten: So werden Sie hin und wieder eine Technologie erlernen, wenn Sie "
+"eine feindliche Stadt einnehmen; sie können Fortschritte mit Diplomaten und "
+"Spionen rauben; Wunder können Ihnen Erkenntnisse vermitteln; und schließlich "
+"kann Ihnen ein anderer Spieler auch vertraglich Technologien zugestehen. "
+"Abgesehen davon müssen Fortschritte jedoch durch die wissentschaftlichen "
+"Anstrengungen Ihres eigenen Volkes gemacht werden."
 
 #: data/helpdata.txt:1477
 msgid ""
@@ -21734,6 +22183,12 @@ msgid ""
 "section). While it is possible to change which advance you are currently "
 "researching, by default all progress is lost by doing so."
 msgstr ""
+"Der größte Teil des technologischen Fortschritts kommt durch den Handel "
+"zustande (siehe den Abschnitt über Handel) sowie — im Standardregelsatz — "
+"durch die Arbeit von Wissenschaftlern (siehe den Abschnitt über "
+"Spezialisten). Es ist zwar möglich, das aktuelle Forschungsprojekt zu "
+"ändern, allerdings werden Sie standardmäßig den gesamten bis dahin gemachten "
+"Fortschritt einbüßen."
 
 #: data/helpdata.txt:1482
 msgid ""
@@ -21746,6 +22201,17 @@ msgid ""
 "If research output drops below that required for upkeep, your civilization "
 "will forget a random advance, requiring it to be researched again."
 msgstr ""
+"Während der größte Teil des sich ergebenden Forschungsaustoßes (»Punkte«) "
+"fürgewöhnlich in die Entwicklung neuer Technologien investiert wird, gibt es "
+"einige Regelästze, in denen er zum Teil für die Aufrechterhaltung der "
+"Kenntnisse bereits erforschter Technologien verwendet wird (dies ist im "
+"Standardregelsatz jedoch nicht der Fall). Die für den Erhalt bestehender "
+"Technologien erforderlichen Kosten steigen mit den Gesamtforschungskosten "
+"aller Ihnen bekannten Fortschritte, und der Zeitpunkt, zu dem Sie beginnen, "
+"für die Aufrechterhaltung der Kenntnisse einer Technologie zu zahlen, hängt "
+"von verschiedenen Faktoren wie etwa Ihrer Regierungsform ab. Fällt der "
+"Forschungsaustoß unter die Erhaltungskosten, wird Ihre Zivilisation eine "
+"zufällige Technologie vergessen, und sie müssen Sie von Neuem erforschen."
 
 #: data/helpdata.txt:1492
 msgid ""
@@ -21755,6 +22221,12 @@ msgid ""
 "immediately sold, and obsolete wonders lose their effect. See the relevant "
 "sections for more information."
 msgstr ""
+"Der technologische Fortschritt kann und wird Einheiten, Stadterweiterungen "
+"und Weltwunder überholen und diese obsolet machen. Es ist quasi unmöglich, "
+"veraltete Einheiten zu bauen (bereits ausgebildete Einheiten werden aber "
+"nicht beeinträchtigt), überholte Stadtverbesserungen werden unverzüglich "
+"verkauft und obsolete Weltwunder verlieren ihren Effekt. Siehe die "
+"jeweiligen Abschnitte für weitere Informationen."
 
 #: data/helpdata.txt:1505
 msgid ""
@@ -21785,7 +22257,6 @@ msgstr ""
 "'Raumschiffkomponenten' und 'Raumschiffmodule'."
 
 #: data/helpdata.txt:1519
-#, fuzzy
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
@@ -21793,7 +22264,7 @@ msgid ""
 msgstr ""
 "Sobald mit dem Bau des Raumschiffes begonnen wurde, kann es über den "
 "Menüpunkt 'Raumschiff' unter 'Berichte' angesehen werden. Die Raumschiffe "
-"der anderen Spieler können über das Spielerfenster durch Auswahl des "
+"der anderen Spieler können über den Nationenbericht durch Auswahl des "
 "Spielers und Anklicken von 'Raumschiff' angesehen werden."
 
 #: data/helpdata.txt:1524
@@ -21845,7 +22316,6 @@ msgstr ""
 "folgender Adresse erreichbar ist:"
 
 #: data/helpdata.txt:1562
-#, fuzzy
 msgid ""
 "The client can fetch this page, too: use the Metaserver button in the "
 "connection dialog.  If it never shows any results, check whether your WWW "
@@ -21854,7 +22324,7 @@ msgid ""
 msgstr ""
 "Diese Seite kann auch vom civclient benutzt werden: Öffnen Sie das "
 "Metaserver-Register im Startfenster zum Verbindungsaufbau und benutzen Sie "
-"das Feld 'Aktualisieren'. Falls dies bei Ihnen nicht funktionieren sollte, "
+"das Feld „Aktualisieren“. Falls dies bei Ihnen nicht funktionieren sollte, "
 "überprüfen Sie bitte, ob Ihr Webbrowser einen sogenannten HTTP-Proxyserver "
 "benutzt. Falls ja, kann er auch von civclient verwendet werden, wenn sie vor "
 "dessen Aufruf die Umgebungsvariable $http_proxy entsprechend setzen:"
@@ -21880,7 +22350,6 @@ msgstr ""
 #. TRANS: This text mentions the names of some client options. These names
 #. ;  * are separately translated elsewhere; they should match!
 #: data/helpdata.txt:1584
-#, fuzzy
 msgid ""
 "Unit Orders:\n"
 "============\n"
@@ -21925,49 +22394,48 @@ msgid ""
 "  U: (U)pgrade unit\n"
 "  x: unit auto e(x)plore\n"
 msgstr ""
-"Tastatur:\n"
-"=========\n"
+"Einheitenbefehle:\n"
+"=================\n"
 "   a: Selbständig (a)rbeiten (Siedler und Arbeiter)\n"
 "   b: Stadt er(b)auen (Siedler)\n"
 "   b: Zum Bau eines Weltwunders (b)eitragen (Karawanen)\n"
-"   C: Mit Straße u.a. verbinden (Ziel mit Mausklick bestimmen)\n"
-"   d: diplomatische Aktionen (Diplomaten/Spione)\n"
+"   B: Gehe zu einem Feld und er(B)aue dort eine Stadt (Siedler)\n"
+"   d: (d)iplomatische Aktionen (Diplomaten/Spione)\n"
 "   D: Einheit auflösen\n"
-"   e: Fli(e)gerhorst bauen\n"
+"   e: Fli(e)gerhorst bauen (Flugbasen-Einheiten)\n"
 "   f: Einheit eingraben (Truppen)\n"
 "   f: Festung errichten (Siedler und Arbeiter)\n"
 "   g: (g)ehe nach (Ziel mit Mausklick bestimmen)\n"
 "   g: Wegpunkt hinzufügen (im Gehe-nach Modus)\n"
-"   G: Rückkehr zur nächsten Stadt\n"
+"   G: Rückkehr zur nächsten freundlichen Stadt\n"
 "   h: Standort zur neuen Heimatstadt machen\n"
 "   i: Bewässerung oder Geländeveränderung (Siedler und Arbeiter)\n"
-"   l: Einheit einschiffen\n"
-"   L: in eine Stadt gehen/geflogen werden\n"
+"   I: Bewässerung vom Momentanen zum Zielfeld bauen\n"
+"   I: Wegpunkt hinzufügen (im Modus zur Errichtung von Bewässerungen)\n"
+"   l: Einheit in Transporter laden\n"
+"   L: Schienen vom Momentanen zum Zielfeld verlegen\n"
+"   L: Wegpunkt hinzufügen (im Modus zum Verlegen von Schienen)\n"
 "   m: Bergwerk oder Geländeveränderung (Siedler und Arbeiter)\n"
 "   n: nuklearen Fallout beseitigen\n"
 "   N: Atombombe zünden\n"
 "   o: Gelände verändern (Ingenieure)\n"
+"   O: Zu einer anderen Einheitenart k(O)nvertieren\n"
 "   p: Umweltverschmutzung beseitigen (Siedler und Arbeiter)\n"
 "   p: abs(p)ringen (Fallschirmspringer)\n"
-"   P: brandschatzen (Truppen)\n"
+"   P: brandschatzen (Geländeverbesserungen zerstören)\n"
 "   q: patrouillieren (Ziel mit Mausklick bestimmen)\n"
 "   q: Wegpunkt hinzufügen (im Patrouillieren-Modus)\n"
-"   r: Straße/Eisenbahn bauen (Siedler oder Arbeiter)\n"
+"   r: Straße bauen/Schienen verlegen (Siedler oder Arbeiter)\n"
 "   r: Handelsweg einrichten (Karawanen)\n"
-"   s: Einheit stationieren\n"
-"   u: Einheit ausschiffen\n"
-"   U: Schiff entladen\n"
-"   W: Alle Einheiten auf dem Feld alarmieren\n"
+"   R: Straße vom Momentanen zum Zielfeld bauen\n"
+"   R: Wegpunkt hinzufügen (im Straßenbau-Modus)\n"
+"   s: Einheit (s)tationieren\n"
+"   S: Alle Einheiten auf dem Feld alarmieren\n"
+"   t: Gehe/fliege nach Stadt\n"
+"   T: Alle Einheiten aus (T)ransporter entladen\n"
+"   u: Einheit ausladen\n"
+"   U: Einheit modernisieren\n"
 "   x: Gelände selbständig erkunden\n"
-"   y: Alle untätigen Einheiten desselben Typs auswählen\n"
-"Leertaste:\n"
-"      Einheit stehen lassen\n"
-"\n"
-"      Strg-U: Einheit modernisieren\n"
-"Shift-Strg-B: Gehe nach und baue Stadt (Ziel mit Mausklick bestimmen)\n"
-"Shift-Strg-R: Baue Straße zum Ziel (mit Mausklick bestimmen)\n"
-"Shift-Strg-L: Baue Eisenbahn zum Ziel (mit Mausklick bestimmen)\n"
-"Shift-Strg-I: Baue Bewässerung zum Ziel (mit Mausklick bestimmen)\n"
 
 #: data/helpdata.txt:1627
 msgid ""
@@ -21983,9 +22451,22 @@ msgid ""
 "  5: focus on previous unit\n"
 "space: done giving orders  (unit stays put)\n"
 msgstr ""
+"Einheitenauswahl:\n"
+"=================\n"
+"  z: Nur die erste Einheit der selektierten Gruppe auswählen\n"
+"  v: Alle Einheiten auf dem Feld auswählen\n"
+"  V: Alle Einheiten des Typs der aktiven Einheit auf dem Feld auswählen\n"
+"  C: Alle Einheiten des Typs der aktiven Einheit auf dem Kontinent "
+"auswählen\n"
+"  X: Alle Einheiten des Typs der aktiven Einheit auf der ganzen Welt "
+"auswählen\n"
+"\n"
+"  w: (w)arten: nächste Einheit fokussieren\n"
+"  5: vorherige Einheit fokussieren\n"
+"Leertaste: Keine weiteren Befehle für diese Einheit (beendet den Zug für die "
+"Einheit)\n"
 
 #: data/helpdata.txt:1639
-#, fuzzy
 msgid ""
 "Unit Movement:\n"
 "==============\n"
@@ -22008,13 +22489,8 @@ msgstr ""
 "  7: nach Nordwesten gehen\n"
 "  8: nach Norden gehen\n"
 "  9: nach Nordosten gehen\n"
-"\n"
-"  5: vorherige Einheit zeigen\n"
-"  w: nächste Einheit zeigen (warten)\n"
-"  c: Karte auf Einheit zentrieren\n"
 
 #: data/helpdata.txt:1650
-#, fuzzy
 msgid ""
 "Main Map (Keys):\n"
 "================\n"
@@ -22032,15 +22508,19 @@ msgid ""
 "  Ctrl-Y: show/hide city outlines\n"
 msgstr ""
 "Hauptkarte (Tastatur):\n"
-"====================\n"
+"======================\n"
+"                  c: Ansicht auf aktive Einheit zentrieren\n"
 "         Shift-Pos1: Auf Hauptstadt zentrieren\n"
-"  Shift-Pfeiltasten: Einheit bewegen\n"
-"             Strg-G: Zeige Gitterlinien (ein/aus)\n"
-"             Strg-B: Zeige Landesgrenzen (ein/aus)\n"
-"             Strg-N: Zeige Stadtnamen (ein/aus)\n"
-"             Strg-R: Zeige Stadtwachstum (ein/aus)\n"
-"             Strg-P: Zeige Stadtproduktion (ein/aus)\n"
-"                  t: Zeige Stadtarbeiter (Mauszeiger nahe Stadt)\n"
+"  Shift-Pfeiltasten: Karte scrollen\n"
+"\n"
+"  Strg-B: Zeige Nationalgrenzen (ein/aus)\n"
+"  Strg-D: Zeige Handelsrouten zwischen Städten (ein/aus)\n"
+"  Strg-G: Zeige Gitterlinien (ein/aus)\n"
+"  Strg-N: Zeige Stadtnamen (ein/aus)\n"
+"  Strg-P: Zeige Stadtproduktion (ein/aus)\n"
+"  Strg-R: Zeige Stadtwachstum (ein/aus)\n"
+"  Strg-W: Zeige Stadtwirtschaft (ein/aus)\n"
+"  Strg-Y: Zeige Stadtgrenzen (ein/aus)\n"
 
 #: data/helpdata.txt:1665
 msgid ""
@@ -22058,6 +22538,23 @@ msgid ""
 "  Right-click:                   Center tile in view\n"
 "  Ctrl-center-click:             Wake up sentried units"
 msgstr ""
+"Hauptkarte (Maus):\n"
+"==================\n"
+"  Linksklick auf Stadt:              Stadtdialog anzeigen\n"
+"  Linksklick auf Einheit:            Einheit auswählen\n"
+"                                     (bricht die momentane Aktivität ab, "
+"wenn\n"
+"                                     »Einheitenbefehle bei Auswahl "
+"verwerfen«\n"
+"                                     gesetzt ist)\n"
+"  Shift-Linksklick auf Einheit:      Einheit zur Auswahl hinzufügen (GTK)\n"
+"  Linksklick-und-Ziehen auf Einheit: Gehe-Nach-Befehl für Einheit\n"
+"                                     (wenn die Option »tastaturloses Gehe-"
+"Nach«\n"
+"                                     aktiviert ist)\n"
+"  Mittelklick, Alt-Linksklick:       Zeige Feldinformationen an\n"
+"  Rechtsklick:                       Zentriere Ansicht auf Feld\n"
+"  Strg-Mittelklick:                  Stationierte Einheiten alarmieren"
 
 #: data/helpdata.txt:1678
 msgid ""
@@ -22071,6 +22568,15 @@ msgid ""
 "preferred. If keyboardless goto is enabled, dragging allows the unit to be "
 "selected and moved in one gesture."
 msgstr ""
+"  Schnellauswahl für Einheiten\n"
+"  ============================\n"
+"  Strg-Linksklick auf Feld: Seeeinheit auswählen (Transporter bevorzugt)\n"
+"  Strg-Rechtsklick auf Feld: Landeinheit auswählen (Truppen bevorzugt)\n"
+"\n"
+"Diese Kombinationen wählen eine einzelne Einheiten von den auf dem Feld "
+"verfügbaren aus. Ändert sich sonst nichts, werden Einheiten mit "
+"Bewegungspunkten vorgezogen. Ist tastaturloses Gehe-Nach aktiviert, kann "
+"durch Ziehen die Einheit mit nur einer Geste ausgewählt und bewegt werden."
 
 #: data/helpdata.txt:1688
 msgid ""
@@ -22122,7 +22628,6 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:1724
-#, fuzzy
 msgid ""
 "Dialogs and Reports:\n"
 "====================\n"
@@ -22147,9 +22652,10 @@ msgid ""
 msgstr ""
 "Dialoge und Berichte:\n"
 "=====================\n"
-"     F1: Stadtbericht\n"
+"     F1: Kartenansicht anzeigen\n"
 "     F2: Einheitenbericht\n"
 "     F3: Spielerdialog\n"
+"     F4: Stadtbericht\n"
 "     F5: Wirtschaftsbericht\n"
 "     F6: Forschungsbericht\n"
 "     F7: Weltwunder\n"
@@ -22158,10 +22664,10 @@ msgstr ""
 "    F11: Bericht zur Lage der Nation\n"
 "    F12: Raumschiff\n"
 "\n"
-"      T: Steuerraten einstellen\n"
-"      F: Stadt finden\n"
-" Ctrl-L: Arbeitslisten bearbeiten\n"
-"      R: Revolutionsdialog\n"
+"       Strg-F: Stadt finden\n"
+"       Strg-L: Arbeitslisten bearbeiten\n"
+"       Strg-T: Steuer-/Luxus-/Forschungsraten einstellen\n"
+" Shift-Strg-R: Revolutionsdialog\n"
 "\n"
 "Shift-Eingabe: Zug beenden"
 
@@ -22172,6 +22678,10 @@ msgid ""
 "    Ctrl-E: toggle editing mode\n"
 "    Ctrl-M: toggle fog of war in editing mode\n"
 msgstr ""
+"Editormodus (GTK):\n"
+"==================\n"
+"    Strg-E: Editormodus ein/ausschalten\n"
+"    Strg-M: Nebel des Krieges im Editormodus ein/ausschalten\n"
 
 #: data/helpdata.txt:1754
 msgid ""
@@ -22181,6 +22691,10 @@ msgid ""
 "appropriate. And the governor has another ability: whenever possible, it "
 "keeps your cities content."
 msgstr ""
+"Der Bürgermeister (früher CMA) hilft Ihnen bei der Verwaltung Ihrer Städte, "
+"indem er die verfügbaren Arbeiter möglichst effektiv auf das Umland verteilt "
+"und bei Bedarf auch als Spezialisten einsetzt. Darüber hinaus versucht er so "
+"gut wie möglich, die Stadtbevölkerung zufrieden zu halten."
 
 #: data/helpdata.txt:1760
 msgid ""
@@ -22194,6 +22708,19 @@ msgid ""
 "can set different factors for each kind of production, according to your "
 "needs."
 msgstr ""
+"Es gibt verschiedene Möglichkeiten, dem Bürgermeister mitzuteilen, wie er "
+"eine Stadt administrieren soll, die sie über den „Bürgermeister“-Tab im "
+"Stadtdialog einstellen können. Dort finden Sie zwei Schieberegler, mit denen "
+"Sie die Entscheidungen des Bürgermeisters beeinflussen können. Der linke "
+"Regler legt den minimal erforderlichen Überschuss des jeweiligen Guts fest, "
+"z.B. bedeutet „Gold = +3“, dass Ihre Stadt mindestens 3 Gold mehr "
+"erwirtschaftet, als für die Instandhaltung der Stadtverbesserungen "
+"erforderlich wäre. Im Gegensatz dazu legen Sie mithilfe des rechten Reglers "
+"fest, wie stark Sie ein Gut einem anderen vorziehen; beispielsweise würde "
+"ein Wert von 3 für die Forschung bedeuten, dass Sie einen einzelnen "
+"Forschungspunkt drei Produktionsschilden (oder Gold, Handel, …) vorziehen. "
+"Je nach Ihren Bedürfnissen können Sie für jedes einzelne Gut "
+"unterschiedliche Faktoren einstellen."
 
 #: data/helpdata.txt:1771
 msgid ""
@@ -22202,12 +22729,22 @@ msgid ""
 "the ongoing game, it passes back control to you. So you'd better not define "
 "too high a surplus; instead, use factors to achieve your goals."
 msgstr ""
+"Wenn Sie zu viele Minimalbeschränkungen festlegen, können diese unter "
+"Umständen nicht erfüllt werden. In diesem Falle lässt sich der Bürgermeister "
+"nicht aktiveren. Tritt ein solcher Fall während des Spiels auf, wird der "
+"Bürgermeister seine Arbeit niederlegen und Ihnen die Kontrolle über die "
+"Stadt überlassen; daher sollten Sie besser keine allzu hohen "
+"Minimalüberschüsse fordern, stattdessen können Sie die Faktoreinstellung "
+"benutzen, um Ihre Ziele zu erreichen."
 
 #: data/helpdata.txt:1777
 msgid ""
 "The Celebrate checkbox lets your city - celebrate. This will work only with "
 "a high luxury rate. See help about 'Happiness'."
 msgstr ""
+"Die Checkbox „Feiern“ lässt Ihre Stadt — feiern. Dies funktioniert nur bei "
+"einer hohen Luxusrate, daher sollten Sie den Abschnitt über Zufriedenheit "
+"lesen."
 
 #: data/helpdata.txt:1780
 msgid ""
@@ -22239,6 +22776,13 @@ msgid ""
 "hints, some background information, and some preset examples in the file "
 "README.cma, included with Freeciv."
 msgstr ""
+"Seien Sie vorsichtig! Wenn Sie nur in einigen Ihrer Städte Bürgermeister "
+"einsetzen, wird es zu Problemen bei der händischen Administration "
+"nahegelegener Städte kommen, daher ist es meist am besten, alle Städte eines "
+"Kontinents komplett von Hand oder vollständig mithilfe von Bürgermeistern zu "
+"verwalten. Weitere Hinweise, ein paar Hintergrundinformationen sowie "
+"Beispieleinstellungen können Sie in der in Freeciv enthaltenen Datei „README."
+"cma“ nachlesen."
 
 #: data/helpdata.txt:1803
 msgid ""
@@ -22292,6 +22836,13 @@ msgid ""
 "users to format the chat messages they are sending using boldface, italic, "
 "colors, links, etc...  Such changes are performed using escape sequences."
 msgstr ""
+"Formatierter Text (GTK)\n"
+"=======================\n"
+"\n"
+"Seit Version 2.2 unterstützt der GTK-Client formatierten Text. Dieses "
+"Feature erlaubt es Ihnen, fetten, kursiven, kolorierten, usw. Text sowie "
+"Links im Chat zu übertragen. Diese Änderungen werden mithilfe von Escape-"
+"Sequenzen durchgeführt."
 
 #: data/helpdata.txt:1827
 msgid ""
@@ -22301,6 +22852,11 @@ msgid ""
 "Short cut in the entry: Ctrl-B\n"
 "Example: '[b]bold[/b]' will display the word 'bold' in bold style."
 msgstr ""
+"• Fetter text:\n"
+"Vollständige Sequenz: „[bold] ... [/bold]“\n"
+"Abgekürzte Sequenz: „[b] ... [/b]“\n"
+"Tastenkürzel in der Eingabezeile: Strg-B\n"
+"Beispiel: „[b]fett[/b]“ wird das Wort „fett“ in fetter Schrift anzeigen."
 
 #: data/helpdata.txt:1833
 msgid ""
@@ -22588,7 +23144,6 @@ msgstr ""
 "Unterhaltskosten von 1 kein Unterhalt mehr bezahlt zu werden."
 
 #: data/multiplayer/buildings.ruleset:1086
-#, fuzzy
 msgid ""
 "This stunning technological achievement makes two content citizens happy in "
 "all cities of all players who have researched Genetic Engineering. In the "
@@ -22596,12 +23151,12 @@ msgid ""
 "this effect in a city, the wonder applies to unhappy citizens (including "
 "those unhappy about military activity), making each content then happy."
 msgstr ""
-"Machen in jeder eigenen Stadt einen Zufriedenen glücklich.\n"
-"\n"
-"Machen in der Stadt, wo sie hängen, 2 weitere Zufriedene glücklich.\n"
-"\n"
-"Sollte es in einer Stadt keine Zufriedenen geben, stellen sie stattdessen "
-"Unzufriedene zufrieden."
+"Diese faszinierende Entwicklung macht in den Städten aller Spieler, die die "
+"Gentechnik erforscht haben, zwei zufriedene Bürger glücklich. Sollte der "
+"unwahrscheinliche Fall auftreten, dass es nicht genügend zufriedene Bürger "
+"in einer Stadt gibt, wird der Effekt stattdessen auf unzufriedene Bürger "
+"angwandt (einschließlich solcher, die wegen militärischer Aktivitäten "
+"unzufrieden sind) und machen diese erst zufrieden, dann glücklich."
 
 #: data/multiplayer/buildings.ruleset:1110
 msgid ""
@@ -22976,13 +23531,13 @@ msgstr ""
 msgid "Theory of Evolution"
 msgstr "Evolutionstheorie"
 
+# MG: Äußerst missverständlich formuliert. Siehe Freeciv-Quelltext.
 #: data/multiplayer/techs.ruleset:788
-#, fuzzy
 msgid ""
 "This technology is only acquired the first time you build Darwin's Voyage."
 msgstr ""
-"Diese Technologie wird nur als erstes erhalten, wenn Sie Darwins Reise "
-"abschließen."
+"Sie werden diese Technologie nur dann erhalten, wenn Sie Darwins Reise zum "
+"ersten Mal abschließen."
 
 #: data/multiplayer/units.ruleset:350
 msgid ""
@@ -23316,7 +23871,7 @@ msgid "Baron %s"
 msgstr "Baron %s"
 
 #: data/nation/acrean.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Baroness %s"
 msgstr "Baroness %s"
 
@@ -23502,10 +24057,10 @@ msgid ""
 "city on the Iberian peninsula, Granada, fell in 1492."
 msgstr ""
 "Al-Andalus war im Mittelalter der Teil der iberischen Halbinsel, der unter "
-"muslimischer Kontrolle stand und ist vor allem für ihr beeindruckendes "
-"architektonisches Erbe bekannt. Es wurde im Rahmen der Reconquista und "
-"diverser christlicher Königreiche langsam zurückerobert, bis schließlich "
-"ihre letzte Stadt auf der iberischen Halbinsel, Granada, 1492 fiel."
+"muslimischer Kontrolle stand und ist vor allem für sein beeindruckendes "
+"architektonisches Erbe bekannt. Es wurde im Rahmen der Reconquista durch die "
+"christlichen Königreiche langsam zurückerobert, bis schließlich ihre letzte "
+"Stadt auf der iberischen Halbinsel, Granada, 1492 fiel."
 
 #: data/nation/alandalus.ruleset:31 data/nation/amazigh.ruleset:71
 #: data/nation/arab.ruleset:22 data/nation/bahraini.ruleset:25
@@ -23530,9 +24085,9 @@ msgstr "Scheich %s"
 #: data/nation/omani.ruleset:30 data/nation/qatari.ruleset:20
 #: data/nation/somaliland.ruleset:25 data/nation/somali.ruleset:36
 #: data/nation/tuareg.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "Shaykha %s"
-msgstr "Scheich %s"
+msgstr "Scheichin %s"
 
 #: data/nation/alandalus.ruleset:32 data/nation/algerian.ruleset:23
 #: data/nation/amazigh.ruleset:72 data/nation/arab.ruleset:24
@@ -23839,15 +24394,15 @@ msgstr "Ministerpräsidentin %s"
 
 #: data/nation/alsatian.ruleset:26 data/nation/romansh.ruleset:28
 #: data/nation/swiss.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "Bailiff %s"
-msgstr "Amtmann"
+msgstr "Amtmann %s"
 
 #: data/nation/alsatian.ruleset:26 data/nation/romansh.ruleset:28
 #: data/nation/swiss.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Bailiff %s"
-msgstr "Amtmann"
+msgstr "Amtfrau %s"
 
 #: data/nation/alsatian.ruleset:27 data/nation/andorran.ruleset:25
 #: data/nation/anhaltian.ruleset:33 data/nation/antiguan.ruleset:22
@@ -23922,7 +24477,7 @@ msgstr "Bürgermeister %s"
 #: data/nation/westphalian.ruleset:34
 #, c-format
 msgid "?female:Burgomaster %s"
-msgstr "Bürgermeister %s"
+msgstr "Bürgermeisterin %s"
 
 #: data/nation/amazigh.ruleset:3
 msgid "Amazigh"
@@ -24051,6 +24606,14 @@ msgid ""
 "fighting each other. After half a century of war a peace agreement was "
 "finally reached in 2002."
 msgstr ""
+"Als die Portugiesen im 15. Jahrhundert Angola erreichten, wurde die Region "
+"von verschiedenen Bantu-Königreichen kontrolliert, später wurde es bis ins "
+"19. Jahrhundert hinein zu einer der wichtigsten Quellen von Sklavenhändern. "
+"Nach einem Guerillakrieg gegen die portugiesischen Kolonialherren, der zwei "
+"Dekaden andauerte, wurde Angola 1975 schließlich unabhängig, woraufhin sich "
+"die zahlreichen verschiedenen Guerillagruppierungen nun gegenseitig "
+"bekämpften. Erst nach einem halben Jahrhundert des Krieges wurde 2002 "
+"endlich ein Friedensabkommen erreicht."
 
 #: data/nation/anhaltian.ruleset:3
 msgid "Anhaltian"
@@ -24135,7 +24698,6 @@ msgid "Anishinaabe"
 msgstr "anishinaabisch"
 
 #: data/nation/anishinaabe.ruleset:4
-#, fuzzy
 msgid "?plural:Anishinaabeg"
 msgstr "Anishinaabeg"
 
@@ -24146,6 +24708,10 @@ msgid ""
 "Algonkin and Potawatomi. They speak Algonquian languages. Together they are "
 "one of the most numerous indigenous peoples of North America."
 msgstr ""
+"Die Anishinaabeg sind eine Gruppe eng verwandter uramerikanischer Stämme in "
+"der nordamerikanischen Region der Great Lakes, eingeschlossen Ottawa, "
+"Ojibwe, Algonkin und Potawomi. Sie sprechen die Algonkin-Sprachen und sind "
+"zusammen eines der größten indigenen Völker Nordermerikas."
 
 #: data/nation/anishinaabe.ruleset:29 data/nation/apache.ruleset:26
 #: data/nation/gokturk.ruleset:46 data/nation/navajo.ruleset:30
@@ -24187,16 +24753,17 @@ msgid ""
 "two eponymous islands as well as a number of smaller islets. The country has "
 "been independent from the United Kingdom since 1981."
 msgstr ""
+"Antigua und Barbuda ist ein aus den zwei namensgebenden und einer Reihe "
+"weiterer kleinerer Inseln bestehender Staat in der Ostkaribik. Das Land ist "
+"seit 1981 vom Vereinigten Königreich unabhängig."
 
 #: data/nation/antillean.ruleset:3
-#, fuzzy
 msgid "Antillean"
-msgstr "Artillerie"
+msgstr "antillanisch"
 
 #: data/nation/antillean.ruleset:4
-#, fuzzy
 msgid "?plural:Antilleans"
-msgstr "Inder"
+msgstr "Antillaner"
 
 #: data/nation/antillean.ruleset:6
 msgid ""
@@ -24208,16 +24775,22 @@ msgid ""
 "the Netherlands, the other three islands have been directly integrated into "
 "the Netherlands as special municipalities."
 msgstr ""
+"Aruba, Bonaire, Curaçao, Saba, Saint Martin und Saint Eustatius wurden im "
+"17. Jahrhundert von der Niederländern kolonialisiert. Die Einwohnerschaft "
+"setzt sich aus Europäern, Afrikanern und Nachfahren latinoamerikanischer "
+"Herkunft zusammen. Die niederländischen Antillen erhielten 1954 das Recht "
+"auf Selbstbestimmung, wurden jedoch 2010 aufgelöst. Aruba, Curaçao und Saint "
+"Martin sind seitdem Staaten des Königreiches der Niederlanden, die anderen "
+"drei Inseln wurden als spezielle Provinzen direkt in die die Niederlande "
+"eingegliedert."
 
 #: data/nation/apache.ruleset:3
-#, fuzzy
 msgid "Apache"
-msgstr "Raumschiff"
+msgstr "apachisch"
 
 #: data/nation/apache.ruleset:4
-#, fuzzy
 msgid "?plural:Apaches"
-msgstr "Lankesen"
+msgstr "Apachen"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/apache.ruleset:7
@@ -24228,6 +24801,12 @@ msgid ""
 "the Far North around 1000 CE. The Apache are known as fierce warriors. In "
 "the 19th century it took the United States half a century to subdue them."
 msgstr ""
+"Die Apachen sind eine Gruppe Athapaskisch sprechender Indianerstämme, die in "
+"Arizona, New Mexico und Oklahoma leben und sich aus den Western, Chiricahua, "
+"Mescalero, Jicarilla, Lipan und Plains Apache zusammensetzen. Sie stammen "
+"ursprünglich aus dem hohen Norden, von wo sie um etwa 1000 v.u.Z. in ihre "
+"heutigen Regionen gelangten und gelten als mutige Krieger, für deren "
+"Unterwerfung die USA das halbe 19. Jahrhundert benötigten."
 
 #: data/nation/arab.ruleset:3
 msgid "Arab"
@@ -24239,20 +24818,21 @@ msgstr "?plural:Araber"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/arab.ruleset:7
-#, fuzzy
 msgid "The Arab/Islamic civilization of 622 to 1495 CE."
 msgstr "Die arabisch-islamische Zivilisation zwischen 622 und 1495 n. Chr."
 
 #: data/nation/aragonese.ruleset:3
-#, fuzzy
 msgid "Aragonese"
-msgstr "Dragoner"
+msgstr "aragonisch"
 
 #: data/nation/aragonese.ruleset:4
-#, fuzzy
 msgid "?plural:Aragonese"
-msgstr "Lankesen"
+msgstr "Aragoner"
 
+# MG: Die spanischen "comunidades autónomas" sind keine "communities",
+# sondern Verwaltungseinheiten wie bei uns Bundesländer (mit ein
+# bisschen mehr Freiheiten) und werden üblicherweise als "spanische
+# autonome Region" übersetzt.
 #: data/nation/aragonese.ruleset:6
 msgid ""
 "Aragon was formed as a Frankish county and was elevated to a kingdom in the "
@@ -24262,6 +24842,13 @@ msgid ""
 "the base of the Spanish unification. The kingdom was legally dissolved in "
 "1707 but today Aragon continues to exist as an autonomous community of Spain."
 msgstr ""
+"Aragón wurde als fränkisches Bundlesland gegründet und im 11. Jahrhundert "
+"zum Königreich erhoben. Während der Reconquista erweiterte es sein "
+"Territorium nach Süden und kontrollierte in der Folge einen großten Teil des "
+"Mittelmeers; 1469 heiratete König Fernando II. Isabella von Kastilien, eine "
+"Vereinigung, die den Grundstein für die spätere spanische Einheit legen "
+"sollte. Das Königreich wurde im Jahre 1707 formell aufgelöst, aber Aragón "
+"existiert bis heute als spanische autonome Region."
 
 #: data/nation/aramean.ruleset:3
 msgid "Aramean"
@@ -24300,7 +24887,7 @@ msgstr ""
 "Argentinien liegt an der südöstlichen Küste von Südamerika. Seit seiner "
 "Unabhängigkeit von Spanien 1816 litt es unter mehreren inneren und äußeren "
 "Konflikten. In den Jahrzehnten nach dem zweiten Weltkrieg wurde die Politik "
-"von Juan Peron und seiner charismatischen Frau Eva 'Evita' Peron bestimmt."
+"von Juan Perón und seiner charismatischen Frau Eva »Evita« Perón bestimmt."
 
 #: data/nation/argentine.ruleset:28 data/nation/bolivian.ruleset:39
 #: data/nation/chiapanec.ruleset:33 data/nation/colombian.ruleset:27
@@ -24309,9 +24896,9 @@ msgstr ""
 #: data/nation/paraguayan.ruleset:36 data/nation/peruvian.ruleset:24
 #: data/nation/salvadoran.ruleset:40 data/nation/southamerican.ruleset:19
 #: data/nation/uruguayan.ruleset:21
-#, fuzzy, c-format
+#, c-format
 msgid "Comandante %s"
-msgstr "Genosse"
+msgstr "Comandante %s"
 
 #: data/nation/argentine.ruleset:28 data/nation/bolivian.ruleset:39
 #: data/nation/chiapanec.ruleset:33 data/nation/colombian.ruleset:27
@@ -24320,23 +24907,23 @@ msgstr "Genosse"
 #: data/nation/paraguayan.ruleset:36 data/nation/peruvian.ruleset:24
 #: data/nation/salvadoran.ruleset:40 data/nation/southamerican.ruleset:19
 #: data/nation/uruguayan.ruleset:21
-#, fuzzy, c-format
+#, c-format
 msgid "Comandanta %s"
-msgstr "kanadisch"
+msgstr "Comandanta %s"
 
 #: data/nation/argentine.ruleset:31 data/nation/colombian.ruleset:30
 #: data/nation/dominicano.ruleset:28 data/nation/peruvian.ruleset:26
 #: data/nation/venetian.ruleset:29
 #, c-format
 msgid "Viceroy %s"
-msgstr ""
+msgstr "Viceroy %s"
 
 #: data/nation/argentine.ruleset:31 data/nation/colombian.ruleset:30
 #: data/nation/dominicano.ruleset:28 data/nation/peruvian.ruleset:26
 #: data/nation/venetian.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Vicereine %s"
-msgstr "Version"
+msgstr "Vicereine %s"
 
 #: data/nation/armenian.ruleset:3
 msgid "Armenian"
@@ -24352,7 +24939,7 @@ msgid ""
 "great-great-grandson of Noah. The modern Republic of Armenia gained "
 "independence from the Soviet Union in 1991."
 msgstr ""
-"Nach der Legende sind die Armenier die Nachfahren von Haik - dem Ururenkel "
+"Nach der Legende sind die Armenier die Nachfahren von Haik — dem Ururenkel "
 "von Noah. Die moderne Republik Armenien erlangte 1991 die Unabhängigkeit von "
 "der Sowjetunion."
 
@@ -24369,22 +24956,24 @@ msgid ""
 "The Ashanti were an ancient kingdom in a region that is currently a part of "
 "Ghana. The first Ashanti kingdom was founded in the 11th century."
 msgstr ""
+"Die Ashanti waren ein antikes Königreich in einer Region, die heute Teil von "
+"Ghana ist; ihr erstes Königreich wurde im 11. Jahrhundert gegründet."
 
 #: data/nation/ashanti.ruleset:35 data/nation/benin.ruleset:29
 #: data/nation/hansa.ruleset:26 data/nation/romansh.ruleset:27
 #: data/nation/sammarinese.ruleset:24 data/nation/un.ruleset:23
 #: data/nation/uruguayan.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Councillor %s"
-msgstr "Bundeskanzler"
+msgstr "Ratsherr %s"
 
 #: data/nation/ashanti.ruleset:35 data/nation/benin.ruleset:29
 #: data/nation/hansa.ruleset:26 data/nation/romansh.ruleset:27
 #: data/nation/sammarinese.ruleset:24 data/nation/un.ruleset:23
 #: data/nation/uruguayan.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Councillor %s"
-msgstr "Bundeskanzler"
+msgstr "Ratsherrin %s"
 
 #: data/nation/ashanti.ruleset:36
 #, c-format
@@ -24398,12 +24987,11 @@ msgstr "Asantehene %s"
 
 #: data/nation/assamese.ruleset:3
 msgid "Assamese"
-msgstr ""
+msgstr "assamesisch"
 
 #: data/nation/assamese.ruleset:4
-#, fuzzy
 msgid "?plural:Assamese"
-msgstr "Aramäer"
+msgstr "Assamesen"
 
 #: data/nation/assamese.ruleset:6
 msgid ""
@@ -24413,6 +25001,11 @@ msgid ""
 "by the mighty Mughal Empire, effectively halting the Mughals' eastward "
 "expansion."
 msgstr ""
+"Das Königreich Assam (Ahom) wurde 1228 in den südöstlichen Vorgebirgen des "
+"Himalaya von einer Gruppe Shan, die aus der Region des heutigen Nordost-"
+"Birma emigrierten, gegründet. Ihre Könige errangen großartige Siege gegen "
+"Expeditionen des mächtigen Mogulreichs, die die östlich gerichtete Expansion "
+"der Moguln effektiv stoppten."
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
@@ -24448,6 +25041,14 @@ msgid ""
 "capital town was moved from Oviedo to Leon. Nowadays, Asturias is an "
 "autonomous community of Spain."
 msgstr ""
+"Die Asturier waren ein keltisches Volk, das den größten Teil der Nordküste "
+"Spaniens besiedelte. Sie kämpften bis zur Unterwerfung durch Cäsar Augustus’ "
+"Legionen zwischen 29 und 19 v.u.Z.. Zur Zeit des westgotischen Königreichs "
+"von Toledo gab es zwischenen diesem und den Asturiern problematische "
+"Beziehungen. 722 u.Z. bezwang König Pelayo die umayyadischen Truppen bei "
+"Covadonga und errichtete so das asturische Königreich, welches bis ins Jahr "
+"910 u.Z. währte, in dem die Hauptstadt von Oviedo nach Leon verlegt wurde. "
+"Heutzutage ist Asturien eine spanische autonome Region."
 
 #: data/nation/atlantean.ruleset:3
 msgid "Atlantean"
@@ -24486,7 +25087,6 @@ msgid "?plural:Australians"
 msgstr "?plural:Australier"
 
 #: data/nation/australian.ruleset:6
-#, fuzzy
 msgid ""
 "Australia was founded as a British penal colony in 1788 CE. Originally "
 "comprising several colonies (New South Wales, Victoria, Queensland, South "
@@ -24522,35 +25122,46 @@ msgid ""
 "Germany in the Anschluss in 1938. This lasted until the end of World War II "
 "in 1945, after which Austria was occupied by the Allies."
 msgstr ""
+"Die Ursprünge Österreichs datieren auf die Zeit des römischen Imperiums "
+"zurück, als das keltische Königreich um 15 v.u.Z. von den Römern besiegt "
+"wurde und später, im ersten Jahrhundert u.Z., zur römischen Provinz Noricum "
+"wurde, die ein etwa dem heutigen Österreich enstprechendes Areal umfasste. "
+"Im Jahre 788 u.Z. eroberte der fränkische König Karl der Große das Gebiet "
+"und führte das Christentum ein; unter der habsburgischen Dynastie wurde "
+"Österreich schließlich eine der großen Mächte in Europa. 1867 wurde das "
+"österreiche Imperium zur Doppelmonarchie Österreich-Ungarn, die 1918 mit dem "
+"Ende des Ersten Weltkriegs kollabierte. Nachdem 1919 die Erste "
+"Österreichische Republik errichtet worden war, trat Österreich 1938 im "
+"sogenannten »Anschluss« Nazi-Deutschland bei. Nach dem Ende des Zweiten "
+"Weltkriegs 1945 wurde Österreich von den Truppen der Alliierten besetzt."
 
 #: data/nation/austrian.ruleset:47
-#, fuzzy, c-format
+#, c-format
 msgid "Archduke %s"
-msgstr "Großherzog"
+msgstr "Großherzog %s"
 
 #: data/nation/austrian.ruleset:47
-#, fuzzy, c-format
+#, c-format
 msgid "Archduchess %s"
-msgstr "Herzogin"
+msgstr "Großherzögin %s"
 
 #: data/nation/austrian.ruleset:48 data/nation/german.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "Kaiser %s"
-msgstr "Laser"
+msgstr "Kaiser %s"
 
 #: data/nation/austrian.ruleset:48 data/nation/german.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "Kaiserin %s"
-msgstr "nigerianisch"
+msgstr "Kaiserin %s"
 
 #: data/nation/avar.ruleset:3
 msgid "Avar"
-msgstr ""
+msgstr "awarisch"
 
 #: data/nation/avar.ruleset:4
-#, fuzzy
 msgid "?plural:Avars"
-msgstr "?plural:Araber"
+msgstr "Awaren"
 
 #: data/nation/avar.ruleset:6
 msgid ""
@@ -24562,16 +25173,23 @@ msgid ""
 "Gradually they lost power and political importance and eventually the Avars "
 "blended with Slavic peoples."
 msgstr ""
+"Die Awaren oder Eurasische Awaren waren eine antike nomadische Konföderation "
+"gemischten Ursprunges. Die dominierende Sprache dieser Gruppe war vermutlich "
+"Proto-Bulgarisch innerhalb der türkisch-oghusischen Sprachgruppe, alledings "
+"liegen die wahren Ursprünge der Awaren im Dunkeln; es ist auch möglich, dass "
+"es sich bei ihnen tatsächlich um eine rouranische oder hephthalitische "
+"Gruppe handelte. Nachdem sie in Pannonien gesiedelt hatten, unterwarfen sie "
+"die lokalen slawischen Stämme, verloren dann aber nach und nach Macht und "
+"politischen Einfluss, bis sie schließlich mit den slawischen Völkern "
+"gleichgesetzt wurden."
 
 #: data/nation/aymara.ruleset:3
-#, fuzzy
 msgid "Aymara"
-msgstr "arabisch"
+msgstr "aymarisch"
 
 #: data/nation/aymara.ruleset:4
-#, fuzzy
 msgid "?plural:Aymaras"
-msgstr "?plural:Araber"
+msgstr "Aymara"
 
 #: data/nation/aymara.ruleset:6
 msgid ""
@@ -24579,16 +25197,19 @@ msgid ""
 "reorganized into a set of culturally close Aymara kingdoms that thrived "
 "around the Titicaca lake until they were conquered by the Incas."
 msgstr ""
+"Nach dem Zusammenbruch der Zivilisation der Tiwanaku in den Anden "
+"organisierten sich deren Erben neu und bildeten eine Anzahl kulturell eng "
+"verwandter Aymara-Königreiche, die in der Gegend des Titicaca-Sees "
+"siedelten, bis sie von den Inka unterworfen wurden."
 
 #: data/nation/azeri.ruleset:3
-#, fuzzy
 msgid "Azeri"
-msgstr "algerisch"
+msgstr "azerisch"
 
 #: data/nation/azeri.ruleset:4
 #, fuzzy
 msgid "?plural:Azeris"
-msgstr "?plural:Azteken"
+msgstr "Azeri"
 
 #: data/nation/azeri.ruleset:6
 msgid ""
@@ -24599,28 +25220,31 @@ msgid ""
 "Islamic republic in history. Then Azerbaijan became part of the Soviet Union "
 "until its dissolution in 1991."
 msgstr ""
+"Die Azeri sind das Volk von Aserbaidschan. Das Territorium des modernen "
+"Aserbaidschan war Zeuge verschiedener Aufstiege und Fälle antiker Staaten in "
+"der Kaukasusregion und wurde 1813 Teil des russischen Königreichs, worauf "
+"1918-1920 eine kurze Periode der Unabhängigkeit folgte — die erste "
+"Islamische Republik der Geschichte. Danach wurde Aserbaidschan Teil der "
+"Sowietunion bis zu deren Auflösung 1991."
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/babylonian.ruleset:7
-#, fuzzy
 msgid ""
 "Babylon was the dominant city of Mesopotamia from the 18th to 7th centuries "
 "BCE under a succession of peoples including Amorites, Kassites, Assyrians, "
 "and Chaldeans."
 msgstr ""
-"Babylon war zwischen dem 18. und 7. Jahrhundert v. Chr. die beherrschende "
+"Babylon war zwischen dem 18. und 7. Jahrhundert v.u.Z. die beherrschende "
 "Stadt in Mesopotamien, während dort Völker wie die Ammoriter, Kassiten, "
 "Assyrer und die Chaldäer lebten."
 
 #: data/nation/badian.ruleset:3
-#, fuzzy
 msgid "Badian"
-msgstr "bajuwarisch"
+msgstr "badisch"
 
 #: data/nation/badian.ruleset:4
-#, fuzzy
 msgid "?plural:Badians"
-msgstr "Bajuwaren"
+msgstr "Bader"
 
 #: data/nation/badian.ruleset:6
 msgid ""
@@ -24628,28 +25252,30 @@ msgid ""
 "it was merged with Wuerttemberg and Hohenzollern to form the land of Baden-"
 "Wuerttemberg."
 msgstr ""
+"Baden war ein Land in Schwaben, Südwestdeutschland. Nach dem Zweiten "
+"Weltkrieg wurde es mit Württemberg und Hohenzollern zum Land Baden-"
+"Württemberg vereinigt."
 
 #: data/nation/badian.ruleset:23 data/nation/brandenburgian.ruleset:27
 #: data/nation/friulian.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Margrave %s"
-msgstr "Karavelle"
+msgstr "Markgraf %s"
 
 #: data/nation/badian.ruleset:23 data/nation/brandenburgian.ruleset:27
 #: data/nation/friulian.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Margravine %s"
-msgstr "Marines"
+msgstr "Markgräfin %s"
 
 #: data/nation/bahamian.ruleset:3
-#, fuzzy
 msgid "Bahamian"
-msgstr "Vorsitzender"
+msgstr "bahamisch"
 
 #: data/nation/bahamian.ruleset:4
 #, fuzzy
 msgid "?plural:Bahamians"
-msgstr "Bajuwaren"
+msgstr "Bahamer"
 
 #: data/nation/bahamian.ruleset:6
 msgid ""
@@ -24662,15 +25288,23 @@ msgid ""
 "The Bahamas are the most developed country of Latin America and the "
 "Caribbean as well as the world's wealthiest black-majority country."
 msgstr ""
+"Die Bahamas sind eine Inselgruppe in Nordamerika, auf denen Kolumbus "
+"irgendwo erstmals seinen Fuß auf amerikanischen Boden setzte. Danach wurden "
+"die Inseln entvölkert und meistenteils ignoriert, bevor sie im 17. Jh. "
+"wieder von britischen Kolonisten besiedelt wurden. Seit 1973 sind die "
+"Bahamas ein unabhängiger Staat im Commonwealth und heutzutage vor allem für "
+"ihre Strände bekannt, aber sie sind auch ein großes, küstenfernes "
+"Finanzzentrum. Sie sind das am weitesten entwickelte Land Lateinamerikas und "
+"der Karibik und außerdem das wohlhabendste Land der Welt, dessen größter "
+"Bevölkerungsanteil von Schwarzen gestellt wird."
 
 #: data/nation/bahraini.ruleset:3
 msgid "Bahraini"
-msgstr ""
+msgstr "bahrainisch"
 
 #: data/nation/bahraini.ruleset:4
-#, fuzzy
 msgid "?plural:Bahrainis"
-msgstr "?plural:Barbaren"
+msgstr "Bahraini"
 
 #: data/nation/bahraini.ruleset:6
 msgid ""
@@ -24680,52 +25314,57 @@ msgid ""
 "became a constitutional monarchy in 2001 but a pro-democracy uprising in "
 "2011 was violently crushed."
 msgstr ""
+"Bahrain ist ein Inselstaat im Persischen Golf und das kleinste Land im "
+"mittleren Osten. Es ist seit dem 18. Jh. unabhängig von Persien, war aber "
+"bis 1971 ein britisches Protektorat, bevor es 2001 zu einer "
+"konstitutionellen Monarchie wurde. 2011 jedoch wurde ein pro-demokratischer "
+"Aufstand brutal niedergeschlagen."
 
 #: data/nation/bahraini.ruleset:26 data/nation/sudanese.ruleset:19
-#, fuzzy, c-format
+#, c-format
 msgid "Mahdi %s"
-msgstr "in %s"
+msgstr "Mahdi %s"
 
 #: data/nation/bahraini.ruleset:26 data/nation/sudanese.ruleset:19
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Mahdi %s"
-msgstr "Genossin"
+msgstr "Mahdi %s"
 
 #: data/nation/bangladeshi.ruleset:3
-#, fuzzy
 msgid "Bangladeshi"
-msgstr "Schlachtschiff"
+msgstr "bengalisch"
 
 #: data/nation/bangladeshi.ruleset:4
 #, fuzzy
 msgid "?plural:Bangladeshis"
-msgstr "Burmesen"
+msgstr "Bengalen"
 
 #: data/nation/bangladeshi.ruleset:6
 msgid ""
 "The People's Republic of Bangladesh was formed from the former Pakistani "
 "territory of East Bengal following a war of independence."
 msgstr ""
+"Die Volksrepublik Bangladesch wurde auf dem früheren pakistanischen "
+"Territorium Ost-Bengal nach einem Unabhängigkeitskrieg errichtet."
 
 #: data/nation/bangladeshi.ruleset:23 data/nation/bengali.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Nabob %s"
-msgstr "Vizekönig"
+msgstr "Nabob %s"
 
 #: data/nation/bangladeshi.ruleset:23 data/nation/bengali.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Nabob %s"
-msgstr "Konsulin"
+msgstr "Nabob %s"
 
 #: data/nation/barbadian.ruleset:3
-#, fuzzy
 msgid "Barbadian"
-msgstr "barbarisch"
+msgstr "barbadisch"
 
 #: data/nation/barbadian.ruleset:4
 #, fuzzy
 msgid "?plural:Barbadians"
-msgstr "?plural:Barbaren"
+msgstr "Barbadier"
 
 #: data/nation/barbadian.ruleset:6
 msgid ""
@@ -24736,6 +25375,13 @@ msgid ""
 "been independent since 1966. Barbados is a major international tourist "
 "destination and one of the most developed countries of the Caribbean."
 msgstr ""
+"Barbados ist ein Instelstaat im Atlantischen Ozean, etwa 100km östlich der "
+"Windward Islands in der Karibik. Ursprünglich von Arawak bewohnt, wurde die "
+"Insel um 1500 von den Portugiesen entdeckt; als jedoch die Engländer 1627 "
+"erstmals Barbados besiedeln wollten, fanden sie die Insel unbewohnt vor. "
+"Seit 1966 ist Barbados unabhängig und eines der meistbesuchten touristischen "
+"Ziele, daneben ist es auch eines der am weitesten entwickelten "
+"Entwicklungsländer der Karibik."
 
 #: data/nation/barbarian.ruleset:3 server/stdinhand.c:3443
 #: server/stdinhand.c:6102
@@ -24756,14 +25402,12 @@ msgstr ""
 "Kulturvölker auf der ganzen Welt dar."
 
 #: data/nation/bashkir.ruleset:3
-#, fuzzy
 msgid "Bashkir"
-msgstr "Basis"
+msgstr "baschkirisch"
 
 #: data/nation/bashkir.ruleset:4
-#, fuzzy
 msgid "?plural:Bashkirs"
-msgstr "Burmesen"
+msgstr "Baschkiren"
 
 #: data/nation/bashkir.ruleset:6
 msgid ""
@@ -24773,15 +25417,19 @@ msgid ""
 "Today most of the Bashkirs live in the Bashkortostan Republic which is part "
 "of the Russian Federation."
 msgstr ""
+"Bei den Baschkiren handelt es sich um eine turksprachige Ehtnie im südlichen "
+"Ural. Seit dem 16. Jh. waren sie Vasallen des russischen Zaren, aber seitdem "
+"haben sie an zahllosen Aufständen gegen die russische Oberherrschaft "
+"teilgenommen. Heute leben die meisten Baskiren in der Republik "
+"Baschkortostan, die ein Teil der russischen Föderation ist."
 
 #: data/nation/basque.ruleset:3
 msgid "Basque"
-msgstr ""
+msgstr "baskisch"
 
 #: data/nation/basque.ruleset:4
-#, fuzzy
 msgid "?plural:Basques"
-msgstr "Burmesen"
+msgstr "Basken"
 
 #: data/nation/basque.ruleset:6
 msgid ""
@@ -24792,28 +25440,34 @@ msgid ""
 "divided into seven historical provinces. Their language, Euskara, has no "
 "known relatives and its origins are unknown."
 msgstr ""
+"Die Basken leben seit unerdenklichen Zeiten in den Vorläufern der Pyrenäen. "
+"Das Königreich von Navarre war der letzte unabhängige baskische Staat, der "
+"im 16. Jh. an Aragón fiel. Heute befindet sich das Baskenland, oder »Euskal "
+"Herria«, im Grenzgebiet von Spanien und Frankreich und ist in sieben "
+"historische Provinzen eingeteilt. Ihre Sprache, Euskara, hat keine bekannten "
+"Verwandten und ihre Ursprünge sind nicht bekannt."
 
 #: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:45
 #: data/nation/iranian.ruleset:40
-#, fuzzy, c-format
+#, c-format
 msgid "Leader %s"
-msgstr "Großer Führer"
+msgstr "Anführer %s"
 
 #: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:45
 #: data/nation/iranian.ruleset:40
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Leader %s"
-msgstr "Anführerin"
+msgstr "Anführerin %s"
 
 #: data/nation/basque.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "Lehendakari %s"
-msgstr "Präsidentin"
+msgstr "Lehendakari %s"
 
 #: data/nation/basque.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Lehendakari %s"
-msgstr "Präsidentin"
+msgstr "Lehendakari %s"
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
@@ -24824,7 +25478,6 @@ msgid "?plural:Bavarians"
 msgstr "Bajuwaren"
 
 #: data/nation/bavarian.ruleset:6
-#, fuzzy
 msgid ""
 "Bavaria, before national unification in 1870 CE, was one of the largest of "
 "the German kingdoms."
@@ -36258,8 +36911,13 @@ msgid "Setup of ai module %s failed."
 msgstr "Der Versuch, ein Weltwunder in %s zu errichten, mißlang."
 
 #: server/aiiface.c:176
-msgid "Failed to setup default ai module, cannot continue."
+msgid "Failed to setup default AI module, cannot continue."
 msgstr ""
+
+#: server/aiiface.c:187
+#, fuzzy
+msgid "Failed to setup threaded AI module"
+msgstr "Fehler bei der Generierung des neuen KI-Spielers: %s."
 
 #: server/auth.c:88
 #, c-format
@@ -37233,6 +37891,10 @@ msgstr ""
 
 #: server/civserver.c:424
 msgid "Load ai module MODULE. Can appear multiple times"
+msgstr ""
+
+#: server/civserver.c:440
+msgid "Requested authentication with --auth, but no --Database given\n"
 msgstr ""
 
 #: server/commands.c:53
@@ -39195,14 +39857,14 @@ msgstr ""
 msgid "No units placed for %s!"
 msgstr "%s hat keine Einheiten!"
 
-#: server/gamehand.c:549
+#: server/gamehand.c:551
 #, fuzzy
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
 msgstr ""
 "Die zulässige Rundenzeit hat das Maximum überschritten, sie wird auf den "
 "Maximalwert gesetzt."
 
-#: server/gamehand.c:557
+#: server/gamehand.c:559
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Die zulässige Rundenzeit ist negativ, sie wird auf Null gesetzt."
 
@@ -42721,12 +43383,12 @@ msgstr "Das Spiel ist vorbei..."
 msgid "Failed to create suitable map, retrying with another mapseed"
 msgstr ""
 
-#: server/srv_main.c:2524
+#: server/srv_main.c:2528
 #, fuzzy
 msgid "Cannot create suitable map with given settings."
 msgstr "Kann keine %s auf diesem Gelände erzeugen."
 
-#: server/srv_main.c:2722
+#: server/srv_main.c:2726
 msgid "Now accepting new client connections."
 msgstr "Warte auf Spieler..."
 
@@ -45458,13 +46120,13 @@ msgid_plural "seconds"
 msgstr[0] "Sekunde"
 msgstr[1] "Sekunden"
 
-#: utility/support.c:421
+#: utility/support.c:425
 #, c-format
 msgid "error %ld (failed FormatMessage)"
 msgstr "error %ld (failed FormatMessage)"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: utility/support.c:434
+#: utility/support.c:438
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "error %d (compiled without strerror)"
