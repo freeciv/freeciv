@@ -724,7 +724,7 @@ Tech_type_id pick_random_tech(struct player* plr)
 Tech_type_id pick_cheapest_tech(struct player* plr)
 {
   int cheapest_cost = -1;
-  int cheapest_amount;
+  int cheapest_amount = 0;
   Tech_type_id cheapest = A_NONE;
   int chosen;
 
