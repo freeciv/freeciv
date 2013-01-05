@@ -33,7 +33,7 @@ leaders = {
 }
 flag= "novgorod" 
 flag_alt = "-" 
-city_style = "" 
+city_style = "European"
 ruler_titles = {
 "government",     "male_title",         "female_title"
 "Democracy",      _("Councillor %s"),   _("?female:Councillor %s")
@@ -44,7 +44,6 @@ ruler_titles = {
 } 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 conflicts_with="ruthenian", "soviet"
