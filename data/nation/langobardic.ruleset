@@ -8,7 +8,7 @@ legend=_("The Langobards were an ancient Germanic people. They originated\
  they participated in the attack on the Roman provinces of Pannonia and\
  Noricum. Their first state was established on the Danube. Having defeated\
  the Gepids in an alliance with the Avars, the Langobards under king\
- invaded Italia in 568 they invaded the Italia. They founded a new kingdom\
+ Alboin invaded Italia in 568. They founded a new kingdom\
  with its capital in Pavia. The modern region of Lombardy derives its name\
  from the Lombards.")
 
@@ -40,7 +40,6 @@ ruler_titles = {
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 conflicts_with="Italian", "Milanese", "Piedmontese", "Venetian", "Neapolitan",

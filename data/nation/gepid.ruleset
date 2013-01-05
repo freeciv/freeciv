@@ -11,9 +11,9 @@ legend = _("The Gepids were a group of ancient East Germanic tribes,\
  mouth of the Vistula, probably located on the Elblag Uplands. After the\
  migration of the Goths on the Black Sea, the Gepids extended their\
  possessions in Pomerania. In the 3rd century CE they moved to Dacia.\
- From the 4th to the mid 5th century were under the authority of the Huns.\
- After the death of Attila the Gepids moved to Pannonia, where they\
- defeated the Huns in the Battle of thee River Nedao defeated Huns and won\
+ From the 4th to the mid 5th century they were under the authority of the\
+ Huns. After the death of Attila the Gepids moved to Pannonia, where they\
+ defeated the Huns in the Battle of the River Nedao and won\
  a place to live east of the River Tisza. In Pannonia they fought\
  constantly against the Longobards west of the Danube. In 567 the\
  Longobards allied themselves with the nomadic Avars against the Gepids\
@@ -39,7 +39,7 @@ ruler_titles = {
  "government",        "male_title",           "female_title"
  "Fundamentalism",    _("Presbyter %s"),      _("?female:Presbyter %s") 
  "Anarchy",           _("Usurper %s"),        _("?female:Usurper %s")
- "Tribal",            _("Great Warrior %s"),  _("?female:Great Warrior %s")
+ "Despotism",         _("Great Warrior %s"),  _("?female:Great Warrior %s")
  "Republic",          _("Spokesman %s"),      _("Spokeswoman %s")
  "Democracy",         _("Speaker %s"),        _("?female:Speaker %s") 
 }
