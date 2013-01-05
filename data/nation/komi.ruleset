@@ -23,11 +23,10 @@ city_style = "Celtic"
 
 ruler_titles = {
  "government",      "male_title",         "female_title"
- "Fundamentalism",  _("Great Shaman %s"), _("Great Shaman %s")
+ "Fundamentalism",  _("Great Shaman %s"), _("?female:Great Shaman %s")
 }
 init_techs="" 
 init_buildings="" 
-init_government="Despotism" 
 init_units="" 
 
 civilwar_nations = "mordvin", "moscovite" ;novgorodian
