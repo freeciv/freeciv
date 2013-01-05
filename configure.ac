@@ -7,6 +7,7 @@ AC_PREREQ(2.59)
 AC_CONFIG_SRCDIR([common/game.c])
 AC_CONFIG_AUX_DIR(bootstrap) # This can't be quoted or automake will fail
 AC_CONFIG_MACRO_DIR([m4])
+ifdef([AC_CONFIG_MACRO_DIRS],[AC_CONFIG_MACRO_DIRS([dependencies/m4])])
 AC_CONFIG_HEADERS([fc_config.h])
 AC_CANONICAL_HOST
 dnl Replace AC_GNU_SOURCE with AC_USE_SYSTEM_EXTENSIONS when minimum
