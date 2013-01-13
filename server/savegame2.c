@@ -347,6 +347,11 @@ struct loaddata {
     const char **order;
     size_t size;
   } technology;
+  /* loaded in sg_load_savefile(); needed in sg_load_player() */
+  struct {
+    const char **order;
+    size_t size;
+  } trait;
   /* loaded in sg_load_savefile(); needed in sg_load_map(), ... */
   struct {
     enum tile_special_type *order;
@@ -766,6 +771,8 @@ struct loaddata *loaddata_new(struct section_file *file)
   loading->improvement.size = -1;
   loading->technology.order = NULL;
   loading->technology.size = -1;
+  loading->trait.order = NULL;
+  loading->trait.size = -1;
   loading->special.order = NULL;
   loading->special.size = -1;
   loading->base.order = NULL;
@@ -791,6 +798,10 @@ void loaddata_destroy(struct loaddata *loading)
 
   if (loading->technology.order != NULL) {
     free(loading->technology.order);
+  }
+
+  if (loading->trait.order != NULL) {
+    free(loading->trait.order);
   }
 
   if (loading->special.order != NULL) {
@@ -1653,6 +1664,19 @@ static void sg_load_savefile(struct loaddata *loading)
                    secfile_error());
   }
 
+  /* Load traits. */
+  loading->trait.size
+    = secfile_lookup_int_default(loading->file, 0,
+                                 "savefile.trait_size");
+  if (loading->trait.size) {
+    loading->trait.order
+      = secfile_lookup_str_vec(loading->file, &loading->trait.size,
+                               "savefile.trait_vector");
+    sg_failure_ret(loading->trait.size != 0,
+                   "Failed to load trait order: %s",
+                   secfile_error());
+  }
+
   /* Load specials. */
   loading->special.size
     = secfile_lookup_int_default(loading->file, 0,
@@ -1807,6 +1831,25 @@ static void sg_save_savefile(struct savedata *saving)
     } advance_iterate_end;
     secfile_insert_str_vec(saving->file, buf, game.control.num_tech_types,
                            "savefile.technology_vector");
+  }
+
+  /* Save trait order in savegame. */
+  secfile_insert_int(saving->file, TRAIT_COUNT,
+                     "savefile.trait_size");
+  {
+    const char **modname;
+    enum trait tr;
+    int j;
+
+    modname = fc_calloc(TRAIT_COUNT, sizeof(*modname));
+
+    for (tr = trait_begin(), j = 0; tr != trait_end(); tr = trait_next(tr), j++) {
+      modname[j] = trait_name(tr);
+    }
+
+    secfile_insert_str_vec(saving->file, modname, TRAIT_COUNT,
+                           "savefile.trait_vector");
+    free(modname);
   }
 
   /* Save specials order in savegame. */
@@ -3715,6 +3758,17 @@ static void sg_load_player_main(struct loaddata *loading,
     }
   }
 
+  {
+    for (i = 0; i < loading->trait.size; i++) {
+      enum trait tr = trait_by_name(loading->trait.order[i], fc_strcasecmp);
+
+      if (trait_is_valid(tr)) {
+        secfile_lookup_int(loading->file, &plr->ai_common.traits[tr].mod, 
+                           "plr%d.trait.mod%d", plrno, i);
+      }
+    }
+  }
+
   /* Unit statistics. */
   plr->score.units_built =
       secfile_lookup_int_default(loading->file, 0,
@@ -3944,6 +3998,17 @@ static void sg_save_player_main(struct savedata *saving,
     } advance_index_iterate_end;
     invs[game.control.num_tech_types] = '\0';
     secfile_insert_str(saving->file, invs, "player%d.research.done", plrno);
+  }
+
+  /* Save traits */
+  {
+    enum trait tr;
+    int j;
+
+    for (tr = trait_begin(), j = 0; tr != trait_end(); tr = trait_next(tr), j++) {
+      secfile_insert_int(saving->file, plr->ai_common.traits[tr].mod,
+                         "player%d.trait.mod%d", plrno, j);
+    }
   }
 
   secfile_insert_bool(saving->file, plr->server.capital,

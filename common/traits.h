@@ -34,9 +34,7 @@ extern "C" {
 struct ai_trait
 {
   int mod;   /* This is modification that changes during game.
-                Not yet used, always 0.
-                TODO: mod must go to savegames as soon as it can get values
-                      other than 0 */
+                Not yet used, always 0. */
 };
 
 #ifdef __cplusplus
