@@ -2367,7 +2367,15 @@ static void srv_ready(void)
   if (map_is_empty()
       || (MAPGEN_SCENARIO == map.server.generator
           && game.info.is_new_game)) {
-    struct unit_type *utype = crole_to_unit_type(game.server.start_units[0], NULL);
+    struct unit_type *utype = NULL;
+    int sucount = strlen(game.server.start_units);
+    int i;
+
+    for (i = 0; utype == NULL && i < sucount; i++) {
+      utype = crole_to_unit_type(game.server.start_units[i], NULL);
+    }
+
+    fc_assert(utype != NULL);
 
     map_fractal_generate(TRUE, utype);
     game_map_init();
