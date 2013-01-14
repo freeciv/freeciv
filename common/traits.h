@@ -33,8 +33,7 @@ extern "C" {
 
 struct ai_trait
 {
-  int mod;   /* This is modification that changes during game.
-                Not yet used, always 0. */
+  int mod;   /* This is modification that changes during game. */
 };
 
 #ifdef __cplusplus

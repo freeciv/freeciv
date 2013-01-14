@@ -110,6 +110,9 @@ module edit {
   Tech_Type *api_edit_give_technology
     @ give_technology (lua_State *L, Player *pplayer, Tech_Type *ptech,
                        const char *reason);
+  bool api_edit_trait_mod
+    @ trait_mod (lua_State *L, Player *pplayer, const char *trait_name,
+                 const int mod);
   bool api_edit_unleash_barbarians
     @ unleash_barbarians (lua_State *L, Tile *ptile);
   void api_edit_place_partisans
@@ -165,6 +168,10 @@ function give_technology(player, tech, reason)
   return edit.give_technology(player, tech, reason)
 end
 
+function trait_mod(player, trait, mod)
+  return edit.trait_mod(player, trait, mod)
+end
+
 function unleash_barbarians(tile)
   return edit.unleash_barbarians(tile)
 end
@@ -199,6 +206,10 @@ end
 
 function Player:give_technology(tech, reason)
   return edit.give_technology(self, tech, reason)
+end
+
+function Player:trait_mod(trait, mod)
+  return edit.trait_mod(self, trait, mod)
 end
 
 function Player:civil_war(probability)

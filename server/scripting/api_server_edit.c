@@ -288,6 +288,23 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
 }
 
 /*****************************************************************************
+  Modify player's trait value.
+*****************************************************************************/
+bool api_edit_trait_mod(lua_State *L, Player *pplayer, const char *trait_name,
+                        const int mod)
+{
+  enum trait tr = trait_by_name(trait_name, fc_strcasecmp);
+
+  if (!trait_is_valid(tr)) {
+    return FALSE;
+  }
+
+  pplayer->ai_common.traits[tr].mod += mod;
+
+  return TRUE;
+}
+
+/*****************************************************************************
   Create a new base.
 *****************************************************************************/
 void api_edit_create_base(lua_State *L, Tile *ptile, const char *name,
