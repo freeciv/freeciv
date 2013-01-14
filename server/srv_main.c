@@ -2517,7 +2517,15 @@ static void srv_ready(void)
     bool retry_ok = (map.server.seed == 0 && map.server.generator != MAPGEN_SCENARIO);
     int max = retry_ok ? 2 : 1;
     bool created = FALSE;
-    struct unit_type *utype = crole_to_unit_type(game.server.start_units[0], NULL);
+    struct unit_type *utype = NULL;
+    int sucount = strlen(game.server.start_units);
+
+    for (i = 0; utype == NULL && i < sucount; i++) {
+      utype = crole_to_unit_type(game.server.start_units[i], NULL);
+    }
+
+    fc_assert(utype != NULL);
+
     for (i = 0; !created && i < max ; i++) {
       created = map_fractal_generate(TRUE, utype);
       if (!created && retry_ok) {
