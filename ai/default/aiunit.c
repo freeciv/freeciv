@@ -1680,7 +1680,7 @@ static void dai_military_attack(struct ai_type *ait, struct player *pplayer,
         }
         if (NULL != ferryboat) {
           /* Need a boat. */
-          aiferry_gobyboat(ait, pplayer, punit, dest_tile);
+          aiferry_gobyboat(ait, pplayer, punit, dest_tile, FALSE);
           pf_path_destroy(path);
           return;
         }

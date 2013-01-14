@@ -52,7 +52,8 @@ void aiferry_clear_boat(struct ai_type *ait, struct unit *punit);
  * Loads a bodyguard too, if necessary.
  */
 bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
-                      struct unit *punit, struct tile *dst_tile);
+                      struct unit *punit, struct tile *dst_tile,
+                      bool with_bodyguard);
 /*
  * Go to the destination on a particular boat.  Will try to find 
  * a beachhead but it works better if ptile is on the coast.
