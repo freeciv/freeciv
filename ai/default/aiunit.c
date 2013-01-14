@@ -1663,7 +1663,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
         }
         if (NULL != ferryboat) {
           /* Need a boat. */
-          aiferry_gobyboat(pplayer, punit, dest_tile);
+          aiferry_gobyboat(pplayer, punit, dest_tile, FALSE);
           pf_path_destroy(path);
           return;
         }

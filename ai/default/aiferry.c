@@ -667,12 +667,13 @@ bool aiferry_goto_amphibious(struct unit *ferry,
   to us.
 ****************************************************************************/
 bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
-		      struct tile *dest_tile)
+		      struct tile *dest_tile, bool with_bodyguard)
 {
   if (!unit_transported(punit)) {
     /* We are not on a boat and we cannot walk */
     int boatid;
     struct unit *ferryboat = NULL;
+    int cap = with_bodyguard ? 2 : 1;
 
     UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "will have to go to (%d,%d) by boat",
              TILE_XY(dest_tile));
@@ -680,7 +681,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
     if (!is_ocean_near_tile(unit_tile(punit))) {
       struct pf_path *path_to_ferry = NULL;
 
-      boatid = aiferry_find_boat(punit, 2, &path_to_ferry);
+      boatid = aiferry_find_boat(punit, cap, &path_to_ferry);
       if (boatid <= 0) {
         UNIT_LOG(LOGLEVEL_GOBYBOAT, punit,
                  "in ai_gothere cannot find any boats.");
@@ -707,7 +708,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
     }
 
     /* We are on the coast, look around for a boat */
-    boatid = aiferry_find_boat_nearby(punit, 2);
+    boatid = aiferry_find_boat_nearby(punit, cap);
     if (boatid <= 0) {
       UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "requesting a boat.");
       aiferry_request_boat(punit);

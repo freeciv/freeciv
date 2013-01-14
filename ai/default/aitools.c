@@ -171,18 +171,19 @@ void dai_consider_plr_dangerous(struct player *plr1, struct player *plr2,
   be facing at our destination and tries to find/request a bodyguard if 
   needed.
 ****************************************************************************/
-static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
+static bool ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
 {
   struct player *pplayer = unit_owner(punit);
   unsigned int danger = 0;
   struct city *dcity;
   struct unit *guard = aiguard_guard_of(punit);
   const struct veteran_level *vlevel;
+  bool bg_needed = FALSE;
 
   if (is_barbarian(unit_owner(punit))) {
     /* barbarians must have more courage (ie less brains) */
     aiguard_clear_guard(punit);
-    return;
+    return FALSE;
   }
 
   /* Estimate enemy attack power. */
@@ -207,14 +208,14 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
 
   /* If we are fast, there is less danger.
    * FIXME: that assumes that most units have move_rate == SINGLE_MOVE;
-   * not true for all rule-sets */
+   * not true for all rulesets */
   danger /= (unit_type(punit)->move_rate / SINGLE_MOVE);
   if (unit_has_type_flag(punit, F_IGTER)) {
     danger /= 1.5;
   }
 
   vlevel = utype_veteran_level(unit_type(punit), punit->veteran);
-  fc_assert_ret(vlevel != NULL);
+  fc_assert_ret_val(vlevel != NULL, FALSE);
 
   /* We look for the bodyguard where we stand. */
   if (guard == NULL || unit_tile(guard) != unit_tile(punit)) {
@@ -226,12 +227,18 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
                "want bodyguard @(%d, %d) danger=%d, my_def=%d", 
                TILE_XY(dest_tile), danger, my_def);
       aiguard_request_guard(punit);
+      bg_needed = TRUE;
     } else {
       aiguard_clear_guard(punit);
+      bg_needed = FALSE;
     }
+  } else if (guard != NULL) {
+    bg_needed = TRUE;
   }
 
   /* What if we have a bodyguard, but don't need one? */
+
+  return bg_needed;
 }
 
 #define LOGLEVEL_GOTHERE LOG_DEBUG
@@ -248,6 +255,7 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
                 struct tile *dest_tile)
 {
   CHECK_UNIT(punit);
+  bool bg_needed;
 
   if (same_pos(dest_tile, unit_tile(punit)) || punit->moves_left <= 0) {
     /* Nowhere to go */
@@ -256,12 +264,12 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
 
   /* See if we need a bodyguard at our destination */
   /* FIXME: If bodyguard is _really_ necessary, don't go anywhere */
-  ai_gothere_bodyguard(punit, dest_tile);
+  bg_needed = ai_gothere_bodyguard(punit, dest_tile);
 
   if (unit_transported(punit)
       || !goto_is_sane(punit, dest_tile, TRUE)) {
     /* Must go by boat, call an aiferryboat function */
-    if (!aiferry_gobyboat(pplayer, punit, dest_tile)) {
+    if (!aiferry_gobyboat(pplayer, punit, dest_tile, bg_needed)) {
       return FALSE;
     }
   }
