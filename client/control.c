@@ -268,7 +268,7 @@ void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
 ****************************************************************************/
 bool unit_is_in_focus(const struct unit *punit)
 {
-  return unit_list_search(get_units_in_focus(), punit);
+  return unit_list_search(get_units_in_focus(), punit) != NULL;
 }
 
 /****************************************************************************
