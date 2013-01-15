@@ -15,6 +15,6 @@
 
 #include <gtk/gtk.h>
 
-extern gchar *fallback_resources;
+extern const gchar *fallback_resources;
 
 #endif  /* FC__RESOURCES_H */
