@@ -1104,8 +1104,7 @@ void handle_edit_player_create(struct connection *pc, int tag)
   }
   server_player_init(pplayer, TRUE, TRUE);
 
-  player_set_nation(pplayer, pnation);
-  server_player_set_name(pplayer, pick_random_player_name(pnation));
+  player_nation_defaults(pplayer, pnation, TRUE);
   if (game_was_started()) {
     /* Find a color for the new player. */
     assign_player_colors();
