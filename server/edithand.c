@@ -1012,8 +1012,7 @@ void handle_edit_player_create(struct connection *pc, int tag)
   }
 
   server_player_init(pplayer, TRUE, TRUE);
-  player_set_nation(pplayer, pnation);
-  server_player_set_name(pplayer, pick_random_player_name(pnation));
+  player_nation_defaults(pplayer, pnation, TRUE);
   sz_strlcpy(pplayer->username, ANON_USER_NAME);
   pplayer->is_connected = FALSE;
   pplayer->government = pnation->server.init_government;

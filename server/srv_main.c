@@ -1857,23 +1857,29 @@ void aifill(int amount)
 static void player_set_nation_full(struct player *pplayer,
                                    struct nation_type *pnation)
 {
+  /* Don't change the name of a created player. */
+  player_nation_defaults(pplayer, pnation, !pplayer->was_created);
+}
+
+/****************************************************************************
+  Set nation for player with nation default values.
+****************************************************************************/
+void player_nation_defaults(struct player *pplayer, struct nation_type *pnation,
+                            bool set_name)
+{
   struct nation_leader *pleader;
 
   fc_assert(NO_NATION_SELECTED != pnation);
   player_set_nation(pplayer, pnation);
   fc_assert(pnation == pplayer->nation);
 
-  pplayer->city_style =
-      city_style_of_nation(nation_of_player(pplayer));
+  pplayer->city_style = city_style_of_nation(nation_of_player(pplayer));
 
-  /* Don't change the name of a created player. */
-  if (!pplayer->was_created) {
-    server_player_set_name(pplayer, pick_random_player_name
-                           (nation_of_player(pplayer)));
+  if (set_name) {
+    server_player_set_name(pplayer, pick_random_player_name(pnation));
   }
 
-  if ((pleader = nation_leader_by_name(nation_of_player(pplayer),
-                                       player_name(pplayer)))) {
+  if ((pleader = nation_leader_by_name(pnation, player_name(pplayer)))) {
     pplayer->is_male = nation_leader_is_male(pleader);
   } else {
     pplayer->is_male = (fc_rand(2) == 1);
