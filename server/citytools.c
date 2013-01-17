@@ -579,7 +579,9 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 		    city_link(tocity));
     }
   } else {
-    struct city *in_city = tile_city(unit_tile(punit));
+    struct tile *utile = unit_tile(punit);
+    struct city *in_city = tile_city(utile);
+
     if (in_city) {
       log_verbose("Transferred %s in %s from %s to %s",
                   unit_rule_name(punit), city_name(in_city),
@@ -625,6 +627,8 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
       wipe_unit(punit, ULR_CITY_LOST, NULL);
       return;
     }
+
+    maybe_make_contact(utile, to_player);
   }
   unit_change_homecity_handling(punit, tocity);
 }
