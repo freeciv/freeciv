@@ -278,8 +278,8 @@ there, start freeciv-server with the '--meta' option, or just '-m' for short.
 Caveats:
 
  1) Due to the inclusion of new features, different client and server
-    versions are often incompatible. The 2.0.0 version is for example
-    incompatible with 1.14.2 or earlier versions.
+    versions are often incompatible. The 2.5.0 version is for example
+    incompatible with any 2.4.x or earlier versions.
 
  2) If the Metaserver button in the connection dialog doesn't work,
     check if your ISP uses a mandatory WWW proxy and make freeciv-gtk3
@@ -301,8 +301,9 @@ like so:
   |  > save mygame.sav
 
 (If your server is compiled with compression support, and the
-'compress' server option is set to other than 0 (zero), then the
-file written may be compressed and called 'mygame.sav.gz'.)
+'compresstype' server option is set to other than PLAIN, then the
+file written may be compressed and called 'mygame.sav.gz', 'mygame.sav.bz2',
+or 'mygame.sav.xz' depending on the setting.)
 
 The Freeciv client works pretty much as you would expect from a
 multiplayer civilization game.  That is, the human players all move
@@ -365,8 +366,13 @@ Ending the game:
 
 There are four ways in which a game can end:
 
-1) Only one nation or one team is left, or all other players of all
-   other teams have ceded the game (/surrender).
+1) Only winners remain in game
+   1a) If server setting 'alliedvictory' is enabled:
+       All the remaining nations, short of those who have ceded the game
+       (/surrendr), are allied or in the same team.
+   1b) If 'alliedvictory' is disabled:
+       Only one nation or one team is left, or all other players of all
+       other teams have ceded the game (/surrender).
 2) The final year is reached.
 3) A player builds and launches a spaceship, which reaches Alpha
    Centauri first.
@@ -374,7 +380,7 @@ There are four ways in which a game can end:
 
 A score-table will be shown in all cases.  Hint: The server operator
 can set the final year while the game is still going by changing the
-'end-year' option.  This is nice when the winner is obvious, but you
+'endturn' option.  This is nice when the winner is obvious, but you
 don't want to play through the boring 'cleanup phase'.
 
 
