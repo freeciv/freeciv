@@ -1,0 +1,25 @@
+
+=======================================================
+Alien World ruleset for Freeciv (Updated 16-Jan-2013)
+=======================================================
+
+Design Philosophy:
+------------------
+
+Alien ruleset is very different from standard rules - it
+has been one of the design goals of the ruleset that it
+should provide users with "second game" to play with
+Freeciv. We hope you can enjoy both more standard rulesets
+and Alien ruleset, not just selecting one of them to play.
+
+
+More info:
+----------
+
+Before Alien World was made part of official Freeciv
+distribution, it was developet independently and was
+available from cazfi.net. Documentation of the last
+cazfi.net version is available from
+http://www.cazfi.net/freeciv/alien/dev/
+Though some bits are outdated, it's still the most
+comprehensive documentation of the Alien World ruleset.

@@ -12,7 +12,8 @@ name = _("Alien World")
 description = _("One of the design goals of this ruleset is that it has to \
 provide gameplay different from standard rules. Do not assume that any rules \
 you know from default rules apply with this ruleset.\n\n\
-See http://www.cazfi.net/freeciv/alien/ for ruleset info.")
+See README.ruleset_alien and \
+http://www.cazfi.net/freeciv/alien/ for ruleset info.")
 
 [options]
 global_init_techs=""
