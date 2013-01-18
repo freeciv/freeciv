@@ -41,7 +41,7 @@ Here's what to do:
 
    - Describe the problem, including any messages that were displayed.
 
-   - Indicate which client(s) you are using (GTK+, SDL, Win32, or Xaw).
+   - Indicate which client(s) you are using (gtk2, gtk3, SDL, Xaw, or Qt).
 
    - Tell us the name and version of:
 
