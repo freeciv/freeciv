@@ -5467,7 +5467,9 @@ struct sprite *get_basic_special_sprite(const struct tileset *t,
       if (t->roadstyle == 0) {
         return t->sprites.road.dir[i];
       } else if (t->roadstyle == 1) {
-        return t->sprites.road.even[1 << i];
+        if ((i % 2) == 0) {
+          return t->sprites.road.even[1 << (i / 2)];
+        }
       } else if (t->roadstyle == 2) {
         return t->sprites.road.total[1 << i];
       }
@@ -5485,7 +5487,9 @@ struct sprite *get_basic_special_sprite(const struct tileset *t,
       if (t->roadstyle == 0) {
         return t->sprites.rail.dir[i];
       } else if (t->roadstyle == 1) {
-        return t->sprites.rail.even[1 << i];
+        if ((i % 2) == 0) {
+          return t->sprites.rail.even[1 << (i / 2)];
+        }
       } else if (t->roadstyle == 2) {
         return t->sprites.rail.total[1 << i];
       }
