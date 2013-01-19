@@ -39,9 +39,6 @@ Not all code is residing in ai/, but it is also dissolved in little
 chunks in the whole server/.  Aside that, server/settlers.c is only AI 
 stuff - the problem is, that most of it is used also for the 
 auto-settlers, so we can't separate it from the server.  
-server/gotohand.c is a left-over from the previous path-finding system 
-which is slowly being phased out.
-
 
 
 CONTACTING THE CURRENT AI DEVELOPERS
