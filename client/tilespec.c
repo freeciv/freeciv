@@ -5643,7 +5643,9 @@ int fill_basic_road_sprite_array(const struct tileset *t,
     if (roadstyle == 0) {
       ADD_SPRITE_FULL(t->sprites.roads[index].dir[i]);
     } else if (roadstyle == 1) {
-      ADD_SPRITE_FULL(t->sprites.roads[index].even[1 << i]);
+      if ((i % 2) == 0) {
+        ADD_SPRITE_FULL(t->sprites.roads[index].even[1 << (i / 2)]);
+      }
     } else if (roadstyle == 2) {
       ADD_SPRITE_FULL(t->sprites.roads[index].total[1 << i]);
     }
