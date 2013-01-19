@@ -178,7 +178,7 @@ A packet is constituted by header followed by the serialized structure
 data. The header contains the following fields:
 
 uint16	:	length		(the length of the entire packet)
-uint8	:	type		(e.g. PACKET_TILE_INFO)
+uint16	:	type		(e.g. PACKET_TILE_INFO)
 
 To demonstrate the route for a packet through the system, here's how
 a unit disband is performed:
