@@ -112,6 +112,8 @@ bool voteinfo_bar_always_show = FALSE;
 bool voteinfo_bar_hide_when_not_player = FALSE;
 bool voteinfo_bar_new_at_front = FALSE;
 
+bool autoaccept_tileset_suggestion = FALSE;
+
 /* This option is currently set by the client - not by the user. */
 bool update_city_text_in_refresh_tile = TRUE;
 
@@ -2027,6 +2029,11 @@ static struct client_option client_options[] = {
                   N_("If this option is enabled, then new votes will go "
                      "to the front of the vote list."),
                   COC_GRAPHICS, GUI_STUB, FALSE, voteinfo_bar_callback),
+  GEN_BOOL_OPTION(autoaccept_tileset_suggestion,
+                  N_("Autoaccept tileset suggestions"),
+                  N_("If this option is enabled, tileset suggested by "
+                     "the ruleset is automatically taken in to use."),
+                  COC_GRAPHICS, GUI_STUB, FALSE, NULL),
 
   GEN_BOOL_OPTION(overview.layers[OLAYER_BACKGROUND],
                   N_("Background layer"),
