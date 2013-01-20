@@ -2755,7 +2755,11 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
     /* There is tileset suggestion */
     if (strcmp(packet->prefered_tileset, tileset_get_name(tileset))) {
       /* It's not currently in use */
-      popup_tileset_suggestion_dialog();
+      if (autoaccept_tileset_suggestion) {
+        tilespec_reread(game.control.prefered_tileset);
+      } else {
+        popup_tileset_suggestion_dialog();
+      }
     }
   }
 }
