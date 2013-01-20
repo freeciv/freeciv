@@ -1,3 +1,8 @@
+This document has not been updated in a very long time. Most of it probably
+does not apply with current version of Cygwin or Freeciv!
+
+===========================================================================
+
 Cygwin installation notes
 =========================
 
@@ -50,19 +55,19 @@ d) Compile and install Freeciv:
       make
       make install
 
-You should now have bin/civserver.exe and bin/civclient/exe in the
+You should now have bin/freeciv-server.exe and bin/freeciv-<gui>.exe in the
 directory you installed Freeciv into (/usr/local by default).
 If 'make install' succeeds, the source code tree can be removed.
 
-e) Test the reults:
+e) Test the results:
 
-    /path/to/civserver.exe  [any additional options]
+    /path/to/freeciv-server.exe  [any additional options]
 
   will start the server, but you only need it for private games.
   To start the client, you need to run the X server (this can be
   done by typing 'startx'), then into a terminal type
 
-    /path/to/civclient.exe  [any additional options]
+    /path/to/freeciv-<gui>.exe  [any additional options]
 
   If you installed the GTK+ client, make sure the GTK+ DLLs
   are in your path (see above).
