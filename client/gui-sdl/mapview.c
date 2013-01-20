@@ -23,8 +23,7 @@
 #include <fc_config.h>
 #endif
 
-/* #define SDL_CVS */
-
+/* SDL */
 #include "SDL.h"
 
 /* utility */

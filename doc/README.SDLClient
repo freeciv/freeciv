@@ -36,9 +36,6 @@ another theme, start the client with the --theme yourtheme option.
 
 See also http://www.freeciv.org/wiki/Themes
 
-If you have current cvs version of SDL (or >= 1.2.6) then uncomment
-#define SDL_CVS line (36) from gui-sdl/mapview.c
-
 If your CPU has MMX1 registers then goto gui-sdl/graphics.h line 31 and 
 #define HAVE_MMX1 parm.
 
