@@ -1701,3 +1701,11 @@ void popdown_all_game_dialogs(void)
   popdown_players_dialog();
   popdown_notify_dialog();
 }
+
+/****************************************************************
+  Player has gained a new tech.
+*****************************************************************/
+void show_tech_gained_dialog(Tech_type_id tech)
+{
+  /* PORTME */
+}

@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 229
+Max id: 230
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -751,6 +751,10 @@ PACKET_PLAYER_RESEARCH = 55; cs, dsend
 end
 
 PACKET_PLAYER_TECH_GOAL = 56; cs, dsend
+  TECH tech;
+end
+
+PACKET_TECH_GAINED = 230; sc, dsend
   TECH tech;
 end
 

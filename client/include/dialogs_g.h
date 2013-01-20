@@ -61,6 +61,7 @@ GUI_FUNC_PROTO(void, popup_disband_dialog, struct unit_list *punits)
 GUI_FUNC_PROTO(void, popup_tileset_suggestion_dialog, void)
 GUI_FUNC_PROTO(void, popup_soundset_suggestion_dialog, void)
 GUI_FUNC_PROTO(bool, popup_theme_suggestion_dialog, const char *theme_name)
+GUI_FUNC_PROTO(void, show_tech_gained_dialog, Tech_type_id tech)
 
 GUI_FUNC_PROTO(void, popdown_all_game_dialogs, void)
 

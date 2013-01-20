@@ -2122,6 +2122,19 @@ void handle_player_info(const struct packet_player_info *pinfo)
 }
 
 /****************************************************************************
+  Player gained new tech.
+****************************************************************************/
+void handle_tech_gained(int tech)
+{
+  if (tech != A_FUTURE && !valid_advance_by_number(tech)) {
+    log_error("Received illegal gained tech %d", tech);
+    return;
+  }
+
+  show_tech_gained_dialog(tech);
+}
+
+/****************************************************************************
   Packet player_diplstate handler.
 ****************************************************************************/
 void handle_player_diplstate(const struct packet_player_diplstate *packet)

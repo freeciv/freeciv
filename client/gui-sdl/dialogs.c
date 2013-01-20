@@ -3601,3 +3601,11 @@ bool popup_theme_suggestion_dialog(const char *theme_name)
   /* Don't load */
   return FALSE;
 }
+
+/****************************************************************
+  Player has gained a new tech.
+*****************************************************************/
+void show_tech_gained_dialog(Tech_type_id tech)
+{
+  /* PORTME */
+}
