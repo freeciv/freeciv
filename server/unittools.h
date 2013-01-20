@@ -67,6 +67,8 @@
 #define SPECENUM_VALUE22NAME "captured"
 #define SPECENUM_VALUE23 ULR_CAUGHT
 #define SPECENUM_VALUE23NAME "caught"
+#define SPECENUM_VALUE24 ULR_TRANSPORT_LOST
+#define SPECENUM_VALUE24NAME "transport_lost"
 #include "specenum_gen.h"
 
 /* battle related */
