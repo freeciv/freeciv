@@ -132,6 +132,8 @@ static inline size_t base_fc_utf8_strlcpy_rep(char *dest, const char *src,
   const char *end;
   size_t src_len, len;
 
+  fc_assert_ret_val(NULL != src, 0);
+
   src_len = strlen(src);
   while (TRUE) {
     if (fc_utf8_validate_len(src, n, &end)) {
