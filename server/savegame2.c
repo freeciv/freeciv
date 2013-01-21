@@ -336,6 +336,7 @@ static bool sg_success;
 struct loaddata {
   struct section_file *file;
   const char *secfile_options;
+  int version;
 
   /* loaded in sg_load_savefile(); needed in sg_load_player() */
   struct {
@@ -2375,7 +2376,10 @@ static void sg_load_map(struct loaddata *loading)
     sg_load_map_tiles(loading);
     sg_load_map_startpos(loading);
     sg_load_map_tiles_bases(loading);
-    sg_load_map_tiles_roads(loading);
+    if (loading->version >= 20) {
+      /* 2.5.0 or newer */
+      sg_load_map_tiles_roads(loading);
+    }
     if (has_capability("specials", loading->secfile_options)) {
       /* Load specials and resources. */
       sg_load_map_tiles_specials(loading, FALSE);
@@ -2398,7 +2402,10 @@ static void sg_load_map(struct loaddata *loading)
   sg_load_map_tiles(loading);
   sg_load_map_startpos(loading);
   sg_load_map_tiles_bases(loading);
-  sg_load_map_tiles_roads(loading);
+  if (loading->version >= 20) {
+    /* 2.5.0 or newer */
+    sg_load_map_tiles_roads(loading);
+  }
   sg_load_map_tiles_specials(loading, FALSE);
   sg_load_map_tiles_resources(loading);
   sg_load_map_known(loading);
@@ -5537,12 +5544,15 @@ static void sg_load_player_vision(struct loaddata *loading,
   } halfbyte_iterate_bases_end;
 
   /* Load player map (roads). */
-  halfbyte_iterate_roads(j, loading->road.size) {
-    LOAD_MAP_CHAR(ch, ptile,
-                  sg_roads_set(&map_get_player_tile(ptile, plr)->roads,
-                               ch, loading->road.order + 4 * j),
-                  loading->file, "player%d.map_r%02d_%04d", plrno, j);
-  } halfbyte_iterate_roads_end;
+  if (loading->version >= 20) {
+      /* 2.5.0 or newer */
+    halfbyte_iterate_roads(j, loading->road.size) {
+      LOAD_MAP_CHAR(ch, ptile,
+                    sg_roads_set(&map_get_player_tile(ptile, plr)->roads,
+                                 ch, loading->road.order + 4 * j),
+                    loading->file, "player%d.map_r%02d_%04d", plrno, j);
+    } halfbyte_iterate_roads_end;
+  }
 
   if (game.server.foggedborders) {
     /* Load player map (border). */
@@ -6328,33 +6338,34 @@ static void compat_load_020500(struct loaddata *loading)
 ****************************************************************************/
 static void sg_load_compat(struct loaddata *loading)
 {
-  int i, version;
+  int i;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  version = secfile_lookup_int_default(loading->file, -1,
-                                       "savefile.version");
+  loading->version = secfile_lookup_int_default(loading->file, -1,
+                                                "savefile.version");
 #ifdef DEBUG
-  sg_failure_ret(0 < version, "Invalid savefile format version (%d).",
-                 version);
-  if (version > compat[compat_current].version) {
+  sg_failure_ret(0 < loading->version, "Invalid savefile format version (%d).",
+                 loading->version);
+  if (loading->version > compat[compat_current].version) {
     /* Debug build can (TRY TO!) load newer versions but ... */
     log_error("Savegame version newer than this build found (%d > %d). "
-              "Trying to load the game nevertheless ...", version,
+              "Trying to load the game nevertheless ...", loading->version,
               compat[compat_current].version);
   }
 #else
-  sg_failure_ret(0 < version && version <= compat[compat_current].version,
-                 "Unknown savefile format version (%d).", version);
+  sg_failure_ret(0 < loading->version
+                 && version <= compat[compat_current].version,
+                 "Unknown savefile format version (%d).", loading->version);
 #endif /* DEBUG */
 
 
   for (i = 0; i < compat_num; i++) {
-    if (version < compat[i].version && compat[i].load != NULL) {
+    if (loading->version < compat[i].version && compat[i].load != NULL) {
       log_normal(_("Run compatibility function for version: <%d "
                    "(save file: %d; server: %d)."), compat[i].version,
-                 version, compat[compat_current].version);
+                 loading->version, compat[compat_current].version);
       compat[i].load(loading);
     }
   }
