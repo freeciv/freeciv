@@ -198,6 +198,12 @@ int the_function_starts_here(int value)
   do need them, minimize the number of times they are referenced in the code
   (e.g. use a helper function to wrap their access).
 
+- Never initialize variables with values that make no sense as their
+  value in case they get used. If there's no sensible initialization
+  value for a variable, leave it uninitialized. This allows various
+  tools to detect if such a variable ever gets used without assigning
+  proper value to it.
+
 - Variables can be initialized as soon as they are declared:
 
     int foo(struct unit *punit)
