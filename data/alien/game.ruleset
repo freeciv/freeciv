@@ -18,6 +18,7 @@ http://www.cazfi.net/freeciv/alien/ for ruleset info.")
 [options]
 global_init_techs=""
 global_init_buildings="Headquarters", "Basic Infrastructure"
+popup_tech_help = 1
 
 [civstyle]
 ; Value added to city pollution

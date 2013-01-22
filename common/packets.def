@@ -1519,6 +1519,7 @@ PACKET_RULESET_CONTROL = 155; sc, lsend
 
   STRING prefered_tileset[MAX_LEN_NAME];
   STRING prefered_soundset[MAX_LEN_NAME];
+  BOOL   popup_tech_help;
 
   STRING name[MAX_LEN_NAME];
   STRING description[MAX_LEN_PACKET];

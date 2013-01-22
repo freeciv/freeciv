@@ -3604,6 +3604,8 @@ static void load_ruleset_game(const char *rsdir)
                    game.rgame.global_init_techs, filename);
   lookup_building_list(file, "options", "global_init_buildings",
                        game.rgame.global_init_buildings, filename);
+  game.control.popup_tech_help = secfile_lookup_bool_default(file, FALSE,
+                                                             "options.popup_tech_help");
 
   /* section: civstyle */
   game.info.base_pollution
@@ -3611,7 +3613,7 @@ static void load_ruleset_game(const char *rsdir)
                                  "civstyle.base_pollution");
   game.info.happy_cost
     = secfile_lookup_int_def_min_max(file,
-                                                                         RS_DEFAULT_HAPPY_COST,
+                                     RS_DEFAULT_HAPPY_COST,
                                      RS_MIN_HAPPY_COST,
                                      RS_MAX_HAPPY_COST,
                                      "civstyle.happy_cost");

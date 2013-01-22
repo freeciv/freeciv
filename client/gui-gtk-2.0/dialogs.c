@@ -1176,5 +1176,7 @@ void popup_soundset_suggestion_dialog(void)
 *****************************************************************/
 void show_tech_gained_dialog(Tech_type_id tech)
 {
-  /* PORTME */
+  if (game.control.popup_tech_help) {
+    popup_help_dialog_typed(advance_name_for_player(client.conn.playing, tech), HELP_TECH);
+  }
 }
