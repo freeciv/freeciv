@@ -683,8 +683,10 @@ void init_city_report_game_data(void)
    A datum_vector represents a long string of alternating strings and
    numbers. */
 struct datum {
-  float numeric_value;
-  char *string_value;
+  union {
+    float numeric_value;
+    char *string_value;
+  } val;
   bool is_numeric;
 };
 #define SPECVEC_TAG datum
@@ -699,10 +701,9 @@ static void init_datum_string(struct datum *dat, const char *left,
   int len = right - left;
 
   dat->is_numeric = FALSE;
-  dat->numeric_value = 0;
-  dat->string_value = fc_malloc(len + 1);
-  memcpy(dat->string_value, left, len);
-  dat->string_value[len] = 0;
+  dat->val.string_value = fc_malloc(len + 1);
+  memcpy(dat->val.string_value, left, len);
+  dat->val.string_value[len] = 0;
 }
 
 /**********************************************************************
@@ -712,7 +713,7 @@ static void init_datum_string(struct datum *dat, const char *left,
 static void init_datum_number(struct datum *dat, float val)
 {
   dat->is_numeric = TRUE;
-  dat->numeric_value = val;
+  dat->val.numeric_value = val;
 }
 
 /**********************************************************************
@@ -722,7 +723,7 @@ static void init_datum_number(struct datum *dat, float val)
 static void free_datum(struct datum *dat)
 {
   if(!dat->is_numeric) {
-    free(dat->string_value);
+    free(dat->val.string_value);
   }
 }
 
@@ -736,17 +737,17 @@ static int datum_compare(const struct datum *a, const struct datum *b)
 {
   if(a->is_numeric == b->is_numeric) {
     if(a->is_numeric) {
-      if (a->numeric_value == b->numeric_value) {
+      if (a->val.numeric_value == b->val.numeric_value) {
         return 0;
-      } else if (a->numeric_value < b->numeric_value) {
+      } else if (a->val.numeric_value < b->val.numeric_value) {
         return -1;
-      } else if (a->numeric_value > b->numeric_value) {
+      } else if (a->val.numeric_value > b->val.numeric_value) {
         return +1;
       } else {
         return 0; /* shrug */
       }
     } else {
-      return strcmp(a->string_value, b->string_value);
+      return strcmp(a->val.string_value, b->val.string_value);
     }
   } else {
     if(a->is_numeric) {
