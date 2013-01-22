@@ -6356,7 +6356,7 @@ static void sg_load_compat(struct loaddata *loading)
   }
 #else
   sg_failure_ret(0 < loading->version
-                 && version <= compat[compat_current].version,
+                 && loading->version <= compat[compat_current].version,
                  "Unknown savefile format version (%d).", loading->version);
 #endif /* DEBUG */
 
