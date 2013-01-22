@@ -92,6 +92,7 @@ extern bool voteinfo_bar_hide_when_not_player;
 extern bool voteinfo_bar_new_at_front;
 
 extern bool autoaccept_tileset_suggestion;
+extern bool autoaccept_soundset_suggestion;
 
 extern bool draw_city_outlines;
 extern bool draw_city_output;

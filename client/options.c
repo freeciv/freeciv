@@ -113,6 +113,7 @@ bool voteinfo_bar_hide_when_not_player = FALSE;
 bool voteinfo_bar_new_at_front = FALSE;
 
 bool autoaccept_tileset_suggestion = FALSE;
+bool autoaccept_soundset_suggestion = FALSE;
 
 /* This option is currently set by the client - not by the user. */
 bool update_city_text_in_refresh_tile = TRUE;
@@ -2034,6 +2035,11 @@ static struct client_option client_options[] = {
                   N_("If this option is enabled, tileset suggested by "
                      "the ruleset is automatically taken in to use."),
                   COC_GRAPHICS, GUI_STUB, FALSE, NULL),
+ GEN_BOOL_OPTION(autoaccept_soundset_suggestion,
+                  N_("Autoaccept soundset suggestions"),
+                  N_("If this option is enabled, soundset suggested by "
+                     "the ruleset is automatically taken in to use."),
+                  COC_SOUND, GUI_STUB, FALSE, NULL),
 
   GEN_BOOL_OPTION(overview.layers[OLAYER_BACKGROUND],
                   N_("Background layer"),
