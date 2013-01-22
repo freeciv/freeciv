@@ -1964,8 +1964,10 @@ void map_claim_base(struct tile *ptile, struct base_type *pbase,
      * will return new owner. Then we claim border, which will recursively
      * lead to this tile and base being claimed. But at that point
      * ploser == powner and above check will abort the recursion. */
-    map_claim_border_ownership(ptile, powner, ptile);
-    map_claim_border(ptile, powner);
+    if (powner != NULL) {
+      map_claim_border_ownership(ptile, powner, ptile);
+      map_claim_border(ptile, powner);
+    }
     city_thaw_workers_queue();
     city_refresh_queue_processing();
   }
