@@ -98,6 +98,7 @@ libgui_gtk2_la_SOURCES = \
 	repodlgs.h	\
 	resources.c	\
 	resources.h	\
+	soundset_dlg.c	\
 	spaceshipdlg.c	\
 	spaceshipdlg.h  \
 	sprite.c	\
@@ -113,4 +114,3 @@ libgui_gtk2_la_SOURCES = \
 	wldlg.h	
 
 libgui_gtk2_la_LIBADD = -lm
-

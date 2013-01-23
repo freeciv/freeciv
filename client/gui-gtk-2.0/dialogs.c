@@ -1163,15 +1163,6 @@ void popdown_all_game_dialogs(void)
 }
 
 /****************************************************************
-  Ruleset (modpack) has suggested loading certain soundset. Confirm from
-  user and load.
-*****************************************************************/
-void popup_soundset_suggestion_dialog(void)
-{
-  /* PORTME */
-}
-
-/****************************************************************
   Player has gained a new tech.
 *****************************************************************/
 void show_tech_gained_dialog(Tech_type_id tech)
