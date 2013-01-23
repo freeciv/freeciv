@@ -1044,6 +1044,12 @@ AC_CHECK_TYPES(socklen_t, [], [],
 #include <sys/socket.h>
 ])
 
+dnl AC_TYPE_INTPTR_T is available only in autoconf 2.60 and later.
+ifdef([AC_TYPE_INTPTR_T], [AC_TYPE_INTPTR_T],
+[AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <inttypes.h>]],
+[[intptr_t var;]])], [],
+[AC_DEFINE([intptr_t], [unsigned long], [Integer type that can hold pointer])])])
+
 dnl Checks for library functions.
 AC_FUNC_FORK
 AC_FUNC_STRCOLL
