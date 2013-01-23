@@ -1,1 +1,1 @@
-?package(freeciv-qt):needs="x11" section="Games/Strategy" title="Freeciv client (Qt version)" command="/usr/games/freeciv-qt"
+?package(freeciv-client-qt):needs="x11" section="Games/Strategy" title="Freeciv client (Qt version)" command="/usr/games/freeciv-qt"
