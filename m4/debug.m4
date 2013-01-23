@@ -12,7 +12,7 @@ esac], [enable_debug=some])
 dnl -g is added by AC_PROG_CC if the compiler understands it
 if test "x$enable_debug" = "xyes" -o "x$enable_debug" = "xchecks"; then
   AC_DEFINE([DEBUG], [1], [Extra debugging support])
-  FC_C_FLAGS([-Werror], [], [EXTRA_DEBUG_CFLAGS])
+  FC_C_FLAGS([-Werror -Wno-deprecated-declarations], [], [EXTRA_DEBUG_CFLAGS])
 
   if test "x$enable_debug" = "xchecks"; then
     dnl Add additional flags as stated in ./doc/CodingStyle. Compiling the
