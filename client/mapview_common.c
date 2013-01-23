@@ -1431,7 +1431,13 @@ static void show_full_citybar(struct canvas *pcanvas,
 {
   const struct citybar_sprites *citybar = get_citybar_sprites(tileset);
   static char name[512], growth[32], prod[512], size[32], trade_routes[32];
-  enum color_std growth_color, trade_routes_color;
+  enum color_std growth_color;
+  /* trade_routes_color initialized just to get rid off gcc warning
+   * on optimization level 3 when it misdiagnoses that it would be used
+   * uninitialized otherwise. Funny thing here is that warning would
+   * go away also by *not* setting it to values other than
+   * COLOR_MAPVIEW_CITYTEXT in get_city_mapview_trade_routes() */
+  enum color_std trade_routes_color = COLOR_MAPVIEW_CITYTEXT;
   struct color *owner_color;
   struct {
     int x, y, w, h;
@@ -1692,7 +1698,13 @@ static void show_small_citybar(struct canvas *pcanvas,
 			   struct city *pcity, int *width, int *height)
 {
   static char name[512], growth[32], prod[512], trade_routes[32];
-  enum color_std growth_color, trade_routes_color;
+  enum color_std growth_color;
+ /* trade_routes_color initialized just to get rid off gcc warning
+   * on optimization level 3 when it misdiagnoses that it would be used
+   * uninitialized otherwise. Funny thing here is that warning would
+   * go away also by *not* setting it to values other than
+   * COLOR_MAPVIEW_CITYTEXT in get_city_mapview_trade_routes() */
+  enum color_std trade_routes_color = COLOR_MAPVIEW_CITYTEXT;
   struct {
     int x, y, w, h;
   } name_rect = {0, 0, 0, 0}, growth_rect = {0, 0, 0, 0},
