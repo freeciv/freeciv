@@ -385,7 +385,12 @@ static bool send_to_metaserver(enum meta_flag flag)
     netfile_add_form_str(post, "vn[]", "turn");
     netfile_add_form_int(post, "vv[]", game.info.turn);
     netfile_add_form_str(post, "vn[]", "year");
-    netfile_add_form_int(post, "vv[]", game.info.year);
+
+    if (server_state() != S_S_INITIAL) {
+      netfile_add_form_int(post, "vv[]", game.info.year);
+    } else {
+      netfile_add_form_str(post, "vv[]", "Calendar not set up");
+    }
   }
 
   if (meta_srv_thread != NULL) {
