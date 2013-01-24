@@ -110,7 +110,8 @@ You may want to remove some of these when Freeciv is uninstalled.
 * When saving game in independently launched server, savegames go
   to directory specified with "-s" command line option, defaulting
   to working directory
-* freeciv-modpack saves data under "~/.freeciv/2.4/"
+* freeciv-modpack saves data under "~/.freeciv/2.4/" and
+  "~/.freeciv/scenarios/"
 * Server can write log to file specified with "-l" command line option
 
 ----------------------------------------------------------------------
