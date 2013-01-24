@@ -227,16 +227,15 @@ void upgrade_city_rails(struct player *pplayer, bool discovery)
   if (discovery) {
     notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
                   _("New hope sweeps like fire through the country as "
-                    "the discovery of railroad is announced.\n"
-                    "      Workers spontaneously gather and upgrade all "
-                    "cities with railroads."));
+                    "the discovery of railroad is announced."));
   } else {
     notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
                   _("The people are pleased to hear that your "
-                    "scientists finally know about railroads.\n"
-                    "      Workers spontaneously gather and upgrade all "
-                    "cities with railroads."));
+                    "scientists finally know about railroads."));
   }
+  notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+                _("Workers spontaneously gather and upgrade all "
+                  "cities with railroads."));
   
   city_list_iterate(pplayer->cities, pcity) {
     tile_set_special(pcity->tile, S_RAILROAD);

@@ -1063,12 +1063,16 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     if (terrain_control.may_road
         && player_knows_techs_with_flag(ptaker, TF_RAILROAD)
         && !tile_has_special(pcenter, S_RAILROAD)) {
+      const char *clink = city_link(pcity);
+
       notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
-                    _("The people in %s are stunned by your"
-                      " technological insight!\n"
-                      "      Workers spontaneously gather and upgrade"
-                      " the city with railroads."),
-                    city_link(pcity));
+                    _("The people in %s are stunned by your "
+                      "technological insight!"),
+                      clink);
+      notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
+                    _("Workers spontaneously gather and upgrade "
+                      "%s with railroads."),
+                    clink);
       tile_set_special(pcenter, S_RAILROAD);
       update_tile_knowledge(pcenter);
     }
