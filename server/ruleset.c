@@ -3826,9 +3826,6 @@ static void load_ruleset_game(const char *rsdir)
                                   "global_unit_options.slow_invasions");
 
   /* section: combat_rules */
-  game.info.killstack
-    = secfile_lookup_bool_default(file, RS_DEFAULT_KILLSTACK,
-                                  "combat_rules.killstack");
   game.info.tired_attack
     = secfile_lookup_bool_default(file, RS_DEFAULT_TIRED_ATTACK,
                                   "combat_rules.tired_attack");
