@@ -319,7 +319,7 @@ bool sanity_check_ruleset_data(void)
 
   if (game.info.tech_cost_style == 0
       && game.info.free_tech_method == FTM_CHEAPEST) {
-    ruleset_error(LOG_FATAL, "Cost based free tech method, but tech cost style "
+    ruleset_error(LOG_ERROR, "Cost based free tech method, but tech cost style "
                   "1 so all techs cost the same.");
     ok = FALSE;
   }
@@ -334,20 +334,21 @@ bool sanity_check_ruleset_data(void)
       Tech_type_id tech = game.rgame.global_init_techs[i];
       struct advance *a = valid_advance_by_number(tech);
 
-      if (!a) {
-        ruleset_error(LOG_FATAL,
+      if (a == NULL) {
+        ruleset_error(LOG_ERROR,
                       "Tech %s does not exist, but is initial "
                       "tech for everyone.",
                       advance_rule_name(advance_by_number(tech)));
-      }
-      if (advance_by_number(A_NONE) != a->require[AR_ROOT]
+        ok = FALSE;
+      } else if (advance_by_number(A_NONE) != a->require[AR_ROOT]
           && !nation_has_initial_tech(pnation, a->require[AR_ROOT])) {
         /* Nation has no root_req for tech */
-        ruleset_error(LOG_FATAL,
+        ruleset_error(LOG_ERROR,
                       "Tech %s is initial for everyone, but %s has "
                       "no root_req for it.",
                       advance_rule_name(a),
                       nation_rule_name(pnation));
+        ok = FALSE;
       }
     }
 
@@ -358,17 +359,16 @@ bool sanity_check_ruleset_data(void)
       Tech_type_id tech = pnation->init_techs[i];
       struct advance *a = valid_advance_by_number(tech);
 
-      if (!a) {
-        ruleset_error(LOG_FATAL,
+      if (a == NULL) {
+        ruleset_error(LOG_ERROR,
                       "Tech %s does not exist, but is tech for %s.",
                       advance_rule_name(advance_by_number(tech)),
                       nation_rule_name(pnation));
         ok = FALSE;
-      }
-      if (advance_by_number(A_NONE) != a->require[AR_ROOT]
+      } else if (advance_by_number(A_NONE) != a->require[AR_ROOT]
           && !nation_has_initial_tech(pnation, a->require[AR_ROOT])) {
         /* Nation has no root_req for tech */
-        ruleset_error(LOG_FATAL,
+        ruleset_error(LOG_ERROR,
                       "Tech %s is initial for %s, but they have "
                       "no root_req for it.",
                       advance_rule_name(a),
@@ -388,7 +388,7 @@ bool sanity_check_ruleset_data(void)
       upgraded = upgraded->obsoleted_by;
       chain_length++;
       if (chain_length > num_utypes) {
-        ruleset_error(LOG_FATAL,
+        ruleset_error(LOG_ERROR,
                       "There seems to be obsoleted_by loop in update "
                       "chain that starts from %s", utype_rule_name(putype));
         ok = FALSE;
@@ -399,7 +399,7 @@ bool sanity_check_ruleset_data(void)
   /* Check requirement sets against conflicting requirements.
    * Effects use requirement lists */
   if (!iterate_effect_cache(effect_list_sanity_cb)) {
-    ruleset_error(LOG_FATAL, "Effects have conflicting requirements!");
+    ruleset_error(LOG_ERROR, "Effects have conflicting requirements!");
     ok = FALSE;
   }
 
@@ -409,7 +409,7 @@ bool sanity_check_ruleset_data(void)
   disaster_type_iterate(pdis) {
     if (!sanity_check_req_nreq_vec(&pdis->reqs, &pdis->nreqs, -1,
                                    disaster_rule_name(pdis))) {
-      ruleset_error(LOG_FATAL, "Disasters requirements are not sane!");
+      ruleset_error(LOG_ERROR, "Disasters requirements are not sane!");
       ok = FALSE;
     }
   } disaster_type_iterate_end;
@@ -418,7 +418,7 @@ bool sanity_check_ruleset_data(void)
   improvement_iterate(pimprove) {
     if (!sanity_check_req_vec(&pimprove->reqs, -1,
                               improvement_rule_name(pimprove))) {
-      ruleset_error(LOG_FATAL, "Buildings have conflicting requirements!");
+      ruleset_error(LOG_ERROR, "Buildings have conflicting requirements!");
       ok = FALSE;
     }
   } improvement_iterate_end;
@@ -427,7 +427,7 @@ bool sanity_check_ruleset_data(void)
   governments_iterate(pgov) {
     if (!sanity_check_req_vec(&pgov->reqs, -1,
                               government_rule_name(pgov))) {
-      ruleset_error(LOG_FATAL, "Governments have conflicting requirements!");
+      ruleset_error(LOG_ERROR, "Governments have conflicting requirements!");
       ok = FALSE;
     }
   } governments_iterate_end;
@@ -438,7 +438,7 @@ bool sanity_check_ruleset_data(void)
 
     if (!sanity_check_req_vec(&psp->reqs, -1,
                               specialist_rule_name(psp))) {
-      ruleset_error(LOG_FATAL, "Specialists have conflicting requirements!");
+      ruleset_error(LOG_ERROR, "Specialists have conflicting requirements!");
       ok = FALSE;
     }
   } specialist_type_iterate_end;
@@ -447,7 +447,7 @@ bool sanity_check_ruleset_data(void)
   base_type_iterate(pbase) {
     if (!sanity_check_req_vec(&pbase->reqs, -1,
                               base_rule_name(pbase))) {
-      ruleset_error(LOG_FATAL, "Bases have conflicting requirements!");
+      ruleset_error(LOG_ERROR, "Bases have conflicting requirements!");
       ok = FALSE;
     }
   } base_type_iterate_end;
@@ -456,7 +456,7 @@ bool sanity_check_ruleset_data(void)
   road_type_iterate(proad) {
     if (!sanity_check_req_vec(&proad->reqs, -1,
                               road_rule_name(proad))) {
-      ruleset_error(LOG_FATAL, "Roads have conflicting requirements!");
+      ruleset_error(LOG_ERROR, "Roads have conflicting requirements!");
       ok = FALSE;
     }
   } road_type_iterate_end;
@@ -465,7 +465,7 @@ bool sanity_check_ruleset_data(void)
   for (i = 0; i < game.control.styles_count; i++) {
     if (!sanity_check_req_vec(&city_styles[i].reqs, -1,
                               city_style_rule_name(i))) {
-      ruleset_error(LOG_FATAL, "City styles have conflicting requirements!");
+      ruleset_error(LOG_ERROR, "City styles have conflicting requirements!");
       ok = FALSE;
     }
   }
@@ -474,12 +474,12 @@ bool sanity_check_ruleset_data(void)
     unit_class_iterate(uc) {
       if (BV_ISSET(pterr->native_to, uclass_index(uc))) {
         if (is_ocean(pterr) && uc->move_type == UMT_LAND) {
-          ruleset_error(LOG_FATAL,
+          ruleset_error(LOG_ERROR,
                         "Oceanic %s is native to land units.",
                         terrain_rule_name(pterr));
           ok = FALSE;
         } else if (!is_ocean(pterr) && uc->move_type == UMT_SEA) {
-          ruleset_error(LOG_FATAL,
+          ruleset_error(LOG_ERROR,
                         "Non-oceanic %s is native to sea units.",
                         terrain_rule_name(pterr));
           ok = FALSE;
@@ -521,7 +521,7 @@ bool sanity_check_ruleset_data(void)
       }
 
       if (!can_exist) {
-        ruleset_error(LOG_FATAL,
+        ruleset_error(LOG_ERROR,
                       "Unit class %s cannot exist anywhere.",
                       uclass_rule_name(pclass));
         ok = FALSE;

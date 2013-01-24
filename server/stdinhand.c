@@ -3788,7 +3788,9 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
 
   if (!check) {
     bool success = TRUE;
+    char old[512];
 
+    sz_strlcpy(old, game.server.rulesetdir);
     log_verbose("set_rulesetdir() does load_rulesets() with \"%s\"", str);
     sz_strlcpy(game.server.rulesetdir, str);
 
@@ -3797,8 +3799,19 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
       cmd_reply(CMD_RULESETDIR, caller, C_OK, 
                 _("Ruleset directory set to \"%s\""), str);
     } else {
-      cmd_reply(CMD_RULESETDIR, caller, C_SYNTAX,
-                _("Failed loading rulesets from directory \"%s\""), str);
+      /* Retry to load previous one. No need to security checks as it
+       * was already in use earlier. */
+      sz_strlcpy(game.server.rulesetdir, old);
+      if (!load_rulesets()) {
+        log_error("Cannot even reload ruleset \"%s\"", old);
+
+        cmd_reply(CMD_RULESETDIR, caller, C_SYNTAX,
+                  _("Failed loading rulesets from directory \"%s\", using \""
+                    GAME_DEFAULT_RULESETDIR "\""), str);
+      } else {
+        cmd_reply(CMD_RULESETDIR, caller, C_SYNTAX,
+                  _("Failed loading rulesets from directory \"%s\", using \"%s\""), str, old);
+      }
 
       success = FALSE;
 

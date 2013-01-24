@@ -4734,6 +4734,7 @@ static bool load_rulesetdir(const char *rsdir)
 {
   struct section_file *techfile, *unitfile, *buildfile, *govfile, *terrfile;
   struct section_file *cityfile, *nationfile, *effectfile;
+  bool ok;
 
   log_normal(_("Loading rulesets."));
 
@@ -4782,7 +4783,7 @@ static bool load_rulesetdir(const char *rsdir)
   /* Init nations we just loaded. */
   init_available_nations();
 
-  sanity_check_ruleset_data();
+  ok = sanity_check_ruleset_data();
 
   precalc_tech_data();
 
@@ -4803,26 +4804,28 @@ static bool load_rulesetdir(const char *rsdir)
     terrain_sections = NULL;
   }
 
-  script_server_free();
+  if (ok) {
+    script_server_free();
 
-  script_server_init();
-  openload_script_file("default", rsdir);
-  openload_script_file("script", rsdir);
+    script_server_init();
+    openload_script_file("default", rsdir);
+    openload_script_file("script", rsdir);
 
-  /* Build advisors unit class cache corresponding to loaded rulesets */
-  adv_units_ruleset_init();
-  CALL_FUNC_EACH_AI(units_ruleset_init);
+    /* Build advisors unit class cache corresponding to loaded rulesets */
+    adv_units_ruleset_init();
+    CALL_FUNC_EACH_AI(units_ruleset_init);
 
-  /* We may need to adjust the number of AI players
-   * if the number of available nations changed. */
-  if (game.info.aifill > server.playable_nations) {
-    log_normal(_("Reducing aifill because there "
-                 "are not enough playable nations."));
-    game.info.aifill = server.playable_nations;
-    aifill(game.info.aifill);
+    /* We may need to adjust the number of AI players
+     * if the number of available nations changed. */
+    if (game.info.aifill > server.playable_nations) {
+      log_normal(_("Reducing aifill because there "
+                   "are not enough playable nations."));
+      game.info.aifill = server.playable_nations;
+      aifill(game.info.aifill);
+    }
   }
 
-  return TRUE;
+  return ok;
 }
 
 /**************************************************************************
