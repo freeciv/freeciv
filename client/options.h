@@ -155,6 +155,14 @@ extern bool gui_gtk2_mouse_over_map_focus;
 extern bool gui_gtk2_chatline_autocompletion;
 extern int gui_gtk2_citydlg_xsize;
 extern int gui_gtk2_citydlg_ysize;
+enum {
+  /* Order must match strings in
+   * options.c:gui_popup_tech_help_name() */
+  GUI_POPUP_TECH_HELP_ENABLED,
+  GUI_POPUP_TECH_HELP_DISABLED,
+  GUI_POPUP_TECH_HELP_RULESET
+};
+extern int  gui_gtk2_popup_tech_help;
 extern char gui_gtk2_font_city_label[512];
 extern char gui_gtk2_font_notify_label[512];
 extern char gui_gtk2_font_spaceship_label[512];
@@ -188,6 +196,7 @@ extern bool gui_gtk3_mouse_over_map_focus;
 extern bool gui_gtk3_chatline_autocompletion;
 extern int gui_gtk3_citydlg_xsize;
 extern int gui_gtk3_citydlg_ysize;
+extern int  gui_gtk3_popup_tech_help;
 extern char gui_gtk3_font_city_label[512];
 extern char gui_gtk3_font_notify_label[512];
 extern char gui_gtk3_font_spaceship_label[512];

@@ -179,6 +179,7 @@ bool gui_gtk2_mouse_over_map_focus = FALSE;
 bool gui_gtk2_chatline_autocompletion = TRUE;
 int gui_gtk2_citydlg_xsize = GUI_GTK2_CITYDLG_DEFAULT_XSIZE;
 int gui_gtk2_citydlg_ysize = GUI_GTK2_CITYDLG_DEFAULT_YSIZE;
+int  gui_gtk2_popup_tech_help = GUI_POPUP_TECH_HELP_RULESET;
 char gui_gtk2_font_city_label[512] = "Monospace 8";
 char gui_gtk2_font_notify_label[512] = "Monospace Bold 9";
 char gui_gtk2_font_spaceship_label[512] = "Monospace 8";
@@ -211,6 +212,7 @@ bool gui_gtk3_mouse_over_map_focus = FALSE;
 bool gui_gtk3_chatline_autocompletion = TRUE;
 int gui_gtk3_citydlg_xsize = GUI_GTK3_CITYDLG_DEFAULT_XSIZE;
 int gui_gtk3_citydlg_ysize = GUI_GTK3_CITYDLG_DEFAULT_YSIZE;
+int  gui_gtk3_popup_tech_help = GUI_POPUP_TECH_HELP_RULESET;
 char gui_gtk3_font_city_label[512] = "Monospace 8";
 char gui_gtk3_font_notify_label[512] = "Monospace Bold 9";
 char gui_gtk3_font_spaceship_label[512] = "Monospace 8";
@@ -1673,6 +1675,26 @@ static const struct copt_val_name
           ? names + value : NULL);
 }
 
+/****************************************************************************
+  Popup tech help setting names accessor.
+****************************************************************************/
+static const struct copt_val_name
+  *gui_popup_tech_help_name(int value)
+{
+  /* Order must match enum GUI_POPUP_TECH_HELP_* */
+  static const struct copt_val_name names[] = {
+    /* TRANS: enum value for 'gui_popup_tech_help' */
+    { "ENABLED",   N_("Enabled") },
+    /* TRANS: enum value for 'gui_popup_tech_help' */
+    { "DISABLED",  N_("Disabled") },
+    /* TRANS: enum value for 'gui_popup_tech_help' */
+    { "RULESET",   N_("Ruleset") }
+  };
+
+  return (0 <= value && value < ARRAY_SIZE(names)
+          ? names + value : NULL);
+}
+
 /* Some changed callbacks. */
 static void reqtree_show_icons_callback(struct option *poption);
 static void view_option_changed_callback(struct option *poption);
@@ -2246,6 +2268,14 @@ static struct client_option client_options[] = {
                  COC_INTERFACE, GUI_GTK2, GUI_GTK2_CITYDLG_DEFAULT_YSIZE,
                  GUI_GTK2_CITYDLG_MIN_YSIZE, GUI_GTK2_CITYDLG_MAX_YSIZE,
                  NULL),
+  GEN_ENUM_OPTION(gui_gtk2_popup_tech_help,
+                  N_("Popup tech help when gained"),
+                  N_("Controls if tech help should be opened when "
+                     "new tech has been gained.\n"
+                     "'Ruleset' means that behavior suggested by "
+                     "current ruleset is used."), COC_INTERFACE, GUI_GTK2,
+                  GUI_POPUP_TECH_HELP_RULESET,
+                  gui_popup_tech_help_name, NULL),
   GEN_FONT_OPTION(gui_gtk2_font_city_label, "city_label",
                   N_("City Label"),
                   N_("This font is used to display the city labels on city "
@@ -2448,6 +2478,14 @@ static struct client_option client_options[] = {
                  COC_INTERFACE, GUI_GTK3, GUI_GTK3_CITYDLG_DEFAULT_YSIZE,
                  GUI_GTK3_CITYDLG_MIN_YSIZE, GUI_GTK3_CITYDLG_MAX_YSIZE,
                  NULL),
+  GEN_ENUM_OPTION(gui_gtk3_popup_tech_help,
+                  N_("Popup tech help when gained"),
+                  N_("Controls if tech help should be opened when "
+                     "new tech has been gained.\n"
+                     "'Ruleset' means that behavior suggested by "
+                     "current ruleset is used."), COC_INTERFACE, GUI_GTK3,
+                  GUI_POPUP_TECH_HELP_RULESET,
+                  gui_popup_tech_help_name, NULL),
   GEN_FONT_OPTION(gui_gtk3_font_city_label, "city_label",
                   N_("City Label"),
                   N_("This font is used to display the city labels on city "
