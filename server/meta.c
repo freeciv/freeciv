@@ -428,8 +428,16 @@ static bool send_to_metaserver(enum meta_flag flag)
     fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
                 fc_url_encode("turn"), game.info.turn);
     s = end_of_strn(s, &rest);
-    fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
-                fc_url_encode("year"), game.info.year);
+    fc_snprintf(s, rest, "vn[]=%s&vv[]=",
+                fc_url_encode("year"));
+    s = end_of_strn(s, &rest);
+    if (server_state() != S_S_INITIAL) {
+      fc_snprintf(s, rest, "%d&",
+                  game.info.year);
+    } else {
+      fc_snprintf(s, rest, "%s&",
+                  fc_url_encode("Calendar not set up"));
+    }
     s = end_of_strn(s, &rest);
   }
 
