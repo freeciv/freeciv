@@ -1050,12 +1050,16 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     remove_obsolete_buildings_city(pcity, TRUE);
 
     if (upgrade_city_roads(pcity)) {
+      const char *clink = city_link(pcity);
+
       notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
-		    _("The people in %s are stunned by your"
-		      " technological insight!\n"
-		      "      Workers spontaneously gather and upgrade"
-		      " the city roads."),
-		    city_link(pcity));
+                    _("The people in %s are stunned by your "
+                      "technological insight!"),
+                    clink);
+      notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
+                    _("Workers spontaneously gather and upgrade "
+                      "%s roads."),
+                    clink);
       update_tile_knowledge(pcenter);
     }
 

@@ -263,17 +263,16 @@ void upgrade_all_city_roads(struct player *pplayer, bool discovery)
       notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
 		    _("New hope sweeps like fire through the country as "
 		      "the discovery of new road building technology "
-		      "is announced.\n"
-		      "      Workers spontaneously gather and upgrade all "
-		      "possible cities with better roads."));
+		      "is announced."));
     } else {
       notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
 		    _("The people are pleased to hear that your "
 		      "scientists finally know about new road building "
-		      "techinology.\n"
-		      "      Workers spontaneously gather and upgrade all "
-		      "possible cities with better roads."));
+		      "technology."));
     }
+    notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+                  _("Workers spontaneously gather and upgrade all "
+                    "possible cities with better roads."));
   }
 
   conn_list_do_unbuffer(pplayer->connections);
