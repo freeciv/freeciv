@@ -35,6 +35,7 @@
 #include "movement.h"
 #include "packets.h"
 #include "player.h"
+#include "traderoutes.h"
 #include "unit.h"
 #include "unitlist.h"
 

@@ -46,6 +46,7 @@
 #include "map.h"
 #include "packets.h"
 #include "player.h"
+#include "traderoutes.h"
 #include "unitlist.h"
 
 /* client */

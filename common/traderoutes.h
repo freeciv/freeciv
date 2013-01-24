@@ -17,6 +17,10 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#include "support.h" /* bool */
+
+struct city;
+
 enum trade_route_type {
   TRT_NATIONAL                        = 0,
   TRT_NATIONAL_IC                     = 1, /* Intercontinental */
@@ -40,6 +44,15 @@ enum trade_route_type trade_route_type_by_name(const char *name);
 
 struct trade_route_settings *
 trade_route_settings_by_type(enum trade_route_type type);
+
+bool can_cities_trade(const struct city *pc1, const struct city *pc2);
+bool can_establish_trade_route(const struct city *pc1, const struct city *pc2);
+bool have_cities_trade_route(const struct city *pc1, const struct city *pc2);
+int trade_between_cities(const struct city *pc1, const struct city *pc2);
+int city_num_trade_routes(const struct city *pcity);
+int get_caravan_enter_city_trade_bonus(const struct city *pc1, 
+                                       const struct city *pc2);
+int get_city_min_trade_route(const struct city *pcity, int *slot);
 
 #define trade_routes_iterate(c, t)                          \
 do {                                                        \

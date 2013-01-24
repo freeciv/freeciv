@@ -18,6 +18,9 @@
 /* utility */
 #include "fcintl.h"
 
+/* common */
+#include "traderoutes.h"
+
 /* client */
 #include "client_main.h"
 #include "control.h"

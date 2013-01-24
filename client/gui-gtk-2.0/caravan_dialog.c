@@ -22,6 +22,7 @@
 
 /* common */
 #include "game.h"
+#include "traderoutes.h"
 #include "unit.h"
 
 /* client */

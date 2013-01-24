@@ -609,16 +609,6 @@ bool city_can_be_built_here(const struct tile *ptile,
 enum city_build_result city_build_here_test(const struct tile *ptile,
                                             const struct unit *punit);
 
-/* trade functions */
-bool can_cities_trade(const struct city *pc1, const struct city *pc2);
-bool can_establish_trade_route(const struct city *pc1, const struct city *pc2);
-bool have_cities_trade_route(const struct city *pc1, const struct city *pc2);
-int trade_between_cities(const struct city *pc1, const struct city *pc2);
-int city_num_trade_routes(const struct city *pcity);
-int get_caravan_enter_city_trade_bonus(const struct city *pc1, 
-                                       const struct city *pc2);
-int get_city_min_trade_route(const struct city *pcity, int *slot);
-
 /* list functions */
 struct city *city_list_find_number(struct city_list *This, int id);
 struct city *city_list_find_name(struct city_list *This, const char *name);

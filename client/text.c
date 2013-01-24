@@ -33,6 +33,7 @@
 #include "government.h"
 #include "map.h"
 #include "research.h"
+#include "traderoutes.h"
 #include "unitlist.h"
 
 /* client */

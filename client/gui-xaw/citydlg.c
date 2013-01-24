@@ -49,6 +49,7 @@
 #include "packets.h"
 #include "player.h"
 #include "specialist.h"
+#include "traderoutes.h"
 #include "unitlist.h"
 
 /* client */

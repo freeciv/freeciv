@@ -32,6 +32,7 @@
 /* common */
 #include "game.h"
 #include "road.h"
+#include "traderoutes.h"
 #include "unitlist.h"
 
 /* client */

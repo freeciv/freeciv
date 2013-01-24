@@ -35,6 +35,7 @@
 #include "player.h"
 #include "road.h"
 #include "tech.h"
+#include "traderoutes.h"
 #include "unitlist.h"
 
 #include "unit.h"
