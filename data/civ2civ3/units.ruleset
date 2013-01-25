@@ -25,6 +25,7 @@ flags =
     "Airbase", _("Can build Airbases.") 
     "Transform", _("Can transform terrain.")
     "AirUnit", _("Very bad at attacking AEGIS.")
+    "Submarine", _("Attack value halved when attacking Destroyer")
     "Helicopter", _("Defends very badly against Fighters.")
   }
 
@@ -1679,7 +1680,11 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "BadCityDefender", "Pikemen"
+bonuses       =
+   { "flag", "type", "value"
+     "Submarine", "DefenseMultiplier", 1
+   }
+flags         = "BadCityDefender"
 roles         = "Hunter"
 helptext      = _("\
 An improved Ironclad, with better move rate and vision.\
@@ -1814,7 +1819,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 cargo         = "Missile"
-flags         = "Partial_Invis", "BadCityDefender", "Only_Native_Attack"
+flags         = "Partial_Invis", "BadCityDefender", "Only_Native_Attack", "Submarine"
 roles         = "Hunter"
 helptext      = _("\
 Traveling under the surface of the ocean, Submarines have\
