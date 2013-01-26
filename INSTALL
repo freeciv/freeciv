@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 16-Dec-12.
+Last minor update was 27-Jan-13.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -88,7 +88,7 @@ contains the generated files.
    Especial the xgettext program is required to create the *.gmo
    files which aren't included in the svn tree.
 
- - GNU autoconf version 2.59 or better
+ - GNU autoconf version 2.61 or better
 
    Autoconf is required to create configure from configure.ac.
 

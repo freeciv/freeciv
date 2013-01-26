@@ -232,9 +232,9 @@ cd "$SRCDIR"
 }
 
 # autoconf and autoheader version numbers must be kept in sync
-real_package_name "autoconf" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 59 || DIE=1
+real_package_name "autoconf" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 61 || DIE=1
 AUTOCONF=$REALPKGNAME
-real_package_name "autoheader" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 59 || DIE=1
+real_package_name "autoheader" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 61 || DIE=1
 AUTOHEADER=$REALPKGNAME
 
 # automake and aclocal version numbers must be kept in sync

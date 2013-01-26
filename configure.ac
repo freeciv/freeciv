@@ -3,16 +3,14 @@ dnl Process this file with autoconf to produce a configure script.
 
 dnl Initialize with some random file to ensure the source is here.
 AC_INIT([freeciv], m4_esyscmd([./fc_version | tr -d '\n']))
-AC_PREREQ(2.59)
+AC_PREREQ(2.61)
 AC_CONFIG_SRCDIR([common/game.c])
 AC_CONFIG_AUX_DIR(bootstrap) # This can't be quoted or automake will fail
 AC_CONFIG_MACRO_DIR([m4])
 ifdef([AC_CONFIG_MACRO_DIRS],[AC_CONFIG_MACRO_DIRS([dependencies/m4])])
 AC_CONFIG_HEADERS([fc_config.h])
 AC_CANONICAL_HOST
-dnl Replace AC_GNU_SOURCE with AC_USE_SYSTEM_EXTENSIONS when minimum
-dnl autoconf version 2.61
-AC_GNU_SOURCE
+AC_USE_SYSTEM_EXTENSIONS
 AC_C_BIGENDIAN
 
 BUG_URL="http://gna.org/projects/freeciv/"
@@ -76,10 +74,9 @@ ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 UTILITY_LIBS=
 
-dnl AC_PROG_SED is available only in autoconf 2.60 and later. With older
-dnl autoconf, assume that 'sed' is ok. This is needed for the configuration
+dnl Sed is needed for the configuration
 dnl of the clients, database setting and the mapimg toolkits.
-ifdef([AC_PROG_SED], [AC_PROG_SED], [SED=sed])
+AC_PROG_SED
 
 dnl set default values
 fcdb_all=no
@@ -414,14 +411,6 @@ if test "$am_cv_func_iconv" != yes; then
 or try using --with-libiconv-prefix.])
 fi
 LIBS="$LIBS $LIBICONV"
-
-dnl Autoconf >= 2.60 defines localedir. For older versions of autoconf, we
-dnl have to define it here, so that it can be used in po/Makefile.
-dnl You cannot use localedir above this line or it will fail for old ac's.
-if test -z "$localedir"; then
-  localedir="$datadir/locale"
-  AC_SUBST(localedir)
-fi
 
 dnl I18n support
 ALL_LINGUAS="ar bg cs ca da de el en_GB eo es et fa fi fr ga gd he hu id it ja 
@@ -1043,12 +1032,7 @@ AC_CHECK_TYPES(socklen_t, [], [],
 [#include <sys/types.h>
 #include <sys/socket.h>
 ])
-
-dnl AC_TYPE_INTPTR_T is available only in autoconf 2.60 and later.
-ifdef([AC_TYPE_INTPTR_T], [AC_TYPE_INTPTR_T],
-[AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <inttypes.h>]],
-[[intptr_t var;]])], [],
-[AC_DEFINE([intptr_t], [unsigned long], [Integer type that can hold pointer])])])
+AC_TYPE_INTPTR_T
 
 dnl Checks for library functions.
 AC_FUNC_FORK
