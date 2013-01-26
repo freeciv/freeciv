@@ -1920,7 +1920,7 @@ void aifill(int amount)
 #define SPECHASH_PTR_TO_DATA FC_PTR_TO_INT
 #include "spechash.h"
 #define startpos_hash_iterate(hash, psp, c)                                 \
-  TYPED_HASH_ITERATE(struct startpos *, unsigned long, hash, psp, c)
+  TYPED_HASH_ITERATE(struct startpos *, intptr_t, hash, psp, c)
 #define startpos_hash_iterate_end HASH_ITERATE_END
 
 /****************************************************************************

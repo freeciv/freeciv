@@ -77,12 +77,12 @@ extern "C" {
 #define FC_MEMBER_ARRAY_SIZE(type, member) \
   ARRAY_SIZE(FC_MEMBER(type, member))
 
-#define FC_INT_TO_PTR(i) ((void *) (unsigned long) (i))
-#define FC_PTR_TO_INT(p) ((int) (unsigned long) (p))
-#define FC_UINT_TO_PTR(u) ((void *) (unsigned long) (u))
-#define FC_PTR_TO_UINT(p) ((unsigned int) (unsigned long) (p))
-#define FC_SIZE_TO_PTR(s) ((void *) (unsigned long) (s))
-#define FC_PTR_TO_SIZE(p) ((size_t) (unsigned long) (p))
+#define FC_INT_TO_PTR(i) ((void *) (intptr_t) (i))
+#define FC_PTR_TO_INT(p) ((int) (intptr_t) (p))
+#define FC_UINT_TO_PTR(u) ((void *) (intptr_t) (u))
+#define FC_PTR_TO_UINT(p) ((unsigned int) (intptr_t) (p))
+#define FC_SIZE_TO_PTR(s) ((void *) (intptr_t) (s))
+#define FC_PTR_TO_SIZE(p) ((size_t) (intptr_t) (p))
 
 /****************************************************************************
   Used to initialize an array 'a' of size 'size' with value 'val' in each

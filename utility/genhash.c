@@ -162,7 +162,7 @@ void genhash_str_free_func(void *vkey)
 ***************************************************************************/
 genhash_val_t genhash_ptr_val_func(const void *vkey, size_t num_buckets)
 {
-  unsigned long result = ((unsigned long) vkey);
+  intptr_t result = ((intptr_t) vkey);
   return (result % num_buckets);
 }
 

@@ -4906,7 +4906,7 @@ static void desired_settable_option_send(struct option *poption)
 #define SPECHASH_PTR_TO_DATA FC_PTR_TO_INT
 #include "spechash.h"
 #define dialog_options_hash_iterate(hash, column, visible)                  \
-  TYPED_HASH_ITERATE(const char *, unsigned long, hash, column, visible)
+  TYPED_HASH_ITERATE(const char *, intptr_t, hash, column, visible)
 #define dialog_options_hash_iterate_end HASH_ITERATE_END
 
 static struct dialog_options_hash *dialog_options_hash = NULL;
