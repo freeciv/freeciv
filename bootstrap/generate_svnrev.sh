@@ -2,8 +2,8 @@
 
 # Freeciv - Copyright (C) 2007 - The Freeciv Project
 
-# This script generates fc_svnrev_gen.h from fc_svnrev_gen.h.in.
-# See fc_svnrev_gen.h.in for details.
+# This script generates fc_svnrev_gen.h from fc_svnrev_gen.h.tmpl.
+# See fc_svnrev_gen.h.tmpl for details.
 
 # Parameters - $1 - top srcdir
 #              $2 - top builddir
@@ -35,7 +35,7 @@ REV="dist"
    fi
  fi
 
- sed -e "s,<SVNREV>,$REV," -e "s,<SVNREVSTATE>,$REVSTATE," fc_svnrev_gen.h.in > "$OUTPUTDIR/fc_svnrev_gen.h.tmp"
+ sed -e "s,<SVNREV>,$REV," -e "s,<SVNREVSTATE>,$REVSTATE," fc_svnrev_gen.h.tmpl > "$OUTPUTDIR/fc_svnrev_gen.h.tmp"
  if ! test -f "$OUTPUTDIR/fc_svnrev_gen.h" ||
     ! cmp "$OUTPUTDIR/fc_svnrev_gen.h" "$OUTPUTDIR/fc_svnrev_gen.h.tmp"
  then

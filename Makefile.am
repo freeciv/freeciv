@@ -31,7 +31,7 @@ EXTRA_DIST=	autogen.sh 			\
 		diff_ignore			\
 		bootstrap/fcgui.in		\
 		bootstrap/fcser.in		\
-		bootstrap/fc_svnrev_gen.h.in	\
+		bootstrap/fc_svnrev_gen.h.tmpl	\
 		bootstrap/generate_svnrev.sh	\
 		bootstrap/freeciv.desktop.in	\
 		bootstrap/freeciv-server.desktop.in	\
