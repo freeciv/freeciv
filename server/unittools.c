@@ -95,6 +95,8 @@ static int hp_gain_coord(struct unit *punit);
 static void put_unit_onto_transporter(struct unit *punit, struct unit *ptrans);
 static void pull_unit_from_transporter(struct unit *punit,
 				       struct unit *ptrans);
+static void unit_transport_load_tp_status(struct unit *punit,
+                                          struct unit *ptrans);
 
 /**************************************************************************
   Returns a unit type that matches the role_tech or role roles.
@@ -340,7 +342,7 @@ void player_restore_units(struct player *pplayer)
 
         carrier = transport_from_tile(punit, punit->tile);
         if (carrier) {
-          put_unit_onto_transporter(punit, carrier);
+          unit_transport_load_tp_status(punit, carrier);
         } else {
           bool alive = true;
 
@@ -389,7 +391,7 @@ void player_restore_units(struct player *pplayer)
                 if (!is_unit_being_refueled(punit)) {
                   carrier = transport_from_tile(punit, unit_tile(punit));
                   if (carrier) {
-                    put_unit_onto_transporter(punit, carrier);
+                    unit_transport_load_tp_status(punit, carrier);
                   }
                 }
 
@@ -1597,7 +1599,7 @@ void wipe_unit(struct unit *punit, bool count_lost, struct player *killer)
            || unit_has_type_flag(pcargo, F_GAMELOSS))) {
         struct unit *ptransport = transport_from_tile(pcargo, ptile);
         if (ptransport != NULL) {
-          put_unit_onto_transporter(pcargo, ptransport);
+          unit_transport_load_tp_status(pcargo, ptransport);
           send_unit_info(NULL, pcargo);
         } else {
           if (unit_has_type_flag(pcargo, F_UNDISBANDABLE)) {
@@ -1633,7 +1635,7 @@ void wipe_unit(struct unit *punit, bool count_lost, struct player *killer)
         struct unit *ptransport = transport_from_tile(pcargo, ptile);
 
         if (ptransport != NULL) {
-          put_unit_onto_transporter(pcargo, ptransport);
+          unit_transport_load_tp_status(pcargo, ptransport);
           send_unit_info(NULL, pcargo);
         } else {
           unit_lost_with_transport(pplayer, pcargo, putype_save, killer);
@@ -2511,6 +2513,27 @@ void load_unit_onto_transporter(struct unit *punit, struct unit *ptrans)
 }
 
 /****************************************************************************
+  Load unit to transport, send transport's loaded status to everyone.
+****************************************************************************/
+static void unit_transport_load_tp_status(struct unit *punit,
+                                          struct unit *ptrans)
+{
+  bool had_cargo;
+
+  fc_assert_ret(punit != NULL);
+  fc_assert_ret(ptrans != NULL);
+
+  had_cargo = get_transporter_occupancy(ptrans) > 0;
+
+  put_unit_onto_transporter(punit, ptrans);
+
+  if (!had_cargo) {
+    /* Transport's loaded status changed */
+    send_unit_info(NULL, ptrans);
+  }
+}
+
+/****************************************************************************
   Pull the unit off of the transporter, and tell everyone.
 ****************************************************************************/
 void unload_unit_from_transporter(struct unit *punit)
@@ -3028,7 +3051,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     if (!can_unit_survive_at_tile(punit, pdesttile)) {
       ptransporter = transporter_for_unit(punit);
       if (ptransporter) {
-        put_unit_onto_transporter(punit, ptransporter);
+        unit_transport_load_tp_status(punit, ptransporter);
       }
 
       /* Set activity to sentry if boarding a ship. */
@@ -3036,19 +3059,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
           && !can_unit_exist_at_tile(punit, pdesttile)) {
         set_unit_activity(punit, ACTIVITY_SENTRY);
       }
-
-      /*
-       * Transporter info should be send first because this allow us get right
-       * update_menu effect in client side.
-       */
     
-      /*
-       * Send updated information to anyone watching that transporter has cargo.
-       */
-      if (ptransporter) {
-        send_unit_info(NULL, ptransporter);
-      }
-
       /*
        * Send updated information to anyone watching that unit is on transport.
        * All players without shared vison with owner player get
