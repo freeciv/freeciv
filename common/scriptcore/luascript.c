@@ -320,6 +320,7 @@ struct fc_lua *luascript_new(luascript_log_func_t output_fct)
 
   fcl->state = luaL_newstate();
   if (!fcl->state) {
+    FC_FREE(fcl);
     return NULL;
   }
   fcl->output_fct = output_fct;
