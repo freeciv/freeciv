@@ -99,6 +99,9 @@ static bool maybe_become_veteran_real(struct unit *punit, bool settler);
 
 static void send_unit_info_to_onlookers_transport(struct connection *pconn,
                                                   struct unit *punit);
+static void unit_transport_load_tp_status(struct unit *punit,
+                                               struct unit *ptrans,
+                                               bool force);
 
 /**************************************************************************
   Returns a unit type that matches the role_tech or role roles.
@@ -376,7 +379,7 @@ void player_restore_units(struct player *pplayer)
 
         carrier = transport_from_tile(punit, unit_tile(punit));
         if (carrier) {
-          unit_transport_load(punit, carrier, FALSE);
+          unit_transport_load_tp_status(punit, carrier, FALSE);
         } else {
           bool alive = true;
 
@@ -425,7 +428,7 @@ void player_restore_units(struct player *pplayer)
                 if (!is_unit_being_refueled(punit)) {
                   carrier = transport_from_tile(punit, unit_tile(punit));
                   if (carrier) {
-                    unit_transport_load(punit, carrier, FALSE);
+                    unit_transport_load_tp_status(punit, carrier, FALSE);
                   }
                 }
 
@@ -1441,7 +1444,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
 
   if (ptrans) {
     /* Set transporter for unit. */
-    unit_transport_load(punit, ptrans, FALSE);
+    unit_transport_load_tp_status(punit, ptrans, FALSE);
   } else {
     fc_assert_ret_val(!ptile || can_unit_exist_at_tile(punit, ptile), NULL);
   }
@@ -1697,7 +1700,7 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
                 || unit_has_type_flag(pcargo, UTYF_GAMELOSS))) {
           struct unit *ptransport = transport_from_tile(pcargo, ptile);
           if (ptransport != NULL) {
-            unit_transport_load(pcargo, ptransport, FALSE);
+            unit_transport_load_tp_status(pcargo, ptransport, FALSE);
             send_unit_info(NULL, pcargo);
           } else {
             if (unit_has_type_flag(pcargo, UTYF_UNDISBANDABLE)) {
@@ -1738,7 +1741,7 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
           struct unit *ptransport = transport_from_tile(pcargo, ptile);
 
           if (ptransport != NULL) {
-            unit_transport_load(pcargo, ptransport, FALSE);
+            unit_transport_load_tp_status(pcargo, ptransport, FALSE);
             send_unit_info(NULL, pcargo);
           } else {
             unit_list_prepend(drown, pcargo);
@@ -2671,13 +2674,35 @@ static void unit_enter_hut(struct unit *punit)
 ****************************************************************************/
 void unit_transport_load_send(struct unit *punit, struct unit *ptrans)
 {
-  fc_assert_ret(punit);
-  fc_assert_ret(ptrans);
+  fc_assert_ret(punit != NULL);
+  fc_assert_ret(ptrans != NULL);
 
   unit_transport_load(punit, ptrans, FALSE);
 
   send_unit_info(NULL, punit);
   send_unit_info(NULL, ptrans);
+}
+
+/****************************************************************************
+  Load unit to transport, send transport's loaded status to everyone.
+****************************************************************************/
+static void unit_transport_load_tp_status(struct unit *punit,
+                                          struct unit *ptrans,
+                                          bool force)
+{
+  bool had_cargo;
+
+  fc_assert_ret(punit != NULL);
+  fc_assert_ret(ptrans != NULL);
+
+  had_cargo = get_transporter_occupancy(ptrans) > 0;
+
+  unit_transport_load(punit, ptrans, force);
+
+  if (!had_cargo) {
+    /* Transport's loaded status changed */
+    send_unit_info(NULL, ptrans);
+  }
 }
 
 /****************************************************************************
@@ -3169,21 +3194,13 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   if (!can_unit_survive_at_tile(punit, pdesttile)) {
     ptransporter = transporter_for_unit(punit);
     if (ptransporter) {
-      unit_transport_load(punit, ptransporter, FALSE);
+      unit_transport_load_tp_status(punit, ptransporter, FALSE);
     }
 
     /* Set activity to sentry if boarding a ship. */
     if (ptransporter && !pplayer->ai_controlled && !unit_has_orders(punit)
         && !can_unit_exist_at_tile(punit, pdesttile)) {
       set_unit_activity(punit, ACTIVITY_SENTRY);
-    }
-
-    /* Transporter info should be send first because this allow us get right
-     * update_menu effect in client side. */
-    if (ptransporter) {
-      /* Send updated information to anyone watching that transporter has
-       * cargo. */
-      send_unit_info(NULL, ptransporter);
     }
 
     /*
