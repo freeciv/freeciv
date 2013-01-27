@@ -105,6 +105,8 @@ veteran_move_bonus = 0, 0, 0, 0
 ;                       This applies for both attacking from transport or cities. If only
 ;                       some unit types of the class should get this property, use type flag
 ;                       "Marines"
+; "KillCitizen"       = Upon successful attack against a city unit kills one citizen.
+;                       There's server setting, as well as effects, to disable this.
 ;
 ; */ <-- avoid gettext warnings
 
@@ -123,7 +125,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom", "ZOC", "CanFortify", "CanPillage",
-                "TerrainDefense"
+                "TerrainDefense", "KillCitizen"
 
 [unitclass_land_small]
 ; /* TRANS: Unit class: used adjectivally */
@@ -131,7 +133,7 @@ name          = _("?unitclass:Small Land")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "BuildAnywhere", "CollectRansom",
-                "ZOC", "TerrainDefense", "DoesntOccupyTile"
+                "ZOC", "TerrainDefense", "DoesntOccupyTile", "KillCitizen"
 
 [unitclass_land_big]
 ; /* TRANS: Unit class: used adjectivally */
@@ -139,7 +141,7 @@ name          = _("?unitclass:Big Land")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "BuildAnywhere", "CollectRansom",
-                "ZOC", "CanFortify", "TerrainDefense"
+                "ZOC", "CanFortify", "TerrainDefense", "KillCitizen"
 
 [unitclass_merchant]
 ; /* TRANS: Unit class: used adjectivally */

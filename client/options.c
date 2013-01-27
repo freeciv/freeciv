@@ -4835,8 +4835,6 @@ static bool settable_option_upgrade_value(const struct option *poption,
                "WRAPX|ISO|HEX", "WRAPY|ISO|HEX", "WRAPX|WRAPY|ISO|HEX");
   SETTING_CASE("generator", NULL, "RANDOM", "FRACTAL", "ISLAND");
   SETTING_CASE("startpos", "DEFAULT", "SINGLE", "2or3", "ALL", "VARIABLE");
-  SETTING_CASE("killcitizen", "", "LAND", "SEA", "LAND|SEA", "BOTH",
-               "LAND|BOTH", "SEA|BOTH", "LAND|SEA|BOTH");
   SETTING_CASE("borders", "DISABLED", "ENABLED", "SEE_INSIDE", "EXPAND");
   SETTING_CASE("diplomacy", "ALL", "HUMAN", "AI", "TEAM", "DISABLED");
   SETTING_CASE("citynames", "NO_RESTRICTIONS", "PLAYER_UNIQUE",

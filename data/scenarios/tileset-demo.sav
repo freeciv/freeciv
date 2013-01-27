@@ -116,7 +116,7 @@ set={"name","value","gamestart"
 "razechance",20,20
 "occupychance",0,0
 "autoattack",FALSE,FALSE
-"killcitizen","LAND","LAND"
+"killcitizen",TRUE,TRUE
 "killunhomed",0,0
 "borders","ENABLED","ENABLED"
 "happyborders",TRUE,TRUE

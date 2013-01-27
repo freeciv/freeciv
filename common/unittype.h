@@ -77,6 +77,9 @@ struct ai_type;
 /* Can launch attack from non-native tile (to native tile) */
 #define SPECENUM_VALUE14 UCF_ATT_FROM_NON_NATIVE
 #define SPECENUM_VALUE14NAME "AttFromNonNative"
+/* Kills citizens upon successful attack against a city */
+#define SPECENUM_VALUE15 UCF_KILLCITIZEN
+#define SPECENUM_VALUE15NAME "KillCitizen"
 /* keep this last */
 #define SPECENUM_COUNT UCF_COUNT
 #include "specenum_gen.h"

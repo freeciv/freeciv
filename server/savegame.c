@@ -3820,9 +3820,13 @@ static void game_load_internal(struct section_file *file)
     game.server.aqueductloss =
       secfile_lookup_int_default(file, game.server.aqueductloss,
                                  "game.aqueductloss");
+
+    /* Lowest bit of old killcitizen value indicates if
+     * land units should kill citizens. We take that as
+     * new boolean killcitizen value. */
     game.info.killcitizen =
-      secfile_lookup_int_default(file, game.info.killcitizen,
-                                 "game.killcitizen");
+      (secfile_lookup_int_default(file, 1, "game.killcitizen")
+       & 0x1);
     game.server.killunhomed =
       secfile_lookup_int_default(file, game.server.killunhomed,
                                  "game.killunhomed");

@@ -265,21 +265,6 @@ static const struct sset_val_name *startpos_name(int startpos)
 }
 
 /****************************************************************************
-  Kill citizen setting names accessor.
-****************************************************************************/
-static const struct sset_val_name *killcitizen_name(int killcitizen_bit)
-{
-  switch (killcitizen_bit) {
-  NAME_CASE(UMT_LAND, "LAND", N_("Land moving units"));
-  NAME_CASE(UMT_SEA, "SEA", N_("Sea moving units"));
-  NAME_CASE(UMT_BOTH, "BOTH",
-            N_("Units able to move both on land and sea"));
-  };
-
-  return NULL;
-}
-
-/****************************************************************************
   Autosaves setting names accessor.
 ****************************************************************************/
 static const struct sset_val_name *autosaves_name(int autosaves_bit)
@@ -1623,13 +1608,14 @@ static struct setting settings[] = {
               "only the defender unit is destroyed."),
            NULL, NULL, GAME_DEFAULT_KILLSTACK)
 
-  GEN_BITWISE("killcitizen", game.info.killcitizen,
-              SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
-              N_("Reduce city population after attack"),
-              N_("This flag indicates whether city population is reduced "
-                 "after successful attack of enemy unit, depending on "
-                 "its movement type."),
-              NULL, NULL, killcitizen_name, GAME_DEFAULT_KILLCITIZEN)
+  GEN_BOOL("killcitizen", game.info.killcitizen,
+           SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
+           N_("Reduce city population after attack"),
+           N_("This flag indicates whether city population is reduced "
+              "after successful attack of enemy unit. If this is disabled "
+              "population is never reduced. Even when this is enabled "
+              "only some units may kill citizens."),
+           NULL, NULL, GAME_DEFAULT_KILLCITIZEN)
 
   GEN_INT("killunhomed", game.server.killunhomed,
           SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,

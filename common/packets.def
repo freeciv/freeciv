@@ -455,7 +455,7 @@ PACKET_GAME_INFO = 16; sc
   BOOL is_edit_mode;
   /* TRUE only in pregame for "new" (not loaded) games */
   BOOL is_new_game;
-  UINT8 killcitizen;
+  BOOL killcitizen;
   BOOL killstack;
   UINT8 min_city_center_output[O_LAST];
   STRING negative_year_label[MAX_LEN_NAME];
