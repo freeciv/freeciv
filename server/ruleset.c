@@ -2064,6 +2064,9 @@ static void load_ruleset_terrain(struct section_file *file)
   terrain_control.lake_max_size
     = secfile_lookup_int_default(file, 0,
 				 "parameters.lake_max_size");
+  terrain_control.min_start_native_area
+    = secfile_lookup_int_default(file, 0,
+                                 "parameters.min_start_native_area");
   map.server.ocean_resources
     = secfile_lookup_bool_default(file, FALSE,
                                   "parameters.ocean_resources");

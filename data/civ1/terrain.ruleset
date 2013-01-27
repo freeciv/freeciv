@@ -38,6 +38,10 @@ land_channel_requirement=101
 ; also terrain type(s) with flag "FreshWater" in the ruleset.
 lake_max_size = 0
 
+; How many native tiles first startunit must be able to reach.
+; 0 to disable check.
+min_start_native_area = 0
+
 ; special movement costs for rivers:
 ;   0 - normal movement cost for rivers (matches Civ1)
 ;   1 - 1/3 movement cost, but only when moving exactly along rivers,

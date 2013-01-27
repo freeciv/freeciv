@@ -110,6 +110,43 @@ struct start_filter_data {
 };
 
 /****************************************************************************
+  Count number of reachable native tiles. Initially given tile is assumed
+  to be native (not checked by this function)
+****************************************************************************/
+static int count_native_area(const struct unit_type *utype, const struct tile *ptile)
+{
+  int tiles = 1; /* There's the central tile already. */
+  struct tile_list *tlist = tile_list_new();
+  struct tile *central = tile_virtual_new(ptile); /* Non-const virtual tile */
+  struct dbv handled;
+
+  dbv_init(&handled, MAP_INDEX_SIZE);
+
+  tile_list_append(tlist, central);
+
+  while (tile_list_size(tlist) > 0) {
+    tile_list_iterate(tlist, ptile2) {
+      adjc_iterate(ptile2, ptile3) {
+        int idx = tile_index(ptile3);
+        if (!dbv_isset(&handled, idx) && is_native_tile(utype, ptile3)) {
+          tiles++;
+          tile_list_append(tlist, ptile3);
+          dbv_set(&handled, idx);
+        }
+      } adjc_iterate_end;
+
+      tile_list_remove(tlist, ptile2);
+    } tile_list_iterate_end;
+  }
+
+  dbv_free(&handled);
+
+  tile_virtual_destroy(central);
+
+  return tiles;
+}
+
+/****************************************************************************
   Return TRUE if (x,y) is a good starting position.
 
   Bad places:
@@ -144,6 +181,14 @@ static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
   /* Has to be native tile for initial unit */
   if (!is_native_tile(pdata->initial_unit, ptile)) {
     return FALSE;
+  }
+
+  if (terrain_control.min_start_native_area > 0) {
+    /* There's minimum native area size set. */
+    if (count_native_area(pdata->initial_unit, ptile)
+        < terrain_control.min_start_native_area) {
+      return FALSE;
+    }
   }
 
   if (game.server.start_city && terrain_has_flag(tile_terrain(ptile), TER_NO_CITIES)) {

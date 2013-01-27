@@ -1297,6 +1297,7 @@ PACKET_RULESET_TERRAIN_CONTROL = 146; sc, lsend
   UINT8 ocean_reclaim_requirement_pct; /* # adjacent land tiles for reclaim */
   UINT8 land_channel_requirement_pct; /* # adjacent ocean tiles for channel */
   UINT8 lake_max_size;                /* bodies of water up to this size are freshwater */
+  UINT8 min_start_native_area;
   RIVER_MOVE river_move_mode;
 
   SINT16 river_defense_bonus;           /* % added to defense if Civ2 river */
