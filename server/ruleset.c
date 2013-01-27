@@ -4707,14 +4707,27 @@ static void reset_player_nations(void)
 /**************************************************************************
   Loads the rulesets.
 **************************************************************************/
-bool load_rulesets(void)
+bool load_rulesets(const char *restore)
 {
   if (load_rulesetdir(game.server.rulesetdir)) {
     return TRUE;
   }
 
+  /* Fallback to previous one. */
+  if (restore != NULL) {
+    if (load_rulesetdir(restore)) {
+      sz_strlcpy(game.server.rulesetdir, restore);
+
+      /* We're in sane state as restoring previous ruleset succeeded,
+       * but return failure to indicate that this is not what caller
+       * wanted. */
+      return FALSE;
+    }
+  }
+
   /* Fallback to default one, but not if that's what we tried already */
-  if (strcmp(GAME_DEFAULT_RULESETDIR, game.server.rulesetdir)) {
+  if (strcmp(GAME_DEFAULT_RULESETDIR, game.server.rulesetdir)
+      && (restore == NULL || strcmp(GAME_DEFAULT_RULESETDIR, restore))) {
     if (load_rulesetdir(GAME_DEFAULT_RULESETDIR)) {
       /* We're in sane state as fallback ruleset loading succeeded,
        * but return failure to indicate that this is not what caller
