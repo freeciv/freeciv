@@ -3570,6 +3570,7 @@ static void load_ruleset_game(const char *rsdir)
 
   /* section: tileset */
   text = secfile_lookup_str_default(file, "", "tileset.prefered");
+  text = secfile_lookup_str_default(file, text, "tileset.preferred");
   if (text[0] != '\0') {
     /* There was tileset suggestion */
     sz_strlcpy(game.control.prefered_tileset, text);
@@ -3580,6 +3581,7 @@ static void load_ruleset_game(const char *rsdir)
 
   /* section: soundset */
   text = secfile_lookup_str_default(file, "", "soundset.prefered");
+  text = secfile_lookup_str_default(file, text, "soundset.preferred");
   if (text[0] != '\0') {
     /* There was soundset suggestion */
     sz_strlcpy(game.control.prefered_soundset, text);

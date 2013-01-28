@@ -1885,7 +1885,13 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   t->prefered_themes =
     (char **) secfile_lookup_str_vec(file, (size_t *)
                                      &t->num_prefered_themes,
-                                     "tilespec.prefered_themes");
+                                     "tilespec.preferred_themes");
+  if (t->num_prefered_themes <= 0) {
+    t->prefered_themes =
+      (char **) secfile_lookup_str_vec(file, (size_t *)
+                                       &t->num_prefered_themes,
+                                       "tilespec.prefered_themes");
+  }
   for (i = 0; i < t->num_prefered_themes; i++) {
     t->prefered_themes[i] = fc_strdup(t->prefered_themes[i]);
   }
