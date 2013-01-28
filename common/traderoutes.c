@@ -31,6 +31,10 @@ const char *trade_route_type_names[] = {
   "National", "NationalIC", "IN", "INIC"
 };
 
+const char *traderoute_cancelling_type_names[] = {
+  "Active", "Inactive", "Cancel"
+};
+
 struct trade_route_settings trtss[TRT_LAST];
 
 /*************************************************************************
@@ -116,6 +120,32 @@ enum trade_route_type trade_route_type_by_name(const char *name)
   }
 
   return TRT_LAST;
+}
+
+/*************************************************************************
+  Return human readable name of traderoute cancelling type
+*************************************************************************/
+const char *traderoute_cancelling_type_name(enum traderoute_illegal_cancelling type)
+{
+  fc_assert_ret_val(type >= TRI_ACTIVE && type < TRI_LAST, NULL);
+
+  return traderoute_cancelling_type_names[type];
+}
+
+/*************************************************************************
+  Get traderoute cancelling type by name.
+*************************************************************************/
+enum traderoute_illegal_cancelling traderoute_cancelling_type_by_name(const char *name)
+{
+  enum traderoute_illegal_cancelling type;
+
+  for (type = TRI_ACTIVE; type < TRI_LAST; type++) {
+    if (!fc_strcasecmp(traderoute_cancelling_type_names[type], name)) {
+      return type;
+    }
+  }
+
+  return TRI_LAST;
 }
 
 /*************************************************************************

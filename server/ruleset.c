@@ -3988,9 +3988,18 @@ static void load_ruleset_game(const char *rsdir)
                     filename, name);
     } else {
       struct trade_route_settings *set = trade_route_settings_by_type(type);
+      const char *cancelling;
 
       set->trade_pct = secfile_lookup_int_default(file, 100,
                                                   "trade.settings%d.pct", i);
+      cancelling = secfile_lookup_str_default(file, "Active",
+                                              "trade.settings%d.cancelling", i);
+      set->cancelling = traderoute_cancelling_type_by_name(cancelling);
+      if (set->cancelling == TRI_LAST) {
+        ruleset_error(LOG_FATAL,
+                      "\"%s\" unknown traderoute cancelling type \"%s\".",
+                      filename, cancelling);
+      }
     }
   }
 
@@ -4466,6 +4475,7 @@ static void send_ruleset_trade_routes(struct conn_list *dest)
 
     packet.id = type;
     packet.trade_pct = set->trade_pct;
+    packet.cancelling = set->cancelling;
 
     lsend_packet_ruleset_trade(dest, &packet);
   }

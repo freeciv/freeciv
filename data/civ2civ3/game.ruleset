@@ -242,15 +242,19 @@ effects        = "ReducePopulation", "Fallout"
 ; Trade settings
 ;
 ; For each of the trade route types; "National", "NationalIC", "IN", "INIC":
-; "pct" - Trade income %. If this is 0, trade route cannot be established at all
+; "pct"        - Trade income %. If this is 0, trade route cannot be established at all
+; "cancelling" - What to do to previously established traderoutes when they turn illegal
+;                "Active"   - Keep them active
+;                "Inactive" - Keep them inactive
+;                "Cancel"   - Cancel them altogether
 ;
 [trade]
 settings =
-  { "type",       "pct"
-    "National",   0
-    "NationalIC", 0
-    "IN",         200
-    "INIC",       400
+  { "type",       "pct", "cancelling"
+    "National",   0,     "Cancel"
+    "NationalIC", 0,     "Cancel"
+    "IN",         200,   "Cancel"
+    "INIC",       400,   "Cancel"
   }
 
 [playercolors]

@@ -3288,7 +3288,8 @@ void handle_ruleset_trade(const struct packet_ruleset_trade *p)
   struct trade_route_settings *pset = trade_route_settings_by_type(p->id);
 
   if (pset != NULL) {
-    pset->trade_pct = p->trade_pct;
+    pset->trade_pct  = p->trade_pct;
+    pset->cancelling = p->cancelling;
   }
 }
 

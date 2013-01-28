@@ -31,6 +31,7 @@ struct data_in;
 #include "shared.h"		/* MAX_LEN_ADDR */
 #include "spaceship.h"
 #include "team.h"
+#include "traderoutes.h"
 #include "unittype.h"
 #include "worklist.h"
 

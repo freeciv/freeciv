@@ -21,6 +21,15 @@ extern "C" {
 
 struct city;
 
+/* What to do with previously established traderoutes that are now illegal. */
+enum traderoute_illegal_cancelling
+  {
+    TRI_ACTIVE                        = 0, /* Keep them active */
+    TRI_INACTIVE                      = 1, /* They are inactive */
+    TRI_CANCEL                        = 2, /* Completely cancel them */
+    TRI_LAST                          = 3
+  };
+
 enum trade_route_type {
   TRT_NATIONAL                        = 0,
   TRT_NATIONAL_IC                     = 1, /* Intercontinental */
@@ -31,6 +40,7 @@ enum trade_route_type {
 
 struct trade_route_settings {
   int trade_pct;
+  enum traderoute_illegal_cancelling cancelling;
 };
 
 int max_trade_routes(const struct city *pcity);
@@ -41,6 +51,9 @@ int trade_route_type_trade_pct(enum trade_route_type type);
 void trade_route_types_init(void);
 const char *trade_route_type_name(enum trade_route_type type);
 enum trade_route_type trade_route_type_by_name(const char *name);
+
+const char *traderoute_cancelling_type_name(enum traderoute_illegal_cancelling type);
+enum traderoute_illegal_cancelling traderoute_cancelling_type_by_name(const char *name);
 
 struct trade_route_settings *
 trade_route_settings_by_type(enum trade_route_type type);

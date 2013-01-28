@@ -269,15 +269,22 @@ effects        = "ReducePopulation"
 ; Trade settings
 ;
 ; For each of the trade route types; "National", "NationalIC", "IN", "INIC":
-; "pct" - Trade income %. If this is 0, trade route cannot be established at all
+; "pct"        - Trade income %. If this is 0, trade route cannot be established at all
+; "cancelling" - What to do to previously established traderoutes when they turn illegal
+;                "Active"   - Keep them active
+;                "Inactive" - Keep them inactive
+;                "Cancel"   - Cancel them altogether
 ;
+; TODO: What's correct "cancelling" behavior for civ1? If you have established
+;       traderoute with enemy city nearby and conquer it -> what happens to traderoute
+;       between your cities with less than trademindist distance?
 [trade]
 settings =
-  { "type",       "pct"
-    "National",   100
-    "NationalIC", 200
-    "IN",         200
-    "INIC",       400
+  { "type",       "pct", "cancelling"
+    "National",   100,   "Cancel"
+    "NationalIC", 200,   "Cancel"
+    "IN",         200,   "Cancel"
+    "INIC",       400,   "Cancel"
   }
 
 [playercolors]

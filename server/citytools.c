@@ -843,12 +843,25 @@ static void raze_city(struct city *pcity)
 static void reestablish_city_trade_routes(struct city *pcity) 
 {
   trade_routes_iterate(pcity, ptrade_city) {
+    bool keep_route;
+
     /* Remove the city's trade routes (old owner). */
     remove_trade_route(ptrade_city, pcity);
 
+    keep_route = can_cities_trade(pcity, ptrade_city)
+      && can_establish_trade_route(pcity, ptrade_city);
+
+    if (!keep_route) {
+      enum trade_route_type type = cities_trade_route_type(pcity, ptrade_city);
+      struct trade_route_settings *settings = trade_route_settings_by_type(type);
+
+      if (settings->cancelling != TRI_CANCEL) {
+        keep_route = TRUE;
+      }
+    }
+
     /* Readd the city's trade route (new owner) */
-    if (can_cities_trade(pcity, ptrade_city)
-        && can_establish_trade_route(pcity, ptrade_city)) {
+    if (keep_route) {
       establish_trade_route(pcity, ptrade_city);
     }
 

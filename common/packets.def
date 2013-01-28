@@ -229,6 +229,7 @@ type ROAD_COMPAT        = uint8(enum road_compat)
 type FTM                = uint8(enum free_tech_method)
 type UTYF               = uint8(enum unit_type_flag_id)
 type CBONUS_TYPE        = uint8(enum combat_bonus_type)
+type TRI                = uint8(enum traderoute_illegal_cancelling)
 
 # typedefs for bit vectors
 type BV_BASE_FLAGS      = bitvector(bv_base_flags)
@@ -1493,8 +1494,9 @@ PACKET_RULESET_DISASTER = 224; sc, lsend
 end
 
 PACKET_RULESET_TRADE = 227; sc, lsend
-  UINT8 id;
+  UINT8  id;
   UINT16 trade_pct;
+  TRI    cancelling;
 end
 
 /**************************************************************************

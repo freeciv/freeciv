@@ -534,7 +534,23 @@ void update_city_activities(struct player *pplayer)
     int i = 0, r;
 
     city_list_iterate(pplayer->cities, pcity) {
+      int ci;
+
       citizens_convert(pcity);
+
+      /* Cancel traderoutes that cannot exist any more */
+      for (ci = 0; ci < MAX_TRADE_ROUTES; ci++) {
+        struct city *tcity = game_city_by_number(pcity->trade[ci]);
+
+        if (tcity != NULL && !can_cities_trade(pcity, tcity)) {
+          enum trade_route_type type = cities_trade_route_type(pcity, tcity);
+          struct trade_route_settings *settings = trade_route_settings_by_type(type);
+
+          if (settings->cancelling == TRI_CANCEL) {
+            remove_trade_route(pcity, tcity);
+          }
+        }
+      }
 
       /* Add cities to array for later random order handling */
       cities[i++] = pcity;

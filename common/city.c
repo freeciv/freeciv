@@ -2595,9 +2595,28 @@ static inline void set_city_production(struct city *pcity)
 
   /* Add on special extra incomes: trade routes and tithes. */
   for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-    pcity->trade_value[i] =
-	trade_between_cities(pcity, game_city_by_number(pcity->trade[i]));
-    pcity->prod[O_TRADE] += pcity->trade_value[i];
+    struct city *tcity = game_city_by_number(pcity->trade[i]);
+
+    if (tcity != NULL) {
+      bool can_trade = can_cities_trade(pcity, tcity);
+
+      if (!can_trade) {
+        enum trade_route_type type = cities_trade_route_type(pcity, tcity);
+        struct trade_route_settings *settings = trade_route_settings_by_type(type);
+
+         if (settings->cancelling == TRI_ACTIVE) {
+           can_trade = TRUE;
+         }
+      } 
+
+      if (can_trade) {
+        pcity->trade_value[i] =
+          trade_between_cities(pcity, game_city_by_number(pcity->trade[i]));
+        pcity->prod[O_TRADE] += pcity->trade_value[i];
+      } else {
+        pcity->trade_value[i] = 0;
+      }
+    }
   }
   pcity->prod[O_GOLD] += get_city_tithes_bonus(pcity);
 
