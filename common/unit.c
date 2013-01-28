@@ -1762,6 +1762,27 @@ struct unit *transporter_for_unit(const struct unit *pcargo)
 }
 
 /****************************************************************************
+  Check if unit of given type would be able to transport all of transport's
+  cargo.
+****************************************************************************/
+static bool can_type_transport_units_cargo(const struct unit_type *utype,
+                                           const struct unit *punit)
+{
+  if (get_transporter_occupancy(punit) > utype->transport_capacity) {
+    return FALSE;
+  }
+
+  unit_list_iterate(unit_tile(punit)->units, pcargo) {
+    if (pcargo->transported_by == punit->id
+        && !can_unit_type_transport(utype, unit_class(pcargo))) {
+      return FALSE;
+    }
+  } unit_list_iterate_end;
+
+  return TRUE;
+}
+
+/****************************************************************************
   Tests if the unit could be updated. Returns UU_OK if is this is
   possible.
 
@@ -1798,7 +1819,7 @@ enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
     }
   }
 
-  if (get_transporter_occupancy(punit) > to_unittype->transport_capacity) {
+  if (!can_type_transport_units_cargo(to_unittype, punit)) {
     /* TODO: allow transported units to be reassigned.  Check for
      * unit_class_transporter_capacity() here and make changes to
      * upgrade_unit. */
@@ -1818,7 +1839,21 @@ enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
 **************************************************************************/
 bool unit_can_convert(const struct unit *punit)
 {
-  return unit_type(punit)->converted_to != NULL;
+  struct unit_type *tgt = unit_type(punit)->converted_to;
+
+  if (tgt == NULL) {
+    return FALSE;
+  }
+
+  if (!can_type_transport_units_cargo(tgt, punit)) {
+    return FALSE;
+  }
+
+  if (!can_exist_at_tile(tgt, unit_tile(punit))) {
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /**************************************************************************
