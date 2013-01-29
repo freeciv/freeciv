@@ -252,15 +252,19 @@ static struct section_file *openload_ruleset_file(const char *whichset,
 /**************************************************************************
   Parse script file.
 **************************************************************************/
-static void openload_script_file(const char *whichset, const char *rsdir)
+static bool openload_script_file(const char *whichset, const char *rsdir)
 {
   const char *dfilename = valid_ruleset_filename(rsdir, whichset,
                                                  SCRIPT_SUFFIX);
 
   if (!script_server_do_file(NULL, dfilename)) {
-    ruleset_error(LOG_FATAL, "\"%s\": could not load ruleset script.",
+    ruleset_error(LOG_ERROR, "\"%s\": could not load ruleset script.",
                   dfilename);
+
+    return FALSE;
   }
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -4836,9 +4840,12 @@ static bool load_rulesetdir(const char *rsdir)
     script_server_free();
 
     script_server_init();
-    openload_script_file("default", rsdir);
-    openload_script_file("script", rsdir);
 
+    ok = openload_script_file("default", rsdir)
+      && openload_script_file("script", rsdir);
+  }
+
+  if (ok) {
     /* Build advisors unit class cache corresponding to loaded rulesets */
     adv_units_ruleset_init();
     CALL_FUNC_EACH_AI(units_ruleset_init);
