@@ -1359,7 +1359,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     struct unit *target = is_non_allied_unit_tile(pdesttile, pplayer);
 
     if (target || is_non_allied_city_tile(pdesttile, pplayer)
-        || !move_diplomat_city) {
+        || (is_allied_city_tile(pdesttile, pplayer) && !move_diplomat_city)) {
       if (is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION,
 				       pdesttile)) {
 	int target_id = 0;
