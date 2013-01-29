@@ -51,8 +51,13 @@
 ***************************************************************************/
 void dbv_init(struct dbv *pdbv, int bits)
 {
-  fc_assert_ret(pdbv->vec == NULL);
-  fc_assert_ret(pdbv->bits == 0);
+  /* Here used to be asserts checking if pdbv->vec is NULL
+   * and pdbv->bits is 0, but that's just broken. One would
+   * assume that _init() function can be called when the thing
+   * is currently uninitialized, i.e., can have any values.
+   * Those fc_assert_ret()s caused this function to return
+   * without actually initializing the structure, leading to
+   * crash later. */
 
   fc_assert_ret(bits > 0 && bits < MAX_DBV_LENGTH);
 
