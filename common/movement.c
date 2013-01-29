@@ -153,7 +153,7 @@ bool is_ground_unittype(const struct unit_type *punittype)
 bool is_city_channel_tile(const struct unit_class *punitclass,
                           const struct tile *ptile)
 {
-  struct dbv tile_processed = { 0, NULL };
+  struct dbv tile_processed;
   struct tile_list *process_queue = tile_list_new();
   bool found = FALSE;
 

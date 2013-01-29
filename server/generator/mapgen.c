@@ -1020,11 +1020,7 @@ static void make_rivers(void)
   create_placed_map(); /* needed bu rand_map_characteristic */
   set_all_ocean_tiles_placed();
 
-  rivermap.blocked.vec = NULL;
-  rivermap.blocked.bits = 0;
   dbv_init(&rivermap.blocked, MAP_INDEX_SIZE);
-  rivermap.ok.vec = NULL;
-  rivermap.ok.bits = 0;
   dbv_init(&rivermap.ok, MAP_INDEX_SIZE);
 
   /* The main loop in this function. */
