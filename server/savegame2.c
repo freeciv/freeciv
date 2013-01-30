@@ -4704,6 +4704,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
   int ei;
   const char *facing_str;
   enum tile_special_type cfspe;
+  const char *natstr;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->id, "%s.id",
                                      unitstr), FALSE, "%s", secfile_error());
@@ -4731,6 +4732,15 @@ static bool sg_load_player_unit(struct loaddata *loading,
     } else {
       log_error("Illegal unit orientation '%s'", facing_str);
     }
+  }
+
+  natstr = secfile_lookup_str_default(loading->file,
+                                      nation_rule_name(plr->nation),
+                                      "%s.nationality", unitstr);
+
+  punit->nationality = nation_by_rule_name(natstr);
+  if (punit->nationality == NULL) {
+    punit->nationality = plr->nation;
   }
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->homecity,
@@ -5142,6 +5152,8 @@ static void sg_save_player_units(struct savedata *saving,
     secfile_insert_int(saving->file, nat_y, "%s.y", buf);
 
     secfile_insert_str(saving->file, dirbuf, "%s.facing", buf);
+    secfile_insert_str(saving->file, nation_rule_name(unit_nationality(punit)),
+                       "%s.nationality", buf);
     secfile_insert_int(saving->file, punit->veteran, "%s.veteran", buf);
     secfile_insert_int(saving->file, punit->hp, "%s.hp", buf);
     secfile_insert_int(saving->file, punit->homecity, "%s.homecity", buf);

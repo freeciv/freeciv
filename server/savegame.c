@@ -1497,6 +1497,8 @@ static void player_load_units(struct player *plr, int plrno,
       exit(EXIT_FAILURE);
     }
 
+    punit->nationality = plr->nation;
+
     /* Avoid warning when loading pre-2.1 saves containing foul status */
     secfile_lookup_bool_default(file, FALSE, "player%d.u%d.foul",
                                 plrno, i);

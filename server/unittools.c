@@ -1782,6 +1782,9 @@ struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
                                  homecity, punit->moves_left,
                                  punit->hp, NULL);
 
+  /* Owner changes, nationality not. */
+  gained_unit->nationality = punit->nationality;
+
   /* Copy some more unit fields */
   gained_unit->fuel = punit->fuel;
   gained_unit->paradropped = punit->paradropped;
@@ -2005,6 +2008,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
 {
   packet->id = punit->id;
   packet->owner = player_number(unit_owner(punit));
+  packet->nationality = nation_number(unit_nationality(punit));
   packet->tile = tile_index(unit_tile(punit));
   packet->facing = punit->facing;
   packet->homecity = punit->homecity;

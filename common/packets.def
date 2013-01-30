@@ -788,6 +788,7 @@ end
 PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   UNIT id; key
   PLAYER owner;
+  NATION nationality;
   TILE tile;
   DIRECTION facing;
   CITY homecity;
