@@ -139,6 +139,8 @@ static int count_native_area(const struct unit_type *utype, const struct tile *p
     } tile_list_iterate_end;
   }
 
+  tile_list_destroy(tlist);
+
   dbv_free(&handled);
 
   tile_virtual_destroy(central);
