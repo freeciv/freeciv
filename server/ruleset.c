@@ -4817,8 +4817,6 @@ static bool load_rulesetdir(const char *rsdir)
 
   ok = sanity_check_ruleset_data();
 
-  precalc_tech_data();
-
   if (base_sections) {
     free(base_sections);
     base_sections = NULL;
@@ -4846,6 +4844,8 @@ static bool load_rulesetdir(const char *rsdir)
   }
 
   if (ok) {
+    precalc_tech_data();
+
     /* Build advisors unit class cache corresponding to loaded rulesets */
     adv_units_ruleset_init();
     CALL_FUNC_EACH_AI(units_ruleset_init);
