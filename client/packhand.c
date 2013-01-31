@@ -166,7 +166,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
 
   /* Owner, veteran, and type fields are already filled in by
    * unit_virtual_create. */
-  punit->nationality = nation_by_number(packet->nationality);
+  punit->nationality = player_by_number(packet->nationality);
   punit->id = packet->id;
   unit_tile_set(punit, index_to_tile(packet->tile));
   punit->facing = packet->facing;

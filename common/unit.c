@@ -1569,7 +1569,7 @@ struct player *unit_owner(const struct unit *punit)
 /**************************************************************************
   Return the nationality of the unit.
 **************************************************************************/
-struct nation_type *unit_nationality(const struct unit *punit)
+struct player *unit_nationality(const struct unit *punit)
 {
   fc_assert_ret_val(NULL != punit, NULL);
   fc_assert(NULL != punit->nationality);
@@ -1809,7 +1809,7 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
 
   fc_assert_ret_val(NULL != pplayer, NULL);     /* No unowned units! */
   punit->owner = pplayer;
-  punit->nationality = pplayer->nation;
+  punit->nationality = pplayer;
 
   punit->facing = rand_direction();
 

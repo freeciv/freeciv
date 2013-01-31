@@ -2008,7 +2008,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
 {
   packet->id = punit->id;
   packet->owner = player_number(unit_owner(punit));
-  packet->nationality = nation_number(unit_nationality(punit));
+  packet->nationality = player_number(unit_nationality(punit));
   packet->tile = tile_index(unit_tile(punit));
   packet->facing = punit->facing;
   packet->homecity = punit->homecity;

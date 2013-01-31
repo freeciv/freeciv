@@ -126,7 +126,7 @@ struct unit {
   struct tile *tile;
   enum direction8 facing;
   struct player *owner; /* Cannot be NULL. */
-  struct nation_type *nationality;
+  struct player *nationality;
   int id;
   int homecity;
 
@@ -338,7 +338,7 @@ const char *unit_activity_text(const struct unit *punit);
 int get_transporter_capacity(const struct unit *punit);
 
 struct player *unit_owner(const struct unit *punit);
-struct nation_type *unit_nationality(const struct unit *punit);
+struct player *unit_nationality(const struct unit *punit);
 struct tile *unit_tile(const struct unit *punit);
 void unit_tile_set(struct unit *punit, struct tile *ptile);
 
