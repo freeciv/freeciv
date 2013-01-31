@@ -216,13 +216,13 @@ static const char *valid_ruleset_filename(const char *subdir,
   if (dfilename) {
     return dfilename;
   } else {
-    ruleset_error(LOG_FATAL,
+    ruleset_error(LOG_ERROR,
                   /* TRANS: message about an installation error. */
                   _("Could not find a readable \"%s.%s\" ruleset file."),
                   name, extension);
   }
 
-  return(NULL);
+  return NULL;
 }
 
 /**************************************************************************
@@ -237,15 +237,20 @@ static struct section_file *openload_ruleset_file(const char *whichset,
                                                  RULES_SUFFIX);
   struct section_file *secfile;
 
+  if (dfilename == NULL) {
+    return NULL;
+  }
+
   /* Need to save a copy of the filename for following message, since
      section_file_load() may call datafilename() for includes. */
-
   sz_strlcpy(sfilename, dfilename);
+  secfile = secfile_load(sfilename, FALSE);
 
-  if (!(secfile = secfile_load(sfilename, FALSE))) {
-    ruleset_error(LOG_FATAL, "Could not load ruleset '%s':\n%s",
+  if (secfile == NULL) {
+    ruleset_error(LOG_ERROR, "Could not load ruleset '%s':\n%s",
                   sfilename, secfile_error());
   }
+
   return secfile;
 }
 
@@ -256,6 +261,10 @@ static bool openload_script_file(const char *whichset, const char *rsdir)
 {
   const char *dfilename = valid_ruleset_filename(rsdir, whichset,
                                                  SCRIPT_SUFFIX);
+
+  if (dfilename == NULL) {
+    return FALSE;
+  }
 
   if (!script_server_do_file(NULL, dfilename)) {
     ruleset_error(LOG_ERROR, "\"%s\": could not load ruleset script.",
@@ -1075,7 +1084,6 @@ restart:
 
   section_list_destroy(sec);
   secfile_check_unused(file);
-  secfile_destroy(file);
 }
 
 /**************************************************************************
@@ -1727,7 +1735,6 @@ static void load_ruleset_units(struct section_file *file)
   section_list_destroy(csec);
   section_list_destroy(sec);
   secfile_check_unused(file);
-  secfile_destroy(file);
 }
 
 /**************************************************************************
@@ -1882,7 +1889,6 @@ static void load_ruleset_buildings(struct section_file *file)
 
   section_list_destroy(sec);
   secfile_check_unused(file);
-  secfile_destroy(file);
 }
 
 /**************************************************************************
@@ -2555,7 +2561,6 @@ static void load_ruleset_terrain(struct section_file *file)
   } road_type_iterate_end;
 
   secfile_check_unused(file);
-  secfile_destroy(file);
 }
 
 /**************************************************************************
@@ -2657,7 +2662,6 @@ static void load_ruleset_governments(struct section_file *file)
 
   section_list_destroy(sec);
   secfile_check_unused(file);
-  secfile_destroy(file);
 }
 
 /**************************************************************************
@@ -3270,7 +3274,6 @@ static void load_ruleset_nations(struct section_file *file)
 
   section_list_destroy(sec);
   secfile_check_unused(file);
-  secfile_destroy(file);
 
   if (barb_land_count == 0) {
     ruleset_error(LOG_FATAL,
@@ -3441,7 +3444,6 @@ static void load_ruleset_cities(struct section_file *file)
   section_list_destroy(sec);
 
   secfile_check_unused(file);
-  secfile_destroy(file);
 }
 
 /**************************************************************************
@@ -3505,7 +3507,6 @@ static void load_ruleset_effects(struct section_file *file)
   section_list_destroy(sec);
 
   secfile_check_unused(file);
-  secfile_destroy(file);
 }
 
 /**************************************************************************
@@ -3566,6 +3567,10 @@ static void load_ruleset_game(const char *rsdir)
   const char *name;
 
   file = openload_ruleset_file("game", rsdir);
+  if (file == NULL) {
+    ruleset_error(LOG_FATAL, "Could not load game.ruleset:\n%s",
+                  secfile_error());
+  }
   filename = secfile_name(file);
 
   /* section: datafile */
@@ -4759,6 +4764,16 @@ bool load_rulesets(const char *restore)
 }
 
 /**************************************************************************
+  destroy secfile. Handle NULL parameter gracefully.
+**************************************************************************/
+static void nullcheck_secfile_destroy(struct section_file *file)
+{
+  if (file != NULL) {
+    secfile_destroy(file);
+  }
+}
+
+/**************************************************************************
   Loads the rulesets from directory.
   This may be called more than once and it will free any stale data.
 **************************************************************************/
@@ -4766,7 +4781,7 @@ static bool load_rulesetdir(const char *rsdir)
 {
   struct section_file *techfile, *unitfile, *buildfile, *govfile, *terrfile;
   struct section_file *cityfile, *nationfile, *effectfile;
-  bool ok;
+  bool ok = TRUE;
 
   log_normal(_("Loading rulesets."));
 
@@ -4780,42 +4795,58 @@ static bool load_rulesetdir(const char *rsdir)
   server.playable_nations = 0;
 
   techfile = openload_ruleset_file("techs", rsdir);
-  load_tech_names(techfile);
-
   buildfile = openload_ruleset_file("buildings", rsdir);
-  load_building_names(buildfile);
-
   govfile = openload_ruleset_file("governments", rsdir);
-  load_government_names(govfile);
-
   unitfile = openload_ruleset_file("units", rsdir);
-  load_unit_names(unitfile);
-
   terrfile = openload_ruleset_file("terrain", rsdir);
-  load_terrain_names(terrfile);
-
   cityfile = openload_ruleset_file("cities", rsdir);
-  load_citystyle_names(cityfile);
-
   nationfile = openload_ruleset_file("nations", rsdir);
-  load_nation_names(nationfile);
-
   effectfile = openload_ruleset_file("effects", rsdir);
 
-  load_ruleset_techs(techfile);
-  load_ruleset_cities(cityfile);
-  load_ruleset_governments(govfile);
-  load_ruleset_terrain(terrfile);  /* terrain must precede nations and units */
-  load_ruleset_units(unitfile);
-  load_ruleset_buildings(buildfile);
-  load_ruleset_nations(nationfile);
-  load_ruleset_effects(effectfile);
-  load_ruleset_game(rsdir);
+  if (techfile == NULL
+      || buildfile  == NULL
+      || govfile    == NULL
+      || unitfile   == NULL
+      || terrfile   == NULL
+      || cityfile   == NULL
+      || nationfile == NULL
+      || effectfile == NULL) {
+    ok = FALSE;
+  }
 
-  /* Init nations we just loaded. */
-  init_available_nations();
+  if (ok) {
+    load_tech_names(techfile);
+    load_building_names(buildfile);
+    load_government_names(govfile);
+    load_unit_names(unitfile);
+    load_terrain_names(terrfile);
+    load_citystyle_names(cityfile);
+    load_nation_names(nationfile);
 
-  ok = sanity_check_ruleset_data();
+    load_ruleset_techs(techfile);
+    load_ruleset_cities(cityfile);
+    load_ruleset_governments(govfile);
+    load_ruleset_terrain(terrfile);  /* terrain must precede nations and units */
+    load_ruleset_units(unitfile);
+    load_ruleset_buildings(buildfile);
+    load_ruleset_nations(nationfile);
+    load_ruleset_effects(effectfile);
+    load_ruleset_game(rsdir);
+
+    /* Init nations we just loaded. */
+    init_available_nations();
+
+    ok = sanity_check_ruleset_data();
+  }
+
+  nullcheck_secfile_destroy(techfile);
+  nullcheck_secfile_destroy(cityfile);
+  nullcheck_secfile_destroy(govfile);
+  nullcheck_secfile_destroy(terrfile);
+  nullcheck_secfile_destroy(unitfile);
+  nullcheck_secfile_destroy(buildfile);
+  nullcheck_secfile_destroy(nationfile);
+  nullcheck_secfile_destroy(effectfile);
 
   if (base_sections) {
     free(base_sections);
@@ -4871,6 +4902,10 @@ void reload_rulesets_settings(void)
   struct section_file *file;
 
   file = openload_ruleset_file("game", game.server.rulesetdir);
+  if (file == NULL) {
+    ruleset_error(LOG_FATAL, "Could not load game.ruleset:\n%s",
+                  secfile_error());
+  }
   settings_ruleset(file, "settings");
   secfile_destroy(file);
 }
