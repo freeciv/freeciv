@@ -42,13 +42,36 @@ survives destruction (wonders only, at world or player range only).
 A requirement may have a 'negated' field, and if this is '1', the requirement
 is negated.
 
-A requirement type is the type of the requirement and can be one of "None" 
-(default), "Tech", "Gov", "Building", "Special", "Base", "Road, "Terrain",
-"Resource",  "UnitType",  "UnitFlag", "UnitClass", "UnitClassFlag", "Nation",
-"OutputType", "MinYear", "MinSize", "AI", "TerrainClass", "TerrainFlag",
-"TerrainAlter", or "CityTile". MinSize is the minimum size of a city required.
+
+Requirement types and supported ranges
+======================================
+
+Tech:          World, Player
+Gov:           Player
+Building:      World, Player, Continent, City, Local
+Special:       Local, Adjacent, CAdjacent
+Base:          Local, Adjacnet, CAdjacent
+Road:          Local, Adjacent, CAdjacent
+Terrain:       Local, Adjacent, CAdjacent
+Resource:      Local, Adjacent, CAdjacent
+UnitType:      Local
+UnitFlag:      Local
+UnitClass:     Local
+UnitClassFlag: Local
+Nation:        World, Player
+OutputType:    Local
+MinYear:       World
+MinSize:       City
+AI:            Player
+TerrainClass:  Local, Adjacent, CAdjacent
+TerrainFlag:   Local, Adjacent, CAdjacent
+TerrainAlter:  Local
+CityTile:      Local, Adjacent, CAdjacent
+
+MinSize is the minimum size of a city required.
 AI is ai player difficulty level. TerrainClass is either "Land" or "Oceanic".
 Only "Center" is supported as CityTile type.
+
 
 Effect types
 ============
