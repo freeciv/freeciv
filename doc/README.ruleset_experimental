@@ -2,8 +2,9 @@
                    Experimental Freeciv Ruleset
 ----------------------------------------------------------------------
 
-This ruleset tries to use the new features available since freeciv 2.2. It
-is based on the default ruleset. The changes can be extracted by
+This ruleset tries to use the new features available in freeciv that
+are not yet in use in default rulesets. It is based on the default ruleset.
+The changes can be extracted by
 
 #> diff -ur data/default/ data/experimental/
 
@@ -76,16 +77,11 @@ To play a game with the experimental rules, start the server with:
        ./ser -r data/experimental.serv
 or a single player game with
        ./freeciv-gtk2 -r data/experimental.serv
-(and any other command-line arguments you normally use; depending on
-how you have Freeciv installed you may have to give the installed
-data directory path instead of "data")
+(and any other command-line arguments you normally use)
 
 Start the client normally.  The client must be network-compatible
 (usually meaning the same or similar version) but otherwise nothing
-special is needed.  (However some third-party rulesets may
-potentially require special graphics to work properly, in which case
-the client should have those graphics available and be started with
-an appropriate '--tiles' argument.)
+special is needed.
 
 Note that the Freeciv AI might not play as well with rules other
 than standard Freeciv.  The AI is supposed to understand and
