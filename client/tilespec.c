@@ -4463,7 +4463,7 @@ static int fill_grid_sprite_array(const struct tileset *t,
       ADD_SPRITE_SIMPLE(t->sprites.grid.unavailable);
     }
 
-    if (draw_native) {
+    if (draw_native && citymode == NULL) {
       bool native = TRUE;
       struct unit_list *pfocus_units = get_units_in_focus();
 
