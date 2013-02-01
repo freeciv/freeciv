@@ -42,7 +42,7 @@ struct universal universal_by_rule_name(const char *kind,
 
   source.kind = universals_n_by_name(kind, fc_strcasecmp);
   if (!universals_n_is_valid(source.kind)) {
-    source.kind = VUT_NONE;
+    return source;
   }
 
   /* Finally scan the value string based on the type of the source. */
