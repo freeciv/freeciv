@@ -457,9 +457,13 @@ struct unit_type *can_upgrade_unittype(const struct player *pplayer,
   struct unit_type *upgrade = punittype;
   struct unit_type *best_upgrade = NULL;
 
-  if (!can_player_build_unit_direct(pplayer, punittype)) {
-    return NULL;
-  }
+  /* For some reason this used to check
+   * can_player_build_unit_direct() for the unittype
+   * we're updating from.
+   * That check is now removed as it prevented legal updates
+   * of units player had acquired via bribing, capturing,
+   * diplomatic treaties, or lua script. */
+
   while ((upgrade = upgrade->obsoleted_by) != U_NOT_OBSOLETED) {
     if (can_player_build_unit_direct(pplayer, upgrade)) {
       best_upgrade = upgrade;
