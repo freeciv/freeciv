@@ -26,6 +26,8 @@ Updating from 2.4 to 2.5
 * Name of the default ruleset is no longer "default" but it's renamed as
   "classic" Some files default to all rulesets still reside in data/default,
   files specific to classic ruleset in new data/classic directory
+* Minimum version of readline is 4.3. Readline support cannot be enabled
+  with older versions.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

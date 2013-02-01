@@ -67,11 +67,7 @@ void notify_if_first_access_level_is_available(void);
 bool conn_is_kicked(struct connection *pconn, int *time_remaining);
 
 #ifdef HAVE_LIBREADLINE
-#ifdef HAVE_NEWLIBREADLINE
 char **freeciv_completion(const char *text, int start, int end);
-#else
-char **freeciv_completion(char *text, int start, int end);
-#endif
 #endif
 
 #endif /* FC__STDINHAND_H */

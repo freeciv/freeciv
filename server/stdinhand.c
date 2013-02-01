@@ -22,10 +22,6 @@
 
 #ifdef HAVE_LIBREADLINE
 #include <readline/readline.h>
-#ifdef HAVE_NEWLIBREADLINE
-#define completion_matches(x,y) rl_completion_matches(x,y)
-#define filename_completion_function rl_filename_completion_function
-#endif
 #endif
 
 /* utility */
@@ -1616,7 +1612,7 @@ static const char *optname_accessor(int i)
   return setting_name(setting_by_number(i));
 }
 
-#if defined HAVE_LIBREADLINE || defined HAVE_NEWLIBREADLINE
+#ifdef HAVE_LIBREADLINE
 /**************************************************************************
   Returns possible parameters for the /show command.
 **************************************************************************/
@@ -1630,7 +1626,7 @@ static const char *olvlname_accessor(int i)
     return optname_accessor(i-OLEVELS_NUM-1);
   }
 }
-#endif /* HAVE_LIBREADLINE || HAVE_NEWLIBREADLINE */
+#endif /* HAVE_LIBREADLINE */
 
 /**************************************************************************
   Set timeout options.
@@ -7005,51 +7001,47 @@ the word to complete.  We can use the entire contents of rl_line_buffer
 in case we want to do some simple parsing.  Return the array of matches,
 or NULL if there aren't any.
 **************************************************************************/
-#ifdef HAVE_NEWLIBREADLINE
 char **freeciv_completion(const char *text, int start, int end)
-#else
-char **freeciv_completion(char *text, int start, int end)
-#endif
 {
   char **matches = (char **)NULL;
 
   if (is_help(start)) {
-    matches = completion_matches(text, help_generator);
+    matches = rl_completion_matches(text, help_generator);
   } else if (is_command(start)) {
-    matches = completion_matches(text, command_generator);
+    matches = rl_completion_matches(text, command_generator);
   } else if (is_list(start)) {
-    matches = completion_matches(text, list_generator);
+    matches = rl_completion_matches(text, list_generator);
   } else if (is_cmdlevel_arg2(start)) {
-    matches = completion_matches(text, cmdlevel_arg2_generator);
+    matches = rl_completion_matches(text, cmdlevel_arg2_generator);
   } else if (is_cmdlevel_arg1(start)) {
-    matches = completion_matches(text, cmdlevel_arg1_generator);
+    matches = rl_completion_matches(text, cmdlevel_arg1_generator);
   } else if (is_connection(start)) {
-    matches = completion_matches(text, connection_generator);
+    matches = rl_completion_matches(text, connection_generator);
   } else if (is_player(start)) {
-    matches = completion_matches(text, player_generator);
+    matches = rl_completion_matches(text, player_generator);
   } else if (is_server_option(start)) {
-    matches = completion_matches(text, option_generator);
+    matches = rl_completion_matches(text, option_generator);
   } else if (is_option_level(start)) {
-    matches = completion_matches(text, olevel_generator);
+    matches = rl_completion_matches(text, olevel_generator);
   } else if (is_enum_option_value(start, &completion_option)) {
-    matches = completion_matches(text, option_value_generator);
+    matches = rl_completion_matches(text, option_value_generator);
   } else if (is_filename(start)) {
     /* This function we get from readline */
-    matches = completion_matches(text, filename_completion_function);
+    matches = rl_completion_matches(text, rl_filename_completion_function);
   } else if (is_create_arg2(start)) {
-    matches = completion_matches(text, aitype_generator);
+    matches = rl_completion_matches(text, aitype_generator);
   } else if (is_reset(start)) {
-    matches = completion_matches(text, reset_generator);
+    matches = rl_completion_matches(text, reset_generator);
   } else if (is_vote(start)) {
-    matches = completion_matches(text, vote_generator);
+    matches = rl_completion_matches(text, vote_generator);
   } else if (is_delegate_arg1(start)) {
-    matches = completion_matches(text, delegate_generator);
+    matches = rl_completion_matches(text, delegate_generator);
   } else if (is_mapimg(start)) {
-    matches = completion_matches(text, mapimg_generator);
+    matches = rl_completion_matches(text, mapimg_generator);
   } else if (is_fcdb(start)) {
-    matches = completion_matches(text, fcdb_generator);
+    matches = rl_completion_matches(text, fcdb_generator);
   } else if (is_lua(start)) {
-    matches = completion_matches(text, lua_generator);
+    matches = rl_completion_matches(text, lua_generator);
   } else {
     /* We have no idea what to do */
     matches = NULL;
