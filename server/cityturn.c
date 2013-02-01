@@ -1175,6 +1175,22 @@ static bool worklist_change_build_target(struct player *pplayer,
                                         API_TYPE_CITY, pcity,
                                         API_TYPE_STRING, "need_nation");
 	      break;
+	    case VUT_NATIONALITY:
+	      /* FIXME: we should skip rather than postpone, since we'll
+	       * unlikely to ever be able to meet this req... */
+              notify_player(pplayer, city_tile(pcity),
+                            E_CITY_CANTBUILD, ftc_server,
+                            /* TRANS: Latter %s is citizen nationality */
+                            _("%s can't build %s from the worklist; "
+                              "only city with %s may build this.  Postponing..."),
+                            city_link(pcity),
+                            city_improvement_name_translation(pcity, ptarget),
+                            nation_plural_translation(preq->source.value.nationality));
+              script_server_signal_emit("building_cant_be_built", 3,
+                                        API_TYPE_BUILDING_TYPE, ptarget,
+                                        API_TYPE_CITY, pcity,
+                                        API_TYPE_STRING, "need_nationality");
+	      break;
 	    case VUT_MINSIZE:
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,

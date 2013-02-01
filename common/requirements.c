@@ -21,6 +21,7 @@
 #include "support.h"
 
 /* common */
+#include "citizens.h"
 #include "government.h"
 #include "improvement.h"
 #include "map.h"
@@ -96,6 +97,12 @@ struct universal universal_by_rule_name(const char *kind,
   case VUT_NATION:
     source.value.nation = nation_by_rule_name(value);
     if (source.value.nation != NO_NATION_SELECTED) {
+      return source;
+    }
+    break;
+  case VUT_NATIONALITY:
+    source.value.nationality = nation_by_rule_name(value);
+    if (source.value.nationality != NO_NATION_SELECTED) {
       return source;
     }
     break;
@@ -248,6 +255,12 @@ struct universal universal_by_number(const enum universals_n kind,
       return source;
     }
     break;
+  case VUT_NATIONALITY:
+    source.value.nationality = nation_by_number(value);
+    if (source.value.nationality != NULL) {
+      return source;
+    }
+    break;
   case VUT_UTYPE:
     source.value.utype = utype_by_number(value);
     if (source.value.utype != NULL) {
@@ -340,6 +353,8 @@ int universal_number(const struct universal *source)
     return resource_number(source->value.resource);
   case VUT_NATION:
     return nation_number(source->value.nation);
+  case VUT_NATIONALITY:
+    return nation_number(source->value.nationality);
   case VUT_UTYPE:
     return utype_number(source->value.utype);
   case VUT_UTFLAG:
@@ -421,6 +436,7 @@ struct requirement req_from_str(const char *type, const char *range,
       req.range = REQ_RANGE_LOCAL;
       break;
     case VUT_MINSIZE:
+    case VUT_NATIONALITY:
       req.range = REQ_RANGE_CITY;
       break;
     case VUT_GOVERNMENT:
@@ -466,6 +482,7 @@ struct requirement req_from_str(const char *type, const char *range,
 		   && !is_wonder(req.source.value.building)));
     break;
   case VUT_MINSIZE:
+  case VUT_NATIONALITY:
     invalid = (req.range != REQ_RANGE_CITY);
     break;
   case VUT_NATION:
@@ -1039,6 +1056,40 @@ static bool is_nation_in_range(const struct player *target_player,
 }
 
 /****************************************************************************
+  Is there a nationality within range of the target?
+****************************************************************************/
+static bool is_nationality_in_range(const struct city *target_city,
+                                    enum req_range range,
+                                    const struct nation_type *nationality,
+                                    enum req_problem_type prob_type)
+{
+  switch (range) {
+  case REQ_RANGE_CITY:
+   if (target_city == NULL) {
+     return prob_type == RPT_POSSIBLE;
+   }
+   citizens_iterate(target_city, slot, count) {
+     if (player_slot_get_player(slot)->nation == nationality) {
+       return TRUE;
+     }
+   } citizens_iterate_end;
+
+   return FALSE;
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_WORLD:
+  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_CADJACENT:
+  case REQ_RANGE_ADJACENT:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_COUNT:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  return FALSE;
+}
+
+/****************************************************************************
   Is there a unit of the given type within range of the target?
 ****************************************************************************/
 static bool is_unittype_in_range(const struct unit_type *target_unittype,
@@ -1265,6 +1316,10 @@ bool is_req_active(const struct player *target_player,
     eval = is_nation_in_range(target_player, req->range, req->survives,
                               req->source.value.nation, prob_type);
     break;
+  case VUT_NATIONALITY:
+    eval = is_nationality_in_range(target_city, req->range,
+                                   req->source.value.nationality, prob_type);
+    break;
   case VUT_UTYPE:
     if (target_unittype == NULL) {
       eval = (prob_type == RPT_POSSIBLE);
@@ -1439,6 +1494,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_GOVERNMENT:
   case VUT_IMPROVEMENT:
   case VUT_MINSIZE:
+  case VUT_NATIONALITY:
   case VUT_UTYPE:	/* Not sure about this one */
   case VUT_UTFLAG:	/* Not sure about this one */
   case VUT_UCLASS:	/* Not sure about this one */
@@ -1496,6 +1552,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.resource == psource2->value.resource;
   case VUT_NATION:
     return psource1->value.nation == psource2->value.nation;
+  case VUT_NATIONALITY:
+    return psource1->value.nationality == psource2->value.nationality;
   case VUT_UTYPE:
     return psource1->value.utype == psource2->value.utype;
   case VUT_UTFLAG:
@@ -1569,6 +1627,8 @@ const char *universal_rule_name(const struct universal *psource)
     return resource_rule_name(psource->value.resource);
   case VUT_NATION:
     return nation_rule_name(psource->value.nation);
+  case VUT_NATIONALITY:
+    return nation_rule_name(psource->value.nationality);
   case VUT_UTYPE:
     return utype_rule_name(psource->value.utype);
   case VUT_UTFLAG:
@@ -1638,6 +1698,10 @@ const char *universal_name_translation(const struct universal *psource,
     return buf;
   case VUT_NATION:
     fc_strlcat(buf, nation_adjective_translation(psource->value.nation),
+               bufsz);
+    return buf;
+  case VUT_NATIONALITY:
+    fc_strlcat(buf, nation_adjective_translation(psource->value.nationality),
                bufsz);
     return buf;
   case VUT_UTYPE:

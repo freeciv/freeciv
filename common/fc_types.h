@@ -249,6 +249,7 @@ typedef union {
   struct government *govern;
   struct impr_type *building;
   struct nation_type *nation;
+  struct nation_type *nationality;
   struct specialist *specialist;
   struct terrain *terrain;
   struct unit_class *uclass;
@@ -324,6 +325,8 @@ typedef union {
 #define SPECENUM_VALUE21NAME "Resource"
 #define SPECENUM_VALUE22 VUT_TERRFLAG
 #define SPECENUM_VALUE22NAME "TerrainFlag"
+#define SPECENUM_VALUE23 VUT_NATIONALITY
+#define SPECENUM_VALUE23NAME "Nationality"
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"
 

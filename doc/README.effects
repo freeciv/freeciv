@@ -59,6 +59,7 @@ UnitFlag:      Local
 UnitClass:     Local
 UnitClassFlag: Local
 Nation:        World, Player
+Nationality:   City
 OutputType:    Local
 MinYear:       World
 MinSize:       City

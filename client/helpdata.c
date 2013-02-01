@@ -508,6 +508,24 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     break;
 
+  case VUT_NATIONALITY:
+    switch (preq->range) {
+    case REQ_RANGE_CITY:
+      cat_snprintf(buf, bufsz, _("Requires %s citizen in city.\n"),
+                   nation_adjective_translation(preq->source.value.nationality));
+      return TRUE;
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_UTYPE:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
