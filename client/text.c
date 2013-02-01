@@ -562,8 +562,10 @@ const char *get_nearest_city_text(struct city *pcity, int sq_dist)
 const char *unit_description(struct unit *punit)
 {
   int pcity_near_dist;
+  struct player *owner = unit_owner(punit);
+  struct player *nationality = unit_nationality(punit);
   struct city *pcity =
-      player_city_by_number(unit_owner(punit), punit->homecity);
+      player_city_by_number(owner, punit->homecity);
   struct city *pcity_near = get_nearest_city(punit, &pcity_near_dist);
   struct unit_type *ptype = unit_type(punit);
   static struct astring str = ASTRING_INIT;
@@ -581,7 +583,7 @@ const char *unit_description(struct unit *punit)
     }
   }
 
-  if (pplayer == unit_owner(punit)) {
+  if (pplayer == owner) {
     unit_upkeep_astr(punit, &str);
   }
   astr_add(&str, "\n");
@@ -592,6 +594,14 @@ const char *unit_description(struct unit *punit)
     astr_add_line(&str, _("from %s"), city_name(pcity));
   } else {
     astr_add(&str, "\n");
+  }
+  if (game.info.citizen_nationality) {
+    if (nationality != NULL && owner != nationality) {
+      /* TRANS: Nationality of the soldiers in unit, can be different from owner. */
+      astr_add(&str, _("%s people"), nation_adjective_for_player(nationality));
+    } else {
+      astr_add(&str, "\n");
+    }
   }
 
   astr_add_line(&str, "%s",
@@ -1117,10 +1127,11 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
     astr_add_line(&str, _("No units selected."));
   }
 
-  /* Lines 2, 3, and 4 vary. */
+  /* Lines 2, 3, 4, and possible 5 vary. */
   if (count == 1) {
     struct unit *punit = unit_list_get(punits, 0);
-    struct city *pcity = player_city_by_number(unit_owner(punit),
+    struct player *owner = unit_owner(punit);
+    struct city *pcity = player_city_by_number(owner,
                                                punit->homecity);
 
     astr_add_line(&str, "%s", tile_get_info_text(unit_tile(punit),
@@ -1141,6 +1152,18 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
     } else {
       astr_add_line(&str, " ");
     }
+
+    if (game.info.citizen_nationality) {
+      struct player *nationality = unit_nationality(punit);
+
+      /* Line 5, nationality text */
+      if (nationality != NULL && owner != nationality) {
+        astr_add(&str, _("%s people"), nation_adjective_for_player(nationality));
+      } else {
+        astr_add(&str, " ");
+      }
+    }
+
   } else if (count > 1) {
     int mil = 0, nonmil = 0;
     int types_count[U_LAST], i;
@@ -1204,13 +1227,21 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
     } else {
       astr_add_line(&str, " ");
     }
+
+    if (game.info.citizen_nationality) {
+      astr_add_line(&str, " ");
+    }
   } else {
     astr_add_line(&str, " ");
     astr_add_line(&str, " ");
     astr_add_line(&str, " ");
+
+    if (game.info.citizen_nationality) {
+      astr_add_line(&str, " ");
+    }
   }
 
-  /* Line 5. Debug text. */
+  /* Line 5/6. Debug text. */
 #ifdef DEBUG
   if (count == 1) {
     astr_add_line(&str, "(Unit ID %d)", unit_list_get(punits, 0)->id);

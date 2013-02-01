@@ -263,6 +263,7 @@ unpackage_short_unit(const struct packet_unit_short_info *packet)
   punit->id = packet->id;
   unit_tile_set(punit, index_to_tile(packet->tile));
   punit->facing = packet->facing;
+  punit->nationality = NULL;
   punit->veteran = packet->veteran;
   punit->hp = packet->hp;
   punit->activity = packet->activity;
