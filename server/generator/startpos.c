@@ -110,10 +110,12 @@ struct start_filter_data {
 };
 
 /****************************************************************************
-  Count number of reachable native tiles. Initially given tile is assumed
-  to be native (not checked by this function)
+  Check if number of reachable native tiles is sufficient.
+  Initially given tile is assumed to be native (not checked by this function)
 ****************************************************************************/
-static int count_native_area(const struct unit_type *utype, const struct tile *ptile)
+static bool check_native_area(const struct unit_type *utype,
+                              const struct tile *ptile,
+                              int min_area)
 {
   int tiles = 1; /* There's the central tile already. */
   struct tile_list *tlist = tile_list_new();
@@ -124,7 +126,7 @@ static int count_native_area(const struct unit_type *utype, const struct tile *p
 
   tile_list_append(tlist, central);
 
-  while (tile_list_size(tlist) > 0) {
+  while (tile_list_size(tlist) > 0 && tiles < min_area) {
     tile_list_iterate(tlist, ptile2) {
       adjc_iterate(ptile2, ptile3) {
         int idx = tile_index(ptile3);
@@ -132,10 +134,19 @@ static int count_native_area(const struct unit_type *utype, const struct tile *p
           tiles++;
           tile_list_append(tlist, ptile3);
           dbv_set(&handled, idx);
+          if (tiles >= min_area) {
+            /* Break out when we already know that area is sufficient. */
+            break;
+          }
         }
       } adjc_iterate_end;
 
       tile_list_remove(tlist, ptile2);
+
+      if (tiles >= min_area) {
+        /* Break out when we already know that area is sufficient. */
+        break;
+      }
     } tile_list_iterate_end;
   }
 
@@ -145,7 +156,7 @@ static int count_native_area(const struct unit_type *utype, const struct tile *p
 
   tile_virtual_destroy(central);
 
-  return tiles;
+  return tiles >= min_area;
 }
 
 /****************************************************************************
@@ -185,12 +196,10 @@ static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
     return FALSE;
   }
 
-  if (terrain_control.min_start_native_area > 0) {
-    /* There's minimum native area size set. */
-    if (count_native_area(pdata->initial_unit, ptile)
-        < terrain_control.min_start_native_area) {
-      return FALSE;
-    }
+  /* Check native area size. */
+  if (!check_native_area(pdata->initial_unit, ptile,
+                         terrain_control.min_start_native_area)) {
+    return FALSE;
   }
 
   if (game.server.start_city && terrain_has_flag(tile_terrain(ptile), TER_NO_CITIES)) {
