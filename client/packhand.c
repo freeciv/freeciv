@@ -3230,6 +3230,7 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   sz_strlcpy(proad->act_gfx_alt, p->act_gfx_alt);
 
   proad->move_cost = p->move_cost;
+  proad->move_mode = p->move_mode;
   proad->build_time = p->build_time;
   proad->buildable = p->buildable;
   proad->pillageable = p->pillageable;

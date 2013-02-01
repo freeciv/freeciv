@@ -32,6 +32,17 @@ extern "C" {
 #define SPECENUM_COUNT RF_COUNT
 #include "specenum_gen.h"
 
+#define SPECENUM_NAME road_move_mode
+#define SPECENUM_VALUE0 RMM_NO_BONUS
+#define SPECENUM_VALUE0NAME "NoBonus"
+#define SPECENUM_VALUE1 RMM_CARDINAL
+#define SPECENUM_VALUE1NAME "Cardinal"
+#define SPECENUM_VALUE2 RMM_RELAXED
+#define SPECENUM_VALUE2NAME "Relaxed"
+#define SPECENUM_VALUE3 RMM_FAST_ALWAYS
+#define SPECENUM_VALUE3NAME "FastAlways"
+#include "specenum_gen.h"
+
 BV_DEFINE(bv_road_flags, RF_COUNT);
 
 struct road_type;
@@ -55,6 +66,7 @@ struct road_type {
   char act_gfx_alt[MAX_LEN_NAME];
 
   int move_cost;
+  enum road_move_mode move_mode;
   int build_time;
   bool buildable;
   bool pillageable;

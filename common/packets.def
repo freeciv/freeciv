@@ -230,6 +230,7 @@ type FTM                = uint8(enum free_tech_method)
 type UTYF               = uint8(enum unit_type_flag_id)
 type CBONUS_TYPE        = uint8(enum combat_bonus_type)
 type TRI                = uint8(enum traderoute_illegal_cancelling)
+type MOVE_MODE          = uint8(enum road_move_mode)
 
 # typedefs for bit vectors
 type BV_BASE_FLAGS      = bitvector(bv_base_flags)
@@ -1468,6 +1469,7 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   STRING activity_gfx[MAX_LEN_NAME];
   STRING act_gfx_alt[MAX_LEN_NAME];
   UINT8 move_cost;
+  MOVE_MODE move_mode;
   UINT8 build_time;
   BOOL buildable;
   BOOL pillageable;

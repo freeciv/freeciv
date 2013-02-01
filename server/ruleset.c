@@ -2449,6 +2449,7 @@ static void load_ruleset_terrain(struct section_file *file)
     const char **slist;
     struct requirement_vector *reqs;
     const char *special;
+    const char *modestr;
 
     sz_strlcpy(proad->graphic_str,
                secfile_lookup_str_default(file, "-", "%s.graphic", section));
@@ -2466,6 +2467,14 @@ static void load_ruleset_terrain(struct section_file *file)
                             "%s.move_cost", section)) {
       ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
     }
+
+    modestr = secfile_lookup_str_default(file, "FastAlways", "%s.move_mode", section);
+    proad->move_mode = road_move_mode_by_name(modestr, fc_strcasecmp);
+    if (!road_move_mode_is_valid(proad->move_mode)) {
+      ruleset_error(LOG_FATAL, "Illegal move_type \"%s\" for road \"%s\"",
+                    modestr, road_rule_name(proad));
+    }
+
     proad->build_time = secfile_lookup_int_default(file, 0, "%s.build_time", section);
 
     proad->buildable = secfile_lookup_bool_default(file, TRUE,
@@ -4410,6 +4419,7 @@ static void send_ruleset_roads(struct conn_list *dest)
     sz_strlcpy(packet.act_gfx_alt, r->act_gfx_alt);
 
     packet.move_cost = r->move_cost;
+    packet.move_mode = r->move_mode;
     packet.build_time = r->build_time;
     packet.buildable = r->buildable;
     packet.pillageable = r->pillageable;

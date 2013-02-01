@@ -738,7 +738,6 @@ static int tile_move_cost_ptrs(const struct unit *punit,
                                const struct player *pplayer,
 			       const struct tile *t1, const struct tile *t2)
 {
-  bool cardinal_move;
   struct unit_class *pclass = NULL;
   bool native = TRUE;
   int road_cost = -1;
@@ -771,13 +770,33 @@ static int tile_move_cost_ptrs(const struct unit *punit,
    * leaving ships, so UTYF_IGTER check has to be before native terrain
    * check. We want to give railroad bonus only to native units. */
   if (!restrict_infra(pplayer, t1, t2)) {
+    bool cardinal_move = is_move_cardinal(t1, t2);
+
     road_type_iterate(proad) {
-      if ((!punit || is_native_road_to_uclass(proad, pclass))
-          && tile_has_road(t1, proad) && tile_has_road(t2, proad)) {
-        if (!road_has_flag(proad, RF_CARDINAL_ONLY)
-            || is_move_cardinal(t1, t2)) {
+      if (proad->move_mode != RMM_NO_BONUS) {
+        if ((!punit || is_native_road_to_uclass(proad, pclass))
+            && tile_has_road(t1, proad) && tile_has_road(t2, proad)) {
           if (road_cost == -1 || road_cost > proad->move_cost) {
-            road_cost = proad->move_cost;
+            switch (proad->move_mode) {
+            case RMM_CARDINAL:
+              if (cardinal_move) {
+                road_cost = proad->move_cost;
+              }
+              break;
+            case RMM_RELAXED:
+              if (cardinal_move) {
+                road_cost = proad->move_cost;
+              } else {
+                road_cost = proad->move_cost * 2;
+              }
+              break;
+            case RMM_FAST_ALWAYS:
+              road_cost = proad->move_cost;
+              break;
+            case RMM_NO_BONUS:
+              fc_assert(proad->move_mode != RMM_NO_BONUS);
+              break;
+            }
           }
         }
       }
@@ -797,7 +816,7 @@ static int tile_move_cost_ptrs(const struct unit *punit,
   }
 
   if (tile_has_special(t1, S_RIVER) && tile_has_special(t2, S_RIVER)) {
-    cardinal_move = is_move_cardinal(t1, t2);
+    bool cardinal_move = is_move_cardinal(t1, t2);
     switch (terrain_control.river_move_mode) {
     case RMV_NORMAL:
       break;

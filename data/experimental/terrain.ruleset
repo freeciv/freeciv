@@ -1067,6 +1067,11 @@ They have no effect on gameplay.\
 ; move_cost               = how much movement it takes to to travel
 ;                           via this road. Value of 3 indicates full
 ;                           movement point.
+; move_mode               = how movement costs are applied
+;   - "NoBonus"    = Road gives no movement bonuses
+;   - "Cardinal"   = Road cost applies only on cardinal moves
+;   - "Relaxed"    = Road cost is normal for cardinal, double for diagonal moves
+;   - "FastAlways" = Road cost applies always between two tiles with the roads (default)
 ; build_time              = how many movement points it takes to build this road. Value of
 ;                           0 means that terrain specific value is used instead.
 ; buildable               = Can road be built? Defaults to true
