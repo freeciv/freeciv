@@ -1102,7 +1102,7 @@ static int improvement_effect_value(struct player *pplayer,
   int trait;
 
   switch (peffect->type) {
-  /* These (Wonder) effects have already been evaluated in base_want() */
+  /* These effects have already been evaluated in base_want() */
   case EFT_CAPITAL_CITY:
   case EFT_GOV_CENTER:
   case EFT_UPKEEP_FREE:
@@ -1118,6 +1118,7 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_OUTPUT_WASTE_BY_DISTANCE:
   case EFT_OUTPUT_WASTE_PCT:
   case EFT_SPECIALIST_OUTPUT:
+  case EFT_ENEMY_CITIZEN_UNHAPPY_DIV:
     break;
 
   case EFT_CITY_VISION_RADIUS_SQ:

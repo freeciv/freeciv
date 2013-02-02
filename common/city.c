@@ -2286,6 +2286,43 @@ static inline void citizen_content_buildings(struct city *pcity)
 }
 
 /**************************************************************************
+  Apply effects of citizen nationality to happiness
+**************************************************************************/
+static inline void citizen_happiness_nationality(struct city *pcity)
+{
+  citizens *content = &pcity->feel[CITIZEN_CONTENT][FEELING_NATIONALITY];
+  citizens *unhappy = &pcity->feel[CITIZEN_UNHAPPY][FEELING_NATIONALITY];
+
+  if (game.info.citizen_nationality) {
+    int divider = get_city_bonus(pcity, EFT_ENEMY_CITIZEN_UNHAPPY_DIV);
+
+    if (divider > 0) {
+      int enemies = 0;
+      int unhappy_inc;
+      struct player *owner = city_owner(pcity);
+
+      citizens_foreign_iterate(pcity, pslot, nationality) {
+        if (pplayers_at_war(owner, player_slot_get_player(pslot))) {
+          enemies += nationality;
+        }
+      } citizens_foreign_iterate_end;
+
+      unhappy_inc = enemies/divider;
+
+      if (unhappy_inc <= *content) {
+        (*content) -= unhappy_inc;
+        (*unhappy) += unhappy_inc;
+        unhappy_inc = 0;
+      } else {
+        (*unhappy) += unhappy_inc;
+        unhappy_inc -= *content;
+        (*content) = 0;
+      }
+    }
+  }
+}
+
+/**************************************************************************
   Make citizens happy/unhappy due to units.
 
   This function requires that pcity->martial_law and
@@ -2778,6 +2815,9 @@ void city_refresh_from_main_map(struct city *pcity, bool *workers_map)
 
   happy_copy(pcity, FEELING_EFFECT);
   citizen_content_buildings(pcity);
+
+  happy_copy(pcity, FEELING_NATIONALITY);
+  citizen_happiness_nationality(pcity);
 
   /* Martial law & unrest from units */
   happy_copy(pcity, FEELING_MARTIAL);

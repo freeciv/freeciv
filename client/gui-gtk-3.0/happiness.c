@@ -45,9 +45,9 @@
 #define	PIXCOMM_WIDTH	(HAPPINESS_PIX_WIDTH * tileset_small_sprite_width(tileset))
 #define	PIXCOMM_HEIGHT	(tileset_small_sprite_height(tileset))
 
-#define NUM_HAPPINESS_MODIFIERS 5
+#define NUM_HAPPINESS_MODIFIERS 6
 
-enum { CITIES, LUXURIES, BUILDINGS, UNITS, WONDERS };
+enum { CITIES, LUXURIES, BUILDINGS, NATIONALITY, UNITS, WONDERS };
 
 struct happiness_dialog {
   struct city *pcity;
@@ -193,6 +193,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
     N_("Cities:"),
     N_("Luxuries:"),
     N_("Buildings:"),
+    N_("Nationality:"),
     N_("Units:"),
     N_("Wonders:"),
   };

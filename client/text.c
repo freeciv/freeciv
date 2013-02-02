@@ -27,6 +27,7 @@
 #include "support.h"
 
 /* common */
+#include "citizens.h"
 #include "combat.h"
 #include "fc_types.h" /* LINE_BREAK */
 #include "game.h"
@@ -1704,6 +1705,44 @@ const char *text_happiness_buildings(const struct city *pcity)
 
   /* Add line breaks after 80 characters. */
   astr_break_lines(&str, 80);
+
+  return astr_str(&str);
+}
+
+/****************************************************************************
+  Describing nationality effects that affect happiness.
+****************************************************************************/
+const char *text_happiness_nationality(const struct city *pcity)
+{
+  static struct astring str = ASTRING_INIT;
+  int enemies = 0;
+
+  astr_clear(&str);
+
+  astr_add_line(&str, _("Nationality: "));
+
+  if (game.info.citizen_nationality) {
+    if (get_city_bonus(pcity, EFT_ENEMY_CITIZEN_UNHAPPY_DIV) > 0) {
+      struct player *owner = city_owner(pcity);
+
+      citizens_foreign_iterate(pcity, pslot, nationality) {
+        if (pplayers_at_war(owner, player_slot_get_player(pslot))) {
+          enemies += nationality;
+        }
+      } citizens_foreign_iterate_end;
+
+      if (enemies > 0) {
+        astr_add(&str, PL_("%d enemy nationalist", "%d enemy nationalists", enemies),
+                 enemies);
+      }
+    }
+
+    if (enemies == 0) {
+      astr_add(&str, _("None. "));
+    }
+  } else {
+    astr_add(&str, _("Disabled. "));
+  }
 
   return astr_str(&str);
 }

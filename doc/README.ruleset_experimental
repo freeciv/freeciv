@@ -84,6 +84,11 @@ this file.
   hidden by default in the Gtk client, so when the game starts you can
   only see a few techs; you can see the rest with the "Show all" button.
 
+- Citizens of the nationality city owner is in war with are extra unhappy.
+  Under most governments all such citizens, under Communism
+  and Republic one in every two citizens, and under Democracy one in
+  every three citizen is unhappy because of the war against their homeland.
+
 
 2. Use the new ruleset
    -------------------

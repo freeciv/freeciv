@@ -56,6 +56,7 @@ const char *get_score_text(const struct player *pplayer);
 const char *get_report_title(const char *report_name);
 
 const char *text_happiness_buildings(const struct city *pcity);
+const char *text_happiness_nationality(const struct city *pcity);
 const char *text_happiness_cities(const struct city *pcity);
 const char *text_happiness_luxuries(const struct city *pcity);
 const char *text_happiness_units(const struct city *pcity);

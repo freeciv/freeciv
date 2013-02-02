@@ -45,9 +45,9 @@
 #define	PIXCOMM_WIDTH	(HAPPINESS_PIX_WIDTH * tileset_small_sprite_width(tileset))
 #define	PIXCOMM_HEIGHT	(tileset_small_sprite_height(tileset))
 
-#define NUM_HAPPINESS_MODIFIERS 5
+#define NUM_HAPPINESS_MODIFIERS 6
 
-enum { CITIES, LUXURIES, BUILDINGS, UNITS, WONDERS };
+enum { CITIES, LUXURIES, BUILDINGS, NATIONALITY, UNITS, WONDERS };
 
 struct happiness_dialog {
   struct city *pcity;
@@ -131,6 +131,9 @@ static gboolean show_happiness_popup(GtkWidget *w,
     case BUILDINGS:
       sz_strlcpy(buf, text_happiness_buildings(pdialog->pcity));
       break;
+    case NATIONALITY:
+      sz_strlcpy(buf, text_happiness_nationality(pdialog->pcity));
+      break;
     case UNITS:
       sz_strlcpy(buf, text_happiness_units(pdialog->pcity));
       break;
@@ -192,6 +195,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
     N_("Cities:"),
     N_("Luxuries:"),
     N_("Buildings:"),
+    N_("Nationality:"),
     N_("Units:"),
     N_("Wonders:"),
   };

@@ -253,6 +253,7 @@ enum citizen_feeling {
   FEELING_BASE,		/* before any of the modifiers below */
   FEELING_LUXURY,	/* after luxury */
   FEELING_EFFECT,	/* after building effects */
+  FEELING_NATIONALITY,  /* after citizen nationality effects */
   FEELING_MARTIAL,	/* after units enforce martial order */
   FEELING_FINAL,	/* after wonders (final result) */
   FEELING_LAST
