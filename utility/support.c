@@ -294,10 +294,13 @@ int fc_strcoll(const char *str0, const char *str1)
 ****************************************************************************/
 int fc_stricoll(const char *str0, const char *str1)
 {
-#if defined(ENABLE_NLS) && defined(HAVE_STRICOLL)
-  return stricoll(str0, str1);
-#elif defined(ENABLE_NLS) && defined(HAVE__STRICOLL)
+  /* We prefer _stricoll() over stricoll() since
+   * latter is not declared in MinGW headers causing compiler
+   * warning, preventing -Werror builds. */
+#if defined(ENABLE_NLS) && defined(HAVE__STRICOLL)
   return _stricoll(str0, str1);
+#elif defined(ENABLE_NLS) && defined(HAVE_STRICOLL)
+  return stricoll(str0, str1);
 #elif defined(ENABLE_NLS) && defined(HAVE_STRCASECOLL)
   return strcasecoll(str0, str1);
 #else
