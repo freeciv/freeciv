@@ -4907,17 +4907,23 @@ static bool load_rulesetdir(const char *rsdir)
 /**************************************************************************
   Reload the game settings saved in the ruleset file.
 **************************************************************************/
-void reload_rulesets_settings(void)
+bool reload_rulesets_settings(void)
 {
   struct section_file *file;
+  bool ok = TRUE;
 
   file = openload_ruleset_file("game", game.server.rulesetdir);
   if (file == NULL) {
-    ruleset_error(LOG_FATAL, "Could not load game.ruleset:\n%s",
+    ruleset_error(LOG_ERROR, "Could not load game.ruleset:\n%s",
                   secfile_error());
+    ok = FALSE;
   }
-  settings_ruleset(file, "settings");
-  secfile_destroy(file);
+  if (ok) {
+    settings_ruleset(file, "settings");
+    secfile_destroy(file);
+  }
+
+  return ok;
 }
 
 /**************************************************************************

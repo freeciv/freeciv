@@ -17,7 +17,7 @@ struct conn_list;
 
 /* functions */
 bool load_rulesets(const char *restore);
-void reload_rulesets_settings(void);
+bool reload_rulesets_settings(void);
 void send_rulesets(struct conn_list *dest);
 
 void ruleset_error_real(const char *file, const char *function,
