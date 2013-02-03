@@ -888,12 +888,13 @@ void handle_edit_city_create(struct connection *pc, int owner, int tile,
   conn_list_do_buffer(game.est_connections);
 
   map_show_tile(pplayer, ptile);
-  create_city(pplayer, ptile, city_name_suggestion(pplayer, ptile));
+  create_city(pplayer, ptile, city_name_suggestion(pplayer, ptile),
+              pplayer);
   pcity = tile_city(ptile);
 
   if (size > 1) {
     /* FIXME: Slow and inefficient for large size changes. */
-    city_change_size(pcity, CLIP(1, size, MAX_CITY_SIZE));
+    city_change_size(pcity, CLIP(1, size, MAX_CITY_SIZE), pplayer);
     send_city_info(NULL, pcity);
   }
 
@@ -951,7 +952,7 @@ void handle_edit_city(struct connection *pc,
                   packet->size, city_link(pcity));
     } else {
       /* FIXME: Slow and inefficient for large size changes. */
-      city_change_size(pcity, packet->size);
+      city_change_size(pcity, packet->size, NULL);
       changed = TRUE;
     }
   }

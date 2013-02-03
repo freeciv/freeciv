@@ -78,7 +78,7 @@ static struct city_list *city_refresh_queue = NULL;
 
 
 static void check_pollution(struct city *pcity);
-static void city_populate(struct city *pcity);
+static void city_populate(struct city *pcity, struct player *nationality);
 
 static bool worklist_change_build_target(struct player *pplayer,
 					 struct city *pcity);
@@ -696,7 +696,7 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
   }
 
   /* Update citizens. */
-  citizens_update(pcity);
+  citizens_update(pcity, NULL);
 
   /* Update number of people in each feelings category.
    * This also updates the city radius if needed. */
@@ -765,7 +765,7 @@ static int granary_savings(const struct city *pcity)
   the city to the clients as part of this function. There might be several
   calls to this function at once, and those actions are needed only once.
 **************************************************************************/
-static bool city_increase_size(struct city *pcity)
+static bool city_increase_size(struct city *pcity, struct player *nationality)
 {
   int new_food;
   int savings_pct = granary_savings(pcity);
@@ -831,7 +831,7 @@ static bool city_increase_size(struct city *pcity)
   }
 
   /* Update citizens. */
-  citizens_update(pcity);
+  citizens_update(pcity, nationality);
 
   /* Refresh the city data; this also checks the squared city radius. */
   city_refresh(pcity);
@@ -865,13 +865,17 @@ static bool city_increase_size(struct city *pcity)
 /****************************************************************************
   Change the city size.  Return TRUE iff the city is still alive afterwards.
 ****************************************************************************/
-bool city_change_size(struct city *pcity, citizens size)
+bool city_change_size(struct city *pcity, citizens size,
+                      struct player *nationality)
 {
   fc_assert_ret_val(size >= 0 && size <= MAX_CITY_SIZE, TRUE);
 
   if (size > city_size_get(pcity)) {
     /* Increase city size until size reached, or increase fails */
-    while (size > city_size_get(pcity) && city_increase_size(pcity)) ;
+    while (size > city_size_get(pcity)
+           && city_increase_size(pcity, nationality)) {
+      /* city_increase_size() does all the work. */
+    }
   } else if (size < city_size_get(pcity)) {
     /* We assume that city_change_size() is never called because
      * of enemy actions. If that changes, enemy must be passed
@@ -888,14 +892,14 @@ bool city_change_size(struct city *pcity, citizens size)
   Check whether the population can be increased or
   if the city is unable to support a 'settler'...
 **************************************************************************/
-static void city_populate(struct city *pcity)
+static void city_populate(struct city *pcity, struct player *nationality)
 {
   int saved_id = pcity->id;
 
   pcity->food_stock += pcity->surplus[O_FOOD];
   if (pcity->food_stock >= city_granary_size(city_size_get(pcity)) 
      || city_rapture_grow(pcity)) {
-    city_increase_size(pcity);
+    city_increase_size(pcity, nationality);
     map_claim_border(pcity->tile, pcity->owner);
   } else if (pcity->food_stock < 0) {
     /* FIXME: should this depend on units with ability to build
@@ -2353,7 +2357,7 @@ static void update_city_activity(struct city *pcity)
 
     /* City population updated here, after the rapture stuff above. --Jing */
     saved_id = pcity->id;
-    city_populate(pcity);
+    city_populate(pcity, pplayer);
     if (NULL == player_city_by_number(pplayer, saved_id)) {
       return;
     }
@@ -2810,12 +2814,7 @@ static bool do_city_migration(struct city *pcity_from,
   }
 
   /* raise size of receiver city */
-  if (game.info.citizen_nationality == TRUE) {
-    /* Add one citizens; this must be followed by city_increase_size(). */
-    fc_assert_ret_val(pplayer_citizen != NULL, FALSE);
-    citizens_nation_add(pcity_to, pplayer_citizen->slot, 1);
-  }
-  city_increase_size(pcity_to);
+  city_increase_size(pcity_to, pplayer_citizen);
   city_refresh_vision(pcity_to);
   if (city_refresh(pcity_to)) {
     auto_arrange_workers(pcity_to);

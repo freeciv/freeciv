@@ -1241,7 +1241,7 @@ void city_build_free_buildings(struct city *pcity)
   Creates real city.
 **************************************************************************/
 void create_city(struct player *pplayer, struct tile *ptile,
-                 const char *name)
+                 const char *name, struct player *nationality)
 {
   struct player *saved_owner = tile_owner(ptile);
   struct tile *saved_claimer = tile_claimer(ptile);
@@ -1291,7 +1291,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   }
 
   /* Update citizens. */
-  citizens_update(pcity);
+  citizens_update(pcity, nationality);
 
   /* Claim the ground we stand on */
   tile_set_owner(ptile, saved_owner, saved_claimer);

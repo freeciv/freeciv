@@ -391,7 +391,8 @@ void init_new_game(void)
 
     /* Place first city */
     if (game.server.start_city) {
-      create_city(pplayer, ptile, city_name_suggestion(pplayer, ptile));
+      create_city(pplayer, ptile, city_name_suggestion(pplayer, ptile),
+                  NULL);
     }
 
     /* Place the first unit. */

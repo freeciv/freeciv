@@ -4434,7 +4434,7 @@ static void sg_load_player_city_citizens(struct loaddata *loading,
       log_sg("City size and number of citizens does not match in %s "
              "(%d != %d)! Repairing ...", city_name(pcity),
              city_size_get(pcity), size);
-      citizens_update(pcity);
+      citizens_update(pcity, NULL);
     }
   }
 }

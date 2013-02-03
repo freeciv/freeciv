@@ -47,7 +47,7 @@
                player_name(city_owner(_pcity)), _delta,                      \
                player_name(_pplayer),                                        \
                citizens_nation_get(_pcity, _pplayer->slot));
-void citizens_update(struct city *pcity)
+void citizens_update(struct city *pcity, struct player *plr)
 {
   int delta;
 
@@ -75,9 +75,14 @@ void citizens_update(struct city *pcity)
   }
 
   if (delta > 0) {
-    /* Add new citizens with the nationality of the current owner. */
-    citizens_nation_add(pcity, city_owner(pcity)->slot, delta);
-    log_citizens_add(pcity, delta, city_owner(pcity));
+    if (plr != NULL) {
+      citizens_nation_add(pcity, plr->slot, delta);
+      log_citizens_add(pcity, delta, plr);
+    } else {
+      /* Add new citizens with the nationality of the current owner. */
+      citizens_nation_add(pcity, city_owner(pcity)->slot, delta);
+      log_citizens_add(pcity, delta, city_owner(pcity));
+    }
   } else {
     /* Removed citizens. */
     struct player_slot *city_nations[MAX_NUM_PLAYER_SLOTS];

@@ -194,7 +194,9 @@ void api_edit_create_city(lua_State *L, Player *pplayer, Tile *ptile,
   if (!name || name[0] == '\0') {
     name = city_name_suggestion(pplayer, ptile);
   }
-  create_city(pplayer, ptile, name);
+
+  /* TODO: Allow initial citizen to be of nationality other than owner */
+  create_city(pplayer, ptile, name, pplayer);
 }
 
 /*****************************************************************************

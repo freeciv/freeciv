@@ -634,7 +634,7 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
   city_size_add(pcity, unit_pop_value(punit));
   /* Make the new people something, otherwise city fails the checks */
   pcity->specialists[DEFAULT_SPECIALIST] += unit_pop_value(punit);
-  citizens_update(pcity);
+  citizens_update(pcity, unit_nationality(punit));
   /* Refresh the city data. */
   city_refresh(pcity);
   notify_player(pplayer, city_tile(pcity), E_CITY_BUILD, ftc_server,
@@ -659,6 +659,7 @@ static void city_build(struct player *pplayer, struct unit *punit,
 {
   char message[1024];
   int size;
+  struct player *nationality;
 
   if (!is_allowed_city_name(pplayer, name, message, sizeof(message))) {
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -666,14 +667,16 @@ static void city_build(struct player *pplayer, struct unit *punit,
     return;
   }
 
-  create_city(pplayer, unit_tile(punit), name);
+  nationality = unit_nationality(punit);
+
+  create_city(pplayer, unit_tile(punit), name, nationality);
   size = unit_type(punit)->city_size;
   if (size > 1) {
     struct city *pcity = tile_city(unit_tile(punit));
 
     fc_assert_ret(pcity != NULL);
 
-    city_change_size(pcity, size);
+    city_change_size(pcity, size, nationality);
   }
   wipe_unit(punit, ULR_USED, NULL);
 }
