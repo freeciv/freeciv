@@ -49,16 +49,18 @@ struct fcmp_params fcmp = {
 
 static gboolean quit_dialog_callback(void);
 
-#define ML_COL_NAME  0
-#define ML_COL_VER   1
-#define ML_COL_INST  2
-#define ML_COL_TYPE  3
-#define ML_COL_LIC   4
-#define ML_COL_URL   5
+#define ML_COL_NAME   0
+#define ML_COL_VER    1
+#define ML_COL_INST   2
+#define ML_COL_TYPE   3
+#define ML_COL_LIC    4 
+#define ML_COL_URL    5
 
-#define ML_COL_COUNT 6
+#define ML_COL_COUNT  6
 
-#define ML_TYPE      6
+#define ML_TYPE       6
+#define ML_NOTES      7
+#define ML_STORE_SIZE 8
 
 /****************************************************************
   freeciv-modpack quit
@@ -238,11 +240,44 @@ static void URL_return(GtkEntry *w, gpointer data)
 }
 
 /**************************************************************************
+  Callback for getting main list row tooltip
+**************************************************************************/
+static gboolean query_main_list_tooltip_cb(GtkWidget *widget,
+                                           gint x, gint y,
+                                           gboolean keyboard_tip,
+                                           GtkTooltip *tooltip,
+                                           gpointer data)
+{
+  GtkTreeIter iter;
+  GtkTreeView *tree_view = GTK_TREE_VIEW(widget);
+  GtkTreeModel *model;
+  const char *notes;
+
+  if (!gtk_tree_view_get_tooltip_context(tree_view, &x, &y,
+                                         keyboard_tip,
+                                         &model, NULL, &iter)) {
+    return FALSE;
+  }
+
+  gtk_tree_model_get(model, &iter,
+                     ML_NOTES, &notes,
+                     -1);
+
+  if (notes != NULL) {
+    gtk_tooltip_set_markup(tooltip, notes);
+
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**************************************************************************
   Build main modpack list view
 **************************************************************************/
 static void setup_modpack_list(const char *name, const char *URL,
                                const char *version, const char *license,
-                               enum modpack_type type)
+                               enum modpack_type type, const char *notes)
 {
   GtkTreeIter iter;
   const char *type_str;
@@ -277,6 +312,7 @@ static void setup_modpack_list(const char *name, const char *URL,
                      ML_COL_LIC, lic_str,
                      ML_COL_URL, URL,
                      ML_TYPE, type,
+                     ML_NOTES, notes,
                      -1);
 }
 
@@ -380,11 +416,15 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
 
   gtk_container_add(GTK_CONTAINER(toplevel), mbox);
 
-  main_store = gtk_list_store_new((ML_COL_COUNT + 1), G_TYPE_STRING, G_TYPE_STRING,
+  main_store = gtk_list_store_new((ML_STORE_SIZE), G_TYPE_STRING, G_TYPE_STRING,
                                   G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
-                                  G_TYPE_STRING, G_TYPE_INT);
+                                  G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING);
   errmsg = download_modpack_list(&fcmp, setup_modpack_list, msg_callback);
   gtk_tree_view_set_model(GTK_TREE_VIEW(main_list), GTK_TREE_MODEL(main_store));
+
+  g_object_set(main_list, "has-tooltip", TRUE, NULL);
+  g_signal_connect(main_list, "query-tooltip",
+                   G_CALLBACK(query_main_list_tooltip_cb), NULL);
 
   g_object_unref(main_store);
 

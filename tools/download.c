@@ -291,6 +291,7 @@ const char *download_modpack_list(const struct fcmp_params *fcmp,
     const char *mpver;
     const char *mplic;
     const char *mp_type_str;
+    const char *mp_notes;
 
     mp_name = secfile_lookup_str_default(list_file, NULL,
                                          "modpacks.list%d.name", modpack_count);
@@ -305,6 +306,8 @@ const char *download_modpack_list(const struct fcmp_params *fcmp,
                                              modpack_count);
     mpURL = secfile_lookup_str_default(list_file, NULL,
                                        "modpacks.list%d.URL", modpack_count);
+    mp_notes = secfile_lookup_str_default(list_file, NULL,
+                                          "modpacks.list%d.notes", modpack_count);
 
     if (mp_name != NULL && mpURL != NULL) {
       enum modpack_type type = modpack_type_by_name(mp_type_str, fc_strcasecmp);
@@ -314,7 +317,7 @@ const char *download_modpack_list(const struct fcmp_params *fcmp,
       if (mpver == NULL) {
         mpver = "-";
       }
-      cb(mp_name, mpURL, mpver, mplic, type);
+      cb(mp_name, mpURL, mpver, mplic, type, mp_notes);
     }
     modpack_count++;
   } while (mp_name != NULL);

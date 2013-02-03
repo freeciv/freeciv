@@ -23,7 +23,7 @@ extern "C" {
 #define MODPACK_SUFFIX ".modpack"
 
 #define MODPACK_CAPSTR "+modpack-040312"
-#define MODLIST_CAPSTR "+modlist-011111"
+#define MODLIST_CAPSTR "+Freeciv-modlist-Devel-2013.Feb.01"
 
 #define FCMP_CONTROLD ".control"
 
@@ -38,7 +38,8 @@ const char *download_modpack(const char *URL,
 typedef void (*modpack_list_setup_cb)(const char *name, const char *URL,
                                       const char *version,
                                       const char *license,
-                                      enum modpack_type type);
+                                      enum modpack_type type,
+                                      const char *notes);
 
 const char *download_modpack_list(const struct fcmp_params *fcmp,
                                   modpack_list_setup_cb cb,
