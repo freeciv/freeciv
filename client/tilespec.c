@@ -73,7 +73,7 @@
 
 #include "tilespec.h"
 
-#define TILESPEC_CAPSTR "+Freeciv-tilespec-Devel-2012.Aug.04 duplicates_ok"
+#define TILESPEC_CAPSTR "+Freeciv-tilespec-Devel-2013.Feb.04 duplicates_ok"
 /*
  * Tilespec capabilities acceptable to this program:
  *
@@ -109,6 +109,15 @@
 #define NUM_TILES_DIGITS 10
 #define NUM_TILES_SELECT 4
 #define MAX_NUM_CITIZEN_SPRITES 6
+
+#define SPECENUM_NAME roadstyle_id
+#define SPECENUM_VALUE0 RSTYLE_ALL_SEPARATE
+#define SPECENUM_VALUE0NAME "AllSeparate"
+#define SPECENUM_VALUE1 RSTYLE_PARITY_COMBINED
+#define SPECENUM_VALUE1NAME "ParityCombined"
+#define SPECENUM_VALUE2 RSTYLE_ALL_COMBINED
+#define SPECENUM_VALUE2NAME "AllCombined"
+#include "specenum_gen.h"
 
 /* This could be moved to common/map.h if there's more use for it. */
 enum direction4 {
@@ -228,14 +237,14 @@ struct named_sprites {
     struct sprite *frame[NUM_CURSOR_FRAMES];
   } cursor[CURSOR_LAST];
   struct {
-    int roadstyle;
+    enum roadstyle_id roadstyle;
     struct sprite
-      /* for roadstyle 0 */
+      /* for RSTYLE_ALL_SEPARATE */
       *dir[8],     /* all entries used */
-      /* for roadstyle 1 */
+      /* for RSTYLE_PARITY_COMBINED */
       *even[MAX_INDEX_HALF],    /* first unused */
       *odd[MAX_INDEX_HALF],     /* first unused */
-      /* for roadstyle 0 and 1 */
+      /* for roadstyles RSTYLE_ALL_SEPARATE and RSTYLE_PARITY_COMBINED */
       *isolated,
       *corner[8], /* Indexed by direction; only non-cardinal dirs used. */
       *total[MAX_INDEX_VALID],     /* includes all possibilities */
@@ -448,7 +457,7 @@ static void drawing_data_destroy(struct drawing_data *draw);
 
 #define SPECHASH_TAG rstyle
 #define SPECHASH_KEY_TYPE char *
-#define SPECHASH_DATA_TYPE int *
+#define SPECHASH_DATA_TYPE enum roadstyle_id *
 #define SPECHASH_KEY_VAL genhash_str_val_func
 #define SPECHASH_KEY_COMP genhash_str_comp_func
 #include "spechash.h"
@@ -1836,11 +1845,21 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   for (i = 0; (roadname = secfile_lookup_str_default(file, NULL,
                                                      "roads.styles%d.name",
                                                      i)); i++) {
-    int *style = fc_malloc(sizeof(int));
-    char *name = fc_malloc(strlen(roadname) + 1);
+    const char *style_name;
+    enum roadstyle_id *style = fc_malloc(sizeof(enum roadstyle_id));
+    char *name;
 
-    *style = secfile_lookup_int_default(file, 0,
-                                        "roads.styles%d.style", i);
+    style_name = secfile_lookup_str_default(file, "AllSeparate",
+                                            "roads.styles%d.style", i);
+    *style = roadstyle_id_by_name(style_name, fc_strcasecmp);
+    if (!roadstyle_id_is_valid(*style)) {
+      log_error("Unknown road style \"%s\" for road \"%s\"",
+                style_name, roadname);
+      FC_FREE(style);
+      goto ON_ERROR;
+    }
+
+    name = fc_malloc(strlen(roadname) + 1);
     strcpy(name, roadname);
 
     if (!rstyle_hash_insert(t->rstyle_hash, name, style)) {
@@ -2877,7 +2896,7 @@ void tileset_setup_road(struct tileset *t,
   char full_alt_name[MAX_LEN_NAME + strlen("r._isolated")];
   const int id = road_index(proad);
   int i;
-  int *roadstyle;
+  enum roadstyle_id *roadstyle;
 
   if (!rstyle_hash_lookup(t->rstyle_hash, proad->graphic_str,
                           &roadstyle)
@@ -2891,8 +2910,9 @@ void tileset_setup_road(struct tileset *t,
 
   t->sprites.roads[id].roadstyle = *roadstyle;
 
-  /* Isolated road graphics are used by roadstyle 0 and 1*/
-  if (*roadstyle == 0 || *roadstyle == 1) {
+  /* Isolated road graphics are used by RSTYLE_ALL_SEPARATE and
+     RSTYLE_PARITY_COMBINED. */
+  if (*roadstyle == RSTYLE_ALL_SEPARATE || *roadstyle == RSTYLE_PARITY_COMBINED) {
     fc_snprintf(full_tag_name, sizeof(full_tag_name),
                 "r.%s_isolated", proad->graphic_str);
     fc_snprintf(full_alt_name, sizeof(full_alt_name),
@@ -2901,9 +2921,9 @@ void tileset_setup_road(struct tileset *t,
     SET_SPRITE_ALT(roads[id].isolated, full_tag_name, full_alt_name);
   }
 
-  if (*roadstyle == 0) {
-    /* Roadstyle 0 has just 8 additional sprites for both road and rail:
-     * one for the road/rail going off in each direction. */
+  if (*roadstyle == RSTYLE_ALL_SEPARATE) {
+    /* RSTYLE_ALL_SEPARATE has just 8 additional sprites for each road type:
+     * one going off in each direction. */
     for (i = 0; i < t->num_valid_tileset_dirs; i++) {
       enum direction8 dir = t->valid_tileset_dirs[i];
       const char *dir_name = dir_get_tileset_name(dir);
@@ -2915,10 +2935,10 @@ void tileset_setup_road(struct tileset *t,
 
       SET_SPRITE_ALT(roads[id].dir[i], full_tag_name, full_alt_name);
     }
-  } else if (*roadstyle == 1) {
+  } else if (*roadstyle == RSTYLE_PARITY_COMBINED) {
     int num_index = 1 << (t->num_valid_tileset_dirs / 2), j;
 
-    /* Roadstyle 1 has 32 additional sprites for both road and rail:
+    /* RSTYLE_PARITY_COMBINED has 32 additional sprites for each road type:
      * 16 each for cardinal and diagonal directions.  Each set
      * of 16 provides a NSEW-indexed sprite to provide connectors for
      * all rails in the cardinal/diagonal directions.  The 0 entry is
@@ -2952,8 +2972,8 @@ void tileset_setup_road(struct tileset *t,
 
       SET_SPRITE_ALT(roads[id].odd[i], full_tag_name, full_alt_name);
     }
-  } else {
-    /* Roadstyle 2 includes 256 sprites, one for every possibility.
+  } else if (*roadstyle == RSTYLE_ALL_COMBINED) {
+    /* RSTYLE_ALL_COMBINED includes 256 sprites, one for every possibility.
      * Just go around clockwise, with all combinations. */
     for (i = 0; i < t->num_index_valid; i++) {
       char *idx_str = valid_index_str(t, i);
@@ -2965,10 +2985,13 @@ void tileset_setup_road(struct tileset *t,
 
       SET_SPRITE_ALT(roads[id].total[i], full_tag_name, full_alt_name);
     }
+  } else {
+    fc_assert(FALSE);
   }
 
-  /* Corner road/rail graphics are used by roadstyle 0 and 1. */
-  if (*roadstyle == 0 || *roadstyle == 1) {
+  /* Corner road graphics are used by RSTYLE_ALL_SEPARATE and
+   * RSTYLE_PARITY_COMBINED. */
+  if (*roadstyle == RSTYLE_ALL_SEPARATE || *roadstyle == RSTYLE_PARITY_COMBINED) {
     for (i = 0; i < t->num_valid_tileset_dirs; i++) {
       enum direction8 dir = t->valid_tileset_dirs[i];
 
@@ -3682,7 +3705,7 @@ static int fill_road_sprite_array(const struct tileset *t,
   enum direction8 dir;
   int road_idx = -1;
   bool cl = FALSE;
-  int roadstyle;
+  enum roadstyle_id roadstyle;
 
   if (!draw_roads_rails) {
     /* Don't draw anything. */
@@ -3785,13 +3808,13 @@ static int fill_road_sprite_array(const struct tileset *t,
 
   roadstyle = t->sprites.roads[road_idx].roadstyle;
 
-  if (roadstyle == 0) {
-    /* With roadstyle 0, we simply draw one road/rail for every connection.
+  if (roadstyle == RSTYLE_ALL_SEPARATE) {
+    /* With RSTYLE_ALL_SEPARATE, we simply draw one road for every connection.
      * This means we only need a few sprites, but a lot of drawing is
      * necessary and it generally doesn't look very good. */
     int i;
 
-    /* First fraw roads under rails. */
+    /* First draw roads under rails. */
     if (road) {
       for (i = 0; i < t->num_valid_tileset_dirs; i++) {
 	if (draw_road[t->valid_tileset_dirs[i]]) {
@@ -3799,8 +3822,8 @@ static int fill_road_sprite_array(const struct tileset *t,
 	}
       }
     }
-  } else if (roadstyle == 1) {
-    /* With roadstyle 1, we draw one sprite for cardinal road connections,
+  } else if (roadstyle == RSTYLE_PARITY_COMBINED) {
+    /* With RSTYLE_PARITY_COMBINED, we draw one sprite for cardinal road connections,
      * one sprite for diagonal road connections, and the same for rail.
      * This means we need about 4x more sprites than in style 0, but up to
      * 4x less drawing is needed.  The drawing quality may also be
@@ -3830,8 +3853,8 @@ static int fill_road_sprite_array(const struct tileset *t,
 	ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].odd[road_odd_tileno]);
       }
     }
-  } else {
-    /* Roadstyle 2 is a very simple method that lets us simply retrieve 
+  } else if (roadstyle == RSTYLE_ALL_COMBINED) {
+    /* RSTYLE_ALL_COMBINED is a very simple method that lets us simply retrieve 
      * entire finished tiles, with a bitwise index of the presence of
      * roads in each direction. */
 
@@ -3851,10 +3874,13 @@ static int fill_road_sprite_array(const struct tileset *t,
         ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].total[road_tileno]);
       }
     }
+  } else {
+    fc_assert(FALSE);
   }
 
-  /* Draw isolated rail/road separately (styles 0 and 1 only). */
-  if (roadstyle == 0 || roadstyle == 1) { 
+  /* Draw isolated rail/road separately (RSTYLE_ALL_SEPARATE and
+     RSTYLE_PARITY_COMBINED only). */
+  if (roadstyle == RSTYLE_ALL_SEPARATE || roadstyle == RSTYLE_PARITY_COMBINED) { 
     if (draw_single_road) {
       ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].isolated);
     }
@@ -5628,7 +5654,7 @@ int fill_basic_road_sprite_array(const struct tileset *t,
   struct drawn_sprite *saved_sprs = sprs;
   int index;
   int i;
-  int roadstyle;
+  enum roadstyle_id roadstyle;
 
   if (!t || !sprs || !proad) {
     return 0;
@@ -5646,13 +5672,13 @@ int fill_basic_road_sprite_array(const struct tileset *t,
     if (!t->valid_tileset_dirs[i]) {
       continue;
     }
-    if (roadstyle == 0) {
+    if (roadstyle == RSTYLE_ALL_SEPARATE) {
       ADD_SPRITE_FULL(t->sprites.roads[index].dir[i]);
-    } else if (roadstyle == 1) {
+    } else if (roadstyle == RSTYLE_PARITY_COMBINED) {
       if ((i % 2) == 0) {
         ADD_SPRITE_FULL(t->sprites.roads[index].even[1 << (i / 2)]);
       }
-    } else if (roadstyle == 2) {
+    } else if (roadstyle == RSTYLE_ALL_COMBINED) {
       ADD_SPRITE_FULL(t->sprites.roads[index].total[1 << i]);
     }
   }

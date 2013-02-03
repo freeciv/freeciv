@@ -227,16 +227,17 @@ more than 3 layers (either in this section or in the [tile_XXX] sections).
   [roads]
   styles =
       { "name", "style"
-        "road", 0
-        "rail", 0
+        "road", "AllSeparate"
+        "rail", "AllSeparate"
       }
 
-  0 : A single sprite is drawn for every connection the tile has;
-      only 8 sprites are needed.
-  1 : A single sprite is drawn for all cardinal connections and a second
-      sprite is drawn for all diagonal connections; 32 sprites are needed.
-  2 : One sprite is drawn to show roads in all directions. There are thus
-      256 road and 256 rail sprites (64 for a hex tileset).
+  AllSeparate    : A single sprite is drawn for every connection the tile has;
+                   only 8 sprites are needed.
+  ParityCombined : A single sprite is drawn for all cardinal connections and
+                   a second sprite is drawn for all diagonal connections;
+                   32 sprites are needed.
+  AllCombined    : One sprite is drawn to show roads in all directions.
+                   There are thus 256 sprites (64 for a hex tileset).
 
 ----------------------------------------------------------------------
 Individual spec files:

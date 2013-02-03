@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+Freeciv-tilespec-Devel-2012.Aug.04"
+options = "+Freeciv-tilespec-Devel-2013.Feb.04"
 
 ; A simple name for the tileset specified by this file:
 name = "Trident"
@@ -185,6 +185,6 @@ layer0_match_with = "tundra"
 [roads]
 styles =
     { "name", "style"
-      "road", 1
-      "rail", 1
+      "road", "ParityCombined"
+      "rail", "ParityCombined"
     }

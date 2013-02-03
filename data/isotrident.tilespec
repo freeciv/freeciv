@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+Freeciv-tilespec-Devel-2012.Aug.04"
+options = "+Freeciv-tilespec-Devel-2013.Feb.04"
 
 ; A simple name for the tileset specified by this file:
 name = "MacroIsoTrident"
@@ -175,6 +175,6 @@ layer0_match_type = "land"
 [roads]
 styles =
     { "name", "style"
-      "road", 0
-      "rail", 0
+      "road", "AllSeparate"
+      "rail", "AllSeparate"
     }
