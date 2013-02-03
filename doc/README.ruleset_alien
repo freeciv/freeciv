@@ -23,3 +23,12 @@ cazfi.net version is available from
 http://www.cazfi.net/freeciv/alien/dev/
 Though some bits are outdated, it's still the most
 comprehensive documentation of the Alien World ruleset.
+
+
+Changes since last cazfi.net document version
+---------------------------------------------
+
+This list is incomplete
+
+- Road type "Tunnel" provides 35% defense bonus for units
+  inside.

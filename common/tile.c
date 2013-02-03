@@ -307,17 +307,25 @@ bool tile_has_claimable_base(const struct tile *ptile,
 /****************************************************************************
   Calculate defense bonus given by bases
 ****************************************************************************/
-int tile_bases_defense_bonus(const struct tile *ptile,
-                             const struct unit_type *punittype)
+int tile_extras_defense_bonus(const struct tile *ptile,
+                              const struct unit_type *punittype)
 {
   int bonus = 0;
+  struct unit_class *pclass = utype_class(punittype);
 
   base_type_iterate(pbase) {
     if (tile_has_base(ptile, pbase)
-        && is_native_base_to_uclass(pbase, utype_class(punittype))) {
+        && is_native_base_to_uclass(pbase, pclass)) {
       bonus += pbase->defense_bonus;
     }
   } base_type_iterate_end;
+
+  road_type_iterate(proad) {
+    if (tile_has_road(ptile, proad)
+        && is_native_road_to_uclass(proad, pclass)) {
+      bonus += proad->defense_bonus;
+    }
+  } road_type_iterate_end;
 
   return bonus;
 }

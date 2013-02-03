@@ -646,6 +646,7 @@ flags        = "ParadropFrom", "NoAggressive"
 ;   - "FastAlways" = Road cost applies always between two tiles with the roads (default)
 ; build_time              = how many movement points it takes to build this road. Value of
 ;                           0 means that terrain specific value is used instead.
+; defense_bonus           = Percent added to defense
 ; buildable               = Can road be built? Defaults to true
 ; pillageable             = Can road be pillaged? Defaults to true
 ; food_incr               = food production added to tile
@@ -777,6 +778,7 @@ reqs           =
     }
 move_cost      = 0
 move_mode      = "NoBonus"
+defense_bonus  = 35
 build_time     = 3
 food_incr      = 0
 shield_incr    = 0
@@ -789,7 +791,7 @@ native_to      = "Earthly"
 flags          = "NativeTile"
 helptext       = _("\
 Earthly units can travel on radiating tiles with tunnel built on them.\
-Tunnel provides no increase to unit speed.\
+Tunnel provides no increase to unit speed, but they give 35% defense bonus.\
 ")
 
 [road_burrow_tube]

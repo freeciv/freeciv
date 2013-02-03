@@ -1078,6 +1078,7 @@ They have no effect on gameplay.\
 ;   - "FastAlways" = Road cost applies always between two tiles with the roads (default)
 ; build_time              = how many movement points it takes to build this road. Value of
 ;                           0 means that terrain specific value is used instead.
+; defense_bonus           = Percent added to defense
 ; buildable               = Can road be built? Defaults to true
 ; pillageable             = Can road be pillaged? Defaults to true
 ; food_incr               = food production added to tile

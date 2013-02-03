@@ -1471,6 +1471,7 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   UINT8 move_cost;
   MOVE_MODE move_mode;
   UINT8 build_time;
+  UINT8 defense_bonus;
   BOOL buildable;
   BOOL pillageable;
   UINT16 tile_incr[O_LAST];

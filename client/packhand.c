@@ -3232,6 +3232,7 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   proad->move_cost = p->move_cost;
   proad->move_mode = p->move_mode;
   proad->build_time = p->build_time;
+  proad->defense_bonus = p->defense_bonus;
   proad->buildable = p->buildable;
   proad->pillageable = p->pillageable;
 

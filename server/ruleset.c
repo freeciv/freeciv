@@ -2477,6 +2477,10 @@ static void load_ruleset_terrain(struct section_file *file)
 
     proad->build_time = secfile_lookup_int_default(file, 0, "%s.build_time", section);
 
+    proad->defense_bonus = secfile_lookup_int_default(file, 0,
+                                                      "%s.defense_bonus",
+                                                      section);
+
     proad->buildable = secfile_lookup_bool_default(file, TRUE,
                                                    "%s.buildable", section);
     proad->pillageable = secfile_lookup_bool_default(file, TRUE,
@@ -4421,6 +4425,7 @@ static void send_ruleset_roads(struct conn_list *dest)
     packet.move_cost = r->move_cost;
     packet.move_mode = r->move_mode;
     packet.build_time = r->build_time;
+    packet.defense_bonus = r->defense_bonus;
     packet.buildable = r->buildable;
     packet.pillageable = r->pillageable;
 

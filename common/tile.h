@@ -135,8 +135,8 @@ bool tile_has_native_base(const struct tile *ptile,
                           const struct unit_type *punittype);
 bool tile_has_claimable_base(const struct tile *ptile,
                              const struct unit_type *punittype);
-int tile_bases_defense_bonus(const struct tile *ptile,
-                             const struct unit_type *punittype);
+int tile_extras_defense_bonus(const struct tile *ptile,
+                              const struct unit_type *punittype);
 
 bool tile_has_road(const struct tile *ptile, const struct road_type *proad);
 void tile_add_road(struct tile *ptile, const struct road_type *proad);

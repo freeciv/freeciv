@@ -2211,6 +2211,12 @@ void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
                 _("  * Such units can move onto this tile even if it would "
                   "not normally be suitable terrain.\n"));
       }
+      if (proad->defense_bonus) {
+        cat_snprintf(buf, bufsz,
+                     _("  * Such units get a %d%% defense bonus on this "
+                       "tile.\n"),
+                     proad->defense_bonus);
+      }
     }
   }
 
