@@ -8,11 +8,14 @@
 # 2. double click on "gnuwin32/msys.bat"
 # 3. install the development packages:
 #    $ hg qpush -a
-# 4. change into the Freeciv directory where this Makefile resides
+# 4. close current session and restart msys.bat. This is required
+#    for PATH to be set correctly after development packages
+#    installation.
+# 5. change into the Freeciv directory where this Makefile resides
 #    $ cd <path_to_freeciv_source>/win32/installer
-# 5. run make
+# 6. run make
 #    $ make
-# 6. find the installer executables in the 'Output' directory
+# 7. find the installer executables in the 'Output' directory
 #
 
 
