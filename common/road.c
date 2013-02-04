@@ -225,10 +225,20 @@ static bool can_build_road_base(const struct road_type *proad,
     return FALSE;
   }
 
-  if (tile_has_special(ptile, S_RIVER)
-      && road_has_flag(proad, RF_REQUIRES_BRIDGE)
+  if (road_has_flag(proad, RF_REQUIRES_BRIDGE)
       && !player_knows_techs_with_flag(pplayer, TF_BRIDGE)) {
-    return FALSE;
+    if (tile_has_special(ptile, S_RIVER)) {
+      return FALSE;
+    }
+    /* TODO: Cache list of road types with RF_PREVENTS_OTHER_ROADS
+     *       after ruleset loading and use that list here instead
+     *       of always iterating through all road types. */
+    road_type_iterate(old) {
+      if (road_has_flag(old, RF_PREVENTS_OTHER_ROADS)
+          && tile_has_road(ptile, old)) {
+        return FALSE;
+      }
+    } road_type_iterate_end;
   }
 
   return TRUE;

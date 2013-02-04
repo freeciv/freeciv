@@ -29,6 +29,8 @@ extern "C" {
 #define SPECENUM_VALUE3NAME "CardinalOnly"
 #define SPECENUM_VALUE4 RF_ALWAYS_ON_CITY_CENTER
 #define SPECENUM_VALUE4NAME "AlwaysOnCityCenter"
+#define SPECENUM_VALUE5 RF_PREVENTS_OTHER_ROADS
+#define SPECENUM_VALUE5NAME "PreventsOtherRoads"
 #define SPECENUM_COUNT RF_COUNT
 #include "specenum_gen.h"
 
