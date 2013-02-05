@@ -3429,10 +3429,10 @@ static bool setting_ruleset_one(struct section_file *file,
     break;
   }
 
-  if (!secfile_lookup_bool(file, &lock, "%s.lock", path)) {
-    log_error("Can't read lock status for setting '%s': %s", name,
-              secfile_error());
-  } else if (lock) {
+  /* set lock */
+  lock = secfile_lookup_bool_default(file, FALSE, "%s.lock", path);
+
+  if (lock) {
     /* set lock */
     setting_lock_set(pset, lock);
     log_normal(_("Ruleset: '%s' has been locked by the ruleset."),
