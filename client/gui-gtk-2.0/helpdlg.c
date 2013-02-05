@@ -1189,8 +1189,13 @@ static void help_update_base(const struct help_item *pitem, char *title)
   } else {
     /* Cost to build */
     if (pbase->buildable) {
-      /* TRANS: "MP" = movement points */
-      sprintf(buf, _("%d MP"), pbase->build_time);
+      if (pbase->build_time != 0) {
+        /* TRANS: "MP" = movement points */
+        sprintf(buf, _("%d MP"), pbase->build_time);
+      } else {
+        /* TRANS: Build time depends on terrain. */
+        sprintf(buf, _("Terrain specific"));
+      }
     } else {
       sprintf(buf, "-");
     }
@@ -1230,8 +1235,13 @@ static void help_update_road(const struct help_item *pitem, char *title)
   } else {
     /* Cost to build */
     if (proad->buildable) {
-      /* TRANS: "MP" = movement points */
-      sprintf(buf, _("%d MP"), proad->build_time);
+      if (proad->build_time != 0) {
+        /* TRANS: "MP" = movement points */
+        sprintf(buf, _("%d MP"), proad->build_time);
+      } else {
+        /* TRANS: Build time depends on terrain. */
+        sprintf(buf, _("Terrain specific"));
+      }
     } else {
       sprintf(buf, "-");
     }
