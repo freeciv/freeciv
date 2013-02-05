@@ -629,7 +629,7 @@ void handle_city_info(const struct packet_city_info *packet)
   }
 
   /* The nationality of the citizens. */
-  if (game.info.citizen_nationality == TRUE) {
+  if (game.info.citizen_nationality) {
     citizens_init(pcity);
     for (i = 0; i < packet->nationalities_count; i++) {
       citizens_nation_set(pcity, player_slot_by_number(packet->nation_id[i]),

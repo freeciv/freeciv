@@ -481,7 +481,7 @@ void real_city_dialog_refresh(struct city *pcity)
     city_dialog_update_information(pdialog->happiness.info_ebox,
 				   pdialog->happiness.info_label, pdialog);
     refresh_happiness_dialog(pdialog->pcity);
-    if (game.info.citizen_nationality == TRUE) {
+    if (game.info.citizen_nationality) {
       citizens_dialog_refresh(pdialog->pcity);
     }
 
@@ -1090,7 +1090,7 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
   gtk_container_add(GTK_CONTAINER(align), table);
 
   /* lower left: citizens */
-  if (game.info.citizen_nationality == TRUE) {
+  if (game.info.citizen_nationality) {
     pdialog->happiness.citizens = gtk_vbox_new(FALSE, 0);
     gtk_box_pack_start(GTK_BOX(left), pdialog->happiness.citizens,
                        TRUE, TRUE, 0);
@@ -2887,7 +2887,7 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
 
   gtk_widget_hide(pdialog->shell);
 
-  if (game.info.citizen_nationality == TRUE) {
+  if (game.info.citizen_nationality) {
     citizens_dialog_close(pdialog->pcity);
   }
   close_happiness_dialog(pdialog->pcity);
@@ -2998,7 +2998,7 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   }
 
   /* cleanup happiness dialog */
-  if (game.info.citizen_nationality == TRUE) {
+  if (game.info.citizen_nationality) {
     citizens_dialog_close(pdialog->pcity);
   }
   close_happiness_dialog(pdialog->pcity);
@@ -3006,7 +3006,7 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   pdialog->pcity = new_pcity;
 
   /* reinitialize happiness, and cma dialogs */
-  if (game.info.citizen_nationality == TRUE) {
+  if (game.info.citizen_nationality) {
     gtk_box_pack_start(GTK_BOX(pdialog->happiness.citizens),
                        citizens_dialog_display(pdialog->pcity),
                        TRUE, TRUE, 0);

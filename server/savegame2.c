@@ -4108,7 +4108,7 @@ static void sg_load_player_city_citizens(struct loaddata *loading,
                                          struct city *pcity,
                                          const char *citystr)
 {
-  if (game.info.citizen_nationality == TRUE) {
+  if (game.info.citizen_nationality) {
     citizens size;
 
     citizens_init(pcity);
@@ -4159,7 +4159,7 @@ static void sg_save_player_cities(struct savedata *saving,
   secfile_insert_int(saving->file, city_list_size(plr->cities),
                      "player%d.ncities", plrno);
 
-  if (game.info.citizen_nationality == TRUE) {
+  if (game.info.citizen_nationality) {
     /* Initialise the nation list for the citizens information. */
     player_slots_iterate(pslot) {
       nations[player_slot_index(pslot)] = FALSE;
@@ -4176,7 +4176,7 @@ static void sg_save_player_cities(struct savedata *saving,
       wlist_max_length = pcity->worklist.length;
     }
 
-    if (game.info.citizen_nationality == TRUE) {
+    if (game.info.citizen_nationality) {
       /* Find all nations of the citizens,*/
       players_iterate(pplayer) {
         if (!nations[player_index(pplayer)]
@@ -4298,7 +4298,7 @@ static void sg_save_player_cities(struct savedata *saving,
 
     CALL_FUNC_EACH_AI(city_save, saving->file, pcity, buf);
 
-    if (game.info.citizen_nationality == TRUE) {
+    if (game.info.citizen_nationality) {
       /* Save nationality of the citizens,*/
       players_iterate(pplayer) {
         if (nations[player_index(pplayer)]) {
