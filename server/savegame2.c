@@ -4734,6 +4734,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
     }
   }
 
+  /* If savegame has unit nationality, it doesn't hurt to
+   * internally set it even if nationality rules are disabled. */
   natnbr = secfile_lookup_int_default(loading->file,
                                       player_number(plr),
                                       "%s.nationality", unitstr);
@@ -5152,8 +5154,10 @@ static void sg_save_player_units(struct savedata *saving,
     secfile_insert_int(saving->file, nat_y, "%s.y", buf);
 
     secfile_insert_str(saving->file, dirbuf, "%s.facing", buf);
-    secfile_insert_int(saving->file, player_number(unit_nationality(punit)),
-                       "%s.nationality", buf);
+    if (game.info.citizen_nationality) {
+      secfile_insert_int(saving->file, player_number(unit_nationality(punit)),
+                         "%s.nationality", buf);
+    }
     secfile_insert_int(saving->file, punit->veteran, "%s.veteran", buf);
     secfile_insert_int(saving->file, punit->hp, "%s.hp", buf);
     secfile_insert_int(saving->file, punit->homecity, "%s.homecity", buf);
