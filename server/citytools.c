@@ -1997,7 +1997,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
   /* The nationality of the citizens. */
   packet->nationalities_count = 0;
-  if (game.info.citizen_nationality == TRUE) {
+  if (game.info.citizen_nationality) {
     int cit = 0;
 
     player_slots_iterate(pslot) {

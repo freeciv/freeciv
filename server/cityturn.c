@@ -2728,7 +2728,7 @@ static bool do_city_migration(struct city *pcity_from,
   /* reduce size of giver */
   if (city_size_get(pcity_from) == 1) {
 
-    if (game.info.citizen_nationality == TRUE) {
+    if (game.info.citizen_nationality) {
       /* Preserve nationality of city's only citizen */
       pplayer_citizen = player_slot_get_player(citizens_random(pcity_from));
     }
@@ -2770,7 +2770,7 @@ static bool do_city_migration(struct city *pcity_from,
      * migration -> grow -> migration -> ... cycles) */
     pcity_from->food_stock /= 2;
 
-    if (game.info.citizen_nationality == TRUE) {
+    if (game.info.citizen_nationality) {
       /* Those citizens that are from the target nation are most
        * ones migrating. */
       if (citizens_nation_get(pcity_from, pplayer_to->slot) > 0) {
@@ -3098,7 +3098,7 @@ static void check_city_migrations_player(const struct player *pplayer)
       } else if (game.server.mgr_worldchance > 0
                  && city_owner(acity) != pplayer) {
         /* migration between cities of different owners */
-        if (game.info.citizen_nationality == TRUE) {
+        if (game.info.citizen_nationality) {
           /* Modify the score if citizens could migrate to a city of their
            * original nation. */
           if (citizens_nation_get(pcity, city_owner(acity)->slot) > 0) {

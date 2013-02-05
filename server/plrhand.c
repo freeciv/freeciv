@@ -1465,7 +1465,7 @@ void server_remove_player(struct player *pplayer)
   /* Remove citizens of this player from the cities of all other players. */
   /* FIXME: add a special case if the server quits - no need to run this for
    *        each player in that case. */
-  if (game.info.citizen_nationality == TRUE) {
+  if (game.info.citizen_nationality) {
     cities_iterate(pcity) {
       if (city_owner(pcity) != pplayer) {
         citizens nationality = citizens_nation_get(pcity, pplayer->slot);
