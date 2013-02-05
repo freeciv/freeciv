@@ -1,6 +1,6 @@
 
 =======================================================
-Alien World ruleset for Freeciv (Updated 16-Jan-2013)
+Alien World ruleset for Freeciv (Updated 02-Feb-2013)
 =======================================================
 
 Design Philosophy:
@@ -30,5 +30,25 @@ Changes since last cazfi.net document version
 
 This list is incomplete
 
+- Citizens convert to city owning nationality over time
+
+- Population is measered in hundreds in reports
+
+- Road type "Tunnel" can be built to radiating tiles only
+
+- Techs cannot be stolen from Lunatics or Madmen
+
+- Intercontinental traderoutes give same trade than routes
+  within one continent. International routes give three
+  times as much trade as national ones
+
+- Once player knows "Ocean Cities" tech, borders extend
+  to oceanic tiles just like land tiles
+
+- Players are guaranteed to start from a Earthly units
+  reachable area of at least 15 tiles
+
+- Explorer cost reduced to 20 shields
+
 - Road type "Tunnel" provides 35% defense bonus for units
-  inside.
+  inside
