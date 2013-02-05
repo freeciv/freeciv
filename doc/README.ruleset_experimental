@@ -89,6 +89,13 @@ this file.
   and Republic one in every two citizens, and under Democracy one in
   every three citizen is unhappy because of the war against their homeland.
 
+- There's only two disaster types; Earthquake and Fire, and they both
+  can destroy a building from a city.
+
+- Road movement cost is 2/3 movement points, Railroad cost 1/3, and
+  infinite movement is provided by Maglev. You can upgrade Railroads to
+  Maglevs once you know Superconductor.
+
 
 2. Use the new ruleset
    -------------------
