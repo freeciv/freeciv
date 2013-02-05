@@ -141,6 +141,8 @@ struct resource {
 
 #define TER_MAX 64 /* Changing this breaks network compatability. */
 
+#define MAX_NUM_USER_TER_FLAGS (TER_USER_LAST - TER_USER_1 + 1)
+
 BV_DEFINE(bv_terrain_flags, TER_MAX);
 
 #define SPECENUM_NAME mapgen_terrain_property
@@ -262,7 +264,10 @@ bool is_terrain_flag_near_tile(const struct tile *ptile,
 int count_terrain_flag_near_tile(const struct tile *ptile,
 				 bool cardinal_only, bool percentage,
 				 enum terrain_flag_id flag);
-void set_user_terrain_flag_name(enum terrain_flag_id id, const char *name);
+void user_terrain_flags_init(void);
+void user_terrain_flags_free(void);
+void set_user_terrain_flag_name(enum terrain_flag_id id, const char *name, const char *helptxt);
+const char *terrain_flag_helptxt(enum terrain_flag_id id);
 
 /* Terrain-specific functions. */
 #define is_ocean(pterrain) ((pterrain) != T_UNKNOWN \

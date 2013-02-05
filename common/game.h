@@ -58,6 +58,12 @@ enum autosave_type {
   AS_INTERRUPT
 };
 
+struct user_flag
+{
+  char *name;
+  char *helptxt;
+};
+
 #define CONTAMINATION_POLLUTION 1
 #define CONTAMINATION_FALLOUT   2
 
@@ -266,6 +272,9 @@ const char *textyear(int year);
 
 int generate_save_name(const char *format, char *buf, int buflen,
                        const char *reason);
+
+void user_flag_init(struct user_flag *flag);
+void user_flag_free(struct user_flag *flag);
 
 extern struct civ_game game;
 

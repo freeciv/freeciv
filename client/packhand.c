@@ -3154,6 +3154,31 @@ void handle_ruleset_terrain(const struct packet_ruleset_terrain *p)
 }
 
 /****************************************************************************
+  Packet ruleset_terrain_flag handler.
+****************************************************************************/
+void handle_ruleset_terrain_flag(const struct packet_ruleset_terrain_flag *p)
+{
+  const char *flagname;
+  const char *helptxt;
+
+  fc_assert_ret_msg(p->id >= TER_USER_1 && p->id <= TER_USER_LAST, "Bad user flag %d.", p->id);
+
+  if (p->name[0] == '\0') {
+    flagname = NULL;
+  } else {
+    flagname = p->name;
+  }
+
+  if (p->helptxt[0] == '\0') {
+    helptxt = NULL;
+  } else {
+    helptxt = p->helptxt;
+  }
+
+  set_user_terrain_flag_name(p->id, flagname, helptxt);
+}
+
+/****************************************************************************
   Handle a packet about a particular terrain resource.
 ****************************************************************************/
 void handle_ruleset_resource(const struct packet_ruleset_resource *p)

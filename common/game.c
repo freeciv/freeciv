@@ -41,6 +41,7 @@
 #include "spaceship.h"
 #include "specialist.h"
 #include "tech.h"
+#include "terrain.h"
 #include "traderoutes.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -505,6 +506,7 @@ void game_ruleset_init(void)
   unit_types_init();
   specialists_init();
   user_unit_type_flags_init();
+  user_terrain_flags_init();
 }
 
 /***************************************************************
@@ -527,6 +529,7 @@ void game_ruleset_free(void)
   city_styles_free();
   disaster_types_free();
   terrains_free();
+  user_terrain_flags_free();
   ruleset_cache_free();
   nation_groups_free();
 
@@ -754,4 +757,28 @@ int generate_save_name(const char *format, char *buf, int buflen,
   log_debug("save name generated from '%s': %s", format, buf);
 
   return strlen(buf);
+}
+
+/**************************************************************************
+  Initialize user flag.
+**************************************************************************/
+void user_flag_init(struct user_flag *flag)
+{
+  flag->name = NULL;
+  flag->helptxt = NULL;
+}
+
+/**************************************************************************
+  Free user flag.
+**************************************************************************/
+void user_flag_free(struct user_flag *flag)
+{
+  if (flag->name != NULL) {
+    FC_FREE(flag->name);
+    flag->name = NULL;
+  }
+  if (flag->helptxt != NULL) {
+    FC_FREE(flag->helptxt);
+    flag->helptxt = NULL;
+  }
 }

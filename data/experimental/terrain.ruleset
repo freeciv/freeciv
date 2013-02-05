@@ -22,9 +22,11 @@ may_irrigate=1       ; 0 means no, 1 means yes
 may_mine=1           ; 0 means no, 1 means yes
 may_transform=1      ; 0 means no, 1 means yes
 
-[flags]
-; Names for custom terrain flags.
-;names = ""
+[control]
+; Names for custom unit type flags.
+;flags =
+;  { "name", "helptxt"
+;  }
 
 [parameters]
 

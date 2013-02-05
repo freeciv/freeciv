@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 230
+Max id: 231
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -1423,6 +1423,12 @@ PACKET_RULESET_TERRAIN = 151; sc, lsend
   UINT8 color_blue;
 
   STRING helptext[MAX_LEN_PACKET];
+end
+
+PACKET_RULESET_TERRAIN_FLAG = 231; sc, lsend
+  UINT8       id;
+  STRING      name[MAX_LEN_NAME];
+  STRING      helptxt[MAX_LEN_PACKET];
 end
 
 PACKET_RULESET_UNIT_CLASS = 152; sc, lsend

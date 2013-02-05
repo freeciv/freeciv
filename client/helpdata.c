@@ -1979,6 +1979,7 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
     .kind = VUT_TERRAIN,
     .value = {.terrain = pterrain}
   };
+  int flagid;
 
   fc_assert_ret(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
@@ -2012,6 +2013,17 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
 	    _("* Land units cannot travel on oceanic terrains."));
     CATLSTR(buf, bufsz, "\n");
+  }
+  for (flagid = TER_USER_1 ; flagid <= TER_USER_LAST; flagid++) {
+    if (terrain_has_flag(pterrain, flagid)) {
+      const char *helptxt = terrain_flag_helptxt(flagid);
+
+      if (helptxt != NULL) {
+        CATLSTR(buf, bufsz, "* ");
+        CATLSTR(buf, bufsz, _(helptxt));
+        CATLSTR(buf, bufsz, "\n");
+      }
+    }
   }
 
   if (NULL != pterrain->helptext) {

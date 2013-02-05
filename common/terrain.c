@@ -42,7 +42,7 @@ enum tile_special_type infrastructure_specials[] = {
   S_LAST
 };
 
-static char *user_terrain_flag_names[TER_USER_LAST-TER_USER_1];
+static struct user_flag user_terrain_flags[MAX_NUM_USER_TER_FLAGS];
 
 /****************************************************************************
   Initialize terrain and resource structures.
@@ -1070,21 +1070,55 @@ int terrain_road_time(const struct terrain *pterrain,
 }
 
 /**************************************************************************
+  Initialize user terrain type flags.
+**************************************************************************/
+void user_terrain_flags_init(void)
+{
+  int i;
+
+  for (i = 0; i < MAX_NUM_USER_TER_FLAGS; i++) {
+    user_flag_init(&user_terrain_flags[i]);
+  }
+}
+
+/***************************************************************
+  Frees the memory associated with all user terrain flags
+***************************************************************/
+void user_terrain_flags_free(void)
+{
+  int i;
+
+  for (i = 0; i < MAX_NUM_USER_TER_FLAGS; i++) {
+    user_flag_free(&user_terrain_flags[i]);
+  }
+}
+
+/**************************************************************************
   Sets user defined name for terrain flag.
 **************************************************************************/
-void set_user_terrain_flag_name(enum terrain_flag_id id, const char *name)
+void set_user_terrain_flag_name(enum terrain_flag_id id, const char *name,
+                                const char *helptxt)
 {
   int tfid = id - TER_USER_1;
 
-  fc_assert_ret(id >= TER_USER_1 && id < TER_USER_LAST);
+  fc_assert_ret(id >= TER_USER_1 && id <= TER_USER_LAST);
 
-  if (user_terrain_flag_names[tfid] != NULL) {
-    free(user_terrain_flag_names[tfid]);
-    user_terrain_flag_names[tfid] = NULL;
+  if (user_terrain_flags[tfid].name != NULL) {
+    FC_FREE(user_terrain_flags[tfid].name);
+    user_terrain_flags[tfid].name = NULL;
   }
 
   if (name && name[0] != '\0') {
-    user_terrain_flag_names[tfid] = fc_strdup(name);
+    user_terrain_flags[tfid].name = fc_strdup(name);
+  }
+
+  if (user_terrain_flags[tfid].helptxt != NULL) {
+    FC_FREE(user_terrain_flags[tfid].helptxt);
+    user_terrain_flags[tfid].helptxt = NULL;
+  }
+
+  if (helptxt && helptxt[0] != '\0') {
+    user_terrain_flags[tfid].helptxt = fc_strdup(helptxt);
   }
 }
 
@@ -1097,5 +1131,15 @@ char *terrain_flag_id_name_cb(enum terrain_flag_id flag)
     return NULL;
   }
 
-  return user_terrain_flag_names[flag-TER_USER_1];
+  return user_terrain_flags[flag-TER_USER_1].name;
+}
+
+/**************************************************************************
+  Return the (untranslated) helptxt of the user terrain flag.
+**************************************************************************/
+const char *terrain_flag_helptxt(enum terrain_flag_id id)
+{
+  fc_assert(id >= TER_USER_1 && id <= TER_USER_LAST);
+
+  return user_terrain_flags[id - TER_USER_1].helptxt;
 }

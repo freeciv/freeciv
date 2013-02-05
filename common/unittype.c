@@ -44,13 +44,7 @@ static struct unit_class unit_classes[UCL_LAST];
    client/packhand.c (for the client)
 */
 
-struct user_unit_type_flag
-{
-  char *name;
-  char *helptxt;
-};
-
-static struct user_unit_type_flag user_type_flags[MAX_NUM_USER_UNIT_FLAGS];
+static struct user_flag user_type_flags[MAX_NUM_USER_UNIT_FLAGS];
 
 /**************************************************************************
   Return the first item of unit_types.
@@ -546,8 +540,7 @@ void user_unit_type_flags_init(void)
   int i;
 
   for (i = 0; i < MAX_NUM_USER_UNIT_FLAGS; i++) {
-    user_type_flags[i].name = NULL;
-    user_type_flags[i].helptxt = NULL;
+    user_flag_init(&user_type_flags[i]);
   }
 }
 
@@ -562,7 +555,7 @@ void set_user_unit_type_flag_name(enum unit_type_flag_id id, const char *name,
   fc_assert_ret(id >= UTYF_USER_FLAG_1 && id <= UTYF_LAST_USER_FLAG);
 
   if (user_type_flags[ufid].name != NULL) {
-    free(user_type_flags[ufid].name);
+    FC_FREE(user_type_flags[ufid].name);
     user_type_flags[ufid].name = NULL;
   }
 
@@ -967,14 +960,7 @@ void unit_type_flags_free(void)
   int i;
 
   for (i = 0; i < MAX_NUM_USER_UNIT_FLAGS; i++) {
-    if (user_type_flags[i].name != 0) {
-      free(user_type_flags[i].name);
-      user_type_flags[i].name = NULL;
-    }
-    if (user_type_flags[i].helptxt != 0) {
-      free(user_type_flags[i].helptxt);
-      user_type_flags[i].helptxt = NULL;
-    }
+    user_flag_free(&user_type_flags[i]);
   }
 }
 

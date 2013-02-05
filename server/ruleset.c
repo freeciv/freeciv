@@ -1899,29 +1899,28 @@ static void load_terrain_names(struct section_file *file)
 {
   int nval = 0;
   struct section_list *sec;
-  size_t user_flags;
-  const char **flaglist;
+  const char *flag;
   int i;
   const char *filename = secfile_name(file);
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
 
   /* User terrain flag names */
-  flaglist = secfile_lookup_str_vec(file, &user_flags, "flags.names");
+  for (i = 0; (flag = secfile_lookup_str_default(file, NULL, "control.flags%d.name", i)) ;
+       i++) {
+    const char *helptxt = secfile_lookup_str_default(file, NULL, "control.flags%d.helptxt",
+                                                     i);
 
-  if (user_flags > TER_USER_LAST - TER_USER_1) {
-    ruleset_error(LOG_FATAL, "\"%s\": Too many user terrain flags!",
-                  filename);
+    if (i > MAX_NUM_USER_TER_FLAGS) {
+      ruleset_error(LOG_FATAL, "\"%s\": Too many user terrain flags!",
+                    filename);
+    }
+
+    set_user_terrain_flag_name(TER_USER_1 + i, flag, helptxt);
   }
 
-  for (i = 0; i < user_flags; i++) {
-    set_user_terrain_flag_name(TER_USER_1 + i, flaglist[i]);
-  }
-  for (; i < TER_USER_LAST - TER_USER_1; i++) {
-    set_user_terrain_flag_name(TER_USER_1 + i, NULL);
-  }
-  if (flaglist) {
-    free(flaglist);
+  for (; i < MAX_NUM_USER_TER_FLAGS; i++) {
+    set_user_terrain_flag_name(TER_USER_1 + i, NULL, NULL);
   }
 
   /* terrain names */
@@ -4269,8 +4268,33 @@ static void send_ruleset_buildings(struct conn_list *dest)
 static void send_ruleset_terrain(struct conn_list *dest)
 {
   struct packet_ruleset_terrain packet;
+  struct packet_ruleset_terrain_flag fpacket;
+  int i;
 
   lsend_packet_ruleset_terrain_control(dest, &terrain_control);
+
+  for (i = 0; i < MAX_NUM_USER_TER_FLAGS; i++) {
+    const char *flagname;
+    const char *helptxt;
+
+    fpacket.id = i + TER_USER_1;
+
+    flagname = terrain_flag_id_name_cb(i + TER_USER_1);
+    if (flagname == NULL) {
+      fpacket.name[0] = '\0';
+    } else {
+      sz_strlcpy(fpacket.name, flagname);
+    }
+
+    helptxt = terrain_flag_helptxt(i + TER_USER_1);
+    if (helptxt == NULL) {
+      fpacket.helptxt[0] = '\0';
+    } else {
+      sz_strlcpy(fpacket.helptxt, helptxt);
+    }
+
+    lsend_packet_ruleset_terrain_flag(dest, &fpacket);
+  }
 
   terrain_type_iterate(pterrain) {
     struct resource **r;
