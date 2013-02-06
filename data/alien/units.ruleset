@@ -118,19 +118,19 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "DamageSlows", "TerrainSpeed", "CanFortify", "ZOC",
                 "CollectRansom", "BuildAnywhere", "CanOccupyCity",
-                "CanPillage", "TerrainDefense"
+                "CanPillage", "TerrainDefense", "KillCitizen"
 
 [unitclass_antigravity]
 name          = _("?unitclass:Antigravity")
 min_speed     = 1
 hp_loss_pct   = 0
-flags         = "Unreachable"
+flags         = "Unreachable", "KillCitizen"
 
 [unitclass_burrowing]
 name          = _("?unitclass:Burrowing")
 min_speed     = 1
 hp_loss_pct   = 0
-flags         = "Unreachable", "DamageSlows", "CanPillage", "KillCitizen"
+flags         = "Unreachable", "DamageSlows", "CanPillage"
 
 [unitclass_missile]
 name          = _("?unitclass:Missile")
