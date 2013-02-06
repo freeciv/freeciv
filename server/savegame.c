@@ -1862,7 +1862,7 @@ static void player_load_units_transporter(struct player *plr,
       continue;
     }
 
-    ptrans = player_unit_by_number(plr, id_trans);
+    ptrans = game_unit_by_number(id_trans);
     fc_assert_action(id_trans == -1 || ptrans != NULL, continue);
 
     if (ptrans) {
