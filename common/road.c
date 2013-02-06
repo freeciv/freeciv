@@ -279,6 +279,27 @@ bool can_build_road(struct road_type *proad,
 }
 
 /****************************************************************************
+  Count tiles with specified road near the tile. Can be called with NULL
+  road.
+****************************************************************************/
+int count_road_near_tile(const struct tile *ptile, const struct road_type *proad)
+{
+  int count = 0;
+
+  if (proad == NULL) {
+    return 0;
+  }
+
+  adjc_iterate(ptile, adjc_tile) {
+    if (tile_has_road(adjc_tile, proad)) {
+      count++;
+    }
+  } adjc_iterate_end;
+
+  return count;
+}
+
+/****************************************************************************
   Is there road of the given type cardinally near tile?
 ****************************************************************************/
 bool is_road_card_near(const struct tile *ptile, const struct road_type *proad)

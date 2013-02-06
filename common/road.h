@@ -31,6 +31,8 @@ extern "C" {
 #define SPECENUM_VALUE4NAME "AlwaysOnCityCenter"
 #define SPECENUM_VALUE5 RF_PREVENTS_OTHER_ROADS
 #define SPECENUM_VALUE5NAME "PreventsOtherRoads"
+#define SPECENUM_VALUE6 RF_GENERATED_RIVER
+#define SPECENUM_VALUE6NAME "GeneratedRiver"
 #define SPECENUM_COUNT RF_COUNT
 #include "specenum_gen.h"
 
@@ -107,6 +109,7 @@ const char *road_rule_name(const struct road_type *road);
 struct road_type *road_type_by_rule_name(const char *name);
 struct road_type *road_type_by_translated_name(const char *name);
 
+int count_road_near_tile(const struct tile *ptile, const struct road_type *proad);
 bool is_road_card_near(const struct tile *ptile, const struct road_type *proad);
 bool is_road_near_tile(const struct tile *ptile, const struct road_type *proad);
 

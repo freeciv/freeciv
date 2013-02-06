@@ -2083,6 +2083,7 @@ static void load_ruleset_terrain(struct section_file *file)
   int j;
   bool compat_road = FALSE;
   bool compat_rail = FALSE;
+  bool riverflag = FALSE;
   const char **res;
   const char *filename = secfile_name(file);
   /* char *datafile_options = */ (void)
@@ -2599,6 +2600,14 @@ static void load_ruleset_terrain(struct section_file *file)
                       road_rule_name(proad),
                       sval);
       } else {
+        if (flag == RF_GENERATED_RIVER) {
+          if (riverflag) {
+            ruleset_error(LOG_FATAL,
+                          "\"%s\" multiple roads have \"%s\" flag.",
+                          filename, sval);
+          }
+          riverflag = TRUE;
+        }
         BV_SET(proad->flags, flag);
       }
     }
