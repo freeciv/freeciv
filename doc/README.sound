@@ -46,8 +46,7 @@ the following plugins:
 
 To add support for a new plugin, change these files (where "whatever"
 is the name of the new plugin):
-	configure.in			/* add new test */
-	acconfig.h			/* add new config metavariable */
+	configure.ac			/* add new test */
 	client/audio.c			/* link in new plugin */
 	client/Makefile.am		/* add the files below */
 	client/audio_whatever.c		/* audio plugin */
