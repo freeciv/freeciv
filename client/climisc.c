@@ -986,16 +986,28 @@ void handle_event(const char *featured_text, struct tile *ptile,
     for (p = plain_text; *p != '\0'; p++) {
       if (NULL != username
           && 0 == fc_strncasecmp(p, username, userlen)) {
-        /* Appends to be sure it will be applied at last. */
-        text_tag_list_append(tags, text_tag_new(TTT_COLOR, p - plain_text,
-                                                p - plain_text + userlen,
-                                                highlight_our_names));
+        struct text_tag *ptag = text_tag_new(TTT_COLOR, p - plain_text,
+                                             p - plain_text + userlen,
+                                             highlight_our_names);
+
+        fc_assert(ptag != NULL);
+
+        if (ptag != NULL) {
+          /* Appends to be sure it will be applied at last. */
+          text_tag_list_append(tags, ptag);
+        }
       } else if (NULL != playername
                  && 0 == fc_strncasecmp(p, playername, playerlen)) {
-        /* Appends to be sure it will be applied at last. */
-        text_tag_list_append(tags, text_tag_new(TTT_COLOR, p - plain_text,
-                                                p - plain_text + playerlen,
-                                                highlight_our_names));
+        struct text_tag *ptag = text_tag_new(TTT_COLOR, p - plain_text,
+                                             p - plain_text + playerlen,
+                                             highlight_our_names);
+
+        fc_assert(ptag != NULL);
+
+        if (ptag != NULL) {
+          /* Appends to be sure it will be applied at last. */
+          text_tag_list_append(tags, ptag);
+        }
       }
     }
   }
