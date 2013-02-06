@@ -121,13 +121,13 @@ static const char *check_ruleset_capabilities(struct section_file *file,
                                               const char *us_capstr,
                                               const char *filename);
 
-static void load_tech_names(struct section_file *file);
-static void load_unit_names(struct section_file *file);
-static void load_building_names(struct section_file *file);
-static void load_government_names(struct section_file *file);
-static void load_terrain_names(struct section_file *file);
-static void load_citystyle_names(struct section_file *file);
-static void load_nation_names(struct section_file *file);
+static bool load_tech_names(struct section_file *file);
+static bool load_unit_names(struct section_file *file);
+static bool load_building_names(struct section_file *file);
+static bool load_government_names(struct section_file *file);
+static bool load_terrain_names(struct section_file *file);
+static bool load_citystyle_names(struct section_file *file);
+static bool load_nation_names(struct section_file *file);
 static void load_city_name_list(struct section_file *file,
                                 struct nation_type *pnation,
                                 const char *secfile_str1,
@@ -138,7 +138,7 @@ static void load_ruleset_units(struct section_file *file);
 static void load_ruleset_buildings(struct section_file *file);
 static void load_ruleset_governments(struct section_file *file);
 static void load_ruleset_terrain(struct section_file *file);
-static void load_ruleset_cities(struct section_file *file);
+static bool load_ruleset_cities(struct section_file *file);
 static void load_ruleset_effects(struct section_file *file);
 
 static void load_ruleset_game(const char *rsdir);
@@ -863,7 +863,7 @@ static struct terrain *lookup_terrain(struct section_file *file,
 /**************************************************************************
   Load "name" and (optionally) "rule_name" into a struct name_translation.
 **************************************************************************/
-static void ruleset_load_names(struct name_translation *pname,
+static bool ruleset_load_names(struct name_translation *pname,
                                struct section_file *file,
                                const char *sec_name)
 {
@@ -871,12 +871,15 @@ static void ruleset_load_names(struct name_translation *pname,
   const char *rule_name = secfile_lookup_str(file, "%s.rule_name", sec_name);
 
   if (!name) {
-    ruleset_error(LOG_FATAL,
+    ruleset_error(LOG_ERROR,
                   "\"%s\" [%s]: no \"name\" specified.",
                   secfile_name(file), sec_name);
+    return FALSE;
   }
 
   names_set(pname, name, rule_name);
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -910,13 +913,14 @@ static void ruleset_load_traits(int *traits, struct section_file *file,
   Load names of technologies so other rulesets can refer to techs with
   their name.
 **************************************************************************/
-static void load_tech_names(struct section_file *file)
+static bool load_tech_names(struct section_file *file)
 {
   struct section_list *sec;
   /* Number of techs in the ruleset (means without A_NONE). */
   int num_techs = 0;
   int i;
   const char *filename = secfile_name(file);
+  bool ok = TRUE;
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
 
@@ -936,10 +940,14 @@ static void load_tech_names(struct section_file *file)
 
   i = 0;
   advance_iterate(A_FIRST, a) {
-    ruleset_load_names(&a->name, file, section_name(section_list_get(sec, i)));
+    if (!ruleset_load_names(&a->name, file, section_name(section_list_get(sec, i)))) {
+      ok = FALSE;
+    }
     i++;
   } advance_iterate_end;
   section_list_destroy(sec);
+
+  return ok;
 }
 
 /**************************************************************************
@@ -1090,13 +1098,14 @@ restart:
   Load names of units so other rulesets can refer to units with
   their name.
 **************************************************************************/
-static void load_unit_names(struct section_file *file)
+static bool load_unit_names(struct section_file *file)
 {
   struct section_list *sec;
   int nval = 0;
   int i;
   const char *filename = secfile_name(file);
   const char *flag;
+  bool ok = TRUE;
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
 
@@ -1133,8 +1142,10 @@ static void load_unit_names(struct section_file *file)
 
   unit_class_iterate(punitclass) {
     const int i = uclass_index(punitclass);
-    ruleset_load_names(&punitclass->name, file,
-                       section_name(section_list_get(sec, i)));
+    if (!ruleset_load_names(&punitclass->name, file,
+                            section_name(section_list_get(sec, i)))) {
+      ok = FALSE;
+    }
   } unit_class_iterate_end;
   section_list_destroy(sec);
 
@@ -1153,10 +1164,14 @@ static void load_unit_names(struct section_file *file)
 
   unit_type_iterate(punittype) {
     const int i = utype_index(punittype);
-    ruleset_load_names(&punittype->name, file,
-                       section_name(section_list_get(sec, i)));
+    if (!ruleset_load_names(&punittype->name, file,
+                            section_name(section_list_get(sec, i)))) {
+      ok = FALSE;
+    }
   } unit_type_iterate_end;
   section_list_destroy(sec);
+
+  return ok;
 }
 
 /**************************************************************************
@@ -1741,11 +1756,12 @@ static void load_ruleset_units(struct section_file *file)
   Load names of buildings so other rulesets can refer to buildings with
   their name.
 **************************************************************************/
-static void load_building_names(struct section_file *file)
+static bool load_building_names(struct section_file *file)
 {
   struct section_list *sec;
   int i, nval = 0;
   const char *filename = secfile_name(file);
+  bool ok = TRUE;
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
 
@@ -1764,10 +1780,15 @@ static void load_building_names(struct section_file *file)
 
   for (i = 0; i < nval; i++) {
     struct impr_type *b = improvement_by_number(i);
-    ruleset_load_names(&b->name, file, section_name(section_list_get(sec, i)));
+
+    if (!ruleset_load_names(&b->name, file, section_name(section_list_get(sec, i)))) {
+      ok = FALSE;
+    }
   }
 
   section_list_destroy(sec);
+
+  return ok;
 }
 
 /**************************************************************************
@@ -1895,13 +1916,14 @@ static void load_ruleset_buildings(struct section_file *file)
   Load names of terrain types so other rulesets can refer to terrains with
   their name.
 **************************************************************************/
-static void load_terrain_names(struct section_file *file)
+static bool load_terrain_names(struct section_file *file)
 {
   int nval = 0;
   struct section_list *sec;
   const char *flag;
   int i;
   const char *filename = secfile_name(file);
+  bool ok = TRUE;
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
 
@@ -1945,7 +1967,10 @@ static void load_terrain_names(struct section_file *file)
   terrain_type_iterate(pterrain) {
     const int i = terrain_index(pterrain);
     const char *sec_name = section_name(section_list_get(sec, i));
-    ruleset_load_names(&pterrain->name, file, sec_name);
+
+    if (!ruleset_load_names(&pterrain->name, file, sec_name)) {
+      ok = FALSE;
+    }
 
     if (0 == strcmp(rule_name(&pterrain->name), "unused")) {
       name_set(&pterrain->name, "");
@@ -1975,7 +2000,10 @@ static void load_terrain_names(struct section_file *file)
   resource_type_iterate(presource) {
     const int i = resource_index(presource);
     const char *sec_name = section_name(section_list_get(sec, i));
-    ruleset_load_names(&presource->name, file, sec_name);
+
+    if (!ruleset_load_names(&presource->name, file, sec_name)) {
+      ok = FALSE;
+    }
 
     if (0 == strcmp(rule_name(&presource->name), "unused")) {
       name_set(&presource->name, "");
@@ -2006,7 +2034,10 @@ static void load_terrain_names(struct section_file *file)
   base_type_iterate(pbase) {
     const int i = base_index(pbase);
     const char *sec_name = section_name(section_list_get(sec, i));
-    ruleset_load_names(&pbase->name, file, sec_name);
+
+    if (!ruleset_load_names(&pbase->name, file, sec_name)) {
+      ok = FALSE;
+    }
     section_strlcpy(&base_sections[i * MAX_SECTION_LABEL], sec_name);
   } base_type_iterate_end;
 
@@ -2028,13 +2059,18 @@ static void load_terrain_names(struct section_file *file)
   road_type_iterate(proad) {
     const int i = road_index(proad);
     const char *sec_name = section_name(section_list_get(sec, i));
-    ruleset_load_names(&proad->name, file, sec_name);
+
+    if (!ruleset_load_names(&proad->name, file, sec_name)) {
+      ok = FALSE;
+    }
     section_strlcpy(&road_sections[i * MAX_SECTION_LABEL], sec_name);
   } road_type_iterate_end;
 
   if (NULL != sec) {
     section_list_destroy(sec);
   }
+
+  return ok;
 }
 
 /**************************************************************************
@@ -2579,11 +2615,12 @@ static void load_ruleset_terrain(struct section_file *file)
   Load names of governments so other rulesets can refer to governments with
   their name.
 **************************************************************************/
-static void load_government_names(struct section_file *file)
+static bool load_government_names(struct section_file *file)
 {
   int nval = 0;
   struct section_list *sec;
   const char *filename = secfile_name(file);
+  bool ok = TRUE;
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
 
@@ -2604,9 +2641,14 @@ static void load_government_names(struct section_file *file)
   governments_iterate(gov) {
     const char *sec_name =
         section_name(section_list_get(sec, government_index(gov)));
-    ruleset_load_names(&gov->name, file, sec_name);
+
+    if (!ruleset_load_names(&gov->name, file, sec_name)) {
+      ok = FALSE;
+    }
   } governments_iterate_end;
   section_list_destroy(sec);
+
+  return ok;
 }
 
 /**************************************************************************
@@ -2743,10 +2785,11 @@ static const char *check_leader_names(struct nation_type *pnation,
   Load names of nations so other rulesets can refer to nations with
   their name.
 **************************************************************************/
-static void load_nation_names(struct section_file *file)
+static bool load_nation_names(struct section_file *file)
 {
   struct section_list *sec;
   int j;
+  bool ok = TRUE;
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
 
@@ -2763,7 +2806,9 @@ static void load_nation_names(struct section_file *file)
     const char *noun_plural = secfile_lookup_str(file,
                                                  "%s.plural", sec_name);
 
-    ruleset_load_names(&pl->adjective, file, sec_name);
+    if (!ruleset_load_names(&pl->adjective, file, sec_name)) {
+      ok = FALSE;
+    }
     name_set(&pl->noun_plural, noun_plural);
 
     /* Check if nation name is already defined. */
@@ -2801,6 +2846,8 @@ static void load_nation_names(struct section_file *file)
     }
   } nations_iterate_end;
   section_list_destroy(sec);
+
+  return ok;
 }
 
 /****************************************************************************
@@ -3301,10 +3348,11 @@ static void load_ruleset_nations(struct section_file *file)
   Load names of city styles so other rulesets can refer to city styles with
   their name.
 **************************************************************************/
-static void load_citystyle_names(struct section_file *file)
+static bool load_citystyle_names(struct section_file *file)
 {
   struct section_list *styles;
   int i = 0;
+  bool ok = TRUE;
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
 
@@ -3313,25 +3361,30 @@ static void load_citystyle_names(struct section_file *file)
   if (NULL != styles) {
     city_styles_alloc(section_list_size(styles));
     section_list_iterate(styles, style) {
-      ruleset_load_names(&city_styles[i].name, file, section_name(style));
+      if (!ruleset_load_names(&city_styles[i].name, file, section_name(style))) {
+        ok = FALSE;
+      }
       i++;
     } section_list_iterate_end;
     section_list_destroy(styles);
   } else {
     city_styles_alloc(0);
   }
+
+  return ok;
 }
 
 /**************************************************************************
 Load cities.ruleset file
 **************************************************************************/
-static void load_ruleset_cities(struct section_file *file)
+static bool load_ruleset_cities(struct section_file *file)
 {
   const char *replacement;
   int i;
   const char *filename = secfile_name(file);
   const char *item;
   struct section_list *sec;
+  bool ok = TRUE;
 
   (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
 
@@ -3349,7 +3402,9 @@ static void load_ruleset_cities(struct section_file *file)
     struct requirement_vector *reqs;
     const char *sec_name = section_name(psection);
 
-    ruleset_load_names(&s->name, file, sec_name);
+    if (!ruleset_load_names(&s->name, file, sec_name)) {
+      ok = FALSE;
+    }
 
     item = secfile_lookup_str_default(file, untranslated_name(&s->name),
                                       "%s.short_name", sec_name);
@@ -3456,6 +3511,8 @@ static void load_ruleset_cities(struct section_file *file)
   section_list_destroy(sec);
 
   secfile_check_unused(file);
+
+  return ok;
 }
 
 /**************************************************************************
@@ -3966,7 +4023,10 @@ static void load_ruleset_game(const char *rsdir)
     struct requirement_vector *reqs;
     const char *sec_name = section_name(section_list_get(sec, id));
 
-    ruleset_load_names(&pdis->name, file, sec_name);
+    if (!ruleset_load_names(&pdis->name, file, sec_name)) {
+      ruleset_error(LOG_FATAL, "\"%s\": Cannot load disaster names",
+                    filename);
+    }
 
     reqs = lookup_req_list(file, sec_name, "reqs", disaster_rule_name(pdis));
     requirement_vector_copy(&pdis->reqs, reqs);
@@ -4854,16 +4914,20 @@ static bool load_rulesetdir(const char *rsdir)
   }
 
   if (ok) {
-    load_tech_names(techfile);
-    load_building_names(buildfile);
-    load_government_names(govfile);
-    load_unit_names(unitfile);
-    load_terrain_names(terrfile);
-    load_citystyle_names(cityfile);
-    load_nation_names(nationfile);
+    ok = load_tech_names(techfile)
+      && load_building_names(buildfile)
+      && load_government_names(govfile)
+      && load_unit_names(unitfile)
+      && load_terrain_names(terrfile)
+      && load_citystyle_names(cityfile)
+      && load_nation_names(nationfile);
+  }
 
+  if (ok) {
     load_ruleset_techs(techfile);
-    load_ruleset_cities(cityfile);
+    ok = load_ruleset_cities(cityfile);
+  }
+  if (ok) {
     load_ruleset_governments(govfile);
     load_ruleset_terrain(terrfile);  /* terrain must precede nations and units */
     load_ruleset_units(unitfile);
