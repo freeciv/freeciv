@@ -131,10 +131,7 @@ data directory path instead of "data")
 
 Start the client normally.  The client must be network-compatible
 (usually meaning the same or similar version) but otherwise nothing
-special is needed.  (However some third-party rulesets may
-potentially require special graphics to work properly, in which case
-the client should have those graphics available and be started with
-an appropriate '--tiles' argument.)
+special is needed.
 
 Note that the Freeciv AI might not play as well with rules other
 than standard Freeciv.  The AI is supposed to understand and
