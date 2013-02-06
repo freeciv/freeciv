@@ -116,14 +116,10 @@ libfreeciv_srv_la_SOURCES = \
 # outside this directory (when building common) there's no point in
 # setting them to BUILT_SOURCES.
 
-da_libs =
+da_libs = 
 
-if !AI_MODULES
-da_libs += $(top_builddir)/ai/default/libclassicai.la
-else
 if AI_MOD_STATIC_CLASSIC
 da_libs += $(top_builddir)/ai/default/libclassicai.la
-endif
 endif
 if AI_MOD_STATIC_THREADED
 da_libs += $(top_builddir)/ai/threaded/libthreadedai.la

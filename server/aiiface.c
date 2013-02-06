@@ -156,38 +156,45 @@ void ai_init(void)
   }
 #endif /* AI_MODULES */
 
-#if defined(AI_MODULES) && !defined(AI_MOD_STATIC_CLASSIC)
-
-  if (!failure && !load_ai_module("classic")) {
-    failure = TRUE;
-  }
-
-#else  /* AI_MOD_STATIC_CLASSIC */
-
+#ifdef AI_MOD_STATIC_CLASSIC
   ai = ai_type_alloc();
-  init_ai(ai);
-  if (!fc_ai_classic_setup(ai)) {
-    failure = TRUE;
+  if (ai != NULL) {
+    init_ai(ai);
+    if (!fc_ai_classic_setup(ai)) {
+      log_error(_("Failed to setup \"%s\" AI module"), "classic");
+      ai_type_dealloc();
+    }
   }
-
 #endif /* AI_MOD_STATIC_CLASSIC */
-
-  if (failure) {
-    log_fatal(_("Failed to setup default AI module, cannot continue."));
-    exit(EXIT_FAILURE);
-  }
-
-  default_ai = ai;
 
 #ifdef AI_MOD_STATIC_THREADED
   ai = ai_type_alloc();
   if (ai != NULL) {
     init_ai(ai);
     if (!fc_ai_threaded_setup(ai)) {
-      log_error(_("Failed to setup threaded AI module"));
+      log_error(_("Failed to setup \"%s\" AI module"), "threaded");
+      ai_type_dealloc();
     }
   }
 #endif /* AI_MOD_STATIC_THREADED */
+
+  default_ai = ai_type_by_name(AI_MOD_DEFAULT);
+#ifdef AI_MODULES
+  if (default_ai == NULL) {
+    /* Wasn't among statically linked. Try to load dynamic module. */
+    if (!failure && !load_ai_module(AI_MOD_DEFAULT)) {
+      failure = TRUE;
+    }
+    if (!failure) {
+      default_ai = ai_type_by_name(AI_MOD_DEFAULT);
+    }
+  }
+#endif /* AI_MODULES */
+  if (default_ai == NULL || failure) {
+    log_error(_("Failed to setup default AI module \"%s\", cannot continue."),
+              AI_MOD_DEFAULT);
+    exit(EXIT_FAILURE);
+  }
 }
 
 /**************************************************************************

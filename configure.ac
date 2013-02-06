@@ -345,7 +345,7 @@ if test $enable_aimodules = yes ; then
       AC_MSG_ERROR([cannot build loadable AI modules as requested])])
   LIBS="$LIBS_TMP"
   SERVER_LIBS="${SERVER_LIBS} -lltdl"
-  AC_DEFINE_UNQUOTED([AI_MODULES], [1], [Directory for ai modules])
+  AC_DEFINE([AI_MODULES], [1], [Enable ai modules])
   CPPFLAGS="${CPPFLAGS} -DAI_MODULEDIR=\"\\\"${aimoduledir}\\\"\""
 fi
 AM_CONDITIONAL(EXP_AI_MODULES, test "x$exp_aimodules" = "xyes")
@@ -370,11 +370,32 @@ for module in $(echo $static_modules | $SED 's/,/ /g') ; do
   else
     AC_MSG_ERROR([bad value ${module} for --enable-ai-static])
   fi
+  if test "x$default_ai_set" = "x" ; then
+    dnl Make first static module default ai type
+    default_ai_set="${module}"
+  fi
 done
+if test "x$ai_mod_statix_classic" != "xyes" ; then
+  if test "x$ai_mod_static_threaded" = "xyes" ; then
+    AC_MSG_WARN([Selected ai module depends on classic, it's automatically enabled])
+    ai_mod_static_classic=yes
+  fi
+fi
 AM_CONDITIONAL([AI_MOD_STATIC_CLASSIC],
 [test "x$ai_mod_static_classic" = "xyes" || test "x$enable_aimodules" != "xyes"])
 AM_CONDITIONAL([AI_MOD_STATIC_THREADED],
 [test "x$ai_mod_static_threaded" = "xyes"])
+
+AC_ARG_WITH([default-ai],
+  AS_HELP_STRING([--with-default-ai], [default ai type [[first static]]]),
+  [default_ai_set="${withval}"],
+  [])
+
+if test "x${default_ai_set}" = "x" ; then
+  default_ai_set="classic"
+fi
+
+AC_DEFINE_UNQUOTED([AI_MOD_DEFAULT], ["${default_ai_set}"], [Default ai type name])
 
 dnl Checks for programs.
 AC_PROG_AWK
