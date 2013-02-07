@@ -298,3 +298,16 @@ colorlist =
       168, 153, 230
       255, 250, 205
     }
+
+[settings]
+; freeciv game settings for the alien ruleset
+set =
+   { "name", "value"
+     "topology",    "WRAPX|WRAPY"
+     "aifill",      5
+     "sciencebox",  150
+     "foodbox",     150
+     "revolen",     7
+     "citymindist", 3
+     "startunits",  "cx"
+   }
