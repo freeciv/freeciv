@@ -532,8 +532,7 @@ int get_virtual_defense_power(const struct unit_type *att_type,
   int defensepower = def_type->defense_strength;
   int db;
 
-  if (utype_move_type(def_type) == LAND_MOVING
-      && is_ocean_tile(ptile)) {
+  if (!can_exist_at_tile(def_type, ptile)) {
     /* Ground units on ship doesn't defend. */
     return 0;
   }
