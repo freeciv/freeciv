@@ -632,6 +632,7 @@ void city_dialog::setup_ui(struct city *qcity)
 
   setWindowIcon(q_icon);
   pcity = qcity;
+  production_combo->blockSignals(true);
   citizens_label->set_city(pcity);
   update_title();
   update_info_label();
@@ -640,6 +641,7 @@ void city_dialog::setup_ui(struct city *qcity)
   update_improvements();
   view->set_pixmap(pcity);
   update_buy_button();
+  production_combo->blockSignals(false);
 
 }
 

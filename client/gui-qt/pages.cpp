@@ -15,13 +15,22 @@
 #include <fc_config.h>
 #endif
 
+//common
+#include "game.h"
+
+//client
+#include "client_main.h"
+
+//gui-qt
+#include "dialogs.h"
 #include "pages.h"
+#include "sprite.h"
+#include <gui-sdl/mmx.h>
 
 Q_DECLARE_METATYPE (QDockWidget::DockWidgetFeatures)
 static struct server_scan *meta_scan, *lan_scan;
 static bool holding_srv_list_mutex = false;
 static enum connection_state connection_status;
-
 /**************************************************************************
   Sets the "page" that the client should show.  See also pages_g.h.
 **************************************************************************/
@@ -53,7 +62,7 @@ enum client_pages qtg_get_current_client_page()
 **************************************************************************/
 void update_start_page(void)
 {
-  /* PORTME */
+  gui()->update_start_page();
 }
 
 /**************************************************************************
@@ -86,18 +95,18 @@ void fc_client::create_main_page(void)
       break;
     case 1:
       pages_layout[PAGE_MAIN]->addWidget(button, 2, 0);
-      QObject::connect(button, SIGNAL(clicked()), this,
-                       SLOT(slot_switch_to_scenario_page()));
+      connect(button, SIGNAL(clicked()), switch_page_mapper, SLOT(map()));
+      switch_page_mapper->setMapping(button, PAGE_SCENARIO);
       break;
     case 2:
       pages_layout[PAGE_MAIN]->addWidget(button, 3, 0);
-      QObject::connect(button, SIGNAL(clicked()), this,
-                       SLOT(slot_switch_to_load_page()));
+      connect(button, SIGNAL(clicked()), switch_page_mapper, SLOT(map()));
+      switch_page_mapper->setMapping(button, PAGE_LOAD);
       break;
     case 3:
       pages_layout[PAGE_MAIN]->addWidget(button, 1, 1);
-      QObject::connect(button, SIGNAL(clicked()), this,
-                       SLOT(slot_switch_to_network_page()));
+      connect(button, SIGNAL(clicked()), switch_page_mapper, SLOT(map()));
+      switch_page_mapper->setMapping(button, PAGE_NETWORK);
       break;
     case 4:
       pages_layout[PAGE_MAIN]->addWidget(button, 2, 1);
@@ -253,8 +262,9 @@ void fc_client::create_network_page(void)
 
   network_button = new QPushButton;
   network_button->setText(tr(_("&Cancel")));
-  QObject::connect(network_button, SIGNAL(clicked()), this,
-                   SLOT(slot_switch_to_main_page()));
+  connect(network_button, SIGNAL(clicked()), switch_page_mapper,
+          SLOT(map()));
+  switch_page_mapper->setMapping(network_button, PAGE_MAIN);
   page_network_grid_layout->addWidget(network_button, 5, 2, 1, 1);
 
   network_button = new QPushButton;
@@ -282,21 +292,6 @@ void fc_client::create_network_page(void)
 void fc_client::set_status_bar(QString message)
 {
   status_bar_label->setText (message);
-}
-
-/***************************************************************************
-  Creates context menu in TableView when clicked on some player
-***************************************************************************/
-void create_conn_menu(struct player *pplayer, struct connection *pconn)
-{
-  /* FIXME */
-  char buf[128];
-  fc_snprintf(buf, sizeof(buf), _("%s info"),
-              pconn ? pconn->username : player_name(pplayer));
-
-  if (NULL != pplayer) {
-
-  }
 }
 
 /***************************************************************************
@@ -336,8 +331,8 @@ void fc_client::create_load_page()
 
   but = new QPushButton;
   but->setText(tr(_("Cancel")));
-  QObject::connect(but, SIGNAL(clicked()), this,
-                   SLOT(slot_switch_to_main_page()));
+  connect(but, SIGNAL(clicked()), switch_page_mapper, SLOT(map()));
+  switch_page_mapper->setMapping(but, PAGE_MAIN);
   pages_layout[PAGE_LOAD]->addWidget(but, 1, 2);
 
   but = new QPushButton;
@@ -380,8 +375,8 @@ void fc_client::create_scenario_page()
 
   but = new QPushButton;
   but->setText(tr(_("Cancel")));
-  QObject::connect(but, SIGNAL(clicked()), this,
-                   SLOT(slot_switch_to_main_page()));
+  connect(but, SIGNAL(clicked()), switch_page_mapper, SLOT(map()));
+  switch_page_mapper->setMapping(but, PAGE_MAIN);
   pages_layout[PAGE_SCENARIO]->addWidget(but, 2, 3);
 
   but = new QPushButton;
@@ -395,39 +390,50 @@ void fc_client::create_scenario_page()
 void fc_client::create_start_page()
 {
   pages_layout[PAGE_START] = new QGridLayout;
-  start_players = new QTableWidget;
   QStringList player_widget_list;
+  start_players_tree = new QTreeWidget;
 
   player_widget_list << _("Name") << _("Ready") << _("Leader")
-                     << _("Flag") << _("Nation");
-  start_players->setRowCount(0);
-  start_players->setColumnCount(player_widget_list.count());
-  start_players->setHorizontalHeaderLabels(player_widget_list);
-  QHeaderView *header;
-  header = start_players->horizontalHeader();
-  header->resizeSections(QHeaderView::ResizeToContents);
+                     << _("Flag") << _("Nation") << _("Team");
+
+
+  start_players_tree->setColumnCount(player_widget_list.count());
+  start_players_tree->setHeaderLabels(player_widget_list);
+  start_players_tree->setContextMenuPolicy(Qt::CustomContextMenu);
+  start_players_tree->setProperty("selectionBehavior", "SelectRows");
+  start_players_tree->setEditTriggers(QAbstractItemView::NoEditTriggers);
+  start_players_tree->setRootIsDecorated(false);
+
+  connect(start_players_tree,
+          SIGNAL(customContextMenuRequested(const QPoint&)),
+          SLOT(start_page_menu(QPoint)));
+
   QPushButton *but;
   but = new QPushButton;
   but->setText(_("More Game Options"));
-  pages_layout[PAGE_START]->addWidget(but, 6, 0);
-  pages_layout[PAGE_START]->addWidget(start_players, 0, 0, 5, 4);
+  pages_layout[PAGE_START]->addWidget(but, 4, 0);
+  pages_layout[PAGE_START]->addWidget(start_players_tree, 0, 0, 2, 8);
   but = new QPushButton;
   but->setText(_("Disconnect"));
   QObject::connect(but, SIGNAL(clicked()), this, SLOT(slot_disconnect()));
-  pages_layout[PAGE_START]->addWidget(but, 7, 0);
+  pages_layout[PAGE_START]->addWidget(but, 5, 4);
   but = new QPushButton;
   but->setText(_("Pick Nation"));
-  pages_layout[PAGE_START]->addWidget(but, 7, 1);
-  but = new QPushButton;
-  but->setText(_("Observe"));
-  pages_layout[PAGE_START]->addWidget(but, 7, 2);
+  pages_layout[PAGE_START]->addWidget(but, 5, 5);
   QObject::connect(but, SIGNAL(clicked()), this,
+                   SLOT(slot_pick_nation()));
+
+  obs_button = new QPushButton;
+  obs_button->setText(_("Observe"));
+  pages_layout[PAGE_START]->addWidget(obs_button, 5, 6);
+  QObject::connect(obs_button, SIGNAL(clicked()), this,
                    SLOT(slot_pregame_observe()));
   but = new QPushButton;
   but->setText(_("Start"));
-  pages_layout[PAGE_START]->addWidget(but, 7, 3);
+  pages_layout[PAGE_START]->addWidget(but, 5, 7);
   QObject::connect(but, SIGNAL(clicked()), this,
                    SLOT(slot_pregame_start()));
+
 }
 
 /***************************************************************************
@@ -746,9 +752,9 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
 void fc_client::create_dock_widgets()
 {
   int i;
-  QVBoxLayout *h_box = new QVBoxLayout;
   QWidget *wi;
 
+  ver_dock_layout = new QVBoxLayout;
   output_window = new QTextEdit(central_wdg);
   chat_line = new QLineEdit(central_wdg);
   messages_window = new QTableWidget(central_wdg);
@@ -775,9 +781,9 @@ void fc_client::create_dock_widgets()
 
     switch (i) {
     case 0: //CHAT WIDGET
-      h_box->addWidget(output_window);
-      h_box->addWidget(chat_line);
-      wi->setLayout(h_box);
+      ver_dock_layout->addWidget(output_window);
+      ver_dock_layout->addWidget(chat_line);
+      wi->setLayout(ver_dock_layout);
       dock_widget[i]->setWidget(wi);
       dock_widget[i]->setFeatures(QDockWidget::DockWidgetMovable
                                   | QDockWidget::DockWidgetFloatable);
@@ -809,15 +815,19 @@ void fc_client::hide_dock_widgets()
 }
 
 /***************************************************************************
-  Shows one widget = dw
+  Shows one widget = dw, or hides if show is false
 ***************************************************************************/
-void fc_client::show_dock_widget(int dw)
+void fc_client::show_dock_widget(int dw, bool show)
 {
   int i;
 
   for (i = OUTPUT_DOCK_WIDGET ; i <  LAST_WIDGET; i++) {
-    if (i == dw) {
+    if (i == dw ) {
+      if (show) {
       dock_widget[i]->show();
+      } else {
+      dock_widget[i]->hide();
+      }
     }
   }
 }
@@ -965,4 +975,425 @@ void fc_client::slot_connect()
   }
 
   log_error("Unsupported connection status: %d", connection_status);
+}
+
+/***************************************************************************
+ Updates start page (start page = client connected to server, but game not
+ started )
+***************************************************************************/
+void fc_client::update_start_page()
+{
+  int conn_num;
+  QVariant qvar, qvar2;
+  bool is_ready;
+  QString nation, leader, team, str;
+  QPixmap *pixmap;
+  struct sprite *psprite;
+  QTreeWidgetItem *item;
+  QTreeWidgetItem *item_r;
+  QList <QTreeWidgetItem*> items;
+  QList <QTreeWidgetItem*> recursed_items;
+  QTreeWidgetItem *player_item;
+  QTreeWidgetItem *global_item;
+  QTreeWidgetItem *detach_item;
+  int conn_id;
+  conn_num = conn_list_size(game.est_connections);
+
+  if (conn_num == 0) {
+    return;
+  }
+
+  start_players_tree->clear();
+  qvar2 = 0;
+
+  player_item = new QTreeWidgetItem();
+  player_item->setText(0, _("Players"));
+  player_item->setData(0, Qt::UserRole, qvar2);
+
+  /**
+   * Inserts playing players, observing custom players, and AI )
+   */
+
+  players_iterate(pplayer) {
+    item = new QTreeWidgetItem();
+    conn_id = -1;
+    conn_list_iterate(pplayer->connections, pconn) {
+      if (pconn->playing == pplayer && !pconn->observer) {
+        conn_id = pconn->id;
+        break;
+      }
+    }
+    conn_list_iterate_end;
+
+    if (pplayer->ai_controlled) {
+      is_ready = true;
+    } else {
+      is_ready = pplayer->is_ready;
+    }
+
+    if (pplayer->nation == NO_NATION_SELECTED) {
+      nation = _("Random");
+
+      if (pplayer->was_created) {
+        leader = player_name(pplayer);
+      } else {
+        leader = "";
+      }
+    } else {
+      nation = nation_adjective_for_player(pplayer);
+      leader = player_name(pplayer);
+    }
+
+    if (pplayer->team) {
+      team = team_name_translation(pplayer->team);
+    } else {
+      team = "";
+    }
+
+    for (int col = 0; col < 6; col++) {
+      switch (col) {
+      case 0:
+        str = pplayer->username;
+
+        if (pplayer->ai_controlled) {
+          str = str + " <" + (ai_level_name(pplayer->ai_common.skill_level))
+              + ">";
+        }
+
+        item->setText(col, str);
+        qvar = QVariant::fromValue((void *) pplayer);
+        qvar2 = 1;
+        item->setData(0, Qt::UserRole, qvar2);
+        item->setData(1, Qt::UserRole, qvar);
+        break;
+      case 1:
+        if (is_ready) {
+          item->setText(col, _("Yes"));
+        } else {
+          item->setText(col, _("No"));
+        }
+        break;
+      case 2:
+        item->setText(col, leader);
+        break;
+      case 3:
+        if (!pplayer->nation) {
+          break;
+        }
+        psprite = get_nation_flag_sprite(tileset, pplayer->nation);
+        pixmap = psprite->pm;
+        item->setData(col, Qt::DecorationRole, *pixmap);
+        break;
+      case 4:
+        item->setText(col, nation);
+        break;
+      case 5:
+        item->setText(col, team);
+        break;
+      }
+    }
+
+    /**
+     * find any custom observers
+     */
+    recursed_items.clear();
+    conn_list_iterate(pplayer->connections, pconn) {
+      if (pconn->id == conn_id) {
+        continue;
+      }
+      item_r = new QTreeWidgetItem();
+      item_r->setText(0, pconn->username);
+      item_r->setText(5, _("Observer"));
+      recursed_items.append(item_r);
+      item->addChildren(recursed_items);
+    }
+    conn_list_iterate_end;
+    items.append(item);
+  }
+  players_iterate_end;
+
+  player_item->addChildren(items);
+  start_players_tree->insertTopLevelItem(0, player_item);
+
+  /**
+   * Insert global observers
+   */
+  items.clear();
+  global_item = new QTreeWidgetItem();
+  global_item->setText(0, _("Global observers"));
+  qvar2 = 0;
+  global_item->setData(0, Qt::UserRole, qvar2);
+
+  conn_list_iterate(game.est_connections, pconn) {
+    if (NULL != pconn->playing || !pconn->observer) {
+      continue;
+    }
+    item = new QTreeWidgetItem();
+    for (int col = 0; col < 6; col++) {
+      switch (col) {
+      case 0:
+        item->setText(col, pconn->username);
+        break;
+      case 5:
+        item->setText(col, _("Observer"));
+        break;
+      default:
+        break;
+      }
+      items.append(item);
+    }
+  }
+  conn_list_iterate_end;
+
+  global_item->addChildren(items);
+  start_players_tree->insertTopLevelItem(1, global_item);
+  items.clear();
+
+  /**
+  * Insert detached
+  */
+  detach_item = new QTreeWidgetItem();
+  detach_item->setText(0, _("Detached"));
+  qvar2 = 0;
+  detach_item->setData(0, Qt::UserRole, qvar2);
+
+  conn_list_iterate(game.all_connections, pconn) {
+    if (NULL != pconn->playing || pconn->observer) {
+      continue;
+    }
+    item = new QTreeWidgetItem();
+    item->setText(0, pconn->username);
+    items.append(item);
+  }
+  conn_list_iterate_end;
+
+  detach_item->addChildren(items);
+  start_players_tree->insertTopLevelItem(2, detach_item);
+  start_players_tree->header()->setResizeMode(QHeaderView::ResizeToContents);
+  start_players_tree->expandAll();
+  update_obs_button();
+}
+
+/***************************************************************************
+  Updates observe button in case user started observing manually
+***************************************************************************/
+void fc_client::update_obs_button()
+{
+  if (client_is_observer() || client_is_global_observer()) {
+    obs_button->setText(_("Don't Observe"));
+  } else {
+    obs_button->setText(_("Observe"));
+  }
+}
+
+/***************************************************************************
+  Context menu on some player, arg Qpoint specifies some pixel on screen
+***************************************************************************/
+void fc_client::start_page_menu(QPoint pos)
+{
+  QAction *action;
+  QMenu menu(start_players_tree);
+  QMenu submenu_AI(start_players_tree), submenu_team(start_players_tree);
+  QPoint global_pos = start_players_tree->mapToGlobal(pos);
+  QString me, splayer, str, sp;
+  bool need_empty_team;
+  const char *level_cmd, *level_name;
+  int level, count;
+  QSignalMapper *player_menu_mapper;
+  player *selected_player;
+  QVariant qvar, qvar2;
+
+  me = client.conn.username;
+  QTreeWidgetItem *item = start_players_tree->itemAt(pos);
+
+  if (!item) {
+    return;
+  }
+
+  qvar = item->data(0, Qt::UserRole);
+  qvar2 = item->data(1, Qt::UserRole);
+
+  /**
+   * qvar = 0 -> selected label -> do nothing
+   * qvar = 1 -> selected player (stored in qvar2)
+   */
+
+  selected_player = NULL;
+  if (qvar == 0) {
+    return;
+  }
+  if (qvar == 1) {
+    selected_player = (player *) qvar2.value < void *>();
+  }
+  player_menu_mapper = new QSignalMapper;
+  players_iterate(pplayer) {
+    if (selected_player && selected_player == pplayer) {
+      splayer = QString(pplayer->name);
+      sp = "\"" + splayer + "\"";
+      if (me != splayer) {
+        str = QString(_("Observe"));
+        action = new QAction(str, start_players);
+        str = "/observe " + sp;
+        connect(action, SIGNAL(triggered()), player_menu_mapper,
+                SLOT(map()));
+        player_menu_mapper->setMapping(action, str);
+        menu.addAction(action);
+
+        if (ALLOW_CTRL <= client.conn.access_level) {
+          str = QString(_("Remove player"));
+          action = new QAction(str, start_players);
+          str = "/remove " + sp;
+          connect(action, SIGNAL(triggered()), player_menu_mapper,
+                  SLOT(map()));
+          player_menu_mapper->setMapping(action, str);
+          menu.addAction(action);
+        }
+        str = QString(_("Take this player"));
+        action = new QAction(str, start_players);
+        str = "/take " + sp;
+        connect(action, SIGNAL(triggered()), player_menu_mapper,
+                SLOT(map()));
+        player_menu_mapper->setMapping(action, str);
+        menu.addAction(action);
+      }
+
+      if (can_conn_edit_players_nation(&client.conn, pplayer)) {
+        str = QString(_("Pick nation"));
+        action = new QAction(str, start_players);
+        str = "PICK:" + QString(player_name(pplayer));  /* PICK is a key */
+        connect(action, SIGNAL(triggered()), player_menu_mapper,
+                SLOT(map()));
+        player_menu_mapper->setMapping(action, str);
+        menu.addAction(action);
+      }
+
+      if (pplayer->ai_controlled) {
+        /**
+         * Set AI difficulty submenu
+         */
+        if (ALLOW_CTRL <= client.conn.access_level
+            && NULL != pplayer && pplayer->ai_controlled) {
+          submenu_AI.setTitle(_("Set difficulty"));
+          menu.addMenu(&submenu_AI);
+
+          for (level = 0; level < AI_LEVEL_LAST; level++) {
+            if (is_settable_ai_level(static_cast < ai_level > (level))) {
+              level_name = ai_level_name(static_cast < ai_level > (level));
+              level_cmd = ai_level_cmd(static_cast < ai_level > (level));
+              action = new QAction(QString(level_name), start_players);
+              str = "/" + QString(level_cmd) + " " + sp;
+              connect(action, SIGNAL(triggered()), player_menu_mapper,
+                      SLOT(map()));
+              player_menu_mapper->setMapping(action, str);
+              submenu_AI.addAction(action);
+            }
+          }
+        }
+      }
+
+      /**
+      * Put to Team X submenu
+      */
+      if (pplayer && game.info.is_new_game) {
+        menu.addMenu(&submenu_team);
+        submenu_team.setTitle(_("Put on team"));
+        menu.addMenu(&submenu_team);
+        count = pplayer->team ?
+            player_list_size(team_members(pplayer->team)) : 0;
+        need_empty_team = (count != 1);
+        team_slots_iterate(tslot) {
+          if (!team_slot_is_used(tslot)) {
+            if (!need_empty_team) {
+              continue;
+            }
+            need_empty_team = FALSE;
+          }
+          str = team_slot_name_translation(tslot);
+          action = new QAction(str, start_players);
+          str = "/team" + sp + " \"" + QString(team_slot_rule_name(tslot))
+              + "\"";
+          connect(action, SIGNAL(triggered()),
+                  player_menu_mapper, SLOT(map()));
+          player_menu_mapper->setMapping(action, str);
+          submenu_team.addAction(action);
+        }
+        team_slots_iterate_end;
+      }
+
+      if (ALLOW_CTRL <= client.conn.access_level && NULL != pplayer) {
+        str = QString(_("Aitoggle player"));
+        action = new QAction(str, start_players);
+        str = "/aitoggle " + sp;
+        connect(action, SIGNAL(triggered()), player_menu_mapper,
+                SLOT(map()));
+        player_menu_mapper->setMapping(action, str);
+        menu.addAction(action);
+      }
+      connect(player_menu_mapper, SIGNAL(mapped(const QString &)),
+              this, SLOT(send_command_to_server(const QString &)));
+      menu.exec(global_pos);
+      return;
+    }
+  }
+  players_iterate_end;
+  delete player_menu_mapper;
+}
+
+/***************************************************************************
+ Calls dialg selecting nations
+***************************************************************************/
+void fc_client::slot_pick_nation()
+{
+  popup_races_dialog(client_player());
+}
+
+/***************************************************************************
+  Sends commands to server, but first searches for cutom keys, if it finds
+  then it makes custom action
+***************************************************************************/
+void fc_client::send_command_to_server(const QString &str)
+{
+  int index;
+  QString splayer, s;
+
+  /** Key == PICK: used for picking nation, it was put here cause those
+   *  Qt slots are a bit limited ...I'm unable to pass custom player pointer
+   *  or idk how to do that
+   */
+  s = str;
+  index = str.indexOf("PICK:");
+
+  if (index != -1) {
+    s = s.remove("PICK:");
+    /* now should be playername left in string */
+    players_iterate(pplayer) {
+      splayer = QString(pplayer->name);
+
+      if (!splayer.compare(s)) {
+        popup_races_dialog(pplayer);
+      }
+    } players_iterate_end;
+    return;
+  }
+
+  /**
+   * If client send commands to take ai, set /away to disable AI
+   */
+
+  index = str.indexOf("/take ");
+  if (index != -1) {
+      s = s.remove("/take ");
+      players_iterate(pplayer) {
+      splayer = QString(pplayer->name);
+      splayer = "\"" + splayer + "\"";
+
+      if (!splayer.compare(s)) {
+        send_chat(str.toLocal8Bit().data());
+        send_chat("/away");
+        return;
+      }
+    } players_iterate_end;
+  }
+
+  send_chat(str.toLocal8Bit().data());
 }

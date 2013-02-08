@@ -64,6 +64,9 @@ fc_client::fc_client() : QObject()
   game_info_label = NULL;
   central_wdg = NULL;
   game_tab_widget = NULL;
+  ver_dock_layout = NULL;
+  start_players_tree = NULL;
+
   for (int i = 0; i < LAST_WIDGET; i++) {
     dock_widget[i] = NULL;
   }
@@ -77,7 +80,6 @@ fc_client::fc_client() : QObject()
   central_layout = new QGridLayout;
 
   // General part not related to any single page
-  observer_mode =  false;
   create_dock_widgets();
   menu_bar = new mr_menu();
   menu_bar->setup_menus();
@@ -88,6 +90,7 @@ fc_client::fc_client() : QObject()
   status_bar->addWidget(status_bar_label, 1);
   set_status_bar(_("Welcome to Freeciv"));
 
+  switch_page_mapper = new QSignalMapper;
   // PAGE_MAIN
   pages[PAGE_MAIN] = new QWidget(central_wdg);
   page = PAGE_MAIN;
@@ -133,7 +136,9 @@ fc_client::fc_client() : QObject()
                              dock_widget[ (int) OUTPUT_DOCK_WIDGET]);
   main_window->addDockWidget(Qt::BottomDockWidgetArea,
                              dock_widget[ (int) MESSAGE_DOCK_WIDGET]);
-  dock_widget[ (int) MESSAGE_DOCK_WIDGET]->hide();
+
+  connect(switch_page_mapper, SIGNAL(mapped( int)),
+                this, SLOT(switch_page(int)));
   main_window->setVisible(true);
 }
 
@@ -152,7 +157,7 @@ void fc_client::main(QApplication *qapp)
 {
 
   qRegisterMetaType<QTextCursor> ("QTextCursor");
-
+  QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
   real_output_window_append(_("This is Qt-client for Freeciv."), NULL, -1);
   chat_welcome_message();
 
@@ -192,23 +197,19 @@ bool fc_client::chat_active_on_page(enum client_pages check)
 
 /****************************************************************************
   Switch from one client page to another.
+  Argument is int cause QSignalMapper doesn't want to work with enum
+  Because chat widget is in 2 layouts we need to switch between them here
+  (addWidget removes it from prevoius layout automatically)
 ****************************************************************************/
-void fc_client::switch_page(enum client_pages new_page)
+void fc_client::switch_page(int new_pg)
 {
-  bool chat_old_act;
-  bool chat_new_act;
-
+  char buf[256];
+  enum client_pages new_page;
+  new_page = static_cast<client_pages>(new_pg);
   main_window->menuBar()->setVisible(false);
-  chat_old_act = chat_active_on_page(page);
-  chat_new_act = chat_active_on_page(new_page);
-
-  if (chat_new_act && !chat_old_act) {
-    chat_line->setReadOnly(false);
-  }
-
-  if (!chat_new_act && chat_old_act) {
-    chat_line->setReadOnly(true);
-  }
+  hide_dock_widgets();
+  ver_dock_layout->addWidget(output_window);
+  ver_dock_layout->addWidget(chat_line);
 
   for (int i = 0; i < PAGE_GGZ + 1; i++) {
     if (i == new_page) {
@@ -219,16 +220,36 @@ void fc_client::switch_page(enum client_pages new_page)
   }
 
   page = new_page;
-
-  if (page == PAGE_START) {
-    show_dock_widget( (int) OUTPUT_DOCK_WIDGET);
-  }
-
-  if (page == PAGE_GAME) {
+  switch (page) {
+  case PAGE_MAIN:
+    show_dock_widget(static_cast<int>(OUTPUT_DOCK_WIDGET), true);
+    break;
+  case PAGE_START:
+    pages_layout[PAGE_START]->addWidget(chat_line,5,0,1,4);
+    pages_layout[PAGE_START]->addWidget(output_window,3,0,2,8);
+    break;
+  case PAGE_LOAD:
+    update_load_page();
+    break;
+  case PAGE_GAME:
     main_window->menuBar()->setVisible(true);
-    show_dock_widget( (int) MESSAGE_DOCK_WIDGET);
-    show_dock_widget( (int) OUTPUT_DOCK_WIDGET);
+    show_dock_widget(static_cast<int>(OUTPUT_DOCK_WIDGET), true);
+    show_dock_widget(static_cast<int>(MESSAGE_DOCK_WIDGET), true);
     mapview_wdg->setFocus();
+    break;
+  case PAGE_SCENARIO:
+    update_scenarios_page();
+    break;
+  case PAGE_NETWORK:
+    hide_dock_widgets();
+    update_network_lists();
+    connect_host_edit->setText(server_host);
+    fc_snprintf(buf, sizeof(buf), "%d", server_port);
+    connect_port_edit->setText(buf);
+    connect_login_edit->setText(user_name);
+    break;
+  case PAGE_GGZ:
+    break;
   }
 }
 
@@ -292,72 +313,6 @@ void fc_client::quit()
 }
 
 /****************************************************************************
- * Switchs page to PAGE_MAIN
- ***************************************************************************/
-void fc_client::slot_switch_to_main_page()
-{
-  switch_page(PAGE_MAIN);
-  show_dock_widget( (int) OUTPUT_DOCK_WIDGET);
-}
-
-/****************************************************************************
-  Switchs page to PAGE_LOAD
-****************************************************************************/
-void fc_client::slot_switch_to_load_page()
-{
-  update_load_page();
-  switch_page(PAGE_LOAD);
-  hide_dock_widgets();
-}
-
-/****************************************************************************
-  Switchs page to PAGE_SCENARIO
-****************************************************************************/
-void fc_client::slot_switch_to_scenario_page()
-{
-  update_scenarios_page();
-  switch_page(PAGE_SCENARIO);
-  hide_dock_widgets();
-}
-
-/****************************************************************************
-  Switchs page to PAGE_START
-****************************************************************************/
-void fc_client::slot_switch_to_start_page()
-{
-  switch_page(PAGE_START);
-  show_dock_widget( (int) OUTPUT_DOCK_WIDGET);
-}
-
-/****************************************************************************
-  Switchs page to PAGE_GAME
-****************************************************************************/
-void fc_client::slot_switch_to_game_page()
-{
-  switch_page(PAGE_GAME);
-  show_dock_widget( (int) OUTPUT_DOCK_WIDGET);
-  show_dock_widget( (int) MESSAGE_DOCK_WIDGET);
-  main_window->menuBar()->setVisible(true);
-  mapview_wdg->setFocus();
-}
-
-/****************************************************************************
-  Switchs page to PAGE_NETWORK
-****************************************************************************/
-void fc_client::slot_switch_to_network_page()
-{
-  char buf[256];
-
-  switch_page(PAGE_NETWORK);
-  hide_dock_widgets();
-  update_network_lists();
-  connect_host_edit->setText(server_host);
-  fc_snprintf(buf, sizeof (buf), "%d", server_port);
-  connect_port_edit->setText(buf);
-  connect_login_edit->setText(user_name);
-}
-
-/****************************************************************************
   Disconnect from server and return to MAIN PAGE
 ****************************************************************************/
 void fc_client::slot_disconnect()
@@ -367,7 +322,6 @@ void fc_client::slot_disconnect()
   }
 
   switch_page(PAGE_MAIN);
-  show_dock_widget( (int) OUTPUT_DOCK_WIDGET);
 }
 
 /****************************************************************************
@@ -375,13 +329,13 @@ void fc_client::slot_disconnect()
 ****************************************************************************/
 void fc_client::slot_pregame_observe()
 {
-  if (observer_mode == false) {
-    send_chat("/observe");
-  } else {
+  if (client_is_observer() || client_is_global_observer()) {
     send_chat("/take -");
+    obs_button->setText(_("Don't Observe"));
+  } else {
+    send_chat("/obs");
+    obs_button->setText(_("Observe"));
   }
-
-  observer_mode = !observer_mode;
 }
 
 /****************************************************************************

@@ -96,6 +96,7 @@ class fc_client : public QObject
   QWidget *connect_metaserver;
   QWidget *game_main_widget;
 
+  QVBoxLayout *ver_dock_layout;
   QGridLayout *central_layout;
   QGridLayout *pages_layout[PAGE_GGZ + 1];
 
@@ -109,6 +110,7 @@ class fc_client : public QObject
   QLineEdit *connect_confirm_password_edit;
 
   QPushButton *button;
+  QPushButton *obs_button;
 
   QDialogButtonBox* button_box;
 
@@ -124,12 +126,14 @@ class fc_client : public QObject
   QTableWidget* saves_load;
   QTableWidget* scenarios_load;
   QTableWidget* start_players;
+  QTreeWidget* start_players_tree;
 
   QTimer* meta_scan_timer;
   QTimer* lan_scan_timer;
 
   QDockWidget *dock_widget[ (int) LAST_WIDGET ];
   QStatusBar *status_bar;
+  QSignalMapper *switch_page_mapper;
   QLabel *status_bar_label;
 
 
@@ -141,13 +145,13 @@ public:
   map_view* mapview_wdg;
   void add_server_source(int);
 
-  void switch_page(enum client_pages);
   enum client_pages current_page();
 
   void append_output_window(const QString &);
   void set_status_bar(QString);
   int add_game_tab(QWidget *widget, QString title, int index);
   void rm_game_tab(int index); /* doesn't delete widget */
+  void update_start_page();
 
   mr_idle mr_idler;
   QTableWidget *messages_window;
@@ -167,12 +171,6 @@ private slots:
   void server_input(int sock);
   void chat();
   void quit();
-  void slot_switch_to_main_page();
-  void slot_switch_to_network_page();
-  void slot_switch_to_load_page();
-  void slot_switch_to_scenario_page();
-  void slot_switch_to_start_page();
-  void slot_switch_to_game_page();
   void slot_lan_scan();
   void slot_meta_scan();
   void slot_connect();
@@ -181,6 +179,12 @@ private slots:
   void slot_pregame_start();
   void update_network_lists();
   bool slot_close_widget(int index);
+  void start_page_menu(QPoint);
+  void slot_pick_nation();
+  void send_command_to_server(const QString &);
+
+public slots:
+  void switch_page(int i);
 
 protected slots:
 
@@ -202,17 +206,18 @@ private:
   bool check_server_scan (server_scan*);
   void create_dock_widgets();
   void hide_dock_widgets();
-  void show_dock_widget(int);
+  void show_dock_widget(int widget, bool show=true);
   void update_load_page(void);
   void update_scenarios_page(void);
   void set_connection_state(enum connection_state state);
   void handle_authentication_req(
     enum authentication_type type, const char *message);
+  void update_obs_button();
 
   enum client_pages page;
-  bool observer_mode;
   QList<int> places;
   QStringList opened_repo_dlgs;
+  bool send_new_aifill_to_server;
 
 protected:
   void timerEvent(QTimerEvent *);

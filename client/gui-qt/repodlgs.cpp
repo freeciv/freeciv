@@ -280,7 +280,7 @@ void science_report::update_report()
   /** fill combo boxes */
   researching_combo->blockSignals(true);
   goal_combo->blockSignals(true);
-  
+
   researching_combo->clear();
   goal_combo->clear();
   for (int i = 0; i < curr_list->count(); i++) {

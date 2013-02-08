@@ -15,6 +15,7 @@ MOC_FILES = \
 	meta_mapview.cpp	\
 	meta_menu.cpp		\
 	meta_repodlgs.cpp	\
+	meta_dialogs.cpp	\
 	meta_citydlg.cpp
 
 libgui_qt_la_SOURCES = \
