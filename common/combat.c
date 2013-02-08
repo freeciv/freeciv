@@ -517,10 +517,8 @@ static int defense_multiplication(const struct unit_type *att_type,
     defensepower /= defense_divider;
   }
 
-  if (!pcity) {
-    defensepower +=
-      defensepower * tile_extras_defense_bonus(ptile, def_type) / 100;
-  }
+  defensepower +=
+    defensepower * tile_extras_defense_bonus(ptile, def_type) / 100;
 
   if ((pcity || fortified)
       && uclass_has_flag(utype_class(def_type), UCF_CAN_FORTIFY)) {
