@@ -239,16 +239,22 @@ struct named_sprites {
   struct {
     enum roadstyle_id roadstyle;
     struct sprite
-      /* for RSTYLE_ALL_SEPARATE */
-      *dir[8],     /* all entries used */
-      /* for RSTYLE_PARITY_COMBINED */
-      *even[MAX_INDEX_HALF],    /* first unused */
-      *odd[MAX_INDEX_HALF],     /* first unused */
+      *activity,
       /* for roadstyles RSTYLE_ALL_SEPARATE and RSTYLE_PARITY_COMBINED */
       *isolated,
-      *corner[8], /* Indexed by direction; only non-cardinal dirs used. */
-      *total[MAX_INDEX_VALID],     /* includes all possibilities */
-      *activity;
+      *corner[8]; /* Indexed by direction; only non-cardinal dirs used. */
+    union {
+      /* for RSTYLE_ALL_SEPARATE */
+      struct sprite *dir[8];     /* all entries used */
+      /* RSTYLE_PARITY_COMBINED */
+      struct {
+        struct sprite
+          *even[MAX_INDEX_HALF],    /* first unused */
+          *odd[MAX_INDEX_HALF];     /* first unused */
+      } combo;
+      /* RSTYLE_ALL_SEPARATE */
+      struct sprite *total[MAX_INDEX_VALID];
+    } u;
   } roads[MAX_ROAD_TYPES];
   struct {
     struct sprite_vector unit;
@@ -2933,7 +2939,7 @@ void tileset_setup_road(struct tileset *t,
       fc_snprintf(full_alt_name, sizeof(full_alt_name),
                   "r.%s_%s", proad->graphic_alt, dir_name);
 
-      SET_SPRITE_ALT(roads[id].dir[i], full_tag_name, full_alt_name);
+      SET_SPRITE_ALT(roads[id].u.dir[i], full_tag_name, full_alt_name);
     }
   } else if (*roadstyle == RSTYLE_PARITY_COMBINED) {
     int num_index = 1 << (t->num_valid_tileset_dirs / 2), j;
@@ -2963,14 +2969,14 @@ void tileset_setup_road(struct tileset *t,
       fc_snprintf(full_alt_name, sizeof(full_alt_name),
                   "r.c_%s_%s", proad->graphic_alt, c);
 
-      SET_SPRITE_ALT(roads[id].even[i], full_tag_name, full_alt_name);
+      SET_SPRITE_ALT(roads[id].u.combo.even[i], full_tag_name, full_alt_name);
 
       fc_snprintf(full_tag_name, sizeof(full_tag_name),
                   "r.d_%s_%s", proad->graphic_str, d);
       fc_snprintf(full_alt_name, sizeof(full_alt_name),
                   "r.d_%s_%s", proad->graphic_alt, d);
 
-      SET_SPRITE_ALT(roads[id].odd[i], full_tag_name, full_alt_name);
+      SET_SPRITE_ALT(roads[id].u.combo.odd[i], full_tag_name, full_alt_name);
     }
   } else if (*roadstyle == RSTYLE_ALL_COMBINED) {
     /* RSTYLE_ALL_COMBINED includes 256 sprites, one for every possibility.
@@ -2983,7 +2989,7 @@ void tileset_setup_road(struct tileset *t,
       fc_snprintf(full_alt_name, sizeof(full_alt_name),
                   "r.%s_%s", proad->graphic_alt, idx_str);
 
-      SET_SPRITE_ALT(roads[id].total[i], full_tag_name, full_alt_name);
+      SET_SPRITE_ALT(roads[id].u.total[i], full_tag_name, full_alt_name);
     }
   } else {
     fc_assert(FALSE);
@@ -3818,7 +3824,7 @@ static int fill_road_sprite_array(const struct tileset *t,
     if (road) {
       for (i = 0; i < t->num_valid_tileset_dirs; i++) {
 	if (draw_road[t->valid_tileset_dirs[i]]) {
-	  ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].dir[i]);
+	  ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].u.dir[i]);
 	}
       }
     }
@@ -3847,10 +3853,10 @@ static int fill_road_sprite_array(const struct tileset *t,
 
       /* Draw the cardinal/even roads first. */
       if (road_even_tileno != 0) {
-	ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].even[road_even_tileno]);
+	ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].u.combo.even[road_even_tileno]);
       }
       if (road_odd_tileno != 0) {
-	ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].odd[road_odd_tileno]);
+	ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].u.combo.odd[road_odd_tileno]);
       }
     }
   } else if (roadstyle == RSTYLE_ALL_COMBINED) {
@@ -3871,7 +3877,7 @@ static int fill_road_sprite_array(const struct tileset *t,
       }
 
       if (road_tileno != 0 || draw_single_road) {
-        ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].total[road_tileno]);
+        ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].u.total[road_tileno]);
       }
     }
   } else {
@@ -5673,13 +5679,13 @@ int fill_basic_road_sprite_array(const struct tileset *t,
       continue;
     }
     if (roadstyle == RSTYLE_ALL_SEPARATE) {
-      ADD_SPRITE_FULL(t->sprites.roads[index].dir[i]);
+      ADD_SPRITE_FULL(t->sprites.roads[index].u.dir[i]);
     } else if (roadstyle == RSTYLE_PARITY_COMBINED) {
       if ((i % 2) == 0) {
-        ADD_SPRITE_FULL(t->sprites.roads[index].even[1 << (i / 2)]);
+        ADD_SPRITE_FULL(t->sprites.roads[index].u.combo.even[1 << (i / 2)]);
       }
     } else if (roadstyle == RSTYLE_ALL_COMBINED) {
-      ADD_SPRITE_FULL(t->sprites.roads[index].total[1 << i]);
+      ADD_SPRITE_FULL(t->sprites.roads[index].u.total[1 << i]);
     }
   }
 
