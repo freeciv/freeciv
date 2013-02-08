@@ -133,15 +133,15 @@ static void load_city_name_list(struct section_file *file,
                                 const char *secfile_str1,
                                 const char *secfile_str2);
 
-static void load_ruleset_techs(struct section_file *file);
-static void load_ruleset_units(struct section_file *file);
-static void load_ruleset_buildings(struct section_file *file);
-static void load_ruleset_governments(struct section_file *file);
-static void load_ruleset_terrain(struct section_file *file);
+static bool load_ruleset_techs(struct section_file *file);
+static bool load_ruleset_units(struct section_file *file);
+static bool load_ruleset_buildings(struct section_file *file);
+static bool load_ruleset_governments(struct section_file *file);
+static bool load_ruleset_terrain(struct section_file *file);
 static bool load_ruleset_cities(struct section_file *file);
-static void load_ruleset_effects(struct section_file *file);
+static bool load_ruleset_effects(struct section_file *file);
 
-static void load_ruleset_game(const char *rsdir);
+static bool load_ruleset_game(const char *rsdir);
 
 static void send_ruleset_techs(struct conn_list *dest);
 static void send_ruleset_unit_classes(struct conn_list *dest);
@@ -289,20 +289,26 @@ static const char *check_ruleset_capabilities(struct section_file *file,
 
   if (!(datafile_options = secfile_lookup_str(file, "datafile.options"))) {
     log_fatal("\"%s\": ruleset capability problem:", filename);
-    ruleset_error(LOG_FATAL, "%s", secfile_error());
+    ruleset_error(LOG_ERROR, "%s", secfile_error());
+
+    return NULL;
   }
   if (!has_capabilities(us_capstr, datafile_options)) {
     log_fatal("\"%s\": ruleset datafile appears incompatible:", filename);
     log_fatal("  datafile options: %s", datafile_options);
     log_fatal("  supported options: %s", us_capstr);
-    ruleset_error(LOG_FATAL, "Capability problem");
+    ruleset_error(LOG_ERROR, "Capability problem");
+
+    return NULL;
   }
   if (!has_capabilities(datafile_options, us_capstr)) {
     log_fatal("\"%s\": ruleset datafile claims required option(s)"
               " that we don't support:", filename);
     log_fatal("  datafile options: %s", datafile_options);
     log_fatal("  supported options: %s", us_capstr);
-    ruleset_error(LOG_FATAL, "Capability problem");
+    ruleset_error(LOG_ERROR, "Capability problem");
+
+    return NULL;
   }
   return datafile_options;
 }
@@ -953,14 +959,17 @@ static bool load_tech_names(struct section_file *file)
 /**************************************************************************
   Load technologies related ruleset data
 **************************************************************************/
-static void load_ruleset_techs(struct section_file *file)
+static bool load_ruleset_techs(struct section_file *file)
 {
   struct section_list *sec;
   int i;
   struct advance *a_none = advance_by_number(A_NONE);
   const char *filename = secfile_name(file);
-  
-  (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
+  bool ok = TRUE;
+
+  if (check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename) == NULL) {
+    return FALSE;
+  }
   sec = secfile_sections_by_name_prefix(file, ADVANCE_SECTION_PREFIX);
 
   /* Initialize dummy tech A_NONE */
@@ -1092,6 +1101,8 @@ restart:
 
   section_list_destroy(sec);
   secfile_check_unused(file);
+
+  return ok;
 }
 
 /**************************************************************************
@@ -1298,7 +1309,7 @@ static bool load_ruleset_veteran(struct section_file *file,
 /**************************************************************************
   Load units related ruleset data.
 **************************************************************************/
-static void load_ruleset_units(struct section_file *file)
+static bool load_ruleset_units(struct section_file *file)
 {
   struct unit_type *u;
   int j, ival;
@@ -1307,8 +1318,11 @@ static void load_ruleset_units(struct section_file *file)
   const char *sval, **slist;
   const char *filename = secfile_name(file);
   char msg[MAX_LEN_MSG];
+  bool ok = TRUE;
 
-  (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
+  if (check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename) == NULL) {
+    return FALSE;
+  }
 
   if (!load_ruleset_veteran(file, "veteran_system", &game.veteran, msg,
                             sizeof(msg)) || game.veteran == NULL) {
@@ -1750,6 +1764,8 @@ static void load_ruleset_units(struct section_file *file)
   section_list_destroy(csec);
   section_list_destroy(sec);
   secfile_check_unused(file);
+
+  return ok;
 }
 
 /**************************************************************************
@@ -1794,14 +1810,17 @@ static bool load_building_names(struct section_file *file)
 /**************************************************************************
   Load buildings related ruleset data
 **************************************************************************/
-static void load_ruleset_buildings(struct section_file *file)
+static bool load_ruleset_buildings(struct section_file *file)
 {
   struct section_list *sec;
   const char *item;
   int i, nval;
   const char *filename = secfile_name(file);
+  bool ok = TRUE;
 
-  (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
+  if (check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename) == NULL) {
+    return FALSE;
+  }
 
   sec = secfile_sections_by_name_prefix(file, BUILDING_SECTION_PREFIX);
   nval = (NULL != sec ? section_list_size(sec) : 0);
@@ -1910,6 +1929,8 @@ static void load_ruleset_buildings(struct section_file *file)
 
   section_list_destroy(sec);
   secfile_check_unused(file);
+
+  return ok;
 }
 
 /**************************************************************************
@@ -2076,7 +2097,7 @@ static bool load_terrain_names(struct section_file *file)
 /**************************************************************************
   Load terrain types related ruleset data
 **************************************************************************/
-static void load_ruleset_terrain(struct section_file *file)
+static bool load_ruleset_terrain(struct section_file *file)
 {
   struct strvec *psv;
   size_t nval;
@@ -2086,8 +2107,11 @@ static void load_ruleset_terrain(struct section_file *file)
   bool riverflag = FALSE;
   const char **res;
   const char *filename = secfile_name(file);
-  /* char *datafile_options = */ (void)
-    check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
+  bool ok = TRUE;
+
+  if (check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename) == NULL) {
+    return FALSE;
+  }
 
   /* options */
   terrain_control.may_road =
@@ -2302,7 +2326,7 @@ static void load_ruleset_terrain(struct section_file *file)
 
     /* get terrain color */
     {
-      fc_assert_ret(pterrain->rgb == NULL);
+      fc_assert_ret_val(pterrain->rgb == NULL, FALSE);
       if (!rgbcolor_load(file, &pterrain->rgb, "%s.color", tsection)) {
         ruleset_error(LOG_FATAL, "Missing terrain color definition: %s",
                       secfile_error());
@@ -2618,6 +2642,8 @@ static void load_ruleset_terrain(struct section_file *file)
   } road_type_iterate_end;
 
   secfile_check_unused(file);
+
+  return ok;
 }
 
 /**************************************************************************
@@ -2663,12 +2689,15 @@ static bool load_government_names(struct section_file *file)
 /**************************************************************************
   This loads information from given governments.ruleset
 **************************************************************************/
-static void load_ruleset_governments(struct section_file *file)
+static bool load_ruleset_governments(struct section_file *file)
 {
   struct section_list *sec;
   const char *filename = secfile_name(file);
+  bool ok = TRUE;
 
-  (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
+  if (check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename) == NULL) {
+    return FALSE;
+  }
 
   sec = secfile_sections_by_name_prefix(file, GOVERNMENT_SECTION_PREFIX);
 
@@ -2725,6 +2754,8 @@ static void load_ruleset_governments(struct section_file *file)
 
   section_list_destroy(sec);
   secfile_check_unused(file);
+
+  return ok;
 }
 
 /**************************************************************************
@@ -2983,7 +3014,7 @@ static void load_city_name_list(struct section_file *file,
 /**************************************************************************
 Load nations.ruleset file
 **************************************************************************/
-static void load_ruleset_nations(struct section_file *file)
+static bool load_ruleset_nations(struct section_file *file)
 {
   struct government *gov;
   int j;
@@ -3000,8 +3031,11 @@ static void load_ruleset_nations(struct section_file *file)
   struct section_list *sec;
   int default_traits[TRAIT_COUNT];
   enum trait tr;
+  bool ok = TRUE;
 
-  (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
+  if (check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename) == NULL) {
+    return FALSE;
+  }
 
   warn_city_style
     = secfile_lookup_bool_default(file, TRUE,
@@ -3169,7 +3203,7 @@ static void load_ruleset_nations(struct section_file *file)
     }
 
     /* Nation player color preference, if any */
-    fc_assert_ret(pnation->server.rgb == NULL);
+    fc_assert_ret_val(pnation->server.rgb == NULL, FALSE);
     rgbcolor_load(file, &pnation->server.rgb, "%s.color", sec_name);
 
     /* Load nation traits */
@@ -3351,6 +3385,8 @@ static void load_ruleset_nations(struct section_file *file)
     ruleset_error(LOG_FATAL,
                   "No sea barbarian nation defined. At least one required!");
   }
+
+  return ok;
 }
 
 /**************************************************************************
@@ -3395,7 +3431,9 @@ static bool load_ruleset_cities(struct section_file *file)
   struct section_list *sec;
   bool ok = TRUE;
 
-  (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
+  if (check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename) == NULL) {
+    return FALSE;
+  }
 
   /* Specialist options */
   sec = secfile_sections_by_name_prefix(file, SPECIALIST_SECTION_PREFIX);
@@ -3527,14 +3565,17 @@ static bool load_ruleset_cities(struct section_file *file)
 /**************************************************************************
 Load effects.ruleset file
 **************************************************************************/
-static void load_ruleset_effects(struct section_file *file)
+static bool load_ruleset_effects(struct section_file *file)
 {
   struct section_list *sec;
   const char *type;
   const char *filename;
+  bool ok = TRUE;
 
   filename = secfile_name(file);
-  (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
+  if (check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename) == NULL) {
+    return FALSE;
+  }
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
 
   /* Parse effects and add them to the effects ruleset cache. */
@@ -3585,6 +3626,8 @@ static void load_ruleset_effects(struct section_file *file)
   section_list_destroy(sec);
 
   secfile_check_unused(file);
+
+  return ok;
 }
 
 /**************************************************************************
@@ -3630,7 +3673,7 @@ static int secfile_lookup_int_default_min_max(struct section_file *file,
 /**************************************************************************
   Load ruleset file.
 **************************************************************************/
-static void load_ruleset_game(const char *rsdir)
+static bool load_ruleset_game(const char *rsdir)
 {
   struct section_file *file;
   const char *sval, **svec;
@@ -3643,16 +3686,19 @@ static void load_ruleset_game(const char *rsdir)
   struct section_list *sec;
   int nval;
   const char *name;
+  bool ok = TRUE;
 
   file = openload_ruleset_file("game", rsdir);
   if (file == NULL) {
-    ruleset_error(LOG_FATAL, "Could not load game.ruleset:\n%s",
-                  secfile_error());
+    return FALSE;
   }
   filename = secfile_name(file);
 
   /* section: datafile */
-  (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
+  if (check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename) == NULL) {
+    secfile_destroy(file);
+    return FALSE;
+  }
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
 
   /* section: tileset */
@@ -3980,7 +4026,7 @@ static void load_ruleset_game(const char *rsdir)
     bool read = TRUE;
 
     /* Check if the player list is defined and empty. */
-    fc_assert_ret(playercolor_count() == 0);
+    fc_assert_ret_val(playercolor_count() == 0, FALSE);
     i = 0;
     while (read) {
       prgbcolor = NULL;
@@ -4099,6 +4145,8 @@ static void load_ruleset_game(const char *rsdir)
 
   secfile_check_unused(file);
   secfile_destroy(file);
+
+  return ok;
 }
 
 /**************************************************************************
@@ -4933,18 +4981,34 @@ static bool load_rulesetdir(const char *rsdir)
   }
 
   if (ok) {
-    load_ruleset_techs(techfile);
+    ok = load_ruleset_techs(techfile);
+  }
+  if (ok) {
     ok = load_ruleset_cities(cityfile);
   }
   if (ok) {
-    load_ruleset_governments(govfile);
-    load_ruleset_terrain(terrfile);  /* terrain must precede nations and units */
-    load_ruleset_units(unitfile);
-    load_ruleset_buildings(buildfile);
-    load_ruleset_nations(nationfile);
-    load_ruleset_effects(effectfile);
-    load_ruleset_game(rsdir);
+    ok = load_ruleset_governments(govfile);
+  }
+  if (ok) {
+    ok = load_ruleset_terrain(terrfile);  /* terrain must precede nations and units */
+  }
+  if (ok) {
+    ok = load_ruleset_units(unitfile);
+  }
+  if (ok) {
+    ok = load_ruleset_buildings(buildfile);
+  }
+  if (ok) {
+    ok = load_ruleset_nations(nationfile);
+  }
+  if (ok) {
+    ok = load_ruleset_effects(effectfile);
+  }
+  if (ok) {
+    ok = load_ruleset_game(rsdir);
+  }
 
+  if (ok) {
     /* Init nations we just loaded. */
     init_available_nations();
 
