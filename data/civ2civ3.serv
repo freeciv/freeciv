@@ -5,22 +5,3 @@
 #
 
 rulesetdir civ2civ3
-
-set aifill 12
-set generator FRACTAL
-set topology WRAPX|WRAPY|ISO
-set mapsize PLAYER
-set tilesperplayer 100
-set tinyisles enabled
-
-set startunits cwx
-set citymindist 3
-set techlevel 1
-set sciencebox 100
-set borders ENABLED
-set foggedborders enabled
-set happyborders enabled
-set trademindist 999
-set restrictinfra enabled
-set unreachableprotects disabled
-set onsetbarbs 120

@@ -313,37 +313,24 @@ colorlist =
 ; etc...
 
 [settings]
-; freeciv game settings for the default ruleset
-;
-; set =
-;     { "name", "value", "lock"
-;       "bool_set", TRUE, FALSE
-;       "int_set", 123, FALSE
-;       "str_set", "test", FALSE
-;     }
-
 ; freeciv game settings for civ2civ3 ruleset
 ;
-;set =
-;    { "name", "value", "lock"
-;      "aifill", 6, FALSE
-;      "generator", "FRACTAL", FALSE
-;      "topology", "WRAPX|WRAPY|ISO", FALSE
-;      "mapsize", "PLAYER", FALSE
-;      "tilesperplayer", 100, FALSE
-;      "tinyisles", TRUE, FALSE
-;      "separatepoles", TRUE, FALSE
-;      "startunits", "cwx", FALSE
-;      "citymindist", 3, FALSE
-;      "techlevel", 1, FALSE
-;      "sciencebox", 100, FALSE
-;      "borders", "ENABLED", FALSE
-;      "foggedborders", TRUE, FALSE
-;      "happyborders", TRUE, FALSE
-;      "trademindist", 999, FALSE
-;      "restrictinfra", TRUE, FALSE
-;      "unreachableprotects", FALSE, FALSE
-;      "onsetbarbs", 120, FALSE
-;      "migration", TRUE, FALSE
-;      "separatepoles", TRUE, FALSE
-;    }
+set =
+    { "name", "value"
+      "aifill", 12
+      "generator", "FRACTAL"
+      "topology", "WRAPX|WRAPY|ISO"
+      "mapsize", "PLAYER"
+      "tilesperplayer", 100
+      "tinyisles", "ENABLED"
+      "startunits", "cwx"
+      "citymindist", 3
+      "techlevel", 1
+      "sciencebox", 100
+      "borders", "ENABLED"
+      "foggedborders", "ENABLED"
+      "happyborders", "ENABLED"
+      "restrictinfra", "ENABLED"
+      "unreachableprotects", "DISABLED"
+      "onsetbarbs", 120
+    }
