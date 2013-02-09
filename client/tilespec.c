@@ -117,6 +117,8 @@
 #define SPECENUM_VALUE1NAME "ParityCombined"
 #define SPECENUM_VALUE2 RSTYLE_ALL_COMBINED
 #define SPECENUM_VALUE2NAME "AllCombined"
+#define SPECENUM_VALUE3 RSTYLE_RIVER
+#define SPECENUM_VALUE3NAME "River"
 #include "specenum_gen.h"
 
 /* This could be moved to common/map.h if there's more use for it. */
@@ -522,7 +524,9 @@ struct tileset {
   struct named_sprites sprites;
 
   struct color_system *color_system;
-  
+
+  struct road_type_list *rivers;
+
   int num_prefered_themes;
   char** prefered_themes;
 };
@@ -967,7 +971,11 @@ static void tileset_free_toplevel(struct tileset *t)
     rstyle_hash_destroy(t->rstyle_hash);
     t->rstyle_hash = NULL;
   }
-
+  if (t->rivers != NULL) {
+    road_type_list_destroy(t->rivers);
+    t->rivers = NULL;
+  }
+ 
   for (i = 0; i < MAX_NUM_LAYERS; i++) {
     struct tileset_layer *tslp = &t->layers[i];
 
@@ -1847,6 +1855,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   sections = NULL;
 
   t->rstyle_hash = rstyle_hash_new();
+  t->rivers = road_type_list_new();
 
   for (i = 0; (roadname = secfile_lookup_str_default(file, NULL,
                                                      "roads.styles%d.name",
@@ -2896,7 +2905,7 @@ void tileset_setup_resource(struct tileset *t,
   tilespec_load_tiles().
 ****************************************************************************/
 void tileset_setup_road(struct tileset *t,
-                        const struct road_type *proad)
+                        struct road_type *proad)
 {
   char full_tag_name[MAX_LEN_NAME + strlen("r._isolated")];
   char full_alt_name[MAX_LEN_NAME + strlen("r._isolated")];
@@ -2915,6 +2924,10 @@ void tileset_setup_road(struct tileset *t,
   }
 
   t->sprites.roads[id].roadstyle = *roadstyle;
+
+  if (*roadstyle == RSTYLE_RIVER) {
+    road_type_list_append(t->rivers, proad);
+  }
 
   /* Isolated road graphics are used by RSTYLE_ALL_SEPARATE and
      RSTYLE_PARITY_COMBINED. */
@@ -2991,6 +3004,8 @@ void tileset_setup_road(struct tileset *t,
 
       SET_SPRITE_ALT(roads[id].u.total[i], full_tag_name, full_alt_name);
     }
+  } else if (*roadstyle == RSTYLE_RIVER) {
+    /* TODO: Load road type specific river gfx */
   } else {
     fc_assert(FALSE);
   }
@@ -3718,6 +3733,14 @@ static int fill_road_sprite_array(const struct tileset *t,
     return 0;
   }
 
+  road_idx = road_index(proad);
+
+  roadstyle = t->sprites.roads[road_idx].roadstyle;
+
+  if (roadstyle == RSTYLE_RIVER) {
+    return 0;
+  }
+
   if (road_has_flag(proad, RF_CONNECT_LAND)) {
     cl = TRUE;
   } else {
@@ -3727,8 +3750,6 @@ static int fill_road_sprite_array(const struct tileset *t,
       land_near[i] = FALSE;
     }
   }
-
-  road_idx = road_index(proad);
 
   /* Fill some data arrays. rail_near and road_near store whether road/rail
    * is present in the given direction.  draw_rail and draw_road store
@@ -3811,8 +3832,6 @@ static int fill_road_sprite_array(const struct tileset *t,
   /* Draw road corners */
   sprs
     += fill_road_corner_sprites(t, proad, sprs, road, road_near, hider, hider_near);
-
-  roadstyle = t->sprites.roads[road_idx].roadstyle;
 
   if (roadstyle == RSTYLE_ALL_SEPARATE) {
     /* With RSTYLE_ALL_SEPARATE, we simply draw one road for every connection.
@@ -4704,7 +4723,22 @@ int fill_sprite_array(struct tileset *t,
       if (draw_terrain && !solid_bg
           && terrain_type_terrain_class(pterrain) == TC_OCEAN) {
 	for (dir = 0; dir < 4; dir++) {
-	  if (contains_special(tspecial_near[DIR4_TO_DIR8[dir]], S_RIVER)) {
+          bool river = FALSE;
+          int didx = DIR4_TO_DIR8[dir];
+
+	  if (contains_special(tspecial_near[didx], S_RIVER)) {
+            river = TRUE;
+          } else {
+            road_type_list_iterate(t->rivers, priver) {
+              int idx = road_index(priver);
+
+              if (BV_ISSET(troad_near[didx], idx)) {
+                river = TRUE;
+                break;
+              }
+            } road_type_list_iterate_end;
+          }
+          if (river) {
 	    ADD_SPRITE_SIMPLE(t->sprites.tx.river_outlet[dir]);
 	  }
 	}
@@ -4713,20 +4747,51 @@ int fill_sprite_array(struct tileset *t,
       sprs += fill_irrigation_sprite_array(t, sprs, tspecial, tspecial_near,
 					   pcity);
 
-      if (draw_terrain && !solid_bg && contains_special(tspecial, S_RIVER)) {
-	int i;
+      if (draw_terrain && !solid_bg) {
+        bool river = FALSE;
 
-	/* Draw rivers on top of irrigation. */
-	tileno = 0;
-	for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
-	  enum direction8 dir = t->cardinal_tileset_dirs[i];
+        if (contains_special(tspecial, S_RIVER)) {
+          river = TRUE;
+        } else {
+          road_type_list_iterate(t->rivers, priver) {
+            int idx = road_index(priver);
 
-	  if (contains_special(tspecial_near[dir], S_RIVER)
-	      || terrain_type_terrain_class(tterrain_near[dir]) == TC_OCEAN) {
-	    tileno |= 1 << i;
-	  }
-	}
-	ADD_SPRITE_SIMPLE(t->sprites.tx.spec_river[tileno]);
+            if (BV_ISSET(troad, idx)) {
+              river = TRUE;
+              break;
+            }
+          } road_type_list_iterate_end;
+        }
+
+        if (river) { 
+          int i;
+
+          /* Draw rivers on top of irrigation. */
+          tileno = 0;
+          for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
+            enum direction8 dir = t->cardinal_tileset_dirs[i];
+            bool river2 = FALSE;
+
+            if (terrain_type_terrain_class(tterrain_near[dir]) == TC_OCEAN) {
+              river2 = TRUE;
+            } else if (contains_special(tspecial_near[dir], S_RIVER)) {
+              river2 = TRUE;
+            } else {
+              road_type_list_iterate(t->rivers, priver) {
+                int idx = road_index(priver);
+
+                if (BV_ISSET(troad_near[dir], idx)) {
+                  river2 = TRUE;
+                  break;
+                }
+              } road_type_list_iterate_end;
+            }
+            if (river2) {
+              tileno |= 1 << i;
+            }
+          }
+          ADD_SPRITE_SIMPLE(t->sprites.tx.spec_river[tileno]);
+        }
       }
     }
     break;
@@ -5673,6 +5738,10 @@ int fill_basic_road_sprite_array(const struct tileset *t,
   }
 
   roadstyle = t->sprites.roads[index].roadstyle;
+
+  if (roadstyle == RSTYLE_RIVER) {
+    return 0;
+  }
 
   for (i = 0; i < t->num_valid_tileset_dirs; i++) {
     if (!t->valid_tileset_dirs[i]) {

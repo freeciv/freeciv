@@ -150,7 +150,7 @@ void tileset_setup_tile_type(struct tileset *t,
 void tileset_setup_resource(struct tileset *t,
 			    const struct resource *presource);
 void tileset_setup_road(struct tileset *t,
-                        const struct road_type *proad);
+                        struct road_type *proad);
 void tileset_setup_base(struct tileset *t,
                         const struct base_type *pbase);
 void tileset_setup_government(struct tileset *t,
