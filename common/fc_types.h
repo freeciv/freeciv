@@ -427,6 +427,8 @@ enum tile_special_type {
   S_OLD_RAILROAD
 };
 
+#define S_OLD_RIVER S_RIVER
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
@@ -451,7 +453,7 @@ struct act_tgt {
 };
 
 /* Road type compatibility with old specials based roads. */
-enum road_compat { ROCO_ROAD, ROCO_RAILROAD, ROCO_NONE };
+enum road_compat { ROCO_ROAD, ROCO_RAILROAD, ROCO_RIVER, ROCO_NONE };
 
 /*
  * Maximum number of trade routes a city can have in any situation.

@@ -249,8 +249,8 @@ static const char num_chars[] =
   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-+";
 
 static void set_savegame_special(bv_special *specials, bv_bases *bases,
-                    bv_roads *roads,
-		    char ch, const enum tile_special_type *index);
+                                 bv_roads *roads,
+                                 char ch, const enum tile_special_type *index);
 
 static void game_load_internal(struct section_file *file);
 
@@ -750,8 +750,8 @@ static const enum tile_special_type default_specials[] = {
   way should have the "riversoverlay" capability.
 ****************************************************************************/
 static void map_load_rivers_overlay(struct section_file *file,
-                              const enum tile_special_type *special_order,
-                              int num_special_types)
+                                    const enum tile_special_type *special_order,
+                                    int num_special_types)
 {
   /* used by set_savegame_special */
   map.server.have_rivers_overlay = TRUE;
@@ -763,7 +763,7 @@ static void map_load_rivers_overlay(struct section_file *file,
 
       LOAD_MAP_DATA(ch, nat_y, ptile,
 	secfile_lookup_str(file, buf, nat_y),
-        set_savegame_special(&ptile->special, NULL, NULL, ch, special_order + 4 * j));
+        set_savegame_special(&ptile->special, NULL, &ptile->roads, ch, special_order + 4 * j));
     } special_halfbyte_iterate_end;
   } else {
     /* Get the bits of the special flags which contain the river special
@@ -771,7 +771,7 @@ static void map_load_rivers_overlay(struct section_file *file,
     fc_assert_ret(S_LAST <= 32);
     LOAD_MAP_DATA(ch, line, ptile,
       secfile_lookup_str(file, "map.n%03d", line),
-      set_savegame_special(&ptile->special, NULL, NULL, ch, default_specials + 8));
+      set_savegame_special(&ptile->special, NULL, &ptile->roads, ch, default_specials + 8));
   }
 }
 
@@ -844,6 +844,19 @@ static void set_savegame_special(bv_special *specials,
           proad = road_by_compat_special(ROCO_RAILROAD);
           if (proad) {
             BV_SET(*roads, road_index(proad));
+          }
+        }
+      } else if (sp == S_OLD_RIVER) {
+        if (roads) {
+          struct road_type *proad;
+
+          proad = road_by_compat_special(ROCO_RIVER);
+          if (proad) {
+            BV_SET(*roads, road_index(proad));
+          } else {
+            /* TODO: Remove this when getting rid of rivers
+             *       as specials. */
+            set_special(specials, sp);
           }
         }
       } else {

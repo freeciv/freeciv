@@ -2104,6 +2104,7 @@ static bool load_ruleset_terrain(struct section_file *file)
   int j;
   bool compat_road = FALSE;
   bool compat_rail = FALSE;
+  bool compat_river = FALSE;
   bool riverflag = FALSE;
   const char **res;
   const char *filename = secfile_name(file);
@@ -2571,6 +2572,12 @@ static bool load_ruleset_terrain(struct section_file *file)
       }
       compat_rail = TRUE;
       proad->compat = ROCO_RAILROAD;
+    } else if (!fc_strcasecmp(special, "River")) {
+      if (compat_river) {
+        ruleset_error(LOG_FATAL, "Multiple roads marked as compatibility \"River\"");
+      }
+      compat_river = TRUE;
+      proad->compat = ROCO_RIVER;
     } else if (!fc_strcasecmp(special, "None")) {
       proad->compat = ROCO_NONE;
     } else {
