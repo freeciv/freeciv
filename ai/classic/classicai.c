@@ -19,14 +19,11 @@
 #include "ai.h"
 #include "player.h"
 
-/* server */
-#include "aiiface.h"
-
 /* server/advisors */
 #include "advdata.h"
 #include "autosettlers.h"
 
-/* ai */
+/* ai/default */
 #include "advdiplomacy.h"
 #include "advdomestic.h"
 #include "advmilitary.h"

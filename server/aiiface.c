@@ -29,7 +29,7 @@
 /* server/advisors */
 #include "autosettlers.h"
 
-/* ai/default */
+/* ai/classic */
 #include "classicai.h"
 
 #include "aiiface.h"
@@ -140,7 +140,7 @@ void ai_init(void)
     /* First search ai modules under directory ai/<module> under
        current directory. This allows us to run freeciv without
        installing it. */
-    const char *moduledirs[] = { "default", "threaded", "stub", NULL };
+    const char *moduledirs[] = { "classic", "threaded", "stub", NULL };
     int i;
 
     for (i = 0; moduledirs[i] != NULL ; i++) {

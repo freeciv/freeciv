@@ -1,14 +1,10 @@
 ## Process this file with automake to produce Makefile.in
 
-if AI_MOD_STATIC_CLASSIC
-noinst_LTLIBRARIES = libclassicai.la
-else
-aimodule_LTLIBRARIES = fc_ai_classic.la
-endif
+noinst_LTLIBRARIES = libdefaultai.la
 
 AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(top_srcdir)/server -I$(top_srcdir)/server/advisors -I$(top_srcdir)/ai -I$(top_srcdir)/server/generator
 
-da_sources = \
+libdefaultai_la_SOURCES = \
 		advdomestic.c	\
 		advdomestic.h	\
 		advmilitary.c	\
@@ -46,16 +42,6 @@ da_sources = \
 		aiunit.c	\
 		aiunit.h	\
 		aidiplomat.c	\
-		aidiplomat.h	\
-		classicai.c	\
-		classicai.h
+		aidiplomat.h
 
-if !AI_MOD_STATIC_CLASSIC
-fc_ai_classic_la_SOURCES = $(da_sources)
-
-fc_ai_classic_la_LDFLAGS = -module
-fc_ai_classic_la_LIBADD = -lm
-else
-libclassicai_la_SOURCES = $(da_sources)
-libclassicai_la_LIBADD = -lm
-endif
+libdefaultai_la_LIBADD = -lm

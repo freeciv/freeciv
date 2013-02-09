@@ -12,7 +12,7 @@ bin_PROGRAMS = $(srvbin)
 lib_LTLIBRARIES = libfreeciv-srv.la
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/ai \
-	-I$(top_srcdir)/ai/default \
+	-I$(top_srcdir)/ai/classic \
 	-I$(top_srcdir)/common \
 	-I$(top_srcdir)/common/aicore \
 	-I$(top_srcdir)/common/scriptcore \
@@ -118,8 +118,12 @@ libfreeciv_srv_la_SOURCES = \
 
 da_libs = 
 
+if AI_MOD_DEFAULT_NEEDED
+da_libs += $(top_builddir)/ai/default/libdefaultai.la
+endif
+
 if AI_MOD_STATIC_CLASSIC
-da_libs += $(top_builddir)/ai/default/libclassicai.la
+da_libs += $(top_builddir)/ai/classic/libclassicai.la
 endif
 if AI_MOD_STATIC_THREADED
 da_libs += $(top_builddir)/ai/threaded/libthreadedai.la

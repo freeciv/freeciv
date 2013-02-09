@@ -347,6 +347,7 @@ if test $enable_aimodules = yes ; then
   SERVER_LIBS="${SERVER_LIBS} -lltdl"
   AC_DEFINE([AI_MODULES], [1], [Enable ai modules])
   CPPFLAGS="${CPPFLAGS} -DAI_MODULEDIR=\"\\\"${aimoduledir}\\\"\""
+  ai_mod_default_needed=yes
 fi
 AM_CONDITIONAL(EXP_AI_MODULES, test "x$exp_aimodules" = "xyes")
 
@@ -361,10 +362,12 @@ ai_mod_static_threaded=no
 for module in $(echo $static_modules | $SED 's/,/ /g') ; do
   if test "x$module" = "xclassic" ; then
     ai_mod_static_classic=yes
+    ai_mod_default_needed=yes
     AC_DEFINE([AI_MOD_STATIC_CLASSIC], [1],
               [classic ai module statically linked])
   elif test "x$module" = "xthreaded" ; then
     ai_mod_static_threaded=yes
+    ai_mod_default_needed=yes
     AC_DEFINE([AI_MOD_STATIC_THREADED], [1],
               [threaded ai module statically linked])
   else
@@ -387,9 +390,12 @@ AM_CONDITIONAL([AI_MOD_STATIC_THREADED],
 [test "x$ai_mod_static_threaded" = "xyes"])
 
 AC_ARG_WITH([default-ai],
-  AS_HELP_STRING([--with-default-ai], [default ai type [[first static]]]),
+  AS_HELP_STRING([--with-default-ai], [default ai type [first static]]),
   [default_ai_set="${withval}"],
   [])
+
+AM_CONDITIONAL([AI_MOD_DEFAULT_NEEDED],
+[test  "x${ai_mod_default_needed}" = "xyes" || test "x${default_ai_set}" = "x"])
 
 if test "x${default_ai_set}" = "x" ; then
   default_ai_set="classic"
@@ -1418,6 +1424,7 @@ AC_CONFIG_FILES([Makefile
           common/scriptcore/Makefile
 	  ai/Makefile
           ai/default/Makefile
+          ai/classic/Makefile
           ai/stub/Makefile
           ai/threaded/Makefile
 	  tests/Makefile
