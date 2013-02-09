@@ -212,7 +212,8 @@ static void dai_airlift(struct ai_type *ait, struct player *pplayer)
 static bool has_defense(struct city *pcity)
 {
   unit_list_iterate((pcity->tile)->units, punit) {
-    if (is_military_unit(punit) && get_defense_power(punit) != 0 && punit->hp != 0) {
+    if (is_military_unit(punit) && base_get_defense_power(punit) != 0
+        && punit->hp != 0) {
       return TRUE;
     }
   }
