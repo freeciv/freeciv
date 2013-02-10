@@ -18,8 +18,8 @@ extern "C" {
 #endif /* __cplusplus */
 
 #ifdef HAVE_CONFIG_H
-#ifndef FC_CONFIG_H		/* this should be defined in config.h */
-#error Files including fcintl.h should also include config.h directly
+#ifndef FC_CONFIG_H             /* this should be defined in fc_config.h */
+#error Files including fcintl.h should also include fc_config.h directly
 #endif
 #endif
 
