@@ -100,7 +100,10 @@ struct genlist *genlist_new_full(genlist_free_fn_t free_data_func)
 ****************************************************************************/
 void genlist_destroy(struct genlist *pgenlist)
 {
-  fc_assert_ret(NULL != pgenlist);
+  if (pgenlist == NULL) {
+    return;
+  }
+
   genlist_clear(pgenlist);
   fc_destroy_mutex(&pgenlist->mutex);
   free(pgenlist);

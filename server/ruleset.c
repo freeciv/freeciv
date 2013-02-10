@@ -933,24 +933,29 @@ static bool load_tech_names(struct section_file *file)
   /* The names: */
   sec = secfile_sections_by_name_prefix(file, ADVANCE_SECTION_PREFIX);
   if (NULL == sec || 0 == (num_techs = section_list_size(sec))) {
-    ruleset_error(LOG_FATAL, "\"%s\": No Advances?!?", filename);
-  }
-  log_verbose("%d advances (including possibly unused)", num_techs);
-
-  if(num_techs + A_FIRST > A_LAST_REAL) {
-    ruleset_error(LOG_FATAL, "\"%s\": Too many advances (%d, max %d)",
-                  filename, num_techs, A_LAST_REAL-A_FIRST);
-  }
-
-  game.control.num_tech_types = num_techs + A_FIRST; /* includes A_NONE */
-
-  i = 0;
-  advance_iterate(A_FIRST, a) {
-    if (!ruleset_load_names(&a->name, file, section_name(section_list_get(sec, i)))) {
+    ruleset_error(LOG_ERROR, "\"%s\": No Advances?!?", filename);
+    ok = FALSE;
+  } else {
+    log_verbose("%d advances (including possibly unused)", num_techs);
+    if (num_techs + A_FIRST > A_LAST_REAL) {
+      ruleset_error(LOG_ERROR, "\"%s\": Too many advances (%d, max %d)",
+                    filename, num_techs, A_LAST_REAL-A_FIRST);
       ok = FALSE;
     }
-    i++;
-  } advance_iterate_end;
+  }
+
+  if (ok) {
+    game.control.num_tech_types = num_techs + A_FIRST; /* includes A_NONE */
+
+    i = 0;
+    advance_iterate(A_FIRST, a) {
+      if (!ruleset_load_names(&a->name, file, section_name(section_list_get(sec, i)))) {
+        ok = FALSE;
+        break;
+      }
+      i++;
+    } advance_iterate_end;
+  }
   section_list_destroy(sec);
 
   return ok;
@@ -1111,7 +1116,7 @@ restart:
 **************************************************************************/
 static bool load_unit_names(struct section_file *file)
 {
-  struct section_list *sec;
+  struct section_list *sec = NULL;
   int nval = 0;
   int i;
   const char *filename = secfile_name(file);
@@ -1127,59 +1132,78 @@ static bool load_unit_names(struct section_file *file)
                                                      i);
 
     if (i > MAX_NUM_USER_UNIT_FLAGS) {
-      ruleset_error(LOG_FATAL, "\"%s\": Too many user unit type flags!",
+      ruleset_error(LOG_ERROR, "\"%s\": Too many user unit type flags!",
                     filename);
+      ok = FALSE;
+      break;
     }
 
     set_user_unit_type_flag_name(UTYF_USER_FLAG_1 + i, flag, helptxt);
   }
 
-  for (; i < MAX_NUM_USER_UNIT_FLAGS; i++) {
-    set_user_unit_type_flag_name(UTYF_USER_FLAG_1 + i, NULL, NULL);
-  }
-
-  /* Unit classes */
-  sec = secfile_sections_by_name_prefix(file, UNIT_CLASS_SECTION_PREFIX);
-  if (NULL == sec || 0 == (nval = section_list_size(sec))) {
-    ruleset_error(LOG_FATAL, "\"%s\": No unit classes?!?", filename);
-  }
-  log_verbose("%d unit classes", nval);
-  if(nval > UCL_LAST) {
-    ruleset_error(LOG_FATAL, "\"%s\": Too many unit classes (%d, max %d)",
-                  filename, nval, UCL_LAST);
-  }
-
-  game.control.num_unit_classes = nval;
-
-  unit_class_iterate(punitclass) {
-    const int i = uclass_index(punitclass);
-    if (!ruleset_load_names(&punitclass->name, file,
-                            section_name(section_list_get(sec, i)))) {
-      ok = FALSE;
+  if (ok) {
+    for (; i < MAX_NUM_USER_UNIT_FLAGS; i++) {
+      set_user_unit_type_flag_name(UTYF_USER_FLAG_1 + i, NULL, NULL);
     }
-  } unit_class_iterate_end;
+
+    /* Unit classes */
+    sec = secfile_sections_by_name_prefix(file, UNIT_CLASS_SECTION_PREFIX);
+    if (NULL == sec || 0 == (nval = section_list_size(sec))) {
+      ruleset_error(LOG_ERROR, "\"%s\": No unit classes?!?", filename);
+      ok = FALSE;
+    } else {
+      log_verbose("%d unit classes", nval);
+      if (nval > UCL_LAST) {
+        ruleset_error(LOG_ERROR, "\"%s\": Too many unit classes (%d, max %d)",
+                  filename, nval, UCL_LAST);
+        ok = FALSE;
+      }
+    }
+  }
+
+  if (ok) {
+    game.control.num_unit_classes = nval;
+
+    unit_class_iterate(punitclass) {
+      const int i = uclass_index(punitclass);
+      if (!ruleset_load_names(&punitclass->name, file,
+                              section_name(section_list_get(sec, i)))) {
+        ok = FALSE;
+        break;
+      }
+    } unit_class_iterate_end;
+  }
   section_list_destroy(sec);
+  sec = NULL;
 
   /* The names: */
-  sec = secfile_sections_by_name_prefix(file, UNIT_SECTION_PREFIX);
-  if (NULL == sec || 0 == (nval = section_list_size(sec))) {
-    ruleset_error(LOG_FATAL, "\"%s\": No unit types?!?", filename);
-  }
-  log_verbose("%d unit types (including possibly unused)", nval);
-  if(nval > U_LAST) {
-    ruleset_error(LOG_FATAL, "\"%s\": Too many unit types (%d, max %d)",
-                  filename, nval, U_LAST);
-  }
-
-  game.control.num_unit_types = nval;
-
-  unit_type_iterate(punittype) {
-    const int i = utype_index(punittype);
-    if (!ruleset_load_names(&punittype->name, file,
-                            section_name(section_list_get(sec, i)))) {
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, UNIT_SECTION_PREFIX);
+    if (NULL == sec || 0 == (nval = section_list_size(sec))) {
+      ruleset_error(LOG_ERROR, "\"%s\": No unit types?!?", filename);
       ok = FALSE;
+    } else {
+      log_verbose("%d unit types (including possibly unused)", nval);
+      if (nval > U_LAST) {
+        ruleset_error(LOG_ERROR, "\"%s\": Too many unit types (%d, max %d)",
+                      filename, nval, U_LAST);
+        ok = FALSE;
+      }
     }
-  } unit_type_iterate_end;
+  }
+
+  if (ok) {
+    game.control.num_unit_types = nval;
+
+    unit_type_iterate(punittype) {
+      const int i = utype_index(punittype);
+      if (!ruleset_load_names(&punittype->name, file,
+                              section_name(section_list_get(sec, i)))) {
+        ok = FALSE;
+        break;
+      }
+    } unit_type_iterate_end;
+  }
   section_list_destroy(sec);
 
   return ok;
@@ -1784,21 +1808,27 @@ static bool load_building_names(struct section_file *file)
   /* The names: */
   sec = secfile_sections_by_name_prefix(file, BUILDING_SECTION_PREFIX);
   if (NULL == sec || 0 == (nval = section_list_size(sec))) {
-    ruleset_error(LOG_FATAL, "\"%s\": No improvements?!?", filename);
-  }
-  log_verbose("%d improvement types (including possibly unused)", nval);
-  if (nval > B_LAST) {
-    ruleset_error(LOG_FATAL, "\"%s\": Too many improvements (%d, max %d)",
-                  filename, nval, B_LAST);
-  }
-
-  game.control.num_impr_types = nval;
-
-  for (i = 0; i < nval; i++) {
-    struct impr_type *b = improvement_by_number(i);
-
-    if (!ruleset_load_names(&b->name, file, section_name(section_list_get(sec, i)))) {
+    ruleset_error(LOG_ERROR, "\"%s\": No improvements?!?", filename);
+    ok = FALSE;
+  } else {
+    log_verbose("%d improvement types (including possibly unused)", nval);
+    if (nval > B_LAST) {
+      ruleset_error(LOG_ERROR, "\"%s\": Too many improvements (%d, max %d)",
+                    filename, nval, B_LAST);
       ok = FALSE;
+    }
+  }
+
+  if (ok) {
+    game.control.num_impr_types = nval;
+
+    for (i = 0; i < nval; i++) {
+      struct impr_type *b = improvement_by_number(i);
+
+      if (!ruleset_load_names(&b->name, file, section_name(section_list_get(sec, i)))) {
+        ok = FALSE;
+        break;
+      }
     }
   }
 
@@ -1940,7 +1970,7 @@ static bool load_ruleset_buildings(struct section_file *file)
 static bool load_terrain_names(struct section_file *file)
 {
   int nval = 0;
-  struct section_list *sec;
+  struct section_list *sec = NULL;
   const char *flag;
   int i;
   const char *filename = secfile_name(file);
@@ -1955,141 +1985,173 @@ static bool load_terrain_names(struct section_file *file)
                                                      i);
 
     if (i > MAX_NUM_USER_TER_FLAGS) {
-      ruleset_error(LOG_FATAL, "\"%s\": Too many user terrain flags!",
+      ruleset_error(LOG_ERROR, "\"%s\": Too many user terrain flags!",
                     filename);
+      ok = FALSE;
+      break;
     }
 
     set_user_terrain_flag_name(TER_USER_1 + i, flag, helptxt);
   }
 
-  for (; i < MAX_NUM_USER_TER_FLAGS; i++) {
-    set_user_terrain_flag_name(TER_USER_1 + i, NULL, NULL);
-  }
+  if (ok) {
+    for (; i < MAX_NUM_USER_TER_FLAGS; i++) {
+      set_user_terrain_flag_name(TER_USER_1 + i, NULL, NULL);
+    }
 
-  /* terrain names */
+    /* terrain names */
 
-  sec = secfile_sections_by_name_prefix(file, TERRAIN_SECTION_PREFIX);
-  if (NULL == sec || 0 == (nval = section_list_size(sec))) {
-    ruleset_error(LOG_FATAL, "\"%s\": ruleset doesn't have any terrains.",
-                  filename);
-  }
-  if (nval > MAX_NUM_TERRAINS) {
-    ruleset_error(LOG_FATAL, "\"%s\": Too many terrains (%d, max %d)",
-                  filename, nval, MAX_NUM_TERRAINS);
-  }
-  game.control.terrain_count = nval;
-
-  /* avoid re-reading files */
-  if (terrain_sections) {
-    free(terrain_sections);
-  }
-  terrain_sections = fc_calloc(nval, MAX_SECTION_LABEL);
-
-  terrain_type_iterate(pterrain) {
-    const int i = terrain_index(pterrain);
-    const char *sec_name = section_name(section_list_get(sec, i));
-
-    if (!ruleset_load_names(&pterrain->name, file, sec_name)) {
+    sec = secfile_sections_by_name_prefix(file, TERRAIN_SECTION_PREFIX);
+    if (NULL == sec || 0 == (nval = section_list_size(sec))) {
+      ruleset_error(LOG_ERROR, "\"%s\": ruleset doesn't have any terrains.",
+                    filename);
       ok = FALSE;
+    } else {
+      if (nval > MAX_NUM_TERRAINS) {
+        ruleset_error(LOG_ERROR, "\"%s\": Too many terrains (%d, max %d)",
+                      filename, nval, MAX_NUM_TERRAINS);
+        ok = FALSE;
+      }
     }
+  }
 
-    if (0 == strcmp(rule_name(&pterrain->name), "unused")) {
-      name_set(&pterrain->name, "");
+  if (ok) {
+    game.control.terrain_count = nval;
+
+    /* avoid re-reading files */
+    if (terrain_sections) {
+      free(terrain_sections);
     }
+    terrain_sections = fc_calloc(nval, MAX_SECTION_LABEL);
 
-    section_strlcpy(&terrain_sections[i * MAX_SECTION_LABEL], sec_name);
-  } terrain_type_iterate_end;
+    terrain_type_iterate(pterrain) {
+      const int i = terrain_index(pterrain);
+      const char *sec_name = section_name(section_list_get(sec, i));
+
+      if (!ruleset_load_names(&pterrain->name, file, sec_name)) {
+        ok = FALSE;
+        break;
+      }
+
+      if (0 == strcmp(rule_name(&pterrain->name), "unused")) {
+        name_set(&pterrain->name, "");
+      }
+
+      section_strlcpy(&terrain_sections[i * MAX_SECTION_LABEL], sec_name);
+    } terrain_type_iterate_end;
+  }
 
   section_list_destroy(sec);
+  sec = NULL;
 
   /* resource names */
-
-  sec = secfile_sections_by_name_prefix(file, RESOURCE_SECTION_PREFIX);
-  nval = (NULL != sec ? section_list_size(sec) : 0);
-  if (nval > MAX_NUM_RESOURCES) {
-    ruleset_error(LOG_FATAL, "\"%s\": Too many resources (%d, max %d)",
-                  filename, nval, MAX_NUM_RESOURCES);
-  }
-  game.control.resource_count = nval;
-
-  /* avoid re-reading files */
-  if (resource_sections) {
-    free(resource_sections);
-  }
-  resource_sections = fc_calloc(nval, MAX_SECTION_LABEL);
-
-  resource_type_iterate(presource) {
-    const int i = resource_index(presource);
-    const char *sec_name = section_name(section_list_get(sec, i));
-
-    if (!ruleset_load_names(&presource->name, file, sec_name)) {
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, RESOURCE_SECTION_PREFIX);
+    nval = (NULL != sec ? section_list_size(sec) : 0);
+    if (nval > MAX_NUM_RESOURCES) {
+      ruleset_error(LOG_ERROR, "\"%s\": Too many resources (%d, max %d)",
+                    filename, nval, MAX_NUM_RESOURCES);
       ok = FALSE;
     }
-
-    if (0 == strcmp(rule_name(&presource->name), "unused")) {
-      name_set(&presource->name, "");
-    }
-
-    section_strlcpy(&resource_sections[i * MAX_SECTION_LABEL], sec_name);
-  } resource_type_iterate_end;
-
-  if (NULL != sec) {
-    section_list_destroy(sec);
   }
+
+  if (ok) {
+    game.control.resource_count = nval;
+
+    /* avoid re-reading files */
+    if (resource_sections) {
+      free(resource_sections);
+    }
+    resource_sections = fc_calloc(nval, MAX_SECTION_LABEL);
+
+    resource_type_iterate(presource) {
+      const int i = resource_index(presource);
+      const char *sec_name = section_name(section_list_get(sec, i));
+
+      if (!ruleset_load_names(&presource->name, file, sec_name)) {
+        ok = FALSE;
+        break;
+      }
+
+      if (0 == strcmp(rule_name(&presource->name), "unused")) {
+        name_set(&presource->name, "");
+      }
+
+      section_strlcpy(&resource_sections[i * MAX_SECTION_LABEL], sec_name);
+    } resource_type_iterate_end;
+  }
+
+  section_list_destroy(sec);
+  sec = NULL;
 
   /* base names */
 
-  sec = secfile_sections_by_name_prefix(file, BASE_SECTION_PREFIX);
-  nval = (NULL != sec ? section_list_size(sec) : 0);
-  if (nval > MAX_BASE_TYPES) {
-    ruleset_error(LOG_FATAL, "\"%s\": Too many base types (%d, max %d)",
-                  filename, nval, MAX_BASE_TYPES);
-  }
-  game.control.num_base_types = nval;
-
-  if (base_sections) {
-    free(base_sections);
-  }
-  base_sections = fc_calloc(nval, MAX_SECTION_LABEL);
-
-  base_type_iterate(pbase) {
-    const int i = base_index(pbase);
-    const char *sec_name = section_name(section_list_get(sec, i));
-
-    if (!ruleset_load_names(&pbase->name, file, sec_name)) {
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, BASE_SECTION_PREFIX);
+    nval = (NULL != sec ? section_list_size(sec) : 0);
+    if (nval > MAX_BASE_TYPES) {
+      ruleset_error(LOG_ERROR, "\"%s\": Too many base types (%d, max %d)",
+                    filename, nval, MAX_BASE_TYPES);
       ok = FALSE;
     }
-    section_strlcpy(&base_sections[i * MAX_SECTION_LABEL], sec_name);
-  } base_type_iterate_end;
+  }
+
+  if (ok) {
+    game.control.num_base_types = nval;
+
+    if (base_sections) {
+      free(base_sections);
+    }
+    base_sections = fc_calloc(nval, MAX_SECTION_LABEL);
+
+    base_type_iterate(pbase) {
+      const int i = base_index(pbase);
+      const char *sec_name = section_name(section_list_get(sec, i));
+
+      if (!ruleset_load_names(&pbase->name, file, sec_name)) {
+        ok = FALSE;
+        break;
+      }
+      section_strlcpy(&base_sections[i * MAX_SECTION_LABEL], sec_name);
+    } base_type_iterate_end;
+  }
+
+  section_list_destroy(sec);
+  sec = NULL;
 
   /* road names */
 
-  sec = secfile_sections_by_name_prefix(file, ROAD_SECTION_PREFIX);
-  nval = (NULL != sec ? section_list_size(sec) : 0);
-  if (nval > MAX_ROAD_TYPES) {
-    ruleset_error(LOG_FATAL, "\"%s\": Too many road types (%d, max %d)",
-                  filename, nval, MAX_ROAD_TYPES);
-  }
-  game.control.num_road_types = nval;
-
-  if (road_sections) {
-    free(road_sections);
-  }
-  road_sections = fc_calloc(nval, MAX_SECTION_LABEL);
-
-  road_type_iterate(proad) {
-    const int i = road_index(proad);
-    const char *sec_name = section_name(section_list_get(sec, i));
-
-    if (!ruleset_load_names(&proad->name, file, sec_name)) {
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, ROAD_SECTION_PREFIX);
+    nval = (NULL != sec ? section_list_size(sec) : 0);
+    if (nval > MAX_ROAD_TYPES) {
+      ruleset_error(LOG_ERROR, "\"%s\": Too many road types (%d, max %d)",
+                    filename, nval, MAX_ROAD_TYPES);
       ok = FALSE;
     }
-    section_strlcpy(&road_sections[i * MAX_SECTION_LABEL], sec_name);
-  } road_type_iterate_end;
-
-  if (NULL != sec) {
-    section_list_destroy(sec);
   }
+
+  if (ok) {
+    game.control.num_road_types = nval;
+
+    if (road_sections) {
+      free(road_sections);
+    }
+    road_sections = fc_calloc(nval, MAX_SECTION_LABEL);
+
+    road_type_iterate(proad) {
+      const int i = road_index(proad);
+      const char *sec_name = section_name(section_list_get(sec, i));
+
+      if (!ruleset_load_names(&proad->name, file, sec_name)) {
+        ok = FALSE;
+        break;
+      }
+      section_strlcpy(&road_sections[i * MAX_SECTION_LABEL], sec_name);
+    } road_type_iterate_end;
+  }
+
+  section_list_destroy(sec);
 
   return ok;
 }
@@ -2668,26 +2730,33 @@ static bool load_government_names(struct section_file *file)
 
   sec = secfile_sections_by_name_prefix(file, GOVERNMENT_SECTION_PREFIX);
   if (NULL == sec || 0 == (nval = section_list_size(sec))) {
-    ruleset_error(LOG_FATAL, "\"%s\": No governments?!?", filename);
-  } else if(nval > G_MAGIC) {
+    ruleset_error(LOG_ERROR, "\"%s\": No governments?!?", filename);
+    ok = FALSE;
+  } else if (nval > G_MAGIC) {
     /* upper limit is really about 255 for 8-bit id values, but
        use G_MAGIC elsewhere as a sanity check, and should be plenty
        big enough --dwp */
-    ruleset_error(LOG_FATAL, "\"%s\": Too many governments (%d, max %d)",
+    ruleset_error(LOG_ERROR, "\"%s\": Too many governments (%d, max %d)",
                   filename, nval, G_MAGIC);
+    ok = FALSE;
   }
-  governments_alloc(nval);
 
-  /* Government names are needed early so that get_government_by_name will
-   * work. */
-  governments_iterate(gov) {
-    const char *sec_name =
+  if (ok) {
+    governments_alloc(nval);
+
+    /* Government names are needed early so that get_government_by_name will
+     * work. */
+    governments_iterate(gov) {
+      const char *sec_name =
         section_name(section_list_get(sec, government_index(gov)));
 
-    if (!ruleset_load_names(&gov->name, file, sec_name)) {
-      ok = FALSE;
-    }
-  } governments_iterate_end;
+      if (!ruleset_load_names(&gov->name, file, sec_name)) {
+        ok = FALSE;
+        break;
+      }
+    } governments_iterate_end;
+  }
+
   section_list_destroy(sec);
 
   return ok;
@@ -2842,56 +2911,66 @@ static bool load_nation_names(struct section_file *file)
 
   sec = secfile_sections_by_name_prefix(file, NATION_SECTION_PREFIX);
   if (NULL == sec) {
-    ruleset_error(LOG_FATAL, "No available nations in this ruleset!");
-  }
-  game.control.nation_count = section_list_size(sec);
-  nations_alloc(game.control.nation_count);
+    ruleset_error(LOG_ERROR, "No available nations in this ruleset!");
+    ok = FALSE;
+  } else {
+    game.control.nation_count = section_list_size(sec);
+    nations_alloc(game.control.nation_count);
 
-  nations_iterate(pl) {
-    const int i = nation_index(pl);
-    const char *sec_name = section_name(section_list_get(sec, i));
-    const char *noun_plural = secfile_lookup_str(file,
-                                                 "%s.plural", sec_name);
+    nations_iterate(pl) {
+      const int i = nation_index(pl);
+      const char *sec_name = section_name(section_list_get(sec, i));
+      const char *noun_plural = secfile_lookup_str(file,
+                                                   "%s.plural", sec_name);
 
-    if (!ruleset_load_names(&pl->adjective, file, sec_name)) {
-      ok = FALSE;
-    }
-    name_set(&pl->noun_plural, noun_plural);
-
-    /* Check if nation name is already defined. */
-    for(j = 0; j < i; j++) {
-      struct nation_type *n2 = nation_by_number(j);
-
-      /* Compare strings after stripping off qualifiers -- we don't want
-       * two nations to end up with identical adjectives displayed to users.
-       * (This check only catches English, not localisations, of course.) */
-      if (0 == strcmp(Qn_(untranslated_name(&n2->adjective)),
-                      Qn_(untranslated_name(&pl->adjective)))) {
-        ruleset_error(LOG_FATAL,
-                      "Two nations defined with the same adjective \"%s\": "
-                      "in section \'%s\' and section \'%s\'",
-                      Qn_(untranslated_name(&pl->adjective)),
-                      section_name(section_list_get(sec, j)), sec_name);
-      } else if (0 == strcmp(rule_name(&n2->adjective),
-                             rule_name(&pl->adjective))) {
-        /* We cannot have the same rule name, as the game needs them to be
-         * distinct. */
-        ruleset_error(LOG_FATAL,
-                      "Two nations defined with the same rule_name \"%s\": "
-                      "in section \'%s\' and section \'%s\'",
-                      rule_name(&pl->adjective),
-                      section_name(section_list_get(sec, j)), sec_name);
-      } else if (0 == strcmp(Qn_(untranslated_name(&n2->noun_plural)),
-                             Qn_(untranslated_name(&pl->noun_plural)))) {
-        /* We don't want identical English plural names either. */
-        ruleset_error(LOG_FATAL,
-                      "Two nations defined with the same plural name \"%s\": "
-                      "in section \'%s\' and section \'%s\'",
-                      Qn_(untranslated_name(&pl->noun_plural)),
-                      section_name(section_list_get(sec, j)), sec_name);
+      if (!ruleset_load_names(&pl->adjective, file, sec_name)) {
+        ok = FALSE;
+        break;
       }
-    }
-  } nations_iterate_end;
+      name_set(&pl->noun_plural, noun_plural);
+
+      /* Check if nation name is already defined. */
+      for (j = 0; j < i && ok; j++) {
+        struct nation_type *n2 = nation_by_number(j);
+
+        /* Compare strings after stripping off qualifiers -- we don't want
+         * two nations to end up with identical adjectives displayed to users.
+         * (This check only catches English, not localisations, of course.) */
+        if (0 == strcmp(Qn_(untranslated_name(&n2->adjective)),
+                        Qn_(untranslated_name(&pl->adjective)))) {
+          ruleset_error(LOG_ERROR,
+                        "Two nations defined with the same adjective \"%s\": "
+                        "in section \'%s\' and section \'%s\'",
+                        Qn_(untranslated_name(&pl->adjective)),
+                        section_name(section_list_get(sec, j)), sec_name);
+          ok = FALSE;
+        } else if (0 == strcmp(rule_name(&n2->adjective),
+                               rule_name(&pl->adjective))) {
+          /* We cannot have the same rule name, as the game needs them to be
+           * distinct. */
+          ruleset_error(LOG_ERROR,
+                        "Two nations defined with the same rule_name \"%s\": "
+                        "in section \'%s\' and section \'%s\'",
+                        rule_name(&pl->adjective),
+                        section_name(section_list_get(sec, j)), sec_name);
+          ok = FALSE;
+        } else if (0 == strcmp(Qn_(untranslated_name(&n2->noun_plural)),
+                               Qn_(untranslated_name(&pl->noun_plural)))) {
+          /* We don't want identical English plural names either. */
+          ruleset_error(LOG_ERROR,
+                        "Two nations defined with the same plural name \"%s\": "
+                        "in section \'%s\' and section \'%s\'",
+                        Qn_(untranslated_name(&pl->noun_plural)),
+                        section_name(section_list_get(sec, j)), sec_name);
+          ok = FALSE;
+        }
+      }
+      if (!ok) {
+        break;
+      }
+    } nations_iterate_end;
+  }
+
   section_list_destroy(sec);
 
   return ok;
@@ -3415,6 +3494,7 @@ static bool load_citystyle_names(struct section_file *file)
     section_list_iterate(styles, style) {
       if (!ruleset_load_names(&city_styles[i].name, file, section_name(style))) {
         ok = FALSE;
+        break;
       }
       i++;
     } section_list_iterate_end;
@@ -3458,6 +3538,7 @@ static bool load_ruleset_cities(struct section_file *file)
 
     if (!ruleset_load_names(&s->name, file, sec_name)) {
       ok = FALSE;
+      break;
     }
 
     item = secfile_lookup_str_default(file, untranslated_name(&s->name),
@@ -3474,6 +3555,7 @@ static bool load_ruleset_cities(struct section_file *file)
     }
     i++;
   } section_list_iterate_end;
+
   if (DEFAULT_SPECIALIST == -1) {
     ruleset_error(LOG_FATAL,
                   "\"%s\": must give a min_size of 0 for at least one "
@@ -4086,8 +4168,10 @@ static bool load_ruleset_game(const char *rsdir)
     const char *sec_name = section_name(section_list_get(sec, id));
 
     if (!ruleset_load_names(&pdis->name, file, sec_name)) {
-      ruleset_error(LOG_FATAL, "\"%s\": Cannot load disaster names",
+      ruleset_error(LOG_ERROR, "\"%s\": Cannot load disaster names",
                     filename);
+      ok = FALSE;
+      break;
     }
 
     reqs = lookup_req_list(file, sec_name, "reqs", disaster_rule_name(pdis));
