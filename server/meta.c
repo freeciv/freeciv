@@ -231,7 +231,7 @@ static void send_metaserver_post(void *arg)
   }
 
   if (!netfile_send_post(srvarg.metaserver_addr, post, NULL, addr)) {
-    con_puts(C_METAERROR, _("Error connecting metaserver"));
+    con_puts(C_METAERROR, _("Error connecting to metaserver"));
     metaserver_failed();
   }
 

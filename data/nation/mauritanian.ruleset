@@ -4,8 +4,8 @@ name=_("Mauritanian")
 plural=_("?plural:Mauritanians")
 groups="African", "Modern"
 legend=_("Mauritania is a country in North West Africa, where the Arab\
- and Sub-Saharan African worlds meet. Mauritania became islamized from\
- the 11th century onwards. Colonized by France in the 19th century. the\
+ and Sub-Saharan African worlds meet. Mauritania became Islamized from\
+ the 11th century onwards. Colonized by France in the 19th century, the\
  country became an independent republic in 1960.")
 
 leaders = {

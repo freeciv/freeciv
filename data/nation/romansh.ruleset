@@ -7,10 +7,10 @@ legend=_("The Rumantsch or Romansh people are inhabitants of the Swiss\
  canton of Grisons who speak Romansh, a Romance language that retains\
  some unique characteristics and with a rich oral tradition. Although\
  Romansh is one of the four national languages of Switzerland and\
- projects are being undertaken to save the language, the language is\
+ projects are being undertaken to save the language, it is\
  losing terrain as many of its speakers switch to German. Before the\
  Napoleonic Era, the Three Leagues of Grisons were the only territory\
- of Europe were decision making was organized by taking votes.")
+ of Europe where decision making was organized by taking votes.")
 
 leaders = {
  "name",             "sex"

@@ -318,15 +318,17 @@ static struct command commands[] = {
    /* TRANS: translate text between <> only */
    N_("create <player-name> [ai type]"),
    N_("Create an AI player with a given name."),
+   /* TRANS: don't translate text between single quotes */
    N_("With the 'create' command a new player with the given name is "
       "created.\n"
-      "If the game was started, the command checks for free player slots "
-      "and, if no free slots are available, it tries to reuse the slots of "
-      "dead players. The new player has no units or cities.\n"
-      "AI type parameter can be used to select which AI module will be "
-      "used for created player. This requires that Freeciv has been "
-      "compiled with AI module support and respective module has been "
-      "loaded."), NULL,
+      "The 'ai type' parameter can be used to select which AI module will be "
+      "used for the created player. This requires that Freeciv has been "
+      "compiled with loadable AI module support and that the respective module "
+      "has been loaded.\n"
+      "If the game has already started, the new player will have no units or "
+      "cities; also, if no free player slots are available, the slot of a "
+      "dead player can be reused (removing all record of that player from the "
+      "running game)."), NULL,
    CMD_ECHO_ALL, VCF_NONE, 50
   },
   {"away",	ALLOW_BASIC,

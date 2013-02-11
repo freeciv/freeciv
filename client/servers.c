@@ -136,8 +136,10 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
                 FOLLOWTAG, latest_ver, my_comparable);
     if (cvercmp_greater(latest_ver, my_comparable)) {
       const char *const followtag = "?vertag:" FOLLOWTAG;
-      /* TRANS: Type is version tag name like "stable", "S2_4", "win32" */
       fc_snprintf(vertext, sizeof(vertext),
+                  /* TRANS: Type is version tag name like "stable", "S2_4",
+                   * "win32" (which can also be localised -- msgids start
+                   * '?vertag:') */
                   _("Latest %s release of Freeciv is %s, this is %s."),
                   Q_(followtag), latest_ver, my_comparable);
     } else {

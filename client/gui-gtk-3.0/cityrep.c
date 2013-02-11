@@ -640,7 +640,7 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
                                             sell_impr_iterate, &sd);
         if (sd.count > 0) {
           /* FIXME: plurality of sd.count is ignored! */
-          /* TRANS: "Sold 3 Harbour for 90 gold." (Pluralisation is in gold --
+          /* TRANS: "Sold 3 Harbor for 90 gold." (Pluralisation is in gold --
            * second %d -- not in buildings.) */
           w = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
                                      GTK_MESSAGE_INFO, GTK_BUTTONS_OK,

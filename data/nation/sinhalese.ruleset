@@ -4,7 +4,7 @@ name=_("Sinhalese")
 plural=_("?plural:Sinhalese")
 groups="Asian", "Ancient", "Medieval"
 
-legend=_("The Sinhalese people of Sri Lanka traces their ancestry to\
+legend=_("The Sinhalese people of Sri Lanka trace their ancestry to\
  the semi-legendary Prince Vijaya who settled the island of Sri Lanka\
  together with 700 followers in 543 BCE.")
 

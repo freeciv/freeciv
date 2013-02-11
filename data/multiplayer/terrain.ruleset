@@ -1036,7 +1036,7 @@ build_time     = 3
 border_sq      = 0
 vision_main_sq = 5
 helptext       = _("\
-Buoys cannot be built in multiplayer ruleset.\
+Buoys cannot be built in the multiplayer ruleset.\
 ")
 
 [base_ruins]

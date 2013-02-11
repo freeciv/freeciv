@@ -4,15 +4,15 @@ name=_("Confederate")
 plural=_("?plural:Confederates")
 groups="American"
 legend=_("The Confederate States of America was a splinter nation of the\
- United States, formed in by eleven Southern states, existing from 1861 to\
+ United States, formed by eleven Southern states, existing from 1861 to\
  1865. The states seceded from the United States because of political and\
- cultural differences with the North, most prominently issue of slavery,\
+ cultural differences with the North, most prominently the issue of slavery,\
  which they feared the government of the recently elected United States\
  president Abraham Lincoln would abolish. The Confederate capital was\
  Richmond, Virginia, and Jefferson Davis was the country's only president.\
  The American Civil War pitted the Confederacy against the United States.\
  After several military defeats by United States troops the southern states\
- had to abandon its claims of independence; much of its territory laid in\
+ had to abandon their claims of independence; much of their territory laid in\
  ruins. Furthermore, the Union victory in the Civil War opened the way for\
  the abolition of slavery in the United States.")
 

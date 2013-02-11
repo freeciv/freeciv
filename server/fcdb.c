@@ -131,7 +131,8 @@ static void fcdb_print_option(enum log_level level,
        if (show_source == SST_DEFAULT) {
          cat_snprintf(buffer, sizeof(buffer),
                       /* TRANS: After 'fcdb option "user":'. Option value
-                         may have been inserted between these. */
+                         may have been inserted between these. Preserve
+                         leading space. */
                       _(" missing from config file (using default)"));
        } else {
          /* TRANS: fcdb option originates from internal default */

@@ -1,5 +1,8 @@
 [nation_santomean]
 
+name = _("Santomean")
+plural = _("?plural:Santomeans")
+groups="African", "Modern"
 ; /* TRANS: The second letter in "Sao" should be */
 ; /* TRANS: U+00E3 LATIN SMALL LETTER A WITH TILDE if available in */
 ; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 227. */
@@ -9,9 +12,6 @@
 ; /* TRANS: The third letter in "Principe" should be */
 ; /* TRANS: U+00ED LATIN SMALL LETTER I WITH ACUTE if available in */
 ; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 237. */
-name = _("Santomean")
-plural = _("?plural:Santomeans")
-groups="African", "Modern"
 legend=_("Sao Tome and Principe are two islands in the Atlantic Ocean off\
  the coast of Africa. The main island was named after Saint Thomas by the\
  Portuguese sailors who first discovered the island on the saint's feast\

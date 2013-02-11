@@ -179,7 +179,7 @@ void sell_all_improvements(struct impr_type *pimprove, bool redundant_only,
 
   if (count > 0) {
     /* FIXME: plurality of count is ignored! */
-    /* TRANS: "Sold 3 Harbour for 90 gold." (Pluralisation is in gold --
+    /* TRANS: "Sold 3 Harbor for 90 gold." (Pluralisation is in gold --
      * second %d -- not in buildings.) */
     fc_snprintf(message, message_sz, PL_("Sold %d %s for %d gold.",
                                          "Sold %d %s for %d gold.", gold),

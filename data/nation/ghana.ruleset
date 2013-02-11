@@ -4,8 +4,8 @@ name=_("Ghana")
 plural=_("?plural:Ghana")
 groups="African", "Medieval"
 legend=_("The Ghana or Wagadou Empire existed in West Africa from the\
- 9th to the 13th century. It takes its name from the king, whose title\
- ghana means great warrior. The Ghana Empire grew rich thanks to the\
+ 9th to the 13th centuries CE. It takes its name from the king, whose title\
+ \'ghana\' means \'great warrior\'. The Ghana Empire grew rich thanks to the\
  trans-Saharan trade and the goldmines in its territory. The modern\
  Republic of Ghana takes its name from the Ghana Empire, even though the\
  empire was located in what is now Mali and Mauretania.")

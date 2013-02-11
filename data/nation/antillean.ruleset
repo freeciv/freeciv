@@ -3,12 +3,12 @@
 name=_("Antillean")
 plural=_("?plural:Antilleans")
 groups="American"
-legend=_("Aruba, Bonaire, Curacao, Saba, Saint Martin and Saint Eustatius\
- were colonized by the Dutch in the 17th century. Its population is of\
- mixed European, African and Latin American heritage. The Netherlands\
- Antilles got internal self governance in 1954. The Netherlands Antilles\
- were dissolved in 2010. Aruba, Curacao and Saint Martin are countries\
- within the Kingdom of the Netherlands, the other three islands have been\
+legend=_("The islands of Aruba, Bonaire, Curacao, Saba, Saint Martin and\
+ Saint Eustatius were colonized by the Dutch in the 17th century. Their\
+ population is of mixed European, African and Latin American heritage.\
+ The Netherlands Antilles gained internal self governance in 1954, and were\
+ subsequently dissolved in 2010. Aruba, Curacao and Saint Martin are countries\
+ within the Kingdom of the Netherlands; the other three islands have been\
  directly integrated into the Netherlands as special municipalities.")
 leaders = {
  "name",                  "sex"
