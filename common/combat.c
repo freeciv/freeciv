@@ -578,6 +578,26 @@ int get_total_defense_power(const struct unit *attacker,
                                 defender->activity == ACTIVITY_FORTIFIED);
 }
 
+/***************************************************************************
+  Return total defense power of the unit if it fortifies, if possible,
+  where it is. attacker might be NULL to skip calculating attacker specific
+  bonuses.
+***************************************************************************/
+int get_fortified_defense_power(const struct unit *attacker,
+                                const struct unit *defender)
+{
+  struct unit_type *att_type = NULL;
+
+  if (attacker != NULL) {
+    att_type = unit_type(attacker);
+  }
+
+  return defense_multiplication(att_type, unit_type(defender),
+                                unit_owner(defender), unit_tile(defender),
+                                get_defense_power(defender),
+                                TRUE);
+}
+
 /**************************************************************************
 A number indicating the defense strength.
 Unlike the one got from win chance this doesn't potentially get insanely

@@ -60,6 +60,8 @@ int base_get_defense_power(const struct unit *punit);
 int get_defense_power(const struct unit *punit);
 int get_total_defense_power(const struct unit *attacker,
 			    const struct unit *defender);
+int get_fortified_defense_power(const struct unit *attacker,
+                                const struct unit *defender);
 int get_virtual_defense_power(const struct unit_type *attacker,
 			      const struct unit_type *defender,
 			      const struct player *defending_player,
