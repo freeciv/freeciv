@@ -213,7 +213,7 @@ static int base_assess_defense_unit(struct city *pcity, struct unit *punit,
     return 0;
   }
 
-  defense = get_defense_power(punit) * punit->hp;
+  defense = get_fortified_defense_power(NULL, punit) * punit->hp;
   if (!is_sailing_unit(punit)) {
     defense *= unit_type(punit)->firepower;
     if (is_ground_unit(punit)) {
