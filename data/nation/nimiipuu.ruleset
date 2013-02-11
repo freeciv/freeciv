@@ -3,12 +3,12 @@
 ; /* TRANS: The fourth letter in "Nimiipuu" should be */
 ; /* TRANS: U+00ED LATIN SMALL LETTER I WITH ACUTE if available in */
 ; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00ED. */
-; /* TRANS: The last letter in "Perce" should be */
-; /* TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in */
-; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E9. */
 name=_("Nimiipuu")
 plural=_("?plural:Nimiipuu")
 groups="American"
+; /* TRANS: The last letter in "Perce" should be */
+; /* TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in */
+; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E9. */
 legend=_("The Nimiipuu, or the 'Real People', in their own language,\
  are better known as the 'Nez Perce'. This Native American nation\
  covered parts of Washington, Oregon, Montana and Idaho and consisted\

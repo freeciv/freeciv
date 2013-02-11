@@ -961,7 +961,7 @@ static struct setting settings[] = {
           /* TRANS: The strings between double quotes are also translated
            * separately (they must match!). The strings between single
            * quotes are setting names and shouldn't be translated. The
-           * strings between paranthesis and in uppercase must stay as
+           * strings between parentheses and in uppercase must stay as
            * untranslated. */
           N_("Chooses the method used to define the map size. Other options "
              "specify the parameters for each method.\n"
@@ -978,7 +978,7 @@ static struct setting settings[] = {
           /* TRANS: The strings between double quotes are also translated
            * separately (they must match!). The strings between single
            * quotes are setting names and shouldn't be translated. The
-           * strings between paranthesis and in uppercase must stay as
+           * strings between parentheses and in uppercase must stay as
            * untranslated. */
           N_("This value is used to determine the map area.\n"
              "  size = 4 is a normal map of 4,000 tiles (default)\n"
@@ -1433,7 +1433,7 @@ static struct setting settings[] = {
           /* TRANS: The strings between single quotes are setting names and
            * shouldn't be translated. */
 	  N_("For each technology you gain \"for free\" (other than "
-	     "covered by 'diplcost' or 'conquercost': specifically, from huts "
+	     "covered by 'diplcost' or 'conquercost': for instance, from huts "
 	     "or from Great Library effects), you lose research points "
 	     "equal to this percentage of the cost to research a new "
 	     "technology. If this is non-zero, you can end up "
@@ -1503,10 +1503,12 @@ static struct setting settings[] = {
   GEN_INT("citymindist", game.info.citymindist,
 	  SSET_RULES, SSET_SOCIOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("Minimum distance between cities"),
-	  N_("When a player attempts to found a new city, there may be "
-	     "no other city in this distance. For example, when "
-	     "this value is 3, there have to be at least two empty "
-	     "fields between two cities in every direction."),
+	  N_("When a player attempts to found a new city, it is prevented "
+             "if the distance from any existing city is less than this "
+             "setting. For example, when this setting is 3, there must be "
+             "at least two clear tiles in any direction between all existing "
+             "cities and the new city site. A value of 1 removes any such "
+             "restriction on city placement."),
           NULL, NULL,
 	  GAME_MIN_CITYMINDIST, GAME_MAX_CITYMINDIST,
 	  GAME_DEFAULT_CITYMINDIST)
@@ -1624,7 +1626,7 @@ static struct setting settings[] = {
            SSET_RULES, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
            N_("Allowed city names"),
            /* TRANS: The strings between double quotes are also translated
-            * separately (they must match!). The strings between parantheses
+            * separately (they must match!). The strings between parentheses
             * and in uppercase must not be translated. */
            N_("- \"No restrictions\" (NO_RESTRICTIONS): players can have "
               "multiple cities with the same names.\n"
@@ -2150,10 +2152,12 @@ static struct setting settings[] = {
   GEN_INT("saveturns", game.server.save_nturns,
 	  SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
 	  N_("Turns per auto-save"),
-          /* TRANS: The string between single quotes is a setting name and
-           * should not be translated. */
-	  N_("The game will be automatically saved per this number of "
-             "turns. See also setting 'autosaves'."), NULL, NULL,
+          /* TRANS: The string between double quotes is also translated
+           * separately (it must match!). The string between single
+           * quotes is a setting name and shouldn't be translated. */
+	  N_("How many turns elapse between automatic game saves. This "
+             "setting only has an effect when the 'autosaves' setting "
+             "includes \"New turn\"."), NULL, NULL,
           GAME_MIN_SAVETURNS, GAME_MAX_SAVETURNS, GAME_DEFAULT_SAVETURNS)
 
   GEN_BITWISE("autosaves", game.server.autosaves,
@@ -2162,7 +2166,7 @@ static struct setting settings[] = {
               /* TRANS: The strings between double quotes are also translated
                * separately (they must match!). The strings between single
                * quotes are setting names and shouldn't be translated. The
-               * strings between parantheses and in uppercase must stay as
+               * strings between parentheses and in uppercase must stay as
                * untranslated. */
               N_("This setting controls which autosave types get generated:\n"
                  "- \"New turn\" (TURN): Save when turn begins, once every "

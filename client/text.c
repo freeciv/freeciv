@@ -1593,13 +1593,13 @@ const char *get_report_title(const char *report_name)
                   nation_adjective_for_player(pplayer),
                   government_name_for_player(pplayer));
 
-    /* TRANS: Just happending 2 strings, using the correct localized
+    /* TRANS: Just appending 2 strings, using the correct localized
      * syntax. */
     astr_add_line(&str, _("%s - %s"),
                   ruler_title_for_player(pplayer, buf, sizeof(buf)),
                   textyear(game.info.year));
   } else {
-    /* TRANS: "Observer: 1985" */
+    /* TRANS: "Observer - 1985 AD" */
     astr_add_line(&str, _("Observer - %s"),
 		  textyear(game.info.year));
   }

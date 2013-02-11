@@ -9,7 +9,7 @@ legend=_("The Salishans are a cultural-linguistic group of peoples in\
  after whom the city of Seattle is named. Other well known Salishan tribes\
  include the Bella Coola (Nuxalk), Spokane and Coeur d'Alene. The Salishan\
  languages are famous for their unusual characteristics. They have a large\
- inventory of consonants and some even feature words without any vowels. ")
+ inventory of consonants and some even feature words without any vowels.")
 
 leaders = {
  "name",                "sex"

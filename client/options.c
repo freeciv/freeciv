@@ -1866,9 +1866,12 @@ static struct client_option client_options[] = {
                   N_("Setting this option will draw the national borders."),
                   COC_GRAPHICS, GUI_STUB, TRUE,
                   view_option_changed_callback),
-  GEN_BOOL_OPTION(draw_native, N_("Draw whether tiles are native"),
-                  N_("Setting this option will draw the tiles that unit "
-                     "cannot enter."),
+  GEN_BOOL_OPTION(draw_native, N_("Draw whether tiles are native to "
+                                  "selected unit"),
+                  N_("Setting this option will highlight tiles that the "
+                     "currently selected unit cannot enter unaided due to "
+                     "non-native terrain. (If multiple units are selected, "
+                     "only tiles that all of them can enter are indicated.)"),
                   COC_GRAPHICS, GUI_STUB, FALSE,
                   view_option_changed_callback),
   GEN_BOOL_OPTION(player_dlg_show_dead_players,
@@ -2031,8 +2034,9 @@ static struct client_option client_options[] = {
                   COC_GRAPHICS, GUI_STUB, FALSE, voteinfo_bar_callback),
   GEN_BOOL_OPTION(autoaccept_tileset_suggestion,
                   N_("Autoaccept tileset suggestions"),
-                  N_("If this option is enabled, tileset suggested by "
-                     "the ruleset is automatically taken in to use."),
+                  N_("If this option is enabled, any tileset suggested by "
+                     "the ruleset is automatically used; otherwise you "
+                     "are prompted to change tileset."),
                   COC_GRAPHICS, GUI_STUB, FALSE, NULL),
 
   GEN_BOOL_OPTION(overview.layers[OLAYER_BACKGROUND],

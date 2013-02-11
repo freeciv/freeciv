@@ -3,7 +3,7 @@
 name=_("Parthian")
 plural=_("?plural:Parthians")
 groups="Ancient", "Asian"
-legend=_("The Parthian were an originally nomadic people from Central Asia\
+legend=_("The Parthians were originally a nomadic people from Central Asia\
  who inhabited the Parthia region of the Seleucid Empire. Under the\
  leadership of the satrap Arsakes they drove the Seleucids from Iran, where\
  they created their own strong empire. Their culture was Hellenistic.")

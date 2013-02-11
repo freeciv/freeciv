@@ -4,7 +4,7 @@ name=_("Epirote")
 plural=_("?plural:Epirotes") 
 groups="Ancient", "European" 
 legend=_("The Epirotes were the ancient inhabitants of the Epirus region\
- in the Northwestern Greece. Its most powerful ruler Pyrrhus launched a\
+ in northwestern Greece. Their most powerful ruler Pyrrhus launched a\
  campaign against Rome in Italy, which ended in the famous \"Pyrrhic\
  Victory\".")
 leaders= {

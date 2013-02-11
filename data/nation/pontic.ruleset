@@ -11,10 +11,10 @@ legend=_("Pontus is a region on the Black Sea coast of Asia Minor,\
  Pontus became an independent state again when in 1204 the Empire of\
  Trebizond was founded as one of the successors of the crumbling\
  Byzantine Empire. Under the Komnenos dynasty, Trebizond held out as the\
- very last remainder of the Roman Empire until it finally fell to the\
+ very last remnant of the Roman Empire until it finally fell to the\
  Ottomans in 1461. During the Turkish-Greek population transfers after\
- World War I most Pontic Greeks were deported and today the population\
- of Pontus is almost exlusively Turkish.")
+ World War I, most Pontic Greeks were deported, and today the population\
+ of Pontus is almost exclusively Turkish.")
 
 leaders = {
  "name",                       "sex"

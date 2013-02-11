@@ -243,15 +243,15 @@ const char *astr_build_or_list(struct astring *astr,
   } else {
     /* Estimate the space we need. */
     astr_reserve(astr, number * 64);
-    /* TRANS: start of the a "or"-separated string list with more than two
+    /* TRANS: start of an "or"-separated string list with more than two
      * items. */
     astr_set(astr, Q_("?or-list:%s"), *items++);
     while (1 < --number) {
-      /* TRANS: next elements of a "or"-separated string list with more
+      /* TRANS: next elements of an "or"-separated string list with more
        * than two items. */
       astr_add(astr, Q_("?or-list:, %s"), *items++);
     }
-    /* TRANS: end of the a "or"-separated string list with more than two
+    /* TRANS: end of an "or"-separated string list with more than two
      * items. */
     astr_add(astr, Q_("?or-list:, or %s"), *items);
   }
@@ -281,15 +281,15 @@ const char *astr_build_and_list(struct astring *astr,
   } else {
     /* Estimate the space we need. */
     astr_reserve(astr, number * 64);
-    /* TRANS: start of the a "and"-separated string list with more than two
+    /* TRANS: start of an "and"-separated string list with more than two
      * items. */
     astr_set(astr, Q_("?and-list:%s"), *items++);
     while (1 < --number) {
-      /* TRANS: next elements of a "and"-separated string list with more
+      /* TRANS: next elements of an "and"-separated string list with more
        * than two items. */
       astr_add(astr, Q_("?and-list:, %s"), *items++);
     }
-    /* TRANS: end of the a "and"-separated string list with more than two
+    /* TRANS: end of an "and"-separated string list with more than two
      * items. */
     astr_add(astr, Q_("?and-list:, and %s"), *items);
   }
