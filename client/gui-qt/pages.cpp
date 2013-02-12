@@ -25,7 +25,6 @@
 #include "dialogs.h"
 #include "pages.h"
 #include "sprite.h"
-#include <gui-sdl/mmx.h>
 
 Q_DECLARE_METATYPE (QDockWidget::DockWidgetFeatures)
 static struct server_scan *meta_scan, *lan_scan;
