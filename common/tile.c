@@ -305,13 +305,21 @@ bool tile_has_claimable_base(const struct tile *ptile,
 }
 
 /****************************************************************************
-  Calculate defense bonus given by bases
+  Calculate defense bonus given for unit type by bases and roads
 ****************************************************************************/
 int tile_extras_defense_bonus(const struct tile *ptile,
                               const struct unit_type *punittype)
 {
+  return tile_extras_class_defense_bonus(ptile, utype_class(punittype));
+}
+
+/****************************************************************************
+  Calculate defense bonus given for unit class by bases and roads
+****************************************************************************/
+int tile_extras_class_defense_bonus(const struct tile *ptile,
+                                    const struct unit_class *pclass)
+{
   int bonus = 0;
-  struct unit_class *pclass = utype_class(punittype);
 
   base_type_iterate(pbase) {
     if (tile_has_base(ptile, pbase)

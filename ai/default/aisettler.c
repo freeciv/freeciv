@@ -579,10 +579,21 @@ static int defense_bonus(const struct cityresult *result)
   /* Defense modification (as tie breaker mostly) */
   int defense_bonus = 
     10 + tile_terrain(result->tile)->defense_bonus / 10;
-  if (tile_has_special(result->tile, S_RIVER)) {
-    defense_bonus +=
-        (defense_bonus * terrain_control.river_defense_bonus) / 100;
+  int river_bonus = 0;
+
+  if (tile_has_special(result->tile, S_OLD_RIVER)) {
+    river_bonus += terrain_control.river_defense_bonus;
   }
+  road_type_iterate(priver) {
+    if (tile_has_road(result->tile, priver)) {
+      /* TODO: Do not use full bonus of those road types
+       *       that are not native to all important units. */
+      river_bonus += priver->defense_bonus;
+    }
+  } road_type_iterate_end;
+
+  defense_bonus +=
+        (defense_bonus * river_bonus) / 100;
 
   return 100 / (result->total + 1) * (100 / defense_bonus * DEFENSE_EMPHASIS);
 }

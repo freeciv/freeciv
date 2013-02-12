@@ -260,6 +260,7 @@ bool adv_danger_at(struct unit *punit, struct tile *ptile)
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(ptile);
   enum danger_consideration dc = DANG_UNDECIDED;
+  int extras_bonus = 0;
 
   /* Give AI code possibility to decide itself */
   CALL_PLR_AI_FUNC(consider_tile_dangerous, unit_owner(punit), ptile, punit, &dc);
@@ -277,9 +278,11 @@ bool adv_danger_at(struct unit *punit, struct tile *ptile)
 
   /* Calculate how well we can defend at (x,y) */
   db = 10 + tile_terrain(ptile)->defense_bonus / 10;
-  if (tile_has_special(ptile, S_RIVER)) {
-    db += (db * terrain_control.river_defense_bonus) / 100;
+  if (tile_has_special(ptile, S_OLD_RIVER)) {
+    extras_bonus += terrain_control.river_defense_bonus;
   }
+  extras_bonus += tile_extras_defense_bonus(ptile, unit_type(punit));
+  db += (db * extras_bonus) / 100;
   d = adv_unit_def_rating_basic_sq(punit) * db;
 
   adjc_iterate(ptile, ptile1) {
@@ -338,6 +341,7 @@ static double chance_killed_at(const struct tile *ptile,
                                const struct pf_parameter *param)
 {
   double db;
+  int extras_bonus = 0;
   /* Compute the basic probability */
   /* WAG */
   /* In the early stages of a typical game, ferries
@@ -350,9 +354,11 @@ static double chance_killed_at(const struct tile *ptile,
 
   /* If we are on defensive terrain, we are more likely to survive */
   db = 10 + tile_terrain(ptile)->defense_bonus / 10;
-  if (tile_has_special(ptile, S_RIVER)) {
-    db += (db * terrain_control.river_defense_bonus) / 100;
+  if (tile_has_special(ptile, S_OLD_RIVER)) {
+    extras_bonus += terrain_control.river_defense_bonus;
   }
+  extras_bonus += tile_extras_class_defense_bonus(ptile, param->uclass);
+  db += (extras_bonus) / 100;
   p *= 10.0 / db;
 
   return p;

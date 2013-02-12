@@ -2793,6 +2793,7 @@ void dai_consider_tile_dangerous(struct ai_type *ait, struct tile *ptile,
   int a = 0, d, db;
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(ptile);
+  int extras_bonus = 0;
 
   if (!pplayer->ai_controlled) {
     /* Use advisors code for humans. */
@@ -2808,9 +2809,12 @@ void dai_consider_tile_dangerous(struct ai_type *ait, struct tile *ptile,
 
   /* Calculate how well we can defend at (x,y) */
   db = 10 + tile_terrain(ptile)->defense_bonus / 10;
-  if (tile_has_special(ptile, S_RIVER)) {
-    db += (db * terrain_control.river_defense_bonus) / 100;
+  if (tile_has_special(ptile, S_OLD_RIVER)) {
+    extras_bonus += terrain_control.river_defense_bonus;
   }
+  extras_bonus += tile_extras_defense_bonus(ptile, unit_type(punit));
+
+  db += (db * extras_bonus) / 100;
   d = adv_unit_def_rating_basic_sq(punit) * db;
 
   adjc_iterate(ptile, ptile1) {
