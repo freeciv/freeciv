@@ -89,7 +89,7 @@
  *      "duplicates_ok")
  */
 
-#define SPEC_CAPSTR "+Freeciv-2.3-spec"
+#define SPEC_CAPSTR "+Freeciv-spec-Devel-2013.Feb.13"
 /*
  * Individual spec file capabilities acceptable to this program:
  *
@@ -194,6 +194,12 @@ struct city_sprite {
   int num_styles;
 };
 
+struct river_sprites {
+  struct sprite
+    *spec[MAX_INDEX_CARDINAL],
+    *outlet[4];		/* indexed by enum direction4 */
+};
+
 struct named_sprites {
   struct sprite
     *indicator[INDICATOR_COUNT][NUM_TILES_PROGRESS],
@@ -256,6 +262,7 @@ struct named_sprites {
       } combo;
       /* RSTYLE_ALL_SEPARATE */
       struct sprite *total[MAX_INDEX_VALID];
+      struct river_sprites rivers;
     } u;
   } roads[MAX_ROAD_TYPES];
   struct {
@@ -330,9 +337,8 @@ struct named_sprites {
       *fallout,
       *fog,
       **fullfog,
-      *spec_river[MAX_INDEX_CARDINAL],
-      *darkness[MAX_INDEX_CARDINAL],         /* first unused */
-      *river_outlet[4];		/* indexed by enum direction4 */
+      *darkness[MAX_INDEX_CARDINAL]; /* first unused */
+    struct river_sprites rivers;
   } tx;				/* terrain extra */
   struct {
     struct sprite
@@ -544,6 +550,8 @@ static int fill_unit_sprite_array(const struct tileset *t,
                                   struct drawn_sprite *sprs,
                                   const struct unit *punit,
                                   bool stack, bool backdrop);
+static void load_river_sprites(struct tileset *t,
+                               struct river_sprites *store, const char *tag_pfx);
 
 
 /****************************************************************************
@@ -2337,7 +2345,6 @@ static void free_city_sprite(struct city_sprite *city_sprite)
 static void tileset_lookup_sprite_tags(struct tileset *t)
 {
   char buffer[512], buffer2[512];
-  const char dir_char[] = "nsew";
   const int W = t->normal_tile_width, H = t->normal_tile_height;
   int i, j, f;
 
@@ -2623,11 +2630,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     }
   }
 
-  for (i = 0; i < t->num_index_cardinal; i++) {
-    fc_snprintf(buffer, sizeof(buffer), "tx.s_river_%s",
-                cardinal_index_str(t, i));
-    SET_SPRITE(tx.spec_river[i], buffer);
-  }
+  load_river_sprites(t, &t->sprites.tx.rivers, "tx.river");
 
   /* We use direction-specific irrigation and farmland graphics, if they
    * are available.  If not, we just fall back to the basic irrigation
@@ -2703,14 +2706,32 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     break;
   };
 
-  for(i=0; i<4; i++) {
-    fc_snprintf(buffer, sizeof(buffer), "tx.river_outlet_%c", dir_char[i]);
-    SET_SPRITE(tx.river_outlet[i], buffer);
-  }
-
   /* no other place to initialize these variables */
   sprite_vector_init(&t->sprites.nation_flag);
   sprite_vector_init(&t->sprites.nation_shield);
+}
+
+/**************************************************************************
+  Load sprites of one river type.
+**************************************************************************/
+static void load_river_sprites(struct tileset *t,
+                               struct river_sprites *store, const char *tag_pfx)
+{
+  int i;
+  const char dir_char[] = "nsew";
+  char buffer[512];
+
+  for (i = 0; i < t->num_index_cardinal; i++) {
+    fc_snprintf(buffer, sizeof(buffer), "%s_s_%s",
+                tag_pfx, cardinal_index_str(t, i));
+    store->spec[i] = load_sprite(t, buffer);
+  }
+
+  for (i = 0; i < 4; i++) {
+    fc_snprintf(buffer, sizeof(buffer), "%s_outlet_%c",
+                tag_pfx, dir_char[i]);
+    store->outlet[i] = load_sprite(t, buffer);
+  }
 }
 
 /**************************************************************************
@@ -3005,7 +3026,7 @@ void tileset_setup_road(struct tileset *t,
       SET_SPRITE_ALT(roads[id].u.total[i], full_tag_name, full_alt_name);
     }
   } else if (*roadstyle == RSTYLE_RIVER) {
-    /* TODO: Load road type specific river gfx */
+    load_river_sprites(t, &t->sprites.roads[id].u.rivers, "tx.river");
   } else {
     fc_assert(FALSE);
   }
@@ -4723,24 +4744,20 @@ int fill_sprite_array(struct tileset *t,
       if (draw_terrain && !solid_bg
           && terrain_type_terrain_class(pterrain) == TC_OCEAN) {
 	for (dir = 0; dir < 4; dir++) {
-          bool river = FALSE;
           int didx = DIR4_TO_DIR8[dir];
 
 	  if (contains_special(tspecial_near[didx], S_RIVER)) {
-            river = TRUE;
-          } else {
-            road_type_list_iterate(t->rivers, priver) {
-              int idx = road_index(priver);
-
-              if (BV_ISSET(troad_near[didx], idx)) {
-                river = TRUE;
-                break;
-              }
-            } road_type_list_iterate_end;
-          }
-          if (river) {
-	    ADD_SPRITE_SIMPLE(t->sprites.tx.river_outlet[dir]);
+            ADD_SPRITE_SIMPLE(t->sprites.tx.rivers.outlet[dir]);
 	  }
+
+          road_type_list_iterate(t->rivers, priver) {
+            int idx = road_index(priver);
+
+            if (BV_ISSET(troad_near[didx], idx)) {
+              ADD_SPRITE_SIMPLE(t->sprites.roads[idx].u.rivers.outlet[dir]);
+              break;
+            }
+          } road_type_list_iterate_end;
 	}
       }
 
@@ -4748,50 +4765,42 @@ int fill_sprite_array(struct tileset *t,
 					   pcity);
 
       if (draw_terrain && !solid_bg) {
-        bool river = FALSE;
-
         if (contains_special(tspecial, S_RIVER)) {
-          river = TRUE;
-        } else {
-          road_type_list_iterate(t->rivers, priver) {
-            int idx = road_index(priver);
-
-            if (BV_ISSET(troad, idx)) {
-              river = TRUE;
-              break;
-            }
-          } road_type_list_iterate_end;
-        }
-
-        if (river) { 
           int i;
 
           /* Draw rivers on top of irrigation. */
           tileno = 0;
           for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
             enum direction8 dir = t->cardinal_tileset_dirs[i];
-            bool river2 = FALSE;
 
-            if (terrain_type_terrain_class(tterrain_near[dir]) == TC_OCEAN) {
-              river2 = TRUE;
-            } else if (contains_special(tspecial_near[dir], S_RIVER)) {
-              river2 = TRUE;
-            } else {
-              road_type_list_iterate(t->rivers, priver) {
-                int idx = road_index(priver);
-
-                if (BV_ISSET(troad_near[dir], idx)) {
-                  river2 = TRUE;
-                  break;
-                }
-              } road_type_list_iterate_end;
-            }
-            if (river2) {
+            if (terrain_type_terrain_class(tterrain_near[dir]) == TC_OCEAN
+                || contains_special(tspecial_near[dir], S_RIVER)) {
               tileno |= 1 << i;
             }
           }
-          ADD_SPRITE_SIMPLE(t->sprites.tx.spec_river[tileno]);
+          ADD_SPRITE_SIMPLE(t->sprites.tx.rivers.spec[tileno]);
         }
+
+        road_type_list_iterate(t->rivers, priver) {
+          int idx = road_index(priver);
+
+          if (BV_ISSET(troad, idx)) {
+            int i;
+
+            /* Draw rivers on top of irrigation. */
+            tileno = 0;
+            for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
+              enum direction8 dir = t->cardinal_tileset_dirs[i];
+
+              if (terrain_type_terrain_class(tterrain_near[dir]) == TC_OCEAN
+                  || BV_ISSET(troad_near[dir], idx)) {
+                tileno |= 1 << i;
+              }
+            }
+
+            ADD_SPRITE_SIMPLE(t->sprites.roads[idx].u.rivers.spec[tileno]);
+          }
+        } road_type_list_iterate_end;
       }
     }
     break;
@@ -5698,7 +5707,7 @@ struct sprite *get_basic_special_sprite(const struct tileset *t,
     return t->sprites.tx.village;
     break;
   case S_RIVER:
-    return t->sprites.tx.spec_river[0];
+    return t->sprites.tx.rivers.spec[0];
     break;
   case S_FARMLAND:
     return t->sprites.tx.farmland[0];

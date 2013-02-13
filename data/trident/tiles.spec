@@ -2,7 +2,7 @@
 [spec]
 
 ; Format and options of this spec file:
-options = "+Freeciv-2.3-spec"
+options = "+Freeciv-spec-Devel-2013.Feb.13"
 
 [info]
 
@@ -168,22 +168,22 @@ tiles = { "row", "column", "tag"
 ; Rivers (as special type), and whether north, south, east, west 
 ; also has river or is ocean:
 
- 19,  0, "tx.s_river_n0e0s0w0"
- 19,  1, "tx.s_river_n1e0s0w0"
- 19,  2, "tx.s_river_n0e1s0w0"
- 19,  3, "tx.s_river_n1e1s0w0"
- 19,  4, "tx.s_river_n0e0s1w0"
- 19,  5, "tx.s_river_n1e0s1w0"
- 19,  6, "tx.s_river_n0e1s1w0"
- 19,  7, "tx.s_river_n1e1s1w0"
- 19,  8, "tx.s_river_n0e0s0w1"
- 19,  9, "tx.s_river_n1e0s0w1"
- 19, 10, "tx.s_river_n0e1s0w1"
- 19, 11, "tx.s_river_n1e1s0w1"
- 19, 12, "tx.s_river_n0e0s1w1"
- 19, 13, "tx.s_river_n1e0s1w1"
- 19, 14, "tx.s_river_n0e1s1w1"
- 19, 15, "tx.s_river_n1e1s1w1"
+ 19,  0, "tx.river_s_n0e0s0w0"
+ 19,  1, "tx.river_s_n1e0s0w0"
+ 19,  2, "tx.river_s_n0e1s0w0"
+ 19,  3, "tx.river_s_n1e1s0w0"
+ 19,  4, "tx.river_s_n0e0s1w0"
+ 19,  5, "tx.river_s_n1e0s1w0"
+ 19,  6, "tx.river_s_n0e1s1w0"
+ 19,  7, "tx.river_s_n1e1s1w0"
+ 19,  8, "tx.river_s_n0e0s0w1"
+ 19,  9, "tx.river_s_n1e0s0w1"
+ 19, 10, "tx.river_s_n0e1s0w1"
+ 19, 11, "tx.river_s_n1e1s0w1"
+ 19, 12, "tx.river_s_n0e0s1w1"
+ 19, 13, "tx.river_s_n1e0s1w1"
+ 19, 14, "tx.river_s_n0e1s1w1"
+ 19, 15, "tx.river_s_n1e1s1w1"
 
 ; Ocean, and whether terrain to north, south, east, west 
 ; is more ocean (else shoreline)
