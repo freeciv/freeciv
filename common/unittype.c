@@ -126,7 +126,7 @@ Unit_type_id utype_number(const struct unit_type *punittype)
 **************************************************************************/
 struct unit_type *utype_by_number(const Unit_type_id id)
 {
-  if (id < 0 || id > game.control.num_unit_types) {
+  if (id < 0 || id >= game.control.num_unit_types) {
     return NULL;
   }
   return &unit_types[id];
