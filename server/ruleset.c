@@ -341,8 +341,9 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
 
     if (!(pentry = secfile_entry_lookup(file, "%s.%s%d.name",
                                         sec, sub, j))) {
-      log_error("%s", secfile_error());
-      continue;
+      ruleset_error(LOG_ERROR, "%s", secfile_error());
+
+      return NULL;
     }
     name = NULL;
     switch (entry_type(pentry)) {
@@ -371,14 +372,16 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
       break;
     }
     if (NULL == name) {
-      log_error("\"%s\": error in handling requirement name for '%s.%s%d'.",
-                filename, sec, sub, j);
-      continue;
+      ruleset_error(LOG_ERROR,
+                    "\"%s\": error in handling requirement name for '%s.%s%d'.",
+                    filename, sec, sub, j);
+      return NULL;
     }
 
     if (!(range = secfile_lookup_str(file, "%s.%s%d.range", sec, sub, j))) {
-      log_error("%s", secfile_error());
-      continue;
+      ruleset_error(LOG_ERROR, "%s", secfile_error());
+
+      return NULL;
     }
 
     survives = secfile_lookup_bool_default(file, FALSE,
@@ -388,18 +391,20 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
 
     req = req_from_str(type, range, survives, negated, name);
     if (req.source.kind == universals_n_invalid()) {
-      /* Error.  Log it, clear the req and continue. */
-      log_error("\"%s\" [%s] has unknown req: \"%s\" \"%s\".",
-                filename, sec, type, name);
-      req.source.kind = VUT_NONE;
+      ruleset_error(LOG_ERROR, "\"%s\" [%s] has unknown req: \"%s\" \"%s\".",
+                    filename, sec, type, name);
+
+      return NULL;
     }
 
     requirement_vector_append(&list, req);
   }
 
   if (j > MAX_NUM_REQS) {
-    ruleset_error(LOG_FATAL, "Too many (%d) requirements for %s. Max is %d",
+    ruleset_error(LOG_ERROR, "Too many (%d) requirements for %s. Max is %d",
                   j, rfor, MAX_NUM_REQS);
+
+    return NULL;
   }
 
   return &list;
@@ -1855,107 +1860,112 @@ static bool load_ruleset_buildings(struct section_file *file)
   sec = secfile_sections_by_name_prefix(file, BUILDING_SECTION_PREFIX);
   nval = (NULL != sec ? section_list_size(sec) : 0);
 
-  for (i = 0; i < nval; i++) {
+  for (i = 0; i < nval && ok; i++) {
     struct impr_type *b = improvement_by_number(i);
     const char *sec_name = section_name(section_list_get(sec, i));
     struct requirement_vector *reqs =
       lookup_req_list(file, sec_name, "reqs",
                       improvement_rule_name(b));
-    const char *sval, **slist;
-    int j, ival;
-    size_t nflags;
 
-    item = secfile_lookup_str(file, "%s.genus", sec_name);
-    b->genus = impr_genus_id_by_name(item, fc_strcasecmp);
-    if (!impr_genus_id_is_valid(b->genus)) {
-      ruleset_error(LOG_FATAL, "\"%s\" improvement \"%s\": couldn't match "
-                               "genus \"%s\".", filename,
-                    improvement_rule_name(b), item);
-    }
+    if (reqs == NULL) {
+      ok = FALSE;
+    } else {
+      const char *sval, **slist;
+      int j, ival;
+      size_t nflags;
 
-    slist = secfile_lookup_str_vec(file, &nflags, "%s.flags", sec_name);
-    BV_CLR_ALL(b->flags);
-
-    for(j=0; j<nflags; j++) {
-      sval = slist[j];
-      if(strcmp(sval,"")==0) {
-	continue;
+      item = secfile_lookup_str(file, "%s.genus", sec_name);
+      b->genus = impr_genus_id_by_name(item, fc_strcasecmp);
+      if (!impr_genus_id_is_valid(b->genus)) {
+        ruleset_error(LOG_FATAL, "\"%s\" improvement \"%s\": couldn't match "
+                      "genus \"%s\".", filename,
+                      improvement_rule_name(b), item);
       }
-      ival = impr_flag_id_by_name(sval, fc_strcasecmp);
-      if (!impr_flag_id_is_valid(ival)) {
-        log_error("\"%s\" improvement \"%s\": bad flag name \"%s\".",
-                  filename, improvement_rule_name(b), sval);
-      } else {
-        BV_SET(b->flags, ival);
+
+      slist = secfile_lookup_str_vec(file, &nflags, "%s.flags", sec_name);
+      BV_CLR_ALL(b->flags);
+
+      for (j = 0; j < nflags; j++) {
+        sval = slist[j];
+        if (strcmp(sval,"") == 0) {
+          continue;
+        }
+        ival = impr_flag_id_by_name(sval, fc_strcasecmp);
+        if (!impr_flag_id_is_valid(ival)) {
+          log_error("\"%s\" improvement \"%s\": bad flag name \"%s\".",
+                    filename, improvement_rule_name(b), sval);
+        } else {
+          BV_SET(b->flags, ival);
+        }
       }
-    }
-    free(slist);
+      free(slist);
 
-    requirement_vector_copy(&b->reqs, reqs);
+      requirement_vector_copy(&b->reqs, reqs);
 
-    b->obsolete_by = lookup_tech(file, sec_name, "obsolete_by", LOG_ERROR,
-                                 filename, rule_name(&b->name));
-    if (advance_by_number(A_NONE) == b->obsolete_by) {
-      /* 
-       * The ruleset can specify "None" for a never-obsoleted
-       * improvement.  Currently this means A_NONE, which is an
-       * unnecessary special-case.  We use A_NEVER to flag a
-       * never-obsoleted improvement in the code instead.
-       * (Test for valid_advance() later.)
-       */
-      b->obsolete_by = A_NEVER;
-    }
-
-    b->replaced_by = lookup_building(file, sec_name, "replaced_by",
-                                     LOG_ERROR, filename,
-                                     rule_name(&b->name));
-
-    if (!secfile_lookup_int(file, &b->build_cost,
-                            "%s.build_cost", sec_name)
-        || !secfile_lookup_int(file, &b->upkeep,
-                               "%s.upkeep", sec_name)
-        || !secfile_lookup_int(file, &b->sabotage,
-                               "%s.sabotage", sec_name)) {
-      ruleset_error(LOG_FATAL, "%s", secfile_error());
-    }
-
-    sz_strlcpy(b->graphic_str,
-               secfile_lookup_str_default(file, "-",
-                                          "%s.graphic", sec_name));
-    sz_strlcpy(b->graphic_alt,
-               secfile_lookup_str_default(file, "-",
-                                          "%s.graphic_alt", sec_name));
-
-    sz_strlcpy(b->soundtag,
-               secfile_lookup_str_default(file, "-",
-                                          "%s.sound", sec_name));
-    sz_strlcpy(b->soundtag_alt,
-               secfile_lookup_str_default(file, "-",
-                                          "%s.sound_alt", sec_name));
-    b->helptext = lookup_strvec(file, sec_name, "helptext");
-
-    b->allows_units = FALSE;
-    unit_type_iterate(ut) {
-      if (ut->need_improvement == b) {
-        b->allows_units = TRUE;
-        break;
-      }
-    } unit_type_iterate_end;
-  }
-
-  /* Some more consistency checking: */
-  improvement_iterate(b) {
-    if (valid_improvement(b)) {
-      if (A_NEVER != b->obsolete_by
-          && !valid_advance(b->obsolete_by)) {
-        log_error("\"%s\" improvement \"%s\": obsoleted by "
-                  "removed tech \"%s\".",
-                  filename, improvement_rule_name(b),
-                  advance_rule_name(b->obsolete_by));
+      b->obsolete_by = lookup_tech(file, sec_name, "obsolete_by", LOG_ERROR,
+                                   filename, rule_name(&b->name));
+      if (advance_by_number(A_NONE) == b->obsolete_by) {
+        /* 
+         * The ruleset can specify "None" for a never-obsoleted
+         * improvement.  Currently this means A_NONE, which is an
+         * unnecessary special-case.  We use A_NEVER to flag a
+         * never-obsoleted improvement in the code instead.
+         * (Test for valid_advance() later.)
+         */
         b->obsolete_by = A_NEVER;
       }
+
+      b->replaced_by = lookup_building(file, sec_name, "replaced_by",
+                                       LOG_ERROR, filename,
+                                       rule_name(&b->name));
+
+      if (!secfile_lookup_int(file, &b->build_cost,
+                              "%s.build_cost", sec_name)
+          || !secfile_lookup_int(file, &b->upkeep,
+                                 "%s.upkeep", sec_name)
+          || !secfile_lookup_int(file, &b->sabotage,
+                                 "%s.sabotage", sec_name)) {
+        ruleset_error(LOG_FATAL, "%s", secfile_error());
+      }
+
+      sz_strlcpy(b->graphic_str,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.graphic", sec_name));
+      sz_strlcpy(b->graphic_alt,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.graphic_alt", sec_name));
+
+      sz_strlcpy(b->soundtag,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.sound", sec_name));
+      sz_strlcpy(b->soundtag_alt,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.sound_alt", sec_name));
+      b->helptext = lookup_strvec(file, sec_name, "helptext");
+
+      b->allows_units = FALSE;
+      unit_type_iterate(ut) {
+        if (ut->need_improvement == b) {
+          b->allows_units = TRUE;
+          break;
+        }
+      } unit_type_iterate_end;
     }
-  } improvement_iterate_end;
+
+    /* Some more consistency checking: */
+    improvement_iterate(b) {
+      if (valid_improvement(b)) {
+        if (A_NEVER != b->obsolete_by
+            && !valid_advance(b->obsolete_by)) {
+          log_error("\"%s\" improvement \"%s\": obsoleted by "
+                    "removed tech \"%s\".",
+                    filename, improvement_rule_name(b),
+                    advance_rule_name(b->obsolete_by));
+          b->obsolete_by = A_NEVER;
+        }
+      }
+    } improvement_iterate_end;
+  }
 
   section_list_destroy(sec);
   secfile_check_unused(file);
@@ -2441,276 +2451,292 @@ static bool load_ruleset_terrain(struct section_file *file)
 
   } resource_type_iterate_end;
 
-  /* base details */
-  base_type_iterate(pbase) {
-    BV_CLR_ALL(pbase->conflicts);
-  } base_type_iterate_end;
+  if (ok) {
+    /* base details */
+    base_type_iterate(pbase) {
+      BV_CLR_ALL(pbase->conflicts);
+    } base_type_iterate_end;
 
-  base_type_iterate(pbase) {
-    const char *section = &base_sections[base_index(pbase) * MAX_SECTION_LABEL];
-    int j;
-    const char **slist;
-    struct requirement_vector *reqs;
-    const char *gui_str;
+    base_type_iterate(pbase) {
+      const char *section = &base_sections[base_index(pbase) * MAX_SECTION_LABEL];
+      int j;
+      const char **slist;
+      struct requirement_vector *reqs;
+      const char *gui_str;
 
-    pbase->buildable = secfile_lookup_bool_default(file, TRUE,
-                                                  "%s.buildable", section);
-    pbase->pillageable = secfile_lookup_bool_default(file, TRUE,
-                                                     "%s.pillageable", section);
+      pbase->buildable = secfile_lookup_bool_default(file, TRUE,
+                                                     "%s.buildable", section);
+      pbase->pillageable = secfile_lookup_bool_default(file, TRUE,
+                                                       "%s.pillageable", section);
 
-    sz_strlcpy(pbase->graphic_str,
-               secfile_lookup_str_default(file, "-", "%s.graphic", section));
-    sz_strlcpy(pbase->graphic_alt,
-               secfile_lookup_str_default(file, "-",
-                                          "%s.graphic_alt", section));
-    sz_strlcpy(pbase->activity_gfx,
-               secfile_lookup_str_default(file, "-",
-                                          "%s.activity_gfx", section));
-    sz_strlcpy(pbase->act_gfx_alt,
-               secfile_lookup_str_default(file, "-",
-                                          "%s.act_gfx_alt", section));
+      sz_strlcpy(pbase->graphic_str,
+                 secfile_lookup_str_default(file, "-", "%s.graphic", section));
+      sz_strlcpy(pbase->graphic_alt,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.graphic_alt", section));
+      sz_strlcpy(pbase->activity_gfx,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.activity_gfx", section));
+      sz_strlcpy(pbase->act_gfx_alt,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.act_gfx_alt", section));
 
-    reqs = lookup_req_list(file, section, "reqs", base_rule_name(pbase));
-    requirement_vector_copy(&pbase->reqs, reqs);
-
-    slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
-    BV_CLR_ALL(pbase->native_to);
-    for (j = 0; j < nval; j++) {
-      struct unit_class *class = unit_class_by_rule_name(slist[j]);
-
-      if (!class) {
-        ruleset_error(LOG_FATAL,
-                      "\"%s\" base \"%s\" is native to unknown unit class \"%s\".",
-                      filename,
-                      base_rule_name(pbase),
-                      slist[j]);
-      } else {
-        BV_SET(pbase->native_to, uclass_index(class));
+      reqs = lookup_req_list(file, section, "reqs", base_rule_name(pbase));
+      if (reqs == NULL) {
+        ok = FALSE;
+        break;
       }
-    }
-    free(slist);
+      requirement_vector_copy(&pbase->reqs, reqs);
 
-    gui_str = secfile_lookup_str(file,"%s.gui_type", section);
-    pbase->gui_type = base_gui_type_by_name(gui_str, fc_strcasecmp);
-    if (!base_gui_type_is_valid(pbase->gui_type)) {
-      ruleset_error(LOG_FATAL, "\"%s\" base \"%s\": unknown gui_type \"%s\".",
-                    filename,
-                    base_rule_name(pbase),
-                    gui_str);
-    }
+      slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
+      BV_CLR_ALL(pbase->native_to);
+      for (j = 0; j < nval; j++) {
+        struct unit_class *uclass = unit_class_by_rule_name(slist[j]);
 
-    if (!secfile_lookup_int(file, &pbase->build_time,
-                            "%s.build_time", section)) {
-      ruleset_error(LOG_FATAL, "%s", secfile_error());
-    }
-    pbase->border_sq  = secfile_lookup_int_default(file, -1, "%s.border_sq",
-                                                   section);
-    pbase->vision_main_sq   = secfile_lookup_int_default(file, -1,
-                                                         "%s.vision_main_sq",
-                                                         section);
-    pbase->vision_invis_sq  = secfile_lookup_int_default(file, -1,
-                                                         "%s.vision_invis_sq",
-                                                         section);
-    pbase->defense_bonus  = secfile_lookup_int_default(file, 0,
-                                                       "%s.defense_bonus",
-                                                       section);
-
-    slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
-    BV_CLR_ALL(pbase->flags);
-    for (j = 0; j < nval; j++) {
-      const char *sval = slist[j];
-      enum base_flag_id flag = base_flag_id_by_name(sval, fc_strcasecmp);
-
-      if (!base_flag_id_is_valid(flag)) {
-        ruleset_error(LOG_FATAL, "\"%s\" base \"%s\": unknown flag \"%s\".",
-                      filename,
-                      base_rule_name(pbase),
-                      sval);
-      } else {
-        BV_SET(pbase->flags, flag);
-      }
-    }
-
-    free(slist);
-
-    slist = secfile_lookup_str_vec(file, &nval, "%s.conflicts", section);
-    for (j = 0; j < nval; j++) {
-      const char *sval = slist[j];
-      struct base_type *pbase2 = base_type_by_rule_name(sval);
-
-      if (pbase2 == NULL) {
-        ruleset_error(LOG_FATAL, "\"%s\" base \"%s\": unknown conflict base \"%s\".",
-                      filename,
-                      base_rule_name(pbase),
-                      sval);
-      } else {
-        BV_SET(pbase->conflicts, base_index(pbase2));
-        BV_SET(pbase2->conflicts, base_index(pbase));
-      }
-    }
-    
-    free(slist);
-
-    if (territory_claiming_base(pbase)) {
-      base_type_iterate(pbase2) {
-        if (pbase == pbase2) {
-          /* End of the fully initialized bases iteration. */
-          break;
+        if (uclass == NULL) {
+          ruleset_error(LOG_FATAL,
+                        "\"%s\" base \"%s\" is native to unknown unit class \"%s\".",
+                        filename,
+                        base_rule_name(pbase),
+                        slist[j]);
+        } else {
+          BV_SET(pbase->native_to, uclass_index(uclass));
         }
-        if (territory_claiming_base(pbase2)) {
+      }
+      free(slist);
+
+      gui_str = secfile_lookup_str(file,"%s.gui_type", section);
+      pbase->gui_type = base_gui_type_by_name(gui_str, fc_strcasecmp);
+      if (!base_gui_type_is_valid(pbase->gui_type)) {
+        ruleset_error(LOG_FATAL, "\"%s\" base \"%s\": unknown gui_type \"%s\".",
+                      filename,
+                      base_rule_name(pbase),
+                      gui_str);
+      }
+
+      if (!secfile_lookup_int(file, &pbase->build_time,
+                              "%s.build_time", section)) {
+        ruleset_error(LOG_FATAL, "%s", secfile_error());
+      }
+      pbase->border_sq  = secfile_lookup_int_default(file, -1, "%s.border_sq",
+                                                     section);
+      pbase->vision_main_sq   = secfile_lookup_int_default(file, -1,
+                                                           "%s.vision_main_sq",
+                                                           section);
+      pbase->vision_invis_sq  = secfile_lookup_int_default(file, -1,
+                                                           "%s.vision_invis_sq",
+                                                           section);
+      pbase->defense_bonus  = secfile_lookup_int_default(file, 0,
+                                                         "%s.defense_bonus",
+                                                         section);
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
+      BV_CLR_ALL(pbase->flags);
+      for (j = 0; j < nval; j++) {
+        const char *sval = slist[j];
+        enum base_flag_id flag = base_flag_id_by_name(sval, fc_strcasecmp);
+
+        if (!base_flag_id_is_valid(flag)) {
+          ruleset_error(LOG_FATAL, "\"%s\" base \"%s\": unknown flag \"%s\".",
+                        filename,
+                        base_rule_name(pbase),
+                        sval);
+        } else {
+          BV_SET(pbase->flags, flag);
+        }
+      }
+
+      free(slist);
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.conflicts", section);
+      for (j = 0; j < nval; j++) {
+        const char *sval = slist[j];
+        struct base_type *pbase2 = base_type_by_rule_name(sval);
+
+        if (pbase2 == NULL) {
+          ruleset_error(LOG_FATAL, "\"%s\" base \"%s\": unknown conflict base \"%s\".",
+                        filename,
+                        base_rule_name(pbase),
+                        sval);
+        } else {
           BV_SET(pbase->conflicts, base_index(pbase2));
           BV_SET(pbase2->conflicts, base_index(pbase));
         }
-      } base_type_iterate_end;
-    }
-
-    pbase->helptext = lookup_strvec(file, section, "helptext");
-  } base_type_iterate_end;
-
-  road_type_iterate(proad) {
-    const char *section = &road_sections[road_index(proad) * MAX_SECTION_LABEL];
-    const char **slist;
-    struct requirement_vector *reqs;
-    const char *special;
-    const char *modestr;
-
-    sz_strlcpy(proad->graphic_str,
-               secfile_lookup_str_default(file, "-", "%s.graphic", section));
-    sz_strlcpy(proad->graphic_alt,
-               secfile_lookup_str_default(file, "-",
-                                          "%s.graphic_alt", section));
-    sz_strlcpy(proad->activity_gfx,
-               secfile_lookup_str_default(file, "-",
-                                          "%s.activity_gfx", section));
-    sz_strlcpy(proad->act_gfx_alt,
-               secfile_lookup_str_default(file, "-",
-                                          "%s.act_gfx_alt", section));
-
-    if (!secfile_lookup_int(file, &proad->move_cost,
-                            "%s.move_cost", section)) {
-      ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
-    }
-
-    modestr = secfile_lookup_str_default(file, "FastAlways", "%s.move_mode", section);
-    proad->move_mode = road_move_mode_by_name(modestr, fc_strcasecmp);
-    if (!road_move_mode_is_valid(proad->move_mode)) {
-      ruleset_error(LOG_FATAL, "Illegal move_type \"%s\" for road \"%s\"",
-                    modestr, road_rule_name(proad));
-    }
-
-    proad->build_time = secfile_lookup_int_default(file, 0, "%s.build_time", section);
-
-    proad->defense_bonus = secfile_lookup_int_default(file, 0,
-                                                      "%s.defense_bonus",
-                                                      section);
-
-    proad->buildable = secfile_lookup_bool_default(file, TRUE,
-                                                   "%s.buildable", section);
-    proad->pillageable = secfile_lookup_bool_default(file, TRUE,
-                                                     "%s.pillageable", section);
-
-    output_type_iterate(o) {
-      proad->tile_incr[o] =
-        secfile_lookup_int_default(file, 0, "%s.%s_incr",
-                                   section, get_output_identifier(o));
-      proad->tile_bonus[o] =
-        secfile_lookup_int_default(file, 0, "%s.%s_bonus",
-                                   section, get_output_identifier(o));
-    } output_type_iterate_end;
-
-    reqs = lookup_req_list(file, section, "reqs", road_rule_name(proad));
-    requirement_vector_copy(&proad->reqs, reqs);
-
-    special = secfile_lookup_str_default(file, "None", "%s.compat_special", section);
-    if (!fc_strcasecmp(special, "Road")) {
-      if (compat_road) {
-        ruleset_error(LOG_FATAL, "Multiple roads marked as compatibility \"Road\"");
       }
-      compat_road = TRUE;
-      proad->compat = ROCO_ROAD;
-    } else if (!fc_strcasecmp(special, "Railroad")) {
-      if (compat_rail) {
-        ruleset_error(LOG_FATAL, "Multiple roads marked as compatibility \"Railroad\"");
-      }
-      compat_rail = TRUE;
-      proad->compat = ROCO_RAILROAD;
-    } else if (!fc_strcasecmp(special, "River")) {
-      if (compat_river) {
-        ruleset_error(LOG_FATAL, "Multiple roads marked as compatibility \"River\"");
-      }
-      compat_river = TRUE;
-      proad->compat = ROCO_RIVER;
-    } else if (!fc_strcasecmp(special, "None")) {
-      proad->compat = ROCO_NONE;
-    } else {
-      ruleset_error(LOG_FATAL, "Illegal compatibility special \"%s\" for road %s",
-                    special, road_rule_name(proad));
-    }
+    
+      free(slist);
 
-    slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
-    BV_CLR_ALL(proad->native_to);
-    for (j = 0; j < nval; j++) {
-      struct unit_class *class = unit_class_by_rule_name(slist[j]);
-
-      if (!class) {
-        ruleset_error(LOG_FATAL,
-                      "\"%s\" road \"%s\" is native to unknown unit class \"%s\".",
-                      filename,
-                      road_rule_name(proad),
-                      slist[j]);
-      } else {
-        BV_SET(proad->native_to, uclass_index(class));
-      }
-    }
-    free(slist);
-
-    slist = secfile_lookup_str_vec(file, &nval, "%s.hidden_by", section);
-    BV_CLR_ALL(proad->hidden_by);
-    for (j = 0; j < nval; j++) {
-      const char *sval = slist[j];
-      const struct road_type *top = road_type_by_rule_name(sval);
-
-      if (top == NULL) {
-        ruleset_error(LOG_FATAL, "\"%s\" road \"%s\" hidden by unknown road \"%s\".",
-                      filename,
-                      road_rule_name(proad),
-                      sval);
-      } else {
-        BV_SET(proad->hidden_by, road_index(top));
-      }
-    }
-    free(slist);
-
-    slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
-    BV_CLR_ALL(proad->flags);
-    for (j = 0; j < nval; j++) {
-      const char *sval = slist[j];
-      enum road_flag_id flag = road_flag_id_by_name(sval, fc_strcasecmp);
-
-      if (!road_flag_id_is_valid(flag)) {
-        ruleset_error(LOG_FATAL, "\"%s\" road \"%s\": unknown flag \"%s\".",
-                      filename,
-                      road_rule_name(proad),
-                      sval);
-      } else {
-        if (flag == RF_GENERATED_RIVER) {
-          if (riverflag) {
-            ruleset_error(LOG_FATAL,
-                          "\"%s\" multiple roads have \"%s\" flag.",
-                          filename, sval);
+      if (territory_claiming_base(pbase)) {
+        base_type_iterate(pbase2) {
+          if (pbase == pbase2) {
+            /* End of the fully initialized bases iteration. */
+            break;
           }
-          riverflag = TRUE;
-        }
-        BV_SET(proad->flags, flag);
+          if (territory_claiming_base(pbase2)) {
+            BV_SET(pbase->conflicts, base_index(pbase2));
+            BV_SET(pbase2->conflicts, base_index(pbase));
+          }
+        } base_type_iterate_end;
       }
-    }
-    free(slist);
 
-    proad->helptext = lookup_strvec(file, section, "helptext");
+      pbase->helptext = lookup_strvec(file, section, "helptext");
+    } base_type_iterate_end;
+  }
 
-  } road_type_iterate_end;
+  if (ok) {
+    road_type_iterate(proad) {
+      const char *section = &road_sections[road_index(proad) * MAX_SECTION_LABEL];
+      const char **slist;
+      struct requirement_vector *reqs;
+      const char *special;
+      const char *modestr;
 
-  secfile_check_unused(file);
+      sz_strlcpy(proad->graphic_str,
+                 secfile_lookup_str_default(file, "-", "%s.graphic", section));
+      sz_strlcpy(proad->graphic_alt,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.graphic_alt", section));
+      sz_strlcpy(proad->activity_gfx,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.activity_gfx", section));
+      sz_strlcpy(proad->act_gfx_alt,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.act_gfx_alt", section));
+
+      if (!secfile_lookup_int(file, &proad->move_cost,
+                              "%s.move_cost", section)) {
+        ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
+      }
+
+      modestr = secfile_lookup_str_default(file, "FastAlways", "%s.move_mode",
+                                           section);
+      proad->move_mode = road_move_mode_by_name(modestr, fc_strcasecmp);
+      if (!road_move_mode_is_valid(proad->move_mode)) {
+        ruleset_error(LOG_FATAL, "Illegal move_type \"%s\" for road \"%s\"",
+                      modestr, road_rule_name(proad));
+      }
+
+      proad->build_time = secfile_lookup_int_default(file, 0, "%s.build_time",
+                                                     section);
+
+      proad->defense_bonus = secfile_lookup_int_default(file, 0,
+                                                        "%s.defense_bonus",
+                                                        section);
+
+      proad->buildable = secfile_lookup_bool_default(file, TRUE,
+                                                     "%s.buildable", section);
+      proad->pillageable = secfile_lookup_bool_default(file, TRUE,
+                                                       "%s.pillageable", section);
+
+      output_type_iterate(o) {
+        proad->tile_incr[o] =
+          secfile_lookup_int_default(file, 0, "%s.%s_incr",
+                                     section, get_output_identifier(o));
+        proad->tile_bonus[o] =
+          secfile_lookup_int_default(file, 0, "%s.%s_bonus",
+                                     section, get_output_identifier(o));
+      } output_type_iterate_end;
+
+      reqs = lookup_req_list(file, section, "reqs", road_rule_name(proad));
+      if (reqs == NULL) {
+        ok = FALSE;
+        break;
+      }
+      requirement_vector_copy(&proad->reqs, reqs);
+
+      special = secfile_lookup_str_default(file, "None", "%s.compat_special", section);
+      if (!fc_strcasecmp(special, "Road")) {
+        if (compat_road) {
+          ruleset_error(LOG_FATAL, "Multiple roads marked as compatibility \"Road\"");
+        }
+        compat_road = TRUE;
+        proad->compat = ROCO_ROAD;
+      } else if (!fc_strcasecmp(special, "Railroad")) {
+        if (compat_rail) {
+          ruleset_error(LOG_FATAL, "Multiple roads marked as compatibility \"Railroad\"");
+        }
+        compat_rail = TRUE;
+        proad->compat = ROCO_RAILROAD;
+      } else if (!fc_strcasecmp(special, "River")) {
+        if (compat_river) {
+          ruleset_error(LOG_FATAL, "Multiple roads marked as compatibility \"River\"");
+        }
+        compat_river = TRUE;
+        proad->compat = ROCO_RIVER;
+      } else if (!fc_strcasecmp(special, "None")) {
+        proad->compat = ROCO_NONE;
+      } else {
+        ruleset_error(LOG_FATAL, "Illegal compatibility special \"%s\" for road %s",
+                      special, road_rule_name(proad));
+      }
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
+      BV_CLR_ALL(proad->native_to);
+      for (j = 0; j < nval; j++) {
+        struct unit_class *uclass = unit_class_by_rule_name(slist[j]);
+
+        if (!uclass) {
+          ruleset_error(LOG_FATAL,
+                        "\"%s\" road \"%s\" is native to unknown unit class \"%s\".",
+                        filename,
+                        road_rule_name(proad),
+                        slist[j]);
+        } else {
+          BV_SET(proad->native_to, uclass_index(uclass));
+        }
+      }
+      free(slist);
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.hidden_by", section);
+      BV_CLR_ALL(proad->hidden_by);
+      for (j = 0; j < nval; j++) {
+        const char *sval = slist[j];
+        const struct road_type *top = road_type_by_rule_name(sval);
+
+        if (top == NULL) {
+          ruleset_error(LOG_FATAL, "\"%s\" road \"%s\" hidden by unknown road \"%s\".",
+                        filename,
+                        road_rule_name(proad),
+                        sval);
+        } else {
+          BV_SET(proad->hidden_by, road_index(top));
+        }
+      }
+      free(slist);
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
+      BV_CLR_ALL(proad->flags);
+      for (j = 0; j < nval; j++) {
+        const char *sval = slist[j];
+        enum road_flag_id flag = road_flag_id_by_name(sval, fc_strcasecmp);
+
+        if (!road_flag_id_is_valid(flag)) {
+          ruleset_error(LOG_FATAL, "\"%s\" road \"%s\": unknown flag \"%s\".",
+                        filename,
+                        road_rule_name(proad),
+                        sval);
+        } else {
+          if (flag == RF_GENERATED_RIVER) {
+            if (riverflag) {
+              ruleset_error(LOG_FATAL,
+                            "\"%s\" multiple roads have \"%s\" flag.",
+                            filename, sval);
+            }
+            riverflag = TRUE;
+          }
+          BV_SET(proad->flags, flag);
+        }
+      }
+      free(slist);
+
+      proad->helptext = lookup_strvec(file, section, "helptext");
+
+    } road_type_iterate_end;
+  }
+
+  if (ok) {
+    secfile_check_unused(file);
+  }
 
   return ok;
 }
@@ -2782,54 +2808,66 @@ static bool load_ruleset_governments(struct section_file *file)
   game.info.government_during_revolution_id =
     government_number(game.government_during_revolution);
 
-  /* easy ones: */
-  governments_iterate(g) {
-    const int i = government_index(g);
-    const char *sec_name = section_name(section_list_get(sec, i));
-    struct requirement_vector *reqs =
-      lookup_req_list(file, sec_name, "reqs", government_rule_name(g));
+  if (ok) {
+    /* easy ones: */
+    governments_iterate(g) {
+      const int i = government_index(g);
+      const char *sec_name = section_name(section_list_get(sec, i));
+      struct requirement_vector *reqs =
+        lookup_req_list(file, sec_name, "reqs", government_rule_name(g));
 
-    if (NULL != secfile_entry_lookup(file, "%s.ai_better", sec_name)) {
-      char entry[100];
+      if (reqs == NULL) {
+        ok = FALSE;
+        break;
+      }
 
-      fc_snprintf(entry, sizeof(entry), "%s.ai_better", sec_name);
-      g->ai.better = lookup_government(file, entry, filename, NULL);
-    } else {
-      g->ai.better = NULL;
-    }
-    requirement_vector_copy(&g->reqs, reqs);
+      if (NULL != secfile_entry_lookup(file, "%s.ai_better", sec_name)) {
+        char entry[100];
+
+        fc_snprintf(entry, sizeof(entry), "%s.ai_better", sec_name);
+        g->ai.better = lookup_government(file, entry, filename, NULL);
+      } else {
+        g->ai.better = NULL;
+      }
+      requirement_vector_copy(&g->reqs, reqs);
     
-    sz_strlcpy(g->graphic_str,
-               secfile_lookup_str(file, "%s.graphic", sec_name));
-    sz_strlcpy(g->graphic_alt,
-               secfile_lookup_str(file, "%s.graphic_alt", sec_name));
+      sz_strlcpy(g->graphic_str,
+                 secfile_lookup_str(file, "%s.graphic", sec_name));
+      sz_strlcpy(g->graphic_alt,
+                 secfile_lookup_str(file, "%s.graphic_alt", sec_name));
 
-    g->helptext = lookup_strvec(file, sec_name, "helptext");
-  } governments_iterate_end;
+      g->helptext = lookup_strvec(file, sec_name, "helptext");
+    } governments_iterate_end;
+  }
 
 
-  /* titles */
-  governments_iterate(g) {
-    const char *sec_name =
+  if (ok) {
+    /* titles */
+    governments_iterate(g) {
+      const char *sec_name =
         section_name(section_list_get(sec, government_index(g)));
-    const char *male, *female;
+      const char *male, *female;
 
-    if (!(male = secfile_lookup_str(file, "%s.ruler_male_title", sec_name))
-        || !(female = secfile_lookup_str(file, "%s.ruler_female_title",
-                                         sec_name))) {
-      ruleset_error(LOG_FATAL, "Lack of default ruler titles for "
-                    "government \"%s\" (nb %d): %s",
-                    government_rule_name(g), government_number(g),
-                    secfile_error());
-    } else if (NULL == government_ruler_title_new(g, NULL, male, female)) {
-      ruleset_error(LOG_FATAL, "Lack of default ruler titles for "
-                    "government \"%s\" (nb %d).",
-                    government_rule_name(g), government_number(g));
-    }
-  } governments_iterate_end;
+      if (!(male = secfile_lookup_str(file, "%s.ruler_male_title", sec_name))
+          || !(female = secfile_lookup_str(file, "%s.ruler_female_title",
+                                           sec_name))) {
+        ruleset_error(LOG_FATAL, "Lack of default ruler titles for "
+                      "government \"%s\" (nb %d): %s",
+                      government_rule_name(g), government_number(g),
+                      secfile_error());
+      } else if (NULL == government_ruler_title_new(g, NULL, male, female)) {
+        ruleset_error(LOG_FATAL, "Lack of default ruler titles for "
+                      "government \"%s\" (nb %d).",
+                      government_rule_name(g), government_number(g));
+      }
+    } governments_iterate_end;
+  }
 
   section_list_destroy(sec);
-  secfile_check_unused(file);
+
+  if (ok) {
+    secfile_check_unused(file);
+  }
 
   return ok;
 }
@@ -3531,122 +3569,141 @@ static bool load_ruleset_cities(struct section_file *file)
   game.control.num_specialist_types = section_list_size(sec);
 
   i = 0;
-  section_list_iterate(sec, psection) {
-    struct specialist *s = specialist_by_number(i);
-    struct requirement_vector *reqs;
-    const char *sec_name = section_name(psection);
 
-    if (!ruleset_load_names(&s->name, file, sec_name)) {
-      ok = FALSE;
-      break;
-    }
+  if (ok) {
+    section_list_iterate(sec, psection) {
+      struct specialist *s = specialist_by_number(i);
+      struct requirement_vector *reqs;
+      const char *sec_name = section_name(psection);
 
-    item = secfile_lookup_str_default(file, untranslated_name(&s->name),
-                                      "%s.short_name", sec_name);
-    name_set(&s->abbreviation, item);
+      if (!ruleset_load_names(&s->name, file, sec_name)) {
+        ok = FALSE;
+        break;
+      }
 
-    reqs = lookup_req_list(file, sec_name, "reqs", specialist_rule_name(s));
-    requirement_vector_copy(&s->reqs, reqs);
+      item = secfile_lookup_str_default(file, untranslated_name(&s->name),
+                                        "%s.short_name", sec_name);
+      name_set(&s->abbreviation, item);
 
-    s->helptext = lookup_strvec(file, sec_name, "helptext");
+      reqs = lookup_req_list(file, sec_name, "reqs", specialist_rule_name(s));
+      if (reqs == NULL) {
+        ok = FALSE;
+        break;
+      }
+      requirement_vector_copy(&s->reqs, reqs);
 
-    if (requirement_vector_size(&s->reqs) == 0 && DEFAULT_SPECIALIST == -1) {
-      DEFAULT_SPECIALIST = i;
-    }
-    i++;
-  } section_list_iterate_end;
+      s->helptext = lookup_strvec(file, sec_name, "helptext");
 
-  if (DEFAULT_SPECIALIST == -1) {
+      if (requirement_vector_size(&s->reqs) == 0 && DEFAULT_SPECIALIST == -1) {
+        DEFAULT_SPECIALIST = i;
+      }
+      i++;
+    } section_list_iterate_end;
+  }
+
+  if (ok && DEFAULT_SPECIALIST == -1) {
     ruleset_error(LOG_FATAL,
                   "\"%s\": must give a min_size of 0 for at least one "
                   "specialist type.", filename);
   }
   section_list_destroy(sec);
+  sec = NULL;
 
-  /* City Parameters */
+  if (ok) {
+    /* City Parameters */
 
-  game.info.celebratesize = 
-    secfile_lookup_int_default(file, GAME_DEFAULT_CELEBRATESIZE,
-                               "parameters.celebrate_size_limit");
-  game.info.add_to_size_limit =
-    secfile_lookup_int_default(file, 9, "parameters.add_to_size_limit");
-  game.info.angrycitizen =
-    secfile_lookup_bool_default(file, GAME_DEFAULT_ANGRYCITIZEN,
-                                "parameters.angry_citizens");
+    game.info.celebratesize = 
+      secfile_lookup_int_default(file, GAME_DEFAULT_CELEBRATESIZE,
+                                 "parameters.celebrate_size_limit");
+    game.info.add_to_size_limit =
+      secfile_lookup_int_default(file, 9, "parameters.add_to_size_limit");
+    game.info.angrycitizen =
+      secfile_lookup_bool_default(file, GAME_DEFAULT_ANGRYCITIZEN,
+                                  "parameters.angry_citizens");
 
-  game.info.changable_tax = 
-    secfile_lookup_bool_default(file, TRUE, "parameters.changable_tax");
-  game.info.forced_science = 
-    secfile_lookup_int_default(file, 0, "parameters.forced_science");
-  game.info.forced_luxury = 
-    secfile_lookup_int_default(file, 100, "parameters.forced_luxury");
-  game.info.forced_gold = 
-    secfile_lookup_int_default(file, 0, "parameters.forced_gold");
-  if (game.info.forced_science + game.info.forced_luxury
-      + game.info.forced_gold != 100) {
-    ruleset_error(LOG_FATAL,
-                  "\"%s\": Forced taxes do not add up in ruleset!",
-                  filename);
+    game.info.changable_tax = 
+      secfile_lookup_bool_default(file, TRUE, "parameters.changable_tax");
+    game.info.forced_science = 
+      secfile_lookup_int_default(file, 0, "parameters.forced_science");
+    game.info.forced_luxury = 
+      secfile_lookup_int_default(file, 100, "parameters.forced_luxury");
+    game.info.forced_gold = 
+      secfile_lookup_int_default(file, 0, "parameters.forced_gold");
+    if (game.info.forced_science + game.info.forced_luxury
+        + game.info.forced_gold != 100) {
+      ruleset_error(LOG_FATAL,
+                    "\"%s\": Forced taxes do not add up in ruleset!",
+                    filename);
+    }
   }
 
-  /* civ1 & 2 didn't reveal tiles */
-  game.server.vision_reveal_tiles =
-    secfile_lookup_bool_default(file, FALSE, "parameters.vision_reveal_tiles");
+  if (ok) {
+    /* civ1 & 2 didn't reveal tiles */
+    game.server.vision_reveal_tiles =
+      secfile_lookup_bool_default(file, FALSE, "parameters.vision_reveal_tiles");
 
-  game.info.pop_report_zeroes =
-    secfile_lookup_int_default(file, 1, "parameters.pop_report_zeroes");
+    game.info.pop_report_zeroes =
+      secfile_lookup_int_default(file, 1, "parameters.pop_report_zeroes");
 
-  /* Citizens configuration. */
-  game.info.citizen_nationality =
-    secfile_lookup_bool_default(file, FALSE,
-                                "citizen.nationality");
-  game.info.citizen_convert_speed =
-    secfile_lookup_int_default(file, 50, "citizen.convert_speed");
+    /* Citizens configuration. */
+    game.info.citizen_nationality =
+      secfile_lookup_bool_default(file, FALSE,
+                                  "citizen.nationality");
+    game.info.citizen_convert_speed =
+      secfile_lookup_int_default(file, 50, "citizen.convert_speed");
 
-  /* City Styles ... */
+    /* City Styles ... */
 
-  sec = secfile_sections_by_name_prefix(file, CITYSTYLE_SECTION_PREFIX);
+    sec = secfile_sections_by_name_prefix(file, CITYSTYLE_SECTION_PREFIX);
 
-  /* Get rest: */
-  for (i = 0; i < game.control.styles_count; i++) {
-    struct requirement_vector *reqs;
-    const char *sec_name = section_name(section_list_get(sec, i));
+    /* Get rest: */
+    for (i = 0; i < game.control.styles_count; i++) {
+      struct requirement_vector *reqs;
+      const char *sec_name = section_name(section_list_get(sec, i));
 
-    sz_strlcpy(city_styles[i].graphic, 
-	       secfile_lookup_str(file, "%s.graphic", sec_name));
-    sz_strlcpy(city_styles[i].graphic_alt, 
-	       secfile_lookup_str(file, "%s.graphic_alt", sec_name));
-    sz_strlcpy(city_styles[i].oceanic_graphic, 
-	       secfile_lookup_str_default(file, "",
-                                          "%s.oceanic_graphic", sec_name));
-    sz_strlcpy(city_styles[i].oceanic_graphic_alt, 
-	       secfile_lookup_str_default(file, "",
-                                          "%s.oceanic_graphic_alt",
-                                          sec_name));
-    sz_strlcpy(city_styles[i].citizens_graphic,
-	       secfile_lookup_str_default(file, "-", 
-	    		"%s.citizens_graphic", sec_name));
-    sz_strlcpy(city_styles[i].citizens_graphic_alt, 
-	       secfile_lookup_str_default(file, "generic", 
-	    		"%s.citizens_graphic_alt", sec_name));
+      sz_strlcpy(city_styles[i].graphic, 
+                 secfile_lookup_str(file, "%s.graphic", sec_name));
+      sz_strlcpy(city_styles[i].graphic_alt, 
+                 secfile_lookup_str(file, "%s.graphic_alt", sec_name));
+      sz_strlcpy(city_styles[i].oceanic_graphic, 
+                 secfile_lookup_str_default(file, "",
+                                            "%s.oceanic_graphic", sec_name));
+      sz_strlcpy(city_styles[i].oceanic_graphic_alt, 
+                 secfile_lookup_str_default(file, "",
+                                            "%s.oceanic_graphic_alt",
+                                            sec_name));
+      sz_strlcpy(city_styles[i].citizens_graphic,
+                 secfile_lookup_str_default(file, "-", 
+                                            "%s.citizens_graphic", sec_name));
+      sz_strlcpy(city_styles[i].citizens_graphic_alt, 
+                 secfile_lookup_str_default(file, "generic", 
+                                            "%s.citizens_graphic_alt", sec_name));
 
-    reqs = lookup_req_list(file, sec_name, "reqs", city_style_rule_name(i));
-    requirement_vector_copy(&city_styles[i].reqs, reqs);
+      reqs = lookup_req_list(file, sec_name, "reqs", city_style_rule_name(i));
+      if (reqs == NULL) {
+        ok = FALSE;
+        break;
+      }
+      requirement_vector_copy(&city_styles[i].reqs, reqs);
 
-    replacement = secfile_lookup_str(file, "%s.replaced_by", sec_name);
-    if(0 == strcmp(replacement, "-")) {
-      city_styles[i].replaced_by = -1;
-    } else {
-      city_styles[i].replaced_by = city_style_by_rule_name(replacement);
-      if (city_styles[i].replaced_by < 0) {
-        log_error("\"%s\": style \"%s\" replacement \"%s\" not found",
-                  filename, city_style_rule_name(i), replacement);
+      replacement = secfile_lookup_str(file, "%s.replaced_by", sec_name);
+      if (0 == strcmp(replacement, "-")) {
+        city_styles[i].replaced_by = -1;
+      } else {
+        city_styles[i].replaced_by = city_style_by_rule_name(replacement);
+        if (city_styles[i].replaced_by < 0) {
+          log_error("\"%s\": style \"%s\" replacement \"%s\" not found",
+                    filename, city_style_rule_name(i), replacement);
+        }
       }
     }
   }
+
   section_list_destroy(sec);
 
-  secfile_check_unused(file);
+  if (ok) {
+    secfile_check_unused(file);
+  }
 
   return ok;
 }
@@ -3674,6 +3731,7 @@ static bool load_ruleset_effects(struct section_file *file)
     int value;
     struct effect *peffect;
     const char *sec_name = section_name(psection);
+    struct requirement_vector *reqs;
 
     type = secfile_lookup_str(file, "%s.type", sec_name);
     if (type == NULL) {
@@ -3696,16 +3754,25 @@ static bool load_ruleset_effects(struct section_file *file)
 
     peffect = effect_new(eff, value);
 
-    requirement_vector_iterate(lookup_req_list(file, sec_name, "reqs", type),
-                               req) {
+    reqs = lookup_req_list(file, sec_name, "reqs", type);
+    if (reqs == NULL) {
+      ok = FALSE;
+      break;
+    }
+
+    requirement_vector_iterate(reqs, req) {
       struct requirement *preq = fc_malloc(sizeof(*preq));
 
       *preq = *req;
       effect_req_append(peffect, FALSE, preq);
     } requirement_vector_iterate_end;
-    requirement_vector_iterate(lookup_req_list(file, sec_name,
-                                               "nreqs", type),
-                               req) {
+
+    reqs = lookup_req_list(file, sec_name, "nreqs", type);
+    if (reqs == NULL) {
+      ok = FALSE;
+      break;
+    }
+    requirement_vector_iterate(reqs, req) {
       struct requirement *preq = fc_malloc(sizeof(*preq));
 
       *preq = *req;
@@ -3714,7 +3781,9 @@ static bool load_ruleset_effects(struct section_file *file)
   } section_list_iterate_end;
   section_list_destroy(sec);
 
-  secfile_check_unused(file);
+  if (ok) {
+    secfile_check_unused(file);
+  }
 
   return ok;
 }
@@ -4175,9 +4244,17 @@ static bool load_ruleset_game(const char *rsdir)
     }
 
     reqs = lookup_req_list(file, sec_name, "reqs", disaster_rule_name(pdis));
+    if (reqs == NULL) {
+      ok = FALSE;
+      break;
+    }
     requirement_vector_copy(&pdis->reqs, reqs);
 
     reqs = lookup_req_list(file, sec_name, "nreqs", disaster_rule_name(pdis));
+    if (reqs == NULL) {
+      ok = FALSE;
+      break;
+    }
     requirement_vector_copy(&pdis->nreqs, reqs);
 
     pdis->frequency = secfile_lookup_int_default(file, 10, "%s.frequency",
@@ -4234,7 +4311,9 @@ static bool load_ruleset_game(const char *rsdir)
 
   settings_ruleset(file, "settings");
 
-  secfile_check_unused(file);
+  if (ok) {
+    secfile_check_unused(file);
+  }
   secfile_destroy(file);
 
   return ok;
