@@ -79,7 +79,8 @@ enum authentication_type {
 
 #include "packets_gen.h"
 
-void *get_packet_from_connection(struct connection *pc, enum packet_type *ptype, bool *presult);
+void *get_packet_from_connection(struct connection *pc,
+                                 enum packet_type *ptype);
 void remove_packet_from_buffer(struct socket_packet_buffer *buffer);
 
 void send_attribute_block(const struct player *pplayer,
@@ -126,7 +127,7 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
 
 #define RECEIVE_PACKET_START(type, result) \
   struct data_in din; \
-  struct type *result = fc_malloc(sizeof(*result)); \
+  struct type packet_buf, *result = &packet_buf; \
   \
   dio_input_init(&din, pc->buffer->data, 2); \
   { \
@@ -138,12 +139,20 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
   dio_input_skip(&din, 4);
 
 #define RECEIVE_PACKET_END(result) \
-  check_packet(&din, pc); \
+  if (!packet_check(&din, pc)) { \
+    return NULL; \
+  } \
   remove_packet_from_buffer(pc->buffer); \
+  real_packet = fc_malloc(sizeof(*result)); \
+  *result = packet_buf; \
   return result;
 
+#define RECEIVE_PACKET_FIELD_ERROR(field, ...) \
+  log_packet("Error on field '" #field "'" __VA_ARGS__); \
+  return NULL
+
 int send_packet_data(struct connection *pc, unsigned char *data, int len);
-void check_packet(struct data_in *din, struct connection *pc);
+bool packet_check(struct data_in *din, struct connection *pc);
 
 /* Utilities to exchange strings and string vectors. */
 #define PACKET_STRVEC_SEPARATOR '\3'

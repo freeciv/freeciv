@@ -417,11 +417,9 @@ struct packet_to_handle {
 static bool get_packet(struct connection *pconn, 
                        struct packet_to_handle *ppacket)
 {
-  bool got_packet;
+  ppacket->data = get_packet_from_connection(pconn, &ppacket->type);
 
-  ppacket->data = get_packet_from_connection(pconn, &ppacket->type, 
-                                             &got_packet);
-  return got_packet;
+  return NULL != ppacket->data;
 }
 
 /*****************************************************************************

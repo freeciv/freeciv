@@ -412,16 +412,12 @@ void input_from_server(int fd)
 
     agents_freeze_hint();
     while (client.conn.used) {
-      bool result;
-      void *packet = get_packet_from_connection(&client.conn,
-						&type, &result);
+      void *packet = get_packet_from_connection(&client.conn, &type);
 
-      if (result) {
-        fc_assert_action(packet != NULL, break);
+      if (NULL != packet) {
 	client_packet_input(packet, type);
 	free(packet);
       } else {
-        fc_assert(packet == NULL);
 	break;
       }
     }
@@ -457,15 +453,11 @@ void input_from_server_till_request_got_processed(int fd,
       enum packet_type type;
 
       while (TRUE) {
-	bool result;
-	void *packet = get_packet_from_connection(&client.conn,
-						  &type, &result);
-	if (!result) {
-          fc_assert(packet == NULL);
+	void *packet = get_packet_from_connection(&client.conn, &type);
+	if (NULL == packet) {
 	  break;
 	}
 
-        fc_assert_action(packet != NULL, break);
 	client_packet_input(packet, type);
 	free(packet);
 

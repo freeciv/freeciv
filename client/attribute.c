@@ -267,8 +267,7 @@ static enum attribute_serial unserialize_hash(struct attribute_hash *hash,
     int value_length;
     struct data_out dout;
 
-    dio_get_uint32(&din, &value_length);
-    if (din.too_short) {
+    if (!dio_get_uint32(&din, &value_length)) {
       log_verbose("attribute.c unserialize_hash() "
                   "uint32 value_length dio_input_too_short");
       return A_SERIAL_FAIL;
@@ -290,12 +289,10 @@ static enum attribute_serial unserialize_hash(struct attribute_hash *hash,
                   "uint32 %lu value_length", (long unsigned) value_length);
 
     /* next 12 bytes */
-    dio_get_uint32(&din, &key.key);
-    dio_get_uint32(&din, &key.id);
-    dio_get_sint16(&din, &key.x);
-    dio_get_sint16(&din, &key.y);
-
-    if (din.too_short) {
+    if (!dio_get_uint32(&din, &key.key)
+        || !dio_get_uint32(&din, &key.id)
+        || !dio_get_sint16(&din, &key.x)
+        || !dio_get_sint16(&din, &key.y)) {
       log_verbose("attribute.c unserialize_hash() "
                   "uint32 key dio_input_too_short");
       return A_SERIAL_FAIL;

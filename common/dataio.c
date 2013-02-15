@@ -123,12 +123,7 @@ static bool enough_space(struct data_out *dout, size_t size)
 **************************************************************************/
 static bool enough_data(struct data_in *din, size_t size)
 {
-  if (dio_input_remaining(din) < size) {
-    din->too_short = TRUE;
-    return FALSE;
-  } else {
-    return TRUE;
-  }
+  return dio_input_remaining(din) >= size;
 }
 
 /**************************************************************************
@@ -171,10 +166,6 @@ void dio_input_init(struct data_in *din, const void *src, size_t src_size)
   din->src = src;
   din->src_size = src_size;
   din->current = 0;
-  din->too_short = FALSE;
-  din->bad_boolean = FALSE;
-  din->bad_string = FALSE;
-  din->bad_bit_string = FALSE;
 }
 
 /**************************************************************************
@@ -471,6 +462,7 @@ bool dio_get_uint8(struct data_in *din, int *dest)
   uint8_t x;
 
   if (!enough_data(din, 1)) {
+    log_packet("Packet too short to read %d bytes", sizeof (x));
     return FALSE;
   }
 
@@ -489,6 +481,7 @@ bool dio_get_uint16(struct data_in *din, int *dest)
   uint16_t x;
 
   if (!enough_data(din, 2)) {
+    log_packet("Packet too short to read %d bytes", sizeof (x));
     return FALSE;
   }
 
@@ -507,6 +500,7 @@ bool dio_get_uint32(struct data_in *din, int *dest)
   uint32_t x;
 
   if (!enough_data(din, 4)) {
+    log_packet("Packet too short to read %d bytes", sizeof (x));
     return FALSE;
   }
 
@@ -529,7 +523,7 @@ bool dio_get_bool8(struct data_in *din, bool *dest)
   }
 
   if (ival != 0 && ival != 1) {
-    din->bad_boolean = TRUE;
+    log_packet("Got a bad boolean: %d", ival);
     return FALSE;
   }
 
@@ -549,7 +543,7 @@ bool dio_get_bool32(struct data_in *din, bool * dest)
   }
 
   if (ival != 0 && ival != 1) {
-    din->bad_boolean = TRUE;
+    log_packet("Got a bad boolean: %d", ival);
     return FALSE;
   }
 
@@ -615,6 +609,7 @@ bool dio_get_sint16(struct data_in *din, int *dest)
 bool dio_get_memory(struct data_in *din, void *dest, size_t dest_size)
 {
   if (!enough_data(din, dest_size)) {
+    log_packet("Got too short memory");
     return FALSE;
   }
 
@@ -634,6 +629,7 @@ bool dio_get_string(struct data_in *din, char *dest, size_t max_dest_size)
   fc_assert(max_dest_size > 0);
 
   if (!enough_data(din, 1)) {
+    log_packet("Got a bad string");
     return FALSE;
   }
 
@@ -646,13 +642,12 @@ bool dio_get_string(struct data_in *din, char *dest, size_t max_dest_size)
   }
 
   if (offset >= remaining) {
-    din->too_short = TRUE;
-    din->bad_string = TRUE;
+    log_packet("Got a too short string");
     return FALSE;
   }
 
   if (!(*get_conv_callback) (dest, max_dest_size, c, offset)) {
-    din->bad_string = TRUE;
+    log_packet("Got a bad encoded string");
     return FALSE;
   }
 
@@ -672,14 +667,13 @@ bool dio_get_bit_string(struct data_in *din, char *dest,
   fc_assert(max_dest_size > 0);
 
   if (!dio_get_uint16(din, &npack)) {
-    din->bad_bit_string = TRUE;
+    log_packet("Got a bad bit string");
     return FALSE;
   }
 
   if (npack >= max_dest_size) {
-      log_error("Have size for %lu, got %d",
-                (unsigned long) max_dest_size, npack);
-    din->bad_bit_string = TRUE;
+    log_packet("Have size for %lu, got %d",
+               (unsigned long) max_dest_size, npack);
     return FALSE;
   }
 
@@ -687,7 +681,7 @@ bool dio_get_bit_string(struct data_in *din, char *dest,
     int bit, byte_value;
 
     if (!dio_get_uint8(din, &byte_value)) {
-      din->bad_bit_string = TRUE;
+      log_packet("Got a too short bit string");
       return FALSE;
     }
     for (bit = 0; bit < 8 && i < npack; bit++, i++) {
@@ -713,6 +707,7 @@ bool dio_get_tech_list(struct data_in *din, int *dest)
 
   for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
     if (!dio_get_uint8(din, &dest[i])) {
+      log_packet("Got a too short tech list");
       return FALSE;
     }
     if (dest[i] == A_LAST) {
@@ -737,6 +732,7 @@ bool dio_get_unit_list(struct data_in *din, int *dest)
 
   for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
     if (!dio_get_uint8(din, &dest[i])) {
+      log_packet("Got a too short unit list");
       return FALSE;
     }
     if (dest[i] == U_LAST) {
@@ -761,6 +757,7 @@ bool dio_get_building_list(struct data_in *din, int *dest)
 
   for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
     if (!dio_get_uint8(din, &dest[i])) {
+      log_packet("Got a too short building list");
       return FALSE;
     }
     if (dest[i] == B_LAST) {
@@ -786,6 +783,7 @@ bool dio_get_worklist(struct data_in *din, struct worklist *pwl)
   worklist_init(pwl);
 
   if (!dio_get_uint8(din, &length)) {
+    log_packet("Got a bad worklist");
     return FALSE;
   }
 
@@ -795,9 +793,13 @@ bool dio_get_worklist(struct data_in *din, struct worklist *pwl)
 
     if (!dio_get_uint8(din, &kind)
         || !dio_get_uint8(din, &identifier)) {
+      log_packet("Got a too short worklist");
       return FALSE;
     }
 
+    /*
+     * FIXME: the value returned by universal_by_number() should be checked!
+     */
     worklist_append(pwl, universal_by_number(kind, identifier));
   }
 
@@ -868,9 +870,13 @@ bool dio_get_requirement(struct data_in *din, struct requirement *preq)
       || !dio_get_uint8(din, &range)
       || !dio_get_bool8(din, &survives)
       || !dio_get_bool8(din, &negated)) {
+    log_packet("Got a bad requirement");
     return FALSE;
   }
 
+  /*
+   * FIXME: the value returned by req_from_values() should be checked!
+   */
   *preq = req_from_values(type, range, survives, negated, value);
 
   return TRUE;

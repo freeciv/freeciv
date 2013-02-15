@@ -72,24 +72,6 @@
  */
 #define PACKET_SIZE_STATISTICS 0
 
-/********************************************************************** 
- The current packet functions don't handle signed values
- correct. This will probably lead to problems when compiling
- freeciv for a platform which has 64 bit ints. Also 16 and 8
- bits values cannot be signed without using tricks (look in e.g
- receive_packet_city_info() )
-
-  TODO to solve these problems:
-    o use the new signed functions where they are necessary
-    o change the prototypes of the unsigned functions
-       to unsigned int instead of int (but only on the 32
-       bit functions, because otherwhere it's not necessary)
-
-  Possibe enhancements:
-    o check in configure for ints with size others than 4
-    o write real put functions and check for the limit
-***********************************************************************/
-
 #ifdef USE_COMPRESSION
 static int stat_size_alone = 0;
 static int stat_size_uncompressed = 0;
@@ -334,12 +316,12 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
 }
 
 /**************************************************************************
-presult indicates if there is more packets in the cache. We return result
-instead of just testing if the returning package is NULL as we sometimes
-return a NULL packet even if everything is OK (receive_packet_goto_route).
+  Read and return a packet from the connection 'pc'. The type of the
+  packet is written in 'ptype'. On error, the connection is closed and
+  the function returns NULL.
 **************************************************************************/
 void *get_packet_from_connection(struct connection *pc,
-				 enum packet_type *ptype, bool *presult)
+                                 enum packet_type *ptype)
 {
   int len_read;
   int whole_packet_len;
@@ -353,8 +335,7 @@ void *get_packet_from_connection(struct connection *pc,
   bool compressed_packet = FALSE;
 #endif
   int header_size = 4;
-
-  *presult = FALSE;
+  void *data;
 
   if (!pc->used) {
     return NULL;		/* connection was closed, stop reading */
@@ -457,7 +438,7 @@ void *get_packet_from_connection(struct connection *pc,
     log_compress("COMPRESS: decompressed %ld into %ld",
                  compressed_size, decompressed_size);
 
-    return get_packet_from_connection(pc, ptype, presult);
+    return get_packet_from_connection(pc, ptype);
   }
 #endif /* USE_COMPRESSION */
 
@@ -491,7 +472,6 @@ void *get_packet_from_connection(struct connection *pc,
              is_server() ? pc->username : "server");
 
   *ptype = utype.type;
-  *presult = TRUE;
 
   if (pc->incoming_packet_notify) {
     pc->incoming_packet_notify(pc, utype.type, whole_packet_len);
@@ -541,7 +521,13 @@ void *get_packet_from_connection(struct connection *pc,
     }
   }
 #endif /* PACKET_SIZE_STATISTICS */
-  return get_packet_from_connection_helper(pc, utype.type);
+  data = get_packet_from_connection_helper(pc, utype.type);
+  if (!data) {
+    connection_close(pc, _("incompatible packet contents"));
+    return NULL;
+  } else {
+    return data;
+  }
 }
 
 /**************************************************************************
@@ -563,48 +549,25 @@ void remove_packet_from_buffer(struct socket_packet_buffer *buffer)
 /**************************************************************************
   Sanity check packet
 **************************************************************************/
-void check_packet(struct data_in *din, struct connection *pc)
+bool packet_check(struct data_in *din, struct connection *pc)
 {
   size_t rem = dio_input_remaining(din);
 
-  if (din->bad_string || din->bad_bit_string || rem != 0) {
-    char from[MAX_LEN_ADDR + MAX_LEN_NAME + 128];
+  if (rem > 0) {
     int type, len;
-
-    fc_assert_ret(pc != NULL);
-    fc_snprintf(from, sizeof(from), " from %s", conn_description(pc));
 
     dio_input_rewind(din);
     dio_get_uint16(din, &len);
     dio_get_uint16(din, &type);
 
-    if (din->bad_boolean) {
-      log_error("received bad boolean in packet (type %d, len %d)%s",
-                type, len, from);
-    }
-
-    if (din->bad_string) {
-      log_error("received bad string in packet (type %d, len %d)%s",
-                type, len, from);
-    }
-
-    if (din->bad_bit_string) {
-      log_error("received bad bit string in packet (type %d, len %d)%s",
-                type, len, from);
-    }
-
-    if (din->too_short) {
-      log_error("received short packet (type %d, len %d)%s",
-                type, len, from);
-    }
-
-    if (rem > 0) {
-      /* This may be ok, eg a packet from a newer version with extra info
-       * which we should just ignore */
-      log_verbose("received long packet (type %d, len %d, rem %lu)%s", type,
-                  len, (unsigned long)rem, from);
-    }
+    log_packet("received long packet (type %d, len %d, rem %lu) from %s",
+               type,
+               len,
+               (unsigned long) rem,
+               conn_description (pc));
+    return FALSE;
   }
+  return TRUE;
 }
 
 /**************************************************************************

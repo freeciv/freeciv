@@ -26,10 +26,6 @@ struct requirement;
 struct data_in {
   const void *src;
   size_t src_size, current;
-  bool too_short;		/* set to 1 if try to read past end */
-  bool bad_boolean;		/* set to 1 if received bad boolean */
-  bool bad_string;		/* set to 1 if received too-long string */
-  bool bad_bit_string;		/* set to 1 if received bad bit-string */
 };
 
 struct data_out {
