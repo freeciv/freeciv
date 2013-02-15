@@ -66,8 +66,8 @@ bool dio_get_sint8(struct data_in *din, int *dest)
     fc__attribute((nonnull (2)));
 bool dio_get_sint16(struct data_in *din, int *dest)
     fc__attribute((nonnull (2)));
-#define dio_get_sint32(d,v) dio_get_uint32(d,v)
-
+bool dio_get_sint32(struct data_in *din, int *dest)
+    fc__attribute((nonnull (2)));
 
 bool dio_get_bool8(struct data_in *din, bool *dest)
     fc__attribute((nonnull (2)));
@@ -107,9 +107,9 @@ void dio_put_uint8(struct data_out *dout, int value);
 void dio_put_uint16(struct data_out *dout, int value);
 void dio_put_uint32(struct data_out *dout, int value);
 
-#define dio_put_sint8(d,v) dio_put_uint8(d,v)
-#define dio_put_sint16(d,v) dio_put_uint16(d,v)
-#define dio_put_sint32(d,v) dio_put_uint32(d,v)
+void dio_put_sint8(struct data_out *dout, int value);
+void dio_put_sint16(struct data_out *dout, int value);
+void dio_put_sint32(struct data_out *dout, int value);
 
 void dio_put_bool8(struct data_out *dout, bool value);
 void dio_put_bool32(struct data_out *dout, bool value);

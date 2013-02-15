@@ -203,6 +203,10 @@ bool dio_input_skip(struct data_in *din, size_t size)
 **************************************************************************/
 void dio_put_uint8(struct data_out *dout, int value)
 {
+  if (value < 0x00 || 0xff < value) {
+    log_error("Trying to put %d into 8 bits", value);
+  }
+
   if (enough_space(dout, 1)) {
     uint8_t x = value;
 
@@ -217,6 +221,10 @@ void dio_put_uint8(struct data_out *dout, int value)
 **************************************************************************/
 void dio_put_uint16(struct data_out *dout, int value)
 {
+  if (value < 0x0000 || 0xffff < value) {
+    log_error("Trying to put %d into 16 bits", value);
+  }
+
   if (enough_space(dout, 2)) {
     uint16_t x = htons(value);
 
@@ -227,10 +235,14 @@ void dio_put_uint16(struct data_out *dout, int value)
 }
 
 /**************************************************************************
-  Insert value using 16 bits.
+  Insert value using 32 bits. May overflow.
 **************************************************************************/
 void dio_put_uint32(struct data_out *dout, int value)
 {
+  if (sizeof(value) > 4 && (value < 0x00000000 || 0xffffffff < value)) {
+    log_error("Trying to put %d into 32 bits", value);
+  }
+
   if (enough_space(dout, 4)) {
     uint32_t x = htonl(value);
 
@@ -238,6 +250,31 @@ void dio_put_uint32(struct data_out *dout, int value)
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 4);
     dout->current += 4;
   }
+}
+
+/**************************************************************************
+  Insert value using 8 bits. May overflow.
+**************************************************************************/
+void dio_put_sint8(struct data_out *dout, int value)
+{
+  dio_put_uint8(dout, 0 <= value ? value : value + 0x100);
+}
+
+/**************************************************************************
+  Insert value using 16 bits. May overflow.
+**************************************************************************/
+void dio_put_sint16(struct data_out *dout, int value)
+{
+  dio_put_uint16(dout, 0 <= value ? value : value + 0x10000);
+}
+
+/**************************************************************************
+  Insert value using 32 bits. May overflow.
+**************************************************************************/
+void dio_put_sint32(struct data_out *dout, int value)
+{
+  dio_put_uint32(dout, (0 <= value || sizeof(value) == 4
+                        ? value : value + 0x100000000));
 }
 
 /**************************************************************************
@@ -365,8 +402,7 @@ void dio_put_bit_string(struct data_out *dout, const char *value)
   size_t max = (unsigned short)(-1);
 
   if (bits > max) {
-    fc_assert_msg(FALSE, "Bit string too long: %lu bits.",
-                  (unsigned long) bits);
+    log_error("Bit string too long: %lu bits.", (unsigned long) bits);
     bits = max;
   }
   bytes = (bits + 7) / 8;
@@ -590,7 +626,7 @@ bool dio_get_sint8(struct data_in *din, int *dest)
 **************************************************************************/
 bool dio_get_sint16(struct data_in *din, int *dest)
 {
-  int tmp = 0;
+  int tmp;
 
   if (!dio_get_uint16(din, &tmp)) {
     return FALSE;
@@ -598,6 +634,24 @@ bool dio_get_sint16(struct data_in *din, int *dest)
 
   if (tmp > 0x7fff) {
     tmp -= 0x10000;
+  }
+  *dest = tmp;
+  return TRUE;
+}
+
+/**************************************************************************
+  Take value from 32 bits.
+**************************************************************************/
+bool dio_get_sint32(struct data_in *din, int *dest)
+{
+  int tmp;
+
+  if (!dio_get_uint32(din, &tmp)) {
+    return FALSE;
+  }
+
+  if (tmp > 0x7fffffff) {
+    tmp -= 0x100000000;
   }
   *dest = tmp;
   return TRUE;

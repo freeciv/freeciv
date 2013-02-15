@@ -881,7 +881,8 @@ void editor_apply_tool(const struct tile *ptile,
     break;
 
   case ETT_TERRAIN_RESOURCE:
-    dsend_packet_edit_tile_resource(my_conn, tile, erase ? -1 : value,
+    dsend_packet_edit_tile_resource(my_conn, tile,
+                                    erase ? resource_count() : value,
                                     size);
     break;
 
@@ -1549,10 +1550,14 @@ static void fill_tile_edit_packet(struct packet_edit_tile *packet,
   packet->bases = tile_bases(ptile);
 
   presource = tile_resource(ptile);
-  packet->resource = presource ? resource_number(presource) : -1;
+  packet->resource = presource
+                     ? resource_number(presource)
+                     : resource_count();
 
   pterrain = tile_terrain(ptile);
-  packet->terrain = pterrain ? terrain_number(pterrain) : -1;
+  packet->terrain = pterrain
+                    ? terrain_number(pterrain)
+                    : terrain_count();
 }
 
 /****************************************************************************

@@ -853,9 +853,9 @@ static void package_player_common(struct player *plr,
   packet->playerno = player_number(plr);
   sz_strlcpy(packet->name, player_name(plr));
   sz_strlcpy(packet->username, plr->username);
-  packet->nation = plr->nation ? nation_number(plr->nation) : -1;
+  packet->nation = plr->nation ? nation_number(plr->nation) : nation_count();
   packet->is_male=plr->is_male;
-  packet->team = plr->team ? team_number(plr->team) : -1;
+  packet->team = plr->team ? team_number(plr->team) : team_count();
   packet->is_ready = plr->is_ready;
   packet->was_created = plr->was_created;
   if (city_styles != NULL) {
@@ -954,7 +954,7 @@ static void package_player_info(struct player *plr,
     packet->gold = 0;
     pgov = game.government_during_revolution;
   }
-  packet->government = pgov ? government_number(pgov) : -1;
+  packet->government = pgov ? government_number(pgov) : government_count();
    
   /* Send diplomatic status of the player to everyone they are in
    * contact with. */
@@ -963,7 +963,7 @@ static void package_player_info(struct player *plr,
           && player_diplstate_get(receiver, plr)->contact_turns_left > 0)) {
     packet->target_government = plr->target_government
                                 ? government_number(plr->target_government)
-                                : -1;
+                                : government_count();
     memset(&packet->real_embassy, 0, sizeof(packet->real_embassy));
     players_iterate(pother) {
       packet->real_embassy[player_index(pother)] =

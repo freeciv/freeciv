@@ -4391,19 +4391,24 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.defense_strength = u->defense_strength;
     packet.move_rate = u->move_rate;
     packet.tech_requirement = u->require_advance
-                              ? advance_number(u->require_advance) : -1;
+                              ? advance_number(u->require_advance)
+                              : advance_count();
     packet.impr_requirement = u->need_improvement
-                              ? improvement_number(u->need_improvement) : -1;
+                              ? improvement_number(u->need_improvement)
+                              : improvement_count();
     packet.gov_requirement = u->need_government
-                             ? government_number(u->need_government) : -1;
+                             ? government_number(u->need_government)
+                             : government_count();
     packet.vision_radius_sq = u->vision_radius_sq;
     packet.transport_capacity = u->transport_capacity;
     packet.hp = u->hp;
     packet.firepower = u->firepower;
     packet.obsoleted_by = u->obsoleted_by
-                          ? utype_number(u->obsoleted_by) : -1;
+                          ? utype_number(u->obsoleted_by)
+                          : utype_count();
     packet.converted_to = u->converted_to
-                          ? utype_number(u->converted_to) : -1;
+                          ? utype_number(u->converted_to)
+                          : utype_count();
     packet.convert_time = u->convert_time;
     packet.fuel = u->fuel;
     packet.flags = u->flags;
@@ -4496,11 +4501,14 @@ static void send_ruleset_techs(struct conn_list *dest)
     sz_strlcpy(packet.graphic_alt, a->graphic_alt);
 
     packet.req[AR_ONE] = a->require[AR_ONE]
-                         ? advance_number(a->require[AR_ONE]) : -1;
+                         ? advance_number(a->require[AR_ONE])
+                         : advance_count();
     packet.req[AR_TWO] = a->require[AR_TWO]
-                         ? advance_number(a->require[AR_TWO]) : -1;
+                         ? advance_number(a->require[AR_TWO])
+                         : advance_count();
     packet.root_req = a->require[AR_ROOT]
-                      ? advance_number(a->require[AR_ROOT]) : -1;
+                      ? advance_number(a->require[AR_ROOT])
+                      : advance_count();
 
     packet.flags = a->flags;
     packet.preset_cost = a->preset_cost;
@@ -4533,9 +4541,11 @@ static void send_ruleset_buildings(struct conn_list *dest)
     } requirement_vector_iterate_end;
     packet.reqs_count = j;
     packet.obsolete_by = b->obsolete_by
-                         ? advance_number(b->obsolete_by) : -1;
+                         ? advance_number(b->obsolete_by)
+                         : advance_count();
     packet.replaced_by = b->replaced_by
-                         ? improvement_number(b->replaced_by) : -1;
+                         ? improvement_number(b->replaced_by)
+                         : improvement_count();
     packet.build_cost = b->build_cost;
     packet.upkeep = b->upkeep;
     packet.sabotage = b->sabotage;
@@ -4851,7 +4861,7 @@ static void send_ruleset_governments(struct conn_list *dest)
       const struct nation_type *pnation = ruler_title_nation(pruler_title);
 
       title.gov = government_number(g);
-      title.nation = (NULL != pnation ? nation_number(pnation) : -1);
+      title.nation = pnation ? nation_number(pnation) : nation_count();
       sz_strlcpy(title.male_title,
                  ruler_title_male_untranslated_name(pruler_title));
       sz_strlcpy(title.female_title,
