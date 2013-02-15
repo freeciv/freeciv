@@ -812,8 +812,6 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   SPECIAL changed_from_tgt_spe;
   BASE changed_from_tgt_base;
   ROAD changed_from_tgt_road;
-  BASE changed_from_base;
-  ROAD changed_from_road;
 
   SINT8 battlegroup;
 
