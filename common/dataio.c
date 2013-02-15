@@ -172,6 +172,7 @@ void dio_input_init(struct data_in *din, const void *src, size_t src_size)
   din->src_size = src_size;
   din->current = 0;
   din->too_short = FALSE;
+  din->bad_boolean = FALSE;
   din->bad_string = FALSE;
   din->bad_bit_string = FALSE;
 }
@@ -191,6 +192,19 @@ void dio_input_rewind(struct data_in *din)
 size_t dio_input_remaining(struct data_in *din)
 {
   return din->src_size - din->current;
+}
+
+/**************************************************************************
+   Skips 'n' bytes.
+**************************************************************************/
+bool dio_input_skip(struct data_in *din, size_t size)
+{
+  if (enough_data(din, size)) {
+    din->current += size;
+    return TRUE;
+  } else {
+    return FALSE;
+  }
 }
 
 /**************************************************************************
@@ -441,74 +455,56 @@ void dio_put_worklist(struct data_out *dout, const struct worklist *pwl)
 }
 
 /**************************************************************************
- Receive uint8 value to dest. In case of failure, value stored to dest
- will be zero. Note that zero is legal value even when there is no failure.
+ Receive uint8 value to dest.
 **************************************************************************/
 bool dio_get_uint8(struct data_in *din, int *dest)
 {
-  if (enough_data(din, 1)) {
-    if (dest) {
-      uint8_t x;
+  uint8_t x;
 
-      fc_assert(sizeof(x) == 1);
-      memcpy(&x, ADD_TO_POINTER(din->src, din->current), 1);
-      *dest = x;
-    }
-    din->current++;
-  } else if (dest) {
-    *dest = 0;
-
+  if (!enough_data(din, 1)) {
     return FALSE;
   }
 
+  fc_assert(sizeof(x) == 1);
+  memcpy(&x, ADD_TO_POINTER(din->src, din->current), 1);
+  *dest = x;
+  din->current++;
   return TRUE;
 }
 
 /**************************************************************************
- Receive uint16 value to dest. In case of failure, value stored to dest
- will be zero. Note that zero is legal value even when there is no failure.
+ Receive uint16 value to dest.
 **************************************************************************/
 bool dio_get_uint16(struct data_in *din, int *dest)
 {
-  if (enough_data(din, 2)) {
-    if (dest) {
-      uint16_t x;
+  uint16_t x;
 
-      fc_assert(sizeof(x) == 2);
-      memcpy(&x, ADD_TO_POINTER(din->src, din->current), 2);
-      *dest = ntohs(x);
-    }
-    din->current += 2;
-  } else if (dest) {
-    *dest = 0;
-
+  if (!enough_data(din, 2)) {
     return FALSE;
   }
 
+  fc_assert(sizeof(x) == 2);
+  memcpy(&x, ADD_TO_POINTER(din->src, din->current), 2);
+  *dest = ntohs(x);
+  din->current += 2;
   return TRUE;
 }
 
 /**************************************************************************
- Receive uint32 value to dest. In case of failure, value stored to dest
- will be zero. Note that zero is legal value even when there is no failure.
+ Receive uint32 value to dest.
 **************************************************************************/
 bool dio_get_uint32(struct data_in *din, int *dest)
 {
-  if (enough_data(din, 4)) {
-    if (dest) {
-      uint32_t x;
+  uint32_t x;
 
-      fc_assert(sizeof(x) == 4);
-      memcpy(&x, ADD_TO_POINTER(din->src, din->current), 4);
-      *dest = ntohl(x);
-    }
-    din->current += 4;
-  } else if (dest) {
-    *dest = 0;
-
+  if (!enough_data(din, 4)) {
     return FALSE;
   }
 
+  fc_assert(sizeof(x) == 4);
+  memcpy(&x, ADD_TO_POINTER(din->src, din->current), 4);
+  *dest = ntohl(x);
+  din->current += 4;
   return TRUE;
 }
 
@@ -518,18 +514,18 @@ bool dio_get_uint32(struct data_in *din, int *dest)
 bool dio_get_bool8(struct data_in *din, bool *dest)
 {
   int ival;
-  bool retval;
 
-  retval = dio_get_uint8(din, &ival);
+  if (!dio_get_uint8(din, &ival)) {
+    return FALSE;
+  }
 
   if (ival != 0 && ival != 1) {
-    log_error("Received value isn't boolean: %d", ival);
-    ival = 1;
+    din->bad_boolean = TRUE;
+    return FALSE;
   }
 
   *dest = (ival != 0);
-
-  return retval;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -537,19 +533,19 @@ bool dio_get_bool8(struct data_in *din, bool *dest)
 **************************************************************************/
 bool dio_get_bool32(struct data_in *din, bool * dest)
 {
-  int ival = 0;
-  bool retval;
+  int ival;
 
-  retval = dio_get_uint32(din, &ival);
+  if (!dio_get_uint32(din, &ival)) {
+    return FALSE;
+  }
 
   if (ival != 0 && ival != 1) {
-    log_error("Received value isn't boolean: %d", ival);
-    ival = 1;
+    din->bad_boolean = TRUE;
+    return FALSE;
   }
 
   *dest = (ival != 0);
-
-  return retval;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -558,17 +554,16 @@ bool dio_get_bool32(struct data_in *din, bool * dest)
 bool dio_get_sint8(struct data_in *din, int *dest)
 {
   int tmp;
-  bool retval;
 
-  retval = dio_get_uint8(din, &tmp);
-  if (dest) {
-    if (tmp > 0x7f) {
-      tmp -= 0x100;
-    }
-    *dest = tmp;
+  if (!dio_get_uint8(din, &tmp)) {
+    return FALSE;
   }
 
-  return retval;
+  if (tmp > 0x7f) {
+    tmp -= 0x100;
+  }
+  *dest = tmp;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -577,17 +572,16 @@ bool dio_get_sint8(struct data_in *din, int *dest)
 bool dio_get_sint16(struct data_in *din, int *dest)
 {
   int tmp = 0;
-  bool retval;
 
-  retval = dio_get_uint16(din, &tmp);
-  if (dest) {
-    if (tmp > 0x7fff) {
-      tmp -= 0x10000;
-    }
-    *dest = tmp;
+  if (!dio_get_uint16(din, &tmp)) {
+    return FALSE;
   }
 
-  return retval;
+  if (tmp > 0x7fff) {
+    tmp -= 0x10000;
+  }
+  *dest = tmp;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -595,15 +589,12 @@ bool dio_get_sint16(struct data_in *din, int *dest)
 **************************************************************************/
 bool dio_get_memory(struct data_in *din, void *dest, size_t dest_size)
 {
-  if (enough_data(din, dest_size)) {
-    if (dest) {
-      memcpy(dest, ADD_TO_POINTER(din->src, din->current), dest_size);
-    }
-    din->current += dest_size;
-  } else {
+  if (!enough_data(din, dest_size)) {
     return FALSE;
   }
 
+  memcpy(dest, ADD_TO_POINTER(din->src, din->current), dest_size);
+  din->current += dest_size;
   return TRUE;
 }
 
@@ -613,13 +604,11 @@ bool dio_get_memory(struct data_in *din, void *dest, size_t dest_size)
 bool dio_get_string(struct data_in *din, char *dest, size_t max_dest_size)
 {
   char *c;
-  size_t ps_len;		/* length in packet, not including null */
   size_t offset, remaining;
 
-  fc_assert(max_dest_size > 0 || dest == NULL);
+  fc_assert(max_dest_size > 0);
 
   if (!enough_data(din, 1)) {
-    dest[0] = '\0';
     return FALSE;
   }
 
@@ -632,21 +621,17 @@ bool dio_get_string(struct data_in *din, char *dest, size_t max_dest_size)
   }
 
   if (offset >= remaining) {
-    ps_len = remaining;
     din->too_short = TRUE;
     din->bad_string = TRUE;
-  } else {
-    ps_len = offset;
+    return FALSE;
   }
 
-  if (dest && !(*get_conv_callback) (dest, max_dest_size, c, ps_len)) {
+  if (!(*get_conv_callback) (dest, max_dest_size, c, offset)) {
     din->bad_string = TRUE;
+    return FALSE;
   }
 
-  if (!din->too_short) {
-    din->current += (ps_len + 1);	/* past terminator */
-  }
-
+  din->current += offset + 1;
   return TRUE;
 }
 
@@ -658,29 +643,28 @@ bool dio_get_bit_string(struct data_in *din, char *dest,
 {
   int npack = 0;		/* number claimed in packet */
   int i;			/* iterate the bytes */
-  bool retval;
 
-  fc_assert(dest != NULL && max_dest_size > 0);
+  fc_assert(max_dest_size > 0);
 
-  if (!enough_data(din, 1)) {
-    dest[0] = '\0';
+  if (!dio_get_uint16(din, &npack)) {
+    din->bad_bit_string = TRUE;
     return FALSE;
   }
 
-  retval = dio_get_uint16(din, &npack);
   if (npack >= max_dest_size) {
       log_error("Have size for %lu, got %d",
                 (unsigned long) max_dest_size, npack);
     din->bad_bit_string = TRUE;
-    dest[0] = '\0';
-
     return FALSE;
   }
 
   for (i = 0; i < npack;) {
     int bit, byte_value;
 
-    retval = dio_get_uint8(din, &byte_value);
+    if (!dio_get_uint8(din, &byte_value)) {
+      din->bad_bit_string = TRUE;
+      return FALSE;
+    }
     for (bit = 0; bit < 8 && i < npack; bit++, i++) {
       if (TEST_BIT(byte_value, bit)) {
 	dest[i] = '1';
@@ -691,12 +675,7 @@ bool dio_get_bit_string(struct data_in *din, char *dest,
   }
 
   dest[npack] = '\0';
-
-  if (din->too_short) {
-    din->bad_bit_string = TRUE;
-  }
-
-  return retval;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -706,10 +685,11 @@ bool dio_get_bit_string(struct data_in *din, char *dest,
 bool dio_get_tech_list(struct data_in *din, int *dest)
 {
   int i;
-  bool retval;
 
   for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
-    retval = dio_get_uint8(din, &dest[i]);
+    if (!dio_get_uint8(din, &dest[i])) {
+      return FALSE;
+    }
     if (dest[i] == A_LAST) {
       break;
     }
@@ -719,7 +699,7 @@ bool dio_get_tech_list(struct data_in *din, int *dest)
     dest[i] = A_LAST;
   }
 
-  return retval;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -729,10 +709,11 @@ bool dio_get_tech_list(struct data_in *din, int *dest)
 bool dio_get_unit_list(struct data_in *din, int *dest)
 {
   int i;
-  bool retval;
 
   for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
-    retval = dio_get_uint8(din, &dest[i]);
+    if (!dio_get_uint8(din, &dest[i])) {
+      return FALSE;
+    }
     if (dest[i] == U_LAST) {
       break;
     }
@@ -742,7 +723,7 @@ bool dio_get_unit_list(struct data_in *din, int *dest)
     dest[i] = U_LAST;
   }
 
-  return retval;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -752,10 +733,11 @@ bool dio_get_unit_list(struct data_in *din, int *dest)
 bool dio_get_building_list(struct data_in *din, int *dest)
 {
   int i;
-  bool retval;
 
   for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
-    retval = dio_get_uint8(din, &dest[i]);
+    if (!dio_get_uint8(din, &dest[i])) {
+      return FALSE;
+    }
     if (dest[i] == B_LAST) {
       break;
     }
@@ -765,7 +747,7 @@ bool dio_get_building_list(struct data_in *din, int *dest)
     dest[i] = B_LAST;
   }
 
-  return retval;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -775,22 +757,26 @@ bool dio_get_building_list(struct data_in *din, int *dest)
 bool dio_get_worklist(struct data_in *din, struct worklist *pwl)
 {
   int i, length;
-  bool retval;
 
   worklist_init(pwl);
 
-  retval = dio_get_uint8(din, &length);
+  if (!dio_get_uint8(din, &length)) {
+    return FALSE;
+  }
+
   for (i = 0; i < length; i++) {
     int identifier;
     int kind;
 
-    dio_get_uint8(din, &kind);
-    retval = dio_get_uint8(din, &identifier);
+    if (!dio_get_uint8(din, &kind)
+        || !dio_get_uint8(din, &identifier)) {
+      return FALSE;
+    }
 
     worklist_append(pwl, universal_by_number(kind, identifier));
   }
 
-  return retval;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -800,20 +786,23 @@ bool dio_get_worklist(struct data_in *din, struct worklist *pwl)
 bool dio_get_uint8_vec8(struct data_in *din, int **values, int stop_value)
 {
   int count, inx;
-  bool retval;
+  int *vec;
 
-  retval = dio_get_uint8(din, &count);
-  if (values) {
-    *values = fc_calloc((count + 1), sizeof(**values));
+  if (!dio_get_uint8(din, &count)) {
+    return FALSE;
   }
+
+  vec = fc_calloc(count + 1, sizeof(*vec));
   for (inx = 0; inx < count; inx++) {
-    retval = dio_get_uint8(din, values ? &((*values)[inx]) : NULL);
+    if (!dio_get_uint8(din, vec + inx)) {
+      free (vec);
+      return FALSE;
+    }
   }
-  if (values) {
-    (*values)[inx] = stop_value;
-  }
+  vec[inx] = stop_value;
+  *values = vec;
 
-  return retval;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -822,21 +811,23 @@ bool dio_get_uint8_vec8(struct data_in *din, int **values, int stop_value)
 bool dio_get_uint16_vec8(struct data_in *din, int **values, int stop_value)
 {
   int count, inx;
-  bool retval;
+  int *vec;
 
-  retval = dio_get_uint8(din, &count);
-
-  if (values) {
-    *values = fc_calloc((count + 1), sizeof(**values));
+  if (!dio_get_uint8(din, &count)) {
+    return FALSE;
   }
+
+  vec = fc_calloc(count + 1, sizeof(*vec));
   for (inx = 0; inx < count; inx++) {
-    dio_get_uint16(din, values ? &((*values)[inx]) : NULL);
+    if (!dio_get_uint16(din, vec + inx)) {
+      free (vec);
+      return FALSE;
+    }
   }
-  if (values) {
-    (*values)[inx] = stop_value;
-  }
+  vec[inx] = stop_value;
+  *values = vec;
 
-  return retval;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -846,17 +837,18 @@ bool dio_get_requirement(struct data_in *din, struct requirement *preq)
 {
   int type, range, value;
   bool survives, negated;
-  bool retval;
 
-  dio_get_uint8(din, &type);
-  dio_get_sint32(din, &value);
-  dio_get_uint8(din, &range);
-  dio_get_bool8(din, &survives);
-  retval = dio_get_bool8(din, &negated);
+  if (!dio_get_uint8(din, &type)
+      || !dio_get_sint32(din, &value)
+      || !dio_get_uint8(din, &range)
+      || !dio_get_bool8(din, &survives)
+      || !dio_get_bool8(din, &negated)) {
+    return FALSE;
+  }
 
   *preq = req_from_values(type, range, survives, negated, value);
 
-  return retval;
+  return TRUE;
 }
 
 /**************************************************************************

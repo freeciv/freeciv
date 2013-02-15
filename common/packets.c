@@ -578,6 +578,11 @@ void check_packet(struct data_in *din, struct connection *pc)
     dio_get_uint16(din, &len);
     dio_get_uint16(din, &type);
 
+    if (din->bad_boolean) {
+      log_error("received bad boolean in packet (type %d, len %d)%s",
+                type, len, from);
+    }
+
     if (din->bad_string) {
       log_error("received bad string in packet (type %d, len %d)%s",
                 type, len, from);

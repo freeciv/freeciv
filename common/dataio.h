@@ -27,6 +27,7 @@ struct data_in {
   const void *src;
   size_t src_size, current;
   bool too_short;		/* set to 1 if try to read past end */
+  bool bad_boolean;		/* set to 1 if received bad boolean */
   bool bad_string;		/* set to 1 if received too-long string */
   bool bad_bit_string;		/* set to 1 if received bad bit-string */
 };
@@ -54,32 +55,50 @@ size_t dio_output_used(struct data_out *dout);
 void dio_input_init(struct data_in *dout, const void *src, size_t src_size);
 void dio_input_rewind(struct data_in *din);
 size_t dio_input_remaining(struct data_in *din);
+bool dio_input_skip(struct data_in *din, size_t size);
 
 /* gets */
 
-bool dio_get_uint8(struct data_in *din, int *dest);
-bool dio_get_uint16(struct data_in *din, int *dest);
-bool dio_get_uint32(struct data_in *din, int *dest);
+bool dio_get_uint8(struct data_in *din, int *dest)
+    fc__attribute((nonnull (2)));
+bool dio_get_uint16(struct data_in *din, int *dest)
+    fc__attribute((nonnull (2)));
+bool dio_get_uint32(struct data_in *din, int *dest)
+    fc__attribute((nonnull (2)));
 
-bool dio_get_sint8(struct data_in *din, int *dest);
-bool dio_get_sint16(struct data_in *din, int *dest);
+bool dio_get_sint8(struct data_in *din, int *dest)
+    fc__attribute((nonnull (2)));
+bool dio_get_sint16(struct data_in *din, int *dest)
+    fc__attribute((nonnull (2)));
 #define dio_get_sint32(d,v) dio_get_uint32(d,v)
 
 
-bool dio_get_bool8(struct data_in *din, bool *dest);
-bool dio_get_bool32(struct data_in *din, bool *dest);
-bool dio_get_memory(struct data_in *din, void *dest, size_t dest_size);
-bool dio_get_string(struct data_in *din, char *dest, size_t max_dest_size);
+bool dio_get_bool8(struct data_in *din, bool *dest)
+    fc__attribute((nonnull (2)));
+bool dio_get_bool32(struct data_in *din, bool *dest)
+    fc__attribute((nonnull (2)));
+bool dio_get_memory(struct data_in *din, void *dest, size_t dest_size)
+    fc__attribute((nonnull (2)));
+bool dio_get_string(struct data_in *din, char *dest, size_t max_dest_size)
+    fc__attribute((nonnull (2)));
 bool dio_get_bit_string(struct data_in *din, char *dest,
-			size_t max_dest_size);
-bool dio_get_tech_list(struct data_in *din, int *dest);
-bool dio_get_unit_list(struct data_in *din, int *dest);
-bool dio_get_building_list(struct data_in *din, int *dest);
-bool dio_get_worklist(struct data_in *din, struct worklist *pwl);
-bool dio_get_requirement(struct data_in *din, struct requirement *preq);
+			size_t max_dest_size)
+    fc__attribute((nonnull (2)));
+bool dio_get_tech_list(struct data_in *din, int *dest)
+    fc__attribute((nonnull (2)));
+bool dio_get_unit_list(struct data_in *din, int *dest)
+    fc__attribute((nonnull (2)));
+bool dio_get_building_list(struct data_in *din, int *dest)
+    fc__attribute((nonnull (2)));
+bool dio_get_worklist(struct data_in *din, struct worklist *pwl)
+    fc__attribute((nonnull (2)));
+bool dio_get_requirement(struct data_in *din, struct requirement *preq)
+    fc__attribute((nonnull (2)));
 
-bool dio_get_uint8_vec8(struct data_in *din, int **values, int stop_value);
-bool dio_get_uint16_vec8(struct data_in *din, int **values, int stop_value);
+bool dio_get_uint8_vec8(struct data_in *din, int **values, int stop_value)
+    fc__attribute((nonnull (2)));
+bool dio_get_uint16_vec8(struct data_in *din, int **values, int stop_value)
+    fc__attribute((nonnull (2)));
 
 /* Should be a function but we need some macro magic. */
 #define DIO_BV_GET(pdin, bv) \

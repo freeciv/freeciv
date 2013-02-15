@@ -135,8 +135,7 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
     dio_get_uint16(&din, &size); \
     dio_input_init(&din, pc->buffer->data, MIN(size, pc->buffer->ndata)); \
   } \
-  dio_get_uint16(&din, NULL); \
-  dio_get_uint16(&din, NULL);
+  dio_input_skip(&din, 4);
 
 #define RECEIVE_PACKET_END(result) \
   check_packet(&din, pc); \
