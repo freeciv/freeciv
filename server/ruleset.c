@@ -325,8 +325,7 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
 
     if (!(pentry = secfile_entry_lookup(file, "%s.%s%d.name",
                                         sec, sub, j))) {
-      log_error("%s", secfile_error());
-      continue;
+      ruleset_error(LOG_FATAL, "%s", secfile_error());
     }
     name = NULL;
     switch (entry_type(pentry)) {
@@ -355,14 +354,13 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
       break;
     }
     if (NULL == name) {
-      log_error("\"%s\": error in handling requirement name for '%s.%s%d'.",
-                filename, sec, sub, j);
-      continue;
+      ruleset_error(LOG_FATAL,
+                    "\"%s\": error in handling requirement name for '%s.%s%d'.",
+                    filename, sec, sub, j);
     }
 
     if (!(range = secfile_lookup_str(file, "%s.%s%d.range", sec, sub, j))) {
-      log_error("%s", secfile_error());
-      continue;
+      ruleset_error(LOG_FATAL, "%s", secfile_error());
     }
 
     survives = secfile_lookup_bool_default(file, FALSE,
@@ -372,10 +370,8 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
 
     req = req_from_str(type, range, survives, negated, name);
     if (req.source.kind == universals_n_invalid()) {
-      /* Error.  Log it, clear the req and continue. */
-      log_error("\"%s\" [%s] has unknown req: \"%s\" \"%s\".",
-                filename, sec, type, name);
-      req.source.kind = VUT_NONE;
+      ruleset_error(LOG_FATAL, "\"%s\" [%s] has unknown req: \"%s\" \"%s\".",
+                    filename, sec, type, name);
     }
 
     requirement_vector_append(&list, req);
