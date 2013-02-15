@@ -497,12 +497,14 @@ bool dio_get_uint8(struct data_in *din, int *dest)
 {
   uint8_t x;
 
+  FC_STATIC_ASSERT(sizeof(x) == 1, uint8_not_byte);
+
   if (!enough_data(din, 1)) {
-    log_packet("Packet too short to read %d bytes", sizeof (x));
+    log_packet("Packet too short to read 1 byte");
+
     return FALSE;
   }
 
-  fc_assert(sizeof(x) == 1);
   memcpy(&x, ADD_TO_POINTER(din->src, din->current), 1);
   *dest = x;
   din->current++;
@@ -516,12 +518,14 @@ bool dio_get_uint16(struct data_in *din, int *dest)
 {
   uint16_t x;
 
+  FC_STATIC_ASSERT(sizeof(x) == 2, uint16_not_2_bytes);
+
   if (!enough_data(din, 2)) {
-    log_packet("Packet too short to read %d bytes", sizeof (x));
+    log_packet("Packet too short to read 2 bytes");
+
     return FALSE;
   }
 
-  fc_assert(sizeof(x) == 2);
   memcpy(&x, ADD_TO_POINTER(din->src, din->current), 2);
   *dest = ntohs(x);
   din->current += 2;
@@ -535,12 +539,14 @@ bool dio_get_uint32(struct data_in *din, int *dest)
 {
   uint32_t x;
 
+  FC_STATIC_ASSERT(sizeof(x) == 4, uint32_not_4_bytes);
+
   if (!enough_data(din, 4)) {
-    log_packet("Packet too short to read %d bytes", sizeof (x));
+    log_packet("Packet too short to read 4 bytes");
+
     return FALSE;
   }
 
-  fc_assert(sizeof(x) == 4);
   memcpy(&x, ADD_TO_POINTER(din->src, din->current), 4);
   *dest = ntohl(x);
   din->current += 4;
