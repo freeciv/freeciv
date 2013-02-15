@@ -350,7 +350,7 @@ class Field:
             return "DIO_BV_PUT(&dout, packet->%(name)s);"%self.__dict__
 
         if self.struct_type=="float" and not self.is_array:
-            return "  dio_put_uint32(&dout, (int)(real_packet->%(name)s * %(float_factor)d));"%self.__dict__
+            return "  dio_put_float(&dout, real_packet->%(name)s, %(float_factor)d);"%self.__dict__
         
         if self.dataio_type in ["worklist"]:
             return "  dio_put_%(dataio_type)s(&dout, &real_packet->%(name)s);"%self.__dict__
@@ -374,9 +374,9 @@ class Field:
 
         elif self.struct_type=="float":
             if self.is_array==2:
-                c="  dio_put_uint32(&dout, (int)(real_packet->%(name)s[i][j] * %(float_factor)d));"%self.__dict__
+                c="  dio_put_float(&dout, real_packet->%(name)s[i][j], %(float_factor)d);"%self.__dict__
             else:
-                c="  dio_put_uint32(&dout, (int)(real_packet->%(name)s[i] * %(float_factor)d));"%self.__dict__
+                c="  dio_put_float(&dout, real_packet->%(name)s[i], %(float_factor)d);"%self.__dict__
         else:
             if self.is_array==2:
                 c="dio_put_%(dataio_type)s(&dout, real_packet->%(name)s[i][j]);"%self.__dict__
@@ -441,12 +441,7 @@ class Field:
     # Returns code which get this field.
     def get_get(self):
         if self.struct_type=="float" and not self.is_array:
-            return '''{
-  int tmp;
-  
-  dio_get_uint32(&din, &tmp);
-  real_packet->%(name)s = (float)(tmp) / %(float_factor)d.0;
-}'''%self.__dict__
+            return "dio_get_float(&din, &real_packet->%(name)s, %(float_factor)d);"%self.__dict__
 
         if self.dataio_type=="bitvector":
             return "DIO_BV_GET(&din, real_packet->%(name)s);"%self.__dict__
@@ -476,15 +471,9 @@ class Field:
             c="dio_get_%(dataio_type)s(&din, real_packet->%(name)s[i], sizeof(real_packet->%(name)s[i]));"%self.__dict__
         elif self.struct_type=="float":
             if self.is_array==2:
-                c='''int tmp;
-
-    dio_get_uint32(&din, &tmp);
-    real_packet->%(name)s[i][j] = (float)(tmp) / %(float_factor)d.0;'''%self.__dict__
+                c="dio_get_float(&din, &real_packet->%(name)s[i][j], %(float_factor)d);"%self.__dict__
             else:
-                c='''int tmp;
-
-    dio_get_uint32(&din, &tmp);
-    real_packet->%(name)s[i] = (float)(tmp) / %(float_factor)d.0;'''%self.__dict__
+                c="dio_get_float(&din, &real_packet->%(name)s[i], %(float_factor)d);"%self.__dict__
         elif self.struct_type=="bool":
             if self.is_array==2:
                 c="dio_get_%(dataio_type)s(&din, &real_packet->%(name)s[i][j]);"%self.__dict__

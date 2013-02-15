@@ -77,6 +77,8 @@ bool dio_get_bool8(struct data_in *din, bool *dest)
     fc__attribute((nonnull (2)));
 bool dio_get_bool32(struct data_in *din, bool *dest)
     fc__attribute((nonnull (2)));
+bool dio_get_float(struct data_in *din, float *dest, int float_factor)
+    fc__attribute((nonnull (2)));
 bool dio_get_memory(struct data_in *din, void *dest, size_t dest_size)
     fc__attribute((nonnull (2)));
 bool dio_get_string(struct data_in *din, char *dest, size_t max_dest_size)
@@ -115,6 +117,7 @@ void dio_put_uint32(struct data_out *dout, int value);
 
 void dio_put_bool8(struct data_out *dout, bool value);
 void dio_put_bool32(struct data_out *dout, bool value);
+void dio_put_float(struct data_out *dout, float value, int float_factor);
 
 void dio_put_memory(struct data_out *dout, const void *value, size_t size);
 void dio_put_string(struct data_out *dout, const char *value);

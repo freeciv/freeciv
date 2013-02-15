@@ -276,6 +276,15 @@ void dio_put_bool32(struct data_out *dout, bool value)
 }
 
 /**************************************************************************
+  Insert a float number, which is multiplied by 'float_factor' before
+  being encoded into a uint32.
+**************************************************************************/
+void dio_put_float(struct data_out *dout, float value, int float_factor)
+{
+  dio_put_uint32(dout, value * float_factor);
+}
+
+/**************************************************************************
   Insert number of values brefore stop_value using 8 bits. Then
   insert values using 8 bits for each. stop_value is not required to
   fit in 8 bits. Actual values may overflow.
@@ -545,6 +554,22 @@ bool dio_get_bool32(struct data_in *din, bool * dest)
   }
 
   *dest = (ival != 0);
+  return TRUE;
+}
+
+/**************************************************************************
+  Get a float number, which have been multiplied by 'float_factor' and
+  encoded into a uint32 by dio_put_float().
+**************************************************************************/
+bool dio_get_float(struct data_in *din, float *dest, int float_factor)
+{
+  int ival;
+
+  if (!dio_get_uint32(din, &ival)) {
+    return FALSE;
+  }
+
+  *dest = (float) ival / float_factor;
   return TRUE;
 }
 
