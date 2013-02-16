@@ -1722,7 +1722,7 @@ const char *text_happiness_nationality(const struct city *pcity)
   astr_add_line(&str, _("Nationality: "));
 
   if (game.info.citizen_nationality) {
-    if (get_city_bonus(pcity, EFT_ENEMY_CITIZEN_UNHAPPY_DIV) > 0) {
+    if (get_city_bonus(pcity, EFT_ENEMY_CITIZEN_UNHAPPY_PCT) > 0) {
       struct player *owner = city_owner(pcity);
 
       citizens_foreign_iterate(pcity, pslot, nationality) {

@@ -194,28 +194,28 @@ reqs	=
     }
 
 [effect_base_enemy_unhappiness]
-name    = "Enemy_Citizen_Unhappy_Div"
-value   = 1
+name    = "Enemy_Citizen_Unhappy_Pct"
+value   = 100
 
 [effect_enemy_unhappiness_communism]
-name    = "Enemy_Citizen_Unhappy_Div"
-value   = 1
+name    = "Enemy_Citizen_Unhappy_Pct"
+value   = -50
 reqs	=
     { "type", "name", "range"
       "Gov", "Communism", "Player"
     }
 
 [effect_enemy_unhappiness_republic]
-name    = "Enemy_Citizen_Unhappy_Div"
-value   = 1
+name    = "Enemy_Citizen_Unhappy_Pct"
+value   = -50
 reqs	=
     { "type", "name", "range"
       "Gov", "Republic", "Player"
     }
 
 [effect_enemy_unhappiness_democracy]
-name    = "Enemy_Citizen_Unhappy_Div"
-value   = 2
+name    = "Enemy_Citizen_Unhappy_Pct"
+value   = -67
 reqs	=
     { "type", "name", "range"
       "Gov", "Democracy", "Player"

@@ -2294,9 +2294,9 @@ static inline void citizen_happiness_nationality(struct city *pcity)
   citizens *unhappy = &pcity->feel[CITIZEN_UNHAPPY][FEELING_NATIONALITY];
 
   if (game.info.citizen_nationality) {
-    int divider = get_city_bonus(pcity, EFT_ENEMY_CITIZEN_UNHAPPY_DIV);
+    int pct = get_city_bonus(pcity, EFT_ENEMY_CITIZEN_UNHAPPY_PCT);
 
-    if (divider > 0) {
+    if (pct > 0) {
       int enemies = 0;
       int unhappy_inc;
       struct player *owner = city_owner(pcity);
@@ -2307,7 +2307,7 @@ static inline void citizen_happiness_nationality(struct city *pcity)
         }
       } citizens_foreign_iterate_end;
 
-      unhappy_inc = enemies/divider;
+      unhappy_inc = enemies * pct / 100;
 
       if (unhappy_inc <= *content) {
         (*content) -= unhappy_inc;

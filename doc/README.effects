@@ -152,10 +152,9 @@ content.
 Make_Happy
     Make amount citizens happy.
 
-Enemy_Citizen_Unhappy_Div
-    There will be one extra unhappy citizen for each value citizens of enemy
-    nationality in the city. Value 0 disables creation of such unhappy
-    citizens.
+Enemy_Citizen_Unhappy_Pct
+    There will be one extra unhappy citizen for each value/100 citizens
+    of enemy nationality in the city.
 
 No_Anarchy
     No period of anarchy between government changes. (This also neuters
