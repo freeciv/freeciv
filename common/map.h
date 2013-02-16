@@ -514,6 +514,17 @@ extern struct terrain_misc terrain_control;
 #define cardinal_adjc_dir_base_iterate_end                                     \
   adjc_dirlist_base_iterate_end
 
+/* Iterate through all tiles cardinally adjacent to both tile1 and tile2 */
+#define cardinal_between_iterate(tile1, tile2, between)                        \
+  cardinal_adjc_iterate(tile1, between) {                                      \
+    cardinal_adjc_iterate(between, second) {                                   \
+    if (same_pos(second, tile2)) {
+
+#define cardinal_between_iterate_end                                           \
+      }                                                                        \
+    } cardinal_adjc_iterate_end;                                               \
+  } cardinal_adjc_iterate_end;
+
 /* Iterate through all tiles adjacent to a tile using the given list of
  * directions.  _dir is the directional value, (center_x, center_y) is
  * the center tile (which must be normalized).

@@ -787,7 +787,15 @@ static int tile_move_cost_ptrs(const struct unit *punit,
               if (cardinal_move) {
                 road_cost = proad->move_cost;
               } else {
-                road_cost = proad->move_cost * 2;
+                cardinal_between_iterate(t1, t2, between) {
+                  if (tile_has_road(between, proad)) {
+                    /* TODO: Should we restrict this more?
+                     * Should we check against enemy cities on between tile?
+                     * Should we check against non-native terrain on between tile?
+                     */
+                    road_cost = proad->move_cost * 2;
+                  }
+                } cardinal_between_iterate_end;
               }
               break;
             case RMM_FAST_ALWAYS:
