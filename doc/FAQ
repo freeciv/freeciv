@@ -702,8 +702,8 @@ Starting game.
 
 3.5 Am I using the latest version? Do I need to upgrade?
 
-   The current stable Freeciv version is 2.3.2. For an overview of changes
-   that went into this release, see the NEWS-2.3.2 article.
+   The current stable Freeciv version is 2.3.4. For an overview of changes
+   that went into this release, see the NEWS-2.3.4 article.
 
    The NEWS-#.#.# article is only updated for a new release; updates to
    Subversion are listed in the freeciv-commits archives (see Mailing
@@ -714,14 +714,14 @@ Starting game.
    contributed binaries.
 
    It's unlikely that all precompiled binaries and ports have been updated
-   to 2.3.2 yet. If you can contribute, please do! Prepare a package and
+   to 2.3.4 yet. If you can contribute, please do! Prepare a package and
    announce it to freeciv-dev@gna.org.
 
    Clients and servers of different major versions are generally
    incompatible due to changes in the client/server protocol. You will see
    incompatibilities as a 'mismatched capabilities' error. Different minor
    versions should be compatible, however. For example, 2.0.0 and 2.0.8
-   are compatible; 2.0.0 and 2.3.2 are not.
+   are compatible; 2.0.0 and 2.3.4 are not.
 
 -------
 
@@ -1232,8 +1232,8 @@ set HOME="C:\Documents And Settings\(your username goes here)\Application Data"
 
    If you used one of the self installer versions then there's a program
    group with the name chosen at installation time (for example,
-   Freeciv-2.3.2.) Just go to click on
-   Start→Programs→Freeciv-2.3.2→Freeciv
+   Freeciv-2.3.4.) Just go to click on
+   Start→Programs→Freeciv-2.3.4→Freeciv
 
    That's it! You should be up and running.
 
@@ -1276,8 +1276,8 @@ set HOME="C:\Documents And Settings\(your username goes here)\Application Data"
 
    Then you have to unpack the tileset into the DATA or root directory in
    your Freeciv directory (so if your Freeciv directory is
-   C:\FREECIV-2.3.2, then you'd tell 7-Zip to extract to
-   C:\FREECIV-2.3.2\DATA.) Make sure you tell your extraction program to
+   C:\FREECIV-2.3.4, then you'd tell 7-Zip to extract to
+   C:\FREECIV-2.3.4\DATA.) Make sure you tell your extraction program to
    extract into the subdirectories in the file.
 
    Once that's done you can start using the new tileset (FINALLY!)
@@ -1290,7 +1290,7 @@ set HOME="C:\Documents And Settings\(your username goes here)\Application Data"
    the Freeciv client when you start it. Open a Command Prompt (from
    Start→Programs→Accessories→Command Prompt in my case, sometimes called
    an MS-DOS Window). Change to the Freeciv directory (for example, cd
-   \FREECIV-2.3.2) and start the client with the --tiles tilesetname
+   \FREECIV-2.3.4) and start the client with the --tiles tilesetname
    option. For example for the gtk2 client,
 FREECIV-GTK2 --tiles freeland
 
@@ -1305,7 +1305,7 @@ FREECIV-GTK2 --tiles freeland
 
    Otherwise, a different ruleset can be used by downloading the ruleset
    and extracting it in the Freeciv root or data directory
-   (C:\FREECIV-2.3.2\DATA, for example). This should create a subdirectory
+   (C:\FREECIV-2.3.4\DATA, for example). This should create a subdirectory
    with the ruleset name (ancients, for example.)
 
    Then you need to tell the server to use it. This is done by typing
