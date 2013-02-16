@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-08 12:06+0000\n"
+"POT-Creation-Date: 2013-02-16 09:43+0000\n"
 "PO-Revision-Date: 2007-12-10 21:13+0900\n"
 "Last-Translator: Sungdae\n"
 "Language-Team: Korean language team\n"
@@ -996,7 +996,7 @@ msgstr "이동"
 msgid "Food/Shield/Gold:"
 msgstr ""
 
-#: common/unit.c:1839 client/text.c:1199
+#: common/unit.c:1874 client/text.c:1199
 #: client/gui-gtk-2.0/diplomat_dialog.c:89
 #: client/gui-gtk-2.0/diplomat_dialog.c:552 client/gui-gtk-2.0/citydlg.c:2618
 #: client/gui-gtk-2.0/repodlgs.c:1506 client/gui-sdl/citydlg.c:1147
@@ -1015,7 +1015,7 @@ msgstr[1] ""
 "%d의 금을 자금으로 갖고 있습니다."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:1849
+#: common/unit.c:1884
 #, fuzzy, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -1030,13 +1030,13 @@ msgstr[1] ""
 "%s에서 %s(으)로 %d의 금이 필요한데 업그레이드 하시겠습니까?\n"
 "%d의 금을 자금으로 갖고 있습니다."
 
-#: common/unit.c:1858
+#: common/unit.c:1893
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "미안하지만 %s를(을) 업그레이드 할수 없습니다(아직)"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:1864
+#: common/unit.c:1899
 #, fuzzy, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -1051,16 +1051,16 @@ msgstr[1] ""
 "%s에서 %s(으)로 %d의 금을 소비하여 업그레이드 합니다.\n"
 "%d의 금을 자금으로 갖고 있습니다."
 
-#: common/unit.c:1874
+#: common/unit.c:1909
 msgid "You can only upgrade units in your cities."
 msgstr "당신은 오직 당신도시 안에서 부대를 업그레이드 시킬수 있습니다"
 
-#: common/unit.c:1878
+#: common/unit.c:1913
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr "이 %s의 업그레이드는 해안가로 운반할 것입니다"
 
-#: common/unit.c:1883
+#: common/unit.c:1918
 #, fuzzy, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
@@ -1455,22 +1455,22 @@ msgstr ""
 msgid "FALSE"
 msgstr ""
 
-#: utility/support.c:421
+#: utility/support.c:424
 #, c-format
 msgid "error %ld (failed FormatMessage)"
 msgstr "에러 %ld(포멧메세지 실패)"
 
-#: utility/support.c:434
+#: utility/support.c:437
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "에러 %d(sterror이 없는 컴파일)"
 
-#: ai/aicity.c:265 server/citytools.c:2376
+#: ai/aicity.c:265 server/citytools.c:2380
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%s(은)는 %s의 건설을 %s에서 중단했습니다."
 
-#: ai/aicity.c:276 server/citytools.c:2414
+#: ai/aicity.c:276 server/citytools.c:2418
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "%s(은)는 %s의 건설을 %s에서 시작했습니다."
@@ -2009,149 +2009,149 @@ msgstr "안타깝게 이름지어진 도시"
 msgid "Changed homecity of %s to %s."
 msgstr "홈시티를  %s 에서  %s 로(으로) 변경하였습니다"
 
-#: server/citytools.c:589
+#: server/citytools.c:591
 #, c-format
 msgid "Transferred %s in %s from %s to %s."
 msgstr "%s을 %s안에 있는, %s에서 %s로 옮겼습니다"
 
-#: server/citytools.c:603
+#: server/citytools.c:605
 #, c-format
 msgid "Transferred %s from %s to %s."
 msgstr "%2$s에서  %3$s로  %1$s를 운반하였습니다"
 
 #. TRANS: Polish Destroyer ... German <city>
-#: server/citytools.c:617
+#: server/citytools.c:619
 #, c-format
 msgid "%s %s lost in transfer to %s %s"
 msgstr ""
 
-#: server/citytools.c:709
+#: server/citytools.c:713
 #, c-format
 msgid "%s lost along with control of %s."
 msgstr ""
 
 #. TRANS: <building> ... <city>
-#: server/citytools.c:906
+#: server/citytools.c:910
 #, fuzzy, c-format
 msgid "A replacement %s was built in %s."
 msgstr "새로운  %s 는  %s 에 지어졌습니다"
 
-#: server/citytools.c:995
+#: server/citytools.c:999
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr ""
 "당신은 이미  %s 라 불리우는 도시를 갖고 있습니다. 그 도시는  %s 로 다시 이름"
 "지어졌습니다"
 
-#: server/citytools.c:1060
+#: server/citytools.c:1064
 #, c-format
 msgid ""
 "The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
 
-#: server/citytools.c:1332
+#: server/citytools.c:1336
 #, c-format
 msgid "You have founded %s."
 msgstr "당신은  %s 을(를) 발견하였습니다"
 
-#: server/citytools.c:1410
+#: server/citytools.c:1414
 #, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr ""
 
-#: server/citytools.c:1423
+#: server/citytools.c:1427
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr ""
 
-#: server/citytools.c:1582
+#: server/citytools.c:1586
 #, c-format
 msgid "You destroy %s completely."
 msgstr "당신은 %s를 완전히 파괴시켰습니다"
 
-#: server/citytools.c:1585
+#: server/citytools.c:1589
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%s는 %s에 의해 파괴되었습니다."
 
-#: server/citytools.c:1611
+#: server/citytools.c:1615
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:1618
+#: server/citytools.c:1622
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:1627
+#: server/citytools.c:1631
 #, fuzzy, c-format
 msgid "You conquer %s."
 msgstr "당신은  %s를 정복했습니다"
 
-#: server/citytools.c:1630
+#: server/citytools.c:1634
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s 가 %s를 정복했습니다"
 
-#: server/citytools.c:1637
+#: server/citytools.c:1641
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:1644
+#: server/citytools.c:1648
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:1653
+#: server/citytools.c:1657
 #, c-format
 msgid "You have liberated %s!"
 msgstr "당신은 %s를 약탈했습니다!"
 
-#: server/citytools.c:1656
+#: server/citytools.c:1660
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s는 %s를 약탈했습니다"
 
-#: server/citytools.c:2393
+#: server/citytools.c:2397
 msgid " from the worklist"
 msgstr "작업리스트로 부터"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:2405
+#: server/citytools.c:2409
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s는 %s%s를 건설하고 있습니다"
 
-#: server/citytools.c:2571
+#: server/citytools.c:2575
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:2704
+#: server/citytools.c:2708
 #, fuzzy, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "홈시티를  %s 에서  %s 로(으로) 변경하였습니다"
 
-#: server/citytools.c:2706
+#: server/citytools.c:2710
 #, fuzzy
 msgid "increased"
 msgstr "공군 기지"
 
-#: server/citytools.c:2707
+#: server/citytools.c:2711
 msgid "reduced"
 msgstr ""
 
@@ -4228,90 +4228,90 @@ msgstr ""
 msgid "Player creation failed."
 msgstr "플레이어 멸망함"
 
-#: server/edithand.c:1045
+#: server/edithand.c:1044
 #, c-format
 msgid "No such player (ID %d)."
 msgstr ""
 
-#: server/edithand.c:1074
+#: server/edithand.c:1073
 #, c-format
 msgid "Cannot edit player with invalid player ID %d."
 msgstr ""
 
-#: server/edithand.c:1091
+#: server/edithand.c:1090
 #, c-format
 msgid "Cannot change name of player (%d) '%s' to '%s': %s"
 msgstr ""
 
-#: server/edithand.c:1102
+#: server/edithand.c:1101
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) because the given nation ID %d is "
 "invalid."
 msgstr ""
 
-#: server/edithand.c:1108
+#: server/edithand.c:1107
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
 "nation is already assigned to player %d (%s)."
 msgstr ""
 
-#: server/edithand.c:1144
+#: server/edithand.c:1143
 #, c-format
 msgid ""
 "Cannot set gold for player %d (%s) because the value %d is outside the "
 "allowed range."
 msgstr ""
 
-#: server/edithand.c:1203
+#: server/edithand.c:1202
 #, c-format
 msgid "Cannot edit vision because %d is not a valid tile index on this map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:1212
+#: server/edithand.c:1211
 #, c-format
 msgid ""
 "Cannot edit vision for the tile at %s because given player id %d is invalid."
 msgstr ""
 
-#: server/edithand.c:1285
+#: server/edithand.c:1284
 #, c-format
 msgid "No such city (ID %d)."
 msgstr ""
 
-#: server/edithand.c:1311
+#: server/edithand.c:1310
 msgid "Cannot toggle fog-of-war when it is already disabled."
 msgstr ""
 
-#: server/edithand.c:1319
+#: server/edithand.c:1318
 #, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
 msgstr ""
 
-#: server/edithand.c:1347 server/edithand.c:1386
+#: server/edithand.c:1346 server/edithand.c:1385
 #, c-format
 msgid "Invalid tile index %d for start position."
 msgstr ""
 
-#: server/edithand.c:1394
+#: server/edithand.c:1393
 #, c-format
 msgid ""
 "Cannot edit start position nations at (%d, %d) because there is no start "
 "position there."
 msgstr ""
 
-#: server/edithand.c:1426
+#: server/edithand.c:1425
 #, c-format
 msgid "Cannot set invalid game year %d. Valid year range is from %d to %d."
 msgstr ""
 
-#: server/edithand.c:1469
+#: server/edithand.c:1468
 msgid "No permissions to remotely save scenario."
 msgstr ""
 
-#: server/edithand.c:1476
+#: server/edithand.c:1475
 msgid "Scenario information not set. Cannot save scenario."
 msgstr ""
 
@@ -4477,7 +4477,7 @@ msgstr ""
 msgid "Not reporting to the metaserver in this game."
 msgstr ""
 
-#: server/meta.c:484
+#: server/meta.c:492
 #, fuzzy, c-format
 msgid "Metaserver: bad address: <%s %d>."
 msgstr "metaserver <주소>"
@@ -4545,130 +4545,130 @@ msgstr ""
 msgid "Luxury rate exceeded the max rate; adjusted."
 msgstr ""
 
-#: server/plrhand.c:538
+#: server/plrhand.c:555
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s는 더이상 시야를 공유하지 않습니다"
 
-#: server/plrhand.c:549
+#: server/plrhand.c:566
 #, c-format
 msgid ""
 "The senate will not allow you to break treaty with the %s.  You must either "
 "dissolve the senate or wait until a more timely moment."
 msgstr ""
 
-#: server/plrhand.c:600
+#: server/plrhand.c:617
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr ""
 
-#: server/plrhand.c:605
+#: server/plrhand.c:622
 #, c-format
 msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
 "finding a new senate."
 msgstr ""
 
-#: server/plrhand.c:649
+#: server/plrhand.c:657
 #, c-format
 msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr ""
 
-#: server/plrhand.c:655
+#: server/plrhand.c:663
 #, c-format
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
 
-#: server/plrhand.c:673
+#: server/plrhand.c:681
 #, c-format
 msgid ""
 "%s has attacked your ally %s! You cancel your alliance to the aggressor."
 msgstr ""
 
-#: server/plrhand.c:685
+#: server/plrhand.c:693
 #, c-format
 msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
 "with %s."
 msgstr ""
 
-#: server/plrhand.c:1219
+#: server/plrhand.c:1227
 #, c-format
 msgid "Removing player %s."
 msgstr " %s플레이어 없앰"
 
-#: server/plrhand.c:1222
+#: server/plrhand.c:1230
 msgid "You've been removed from the game!"
 msgstr "당신은 게임으로 부터 제거 되었습니다"
 
-#: server/plrhand.c:1225
+#: server/plrhand.c:1233
 #, c-format
 msgid "%s has been removed from the game."
 msgstr ""
 
-#: server/plrhand.c:1331
+#: server/plrhand.c:1339
 msgid "Please choose a non-blank name."
 msgstr ""
 
-#: server/plrhand.c:1344
+#: server/plrhand.c:1352
 msgid "That nation is already in use."
 msgstr "그 국가는 이미 사용되고 있습니다."
 
-#: server/plrhand.c:1349
+#: server/plrhand.c:1357
 #, fuzzy, c-format
 msgid "Another player already has the name '%s'. Please choose another name."
 msgstr "또다른 플레이어가 이미 %s 이름을 갖고 있습니다. 다른 이름을 사용하세요"
 
-#: server/plrhand.c:1373
+#: server/plrhand.c:1381
 msgid "Please choose a name containing only ASCII characters."
 msgstr ""
 
-#: server/plrhand.c:1448 server/plrhand.c:1462
+#: server/plrhand.c:1456 server/plrhand.c:1470
 #, fuzzy, c-format
 msgid "Player no. %d"
 msgstr "사용자 %d"
 
-#: server/plrhand.c:1477
+#: server/plrhand.c:1485
 #, fuzzy
 msgid "A poorly-named player"
 msgstr "안타깝게 이름지어진 도시"
 
-#: server/plrhand.c:1547 server/plrhand.c:1551
+#: server/plrhand.c:1555 server/plrhand.c:1559
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr ""
 
-#: server/plrhand.c:2028
+#: server/plrhand.c:2036
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr ""
 
-#: server/plrhand.c:2034
+#: server/plrhand.c:2042
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr ""
 
-#: server/plrhand.c:2064
+#: server/plrhand.c:2072
 msgid "Your nation is thrust into civil war."
 msgstr ""
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:2068
+#: server/plrhand.c:2076
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr ""
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:2088
+#: server/plrhand.c:2096
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr ""
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:2106
+#: server/plrhand.c:2114
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -5140,8 +5140,8 @@ msgstr ""
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr ""
 
-#: server/savegame.c:5278 server/savegame2.c:3061 server/srv_main.c:1826
-#: server/srv_main.c:1830
+#: server/savegame.c:5278 server/savegame2.c:3061 server/srv_main.c:1829
+#: server/srv_main.c:1833
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr ""
@@ -7206,107 +7206,107 @@ msgstr ""
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr ""
 
-#: server/srv_main.c:699
+#: server/srv_main.c:702
 #, c-format
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
 "your alliance with both."
 msgstr ""
 
-#: server/srv_main.c:1192 server/srv_main.c:1195
+#: server/srv_main.c:1195 server/srv_main.c:1198
 #, c-format
 msgid "Unsupported compression type %d."
 msgstr ""
 
-#: server/srv_main.c:1225
+#: server/srv_main.c:1228
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "%s 로 게임저장 실패"
 
-#: server/srv_main.c:1227
+#: server/srv_main.c:1230
 #, c-format
 msgid "Game saved as %s"
 msgstr ""
 
-#: server/srv_main.c:1261
+#: server/srv_main.c:1264
 msgid "The game is already running."
 msgstr "게임은 이미 진행중입니다."
 
-#: server/srv_main.c:1269
+#: server/srv_main.c:1272
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 
-#: server/srv_main.c:1276
+#: server/srv_main.c:1279
 msgid "Starting game."
 msgstr "게임 시작"
 
-#: server/srv_main.c:1347
+#: server/srv_main.c:1350
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr ""
 
-#: server/srv_main.c:1427
+#: server/srv_main.c:1430
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "경고 : 오래된 클라이언트 %s 가(이) 거부됨"
 
-#: server/srv_main.c:1437
+#: server/srv_main.c:1440
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
 msgstr ""
 
-#: server/srv_main.c:1495
+#: server/srv_main.c:1498
 #, fuzzy
 msgid "You are not allowed to edit."
 msgstr "당신은 이 옵션을 설정하도록 허용되지 않았습니다"
 
-#: server/srv_main.c:1684
+#: server/srv_main.c:1687
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "%s 이름의 나라는 이 시나리오에서 가능하지 않습니다"
 
-#: server/srv_main.c:1690
+#: server/srv_main.c:1693
 #, c-format
 msgid "%s nation is already in use."
 msgstr ""
 
-#: server/srv_main.c:1703
+#: server/srv_main.c:1706
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s(은)는 %s의 통치자 %s입니다."
 
-#: server/srv_main.c:1759
+#: server/srv_main.c:1762
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "게임시작을 기다립니다: (%d 명 총 %d 명중) 이 이미 시작하였습니다"
 
-#: server/srv_main.c:2071 server/srv_main.c:2075
+#: server/srv_main.c:2080 server/srv_main.c:2084
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s(은)는 %s(을)를 통치합니다."
 
-#: server/srv_main.c:2211
+#: server/srv_main.c:2220
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
 msgstr ""
 
-#: server/srv_main.c:2274
+#: server/srv_main.c:2283
 #, fuzzy, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "metaserver <주소>"
 
-#: server/srv_main.c:2278
+#: server/srv_main.c:2287
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 
-#: server/srv_main.c:2299
+#: server/srv_main.c:2308
 msgid "The game is over..."
 msgstr "게임이 끝났습니다..."
 
-#: server/srv_main.c:2552
+#: server/srv_main.c:2569
 msgid "Now accepting new client connections."
 msgstr ""
 
@@ -8704,62 +8704,62 @@ msgstr ""
 msgid "Researching %s."
 msgstr ""
 
-#: server/techtools.c:405
+#: server/techtools.c:407
 msgid ""
 "Great scientists from all the world join your civilization: you get an "
 "immediate advance."
 msgstr ""
 
-#: server/techtools.c:474
+#: server/techtools.c:482
 #, c-format
 msgid "Insufficient science output. We lost Future Tech. %d."
 msgstr ""
 
-#: server/techtools.c:481
+#: server/techtools.c:489
 #, fuzzy, c-format
 msgid "Insufficient science output. We lost %s."
 msgstr "도시 안의 과학 생산물을 50% 로 증가시킵니다."
 
-#: server/techtools.c:579
+#: server/techtools.c:587
 #, c-format
 msgid ""
 "The required technology for our government '%s' was lost. The citizens have "
 "started a revolution into '%s'."
 msgstr ""
 
-#: server/techtools.c:602
+#: server/techtools.c:610
 #, c-format
 msgid ""
 "The required technology for our new government '%s' was lost. The citizens "
 "chose '%s' as new target government."
 msgstr ""
 
-#: server/techtools.c:640 server/techtools.c:652
+#: server/techtools.c:648 server/techtools.c:660
 #, c-format
 msgid "%s can't build %s. The required technology was lost."
 msgstr ""
 
-#: server/techtools.c:769
+#: server/techtools.c:777
 #, c-format
 msgid "Technology goal is %s."
 msgstr ""
 
-#: server/techtools.c:952
+#: server/techtools.c:960
 #, c-format
 msgid "You steal %s from the %s."
 msgstr ""
 
-#: server/techtools.c:957
+#: server/techtools.c:965
 #, c-format
 msgid "The %s stole %s from you!"
 msgstr ""
 
-#: server/techtools.c:962
+#: server/techtools.c:970
 #, c-format
 msgid "The %s have stolen %s from the %s."
 msgstr ""
 
-#: server/techtools.c:1082
+#: server/techtools.c:1090
 #, c-format
 msgid "Too bad! You made a mistake transferring the tech %s and lost it."
 msgstr ""
@@ -8916,7 +8916,7 @@ msgstr ""
 msgid "Cannot attack from sea."
 msgstr ""
 
-#: server/unithand.c:1224 server/unittools.c:2351
+#: server/unithand.c:1224 server/unittools.c:2353
 msgid "Cannot attack unless you declare war first."
 msgstr ""
 
@@ -8930,7 +8930,7 @@ msgstr ""
 msgid "%s cannot move that far from the coast line."
 msgstr ""
 
-#: server/unithand.c:1242 server/unittools.c:2358
+#: server/unithand.c:1242 server/unittools.c:2360
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr ""
@@ -9040,70 +9040,70 @@ msgstr ""
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr ""
 
-#: server/unittools.c:274
+#: server/unittools.c:276
 #, c-format
 msgid "%s was upgraded for free to %s."
 msgstr ""
 
-#: server/unittools.c:322
+#: server/unittools.c:324
 #, c-format
 msgid "Your %s has run out of hit points."
 msgstr ""
 
-#: server/unittools.c:398
+#: server/unittools.c:400
 #, c-format
 msgid "Your %s has returned to refuel."
 msgstr ""
 
-#: server/unittools.c:429
+#: server/unittools.c:431
 #, c-format
 msgid "Your %s has run out of fuel."
 msgstr ""
 
 #. TRANS: Your <unit> became ...
-#: server/unittools.c:645
+#: server/unittools.c:647
 #, c-format
 msgid "Your %s became more experienced and became %s."
 msgstr ""
 
-#: server/unittools.c:1050
+#: server/unittools.c:1052
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr ""
 
 #. TRANS: A unit is moved to resolve stack conflicts.
-#: server/unittools.c:1113
+#: server/unittools.c:1115
 #, c-format
 msgid "Moved your %s."
 msgstr "당신의 %s(을)를 이동시켰습니다."
 
 #. TRANS: A unit is disbanded to resolve stack conflicts.
-#: server/unittools.c:1124
+#: server/unittools.c:1126
 #, c-format
 msgid "Disbanded your %s."
 msgstr ""
 
-#: server/unittools.c:1476
+#: server/unittools.c:1478
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr ""
 
-#: server/unittools.c:1480
+#: server/unittools.c:1482
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 
-#: server/unittools.c:1528
+#: server/unittools.c:1530
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr ""
 
-#: server/unittools.c:1608
+#: server/unittools.c:1610
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr ""
 
-#: server/unittools.c:1713
+#: server/unittools.c:1715
 #, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgid_plural "Barbarian leader captured; %d gold ransom paid."
@@ -9111,19 +9111,19 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1733
+#: server/unittools.c:1735
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr ""
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1742 server/unittools.c:1803
+#: server/unittools.c:1744 server/unittools.c:1805
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr ""
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1778
+#: server/unittools.c:1780
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -9133,14 +9133,14 @@ msgstr[1] ""
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1813
+#: server/unittools.c:1815
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr ""
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1829
+#: server/unittools.c:1831
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr ""
@@ -9148,7 +9148,7 @@ msgstr ""
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1840
+#: server/unittools.c:1842
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -9158,169 +9158,169 @@ msgstr[1] ""
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1855
+#: server/unittools.c:1857
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/unittools.c:2124
+#: server/unittools.c:2126
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr ""
 
-#: server/unittools.c:2127 server/unittools.c:2145
+#: server/unittools.c:2129 server/unittools.c:2147
 msgid "yourself"
 msgstr ""
 
-#: server/unittools.c:2131
+#: server/unittools.c:2133
 #, c-format
 msgid "The %s %s was nuked."
 msgstr ""
 
-#: server/unittools.c:2142
+#: server/unittools.c:2144
 #, c-format
 msgid "%s was nuked by %s."
 msgstr ""
 
-#: server/unittools.c:2150
+#: server/unittools.c:2152
 #, c-format
 msgid "You nuked %s."
 msgstr ""
 
-#: server/unittools.c:2202
+#: server/unittools.c:2204
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr ""
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2226 server/unittools.c:2234
+#: server/unittools.c:2228 server/unittools.c:2236
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr ""
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2245
+#: server/unittools.c:2247
 #, fuzzy, c-format
 msgid "%s cannot be transported to %s."
 msgstr "%s(으)로 개조"
 
-#: server/unittools.c:2255
+#: server/unittools.c:2257
 #, c-format
 msgid "%s transported successfully."
 msgstr ""
 
-#: server/unittools.c:2314
+#: server/unittools.c:2316
 msgid "This unit type can not be paradropped."
 msgstr ""
 
-#: server/unittools.c:2324
+#: server/unittools.c:2326
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr ""
 
-#: server/unittools.c:2330
+#: server/unittools.c:2332
 msgid "The destination location is not known."
 msgstr ""
 
-#: server/unittools.c:2340
+#: server/unittools.c:2342
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr ""
 
-#: server/unittools.c:2369
+#: server/unittools.c:2371
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 
-#: server/unittools.c:2380
+#: server/unittools.c:2382
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr ""
 
-#: server/unittools.c:2394
+#: server/unittools.c:2396
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 
-#: server/unittools.c:2427 data/default/default.lua:22
+#: server/unittools.c:2429 data/default/default.lua:22
 #, fuzzy, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
 msgstr[0] "%d금을 찾았습니다."
 msgstr[1] "%d금을 찾았습니다."
 
-#: server/unittools.c:2434 data/default/default.lua:94
+#: server/unittools.c:2436 data/default/default.lua:94
 msgid "An abandoned village is here."
 msgstr ""
 
-#: server/unittools.c:2437 data/default/default.lua:104
+#: server/unittools.c:2439 data/default/default.lua:104
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr ""
 
-#: server/unittools.c:2465
+#: server/unittools.c:2467
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 
-#: server/unittools.c:2718
+#: server/unittools.c:2741
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 
-#: server/unittools.c:3249
+#: server/unittools.c:3260
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr ""
 
-#: server/unittools.c:3300
+#: server/unittools.c:3311
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr ""
 
-#: server/unittools.c:3316
+#: server/unittools.c:3327
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 
-#: server/unittools.c:3335
+#: server/unittools.c:3346
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 
-#: server/unittools.c:3345
+#: server/unittools.c:3356
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr ""
 
-#: server/unittools.c:3370
+#: server/unittools.c:3381
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr ""
 
-#: server/unittools.c:3410
+#: server/unittools.c:3421
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr ""
 
-#: server/unittools.c:3421
+#: server/unittools.c:3432
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr ""
 
-#: server/unittools.c:3433
+#: server/unittools.c:3444
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr ""
 
-#: server/unittools.c:3442
+#: server/unittools.c:3453
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr ""
 
-#: server/unittools.c:3540
+#: server/unittools.c:3551
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."
@@ -9370,15 +9370,15 @@ msgstr ""
 msgid "%s (needs %0.0f%% in favor)."
 msgstr ""
 
-#: server/generator/mapgen.c:2098
+#: server/generator/mapgen.c:2094
 msgid "High landmass - this may take a few seconds."
 msgstr ""
 
-#: server/generator/mapgen.c:2374
+#: server/generator/mapgen.c:2370
 msgid "Generator 3 didn't place all big islands."
 msgstr ""
 
-#: server/generator/mapgen.c:2403
+#: server/generator/mapgen.c:2399
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr ""
@@ -10153,11 +10153,11 @@ msgstr ""
 msgid "The %s give an embassy"
 msgstr ""
 
-#: client/climisc.c:997
+#: client/climisc.c:1009
 msgid "Popup Request"
 msgstr ""
 
-#: client/climisc.c:1101
+#: client/climisc.c:1113
 #, fuzzy, c-format
 msgid "You can't buy %s in %s!"
 msgstr "당신은 %s 을(를) 살수 없습니다"
@@ -10165,7 +10165,7 @@ msgstr "당신은 %s 을(를) 살수 없습니다"
 #. TRANS: %s is a production type; this whole string is a sentence
 #. * fragment that is only ever included in one other string
 #. * (search comments for this string to find it)
-#: client/climisc.c:1116
+#: client/climisc.c:1128
 #, fuzzy, c-format
 msgid "%s costs %d gold"
 msgid_plural "%s costs %d gold"
@@ -10174,7 +10174,7 @@ msgstr[1] "%s(을)를 %d의 금으로 팔겠습니까?"
 
 #. TRANS: %s is a pre-pluralised sentence fragment:
 #. * "%s costs %d gold"
-#: client/climisc.c:1123
+#: client/climisc.c:1135
 #, fuzzy, c-format
 msgid "%s and you only have %d gold."
 msgid_plural "%s and you only have %d gold."

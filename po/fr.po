@@ -15,14 +15,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-02 00:57+0200\n"
+"POT-Creation-Date: 2013-02-16 09:43+0000\n"
 "PO-Revision-Date: 2013-02-15 22:25+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: KBabel 1.11.2\n"
 
@@ -1319,8 +1319,8 @@ msgstr ""
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" save directories instead."
 msgstr ""
-"\"%s\" est spécifié mais vide ; les répertoires de sauvegardes par défaut "
-"\"%s\" seront utilisés à la place."
+"\"%s\" est spécifié mais vide ; les répertoires de sauvegardes par défaut \"%"
+"s\" seront utilisés à la place."
 
 #. TRANS: <FREECIV_PATH> configuration error
 #: utility/shared.c:1062
@@ -1421,12 +1421,12 @@ msgstr "VRAI"
 msgid "FALSE"
 msgstr "FAUX"
 
-#: utility/support.c:421
+#: utility/support.c:424
 #, c-format
 msgid "error %ld (failed FormatMessage)"
 msgstr "erreur %ld (échec FormatMessage)"
 
-#: utility/support.c:434
+#: utility/support.c:437
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "erreur %d (compilation sans strerror)"
@@ -1459,8 +1459,8 @@ msgstr "*%s (IA)* Rompez d'abord votre alliance avec %s, %s."
 #: ai/advdiplomacy.c:341
 #, c-format
 msgid ""
-"*%s (AI)* I would like to see you keep your distance from %s for some time, "
-"%s."
+"*%s (AI)* I would like to see you keep your distance from %s for some time, %"
+"s."
 msgstr ""
 "*%s (IA)* J'aurais aimé vous voir garder vos distances avec %s pour quelques "
 "temps, %s."
@@ -1726,8 +1726,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1611
 #, c-format
 msgid ""
-"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
-"%s. Why do I need to remind you of your promises?"
+"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
+"s. Why do I need to remind you of your promises?"
 msgstr ""
 "*%s (IA)* Salutations allié, je vois que vous n'avez pas encore déclaré la "
 "guerre à notre ennemi, %s. Pourquoi dois-je vous rappeler vos promesses ?"
@@ -1818,8 +1818,8 @@ msgid ""
 "Cannot load auth config file '%s':\n"
 "%s"
 msgstr ""
-"Impossible de charger le fichier de configuration de l'authentification "
-"'%s':\n"
+"Impossible de charger le fichier de configuration de l'authentification '%"
+"s':\n"
 "%s"
 
 #: server/auth.c:400
@@ -4395,8 +4395,8 @@ msgstr ""
 #, c-format
 msgid "The %s have caused an incident while inciting a revolt in %s."
 msgstr ""
-"Les %s ont provoqué un incident diplomatique en fomentant une révolte dans "
-"%s."
+"Les %s ont provoqué un incident diplomatique en fomentant une révolte dans %"
+"s."
 
 #: server/edithand.c:190
 #, c-format
@@ -5902,8 +5902,8 @@ msgstr ""
 #: server/settings.c:669
 #, c-format
 msgid ""
-"Requested value (%d) is greater than number of available start positions "
-"(%d). Keeping old value."
+"Requested value (%d) is greater than number of available start positions (%"
+"d). Keeping old value."
 msgstr ""
 "Le nombre de joueurs (%d) est plus grand que le nombre de positions de "
 "départ disponibles (%d).\n"
@@ -7713,8 +7713,8 @@ msgstr ""
 "Exemple: 'civgame-T%04T-A%+05Y%S-%R' => 'civgame-T0100-A00001-manual'\n"
 "\n"
 "Prenez garde d'utiliser au moins un fois %T ou %Y, sinon les nouvelles "
-"sauvegardes écraseront les anciennes. Si aucun des formats n'est utilisé '-T"
-"%04T-Y%05Y-%R' est ajouté à la valeur de 'savename'."
+"sauvegardes écraseront les anciennes. Si aucun des formats n'est utilisé '-T%"
+"04T-Y%05Y-%R' est ajouté à la valeur de 'savename'."
 
 #: server/settings.c:2078
 msgid "Whether to log player statistics"
@@ -8842,8 +8842,8 @@ msgstr "Vote"
 #: server/stdinhand.c:2294
 #, c-format
 msgid ""
-"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of "
-"%d players."
+"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of %"
+"d players."
 msgstr ""
 "%s %d \"%s\" (besoin : %0.0f%%%s): %d pour, %d contre, et %d blancs pour un "
 "total de %d joueurs."
@@ -11205,11 +11205,11 @@ msgid "The %s give an embassy"
 msgstr "Les %s donnent une ambassade"
 
 # AR
-#: client/climisc.c:997
+#: client/climisc.c:1009
 msgid "Popup Request"
 msgstr "Ouverture de fenêtre"
 
-#: client/climisc.c:1101
+#: client/climisc.c:1113
 #, c-format
 msgid "You can't buy %s in %s!"
 msgstr "Vous ne pouvez pas acheter %s dans %s !"
@@ -11217,7 +11217,7 @@ msgstr "Vous ne pouvez pas acheter %s dans %s !"
 #. TRANS: %s is a production type; this whole string is a sentence
 #. * fragment that is only ever included in one other string
 #. * (search comments for this string to find it)
-#: client/climisc.c:1116
+#: client/climisc.c:1128
 #, c-format
 msgid "%s costs %d gold"
 msgid_plural "%s costs %d gold"
@@ -11226,7 +11226,7 @@ msgstr[1] "%s coûte %d lingots"
 
 #. TRANS: %s is a pre-pluralised sentence fragment:
 #. * "%s costs %d gold"
-#: client/climisc.c:1123
+#: client/climisc.c:1135
 #, c-format
 msgid "%s and you only have %d gold."
 msgid_plural "%s and you only have %d gold."
@@ -12400,8 +12400,10 @@ msgstr[1] ""
 msgid "* Each of your cities will avoid %d unhappiness caused by units.\n"
 msgid_plural ""
 "* Each of your cities will avoid %d unhappiness caused by units.\n"
-msgstr[0] "* Chacune de vos villes évitera %d mécontentement causé par les unités.\n"
-msgstr[1] "* Chacune de vos villes évitera %d mécontentements causé par les unités.\n"
+msgstr[0] ""
+"* Chacune de vos villes évitera %d mécontentement causé par les unités.\n"
+msgstr[1] ""
+"* Chacune de vos villes évitera %d mécontentements causé par les unités.\n"
 
 #: client/helpdata.c:2151
 #, c-format
@@ -28970,7 +28972,8 @@ msgstr ""
 
 #: data/civ2/units.ruleset:1893
 msgid "Spies built under a Communist government will be built as veteran."
-msgstr "Les espions construits sous un gouvernement communiste naîtront vétérans."
+msgstr ""
+"Les espions construits sous un gouvernement communiste naîtront vétérans."
 
 #: data/civ2/units.ruleset:1937 data/default/units.ruleset:1990
 #: data/experimental/units.ruleset:2005 data/multiplayer/units.ruleset:2089
@@ -29573,14 +29576,18 @@ msgstr ""
 msgid ""
 "Diplomats built under a Communist government will start at the first veteran "
 "level."
-msgstr "Les diplomates construits sous un gouvernement communiste commencent au premier niveau de vétérance."
+msgstr ""
+"Les diplomates construits sous un gouvernement communiste commencent au "
+"premier niveau de vétérance."
 
 #: data/default/units.ruleset:1945 data/experimental/units.ruleset:1960
 #: data/multiplayer/units.ruleset:2044
 msgid ""
 "Spies built under a Communist government will start at the first veteran "
 "level."
-msgstr "Les espions construits sous un gouvernement communiste commencent au premier niveau de vétérance."
+msgstr ""
+"Les espions construits sous un gouvernement communiste commencent au premier "
+"niveau de vétérance."
 
 #: data/default/units.ruleset:2053 data/experimental/units.ruleset:2068
 #: data/multiplayer/units.ruleset:2153
@@ -33063,8 +33070,8 @@ msgid ""
 "coastline between Malibu and Paso Robles inland towards the San Joaquin "
 "valley, the Chumash lived in large permanent villages and maintained a semi-"
 "monetized economy. These villages came to be ruled by hereditary chiefs, who "
-"could be male or female. At time of contact, the population was likely "
-"8-18,000 people, though perhaps as high as 22,000. The Spanish established "
+"could be male or female. At time of contact, the population was likely 8-"
+"18,000 people, though perhaps as high as 22,000. The Spanish established "
 "five missions in Chumash land. As a result of disease and other byproducts "
 "of colonial rule, the population fell to less than 3,000 in 1831."
 msgstr ""
@@ -46217,8 +46224,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 
 #~ msgid "* Can build fortresses (if any of the following are known: %s).\n"
 #~ msgstr ""
-#~ "* Peut construire des forteresses (si connaissance de 1 au moins parmi "
-#~ "%s).\n"
+#~ "* Peut construire des forteresses (si connaissance de 1 au moins parmi %"
+#~ "s).\n"
 
 #~ msgid "* Can build airbases.\n"
 #~ msgstr "* Peut construire des bases aériennes.\n"
@@ -46344,8 +46351,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty "
 #~ "when not celebrating.\n"
 #~ msgstr ""
-#~ "*  Chaque case travaillée qui rend plus de %d %s subira une pénalité de "
-#~ "-1 quand la ville n'est pas en extase.\n"
+#~ "*  Chaque case travaillée qui rend plus de %d %s subira une pénalité de -"
+#~ "1 quand la ville n'est pas en extase.\n"
 
 #~ msgid ""
 #~ "* Each worked tile with at least 1 %s will yield %d more of it when "
@@ -49198,8 +49205,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 
 #~ msgid "Command access level could not be set to '%s' for connection %s."
 #~ msgstr ""
-#~ "Le niveau d'accès aux commandes ne peut être à \"%s\" pour la connexion "
-#~ "%s."
+#~ "Le niveau d'accès aux commandes ne peut être à \"%s\" pour la connexion %"
+#~ "s."
 
 #~ msgid "Observers cannot vote."
 #~ msgstr "Les observateurs ne peuvent pas voter."
@@ -49335,8 +49342,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ "Votre %1$s a réussi à soudoyer %3$s de %2$s et a acquis de l'expérience."
 
 #~ msgid ""
-#~ "Your %s has successfully completed her mission and returned unharmed to "
-#~ "%s and has become more experienced."
+#~ "Your %s has successfully completed her mission and returned unharmed to %"
+#~ "s and has become more experienced."
 #~ msgstr ""
 #~ "Votre %s a rempli sa mission avec succès, est revenu sain et sauf à %s et "
 #~ "a acquis de l'expérience."
@@ -49367,8 +49374,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ "Your attacking %s succeeded against %s's %s (and %d other units)%s and "
 #~ "became more experienced!"
 #~ msgstr[0] ""
-#~ "Votre %1$s a réussi son attaque contre %3$s de %2$s (et %4$d autre "
-#~ "unité)%5$s et a acquis de l'expérience !"
+#~ "Votre %1$s a réussi son attaque contre %3$s de %2$s (et %4$d autre unité)%"
+#~ "5$s et a acquis de l'expérience !"
 #~ msgstr[1] ""
 #~ "Votre %1$s a réussi son attaque contre %3$s de %2$s (et %4$d autres "
 #~ "unités)%5$s et a acquis de l'expérience !"
@@ -49483,8 +49490,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ msgstr "Impossible de copier le texte sur l'affichage : %s"
 
 #~ msgid ""
-#~ "Error in SDL_create_str16_surf: Couldn't convert text to display format: "
-#~ "%s"
+#~ "Error in SDL_create_str16_surf: Couldn't convert text to display format: %"
+#~ "s"
 #~ msgstr ""
 #~ "Erreur dans SDL_create_str16_surf : impossible de convertir le texte au "
 #~ "format d'affichage : %s"
@@ -50428,8 +50435,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 
 #~ msgid "Couldn't open gamelogfile \"%s\" for appending."
 #~ msgstr ""
-#~ "Impossible d'ouvrir le fichier de journal de parties %s pour y ajouter "
-#~ "\"%s\"."
+#~ "Impossible d'ouvrir le fichier de journal de parties %s pour y ajouter \"%"
+#~ "s\"."
 
 #~ msgid "Detail level for logging game events"
 #~ msgstr "Niveau de détail pour la journalisation"
@@ -50625,8 +50632,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ msgid ""
 #~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty.\n"
 #~ msgstr ""
-#~ "* Chaque case travaillée qui rend plus de %d %s subira une pénalité de "
-#~ "-1.\n"
+#~ "* Chaque case travaillée qui rend plus de %d %s subira une pénalité de -"
+#~ "1.\n"
 
 #~ msgid ""
 #~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty "
