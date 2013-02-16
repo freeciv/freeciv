@@ -557,7 +557,7 @@ static struct pf_path *find_rampage_target(struct unit *punit,
   attacking distant (but within reach) targets.
 
   For example, if unit is a bodyguard on duty, it should call
-    ai_military_rampage(punit, 100, RAMPAGE_FREE_CITY_OR_BETTER)
+    dai_military_rampage(punit, 100, RAMPAGE_FREE_CITY_OR_BETTER)
   meaning "we will move _only_ to pick up a free city but we are happy to
   attack adjacent squares as long as they are worthy of it".
 
@@ -900,7 +900,8 @@ static void dai_military_defend(struct ai_type *ait, struct player *pplayer,
     pcity = game_city_by_number(punit->homecity);
   }
 
-  if (dai_military_rampage(punit, RAMPAGE_ANYTHING, RAMPAGE_ANYTHING)) {
+  if (dai_military_rampage(punit, BODYGUARD_RAMPAGE_THRESHOLD * 5,
+                           RAMPAGE_FREE_CITY_OR_BETTER)) {
     /* ... we survived */
     if (pcity) {
       UNIT_LOG(LOG_DEBUG, punit, "go to defend %s", city_name(pcity));
@@ -1644,9 +1645,9 @@ static void dai_military_attack(struct ai_type *ait, struct player *pplayer,
   CHECK_UNIT(punit);
 
   /* First find easy nearby enemies, anything better than pillage goes.
-   * NB: We do not need to repeat ai_military_rampage, it is repeats itself
+   * NB: We do not need to repeat dai_military_rampage, it is repeats itself
    * until it runs out of targets. */
-  /* FIXME: 1. ai_military_rampage never checks if it should defend newly
+  /* FIXME: 1. dai_military_rampage never checks if it should defend newly
    * conquered cities.
    * FIXME: 2. would be more convenient if it returned FALSE if we run out 
    * of moves too.*/
