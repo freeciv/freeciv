@@ -1,5 +1,5 @@
 ========================
-Welcome to Freeciv 2.3.3
+Welcome to Freeciv 2.3.4
 ========================
 
 The changes in the 2.3.x series are summarised below.
@@ -7,10 +7,117 @@ For changes prior to 2.3, see NEWS. For more detailed changes,
 see the ChangeLog file.
 
 
+CHANGES FROM 2.3.3 to 2.3.4
+---------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.3.4>)
+
+   The main reason for this release is to fix a client crash triggered by
+   chat messages; see below. Other than that, there is the usual set of
+   bugfixes.
+
+Server / General
+
+Gameplay
+
+     * Bug fix: when a unit was automatically moved to a transporter to
+       save it from drowning or running out of fuel, the transporter could
+       continue to appear empty. GNA#20454
+     * Bug fixes in unit conversion and upgrade GNA#20452:
+          + Prevent cases where units could be converted or upgraded to a
+            type only capable of carrying different cargo to the current
+            cargo.
+          + Prevent conversion of a unit to a type that could not exist on
+            the current tile.
+     * Units of types the owner cannot build are no longer prevented from
+       upgrade. GNA#20460
+     * Bug fix: quell spurious "No diplomat action possible" message when
+       an ordinary attempt to move a diplomatic unit failed. GNA#20150
+     * Following on from a fix in 2.3.3, when a border source such as a
+       fortress is occupied by a unit of a nation other than the owner
+       when a ceasefire runs out, ownership now transfers to that of the
+       occupying unit. GNA#20348
+     * When acquiring a technology such as Philosophy which gives further
+       techs by an unusual route (such as through a hut), all progress
+       toward the current research target was lost. Now it is preserved
+       (although 'freecost' is applied). GNA#20362
+     * Bug fix: when a city is traded and hence units change ownership, it
+       wasn't checked whether those units provided diplomatic contact to a
+       new nation. GNA#20431
+     * Bug fix: assertion failure during map generation when no unit in
+       the ruleset satisfied the first role in 'startunits'. GNA#19886
+     * Bug fix: the tech upkeep with tech_cost_style 2 or 4 was much lower
+       than intended; it only took into account a single tech rather than
+       all preceding techs. As a result, tech upkeep in such rulesets will
+       greatly increase. GNA#20063
+          + The currently downloadable 'civ2-3' modpack (2.3-2c) thus has
+            tech upkeep disabled. You may want to update your copy.
+     * An unknown effect requirement type in a ruleset now causes a
+       loading error rather than being silently interpreted as "None".
+       GNA#20462
+
+Clerical
+
+     * When a new nation is created in the editor, city style and leader
+       sex are now set appropriately (previously they were always European
+       and male). GNA#19313
+     * A hardcoded year of -4000 is no longer sent to the metaserver in
+       pregame, as it is ruleset-dependent. GNA#17862
+     * One code tidy-up with no user-visible effect. GNA#20458
+
+Clients
+
+     * The client could crash when your name was mentioned in chat but you
+       had set the 'highlight your player/user name' setting to no color.
+       This could also prevent any connection to a server with the event
+       cache enabled if your player name had been mentioned in the past.
+       GNA#20478
+          + Older clients can work around this bug by setting a highlight
+            colour in their local options (you may need to start a local
+            game in order to access the configuration dialog).
+     * Fix possible instability when loading some tilesets. GNA#20055
+
+Tilesets / Art
+
+     * Some internal SVG format fixes in the supplied flags to allow their
+       use in web browsers; this has no effect on Freeciv itself.
+       GNAPATCH#3574
+
+AI
+
+     * Fix some incorrect inferences about the ability of transported
+       units or units in cities to defend; these are most likely to affect
+       unusual rulesets (e.g., those with ocean cities). GNA#20483
+
+Help / Documentation
+
+     * Minor improvements to user documentation and in-game text.
+       GNAPATCH#3592 GNAPATCH#3594 GNAPATCH#3634 GNAPATCH#3662
+     * Miscellaneous improvements to developer/ruleset docs. GNAPATCH#3575
+       GNAPATCH#3595 GNAPATCH#3602 GNAPATCH#3603 GNAPATCH#3640
+       GNAPATCH#3660
+
+Translations
+
+     * The Spanish, Polish, and French translations are once more
+       complete.
+
+Build/portability
+
+     * Fix various compiler warnings. It's now possible to build Freeciv
+       with GCC 4.7 optimisation level -O3 without any warnings. GNA#19386
+       GNA#19385 GNA#20443 GNA#20413 GNA#20447 GNA#20444
+     * Future-proof against automake versions which ignore
+       ACLOCAL_AMFLAGS. GNAPATCH#3585
+     * Suppress warnings about use of deprecated declarations in debug
+       builds, allowing compilation on for instance recent OpenSUSE.
+       GNA#20428
+
+
 CHANGES FROM 2.3.2 to 2.3.3
 ---------------------------
 
-   (from <http://freeciv.wikia.com/wiki/NEWS-2.3.3>)
+   (from <http://www.freeciv.org/wiki/NEWS-2.3.3>)
 
 Server / General
 
@@ -227,7 +334,7 @@ Build/portability
 CHANGES FROM 2.3.1 to 2.3.2
 ---------------------------
 
-   (from <http://freeciv.wikia.com/wiki/NEWS-2.3.2>)
+   (from <http://www.freeciv.org/wiki/NEWS-2.3.2>)
 
 Server / General
 
@@ -384,7 +491,7 @@ Build/portability
 CHANGES FROM 2.3.0 to 2.3.1
 ---------------------------
 
-   (from <http://freeciv.wikia.com/wiki/NEWS-2.3.1>)
+   (from <http://www.freeciv.org/wiki/NEWS-2.3.1>)
 
 Server / General
 
@@ -577,7 +684,7 @@ CHANGES FROM 2.3.0-RC2 to 2.3.0
 CHANGES FROM 2.3.0-RC1 to 2.3.0-RC2
 -----------------------------------
 
-   (from <http://freeciv.wikia.com/wiki/NEWS-2.3.0-RC2>)
+   (from <http://www.freeciv.org/wiki/NEWS-2.3.0-RC2>)
 
      * Fix an issue where a client couldn't find the server to launch it;
        the client now looks in the directory it was installed into.
@@ -611,7 +718,7 @@ CHANGES FROM 2.3.0-RC1 to 2.3.0-RC2
 CHANGES FROM 2.3.0-beta4 to 2.3.0-RC1
 -------------------------------------
 
-   (from <http://freeciv.wikia.com/wiki/NEWS-2.3.0-RC1>)
+   (from <http://www.freeciv.org/wiki/NEWS-2.3.0-RC1>)
 
 Server / General
 
@@ -787,7 +894,7 @@ Build/portability
 CHANGES FROM 2.3.0-beta3 to 2.3.0-beta4
 ---------------------------------------
 
-   (from <http://freeciv.wikia.com/wiki/NEWS-2.3.0-beta4>)
+   (from <http://www.freeciv.org/wiki/NEWS-2.3.0-beta4>)
 
 Server / General
 
@@ -927,7 +1034,7 @@ Translations
 CHANGES FROM 2.3.0-beta2 to 2.3.0-beta3
 ---------------------------------------
 
-   (from <http://freeciv.wikia.com/wiki/NEWS-2.3.0-beta3>)
+   (from <http://www.freeciv.org/wiki/NEWS-2.3.0-beta3>)
 
      * Fix distribution of manpage links in release tarball. This was
        causing compilation to fail consistently. GNA#17633
@@ -947,7 +1054,7 @@ CHANGES FROM 2.3.0-beta2 to 2.3.0-beta3
 CHANGES FROM 2.3.0-beta1 to 2.3.0-beta2
 ---------------------------------------
 
-   (from <http://freeciv.wikia.com/wiki/NEWS-2.3.0-beta2>)
+   (from <http://www.freeciv.org/wiki/NEWS-2.3.0-beta2>)
 
 Server / General
 
