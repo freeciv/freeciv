@@ -489,6 +489,7 @@ const char *get_output_name(Output_type_id output);
 struct output_type *get_output_type(Output_type_id output);
 Output_type_id output_type_by_identifier(const char *id);
 void add_specialist_output(const struct city *pcity, int *output);
+void set_city_production(struct city *pcity);
 
 /* properties */
 
