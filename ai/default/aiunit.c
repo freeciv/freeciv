@@ -884,7 +884,8 @@ static void ai_military_defend(struct player *pplayer,struct unit *punit)
     pcity = game_city_by_number(punit->homecity);
   }
 
-  if (ai_military_rampage(punit, RAMPAGE_ANYTHING, RAMPAGE_ANYTHING)) {
+  if (ai_military_rampage(punit, BODYGUARD_RAMPAGE_THRESHOLD * 5,
+                          RAMPAGE_FREE_CITY_OR_BETTER)) {
     /* ... we survived */
     if (pcity) {
       UNIT_LOG(LOG_DEBUG, punit, "go to defend %s", city_name(pcity));
