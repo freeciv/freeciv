@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************0
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -211,6 +211,9 @@ struct cm_state {
    * this branch.  A solution with more production than this may still
    * fail (for being unhappy, for instance). */
   int min_production[O_LAST];
+
+  /* needed luxury to be content, this includes effects by specialists */
+  int min_luxury;
 
   /* the current solution we're examining. */
   struct partial_solution current;
@@ -499,7 +502,7 @@ static int tile_type_vector_find_equivalent(
 ****************************************************************************/
 static int tile_type_num_tiles(const struct cm_tile_type *type)
 {
-  if(type->is_specialist) {
+  if (type->is_specialist) {
     return FC_INFINITY;
   } else {
     return tile_vector_size(&type->tiles);
@@ -743,16 +746,21 @@ static struct cm_fitness evaluate_solution(struct cm_state *state,
     const struct partial_solution *soln)
 {
   struct city *pcity = state->pcity;
-  struct city backup;
   int surplus[O_LAST];
   bool disorder, happy;
 
-  /* make a backup, apply and evaluate the solution, and restore.  This costs
-   * one "apply". */
-  memcpy(&backup, pcity, sizeof(backup));
+  /* apply and evaluate the solution, backup is done in find_best_solution */
   apply_solution(state, soln);
   get_city_surplus(pcity, surplus, &disorder, &happy);
-  memcpy(pcity, &backup, sizeof(backup));
+
+  /* if this solution is not content, we have an estimate on min. luxuries */
+  if (disorder) {
+    /* we have to consider the influence of specialists making one unhappy 
+       citizen content (because all other citizens are already unhappy) */
+    state->min_luxury = surplus[O_LUXURY] 
+       + game.info.happy_cost*MAX( city_specialists(pcity) - player_content_citizens(city_owner(pcity)), 0)
+       + 1;
+  }
 
   return compute_fitness(surplus, disorder, happy, &state->parameter);
 }
@@ -765,7 +773,6 @@ static void convert_solution_to_result(struct cm_state *state,
 				       const struct partial_solution *soln,
 				       struct cm_result *result)
 {
-  struct city backup;
   struct cm_fitness fitness;
 
   if (soln->idle != 0) {
@@ -775,11 +782,9 @@ static void convert_solution_to_result(struct cm_state *state,
     return;
   }
 
-  /* make a backup, apply and evaluate the solution, and restore */
-  memcpy(&backup, state->pcity, sizeof(backup));
+  /* apply and evaluate the solution, backup is done in find_best_solution */
   apply_solution(state, soln);
   cm_result_copy(result, state->pcity, state->workers_map);
-  memcpy(state->pcity, &backup, sizeof(backup));
 
   /* result->found_a_valid should be only true if it matches the
    *  parameter; figure out if it does */
@@ -853,6 +858,7 @@ static int compare_tile_type_by_fitness(const void *va, const void *vb)
 }
 
 static Output_type_id compare_key;
+static double compare_key_trade_bonus;
 
 /****************************************************************************
   Compare by the production of type compare_key.
@@ -869,10 +875,22 @@ static int compare_tile_type_by_stat(const void *va, const void *vb)
     return 0;
   }
 
+  /* consider the influence of trade on science, luxury, gold
+     for compute_max_stats_heuristics, which uses these sorted arrays,
+     it is essential, that the sorting is correct, else promising 
+     branches get pruned */
+  double valuea = (*a)->production[compare_key] + 
+                    compare_key_trade_bonus * (*a)->production[O_TRADE];
+  double valueb = (*b)->production[compare_key] +
+                    compare_key_trade_bonus * (*b)->production[O_TRADE];
+
   /* most production of what we care about goes first */
-  if ((*a)->production[compare_key] != (*b)->production[compare_key]) {
+  /* double compare is ok, both values are calculated in the same way
+     and should only be considered equal, if equal in compare_key 
+     and O_TRADE */
+  if (valuea != valueb) {
     /* b-a so we sort big numbers first */
-    return (*b)->production[compare_key] - (*a)->production[compare_key];
+    return valueb - valuea;
   }
 
   return compare_tile_type_by_lattice_order(*a, *b);
@@ -912,7 +930,7 @@ static void tile_type_lattice_add(struct tile_type_vector *lattice,
   int i;
 
   i = tile_type_vector_find_equivalent(lattice, newtype);
-  if(i >= 0) {
+  if (i >= 0) {
     /* We already have this type of tile; use it. */
     type = lattice->p[i];
   } else {
@@ -1338,8 +1356,8 @@ static int next_choice(struct cm_state *state, int oldchoice)
        newchoice < num_types(state); newchoice++) {
     const struct cm_tile_type *ptype = tile_type_get(state, newchoice);
 
-    if(!ptype->is_specialist && (state->current.worker_counts[newchoice]
-				 == tile_vector_size(&ptype->tiles))) {
+    if (!ptype->is_specialist && (state->current.worker_counts[newchoice]
+                                  == tile_vector_size(&ptype->tiles))) {
       /* we've already used all these tiles */
       continue;
     }
@@ -1480,6 +1498,24 @@ static void complete_solution(struct partial_solution *soln,
 }
 
 /****************************************************************************
+  return number of specialists used in partial solution
+****************************************************************************/
+static int specialists_in_solution(const struct cm_state *state,
+                                   const struct partial_solution *soln)
+{
+  int specialists = 0;
+  int i;
+
+  for (i = 0 ; i < num_types(state); i++) {
+    if (soln->worker_counts[i] > 0 && tile_type_get(state, i)->is_specialist) {
+      specialists += soln->worker_counts[i];
+    }
+  }
+  return specialists;
+}
+
+
+/****************************************************************************
   The heuristic:
   A partial solution cannot produce more food than the amount of food it
   currently generates plus then placing all its workers on the best food
@@ -1509,24 +1545,48 @@ static void compute_max_stats_heuristic(const struct cm_state *state,
     output_type_iterate(stat) {
       production[stat] += ptype->production[stat];
     } output_type_iterate_end;
-    return;
+
+  } else {
+
+    /* initialize solnplus here, after the shortcut check */
+    init_partial_solution(&solnplus, num_types(state),
+                          city_size_get(state->pcity));
+
+    output_type_iterate(stat) {
+      /* compute the solution that has soln, then the check_choice,
+         then complete it with the best available tiles for the stat. */
+      copy_partial_solution(&solnplus, soln, state);
+      add_worker(&solnplus, check_choice, state);
+      complete_solution(&solnplus, state, &state->lattice_by_prod[stat]);
+
+      production[stat] = solnplus.production[stat];
+    } output_type_iterate_end;
+
+    destroy_partial_solution(&solnplus);
+
   }
 
-  /* initialize solnplus here, after the shortcut check */
-  init_partial_solution(&solnplus, num_types(state),
-                        city_size_get(state->pcity));
+  /* we found the basic production, however, bonus, taxes, 
+     free production, tithes, traderoutes are missing
+     we add free production, and have the city.c code do the rest */
+  
+  struct city *pcity = state->pcity;
+  struct tile *pcenter = city_tile(pcity);
+  bool is_celebrating = base_city_celebrating(pcity);
 
   output_type_iterate(stat) {
-    /* compute the solution that has soln, then the check_choice,
-       then complete it with the best available tiles for the stat. */
-    copy_partial_solution(&solnplus, soln, state);
-    add_worker(&solnplus, check_choice, state);
-    complete_solution(&solnplus, state, &state->lattice_by_prod[stat]);
+    int base = production[stat];
 
-    production[stat] = solnplus.production[stat];
+    city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, ptile) {
+      if (is_free_worked(pcity, ptile)) {
+	base += city_tile_output(pcity, ptile, is_celebrating, stat);
+      }
+    } city_tile_iterate_end;
+    pcity->citizen_base[stat] = base;
   } output_type_iterate_end;
 
-  destroy_partial_solution(&solnplus);
+  set_city_production(pcity);
+  memcpy(production, pcity->prod, sizeof(pcity->prod));
 }
 
 /****************************************************************************
@@ -1540,6 +1600,9 @@ static bool choice_is_promising(struct cm_state *state, int newchoice)
   int production[O_LAST];
   bool beats_best = FALSE;
 
+  /* this computes an upper bound (componentwise) for the current branch,
+     if it is worse in every component than the best, or still unsufficient,
+     then we can prune the whole branch */
   compute_max_stats_heuristic(state, &state->current, production, newchoice);
 
   output_type_iterate(stat) {
@@ -1549,60 +1612,71 @@ static bool choice_is_promising(struct cm_state *state, int newchoice)
                state->min_production[stat]);
       return FALSE;
     }
-    if (production[stat] > state->best.production[stat]) {
+    if (production[stat] > state->best.production[stat] && state->parameter.factor[stat] > 0 ) {
       beats_best = TRUE;
       /* may still fail to meet min at another production type, so
        * don't short-circuit */
     }
   } output_type_iterate_end;
+ 
+ /* if we don't get the city content, we assume using every idle worker 
+     as specialist and the maximum producible luxury already computed 
+     see also evaluate_solution, where min_luxury is set */
+  int max_luxury = production[O_LUXURY]
+        + game.info.happy_cost*MAX( specialists_in_solution(state, &state->current) + state->current.idle - player_content_citizens(city_owner(state->pcity)), 0);
+ 
+  if (max_luxury < state->min_luxury ) {
+    log_base(LOG_PRUNE_BRANCH, "--- pruning: disorder (%d + %d*%d < %d)",
+             production[O_LUXURY], 
+	     game.info.happy_cost,
+	     MAX( specialists_in_solution(state, &state->current) + state->current.idle - player_content_citizens(city_owner(state->pcity)), 0),
+	     state->min_luxury);
+    return FALSE;
+  }
   if (!beats_best) {
-    log_base(LOG_PRUNE_BRANCH, "--- pruning: best is better in all ways");
+    log_base(LOG_PRUNE_BRANCH, "--- pruning: best is better in all important ways");
   }
   return beats_best;
 }
 
 /****************************************************************************
-  These two functions are very specific for the default civ2-like ruleset.
-  These require the parameter to have been set.
-  FIXME -- this should be more general.
+  Initialize minimal production needed to be sufficient
 ****************************************************************************/
 static void init_min_production(struct cm_state *state)
 {
   struct city *pcity = state->pcity;
-  struct tile *pcenter = city_tile(pcity);
-  bool is_celebrating = base_city_celebrating(pcity);
 
-  memset(state->min_production, 0, sizeof(state->min_production));
   output_type_iterate(o) {
-    /* Calculate minimum output.  This assumes no waste.  Pruning
-     * is done mainly based on minimum production, so we want to find the
-     * absolute highest minimum possible.  However if the minimum we find
-     * here is incorrectly too high, then the algorithm will fail. */
-    int min;
-
-    /* 1.  Calculate the minimum final production that is needed.
-     * 2.  Divide by the bonus (rounding down) to get the minimum citizen
-     *     production that is needed.
-     * 3.  Subtract off any "free" production (trade routes, tithes, and
-     *     city-center). */
-    min = pcity->usage[o] + state->parameter.minimal_surplus[o];
-    if (pcity->bonus[o] > 0) {
-      /* FIXME: how does this work if the bonus is 0?  Then no production
-       * is possible and we can probably short-cut everything. */
-      min = min * 100 / pcity->bonus[o];
-    }
-
-    city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, ptile) {
-      if (is_free_worked(pcity, ptile)) {
-	min -= city_tile_output(pcity, ptile, is_celebrating, o);
-      }
-    } city_tile_iterate_end;
-
-    state->min_production[o] = MAX(min, 0);
+    state->min_production[o] = pcity->usage[o] + state->parameter.minimal_surplus[o];
   } output_type_iterate_end;
 
   /* We could get a minimum on luxury if we knew how many luxuries were
    * needed to make us content. */
+}
+
+/****************************************************************************
+  get the tax rates, see city.c
+****************************************************************************/
+static void get_tax_rates(const struct player *pplayer, int rates[])
+{
+  const int SCIENCE = 0, TAX = 1, LUXURY = 2;
+  
+  if (game.info.changable_tax) {
+    rates[SCIENCE] = pplayer->economic.science;
+    rates[LUXURY] = pplayer->economic.luxury;
+    rates[TAX] = 100 - rates[SCIENCE] - rates[LUXURY];
+  } else {
+    rates[SCIENCE] = game.info.forced_science;
+    rates[LUXURY] = game.info.forced_luxury;
+    rates[TAX] = game.info.forced_gold;
+  }
+  
+  /* ANARCHY */
+  if (government_of_player(pplayer) == game.government_during_revolution) {
+    rates[SCIENCE] = 0;
+    rates[LUXURY] = 100;
+    rates[TAX] = 0;
+  }
 }
 
 /****************************************************************************
@@ -1614,9 +1688,12 @@ static void init_min_production(struct cm_state *state)
   The only fields of the state used are the city and parameter.
 ****************************************************************************/
 static double estimate_fitness(const struct cm_state *state,
-			       const int production[]) {
+			       const int production[])
+{
+  const int SCIENCE = 0, TAX = 1, LUXURY = 2;
   const struct city *pcity = state->pcity;
   const struct player *pplayer = city_owner(pcity);
+  int rates[3];
   double estimates[O_LAST];
   double sum = 0;
 
@@ -1624,13 +1701,18 @@ static double estimate_fitness(const struct cm_state *state,
     estimates[stat] = production[stat];
   } output_type_iterate_end;
 
+  /* bonus to trade is applied before calculating taxes, see city.c */
+  int trade = estimates[O_TRADE] * pcity->bonus[O_TRADE] / 100.0;
+  
+  get_tax_rates(pplayer, rates);
+  
   /* sci/lux/gold get benefit from the tax rates (in percentage) */
   estimates[O_SCIENCE]
-    += pplayer->economic.science * estimates[O_TRADE] / 100.0;
+    += rates[SCIENCE] * trade / 100.0;
   estimates[O_LUXURY]
-    += pplayer->economic.luxury * estimates[O_TRADE] / 100.0;
+    += rates[LUXURY] * trade / 100.0;
   estimates[O_GOLD]
-    += pplayer->economic.tax * estimates[O_TRADE] / 100.0;
+    += rates[TAX] * trade / 100.0;
 
   /* now add in the bonuses from building effects (in percentage) */
   output_type_iterate(stat) {
@@ -1698,8 +1780,11 @@ static bool bb_next(struct cm_state *state)
 ****************************************************************************/
 static struct cm_state *cm_state_init(struct city *pcity)
 {
+  const int SCIENCE = 0, TAX = 1, LUXURY = 2;
+  const struct player *pplayer = city_owner(pcity);
   int numtypes;
   struct cm_state *state = fc_malloc(sizeof(*state));
+  int rates[3];
 
   log_base(LOG_CM_STATE, "creating cm_state for %s (size %d)",
            city_name(pcity), city_size_get(pcity));
@@ -1712,15 +1797,34 @@ static struct cm_state *cm_state_init(struct city *pcity)
   init_tile_lattice(pcity, &state->lattice);
   numtypes = tile_type_vector_size(&state->lattice);
 
+  get_tax_rates(pplayer, rates);
+
   /* For the heuristic, make sorted copies of the lattice */
   output_type_iterate(stat) {
     tile_type_vector_init(&state->lattice_by_prod[stat]);
     tile_type_vector_copy(&state->lattice_by_prod[stat], &state->lattice);
     compare_key = stat;
+    /* calculate effect of 1 trade production on interesting production */
+    switch(stat){
+      case O_SCIENCE: 
+        compare_key_trade_bonus = rates[SCIENCE] * pcity->bonus[O_TRADE] / 100.0;
+	break;
+      case O_LUXURY:
+        compare_key_trade_bonus = rates[LUXURY] * pcity->bonus[O_TRADE] / 100.0;
+	break;
+      case O_GOLD:
+        compare_key_trade_bonus = rates[TAX] * pcity->bonus[O_TRADE] / 100.0;
+	break;
+      default:
+        compare_key_trade_bonus = 0.0;
+	break;
+    }
     qsort(state->lattice_by_prod[stat].p, state->lattice_by_prod[stat].size,
 	  sizeof(*state->lattice_by_prod[stat].p),
 	  compare_tile_type_by_stat);
   } output_type_iterate_end;
+
+  state->min_luxury = - FC_INFINITY;
 
   /* We have no best solution yet, so its value is the worst possible. */
   init_partial_solution(&state->best, numtypes, city_size_get(pcity));
@@ -1809,12 +1913,16 @@ static void cm_find_best_solution(struct cm_state *state,
 {
   int loop_count = 0;
   int max_count;
+  struct city backup;
 
 #ifdef GATHER_TIME_STATS
   performance.current = &performance.opt;
 #endif
 
   begin_search(state, parameter);
+  
+  /* make a backup of the city to restore at the very end */
+  memcpy(&backup, state->pcity, sizeof(backup));
 
   if (player_is_cpuhog(city_owner(state->pcity))) {
     max_count = CPUHOG_CM_MAX_LOOP;
@@ -1836,6 +1944,8 @@ static void cm_find_best_solution(struct cm_state *state,
 
   /* convert to the caller's format */
   convert_solution_to_result(state, &state->best, result);
+
+  memcpy(state->pcity, &backup, sizeof(backup));
 
   end_search(state);
 }
