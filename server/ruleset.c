@@ -161,6 +161,11 @@ static bool load_ruleset_veteran(struct section_file *file,
                                  struct veteran_system **vsystem, char *err,
                                  size_t err_len);
 
+
+#define MAX_IGNORE_GOVS_COUNT 10
+
+static char ignore_govs[MAX_IGNORE_GOVS_COUNT][MAX_LEN_NAME];
+
 /**************************************************************************
   Notifications about ruleset errors to clients. Especially important in
   case of internal server crashing.
@@ -3155,6 +3160,9 @@ static bool load_ruleset_nations(struct section_file *file)
   struct section_list *sec;
   int default_traits[TRAIT_COUNT];
   enum trait tr;
+  const char **slist;
+  size_t nval;
+  int igcount;
   bool ok = TRUE;
 
   if (check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename) == NULL) {
@@ -3177,6 +3185,24 @@ static bool load_ruleset_nations(struct section_file *file)
   if (sval != NULL) {
     default_government = government_by_rule_name(sval);
   }
+
+  slist = secfile_lookup_str_vec(file, &nval, "compatibility.ignore_govs");
+  igcount = 0;
+  for (j = 0; j < nval && ok; j++) {
+    sval = slist[j];
+    if (strcmp(sval,"") == 0) {
+      continue;
+    }
+
+    strncpy(ignore_govs[igcount++], slist[j], MAX_LEN_NAME);
+    if (igcount >= MAX_IGNORE_GOVS_COUNT) {
+      ruleset_error(LOG_ERROR, "Too many ignore_govs");
+      ok = FALSE;
+      break;
+    }
+  }
+  ignore_govs[igcount][0] = '\0';
+  free(slist);
 
   set_allowed_nation_groups(NULL);
 
@@ -3407,10 +3433,19 @@ static bool load_ruleset_nations(struct section_file *file)
       gov = government_by_rule_name(name);
 
       if (NULL == gov) {
-        /* log_verbose() rather than log_error() so that can use single
-         * nation ruleset file with variety of government ruleset files: */
-        log_verbose("Nation %s: government \"%s\" not found.",
+        int gcount;
+        bool ig_found = FALSE;
+
+        for (gcount = 0; ignore_govs[gcount][0] != '\0'; gcount++) {
+          if (!fc_strcasecmp(name, ignore_govs[gcount])) {
+            ig_found = TRUE;
+            break;
+          }
+        }
+        if (!ig_found) {
+          log_error("Nation %s: government \"%s\" not found.",
                     nation_rule_name(pnation), name);
+        }
       } else if (NULL != male && NULL != female) {
         (void) government_ruler_title_new(gov, pnation, male, female);
       } else {
