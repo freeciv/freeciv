@@ -2721,11 +2721,13 @@ static bool load_ruleset_terrain(struct section_file *file)
                         road_rule_name(proad),
                         sval);
         } else {
-          if (flag == RF_GENERATED_RIVER) {
+          if (flag == RF_RIVER) {
             if (riverflag) {
-              ruleset_error(LOG_FATAL,
+              ruleset_error(LOG_ERROR,
                             "\"%s\" multiple roads have \"%s\" flag.",
                             filename, sval);
+              ok = FALSE;
+              break;
             }
             riverflag = TRUE;
           }
@@ -2733,6 +2735,10 @@ static bool load_ruleset_terrain(struct section_file *file)
         }
       }
       free(slist);
+
+      if (!ok) {
+        break;
+      }
 
       proad->helptext = lookup_strvec(file, section, "helptext");
 

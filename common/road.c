@@ -341,9 +341,16 @@ bool road_has_flag(const struct road_type *proad, enum road_flag_id flag)
 bool is_native_tile_to_road(const struct road_type *proad,
                             const struct tile *ptile)
 {
-  return (tile_terrain(ptile)->road_time != 0
-          && are_reqs_active(NULL, NULL, NULL, ptile,
-                             NULL, NULL, NULL, &proad->reqs, RPT_POSSIBLE));
+  if (road_has_flag(proad, RF_RIVER)) {
+    if (!terrain_has_flag(tile_terrain(ptile), TER_CAN_HAVE_RIVER)) {
+      return FALSE;
+    }
+  } else if (tile_terrain(ptile)->road_time == 0) {
+    return FALSE;
+  }
+
+  return are_reqs_active(NULL, NULL, NULL, ptile,
+                         NULL, NULL, NULL, &proad->reqs, RPT_POSSIBLE);
 }
  
 /****************************************************************************

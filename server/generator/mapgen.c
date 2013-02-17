@@ -1051,7 +1051,7 @@ static void make_rivers(void)
   int iteration_counter = 0;
 
   road_type_iterate(priver) {
-    if (road_has_flag(priver, RF_GENERATED_RIVER)) {
+    if (road_has_flag(priver, RF_RIVER)) {
       road_river = priver;
       break;
     }
