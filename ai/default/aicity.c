@@ -658,7 +658,13 @@ static void contemplate_terrain_improvements(struct city *pcity)
   unit_tile_set(virtualunit, pcenter);
   want = settler_evaluate_improvements(virtualunit, &best_act, &best_tile,
                                        NULL, NULL);
-  want = (want - unit_food_upkeep(virtualunit) * FOOD_WEIGHTING) * 100
+  /* We consider unit_food_upkeep with only hald FOOD_WEIGHTING to
+   * balance the fact that unit can improve many tiles during its
+   * lifetime, and want is calculated for just one of them.
+   * Having full FOOD_WEIGHT here would mean that tile improvement of
+   * +1 food would give just zero want for settler. Other weights
+   * are lower, so +1 shield - unit food upkeep would be negative. */
+  want = (want - unit_food_upkeep(virtualunit) * FOOD_WEIGHTING / 2) * 100
          / (40 + unit_foodbox_cost(virtualunit));
   unit_virtual_destroy(virtualunit);
 
