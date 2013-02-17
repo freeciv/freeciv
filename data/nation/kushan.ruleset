@@ -47,7 +47,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-conflicts_with="Indian", "Pakistani", "Afghan", "Uzbek" ; Bactrian
+conflicts_with="Indian", "Pakistani", "Afghani", "Uzbek" ; Bactrian
 civilwar_nations = "Tocharian", "Gupta", "Persian", "Hephthalite" ; Bactrian
 
 cities =

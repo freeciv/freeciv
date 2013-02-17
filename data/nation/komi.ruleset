@@ -29,7 +29,7 @@ init_techs=""
 init_buildings="" 
 init_units="" 
 
-civilwar_nations = "mordvin", "moscovite" ;novgorodian
+civilwar_nations = "mordvin", "Muscovite" ;novgorodian
 
 cities =
  "Syktyvkar",
