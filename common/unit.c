@@ -384,7 +384,10 @@ bool is_square_threatened(const struct player *pplayer,
 {
   square_iterate(ptile, 2, ptile1) {
     unit_list_iterate(ptile1->units, punit) {
-      if (is_ground_threat(pplayer, punit)) {
+      if (((pplayer->ai_controlled
+            && !ai_handicap(pplayer, H_MAP))
+           || can_player_see_unit_at(pplayer, punit, ptile1))
+          && is_ground_threat(pplayer, punit)) {
 	return TRUE;
       }
     } unit_list_iterate_end;
