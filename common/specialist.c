@@ -18,6 +18,7 @@
 /* utility */
 #include "fcintl.h"
 #include "log.h"
+#include "string_vector.h"
 
 /* common */
 #include "city.h"
@@ -56,6 +57,10 @@ void specialists_free(void)
     struct specialist *p = &specialists[i];
 
     requirement_vector_free(&p->reqs);
+    if (NULL != p->helptext) {
+      strvec_destroy(p->helptext);
+      p->helptext = NULL;
+    }
   }
 }
 
