@@ -594,7 +594,7 @@ void popup_pillage_dialog(struct unit *punit,
     BV_CLR_ALL(what_base);
 
     if (what > S_LAST) {
-      BV_SET(what_base, what - S_LAST - 1);
+      BV_SET(what_base, what % (S_LAST + 1));
     } else {
       BV_SET(what_bv, what);
     }
