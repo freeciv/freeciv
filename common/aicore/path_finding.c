@@ -611,6 +611,12 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
         continue;
       }
 
+      if (node1->behavior == TB_DONT_LEAVE) {
+        /* We evaluate moves to TB_DONT_LEAVE tiles as a constant single
+         * move for getting straightest paths. */
+        cost = SINGLE_MOVE;
+      }
+
       /* Total cost at tile1. Cost may be negative; see pf_turns(). */
       cost += node->cost;
 
@@ -1354,6 +1360,12 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
         if (cost == PF_IMPOSSIBLE_MC) {
           /* This move is deemed impossible. */
           continue;
+        }
+
+        if (node1->behavior == TB_DONT_LEAVE) {
+          /* We evaluate moves to TB_DONT_LEAVE tiles as a constant single
+           * move for getting straightest paths. */
+          cost = SINGLE_MOVE;
         }
 
         /* Total cost at 'tile1'. */
@@ -2324,6 +2336,12 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
                                                node->moves_left_req)) {
           /* We wouldn't have enough moves left after attacking. */
           continue;
+        }
+
+        if (node1->behavior == TB_DONT_LEAVE) {
+          /* We evaluate moves to TB_DONT_LEAVE tiles as a constant single
+           * move for getting straightest paths. */
+          cost = SINGLE_MOVE;
         }
 
         /* Total cost at 'tile1' */
