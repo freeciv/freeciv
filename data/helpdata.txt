@@ -122,7 +122,7 @@ Phalanx, Pikemen, Musketeers, and Riflemen.\
 _("\
     Keep in mind that with some types of government, military units \
 inside or outside cities can reduce or create unhappiness. \
-Also remember that when a unit is inside a city, it gets a 50% \
+Also remember that when a land unit is inside a city, it gets a 50% \
 defensive bonus, as if fortified.  When a new city is built, \
 the city starts to build the best available defensive unit from \
 the above list.\

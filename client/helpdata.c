@@ -1391,7 +1391,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       && !utype_has_flag(utype, F_SETTLERS)) {
     CATLSTR(buf, bufsz,
             /* xgettext:no-c-format */
-            _("  * May fortify, granting a 50% defensive bonus.\n"));
+            _("  * Gets a 50% defensive bonus while in cities.\n"));
+    CATLSTR(buf, bufsz,
+            /* xgettext:no-c-format */
+            _("  * May fortify, granting a 50% defensive bonus when not in "
+              "a city.\n"));
   }
   if (uclass_has_flag(utype_class(utype), UCF_UNREACHABLE)) {
     CATLSTR(buf, bufsz,
