@@ -19,6 +19,7 @@
 #include "effects.h"
 #include "game.h"
 #include "government.h"
+#include "movement.h"
 #include "player.h"
 #include "road.h"
 #include "specialist.h"
@@ -304,6 +305,41 @@ static bool effect_list_sanity_cb(const struct effect *peffect)
 }
 
 /**************************************************************************
+  Sanity check barbarian unit types
+**************************************************************************/
+static bool rs_barbarian_units(void)
+{
+  unit_type_iterate(ptype) {
+    if (utype_has_role(ptype, L_BARBARIAN_BOAT)) {
+      if (ptype->transport_capacity <= 1) {
+        ruleset_error(LOG_ERROR,
+                      "Barbarian boat %s has no capacity for both "
+                      "leader and at least one man.",
+                      utype_rule_name(ptype));
+        return FALSE;
+      }
+
+      unit_type_iterate(pbarb) {
+        if (utype_has_role(pbarb, L_BARBARIAN_SEA)
+            || utype_has_role(pbarb, L_BARBARIAN_SEA_TECH)
+            || utype_has_role(pbarb, L_BARBARIAN_LEADER)) {
+          if (!can_unit_type_transport(ptype, utype_class(pbarb))) {
+            ruleset_error(LOG_ERROR,
+                          "Barbarian boat %s cannot transport "
+                          "barbarian cargo %s.",
+                          utype_rule_name(ptype),
+                          utype_rule_name(pbarb));
+            return FALSE;
+          }
+        }
+      } unit_type_iterate_end;
+    }
+  } unit_type_iterate_end;
+
+  return TRUE;
+}
+
+/**************************************************************************
   Some more sanity checking once all rulesets are loaded. These check
   for some cross-referencing which was impossible to do while only one
   party was loaded in load_ruleset_xxx()
@@ -529,6 +565,10 @@ bool sanity_check_ruleset_data(void)
       }
     }
   } unit_class_iterate_end;
+
+  if (ok) {
+    ok = rs_barbarian_units();
+  }
 
   return ok;
 }
