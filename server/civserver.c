@@ -88,7 +88,7 @@ static void signal_handler(int sig)
     if (with_ggz) {
       save_and_exit(SIGINT);
     }
-    if (timer && read_timer_seconds(timer) <= 1.0) {
+    if (timer && timer_read_seconds(timer) <= 1.0) {
       save_and_exit(SIGINT);
     } else {
       if (game.info.timeout == -1) {
@@ -100,7 +100,8 @@ static void signal_handler(int sig)
                      "within one second to make it exit."));
       }
     }
-    timer = renew_timer_start(timer, TIMER_USER, TIMER_ACTIVE);
+    timer = timer_renew(timer, TIMER_USER, TIMER_ACTIVE);
+    timer_start(timer);
     break;
 
 #ifdef SIGHUP

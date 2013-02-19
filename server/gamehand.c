@@ -497,7 +497,7 @@ void send_game_info(struct conn_list *dest)
      * (and game.info.seconds_to_phasedone is relative to this).
      * Account for the difference. */
     ginfo.seconds_to_phasedone = game.info.seconds_to_phasedone
-        - read_timer_seconds(game.server.phase_timer);
+        - timer_read_seconds(game.server.phase_timer);
   } else {
     /* unused but at least initialized */
     ginfo.seconds_to_phasedone = -1.0;
@@ -591,7 +591,7 @@ int update_timeout(void)
 void increase_timeout_because_unit_moved(void)
 {
   if (game.info.timeout > 0 && game.server.timeoutaddenemymove > 0) {
-    double maxsec = (read_timer_seconds(game.server.phase_timer)
+    double maxsec = (timer_read_seconds(game.server.phase_timer)
 		     + (double) game.server.timeoutaddenemymove);
 
     if (maxsec > game.info.seconds_to_phasedone) {

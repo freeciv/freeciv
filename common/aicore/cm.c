@@ -291,10 +291,10 @@ void cm_init(void)
 #ifdef GATHER_TIME_STATS
   memset(&performance, 0, sizeof(performance));
 
-  performance.greedy.wall_timer = new_timer(TIMER_USER, TIMER_ACTIVE);
+  performance.greedy.wall_timer = timer_new(TIMER_USER, TIMER_ACTIVE);
   performance.greedy.name = "greedy";
 
-  performance.opt.wall_timer = new_timer(TIMER_USER, TIMER_ACTIVE);
+  performance.opt.wall_timer = timer_new(TIMER_USER, TIMER_ACTIVE);
   performance.opt.name = "opt";
 #endif /* GATHER_TIME_STATS */
 }
@@ -326,8 +326,8 @@ void cm_free(void)
   print_performance(&performance.greedy);
   print_performance(&performance.opt);
 
-  free_timer(performance.greedy.wall_timer);
-  free_timer(performance.opt.wall_timer);
+  timer_destroy(performance.greedy.wall_timer);
+  timer_destroy(performance.opt.wall_timer);
   memset(&performance, 0, sizeof(performance));
 #endif /* GATHER_TIME_STATS */
 }
@@ -1851,7 +1851,7 @@ static void begin_search(struct cm_state *state,
 			 const struct cm_parameter *parameter)
 {
 #ifdef GATHER_TIME_STATS
-  start_timer(performance.current->wall_timer);
+  timer_start(performance.current->wall_timer);
   performance.current->query_count++;
 #endif
 
@@ -1876,7 +1876,7 @@ static void begin_search(struct cm_state *state,
 static void end_search(struct cm_state *state)
 {
 #ifdef GATHER_TIME_STATS
-  stop_timer(performance.current->wall_timer);
+  timer_stop(performance.current->wall_timer);
 
 #ifdef PRINT_TIME_STATS_EVERY_QUERY
   print_performance(performance.current);
@@ -2238,7 +2238,7 @@ static void print_performance(struct one_perf *counts)
   double q;
   int queries, applies;
 
-  s = read_timer_seconds(counts->wall_timer);
+  s = timer_read_seconds(counts->wall_timer);
   ms = 1000.0 * s;
 
   queries = counts->query_count;

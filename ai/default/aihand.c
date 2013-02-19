@@ -235,7 +235,8 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
   }
 
 #ifdef DEBUG_TIMERS
-  taxtimer= new_timer_start(TIMER_CPU, TIMER_DEBUG);
+  taxtimer = timer_new(TIMER_CPU, TIMER_DEBUG);
+  timer_start(taxtimer);
 #endif
 
   /* City parameters needed for celebrations. */
@@ -659,11 +660,11 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
   send_player_info_c(pplayer, pplayer->connections);
 
 #ifdef DEBUG_TIMERS
-  stop_timer(taxtimer);
+  timer_stop(taxtimer);
   log_base(LOGLEVEL_TAX, "Tax calculation for %s (player %d) in %.3f "
                          "seconds.", player_name(pplayer),
-           player_index(pplayer), read_timer_seconds(taxtimer));
-  free_timer(taxtimer);
+           player_index(pplayer), timer_read_seconds(taxtimer));
+  timer_destroy(taxtimer);
 #endif /* DEBUG_TIMERS */
 }
 #undef RATE_NOT_SET

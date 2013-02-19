@@ -84,8 +84,8 @@ void ai_timer_free(void)
 
     if (aitimer->timer) {
       log_normal("AI timer stats: [%15.3f] ---- (AI type: %s)",
-                 read_timer_seconds(aitimer->timer), ai_name(ai));
-      free_timer(aitimer->timer);
+                 timer_read_seconds(aitimer->timer), ai_name(ai));
+      timer_destroy(aitimer->timer);
     }
 
     for (j = 0; j < MAX_NUM_PLAYER_SLOTS; j++) {
@@ -93,8 +93,8 @@ void ai_timer_free(void)
 
       if (aitimer->timer) {
         log_normal("AI timer stats: [%15.3f] P%03d (AI type: %s)",
-                   read_timer_seconds(aitimer->timer), j, ai_name(ai));
-        free_timer(aitimer->timer);
+                   timer_read_seconds(aitimer->timer), j, ai_name(ai));
+        timer_destroy(aitimer->timer);
       }
     }
   }
@@ -119,7 +119,7 @@ static struct ai_timer *ai_timer_get(const struct ai_type *ai)
   aitimer = aitimers + ai_type_number(ai);
 
   if (!aitimer->timer) {
-    aitimer->timer = new_timer(TIMER_CPU, TIMER_DEBUG);
+    aitimer->timer = timer_new(TIMER_CPU, TIMER_DEBUG);
   }
 
   return aitimer;
@@ -141,7 +141,7 @@ static struct ai_timer *ai_timer_player_get(const struct player *pplayer)
                             + ai_type_number(pplayer->ai));
 
   if (!aitimer->timer) {
-    aitimer->timer = new_timer(TIMER_CPU, TIMER_DEBUG);
+    aitimer->timer = timer_new(TIMER_CPU, TIMER_DEBUG);
   }
 
   return aitimer;
@@ -159,8 +159,8 @@ void ai_timer_start(const struct ai_type *ai)
 
   if (aitimer->count == 0) {
     log_debug("AI timer start  [%15.3f] ---- (AI type: %s)",
-              read_timer_seconds(aitimer->timer), ai_name(ai));
-    start_timer(aitimer->timer);
+              timer_read_seconds(aitimer->timer), ai_name(ai));
+    timer_start(aitimer->timer);
   } else {
     log_debug("AI timer =====> [depth: %3d]      ---- (AI type: %s)",
               aitimer->count, ai_name(ai));
@@ -180,9 +180,9 @@ void ai_timer_stop(const struct ai_type *ai)
 
   if (aitimer->count > 0) {
     if (aitimer->count == 1) {
-      stop_timer(aitimer->timer);
+      timer_stop(aitimer->timer);
       log_debug("AI timer stop   [%15.3f] ---- (AI type: %s)",
-                read_timer_seconds(aitimer->timer), ai_name(ai));
+                timer_read_seconds(aitimer->timer), ai_name(ai));
     } else {
       log_debug("AI timer =====> [depth: %3d]      ---- (AI type: %s)",
                 aitimer->count, ai_name(ai));
@@ -206,9 +206,9 @@ void ai_timer_player_start(const struct player *pplayer)
 
   if (aitimer->count == 0) {
     log_debug("AI timer start  [%15.3f] P%03d (AI type: %s) %s",
-              read_timer_seconds(aitimer->timer), player_index(pplayer),
+              timer_read_seconds(aitimer->timer), player_index(pplayer),
               ai_name(pplayer->ai), player_name(pplayer));
-    start_timer(aitimer->timer);
+    timer_start(aitimer->timer);
   } else {
     log_debug("AI timer =====> [depth: %3d]      P%03d (AI type: %s) %s",
               aitimer->count, player_index(pplayer), ai_name(pplayer->ai),
@@ -229,9 +229,9 @@ void ai_timer_player_stop(const struct player *pplayer)
 
   if (aitimer->count > 0) {
     if (aitimer->count == 1) {
-      stop_timer(aitimer->timer);
+      timer_stop(aitimer->timer);
       log_debug("AI timer stop   [%15.3f] P%03d (AI type: %s) %s",
-                read_timer_seconds(aitimer->timer), player_index(pplayer),
+                timer_read_seconds(aitimer->timer), player_index(pplayer),
                 ai_name(pplayer->ai), player_name(pplayer));
     } else {
       log_debug("AI timer =====> [depth: %3d]      P%03d (AI type: %s) %s",

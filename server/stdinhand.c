@@ -3679,8 +3679,10 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   server_game_free();
   server_game_init();
 
-  loadtimer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
-  uloadtimer = new_timer_start(TIMER_USER, TIMER_ACTIVE);
+  loadtimer = timer_new(TIMER_CPU, TIMER_ACTIVE);
+  timer_start(loadtimer);
+  uloadtimer = timer_new(TIMER_USER, TIMER_ACTIVE);
+  timer_start(uloadtimer);
 
   sz_strlcpy(srvarg.load_filename, arg);
 
@@ -3689,9 +3691,9 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   secfile_destroy(file);
 
   log_verbose("Load time: %g seconds (%g apparent)",
-              read_timer_seconds(loadtimer), read_timer_seconds(uloadtimer));
-  free_timer(loadtimer);
-  free_timer(uloadtimer);
+              timer_read_seconds(loadtimer), timer_read_seconds(uloadtimer));
+  timer_destroy(loadtimer);
+  timer_destroy(uloadtimer);
 
   sanity_check();
 

@@ -163,8 +163,8 @@ void TIMING_LOG(enum ai_timer timer, enum ai_timer_activity activity)
 
   if (turn == -1) {
     for (i = 0; i < AIT_LAST; i++) {
-      aitimer[i][0] = new_timer(TIMER_CPU, TIMER_ACTIVE);
-      aitimer[i][1] = new_timer(TIMER_CPU, TIMER_ACTIVE);
+      aitimer[i][0] = timer_new(TIMER_CPU, TIMER_ACTIVE);
+      aitimer[i][1] = timer_new(TIMER_CPU, TIMER_ACTIVE);
       recursion[i] = 0;
     }
   }
@@ -172,18 +172,18 @@ void TIMING_LOG(enum ai_timer timer, enum ai_timer_activity activity)
   if (game.info.turn != turn) {
     turn = game.info.turn;
     for (i = 0; i < AIT_LAST; i++) {
-      clear_timer(aitimer[i][0]);
+      timer_clear(aitimer[i][0]);
     }
     fc_assert(activity == TIMER_START);
   }
 
   if (activity == TIMER_START && recursion[timer] == 0) {
-    start_timer(aitimer[timer][0]);
-    start_timer(aitimer[timer][1]);
+    timer_start(aitimer[timer][0]);
+    timer_start(aitimer[timer][1]);
     recursion[timer]++;
   } else if (activity == TIMER_STOP && recursion[timer] == 1) {
-    stop_timer(aitimer[timer][0]);
-    stop_timer(aitimer[timer][1]);
+    timer_stop(aitimer[timer][0]);
+    timer_stop(aitimer[timer][1]);
     recursion[timer]--;
   }
 }
@@ -199,8 +199,8 @@ void TIMING_RESULTS(void)
 
 #define AILOG_OUT(text, which)                                              \
   fc_snprintf(buf, sizeof(buf), "  %s: %g sec turn, %g sec game", text,     \
-              read_timer_seconds(aitimer[which][0]),                        \
-              read_timer_seconds(aitimer[which][1]));                       \
+              timer_read_seconds(aitimer[which][0]),                        \
+              timer_read_seconds(aitimer[which][1]));                       \
   log_test("%s", buf);                                                      \
   notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log, "%s", buf);
 
@@ -210,8 +210,8 @@ void TIMING_RESULTS(void)
 
 #define AILOG_OUT(text, which)                                          \
   fc_snprintf(buf, sizeof(buf), "  %s: %g sec turn, %g sec game", text, \
-              read_timer_seconds(aitimer[which][0]),                    \
-              read_timer_seconds(aitimer[which][1]));                   \
+              timer_read_seconds(aitimer[which][0]),                    \
+              timer_read_seconds(aitimer[which][1]));                   \
   notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log, "%s", buf);
 
 #endif /* LOG_TIMERS */

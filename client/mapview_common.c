@@ -629,7 +629,8 @@ void set_mapview_origin(int gui_x0, int gui_y0)
 
     gui_distance_vector(tileset,
 			&diff_x, &diff_y, start_x, start_y, gui_x0, gui_y0);
-    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+    anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
+    timer_start(anim_timer);
 
     unqueue_mapview_updates(TRUE);
 
@@ -641,7 +642,7 @@ void set_mapview_origin(int gui_x0, int gui_y0)
        * frame's position is calculated from the expected time when the
        * frame will complete, rather than the time when the frame drawing
        * is started. */
-      currtime = read_timer_seconds(anim_timer);
+      currtime = timer_read_seconds(anim_timer);
       currtime += total_time / total_frames;
 
       mytime = MIN(currtime, timing_sec);
@@ -652,7 +653,7 @@ void set_mapview_origin(int gui_x0, int gui_y0)
       frames++;
     } while (currtime < timing_sec);
 
-    currtime = read_timer_seconds(anim_timer);
+    currtime = timer_read_seconds(anim_timer);
     total_frames += frames;
     total_time += currtime;
     log_debug("Got %d frames in %f seconds: %f FPS (avg %f).",
@@ -2071,7 +2072,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   while (punit0->hp > hp0 || punit1->hp > hp1) {
     const int diff0 = punit0->hp - hp0, diff1 = punit1->hp - hp1;
 
-    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+    anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
+    timer_start(anim_timer);
 
     if (fc_rand(diff0 + diff1) < diff0) {
       punit0->hp--;
@@ -2084,7 +2086,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     unqueue_mapview_updates(TRUE);
     gui_flush();
 
-    usleep_since_timer_start(anim_timer, smooth_combat_step_msec * 1000ul);
+    timer_usleep_since_start(anim_timer, smooth_combat_step_msec * 1000ul);
   }
 
   if (num_tiles_explode_unit > 0
@@ -2101,7 +2103,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       struct sprite *sprite = *sprite_vector_get(anim, i);
 
       get_sprite_dimensions(sprite, &w, &h);
-      anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+      anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
+      timer_start(anim_timer);
 
       /* We first draw the explosion onto the unit and draw draw the
        * complete thing onto the map canvas window. This avoids
@@ -2118,7 +2121,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       flush_dirty();
       gui_flush();
 
-      usleep_since_timer_start(anim_timer,
+      timer_usleep_since_start(anim_timer,
                                smooth_combat_step_msec * 2 * 1000ul);
     }
   }
@@ -2179,12 +2182,13 @@ void move_unit_map_canvas(struct unit *punit,
     unqueue_mapview_updates(FALSE);
 
     /* Start the timer (AFTER the unqueue above). */
-    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+    anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
+    timer_start(anim_timer);
 
     do {
       int new_x, new_y;
 
-      mytime = MIN(read_timer_seconds(anim_timer), timing_sec);
+      mytime = MIN(timer_read_seconds(anim_timer), timing_sec);
 
       new_x = start_x + canvas_dx * (mytime / timing_sec);
       new_y = start_y + canvas_dy * (mytime / timing_sec);

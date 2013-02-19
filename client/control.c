@@ -717,12 +717,13 @@ double blink_active_unit(void)
   const double blink_time = get_focus_unit_toggle_timeout(tileset);
 
   if (get_num_units_in_focus() > 0) {
-    if (!blink_timer || read_timer_seconds(blink_timer) > blink_time) {
+    if (!blink_timer || timer_read_seconds(blink_timer) > blink_time) {
       toggle_focus_unit_state(tileset);
 
       /* If we lag, we don't try to catch up.  Instead we just start a
        * new blink_time on every update. */
-      blink_timer = renew_timer_start(blink_timer, TIMER_USER, TIMER_ACTIVE);
+      blink_timer = timer_renew(blink_timer, TIMER_USER, TIMER_ACTIVE);
+      timer_start(blink_timer);
 
       unit_list_iterate(get_units_in_focus(), punit) {
 	/* We flush to screen directly here.  This is most likely faster
@@ -732,7 +733,7 @@ double blink_active_unit(void)
       } unit_list_iterate_end;
     }
 
-    return blink_time - read_timer_seconds(blink_timer);
+    return blink_time - timer_read_seconds(blink_timer);
   }
 
   return blink_time;
@@ -750,7 +751,7 @@ double blink_turn_done_button(void)
   if (NULL != client.conn.playing
       && client.conn.playing->is_alive
       && !client.conn.playing->phase_done) {
-    if (!blink_timer || read_timer_seconds(blink_timer) > blink_time) {
+    if (!blink_timer || timer_read_seconds(blink_timer) > blink_time) {
       int is_waiting = 0, is_moving = 0;
 
       players_iterate_alive(pplayer) {
@@ -766,9 +767,10 @@ double blink_turn_done_button(void)
       if (is_moving == 1 && is_waiting > 0) {
 	update_turn_done_button(FALSE);	/* stress the slow player! */
       }
-      blink_timer = renew_timer_start(blink_timer, TIMER_USER, TIMER_ACTIVE);
+      blink_timer = timer_renew(blink_timer, TIMER_USER, TIMER_ACTIVE);
+      timer_start(blink_timer);
     }
-    return blink_time - read_timer_seconds(blink_timer);
+    return blink_time - timer_read_seconds(blink_timer);
   }
 
   return blink_time;

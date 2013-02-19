@@ -357,7 +357,7 @@ void agents_free(void)
   for (i = 0; i < agents.entries_used; i++) {
     struct my_agent *agent = &agents.entries[i];
 
-    free_timer(agent->stats.network_wall_timer);
+    timer_destroy(agent->stats.network_wall_timer);
   }
   call_list_destroy(agents.calls);
 }
@@ -377,7 +377,7 @@ void register_agent(const struct agent *agent)
   priv_agent->first_outstanding_request_id = 0;
   priv_agent->last_outstanding_request_id = 0;
 
-  priv_agent->stats.network_wall_timer = new_timer(TIMER_USER, TIMER_ACTIVE);
+  priv_agent->stats.network_wall_timer = timer_new(TIMER_USER, TIMER_ACTIVE);
   priv_agent->stats.wait_at_network = 0;
   priv_agent->stats.wait_at_network_requests = 0;
 
@@ -736,9 +736,9 @@ void wait_for_requests(const char *agent_name, int first_request_id,
   agent->first_outstanding_request_id = first_request_id;
   agent->last_outstanding_request_id = last_request_id;
 
-  start_timer(agent->stats.network_wall_timer);
+  timer_start(agent->stats.network_wall_timer);
   wait_till_request_got_processed(last_request_id);
-  stop_timer(agent->stats.network_wall_timer);
+  timer_stop(agent->stats.network_wall_timer);
 
   agent->stats.wait_at_network++;
   agent->stats.wait_at_network_requests +=
@@ -752,7 +752,7 @@ void wait_for_requests(const char *agent_name, int first_request_id,
   log_debug("A:%s: waited %fs in total for network; "
             "requests=%d; waited %d times",
             agent->agent.name,
-            read_timer_seconds(agent->stats.network_wall_timer),
+            timer_read_seconds(agent->stats.network_wall_timer),
             agent->stats.wait_at_network_requests,
             agent->stats.wait_at_network);
 }

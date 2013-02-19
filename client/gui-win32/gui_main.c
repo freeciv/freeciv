@@ -762,8 +762,10 @@ ui_main(int argc, char *argv[])
 
   callbacks = callback_list_new();
 
-  callback_timer = new_timer_start(TIMER_USER, TIMER_ACTIVE);
-  anim_timer = new_timer_start(TIMER_USER, TIMER_ACTIVE);
+  callback_timer = timer_new(TIMER_USER, TIMER_ACTIVE);
+  timer_start(callback_timer);
+  anim_timer = timer_new(TIMER_USER, TIMER_ACTIVE);
+  timer_start(anim_timer);
 
   while (!quit) {
 
@@ -771,7 +773,7 @@ ui_main(int argc, char *argv[])
     idle = !process_net_input();
 
     /* real_timer_callback() */
-    if (callback_seconds < read_timer_seconds(callback_timer)) {
+    if (callback_seconds < timer_read_seconds(callback_timer)) {
       idle = FALSE;
 
       if (can_client_change_view()) {
@@ -779,7 +781,8 @@ ui_main(int argc, char *argv[])
       }
 
       callback_seconds = real_timer_callback();
-      clear_timer_start(callback_timer);
+      timer_clear(callback_timer);
+      timer_start(callback_timer);
     }
 
     /* Win32 message queue */
@@ -803,7 +806,7 @@ ui_main(int argc, char *argv[])
       (cb->callback)(cb->data);
       free(cb);
 
-      anim_cursor(read_timer_seconds(anim_timer));
+      anim_cursor(timer_read_seconds(anim_timer));
     }
 
     /* If we're idle, give up the CPU. */
@@ -812,8 +815,8 @@ ui_main(int argc, char *argv[])
     }
   }
 
-  free_timer(anim_timer);
-  free_timer(callback_timer);
+  timer_destroy(anim_timer);
+  timer_destroy(callback_timer);
   callback_list_destroy(callbacks);
 
   FreeLibrary(hmsimg32);

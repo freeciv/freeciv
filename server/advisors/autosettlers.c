@@ -852,7 +852,8 @@ void auto_settlers_player(struct player *pplayer)
 
   state = fc_calloc(MAP_INDEX_SIZE, sizeof(*state));
 
-  t = renew_timer_start(t, TIMER_CPU, TIMER_DEBUG);
+  t = timer_renew(t, TIMER_CPU, TIMER_DEBUG);
+  timer_start(t);
 
   if (pplayer->ai_controlled) {
     /* Set up our city map. */
@@ -930,7 +931,7 @@ void auto_settlers_player(struct player *pplayer)
 #ifdef LOG_TIMERS
     log_verbose("%s autosettlers consumed %g milliseconds.",
                 nation_rule_name(nation_of_player(pplayer)),
-                1000.0 * read_timer_seconds(t));
+                1000.0 * timer_read_seconds(t));
 #else
     log_verbose("%s autosettlers finished",
                 nation_rule_name(nation_of_player(pplayer)));

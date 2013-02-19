@@ -154,18 +154,9 @@ static void report_time_failed(struct timer *t)
   Allocate a new timer with specified "type" and "use".
   The timer is created as cleared, and stopped.
 ***********************************************************************/
-struct timer *new_timer(enum timer_timetype type, enum timer_use use)
+struct timer *timer_new(enum timer_timetype type, enum timer_use use)
 {
-  return renew_timer(NULL, type, use);
-}
-
-/********************************************************************** 
-  Allocate a new timer with specified "type" and "use".
-  The timer is created as cleared, and started.
-***********************************************************************/
-struct timer *new_timer_start(enum timer_timetype type, enum timer_use use)
-{
-  return renew_timer_start(NULL, type, use);
+  return timer_renew(NULL, type, use);
 }
 
 /********************************************************************** 
@@ -176,13 +167,13 @@ struct timer *new_timer_start(enum timer_timetype type, enum timer_use use)
   This is intended to be useful to allocate a static t just once, eg:
   {
      static struct timer *t = NULL; 
-     t = renew_timer_start(t, TIMER_CPU, TIMER_USE);
+     t = timer_renew(t, TIMER_CPU, TIMER_USE);
      ... stuff ...
-     log_verbose("That took %g seconds.", read_timer_seconds(t));
+     log_verbose("That took %g seconds.", timer_read_seconds(t));
      ... never free t ...
   }
 ***********************************************************************/
-struct timer *renew_timer(struct timer *t, enum timer_timetype type,
+struct timer *timer_renew(struct timer *t, enum timer_timetype type,
 			  enum timer_use use)
 {
   if (!t) {
@@ -190,28 +181,14 @@ struct timer *renew_timer(struct timer *t, enum timer_timetype type,
   }
   t->type = type;
   t->use = use;
-  clear_timer(t);
+  timer_clear(t);
   return t;
-}
-
-/********************************************************************** 
-  Allocate a new timer, or reuse t, with specified "type" and "use".
-  The timer is created as cleared, and started.
-  If t is NULL, allocate and return a new timer, else
-  just re-initialise t and return t; see above.
-***********************************************************************/
-struct timer *renew_timer_start(struct timer *t, enum timer_timetype type,
-				enum timer_use use)
-{
-  struct timer *tt = renew_timer(t, type, use);
-  start_timer(tt);
-  return tt;
 }
 
 /********************************************************************** 
   Free the memory associated with a timer.
 ***********************************************************************/
-void free_timer(struct timer *t)
+void timer_destroy(struct timer *t)
 {
   if (t != NULL) {
     free(t);
@@ -232,7 +209,7 @@ bool timer_in_use(struct timer *t)
   That is, this may be called whether t is started or stopped;
   in either case the timer is in the stopped state after this function.
 ***********************************************************************/
-void clear_timer(struct timer *t)
+void timer_clear(struct timer *t)
 {
   fc_assert_ret(NULL != t);
   t->state = TIMER_STOPPED;
@@ -244,7 +221,7 @@ void clear_timer(struct timer *t)
   Start timing, adding to previous accumulated time if timer has not
   been cleared.  A warning is printed if the timer is already started.
 ***********************************************************************/
-void start_timer(struct timer *t)
+void timer_start(struct timer *t)
 {
   fc_assert_ret(NULL != t);
 
@@ -282,21 +259,12 @@ void start_timer(struct timer *t)
 }
 
 /********************************************************************** 
-  Convenience function:
-***********************************************************************/
-void clear_timer_start(struct timer *t)
-{
-  clear_timer(t);
-  start_timer(t);
-}
-
-/********************************************************************** 
   Stop timing, and accumulate time so far.
-  (The current time is stored in t->start, so that read_timer_seconds
+  (The current time is stored in t->start, so that timer_read_seconds
   can call this to take a point reading if the timer is active.)
   A warning is printed if the timer is already stopped.
 ***********************************************************************/
-void stop_timer(struct timer *t)
+void timer_stop(struct timer *t)
 {
   fc_assert_ret(NULL != t);
 
@@ -367,7 +335,7 @@ void stop_timer(struct timer *t)
   timer, reads it (and accumulates), and then restarts it.
   Returns 0.0 for unused timers.
 ***********************************************************************/
-double read_timer_seconds(struct timer *t)
+double timer_read_seconds(struct timer *t)
 {
   fc_assert_ret_val(NULL != t, -1.0);
 
@@ -375,7 +343,7 @@ double read_timer_seconds(struct timer *t)
     return 0.0;
   }
   if (t->state == TIMER_STARTED) {
-    stop_timer(t);
+    timer_stop(t);
     t->state = TIMER_STARTED;
   }
   return t->sec + t->usec / (double)N_USEC_PER_SEC;
@@ -387,7 +355,7 @@ double read_timer_seconds(struct timer *t)
   Must be called with an active, running user timer.
   (If timer is broken or in wrong state, just sleep for entire interval.)
 ***********************************************************************/
-void usleep_since_timer_start(struct timer *t, long usec)
+void timer_usleep_since_start(struct timer *t, long usec)
 {
 #ifdef HAVE_GETTIMEOFDAY
   int ret;
@@ -430,20 +398,4 @@ void usleep_since_timer_start(struct timer *t, long usec)
 #else
   fc_usleep(usec);
 #endif
-}
-
-/********************************************************************** 
-  Sleep since timer started, then free it.
-  This is intended to be useful for a simple one-off sleeping, eg:
-  {
-      struct timer *t = new_timer_start(TIMER_USER, TIMER_ACTIVE);
-      ...do stuff...
-      usleep_since_timer_start_free(t, 15000);
-      ...continue...
-  }
-***********************************************************************/
-void usleep_since_timer_start_free(struct timer *t, long usec)
-{
-  usleep_since_timer_start(t, usec);
-  free_timer(t);
 }

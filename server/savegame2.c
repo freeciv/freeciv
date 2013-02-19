@@ -604,7 +604,8 @@ void savegame2_load(struct section_file *file)
   fc_assert_ret(file != NULL);
 
 #ifdef DEBUG_TIMERS
-  struct timer *loadtimer = new_timer_start(TIMER_CPU, TIMER_DEBUG);
+  struct timer *loadtimer = timer_new(TIMER_CPU, TIMER_DEBUG);
+  timer_start(loadtimer);
 #endif
 
   savefile_options = secfile_lookup_str(file, "savefile.options");
@@ -625,9 +626,9 @@ void savegame2_load(struct section_file *file)
   }
 
 #ifdef DEBUG_TIMERS
-  stop_timer(loadtimer);
-  log_debug("Loading secfile in %.3f seconds.", read_timer_seconds(loadtimer));
-  free_timer(loadtimer);
+  timer_stop(loadtimer);
+  log_debug("Loading secfile in %.3f seconds.", timer_read_seconds(loadtimer));
+  timer_destroy(loadtimer);
 #endif /* DEBUG_TIMERS */
 }
 
@@ -641,16 +642,17 @@ void savegame2_save(struct section_file *file, const char *save_reason,
   fc_assert_ret(file != NULL);
 
 #ifdef DEBUG_TIMERS
-  struct timer *savetimer = new_timer_start(TIMER_CPU, TIMER_DEBUG);
+  struct timer *savetimer = timer_new(TIMER_CPU, TIMER_DEBUG);
+  timer_start(savetimer);
 #endif
 
   log_verbose("saving game in new format ...");
   savegame2_save_real(file, save_reason, scenario);
 
 #ifdef DEBUG_TIMERS
-  stop_timer(savetimer);
-  log_debug("Creating secfile in %.3f seconds.", read_timer_seconds(savetimer));
-  free_timer(savetimer);
+  timer_stop(savetimer);
+  log_debug("Creating secfile in %.3f seconds.", timer_read_seconds(savetimer));
+  timer_destroy(savetimer);
 #endif /* DEBUG_TIMERS */
 }
 

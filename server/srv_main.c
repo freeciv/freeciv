@@ -949,8 +949,9 @@ static void begin_phase(bool is_new_phase)
   } else {
     game.info.seconds_to_phasedone = (double)game.info.timeout;
   }
-  game.server.phase_timer = renew_timer_start(game.server.phase_timer,
-                                              TIMER_USER, TIMER_ACTIVE);
+  game.server.phase_timer = timer_renew(game.server.phase_timer,
+                                        TIMER_USER, TIMER_ACTIVE);
+  timer_start(game.server.phase_timer);
   send_game_info(NULL);
 
   if (game.server.num_phases == 1) {
@@ -1200,8 +1201,10 @@ void save_game(const char *orig_filename, const char *save_reason,
                        sizeof(filepath) + filepath - filename, "manual");
   }
 
-  timer_cpu = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
-  timer_user = new_timer_start(TIMER_USER, TIMER_ACTIVE);
+  timer_cpu = timer_new(TIMER_CPU, TIMER_ACTIVE);
+  timer_start(timer_cpu);
+  timer_user = timer_new(TIMER_USER, TIMER_ACTIVE);
+  timer_start(timer_user);
 
   /* Allowing duplicates shouldn't be allowed. However, it takes very too
    * long time for huge game saving... */
@@ -1276,11 +1279,11 @@ void save_game(const char *orig_filename, const char *save_reason,
 
 #ifdef LOG_TIMERS
   log_verbose("Save time: %g seconds (%g apparent)",
-              read_timer_seconds(timer_cpu), read_timer_seconds(timer_user));
+              timer_read_seconds(timer_cpu), timer_read_seconds(timer_user));
 #endif
 
-  free_timer(timer_cpu);
-  free_timer(timer_user);
+  timer_destroy(timer_cpu);
+  timer_destroy(timer_user);
 
   ggz_game_saved(filepath);
 }
@@ -2227,7 +2230,8 @@ static void srv_running(void)
   log_verbose("srv_running() mostly redundant send_server_settings()");
   send_server_settings(NULL);
 
-  eot_timer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
+  eot_timer = timer_new(TIMER_CPU, TIMER_ACTIVE);
+  timer_start(eot_timer);
 
   /* 
    * This will freeze the reports and agents at the client.
@@ -2279,7 +2283,7 @@ static void srv_running(void)
 #ifdef LOG_TIMERS
       /* Before sniff (human player activites), report time to now: */
       log_verbose("End/start-turn server/ai activities: %g seconds",
-                  read_timer_seconds(eot_timer));
+                  timer_read_seconds(eot_timer));
 #endif
 
       /* Do auto-saves just before starting server_sniff_all_input(), so that
@@ -2313,7 +2317,8 @@ static void srv_running(void)
       }
 
       /* After sniff, re-zero the timer: (read-out above on next loop) */
-      clear_timer_start(eot_timer);
+      timer_clear(eot_timer);
+      timer_start(eot_timer);
 
       conn_list_do_buffer(game.est_connections);
 
@@ -2355,7 +2360,7 @@ static void srv_running(void)
   /* This will thaw the reports and agents at the client.  */
   lsend_packet_thaw_client(game.est_connections);
 
-  free_timer(eot_timer);
+  timer_destroy(eot_timer);
 }
 
 /**************************************************************************

@@ -119,13 +119,6 @@ static int socklan;
    void user_interrupt_callback();
 #endif
 
-#define SPECLIST_TAG timer
-#define SPECLIST_TYPE struct timer
-#include "speclist.h"
-#define timer_list_iterate(ARG_list, NAME_item) \
-  TYPED_LIST_ITERATE(struct timer, (ARG_list), NAME_item)
-#define timer_list_iterate_end LIST_ITERATE_END
-
 #define PROCESSING_TIME_STATISTICS 0
 
 static int server_accept_connection(int sockfd);
@@ -212,7 +205,7 @@ static void close_connection(struct connection *pconn)
 
   if (pconn->server.ping_timers != NULL) {
     timer_list_iterate(pconn->server.ping_timers, timer) {
-      free_timer(timer);
+      timer_destroy(timer);
     } timer_list_iterate_end;
     timer_list_destroy(pconn->server.ping_timers);
     pconn->server.ping_timers = NULL;
@@ -327,7 +320,7 @@ static void cut_lagging_connection(struct connection *pconn)
       && pconn->last_write
       && conn_list_size(game.all_connections) > 1
       && pconn->access_level != ALLOW_HACK
-      && read_timer_seconds(pconn->last_write) > game.server.tcptimeout) {
+      && timer_read_seconds(pconn->last_write) > game.server.tcptimeout) {
     /* Cut the connections to players who lag too much.  This
      * usually happens because client animation slows the client
      * too much and it can't keep up with the server.  We don't
@@ -440,7 +433,8 @@ static void incoming_client_packets(struct connection *pconn)
 #if PROCESSING_TIME_STATISTICS
     int request_id;
 
-    request_time = renew_timer_start(request_time, TIMER_USER, TIMER_ACTIVE);
+    request_time = timer_renew(request_time, TIMER_USER, TIMER_ACTIVE);
+    timer_start(request_time);
 #endif /* PROCESSING_TIME_STATISTICS */
 
     pconn->server.last_request_id_seen
@@ -461,7 +455,7 @@ static void incoming_client_packets(struct connection *pconn)
 
 #if PROCESSING_TIME_STATISTICS
     log_verbose("processed request %d in %gms", request_id, 
-                read_timer_seconds(request_time) * 1000.0);
+                timer_read_seconds(request_time) * 1000.0);
 #endif /* PROCESSING_TIME_STATISTICS */
 
     if (!command_ok) {
@@ -470,7 +464,7 @@ static void incoming_client_packets(struct connection *pconn)
   }
 
 #if PROCESSING_TIME_STATISTICS
-  free_timer(request_time);
+  timer_destroy(request_time);
 #endif /* PROCESSING_TIME_STATISTICS */
 }
 
@@ -586,7 +580,7 @@ enum server_events server_sniff_all_input(void)
       conn_list_iterate(game.all_connections, pconn) {
         if ((!pconn->server.is_closing
              && 0 < timer_list_size(pconn->server.ping_timers)
-	     && read_timer_seconds(timer_list_get(pconn->server.ping_timers, 0))
+	     && timer_read_seconds(timer_list_get(pconn->server.ping_timers, 0))
 	        > game.server.pingtimeout) 
             || pconn->ping_time > game.server.pingtimeout) {
           /* cut mute players, except for hack-level ones */
@@ -674,7 +668,7 @@ enum server_events server_sniff_all_input(void)
       if (game.info.timeout > 0
 	  && S_S_RUNNING == server_state()
 	  && game.server.phase_timer
-	  && (read_timer_seconds(game.server.phase_timer)
+	  && (timer_read_seconds(game.server.phase_timer)
 	      > game.info.seconds_to_phasedone)) {
 	con_prompt_off();
 	return S_E_END_OF_TURN_TIMEOUT;
@@ -866,7 +860,7 @@ enum server_events server_sniff_all_input(void)
   if (game.info.timeout > 0
       && S_S_RUNNING == server_state()
       && game.server.phase_timer
-      && (read_timer_seconds(game.server.phase_timer)
+      && (timer_read_seconds(game.server.phase_timer)
           > game.info.seconds_to_phasedone)) {
     return S_E_END_OF_TURN_TIMEOUT;
   }
@@ -1305,10 +1299,12 @@ static void finish_processing_request(struct connection *pconn)
 ****************************************************************************/
 static void connection_ping(struct connection *pconn)
 {
+  struct timer *timer = timer_new(TIMER_USER, TIMER_ACTIVE);
+
   log_debug("sending ping to %s (open=%d)", conn_description(pconn),
             timer_list_size(pconn->server.ping_timers));
-  timer_list_append(pconn->server.ping_timers,
-                    new_timer_start(TIMER_USER, TIMER_ACTIVE));
+  timer_start(timer);
+  timer_list_append(pconn->server.ping_timers, timer);
   send_packet_conn_ping(pconn);
 }
 
@@ -1326,8 +1322,8 @@ void handle_conn_pong(struct connection *pconn)
 
   timer = timer_list_get(pconn->server.ping_timers, 0);
   timer_list_remove(pconn->server.ping_timers, timer);
-  pconn->ping_time = read_timer_seconds(timer);
-  free_timer(timer);
+  pconn->ping_time = timer_read_seconds(timer);
+  timer_destroy(timer);
   log_debug("got pong from %s (open=%d); ping time = %fs",
             conn_description(pconn),
             timer_list_size(pconn->server.ping_timers), pconn->ping_time);
