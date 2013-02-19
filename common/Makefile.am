@@ -100,6 +100,8 @@ libfreeciv_la_SOURCES = \
 		unittype.h	\
 		vision.c	\
 		vision.h	\
+		workertask.c	\
+		workertask.h	\
 		worklist.c	\
 		worklist.h	\
 		version.c	\

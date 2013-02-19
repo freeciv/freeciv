@@ -28,6 +28,7 @@ extern "C" {
 #include "improvement.h"
 #include "unitlist.h"
 #include "vision.h"
+#include "workertask.h"
 #include "worklist.h"
 
 enum production_class_type {
@@ -394,6 +395,8 @@ struct city {
       void *ais[FC_AI_LAST];
 
       struct vision *vision;
+
+      struct worker_task task_req;
     } server;
 
     struct {

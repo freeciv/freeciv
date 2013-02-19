@@ -3084,6 +3084,8 @@ struct city *create_city_virtual(struct player *pplayer,
   if (is_server()) {
     pcity->server.mgr_score_calc_turn = -1; /* -1 = never */
 
+    worker_task_init(&pcity->server.task_req);
+
     CALL_FUNC_EACH_AI(city_alloc, pcity);
     CALL_PLR_AI_FUNC(city_got, pplayer, pplayer, pcity);
   } else {

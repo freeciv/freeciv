@@ -542,6 +542,97 @@ int settler_evaluate_improvements(struct unit *punit,
   return best_newv;
 }
 
+/****************************************************************************
+  Return best city request to fulfill.
+****************************************************************************/
+static int settler_evaluate_city_requests(struct unit *punit,
+                                          enum unit_activity *best_act,
+                                          struct act_tgt *best_target,
+                                          struct tile **best_tile,
+                                          struct pf_path **path,
+                                          struct settlermap *state)
+{
+  const struct player *pplayer = unit_owner(punit);
+  struct pf_parameter parameter;
+  struct pf_map *pfm;
+  struct pf_position pos;
+  struct worker_task *closest = NULL;
+  int dist = FC_INFINITY;
+
+  pft_fill_unit_parameter(&parameter, punit);
+  parameter.can_invade_tile = autosettler_enter_territory;
+  pfm = pf_map_new(&parameter);
+
+  /* Have nearby cities requests? */
+  city_list_iterate(pplayer->cities, pcity) {
+    struct worker_task *ptask = &pcity->server.task_req;
+
+    if (ptask->ptile != NULL) {
+      bool consider = TRUE;
+
+      /* Do not go to tiles that already have workers there. */
+      unit_list_iterate(ptask->ptile->units, aunit) {
+        if (unit_owner(aunit) == pplayer
+            && aunit->id != punit->id
+            && unit_has_type_flag(aunit, UTYF_SETTLERS)) {
+          consider = FALSE;
+        }
+      } unit_list_iterate_end;
+
+      if (consider
+          && can_unit_do_activity_targeted_at(punit, ptask->act, &ptask->tgt,
+                                              ptask->ptile)) {
+        /* closest worker, if any, headed towards target tile */
+        struct unit *enroute = NULL;
+
+        if (state) {
+          enroute = player_unit_by_number(pplayer,
+                                          state[tile_index(ptask->ptile)].enroute);
+        }
+
+        if (pf_map_position(pfm, ptask->ptile, &pos)) {
+          int eta = FC_INFINITY, inbound_distance = FC_INFINITY;
+
+          if (enroute) {
+            eta = state[tile_index(ptask->ptile)].eta;
+            inbound_distance = real_map_distance(ptask->ptile, unit_tile(enroute));
+          }
+
+          /* Only consider this tile if we are closer in time and space to
+           * it than our other worker (if any) travelling to the site. */
+          if (pos.turn < dist
+              && ((enroute && enroute->id == punit->id)
+                  || pos.turn < eta
+                  || (pos.turn == eta
+                      && (real_map_distance(ptask->ptile, unit_tile(punit))
+                          < inbound_distance)))) {
+            dist = pos.turn;
+            closest = ptask;
+          }
+        }
+      }
+    }
+  } city_list_iterate_end;
+
+  if (closest != NULL) {
+    *best_act = closest->act;
+    *best_target = closest->tgt;
+    *best_tile = closest->ptile;
+  }
+
+  if (path != NULL) {
+    *path = closest ? pf_map_path(pfm, closest->ptile) : NULL;
+  }
+
+  pf_map_destroy(pfm);
+
+  if (closest != NULL) {
+    return 1;
+  }
+
+  return 0;
+}
+
 /**************************************************************************
   Find some work for our settlers and/or workers.
 **************************************************************************/
@@ -555,6 +646,7 @@ void auto_settler_findwork(struct player *pplayer,
   struct tile *best_tile = NULL;
   struct act_tgt best_target;
   struct pf_path *path = NULL;
+  int value;
 
   /* time it will take worker to complete its given task */
   int completion_time = 0;
@@ -572,6 +664,28 @@ void auto_settler_findwork(struct player *pplayer,
   fc_assert_ret(pplayer && punit);
   fc_assert_ret(unit_has_type_flag(punit, UTYF_CITIES)
                 || unit_has_type_flag(punit, UTYF_SETTLERS));
+
+  /* Have nearby cities requests? */
+
+  value = settler_evaluate_city_requests(punit, &best_act, &best_target,
+                                         &best_tile, &path, state);
+
+  if (value > 0) {
+    if (path != NULL) {
+      completion_time = pf_path_last_position(path)->turn;
+    }
+
+    adv_unit_new_task(punit, AUT_AUTO_SETTLER, best_tile);
+
+    auto_settler_setup_work(pplayer, punit, state, recursion,
+                            path, best_tile, best_act,
+                            &best_target, completion_time);
+    if (path != NULL) {
+      pf_path_destroy(path);
+    }
+
+    return;
+  }
 
   /*** Try find some work ***/
 
