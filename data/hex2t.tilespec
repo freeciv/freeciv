@@ -20,7 +20,7 @@ small_tile_height  = 20
 ; Basic tile style.
 type = "isometric"
 hex_side = 24
-is_hex = 1
+is_hex = TRUE
 
 ; Use fogstyle 0 (old iso style)
 fogstyle = 0

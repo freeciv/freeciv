@@ -19,10 +19,7 @@ small_tile_height  = 20
 
 ; Basic tile style.
 type = "isometric"
-is_hex = 0
-
-; Do not blend hills and mountains together.
-is_mountainous = 0
+is_hex = FALSE
 
 ; Fogstyle 2, darkness_style 4 : blended fog
 fogstyle = 2
@@ -186,7 +183,7 @@ num_layers = 2
 layer0_match_type = "land"
 layer1_match_type = "hills"
 layer1_match_with = "hills"
-layer1_is_tall = 1
+layer1_is_tall = TRUE
 layer1_offset_y = 6
 mine_sprite = "tx.mine"
 
