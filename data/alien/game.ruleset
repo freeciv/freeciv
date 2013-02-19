@@ -18,7 +18,7 @@ http://www.cazfi.net/freeciv/alien/ for ruleset info.")
 [options]
 global_init_techs=""
 global_init_buildings="Headquarters", "Basic Infrastructure"
-popup_tech_help = 1
+popup_tech_help = TRUE
 
 [civstyle]
 ; Value added to city pollution
@@ -68,7 +68,7 @@ upgrade_veteran_loss     = 0
 autoupgrade_veteran_loss = 0
 
 ; Whether player gets to select which terrain improvement to pillage.
-pillage_select		= 1
+pillage_select		= TRUE
 
 ; Method of paying unit and improvement gold upkeep
 ; 0 - The player`s total gold must be non-negative after paying upkeep
@@ -118,7 +118,7 @@ tech_leakage = 0
 
 [illness]
 ; Whether plagues (illness) are possible
-illness_on               = 0
+illness_on               = FALSE
 ; the base factor for illness (of percent)
 illness_base_factor      = 50
 ; minimum city size for illness
@@ -144,18 +144,18 @@ total_factor = 100
 
 [global_unit_options]
 ; Shore landing style
-;  0 - normal movement
-;  1 - (default) slow invasions by removing all
-;      movement points from ground units moving
-;      from ocean tile to land
-slow_invasions = 1
+;  FALSE - normal movement
+;  TRUE  - (default) slow invasions by removing all
+;          movement points from ground units moving
+;          from ocean tile to land
+slow_invasions = TRUE
 
 [combat_rules]
-;If tired_attack is set to 1, units that attack with only 1/3 or 2/3 moves
-;left will have their attack power reduced by 2/3 or 1/3 respectively. If
-;this is set to 0 units will attack with full strength even if they have
-;only fractional moves left.
-tired_attack = 1
+; If tired_attack is set to TRUE, units that attack with only 1/3 or 2/3
+; moves left will have their attack power reduced by 2/3 or 1/3
+; respectively. If this is set to FALSE units will attack with full
+; strength even if they have only fractional moves left.
+tired_attack = TRUE
 
 [borders]
 ; Base border radius from city.
@@ -185,7 +185,7 @@ free_tech_method = "Goal"
 start_year  = 250
 
 ; Year 1 instead of 0.
-skip_year_0 = 0
+skip_year_0 = FALSE
 
 ; What labels are used of positive and negative years.
 positive_label = _("GE")

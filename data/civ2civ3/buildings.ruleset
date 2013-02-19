@@ -76,9 +76,9 @@ name		= _("Aqueduct")
 genus		= "Improvement"
 reqs	=
     { "type", "name", "range", "negated"
-      "Tech", "Construction", "Player", 0
-      "Special", "River", "Adjacent", 1
-      "Terrain", "Lake", "Adjacent", 1
+      "Tech", "Construction", "Player", FALSE
+      "Special", "River", "Adjacent", TRUE
+      "Terrain", "Lake", "Adjacent", TRUE
     }
 graphic	= "b.aqueduct"
 graphic_alt	= "-"
@@ -99,7 +99,7 @@ name		= _("Aqueduct, near Lake")
 genus		= "Improvement"
 reqs	=
     { "type", "name", "range", "negated"
-      "Terrain", "Lake", "Adjacent", 0
+      "Terrain", "Lake", "Adjacent", FALSE
     }
 graphic	= "b.aqueduct"
 graphic_alt	= "-"
@@ -120,8 +120,8 @@ name		= _("Aqueduct, near River")
 genus		= "Improvement"
 reqs	=
     { "type", "name", "range", "negated"
-      "Special", "River", "Adjacent", 0
-      "Terrain", "Lake", "Adjacent", 1
+      "Special", "River", "Adjacent", FALSE
+      "Terrain", "Lake", "Adjacent", TRUE
     }
 graphic	= "b.aqueduct"
 graphic_alt	= "-"

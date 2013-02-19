@@ -1731,7 +1731,7 @@ name	= "Enable_Space"
 value	= 1
 reqs	=
     { "type", "name", "range", "survives"
-      "Building", "Apollo Program", "Player", 1
+      "Building", "Apollo Program", "Player", TRUE
     }
 
 [effect_asmiths_trading_co]
@@ -1980,7 +1980,7 @@ name	= "Enable_Nuke"
 value	= 1
 reqs	=
     { "type", "name", "range", "survives"
-      "Building", "Manhattan Project", "World", 1
+      "Building", "Manhattan Project", "World", TRUE
     }
 
 [effect_marco_polos_embassy]

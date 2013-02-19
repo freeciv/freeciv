@@ -2888,7 +2888,7 @@ type    = "Enable_Space"
 value   = 1
 reqs    =
     { "type", "name", "range", "survives"
-      "Building", "Apollo Program", "World", 1
+      "Building", "Apollo Program", "World", TRUE
     }
 
 [effect_asmiths_trading_co]
@@ -2906,7 +2906,7 @@ type    = "Specialist_Output"
 value   = 1
 reqs    =
     { "type", "name", "range", "survives"
-      "Building", "A.Smith's Trading Co.", "World", 1
+      "Building", "A.Smith's Trading Co.", "World", TRUE
       "Specialist", "Taxman", "Local"
       "OutputType", "Gold", "Local"
     }
@@ -2963,7 +2963,7 @@ type    = "Specialist_Output"
 value   = 1
 reqs    =
     { "type", "name", "range", "survives"
-      "Building", "Darwin's Voyage", "World", 1
+      "Building", "Darwin's Voyage", "World", TRUE
       "Specialist", "Scientist", "Local"
       "OutputType", "Science", "Local"
     }
@@ -2993,7 +2993,7 @@ type    = "Output_Bonus"
 value   = 50
 reqs    =
     { "type", "name", "range", "survives"
-      "Building", "Great Library", "World", 1
+      "Building", "Great Library", "World", TRUE
       "Building", "Library", "City"
       "OutputType", "Science", "Local"
     }
@@ -3122,7 +3122,7 @@ type    = "Output_Bonus"
 value   = 50
 reqs    =
     { "type", "name", "range", "survives"
-      "Building", "Isaac Newton's College", "World", 1
+      "Building", "Isaac Newton's College", "World", TRUE
       "Building", "University", "City"
       "OutputType", "Science", "Local"
     }
@@ -3262,7 +3262,7 @@ type    = "Enable_Nuke"
 value   = 1
 reqs    =
     { "type", "name", "range", "survives"
-      "Building", "Manhattan Project", "World", 1
+      "Building", "Manhattan Project", "World", TRUE
     }
 
 [effect_marco_polos_embassy]
@@ -3401,7 +3401,7 @@ type    = "Output_Bonus"
 value   = 50
 reqs    =
     { "type", "name", "range", "survives"
-      "Building", "Internet", "World", 1
+      "Building", "Internet", "World", TRUE
       "Building", "Research Lab", "City"
       "OutputType", "Science", "Local"
     }
@@ -3448,7 +3448,7 @@ type    = "Specialist_Output"
 value   = 1
 reqs    =
     { "type", "name", "range", "survives"
-      "Building", "Shakespeare's Theatre", "World", 1
+      "Building", "Shakespeare's Theatre", "World", TRUE
       "Specialist", "Elvis", "Local"
       "OutputType", "Luxury", "Local"
     }

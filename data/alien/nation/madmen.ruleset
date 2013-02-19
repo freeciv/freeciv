@@ -19,7 +19,7 @@ init_units = ""
 
 cities = "Brain"
 
-is_playable = 0
+is_playable = FALSE
 barbarian_type = "Land"
 
 ; nothing more needed for barbarians

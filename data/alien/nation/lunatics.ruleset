@@ -19,7 +19,7 @@ init_units=""
 
 cities = "Bottom of the Sea"
 
-is_playable = 0
+is_playable = FALSE
 barbarian_type = "Sea"
 
 ; nothing more needed for barbarians
