@@ -550,7 +550,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
                                   struct drawn_sprite *sprs,
                                   const struct unit *punit,
                                   bool stack, bool backdrop);
-static void load_river_sprites(struct tileset *t,
+static bool load_river_sprites(struct tileset *t,
                                struct river_sprites *store, const char *tag_pfx);
 
 
@@ -2714,7 +2714,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
 /**************************************************************************
   Load sprites of one river type.
 **************************************************************************/
-static void load_river_sprites(struct tileset *t,
+static bool load_river_sprites(struct tileset *t,
                                struct river_sprites *store, const char *tag_pfx)
 {
   int i;
@@ -2725,13 +2725,21 @@ static void load_river_sprites(struct tileset *t,
     fc_snprintf(buffer, sizeof(buffer), "%s_s_%s",
                 tag_pfx, cardinal_index_str(t, i));
     store->spec[i] = load_sprite(t, buffer);
+    if (store->spec[i] == NULL) {
+      return FALSE;
+    }
   }
 
   for (i = 0; i < 4; i++) {
     fc_snprintf(buffer, sizeof(buffer), "%s_outlet_%c",
                 tag_pfx, dir_char[i]);
     store->outlet[i] = load_sprite(t, buffer);
+    if (store->outlet[i] == NULL) {
+      return FALSE;
+    }
   }
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -3026,7 +3034,15 @@ void tileset_setup_road(struct tileset *t,
       SET_SPRITE_ALT(roads[id].u.total[i], full_tag_name, full_alt_name);
     }
   } else if (*roadstyle == RSTYLE_RIVER) {
-    load_river_sprites(t, &t->sprites.roads[id].u.rivers, "tx.river");
+    if (!load_river_sprites(t, &t->sprites.roads[id].u.rivers,
+                            proad->graphic_str)) {
+      if (!load_river_sprites(t, &t->sprites.roads[id].u.rivers,
+                              proad->graphic_alt)) {
+        log_fatal("Cannot load river \"%s\" or \"%s\"",
+                  proad->graphic_str, proad->graphic_alt);
+        exit(EXIT_FAILURE);
+      }
+    }
   } else {
     fc_assert(FALSE);
   }
