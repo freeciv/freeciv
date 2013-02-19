@@ -1465,7 +1465,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (utype->pop_cost > 0) {
     cat_snprintf(buf, bufsz,
-                 _("* Requires %d population to build.\n"),
+                 PL_("* Requires %d population to build.\n",
+                     "* Requires %d population to build.\n", utype->pop_cost),
                  utype->pop_cost);
   }
   if (0 < utype->transport_capacity) {
@@ -1518,8 +1519,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (utype_has_flag(utype, F_ADD_TO_CITY)) {
     cat_snprintf(buf, bufsz,
-		 _("* Can add on %d population to cities of no more than"
-		   " size %d.\n"),
+                 /* TRANS: Plural in "%d population", not "size %d". */
+		 PL_("* Can add on %d population to cities of no more than"
+                     " size %d.\n",
+		     "* Can add on %d population to cities of no more than"
+                     " size %d.\n", utype_pop_value(utype)),
 		 utype_pop_value(utype),
 		 game.info.add_to_size_limit - utype_pop_value(utype));
   }
