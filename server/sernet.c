@@ -204,9 +204,6 @@ static void close_connection(struct connection *pconn)
   }
 
   if (pconn->server.ping_timers != NULL) {
-    timer_list_iterate(pconn->server.ping_timers, timer) {
-      timer_destroy(timer);
-    } timer_list_iterate_end;
     timer_list_destroy(pconn->server.ping_timers);
     pconn->server.ping_timers = NULL;
   }
@@ -580,7 +577,8 @@ enum server_events server_sniff_all_input(void)
       conn_list_iterate(game.all_connections, pconn) {
         if ((!pconn->server.is_closing
              && 0 < timer_list_size(pconn->server.ping_timers)
-	     && timer_read_seconds(timer_list_get(pconn->server.ping_timers, 0))
+	     && timer_read_seconds(timer_list_front
+                                   (pconn->server.ping_timers))
 	        > game.server.pingtimeout) 
             || pconn->ping_time > game.server.pingtimeout) {
           /* cut mute players, except for hack-level ones */
@@ -1005,7 +1003,7 @@ int server_make_connection(int new_sock, const char *client_addr, const char *cl
       pconn->server.auth_tries = 0;
       pconn->server.auth_settime = 0;
       pconn->server.status = AS_NOT_ESTABLISHED;
-      pconn->server.ping_timers = timer_list_new();
+      pconn->server.ping_timers = timer_list_new_full(timer_destroy);
       pconn->server.granted_access_level = pconn->access_level;
       pconn->server.ignore_list =
           conn_pattern_list_new_full(conn_pattern_destroy);
@@ -1320,10 +1318,9 @@ void handle_conn_pong(struct connection *pconn)
     return;
   }
 
-  timer = timer_list_get(pconn->server.ping_timers, 0);
-  timer_list_remove(pconn->server.ping_timers, timer);
+  timer = timer_list_front(pconn->server.ping_timers);
   pconn->ping_time = timer_read_seconds(timer);
-  timer_destroy(timer);
+  timer_list_pop_front(pconn->server.ping_timers);
   log_debug("got pong from %s (open=%d); ping time = %fs",
             conn_description(pconn),
             timer_list_size(pconn->server.ping_timers), pconn->ping_time);
