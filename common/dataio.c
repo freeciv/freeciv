@@ -210,7 +210,7 @@ void dio_put_uint8(struct data_out *dout, int value)
   if (enough_space(dout, 1)) {
     uint8_t x = value;
 
-    fc_assert(sizeof(x) == 1);
+    FC_STATIC_ASSERT(sizeof(x) == 1, uint8_not_1_byte);
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 1);
     dout->current++;
   }
@@ -228,7 +228,7 @@ void dio_put_uint16(struct data_out *dout, int value)
   if (enough_space(dout, 2)) {
     uint16_t x = htons(value);
 
-    fc_assert(sizeof(x) == 2);
+    FC_STATIC_ASSERT(sizeof(x) == 2, uint16_not_2_bytes);
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 2);
     dout->current += 2;
   }
@@ -246,7 +246,7 @@ void dio_put_uint32(struct data_out *dout, int value)
   if (enough_space(dout, 4)) {
     uint32_t x = htonl(value);
 
-    fc_assert(sizeof(x) == 4);
+    FC_STATIC_ASSERT(sizeof(x) == 4, uint32_not_4_bytes);
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 4);
     dout->current += 4;
   }
