@@ -853,7 +853,7 @@ static void package_player_common(struct player *plr,
   packet->playerno = player_number(plr);
   sz_strlcpy(packet->name, player_name(plr));
   sz_strlcpy(packet->username, plr->username);
-  packet->nation = plr->nation ? nation_number(plr->nation) : nation_count();
+  packet->nation = plr->nation ? nation_number(plr->nation) : NATION_NONE;
   packet->is_male=plr->is_male;
   packet->team = plr->team ? team_number(plr->team) : team_count();
   packet->is_ready = plr->is_ready;
