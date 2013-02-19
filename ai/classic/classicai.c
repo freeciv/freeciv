@@ -341,6 +341,17 @@ static void cai_auto_settler_run(struct player *pplayer, struct unit *punit,
 /**************************************************************************
   Call default ai with classic ai type as parameter.
 **************************************************************************/
+static void cai_auto_settler_cont(struct player *pplayer, struct unit *punit,
+                                  struct settlermap *state)
+{
+  struct ai_type *deftype = classic_ai_get_self();
+
+  dai_auto_settler_cont(deftype, pplayer, punit, state);
+}
+
+/**************************************************************************
+  Call default ai with classic ai type as parameter.
+**************************************************************************/
 static void cai_do_first_activities(struct player *pplayer)
 {
   struct ai_type *deftype = classic_ai_get_self();
@@ -527,6 +538,7 @@ bool fc_ai_classic_setup(struct ai_type *ai)
 
   ai->funcs.settler_reset = cai_auto_settler_reset;
   ai->funcs.settler_run = cai_auto_settler_run;
+  ai->funcs.settler_cont = cai_auto_settler_cont;
 
   ai->funcs.first_activities = cai_do_first_activities;
   ai->funcs.diplomacy_actions = cai_diplomacy_actions;

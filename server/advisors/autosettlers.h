@@ -45,4 +45,7 @@ int settler_evaluate_improvements(struct unit *punit,
 void adv_unit_new_task(struct unit *punit, enum adv_unit_task task,
                        struct tile *ptile);
 
+bool adv_settler_safe_tile(const struct player *pplayer, struct unit *punit,
+                           struct tile *ptile);
+
 #endif   /* FC__AUTOSETTLERS_H */

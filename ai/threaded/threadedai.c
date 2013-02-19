@@ -333,6 +333,16 @@ static void twai_auto_settler_run(struct player *pplayer, struct unit *punit,
 /**************************************************************************
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
+static void twai_auto_settler_cont(struct player *pplayer, struct unit *punit,
+                                   struct settlermap *state)
+{
+  TAI_AIT;
+  TAI_DFUNC(dai_auto_settler_cont, pplayer, punit, state);
+}
+
+/**************************************************************************
+  Call default ai with threaded ai type as parameter.
+**************************************************************************/
 static void twai_first_activities(struct player *pplayer)
 {
   TAI_AIT;
@@ -512,6 +522,7 @@ bool fc_ai_threaded_setup(struct ai_type *ai)
 
   ai->funcs.settler_reset = twai_auto_settler_reset;
   ai->funcs.settler_run = twai_auto_settler_run;
+  ai->funcs.settler_cont = twai_auto_settler_cont;
 
   ai->funcs.first_activities = twai_first_activities;
   ai->funcs.diplomacy_actions = twai_diplomacy_actions;
