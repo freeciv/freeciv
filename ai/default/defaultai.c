@@ -116,6 +116,7 @@ bool fc_ai_classic_setup(struct ai_type *ai)
 
   ai->funcs.settler_reset = dai_auto_settler_reset;
   ai->funcs.settler_run = dai_auto_settler_run;
+  ai->funcs.settler_cont = dai_auto_settler_cont;
 
   ai->funcs.first_activities = dai_do_first_activities;
   ai->funcs.diplomacy_actions = dai_diplomacy_actions;

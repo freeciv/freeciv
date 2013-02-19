@@ -1116,6 +1116,17 @@ CLEANUP:
 }
 
 /**************************************************************************
+  Auto settler continuing its work.
+**************************************************************************/
+void dai_auto_settler_cont(struct player *pplayer,
+                           struct unit *punit, struct settlermap *state)
+{
+  if (!adv_settler_safe_tile(pplayer, punit, unit_tile(punit))) {
+    unit_activity_handling(punit, ACTIVITY_IDLE);
+  }
+}
+
+/**************************************************************************
   Reset ai settler engine.
 **************************************************************************/
 void dai_auto_settler_reset(struct player *pplayer)

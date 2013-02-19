@@ -29,7 +29,9 @@ void ai_auto_settler_free(struct ai_plr *ai);
 
 void dai_auto_settler_reset(struct player *pplayer);
 void dai_auto_settler_run(struct player *pplayer, struct unit *punit,
-                         struct settlermap *state);
+                          struct settlermap *state);
+void dai_auto_settler_cont(struct player *pplayer, struct unit *punit,
+                           struct settlermap *state);
 
 void contemplate_new_city(struct city *pcity);
 

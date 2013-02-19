@@ -332,6 +332,11 @@ int settler_evaluate_improvements(struct unit *punit,
         continue;
       }
 
+      if (!adv_settler_safe_tile(pplayer, punit, ptile)) {
+        /* Too dangerous place */
+        continue;
+      }
+
       /* Do not go to tiles that already have workers there. */
       unit_list_iterate(ptile->units, aunit) {
         if (unit_owner(aunit) == pplayer
@@ -615,6 +620,25 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
 #undef LOG_SETTLER
 
 /************************************************************************** 
+  Do we consider tile safe for autosettler to work?
+**************************************************************************/
+bool adv_settler_safe_tile(const struct player *pplayer, struct unit *punit,
+                           struct tile *ptile)
+{
+  unit_list_iterate(ptile->units, defender) {
+    if (is_military_unit(defender)) {
+      return TRUE;
+    }
+  } unit_list_iterate_end;
+
+  if (is_square_threatened(pplayer, ptile)) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/************************************************************************** 
   Run through all the players settlers and let those on ai.control work 
   automagically.
 **************************************************************************/
@@ -674,6 +698,15 @@ void auto_settlers_player(struct player *pplayer)
       }
       if (punit->activity == ACTIVITY_GOTO && punit->moves_left > 0) {
         unit_activity_handling(punit, ACTIVITY_IDLE);
+      }
+      if (punit->activity != ACTIVITY_IDLE) {
+        if (!pplayer->ai_controlled) {
+          if (!adv_settler_safe_tile(pplayer, punit, unit_tile(punit))) {
+            unit_activity_handling(punit, ACTIVITY_IDLE);
+          }
+        } else {
+          CALL_PLR_AI_FUNC(settler_cont, pplayer, pplayer, punit, state);
+        }
       }
       if (punit->activity == ACTIVITY_IDLE) {
         if (!pplayer->ai_controlled) {
