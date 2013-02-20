@@ -3419,8 +3419,6 @@ bool execute_orders(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
   int moves_made = 0;
   enum unit_activity activity;
-  Base_type_id base;
-  Road_type_id road;
 
   fc_assert_ret_val(unit_has_orders(punit), TRUE);
 
@@ -3436,12 +3434,6 @@ bool execute_orders(struct unit *punit)
 
   while (TRUE) {
     struct unit_order order;
-
-    if (punit->moves_left == 0) {
-      /* FIXME: this check won't work when actions take 0 MP. */
-      log_debug("  stopping because of no more move points");
-      return TRUE;
-    }
 
     if (punit->done_moving) {
       log_debug("  stopping because we're done this turn");
@@ -3466,10 +3458,28 @@ bool execute_orders(struct unit *punit)
     }
     moves_made++;
 
+    order = punit->orders.list[punit->orders.index];
+    if (0 == punit->moves_left) {
+      switch (order.order) {
+      case ORDER_MOVE:
+      case ORDER_FULL_MP:
+      case ORDER_BUILD_CITY:
+        log_debug("  stopping because of no more move points");
+        return TRUE;
+      case ORDER_ACTIVITY:
+      case ORDER_DISBAND:
+      case ORDER_BUILD_WONDER:
+      case ORDER_TRADE_ROUTE:
+      case ORDER_HOMECITY:
+      case ORDER_LAST:
+        /* Those actions don't require moves left. */
+        break;
+      }
+    }
+
     last_order = (!punit->orders.repeat
 		  && punit->orders.index + 1 == punit->orders.length);
 
-    order = punit->orders.list[punit->orders.index];
     if (last_order) {
       /* Clear the orders before we engage in the move.  That way any
        * has_orders checks will yield FALSE and this will be treated as
@@ -3513,31 +3523,52 @@ bool execute_orders(struct unit *punit)
       }
     case ORDER_ACTIVITY:
       activity = order.activity;
-      base = order.base;
-      road = order.road;
-      if ((activity == ACTIVITY_BASE && !can_unit_do_activity_base(punit, base))
-          || (activity == ACTIVITY_GEN_ROAD
-              && !can_unit_do_activity_road(punit, road))
-          || (activity != ACTIVITY_BASE && activity != ACTIVITY_GEN_ROAD
-              && !can_unit_do_activity(punit, activity))) {
-        cancel_orders(punit, "  orders canceled because of failed activity");
-        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
-                      _("Orders for %s aborted since they "
-                        "give an invalid activity."),
-                      unit_link(punit));
-        return TRUE;
-      }
-      punit->done_moving = TRUE;
+      if (activity == ACTIVITY_BASE) {
+        Base_type_id base = order.base;
 
-      if (activity == ACTIVITY_GEN_ROAD) {
-        set_unit_activity_road(punit, road);
-      } else if (activity == ACTIVITY_BASE) {
-        set_unit_activity_base(punit, base);
+        if (can_unit_do_activity_base(punit, base)) {
+          punit->done_moving = TRUE;
+          set_unit_activity_base(punit, base);
+          send_unit_info(NULL, punit);
+          break;
+        } else if (tile_has_base(unit_tile(punit), base_by_number(base))) {
+          break; /* Already built, let's continue. */
+        }
+      } else if (activity == ACTIVITY_GEN_ROAD) {
+        Road_type_id road = order.road;
+
+        if (can_unit_do_activity_road(punit, road)) {
+          punit->done_moving = TRUE;
+          set_unit_activity_road(punit, road);
+          send_unit_info(NULL, punit);
+          break;
+         } else if (tile_has_road(unit_tile(punit), road_by_number(road))) {
+          break; /* Already built, let's continue. */
+        }
       } else {
-        set_unit_activity(punit, activity);
+        if (can_unit_do_activity(punit, activity)) {
+          punit->done_moving = TRUE;
+          set_unit_activity(punit, activity);
+          send_unit_info(NULL, punit);
+          break;
+        } else if ((ACTIVITY_MINE == activity
+                    && tile_has_special(unit_tile(punit), S_MINE))
+                   || (ACTIVITY_IRRIGATE == activity
+                       && (tile_has_special(unit_tile(punit), S_FARMLAND)
+                           || tile_has_special(unit_tile(punit),
+                                               S_IRRIGATION)))
+                   || (ACTIVITY_MINE == activity
+                       && tile_has_special(unit_tile(punit), S_MINE))) {
+          break; /* Already built, let's continue. */
+        }
       }
-      send_unit_info(NULL, punit);
-      break;
+
+      cancel_orders(punit, "  orders canceled because of failed activity");
+      notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
+                    _("Orders for %s aborted since they "
+                      "give an invalid activity."),
+                    unit_link(punit));
+      return TRUE;
     case ORDER_MOVE:
       /* Move unit */
       if (!(dst_tile = mapstep(unit_tile(punit), order.dir))) {
@@ -3574,7 +3605,8 @@ bool execute_orders(struct unit *punit)
         return TRUE;
       }
 
-      if (!res && punit->moves_left > 0) {
+      if (!res) {
+        fc_assert(0 <= punit->moves_left);
         /* Movement failed (ZOC, etc.) */
         cancel_orders(punit, "  attempt to move failed.");
         notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
@@ -3582,30 +3614,6 @@ bool execute_orders(struct unit *punit)
                       unit_link(punit));
         return TRUE;
       }
-
-      if (!res && punit->moves_left == 0) {
-        /* Movement failed (not enough MP). Keep this move around for
-         * next turn. */
-        log_debug("  orders move failed (out of MP).");
-	if (unit_has_orders(punit)) {
-	  punit->orders.index--;
-	} else {
-	  /* FIXME: If this was the last move, the orders will already have
-	   * been freed, so we have to add them back on.  This is quite a
-	   * hack; one problem is that the no-orders unit has probably
-	   * already had its unit info sent out to the client. */
-	  punit->has_orders = TRUE;
-	  punit->orders.length = 1;
-	  punit->orders.index = 0;
-	  punit->orders.repeat = FALSE;
-	  punit->orders.vigilant = FALSE;
-	  punit->orders.list = fc_malloc(sizeof(order));
-	  punit->orders.list[0] = order;
-	}
-	send_unit_info(NULL, punit);
-	return TRUE;
-      }
-
       break;
     case ORDER_DISBAND:
       log_debug("  orders: disbanding");
