@@ -638,6 +638,18 @@ void player_clear(struct player *pplayer, bool full)
 }
 
 /****************************************************************************
+  Clear the ruleset dependent pointers of the player structure. Called by
+  game_ruleset_free().
+****************************************************************************/
+void player_ruleset_close(struct player *pplayer)
+{
+  pplayer->government = NULL;
+  pplayer->target_government = NULL;
+  player_set_nation(pplayer, NULL);
+  pplayer->city_style = 0;
+}
+
+/****************************************************************************
   Destroys and remove a player from the game.
 ****************************************************************************/
 void player_destroy(struct player *pplayer)

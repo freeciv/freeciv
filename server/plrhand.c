@@ -95,6 +95,9 @@ static void send_player_diplstate_c_real(struct player *src,
 /* Used by shuffle_players() and shuffled_player(). */
 static int shuffled_order[MAX_NUM_PLAYER_SLOTS];
 
+/* Used by player_info_freeze() and player_info_thaw(). */
+static int player_info_frozen_level = 0;
+
 /**************************************************************************
   Murder a player in cold blood.
 
@@ -723,6 +726,28 @@ static void send_player_remove_info_c(const struct player_slot *pslot,
   } conn_list_iterate_end;
 }
 
+/****************************************************************************
+  Do not compute and send PACKET_PLAYER_INFO until a call to
+  player_info_thaw(). This is used to discard infos in savegame load or
+  ruleset (re)load cycles.
+****************************************************************************/
+void player_info_freeze(void)
+{
+  player_info_frozen_level++;
+}
+
+/****************************************************************************
+  If the frozen level is back to 0, send all players infos to all
+  connections.
+****************************************************************************/
+void player_info_thaw(void)
+{
+  if (0 == --player_info_frozen_level) {
+    send_player_info_c(NULL, NULL);
+  }
+  fc_assert(0 <= player_info_frozen_level);
+}
+
 /**************************************************************************
   Send all information about a player (player_info and all
   player_diplstates) to the given connections.
@@ -752,6 +777,10 @@ void send_player_all_c(struct player *src, struct conn_list *dest)
 **************************************************************************/
 void send_player_info_c(struct player *src, struct conn_list *dest)
 {
+  if (0 < player_info_frozen_level) {
+    return; /* Discard, see comment for player_info_freeze(). */
+  }
+
   if (src != NULL) {
     send_player_info_c_real(src, dest);
     return;

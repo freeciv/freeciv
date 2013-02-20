@@ -504,6 +504,13 @@ void game_ruleset_init(void)
 ***************************************************************/
 void game_ruleset_free(void)
 {
+  /* Clear main structures which can points to the ruleset dependent
+   * structures. */
+  players_iterate(pplayer) {
+    player_ruleset_close(pplayer);
+  } players_iterate_end;
+  game.government_during_revolution = NULL;
+
   specialists_free();
   techs_free();
   governments_free();

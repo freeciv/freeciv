@@ -288,6 +288,7 @@ struct player *player_new(struct player_slot *pslot);
 void player_set_color(struct player *pplayer,
                       const struct rgbcolor *prgbcolor);
 void player_clear(struct player *pplayer, bool full);
+void player_ruleset_close(struct player *pplayer);
 void player_destroy(struct player *pplayer);
 
 int player_count(void);
