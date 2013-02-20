@@ -78,6 +78,7 @@ struct section_file *secfile_new(bool allow_duplicates)
   secfile->num_entries = 0;
   secfile->sections = section_list_new_full(section_destroy);
   secfile->allow_duplicates = allow_duplicates;
+  secfile->allow_digital_boolean = FALSE; /* Default */
 
   secfile->hash.sections = section_hash_new();
   /* Maybe allocated later. */
@@ -111,6 +112,18 @@ void secfile_destroy(struct section_file *secfile)
   }
 
   free(secfile);
+}
+
+/****************************************************************************
+  Set if we could consider values 0 and 1 as boolean. By default, this is
+  not allowed, but we need to keep compatibility with old Freeciv version
+  for savegames, ruleset etc.
+****************************************************************************/
+void secfile_allow_digital_boolean(struct section_file *secfile,
+                                   bool allow_digital_boolean)
+{
+  fc_assert_ret(NULL != secfile);
+  secfile->allow_digital_boolean = allow_digital_boolean;
 }
 
 /****************************************************************************

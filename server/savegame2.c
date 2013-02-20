@@ -618,6 +618,7 @@ void savegame2_load(struct section_file *file)
   if (!has_capabilities("+version2", savefile_options)) {
     /* load old format (freeciv 2.2.x) */
     log_verbose("loading savefile in old format ...");
+    secfile_allow_digital_boolean(file, TRUE);
     legacy_game_load(file);
   } else {
     /* load new format (freeciv 2.2.99 and newer) */

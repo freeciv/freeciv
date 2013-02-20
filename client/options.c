@@ -4531,6 +4531,9 @@ static void save_cma_presets(struct section_file *file)
 /* The first version the new option name appeared (2.2). */
 #define FIRST_MAJOR_NEW_OPTION_FILE_NAME 2
 #define FIRST_MINOR_NEW_OPTION_FILE_NAME 2
+/* The first version the new boolean values appeared (2.3). */
+#define FIRST_MAJOR_NEW_BOOLEAN 2
+#define FIRST_MINOR_NEW_BOOLEAN 3
 /****************************************************************
   Returns pointer to static memory containing name of the current
   option file.  Usually used for saving.
@@ -4565,19 +4568,21 @@ static const char *get_current_option_file_name(void)
   return name_buffer;
 }
 
-/****************************************************************
-  Check the last option file we saved.  Usually used to load.
-  Ie, based on FREECIV_OPT env var, and home dir. (or a
-  OPTION_FILE_NAME define defined in config.h)
-  Or NULL if not found.
-*****************************************************************/
-static const char *get_last_option_file_name(void)
+/****************************************************************************
+  Check the last option file we saved. Usually used to load. Ie, based on
+  FREECIV_OPT env var, and home dir. (or a OPTION_FILE_NAME define defined
+  in config.h), or NULL if not found.
+
+  Set in allow_digital_boolean if we should look for old boolean values
+  (saved as 0 and 1), so if the rc file version is older than 2.3.0.
+****************************************************************************/
+static const char *get_last_option_file_name(bool *allow_digital_boolean)
 {
   static char name_buffer[256];
   const char *name;
 
+  *allow_digital_boolean = FALSE;
   name = getenv("FREECIV_OPT");
-
   if (name) {
     sz_strlcpy(name_buffer, name);
   } else {
@@ -4608,6 +4613,11 @@ static const char *get_last_option_file_name(void)
                        get_current_option_file_name() + strlen(name) + 1,
                        name_buffer + strlen(name) + 1);
           }
+          if (FIRST_MAJOR_NEW_BOOLEAN > major
+              || (FIRST_MAJOR_NEW_BOOLEAN == major
+                  && FIRST_MINOR_NEW_BOOLEAN > minor)) {
+            *allow_digital_boolean = TRUE;
+          }
           return name_buffer;
         }
       }
@@ -4621,6 +4631,7 @@ static const char *get_last_option_file_name(void)
                    "loading from '%s' instead."),
                  get_current_option_file_name() + strlen(name) + 1,
                  OLD_OPTION_FILE_NAME);
+      *allow_digital_boolean = TRUE;
       return name_buffer;
     } else {
       return NULL;
@@ -4634,6 +4645,8 @@ static const char *get_last_option_file_name(void)
 #undef NEW_OPTION_FILE_NAME
 #undef FIRST_MAJOR_NEW_OPTION_FILE_NAME
 #undef FIRST_MINOR_NEW_OPTION_FILE_NAME
+#undef FIRST_MAJOR_NEW_BOOLEAN
+#undef FIRST_MINOR_NEW_BOOLEAN
 
 
 /****************************************************************************
@@ -5069,11 +5082,12 @@ void options_dialogs_set(void)
 void options_load(void)
 {
   struct section_file *sf;
+  bool allow_digital_boolean;
   int i, num;
   const char *name;
   const char * const prefix = "client";
 
-  name = get_last_option_file_name();
+  name = get_last_option_file_name(&allow_digital_boolean);
   if (!name) {
     log_normal(_("Didn't find the option file."));
     options_fully_initialized = TRUE;
@@ -5099,6 +5113,7 @@ void options_load(void)
     options_fully_initialized = TRUE;
     return;
   }
+  secfile_allow_digital_boolean(sf, allow_digital_boolean);
 
   /* a "secret" option for the lazy. TODO: make this saveable */
   sz_strlcpy(password,

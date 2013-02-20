@@ -34,6 +34,7 @@ struct section_file {
   size_t num_entries;
   struct section_list *sections;
   bool allow_duplicates;
+  bool allow_digital_boolean;
   struct {
     struct section_hash *sections;
     struct entry_hash *entries;
