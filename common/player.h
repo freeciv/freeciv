@@ -264,6 +264,7 @@ int player_slot_max_used_number(void);
 /* General player accessor functions. */
 struct player *player_new(struct player_slot *pslot);
 void player_clear(struct player *pplayer, bool full);
+void player_ruleset_close(struct player *pplayer);
 void player_destroy(struct player *pplayer);
 
 int player_count(void);
