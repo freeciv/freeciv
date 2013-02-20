@@ -2268,13 +2268,16 @@ bool unit_transport_unload(struct unit *pcargo)
   /* Get the transporter; must not be defined on the client! */
   ptrans = unit_transport_get(pcargo);
   if (ptrans) {
+    bool success;
+
     /* 'pcargo' and 'ptrans' should be on the same tile. */
     fc_assert_ret_val(same_pos(unit_tile(pcargo), unit_tile(ptrans)), FALSE);
     /* It is an error if 'pcargo' can not be removed from the 'ptrans'. */
-    fc_assert_ret_val(unit_list_remove(ptrans->transporting, pcargo), FALSE);
+    success = unit_list_remove(ptrans->transporting, pcargo);
+    fc_assert(success);
   }
 
-  /* For the server (also save for the client). */
+  /* For the server (also safe for the client). */
   pcargo->transporter = NULL;
 
   return TRUE;
