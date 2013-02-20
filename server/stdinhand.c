@@ -3675,6 +3675,8 @@ bool load_command(struct connection *caller, const char *filename, bool check)
     }
   } conn_list_iterate_end;
 
+  player_info_freeze();
+
   /* Now free all game data. */
   server_game_free();
   server_game_init();
@@ -3706,7 +3708,8 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   conn_list_compression_thaw(game.est_connections);
 
   /* Send information about the new players. */
-  send_player_all_c(NULL, NULL);
+  player_info_thaw();
+  send_player_diplstate_c(NULL, NULL);
 
   /* Everything seemed to load ok; spread the good news. */
   dlsend_packet_game_load(game.est_connections, TRUE, srvarg.load_filename);
@@ -3793,6 +3796,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
     sz_strlcpy(game.server.rulesetdir, str);
 
     /* load the ruleset (and game settings defined in the ruleset) */
+    player_info_freeze();
     if (load_rulesets(old)) {
       cmd_reply(CMD_RULESETDIR, caller, C_OK, 
                 _("Ruleset directory set to \"%s\""), str);
@@ -3815,6 +3819,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
     }
     /* list changed values */
     show_changed(caller, check, read_recursion);
+    player_info_thaw();
 
     return success;
   }

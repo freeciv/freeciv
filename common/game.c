@@ -516,6 +516,13 @@ void game_ruleset_free(void)
 {
   CALL_FUNC_EACH_AI(units_ruleset_close);
 
+  /* Clear main structures which can points to the ruleset dependent
+   * structures. */
+  players_iterate(pplayer) {
+    player_ruleset_close(pplayer);
+  } players_iterate_end;
+  game.government_during_revolution = NULL;
+
   specialists_free();
   techs_free();
   governments_free();

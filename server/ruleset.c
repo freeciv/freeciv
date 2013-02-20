@@ -5084,24 +5084,6 @@ static void send_ruleset_team_names(struct conn_list *dest)
   } team_slots_iterate_end;
 }
 
-/****************************************************************************
-  HACK: reset any nations that have been set so far.
-
-  FIXME: this should be moved into nationhand.c.
-****************************************************************************/
-static void reset_player_nations(void)
-{
-  players_iterate(pplayer) {
-    /* We cannot use player_set_nation() here since this is
-     * called before nations are loaded. Player pointers
-     * from nations will be initialized to NULL when nations are
-     * loaded. */
-    pplayer->nation = NO_NATION_SELECTED;
-    pplayer->city_style = 0;
-  } players_iterate_end;
-  send_player_info_c(NULL, game.est_connections);
-}
-
 /**************************************************************************
   Loads the rulesets.
 **************************************************************************/
@@ -5168,7 +5150,6 @@ static bool load_rulesetdir(const char *rsdir)
   playercolor_init();
   game_ruleset_init();
 
-  reset_player_nations();
   server.playable_nations = 0;
 
   techfile = openload_ruleset_file("techs", rsdir);
