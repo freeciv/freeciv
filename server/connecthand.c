@@ -819,8 +819,10 @@ bool connection_delegate_restore(struct connection *pconn)
   }
 
   /* Try to attach to the original player */
-  if (!connection_attach(pconn, pconn->server.delegation.playing,
-                         pconn->server.delegation.observer)) {
+  if ((NULL != pconn->server.delegation.playing
+      || pconn->server.delegation.observer)
+      && !connection_attach(pconn, pconn->server.delegation.playing,
+                            pconn->server.delegation.observer)) {
     return FALSE;
   }
 
