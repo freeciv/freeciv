@@ -59,6 +59,7 @@
 #endif
 
 #include <stdarg.h>
+#include <stdlib.h>
 #include <string.h>
 
 /* utility */
@@ -74,6 +75,49 @@
 #define n_alloc _private_n_alloc_
 
 static const struct astring zero_astr = ASTRING_INIT;
+static char *astr_buffer = NULL;
+static size_t astr_buffer_alloc = 0;
+
+static inline char *astr_buffer_get(size_t *alloc);
+static inline char *astr_buffer_grow(size_t *alloc);
+static void astr_buffer_free(void);
+
+
+/****************************************************************************
+  Returns the astring buffer. Create it if necessary.
+****************************************************************************/
+static inline char *astr_buffer_get(size_t *alloc)
+{
+  if (!astr_buffer) {
+    astr_buffer_alloc = 65536;
+    astr_buffer = fc_malloc(astr_buffer_alloc);
+    atexit(astr_buffer_free);
+  }
+
+  *alloc = astr_buffer_alloc;
+  return astr_buffer;
+}
+
+/****************************************************************************
+  Grow the astring buffer.
+****************************************************************************/
+static inline char *astr_buffer_grow(size_t *alloc)
+{
+  astr_buffer_alloc *= 2;
+  astr_buffer = fc_realloc(astr_buffer, astr_buffer_alloc);
+
+  *alloc = astr_buffer_alloc;
+  return astr_buffer;
+}
+
+/****************************************************************************
+  Grow the astring buffer.
+****************************************************************************/
+static void astr_buffer_free(void)
+{
+  free(astr_buffer);
+}
+
 
 /****************************************************************************
   Initialize the struct.
@@ -155,18 +199,23 @@ void astr_clear(struct astring *astr)
 static void astr_vadd(struct astring *astr, size_t at,
                       const char *format, va_list ap)
 {
-  static char buf[65536]; /* Sometimes, lua scripts need very big size. */
+  char *buffer;
+  size_t buffer_size;
   size_t new_len;
 
-  new_len = fc_vsnprintf(buf, sizeof(buf), format, ap);
-  fc_assert_msg((size_t) -1 != new_len,
-                "Formatted string bigger than %lu bytes",
-                (unsigned long) sizeof(buf));
+  buffer = astr_buffer_get(&buffer_size);
+  for (;;) {
+    new_len = fc_vsnprintf(buffer, buffer_size, format, ap);
+    if (new_len < buffer_size && (size_t) -1 != new_len) {
+      break;
+    }
+    buffer = astr_buffer_grow(&buffer_size);
+  }
 
-  new_len = at + strlen(buf) + 1;
+  new_len += at + 1;
 
   astr_reserve(astr, new_len);
-  fc_strlcpy(astr->str + at, buf, astr->n_alloc - at);
+  fc_strlcpy(astr->str + at, buffer, astr->n_alloc - at);
 }
 
 /****************************************************************************
