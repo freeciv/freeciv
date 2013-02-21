@@ -507,6 +507,12 @@ modular, so there are some observations to do:
 
     fc_assert(pfoo != NULL && pfoo->id >= 0);
 
+- Never include functionality also otherwise necessary inside fc_assert*().
+  Such functionality would be missing from release builds where asserts
+  are disabled. If you want to assert return value of a critical function
+  call, make the call outside assert and place the return value to variable
+  and then assert value of that variable.
+
 - For strings containing multiple sentences, use a single space after periods
   (not two, not zero, just one).
 
