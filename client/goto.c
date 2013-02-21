@@ -985,6 +985,7 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
   int i;
   struct tile *old_tile;
 
+  memset(&p, 0, sizeof(p));
   p.unit_id = punit->id;
   p.src_tile = tile_index(unit_tile(punit));
   p.repeat = repeat;
