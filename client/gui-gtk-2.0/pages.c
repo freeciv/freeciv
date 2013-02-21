@@ -106,8 +106,7 @@ static void start_new_game_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void start_scenario_callback(GtkWidget *w, gpointer data)
 {
-  set_client_page(PAGE_SCENARIO);
-  client_start_server();
+  client_start_server_and_set_page(PAGE_SCENARIO);
 }
 
 /**************************************************************************
@@ -115,8 +114,7 @@ static void start_scenario_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void load_saved_game_callback(GtkWidget *w, gpointer data)
 {
-  set_client_page(PAGE_LOAD);
-  client_start_server();
+  client_start_server_and_set_page(PAGE_LOAD);
 }
 
 /****************************************************************************

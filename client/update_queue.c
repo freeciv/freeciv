@@ -21,6 +21,7 @@
 
 /* common */
 #include "city.h"
+#include "connection.h"
 #include "player.h"
 
 /* client/include */
@@ -32,6 +33,10 @@
 #include "pages_g.h"
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
+
+/* client */
+#include "client_main.h"
+#include "connectdlg_common.h"
 
 #include "update_queue.h"
 
@@ -479,6 +484,20 @@ void set_client_page(enum client_pages page)
   log_debug("Requested page: %s.", client_pages_name(page));
 
   update_queue_add(set_client_page_callback, FC_INT_TO_PTR(page));
+}
+
+/****************************************************************************
+  Start server and then, set the client page.
+****************************************************************************/
+void client_start_server_and_set_page(enum client_pages page)
+{
+  log_debug("Requested server start + page: %s.", client_pages_name(page));
+
+  if (client_start_server()) {
+    update_queue_connect_processing_finished(client.conn.client.last_request_id_used,
+                                             set_client_page_callback,
+                                             FC_INT_TO_PTR(page));
+  }
 }
 
 /****************************************************************************

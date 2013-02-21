@@ -33,6 +33,7 @@ void update_start_page(void);
 
 /* Actually defined in update_queue.c */
 void set_client_page(enum client_pages page);
+void client_start_server_and_set_page(enum client_pages page);
 enum client_pages get_client_page(void);
 
 #endif  /* FC__PAGES_G_H */
