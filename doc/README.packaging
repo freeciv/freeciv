@@ -28,6 +28,8 @@ Updating from 2.4 to 2.5
   files specific to classic ruleset in new data/classic directory
 * Minimum version of readline is 4.3. Readline support cannot be enabled
   with older versions.
+* AI module "threaded" is usable. For most part it just uses same code
+  "classic" module uses, so there's not much difference between the two.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
