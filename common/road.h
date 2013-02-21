@@ -112,6 +112,10 @@ struct road_type *road_type_by_translated_name(const char *name);
 int count_road_near_tile(const struct tile *ptile, const struct road_type *proad);
 bool is_road_card_near(const struct tile *ptile, const struct road_type *proad);
 bool is_road_near_tile(const struct tile *ptile, const struct road_type *proad);
+int count_river_near_tile(const struct tile *ptile);
+int count_river_type_near_tile(const struct tile *ptile,
+                               const struct road_type *priver,
+                               bool percentage);
 
 bool road_has_flag(const struct road_type *proad, enum road_flag_id flag);
 

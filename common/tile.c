@@ -893,6 +893,25 @@ bool tile_has_road(const struct tile *ptile, const struct road_type *proad)
 }
 
 /****************************************************************************
+  Tile has any river type
+****************************************************************************/
+bool tile_has_river(const struct tile *ptile)
+{
+  if (tile_has_special(ptile, S_OLD_RIVER)) {
+    return TRUE;
+  }
+
+  road_type_iterate(priver) {
+    if (tile_has_road(ptile, priver)
+        && road_has_flag(priver, RF_RIVER)) {
+      return TRUE;
+    }
+  } road_type_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
   Adds road to tile
 ****************************************************************************/
 void tile_add_road(struct tile *ptile, const struct road_type *proad)

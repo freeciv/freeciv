@@ -696,11 +696,7 @@ static int river_test_rivergrid(struct river_map *privermap,
                                 struct tile *ptile,
                                 struct road_type *priver)
 {
-  if (priver == NULL) {
-    return (count_special_near_tile(ptile, TRUE, FALSE, S_RIVER) > 1) ? 1 : 0;
-  } else {
-    return (count_road_near_tile(ptile, priver) > 1) ? 1 : 0;
-  }
+  return (count_river_type_near_tile(ptile, priver, FALSE) > 1) ? 1 : 0;
 }
 
 /*********************************************************************
@@ -730,7 +726,7 @@ static int river_test_adjacent_river(struct river_map *privermap,
                                      struct tile *ptile,
                                      struct road_type *priver)
 {
-  return 100 - count_special_near_tile(ptile, TRUE, TRUE, S_RIVER);
+  return 100 - count_river_type_near_tile(ptile, priver, TRUE);
 }
 
 /*********************************************************************
@@ -1050,10 +1046,12 @@ static void make_rivers(void)
      Is needed to stop a potentially infinite loop. */
   int iteration_counter = 0;
 
+  struct road_type *river_types[MAX_ROAD_TYPES];
+  int river_type_count = 0;
+
   road_type_iterate(priver) {
     if (road_has_flag(priver, RF_RIVER)) {
-      road_river = priver;
-      break;
+      river_types[river_type_count++] = priver;
     }
   } road_type_iterate_end;
 
@@ -1080,13 +1078,11 @@ static void make_rivers(void)
 	!is_ocean(pterrain)
 
 	/* Don't start a river on river. */
-	&& !tile_has_special(ptile, S_RIVER)
-        && (road_river == NULL || !tile_has_road(ptile, road_river))
+	&& !tile_has_river(ptile)
 
 	/* Don't start a river on a tile is surrounded by > 1 river +
 	   ocean tile. */
-	&& (count_special_near_tile(ptile, TRUE, FALSE, S_RIVER)
-            + count_road_near_tile(ptile, road_river)
+	&& (count_river_near_tile(ptile)
 	    + count_terrain_class_near_tile(ptile, TRUE, FALSE, TC_OCEAN) <= 1)
 
 	/* Don't start a river on a tile that is surrounded by hills or
@@ -1114,6 +1110,22 @@ static void make_rivers(void)
       /* Reset river map before making a new river. */
       dbv_clr_all(&rivermap.blocked);
       dbv_clr_all(&rivermap.ok);
+
+      if (river_type_count > 0) {
+        road_river = river_types[fc_rand(river_type_count)];
+      }
+
+      if (road_river != NULL) {
+        road_type_iterate(oriver) {
+          if (oriver != road_river) {
+            whole_map_iterate(rtile) {
+              if (tile_has_road(rtile, oriver)) {
+                dbv_set(&rivermap.blocked, tile_index(rtile));
+              }
+            } whole_map_iterate_end;
+          }
+        } road_type_iterate_end;
+      }
 
       log_debug("Found a suitable starting tile for a river at (%d, %d)."
                 " Starting to make it.", TILE_XY(ptile));

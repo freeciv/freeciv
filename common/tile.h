@@ -145,6 +145,7 @@ void tile_add_road(struct tile *ptile, const struct road_type *proad);
 void tile_remove_road(struct tile *ptile, const struct road_type *proad);
 int tile_roads_output_incr(const struct tile *ptile, enum output_type_id o);
 int tile_roads_output_bonus(const struct tile *ptile, enum output_type_id o);
+bool tile_has_river(const struct tile *tile);
 
 /* Vision related */
 enum known_type tile_get_known(const struct tile *ptile,
