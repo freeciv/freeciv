@@ -23,9 +23,12 @@ extern "C" {
 #include <sys/time.h>
 #endif
 
+/* utility */
+#include "fcthread.h"
 #include "shared.h"
 #include "timing.h"
 
+/* common */
 #include "connection.h"		/* struct conn_list */
 #include "fc_types.h"
 #include "player.h"
@@ -228,6 +231,10 @@ struct civ_game {
         bool user_message_set;
         char user_message[256];
       } meta_info;
+
+      struct {
+        fc_mutex city_list;
+      } mutexes;
 
       int first_timeout;
     } server;

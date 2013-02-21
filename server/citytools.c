@@ -1265,7 +1265,10 @@ void create_city(struct player *pplayer, struct tile *ptile,
   tile_set_owner(ptile, pplayer, ptile); /* temporarily */
   city_choose_build_default(pcity);
   pcity->id = identity_number();
+
+  fc_allocate_mutex(&game.server.mutexes.city_list);
   idex_register_city(pcity);
+  fc_release_mutex(&game.server.mutexes.city_list);
 
   if (!pplayer->server.capital) {
     city_build_free_buildings(pcity);
@@ -1475,7 +1478,10 @@ void remove_city(struct city *pcity)
   pcity->server.vision = NULL;
   script_server_remove_exported_object(pcity);
   adv_city_free(pcity);
+
+  fc_allocate_mutex(&game.server.mutexes.city_list);
   game_remove_city(pcity);
+  fc_release_mutex(&game.server.mutexes.city_list);
 
   players_iterate(other_player) {
     if (map_is_known_and_seen(pcenter, other_player, V_MAIN)) {

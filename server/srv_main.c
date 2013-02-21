@@ -248,6 +248,9 @@ void srv_init(void)
   /* Initialize callbacks. */
   game.callbacks.unit_deallocate = identity_number_release;
 
+  /* Initialize global mutexes */
+  fc_init_mutex(&game.server.mutexes.city_list);
+
   /* done */
   return;
 }
@@ -1383,6 +1386,7 @@ void server_quit(void)
   voting_free();
   close_connections_and_socket();
   registry_module_close();
+  fc_destroy_mutex(&game.server.mutexes.city_list);
   free_nls();
   con_log_close();
   exit(EXIT_SUCCESS);
