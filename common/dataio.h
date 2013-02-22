@@ -34,6 +34,19 @@ struct data_out {
   bool too_short;		/* set to 1 if try to read past end */
 };
 
+/* Used for dio_<put|get>_type() methods.
+ * NB: we only support integer handling currently. */
+enum data_type {
+  DIOT_UINT8,
+  DIOT_UINT16,
+  DIOT_UINT32,
+  DIOT_SINT8,
+  DIOT_SINT16,
+  DIOT_SINT32,
+
+  DIOT_LAST
+};
+
 /* network string conversion */
 typedef char *(*DIO_PUT_CONV_FUN) (const char *src, size_t *length);
 void dio_set_put_conv_callback(DIO_PUT_CONV_FUN fun);
@@ -53,7 +66,11 @@ void dio_input_rewind(struct data_in *din);
 size_t dio_input_remaining(struct data_in *din);
 bool dio_input_skip(struct data_in *din, size_t size);
 
+size_t data_type_size(enum data_type type);
+
 /* gets */
+bool dio_get_type(struct data_in *din, enum data_type type, int *dest)
+    fc__attribute((nonnull (3)));
 
 bool dio_get_uint8(struct data_in *din, int *dest)
     fc__attribute((nonnull (2)));
@@ -103,6 +120,8 @@ bool dio_get_uint16_vec8(struct data_in *din, int **values, int stop_value)
   dio_get_memory((pdin), (bv).vec, sizeof((bv).vec))
 
 /* puts */
+void dio_put_type(struct data_out *dout, enum data_type type, int value);
+
 void dio_put_uint8(struct data_out *dout, int value);
 void dio_put_uint16(struct data_out *dout, int value);
 void dio_put_uint32(struct data_out *dout, int value);

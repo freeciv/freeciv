@@ -186,6 +186,29 @@ size_t dio_input_remaining(struct data_in *din)
 }
 
 /**************************************************************************
+  Return the size of the data_type in bytes.
+**************************************************************************/
+size_t data_type_size(enum data_type type)
+{
+  switch (type) {
+  case DIOT_UINT8:
+  case DIOT_SINT8:
+    return 1;
+  case DIOT_UINT16:
+  case DIOT_SINT16:
+    return 2;
+  case DIOT_UINT32:
+  case DIOT_SINT32:
+    return 4;
+  case DIOT_LAST:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "data_type %d not handled.", type);
+  return 0;
+}
+
+/**************************************************************************
    Skips 'n' bytes.
 **************************************************************************/
 bool dio_input_skip(struct data_in *din, size_t size)
@@ -250,6 +273,37 @@ void dio_put_uint32(struct data_out *dout, int value)
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 4);
     dout->current += 4;
   }
+}
+
+/**************************************************************************
+  Insert value using 'size' bits. May overflow.
+**************************************************************************/
+void dio_put_type(struct data_out *dout, enum data_type type, int value)
+{
+  switch (type) {
+  case DIOT_UINT8:
+    dio_put_uint8(dout, value);
+    return;
+  case DIOT_UINT16:
+    dio_put_uint16(dout, value);
+    return;
+  case DIOT_UINT32:
+    dio_put_uint32(dout, value);
+    return;
+  case DIOT_SINT8:
+    dio_put_sint8(dout, value);
+    return;
+  case DIOT_SINT16:
+    dio_put_sint16(dout, value);
+    return;
+  case DIOT_SINT32:
+    dio_put_sint32(dout, value);
+    return;
+  case DIOT_LAST:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "data_type %d not handled.", type);
 }
 
 /**************************************************************************
@@ -551,6 +605,32 @@ bool dio_get_uint32(struct data_in *din, int *dest)
   *dest = ntohl(x);
   din->current += 4;
   return TRUE;
+}
+
+/**************************************************************************
+  Receive value using 'size' bits to dest.
+**************************************************************************/
+bool dio_get_type(struct data_in *din, enum data_type type, int *dest)
+{
+  switch (type) {
+  case DIOT_UINT8:
+    return dio_get_uint8(din, dest);
+  case DIOT_UINT16:
+    return dio_get_uint16(din, dest);
+  case DIOT_UINT32:
+    return dio_get_uint32(din, dest);
+  case DIOT_SINT8:
+    return dio_get_sint8(din, dest);
+  case DIOT_SINT16:
+    return dio_get_sint16(din, dest);
+  case DIOT_SINT32:
+    return dio_get_sint32(din, dest);
+  case DIOT_LAST:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "data_type %d not handled.", type);
+  return FALSE;
 }
 
 /**************************************************************************
