@@ -95,7 +95,7 @@ static const char *usdlg_col_titles[USDLG_COLUMNS_ALL] = {
   N_("Unit"),
   N_("Description"),
   N_("Count"),
-  "[Unittype]", /* No translation! */
+  "[Unittype]", /* Only for debug, no translation! */
   "[Unit ID]",
   "[Location]",
   "[Activity]",
@@ -810,11 +810,14 @@ static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
     fc_snprintf(buf2, sizeof(buf2), "%s", city_name(phome));
   } else if (unit_owner(punit) == client_player()
              || client_is_global_observer()) {
-    sz_strlcpy(buf2, "no home city");
+    /* TRANS: used in place of unit home city name */
+    sz_strlcpy(buf2, _("no home city"));
   } else {
-    sz_strlcpy(buf2, "unknown");
+    /* TRANS: used in place of unit home city name */
+    sz_strlcpy(buf2, _("unknown"));
   }
 #ifdef DEBUG
+  /* Strings only used in debug builds, don't bother with i18n */
   fc_snprintf(buf, sizeof(buf), "%s [Unit ID %d]\n(%s)\nCoordinates: (%d,%d)",
               unit_name_translation(punit), punit->id, buf2,
               TILE_XY(unit_tile(punit)));
@@ -827,7 +830,8 @@ static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
     }
   }
 #else /* DEBUG */
-  fc_snprintf(buf, sizeof(buf), "%s\n(%s)", unit_name_translation(punit),
+  /* TRANS: unit type and home city, e.g. "Transport\n(New Orleans)" */
+  fc_snprintf(buf, sizeof(buf), _("%s\n(%s)"), unit_name_translation(punit),
               buf2);
 #endif /* DEBUG */
 
