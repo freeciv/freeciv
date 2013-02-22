@@ -357,10 +357,7 @@ int get_current_construction_bonus(const struct city *pcity,
 				   enum effect_type effect_type,
                                    const enum req_problem_type prob_type);
 
-Impr_type_id ai_find_source_building(struct city *pcity,
-				     enum effect_type effect_type,
-                                     struct unit_class *uclass,
-                                     enum unit_move_type move);
+struct effect_list *get_effects(enum effect_type effect_type);
 
 typedef bool (*iec_cb)(const struct effect*);
 bool iterate_effect_cache(iec_cb cb);

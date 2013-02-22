@@ -14,6 +14,7 @@
 #define FC__AICITY_H
 
 /* common */
+#include "effects.h" /* enum effect_type */
 #include "fc_types.h"
 
 /* server/advisors */
@@ -96,5 +97,10 @@ void dai_build_adv_adjust(struct ai_type *ait, struct player *pplayer,
                           struct city *wonder_city);
 
 void dai_consider_wonder_city(struct ai_type *ait, struct city *pcity, bool *result);
+
+Impr_type_id dai_find_source_building(struct city *pcity,
+                                      enum effect_type effect_type,
+                                      struct unit_class *uclass,
+                                      enum unit_move_type move);
 
 #endif  /* FC__AICITY_H */

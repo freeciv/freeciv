@@ -586,16 +586,16 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
       }
 
       if (unit_has_type_flag(punit, UTYF_NUCLEAR)) {
-        defender = ai_find_source_building(pcity, EFT_NUKE_PROOF,
-                                           unit_class(punit),
-                                           unit_move_type_invalid());
+        defender = dai_find_source_building(pcity, EFT_NUKE_PROOF,
+                                            unit_class(punit),
+                                            unit_move_type_invalid());
         if (defender != B_LAST) {
           danger_reduced[defender] += vulnerability / MAX(move_time, 1);
         }
       } else if (!unit_has_type_flag(punit, UTYF_IGWALL)) {
-        defender = ai_find_source_building(pcity, EFT_DEFEND_BONUS,
-                                           unit_class(punit),
-                                           unit_move_type_invalid());
+        defender = dai_find_source_building(pcity, EFT_DEFEND_BONUS,
+                                            unit_class(punit),
+                                            unit_move_type_invalid());
         if (defender != B_LAST) {
           danger_reduced[defender] += vulnerability / MAX(move_time, 1);
         }
@@ -942,9 +942,9 @@ static void process_attacker_want(struct ai_type *ait,
       int move_time;
       int vuln;
       int will_be_veteran
-          = (ai_find_source_building(pcity, EFT_VETERAN_BUILD,
-                                     utype_class(punittype),
-                                     unit_move_type_invalid())
+          = (dai_find_source_building(pcity, EFT_VETERAN_BUILD,
+                                      utype_class(punittype),
+                                      unit_move_type_invalid())
              != B_LAST);
       /* Cost (shield equivalent) of gaining these techs. */
       /* FIXME? Katvrr advises that this should be weighted more heavily in big
@@ -1356,9 +1356,9 @@ static void adjust_ai_unit_choice(struct city *pcity,
   }
 
   /*  N.B.: have to check that we haven't already built the building --mck */
-  if ((id = ai_find_source_building(pcity, EFT_VETERAN_BUILD,
-                                    utype_class(choice->value.utype),
-                                    unit_move_type_invalid())) != B_LAST
+  if ((id = dai_find_source_building(pcity, EFT_VETERAN_BUILD,
+                                     utype_class(choice->value.utype),
+                                     unit_move_type_invalid())) != B_LAST
        && !city_has_building(pcity, improvement_by_number(id))) {
     choice->value.building = improvement_by_number(id);
     choice->type = CT_BUILDING;
@@ -1431,7 +1431,7 @@ void military_advisor_choose_build(struct ai_type *ait,
 
     /* HACK: This needs changing if multiple improvements provide
      * this effect. */
-    wall_id = ai_find_source_building(pcity, EFT_DEFEND_BONUS, NULL, UMT_LAND);
+    wall_id = dai_find_source_building(pcity, EFT_DEFEND_BONUS, NULL, UMT_LAND);
     pimprove = improvement_by_number(wall_id);
 
     if (wall_id != B_LAST
