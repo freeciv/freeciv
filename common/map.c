@@ -743,6 +743,8 @@ static int tile_move_cost_ptrs(const struct unit *punit,
   int road_cost = -1;
   int river_cost = -1;
   int cost;
+  bool cardinal_move;
+  bool ri;
 
   if (punit) {
     pclass = unit_class(punit);
@@ -769,47 +771,47 @@ static int tile_move_cost_ptrs(const struct unit *punit,
    * units are not penalized. UTYF_IGTER affects also entering and
    * leaving ships, so UTYF_IGTER check has to be before native terrain
    * check. We want to give railroad bonus only to native units. */
-  if (!restrict_infra(pplayer, t1, t2)) {
-    bool cardinal_move = is_move_cardinal(t1, t2);
+  ri = restrict_infra(pplayer, t1, t2);
+  cardinal_move = is_move_cardinal(t1, t2);
 
-    road_type_iterate(proad) {
-      if (proad->move_mode != RMM_NO_BONUS) {
-        if ((!punit || is_native_road_to_uclass(proad, pclass))
-            && tile_has_road(t1, proad) && tile_has_road(t2, proad)) {
-          if (road_cost == -1 || road_cost > proad->move_cost) {
-            switch (proad->move_mode) {
-            case RMM_CARDINAL:
-              if (cardinal_move) {
-                road_cost = proad->move_cost;
-              }
-              break;
-            case RMM_RELAXED:
-              if (cardinal_move) {
-                road_cost = proad->move_cost;
-              } else {
-                cardinal_between_iterate(t1, t2, between) {
-                  if (tile_has_road(between, proad)) {
-                    /* TODO: Should we restrict this more?
-                     * Should we check against enemy cities on between tile?
-                     * Should we check against non-native terrain on between tile?
-                     */
-                    road_cost = proad->move_cost * 2;
-                  }
-                } cardinal_between_iterate_end;
-              }
-              break;
-            case RMM_FAST_ALWAYS:
+  road_type_iterate(proad) {
+    if (proad->move_mode != RMM_NO_BONUS
+        && (!ri || road_has_flag(proad, RF_NATURAL))) {
+      if ((!punit || is_native_road_to_uclass(proad, pclass))
+          && tile_has_road(t1, proad) && tile_has_road(t2, proad)) {
+        if (road_cost == -1 || road_cost > proad->move_cost) {
+          switch (proad->move_mode) {
+          case RMM_CARDINAL:
+            if (cardinal_move) {
               road_cost = proad->move_cost;
-              break;
-            case RMM_NO_BONUS:
-              fc_assert(proad->move_mode != RMM_NO_BONUS);
-              break;
             }
+            break;
+          case RMM_RELAXED:
+            if (cardinal_move) {
+              road_cost = proad->move_cost;
+            } else {
+              cardinal_between_iterate(t1, t2, between) {
+                if (tile_has_road(between, proad)) {
+                  /* TODO: Should we restrict this more?
+                   * Should we check against enemy cities on between tile?
+                   * Should we check against non-native terrain on between tile?
+                   */
+                  road_cost = proad->move_cost * 2;
+                }
+              } cardinal_between_iterate_end;
+            }
+            break;
+          case RMM_FAST_ALWAYS:
+            road_cost = proad->move_cost;
+            break;
+          case RMM_NO_BONUS:
+            fc_assert(proad->move_mode != RMM_NO_BONUS);
+            break;
           }
         }
       }
-    } road_type_iterate_end;
-  }
+    }
+  } road_type_iterate_end;
 
   if (road_cost >= 0 && road_cost < MOVE_COST_IGTER) {
     return road_cost;
@@ -824,7 +826,6 @@ static int tile_move_cost_ptrs(const struct unit *punit,
   }
 
   if (tile_has_special(t1, S_RIVER) && tile_has_special(t2, S_RIVER)) {
-    bool cardinal_move = is_move_cardinal(t1, t2);
     switch (terrain_control.river_move_mode) {
     case RMV_NORMAL:
       break;

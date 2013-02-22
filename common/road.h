@@ -33,6 +33,8 @@ extern "C" {
 #define SPECENUM_VALUE5NAME "PreventsOtherRoads"
 #define SPECENUM_VALUE6 RF_RIVER
 #define SPECENUM_VALUE6NAME "River"
+#define SPECENUM_VALUE7 RF_NATURAL
+#define SPECENUM_VALUE7NAME "Natural"
 #define SPECENUM_COUNT RF_COUNT
 #include "specenum_gen.h"
 

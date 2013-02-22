@@ -1102,6 +1102,7 @@ They have no effect on gameplay.\
 ;                           matter about reqs.
 ;   - "PreventsOtherRoads" = Other roads with "RequiresBridge" flag cannot be built
 ;                            to same tile after this road.
+;   - "Natural"           = Not infrastructure road
 ; helptext                = optional help text string; should escape all raw
 ;                           newlines so that xgettext parsing works
 ;
