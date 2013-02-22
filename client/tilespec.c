@@ -2630,7 +2630,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     }
   }
 
-  load_river_sprites(t, &t->sprites.tx.rivers, "tx.river");
+  load_river_sprites(t, &t->sprites.tx.rivers, "river");
 
   /* We use direction-specific irrigation and farmland graphics, if they
    * are available.  If not, we just fall back to the basic irrigation
