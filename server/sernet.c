@@ -590,7 +590,10 @@ enum server_events server_sniff_all_input(void)
                         conn_description(pconn));
             connection_close_server(pconn, _("ping timeout"));
           }
-        } else {
+        } else if (pconn->established) {
+          /* We don't send ping to connection not established, because
+           * we wouldn't be able to handle asynchronous ping/pong with
+           * different packet header size. */
           connection_ping(pconn);
         }
       } conn_list_iterate_end;
@@ -984,6 +987,7 @@ static int server_accept_connection(int sockfd)
 ********************************************************************/
 int server_make_connection(int new_sock, const char *client_addr, const char *client_ip)
 {
+  struct timer *timer;
   int i;
 
   fc_nonblock(new_sock);
@@ -1020,7 +1024,12 @@ int server_make_connection(int new_sock, const char *client_addr, const char *cl
 
       log_verbose("connection (%s) from %s (%s)", 
                   pconn->username, pconn->addr, pconn->server.ipaddr);
-      connection_ping(pconn);
+      /* Give a ping timeout to send the PACKET_SERVER_JOIN_REQ, or close
+       * the mute connection. This timer will be canceled into
+       * connecthand.c:handle_login_request(). */
+      timer = timer_new(TIMER_USER, TIMER_ACTIVE);
+      timer_start(timer);
+      timer_list_append(pconn->server.ping_timers, timer);
       return 0;
     }
   }

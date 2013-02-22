@@ -92,51 +92,50 @@ void generic_handle_player_attribute_chunk(struct player *pplayer,
 const char *packet_name(enum packet_type type);
 bool packet_has_game_info_flag(enum packet_type type);
 
+inline void packet_header_init(struct packet_header *packet_header);
+void post_send_packet_server_join_reply(struct connection *pconn,
+                                        const struct packet_server_join_reply
+                                        *packet);
+void post_receive_packet_server_join_reply(struct connection *pconn,
+                                           const struct
+                                           packet_server_join_reply *packet);
+
 void pre_send_packet_player_attribute_chunk(struct connection *pc,
 					    struct packet_player_attribute_chunk
 					    *packet);
 
-#ifdef DEBUG
-#define PACKET_TYPE_SANITY(_type_) \
-  if (((_type_ & 0xff00) >> 8) == PACKET_SERVER_JOIN_REQ) { \
-    log_error("Packet type %s (%d) has upper byte matching old PACKET_SERVER_JOIN_REQ.", \
-              packet_name(_type_), _type_); \
-  }
-#else  /* DEBUG */
-#define PACKET_TYPE_SANITY(_type_)
-#endif /* DEBUG */
-
-#define SEND_PACKET_START(type) \
+#define SEND_PACKET_START(packet_type) \
   unsigned char buffer[MAX_LEN_PACKET]; \
   struct data_out dout; \
   \
   dio_output_init(&dout, buffer, sizeof(buffer)); \
-  dio_put_uint16(&dout, 0); \
-  dio_put_uint16(&dout, type); \
-  PACKET_TYPE_SANITY(type)
+  dio_put_type(&dout, pc->packet_header.length, 0); \
+  dio_put_type(&dout, pc->packet_header.type, packet_type);
 
-#define SEND_PACKET_END \
+#define SEND_PACKET_END(packet_type) \
   { \
     size_t size = dio_output_used(&dout); \
     \
     dio_output_rewind(&dout); \
-    dio_put_uint16(&dout, size); \
+    dio_put_type(&dout, pc->packet_header.length, size); \
     fc_assert(!dout.too_short); \
-    return send_packet_data(pc, buffer, size); \
+    return send_packet_data(pc, buffer, size, packet_type); \
   }
 
-#define RECEIVE_PACKET_START(type, result) \
+#define RECEIVE_PACKET_START(packet_type, result) \
   struct data_in din; \
-  struct type packet_buf, *result = &packet_buf; \
+  struct packet_type packet_buf, *result = &packet_buf; \
   \
-  dio_input_init(&din, pc->buffer->data, 2); \
+  dio_input_init(&din, pc->buffer->data, \
+                 data_type_size(pc->packet_header.length)); \
   { \
     int size; \
   \
-    dio_get_uint16(&din, &size); \
+    dio_get_type(&din, pc->packet_header.length, &size); \
     dio_input_init(&din, pc->buffer->data, MIN(size, pc->buffer->ndata)); \
   } \
-  dio_input_skip(&din, 4);
+  dio_input_skip(&din, (data_type_size(pc->packet_header.length) \
+                        + data_type_size(pc->packet_header.type)));
 
 #define RECEIVE_PACKET_END(result) \
   if (!packet_check(&din, pc)) { \
@@ -151,7 +150,8 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
   log_packet("Error on field '" #field "'" __VA_ARGS__); \
   return NULL
 
-int send_packet_data(struct connection *pc, unsigned char *data, int len);
+int send_packet_data(struct connection *pc, unsigned char *data, int len,
+                     enum packet_type packet_type);
 bool packet_check(struct data_in *din, struct connection *pc);
 
 /* Utilities to exchange strings and string vectors. */

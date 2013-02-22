@@ -172,11 +172,12 @@ bool conn_compression_thaw(struct connection *pconn)
 /**************************************************************************
   It returns the request id of the outgoing packet (or 0 if is_server()).
 **************************************************************************/
-int send_packet_data(struct connection *pc, unsigned char *data, int len)
+int send_packet_data(struct connection *pc, unsigned char *data, int len,
+                     enum packet_type packet_type)
 {
   /* default for the server */
   int result = 0;
-  int packet_type = ntohs((data[3] << 8) + data[2]);
+
 
   log_packet("sending packet type=%s(%d) len=%d to %s",
              packet_name(packet_type), packet_type, len,
@@ -329,12 +330,11 @@ void *get_packet_from_connection(struct connection *pc,
     enum packet_type type;
     int itype;
   } utype;
-  int typeb1, typeb2;
   struct data_in din;
 #ifdef USE_COMPRESSION
   bool compressed_packet = FALSE;
+  int header_size = 0;
 #endif
-  int header_size = 4;
   void *data;
 
   if (!pc->used) {
@@ -347,7 +347,7 @@ void *get_packet_from_connection(struct connection *pc,
   }
 
   dio_input_init(&din, pc->buffer->data, pc->buffer->ndata);
-  dio_get_uint16(&din, &len_read);
+  dio_get_type(&din, pc->packet_header.length, &len_read);
 
   /* The non-compressed case */
   whole_packet_len = len_read;
@@ -377,6 +377,7 @@ void *get_packet_from_connection(struct connection *pc,
     return NULL;		/* not all data has been read */
   }
 
+#ifdef USE_COMPRESSION
   if (whole_packet_len < header_size) {
     log_verbose("The packet size is reported to be less than header alone. "
                 "The connection will be closed now.");
@@ -385,7 +386,6 @@ void *get_packet_from_connection(struct connection *pc,
     return NULL;
   }
 
-#ifdef USE_COMPRESSION
   if (compressed_packet) {
     uLong compressed_size = whole_packet_len - header_size;
     /* 
@@ -444,27 +444,17 @@ void *get_packet_from_connection(struct connection *pc,
 
   /*
    * At this point the packet is a plain uncompressed one. These have
-   * to have to be at least 4 bytes in size.
+   * to have to be at least the header bytes in size.
    */
-  if (whole_packet_len < 2+2) {
+  if (whole_packet_len < (data_type_size(pc->packet_header.length)
+                          + data_type_size(pc->packet_header.type))) {
     log_verbose("The packet stream is corrupt. The connection "
                 "will be closed now.");
     connection_close(pc, _("decoding error"));
     return NULL;
   }
 
-  /* Instead of one dio_get_uint16() we do twice dio_get_uint8().
-   * Older (<= 2.4) versions had 8bit type field, and we detect
-   * here if this is initial PACKET_SERVER_JOIN_REQ from such a client. */
-  dio_get_uint8(&din, &typeb1);
-
-  if (typeb1 == PACKET_SERVER_JOIN_REQ) {
-    utype.itype = typeb1;
-  } else {
-    dio_get_uint8(&din, &typeb2);
-    utype.itype = ntohs((typeb2 << 8) + typeb1);
-  }
-
+  dio_get_type(&din, pc->packet_header.type, &utype.itype);
   utype.type = utype.itype;
 
   log_packet("got packet type=(%s)%d len=%d from %s",
@@ -546,6 +536,57 @@ void remove_packet_from_buffer(struct socket_packet_buffer *buffer)
             len, buffer->ndata);
 }
 
+/****************************************************************************
+  Set the packet header field lengths used for the login protocol,
+  before the capability of the connection could be checked.
+
+  NB: These values cannot be changed for backward compatibility reasons.
+****************************************************************************/
+inline void packet_header_init(struct packet_header *packet_header)
+{
+  packet_header->length = DIOT_UINT16;
+  packet_header->type = DIOT_UINT8;
+}
+
+/****************************************************************************
+  Set the packet header field lengths used after the login protocol,
+  after the capability of the connection could be checked.
+****************************************************************************/
+static inline void packet_header_set(struct packet_header *packet_header)
+{
+  /* Ensure we have values initialized in packet_header_init(). */
+  fc_assert(packet_header->length == DIOT_UINT16);
+  fc_assert(packet_header->type == DIOT_UINT8);
+
+  packet_header->length = DIOT_UINT16;
+  packet_header->type = DIOT_UINT16;
+}
+
+/****************************************************************************
+  Modify if needed the packet header field lengths.
+****************************************************************************/
+void post_send_packet_server_join_reply(struct connection *pconn,
+                                        const struct packet_server_join_reply
+                                        *packet)
+{
+  if (packet->you_can_join) {
+    packet_header_set(&pconn->packet_header);
+  }
+}
+
+/****************************************************************************
+  Modify if needed the packet header field lengths.
+****************************************************************************/
+void post_receive_packet_server_join_reply(struct connection *pconn,
+                                           const struct
+                                           packet_server_join_reply *packet)
+{
+  if (packet->you_can_join) {
+    packet_header_set(&pconn->packet_header);
+  }
+}
+
+
 /**************************************************************************
   Sanity check packet
 **************************************************************************/
@@ -557,8 +598,8 @@ bool packet_check(struct data_in *din, struct connection *pc)
     int type, len;
 
     dio_input_rewind(din);
-    dio_get_uint16(din, &len);
-    dio_get_uint16(din, &type);
+    dio_get_type(din, pc->packet_header.length, &len);
+    dio_get_type(din, pc->packet_header.type, &type);
 
     log_packet("received long packet (type %d, len %d, rem %lu) from %s",
                type,

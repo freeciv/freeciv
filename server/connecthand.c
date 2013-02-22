@@ -329,6 +329,12 @@ bool handle_login_request(struct connection *pconn,
   char msg[MAX_LEN_MSG];
   int kick_time_remaining;
 
+  if (pconn->established || pconn->server.status != AS_NOT_ESTABLISHED) {
+    /* We read the PACKET_SERVER_JOIN_REQ twice from this connection,
+     * this is probably not a Freeciv client. */
+    return FALSE;
+  }
+
   log_normal(_("Connection request from %s from %s"),
              req->username, pconn->addr);
 
@@ -403,6 +409,14 @@ bool handle_login_request(struct connection *pconn,
       return FALSE;
     }
   } conn_list_iterate_end;
+
+  /* Remove the ping timeout given in sernet.c:server_make_connection(). */
+  fc_assert_msg(1 == timer_list_size(pconn->server.ping_timers),
+                "Ping timer list size %d, should be 1. Have we sent "
+                "a ping to unestablished connection %s?",
+                timer_list_size(pconn->server.ping_timers),
+                conn_description(pconn));
+  timer_list_pop_front(pconn->server.ping_timers);
 
   if (game.server.connectmsg[0] != '\0') {
     log_debug("Sending connectmsg: %s", game.server.connectmsg);

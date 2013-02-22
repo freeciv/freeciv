@@ -62,8 +62,8 @@ Syntax:
     PACKET_SERVER_JOIN_REPLY are excluded here. These packets should
     never change their number. The packet number can be freely chosen
     as long as it is below 65536 and unique. For backward compatibility  
-    reasons using values from range 1024-1279 ((4x256)-(5*256-1))        
-    should be avoided. 
+    reasons, packets used for the initial protocol (notably before
+    checking the capabilities) must be in range 0-255.
 
    Packet flags:
    -------------
@@ -306,10 +306,12 @@ grouped together. There are the following groups:
 /************** General packets **********************/
 
 # For compatibility with older versions, this number cannot be changed.
+# Used in initial protocol.
 PACKET_PROCESSING_STARTED = 0; sc
 end
 
 # For compatibility with older versions, this number cannot be changed.
+# Used in initial protocol.
 PACKET_PROCESSING_FINISHED = 1; sc
 end
 
@@ -318,6 +320,7 @@ end
 # This packet is the first real (freeciv specific) packet send by the
 # client. The player hasn't been accepted yet.
 # For compatibility with older versions, this number cannot be changed.
+# Used in initial protocol.
 PACKET_SERVER_JOIN_REQ = 4; cs, dsend, no-delta, no-handle
   STRING username[MAX_LEN_NAME];
   STRING capability[MAX_LEN_CAPSTR];
@@ -327,7 +330,8 @@ end
 
 # ... and the server replies.
 # For compatibility with older versions, this number cannot be changed.
-PACKET_SERVER_JOIN_REPLY = 5; sc, no-delta
+# Used in initial protocol.
+PACKET_SERVER_JOIN_REPLY = 5; sc, no-delta, post-send, post-recv
   BOOL you_can_join;
   STRING message[MAX_LEN_MSG];
   STRING capability[MAX_LEN_CAPSTR];
@@ -336,11 +340,13 @@ PACKET_SERVER_JOIN_REPLY = 5; sc, no-delta
   CONNECTION conn_id;
 end
 
+# Used in initial protocol.
 PACKET_AUTHENTICATION_REQ = 6; sc, handle-per-conn, dsend
   AUTH_TYPE type;
   STRING message[MAX_LEN_MSG]; /* explain to the client if there's a problem */
 end
 
+# Used in initial protocol.
 PACKET_AUTHENTICATION_REPLY = 7; cs, no-handle
   STRING password[MAX_LEN_PASSWORD];
 end
@@ -525,6 +531,7 @@ PACKET_CHAT_MSG_REQ = 26; cs, handle-per-conn, dsend
   STRING message[MAX_LEN_MSG];
 end
 
+# Used in initial protocol.
 PACKET_CONNECT_MSG = 27; sc, dsend
   STRING message[MAX_LEN_MSG];
 end
@@ -1078,10 +1085,13 @@ PACKET_CONN_PING_INFO = 116; sc, lsend
 end
 
 # For compatibility with older versions, this number cannot be changed.
+# Freeciv servers version < 2.5.0 still can send this packet in
+# initial protocol.
 PACKET_CONN_PING = 88; sc
 end
 
 # For compatibility with older versions, this number cannot be changed.
+# Can be used in initial protocol, if the client received a PACKET_CONN_PING.
 PACKET_CONN_PONG = 89; cs, handle-per-conn
 end
 

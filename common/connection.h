@@ -115,6 +115,11 @@ struct socket_packet_buffer {
   unsigned char *data;
 };
 
+struct packet_header {
+  unsigned int length : 4;      /* Actually 'enum data_type' */
+  unsigned int type : 4;        /* Actually 'enum data_type' */
+};
+
 #define SPECVEC_TAG byte
 #define SPECVEC_TYPE unsigned char
 #include "specvec.h"
@@ -128,6 +133,7 @@ struct connection {
   int sock;
   bool used;
   bool established;		/* have negotiated initial packets */
+  struct packet_header packet_header;
   char *closing_reason;
 
   /* connection is "observer", not controller; may be observing

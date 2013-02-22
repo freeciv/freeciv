@@ -653,7 +653,7 @@ class Variant:
             self.extra_send_args2=self.extra_send_args2+', force_to_send'
             self.extra_send_args3=self.extra_send_args3+', bool force_to_send'
 
-        self.receive_prototype='static struct %(packet_name)s *receive_%(name)s(struct connection *pc, enum packet_type type)'%self.__dict__
+        self.receive_prototype='static struct %(packet_name)s *receive_%(name)s(struct connection *pc)'%self.__dict__
         self.send_prototype='static int send_%(name)s(struct connection *pc%(extra_send_args)s)'%self.__dict__
 
     # See Field.get_dict
@@ -763,7 +763,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
         temp='''%(send_prototype)s
 {
 <real_packet1><delta_header>  SEND_PACKET_START(%(type)s);
-<log><report><pre1><body><pre2>  <post>SEND_PACKET_END;
+<log><report><pre1><body><pre2><post>  SEND_PACKET_END(%(type)s);
 }
 
 '''
@@ -919,7 +919,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
         if self.delta:
             delta_header='''  %(name)s_fields fields;
   struct %(packet_name)s *old;
-  struct genhash **hash = pc->phs.received + type;
+  struct genhash **hash = pc->phs.received + %(type)s;
 '''
             delta_body1="\n  DIO_BV_GET(&din, fields);\n"
             body1=""
@@ -1138,7 +1138,7 @@ class Packet:
             self.extra_send_args2=self.extra_send_args2+', force_to_send'
             self.extra_send_args3=self.extra_send_args3+', bool force_to_send'
 
-        self.receive_prototype='struct %(name)s *receive_%(name)s(struct connection *pc, enum packet_type type)'%self.__dict__
+        self.receive_prototype='struct %(name)s *receive_%(name)s(struct connection *pc)'%self.__dict__
         self.send_prototype='int send_%(name)s(struct connection *pc%(extra_send_args)s)'%self.__dict__
         if self.want_lsend:
             self.lsend_prototype='void lsend_%(name)s(struct conn_list *dest%(extra_send_args)s)'%self.__dict__
@@ -1273,7 +1273,7 @@ class Packet:
             no=v.no
             result=result+'''
   case %(no)s:
-    return receive_%(name2)s(pc, type);'''%self.get_dict(vars())
+    return receive_%(name2)s(pc);'''%self.get_dict(vars())
         result=result+'''
   default:
     log_debug("Unknown %(type)s variant for connection %%s", conn_description(pc));
@@ -1434,7 +1434,7 @@ def get_get_packet_helper(packets):
 '''
     body=""
     for p in packets:
-        body=body+"  case %(type)s:\n    return receive_%(name)s(pc, type);\n\n"%p.__dict__
+        body=body+"  case %(type)s:\n    return receive_%(name)s(pc);\n\n"%p.__dict__
     extro='''  default:
     log_packet("unknown packet type %d received from %s",
                type, conn_description(pc));

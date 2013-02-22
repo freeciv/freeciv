@@ -175,10 +175,18 @@ independent functions such as dio_put_uint32() and de-serialized with
 functions like dio_get_uint32().
 
 A packet is constituted by header followed by the serialized structure
-data. The header contains the following fields:
+data. The header contains the following fields (the sizes are defined in
+common/packets.c:packet_header_set()):
 
 uint16	:	length		(the length of the entire packet)
 uint16	:	type		(e.g. PACKET_TILE_INFO)
+
+For backward compatibility reasons, packets used for the initial protocol
+(notably before checking the capabilities) have different header fields
+sizes (defined in common/packets.c:packet_header_init()):
+
+uint16	:	length		(the length of the entire packet)
+uint8	:	type		(e.g. PACKET_TILE_INFO)
 
 To demonstrate the route for a packet through the system, here's how
 a unit disband is performed:
