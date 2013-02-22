@@ -3208,7 +3208,9 @@ static bool load_ruleset_nations(struct section_file *file)
 
       name = secfile_lookup_str(file, "%s.name", section_name(psection));
       if (NULL == name) {
-        ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
+        ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
+        ok = FALSE;
+        break;
       }
       pset = nation_group_new(name);
       nation_group_set_set(pset, TRUE);
@@ -3216,328 +3218,379 @@ static bool load_ruleset_nations(struct section_file *file)
     section_list_destroy(sec);
   }
 
-  sec = secfile_sections_by_name_prefix(file, NATION_GROUP_SECTION_PREFIX);
-  section_list_iterate(sec, psection) {
-    struct nation_group *pgroup;
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, NATION_GROUP_SECTION_PREFIX);
+    section_list_iterate(sec, psection) {
+      struct nation_group *pgroup;
 
-    name = secfile_lookup_str(file, "%s.name", section_name(psection));
-    if (NULL == name) {
-      ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
-    }
-    pgroup = nation_group_new(name);
-    if (!secfile_lookup_int(file, &j, "%s.match", section_name(psection))) {
-      ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
-    }
-    nation_group_set_match(pgroup, j);
-  } section_list_iterate_end;
-  section_list_destroy(sec);
-
-  sec = secfile_sections_by_name_prefix(file, NATION_SECTION_PREFIX);
-  nations_iterate(pnation) {
-    struct nation_type *pconflict;
-    const int i = nation_index(pnation);
-    char tmp[200] = "\0";
-    const char *barb_type;
-    const char *sec_name = section_name(section_list_get(sec, i));
-
-    /* Nation groups. */
-    vec = secfile_lookup_str_vec(file, &dim, "%s.groups", sec_name);
-    for (j = 0; j < dim; j++) {
-      struct nation_group *pgroup = nation_group_by_rule_name(vec[j]);
-
-      if (NULL != pgroup) {
-        nation_group_list_append(pnation->groups, pgroup);
-      } else {
-        /* For nation authors, this would probably be considered an error.
-         * But it can happen normally. The civ1 compatibility ruleset only
-         * uses the nations that were in civ1, so not all of the links will
-         * exist. */
-        log_verbose("Nation %s: Unknown group \"%s\".",
-                    nation_rule_name(pnation), vec[j]);
-      }
-    }
-    if (NULL != vec) {
-      free(vec);
-    }
-
-    /* Nation conflicts. */
-    vec = secfile_lookup_str_vec(file, &dim, "%s.conflicts_with", sec_name);
-    for (j = 0; j < dim; j++) {
-      pconflict = nation_by_rule_name(vec[j]);
-
-      if (pnation == pconflict) {
-        ruleset_error(LOG_ERROR, "Nation %s conflicts with itself",
-                      nation_rule_name(pnation));
-      } else if (NULL != pconflict) {
-        nation_list_append(pnation->server.conflicts_with, pconflict);
-      } else {
-        /* For nation authors, this would probably be considered an error.
-         * But it can happen normally. The civ1 compatibility ruleset only
-         * uses the nations that were in civ1, so not all of the links will
-         * exist. */
-        log_verbose("Nation %s: conflicts_with nation \"%s\" is unknown.",
-                    nation_rule_name(pnation), vec[j]);
-      }
-    }
-    if (NULL != vec) {
-      free(vec);
-    }
-
-    /* Nation leaders. */
-    for (j = 0; j < MAX_NUM_LEADERS; j++) {
-      const char *sex;
-      bool is_male = FALSE;
-
-      name = secfile_lookup_str(file, "%s.leaders%d.name", sec_name, j);
+      name = secfile_lookup_str(file, "%s.name", section_name(psection));
       if (NULL == name) {
-        /* No more to read. */
+        ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
+        ok = FALSE;
+        break;
+      }
+      pgroup = nation_group_new(name);
+      if (!secfile_lookup_int(file, &j, "%s.match", section_name(psection))) {
+        ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
+        ok = FALSE;
+        break;
+      }
+      nation_group_set_match(pgroup, j);
+    } section_list_iterate_end;
+    section_list_destroy(sec);
+  }
+
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, NATION_SECTION_PREFIX);
+    nations_iterate(pnation) {
+      struct nation_type *pconflict;
+      const int i = nation_index(pnation);
+      char tmp[200] = "\0";
+      const char *barb_type;
+      const char *sec_name = section_name(section_list_get(sec, i));
+
+      /* Nation groups. */
+      vec = secfile_lookup_str_vec(file, &dim, "%s.groups", sec_name);
+      for (j = 0; j < dim; j++) {
+        struct nation_group *pgroup = nation_group_by_rule_name(vec[j]);
+
+        if (NULL != pgroup) {
+          nation_group_list_append(pnation->groups, pgroup);
+        } else {
+          /* For nation authors, this would probably be considered an error.
+           * But it can happen normally. The civ1 compatibility ruleset only
+           * uses the nations that were in civ1, so not all of the links will
+           * exist. */
+          log_verbose("Nation %s: Unknown group \"%s\".",
+                      nation_rule_name(pnation), vec[j]);
+        }
+      }
+      if (NULL != vec) {
+        free(vec);
+      }
+
+      /* Nation conflicts. */
+      vec = secfile_lookup_str_vec(file, &dim, "%s.conflicts_with", sec_name);
+      for (j = 0; j < dim; j++) {
+        pconflict = nation_by_rule_name(vec[j]);
+
+        if (pnation == pconflict) {
+          ruleset_error(LOG_ERROR, "Nation %s conflicts with itself",
+                        nation_rule_name(pnation));
+          ok = FALSE;
+          break;
+        } else if (NULL != pconflict) {
+          nation_list_append(pnation->server.conflicts_with, pconflict);
+        } else {
+          /* For nation authors, this would probably be considered an error.
+           * But it can happen normally. The civ1 compatibility ruleset only
+           * uses the nations that were in civ1, so not all of the links will
+           * exist. */
+          log_verbose("Nation %s: conflicts_with nation \"%s\" is unknown.",
+                      nation_rule_name(pnation), vec[j]);
+        }
+      }
+      if (NULL != vec) {
+        free(vec);
+      }
+      if (!ok) {
         break;
       }
 
-      if (check_name(name)) {
-        /* The ruleset contains a name that is too long. This shouldn't
-         * happen - if it does, the author should get immediate feedback */
-        sz_strlcpy(temp_name, name);
-        ruleset_error(LOG_ERROR, "Nation %s: leader name \"%s\" "
-                      "is too long; shortening it to \"%s\".",
-                      nation_rule_name(pnation), name, temp_name);
-        name = temp_name;
+      /* Nation leaders. */
+      for (j = 0; j < MAX_NUM_LEADERS; j++) {
+        const char *sex;
+        bool is_male = FALSE;
+
+        name = secfile_lookup_str(file, "%s.leaders%d.name", sec_name, j);
+        if (NULL == name) {
+          /* No more to read. */
+          break;
+        }
+
+        if (check_name(name)) {
+          /* The ruleset contains a name that is too long. This shouldn't
+           * happen - if it does, the author should get immediate feedback */
+          sz_strlcpy(temp_name, name);
+          ruleset_error(LOG_ERROR, "Nation %s: leader name \"%s\" "
+                        "is too long.",
+                        nation_rule_name(pnation), name);
+          ok = FALSE;
+          break;
       }
 
-      sex = secfile_lookup_str(file, "%s.leaders%d.sex", sec_name, j);
-      if (NULL == sex) {
-        ruleset_error(LOG_FATAL, "Nation %s: leader \"%s\": %s.",
-                      nation_rule_name(pnation), name, secfile_error());
-      } else if (0 == fc_strcasecmp("Male", sex)) {
-        is_male = TRUE;
-      } else if (0 != fc_strcasecmp("Female", sex)) {
-        ruleset_error(LOG_FATAL, "Nation %s: leader \"%s\" has unsupported "
-                      "sex variant \"%s\".",
-                      nation_rule_name(pnation), name, sex);
+        sex = secfile_lookup_str(file, "%s.leaders%d.sex", sec_name, j);
+        if (NULL == sex) {
+          ruleset_error(LOG_FATAL, "Nation %s: leader \"%s\": %s.",
+                        nation_rule_name(pnation), name, secfile_error());
+          ok = FALSE;
+          break;
+        } else if (0 == fc_strcasecmp("Male", sex)) {
+          is_male = TRUE;
+        } else if (0 != fc_strcasecmp("Female", sex)) {
+          ruleset_error(LOG_ERROR, "Nation %s: leader \"%s\" has unsupported "
+                        "sex variant \"%s\".",
+                        nation_rule_name(pnation), name, sex);
+          ok = FALSE;
+          break;
+        }
+        (void) nation_leader_new(pnation, name, is_male);
       }
-      (void) nation_leader_new(pnation, name, is_male);
-    }
-
-    /* Check the number of leaders. */
-    if (MAX_NUM_LEADERS == j) {
-      /* Too much leaders, get the real number defined in the ruleset. */
-      while (NULL != secfile_entry_lookup(file, "%s.leaders%d.name",
-                                          sec_name, j)) {
-        j++;
+      if (!ok) {
+        break;
       }
-      log_error("Nation %s: Too many leaders; using %d of %d",
-                nation_rule_name(pnation), MAX_NUM_LEADERS, j);
-    } else if (0 == j) {
-      ruleset_error(LOG_FATAL,
-                    "Nation %s: no leaders; at least one is required.",
-                    nation_rule_name(pnation));
-    }
 
-    /* Check if leader name is not already defined */
-    if ((bad_leader = check_leader_names(pnation, &pconflict))) {
-      if (pnation == pconflict) {
-        ruleset_error(LOG_FATAL,
-                      "Nation %s: leader \"%s\" defined more than once.",
-                      nation_rule_name(pnation), bad_leader);
-      } else {
-        ruleset_error(LOG_FATAL,
-                      "Nations %s and %s share the same leader \"%s\".",
-                      nation_rule_name(pnation), nation_rule_name(pconflict),
-                      bad_leader);
+      /* Check the number of leaders. */
+      if (MAX_NUM_LEADERS == j) {
+        /* Too much leaders, get the real number defined in the ruleset. */
+        while (NULL != secfile_entry_lookup(file, "%s.leaders%d.name",
+                                            sec_name, j)) {
+          j++;
+        }
+        ruleset_error(LOG_ERROR, "Nation %s: Too many leaders; max is %d",
+                      nation_rule_name(pnation), MAX_NUM_LEADERS);
+        ok = FALSE;
+        break;
+      } else if (0 == j) {
+        ruleset_error(LOG_ERROR,
+                      "Nation %s: no leaders; at least one is required.",
+                      nation_rule_name(pnation));
+        ok = FALSE;
+        break;
       }
-    }
 
-    /* Nation player color preference, if any */
-    fc_assert_ret_val(pnation->server.rgb == NULL, FALSE);
-    rgbcolor_load(file, &pnation->server.rgb, "%s.color", sec_name);
-
-    /* Load nation traits */
-    ruleset_load_traits(pnation->server.traits, file, sec_name, "trait_");
-    for (tr = trait_begin(); tr != trait_end(); tr = trait_next(tr)) {
-      if (pnation->server.traits[tr] < 0) {
-        pnation->server.traits[tr] = default_traits[tr];
+      /* Check if leader name is not already defined */
+      if ((bad_leader = check_leader_names(pnation, &pconflict))) {
+        if (pnation == pconflict) {
+          ruleset_error(LOG_ERROR,
+                        "Nation %s: leader \"%s\" defined more than once.",
+                        nation_rule_name(pnation), bad_leader);
+          ok = FALSE;
+          break;
+        } else {
+          ruleset_error(LOG_ERROR,
+                        "Nations %s and %s share the same leader \"%s\".",
+                        nation_rule_name(pnation), nation_rule_name(pconflict),
+                        bad_leader);
+          ok = FALSE;
+          break;
+        }
       }
-    }
 
-    pnation->is_available =
+      /* Nation player color preference, if any */
+      fc_assert_ret_val(pnation->server.rgb == NULL, FALSE);
+      rgbcolor_load(file, &pnation->server.rgb, "%s.color", sec_name);
+
+      /* Load nation traits */
+      ruleset_load_traits(pnation->server.traits, file, sec_name, "trait_");
+      for (tr = trait_begin(); tr != trait_end(); tr = trait_next(tr)) {
+        if (pnation->server.traits[tr] < 0) {
+          pnation->server.traits[tr] = default_traits[tr];
+        }
+      }
+
+      pnation->is_available =
         secfile_lookup_bool_default(file, TRUE, "%s.is_available", sec_name);
-    pnation->is_playable =
+      pnation->is_playable =
         secfile_lookup_bool_default(file, TRUE, "%s.is_playable", sec_name);
 
-    if (pnation->is_playable) {
-      server.playable_nations++;
-    }
-
-    /* Check barbarian type. Default is "None" meaning not a barbarian */
-    barb_type = secfile_lookup_str_default(file, "None",
-                                           "%s.barbarian_type", sec_name);
-    if (fc_strcasecmp(barb_type, "None") == 0) {
-      pnation->barb_type = NOT_A_BARBARIAN;
-    } else if (fc_strcasecmp(barb_type, "Land") == 0) {
       if (pnation->is_playable) {
-        /* We can't allow players to use barbarian nations, barbarians
-         * may run out of nations */
-        ruleset_error(LOG_FATAL,
-                      "Nation %s marked both barbarian and playable.",
-                      nation_rule_name(pnation));
+        server.playable_nations++;
       }
-      pnation->barb_type = LAND_BARBARIAN;
-      barb_land_count++;
-    } else if (fc_strcasecmp(barb_type, "Sea") == 0) {
-      if (pnation->is_playable) {
-        /* We can't allow players to use barbarian nations, barbarians
-         * may run out of nations */
-        ruleset_error(LOG_FATAL,
-                      "Nation %s marked both barbarian and playable.",
-                      nation_rule_name(pnation));
-      }
-      pnation->barb_type = SEA_BARBARIAN;
-      barb_sea_count++;
-    } else {
-      ruleset_error(LOG_FATAL,
-                    "Nation %s, barbarian_type is \"%s\". Must be "
-                    "\"None\" or \"Land\" or \"Sea\".",
-                    nation_rule_name(pnation), barb_type);
-    }
 
-    /* Flags */
-    sz_strlcpy(pnation->flag_graphic_str,
-               secfile_lookup_str_default(file, "-", "%s.flag", sec_name));
-    sz_strlcpy(pnation->flag_graphic_alt,
-               secfile_lookup_str_default(file, "-",
-                                          "%s.flag_alt", sec_name));
-
-    /* Ruler titles */
-    for (j = 0;; j++) {
-      const char *male, *female;
-
-      name = secfile_lookup_str_default(file, NULL,
-                                        "%s.ruler_titles%d.government",
-                                        sec_name, j);
-      if (NULL == name) {
-        /* End of the list of ruler titles. */
+      /* Check barbarian type. Default is "None" meaning not a barbarian */
+      barb_type = secfile_lookup_str_default(file, "None",
+                                             "%s.barbarian_type", sec_name);
+      if (fc_strcasecmp(barb_type, "None") == 0) {
+        pnation->barb_type = NOT_A_BARBARIAN;
+      } else if (fc_strcasecmp(barb_type, "Land") == 0) {
+        if (pnation->is_playable) {
+          /* We can't allow players to use barbarian nations, barbarians
+           * may run out of nations */
+          ruleset_error(LOG_ERROR,
+                        "Nation %s marked both barbarian and playable.",
+                        nation_rule_name(pnation));
+          ok = FALSE;
+          break;
+        }
+        pnation->barb_type = LAND_BARBARIAN;
+        barb_land_count++;
+      } else if (fc_strcasecmp(barb_type, "Sea") == 0) {
+        if (pnation->is_playable) {
+          /* We can't allow players to use barbarian nations, barbarians
+           * may run out of nations */
+          ruleset_error(LOG_ERROR,
+                        "Nation %s marked both barbarian and playable.",
+                        nation_rule_name(pnation));
+          ok = FALSE;
+          break;
+        }
+        pnation->barb_type = SEA_BARBARIAN;
+        barb_sea_count++;
+      } else {
+        ruleset_error(LOG_ERROR,
+                      "Nation %s, barbarian_type is \"%s\". Must be "
+                      "\"None\" or \"Land\" or \"Sea\".",
+                      nation_rule_name(pnation), barb_type);
+        ok = FALSE;
         break;
       }
 
-      /* NB: even if the government doesn't exist, we load the entries for
-       * the ruler titles to avoid warnings about unused entries. */
-      male = secfile_lookup_str(file, "%s.ruler_titles%d.male_title",
-                                sec_name, j);
-      female = secfile_lookup_str(file, "%s.ruler_titles%d.female_title",
+      /* Flags */
+      sz_strlcpy(pnation->flag_graphic_str,
+                 secfile_lookup_str_default(file, "-", "%s.flag", sec_name));
+      sz_strlcpy(pnation->flag_graphic_alt,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.flag_alt", sec_name));
+
+      /* Ruler titles */
+      for (j = 0;; j++) {
+        const char *male, *female;
+
+        name = secfile_lookup_str_default(file, NULL,
+                                          "%s.ruler_titles%d.government",
+                                          sec_name, j);
+        if (NULL == name) {
+          /* End of the list of ruler titles. */
+          break;
+        }
+
+        /* NB: even if the government doesn't exist, we load the entries for
+         * the ruler titles to avoid warnings about unused entries. */
+        male = secfile_lookup_str(file, "%s.ruler_titles%d.male_title",
                                   sec_name, j);
-      gov = government_by_rule_name(name);
+        female = secfile_lookup_str(file, "%s.ruler_titles%d.female_title",
+                                    sec_name, j);
+        gov = government_by_rule_name(name);
 
-      if (NULL == gov) {
-        int gcount;
-        bool ig_found = FALSE;
+        if (NULL == gov) {
+          int gcount;
+          bool ig_found = FALSE;
 
-        for (gcount = 0; ignore_govs[gcount][0] != '\0'; gcount++) {
-          if (!fc_strcasecmp(name, ignore_govs[gcount])) {
-            ig_found = TRUE;
+          for (gcount = 0; ignore_govs[gcount][0] != '\0'; gcount++) {
+            if (!fc_strcasecmp(name, ignore_govs[gcount])) {
+              ig_found = TRUE;
+              break;
+            }
+          }
+          if (!ig_found) {
+            ruleset_error(LOG_ERROR, "Nation %s: government \"%s\" not found.",
+                          nation_rule_name(pnation), name);
+            ok = FALSE;
             break;
           }
+        } else if (NULL != male && NULL != female) {
+          (void) government_ruler_title_new(gov, pnation, male, female);
+        } else {
+          ruleset_error(LOG_ERROR, "%s", secfile_error());
+          ok = FALSE;
+          break;
         }
-        if (!ig_found) {
-          log_error("Nation %s: government \"%s\" not found.",
+      }
+
+      /* City styles */
+      name = secfile_lookup_str(file, "%s.city_style", sec_name);
+      pnation->city_style = city_style_by_rule_name(name);
+      if (0 > pnation->city_style) {
+        if (warn_city_style) {
+          log_error("Nation %s: city style \"%s\" is unknown, using default.",
                     nation_rule_name(pnation), name);
         }
-      } else if (NULL != male && NULL != female) {
-        (void) government_ruler_title_new(gov, pnation, male, female);
-      } else {
-          ruleset_error(LOG_ERROR, "%s", secfile_error());
+        pnation->city_style = 0;
       }
-    }
 
-    /* City styles */
-    name = secfile_lookup_str(file, "%s.city_style", sec_name);
-    pnation->city_style = city_style_by_rule_name(name);
-    if (0 > pnation->city_style) {
-      if (warn_city_style) {
-	log_error("Nation %s: city style \"%s\" is unknown, using default.",
-		  nation_rule_name(pnation), name);
-      }
-      pnation->city_style = 0;
-    }
-
-    while (city_style_has_requirements(city_styles + pnation->city_style)) {
-      if (pnation->city_style == 0) {
-        ruleset_error(LOG_FATAL,
-                      "Nation %s: the default city style is not available "
-                      "from the beginning!", nation_rule_name(pnation));
+      while (city_style_has_requirements(city_styles + pnation->city_style)) {
+        if (pnation->city_style == 0) {
+          ruleset_error(LOG_ERROR,
+                        "Nation %s: the default city style is not available "
+                        "from the beginning!", nation_rule_name(pnation));
         /* Note that we can't use temp_name here. */
+          ok = FALSE;
+          break;
+        }
+        log_error("Nation %s: city style \"%s\" is not available "
+                  "from beginning; using default.",
+                  nation_rule_name(pnation), name);
+        pnation->city_style = 0;
       }
-      log_error("Nation %s: city style \"%s\" is not available "
-                "from beginning; using default.",
-                nation_rule_name(pnation), name);
-      pnation->city_style = 0;
-    }
 
-    /* Civilwar nations */
-    vec = secfile_lookup_str_vec(file, &dim,
-                                 "%s.civilwar_nations", sec_name);
-    for (j = 0; j < dim; j++) {
-      pconflict = nation_by_rule_name(vec[j]);
+      /* Civilwar nations */
+      vec = secfile_lookup_str_vec(file, &dim,
+                                   "%s.civilwar_nations", sec_name);
+      for (j = 0; j < dim; j++) {
+        pconflict = nation_by_rule_name(vec[j]);
 
-      /* No test for duplicate nations is performed.  If there is a duplicate
-       * entry it will just cause that nation to have an increased
-       * probability of being chosen. */
-      if (pconflict == pnation) {
-        ruleset_error(LOG_ERROR, "Nation %s is its own civil war nation",
-                      nation_rule_name(pnation));
-      } else if (NULL != pconflict) {
-        nation_list_append(pnation->server.civilwar_nations, pconflict);
-        nation_list_append(pconflict->server.parent_nations, pnation);
-      } else {
-        /* For nation authors, this would probably be considered an error.
-         * But it can happen normally. The civ1 compatability ruleset only
-         * uses the nations that were in civ1, so not all of the links will
-         * exist. */
-        log_verbose("Nation %s: civil war nation \"%s\" is unknown.",
-                    nation_rule_name(pnation), vec[j]);
+        /* No test for duplicate nations is performed.  If there is a duplicate
+         * entry it will just cause that nation to have an increased
+         * probability of being chosen. */
+        if (pconflict == pnation) {
+          ruleset_error(LOG_ERROR, "Nation %s is its own civil war nation",
+                        nation_rule_name(pnation));
+          ok = FALSE;
+          break;
+        } else if (NULL != pconflict) {
+          nation_list_append(pnation->server.civilwar_nations, pconflict);
+          nation_list_append(pconflict->server.parent_nations, pnation);
+        } else {
+          /* For nation authors, this would probably be considered an error.
+           * But it can happen normally. The civ1 compatability ruleset only
+           * uses the nations that were in civ1, so not all of the links will
+           * exist. */
+          log_verbose("Nation %s: civil war nation \"%s\" is unknown.",
+                      nation_rule_name(pnation), vec[j]);
+        }
       }
-    }
-    if (NULL != vec) {
-      free(vec);
-    }
+      if (NULL != vec) {
+        free(vec);
+      }
+      if (!ok) {
+        break;
+      }
 
-    /* Load nation specific initial items */
-    lookup_tech_list(file, sec_name, "init_techs",
+      /* Load nation specific initial items */
+      lookup_tech_list(file, sec_name, "init_techs",
                        pnation->init_techs, filename);
-    lookup_building_list(file, sec_name, "init_buildings",
-                         pnation->init_buildings, filename);
-    lookup_unit_list(file, sec_name, "init_units", LOG_ERROR,
-                     pnation->init_units, filename);
-    fc_strlcat(tmp, sec_name, 200);
-    fc_strlcat(tmp, ".init_government", 200);
-    pnation->init_government = lookup_government(file, tmp, filename,
-                                                 default_government);
+      lookup_building_list(file, sec_name, "init_buildings",
+                           pnation->init_buildings, filename);
+      lookup_unit_list(file, sec_name, "init_units", LOG_ERROR,
+                       pnation->init_units, filename);
+      fc_strlcat(tmp, sec_name, 200);
+      fc_strlcat(tmp, ".init_government", 200);
+      pnation->init_government = lookup_government(file, tmp, filename,
+                                                   default_government);
 
-    /* Read default city names. */
-    load_city_name_list(file, pnation, sec_name, "cities");
+      /* Read default city names. */
+      load_city_name_list(file, pnation, sec_name, "cities");
 
-    pnation->legend = fc_strdup(secfile_lookup_str(file, "%s.legend",
-                                                   sec_name));
-    if (check_strlen(pnation->legend, MAX_LEN_MSG, NULL)) {
-      ruleset_error(LOG_ERROR,
-                    "Nation %s: legend \"%s\" is too long;"
-                    " shortening it.", nation_rule_name(pnation),
-                    pnation->legend);
-      pnation->legend[MAX_LEN_MSG - 1] = '\0';
+      pnation->legend = fc_strdup(secfile_lookup_str(file, "%s.legend",
+                                                     sec_name));
+      if (check_strlen(pnation->legend, MAX_LEN_MSG, NULL)) {
+        ruleset_error(LOG_ERROR,
+                      "Nation %s: legend \"%s\" is too long.",
+                      nation_rule_name(pnation),
+                      pnation->legend);
+        ok = FALSE;
+        break;
     }
 
-    pnation->player = NULL;
-  } nations_iterate_end;
+      pnation->player = NULL;
+    } nations_iterate_end;
+  }
 
   section_list_destroy(sec);
-  secfile_check_unused(file);
+  if (ok) {
+    secfile_check_unused(file);
+  }
 
   if (barb_land_count == 0) {
-    ruleset_error(LOG_FATAL,
+    ruleset_error(LOG_ERROR,
                   "No land barbarian nation defined. At least one required!");
+    ok = FALSE;
   }
   if (barb_sea_count == 0) {
-    ruleset_error(LOG_FATAL,
+    ruleset_error(LOG_ERROR,
                   "No sea barbarian nation defined. At least one required!");
+    ok = FALSE;
   }
 
   return ok;
@@ -3580,7 +3633,6 @@ Load cities.ruleset file
 static bool load_ruleset_cities(struct section_file *file)
 {
   const char *replacement;
-  int i;
   const char *filename = secfile_name(file);
   const char *item;
   struct section_list *sec;
@@ -3593,14 +3645,16 @@ static bool load_ruleset_cities(struct section_file *file)
   /* Specialist options */
   sec = secfile_sections_by_name_prefix(file, SPECIALIST_SECTION_PREFIX);
   if (section_list_size(sec) >= SP_MAX) {
-    ruleset_error(LOG_FATAL, "\"%s\": Too many specialists (%d, max %d).",
+    ruleset_error(LOG_ERROR, "\"%s\": Too many specialists (%d, max %d).",
                   filename, section_list_size(sec), SP_MAX);
+    ok = FALSE;
   }
-  game.control.num_specialist_types = section_list_size(sec);
-
-  i = 0;
 
   if (ok) {
+    int i = 0;
+
+    game.control.num_specialist_types = section_list_size(sec);
+
     section_list_iterate(sec, psection) {
       struct specialist *s = specialist_by_number(i);
       struct requirement_vector *reqs;
@@ -3632,9 +3686,10 @@ static bool load_ruleset_cities(struct section_file *file)
   }
 
   if (ok && DEFAULT_SPECIALIST == -1) {
-    ruleset_error(LOG_FATAL,
+    ruleset_error(LOG_ERROR,
                   "\"%s\": must give a min_size of 0 for at least one "
                   "specialist type.", filename);
+    ok = FALSE;
   }
   section_list_destroy(sec);
   sec = NULL;
@@ -3661,13 +3716,16 @@ static bool load_ruleset_cities(struct section_file *file)
       secfile_lookup_int_default(file, 0, "parameters.forced_gold");
     if (game.info.forced_science + game.info.forced_luxury
         + game.info.forced_gold != 100) {
-      ruleset_error(LOG_FATAL,
+      ruleset_error(LOG_ERROR,
                     "\"%s\": Forced taxes do not add up in ruleset!",
                     filename);
+      ok = FALSE;
     }
   }
 
   if (ok) {
+    int i;
+
     /* civ1 & 2 didn't reveal tiles */
     game.server.vision_reveal_tiles =
       secfile_lookup_bool_default(file, FALSE, "parameters.vision_reveal_tiles");
@@ -3995,9 +4053,10 @@ static bool load_ruleset_game(const char *rsdir)
   game.info.granary_num_inis = (int) gni_tmp;
 
   if (game.info.granary_num_inis > MAX_GRANARY_INIS) {
-    ruleset_error(LOG_FATAL,
+    ruleset_error(LOG_ERROR,
                   "Too many granary_food_ini entries (%d, max %d)",
                   game.info.granary_num_inis, MAX_GRANARY_INIS);
+    ok = FALSE;
   } else if (game.info.granary_num_inis == 0) {
     log_error("No values for granary_food_ini. Using default "
               "value %d.", RS_DEFAULT_GRANARY_FOOD_INI);
@@ -4022,319 +4081,353 @@ static bool load_ruleset_game(const char *rsdir)
   }
   free(food_ini);
 
-  game.info.granary_food_inc
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_GRANARY_FOOD_INC,
-                                         RS_MIN_GRANARY_FOOD_INC,
-                                         RS_MAX_GRANARY_FOOD_INC,
-                                         "civstyle.granary_food_inc");
-
-  output_type_iterate(o) {
-    game.info.min_city_center_output[o]
+  if (ok) {
+    game.info.granary_food_inc
       = secfile_lookup_int_default_min_max(file,
-                                           RS_DEFAULT_CITY_CENTER_OUTPUT,
-                                           RS_MIN_CITY_CENTER_OUTPUT,
-                                           RS_MAX_CITY_CENTER_OUTPUT,
-                                           "civstyle.min_city_center_%s",
-                                           get_output_identifier(o));
-  } output_type_iterate_end;
+                                           RS_DEFAULT_GRANARY_FOOD_INC,
+                                           RS_MIN_GRANARY_FOOD_INC,
+                                           RS_MAX_GRANARY_FOOD_INC,
+                                           "civstyle.granary_food_inc");
 
-  sval = secfile_lookup_str(file, "civstyle.nuke_contamination" );
-  if (fc_strcasecmp(sval, "Pollution") == 0) {
-    game.server.nuke_contamination = CONTAMINATION_POLLUTION;
-  } else if (fc_strcasecmp(sval, "Fallout") == 0) {
-    game.server.nuke_contamination = CONTAMINATION_FALLOUT;
-  } else {
-    log_error("Bad value %s for nuke_contamination. Using "
-              "\"Pollution\".", sval);
-    game.server.nuke_contamination = CONTAMINATION_POLLUTION;
+    output_type_iterate(o) {
+      game.info.min_city_center_output[o]
+        = secfile_lookup_int_default_min_max(file,
+                                             RS_DEFAULT_CITY_CENTER_OUTPUT,
+                                             RS_MIN_CITY_CENTER_OUTPUT,
+                                             RS_MAX_CITY_CENTER_OUTPUT,
+                                             "civstyle.min_city_center_%s",
+                                             get_output_identifier(o));
+    } output_type_iterate_end;
+
+    sval = secfile_lookup_str(file, "civstyle.nuke_contamination" );
+    if (fc_strcasecmp(sval, "Pollution") == 0) {
+      game.server.nuke_contamination = CONTAMINATION_POLLUTION;
+    } else if (fc_strcasecmp(sval, "Fallout") == 0) {
+      game.server.nuke_contamination = CONTAMINATION_FALLOUT;
+    } else {
+      ruleset_error(LOG_ERROR,
+                    "Bad value %s for nuke_contamination.", sval);
+      ok = FALSE;
+    }
   }
 
-  game.server.init_vis_radius_sq
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_VIS_RADIUS_SQ,
-                                         RS_MIN_VIS_RADIUS_SQ,
-                                         RS_MAX_VIS_RADIUS_SQ,
-                                         "civstyle.init_vis_radius_sq");
+  if (ok) {
+    game.server.init_vis_radius_sq
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_VIS_RADIUS_SQ,
+                                           RS_MIN_VIS_RADIUS_SQ,
+                                           RS_MAX_VIS_RADIUS_SQ,
+                                           "civstyle.init_vis_radius_sq");
 
-  game.info.init_city_radius_sq
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_CITY_RADIUS_SQ,
-                                         RS_MIN_CITY_RADIUS_SQ,
-                                         RS_MAX_CITY_RADIUS_SQ,
-                                         "civstyle.init_city_radius_sq");
+    game.info.init_city_radius_sq
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_CITY_RADIUS_SQ,
+                                           RS_MIN_CITY_RADIUS_SQ,
+                                           RS_MAX_CITY_RADIUS_SQ,
+                                           "civstyle.init_city_radius_sq");
 
-  game.info.gold_upkeep_style
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_GOLD_UPKEEP_STYLE,
-                                         RS_MIN_GOLD_UPKEEP_STYLE,
-                                         RS_MAX_GOLD_UPKEEP_STYLE,
-                                         "civstyle.gold_upkeep_style");
+    game.info.gold_upkeep_style
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_GOLD_UPKEEP_STYLE,
+                                           RS_MIN_GOLD_UPKEEP_STYLE,
+                                           RS_MAX_GOLD_UPKEEP_STYLE,
+                                           "civstyle.gold_upkeep_style");
 
-  /* TODO: move to new section research */
-  game.info.tech_cost_style
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_TECH_COST_STYLE,
-                                         RS_MIN_TECH_COST_STYLE,
-                                         RS_MAX_TECH_COST_STYLE,
-                                         "civstyle.tech_cost_style");
-  /* TODO: move to new section research */
-  game.info.tech_leakage
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_TECH_LEAKAGE,
-                                         RS_MIN_TECH_LEAKAGE,
-                                         RS_MAX_TECH_LEAKAGE,
-                                         "civstyle.tech_leakage");
-  if (game.info.tech_cost_style == 0 && game.info.tech_leakage != 0) {
-    log_error("Only tech_leakage 0 supported with tech_cost_style 0.");
-    log_error("Switching to tech_leakage 0.");
-    game.info.tech_leakage = 0;
+    /* TODO: move to new section research */
+    game.info.tech_cost_style
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_TECH_COST_STYLE,
+                                           RS_MIN_TECH_COST_STYLE,
+                                           RS_MAX_TECH_COST_STYLE,
+                                           "civstyle.tech_cost_style");
+    /* TODO: move to new section research */
+    game.info.tech_leakage
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_TECH_LEAKAGE,
+                                           RS_MIN_TECH_LEAKAGE,
+                                           RS_MAX_TECH_LEAKAGE,
+                                           "civstyle.tech_leakage");
+    if (game.info.tech_cost_style == 0 && game.info.tech_leakage != 0) {
+      log_error("Only tech_leakage 0 supported with tech_cost_style 0.");
+      log_error("Switching to tech_leakage 0.");
+      game.info.tech_leakage = 0;
+    }
+
+    /* section: illness */
+    game.info.illness_on
+      = secfile_lookup_bool_default(file, RS_DEFAULT_ILLNESS_ON,
+                                    "illness.illness_on");
+    game.info.illness_base_factor
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_ILLNESS_BASE_FACTOR,
+                                           RS_MIN_ILLNESS_BASE_FACTOR,
+                                           RS_MAX_ILLNESS_BASE_FACTOR,
+                                           "illness.illness_base_factor");
+    game.info.illness_min_size
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_ILLNESS_MIN_SIZE,
+                                           RS_MIN_ILLNESS_MIN_SIZE,
+                                           RS_MAX_ILLNESS_MIN_SIZE,
+                                           "illness.illness_min_size");
+    game.info.illness_trade_infection
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_ILLNESS_TRADE_INFECTION_PCT,
+                                           RS_MIN_ILLNESS_TRADE_INFECTION_PCT,
+                                           RS_MAX_ILLNESS_TRADE_INFECTION_PCT,
+                                           "illness.illness_trade_infection");
+    game.info.illness_pollution_factor
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_ILLNESS_POLLUTION_PCT,
+                                           RS_MIN_ILLNESS_POLLUTION_PCT,
+                                           RS_MAX_ILLNESS_POLLUTION_PCT,
+                                           "illness.illness_pollution_factor");
+
+    /* section: incite_cost */
+    game.server.base_incite_cost
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_INCITE_BASE_COST,
+                                           RS_MIN_INCITE_BASE_COST,
+                                           RS_MAX_INCITE_BASE_COST,
+                                           "incite_cost.base_incite_cost");
+    game.server.incite_improvement_factor
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_INCITE_IMPROVEMENT_FCT,
+                                           RS_MIN_INCITE_IMPROVEMENT_FCT,
+                                           RS_MAX_INCITE_IMPROVEMENT_FCT,
+                                           "incite_cost.improvement_factor");
+    game.server.incite_unit_factor
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_INCITE_UNIT_FCT,
+                                           RS_MIN_INCITE_UNIT_FCT,
+                                           RS_MAX_INCITE_UNIT_FCT,
+                                           "incite_cost.unit_factor");
+    game.server.incite_total_factor
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_INCITE_TOTAL_FCT,
+                                           RS_MIN_INCITE_TOTAL_FCT,
+                                           RS_MAX_INCITE_TOTAL_FCT,
+                                           "incite_cost.total_factor");
+
+    /* section: global_unit_options */
+    game.info.slow_invasions
+      = secfile_lookup_bool_default(file, RS_DEFAULT_SLOW_INVASIONS,
+                                    "global_unit_options.slow_invasions");
+
+    /* section: combat_rules */
+    game.info.tired_attack
+      = secfile_lookup_bool_default(file, RS_DEFAULT_TIRED_ATTACK,
+                                    "combat_rules.tired_attack");
+
+    /* section: borders */
+    game.info.border_city_radius_sq
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_BORDER_RADIUS_SQ_CITY,
+                                           RS_MIN_BORDER_RADIUS_SQ_CITY,
+                                           RS_MAX_BORDER_RADIUS_SQ_CITY,
+                                           "borders.radius_sq_city");
+    game.info.border_size_effect
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_BORDER_SIZE_EFFECT,
+                                           RS_MIN_BORDER_SIZE_EFFECT,
+                                           RS_MAX_BORDER_SIZE_EFFECT,
+                                           "borders.size_effect");
+
+    /* section: research */
+    game.info.tech_upkeep_style
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_TECH_UPKEEP_STYLE,
+                                           RS_MIN_TECH_UPKEEP_STYLE,
+                                           RS_MAX_TECH_UPKEEP_STYLE,
+                                           "research.tech_upkeep_style");
+    game.info.tech_upkeep_divider
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_TECH_UPKEEP_DIVIDER,
+                                           RS_MIN_TECH_UPKEEP_DIVIDER,
+                                           RS_MAX_TECH_UPKEEP_DIVIDER,
+                                           "research.tech_upkeep_divider");
+
+    sval = secfile_lookup_str_default(file, NULL, "research.free_tech_method");
+    if (sval == NULL) {
+      ruleset_error(LOG_ERROR, "No free_tech_method given");
+      ok = FALSE;
+    } else {
+      game.info.free_tech_method = free_tech_method_by_name(sval, fc_strcasecmp);
+      if (!free_tech_method_is_valid(game.info.free_tech_method)) {
+        ruleset_error(LOG_ERROR, "Bad value %s for free_tech_method.", sval);
+        ok = FALSE;
+      }
+    }
   }
 
-  /* section: illness */
-  game.info.illness_on
-    = secfile_lookup_bool_default(file, RS_DEFAULT_ILLNESS_ON,
-                                  "illness.illness_on");
-  game.info.illness_base_factor
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_ILLNESS_BASE_FACTOR,
-                                         RS_MIN_ILLNESS_BASE_FACTOR,
-                                         RS_MAX_ILLNESS_BASE_FACTOR,
-                                         "illness.illness_base_factor");
-  game.info.illness_min_size
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_ILLNESS_MIN_SIZE,
-                                         RS_MIN_ILLNESS_MIN_SIZE,
-                                         RS_MAX_ILLNESS_MIN_SIZE,
-                                         "illness.illness_min_size");
-  game.info.illness_trade_infection
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_ILLNESS_TRADE_INFECTION_PCT,
-                                         RS_MIN_ILLNESS_TRADE_INFECTION_PCT,
-                                         RS_MAX_ILLNESS_TRADE_INFECTION_PCT,
-                                         "illness.illness_trade_infection");
-  game.info.illness_pollution_factor
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_ILLNESS_POLLUTION_PCT,
-                                         RS_MIN_ILLNESS_POLLUTION_PCT,
-                                         RS_MAX_ILLNESS_POLLUTION_PCT,
-                                         "illness.illness_pollution_factor");
-
-  /* section: incite_cost */
-  game.server.base_incite_cost
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_INCITE_BASE_COST,
-                                         RS_MIN_INCITE_BASE_COST,
-                                         RS_MAX_INCITE_BASE_COST,
-                                         "incite_cost.base_incite_cost");
-  game.server.incite_improvement_factor
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_INCITE_IMPROVEMENT_FCT,
-                                         RS_MIN_INCITE_IMPROVEMENT_FCT,
-                                         RS_MAX_INCITE_IMPROVEMENT_FCT,
-                                         "incite_cost.improvement_factor");
-  game.server.incite_unit_factor
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_INCITE_UNIT_FCT,
-                                         RS_MIN_INCITE_UNIT_FCT,
-                                         RS_MAX_INCITE_UNIT_FCT,
-                                         "incite_cost.unit_factor");
-  game.server.incite_total_factor
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_INCITE_TOTAL_FCT,
-                                         RS_MIN_INCITE_TOTAL_FCT,
-                                         RS_MAX_INCITE_TOTAL_FCT,
-                                         "incite_cost.total_factor");
-
-  /* section: global_unit_options */
-  game.info.slow_invasions
-    = secfile_lookup_bool_default(file, RS_DEFAULT_SLOW_INVASIONS,
-                                  "global_unit_options.slow_invasions");
-
-  /* section: combat_rules */
-  game.info.tired_attack
-    = secfile_lookup_bool_default(file, RS_DEFAULT_TIRED_ATTACK,
-                                  "combat_rules.tired_attack");
-
-  /* section: borders */
-  game.info.border_city_radius_sq
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_BORDER_RADIUS_SQ_CITY,
-                                         RS_MIN_BORDER_RADIUS_SQ_CITY,
-                                         RS_MAX_BORDER_RADIUS_SQ_CITY,
-                                         "borders.radius_sq_city");
-  game.info.border_size_effect
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_BORDER_SIZE_EFFECT,
-                                         RS_MIN_BORDER_SIZE_EFFECT,
-                                         RS_MAX_BORDER_SIZE_EFFECT,
-                                         "borders.size_effect");
-
-  /* section: research */
-  game.info.tech_upkeep_style
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_TECH_UPKEEP_STYLE,
-                                         RS_MIN_TECH_UPKEEP_STYLE,
-                                         RS_MAX_TECH_UPKEEP_STYLE,
-                                         "research.tech_upkeep_style");
-  game.info.tech_upkeep_divider
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_TECH_UPKEEP_DIVIDER,
-                                         RS_MIN_TECH_UPKEEP_DIVIDER,
-                                         RS_MAX_TECH_UPKEEP_DIVIDER,
-                                         "research.tech_upkeep_divider");
-
-  sval = secfile_lookup_str(file, "research.free_tech_method");
-  game.info.free_tech_method = free_tech_method_by_name(sval, fc_strcasecmp);
-  if (!free_tech_method_is_valid(game.info.free_tech_method)) {
-    log_error("Bad value %s for free_tech_method. Using "
-              "\"Goal\".", sval);
-    game.info.free_tech_method = FTM_GOAL;
+  if (ok) {
+    /* section: calendar */
+    game.info.calendar_skip_0
+      = secfile_lookup_bool_default(file, RS_DEFAULT_CALENDAR_SKIP_0,
+                                    "calendar.skip_year_0");
+    game.server.start_year
+      = secfile_lookup_int_default(file, GAME_START_YEAR,
+                                   "calendar.start_year");
+    sz_strlcpy(game.info.positive_year_label,
+               _(secfile_lookup_str_default(file,
+                                            RS_DEFAULT_POS_YEAR_LABEL,
+                                            "calendar.positive_label")));
+    sz_strlcpy(game.info.negative_year_label,
+               _(secfile_lookup_str_default(file,
+                                            RS_DEFAULT_NEG_YEAR_LABEL,
+                                            "calendar.negative_label")));
   }
 
-  /* section: calendar */
-  game.info.calendar_skip_0
-    = secfile_lookup_bool_default(file, RS_DEFAULT_CALENDAR_SKIP_0,
-                                  "calendar.skip_year_0");
-  game.server.start_year
-    = secfile_lookup_int_default(file, GAME_START_YEAR,
-                                 "calendar.start_year");
-  sz_strlcpy(game.info.positive_year_label,
-             _(secfile_lookup_str_default(file,
-                                          RS_DEFAULT_POS_YEAR_LABEL,
-                                          "calendar.positive_label")));
-  sz_strlcpy(game.info.negative_year_label,
-             _(secfile_lookup_str_default(file,
-                                          RS_DEFAULT_NEG_YEAR_LABEL,
-                                          "calendar.negative_label")));
-
-  /* section playercolors */
-  {
+  if (ok) {
+    /* section playercolors */
     struct rgbcolor *prgbcolor = NULL;
     bool read = TRUE;
 
     /* Check if the player list is defined and empty. */
-    fc_assert_ret_val(playercolor_count() == 0, FALSE);
-    i = 0;
-    while (read) {
-      prgbcolor = NULL;
-
-      read = rgbcolor_load(file, &prgbcolor, "playercolors.colorlist%d", i);
-      if (read) {
-        playercolor_add(prgbcolor);
-      }
-
-      i++;
-    }
-
-    if (playercolor_count() == 0) {
-      ruleset_error(LOG_FATAL, "No player colors defined!");
-    }
-
-    if (game.plr_bg_color != NULL) {
-      rgbcolor_destroy(game.plr_bg_color);
-      game.plr_bg_color = NULL;
-    }
-    if (!rgbcolor_load(file, &game.plr_bg_color, "playercolors.background")) {
-      ruleset_error(LOG_FATAL, "No background player color defined! (%s)",
-                    secfile_error());
-    }
-  }
-
-  /* section: teams */
-  svec = secfile_lookup_str_vec(file, &teams, "teams.names");
-  if (team_slot_count() < teams) {
-    teams = team_slot_count();
-  }
-  for (i = 0; i < teams; i++) {
-    team_slot_set_defined_name(team_slot_by_number(i), svec[i]);
-  }
-  free(svec);
-
-  sec = secfile_sections_by_name_prefix(file, DISASTER_SECTION_PREFIX);
-  nval = (NULL != sec ? section_list_size(sec) : 0);
-  if (nval > MAX_DISASTER_TYPES) {
-    ruleset_error(LOG_FATAL, "\"%s\": Too many disaster types (%d, max %d)",
-                  filename, nval, MAX_DISASTER_TYPES);
-  }
-  game.control.num_disaster_types = nval;
-
-  disaster_type_iterate(pdis) {
-    int id = disaster_index(pdis);
-    int j;
-    size_t eff_count;
-    struct requirement_vector *reqs;
-    const char *sec_name = section_name(section_list_get(sec, id));
-
-    if (!ruleset_load_names(&pdis->name, file, sec_name)) {
-      ruleset_error(LOG_ERROR, "\"%s\": Cannot load disaster names",
-                    filename);
+    if (playercolor_count() != 0) {
       ok = FALSE;
-      break;
-    }
-
-    reqs = lookup_req_list(file, sec_name, "reqs", disaster_rule_name(pdis));
-    if (reqs == NULL) {
-      ok = FALSE;
-      break;
-    }
-    requirement_vector_copy(&pdis->reqs, reqs);
-
-    reqs = lookup_req_list(file, sec_name, "nreqs", disaster_rule_name(pdis));
-    if (reqs == NULL) {
-      ok = FALSE;
-      break;
-    }
-    requirement_vector_copy(&pdis->nreqs, reqs);
-
-    pdis->frequency = secfile_lookup_int_default(file, 10, "%s.frequency",
-                                                 sec_name);
-
-    svec = secfile_lookup_str_vec(file, &eff_count, "%s.effects", sec_name);
-
-    BV_CLR_ALL(pdis->effects);
-    for (j = 0; j < eff_count; j++) {
-      const char *sval = svec[j];
-      enum disaster_effect_id effect;
-
-      effect = disaster_effect_id_by_name(sval, fc_strcasecmp);
-
-      if (!disaster_effect_id_is_valid(effect)) {
-        ruleset_error(LOG_FATAL,
-                      "\"%s\" disaster \"%s\": unknown effect \"%s\".",
-                      filename,
-                      disaster_rule_name(pdis),
-                      sval);
-      } else {
-        BV_SET(pdis->effects, effect);
-      }
-    }
-
-    free(svec);
-  } disaster_type_iterate_end;
-
-  for (i = 0; (name = secfile_lookup_str_default(file, NULL,
-                                                 "trade.settings%d.type",
-                                                 i)); i++) {
-    enum trade_route_type type = trade_route_type_by_name(name);
-
-    if (type == TRT_LAST) {
-      ruleset_error(LOG_FATAL,
-                    "\"%s\" unknown trade route type \"%s\".",
-                    filename, name);
     } else {
-      struct trade_route_settings *set = trade_route_settings_by_type(type);
-      const char *cancelling;
+      i = 0;
 
-      set->trade_pct = secfile_lookup_int_default(file, 100,
-                                                  "trade.settings%d.pct", i);
-      cancelling = secfile_lookup_str_default(file, "Active",
-                                              "trade.settings%d.cancelling", i);
-      set->cancelling = traderoute_cancelling_type_by_name(cancelling);
-      if (set->cancelling == TRI_LAST) {
-        ruleset_error(LOG_FATAL,
-                      "\"%s\" unknown traderoute cancelling type \"%s\".",
-                      filename, cancelling);
+      while (read) {
+        prgbcolor = NULL;
+
+        read = rgbcolor_load(file, &prgbcolor, "playercolors.colorlist%d", i);
+        if (read) {
+          playercolor_add(prgbcolor);
+        }
+
+        i++;
+      }
+
+      if (playercolor_count() == 0) {
+        ruleset_error(LOG_ERROR, "No player colors defined!");
+        ok = FALSE;
+      }
+
+      if (ok) {
+        if (game.plr_bg_color != NULL) {
+          rgbcolor_destroy(game.plr_bg_color);
+          game.plr_bg_color = NULL;
+        }
+        if (!rgbcolor_load(file, &game.plr_bg_color, "playercolors.background")) {
+          ruleset_error(LOG_ERROR, "No background player color defined! (%s)",
+                        secfile_error());
+          ok = FALSE;
+        }
+      }
+    }
+  }
+
+  if (ok) {
+    /* section: teams */
+    svec = secfile_lookup_str_vec(file, &teams, "teams.names");
+    if (team_slot_count() < teams) {
+      teams = team_slot_count();
+    }
+    for (i = 0; i < teams; i++) {
+      team_slot_set_defined_name(team_slot_by_number(i), svec[i]);
+    }
+    free(svec);
+
+    sec = secfile_sections_by_name_prefix(file, DISASTER_SECTION_PREFIX);
+    nval = (NULL != sec ? section_list_size(sec) : 0);
+    if (nval > MAX_DISASTER_TYPES) {
+      ruleset_error(LOG_ERROR, "\"%s\": Too many disaster types (%d, max %d)",
+                    filename, nval, MAX_DISASTER_TYPES);
+      ok = FALSE;
+    } else {
+      game.control.num_disaster_types = nval;
+    }
+  }
+
+  if (ok) {
+    disaster_type_iterate(pdis) {
+      int id = disaster_index(pdis);
+      int j;
+      size_t eff_count;
+      struct requirement_vector *reqs;
+      const char *sec_name = section_name(section_list_get(sec, id));
+
+      if (!ruleset_load_names(&pdis->name, file, sec_name)) {
+        ruleset_error(LOG_ERROR, "\"%s\": Cannot load disaster names",
+                      filename);
+        ok = FALSE;
+        break;
+      }
+
+      reqs = lookup_req_list(file, sec_name, "reqs", disaster_rule_name(pdis));
+      if (reqs == NULL) {
+        ok = FALSE;
+        break;
+      }
+      requirement_vector_copy(&pdis->reqs, reqs);
+
+      reqs = lookup_req_list(file, sec_name, "nreqs", disaster_rule_name(pdis));
+      if (reqs == NULL) {
+        ok = FALSE;
+        break;
+      }
+      requirement_vector_copy(&pdis->nreqs, reqs);
+
+      pdis->frequency = secfile_lookup_int_default(file, 10, "%s.frequency",
+                                                   sec_name);
+
+      svec = secfile_lookup_str_vec(file, &eff_count, "%s.effects", sec_name);
+
+      BV_CLR_ALL(pdis->effects);
+      for (j = 0; j < eff_count; j++) {
+        const char *sval = svec[j];
+        enum disaster_effect_id effect;
+
+        effect = disaster_effect_id_by_name(sval, fc_strcasecmp);
+
+        if (!disaster_effect_id_is_valid(effect)) {
+          ruleset_error(LOG_ERROR,
+                        "\"%s\" disaster \"%s\": unknown effect \"%s\".",
+                        filename,
+                        disaster_rule_name(pdis),
+                        sval);
+          ok = FALSE;
+          break;
+        } else {
+          BV_SET(pdis->effects, effect);
+        }
+      }
+
+      free(svec);
+
+      if (!ok) {
+        break;
+      }
+    } disaster_type_iterate_end;
+  }
+
+  if (ok) {
+    for (i = 0; (name = secfile_lookup_str_default(file, NULL,
+                                                   "trade.settings%d.type",
+                                                   i)); i++) {
+      enum trade_route_type type = trade_route_type_by_name(name);
+
+      if (type == TRT_LAST) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" unknown trade route type \"%s\".",
+                      filename, name);
+        ok = FALSE;
+      } else {
+        struct trade_route_settings *set = trade_route_settings_by_type(type);
+        const char *cancelling;
+
+        set->trade_pct = secfile_lookup_int_default(file, 100,
+                                                    "trade.settings%d.pct", i);
+        cancelling = secfile_lookup_str_default(file, "Active",
+                                                "trade.settings%d.cancelling", i);
+        set->cancelling = traderoute_cancelling_type_by_name(cancelling);
+        if (set->cancelling == TRI_LAST) {
+          ruleset_error(LOG_ERROR,
+                        "\"%s\" unknown traderoute cancelling type \"%s\".",
+                        filename, cancelling);
+          ok = FALSE;
+        }
       }
     }
   }
