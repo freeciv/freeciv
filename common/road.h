@@ -25,16 +25,14 @@ extern "C" {
 #define SPECENUM_VALUE1NAME "ConnectLand"
 #define SPECENUM_VALUE2 RF_REQUIRES_BRIDGE
 #define SPECENUM_VALUE2NAME "RequiresBridge"
-#define SPECENUM_VALUE3 RF_CARDINAL_ONLY
-#define SPECENUM_VALUE3NAME "CardinalOnly"
-#define SPECENUM_VALUE4 RF_ALWAYS_ON_CITY_CENTER
-#define SPECENUM_VALUE4NAME "AlwaysOnCityCenter"
-#define SPECENUM_VALUE5 RF_PREVENTS_OTHER_ROADS
-#define SPECENUM_VALUE5NAME "PreventsOtherRoads"
-#define SPECENUM_VALUE6 RF_RIVER
-#define SPECENUM_VALUE6NAME "River"
-#define SPECENUM_VALUE7 RF_NATURAL
-#define SPECENUM_VALUE7NAME "Natural"
+#define SPECENUM_VALUE3 RF_ALWAYS_ON_CITY_CENTER
+#define SPECENUM_VALUE3NAME "AlwaysOnCityCenter"
+#define SPECENUM_VALUE4 RF_PREVENTS_OTHER_ROADS
+#define SPECENUM_VALUE4NAME "PreventsOtherRoads"
+#define SPECENUM_VALUE5 RF_RIVER
+#define SPECENUM_VALUE5NAME "River"
+#define SPECENUM_VALUE6 RF_NATURAL
+#define SPECENUM_VALUE6NAME "Natural"
 #define SPECENUM_COUNT RF_COUNT
 #include "specenum_gen.h"
 
@@ -134,6 +132,8 @@ bool player_can_build_road(const struct road_type *proad,
 
 bool is_native_tile_to_road(const struct road_type *proad,
                             const struct tile *ptile);
+
+bool is_cardinal_only_road(const struct road_type *proad);
 
 /* Initialization and iteration */
 void road_types_init(void);

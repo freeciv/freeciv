@@ -417,3 +417,11 @@ struct road_type *next_road_for_tile(struct tile *ptile, struct player *pplayer,
 
   return NULL;
 }
+
+/****************************************************************************
+  Is road type cardinal only.
+****************************************************************************/
+bool is_cardinal_only_road(const struct road_type *proad)
+{
+  return proad->move_mode == RMM_CARDINAL || proad->move_mode == RMM_RELAXED;
+}

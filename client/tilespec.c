@@ -3705,7 +3705,7 @@ static int fill_road_corner_sprites(const struct tileset *t,
   int i;
   int road_idx = road_index(proad);
 
-  if (road_has_flag(proad, RF_CARDINAL_ONLY)) {
+  if (is_cardinal_only_road(proad)) {
     return 0;
   }
 
@@ -3813,7 +3813,7 @@ static int fill_road_sprite_array(const struct tileset *t,
     bool roads_exist;
 
     /* Check if there is adjacent road/rail. */
-    if (!road_has_flag(proad, RF_CARDINAL_ONLY)
+    if (!is_cardinal_only_road(proad)
         || is_cardinal_tileset_dir(t, dir)) {
       road_near[dir] = BV_ISSET(troad_near[dir], road_idx);
       if (cl) {
@@ -3837,7 +3837,7 @@ static int fill_road_sprite_array(const struct tileset *t,
       bool hider_dir = FALSE;
       bool land_dir = FALSE;
 
-      if (!road_has_flag(phider, RF_CARDINAL_ONLY)
+      if (!is_cardinal_only_road(phider)
           || is_cardinal_tileset_dir(t, dir)) {
         if (BV_ISSET(troad_near[dir], road_index(phider))) {
           hider_near[dir] = TRUE;

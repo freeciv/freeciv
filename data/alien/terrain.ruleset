@@ -670,7 +670,6 @@ flags        = "ParadropFrom", "NoAggressive"
 ;                           appearance only
 ;   - "RequiresBridge"    = Road cannot be built to river tiles without
 ;                           appropriate technologies
-;   - "CardinalOnly"      = Roads are drawn in cardinal directions only
 ;   - "AlwaysOnCityCenter" = City Center tiles always have this road type no
 ;                           matter about reqs.
 ;   - "PreventsOtherRoads" = Other roads with "RequiresBridge" flag cannot be built
