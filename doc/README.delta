@@ -2,12 +2,17 @@
   Delta
 =========================================================================
 
-If delta is enabled for this packet the packet-payload (after the 3
-byte packet-header) is followed by the delta-header. The delta-header
+If delta is enabled for this packet the packet-payload (after the bytes
+used by the packet-header) is followed by the delta-header. (See HACKING
+to learn how to understand the packet-header.) The delta-header
 is a bitvector which represents all non-key fields of the packet. If
-the the field has changed the corresponding bit is set and the field
+the field has changed the corresponding bit is set and the field
 value is so included in delta-body. The values of the unchanged fields
-will be filled in from an old version at the receiving side.
+will be filled in from an old version at the receiving side. The old
+version filled in from is the previous packet of the same kind that has
+the same value in each key field. (If the packet's kind don't have any
+key fields the previous packet of the same kind is used) If no old
+version exists the unchanged fields will be assumed to be zero.
 
 For bool field another optimization called bool-header-folding is
 applied. Instead of sending an indicator in the bitvector if the given
