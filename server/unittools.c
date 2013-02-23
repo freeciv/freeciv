@@ -2758,9 +2758,15 @@ static int compare_units(const struct unit *const *p1,
 *****************************************************************/
 static bool unit_survive_autoattack(struct unit *punit)
 {
-  struct unit_list *autoattack = unit_list_new();
+  struct unit_list *autoattack;
   int moves = punit->moves_left;
   int sanity1 = punit->id;
+
+  if (!game.server.autoattack) {
+    return TRUE;
+  }
+
+  autoattack = unit_list_new();
 
   /* Kludge to prevent attack power from dropping to zero during calc */
   punit->moves_left = MAX(punit->moves_left, 1);
@@ -2772,8 +2778,7 @@ static bool unit_survive_autoattack(struct unit *punit)
       enum diplstate_type ds = 
             player_diplstate_get(unit_owner(punit), enemyplayer)->type;
 
-      if (game.server.autoattack
-          && penemy->moves_left > 0
+      if (penemy->moves_left > 0
           && ds == DS_WAR
           && can_unit_attack_unit_at_tile(penemy, punit, unit_tile(punit))) {
         unit_list_prepend(autoattack, penemy);
