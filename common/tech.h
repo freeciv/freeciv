@@ -41,7 +41,7 @@ typedef int Tech_type_id;
  */
 #define A_NONE 0
 #define A_FIRST 1
-#define A_LAST MAX_NUM_ITEMS
+#define A_LAST MAX_NUM_ITEMS /* Used in the network protocol. */
 #define A_UNSET (A_LAST-1)
 #define A_FUTURE (A_LAST-2)
 #define A_UNKNOWN (A_LAST-3)
@@ -94,7 +94,7 @@ typedef int Tech_type_id;
 #define SPECENUM_COUNT TF_COUNT
 #include "specenum_gen.h"
 
-BV_DEFINE(bv_tech_flags, TF_COUNT);
+BV_DEFINE(bv_tech_flags, TF_COUNT); /* Used in the network protocol. */
 
 /* TECH_KNOWN is self-explanatory, TECH_PREREQS_KNOWN are those for which all 
  * requirements are fulfilled; all others (including those which can never 

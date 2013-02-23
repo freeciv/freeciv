@@ -19,6 +19,7 @@ extern "C" {
 
 #include "support.h"            /* bool type */
 
+/* Used in the network protocol. */
 enum clause_type { CLAUSE_ADVANCE, CLAUSE_GOLD, CLAUSE_MAP,
 		   CLAUSE_SEAMAP, CLAUSE_CITY, 
 		   CLAUSE_CEASEFIRE, CLAUSE_PEACE, CLAUSE_ALLIANCE,

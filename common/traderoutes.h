@@ -21,7 +21,8 @@ extern "C" {
 
 struct city;
 
-/* What to do with previously established traderoutes that are now illegal. */
+/* What to do with previously established traderoutes that are now illegal.
+ * Used in the network protocol. */
 enum traderoute_illegal_cancelling
   {
     TRI_ACTIVE                        = 0, /* Keep them active */

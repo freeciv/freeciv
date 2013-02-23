@@ -79,7 +79,7 @@ the one which must be there for P2 and P3).
 enum spaceship_state {SSHIP_NONE, SSHIP_STARTED,
 		      SSHIP_LAUNCHED, SSHIP_ARRIVED};
 
-#define NUM_SS_STRUCTURALS 32
+#define NUM_SS_STRUCTURALS 32 /* Used in the network protocol. */
 #define NUM_SS_COMPONENTS 16
 #define NUM_SS_MODULES 12
 

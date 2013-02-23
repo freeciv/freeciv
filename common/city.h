@@ -42,14 +42,17 @@ enum production_class_type {
  * toggled by the user.  Each one defaults to off.  Adding new ones
  * will break network compatibility.  Reordering them will break savegame
  * compatibility.  If you want to remove one you should replace it with
- * a CITYO_UNUSED entry; new options can just be added at the end.*/
+ * a CITYO_UNUSED entry; new options can just be added at the end.
+ *
+ * Used in the network protocol.
+ */
 enum city_options {
   CITYO_DISBAND,      /* If building a settler at size 1 disbands the city */
   CITYO_NEW_EINSTEIN, /* If new citizens are science specialists */
   CITYO_NEW_TAXMAN,   /* If new citizens are gold specialists */
   CITYO_LAST
 };
-BV_DEFINE(bv_city_options, CITYO_LAST);
+BV_DEFINE(bv_city_options, CITYO_LAST); /* Used in the network protocol. */
 
 /* Changing the max radius requires updating network capabilities and results
  * in incompatible savefiles. */

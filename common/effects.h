@@ -25,7 +25,9 @@ extern "C" {
 struct requirement;
 
 /* Type of effects. Add new values via SPECENUM_VALUE%d and
- * SPECENUM_VALUE%dNAME at the end of the list. */
+ * SPECENUM_VALUE%dNAME at the end of the list.
+ * Used in the network protocol.
+ */
 #define SPECENUM_NAME effect_type
 #define SPECENUM_VALUE0 EFT_TECH_PARASITE
 #define SPECENUM_VALUE0NAME "Tech_Parasite"

@@ -17,6 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* Used in the network protocol. */
 #define SPECENUM_NAME road_flag_id
 /* Tile with this road is considered native for units traveling the road. */
 #define SPECENUM_VALUE0 RF_NATIVE_TILE
@@ -36,6 +37,7 @@ extern "C" {
 #define SPECENUM_COUNT RF_COUNT
 #include "specenum_gen.h"
 
+/* Used in the network protocol. */
 #define SPECENUM_NAME road_move_mode
 #define SPECENUM_VALUE0 RMM_NO_BONUS
 #define SPECENUM_VALUE0NAME "NoBonus"
@@ -47,7 +49,7 @@ extern "C" {
 #define SPECENUM_VALUE3NAME "FastAlways"
 #include "specenum_gen.h"
 
-BV_DEFINE(bv_road_flags, RF_COUNT);
+BV_DEFINE(bv_road_flags, RF_COUNT); /* Used in the network protocol. */
 
 struct road_type;
 

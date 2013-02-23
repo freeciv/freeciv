@@ -26,6 +26,7 @@ extern "C" {
 
 struct strvec;          /* Actually defined in "utility/string_vector.h". */
 
+/* Used in the network protocol. */
 #define SPECENUM_NAME base_gui_type
 #define SPECENUM_VALUE0 BASE_GUI_FORTRESS
 #define SPECENUM_VALUE0NAME "Fortress"
@@ -35,6 +36,7 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 #define SPECENUM_VALUE2NAME "Other"
 #include "specenum_gen.h"
 
+/* Used in the network protocol. */
 #define SPECENUM_NAME base_flag_id
 /* Unit inside are not considered aggressive if base is close to city */
 #define SPECENUM_VALUE0 BF_NOT_AGGRESSIVE
@@ -57,7 +59,7 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 #define SPECENUM_COUNT BF_COUNT
 #include "specenum_gen.h"
 
-BV_DEFINE(bv_base_flags, BF_COUNT);
+BV_DEFINE(bv_base_flags, BF_COUNT); /* Used in the network protocol. */
 
 struct base_type {
   Base_type_id item_number;

@@ -30,6 +30,7 @@ struct base_type;
 struct strvec;          /* Actually defined in "utility/string_vector.h". */
 struct rgbcolor;
 
+/* Used in the network protocol. */
 enum special_river_move {
   RMV_NORMAL = 0,
   RMV_FAST_STRICT = 1,
@@ -40,7 +41,7 @@ enum special_river_move {
 /* S_LAST-terminated */
 extern enum tile_special_type infrastructure_specials[];
 
-BV_DEFINE(bv_special, S_LAST);
+BV_DEFINE(bv_special, S_LAST); /* Used in the network protocol. */
 
 /* NB: This does not include S_FORTRESS and S_AIRBASE.
  * You must use base_type_iterate and related accessors
@@ -77,9 +78,11 @@ struct resource {
 /* The first terrain value. */
 #define T_FIRST 0
 
-/* A hard limit on the number of terrains; useful for static arrays. */
+/* A hard limit on the number of terrains; useful for static arrays.
+ * Used in the network protocol. */
 #define MAX_NUM_TERRAINS (96)
-/* Reflect reality; but theoretically could be larger than terrains! */
+/* Reflect reality; but theoretically could be larger than terrains!
+ * Used in the network protocol. */
 #define MAX_NUM_RESOURCES (MAX_NUM_TERRAINS/2)
 
 #define SPECENUM_NAME terrain_class
@@ -143,7 +146,7 @@ struct resource {
 
 #define MAX_NUM_USER_TER_FLAGS (TER_USER_LAST - TER_USER_1 + 1)
 
-BV_DEFINE(bv_terrain_flags, TER_MAX);
+BV_DEFINE(bv_terrain_flags, TER_MAX); /* Used in the network protocol. */
 
 #define SPECENUM_NAME mapgen_terrain_property
 #define SPECENUM_VALUE0 MG_MOUNTAINOUS

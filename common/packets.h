@@ -37,6 +37,7 @@ struct data_in;
 
 
 #define MAX_LEN_USERNAME        10        /* see below */
+/* Used in network protocol. */
 #define MAX_LEN_MSG             1536
 #define MAX_LEN_ROUTE		2000	  /* MAX_LEN_PACKET/2 - header */
 
@@ -46,15 +47,19 @@ struct data_in;
  *
  * Do not spend much time optimizing, you have no idea of the actual dynamic
  * path characteristics between systems, such as VPNs and tunnels.
+ *
+ * Used in network protocol.
  */
 #define ATTRIBUTE_CHUNK_SIZE    (1400)
 
+/* Used in network protocol. */
 enum report_type {
   REPORT_WONDERS_OF_THE_WORLD,
   REPORT_TOP_5_CITIES,
   REPORT_DEMOGRAPHIC
 };
 
+/* Used in network protocol. */
 enum spaceship_place_type {
   SSHIP_PLACE_STRUCTURAL,
   SSHIP_PLACE_FUEL,
@@ -64,12 +69,14 @@ enum spaceship_place_type {
   SSHIP_PLACE_SOLAR_PANELS
 };
 
+/* Used in network protocol. */
 enum unit_info_use {
   UNIT_INFO_IDENTITY,
   UNIT_INFO_CITY_SUPPORTED,
   UNIT_INFO_CITY_PRESENT
 };
 
+/* Used in network protocol. */
 enum authentication_type {
   AUTH_LOGIN_FIRST,   /* request a password for a returning user */
   AUTH_NEWUSER_FIRST, /* request a password for a new user */

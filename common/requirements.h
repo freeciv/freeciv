@@ -24,7 +24,8 @@ extern "C" {
 #include "terrain.h"
 #include "unittype.h"
 
-/* Range of requirements. */
+/* Range of requirements.
+ * Used in the network protocol. */
 #define SPECENUM_NAME req_range
 #define SPECENUM_VALUE0 REQ_RANGE_LOCAL
 #define SPECENUM_VALUE0NAME "Local"
@@ -47,7 +48,8 @@ extern "C" {
  * may not be active on a target.  If it is active then something happens.
  * For instance units and buildings have requirements to be built, techs
  * have requirements to be researched, and effects have requirements to be
- * active. */
+ * active.
+ * Used in the network protocol. */
 struct requirement {
   struct universal source;		/* requirement source */
   enum req_range range;			/* requirement range */

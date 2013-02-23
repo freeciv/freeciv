@@ -30,13 +30,12 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 
 struct ai_type;
 
+/* U_LAST is a value which is guaranteed to be larger than all
+ * actual Unit_type_id values. It is used as a flag value;
+ * it can also be used for fixed allocations to ensure able
+ * to hold full number of unit types.
+ * Used in the network protocol. */
 #define U_LAST MAX_NUM_ITEMS
-/*
-  U_LAST is a value which is guaranteed to be larger than all
-  actual Unit_type_id values.  It is used as a flag value;
-  it can also be used for fixed allocations to ensure able
-  to hold full number of unit types.
-*/
 
 #define SPECENUM_NAME unit_class_flag_id
 #define SPECENUM_VALUE0 UCF_TERRAIN_SPEED
@@ -84,6 +83,7 @@ struct ai_type;
 #define SPECENUM_COUNT UCF_COUNT
 #include "specenum_gen.h"
 
+/* Used in the network protocol. */
 BV_DEFINE(bv_unit_classes, UCL_LAST);
 BV_DEFINE(bv_unit_class_flags, UCF_COUNT);
 
@@ -107,13 +107,14 @@ struct unit_class {
 };
 
 /* Unit "special effects" flags:
-   Note this is now an enumerated type, and not power-of-two integers
-   for bits, though unit_type.flags is still a bitfield, and code
-   which uses unit_has_type_flag() without twiddling bits is unchanged.
-   (It is easier to go from i to (1<<i) than the reverse.)
-   See data/default/units.ruleset for documentation of their effects.
-   Change the array *flag_names[] in unittype.c accordingly.
-*/
+ * Note this is now an enumerated type, and not power-of-two integers
+ * for bits, though unit_type.flags is still a bitfield, and code
+ * which uses unit_has_type_flag() without twiddling bits is unchanged.
+ * (It is easier to go from i to (1<<i) than the reverse.)
+ * See data/default/units.ruleset for documentation of their effects.
+ * Change the array *flag_names[] in unittype.c accordingly.
+ * Used in the network protocol.
+ */
 #define SPECENUM_NAME unit_type_flag_id
 #define SPECENUM_VALUE0 UTYF_TRADE_ROUTE
 #define SPECENUM_VALUE0NAME "TradeRoute"
@@ -238,7 +239,7 @@ struct unit_class {
 #define SPECENUM_NAMEOVERRIDE
 #include "specenum_gen.h"
 
-#define UTYF_MAX 64
+#define UTYF_MAX 64 /* Used in the network protocol. */
 
 
 /* Unit "roles": these are similar to unit flags but differ in that
@@ -328,11 +329,13 @@ struct unit_class {
 
 #include "specenum_gen.h"
 
-#define L_MAX 64
+#define L_MAX 64 /* Used in the network protocol. */
 
+/* Used in the network protocol. */
 BV_DEFINE(bv_unit_type_flags, UTYF_MAX);
 BV_DEFINE(bv_unit_type_roles, L_MAX);
 
+/* Used in the network protocol. */
 #define SPECENUM_NAME combat_bonus_type
 #define SPECENUM_VALUE0 CBONUS_DEFENSE_MULTIPLIER
 #define SPECENUM_VALUE0NAME "DefenseMultiplier"
