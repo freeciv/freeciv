@@ -357,7 +357,8 @@ static unsigned int assess_danger_unit(const struct city *pcity,
     if ((PF_IMPOSSIBLE_MC == *move_time
          || *move_time > pos.turn)) {
       *move_time = pos.turn;
-      if (!utype_has_flag(punittype, UTYF_MARINES)) {
+      if (!utype_has_flag(punittype, UTYF_MARINES)
+          && !uclass_has_flag(utype_class(punittype), UCF_ATT_FROM_NON_NATIVE)) {
         (*move_time)++;
       }
     }
