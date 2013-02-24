@@ -204,6 +204,7 @@ static int evaluate_city_name_priority(struct tile *ptile,
      "better" than an unlisted terrain, which is mult_factor
      "better" than a non-matching terrain. */
   const float mult_factor = 1.4;
+  bool river = FALSE;
 
   /*
    * If natural city names aren't being used, we just return the
@@ -245,7 +246,17 @@ static int evaluate_city_name_priority(struct tile *ptile,
    * terrain labels would have their priorities hurt (or helped).
    */
   goodness = nation_city_river_preference(pncity);
-  if (!tile_has_special(ptile, S_RIVER)) {
+  if (tile_has_special(ptile, S_OLD_RIVER)) {
+    river = TRUE;
+  }
+  road_type_iterate(priver) {
+    if (road_has_flag(priver, RF_RIVER)
+        && tile_has_road(ptile, priver)) {
+      river = TRUE;
+      break;
+    }
+  } road_type_iterate_end;
+  if (!river) {
     goodness = nation_city_preference_revert(goodness);
   }
 
