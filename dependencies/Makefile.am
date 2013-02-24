@@ -3,10 +3,10 @@
 if SYS_LUA
 LUASUBDIR =
 else
-LUASUBDIR = lua-5.1
+LUASUBDIR = lua-5.2
 endif
 
-SUBDIRS = $(LUASUBDIR) tolua-5.1 cvercmp
+SUBDIRS = $(LUASUBDIR) tolua-5.2 cvercmp
 
 if FCDB_DB
 SUBDIRS += luasql-2.1.1

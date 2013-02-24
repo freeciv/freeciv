@@ -1190,9 +1190,9 @@ esac], [sys_lua=false])
 dnl There's wide divergence on what the pkg-config file for Lua is called
 dnl See http://lua-users.org/lists/lua-l/2008-09/msg00184.html
 if test "x$sys_lua" = "xtrue" || test "x$sys_lua" = "xtest" ; then
-  PKG_CHECK_MODULES([LUA], [lua5.1], [sys_lua=true],
-    [PKG_CHECK_MODULES([LUA], [lua-5.1], [sys_lua=true],
-      [PKG_CHECK_MODULES([LUA], [lua >= 5.1 lua < 5.2], [sys_lua=true],
+  PKG_CHECK_MODULES([LUA], [lua5.2], [sys_lua=true],
+    [PKG_CHECK_MODULES([LUA], [lua-5.2], [sys_lua=true],
+      [PKG_CHECK_MODULES([LUA], [lua >= 5.2 lua < 5.3], [sys_lua=true],
 [if test "x$sys_lua" = "xtrue" ; then
   AC_MSG_ERROR([Use of included lua disabled, and no lua found from system])
 fi
@@ -1200,8 +1200,8 @@ sys_lua=false])])])
 fi
 
 if test "x$sys_lua" = "xfalse" ; then
-  LUA_CFLAGS="-I\$(top_srcdir)/dependencies/lua-5.1/src"
-  LUA_LIBS="\$(top_builddir)/dependencies/lua-5.1/src/liblua.la"
+  LUA_CFLAGS="-I\$(top_srcdir)/dependencies/lua-5.2/src"
+  LUA_LIBS="\$(top_builddir)/dependencies/lua-5.2/src/liblua.la"
 fi
 
 AC_SUBST([LUA_CFLAGS])
@@ -1227,12 +1227,12 @@ if test x$enable_fcdb = xyes ; then
   AC_SUBST([LUASQL_AS_DEPENDENCY])
 fi
 
-TOLUA_CFLAGS="-I\$(top_srcdir)/dependencies/tolua-5.1/include"
-TOLUA_LIBS="\$(top_builddir)/dependencies/tolua-5.1/src/lib/libtolua.la"
+TOLUA_CFLAGS="-I\$(top_srcdir)/dependencies/tolua-5.2/include"
+TOLUA_LIBS="\$(top_builddir)/dependencies/tolua-5.2/src/lib/libtolua.la"
 AC_SUBST([TOLUA_CFLAGS])
 AC_SUBST([TOLUA_LIBS])
 
-TOLUA="\$(top_builddir)/dependencies/tolua-5.1/src/bin/tolua$EXEEXT"
+TOLUA="\$(top_builddir)/dependencies/tolua-5.2/src/bin/tolua$EXEEXT"
 AC_SUBST([TOLUA])
 
 AC_ARG_ENABLE([fcweb],
@@ -1410,12 +1410,12 @@ AC_CONFIG_FILES([Makefile
 	  data/icons/Makefile
 	  utility/Makefile
 	  dependencies/Makefile
-	  dependencies/lua-5.1/Makefile
-          dependencies/lua-5.1/src/Makefile
-	  dependencies/tolua-5.1/Makefile
-	  dependencies/tolua-5.1/src/Makefile
-	  dependencies/tolua-5.1/src/lib/Makefile
-          dependencies/tolua-5.1/src/bin/Makefile
+	  dependencies/lua-5.2/Makefile
+          dependencies/lua-5.2/src/Makefile
+	  dependencies/tolua-5.2/Makefile
+	  dependencies/tolua-5.2/src/Makefile
+	  dependencies/tolua-5.2/src/lib/Makefile
+          dependencies/tolua-5.2/src/bin/Makefile
           dependencies/luasql-2.1.1/Makefile
           dependencies/luasql-2.1.1/src/Makefile
           dependencies/cvercmp/Makefile  

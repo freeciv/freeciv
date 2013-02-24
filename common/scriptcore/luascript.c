@@ -251,11 +251,19 @@ static void luascript_hook_end(lua_State *L)
 ****************************************************************************/
 static void luascript_openlibs(lua_State *L, const luaL_Reg *llib)
 {
+#if LUA_VERSION_NUM == 501
   for (; llib->func; llib++) {
     lua_pushcfunction(L, llib->func);
     lua_pushstring(L, llib->name);
     lua_call(L, 1, 0);
   }
+#elif LUA_VERSION_NUM == 502
+  /* set results to global table */
+  for (; llib->func; llib++) {
+    luaL_requiref(L, llib->name, llib->func, 1);
+    lua_pop(L, 1);  /* remove lib */
+  }
+#endif
 }
 
 /*****************************************************************************

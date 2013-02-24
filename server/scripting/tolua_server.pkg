@@ -64,19 +64,23 @@ $[
 -- Notify module implementation.
 
 function notify.all(...)
-  notify.event_msg(nil, nil, E.SCRIPT, string.format(unpack(arg)))
+  local arg = table.pack(...);
+  notify.event_msg(nil, nil, E.SCRIPT, string.format(table.unpack(arg)))
 end
 
 function notify.player(player, ...)
-  notify.event_msg(player, nil, E.SCRIPT, string.format(unpack(arg)))
+  local arg = table.pack(...);
+  notify.event_msg(player, nil, E.SCRIPT, string.format(table.unpack(arg)))
 end
 
 function notify.event(player, tile, event, ...)
-  notify.event_msg(player, tile, event, string.format(unpack(arg)))
+  local arg = table.pack(...);
+  notify.event_msg(player, tile, event, string.format(table.unpack(arg)))
 end
 
 function notify.embassies(player, ptile, event, ...)
-  notify.embassies_msg(player, ptile, event, string.format(unpack(arg)))
+  local arg = table.pack(...);
+  notify.embassies_msg(player, ptile, event, string.format(table.unpack(arg)))
 end
 $]
 
