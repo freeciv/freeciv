@@ -438,11 +438,11 @@ int settler_evaluate_improvements(struct unit *punit,
               int old_move_cost = tile_terrain(ptile)->movement_cost * SINGLE_MOVE;
 
               road_type_iterate(pold) {
-                if (BV_ISSET(ptile->roads, road_index(pold))) {
+                if (tile_has_road(ptile, pold)) {
                   /* This ignores the fact that new road may be native to units that
                    * old road is not. */
-                  if (proad->move_cost < old_move_cost) {
-                    old_move_cost = proad->move_cost;
+                  if (pold->move_cost < old_move_cost) {
+                    old_move_cost = pold->move_cost;
                   }
                 }
               } road_type_iterate_end;
