@@ -501,4 +501,22 @@ tiles = { "row", "column", "tag"
   52,  6, "u.fanatics_se"
   52,  7, "u.fanatics_s"
 
+  53,  0, "u.crusaders_sw"
+  53,  1, "u.crusaders_w"
+  53,  2, "u.crusaders_nw"
+  53,  3, "u.crusaders_n"
+  53,  4, "u.crusaders_ne"
+  53,  5, "u.crusaders_e"
+  53,  6, "u.crusaders_se"
+  53,  7, "u.crusaders_s"
+
+  54,  0, "u.elephants_sw"
+  54,  1, "u.elephants_w"
+  54,  2, "u.elephants_nw"
+  54,  3, "u.elephants_n"
+  54,  4, "u.elephants_ne"
+  54,  5, "u.elephants_e"
+  54,  6, "u.elephants_se"
+  54,  7, "u.elephants_s"
+
 }
