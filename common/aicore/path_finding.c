@@ -2990,7 +2990,7 @@ static int pf_reverse_map_get_costs(const struct tile *to_tile,
   'pf_reverse_map' constructor. If 'max_turns' is positive, then it won't
   try to iterate the maps beyond this number of turns.
 ****************************************************************************/
-struct pf_reverse_map *pf_reverse_map_new(struct player *pplayer,
+struct pf_reverse_map *pf_reverse_map_new(const struct player *pplayer,
                                           struct tile *start_tile,
                                           int max_turns)
 {
@@ -3016,9 +3016,10 @@ struct pf_reverse_map *pf_reverse_map_new(struct player *pplayer,
   it won't try to iterate the maps beyond this number of turns.
 ****************************************************************************/
 struct pf_reverse_map *pf_reverse_map_new_for_city(const struct city *pcity,
+                                                   const struct player *attacker,
                                                    int max_turns)
 {
-  return pf_reverse_map_new(city_owner(pcity), city_tile(pcity), max_turns);
+  return pf_reverse_map_new(attacker, city_tile(pcity), max_turns);
 }
 
 /****************************************************************************

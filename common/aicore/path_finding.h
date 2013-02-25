@@ -318,7 +318,7 @@ struct pf_parameter {
   int move_rate;                /* Move rate of the virtual unit */
   int fuel;                     /* Should be 1 for units without fuel. */
 
-  struct player *owner;
+  const struct player *owner;
   const struct unit_class *uclass;
 
   bv_unit_type_flags unit_flags; /* Like F_MARINE and F_TRIREME */
@@ -449,11 +449,12 @@ void pf_path_print_real(const struct pf_path *path, enum log_level level,
 
 
 /* Reverse map functions (Costs to go to start tile). */
-struct pf_reverse_map *pf_reverse_map_new(struct player *pplayer,
+struct pf_reverse_map *pf_reverse_map_new(const struct player *pplayer,
                                           struct tile *start_tile,
                                           int max_turns)
                        fc__warn_unused_result;
 struct pf_reverse_map *pf_reverse_map_new_for_city(const struct city *pcity,
+                                                   const struct player *attacker,
                                                    int max_turns)
                        fc__warn_unused_result;
 struct pf_reverse_map *pf_reverse_map_new_for_unit(const struct unit *punit,

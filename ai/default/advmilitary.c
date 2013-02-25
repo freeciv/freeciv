@@ -455,7 +455,6 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = city_tile(pcity);
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
-  struct pf_reverse_map *pcity_map;
   unsigned int danger_reduced[B_LAST]; /* How much such danger there is that
                                         * building would help against. */
   int i;
@@ -471,7 +470,6 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
 
   /* Initialize data. */
   memset(&danger_reduced, 0, sizeof(danger_reduced));
-  pcity_map = pf_reverse_map_new_for_city(pcity, 3);
   if (ai_handicap(pplayer, H_DANGER)) {
     /* Always thinks that city is in grave danger */
     city_data->grave_danger = 1;
@@ -528,11 +526,15 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
 
   /* Check. */
   players_iterate(aplayer) {
+    struct pf_reverse_map *pcity_map;
+
     if (!adv_is_player_dangerous(city_owner(pcity), aplayer)) {
       continue;
     }
     /* Note that we still consider the units of players we are not (yet)
      * at war with. */
+
+    pcity_map = pf_reverse_map_new_for_city(pcity, aplayer, 3);
 
     unit_list_iterate(aplayer->units, punit) {
       int move_time;
@@ -606,6 +608,9 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
 
       total_danger += vulnerability;
     } unit_list_iterate_end;
+
+    pf_reverse_map_destroy(pcity_map);
+
   } players_iterate_end;
 
   if (0 == igwall_threat) {
@@ -647,9 +652,6 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
   city_data->urgency = urgency;
 
   TIMING_LOG(AIT_DANGER, TIMER_STOP);
-
-  /* Free data and return. */
-  pf_reverse_map_destroy(pcity_map);
 
   return urgency;
 }

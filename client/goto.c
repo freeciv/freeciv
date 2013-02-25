@@ -474,7 +474,7 @@ static enum tile_behavior get_TB_caravan(const struct tile *ptile,
   position.  A negative number means it's impossible.
 ****************************************************************************/
 static int get_activity_time(const struct tile *ptile,
-			     struct player *pplayer)
+			     const struct player *pplayer)
 {
   struct terrain *pterrain = tile_terrain(ptile);
   int activity_mc = 0;
@@ -522,7 +522,7 @@ static int get_activity_time(const struct tile *ptile,
   When building a road or a railroad, we don't want to go next to 
   nonallied cities
 ****************************************************************************/
-static bool is_non_allied_city_adjacent(struct player *pplayer,
+static bool is_non_allied_city_adjacent(const struct player *pplayer,
 					const struct tile *ptile)
 {
   adjc_iterate(ptile, tile1) {
