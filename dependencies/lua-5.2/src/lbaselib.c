@@ -241,10 +241,15 @@ static int luaB_ipairs (lua_State *L) {
   return pairsmeta(L, "__ipairs", 1, ipairsaux);
 }
 
-
-static int load_aux (lua_State *L, int status) {
-  if (status == LUA_OK)
+static int load_aux (lua_State *L, int status, int envidx) {
+  if (status == LUA_OK) {
+    if (envidx != 0) {  /* 'env' parameter? */
+      lua_pushvalue(L, envidx);  /* environment for loaded function */
+      if (!lua_setupvalue(L, -2, 1))  /* set it as 1st upvalue */
+        lua_pop(L, 1);  /* remove 'env' if not used by previous call */
+    }
     return 1;
+  }
   else {
     lua_pushnil(L);
     lua_insert(L, -2);  /* put before error message */
@@ -256,13 +261,9 @@ static int load_aux (lua_State *L, int status) {
 static int luaB_loadfile (lua_State *L) {
   const char *fname = luaL_optstring(L, 1, NULL);
   const char *mode = luaL_optstring(L, 2, NULL);
-  int env = !lua_isnone(L, 3);  /* 'env' parameter? */
+  int env = (!lua_isnone(L, 3) ? 3 : 0);  /* 'env' index or 0 if no 'env' */
   int status = luaL_loadfilex(L, fname, mode);
-  if (status == LUA_OK && env) {  /* 'env' parameter? */
-    lua_pushvalue(L, 3);
-    lua_setupvalue(L, -2, 1);  /* set it as 1st upvalue of loaded chunk */
-  }
-  return load_aux(L, status);
+  return load_aux(L, status, env);
 }
 
 
@@ -307,9 +308,9 @@ static const char *generic_reader (lua_State *L, void *ud, size_t *size) {
 static int luaB_load (lua_State *L) {
   int status;
   size_t l;
-  int top = lua_gettop(L);
   const char *s = lua_tolstring(L, 1, &l);
   const char *mode = luaL_optstring(L, 3, "bt");
+  int env = (!lua_isnone(L, 4) ? 4 : 0);  /* 'env' index or 0 if no 'env' */
   if (s != NULL) {  /* loading a string? */
     const char *chunkname = luaL_optstring(L, 2, s);
     status = luaL_loadbufferx(L, s, l, chunkname, mode);
@@ -320,11 +321,7 @@ static int luaB_load (lua_State *L) {
     lua_settop(L, RESERVEDSLOT);  /* create reserved slot */
     status = lua_load(L, generic_reader, NULL, chunkname, mode);
   }
-  if (status == LUA_OK && top >= 4) {  /* is there an 'env' argument */
-    lua_pushvalue(L, 4);  /* environment for loaded function */
-    lua_setupvalue(L, -2, 1);  /* set it as 1st upvalue */
-  }
-  return load_aux(L, status);
+  return load_aux(L, status, env);
 }
 
 /* }====================================================== */
