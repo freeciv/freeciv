@@ -811,7 +811,8 @@ const char *get_infrastructure_text(bv_special spe, bv_bases bases, bv_roads roa
   s[0] = '\0';
 
   road_type_iterate(proad) {
-    if (BV_ISSET(roads, road_index(proad))) {
+    if (BV_ISSET(roads, road_index(proad))
+        && !road_has_flag(proad, RF_NATURAL)) {
       bool hidden = FALSE;
 
       road_type_iterate(top) {

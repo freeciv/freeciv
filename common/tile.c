@@ -826,7 +826,7 @@ const char *tile_get_info_text(const struct tile *ptile, int linebreaks)
     lb = TRUE;
   }
 
-  if (tile_has_special(ptile, S_RIVER)) {
+  if (tile_has_special(ptile, S_OLD_RIVER)) {
     if (lb) {
       sz_strlcat(s, "\n");
       lb = FALSE;
@@ -835,6 +835,19 @@ const char *tile_get_info_text(const struct tile *ptile, int linebreaks)
     }
     sz_strlcat(s, special_name_translation(S_RIVER));
   }
+
+  road_type_iterate(proad) {
+    if (tile_has_road(ptile, proad)
+        && road_has_flag(proad, RF_NATURAL)) {
+      if (lb) {
+        sz_strlcat(s, "\n");
+        lb = FALSE;
+      } else {
+        sz_strlcat(s, "/");
+      }
+      sz_strlcat(s, road_name_translation(proad));
+    }
+  } road_type_iterate_end;
   if (linebreaks & TILE_LB_RIVER_RESOURCE) {
     /* New linebreak requested */
     lb = TRUE;
