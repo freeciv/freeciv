@@ -1345,7 +1345,6 @@ static bool load_ruleset_veteran(struct section_file *file,
 **************************************************************************/
 static bool load_ruleset_units(struct section_file *file)
 {
-  struct unit_type *u;
   int j, ival;
   size_t nval;
   struct section_list *sec, *csec;
@@ -1764,35 +1763,6 @@ static bool load_ruleset_units(struct section_file *file)
   }
   if (num_role_units(L_FIRSTBUILD) == 0) {
     ruleset_error(LOG_FATAL, "\"%s\": No role=firstbuild units?", filename);
-  }
-  if (0 == num_role_units(L_BARBARIAN)
-      && BARBS_DISABLED != game.server.barbarianrate) {
-    ruleset_error(LOG_FATAL, "\"%s\": No role=barbarian units?", filename);
-  }
-  if (0 == num_role_units(L_BARBARIAN_LEADER)
-      && BARBS_DISABLED != game.server.barbarianrate) {
-    ruleset_error(LOG_FATAL, "\"%s\": No role=barbarian leader units?", filename);
-  }
-  if (0 == num_role_units(L_BARBARIAN_BUILD)
-      && BARBS_DISABLED != game.server.barbarianrate) {
-    ruleset_error(LOG_FATAL, "\"%s\": No role=barbarian build units?", filename);
-  }
-  if (0 == num_role_units(L_BARBARIAN_BOAT)
-      && BARBS_DISABLED != game.server.barbarianrate) {
-    ruleset_error(LOG_FATAL, "\"%s\": No role=barbarian ship units?", filename);
-  } else if (num_role_units(L_BARBARIAN_BOAT) > 0) {
-    u = get_role_unit(L_BARBARIAN_BOAT,0);
-    if(utype_move_type(u) != UMT_SEA) {
-      ruleset_error(LOG_FATAL,
-                    "\"%s\": Barbarian boat (%s) needs to be a sea unit.",
-                    filename,
-                    utype_rule_name(u));
-    }
-  }
-  if (0 == num_role_units(L_BARBARIAN_SEA)
-      && BARBS_DISABLED != game.server.barbarianrate) {
-    ruleset_error(LOG_FATAL, "\"%s\": No role=sea raider barbarian units?",
-                  filename);
   }
 
   section_list_destroy(csec);

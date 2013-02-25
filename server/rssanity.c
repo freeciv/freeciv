@@ -309,6 +309,42 @@ static bool effect_list_sanity_cb(const struct effect *peffect)
 **************************************************************************/
 static bool rs_barbarian_units(void)
 {
+  if (num_role_units(L_BARBARIAN) == 0
+      && BARBS_DISABLED != game.server.barbarianrate) {
+    ruleset_error(LOG_ERROR, "No role barbarian units");
+    return FALSE;
+  }
+  if (num_role_units(L_BARBARIAN_LEADER) == 0
+      && BARBS_DISABLED != game.server.barbarianrate) {
+    ruleset_error(LOG_ERROR, "No role barbarian leader units");
+    return FALSE;
+  }
+  if (num_role_units(L_BARBARIAN_BUILD) == 0
+      && BARBS_DISABLED != game.server.barbarianrate) {
+    ruleset_error(LOG_ERROR, "No role barbarian build units");
+    return FALSE;
+  }
+  if (num_role_units(L_BARBARIAN_BOAT) == 0
+      && BARBS_DISABLED != game.server.barbarianrate) {
+    ruleset_error(LOG_ERROR, "No role barbarian ship units");
+    return FALSE;
+  } else if (num_role_units(L_BARBARIAN_BOAT) > 0) {
+    struct unit_type *u;
+
+    u = get_role_unit(L_BARBARIAN_BOAT, 0);
+    if (utype_move_type(get_role_unit(L_BARBARIAN_BOAT, 0)) != UMT_SEA) {
+      ruleset_error(LOG_ERROR,
+                    "Barbarian boat (%s) needs to be a sea unit.",
+                    utype_rule_name(u));
+      return FALSE;
+    }
+  }
+  if (num_role_units(L_BARBARIAN_SEA) == 0
+      && BARBS_DISABLED != game.server.barbarianrate) {
+    ruleset_error(LOG_ERROR, "No role sea raider barbarian units");
+    return FALSE;
+  }
+
   unit_type_iterate(ptype) {
     if (utype_has_role(ptype, L_BARBARIAN_BOAT)) {
       if (ptype->transport_capacity <= 1) {
