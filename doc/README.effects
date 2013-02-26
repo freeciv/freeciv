@@ -211,8 +211,8 @@ Unit_Vision_Radius_Sq
 Defend_Bonus
     Increases defensive bonuses of units. Any unit requirements on this effect
 will be applied to the _attacking_ unit. The defensive bonus is ignored by
-attackers with F_IGWALL set. Attackers with F_BADWALLATTACKER will have their
-firepower set to 1.
+attackers with "IgWall" flag. Attackers with "BadWallAttacker" flag will have
+their firepower set to 1.
 
 No_Incite
     City cannot be incited.
