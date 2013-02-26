@@ -1258,12 +1258,15 @@ static void load_ruleset_units(struct section_file *file)
       }
       ival = unit_class_flag_id_by_name(sval, fc_strcasecmp);
       if (!unit_class_flag_id_is_valid(ival)) {
-        log_error("\"%s\" unit_class \"%s\": bad flag name \"%s\".",
-                  filename, uclass_rule_name(uc), sval);
         ival = unit_flag_by_rule_name(sval);
         if (ival != F_LAST) {
-          log_error("\"%s\" unit_class \"%s\": unit_type flag!",
-                    filename, uclass_rule_name(uc));
+          ruleset_error(LOG_FATAL,
+                        "\"%s\" unit_class \"%s\": unit_type flag!",
+                        filename, uclass_rule_name(uc));
+        } else {
+          ruleset_error(LOG_FATAL,
+                        "\"%s\" unit_class \"%s\": bad flag name \"%s\".",
+                        filename, uclass_rule_name(uc), sval);
         }
       } else {
         BV_SET(uc->flags, ival);
@@ -1524,8 +1527,13 @@ static void load_ruleset_units(struct section_file *file)
                   filename, utype_rule_name(u),  sval);
         ival = unit_class_flag_id_by_name(sval, fc_strcasecmp);
         if (unit_class_flag_id_is_valid(ival)) {
-          log_error("\"%s\" unit_type \"%s\": unit_class flag!",
-                    filename, utype_rule_name(u));
+          ruleset_error(LOG_FATAL, 
+                        "\"%s\" unit_type \"%s\": unit_class flag!",
+                        filename, utype_rule_name(u));
+        } else {
+          ruleset_error(LOG_FATAL,
+                        "\"%s\" unit_type \"%s\": bad flag name \"%s\".",
+                        filename, utype_rule_name(u),  sval);
         }
       } else {
         BV_SET(u->flags, ival);
@@ -1713,8 +1721,9 @@ static void load_ruleset_buildings(struct section_file *file)
       }
       ival = impr_flag_id_by_name(sval, fc_strcasecmp);
       if (!impr_flag_id_is_valid(ival)) {
-        log_error("\"%s\" improvement \"%s\": bad flag name \"%s\".",
-                  filename, improvement_rule_name(b), sval);
+        ruleset_error(LOG_FATAL,
+                      "\"%s\" improvement \"%s\": bad flag name \"%s\".",
+                      filename, improvement_rule_name(b), sval);
       } else {
         BV_SET(b->flags, ival);
       }
