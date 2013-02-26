@@ -17,6 +17,10 @@ flag = "adventurers"
 flag_alt = "denmark"
 city_style = "Human"
 
+color.r = 124
+color.g = 252
+color.b =   0
+
 init_techs=""
 init_buildings=""
 init_units=""

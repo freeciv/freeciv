@@ -310,4 +310,5 @@ set =
      "revolen",     7
      "citymindist", 3
      "startunits",  "cx"
+     "plrcolormode", "NATION_ORDER"
    }

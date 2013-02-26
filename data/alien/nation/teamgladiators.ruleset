@@ -18,6 +18,10 @@ flag = "teamgladiators"
 flag_alt = "france"
 city_style = "Human"
 
+color.r = 255
+color.g =   0
+color.b =   0
+
 init_techs=""
 init_buildings=""
 init_units=""

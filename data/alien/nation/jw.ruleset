@@ -21,6 +21,10 @@ init_techs=""
 init_buildings=""
 init_units=""
 
+color.r = 255
+color.g = 255
+color.b =   0
+
 trait_trader       = 300
 trait_expansionist = 70
 

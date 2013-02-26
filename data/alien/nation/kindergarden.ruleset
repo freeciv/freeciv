@@ -17,6 +17,10 @@ flag = "kindergarden"
 flag_alt = "sweden"
 city_style = "Human"
 
+color.r = 255
+color.g =   0
+color.b = 255
+
 init_techs=""
 init_buildings=""
 init_units=""

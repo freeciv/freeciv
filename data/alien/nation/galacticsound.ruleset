@@ -16,6 +16,10 @@ flag = "galacticsound"
 flag_alt = "germany"
 city_style = "Human"
 
+color.r = 255
+color.g = 165
+color.b =   0
+
 init_techs=""
 init_buildings=""
 init_units=""

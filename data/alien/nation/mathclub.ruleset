@@ -17,6 +17,10 @@ flag = "mathclub"
 flag_alt = "finland"
 city_style = "Human"
 
+color.r =   0
+color.g = 255
+color.b = 255
+
 init_techs=""
 init_buildings=""
 init_units=""
