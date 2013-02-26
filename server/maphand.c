@@ -87,7 +87,8 @@ Used only in global_warming() and nuclear_winter() below.
 static bool is_terrain_ecologically_wet(struct tile *ptile)
 {
   return (is_terrain_class_near_tile(ptile, TC_OCEAN)
-	  || is_special_near_tile(ptile, S_RIVER, TRUE));
+          || tile_has_river(ptile)
+          || count_river_near_tile(ptile) > 0);
 }
 
 /**************************************************************************
