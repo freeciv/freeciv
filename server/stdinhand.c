@@ -3340,10 +3340,11 @@ static bool take_command(struct connection *caller, char *str, bool check)
 
   /******** PART II: do the attaching ********/
 
-  /* Take not possible if there is a delegation. */
+  /* Take not possible if the player is involved in a delegation (either
+   * it's being controlled, or it's been put aside by the delegate). */
   if (player_delegation_active(pplayer)) {
-    cmd_reply(CMD_TAKE, caller, C_FAIL, "A delegation is active for player "
-                                        "'%s'. /take not possible.",
+    cmd_reply(CMD_TAKE, caller, C_FAIL, _("A delegation is active for player "
+                                          "'%s'. /take not possible."),
               player_name(pplayer));
     goto end;
   }
@@ -4686,7 +4687,7 @@ static bool lua_command(struct connection *caller, char *arg, bool check)
 #include "specenum_gen.h"
 
 /*****************************************************************************
-  Returns possible parameters for the reset command.
+  Returns possible parameters for the 'delegate' command.
 *****************************************************************************/
 static const char *delegate_accessor(int i)
 {
@@ -4701,15 +4702,16 @@ static bool delegate_command(struct connection *caller, char *arg,
                              bool check)
 {
   char *tokens[3];
-  int ntokens, ind;
+  int ntokens, ind = delegate_args_invalid();
   enum m_pre_result result;
+  bool player_specified = FALSE; /* affects messages only */
   bool ret = FALSE;
   const char *username = NULL;
   struct player *dplayer = NULL;
 
   if (!game_was_started()) {
-    cmd_reply(CMD_DELEGATE, caller, C_OK, _("Game was not started - "
-                                            "delegation not possible."));
+    cmd_reply(CMD_DELEGATE, caller, C_FAIL, _("Game not started - "
+                                              "cannot delegate yet."));
     return FALSE;
   }
 
@@ -4726,57 +4728,71 @@ static bool delegate_command(struct connection *caller, char *arg,
       /* we have a match */
       break;
     case M_PRE_EMPTY:
-      /* Use 'delegate show' as default. */
-      ind = DELEGATE_SHOW;
+      if (caller) {
+        /* Use 'delegate show' as default. */
+        ind = DELEGATE_SHOW;
+      }
       break;
     case M_PRE_AMBIGUOUS:
     case M_PRE_LONG:
     case M_PRE_FAIL:
     case M_PRE_LAST:
-      {
-        char buf[256] = "";
-        enum delegate_args valid_args;
-
-        for (valid_args = delegate_args_begin();
-             valid_args != delegate_args_end();
-             valid_args = delegate_args_next(valid_args)) {
-          cat_snprintf(buf, sizeof(buf), "'%s'",
-                       delegate_args_name(valid_args));
-          if (valid_args != delegate_args_max()) {
-            cat_snprintf(buf, sizeof(buf), ", ");
-          }
-        }
-
-        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                  /* TRANS: do not translate the command 'delegate'. */
-                  _("Valid arguments for 'delegate' are: %s."), buf);
-        ret =  FALSE;
-        goto cleanup;
-      }
+      ind = delegate_args_invalid();
       break;
     }
   } else {
-    /* Use 'delegate show' as default. */
-    ind = DELEGATE_SHOW;
+    if (caller) {
+      /* Use 'delegate show' as default. */
+      ind = DELEGATE_SHOW;
+    }
   }
 
-  /* Get the data (player, username for delegation). */
+  if (!delegate_args_is_valid(ind)) {
+    char buf[256] = "";
+    enum delegate_args valid_args;
+
+    for (valid_args = delegate_args_begin();
+         valid_args != delegate_args_end();
+         valid_args = delegate_args_next(valid_args)) {
+      cat_snprintf(buf, sizeof(buf), "'%s'",
+                   delegate_args_name(valid_args));
+      if (valid_args != delegate_args_max()) {
+        cat_snprintf(buf, sizeof(buf), ", ");
+      }
+    }
+
+    cmd_reply(CMD_DELEGATE, caller, C_SYNTAX,
+              /* TRANS: do not translate the command 'delegate'. */
+              _("Valid arguments for 'delegate' are: %s."), buf);
+    ret =  FALSE;
+    goto cleanup;
+  }
+
+  /* Get the data (player, username for delegation) and validate it. */
   switch (ind) {
   case DELEGATE_CANCEL:
     /* delegate cancel [player] */
-    if ((!caller || conn_get_access(caller) >= ALLOW_ADMIN) && ntokens > 1) {
-      dplayer = player_by_name_prefix(tokens[1], &result);
-      if (!dplayer) {
-        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                  _("Unknown player name: '%s'"), tokens[1]);
+    if (ntokens > 1) {
+      if (!caller || conn_get_access(caller) >= ALLOW_ADMIN) {
+        player_specified = TRUE;
+        dplayer = player_by_name_prefix(tokens[1], &result);
+        if (!dplayer) {
+          cmd_reply_no_such_player(CMD_DELEGATE, caller, tokens[1], result);
+          ret = FALSE;
+          goto cleanup;
+        }
+      } else {
+        cmd_reply(CMD_DELEGATE, caller, C_SYNTAX,
+                  _("Command level '%s' or greater needed to modify "
+                    "others' delegations."), cmdlevel_name(ALLOW_ADMIN));
         ret = FALSE;
         goto cleanup;
       }
     } else {
       dplayer = conn_get_player(caller);
       if (!dplayer) {
-        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                  _("Please define a player for whom the delegation should "
+        cmd_reply(CMD_DELEGATE, caller, C_SYNTAX,
+                  _("Please specify a player for whom delegation should "
                     "be canceled."));
         ret = FALSE;
         goto cleanup;
@@ -4787,7 +4803,7 @@ static bool delegate_command(struct connection *caller, char *arg,
     /* delegate restore */
     if (!caller) {
       cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                _("You can't restore control of a player from the console."));
+                _("You can't switch players from the console."));
       ret = FALSE;
       goto cleanup;
     }
@@ -4795,18 +4811,18 @@ static bool delegate_command(struct connection *caller, char *arg,
   case DELEGATE_SHOW:
     /* delegate show [player] */
     if (ntokens > 1) {
+      player_specified = TRUE;
       dplayer = player_by_name_prefix(tokens[1], &result);
       if (!dplayer) {
-        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                  _("Unknown player name: '%s'"), tokens[1]);
+        cmd_reply_no_such_player(CMD_DELEGATE, caller, tokens[1], result);
         ret = FALSE;
         goto cleanup;
       }
     } else {
       dplayer = conn_get_player(caller);
       if (!dplayer) {
-        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                  _("Please define a player for whom the delegation should "
+        cmd_reply(CMD_DELEGATE, caller, C_SYNTAX,
+                  _("Please specify a player for whom the delegation should "
                     "be shown."));
         ret = FALSE;
         goto cleanup;
@@ -4817,21 +4833,21 @@ static bool delegate_command(struct connection *caller, char *arg,
     /* delegate take <player> */
     if (!caller) {
       cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                _("You can't take a player from the console."));
+                _("You can't switch players from the console."));
       ret = FALSE;
       goto cleanup;
     }
     if (ntokens > 1) {
+      player_specified = TRUE;
       dplayer = player_by_name_prefix(tokens[1], &result);
       if (!dplayer) {
-        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                  _("Unknown player name: '%s'"), tokens[1]);
+        cmd_reply_no_such_player(CMD_DELEGATE, caller, tokens[1], result);
         ret = FALSE;
         goto cleanup;
       }
     } else {
-      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                _("Please define a player to take control of."));
+      cmd_reply(CMD_DELEGATE, caller, C_SYNTAX,
+                _("Please specify a player to take control of."));
       ret = FALSE;
       goto cleanup;
     }
@@ -4841,17 +4857,24 @@ static bool delegate_command(struct connection *caller, char *arg,
     if (ntokens > 1) {
       username = tokens[1];
     } else {
-      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                _("Please define a username to whom the control is "
-                  "delegated."));
+      cmd_reply(CMD_DELEGATE, caller, C_SYNTAX,
+                _("Please specify a user to whom control is to be delegated."));
       ret = FALSE;
       goto cleanup;
     }
-    if ((!caller || conn_get_access(caller) >= ALLOW_ADMIN) && ntokens > 2) {
-      dplayer = player_by_name_prefix(tokens[2], &result);
-      if (!dplayer) {
-        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                  _("Unknown player name: '%s'"), tokens[2]);
+    if (ntokens > 2) {
+      if (!caller || conn_get_access(caller) >= ALLOW_ADMIN) {
+        player_specified = TRUE;
+        dplayer = player_by_name_prefix(tokens[2], &result);
+        if (!dplayer) {
+          cmd_reply_no_such_player(CMD_DELEGATE, caller, tokens[2], result);
+          ret = FALSE;
+          goto cleanup;
+        }
+      } else {
+        cmd_reply(CMD_DELEGATE, caller, C_SYNTAX,
+                  _("Command level '%s' or greater needed to modify "
+                    "others' delegations."), cmdlevel_name(ALLOW_ADMIN));
         ret = FALSE;
         goto cleanup;
       }
@@ -4867,6 +4890,8 @@ static bool delegate_command(struct connection *caller, char *arg,
     break;
   }
 
+  /* All checks done to this point will give pretty much the same result at
+   * any time. Checks after this point are more likely to vary over time. */
   if (check) {
     ret = TRUE;
     goto cleanup;
@@ -4874,29 +4899,75 @@ static bool delegate_command(struct connection *caller, char *arg,
 
   switch (ind) {
   case DELEGATE_TO:
-    /* Delegate to another player. */
+    /* Delegate control of player to another user. */
     fc_assert_ret_val(dplayer, FALSE);
-    fc_assert_ret_val(username != '\0', FALSE);
+    fc_assert_ret_val(username != NULL, FALSE);
 
-    if (caller && strcmp(caller->username, username) == 0) {
-      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                _("Delegation to yourself?"));
+    /* Forbid delegation of players already controlled by a delegate, and
+     * those 'put aside' by a delegate.
+     * For the former, if player is already under active delegate control,
+     * we wouldn't handle the revocation that would be necessary if their
+     * delegation changed; and the authority granted to delegates does not
+     * include the ability to sub-delegate.
+     * For the latter, allowing control of the 'put aside' player to be
+     * delegated would break the invariant that whenever a user is connected,
+     * they are attached to 'their' player. */
+    if (player_delegation_active(dplayer)) {
+      if (!player_delegation_get(dplayer)) {
+        /* Attempting to change a 'put aside' player. Must be admin 
+         * or console. */
+        fc_assert(player_specified);
+        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                  _("Can't delegate control of '%s' belonging to %s while "
+                    "they are controlling another player."),
+                    player_name(dplayer), dplayer->username);
+      } else if (player_specified) {
+        /* Admin or console attempting to change a controlled player. */
+        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                  _("Can't change delegation of '%s' while controlled by "
+                    "delegate %s."), player_name(dplayer), dplayer->username);
+      } else {
+        /* Caller must be the delegate. Give more specific message.
+         * (We don't know if they thought they were delegating their
+         * original or delegated player, but we don't allow either.) */
+        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                  _("You can't delegate control while you are controlling "
+                    "a delegated player yourself."));
+      }
       ret = FALSE;
       goto cleanup;
     }
 
-    if (conn_get_player(caller) == dplayer
-        && caller->server.delegation.playing != NULL) {
-      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                _("You can't define a delegation if you are in delegation "
-                  "mode. See '/list delegation'"));
+    /* Forbid delegation to player's original owner
+     * (from above test we know that dplayer->username is the original now) */
+    if (strcmp(dplayer->username, username) == 0) {
+      if (player_specified) {
+        /* Probably admin or console. */
+        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                  /* TRANS: don't translate 'delegate cancel' */
+                  _("%s already owns '%s', so cannot also be delegate. "
+                    "Use '%sdelegate cancel' to cancel an existing "
+                    "delegation."),
+                  username, player_name(dplayer), caller?"/":"");
+      } else {
+        /* Player not specified on command line, so they must have been trying
+         * to delegate control to themself. Give more specific message. */
+        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                  /* TRANS: don't translate '/delegate cancel' */
+                  _("You can't delegate control to yourself. "
+                    "Use '/delegate cancel' to cancel an existing "
+                    "delegation."));
+      }
       ret = FALSE;
       goto cleanup;
     }
+
+    /* FIXME: if control was already delegated to someone else, that
+     * delegation is implicitly canceled. Perhaps we should tell someone. */
 
     player_delegation_set(dplayer, username);
     cmd_reply(CMD_DELEGATE, caller, C_OK,
-              _("Define delegation for player '%s' to user '%s'."),
+              _("Control of player '%s' delegated to user %s."),
               player_name(dplayer), username);
     ret = TRUE;
     goto cleanup;
@@ -4908,13 +4979,13 @@ static bool delegate_command(struct connection *caller, char *arg,
 
     if (player_delegation_get(dplayer) == NULL) {
       /* No delegation set. */
-      cmd_reply(CMD_DELEGATE, caller, C_OK,
-                _("No delegation defined for %s."),
+      cmd_reply(CMD_DELEGATE, caller, C_COMMENT,
+                _("No delegation defined for '%s'."),
                 player_name(dplayer));
     } else {
-      cmd_reply(CMD_DELEGATE, caller, C_OK,
-                  _("Control of player '%s' delegated to user '%s'."),
-                  player_name(dplayer), player_delegation_get(dplayer));
+      cmd_reply(CMD_DELEGATE, caller, C_COMMENT,
+                _("Control of player '%s' delegated to user %s."),
+                player_name(dplayer), player_delegation_get(dplayer));
     }
     ret = TRUE;
     goto cleanup;
@@ -4924,14 +4995,38 @@ static bool delegate_command(struct connection *caller, char *arg,
     if (player_delegation_get(dplayer) == NULL) {
       /* No delegation set. */
       cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                _("No delegation defined for %s."),
+                _("No delegation defined for '%s'."),
                 player_name(dplayer));
       ret = FALSE;
       goto cleanup;
     }
 
+    if (player_delegation_active(dplayer)) {
+      /* Delegation is currently in use. Forcibly break connection. */
+      struct connection *pdelegate;
+      /* (Can only happen if admin/console issues this command, as owner
+       * will end use by their mere presence.) */
+      fc_assert(player_specified);
+      pdelegate = conn_by_user(player_delegation_get(dplayer));
+      fc_assert_ret_val(pdelegate != NULL, FALSE);
+      if (!connection_delegate_restore(pdelegate)) {
+        /* Should never happen. Generic failure message. */
+        log_error("Failed to restore %s's connection as %s during "
+                  "'delegate cancel'.", pdelegate->username,
+                  delegate_player_str(pdelegate->server.delegation.playing,
+                                      pdelegate->server.delegation.observer));
+        cmd_reply(CMD_DELEGATE, caller, C_FAIL, _("Unexpected failure."));
+        ret = FALSE;
+        goto cleanup;
+      }
+      notify_conn(pdelegate->self, NULL, E_CONNECTION, ftc_server,
+                  _("Your delegated control of player '%s' was canceled."),
+                  player_name(dplayer));
+    }
+
     player_delegation_set(dplayer, NULL);
-    cmd_reply(CMD_DELEGATE, caller, C_OK, _("Delegation canceled."));
+    cmd_reply(CMD_DELEGATE, caller, C_OK, _("Delegation of '%s' canceled."),
+              player_name(dplayer));
     ret = TRUE;
     goto cleanup;
     break;
@@ -4943,23 +5038,34 @@ static bool delegate_command(struct connection *caller, char *arg,
 
     if (caller->server.delegation.status) {
       cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                _("Please restore first your original connection."));
+                /* TRANS: don't translate '/delegate restore'. */
+                _("You are already controlling a delegated player. "
+                  "Use '/delegate restore' to relinquish control of your "
+                  "current player first."));
       ret = FALSE;
       goto cleanup;
     }
 
-    if (player_delegation_get(conn_get_player(caller)) != NULL) {
+    /* Don't allow 'put aside' players to be delegated; the invariant is
+     * that while the owning user is connected to the server, they are
+     * in sole control of 'their' player. */
+    if (conn_controls_player(caller)
+        && player_delegation_get(conn_get_player(caller)) != NULL) {
       cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                _("Please cancel first your own delegation."));
+                /* TRANS: don't translate '/delegate cancel'. */
+                _("Can't take player while you have delegated control "
+                  "yourself. Use '/delegate cancel' to cancel your own "
+                  "delegation first."));
       ret = FALSE;
       goto cleanup;
     }
 
     /* Taking your own player makes no sense. */
-    if (dplayer == conn_get_player(caller)) {
-      cmd_reply(CMD_TAKE, caller, C_FAIL, _("You already control %s."),
+    if (conn_controls_player(caller)
+        && dplayer == conn_get_player(caller)) {
+      cmd_reply(CMD_DELEGATE, caller, C_FAIL, _("You already control '%s'."),
                 player_name(conn_get_player(caller)));
-      ret =  FALSE;
+      ret = FALSE;
       goto cleanup;
     }
 
@@ -4974,66 +5080,56 @@ static bool delegate_command(struct connection *caller, char *arg,
 
     /* If the player is controlled by another user, fail. */
     if (dplayer->is_connected) {
-      cmd_reply(CMD_TAKE, caller, C_FAIL,
-                _("A user is connected to player '%s'."),
+      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                _("Another user already controls player '%s'."),
                 player_name(dplayer));
-      ret =  FALSE;
-      goto cleanup;
-    }
-
-    /* No chain of delegations. */
-    if (caller->server.delegation.status == TRUE) {
-      cmd_reply(CMD_TAKE, caller, C_FAIL,
-                _("You are currently using a delegation. Cancel it first."));
-      ret =  FALSE;
+      ret = FALSE;
       goto cleanup;
     }
 
     if (!connection_delegate_take(caller, dplayer)) {
-      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                _("Failed to take control of '%s'."), player_name(dplayer));
-      ret =  FALSE;
+      /* Should never happen. Generic failure message. */
+      log_error("%s failed to take control of '%s' during 'delegate take'.",
+                caller->username, player_name(dplayer));
+      cmd_reply(CMD_DELEGATE, caller, C_FAIL, _("Unexpected failure."));
+      ret = FALSE;
       goto cleanup;
     }
 
     cmd_reply(CMD_DELEGATE, caller, C_OK,
-              _("'%s' is now controlling player '%s'."), caller->username,
+              _("%s is now controlling player '%s'."), caller->username,
               player_name(conn_get_player(caller)));
     ret = TRUE;
     goto cleanup;
     break;
 
   case DELEGATE_RESTORE:
-    /* Restore the original player. */
+    /* Delegate user relinquishes control of delegated player, returning to 
+     * previous view (e.g. observer) if any. */
     fc_assert_ret_val(caller, FALSE);
 
-    if (caller->server.delegation.status == FALSE) {
+    if (!caller->server.delegation.status) {
       cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                _("There is no original player to restore."));
-      ret = FALSE;
-      goto cleanup;
-    }
-
-    if (caller->server.delegation.playing
-        && strcmp(caller->server.delegation.playing->server.orig_username,
-                  caller->username) != 0) {
-      /* This is _not_ the original connection. */
-      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                _("Player data do not match."));
+                _("You are not currently controlling a delegated player."));
       ret = FALSE;
       goto cleanup;
     }
 
     if (!connection_delegate_restore(caller)) {
-      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                _("Failed to restore control over '%s'."),
-                player_name(caller->server.delegation.playing));
+      /* Should never happen. Generic failure message. */
+      log_error("Failed to restore %s's connection as %s during "
+                "'delegate restore'.", caller->username,
+                delegate_player_str(caller->server.delegation.playing,
+                                    caller->server.delegation.observer));
+      cmd_reply(CMD_DELEGATE, caller, C_FAIL, _("Unexpected failure."));
       ret = FALSE;
       goto cleanup;
     }
 
     cmd_reply(CMD_DELEGATE, caller, C_OK,
-              _("'%s' is now connected as: %s."), caller->username,
+              /* TRANS: "<user> is now connected to <player>" where <player>
+               * can also be "global observer" or "nothing" */
+              _("%s is now connected as %s."), caller->username,
               delegate_player_str(conn_get_player(caller), caller->observer));
     ret = TRUE;
     goto cleanup;
@@ -5046,23 +5142,26 @@ static bool delegate_command(struct connection *caller, char *arg,
 }
 
 /*****************************************************************************
- Send start command related message
+  Return static string describing what a connection is connected to.
 *****************************************************************************/
 static const char *delegate_player_str(struct player *pplayer, bool observer)
 {
-  static char buf[128];
+  static struct astring buf;
 
   if (pplayer) {
     if (observer) {
-      fc_snprintf(buf, sizeof(buf), "%s (observer)", player_name(pplayer));
+      astr_set(&buf, _("%s (observer)"), player_name(pplayer));
     } else {
-      fc_snprintf(buf, sizeof(buf), "%s", player_name(pplayer));
+      astr_set(&buf, "%s", player_name(pplayer));
     }
+  } else if (observer) {
+    astr_set(&buf, "%s", _("global observer"));
   } else {
-    sz_strlcpy(buf, "global observer");
+    /* TRANS: in place of player name or "global observer" */
+    astr_set(&buf, "%s", _("nothing"));
   }
 
-  return buf;
+  return astr_str(&buf);
 }
 
 /* Define the possible arguments to the mapimg command */
@@ -5993,25 +6092,30 @@ static void show_delegations(struct connection *caller)
 {
   bool empty = TRUE;
 
-  cmd_reply(CMD_DELEGATE, caller, C_COMMENT, _("List of all delegations:"));
-  cmd_reply(CMD_DELEGATE, caller, C_COMMENT, horiz_line);
+  cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of all delegations:"));
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 
   players_iterate(pplayer) {
     const char *delegate_to = player_delegation_get(pplayer);
     if (delegate_to != NULL) {
-      cmd_reply(CMD_DELEGATE, caller, C_COMMENT,
-                _("Control over player '%s' delegated to user '%s'%s."),
-                player_name(pplayer), delegate_to,
+      const char *owner =
+        player_delegation_active(pplayer) ? pplayer->server.orig_username
+                                          : pplayer->username;
+      fc_assert(owner);
+      cmd_reply(CMD_LIST, caller, C_COMMENT,
+                /* TRANS: last %s is either " (active)" or empty string */
+                _("%s delegates control over player '%s' to user %s%s."),
+                owner, player_name(pplayer), delegate_to,
                 player_delegation_active(pplayer) ? _(" (active)") : "");
       empty = FALSE;
     }
   } players_iterate_end;
 
   if (empty) {
-    cmd_reply(CMD_DELEGATE, caller, C_COMMENT, _("No delegations defined."));
+    cmd_reply(CMD_LIST, caller, C_COMMENT, _("No delegations defined."));
   }
 
-  cmd_reply(CMD_DELEGATE, caller, C_COMMENT, horiz_line);
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }
 
 /****************************************************************************

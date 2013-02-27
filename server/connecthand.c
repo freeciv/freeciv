@@ -182,21 +182,34 @@ void establish_new_connection(struct connection *pconn)
   send_scenario_info(dest);
   send_game_info(dest);
 
+  /* Do we have a player that a delegate is currently controlling? */
   if ((pplayer = player_by_user_delegated(pconn->username))) {
-    /* Force our control over the player. */
-    struct connection *pdelegate = conn_by_user(pplayer->server.delegate_to);
+    /* Reassert our control over the player. */
+    struct connection *pdelegate;
+    fc_assert_ret(player_delegation_get(pplayer) != NULL);
+    pdelegate = conn_by_user(player_delegation_get(pplayer));
 
     if (pdelegate && connection_delegate_restore(pdelegate)) {
-        notify_conn(pdelegate->self, NULL, E_CONNECTION, ftc_server,
-                    _("Player '%s' did reconnect. Restore player state."),
-                    player_name(pplayer));
+      /* Delegate now detached from our player. We will restore control
+       * over them as normal below. */
+      notify_conn(pconn->self, NULL, E_CONNECTION, ftc_server,
+                  _("Your delegate %s was controlling your player '%s'; "
+                    "now detached."), pdelegate->username,
+                  player_name(pplayer));
+      notify_conn(pdelegate->self, NULL, E_CONNECTION, ftc_server,
+                  _("%s reconnected, ending your delegated control of "
+                    "player '%s'."), pconn->username, player_name(pplayer));
     } else {
+      fc_assert(pdelegate);
+      /* This really shouldn't happen. */
+      log_error("Failed to revoke delegate %s's control of %s, so owner %s "
+                "can't regain control.", pdelegate->username,
+                player_name(pplayer), pconn->username);
       notify_conn(dest, NULL, E_CONNECTION, ftc_server,
-                  _("Couldn't get control from delegation to %s."),
-                  pdelegate->username);
-      log_verbose("%s can't take control over its player %s from delegation.",
-                  pconn->username, player_name(pplayer));
+                  _("Couldn't get control of '%s' from delegation to %s."),
+                  player_name(pplayer), pdelegate->username);
       delegation_error = TRUE;
+      pplayer = NULL;
     }
   }
 
@@ -746,10 +759,10 @@ void connection_detach(struct connection *pconn)
 }
 
 /*****************************************************************************
- Use a delegation to get control over another player.
+  Use a delegation to get control over another player.
 *****************************************************************************/
 bool connection_delegate_take(struct connection *pconn,
-                              struct player *pplayer)
+                              struct player *dplayer)
 {
   fc_assert_ret_val(pconn->server.delegation.status == FALSE, FALSE);
 
@@ -758,13 +771,16 @@ bool connection_delegate_take(struct connection *pconn,
   pconn->server.delegation.status = TRUE;
   pconn->server.delegation.playing = conn_get_player(pconn);
   pconn->server.delegation.observer = pconn->observer;
-  if (conn_get_player(pconn) != NULL) {
-    struct player *plr = conn_get_player(pconn);
-    fc_assert_ret_val(strlen(plr->server.orig_username) == 0, FALSE);
-    sz_strlcpy(plr->server.orig_username, plr->username);
+  if (conn_controls_player(pconn)) {
+    /* Setting orig_username in the player we're about to put aside is
+     * a flag that no-one should be allowed to mess with it (e.g. /take). */
+    struct player *oplayer = conn_get_player(pconn);
+    fc_assert_ret_val(oplayer != dplayer, FALSE);
+    fc_assert_ret_val(strlen(oplayer->server.orig_username) == 0, FALSE);
+    sz_strlcpy(oplayer->server.orig_username, oplayer->username);
   }
-  fc_assert_ret_val(strlen(pplayer->server.orig_username) == 0, FALSE);
-  sz_strlcpy(pplayer->server.orig_username, pplayer->username);
+  fc_assert_ret_val(strlen(dplayer->server.orig_username) == 0, FALSE);
+  sz_strlcpy(dplayer->server.orig_username, dplayer->username);
 
   /* Detach the current connection. */
   if (NULL != pconn->playing || pconn->observer) {
@@ -772,23 +788,23 @@ bool connection_delegate_take(struct connection *pconn,
   }
 
   /* Try to attach to the new player */
-  if (!connection_attach(pconn, pplayer, FALSE)) {
+  if (!connection_attach(pconn, dplayer, FALSE)) {
 
     /* Restore original connection. */
-    fc_assert_ret_val(connection_attach(pconn,
-                                        pconn->server.delegation.playing,
-                                        pconn->server.delegation.observer),
-                      FALSE);
+    bool success = connection_attach(pconn,
+                                     pconn->server.delegation.playing,
+                                     pconn->server.delegation.observer);
+    fc_assert_ret_val(success, FALSE);
 
     /* Reset all changes done above. */
     pconn->server.delegation.status = FALSE;
     pconn->server.delegation.playing = NULL;
     pconn->server.delegation.observer = FALSE;
-    if (conn_get_player(pconn) != NULL) {
-      struct player *plr = conn_get_player(pconn);
-      plr->server.orig_username[0] = '\0';
+    if (conn_controls_player(pconn)) {
+      struct player *oplayer = conn_get_player(pconn);
+      oplayer->server.orig_username[0] = '\0';
     }
-    pplayer->server.orig_username[0] = '\0';
+    dplayer->server.orig_username[0] = '\0';
 
     return FALSE;
   }
@@ -797,28 +813,51 @@ bool connection_delegate_take(struct connection *pconn,
 }
 
 /*****************************************************************************
- Restore the original status after using a delegation.
+  Restore the original status of a delegate connection pconn after potentially
+  using a delegation. pconn is detached from the delegated player, and
+  reattached to its previous view (e.g. observer), if any.
+  (Reattaching the original user to the delegated player is not handled here.)
 *****************************************************************************/
 bool connection_delegate_restore(struct connection *pconn)
 {
-  struct player *pplayer;
+  struct player *dplayer;
+#if 0
+  static int success = 2;
+
+  if (success <= 0) {
+    log_error("Forcing failure of connection_delegate_restore()");
+    return FALSE;
+  } else {
+    log_error("Countdown to connection_delegate_restore() failure: %d",
+              success--);
+  }
+#endif
 
   if (!pconn->server.delegation.status) {
     return FALSE;
   }
 
-  /* Save the current player. */
-  pplayer = conn_get_player(pconn);
+  if (pconn->server.delegation.playing
+      && !pconn->server.delegation.observer) {
+    /* If restoring to controlling another player, and we're not the
+     * original controller of that player, something's gone wrong. */
+    fc_assert_ret_val(
+        strcmp(pconn->server.delegation.playing->server.orig_username,
+               pconn->username) == 0, FALSE);
+  }
 
-  /* There should be a player connected to pconn. */
-  fc_assert_ret_val(pplayer, FALSE);
+  /* Save the current (delegated) player. */
+  dplayer = conn_get_player(pconn);
 
-  /* Detach the current connection. */
+  /* There should be a delegated player connected to pconn. */
+  fc_assert_ret_val(dplayer, FALSE);
+
+  /* Detach the current (delegate) connection from the delegated player. */
   if (NULL != pconn->playing || pconn->observer) {
     connection_detach(pconn);
   }
 
-  /* Try to attach to the original player */
+  /* Try to attach to the delegate's original player */
   if ((NULL != pconn->server.delegation.playing
       || pconn->server.delegation.observer)
       && !connection_attach(pconn, pconn->server.delegation.playing,
@@ -830,23 +869,26 @@ bool connection_delegate_restore(struct connection *pconn)
   pconn->server.delegation.status = FALSE;
   pconn->server.delegation.playing = NULL;
   pconn->server.delegation.observer = FALSE;
-  if (conn_get_player(pconn) != NULL) {
-    struct player *plr = conn_get_player(pconn);
-    plr->server.orig_username[0] = '\0';
+  if (conn_controls_player(pconn) && conn_get_player(pconn) != NULL) {
+    /* Remove flag that we had 'put aside' our original player. */
+    struct player *oplayer = conn_get_player(pconn);
+    fc_assert_ret_val(oplayer != dplayer, FALSE);
+    oplayer->server.orig_username[0] = '\0';
   }
 
-  /* Restore the username of the player which delegated control. */
-  sz_strlcpy(pplayer->username, pplayer->server.orig_username);
-  pplayer->server.orig_username[0] = '\0';
+  /* Restore the username of the original controller in the previously-
+   * delegated player. */
+  sz_strlcpy(dplayer->username, dplayer->server.orig_username);
+  dplayer->server.orig_username[0] = '\0';
   /* Send updated username to all connections. */
-  send_player_info_c(pplayer, NULL);
+  send_player_info_c(dplayer, NULL);
 
   return TRUE;
 }
 
 /*****************************************************************************
- Close a connection. Use this in the server to take care of delegation stuff
- (reset the username of the controlled connection).
+  Close a connection. Use this in the server to take care of delegation stuff
+  (reset the username of the controlled connection).
 *****************************************************************************/
 void connection_close_server(struct connection *pconn, const char *reason)
 {
