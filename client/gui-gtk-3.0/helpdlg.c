@@ -861,6 +861,8 @@ static void help_update_unit_type(const struct help_item *pitem,
   create_help_page(HELP_UNIT);
 
   if (utype) {
+    struct sprite *sprite;
+
     sprintf(buf, "%d", utype_build_shield_cost(utype));
     gtk_label_set_text(GTK_LABEL(help_ulabel[0][1]), buf);
     sprintf(buf, "%d", utype->attack_strength);
@@ -897,10 +899,9 @@ static void help_update_unit_type(const struct help_item *pitem,
     gtk_text_buffer_set_text(help_text, buf, -1);
     gtk_widget_show(help_text_sw);
 
-    if (get_unittype_sprite(tileset, utype, direction8_invalid())) {
-      struct sprite *sprite = get_unittype_sprite(tileset, utype,
-                                                  direction8_invalid());
-
+    sprite = get_unittype_sprite(tileset, utype, direction8_invalid(),
+                                 TRUE);
+    if (sprite != NULL) {
       gtk_pixcomm_set_from_sprite(GTK_PIXCOMM(help_tile), sprite);
       gtk_widget_show(help_tile);
     }

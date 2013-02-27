@@ -778,7 +778,7 @@ void city_dialog::update_building()
       if (VUT_UTYPE == target.kind) {
         name = utype_name_translation(target.value.utype);
         sprite = get_unittype_sprite(tileset, target.value.utype,
-                                     direction8_invalid());
+                                     direction8_invalid(), TRUE);
       } else {
         name = improvement_name_translation(target.value.building);
         sprite = get_building_sprite(tileset, target.value.building);

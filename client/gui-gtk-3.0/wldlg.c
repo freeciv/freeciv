@@ -92,7 +92,7 @@ static void update_max_unit_size(void)
   unit_type_iterate(i) {
     int x1, x2, y1, y2;
     struct sprite *sprite = get_unittype_sprite(tileset, i,
-                                                direction8_invalid());
+                                                direction8_invalid(), TRUE);
 
     sprite_get_bounding_box(sprite, &x1, &y1, &x2, &y2);
     max_unit_width = MAX(max_unit_width, x2 - x1);
@@ -951,7 +951,7 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
 
     if (VUT_UTYPE == target.kind) {
       sprite = sprite_scale(get_unittype_sprite(tileset, target.value.utype,
-                                                direction8_invalid()),
+                                                direction8_invalid(), TRUE),
                             max_unit_width, max_unit_height);
 
     } else {

@@ -282,7 +282,8 @@ struct sprite *get_government_sprite(const struct tileset *t,
 				     const struct government *gov);
 struct sprite *get_unittype_sprite(const struct tileset *t,
 				   const struct unit_type *punittype,
-                                   enum direction8 facing);
+                                   enum direction8 facing,
+                                   bool icon);
 struct sprite *get_sample_city_sprite(const struct tileset *t,
 				      int city_style);
 struct sprite *get_arrow_sprite(const struct tileset *t,

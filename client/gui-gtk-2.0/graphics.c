@@ -114,7 +114,8 @@ void create_overlay_unit(struct canvas *pcanvas, struct unit_type *punittype)
   int x1, x2, y1, y2;
   int width, height;
   struct sprite *sprite = get_unittype_sprite(tileset, punittype,
-                                              direction8_invalid());
+                                              direction8_invalid(),
+                                              TRUE);
 
   sprite_get_bounding_box(sprite, &x1, &y1, &x2, &y2);
   if (pcanvas->type == CANVAS_PIXBUF) {
