@@ -255,9 +255,15 @@ struct player {
 
       void *ais[FC_AI_LAST];
 
-      /* Delegation to this user. */
+      /* This user is allowed to take over the player. */
       char delegate_to[MAX_LEN_NAME];
-      /* Set if the delegation is active. */
+      /* This is set when a player is 'involved' in a delegation.
+       * There are two cases:
+       *  - if delegate_to[] is set, it records the original owner, with
+       *    'username' temporarily holding the delegate's name;
+       *  - otherwise, it's set when a delegate's original player is 'put
+       *    aside' while the delegate user controls a delegated player.
+       *    (In this case orig_username == username.) */
       char orig_username[MAX_LEN_NAME];
     } server;
 

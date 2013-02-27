@@ -2533,7 +2533,7 @@ void player_status_reset(struct player *plr)
 }
 
 /**************************************************************************
-  Returns the username the control of the player is delegated to.
+  Returns the username that control of the player is delegated to, if any.
 **************************************************************************/
 const char *player_delegation_get(const struct player *pplayer)
 {
@@ -2546,7 +2546,7 @@ const char *player_delegation_get(const struct player *pplayer)
 }
 
 /**************************************************************************
-  Define a delegation.
+  Define a delegation. NULL for no delegate.
 **************************************************************************/
 void player_delegation_set(struct player *pplayer, const char *username)
 {
@@ -2560,7 +2560,9 @@ void player_delegation_set(struct player *pplayer, const char *username)
 }
 
 /*****************************************************************************
- Returns TRUE if a delegation is active.
+  Returns TRUE if a delegation is active.
+  This means that either the player is controlled by a delegate, or the
+  player has been temporarily 'put aside' by a delegate.
 *****************************************************************************/
 bool player_delegation_active(const struct player *pplayer)
 {
@@ -2568,40 +2570,56 @@ bool player_delegation_active(const struct player *pplayer)
 }
 
 /*****************************************************************************
- Send information about delegations.
+  Send information about delegations to reconnecting users.
 *****************************************************************************/
 void send_delegation_info(const struct connection *pconn)
 {
-  if (game.info.is_new_game
-      || !pconn->playing) {
+  if (game.info.is_new_game) {
     return;
   }
 
-  if (player_delegation_get(pconn->playing) != NULL) {
+  if (!pconn->observer
+      && pconn->playing && player_delegation_get(pconn->playing) != NULL) {
     notify_conn(pconn->self, NULL, E_CONNECTION, ftc_server,
-                _("Delegation to user '%s' defined."),
+                /* TRANS: '/delegate cancel' is a server command and must not
+                 * be translated */
+                _("User '%s' is currently allowed to take control of your "
+                  "player while you are away. Use '/delegate cancel' to "
+                  "revoke this access."),
                 player_delegation_get(pconn->playing));
   }
 
-  players_iterate(aplayer) {
-    if (player_delegation_get(aplayer) != NULL
-        && strcmp(player_delegation_get(aplayer),
-                  pconn->playing->username) == 0) {
+  {
+    bool any_delegations = FALSE;
+    players_iterate(aplayer) {
+      if (player_delegation_get(aplayer) != NULL
+          && strcmp(player_delegation_get(aplayer), pconn->username) == 0) {
+        notify_conn(pconn->self, NULL, E_CONNECTION, ftc_server,
+                    _("Control of player '%s' is delegated to you."),
+                    player_name(aplayer));
+        any_delegations = TRUE;
+      }
+    } players_iterate_end;
+    if (any_delegations) {
       notify_conn(pconn->self, NULL, E_CONNECTION, ftc_server,
-                  _("Control of player '%s' delegated to you."),
-                  player_name(aplayer));
+                  /* TRANS: '/delegate take' is a server command and must not
+                   * be translated; but <player> should be translated. */
+                  _("Use '/delegate take <player>' to take control of a "
+                    "delegated player."));
     }
-  } players_iterate_end;
+  }
 }
 
 /*****************************************************************************
-  Check for a playe in delegated state by its user name. See also
-  player_by_user().
+  For a given user, if there is some player that the user originally
+  controlled but is currently delegated to another user, return that player.
+  See also player_by_user().
 *****************************************************************************/
 struct player *player_by_user_delegated(const char *name)
 {
   players_iterate(pplayer) {
-    if (fc_strcasecmp(name, pplayer->server.orig_username) == 0) {
+    if (player_delegation_get(pplayer)
+        && fc_strcasecmp(name, pplayer->server.orig_username) == 0) {
       return pplayer;
     }
   } players_iterate_end;

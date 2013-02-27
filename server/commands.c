@@ -86,6 +86,7 @@ static struct command commands[] = {
    SYN_ORIG_("list\n"
              "list colors\n"
              "list connections\n"
+             "list delegations\n"
              "list ignored users\n"
              "list map image definitions\n"
              "list players\n"
@@ -96,6 +97,7 @@ static struct command commands[] = {
    N_("Show a list of:\n"
       " - the player colors,\n"
       " - connections to the server,\n"
+      " - all player delegations,\n"
       " - your ignore list,\n"
       " - the list of defined map images,\n"
       " - the list of the players in the game,\n"
@@ -612,14 +614,26 @@ static struct command commands[] = {
   },
   {"delegate", ALLOW_BASIC,
    /* TRANS: translate only text between [] and <> */
-   N_("delegate cancel [player-name]\n"
-      "delegate restore\n"
-      "delegate show <player-name>\n"
+   N_("delegate to <username> [player-name]\n"
+      "delegate cancel [player-name]\n"
       "delegate take <player-name>\n"
-      "delegate to <username> [player-name]"),
+      "delegate restore\n"
+      "delegate show <player-name>"),
    N_("Delegate control to another user."),
-   N_("This command can be used to delegate the control over a player. The "
-      "[player-name] argument can only be used by connections with the "
+   N_("Delegation allows a user to nominate another user who can temporarily "
+      "take over control of their player while they are away.\n"
+      "'delegate to <username>': allow <username> to 'delegate take' your "
+      "player.\n"
+      "'delegate cancel': nominated user can no longer take your player.\n"
+      "'delegate take <player-name>': take control of a player who has been "
+      "delegated to you. (Behaves like 'take', except that the 'allowtake' "
+      "restrictions are not enforced.)\n"
+      "'delegate restore': relinquish control of a delegated player (opposite "
+      "of 'delegate take') and restore your previous view, if any. (This also "
+      "happens automatically if the player's owner reconnects.)\n"
+      "'delegate show': show who control of your player is currently "
+      "delegated to, if anyone.\n"
+      "The [player-name] argument can only be used by connections with "
       "cmdlevel 'admin' or above to force the corresponding change of the "
       "delegation status."), NULL,
    CMD_ECHO_NONE, VCF_NONE, 0

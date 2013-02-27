@@ -224,7 +224,7 @@ struct connection {
       /* If we use delegation the original player (playing) is replaced. Save
        * it here to easily restore it. */
       struct {
-        bool status;
+        bool status; /* TRUE if player currently delegated to us */
         struct player *playing;
         bool observer;
       } delegation;
