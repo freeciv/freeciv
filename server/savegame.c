@@ -248,6 +248,8 @@ static const char hex_chars[] = "0123456789abcdef";
 static const char num_chars[] =
   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-+";
 
+static bool load_river_overlay = FALSE;
+
 static void set_savegame_special(bv_special *specials, bv_bases *bases,
                                  bv_roads *roads,
                                  char ch, const enum tile_special_type *index);
@@ -754,7 +756,10 @@ static void map_load_rivers_overlay(struct section_file *file,
                                     int num_special_types)
 {
   /* used by set_savegame_special */
-  map.server.have_rivers_overlay = TRUE;
+  load_river_overlay = TRUE;
+
+  /* Is it still as specials overlay after loading? */
+  map.server.have_rivers_overlay = (road_by_compat_special(ROCO_RIVER) == NULL);
 
   if (special_order) {
     special_halfbyte_iterate(j, num_special_types) {
@@ -773,6 +778,8 @@ static void map_load_rivers_overlay(struct section_file *file,
       secfile_lookup_str(file, "map.n%03d", line),
       set_savegame_special(&ptile->special, NULL, &ptile->roads, ch, default_specials + 8));
   }
+
+  load_river_overlay = FALSE;
 }
 
 /****************************************************************************
@@ -804,7 +811,7 @@ static void set_savegame_special(bv_special *specials,
     if (sp == S_LAST) {
       continue;
     }
-    if (map.server.have_rivers_overlay && sp != S_RIVER) {
+    if (load_river_overlay && sp != S_RIVER) {
       continue;
     }
 

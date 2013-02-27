@@ -2402,8 +2402,14 @@ static void sg_load_map(struct loaddata *loading)
       sg_load_map_tiles_resources(loading);
     } else if (has_capability("riversoverlay", loading->secfile_options)) {
       /* Load only rivers overlay. */
+      struct road_type *priver;
+
       sg_load_map_tiles_specials(loading, TRUE);
-      map.server.have_rivers_overlay = TRUE;
+      priver = road_by_compat_special(ROCO_RIVER);
+      if (priver == NULL) {
+        /* They are still as river specials */
+        map.server.have_rivers_overlay = TRUE;
+      }
     }
 
     /* Nothing more needed for a scenario. */
