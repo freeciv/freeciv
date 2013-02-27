@@ -3348,7 +3348,7 @@ static int fill_unit_type_sprite_array(const struct tileset *t,
                                        enum direction8 facing)
 {
   struct drawn_sprite *save_sprs = sprs;
-  struct sprite *uspr = get_unittype_sprite(t, putype, facing);
+  struct sprite *uspr = get_unittype_sprite(t, putype, facing, FALSE);
 
   ADD_SPRITE(uspr, TRUE,
              FULL_TILE_X_OFFSET + t->unit_offset_x,
@@ -5067,20 +5067,24 @@ struct sprite *get_government_sprite(const struct tileset *t,
 ****************************************************************************/
 struct sprite *get_unittype_sprite(const struct tileset *t,
                                    const struct unit_type *punittype,
-                                   enum direction8 facing)
+                                   enum direction8 facing,
+                                   bool icon)
 {
   int uidx = utype_index(punittype);
 
   fc_assert_ret_val(NULL != punittype, NULL);
 
-  if (t->sprites.units.icon[uidx]) {
+  if (!is_valid_dir(facing)) {
+    /* Fallback to using random orientation sprite. */
+    facing = rand_direction();
+  }
+
+  if (t->sprites.units.icon[uidx]
+      && (icon || t->sprites.units.facing[uidx][facing] == NULL)) {
     /* Has icon sprite */
     return t->sprites.units.icon[uidx];
-  } else if (is_valid_dir(facing)) {
-    return t->sprites.units.facing[uidx][facing];
   } else {
-    /* Fallback to using random orientation sprite. */
-    return t->sprites.units.facing[uidx][rand_direction()];
+    return t->sprites.units.facing[uidx][facing];
   }
 }
 
