@@ -1741,11 +1741,17 @@ static struct client_option client_options[] = {
                          "active theme."),
                       COC_GRAPHICS, GUI_SDL, FC_SDL_DEFAULT_THEME_NAME,
                       get_themes_list, theme_reread_callback),
+
+  /* It's important to give empty string instead of NULL as as default
+   * value. For NULL value it would default to assigning first value
+   * from the tileset list returned by get_tileset_list() as default
+   * tileset. We don't want default tileset assigned at all here, but
+   * leave it to tilespec code that can handle tileset priority. */
   GEN_STR_LIST_OPTION(default_tileset_name, N_("Tileset"),
                       N_("By changing this option you change the active "
                          "tileset.  This is the same as using the -t "
                          "command-line parameter."),
-                      COC_GRAPHICS, GUI_STUB, NULL,
+                      COC_GRAPHICS, GUI_STUB, "",
                       get_tileset_list, tilespec_reread_callback),
 
   GEN_BOOL_OPTION(draw_city_outlines, N_("Draw city outlines"),
