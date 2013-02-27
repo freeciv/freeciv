@@ -57,7 +57,6 @@ int get_attack_power(const struct unit *punit);
 int base_get_attack_power(const struct unit_type *punittype,
 			  int veteran, int moves_left);
 int base_get_defense_power(const struct unit *punit);
-int get_defense_power(const struct unit *punit);
 int get_total_defense_power(const struct unit *attacker,
 			    const struct unit *defender);
 int get_fortified_defense_power(const struct unit *attacker,

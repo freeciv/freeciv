@@ -449,14 +449,16 @@ int base_get_defense_power(const struct unit *punit)
 
 /**************************************************************************
   Returns the defense power, modified by terrain and veteran status.
+  Note that rivers as special road types are not handled here as
+  terrain property.
 **************************************************************************/
-int get_defense_power(const struct unit *punit)
+static int get_defense_power(const struct unit *punit)
 {
   int db, power = base_get_defense_power(punit);
 
   if (uclass_has_flag(unit_class(punit), UCF_TERRAIN_DEFENSE)) {
     db = 10 + tile_terrain(unit_tile(punit))->defense_bonus / 10;
-    if (tile_has_special(unit_tile(punit), S_RIVER)) {
+    if (tile_has_special(unit_tile(punit), S_OLD_RIVER)) {
       db += (db * terrain_control.river_defense_bonus) / 100;
     }
     power = (power * db) / 10;
@@ -555,7 +557,7 @@ int get_virtual_defense_power(const struct unit_type *att_type,
   db = POWER_FACTOR;
   if (uclass_has_flag(utype_class(def_type), UCF_TERRAIN_DEFENSE)) {
     db += tile_terrain(ptile)->defense_bonus / (100 / POWER_FACTOR);
-    if (tile_has_special(ptile, S_RIVER)) {
+    if (tile_has_special(ptile, S_OLD_RIVER)) {
       db += (db * terrain_control.river_defense_bonus) / 100;
     }
   }
