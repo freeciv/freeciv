@@ -1,3 +1,4 @@
 SUBDIRS = src
 
-EXTRA_DIST = include/tolua.h
+EXTRA_DIST = README \
+	include/tolua.h

@@ -2,4 +2,5 @@
 
 SUBDIRS = src
 
-EXTRA_DIST = doc/readme.html
+EXTRA_DIST = Version \
+	doc/readme.html
