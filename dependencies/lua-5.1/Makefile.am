@@ -2,4 +2,7 @@
 
 SUBDIRS = src
 
-EXTRA_DIST = COPYRIGHT etc/lua.hpp
+EXTRA_DIST = \
+	COPYRIGHT \
+	Version \
+	etc/lua.hpp
