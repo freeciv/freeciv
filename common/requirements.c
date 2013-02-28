@@ -457,8 +457,8 @@ struct requirement req_from_str(const char *type, const char *range,
   /* These checks match what combinations are supported inside
    * is_req_active(). */
   switch (req.source.kind) {
-  case VUT_SPECIAL:
   case VUT_TERRAIN:
+  case VUT_SPECIAL:
   case VUT_RESOURCE:
   case VUT_TERRAINCLASS:
   case VUT_TERRFLAG:
@@ -466,7 +466,8 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_ROAD:
     invalid = (req.range != REQ_RANGE_LOCAL
                && req.range != REQ_RANGE_CADJACENT
-	       && req.range != REQ_RANGE_ADJACENT);
+	       && req.range != REQ_RANGE_ADJACENT
+               && req.range != REQ_RANGE_CITY);
     break;
   case VUT_ADVANCE:
     invalid = (req.range < REQ_RANGE_PLAYER);
@@ -785,18 +786,39 @@ static bool is_tech_in_range(const struct player *target_player,
   Is there a source special within range of the target?
 ****************************************************************************/
 static bool is_special_in_range(const struct tile *target_tile,
-				enum req_range range, bool survives,
-				enum tile_special_type special)
+                                const struct city *target_city,
+                                enum req_range range, bool survives,
+                                enum tile_special_type special,
+                                enum req_problem_type prob_type)
 
 {
   switch (range) {
   case REQ_RANGE_LOCAL:
-    return target_tile && tile_has_special(target_tile, special);
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    return tile_has_special(target_tile, special);
   case REQ_RANGE_CADJACENT:
-    return target_tile && is_special_card_near(target_tile, special, TRUE);
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    return is_special_card_near(target_tile, special, TRUE);
   case REQ_RANGE_ADJACENT:
-    return target_tile && is_special_near_tile(target_tile, special, TRUE);
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    return is_special_near_tile(target_tile, special, TRUE);
   case REQ_RANGE_CITY:
+    if (!target_city) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    city_tile_iterate(city_map_radius_sq_get(target_city),
+                      city_tile(target_city), ptile) {
+      if (tile_has_special(ptile, special)) {
+        return TRUE;
+      }
+    } city_tile_iterate_end;
+    return FALSE;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_WORLD:
@@ -812,22 +834,41 @@ static bool is_special_in_range(const struct tile *target_tile,
   Is there a source tile within range of the target?
 ****************************************************************************/
 static bool is_terrain_in_range(const struct tile *target_tile,
-				enum req_range range, bool survives,
-				const struct terrain *pterrain)
+                                const struct city *target_city,
+                                enum req_range range, bool survives,
+                                const struct terrain *pterrain,
+                                enum req_problem_type prob_type)
 {
-  if (!target_tile) {
-    return FALSE;
-  }
-
   switch (range) {
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has the terrain. */
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
     return pterrain && tile_terrain(target_tile) == pterrain;
   case REQ_RANGE_CADJACENT:
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
     return pterrain && is_terrain_card_near(target_tile, pterrain, TRUE);
   case REQ_RANGE_ADJACENT:
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
     return pterrain && is_terrain_near_tile(target_tile, pterrain, TRUE);
   case REQ_RANGE_CITY:
+    if (!target_city) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    if (pterrain != NULL) {
+      city_tile_iterate(city_map_radius_sq_get(target_city),
+                        city_tile(target_city), ptile) {
+        if (tile_terrain(ptile) == pterrain) {
+          return TRUE;
+        }
+      } city_tile_iterate_end;
+    }
+    return FALSE;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_WORLD:
@@ -843,22 +884,41 @@ static bool is_terrain_in_range(const struct tile *target_tile,
   Is there a source tile within range of the target?
 ****************************************************************************/
 static bool is_resource_in_range(const struct tile *target_tile,
-				 enum req_range range, bool survives,
-				 const struct resource *pres)
+                                 const struct city *target_city,
+                                 enum req_range range, bool survives,
+                                 const struct resource *pres,
+                                 enum req_problem_type prob_type)
 {
-  if (!target_tile) {
-    return FALSE;
-  }
-
   switch (range) {
   case REQ_RANGE_LOCAL:
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
     /* The requirement is filled if the tile has the terrain. */
     return pres && tile_resource(target_tile) == pres;
   case REQ_RANGE_CADJACENT:
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
     return pres && is_resource_card_near(target_tile, pres, TRUE);
   case REQ_RANGE_ADJACENT:
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
     return pres && is_resource_near_tile(target_tile, pres, TRUE);
   case REQ_RANGE_CITY:
+    if (!target_city) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    if (pres != NULL) {
+      city_tile_iterate(city_map_radius_sq_get(target_city),
+                        city_tile(target_city), ptile) {
+        if (tile_resource(ptile) == pres) {
+          return TRUE;
+        }
+      } city_tile_iterate_end;
+    }
+    return FALSE;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_WORLD:
@@ -874,22 +934,39 @@ static bool is_resource_in_range(const struct tile *target_tile,
   Is there a source terrain class within range of the target?
 ****************************************************************************/
 static bool is_terrain_class_in_range(const struct tile *target_tile,
+                                      const struct city *target_city,
                                       enum req_range range, bool survives,
-                                      enum terrain_class class)
+                                      enum terrain_class pclass,
+                                      enum req_problem_type prob_type)
 {
-  if (!target_tile) {
-    return FALSE;
-  }
-
   switch (range) {
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has the terrain of correct class. */
-    return (terrain_type_terrain_class(tile_terrain(target_tile)) == class);
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    return (terrain_type_terrain_class(tile_terrain(target_tile)) == pclass);
   case REQ_RANGE_CADJACENT:
-    return is_terrain_class_card_near(target_tile, class);
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    return is_terrain_class_card_near(target_tile, pclass);
   case REQ_RANGE_ADJACENT:
-    return is_terrain_class_near_tile(target_tile, class);
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    return is_terrain_class_near_tile(target_tile, pclass);
   case REQ_RANGE_CITY:
+    if (!target_city) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    city_tile_iterate(city_map_radius_sq_get(target_city),
+                      city_tile(target_city), ptile) {
+      if (terrain_type_terrain_class(tile_terrain(ptile)) == pclass) {
+        return TRUE;
+      }
+    } city_tile_iterate_end;
+    return FALSE;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_WORLD:
@@ -905,22 +982,39 @@ static bool is_terrain_class_in_range(const struct tile *target_tile,
   Is there a terrain with the given flag within range of the target?
 ****************************************************************************/
 static bool is_terrainflag_in_range(const struct tile *target_tile,
+                                    const struct city *target_city,
                                     enum req_range range, bool survives,
-                                    enum terrain_flag_id terrflag)
+                                    enum terrain_flag_id terrflag,
+                                    enum req_problem_type prob_type)
 {
-  if (!target_tile) {
-    return FALSE;
-  }
-
   switch (range) {
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has the terrain with correct flag. */
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
     return terrain_has_flag(tile_terrain(target_tile), terrflag);
   case REQ_RANGE_CADJACENT:
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
     return is_terrain_flag_card_near(target_tile, terrflag);
   case REQ_RANGE_ADJACENT:
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
     return is_terrain_flag_near_tile(target_tile, terrflag);
   case REQ_RANGE_CITY:
+    if (!target_city) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    city_tile_iterate(city_map_radius_sq_get(target_city),
+                      city_tile(target_city), ptile) {
+      if (terrain_has_flag(tile_terrain(ptile), terrflag)) {
+        return TRUE;
+      }
+    } city_tile_iterate_end;
+    return FALSE;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_WORLD:
@@ -936,22 +1030,39 @@ static bool is_terrainflag_in_range(const struct tile *target_tile,
   Is there a source base type within range of the target?
 ****************************************************************************/
 static bool is_base_type_in_range(const struct tile *target_tile,
+                                  const struct city *target_city,
                                   enum req_range range, bool survives,
-                                  struct base_type *pbase)
+                                  struct base_type *pbase,
+                                  enum req_problem_type prob_type)
 {
-  if (!target_tile) {
-    return FALSE;
-  }
-
   switch (range) {
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has base of requested type. */
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
     return tile_has_base(target_tile, pbase);
   case REQ_RANGE_CADJACENT:
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
     return is_base_card_near(target_tile, pbase);
   case REQ_RANGE_ADJACENT:
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
     return is_base_near_tile(target_tile, pbase);
   case REQ_RANGE_CITY:
+    if (!target_city) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    city_tile_iterate(city_map_radius_sq_get(target_city),
+                      city_tile(target_city), ptile) {
+      if (tile_has_base(ptile, pbase)) {
+        return TRUE;
+      }
+    } city_tile_iterate_end;
+    return FALSE;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_WORLD:
@@ -968,22 +1079,39 @@ static bool is_base_type_in_range(const struct tile *target_tile,
   Is there a source road type within range of the target?
 ****************************************************************************/
 static bool is_road_type_in_range(const struct tile *target_tile,
+                                  const struct city *target_city,
                                   enum req_range range, bool survives,
-                                  struct road_type *proad)
+                                  struct road_type *proad,
+                                  enum req_problem_type prob_type)
 {
-  if (!target_tile) {
-    return FALSE;
-  }
-
   switch (range) {
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has road of requested type. */
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
     return tile_has_road(target_tile, proad);
   case REQ_RANGE_CADJACENT:
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
     return is_road_card_near(target_tile, proad);
   case REQ_RANGE_ADJACENT:
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
     return is_road_near_tile(target_tile, proad);
   case REQ_RANGE_CITY:
+    if (!target_city) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    city_tile_iterate(city_map_radius_sq_get(target_city),
+                      city_tile(target_city), ptile) {
+      if (tile_has_road(ptile, proad)) {
+        return TRUE;
+      }
+    } city_tile_iterate_end;
+    return FALSE;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_WORLD:
@@ -1277,40 +1405,28 @@ bool is_req_active(const struct player *target_player,
 				     req->source.value.building) > 0);
     break;
   case VUT_SPECIAL:
-    if (target_tile == NULL) {
-      eval = (prob_type == RPT_POSSIBLE);
-    } else {
-      eval = is_special_in_range(target_tile,
-                                 req->range, req->survives,
-                                 req->source.value.special);
-    }
+    eval = is_special_in_range(target_tile, target_city,
+                               req->range, req->survives,
+                               req->source.value.special,
+                               prob_type);
     break;
   case VUT_TERRAIN:
-    if (target_tile == NULL) {
-      eval = (prob_type == RPT_POSSIBLE);
-    } else {
-      eval = is_terrain_in_range(target_tile,
-                                 req->range, req->survives,
-                                 req->source.value.terrain);
-    }
+    eval = is_terrain_in_range(target_tile, target_city,
+                               req->range, req->survives,
+                               req->source.value.terrain,
+                               prob_type);
     break;
   case VUT_TERRFLAG:
-    if (target_tile == NULL) {
-      eval = (prob_type == RPT_POSSIBLE);
-    } else {
-      eval = is_terrainflag_in_range(target_tile,
-                                     req->range, req->survives,
-                                     req->source.value.terrainflag);
-    }
+    eval = is_terrainflag_in_range(target_tile, target_city,
+                                   req->range, req->survives,
+                                   req->source.value.terrainflag,
+                                   prob_type);
     break;
   case VUT_RESOURCE:
-    if (target_tile == NULL) {
-      eval = (prob_type == RPT_POSSIBLE);
-    } else {
-      eval = is_resource_in_range(target_tile,
-                                  req->range, req->survives,
-                                  req->source.value.resource);
-    }
+    eval = is_resource_in_range(target_tile, target_city,
+                                req->range, req->survives,
+                                req->source.value.resource,
+                                prob_type);
     break;
   case VUT_NATION:
     eval = is_nation_in_range(target_player, req->range, req->survives,
@@ -1377,31 +1493,22 @@ bool is_req_active(const struct player *target_player,
     }
     break;
   case VUT_TERRAINCLASS:
-    if (target_tile == NULL) {
-      eval = (prob_type == RPT_POSSIBLE);
-    } else {
-      eval = is_terrain_class_in_range(target_tile,
-                                       req->range, req->survives,
-                                       req->source.value.terrainclass);
-    }
+    eval = is_terrain_class_in_range(target_tile, target_city,
+                                     req->range, req->survives,
+                                     req->source.value.terrainclass,
+                                     prob_type);
     break;
   case VUT_BASE:
-    if (target_tile == NULL) {
-      eval = (prob_type == RPT_POSSIBLE);
-    } else {
-      eval = is_base_type_in_range(target_tile,
-                                   req->range, req->survives,
-                                   req->source.value.base);
-    }
+    eval = is_base_type_in_range(target_tile, target_city,
+                                 req->range, req->survives,
+                                 req->source.value.base,
+                                 prob_type);
     break;
  case VUT_ROAD:
-    if (target_tile == NULL) {
-      eval = (prob_type == RPT_POSSIBLE);
-    } else {
-      eval = is_road_type_in_range(target_tile,
-                                   req->range, req->survives,
-                                   req->source.value.road);
-    }
+   eval = is_road_type_in_range(target_tile, target_city,
+                                req->range, req->survives,
+                                req->source.value.road,
+                                prob_type);
     break;
   case VUT_MINYEAR:
     eval = game.info.year >= req->source.value.minyear;

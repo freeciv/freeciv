@@ -49,11 +49,11 @@ Requirement types and supported ranges
 Tech:          World, Player
 Gov:           Player
 Building:      World, Player, Continent, City, Local
-Special:       Local, Adjacent, CAdjacent
-Base:          Local, Adjacnet, CAdjacent
-Road:          Local, Adjacent, CAdjacent
-Terrain:       Local, Adjacent, CAdjacent
-Resource:      Local, Adjacent, CAdjacent
+Special:       Local, Adjacent, CAdjacent, City
+Base:          Local, Adjacnet, CAdjacent, City
+Road:          Local, Adjacent, CAdjacent, City
+Terrain:       Local, Adjacent, CAdjacent, City
+Resource:      Local, Adjacent, CAdjacent, City
 UnitType:      Local
 UnitFlag:      Local
 UnitClass:     Local
@@ -64,8 +64,8 @@ OutputType:    Local
 MinYear:       World
 MinSize:       City
 AI:            Player
-TerrainClass:  Local, Adjacent, CAdjacent
-TerrainFlag:   Local, Adjacent, CAdjacent
+TerrainClass:  Local, Adjacent, CAdjacent, City
+TerrainFlag:   Local, Adjacent, CAdjacent, City
 TerrainAlter:  Local
 CityTile:      Local, Adjacent, CAdjacent
 
