@@ -1806,20 +1806,6 @@ static bool load_ruleset_units(struct section_file *file)
 
   /* Setup roles and flags pre-calcs: */
   role_unit_precalcs();
-     
-  /* Check some required flags and roles etc: */
-  if (num_role_units(UTYF_SETTLERS) == 0) {
-    ruleset_error(LOG_FATAL, "\"%s\": No flag=settler units?", filename);
-  }
-  if (num_role_units(L_EXPLORER) == 0) {
-    ruleset_error(LOG_FATAL, "\"%s\": No role=explorer units?", filename);
-  }
-  if (num_role_units(L_FERRYBOAT) == 0) {
-    ruleset_error(LOG_FATAL, "\"%s\": No role=ferryboat units?", filename);
-  }
-  if (num_role_units(L_FIRSTBUILD) == 0) {
-    ruleset_error(LOG_FATAL, "\"%s\": No role=firstbuild units?", filename);
-  }
 
   section_list_destroy(csec);
   section_list_destroy(sec);

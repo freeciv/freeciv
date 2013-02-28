@@ -376,6 +376,29 @@ static bool rs_barbarian_units(void)
 }
 
 /**************************************************************************
+  Sanity check common unit types
+**************************************************************************/
+static bool rs_common_units(void)
+{
+  /* Check some required flags and roles etc: */
+  if (num_role_units(UTYF_SETTLERS) == 0) {
+    ruleset_error(LOG_ERROR, "No flag Settler units");
+    return FALSE;
+  }
+  if (num_role_units(L_EXPLORER) == 0) {
+    ruleset_error(LOG_ERROR, "No role Explorer units");
+  }
+  if (num_role_units(L_FERRYBOAT) == 0) {
+    ruleset_error(LOG_ERROR, "No role Ferryboat units");
+  }
+  if (num_role_units(L_FIRSTBUILD) == 0) {
+    ruleset_error(LOG_ERROR, "No role Firstbuild units");
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
   Some more sanity checking once all rulesets are loaded. These check
   for some cross-referencing which was impossible to do while only one
   party was loaded in load_ruleset_xxx()
@@ -602,6 +625,9 @@ bool sanity_check_ruleset_data(void)
     }
   } unit_class_iterate_end;
 
+  if (ok) {
+    ok = rs_common_units();
+  }
   if (ok) {
     ok = rs_barbarian_units();
   }
