@@ -1348,6 +1348,7 @@ void military_advisor_choose_build(struct player *pplayer,
     struct impr_type *pimprove;
     int num_defenders = unit_list_size(ptile->units);
     int wall_id, danger;
+    bool build_walls = TRUE;
 
     /* First determine the danger.  It is measured in percents of our 
      * defensive strength, capped at 200 + urgency */
@@ -1371,57 +1372,71 @@ void military_advisor_choose_build(struct player *pplayer,
     CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d urgency=%d danger=%d num_def=%d "
              "our_def=%d", urgency, danger, num_defenders, our_def);
 
-    /* FIXME: 1. Will tend to build walls before coastal irrespectfully what
-     * type of danger we are facing */
-    /* We will build walls if we can and want and (have "enough" defenders or
-     * can just buy the walls straight away) */
-
-    /* HACK: This needs changing if multiple improvements provide
-     * this effect. */
-    wall_id = ai_find_source_building(pcity, EFT_DEFEND_BONUS, NULL, UMT_LAND);
-    pimprove = improvement_by_number(wall_id);
-
-    if (wall_id != B_LAST
-	&& pcity->server.adv->building_want[wall_id] != 0 && our_def != 0 
-        && can_city_build_improvement_now(pcity, pimprove)
-        && (danger < 101 || num_defenders > 1
-            || (city_data->grave_danger == 0 
-                && pplayer->economic.gold > impr_buy_gold_cost(pimprove, pcity->shield_stock)))
-        && ai_fuzzy(pplayer, TRUE)) {
-      /* NB: great wall is under domestic */
-      choice->value.building = pimprove;
-      /* building_want is hacked by assess_danger */
-      choice->want = pcity->server.adv->building_want[wall_id];
-      if (urgency == 0 && choice->want > 100) {
-        choice->want = 100;
-      }
-      choice->type = CT_BUILDING;
-      CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants defense building with %d",
-               choice->want);
-    } else if (danger > 0 && num_defenders <= urgency) {
-      /* Consider building defensive units units */
+    if (our_def == 0 && urgency > 0) {
+      /* Build defensive unit first! Walls will help nothing if there's
+       * nobody behind them. */
       if (process_defender_want(pplayer, pcity, danger, choice)) {
-        /* Potential defender found */
-        if (urgency == 0
-            && choice->value.utype->defense_strength == 1) {
-          /* FIXME: check other reqs (unit class?) */
-          if (get_city_bonus(pcity, EFT_HP_REGEN) > 0) {
-            /* unlikely */
-            choice->want = MIN(49, danger);
-          } else {
-            choice->want = MIN(25, danger);
-          }
-        } else {
-          choice->want = danger;
-        }
-        CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants %s with desire %d",
-                 utype_rule_name(choice->value.utype),
+        choice->want = 100 + danger;
+        build_walls = FALSE;
+
+        CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants first defender with %d",
                  choice->want);
-      } else {
-        CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d cannot select defender");
       }
-    } else {
-      CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d does not want defenders");
+    }
+
+    if (build_walls) {
+      /* FIXME: 1. Will tend to build walls before coastal irrespectfully what
+       * type of danger we are facing */
+      /* We will build walls if we can and want and (have "enough" defenders or
+       * can just buy the walls straight away) */
+
+      /* HACK: This needs changing if multiple improvements provide
+       * this effect. */
+      wall_id = ai_find_source_building(pcity, EFT_DEFEND_BONUS, NULL, UMT_LAND);
+      pimprove = improvement_by_number(wall_id);
+
+      if (wall_id != B_LAST
+          && pcity->server.adv->building_want[wall_id] != 0 && our_def != 0 
+          && can_city_build_improvement_now(pcity, pimprove)
+          && (danger < 101 || num_defenders > 1
+              || (city_data->grave_danger == 0 
+                  && pplayer->economic.gold > impr_buy_gold_cost(pimprove, pcity->shield_stock)))
+          && ai_fuzzy(pplayer, TRUE)) {
+        /* NB: great wall is under domestic */
+        choice->value.building = pimprove;
+        /* building_want is hacked by assess_danger */
+        choice->want = pcity->server.adv->building_want[wall_id];
+        if (urgency == 0 && choice->want > 100) {
+          choice->want = 100;
+        }
+        choice->type = CT_BUILDING;
+        CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants defense building with %d",
+                 choice->want);
+      } else if (danger > 0 && num_defenders <= urgency) {
+        /* Consider building defensive units units */
+        if (process_defender_want(pplayer, pcity, danger, choice)) {
+          /* Potential defender found */
+          if (urgency == 0
+              && choice->value.utype->defense_strength == 1) {
+            /* FIXME: check other reqs (unit class?) */
+            if (get_city_bonus(pcity, EFT_HP_REGEN) > 0) {
+              /* unlikely */
+              choice->want = MIN(49, danger);
+            } else {
+              choice->want = MIN(25, danger);
+            }
+          } else {
+            choice->want = danger;
+          }
+          CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants %s with desire %d",
+                   utype_rule_name(choice->value.utype),
+                   choice->want);
+        } else {
+          CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d cannot select defender");
+        }
+      } else {
+        CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d does not want defenders");
+      }
     }
   } /* ok, don't need to defend */
 
