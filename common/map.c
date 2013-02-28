@@ -735,10 +735,10 @@ bool can_channel_land(const struct tile *ptile)
   tests are not done (for unit-independent results).
 ***************************************************************/
 static int tile_move_cost_ptrs(const struct unit *punit,
+                               const struct unit_class *pclass,
                                const struct player *pplayer,
 			       const struct tile *t1, const struct tile *t2)
 {
-  struct unit_class *pclass = NULL;
   bool native = TRUE;
   int road_cost = -1;
   int river_cost = -1;
@@ -746,24 +746,30 @@ static int tile_move_cost_ptrs(const struct unit *punit,
   bool cardinal_move;
   bool ri;
 
+  fc_assert(punit == NULL || pclass == NULL || unit_class(punit) == pclass);
+
   if (punit) {
     pclass = unit_class(punit);
     native = is_native_tile(unit_type(punit), t2);
   }
 
   if (game.info.slow_invasions
-      && punit
+      && pclass
       && tile_city(t1) == NULL
-      && !is_native_tile(unit_type(punit), t1)
-      && is_native_tile(unit_type(punit), t2)) {
+      && !is_native_tile_to_class(pclass, t1)
+      && is_native_tile_to_class(pclass, t2)) {
     /* If "slowinvasions" option is turned on, units moving from
      * non-native terrain (from transport) to native terrain lose all their
      * movement.
      * e.g. ground units moving from sea to land */
-    return punit->moves_left;
+    if (punit != NULL) {
+      return punit->moves_left;
+    }
+    /* TODO: Could we return something like FC_INFINITY here, or would
+     * some caller then assume that move is not possible at all? */
   }
 
-  if (punit && !uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {
+  if (pclass && !uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {
     return SINGLE_MOVE;
   }
 
@@ -777,7 +783,7 @@ static int tile_move_cost_ptrs(const struct unit *punit,
   road_type_iterate(proad) {
     if (proad->move_mode != RMM_NO_BONUS
         && (!ri || road_has_flag(proad, RF_NATURAL))) {
-      if ((!punit || is_native_road_to_uclass(proad, pclass))
+      if ((!pclass || is_native_road_to_uclass(proad, pclass))
           && tile_has_road(t1, proad) && tile_has_road(t2, proad)) {
         if (road_cost == -1 || road_cost > proad->move_cost) {
           switch (proad->move_mode) {
@@ -897,7 +903,9 @@ static bool restrict_infra(const struct player *pplayer, const struct tile *t1,
   FIXME: this function can't be used for air units because it returns
   sea<->land moves as impossible.
 ****************************************************************************/
-int map_move_cost_ai(const struct player *pplayer, const struct tile *tile0,
+int map_move_cost_ai(const struct player *pplayer,
+                     const struct unit_class *pclass,
+                     const struct tile *tile0,
                      const struct tile *tile1)
 {
   const int maxcost = 72; /* Arbitrary. */
@@ -932,7 +940,7 @@ int map_move_cost_ai(const struct player *pplayer, const struct tile *tile0,
     return maxcost;
   }
 
-  return tile_move_cost_ptrs(NULL, pplayer, tile0, tile1);
+  return tile_move_cost_ptrs(NULL, pclass, pplayer, tile0, tile1);
 }
 
 /***************************************************************
@@ -941,17 +949,17 @@ int map_move_cost_ai(const struct player *pplayer, const struct tile *tile0,
 ***************************************************************/
 int map_move_cost_unit(struct unit *punit, const struct tile *ptile)
 {
-  return tile_move_cost_ptrs(punit, unit_owner(punit),
+  return tile_move_cost_ptrs(punit, NULL, unit_owner(punit),
                              unit_tile(punit), ptile);
 }
 
 /***************************************************************
   Move cost between two tiles
 ***************************************************************/
-int map_move_cost(const struct player *pplayer,
+int map_move_cost(const struct player *pplayer, const struct unit_class *pclass,
                   const struct tile *src_tile, const struct tile *dst_tile)
 {
-  return tile_move_cost_ptrs(NULL, pplayer, src_tile, dst_tile);
+  return tile_move_cost_ptrs(NULL, pclass, pplayer, src_tile, dst_tile);
 }
 
 /***************************************************************

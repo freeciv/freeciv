@@ -2966,9 +2966,10 @@ static int pf_reverse_map_get_costs(const struct tile *to_tile,
     return -1;  /* Impossible move. */
   } else if (uclass_has_flag(param->uclass, UCF_TERRAIN_SPEED)) {
     if (BV_ISSET(param->unit_flags, UTYF_IGTER)) {
-      cost = MIN(map_move_cost(param->owner, from_tile, to_tile), SINGLE_MOVE);
+      cost = MIN(map_move_cost(param->owner, param->uclass, from_tile, to_tile),
+                 SINGLE_MOVE);
     } else {
-      cost = map_move_cost(param->owner, from_tile, to_tile);
+      cost = map_move_cost(param->owner, param->uclass, from_tile, to_tile);
     }
   } else {
     cost = SINGLE_MOVE;
