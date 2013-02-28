@@ -527,14 +527,21 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
   /* Check. */
   players_iterate(aplayer) {
     struct pf_reverse_map *pcity_map;
+    int assess_turns;
 
-    if (!adv_is_player_dangerous(city_owner(pcity), aplayer)) {
+    if (!adv_is_player_dangerous(pplayer, aplayer)) {
       continue;
     }
     /* Note that we still consider the units of players we are not (yet)
      * at war with. */
 
-    pcity_map = pf_reverse_map_new_for_city(pcity, aplayer, 3);
+    if (player_is_cpuhog(pplayer)) {
+      assess_turns = 6;
+    } else {
+      assess_turns = 3;
+    }
+
+    pcity_map = pf_reverse_map_new_for_city(pcity, aplayer, assess_turns);
 
     unit_list_iterate(aplayer->units, punit) {
       int move_time;
