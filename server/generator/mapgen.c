@@ -1287,7 +1287,13 @@ static void remove_tiny_islands(void)
   whole_map_iterate(ptile) {
     if (is_tiny_island(ptile)) {
       tile_set_terrain(ptile, shallow);
-      tile_clear_special(ptile, S_RIVER);
+      tile_clear_special(ptile, S_OLD_RIVER);
+      road_type_iterate(priver) {
+        if (tile_has_road(ptile, priver)
+            && road_has_flag(priver, RF_RIVER)) {
+          tile_remove_road(ptile, priver);
+        }
+      } road_type_iterate_end;
       tile_set_continent(ptile, 0);
     }
   } whole_map_iterate_end;
