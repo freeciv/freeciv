@@ -835,17 +835,6 @@ bool connection_delegate_take(struct connection *pconn,
 bool connection_delegate_restore(struct connection *pconn)
 {
   struct player *dplayer;
-#if 0
-  static int success = 2;
-
-  if (success <= 0) {
-    log_error("Forcing failure of connection_delegate_restore()");
-    return FALSE;
-  } else {
-    log_error("Countdown to connection_delegate_restore() failure: %d",
-              success--);
-  }
-#endif
 
   if (!pconn->server.delegation.status) {
     return FALSE;
