@@ -694,8 +694,9 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <pthread.h>]],
   thread_impl=pthreads
   AC_MSG_RESULT([pthreads])
   AC_DEFINE([HAVE_THREAD_COND], [1], [Has thread condition variable implementation])
-  CFLAGS="$CFLAGS -pthread"
-  LIBS="$LIBS -lpthread"])
+
+  FC_C_FLAGS([-pthread], [], [CFLAGS])
+  FC_LD_FLAGS([-lpthread], [], [LIBS])])
 
 if test "x$thread_impl" = "xnone" ; then
   AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <windows.h>]],
