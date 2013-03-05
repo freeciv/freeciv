@@ -1576,7 +1576,9 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
 
   /* First pull all units off of the transporter. */
   if (get_transporter_occupancy(punit) > 0) {
-    unit_list_iterate(unit_transport_cargo(punit), pcargo) {
+    /* Use iterate_safe as unloaded units will be removed from the list
+     * while iterating. */
+    unit_list_iterate_safe(unit_transport_cargo(punit), pcargo) {
       /* Could use unit_transport_unload_send here, but that would
        * call send_unit_info for the transporter unnecessarily. */
       unit_transport_unload(pcargo);
@@ -1593,7 +1595,7 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
       } else {
         send_unit_info(NULL, pcargo);
       }
-    } unit_list_iterate_end;
+    } unit_list_iterate_safe_end;
   }
 
   /* Now remove the unit. */

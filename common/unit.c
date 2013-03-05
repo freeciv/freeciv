@@ -1720,9 +1720,9 @@ void unit_virtual_destroy(struct unit *punit)
   /* Check for transported units. Use direct access to the list. */
   if (unit_list_size(punit->transporting) != 0) {
     /* Unload all units. */
-    unit_list_iterate(punit->transporting, pcargo) {
-      fc_assert(unit_transport_unload(pcargo));
-    } unit_list_iterate_end;
+    unit_list_iterate_safe(punit->transporting, pcargo) {
+      unit_transport_unload(pcargo);
+    } unit_list_iterate_safe_end;
   }
   fc_assert(unit_list_size(punit->transporting) == 0);
 
