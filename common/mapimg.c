@@ -1321,6 +1321,12 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename)
   struct timer *timer_cpu, *timer_user;
 #endif
 
+  if (map_is_empty()) {
+    MAPIMG_LOG(_("map not yet created"));
+
+    return FALSE;
+  }
+
   mapimg_checkplayers(pmapdef, FALSE);
 
   if (pmapdef->status != MAPIMG_STATUS_OK) {
