@@ -3,4 +3,5 @@
 SUBDIRS = src
 
 EXTRA_DIST = \
-		README
+		README \
+		Version

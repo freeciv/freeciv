@@ -2,17 +2,8 @@
 ** LuaSQL, MySQL driver
 ** Authors:  Eduardo Quintao
 ** See Copyright Notice in license.html
-** $Id: ls_mysql.c,v 1.24 2007/08/22 18:37:06 tomas Exp $
+** $Id: ls_mysql.c,v 1.31 2009/02/07 23:16:23 tomas Exp $
 */
-
-/* This file is slightly addapted for use in the freeciv project:
- * - include fc_config.h
- * - add function conn_escape()
- */
-
-#ifdef HAVE_CONFIG_H
-#include <fc_config.h>
-#endif
 
 #include <assert.h>
 #include <stdio.h>
@@ -25,11 +16,10 @@
 #define NO_CLIENT_LONG_LONG
 #endif
 
-#include <mysql/mysql.h>
+#include "mysql.h"
 
 #include "lua.h"
 #include "lauxlib.h"
-
 
 #include "luasql.h"
 
@@ -88,20 +78,6 @@ typedef struct {
 } cur_data;
 
 LUASQL_API int luaopen_luasql_mysql (lua_State *L);
-
-
-/*
-** Generates a driver error plus the error message from the database
-** The generated error message is preceded by LUASQL_PREFIX string
-*/
-static int luasql_failmessage(lua_State *L, const char *err, const char *m) {
-    lua_pushnil(L);
-	lua_pushstring(L, LUASQL_PREFIX);
-	lua_pushstring(L, err);
-    lua_pushstring(L, m);
-	lua_concat(L, 3);
-    return 2;
-}
 
 
 /*
@@ -205,6 +181,19 @@ static void create_colinfo (lua_State *L, cur_data *cur) {
 
 
 /*
+** Closes the cursos and nullify all structure fields.
+*/
+static void cur_nullify (lua_State *L, cur_data *cur) {
+	/* Nullify structure fields. */
+	cur->closed = 1;
+	mysql_free_result(cur->my_res);
+	luaL_unref (L, LUA_REGISTRYINDEX, cur->conn);
+	luaL_unref (L, LUA_REGISTRYINDEX, cur->colnames);
+	luaL_unref (L, LUA_REGISTRYINDEX, cur->coltypes);
+}
+
+	
+/*
 ** Get another row of the given cursor.
 */
 static int cur_fetch (lua_State *L) {
@@ -213,6 +202,7 @@ static int cur_fetch (lua_State *L) {
 	unsigned long *lengths;
 	MYSQL_ROW row = mysql_fetch_row(res);
 	if (row == NULL) {
+		cur_nullify (L, cur);
 		lua_pushnil(L);  /* no more results */
 		return 1;
 	}
@@ -259,6 +249,17 @@ static int cur_fetch (lua_State *L) {
 
 
 /*
+** Cursor object collector function
+*/
+static int cur_gc (lua_State *L) {
+	cur_data *cur = (cur_data *)luaL_checkudata (L, 1, LUASQL_CURSOR_MYSQL);
+	if (cur != NULL && !(cur->closed))
+		cur_nullify (L, cur);
+	return 0;
+}
+
+
+/*
 ** Close the cursor on top of the stack.
 ** Return 1
 */
@@ -269,14 +270,7 @@ static int cur_close (lua_State *L) {
 		lua_pushboolean (L, 0);
 		return 1;
 	}
-
-	/* Nullify structure fields. */
-	cur->closed = 1;
-	mysql_free_result(cur->my_res);
-	luaL_unref (L, LUA_REGISTRYINDEX, cur->conn);
-	luaL_unref (L, LUA_REGISTRYINDEX, cur->colnames);
-	luaL_unref (L, LUA_REGISTRYINDEX, cur->coltypes);
-
+	cur_nullify (L, cur);
 	lua_pushboolean (L, 1);
 	return 1;
 }
@@ -348,6 +342,18 @@ static int create_cursor (lua_State *L, int conn, MYSQL_RES *result, int cols) {
 }
 
 
+static int conn_gc (lua_State *L) {
+	conn_data *conn=(conn_data *)luaL_checkudata(L, 1, LUASQL_CONNECTION_MYSQL);
+	if (conn != NULL && !(conn->closed)) {
+		/* Nullify structure fields. */
+		conn->closed = 1;
+		luaL_unref (L, LUA_REGISTRYINDEX, conn->env);
+		mysql_close (conn->my_conn);
+	}
+	return 0;
+}
+
+
 /*
 ** Close a Connection object.
 */
@@ -358,31 +364,27 @@ static int conn_close (lua_State *L) {
 		lua_pushboolean (L, 0);
 		return 1;
 	}
-
-	/* Nullify structure fields. */
-	conn->closed = 1;
-	luaL_unref (L, LUA_REGISTRYINDEX, conn->env);
-	mysql_close (conn->my_conn);
+	conn_gc (L);
 	lua_pushboolean (L, 1);
 	return 1;
 }
 
 
-/*
-** Escapes a string for use within an SQL statement.
-** Returns a string with the escaped string.
-*/
-static int conn_escape (lua_State *L) {
-        conn_data *conn = getconnection (L);
-        size_t len;
-        const char *from = luaL_checklstring (L, 2, &len);
-        char to[len*2+1];
-        len = mysql_real_escape_string (conn->my_conn, to, from, len);
-        /* Never fails apparently. */
-        lua_pushlstring (L, to, len);
-        return 1;
+static int escape_string (lua_State *L) {
+  size_t size, new_size;
+  conn_data *conn = getconnection (L);
+  const char *from = luaL_checklstring(L, 2, &size);
+  char *to;
+  to = (char*)malloc(sizeof(char) * (2 * size + 1));
+  if(to) {
+    new_size = mysql_real_escape_string(conn->my_conn, to, from, size);
+    lua_pushlstring(L, to, new_size);
+    free(to);
+    return 1;
+  }
+  luaL_error(L, "could not allocate escaped string");
+  return 0;
 }
-
 
 /*
 ** Execute an SQL statement.
@@ -391,11 +393,11 @@ static int conn_escape (lua_State *L) {
 */
 static int conn_execute (lua_State *L) {
 	conn_data *conn = getconnection (L);
-	const char *statement = luaL_checkstring (L, 2);
-	unsigned long st_len = strlen(statement);
+	size_t st_len;
+	const char *statement = luaL_checklstring (L, 2, &st_len);
 	if (mysql_real_query(conn->my_conn, statement, st_len)) 
 		/* error executing query */
-		return luasql_failmessage(L, "Error executing query. MySQL: ", mysql_error(conn->my_conn));
+		return luasql_failmsg(L, "error executing query. MySQL: ", mysql_error(conn->my_conn));
 	else
 	{
 		MYSQL_RES *res = mysql_store_result(conn->my_conn);
@@ -411,7 +413,7 @@ static int conn_execute (lua_State *L) {
 				return 1;
         	}
 			else /* mysql_use_result() should have returned data */
-				return luasql_failmessage(L, "Error retrieving result. MySQL: ", mysql_error(conn->my_conn));
+				return luasql_failmsg(L, "error retrieving result. MySQL: ", mysql_error(conn->my_conn));
 		}
 	}
 }
@@ -422,8 +424,8 @@ static int conn_execute (lua_State *L) {
 */
 static int conn_commit (lua_State *L) {
 	conn_data *conn = getconnection (L);
-	mysql_commit(conn->my_conn);
-	return 0;
+	lua_pushboolean(L, !mysql_commit(conn->my_conn));
+	return 1;
 }
 
 
@@ -432,8 +434,8 @@ static int conn_commit (lua_State *L) {
 */
 static int conn_rollback (lua_State *L) {
 	conn_data *conn = getconnection (L);
-	mysql_rollback(conn->my_conn);
-	return 0;
+	lua_pushboolean(L, !mysql_rollback(conn->my_conn));
+	return 1;
 }
 
 
@@ -452,6 +454,15 @@ static int conn_setautocommit (lua_State *L) {
 	return 1;
 }
 
+
+/*
+** Get Last auto-increment id generated
+*/
+static int conn_getlastautoid (lua_State *L) {
+  conn_data *conn = getconnection(L);
+  lua_pushnumber(L, mysql_insert_id(conn->my_conn));
+  return 1;
+}
 
 /*
 ** Create a new Connection object and push it on top of the stack.
@@ -487,7 +498,7 @@ static int env_connect (lua_State *L) {
 	/* Try to init the connection object. */
 	conn = mysql_init(NULL);
 	if (conn == NULL)
-		return luasql_faildirect(L, LUASQL_PREFIX"Error connecting: Out of memory.");
+		return luasql_faildirect(L, "error connecting: Out of memory.");
 
 	if (!mysql_real_connect(conn, host, username, password, 
 		sourcename, port, NULL, 0))
@@ -495,9 +506,19 @@ static int env_connect (lua_State *L) {
 		char error_msg[100];
 		strncpy (error_msg,  mysql_error(conn), 99);
 		mysql_close (conn); /* Close conn if connect failed */
-		return luasql_failmessage (L, "Error connecting to database. MySQL: ", error_msg);
+		return luasql_failmsg (L, "error connecting to database. MySQL: ", error_msg);
 	}
 	return create_connection(L, 1, conn);
+}
+
+
+/*
+**
+*/
+static int env_gc (lua_State *L) {
+	env_data *env= (env_data *)luaL_checkudata (L, 1, LUASQL_ENVIRONMENT_MYSQL);	if (env != NULL && !(env->closed))
+		env->closed = 1;
+	return 0;
 }
 
 
@@ -511,7 +532,6 @@ static int env_close (lua_State *L) {
 		lua_pushboolean (L, 0);
 		return 1;
 	}
-
 	env->closed = 1;
 	lua_pushboolean (L, 1);
 	return 1;
@@ -522,21 +542,25 @@ static int env_close (lua_State *L) {
 ** Create metatables for each class of object.
 */
 static void create_metatables (lua_State *L) {
-    struct luaL_reg environment_methods[] = {
+    struct luaL_Reg environment_methods[] = {
+        {"__gc", env_gc},
         {"close", env_close},
         {"connect", env_connect},
 		{NULL, NULL},
 	};
-    struct luaL_reg connection_methods[] = {
+    struct luaL_Reg connection_methods[] = {
+        {"__gc", conn_gc},
         {"close", conn_close},
-        {"escape", conn_escape},
+        {"escape", escape_string},
         {"execute", conn_execute},
         {"commit", conn_commit},
         {"rollback", conn_rollback},
         {"setautocommit", conn_setautocommit},
+		{"getlastautoid", conn_getlastautoid},
 		{NULL, NULL},
     };
-    struct luaL_reg cursor_methods[] = {
+    struct luaL_Reg cursor_methods[] = {
+        {"__gc", cur_gc},
         {"close", cur_close},
         {"getcolnames", cur_getcolnames},
         {"getcoltypes", cur_getcoltypes},
@@ -569,12 +593,13 @@ static int create_environment (lua_State *L) {
 ** driver open method.
 */
 LUASQL_API int luaopen_luasql_mysql (lua_State *L) { 
-	struct luaL_reg driver[] = {
+	struct luaL_Reg driver[] = {
 		{"mysql", create_environment},
 		{NULL, NULL},
 	};
 	create_metatables (L);
-	luaL_openlib (L, LUASQL_TABLENAME, driver, 0);
+	lua_newtable(L);
+	luaL_setfuncs(L, driver, 0);
 	luasql_set_info (L);
     lua_pushliteral (L, "_MYSQLVERSION");
     lua_pushliteral (L, MYSQL_SERVER_VERSION);
