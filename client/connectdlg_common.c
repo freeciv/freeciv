@@ -131,12 +131,12 @@ bool can_client_access_hack(void)
 void client_kill_server(bool force)
 {
   if (is_server_running()) {
-    if (client.conn.used) {
+    if (client.conn.used && client_has_hack) {
       /* This does a "soft" shutdown of the server by sending a /quit.
        *
        * This is useful when closing the client or disconnecting because it
        * doesn't kill the server prematurely.  In particular, killing the
-       * server in the middle of a save can have disasterous results.  This
+       * server in the middle of a save can have disastrous results.  This
        * method tells the server to quit on its own.  This is safer from a
        * game perspective, but more dangerous because if the kill fails the
        * server will be left running.
@@ -152,8 +152,9 @@ void client_kill_server(bool force)
       server_pid = -1;
 #endif
     } else if (force) {
-      /* Looks like we've already disconnected.  So the only thing to do
-       * is a "hard" kill of the server. */
+      /* Either we already disconnected, or we didn't get control of the
+       * server. In either case, the only thing to do is a "hard" kill of
+       * the server. */
 #ifdef WIN32_NATIVE
       TerminateProcess(server_process, 0);
       CloseHandle(server_process);
@@ -528,7 +529,7 @@ void handle_single_want_hack_reply(bool you_have_hack)
     output_window_append(ftc_client,
                          _("Failed to obtain the required access "
                            "level to take control of the server. "
-                           "The server will now be shutdown."));
+                           "Attempting to shut down server."));
     client_kill_server(TRUE);
   }
 }
