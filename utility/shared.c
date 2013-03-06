@@ -103,6 +103,8 @@
 static char *grouping = NULL;
 static char *grouping_sep = NULL;
 
+/* As well as base64 functions, this string is used for checking for
+ * 'safe' filenames, so should not contain / \ . */
 static const char base64url[] =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 

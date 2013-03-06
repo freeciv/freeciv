@@ -46,6 +46,7 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #include "netintf.h"
 #include "rand.h"
 #include "registry.h"
+#include "shared.h"
 #include "support.h"
 
 /* client */
@@ -463,22 +464,6 @@ static void randomize_string(char *str, size_t n)
   str[i] = '\0';
 }
 
-/*************************************************************************
-  returns TRUE if a filename is safe (i.e. doesn't have path components).
-*************************************************************************/
-static bool is_filename_safe(const char *filename)
-{
-  const char *unsafe = "/\\";
-  const char *s;
-
-  for (s = filename; *s != '\0'; s++) {
-    if (strchr(unsafe, *s)) {
-      return FALSE;
-    }
-  }
-  return TRUE;
-}
-
 /**************************************************************** 
 if the client is capable of 'wanting hack', then the server will 
 send the client a filename in the packet_join_game_reply packet.
@@ -493,7 +478,7 @@ void send_client_wants_hack(const char *filename)
     struct packet_single_want_hack_req req;
     struct section_file *file;
 
-    if (!is_filename_safe(filename)) {
+    if (!is_safe_filename(filename)) {
       return;
     }
 
