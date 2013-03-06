@@ -5373,9 +5373,9 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
 
       for (id = 0; id < mapimg_count(); id++) {
         struct mapdef *pmapdef = mapimg_isvalid(id);
-        if (pmapdef != NULL) {
-          mapimg_create(pmapdef, TRUE, game.server.save_name);
-        } else {
+
+        if (pmapdef == NULL
+            || !mapimg_create(pmapdef, TRUE, game.server.save_name)) {
           cmd_reply(CMD_MAPIMG, caller, C_FAIL,
                 _("Error saving map image %d: %s."), id, mapimg_error());
           ret = FALSE;
@@ -5390,9 +5390,8 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
       }
 
       pmapdef = mapimg_isvalid(id);
-      if (pmapdef != NULL) {
-        mapimg_create(pmapdef, TRUE, game.server.save_name);
-      } else {
+      if (pmapdef == NULL
+          || !mapimg_create(pmapdef, TRUE, game.server.save_name)) {
         cmd_reply(CMD_MAPIMG, caller, C_FAIL,
               _("Error saving map image %d: %s."), id, mapimg_error());
         ret = FALSE;
