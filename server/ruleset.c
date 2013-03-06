@@ -70,7 +70,7 @@
 #include "ruleset.h"
 
 
-#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2012.Feb.28"
+#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2013.Mar.06"
 /*
  * Ruleset capabilities acceptable to this program:
  *
@@ -2730,6 +2730,9 @@ static bool load_ruleset_terrain(struct section_file *file)
                                                        "%s.pillageable", section);
 
       output_type_iterate(o) {
+        proad->tile_incr_const[o] =
+          secfile_lookup_int_default(file, 0, "%s.%s_incr_const",
+                                     section, get_output_identifier(o));
         proad->tile_incr[o] =
           secfile_lookup_int_default(file, 0, "%s.%s_incr",
                                      section, get_output_identifier(o));
@@ -4997,6 +5000,7 @@ static void send_ruleset_roads(struct conn_list *dest)
     packet.pillageable = r->pillageable;
 
     output_type_iterate(o) {
+      packet.tile_incr_const[o] = r->tile_incr_const[o];
       packet.tile_incr[o] = r->tile_incr[o];
       packet.tile_bonus[o] = r->tile_bonus[o];
     } output_type_iterate_end;

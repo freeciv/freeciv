@@ -77,6 +77,7 @@ struct road_type {
   int defense_bonus;
   bool buildable;
   bool pillageable;
+  int tile_incr_const[O_LAST];
   int tile_incr[O_LAST];
   int tile_bonus[O_LAST];
   enum road_compat compat;

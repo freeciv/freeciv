@@ -3256,6 +3256,7 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   proad->pillageable = p->pillageable;
 
   output_type_iterate(o) {
+    proad->tile_incr_const[o] = p->tile_incr_const[o];
     proad->tile_incr[o] = p->tile_incr[o];
     proad->tile_bonus[o] = p->tile_bonus[o];
   } output_type_iterate_end;

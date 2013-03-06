@@ -12,7 +12,7 @@
 
 [datafile]
 description="Civ1 buildings data for Freeciv (approximate)"
-options="+Freeciv-ruleset-Devel-2012.Feb.28"
+options="+Freeciv-ruleset-Devel-2013.Mar.06"
 
 ; Below: The individual buildings, one per section.
 ; (Buildings = City Improvements and Wonders)

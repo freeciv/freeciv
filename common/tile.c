@@ -343,15 +343,17 @@ int tile_extras_class_defense_bonus(const struct tile *ptile,
 ****************************************************************************/
 int tile_roads_output_incr(const struct tile *ptile, enum output_type_id o)
 {
+  int const_incr = 0;
   int incr = 0;
 
   road_type_iterate(proad) {
     if (tile_has_road(ptile, proad)) {
+      const_incr += proad->tile_incr_const[o];
       incr += proad->tile_incr[o];
     }
   } road_type_iterate_end;
 
-  return incr;
+  return const_incr + incr * tile_terrain(ptile)->road_output_incr_pct[o] / 100;
 }
 
 /****************************************************************************
