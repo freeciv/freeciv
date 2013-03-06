@@ -22,6 +22,7 @@ struct worker_task
   struct tile *ptile;
   enum unit_activity act;
   struct act_tgt tgt;
+  int want;
 };
 
 void worker_task_init(struct worker_task *ptask);

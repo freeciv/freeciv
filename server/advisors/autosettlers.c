@@ -556,7 +556,8 @@ static int settler_evaluate_city_requests(struct unit *punit,
   struct pf_parameter parameter;
   struct pf_map *pfm;
   struct pf_position pos;
-  struct worker_task *closest = NULL;
+  int best_value = -1;
+  struct worker_task *best = NULL;
   int dist = FC_INFINITY;
 
   pft_fill_unit_parameter(&parameter, punit);
@@ -591,42 +592,47 @@ static int settler_evaluate_city_requests(struct unit *punit,
         }
 
         if (pf_map_position(pfm, ptask->ptile, &pos)) {
-          int eta = FC_INFINITY, inbound_distance = FC_INFINITY;
+          int value = (ptask->want + 1) * 10 / (pos.turn + 1);
 
-          if (enroute) {
-            eta = state[tile_index(ptask->ptile)].eta;
-            inbound_distance = real_map_distance(ptask->ptile, unit_tile(enroute));
-          }
+          if (value > best_value) {
+            int eta = FC_INFINITY, inbound_distance = FC_INFINITY;
 
-          /* Only consider this tile if we are closer in time and space to
-           * it than our other worker (if any) travelling to the site. */
-          if (pos.turn < dist
-              && ((enroute && enroute->id == punit->id)
-                  || pos.turn < eta
-                  || (pos.turn == eta
-                      && (real_map_distance(ptask->ptile, unit_tile(punit))
-                          < inbound_distance)))) {
-            dist = pos.turn;
-            closest = ptask;
+            if (enroute) {
+              eta = state[tile_index(ptask->ptile)].eta;
+              inbound_distance = real_map_distance(ptask->ptile, unit_tile(enroute));
+            }
+
+            /* Only consider this tile if we are closer in time and space to
+             * it than our other worker (if any) travelling to the site. */
+            if (pos.turn < dist
+                && ((enroute && enroute->id == punit->id)
+                    || pos.turn < eta
+                    || (pos.turn == eta
+                        && (real_map_distance(ptask->ptile, unit_tile(punit))
+                            < inbound_distance)))) {
+              dist = pos.turn;
+              best = ptask;
+              best_value = value;
+            }
           }
         }
       }
     }
   } city_list_iterate_end;
 
-  if (closest != NULL) {
-    *best_act = closest->act;
-    *best_target = closest->tgt;
-    *best_tile = closest->ptile;
+  if (best != NULL) {
+    *best_act = best->act;
+    *best_target = best->tgt;
+    *best_tile = best->ptile;
   }
 
   if (path != NULL) {
-    *path = closest ? pf_map_path(pfm, closest->ptile) : NULL;
+    *path = best ? pf_map_path(pfm, best->ptile) : NULL;
   }
 
   pf_map_destroy(pfm);
 
-  if (closest != NULL) {
+  if (best != NULL) {
     return 1;
   }
 

@@ -29,4 +29,5 @@
 void worker_task_init(struct worker_task *ptask)
 {
   ptask->ptile = NULL;
+  ptask->want = 0;
 }
