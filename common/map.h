@@ -629,7 +629,7 @@ FC_STATIC_ASSERT(MAP_MAX_SIZE * 1000 <= MAX_DBV_LENGTH,
 #define MAP_MIN_LINEAR_SIZE      16
 
 #define MAP_ORIGINAL_TOPO        TF_WRAPX
-#define MAP_DEFAULT_TOPO         TF_WRAPX
+#define MAP_DEFAULT_TOPO         (TF_WRAPX|TF_ISO)
 
 #define MAP_DEFAULT_SEED         0
 #define MAP_MIN_SEED             0
