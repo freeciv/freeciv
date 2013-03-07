@@ -22,77 +22,61 @@ function place_map_labels()
   local deep_oceans = 0
   local deserts = 0
   local glaciers = 0
-  local selected
+  local selected_mountain = 0
+  local selected_ocean = 0
+  local selected_desert = 0
+  local selected_glacier = 0
 
   for place in whole_map_iterate() do
     local terr = place.terrain
     local tname = terr:rule_name()
     if tname == "Mountains" then
       mountains = mountains + 1
-    end
-    if tname == "Deep Ocean" then
+    elseif tname == "Deep Ocean" then
       deep_oceans = deep_oceans + 1
-    end
-    if tname == "Desert" then
+    elseif tname == "Desert" then
       deserts = deserts + 1
-    end
-    if tname == "Glacier" then
+    elseif tname == "Glacier" then
       glaciers = glaciers + 1
     end
   end
 
   if random(1, 100) <= 75 then
-    selected = random(1, mountains)
-
-    for place in whole_map_iterate() do
-      local terr = place.terrain
-      if terr:rule_name() == "Mountains" then
-        selected = selected - 1
-        if selected == 0 then
-          place:set_label("Highest Peak")
-        end
-      end
-    end
+    selected_mountains = random(1, mountains)
+  end
+  if random(1, 100) <= 75 then
+    selected_ocean = random(1, deep_oceans)
+  end
+  if random(1, 100) <= 75 then
+    selected_desert = random(1, deserts)
+  end
+  if random(1, 100) <= 75 then
+    selected_glacier = random(1, glaciers)
   end
 
-  if random(1, 100) <= 75 then
-    selected = random(1, deep_oceans)
+  for place in whole_map_iterate() do
+    local terr = place.terrain
+    local tname = terr:rule_name()
 
-    for place in whole_map_iterate() do
-      local terr = place.terrain
-      if terr:rule_name() == "Deep Ocean" then
-        selected = selected - 1
-        if selected == 0 then
-          place:set_label("Deep Trench")
-        end
+    if tname == "Mountains" then
+      selected_mountain = selected_mountain - 1
+      if selected_mountain == 0 then
+        place:set_label("Highest Peak")
       end
-    end
-  end
-
-  if random(1, 100) <= 75 then
-    selected = random(1, deserts)
-
-    for place in whole_map_iterate() do
-      local terr = place.terrain
-      if terr:rule_name() == "Desert" then
-        selected = selected - 1
-        if selected == 0 then
-          place:set_label("Scorched spot")
-        end
+    elseif tname == "Deep Ocean" then
+      selected_ocean = selected_ocean - 1
+      if selected_ocean == 0 then
+        place:set_label("Deep Trench")
       end
-    end
-  end
-
-  if random(1, 100) <= 75 then
-    selected = random(1, glaciers)
-
-    for place in whole_map_iterate() do
-      local terr = place.terrain
-      if terr:rule_name() == "Glacier" then
-        selected = selected - 1
-        if selected == 0 then
-          place:set_label("Frozen lake")
-        end
+    elseif tname == "Desert" then
+      selected_desert = selected_desert - 1
+      if selected_desert == 0 then
+        place:set_label("Scorched spot")
+      end
+    elseif tname == "Glacier" then
+      selected_glacier = selected_glacier - 1
+      if selected_glacier == 0 then
+        place:set_label("Frozen lake")
       end
     end
   end
