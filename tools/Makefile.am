@@ -40,13 +40,10 @@ endif
 freeciv_manual_SOURCES = \
 		civmanual.c
 
-# This is a bit of a hack.  The program links in with the server lib
-# but also uses some files from the client.
-EXTRA_freeciv_manual_DEPENDENCIES = \
- $(top_builddir)/client/helpdata.lo
-
 freeciv_manual_LDFLAGS = $(GGZDMOD_LDFLAGS)
 
+# This is a bit of a hack.  The program links in with the server lib
+# but also uses some files from the client.
 freeciv_manual_LDADD = \
  $(top_builddir)/server/libfreeciv-srv.la \
  ../client/helpdata.lo \
