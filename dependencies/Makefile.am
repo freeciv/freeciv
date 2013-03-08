@@ -9,7 +9,7 @@ endif
 SUBDIRS = $(LUASUBDIR) tolua-5.2 cvercmp
 
 if FCDB_DB
-SUBDIRS += luasql-2.1.1
+SUBDIRS += luasql
 endif
 
 EXTRA_DIST = \

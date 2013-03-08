@@ -1210,16 +1210,16 @@ AC_SUBST([LUA_LIBS])
 AM_CONDITIONAL([SYS_LUA], [test "x$sys_lua" = "xtrue"])
 
 if test x$enable_fcdb = xyes ; then
-  LUASQL_CFLAGS="-I\$(top_srcdir)/dependencies/luasql-2.1.1/src"
+  LUASQL_CFLAGS="-I\$(top_srcdir)/dependencies/luasql/src"
   LUASQL_LIBS=""
   if test x$fcdb_mysql = xyes ; then
-    LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql-2.1.1/src/libluasql_mysql.la"
+    LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql/src/libluasql_mysql.la"
   fi
   if test x$fcdb_postgres = xyes ; then
-    LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql-2.1.1/src/libluasql_postgres.la"
+    LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql/src/libluasql_postgres.la"
   fi
   if test x$fcdb_sqlite3 = xyes ; then
-    LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql-2.1.1/src/libluasql_sqlite3.la"
+    LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql/src/libluasql_sqlite3.la"
   fi
   LUASQL_AS_DEPENDENCY="$LUASQL_LIBS"
 
@@ -1417,8 +1417,8 @@ AC_CONFIG_FILES([Makefile
 	  dependencies/tolua-5.2/src/Makefile
 	  dependencies/tolua-5.2/src/lib/Makefile
           dependencies/tolua-5.2/src/bin/Makefile
-          dependencies/luasql-2.1.1/Makefile
-          dependencies/luasql-2.1.1/src/Makefile
+          dependencies/luasql/Makefile
+          dependencies/luasql/src/Makefile
           dependencies/cvercmp/Makefile  
 	  common/Makefile
           common/aicore/Makefile
