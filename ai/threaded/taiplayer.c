@@ -21,10 +21,14 @@
 /* common */
 #include "ai.h"
 #include "city.h"
+#include "game.h"
 #include "unit.h"
 
 /* ai/default */
 #include "aiplayer.h"
+
+/* ai/threaded */
+#include "taicity.h"
 
 #include "taiplayer.h"
 
@@ -103,7 +107,25 @@ static enum tai_abort_msg_class tai_check_messages(void)
 
     switch(msg->type) {
     case TAI_MSG_FIRST_ACTIVITIES:
-      /* Not implemented */
+      fc_allocate_mutex(&game.server.mutexes.city_list);
+
+      /* Use _safe iterate in case the main thread
+       * destroyes cities while we are iterating through these. */
+      city_list_iterate_safe(msg->plr->cities, pcity) {
+        tai_city_worker_requests_create(msg->plr, pcity);
+
+        /* Release mutex for a second in case main thread
+         * wants to do something to city list. */
+        fc_release_mutex(&game.server.mutexes.city_list);
+
+        /* Recursive message check in case phase is finished. */
+        new_abort = tai_check_messages();
+        fc_allocate_mutex(&game.server.mutexes.city_list);
+        if (new_abort < TAI_ABORT_NONE) {
+          break;
+        }
+      } city_list_iterate_safe_end;
+      fc_release_mutex(&game.server.mutexes.city_list);
       break;
     case TAI_MSG_PHASE_FINISHED:
       new_abort = TAI_ABORT_PHASE_END;
@@ -218,6 +240,12 @@ void tai_refresh(struct ai_type *ait, struct player *pplayer)
        taireq_list_release_mutex(thrai.reqs_from.reqlist);
 
        log_normal("Plr thr sent %s", taireqtype_name(req->type));
+
+       switch(req->type) {
+       case TAI_REQ_WORKER_TASK:
+         tai_req_worker_task_rcv(req);
+         break;
+       }
 
        FC_FREE(req);
 

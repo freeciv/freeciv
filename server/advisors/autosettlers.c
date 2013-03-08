@@ -74,7 +74,7 @@ struct settlermap {
   This calculates the overall benefit of connecting the civilization; this
   is independent from the local tile (trade) bonus granted by the road.
 **************************************************************************/
-static int road_bonus(struct tile *ptile, struct road_type *proad)
+int adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
 {
 #define MAX_DEP_ROADS 5
 
@@ -462,7 +462,7 @@ int settler_evaluate_improvements(struct unit *punit,
                 }
               }
 
-              extra = road_bonus(ptile, proad) * mc_multiplier / mc_divisor;
+              extra = adv_settlers_road_bonus(ptile, proad) * mc_multiplier / mc_divisor;
 
               if (can_unit_do_activity_targeted_at(punit, ACTIVITY_GEN_ROAD, &target,
                                                    ptile)) {

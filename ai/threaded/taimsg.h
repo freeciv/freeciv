@@ -23,8 +23,8 @@
 #include "specenum_gen.h"
 
 #define SPECENUM_NAME taireqtype
-#define SPECENUM_VALUE0 TAI_REQ_TEST
-#define SPECENUM_VALUE0NAME "Test"
+#define SPECENUM_VALUE0 TAI_REQ_WORKER_TASK
+#define SPECENUM_VALUE0NAME "WorkerTask"
 #include "specenum_gen.h"
 
 struct tai_msg

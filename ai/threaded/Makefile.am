@@ -11,6 +11,8 @@ AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common \
 -I$(top_srcdir)/ai/default
 
 da_sources = \
+	taicity.c		\
+	taicity.h		\
 	taimsg.c		\
 	taimsg.h		\
 	taiplayer.c		\
