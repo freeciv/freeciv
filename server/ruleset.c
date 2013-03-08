@@ -1100,22 +1100,28 @@ restart:
       /* We check for recursive tech loops later,
        * in build_required_techs_helper. */
       if (!valid_advance(a->require[AR_ONE])) {
-        ruleset_error(LOG_FATAL,
+        ruleset_error(LOG_ERROR,
                       "\"%s\" tech \"%s\": req1 leads to removed tech.",
                       filename,
                       advance_rule_name(a));
+        ok = FALSE;
+        break;
       } 
       if (!valid_advance(a->require[AR_TWO])) {
-        ruleset_error(LOG_FATAL,
+        ruleset_error(LOG_ERROR,
                       "\"%s\" tech \"%s\": req2 leads to removed tech.",
                       filename,
                       advance_rule_name(a));
+        ok = FALSE;
+        break;
       }
     }
   } advance_iterate_end;
 
   section_list_destroy(sec);
-  secfile_check_unused(file);
+  if (ok) {
+    secfile_check_unused(file);
+  }
 
   return ok;
 }
@@ -2303,12 +2309,18 @@ static bool load_ruleset_terrain(struct section_file *file)
     }
     for (j = T_FIRST; j < i; j++) {
       if (pterrain->identifier == terrain_by_number(j)->identifier) {
-        ruleset_error(LOG_FATAL,
+        ruleset_error(LOG_ERROR,
                       "\"%s\" [%s] has the same identifier as [%s].",
                       filename,
                       tsection,
                       &terrain_sections[j * MAX_SECTION_LABEL]);
+        ok = FALSE;
+        break;
       }
+    }
+
+    if (!ok) {
+      break;
     }
 
     cstr = secfile_lookup_str(file, "%s.class", tsection);
