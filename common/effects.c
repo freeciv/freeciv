@@ -582,15 +582,15 @@ bool is_building_replaced(const struct city *pcity,
   The returned vector must be freed (building_vector_free) when the caller
   is done with it.
 **************************************************************************/
-static int get_target_bonus_effects(struct effect_list *plist,
-                                    const struct player *target_player,
-                                    const struct city *target_city,
-                                    const struct impr_type *target_building,
-                                    const struct tile *target_tile,
-                                    const struct unit_type *target_unittype,
-                                    const struct output_type *target_output,
-                                    const struct specialist *target_specialist,
-                                    enum effect_type effect_type)
+int get_target_bonus_effects(struct effect_list *plist,
+                             const struct player *target_player,
+                             const struct city *target_city,
+                             const struct impr_type *target_building,
+                             const struct tile *target_tile,
+                             const struct unit_type *target_unittype,
+                             const struct output_type *target_output,
+                             const struct specialist *target_specialist,
+                             enum effect_type effect_type)
 {
   int bonus = 0;
 

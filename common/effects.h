@@ -353,6 +353,16 @@ int get_city_bonus_effects(struct effect_list *plist,
 			   const struct output_type *poutput,
 			   enum effect_type effect_type);
 
+int get_target_bonus_effects(struct effect_list *plist,
+                             const struct player *target_player,
+                             const struct city *target_city,
+                             const struct impr_type *target_building,
+                             const struct tile *target_tile,
+                             const struct unit_type *target_unittype,
+                             const struct output_type *target_output,
+                             const struct specialist *target_specialist,
+                             enum effect_type effect_type);
+
 bool building_has_effect(const struct impr_type *pimprove,
 			 enum effect_type effect_type);
 int get_current_construction_bonus(const struct city *pcity,

@@ -164,6 +164,22 @@ Tile *api_methods_city_tile_get(lua_State *L, City *pcity)
   return pcity->tile;
 }
 
+/**************************************************************************
+  How much city inspires partisans for a player.
+**************************************************************************/
+int api_methods_city_inspire_partisans(lua_State *L, City *self, Player *inspirer)
+{
+  if (self->original == inspirer) {
+    /* Cannot use get_city_bonus() as it would use city's current owner
+     * instead of inspirer. */
+    return get_target_bonus_effects(NULL, inspirer, self, NULL,
+                                    city_tile(self), NULL, NULL,
+                                    NULL, EFT_INSPIRE_PARTISANS);
+  }
+
+  return 0;
+}
+
 /*****************************************************************************
   Return rule name for Government
 *****************************************************************************/

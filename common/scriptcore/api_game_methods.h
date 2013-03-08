@@ -47,6 +47,7 @@ bool api_methods_city_has_building(lua_State *L, City *pcity,
 int api_methods_city_map_sq_radius(lua_State *L, City *pcity);
 int api_methods_city_size_get(lua_State *L, City *pcity);
 Tile *api_methods_city_tile_get(lua_State *L, City *pcity);
+int api_methods_city_inspire_partisans(lua_State *L, City *self, Player *inspirer);
 
 /* Government */
 const char *api_methods_government_rule_name(lua_State *L,

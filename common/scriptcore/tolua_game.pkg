@@ -163,6 +163,8 @@ module City {
     @ has_building(lua_State *L, City *self, Building_Type *building);
   int api_methods_city_map_sq_radius
     @ map_sq_radius(lua_State *L, City *self);
+  int api_methods_city_inspire_partisans
+    @ inspire_partisans(lua_State *L, City *self, Player *inspirer);
 }
 
 $[
