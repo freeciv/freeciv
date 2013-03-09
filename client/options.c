@@ -1102,7 +1102,7 @@ static struct option_set client_optset_static = {
   .category_number = client_optset_category_number,
   .category_name = client_optset_category_name
 };
-const struct option_set const *client_optset = &client_optset_static;
+const struct option_set *client_optset = &client_optset_static;
 
 struct copt_val_name {
   const char *support;          /* Untranslated long support name, used
@@ -3297,7 +3297,7 @@ static struct option_set server_optset_static = {
   .category_number = server_optset_category_number,
   .category_name = server_optset_category_name
 };
-const struct option_set const *server_optset = &server_optset_static;
+const struct option_set *server_optset = &server_optset_static;
 
 
 /****************************************************************************
