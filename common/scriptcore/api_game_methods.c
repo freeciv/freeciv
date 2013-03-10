@@ -16,6 +16,7 @@
 #endif
 
 /* common */
+#include "citizens.h"
 #include "game.h"
 #include "government.h"
 #include "improvement.h"
@@ -169,7 +170,32 @@ Tile *api_methods_city_tile_get(lua_State *L, City *pcity)
 **************************************************************************/
 int api_methods_city_inspire_partisans(lua_State *L, City *self, Player *inspirer)
 {
-  if (self->original == inspirer) {
+  bool inspired = FALSE;
+
+  if (!game.info.citizen_nationality) {
+    if (self->original == inspirer) {
+      inspired = TRUE;
+    }
+  } else {
+    if (game.info.citizen_partisan_pct > 0) {
+      int own = citizens_nation_get(self, inspirer->slot);
+      int total = 0;
+
+      /* Not citizens_foreign_iterate() as city has already changed hands.
+       * old owner would be considered foreign and new owner not. */
+      citizens_iterate(self, pslot, nat) {
+        total += nat;
+      } citizens_iterate_end;
+
+      if ((own * 100 / total) >= game.info.citizen_partisan_pct) {
+        inspired = TRUE;
+      }
+    } else if (self->original == inspirer) {
+      inspired = TRUE;
+    }
+  }
+
+  if (inspired) {
     /* Cannot use get_city_bonus() as it would use city's current owner
      * instead of inspirer. */
     return get_target_bonus_effects(NULL, inspirer, self, NULL,

@@ -428,6 +428,7 @@ PACKET_GAME_INFO = 16; sc
   UINT8 pop_report_zeroes;
   BOOL citizen_nationality;
   UINT16 citizen_convert_speed;
+  UINT8 citizen_partisan_pct;
   UINT8 citymindist;
   UINT32 cooling;
   UINT32 coolinglevel;
