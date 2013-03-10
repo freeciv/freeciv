@@ -97,6 +97,7 @@ struct unit_class {
   enum unit_move_type move_type;
   int min_speed;           /* Minimum speed after damage and effects */
   int hp_loss_pct;         /* Percentage of hitpoints lost each turn not in city or airbase */
+  int non_native_def_pct;
   enum hut_behavior hut_behavior;
   bv_unit_class_flags flags;
 

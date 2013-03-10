@@ -211,10 +211,17 @@ static void dai_airlift(struct ai_type *ait, struct player *pplayer)
 ****************************************************************************/
 static bool has_defense(struct city *pcity)
 {
-  unit_list_iterate((pcity->tile)->units, punit) {
+  struct tile *ptile = city_tile(pcity);
+
+  unit_list_iterate(ptile->units, punit) {
     if (is_military_unit(punit) && base_get_defense_power(punit) != 0
         && punit->hp != 0) {
-      return TRUE;
+      struct unit_class *pclass = unit_class(punit);
+
+      if (pclass->non_native_def_pct > 0
+          || is_native_tile_to_class(pclass, ptile)) {
+        return TRUE;
+      }
     }
   }
   unit_list_iterate_end;

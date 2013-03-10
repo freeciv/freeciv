@@ -455,13 +455,19 @@ int base_get_defense_power(const struct unit *punit)
 static int get_defense_power(const struct unit *punit)
 {
   int db, power = base_get_defense_power(punit);
+  struct tile *ptile = unit_tile(punit);
+  struct unit_class *pclass = unit_class(punit);
 
   if (uclass_has_flag(unit_class(punit), UCF_TERRAIN_DEFENSE)) {
-    db = 10 + tile_terrain(unit_tile(punit))->defense_bonus / 10;
-    if (tile_has_special(unit_tile(punit), S_OLD_RIVER)) {
+    db = 10 + tile_terrain(ptile)->defense_bonus / 10;
+    if (tile_has_special(ptile, S_OLD_RIVER)) {
       db += (db * terrain_control.river_defense_bonus) / 100;
     }
     power = (power * db) / 10;
+  }
+
+  if (!is_native_tile_to_class(pclass, ptile)) {
+    power = power * pclass->non_native_def_pct / 100;
   }
 
   return power;
@@ -543,6 +549,7 @@ int get_virtual_defense_power(const struct unit_type *att_type,
   int defensepower = def_type->defense_strength;
   int db;
   const struct veteran_level *vlevel;
+  struct unit_class *defclass;
 
   fc_assert_ret_val(def_type != NULL, 0);
 
@@ -554,8 +561,10 @@ int get_virtual_defense_power(const struct unit_type *att_type,
   vlevel = utype_veteran_level(def_type, veteran);
   fc_assert_ret_val(vlevel != NULL, 0);
 
+  defclass = utype_class(def_type);
+
   db = POWER_FACTOR;
-  if (uclass_has_flag(utype_class(def_type), UCF_TERRAIN_DEFENSE)) {
+  if (uclass_has_flag(defclass, UCF_TERRAIN_DEFENSE)) {
     db += tile_terrain(ptile)->defense_bonus / (100 / POWER_FACTOR);
     if (tile_has_special(ptile, S_OLD_RIVER)) {
       db += (db * terrain_control.river_defense_bonus) / 100;
@@ -563,6 +572,9 @@ int get_virtual_defense_power(const struct unit_type *att_type,
   }
   defensepower *= db;
   defensepower *= vlevel->power_fact / 100;
+  if (!is_native_tile_to_class(defclass, ptile)) {
+    defensepower = defensepower * defclass->non_native_def_pct / 100;
+  }
 
   return defense_multiplication(att_type, def_type, def_player,
                                 ptile, defensepower,

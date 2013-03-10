@@ -1397,6 +1397,10 @@ static bool load_ruleset_units(struct section_file *file)
         break;
       }
 
+      uc->non_native_def_pct = secfile_lookup_int_default(file, 100,
+                                                          "%s.non_native_def_pct",
+                                                          sec_name);
+
       hut_str = secfile_lookup_str_default(file, "Normal", "%s.hut_behavior", sec_name);
       if (fc_strcasecmp(hut_str, "Normal") == 0) {
         uc->hut_behavior = HUT_NORMAL;
