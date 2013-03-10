@@ -43,10 +43,8 @@ static inline int single_move_cost(const struct pf_parameter *param,
       && BV_ISSET(param->unit_flags, UTYF_TRIREME)
       && !is_safe_ocean(dest_tile)) {
     return PF_IMPOSSIBLE_MC;
-  } else if (uclass_has_flag(param->uclass, UCF_TERRAIN_SPEED)) {
-    return map_move_cost(param->owner, param->uclass, src_tile, dest_tile);
   } else {
-    return SINGLE_MOVE;
+    return map_move_cost(param->owner, param->uclass, src_tile, dest_tile);
   }
 }
 
@@ -329,12 +327,11 @@ static int igter_move_unit(const struct tile *ptile,
     } else {
       move_cost = MOVE_COST_IGTER;
     }
-  } else if (uclass_has_flag(param->uclass, UCF_TERRAIN_SPEED)) {
+  } else {
     move_cost = (map_move_cost(param->owner, param->uclass, ptile, ptile1) != 0
                  ? MOVE_COST_IGTER : 0);
-  } else {
-    move_cost = SINGLE_MOVE;
   }
+
   return move_cost;
 }
 
