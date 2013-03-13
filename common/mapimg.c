@@ -395,7 +395,8 @@ static inline int img_index(const int x, const int y,
 static const char *img_playerstr(const struct player *pplayer);
 static void img_plot(struct img *pimg, const struct tile *ptile,
                      const struct rgbcolor *pcolor, const bv_pixel pixel);
-static bool img_save(const struct img *pimg, const char *mapimgfile);
+static bool img_save(const struct img *pimg, const char *mapimgfile,
+                     const char *path);
 static bool img_save_ppm(const struct img *pimg, const char *mapimgfile);
 #ifdef HAVE_MAPIMG_MAGICKWAND
 static bool img_save_magickwand(const struct img *pimg,
@@ -1312,7 +1313,8 @@ bool mapimg_id2str(int id, char *str, size_t str_len)
   If 'force' is FALSE, the image is only created if game.info.turn is a
   multiple of the map setting turns.
 ****************************************************************************/
-bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename)
+bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
+                   const char *path)
 {
   struct img *pimg;
   char mapimgfile[MAX_LEN_PATH];
@@ -1363,7 +1365,7 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename)
 
     pimg = img_new(pmapdef, map.xsize, map.ysize);
     img_createmap(pimg);
-    if (!img_save(pimg, mapimgfile)) {
+    if (!img_save(pimg, mapimgfile, path)) {
       ret = FALSE;
     }
     img_destroy(pimg);
@@ -1386,7 +1388,7 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename)
 
       pimg = img_new(pmapdef, map.xsize, map.ysize);
       img_createmap(pimg);
-      if (!img_save(pimg, mapimgfile)) {
+      if (!img_save(pimg, mapimgfile, path)) {
         ret = FALSE;
       }
       img_destroy(pimg);
@@ -1415,7 +1417,7 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename)
   image is created for each supported toolkit and image format. The filename
   will be <basename as used for savegames>-colortest-<tookit>.<format>.
 ****************************************************************************/
-bool mapimg_colortest(const char *savename)
+bool mapimg_colortest(const char *savename, const char *path)
 {
   struct img *pimg;
   const struct rgbcolor *pcolor;
@@ -1515,7 +1517,7 @@ bool mapimg_colortest(const char *savename)
         /* filename for color test */
         generate_save_name(savename, mapimgfile, sizeof(mapimgfile), buf);
 
-        if (!img_save(pimg, mapimgfile)) {
+        if (!img_save(pimg, mapimgfile, path)) {
           /* If one of the mapimg format/toolkit combination fail, return
            * FALSE, i.e. an error occured. */
           ret = FALSE;
@@ -2009,19 +2011,34 @@ static void img_plot(struct img *pimg, const struct tile *ptile,
 /****************************************************************************
   Save an image as ppm file.
 ****************************************************************************/
-static bool img_save(const struct img *pimg, const char *mapimgfile)
+static bool img_save(const struct img *pimg, const char *mapimgfile,
+                     const char *path)
 {
   enum imagetool tool = pimg->def->tool;
   const struct toolkit *toolkit = img_toolkit_get(tool);
+  char tmpname[600];
 
   if (!toolkit) {
     MAPIMG_LOG(_("toolkit not defined"));
     return FALSE;
   }
 
+  if (!path_is_absolute(mapimgfile) && path != NULL) {
+    make_dir(path);
+
+    sz_strlcpy(tmpname, path);
+    if (tmpname[0] != '\0') {
+      sz_strlcat(tmpname, "/");
+    }
+  } else {
+    tmpname[0] = '\0';
+  }
+
+  sz_strlcat(tmpname, mapimgfile);
+
   MAPIMG_ASSERT_RET_VAL(toolkit->img_save, FALSE);
 
-  return toolkit->img_save(pimg, mapimgfile);
+  return toolkit->img_save(pimg, tmpname);
 }
 
 /****************************************************************************

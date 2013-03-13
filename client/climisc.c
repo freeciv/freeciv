@@ -1428,5 +1428,5 @@ bool mapimg_client_createmap(const char *filename)
     return FALSE;
   }
 
-  return mapimg_create(pmapdef, TRUE, mapimgfile);
+  return mapimg_create(pmapdef, TRUE, mapimgfile, NULL);
 }

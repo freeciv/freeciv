@@ -123,8 +123,9 @@ bool mapimg_define(const char *maparg, bool check);
 bool mapimg_delete(int id);
 bool mapimg_show(int id, char *str, size_t str_len, bool detail);
 bool mapimg_id2str(int id, char *str, size_t str_len);
-bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename);
-bool mapimg_colortest(const char *savename);
+bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
+                   const char *path);
+bool mapimg_colortest(const char *savename, const char *path);
 
 struct mapdef *mapimg_isvalid(int id);
 
