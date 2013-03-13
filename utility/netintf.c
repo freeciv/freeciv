@@ -348,7 +348,11 @@ static struct fc_sockaddr_list *net_lookup_getaddrinfo(const char *name,
       gafam = AF_INET6;
       break;
     case FC_ADDR_ANY:
+#ifndef IPV6_SUPPORT
+      gafam = AF_INET;
+#else
       gafam = AF_UNSPEC;
+#endif
       break;
     default:
       fc_assert(FALSE);

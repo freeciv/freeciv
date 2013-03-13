@@ -1058,11 +1058,8 @@ int server_open_socket(void)
   struct ipv6_mreq mreq6;
 #endif
 
-#ifdef IPV6_SUPPORT
+  /* Any supported family will do */
   list = net_lookup_service(srvarg.bind_addr, srvarg.port, FC_ADDR_ANY);
-#else  /* IPV6_SUPPORT */
-  list = net_lookup_service(srvarg.bind_addr, srvarg.port, FC_ADDR_IPV4);
-#endif /* IPV6_SUPPORT */
 
   name_count = fc_sockaddr_list_size(list);
 

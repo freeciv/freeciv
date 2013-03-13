@@ -173,11 +173,8 @@ static int get_server_address(const char *hostname, int port,
     fc_sockaddr_list_destroy(list);
   }
 
-#ifdef IPV6_SUPPORT
+  /* Any supported family will do */
   list = net_lookup_service(hostname, port, FC_ADDR_ANY);
-#else  /* IPV6_SUPPORT */
-  list = net_lookup_service(hostname, port, FC_ADDR_IPV4);
-#endif /* IPV6_SUPPORT */
 
   name_count = fc_sockaddr_list_size(list);
 
