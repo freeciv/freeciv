@@ -5353,7 +5353,7 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
       goto cleanup;
     }
 
-    mapimg_colortest(game.server.save_name);
+    mapimg_colortest(game.server.save_name, NULL);
     cmd_reply(CMD_MAPIMG, caller, C_OK, _("Map color test images saved."));
     break;
 
@@ -5375,7 +5375,8 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
         struct mapdef *pmapdef = mapimg_isvalid(id);
 
         if (pmapdef == NULL
-            || !mapimg_create(pmapdef, TRUE, game.server.save_name)) {
+            || !mapimg_create(pmapdef, TRUE, game.server.save_name,
+                              srvarg.saves_pathname)) {
           cmd_reply(CMD_MAPIMG, caller, C_FAIL,
                 _("Error saving map image %d: %s."), id, mapimg_error());
           ret = FALSE;
@@ -5391,7 +5392,8 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
 
       pmapdef = mapimg_isvalid(id);
       if (pmapdef == NULL
-          || !mapimg_create(pmapdef, TRUE, game.server.save_name)) {
+          || !mapimg_create(pmapdef, TRUE, game.server.save_name,
+                            srvarg.saves_pathname)) {
         cmd_reply(CMD_MAPIMG, caller, C_FAIL,
               _("Error saving map image %d: %s."), id, mapimg_error());
         ret = FALSE;

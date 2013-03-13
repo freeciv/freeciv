@@ -2292,7 +2292,8 @@ static void srv_running(void)
         for (i = 0; i < mapimg_count(); i++) {
           struct mapdef *pmapdef = mapimg_isvalid(i);
           if (pmapdef != NULL) {
-            mapimg_create(pmapdef, FALSE, game.server.save_name);
+            mapimg_create(pmapdef, FALSE, game.server.save_name,
+                          srvarg.saves_pathname);
           } else {
             log_error("%s", mapimg_error());
           }
