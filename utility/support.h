@@ -45,6 +45,7 @@ extern "C" {
 #define TRUE true
 #define FALSE false
 
+#ifndef __cplusplus
 #if __BEOS__
 #include <posix/be_prim.h>
 #define __bool_true_false_are_defined 1
@@ -63,6 +64,7 @@ extern "C" {
 typedef unsigned int fc_bool;
 #endif /* ! HAVE_STDBOOL_H */
 #endif /* ! __BEOS__ */
+#endif /* __cplusplus */
 
 /* Want to use GCC's __attribute__ keyword to check variadic
  * parameters to printf-like functions, without upsetting other
