@@ -729,8 +729,8 @@ static struct unit_type *lookup_unit_type(struct section_file *file,
 }
 
 /**************************************************************************
-  Lookup entry in the file and return the corresponding government index;
-  dies if can't find/match.  filename is for error message.
+  Lookup entry in the file and return the corresponding government index.
+  filename is for error message.
 **************************************************************************/
 static struct government *lookup_government(struct section_file *file,
 					    const char *entry,
@@ -747,7 +747,7 @@ static struct government *lookup_government(struct section_file *file,
     gov = government_by_rule_name(sval);
   }
   if (!gov) {
-    ruleset_error(LOG_FATAL,
+    ruleset_error(LOG_ERROR,
                   "\"%s\" %s: couldn't match \"%s\".",
                   filename, entry, sval);
   }
@@ -1538,6 +1538,10 @@ static bool load_ruleset_units(struct section_file *file)
         fc_strlcat(tmp, section_name(psection), sizeof(tmp));
         fc_strlcat(tmp, ".gov_req", sizeof(tmp));
         u->need_government = lookup_government(file, tmp, filename, NULL);
+        if (u->need_government == NULL) {
+          ok = FALSE;
+          break;
+        }
       } else {
         u->need_government = NULL; /* no requirement */
       }
@@ -1556,7 +1560,9 @@ static bool load_ruleset_units(struct section_file *file)
                                          rule_name(&u->name));
       u->convert_time = secfile_lookup_int_default(file, 1, "%s.convert_time", sec_name);
     } unit_type_iterate_end;
+  }
 
+  if (ok) {
     /* main stats: */
     unit_type_iterate(u) {
       const int i = utype_index(u);
@@ -2943,10 +2949,14 @@ static bool load_ruleset_governments(struct section_file *file)
 
   game.government_during_revolution
     = lookup_government(file, "governments.during_revolution", filename, NULL);
-  game.info.government_during_revolution_id =
-    government_number(game.government_during_revolution);
+  if (game.government_during_revolution == NULL) {
+    ok = FALSE;
+  }
 
   if (ok) {
+    game.info.government_during_revolution_id =
+      government_number(game.government_during_revolution);
+
     /* easy ones: */
     governments_iterate(g) {
       const int i = government_index(g);
@@ -2964,6 +2974,10 @@ static bool load_ruleset_governments(struct section_file *file)
 
         fc_snprintf(entry, sizeof(entry), "%s.ai_better", sec_name);
         g->ai.better = lookup_government(file, entry, filename, NULL);
+        if (g->ai.better == NULL) {
+          ok = FALSE;
+          break;
+        }
       } else {
         g->ai.better = NULL;
       }
@@ -3700,6 +3714,10 @@ static bool load_ruleset_nations(struct section_file *file)
       fc_strlcat(tmp, ".init_government", 200);
       pnation->init_government = lookup_government(file, tmp, filename,
                                                    default_government);
+      if (pnation->init_government == NULL) {
+        ok = FALSE;
+        break;
+      }
 
       /* Read default city names. */
       load_city_name_list(file, pnation, sec_name, "cities");
