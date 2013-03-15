@@ -3,7 +3,7 @@
 ## Must be set before adding anything
 noinst_LTLIBRARIES =
 
-AM_CPPFLAGS = -I../src $(LUA_CFLAGS) $(FCDB_MYSQL_CFLAGS) $(FCDB_POSTGRES_CFLAGS)
+AM_CPPFLAGS = $(LUA_CFLAGS) $(FCDB_SQLITE3_CFLAGS) $(FCDB_MYSQL_CFLAGS) $(FCDB_POSTGRES_CFLAGS)
 
 if FCDB_MYSQL
 noinst_LTLIBRARIES += libluasql_mysql.la
