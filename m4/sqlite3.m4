@@ -40,8 +40,8 @@ AC_DEFUN([FC_CHECK_SQLITE3],
       if test -f "$sqlite3_prefix_tmp/include/$ac_sqlite3_header" \
          && test -r "$sqlite3_prefix_tmp/include/$ac_sqlite3_header"; then
         sqlite3_prefix=$sqlite3_prefix_tmp
-        ac_sqlite3_ldflags="-I$sqlite3_prefix_tmp/include"
-        ac_sqlite3_cppflags="-L$sqlite3_prefix_tmp/lib"
+        ac_sqlite3_cppflags="-I$sqlite3_prefix_tmp/include"
+        ac_sqlite3_ldflags="-L$sqlite3_prefix_tmp/lib"
         break;
       fi
     done
