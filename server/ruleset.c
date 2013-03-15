@@ -755,28 +755,35 @@ static struct government *lookup_government(struct section_file *file,
 }
 
 /**************************************************************************
-  Lookup entry in the file and return the corresponding move_type index;
-  dies if can't find/match.  filename is for error message.
+  Lookup entry in the file and return the corresponding move_type index.
+  Returns if success. Note that result can still be unit_move_type_invalid()
+  when the function success - it means move type is not explicitly given.
+  filename is for error message.
 **************************************************************************/
-static enum unit_move_type lookup_move_type(struct section_file *file,
-					    const char *entry,
-					    const char *filename)
+static bool lookup_move_type(struct section_file *file,
+                             const char *entry,
+                             enum unit_move_type *result,
+                             const char *filename)
 {
   const char *sval;
   enum unit_move_type mt;
   
   sval = secfile_lookup_str_default(file, NULL, "%s", entry);
   if (sval == NULL) {
-    return unit_move_type_invalid();
+    *result = unit_move_type_invalid();
+    return TRUE;
   }
 
   mt = unit_move_type_by_name(sval, fc_strcasecmp);
   if (!unit_move_type_is_valid(mt)) {
-    ruleset_error(LOG_FATAL,
+    ruleset_error(LOG_ERROR,
                   "\"%s\" %s: couldn't match \"%s\".",
                   filename, entry, sval);
+    return FALSE;
   }
-  return mt;
+  *result = mt;
+
+  return TRUE;
 }
 
 /****************************************************************************
@@ -1452,7 +1459,11 @@ static bool load_ruleset_units(struct section_file *file)
 
       fc_strlcat(tmp, sec_name, 200);
       fc_strlcat(tmp, ".move_type", 200);
-      uc->move_type = lookup_move_type(file, tmp, filename);
+      if (!lookup_move_type(file, tmp, &uc->move_type,
+                            filename)) {
+        ok = FALSE;
+        break;
+      }
 
       if (!unit_move_type_is_valid(uc->move_type)) {
         /* Not explicitly given, determine automatically */
