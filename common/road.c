@@ -302,12 +302,17 @@ int count_road_near_tile(const struct tile *ptile, const struct road_type *proad
 /****************************************************************************
   Count tiles with any river near the tile.
 ****************************************************************************/
-int count_river_near_tile(const struct tile *ptile)
+int count_river_near_tile(const struct tile *ptile,
+                          const struct road_type *priver)
 {
   int count = 0;
 
   cardinal_adjc_iterate(ptile, adjc_tile) {
-    if (tile_has_river(adjc_tile)) {
+    if (priver == NULL && tile_has_river(adjc_tile)) {
+      /* Some river */
+      count++;
+    } else if (priver != NULL && tile_has_road(adjc_tile, priver)) {
+      /* Specific river */
       count++;
     }
   } cardinal_adjc_iterate_end;

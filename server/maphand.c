@@ -88,7 +88,7 @@ static bool is_terrain_ecologically_wet(struct tile *ptile)
 {
   return (is_terrain_class_near_tile(ptile, TC_OCEAN)
           || tile_has_river(ptile)
-          || count_river_near_tile(ptile) > 0);
+          || count_river_near_tile(ptile, NULL) > 0);
 }
 
 /**************************************************************************

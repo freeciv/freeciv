@@ -925,7 +925,7 @@ static bool make_river(struct river_map *privermap, struct tile *ptile,
     /* Test if the river is done. */
     /* We arbitrarily make rivers end at the poles. */
     if (count_special_near_tile(ptile, TRUE, TRUE, S_RIVER) > 0
-        || count_road_near_tile(ptile, priver) > 0
+        || count_river_near_tile(ptile, priver) > 0
         || count_terrain_class_near_tile(ptile, TRUE, TRUE, TC_OCEAN) > 0
         || (tile_terrain(ptile)->property[MG_FROZEN] > 0
             && map_colatitude(ptile) < 0.8 * COLD_LEVEL)) {
@@ -1082,7 +1082,7 @@ static void make_rivers(void)
 
 	/* Don't start a river on a tile is surrounded by > 1 river +
 	   ocean tile. */
-	&& (count_river_near_tile(ptile)
+	&& (count_river_near_tile(ptile, NULL)
 	    + count_terrain_class_near_tile(ptile, TRUE, FALSE, TC_OCEAN) <= 1)
 
 	/* Don't start a river on a tile that is surrounded by hills or
