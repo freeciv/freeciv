@@ -201,13 +201,16 @@ bool script_fcdb_init(const char *fcdb_luafile)
   tolua_common_a_open(fcl->state);
   tolua_fcdb_open(fcl->state);
 #ifdef HAVE_FCDB_MYSQL
-  luaopen_luasql_mysql(fcl->state);
+  luaL_requiref(fcl->state, "luasql", luaopen_luasql_mysql, 1);
+  lua_pop(fcl->state, 1);
 #endif
 #ifdef HAVE_FCDB_POSTGRES
-  luaopen_luasql_postgres(fcl->state);
+  luaL_requiref(fcl->state, "luasql", luaopen_luasql_postgres, 1);
+  lua_pop(fcl->state, 1);
 #endif
 #ifdef HAVE_FCDB_SQLITE3
-  luaopen_luasql_sqlite3(fcl->state);
+  luaL_requiref(fcl->state, "luasql", luaopen_luasql_sqlite3, 1);
+  lua_pop(fcl->state, 1);
 #endif
   tolua_common_z_open(fcl->state);
 
