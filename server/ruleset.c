@@ -593,51 +593,62 @@ static void lookup_unit_list(struct section_file *file, const char *prefix,
  exist. There should be at least one value, but it may be "",
  meaning empty list.
 **************************************************************************/
-static void lookup_tech_list(struct section_file *file, const char *prefix,
+static bool lookup_tech_list(struct section_file *file, const char *prefix,
                              const char *entry, int *output,
                              const char *filename)
 {
   const char **slist;
   size_t nval;
   int i;
+  bool ok = TRUE;
 
   /* pre-fill with A_LAST: */
-  for(i=0; i<MAX_NUM_TECH_LIST; i++) {
+  for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
     output[i] = A_LAST;
   }
   slist = secfile_lookup_str_vec(file, &nval, "%s.%s", prefix, entry);
-  if (nval==0) {
-    ruleset_error(LOG_FATAL, "\"%s\": missing string vector %s.%s",
+  if (slist == NULL || nval == 0) {
+    ruleset_error(LOG_ERROR, "\"%s\": missing string vector %s.%s",
                   filename, prefix, entry);
-  }
-  if (nval>MAX_NUM_TECH_LIST) {
-    ruleset_error(LOG_FATAL,
+    return FALSE;
+  } else if (nval > MAX_NUM_TECH_LIST) {
+    ruleset_error(LOG_ERROR,
                   "\"%s\": string vector %s.%s too long (%d, max %d)",
                   filename, prefix, entry, (int) nval, MAX_NUM_TECH_LIST);
+    ok = FALSE;
   }
-  if (nval==1 && strcmp(slist[0], "")==0) {
-    free(slist);
-    return;
-  }
-  for (i=0; i<nval; i++) {
-    const char *sval = slist[i];
-    struct advance *padvance = advance_by_rule_name(sval);
 
-    if (NULL == padvance) {
-      ruleset_error(LOG_FATAL,
-                    "\"%s\" %s.%s (%d): couldn't match \"%s\".",
-                    filename, prefix, entry, i, sval);
+  if (ok) {
+    if (nval == 1 && strcmp(slist[0], "") == 0) {
+      FC_FREE(slist);
+      return TRUE;
     }
-    if (!valid_advance(padvance)) {
-      ruleset_error(LOG_FATAL, "\"%s\" %s.%s (%d): \"%s\" is removed.",
-                    filename, prefix, entry, i, sval);
+    for (i = 0; i < nval && ok; i++) {
+      const char *sval = slist[i];
+      struct advance *padvance = advance_by_rule_name(sval);
+
+      if (NULL == padvance) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" %s.%s (%d): couldn't match \"%s\".",
+                      filename, prefix, entry, i, sval);
+        ok = FALSE;
+      }
+      if (!valid_advance(padvance)) {
+        ruleset_error(LOG_ERROR, "\"%s\" %s.%s (%d): \"%s\" is removed.",
+                      filename, prefix, entry, i, sval);
+        ok = FALSE;
+      }
+
+      if (ok) {
+        output[i] = advance_number(padvance);
+        log_debug("\"%s\" %s.%s (%d): %s (%d)", filename, prefix, entry, i, sval,
+                  advance_number(padvance));
+      }
     }
-    output[i] = advance_number(padvance);
-    log_debug("\"%s\" %s.%s (%d): %s (%d)", filename, prefix, entry, i, sval,
-              advance_number(padvance));
   }
-  free(slist);
-  return;
+  FC_FREE(slist);
+
+  return ok;
 }
 
 /**************************************************************************
@@ -3715,8 +3726,11 @@ static bool load_ruleset_nations(struct section_file *file)
       }
 
       /* Load nation specific initial items */
-      lookup_tech_list(file, sec_name, "init_techs",
-                       pnation->init_techs, filename);
+      if (!lookup_tech_list(file, sec_name, "init_techs",
+                            pnation->init_techs, filename)) {
+        ok = FALSE;
+        break;
+      }
       lookup_building_list(file, sec_name, "init_buildings",
                            pnation->init_buildings, filename);
       lookup_unit_list(file, sec_name, "init_units", LOG_ERROR,
@@ -4157,102 +4171,107 @@ static bool load_ruleset_game(const char *rsdir)
   }
 
   /* section: options */
-  lookup_tech_list(file, "options", "global_init_techs",
-                   game.rgame.global_init_techs, filename);
-  lookup_building_list(file, "options", "global_init_buildings",
-                       game.rgame.global_init_buildings, filename);
-  game.control.popup_tech_help = secfile_lookup_bool_default(file, FALSE,
-                                                             "options.popup_tech_help");
-
-  /* section: civstyle */
-  game.info.base_pollution
-    = secfile_lookup_int_default(file, RS_DEFAULT_BASE_POLLUTION,
-                                 "civstyle.base_pollution");
-  game.info.happy_cost
-    = secfile_lookup_int_def_min_max(file,
-                                     RS_DEFAULT_HAPPY_COST,
-                                     RS_MIN_HAPPY_COST,
-                                     RS_MAX_HAPPY_COST,
-                                     "civstyle.happy_cost");
-  game.info.food_cost
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_FOOD_COST,
-                                         RS_MIN_FOOD_COST,
-                                         RS_MAX_FOOD_COST,
-                                         "civstyle.food_cost");
-  /* TODO: move to global_unit_options */
-  game.info.base_bribe_cost
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_BASE_BRIBE_COST,
-                                         RS_MIN_BASE_BRIBE_COST,
-                                         RS_MAX_BASE_BRIBE_COST,
-                                         "civstyle.base_bribe_cost");
-  /* TODO: move to global_unit_options */
-  game.server.ransom_gold
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_RANSOM_GOLD,
-                                         RS_MIN_RANSOM_GOLD,
-                                         RS_MAX_RANSOM_GOLD,
-                                         "civstyle.ransom_gold");
-  /* TODO: move to global_unit_options */
-  game.info.pillage_select
-    = secfile_lookup_bool_default(file, RS_DEFAULT_PILLAGE_SELECT,
-                                  "civstyle.pillage_select");
-  /* TODO: move to global_unit_options */
-  game.server.upgrade_veteran_loss
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_UPGRADE_VETERAN_LOSS,
-                                         RS_MIN_UPGRADE_VETERAN_LOSS,
-                                         RS_MAX_UPGRADE_VETERAN_LOSS,
-                                         "civstyle.upgrade_veteran_loss");
-  /* TODO: move to global_unit_options */
-  game.server.autoupgrade_veteran_loss
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_UPGRADE_VETERAN_LOSS,
-                                         RS_MIN_UPGRADE_VETERAN_LOSS,
-                                         RS_MAX_UPGRADE_VETERAN_LOSS,
-                                         "civstyle.autoupgrade_veteran_loss");
-
-  /* TODO: move to new section research */
-  game.info.base_tech_cost
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_BASE_TECH_COST,
-                                         RS_MIN_BASE_TECH_COST,
-                                         RS_MAX_BASE_TECH_COST,
-                                         "civstyle.base_tech_cost");
-
-  food_ini = secfile_lookup_int_vec(file, &gni_tmp,
-                                    "civstyle.granary_food_ini");
-  game.info.granary_num_inis = (int) gni_tmp;
-
-  if (game.info.granary_num_inis > MAX_GRANARY_INIS) {
-    ruleset_error(LOG_ERROR,
-                  "Too many granary_food_ini entries (%d, max %d)",
-                  game.info.granary_num_inis, MAX_GRANARY_INIS);
+  if (!lookup_tech_list(file, "options", "global_init_techs",
+                        game.rgame.global_init_techs, filename)) {
     ok = FALSE;
-  } else if (game.info.granary_num_inis == 0) {
-    log_error("No values for granary_food_ini. Using default "
-              "value %d.", RS_DEFAULT_GRANARY_FOOD_INI);
-    game.info.granary_num_inis = 1;
-    game.info.granary_food_ini[0] = RS_DEFAULT_GRANARY_FOOD_INI;
-  } else {
-    int i;
-
-    /* check for <= 0 entries */
-    for (i = 0; i < game.info.granary_num_inis; i++) {
-      if (food_ini[i] <= 0) {
-        if (i == 0) {
-          food_ini[i] = RS_DEFAULT_GRANARY_FOOD_INI;
-        } else {
-          food_ini[i] = food_ini[i - 1];
-        }
-        log_error("Bad value for granary_food_ini[%i]. Using %i.",
-                  i, food_ini[i]);
-      }
-      game.info.granary_food_ini[i] = food_ini[i];
-    }
   }
-  free(food_ini);
+
+  if (ok) {
+    lookup_building_list(file, "options", "global_init_buildings",
+                         game.rgame.global_init_buildings, filename);
+    game.control.popup_tech_help = secfile_lookup_bool_default(file, FALSE,
+                                                               "options.popup_tech_help");
+
+    /* section: civstyle */
+    game.info.base_pollution
+      = secfile_lookup_int_default(file, RS_DEFAULT_BASE_POLLUTION,
+                                   "civstyle.base_pollution");
+    game.info.happy_cost
+      = secfile_lookup_int_def_min_max(file,
+                                       RS_DEFAULT_HAPPY_COST,
+                                       RS_MIN_HAPPY_COST,
+                                       RS_MAX_HAPPY_COST,
+                                       "civstyle.happy_cost");
+    game.info.food_cost
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_FOOD_COST,
+                                           RS_MIN_FOOD_COST,
+                                           RS_MAX_FOOD_COST,
+                                           "civstyle.food_cost");
+    /* TODO: move to global_unit_options */
+    game.info.base_bribe_cost
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_BASE_BRIBE_COST,
+                                           RS_MIN_BASE_BRIBE_COST,
+                                           RS_MAX_BASE_BRIBE_COST,
+                                           "civstyle.base_bribe_cost");
+    /* TODO: move to global_unit_options */
+    game.server.ransom_gold
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_RANSOM_GOLD,
+                                           RS_MIN_RANSOM_GOLD,
+                                           RS_MAX_RANSOM_GOLD,
+                                           "civstyle.ransom_gold");
+    /* TODO: move to global_unit_options */
+    game.info.pillage_select
+      = secfile_lookup_bool_default(file, RS_DEFAULT_PILLAGE_SELECT,
+                                    "civstyle.pillage_select");
+    /* TODO: move to global_unit_options */
+    game.server.upgrade_veteran_loss
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_UPGRADE_VETERAN_LOSS,
+                                           RS_MIN_UPGRADE_VETERAN_LOSS,
+                                           RS_MAX_UPGRADE_VETERAN_LOSS,
+                                           "civstyle.upgrade_veteran_loss");
+    /* TODO: move to global_unit_options */
+    game.server.autoupgrade_veteran_loss
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_UPGRADE_VETERAN_LOSS,
+                                           RS_MIN_UPGRADE_VETERAN_LOSS,
+                                           RS_MAX_UPGRADE_VETERAN_LOSS,
+                                           "civstyle.autoupgrade_veteran_loss");
+
+    /* TODO: move to new section research */
+    game.info.base_tech_cost
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_BASE_TECH_COST,
+                                           RS_MIN_BASE_TECH_COST,
+                                           RS_MAX_BASE_TECH_COST,
+                                           "civstyle.base_tech_cost");
+
+    food_ini = secfile_lookup_int_vec(file, &gni_tmp,
+                                      "civstyle.granary_food_ini");
+    game.info.granary_num_inis = (int) gni_tmp;
+
+    if (game.info.granary_num_inis > MAX_GRANARY_INIS) {
+      ruleset_error(LOG_ERROR,
+                    "Too many granary_food_ini entries (%d, max %d)",
+                    game.info.granary_num_inis, MAX_GRANARY_INIS);
+      ok = FALSE;
+    } else if (game.info.granary_num_inis == 0) {
+      log_error("No values for granary_food_ini. Using default "
+                "value %d.", RS_DEFAULT_GRANARY_FOOD_INI);
+      game.info.granary_num_inis = 1;
+      game.info.granary_food_ini[0] = RS_DEFAULT_GRANARY_FOOD_INI;
+    } else {
+      int i;
+
+      /* check for <= 0 entries */
+      for (i = 0; i < game.info.granary_num_inis; i++) {
+        if (food_ini[i] <= 0) {
+          if (i == 0) {
+            food_ini[i] = RS_DEFAULT_GRANARY_FOOD_INI;
+          } else {
+            food_ini[i] = food_ini[i - 1];
+          }
+          log_error("Bad value for granary_food_ini[%i]. Using %i.",
+                    i, food_ini[i]);
+        }
+        game.info.granary_food_ini[i] = food_ini[i];
+      }
+    }
+    free(food_ini);
+  }
 
   if (ok) {
     game.info.granary_food_inc
