@@ -177,7 +177,7 @@ int api_methods_city_inspire_partisans(lua_State *L, City *self, Player *inspire
       inspired = TRUE;
     }
   } else {
-    if (game.info.citizen_partisan_pct > 0) {
+    if (game.info.citizen_partisans_pct > 0) {
       int own = citizens_nation_get(self, inspirer->slot);
       int total = 0;
 
@@ -187,7 +187,7 @@ int api_methods_city_inspire_partisans(lua_State *L, City *self, Player *inspire
         total += nat;
       } citizens_iterate_end;
 
-      if ((own * 100 / total) >= game.info.citizen_partisan_pct) {
+      if ((own * 100 / total) >= game.info.citizen_partisans_pct) {
         inspired = TRUE;
       }
     } else if (self->original == inspirer) {

@@ -96,6 +96,10 @@ this file.
   infinite movement is provided by Maglev. You can upgrade Railroads to
   Maglevs once you know Superconductor.
 
+- Partisan appearance does not depend on original builder of the city,
+  but number of citizen nationality. If at least 75% of the citizens are of
+  old owner's nationality, partisans can appear.
+
 
 2. Use the new ruleset
    -------------------

@@ -3910,8 +3910,8 @@ static bool load_ruleset_cities(struct section_file *file)
                                   "citizen.nationality");
     game.info.citizen_convert_speed =
       secfile_lookup_int_default(file, 50, "citizen.convert_speed");
-    game.info.citizen_partisan_pct =
-      secfile_lookup_int_default(file, 0, "citizen.partisan_pct");
+    game.info.citizen_partisans_pct =
+      secfile_lookup_int_default(file, 0, "citizen.partisans_pct");
 
     /* City Styles ... */
 
