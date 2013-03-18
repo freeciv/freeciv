@@ -21,7 +21,8 @@
 #include "canvas.h"
 #include "sprite.h"
 
-void create_overlay_unit(struct canvas *pcanvas, struct unit_type *punittype);
+void create_overlay_unit(struct canvas *pcanvas, struct unit_type *punittype,
+                         enum direction8 facing);
 
 extern struct sprite *intro_gfx_sprite;
 extern struct sprite *radar_gfx_sprite;
