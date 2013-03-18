@@ -187,4 +187,5 @@ styles =
     { "name", "style"
       "road", "ParityCombined"
       "rail", "ParityCombined"
+      "river", "River"
     }

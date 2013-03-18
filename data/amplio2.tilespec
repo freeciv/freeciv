@@ -207,4 +207,5 @@ styles =
     { "name", "style"
       "road", "AllSeparate"
       "rail", "AllSeparate"
+      "river", "River"
     }

@@ -796,7 +796,7 @@ value   = 1
 reqs    =
   { "type", "name", "range"
     "Tech", "Manufacturing", "Player"
-    "Special", "River", "Local"
+    "Road", "River", "Local"
   }
 
 [effect_irrigate_src_river_adjacent]
@@ -805,7 +805,7 @@ value   = 1
 reqs    =
   { "type", "name", "range"
     "Tech", "Water Flow", "Player"
-    "Special", "River", "CAdjacent"
+    "Road", "River", "CAdjacent"
   }
 
 [effect_irrigate_src_citycenter]

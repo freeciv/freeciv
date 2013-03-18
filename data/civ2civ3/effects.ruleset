@@ -3217,7 +3217,7 @@ reqs    =
     }
 nreqs   =
     { "type", "name", "range"
-      "Special", "River", "Local"
+      "Road", "River", "Local"
     }
 
 [effect_lighthouse_trireme_veteran]
@@ -3631,7 +3631,7 @@ value   = 1
 reqs    =
     { "type", "name", "range"
       "Terrain", "Desert", "Local"
-      "Special", "River", "Local"
+      "Road", "River", "Local"
       "OutputType", "Food", "Local"
     }
 
@@ -3733,7 +3733,7 @@ name    = "Irrig_Possible"
 value   = 1
 reqs    =
     { "type", "name", "range"
-      "Special", "River", "CAdjacent"
+      "Road", "River", "CAdjacent"
     }
 
 [effect_irrigate_src_irrigation]

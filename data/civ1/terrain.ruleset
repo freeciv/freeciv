@@ -884,3 +884,19 @@ trade_bonus    = 50
 compat_special = "Railroad"
 native_to      = "Land"
 flags          = "RequiresBridge"
+
+[road_river]
+name           = _("River")
+graphic        = "river"
+graphic_alt    = "-"
+activity_gfx   = "unit.rail"
+act_gfx_alt    = "unit.road"
+buildable      = FALSE
+pillageable    = FALSE
+defense_bonus  = 0
+move_cost      = 1
+move_mode      = "NoBonus"
+compat_special = "River"
+native_to      = "Land"
+flags          = "River", "PreventsOtherRoads", "Natural"
+helptext       = _("")
