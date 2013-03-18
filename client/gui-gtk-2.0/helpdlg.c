@@ -884,7 +884,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 
       store.type = CANVAS_PIXCOMM;
       store.v.pixcomm = GTK_PIXCOMM(help_tile);
-      create_overlay_unit(&store, utype);
+      create_overlay_unit(&store, utype, direction8_invalid());
     }
     gtk_pixcomm_thaw(GTK_PIXCOMM(help_tile));
     gtk_widget_show(help_tile);
