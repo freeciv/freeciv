@@ -221,6 +221,21 @@ dnl checks for MagickWand mapimg support
 dnl sets MAPIMG_WAND_CFLAGS, MAPIMG_WAND_LIBS
 FC_MAPIMG_MAGICKWAND
 
+AC_ARG_ENABLE([fcweb],
+  AS_HELP_STRING([--enable-fcweb], [build fcweb version of server [false]]),
+[case "${enableval}" in
+  yes)
+    fcweb=true ;;
+  no)
+    fcweb=false ;;
+  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-fcweb]) ;;
+esac], [fcweb=false])
+
+AM_CONDITIONAL([FREECIV_WEB], [test "x$fcweb" = "xtrue"])
+if test "x$fcweb" = "xtrue" ; then
+  AC_DEFINE([FREECIV_WEB], [1], [Build freeciv-web version])
+fi
+
 dnl no:   Do not compile client.
 dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
@@ -230,6 +245,14 @@ AC_ARG_ENABLE([client],
                  [clients to compile [auto](list for multiple)]),
 [clients=${enableval}],
 [client=auto])
+
+if test "x$fcweb" = "xtrue" ; then
+  if test "x$clients" != "x" && test "x$clients" != "xauto" &&
+     test "x$clients" != "xno" ; then
+    AC_MSG_ERROR([One cannot enable any clients for freeciv-web build])
+  fi
+  clients=no
+fi
 
 gui_gtk2=no
 gui_gtk3=no
@@ -1009,7 +1032,7 @@ AM_CONDITIONAL(CLIENT_GUI_STUB, test "x$gui_stub" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_BEOS, test "x$gui_beos" = "xyes")
 AM_CONDITIONAL(MINGW32, test x"$MINGW32" = "xyes")
 
-dnl Additional client libraires:
+dnl Additional client libraries:
 if test "x$client" = "xyes"; then
     CLIENT_LIBS=" -lm "
     AC_SUBST(CLIENT_LIBS)
@@ -1235,22 +1258,6 @@ AC_SUBST([TOLUA_LIBS])
 
 TOLUA="\$(top_builddir)/dependencies/tolua-5.2/src/bin/tolua$EXEEXT"
 AC_SUBST([TOLUA])
-
-AC_ARG_ENABLE([fcweb],
-  AS_HELP_STRING([--enable-fcweb], [build fcweb version of server [false]]),
-[case "${enableval}" in
-  yes)
-    fcweb=true ;;
-  no)
-    fcweb=false ;;
-  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-fcweb]) ;;
-esac], [fcweb=false])
-
-AM_CONDITIONAL([FREECIV_WEB], [test "x$fcweb" = "xtrue"])
-if test "x$fcweb" = "xtrue" ; then
-  AC_DEFINE([FREECIV_WEB], [1], [Build freeciv-web version])
-fi
-
 
 dnl Freeciv uses a non-standard macro, Q_(), to handle cases of qualified
 dnl translatable strings and macro PL_() to handle plural forms.
