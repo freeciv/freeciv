@@ -1,6 +1,6 @@
 
 =======================================================
-Alien World ruleset for Freeciv (Updated 02-Feb-2013)
+Alien World ruleset for Freeciv (Updated 16-Mar-2013)
 =======================================================
 
 Design Philosophy:
@@ -55,3 +55,7 @@ This list is incomplete
 
 - Amphibious and Antigravity units kill citizens after succesfull
   attack against a city, Burrowing units do not
+
+- There's two river types. Earthly units do not gain movement
+  bonus from them. Both give trade bonus. Green River gives also
+  food bonus, and Brown River production bonus

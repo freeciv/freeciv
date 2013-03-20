@@ -790,22 +790,40 @@ reqs    =
     "TerrainClass", "Oceanic", "CAdjacent"
   }
 
-[effect_irrigate_src_river]
+[effect_irrigate_src_green_river]
 name    = "Irrig_Possible"
 value   = 1
 reqs    =
   { "type", "name", "range"
     "Tech", "Manufacturing", "Player"
-    "Road", "River", "Local"
+    "Road", "Green River", "Local"
   }
 
-[effect_irrigate_src_river_adjacent]
+[effect_irrigate_src_brown_river]
+name    = "Irrig_Possible"
+value   = 1
+reqs    =
+  { "type", "name", "range"
+    "Tech", "Manufacturing", "Player"
+    "Road", "Brown River", "Local"
+  }
+
+[effect_irrigate_src_green_river_adjacent]
 name    = "Irrig_Possible"
 value   = 1
 reqs    =
   { "type", "name", "range"
     "Tech", "Water Flow", "Player"
-    "Road", "River", "CAdjacent"
+    "Road", "Green River", "CAdjacent"
+  }
+
+[effect_irrigate_src_brown_river_adjacent]
+name    = "Irrig_Possible"
+value   = 1
+reqs    =
+  { "type", "name", "range"
+    "Tech", "Water Flow", "Player"
+    "Road", "Brown River", "CAdjacent"
   }
 
 [effect_irrigate_src_citycenter]
