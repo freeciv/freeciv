@@ -474,29 +474,29 @@ static bool lookup_cbonus_list(struct combat_bonus_list *list,
  If description is not NULL, it is used in the warning message
  instead of prefix (eg pass unit->name instead of prefix="units2.u27")
 **************************************************************************/
-static struct advance *lookup_tech(struct section_file *file,
-				   const char *prefix, const char *entry,
-				   int loglevel, const char *filename,
-				   const char *description)
+static bool lookup_tech(struct section_file *file,
+                        struct advance **result,
+                        const char *prefix, const char *entry,
+                        const char *filename,
+                        const char *description)
 {
   const char *sval;
-  struct advance *padvance;
-  
-  sval = secfile_lookup_str_default(file, NULL, "%s.%s", prefix, entry);
-  if (!sval || (LOG_FATAL < loglevel && strcmp(sval, "Never") == 0)) {
-    padvance = A_NEVER;
-  } else {
-    padvance = advance_by_rule_name(sval);
 
-    if (A_NEVER == padvance) {
-      ruleset_error(loglevel,
+  sval = secfile_lookup_str_default(file, NULL, "%s.%s", prefix, entry);
+  if (!sval || !strcmp(sval, "Never")) {
+    *result = A_NEVER;
+  } else {
+    *result = advance_by_rule_name(sval);
+
+    if (A_NEVER == *result) {
+      ruleset_error(LOG_ERROR,
                     "\"%s\" %s %s: couldn't match \"%s\".",
                     filename, (description ? description : prefix), entry, sval);
-
-      /* ruleset_error returned only if error was not fatal. */
+      return FALSE;
     }
   }
-  return padvance;
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1018,43 +1018,53 @@ static bool load_ruleset_techs(struct section_file *file)
     size_t nval;
     int j, ival;
 
-    a->require[AR_ONE] = lookup_tech(file, sec_name, "req1", LOG_ERROR,
-                                     filename, rule_name(&a->name));
-    a->require[AR_TWO] = lookup_tech(file, sec_name, "req2", LOG_ERROR,
-                                     filename, rule_name(&a->name));
-    a->require[AR_ROOT] = lookup_tech(file, sec_name, "root_req", LOG_ERROR,
-                                      filename, rule_name(&a->name));
+    if (!lookup_tech(file, &a->require[AR_ONE], sec_name, "req1",
+                     filename, rule_name(&a->name))
+        || !lookup_tech(file, &a->require[AR_TWO], sec_name, "req2",
+                        filename, rule_name(&a->name))
+        || !lookup_tech(file, &a->require[AR_ROOT], sec_name, "root_req",
+                        filename, rule_name(&a->name))) {
+      ok = FALSE;
+      break;
+    }
 
     if ((A_NEVER == a->require[AR_ONE] && A_NEVER != a->require[AR_TWO])
-     || (A_NEVER != a->require[AR_ONE] && A_NEVER == a->require[AR_TWO])) {
-      log_error("\"%s\" [%s] \"%s\": \"Never\" with non-\"Never\".",
-                filename, sec_name, rule_name(&a->name));
-      a->require[AR_ONE] = a->require[AR_TWO] = A_NEVER;
+        || (A_NEVER != a->require[AR_ONE] && A_NEVER == a->require[AR_TWO])) {
+      ruleset_error(LOG_ERROR, "\"%s\" [%s] \"%s\": \"Never\" with non-\"Never\".",
+                    filename, sec_name, rule_name(&a->name));
+      ok = FALSE;
+      break;
     }
     if (a_none == a->require[AR_ONE] && a_none != a->require[AR_TWO]) {
-      log_error("\"%s\" [%s] \"%s\": should have \"None\" second.",
-                filename, sec_name, rule_name(&a->name));
-      a->require[AR_ONE] = a->require[AR_TWO];
-      a->require[AR_TWO] = a_none;
+      ruleset_error(LOG_ERROR, "\"%s\" [%s] \"%s\": should have \"None\" second.",
+                    filename, sec_name, rule_name(&a->name));
+      ok = FALSE;
+      break;
     }
 
     BV_CLR_ALL(a->flags);
 
     slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec_name);
-    for(j=0; j<nval; j++) {
+    for (j = 0; j < nval; j++) {
       sval = slist[j];
-      if(strcmp(sval,"")==0) {
+      if (strcmp(sval, "") == 0) {
         continue;
       }
       ival = tech_flag_id_by_name(sval, fc_strcasecmp);
       if (!tech_flag_id_is_valid(ival)) {
-        log_error("\"%s\" [%s] \"%s\": bad flag name \"%s\".",
-                  filename, sec_name, rule_name(&a->name), sval);
+        ruleset_error(LOG_ERROR, "\"%s\" [%s] \"%s\": bad flag name \"%s\".",
+                      filename, sec_name, rule_name(&a->name), sval);
+        ok = FALSE;
+        break;
       } else {
         BV_SET(a->flags, ival);
       }
     }
     free(slist);
+
+    if (!ok) {
+      break;
+    }
 
     sz_strlcpy(a->graphic_str,
                secfile_lookup_str_default(file, "-", "%s.graphic", sec_name));
@@ -1075,66 +1085,69 @@ static bool load_ruleset_techs(struct section_file *file)
    * X has Y has a root tech, then any technology requiring X also has
    * Y as a root tech. */
 restart:
-  advance_iterate(A_FIRST, a) {
-    if (valid_advance(a)
-     && A_NEVER != a->require[AR_ROOT]) {
-      bool out_of_order = FALSE;
 
-      /* Now find any tech depending on this technology and update its
-       * root_req. */
-      advance_iterate(A_FIRST, b) {
-        if (valid_advance(b)
-         && A_NEVER == b->require[AR_ROOT]
-         && (a == b->require[AR_ONE] || a == b->require[AR_TWO])) {
-          b->require[AR_ROOT] = a->require[AR_ROOT];
-	  if (b < a) {
-	    out_of_order = TRUE;
+  if (ok) {
+    advance_iterate(A_FIRST, a) {
+      if (valid_advance(a)
+          && A_NEVER != a->require[AR_ROOT]) {
+        bool out_of_order = FALSE;
+
+        /* Now find any tech depending on this technology and update its
+         * root_req. */
+        advance_iterate(A_FIRST, b) {
+          if (valid_advance(b)
+              && A_NEVER == b->require[AR_ROOT]
+              && (a == b->require[AR_ONE] || a == b->require[AR_TWO])) {
+            b->require[AR_ROOT] = a->require[AR_ROOT];
+            if (b < a) {
+              out_of_order = TRUE;
+            }
           }
+        } advance_iterate_end;
+
+        if (out_of_order) {
+          /* HACK: If we just changed the root_tech of a lower-numbered
+           * technology, we need to go back so that we can propagate the
+           * root_tech up to that technology's parents... */
+          goto restart;   
         }
-      } advance_iterate_end;
-
-      if (out_of_order) {
-	/* HACK: If we just changed the root_tech of a lower-numbered
-	 * technology, we need to go back so that we can propagate the
-	 * root_tech up to that technology's parents... */
-	goto restart;   
       }
-    }
-  } advance_iterate_end;
+    } advance_iterate_end;
 
-  /* Now rename A_NEVER to A_NONE for consistency */
-  advance_iterate(A_NONE, a) {
-    if (A_NEVER == a->require[AR_ROOT]) {
-      a->require[AR_ROOT] = a_none;
-    }
-  } advance_iterate_end;
-
-  /* Some more consistency checking: 
-     Non-removed techs depending on removed techs is too
-     broken to fix by default, so die.
-  */
-  advance_iterate(A_FIRST, a) {
-    if (valid_advance(a)) {
-      /* We check for recursive tech loops later,
-       * in build_required_techs_helper. */
-      if (!valid_advance(a->require[AR_ONE])) {
-        ruleset_error(LOG_ERROR,
-                      "\"%s\" tech \"%s\": req1 leads to removed tech.",
-                      filename,
-                      advance_rule_name(a));
-        ok = FALSE;
-        break;
-      } 
-      if (!valid_advance(a->require[AR_TWO])) {
-        ruleset_error(LOG_ERROR,
-                      "\"%s\" tech \"%s\": req2 leads to removed tech.",
-                      filename,
-                      advance_rule_name(a));
-        ok = FALSE;
-        break;
+    /* Now rename A_NEVER to A_NONE for consistency */
+    advance_iterate(A_NONE, a) {
+      if (A_NEVER == a->require[AR_ROOT]) {
+        a->require[AR_ROOT] = a_none;
       }
-    }
-  } advance_iterate_end;
+    } advance_iterate_end;
+
+    /* Some more consistency checking: 
+       Non-removed techs depending on removed techs is too
+       broken to fix by default, so die.
+    */
+    advance_iterate(A_FIRST, a) {
+      if (valid_advance(a)) {
+        /* We check for recursive tech loops later,
+         * in build_required_techs_helper. */
+        if (!valid_advance(a->require[AR_ONE])) {
+          ruleset_error(LOG_ERROR,
+                        "\"%s\" tech \"%s\": req1 leads to removed tech.",
+                        filename,
+                        advance_rule_name(a));
+          ok = FALSE;
+          break;
+        }
+        if (!valid_advance(a->require[AR_TWO])) {
+          ruleset_error(LOG_ERROR,
+                        "\"%s\" tech \"%s\": req2 leads to removed tech.",
+                        filename,
+                        advance_rule_name(a));
+          ok = FALSE;
+          break;
+        }
+      }
+    } advance_iterate_end;
+  }
 
   section_list_destroy(sec);
   if (ok) {
@@ -1552,9 +1565,12 @@ static bool load_ruleset_units(struct section_file *file)
       const struct section *psection = section_list_get(sec, i);
       const char *sec_name = section_name(psection);
 
-      u->require_advance = lookup_tech(file, sec_name,
-                                       "tech_req", LOG_FATAL, filename,
-                                       rule_name(&u->name));
+      if (!lookup_tech(file, &u->require_advance, sec_name,
+                       "tech_req", filename,
+                       rule_name(&u->name))) {
+        ok = FALSE;
+        break;
+      }
       if (NULL != section_entry_by_name(psection, "gov_req")) {
         char tmp[200] = "\0";
         fc_strlcat(tmp, section_name(psection), sizeof(tmp));
@@ -1570,8 +1586,10 @@ static bool load_ruleset_units(struct section_file *file)
 
       if (!load_ruleset_veteran(file, sec_name, &u->veteran,
                                 msg, sizeof(msg))) {
-        ruleset_error(LOG_NORMAL, "Error loading the veteran system: %s",
+        ruleset_error(LOG_ERROR, "Error loading the veteran system: %s",
                       msg);
+        ok = FALSE;
+        break;
       }
 
       u->obsoleted_by = lookup_unit_type(file, sec_name, "obsolete_by",
@@ -1970,8 +1988,11 @@ static bool load_ruleset_buildings(struct section_file *file)
 
       requirement_vector_copy(&b->reqs, reqs);
 
-      b->obsolete_by = lookup_tech(file, sec_name, "obsolete_by", LOG_ERROR,
-                                   filename, rule_name(&b->name));
+      if (!lookup_tech(file, &b->obsolete_by, sec_name, "obsolete_by",
+                       filename, rule_name(&b->name))) {
+        ok = FALSE;
+        break;
+      }
       if (advance_by_number(A_NONE) == b->obsolete_by) {
         /* 
          * The ruleset can specify "None" for a never-obsoleted
