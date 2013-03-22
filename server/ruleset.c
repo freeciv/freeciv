@@ -701,42 +701,36 @@ static void lookup_building_list(struct section_file *file,
 }
 
 /**************************************************************************
- Lookup a string prefix.entry in the file and return the corresponding
- unit_type id.  If (!required), return NULL if match "None" or can't match.
- If (required), die if can't match.
+ Lookup a string prefix.entry in the file and set result to the corresponding
+ unit_type.
  If description is not NULL, it is used in the warning message
  instead of prefix (eg pass unit->name instead of prefix="units2.u27")
 **************************************************************************/
-static struct unit_type *lookup_unit_type(struct section_file *file,
-					  const char *prefix,
-					  const char *entry,
-					  int loglevel,
-					  const char *filename,
-					  const char *description)
+static bool lookup_unit_type(struct section_file *file,
+                             const char *prefix,
+                             const char *entry,
+                             struct unit_type **result,
+                             const char *filename,
+                             const char *description)
 {
   const char *sval;
-  struct unit_type *punittype;
   
-  if (LOG_FATAL >= loglevel) {
-    sval = secfile_lookup_str(file, "%s.%s", prefix, entry);
-  } else {
-    sval = secfile_lookup_str_default(file, "None", "%s.%s", prefix, entry);
-  }
+  sval = secfile_lookup_str_default(file, "None", "%s.%s", prefix, entry);
 
-  if (strcmp(sval, "None")==0) {
-    punittype = NULL;
+  if (strcmp(sval, "None") == 0) {
+    *result = NULL;
   } else {
-    punittype = unit_type_by_rule_name(sval);
-    if (!punittype) {
-      ruleset_error(loglevel,
+    *result = unit_type_by_rule_name(sval);
+    if (*result == NULL) {
+      ruleset_error(LOG_ERROR,
                     "\"%s\" %s %s: couldn't match \"%s\".",
                     filename, (description ? description : prefix), entry, sval);
 
-      /* We continue if error was not fatal. */
-      punittype = NULL;
+      return FALSE;
     }
   }
-  return punittype;
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1592,12 +1586,15 @@ static bool load_ruleset_units(struct section_file *file)
         break;
       }
 
-      u->obsoleted_by = lookup_unit_type(file, sec_name, "obsolete_by",
-                                         LOG_ERROR, filename,
-                                         rule_name(&u->name));
-      u->converted_to = lookup_unit_type(file, sec_name, "convert_to",
-                                         LOG_ERROR, filename,
-                                         rule_name(&u->name));
+      if (!lookup_unit_type(file, sec_name, "obsolete_by",
+                            &u->obsoleted_by, filename,
+                            rule_name(&u->name))
+          || !lookup_unit_type(file, sec_name, "convert_to",
+                               &u->converted_to, filename,
+                               rule_name(&u->name))) {
+        ok = FALSE;
+        break;
+      }
       u->convert_time = secfile_lookup_int_default(file, 1, "%s.convert_time", sec_name);
     } unit_type_iterate_end;
   }
