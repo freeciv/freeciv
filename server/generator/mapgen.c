@@ -68,6 +68,10 @@ struct terrain_select {
   int wet_condition;
 };
 
+
+static struct road_type *river_types[MAX_ROAD_TYPES];
+static int river_type_count = 0;
+
 #define SPECLIST_TAG terrain_select
 #include "speclist.h"
 /* list iterator for terrain_select */
@@ -145,6 +149,8 @@ static bool make_river(struct river_map *privermap,
                        struct tile *ptile,
                        struct road_type *priver);
 static void make_rivers(void);
+
+static void river_types_init(void);
 
 #define HAS_POLES (map.server.temperature < 70 && !map.server.alltemperate)
 
@@ -1046,15 +1052,6 @@ static void make_rivers(void)
      Is needed to stop a potentially infinite loop. */
   int iteration_counter = 0;
 
-  struct road_type *river_types[MAX_ROAD_TYPES];
-  int river_type_count = 0;
-
-  road_type_iterate(priver) {
-    if (road_has_flag(priver, RF_RIVER)) {
-      river_types[river_type_count++] = priver;
-    }
-  } road_type_iterate_end;
-
   create_placed_map(); /* needed bu rand_map_characteristic */
   set_all_ocean_tiles_placed();
 
@@ -1381,6 +1378,8 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
   /* don't generate tiles with mapgen==0 as we've loaded them from file */
   /* also, don't delete (the handcrafted!) tiny islands in a scenario */
   if (map.server.generator != MAPGEN_SCENARIO) {
+    river_types_init();
+
     generator_init_topology(autosize);
     /* Map can be already allocated, if we failed first map generation */
     if (map_is_empty()) {
@@ -1792,7 +1791,8 @@ static void fill_island(int coast, long int *bucket,
 /**************************************************************************
   Returns TRUE if ptile is suitable for a river mouth.
 **************************************************************************/
-static bool island_river_mouth_suitability(const struct tile *ptile)
+static bool island_river_mouth_suitability(const struct tile *ptile,
+                                           const struct road_type *priver)
 {
   int num_card_ocean, pct_adj_ocean, num_adj_river;
 
@@ -1800,8 +1800,7 @@ static bool island_river_mouth_suitability(const struct tile *ptile)
                                                  TC_OCEAN);
   pct_adj_ocean = count_terrain_class_near_tile(ptile, C_ADJACENT, C_PERCENT,
                                                 TC_OCEAN);
-  num_adj_river = count_special_near_tile(ptile, C_ADJACENT, C_NUMBER,
-                                          S_RIVER);
+  num_adj_river = count_river_type_near_tile(ptile, priver, FALSE);
 
   return (num_card_ocean == 1 && pct_adj_ocean <= 35
           && num_adj_river == 0);
@@ -1811,12 +1810,12 @@ static bool island_river_mouth_suitability(const struct tile *ptile)
   Returns TRUE if there is a river in a cardinal direction near the tile
   and the tile is suitable for extending it.
 **************************************************************************/
-static bool island_river_suitability(const struct tile *ptile)
+static bool island_river_suitability(const struct tile *ptile,
+                                     const struct road_type *priver)
 {
   int pct_adj_ocean, num_card_ocean, pct_adj_river, num_card_river;
 
-  num_card_river = count_special_near_tile(ptile, C_CARDINAL, C_NUMBER,
-                                           S_RIVER);
+  num_card_river = count_river_type_near_tile(ptile, priver, FALSE);
   num_card_ocean = count_terrain_class_near_tile(ptile, C_CARDINAL, C_NUMBER,
                                                  TC_OCEAN);
   pct_adj_ocean = count_terrain_class_near_tile(ptile, C_ADJACENT, C_PERCENT,
@@ -1843,6 +1842,10 @@ static void fill_island_rivers(int coast, long int *bucket,
   if (*bucket <= 0) {
     return;
   }
+  if (river_type_count <= 0) {
+    return;
+  }
+
   capac = pstate->totalmass;
   i = *bucket / capac;
   i++;
@@ -1858,21 +1861,25 @@ static void fill_island_rivers(int coast, long int *bucket,
   }
 
   while (i > 0 && failsafe-- > 0) {
+    struct road_type *priver;
+
     ptile = get_random_map_position_from_state(pstate);
     if (tile_continent(ptile) != pstate->isleindex
-        || tile_has_special(ptile, S_RIVER)) {
+        || tile_has_river(ptile)) {
       continue;
     }
+
+    priver = river_types[fc_rand(river_type_count)];
 
     if (test_wetness(ptile, WC_DRY) && fc_rand(100) < 50) {
       /* rivers don't like dry locations */
       continue;
     }
 
-    if ((island_river_mouth_suitability(ptile)
+    if ((island_river_mouth_suitability(ptile, priver)
          && (fc_rand(100) < coast || i == k))
-        || island_river_suitability(ptile)) {
-      tile_set_special(ptile, S_RIVER);
+        || island_river_suitability(ptile, priver)) {
+      tile_add_road(ptile, priver);
       i--;
     }
   }
@@ -2552,3 +2559,17 @@ static void mapgenerator4(void)
 }
 
 #undef DMSIS
+
+/**************************************************************************
+  Initialize river types array
+**************************************************************************/
+static void river_types_init(void)
+{
+  river_type_count = 0;
+
+  road_type_iterate(priver) {
+    if (road_has_flag(priver, RF_RIVER)) {
+      river_types[river_type_count++] = priver;
+    }
+  } road_type_iterate_end;
+}
