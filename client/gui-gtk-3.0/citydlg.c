@@ -1178,7 +1178,7 @@ static void create_and_append_cma_page(struct city_dialog *pdialog)
 static void create_and_append_settings_page(struct city_dialog *pdialog)
 {
   int i;
-  GtkWidget *vbox, *vbox2, *page, *frame, *label, *button;
+  GtkWidget *vbox2, *page, *frame, *label, *button;
   GtkSizeGroup *size;
   GSList *group;
   const char *tab_title = _("_Settings");
@@ -1207,8 +1207,8 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
   pdialog->misc.block_signal = 0;
 
 
-  page = gtk_table_new(2, 2, FALSE);
-  gtk_table_set_col_spacings(GTK_TABLE(page), 18);
+  page = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(page), 18);
   gtk_container_set_border_width(GTK_CONTAINER(page), 8);
   
   size = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
@@ -1217,16 +1217,14 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
 
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
-  vbox = gtk_vbox_new(FALSE, 12);
-  gtk_table_attach(GTK_TABLE(page), vbox, 0, 1, 0, 1,
-		   GTK_FILL | GTK_EXPAND, GTK_FILL, 0, 0);
-  gtk_size_group_add_widget(size, vbox);
-
   /* new_citizens radio */
   frame = gtk_frame_new(_("New citizens are"));
-  gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 0);
+  gtk_grid_attach(GTK_GRID(page), frame, 0, 0, 1, 1);
+  gtk_size_group_add_widget(size, frame);
 
-  vbox2 = gtk_vbox_new(TRUE, 0);
+  vbox2 = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox2),
+                                 GTK_ORIENTATION_VERTICAL);
   gtk_container_add(GTK_CONTAINER(frame), vbox2);
 
   intl_slist(ARRAY_SIZE(new_citizens_label), new_citizens_label,
@@ -1244,11 +1242,12 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
 
   /* next is the next-time-open radio group in the right column */
   frame = gtk_frame_new(_("Next time open"));
-  gtk_table_attach(GTK_TABLE(page), frame, 1, 2, 0, 1,
-		   GTK_FILL | GTK_EXPAND, GTK_FILL, 0, 0);
+  gtk_grid_attach(GTK_GRID(page), frame, 1, 0, 1, 1);
   gtk_size_group_add_widget(size, frame);
 
-  vbox2 = gtk_vbox_new(TRUE, 0);
+  vbox2 = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox2),
+                                 GTK_ORIENTATION_VERTICAL);
   gtk_container_add(GTK_CONTAINER(frame), vbox2);
 
   intl_slist(ARRAY_SIZE(misc_whichtab_label), misc_whichtab_label,
@@ -1266,10 +1265,13 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
 
   /* now we go back and fill the hbox rename */
   frame = gtk_frame_new(_("City"));
-  gtk_table_attach(GTK_TABLE(page), frame, 0, 1, 1, 2,
-		   GTK_FILL | GTK_EXPAND, GTK_FILL, 0, 12);
+  gtk_widget_set_margin_top(frame, 12);
+  gtk_widget_set_margin_bottom(frame, 12);
+  gtk_grid_attach(GTK_GRID(page), frame, 0, 1, 1, 1);
 
-  vbox2 = gtk_vbox_new(TRUE, 0);
+  vbox2 = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox2),
+                                 GTK_ORIENTATION_VERTICAL);
   gtk_container_add(GTK_CONTAINER(frame), vbox2);
 
   button = gtk_button_new_with_mnemonic(_("R_ename..."));
