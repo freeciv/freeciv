@@ -4710,7 +4710,7 @@ static GdkPixbuf *create_pixbuf_from_layers(const struct tile *ptile,
                                             int *layers,
                                             int num_layers)
 {
-  struct canvas canvas;
+  struct canvas canvas = FC_STATIC_CANVAS_INIT;
   int h, i, fh, fw, canvas_x, canvas_y;
   GdkPixbuf *pixbuf;
   cairo_t *cr;
@@ -4720,7 +4720,6 @@ static GdkPixbuf *create_pixbuf_from_layers(const struct tile *ptile,
   h = tileset_tile_height(tileset);
 
   canvas.surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, fw, fh);
-  canvas.drawable = NULL;
 
   cr = cairo_create(canvas.surface);
   cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);

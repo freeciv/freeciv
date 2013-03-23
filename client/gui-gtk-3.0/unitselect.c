@@ -695,11 +695,10 @@ static void usdlg_tab_append_utype(GtkTreeStore *store,
                        tileset_full_tile_height(tileset));
 
   {
-    struct canvas canvas_store;
+    struct canvas canvas_store = FC_STATIC_CANVAS_INIT;
 
     canvas_store.surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
         tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
-    canvas_store.drawable = NULL;
 
     put_unittype(putype, &canvas_store, 0, 0);
     pix = surface_get_pixbuf(canvas_store.surface, tileset_full_tile_width(tileset),
@@ -793,11 +792,10 @@ static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
 
   /* Unit gfx */
   {
-    struct canvas canvas_store;
+    struct canvas canvas_store = FC_STATIC_CANVAS_INIT;
 
     canvas_store.surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
         tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
-    canvas_store.drawable = NULL;
 
     put_unit(punit, &canvas_store, 0, 0);
     pix = surface_get_pixbuf(canvas_store.surface, tileset_full_tile_width(tileset),

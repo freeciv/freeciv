@@ -172,10 +172,7 @@ static gboolean spaceship_image_canvas_expose(GtkWidget *widget,
 					      gpointer data)
 {
   struct spaceship_dialog *pdialog = (struct spaceship_dialog *)data;
-  struct canvas store = {
-    .surface = NULL,
-    .drawable = NULL
-  };
+  struct canvas store = FC_STATIC_CANVAS_INIT;
 
   store.drawable = cr;
 

@@ -1629,10 +1629,9 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
 *****************************************************************/
 static void city_dialog_update_map(struct city_dialog *pdialog)
 {
-  struct canvas store = {
-    .surface = pdialog->map_canvas_store_unscaled,
-    .drawable = NULL
-  };
+  struct canvas store = FC_STATIC_CANVAS_INIT;
+
+  store.surface = pdialog->map_canvas_store_unscaled;
 
   /* The drawing is done in three steps.
    *   1.  First we render to a pixmap with the appropriate canvas size.
