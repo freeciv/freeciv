@@ -715,24 +715,6 @@ static gboolean motion_notify_event(GtkWidget *text_view,
                                         GTK_TEXT_WINDOW_WIDGET,
                                         event->x, event->y, &x, &y);
   set_cursor_if_appropriate(GTK_TEXT_VIEW(text_view), x, y);
-  gdk_window_get_pointer(gtk_widget_get_window(text_view), NULL, NULL, NULL);
-
-  return FALSE;
-}
-
-/**************************************************************************
-  Maybe are the mouse is moving over a link.
-**************************************************************************/
-static gboolean visibility_notify_event(GtkWidget *text_view,
-                                        GdkEventVisibility *event)
-{
-  gint wx, wy, bx, by;
-
-  gdk_window_get_pointer(gtk_widget_get_window(text_view), &wx, &wy, NULL);
-  gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW (text_view), 
-                                        GTK_TEXT_WINDOW_WIDGET,
-                                        wx, wy, &bx, &by);
-  set_cursor_if_appropriate(GTK_TEXT_VIEW(text_view), bx, by);
 
   return FALSE;
 }
@@ -746,9 +728,6 @@ void set_message_buffer_view_link_handlers(GtkWidget *view)
 		   G_CALLBACK(event_after), NULL);
   g_signal_connect(view, "motion-notify-event",
 		   G_CALLBACK(motion_notify_event), NULL);
-  g_signal_connect(view, "visibility-notify-event",
-		   G_CALLBACK(visibility_notify_event), NULL);
-
 }
 
 /**************************************************************************
