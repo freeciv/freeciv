@@ -236,11 +236,12 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 		   G_CALLBACK(spaceship_destroy_callback), pdialog);
   gui_dialog_response_set_callback(pdialog->shell, spaceship_response);
 
-  hbox=gtk_hbox_new(FALSE, 5);
+  hbox=gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(hbox), 5);
   gtk_box_pack_start(GTK_BOX(pdialog->shell->vbox), hbox, FALSE, FALSE, 0);
 
   frame=gtk_frame_new(NULL);
-  gtk_box_pack_start(GTK_BOX(hbox), frame, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(hbox), frame);
 
   pdialog->image_canvas=gtk_drawing_area_new();
   gtk_widget_set_can_focus(pdialog->image_canvas, TRUE);
@@ -259,7 +260,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   gtk_label_set_justify(GTK_LABEL(pdialog->info_label), GTK_JUSTIFY_LEFT);
   gtk_misc_set_alignment(GTK_MISC(pdialog->info_label), 0.0, 0.0);
 
-  gtk_box_pack_start(GTK_BOX(hbox), pdialog->info_label, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(hbox), pdialog->info_label);
   gtk_widget_set_name(pdialog->info_label, "spaceship_label");
 
   dialog_list_prepend(dialog_list, pdialog);
