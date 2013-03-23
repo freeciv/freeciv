@@ -428,6 +428,8 @@ void create_players_dialog(void)
 
   players_list = gtk_tree_view_new_with_model(GTK_TREE_MODEL
                                               (players_dialog_store));
+  gtk_widget_set_hexpand(players_list, TRUE);
+  gtk_widget_set_vexpand(players_list, TRUE);
   g_object_unref(players_dialog_store);
   gtk_widget_set_name(players_list, "small_font");
 
@@ -508,13 +510,15 @@ void create_players_dialog(void)
   gtk_box_pack_start(GTK_BOX(players_dialog_shell->vbox), sw,
 		     TRUE, TRUE, 0);
 
-  vbox = gtk_vbox_new(FALSE, 0);
+  vbox = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+                                 GTK_ORIENTATION_VERTICAL);
   
   sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
-  gtk_box_pack_start(GTK_BOX(vbox), sep, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), sep);
 
   menubar = gtk_aux_menu_bar_new();
-  gtk_box_pack_start(GTK_BOX(vbox), menubar, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), menubar);
 
 
   gui_dialog_add_widget(players_dialog_shell, vbox);
