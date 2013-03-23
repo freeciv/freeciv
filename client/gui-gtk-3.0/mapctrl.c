@@ -61,7 +61,7 @@ extern gint cur_x, cur_y;
 static gboolean popit_button_release(GtkWidget *w, GdkEventButton *event)
 {
   gtk_grab_remove(w);
-  gdk_display_pointer_ungrab(gtk_widget_get_display(w), GDK_CURRENT_TIME);
+  gdk_device_ungrab(event->device, event->time);
   gtk_widget_destroy(w);
   return FALSE;
 }
@@ -143,8 +143,9 @@ static void popit(GdkEventButton *event, struct tile *ptile)
 		     &mousepos);
 
     gtk_widget_show_all(p);
-    gdk_pointer_grab(gtk_widget_get_window(p), TRUE, GDK_BUTTON_RELEASE_MASK,
-		     NULL, NULL, event->time);
+    gdk_device_grab(event->device, gtk_widget_get_window(p),
+                    GDK_OWNERSHIP_NONE, TRUE, GDK_BUTTON_RELEASE_MASK, NULL,
+                    event->time);
     gtk_grab_add(p);
 
     g_signal_connect_after(p, "button_release_event",

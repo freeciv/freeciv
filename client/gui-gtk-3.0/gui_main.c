@@ -1817,7 +1817,7 @@ static gboolean select_more_arrow_pixmap_callback(GtkWidget *w, GdkEvent *ev,
 static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   gtk_grab_remove(w);
-  gdk_display_pointer_ungrab(gtk_widget_get_display(w), GDK_CURRENT_TIME);
+  gdk_device_ungrab(ev->device, ev->time);
   gtk_widget_destroy(w);
   return FALSE;
 }
@@ -1841,8 +1841,9 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
         			   NULL);
     gtk_widget_show(p);
 
-    gdk_pointer_grab(gtk_widget_get_window(p), TRUE, GDK_BUTTON_RELEASE_MASK,
-		     NULL, NULL, ev->time);
+    gdk_device_grab(ev->device, gtk_widget_get_window(p),
+                    GDK_OWNERSHIP_NONE, TRUE, GDK_BUTTON_RELEASE_MASK, NULL,
+                    ev->time);
     gtk_grab_add(p);
 
     g_signal_connect_after(p, "button_release_event",
