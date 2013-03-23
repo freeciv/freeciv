@@ -664,11 +664,11 @@ static void set_cursor_if_appropriate(GtkTextView *text_view, gint x, gint y)
   /* Initialize the cursors. */
   if (!hand_cursor) {
     hand_cursor = gdk_cursor_new_for_display(
-        gdk_screen_get_display(gdk_screen_get_default()), GDK_HAND2);
+        gtk_widget_get_display(GTK_WIDGET(text_view)), GDK_HAND2);
   }
   if (!regular_cursor) {
     regular_cursor = gdk_cursor_new_for_display(
-        gdk_screen_get_display(gdk_screen_get_default()), GDK_XTERM);
+        gtk_widget_get_display(GTK_WIDGET(text_view)), GDK_XTERM);
   }
 
   gtk_text_view_get_iter_at_location(text_view, &iter, x, y);
