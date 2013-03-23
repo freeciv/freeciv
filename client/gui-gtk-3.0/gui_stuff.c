@@ -73,31 +73,13 @@ void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py)
 **************************************************************************/
 GtkWidget *gtk_stockbutton_new(const gchar *stock, const gchar *label_text)
 {
-  GtkWidget *label;
-  GtkWidget *image;
-  GtkWidget *hbox;
-  GtkWidget *align;
   GtkWidget *button;
+  GtkWidget *image;
   
-  button = gtk_button_new();
-
-  label = gtk_label_new_with_mnemonic(label_text);
-  gtk_label_set_mnemonic_widget(GTK_LABEL(label), button);
-  g_object_set_data(G_OBJECT(button), "label", label);
-
+  button = gtk_button_new_with_mnemonic(label_text);
   image = gtk_image_new_from_stock(stock, GTK_ICON_SIZE_BUTTON);
-  g_object_set_data(G_OBJECT(button), "image", image);
+  gtk_button_set_image(GTK_BUTTON(button), image);
 
-  hbox = gtk_hbox_new(FALSE, 2);
-
-  align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
-
-  gtk_box_pack_start(GTK_BOX (hbox), image, FALSE, FALSE, 0);
-  gtk_box_pack_end(GTK_BOX (hbox), label, FALSE, FALSE, 0);
-
-  gtk_container_add(GTK_CONTAINER(button), align);
-  gtk_container_add(GTK_CONTAINER(align), hbox);
-  gtk_widget_show_all(align);
   return button;
 }
 
@@ -107,10 +89,7 @@ GtkWidget *gtk_stockbutton_new(const gchar *stock, const gchar *label_text)
 **************************************************************************/
 void gtk_stockbutton_set_label(GtkWidget *button, const gchar *label_text)
 {
-  GtkWidget *label;
-
-  label = g_object_get_data(G_OBJECT(button), "label");
-  gtk_label_set_markup_with_mnemonic(GTK_LABEL(label), label_text);
+  gtk_button_set_label(GTK_BUTTON(button), label_text);
 }
 
 /**************************************************************************
