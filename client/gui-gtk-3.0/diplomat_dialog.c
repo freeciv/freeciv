@@ -259,12 +259,17 @@ static void create_advances_list(struct player *pplayer,
   label = gtk_frame_new(_("Select Advance to Steal"));
   gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(spy_tech_shell))), label);
 
-  vbox = gtk_vbox_new(FALSE, 6);
+  vbox = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing(GTK_GRID(vbox), 6);
   gtk_container_add(GTK_CONTAINER(label), vbox);
       
   store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  gtk_widget_set_hexpand(view, TRUE);
+  gtk_widget_set_vexpand(view, TRUE);
   g_object_unref(store);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
 
@@ -410,12 +415,17 @@ static void create_improvements_list(struct player *pplayer,
   label = gtk_frame_new(_("Select Improvement to Sabotage"));
   gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(spy_sabotage_shell))), label);
 
-  vbox = gtk_vbox_new(FALSE, 6);
+  vbox = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing(GTK_GRID(vbox), 6);
   gtk_container_add(GTK_CONTAINER(label), vbox);
       
   store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  gtk_widget_set_hexpand(view, TRUE);
+  gtk_widget_set_vexpand(view, TRUE);
   g_object_unref(store);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
 
@@ -440,7 +450,7 @@ static void create_improvements_list(struct player *pplayer,
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
     GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-  gtk_widget_set_size_request(sw, -1, 200);
+  gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw), 200);
   
   gtk_container_add(GTK_CONTAINER(vbox), sw);
 
