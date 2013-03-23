@@ -424,6 +424,8 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
       3, GTK_SORT_ASCENDING);
 
   list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  gtk_widget_set_hexpand(list, TRUE);
+  gtk_widget_set_vexpand(list, TRUE);
   gtk_tree_view_set_search_column(GTK_TREE_VIEW(list), 3);
   races_nation_list[index] = list;
   g_object_unref(store);
@@ -502,8 +504,11 @@ static GtkWidget* create_nation_selection_list(void)
   
   int i;
   
-  vbox = gtk_vbox_new(FALSE, 2);
-  
+  vbox = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing(GTK_GRID(vbox), 2);
+
   nation_list = create_list_of_nations_in_group(NULL, 0);  
   label = g_object_new(GTK_TYPE_LABEL,
       "use-underline", TRUE,
@@ -515,8 +520,8 @@ static GtkWidget* create_nation_selection_list(void)
   notebook = gtk_notebook_new();
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_LEFT);  
   
-  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);  
-  gtk_box_pack_start(GTK_BOX(vbox), notebook, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), label);
+  gtk_container_add(GTK_CONTAINER(vbox), notebook);
   
   for (i = 1; i <= nation_group_count(); i++) {
     struct nation_group* group = (nation_group_by_number(i - 1));
@@ -540,7 +545,7 @@ static void create_races_dialog(struct player *pplayer)
 {
   GtkWidget *shell;
   GtkWidget *cmd;
-  GtkWidget *vbox, *hbox, *table;
+  GtkWidget *hbox, *table;
   GtkWidget *frame, *label, *combo;
   GtkWidget *text;
   GtkWidget *notebook;
@@ -584,7 +589,8 @@ static void create_races_dialog(struct player *pplayer)
   frame = gtk_frame_new(_("Select a nation"));
   gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), frame);
 
-  hbox = gtk_hbox_new(FALSE, 18);
+  hbox = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(hbox), 18);
   gtk_container_set_border_width(GTK_CONTAINER(hbox), 3);
   gtk_container_add(GTK_CONTAINER(frame), hbox);
 
@@ -601,15 +607,10 @@ static void create_races_dialog(struct player *pplayer)
   /* Properties pane. */
   label = gtk_label_new_with_mnemonic(_("_Properties"));
 
-  vbox = gtk_vbox_new(FALSE, 6);
-  gtk_container_set_border_width(GTK_CONTAINER(vbox), 6);
-  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, label);
-
-  table = gtk_table_new(3, 4, FALSE); 
-  gtk_table_set_row_spacings(GTK_TABLE(table), 2);
-  gtk_table_set_col_spacing(GTK_TABLE(table), 0, 12);
-  gtk_table_set_col_spacing(GTK_TABLE(table), 1, 12);
-  gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
+  table = gtk_grid_new();
+  g_object_set(table, "margin", 6, NULL);
+  gtk_grid_set_row_spacing(GTK_GRID(table), 2);
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), table, label);
 
   /* Leader. */ 
   {
@@ -626,23 +627,29 @@ static void create_races_dialog(struct player *pplayer)
       "xalign", 0.0,
       "yalign", 0.5,
       NULL);
-  gtk_table_attach(GTK_TABLE(table), label, 0, 1, 0, 2, 0, 0, 0, 0);
-  gtk_table_attach(GTK_TABLE(table), combo, 1, 3, 0, 1, 0, 0, 0, 0);
+  gtk_widget_set_margin_bottom(label, 6);
+  gtk_widget_set_margin_right(label, 12);
+  gtk_grid_attach(GTK_GRID(table), label, 0, 0, 1, 2);
+  gtk_grid_attach(GTK_GRID(table), combo, 1, 0, 2, 1);
 
   cmd = gtk_radio_button_new_with_mnemonic(NULL, _("_Female"));
+  gtk_widget_set_margin_bottom(cmd, 6);
   races_sex[0] = cmd;
-  gtk_table_attach(GTK_TABLE(table), cmd, 1, 2, 1, 2, 0, 0, 0, 0);
+  gtk_grid_attach(GTK_GRID(table), cmd, 1, 1, 1, 1);
 
   cmd = gtk_radio_button_new_with_mnemonic_from_widget(GTK_RADIO_BUTTON(cmd),
       _("_Male"));
+  gtk_widget_set_margin_bottom(cmd, 6);
   races_sex[1] = cmd;
-  gtk_table_attach(GTK_TABLE(table), cmd, 2, 3, 1, 2, 0, 0, 0, 0);
+  gtk_grid_attach(GTK_GRID(table), cmd, 2, 1, 1, 1);
 
   /* City style. */
   store = gtk_list_store_new(3, G_TYPE_INT,
       GDK_TYPE_PIXBUF, G_TYPE_STRING);
 
   list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  gtk_widget_set_hexpand(list, TRUE);
+  gtk_widget_set_vexpand(list, TRUE);
   races_city_style_list = list;
   g_object_unref(store);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(list), FALSE);
@@ -650,13 +657,13 @@ static void create_races_dialog(struct player *pplayer)
       G_CALLBACK(races_city_style_callback), NULL);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_widget_set_margin_top(sw, 6);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
       GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(sw), list);
-  gtk_table_attach(GTK_TABLE(table), sw, 1, 3, 2, 4,
-      GTK_EXPAND|GTK_FILL, GTK_EXPAND|GTK_FILL, 0, 0);
+  gtk_grid_attach(GTK_GRID(table), sw, 1, 2, 2, 2);
 
   label = g_object_new(GTK_TYPE_LABEL,
       "use-underline", TRUE,
@@ -665,7 +672,9 @@ static void create_races_dialog(struct player *pplayer)
       "xalign", 0.0,
       "yalign", 0.5,
       NULL);
-  gtk_table_attach(GTK_TABLE(table), label, 0, 1, 2, 3, 0, 0, 0, 0);
+  gtk_widget_set_margin_top(label, 6);
+  gtk_widget_set_margin_right(label, 12);
+  gtk_grid_attach(GTK_GRID(table), label, 0, 2, 1, 1);
 
   render = gtk_cell_renderer_pixbuf_new();
   column = gtk_tree_view_column_new_with_attributes(NULL, render,
@@ -675,8 +684,6 @@ static void create_races_dialog(struct player *pplayer)
   column = gtk_tree_view_column_new_with_attributes(NULL, render,
       "text", 2, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(list), column);
-
-  gtk_table_set_row_spacing(GTK_TABLE(table), 1, 12);
 
   /* Populate city style store. */
   for (i = 0; i < game.control.styles_count; i++) {
@@ -701,11 +708,10 @@ static void create_races_dialog(struct player *pplayer)
   /* Legend pane. */
   label = gtk_label_new_with_mnemonic(_("_Description"));
 
-  vbox = gtk_vbox_new(FALSE, 6);
-  gtk_container_set_border_width(GTK_CONTAINER(vbox), 6);
-  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, label);
-
   text = gtk_text_view_new();
+  g_object_set(text, "margin", 6, NULL);
+  gtk_widget_set_hexpand(text, TRUE);
+  gtk_widget_set_vexpand(text, TRUE);
   races_text = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text));
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_WORD);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
@@ -713,7 +719,7 @@ static void create_races_dialog(struct player *pplayer)
   gtk_text_view_set_left_margin(GTK_TEXT_VIEW(text), 6);
   gtk_text_view_set_right_margin(GTK_TEXT_VIEW(text), 6);
 
-  gtk_box_pack_start(GTK_BOX(vbox), text, TRUE, TRUE, 0);
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), text, label);
 
   /* Signals. */
   g_signal_connect(shell, "destroy",
