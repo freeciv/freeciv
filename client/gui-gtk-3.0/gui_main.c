@@ -1115,26 +1115,18 @@ static void setup_widgets(void)
   main_label_info = label;
 
   /* Production status */
-
-  /* make a box so the table will be centered */
-  box = gtk_hbox_new(FALSE, 0);
-  
-  gtk_box_pack_start(GTK_BOX(avbox), box, FALSE, FALSE, 0);
-
-  table = gtk_table_new(3, 10, TRUE);
-  gtk_table_set_row_spacing(GTK_TABLE(table), 0, 0);
-  gtk_table_set_col_spacing(GTK_TABLE(table), 0, 0);
-  gtk_box_pack_start(GTK_BOX(box), table, TRUE, FALSE, 0);
+  table = gtk_grid_new();
+  gtk_widget_set_halign(table, GTK_ALIGN_CENTER);
+  gtk_grid_set_column_homogeneous(GTK_GRID(table), TRUE);
+  gtk_container_add(GTK_CONTAINER(avbox), table);
 
   /* citizens for taxrates */
   ebox = gtk_event_box_new();
   gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
-  gtk_table_attach_defaults(GTK_TABLE(table), ebox, 0, 10, 0, 1);
+  gtk_grid_attach(GTK_GRID(table), ebox, 0, 0, 10, 1);
   econ_ebox = ebox;
   
-  table2 = gtk_table_new(1, 10, TRUE);
-  gtk_table_set_row_spacing(GTK_TABLE(table2), 0, 0);
-  gtk_table_set_col_spacing(GTK_TABLE(table2), 0, 0);
+  table2 = gtk_grid_new();
   gtk_container_add(GTK_CONTAINER(ebox), table2);
   
   for (i = 0; i < 10; i++) {
@@ -1142,7 +1134,7 @@ static void setup_widgets(void)
     gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
     gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
 
-    gtk_table_attach_defaults(GTK_TABLE(table2), ebox, i, i + 1, 0, 1);
+    gtk_grid_attach(GTK_GRID(table2), ebox, i, 0, 1, 1);
 
     g_signal_connect(ebox, "button_press_event",
                      G_CALLBACK(taxrates_callback), GINT_TO_POINTER(i));
@@ -1191,20 +1183,20 @@ static void setup_widgets(void)
     gtk_misc_set_alignment(GTK_MISC(w), 0.0, 0.0);
     gtk_misc_set_padding(GTK_MISC(w), 0, 0);
     gtk_container_add(GTK_CONTAINER(ebox), w);
-    gtk_table_attach_defaults(GTK_TABLE(table), ebox, i, i + 1, 1, 2);
+    gtk_grid_attach(GTK_GRID(table), ebox, i, 1, 1, 1);
   }
 
   timeout_label = gtk_label_new("");
 
   frame = gtk_frame_new(NULL);
-  gtk_table_attach_defaults(GTK_TABLE(table), frame, 4, 10, 1, 2);
+  gtk_grid_attach(GTK_GRID(table), frame, 4, 1, 6, 1);
   gtk_container_add(GTK_CONTAINER(frame), timeout_label);
 
 
   /* turn done */
   turn_done_button = gtk_button_new_with_label(_("Turn Done"));
 
-  gtk_table_attach_defaults(GTK_TABLE(table), turn_done_button, 0, 10, 2, 3);
+  gtk_grid_attach(GTK_GRID(table), turn_done_button, 0, 2, 10, 1);
 
   g_signal_connect(turn_done_button, "clicked",
                    G_CALLBACK(end_turn_callback), NULL);
