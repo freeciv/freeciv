@@ -309,19 +309,19 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
 
   /* Minimal Surplus and Factor */
 
-  table = gtk_table_new(O_LAST + 2, 3, TRUE);
+  table = gtk_grid_new();
   gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 2);
 
   label = gtk_label_new(_("Minimal Surplus"));
   gtk_misc_set_alignment(GTK_MISC(label), 0.1, 0.5);
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 0, 1);
+  gtk_grid_attach(GTK_GRID(table), label, 1, 0, 1, 1);
   label = gtk_label_new(_("Factor"));
   gtk_misc_set_alignment(GTK_MISC(label), 0.1, 0.5);
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 2, 3, 0, 1);
+  gtk_grid_attach(GTK_GRID(table), label, 2, 0, 1, 1);
 
   output_type_iterate(i) {
     label = gtk_label_new(get_output_name(i));
-    gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i + 1, i + 2);
+    gtk_grid_attach(GTK_GRID(table), label, 0, i + 1, 1, 1);
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 
     pdialog->minimal_surplus[i] = hscale =
@@ -329,7 +329,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
     gtk_range_set_range(GTK_RANGE(hscale), -20, 20);
     gtk_range_set_increments(GTK_RANGE(hscale), 1, 1);
 
-    gtk_table_attach_defaults(GTK_TABLE(table), hscale, 1, 2, i + 1, i + 2);
+    gtk_grid_attach(GTK_GRID(table), hscale, 1, i + 1, 1, 1);
     gtk_scale_set_digits(GTK_SCALE(hscale), 0);
     gtk_scale_set_value_pos(GTK_SCALE(hscale), GTK_POS_LEFT);
 
@@ -342,7 +342,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
     gtk_range_set_range(GTK_RANGE(hscale), 0, 25);
     gtk_range_set_increments(GTK_RANGE(hscale), 1, 1);
 
-    gtk_table_attach_defaults(GTK_TABLE(table), hscale, 2, 3, i + 1, i + 2);
+    gtk_grid_attach(GTK_GRID(table), hscale, 2, i + 1, 1, 1);
     gtk_scale_set_digits(GTK_SCALE(hscale), 0);
     gtk_scale_set_value_pos(GTK_SCALE(hscale), GTK_POS_LEFT);
 
@@ -353,19 +353,14 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   /* Happy Surplus and Factor */
 
   label = gtk_label_new(_("Celebrate"));
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1,
-			    O_LAST + 1, O_LAST + 2);
+  gtk_grid_attach(GTK_GRID(table), label, 0, O_LAST + 1, 1, 1);
   gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 
-  hbox = gtk_hbox_new(FALSE, 0);
-  gtk_table_attach_defaults(GTK_TABLE(table), hbox, 1, 2,
-			    O_LAST + 1, O_LAST + 2);
-
   pdialog->happy_button = gtk_check_button_new();
-  gtk_box_pack_start(GTK_BOX(hbox), pdialog->happy_button, FALSE, FALSE,
-		     20);
+  gtk_widget_set_halign(pdialog->happy_button, GTK_ALIGN_END);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pdialog->happy_button),
 			       FALSE);
+  gtk_grid_attach(GTK_GRID(table), pdialog->happy_button, 1, O_LAST + 1, 1, 1);
 
   g_signal_connect(pdialog->happy_button, "toggled",
 		   G_CALLBACK(hscale_changed), pdialog);
@@ -375,8 +370,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   gtk_range_set_range(GTK_RANGE(hscale), 0, 50);
   gtk_range_set_increments(GTK_RANGE(hscale), 1, 1);
 
-  gtk_table_attach_defaults(GTK_TABLE(table), hscale, 2, 3,
-			    O_LAST + 1, O_LAST + 2);
+  gtk_grid_attach(GTK_GRID(table), hscale, 2, O_LAST + 1, 1, 1);
   gtk_scale_set_digits(GTK_SCALE(hscale), 0);
   gtk_scale_set_value_pos(GTK_SCALE(hscale), GTK_POS_LEFT);
 
