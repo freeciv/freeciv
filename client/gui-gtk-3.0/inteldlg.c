@@ -168,7 +168,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
 {
   struct intel_dialog *pdialog;
 
-  GtkWidget *shell, *notebook, *label, *sw, *view, *table, *alignment;
+  GtkWidget *shell, *notebook, *label, *sw, *view, *table;
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
 
@@ -198,34 +198,28 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), notebook);
  
   /* overview tab. */
-  table = gtk_table_new(ARRAY_SIZE(table_text), 2, FALSE);
+  table = gtk_grid_new();
+  g_object_set(table, "margin", 6, NULL);
 
-  gtk_table_set_row_spacings(GTK_TABLE(table), 2);
-  gtk_table_set_col_spacings(GTK_TABLE(table), 12);
-
-  alignment = gtk_alignment_new(0.0, 0.0, 0.0, 0.0);
-  gtk_container_set_border_width(GTK_CONTAINER(alignment), 6);
-  gtk_container_add(GTK_CONTAINER(alignment), table);
+  gtk_grid_set_row_spacing(GTK_GRID(table), 2);
+  gtk_grid_set_column_spacing(GTK_GRID(table), 12);
 
   /* TRANS: Overview tab of foreign intelligence report dialog */
   label = gtk_label_new_with_mnemonic(_("_Overview"));
-  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), alignment, label);
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), table, label);
 
   for (i = 0; i < ARRAY_SIZE(table_text); i++) {
     if (table_text[i]) {
       label = gtk_label_new(_(table_text[i]));
       gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-      gtk_table_attach(GTK_TABLE(table), label,
-	  0, 1, i, i+1, GTK_FILL, GTK_FILL|GTK_EXPAND, 0, 0);
+      gtk_grid_attach(GTK_GRID(table), label, 0, i, 1, 1);
 
       label = gtk_label_new(NULL);
       pdialog->table_labels[i] = label;
       gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-      gtk_table_attach(GTK_TABLE(table), label,
-	  1, 2, i, i+1, GTK_FILL, GTK_FILL|GTK_EXPAND, 0, 0);
+      gtk_grid_attach(GTK_GRID(table), label, 1, i, 1, 1);
     } else {
       pdialog->table_labels[i] = NULL;
-      gtk_table_set_row_spacing(GTK_TABLE(table), i, 12);
     }
   }
 
@@ -233,6 +227,9 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   pdialog->diplstates = gtk_tree_store_new(1, G_TYPE_STRING);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->diplstates));
+  g_object_set(view, "margin", 6, NULL);
+  gtk_widget_set_hexpand(view, TRUE);
+  gtk_widget_set_vexpand(view, TRUE);
   g_object_unref(pdialog->diplstates);
   gtk_container_set_border_width(GTK_CONTAINER(view), 6);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
@@ -252,12 +249,8 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 	GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-  alignment = gtk_alignment_new(0.0, 0.0, 1.0, 1.0);
-  gtk_container_set_border_width(GTK_CONTAINER(alignment), 6);
-  gtk_container_add(GTK_CONTAINER(alignment), sw);
-
   label = gtk_label_new_with_mnemonic(_("_Diplomacy"));
-  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), alignment, label);
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), sw, label);
 
   /* techs tab. */
   pdialog->techs = gtk_list_store_new(2, G_TYPE_BOOLEAN, G_TYPE_STRING);
@@ -265,6 +258,9 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
       1, GTK_SORT_ASCENDING);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->techs));
+  g_object_set(view, "margin", 6, NULL);
+  gtk_widget_set_hexpand(view, TRUE);
+  gtk_widget_set_vexpand(view, TRUE);
   g_object_unref(pdialog->techs);
   gtk_container_set_border_width(GTK_CONTAINER(view), 6);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
@@ -287,12 +283,8 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 	GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-  alignment = gtk_alignment_new(0.0, 0.0, 1.0, 1.0);
-  gtk_container_set_border_width(GTK_CONTAINER(alignment), 6);
-  gtk_container_add(GTK_CONTAINER(alignment), sw);
-
   label = gtk_label_new_with_mnemonic(_("_Techs"));
-  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), alignment, label);
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), sw, label);
 
   gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(shell)));
 
