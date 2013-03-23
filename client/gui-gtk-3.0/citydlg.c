@@ -1028,7 +1028,9 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
   GtkWidget *label = gtk_label_new_with_mnemonic(tab_title);
   GtkWidget *page, *hbox, *editor, *bar;
 
-  page = gtk_vbox_new(FALSE, 0);
+  page = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(page),
+                                 GTK_ORIENTATION_VERTICAL);
   gtk_container_set_border_width(GTK_CONTAINER(page), 8);
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
@@ -1038,16 +1040,19 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 		       "label", _("Production:"),
 		       "xalign", 0.0, "yalign", 0.5, NULL);
   pdialog->production.production_label = label;
-  gtk_box_pack_start(GTK_BOX(page), label, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(page), label);
 
-  hbox = gtk_hbox_new(FALSE, 10);
-  gtk_box_pack_start(GTK_BOX(page), hbox, FALSE, FALSE, 2);
+  hbox = gtk_grid_new();
+  g_object_set(hbox, "margin", 2, NULL);
+  gtk_grid_set_column_spacing(GTK_GRID(hbox), 10);
+  gtk_container_add(GTK_CONTAINER(page), hbox);
 
   /* The label is set in city_dialog_update_building() */
   bar = gtk_progress_bar_new();
+  gtk_widget_set_hexpand(bar, TRUE);
   gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(bar), TRUE);
   pdialog->production.production_bar = bar;
-  gtk_box_pack_start(GTK_BOX(hbox), bar, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(hbox), bar);
   gtk_progress_bar_set_text(GTK_PROGRESS_BAR(bar), _("%d/%d %d turns"));
 
   add_worklist_dnd_target(bar);
@@ -1056,16 +1061,16 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 
   pdialog->production.buy_command = gtk_stockbutton_new(GTK_STOCK_EXECUTE,
 						      _("_Buy"));
-  gtk_box_pack_start(GTK_BOX(hbox), pdialog->production.buy_command,
-		     FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(hbox), pdialog->production.buy_command);
 
   g_signal_connect(pdialog->production.buy_command, "clicked",
 		   G_CALLBACK(buy_callback), pdialog);
 
 
   editor = create_worklist();
+  g_object_set(editor, "margin", 6, NULL);
   reset_city_worklist(editor, pdialog->pcity);
-  gtk_box_pack_start(GTK_BOX(page), editor, TRUE, TRUE, 6);
+  gtk_container_add(GTK_CONTAINER(page), editor);
   pdialog->production.worklist = editor;
 
   gtk_widget_show_all(page);
