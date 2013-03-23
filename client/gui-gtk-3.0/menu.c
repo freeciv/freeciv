@@ -1746,7 +1746,7 @@ static const gchar *get_ui_filename(void)
 static void add_widget_callback(GtkUIManager *ui_manager, GtkWidget *widget,
                                 gpointer data)
 {
-  gtk_box_pack_start(GTK_BOX(data), widget, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(data), widget);
   gtk_widget_show(widget);
 }
 
@@ -1755,7 +1755,7 @@ static void add_widget_callback(GtkUIManager *ui_manager, GtkWidget *widget,
 *****************************************************************/
 GtkWidget *setup_menus(GtkWidget *window)
 {
-  GtkWidget *menubar = gtk_hbox_new(FALSE, 0);
+  GtkWidget *menubar = gtk_grid_new();
   GError *error = NULL;
 
   /* Creates the UI manager. */
