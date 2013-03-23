@@ -495,7 +495,7 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
                                   save_dialog_files_fn_t files)
 {
   GtkWidget *shell, *sbox, *sw, *label, *view, *entry;
-  GtkBox *vbox;
+  GtkContainer *vbox;
   GtkListStore *store;
   GtkCellRenderer *rend;
   GtkTreeSelection *selection;
@@ -524,19 +524,24 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
   g_signal_connect(shell, "response",
                    G_CALLBACK(save_dialog_response_callback), pdialog);
   pdialog->shell = GTK_DIALOG(shell);
-  vbox = GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell)));
+  vbox = GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell)));
 
   /* Tree view. */
   store = save_dialog_store_new();
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  gtk_widget_set_hexpand(view, TRUE);
+  gtk_widget_set_vexpand(view, TRUE);
   g_object_unref(store);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
   g_signal_connect(view, "row-activated",
                    G_CALLBACK(save_dialog_row_callback), pdialog);
   pdialog->tree_view = GTK_TREE_VIEW(view);
 
-  sbox = gtk_vbox_new(FALSE, 2);
-  gtk_box_pack_start(vbox, sbox, TRUE, TRUE, 0);
+  sbox = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(sbox),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing(GTK_GRID(sbox), 2);
+  gtk_container_add(vbox, sbox);
 
   label = g_object_new(GTK_TYPE_LABEL,
                        "use-underline", TRUE,
@@ -545,16 +550,17 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
                        "xalign", 0.0,
                        "yalign", 0.5,
                        NULL);
-  gtk_box_pack_start(GTK_BOX(sbox), label, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(sbox), label);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_min_content_width(GTK_SCROLLED_WINDOW(sw), 300);
+  gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw), 300);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_size_request(sw, 300, 300);
   gtk_container_add(GTK_CONTAINER(sw), view);
-  gtk_box_pack_start(GTK_BOX(sbox), sw, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(sbox), sw);
 
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
   gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
@@ -568,11 +574,16 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
 
   /* Entry. */
   entry = gtk_entry_new();
+  gtk_widget_set_hexpand(entry, TRUE);
   g_signal_connect(entry, "activate",
                    G_CALLBACK(save_dialog_entry_callback), pdialog);
   pdialog->entry = GTK_ENTRY(entry);
 
-  sbox = gtk_vbox_new(FALSE, 2);
+  sbox = gtk_grid_new();
+  g_object_set(sbox, "margin", 12, NULL);
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(sbox),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing(GTK_GRID(sbox), 2);
 
   label = g_object_new(GTK_TYPE_LABEL,
                        "use-underline", TRUE,
@@ -581,10 +592,10 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
                        "xalign", 0.0,
                        "yalign", 0.5,
                        NULL);
-  gtk_box_pack_start(GTK_BOX(sbox), label, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(sbox), label);
 
-  gtk_box_pack_start(GTK_BOX(sbox), entry, FALSE, FALSE, 0);
-  gtk_box_pack_start(vbox, sbox, FALSE, FALSE, 12);
+  gtk_container_add(GTK_CONTAINER(sbox), entry);
+  gtk_container_add(vbox, sbox);
 
   save_dialog_update(pdialog);
   gtk_window_set_focus(GTK_WINDOW(shell), entry);
