@@ -107,11 +107,14 @@ void popup_notify_dialog(const char *caption, const char *headline,
   gui_dialog_add_button(shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE); 
   gui_dialog_set_default_response(shell, GTK_RESPONSE_CLOSE);
 
-  vbox = gtk_vbox_new(FALSE, 2);
+  vbox = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing(GTK_GRID(vbox), 2);
   gtk_box_pack_start(GTK_BOX(shell->vbox), vbox, TRUE, TRUE, 0);
 
   headline_label = gtk_label_new(headline);   
-  gtk_box_pack_start(GTK_BOX(vbox), headline_label, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), headline_label);
   gtk_widget_set_name(headline_label, "notify_label");
 
   gtk_label_set_justify(GTK_LABEL(headline_label), GTK_JUSTIFY_LEFT);
@@ -123,13 +126,15 @@ void popup_notify_dialog(const char *caption, const char *headline,
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   label = gtk_label_new(lines);
+  gtk_widget_set_hexpand(label, TRUE);
+  gtk_widget_set_vexpand(label, TRUE);
   gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), label);
 
   gtk_widget_set_name(label, "notify_label");
   gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
 
-  gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), sw);
 
   gui_dialog_show_all(shell);
 
