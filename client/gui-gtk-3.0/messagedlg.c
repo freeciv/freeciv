@@ -82,7 +82,7 @@ static void create_messageopt_dialog(void)
   gtk_box_pack_start(GTK_BOX(shell->vbox), explanation, FALSE, FALSE, 4);
   gtk_widget_show(explanation);	
 
-  form = gtk_vbox_new(FALSE, 0);
+  form = gtk_grid_new();
   gtk_box_pack_start(GTK_BOX(shell->vbox), form, TRUE, TRUE, 0);
 
   for (n=0; n<NUM_LISTS; n++) {
@@ -116,6 +116,8 @@ static void create_messageopt_dialog(void)
     GtkTreeViewColumn *column;
 
     view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(model[n]));
+    gtk_widget_set_hexpand(view, TRUE);
+    gtk_widget_set_vexpand(view, TRUE);
     g_object_unref(model[n]);
 
     renderer = gtk_cell_renderer_text_new();
@@ -155,7 +157,7 @@ static void create_messageopt_dialog(void)
 
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				   GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-    gtk_box_pack_start(GTK_BOX(form), sw, TRUE, TRUE, 0);
+    gtk_container_add(GTK_CONTAINER(form), sw);
 
     gtk_tree_view_focus(GTK_TREE_VIEW(view));
   }
