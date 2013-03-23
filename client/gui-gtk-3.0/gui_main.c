@@ -132,7 +132,7 @@ PangoFontDescription *reqtree_text_style = NULL;
 GtkWidget *main_frame_civ_name;
 GtkWidget *main_label_info;
 
-GtkWidget *avbox, *ahbox, *vbox, *conn_box;
+GtkWidget *avbox, *ahbox, *conn_box;
 GtkWidget* scroll_panel;
 
 GtkWidget *econ_label[10];
@@ -959,7 +959,7 @@ static void setup_widgets(void)
 {
   GtkWidget *page, *box, *ebox, *hbox, *sbox, *align, *label;
   GtkWidget *frame, *table, *table2, *paned, *hpaned, *sw, *text;
-  GtkWidget *button, *view, *right_vbox = NULL;
+  GtkWidget *button, *view, *vbox, *vgrid, *right_vbox = NULL;
   int i;
   char buf[256];
   struct sprite *sprite;
@@ -1264,24 +1264,25 @@ static void setup_widgets(void)
     gtk_box_pack_start(GTK_BOX(hbox), top_notebook, TRUE, TRUE, 0);
   }
 
-  map_widget = gtk_table_new(2, 2, FALSE);
+  map_widget = gtk_grid_new();
 
-  vbox = gtk_vbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(vbox), map_widget, TRUE, TRUE, 0);
+  vgrid = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_container_add(GTK_CONTAINER(vgrid), map_widget);
 
-  gtk_box_pack_start(GTK_BOX(vbox),
-                     editgui_get_editbar()->widget,
-                     FALSE, FALSE, 4);
+  gtk_container_add(GTK_CONTAINER(vgrid), editgui_get_editbar()->widget);
+  g_object_set(editgui_get_editbar()->widget, "margin", 4, NULL);
 
   label = gtk_label_new(Q_("?noun:View"));
-  gtk_notebook_append_page(GTK_NOTEBOOK(top_notebook), vbox, label);
+  gtk_notebook_append_page(GTK_NOTEBOOK(top_notebook), vgrid, label);
 
   frame = gtk_frame_new(NULL);
-  gtk_table_attach(GTK_TABLE(map_widget), frame, 0, 1, 0, 1,
-                   GTK_EXPAND|GTK_SHRINK|GTK_FILL,
-                   GTK_EXPAND|GTK_SHRINK|GTK_FILL, 0, 0);
+  gtk_grid_attach(GTK_GRID(map_widget), frame, 0, 0, 1, 1);
 
   map_canvas = gtk_drawing_area_new();
+  gtk_widget_set_hexpand(map_canvas, TRUE);
+  gtk_widget_set_vexpand(map_canvas, TRUE);
   gtk_widget_set_size_request(map_canvas, 300, 300);
   gtk_widget_set_can_focus(map_canvas, TRUE);
 
@@ -1306,13 +1307,11 @@ static void setup_widgets(void)
 
   map_horizontal_scrollbar =
       gtk_scrollbar_new(GTK_ORIENTATION_HORIZONTAL, NULL);
-  gtk_table_attach(GTK_TABLE(map_widget), map_horizontal_scrollbar, 0, 1, 1, 2,
-                   GTK_EXPAND|GTK_SHRINK|GTK_FILL, 0, 0, 0);
+  gtk_grid_attach(GTK_GRID(map_widget), map_horizontal_scrollbar, 0, 1, 1, 1);
 
   map_vertical_scrollbar =
       gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL, NULL);
-  gtk_table_attach(GTK_TABLE(map_widget), map_vertical_scrollbar, 1, 2, 0, 1,
-                   0, GTK_EXPAND|GTK_SHRINK|GTK_FILL, 0, 0);
+  gtk_grid_attach(GTK_GRID(map_widget), map_vertical_scrollbar, 1, 0, 1, 1);
 
   g_signal_connect(map_canvas, "draw",
                    G_CALLBACK(map_canvas_draw), NULL);
