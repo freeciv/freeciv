@@ -195,21 +195,21 @@ static void ggz_login(void)
 **************************************************************************/
 GtkWidget *create_main_page(void)
 {
-  GtkWidget *widget, *align, *vbox, *frame, *image, *button, *table;
+  GtkWidget *widget, *vbox, *frame, *image, *button, *table;
   GtkSizeGroup *size;
 
   size = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
 
-  vbox = gtk_vbox_new(FALSE, 0);
+  vbox = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+                                 GTK_ORIENTATION_VERTICAL);
   widget = vbox;
 
-  align = gtk_alignment_new(0.5, 0.0, 0.0, 0.0);
-  gtk_container_set_border_width(GTK_CONTAINER(align), 18);
-  gtk_box_pack_start(GTK_BOX(vbox), align, FALSE, FALSE, 0);
-
   frame = gtk_frame_new(NULL);
+  g_object_set(frame, "margin", 18, NULL);
+  gtk_widget_set_halign(frame, GTK_ALIGN_CENTER);
   gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_ETCHED_OUT);
-  gtk_container_add(GTK_CONTAINER(align), frame);
+  gtk_container_add(GTK_CONTAINER(vbox), frame);
 
   image = gtk_image_new_from_file(tileset_main_intro_filename(tileset));
   g_signal_connect_after(image, "draw",
@@ -224,52 +224,56 @@ GtkWidget *create_main_page(void)
     gtk_widget_set_name(label, "beta_label");
     gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
     gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
-    gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
+    gtk_container_add(GTK_CONTAINER(vbox), label);
   }
 #endif /* IS_BETA_VERSION */
 
-  table = gtk_table_new(3, 2, TRUE);
-  align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
-  gtk_box_pack_start(GTK_BOX(vbox), align, TRUE, TRUE, 12);
+  table = gtk_grid_new();
+  g_object_set(table, "margin", 12, NULL);
+  gtk_widget_set_hexpand(table, TRUE);
+  gtk_widget_set_vexpand(table, TRUE);
+  gtk_widget_set_halign(table, GTK_ALIGN_CENTER);
+  gtk_widget_set_valign(table, GTK_ALIGN_CENTER);
 
-  gtk_table_set_row_spacings(GTK_TABLE(table), 8);
-  gtk_table_set_col_spacings(GTK_TABLE(table), 18);
-  gtk_container_add(GTK_CONTAINER(align), table);
+  gtk_grid_set_row_spacing(GTK_GRID(table), 8);
+  gtk_grid_set_column_spacing(GTK_GRID(table), 18);
+  gtk_container_add(GTK_CONTAINER(vbox), table);
 
   button = gtk_button_new_with_mnemonic(_("Start _New Game"));
   gtk_size_group_add_widget(size, button);
-  gtk_table_attach_defaults(GTK_TABLE(table), button, 0, 1, 0, 1);
+  gtk_grid_attach(GTK_GRID(table), button, 0, 0, 1, 1);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(start_new_game_callback), NULL);
 
   button = gtk_button_new_with_mnemonic(_("Start _Scenario Game"));
   gtk_size_group_add_widget(size, button);
-  gtk_table_attach_defaults(GTK_TABLE(table), button, 0, 1, 1, 2);
+  gtk_grid_attach(GTK_GRID(table), button, 0, 1, 1, 1);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(start_scenario_callback), NULL);
 
   button = gtk_button_new_with_mnemonic(_("_Load Saved Game"));
   gtk_size_group_add_widget(size, button);
-  gtk_table_attach_defaults(GTK_TABLE(table), button, 0, 1, 2, 3);
+  gtk_grid_attach(GTK_GRID(table), button, 0, 2, 1, 1);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(load_saved_game_callback), NULL);
 
   button = gtk_button_new_with_mnemonic(_("C_onnect to Network Game"));
   gtk_size_group_add_widget(size, button);
-  gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 0, 1);
+  gtk_grid_attach(GTK_GRID(table), button, 1, 0, 1, 1);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(connect_network_game_callback), NULL);
 
 #ifdef GGZ_GTK
   button = gtk_button_new_with_mnemonic(_("Connect to Gaming _Zone"));
   gtk_size_group_add_widget(size, button);
-  gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 1, 2);
+  gtk_grid_attach(GTK_GRID(table), button, 1, 1, 1, 1);
   g_signal_connect(button, "clicked", ggz_login, NULL);
 #endif /* GGZ_GTK */
 
   button = gtk_button_new_from_stock(GTK_STOCK_QUIT);
   gtk_size_group_add_widget(size, button);
-  gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 2, 3);
+  g_object_unref(size);
+  gtk_grid_attach(GTK_GRID(table), button, 1, 2, 1, 1);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(client_exit), NULL);
 
