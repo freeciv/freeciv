@@ -1018,7 +1018,7 @@ static void setup_widgets(void)
     gtk_box_pack_end(GTK_BOX(hbox), right_vbox, TRUE, TRUE, 0);
     gtk_box_pack_end(GTK_BOX(right_vbox), ingame_votebar, FALSE, FALSE, 2);
 
-    paned = gtk_hpaned_new();
+    paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
     gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(page),
                                           top_vbox);
     gtk_box_pack_end(GTK_BOX(top_vbox), hbox, TRUE, TRUE, 0);
@@ -1030,7 +1030,7 @@ static void setup_widgets(void)
   } else {
     /* The window is divided into two vertical panes: overview +
      * + civinfo + unitinfo + main view, message window. */
-    paned = gtk_vpaned_new();
+    paned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
     gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(page), paned);
     gtk_paned_pack1(GTK_PANED(paned), top_vbox, TRUE, FALSE);
     gtk_box_pack_end(GTK_BOX(top_vbox), hbox, TRUE, TRUE, 0);
@@ -1312,11 +1312,13 @@ static void setup_widgets(void)
 
   gtk_container_add(GTK_CONTAINER(frame), map_canvas);
 
-  map_horizontal_scrollbar = gtk_hscrollbar_new(NULL);
+  map_horizontal_scrollbar =
+      gtk_scrollbar_new(GTK_ORIENTATION_HORIZONTAL, NULL);
   gtk_table_attach(GTK_TABLE(map_widget), map_horizontal_scrollbar, 0, 1, 1, 2,
                    GTK_EXPAND|GTK_SHRINK|GTK_FILL, 0, 0, 0);
 
-  map_vertical_scrollbar = gtk_vscrollbar_new(NULL);
+  map_vertical_scrollbar =
+      gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL, NULL);
   gtk_table_attach(GTK_TABLE(map_widget), map_vertical_scrollbar, 1, 2, 0, 1,
                    0, GTK_EXPAND|GTK_SHRINK|GTK_FILL, 0, 0);
 
@@ -1364,9 +1366,9 @@ static void setup_widgets(void)
     gtk_box_pack_start(GTK_BOX(avbox), vbox, TRUE, TRUE, 0);
 
     if (gui_gtk3_small_display_layout) {
-      hpaned = gtk_vpaned_new();
+      hpaned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
     } else {
-      hpaned = gtk_hpaned_new();
+      hpaned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
     }
     gtk_box_pack_start(GTK_BOX(vbox), hpaned, TRUE, TRUE, 4);
     bottom_hpaned = hpaned;

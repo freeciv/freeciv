@@ -4370,7 +4370,7 @@ property_page_new(enum editor_object_type objtype,
   pp->object_store = gtk_list_store_newv(num_columns, gtype_array);
   free(gtype_array);
 
-  paned = gtk_hpaned_new();
+  paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_paned_set_position(GTK_PANED(paned), 256);
   pp->widget = paned;
 
@@ -4505,7 +4505,7 @@ property_page_new(enum editor_object_type objtype,
   gtk_box_pack_start(GTK_BOX(vbox2), notebook, TRUE, TRUE, 0);
   pp->extviewer_notebook = notebook;
 
-  hsep = gtk_hseparator_new();
+  hsep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_box_pack_start(GTK_BOX(vbox2), hsep, FALSE, FALSE, 0);
 
   hbox2 = gtk_hbox_new(FALSE, 0);

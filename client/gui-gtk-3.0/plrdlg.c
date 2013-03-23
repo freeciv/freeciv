@@ -510,7 +510,7 @@ void create_players_dialog(void)
 
   vbox = gtk_vbox_new(FALSE, 0);
   
-  sep = gtk_hseparator_new();
+  sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_box_pack_start(GTK_BOX(vbox), sep, FALSE, FALSE, 0);
 
   menubar = gtk_aux_menu_bar_new();
