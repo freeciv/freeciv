@@ -1570,6 +1570,7 @@ void ui_main(int argc, char **argv)
   gtk_init(&argc, &argv);
 
   toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_position(GTK_WINDOW(toplevel), GTK_WIN_POS_CENTER);
   g_signal_connect(toplevel, "key_press_event",
                    G_CALLBACK(toplevel_handler), NULL);
 
