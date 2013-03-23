@@ -27,7 +27,6 @@ gboolean leave_mapcanvas(GtkWidget *widget, GdkEventCrossing *event);
 gboolean move_overviewcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data);
 
 void center_on_unit(void);
-void overlay_workers_at_city(void);
 
 void popupinfo_popdown_callback(GtkWidget *w, gpointer data);
 
