@@ -400,6 +400,7 @@ void inputline_make_tag(GtkEntry *entry, enum text_tag_type type)
   GtkEditable *editable = GTK_EDITABLE(entry);
   gint start_pos, end_pos;
   gchar *selection;
+  gchar *fg_color_text = NULL, *bg_color_text = NULL;
 
   if (!gtk_editable_get_selection_bounds(editable, &start_pos, &end_pos)) {
     /* Let's say the selection starts and ends at the current position. */
@@ -410,16 +411,19 @@ void inputline_make_tag(GtkEntry *entry, enum text_tag_type type)
 
   if (type == TTT_COLOR) {
     /* Get the color arguments. */
-    char fg_color_text[32], bg_color_text[32];
-    GdkColor *fg_color = g_object_get_data(G_OBJECT(entry), "fg_color");
-    GdkColor *bg_color = g_object_get_data(G_OBJECT(entry), "bg_color");
+    GdkRGBA *fg_color = g_object_get_data(G_OBJECT(entry), "fg_color");
+    GdkRGBA *bg_color = g_object_get_data(G_OBJECT(entry), "bg_color");
 
     if (!fg_color && !bg_color) {
       goto CLEAN_UP;
     }
 
-    color_to_string(fg_color, fg_color_text, sizeof(fg_color_text));
-    color_to_string(bg_color, bg_color_text, sizeof(bg_color_text));
+    if (fg_color) {
+      fg_color_text = gdk_rgba_to_string(fg_color);
+    }
+    if (bg_color) {
+      bg_color_text = gdk_rgba_to_string(bg_color);
+    }
 
     if (0 == featured_text_apply_tag(selection, buf, sizeof(buf),
                                      TTT_COLOR, 0, FT_OFFSET_UNSET,
@@ -440,6 +444,8 @@ void inputline_make_tag(GtkEntry *entry, enum text_tag_type type)
 
 CLEAN_UP:
   g_free(selection);
+  g_free(fg_color_text);
+  g_free(bg_color_text);
 }
 
 /**************************************************************************
@@ -848,7 +854,7 @@ void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
       }
 
       tag = gtk_text_buffer_create_tag(buf, NULL, 
-                                       "foreground-gdk", &pcolor->color, 
+                                       "foreground-rgba", &pcolor->color,
                                        "underline", PANGO_UNDERLINE_SINGLE,
                                        NULL);
 
@@ -1032,14 +1038,14 @@ static void make_tag_callback(GtkToolButton *button, gpointer data)
   Set the color for an object.  Update the button if not NULL.
 **************************************************************************/
 static void color_set(GObject *object, const gchar *color_target,
-                      GdkColor *color, GtkToolButton *button)
+                      GdkRGBA *color, GtkToolButton *button)
 {
-  GdkColor *current_color = g_object_get_data(object, color_target);
+  GdkRGBA *current_color = g_object_get_data(object, color_target);
 
   if (NULL == color) {
     /* Clears the current color. */
     if (NULL != current_color) {
-      gdk_color_free(current_color);
+      gdk_rgba_free(current_color);
       g_object_set_data(object, color_target, NULL);
       if (NULL != button) {
         gtk_tool_button_set_icon_widget(button, NULL);
@@ -1048,11 +1054,11 @@ static void color_set(GObject *object, const gchar *color_target,
   } else {
     /* Apply the new color. */
     if (NULL != current_color) {
-      /* We already have a GdkColor pointer. */
+      /* We already have a GdkRGBA pointer. */
       *current_color = *color;
     } else {
-      /* We need to make a GdkColor pointer. */
-      current_color = gdk_color_copy(color);
+      /* We need to make a GdkRGBA pointer. */
+      current_color = gdk_rgba_copy(color);
       g_object_set_data(object, color_target, current_color);
     }
 
@@ -1061,11 +1067,16 @@ static void color_set(GObject *object, const gchar *color_target,
       GdkPixbuf *pixbuf;
       GtkWidget *image;
 
-      pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, 16, 16);
-      gdk_pixbuf_fill(pixbuf,
-                      ((guint32)(current_color->red & 0xff00) << 16)
-                      | ((current_color->green & 0xff00) << 8) |
-                      (current_color->blue & 0xff00) | 0xff);
+      {
+        cairo_surface_t *surface = cairo_image_surface_create(
+            CAIRO_FORMAT_RGB24, 16, 16);
+        cairo_t *cr = cairo_create(surface);
+        gdk_cairo_set_source_rgba(cr, current_color);
+        cairo_paint(cr);
+        cairo_destroy(cr);
+        pixbuf = gdk_pixbuf_get_from_surface(surface, 0, 0, 16, 16);
+        cairo_surface_destroy(surface);
+      }
       image = gtk_image_new_from_pixbuf(pixbuf);
       gtk_tool_button_set_icon_widget(button, image);
       gtk_widget_show(image);
@@ -1089,11 +1100,11 @@ static void color_selected(GtkDialog *dialog, gint res, gpointer data)
     color_set(G_OBJECT(data), color_target, NULL, button);
   } else if (res == GTK_RESPONSE_OK) {
     /* Apply the new color. */
-    GtkColorSelection *selection =
-      GTK_COLOR_SELECTION(g_object_get_data(G_OBJECT(dialog), "selection"));
-    GdkColor new_color;
+    GtkColorChooser *chooser =
+      GTK_COLOR_CHOOSER(g_object_get_data(G_OBJECT(dialog), "chooser"));
+    GdkRGBA new_color;
 
-    gtk_color_selection_get_current_color(selection, &new_color);
+    gtk_color_chooser_get_rgba(chooser, &new_color);
     color_set(G_OBJECT(data), color_target, &new_color, button);
   }
 
@@ -1106,11 +1117,11 @@ static void color_selected(GtkDialog *dialog, gint res, gpointer data)
 static void select_color_callback(GtkToolButton *button, gpointer data)
 {
   char buf[64];
-  GtkWidget *dialog, *selection;
+  GtkWidget *dialog, *chooser;
   /* "fg_color" or "bg_color". */
   const gchar *color_target = g_object_get_data(G_OBJECT(button),
                                                 "color_target");
-  GdkColor *current_color = g_object_get_data(G_OBJECT(data), color_target);
+  GdkRGBA *current_color = g_object_get_data(G_OBJECT(data), color_target);
 
   /* TRANS: "text" or "background". */
   fc_snprintf(buf, sizeof(buf), _("Select the %s color"),
@@ -1124,13 +1135,12 @@ static void select_color_callback(GtkToolButton *button, gpointer data)
   g_object_set_data(G_OBJECT(dialog), "button", button);
   g_signal_connect(dialog, "response", G_CALLBACK(color_selected), data);
 
-  selection = gtk_color_selection_new();
+  chooser = gtk_color_chooser_widget_new();
   gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),
-                     selection, FALSE, FALSE, 0);
-  g_object_set_data(G_OBJECT(dialog), "selection", selection);
+                     chooser, FALSE, FALSE, 0);
+  g_object_set_data(G_OBJECT(dialog), "chooser", chooser);
   if (current_color) {
-    gtk_color_selection_set_current_color(GTK_COLOR_SELECTION(selection),
-                                          current_color);
+    gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(chooser), current_color);
   }
 
   gtk_widget_show_all(dialog);
@@ -1286,7 +1296,7 @@ void chatline_init(void)
 {
   GtkWidget *vbox, *toolbar, *hbox, *button, *entry, *bbox;
   GtkToolItem *item;
-  GdkColor color;
+  GdkRGBA color;
 
   /* Chatline history. */
   if (!history_list) {
@@ -1367,7 +1377,7 @@ void chatline_init(void)
   g_signal_connect(item, "clicked",
                    G_CALLBACK(select_color_callback), entry);
   gtk_widget_set_tooltip_text(GTK_WIDGET(item), _("Select the text color"));
-  if (gdk_color_parse("#000000", &color)) {
+  if (gdk_rgba_parse(&color, "#000000")) {
     /* Set default foreground color. */
     color_set(G_OBJECT(entry), "fg_color", &color, GTK_TOOL_BUTTON(item));
   } else {
@@ -1384,7 +1394,7 @@ void chatline_init(void)
                    G_CALLBACK(select_color_callback), entry);
   gtk_widget_set_tooltip_text(GTK_WIDGET(item),
                               _("Select the background color"));
-  if (gdk_color_parse("#ffffff", &color)) {
+  if (gdk_rgba_parse(&color, "#ffffff")) {
     /* Set default background color. */
     color_set(G_OBJECT(entry), "bg_color", &color, GTK_TOOL_BUTTON(item));
   } else {

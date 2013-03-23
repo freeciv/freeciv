@@ -649,7 +649,7 @@ static void create_help_dialog(void)
 			      G_TYPE_STRING,	/* tech name */
 			      G_TYPE_INT,	/* turns to tech */
 			      G_TYPE_INT,	/* tech id */
-			      GDK_TYPE_COLOR);	/* color */
+			      GDK_TYPE_RGBA);	/* color */
   help_tree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(tstore));
   g_object_unref(tstore);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(help_tree), FALSE);
@@ -665,14 +665,14 @@ static void create_help_dialog(void)
   gtk_tree_view_column_pack_start(col, rend, TRUE);
   gtk_tree_view_column_set_attributes(col, rend,
 				      "text", 0,
-				      "background_gdk", 3,
+				      "background-rgba", 3,
 				      NULL);
   rend = gtk_cell_renderer_text_new();
   g_object_set(rend, "weight", "bold", "xalign", 1.0, NULL);
   gtk_tree_view_column_pack_start(col, rend, FALSE);
   gtk_tree_view_column_set_attributes(col, rend,
 				      "text", 1,
-				      "background_gdk", 3,
+				      "background-rgba", 3,
 				      NULL);
 
   gtk_tree_view_append_column(GTK_TREE_VIEW(help_tree), col);

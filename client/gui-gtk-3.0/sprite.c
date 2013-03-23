@@ -85,7 +85,7 @@ struct sprite *create_sprite(int width, int height, struct color *pcolor)
          width, height);
 
   cr = cairo_create(sprite->surface);
-  cairo_set_source_rgb(cr, pcolor->r, pcolor->g, pcolor->b);
+  gdk_cairo_set_source_rgba(cr, &pcolor->color);
   cairo_paint(cr);
   cairo_destroy(cr);
 
