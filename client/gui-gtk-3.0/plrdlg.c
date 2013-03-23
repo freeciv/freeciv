@@ -507,8 +507,7 @@ void create_players_dialog(void)
 		                 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_container_add(GTK_CONTAINER(sw), players_list);
 
-  gtk_box_pack_start(GTK_BOX(players_dialog_shell->vbox), sw,
-		     TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(players_dialog_shell->vbox), sw);
 
   vbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
@@ -522,8 +521,6 @@ void create_players_dialog(void)
 
 
   gui_dialog_add_widget(players_dialog_shell, vbox);
-  gtk_box_set_child_packing(GTK_BOX(players_dialog_shell->action_area), 
-                            vbox, FALSE, FALSE, 0, GTK_PACK_START);
 
   item = gtk_menu_item_new_with_mnemonic(_("Di_plomacy"));
   menu = create_diplomacy_menu();

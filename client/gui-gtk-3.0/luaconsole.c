@@ -195,12 +195,12 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
   gui_dialog_new(&pdialog->shell, GTK_NOTEBOOK(notebook), pdialog, TRUE);
   gui_dialog_set_title(pdialog->shell, _("Client Lua Console"));
 
-  box = GTK_WIDGET(pdialog->shell->vbox);
+  box = pdialog->shell->vbox;
 
   vbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_box_pack_start(GTK_BOX(box), vbox, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(box), vbox);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
@@ -235,10 +235,10 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
   pdialog->entry = entry;
 
   /* Load lua script command button. */
+  gui_dialog_add_button(pdialog->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+
   gui_dialog_add_stockbutton(pdialog->shell, GTK_STOCK_OPEN,
                              _("Load Lua Script"), LUACONSOLE_RES_OPEN);
-
-  gui_dialog_add_button(pdialog->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
   gui_dialog_response_set_callback(pdialog->shell,
                                    luaconsole_response_callback);
 

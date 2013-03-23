@@ -528,7 +528,7 @@ static void science_report_init(struct science_report *preport)
 {
   GtkWidget *frame, *table, *help_button, *reachable_button, *sw, *w;
   GtkSizeGroup *group;
-  GtkBox *vbox;
+  GtkContainer *vbox;
   GtkListStore *store;
   GtkCellRenderer *renderer;
 
@@ -541,16 +541,16 @@ static void science_report_init(struct science_report *preport)
   gui_dialog_add_button(preport->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
   gui_dialog_set_default_response(preport->shell, GTK_RESPONSE_CLOSE);
 
-  vbox = GTK_BOX(preport->shell->vbox);
+  vbox = GTK_CONTAINER(preport->shell->vbox);
   group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 
   w = gtk_label_new(NULL);
-  gtk_box_pack_start(vbox, w, FALSE, FALSE, 0);
+  gtk_container_add(vbox, w);
   preport->main_label = GTK_LABEL(w);
 
   /* Current research target line. */
   frame = gtk_frame_new(_("Researching"));
-  gtk_box_pack_start(vbox, frame, FALSE, FALSE, 0);
+  gtk_container_add(vbox, frame);
 
   table = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(table), 4);
@@ -582,7 +582,7 @@ static void science_report_init(struct science_report *preport)
 
   /* Research goal line. */
   frame = gtk_frame_new( _("Goal"));
-  gtk_box_pack_start(vbox, frame, FALSE, FALSE, 0);
+  gtk_container_add(vbox, frame);
 
   table = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(table), 4);
@@ -626,9 +626,11 @@ static void science_report_init(struct science_report *preport)
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_box_pack_start(vbox, sw, TRUE, TRUE, 0);
+  gtk_container_add(vbox, sw);
 
   w = science_diagram_new();
+  gtk_widget_set_hexpand(w, TRUE);
+  gtk_widget_set_vexpand(w, TRUE);
   gtk_container_add(GTK_CONTAINER(sw), w);
   preport->drawing_area = GTK_LAYOUT(w);
 
@@ -1053,10 +1055,10 @@ static void economy_report_selection_callback(GtkTreeSelection *selection,
 ****************************************************************************/
 static void economy_report_init(struct economy_report *preport)
 {
-  GtkWidget *view, *sw, *align, *label, *button;
+  GtkWidget *view, *sw, *label, *button;
   GtkListStore *store;
   GtkTreeSelection *selection;
-  GtkBox *vbox;
+  GtkContainer *vbox;
   const char *title;
   enum economy_report_columns i;
 
@@ -1064,20 +1066,19 @@ static void economy_report_init(struct economy_report *preport)
 
   gui_dialog_new(&preport->shell, GTK_NOTEBOOK(top_notebook), preport, TRUE);
   gui_dialog_set_title(preport->shell, _("Economy"));
-  vbox = GTK_BOX(preport->shell->vbox);
-
-  align = gtk_alignment_new(0.5, 0.0, 0.0, 1.0);
-  gtk_box_pack_start(vbox, align, TRUE, TRUE, 0);
+  vbox = GTK_CONTAINER(preport->shell->vbox);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_widget_set_halign(sw, GTK_ALIGN_CENTER);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_container_add(GTK_CONTAINER(align), sw);
+  gtk_container_add(GTK_CONTAINER(vbox), sw);
 
   store = economy_report_store_new();
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  gtk_widget_set_vexpand(view, TRUE);
   g_object_unref(store);
   gtk_widget_set_name(view, "small_font");
   gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
@@ -1128,23 +1129,23 @@ static void economy_report_init(struct economy_report *preport)
   }
 
   label = gtk_label_new(NULL);
-  gtk_box_pack_start(vbox, label, FALSE, FALSE, 0);
+  gtk_container_add(vbox, label);
   gtk_misc_set_padding(GTK_MISC(label), 5, 5);
   preport->label = GTK_LABEL(label);
 
-  button = gui_dialog_add_button(preport->shell, _("Sell _Redundant"),
-                                 ERD_RES_SELL_REDUNDANT);
+  gui_dialog_add_button(preport->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+
+  button = gui_dialog_add_button(preport->shell, _("_Disband"),
+                                 ERD_RES_DISBAND_UNITS);
   gtk_widget_set_sensitive(button, FALSE);
 
   button = gui_dialog_add_button(preport->shell, _("Sell _All"),
                                  ERD_RES_SELL_ALL);
   gtk_widget_set_sensitive(button, FALSE);
 
-  button = gui_dialog_add_button(preport->shell, _("_Disband"),
-                                 ERD_RES_DISBAND_UNITS);
+  button = gui_dialog_add_button(preport->shell, _("Sell _Redundant"),
+                                 ERD_RES_SELL_REDUNDANT);
   gtk_widget_set_sensitive(button, FALSE);
-
-  gui_dialog_add_button(preport->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
   gui_dialog_set_default_response(preport->shell, GTK_RESPONSE_CLOSE);
   gui_dialog_response_set_callback(preport->shell,
@@ -1570,10 +1571,10 @@ static void units_report_command_callback(struct gui_dialog *pdialog,
 ****************************************************************************/
 static void units_report_init(struct units_report *preport)
 {
-  GtkWidget *view, *sw, *align, *button;
+  GtkWidget *view, *sw, *button;
   GtkListStore *store;
   GtkTreeSelection *selection;
-  GtkBox *vbox;
+  GtkContainer *vbox;
   const char *title;
   enum units_report_columns i;
 
@@ -1581,20 +1582,19 @@ static void units_report_init(struct units_report *preport)
 
   gui_dialog_new(&preport->shell, GTK_NOTEBOOK(top_notebook), preport, TRUE);
   gui_dialog_set_title(preport->shell, _("Units"));
-  vbox = GTK_BOX(preport->shell->vbox);
-
-  align = gtk_alignment_new(0.5, 0.0, 0.0, 1.0);
-  gtk_box_pack_start(vbox, align, TRUE, TRUE, 0);
+  vbox = GTK_CONTAINER(preport->shell->vbox);
 
   sw = gtk_scrolled_window_new(NULL,NULL);
+  gtk_widget_set_halign(sw, GTK_ALIGN_CENTER);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_container_add(GTK_CONTAINER(align), sw);
+  gtk_container_add(GTK_CONTAINER(vbox), sw);
 
   store = units_report_store_new();
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  gtk_widget_set_vexpand(view, TRUE);
   g_object_unref(store);
   gtk_widget_set_name(view, "small_font");
   gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
@@ -1632,15 +1632,15 @@ static void units_report_init(struct units_report *preport)
     gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
   }
 
-  button = gui_dialog_add_stockbutton(preport->shell, GTK_STOCK_FIND,
-                                      _("Find _Nearest"), URD_RES_NEAREST);
-  gtk_widget_set_sensitive(button, FALSE);
+  gui_dialog_add_button(preport->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
   button = gui_dialog_add_button(preport->shell, _("_Upgrade"),
                                  URD_RES_UPGRADE);
   gtk_widget_set_sensitive(button, FALSE);
 
-  gui_dialog_add_button(preport->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+  button = gui_dialog_add_stockbutton(preport->shell, GTK_STOCK_FIND,
+                                      _("Find _Nearest"), URD_RES_NEAREST);
+  gtk_widget_set_sensitive(button, FALSE);
 
   gui_dialog_set_default_response(preport->shell, GTK_RESPONSE_CLOSE);
   gui_dialog_response_set_callback(preport->shell,
@@ -1857,7 +1857,7 @@ static void endgame_report_init(struct endgame_report *preport)
                                       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-  gtk_box_pack_start(GTK_BOX(preport->shell->vbox), sw, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(preport->shell->vbox), sw);
 
   view = gtk_tree_view_new();
   gtk_widget_set_name(view, "small_font");

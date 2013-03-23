@@ -528,26 +528,29 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
   }
   dlg->gui_button = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
 
+  vbox = gtk_grid_new();
+  action_area = gtk_grid_new();
+  gtk_grid_set_row_spacing(GTK_GRID(action_area), 4);
+  gtk_grid_set_column_spacing(GTK_GRID(action_area), 4);
   if (gui_gtk3_enable_tabs &&
       (check_top && notebook != GTK_NOTEBOOK(top_notebook))
       && !gui_gtk3_small_display_layout) {
     /* We expect this to be short (as opposed to tall); maximise usable
      * height by putting buttons down the right hand side */
-    vbox = gtk_hbox_new(FALSE, 0);
-    action_area = gtk_vbox_new(FALSE, 2);
+    gtk_orientable_set_orientation(GTK_ORIENTABLE(action_area),
+                                   GTK_ORIENTATION_VERTICAL);
   } else {
     /* We expect this to be reasonably tall; maximise usable width by
      * putting buttons along the bottom */
-    vbox = gtk_vbox_new(FALSE, 0);
-    action_area = gtk_hbox_new(FALSE, 2);
+    gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+                                   GTK_ORIENTATION_VERTICAL);
   }
 
   gtk_widget_show(vbox);
-  gtk_box_pack_end(GTK_BOX(vbox), action_area, FALSE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), action_area);
   gtk_widget_show(action_area);
 
   gtk_container_set_border_width(GTK_CONTAINER(vbox), 2);
-  gtk_box_set_spacing(GTK_BOX(action_area), 4);
   gtk_container_set_border_width(GTK_CONTAINER(action_area), 2);
 
   switch (dlg->type) {
@@ -577,12 +580,12 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
         gtk_settings_get_for_screen(gtk_widget_get_screen(vbox)),
         GTK_ICON_SIZE_MENU, &w, &h);
 
-      hbox = gtk_hbox_new(FALSE, 0);
+      hbox = gtk_grid_new();
 
       label = gtk_label_new(NULL);
       gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
       gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-      gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
+      gtk_container_add(GTK_CONTAINER(hbox), label);
 
       button = gtk_button_new();
       gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
@@ -596,7 +599,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       gtk_misc_set_padding(GTK_MISC(image), 0, 0);
       gtk_button_set_image(GTK_BUTTON(button), image);
 
-      gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+      gtk_container_add(GTK_CONTAINER(hbox), button);
 
       gtk_widget_show_all(hbox);
       
@@ -671,7 +674,7 @@ static void gui_dialog_pack_button(struct gui_dialog *dlg, GtkWidget *button,
     g_signal_connect_closure_by_id(button, signal_id, 0, closure, FALSE);
   }
 
-  gtk_box_pack_end(GTK_BOX(dlg->action_area), button, FALSE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(dlg->action_area), button);
   gtk_size_group_add_widget(gui_action, button);
   gtk_size_group_add_widget(dlg->gui_button, button);
 }
@@ -713,7 +716,7 @@ GtkWidget *gui_dialog_add_button(struct gui_dialog *dlg,
 GtkWidget *gui_dialog_add_widget(struct gui_dialog *dlg,
 				 GtkWidget *widget)
 {
-  gtk_box_pack_start(GTK_BOX(dlg->action_area), widget, FALSE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(dlg->action_area), widget);
   gtk_size_group_add_widget(gui_action, widget);
 
   return widget;

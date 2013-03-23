@@ -300,7 +300,7 @@ static void meswin_dialog_response_callback(struct gui_dialog *pgui_dialog,
 static void meswin_dialog_init(struct meswin_dialog *pdialog)
 {
   GtkWidget *view, *sw, *cmd, *notebook;
-  GtkBox *vbox;
+  GtkContainer *vbox;
   GtkListStore *store;
   GtkTreeSelection *selection;
   GtkCellRenderer *renderer;
@@ -316,17 +316,19 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
 
   gui_dialog_new(&pdialog->shell, GTK_NOTEBOOK(notebook), pdialog, TRUE);
   gui_dialog_set_title(pdialog->shell, _("Messages"));
-  vbox = GTK_BOX(pdialog->shell->vbox);
+  vbox = GTK_CONTAINER(pdialog->shell->vbox);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-  gtk_box_pack_start(vbox, sw, TRUE, TRUE, 0);
+  gtk_container_add(vbox, sw);
 
   store = meswin_dialog_store_new();
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  gtk_widget_set_hexpand(view, TRUE);
+  gtk_widget_set_vexpand(view, TRUE);
   g_object_unref(store);
   gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
@@ -349,18 +351,19 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
   g_signal_connect(selection, "changed",
                    G_CALLBACK(meswin_dialog_selection_callback), pdialog);
 
-  if (gui_gtk3_show_message_window_buttons) {
-    cmd = gui_dialog_add_stockbutton(pdialog->shell, GTK_STOCK_JUMP_TO,
-                                     _("Goto _Location"), MESWIN_RES_GOTO);
-    gtk_widget_set_sensitive(cmd, FALSE);
+  gui_dialog_add_button(pdialog->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
+  if (gui_gtk3_show_message_window_buttons) {
     cmd = gui_dialog_add_stockbutton(pdialog->shell, GTK_STOCK_ZOOM_IN,
                                      _("I_nspect City"),
                                      MESWIN_RES_POPUP_CITY);
     gtk_widget_set_sensitive(cmd, FALSE);
+
+    cmd = gui_dialog_add_stockbutton(pdialog->shell, GTK_STOCK_JUMP_TO,
+                                     _("Goto _Location"), MESWIN_RES_GOTO);
+    gtk_widget_set_sensitive(cmd, FALSE);
   }
 
-  gui_dialog_add_button(pdialog->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
   gui_dialog_response_set_callback(pdialog->shell,
                                    meswin_dialog_response_callback);
   gui_dialog_set_default_size(pdialog->shell, 520, 300);
