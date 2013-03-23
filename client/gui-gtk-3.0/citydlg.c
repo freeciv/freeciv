@@ -192,8 +192,6 @@ struct city_dialog {
   int cwidth;
 };
 
-static GtkRcStyle *info_label_style[NUM_INFO_STYLES] = { NULL, NULL, NULL };
-
 static struct dialog_list *dialog_list;
 static bool city_dialogs_have_been_initialised;
 static int canvas_width, canvas_height;
@@ -306,25 +304,12 @@ static void init_citydlg_dimensions(void)
 *****************************************************************/
 static void initialize_city_dialogs(void)
 {
-  int i;
-  GdkColor orange = { 0, 65535, 32768, 0 };	/* not currently used */
-  GdkColor red = { 0, 65535, 0, 0 };
-
   fc_assert_ret(!city_dialogs_have_been_initialised);
 
   dialog_list = dialog_list_new();
   init_citydlg_dimensions();
 
   /* make the styles */
-
-  for (i = 0; i < NUM_INFO_STYLES; i++) {
-    info_label_style[i] = gtk_rc_style_new();
-  }
-  /* info_syle[NORMAL] is normal, don't change it */
-  info_label_style[ORANGE]->color_flags[GTK_STATE_NORMAL] |= GTK_RC_FG;
-  info_label_style[ORANGE]->fg[GTK_STATE_NORMAL] = orange;
-  info_label_style[RED]->color_flags[GTK_STATE_NORMAL] |= GTK_RC_FG;
-  info_label_style[RED]->fg[GTK_STATE_NORMAL] = red;
 
   city_dialogs_have_been_initialised = TRUE;
 }
@@ -1543,10 +1528,12 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
 					   GtkWidget **info_label,
                                            struct city_dialog *pdialog)
 {
-  int i, style, illness = 0;
+  int i, illness = 0;
   char buf[NUM_INFO_FIELDS][512];
   struct city *pcity = pdialog->pcity;
   int granaryturns;
+  GdkRGBA red = {1.0, 0, 0, 1.0};
+  GdkRGBA *color;
 
   enum { FOOD, SHIELD, TRADE, GOLD, LUXURY, SCIENCE,
          GRANARY, GROWTH, CORRUPTION, WASTE, POLLUTION, ILLNESS
@@ -1607,21 +1594,21 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
    * Special style stuff for granary, growth and pollution below. The
    * "4" below is arbitrary. 3 turns should be enough of a warning.
    */
-  style = (granaryturns > -4 && granaryturns < 0) ? RED : NORMAL;
-  gtk_widget_modify_style(info_label[GRANARY], info_label_style[style]);
+  color = (granaryturns > -4 && granaryturns < 0) ? &red : NULL;
+  gtk_widget_override_color(info_label[GRANARY], GTK_STATE_FLAG_NORMAL, color);
 
-  style = (granaryturns == 0 || pcity->surplus[O_FOOD] < 0) ? RED : NORMAL;
-  gtk_widget_modify_style(info_label[GROWTH], info_label_style[style]);
+  color = (granaryturns == 0 || pcity->surplus[O_FOOD] < 0) ? &red : NULL;
+  gtk_widget_override_color(info_label[GROWTH], GTK_STATE_FLAG_NORMAL, color);
 
   /* someone could add the info_label_style[ORANGE]
    * style for better granularity here */
 
-  style = (pcity->pollution >= 10) ? RED : NORMAL;
-  gtk_widget_modify_style(info_label[POLLUTION], info_label_style[style]);
+  color = (pcity->pollution >= 10) ? &red : NULL;
+  gtk_widget_override_color(info_label[POLLUTION], GTK_STATE_FLAG_NORMAL, color);
 
   /* illness is in tenth of percent, i.e 100 != 10.0% */
-  style = (illness >= 100) ? RED : NORMAL;
-  gtk_widget_modify_style(info_label[ILLNESS], info_label_style[style]);
+  color = (illness >= 100) ? &red : NULL;
+  gtk_widget_override_color(info_label[ILLNESS], GTK_STATE_FLAG_NORMAL, color);
 }
 
 /****************************************************************
