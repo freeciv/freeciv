@@ -568,8 +568,8 @@ void update_overview_scroll_window_pos(int x, int y)
                     gtk_adjustment_get_upper(ov_vadj)
                     - gtk_adjustment_get_page_size(ov_vadj));
 
-  gtk_adjustment_set_value(GTK_ADJUSTMENT(ov_hadj), ov_scroll_x);
-  gtk_adjustment_set_value(GTK_ADJUSTMENT(ov_vadj), ov_scroll_y);
+  gtk_adjustment_set_value(ov_hadj, ov_scroll_x);
+  gtk_adjustment_set_value(ov_vadj, ov_scroll_y);
 }
 
 /**************************************************************************
@@ -580,8 +580,8 @@ void update_map_canvas_scrollbars(void)
   int scroll_x, scroll_y;
 
   get_mapview_scroll_pos(&scroll_x, &scroll_y);
-  gtk_adjustment_set_value(GTK_ADJUSTMENT(map_hadj), scroll_x);
-  gtk_adjustment_set_value(GTK_ADJUSTMENT(map_vadj), scroll_y);
+  gtk_adjustment_set_value(map_hadj, scroll_x);
+  gtk_adjustment_set_value(map_vadj, scroll_y);
   if (can_client_change_view()) {
     gtk_widget_queue_draw(overview_canvas);
   }
@@ -597,13 +597,11 @@ void update_map_canvas_scrollbars_size(void)
   get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
   get_mapview_scroll_step(&xstep, &ystep);
 
-  map_hadj = (GtkAdjustment*)gtk_adjustment_new(-1, xmin, xmax, xstep, xsize, xsize);
-  map_vadj = (GtkAdjustment*)gtk_adjustment_new(-1, ymin, ymax, ystep, ysize, ysize);
+  map_hadj = gtk_adjustment_new(-1, xmin, xmax, xstep, xsize, xsize);
+  map_vadj = gtk_adjustment_new(-1, ymin, ymax, ystep, ysize, ysize);
 
-  gtk_range_set_adjustment(GTK_RANGE(map_horizontal_scrollbar),
-	GTK_ADJUSTMENT(map_hadj));
-  gtk_range_set_adjustment(GTK_RANGE(map_vertical_scrollbar),
-	GTK_ADJUSTMENT(map_vadj));
+  gtk_range_set_adjustment(GTK_RANGE(map_horizontal_scrollbar), map_hadj);
+  gtk_range_set_adjustment(GTK_RANGE(map_vertical_scrollbar), map_vadj);
 
   g_signal_connect(map_hadj, "value_changed",
 	G_CALLBACK(scrollbar_jump_callback),
