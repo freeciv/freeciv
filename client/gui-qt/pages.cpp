@@ -109,6 +109,7 @@ void fc_client::create_main_page(void)
       break;
     case 4:
       pages_layout[PAGE_MAIN]->addWidget(button, 2, 1);
+      connect(button, SIGNAL(clicked()), this, SLOT(popup_client_options()));
       break;
     case 5:
       pages_layout[PAGE_MAIN]->addWidget(button, 3, 1);
@@ -410,7 +411,9 @@ void fc_client::create_start_page()
   QPushButton *but;
   but = new QPushButton;
   but->setText(_("More Game Options"));
-  pages_layout[PAGE_START]->addWidget(but, 4, 0);
+  pages_layout[PAGE_START]->addWidget(but, 5, 3);
+  QObject::connect(but, SIGNAL(clicked()), this,
+                   SLOT(popup_server_options()));
   pages_layout[PAGE_START]->addWidget(start_players_tree, 0, 0, 2, 8);
   but = new QPushButton;
   but->setText(_("Disconnect"));

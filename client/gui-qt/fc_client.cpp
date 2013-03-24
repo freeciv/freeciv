@@ -16,6 +16,7 @@
 #endif
 
 #include "fc_client.h"
+#include "optiondlg.h"
 
 extern QApplication *qapp;
 
@@ -24,6 +25,7 @@ extern QApplication *qapp;
 ****************************************************************************/
 fc_client::fc_client() : QObject()
 {
+  QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
   /**
    * Somehow freeciv-client-common asks to switch to page when all widgets
    * haven't been created yet by Qt, even constructor finished job,
@@ -139,6 +141,7 @@ fc_client::fc_client() : QObject()
 
   connect(switch_page_mapper, SIGNAL(mapped( int)),
                 this, SLOT(switch_page(int)));
+  fc_fonts.init_fonts();
   main_window->setVisible(true);
 }
 
@@ -157,7 +160,6 @@ void fc_client::main(QApplication *qapp)
 {
 
   qRegisterMetaType<QTextCursor> ("QTextCursor");
-  QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
   real_output_window_append(_("This is Qt-client for Freeciv."), NULL, -1);
   chat_welcome_message();
 
@@ -225,7 +227,7 @@ void fc_client::switch_page(int new_pg)
     show_dock_widget(static_cast<int>(OUTPUT_DOCK_WIDGET), true);
     break;
   case PAGE_START:
-    pages_layout[PAGE_START]->addWidget(chat_line,5,0,1,4);
+    pages_layout[PAGE_START]->addWidget(chat_line, 5, 0, 1, 3);
     pages_layout[PAGE_START]->addWidget(output_window,3,0,2,8);
     break;
   case PAGE_LOAD:
@@ -443,4 +445,73 @@ void fc_client::add_repo_dlg(QString str)
 void fc_client::remove_repo_dlg(QString str)
 {
   opened_repo_dlgs.removeAll(str);
+}
+
+/****************************************************************************
+  Popups client options
+****************************************************************************/
+void fc_client::popup_client_options()
+{
+  option_dialog_popup(_("Set local options"), client_optset);
+}
+
+/****************************************************************************
+  Popups client options
+****************************************************************************/
+void fc_client::popup_server_options()
+{
+  option_dialog_popup(_("Set server options"), server_optset);
+}
+
+/****************************************************************************
+  Returns desired font
+****************************************************************************/
+QFont *fc_font::get_font(QString name)
+{
+  /**
+   * example: get_font("gui_qt_font_city_label")
+   */
+
+  if (font_map.contains(name)) {
+    return font_map[name];
+  } else {
+    return NULL;
+  }
+}
+
+/****************************************************************************
+  Initiazlizes fonts from client options
+****************************************************************************/
+void fc_font::init_fonts()
+{
+  QFont *f;
+  QString s;
+
+  /**
+   * default font names are:
+   * gui_qt_font_city_label
+   * gui_qt_font_notify_label and so on.
+   * (full list is in options.c in client dir)
+   */
+
+  options_iterate(client_optset, poption) {
+    if (option_type(poption) == OT_FONT) {
+      f = new QFont;
+      s = option_font_get(poption);
+      f->fromString(s);
+      s = option_name(poption);
+      set_font(s, f);
+    }
+  } options_iterate_end;
+}
+
+/****************************************************************************
+  Adds new font or overwrite old one
+****************************************************************************/
+void fc_font::set_font(QString name, QFont * qf)
+{
+  if (font_map.contains(name)) {
+    font_map.remove(name);
+  };
+  font_map[name] = qf;
 }

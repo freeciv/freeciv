@@ -18,4 +18,66 @@ extern "C" {
 #include "optiondlg_g.h"
 }
 
+
+// Qt
+#include <QDialog>
+#include <QMap>
+
+class Qdialog;
+class QVBoxLayout;
+class QTabWidget;
+class QDialogButtonBox;
+class QSignalMapper;
+class QWidget;
+class QString;
+
+
+/****************************************************************************
+  Dialog for client/server options
+****************************************************************************/
+class option_dialog : public QDialog
+{
+  Q_OBJECT
+  QVBoxLayout * main_layout;
+  QTabWidget *tab_widget;
+  QDialogButtonBox *button_box;
+  QList <QString> categories;
+  QMap <QString, QWidget *> widget_map;
+  QSignalMapper *signal_map;
+
+public:
+   option_dialog(const QString &name, const option_set *options,
+                 QWidget *parent = 0);
+  ~option_dialog();
+  void fill(const struct option_set *poptset);
+  void add_option(struct option *poption);
+  void option_dialog_refresh(struct option *poption);
+  void option_dialog_reset(struct option *poption);
+  void full_refresh();
+  void apply_options();
+private:
+  const option_set *curr_options;
+  void set_bool(struct option *poption, bool value);
+  void set_int(struct option *poption, int value);
+  void set_string(struct option *poption, const char *string);
+  void set_enum(struct option *poption, int index);
+  void set_bitwise(struct option *poption, unsigned value);
+  void set_color(struct option *poption, struct ft_color color);
+  void set_font(struct option *poption, QString s);
+  struct ft_color get_color(struct option *poption);
+  bool get_bool(struct option *poption);
+  int get_int(struct option *poption);
+  QFont get_font(struct option *poption); 
+  char *get_button_font(struct option *poption);
+  char *get_string(struct option *poption);
+  int get_enum(struct option *poption);
+  struct option* get_color_option();
+  unsigned get_bitwise(struct option *poption);
+  void full_reset();
+private slots:
+  void apply_option(int repsonse);
+  void set_color();
+  void set_font();
+};
+
 #endif /* FC__OPTIONDLG_H */

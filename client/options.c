@@ -238,6 +238,21 @@ bool gui_sdl_use_color_cursors = TRUE;
 bool gui_win32_better_fog = TRUE;
 bool gui_win32_enable_alpha = TRUE;
 
+/* gui-qt client specific options. */
+char gui_qt_font_city_label[512] = "Monospace,8,-1,5,50,0,0,0,0,0";
+char gui_qt_font_notify_label[512] = "Monospace,8,-1,5,75,0,0,0,0,0";
+char gui_qt_font_spaceship_label[512] = "Monospace,8,-1,5,50,0,0,0,0,0";
+char gui_qt_font_help_label[512] = "Sans Serif,10,-1,5,75,0,0,0,0,0";
+char gui_qt_font_help_link[512] = "Sans Serif,9,-1,5,50,0,0,0,0,0";
+char gui_qt_font_help_text[512] = "Monospace,8,-1,5,50,0,0,0,0,0";
+char gui_qt_font_chatline[512] = "Monospace,8,-1,5,50,0,0,0,0,0";
+char gui_qt_font_beta_label[512] = "Sans Serif,10,-1,5,50,1,0,0,0,0";
+char gui_qt_font_small[512] = "Sans Serif,9,-1,5,50,0,0,0,0,0";
+char gui_qt_font_comment_label[512] = "Sans Serif,9,-1,5,50,1,0,0,0,0";
+char gui_qt_font_city_names[512] = "Sans Serif,10,-1,5,75,0,0,0,0,0";
+char gui_qt_font_city_productions[512] = "Sans Serif,10,-1,5,50,1,0,0,0,0";
+char gui_qt_font_reqtree_text[512] = "Sans Serif,10,-1,5,50,1,0,0,0,0";
+
 /* Set to TRUE after the first call to options_init(), to avoid the usage
  * of non-initialized datas when calling the changed callback. */
 static bool options_fully_initialized = FALSE;
@@ -2606,7 +2621,88 @@ static struct client_option client_options[] = {
                      "used in rendering, instead of an ordered dither.  "
                      "If there is no hardware support for alpha "
                      "blending, this is much slower."),
-                  COC_GRAPHICS, GUI_WIN32, TRUE, mapview_redraw_callback)
+                  COC_GRAPHICS, GUI_WIN32, TRUE, mapview_redraw_callback),
+
+  /* gui-qt client specific options. */
+  GEN_FONT_OPTION(gui_qt_font_city_label, "city_label",
+                  N_("City Label"),
+                  N_("This font is used to display the city labels on city "
+                     "dialogs."),
+                  COC_FONT, GUI_QT,
+                  "Monospace,8,-1,5,50,0,0,0,0,0", font_changed_callback),
+  GEN_FONT_OPTION(gui_qt_font_notify_label, "notify_label",
+                  N_("Notify Label"),
+                  N_("This font is used to display server reports such "
+                     "as the demographic report or historian publications."),
+                  COC_FONT, GUI_QT,
+                  "Monospace,9,-1,5,75,0,0,0,0,0", font_changed_callback),
+  GEN_FONT_OPTION(gui_qt_font_spaceship_label, "spaceship_label",
+                  N_("Spaceship Label"),
+                  N_("This font is used to display the spaceship widgets."),
+                  COC_FONT, GUI_QT,
+                  "Monospace,8,-1,5,50,0,0,0,0,0", font_changed_callback),
+  GEN_FONT_OPTION(gui_qt_font_help_label, "help_label",
+                  N_("Help Label"),
+                  N_("This font is used to display the help headers in the "
+                     "help window."),
+                  COC_FONT, GUI_QT,
+                  "Sans Serif,10,-1,5,75,0,0,0,0,0", font_changed_callback),
+  GEN_FONT_OPTION(gui_qt_font_help_link, "help_link",
+                  N_("Help Link"),
+                  N_("This font is used to display the help links in the "
+                     "help window."),
+                  COC_FONT, GUI_QT,
+                  "Sans Serif,9,-1,5,50,0,0,0,0,0", font_changed_callback),
+  GEN_FONT_OPTION(gui_qt_font_help_text, "help_text",
+                  N_("Help Text"),
+                  N_("This font is used to display the help body text in "
+                     "the help window."),
+                  COC_FONT, GUI_QT,
+                  "Monospace,8,-1,5,50,0,0,0,0,0", font_changed_callback),
+  GEN_FONT_OPTION(gui_qt_font_chatline, "chatline",
+                  N_("Chatline Area"),
+                  N_("This font is used to display the text in the "
+                     "chatline area."),
+                  COC_FONT, GUI_QT,
+                  "Monospace,8,-1,5,50,0,0,0,0,0", font_changed_callback),
+  GEN_FONT_OPTION(gui_qt_font_beta_label, "beta_label",
+                  N_("Beta Label"),
+                  N_("This font is used to display the beta label."),
+                  COC_FONT, GUI_QT,
+                  "Sans Serif,10,-1,5,50,1,0,0,0,0", font_changed_callback),
+  GEN_FONT_OPTION(gui_qt_font_small, "small_font",
+                  N_("Small Font"),
+                  N_("This font is used for any small font request.  For "
+                     "example, it is used for display the building lists "
+                     "in the city dialog, the Economy report or the Units "
+                     "report."),
+                  COC_FONT, GUI_QT,
+                  "Sans Serif,9,-1,5,50,0,0,0,0,0", NULL),
+  GEN_FONT_OPTION(gui_qt_font_comment_label, "comment_label",
+                  N_("Comment Label"),
+                  N_("This font is used to display comment labels, such as "
+                     "in the governor page of the city dialogs."),
+                  COC_FONT, GUI_QT,
+                  "Sans Serif,9,-1,5,50,1,0,0,0,0", font_changed_callback),
+  GEN_FONT_OPTION(gui_qt_font_city_names, "city_names",
+                  N_("City Names"),
+                  N_("This font is used to the display the city names "
+                     "on the map."),
+                  COC_FONT, GUI_QT,
+                  "Sans Serif,10,-1,5,75,0,0,0,0,0", NULL),
+  GEN_FONT_OPTION(gui_qt_font_city_productions, "city_productions",
+                  N_("City Productions"),
+                  N_("This font is used to the display the city production "
+                     "names on the map."),
+                  COC_FONT, GUI_QT,
+                  "Sans Serif,10,-1,5,50,1,0,0,0,0", NULL),
+  GEN_FONT_OPTION(gui_qt_font_reqtree_text, "reqtree_text",
+                  N_("Requirement Tree"),
+                  N_("This font is used to the display the requirement tree "
+                     "in the Research report."),
+                  COC_FONT, GUI_QT,
+                  "Sans Serif,10,-1,5,50,1,0,0,0,0", NULL)
+
 };
 static const int client_options_num = ARRAY_SIZE(client_options);
 

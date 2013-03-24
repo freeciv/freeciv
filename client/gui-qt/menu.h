@@ -36,6 +36,10 @@ public:
   void gov_menu_sensitive();
   void rm_gov_menu();
 private slots:
+  /* game menu */
+  void local_options();
+  void server_options();
+
   /* help menu */
   void slot_menu_copying();
   void slot_about_qt();

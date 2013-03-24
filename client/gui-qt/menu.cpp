@@ -72,6 +72,14 @@ void mr_menu::setup_menus()
 {
   QAction *act;
 
+  /* Game Menu */
+  menu = this->addMenu(_("Game"));
+  menu = menu->addMenu(_("Options"));
+  act = menu->addAction(_("Set local options"));
+  connect(act, SIGNAL(triggered()), this, SLOT(local_options()));
+  act = menu->addAction(_("Server Options"));
+  connect(act, SIGNAL(triggered()), this, SLOT(server_options()));
+
   /* View Menu */
   menu = this->addMenu(_("View"));
   act = menu->addAction(_("Center View"));
@@ -329,4 +337,20 @@ void mr_menu::slot_popup_tax_rates()
 void mr_menu::slot_about_qt()
 {
   qapp->aboutQt();
+}
+
+/****************************************************************
+  Invoke dialog with local options
+*****************************************************************/
+void mr_menu::local_options()
+{
+  gui()->popup_client_options();
+}
+
+/****************************************************************
+  Invoke dialog with server options
+*****************************************************************/
+void mr_menu::server_options()
+{
+  gui()->popup_server_options();
 }

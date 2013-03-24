@@ -85,6 +85,15 @@ enum DOCK_WIDGETS {
 
 class MainWindow;
 
+class fc_font
+{
+  QMap <QString, QFont *> font_map;
+public:
+  void set_font(QString name, QFont *qf);
+  QFont* get_font(QString name);
+  void init_fonts();
+};
+
 class fc_client : public QObject
 {
   Q_OBJECT
@@ -154,6 +163,7 @@ public:
   void update_start_page();
 
   mr_idle mr_idler;
+  fc_font fc_fonts;
   QTableWidget *messages_window;
   info_label *game_info_label;
   QWidget *central_wdg;
@@ -185,6 +195,8 @@ private slots:
 
 public slots:
   void switch_page(int i);
+  void popup_client_options();
+  void popup_server_options();
 
 protected slots:
 
