@@ -49,36 +49,33 @@ struct ai_type;
 #define SPECENUM_VALUE3NAME "CanOccupyCity"
 #define SPECENUM_VALUE4 UCF_MISSILE
 #define SPECENUM_VALUE4NAME "Missile"
-/* Considers any river tile native terrain */
-#define SPECENUM_VALUE5 UCF_RIVER_NATIVE
-#define SPECENUM_VALUE5NAME "RiverNative"
-#define SPECENUM_VALUE6 UCF_BUILD_ANYWHERE
-#define SPECENUM_VALUE6NAME "BuildAnywhere"
-#define SPECENUM_VALUE7 UCF_UNREACHABLE
-#define SPECENUM_VALUE7NAME "Unreachable"
+#define SPECENUM_VALUE5 UCF_BUILD_ANYWHERE
+#define SPECENUM_VALUE5NAME "BuildAnywhere"
+#define SPECENUM_VALUE6 UCF_UNREACHABLE
+#define SPECENUM_VALUE6NAME "Unreachable"
 /* Can collect ransom from barbarian leader */
-#define SPECENUM_VALUE8 UCF_COLLECT_RANSOM
-#define SPECENUM_VALUE8NAME "CollectRansom"
+#define SPECENUM_VALUE7 UCF_COLLECT_RANSOM
+#define SPECENUM_VALUE7NAME "CollectRansom"
 /* Is subject to ZOC */
-#define SPECENUM_VALUE9 UCF_ZOC
-#define SPECENUM_VALUE9NAME "ZOC"
+#define SPECENUM_VALUE8 UCF_ZOC
+#define SPECENUM_VALUE8NAME "ZOC"
 /* Can fortify on land squares */
-#define SPECENUM_VALUE10 UCF_CAN_FORTIFY
-#define SPECENUM_VALUE10NAME "CanFortify"
-#define SPECENUM_VALUE11 UCF_CAN_PILLAGE
-#define SPECENUM_VALUE11NAME "CanPillage"
+#define SPECENUM_VALUE9 UCF_CAN_FORTIFY
+#define SPECENUM_VALUE9NAME "CanFortify"
+#define SPECENUM_VALUE10 UCF_CAN_PILLAGE
+#define SPECENUM_VALUE10NAME "CanPillage"
 /* Cities can still work tile when enemy unit on it */
-#define SPECENUM_VALUE12 UCF_DOESNT_OCCUPY_TILE
-#define SPECENUM_VALUE12NAME "DoesntOccupyTile"
+#define SPECENUM_VALUE11 UCF_DOESNT_OCCUPY_TILE
+#define SPECENUM_VALUE11NAME "DoesntOccupyTile"
 /* Can attack against units on non-native tiles */
-#define SPECENUM_VALUE13 UCF_ATTACK_NON_NATIVE
-#define SPECENUM_VALUE13NAME "AttackNonNative"
+#define SPECENUM_VALUE12 UCF_ATTACK_NON_NATIVE
+#define SPECENUM_VALUE12NAME "AttackNonNative"
 /* Can launch attack from non-native tile (to native tile) */
-#define SPECENUM_VALUE14 UCF_ATT_FROM_NON_NATIVE
-#define SPECENUM_VALUE14NAME "AttFromNonNative"
+#define SPECENUM_VALUE13 UCF_ATT_FROM_NON_NATIVE
+#define SPECENUM_VALUE13NAME "AttFromNonNative"
 /* Kills citizens upon successful attack against a city */
-#define SPECENUM_VALUE15 UCF_KILLCITIZEN
-#define SPECENUM_VALUE15NAME "KillCitizen"
+#define SPECENUM_VALUE14 UCF_KILLCITIZEN
+#define SPECENUM_VALUE14NAME "KillCitizen"
 /* keep this last */
 #define SPECENUM_COUNT UCF_COUNT
 #include "specenum_gen.h"

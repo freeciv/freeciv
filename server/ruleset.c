@@ -1488,16 +1488,12 @@ static bool load_ruleset_units(struct section_file *file)
         bool land_moving = FALSE;
         bool sea_moving = FALSE;
 
-        if (uclass_has_flag(uc, UCF_RIVER_NATIVE)) {
-          land_moving = TRUE;
-        } else {
-          road_type_iterate(proad) {
-            /* Check all roads in case there's native one among them */
-            if (is_native_road_to_uclass(proad, uc)) {
-              land_moving = TRUE;
-            }
-          } road_type_iterate_end;
-        }
+        road_type_iterate(proad) {
+          /* Check all roads in case there's native one among them */
+          if (is_native_road_to_uclass(proad, uc)) {
+            land_moving = TRUE;
+          }
+        } road_type_iterate_end;
 
         terrain_type_iterate(pterrain) {
           bv_special spe;
@@ -1527,12 +1523,6 @@ static bool load_ruleset_units(struct section_file *file)
         }
       } else if (uc->move_type == UMT_SEA) {
         /* Explicitly given SEA_MOVING */
-        if (uclass_has_flag(uc, UCF_RIVER_NATIVE)) {
-          log_error("\"%s\" unit_class \"%s\": cannot give RiverNative "
-                    "flag to sea moving unit",
-                    filename, uclass_rule_name(uc));
-          BV_CLR(uc->flags, UCF_RIVER_NATIVE);
-        }
         road_type_iterate(proad) {
           if (is_native_road_to_uclass(proad, uc)) {
             ruleset_error(LOG_ERROR,

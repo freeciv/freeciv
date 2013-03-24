@@ -293,11 +293,6 @@ bool is_native_to_class(const struct unit_class *punitclass,
     }
   } road_type_iterate_end;
 
-  if (uclass_has_flag(punitclass, UCF_RIVER_NATIVE)
-      && contains_special(special, S_RIVER)) {
-    return TRUE;
-  }
-
   base_type_iterate(pbase) {
     if (BV_ISSET(bases, base_index(pbase))
         && base_has_flag(pbase, BF_NATIVE_TILE)
