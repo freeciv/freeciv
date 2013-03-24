@@ -506,29 +506,30 @@ static bool lookup_tech(struct section_file *file,
  If description is not NULL, it is used in the warning message
  instead of prefix (eg pass unit->name instead of prefix="units2.u27")
 **************************************************************************/
-static struct impr_type *lookup_building(struct section_file *file,
-					 const char *prefix, const char *entry,
-					 int loglevel, const char *filename,
-					 const char *description)
+static bool lookup_building(struct section_file *file,
+                            const char *prefix, const char *entry,
+                            struct impr_type **result,
+                            const char *filename,
+                            const char *description)
 {
   const char *sval;
-  struct impr_type *pimprove;
-  
+  bool ok = TRUE;
+ 
   sval = secfile_lookup_str_default(file, NULL, "%s.%s", prefix, entry);
-  if (!sval || (LOG_FATAL < loglevel && strcmp(sval, "None") == 0)) {
-    pimprove = B_NEVER;
+  if (!sval || strcmp(sval, "None") == 0) {
+    *result = B_NEVER;
   } else {
-    pimprove = improvement_by_rule_name(sval);
+    *result = improvement_by_rule_name(sval);
 
-    if (B_NEVER == pimprove) {
-      ruleset_error(loglevel,
+    if (B_NEVER == *result) {
+      ruleset_error(LOG_ERROR,
                     "\"%s\" %s %s: couldn't match \"%s\".",
                     filename, (description ? description : prefix), entry, sval);
-
-      /* ruleset_error() returned only if error was not fatal */
+      ok = FALSE;
     }
   }
-  return pimprove;
+
+  return ok;
 }
 
 /**************************************************************************
@@ -538,14 +539,15 @@ static struct impr_type *lookup_building(struct section_file *file,
  items). If the vector is not found and the required parameter is set,
  we report it as an error, otherwise we just punt.
 **************************************************************************/
-static void lookup_unit_list(struct section_file *file, const char *prefix,
-                             const char *entry, int loglevel,
+static bool lookup_unit_list(struct section_file *file, const char *prefix,
+                             const char *entry,
                              struct unit_type **output, 
                              const char *filename)
 {
   const char **slist;
   size_t nval;
   int i;
+  bool ok = TRUE;
 
   /* pre-fill with NULL: */
   for(i = 0; i < MAX_NUM_UNIT_LIST; i++) {
@@ -553,36 +555,39 @@ static void lookup_unit_list(struct section_file *file, const char *prefix,
   }
   slist = secfile_lookup_str_vec(file, &nval, "%s.%s", prefix, entry);
   if (nval == 0) {
-    if (LOG_FATAL >= loglevel) {
-      ruleset_error(LOG_FATAL, "\"%s\": missing string vector %s.%s",
-                    filename, prefix, entry);
-    }
-    return;
+    ruleset_error(LOG_ERROR, "\"%s\": missing string vector %s.%s",
+                  filename, prefix, entry);
+    return FALSE;
   }
   if (nval > MAX_NUM_UNIT_LIST) {
-    ruleset_error(LOG_FATAL,
+    ruleset_error(LOG_ERROR,
                   "\"%s\": string vector %s.%s too long (%d, max %d)",
                   filename, prefix, entry, (int) nval, MAX_NUM_UNIT_LIST);
-  }
-  if (nval == 1 && strcmp(slist[0], "") == 0) {
+    ok = FALSE;
+  } else if (nval == 1 && strcmp(slist[0], "") == 0) {
     free(slist);
-    return;
+    return TRUE;
   }
-  for (i = 0; i < nval; i++) {
-    const char *sval = slist[i];
-    struct unit_type *punittype = unit_type_by_rule_name(sval);
+  if (ok) {
+    for (i = 0; i < nval; i++) {
+      const char *sval = slist[i];
+      struct unit_type *punittype = unit_type_by_rule_name(sval);
 
-    if (!punittype) {
-      ruleset_error(LOG_FATAL,
-                    "\"%s\" %s.%s (%d): couldn't match \"%s\".",
-                    filename, prefix, entry, i, sval);
+      if (!punittype) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" %s.%s (%d): couldn't match \"%s\".",
+                      filename, prefix, entry, i, sval);
+        ok = FALSE;
+        break;
+      }
+      output[i] = punittype;
+      log_debug("\"%s\" %s.%s (%d): %s (%d)", filename, prefix, entry, i, sval,
+                utype_number(punittype));
     }
-    output[i] = punittype;
-    log_debug("\"%s\" %s.%s (%d): %s (%d)", filename, prefix, entry, i, sval,
-              utype_number(punittype));
   }
   free(slist);
-  return;
+
+  return ok;
 }
 
 /**************************************************************************
@@ -659,13 +664,14 @@ static bool lookup_tech_list(struct section_file *file, const char *prefix,
   improvement_exist()?] There should be at least one value, but it may be
   "", meaning an empty list.
 **************************************************************************/
-static void lookup_building_list(struct section_file *file,
+static bool lookup_building_list(struct section_file *file,
                                  const char *prefix, const char *entry,
                                  int *output, const char *filename)
 {
   const char **slist;
   size_t nval;
   int i;
+  bool ok = TRUE;
 
   /* pre-fill with B_LAST: */
   for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
@@ -673,31 +679,37 @@ static void lookup_building_list(struct section_file *file,
   }
   slist = secfile_lookup_str_vec(file, &nval, "%s.%s", prefix, entry);
   if (nval == 0) {
-    ruleset_error(LOG_FATAL, "\"%s\": missing string vector %s.%s",
+    ruleset_error(LOG_ERROR, "\"%s\": missing string vector %s.%s",
                   filename, prefix, entry);
-  }
-  if (nval > MAX_NUM_BUILDING_LIST) {
-    ruleset_error(LOG_FATAL,
+    ok = FALSE;
+  } else if (nval > MAX_NUM_BUILDING_LIST) {
+    ruleset_error(LOG_ERROR,
                   "\"%s\": string vector %s.%s too long (%d, max %d)",
                   filename, prefix, entry, (int) nval, MAX_NUM_BUILDING_LIST);
-  }
-  if (nval == 1 && strcmp(slist[0], "") == 0) {
+    ok = FALSE;
+  } else if (nval == 1 && strcmp(slist[0], "") == 0) {
     free(slist);
-    return;
+    return TRUE;
   }
-  for (i = 0; i < nval; i++) {
-    const char *sval = slist[i];
-    struct impr_type *pimprove = improvement_by_rule_name(sval);
+  if (ok) {
+    for (i = 0; i < nval; i++) {
+      const char *sval = slist[i];
+      struct impr_type *pimprove = improvement_by_rule_name(sval);
 
-    if (NULL == pimprove) {
-      ruleset_error(LOG_FATAL,
-                    "\"%s\" %s.%s (%d): couldn't match \"%s\".",
-                    filename, prefix, entry, i, sval);
+      if (NULL == pimprove) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" %s.%s (%d): couldn't match \"%s\".",
+                      filename, prefix, entry, i, sval);
+        ok = FALSE;
+        break;
+      }
+      output[i] = improvement_number(pimprove);
+      log_debug("%s.%s,%d %s %d", prefix, entry, i, sval, output[i]);
     }
-    output[i] = improvement_number(pimprove);
-    log_debug("%s.%s,%d %s %d", prefix, entry, i, sval, output[i]);
   }
   free(slist);
+
+  return ok;
 }
 
 /**************************************************************************
@@ -1597,9 +1609,12 @@ static bool load_ruleset_units(struct section_file *file)
       const char *sec_name = section_name(section_list_get(sec, i));
       const char *string;
 
-      u->need_improvement = lookup_building(file, sec_name, "impr_req",
-                                            LOG_ERROR, filename,
-                                            rule_name(&u->name));
+      if (!lookup_building(file, sec_name, "impr_req",
+                           &u->need_improvement, filename,
+                           rule_name(&u->name))) {
+        ok = FALSE;
+        break;
+      }
 
       sval = secfile_lookup_str(file, "%s.class", sec_name);
       pclass = unit_class_by_rule_name(sval);
@@ -1991,9 +2006,12 @@ static bool load_ruleset_buildings(struct section_file *file)
         b->obsolete_by = A_NEVER;
       }
 
-      b->replaced_by = lookup_building(file, sec_name, "replaced_by",
-                                       LOG_ERROR, filename,
-                                       rule_name(&b->name));
+      if (!lookup_building(file, sec_name, "replaced_by",
+                           &b->replaced_by, filename,
+                           rule_name(&b->name))) {
+        ok = FALSE;
+        break;
+      }
 
       if (!secfile_lookup_int(file, &b->build_cost,
                               "%s.build_cost", sec_name)
@@ -3739,10 +3757,16 @@ static bool load_ruleset_nations(struct section_file *file)
         ok = FALSE;
         break;
       }
-      lookup_building_list(file, sec_name, "init_buildings",
-                           pnation->init_buildings, filename);
-      lookup_unit_list(file, sec_name, "init_units", LOG_ERROR,
-                       pnation->init_units, filename);
+      if (!lookup_building_list(file, sec_name, "init_buildings",
+                                pnation->init_buildings, filename)) {
+        ok = FALSE;
+        break;
+      }
+      if (!lookup_unit_list(file, sec_name, "init_units",
+                            pnation->init_units, filename)) {
+        ok = FALSE;
+        break;
+      }
       fc_strlcat(tmp, sec_name, 200);
       fc_strlcat(tmp, ".init_government", 200);
       pnation->init_government = lookup_government(file, tmp, filename,
@@ -4185,8 +4209,13 @@ static bool load_ruleset_game(const char *rsdir)
   }
 
   if (ok) {
-    lookup_building_list(file, "options", "global_init_buildings",
-                         game.rgame.global_init_buildings, filename);
+    if (!lookup_building_list(file, "options", "global_init_buildings",
+                              game.rgame.global_init_buildings, filename)) {
+      ok = FALSE;
+    }
+  }
+
+  if (ok) {
     game.control.popup_tech_help = secfile_lookup_bool_default(file, FALSE,
                                                                "options.popup_tech_help");
 
