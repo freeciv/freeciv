@@ -860,10 +860,6 @@ static void set_savegame_special(bv_special *specials,
           proad = road_by_compat_special(ROCO_RIVER);
           if (proad) {
             BV_SET(*roads, road_index(proad));
-          } else {
-            /* TODO: Remove this when getting rid of rivers
-             *       as specials. */
-            set_special(specials, sp);
           }
         }
       } else {

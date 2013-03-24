@@ -1052,6 +1052,11 @@ static void make_rivers(void)
      Is needed to stop a potentially infinite loop. */
   int iteration_counter = 0;
 
+  if (river_type_count <= 0) {
+    /* No river type available */
+    return;
+  }
+
   create_placed_map(); /* needed bu rand_map_characteristic */
   set_all_ocean_tiles_placed();
 
@@ -1108,21 +1113,17 @@ static void make_rivers(void)
       dbv_clr_all(&rivermap.blocked);
       dbv_clr_all(&rivermap.ok);
 
-      if (river_type_count > 0) {
-        road_river = river_types[fc_rand(river_type_count)];
-      }
+      road_river = river_types[fc_rand(river_type_count)];
 
-      if (road_river != NULL) {
-        road_type_iterate(oriver) {
-          if (oriver != road_river) {
-            whole_map_iterate(rtile) {
-              if (tile_has_road(rtile, oriver)) {
-                dbv_set(&rivermap.blocked, tile_index(rtile));
-              }
-            } whole_map_iterate_end;
-          }
-        } road_type_iterate_end;
-      }
+      road_type_iterate(oriver) {
+        if (oriver != road_river) {
+          whole_map_iterate(rtile) {
+            if (tile_has_road(rtile, oriver)) {
+              dbv_set(&rivermap.blocked, tile_index(rtile));
+            }
+          } whole_map_iterate_end;
+        }
+      } road_type_iterate_end;
 
       log_debug("Found a suitable starting tile for a river at (%d, %d)."
                 " Starting to make it.", TILE_XY(ptile));
@@ -1140,11 +1141,8 @@ static void make_rivers(void)
                 tile_set_terrain(ptile1, pterrain);
               }
             }
-            if (road_river == NULL) {
-              tile_set_special(ptile1, S_RIVER);
-            } else {
-              tile_add_road(ptile1, road_river);
-            }
+
+            tile_add_road(ptile1, road_river);
             current_riverlength++;
             map_set_placed(ptile1);
             log_debug("Applied a river to (%d, %d).", TILE_XY(ptile1));

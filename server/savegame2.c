@@ -1290,10 +1290,6 @@ static void sg_special_set(bv_special *specials, bv_roads *roads,
           proad = road_by_compat_special(ROCO_RIVER);
           if (proad) {
             BV_SET(*roads, road_index(proad));
-          } else {
-            /* TODO: Remove this when getting rid of rivers
-             *       as specials. */
-            set_special(specials, sp);
           }
         }
       } else {
