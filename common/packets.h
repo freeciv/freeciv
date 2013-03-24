@@ -149,7 +149,7 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
     return NULL; \
   } \
   remove_packet_from_buffer(pc->buffer); \
-  real_packet = fc_malloc(sizeof(*result)); \
+  result = fc_malloc(sizeof(*result)); \
   *result = packet_buf; \
   return result;
 
