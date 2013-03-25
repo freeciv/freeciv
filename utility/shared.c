@@ -1515,6 +1515,25 @@ void init_nls(void)
     free(grouping_sep);
     grouping_sep = fc_strdup(lc->thousands_sep);
   }
+
+  {
+    char *autocap_opt_in[] = { "fi", NULL };
+    int i;
+    bool ac_enabled = FALSE;
+
+    char *lang = getenv("LANG");
+
+    if (lang != NULL && lang[0] != '\0' && lang[1] != '\0') {
+      for (i = 0; autocap_opt_in[i] != NULL && !ac_enabled; i++) {
+        if (lang[0] == autocap_opt_in[i][0]
+            && lang[1] == autocap_opt_in[i][1]) {
+          ac_enabled = TRUE;
+          capitalization_opt_in();
+        }
+      }
+    }
+  }
+
 #endif /* ENABLE_NLS */
 }
 

@@ -36,17 +36,20 @@ extern "C" {
 #include <libintl.h>
 #endif
 
+#include "shared.h" /* bool */
+
 #define _(String) gettext(String)
 #define N_(String) String
 #define Q_(String) skip_intl_qualifier_prefix(gettext(String))
 #define PL_(String1, String2, n) ngettext((String1), (String2), (n))
 
-#else
+#else  /* ENABLE_NLS */
 
 #define _(String) (String)
 #define N_(String) String
 #define Q_(String) skip_intl_qualifier_prefix(String)
 #define PL_(String1, String2, n) ((n) == 1 ? (String1) : (String2))
+#define C_(String) capitalized_string(String)
 
 #undef textdomain
 #undef bindtextdomain
@@ -54,7 +57,7 @@ extern "C" {
 #define textdomain(Domain)
 #define bindtextdomain(Package, Directory)
 
-#endif
+#endif /* ENABLE_NLS */
 
 /* This provides an untranslated version of Q_ that allows the caller to
  * get access to the original string.  This may be needed for comparisons,
@@ -62,6 +65,10 @@ extern "C" {
 #define Qn_(String) skip_intl_qualifier_prefix(String)
 
 const char *skip_intl_qualifier_prefix(const char *str);
+char *capitalized_string(const char *str);
+void free_capitalized(char *str);
+void capitalization_opt_in(void);
+bool is_capitalization_enabled(void);
 
 #ifdef __cplusplus
 }
