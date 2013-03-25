@@ -59,22 +59,32 @@ static void package_event_full(struct packet_chat_msg *packet,
                                const struct ft_color color,
                                const char *format, va_list vargs)
 {
+  char buf[MAX_LEN_MSG];
+  char *str;
+
   fc_assert_ret(NULL != packet);
 
   packet->tile = (NULL != ptile ? tile_index(ptile) : -1);
   packet->event = event;
   packet->conn_id = pconn ? pconn->id : -1;
 
-  if (ft_color_requested(color)) {
-    /* A color is requested. */
-    char buf[MAX_LEN_MSG];
+  fc_vsnprintf(buf, sizeof(buf), format, vargs);
+  if (is_capitalization_enabled()) {
+    str = capitalized_string(buf);
+  } else {
+    str = buf;
+  }
 
-    fc_vsnprintf(buf, sizeof(buf), format, vargs);
-    featured_text_apply_tag(buf, packet->message, sizeof(packet->message),
+  if (ft_color_requested(color)) {
+    featured_text_apply_tag(str, packet->message, sizeof(packet->message),
                             TTT_COLOR, 0, FT_OFFSET_UNSET, color);
   } else {
     /* Simple case */
-    fc_vsnprintf(packet->message, sizeof(packet->message), format, vargs);
+    strncpy(packet->message, str, sizeof(packet->message));
+  }
+
+  if (is_capitalization_enabled()) {
+    free_capitalized(str);
   }
 }
 
