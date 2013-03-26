@@ -737,6 +737,7 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_IDLE:
   case ACTIVITY_EXPLORE:
   case ACTIVITY_FORTIFIED:
+  case ACTIVITY_SENTRY:
   case ACTIVITY_GOTO:
   case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_UNKNOWN:
@@ -745,7 +746,6 @@ static void update_unit_activity(struct unit *punit)
     break;
 
   case ACTIVITY_FORTIFYING:
-  case ACTIVITY_SENTRY:
   case ACTIVITY_CONVERT:
     punit->activity_count += get_activity_rate_this_turn(punit);
     break;
