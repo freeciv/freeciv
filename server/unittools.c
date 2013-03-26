@@ -1897,11 +1897,13 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   packet->movesleft = punit->moves_left;
   packet->hp = punit->hp;
   packet->activity = punit->activity;
-  packet->activity_count = punit->activity_count;
+  packet->activity_count_old = packet->activity_count_new
+    = punit->activity_count;
   packet->activity_target = punit->activity_target;
   packet->activity_base = punit->activity_base;
   packet->changed_from = punit->changed_from;
-  packet->changed_from_count = punit->changed_from_count;
+  packet->changed_from_count_old = packet->changed_from_count_new
+    = punit->changed_from_count;
   packet->changed_from_target = punit->changed_from_target;
   packet->changed_from_base = punit->changed_from_base;
   packet->ai = punit->ai_controlled;
