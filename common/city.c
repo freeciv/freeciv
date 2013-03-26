@@ -2290,6 +2290,7 @@ static inline void citizen_content_buildings(struct city *pcity)
 **************************************************************************/
 static inline void citizen_happiness_nationality(struct city *pcity)
 {
+  citizens *happy = &pcity->feel[CITIZEN_HAPPY][FEELING_NATIONALITY];
   citizens *content = &pcity->feel[CITIZEN_CONTENT][FEELING_NATIONALITY];
   citizens *unhappy = &pcity->feel[CITIZEN_UNHAPPY][FEELING_NATIONALITY];
 
@@ -2309,14 +2310,22 @@ static inline void citizen_happiness_nationality(struct city *pcity)
 
       unhappy_inc = enemies * pct / 100;
 
-      if (unhappy_inc <= *content) {
-        (*content) -= unhappy_inc;
-        (*unhappy) += unhappy_inc;
-        unhappy_inc = 0;
-      } else {
-        (*unhappy) += unhappy_inc;
-        unhappy_inc -= *content;
-        (*content) = 0;
+      /* First make content => unhappy, then happy => unhappy,
+       * then happy => content. No-one becomes angry. */
+      while (unhappy_inc > 0 && *content > 0) {
+        (*content)--;
+        (*unhappy)++;
+        unhappy_inc--;
+      }
+      while (unhappy_inc > 1 && *happy > 0) {
+        (*happy)--;
+        (*unhappy)++;
+        unhappy_inc -= 2;
+      }
+      while (unhappy_inc > 0 && *happy > 0) {
+        (*happy)--;
+        (*content)++;
+        unhappy_inc--;
       }
     }
   }
