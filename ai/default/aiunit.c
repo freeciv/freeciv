@@ -2817,9 +2817,6 @@ void dai_consider_tile_dangerous(struct ai_type *ait, struct tile *ptile,
 
   /* Calculate how well we can defend at (x,y) */
   db = 10 + tile_terrain(ptile)->defense_bonus / 10;
-  if (tile_has_special(ptile, S_OLD_RIVER)) {
-    extras_bonus += terrain_control.river_defense_bonus;
-  }
   extras_bonus += tile_extras_defense_bonus(ptile, unit_type(punit));
 
   db += (db * extras_bonus) / 100;

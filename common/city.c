@@ -1228,10 +1228,6 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
     }
     break;
   case O_TRADE:
-    if (tile_has_special(ptile, S_RIVER) && !is_ocean_tile(ptile)) {
-      prod += terrain_control.river_trade_incr;
-    }
-    break;
   case O_GOLD:
   case O_SCIENCE:
   case O_LUXURY:

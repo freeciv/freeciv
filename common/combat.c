@@ -460,9 +460,6 @@ static int get_defense_power(const struct unit *punit)
 
   if (uclass_has_flag(unit_class(punit), UCF_TERRAIN_DEFENSE)) {
     db = 10 + tile_terrain(ptile)->defense_bonus / 10;
-    if (tile_has_special(ptile, S_OLD_RIVER)) {
-      db += (db * terrain_control.river_defense_bonus) / 100;
-    }
     power = (power * db) / 10;
   }
 
@@ -566,9 +563,6 @@ int get_virtual_defense_power(const struct unit_type *att_type,
   db = POWER_FACTOR;
   if (uclass_has_flag(defclass, UCF_TERRAIN_DEFENSE)) {
     db += tile_terrain(ptile)->defense_bonus / (100 / POWER_FACTOR);
-    if (tile_has_special(ptile, S_OLD_RIVER)) {
-      db += (db * terrain_control.river_defense_bonus) / 100;
-    }
   }
   defensepower *= db;
   defensepower *= vlevel->power_fact / 100;

@@ -2300,7 +2300,6 @@ static bool load_terrain_names(struct section_file *file)
 **************************************************************************/
 static bool load_ruleset_terrain(struct section_file *file)
 {
-  struct strvec *psv;
   size_t nval;
   int j;
   bool compat_road = FALSE;
@@ -2341,18 +2340,6 @@ static bool load_ruleset_terrain(struct section_file *file)
   map.server.ocean_resources
     = secfile_lookup_bool_default(file, FALSE,
                                   "parameters.ocean_resources");
-  terrain_control.river_move_mode =
-    secfile_lookup_int_default(file, RMV_FAST_STRICT, "parameters.river_move_mode");
-  terrain_control.river_defense_bonus =
-    secfile_lookup_int_default(file, 50, "parameters.river_defense_bonus");
-  terrain_control.river_trade_incr =
-    secfile_lookup_int_default(file, 1, "parameters.river_trade_incr");
-
-  psv = lookup_strvec(file, "parameters", "river_help_text");
-  PACKET_STRVEC_COMPUTE(terrain_control.river_help_text, psv);
-  if (NULL != psv) {
-    strvec_destroy(psv);
-  }
 
   terrain_control.road_superhighway_trade_bonus =
     secfile_lookup_int_default(file, 50, "parameters.road_superhighway_trade_bonus");

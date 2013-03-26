@@ -1001,26 +1001,6 @@ void boot_help_texts(struct player *pplayer)
                 help_list_append(category_nodes, pitem);
               }
             } terrain_type_iterate_end;
-            /* Add special Civ2-style river help text if it's supplied. */
-            if ('\0' != terrain_control.river_help_text[0]) {
-              struct strvec *psv;
-
-              pitem = new_help_item(HELP_TEXT);
-              /* TRANS: "%*s" is replaced with spaces */
-              fc_snprintf(name, sizeof(name), _("%*sRivers"), level, "");
-              pitem->topic = fc_strdup(name);
-              long_buffer[0] = '\0';
-              PACKET_STRVEC_EXTRACT(psv, terrain_control.river_help_text);
-              if (NULL != psv) {
-                strvec_iterate(psv, text) {
-                  cat_snprintf(long_buffer, sizeof(long_buffer),
-                               "%s\n\n", _(text));
-                } strvec_iterate_end;
-                strvec_destroy(psv);
-              }
-              pitem->text = fc_strdup(long_buffer);
-              help_list_append(category_nodes, pitem);
-            }
             break;
           case HELP_BASE:
             base_type_iterate(pbase) {

@@ -416,8 +416,6 @@ static void game_defaults(void)
     game.server.unitwaittime      = GAME_DEFAULT_UNITWAITTIME;
     game.server.plr_colors        = NULL;
   }
-
-  terrain_control.river_help_text[0] = '\0';
 }
 
 /****************************************************************************

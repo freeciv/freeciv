@@ -581,9 +581,6 @@ static int defense_bonus(const struct cityresult *result)
     10 + tile_terrain(result->tile)->defense_bonus / 10;
   int river_bonus = 0;
 
-  if (tile_has_special(result->tile, S_OLD_RIVER)) {
-    river_bonus += terrain_control.river_defense_bonus;
-  }
   road_type_iterate(priver) {
     if (tile_has_road(result->tile, priver)) {
       /* TODO: Do not use full bonus of those road types

@@ -741,7 +741,6 @@ static int tile_move_cost_ptrs(const struct unit *punit,
 {
   bool native = TRUE;
   int road_cost = -1;
-  int river_cost = -1;
   int cost;
   bool cardinal_move;
   bool ri;
@@ -831,37 +830,10 @@ static int tile_move_cost_ptrs(const struct unit *punit,
     return SINGLE_MOVE;
   }
 
-  if (tile_has_special(t1, S_RIVER) && tile_has_special(t2, S_RIVER)) {
-    switch (terrain_control.river_move_mode) {
-    case RMV_NORMAL:
-      break;
-    case RMV_FAST_STRICT:
-      if (cardinal_move) {
-        river_cost = MOVE_COST_RIVER;
-      }
-      break;
-    case RMV_FAST_RELAXED:
-      if (cardinal_move) {
-	river_cost = MOVE_COST_RIVER;
-      } else {
-	river_cost = 2 * MOVE_COST_RIVER;
-      }
-      break;
-    case RMV_FAST_ALWAYS:
-      river_cost = MOVE_COST_RIVER;
-      break;
-    default:
-      break;
-    }
-  }
-
   cost = tile_terrain(t2)->movement_cost * SINGLE_MOVE;
 
   if (road_cost >= 0) {
     cost = MIN(cost, road_cost);
-  }
-  if (river_cost >= 0) {
-    cost = MIN(cost, river_cost);
   }
 
   return cost;
