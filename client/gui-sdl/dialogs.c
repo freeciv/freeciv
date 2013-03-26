@@ -1263,9 +1263,6 @@ const char *sdl_get_tile_defense_info_text(struct tile *ptile)
   static char buffer[64];
   int bonus = (tile_terrain(ptile)->defense_bonus - 10) * 10;    
   
-  if (tile_has_special(ptile, S_OLD_RIVER)) {
-    bonus += terrain_control.river_defense_bonus;
-  }
   road_type_iterate(proad) {
     if (tile_has_road(ptile, proad)
         && road_has_flag(proad, RF_NATURAL)) {
