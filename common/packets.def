@@ -780,7 +780,9 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
 
   UNIT_TYPE type;
   UNIT transported_by; /* Only valid if transported is set. */
-  UINT8 movesleft, hp, fuel, activity_count, changed_from_count;
+  UINT8 movesleft, hp, fuel;
+  UINT8 activity_count_old, changed_from_count_old; remove-cap(actcount_range)
+  UINT16 activity_count_new, changed_from_count_new; add-cap(actcount_range)
   TILE goto_tile;
   ACTIVITY activity;
   SPECIAL activity_target;
@@ -1702,7 +1704,8 @@ PACKET_EDIT_UNIT = 210; cs, handle-per-conn, handle-via-packet
   UINT8 veteran;
   UINT8 fuel;
   ACTIVITY activity;
-  UINT8 activity_count;
+  UINT8 activity_count_old; remove-cap(actcount_range)
+  UINT16 activity_count_new; add-cap(actcount_range)
   BASE activity_base;
   BOOL debug;
   BOOL moved;

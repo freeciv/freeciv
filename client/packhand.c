@@ -174,13 +174,20 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   punit->moves_left = packet->movesleft;
   punit->hp = packet->hp;
   punit->activity = packet->activity;
-  punit->activity_count = packet->activity_count;
   punit->activity_target = packet->activity_target;
   punit->activity_base = packet->activity_base;
   punit->changed_from = packet->changed_from;
-  punit->changed_from_count = packet->changed_from_count;
   punit->changed_from_target = packet->changed_from_target;
   punit->changed_from_base = packet->changed_from_base;
+  if (has_capability("actcount_range", client.conn.capability)) {
+    /* 16-bit range */
+    punit->activity_count = packet->activity_count_new;
+    punit->changed_from_count = packet->changed_from_count_new;
+  } else {
+    /* 8-bit range, insufficient but backward compatible */
+    punit->activity_count = packet->activity_count_old;
+    punit->changed_from_count = packet->changed_from_count_old;
+  }
   punit->ai_controlled = packet->ai;
   punit->fuel = packet->fuel;
   punit->goto_tile = index_to_tile(packet->goto_tile);
