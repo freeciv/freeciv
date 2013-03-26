@@ -2097,6 +2097,15 @@ static void player_load_units(struct player *plr, int plrno,
                        "player%d.u%d.activity_count", plrno, i),
                        "%s", secfile_error());
 
+    /* Special case: for a long time, we accidentally incremented
+     * activity_count while a unit was sentried, so it could increase
+     * without bound (bug #20641) and be saved in old savefiles.
+     * We zero it to prevent potential trouble overflowing the range
+     * in network packets, etc. */
+    if (activity == ACTIVITY_SENTRY) {
+      punit->activity_count = 0;
+    }
+
     punit->done_moving = secfile_lookup_bool_default(file,
 	(punit->moves_left == 0), "player%d.u%d.done_moving", plrno, i);
 

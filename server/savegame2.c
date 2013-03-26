@@ -4542,6 +4542,18 @@ static bool sg_load_player_unit(struct loaddata *loading,
     secfile_lookup_int_default(loading->file, 0,
                                "%s.changed_from_count", unitstr);
 
+  /* Special case: for a long time, we accidentally incremented
+   * activity_count while a unit was sentried, so it could increase
+   * without bound (bug #20641) and be saved in old savefiles.
+   * We zero it to prevent potential trouble overflowing the range
+   * in network packets, etc. */
+  if (activity == ACTIVITY_SENTRY) {
+    punit->activity_count = 0;
+  }
+  if (punit->changed_from == ACTIVITY_SENTRY) {
+    punit->changed_from_count = 0;
+  }
+
   punit->veteran
     = secfile_lookup_int_default(loading->file, 0, "%s.veteran", unitstr);
   punit->done_moving
