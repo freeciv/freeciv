@@ -810,7 +810,9 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
 
   UNIT_TYPE type;
   UNIT transported_by; /* Only valid if transported is set. */
-  UINT8 movesleft, hp, fuel, activity_count, changed_from_count;
+  UINT8 movesleft, hp, fuel;
+  /* UINT16 size for activity_count assumed in checks in ruleset.c */
+  UINT16 activity_count, changed_from_count;
   TILE goto_tile;
   ACTIVITY activity;
   SPECIAL activity_tgt_spe;
@@ -1825,7 +1827,7 @@ PACKET_EDIT_UNIT = 210; cs, handle-per-conn, handle-via-packet
   UINT8 veteran;
   UINT8 fuel;
   ACTIVITY activity;
-  UINT8 activity_count;
+  UINT16 activity_count;
   BASE activity_base;
   BOOL debug;
   BOOL moved;

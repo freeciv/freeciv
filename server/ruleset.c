@@ -901,6 +901,35 @@ static struct terrain *lookup_terrain(struct section_file *file,
 }
 
 /**************************************************************************
+  Look up a value comparable to activity_count (road_time, etc).
+  item_name describes the thing which has the time property, if non-NULL,
+  for any error message.
+  Returns FALSE if not found in secfile, but TRUE even if validation failed.
+  Sets *ok to FALSE if validation failed, leaves it alone otherwise.
+**************************************************************************/
+static bool lookup_time(const struct section_file *secfile, int *time,
+                        const char *sec_name, const char *property_name,
+                        const char *filename, const char *item_name,
+                        bool *ok)
+{
+  /* Assumes that PACKET_UNIT_INFO.activity_count in packets.def is UINT16 */
+  const int max_time = 65535 / ACTIVITY_FACTOR;
+
+  if (!secfile_lookup_int(secfile, time, "%s.%s", sec_name, property_name)) {
+    return FALSE;
+  }
+
+  if (*time > max_time) {
+    ruleset_error(LOG_ERROR,
+                  "\"%s\": \"%s\": \"%s\" value %d too large (max %d)",
+                  filename, item_name ? item_name : sec_name,
+                  property_name, *time, max_time);
+    *ok = FALSE;
+  }
+  return TRUE; /* we found _something */
+}
+
+/**************************************************************************
   Load "name" and (optionally) "rule_name" into a struct name_translation.
 **************************************************************************/
 static bool ruleset_load_names(struct name_translation *pname,
@@ -1597,7 +1626,9 @@ static bool load_ruleset_units(struct section_file *file)
         ok = FALSE;
         break;
       }
-      u->convert_time = secfile_lookup_int_default(file, 1, "%s.convert_time", sec_name);
+      u->convert_time = 1; /* default */
+      lookup_time(file, &u->convert_time, sec_name, "convert_time",
+                  filename, rule_name(&u->name), &ok);
     } unit_type_iterate_end;
   }
 
@@ -2421,10 +2452,10 @@ static bool load_ruleset_terrain(struct section_file *file)
                                                                      get_output_identifier(o));
     } output_type_iterate_end;
 
-    if (!secfile_lookup_int(file, &pterrain->base_time,
-                            "%s.base_time", tsection)
-        || !secfile_lookup_int(file, &pterrain->road_time,
-                               "%s.road_time", tsection)) {
+    if (!lookup_time(file, &pterrain->base_time, tsection, "base_time",
+                     filename, NULL, &ok)
+        || !lookup_time(file, &pterrain->road_time, tsection, "road_time",
+                        filename, NULL, &ok)) {
       ruleset_error(LOG_ERROR, "%s", secfile_error());
       ok = FALSE;
       break;
@@ -2434,8 +2465,8 @@ static bool load_ruleset_terrain(struct section_file *file)
       = lookup_terrain(file, "irrigation_result", pterrain);
     if (!secfile_lookup_int(file, &pterrain->irrigation_food_incr,
                             "%s.irrigation_food_incr", tsection)
-        || !secfile_lookup_int(file, &pterrain->irrigation_time,
-                               "%s.irrigation_time", tsection)) {
+        || !lookup_time(file, &pterrain->irrigation_time,
+                        tsection, "irrigation_time", filename, NULL, &ok)) {
       ruleset_error(LOG_ERROR, "%s", secfile_error());
       ok = FALSE;
       break;
@@ -2445,8 +2476,8 @@ static bool load_ruleset_terrain(struct section_file *file)
       = lookup_terrain(file, "mining_result", pterrain);
     if (!secfile_lookup_int(file, &pterrain->mining_shield_incr,
                             "%s.mining_shield_incr", tsection)
-        || !secfile_lookup_int(file, &pterrain->mining_time,
-                               "%s.mining_time", tsection)) {
+        || !lookup_time(file, &pterrain->mining_time,
+                        tsection, "mining_time", filename, NULL, &ok)) {
       ruleset_error(LOG_ERROR, "%s", secfile_error());
       ok = FALSE;
       break;
@@ -2454,16 +2485,18 @@ static bool load_ruleset_terrain(struct section_file *file)
 
     pterrain->transform_result
       = lookup_terrain(file, "transform_result", pterrain);
-    if (!secfile_lookup_int(file, &pterrain->transform_time,
-                            "%s.transform_time", tsection)) {
+    if (!lookup_time(file, &pterrain->transform_time,
+                     tsection, "transform_time", filename, NULL, &ok)) {
       ruleset_error(LOG_ERROR, "%s", secfile_error());
       ok = FALSE;
       break;
     }
-    pterrain->clean_pollution_time
-      = secfile_lookup_int_default(file, 3, "%s.clean_pollution_time", tsection);
-    pterrain->clean_fallout_time
-      = secfile_lookup_int_default(file, 3, "%s.clean_fallout_time", tsection);
+    pterrain->clean_pollution_time = 3; /* default */
+    lookup_time(file, &pterrain->clean_pollution_time,
+                tsection, "clean_pollution_time", filename, NULL, &ok);
+    pterrain->clean_fallout_time = 3; /* default */
+    lookup_time(file, &pterrain->clean_fallout_time,
+                tsection, "clean_fallout_time", filename, NULL, &ok);
 
     pterrain->warmer_wetter_result
       = lookup_terrain(file, "warmer_wetter_result", pterrain);
@@ -2667,8 +2700,8 @@ static bool load_ruleset_terrain(struct section_file *file)
         break;
       }
 
-      if (!secfile_lookup_int(file, &pbase->build_time,
-                              "%s.build_time", section)) {
+      if (!lookup_time(file, &pbase->build_time, section, "build_time",
+                       filename, base_rule_name(pbase), &ok)) {
         ruleset_error(LOG_ERROR, "%s", secfile_error());
         ok = FALSE;
         break;
@@ -2787,8 +2820,9 @@ static bool load_ruleset_terrain(struct section_file *file)
         break;
       }
 
-      proad->build_time = secfile_lookup_int_default(file, 0, "%s.build_time",
-                                                     section);
+      proad->build_time = 0; /* default */
+      lookup_time(file, &proad->build_time, section, "build_time",
+                  filename, road_rule_name(proad), &ok);
 
       proad->defense_bonus = secfile_lookup_int_default(file, 0,
                                                         "%s.defense_bonus",
