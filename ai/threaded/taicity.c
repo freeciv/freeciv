@@ -57,6 +57,10 @@ void tai_city_worker_requests_create(struct player *pplayer, struct city *pcity)
 
   task.ptile = NULL;
   task.want = 0;
+  /* The following values are always overridden if anything is chosen */
+  task.act = ACTIVITY_IDLE;
+  task.tgt.type = ATT_SPECIAL;
+  task.tgt.obj.spe = S_LAST;
 
   city_tile_iterate_index(city_map_radius_sq_get(pcity), city_tile(pcity),
                           ptile, cindex) {
