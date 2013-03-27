@@ -33,6 +33,7 @@ if SERVER
 SERVER_FILES = \
 	civ1.serv \
 	civ2.serv \
+	classic.serv \
 	default.serv \
 	experimental.serv \
 	multiplayer.serv \
@@ -69,6 +70,7 @@ EXTRA_DIST = \
 	helpdata.txt	\
 	civ1.serv	\
 	civ2.serv	\
+	classic.serv	\
 	default.serv	\
 	experimental.serv \
 	multiplayer.serv \
