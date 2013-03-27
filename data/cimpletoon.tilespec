@@ -204,7 +204,8 @@ layer0_match_type = "land"
 
 [roads]
 styles =
-    { "name", "style"
-      "road", "AllSeparate"
-      "rail", "AllSeparate"
+    { "name",  "style"
+      "road",  "AllSeparate"
+      "rail",  "AllSeparate"
+      "river", "River"
     }
