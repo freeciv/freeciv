@@ -107,14 +107,14 @@ match_types = "water", "ice"
 ; Water graphics referenced by terrain.ruleset
 ;
 [tile_lake]
-is_blended = 1
+blend_layer = 1
 num_layers = 1
 layer0_match_type = "shallow"
 layer0_match_with = "land"
 layer0_sprite_type = "corner"
 
 [tile_coast]
-is_blended = 1
+blend_layer = 1
 num_layers = 2
 layer0_match_type = "shallow"
 layer0_match_with = "deep", "land"
@@ -124,7 +124,7 @@ layer1_match_with = "ice"
 layer1_sprite_type = "corner"
 
 [tile_floor]
-is_blended = 0
+blend_layer = 0
 num_layers = 2
 layer0_match_type = "deep"
 layer0_match_with = "shallow", "land"
@@ -137,7 +137,7 @@ layer1_sprite_type = "corner"
 ;
 [tile_arctic]
 ; treated as water for ice cliffs
-is_blended = 0
+blend_layer = 0
 num_layers = 3
 layer0_match_type = "shallow"
 layer1_match_type = "ice"
@@ -145,25 +145,25 @@ layer2_match_type = "ice"
 mine_sprite = "tx.oil_mine"
 
 [tile_desert]
-is_blended = 1
+blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 mine_sprite = "tx.oil_mine"
 
 [tile_forest]
-is_blended = 1
+blend_layer = 1
 num_layers = 2
 layer0_match_type = "land"
 layer1_match_type = "forest"
 layer1_match_with = "forest"
 
 [tile_grassland]
-is_blended = 1
+blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
 [tile_hills]
-is_blended = 1
+blend_layer = 1
 num_layers = 2
 layer0_match_type = "land"
 layer1_match_type = "hills"
@@ -171,14 +171,14 @@ layer1_match_with = "hills"
 mine_sprite = "tx.mine"
 
 [tile_jungle]
-is_blended = 1
+blend_layer = 1
 num_layers = 2
 layer0_match_type = "land"
 layer1_match_type = "forest"
 layer1_match_with = "forest"
 
 [tile_mountains]
-is_blended = 1
+blend_layer = 1
 num_layers = 2
 layer0_match_type = "land"
 layer1_match_type = "hills"
@@ -188,17 +188,17 @@ layer1_offset_y = 6
 mine_sprite = "tx.mine"
 
 [tile_plains]
-is_blended = 1
+blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
 [tile_swamp]
-is_blended = 1
+blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
 [tile_tundra]
-is_blended = 1
+blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 

@@ -169,7 +169,7 @@ file under the graphc and graphic_alt flags.)
 
   [tile_XXX] options
   ----------------
-  is_blended            : If non-zero, given layer of this terrain will be
+  blend_layer           : If non-zero, given layer of this terrain will be
                           blended with adjacent terrains. Blending is done
                           civ2-style with a dither mask. Only iso-view
                           currently supports blending. Only the base graphic
@@ -408,8 +408,8 @@ sprites.
     ; This specifies a civ2-like grassland tile. A single sprite
     ; t.grassland is needed; it will be drawn blended.
     [terrain_grassland]
-    is_blended = 1
-    num_layers = 1
+    blend_layer = 1
+    num_layers  = 1
     layer0_match_type = 0
 
     ; This specifies a civ1-like mountain tile. 16 sprites
@@ -417,8 +417,8 @@ sprites.
     ; will be drawn to match the adjacent tiles. Assuming only mountains
     ; has this match_type, adjacent mountains will match.
     [terrain_mountains]
-    is_blended = 0
-    num_layers = 1
+    blend_layer = 0
+    num_layers  = 1
     layer0_match_type = 7
 
     ; This specifies a civ2-like hills tile. A base sprite t.hills will be
@@ -427,16 +427,16 @@ sprites.
     ; drawn on top. (In most civ2 tilesets the base sprite is the grassland
     ; sprite).
     [terrain_hills]
-    is_blended = 1
-    num_layers = 2
+    blend_layer = 1
+    num_layers  = 2
     layer0_match_type = 0
     layer1_match_type = 8
 
     ; This specifies a civ2-like ocean tile. Ocean is drawn via a cell-based
     ; system as explained above.
     [terrain_ocean]
-    is_blended = 1
-    num_layers = 1
+    blend_layer = 1
+    num_layers  = 1
     layer0_match_type = 6
     layer0_cell_type = "rect"
 

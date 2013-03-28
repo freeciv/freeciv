@@ -97,14 +97,14 @@ match_types = "forest", "hills", "mountains", "ridge"
 ; Water graphics referenced by terrain.ruleset
 ;
 [tile_coast]
-is_blended = 1
+blend_layer = 1
 num_layers = 1
 layer0_match_type = "water"
 layer0_match_with = "water"
 layer0_sprite_type = "corner"
 
 [tile_floor]
-is_blended = 0
+blend_layer = 0
 num_layers = 1
 layer0_match_type = "water"
 layer0_match_with = "water"
@@ -113,31 +113,31 @@ layer0_sprite_type = "corner"
 ; Land graphics referenced by terrain.ruleset
 ;
 [tile_arctic]
-is_blended = 1
+blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 mine_sprite = "tx.oil_mine"
 
 [tile_desert]
-is_blended = 1
+blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 mine_sprite = "tx.oil_mine"
 
 [tile_forest]
-is_blended = 1
+blend_layer = 1
 num_layers = 2
 layer0_match_type = "land"
 layer1_match_type = "forest"
 layer1_match_with = "forest"
 
 [tile_grassland]
-is_blended = 1
+blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
 [tile_hills]
-is_blended = 1
+blend_layer = 1
 num_layers = 2
 layer0_match_type = "land"
 layer1_match_type = "hills"
@@ -145,12 +145,12 @@ layer1_match_with = "hills"
 mine_sprite = "tx.mine"
 
 [tile_jungle]
-is_blended = 1
+blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
 [tile_mountains]
-is_blended = 1
+blend_layer = 1
 num_layers = 2
 layer0_match_type = "land"
 layer1_match_type = "mountains"
@@ -158,17 +158,17 @@ layer1_match_with = "mountains"
 mine_sprite = "tx.mine"
 
 [tile_plains]
-is_blended = 1
+blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
 [tile_swamp]
-is_blended = 1
+blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
 [tile_tundra]
-is_blended = 1
+blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 

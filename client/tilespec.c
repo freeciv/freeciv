@@ -1709,7 +1709,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     const char *sprite_type, *str;
     int l;
 
-    draw->blending = secfile_lookup_int_default(file, 0, "%s.is_blended",
+    draw->blending = secfile_lookup_int_default(file, 0, "%s.blend_layer",
                                                 sec_name);
     draw->blending = CLIP(0, draw->blending, MAX_NUM_LAYERS);
 
