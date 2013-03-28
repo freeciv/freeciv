@@ -3659,6 +3659,9 @@ void settings_game_load(struct section_file *file, const char *section)
   int i, set_count;
   int oldcitymindist = game.info.citymindist; /* backwards compat, see below */
 
+  /* Compatibility with savegames created with older versions is usually
+   * handled as conversions in savegame2.c compat_load_<version>() */
+
   if (!secfile_lookup_int(file, &set_count, "%s.set_count", section)) {
     /* Old savegames and scenarios doesn't contain this, not an error. */
     log_verbose("Can't read the number of settings in the save file.");
