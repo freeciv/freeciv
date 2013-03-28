@@ -352,7 +352,7 @@ genus		= "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Electronics", "Player"
-      "Special", "River", "Adjacent"
+      "Road", "River", "Adjacent"
       "Building", "Factory", "City"
     }
 graphic		= "b.hydro_plant"
