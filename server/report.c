@@ -1186,7 +1186,9 @@ static bool scan_score_log(char *id)
 **************************************************************************/
 void log_civ_score_init(void)
 {
-  fc_assert_ret(score_log == NULL);
+  if (score_log != NULL) {
+    return;
+  }
 
   score_log = fc_calloc(1, sizeof(*score_log));
   score_log->fp = NULL;
