@@ -4,5 +4,6 @@
 client/gui-stub/chatline.c
 client/gui-stub/connectdlg.c
 client/gui-stub/dialogs.c
+client/gui-stub/gui_main.c
 client/gui-stub/mapview.c
 server/sanitycheck.c

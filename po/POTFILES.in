@@ -97,6 +97,7 @@ client/gui-qt/fc_client.cpp
 client/gui-qt/mapctrl.cpp
 client/gui-qt/mapview.cpp
 client/gui-qt/menu.cpp
+client/gui-qt/optiondlg.cpp
 client/gui-qt/pages.cpp
 client/gui-qt/ratesdlg.cpp
 client/gui-qt/repodlgs.cpp
