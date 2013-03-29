@@ -41,7 +41,6 @@ EXTRA_DIST=	autogen.sh 			\
 		bootstrap/Makerules.mk		\
 		bootstrap/langnames.txt		\
 		m4/ac_path_lib.m4		\
-		m4/alsa.m4			\
 		m4/c99.m4			\
 		m4/codeset.m4			\
 		m4/compiler.m4			\
@@ -52,7 +51,6 @@ EXTRA_DIST=	autogen.sh 			\
 		m4/freetype2.m4			\
 		m4/gettimeofday.m4		\
 		m4/ggz.m4			\
-		m4/glibc21.m4			\
 		m4/glib-gettext.m4		\
 		m4/gtk-2.0.m4			\
 		m4/gtk-3.0.m4			\
