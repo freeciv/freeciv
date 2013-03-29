@@ -117,6 +117,9 @@ bool is_road_card_near(const struct tile *ptile, const struct road_type *proad);
 bool is_road_near_tile(const struct tile *ptile, const struct road_type *proad);
 int count_river_near_tile(const struct tile *ptile,
                           const struct road_type *priver);
+int count_river_type_tile_card(const struct tile *ptile,
+                               const struct road_type *priver,
+                               bool percentage);
 int count_river_type_near_tile(const struct tile *ptile,
                                const struct road_type *priver,
                                bool percentage);

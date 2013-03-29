@@ -321,6 +321,31 @@ int count_river_near_tile(const struct tile *ptile,
 }
 
 /****************************************************************************
+  Count tiles with river of specific type cardinally adjacent to the tile.
+****************************************************************************/
+int count_river_type_tile_card(const struct tile *ptile,
+                               const struct road_type *priver,
+                               bool percentage)
+{
+  int count = 0;
+  int total = 0;
+
+  fc_assert(priver != NULL);
+
+  cardinal_adjc_iterate(ptile, adjc_tile) {
+    if (tile_has_road(adjc_tile, priver)) {
+      count++;
+    }
+    total++;
+  } cardinal_adjc_iterate_end;
+
+  if (percentage) {
+    count = count * 100 / total;
+  }
+  return count;
+}
+
+/****************************************************************************
   Count tiles with river of specific type near the tile.
 ****************************************************************************/
 int count_river_type_near_tile(const struct tile *ptile,
@@ -330,13 +355,14 @@ int count_river_type_near_tile(const struct tile *ptile,
   int count = 0;
   int total = 0;
 
-  cardinal_adjc_iterate(ptile, adjc_tile) {
-    if ((priver != NULL && tile_has_road(adjc_tile, priver))
-        || (priver == NULL && tile_has_special(adjc_tile, S_OLD_RIVER))) {
+  fc_assert(priver != NULL);
+
+  adjc_iterate(ptile, adjc_tile) {
+    if (tile_has_road(adjc_tile, priver)) {
       count++;
     }
     total++;
-  } cardinal_adjc_iterate_end;
+  } adjc_iterate_end;
 
   if (percentage) {
     count = count * 100 / total;

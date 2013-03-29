@@ -702,7 +702,7 @@ static int river_test_rivergrid(struct river_map *privermap,
                                 struct tile *ptile,
                                 struct road_type *priver)
 {
-  return (count_river_type_near_tile(ptile, priver, FALSE) > 1) ? 1 : 0;
+  return (count_river_type_tile_card(ptile, priver, FALSE) > 1) ? 1 : 0;
 }
 
 /*********************************************************************
@@ -732,7 +732,7 @@ static int river_test_adjacent_river(struct river_map *privermap,
                                      struct tile *ptile,
                                      struct road_type *priver)
 {
-  return 100 - count_river_type_near_tile(ptile, priver, TRUE);
+  return 100 - count_river_type_tile_card(ptile, priver, TRUE);
 }
 
 /*********************************************************************
@@ -1798,7 +1798,7 @@ static bool island_river_mouth_suitability(const struct tile *ptile,
                                                  TC_OCEAN);
   pct_adj_ocean = count_terrain_class_near_tile(ptile, C_ADJACENT, C_PERCENT,
                                                 TC_OCEAN);
-  num_adj_river = count_river_type_near_tile(ptile, priver, FALSE);
+  num_adj_river = count_river_type_tile_card(ptile, priver, FALSE);
 
   return (num_card_ocean == 1 && pct_adj_ocean <= 35
           && num_adj_river == 0);
@@ -1813,13 +1813,12 @@ static bool island_river_suitability(const struct tile *ptile,
 {
   int pct_adj_ocean, num_card_ocean, pct_adj_river, num_card_river;
 
-  num_card_river = count_river_type_near_tile(ptile, priver, FALSE);
+  num_card_river = count_river_type_tile_card(ptile, priver, FALSE);
   num_card_ocean = count_terrain_class_near_tile(ptile, C_CARDINAL, C_NUMBER,
                                                  TC_OCEAN);
   pct_adj_ocean = count_terrain_class_near_tile(ptile, C_ADJACENT, C_PERCENT,
                                                 TC_OCEAN);
-  pct_adj_river = count_special_near_tile(ptile, C_ADJACENT, C_PERCENT,
-                                          S_RIVER);
+  pct_adj_river = count_river_type_near_tile(ptile, priver, TRUE);
 
   return (num_card_river == 1 && num_card_ocean == 0
           && pct_adj_ocean < 20 && pct_adj_river < 35
