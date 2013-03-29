@@ -239,10 +239,10 @@ tiles = { "row", "column","tag"
 
 ;river outlets
 
- 10, 0, "tx.river_outlet_n"
- 10, 1, "tx.river_outlet_e"
- 10, 2, "tx.river_outlet_s"
- 10, 3, "tx.river_outlet_w"
+ 10, 0, "river_outlet_n"
+ 10, 1, "river_outlet_e"
+ 10, 2, "river_outlet_s"
+ 10, 3, "river_outlet_w"
 
 }
 
