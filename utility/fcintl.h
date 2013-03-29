@@ -27,6 +27,8 @@ extern "C" {
 #include <locale.h>
 #endif
 
+#include "shared.h" /* bool */
+
 #ifdef ENABLE_NLS
 
 /* Include libintl.h only if nls enabled.
@@ -35,8 +37,6 @@ extern "C" {
 #ifdef HAVE_LIBINTL_H
 #include <libintl.h>
 #endif
-
-#include "shared.h" /* bool */
 
 #define _(String) gettext(String)
 #define N_(String) String
