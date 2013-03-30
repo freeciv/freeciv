@@ -6358,6 +6358,23 @@ static void compat_load_020400(struct loaddata *loading)
 }
 
 /****************************************************************************
+  Callback to get name of old killcitizen setting bit.
+****************************************************************************/
+static const char *killcitizen_enum_str(secfile_data_t data, int bit)
+{
+  switch (bit) {
+  case UMT_LAND:
+    return "LAND";
+  case UMT_SEA:
+    return "SEA";
+  case UMT_BOTH:
+    return "BOTH";
+  }
+
+  return NULL;
+}
+
+/****************************************************************************
   Translate savegame secfile data from 2.4.x to 2.5.0 format.
 ****************************************************************************/
 static void compat_load_020500(struct loaddata *loading)
@@ -6373,6 +6390,55 @@ static void compat_load_020500(struct loaddata *loading)
 
   secfile_insert_str_vec(loading->file, modname, 2,
                          "savefile.roads_vector");
+
+  /* Server setting migration. */
+  {
+    int set_count;
+
+    if (secfile_lookup_int(loading->file, &set_count, "settings.set_count")) {
+      int i;
+      bool gamestart_valid
+        = secfile_lookup_bool_default(loading->file, FALSE,
+                                      "settings.gamestart_valid");
+      for (i = 0; i < set_count; i++) {
+        const char *name
+          = secfile_lookup_str(loading->file, "settings.set%d.name", i);
+        if (!name) {
+          continue;
+        }
+
+        /* In 2.4.x and prior, "killcitizen" listed move types that
+         * killed citizens after succesfull attack. Now killcitizen
+         * is just boolean and classes affected are defined in ruleset. */
+        if (!fc_strcasecmp("killcitizen", name)) {
+          int value, value_start;
+
+          (void) secfile_lookup_enum_data(loading->file, &value, TRUE,
+                                          killcitizen_enum_str, NULL,
+                                          "settings.set%d.value", i);
+          (void) secfile_lookup_enum_data(loading->file, &value_start, TRUE,
+                                          killcitizen_enum_str, NULL,
+                                          "settings.set%d.gamestart", i);
+
+          /* Lowest bit of old killcitizen value indicates if
+           * land units should kill citizens. We take that as
+           * new boolean killcitizen value. */
+          if (value & 0x1) {
+            secfile_replace_bool(loading->file, TRUE, "settings.set%d.value", i);
+          } else {
+            secfile_replace_bool(loading->file, FALSE, "settings.set%d.value", i);
+          }
+          if (gamestart_valid) {
+            if (value_start & 0x1) {
+              secfile_replace_bool(loading->file, TRUE, "settings.set%d.gamestart", i);
+            } else {
+              secfile_replace_bool(loading->file, FALSE, "settings.set%d.gamestart", i);
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 /****************************************************************************
