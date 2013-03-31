@@ -2023,7 +2023,6 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
 {
   struct caravan_parameter parameter;
   struct caravan_result result;
-  const struct city *src = NULL;
   const struct city *dest = NULL;
   struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
   bool help_wonder = FALSE;
@@ -2073,10 +2072,9 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
                  unit_rule_name(punit), punit->id, TILE_XY(unit_tile(punit)));
         tired_of_waiting_boat = TRUE;
       } else {
-        src = city_orig;
         dest = city_dest;
         help_wonder = (unit_data->task == AIUNIT_WONDER) ? TRUE : FALSE;
-        required_boat = (tile_continent(src->tile) == 
+        required_boat = (tile_continent(unit_tile(punit)) == 
                          tile_continent(dest->tile)) ? FALSE : TRUE;
         request_boat = FALSE;
       }
@@ -2101,10 +2099,9 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
     caravan_find_best_destination(punit, &parameter, &result);
     if (result.dest != NULL) {
       /* we did find a new destination for the unit */
-      src = result.src;
       dest = result.dest;
       help_wonder = result.help_wonder;
-      required_boat = (tile_continent(src->tile) ==
+      required_boat = (tile_continent(unit_tile(punit)) ==
                        tile_continent(dest->tile)) ? FALSE : TRUE;
       request_boat = required_boat;
       dai_unit_new_task(ait, punit,
