@@ -8,7 +8,7 @@ by David Fernandez, aka Bardo
 OBJECTIVES:
 -----------
 - The main purpose is to get a gameplay more similar to civ3, keeping the combat system from civ2.
-- Reduced micromanagement as much as possible. Don't be afraid by the amount of changes, I think this ruleset is easier to learn than default rules, and it is designed so there is not a big disadvantage when you do not play optimally. I hope both rookies and experienced players can enjoy it.
+- Reduced micromanagement as much as possible. Don't be afraid by the amount of changes, I think this ruleset is easier to learn than classic rules, and it is designed so there is not a big disadvantage when you do not play optimally. I hope both rookies and experienced players can enjoy it.
 - Removed the rules that allowed a sudden boost: mainly Rapture growth, national Trade routes, and the big bonuses from Republic and Democracy.
 The result should be a simpler and more linear development of your cities and a slower paced gameplay. With governments that keep a similar balance along the different ages, and smoother effects of terrains, units, buildings and wonders.
 - All the new rules have been adapted so AI can play with them, and to avoid possible exploits by human players.
@@ -20,11 +20,11 @@ I wish to keep it updated and to improve it with the comments from the players.
 INFO:
 -----
 - Help Texts have been updated (mainly Buildings and Wonders), so the info showed ingame already takes into account the changed rules. Note that some graphical tables from the Manual will not match (mainly Terrains and Governments), so better use the tables in this ReadMe as reference.
-- I suggest New players to start a game with 12 players or so, AI skill level Normal, and default ruleset options (Small continental map with 100 land tiles per player). This way AI will progress at similar pace than real history.
+- I suggest New players to start a game with 12 players or so, AI skill level Normal, and classic ruleset options (Small continental map with 100 land tiles per player). This way AI will progress at similar pace than real history.
 - Cheating AI level was adjusted for these rules, I suggest Experienced players to use it.
 CHEATING AI: +40% Science, Luxury, Gold and Shield production, -20% pollution, +20 AI love
 
-The following is a full list of changes compared to default ruleset...
+The following is a full list of changes compared to classic ruleset...
 
 
 CORE CHANGES:
@@ -77,7 +77,7 @@ SIZE    NEW       NEW        OLD       OLD
 # Granary effect for free when city grows to this city level.
 FOODBOX = Foodbox size at that city level. (In brackets = Granary size).
 SETTLER = Food needed to recover the population if you create a settler at that city size. (In brackets = The same but with granary).
-NEW = This Ruleset. OLD = Default ruleset
+NEW = This Ruleset. OLD = Classic ruleset
 
 TIP: In order to keep max growth, you should build the Granary before city grows larger than Pop 4 (same that Aqueduct at Pop 8, and Sewer System at Pop 16).
 TIP: Optimal production of settlers occurs at any city with Pop <= 4, or cities with granary and Pop <= 6. 
@@ -96,7 +96,7 @@ TERRAIN:
 
 - Minimum city output = 1/0/0 (was 1/1/0). City central tile now produces +1 shield except at terrains that can be irrigated and mined at same time (to workaround this hardcoded effect).
 As resultant, city central tile always increases by 1 the output of the original tile, once irrigated/mined/roaded (Compare CITY and MAX1 in next table).
-So, no matter the tile where you place your city, you never waste any resource (for example, with default rules a city placed over bonused grassland was wasting the shield bonus).
+So, no matter the tile where you place your city, you never waste any resource (for example, with classic rules a city placed over bonused grassland was wasting the shield bonus).
 
 TILE      F/P/T  IRRIG(t)   MINE(t)    ROAD  *CITY   MAX1   MAX2 
 Deep     *0/0/2  NO         NO         NO            1/0/2  1/1/2
@@ -115,7 +115,7 @@ Mountains 0/1/0  NO         +1(10)     +0(6)         0/2/0  0/3/0
 
 CITY = central city tile; MAX1 = irrigated/mined/roaded/harbour; MAX2 = farmland/railroad/offshore.
 ! = You have to mine this city tile to get max output (Tundra, Desert, Hill).
-* = Changes compared to default ruleset. Most affected are Jungles, Swamps and Tundras.
+* = Changes compared to classic ruleset. Most affected are Jungles, Swamps and Tundras.
 
 TIP: The optimal tiles to place your initial cities are those with bonus resources or rivers, and MAX output equal or greater than 2/1/1. Plains are always good places for cities, as well as Flood Desert (desert with river), or Grassland (better with resource and/or river). Hills allow good defensive cities too (once mined).
 
@@ -138,7 +138,7 @@ FORTRESS         +100%  +100%
 - Every City with Pop>=8 receives an additional free Defend_Bonus = +50% against Land units, and against Sea/Trireme.
 - Walls effect reduced from 200% to 100%, and cost reduced from 60 to 30.
 - Great Wall gives additional Defend_Bonus = +50% against Land units, and the effect Unit_No_Lose_Pop in every city.
-The total city defense is similar to default ruleset, but here cities receive some wall bonus for free, and large cities receive an extra bonus, like in civ3:
+The total city defense is similar to classic ruleset, but here cities receive some wall bonus for free, and large cities receive an extra bonus, like in civ3:
 
 LAND             BASE   (+WALL)  (+GREAT WALL)
 Town (Pop<8)     +50%    +150%(-) +200%(=)
@@ -193,7 +193,7 @@ If a city supports more units with gold upkeep than its population size, each ex
 - Under Fundamentalism you receive extra Gold from Tithes, but -50% to Science.
 - The Bonus to production at Palace (under Despotism and Monarchy) switched from Shields to Gold.
 
-- Most governments are affected by military unhappiness due to units out of national borders (same than Republic in default ruleset).
+- Most governments are affected by military unhappiness due to units out of national borders (same than Republic in classic ruleset).
 - "Free Units" (per Town\City): means units free of gold\shield upkeep and also free of military unhappiness. By default 2 free units per city (upkeep and unhappiness), and 2 additional free units at cities with Pop >= 8. Democracy does not receive units free of gold upkeep, just 1 unit free of mil unhappiness per city (2 if Pop >= 8 ).
 TIP: If a city is not paying any unit upkeep (showed in city panel), it can not suffer military unhappiness.
 
@@ -222,7 +222,7 @@ Special effects:
 - Trade: Decreases one-time the corruption of trade caused by distance to capital.
 - The Corporation: Decreases one-time the corruption of trade caused by distance to capital.
 
-The Techs, Buildings, Wonders and Units are the same than civ2, but some requirements have been changed to improve a bit the historical accuracy, to encourage the use of every military unit, and to avoid units or wonders becoming obsolete too soon. The following is a list of some inaccuracies from default tech tree that were addressed in the new tree:
+The Techs, Buildings, Wonders and Units are the same than civ2, but some requirements have been changed to improve a bit the historical accuracy, to encourage the use of every military unit, and to avoid units or wonders becoming obsolete too soon. The following is a list of some inaccuracies from classic tech tree that were addressed in the new tree:
 - Pikemen were available without Phalanxs; Musketeers without Pikemen; Ironclads without Frigates; Destroyers without Ironclads; Armors without Artillery; Mech Infantry without Barracks III.
 - Cathedrals did not require Construction nor Masonry. Ironclads and Eiffel Tower were available without Iron Working. Chivalry and Pikemen did not need Iron nor Bronze.
 - Pottery was not needed to research Trade, Economics, Explosives, Invention, or Sanitation.
@@ -230,7 +230,7 @@ The Techs, Buildings, Wonders and Units are the same than civ2, but some require
 - Theory of Gravity did not need Physics, Invention, or even The Wheel, and it was not needed for Automobile, Robotics, or Miniaturization.
 - Offshore Platforms did not require Refining, Combustion or Explosives. Miniaturization was not needed for Rocketry or Laser.
 
-In the new tree, you are forced to research most of the ancient techs before you can research the modern ones, but overall, researching paths are similar to default tree.
+In the new tree, you are forced to research most of the ancient techs before you can research the modern ones, but overall, researching paths are similar to classic tree.
 
 
 BUILDINGS:
@@ -242,7 +242,7 @@ For example, cities at distance 20 of the Palace lose -10% food (-5% with courth
 - Colosseum upkeep reduced from 4 to 3 (and renamed to Amphitheatre). University from 3 to 2.
 - Science bonus by buildings (Library, University and Research Lab) restored to civ2 values (50%). There are wonders that double the effect later.
 - Production bonus by Factory and Mfg Plant reduced to +25% each (was +50%), so the Power Plants are as important as the Factories. Upkeep reduced by one gold, too. Mfg Plants allows the construction of 2 items per turn. 
-- Super Highways give +50% to Gold/Luxuries, and they produce extra trade at tiles with roads but without farmlands (the default effect was overpowered under democracy/republic).
+- Super Highways give +50% to Gold/Luxuries, and they produce extra trade at tiles with roads but without farmlands (the classic effect was overpowered under democracy/republic).
 - Pollution caused by population is increased by buildings instead of by techs (else the AI seems to avoid those techs with negative effects):
 Industrialization->Factory; Automobile->Highways; Plastics->Mfg Plant; Mass Production->Offshore platforms. 
 - Aqueduct is cheaper near rivers or lakes. Sewer System is needed to grow larger than pop 16 (instead of 12). Each one reduces the chances of illness by -30%.
@@ -338,7 +338,7 @@ Cruise Missile  18   0    12  *1(2) 10  *50  *CityBuster, FieldUnit
 Nuclear         99   0    16   1    10   160  Nuclear, FieldUnit
 
 FP = Firepower, HP = Hit Points
-* = Changes compared to default ruleset. Most affected are modern infantry, air units, and all units that had 2 firepower.
+* = Changes compared to classic ruleset. Most affected are modern infantry, air units, and all units that had 2 firepower.
 
 
 WONDERS:
@@ -437,19 +437,19 @@ Doubled the unit upkeep for Democratic and Fundamentalist governments. Fundament
 - Deserts with river gain +2 food from irrigation. No cities over Mountains. No pollution over Forests or Jungles. 
 - Pollution caused by population increased by certain Buildings instead of by Techs. Adjusted effect of Super highways and Offshore platforms.
 - Production bonus by Factory and Mfg Plant reduced to +25% each (was +50%).
-- Enabled Trade Routes again, but only to foreign cities. Halved the revenues compared to default ruleset. Caravans/Freights can only travel over roads/rivers, and can be captured.
+- Enabled Trade Routes again, but only to foreign cities. Halved the revenues compared to classic ruleset. Caravans/Freights can only travel over roads/rivers, and can be captured.
 - Terrain transformations available with Fusion Power.
 - The Waste and Corruption caused by distance to capital are reduced with the discovery of Trade and The Corporation (respectively).
 - Units with Gold upkeep need also Food upkeep if the city supports more units than its population size.
 - Aqueduct is cheaper if the city is placed near rivers or lakes.
-- Harder AI levels are less agresive against other AIs, but against human players AIs behave now the same than in default rules.
+- Harder AI levels are less agresive against other AIs, but against human players AIs behave now the same than in classic rules.
 - Minor adjustments to governments: free units and corruption/waste.
 
 Units:
 - Minor adjustments to some costs, mainly infantry, ships, bombarders and missiles.
 - Fanatics 1 pop cost and no military unhappiness. Crusaders available for every government.
 - Given Marine ability to Legion, Musketeer and Rifleman.
-- Disabled trireme capability to navigate rivers. Caravels keep default stats, but they can't attack to land.
+- Disabled trireme capability to navigate rivers. Caravels keep classic stats, but they can't attack to land.
 - Reduced hit points of Ironclad, Submarine and Battleship. Doubled the defense of Destroyers against Submarines.
 - Reduced firepower to 1 for every unit.
 - Given CityBuster to Artillery and Howitzer (halved firepower in open field), and to Cruise Missile.
