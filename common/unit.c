@@ -40,6 +40,10 @@
 
 #include "unit.h"
 
+static bool is_real_activity(enum unit_activity activity);
+
+Activity_type_id real_activities[ACTIVITY_LAST];
+
 /**************************************************************************
 bribe unit
 investigate
@@ -709,10 +713,27 @@ bool can_unit_do_autosettlers(const struct unit *punit)
 }
 
 /**************************************************************************
+  Setup array of real activities
+**************************************************************************/
+void setup_real_activities_array(void)
+{
+  Activity_type_id act;
+  int i = 0;
+
+  for (act = 0; act < ACTIVITY_LAST; act++) {
+    if (is_real_activity(act)) {
+      real_activities[i++] = act;
+    }
+  }
+
+  real_activities[i] = ACTIVITY_LAST;
+}
+
+/**************************************************************************
   Return if given activity really is in game. For savegame compatibility
   activity enum cannot be reordered and there is holes in it.
 **************************************************************************/
-bool is_real_activity(enum unit_activity activity)
+static bool is_real_activity(enum unit_activity activity)
 {
   /* ACTIVITY_FORTRESS, ACTIVITY_AIRBASE, ACTIVITY_OLD_ROAD, and
    * ACTIVITY_OLD_RAILROAD are deprecated */

@@ -232,18 +232,19 @@ struct unit {
 #define CHECK_UNIT(punit) /* Do nothing */
 #endif
 
-bool is_real_activity(enum unit_activity activity);
+void setup_real_activities_array(void);
+
+extern Activity_type_id real_activities[ACTIVITY_LAST];
 
 /* Iterates over the types of unit activity. */
 #define activity_type_iterate(act)					    \
 {									    \
-  Activity_type_id act;			         			    \
+  int _act_i_;                                                              \
 									    \
-  for (act = 0; act < ACTIVITY_LAST; act++) {				    \
-    if (is_real_activity(act)) {
+  for (_act_i_ = 0; real_activities[_act_i_] != ACTIVITY_LAST; _act_i_++) { \
+    Activity_type_id act = real_activities[_act_i_];
 
 #define activity_type_iterate_end     					    \
-    }									    \
   }									    \
 }
 

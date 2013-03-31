@@ -581,7 +581,6 @@ static bool usdlg_tab_update(struct unit_select_dialog *pdialog,
     /* Special case - show all units on this tile in their transports. */
     unit_type_iterate(utype) {
       struct usdata *data;
-      enum unit_activity act;
 
       usdata_hash_lookup(ushash, utype_index(utype), &data);
 
@@ -589,9 +588,8 @@ static bool usdlg_tab_update(struct unit_select_dialog *pdialog,
         continue;
       }
 
-      for (act = 0; act < ACTIVITY_LAST; act++) {
-        if (!is_real_activity(act)
-            || unit_list_size(data->units[loc][act]) == 0) {
+      activity_type_iterate(act) {
+        if (unit_list_size(data->units[loc][act]) == 0) {
           continue;
         }
 
@@ -604,12 +602,11 @@ static bool usdlg_tab_update(struct unit_select_dialog *pdialog,
 
         /* Show this tab. */
         show = TRUE;
-      }
+      } activity_type_iterate_end;
     } unit_type_iterate_end;
   } else {
     unit_type_iterate(utype) {
       struct usdata *data;
-      enum unit_activity act;
       bool first = TRUE;
       GtkTreeIter it_utype;
       GtkTreePath *path;
@@ -621,11 +618,10 @@ static bool usdlg_tab_update(struct unit_select_dialog *pdialog,
         continue;
       }
 
-      for (act = 0; act < ACTIVITY_LAST; act++) {
+      activity_type_iterate(act) {
         GtkTreeIter it_act;
 
-        if (!is_real_activity(act)
-            || unit_list_size(data->units[loc][act]) == 0) {
+        if (unit_list_size(data->units[loc][act]) == 0) {
           continue;
         }
 
@@ -665,7 +661,7 @@ static bool usdlg_tab_update(struct unit_select_dialog *pdialog,
 
         /* Show this tab. */
         show = TRUE;
-      }
+      } activity_type_iterate_end;
     } unit_type_iterate_end;
   }
 
@@ -737,7 +733,6 @@ static void usdlg_tab_append_activity(GtkTreeStore *store,
 
   fc_assert_ret(store != NULL);
   fc_assert_ret(putype != NULL);
-  fc_assert_ret(is_real_activity(act));
 
   /* Add this item. */
   gtk_tree_store_append(GTK_TREE_STORE(store), it, parent);
@@ -780,7 +775,6 @@ static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
 
   fc_assert_ret(pdialog != NULL);
   fc_assert_ret(punit != NULL);
-  fc_assert_ret(is_real_activity(act));
 
   store = pdialog->tabs[loc].store;
 
@@ -945,18 +939,15 @@ static void usdlg_cmd_exec(GtkObject *object, gpointer data,
 
       usdata_hash_lookup(ushash, utid, &data);
       if (data != NULL) {
-        enum unit_activity act;
-
-        for (act = 0; act < ACTIVITY_LAST; act++) {
-          if (!is_real_activity(act)
-              || unit_list_size(data->units[loc][act]) == 0) {
+        activity_type_iterate(act) {
+          if (unit_list_size(data->units[loc][act]) == 0) {
             continue;
           }
 
           unit_list_iterate(data->units[loc][act], punit) {
             usdlg_cmd_exec_unit(punit, cmd);
           } unit_list_iterate_end;
-        }
+        } activity_type_iterate_end;
       }
 
       /* Destroy the hash. */
@@ -971,8 +962,6 @@ static void usdlg_cmd_exec(GtkObject *object, gpointer data,
 
       gtk_tree_model_get(model, &it, USDLG_COL_ACTIVITY, &act,
                          USDLG_COL_LOCATION, &loc, USDLG_COL_UTID, &utid, -1);
-
-      fc_assert_ret(is_real_activity(act));
 
       /* We can't be sure that all units still exists - recalc the data. */
       ushash = usdlg_data_new(pdialog->ptile);
