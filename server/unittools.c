@@ -2755,6 +2755,19 @@ static int compare_units(const struct unit *const *p1,
 }
 
 /*****************************************************************
+  Can this unit be used in autoattack
+*****************************************************************/
+static bool is_suitable_autoattack_unit(struct unit *punit)
+{
+  if (unit_has_type_flag(punit, UTYF_NUCLEAR)) {
+    /* Not a good idea to nuke our own area */
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/*****************************************************************
   Check if unit survives enemy autoattacks. We assume that any
   unit that is adjacent to us can see us.
 *****************************************************************/
@@ -2782,6 +2795,7 @@ static bool unit_survive_autoattack(struct unit *punit)
 
       if (penemy->moves_left > 0
           && ds == DS_WAR
+          && is_suitable_autoattack_unit(penemy)
           && can_unit_attack_unit_at_tile(penemy, punit, unit_tile(punit))) {
         unit_list_prepend(autoattack, penemy);
       }
