@@ -1,6 +1,6 @@
 /********************************************************
 *                                                       *
-* (c) 2011-2012 Marko Lindqvist                         *
+* (c) 2011-2013 Marko Lindqvist                         *
 *                                                       *
 * Licensed under Gnu General Public License version 2   *
 *                                                       *
@@ -223,7 +223,7 @@ static char **cvercmp_ver_tokenize(const char *ver)
     tokens[i] = malloc(sizeof(char) * (tokenlen + 1));
     strncpy(tokens[i], ver + idx, tokenlen);
     tokens[i][tokenlen] = '\0';
-    idx += tokenlen + 1;
+    idx += tokenlen + 1; /* Skip character separating tokens. */
   }
 
   return tokens;
@@ -261,7 +261,7 @@ static char **cvercmp_ver_subtokenize(const char *ver)
     tokens[i] = malloc(sizeof(char) * (tokenlen + 1));
     strncpy(tokens[i], ver + idx, tokenlen);
     tokens[i][tokenlen] = '\0';
-    idx += tokenlen + 1;
+    idx += tokenlen;
   }
 
   return tokens;
@@ -278,7 +278,9 @@ static int cvercmp_next_subtoken(const char *str)
     alpha = true;
   }
 
-  for (i = 0; (alpha && !isdigit(str[i])) || (!alpha && isdigit(str[i]));
+  for (i = 0;
+       str[i] != '\0'
+        && ((alpha && !isdigit(str[i])) || (!alpha && isdigit(str[i])));
        i++) {
   }
 
