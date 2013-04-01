@@ -30,6 +30,7 @@ void server_player_set_color(struct player *pplayer,
 const char *player_color_ftstr(struct player *pplayer);
 void server_player_init(struct player *pplayer, bool initmap,
                         bool needs_team);
+void give_midgame_initial_units(struct player *pplayer, struct tile *ptile);
 void server_remove_player(struct player *pplayer);
 void kill_player(struct player *pplayer);
 void update_revolution(struct player *pplayer);

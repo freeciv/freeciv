@@ -1405,6 +1405,27 @@ const char *player_color_ftstr(struct player *pplayer)
 }
 
 /********************************************************************** 
+  Gives units that every player should have. Usually called for
+  players created midgame.
+***********************************************************************/
+void give_midgame_initial_units(struct player *pplayer, struct tile *ptile)
+{
+  int sucount = strlen(game.server.start_units);
+  int i;
+
+  for (i = 0; i < sucount; i++) {
+    if (game.server.start_units[i] == 'k') {
+      /* Every player should have king */
+      struct unit_type *utype = crole_to_unit_type('k', pplayer);
+
+      if (utype != NULL) {
+        create_unit(pplayer, ptile, utype, 0, 0, -1);
+      }
+    }
+  }
+}
+
+/********************************************************************** 
   Creates a new, uninitialized, used player slot. You should probably
   call server_player_init() to initialize it, and send_player_info_c()
   later to tell clients about it.
@@ -2347,6 +2368,7 @@ struct player *civil_war(struct player *pplayer)
 {
   int i, j;
   struct player *cplayer;
+  struct city *capital;
 
   /* It is possible that this function gets called after pplayer
    * died. Player pointers are safe even after death. */
@@ -2437,7 +2459,9 @@ struct player *civil_war(struct player *pplayer)
   fc_assert(i > 0); /* rebels should have got at least one city */
 
   /* Choose a capital (random). */
-  city_build_free_buildings(city_list_get(cplayer->cities, fc_rand(i)));
+  capital = city_list_get(cplayer->cities, fc_rand(i));
+  city_build_free_buildings(capital);
+  give_midgame_initial_units(cplayer, city_tile(capital));
 
   notify_player(NULL, NULL, E_CIVIL_WAR, ftc_server,
                 /* TRANS: ... Danes ... Poles ... <7> cities. */
