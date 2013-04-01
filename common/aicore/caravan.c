@@ -627,6 +627,8 @@ void caravan_find_best_destination(const struct unit *caravan,
   } else {
     const struct city *src = game_city_by_number(caravan->homecity);
 
+    fc_assert(src != NULL);
+
     caravan_find_best_destination_withtransit(caravan, parameter, src, 0, 
                                               caravan->moves_left, result);
   }

@@ -1983,7 +1983,11 @@ static bool dai_is_unit_tired_waiting_boat(struct ai_type *ait,
 static bool dai_caravan_can_trade_cities_diff_cont(struct player *pplayer,
                                                    struct unit *punit) {
   struct city *pcity = game_city_by_number(punit->homecity);
-  Continent_id continent = tile_continent(pcity->tile);
+  Continent_id continent;
+
+  fc_assert(pcity != NULL);
+
+  continent = tile_continent(pcity->tile);
 
   /* Look for proper destination city at different continent. */
   city_list_iterate(pplayer->cities, acity) {
@@ -2013,6 +2017,41 @@ static bool dai_caravan_can_trade_cities_diff_cont(struct player *pplayer,
 }
 
 /*************************************************************************
+  Try to move caravan to suitable city and to make it caravan's homecity.
+  Returns FALSE iff caravan dies.
+**************************************************************************/
+static bool search_homecity_for_caravan(struct ai_type *ait, struct unit *punit)
+{
+  struct city *nearest = NULL;
+  int min_dist = FC_INFINITY;
+  struct tile *current_loc = unit_tile(punit);
+  Continent_id continent = tile_continent(current_loc);
+  bool alive = TRUE;
+
+  city_list_iterate(punit->owner->cities, pcity) {
+    struct tile *ctile = city_tile(pcity);
+
+    if (tile_continent(ctile) == continent) {
+      int this_dist = map_distance(current_loc, ctile);
+
+      if (this_dist < min_dist) {
+        min_dist = this_dist;
+        nearest = pcity;
+      }
+    }
+  } city_list_iterate_end;
+
+  if (nearest != NULL) {
+    alive = dai_unit_goto(ait, punit, nearest->tile);
+    if (alive && same_pos(unit_tile(punit), nearest->tile)) {
+      dai_unit_make_homecity(punit, nearest);
+    }
+  }
+
+  return alive;
+}
+
+/*************************************************************************
   Use caravans for building wonders, or send caravans to establish
   trade with a city, owned by yourself or an ally.
 
@@ -2023,8 +2062,9 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
 {
   struct caravan_parameter parameter;
   struct caravan_result result;
+  const struct city *homecity;
   const struct city *dest = NULL;
-  struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
+  struct unit_ai *unit_data;
   bool help_wonder = FALSE;
   bool required_boat = FALSE;
   bool request_boat = FALSE;
@@ -2038,23 +2078,36 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
     return;
   }
 
+  unit_data = def_ai_unit_data(punit, ait);
+
   log_base(LOG_CARAVAN2, "%s %s[%d](%d,%d) task %s to (%d,%d)",
            nation_rule_name(nation_of_unit(punit)),
            unit_rule_name(punit), punit->id, TILE_XY(unit_tile(punit)),
            dai_unit_task_rule_name(unit_data->task), 
            TILE_XY(punit->goto_tile));
 
+  homecity = game_city_by_number(punit->homecity);
+  if (homecity == NULL && unit_data->task == AIUNIT_TRADE) {
+    if (!search_homecity_for_caravan(ait, punit)) {
+      return;
+    }
+    homecity = game_city_by_number(punit->homecity);
+    if (homecity == NULL) {
+      return;
+    }
+  }
+
   if ((unit_data->task == AIUNIT_TRADE || 
        unit_data->task == AIUNIT_WONDER)) {
     /* we are moving to our destination */
     /* we check to see if our current goal is feasible */
-    struct city *city_orig = game_city_by_number(punit->homecity);
     struct city *city_dest = tile_city(punit->goto_tile);
+
     if ((city_dest == NULL) || 
-         !pplayers_allied(city_orig->owner, city_dest->owner) || 
+        !pplayers_allied(unit_owner(punit), city_dest->owner) || 
        (unit_data->task == AIUNIT_TRADE && 
-         !(can_cities_trade(city_orig, city_dest) && 
-           can_establish_trade_route(city_orig, city_dest))) ||
+         !(can_cities_trade(homecity, city_dest) && 
+           can_establish_trade_route(homecity, city_dest))) ||
         (unit_data->task == AIUNIT_WONDER && 
          !is_wonder(city_dest->production.value.building))) {
       /* destination invalid! */
@@ -2082,6 +2135,18 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
   }
 
   if (unit_data->task == AIUNIT_NONE) {
+    if (homecity == NULL) {
+      /* FIXME: We shouldn't bother in getting homecity for
+       * caravan that will then be used for wonder building. */
+      if (!search_homecity_for_caravan(ait, punit)) {
+        return;
+      }
+      homecity = game_city_by_number(punit->homecity);
+      if (homecity == NULL) {
+        return;
+      }
+    }
+
     caravan_parameter_init_from_unit(&parameter, punit);
     parameter.allow_foreign_trade = TRUE;
 
