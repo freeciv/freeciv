@@ -550,7 +550,6 @@ static const char *tile_special_type_names[] =
   N_("Mine"),
   N_("Pollution"),
   N_("Hut"),
-  N_("River"),
   N_("Farmland"),
   N_("Fallout")
 };
@@ -656,8 +655,6 @@ bool is_native_terrain_to_special(enum tile_special_type special,
     return !terrain_has_flag(pterrain, TER_NO_POLLUTION);
   case S_HUT:
     return TRUE;
-  case S_RIVER:
-    return terrain_has_flag(pterrain, TER_CAN_HAVE_RIVER);
   case S_FARMLAND:
     return (terrain_control.may_irrigate
             && pterrain == pterrain->irrigation_result);
@@ -665,6 +662,7 @@ bool is_native_terrain_to_special(enum tile_special_type special,
     return !terrain_has_flag(pterrain, TER_NO_POLLUTION);
   case S_OLD_ROAD:
   case S_OLD_RAILROAD:
+  case S_OLD_RIVER:
   case S_OLD_FORTRESS:
   case S_OLD_AIRBASE:
     fc_assert(FALSE);

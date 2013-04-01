@@ -930,8 +930,7 @@ static bool make_river(struct river_map *privermap, struct tile *ptile,
 
     /* Test if the river is done. */
     /* We arbitrarily make rivers end at the poles. */
-    if (count_special_near_tile(ptile, TRUE, TRUE, S_RIVER) > 0
-        || count_river_near_tile(ptile, priver) > 0
+    if (count_river_near_tile(ptile, priver) > 0
         || count_terrain_class_near_tile(ptile, TRUE, TRUE, TC_OCEAN) > 0
         || (tile_terrain(ptile)->property[MG_FROZEN] > 0
             && map_colatitude(ptile) < 0.8 * COLD_LEVEL)) {
@@ -1282,7 +1281,6 @@ static void remove_tiny_islands(void)
   whole_map_iterate(ptile) {
     if (is_tiny_island(ptile)) {
       tile_set_terrain(ptile, shallow);
-      tile_clear_special(ptile, S_OLD_RIVER);
       road_type_iterate(priver) {
         if (tile_has_road(ptile, priver)
             && road_has_flag(priver, RF_RIVER)) {

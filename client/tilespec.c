@@ -338,7 +338,6 @@ struct named_sprites {
       *fog,
       **fullfog,
       *darkness[MAX_INDEX_CARDINAL]; /* first unused */
-    struct river_sprites rivers;
   } tx;				/* terrain extra */
   struct {
     struct sprite
@@ -2630,8 +2629,6 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     }
   }
 
-  load_river_sprites(t, &t->sprites.tx.rivers, "river");
-
   /* We use direction-specific irrigation and farmland graphics, if they
    * are available.  If not, we just fall back to the basic irrigation
    * graphics. */
@@ -4762,10 +4759,6 @@ int fill_sprite_array(struct tileset *t,
 	for (dir = 0; dir < 4; dir++) {
           int didx = DIR4_TO_DIR8[dir];
 
-	  if (contains_special(tspecial_near[didx], S_RIVER)) {
-            ADD_SPRITE_SIMPLE(t->sprites.tx.rivers.outlet[dir]);
-	  }
-
           road_type_list_iterate(t->rivers, priver) {
             int idx = road_index(priver);
 
@@ -4781,22 +4774,6 @@ int fill_sprite_array(struct tileset *t,
 					   pcity);
 
       if (draw_terrain && !solid_bg) {
-        if (contains_special(tspecial, S_RIVER)) {
-          int i;
-
-          /* Draw rivers on top of irrigation. */
-          tileno = 0;
-          for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
-            enum direction8 dir = t->cardinal_tileset_dirs[i];
-
-            if (terrain_type_terrain_class(tterrain_near[dir]) == TC_OCEAN
-                || contains_special(tspecial_near[dir], S_RIVER)) {
-              tileno |= 1 << i;
-            }
-          }
-          ADD_SPRITE_SIMPLE(t->sprites.tx.rivers.spec[tileno]);
-        }
-
         road_type_list_iterate(t->rivers, priver) {
           int idx = road_index(priver);
 
@@ -5725,9 +5702,6 @@ struct sprite *get_basic_special_sprite(const struct tileset *t,
     break;
   case S_HUT:
     return t->sprites.tx.village;
-    break;
-  case S_RIVER:
-    return t->sprites.tx.rivers.spec[0];
     break;
   case S_FARMLAND:
     return t->sprites.tx.farmland[0];

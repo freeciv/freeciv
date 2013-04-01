@@ -122,7 +122,7 @@ struct resource {
 /* Players will start on this terrain type. */
 #define SPECENUM_VALUE3 TER_STARTER
 #define SPECENUM_VALUE3NAME "Starter"
-/* Terrains with this type can have S_RIVER on them. */
+/* Terrains with this type can have road with "River" flag on them. */
 #define SPECENUM_VALUE4 TER_CAN_HAVE_RIVER
 #define SPECENUM_VALUE4NAME "CanHaveRiver"
 /*this tile is not safe as coast, (all ocean / ice) */

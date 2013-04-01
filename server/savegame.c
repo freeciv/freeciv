@@ -732,7 +732,7 @@ static void map_load_tiles(struct section_file *file)
 static const enum tile_special_type default_specials[] = {
   S_LAST, S_OLD_ROAD, S_IRRIGATION, S_OLD_RAILROAD,
   S_MINE, S_POLLUTION, S_HUT, S_OLD_FORTRESS,
-  S_LAST, S_RIVER, S_FARMLAND, S_OLD_AIRBASE,
+  S_LAST, S_OLD_RIVER, S_FARMLAND, S_OLD_AIRBASE,
   S_FALLOUT, S_LAST, S_LAST, S_LAST
 };
 
@@ -811,7 +811,7 @@ static void set_savegame_special(bv_special *specials,
     if (sp == S_LAST) {
       continue;
     }
-    if (load_river_overlay && sp != S_RIVER) {
+    if (load_river_overlay && sp != S_OLD_RIVER) {
       continue;
     }
 
@@ -3486,6 +3486,8 @@ static void game_load_internal(struct section_file *file)
         special_order[j] = S_OLD_ROAD;
       } else if (!strcasecmp("Railroad", modname[j])) {
         special_order[j] = S_OLD_RAILROAD;
+      } else if (!strcasecmp("River", modname[j])) {
+        special_order[j] = S_OLD_RIVER;
       } else if (!strcasecmp("Fortress", modname[j])) {
         special_order[j] = S_OLD_FORTRESS;
       } else if (!strcasecmp("Airbase", modname[j])) {

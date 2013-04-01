@@ -573,7 +573,6 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
 
   if (is_ocean(pterrain)) {
     /* The code can't handle these specials in ocean. */
-    tile_clear_special(ptile, S_RIVER);
     tile_clear_special(ptile, S_HUT);
   }
 
@@ -620,7 +619,7 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
 void tile_add_special(struct tile *ptile, enum tile_special_type special)
 {
   fc_assert_ret(special != S_OLD_FORTRESS && special != S_OLD_AIRBASE);
-  fc_assert_ret(special != S_OLD_ROAD && special != S_OLD_RAILROAD);
+  fc_assert_ret(special != S_OLD_ROAD && special != S_OLD_RAILROAD && special != S_OLD_RIVER);
 
   tile_set_special(ptile, special);
 
@@ -638,7 +637,6 @@ void tile_add_special(struct tile *ptile, enum tile_special_type special)
 
   case S_POLLUTION:
   case S_HUT:
-  case S_RIVER:
   case S_FALLOUT:
   default:
     break;
@@ -652,7 +650,7 @@ void tile_add_special(struct tile *ptile, enum tile_special_type special)
 void tile_remove_special(struct tile *ptile, enum tile_special_type special)
 {
   fc_assert_ret(special != S_OLD_FORTRESS && special != S_OLD_AIRBASE);
-  fc_assert_ret(special != S_OLD_ROAD && special != S_OLD_RAILROAD);
+  fc_assert_ret(special != S_OLD_ROAD && special != S_OLD_RAILROAD && special != S_OLD_RIVER);
 
   tile_clear_special(ptile, special);
 
@@ -664,7 +662,6 @@ void tile_remove_special(struct tile *ptile, enum tile_special_type special)
   case S_MINE:
   case S_POLLUTION:
   case S_HUT:
-  case S_RIVER:
   case S_FARMLAND:
   case S_FALLOUT:
   default:
@@ -828,16 +825,6 @@ const char *tile_get_info_text(const struct tile *ptile, int linebreaks)
     lb = TRUE;
   }
 
-  if (tile_has_special(ptile, S_OLD_RIVER)) {
-    if (lb) {
-      sz_strlcat(s, "\n");
-      lb = FALSE;
-    } else {
-      sz_strlcat(s, "/");
-    }
-    sz_strlcat(s, special_name_translation(S_RIVER));
-  }
-
   road_type_iterate(proad) {
     if (tile_has_road(ptile, proad)
         && road_has_flag(proad, RF_NATURAL)) {
@@ -912,10 +899,6 @@ bool tile_has_road(const struct tile *ptile, const struct road_type *proad)
 ****************************************************************************/
 bool tile_has_river(const struct tile *ptile)
 {
-  if (tile_has_special(ptile, S_OLD_RIVER)) {
-    return TRUE;
-  }
-
   road_type_iterate(priver) {
     if (tile_has_road(ptile, priver)
         && road_has_flag(priver, RF_RIVER)) {

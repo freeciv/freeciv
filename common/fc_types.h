@@ -426,7 +426,6 @@ enum tile_special_type {
   S_MINE,
   S_POLLUTION,
   S_HUT,
-  S_RIVER,
   S_FARMLAND,
   S_FALLOUT,
 
@@ -437,10 +436,9 @@ enum tile_special_type {
   S_OLD_FORTRESS,
   S_OLD_AIRBASE,
   S_OLD_ROAD,
-  S_OLD_RAILROAD
+  S_OLD_RAILROAD,
+  S_OLD_RIVER
 };
-
-#define S_OLD_RIVER S_RIVER
 
 #ifdef __cplusplus
 }

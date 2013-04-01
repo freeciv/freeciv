@@ -1490,9 +1490,6 @@ void disable_fog_of_war(void)
 **************************************************************************/
 static void ocean_to_land_fix_rivers(struct tile *ptile)
 {
-  /* clear the river if it exists */
-  tile_clear_special(ptile, S_OLD_RIVER);
-
   cardinal_adjc_iterate(ptile, tile1) {
     bool ocean_near = FALSE;
 
@@ -1502,10 +1499,6 @@ static void ocean_to_land_fix_rivers(struct tile *ptile)
     } cardinal_adjc_iterate_end;
 
     if (!ocean_near) {
-      if (tile_has_special(tile1, S_OLD_RIVER)) {
-        tile_set_special(ptile, S_OLD_RIVER);
-      }
-
       /* If ruleset has several river types defined, this
        * may cause same tile to contain more than one river. */
       road_type_iterate(priver) {

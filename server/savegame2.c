@@ -1260,7 +1260,7 @@ static void sg_special_set(bv_special *specials, bv_roads *roads,
     if (sp == S_LAST) {
       continue;
     }
-    if (rivers_overlay && sp != S_RIVER) {
+    if (rivers_overlay && sp != S_OLD_RIVER) {
       continue;
     }
 
@@ -1723,6 +1723,8 @@ static void sg_load_savefile(struct loaddata *loading)
         loading->special.order[j] = S_OLD_ROAD;
       } else if (!strcasecmp("Railroad", modname[j])) {
         loading->special.order[j] = S_OLD_RAILROAD;
+      } else if (!strcasecmp("River", modname[j])) {
+        loading->special.order[j] = S_OLD_RIVER;
       } else {
         loading->special.order[j] = special_by_rule_name(modname[j]);
       }
@@ -2665,7 +2667,7 @@ static void sg_save_map_tiles_specials(struct savedata *saving,
     for (l = 0; l < 4; l++) {
       if (rivers_overlay) {
         /* Save only rivers overlay. */
-        mod[l] = (4 * j + l == S_RIVER) ? S_RIVER : S_LAST;
+        mod[l] = (4 * j + l == S_OLD_RIVER) ? S_OLD_RIVER : S_LAST;
       } else {
         /* Save all specials. */
         mod[l] = MIN(4 * j + l, S_LAST);
