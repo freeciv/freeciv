@@ -1824,6 +1824,41 @@ static void caravan_optimize_callback(const struct caravan_result *result,
 }
 
 /*************************************************************************
+  Try to move caravan to suitable city and to make it caravan's homecity.
+  Returns FALSE iff caravan dies.
+**************************************************************************/
+static bool search_homecity_for_caravan(struct unit *punit)
+{
+  struct city *nearest = NULL;
+  int min_dist = FC_INFINITY;
+  struct tile *current_loc = unit_tile(punit);
+  Continent_id continent = tile_continent(current_loc);
+  bool alive = TRUE;
+
+  city_list_iterate(punit->owner->cities, pcity) {
+    struct tile *ctile = city_tile(pcity);
+
+    if (tile_continent(ctile) == continent) {
+      int this_dist = map_distance(current_loc, ctile);
+
+      if (this_dist < min_dist) {
+        min_dist = this_dist;
+        nearest = pcity;
+      }
+    }
+  } city_list_iterate_end;
+
+  if (nearest != NULL) {
+    alive = ai_unit_goto(punit, nearest->tile);
+    if (alive && same_pos(unit_tile(punit), nearest->tile)) {
+      ai_unit_make_homecity(punit, nearest);
+    }
+  }
+
+  return alive;
+}
+
+/*************************************************************************
   Use caravans for building wonders, or send caravans to establish
   trade with a city on the same continent, owned by yourself or an
   ally.
@@ -1843,6 +1878,19 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
   }
 
   if (unit_has_type_flag(punit, F_TRADE_ROUTE) || unit_has_type_flag(punit, F_HELP_WONDER)) {
+    const struct city *homecity;
+
+    homecity = game_city_by_number(punit->homecity);
+    if (homecity == NULL) {
+      if (!search_homecity_for_caravan(punit)) {
+        return;
+      }
+      homecity = game_city_by_number(punit->homecity);
+      if (homecity == NULL) {
+        return;
+      }
+    }
+
     caravan_parameter_init_from_unit(&parameter, punit);
     if (log_do_output_for_level(LOG_CARAVAN2)) {
       parameter.callback = caravan_optimize_callback;
