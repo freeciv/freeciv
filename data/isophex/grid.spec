@@ -35,6 +35,7 @@ tiles = { "row", "column", "tag"
   2, 2, "grid.worked.ud"
 
   0, 3, "grid.unavailable"
+  1, 3, "grid.nonnative"
 
   0, 4, "grid.selected.we"
   1, 4, "grid.selected.ns"

@@ -36,6 +36,11 @@ tiles = { "row", "column", "tag"
   2, 2, "grid.worked.we"
   2, 3, "grid.worked.ns"
 
+; vector of gradient for tessellation:
+;   (theta = arctan(tile_width/tile_height))
+;   dx = tile_width * (cos^2 theta)           = 30.566
+;   dy = tile_height * cos theta * sin theta  = 16.981
+  3, 2, "grid.nonnative"
   3, 3, "grid.unavailable"
 
   4, 1, "grid.selected.lr"
