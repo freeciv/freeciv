@@ -193,7 +193,7 @@ negative_label = _("BC")
 ;                "Inactive" - Keep them inactive
 ;                "Cancel"   - Cancel them altogether
 ;
-; TODO: What's correct "cancelling" behavior for civ2? If you have established
+; TODO: What`s correct "cancelling" behavior for civ2? If you have established
 ;       traderoute with enemy city nearby and conquer it -> what happens to traderoute
 ;       between your cities with less than trademindist distance?
 ;

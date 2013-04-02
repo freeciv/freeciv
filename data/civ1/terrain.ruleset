@@ -880,4 +880,4 @@ move_mode      = "NoBonus"
 compat_special = "River"
 native_to      = "Land"
 flags          = "River", "PreventsOtherRoads", "Natural"
-helptext       = _("")
+;helptext       =
