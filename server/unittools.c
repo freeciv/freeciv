@@ -3286,6 +3286,12 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
     }
   }
 
+  /* Move transported units. */
+  pcargo_units = unit_transport_cargo(punit);
+  if (unit_list_size(pcargo_units) > 0) {
+    unit_move_transported(pcargo_units, psrctile, pdesttile);
+  }
+
   /* Let the scripts run ... */
   script_server_signal_emit("unit_moved", 3,
                             API_TYPE_UNIT, punit,
@@ -3312,12 +3318,6 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   if (!unit_lives) {
     /* Unit killed by entering a hut. */
     goto cleanup;
-  }
-
-  /* Move transported units. */
-  pcargo_units = unit_transport_cargo(punit);
-  if (unit_list_size(pcargo_units) > 0) {
-    unit_move_transported(pcargo_units, psrctile, pdesttile);
   }
 
  cleanup:
