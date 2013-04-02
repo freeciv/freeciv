@@ -376,7 +376,7 @@ A city can only have one Power Plant, Hydro Plant, Nuclear Plant, or\
  Solar Plant.  A city can only build a Hydro Plant if it is next\
  to (or on) a River tile.\
 ")
-; Civ2 would allow building Hydro Plant if there's either River OR Mountains
+; Civ2 would allow building Hydro Plant if there`s either River OR Mountains
 ; but it is not possible to implement with current ruleset format.
 
 [building_library]
