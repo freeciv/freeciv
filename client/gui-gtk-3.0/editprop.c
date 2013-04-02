@@ -4103,8 +4103,12 @@ static void property_page_setup_objprops(struct property_page *pp)
     ADDPROP(OPID_TILE_ADDRESS, _("Address"),
             OPF_HAS_WIDGET, VALTYPE_STRING);
 #endif /* DEBUG */
+#if 0
+    /* Disabled entirely for now as server is not sending other
+     * players' vision information anyway. */
     ADDPROP(OPID_TILE_VISION, _("Vision"),
             OPF_HAS_WIDGET, VALTYPE_TILE_VISION_DATA);
+#endif
     /* TRANS: Tile property "Label" label in editor */
     ADDPROP(OPID_TILE_LABEL, Q_("?property:Label"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_STRING);
