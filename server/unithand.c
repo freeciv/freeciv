@@ -1274,18 +1274,29 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
                   _("This type of troops cannot take over a city."));
     break;
 
-  case MR_BAD_TYPE_FOR_CITY_TAKE_OVER_FROM_SEA:
+  case MR_BAD_TYPE_FOR_CITY_TAKE_OVER_FROM_NON_NATIVE:
     {
-      struct astring astr = ASTRING_INIT;
+      const char *types[utype_count()];
+      int i = 0;
 
-      if (role_units_translations(&astr, UTYF_MARINES, TRUE)) {
+      unit_type_iterate(utype) {
+        if (can_attack_from_non_native(utype)
+            && utype_can_take_over(utype)) {
+          types[i++] = utype_name_translation(utype);
+        }
+      } unit_type_iterate_end;
+
+      if (0 < i) {
+        struct astring astr = ASTRING_INIT;
+
         notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,
-                      /* TRANS: %s is list of units separated by "or". */
-                      _("Only %s can attack from sea."), astr_str(&astr));
+                      /* TRANS: %s is a list of units separated by "or". */
+                      _("Only %s can conquer from a non-native tile."),
+                      astr_build_or_list(&astr, types, i));
         astr_free(&astr);
       } else {
         notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,
-                      _("Cannot attack from sea."));
+                      _("Cannot conquer from a non-native tile."));
       }
     }
     break;

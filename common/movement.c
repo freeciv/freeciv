@@ -449,7 +449,7 @@ bool unit_can_move_to_tile(const struct unit *punit,
     4) Unit can move to a tile where it can't survive on its own if there
        is free transport capacity.
     5) Some units cannot take over a city.
-    6) Marines are the only land units that can attack from a ocean square.
+    6) Only units permitted to attack from non-native tiles may do so.
     7) There are no peaceful but un-allied units on the target tile.
     8) There is not a peaceful but un-allied city on the target tile.
     9) There is no non-allied unit blocking (zoc) [or igzoc is true].
@@ -498,16 +498,17 @@ unit_move_to_tile_test(const struct unit_type *punittype,
     /* 5) */
     if (!utype_can_take_over(punittype)) {
       return MR_BAD_TYPE_FOR_CITY_TAKE_OVER;
-    }
+    } else {
+      /* No point checking for being able to take over from non-native
+       * for units that can't take over a city anyway. */
 
-    /* 6) */
-    if (utype_move_type(punittype) == UMT_LAND
-        && is_ocean_tile(src_tile)      /* Moving from ocean */
-        && !utype_has_flag(punittype, UTYF_MARINES)) {
-      /* Most ground units can't move into cities from ships. (Note this
-       * check is only for movement, not attacking: most ground units
-       * can't attack from ship at *any* units on land.) */
-      return MR_BAD_TYPE_FOR_CITY_TAKE_OVER_FROM_SEA;
+      /* 6) */
+      if (!can_exist_at_tile(punittype, src_tile)
+          && !can_attack_from_non_native(punittype)) {
+        /* Don't use is_native_tile() because any unit in an
+         * adjacent city may conquer, regardless of flags. */
+        return MR_BAD_TYPE_FOR_CITY_TAKE_OVER_FROM_NON_NATIVE;
+      }
     }
   }
 

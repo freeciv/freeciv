@@ -32,7 +32,7 @@ enum unit_move_result {
   MR_DEATH,
   MR_PAUSE,
   MR_BAD_TYPE_FOR_CITY_TAKE_OVER,
-  MR_BAD_TYPE_FOR_CITY_TAKE_OVER_FROM_SEA,
+  MR_BAD_TYPE_FOR_CITY_TAKE_OVER_FROM_NON_NATIVE,
   MR_NO_WAR,    /* Can't move here without declaring war. */
   MR_PEACE,     /* Can't move here because of a peace treaty. */
   MR_ZOC,
