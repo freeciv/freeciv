@@ -1301,12 +1301,6 @@ PACKET_RULESET_GOVERNMENT = 145; sc, lsend
 end
 
 PACKET_RULESET_TERRAIN_CONTROL = 146; sc, lsend
-  BOOL may_road;       /* may build roads/railroads */
-  BOOL may_irrigate;   /* may build irrigation/farmland */
-  BOOL may_mine;       /* may build mines */
-  BOOL may_transform;  /* may transform terrain */
-
-  /* parameters */
   UINT8 ocean_reclaim_requirement_pct; /* # adjacent land tiles for reclaim */
   UINT8 land_channel_requirement_pct; /* # adjacent ocean tiles for channel */
   UINT8 lake_max_size;                /* bodies of water up to this size are freshwater */

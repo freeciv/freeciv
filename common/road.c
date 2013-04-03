@@ -193,9 +193,6 @@ bool is_native_road_to_uclass(const struct road_type *proad,
 ****************************************************************************/
 bool road_can_be_built(const struct road_type *proad, const struct tile *ptile)
 {
-  if (!terrain_control.may_road) {
-    return FALSE;
-  }
 
  if (!proad->buildable) {
     /* Road type not buildable. */

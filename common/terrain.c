@@ -646,18 +646,15 @@ bool is_native_terrain_to_special(enum tile_special_type special,
   /* FIXME: The special definition should be moved into the ruleset. */
   switch (special) {
   case S_IRRIGATION:
-    return (terrain_control.may_irrigate
-            && pterrain == pterrain->irrigation_result);
+    return (pterrain == pterrain->irrigation_result);
   case S_MINE:
-    return (terrain_control.may_mine
-            && pterrain == pterrain->mining_result);
+    return (pterrain == pterrain->mining_result);
   case S_POLLUTION:
     return !terrain_has_flag(pterrain, TER_NO_POLLUTION);
   case S_HUT:
     return TRUE;
   case S_FARMLAND:
-    return (terrain_control.may_irrigate
-            && pterrain == pterrain->irrigation_result);
+    return (pterrain == pterrain->irrigation_result);
   case S_FALLOUT:
     return !terrain_has_flag(pterrain, TER_NO_POLLUTION);
   case S_OLD_ROAD:
@@ -1001,13 +998,11 @@ bool terrain_can_support_alteration(const struct terrain *pterrain,
 {
   switch (alter) {
    case TA_CAN_IRRIGATE:
-     return (terrain_control.may_irrigate
-          && (pterrain == pterrain->irrigation_result));
+     return (pterrain == pterrain->irrigation_result);
    case TA_CAN_MINE:
-     return (terrain_control.may_mine
-          && (pterrain == pterrain->mining_result));
+     return (pterrain == pterrain->mining_result);
    case TA_CAN_ROAD:
-     return (terrain_control.may_road && (pterrain->road_time > 0));
+     return (pterrain->road_time > 0);
    default:
      break;
   }

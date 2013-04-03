@@ -480,7 +480,6 @@ static int get_activity_time(const struct tile *ptile,
   int activity_mc = 0;
 
   fc_assert_ret_val(hover_state == HOVER_CONNECT, -1);
-  fc_assert_ret_val(terrain_control.may_road, -1);
  
   switch (connect_activity) {
   case ACTIVITY_IRRIGATE:

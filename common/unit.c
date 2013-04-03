@@ -1070,8 +1070,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   case ACTIVITY_MINE:
     /* Don't allow it if someone else is irrigating this tile.
      * *Do* allow it if they're transforming - the mine may survive */
-    if (terrain_control.may_mine
-	&& unit_has_type_flag(punit, UTYF_SETTLERS)
+    if (unit_has_type_flag(punit, UTYF_SETTLERS)
 	&& ((pterrain == pterrain->mining_result
 	     && !tile_has_special(ptile, S_MINE)
              && get_tile_bonus(ptile, punit, EFT_MINING_POSSIBLE) > 0)
@@ -1099,8 +1098,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   case ACTIVITY_IRRIGATE:
     /* Don't allow it if someone else is mining this tile.
      * *Do* allow it if they're transforming - the irrigation may survive */
-    if (terrain_control.may_irrigate
-	&& unit_has_type_flag(punit, UTYF_SETTLERS)
+    if (unit_has_type_flag(punit, UTYF_SETTLERS)
 	&& (!tile_has_special(ptile, S_IRRIGATION)
 	    || (!tile_has_special(ptile, S_FARMLAND)
 		&& player_knows_techs_with_flag(pplayer, TF_FARMLAND)))
@@ -1245,8 +1243,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return (!unit_type(punit)->fuel && !is_losing_hp(punit));
 
   case ACTIVITY_TRANSFORM:
-    return (terrain_control.may_transform
-	    && pterrain->transform_result != T_NONE
+    return (pterrain->transform_result != T_NONE
 	    && pterrain != pterrain->transform_result
 	    && (!is_ocean(pterrain)
 		|| is_ocean(pterrain->transform_result)

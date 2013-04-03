@@ -1160,8 +1160,7 @@ bool can_unit_do_connect(struct unit *punit,
   case ACTIVITY_IRRIGATE:
     /* Special case for irrigation: only irrigate to make S_IRRIGATION,
      * never to transform tiles. */
-    return (terrain_control.may_irrigate
-            && unit_has_type_flag(punit, UTYF_SETTLERS)
+    return (unit_has_type_flag(punit, UTYF_SETTLERS)
             && (tile_has_special(ptile, S_IRRIGATION)
                 || (pterrain == pterrain->irrigation_result
                     && can_be_irrigated(ptile, punit)

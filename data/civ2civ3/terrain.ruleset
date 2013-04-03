@@ -14,12 +14,6 @@
 description="Civ2Civ3 tile_type data for Freeciv"
 options="+Freeciv-ruleset-Devel-2013.Mar.06"
 
-[options]
-may_road = TRUE         ; FALSE means no, TRUE means yes
-may_irrigate = TRUE     ; FALSE means no, TRUE means yes
-may_mine = TRUE         ; FALSE means no, TRUE means yes
-may_transform = TRUE    ; FALSE means no, TRUE means yes
-
 [control]
 ; Names for custom unit type flags.
 ;flags =

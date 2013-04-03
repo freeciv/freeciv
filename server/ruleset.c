@@ -2313,16 +2313,6 @@ static bool load_ruleset_terrain(struct section_file *file)
     return FALSE;
   }
 
-  /* options */
-  terrain_control.may_road =
-    secfile_lookup_bool_default(file, TRUE, "options.may_road");
-  terrain_control.may_irrigate =
-    secfile_lookup_bool_default(file, TRUE, "options.may_irrigate");
-  terrain_control.may_mine =
-    secfile_lookup_bool_default(file, TRUE, "options.may_mine");
-  terrain_control.may_transform =
-    secfile_lookup_bool_default(file, TRUE, "options.may_transform");
-
   /* parameters */
 
   terrain_control.ocean_reclaim_requirement_pct

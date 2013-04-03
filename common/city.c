@@ -1222,8 +1222,7 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
     if (tile_has_special(ptile, S_IRRIGATION)
         || (NULL != pcity
             && is_city_center(pcity, ptile)
-            && pterrain == pterrain->irrigation_result
-            && terrain_control.may_irrigate)) {
+            && pterrain == pterrain->irrigation_result)) {
       prod += pterrain->irrigation_food_incr;
     }
     break;

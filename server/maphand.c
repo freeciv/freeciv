@@ -245,10 +245,6 @@ void upgrade_all_city_roads(struct player *pplayer, bool discovery)
 {
   bool roads_upgradet = FALSE;
 
-  if (!(terrain_control.may_road)) {
-    return;
-  }
-
   conn_list_do_buffer(pplayer->connections);
 
   city_list_iterate(pplayer->cities, pcity) {
