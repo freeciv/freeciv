@@ -2274,7 +2274,13 @@ static struct player *split_player(struct player *pplayer)
 bool civil_war_possible(struct player *pplayer, bool conquering_city,
                         bool honour_server_option)
 {
-  int n = city_list_size(pplayer->cities);
+  int n;
+
+  if (!game.info.civil_war_enabled) {
+    return FALSE;
+  }
+
+  n = city_list_size(pplayer->cities);
 
   if (n - (conquering_city?1:0) < GAME_MIN_CIVILWARSIZE) {
     return FALSE;
@@ -2315,24 +2321,22 @@ if a civil war is triggered.
 bool civil_war_triggered(struct player *pplayer)
 {
   /* Get base probabilities */
-
   int dice = fc_rand(100); /* Throw the dice */
   int prob = get_player_bonus(pplayer, EFT_CIVIL_WAR_CHANCE);
 
   /* Now compute the contribution of the cities. */
-  
-  city_list_iterate(pplayer->cities, pcity)
+  city_list_iterate(pplayer->cities, pcity) {
     if (city_unhappy(pcity)) {
       prob += 5;
     }
     if (city_celebrating(pcity)) {
       prob -= 5;
     }
-  city_list_iterate_end;
+  } city_list_iterate_end;
 
   log_verbose("Civil war chance for %s: prob %d, dice %d",
               player_name(pplayer), prob, dice);
-  
+
   return (dice < prob);
 }
 

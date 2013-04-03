@@ -4246,6 +4246,9 @@ static bool load_ruleset_game(const char *rsdir)
                                            RS_MIN_FOOD_COST,
                                            RS_MAX_FOOD_COST,
                                            "civstyle.food_cost");
+    game.info.civil_war_enabled
+      = secfile_lookup_bool_default(file, TRUE, "civstyle.civil_war_enabled");
+
     /* TODO: move to global_unit_options */
     game.info.base_bribe_cost
       = secfile_lookup_int_default_min_max(file,
