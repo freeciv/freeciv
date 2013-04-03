@@ -109,6 +109,7 @@
 #define NUM_TILES_DIGITS 10
 #define NUM_TILES_SELECT 4
 #define MAX_NUM_CITIZEN_SPRITES 6
+#define MAX_NUM_UPKEEP_SPRITES 10
 
 #define SPECENUM_NAME roadstyle_id
 #define SPECENUM_VALUE0 RSTYLE_ALL_SEPARATE
@@ -298,8 +299,8 @@ struct named_sprites {
   } unit;
   struct {
     struct sprite
-      *unhappy[2],
-      *output[O_LAST][2];
+      *unhappy[MAX_NUM_UPKEEP_SPRITES],
+      *output[O_LAST][MAX_NUM_UPKEEP_SPRITES];
   } upkeep;
   struct {
     struct sprite
@@ -2538,15 +2539,34 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     SET_SPRITE(city.tile_tradenum[i], buffer);
   }
 
-  SET_SPRITE(upkeep.unhappy[0], "upkeep.unhappy");
-  SET_SPRITE(upkeep.unhappy[1], "upkeep.unhappy2");
+  /* Must have at least one upkeep sprite per output type (and unhappy) */
+  /* The rest are optional; we copy the previous sprite for unspecified ones */
+  fc_strlcpy(buffer, "upkeep.unhappy", sizeof(buffer));
+  SET_SPRITE(upkeep.unhappy[0], buffer);
+  for(i=1; i<MAX_NUM_UPKEEP_SPRITES; i++) {
+    fc_snprintf(buffer2, sizeof(buffer2), "upkeep.unhappy%d", i+1);
+    if (sprite_exists(t, buffer2)) {
+      SET_SPRITE(upkeep.unhappy[i], buffer2);
+      fc_strlcpy(buffer, buffer2, sizeof(buffer));
+    } else {
+      SET_SPRITE(upkeep.unhappy[i], buffer);
+    }
+  }
   output_type_iterate(o) {
     fc_snprintf(buffer, sizeof(buffer),
                 "upkeep.%s", get_output_identifier(o));
-    t->sprites.upkeep.output[o][0] = load_sprite(t, buffer);
-    fc_snprintf(buffer, sizeof(buffer),
-                "upkeep.%s2", get_output_identifier(o));
-    t->sprites.upkeep.output[o][1] = load_sprite(t, buffer);
+    SET_SPRITE_OPT(upkeep.output[o][0], buffer);
+    for(i=1; i<MAX_NUM_UPKEEP_SPRITES; i++) {
+      fc_snprintf(buffer2, sizeof(buffer2),
+                  "upkeep.%s%d", get_output_identifier(o), i+1);
+      if (sprite_exists(t, buffer2)) {
+        SET_SPRITE(upkeep.output[o][i], buffer2);
+        fc_strlcpy(buffer, buffer2, sizeof(buffer));
+      } else {
+        /* Optional, as maybe the upkeep 1 sprite didn't exist either */
+        SET_SPRITE_OPT(upkeep.output[o][i], buffer);
+      }
+    }
   } output_type_iterate_end;
   
   SET_SPRITE(user.attention, "user.attention");
@@ -5479,7 +5499,7 @@ struct sprite *get_unit_unhappy_sprite(const struct tileset *t,
 				       const struct unit *punit,
 				       int happy_cost)
 {
-  const int unhappy = CLIP(0, happy_cost, 2);
+  const int unhappy = CLIP(0, happy_cost, MAX_NUM_UPKEEP_SPRITES+1);
 
   if (unhappy > 0) {
     return t->sprites.upkeep.unhappy[unhappy - 1];
@@ -5499,7 +5519,7 @@ struct sprite *get_unit_upkeep_sprite(const struct tileset *t,
 				      const struct unit *punit,
 				      const int *upkeep_cost)
 {
-  const int upkeep = CLIP(0, upkeep_cost[otype], 2);
+  const int upkeep = CLIP(0, upkeep_cost[otype], MAX_NUM_UPKEEP_SPRITES+1);
 
   if (upkeep > 0) {
     return t->sprites.upkeep.output[otype][upkeep - 1];
