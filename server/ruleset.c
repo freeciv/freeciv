@@ -2331,8 +2331,6 @@ static bool load_ruleset_terrain(struct section_file *file)
     = secfile_lookup_bool_default(file, FALSE,
                                   "parameters.ocean_resources");
 
-  terrain_control.road_superhighway_trade_bonus =
-    secfile_lookup_int_default(file, 50, "parameters.road_superhighway_trade_bonus");
   output_type_iterate(o) {
     terrain_control.pollution_tile_penalty[o]
       = secfile_lookup_int_default(file, 50,

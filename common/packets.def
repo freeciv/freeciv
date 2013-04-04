@@ -1309,7 +1309,6 @@ PACKET_RULESET_TERRAIN_CONTROL = 146; sc, lsend
   UINT8 lake_max_size;                /* bodies of water up to this size are freshwater */
   UINT8 min_start_native_area;
 
-  UINT16 road_superhighway_trade_bonus;  # % added to trade if road/s-highway
   UINT8 pollution_tile_penalty[O_LAST]; /* % taken from output if polluted */
   UINT8 fallout_tile_penalty[O_LAST]; /* % taken from output if polluted */
 end

@@ -41,9 +41,6 @@ min_start_native_area = 0
 ; There is no resources in the middle of the oceans, only near coast
 ocean_resources = FALSE
 
-; percent added to trade production if road and city has superhighways
-road_superhighway_trade_bonus=50
-
 ; percent subtracted from food production if tile is polluted
 pollution_food_penalty=50
 

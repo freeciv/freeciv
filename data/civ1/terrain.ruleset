@@ -38,9 +38,6 @@ lake_max_size = 0
 ; 0 to disable check.
 min_start_native_area = 0
 
-; percent added to trade production if road and city has superhighways
-road_superhighway_trade_bonus=0
-
 ; percent subtracted from food production if tile is polluted
 pollution_food_penalty=50
 
