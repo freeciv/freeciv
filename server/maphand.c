@@ -2059,3 +2059,27 @@ void destroy_base(struct tile *ptile, struct base_type *pbase)
   }
   tile_remove_base(ptile, pbase);
 }
+
+/****************************************************************************
+  Give player pto the map of pfrom, but do some random damage; good to bad
+  is the ratio of tiles revealed to tiles not revealed, e.g., calling
+  give_distorted_map(pfrom, pto, 1, 1) reveals half the map on average. 
+  If reveal_cities is TRUE tiles with cities are always revealed.
+****************************************************************************/
+void give_distorted_map(struct player *pfrom, struct player *pto,
+                        int good, int bad, bool reveal_cities)
+{
+  int all = good + bad;
+  
+  buffer_shared_vision(pto);
+  
+  whole_map_iterate(ptile) {
+    if (fc_rand(all) >= bad) {
+      give_tile_info_from_player_to_player(pfrom, pto, ptile);
+    } else if (reveal_cities && NULL != tile_city(ptile)) {
+      give_tile_info_from_player_to_player(pfrom, pto, ptile);
+    }
+  } whole_map_iterate_end;
+
+  unbuffer_shared_vision(pto);
+}

@@ -44,6 +44,7 @@
 
 /* server */
 #include "aiiface.h"
+#include "barbarian.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "connecthand.h"
@@ -111,6 +112,7 @@ static int player_info_frozen_level = 0;
 void kill_player(struct player *pplayer)
 {
   bool palace;
+  struct player *barbarians = NULL;
 
   pplayer->is_alive = FALSE;
 
@@ -151,17 +153,75 @@ void kill_player(struct player *pplayer)
       transfer_city(pcity->original, pcity, 3, TRUE, TRUE, TRUE);
     }
   } city_list_iterate_end;
+  game.server.savepalace = palace;
+
+  /* let there be civil war */
+  if (game.info.gameloss_style & GAMELOSS_STYLE_CWAR) {
+    if (city_list_size(pplayer->cities) >= 2 + MIN(GAME_MIN_CIVILWARSIZE, 2)) {
+      struct player *prebelplayer;
+
+      log_verbose("Civil war strikes the remaining empire of %s",
+                  pplayer->name);
+      /* out of sheer cruelty we reanimate the player 
+       * so he can behold what happens to his empire */
+      pplayer->is_alive = TRUE;
+
+      prebelplayer = civil_war(pplayer);
+      if (prebelplayer) {
+        struct city *prebelcapital = player_capital(prebelplayer);
+
+        if (prebelcapital) {
+          give_midgame_initial_units(prebelplayer, city_tile(prebelcapital));
+        }
+      } 
+    } else {
+      log_verbose("The empire of %s is too small for civil war.",
+                  pplayer->name);
+    }
+  }
+  pplayer->is_alive = FALSE;
+
+  if (game.info.gameloss_style & GAMELOSS_STYLE_BARB) {
+    /* if parameter, create a barbarian, if possible */
+    barbarians = create_barbarian_player(LAND_BARBARIAN);
+  }
+
+  /* if there are barbarians around, they will take the remaining cities */
+  /* vae victis! */
+  if (barbarians) {
+    log_verbose("Barbarians take the empire of %s", pplayer->name);
+    adv_data_phase_init(barbarians, TRUE);
+      
+    /* Transfer any remaining cities */
+    city_list_iterate(pplayer->cities, pcity) {
+      transfer_city(barbarians, pcity, -1, FALSE, FALSE, FALSE);
+    } city_list_iterate_end;
+      
+    resolve_unit_stacks(pplayer, barbarians, FALSE);
+      
+    /* Choose a capital (random). */
+    if (!player_capital(barbarians)) {
+      const int size = city_list_size(barbarians->cities);
+      const int idx = fc_rand(size);
+      struct city *pbarbcity =
+        city_list_get(barbarians->cities, idx);
+
+      if (pbarbcity) {
+        log_debug("New barbarian capital is %s", city_name(pbarbcity));
+        city_build_free_buildings(pbarbcity);
+      }
+    }
+  } else {
+    /* Destroy any remaining cities */
+    city_list_iterate(pplayer->cities, pcity) {
+      remove_city(pcity);
+    } city_list_iterate_end;
+  }
 
   /* Remove all units that are still ours */
   unit_list_iterate_safe(pplayer->units, punit) {
     wipe_unit(punit, ULR_PLAYER_DIED, NULL);
   } unit_list_iterate_safe_end;
-
-  /* Destroy any remaining cities */
-  city_list_iterate(pplayer->cities, pcity) {
-    remove_city(pcity);
-  } city_list_iterate_end;
-  game.server.savepalace = palace;
 
   /* Remove ownership of tiles */
   whole_map_iterate(ptile) {

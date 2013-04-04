@@ -34,4 +34,6 @@ void summon_barbarians(void);
 bool is_land_barbarian(struct player *pplayer);
 bool is_sea_barbarian(struct player *pplayer);
 
+struct player *create_barbarian_player(enum barbarian_type type);
+
 #endif  /* FC__BARBARIAN_H */

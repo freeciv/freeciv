@@ -132,4 +132,7 @@ void create_base(struct tile *ptile, struct base_type *pbase,
                  struct player *pplayer);
 void destroy_base(struct tile *ptile, struct base_type *pbase);
 
+void give_distorted_map(struct player *pfrom, struct player *pto, int good,
+                        int bad, bool reveal_cities);
+
 #endif  /* FC__MAPHAND_H */

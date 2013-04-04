@@ -4234,6 +4234,36 @@ static bool load_ruleset_game(const char *rsdir)
     game.info.base_pollution
       = secfile_lookup_int_default(file, RS_DEFAULT_BASE_POLLUTION,
                                    "civstyle.base_pollution");
+
+    game.info.gameloss_style = GAMELOSS_STYLE_CLASSICAL;
+    sval = secfile_lookup_str_default(file, NULL, "civstyle.gameloss_style");
+    if (sval != NULL) {
+      char *tokens[4]; /* 3 is max, but we try to get 4 to see if there's more than max */
+      int cnt = get_tokens(sval, tokens, 4, "|,");
+      int i;
+      int gls;
+
+      if (cnt > 3) {
+        ruleset_error(LOG_ERROR, "Too many gameloss_style tokens.");
+        ok = FALSE;
+      } else {
+        game.info.gameloss_style = 0;
+        for (i = 0; i < cnt; i++) {
+          gls = gameloss_style_by_name(tokens[i], fc_strcasecmp);
+          if (!gameloss_style_is_valid(gls)) {
+            ruleset_error(LOG_ERROR, "Bad value %s for gameloss_style.", tokens[i]);
+            ok = FALSE;
+            break;
+          } else {
+            game.info.gameloss_style |= gls;
+          }
+        }
+      }
+      free_tokens(tokens, cnt);
+    }
+  }
+
+  if (ok) {
     game.info.happy_cost
       = secfile_lookup_int_def_min_max(file,
                                        RS_DEFAULT_HAPPY_COST,

@@ -1826,6 +1826,82 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   sz_strlcpy(pkiller_link, unit_link(pkiller));
   sz_strlcpy(punit_link, unit_tile_link(punit));
 
+  if ((game.info.gameloss_style & GAMELOSS_STYLE_LOOT) 
+      && unit_has_type_flag(punit, UTYF_GAMELOSS)) {
+    int ransom = fc_rand(1 + pvictim->economic.gold);
+    int n;
+
+    /* give map */
+    give_distorted_map(pvictim, pvictor, 1, 1, TRUE);
+
+    log_debug("victim has money: %d", pvictim->economic.gold);
+    pvictor->economic.gold += ransom; 
+    pvictim->economic.gold -= ransom;
+
+    n = 1 + fc_rand(3);
+
+    while (n > 0) {
+      Tech_type_id ttid = steal_a_tech(pvictor, pvictim, A_UNSET);
+
+      if (ttid == A_NONE) {
+        log_debug("Worthless enemy doesn't have more techs to steal."); 
+        break;
+      } else {
+        log_debug("Pressed tech %s from captured enemy",
+                  advance_name_for_player(pvictor, ttid));
+        if (!fc_rand(3)) {
+          break; /* out of luck */
+        }
+        n--;
+      }
+    }
+    
+    { /* try to submit some cities */
+      int vcsize = city_list_size(pvictim->cities);
+      int evcsize = vcsize;
+      int conqsize = evcsize;
+
+      if (evcsize < 3) {
+        evcsize = 0; 
+      } else {
+        evcsize -=3;
+      }
+      /* about a quarter on average with high numbers less probable */
+      conqsize = fc_rand(fc_rand(evcsize)); 
+
+      log_debug("conqsize=%d", conqsize);
+      
+      if (conqsize > 0) {
+        bool palace = game.server.savepalace;
+        bool submit = FALSE;
+
+        game.server.savepalace = FALSE; /* moving it around is dumb */
+
+        city_list_iterate(pvictim->cities, pcity) {
+          /* kindly ask the citizens to submit */
+          if (fc_rand(vcsize) < conqsize) {
+            submit = TRUE;
+          }
+          vcsize--;
+          if (submit) {
+            conqsize--;
+            /* Transfer city to the victorious player
+             * kill all its units outside of a radius of 7, 
+             * give verbose messages of every unit transferred,
+             * and raze buildings according to raze chance
+             * (also removes palace) */
+            transfer_city(pvictor, pcity, 7, TRUE, TRUE, TRUE);
+            submit = FALSE;
+          }
+          if (conqsize <= 0) {
+            break;
+          }
+        } city_list_iterate_end;
+        game.server.savepalace = palace;
+      }
+    }
+  }
+  
   /* barbarian leader ransom hack */
   if( is_barbarian(pvictim) && unit_has_type_role(punit, L_BARBARIAN_LEADER)
       && (unit_list_size(unit_tile(punit)->units) == 1)

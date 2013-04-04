@@ -87,7 +87,7 @@ bool is_sea_barbarian(struct player *pplayer)
 
   Dead barbarians forget the map and lose the money.
 **************************************************************************/
-static struct player *create_barbarian_player(enum barbarian_type type)
+struct player *create_barbarian_player(enum barbarian_type type)
 {
   struct player *barbarians;
   struct nation_type *nation;

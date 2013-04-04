@@ -397,6 +397,23 @@ BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */
+#define SPECENUM_NAME gameloss_style
+#define SPECENUM_BITWISE
+/* Like classical Freeciv. No special effects. */
+#define SPECENUM_ZERO   GAMELOSS_STYLE_CLASSICAL
+/* Remaining cities are taken by barbarians. */
+#define SPECENUM_VALUE0 GAMELOSS_STYLE_BARB
+#define SPECENUM_VALUE0NAME "Barbarians"
+/* Try civil war. */
+#define SPECENUM_VALUE1 GAMELOSS_STYLE_CWAR
+#define SPECENUM_VALUE1NAME "CivilWar"
+/* Do some looting */
+#define SPECENUM_VALUE2 GAMELOSS_STYLE_LOOT
+#define SPECENUM_VALUE2NAME "Loot"
+#include "specenum_gen.h"
+
+
+/* Used in the network protocol. */
 enum phase_mode_types {
   PMT_CONCURRENT = 0,
   PMT_PLAYERS_ALTERNATE,

@@ -226,6 +226,7 @@ type SSET_CLASS         = uint8(enum sset_class)
 type SSET_TYPE          = uint8(enum sset_type)
 type ROAD_COMPAT        = uint8(enum road_compat)
 type FTM                = uint8(enum free_tech_method)
+type GLS                = uint8(enum gameloss_style)
 type UTYF               = uint8(enum unit_type_flag_id)
 type CBONUS_TYPE        = uint8(enum combat_bonus_type)
 type TRI                = uint8(enum traderoute_illegal_cancelling)
@@ -491,6 +492,7 @@ PACKET_GAME_INFO = 16; sc
   UINT16 tech_upkeep_divider;
   UINT8 tech_upkeep_style;
   FTM free_tech_method;
+  GLS gameloss_style;
   UINT32 timeout;
   BOOL tired_attack;
   UINT16 trademindist;
