@@ -1692,19 +1692,21 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
     /* Finally reassign, bounce, or destroy all units that cannot exist at this
      * location without transport. */
     if (drowning) {
-      struct city *pcity = NULL;
-
       /* First save undisbandable and gameloss units */
       unit_list_iterate_safe(ptile->units, pcargo) {
         if (!unit_transported(pcargo)
             && !can_unit_exist_at_tile(pcargo, ptile)
             && (unit_has_type_flag(pcargo, UTYF_UNDISBANDABLE)
                 || unit_has_type_flag(pcargo, UTYF_GAMELOSS))) {
+          struct city *pcity = NULL;
           struct unit *ptransport = transport_from_tile(pcargo, ptile);
+
           if (ptransport != NULL) {
             unit_transport_load_tp_status(pcargo, ptransport, FALSE);
             send_unit_info(NULL, pcargo);
           } else {
+            bool saved = FALSE;
+
             if (unit_has_type_flag(pcargo, UTYF_UNDISBANDABLE)) {
               pcity = find_closest_city(unit_tile(pcargo), NULL,
                                         unit_owner(pcargo), TRUE, FALSE, FALSE,
@@ -1716,12 +1718,11 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
                               unit_link(pcargo),
                               utype_name_translation(putype_save),
                               city_link(pcity));
+                saved = TRUE;
               }
             }
-            if (!unit_has_type_flag(pcargo, UTYF_UNDISBANDABLE) || !pcity) {
+            if (!saved) {
               unit_list_prepend(drown, pcargo);
-            } else {
-              unit_list_prepend(remain, pcargo);
             }
           }
 
