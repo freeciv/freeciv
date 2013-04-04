@@ -53,7 +53,8 @@ river_trade_incr=0
 ; help text for rivers
 river_help_text=""
 
-; percent added to trade production if road and city has superhighways
+; Old superhighway bonus percentage value: no longer used.
+; Use an Output_Per_Tile effect to simulate the pre-2.0 behaviour if needed
 road_superhighway_trade_bonus=0
 
 ; percent added to food production if tile has railroad

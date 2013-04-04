@@ -66,7 +66,8 @@ Roads and railroads can only be built on River tiles if your\
  civilization has learned Bridge Building technology.\
 ")
 
-; percent added to trade production if road and city has superhighways
+; Old superhighway bonus percentage value: no longer used.
+; Use an Output_Per_Tile effect to simulate the pre-2.0 behaviour if needed
 road_superhighway_trade_bonus=50
 
 ; percent added to food production if tile has railroad
