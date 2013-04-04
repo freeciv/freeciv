@@ -64,7 +64,6 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #define NUMBER_OF_TRIES 500
   
 #ifdef WIN32_NATIVE
-/* FIXME: this is referenced directly in gui-win32/connectdlg.c. */
 HANDLE server_process = INVALID_HANDLE_VALUE;
 HANDLE loghandle = INVALID_HANDLE_VALUE;
 #else

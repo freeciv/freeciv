@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 16-Dec-12.
+Last minor update was 02-Apr-13.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -29,7 +29,6 @@ This document contains sections and subsections as follows:
      9. Mac OS X and Darwin notes:
     10. Debian GNU/Linux notes:
     11. Windows notes:
-    12. Win32 ("native MS Windows client") notes:
 
 
 0. Prerequisites:
@@ -104,7 +103,6 @@ contains the generated files.
 The Freeciv client comes in the following forms:
 * Gtk+ 2.0 widget library ("Gtk+ 2.0").
 * Gtk+ 3.0 widget library ("Gtk+ 3.0").
-* Native Microsoft Windows Common Controls ("Win32").
 * X Athena Widgets library ("Xaw").
 * SDL
 * Qt
@@ -726,73 +724,5 @@ Build instructions for MinGW versions are documented on top of file
 win32/installer/Makefile
 
 Cygwin specific installation notes can be found in doc/INSTALL-Cygwin.
-
-
-12. Win32 ("native MS Windows client") notes:
-=============================================
-
-NOTE: This client has no maintainer at the moment, and it's not in working
-      condition.
-
-Requirements: a unix environment with gcc and binutils for windows (mingw32)
-              for the native win32 client: libz and libpng
-              (from http://download.gna.org/freeciv/requirements)
-You can use the standard gcc makefiles for them, but set CC and RANLIB to the
-right thing. If you use the libpng/libz binary shipped with cygwin, you are
-asking for trouble. 
-To compile zlib from above source enter
-with the cygwin utils: make CC="gcc -mno-cygwin"
-with a mingw32 cross compiler: 
-make CC=iX86-mingw32-gcc RANLIB=iX86-mingw32-ranlib
-
-To compile libpng from above source enter
-with the cygwin utils: 
-make -f scripts/makefile.gcc CC="gcc -mno-cygwin"
-with a mingw32 cross compiler:
-make -f scripts/makefile.gcc CC=i386-mingw32-gcc RANLIB=i386-mingw32-ranlib
-
-These things have to be put to a place where your compiler will find it.
-
-Autoconf and co:
-If you build from svn, you will have to replace ./configure with ./autogen.sh 
-in the following lines.
-
-Configuring the source:
------------------------
-1. with the cygwin utils:
-You need the mingw and the w32api package. 
-
-export CC="gcc -mno-cygwin"
-./configure --with-included-gettext --prefix=.
-
-2. cross compiling from a real unix.
-replace X with a number which you have chosen when you have configured your 
-cross compiler.
-
-export CC=iX86-mingw32-gcc
-export AR=iX86-mingw32-ar
-export RANLIB=iX86-mingw32-ranlib
-./configure --host=iX86-mingw32 --build=$(./config.guess) --with-included-gettext --enable-client=win32 --prefix=.
-
-
-Build and install:
---------------------
-make
-make DESTDIR=absolute_install_path bindir=./ install
-
-absolute_install_path must be  the path where you want to install freeciv.
-It must be absolute and must end with a slash.
-
-Now it is time to cleanup the stuff a bit.
-cd into your install dir. Then check if the executables have the .exe suffix and if you want, strip them.
-I suggest to move the data dir:
-
-mv share/freeciv data
-
-The final step is to convert the gfx to png. Use your favorite gfx program in
-order to do that. You can use a combination of ImageMagick and pngquant for
-that.  But it is really important that you check the result. Check every file.
-The alpha channel (transparency)  often magically disappears. There is no 
-reliable script for that.
 
 ** END **

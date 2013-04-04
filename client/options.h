@@ -209,11 +209,6 @@ extern struct video_mode gui_sdl_screen;
 extern bool gui_sdl_do_cursor_animation;
 extern bool gui_sdl_use_color_cursors;
 
-/* gui-win32 client specific options. */
-extern bool gui_win32_better_fog;
-extern bool gui_win32_enable_alpha;
-
-
 #define SPECENUM_NAME option_type
 #define SPECENUM_VALUE0 OT_BOOLEAN
 #define SPECENUM_VALUE1 OT_INTEGER
