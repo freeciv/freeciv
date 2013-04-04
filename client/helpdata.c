@@ -1495,6 +1495,10 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
 	    _("  * Can attack units on non-native tiles.\n"));
   }
+  if (uclass_has_flag(utype_class(utype), UCF_ATT_FROM_NON_NATIVE)) {
+    CATLSTR(buf, bufsz,
+            _("  * Can launch attack from non-native tiles.\n"));
+  }
 
   if (utype->need_improvement) {
     cat_snprintf(buf, bufsz,
@@ -1685,8 +1689,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (utype_has_flag(utype, UTYF_MARINES)) {
     CATLSTR(buf, bufsz,
-	    _("* Can attack from aboard sea units: against"
-	      " enemy cities and onto land tiles.\n"));
+            _("* Can launch attack from non-native tiles.\n"));
   }
   if (utype_has_flag(utype, UTYF_PARATROOPERS)) {
     cat_snprintf(buf, bufsz,
