@@ -2333,7 +2333,7 @@ struct player *civil_war(struct player *pplayer)
     return NULL;
   }
 
-  if (player_count() >= MAX_NUM_PLAYERS) {
+  if (normal_player_count() >= MAX_NUM_PLAYERS) {
     /* No space to make additional player */
     log_normal(_("Could not throw %s into civil war - too many players"),
                nation_plural_for_player(pplayer));
