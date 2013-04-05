@@ -111,8 +111,8 @@ struct cityimpr {
 
 static bool sell_random_building(struct player *pplayer,
                                  struct cityimpr_list *imprs);
-static bool sell_random_unit(struct player *pplayer,
-                             struct unit_list *punitlist);
+static struct unit *sell_random_unit(struct player *pplayer,
+                                     struct unit_list *punitlist);
 
 static citizens city_reduce_specialists(struct city *pcity, citizens change);
 static citizens city_reduce_workers(struct city *pcity, citizens change);
@@ -1883,8 +1883,8 @@ static bool sell_random_building(struct player *pplayer,
 }
 
 /**************************************************************************
-  Randomly "sell" a unit from the given list. Returns TRUE if a unit was
-  sold.
+  Randomly "sell" a unit from the given list. Returns pointer to sold unit.
+  This pointer is not valid any more, but can be removed from the lists.
 
   NB: It is assumed that gold upkeep for the units has already been paid
   this turn, hence when a unit is "sold" its upkeep is given back to the
@@ -1892,11 +1892,12 @@ static bool sell_random_building(struct player *pplayer,
   NB: The contents of 'units' are usually mangled by this function.
   NB: It is assumed that all units in 'units' have positive gold upkeep.
 **************************************************************************/
-static bool sell_random_unit(struct player *pplayer,
-                             struct unit_list *punitlist)
+static struct unit *sell_random_unit(struct player *pplayer,
+                                     struct unit_list *punitlist)
 {
   struct unit *punit;
   int gold_upkeep, r;
+  struct unit_list *cargo;
 
   fc_assert_ret_val(pplayer != NULL, FALSE);
 
@@ -1906,10 +1907,41 @@ static bool sell_random_unit(struct player *pplayer,
 
   r = fc_rand(unit_list_size(punitlist));
   punit = unit_list_get(punitlist, r);
+
+  cargo = unit_list_new();
+
+  /* Check if unit is transporting other units from punitlist,
+   * and sell one of those (recursively) instead. */
+  unit_list_iterate(unit_transport_cargo(punit), pcargo) {
+    if (pcargo->upkeep[O_GOLD] > 0) { /* Optimization, do not iterate over punitlist
+                                       * if we are sure that pcargo is not in it. */
+      unit_list_iterate(punitlist, p2) {
+        if (pcargo == p2) {
+          unit_list_append(cargo, pcargo);
+        }
+      } unit_list_iterate_end;
+    }
+  } unit_list_iterate_end;
+
+  if (unit_list_size(cargo) > 0) {
+    struct unit *ret = sell_random_unit(pplayer, cargo);
+
+    if (ret != NULL) {
+      /* Remove from original list too */
+      unit_list_remove(punitlist, ret);
+    }
+
+    unit_list_destroy(cargo);
+
+    return ret;
+  }
+
+  unit_list_destroy(cargo);
+
   gold_upkeep = punit->upkeep[O_GOLD];
 
   /* All units in punitlist should have gold upkeep! */
-  fc_assert_ret_val(gold_upkeep > 0, FALSE);
+  fc_assert_ret_val(gold_upkeep > 0, NULL);
 
   notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
                 _("Not enough gold. %s disbanded."),
@@ -1923,7 +1955,7 @@ static bool sell_random_unit(struct player *pplayer,
   /* Get the upkeep gold back. */
   pplayer->economic.gold += gold_upkeep;
 
-  return TRUE;
+  return punit;
 }
 
 /**************************************************************************
