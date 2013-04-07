@@ -530,6 +530,7 @@ sprites =
 		"f.shield.united_kingdom", "flags/united_kingdom-shield-large"
 		"f.shield.united_nations", "flags/united_nations-shield-large"
 		"f.shield.unknown", "flags/unknown-shield-large"
+		"f.shield.urartu", "flags/urartu-shield-large"
 		"f.shield.uruguay", "flags/uruguay-shield-large"
 		"f.shield.usa", "flags/usa-shield-large"
 		"f.shield.uyghur", "flags/uyghur-shield-large"

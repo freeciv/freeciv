@@ -521,6 +521,7 @@ flag_files =				\
 		united_kingdom.png	\
 		united_nations.png	\
 		unknown.png		\
+		urartu.png		\
 		uruguay.png		\
 		usa.png			\
 		uyghur.png		\
@@ -1078,6 +1079,7 @@ flag_files =				\
 		united_kingdom-large.png	\
 		united_nations-large.png	\
 		unknown-large.png		\
+		urartu-large.png		\
 		uruguay-large.png		\
 		usa-large.png			\
 		uyghur-large.png		\
@@ -1637,6 +1639,7 @@ shield_files =					\
 		united_kingdom-shield.png	\
 		united_nations-shield.png	\
 		unknown-shield.png		\
+		urartu-shield.png		\
 		uruguay-shield.png		\
 		usa-shield.png			\
 		uyghur-shield.png		\
@@ -2194,6 +2197,7 @@ shield_files =					\
 		united_kingdom-shield-large.png	\
 		united_nations-shield-large.png	\
 		unknown-shield-large.png		\
+		urartu-shield-large.png			\
 		uruguay-shield-large.png		\
 		usa-shield-large.png			\
 		uyghur-shield-large.png		\
@@ -2753,6 +2757,7 @@ svg_files = 				\
 		united_kingdom.svg	\
 		united_nations.svg	\
 		unknown.svg		\
+		urartu.svg		\
 		uruguay.svg		\
 		usa.svg			\
 		uyghur.svg		\

@@ -529,6 +529,7 @@ artists = "
    United Kingdom	Daniel McRae
    United Nations	Tobias Jakobs
    Unknown		Jason Short
+   Urartu		Andrzej G.
    Uruguay		Guillermo Romero
    USA			Daniel McRae
    Uyghur		Daniel Markstedt
@@ -1091,6 +1092,7 @@ sprites =
 		"f.united_kingdom", "flags/united_kingdom"
 		"f.united_nations", "flags/united_nations"
 		"f.unknown", "flags/unknown"		; hard-coded fallback
+		"f.urartu", "flags/urartu"
 		"f.uruguay", "flags/uruguay"
 		"f.usa", "flags/usa"
 		"f.uyghur", "flags/uyghur"

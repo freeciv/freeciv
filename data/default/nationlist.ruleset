@@ -551,6 +551,7 @@ match=2
 *include "nation/ugandan.ruleset"
 *include "nation/ukrainian.ruleset"
 *include "nation/un.ruleset"
+*include "nation/urartian.ruleset"
 *include "nation/uruguayan.ruleset"
 *include "nation/uyghur.ruleset"
 *include "nation/uzbek.ruleset"

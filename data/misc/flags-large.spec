@@ -530,6 +530,7 @@ sprites =
 		"f.united_kingdom", "flags/united_kingdom-large"
 		"f.united_nations", "flags/united_nations-large"
 		"f.unknown", "flags/unknown-large"		; hard-coded fallback
+		"f.urartu", "flags/urartu-large"
 		"f.uruguay", "flags/uruguay-large"
 		"f.usa", "flags/usa-large"
 		"f.uyghur", "flags/uyghur-large"

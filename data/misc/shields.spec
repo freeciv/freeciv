@@ -529,6 +529,7 @@ sprites =
 		"f.shield.united_kingdom", "flags/united_kingdom-shield"
 		"f.shield.united_nations", "flags/united_nations-shield"
 		"f.shield.unknown", "flags/unknown-shield"
+		"f.shield.urartu", "flags/urartu-shield"
 		"f.shield.uruguay", "flags/uruguay-shield"
 		"f.shield.usa", "flags/usa-shield"
 		"f.shield.uyghur", "flags/uyghur-shield"

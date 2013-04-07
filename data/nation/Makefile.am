@@ -512,6 +512,7 @@ pkgdata_DATA = \
 		ugandan.ruleset \
 		ukrainian.ruleset \
 		un.ruleset \
+		urartian.ruleset \
 		uruguayan.ruleset \
 		uyghur.ruleset \
 		uzbek.ruleset \
