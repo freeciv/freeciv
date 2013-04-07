@@ -2873,8 +2873,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
 Does: 1) updates the unit's homecity and the city it enters/leaves (the
          city's happiness varies). This also takes into account when the
 	 unit enters/leaves a fortress.
-      2) process any huts at the unit's destination.
-      3) updates adjacent cities' unavailable tiles.
+      2) updates adjacent cities' unavailable tiles.
 
 FIXME: Sometimes it is not necessary to send cities because the goverment
        doesn't care whether a unit is away or not.
@@ -3087,11 +3086,6 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   unit_did_action(punit);
   unit_forget_last_activity(punit);
 
-  /* Move consequences and wakup. */
-  unit_move_consequences(punit, psrctile, pdesttile, FALSE);
-  wakeup_neighbor_sentries(punit);
-  maybe_make_contact(pdesttile, unit_owner(punit));
-
   /* Move magic. */
   punit->moved = TRUE;
   punit->moves_left = MAX(0, punit->moves_left - move_cost);
@@ -3131,6 +3125,11 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
    * those players seeing inside cities of old city owner. After city
    * has been transferred, updated info is sent by unit_enter_city() */
   send_unit_info_to_onlookers(NULL, punit, psrctile, FALSE);
+
+  /* Move consequences and wakeup. */
+  unit_move_consequences(punit, psrctile, pdesttile, FALSE);
+  wakeup_neighbor_sentries(punit);
+  maybe_make_contact(pdesttile, unit_owner(punit));
 
   /* Special checks for ground units in the ocean. */
   if (!can_unit_survive_at_tile(punit, pdesttile)) {
