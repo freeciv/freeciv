@@ -129,7 +129,6 @@ static struct player *create_barbarian_player(enum barbarian_type type)
   sz_strlcpy(barbarians->name, pick_random_player_name(nation));
 
   server.nbarbarians++;
-  game.server.max_players = MAX(player_count(), game.server.max_players);
 
   sz_strlcpy(barbarians->username, ANON_USER_NAME);
   barbarians->is_connected = FALSE;
