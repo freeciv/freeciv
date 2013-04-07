@@ -3294,11 +3294,6 @@ void handle_ruleset_disaster(const struct packet_ruleset_disaster *p)
   }
   fc_assert(pdis->reqs.size == p->reqs_count);
 
-  for (i = 0; i < p->nreqs_count; i++) {
-    requirement_vector_append(&pdis->nreqs, p->nreqs[i]);
-  }
-  fc_assert(pdis->nreqs.size == p->nreqs_count);
-
   pdis->frequency = p->frequency;
 
   pdis->effects = p->effects;

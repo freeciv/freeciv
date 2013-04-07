@@ -230,7 +230,6 @@ negative_label = _("BCE")
 ; name                    = translatable name as seen by user
 ; reqs                    = requirements for disaster to happen (see effects.ruleset
 ;                           and README.effects for help on requirements)
-; nreqs                   = requirements to avoid disaster
 ; frequency               = how likely disaster is to occur
 ; effects
 ;   - "DestroyBuilding"   = Random building is destroyed

@@ -37,7 +37,6 @@ void disaster_types_init(void)
   for (i = 0; i < ARRAY_SIZE(disaster_types); i++) {
     disaster_types[i].id = i;
     requirement_vector_init(&disaster_types[i].reqs);
-    requirement_vector_init(&disaster_types[i].nreqs);
   }
 }
 
@@ -48,7 +47,6 @@ void disaster_types_free(void)
 {
   disaster_type_iterate(pdis) {
     requirement_vector_free(&pdis->reqs);
-    requirement_vector_free(&pdis->nreqs);
   } disaster_type_iterate_end;
 }
 
@@ -125,8 +123,5 @@ bool can_disaster_happen(struct disaster_type *pdis, struct city *pcity)
 {
   return are_reqs_active(city_owner(pcity), pcity, NULL, city_tile(pcity),
                          NULL, NULL, NULL, &pdis->reqs,
-                         RPT_POSSIBLE)
-    && !are_reqs_active(city_owner(pcity), pcity, NULL, city_tile(pcity),
-                        NULL, NULL, NULL, &pdis->nreqs,
-                        RPT_CERTAIN);
+                         RPT_POSSIBLE);
 }

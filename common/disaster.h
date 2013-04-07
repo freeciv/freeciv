@@ -43,7 +43,6 @@ struct disaster_type {
   struct name_translation name;
 
   struct requirement_vector reqs;
-  struct requirement_vector nreqs;
 
   /* Final probability for each city each turn is
    * this frequency * game.info.disasters frequency setting / DISASTER_BASE_RARITY */

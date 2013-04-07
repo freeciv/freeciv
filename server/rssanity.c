@@ -259,40 +259,6 @@ static bool sanity_check_req_nreq_list(const struct requirement_list *preqs,
 }
 
 /**************************************************************************
-  Check that requirement vector and negated requirements vector do not have
-  conflicting requirements.
-
-  Returns TRUE iff everything ok.
-**************************************************************************/
-static bool sanity_check_req_nreq_vec(const struct requirement_vector *preqs,
-                                      const struct requirement_vector *pnreqs,
-                                      int one_tile,
-                                      const char *vec_for)
-{
-  /* Check internal sanity of requirement vector */
-  if (!sanity_check_req_vec(preqs, one_tile, vec_for)) {
-    return FALSE;
-  }
-
-  /* There is no pnreqs in all cases */
-  if (pnreqs != NULL) {
-    /* Check sanity between reqs and nreqs */
-    requirement_vector_iterate(preqs, preq) {
-      requirement_vector_iterate(pnreqs, pnreq) {
-        if (are_requirements_equal(preq, pnreq)) {
-          log_error("%s: Identical %s requirement in requirements and "
-                    "negated requirements.", vec_for,
-                    universal_type_rule_name(&preq->source));
-          return FALSE;
-        }
-      } requirement_vector_iterate_end;
-    } requirement_vector_iterate_end;
-  }
-
-  return TRUE;
-}
-
-/**************************************************************************
   Sanity check callback for iterating effects cache.
 **************************************************************************/
 static bool effect_list_sanity_cb(const struct effect *peffect)
@@ -503,9 +469,9 @@ bool sanity_check_ruleset_data(void)
 
   /* Disasters */
   disaster_type_iterate(pdis) {
-    if (!sanity_check_req_nreq_vec(&pdis->reqs, &pdis->nreqs, -1,
-                                   disaster_rule_name(pdis))) {
-      ruleset_error(LOG_ERROR, "Disasters requirements are not sane!");
+    if (!sanity_check_req_vec(&pdis->reqs, -1,
+                              disaster_rule_name(pdis))) {
+      ruleset_error(LOG_ERROR, "Disasters have conflicting requirements!");
       ok = FALSE;
     }
   } disaster_type_iterate_end;

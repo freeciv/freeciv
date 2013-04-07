@@ -188,7 +188,6 @@ negative_label = _("BC")
 ; name                    = translatable name as seen by user
 ; reqs                    = requirements for disaster to happen (see effects.ruleset
 ;                           and README.effects for help on requirements)
-; nreqs                   = requirements to avoid disaster
 ; frequency               = how likely disaster is to occur
 ; effects
 ;   - "DestroyBuilding"   = Random building is destroyed
@@ -211,18 +210,18 @@ effects        = "DestroyBuilding"
 
 [disaster_famine]
 name           = _("Famine")
-nreqs           =
-    { "type", "name", "range"
-      "Building", "Granary", "City"
+reqs           =
+    { "type", "name", "range", "negated"
+      "Building", "Granary", "City", TRUE
     }
 frequency      = 10
 effects        = "ReducePopulation", "EmptyFoodStock"
 
 [disaster_fire]
 name           = _("Fire")
-nreqs           =
-    { "type", "name", "range"
-      "Building", "Aqueduct", "City"
+reqs           =
+    { "type", "name", "range", "negated"
+      "Building", "Aqueduct", "City", TRUE
     }
 frequency      = 10
 effects        = "DestroyBuilding"
@@ -230,12 +229,9 @@ effects        = "DestroyBuilding"
 [disaster_flood]
 name           = _("Flood")
 reqs           =
-    { "type", "name", "range"
-      "Special", "River", "Adjacent"
-    }
-nreqs          =
-    { "type", "name", "range"
-      "Building", "City Walls", "City"
+    { "type", "name", "range", "negated"
+      "Special", "River", "Adjacent", FALSE
+      "Building", "City Walls", "City", TRUE
     }
 frequency      = 10
 effects        = "ReducePopulation"
@@ -243,24 +239,21 @@ effects        = "ReducePopulation"
 [disaster_piracy]
 name           = _("Piracy")
 reqs           =
-    { "type", "name", "range"
-      "Terrain", "Ocean", "Adjacent"
-    }
-nreqs          =
-    { "type", "name", "range"
-      "Building", "Barracks", "City"
-      "Building", "Barracks II", "City"
-      "Building", "Barracks III", "City"
+    { "type", "name", "range", "negated"
+      "Terrain", "Ocean", "Adjacent", FALSE
+      "Building", "Barracks", "City", TRUE
+      "Building", "Barracks II", "City", TRUE
+      "Building", "Barracks III", "City", TRUE
     }
 frequency      = 10
 effects        = "EmptyFoodStock", "EmptyProdStock"
 
 [disaster_plague]
 name           = _("Plague")
-nreqs          =
-    { "type", "name", "range"
-      "Tech", "Medicine", "Player"
-      "Building", "Aqueduct", "City"
+reqs          =
+    { "type", "name", "range", "negated"
+      "Tech", "Medicine", "Player", TRUE
+      "Building", "Aqueduct", "City", TRUE
     }
 frequency      = 10
 effects        = "ReducePopulation"
@@ -268,12 +261,9 @@ effects        = "ReducePopulation"
 [disaster_volcano]
 name           = _("Volcano")
 reqs           =
-    { "type", "name", "range"
-      "Terrain", "Mountains", "Adjacent"
-    }
-nreqs          =
-    { "type", "name", "range"
-      "Building", "Temple", "City"
+    { "type", "name", "range", "negated"
+      "Terrain", "Mountains", "Adjacent", FALSE
+      "Building", "Temple", "City", TRUE
     }
 frequency      = 10
 effects        = "ReducePopulation"

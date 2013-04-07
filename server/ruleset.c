@@ -4633,13 +4633,6 @@ static bool load_ruleset_game(const char *rsdir)
       }
       requirement_vector_copy(&pdis->reqs, reqs);
 
-      reqs = lookup_req_list(file, sec_name, "nreqs", disaster_rule_name(pdis));
-      if (reqs == NULL) {
-        ok = FALSE;
-        break;
-      }
-      requirement_vector_copy(&pdis->nreqs, reqs);
-
       pdis->frequency = secfile_lookup_int_default(file, 10, "%s.frequency",
                                                    sec_name);
 
@@ -5188,12 +5181,6 @@ static void send_ruleset_disasters(struct conn_list *dest)
       packet.reqs[j++] = *preq;
     } requirement_vector_iterate_end;
     packet.reqs_count = j;
-
-    j = 0;
-    requirement_vector_iterate(&d->nreqs, preq) {
-      packet.nreqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    packet.nreqs_count = j;
 
     packet.frequency = d->frequency;
 
