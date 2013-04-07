@@ -1006,13 +1006,13 @@ enum rfc_status create_command_pregame(const char *name, bool check,
 
   if (NULL == pplayer) {
     /* Check that we are not going over max players setting */
-    if (player_count() >= game.server.max_players) {
+    if (normal_player_count() >= game.server.max_players) {
       fc_snprintf(buf, buflen,
                   _("Can't add more players, server is full."));
       return C_FAIL;
     }
     /* Check that we have nations available */
-    if (player_count() - server.nbarbarians >= server.playable_nations) {
+    if (normal_player_count() >= server.playable_nations) {
       fc_snprintf(buf, buflen,
                   _("Can't add more players, not enough nations."));
       return C_FAIL;
@@ -2950,7 +2950,7 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
       return FALSE;
     }
 
-    if (player_count() >= game.server.max_players) {
+    if (normal_player_count() >= game.server.max_players) {
       fc_snprintf(msg, msg_len,
                   /* TRANS: Do not translate "maxplayers". */
                   PL_("You cannot take a new player because "
@@ -3290,8 +3290,8 @@ static bool take_command(struct connection *caller, char *str, bool check)
    * detached connections only. Others can reuse the slot
    * they first release. */
   if (!pplayer && !pconn->playing
-      && (player_count() >= game.server.max_players
-          || player_count() - server.nbarbarians >= server.playable_nations)) {
+      && (normal_player_count() >= game.server.max_players
+          || normal_player_count() >= server.playable_nations)) {
     cmd_reply(CMD_TAKE, caller, C_FAIL,
               _("There is no free player slot for %s."),
               pconn->username);
@@ -4392,15 +4392,16 @@ bool start_command(struct connection *caller, bool check, bool notify)
         game.server.max_players = map_startpos_count();
       }
 
-      if (player_count() > game.server.max_players) {
+      if (normal_player_count() > game.server.max_players) {
         int i;
         struct player *pplayer;
+
         for (i = player_slot_count() - 1; i >= 0; i--) {
           pplayer = player_by_number(i);
           if (pplayer) {
             server_remove_player(pplayer);
           }
-          if (player_count() <= game.server.max_players) {
+          if (normal_player_count() <= game.server.max_players) {
             break;
           }
         }

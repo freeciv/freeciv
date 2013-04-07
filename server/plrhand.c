@@ -2073,7 +2073,7 @@ void civil_war(struct player *pplayer)
     return;
   }
 
-  if (player_count() == game.server.max_players) {
+  if (normal_player_count() == game.server.max_players) {
     /* 'maxplayers' must be increased to allow for a new player. */
 
     /* This assert should never be called due to the first check above. */
