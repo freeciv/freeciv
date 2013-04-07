@@ -22,7 +22,6 @@ extern "C" {
 
 #define SINGLE_MOVE     3
 #define MOVE_COST_IGTER 1
-#define MOVE_COST_RIVER 1
 
 struct unit_type;
 struct terrain;
