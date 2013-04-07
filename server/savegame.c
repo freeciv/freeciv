@@ -772,7 +772,8 @@ should be because rulesets are loaded later. So try to load as
 many as they are; there should be at least enough for every
 player.  This could be changed/improved in future.
 ***************************************************************/
-static void map_load_startpos(struct section_file *file)
+static void map_load_startpos(struct section_file *file,
+                              enum server_states state)
 {
   int savegame_start_positions;
   int i;
@@ -822,6 +823,7 @@ static void map_load_startpos(struct section_file *file)
   }
 
   if (0 < map_startpos_count()
+      && state == S_S_INITIAL
       && map_startpos_count() < game.server.max_players) {
     log_verbose("Number of starts (%d) are lower than rules.max_players "
                 "(%d), lowering rules.max_players.",
@@ -1148,6 +1150,7 @@ static struct player *identifier_to_player(char c)
 load a complete map from a savegame file
 ***************************************************************/
 static void map_load(struct section_file *file,
+                     enum server_states state,
                      const char *savefile_options,
                      const enum tile_special_type *special_order,
                      int num_special_types,
@@ -1161,7 +1164,7 @@ static void map_load(struct section_file *file,
 
   map_load_tiles(file);
   if (secfile_lookup_bool_default(file, TRUE, "game.save_starts")) {
-    map_load_startpos(file);
+    map_load_startpos(file, state);
   }
 
   if (special_order) {
@@ -5150,7 +5153,8 @@ static void game_load_internal(struct section_file *file)
           && MAPGEN_SCENARIO == map.server.generator) {
         /* generator 0 = map done with a map editor aka a "scenario" */
         if (has_capability("specials",savefile_options)) {
-          map_load(file, savefile_options, special_order, num_special_types,
+          map_load(file, tmp_server_state, savefile_options,
+                   special_order, num_special_types,
                    base_order, num_base_types);
           return;
         }
@@ -5158,8 +5162,8 @@ static void game_load_internal(struct section_file *file)
         if (has_capability("riversoverlay",savefile_options)) {
 	  map_load_rivers_overlay(file, special_order, num_special_types);
 	}
-        if (has_capability("startpos",savefile_options)) {
-          map_load_startpos(file);
+        if (has_capability("startpos", savefile_options)) {
+          map_load_startpos(file, tmp_server_state);
           return;
         }
 	return;
@@ -5211,7 +5215,8 @@ static void game_load_internal(struct section_file *file)
                                sizeof(server.game_identifier));
   }
 
-  map_load(file, savefile_options, special_order, num_special_types,
+  map_load(file, tmp_server_state, savefile_options,
+           special_order, num_special_types,
            base_order, num_base_types);
 
   if (!game.info.is_new_game) {
