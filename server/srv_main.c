@@ -2589,7 +2589,7 @@ static void srv_ready(void)
   if (game.info.is_new_game) {
     /* If we're starting a new game, reset the max_players to be at
      * least the number of players currently in the game. */
-    game.server.max_players = MAX(player_count(), game.server.max_players);
+    game.server.max_players = MAX(normal_player_count(), game.server.max_players);
 
     /* Before the player map is allocated (and initialized)! */
     game.server.fogofwar_old = game.info.fogofwar;

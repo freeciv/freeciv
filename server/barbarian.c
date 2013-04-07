@@ -133,7 +133,6 @@ struct player *create_barbarian_player(enum barbarian_type type)
   }
 
   server.nbarbarians++;
-  game.server.max_players = MAX(player_count(), game.server.max_players);
 
   sz_strlcpy(barbarians->username, ANON_USER_NAME);
   barbarians->is_connected = FALSE;
