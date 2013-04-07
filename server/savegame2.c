@@ -2790,6 +2790,7 @@ static void sg_load_map_startpos(struct loaddata *loading)
   }
 
   if (0 < map_startpos_count()
+      && loading->server_state == S_S_INITIAL
       && map_startpos_count() < game.server.max_players) {
     log_verbose("Number of starts (%d) are lower than rules.max_players "
                 "(%d), lowering rules.max_players.",
