@@ -1106,6 +1106,7 @@ void tilespec_reread(const char *new_tileset_name)
   players_iterate(pplayer) {
     tileset_player_init(tileset, pplayer);
   } players_iterate_end;
+  tileset_background_init(tileset);
 
   /* Step 3: Setup
    *
