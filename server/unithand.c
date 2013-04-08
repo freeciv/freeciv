@@ -1566,7 +1566,14 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * units or cities not allied with all of our cargo. */
   if (get_transporter_capacity(punit) > 0) {
     unit_list_iterate(unit_tile(punit)->units, pcargo) {
-      if (unit_transport_get(pcargo) == punit
+      const struct unit *ptrans;
+      /* Is this unit transported by us, directly or indirectly? */
+      for (ptrans = unit_transport_get(pcargo);
+           ptrans != NULL && ptrans != punit;
+           ptrans = unit_transport_get(ptrans)) {
+        /* nothing */
+      }
+      if (ptrans == punit
           && (is_non_allied_unit_tile(pdesttile, unit_owner(pcargo))
               || is_non_allied_city_tile(pdesttile, unit_owner(pcargo)))) {
          notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
