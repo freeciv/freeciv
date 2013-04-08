@@ -740,8 +740,7 @@ static int tile_move_cost_ptrs(const struct unit *punit,
 			       const struct tile *t1, const struct tile *t2)
 {
   bool native = TRUE;
-  int road_cost = -1;
-  int cost;
+  int cost = tile_terrain(t2)->movement_cost * SINGLE_MOVE;
   bool cardinal_move;
   bool ri;
 
@@ -749,14 +748,14 @@ static int tile_move_cost_ptrs(const struct unit *punit,
 
   if (punit) {
     pclass = unit_class(punit);
-    native = is_native_tile(unit_type(punit), t2);
+    native = is_native_tile_to_class(pclass, t2);
   }
 
   if (game.info.slow_invasions
       && pclass
       && tile_city(t1) == NULL
       && !is_native_tile_to_class(pclass, t1)
-      && is_native_tile_to_class(pclass, t2)) {
+      && native) {
     /* If "slowinvasions" option is turned on, units moving from
      * non-native terrain (from transport) to native terrain lose all their
      * movement.
@@ -784,30 +783,32 @@ static int tile_move_cost_ptrs(const struct unit *punit,
         && (!ri || road_has_flag(proad, RF_NATURAL))) {
       if ((!pclass || is_native_road_to_uclass(proad, pclass))
           && tile_has_road(t1, proad) && tile_has_road(t2, proad)) {
-        if (road_cost == -1 || road_cost > proad->move_cost) {
+        if (cost > proad->move_cost) {
           switch (proad->move_mode) {
           case RMM_CARDINAL:
             if (cardinal_move) {
-              road_cost = proad->move_cost;
+              cost = proad->move_cost;
             }
             break;
           case RMM_RELAXED:
             if (cardinal_move) {
-              road_cost = proad->move_cost;
+              cost = proad->move_cost;
             } else {
-              cardinal_between_iterate(t1, t2, between) {
-                if (tile_has_road(between, proad)) {
+              if (cost > proad->move_cost * 2) {
+                cardinal_between_iterate(t1, t2, between) {
+                  if (tile_has_road(between, proad)) {
                   /* TODO: Should we restrict this more?
                    * Should we check against enemy cities on between tile?
                    * Should we check against non-native terrain on between tile?
                    */
-                  road_cost = proad->move_cost * 2;
-                }
-              } cardinal_between_iterate_end;
+                  cost = proad->move_cost * 2;
+                  }
+                } cardinal_between_iterate_end;
+              }
             }
             break;
           case RMM_FAST_ALWAYS:
-            road_cost = proad->move_cost;
+            cost = proad->move_cost;
             break;
           case RMM_NO_BONUS:
             fc_assert(proad->move_mode != RMM_NO_BONUS);
@@ -818,22 +819,12 @@ static int tile_move_cost_ptrs(const struct unit *punit,
     }
   } road_type_iterate_end;
 
-  if (road_cost >= 0 && road_cost < MOVE_COST_IGTER) {
-    return road_cost;
-  }
-
   if (punit && unit_has_type_flag(punit, UTYF_IGTER)) {
-    return MOVE_COST_IGTER;
+    return MIN(cost, MOVE_COST_IGTER);
   }
   if (!native) {
     /* Loading to transport or entering port */
     return SINGLE_MOVE;
-  }
-
-  cost = tile_terrain(t2)->movement_cost * SINGLE_MOVE;
-
-  if (road_cost >= 0) {
-    cost = MIN(cost, road_cost);
   }
 
   return cost;
