@@ -301,6 +301,33 @@ static bool edit_tile_special_handling(struct tile *ptile,
   return TRUE;
 }
 
+/****************************************************************************
+  Recursively add all road dependencies to add given road.
+****************************************************************************/
+static bool add_recursive_roads(struct tile *ptile, struct road_type *proad,
+                                int rec)
+{
+  if (rec > MAX_ROAD_TYPES) {
+    /* Infinite recursion */
+    return FALSE;
+  }
+
+  /* First place dependency roads */
+  road_deps_iterate(&(proad->reqs), pdep) {
+    if (!tile_has_road(ptile, pdep)) {
+      add_recursive_roads(ptile, pdep, rec + 1);
+    }
+  } road_deps_iterate_end;
+
+  /* Is tile native for road after that? */
+  if (!is_native_tile_to_road(proad, ptile)) {
+    return FALSE;
+  }
+
+  tile_add_road(ptile, proad);
+
+  return TRUE;
+}
 
 /****************************************************************************
   Base function to edit the road property of a tile. Returns TRUE if
@@ -317,24 +344,9 @@ static bool edit_tile_road_handling(struct tile *ptile,
 
     tile_remove_road(ptile, proad);
   } else {
-    /* First add all dependency roads */
-    road_deps_iterate(&(proad->reqs), pdep) {
-      if (!tile_has_road(ptile, pdep)) {
-        if (!is_native_tile_to_road(pdep, ptile)) {
-          return FALSE;
-        }
-
-        tile_add_road(ptile, pdep);
-      }
-    } road_deps_iterate_end;
-
-    /* Then road itself */
-    if (tile_has_road(ptile, proad)
-        || !is_native_tile_to_road(proad, ptile)) {
+    if (!add_recursive_roads(ptile, proad, 0)) {
       return FALSE;
     }
-
-    tile_add_road(ptile, proad);
   }
 
   if (send_tile_info) {
