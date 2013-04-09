@@ -35,6 +35,23 @@ enum cvercmp_prever
   CVERCMP_PRE_NONE
 };
 
+struct preverstr
+{
+  const char *str;
+  enum cvercmp_prever prever;
+};
+
+struct preverstr preverstrs[] =
+{
+  { "dev", CVERCMP_PRE_DEV },
+  { "alpha", CVERCMP_PRE_ALPHA },
+  { "beta", CVERCMP_PRE_BETA },
+  { "pre", CVERCMP_PRE_PRE },
+  { "candidate", CVERCMP_PRE_RC },
+  { "rc", CVERCMP_PRE_RC },
+  { NULL, CVERCMP_PRE_NONE }
+};
+
 bool cvercmp(const char *ver1, const char *ver2, enum cvercmp_type type)
 {
   typedef bool (*cmpfunc)(const char *ver1, const char *ver2);
@@ -82,6 +99,94 @@ bool cvercmp_max(const char *ver1, const char *ver2)
   return cvercmp_cmp(ver1, ver2) != CVERCMP_GREATER;
 }
 
+static enum cvercmp_type cvercmp_tokens(const char *token1, const char *token2)
+{
+  char **t1 = cvercmp_ver_subtokenize(token1);
+  char **t2 = cvercmp_ver_subtokenize(token2);
+  int i;
+  enum cvercmp_type result = CVERCMP_EQUAL;
+  bool solution = false;
+
+  for (i = 0; (t1[i] != NULL && t2[i] != NULL) && !solution; i++) {
+    bool d1 = isdigit(t1[i][0]);
+    bool d2 = isdigit(t2[i][0]);
+
+    if (d1 && !d2) {
+      /* Numbers are always greater than alpha, so don't need to check prever */
+      result = CVERCMP_GREATER;
+      solution = true;
+    } else if (!d1 && d2) {
+      result = CVERCMP_LESSER;
+      solution = true;
+    } else if (d1) {
+      int val1 = atoi(t1[i]);
+      int val2 = atoi(t2[i]);
+
+      if (val1 > val2) {
+        result = CVERCMP_GREATER;
+        solution = true;
+      } else if (val1 < val2) {
+        result = CVERCMP_LESSER;
+        solution = true;
+      }
+    } else {
+      int alphacmp = strcasecmp(t1[i], t2[i]);
+
+      if (alphacmp) {
+        enum cvercmp_prever pre1 = cvercmp_parse_prever(t1[i]);
+        enum cvercmp_prever pre2 = cvercmp_parse_prever(t2[i]);
+
+        if (pre1 > pre2) {
+          result = CVERCMP_GREATER;
+        } else if (pre1 < pre2) {
+          result = CVERCMP_LESSER;
+        } else if (alphacmp < 0) {
+          result = CVERCMP_LESSER;
+        } else if (alphacmp > 0) {
+          result = CVERCMP_GREATER;
+        } else {
+          assert(false);
+        }
+
+        solution = true;
+      }
+    }
+  }
+
+  if (!solution) {
+    /* Got to the end of one token.
+     * Longer token is greater, unless the next subtoken is
+     * a prerelease string. */
+    if (t1[i] != NULL && t2[i] == NULL) {
+      if (cvercmp_parse_prever(t1[i]) != CVERCMP_PRE_NONE) {
+        result = CVERCMP_LESSER;
+      } else {
+        result = CVERCMP_GREATER;
+      }
+    } else if (t1[i] == NULL && t2[i] != NULL) {
+      if (cvercmp_parse_prever(t2[i]) != CVERCMP_PRE_NONE) {
+        result = CVERCMP_GREATER;
+      } else {
+        result = CVERCMP_LESSER;
+      }
+    } else {
+      /* Both ran out at the same time. */
+      result = CVERCMP_EQUAL;
+    }
+  }
+
+  for (i = 0; t1[i] != NULL; i++) {
+    free(t1[i]);
+  }
+  for (i = 0; t2[i] != NULL; i++) {
+    free(t2[i]);
+  }
+  free(t1);
+  free(t2);
+
+  return result;
+}
+
 enum cvercmp_type cvercmp_cmp(const char *ver1, const char *ver2)
 {
   enum cvercmp_type result = CVERCMP_EQUAL;
@@ -93,102 +198,14 @@ enum cvercmp_type cvercmp_cmp(const char *ver1, const char *ver2)
   for (i = 0; (tokens1[i] != NULL && tokens2[i] != NULL) && !solution; i++) {
     if (strcasecmp(tokens1[i], tokens2[i])) {
       /* Parts are not equal */
-      char **t1 = cvercmp_ver_subtokenize(tokens1[i]);
-      char **t2 = cvercmp_ver_subtokenize(tokens2[i]);
-      int j;
-
-      for (j = 0; (t1[j] != NULL && t2[j] != NULL) && !solution; j++) {
-        bool d1 = isdigit(t1[j][0]);
-        bool d2 = isdigit(t2[j][0]);
-
-        if (d1 && !d2) {
-          result = CVERCMP_GREATER;
-          solution = true;
-        } else if (!d1 && d2) {
-          result = CVERCMP_LESSER;
-          solution = true;
-        } else if (d1) {
-          int val1 = atoi(t1[j]);
-          int val2 = atoi(t2[j]);
-
-          if (val1 > val2) {
-            result = CVERCMP_GREATER;
-            solution = true;
-          } else if (val1 < val2) {
-            result = CVERCMP_LESSER;
-            solution = true;
-          }
-        } else {
-          int alphacmp = strcasecmp(t1[j], t2[j]);
-
-          if (alphacmp) {
-            enum cvercmp_prever pre1 = cvercmp_parse_prever(t1[j]);
-            enum cvercmp_prever pre2 = cvercmp_parse_prever(t2[j]);
-
-            if (pre1 > pre2) {
-              result = CVERCMP_GREATER;
-            } else if (pre1 < pre2) {
-              result = CVERCMP_LESSER;
-            } else if (alphacmp < 0) {
-              result = CVERCMP_LESSER;
-            } else if (alphacmp > 0) {
-              result = CVERCMP_GREATER;
-            } else {
-              assert(false);
-            }
-
-            solution = true;
-          }
-        }
-      }
-
-      if (!solution) {
-        if (t1[j] != NULL && t2[j] == NULL) {
-          if (cvercmp_parse_prever(t1[j]) != CVERCMP_PRE_NONE) {
-            result = CVERCMP_LESSER;
-          } else {
-            result = CVERCMP_GREATER;
-          }
-          solution = true;
-        } else if (t1[j] == NULL && t2[j] != NULL) {
-          if (cvercmp_parse_prever(t2[j]) != CVERCMP_PRE_NONE) {
-            result = CVERCMP_GREATER;
-          } else {
-            result = CVERCMP_LESSER;
-          }
-          solution = true;
-        }
-      }
-
-      for (j = 0; t1[j] != NULL; j++) {
-        free(t1[j]);
-      }
-      for (j = 0; t2[j] != NULL; j++) {
-        free(t2[j]);
-      }
-      free(t1);
-      free(t2);
+      result = cvercmp_tokens(tokens1[i], tokens2[i]);
+      solution = true;
     }
   }
 
   if (!solution) {
-    /* Longer version number is greater if all the parts up to
-     * end of shorter one are equal. */
-    if (tokens1[i] == NULL && tokens2[i] != NULL) {
-      if (cvercmp_parse_prever(tokens2[i]) != CVERCMP_PRE_NONE) {
-        result = CVERCMP_GREATER;
-      } else {
-        result = CVERCMP_LESSER;
-      }
-    } else if (tokens1[i] != NULL && tokens2[i] == NULL) {
-      if (cvercmp_parse_prever(tokens1[i]) != CVERCMP_PRE_NONE) {
-        result = CVERCMP_LESSER;
-      } else {
-        result = CVERCMP_GREATER;
-      }
-    } else {
-      result = CVERCMP_EQUAL;
-    }
+    /* Ran out of tokens in one string. */
+    result = cvercmp_tokens(tokens1[i], tokens2[i]);
   }
 
   for (i = 0; tokens1[i] != NULL; i++) {
@@ -245,10 +262,16 @@ static char **cvercmp_ver_subtokenize(const char *ver)
 {
   int num = 0;
   int idx;
-  int verlen = strlen(ver);
+  int verlen;
   char **tokens;
   int i;
   int tokenlen;
+
+  /* Treat NULL string as empty string */
+  if (!ver) {
+      ver = "";
+  }
+  verlen = strlen(ver);
 
   for (idx = 0; idx < verlen; idx += cvercmp_next_subtoken(ver + idx)) {
     num++;
@@ -289,23 +312,12 @@ static int cvercmp_next_subtoken(const char *str)
 
 static enum cvercmp_prever cvercmp_parse_prever(const char *ver)
 {
-  if (!strcasecmp(ver, "beta")) {
-    return CVERCMP_PRE_BETA;
-  }
-  if (!strcasecmp(ver, "pre")) {
-    return CVERCMP_PRE_PRE;
-  }
-  if (!strcasecmp(ver, "rc")) {
-    return CVERCMP_PRE_RC;
-  }
-  if (!strcasecmp(ver, "candidate")) {
-    return CVERCMP_PRE_RC;
-  }
-  if (!strcasecmp(ver, "alpha")) {
-    return CVERCMP_PRE_ALPHA;
-  }
-  if (!strcasecmp(ver, "dev")) {
-    return CVERCMP_PRE_DEV;
+  int i;
+
+  for (i = 0; preverstrs[i].str != NULL; i++) {
+    if (!strcasecmp(ver, preverstrs[i].str)) {
+      return preverstrs[i].prever;
+    }
   }
 
   return CVERCMP_PRE_NONE;
