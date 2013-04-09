@@ -233,7 +233,7 @@ effects        = "DestroyBuilding"
 name           = _("Flood")
 reqs           =
     { "type", "name", "range", "negated"
-      "Special", "River", "Adjacent", FALSE
+      "Road", "River", "Adjacent", FALSE
       "Building", "City Walls", "City", TRUE
     }
 frequency      = 10
