@@ -2006,10 +2006,31 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
 	    _("* The coastline of this terrain is unsafe."));
     CATLSTR(buf, bufsz, "\n");
   }
-  if (terrain_type_terrain_class(pterrain) == TC_OCEAN) {
-    CATLSTR(buf, bufsz,
-	    _("* Land units cannot travel on oceanic terrains."));
-    CATLSTR(buf, bufsz, "\n");
+  {
+    const char *classes[uclass_count()];
+    int i = 0;
+    bv_special spe;
+    bv_bases bases;
+    bv_roads roads;
+
+    BV_CLR_ALL(spe);
+    BV_CLR_ALL(bases);
+    BV_CLR_ALL(roads);
+
+    unit_class_iterate(uclass) {
+      if (is_native_to_class(uclass, pterrain, spe, bases, roads)) {
+        classes[i++] = uclass_name_translation(uclass);
+      }
+    } unit_class_iterate_end;
+
+    if (0 < i) {
+      struct astring list = ASTRING_INIT;
+
+      /* TRANS: %s is a list of unit classes separated by "and". */
+      cat_snprintf(buf, bufsz, _("* Can be traveled by %s units.\n"),
+                   astr_build_and_list(&list, classes, i));
+      astr_free(&list);
+    }
   }
   for (flagid = TER_USER_1 ; flagid <= TER_USER_LAST; flagid++) {
     if (terrain_has_flag(pterrain, flagid)) {
