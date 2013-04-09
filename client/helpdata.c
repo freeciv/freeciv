@@ -426,6 +426,11 @@ static bool insert_requirement(char *buf, size_t bufsz,
                    special_name_translation(preq->source.value.special));
       return TRUE;
     case REQ_RANGE_CITY:
+      cat_snprintf(buf, bufsz,
+                   _("Requires the %s terrain special on a tile within "
+                     "the city radius.\n"),
+                   special_name_translation(preq->source.value.special));
+      return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_WORLD:
@@ -452,6 +457,11 @@ static bool insert_requirement(char *buf, size_t bufsz,
                    terrain_name_translation(preq->source.value.terrain));
       return TRUE;
     case REQ_RANGE_CITY:
+       cat_snprintf(buf, bufsz,
+                    _("Requires the %s terrain on a tile within the city "
+                      "radius.\n"),
+                    terrain_name_translation(preq->source.value.terrain));
+      return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_WORLD:
@@ -478,6 +488,11 @@ static bool insert_requirement(char *buf, size_t bufsz,
                    resource_name_translation(preq->source.value.resource));
       return TRUE;
     case REQ_RANGE_CITY:
+      cat_snprintf(buf, bufsz,
+                   _("Requires the %s resource on a tile within the city "
+                     "radius.\n"),
+                   resource_name_translation(preq->source.value.resource));
+      return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_WORLD:
@@ -674,6 +689,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
                    (preq->source.value.terrainclass));
       return TRUE;
     case REQ_RANGE_CITY:
+      cat_snprintf(buf, bufsz,
+                   _("Requires %s terrain class on a tile within the city "
+                     "radius.\n"),
+                   terrain_class_name_translation
+                   (preq->source.value.terrainclass));
+      return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_WORLD:
@@ -700,6 +721,11 @@ static bool insert_requirement(char *buf, size_t bufsz,
                    terrain_flag_id_name(preq->source.value.terrainflag));
       return TRUE;
     case REQ_RANGE_CITY:
+      cat_snprintf(buf, bufsz,
+                   _("Requires \"%s\" terrain flag on a tile within the "
+                     "city radius.\n"),
+                   terrain_flag_id_name(preq->source.value.terrainflag));
+      return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_WORLD:
@@ -724,6 +750,10 @@ static bool insert_requirement(char *buf, size_t bufsz,
                    base_name_translation(preq->source.value.base));
       return TRUE;
     case REQ_RANGE_CITY:
+      cat_snprintf(buf, bufsz, _("Requires a %s on a tile within the city "
+                                 "radius.\n"),
+                   base_name_translation(preq->source.value.base));
+      return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_WORLD:
@@ -748,6 +778,10 @@ static bool insert_requirement(char *buf, size_t bufsz,
                    road_name_translation(preq->source.value.road));
       return TRUE;
     case REQ_RANGE_CITY:
+      cat_snprintf(buf, bufsz, _("Requires a %s on a tile within the city "
+                                 "radius.\n"),
+                   road_name_translation(preq->source.value.road));
+      return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_WORLD:
