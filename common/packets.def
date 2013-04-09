@@ -504,6 +504,7 @@ PACKET_GAME_INFO = 16; sc
   YEAR year;
   BOOL year_0_hack;
   BOOL civil_war_enabled;
+  BOOL paradrop_to_transport;
 end
 
 PACKET_MAP_INFO = 17; sc, lsend

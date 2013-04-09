@@ -4277,6 +4277,10 @@ static bool load_ruleset_game(const char *rsdir)
     game.info.civil_war_enabled
       = secfile_lookup_bool_default(file, TRUE, "civstyle.civil_war_enabled");
 
+    game.info.paradrop_to_transport
+      = secfile_lookup_bool_default(file, FALSE,
+                                    "civstyle.paradrop_to_transport");
+
     /* TODO: move to global_unit_options */
     game.info.base_bribe_cost
       = secfile_lookup_int_default_min_max(file,

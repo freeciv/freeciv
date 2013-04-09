@@ -2577,6 +2577,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
 {
   struct player *pplayer = unit_owner(punit);
   struct player_tile *plrtile;
+  struct unit *ptransport = NULL;
 
   if (!unit_has_type_flag(punit, UTYF_PARATROOPERS)) {
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -2602,12 +2603,18 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
 
   plrtile = map_get_player_tile(ptile, pplayer);
 
+  if (game.info.paradrop_to_transport) {
+    ptransport = transport_from_tile(punit, ptile);
+  }
+
   /* Safe terrain according to player map? */
   if (!is_native_terrain(unit_type(punit),
                          plrtile->terrain,
                          plrtile->special,
                          plrtile->bases,
-                         plrtile->roads)) {
+                         plrtile->roads)
+      && (ptransport == NULL
+          || !can_player_see_unit_at(pplayer, ptransport, ptile))) {
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("This unit cannot paradrop into %s."),
                   terrain_name_translation(
@@ -2646,7 +2653,8 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   }
 
   /* Safe terrain, really? Not transformed since player last saw it. */
-  if (!can_unit_exist_at_tile(punit, ptile)) {
+  if (ptransport == NULL
+      && !can_unit_exist_at_tile(punit, ptile)) {
     map_show_circle(pplayer, ptile, unit_type(punit)->vision_radius_sq);
     notify_player(pplayer, ptile, E_UNIT_LOST_MISC, ftc_server,
                   _("Your %s paradropped into the %s and was lost."),
@@ -2679,6 +2687,10 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     int move_cost = unit_type(punit)->paratroopers_mr_sub;
     punit->paradropped = TRUE;
     unit_move(punit, ptile, move_cost);
+    if (ptransport != NULL
+        && !can_unit_exist_at_tile(punit, ptile)) {
+      unit_transport_load_tp_status(punit, ptransport, FALSE);
+    }
     return TRUE;
   }
 }
