@@ -2610,7 +2610,6 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   /* Safe terrain according to player map? */
   if (!is_native_terrain(unit_type(punit),
                          plrtile->terrain,
-                         plrtile->special,
                          plrtile->bases,
                          plrtile->roads)
       && (ptransport == NULL
