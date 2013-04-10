@@ -2878,7 +2878,7 @@ Does: 1) updates the unit's homecity and the city it enters/leaves (the
 FIXME: Sometimes it is not necessary to send cities because the goverment
        doesn't care whether a unit is away or not.
 **************************************************************************/
-static void unit_move_consequences(struct unit *punit,
+static bool unit_move_consequences(struct unit *punit,
                                    struct tile *src_tile,
                                    struct tile *dst_tile,
                                    bool passenger)
@@ -2896,11 +2896,13 @@ static void unit_move_consequences(struct unit *punit,
   bool refresh_homecity_start_pos = FALSE;
   bool refresh_homecity_end_pos = FALSE;
   int saved_id = punit->id;
+  bool alive = TRUE;
 
   if (tocity) {
     unit_enter_city(punit, tocity, passenger);
 
-    if (unit_alive(saved_id)) {
+    alive = unit_alive(saved_id);
+    if (alive) {
       /* In case script has changed something about unit */
       pplayer_end_pos = unit_owner(punit);
       type_end_pos = unit_type(punit);
@@ -2978,6 +2980,8 @@ static void unit_move_consequences(struct unit *punit,
 
   city_map_update_tile_now(dst_tile);
   sync_cities();
+
+  return alive;
 }
 
 /**************************************************************************
@@ -3127,29 +3131,33 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   send_unit_info_to_onlookers(NULL, punit, psrctile, FALSE);
 
   /* Move consequences and wakeup. */
-  unit_move_consequences(punit, psrctile, pdesttile, FALSE);
-  wakeup_neighbor_sentries(punit);
-  maybe_make_contact(pdesttile, unit_owner(punit));
+  unit_lives = unit_move_consequences(punit, psrctile, pdesttile, FALSE);
+  if (unit_lives) {
+    wakeup_neighbor_sentries(punit);
+  }
+  maybe_make_contact(pdesttile, pplayer);
 
-  /* Special checks for ground units in the ocean. */
-  if (!can_unit_survive_at_tile(punit, pdesttile)) {
-    ptransporter = transporter_for_unit(punit);
-    if (ptransporter) {
-      unit_transport_load_tp_status(punit, ptransporter, FALSE);
+  if (unit_lives) {
+    /* Special checks for ground units in the ocean. */
+    if (!can_unit_survive_at_tile(punit, pdesttile)) {
+      ptransporter = transporter_for_unit(punit);
+      if (ptransporter) {
+        unit_transport_load_tp_status(punit, ptransporter, FALSE);
+      }
+
+      /* Set activity to sentry if boarding a ship. */
+      if (ptransporter && !pplayer->ai_controlled && !unit_has_orders(punit)
+          && !can_unit_exist_at_tile(punit, pdesttile)) {
+        set_unit_activity(punit, ACTIVITY_SENTRY);
+      }
+
+      /*
+       * Send updated information to anyone watching that unit is on transport.
+       * All players without shared vison with owner player get
+       * REMOVE_UNIT package.
+       */
+      send_unit_info_to_onlookers(NULL, punit, unit_tile(punit), TRUE);
     }
-
-    /* Set activity to sentry if boarding a ship. */
-    if (ptransporter && !pplayer->ai_controlled && !unit_has_orders(punit)
-        && !can_unit_exist_at_tile(punit, pdesttile)) {
-      set_unit_activity(punit, ACTIVITY_SENTRY);
-    }
-
-    /*
-     * Send updated information to anyone watching that unit is on transport.
-     * All players without shared vison with owner player get
-     * REMOVE_UNIT package.
-     */
-    send_unit_info_to_onlookers(NULL, punit, unit_tile(punit), TRUE);
   }
 
   /* Check cities at source and destination. */
@@ -3181,62 +3189,57 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
     } players_iterate_end;
   } square_iterate_end;
 
-  /* Check timeout settings. */
-  if (game.info.timeout != 0 && game.server.timeoutaddenemymove > 0) {
-    bool new_information_for_enemy = FALSE;
+  if (unit_lives) {
+    /* Check timeout settings. */
+    if (game.info.timeout != 0 && game.server.timeoutaddenemymove > 0) {
+      bool new_information_for_enemy = FALSE;
 
-    phase_players_iterate(penemy) {
-      /* Increase the timeout if an enemy unit moves and the
-       * timeoutaddenemymove setting is in use. */
-      if (penemy->is_connected
-          && pplayer != penemy
-          && pplayers_at_war(penemy, pplayer)
-          && can_player_see_unit(penemy, punit)) {
-        new_information_for_enemy = TRUE;
-        break;
+      phase_players_iterate(penemy) {
+        /* Increase the timeout if an enemy unit moves and the
+         * timeoutaddenemymove setting is in use. */
+        if (penemy->is_connected
+            && pplayer != penemy
+            && pplayers_at_war(penemy, pplayer)
+            && can_player_see_unit(penemy, punit)) {
+          new_information_for_enemy = TRUE;
+          break;
+        }
+      } phase_players_iterate_end;
+
+      if (new_information_for_enemy) {
+        increase_timeout_because_unit_moved();
       }
-    } phase_players_iterate_end;
-
-    if (new_information_for_enemy) {
-      increase_timeout_because_unit_moved();
     }
   }
 
-  /* Move transported units. */
-  pcargo_units = unit_transport_cargo(punit);
-  if (unit_list_size(pcargo_units) > 0) {
-    unit_move_transported(pcargo_units, psrctile, pdesttile);
-  }
+  if (unit_lives) {
+    /* Move transported units. */
+    pcargo_units = unit_transport_cargo(punit);
+    if (unit_list_size(pcargo_units) > 0) {
+      unit_move_transported(pcargo_units, psrctile, pdesttile);
+    }
 
-  /* Let the scripts run ... */
-  script_server_signal_emit("unit_moved", 3,
-                            API_TYPE_UNIT, punit,
-                            API_TYPE_TILE, psrctile,
-                            API_TYPE_TILE, pdesttile);
-  unit_lives = unit_alive(saved_id);
-  if (!unit_lives) {
-    /* Script caused unit to die. */
-    goto cleanup;
-  }
-
-  /* Autoattack. */
-  unit_lives = unit_survive_autoattack(punit);
-  if (!unit_lives) {
-    /* Unit killed by autoattack. */
-    goto cleanup;
-  }
-
-  /* Is where a hut? */
-  if (tile_has_special(pdesttile, S_HUT)) {
-    unit_enter_hut(punit);
+    /* Let the scripts run ... */
+    script_server_signal_emit("unit_moved", 3,
+                              API_TYPE_UNIT, punit,
+                              API_TYPE_TILE, psrctile,
+                              API_TYPE_TILE, pdesttile);
     unit_lives = unit_alive(saved_id);
   }
-  if (!unit_lives) {
-    /* Unit killed by entering a hut. */
-    goto cleanup;
+
+  if (unit_lives) {
+    /* Autoattack. */
+    unit_lives = unit_survive_autoattack(punit);
   }
 
- cleanup:
+  if (unit_lives) {
+    /* Is where a hut? */
+    if (tile_has_special(pdesttile, S_HUT)) {
+      unit_enter_hut(punit);
+      unit_lives = unit_alive(saved_id);
+    }
+  }
+
   conn_list_do_unbuffer(pplayer->connections);
 
   return unit_lives;
