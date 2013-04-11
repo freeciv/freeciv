@@ -209,23 +209,8 @@ bv_roads tile_roads(const struct tile *ptile)
     BV_CLR_ALL(empty);
     return empty;
   }
-#if 0
-  /* TODO: Use this when tile roads vector always has correct information.
-   *       For now we have to construct vector by checking each road separately. */
-  return ptile->roads;
-#else
-  {
-    bv_roads roads;
-    BV_CLR_ALL(roads);
-    road_type_iterate(proad) {
-      if (tile_has_road(ptile, proad)) {
-        BV_SET(roads, road_index(proad));
-      }
-    } road_type_iterate_end;
 
-    return roads;
-  }
-#endif
+  return ptile->roads;
 }
 
 /****************************************************************************
