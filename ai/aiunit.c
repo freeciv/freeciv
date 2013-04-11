@@ -2464,6 +2464,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
   struct unit *worst_danger;
   int move_cost, best_move_cost;
   int body_guards;
+  bool alive = TRUE;
 
   CHECK_UNIT(leader);
 
@@ -2618,10 +2619,12 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
       return;
     }
 
-    (void) ai_unit_goto(leader, safest_tile);
-    fc_assert(!same_pos(leader->tile, leader_tile));
-    leader_tile = leader->tile;
-  } while (0 < leader->moves_left);
+    alive = ai_unit_goto(leader, safest_tile);
+    if (alive) {
+      fc_assert(!same_pos(leader->tile, leader_tile));
+      leader_tile = leader->tile;
+    }
+  } while (alive && 0 < leader->moves_left);
 
   pf_map_destroy(pfm);
 }
