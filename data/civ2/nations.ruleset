@@ -1946,5 +1946,71 @@ cities =
  "Mtunzini",
  "Tongati"
 
-*include "nation/barbarian.ruleset"
-*include "nation/pirate.ruleset"
+[nation_barbarian]
+
+name=_("Barbarian")
+plural=_("?plural:Barbarians")
+legend=_("Since the dawn of civilization, barbarians have been a threat to\
+ cultured peoples everywhere.")
+
+leaders = {
+ "name",        "sex"
+ "Genseric",    "Male"
+ "Alaric",      "Male"
+ "Theodoric",   "Male"
+ "Stilicho",    "Male"
+ "Attila",      "Male"
+ "Boadicea",    "Female"
+}
+
+flag="barbarian"
+flag_alt = "-"
+city_style = "European"
+
+init_techs=""
+init_buildings=""
+init_units=""
+
+cities = "Barbaricum"
+
+is_playable = FALSE
+barbarian_type = "Land"
+
+; nothing more needed for barbarians
+
+[nation_pirate]
+
+name=_("Pirate")
+plural=_("?plural:Pirates")
+legend=_("As long as honest men have sailed the seas, pirates have been a\
+ scourge of them and of all coastal dwelling peoples.")
+
+leaders = {
+ "name",                        "sex"
+ "Anne Bonny",                  "Female"
+ "Calico Jack",                 "Male"
+ "Cofresí",                     "Male"
+ "Blackbeard",                  "Male"
+ "Henry Morgan",                "Male"
+ "François l'Ollonais",         "Male"
+ "Bartolomeo Portugues",        "Male"
+}
+
+flag="pirate"
+flag_alt = "-"
+city_style = "European"
+
+init_techs=""
+init_buildings=""
+init_units=""
+
+; Various pirate havens
+cities =
+ "New Providence",
+ "Port Royal", 
+ "Tortuga"
+
+is_playable = FALSE
+barbarian_type = "Sea"
+
+; nothing more needed for barbarians
