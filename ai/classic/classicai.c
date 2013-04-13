@@ -103,8 +103,8 @@ static void cai_player_save(struct player *pplayer, struct section_file *file,
 /**************************************************************************
   Call default ai with classic ai type as parameter.
 **************************************************************************/
-static void cai_player_load(struct player *pplayer, struct section_file *file,
-                            int plrno)
+static void cai_player_load(struct player *pplayer,
+                            const struct section_file *file, int plrno)
 {
   struct ai_type *deftype = classic_ai_get_self();
 

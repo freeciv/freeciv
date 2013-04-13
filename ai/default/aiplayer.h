@@ -27,7 +27,7 @@ void dai_player_save(struct ai_type *ait, const char *aitstr,
                      struct section_file *file, int plrno);
 void dai_player_load(struct ai_type *ait, const char *aitstr,
                      struct player *pplayer,
-                     struct section_file *file, int plrno);
+                     const struct section_file *file, int plrno);
 
 static inline struct ai_city *def_ai_city_data(const struct city *pcity,
                                                struct ai_type *deftype)

@@ -98,7 +98,8 @@ static void twai_player_save(struct player *pplayer, struct section_file *file,
 /**************************************************************************
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
-static void twai_player_load(struct player *pplayer, struct section_file *file,
+static void twai_player_load(struct player *pplayer,
+                             const struct section_file *file,
                              int plrno)
 {
   TAI_AIT;

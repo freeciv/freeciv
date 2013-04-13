@@ -89,7 +89,8 @@ void dai_player_save(struct ai_type *ait, const char *aitstr,
   Load player specific data from savegame
 **************************************************************************/
 void dai_player_load(struct ai_type *ait, const char *aitstr,
-                     struct player *pplayer, struct section_file *file, int plrno)
+                     struct player *pplayer, const struct section_file *file,
+                     int plrno)
 {
   players_iterate(aplayer) {
     struct ai_dip_intel *adip = dai_diplomacy_get(ait, pplayer, aplayer);

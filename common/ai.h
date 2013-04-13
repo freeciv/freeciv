@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2013.Feb.13"
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2013.Apr.11"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef DEBUG
@@ -68,7 +68,7 @@ struct ai_type
                         int plrno);
 
     /* Called for every AI type for each player in game when game loaded. */
-    void (*player_load)(struct player *pplayer, struct section_file *file,
+    void (*player_load)(struct player *pplayer, const struct section_file *file,
                         int plrno);
 
     /* Called for AI type that gains control of player. */
