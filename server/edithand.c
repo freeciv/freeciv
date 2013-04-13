@@ -357,6 +357,34 @@ static bool edit_tile_road_handling(struct tile *ptile,
 }
 
 /****************************************************************************
+  Recursively add all base dependencies to add given base.
+****************************************************************************/
+static bool add_recursive_bases(struct tile *ptile, struct base_type *pbase,
+                                int rec)
+{
+  if (rec > MAX_BASE_TYPES) {
+    /* Infinite recursion */
+    return FALSE;
+  }
+
+  /* First place dependency roads */
+  base_deps_iterate(&(pbase->reqs), pdep) {
+    if (!tile_has_base(ptile, pdep)) {
+      add_recursive_bases(ptile, pdep, rec + 1);
+    }
+  } base_deps_iterate_end;
+
+  /* Is tile native for base after that? */
+  if (!is_native_tile_to_base(pbase, ptile)) {
+    return FALSE;
+  }
+
+  tile_add_base(ptile, pbase);
+
+  return TRUE;
+}
+
+/****************************************************************************
   Base function to edit the base property of a tile. Returns TRUE if
   the base state has changed.
 ****************************************************************************/
@@ -371,12 +399,9 @@ static bool edit_tile_base_handling(struct tile *ptile,
 
     tile_remove_base(ptile, pbase);
   } else {
-    if (tile_has_base(ptile, pbase)
-        || !is_native_tile_to_base(pbase, ptile)) {
+    if (!add_recursive_bases(ptile, pbase, 0)) {
       return FALSE;
     }
-
-    tile_add_base(ptile, pbase);
   }
 
   if (send_tile_info) {

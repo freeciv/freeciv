@@ -510,6 +510,28 @@ int settler_evaluate_improvements(struct unit *punit,
                                         oldv, in_use, time,
                                         &best_newv, &best_oldv,
                                         best_act, best_target, best_tile, ptile);
+              } else {
+                base_deps_iterate(&(pbase->reqs), pdep) {
+                  struct act_tgt dep_tgt = { .type = ATT_BASE, .obj.base = base_number(pdep) };
+
+                  if (can_unit_do_activity_targeted_at(punit, ACTIVITY_BASE,
+                                                       &dep_tgt, ptile)) {
+                    /* Consider building dependency base for later upgrade to
+                     * target base.  See similar road implementation above for
+                     * extended commentary. */
+                    int dep_time = time + get_turns_for_base_at(punit, pdep,
+                                                                ptile);
+                    int dep_value = base_value + adv_city_worker_base_get(pcity,
+                                                                          cindex,
+                                                                          pbase);
+
+                    consider_settler_action(pplayer, ACTIVITY_BASE, &dep_tgt,
+                                            0, dep_value, oldv, in_use,
+                                            dep_time, &best_newv, &best_oldv,
+                                            best_act, best_target,
+                                            best_tile, ptile);
+                  }
+                } base_deps_iterate_end;
               }
             }
           } base_type_iterate_end;
