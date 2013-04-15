@@ -42,7 +42,7 @@ OPTIONAL RULES:
 - Min distance between cities = 3.
 If you like smallpox, I suggest to disable this option and to enable the citizen migration (server setting in sociological tab).
 - Initial national border equal to city radius: radius_sq_city = 5 (2 tiles)
-- Disabled national trade routes: trademindist = 999.
+- Disabled national trade routes.
 - Enabled risk of plague at cities with pop greater than 4. Chances reduced by the buildings Aqueduct and Sewer System, the tech Medicine, and the wonder Cure for Cancer:
 illness_on = 1, illness_min_size = 5, illness_base_factor = 10
 - Road/Railroads can't be used in enemy territory. Unreachable units do not protect reachable ones.
@@ -424,8 +424,8 @@ Enables space race for Every Nation. Makes entire map permanently visible for th
 Special "Cold War" effect: if Manhattan Project and United Nations were built, every nation with nuclear power receives the Has_Senate effect, until the Apollo Program is finished. 
 
 
-MAYOR CHANGES SINCE v0.1
-----------------
+MAJOR CHANGES SINCE v0.1
+------------------------
 
 Changes:
 - Wonders and Governments rebalanced again. Now AIs use all governments and build almost every wonder.
