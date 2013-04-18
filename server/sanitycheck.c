@@ -35,6 +35,7 @@
 #include "citytools.h"
 #include "cityturn.h"           /* city_repair_size() */
 #include "maphand.h"
+#include "plrhand.h"
 #include "srv_main.h"
 #include "unittools.h"
 
@@ -154,6 +155,7 @@ static void check_misc(const char *file, const char *function, int line)
 
   SANITY_CHECK(player_count() <= player_slot_count());
   SANITY_CHECK(team_count() <= MAX_NUM_TEAM_SLOTS);
+  SANITY_CHECK(normal_player_count() <= game.server.max_players);
 }
 
 /**************************************************************************

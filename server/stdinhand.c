@@ -960,6 +960,16 @@ enum rfc_status create_command_newcomer(const char *name,
     new_slot = TRUE;
   }
 
+ if (new_slot) {
+   if (normal_player_count() == game.server.max_players) {
+
+      fc_assert(game.server.max_players < MAX_NUM_PLAYERS);
+
+      game.server.max_players++;
+      log_debug("Increased 'maxplayers' for creation of a new player.");
+    }
+  }
+
   /* Create the new player. */
   pplayer = server_create_player(-1, ai, NULL);
   if (!pplayer) {
