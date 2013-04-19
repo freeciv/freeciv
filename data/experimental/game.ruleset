@@ -88,7 +88,7 @@ civil_war_enabled        = TRUE
 ; Comma separated list of things to happen, in addition to death
 ; of owner, when gameloss unit dies
 ; "CivilWar"   - Part of the empire remains, controlled by a new player
-; "Barbarians" - Depending on if there's also "CivilWar", all or part
+; "Barbarians" - Depending on if there`s also "CivilWar", all or part
 ;                or half of the dead players empire gets under barbarian
 ;                control.
 ; "Loot"       - Player who killed the gameloss unit gets loot:
