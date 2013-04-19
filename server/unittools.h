@@ -77,7 +77,8 @@ struct unit_type *find_a_unit_type(enum unit_role_id role,
 bool maybe_make_veteran(struct unit *punit);
 void notify_unit_experience(struct unit *punit);
 void unit_versus_unit(struct unit *attacker, struct unit *defender,
-		      bool bombard);
+                      bool bombard, int *att_hp, int *def_hp);
+void combat_veterans(struct unit *attacker, struct unit *defender);
 
 /* move check related */
 bool is_unit_being_refueled(const struct unit *punit);

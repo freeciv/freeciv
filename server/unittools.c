@@ -227,12 +227,15 @@ static bool maybe_become_veteran_real(struct unit *punit, bool settler)
      is wiped, and the winner gets a chance of gaining veteran status
 **************************************************************************/
 void unit_versus_unit(struct unit *attacker, struct unit *defender,
-		      bool bombard)
+		      bool bombard, int *att_hp, int *def_hp)
 {
   int attackpower = get_total_attack_power(attacker,defender);
   int defensepower = get_total_defense_power(attacker,defender);
 
   int attack_firepower, defense_firepower;
+
+  *att_hp = attacker->hp;
+  *def_hp = defender->hp;
   get_modified_firepower(attacker, defender,
 			 &attack_firepower, &defense_firepower);
 
@@ -246,36 +249,47 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
 
     for (i = 0; i < rate; i++) {
       if (fc_rand(attackpower+defensepower) >= defensepower) {
-        defender->hp -= attack_firepower;
+        *def_hp -= attack_firepower;
       }
     }
 
     /* Don't kill the target. */
-    if (defender->hp <= 0) {
-      defender->hp = 1;
+    if (*def_hp <= 0) {
+      *def_hp = 1;
     }
     return;
   }
 
   if (attackpower == 0) {
-      attacker->hp=0; 
+    *att_hp = 0; 
   } else if (defensepower == 0) {
-      defender->hp=0;
+    *def_hp = 0;
   }
-  while (attacker->hp>0 && defender->hp>0) {
+  while (*att_hp > 0 && *def_hp > 0) {
     if (fc_rand(attackpower+defensepower) >= defensepower) {
-      defender->hp -= attack_firepower;
+      *def_hp -= attack_firepower;
     } else {
-      attacker->hp -= defense_firepower;
+      *att_hp -= defense_firepower;
     }
   }
-  if (attacker->hp<0) attacker->hp = 0;
-  if (defender->hp<0) defender->hp = 0;
+  if (*att_hp < 0) {
+    *att_hp = 0;
+  }
+  if (*def_hp < 0) {
+    *def_hp = 0;
+  }
+}
 
-  if (attacker->hp > 0)
+/***************************************************************************
+  Make maybe make either side of combat veteran 
+****************************************************************************/
+void combat_veterans(struct unit *attacker, struct unit *defender)
+{
+  if (attacker->hp > 0) {
     maybe_make_veteran(attacker); 
-  else if (defender->hp > 0)
-    maybe_make_veteran(defender);
+  } else if (defender->hp > 0) {
+    maybe_make_veteran(defender); 
+  }
 }
 
 /***************************************************************************
@@ -1573,6 +1587,11 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
   struct player *pplayer = unit_owner(punit);
   struct unit_type *putype_save = unit_type(punit); /* for notify messages */
   int drowning = 0;
+
+  /* Remove unit itself from its transport */
+  if (unit_transport_get(punit) != NULL) {
+    unit_transport_unload_send(punit);
+  }
 
   /* First pull all units off of the transporter. */
   if (get_transporter_occupancy(punit) > 0) {

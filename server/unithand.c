@@ -993,6 +993,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
     if (is_unit_reachable_at(pdefender, punit, ptile)) {
       bool adj;
       enum direction8 facing;
+      int att_hp, def_hp;
 
       adj = base_get_direction_for_step(punit->tile, pdefender->tile, &facing);
 
@@ -1004,9 +1005,14 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
          * defenders when bombarding */
       }
 
+      unit_versus_unit(punit, pdefender, TRUE, &att_hp, &def_hp);
+
       see_combat(punit, pdefender);
 
-      unit_versus_unit(punit, pdefender, TRUE);
+      punit->hp = att_hp;
+      pdefender->hp = def_hp;
+
+      combat_veterans(punit, pdefender);
 
       send_combat(punit, pdefender, 0, 1);
   
@@ -1053,6 +1059,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
   struct player *pplayer = unit_owner(punit);
   bool adj;
   enum direction8 facing;
+  int att_hp, def_hp;
   
   log_debug("Start attack: %s %s against %s %s.",
             nation_rule_name(nation_of_player(pplayer)),
@@ -1100,11 +1107,22 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
     pdefender->facing = opposite_direction(facing);
   }
 
-  see_combat(punit, pdefender);
-
   old_unit_vet = punit->veteran;
   old_defender_vet = pdefender->veteran;
-  unit_versus_unit(punit, pdefender, FALSE);
+  unit_versus_unit(punit, pdefender, FALSE, &att_hp, &def_hp);
+
+  if ((att_hp <= 0 || uclass_has_flag(unit_class(punit), UCF_MISSILE))
+      && unit_transported(punit)) {
+    /* Dying attacker must be first unloaded so it doesn't die insider transport */
+    unit_transport_unload_send(punit);
+  }
+
+  see_combat(punit, pdefender);
+
+  punit->hp = att_hp;
+  pdefender->hp = def_hp;
+
+  combat_veterans(punit, pdefender);
 
   /* Adjust attackers moves_left _after_ unit_versus_unit() so that
    * the movement attack modifier is correct! --dwp
