@@ -17,16 +17,16 @@
 #include "packets.h"
 #include "unitlist.h"
 
-#define FOOD_WEIGHTING 19
-#define SHIELD_WEIGHTING 17
-#define TRADE_WEIGHTING 12
+#define FOOD_WEIGHTING 25
+#define SHIELD_WEIGHTING 14
+#define TRADE_WEIGHTING 15
 /* The Trade Weighting has to about as large as the Shield Weighting,
    otherwise the AI will build Barracks to create veterans in cities 
    with only 1 shields production.
     8 is too low
    18 is too high
  */
-#define POLLUTION_WEIGHTING 14 /* tentative */
+#define POLLUTION_WEIGHTING 16 /* tentative */
 #define WARMING_FACTOR 50
 #define COOLING_FACTOR WARMING_FACTOR
 
