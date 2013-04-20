@@ -593,6 +593,8 @@ void player_set_color(struct player *pplayer,
 ****************************************************************************/
 void player_clear(struct player *pplayer, bool full)
 {
+  bool client = !is_server();
+
   if (pplayer == NULL) {
     return;
   }
@@ -615,9 +617,15 @@ void player_clear(struct player *pplayer, bool full)
     /* Unload all cargos. */
     unit_list_iterate(unit_transport_cargo(punit), pcargo) {
       unit_transport_unload(pcargo);
+      if (client) {
+        pcargo->client.transported_by = -1;
+      }
     } unit_list_iterate_end;
     /* Unload the unit. */
     unit_transport_unload(punit);
+    if (client) {
+      punit->client.transported_by = -1;
+    }
 
     game_remove_unit(punit);
   } unit_list_iterate_end;
