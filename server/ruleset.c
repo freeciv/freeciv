@@ -389,10 +389,23 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
       return NULL;
     }
 
-    survives = secfile_lookup_bool_default(file, FALSE,
-	"%s.%s%d.survives", sec, sub, j);
-    negated = secfile_lookup_bool_default(file, FALSE,
-	"%s.%s%d.negated", sec, sub, j);
+    survives = FALSE;
+    if ((pentry = secfile_entry_lookup(file, "%s.%s%d.survives",
+                                        sec, sub, j))
+        && !entry_bool_get(pentry, &survives)) {
+      ruleset_error(LOG_ERROR,
+                    "\"%s\": invalid boolean value for survives for "
+                    "'%s.%s%d'.", filename, sec, sub, j);
+    }
+
+    negated = FALSE;
+    if ((pentry = secfile_entry_lookup(file, "%s.%s%d.negated",
+                                        sec, sub, j))
+        && !entry_bool_get(pentry, &negated)) {
+      ruleset_error(LOG_ERROR,
+                    "\"%s\": invalid boolean value for negated for "
+                    "'%s.%s%d'.", filename, sec, sub, j);
+    }
 
     req = req_from_str(type, range, survives, negated, name);
     if (req.source.kind == universals_n_invalid()) {
