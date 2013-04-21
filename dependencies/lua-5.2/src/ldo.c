@@ -1,5 +1,5 @@
 /*
-** $Id: ldo.c,v 2.105 2012/06/08 15:14:04 roberto Exp $
+** $Id: ldo.c,v 2.108 2012/10/01 14:05:04 roberto Exp $
 ** Stack and Call structure of Lua
 ** See Copyright Notice in lua.h
 */
@@ -478,7 +478,7 @@ static int recover (lua_State *L, int status) {
 static l_noret resume_error (lua_State *L, const char *msg, StkId firstArg) {
   L->top = firstArg;  /* remove args from the stack */
   setsvalue2s(L, L->top, luaS_new(L, msg));  /* push error message */
-  incr_top(L);
+  api_incr_top(L);
   luaD_throw(L, -1);  /* jump back to 'lua_resume' */
 }
 
@@ -563,7 +563,7 @@ LUA_API int lua_yieldk (lua_State *L, int nresults, int ctx, lua_CFunction k) {
   api_checknelems(L, nresults);
   if (L->nny > 0) {
     if (L != G(L)->mainthread)
-      luaG_runerror(L, "attempt to yield across metamethod/C-call boundary");
+      luaG_runerror(L, "attempt to yield across a C-call boundary");
     else
       luaG_runerror(L, "attempt to yield from outside a coroutine");
   }

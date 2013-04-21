@@ -1,5 +1,5 @@
 /*
-** $Id: lbaselib.c,v 1.274 2012/04/27 14:13:19 roberto Exp $
+** $Id: lbaselib.c,v 1.276 2013/02/21 13:44:53 roberto Exp $
 ** Basic library
 ** See Copyright Notice in lua.h
 */
@@ -241,6 +241,7 @@ static int luaB_ipairs (lua_State *L) {
   return pairsmeta(L, "__ipairs", 1, ipairsaux);
 }
 
+
 static int load_aux (lua_State *L, int status, int envidx) {
   if (status == LUA_OK) {
     if (envidx != 0) {  /* 'env' parameter? */
@@ -250,7 +251,7 @@ static int load_aux (lua_State *L, int status, int envidx) {
     }
     return 1;
   }
-  else {
+  else {  /* error (message is on top of the stack) */
     lua_pushnil(L);
     lua_insert(L, -2);  /* put before error message */
     return 2;  /* return nil plus error message */
@@ -335,7 +336,8 @@ static int dofilecont (lua_State *L) {
 static int luaB_dofile (lua_State *L) {
   const char *fname = luaL_optstring(L, 1, NULL);
   lua_settop(L, 1);
-  if (luaL_loadfile(L, fname) != LUA_OK) lua_error(L);
+  if (luaL_loadfile(L, fname) != LUA_OK)
+    return lua_error(L);
   lua_callk(L, 0, LUA_MULTRET, 0, dofilecont);
   return dofilecont(L);
 }

@@ -3,4 +3,5 @@
 SUBDIRS = src
 
 EXTRA_DIST = Version \
+	freeciv_lua.patch \
 	doc/readme.html
