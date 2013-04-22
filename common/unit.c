@@ -369,30 +369,22 @@ bool is_diplomat_unit(const struct unit *punit)
 }
 
 /**************************************************************************
-  Return TRUE iff the player should consider this unit to be a threat on
-  the ground.
-**************************************************************************/
-static bool is_ground_threat(const struct player *pplayer,
-			     const struct unit *punit)
-{
-  return (pplayers_at_war(pplayer, unit_owner(punit))
-	  && (unit_has_type_flag(punit, UTYF_DIPLOMAT)
-	      || (is_ground_unit(punit) && is_military_unit(punit))));
-}
-
-/**************************************************************************
-  Return TRUE iff this tile is threatened from any threatening ground unit
-  within 2 tiles.
+  Return TRUE iff this tile is threatened from any unit within 2 tiles.
 **************************************************************************/
 bool is_square_threatened(const struct player *pplayer,
 			  const struct tile *ptile)
 {
   square_iterate(ptile, 2, ptile1) {
     unit_list_iterate(ptile1->units, punit) {
-      if (((pplayer->ai_controlled
-            && !ai_handicap(pplayer, H_FOG))
-           || can_player_see_unit_at(pplayer, punit, ptile1))
-          && is_ground_threat(pplayer, punit)) {
+      if ( ( (pplayer->ai_controlled
+              && !ai_handicap(pplayer, H_FOG))
+            || can_player_see_unit_at(pplayer, punit, ptile1))
+          && pplayers_at_war(pplayer, unit_owner(punit))
+          && (is_diplomat_unit(punit)
+              || (is_military_unit(punit) && is_attack_unit(punit)))
+          && (is_native_tile(unit_type(punit), ptile)
+              || (can_attack_non_native(unit_type(punit))
+                  && is_native_near_tile(unit_class(punit), ptile)))) {
 	return TRUE;
       }
     } unit_list_iterate_end;
