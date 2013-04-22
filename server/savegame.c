@@ -215,35 +215,6 @@
   }									    \
 }
 
-/* The following should be removed when compatibility with
-   pre-1.13.0 savegames is broken: startoptions, spacerace2
-   and rulesets */
-static const char savefile_options_default[] =
-	" attributes"		/* unused */
-	" client_worklists"	/* unused */
-	" diplchance_percent"
-	" embassies"
-	" improvement_order"
-	" known32fix"
-	" map_editor"		/* unused */
-        " new_owner_map"
-        " tile_worked"
-	" orders"
-	" resources"
-	" rulesetdir"
-	" rulesets"		/* unused */
-	" spacerace2"		/* unused */
-	" startoptions"
-	" startunits"
-	" technology_order"
-	" turn"
-	" turn_last_built"
-	" watchtower"		/* unused */
-        " bases"                /* Since 2.2 */
-        " embassies2"           /* Since 2.3 */
-        " vision"               /* Since 2.3 */
-	;/* savefile_options_default */
-
 static const char hex_chars[] = "0123456789abcdef";
 static const char num_chars[] =
   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-+";
