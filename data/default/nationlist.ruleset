@@ -51,6 +51,8 @@ allowed_govs =
 allowed_terrains =
   "Lake", "Ocean", "Desert", "Forest", "Grassland", "Hills", "Jungle",
   "Mountains", "Plains", "Swamp", "Tundra", "Glacier", "River"
+allowed_city_styles =
+  "European", "Classical", "Tropical", "Asian", "Babylonian", "Celtic"
 
 ; Below: nations data loaded from ruleset files for
 ; all nations available. If you want to have more

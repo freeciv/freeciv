@@ -3419,24 +3419,19 @@ static bool load_ruleset_nations(struct section_file *file)
   const char *name, *bad_leader;
   int barb_land_count = 0;
   int barb_sea_count = 0;
-  bool warn_city_style;
   const char *sval;
   struct government *default_government = NULL;
   const char *filename = secfile_name(file);
   struct section_list *sec;
   int default_traits[TRAIT_COUNT];
   enum trait tr;
-  const char **allowed_govs, **allowed_terrains;
-  size_t agcount, atcount;
+  const char **allowed_govs, **allowed_terrains, **allowed_cstyles;
+  size_t agcount, atcount, acscount;
   bool ok = TRUE;
 
   if (check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename) == NULL) {
     return FALSE;
   }
-
-  warn_city_style
-    = secfile_lookup_bool_default(file, TRUE,
-				  "compatibility.warn_city_style");
 
   ruleset_load_traits(default_traits, file, "default_traits", "");
   for (tr = trait_begin(); tr != trait_end(); tr = trait_next(tr)) {
@@ -3449,6 +3444,8 @@ static bool load_ruleset_nations(struct section_file *file)
                                         "compatibility.allowed_govs");
   allowed_terrains = secfile_lookup_str_vec(file, &atcount,
                                             "compatibility.allowed_terrains");
+  allowed_cstyles = secfile_lookup_str_vec(file, &acscount,
+                                           "compatibility.allowed_city_styles");
 
   sval = secfile_lookup_str_default(file, NULL,
                                     "compatibility.default_government");
@@ -3761,13 +3758,39 @@ static bool load_ruleset_nations(struct section_file *file)
 
       /* City styles */
       name = secfile_lookup_str(file, "%s.city_style", sec_name);
+      if (!name) {
+        ruleset_error(LOG_ERROR, "%s", secfile_error());
+        ok = FALSE;
+        break;
+      }
       pnation->city_style = city_style_by_rule_name(name);
-      if (0 > pnation->city_style) {
-        if (warn_city_style) {
-          log_error("Nation %s: city style \"%s\" is unknown, using default.",
-                    nation_rule_name(pnation), name);
+
+      if (0 <= pnation->city_style && allowed_cstyles) {
+        if (!is_on_allowed_list(name, allowed_cstyles, acscount)) {
+          /* Style exists, but not intended for these nations */
+          pnation->city_style = 0;
+          ruleset_error(LOG_ERROR,
+                        "Nation %s: city style \"%s\" not in "
+                        "allowed_city_styles.",
+                        nation_rule_name(pnation), name);
+          ok = FALSE;
+          break;
         }
+      } else if (0 > pnation->city_style) {
+        /* City style doesn't exist, so fall back to default; but only
+         * complain if it's not on any list */
         pnation->city_style = 0;
+        if (!allowed_cstyles
+            || !is_on_allowed_list(name, allowed_cstyles, acscount)) {
+          ruleset_error(LOG_ERROR, "Nation %s: city style \"%s\" not found.",
+                        nation_rule_name(pnation), name);
+          ok = FALSE;
+          break;
+        } else {
+          log_verbose("Nation %s: city style \"%s\" not supported in this "
+                      "ruleset; using default.",
+                      nation_rule_name(pnation), name);
+        }
       }
 
       while (city_style_has_requirements(city_styles + pnation->city_style)) {
@@ -3775,13 +3798,14 @@ static bool load_ruleset_nations(struct section_file *file)
           ruleset_error(LOG_ERROR,
                         "Nation %s: the default city style is not available "
                         "from the beginning!", nation_rule_name(pnation));
-        /* Note that we can't use temp_name here. */
+          /* Note that we can't use temp_name here. */
           ok = FALSE;
           break;
         }
-        log_error("Nation %s: city style \"%s\" is not available "
-                  "from beginning; using default.",
-                  nation_rule_name(pnation), name);
+        ruleset_error(LOG_ERROR,
+                      "Nation %s: city style \"%s\" is not available "
+                      "from beginning; using default.",
+                      nation_rule_name(pnation), name);
         pnation->city_style = 0;
       }
 
@@ -3881,6 +3905,7 @@ static bool load_ruleset_nations(struct section_file *file)
 
   free(allowed_govs);
   free(allowed_terrains);
+  free(allowed_cstyles);
 
   section_list_destroy(sec);
   if (ok) {
