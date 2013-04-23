@@ -178,12 +178,12 @@ init_buildings=""
 init_units=""
 
 cities =
- "Mexihco Tenochtitlan (swamp, mountains, lake)",
+ "Mexihco Tenochtitlan (swamp, mountains)",
  "Tetzcoco (mountains)",
- "Tlacopan (mountains, hills, lake)",
- "Tlatelulco (swamp, lake)",
+ "Tlacopan (mountains, hills)",
+ "Tlatelulco (swamp)",
  "Azcapotzalco (hills)",
- "Iztapallapan (lake, hills)",
+ "Iztapallapan (hills)",
  "Cuauhnanahuac (mountains, hills, forest, !ocean)",
  "Tlachco (mountains)",
  "Tollocan (mountains, plains)",

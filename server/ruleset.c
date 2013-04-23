@@ -128,10 +128,12 @@ static bool load_government_names(struct section_file *file);
 static bool load_terrain_names(struct section_file *file);
 static bool load_citystyle_names(struct section_file *file);
 static bool load_nation_names(struct section_file *file);
-static void load_city_name_list(struct section_file *file,
+static bool load_city_name_list(struct section_file *file,
                                 struct nation_type *pnation,
                                 const char *secfile_str1,
-                                const char *secfile_str2);
+                                const char *secfile_str2,
+                                const char **allowed_terrains,
+                                size_t atcount);
 
 static bool load_ruleset_techs(struct section_file *file);
 static bool load_ruleset_units(struct section_file *file);
@@ -3250,15 +3252,17 @@ static bool is_on_allowed_list(const char *name, const char **list, size_t len)
 
 /****************************************************************************
   This function loads a city name list from a section file.  The file and
-  two section names (which will be concatenated) are passed in.  The
-  malloc'ed city name list (which is all filled out) will be returned.
+  two section names (which will be concatenated) are passed in.
 ****************************************************************************/
-static void load_city_name_list(struct section_file *file,
+static bool load_city_name_list(struct section_file *file,
                                 struct nation_type *pnation,
                                 const char *secfile_str1,
-                                const char *secfile_str2)
+                                const char *secfile_str2,
+                                const char **allowed_terrains,
+                                size_t atcount)
 {
   size_t dim, j;
+  bool ok = TRUE;
   const char **cities = secfile_lookup_str_vec(file, &dim, "%s.%s",
                                                secfile_str1, secfile_str2);
 
@@ -3286,14 +3290,17 @@ static void load_city_name_list(struct section_file *file,
         ruleset_error(LOG_ERROR, "\"%s\" [%s] %s: city name \"%s\" "
                       "unmatched parenthesis.", secfile_name(file),
                       secfile_str1, secfile_str2, cities[j]);
-      }
-
-      for (*end++ = '\0'; '\0' != *end; end++) {
-        if (!fc_isspace(*end)) {
-          ruleset_error(LOG_ERROR, "\"%s\" [%s] %s: city name \"%s\" "
-                        "contains characthers after last parenthesis, "
-                        "ignoring...", secfile_name(file), secfile_str1,
-                        secfile_str2, cities[j]);
+        ok = FALSE;
+      } else {
+        for (*end++ = '\0'; '\0' != *end; end++) {
+          if (!fc_isspace(*end)) {
+            ruleset_error(LOG_ERROR, "\"%s\" [%s] %s: city name \"%s\" "
+                          "contains characters after last parenthesis.",
+                          secfile_name(file), secfile_str1, secfile_str2,
+                          cities[j]);
+            ok = FALSE;
+            break;
+          }
         }
       }
     }
@@ -3304,8 +3311,9 @@ static void load_city_name_list(struct section_file *file,
       /* The ruleset contains a name that is too long. This shouldn't
        * happen - if it does, the author should get immediate feedback. */
       ruleset_error(LOG_ERROR, "\"%s\" [%s] %s: city name \"%s\" "
-                    "is too long; shortening it.", secfile_name(file),
+                    "is too long.", secfile_name(file),
                     secfile_str1, secfile_str2, city_name);
+      ok = FALSE;
       city_name[MAX_LEN_NAME - 1] = '\0';
     }
     pncity = nation_city_new(pnation, city_name);
@@ -3331,7 +3339,16 @@ static void load_city_name_list(struct section_file *file,
         }
 
         if (0 == fc_strcasecmp(p, "river")) {
-          nation_city_set_river_preference(pncity, prefer);
+          if (allowed_terrains
+              && !is_on_allowed_list(p, allowed_terrains, atcount)) {
+            ruleset_error(LOG_ERROR, "\"%s\" [%s] %s: city \"%s\" "
+                          "has terrain hint \"%s\" not in allowed_terrains.",
+                          secfile_name(file), secfile_str1, secfile_str2,
+                          city_name, p);
+            ok = FALSE;
+          } else {
+            nation_city_set_river_preference(pncity, prefer);
+          }
         } else {
           const struct terrain *pterrain = terrain_by_rule_name(p);
 
@@ -3345,17 +3362,35 @@ static void load_city_name_list(struct section_file *file,
             pterrain = terrain_by_rule_name(p);
           }
 
+          /* Nationset may have been devised with a specific set of terrains
+           * in mind which don't quite match this ruleset, in which case we
+           * (a) quietly ignore any hints mentioned that don't happen to be in
+           * the current ruleset, (b) enforce that terrains mentioned by nations
+           * must be on the list */
+          if (pterrain && allowed_terrains) {
+            if (!is_on_allowed_list(p, allowed_terrains, atcount)) {
+              /* Terrain exists, but not intended for these nations */
+              ruleset_error(LOG_ERROR, "\"%s\" [%s] %s: city \"%s\" "
+                            "has terrain hint \"%s\" not in allowed_terrains.",
+                            secfile_name(file), secfile_str1, secfile_str2,
+                            city_name, p);
+              ok = FALSE;
+              break;
+            }
+          } else if (!pterrain) {
+            /* Terrain doesn't exist; only complain if it's not on any list */
+            if (!allowed_terrains
+                || !is_on_allowed_list(p, allowed_terrains, atcount)) {
+              ruleset_error(LOG_ERROR, "\"%s\" [%s] %s: city \"%s\" "
+                            "has unknown terrain hint \"%s\".",
+                            secfile_name(file), secfile_str1, secfile_str2,
+                            city_name, p);
+              ok = FALSE;
+              break;
+            }
+          }
           if (NULL != pterrain) {
             nation_city_set_terrain_preference(pncity, pterrain, prefer);
-          } else {
-            /* Nation authors may use terrains like "lake" that are
-             * available in the default ruleset but not in civ1/civ2.
-             * In normal use we should just ignore hints for unknown
-             * terrains, but nation authors may want to know about this
-             * to spot typos etc. */
-             log_verbose("\"%s\" [%s] %s: terrain \"%s\" not found;"
-                         " skipping it.",
-                         secfile_name(file), secfile_str1, secfile_str2, p);
           }
         }
 
@@ -3367,6 +3402,8 @@ static void load_city_name_list(struct section_file *file,
   if (NULL != cities) {
     free(cities);
   }
+
+  return ok;
 }
 
 /**************************************************************************
@@ -3389,8 +3426,8 @@ static bool load_ruleset_nations(struct section_file *file)
   struct section_list *sec;
   int default_traits[TRAIT_COUNT];
   enum trait tr;
-  const char **allowed_govs;
-  size_t agcount;
+  const char **allowed_govs, **allowed_terrains;
+  size_t agcount, atcount;
   bool ok = TRUE;
 
   if (check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename) == NULL) {
@@ -3410,6 +3447,8 @@ static bool load_ruleset_nations(struct section_file *file)
 
   allowed_govs = secfile_lookup_str_vec(file, &agcount,
                                         "compatibility.allowed_govs");
+  allowed_terrains = secfile_lookup_str_vec(file, &atcount,
+                                            "compatibility.allowed_terrains");
 
   sval = secfile_lookup_str_default(file, NULL,
                                     "compatibility.default_government");
@@ -3819,7 +3858,11 @@ static bool load_ruleset_nations(struct section_file *file)
       }
 
       /* Read default city names. */
-      load_city_name_list(file, pnation, sec_name, "cities");
+      if (!load_city_name_list(file, pnation, sec_name, "cities",
+                               allowed_terrains, atcount)) {
+        ok = FALSE;
+        break;
+      }
 
       pnation->legend = fc_strdup(secfile_lookup_str(file, "%s.legend",
                                                      sec_name));
@@ -3830,13 +3873,14 @@ static bool load_ruleset_nations(struct section_file *file)
                       pnation->legend);
         ok = FALSE;
         break;
-    }
+      }
 
       pnation->player = NULL;
     } nations_iterate_end;
   }
 
   free(allowed_govs);
+  free(allowed_terrains);
 
   section_list_destroy(sec);
   if (ok) {

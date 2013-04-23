@@ -40,14 +40,17 @@ match=2
 [compatibility]
 
 ; Compatibility: these nations are intended for use in a variety of
-; rulesets; declare which governments the nations may refer to, so that
+; rulesets; declare which governments etc the nations may refer to, so that
 ; nations referencing any of these can be loaded even in rulesets which
-; do not have some of them (if a referenced government is not on this
-; list, it will cause an error, to allow typos to be spotted)
+; do not have some of them (if a referenced game identifier is not on these
+; lists, it will cause an error, to allow typos to be spotted)
 
 allowed_govs =
   "Anarchy", "Despotism", "Monarchy", "Communism", "Fundamentalism",
   "Republic", "Democracy"
+allowed_terrains =
+  "Lake", "Ocean", "Desert", "Forest", "Grassland", "Hills", "Jungle",
+  "Mountains", "Plains", "Swamp", "Tundra", "Glacier", "River"
 
 ; Below: nations data loaded from ruleset files for
 ; all nations available. If you want to have more
