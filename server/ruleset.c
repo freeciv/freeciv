@@ -3646,10 +3646,10 @@ static bool load_ruleset_nations(struct section_file *file)
         }
       }
 
-      pnation->is_available =
-        secfile_lookup_bool_default(file, TRUE, "%s.is_available", sec_name);
       pnation->is_playable =
         secfile_lookup_bool_default(file, TRUE, "%s.is_playable", sec_name);
+      /* Available for now; init_available_nations() will update this */
+      pnation->is_available = TRUE;
 
       if (pnation->is_playable) {
         server.playable_nations++;
