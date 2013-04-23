@@ -70,7 +70,7 @@
 #include "ruleset.h"
 
 
-#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2013.Mar.06"
+#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2013.Apr.23"
 /*
  * Ruleset capabilities acceptable to this program:
  *
@@ -161,10 +161,6 @@ static bool load_ruleset_veteran(struct section_file *file,
                                  struct veteran_system **vsystem, char *err,
                                  size_t err_len);
 
-
-#define MAX_IGNORE_GOVS_COUNT 10
-
-static char ignore_govs[MAX_IGNORE_GOVS_COUNT][MAX_LEN_NAME];
 
 /**************************************************************************
   Notifications about ruleset errors to clients. Especially important in
@@ -3238,6 +3234,20 @@ static bool load_nation_names(struct section_file *file)
   return ok;
 }
 
+/**************************************************************************
+  Check if a string is in a vector (case-insensitively).
+**************************************************************************/
+static bool is_on_allowed_list(const char *name, const char **list, size_t len)
+{
+  int i;
+  for (i = 0; i < len; i++) {
+    if (!fc_strcasecmp(name, list[i])) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
 /****************************************************************************
   This function loads a city name list from a section file.  The file and
   two section names (which will be concatenated) are passed in.  The
@@ -3379,9 +3389,8 @@ static bool load_ruleset_nations(struct section_file *file)
   struct section_list *sec;
   int default_traits[TRAIT_COUNT];
   enum trait tr;
-  const char **slist;
-  size_t nval;
-  int igcount;
+  const char **allowed_govs;
+  size_t agcount;
   bool ok = TRUE;
 
   if (check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename) == NULL) {
@@ -3399,29 +3408,17 @@ static bool load_ruleset_nations(struct section_file *file)
     }
   }
 
+  allowed_govs = secfile_lookup_str_vec(file, &agcount,
+                                        "compatibility.allowed_govs");
+
   sval = secfile_lookup_str_default(file, NULL,
                                     "compatibility.default_government");
+  /* We deliberately don't check this against allowed_govs. It's only
+   * specified once so not vulnerable to typos, and may usefully be set in
+   * a specific ruleset to a gov not explicitly known by the nation set. */
   if (sval != NULL) {
     default_government = government_by_rule_name(sval);
   }
-
-  slist = secfile_lookup_str_vec(file, &nval, "compatibility.ignore_govs");
-  igcount = 0;
-  for (j = 0; j < nval && ok; j++) {
-    sval = slist[j];
-    if (strcmp(sval,"") == 0) {
-      continue;
-    }
-
-    strncpy(ignore_govs[igcount++], slist[j], MAX_LEN_NAME);
-    if (igcount >= MAX_IGNORE_GOVS_COUNT) {
-      ruleset_error(LOG_ERROR, "Too many ignore_govs");
-      ok = FALSE;
-      break;
-    }
-  }
-  ignore_govs[igcount][0] = '\0';
-  free(slist);
 
   set_allowed_nation_groups(NULL);
 
@@ -3687,24 +3684,35 @@ static bool load_ruleset_nations(struct section_file *file)
                                     sec_name, j);
         gov = government_by_rule_name(name);
 
-        if (NULL == gov) {
-          int gcount;
-          bool ig_found = FALSE;
-
-          for (gcount = 0; ignore_govs[gcount][0] != '\0'; gcount++) {
-            if (!fc_strcasecmp(name, ignore_govs[gcount])) {
-              ig_found = TRUE;
-              break;
-            }
+        /* Nationset may have been devised with a specific set of govs in
+         * mind which don't quite match this ruleset, in which case we
+         * (a) quietly ignore any govs mentioned that don't happen to be in
+         * the current ruleset, (b) enforce that govs mentioned by nations
+         * must be on the list */
+        if (gov && allowed_govs) {
+          if (!is_on_allowed_list(name, allowed_govs, agcount)) {
+            /* Gov exists, but not intended for these nations */
+            gov = NULL;
+            ruleset_error(LOG_ERROR,
+                          "Nation %s: government \"%s\" not in allowed_govs.",
+                          nation_rule_name(pnation), name);
+            ok = FALSE;
+            break;
           }
-          if (!ig_found) {
+        } else if (!gov) {
+          /* Gov doesn't exist; only complain if it's not on any list */
+          if (!allowed_govs
+              || !is_on_allowed_list(name, allowed_govs, agcount)) {
             ruleset_error(LOG_ERROR, "Nation %s: government \"%s\" not found.",
                           nation_rule_name(pnation), name);
             ok = FALSE;
             break;
           }
-        } else if (NULL != male && NULL != female) {
-          (void) government_ruler_title_new(gov, pnation, male, female);
+        }
+        if (NULL != male && NULL != female) {
+          if (gov) {
+            (void) government_ruler_title_new(gov, pnation, male, female);
+          }
         } else {
           ruleset_error(LOG_ERROR, "%s", secfile_error());
           ok = FALSE;
@@ -3791,7 +3799,21 @@ static bool load_ruleset_nations(struct section_file *file)
       fc_strlcat(tmp, ".init_government", 200);
       pnation->init_government = lookup_government(file, tmp, filename,
                                                    default_government);
+      /* init_government has to be in this specific ruleset, not just
+       * allowed_govs */
       if (pnation->init_government == NULL) {
+        ok = FALSE;
+        break;
+      }
+      /* ...but if a list of govs has been specified, enforce that this
+       * nation's init_government is on the list. */
+      if (allowed_govs
+          && !is_on_allowed_list(government_rule_name(pnation->init_government),
+                                 allowed_govs, agcount)) {
+        ruleset_error(LOG_ERROR,
+                      "Nation %s: init_government \"%s\" not allowed.",
+                      nation_rule_name(pnation),
+                      government_rule_name(pnation->init_government));
         ok = FALSE;
         break;
       }
@@ -3813,6 +3835,8 @@ static bool load_ruleset_nations(struct section_file *file)
       pnation->player = NULL;
     } nations_iterate_end;
   }
+
+  free(allowed_govs);
 
   section_list_destroy(sec);
   if (ok) {

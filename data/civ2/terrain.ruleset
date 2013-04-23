@@ -12,7 +12,7 @@
 
 [datafile]
 description="Civ2 tile_type data for Freeciv"
-options="+Freeciv-ruleset-Devel-2013.Mar.06"
+options="+Freeciv-ruleset-Devel-2013.Apr.23"
 
 [control]
 ; Names for custom unit type flags.
