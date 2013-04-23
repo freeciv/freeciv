@@ -3819,12 +3819,12 @@ static bool load_ruleset_nations(struct section_file *file)
     secfile_check_unused(file);
   }
 
-  if (barb_land_count == 0) {
+  if (ok && barb_land_count == 0) {
     ruleset_error(LOG_ERROR,
                   "No land barbarian nation defined. At least one required!");
     ok = FALSE;
   }
-  if (barb_sea_count == 0) {
+  if (ok && barb_sea_count == 0) {
     ruleset_error(LOG_ERROR,
                   "No sea barbarian nation defined. At least one required!");
     ok = FALSE;
