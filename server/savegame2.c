@@ -5556,12 +5556,22 @@ static void sg_save_mapimg(struct savedata *saving)
 ****************************************************************************/
 static void sg_load_sanitycheck(struct loaddata *loading)
 {
+  int players;
+
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
   if (game.info.is_new_game) {
     /* Nothing to do for new games (or not started scenarios). */
     return;
+  }
+
+  /* Old savegames may have maxplayers lower than current player count,
+   * fix. */
+  players = normal_player_count();
+  if (game.server.max_players < players) {
+    log_verbose("Max players lower than current players, fixing");
+    game.server.max_players = players;
   }
 
   /* Fix ferrying sanity */

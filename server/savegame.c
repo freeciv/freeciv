@@ -5222,6 +5222,7 @@ static void game_load_internal(struct section_file *file)
   if (!game.info.is_new_game) {
     int *worked_tiles = NULL; /* temporary map for worked tiles */
     int loaded_players = 0;
+    int players;
 
     /* destroyed wonders: */
     string = secfile_lookup_str(file, "game.destroyed_wonders_new");
@@ -5467,6 +5468,15 @@ static void game_load_internal(struct section_file *file)
     /* city_refresh() below */
 
     /* Make sure everything is consistent. */
+
+    /* Old savegames may have maxplayers lower than current player count,
+     * fix. */
+    players = normal_player_count();
+    if (game.server.max_players < players) {
+      log_verbose("Max players lower than current players, fixing");
+      game.server.max_players = players;
+    }
+
     players_iterate(pplayer) {
       unit_list_iterate(pplayer->units, punit) {
         if (!can_unit_continue_current_activity(punit)) {
