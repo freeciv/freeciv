@@ -86,6 +86,8 @@ static void unit_restore_hitpoints(struct unit *punit);
 static void unit_restore_movepoints(struct player *pplayer, struct unit *punit);
 static void update_unit_activity(struct unit *punit);
 static void unit_remember_current_activity(struct unit *punit);
+static bool try_to_save_unit(struct unit *punit, struct unit_type *pttype,
+                             bool teleporting);
 static void wakeup_neighbor_sentries(struct unit *punit);
 static void do_upgrade_effects(struct player *pplayer);
 
@@ -1586,7 +1588,8 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
   struct tile *ptile = unit_tile(punit);
   struct player *pplayer = unit_owner(punit);
   struct unit_type *putype_save = unit_type(punit); /* for notify messages */
-  int drowning = 0;
+  struct unit_list *imperiled = unit_list_new();
+  struct unit_list *unsaved = unit_list_new();
 
   /* Remove unit itself from its transport */
   if (unit_transport_get(punit) != NULL) {
@@ -1598,6 +1601,15 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
     /* Use iterate_safe as unloaded units will be removed from the list
      * while iterating. */
     unit_list_iterate_safe(unit_transport_cargo(punit), pcargo) {
+      bool healthy = FALSE;
+
+      if (!can_unit_exist_at_tile(pcargo, ptile)) {
+        unit_list_prepend(imperiled, pcargo);
+      } else {
+        /* These units do not need to be saved. */
+        healthy = TRUE;
+      }
+
       /* Could use unit_transport_unload_send here, but that would
        * call send_unit_info for the transporter unnecessarily. */
       unit_transport_unload(pcargo);
@@ -1607,11 +1619,10 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
          * transporter. */
         set_unit_activity(pcargo, ACTIVITY_IDLE);
       }
-      if (!can_unit_exist_at_tile(pcargo, ptile)) {
-        drowning++;
-        /* No need for send_unit_info() here. Unit info will be sent
-         * when it is assigned to a new transport or it will be removed. */
-      } else {
+
+      /* Unit info for unhealthy units will be sent when they are
+       * assigned new transport or removed. */
+      if (healthy) {
         send_unit_info(NULL, pcargo);
       }
     } unit_list_iterate_safe_end;
@@ -1656,101 +1667,75 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
     break;
   }
 
-  if (drowning > 0) {
-    struct unit_list *drown;
-    struct unit_list *remain;
+  /* Try to save any imperiled cargo. */
+  if (unit_list_size(imperiled) > 0) {
+    struct unit_list *remaining = unit_list_new();
 
-    /* List of units that really die. We cannot wipe them yet, since
-     * in case of recursive transports their own cargo could then end
-     * being reassigned to new transports possibly infering with this
-     * parent iteration. We just collect them here, and wipe only when
-     * all units from original transport are reassigned. */
-    drown = unit_list_new();
-
-    /* After handling of undisbandable and gameloss units this
-     * has ptile->units that are not yet in drown list, but may
-     * need handling. Purpose of this list is to avoid adding
-     * same unit to drown list twice. */
-    remain = unit_list_new();
-
-    /* Finally reassign, bounce, or destroy all units that cannot exist at this
-     * location without transport. */
-    if (drowning) {
-      /* First save undisbandable and gameloss units */
-      unit_list_iterate_safe(ptile->units, pcargo) {
-        if (!unit_transported(pcargo)
-            && !can_unit_exist_at_tile(pcargo, ptile)
-            && (unit_has_type_flag(pcargo, F_UNDISBANDABLE)
-                || unit_has_type_flag(pcargo, F_GAMELOSS))) {
-          struct city *pcity = NULL;
-          struct unit *ptransport = transport_from_tile(pcargo, ptile);
-
-          if (ptransport != NULL) {
-            unit_transport_load_tp_status(pcargo, ptransport, FALSE);
-            send_unit_info(NULL, pcargo);
-          } else {
-            bool saved = FALSE;
-
-            if (unit_has_type_flag(pcargo, F_UNDISBANDABLE)) {
-              pcity = find_closest_city(unit_tile(pcargo), NULL,
-                                        unit_owner(pcargo), TRUE, FALSE, FALSE,
-                                        TRUE, FALSE);
-              if (pcity && teleport_unit_to_city(pcargo, pcity, 0, FALSE)) {
-                notify_player(pplayer, ptile, E_UNIT_RELOCATED, ftc_server,
-                              _("%s escaped the destruction of %s, and "
-                                "fled to %s."),
-                              unit_link(pcargo),
-                              utype_name_translation(putype_save),
-                              city_link(pcity));
-                saved = TRUE;
-              }
-            }
-            if (!saved) {
-              unit_list_prepend(drown, pcargo);
-            }
-          }
-
-          drowning--;
-          if (!drowning) {
-            break;
-          }
-        } else {
-          unit_list_prepend(remain, pcargo);
+    /* First save undisbandable and gameloss units */
+    unit_list_iterate_safe(imperiled, pcargo) {
+      if (unit_has_type_flag(pcargo, F_UNDISBANDABLE)
+         || unit_has_type_flag(pcargo, F_GAMELOSS)) {
+        if (!try_to_save_unit(pcargo, putype_save,
+                              unit_has_type_flag(pcargo,
+                                                 F_UNDISBANDABLE))) {
+          unit_list_prepend(unsaved, pcargo);
         }
-      } unit_list_iterate_safe_end;
-    }
-
-    /* Then other units */
-    if (drowning) {
-      unit_list_iterate_safe(remain, pcargo) {
-        if (!unit_transported(pcargo)
-            && !can_unit_exist_at_tile(pcargo, ptile)) {
-          struct unit *ptransport = transport_from_tile(pcargo, ptile);
-
-          if (ptransport != NULL) {
-            unit_transport_load_tp_status(pcargo, ptransport, FALSE);
-            send_unit_info(NULL, pcargo);
-          } else {
-            unit_list_prepend(drown, pcargo);
-          }
-
-          drowning--;
-          if (!drowning) {
-            break;
-          }
-        }
-      } unit_list_iterate_safe_end;
-    }
-    unit_list_destroy(remain);
-
-    unit_list_iterate_safe(drown, dying_unit) {
-      unit_lost_with_transport(pplayer, dying_unit, putype_save, killer);
+      } else {
+        unit_list_prepend(remaining, pcargo);
+      }
     } unit_list_iterate_safe_end;
 
-    unit_list_destroy(drown);
+    unit_list_iterate_safe(remaining, pcargo) {
+      if (!try_to_save_unit(pcargo, putype_save, FALSE)) {
+       unit_list_prepend(unsaved, pcargo);
+      }
+    } unit_list_iterate_safe_end;
+
+    unit_list_destroy(remaining);
+  }
+  unit_list_destroy(imperiled);
+
+  /* Finally, kill off the unsaved units. */
+  if (unit_list_size(unsaved) > 0) {
+    unit_list_iterate_safe(unsaved, dying_unit) {
+      unit_lost_with_transport(pplayer, dying_unit, putype_save, killer);
+    } unit_list_iterate_safe_end;
   }
 
-  fc_assert(drowning == 0);
+  unit_list_destroy(unsaved);
+}
+
+/****************************************************************************
+  Determine if it is possible to save a given unit, and if so, save them.
+****************************************************************************/
+bool try_to_save_unit(struct unit *punit, struct unit_type *pttype,
+                      bool teleporting)
+{
+  struct tile *ptile = unit_tile(punit);
+  struct player *pplayer = unit_owner(punit);
+  struct unit *ptransport = transport_from_tile(punit, ptile);
+ 
+  if (ptransport != NULL) {
+    unit_transport_load_tp_status(punit, ptransport, FALSE);
+    send_unit_info(NULL, punit);
+    return TRUE;
+  } else {
+    /* Only units that cannot find transport are considered for teleport. */
+    if (teleporting) {
+      struct city *pcity = find_closest_city(ptile, NULL, unit_owner(punit),
+                                             TRUE, FALSE, FALSE, TRUE, FALSE);
+      if (pcity && teleport_unit_to_city(punit, pcity, 0, FALSE)) {
+        notify_player(pplayer, ptile, E_UNIT_RELOCATED, ftc_server,
+                      _("%s escaped the destruction of %s, and fled to %s."),
+                      unit_link(punit),
+                      utype_name_translation(pttype),
+                      city_link(pcity));
+        return TRUE;
+      }
+    }
+  }
+  /* The unit could not use transport on the tile, and could not teleport. */
+  return FALSE;
 }
 
 /****************************************************************************
