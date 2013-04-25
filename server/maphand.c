@@ -2023,7 +2023,7 @@ void create_base(struct tile *ptile, struct base_type *pbase,
   if (territory_claiming_base(pbase) && pplayer) {
     map_claim_base(ptile, pbase, pplayer, NULL);
   } else {
-    map_claim_base(ptile, pbase, tile_owner(ptile), NULL);
+    map_claim_base(ptile, pbase, base_owner(ptile), NULL);
   }
 
   if (bases_destroyed) {
