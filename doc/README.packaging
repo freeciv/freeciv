@@ -20,7 +20,10 @@ Updating from 2.3 to 2.4
 * There is new savegame compression method xz
 * Support for loadable AI modules optionally built in
 * There's new gtk3-client alongside default gtk2-client. It can be built
-  with --enable-client=gtk3
+  with --enable-client=gtk3.
+  It's a bit less mature than gtk2-client.
+  Closing of unit selection dialog is known to crash the client with some gtk+
+  versions. That's gtk+ bug https://bugzilla.gnome.org/show_bug.cgi?id=671939
 * Development of new qt-client started. It can be built with --enable-client=qt
 * libcurl is new dependency
 * ftwl-client has been removed from distribution
