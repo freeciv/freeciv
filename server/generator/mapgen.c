@@ -1770,7 +1770,8 @@ static void fill_island(int coast, long int *bucket,
     if ((i * 3 > k * 2
          || fc_rand(100) < 50
          || is_terrain_near_tile(ptile, pterrain, FALSE))
-        && (!is_cardinally_adj_to_ocean(ptile) || fc_rand(100) < coast)) {
+        && (!is_terrain_class_card_near(ptile, TC_OCEAN)
+            || fc_rand(100) < coast)) {
       tile_set_terrain(ptile, pterrain);
       map_set_placed(ptile);
 

@@ -660,16 +660,6 @@ int map_distance(const struct tile *tile0, const struct tile *tile1)
   return map_vector_to_distance(dx, dy);
 }
 
-/*************************************************************************
-  This is used in mapgen for rivers going into ocen.  The name is 
-  intentionally made awkward to prevent people from using it in place of
-  is_ocean_near_tile
-*************************************************************************/
-bool is_cardinally_adj_to_ocean(const struct tile *ptile)
-{
-  return is_terrain_class_card_near(ptile, TC_OCEAN);
-}
-
 /****************************************************************************
   Return TRUE if this ocean terrain is adjacent to a safe coastline.
 ****************************************************************************/

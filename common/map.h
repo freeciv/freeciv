@@ -368,7 +368,6 @@ int map_move_cost(const struct player *pplayer, const struct unit_class *pclass,
                   const struct tile *src_tile,
                   const struct tile *dst_tile);
 bool is_safe_ocean(const struct tile *ptile);
-bool is_cardinally_adj_to_ocean(const struct tile *ptile);
 bv_special get_tile_infrastructure_set(const struct tile *ptile,
 					  int *count);
 bv_bases get_tile_pillageable_base_set(const struct tile *ptile, int *pcount);
