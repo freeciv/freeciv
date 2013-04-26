@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-26 12:10+0300\n"
-"PO-Revision-Date: 2013-04-26 09:50+0100\n"
+"PO-Revision-Date: 2013-04-26 11:30+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -8460,9 +8460,9 @@ msgstr "* Les lignes côtières de ce terrain sont dangereuses."
 
 #. TRANS: %s is a list of unit classes separated by "and".
 #: client/helpdata.c:1964
-#, fuzzy, c-format
+#, c-format
 msgid "* Can be traveled by %s units.\n"
-msgstr "* Peut être pillé par des unités.\n"
+msgstr "* Peut être traversé par les unités %s.\n"
 
 #: client/helpdata.c:2011
 msgid "Requirements to build:\n"
@@ -12809,14 +12809,13 @@ msgstr ""
 "Hydroélectrique donnent ensemble un bonus de 150%."
 
 #: data/civ1/buildings.ruleset:298
-#, fuzzy
 msgid ""
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant.  A city "
 "can only build a Hydro Plant if it is next to (or on) a River tile."
 msgstr ""
 "Une ville ne peut avoir qu'une seule centrale électrique, hydroélectrique ou "
 "nucléaire. Une ville ne peut construire une centrale hydroélectrique que si "
-"elle est adjacente à - ou sur - une case de montagne ou de rivière."
+"elle est adjacente à - ou sur - une case de rivière."
 
 #: data/civ1/buildings.ruleset:307 data/civ2/buildings.ruleset:383
 #: data/default/buildings.ruleset:413 data/experimental/buildings.ruleset:462
@@ -16278,7 +16277,6 @@ msgstr ""
 "La ville doit être côtière pour pouvoir construire ce bâtiment."
 
 #: data/civ2/buildings.ruleset:374
-#, fuzzy
 msgid ""
 "A city can only have one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant.  A city can only build a Hydro Plant if it is next to (or on) a River "
@@ -16286,8 +16284,7 @@ msgid ""
 msgstr ""
 "Une ville ne peut avoir qu'une seule centrale électrique, hydroélectrique, "
 "nucléaire ou solaire. Une ville ne peut construire une centrale "
-"hydroélectrique que si elle est sur ou à proximité d'une montagne ou d'une "
-"rivière."
+"hydroélectrique que si elle est adjacente à - ou sur - une case de rivière."
 
 # AR
 #: data/civ2/buildings.ruleset:460 data/default/buildings.ruleset:490
