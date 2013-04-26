@@ -251,10 +251,10 @@ static GtkWidget *create_rates_dialog(void)
   gtk_grid_set_column_spacing(GTK_GRID(hgrid), 10);
   gtk_container_add(GTK_CONTAINER(frame), hgrid);
 
-  rates_tax_scale = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
-  gtk_range_set_range(GTK_RANGE(rates_tax_scale), 0, 11);
+  rates_tax_scale =
+    gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 10, 1);
   gtk_range_set_increments(GTK_RANGE(rates_tax_scale), 1, 1);
-  for (i = 0; i < 12; i++) {
+  for (i = 0; i <= 10; i++) {
     gtk_scale_add_mark(GTK_SCALE(rates_tax_scale), i, GTK_POS_TOP, NULL);
   }
   gtk_widget_set_size_request(rates_tax_scale, 300, 40);
@@ -276,10 +276,10 @@ static GtkWidget *create_rates_dialog(void)
   gtk_grid_set_column_spacing(GTK_GRID(hgrid), 10);
   gtk_container_add(GTK_CONTAINER(frame), hgrid);
 
-  rates_lux_scale = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
-  gtk_range_set_range(GTK_RANGE(rates_lux_scale), 0, 11);
-  gtk_range_set_increments(GTK_RANGE(rates_sci_scale), 1, 1);
-  for (i = 0; i < 12; i++) {
+  rates_lux_scale =
+    gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 10, 1);
+  gtk_range_set_increments(GTK_RANGE(rates_lux_scale), 1, 1);
+  for (i = 0; i <= 10; i++) {
     gtk_scale_add_mark(GTK_SCALE(rates_lux_scale), i, GTK_POS_TOP, NULL);
   }
   gtk_widget_set_size_request(rates_lux_scale, 300, 40);
@@ -301,10 +301,10 @@ static GtkWidget *create_rates_dialog(void)
   gtk_grid_set_column_spacing(GTK_GRID(hgrid), 10);
   gtk_container_add(GTK_CONTAINER(frame), hgrid);
 
-  rates_sci_scale = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
-  gtk_range_set_range(GTK_RANGE(rates_sci_scale), 0, 11);
+  rates_sci_scale =
+    gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 10, 1);
   gtk_range_set_increments(GTK_RANGE(rates_sci_scale), 1, 1);
-  for (i = 0; i < 12; i++) {
+  for (i = 0; i <= 10; i++) {
     gtk_scale_add_mark(GTK_SCALE(rates_sci_scale), i, GTK_POS_TOP, NULL);
   }
   gtk_widget_set_size_request(rates_sci_scale, 300, 40);
