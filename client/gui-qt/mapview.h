@@ -35,6 +35,49 @@ extern "C" {
 #include <QHBoxLayout>
 #include <QLabel>
 
+class minimap_view;
+/* pixmap of resize button */
+const char *const resize_button[] = {
+ "13 13 3 1",
+ "  c none",
+ ". c #f8ff81",
+ "x c #000000",
+ "xxxxxxxxxxxx ",
+ "x..........x ",
+ "x.xxx......x ",
+ "x.xx.......x ",
+ "x.x.x......x ",
+ "x....x.....x ",
+ "x.....x....x ",
+ "x.....x....x ",
+ "x......x.x.x ",
+ "x.......xx.x ",
+ "x......xxx.x ",
+ "x..........x ",
+ "xxxxxxxxxxxx "
+};
+
+/* pixmap of close button */
+const char *const close_button[] = {
+ "13 13 3 1",
+ "  c none",
+ ". c #f8ff81",
+ "x c #000000",
+ "xxxxxxxxxxxx ",
+ "x..........x ",
+ "x.x......x.x ",
+ "x..x....x..x ",
+ "x...x..x...x ",
+ "x....xx....x ",
+ "x....xx....x ",
+ "x...x..x...x ",
+ "x..x....x..x ",
+ "x.x......x.x ",
+ "x..........x ",
+ "xxxxxxxxxxxx ",
+ "             "
+};
+
 /**************************************************************************
   Struct used for idle callback to execute some callbacks later
 **************************************************************************/
@@ -64,6 +107,7 @@ private:
 **************************************************************************/
 class map_view : public QWidget
 {
+  Q_OBJECT
 public:
   map_view();
   void paint(QPainter *painter, QPaintEvent *event);
@@ -77,6 +121,88 @@ protected:
 private:
   QBrush background;
 
+};
+
+/**************************************************************************
+  Widget allowing resizing other widgets
+**************************************************************************/
+class resize_widget : public QLabel
+{
+  Q_OBJECT
+public:
+  resize_widget(QWidget* parent);
+  void put_to_corner();
+
+protected:
+  void mouseMoveEvent(QMouseEvent *event);
+  void mousePressEvent(QMouseEvent *event);
+private:
+  QPoint point;
+};
+
+/**************************************************************************
+  Abstract class for widgets wanting to do custom action
+  when closing widgets is called (eg. update menu)
+**************************************************************************/
+class fcwidget : public QLabel
+{
+  Q_OBJECT
+public:
+  virtual void update_menu() = 0;
+};
+
+/**************************************************************************
+  Widget allowing closing other widgets
+**************************************************************************/
+class close_widget : public QLabel
+{
+  Q_OBJECT
+public:
+  close_widget(QWidget *parent);
+  void put_to_corner();
+protected:
+  void mousePressEvent(QMouseEvent *event);
+  void notify_parent();
+};
+
+/**************************************************************************
+  QLabel used for displaying overview (minimap)
+**************************************************************************/
+class minimap_view:public fcwidget {
+  Q_OBJECT 
+public:
+  minimap_view(QWidget * parent);
+  void paint(QPainter * painter, QPaintEvent * event);
+  virtual void update_menu();
+  void update_image();
+
+protected:
+  void paintEvent(QPaintEvent * event);
+  void resizeEvent(QResizeEvent * event);
+  void mousePressEvent(QMouseEvent * event);
+  void mouseMoveEvent(QMouseEvent * event);
+  void mouseReleaseEvent(QMouseEvent * event);
+  void wheelEvent(QWheelEvent * event);
+  void moveEvent(QMoveEvent * event);
+  void showEvent(QShowEvent * event);
+
+private slots: 
+  void zoom_in();
+  void zoom_out();
+
+private:
+  void draw_viewport(QPainter * painter);
+  void scale(double factor);
+  void scale_point(int &x, int &y);
+  void unscale_point(int &x, int &y);
+  QBrush background;
+  QPoint cursor;
+  resize_widget *rw;
+  close_widget *cw;
+  QPixmap *pix;
+  QPoint position;
+  float w_ratio, h_ratio;
+  double scale_factor;
 };
 
 /**************************************************************************

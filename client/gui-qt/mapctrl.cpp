@@ -165,6 +165,7 @@ void map_view::mousePressEvent(QMouseEvent *event)
 
   if (event->button() == Qt::RightButton) {
     recenter_button_pressed(event->x(), event->y());
+    ::gui()->minimapview_wdg->update_image();
   }
 
   i = 0;
@@ -173,6 +174,9 @@ void map_view::mousePressEvent(QMouseEvent *event)
   if (event->button() == Qt::LeftButton) {
     ptile = canvas_pos_to_tile(event->x(), event->y());
     /* check if over city */
+    if (ptile == NULL) {
+      return;
+    }
     if(((pcity = tile_city(ptile)) != NULL)
        && (city_owner(pcity) == client.conn.playing)) {
     qtg_real_city_dialog_popup(pcity);

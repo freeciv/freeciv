@@ -85,6 +85,12 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("Center View"));
   act->setShortcut(QKeySequence(tr("c")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_center_view()));
+  minimap_status = menu->addAction(_("Minimap"));
+  minimap_status->setCheckable(true);
+  minimap_status->setShortcut(QKeySequence(tr("ctrl+m")));
+  minimap_status->setChecked(true);
+  connect(minimap_status, SIGNAL(triggered()), this, 
+          SLOT(slot_minimap_view()));
 
   /* Unit Menu */
   menu = this->addMenu(_("Unit"));
@@ -321,6 +327,18 @@ void mr_menu::slot_unit_sentry()
 void mr_menu::slot_center_view()
 {
   request_center_focus_unit();
+}
+
+/****************************************************************
+  Action "VIEW/HIDE MINIMAP"
+*****************************************************************/
+void mr_menu::slot_minimap_view()
+{
+  if (minimap_status->isChecked()){
+    ::gui()->minimapview_wdg->show();
+  } else {
+    ::gui()->minimapview_wdg->hide();
+  }
 }
 
 /****************************************************************

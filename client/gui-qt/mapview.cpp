@@ -24,15 +24,18 @@
 // client
 #include "climisc.h"
 #include "mapctrl_common.h"
+#include "overview_common.h"
 #include "sprite.h"
 #include "text.h"
 
 // qui-qt
 #include "qtg_cxxside.h"
+#include "mapview.h"
 
 const char*get_timeout_label_text();
 static int mapview_frozen_level = 0;
 extern struct canvas *canvas;
+extern QApplication *qapp;
 
 /**************************************************************************
   Constructor for idle callbacks
@@ -84,11 +87,8 @@ void map_view::paintEvent(QPaintEvent *event)
   QPainter painter;
 
   painter.begin(this);
-
-  // painter.setRenderHint(QPainter::Antialiasing);
   painter.setBackground(background);
   paint(&painter, event);
-
   painter.end();
 }
 
@@ -116,6 +116,459 @@ void map_view::resizeEvent(QResizeEvent* event)
     map_canvas_resized(size.width(), size.height());
   }
 }
+
+/****************************************************************************
+  Constructor for resize widget
+****************************************************************************/
+resize_widget::resize_widget(QWidget *parent) : QLabel()
+{
+  setParent(parent);
+  setCursor(Qt::SizeFDiagCursor);
+  setPixmap(QPixmap(resize_button));
+}
+
+/****************************************************************************
+  Puts resize widget to right bottom corner
+****************************************************************************/
+void resize_widget::put_to_corner()
+{
+  move(parentWidget()->width() - width(),
+       parentWidget()->height() - height());
+}
+
+/****************************************************************************
+  Mouse handler for resize widget (resizes parent widget)
+****************************************************************************/
+void resize_widget::mouseMoveEvent(QMouseEvent * event)
+{
+  QPoint qp, np;
+  qp = event->globalPos();
+  np.setX(qp.x() - point.x());
+  np.setY(qp.y() - point.y());
+  np.setX(qMax(np.x(), 32));
+  np.setY(qMax(np.y(), 32));
+  parentWidget()->resize(np.x(), np.y());
+}
+
+/****************************************************************************
+  Sets moving point for resize widget;
+****************************************************************************/
+void resize_widget::mousePressEvent(QMouseEvent* event)
+{
+  QPoint qp;
+  qp = event->globalPos();
+  point.setX(qp.x() - parentWidget()->width());
+  point.setY(qp.y() - parentWidget()->height());
+  update();
+}
+
+/****************************************************************************
+  Constructor for close widget
+****************************************************************************/
+close_widget::close_widget(QWidget *parent) : QLabel()
+{
+  setParent(parent);
+  setCursor(Qt::ArrowCursor);
+  setPixmap(QPixmap(close_button));
+}
+
+/****************************************************************************
+  Puts close widget to right top corner
+****************************************************************************/
+void close_widget::put_to_corner()
+{
+  move(parentWidget()->width()-width(), 0);
+}
+
+/****************************************************************************
+  Mouse handler for close widget, hides parent widget
+****************************************************************************/
+void close_widget::mousePressEvent(QMouseEvent* event)
+{
+  if (event->button() == Qt::LeftButton) {
+    parentWidget()->hide();
+    notify_parent();
+  }
+}
+/****************************************************************************
+  Notifies parent to do custom action, parent is already hidden.
+****************************************************************************/
+void close_widget::notify_parent()
+{
+  fcwidget *fcw;
+  fcw = reinterpret_cast<fcwidget *>(parentWidget());
+  fcw->update_menu();
+}
+
+
+/**************************************************************************
+  Constructor for minimap
+**************************************************************************/
+minimap_view::minimap_view(QWidget *parent) : fcwidget()
+{
+  setParent(parent);
+  setScaledContents(true);
+  w_ratio = 1.0;
+  h_ratio = 1.0;
+  move(4, 4);
+  background = QBrush(QColor (0, 0, 0));
+  setCursor(Qt::CrossCursor);
+  rw = new resize_widget(this);
+  rw->put_to_corner();
+  cw = new close_widget(this);
+  cw->put_to_corner();
+  pix = new QPixmap;
+  scale_factor = 1.0;
+}
+
+/**************************************************************************
+  Paint event for minimap
+**************************************************************************/
+void minimap_view::paintEvent(QPaintEvent *event)
+{
+  QPainter painter;
+  painter.begin(this);
+  paint(&painter, event);
+  painter.end();
+}
+
+/**************************************************************************
+  Sets scaling factor for minimap
+**************************************************************************/
+void minimap_view::scale(double factor)
+{
+  scale_factor *= factor;
+  if (scale_factor < 1) {
+    scale_factor = 1.0;
+  };
+  update_image();
+}
+
+/**************************************************************************
+  Converts gui to overview position.
+**************************************************************************/
+static void gui_to_overview(int *map_x, int *map_y, int gui_x, int gui_y)
+{
+  const int W = tileset_tile_width(tileset);
+  const int H = tileset_tile_height(tileset);
+  const int HH = tileset_hex_height(tileset);
+  const int HW = tileset_hex_width(tileset);
+  int a, b;
+
+  if (HH > 0 || HW > 0) {
+    int x, y, dx, dy;
+    int xmult, ymult, mod, compar;
+    x = DIVIDE(gui_x, W);
+    y = DIVIDE(gui_y, H);
+    dx = gui_x - x * W;
+    dy = gui_y - y * H;
+    xmult = (dx >= W / 2) ? -1 : 1;
+    ymult = (dy >= H / 2) ? -1 : 1;
+    dx = (dx >= W / 2) ? (W - 1 - dx) : dx;
+    dy = (dy >= H / 2) ? (H - 1 - dy) : dy;
+    if (HW > 0) {
+      compar = (dx - HW / 2) * (H / 2) - (H / 2 - 1 - dy) * (W / 2 - HW);
+    } else {
+      compar = (dy - HH / 2) * (W / 2) - (W / 2 - 1 - dx) * (H / 2 - HH);
+    }
+    mod = (compar < 0) ? -1 : 0;
+    *map_x = (x + y) + mod * (xmult + ymult) / 2;
+    *map_y = (y - x) + mod * (ymult - xmult) / 2;
+  } else if (tileset_is_isometric(tileset)) {
+    gui_x -= W / 2;
+    *map_x = DIVIDE(gui_x * H + gui_y * W, W * H);
+    *map_y = DIVIDE(gui_y * W - gui_x * H, W * H);
+  } else {
+    *map_x = DIVIDE(gui_x, W);
+    *map_y = DIVIDE(gui_y, H);
+  }
+  a = *map_x;
+  b = *map_y;
+  map_to_overview_pos(map_x, map_y, a, b);
+  *map_x = *map_x + 1;
+  *map_y = *map_y + 1;
+}
+
+/**************************************************************************
+  Called by close widget, cause widget has been hidden. Updates menu.
+**************************************************************************/
+void minimap_view::update_menu()
+{
+  ::gui()->menu_bar->minimap_status->setChecked(false);
+}
+
+/**************************************************************************
+  Minimap is being moved, position is being remebered
+**************************************************************************/
+void minimap_view::moveEvent(QMoveEvent* event)
+{
+  position = event->pos();
+}
+
+/**************************************************************************
+  Minimap is just unhidden, old position is restored
+**************************************************************************/
+void minimap_view::showEvent(QShowEvent* event)
+{
+  move(position);
+  event->setAccepted(true);
+}
+
+/**************************************************************************
+  Draws viewport on minimap
+**************************************************************************/
+void minimap_view::draw_viewport(QPainter *painter)
+{
+  int i, x[4], y[4];
+  int src_x, src_y, dst_x, dst_y;
+
+  if (!overview.map) {
+    return;
+  }
+  gui_to_overview(&x[0], &y[0], mapview.gui_x0, mapview.gui_y0);
+  gui_to_overview(&x[1], &y[1], mapview.gui_x0 + mapview.width,
+                  mapview.gui_y0);
+  gui_to_overview(&x[2], &y[2], mapview.gui_x0 + mapview.width,
+                  mapview.gui_y0 + mapview.height);
+  gui_to_overview(&x[3], &y[3], mapview.gui_x0,
+                  mapview.gui_y0 + mapview.height);
+  painter->setPen(QColor(Qt::white));
+
+  if (scale_factor > 1) {
+    for (i = 0; i < 4; i++) {
+      scale_point(x[i], y[i]);
+    }
+  }
+
+  for (i = 0; i < 4; i++) {
+    src_x = x[i] * w_ratio;
+    src_y = y[i] * h_ratio;
+    dst_x = x[(i + 1) % 4] * w_ratio;
+    dst_y = y[(i + 1) % 4] * h_ratio;
+    painter->drawLine(src_x, src_y, dst_x, dst_y);
+  }
+}
+
+/**************************************************************************
+  Scales point from real overview coords to scaled overview coords.
+**************************************************************************/
+void minimap_view::scale_point(int &x, int &y)
+{
+  int ax, bx;
+  int dx, dy;
+
+  gui_to_overview(&ax, &bx, mapview.gui_x0 + mapview.width / 2,
+                  mapview.gui_y0 + mapview.height / 2);
+  x = qRound(x * scale_factor);
+  y = qRound(y * scale_factor);
+  dx = qRound(ax * scale_factor - overview.width / 2);
+  dy = qRound(bx * scale_factor - overview.height / 2);
+  x = x - dx;
+  y = y - dy;
+
+}
+
+/**************************************************************************
+  Scales point from scaled overview coords to real overview coords.
+**************************************************************************/
+void minimap_view::unscale_point(int &x, int &y)
+{
+  int ax, bx;
+  int dx, dy;
+  gui_to_overview(&ax, &bx, mapview.gui_x0 + mapview.width / 2,
+                  mapview.gui_y0 + mapview.height / 2);
+  dx = qRound(ax * scale_factor - overview.width / 2);
+  dy = qRound(bx * scale_factor - overview.height / 2);
+  x = x + dx;
+  y = y + dy;
+  x = qRound(x / scale_factor);
+  y = qRound(y / scale_factor);
+
+}
+
+
+/**************************************************************************
+  Updates minimap's pixmap
+**************************************************************************/
+void minimap_view::update_image()
+{
+  QPixmap *tpix;
+  QPixmap gpix;
+  QPixmap bigger_pix(overview.width * 2, overview.height * 2);
+  int delta_x, delta_y;
+  int x, y, ix, iy;
+  float wf, hf;
+  QPixmap *src, *dst;
+
+  if (isHidden() == true ){
+    return; 
+  }
+  if (overview.map != NULL) {
+    if (scale_factor > 1) {
+      /* move minimap now, 
+         scale later and draw without looking for origin */
+      src = &overview.map->map_pixmap;
+      dst = &overview.window->map_pixmap;
+      x = overview.map_x0;
+      y = overview.map_y0;
+      ix = overview.width - x;
+      iy = overview.height - y;
+      pixmap_copy(dst, src, 0, 0, ix, iy, x, y);
+      pixmap_copy(dst, src, 0, y, ix, 0, x, iy);
+      pixmap_copy(dst, src, x, 0, 0, iy, ix, y);
+      pixmap_copy(dst, src, x, y, 0, 0, ix, iy);
+      tpix = &overview.window->map_pixmap;
+      wf = static_cast <float>(overview.width) / scale_factor;
+      hf = static_cast <float>(overview.height) / scale_factor;
+      x = 0;
+      y = 0;
+      unscale_point(x, y);
+      /* qt 4.8 is going to copy pixmap badly if coords x+size, y+size 
+         will go over image so we create extra black bigger image */
+      bigger_pix.fill(Qt::black);
+      delta_x = overview.width / 2;
+      delta_y = overview.height / 2;
+      pixmap_copy(&bigger_pix, tpix, 0, 0, delta_x, delta_y, overview.width,
+                  overview.height);
+      gpix = bigger_pix.copy(delta_x + x, delta_y + y, wf, hf);
+      *pix = gpix.scaled(width(), height(),
+                         Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    } else {
+      tpix = &overview.map->map_pixmap;
+      *pix = tpix->scaled(width(), height(),
+                          Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    }
+  }
+  update();
+}
+
+/**************************************************************************
+  Redraws visible map using stored pixmap
+**************************************************************************/
+void minimap_view::paint(QPainter * painter, QPaintEvent * event)
+{
+  int x, y, ix, iy;
+
+  x = overview.map_x0 * w_ratio;
+  y = overview.map_y0 * h_ratio;
+  ix = pix->width() - x;
+  iy = pix->height() - y;
+
+  if (scale_factor > 1) {
+    painter->drawPixmap(0, 0, *pix, 0, 0, pix->width(), pix->height());
+  } else {
+    painter->drawPixmap(ix, iy, *pix, 0, 0, x, y);
+    painter->drawPixmap(ix, 0, *pix, 0, y, x, iy);
+    painter->drawPixmap(0, iy, *pix, x, 0, ix, y);
+    painter->drawPixmap(0, 0, *pix, x, y, ix, iy);
+  }
+  painter->setPen(QColor(Qt::yellow));
+  painter->setRenderHint(QPainter::Antialiasing);
+  painter->drawRect(0, 0, width() - 1, height() - 1);
+  draw_viewport(painter);
+  rw->put_to_corner();
+  cw->put_to_corner();
+}
+
+/****************************************************************************
+  Called when minimap has been resized
+****************************************************************************/
+void minimap_view::resizeEvent(QResizeEvent* event)
+{
+  QSize size;
+  size = event->size();
+
+  if (C_S_RUNNING == client_state()) {
+    w_ratio = static_cast<float>(width()) / overview.width;
+    h_ratio = static_cast<float>(height()) / overview.height;
+  }
+  update_image();
+}
+
+/****************************************************************************
+  Wheel event for minimap - zooms it in or out
+****************************************************************************/
+void minimap_view::wheelEvent(QWheelEvent * event)
+{
+  if (event->delta() > 0) {
+    zoom_in();
+  } else {
+    zoom_out();
+  }
+  event->accept();
+}
+
+/****************************************************************************
+  Sets scale factor to scale minimap 20% up
+****************************************************************************/
+void minimap_view::zoom_in()
+{
+  if (scale_factor < overview.width / 8) {
+    scale(1.2);
+  }
+}
+
+/****************************************************************************
+  Sets scale factor to scale minimap 20% down
+****************************************************************************/
+void minimap_view::zoom_out()
+{
+  scale(0.833);
+}
+
+/**************************************************************************
+  Mouse Handler for minimap_view
+  Left button - moves minimap
+  Right button - recenters on some point
+  For wheel look mouseWheelEvent
+**************************************************************************/
+void minimap_view::mousePressEvent(QMouseEvent * event)
+{
+  int fx, fy;
+  int x, y;
+
+  if (event->button() == Qt::LeftButton) {
+    cursor = event->globalPos() - geometry().topLeft();
+  }
+  if (event->button() == Qt::RightButton) {
+    cursor = event->pos();
+    fx = event->pos().x();
+    fy = event->pos().y();
+    fx = qRound(fx / w_ratio);
+    fy = qRound(fy / h_ratio);
+    if (scale_factor > 1) {
+      unscale_point(fx, fy);
+    }
+    fx = qMax(fx, 1);
+    fy = qMax(fy, 1);
+    fx = qMin(fx, overview.width - 1);
+    fy = qMin(fy, overview.height - 1);
+    overview_to_map_pos(&x, &y, fx, fy);
+    center_tile_mapcanvas(map_pos_to_tile(x, y));
+    update_image();
+  }
+  event->setAccepted(true);
+}
+
+/**************************************************************************
+  Called when mouse button was pressed. Used to moving minimap.
+**************************************************************************/
+void minimap_view::mouseMoveEvent(QMouseEvent* event)
+{
+  if (event->buttons() & Qt::LeftButton) {
+    move(event->globalPos() - cursor);
+    setCursor(Qt::SizeAllCursor);
+  }
+}
+
+/**************************************************************************
+  Called when mouse button unpressed. Restores cursor.
+**************************************************************************/
+void minimap_view::mouseReleaseEvent(QMouseEvent* event)
+{
+  setCursor(Qt::CrossCursor);
+}
+
 
 /**************************************************************************
   Constructor for information label
@@ -358,7 +811,6 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 ****************************************************************************/
 struct canvas *get_overview_window(void)
 {
-  /* PORTME */
   return NULL;
 }
 
@@ -401,6 +853,7 @@ void dirty_all(void)
 ****************************************************************************/
 void flush_dirty(void)
 {
+  gui()->minimapview_wdg->update_image();
 }
 
 /****************************************************************************
@@ -488,9 +941,8 @@ void tileset_changed(void)
 ****************************************************************************/
 void get_overview_area_dimensions(int *width, int *height)
 {
-  /* PORTME */
-  *width = 0;
-  *height = 0;
+  *width = ::gui()->minimapview_wdg->width();
+  *height = ::gui()->minimapview_wdg->height();
 }
 
 /****************************************************************************
@@ -498,10 +950,42 @@ void get_overview_area_dimensions(int *width, int *height)
   size of the GUI element holding the overview canvas. The
   overview.width and overview.height are updated if this function is
   called.
+  It's used for first creation of overview only, later overview stays the
+  same size, scaled by qt-specific function.
 ****************************************************************************/
 void overview_size_changed(void)
 {
-  /* PORTME */
+  int map_width, map_height, over_width, over_height, ow, oh;
+  float ratio;
+  map_width = gui()->mapview_wdg->width();
+  map_height = gui()->mapview_wdg->height();
+  over_width = overview.width;
+  over_height = overview.height;
+
+  /* lower overview width size to max 20% of map width, keep aspect ratio*/
+  if (map_width/over_width < 5){
+    ratio = static_cast<float>(map_width)/over_width;
+    ow = static_cast<float>(map_width)/5.0;
+    ratio = static_cast<float>(over_width)/ow;
+    over_height=static_cast<float>(over_height)/ratio;
+    over_width=ow;
+  }
+  /* if height still too high lower again */
+  if (map_height/over_height < 5){
+    ratio = static_cast<float>(map_height)/over_height;
+    oh = static_cast<float>(map_height)/5.0;
+    ratio = static_cast<float>(over_height)/oh;
+    over_width=static_cast<float>(over_width)/ratio;
+    over_height = oh;
+  }
+  /* make minimap not less than 48x48 */
+  if (over_width < 48) {
+    over_width =48;
+  }
+  if (over_height < 48) {
+    over_height = 48;
+  }
+  gui()->minimapview_wdg->resize(over_width, over_height);
 }
 
 /**************************************************************************

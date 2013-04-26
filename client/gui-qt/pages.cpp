@@ -454,7 +454,8 @@ void fc_client::create_game_page()
   game_tab_widget->setDocumentMode(false);
   mapview_wdg = new map_view();
   mapview_wdg->setFocusPolicy(Qt::WheelFocus);
-
+  minimapview_wdg = new minimap_view(mapview_wdg);
+  minimapview_wdg->show();
   game_info_label = new info_label;
   game_info_label_policy.setHorizontalPolicy(QSizePolicy::Expanding);
   game_info_label_policy.setVerticalPolicy(QSizePolicy::Fixed);

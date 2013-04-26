@@ -66,6 +66,25 @@ void qtg_canvas_copy(struct canvas *dest, struct canvas *src,
 }
 
 /****************************************************************************
+  Copies an area from the source pixmap to the destination pixmap.
+****************************************************************************/
+void pixmap_copy(QPixmap *dest, QPixmap *src, int src_x, int src_y,
+                 int dest_x, int dest_y, int width, int height)
+{
+  QRectF source_rect(src_x, src_y, width, height);
+  QRectF dest_rect(dest_x, dest_y, width, height);
+  QPainter p;
+
+  if (!width || !height) {
+    return;
+  }
+
+  p.begin(dest);
+  p.drawPixmap(dest_rect, *src, source_rect);
+  p.end();
+}
+
+/****************************************************************************
   Draw some or all of a sprite onto the canvas.
 ****************************************************************************/
 void qtg_canvas_put_sprite(struct canvas *pcanvas,
@@ -129,7 +148,16 @@ void qtg_canvas_put_rectangle(struct canvas *pcanvas,
   p.begin(&pcanvas->map_pixmap);
   p.setPen(pen);
   p.setBrush(brush);
-  p.drawRect(canvas_x, canvas_y, width, height);
+  if (width == 1 && height == 1) {
+    p.drawPoint(canvas_x, canvas_y);
+  } else if (width == 1) {
+    p.drawLine(canvas_x, canvas_y, canvas_x, canvas_y + height);
+  } else if (height == 1) {
+    p.drawLine(canvas_x, canvas_y, canvas_x + width, canvas_y);
+  } else {
+    p.drawRect(canvas_x, canvas_y, width, height);
+  }
+
   p.end();
 }
 
@@ -194,6 +222,7 @@ void qtg_canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
 
   p.begin(&pcanvas->map_pixmap);
   p.setPen(pen);
+  p.setRenderHint(QPainter::Antialiasing);
   p.drawLine(start_x, start_y, start_x + dx, start_y + dy);
   p.end();
 }

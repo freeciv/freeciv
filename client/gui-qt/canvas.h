@@ -29,5 +29,7 @@ struct canvas {
 };
 
 struct canvas *qtg_canvas_create(int width, int height);
+void pixmap_copy(QPixmap *dest, QPixmap *src, int src_x, int src_y,
+                 int dest_x, int dest_y, int width, int height);
 
 #endif /* FC__CANVAS_H */

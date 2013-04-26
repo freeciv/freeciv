@@ -151,7 +151,8 @@ public:
   ~fc_client();
 
   void main(QApplication *);
-  map_view* mapview_wdg;
+  map_view *mapview_wdg;
+  minimap_view *minimapview_wdg;
   void add_server_source(int);
 
   enum client_pages current_page();

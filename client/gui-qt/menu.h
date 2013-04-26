@@ -35,6 +35,7 @@ public:
   void setup_gov_menu();
   void gov_menu_sensitive();
   void rm_gov_menu();
+  QAction *minimap_status;
 private slots:
   /* game menu */
   void local_options();
@@ -58,6 +59,7 @@ private slots:
 
   /*used by view menu*/
   void slot_center_view();
+  void slot_minimap_view();
 
   /*used by civilization menu */
   void slot_popup_tax_rates();
