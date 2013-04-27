@@ -175,24 +175,6 @@ struct player *create_barbarian_player(enum barbarian_type type)
 }
 
 /**************************************************************************
-  Check if a tile is land and free of enemy units
-**************************************************************************/
-static bool is_free_land(struct tile *ptile, struct player *who)
-{
-  return (!is_ocean_tile(ptile)
-	  && !is_non_allied_unit_tile((ptile), who));
-}
-
-/**************************************************************************
-  Check if a tile is sea and free of enemy units
-**************************************************************************/
-static bool is_free_sea(struct tile *ptile, struct player *who)
-{
-  return (is_ocean_tile(ptile)
-	  && !is_non_allied_unit_tile((ptile), who));
-}
-
-/**************************************************************************
   (Re)initialize direction checked status array based on terrain class.
 **************************************************************************/
 static void init_dir_checked_status(bool *checked,
@@ -299,12 +281,14 @@ bool unleash_barbarians(struct tile *ptile)
     dir_tiles[dir] = mapstep(ptile, dir);
     if (dir_tiles[dir] == NULL) {
       terrainc[dir] = terrain_class_invalid();
-    } else if (is_free_land(dir_tiles[dir], barbarians)) {
-      terrainc[dir] = TC_LAND;
-      land_tiles++;
-    } else if (is_free_sea(dir_tiles[dir], barbarians)) {
-      terrainc[dir] = TC_OCEAN;
-      ocean_tiles++;
+    } else if (!is_non_allied_unit_tile(dir_tiles[dir], barbarians)) {
+      if (is_ocean_tile(dir_tiles[dir])) {
+        terrainc[dir] = TC_OCEAN;
+        ocean_tiles++;
+      } else {
+        terrainc[dir] = TC_LAND;
+        land_tiles++;
+      }
     } else {
       terrainc[dir] = terrain_class_invalid();
     }
