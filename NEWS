@@ -47,6 +47,9 @@ Clerical
             databases. SQLite uses a simple file as a database, and is
             recommended as being entirely adequate for Freeciv
             authentication and much less hassle to set up than MySQL.
+          + The Windows packages include SQLite support, so for the first
+            time, it's possible to use player authentication on Windows
+            without building the server yourself.
      * The server now supports a 'delegation' feature similar to that in
        Longturn, where one user can nominate another to temporarily take
        over control of the game. This is controlled by the '/delegate'
@@ -61,6 +64,9 @@ Clerical
           + A series of these images can be assembled into an animation to
             replay the progress of the game. A shell script 'mapimg2anim'
             is provided to help with this.
+          + PNG/GIF/JPEG output is only available if built against the
+            ImageMagick library. The Windows 2.4.0-beta1 packages only
+            support the basic PPM format.
      * Player colors are now assigned centrally, and can be changed with
        the '/playercolor' server command. There is a new server setting
        'plrcolormode' that controls how colors are assigned, including a
@@ -86,6 +92,9 @@ Clerical
      * The freeciv-modpack utility supports more modpack types, more
        options (see --help), and uses the Curl library for network access
        so should be more robust.
+     * (as of beta2) The ranklog format has changed; it now includes
+       individual players' scores, and can be parsed more unambiguously.
+       GNAPATCH#3346
 
 Clients
 
@@ -97,6 +106,10 @@ Clients
           + The first time you run this client, it will copy any Gtk2
             client settings you have set. Thereafter, Gtk2 and Gtk3
             settings will remain separate.
+          + Known issue: when compiled against some versions of Gtk3,
+            there are assertion failures and crashes associated with the
+            unit selection dialog. This is believed due to a Gtk bug
+            (671939). GNA#19846
      * (In the code there is also the start of a Qt client. However, at
        this point it is just a stub and is unlikely to be of interest.
        Development will continue in 2.5.)
@@ -143,10 +156,11 @@ Tilesets / Art
           + A tileset making use of this, Cimpletoon, is included. It is
             based on Amplio2 but has a full set of oriented unit sprites
             for the default ruleset. GNAPATCH#2739
-          + Known issue: Cimpletoon does not yet have sprites for all
-            Fundamentalist units (it lacks Elephants and Crusaders), so
-            for rulesets with these units, it will use fallback sprites
-            (Chariot and Knights respectively). GNA#19998
+          + Known issue in beta1: Cimpletoon did not have sprites for all
+            Fundamentalist units (it lacked Elephants and Crusaders), so
+            for rulesets with these units, it would use fallback sprites
+            (Chariot and Knights respectively). As of beta2, the tileset
+            is complete. GNA#19998
 
 Gameplay / Rules
 
@@ -181,6 +195,13 @@ Changes affecting supplied rulesets
        levels, but behaviour is unchanged from 2.3. GNA#19850
      * In the default, multiplayer, and experimental rulesets, years are
        displayed with CE/BCE rather than BC/AD notation. GNA#15090
+     * (as of beta2) The default map topology for new games has been
+       changed to isometric, to match the default Amplio2 tileset.
+       GNAPATCH#3764
+     * (as of beta2) In the 'multiplayer' ruleset, the ability to build
+       buoys has been removed, as they do not work well with national
+       borders disabled (the default for this ruleset). It is expected
+       that they'll be re-enabled in a future major release. GNAPATCH#3541
      * Changes to the 'experimental' ruleset:
           + Citizen nationality is enabled; see below.
           + Workers and Engineers can now gain veteran levels by working
@@ -279,11 +300,44 @@ Changes and new features for rulesets/modpacks/scenarios
           + Script facilities for reading and manipulating unit
             orientation. GNAPATCH#2823 GNAPATCH#2836
           + Scripts can now read server settings. GNAPATCH#2955
-
-   (See also How to update a ruleset from 2.3 to 2.4.)
+     * (as of beta2) An internal 64kbyte limit on string length has been
+       removed. Among other things, this allows longer Lua scripts in
+       scenarios. GNA#20086
 
 AI
 
+     * (as of beta2) The city governor logic has been reworked, fixing
+       various issues such as unexpected tax collectors in cities with
+       many buildings, and a need to set minimal gold surplus to a lower
+       target than expected. GNAPATCH#3620
+     * (as of beta2) The AI's workers/settlers, and human players'
+       autosettlers, will now automatically stop what they are doing and
+       go elsewhere if threatened by an enemy unit and there is no
+       defender on their tile. (Currently only threats from land units are
+       considered.) GNAPATCH#3384
+     * (as of beta2) Improvements to AI settler management:
+          + The AI now considers worker units' food consumption (e.g.
+            Settlers) to be less of a factor when deciding whether to
+            build such units, to encourage it to do so. GNAPATCH#3693
+          + Fix poor handling of rulesets containing boats which can only
+            carry a single unit. Previously, the AI would generate
+            settlers with the intention of sending them out on such boats,
+            but then refuse to do so due to lack of room for a bodyguard,
+            regardless of whether one was needed, often hurting expansion
+            and leaving useless settlers. Now it only insists on room for
+            a bodyguard if one is actually needed. GNA#19815
+     * (as of beta2) Improvements to AI city defense:
+          + Reduced the tendency of AI city defenders to be lured out of
+            their city by nearby targets even in the presence of threats.
+            GNA#20504
+          + Cities in grave danger of invasion with no defending units
+            were tending to build City Walls, uselessly. They will now
+            prioritise acquiring a defender. GNA#20559
+     * (as of beta2) Improvements to AI caravan management:
+          + Caravans in transit are now taken into account when a city is
+            deciding whether to build more caravans. Previously, a city
+            could end up building endless caravans if existing ones did
+            not complete their trade route. GNAPATCH#3529
      * The AI's management of its tax rates has been reworked to be more
        sophisticated; notably, it now takes tech upkeep into account. It
        also considers tech upkeep when determining the value of a tech.
@@ -295,12 +349,13 @@ AI
        Supermarket, so the AI still does not benefit, due to a
        chicken-and-egg situation.)
      * The extensive reworking of the AI code (see #Development), while
-       not intended to introduce any functional changes, is likely to have
-       done so anyway.
+       not intended to introduce any functional changes (and extensively
+       tested for this), may have changed behaviour in some rare cases.
 
 Translations
 
      * New Indonesian translation.
+     * (as of beta2) New Traditional Chinese translation.
      * Updated translations: Bulgarian, Catalan, Spanish, Scottish Gaelic,
        Korean, Polish, Dutch, Irish, and French.
 
@@ -331,7 +386,7 @@ Build/portability
        used for metaserver communication and for freeciv-modpack.
        GNAPATCH#2320 GNAPATCH#2376
      * Efforts have been made to make the codebase compile without
-       warnings with GCC 4.6.
+       warnings with GCC 4.6 and (as of beta2) 4.7.
      * Use of some GNU make extensions has been removed from the build
        system, so it may now be possible to build with a POSIX 'make'.
        GNAPATCH#3378
