@@ -672,6 +672,7 @@ Alien lifeform with cybernetic implants. Good in combat, and has better \
 vision than any purely organic unit.")
 
 [unit_rex]
+; /* TRANS: Alien lifeform. Name refers to Tyrannosaurus Rex, not "King" role */
 name          = _("Rex")
 class         = "Native"
 tech_req      = "Synthetic Food"
@@ -698,7 +699,7 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Capturer"
 helptext      = _("\
-Most powerful alien lifeform.\
+Most powerful alien lifeform, like one from Earth's Jurassic period.\
 ")
 
 [unit_paradropper]
