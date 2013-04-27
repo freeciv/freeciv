@@ -1792,10 +1792,61 @@ static bool load_ruleset_units(struct section_file *file)
         break;
       }
 
-      /* Set also all classes that are never unreachable as targets. */
+      slist = secfile_lookup_str_vec(file, &nval, "%s.embarks", sec_name);
+      BV_CLR_ALL(u->embarks);
+      for (j = 0; j < nval; j++) {
+        struct unit_class *uclass = unit_class_by_rule_name(slist[j]);
+
+        if (!uclass) {
+          ruleset_error(LOG_ERROR,
+                        "\"%s\" unit_type \"%s\":"
+                        "has unknown unit class %s as embarkable.",
+                        filename,
+                        utype_rule_name(u),
+                        slist[j]);
+          ok = FALSE;
+          break;
+        }
+
+        BV_SET(u->embarks, uclass_index(uclass));
+      }
+      free(slist);
+
+      if (!ok) {
+        break;
+      }
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.disembarks", sec_name);
+      BV_CLR_ALL(u->disembarks);
+      for (j = 0; j < nval; j++) {
+        struct unit_class *uclass = unit_class_by_rule_name(slist[j]);
+
+        if (!uclass) {
+          ruleset_error(LOG_ERROR,
+                        "\"%s\" unit_type \"%s\":"
+                        "has unknown unit class %s as disembarkable.",
+                        filename,
+                        utype_rule_name(u),
+                        slist[j]);
+          ok = FALSE;
+          break;
+        }
+
+        BV_SET(u->disembarks, uclass_index(uclass));
+      }
+      free(slist);
+
+      if (!ok) {
+        break;
+      }
+
+      /* Set also all classes that are never unreachable as targets,
+       * embarks, and disembarks. */
       unit_class_iterate(pclass) {
         if (!uclass_has_flag(pclass, UCF_UNREACHABLE)) {
           BV_SET(u->targets, uclass_index(pclass));
+          BV_SET(u->embarks, uclass_index(pclass));
+          BV_SET(u->disembarks, uclass_index(pclass));
         }
       } unit_class_iterate_end;
 
@@ -4919,6 +4970,8 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.city_size = u->city_size;
     packet.cargo = u->cargo;
     packet.targets = u->targets;
+    packet.embarks = u->embarks;
+    packet.disembarks = u->disembarks;
 
     if (u->veteran == NULL) {
       /* Use the default veteran system. */

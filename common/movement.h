@@ -42,6 +42,7 @@ enum unit_move_result {
   MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT,
   MR_NO_TRANSPORTER_CAPACITY,
   MR_TRIREME,
+  MR_CANNOT_DISEMBARK,
 };
 
 int unit_move_rate(const struct unit *punit);
@@ -82,8 +83,7 @@ bool unit_can_move_to_tile(const struct unit *punit,
                            const struct tile *ptile,
                            bool igzoc);
 enum unit_move_result
-unit_move_to_tile_test(const struct unit_type *punittype,
-                       const struct player *unit_owner,
+unit_move_to_tile_test(const struct unit *punit,
                        enum unit_activity activity,
                        const struct tile *src_tile,
                        const struct tile *dst_tile,

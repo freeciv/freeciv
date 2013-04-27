@@ -1280,8 +1280,8 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
 {
   struct tile *src_tile = unit_tile(punit);
   enum unit_move_result reason =
-      unit_move_to_tile_test(unit_type(punit), unit_owner(punit),
-                             punit->activity, src_tile, dest_tile, igzoc);
+      unit_move_to_tile_test(punit, punit->activity,
+                             src_tile, dest_tile, igzoc);
 
   switch (reason) {
   case MR_OK:
@@ -1343,6 +1343,15 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
                       "%s first."),
                     player_name(tile_owner(dest_tile)));
     }
+    break;
+
+  case MR_CANNOT_DISEMBARK:
+    notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,
+                  _("%s cannot disembark without a native base for "
+                    "%s on the tile."),
+                    unit_link(punit),
+                    utype_name_translation(
+                        unit_type(unit_transport_get(punit))));
     break;
 
   default:

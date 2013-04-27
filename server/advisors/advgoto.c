@@ -193,8 +193,7 @@ static bool adv_could_be_my_zoc(struct unit *myunit, struct tile *ptile)
 int adv_could_unit_move_to_tile(struct unit *punit, struct tile *dest_tile)
 {
   enum unit_move_result reason =
-      unit_move_to_tile_test(unit_type(punit), unit_owner(punit),
-                             ACTIVITY_IDLE, unit_tile(punit),
+      unit_move_to_tile_test(punit, ACTIVITY_IDLE, unit_tile(punit),
                              dest_tile, unit_has_type_flag(punit, UTYF_IGZOC));
   switch (reason) {
   case MR_OK:

@@ -831,6 +831,13 @@ bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
     return FALSE;
   }
 
+  /* Un-embarkable transport must be in city or base to load cargo. */
+  if (!BV_ISSET(unit_type(pcargo)->embarks, uclass_index(unit_class(ptrans)))
+      && !tile_city(unit_tile(ptrans))
+      && !tile_has_native_base(unit_tile(ptrans), unit_type(ptrans))) {
+    return FALSE;
+  }
+
   /* Make sure there's room in the transporter. */
   return (get_transporter_occupancy(ptrans)
 	  < get_transporter_capacity(ptrans));
@@ -876,6 +883,13 @@ bool can_unit_unload(const struct unit *pcargo, const struct unit *ptrans)
    * unloaded may be transporting other units (well, at least it's allowed
    * here: elsewhere this may be disallowed). */
   if (unit_transport_get(ptrans)) {
+    return FALSE;
+  }
+
+  /* Un-disembarkable transport must be in city or base to unload cargo. */
+  if (!BV_ISSET(unit_type(pcargo)->disembarks, uclass_index(unit_class(ptrans)))
+      && !tile_city(unit_tile(ptrans))
+      && !tile_has_native_base(unit_tile(ptrans), unit_type(ptrans))) {
     return FALSE;
   }
 

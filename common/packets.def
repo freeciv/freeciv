@@ -1225,6 +1225,8 @@ PACKET_RULESET_UNIT = 140; sc, lsend
 
   BV_UNIT_CLASSES cargo;
   BV_UNIT_CLASSES targets;
+  BV_UNIT_CLASSES embarks;
+  BV_UNIT_CLASSES disembarks;
 
   STRING helptext[MAX_LEN_PACKET];
 

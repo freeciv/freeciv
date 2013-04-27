@@ -2898,6 +2898,8 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
   u->city_size          = p->city_size;
   u->cargo              = p->cargo;
   u->targets            = p->targets;
+  u->embarks            = p->embarks;
+  u->disembarks         = p->disembarks;
 
   if (p->veteran_levels == 0) {
     u->veteran = NULL;

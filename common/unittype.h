@@ -426,7 +426,14 @@ struct unit_type {
 
   bv_unit_classes cargo;
 
-  bv_unit_classes targets; /* Can attack these classes even if they are otherwise "Unreachable" */
+  /* Can attack these classes even if they are otherwise "Unreachable" */
+  bv_unit_classes targets;
+  /* Can load into these class transports at any location,
+   * even if they are otherwise "Unreachable". */
+  bv_unit_classes embarks;
+  /* Can unload from these class transports at any location,
+   * even if they are otherwise "Unreachable". */
+  bv_unit_classes disembarks;
 
   struct strvec *helptext;
 

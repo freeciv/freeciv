@@ -425,8 +425,7 @@ bool unit_can_move_to_tile(const struct unit *punit,
                            const struct tile *dst_tile,
                            bool igzoc)
 {
-  return (MR_OK == unit_move_to_tile_test(unit_type(punit),
-                                          unit_owner(punit),
+  return (MR_OK == unit_move_to_tile_test(punit,
                                           punit->activity, unit_tile(punit),
                                           dst_tile, igzoc));
 }
@@ -449,16 +448,18 @@ bool unit_can_move_to_tile(const struct unit *punit,
     9) There is no non-allied unit blocking (zoc) [or igzoc is true].
    10) Triremes cannot move out of sight from land.
    11) It is not the territory of a player we are at peace with.
+   12) The unit is unable to disembark from current transporter.
 **************************************************************************/
 enum unit_move_result
-unit_move_to_tile_test(const struct unit_type *punittype,
-                       const struct player *unit_owner,
+unit_move_to_tile_test(const struct unit *punit,
                        enum unit_activity activity,
                        const struct tile *src_tile,
                        const struct tile *dst_tile, bool igzoc)
 {
   bool zoc;
   struct city *pcity;
+  const struct unit_type *punittype = unit_type(punit);
+  const struct player *puowner = unit_owner(punit);
 
   /* 1) */
   if (activity != ACTIVITY_IDLE
@@ -474,7 +475,7 @@ unit_move_to_tile_test(const struct unit_type *punittype,
   }
 
   /* 3) */
-  if (is_non_allied_unit_tile(dst_tile, unit_owner)) {
+  if (is_non_allied_unit_tile(dst_tile, puowner)) {
     /* You can't move onto a tile with non-allied units on it (try
      * attacking instead). */
     return MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT;
@@ -482,12 +483,12 @@ unit_move_to_tile_test(const struct unit_type *punittype,
 
   /* 4) */
   if (!(can_exist_at_tile(punittype, dst_tile)
-        || unit_class_transporter_capacity(dst_tile, unit_owner,
+        || unit_class_transporter_capacity(dst_tile, puowner,
                                            utype_class(punittype)) > 0)) {
     return MR_NO_TRANSPORTER_CAPACITY;
   }
 
-  pcity = is_enemy_city_tile(dst_tile, unit_owner);
+  pcity = is_enemy_city_tile(dst_tile, puowner);
   if (NULL != pcity) {
     /* 5) */
     if (!utype_can_take_over(punittype)) {
@@ -507,7 +508,7 @@ unit_move_to_tile_test(const struct unit_type *punittype,
   }
 
   /* 7) */
-  if (is_non_attack_unit_tile(dst_tile, unit_owner)) {
+  if (is_non_attack_unit_tile(dst_tile, puowner)) {
     /* You can't move into a non-allied tile.
      *
      * FIXME: this should never happen since it should be caught by check
@@ -517,7 +518,7 @@ unit_move_to_tile_test(const struct unit_type *punittype,
 
   /* 8) */
   pcity = tile_city(dst_tile);
-  if (pcity && pplayers_non_attack(city_owner(pcity), unit_owner)) {
+  if (pcity && pplayers_non_attack(city_owner(pcity), puowner)) {
     /* You can't move into an empty city of a civilization you're at
      * peace with - you must first either declare war or make alliance. */
     return MR_NO_WAR;
@@ -525,7 +526,7 @@ unit_move_to_tile_test(const struct unit_type *punittype,
 
   /* 9) */
   zoc = igzoc
-    || can_step_taken_wrt_to_zoc(punittype, unit_owner, src_tile, dst_tile);
+    || can_step_taken_wrt_to_zoc(punittype, puowner, src_tile, dst_tile);
   if (!zoc) {
     /* The move is illegal because of zones of control. */
     return MR_ZOC;
@@ -538,8 +539,14 @@ unit_move_to_tile_test(const struct unit_type *punittype,
 
   /* 11) */
   if (!utype_has_flag(punittype, UTYF_CIVILIAN)
-      && !player_can_invade_tile(unit_owner, dst_tile)) {
+      && !player_can_invade_tile(puowner, dst_tile)) {
     return MR_PEACE;
+  }
+
+  /* 12) */
+  if (unit_transported(punit)
+     && !can_unit_unload(punit, unit_transport_get(punit))) {
+    return MR_CANNOT_DISEMBARK;
   }
 
   return MR_OK;

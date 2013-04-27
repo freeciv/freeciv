@@ -1623,6 +1623,7 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
   struct tile *ptile = unit_tile(punit);
   struct player *pplayer = unit_owner(punit);
   struct unit_type *putype_save = unit_type(punit); /* for notify messages */
+  struct unit_list *helpless = unit_list_new();
   struct unit_list *imperiled = unit_list_new();
   struct unit_list *unsaved = unit_list_new();
 
@@ -1638,11 +1639,15 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
     unit_list_iterate_safe(unit_transport_cargo(punit), pcargo) {
       bool healthy = FALSE;
 
-      if (!can_unit_exist_at_tile(pcargo, ptile)) {
-        unit_list_prepend(imperiled, pcargo);
+      if (!can_unit_unload(pcargo, punit)) {
+        unit_list_prepend(helpless, pcargo);
       } else {
+        if (!can_unit_exist_at_tile(pcargo, ptile)) {
+          unit_list_prepend(imperiled, pcargo);
+        } else {
         /* These units do not need to be saved. */
-        healthy = TRUE;
+          healthy = TRUE;
+        }
       }
 
       /* Could use unit_transport_unload_send here, but that would
@@ -1702,11 +1707,40 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
     break;
   }
 
-  /* Try to save any imperiled cargo. */
+  /* First, sort out helpless cargo. */
+  if (unit_list_size(helpless) > 0) {
+    struct unit_list *remaining = unit_list_new();
+
+    /* Grant priority to undisbandable and gameloss units. */
+    unit_list_iterate_safe(helpless, pcargo) {
+      if (unit_has_type_flag(pcargo, UTYF_UNDISBANDABLE)
+          || unit_has_type_flag(pcargo, UTYF_GAMELOSS)) {
+        if (!try_to_save_unit(pcargo, putype_save, TRUE,
+                              unit_has_type_flag(pcargo,
+                                                 UTYF_UNDISBANDABLE))) {
+          unit_list_prepend(unsaved, pcargo);
+        }
+      } else {
+        unit_list_prepend(remaining, pcargo);
+      }
+    } unit_list_iterate_safe_end;
+
+    /* Handle non-priority units. */
+    unit_list_iterate_safe(remaining, pcargo) {
+      if (!try_to_save_unit(pcargo, putype_save, TRUE, FALSE)) {
+        unit_list_prepend(unsaved, pcargo);
+      }
+    } unit_list_iterate_safe_end;
+
+    unit_list_destroy(remaining);
+  }
+  unit_list_destroy(helpless);
+
+  /* Then, save any imperiled cargo. */
   if (unit_list_size(imperiled) > 0) {
     struct unit_list *remaining = unit_list_new();
 
-    /* First save undisbandable and gameloss units */
+    /* Grant priority to undisbandable and gameloss units. */
     unit_list_iterate_safe(imperiled, pcargo) {
       if (unit_has_type_flag(pcargo, UTYF_UNDISBANDABLE)
           || unit_has_type_flag(pcargo, UTYF_GAMELOSS)) {
@@ -1720,7 +1754,7 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
       }
     } unit_list_iterate_safe_end;
 
-    /* Then other units */
+    /* Handle non-priority units. */
     unit_list_iterate_safe(remaining, pcargo) {
       if (!try_to_save_unit(pcargo, putype_save, FALSE, FALSE)) {
         unit_list_prepend(unsaved, pcargo);
