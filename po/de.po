@@ -33,7 +33,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-26 15:32+0200\n"
+"POT-Creation-Date: 2013-04-27 11:39+0100\n"
 "PO-Revision-Date: 2013-04-26 16:49+0200\n"
 "Last-Translator: Marvin Gülker <quintus@quintilianus.eu>\n"
 "Language-Team: German Freeciv Translators <freeciv-de@googlegroups.com>\n"
@@ -40168,8 +40168,8 @@ msgstr ""
 #: server/generator/mapgen_topology.c:306
 #, c-format
 msgid ""
-"Setting map size to %d (approx. %d (land) tiles for each of the %d "
-"player(s))."
+"Setting map size to %d (approx. %d (land) tiles for each of the %d player"
+"(s))."
 msgstr ""
 
 #: server/generator/startpos.c:394
