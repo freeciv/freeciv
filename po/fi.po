@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-27 11:39+0100\n"
-"PO-Revision-Date: 2012-03-11 18:35+0200\n"
+"POT-Creation-Date: 2013-04-26 12:10+0300\n"
+"PO-Revision-Date: 2013-04-28 02:47+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -1174,7 +1174,7 @@ msgstr ""
 #: client/client_main.c:380
 #, fuzzy
 msgid "Use NAME as username on server"
-msgstr "  -n, --name NAME\tkäytä nimeä NAME\n"
+msgstr "  -n, --name NAME\tkäytä nimeä NAME pelaaja- tai palvelinnimenä\n"
 
 #. TRANS: "port" is exactly what user must type, do not translate.
 #: client/client_main.c:383 server/civserver.c:392
@@ -4537,7 +4537,7 @@ msgstr "_Avaruusalus"
 #: client/gui-gtk-3.0/menu.c:2009 client/gui-gtk-3.0/menu.c:2013
 #, fuzzy, c-format
 msgid "Connect With %s"
-msgstr "Yhdistä tänne"
+msgstr "Mene tietä rakentaen"
 
 #: client/gui-gtk-2.0/menu.c:2131 client/gui-gtk-3.0/menu.c:2130
 msgid "Help _Build Wonder"
@@ -5440,11 +5440,7 @@ msgid ""
 "Year: %s\n"
 "Gold %d\n"
 "Tax: %d Lux: %d Sci: %d"
-msgstr ""
-"Väkiluku: %s\n"
-"Vuosi: %s\n"
-"Kultaa %d\n"
-"Hallinto: %d Luksus: %d Tutkimus: %d"
+msgstr "%s Väkiluku: %s  Vuosi: %s  Kulta %d Vero: %d Luk: %d Tie: %d"
 
 #: client/gui-sdl/caravan_dialog.c:137
 #, c-format
@@ -6658,7 +6654,7 @@ msgstr "Mene kasteluverkostoa rakentaen"
 #: client/gui-sdl/menu.c:544 client/gui-sdl/menu.c:560
 #, fuzzy, c-format
 msgid "Connect With %s (%s)"
-msgstr "Yhdistä tänne"
+msgstr "Mene tietä rakentaen"
 
 #: client/gui-sdl/menu.c:575 client/gui-xaw/menu.c:201
 msgid "Auto Explore"
@@ -8610,16 +8606,16 @@ msgstr[1] ""
 "tyytymättömäksi.\n"
 
 #: client/helpdata.c:2280
-#, fuzzy, c-format
+#, c-format
 msgid "* Each of your cities will avoid %d unhappiness caused by units.\n"
 msgid_plural ""
 "* Each of your cities will avoid %d unhappiness caused by units.\n"
 msgstr[0] ""
-"· Kukin kaupungeistasi välttää %d asukkaan tyytymättömyyden. Yksiköiden "
-"aiheuttamaa tyytymättömyyttä tämä ei pysty poistamaan.\n"
+"· Kukin kaupungeistasi välttää %d asukkaan yksiköistä aiheutuvan "
+"tyytymättömyyden.\n"
 msgstr[1] ""
-"· Kukin kaupungeistasi välttää %d asukkaan tyytymättömyyden. Yksiköiden "
-"aiheuttamaa tyytymättömyyttä tämä ei pysty poistamaan.\n"
+"· Kukin kaupungeistasi välttää %d asukkaan yksiköistä aiheutuvan "
+"tyytymättömyyden.\n"
 
 #: client/helpdata.c:2289
 #, c-format
@@ -9349,9 +9345,8 @@ msgid "Setting this option will draw the national borders."
 msgstr "Jos asetus on käytössä, valtioiden väliset rajat piirretään kartalle."
 
 #: client/options.c:1870
-#, fuzzy
 msgid "Draw whether tiles are native to selected unit"
-msgstr "Piirrä maasto"
+msgstr ""
 
 #: client/options.c:1872
 msgid ""
@@ -9797,18 +9792,16 @@ msgid "Image format"
 msgstr ""
 
 #: client/options.c:2081
-#, fuzzy
 msgid "The image toolkit and file format used for map images."
-msgstr "Viestilogi tallennetaan annettuunn tiedostoon."
+msgstr ""
 
 #: client/options.c:2086
 msgid "Zoom factor for map images"
 msgstr ""
 
 #: client/options.c:2087
-#, fuzzy
 msgid "The magnification used for map images."
-msgstr "Viestilogi tallennetaan annettuunn tiedostoon."
+msgstr ""
 
 #: client/options.c:2090
 #, fuzzy
@@ -9834,9 +9827,8 @@ msgid "Show cities"
 msgstr "_Näytä kaikki kaupungit"
 
 #: client/options.c:2101
-#, fuzzy
 msgid "If set, cities are shown on the saved image."
-msgstr "Jos asetus ei ole käytössä, hiiren kursori on mustavalkoinen."
+msgstr ""
 
 #: client/options.c:2104
 #, fuzzy
@@ -9865,9 +9857,8 @@ msgid "Show units"
 msgstr "%s yksikköjä"
 
 #: client/options.c:2116
-#, fuzzy
 msgid "If set, units are shown in the saved image."
-msgstr "Jos asetus ei ole käytössä, hiiren kursori on mustavalkoinen."
+msgstr ""
 
 #: client/options.c:2119
 #, fuzzy
@@ -10823,7 +10814,7 @@ msgstr "Lamppuja vuoroa kohden: %d – %d = %d"
 #: client/text.c:986
 #, fuzzy, c-format
 msgid "Bulbs per turn: %d"
-msgstr "Lamppuja vuoroa kohden: %d – %d = %d"
+msgstr "Lamppuja vuoroa kohden: %d"
 
 #: client/text.c:995
 #, c-format
@@ -11775,9 +11766,7 @@ msgstr ""
 #: common/fc_cmdhelp.c:133
 #, fuzzy
 msgid "Pass any following options to the UI."
-msgstr ""
-"      --\t\tVälitä tästä seuraavat parametrit käyttöliittymälle.\n"
-"\t\t\tKs. myös \"%s -- --help\".\n"
+msgstr "      --\t\tVälitä tästä seuraavat parametrit käyttöliittymälle.\n"
 
 #. TRANS: year label (Anno Domini)
 #: common/game.h:580 data/civ1/game.ruleset:166 data/civ2/game.ruleset:160
@@ -11806,7 +11795,7 @@ msgstr ""
 #: common/mapimg.c:302
 #, fuzzy
 msgid "error"
-msgstr "I/O-virhe"
+msgstr "yhteysvirhe"
 
 #: common/mapimg.c:427
 msgid "Standard ppm files"
@@ -11823,9 +11812,8 @@ msgid "internal error"
 msgstr "Sisäinen virhe"
 
 #: common/mapimg.c:582
-#, fuzzy
 msgid "no players, only terrain"
-msgstr "<ei yhteyksiä>"
+msgstr ""
 
 #: common/mapimg.c:583
 #, fuzzy
@@ -11949,9 +11937,9 @@ msgid "'show=%s' but no player bitvector 'plrbv'"
 msgstr ""
 
 #: common/mapimg.c:992
-#, fuzzy, c-format
+#, c-format
 msgid "invalid character in bitvector: '%c' (%s)"
-msgstr "Asetus 'scorefile ei kelpaa: '%s'. Katso \"/help scorefile\"."
+msgstr ""
 
 #: common/mapimg.c:1013
 #, fuzzy, c-format
@@ -11972,23 +11960,23 @@ msgid "'zoom' factor should be between 1 and 5"
 msgstr ""
 
 #: common/mapimg.c:1096
-#, fuzzy, c-format
+#, c-format
 msgid "invalid value for option '%s': '%s'"
-msgstr "Asetus 'scorefile ei kelpaa: '%s'. Katso \"/help scorefile\"."
+msgstr ""
 
 #: common/mapimg.c:1120
 msgid "map definition not checked (game not started)"
 msgstr ""
 
 #: common/mapimg.c:1124
-#, fuzzy, c-format
+#, c-format
 msgid "map definition deactivated: %s"
-msgstr "Ydintalvi ei ole käytössä."
+msgstr ""
 
 #: common/mapimg.c:1223
-#, fuzzy, c-format
+#, c-format
 msgid "Detailed information for map image definition %d\n"
-msgstr "Asetus 'scorefile ei kelpaa: '%s'. Katso \"/help scorefile\"."
+msgstr ""
 
 #: common/mapimg.c:1226
 #, fuzzy, c-format
@@ -12021,15 +12009,15 @@ msgid "  - zoom factor:              %d\n"
 msgstr ""
 
 #: common/mapimg.c:1240
-#, fuzzy, c-format
+#, c-format
 msgid "  - show area within borders: %s\n"
-msgstr "Piirrä valtioiden rajat"
+msgstr ""
 
 #: common/mapimg.c:1241 common/mapimg.c:1243 common/mapimg.c:1245
 #: common/mapimg.c:1247 common/mapimg.c:1249 common/mapimg.c:1253
 #, fuzzy
 msgid "yes"
-msgstr "Vie"
+msgstr "Kyllä"
 
 #: common/mapimg.c:1241 common/mapimg.c:1243 common/mapimg.c:1245
 #: common/mapimg.c:1247 common/mapimg.c:1249 common/mapimg.c:1253
@@ -12113,9 +12101,9 @@ msgid "map definition not checked or error"
 msgstr ""
 
 #: common/mapimg.c:1556
-#, fuzzy, c-format
+#, c-format
 msgid "no map definition with id %d"
-msgstr "Kartan koon määrittely"
+msgstr ""
 
 #: common/mapimg.c:1662
 #, fuzzy, c-format
@@ -12143,9 +12131,9 @@ msgid "error generating the file name"
 msgstr "Tallennustiedoston nimen määritys"
 
 #: common/mapimg.c:2257
-#, fuzzy, c-format
+#, c-format
 msgid "error saving map image '%s'"
-msgstr "Lataan juontotiedostoa: %s"
+msgstr ""
 
 #: common/mapimg.c:2285
 msgid "the ppm toolkit can only create images in the ppm format"
@@ -12154,12 +12142,11 @@ msgstr ""
 #: common/mapimg.c:2297
 #, fuzzy, c-format
 msgid "could not open file: %s"
-msgstr "En saanut avattua tiedostoa \"%s\"."
+msgstr "Tallennustiedoston avaaminen epäonnistui: %s"
 
 #: common/packets.c:392
-#, fuzzy
 msgid "illegal packet size"
-msgstr "Asennan munnospakettia %s osoitteesta %s"
+msgstr "virheellinen pakettikoko"
 
 #: common/packets.c:416 common/packets.c:461
 msgid "decoding error"
@@ -17897,6 +17884,7 @@ msgstr ""
 #: data/civ2/units.ruleset:1907
 msgid "Spies built under a Communist government will be built as veteran."
 msgstr ""
+"Kommunistisen hallituksen alla rakennetut vakoojat aloittavat konkareina."
 
 #: data/civ2/units.ruleset:1951 data/default/units.ruleset:2027
 #: data/experimental/units.ruleset:2064 data/multiplayer/units.ruleset:2126
@@ -18301,7 +18289,7 @@ msgstr ""
 #: data/multiplayer/game.ruleset:207
 #, fuzzy
 msgid "BCE"
-msgstr "eKr."
+msgstr "eaa."
 
 #: data/default/nations.ruleset:25
 #, fuzzy
@@ -18578,8 +18566,8 @@ msgid ""
 "Diplomats built under a Communist government will start at the first veteran "
 "level (secretary)."
 msgstr ""
-"Kaikki saman maanosan kaupungeissa valmistuneet merivoimien yksiköt "
-"aloittavat valmiiksi ylennettyinä."
+"Kommunistisen hallinnon alla rakennetut diplomaatit aloittavat valmiiksi "
+"ylennettyinä."
 
 #. TRANS: Spy veteran level
 #: data/default/units.ruleset:1946 data/experimental/units.ruleset:1983
@@ -18612,8 +18600,8 @@ msgid ""
 "Spies built under a Communist government will start at the first veteran "
 "level (handler)."
 msgstr ""
-"Kaikki saman maanosan kaupungeissa valmistuneet merivoimien yksiköt "
-"aloittavat valmiiksi ylennettyinä."
+"Kommunistisen hallinnon alla rakennetut vakoojat aloittavat valmiiksi "
+"ylennettyinä."
 
 #: data/default/units.ruleset:2090 data/experimental/units.ruleset:2127
 #: data/multiplayer/units.ruleset:2190
@@ -23418,7 +23406,7 @@ msgstr "Punaiset"
 #: data/multiplayer/game.ruleset:306
 #, fuzzy
 msgid "?team name:Vermilion"
-msgstr "Keiltaiset"
+msgstr "Violetit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:308
@@ -23459,7 +23447,7 @@ msgstr "Turkoosit"
 #: data/multiplayer/game.ruleset:320
 #, fuzzy
 msgid "?team name:Crimson"
-msgstr "Pinkit"
+msgstr "Sinivihreät"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:322
@@ -23634,17 +23622,17 @@ msgstr "Vaaliruhtinas %s"
 #: data/nation/zulu.ruleset:38
 #, fuzzy, c-format
 msgid "?female:Elder %s"
-msgstr "Johtaja %s"
+msgstr "Johtajatar %s"
 
 #: data/nation/abyssinian.ruleset:3
 #, fuzzy
 msgid "Abyssinian"
-msgstr "armenialaisten"
+msgstr "albanialaisten"
 
 #: data/nation/abyssinian.ruleset:4
 #, fuzzy
 msgid "?plural:Abyssinians"
-msgstr "?plural:intialaiset"
+msgstr "albanialaiset"
 
 #: data/nation/abyssinian.ruleset:6
 msgid ""
@@ -23828,12 +23816,12 @@ msgstr ""
 #: data/nation/acrean.ruleset:31
 #, fuzzy, c-format
 msgid "Baron %s"
-msgstr "kaupungissa %s"
+msgstr "Baani %s"
 
 #: data/nation/acrean.ruleset:31
 #, fuzzy, c-format
 msgid "Baroness %s"
-msgstr "Prinsessa"
+msgstr "Ruhtinatar %s"
 
 #: data/nation/acrean.ruleset:32 data/nation/bissauguinean.ruleset:23
 #: data/nation/californian.ruleset:35 data/nation/capeverdean.ruleset:25
@@ -24002,13 +23990,14 @@ msgstr ""
 "maniokkia, bataattia ja jamssia."
 
 #: data/nation/alandalus.ruleset:3
+#, fuzzy
 msgid "Andalusi"
-msgstr ""
+msgstr "maurien"
 
 #: data/nation/alandalus.ruleset:4
 #, fuzzy
 msgid "?plural:Andalusis"
-msgstr "ainut"
+msgstr "maurit"
 
 #: data/nation/alandalus.ruleset:6
 msgid ""
@@ -24107,7 +24096,7 @@ msgstr "Pääministeri %s"
 #: data/nation/alander.ruleset:6
 #, fuzzy
 msgid "Alander"
-msgstr "Liittouma"
+msgstr "grönlantilaisten"
 
 #: data/nation/alander.ruleset:7
 #, fuzzy
@@ -24137,17 +24126,18 @@ msgstr "Kardinaali %s"
 #: data/nation/swedish.ruleset:33 data/nation/viking.ruleset:28
 #, fuzzy, c-format
 msgid "?female:Earl %s"
-msgstr "Rani"
+msgstr "Baani %s"
 
+# Friar != normimunkki, mutta tehdään vähän eroa Brother %s:äänkin. Huom. kirjaimellisesti 'veli', naispuolisille sopii heikosti.
 #: data/nation/alander.ruleset:30 data/nation/faroese.ruleset:32
 #, fuzzy, c-format
 msgid "Vicar %s"
-msgstr "Fregatti"
+msgstr "Munkkiveli %s"
 
 #: data/nation/alander.ruleset:30 data/nation/faroese.ruleset:32
 #, fuzzy, c-format
 msgid "?female:Vicar %s"
-msgstr "Majuri"
+msgstr "Diktaattori %s"
 
 #: data/nation/albanian.ruleset:3
 msgid "Albanian"
@@ -24302,12 +24292,12 @@ msgstr "Dey %s"
 #: data/nation/alsatian.ruleset:3
 #, fuzzy
 msgid "Alsatian"
-msgstr "odottaa"
+msgstr "haitilaisten"
 
 #: data/nation/alsatian.ruleset:4
 #, fuzzy
 msgid "?plural:Alsatians"
-msgstr "?plural:intialaiset"
+msgstr "albanialaiset"
 
 #: data/nation/alsatian.ruleset:6
 msgid ""
@@ -24529,12 +24519,12 @@ msgstr "Diktaattori %s"
 #: data/nation/andorran.ruleset:24
 #, fuzzy, c-format
 msgid "Co-Prince %s"
-msgstr "Prinsessa"
+msgstr "Ruhtinas %s"
 
 #: data/nation/andorran.ruleset:24
 #, fuzzy, c-format
 msgid "Co-Princess %s"
-msgstr "Prinsessa"
+msgstr "Ruhtinatar %s"
 
 #: data/nation/angolan.ruleset:3
 msgid "Angolan"
@@ -24564,7 +24554,7 @@ msgstr ""
 #: data/nation/anhaltian.ruleset:3
 #, fuzzy
 msgid "Anhaltian"
-msgstr "odottaa"
+msgstr "haitilaisten"
 
 #: data/nation/anhaltian.ruleset:4
 #, fuzzy
@@ -24685,7 +24675,7 @@ msgstr ""
 #: data/nation/antiguan.ruleset:4
 #, fuzzy
 msgid "?plural:Antiguans and Barbudans"
-msgstr "ruandalaiset"
+msgstr "ugandalaiset"
 
 #: data/nation/antiguan.ruleset:6
 msgid ""
@@ -24702,7 +24692,7 @@ msgstr "Tykistö"
 #: data/nation/antillean.ruleset:4
 #, fuzzy
 msgid "?plural:Antilleans"
-msgstr "?plural:intialaiset"
+msgstr "angolalaiset"
 
 #: data/nation/antillean.ruleset:6
 msgid ""
@@ -25195,8 +25185,9 @@ msgid "Margravine %s"
 msgstr "Rajakreivitär %s"
 
 #: data/nation/bahamian.ruleset:3
+#, fuzzy
 msgid "Bahamian"
-msgstr ""
+msgstr "horezmien"
 
 #: data/nation/bahamian.ruleset:4
 #, fuzzy
@@ -25216,8 +25207,9 @@ msgid ""
 msgstr ""
 
 #: data/nation/bahraini.ruleset:3
+#, fuzzy
 msgid "Bahraini"
-msgstr ""
+msgstr "sahrawien"
 
 #: data/nation/bahraini.ruleset:4
 #, fuzzy
@@ -25251,7 +25243,7 @@ msgstr "Taistelulaiva"
 #: data/nation/bangladeshi.ruleset:4
 #, fuzzy
 msgid "?plural:Bangladeshis"
-msgstr "baskit"
+msgstr "baškiirit"
 
 #: data/nation/bangladeshi.ruleset:6
 msgid ""
@@ -25336,11 +25328,12 @@ msgstr ""
 "historialliseen lääniin. Maassa puhutulla euskaran kielellä ei ole "
 "tunnettuja sukulaiskieliä ja sen alkuperä on tuntematon."
 
+# Ironian lisäämiseksi isoilla molemmat.
 #: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:45
 #: data/nation/iranian.ruleset:40
 #, fuzzy, c-format
 msgid "Leader %s"
-msgstr "Suuri johtaja %s"
+msgstr "Suuri Johtaja %s"
 
 #: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:45
 #: data/nation/iranian.ruleset:40
@@ -25349,14 +25342,14 @@ msgid "?female:Leader %s"
 msgstr "Johtajatar %s"
 
 #: data/nation/basque.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "Lehendakari %s"
-msgstr "Lehendakari"
+msgstr ""
 
 #: data/nation/basque.ruleset:33
 #, fuzzy, c-format
 msgid "?female:Lehendakari %s"
-msgstr "Lehendakari"
+msgstr "Johtajatar %s"
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
@@ -25506,12 +25499,12 @@ msgstr ""
 #: data/nation/beninese.ruleset:3
 #, fuzzy
 msgid "Beninese"
-msgstr "Pankkitoiminta"
+msgstr "beniniläisten"
 
 #: data/nation/beninese.ruleset:4
 #, fuzzy
 msgid "?plural:Beninese"
-msgstr "belgialaiset"
+msgstr "beniniläiset"
 
 #: data/nation/beninese.ruleset:6
 msgid ""
@@ -25633,7 +25626,7 @@ msgstr ""
 #: data/nation/bissauguinean.ruleset:4
 #, fuzzy
 msgid "?plural:Bissau-Guineans"
-msgstr "?plural:baijerilaiset"
+msgstr "baadenilaiset"
 
 #: data/nation/bissauguinean.ruleset:6
 msgid ""
@@ -25644,12 +25637,12 @@ msgstr ""
 #: data/nation/bissauguinean.ruleset:22
 #, fuzzy, c-format
 msgid "Captain-Major %s"
-msgstr "Kenraali"
+msgstr "Kapteeni %s"
 
 #: data/nation/bissauguinean.ruleset:22
 #, fuzzy, c-format
 msgid "?female:Captain-Major %s"
-msgstr "heimopäällikkö"
+msgstr "Kapteeni %s"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -25715,9 +25708,8 @@ msgid "?female:State President %s"
 msgstr "Presidentti %s"
 
 #: data/nation/boian.ruleset:3
-#, fuzzy
 msgid "Boian"
-msgstr "bolivialaisten"
+msgstr ""
 
 #: data/nation/boian.ruleset:4
 #, fuzzy
@@ -25958,13 +25950,14 @@ msgstr ""
 "neuvotteleman sopimuksen pohjalta. Tästä myös Iso-Britanniana tunnetusta "
 "maasta tuli johtava teollisuus- ja merimahti 1800-luvulla."
 
+# Otavan sivistyssanat 2001: presbyteeri
 #: data/nation/british.ruleset:23 data/nation/english.ruleset:26
 #: data/nation/holyroman.ruleset:32 data/nation/russian.ruleset:47
 #: data/nation/scottishgaelic.ruleset:36 data/nation/scottish.ruleset:23
 #: data/nation/spanish.ruleset:40
 #, fuzzy, c-format
 msgid "Pretender %s"
-msgstr "Presidentti"
+msgstr "Presbyteeri %s"
 
 #: data/nation/british.ruleset:23 data/nation/english.ruleset:26
 #: data/nation/holyroman.ruleset:32 data/nation/russian.ruleset:47
@@ -25972,7 +25965,7 @@ msgstr "Presidentti"
 #: data/nation/spanish.ruleset:40
 #, fuzzy, c-format
 msgid "?female:Pretender %s"
-msgstr "Pääministeri"
+msgstr "Presbyteeri %s"
 
 #: data/nation/british.ruleset:24 data/nation/chimu.ruleset:26
 #: data/nation/english.ruleset:27 data/nation/frisian.ruleset:36
@@ -26179,7 +26172,7 @@ msgstr ""
 #: data/nation/buryat.ruleset:4
 #, fuzzy
 msgid "?plural:Buryats"
-msgstr "?plural:arabit"
+msgstr "dryadit"
 
 #: data/nation/buryat.ruleset:6
 msgid ""
@@ -26339,12 +26332,12 @@ msgstr ""
 #: data/nation/cantonese.ruleset:3
 #, fuzzy
 msgid "Cantonese"
-msgstr "sudanien"
+msgstr "aragonialaisten"
 
 #: data/nation/cantonese.ruleset:4
 #, fuzzy
 msgid "?plural:Cantonese"
-msgstr "sudanit"
+msgstr "aragonialaiset"
 
 #: data/nation/cantonese.ruleset:6
 msgid ""
@@ -26385,7 +26378,7 @@ msgstr "Emiiri %s"
 #: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:34
 #, fuzzy, c-format
 msgid "?female:Admiral %s"
-msgstr "Mahatma"
+msgstr "Mirza %s"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/carthaginian.ruleset:9
@@ -26409,7 +26402,7 @@ msgstr "Doge %s"
 #: data/nation/miskito.ruleset:33 data/nation/sardinian.ruleset:32
 #, fuzzy, c-format
 msgid "?female:Judge %s"
-msgstr "Herttuatar %s"
+msgstr "Duce %s"
 
 #: data/nation/castilian.ruleset:3
 msgid "Castilian"
@@ -26741,7 +26734,7 @@ msgstr ""
 #: data/nation/chickasaw.ruleset:4
 #, fuzzy
 msgid "?plural:Chickasaws"
-msgstr "?plural:chileläiset"
+msgstr "chamit"
 
 #: data/nation/chickasaw.ruleset:6
 msgid ""
@@ -26993,7 +26986,7 @@ msgstr ""
 #: data/nation/chuvash.ruleset:4
 #, fuzzy
 msgid "?plural:Chuvashes"
-msgstr "?plural:chileläiset"
+msgstr "chumašit"
 
 #: data/nation/chuvash.ruleset:6
 msgid ""
@@ -27003,15 +26996,16 @@ msgid ""
 "Republic of Chuvashia, which is part of the Russian Federation."
 msgstr ""
 
+# TODO: collisions?
 #: data/nation/circassian.ruleset:3
 #, fuzzy
 msgid "Circassian"
-msgstr "preussilaisten"
+msgstr "preussien"
 
 #: data/nation/circassian.ruleset:4
 #, fuzzy
 msgid "?plural:Circassians"
-msgstr "preussilaiset"
+msgstr "preussit"
 
 #: data/nation/circassian.ruleset:7
 #, no-c-format
@@ -27086,12 +27080,12 @@ msgstr ""
 #: data/nation/comorian.ruleset:3
 #, fuzzy
 msgid "Comorian"
-msgstr "intialaisten"
+msgstr "norsunluurannikkolaisten"
 
 #: data/nation/comorian.ruleset:4
 #, fuzzy
 msgid "?plural:Comorians"
-msgstr "bosnialaiset"
+msgstr "korsikalaiset"
 
 #: data/nation/comorian.ruleset:6
 msgid ""
@@ -27129,12 +27123,12 @@ msgstr ""
 #: data/nation/congolesebrazzaville.ruleset:3
 #, fuzzy
 msgid "Brazzaville-Congolese"
-msgstr "?plural:mongolit"
+msgstr "kongolaiset"
 
 #: data/nation/congolesebrazzaville.ruleset:4
 #, fuzzy
 msgid "?plural:Brazzaville-Congolese"
-msgstr "?plural:mongolit"
+msgstr "kongolaiset"
 
 #: data/nation/congolesebrazzaville.ruleset:6
 msgid ""
@@ -27288,7 +27282,7 @@ msgstr ""
 #: data/nation/cretan.ruleset:3
 #, fuzzy
 msgid "Cretan"
-msgstr "kroaattien"
+msgstr "tiibetiläisten"
 
 #: data/nation/cretan.ruleset:4
 #, fuzzy
@@ -27409,12 +27403,12 @@ msgstr ""
 #: data/nation/cuyavian.ruleset:3
 #, fuzzy
 msgid "Cuyavian"
-msgstr "Karavaani"
+msgstr "latvialaisten"
 
 #: data/nation/cuyavian.ruleset:4
 #, fuzzy
 msgid "?plural:Cuyavians"
-msgstr "?plural:kanadalaiset"
+msgstr "latvialaiset"
 
 #: data/nation/cuyavian.ruleset:6
 msgid ""
@@ -27555,7 +27549,7 @@ msgstr ""
 #: data/nation/darfuri.ruleset:4
 #, fuzzy
 msgid "?plural:Darfuris"
-msgstr "?plural:barbaarit"
+msgstr "rarámurit"
 
 #: data/nation/darfuri.ruleset:7
 msgid ""
@@ -27576,7 +27570,7 @@ msgstr ""
 #: data/nation/djiboutian.ruleset:4
 #, fuzzy
 msgid "?plural:Djiboutians"
-msgstr "?plural:baijerilaiset"
+msgstr "haitilaiset"
 
 #: data/nation/djiboutian.ruleset:6
 msgid ""
@@ -27849,7 +27843,7 @@ msgstr "Kersantti %s"
 #: data/nation/epirote.ruleset:30
 #, fuzzy, c-format
 msgid "?female:Tyrant %s"
-msgstr "Hakkeri"
+msgstr "Tarkaani %s"
 
 #: data/nation/equatoguinean.ruleset:3
 msgid "Equatoguinean"
@@ -27858,7 +27852,7 @@ msgstr ""
 #: data/nation/equatoguinean.ruleset:4
 #, fuzzy
 msgid "?plural:Equatoguineans"
-msgstr "bulgarialaiset"
+msgstr "ecuadorilaiset"
 
 #: data/nation/equatoguinean.ruleset:6
 msgid ""
@@ -28028,7 +28022,7 @@ msgstr "Tapahtuma"
 #: data/nation/evenki.ruleset:4
 #, fuzzy
 msgid "?plural:Evenks"
-msgstr "?plural:kreikkalaiset"
+msgstr "kreikkalaiset"
 
 #: data/nation/evenki.ruleset:7
 msgid ""
@@ -28177,13 +28171,13 @@ msgstr ""
 #: data/nation/milanese.ruleset:26 data/nation/venetian.ruleset:27
 #, fuzzy, c-format
 msgid "Condottiere %s"
-msgstr "Toveri"
+msgstr "Komentaja %s"
 
 #: data/nation/florentine.ruleset:39 data/nation/genoese.ruleset:49
 #: data/nation/milanese.ruleset:26 data/nation/venetian.ruleset:27
 #, fuzzy, c-format
 msgid "Condottiera %s"
-msgstr "kanadalaisten"
+msgstr "Komentaja %s"
 
 #: data/nation/florentine.ruleset:40 data/nation/milanese.ruleset:27
 #: data/nation/piedmontese.ruleset:33 data/nation/sardinian.ruleset:33
@@ -28232,7 +28226,7 @@ msgstr "Ruhtinaspiispa %s"
 #: data/nation/frankish.ruleset:3
 #, fuzzy
 msgid "Frankish"
-msgstr "tanskalaisten"
+msgstr "turkkilaisten"
 
 #: data/nation/frankish.ruleset:4
 #, fuzzy
@@ -28284,7 +28278,7 @@ msgstr "Kansalaiset"
 #: data/nation/french.ruleset:40
 #, fuzzy, c-format
 msgid "?female:Citizen %s"
-msgstr "heimopäällikkö %s"
+msgstr "Heimopäällikkö %s"
 
 # TODO: was fuzzy, why?
 #: data/nation/frisian.ruleset:3
@@ -28316,7 +28310,7 @@ msgstr "brasilialaisten"
 #: data/nation/friulian.ruleset:4
 #, fuzzy
 msgid "?plural:Friulian"
-msgstr "?plural:friisiläiset"
+msgstr "friisiläiset"
 
 #: data/nation/friulian.ruleset:6
 msgid ""
@@ -28328,14 +28322,13 @@ msgid ""
 msgstr ""
 
 #: data/nation/fulani.ruleset:3
-#, fuzzy
 msgid "Fulani"
-msgstr "brasilialaisten"
+msgstr ""
 
 #: data/nation/fulani.ruleset:4
 #, fuzzy
 msgid "?plural:Fulani"
-msgstr "?plural:friisiläiset"
+msgstr "guaranit"
 
 #: data/nation/fulani.ruleset:6
 msgid ""
@@ -28351,12 +28344,12 @@ msgstr ""
 #: data/nation/gabonese.ruleset:3
 #, fuzzy
 msgid "Gabonese"
-msgstr "sudanien"
+msgstr "guyanalaisten"
 
 #: data/nation/gabonese.ruleset:4
 #, fuzzy
 msgid "?plural:Gabonese"
-msgstr "sudanit"
+msgstr "guyanalaiset"
 
 #: data/nation/gabonese.ruleset:6
 msgid ""
@@ -28451,12 +28444,12 @@ msgstr ""
 #: data/nation/gambian.ruleset:3
 #, fuzzy
 msgid "Gambian"
-msgstr "serbien"
+msgstr "namibialaisten"
 
 #: data/nation/gambian.ruleset:4
 #, fuzzy
 msgid "?plural:Gambians"
-msgstr "?plural:persialaiset"
+msgstr "namibialaiset"
 
 #: data/nation/gambian.ruleset:6
 #, fuzzy
@@ -28465,7 +28458,7 @@ msgid ""
 "Gambia river. It achieved independence from the United Kingdom in 1965."
 msgstr ""
 "Mali on pinta-alaltaan suuri valtio Länsi-Afrikassa. Se oli aikoinaan osa "
-"Ranskan Sudania, ja itsenäistyi yhdessä Senegalin kanssa vuonna 1959."
+"Ranskan Sudania ja itsenäistyi yhdessä Senegalin kanssa vuonna 1959."
 
 #. TRANS: Mansa = King of kings
 #: data/nation/gambian.ruleset:19 data/nation/malian.ruleset:20
@@ -28489,7 +28482,7 @@ msgstr ""
 #: data/nation/genoese.ruleset:4
 #, fuzzy
 msgid "?plural:Genoese"
-msgstr "srilankalaiset"
+msgstr "leónit"
 
 #: data/nation/genoese.ruleset:6
 msgid ""
@@ -28607,7 +28600,7 @@ msgstr "ghanalaisten"
 #: data/nation/ghana.ruleset:4
 #, fuzzy
 msgid "?plural:Ghana"
-msgstr "?plural:ghanalaiset"
+msgstr "ghanalaiset"
 
 #: data/nation/ghana.ruleset:6
 msgid ""
@@ -28627,7 +28620,7 @@ msgstr "Mansa %s"
 #: data/nation/ghana.ruleset:25
 #, fuzzy, c-format
 msgid "?female:Ghana %s"
-msgstr "Mahatma"
+msgstr "Mansa %s"
 
 #: data/nation/ghaznavid.ruleset:3
 msgid "Ghaznavid"
@@ -28636,7 +28629,7 @@ msgstr ""
 #: data/nation/ghaznavid.ruleset:4
 #, fuzzy
 msgid "?plural:Ghaznavids"
-msgstr "?plural:ghanalaiset"
+msgstr "ghanalaiset"
 
 #: data/nation/ghaznavid.ruleset:6
 msgid ""
@@ -28690,10 +28683,11 @@ msgid ""
 "15th century led to the complete disintegration of the state."
 msgstr ""
 
+# Myös länsigootti
 #: data/nation/gothic.ruleset:3
 #, fuzzy
 msgid "Gothic"
-msgstr "Kasvu"
+msgstr "visigoottien"
 
 #: data/nation/gothic.ruleset:4
 #, fuzzy
@@ -28823,7 +28817,7 @@ msgstr ""
 #: data/nation/guinean.ruleset:4
 #, fuzzy
 msgid "?plural:Guinean"
-msgstr "burundit"
+msgstr "guaranit"
 
 #. TRANS: The second letter in "Sekou" and last in "Toure" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -29071,12 +29065,12 @@ msgstr ""
 #: data/nation/helvetian.ruleset:3
 #, fuzzy
 msgid "Helvetian"
-msgstr "Konkari"
+msgstr "venetsialaisten"
 
 #: data/nation/helvetian.ruleset:4
 #, fuzzy
 msgid "?plural:Helvetians"
-msgstr "venezuelalaiset"
+msgstr "venetsialaiset"
 
 #: data/nation/helvetian.ruleset:6
 msgid ""
@@ -29098,7 +29092,7 @@ msgstr "eliitti"
 #: data/nation/hephthalite.ruleset:4
 #, fuzzy
 msgid "?plural:Hephthalites"
-msgstr "bengalilaiset"
+msgstr "nepalilaiset"
 
 #: data/nation/hephthalite.ruleset:6
 msgid ""
@@ -29334,7 +29328,7 @@ msgstr "Käynnissä"
 #: data/nation/hunnic.ruleset:4
 #, fuzzy
 msgid "?plural:Huns"
-msgstr "?plural:kenialaiset"
+msgstr "hanit"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/hunnic.ruleset:7
@@ -29642,9 +29636,9 @@ msgid ""
 "cantons in British Palestine, and has gradually expanded through winning "
 "wars in 1948, 1967 and 1973."
 msgstr ""
-"Israelin valtio perustettiin 1948 brittiläiseen Palestiinaan, ja se on "
-"asteittain valloittanut lisää alueita, mm. kun sen kimppuun on hyökätty "
-"vuosina 1948, 1967 ja 1973."
+"Israelin valtio perustettiin 1948 brittiläiseen Palestiinaan ja se on "
+"asteittain valloittanut lisää alueita voitettuaan sarjan sitä vastaan "
+"aloitettuja sotia vuosina 1948, 1967 ja 1973."
 
 #: data/nation/israeli.ruleset:22
 #, c-format
@@ -29654,7 +29648,7 @@ msgstr ""
 #: data/nation/israeli.ruleset:22
 #, fuzzy, c-format
 msgid "?female:Kibbutznik %s"
-msgstr "Konsuli"
+msgstr "Encik %s"
 
 #: data/nation/israeli.ruleset:24 data/nation/khazar.ruleset:35
 #, c-format
@@ -29712,10 +29706,11 @@ msgstr ""
 msgid "Duce %s"
 msgstr "Duce %s"
 
+# Mussolini otti käyttöön nimikkeen Il Duce.
 #: data/nation/italian.ruleset:42
 #, fuzzy, c-format
 msgid "Ducezza %s"
-msgstr "Herttua %s"
+msgstr "Duce %s"
 
 #: data/nation/ivoirian.ruleset:3
 msgid "Ivoirian"
@@ -29745,7 +29740,7 @@ msgstr ""
 #: data/nation/jaffna.ruleset:4
 #, fuzzy
 msgid "?plural:Jaffnas"
-msgstr "ruandalaiset"
+msgstr "vandaalit"
 
 #: data/nation/jaffna.ruleset:7
 msgid ""
@@ -29759,7 +29754,6 @@ msgid "Jamaican"
 msgstr "jamaikalaisten"
 
 #: data/nation/jamaican.ruleset:4
-#, fuzzy
 msgid "?plural:Jamaicans"
 msgstr "jamaikalaiset"
 
@@ -29826,12 +29820,12 @@ msgstr ""
 #: data/nation/jordanian.ruleset:3
 #, fuzzy
 msgid "Jordanian"
-msgstr "iranialaisten"
+msgstr "iranilaisten"
 
 #: data/nation/jordanian.ruleset:4
 #, fuzzy
 msgid "?plural:Jordanian"
-msgstr "iranialaiset"
+msgstr "iranilaiset"
 
 #: data/nation/jordanian.ruleset:6
 msgid ""
@@ -29890,7 +29884,7 @@ msgstr ""
 #: data/nation/karabakhi.ruleset:4
 #, fuzzy
 msgid "?plural:Karabakhis"
-msgstr "?plural:italialaiset"
+msgstr "kazakit"
 
 #: data/nation/karabakhi.ruleset:6
 msgid ""
@@ -29926,12 +29920,12 @@ msgstr ""
 #: data/nation/karen.ruleset:3
 #, fuzzy
 msgid "Karen"
-msgstr "korealaisten"
+msgstr "karjalaisten"
 
 #: data/nation/karen.ruleset:4
 #, fuzzy
 msgid "?plural:Karens"
-msgstr "?plural:korealaiset"
+msgstr "karjalaiset"
 
 #: data/nation/karen.ruleset:7
 msgid ""
@@ -29963,12 +29957,12 @@ msgstr ""
 #: data/nation/kashubian.ruleset:3
 #, fuzzy
 msgid "Kashubian"
-msgstr "Taistelu"
+msgstr "nubialaisten"
 
 #: data/nation/kashubian.ruleset:4
 #, fuzzy
 msgid "?plural:Kashubians"
-msgstr "?plural:roomalaiset"
+msgstr "nubialaiset"
 
 #: data/nation/kashubian.ruleset:6
 msgid ""
@@ -29983,14 +29977,13 @@ msgid ""
 msgstr ""
 
 #: data/nation/katangan.ruleset:3
-#, fuzzy
 msgid "Katangan"
-msgstr "Khatan"
+msgstr ""
 
 #: data/nation/katangan.ruleset:4
 #, fuzzy
 msgid "?plural:Katangans"
-msgstr "?plural:katalonialaiset"
+msgstr "?plural:katalaanit"
 
 #: data/nation/katangan.ruleset:6
 msgid ""
@@ -30075,7 +30068,7 @@ msgstr ""
 #: data/nation/khmer.ruleset:4
 #, fuzzy
 msgid "?plural:Khmers"
-msgstr "baskit"
+msgstr "kasmirlaiset"
 
 #. TRANS: Legend for nation in "core" set
 #: data/nation/khmer.ruleset:7
@@ -30127,7 +30120,7 @@ msgstr ""
 #: data/nation/kiribati.ruleset:4
 #, fuzzy
 msgid "?plural:I-Kiribati"
-msgstr "?plural:intialaiset"
+msgstr "norsunluurannikkolaiset"
 
 #: data/nation/kiribati.ruleset:6
 msgid ""
@@ -30272,7 +30265,7 @@ msgstr "odottaa"
 #: data/nation/kuwaiti.ruleset:4
 #, fuzzy
 msgid "?plural:Kuwaitis"
-msgstr "?plural:baijerilaiset"
+msgstr "haitilaiset"
 
 #: data/nation/kuwaiti.ruleset:6
 msgid ""
@@ -30358,16 +30351,15 @@ msgstr ""
 "sosialistisen hallinnon. Talouden vapauttaminen ja yksityisyrittämisen "
 "vähittäinen paluu alkoivat 1986."
 
-# TODO: nconfirmed
 #: data/nation/latin.ruleset:3
 #, fuzzy
 msgid "Latin"
-msgstr "laosilaisten"
+msgstr "Luokitus"
 
 #: data/nation/latin.ruleset:4
 #, fuzzy
 msgid "?plural:Latins"
-msgstr "laosilaiset"
+msgstr "latvialaiset"
 
 #: data/nation/latin.ruleset:6
 msgid ""
@@ -30469,7 +30461,7 @@ msgstr ""
 #: data/nation/lesothoan.ruleset:4
 #, fuzzy
 msgid "?plural:Lesothoans"
-msgstr "itävaltalaiset"
+msgstr "nestoriolaiset"
 
 #: data/nation/lesothoan.ruleset:6
 msgid ""
@@ -30484,12 +30476,12 @@ msgstr ""
 #: data/nation/liberian.ruleset:3
 #, fuzzy
 msgid "Liberian"
-msgstr "nigerialaisten"
+msgstr "siperialaisten"
 
 #: data/nation/liberian.ruleset:4
 #, fuzzy
 msgid "?plural:Liberians"
-msgstr "?plural:serbit"
+msgstr "siperialaiset"
 
 #: data/nation/liberian.ruleset:6
 msgid ""
@@ -30660,9 +30652,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/luwian.ruleset:3
-#, fuzzy
 msgid "Luwian"
-msgstr "liettualaisten"
+msgstr ""
 
 #: data/nation/luwian.ruleset:4
 #, fuzzy
@@ -30853,20 +30844,21 @@ msgstr ""
 "Malesia pohjautuu Malakan sulttaanikuntaan, jonka perusti Parameswara 1300-"
 "luvun alussa."
 
+# Paramount Chief on pikkupomo muiden pikkupomojen joukossa
 #: data/nation/malaysian.ruleset:22
 #, fuzzy, c-format
 msgid "Paramount Ruler %s"
-msgstr "Suuri päällikkö"
+msgstr "Suuri päällikkö %s"
 
 #: data/nation/malaysian.ruleset:22
 #, fuzzy, c-format
 msgid "?female:Paramount Ruler %s"
-msgstr "Suuri päällikkö"
+msgstr "Suuri päällikkö %s"
 
 #: data/nation/maldivian.ruleset:3
 #, fuzzy
 msgid "Maldivian"
-msgstr "belgialaisten"
+msgstr "bolivialaisten"
 
 #: data/nation/maldivian.ruleset:4
 #, fuzzy
@@ -30981,14 +30973,14 @@ msgstr ""
 #: data/nation/turkishcypriot.ruleset:26 data/nation/turk.ruleset:29
 #, fuzzy, c-format
 msgid "%s Pasha"
-msgstr "Tukikohta"
+msgstr "Baša %s"
 
 #: data/nation/mamluk.ruleset:33 data/nation/ottoman.ruleset:27
 #: data/nation/riffian.ruleset:22 data/nation/sudanese.ruleset:18
 #: data/nation/turkishcypriot.ruleset:26 data/nation/turk.ruleset:29
 #, fuzzy, c-format
 msgid "?female:%s Pasha"
-msgstr "Rani"
+msgstr "Baša %s"
 
 #: data/nation/manchu.ruleset:3
 msgid "Manchu"
@@ -31087,9 +31079,8 @@ msgstr ""
 "valloittaa mapuchekansan alueet."
 
 #: data/nation/marathi.ruleset:3
-#, fuzzy
 msgid "Marathi"
-msgstr "marsilaisten"
+msgstr ""
 
 #: data/nation/marathi.ruleset:4
 #, fuzzy
@@ -31112,7 +31103,7 @@ msgstr "Korkea kuningas %s"
 #: data/nation/marathi.ruleset:37
 #, fuzzy, c-format
 msgid "?female:High Brahmin %s"
-msgstr "Druidi %s"
+msgstr "Baani %s"
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
@@ -31246,7 +31237,7 @@ msgstr "Šaahitar %s"
 #: data/nation/messapian.ruleset:3
 #, fuzzy
 msgid "Messapian"
-msgstr "hesseniläisten"
+msgstr "Viestiasetukset"
 
 #: data/nation/messapian.ruleset:4
 #, fuzzy
@@ -31419,7 +31410,7 @@ msgstr ""
 #: data/nation/mitanni.ruleset:4
 #, fuzzy
 msgid "?plural:Mitanni"
-msgstr "maorit"
+msgstr "miaot"
 
 #: data/nation/mitanni.ruleset:6
 msgid ""
@@ -31474,12 +31465,12 @@ msgstr ""
 #: data/nation/moluccan.ruleset:3
 #, fuzzy
 msgid "Moluccan"
-msgstr "?plural:italialaiset"
+msgstr "marokkolaisten"
 
 #: data/nation/moluccan.ruleset:4
 #, fuzzy
 msgid "?plural:Moluccans"
-msgstr "?plural:italialaiset"
+msgstr "marokkolaiset"
 
 #: data/nation/moluccan.ruleset:6
 msgid ""
@@ -31534,7 +31525,7 @@ msgstr "Pääministeri %s"
 #: data/nation/mon.ruleset:3
 #, fuzzy
 msgid "Mon"
-msgstr "Don"
+msgstr "mongolien"
 
 #: data/nation/mon.ruleset:4
 #, fuzzy
@@ -31660,7 +31651,7 @@ msgstr ""
 #: data/nation/muscovite.ruleset:4
 #, fuzzy
 msgid "?plural:Muscovites"
-msgstr "?plural:asteekit"
+msgstr "misteekit"
 
 #: data/nation/muscovite.ruleset:6
 msgid ""
@@ -31710,7 +31701,7 @@ msgstr ""
 #: data/nation/mwiska.ruleset:26
 #, fuzzy, c-format
 msgid "Cacique %s"
-msgstr "Peru"
+msgstr "Toveri %s"
 
 #: data/nation/mwiska.ruleset:26
 #, fuzzy, c-format
@@ -31741,9 +31732,8 @@ msgstr ""
 "itsenäistyi lopulta Etelä-Afrikan hallinnon alta 1990."
 
 #: data/nation/nauruan.ruleset:3
-#, fuzzy
 msgid "Nauruan"
-msgstr "nicaragualaisten"
+msgstr ""
 
 #: data/nation/nauruan.ruleset:4
 #, fuzzy
@@ -31808,7 +31798,7 @@ msgstr ""
 #: data/nation/nenets.ruleset:4
 #, fuzzy
 msgid "?plural:Nenets"
-msgstr "venezuelalaiset"
+msgstr "venetsialaiset"
 
 #: data/nation/nenets.ruleset:6
 msgid ""
@@ -32035,15 +32025,16 @@ msgstr ""
 "Pohjois- ja Etelä-Koreaksi. Siitä lähtien Pohjois-Korea on ollut "
 "stalinistinen kommunistivaltio."
 
+# Ironian lisäämiseksi isoilla molemmat.
 #: data/nation/northkorean.ruleset:25
 #, fuzzy, c-format
 msgid "Dear Leader %s"
-msgstr "Suuri johtaja %s"
+msgstr "Suuri Johtaja %s"
 
 #: data/nation/northkorean.ruleset:25
 #, fuzzy, c-format
 msgid "?female:Dear Leader %s"
-msgstr "Ihme"
+msgstr "Suuri Johtaja %s"
 
 # Ironian lisäämiseksi isoilla molemmat.
 #: data/nation/northkorean.ruleset:26 data/nation/soviet.ruleset:30
@@ -32225,15 +32216,16 @@ msgid ""
 "with Hanover to form the state of Lower Saxony."
 msgstr ""
 
+# TODO: collisions?
 #: data/nation/oldprussian.ruleset:3
 #, fuzzy
 msgid "Old Prussian"
-msgstr "preussilaisten"
+msgstr "preussien"
 
 #: data/nation/oldprussian.ruleset:4
 #, fuzzy
 msgid "?plural:Old Prussians"
-msgstr "preussilaiset"
+msgstr "preussit"
 
 #: data/nation/oldprussian.ruleset:6
 msgid ""
@@ -32424,15 +32416,16 @@ msgstr "Velho %s"
 msgid "Witch %s"
 msgstr "Noita %s"
 
+# TODO: korjaa jos nyky-Makedonia vaihtaa ikinä nimeään
 #: data/nation/paeonian.ruleset:3
 #, fuzzy
 msgid "Paeonian"
-msgstr "armenialaisten"
+msgstr "nykymakedonialaisten"
 
 #: data/nation/paeonian.ruleset:4
 #, fuzzy
 msgid "?plural:Paeonians"
-msgstr "malilaiset"
+msgstr "nykymakedonialaiset"
 
 #: data/nation/paeonian.ruleset:6
 msgid ""
@@ -32644,7 +32637,7 @@ msgstr "Šeikki %s"
 #: data/nation/parthian.ruleset:35
 #, fuzzy, c-format
 msgid "Shahbanu %s"
-msgstr "Šamaani %s"
+msgstr "Šaahitar %s"
 
 #: data/nation/pashtun.ruleset:3
 msgid "Pashtun"
@@ -32667,7 +32660,7 @@ msgstr ""
 #: data/nation/pelasgian.ruleset:3
 #, fuzzy
 msgid "Pelasgian"
-msgstr "persialaisten"
+msgstr "belgialaisten"
 
 #: data/nation/pelasgian.ruleset:4
 #, fuzzy
@@ -32731,7 +32724,7 @@ msgstr ""
 #: data/nation/phrygian.ruleset:3
 #, fuzzy
 msgid "Phrygian"
-msgstr "persialaisten"
+msgstr "georgialaisten"
 
 #: data/nation/phrygian.ruleset:4
 #, fuzzy
@@ -32823,14 +32816,13 @@ msgstr ""
 "Pääsiäissaarille asti, ja sisältää kaikki näiden väliin jäävät saaret."
 
 #: data/nation/pontic.ruleset:3
-#, fuzzy
 msgid "Pontic"
-msgstr "foinikialaisten"
+msgstr ""
 
 #: data/nation/pontic.ruleset:4
 #, fuzzy
 msgid "?plural:Pontians"
-msgstr "malilaiset"
+msgstr "laosilaiset"
 
 #: data/nation/pontic.ruleset:6
 msgid ""
@@ -32951,12 +32943,12 @@ msgstr ""
 #: data/nation/qatari.ruleset:3
 #, fuzzy
 msgid "Qatari"
-msgstr "Tata"
+msgstr "tataarien"
 
 #: data/nation/qatari.ruleset:4
 #, fuzzy
 msgid "?plural:Qataris"
-msgstr "mayat"
+msgstr "tataarit"
 
 #: data/nation/qatari.ruleset:6
 msgid ""
@@ -32988,7 +32980,7 @@ msgstr ""
 #: data/nation/rapanui.ruleset:4
 #, fuzzy
 msgid "?plural:Rapa Nui"
-msgstr "?plural:barbaarit"
+msgstr "rarámurit"
 
 #: data/nation/rapanui.ruleset:6
 msgid ""
@@ -33019,6 +33011,8 @@ msgid ""
 "Tomochi was brutally repressed by the Mexican authorities."
 msgstr ""
 
+# Huom: ruteenit ovat kansansirpale Slovakian itäpuolella
+# Karpatoruteniassa eli Taka-Karpatiassa
 #: data/nation/rhenish.ruleset:3
 #, fuzzy
 msgid "Rhenish"
@@ -33115,13 +33109,13 @@ msgstr ""
 #: data/nation/samnite.ruleset:27
 #, fuzzy, c-format
 msgid "Tribune %s"
-msgstr "Prinsessa"
+msgstr "Ruhtinas %s"
 
 #: data/nation/roman.ruleset:49 data/nation/sabine.ruleset:27
 #: data/nation/samnite.ruleset:27
 #, fuzzy, c-format
 msgid "?female:Tribune %s"
-msgstr "Rani"
+msgstr "?female:Tun %s"
 
 #: data/nation/roman.ruleset:51 data/nation/westernroman.ruleset:32
 #, c-format
@@ -33237,9 +33231,8 @@ msgstr ""
 "itseensä."
 
 #: data/nation/sabine.ruleset:3
-#, fuzzy
 msgid "Sabine"
-msgstr "Nälänhätä"
+msgstr ""
 
 #: data/nation/sabine.ruleset:4
 #, fuzzy
@@ -33274,12 +33267,12 @@ msgstr ""
 #: data/nation/saintlucian.ruleset:3
 #, fuzzy
 msgid "Saint Lucian"
-msgstr "Kardinaali"
+msgstr "galicialaisten"
 
 #: data/nation/saintlucian.ruleset:4
 #, fuzzy
 msgid "?plural:Saint Lucian"
-msgstr "?plural:serbit"
+msgstr "haitilaiset"
 
 #: data/nation/saintlucian.ruleset:6
 msgid ""
@@ -33307,9 +33300,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/salishan.ruleset:3
-#, fuzzy
 msgid "Salishan"
-msgstr "Padisah"
+msgstr ""
 
 #: data/nation/salishan.ruleset:4
 #, fuzzy
@@ -33402,9 +33394,8 @@ msgid "?female:Captain-Regent %s"
 msgstr "Kapteeni–valtionhoitaja %s"
 
 #: data/nation/samnite.ruleset:3
-#, fuzzy
 msgid "Samnite"
-msgstr "saamelaisten"
+msgstr ""
 
 #: data/nation/samnite.ruleset:4
 #, fuzzy
@@ -33422,12 +33413,12 @@ msgstr ""
 #: data/nation/samoan.ruleset:3
 #, fuzzy
 msgid "Samoan"
-msgstr "Puheenjohtaja"
+msgstr "samogiittien"
 
 #: data/nation/samoan.ruleset:4
 #, fuzzy
 msgid "?plural:Samoans"
-msgstr "?plural:saksit"
+msgstr "saksit"
 
 #: data/nation/samoan.ruleset:6
 msgid ""
@@ -33466,15 +33457,16 @@ msgstr ""
 "(virallisesti vuoteen 1413 asti) Euroopan viimeiset pakanat. Nykyään "
 "Samogitia on Liettuan alue."
 
+# Äännetään en. dõhoumiilaisten tai ransk. da-o-meilaisten (õ ~ schwa)
 #: data/nation/santomean.ruleset:3
 #, fuzzy
 msgid "Santomean"
-msgstr "aramealaisten"
+msgstr "dahomeylaisten"
 
 #: data/nation/santomean.ruleset:4
 #, fuzzy
 msgid "?plural:Santomeans"
-msgstr "aramealaiset"
+msgstr "dahomeylaiset"
 
 #. TRANS: The second letter in "Sao" should be
 #. TRANS: U+00E3 LATIN SMALL LETTER A WITH TILDE if available in
@@ -33498,12 +33490,12 @@ msgstr ""
 #: data/nation/sardinian.ruleset:3
 #, fuzzy
 msgid "Sardinian"
-msgstr "Kardinaali"
+msgstr "karthagolaisten"
 
 #: data/nation/sardinian.ruleset:4
 #, fuzzy
 msgid "?plural:Sardinians"
-msgstr "?plural:serbit"
+msgstr "syyrialaiset"
 
 #: data/nation/sardinian.ruleset:6
 msgid ""
@@ -33596,12 +33588,12 @@ msgstr ""
 #: data/nation/scanian.ruleset:3
 #, fuzzy
 msgid "Scanian"
-msgstr "iranialaisten"
+msgstr "iranilaisten"
 
 #: data/nation/scanian.ruleset:4
 #, fuzzy
 msgid "?plural:Scanians"
-msgstr "iranialaiset"
+msgstr "iranilaiset"
 
 #: data/nation/scanian.ruleset:6
 msgid ""
@@ -33639,7 +33631,7 @@ msgstr "skottien"
 #: data/nation/scottishgaelic.ruleset:4
 #, fuzzy
 msgid "?plural:Scottish Gaels"
-msgstr "?plural:skotit"
+msgstr "skotit"
 
 #: data/nation/scottishgaelic.ruleset:6
 msgid ""
@@ -33737,7 +33729,7 @@ msgstr ""
 #: data/nation/seljuk.ruleset:4
 #, fuzzy
 msgid "?plural:Seljuks"
-msgstr "?plural:ruotsalaiset"
+msgstr "seleukidit"
 
 #: data/nation/seljuk.ruleset:6
 msgid ""
@@ -33758,7 +33750,7 @@ msgstr ""
 #: data/nation/seminole.ruleset:4
 #, fuzzy
 msgid "?plural:Seminoles"
-msgstr "bengalilaiset"
+msgstr "senegalilaiset"
 
 #: data/nation/seminole.ruleset:6
 msgid ""
@@ -33841,7 +33833,7 @@ msgstr ""
 #: data/nation/shan.ruleset:4
 #, fuzzy
 msgid "?plural:Shans"
-msgstr "?plural:saksit"
+msgstr "saksit"
 
 #: data/nation/shan.ruleset:6
 msgid ""
@@ -33870,14 +33862,13 @@ msgid ""
 msgstr ""
 
 #: data/nation/sherpa.ruleset:3
-#, fuzzy
 msgid "Sherpa"
-msgstr "sahrawien"
+msgstr ""
 
 #: data/nation/sherpa.ruleset:4
 #, fuzzy
 msgid "?plural:Sherpas"
-msgstr "?plural:saksit"
+msgstr "sahrawit"
 
 #: data/nation/sherpa.ruleset:6
 msgid ""
@@ -33939,7 +33930,7 @@ msgstr ""
 #: data/nation/sierraleonean.ruleset:4
 #, fuzzy
 msgid "?plural:Sierra Leoneans"
-msgstr "?plural:serbit"
+msgstr "siperialaiset"
 
 #: data/nation/sierraleonean.ruleset:6
 msgid ""
@@ -34021,12 +34012,12 @@ msgstr ""
 #: data/nation/sinhalese.ruleset:3
 #, fuzzy
 msgid "Sinhalese"
-msgstr "Ohjauskomennot"
+msgstr "senegalilaisten"
 
 #: data/nation/sinhalese.ruleset:4
 #, fuzzy
 msgid "?plural:Sinhalese"
-msgstr "bengalilaiset"
+msgstr "senegalilaiset"
 
 #: data/nation/sinhalese.ruleset:7
 msgid ""
@@ -34109,7 +34100,7 @@ msgstr "somalien"
 #: data/nation/somaliland.ruleset:4
 #, fuzzy
 msgid "?plural:Somalilanders"
-msgstr "?plural:somalit"
+msgstr "somalit"
 
 #: data/nation/somaliland.ruleset:6
 msgid ""
@@ -34190,7 +34181,7 @@ msgstr ""
 #: data/nation/sotho.ruleset:4
 #, fuzzy
 msgid "?plural:Basotho"
-msgstr "baskit"
+msgstr "baškiirit"
 
 #: data/nation/sotho.ruleset:6
 msgid ""
@@ -34463,9 +34454,8 @@ msgid "?female:Sergeant %s"
 msgstr "Kersantti %s"
 
 #: data/nation/swahili.ruleset:3
-#, fuzzy
 msgid "Swahili"
-msgstr "Purjelaiva"
+msgstr ""
 
 #: data/nation/swahili.ruleset:4
 #, fuzzy
@@ -34581,17 +34571,17 @@ msgstr ""
 #: data/nation/syrian.ruleset:20
 #, fuzzy, c-format
 msgid "?female:Shaykha %s"
-msgstr "Šamaani"
+msgstr "Šamaani %s"
 
 #: data/nation/tahitian.ruleset:3
 #, fuzzy
 msgid "Tahitian"
-msgstr "odottaa"
+msgstr "haitilaisten"
 
 #: data/nation/tahitian.ruleset:4
 #, fuzzy
 msgid "?plural:Tahitians"
-msgstr "?plural:baijerilaiset"
+msgstr "haitilaiset"
 
 #: data/nation/tahitian.ruleset:6
 msgid ""
@@ -34692,7 +34682,7 @@ msgstr ""
 #: data/nation/tanganyikan.ruleset:4
 #, fuzzy
 msgid "?plural:Tanganyikans"
-msgstr "?plural:kanadalaiset"
+msgstr "tansanialaiset"
 
 #: data/nation/tanganyikan.ruleset:6
 msgid ""
@@ -34840,7 +34830,7 @@ msgstr ""
 #: data/nation/thuringian.ruleset:4
 #, fuzzy
 msgid "?plural:Thuringians"
-msgstr "?plural:intialaiset"
+msgstr "traakialaiset"
 
 #: data/nation/thuringian.ruleset:6
 msgid ""
@@ -35006,7 +34996,7 @@ msgstr ""
 #: data/nation/transnistrian.ruleset:3
 #, fuzzy
 msgid "Transnistrian"
-msgstr "kanadalaisten"
+msgstr "transilvanialaisten"
 
 #: data/nation/transnistrian.ruleset:4
 #, fuzzy
@@ -35047,7 +35037,7 @@ msgstr ""
 #: data/nation/trinidadian.ruleset:4
 #, fuzzy
 msgid "?plural:Trinidadians and Tobagonians"
-msgstr "?plural:kanadalaiset"
+msgstr "transilvanialaiset"
 
 #: data/nation/trinidadian.ruleset:6
 msgid ""
@@ -35072,6 +35062,7 @@ msgid "Tswana"
 msgstr "batswanojen"
 
 #: data/nation/tswana.ruleset:4
+#, fuzzy
 msgid "?plural:Batswana"
 msgstr "batswanat"
 
@@ -35085,9 +35076,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/tuareg.ruleset:3
-#, fuzzy
 msgid "Tuareg"
-msgstr "turkmeenien"
+msgstr ""
 
 #: data/nation/tuareg.ruleset:4
 #, fuzzy
@@ -35154,12 +35144,12 @@ msgstr ""
 #: data/nation/turkishcypriot.ruleset:3
 #, fuzzy
 msgid "Turkish Cypriot"
-msgstr "Sotavaunu"
+msgstr "kyproslaisten"
 
 #: data/nation/turkishcypriot.ruleset:4
 #, fuzzy
 msgid "?plural:Turkish Cypriots"
-msgstr "?plural:kroaatit"
+msgstr "kyproslaiset"
 
 #: data/nation/turkishcypriot.ruleset:6
 msgid ""
@@ -35260,12 +35250,12 @@ msgstr ""
 #: data/nation/tyrolian.ruleset:24
 #, fuzzy, c-format
 msgid "Princely Count %s"
-msgstr "Prinsessa"
+msgstr "Ruhtinas %s"
 
 #: data/nation/tyrolian.ruleset:24
 #, fuzzy, c-format
 msgid "Princely Countess %s"
-msgstr "Lukumäärä"
+msgstr "Kreivitär %s"
 
 #: data/nation/ugandan.ruleset:3
 msgid "Ugandan"
@@ -35459,7 +35449,7 @@ msgstr "Lääketiede"
 #: data/nation/vedic.ruleset:4
 #, fuzzy
 msgid "?plural:Vedics"
-msgstr "meksikolaiset"
+msgstr "métisit"
 
 #: data/nation/veletian.ruleset:3
 #, fuzzy
@@ -35490,7 +35480,7 @@ msgstr ""
 #: data/nation/venda.ruleset:4
 #, fuzzy
 msgid "?plural:Vhavenda"
-msgstr "ruandalaiset"
+msgstr "vandaalit"
 
 #: data/nation/venda.ruleset:6
 msgid ""
@@ -35658,7 +35648,7 @@ msgstr ""
 #: data/nation/vistulan.ruleset:4
 #, fuzzy
 msgid "?plural:Vistulans"
-msgstr "itävaltalaiset"
+msgstr "asturialaiset"
 
 #: data/nation/vistulan.ruleset:6
 msgid ""
@@ -35713,12 +35703,12 @@ msgstr ""
 #: data/nation/volgagerman.ruleset:3
 #, fuzzy
 msgid "Volga German"
-msgstr "saksalaisten"
+msgstr "itäsaksalaisten"
 
 #: data/nation/volgagerman.ruleset:4
 #, fuzzy
 msgid "?plural:Volga Germans"
-msgstr "?plural:saksalaiset"
+msgstr "saksalaiset"
 
 #: data/nation/volgagerman.ruleset:6
 msgid ""
@@ -35880,7 +35870,7 @@ msgstr ""
 #: data/nation/xhosa.ruleset:4
 #, fuzzy
 msgid "?plural:amaXhosa"
-msgstr "aramealaiset"
+msgstr "amatsonit"
 
 #: data/nation/xhosa.ruleset:6
 msgid ""
@@ -35891,9 +35881,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/xiongnu.ruleset:3
-#, fuzzy
 msgid "Xiongnu"
-msgstr "tongalaisten"
+msgstr ""
 
 #: data/nation/xiongnu.ruleset:4
 #, fuzzy
@@ -36003,12 +35992,12 @@ msgstr ""
 #: data/nation/zambian.ruleset:3
 #, fuzzy
 msgid "Zambian"
-msgstr "serbien"
+msgstr "namibialaisten"
 
 #: data/nation/zambian.ruleset:4
 #, fuzzy
 msgid "?plural:Zambians"
-msgstr "?plural:persialaiset"
+msgstr "namibialaiset"
 
 #: data/nation/zambian.ruleset:6
 msgid ""
@@ -36024,7 +36013,7 @@ msgstr ""
 #: data/nation/zanzibari.ruleset:4
 #, fuzzy
 msgid "?plural:Zanzibaris"
-msgstr "?plural:italialaiset"
+msgstr "kasaarit"
 
 #: data/nation/zanzibari.ruleset:6
 msgid ""
@@ -36066,7 +36055,7 @@ msgstr ""
 #: data/nation/zhuang.ruleset:4
 #, fuzzy
 msgid "?plural:Zhuang"
-msgstr "?plural:thait"
+msgstr "hanit"
 
 #: data/nation/zhuang.ruleset:6
 msgid ""
@@ -36980,7 +36969,7 @@ msgstr "Muunnospaketin control-tiedosto ei ole yhteensopiva"
 #: modinst/download.c:156
 #, fuzzy
 msgid "Illegal modpack type"
-msgstr "Asennan munnospakettia %s osoitteesta %s"
+msgstr "virheellinen pakettikoko"
 
 #: modinst/download.c:208
 #, c-format
@@ -37146,9 +37135,8 @@ msgid "Failed to setup default AI module, cannot continue."
 msgstr ""
 
 #: server/aiiface.c:187
-#, fuzzy
 msgid "Failed to setup threaded AI module"
-msgstr "Virhe ladattaessa %s"
+msgstr ""
 
 #: server/auth.c:88
 #, c-format
@@ -38022,7 +38010,7 @@ msgstr ""
 #: server/civserver.c:373
 #, fuzzy
 msgid "Load saved game FILE"
-msgstr "Lataa tallennettu peli"
+msgstr "_Lataa tallennettu peli"
 
 #. TRANS: "identity" is exactly what user must type, do not translate.
 #: server/civserver.c:378
@@ -38091,7 +38079,7 @@ msgstr "Skenaario"
 #: server/civserver.c:407
 #, fuzzy
 msgid "Search for scenarios in directory DIR"
-msgstr "  -s, --saves HKMSTO\tTallenna pelit hakemistoon HKMSTO\n"
+msgstr "      --scenarios HKMSTO\tEtsi skenaarioita hakemistosta HKMSTO\n"
 
 #. TRANS: "Serverid" is exactly what user must type, do not translate.
 #: server/civserver.c:410
@@ -38210,7 +38198,7 @@ msgid ""
 msgstr ""
 "Näytä lista \n"
 "  connections    - yhteyksistä palvelimeen\n"
-"  ignored users  - huomiotta-lista, jolla viestit suodatetaan\n"
+"  ignored users  - huomiotta jätettävien lista, jolla viestit suodatetaan\n"
 "  player         - pelaajista\n"
 "  scenarios      - käytettävissä olevista skenaarioista\n"
 "  teams          - joukkueista\n"
@@ -38475,9 +38463,8 @@ msgstr "Lataa sääntökokoelma tai mod-paketti annetusta hakemistosta."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:246
-#, fuzzy
 msgid "metamessage <meta-line>"
-msgstr "metapatch <metarivi>"
+msgstr "metamessage <metarivi>"
 
 #: server/commands.c:247
 msgid "Set metaserver info line."
@@ -38496,9 +38483,8 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/commands.c:256
-#, fuzzy
 msgid "metapatches <meta-line>"
-msgstr "metapatch <metarivi>"
+msgstr "metapatches <metarivi>"
 
 #: server/commands.c:257
 msgid "Set metaserver patches line."
@@ -39106,7 +39092,7 @@ msgstr ""
 msgid ""
 "Evaluate a line of Freeciv script or a Freeciv script file in the current "
 "game."
-msgstr "Suorita annettu rivi freecivin skriptikieltä."
+msgstr "Suorita annettu rivi skriptiä käynnissä olevan pelin kontekstissa."
 
 #. TRANS: translate text between <>
 #: server/commands.c:593
@@ -40393,7 +40379,7 @@ msgstr "En lähetä raportteja metapalvelimelle tässä pelissä."
 #: server/meta.c:234
 #, fuzzy
 msgid "Error connecting to metaserver"
-msgstr "Yhteys palvelimeen katkesi!"
+msgstr "Lista yhteyksistä palvelimeen:"
 
 #: server/plrhand.c:134
 #, c-format
@@ -40618,9 +40604,9 @@ msgid ""
 msgstr ""
 
 #: server/plrhand.c:2577
-#, fuzzy, c-format
+#, c-format
 msgid "Control of player '%s' is delegated to you."
-msgstr "Konsoli: '%s' on asetettu arvoon %s."
+msgstr ""
 
 #. TRANS: '/delegate take' is a server command and must not
 #. * be translated; but <player> should be translated.
@@ -41276,9 +41262,8 @@ msgid "Per-player, random"
 msgstr ""
 
 #: server/settings.c:322
-#, fuzzy
 msgid "Set manually"
-msgstr "Valitse k_aikki"
+msgstr ""
 
 #: server/settings.c:323
 msgid "Per-team, in order"
@@ -42311,10 +42296,9 @@ msgid ""
 "such restriction on city placement."
 msgstr ""
 "Uutta kaupunkia perustettaessa tätä lähempänä ei saa olla muita kaupunkeja. "
-"Jos asetuksen arvo on esimerkiksi 3, jokaisen kaupunkiparin välissä pitää "
-"olla vähintään 2 tyhjää ruutua pitää olla joka suunnassa. Jos arvo on 0 "
-"(oletus), asetus määräytyy pelin alkaessa senhetkisen sääntökokoelman "
-"mukaiseksi."
+"Jos asetuksen arvo on esimerkiksi 3, kaikkien kaupunkien välissä pitää olla "
+"vähintään 2 tyhjää ruutua joka suunnassa. Jos arvo on 0 (oletus), asetus "
+"määräytyy pelin alkaessa senhetkisen sääntökokoelman mukaiseksi."
 
 #: server/settings.c:1518
 msgid "Technology trading"
@@ -42512,9 +42496,8 @@ msgstr ""
 "kuulu myös pelaajan omaan oletusnimistöön."
 
 #: server/settings.c:1645
-#, fuzzy
 msgid "How to pick player colors"
-msgstr "Pelaajaluettelo:"
+msgstr ""
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single quotes
@@ -43447,9 +43430,8 @@ msgstr "\"%s\""
 
 #. TRANS: Bitwise setting has no bits set.
 #: server/settings.c:3000
-#, fuzzy
 msgid "empty value"
-msgstr "ei arvoa"
+msgstr "tyhjä arvo"
 
 #: server/settings.c:3052
 msgid "This setting is not a bitwise."
@@ -45005,16 +44987,15 @@ msgstr ""
 #: server/stdinhand.c:4816 server/stdinhand.c:4846
 #, fuzzy
 msgid "You can't switch players from the console."
-msgstr "Et voi ottaa hallintaasi uutta pelaajaa tässä vaiheessa peliä."
+msgstr "%s ei voi liikkua niin kauas rannikolta."
 
 #: server/stdinhand.c:4835
 msgid "Please specify a player for whom the delegation should be shown."
 msgstr ""
 
 #: server/stdinhand.c:4860
-#, fuzzy
 msgid "Please specify a player to take control of."
-msgstr "Virhe ladattaessa %s"
+msgstr ""
 
 #: server/stdinhand.c:4871
 msgid "Please specify a user to whom control is to be delegated."
@@ -45059,9 +45040,9 @@ msgid ""
 msgstr ""
 
 #: server/stdinhand.c:4980 server/stdinhand.c:4997
-#, fuzzy, c-format
+#, c-format
 msgid "Control of player '%s' delegated to user %s."
-msgstr "Konsoli: '%s' on asetettu arvoon %s."
+msgstr ""
 
 #: server/stdinhand.c:4993 server/stdinhand.c:5008
 #, fuzzy, c-format
@@ -45073,14 +45054,14 @@ msgid "Unexpected failure."
 msgstr ""
 
 #: server/stdinhand.c:5033
-#, fuzzy, c-format
+#, c-format
 msgid "Your delegated control of player '%s' was canceled."
-msgstr "%s ei voi liikkua niin kauas rannikolta."
+msgstr ""
 
 #: server/stdinhand.c:5038
 #, fuzzy, c-format
 msgid "Delegation of '%s' canceled."
-msgstr "%s palaa arkeen, juhlallisuudet peruttu."
+msgstr "%s ei voikaan tavata sinua..."
 
 #. TRANS: don't translate '/delegate restore'.
 #: server/stdinhand.c:5052
@@ -45140,9 +45121,8 @@ msgstr "Maailmanlaajuinen tarkkailija"
 
 #. TRANS: in place of player name or "global observer"
 #: server/stdinhand.c:5171
-#, fuzzy
 msgid "nothing"
-msgstr "Kasvu"
+msgstr ""
 
 #: server/stdinhand.c:5226
 #, fuzzy
@@ -45162,7 +45142,7 @@ msgstr "Valitsimella \"%s\" ei ole argumenttia.\n"
 #: server/stdinhand.c:5273 server/stdinhand.c:5282
 #, fuzzy, c-format
 msgid "Can't use definition: %s."
-msgstr "Asetus 'scorefile ei kelpaa: '%s'. Katso \"/help scorefile\"."
+msgstr "Kartan koon määrittely"
 
 #: server/stdinhand.c:5289
 #, fuzzy, c-format
@@ -45190,9 +45170,9 @@ msgid "Map image definition %d deleted."
 msgstr "Kartan koon määrittely"
 
 #: server/stdinhand.c:5328
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument for 'mapimg delete': '%s'."
-msgstr "Valitsimella \"%s\" ei ole argumenttia.\n"
+msgstr ""
 
 #: server/stdinhand.c:5351
 #, fuzzy, c-format
@@ -45200,9 +45180,9 @@ msgid "Couldn't show definition: %s."
 msgstr "Asetus 'scorefile ei kelpaa: '%s'. Katso \"/help scorefile\"."
 
 #: server/stdinhand.c:5356
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument for 'mapimg show': '%s'."
-msgstr "Valitsimella \"%s\" ei ole argumenttia.\n"
+msgstr ""
 
 #: server/stdinhand.c:5367
 msgid "Map color test images saved."
@@ -45214,14 +45194,14 @@ msgid "Missing argument for 'mapimg create'."
 msgstr "Valitsimella \"%s\" ei ole argumenttia.\n"
 
 #: server/stdinhand.c:5391 server/stdinhand.c:5408
-#, fuzzy, c-format
+#, c-format
 msgid "Error saving map image %d: %s."
-msgstr "Lataan juontotiedostoa: %s"
+msgstr ""
 
 #: server/stdinhand.c:5413
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument for 'mapimg create': '%s'."
-msgstr "Valitsimella \"%s\" ei ole argumenttia.\n"
+msgstr ""
 
 #: server/stdinhand.c:5457
 msgid "Freeciv database script deactivated at compile time."
@@ -46386,7 +46366,7 @@ msgstr "Virhe ladattaessa %s"
 #: utility/netfile.c:139
 #, fuzzy, c-format
 msgid "Could not open %s for writing"
-msgstr "En saanut avattua tiedostoa \"%s\"."
+msgstr "Väliaikaistiedoston avaaminen epäonnistui."
 
 #: utility/shared.c:209
 #, c-format
@@ -46517,57 +46497,41 @@ msgstr "virhe %ld (FormatMessage epäonnistui)"
 msgid "error %d (compiled without strerror)"
 msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 
-#~ msgid "* Land units cannot travel on oceanic terrains."
-#~ msgstr "· Maayksiköt eivät voi kulkea merellisillä maastotyypeillä."
-
-#, fuzzy
-#~ msgid "Setting this option will draw the tiles that unit cannot enter."
-#~ msgstr "Asetuksen ollessa päällä yksiköt piirretään kartalle."
-
-#~ msgid "Enable alpha blending"
-#~ msgstr "Käytä alfa-sekoitusta"
+#~ msgid "Error: recursive calls to log.\n"
+#~ msgstr "Virhe: rekursiivinen loggaus.\n"
 
 #~ msgid ""
-#~ "If this is enabled, then alpha blending will be used in rendering, "
-#~ "instead of an ordered dither.  If there is no hardware support for alpha "
-#~ "blending, this is much slower."
+#~ "Usage: %s [option ...]\n"
+#~ "Valid options are:\n"
 #~ msgstr ""
-#~ "Jos tämä asetus on valittu, renderöinnissä käytetään alfasekoitusta "
-#~ "(alpha blending) järjestetyn ditherin (ordered dither) sijaan. Jos "
-#~ "alfasekoitusta ei tueta laitteistotasolla, tämä on paljon hitaampaa."
+#~ "Käyttö: %s [valitsin ...]\n"
+#~ "jossa valitsin voi olla:\n"
 
-#~ msgid "Dictatress %s"
-#~ msgstr "Diktaattori %s"
+#~ msgid "  -f, --file FILE\tLoad saved game FILE\n"
+#~ msgstr "  -f, --file TDSTO\tLataa tallennettu peli tiedostosta TDSTO\n"
 
-#, fuzzy
-#~ msgid "?female:Calipha %s"
-#~ msgstr "Kapteeni %s"
+#~ msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
+#~ msgstr "  -M, -Metaserver ADDR\tAseta ADDR metapalvelimen osoitteeksi\n"
 
-#~ msgid "?female:Sheikh %s"
-#~ msgstr "Šeikki %s"
+#~ msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
+#~ msgstr "  -P, --Ppm\t\t Tallenna kartasta ppm-kuvia peliä tallennettaessa\n"
 
-#, fuzzy
-#~ msgid "Stadholdress %s"
-#~ msgstr "Diktaattori"
-
-#, fuzzy
 #~ msgid ""
 #~ "With the 'create' command a new player with the given name is created.\n"
 #~ "If the game was started, the command checks for free player slots and, if "
 #~ "no free slots are available, it tries to reuse the slots of dead players. "
-#~ "The new player has no units or cities.\n"
-#~ "AI type parameter can be used to select which AI module will be used for "
-#~ "created player. This requires that freeciv has been compiled with AI "
-#~ "module support and respective module has been loaded."
+#~ "The new player has no units or cities."
 #~ msgstr ""
 #~ "Komennolla 'create' luodaan uusi AI-pelaaja. Jos peli on alkanut eikä "
 #~ "vapaita pelipaikkoja ole, komento yrittää käyttää uudelleen kuolleiden "
 #~ "pelaajien paikkoja. Uudella pelaajalla ei ole yksiköitä eikä kaupunkeja."
 
-#, fuzzy
+#~ msgid "Metaserver: bad address: <%s %d>."
+#~ msgstr "Metapalvelin: osoite ei kelpaa: <%s %d>."
+
 #~ msgid ""
-#~ "The game will be automatically saved per this number of turns. See also "
-#~ "setting 'autosaves'."
+#~ "The game will be automatically saved per this number of turns. Zero means "
+#~ "never auto-save."
 #~ msgstr ""
 #~ "Peli tallennetaan automaattisesti näin monen vuoron välein. Jos arvo on "
 #~ "0, automaattista tallennusta ei tehdä."
@@ -46575,25 +46539,19 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 #~ msgid "Game ended in a draw."
 #~ msgstr "Peli päättyi tasapeliin."
 
-#, fuzzy
-#~ msgid "Unknown player name: '%s'"
-#~ msgstr "Pelaajan nimi: %s"
+#~ msgid ""
+#~ "  -A, --Announce PROTO\tAnnounce game in LAN using protocol PROTO (IPv4/"
+#~ "IPv6/none)\n"
+#~ msgstr ""
+#~ "  -A, --Announce PROTO\tMainosta peliä lähiverkossa (LAN) "
+#~ "yhteyskäytännöllä PROTO (IPv4/IPv6/none = ei mikään)\n"
 
-#, fuzzy
-#~ msgid "Please cancel first your own delegation."
-#~ msgstr "Unohda yksikön komennot valittaessa"
-
-#, fuzzy
-#~ msgid "A user is connected to player '%s'."
-#~ msgstr "Käyttäjä %1$s (pelaajana %3$s) on kytkeytynyt osoitteesta %2$s."
-
-#, fuzzy
-#~ msgid "There is no original player to restore."
-#~ msgstr "Vapaata paikkaa pelaajalle %s ei ole."
-
-#, fuzzy
-#~ msgid "Failed to restore control over '%s'."
-#~ msgstr "Virhe luotaessa uutta pelaajaa %s."
+#~ msgid ""
+#~ "      --\t\tPass any following options to the UI.\n"
+#~ "\t\t\tTry \"%s -- --help\" for more.\n"
+#~ msgstr ""
+#~ "      --\t\tVälitä tästä seuraavat parametrit käyttöliittymälle.\n"
+#~ "\t\t\tKs. myös \"%s -- --help\".\n"
 
 #~ msgid ""
 #~ "* Will be built as a veteran in cities with appropriate training "
@@ -46604,9 +46562,6 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 
 #~ msgid "* May be promoted after defeating an enemy unit.\n"
 #~ msgstr "· Saatetaan ylentää vihollisyksikön voittamisen jälkeen.\n"
-
-#~ msgid "* Will be built as a veteran under communist governments.\n"
-#~ msgstr "· Valmistuu konkarina kommunistihallinnossa.\n"
 
 #~ msgid "* May be promoted after a successful mission.\n"
 #~ msgstr "· Saatetaan ylentää onnistuneen tehtävän jälkeen.\n"
@@ -46631,33 +46586,63 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 #~ msgid "* May be built as a veteran through training.\n"
 #~ msgstr "· Voi valmistua konkarina harjoittelemalla kokoamisvaiheessa.\n"
 
-#~ msgid ""
-#~ "Germany was united in 1871 by the Prussian military force.  After World "
-#~ "War I it became a republic, but fell into Nazism 1933 and started World "
-#~ "War II.  After the war it was split into two states, which reunited in "
-#~ "1990 at the end of the Cold War."
-#~ msgstr ""
-#~ "Preussin sotavoimat yhdistivät Saksan 1871. Ensimmäisen maailmansodan "
-#~ "jälkeen valtiosta tuli tasavalta, mutta se joutui natsismin alle 1933 ja "
-#~ "aloitti toisen maailmansodan. Sodan jälkeen Saksa jaettiin kahdeksi "
-#~ "valtioksi, jotka uudelleenyhdistyivät vuonna 1990 kylmän sodan päätteeksi."
+#~ msgid "* Land units cannot travel on oceanic terrains."
+#~ msgstr "· Maayksiköt eivät voi kulkea merellisillä maastotyypeillä."
+
+#~ msgid "This option controls the speed of combat animation."
+#~ msgstr "Asetus säätää taisteluanimaation nopeutta."
+
+#~ msgid "Show combat animation"
+#~ msgstr "Näytä taisteluanimaatio"
 
 #~ msgid ""
-#~ "The modern Spanish nation was formed when the rulers of the kingdoms of "
-#~ "Castile and Aragon led the recapture of the Iberian peninsula from the "
-#~ "Moslems.  The Reconquista was completed in 1492 AD, the same year "
-#~ "Columbus sailed."
+#~ "Disabling this option will turn off combat animation between units on the "
+#~ "mapview."
 #~ msgstr ""
-#~ "Nykyinen Espanja muodostui kun Kastilian ja Aragonian hallitsijat "
-#~ "valtasivat Iberian niemimaan takaisin muslimeilta. Tämä Reconquista "
-#~ "saatiin loppuun 1492, samana vuonna kun Kolumbus löysi Amerikan."
+#~ "Jos asetus on käytössä, yksiköiden väliset taistelut animoidaan "
+#~ "karttanäkymässä."
 
-#, fuzzy
-#~ msgid "working man"
-#~ msgstr "Verkkoon liittyvät"
+#~ msgid "Enable alpha blending"
+#~ msgstr "Käytä alfa-sekoitusta"
 
-#~ msgid "?team name:Violet"
-#~ msgstr "Violetit"
+#~ msgid ""
+#~ "If this is enabled, then alpha blending will be used in rendering, "
+#~ "instead of an ordered dither.  If there is no hardware support for alpha "
+#~ "blending, this is much slower."
+#~ msgstr ""
+#~ "Jos tämä asetus on valittu, renderöinnissä käytetään alfasekoitusta "
+#~ "(alpha blending) järjestetyn ditherin (ordered dither) sijaan. Jos "
+#~ "alfasekoitusta ei tueta laitteistotasolla, tämä on paljon hitaampaa."
+
+#~ msgid "%s: %d/%d."
+#~ msgstr "%s: %d/%d."
+
+#~ msgid "The diplomat is waiting for your command"
+#~ msgstr "Diplomaatti odottaa komentoasi"
+
+#~ msgid "_Ready all"
+#~ msgstr "Aktivoi kaikki"
+
+#~ msgid "_Sentry idle"
+#~ msgstr "Leiriydy odotellessa"
+
+#~ msgid "Select _all"
+#~ msgstr "Valitse k_aikki"
+
+#~ msgid "Build _Railroad"
+#~ msgstr "_Rakenna rautatie"
+
+#~ msgid "Nation's Legend"
+#~ msgstr "Kansan kuvaus"
+
+#~ msgid "SORRY... NO INFO"
+#~ msgstr "Pahoittelen – ei tietoa"
+
+#~ msgid "Cannot determine user home directory"
+#~ msgstr "Kotihakemistoa ei löydy"
+
+#~ msgid "Failed to download modpack list"
+#~ msgstr "Virhe ladattaessa muunnospakettiluetteloa"
 
 #~ msgid "?team name:Dark White"
 #~ msgstr "Maalarinvalkoiset"
@@ -46674,386 +46659,11 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 #~ msgid "?team name:Xanadu"
 #~ msgstr "Xanadunsininen"
 
-#~ msgid "?female:Empress %s"
-#~ msgstr "Keisarinna %s"
-
-#, fuzzy
-#~ msgid "?female:Princess %s"
-#~ msgstr "Paavi %s"
-
-#~ msgid "?female:Popess %s"
-#~ msgstr "Paavi %s"
-
-#, fuzzy
-#~ msgid "?female:Lady %s"
-#~ msgstr "Johtaja %s"
-
-#~ msgid "?female:Mother Superior %s"
-#~ msgstr "Abbedissa %s"
-
-#, fuzzy
-#~ msgid "?female:Duchess %s"
-#~ msgstr "Herttuatar %s"
-
-#, fuzzy
-#~ msgid "?female:Rani %s"
-#~ msgstr "Nabob"
-
-#~ msgid "metainfo <meta-line>"
-#~ msgstr "metainfo <metateksti>"
-
-#, fuzzy
-#~ msgid "No player with the name '%s' found or ambiguous name."
-#~ msgstr "Pelaajaa nimellä '%s' ei ole."
-
-#, fuzzy
-#~ msgid "Couldn't add definition: %s."
-#~ msgstr "Tallennustiedoston avaaminen epäonnistui: %s"
-
-#~ msgid "Error: recursive calls to log.\n"
-#~ msgstr "Virhe: rekursiivinen loggaus.\n"
-
-# Hm, tältä se kuulostaa?
-#~ msgid "Surviving requirements are only supported at world range."
-#~ msgstr "Vain maailmanlaajuisia hengissäpysymisvaatimuksia tuetaan."
-
-#~ msgid "Auth option \"%s\":"
-#~ msgstr "Kirjautumisasetus \"%s\":"
-
-#~ msgid "Illegal value for auth port: \"%s\""
-#~ msgstr "Epäkelpo arvo autentikointiportille: \"%s\""
-
-#~ msgid ""
-#~ "Cannot load auth config file '%s':\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Kirjautumisasetustiedoston \"%s\" lataaminen ei onnistu!\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Usage: %s [option ...]\n"
-#~ "Valid options are:\n"
-#~ msgstr ""
-#~ "Käyttö: %s [valitsin ...]\n"
-#~ "jossa valitsin voi olla:\n"
-
-#~ msgid ""
-#~ "  -A  --Announce PROTO\tAnnounce game in LAN using protocol PROTO (IPv4/"
-#~ "IPv6/none)\n"
-#~ msgstr ""
-#~ "  -A  --Announce PROTO\tMainosta peliä lähiverkossa (LAN) "
-#~ "yhteyskäytännöllä\n"
-#~ "\t\t\tPROTO (IPv4/IPv6/none = ei mikään)\n"
-
-#~ msgid ""
-#~ "  -a  --auth FILE\tEnable server authentication with configuration from "
-#~ "FILE.\n"
-#~ msgstr "-a  --auth TDSTO\tSalli palvelinautentikaatio, asetukset TDSTOsta\n"
-
-#~ msgid "  -G  --Guests\t\tAllow guests to login if auth is enabled.\n"
-#~ msgstr ""
-#~ "  -G  --Guests\t\tSalli vierailijoiden kirjautua sisään\n"
-#~ "\t\t\tvaikka autentikaatio on käytössä\n"
-
-#~ msgid "  -N  --Newusers\tAllow new users to login if auth is enabled.\n"
-#~ msgstr ""
-#~ "  -N  --Newusers\tSalli uusien käyttäjien kirjautua sisään\n"
-#~ "\t\t\tvaikka autentikaatio on käytössä\n"
-
-# *** "Expect client-connections to port.." ***
-#~ msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
-#~ msgstr "  -b  --bind ADDR\tOdota yhteydenottoja osoitteessa ADDR\n"
-
-#~ msgid ""
-#~ "  -d, --debug NUM\tSet debug log level (%d to %d, or %d:file1,min,"
-#~ "max:...)\n"
-#~ msgstr ""
-#~ "  -d, --debug NUM\tAseta debug-lokitaso (%d..%d tai\n"
-#~ "\t\t\t%d:tiedosto1,min,max:...)\n"
-
-#~ msgid "  -d, --debug NUM\tSet debug log level (%d to %d)\n"
-#~ msgstr "  -d --debug NUM\tAseta debug-lokitaso (%d..%d)\n"
-
-#~ msgid "  -F, --Fatal [SIGNAL]\tRaise a signal on failed assertion\n"
-#~ msgstr ""
-#~ "   -F, --Fatal [SIGNAL]\tLähetä signaali hylätystä "
-#~ "oikeellisuustarkistusesta\n"
-
-#~ msgid "  -f, --file FILE\tLoad saved game FILE\n"
-#~ msgstr "  -f, --file TDSTO\tLataa tallennettu peli tiedostosta TDSTO\n"
-
-#~ msgid "  -h, --help\t\tPrint a summary of the options\n"
-#~ msgstr "  -h, --help\t\tNäytä yhteenveto valitsimista\n"
-
-#~ msgid "  -i, --identity ADDR\tBe known as ADDR at metaserver\n"
-#~ msgstr "  -i, --identity ADDR\tAseta ADDR tunnisteeksesi metapalvelimella\n"
-
-#~ msgid "  -l, --log FILE\tUse FILE as logfile\n"
-#~ msgstr "  -l, --log TDSTO\tKäytä tiedostoa TDSTO lokia varten\n"
-
-#~ msgid "  -m, --meta\t\tNotify metaserver and send server's info\n"
-#~ msgstr "  -m, --meta\t\tIlmoittaudu ja lähetä tietoa metapalvelimelle\n"
-
-#~ msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
-#~ msgstr "  -M, -Metaserver ADDR\tAseta ADDR metapalvelimen osoitteeksi\n"
-
-# *** "Expect client-connections to port.." ***
-#~ msgid "  -p, --port PORT\tListen for clients on port PORT\n"
-#~ msgstr "  -p, --port PORT\tOdota asiakasyhteydenottoja porttiin PORT\n"
-
-#~ msgid "  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"
-#~ msgstr "  -q, --quitidle TIME\tLopeta jos ei pelaajia TIME sekuntiin\n"
-
-#~ msgid "  -e, --exit-on-end\tWhen a game ends, exit instead of restarting\n"
-#~ msgstr ""
-#~ "  -e, --exit-on-end\tKun peli päättyy, lopeta uudelleenkäynnistyksen "
-#~ "sijaan\n"
-
-#~ msgid "  -s, --saves DIR\tSave games to directory DIR\n"
-#~ msgstr "  -s, --saves HKMSTO\tTallenna pelit hakemistoon HKMSTO\n"
-
-#~ msgid "      --scenarios DIR\tSearch for scenarios in directory DIR\n"
-#~ msgstr "      --scenarios HKMSTO\tEtsi skenaarioita hakemistosta HKMSTO\n"
-
-#~ msgid "  -S, --Serverid ID\tSets the server id to ID\n"
-#~ msgstr "  -S, --Serverid ID\tYhdistä palvelimeen, jonka tunniste on ID\n"
-
-#~ msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
-#~ msgstr "  -P, --Ppm\t\t Tallenna kartasta ppm-kuvia peliä tallennettaessa\n"
-
-#~ msgid "  -r, --read FILE\tRead startup script FILE\n"
-#~ msgstr "  -r, --read TDSTO\tLue käynnistysskripti tiedostosta TDSTO\n"
-
-#~ msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
-#~ msgstr "  -R, --Ranklog TDSTO\tKäytä tiedostoa TDSTO sijoituslokina\n"
-
-#~ msgid "  -v, --version\t\tPrint the version number\n"
-#~ msgstr "  -v, --version\t\tNäytä versionumero\n"
-
-#~ msgid ""
-#~ "Show a list of connections to the server, your ignore list, the list of "
-#~ "the players in the game, the available scenarios, the teams of players, "
-#~ "or the running votes. The argument may be abbreviated, and defaults to "
-#~ "'players' if absent."
-#~ msgstr ""
-#~ "Näytä lista \n"
-#~ "  connections    - yhteyksistä palvelimeen\n"
-#~ "  ignored users  - huomiotta jätettävien lista, jolla viestit "
-#~ "suodatetaan\n"
-#~ "  player         - pelaajista\n"
-#~ "  scenarios      - käytettävissä olevista skenaarioista\n"
-#~ "  teams          - joukkueista\n"
-#~ "  votes          - käynnissä olevista äänestyksistä.\n"
-#~ "Argumentti voidaan lyhentää. Jos sitä ei ole, listataan pelaajat."
-
-#~ msgid "create <player-name>"
-#~ msgstr "create <pelaajan nimi>"
-
-#~ msgid ""
-#~ "With the 'create' command a new player with the given name is created.\n"
-#~ "If the game was started, the command checks for free player slots and, if "
-#~ "no free slots are available, it tries to reuse the slots of dead players. "
-#~ "The new player has no units or cities."
-#~ msgstr ""
-#~ "Komennolla 'create' luodaan uusi AI-pelaaja. Jos peli on alkanut eikä "
-#~ "vapaita pelipaikkoja ole, komento yrittää käyttää uudelleen kuolleiden "
-#~ "pelaajien paikkoja. Uudella pelaajalla ei ole yksiköitä eikä kaupunkeja."
-
-#~ msgid "lua <script>"
-#~ msgstr "lua <skripti>"
-
-#~ msgid "Evaluate a line of freeciv script in the current game."
-#~ msgstr "Suorita annettu rivi freecivin skriptikieltä."
-
-#~ msgid "Metaserver: bad address: <%s %d>."
-#~ msgstr "Metapalvelin: osoite ei kelpaa: <%s %d>."
-
-#~ msgid "%s has been added as %s level AI-controlled player."
-#~ msgstr "%s on lisätty vaikeustason %s AI-pelaajaksi."
-
-#~ msgid ""
-#~ "When a player attempts to found a new city, there may be no other city in "
-#~ "this distance. For example, when this value is 3, there have to be at "
-#~ "least two empty fields between two cities in every direction. If set to 0 "
-#~ "(default), the ruleset value will be used."
-#~ msgstr ""
-#~ "Uutta kaupunkia perustettaessa tätä lähempänä ei saa olla muita "
-#~ "kaupunkeja. Jos asetuksen arvo on esimerkiksi 3, kaikkien kaupunkien "
-#~ "välissä pitää olla vähintään 2 tyhjää ruutua joka suunnassa. Jos arvo on "
-#~ "0 (oletus), asetus määräytyy pelin alkaessa senhetkisen sääntökokoelman "
-#~ "mukaiseksi."
-
-#~ msgid ""
-#~ "If all players have not hit \"Turn Done\" before this time is up, then "
-#~ "the turn ends automatically. Zero means there is no timeout. In servers "
-#~ "compiled with debugging, a timeout of -1 sets the autogame test mode. "
-#~ "Only connections with hack level access may set the timeout to lower than "
-#~ "30 seconds. Use this with the command \"timeoutincrease\" to have a "
-#~ "dynamic timer."
-#~ msgstr ""
-#~ "Jos kaikki pelaajat eivät ole valinneet \"Vuoro valmis\" ennen kuin tämä "
-#~ "aika on kulunut, vuoro päättyy automaattisesti. Arvolla 0 aikarajoitusta "
-#~ "ei ole. Debug-asetuksin käännetyissä palvelimissa aikarajoituksen arvo -1 "
-#~ "asettaa automaattipelin testitilaan. Vain yhteydet joilla on 'hack'-"
-#~ "komentotason pääsy voivat asettaa tämän arvon alle 30 sekuntiin. Käytä "
-#~ "tätä asetusta komennon \"timeoutincrease\" kanssa luodaksesi dynaamisen "
-#~ "ajastimen."
-
-#~ msgid ""
-#~ "The game will be automatically saved per this number of turns. Zero means "
-#~ "never auto-save."
-#~ msgstr ""
-#~ "Peli tallennetaan automaattisesti näin monen vuoron välein. Jos arvo on "
-#~ "0, automaattista tallennusta ei tehdä."
-
-#~ msgid "%s has been added as an AI-controlled player."
-#~ msgstr "AI-pelaaja %s lisätty."
-
-#~ msgid "user %s, "
-#~ msgstr "käyttäjä %s, "
-
-#~ msgid " %d connection:"
-#~ msgid_plural " %d connections:"
-#~ msgstr[0] " %d yhteys:"
-#~ msgstr[1] " %d yhteyttä:"
-
-#~ msgid "  %s from %s (command access level %s), bufsize=%dkb"
-#~ msgstr "  %s, yhteys %s (komentotaso %s), puskurikoko = %d kb"
-
-#~ msgid ""
-#~ "  -A, --Announce PROTO\tAnnounce game in LAN using protocol PROTO (IPv4/"
-#~ "IPv6/none)\n"
-#~ msgstr ""
-#~ "  -A, --Announce PROTO\tMainosta peliä lähiverkossa (LAN) "
-#~ "yhteyskäytännöllä PROTO (IPv4/IPv6/none = ei mikään)\n"
-
-#~ msgid "  -a, --autoconnect\tSkip connect dialog\n"
-#~ msgstr "   -a, --autoconnect\tOhita liittymisikkuna\n"
-
-#~ msgid ""
-#~ "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
-#~ msgstr ""
-#~ "  -l, --log FILE\tKäytä tiedostoa FILE lokia varten (myös synnytetty "
-#~ "palvelin).\n"
-
-#~ msgid "  -M, --Meta HOST\tConnect to the metaserver at HOST\n"
-#~ msgstr "  -M, --Meta HOST\tYhdistä metapalvelimeen osoitteessa HOST\n"
-
-#~ msgid "  -n, --name NAME\tUse NAME as username on server\n"
-#~ msgstr "  -n, --name NAME\tkäytä nimeä NAME pelaaja- tai palvelinnimenä\n"
-
-#~ msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
-#~ msgstr ""
-#~ "  -p, --port PORT\tYhdistä palvelimen porttiin PORT (yleensä -a:lla)\n"
-
-#~ msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
-#~ msgstr "  -P, --Plugin LIITÄNNÄINEN   Käytä LIITÄNNÄISTÄ äänentoistoon %s\n"
-
-#~ msgid ""
-#~ "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
-#~ msgstr ""
-#~ "  -r, --read FILE\tLue käynnistysskripti tiedostosta FILE (vain "
-#~ "synnytetty palvelin)\n"
-
-#~ msgid ""
-#~ "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
-#~ msgstr ""
-#~ "  -s, --server HOST\tYhdistä palvelimeen osoitteessa HOST (yleensä -a:"
-#~ "lla)\n"
-
-#~ msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
-#~ msgstr "  -S, --Sound TIED\tLue äänitiedot tiedostosta TIED\n"
-
-#~ msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
-#~ msgstr "  -t, --tiles TIED\tKäytä tiedostoa TIED.tilespec kuvitustyylinä\n"
-
-#~ msgid ""
-#~ "      --\t\tPass any following options to the UI.\n"
-#~ "\t\t\tTry \"%s -- --help\" for more.\n"
-#~ msgstr ""
-#~ "      --\t\tVälitä tästä seuraavat parametrit käyttöliittymälle.\n"
-#~ "\t\t\tKs. myös \"%s -- --help\".\n"
-
-#~ msgid "This option controls the speed of combat animation."
-#~ msgstr "Asetus säätää taisteluanimaation nopeutta."
-
-#~ msgid "Show combat animation"
-#~ msgstr "Näytä taisteluanimaatio"
-
-#~ msgid ""
-#~ "Disabling this option will turn off combat animation between units on the "
-#~ "mapview."
-#~ msgstr ""
-#~ "Jos asetus on käytössä, yksiköiden väliset taistelut animoidaan "
-#~ "karttanäkymässä."
-
-#~ msgid "%s: %d/%d."
-#~ msgstr "%s: %d/%d."
-
-#~ msgid "At Spy's Discretion"
-#~ msgstr "Vakoojan mielen mukaan"
-
-#~ msgid "Choose Your Diplomat's Strategy"
-#~ msgstr "Valitse diplomaattisi strategia"
-
-#~ msgid "Choose Your Spy's Strategy"
-#~ msgstr "Anna toimintaohjeet vakoojallesi"
-
-#~ msgid "The diplomat is waiting for your command"
-#~ msgstr "Diplomaatti odottaa komentoasi"
-
-#~ msgid "The spy is waiting for your command"
-#~ msgstr "Vakooja odottaa toimintaohjeita"
-
-#~ msgid "_Ready all"
-#~ msgstr "Aktivoi kaikki"
-
-#~ msgid "_Sentry idle"
-#~ msgstr "Leiriydy odotellessa"
-
-#~ msgid "Build _Railroad"
-#~ msgstr "_Rakenna rautatie"
-
-#~ msgid "Nation's Legend"
-#~ msgstr "Kansan kuvaus"
-
-#~ msgid "SORRY... NO INFO"
-#~ msgstr "Pahoittelen – ei tietoa"
-
-#~ msgid "  -r, --ruleset RULESET\tMake manual for RULESET\n"
-#~ msgstr ""
-#~ "  -r, --ruleset SÄÄNNÖT\tRakenna opaskirja sääntökokoelmalle SÄÄNNÖT\n"
-
-#~ msgid "Cannot determine user home directory"
-#~ msgstr "Kotihakemistoa ei löydy"
-
-#~ msgid "Failed to download modpack control file from given URL"
-#~ msgstr ""
-#~ "Muunnospaketin control-tiedostoa ei voi ladata annetusta osoitteesta"
-
-#~ msgid "Cannot parse modpack control file"
-#~ msgstr "Virhe muunnospaketin control-tiedoston tulkinnassa"
-
-#~ msgid "Failed to download modpack list"
-#~ msgstr "Virhe ladattaessa muunnospakettiluetteloa"
-
-#~ msgid "Cannot parse modpack list"
-#~ msgstr "Virhe muunnospakettiluettelon tulkinnassa"
-
-#~ msgid "      --\t\tPass any following options to the UI.\n"
-#~ msgstr "      --\t\tVälitä tästä seuraavat parametrit käyttöliittymälle.\n"
-
 #~ msgid "Amir Al-Muminin %s"
 #~ msgstr "Uskovaisten komentaja %s"
 
 #~ msgid "Amirat Al-Muminin %s"
 #~ msgstr "Uskovaisten komentaja %s"
-
-#~ msgid "Al-Andalus"
-#~ msgstr "maurien"
-
-#~ msgid "?plural:Al-Andalus"
-#~ msgstr "maurit"
 
 #~ msgid "Sheik %s"
 #~ msgstr "Šeikki %s"
@@ -47063,6 +46673,9 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 
 #~ msgid "Malika %s"
 #~ msgstr "Malikta %s"
+
+#~ msgid "Dictatress %s"
+#~ msgstr "Diktaattori %s"
 
 #~ msgid "Presidente %s"
 #~ msgstr "Presidente %s"
@@ -47085,9 +46698,6 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 #~ msgid "?female:Liberator %s"
 #~ msgstr "Vapauttaja %s"
 
-#~ msgid "Mwami %s"
-#~ msgstr "Mwami %s"
-
 #~ msgid "Mwamikazi %s"
 #~ msgstr "Mwamikazi %s"
 
@@ -47102,6 +46712,9 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 
 #~ msgid "Mother %s"
 #~ msgstr "Äiti %s"
+
+#~ msgid "?female:Supreme Director %s"
+#~ msgstr "Suuri johtaja %s"
 
 #~ msgid ""
 #~ "The Confederate States of America was a splinter nation of the United "
@@ -47152,18 +46765,6 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 #~ msgid "?female:Kikmongwi %s"
 #~ msgstr "Kikmongwi %s"
 
-#~ msgid ""
-#~ "The nation of Israel was founded in 1948 as a scattered collection of "
-#~ "cantons in British Palestine, and has gradually expanded through winning "
-#~ "a series of wars launched against it in 1948, 1967 and 1973."
-#~ msgstr ""
-#~ "Israelin valtio perustettiin 1948 brittiläiseen Palestiinaan ja se on "
-#~ "asteittain valloittanut lisää alueita voitettuaan sarjan sitä vastaan "
-#~ "aloitettuja sotia vuosina 1948, 1967 ja 1973."
-
-#~ msgid "?female:Duce %s"
-#~ msgstr "Duce %s"
-
 # TODO: unconfirmed
 #~ msgid "Manikongo %s"
 #~ msgstr "Manikongo %s"
@@ -47175,9 +46776,6 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 #~ msgid "Mirza %s"
 #~ msgstr "Mirza %s"
 
-#~ msgid "?female:Mirza %s"
-#~ msgstr "Mirza %s"
-
 #~ msgid "Great Duke %s"
 #~ msgstr "Suuriruhtinas %s"
 
@@ -47186,9 +46784,6 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 
 #~ msgid "Tun %s"
 #~ msgstr "Tun %s"
-
-#~ msgid "?female:Tun %s"
-#~ msgstr "?female:Tun %s"
 
 # TODO: unconfirmed
 #~ msgid "Toqui %s"
@@ -47204,10 +46799,6 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 #~ msgid "?female:Ajaw %s"
 #~ msgstr "Ajaw %s"
 
-# Friar != normimunkki, mutta tehdään vähän eroa Brother %s:äänkin. Huom. kirjaimellisesti 'veli', naispuolisille sopii heikosti.
-#~ msgid "Friar %s"
-#~ msgstr "Munkkiveli %s"
-
 #~ msgid "?Female:Bailiff %s"
 #~ msgstr "Vouti %s"
 
@@ -47217,6 +46808,9 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 #~ msgid "Perfectae %s"
 #~ msgstr "Valtionhoitaja %s"
 
+#~ msgid "?female:Sheikh %s"
+#~ msgstr "Šeikki %s"
+
 #~ msgid "Corrector %s"
 #~ msgstr "Corrector %s"
 
@@ -47225,15 +46819,6 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 
 #~ msgid "The Papuans are a Melanesian people on the island of New Guinea."
 #~ msgstr "Papualaiset ovat melanesialainen kansa Uuden-Guinean saarella."
-
-#~ msgid "%s Basha"
-#~ msgstr "Baša %s"
-
-#~ msgid "?female:%s Basha"
-#~ msgstr "Baša %s"
-
-#~ msgid "?female:Mwami %s"
-#~ msgstr "Mwami %s"
 
 #~ msgid "Noaidi %s"
 #~ msgstr "Noaidi %s"
@@ -47248,9 +46833,6 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 #~ msgstr "Chogyal %s"
 
 #~ msgid "Encik %s"
-#~ msgstr "Encik %s"
-
-#~ msgid "?female:Encik %s"
 #~ msgstr "Encik %s"
 
 #~ msgid "Datu %s"
@@ -47276,16 +46858,6 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 #~ msgid "?female:Chairperson %s"
 #~ msgstr "Puhemies %s"
 
-#~ msgid ""
-#~ "Venezuela is the northernmost country in South America. Having been a "
-#~ "Spanish colony since the 16th century, the country gained independence on "
-#~ "July 5th 1811 under the leadership of El Libertador Simon Bolivar - The "
-#~ "Liberator."
-#~ msgstr ""
-#~ "Venezuela on Etelä-Amerikan pohjoisin valtio. Oltuaan Espanjan "
-#~ "siirtomaana 1500-luvulta lähtien maa itsenäistyi 5. heinäkuuta 1811 El "
-#~ "Liberador (\"vapauttaja\") Simón Bolívarin johdolla."
-
 #~ msgid "Dictador %s"
 #~ msgstr "Diktaattori %s"
 
@@ -47298,5 +46870,14 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 #~ msgid "Magistra Militium %s"
 #~ msgstr "Magistra Militium %s"
 
-#~ msgid "You are playing Freeciv with default rules."
-#~ msgstr "Pelaat Freeciviä oletussäännöillä."
+#~ msgid "metainfo <meta-line>"
+#~ msgstr "metainfo <metateksti>"
+
+#~ msgid "* Will be built as a veteran under communist governments.\n"
+#~ msgstr "· Valmistuu konkarina kommunistihallinnossa.\n"
+
+#~ msgid "?female:Mother Superior %s"
+#~ msgstr "Abbedissa %s"
+
+#~ msgid "?female:Empress %s"
+#~ msgstr "Keisarinna %s"
