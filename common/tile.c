@@ -564,11 +564,11 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
     if (tile_has_base(ptile, pbase)
         && !is_native_tile_to_base(pbase, ptile)) {
       if (fc_funcs->destroy_base != NULL) {
+        /* Assume callback calls tile_remove_base() itself. */
 	fc_funcs->destroy_base(ptile, pbase);
       } else {
 	tile_remove_base(ptile, pbase);
       }
-      tile_remove_base(ptile, pbase);
     }
   } base_type_iterate_end;
 
