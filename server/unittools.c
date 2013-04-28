@@ -978,7 +978,8 @@ static bool find_a_good_partisan_spot(struct tile *pcenter,
   circle_iterate(pcenter, sq_radius, ptile) {
     int value;
 
-    if (is_ocean_tile(ptile)) {
+    if (is_ocean_tile(ptile)
+        || !is_native_tile(u_type, ptile)) {
       continue;
     }
 
