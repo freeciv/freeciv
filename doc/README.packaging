@@ -27,6 +27,7 @@ Updating from 2.3 to 2.4
 * Development of new qt-client started. It can be built with --enable-client=qt
 * libcurl is new dependency
 * ftwl-client has been removed from distribution
+* win32-client has been removed from distribution
 * freeciv-modpack is built either as gtk3-program, or as gtk2-program.
   See --enable-fcmp
 * System lua can be used instead of one that comes with freeciv. See
