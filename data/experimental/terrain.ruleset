@@ -270,8 +270,7 @@ color.g              = 46
 color.b              = 137
 helptext             = _("\
 Shallow oceans are mostly found near coastlines, and are often rich\
- sources of food and other resources. They can be traversed by sea\
- units, including Triremes.\
+ sources of food and other resources.\
 ")
 
 [terrain_deep_ocean]
