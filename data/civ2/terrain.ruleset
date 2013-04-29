@@ -189,8 +189,7 @@ color.r              = 0
 color.g              = 46
 color.b              = 137
 helptext             = _("\
-Oceans cover much of the world, and only sea units (Triremes and\
- other boats) can travel on them.\
+Oceans cover much of the world.\
 ")
 
 [terrain_glacier]
