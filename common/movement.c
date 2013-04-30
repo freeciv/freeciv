@@ -85,10 +85,13 @@ int unit_move_rate(const struct unit *punit)
 ****************************************************************************/
 bool unit_can_defend_here(const struct unit *punit)
 {
+  struct unit *ptrans = unit_transport_get(punit);
+
   /* Do not just check if unit is transported.
    * Even transported units may step out from transport to fight,
    * if this is their native terrain. */
-  return can_unit_exist_at_tile(punit, unit_tile(punit));
+  return (can_unit_exist_at_tile(punit, unit_tile(punit))
+          && (ptrans == NULL || can_unit_unload(punit, ptrans)));
 }
 
 /****************************************************************************
