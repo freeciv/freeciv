@@ -843,59 +843,6 @@ static bool restrict_infra(const struct player *pplayer, const struct tile *t1,
   return FALSE;
 }
 
-/****************************************************************************
-  map_move_cost_ai returns the move cost as
-  calculated by tile_move_cost_ptrs (with no unit pointer to get
-  unit-independent results) EXCEPT if either of the source or
-  destination tile is an ocean tile. Then the result of the method
-  shows if a ship can take the step from the source position to the
-  destination position (return value is MOVE_COST_FOR_VALID_SEA_STEP)
-  or not.  An arbitrarily high value will be returned if the move is
-  impossible.
-
-  FIXME: this function can't be used for air units because it returns
-  sea<->land moves as impossible.
-****************************************************************************/
-int map_move_cost_ai(const struct player *pplayer,
-                     const struct unit_class *pclass,
-                     const struct tile *tile0,
-                     const struct tile *tile1)
-{
-  const int maxcost = 72; /* Arbitrary. */
-
-  fc_assert_ret_val(!is_server()
-                    || (tile_terrain(tile0) != T_UNKNOWN
-                        && tile_terrain(tile1) != T_UNKNOWN), FC_INFINITY);
-
-  /* A ship can take the step if:
-   * - both tiles are ocean or
-   * - one of the tiles is ocean and the other is a city or is unknown
-   *
-   * Note tileX->terrain will only be T_UNKNOWN at the client. */
-  if (is_ocean_tile(tile0) && is_ocean_tile(tile1)) {
-    return MOVE_COST_FOR_VALID_SEA_STEP;
-  }
-
-  if (is_ocean_tile(tile0)
-      && (tile_city(tile1) || tile_terrain(tile1) == T_UNKNOWN)) {
-    return MOVE_COST_FOR_VALID_SEA_STEP;
-  }
-
-  if (is_ocean_tile(tile1)
-      && (tile_city(tile0) || tile_terrain(tile0) == T_UNKNOWN)) {
-    return MOVE_COST_FOR_VALID_SEA_STEP;
-  }
-
-  if (is_ocean_tile(tile0) || is_ocean_tile(tile1)) {
-    /* FIXME: Shouldn't this return MOVE_COST_FOR_VALID_AIR_STEP?
-     * Note that MOVE_COST_FOR_VALID_AIR_STEP is currently equal to
-     * MOVE_COST_FOR_VALID_SEA_STEP. */
-    return maxcost;
-  }
-
-  return tile_move_cost_ptrs(NULL, pclass, pplayer, tile0, tile1);
-}
-
 /***************************************************************
   The cost to move punit from where it is to tile x,y.
   It is assumed the move is a valid one, e.g. the tiles are adjacent.
