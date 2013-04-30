@@ -34,6 +34,8 @@ extern "C" {
 #define SPECENUM_VALUE5NAME "River"
 #define SPECENUM_VALUE6 RF_NATURAL
 #define SPECENUM_VALUE6NAME "Natural"
+#define SPECENUM_VALUE7 RF_AUTO_ON_CITY_CENTER
+#define SPECENUM_VALUE7NAME "AutoOnCityCenter"
 #define SPECENUM_COUNT RF_COUNT
 #include "specenum_gen.h"
 

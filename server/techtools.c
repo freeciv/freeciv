@@ -204,9 +204,10 @@ static void update_player_after_tech_researched(struct player* plr,
 
   remove_obsolete_buildings(plr);
 
-  /* Give free bridges or railroads in every city */
+  /* Give free roads or bases in every city */
   if (tech_found != A_FUTURE) {
     upgrade_all_city_roads(plr, was_discovery);  
+    upgrade_all_city_bases(plr, was_discovery);
   }
 
   /* Enhance vision of units if a player-ranged effect has changed.  Note

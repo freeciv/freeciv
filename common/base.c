@@ -61,11 +61,8 @@ bool is_native_base_to_utype(const struct base_type *pbase,
 bool is_native_tile_to_base(const struct base_type *pbase,
                             const struct tile *ptile)
 {
-  /* FIXME: Bases cannot be built in a city currently?  It should be a
-   * a negative requirement in the ruleset. */
-  return (!tile_city(ptile)
-          && are_reqs_active(NULL, NULL, NULL, ptile,
-                             NULL, NULL, NULL, &pbase->reqs, RPT_POSSIBLE));
+  return are_reqs_active(NULL, NULL, NULL, ptile,
+                         NULL, NULL, NULL, &pbase->reqs, RPT_POSSIBLE);
 }
 
 /****************************************************************************
@@ -163,11 +160,6 @@ bool is_base_near_tile(const struct tile *ptile, const struct base_type *pbase)
 static bool base_can_be_built(const struct base_type *pbase,
                               const struct tile *ptile)
 {
-  if (tile_city(ptile)) {
-    /* Bases cannot be built inside cities */
-    return FALSE;
-  }
-
   if (tile_terrain(ptile)->base_time == 0) {
     /* Bases cannot be built on this terrain. */
     return FALSE;
@@ -196,10 +188,8 @@ bool player_can_build_base(const struct base_type *pbase,
   if (!base_can_be_built(pbase, ptile)) {
     return FALSE;
   }
-
   return are_reqs_active(pplayer, NULL, NULL, ptile,
-                         NULL, NULL, NULL, &pbase->reqs,
-                         RPT_POSSIBLE);
+                         NULL, NULL, NULL, &pbase->reqs, RPT_POSSIBLE);
 }
 
 /**************************************************************************
@@ -211,7 +201,6 @@ bool can_build_base(const struct unit *punit, const struct base_type *pbase,
   if (!base_can_be_built(pbase, ptile)) {
     return FALSE;
   }
-
   return are_reqs_active(unit_owner(punit), NULL, NULL, ptile,
                          unit_type(punit), NULL, NULL, &pbase->reqs,
                          RPT_CERTAIN);

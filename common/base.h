@@ -56,6 +56,12 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 /* Owner's flag is displayed next to base */
 #define SPECENUM_VALUE5 BF_SHOW_FLAG
 #define SPECENUM_VALUE5NAME "ShowFlag"
+/* Base is always present in cities */
+#define SPECENUM_VALUE6 BF_ALWAYS_ON_CITY_CENTER
+#define SPECENUM_VALUE6NAME "AlwaysOnCityCenter"
+/* Base will be built in cities automatically */
+#define SPECENUM_VALUE7 BF_AUTO_ON_CITY_CENTER
+#define SPECENUM_VALUE7NAME "AutoOnCityCenter"
 #define SPECENUM_COUNT BF_COUNT
 #include "specenum_gen.h"
 

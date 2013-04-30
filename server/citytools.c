@@ -953,6 +953,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   bool had_great_wonders = FALSE;
   const citizens old_taker_content_citizens = player_content_citizens(ptaker);
   const citizens old_giver_content_citizens = player_content_citizens(pgiver);
+  bool new_roads, new_bases;
 
   fc_assert_ret(pgiver != ptaker);
 
@@ -1070,17 +1071,28 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     /* What wasn't obsolete for the old owner may be so now. */
     remove_obsolete_buildings_city(pcity, TRUE);
 
-    if (upgrade_city_roads(pcity)) {
+    new_roads = upgrade_city_roads(pcity);
+    new_bases = upgrade_city_bases(pcity);
+
+    if (new_roads || new_bases) {
       const char *clink = city_link(pcity);
 
       notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
                     _("The people in %s are stunned by your "
                       "technological insight!"),
                     clink);
-      notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
-                    _("Workers spontaneously gather and upgrade "
-                      "%s roads."),
-                    clink);
+      if (new_roads) {
+        notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
+                      _("Workers spontaneously gather and upgrade "
+                        "%s roads."),
+                      clink);
+      }
+      if (new_bases) {
+        notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
+                      _("Workers spontaneously gather and upgrade "
+                        "%s bases."),
+                      clink);
+      }
       update_tile_knowledge(pcenter);
     }
 
@@ -1259,13 +1271,6 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   log_debug("create_city() %s", name);
 
-  /* Before doing anything else, remove any bases and their effects */
-  base_type_iterate(pbase) {
-    if (tile_has_base(ptile, pbase)) {
-      destroy_base(ptile, pbase);
-    }
-  } base_type_iterate_end;
-
   pcity = create_city_virtual(pplayer, ptile, name);
 
   adv_city_alloc(pcity);
@@ -1319,8 +1324,26 @@ void create_city(struct player *pplayer, struct tile *ptile,
   map_claim_border(ptile, pplayer);
   /* city_thaw_workers_queue() later */
 
-  /* Build best roads city can have. */
+  /* Remove any roads that don't belong in the city. */
+  road_type_iterate(proad) {
+    if (tile_has_road(ptile, proad)
+        && !is_native_tile_to_road(proad, ptile)) {
+      tile_remove_road(ptile, proad);
+    }
+  } road_type_iterate_end;
+  /* Build any roads that the city should have. */
   upgrade_city_roads(pcity);
+
+  /* Destroy any bases that don't belong in the city. */
+  base_type_iterate(pbase) {
+    if (tile_has_base(ptile, pbase)
+        && !is_native_tile_to_base(pbase, ptile)) {
+      destroy_base(ptile, pbase);
+    }
+  } base_type_iterate_end;
+
+  /* Build any bases that the city should have. */
+  upgrade_city_bases(pcity);
 
   /* Refresh the city.  First a city refresh is done (this shouldn't
    * send any packets to the client because the city has no supported units)
