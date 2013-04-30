@@ -200,10 +200,13 @@ char *convert_string(const char *text,
   fc_assert_ret_val(NULL != text, NULL);
 
   if (cd == (iconv_t) (-1)) {
+    /* Do not do potentially recursive call to freeciv logging here,
+     * but use fprintf(stderr) */
+
     /* TRANS: "Could not convert text from <encoding a> to <encoding b>:" 
      *        <externally translated error string>."*/
-    log_error(_("Could not convert text from %s to %s: %s"),
-              from, to, fc_strerror(fc_get_errno()));
+    fprintf(stderr, _("Could not convert text from %s to %s: %s"),
+            from, to, fc_strerror(fc_get_errno()));
     /* The best we can do? */
     if (alloc) {
       return fc_strdup(text);
@@ -238,7 +241,8 @@ char *convert_string(const char *text,
     if (res == (size_t) (-1)) {
       if (errno != E2BIG) {
         /* Invalid input. */
-        log_error("Invalid string conversion from %s to %s.", from, to);
+
+        fprintf(stderr, "Invalid string conversion from %s to %s.", from, to);
         iconv_close(cd);
         if (alloc) {
           free(buf);
@@ -260,7 +264,6 @@ char *convert_string(const char *text,
     if (alloc) {
       /* Not enough space; try again. */
       buf[to_len - 1] = 0;
-      log_verbose("   Result was '%s'.", buf);
 
       free(buf);
       to_len *= 2;
