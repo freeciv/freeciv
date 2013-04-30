@@ -36,7 +36,6 @@ struct data_in;
 #include "worklist.h"
 
 
-#define MAX_LEN_USERNAME        10        /* see below */
 /* Used in network protocol. */
 #define MAX_LEN_MSG             1536
 #define MAX_LEN_ROUTE		2000	  /* MAX_LEN_PACKET/2 - header */
