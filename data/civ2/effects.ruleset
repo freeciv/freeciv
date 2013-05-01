@@ -1933,11 +1933,21 @@ reqs	=
 
 [effect_oracle]
 name	= "Make_Content"
-value	= 2
+value	= 1
 reqs	=
     { "type", "name", "range"
       "Building", "Temple", "City"
       "Building", "Oracle", "Player"
+    }
+
+[effect_oracle_mysticism]
+name	= "Make_Content"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Temple", "City"
+      "Building", "Oracle", "Player"
+      "Tech", "Mysticism", "Player"
     }
 
 [effect_pyramids]

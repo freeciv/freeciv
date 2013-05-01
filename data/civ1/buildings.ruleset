@@ -616,8 +616,8 @@ sound		= "b_temple"
 sound_alt	= "b_generic"
 helptext	= _("\
 Makes one unhappy citizen content.  The Mysticism advance doubles\
- this effect.  With both Mysticism and the Oracle, 4 citizens are\
- made content.  Does not affect citizens made unhappy by military\
+ this effect, as does Oracle wonder.  With both Mysticism and the Oracle,\
+ 4 citizens are made content.  Does not affect citizens made unhappy by military\
  activity.\
 ")
 
@@ -963,9 +963,8 @@ sabotage	= 0
 sound		= "w_oracle"
 sound_alt	= "w_generic"
 helptext	= _("\
-Makes two additional unhappy citizens content in every city with\
- a Temple.  Does not affect citizens made unhappy by military\
- activity.\
+Doubles the effect of a Temple in every city.\
+ Does not affect citizens made unhappy by military activity.\
 ")
 
 [building_pyramids]
