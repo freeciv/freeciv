@@ -45,7 +45,8 @@
           | * citizens                                     |            |
           | * save player color                            |            |
           | * "known" info format change                   |            |
-  2.5.0   | 2.5.0 release (development)                    | 201./../.. | 20
+  2.5.0   | 2.5.0 release                                  | 201./../.. | 20
+  2.6.0   | 2.6.0 release (development)                    | 201./../.. | 30
           |                                                |            |
 
   Structure of this file:
@@ -556,6 +557,7 @@ typedef void (*load_version_func_t) (struct loaddata *loading);
 
 static void compat_load_020400(struct loaddata *loading);
 static void compat_load_020500(struct loaddata *loading);
+static void compat_load_020600(struct loaddata *loading);
 
 struct compatibility {
   int version;
@@ -572,8 +574,8 @@ struct compatibility {
  * add the needed code to load the old version below. Thus, old
  * savegames can still be loaded while the main definition
  * represents the current state of the art. */
-/* While developing freeciv 2.5.0, add the compatibility functions to
- * - compat_load_020500 to load old savegame. */
+/* While developing freeciv 2.6.0, add the compatibility functions to
+ * - compat_load_020600 to load old savegame. */
 static struct compatibility compat[] = {
   /* dummy; equal to the current version (last element) */
   { 0, NULL },
@@ -585,6 +587,8 @@ static struct compatibility compat[] = {
   { 10, compat_load_020400 },
   /* version 11 to 19 are reserved for possible changes in 2.4.x */
   { 20, compat_load_020500 },
+  /* version 21 to 29 are reserved for possible changes in 2.5.x */
+  { 30, compat_load_020600 },
   /* Current savefile version is listed above this line; it corresponds to
      the definitions in this file. */
 };
@@ -6452,6 +6456,17 @@ static void compat_load_020500(struct loaddata *loading)
       }
     }
   }
+}
+
+/****************************************************************************
+  Translate savegame secfile data from 2.5.x to 2.6.0 format.
+****************************************************************************/
+static void compat_load_020600(struct loaddata *loading)
+{
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+
+  log_debug("Upgrading data from savegame to version 2.6.0");
 }
 
 /****************************************************************************
