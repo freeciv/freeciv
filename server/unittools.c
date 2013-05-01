@@ -96,6 +96,8 @@ static int hp_gain_coord(struct unit *punit);
 
 static void unit_move_transported(struct unit_list *units,
                                   struct tile *psrc, struct tile *pdest);
+static void remove_transported_gone_out_of_sight(struct unit_list *units,
+                                                 struct tile *psrc);
 
 static bool maybe_become_veteran_real(struct unit *punit, bool settler);
 
@@ -2299,9 +2301,12 @@ void unit_goes_out_of_sight(struct player *pplayer, struct unit *punit)
   Eg, use ptile as where the unit came from, so that the info can be
   sent if the other players can see either the target or destination tile.
   dest = NULL means all connections (game.est_connections)
+  remove_moving tells whether unit previously seen going out of sight
+  should be removed from client.
 **************************************************************************/
 void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
-				 struct tile *ptile, bool remove_unseen)
+				 struct tile *ptile, bool remove_unseen,
+                                 bool remove_moving)
 {
   struct packet_unit_info info;
   struct packet_unit_short_info sinfo;
@@ -2341,7 +2346,7 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
 	/* First send movement */
 	send_packet_unit_short_info(pconn, &sinfo);
 
-	if (!see_in_new) {
+	if (!see_in_new && remove_moving) {
 	  /* Then remove unit if necessary */
 	  unit_goes_out_of_sight(pplayer, punit);
 	}
@@ -2351,6 +2356,29 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
 	}
       }
     }
+  } conn_list_iterate_end;
+}
+
+/**************************************************************************
+  Remove unit from client if it has gone out of sight by moving from
+  old_tile to current tile.
+**************************************************************************/
+static void remove_unit_gone_out_of_sight(struct conn_list *dest,
+                                          struct unit *punit,
+                                          struct tile *old_tile)
+{
+  if (!dest) {
+    dest = game.est_connections;
+  }
+
+  conn_list_iterate(dest, pconn) {
+    struct player *pplayer = pconn->playing;
+
+    if (can_player_see_unit_at(pplayer, punit, old_tile)
+        && !can_player_see_unit_at(pplayer, punit,
+                                   unit_tile(punit))) {
+      unit_goes_out_of_sight(pplayer, punit);
+    } 
   } conn_list_iterate_end;
 }
 
@@ -2384,7 +2412,7 @@ void send_unit_info(struct player *dest, struct unit *punit)
 {
   struct conn_list *conn_dest = (dest ? dest->connections
 				 : game.est_connections);
-  send_unit_info_to_onlookers(conn_dest, punit, unit_tile(punit), FALSE);
+  send_unit_info_to_onlookers(conn_dest, punit, unit_tile(punit), FALSE, TRUE);
 }
 
 /**************************************************************************
@@ -2405,7 +2433,7 @@ void send_all_known_units(struct conn_list *dest)
       unit_list_iterate(unitowner->units, punit) {
 	if (!pplayer || can_player_see_unit(pplayer, punit)) {
 	  send_unit_info_to_onlookers(pconn->self, punit,
-				      unit_tile(punit), FALSE);
+				      unit_tile(punit), FALSE, TRUE);
 	}
       } unit_list_iterate_end;
     } players_iterate_end;
@@ -3338,7 +3366,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
    * If unit is about to take over enemy city, unit is seen by
    * those players seeing inside cities of old city owner. After city
    * has been transferred, updated info is sent by unit_enter_city() */
-  send_unit_info_to_onlookers(NULL, punit, psrctile, FALSE);
+  send_unit_info_to_onlookers(NULL, punit, psrctile, FALSE, FALSE);
 
   /* Move consequences and wakeup. */
   unit_lives = unit_move_consequences(punit, psrctile, pdesttile, FALSE);
@@ -3366,7 +3394,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
        * All players without shared vison with owner player get
        * REMOVE_UNIT package.
        */
-      send_unit_info_to_onlookers(NULL, punit, unit_tile(punit), TRUE);
+      send_unit_info_to_onlookers(NULL, punit, unit_tile(punit), TRUE, FALSE);
     }
   }
 
@@ -3428,6 +3456,11 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
     if (unit_list_size(pcargo_units) > 0) {
       unit_move_transported(pcargo_units, psrctile, pdesttile);
     }
+
+    /* Now cargo is in same tile with transport. Safe to remove units from
+     * clients. */
+    remove_transported_gone_out_of_sight(pcargo_units, psrctile);
+    remove_unit_gone_out_of_sight(NULL, punit, psrctile);
 
     /* Let the scripts run ... */
     script_server_signal_emit("unit_moved", 3,
@@ -3496,7 +3529,7 @@ static void unit_move_transported(struct unit_list *units,
     unit_list_prepend(pdest->units, pcargo);
 
     check_unit_activity(pcargo);
-    send_unit_info_to_onlookers(NULL, pcargo, psrc, FALSE);
+    send_unit_info_to_onlookers(NULL, pcargo, psrc, FALSE, FALSE);
 
     vision_clear_sight(old_vision);
     vision_free(old_vision);
@@ -3504,6 +3537,23 @@ static void unit_move_transported(struct unit_list *units,
     unit_move_consequences(pcargo, psrc, pdest, TRUE);
     unit_did_action(pcargo);
     unit_forget_last_activity(pcargo);
+  } unit_list_iterate_end;
+}
+
+/*****************************************************************************
+  Remove transported units gone out of sight from clients.
+*****************************************************************************/
+static void remove_transported_gone_out_of_sight(struct unit_list *units,
+                                                 struct tile *psrc)
+{
+  unit_list_iterate(units, pcargo) {
+    struct unit_list *pcargo_units = unit_transport_cargo(pcargo);
+
+    if (unit_list_size(pcargo_units) > 0) {
+      remove_transported_gone_out_of_sight(pcargo_units, psrc);
+    }
+
+    remove_unit_gone_out_of_sight(NULL, pcargo, psrc);
   } unit_list_iterate_end;
 }
 
