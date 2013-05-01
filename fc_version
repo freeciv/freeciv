@@ -7,7 +7,7 @@
 MAJOR_VERSION="2"
 MINOR_VERSION="4"
 PATCH_VERSION="99"
-VERSION_LABEL="-dev"
+VERSION_LABEL="-alpha"
 
 IS_DEVEL_VERSION=1
 IS_BETA_VERSION=0
@@ -17,7 +17,7 @@ NEXT_STABLE_VERSION="2.5.0"
 # 0 to disable display of release month until we can make better estimate
 RELEASE_MONTH=0
 
-DATASUBDIR=dev
+DATASUBDIR=test
 DEFAULT_FOLLOW_TAG=stable
 
 # Freeciv network capstring: see documentation in common/capstr.c
