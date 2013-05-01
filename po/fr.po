@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-27 11:39+0100\n"
-"PO-Revision-Date: 2013-04-26 11:30+0200\n"
+"POT-Creation-Date: 2013-05-01 17:18+0300\n"
+"PO-Revision-Date: 2013-05-01 13:55+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -2118,7 +2118,7 @@ msgstr "Retrancher l'unité (_f)"
 #: client/gui-gtk-2.0/citydlg.c:2263 client/gui-gtk-2.0/menu.c:1594
 #: client/gui-gtk-3.0/citydlg.c:2302 client/gui-gtk-3.0/menu.c:1594
 msgid "Set _Home City"
-msgstr "Baser ici (_H)"
+msgstr "_Baser ici"
 
 #: client/gui-gtk-2.0/citydlg.c:2270 client/gui-gtk-3.0/citydlg.c:2309
 msgid "U_pgrade unit"
@@ -3295,9 +3295,9 @@ msgstr "Inventions"
 
 #: client/gui-gtk-2.0/editprop.c:4167 client/gui-gtk-2.0/repodlgs.c:1251
 #: client/gui-gtk-3.0/editprop.c:4191 client/gui-gtk-3.0/repodlgs.c:1283
-#: common/city.c:85 data/civ1/terrain.ruleset:609
-#: data/civ2/terrain.ruleset:623 data/default/terrain.ruleset:737
-#: data/experimental/terrain.ruleset:739 data/multiplayer/terrain.ruleset:737
+#: common/city.c:85 data/civ1/terrain.ruleset:608
+#: data/civ2/terrain.ruleset:622 data/default/terrain.ruleset:736
+#: data/experimental/terrain.ruleset:738 data/multiplayer/terrain.ruleset:736
 msgid "Gold"
 msgstr "Or"
 
@@ -4005,11 +4005,11 @@ msgstr "_Quitter"
 
 #: client/gui-gtk-2.0/menu.c:1335 client/gui-gtk-3.0/menu.c:1335
 msgid "_Find City"
-msgstr "_Trouver une ville"
+msgstr "Trouver une _ville"
 
 #: client/gui-gtk-2.0/menu.c:1337 client/gui-gtk-3.0/menu.c:1337
 msgid "Work_lists"
-msgstr "_Liste de travail"
+msgstr "Liste de _travail"
 
 #: client/gui-gtk-2.0/menu.c:1340 client/gui-gtk-3.0/menu.c:1340
 msgid "Client _Lua Script"
@@ -4050,115 +4050,115 @@ msgstr "_Démographie"
 #: client/gui-xaw/menu.c:248 client/include/helpdlg_g.h:27
 #: data/helpdata.txt:40
 msgid "?help:Overview"
-msgstr "Aperçu global"
+msgstr "_Aperçu global"
 
 #: client/gui-gtk-2.0/menu.c:1366 client/gui-gtk-3.0/menu.c:1366
 #: client/gui-xaw/menu.c:249 client/include/helpdlg_g.h:28
 #: data/helpdata.txt:73
 msgid "Strategy and Tactics"
-msgstr "Stratégie et Tactiques"
+msgstr "_Stratégie et Tactiques"
 
 # AR
 #: client/gui-gtk-2.0/menu.c:1374 client/gui-gtk-3.0/menu.c:1374
 #: client/gui-xaw/menu.c:253 client/include/helpdlg_g.h:39
 #: data/helpdata.txt:991
 msgid "City Improvements"
-msgstr "Bâtiments"
+msgstr "Améliorations"
 
 #: client/gui-gtk-2.0/menu.c:1376 client/gui-gtk-3.0/menu.c:1376
 #: client/gui-xaw/menu.c:232 client/gui-xaw/menu.c:254
 #: client/include/helpdlg_g.h:45 data/helpdata.txt:1016 server/report.c:444
 msgid "Wonders of the World"
-msgstr "Merveilles du monde"
+msgstr "_Merveilles du monde"
 
 #: client/gui-gtk-2.0/menu.c:1380 client/gui-gtk-3.0/menu.c:1380
 #: client/gui-xaw/menu.c:256 client/include/helpdlg_g.h:41
 #: data/helpdata.txt:1112
 msgid "Combat"
-msgstr "Combat"
+msgstr "_Combat"
 
 #: client/gui-gtk-2.0/menu.c:1382 client/gui-gtk-3.0/menu.c:1382
 #: client/include/helpdlg_g.h:42 data/helpdata.txt:1309
 msgid "Zones of Control"
-msgstr "Zones de Contrôle"
+msgstr "_Zones de Contrôle"
 
 #: client/gui-gtk-2.0/menu.c:1384 client/gui-gtk-3.0/menu.c:1384
 #: client/gui-xaw/menu.c:258 client/include/helpdlg_g.h:46
 #: data/Freeciv.in:2045 data/helpdata.txt:1364
 msgid "Government"
-msgstr "Gouvernement"
+msgstr "_Gouvernement"
 
 #: client/gui-gtk-2.0/menu.c:1386 client/gui-gtk-3.0/menu.c:1386
 #: client/gui-xaw/menu.c:259 client/include/helpdlg_g.h:47 data/Freeciv.in:233
 #: data/helpdata.txt:1422
 msgid "Diplomacy"
-msgstr "Diplomatie"
+msgstr "_Diplomatie"
 
 #: client/gui-gtk-2.0/menu.c:1388 client/gui-gtk-3.0/menu.c:1388
 #: client/gui-xaw/menu.c:260 client/include/helpdlg_g.h:43
 #: data/helpdata.txt:1465
 msgid "Technology"
-msgstr "Technologie"
+msgstr "_Technologie"
 
 #: client/gui-gtk-2.0/menu.c:1390 client/gui-gtk-3.0/menu.c:1390
 #: client/gui-xaw/menu.c:261 client/include/helpdlg_g.h:48
 #: data/helpdata.txt:1504
 msgid "Space Race"
-msgstr "Course à l'espace"
+msgstr "Course à l'_espace"
 
 # AR
 #: client/gui-gtk-2.0/menu.c:1392 client/gui-gtk-3.0/menu.c:1392
 #: client/gui-xaw/menu.c:262 client/include/helpdlg_g.h:35
 msgid "About Ruleset"
-msgstr "À propos des règles du jeu"
+msgstr "_À propos des règles du jeu"
 
 #: client/gui-gtk-2.0/menu.c:1394 client/gui-gtk-3.0/menu.c:1394
 #: client/gui-xaw/menu.c:263 client/include/helpdlg_g.h:36
 #: data/helpdata.txt:1542
 msgid "About Nations"
-msgstr "A propos des Nations"
+msgstr "À propos des _nations"
 
 #: client/gui-gtk-2.0/menu.c:1397 client/gui-gtk-3.0/menu.c:1397
 #: client/gui-xaw/menu.c:265 client/include/helpdlg_g.h:30
 #: data/helpdata.txt:1554
 msgid "Connecting"
-msgstr "Connexion"
+msgstr "Conne_xion"
 
 #: client/gui-gtk-2.0/menu.c:1399 client/gui-gtk-3.0/menu.c:1399
 #: client/gui-xaw/menu.c:266 client/include/helpdlg_g.h:34
 #: data/helpdata.txt:1581
 msgid "Controls"
-msgstr "Contrôles"
+msgstr "Contr_ôles"
 
 #: client/gui-gtk-2.0/menu.c:1403 client/gui-gtk-3.0/menu.c:1403
 #: client/gui-xaw/menu.c:268 client/include/helpdlg_g.h:31
 #: data/helpdata.txt:1802
 msgid "Chatline"
-msgstr "Discussion"
+msgstr "_Discussion"
 
 #: client/gui-gtk-2.0/menu.c:1405 client/gui-gtk-3.0/menu.c:1405
 #: client/gui-xaw/menu.c:269 client/include/helpdlg_g.h:32
 #: data/helpdata.txt:1915
 msgid "Worklist Editor"
-msgstr "Éditeur de liste de travail"
+msgstr "Édite_ur de liste de travail"
 
 #: client/gui-gtk-2.0/menu.c:1408 client/gui-gtk-3.0/menu.c:1408
 #: client/gui-xaw/menu.c:271 client/include/helpdlg_g.h:29
 #: data/helpdata.txt:1939
 msgid "Languages"
-msgstr "Langues"
+msgstr "_Langues"
 
 #: client/gui-gtk-2.0/menu.c:1410 client/gui-gtk-3.0/menu.c:1410
 #: client/gui-qt/fc_client.cpp:125 client/gui-xaw/menu.c:272
 #: client/include/helpdlg_g.h:49 data/helpdata.txt:1969
 msgid "Copying"
-msgstr "Licence"
+msgstr "L_icence"
 
 #: client/gui-gtk-2.0/menu.c:1412 client/gui-gtk-3.0/menu.c:1412
 #: client/gui-xaw/menu.c:273 client/include/helpdlg_g.h:50
 #: data/helpdata.txt:2271
 msgid "About Freeciv"
-msgstr "À propos de Freeciv"
+msgstr "À propos de _Freeciv"
 
 #: client/gui-gtk-2.0/menu.c:1418 client/gui-gtk-3.0/menu.c:1418
 msgid "Save Options on _Exit"
@@ -4170,11 +4170,11 @@ msgstr "Mode _édition"
 
 #: client/gui-gtk-2.0/menu.c:1426 client/gui-gtk-3.0/menu.c:1426
 msgid "Cit_y Outlines"
-msgstr "Contours des villes"
+msgstr "C_ontours des villes"
 
 #: client/gui-gtk-2.0/menu.c:1428 client/gui-gtk-3.0/menu.c:1428
 msgid "City Output"
-msgstr "Collectes des villes"
+msgstr "Collectes _des villes"
 
 #: client/gui-gtk-2.0/menu.c:1430 client/gui-gtk-3.0/menu.c:1430
 msgid "Map _Grid"
@@ -4186,32 +4186,32 @@ msgstr "_Frontières nationales"
 
 #: client/gui-gtk-2.0/menu.c:1435 client/gui-gtk-3.0/menu.c:1435
 msgid "Native Tiles"
-msgstr "Tuiles d'origine"
+msgstr "Cases _accessibles"
 
 #: client/gui-gtk-2.0/menu.c:1438 client/gui-gtk-3.0/menu.c:1438
 msgid "City Full Bar"
-msgstr "Barre complète des villes"
+msgstr "_Barre complète des villes"
 
 #: client/gui-gtk-2.0/menu.c:1440 client/gui-gtk-3.0/menu.c:1440
 msgid "City _Names"
-msgstr "_Nom Ville"
+msgstr "_Noms des ville"
 
 #: client/gui-gtk-2.0/menu.c:1442 client/gui-gtk-3.0/menu.c:1442
 msgid "City G_rowth"
-msgstr "C_roissance de la ville"
+msgstr "Croissance de la ville"
 
 # AR
 #: client/gui-gtk-2.0/menu.c:1444 client/gui-gtk-3.0/menu.c:1444
 msgid "City _Production Levels"
-msgstr "_Production de la ville"
+msgstr "Production d_e la ville"
 
 #: client/gui-gtk-2.0/menu.c:1447 client/gui-gtk-3.0/menu.c:1447
 msgid "City Buy Cost"
-msgstr "Coût total"
+msgstr "Co_ût total"
 
 #: client/gui-gtk-2.0/menu.c:1449 client/gui-gtk-3.0/menu.c:1449
 msgid "City Tra_deroutes"
-msgstr "Routes commerciales des villes"
+msgstr "Routes co_mmerciales des villes"
 
 #: client/gui-gtk-2.0/menu.c:1453 client/gui-gtk-3.0/menu.c:1453
 msgid "_Terrain"
@@ -4219,7 +4219,7 @@ msgstr "_Terrain"
 
 #: client/gui-gtk-2.0/menu.c:1455 client/gui-gtk-3.0/menu.c:1455
 msgid "C_oastline"
-msgstr "Litt_oral"
+msgstr "_Littoral"
 
 #: client/gui-gtk-2.0/menu.c:1458 client/gui-gtk-3.0/menu.c:1458
 msgid "_Roads & Rails"
@@ -4239,15 +4239,15 @@ msgstr "_Bases"
 
 #: client/gui-gtk-2.0/menu.c:1467 client/gui-gtk-3.0/menu.c:1467
 msgid "_Specials"
-msgstr "Ressources _spéciales"
+msgstr "_Ressources spéciales"
 
 #: client/gui-gtk-2.0/menu.c:1469 client/gui-gtk-3.0/menu.c:1469
 msgid "Po_llution & Fallout"
-msgstr "Po_llution & Radiations"
+msgstr "_Pollution & Radiations"
 
 #: client/gui-gtk-2.0/menu.c:1471 client/gui-gtk-3.0/menu.c:1471
 msgid "Citi_es"
-msgstr "Vill_es"
+msgstr "_Villes"
 
 #: client/gui-gtk-2.0/menu.c:1475 client/gui-gtk-3.0/menu.c:1475
 msgid "Unit Solid Background"
@@ -4255,15 +4255,15 @@ msgstr "Couleur de fond des unités"
 
 #: client/gui-gtk-2.0/menu.c:1477 client/gui-gtk-3.0/menu.c:1477
 msgid "Unit shields"
-msgstr "Blason des unités"
+msgstr "Blason des un_ités"
 
 #: client/gui-gtk-2.0/menu.c:1479 client/gui-gtk-3.0/menu.c:1479
 msgid "Focu_s Unit"
-msgstr "Unités sélectionnées"
+msgstr "Unités _sélectionnées"
 
 #: client/gui-gtk-2.0/menu.c:1481 client/gui-gtk-3.0/menu.c:1481
 msgid "Fog of _War"
-msgstr "Champ de vision réel"
+msgstr "C_hamp de vision réel"
 
 #: client/gui-gtk-2.0/menu.c:1483 client/gui-gtk-3.0/menu.c:1483
 msgid "Better Fog of War"
@@ -4271,7 +4271,7 @@ msgstr "Champ de vision réel amélioré"
 
 #: client/gui-gtk-2.0/menu.c:1486 client/gui-gtk-3.0/menu.c:1486
 msgid "_Fullscreen"
-msgstr "Plein écran"
+msgstr "Plein _écran"
 
 #: client/gui-gtk-2.0/menu.c:1513 client/gui-gtk-3.0/menu.c:1513
 msgid "Recalculate _Borders"
@@ -4279,16 +4279,16 @@ msgstr "_Recalculer les frontières"
 
 #: client/gui-gtk-2.0/menu.c:1515 client/gui-gtk-3.0/menu.c:1515
 msgid "Toggle Fog of _War"
-msgstr "Basculer le brouillard de guerre"
+msgstr "Basculer le _brouillard de guerre"
 
 #: client/gui-gtk-2.0/menu.c:1517 client/gui-gtk-3.0/menu.c:1517
 msgid "Game/Scenario Properties"
-msgstr "Propriétés de la partie/du scenario"
+msgstr "_Propriétés de la partie/du scenario"
 
 #: client/gui-gtk-2.0/menu.c:1519 client/gui-gtk-2.0/pages.c:3244
 #: client/gui-gtk-3.0/menu.c:1519 client/gui-gtk-3.0/pages.c:3300
 msgid "Save Scenario"
-msgstr "Sauvegarder le scenario"
+msgstr "_Sauvegarder le scenario"
 
 #: client/gui-gtk-2.0/menu.c:1542 client/gui-gtk-3.0/menu.c:1542
 msgid "_Unit"
@@ -4304,15 +4304,15 @@ msgstr "_Combat"
 
 #: client/gui-gtk-2.0/menu.c:1545 client/gui-gtk-3.0/menu.c:1545
 msgid "Build _Base"
-msgstr "Construire une base"
+msgstr "_Construire une base"
 
 #: client/gui-gtk-2.0/menu.c:1550 client/gui-gtk-3.0/menu.c:1550
 msgid "_Single Unit (Unselect Others)"
-msgstr "Une seule unité (désélectionne les autres)"
+msgstr "Une _seule unité (désélectionne les autres)"
 
 #: client/gui-gtk-2.0/menu.c:1552 client/gui-gtk-3.0/menu.c:1552
 msgid "_All On Tile"
-msgstr "_Toutes les unités de la case"
+msgstr "Toutes _les unités de la case"
 
 #: client/gui-gtk-2.0/menu.c:1555 client/gui-gtk-3.0/menu.c:1555
 msgid "Same Type on _Tile"
@@ -4328,27 +4328,27 @@ msgstr "Toutes les _unités du même type sur la carte"
 
 #: client/gui-gtk-2.0/menu.c:1562 client/gui-gtk-3.0/menu.c:1562
 msgid "Unit selection dialog"
-msgstr "Dialogue de sélection de l'unité"
+msgstr "_Dialogue de sélection de l'unité"
 
 #: client/gui-gtk-2.0/menu.c:1565 client/gui-gtk-3.0/menu.c:1565
 msgid "_Wait"
-msgstr "Attendre (_W)"
+msgstr "_Attendre"
 
 #: client/gui-gtk-2.0/menu.c:1567 client/gui-gtk-3.0/menu.c:1567
 msgid "_Done"
-msgstr "Terminé"
+msgstr "_Terminé"
 
 #: client/gui-gtk-2.0/menu.c:1571 client/gui-gtk-3.0/menu.c:1571
 msgid "_Go to"
-msgstr "Aller (_G)"
+msgstr "_Aller"
 
 #: client/gui-gtk-2.0/menu.c:1573 client/gui-gtk-3.0/menu.c:1573
 msgid "Go _to/Airlift to City..."
-msgstr "Aller/Aéropor_ter dans une ville..."
+msgstr "A_ller/Aéroporter dans une ville..."
 
 #: client/gui-gtk-2.0/menu.c:1575 client/gui-gtk-3.0/menu.c:1575
 msgid "_Return to Nearest City"
-msgstr "_Retourner à la ville la plus proche"
+msgstr "Retourner _à la ville la plus proche"
 
 #: client/gui-gtk-2.0/menu.c:1577 client/gui-gtk-3.0/menu.c:1577
 msgid "Auto E_xplore"
@@ -4360,38 +4360,38 @@ msgstr "_Patrouiller"
 
 #: client/gui-gtk-2.0/menu.c:1582 client/gui-gtk-3.0/menu.c:1582
 msgid "_Sentry"
-msgstr "Veiller (_S)"
+msgstr "_Veiller"
 
 #: client/gui-gtk-2.0/menu.c:1584 client/gui-gtk-3.0/menu.c:1584
 msgid "Uns_entry All On Tile"
-msgstr "Réveiller toutes les unités de la case"
+msgstr "_Réveiller toutes les unités de la case"
 
 #: client/gui-gtk-2.0/menu.c:1587 client/gui-gtk-3.0/menu.c:1587
 msgid "_Load"
-msgstr "Charger (_L)"
+msgstr "_Charger"
 
 #: client/gui-gtk-2.0/menu.c:1589 client/gui-gtk-3.0/menu.c:1589
 msgid "_Unload"
-msgstr "Décharger (_U)"
+msgstr "_Décharger"
 
 #: client/gui-gtk-2.0/menu.c:1591 client/gui-gtk-3.0/menu.c:1591
 msgid "U_nload All From Transporter"
-msgstr "Décharger le transporteur"
+msgstr "Décharger le _transporteur"
 
 #: client/gui-gtk-2.0/menu.c:1596 client/gui-gtk-2.0/menu.c:2200
 #: client/gui-gtk-3.0/menu.c:1596 client/gui-gtk-3.0/menu.c:2199
 msgid "Upgr_ade"
-msgstr "Mettre _a niveau"
+msgstr "_Mettre à niveau"
 
 #: client/gui-gtk-2.0/menu.c:1598 client/gui-gtk-2.0/menu.c:2220
 #: client/gui-gtk-3.0/menu.c:1598 client/gui-gtk-3.0/menu.c:2219
 msgid "C_onvert"
-msgstr "C_onvertir"
+msgstr "_Convertir"
 
 #: client/gui-gtk-2.0/menu.c:1600 client/gui-gtk-2.0/repodlgs.c:1112
 #: client/gui-gtk-3.0/menu.c:1600 client/gui-gtk-3.0/repodlgs.c:1138
 msgid "_Disband"
-msgstr "Congé_dier"
+msgstr "Con_gédier"
 
 #: client/gui-gtk-2.0/menu.c:1604 client/gui-gtk-2.0/menu.c:2148
 #: client/gui-gtk-3.0/menu.c:1604 client/gui-gtk-3.0/menu.c:2147
@@ -4439,7 +4439,7 @@ msgstr "Connecter irrigation"
 #: client/gui-gtk-2.0/menu.c:2259 client/gui-gtk-3.0/menu.c:1625
 #: client/gui-gtk-3.0/menu.c:2253 client/gui-gtk-3.0/menu.c:2258
 msgid "Transf_orm Terrain"
-msgstr "Transf_ormer le terrain"
+msgstr "Trans_former le terrain"
 
 #: client/gui-gtk-2.0/menu.c:1627 client/gui-gtk-2.0/menu.c:2275
 #: client/gui-gtk-3.0/menu.c:1627 client/gui-gtk-3.0/menu.c:2274
@@ -4453,11 +4453,11 @@ msgstr "Retombées _nucléaires propres"
 #: client/gui-gtk-2.0/menu.c:1633 client/gui-gtk-2.0/menu.c:2269
 #: client/gui-gtk-3.0/menu.c:1633 client/gui-gtk-3.0/menu.c:2268
 msgid "Build Type A Base"
-msgstr "Construire une base de type A"
+msgstr "Construire une base de type _A"
 
 #: client/gui-gtk-2.0/menu.c:1635 client/gui-gtk-3.0/menu.c:1635
 msgid "Build Type B Base"
-msgstr "Construire une base de type B"
+msgstr "Construire une base de type _B"
 
 #: client/gui-gtk-2.0/menu.c:1638 client/gui-gtk-3.0/menu.c:1638
 msgid "_Pillage"
@@ -4465,7 +4465,7 @@ msgstr "_Piller"
 
 #: client/gui-gtk-2.0/menu.c:1640 client/gui-gtk-3.0/menu.c:1640
 msgid "_Diplomat/Spy Actions"
-msgstr "Actions _diplomatiques/d'espionnage       "
+msgstr "Actions _diplomatiques"
 
 #: client/gui-gtk-2.0/menu.c:1642 client/gui-gtk-3.0/menu.c:1642
 msgid "Explode _Nuclear"
@@ -4489,7 +4489,7 @@ msgstr "_Centrer la vue"
 
 #: client/gui-gtk-2.0/menu.c:1706 client/gui-gtk-3.0/menu.c:1706
 msgid "_Economy"
-msgstr "Économi_e"
+msgstr "_Économie"
 
 #: client/gui-gtk-2.0/menu.c:1708 client/gui-gtk-3.0/menu.c:1708
 msgid "_Research"
@@ -4553,11 +4553,11 @@ msgstr "Constru_ire des champs"
 #: client/gui-gtk-2.0/menu.c:2250 client/gui-gtk-3.0/menu.c:2249
 #, c-format
 msgid "Transf_orm to %s"
-msgstr "Transf_ormer en %s"
+msgstr "Trans_former en %s"
 
 #: client/gui-gtk-2.0/menu.c:2267 client/gui-gtk-3.0/menu.c:2266
 msgid "_Fortify Unit"
-msgstr "Retrancher (_f)"
+msgstr "Re_trancher"
 
 #: client/gui-gtk-2.0/menu.c:2273 client/gui-gtk-3.0/menu.c:2272
 msgid "Drop _Paratrooper"
@@ -5254,7 +5254,7 @@ msgstr "M_onde"
 #: client/gui-gtk-2.0/unitselect.c:479 client/gui-gtk-3.0/unitselect.c:481
 #: common/unit.c:707
 msgid "Sentry"
-msgstr "_Veiller"
+msgstr "En veille"
 
 #: client/gui-gtk-2.0/unitselect.c:501 client/gui-gtk-3.0/unitselect.c:503
 msgid "_Deselect"
@@ -6620,7 +6620,7 @@ msgstr "Connecter par %s (%s)"
 
 #: client/gui-sdl/menu.c:575 client/gui-xaw/menu.c:201
 msgid "Auto Explore"
-msgstr "Auto-explorer"
+msgstr "Auto-e_xplorer"
 
 #: client/gui-sdl/menu.c:587 client/gui-sdl/menu.c:1292
 #: client/gui-xaw/menu.c:200
@@ -7495,11 +7495,11 @@ msgstr "Production de la ville"
 
 #: client/gui-xaw/menu.c:154
 msgid "Coastline"
-msgstr "Littoral"
+msgstr "_Littoral"
 
 #: client/gui-xaw/menu.c:155
 msgid "Roads & Rails"
-msgstr "Routes & Chemins de Fer"
+msgstr "_Routes & Chemins de Fer"
 
 #: client/gui-xaw/menu.c:156 common/terrain.c:512 common/terrain.c:819
 #: common/unit.c:699 manual/civmanual.c:281
@@ -7508,11 +7508,11 @@ msgstr "Irrigation"
 
 #: client/gui-xaw/menu.c:157
 msgid "Mines"
-msgstr "Mines"
+msgstr "_Mines"
 
 #: client/gui-xaw/menu.c:160
 msgid "Pollution & Fallout"
-msgstr "Pollution & Radiations"
+msgstr "_Pollution & Radiations"
 
 #: client/gui-xaw/menu.c:163
 msgid "Focus Unit"
@@ -10339,20 +10339,20 @@ msgstr "Chaîne de capacités du client: %s"
 msgid "Server capability string: %s"
 msgstr "Chaîne de capacités du serveur: %s"
 
-#: client/packhand.c:1068
+#: client/packhand.c:1069
 #, c-format
 msgid "Start of turn %d"
 msgstr "Début du tour %d"
 
-#: client/packhand.c:1197
+#: client/packhand.c:1198
 msgid "Welcome"
 msgstr "Bienvenue"
 
-#: client/packhand.c:1988
+#: client/packhand.c:1995
 msgid "AI mode is now ON."
 msgstr "L'IA est maintenant activée."
 
-#: client/packhand.c:1990
+#: client/packhand.c:1997
 msgid "AI mode is now OFF."
 msgstr "L'IA est maintenant désactivée."
 
@@ -12412,9 +12412,9 @@ msgstr "Mine"
 msgid "Hut"
 msgstr "Hutte"
 
-#: common/terrain.c:517 common/unit.c:705 data/civ1/terrain.ruleset:730
-#: data/civ2/terrain.ruleset:842 data/default/terrain.ruleset:956
-#: data/experimental/terrain.ruleset:958 data/multiplayer/terrain.ruleset:956
+#: common/terrain.c:517 common/unit.c:705 data/civ1/terrain.ruleset:729
+#: data/civ2/terrain.ruleset:841 data/default/terrain.ruleset:955
+#: data/experimental/terrain.ruleset:957 data/multiplayer/terrain.ruleset:955
 msgid "Fortress"
 msgstr "Forteresse"
 
@@ -12426,9 +12426,9 @@ msgstr "Rivière"
 msgid "Farmland"
 msgstr "Champs"
 
-#: common/terrain.c:520 common/unit.c:717 data/civ2/terrain.ruleset:864
-#: data/default/terrain.ruleset:980 data/experimental/terrain.ruleset:982
-#: data/multiplayer/terrain.ruleset:980
+#: common/terrain.c:520 common/unit.c:717 data/civ2/terrain.ruleset:863
+#: data/default/terrain.ruleset:979 data/experimental/terrain.ruleset:981
+#: data/multiplayer/terrain.ruleset:979
 msgid "Airbase"
 msgstr "Base aérienne"
 
@@ -13096,12 +13096,12 @@ msgid "Temple"
 msgstr "Temple"
 
 #: data/civ1/buildings.ruleset:617 data/civ2/buildings.ruleset:922
-#: data/default/buildings.ruleset:981 data/experimental/buildings.ruleset:1036
-#: data/multiplayer/buildings.ruleset:961
+#, fuzzy
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
-"effect.  With both Mysticism and the Oracle, 4 citizens are made content.  "
-"Does not affect citizens made unhappy by military activity."
+"effect, as does Oracle wonder.  With both Mysticism and the Oracle, 4 "
+"citizens are made content.  Does not affect citizens made unhappy by "
+"military activity."
 msgstr ""
 "Rend content un habitant mécontent. Le Mysticisme et la merveille de "
 "l'Oracle doublent cet effet. Ensemble, ce sont 4 habitants qui sont rendus "
@@ -13359,26 +13359,25 @@ msgid "Oracle"
 msgstr "Oracle"
 
 #: data/civ1/buildings.ruleset:965 data/civ2/buildings.ruleset:1377
-#: data/default/buildings.ruleset:1444
-#: data/experimental/buildings.ruleset:1501
+#, fuzzy
 msgid ""
-"Makes two additional unhappy citizens content in every city with a Temple.  "
-"Does not affect citizens made unhappy by military activity."
+"Doubles the effect of a Temple in every city. Does not affect citizens made "
+"unhappy by military activity."
 msgstr ""
 "Rend contents deux citoyens mécontents supplémentaires dans chacune de vos "
 "villes qui se trouvent sur le continent où la merveille a été construite. "
 "Cela n'a aucun effet sur les citoyens rendus mécontent à cause des activités "
 "militaires."
 
-#: data/civ1/buildings.ruleset:972 data/civ2/buildings.ruleset:1384
+#: data/civ1/buildings.ruleset:971 data/civ2/buildings.ruleset:1383
 #: data/default/buildings.ruleset:1451
 #: data/experimental/buildings.ruleset:1508
 #: data/multiplayer/buildings.ruleset:1427
 msgid "Pyramids"
 msgstr "Pyramides"
 
-#: data/civ1/buildings.ruleset:986 data/civ1/buildings.ruleset:1048
-#: data/civ2/buildings.ruleset:1459 data/default/buildings.ruleset:1528
+#: data/civ1/buildings.ruleset:985 data/civ1/buildings.ruleset:1047
+#: data/civ2/buildings.ruleset:1458 data/default/buildings.ruleset:1528
 #: data/experimental/buildings.ruleset:1585
 #: data/multiplayer/buildings.ruleset:1504
 msgid ""
@@ -13390,25 +13389,25 @@ msgstr ""
 "encore été trouvés par votre peuple, et ce, sans la période d'Anarchie de "
 "transition."
 
-#: data/civ1/buildings.ruleset:993 data/civ2/buildings.ruleset:1403
+#: data/civ1/buildings.ruleset:992 data/civ2/buildings.ruleset:1402
 #: data/default/buildings.ruleset:1473
 #: data/experimental/buildings.ruleset:1530
 msgid "SETI Program"
 msgstr "Programme SETI"
 
-#: data/civ1/buildings.ruleset:1008
+#: data/civ1/buildings.ruleset:1007
 #, no-c-format
 msgid "Boosts science production in each city by 50%."
 msgstr "Augmente la production de science dans chaque ville de 50%."
 
-#: data/civ1/buildings.ruleset:1013 data/civ2/buildings.ruleset:1424
+#: data/civ1/buildings.ruleset:1012 data/civ2/buildings.ruleset:1423
 #: data/default/buildings.ruleset:1493
 #: data/experimental/buildings.ruleset:1550
 #: data/multiplayer/buildings.ruleset:1469
 msgid "Shakespeare's Theater"
 msgstr "Théâtre Shakespeare"
 
-#: data/civ1/buildings.ruleset:1028 data/civ2/buildings.ruleset:1439
+#: data/civ1/buildings.ruleset:1027 data/civ2/buildings.ruleset:1438
 #: data/default/buildings.ruleset:1508
 #: data/experimental/buildings.ruleset:1565
 #: data/multiplayer/buildings.ruleset:1484
@@ -13420,21 +13419,21 @@ msgstr ""
 "laquelle il est situé, incluant les citoyens rendus mécontent à cause des "
 "activités militaires."
 
-#: data/civ1/buildings.ruleset:1034 data/civ2/buildings.ruleset:1488
+#: data/civ1/buildings.ruleset:1033 data/civ2/buildings.ruleset:1487
 #: data/default/buildings.ruleset:1556
 #: data/experimental/buildings.ruleset:1613
 #: data/multiplayer/buildings.ruleset:1531
 msgid "United Nations"
 msgstr "Nations Unies"
 
-#: data/civ1/buildings.ruleset:1060 data/civ2/buildings.ruleset:1515
+#: data/civ1/buildings.ruleset:1059 data/civ2/buildings.ruleset:1514
 #: data/default/buildings.ruleset:1583
 #: data/experimental/buildings.ruleset:1640
 #: data/multiplayer/buildings.ruleset:1552
 msgid "Women's Suffrage"
 msgstr "Vote des femmes"
 
-#: data/civ1/buildings.ruleset:1074
+#: data/civ1/buildings.ruleset:1073
 msgid ""
 "In all cities, the unhappiness effect of every unit is reduced by 1. This "
 "means that in a Republic, units do not cause unhappiness, and in a "
@@ -15190,18 +15189,14 @@ msgid "Ocean"
 msgstr "Océan"
 
 #: data/civ1/terrain.ruleset:216 data/civ2/terrain.ruleset:224
-msgid ""
-"Oceans cover much of the world, and only sea units (Triremes and other "
-"boats) can travel on them."
+msgid "Oceans cover much of the world."
 msgstr ""
-"Les océans couvrent la plus grande partie du monde et seules les unités "
-"marines (Trirèmes et autres bateaux) peuvent voyager dessus."
 
-#: data/civ1/terrain.ruleset:222
+#: data/civ1/terrain.ruleset:221
 msgid "Arctic"
 msgstr "Arctique"
 
-#: data/civ1/terrain.ruleset:252
+#: data/civ1/terrain.ruleset:251
 msgid ""
 "Arctic tiles are found only in the most northerly or southerly reaches of "
 "the world.  They are very cold, and hence difficult to work with."
@@ -15209,15 +15204,15 @@ msgstr ""
 "Les parcelles arctiques ne se trouvent qu'aux abords des deux pôles. Elles "
 "sont gelées et ne se prêtent guère à une quelconque exploitation."
 
-#: data/civ1/terrain.ruleset:259 data/civ2/terrain.ruleset:267
-#: data/default/terrain.ruleset:355 data/experimental/terrain.ruleset:357
-#: data/multiplayer/terrain.ruleset:355
+#: data/civ1/terrain.ruleset:258 data/civ2/terrain.ruleset:266
+#: data/default/terrain.ruleset:354 data/experimental/terrain.ruleset:356
+#: data/multiplayer/terrain.ruleset:354
 msgid "Desert"
 msgstr "Désert"
 
-#: data/civ1/terrain.ruleset:290 data/civ2/terrain.ruleset:299
-#: data/default/terrain.ruleset:390 data/experimental/terrain.ruleset:392
-#: data/multiplayer/terrain.ruleset:390
+#: data/civ1/terrain.ruleset:289 data/civ2/terrain.ruleset:298
+#: data/default/terrain.ruleset:389 data/experimental/terrain.ruleset:391
+#: data/multiplayer/terrain.ruleset:389
 msgid ""
 "Deserts are regions of extreme dryness, making agriculture and trade very "
 "difficult."
@@ -15225,41 +15220,41 @@ msgstr ""
 "Les déserts sont des régions de sécheresse extrême, rendant l'agriculture et "
 "le commerce difficile."
 
-#: data/civ1/terrain.ruleset:296 data/civ2/terrain.ruleset:305
-#: data/default/terrain.ruleset:396 data/experimental/terrain.ruleset:398
-#: data/multiplayer/terrain.ruleset:396
+#: data/civ1/terrain.ruleset:295 data/civ2/terrain.ruleset:304
+#: data/default/terrain.ruleset:395 data/experimental/terrain.ruleset:397
+#: data/multiplayer/terrain.ruleset:395
 msgid "Forest"
 msgstr "Forêt"
 
-#: data/civ1/terrain.ruleset:329 data/civ2/terrain.ruleset:338
-#: data/default/terrain.ruleset:432 data/experimental/terrain.ruleset:434
-#: data/multiplayer/terrain.ruleset:432
+#: data/civ1/terrain.ruleset:328 data/civ2/terrain.ruleset:337
+#: data/default/terrain.ruleset:431 data/experimental/terrain.ruleset:433
+#: data/multiplayer/terrain.ruleset:431
 msgid "Forests are densely wooded, making agriculture somewhat problematic."
 msgstr ""
 "Les forêts sont des zones fortement boisées, rendant la pratique de "
 "l'agriculture problématique."
 
-#: data/civ1/terrain.ruleset:335 data/civ2/terrain.ruleset:344
-#: data/default/terrain.ruleset:438 data/experimental/terrain.ruleset:440
-#: data/multiplayer/terrain.ruleset:438
+#: data/civ1/terrain.ruleset:334 data/civ2/terrain.ruleset:343
+#: data/default/terrain.ruleset:437 data/experimental/terrain.ruleset:439
+#: data/multiplayer/terrain.ruleset:437
 msgid "Grassland"
 msgstr "Prairie"
 
-#: data/civ1/terrain.ruleset:366 data/civ2/terrain.ruleset:375
-#: data/default/terrain.ruleset:472 data/experimental/terrain.ruleset:474
-#: data/multiplayer/terrain.ruleset:472
+#: data/civ1/terrain.ruleset:365 data/civ2/terrain.ruleset:374
+#: data/default/terrain.ruleset:471 data/experimental/terrain.ruleset:473
+#: data/multiplayer/terrain.ruleset:471
 msgid "Grasslands afford exceptional agricultural opportunities."
 msgstr "Les prairies offrent des conditions de culture exceptionnelles."
 
-#: data/civ1/terrain.ruleset:371 data/civ2/terrain.ruleset:380
-#: data/default/terrain.ruleset:477 data/experimental/terrain.ruleset:479
-#: data/multiplayer/terrain.ruleset:477
+#: data/civ1/terrain.ruleset:370 data/civ2/terrain.ruleset:379
+#: data/default/terrain.ruleset:476 data/experimental/terrain.ruleset:478
+#: data/multiplayer/terrain.ruleset:476
 msgid "Hills"
 msgstr "Collines"
 
-#: data/civ1/terrain.ruleset:402 data/civ2/terrain.ruleset:411
-#: data/default/terrain.ruleset:511 data/experimental/terrain.ruleset:513
-#: data/multiplayer/terrain.ruleset:511
+#: data/civ1/terrain.ruleset:401 data/civ2/terrain.ruleset:410
+#: data/default/terrain.ruleset:510 data/experimental/terrain.ruleset:512
+#: data/multiplayer/terrain.ruleset:510
 msgid ""
 "In addition to being amenable to agriculture, Hills are frequently rich in "
 "resources."
@@ -15268,30 +15263,30 @@ msgstr ""
 "souvent riches en ressources naturelles."
 
 # AR
-#: data/civ1/terrain.ruleset:408 data/civ2/terrain.ruleset:417
-#: data/default/terrain.ruleset:517 data/experimental/terrain.ruleset:519
-#: data/multiplayer/terrain.ruleset:517
+#: data/civ1/terrain.ruleset:407 data/civ2/terrain.ruleset:416
+#: data/default/terrain.ruleset:516 data/experimental/terrain.ruleset:518
+#: data/multiplayer/terrain.ruleset:516
 msgid "Jungle"
 msgstr "Jungle"
 
-#: data/civ1/terrain.ruleset:438 data/civ2/terrain.ruleset:449
-#: data/default/terrain.ruleset:552 data/experimental/terrain.ruleset:554
-#: data/multiplayer/terrain.ruleset:552
+#: data/civ1/terrain.ruleset:437 data/civ2/terrain.ruleset:448
+#: data/default/terrain.ruleset:551 data/experimental/terrain.ruleset:553
+#: data/multiplayer/terrain.ruleset:551
 msgid "Jungles are densely overgrown, making agriculture somewhat problematic."
 msgstr ""
 "Les jungles sont couvertes d'une végétation luxuriante, rendant "
 "l'agriculture problématique."
 
 # AR
-#: data/civ1/terrain.ruleset:444 data/civ2/terrain.ruleset:455
-#: data/default/terrain.ruleset:558 data/experimental/terrain.ruleset:560
-#: data/multiplayer/terrain.ruleset:558
+#: data/civ1/terrain.ruleset:443 data/civ2/terrain.ruleset:454
+#: data/default/terrain.ruleset:557 data/experimental/terrain.ruleset:559
+#: data/multiplayer/terrain.ruleset:557
 msgid "Mountains"
 msgstr "Montagnes"
 
-#: data/civ1/terrain.ruleset:473 data/civ2/terrain.ruleset:485
-#: data/default/terrain.ruleset:591 data/experimental/terrain.ruleset:593
-#: data/multiplayer/terrain.ruleset:591
+#: data/civ1/terrain.ruleset:472 data/civ2/terrain.ruleset:484
+#: data/default/terrain.ruleset:590 data/experimental/terrain.ruleset:592
+#: data/multiplayer/terrain.ruleset:590
 msgid ""
 "Mountains are regions of extreme altitude, making agriculture and trade very "
 "difficult."
@@ -15299,15 +15294,15 @@ msgstr ""
 "Les montagnes sont des régions de très haute altitude, rendant "
 "l'agriculture  et le commerce très difficile."
 
-#: data/civ1/terrain.ruleset:479 data/civ2/terrain.ruleset:491
-#: data/default/terrain.ruleset:597 data/experimental/terrain.ruleset:599
-#: data/multiplayer/terrain.ruleset:597
+#: data/civ1/terrain.ruleset:478 data/civ2/terrain.ruleset:490
+#: data/default/terrain.ruleset:596 data/experimental/terrain.ruleset:598
+#: data/multiplayer/terrain.ruleset:596
 msgid "Plains"
 msgstr "Plaines"
 
-#: data/civ1/terrain.ruleset:510 data/civ2/terrain.ruleset:523
-#: data/default/terrain.ruleset:631 data/experimental/terrain.ruleset:633
-#: data/multiplayer/terrain.ruleset:631
+#: data/civ1/terrain.ruleset:509 data/civ2/terrain.ruleset:522
+#: data/default/terrain.ruleset:630 data/experimental/terrain.ruleset:632
+#: data/multiplayer/terrain.ruleset:630
 msgid ""
 "Plains are very broad, sparse regions, which makes trade slightly "
 "inconvenient."
@@ -15315,15 +15310,15 @@ msgstr ""
 "Les plaines forment de vastes régions clairsemées, gênant quelque peu le "
 "commerce."
 
-#: data/civ1/terrain.ruleset:516 data/civ2/terrain.ruleset:529
-#: data/default/terrain.ruleset:637 data/experimental/terrain.ruleset:639
-#: data/multiplayer/terrain.ruleset:637
+#: data/civ1/terrain.ruleset:515 data/civ2/terrain.ruleset:528
+#: data/default/terrain.ruleset:636 data/experimental/terrain.ruleset:638
+#: data/multiplayer/terrain.ruleset:636
 msgid "Swamp"
 msgstr "Marécage"
 
-#: data/civ1/terrain.ruleset:548 data/civ2/terrain.ruleset:562
-#: data/default/terrain.ruleset:673 data/experimental/terrain.ruleset:675
-#: data/multiplayer/terrain.ruleset:673
+#: data/civ1/terrain.ruleset:547 data/civ2/terrain.ruleset:561
+#: data/default/terrain.ruleset:672 data/experimental/terrain.ruleset:674
+#: data/multiplayer/terrain.ruleset:672
 msgid ""
 "Swamps suffer from an over-abundance of water, making agriculture somewhat "
 "problematic."
@@ -15331,72 +15326,72 @@ msgstr ""
 "Les marécages souffrent d'un excès d'eau, rendant l'agriculture plutôt "
 "problématique."
 
-#: data/civ1/terrain.ruleset:554 data/civ2/terrain.ruleset:568
-#: data/default/terrain.ruleset:679 data/experimental/terrain.ruleset:681
-#: data/multiplayer/terrain.ruleset:679
+#: data/civ1/terrain.ruleset:553 data/civ2/terrain.ruleset:567
+#: data/default/terrain.ruleset:678 data/experimental/terrain.ruleset:680
+#: data/multiplayer/terrain.ruleset:678
 msgid "Tundra"
 msgstr "Toundra"
 
-#: data/civ1/terrain.ruleset:584 data/civ2/terrain.ruleset:598
-#: data/default/terrain.ruleset:712 data/experimental/terrain.ruleset:714
-#: data/multiplayer/terrain.ruleset:712
+#: data/civ1/terrain.ruleset:583 data/civ2/terrain.ruleset:597
+#: data/default/terrain.ruleset:711 data/experimental/terrain.ruleset:713
+#: data/multiplayer/terrain.ruleset:711
 msgid ""
 "Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr ""
 "La toundra est une vaste région froide, qui accepte tout juste un peu "
 "d'agriculture."
 
-#: data/civ1/terrain.ruleset:617 data/civ2/terrain.ruleset:639
-#: data/default/terrain.ruleset:753 data/experimental/terrain.ruleset:755
-#: data/multiplayer/terrain.ruleset:753
+#: data/civ1/terrain.ruleset:616 data/civ2/terrain.ruleset:638
+#: data/default/terrain.ruleset:752 data/experimental/terrain.ruleset:754
+#: data/multiplayer/terrain.ruleset:752
 msgid "?animals:Game"
 msgstr "Gibier"
 
-#: data/civ1/terrain.ruleset:625 data/civ2/terrain.ruleset:657
-#: data/default/terrain.ruleset:771 data/experimental/terrain.ruleset:773
-#: data/multiplayer/terrain.ruleset:771
+#: data/civ1/terrain.ruleset:624 data/civ2/terrain.ruleset:656
+#: data/default/terrain.ruleset:770 data/experimental/terrain.ruleset:772
+#: data/multiplayer/terrain.ruleset:770
 msgid "Coal"
 msgstr "Charbon"
 
-#: data/civ1/terrain.ruleset:633 data/civ2/terrain.ruleset:669
-#: data/default/terrain.ruleset:779 data/experimental/terrain.ruleset:781
-#: data/multiplayer/terrain.ruleset:779
+#: data/civ1/terrain.ruleset:632 data/civ2/terrain.ruleset:668
+#: data/default/terrain.ruleset:778 data/experimental/terrain.ruleset:780
+#: data/multiplayer/terrain.ruleset:778
 msgid "Fish"
 msgstr "Poisson"
 
-#: data/civ1/terrain.ruleset:641 data/civ2/terrain.ruleset:686
-#: data/default/terrain.ruleset:796 data/experimental/terrain.ruleset:798
-#: data/multiplayer/terrain.ruleset:796
+#: data/civ1/terrain.ruleset:640 data/civ2/terrain.ruleset:685
+#: data/default/terrain.ruleset:795 data/experimental/terrain.ruleset:797
+#: data/multiplayer/terrain.ruleset:795
 msgid "Gems"
 msgstr "Diamants"
 
-#: data/civ1/terrain.ruleset:649
+#: data/civ1/terrain.ruleset:648
 msgid "Horses"
 msgstr "Chevaux"
 
-#: data/civ1/terrain.ruleset:657 data/civ2/terrain.ruleset:710
-#: data/default/terrain.ruleset:828 data/experimental/terrain.ruleset:830
-#: data/multiplayer/terrain.ruleset:828
+#: data/civ1/terrain.ruleset:656 data/civ2/terrain.ruleset:709
+#: data/default/terrain.ruleset:827 data/experimental/terrain.ruleset:829
+#: data/multiplayer/terrain.ruleset:827
 msgid "Oasis"
 msgstr "Oasis"
 
-#: data/civ1/terrain.ruleset:665 data/civ2/terrain.ruleset:786
-#: data/civ2/terrain.ruleset:794 data/default/terrain.ruleset:908
-#: data/experimental/terrain.ruleset:910 data/multiplayer/terrain.ruleset:908
+#: data/civ1/terrain.ruleset:664 data/civ2/terrain.ruleset:785
+#: data/civ2/terrain.ruleset:793 data/default/terrain.ruleset:907
+#: data/experimental/terrain.ruleset:909 data/multiplayer/terrain.ruleset:907
 msgid "Oil"
 msgstr "Pétrole"
 
-#: data/civ1/terrain.ruleset:673 data/civ2/terrain.ruleset:734
-#: data/default/terrain.ruleset:854 data/experimental/terrain.ruleset:856
-#: data/multiplayer/terrain.ruleset:854 manual/civmanual.c:278
+#: data/civ1/terrain.ruleset:672 data/civ2/terrain.ruleset:733
+#: data/default/terrain.ruleset:853 data/experimental/terrain.ruleset:855
+#: data/multiplayer/terrain.ruleset:853 manual/civmanual.c:278
 msgid "Resources"
 msgstr "Ressources"
 
-#: data/civ1/terrain.ruleset:681
+#: data/civ1/terrain.ruleset:680
 msgid "Seals"
 msgstr "Phoques"
 
-#: data/civ1/terrain.ruleset:745
+#: data/civ1/terrain.ruleset:744
 msgid "Fortresses improve defense for land units."
 msgstr "Les forteresses améliorent la défense des unités terrestres."
 
@@ -16645,11 +16640,11 @@ msgstr ""
 "l'effet d'une Cathédrale, en réduisant de un le nombre de citoyens "
 "mécontents rendus contents."
 
-#: data/civ2/buildings.ruleset:1398
+#: data/civ2/buildings.ruleset:1397
 msgid "Counts as having a Granary in every city."
 msgstr "Est équivalent à avoir un grenier dans chaque ville."
 
-#: data/civ2/buildings.ruleset:1418
+#: data/civ2/buildings.ruleset:1417
 #, no-c-format
 msgid ""
 "Boosts science production in each city with a Library by 50%.  (Counts as "
@@ -16659,19 +16654,19 @@ msgstr ""
 "bibliothèque (compte comme si vous aviez un Laboratoire de recherche dans "
 "chacune de vos villes.)"
 
-#: data/civ2/buildings.ruleset:1445 data/default/buildings.ruleset:1514
+#: data/civ2/buildings.ruleset:1444 data/default/buildings.ruleset:1514
 #: data/experimental/buildings.ruleset:1571
 #: data/multiplayer/buildings.ruleset:1490
 msgid "Statue of Liberty"
 msgstr "Statue de la Liberté"
 
-#: data/civ2/buildings.ruleset:1466 data/default/buildings.ruleset:1535
+#: data/civ2/buildings.ruleset:1465 data/default/buildings.ruleset:1535
 #: data/experimental/buildings.ruleset:1592
 #: data/multiplayer/buildings.ruleset:1511
 msgid "Sun Tzu's War Academy"
 msgstr "École de guerre Sun Tzu"
 
-#: data/civ2/buildings.ruleset:1481
+#: data/civ2/buildings.ruleset:1480
 #, no-c-format
 msgid ""
 "All your new military land units become veterans (for all cities).  The "
@@ -16682,13 +16677,13 @@ msgstr ""
 "villes). Les chances pour qu'une unité devenienne vétérane après une "
 "bataille augmentent de 50% à 100%."
 
-#: data/civ2/buildings.ruleset:1502 data/default/buildings.ruleset:1570
+#: data/civ2/buildings.ruleset:1501 data/default/buildings.ruleset:1570
 #: data/experimental/buildings.ruleset:1627
 msgid "All your units regain two extra hitpoints per turn."
 msgstr ""
 "Toutes les unités regagnent deux points de vie supplémentaires par tour."
 
-#: data/civ2/buildings.ruleset:1529 data/default/buildings.ruleset:1597
+#: data/civ2/buildings.ruleset:1528 data/default/buildings.ruleset:1597
 #: data/experimental/buildings.ruleset:1654
 msgid ""
 "Counts as a Police Station in every city. (That is, for each city, it "
@@ -16702,11 +16697,11 @@ msgstr ""
 "territoire est diminué de 2 sous une Démocratie, et de 1 sous une "
 "République. Cette merveille n'a pas d'effet sous les autres gouvernements.)"
 
-#: data/civ2/buildings.ruleset:1539
+#: data/civ2/buildings.ruleset:1538
 msgid "Capitalization"
 msgstr "Capitalisation"
 
-#: data/civ2/buildings.ruleset:1552
+#: data/civ2/buildings.ruleset:1551
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Capitalization means its shield production is converted to tax output "
@@ -17399,14 +17394,14 @@ msgstr ""
 "possédant une rivière que si votre civilisation a appris la technologie "
 "Construction de ponts."
 
-#: data/civ2/terrain.ruleset:230 data/default/terrain.ruleset:315
-#: data/experimental/terrain.ruleset:317 data/multiplayer/terrain.ruleset:315
+#: data/civ2/terrain.ruleset:229 data/default/terrain.ruleset:314
+#: data/experimental/terrain.ruleset:316 data/multiplayer/terrain.ruleset:314
 msgid "Glacier"
 msgstr "Glacier"
 
 # AR
-#: data/civ2/terrain.ruleset:260 data/default/terrain.ruleset:348
-#: data/experimental/terrain.ruleset:350 data/multiplayer/terrain.ruleset:348
+#: data/civ2/terrain.ruleset:259 data/default/terrain.ruleset:347
+#: data/experimental/terrain.ruleset:349 data/multiplayer/terrain.ruleset:347
 msgid ""
 "Glaciers are found only in the most northerly or southerly reaches of the "
 "world.  They are very cold, and hence difficult to work with."
@@ -17414,67 +17409,67 @@ msgstr ""
 "Les glaciers ne se trouvent qu'aux abords des deux pôles. Le froid qui y "
 "règne les rend difficiles à exploiter."
 
-#: data/civ2/terrain.ruleset:631 data/default/terrain.ruleset:745
-#: data/experimental/terrain.ruleset:747 data/multiplayer/terrain.ruleset:745
+#: data/civ2/terrain.ruleset:630 data/default/terrain.ruleset:744
+#: data/experimental/terrain.ruleset:746 data/multiplayer/terrain.ruleset:744
 msgid "Iron"
 msgstr "Fer"
 
-#: data/civ2/terrain.ruleset:648 data/default/terrain.ruleset:762
-#: data/experimental/terrain.ruleset:764 data/multiplayer/terrain.ruleset:762
+#: data/civ2/terrain.ruleset:647 data/default/terrain.ruleset:761
+#: data/experimental/terrain.ruleset:763 data/multiplayer/terrain.ruleset:761
 msgid "Furs"
 msgstr "Fourrures"
 
-#: data/civ2/terrain.ruleset:677 data/default/terrain.ruleset:787
-#: data/experimental/terrain.ruleset:789 data/multiplayer/terrain.ruleset:787
+#: data/civ2/terrain.ruleset:676 data/default/terrain.ruleset:786
+#: data/experimental/terrain.ruleset:788 data/multiplayer/terrain.ruleset:786
 msgid "Fruit"
 msgstr "Fruit"
 
-#: data/civ2/terrain.ruleset:694 data/default/terrain.ruleset:806
-#: data/experimental/terrain.ruleset:808 data/multiplayer/terrain.ruleset:806
+#: data/civ2/terrain.ruleset:693 data/default/terrain.ruleset:805
+#: data/experimental/terrain.ruleset:807 data/multiplayer/terrain.ruleset:805
 msgid "Buffalo"
 msgstr "Bison"
 
-#: data/civ2/terrain.ruleset:702 data/default/terrain.ruleset:814
-#: data/experimental/terrain.ruleset:816 data/multiplayer/terrain.ruleset:814
+#: data/civ2/terrain.ruleset:701 data/default/terrain.ruleset:813
+#: data/experimental/terrain.ruleset:815 data/multiplayer/terrain.ruleset:813
 msgid "Wheat"
 msgstr "Blé"
 
-#: data/civ2/terrain.ruleset:718 data/default/terrain.ruleset:836
-#: data/experimental/terrain.ruleset:838 data/multiplayer/terrain.ruleset:836
+#: data/civ2/terrain.ruleset:717 data/default/terrain.ruleset:835
+#: data/experimental/terrain.ruleset:837 data/multiplayer/terrain.ruleset:835
 msgid "Peat"
 msgstr "Tourbe"
 
-#: data/civ2/terrain.ruleset:726 data/default/terrain.ruleset:844
-#: data/experimental/terrain.ruleset:846 data/multiplayer/terrain.ruleset:844
+#: data/civ2/terrain.ruleset:725 data/default/terrain.ruleset:843
+#: data/experimental/terrain.ruleset:845 data/multiplayer/terrain.ruleset:843
 msgid "Pheasant"
 msgstr "Faisan"
 
-#: data/civ2/terrain.ruleset:742 data/default/terrain.ruleset:862
-#: data/experimental/terrain.ruleset:864 data/multiplayer/terrain.ruleset:862
+#: data/civ2/terrain.ruleset:741 data/default/terrain.ruleset:861
+#: data/experimental/terrain.ruleset:863 data/multiplayer/terrain.ruleset:861
 msgid "Ivory"
 msgstr "Ivoire"
 
-#: data/civ2/terrain.ruleset:752 data/default/terrain.ruleset:872
-#: data/experimental/terrain.ruleset:874 data/multiplayer/terrain.ruleset:872
+#: data/civ2/terrain.ruleset:751 data/default/terrain.ruleset:871
+#: data/experimental/terrain.ruleset:873 data/multiplayer/terrain.ruleset:871
 msgid "Silk"
 msgstr "Soie"
 
-#: data/civ2/terrain.ruleset:760 data/default/terrain.ruleset:880
-#: data/experimental/terrain.ruleset:882 data/multiplayer/terrain.ruleset:880
+#: data/civ2/terrain.ruleset:759 data/default/terrain.ruleset:879
+#: data/experimental/terrain.ruleset:881 data/multiplayer/terrain.ruleset:879
 msgid "Spice"
 msgstr "Épice"
 
-#: data/civ2/terrain.ruleset:769 data/default/terrain.ruleset:891
-#: data/experimental/terrain.ruleset:893 data/multiplayer/terrain.ruleset:891
+#: data/civ2/terrain.ruleset:768 data/default/terrain.ruleset:890
+#: data/experimental/terrain.ruleset:892 data/multiplayer/terrain.ruleset:890
 msgid "Whales"
 msgstr "Baleines"
 
-#: data/civ2/terrain.ruleset:778 data/default/terrain.ruleset:900
-#: data/experimental/terrain.ruleset:902 data/multiplayer/terrain.ruleset:900
+#: data/civ2/terrain.ruleset:777 data/default/terrain.ruleset:899
+#: data/experimental/terrain.ruleset:901 data/multiplayer/terrain.ruleset:899
 msgid "Wine"
 msgstr "Vin"
 
-#: data/civ2/terrain.ruleset:857
+#: data/civ2/terrain.ruleset:856
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
@@ -17484,8 +17479,8 @@ msgstr ""
 "effets, une unité qui reste dans une forteresse sans bouger pendant un tour "
 "récupère un quart de ses points de vie."
 
-#: data/civ2/terrain.ruleset:878 data/default/terrain.ruleset:994
-#: data/experimental/terrain.ruleset:996 data/multiplayer/terrain.ruleset:994
+#: data/civ2/terrain.ruleset:877 data/default/terrain.ruleset:993
+#: data/experimental/terrain.ruleset:995 data/multiplayer/terrain.ruleset:993
 msgid ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
@@ -18206,6 +18201,18 @@ msgstr ""
 "usine a un bonus de production de 150% et élimine toute la pollution générée "
 "par la production de cette ville."
 
+#: data/default/buildings.ruleset:981 data/experimental/buildings.ruleset:1036
+#: data/multiplayer/buildings.ruleset:961
+msgid ""
+"Makes one unhappy citizen content.  The Mysticism advance doubles this "
+"effect.  With both Mysticism and the Oracle, 4 citizens are made content.  "
+"Does not affect citizens made unhappy by military activity."
+msgstr ""
+"Rend content un habitant mécontent. Le Mysticisme et la merveille de "
+"l'Oracle doublent cet effet. Ensemble, ce sont 4 habitants qui sont rendus "
+"contents. Cela n'a aucun effet sur les citoyens rendus mécontent à cause des "
+"activités militaires."
+
 #: data/default/buildings.ruleset:1005
 #: data/experimental/buildings.ruleset:1062
 #: data/multiplayer/buildings.ruleset:985
@@ -18271,6 +18278,17 @@ msgstr ""
 #: data/experimental/buildings.ruleset:1420
 msgid "Gives all your sea units 2 additional movement points."
 msgstr "Donne à chaque unité marine 2 points de mouvement supplémentaires."
+
+#: data/default/buildings.ruleset:1444
+#: data/experimental/buildings.ruleset:1501
+msgid ""
+"Makes two additional unhappy citizens content in every city with a Temple.  "
+"Does not affect citizens made unhappy by military activity."
+msgstr ""
+"Rend contents deux citoyens mécontents supplémentaires dans chacune de vos "
+"villes qui se trouvent sur le continent où la merveille a été construite. "
+"Cela n'a aucun effet sur les citoyens rendus mécontent à cause des activités "
+"militaires."
 
 #: data/default/buildings.ruleset:1466
 #: data/experimental/buildings.ruleset:1523
@@ -18341,7 +18359,7 @@ msgstr ""
 msgid "?citystyle:ElectricAge"
 msgstr "Âge électrique"
 
-#: data/default/default.lua:22 server/unittools.c:2549
+#: data/default/default.lua:22 server/unittools.c:2550
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -18370,7 +18388,7 @@ msgstr "Vous avez trouvé une ville amicale."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Vous impressionnez des nomades amicaux, et ils se joignent à vous."
 
-#: data/default/default.lua:96 server/unittools.c:2556
+#: data/default/default.lua:96 server/unittools.c:2557
 msgid "An abandoned village is here."
 msgstr "Il y a ici un village abandonné."
 
@@ -18378,7 +18396,7 @@ msgstr "Il y a ici un village abandonné."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Vous avez découvert une horde de barbares !"
 
-#: data/default/default.lua:106 server/unittools.c:2559
+#: data/default/default.lua:106 server/unittools.c:2560
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Votre %s a été tué(e) par les barbares !"
@@ -18475,22 +18493,22 @@ msgstr "Les lacs sont d'importantes retenues d'eau douce."
 
 #: data/default/terrain.ruleset:269 data/experimental/terrain.ruleset:271
 #: data/multiplayer/terrain.ruleset:269
+#, fuzzy
 msgid ""
 "Shallow oceans are mostly found near coastlines, and are often rich sources "
-"of food and other resources. They can be traversed by sea units, including "
-"Triremes."
+"of food and other resources."
 msgstr ""
 "Les océans peu profonds sont principalement situés près des côtes, et sont "
 "souvent de riches sources de nourriture et autres ressources. Ils peuvent "
 "être traversés par les unités maritimes, Trirèmes comprises."
 
-#: data/default/terrain.ruleset:276 data/experimental/terrain.ruleset:278
-#: data/multiplayer/terrain.ruleset:276
+#: data/default/terrain.ruleset:275 data/experimental/terrain.ruleset:277
+#: data/multiplayer/terrain.ruleset:275
 msgid "Deep Ocean"
 msgstr "Océan profond"
 
-#: data/default/terrain.ruleset:309 data/experimental/terrain.ruleset:311
-#: data/multiplayer/terrain.ruleset:309
+#: data/default/terrain.ruleset:308 data/experimental/terrain.ruleset:310
+#: data/multiplayer/terrain.ruleset:308
 msgid ""
 "Deep oceans cover much of the world away from coastlines, and only seaworthy "
 "units (not including Triremes) can travel on them."
@@ -18498,8 +18516,8 @@ msgstr ""
 "Les océans profonds couvrent la plus grande partie du monde, loin des côtes, "
 "et seules les unités marines (sauf les Trirèmes) peuvent voyager dessus."
 
-#: data/default/terrain.ruleset:972 data/experimental/terrain.ruleset:974
-#: data/multiplayer/terrain.ruleset:972
+#: data/default/terrain.ruleset:971 data/experimental/terrain.ruleset:973
+#: data/multiplayer/terrain.ruleset:971
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
@@ -18512,24 +18530,24 @@ msgstr ""
 "Invention, les forteresses gagnent des tours de guet, à partir desquelles "
 "les unités peuvent voir des territoires plus lointains."
 
-#: data/default/terrain.ruleset:1000 data/experimental/terrain.ruleset:1002
-#: data/multiplayer/terrain.ruleset:1004
+#: data/default/terrain.ruleset:999 data/experimental/terrain.ruleset:1001
+#: data/multiplayer/terrain.ruleset:1003
 msgid "Buoy"
 msgstr "Balise"
 
-#: data/default/terrain.ruleset:1014 data/experimental/terrain.ruleset:1016
+#: data/default/terrain.ruleset:1013 data/experimental/terrain.ruleset:1015
 msgid "Buoys may be built in the ocean (by units on a sea-going vessel)."
 msgstr ""
 "Des balises flottantes peuvent être construites sur l'océan (par des unités "
 "à bord de navires)."
 
-#: data/default/terrain.ruleset:1019 data/experimental/terrain.ruleset:1021
-#: data/multiplayer/terrain.ruleset:1024
+#: data/default/terrain.ruleset:1018 data/experimental/terrain.ruleset:1020
+#: data/multiplayer/terrain.ruleset:1023
 msgid "Ruins"
 msgstr "Ruines"
 
-#: data/default/terrain.ruleset:1030 data/experimental/terrain.ruleset:1032
-#: data/multiplayer/terrain.ruleset:1035
+#: data/default/terrain.ruleset:1029 data/experimental/terrain.ruleset:1031
+#: data/multiplayer/terrain.ruleset:1034
 msgid ""
 "Ruins mark the former site of a city that was destroyed or abandoned. They "
 "have no effect on gameplay."
@@ -23769,7 +23787,7 @@ msgstr ""
 "Cette technologie est uniquement acquise la première fois que vous "
 "construisez le Voyage de Darwin."
 
-#: data/multiplayer/terrain.ruleset:1019
+#: data/multiplayer/terrain.ruleset:1018
 msgid "Buoys cannot be built in the multiplayer ruleset."
 msgstr ""
 "Les bouées ne peuvent pas être construites dans les règles du jeu "
@@ -47676,7 +47694,7 @@ msgstr "Il n'y a que %s qui puisse attaquer depuis la mer."
 msgid "Cannot attack from sea."
 msgstr "Impossible d'attaquer depuis la mer."
 
-#: server/unithand.c:1290 server/unittools.c:2473
+#: server/unithand.c:1290 server/unittools.c:2474
 msgid "Cannot attack unless you declare war first."
 msgstr "Impossible d'attaquer tant que vous n'avez pas déclaré la guerre."
 
@@ -47690,7 +47708,7 @@ msgstr "%s ne peut se déplacer qu'à l'intérieur de votre zone de contrôle."
 msgid "%s cannot move that far from the coast line."
 msgstr "%s ne peut pas naviguer si loin de la côte."
 
-#: server/unithand.c:1308 server/unittools.c:2480
+#: server/unithand.c:1308 server/unittools.c:2481
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr ""
@@ -47834,47 +47852,47 @@ msgstr "Votre %s a épuisé son carburant."
 msgid "Your %s became more experienced and achieved the rank of %s."
 msgstr "Votre %s a acquis de l'expérience et a atteint le rang de %s."
 
-#: server/unittools.c:1099
+#: server/unittools.c:1100
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr "Téléportation de %s à %s."
 
 #. TRANS: A unit is moved to resolve stack conflicts.
-#: server/unittools.c:1162
+#: server/unittools.c:1163
 #, c-format
 msgid "Moved your %s."
 msgstr "Votre %s a été déplacé."
 
 #. TRANS: A unit is disbanded to resolve stack conflicts.
-#: server/unittools.c:1173
+#: server/unittools.c:1174
 #, c-format
 msgid "Disbanded your %s."
 msgstr "%s congédié."
 
-#: server/unittools.c:1522
+#: server/unittools.c:1523
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Incapable de défendre %s, %s a perdu la partie."
 
-#: server/unittools.c:1526
+#: server/unittools.c:1527
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 "Perdre %s revenait à perdre la partie ! Faites plus attention la prochaine "
 "fois !"
 
-#: server/unittools.c:1575
+#: server/unittools.c:1576
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "Vous avez perdu %s lors de la perte de %s."
 
-#: server/unittools.c:1729
+#: server/unittools.c:1730
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s a réchappé de la destruction de %s et s'est réfugié à %s."
 
 # AR : problème de a/an
-#: server/unittools.c:1803
+#: server/unittools.c:1804
 #, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgid_plural "Barbarian leader captured; %d gold ransom paid."
@@ -47882,20 +47900,20 @@ msgstr[0] "Chef barbare capturé ; %d lingot de rançon a été payé."
 msgstr[1] "Chef barbare capturé ; %d lingots de rançon ont été payés."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1824
+#: server/unittools.c:1825
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "L'attaque de votre %1$s a réussi contre %3$s %2$s !"
 
 # AR : problème de a/an ?
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1833 server/unittools.c:1894
+#: server/unittools.c:1834 server/unittools.c:1895
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "Vous avez perdu %1$s dans une attaque de %3$s %2$s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1869
+#: server/unittools.c:1870
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -47907,14 +47925,14 @@ msgstr[1] ""
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1904
+#: server/unittools.c:1905
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "%1$s perdu dans une attaque de %3$s %2$s contre %4$s %5$s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1920
+#: server/unittools.c:1921
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%1$s (et %2$s) perdu dans une attaque de %4$s %3$s."
@@ -47922,7 +47940,7 @@ msgstr "%1$s (et %2$s) perdu dans une attaque de %4$s %3$s."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1931
+#: server/unittools.c:1932
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -47932,157 +47950,157 @@ msgstr[1] "%1$s et %2$d autres unités perdues lors d'une attaque de %4$s %3$s."
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1946
+#: server/unittools.c:1947
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%1$d unité perdue lors d'un attaque de %5$s %4$s par %3$s %2$s."
 msgstr[1] "%1$d unités perdues lors d'un attaque de %5$s %4$s par %3$s %2$s."
 
-#: server/unittools.c:2246
+#: server/unittools.c:2247
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Votre %s a été atomisé(e) par %s."
 
-#: server/unittools.c:2249 server/unittools.c:2267
+#: server/unittools.c:2250 server/unittools.c:2268
 msgid "yourself"
 msgstr "vous-même"
 
-#: server/unittools.c:2253
+#: server/unittools.c:2254
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "%2$s %1$s a été atomisé(e)."
 
-#: server/unittools.c:2264
+#: server/unittools.c:2265
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s a été atomisé(e) par %s."
 
-#: server/unittools.c:2272
+#: server/unittools.c:2273
 #, c-format
 msgid "You nuked %s."
 msgstr "Vous avez atomisé %s."
 
-#: server/unittools.c:2324
+#: server/unittools.c:2325
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "Les %s ont lancé une bombe atomique !"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2348 server/unittools.c:2356
+#: server/unittools.c:2349 server/unittools.c:2357
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr "%s ne peut pas transporter %s"
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2367
+#: server/unittools.c:2368
 #, c-format
 msgid "%s cannot be transported to %s."
 msgstr "%s ne peut pas être transporté vers %s."
 
-#: server/unittools.c:2377
+#: server/unittools.c:2378
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s transporté avec succès."
 
-#: server/unittools.c:2436
+#: server/unittools.c:2437
 msgid "This unit type can not be paradropped."
 msgstr "Ce type d'unité ne peut pas être parachuté."
 
-#: server/unittools.c:2446
+#: server/unittools.c:2447
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "Une unité transportant des unités ne peut pas être parachutée."
 
-#: server/unittools.c:2452
+#: server/unittools.c:2453
 msgid "The destination location is not known."
 msgstr "L'endroit de destination n'est pas connu."
 
-#: server/unittools.c:2462
+#: server/unittools.c:2463
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Cette unité ne peut pas être parachutée dans %s."
 
-#: server/unittools.c:2491
+#: server/unittools.c:2492
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "La distance à la cible (%i) est supérieure à la portée de l'unité (%i)."
 
-#: server/unittools.c:2502
+#: server/unittools.c:2503
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Votre %s a été parachuté dans %s et a été perdu."
 
-#: server/unittools.c:2516
+#: server/unittools.c:2517
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Votre %s a été tué par des unités ennemies au point de parachutage."
 
-#: server/unittools.c:2587
+#: server/unittools.c:2588
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "Votre survol effraie la tribu ; prise de terreur, elle s'enfuit."
 
-#: server/unittools.c:2867
+#: server/unittools.c:2868
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 "Les ordres de %s ont été annulés car des mouvements ennemis ont été aperçus."
 
-#: server/unittools.c:3398
+#: server/unittools.c:3399
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Les ordres de %s ont été annulés car il y a des unités à proximité."
 
-#: server/unittools.c:3449
+#: server/unittools.c:3450
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr ""
 "Les ordres pour %s ont été annulés car la fondation de la ville a échoué."
 
-#: server/unittools.c:3465
+#: server/unittools.c:3466
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "Les ordres pour %s ont été annulés car l'activité est invalide."
 
-#: server/unittools.c:3484
+#: server/unittools.c:3485
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 "Les ordres pour %s ont été annulés car ils pointent sur un lieu invalide."
 
-#: server/unittools.c:3494
+#: server/unittools.c:3495
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "Les ordres pour %s ont été annulés car il y a des unités à proximité."
 
-#: server/unittools.c:3519
+#: server/unittools.c:3520
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Les ordres pour %s ont été annulés à cause de l'échec d'un mouvement."
 
-#: server/unittools.c:3560
+#: server/unittools.c:3561
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "La tentative de changer la ville de support de %s a échoué."
 
-#: server/unittools.c:3571
+#: server/unittools.c:3572
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "La tentative de créer une route commerciale pour %s a échoué."
 
-#: server/unittools.c:3583
+#: server/unittools.c:3584
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "La tentative de construction de merveille à %s a échoué."
 
-#: server/unittools.c:3592
+#: server/unittools.c:3593
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Votre %s a des ordres invalides."
 
-#: server/unittools.c:3690
+#: server/unittools.c:3691
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."
@@ -48219,7 +48237,7 @@ msgstr ""
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. *        <externally translated error string>."
-#: utility/fciconv.c:205
+#: utility/fciconv.c:208
 #, c-format
 msgid "Could not convert text from %s to %s: %s"
 msgstr "Impossible de convertir le texte de %s vers %s : %s"
@@ -48428,6 +48446,13 @@ msgstr "erreur %ld (échec FormatMessage)"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "erreur %d (compilation sans strerror)"
+
+#~ msgid ""
+#~ "Oceans cover much of the world, and only sea units (Triremes and other "
+#~ "boats) can travel on them."
+#~ msgstr ""
+#~ "Les océans couvrent la plus grande partie du monde et seules les unités "
+#~ "marines (Trirèmes et autres bateaux) peuvent voyager dessus."
 
 #~ msgid "* Land units cannot travel on oceanic terrains."
 #~ msgstr ""
