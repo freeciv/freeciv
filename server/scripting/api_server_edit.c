@@ -175,7 +175,7 @@ void api_edit_unit_turn(lua_State *L, Unit *punit, Direction dir)
   if (direction8_is_valid(dir)) {
     punit->facing = dir;
 
-    send_unit_info_to_onlookers(NULL, punit, unit_tile(punit), FALSE);
+    send_unit_info_to_onlookers(NULL, punit, unit_tile(punit), FALSE, TRUE);
   } else {
     log_error("Illegal direction %d for unit from lua script", dir);
   }

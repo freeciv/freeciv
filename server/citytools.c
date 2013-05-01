@@ -1691,7 +1691,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
                && can_player_see_unit_at(pplayer, punit, pcity->tile)) {
       /* Player sees inside cities of new owner */
       send_unit_info_to_onlookers(pplayer->connections, punit,
-                                  pcity->tile, FALSE);
+                                  pcity->tile, FALSE, TRUE);
     }
   } players_iterate_end;
 
