@@ -68,6 +68,7 @@ void tile_set_owner(struct tile *ptile, struct player *pplayer,
 {
   if (BORDERS_DISABLED != game.info.borders) {
     ptile->owner = pplayer;
+    ptile->extras_owner = pplayer;
     ptile->claimer = claimer;
   }
 }
@@ -921,6 +922,7 @@ struct tile *tile_virtual_new(const struct tile *ptile)
   vtile->units = unit_list_new();
   vtile->worked = NULL;
   vtile->owner = NULL;
+  vtile->extras_owner = NULL;
   vtile->claimer = NULL;
   vtile->spec_sprite = NULL;
 
@@ -956,6 +958,7 @@ struct tile *tile_virtual_new(const struct tile *ptile)
     vtile->terrain = ptile->terrain;
     vtile->worked = ptile->worked;
     vtile->owner = ptile->owner;
+    vtile->extras_owner = ptile->extras_owner;
     vtile->claimer = ptile->claimer;
     vtile->spec_sprite = NULL;
   }

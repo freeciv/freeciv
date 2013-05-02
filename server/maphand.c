@@ -487,6 +487,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
 {
   struct packet_tile_info info;
   const struct player *owner;
+  const struct player *eowner;
 
   if (send_tile_suppressed) {
     return;
@@ -515,7 +516,9 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       info.known = TILE_KNOWN_SEEN;
       info.continent = tile_continent(ptile);
       owner = tile_owner(ptile);
+      eowner = base_owner(ptile);
       info.owner = (owner ? player_number(owner) : MAP_TILE_OWNER_NULL);
+      info.extras_owner = (eowner ? player_number(eowner) : MAP_TILE_OWNER_NULL);
       info.worked = (NULL != tile_worked(ptile))
                      ? tile_worked(ptile)->id
                      : IDENTITY_NUMBER_ZERO;
@@ -549,7 +552,9 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       owner = (game.server.foggedborders
                ? plrtile->owner
                : tile_owner(ptile));
+      eowner = plrtile->extras_owner;
       info.owner = (owner ? player_number(owner) : MAP_TILE_OWNER_NULL);
+      info.extras_owner = (eowner ? player_number(eowner) : MAP_TILE_OWNER_NULL);
       info.worked = (NULL != psite)
                     ? psite->identity
                     : IDENTITY_NUMBER_ZERO;
@@ -579,6 +584,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       info.known = TILE_UNKNOWN;
       info.continent = 0;
       info.owner = MAP_TILE_OWNER_NULL;
+      info.extras_owner = MAP_TILE_OWNER_NULL;
       info.worked = IDENTITY_NUMBER_ZERO;
 
       info.terrain = terrain_count();
@@ -940,6 +946,7 @@ void map_change_seen(struct player *pplayer,
     if (game.server.foggedborders) {
       plrtile->owner = tile_owner(ptile);
     }
+    plrtile->extras_owner = base_owner(ptile);
   }
 
   if ((revealing_tile && 0 < plrtile->seen_count[V_MAIN])
@@ -1146,6 +1153,7 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
   clear_all_specials(&plrtile->special);
   plrtile->resource = NULL;
   plrtile->owner = NULL;
+  plrtile->extras_owner = NULL;
   plrtile->site = NULL;
   BV_CLR_ALL(plrtile->bases);
   BV_CLR_ALL(plrtile->roads);
@@ -1206,17 +1214,20 @@ bool update_player_tile_knowledge(struct player *pplayer, struct tile *ptile)
                           && !map_is_known_and_seen(ptile, pplayer, V_MAIN)
                           ? plrtile->owner
                           : tile_owner(ptile));
+  struct player *eowner = base_owner(ptile);
 
   if (plrtile->terrain != ptile->terrain
       || !BV_ARE_EQUAL(plrtile->special, ptile->special)
       || plrtile->resource != ptile->resource
       || plrtile->owner != owner
+      || plrtile->extras_owner != eowner
       || !BV_ARE_EQUAL(plrtile->bases, ptile->bases)
       || !BV_ARE_EQUAL(plrtile->roads, ptile->roads)) {
     plrtile->terrain = ptile->terrain;
     plrtile->special = ptile->special;
     plrtile->resource = ptile->resource;
     plrtile->owner = owner;
+    plrtile->extras_owner = eowner;
     plrtile->bases = ptile->bases;
     plrtile->roads = ptile->roads;
     return TRUE;

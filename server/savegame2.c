@@ -2866,6 +2866,7 @@ static void sg_load_map_owner(struct loaddata *loading)
   int x, y;
   struct player *owner = NULL;
   struct tile *claimer = NULL;
+  struct player *eowner = NULL;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -2881,15 +2882,20 @@ static void sg_load_map_owner(struct loaddata *loading)
                                              "map.owner%04d", y);
     const char *buffer2 = secfile_lookup_str(loading->file,
                                              "map.source%04d", y);
+    const char *buffer3 = secfile_lookup_str(loading->file,
+                                             "map.eowner%04d", y);
     const char *ptr1 = buffer1;
     const char *ptr2 = buffer2;
+    const char *ptr3 = buffer3;
 
     sg_failure_ret(buffer1 != NULL, "%s", secfile_error());
     sg_failure_ret(buffer2 != NULL, "%s", secfile_error());
+    sg_failure_ret(buffer3 != NULL, "%s", secfile_error());
 
     for (x = 0; x < map.xsize; x++) {
       char token1[TOKEN_SIZE];
       char token2[TOKEN_SIZE];
+      char token3[TOKEN_SIZE];
       int number;
       struct tile *ptile = native_pos_to_tile(x, y);
 
@@ -2915,7 +2921,19 @@ static void sg_load_map_owner(struct loaddata *loading)
         claimer = index_to_tile(number);
       }
 
+      scanin(&ptr3, ",", token3, sizeof(token3));
+      sg_failure_ret(token3[0] != '\0',
+                     "Map size not correct (map.eowner%d).", y);
+      if (strcmp(token3, "-") == 0) {
+        eowner = NULL;
+      } else {
+        sg_failure_ret(str_to_int(token3, &number),
+                       "Got base owner %s in (%d, %d).", token3, x, y);
+        eowner = player_by_number(number);
+      }
+
       map_claim_ownership(ptile, owner, claimer);
+      log_debug("extras_owner(%d, %d) = %s", TILE_XY(ptile), player_name(eowner));
     }
   }
 }
@@ -2977,6 +2995,28 @@ static void sg_save_map_owner(struct savedata *saving)
       }
     }
     secfile_insert_str(saving->file, line, "map.source%04d", y);
+  }
+
+  for (y = 0; y < map.ysize; y++) {
+    char line[map.xsize * TOKEN_SIZE];
+
+    line[0] = '\0';
+    for (x = 0; x < map.xsize; x++) {
+      char token[TOKEN_SIZE];
+      struct tile *ptile = native_pos_to_tile(x, y);
+
+      if (!saving->save_players || base_owner(ptile) == NULL) {
+        strcpy(token, "-");
+      } else {
+        fc_snprintf(token, sizeof(token), "%d",
+                    player_number(base_owner(ptile)));
+      }
+      strcat(line, token);
+      if (x + 1 < map.xsize) {
+        strcat(line, ",");
+      }
+    }
+    secfile_insert_str(saving->file, line, "map.eowner%04d", y);
   }
 }
 
@@ -5615,12 +5655,17 @@ static void sg_load_player_vision(struct loaddata *loading,
       const char *buffer
         = secfile_lookup_str(loading->file, "player%d.map_owner%04d",
                              plrno, y);
+      const char *buffer2
+        = secfile_lookup_str(loading->file, "player%d.extras_owner%04d",
+                             plrno, y);
       const char *ptr = buffer;
+      const char *ptr2 = buffer2;
 
       sg_failure_ret(NULL != buffer,
                     "Savegame corrupt - map line %d not found.", y);
       for (x = 0; x < map.xsize; x++) {
         char token[TOKEN_SIZE];
+        char token2[TOKEN_SIZE];
         int number;
         struct tile *ptile = native_pos_to_tile(x, y);
 
@@ -5629,13 +5674,24 @@ static void sg_load_player_vision(struct loaddata *loading,
                        "Savegame corrupt - map size not correct.");
         if (strcmp(token, "-") == 0) {
           map_get_player_tile(ptile, plr)->owner = NULL;
-          continue;
+        } else  {
+          sg_failure_ret(str_to_int(token, &number),
+                         "Savegame corrupt - got tile owner=%s in (%d, %d).",
+                         token, x, y);
+          map_get_player_tile(ptile, plr)->owner = player_by_number(number);
         }
 
-        sg_failure_ret(str_to_int(token, &number),
-                       "Savegame corrupt - got tile owner=%s in (%d, %d).",
-                       token, x, y);
-        map_get_player_tile(ptile, plr)->owner = player_by_number(number);
+        scanin(&ptr2, ",", token2, sizeof(token2));
+        sg_failure_ret('\0' != token2[0],
+                       "Savegame corrupt - map size not correct.");
+        if (strcmp(token2, "-") == 0) {
+          map_get_player_tile(ptile, plr)->extras_owner = NULL;
+        } else  {
+          sg_failure_ret(str_to_int(token2, &number),
+                         "Savegame corrupt - got extras owner=%s in (%d, %d).",
+                         token, x, y);
+          map_get_player_tile(ptile, plr)->extras_owner = player_by_number(number);
+        }
       }
     }
   }
@@ -5831,6 +5887,30 @@ static void sg_save_player_vision(struct savedata *saving,
         }
       }
       secfile_insert_str(saving->file, line, "player%d.map_owner%04d",
+                         plrno, y);
+    }
+
+    for (y = 0; y < map.ysize; y++) {
+      char line[map.xsize * TOKEN_SIZE];
+
+      line[0] = '\0';
+      for (x = 0; x < map.xsize; x++) {
+        char token[TOKEN_SIZE];
+        struct tile *ptile = native_pos_to_tile(x, y);
+        struct player_tile *plrtile = map_get_player_tile(ptile, plr);
+
+        if (plrtile == NULL || plrtile->extras_owner == NULL) {
+          strcpy(token, "-");
+        } else {
+          fc_snprintf(token, sizeof(token), "%d",
+                      player_number(plrtile->extras_owner));
+        }
+        strcat(line, token);
+        if (x < map.xsize) {
+          strcat(line, ",");
+        }
+      }
+      secfile_insert_str(saving->file, line, "player%d.extras_owner%04d",
                          plrno, y);
     }
   }

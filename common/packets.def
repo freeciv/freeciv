@@ -394,6 +394,7 @@ PACKET_TILE_INFO = 15; sc, lsend, is-game-info
   CONTINENT continent;
   KNOWN known;
   PLAYER owner;
+  PLAYER extras_owner;
   CITY worked;
 
   TERRAIN terrain;

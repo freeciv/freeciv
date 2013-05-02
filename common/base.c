@@ -337,5 +337,5 @@ bool territory_claiming_base(const struct base_type *pbase)
 **************************************************************************/
 struct player *base_owner(const struct tile *ptile)
 {
-  return tile_owner(ptile);
+  return ptile->extras_owner;
 }

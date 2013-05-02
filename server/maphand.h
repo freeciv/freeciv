@@ -31,6 +31,7 @@ struct player_tile {
   struct resource *resource;		/* NULL for no resource */
   struct terrain *terrain;		/* NULL for unknown tiles */
   struct player *owner; 		/* NULL for unowned */
+  struct player *extras_owner;
   bv_special special;
   bv_bases bases;
   bv_roads roads;

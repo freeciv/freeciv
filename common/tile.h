@@ -59,6 +59,7 @@ struct tile {
   struct unit_list *units;
   struct city *worked;			/* NULL for not worked */
   struct player *owner;			/* NULL for not owned */
+  struct player *extras_owner;
   struct tile *claimer;
   char *label;                          /* NULL for no label */
   char *spec_sprite;
