@@ -27,10 +27,10 @@
 #include "cm.h"
 
 /* common */
-#include "base.h"
 #include "city.h"
 #include "connection.h"
 #include "disaster.h"
+#include "extras.h"
 #include "government.h"
 #include "idex.h"
 #include "map.h"
@@ -496,8 +496,7 @@ void game_ruleset_init(void)
   disaster_types_init();
   trade_route_types_init();
   terrains_init();
-  base_types_init();
-  road_types_init();
+  extras_init();
   improvements_init();
   techs_init();
   unit_classes_init();
@@ -529,8 +528,7 @@ void game_ruleset_free(void)
   unit_type_flags_free();
   role_unit_precalcs_free();
   improvements_free();
-  base_types_free();
-  road_types_free();
+  extras_free();
   city_styles_free();
   disaster_types_free();
   terrains_free();
