@@ -20,6 +20,7 @@ EXTRA_DIST =			\
 	README.graphics		\
 	README.nations		\
 	README.packaging	\
+	README.ruleset_alien	\
 	README.ruleset_experimental \
 	README.ruleset_multiplayer \
 	README.ruleset_civ2civ3	\

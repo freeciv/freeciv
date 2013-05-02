@@ -37,6 +37,7 @@ SERVER_FILES = \
 	default.serv \
 	experimental.serv \
 	multiplayer.serv \
+	alien.serv \
 	civ2civ3.serv
 
 SERVER_CONF = database.lua
@@ -74,6 +75,7 @@ EXTRA_DIST = \
 	default.serv	\
 	experimental.serv \
 	multiplayer.serv \
+	alien.serv \
 	civ2civ3.serv
 
 if CLIENT
@@ -84,7 +86,7 @@ CLIENTDATADIRS =
 endif
 
 if SERVER
-SERVERDATADIRS = default classic civ1 civ2 experimental multiplayer civ2civ3 scenarios nation
+SERVERDATADIRS = default classic civ1 civ2 experimental multiplayer alien civ2civ3 scenarios nation
 else
 SERVERDATADIRS = 
 endif
