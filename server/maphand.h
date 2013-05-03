@@ -109,9 +109,10 @@ void disable_fog_of_war_player(struct player *pplayer);
 void map_calculate_borders(void);
 void map_claim_border(struct tile *ptile, struct player *powner);
 void map_claim_ownership(struct tile *ptile, struct player *powner,
-                         struct tile *psource);
+                         struct tile *psource, bool claim_bases);
 void map_clear_border(struct tile *ptile);
 
+void tile_claim_bases(struct tile *ptile, struct player *powner);
 void map_claim_base(struct tile *ptile, struct base_type *pbase,
                     struct player *powner, struct player *ploser);
 

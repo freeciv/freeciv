@@ -2932,7 +2932,8 @@ static void sg_load_map_owner(struct loaddata *loading)
         eowner = player_by_number(number);
       }
 
-      map_claim_ownership(ptile, owner, claimer);
+      map_claim_ownership(ptile, owner, claimer, FALSE);
+      tile_claim_bases(ptile, eowner);
       log_debug("extras_owner(%d, %d) = %s", TILE_XY(ptile), player_name(eowner));
     }
   }
@@ -4193,7 +4194,7 @@ static void sg_load_player_cities(struct loaddata *loading,
     sg_load_player_city_citizens(loading, plr, pcity, buf);
 
     /* After everything is loaded, but before vision. */
-    map_claim_ownership(city_tile(pcity), plr, city_tile(pcity));
+    map_claim_ownership(city_tile(pcity), plr, city_tile(pcity), TRUE);
 
     /* adding the city contribution to fog-of-war */
     pcity->server.vision = vision_new(plr, city_tile(pcity));
@@ -4741,11 +4742,7 @@ static void sg_load_player_units(struct loaddata *loading,
     if ((!base_owner(ptile)
          || pplayers_at_war(base_owner(ptile), plr))
         && tile_has_claimable_base(ptile, unit_type(punit))) {
-      struct player *old_owner = base_owner(ptile);
-
-      base_type_iterate(pbase) {
-        map_claim_base(ptile, pbase, plr, old_owner);
-      } base_type_iterate_end;
+      tile_claim_bases(ptile, plr);
     }
   }
 }

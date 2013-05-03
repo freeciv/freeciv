@@ -1022,7 +1022,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   /* city_thaw_workers_queue() later */
 
   pcity->owner = ptaker;
-  map_claim_ownership(pcenter, ptaker, pcenter);
+  map_claim_ownership(pcenter, ptaker, pcenter, TRUE);
   city_list_prepend(ptaker->cities, pcity);
 
   transfer_city_units(ptaker, pgiver, old_city_units,
@@ -1311,7 +1311,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   /* Claim the ground we stand on */
   tile_set_owner(ptile, saved_owner, saved_claimer);
-  map_claim_ownership(ptile, pplayer, ptile);
+  map_claim_ownership(ptile, pplayer, ptile, TRUE);
 
   /* Before arranging workers to show unknown land */
   pcity->server.vision = vision_new(pplayer, ptile);

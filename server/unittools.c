@@ -3279,6 +3279,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   bool unit_lives = TRUE;
   bool adj;
   enum direction8 facing;
+  struct player *bowner;
 
   /* Some checks. */
   fc_assert_ret_val(punit != NULL, FALSE);
@@ -3346,18 +3347,14 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   ASSERT_VISION(new_vision);
 
   /* Claim ownership of fortress? */
-  if ((!base_owner(pdesttile)
-       || pplayers_at_war(base_owner(pdesttile), pplayer))
+  bowner = base_owner(pdesttile);
+  if ((bowner == NULL || pplayers_at_war(bowner, pplayer))
       && tile_has_claimable_base(pdesttile, unit_type(punit))) {
-    struct player *old_owner = base_owner(pdesttile);
-
     /* Yes. We claim *all* bases if there's *any* claimable base(s).
      * Even if original unit cannot claim other kind of bases, the
      * first claimed base will have influence over other bases,
      * or something like that. */
-    base_type_iterate(pbase) {
-      map_claim_base(pdesttile, pbase, pplayer, old_owner);
-    } base_type_iterate_end;
+    tile_claim_bases(pdesttile, pplayer);
   }
 
   /* Send updated information to anyone watching.  If the unit moves

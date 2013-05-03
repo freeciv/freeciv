@@ -1875,15 +1875,27 @@ static void map_claim_border_ownership(struct tile *ptile,
   Claim ownership of a single tile.
 *************************************************************************/
 void map_claim_ownership(struct tile *ptile, struct player *powner,
-                         struct tile *psource)
+                         struct tile *psource, bool claim_bases)
+{
+  map_claim_border_ownership(ptile, powner, psource);
+
+  if (claim_bases) {
+    tile_claim_bases(ptile, powner);
+  }
+}
+
+/*************************************************************************
+  Claim ownership of bases on single tile.
+*************************************************************************/
+void tile_claim_bases(struct tile *ptile, struct player *powner)
 {
   struct player *base_loser = base_owner(ptile);
-
-  map_claim_border_ownership(ptile, powner, psource);
 
   base_type_iterate(pbase) {
     map_claim_base(ptile, pbase, powner, base_loser);
   } base_type_iterate_end;
+
+  ptile->extras_owner = powner;
 }
 
 /*************************************************************************
@@ -1897,7 +1909,7 @@ void map_clear_border(struct tile *ptile)
     struct tile *claimer = tile_claimer(dtile);
 
     if (claimer == ptile) {
-      map_claim_ownership(dtile, NULL, NULL);
+      map_claim_ownership(dtile, NULL, NULL, FALSE);
     }
   } circle_dxyr_iterate_end;
 }
@@ -1959,11 +1971,11 @@ void map_claim_border(struct tile *ptile, struct player *owner)
 
     if (is_ocean_tile(dtile)) {
       if (is_claimable_ocean(dtile, ptile, owner)) {
-        map_claim_ownership(dtile, owner, ptile);
+        map_claim_ownership(dtile, owner, ptile, dr == 0);
       }
     } else {
       if (tile_continent(dtile) == tile_continent(ptile)) {
-        map_claim_ownership(dtile, owner, ptile);
+        map_claim_ownership(dtile, owner, ptile, dr == 0);
       }
     }
   } circle_dxyr_iterate_end;
@@ -1997,7 +2009,7 @@ void map_calculate_borders(void)
 }
 
 /****************************************************************************
-  Claim base to players ownership.
+  Claim base to player's ownership.
 ****************************************************************************/
 void map_claim_base(struct tile *ptile, struct base_type *pbase,
                     struct player *powner, struct player *ploser)

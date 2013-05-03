@@ -226,7 +226,10 @@ void kill_player(struct player *pplayer)
   /* Remove ownership of tiles */
   whole_map_iterate(ptile) {
     if (tile_owner(ptile) == pplayer) {
-      map_claim_ownership(ptile, NULL, NULL);
+      map_claim_ownership(ptile, NULL, NULL, FALSE);
+    }
+    if (base_owner(ptile) == pplayer) {
+      ptile->extras_owner = NULL;
     }
   } whole_map_iterate_end;
 
@@ -562,6 +565,8 @@ static void maybe_claim_base(struct tile *ptile, struct player *new_owner,
     base_type_iterate(pbase) {
       map_claim_base(ptile, pbase, new_owner, old_owner);
     } base_type_iterate_end;
+
+    ptile->extras_owner = new_owner;
   }
 }
 
