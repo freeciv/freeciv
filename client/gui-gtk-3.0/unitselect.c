@@ -1165,8 +1165,12 @@ static void usdlg_cmd_cursor_changed(GtkTreeView *view, gpointer data)
   bool cmd_status[USDLG_CMD_LAST];
   int cmd_id;
 
-  fc_assert_ret(pdialog != NULL);
   fc_assert_ret(unit_select_location_mode_is_valid(loc));
+
+  if (pdialog == NULL) {
+    /* Dialog closed, nothing we can do */
+    return;
+  }
 
   selection = gtk_tree_view_get_selection(view);
   if (!gtk_tree_selection_get_selected(selection, &model, &it)) {
