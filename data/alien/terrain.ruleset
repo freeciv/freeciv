@@ -686,7 +686,7 @@ flags          = "AutoOnCityCenter"
 helptext       = _("\
 Basic Road is available for building from the beginning of the game.\
 \n\n\
-Movement via Road costs 2/3 movement points. Having Road on Grassland
+Movement via Road costs 2/3 movement points. Having Road on Grassland \
 tile provides increase of +1 to trade on that tile.\
 ")
 
