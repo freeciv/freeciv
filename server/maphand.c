@@ -2109,10 +2109,25 @@ void create_base(struct tile *ptile, struct base_type *pbase,
    * FIXME: Reqs on other specials will not be updated immediately. */
   unit_list_refresh_vision(ptile->units);
 
-  /* Claim base if it has "ClaimTerritory" flag */
-  if (territory_claiming_base(pbase) && pplayer) {
+  /* Claim bases on tile */
+  if (pplayer) {
+    struct player *old_owner = base_owner(ptile);
+
+    /* Created base from NULL -> pplayer */
     map_claim_base(ptile, pbase, pplayer, NULL);
+
+    if (old_owner != pplayer) {
+      /* Existing bases from old_owner -> pplayer */
+      base_type_iterate(oldbase) {
+        if (oldbase != pbase) {
+          map_claim_base(ptile, pbase, pplayer, old_owner);
+        }
+      } base_type_iterate_end;
+
+      ptile->extras_owner = pplayer;
+    }
   } else {
+    /* Player who already owns bases on tile claims new base */
     map_claim_base(ptile, pbase, base_owner(ptile), NULL);
   }
 
