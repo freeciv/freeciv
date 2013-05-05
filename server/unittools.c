@@ -3085,12 +3085,6 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
 
   conn_list_do_buffer(pplayer->connections);
 
-  /* We first unfog the destination, then move the unit and send the
-     move, and then fog the old territory. This means that the player
-     gets a chance to see the newly explored territory while the
-     client moves the unit, and both areas are visible during the
-     move */
-
   /* Unload the unit if on a transport. */
   ptransporter = unit_transport_get(punit);
   if (ptransporter != NULL) {
@@ -3110,7 +3104,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   /* Set unit orientation */
   adj = base_get_direction_for_step(psrctile, pdesttile, &facing);
   if (adj) {
-    /* Only change orintation when moving to adjacent tile */
+    /* Only change orientation when moving to adjacent tile */
     punit->facing = facing;
   }
 
@@ -3129,6 +3123,12 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   if (punit->moves_left == 0) {
     punit->done_moving = TRUE;
   }
+
+  /* We first unfog the destination, then send the move,
+     and then fog the old territory. This means that the player
+     gets a chance to see the newly explored territory while the
+     client moves the unit, and both areas are visible during the
+     move */
 
   /* Enhance vision if unit steps into a fortress */
   const v_radius_t radius_sq =
@@ -3206,7 +3206,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   vision_free(old_vision);
 
   /* Remove hidden units (like submarines) which aren't seen anymore. */
-  /* TODO: Make the radius a configure option. */
+  /* FIXME: Radius should depend on V_INVIS vision layer. */
   square_iterate(psrctile, 1, tile1) {
     players_iterate(pplayer) {
       /* We're only concerned with known, unfogged tiles which may contain
