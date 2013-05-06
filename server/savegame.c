@@ -1139,205 +1139,6 @@ static void map_load_known(struct section_file *file,
   map.server.have_resources = TRUE;
 }
 
-/*
- * Previously (with 1.14.1 and earlier) units had their type saved by ID.
- * This meant any time a unit was added (unless it was added at the end)
- * savegame compatibility would be broken.  Sometime after 1.14.1 this
- * method was changed so the type is saved by name.  However to preserve
- * backwards compatibility we have here a list of unit names from before
- * the change was made.  When loading an old savegame (one that doesn't
- * have the type string) we need to lookup the type into this array
- * to get the "proper" type string.
- *
- * Note that this list includes the AWACS, which was not in 1.14.1.
- */
-
-/* old (~1.14.1) unit order in default/civ2/history ruleset */
-static const char* old_default_unit_types[] = {
-  "Settlers",	"Engineers",	"Warriors",	"Phalanx",
-  "Archers",	"Legion",	"Pikemen",	"Musketeers",
-  "Fanatics",	"Partisan",	"Alpine Troops","Riflemen",
-  "Marines",	"Paratroopers",	"Mech. Inf.",	"Horsemen",
-  "Chariot",	"Elephants",	"Crusaders",	"Knights",
-  "Dragoons",	"Cavalry",	"Armor",	"Catapult",
-  "Cannon",	"Artillery",	"Howitzer",	"Fighter",
-  "Bomber",	"Helicopter",	"Stealth Fighter", "Stealth Bomber",
-  "Trireme",	"Caravel",	"Galleon",	"Frigate",
-  "Ironclad",	"Destroyer",	"Cruiser",	"AEGIS Cruiser",
-  "Battleship",	"Submarine",	"Carrier",	"Transport",
-  "Cruise Missile", "Nuclear",	"Diplomat",	"Spy",
-  "Caravan",	"Freight",	"Explorer",	"Barbarian Leader",
-  "AWACS"
-};
-
-/* old (~1.14.1) unit order in civ1 ruleset */
-static const char* old_civ1_unit_types[] = {
-  "Settlers",	"Engineers",	"Militia",	"Phalanx",
-  "Archers",	"Legion",	"Pikemen",	"Musketeers",
-  "Fanatics",	"Partisan",	"Alpine Troops","Riflemen",
-  "Marines",	"Paratroopers",	"Mech. Inf.",	"Cavalry",
-  "Chariot",	"Elephants",	"Crusaders",	"Knights",
-  "Dragoons",	"Civ2-Cavalry",	"Armor",	"Catapult",
-  "Cannon",	"Civ2-Artillery","Artillery",	"Fighter",
-  "Bomber",	"Helicopter",	"Stealth Fighter", "Stealth Bomber",
-  "Trireme",	"Sail",		"Galleon",	"Frigate",
-  "Ironclad",	"Destroyer",	"Cruiser",	"AEGIS Cruiser",
-  "Battleship",	"Submarine",	"Carrier",	"Transport",
-  "Cruise Missile", "Nuclear",	"Diplomat",	"Spy",
-  "Caravan",	"Freight",	"Explorer",	"Barbarian Leader"
-};
-
-/* old (1.14.1) improvement order in default ruleset */
-const char* old_impr_types[] =
-{
-  "Airport",		"Aqueduct",		"Bank",
-  "Barracks",		"Barracks II",		"Barracks III",
-  "Cathedral",		"City Walls",		"Coastal Defense",
-  "Colosseum",		"Courthouse",		"Factory",
-  "Granary",		"Harbour",		"Hydro Plant",
-  "Library",		"Marketplace",		"Mass Transit",
-  "Mfg. Plant",		"Nuclear Plant",	"Offshore Platform",
-  "Palace",		"Police Station",	"Port Facility",
-  "Power Plant",	"Recycling Center",	"Research Lab",
-  "SAM Battery",	"SDI Defense",		"Sewer System",
-  "Solar Plant",	"Space Component",	"Space Module",
-  "Space Structural",	"Stock Exchange",	"Super Highways",
-  "Supermarket",	"Temple",		"University",
-  "Apollo Program",	"A.Smith's Trading Co.","Colossus",
-  "Copernicus' Observatory", "Cure For Cancer",	"Darwin's Voyage",
-  "Eiffel Tower",	"Great Library",	"Great Wall",
-  "Hanging Gardens",	"Hoover Dam",		"Isaac Newton's College",
-  "J.S. Bach's Cathedral","King Richard's Crusade", "Leonardo's Workshop",
-  "Lighthouse",		"Magellan's Expedition","Manhattan Project",
-  "Marco Polo's Embassy","Michelangelo's Chapel","Oracle",
-  "Pyramids",		"SETI Program",		"Shakespeare's Theatre",
-  "Statue of Liberty",	"Sun Tzu's War Academy","United Nations",
-  "Women's Suffrage",	"Coinage"
-};
-
-/* old (~1.14.1) techs order in civ2/default ruleset.
- *
- * Note that Theology is called Religion in civ1 ruleset; this is handled
- * as a special case in the code.
- *
- * Nowadays we save A_FUTURE as "A_FUTURE", A_NONE as "A_NONE".
- * A_UNSET as "A_UNSET" - they used to be saved as 198, 0 or -1, 0.
- */
-const char* old_default_techs[] = 
-{
-  "A_NONE",
-  "Advanced Flight",	"Alphabet",		"Amphibious Warfare",
-  "Astronomy",		"Atomic Theory",	"Automobile",
-  "Banking",		"Bridge Building",	"Bronze Working",
-  "Ceremonial Burial",	"Chemistry",		"Chivalry",
-  "Code of Laws",	"Combined Arms",	"Combustion",
-  "Communism",		"Computers",		"Conscription",
-  "Construction",	"Currency",		"Democracy",
-  "Economics",		"Electricity",		"Electronics",
-  "Engineering",	"Environmentalism",	"Espionage",
-  "Explosives",		"Feudalism",		"Flight",
-  "Fundamentalism",	"Fusion Power",		"Genetic Engineering",
-  "Guerilla Warfare",	"Gunpowder",		"Horseback Riding",
-  "Industrialization",	"Invention",		"Iron Working",
-  "Labor Union",	"Laser",		"Leadership",
-  "Literacy",		"Machine Tools",	"Magnetism",
-  "Map Making",		"Masonry",		"Mass Production",
-  "Mathematics",	"Medicine",		"Metallurgy",
-  "Miniaturization",	"Mobile Warfare",	"Monarchy",
-  "Monotheism",		"Mysticism",		"Navigation",
-  "Nuclear Fission",	"Nuclear Power",	"Philosophy",
-  "Physics",		"Plastics",		"Polytheism",
-  "Pottery",		"Radio",		"Railroad",
-  "Recycling",		"Refining",		"Refrigeration",
-  "Robotics",		"Rocketry",		"Sanitation",
-  "Seafaring",		"Space Flight",		"Stealth",
-  "Steam Engine",	"Steel",		"Superconductors",
-  "Tactics",		"The Corporation",	"The Republic",
-  "The Wheel",		"Theology",		"Theory of Gravity",
-  "Trade",		"University",		"Warrior Code",
-  "Writing"
-};
-
-/* old (~1.14.1) government order in default, civ1, and history rulesets */
-const char* old_default_governments[] = 
-{
-  "Anarchy", "Despotism", "Monarchy", "Communism", "Republic", "Democracy"
-};
-
-/* old (~1.14.1) government order in the civ2 ruleset */
-const char* old_civ2_governments[] =
-{
-  "Anarchy", "Despotism", "Monarchy", "Communism", "Fundamentalism",
-  "Republic", "Democracy"
-};
-
-/****************************************************************************
-  Convert an old-style unit type id into a unit type name.
-****************************************************************************/
-static const char* old_unit_type_name(int id)
-{
-  /* before 1.15.0 unit types used to be saved by id */
-  if (id < 0) {
-    return NULL;
-  }
-  /* Different rulesets had different unit names. */
-  if (strcmp(game.server.rulesetdir, "civ1") == 0) {
-    if (id >= ARRAY_SIZE(old_civ1_unit_types)) {
-      return NULL;
-    }
-    return old_civ1_unit_types[id];
-  } else {
-    if (id >= ARRAY_SIZE(old_default_unit_types)) {
-      return NULL;
-    }
-    return old_default_unit_types[id];
-  }
-}
-
-/***************************************************************
-  Convert old-style improvement type id into improvement type name
-***************************************************************/
-static const char* old_impr_type_name(int id)
-{
-  /* before 1.15.0 improvement types used to be saved by id */
-  if (id < 0 || id >= ARRAY_SIZE(old_impr_types)) {
-    return NULL;
-  }
-  return old_impr_types[id];
-}
-
-/****************************************************************************
-  Convert an old-style technology id into a tech name.
-  Caller uses -1 to indicate missing value.
-****************************************************************************/
-static const char* old_tech_name(int id)
-{
-  /* Longstanding value (through 2.1) for A_LAST at 200,
-   * and A_UNSET at 199 */
-  if (id == -1 || id >= 199) {
-    return "A_UNSET";
-  }
-
-  /* This was 1.14.1 value for A_FUTURE */
-  if (id == 198) {
-    return "A_FUTURE";
-  }
-  
-  if (id == 0) {
-    return "A_NONE";
-  }
-  
-  if (id < 0 || id >= ARRAY_SIZE(old_default_techs)) {
-    return NULL;
-  }
-
-  if (strcmp(game.server.rulesetdir, "civ1") == 0 && id == 83) {
-    return "Religion";
-  }
-  
-  return old_default_techs[id];
-}
-
 /*****************************************************************************
   Load technology from path_name and if doesn't exist (because savegame
   is too old) load from path.
@@ -1348,19 +1149,14 @@ static Tech_type_id technology_load(struct section_file *file,
   char path_with_name[128];
   const char* name;
   struct advance *padvance;
-  int id;
 
   fc_snprintf(path_with_name, sizeof(path_with_name),
               "%s_name", path);
 
   name = secfile_lookup_str(file, path_with_name, plrno);
   if (!name) {
-    id = secfile_lookup_int_default(file, -1, path, plrno);
-    name = old_tech_name(id);
-    if (!name) {
-      log_fatal("%s: value (%d) out of range.", path, id);
-      exit(EXIT_FAILURE);
-    }
+    log_fatal("%s: no tech name", path_with_name);
+    exit(EXIT_FAILURE);
   }
 
   if (fc_strcasecmp(name, "A_FUTURE") == 0) {
@@ -1383,32 +1179,6 @@ static Tech_type_id technology_load(struct section_file *file,
     exit(EXIT_FAILURE);    
   }
   return advance_number(padvance);
-}
-
-/****************************************************************************
-  Convert an old-style government index into a government name.
-****************************************************************************/
-static const char* old_government_name(int id)
-{
-  /* before 1.15.0 governments used to be saved by index */
-  if (id < 0) {
-    log_fatal("Wrong government type id value (%d)", id);
-    exit(EXIT_FAILURE);
-  }
-  /* Different rulesets had different governments. */
-  if (strcmp(game.server.rulesetdir, "civ2") == 0) {
-    if (id >= ARRAY_SIZE(old_civ2_governments)) {
-      log_fatal("Wrong government type id value (%d)", id);
-      exit(EXIT_FAILURE);
-    }
-    return old_civ2_governments[id];
-  } else {
-    if (id >= ARRAY_SIZE(old_default_governments)) {
-      log_fatal("Wrong government type id value (%d)", id);
-      exit(EXIT_FAILURE);
-    }
-    return old_default_governments[id];
-  }
 }
 
 /****************************************************************************
@@ -1449,15 +1219,8 @@ static void player_load_units(struct player *plr, int plrno,
     type_name = secfile_lookup_str(file, "player%d.u%d.type_by_name",
                                    plrno, i);
     if (!type_name) {
-      /* before 1.15.0 unit types used to be saved by id. */
-      int t = secfile_lookup_int_default(file, -1,
-                                         "player%d.u%d.type",
-                                         plrno, i);
-      type_name = old_unit_type_name(t);
-      if (!type_name) {
-        log_fatal("player%d.u%d.type: unknown (%d)", plrno, i, t);
-        exit(EXIT_FAILURE);
-      }
+      log_fatal("Player %d, unit %d, no type", plrno, i);
+      exit(EXIT_FAILURE);
     }
     
     type = unit_type_by_rule_name(type_name);
@@ -1880,7 +1643,6 @@ static void player_load_main(struct player *plr, int plrno,
   const char *p;
   const char *name;
   struct government *gov;
-  int id;
   struct player_research *research;
   struct nation_type *pnation;
 
@@ -1972,9 +1734,8 @@ static void player_load_main(struct player *plr, int plrno,
   /* government */
   name = secfile_lookup_str(file, "player%d.government_name", plrno);
   if (!name) {
-    /* old servers used to save government by id */
-    id = secfile_lookup_int_default(file, -1, "player%d.government", plrno);
-    name = old_government_name(id);
+    log_fatal("Player%d: no government.", plrno);
+    exit(EXIT_FAILURE);
   }
   gov = government_by_rule_name(name);
   if (gov == NULL) {
@@ -2112,21 +1873,8 @@ static void player_load_main(struct player *plr, int plrno,
    */
   p = secfile_lookup_str(file, "player%d.invs_new", plrno);
   if (!p) {
-    /* old savegames */
-    p = secfile_lookup_str(file, "player%d.invs", plrno);
-    for (k = 0; p[k];  k++) {
-      const char *name = old_tech_name(k);
-      if (!name) {
-        log_fatal("player%d.invs: value (%d) out of range.", plrno, k);
-        exit(EXIT_FAILURE);
-      }
-      if (p[k] == '1') {
-        struct advance *padvance = advance_by_rule_name(name);
-        if (padvance) {
-          player_invention_set(plr, advance_number(padvance), TECH_KNOWN);
-        }
-      }
-    }
+    log_fatal("Player %d: no inventions info", plrno);
+    exit(EXIT_FAILURE);
   } else {
     for (k = 0; k < technology_order_size && p[k]; k++) {
       if (p[k] == '1') {
@@ -2627,32 +2375,8 @@ static void player_load_cities(struct player *plr, int plrno,
     name = secfile_lookup_str(file, "player%d.c%d.currently_building_name",
                               plrno, i);
     if (!name) {
-      /* before 1.15.0 production was saved by id. */
-      int id = secfile_lookup_int_default(file, -1,
-                                          "player%d.c%d.currently_building",
-                                          plrno, i);
-      switch (pcity->production.kind) {
-      case VUT_UTYPE:
-        name = old_unit_type_name(id);
-        if (!name) {
-          log_fatal("player%d.c%d.currently_building: unknown unit (%d)",
-                    plrno, i, id);
-          exit(EXIT_FAILURE);
-        }
-        break;
-      case VUT_IMPROVEMENT:
-        name = old_impr_type_name(id);
-        if (!name) {
-          log_fatal("player%d.c%d.currently_building: "
-                    "unknown improvement (%d)", plrno, i, id);
-          exit(EXIT_FAILURE);
-        }
-        break;
-      default:
-        log_fatal("player%d.c%d.currently_building: version mismatch.",
-                  plrno, i);
-        exit(EXIT_FAILURE);
-      };
+      log_fatal("Player %d, city %d: No production name", plrno, i);
+      exit(EXIT_FAILURE);
     }
     pcity->production = universal_by_rule_name(kind, name);
     if (pcity->production.kind == universals_n_invalid()) {
@@ -2674,32 +2398,9 @@ static void player_load_cities(struct player *plr, int plrno,
     name = secfile_lookup_str(file, "player%d.c%d.changed_from_name",
                               plrno, i);
     if (!name) {
-      /* before 1.15.0 production was saved by id. */
-      int id = secfile_lookup_int_default(file, -1,
-                                          "player%d.c%d.changed_from_id",
-                                          plrno, i);
-      switch (pcity->production.kind) {
-      case VUT_UTYPE:
-        name = old_unit_type_name(id);
-        if (!name) {
-          log_fatal("player%d.c%d.changed_from_id: unknown unit (%d)",
-                    plrno, i, id);
-          exit(EXIT_FAILURE);
-        }
-        break;
-      case VUT_IMPROVEMENT:
-        name = old_impr_type_name(id);
-        if (!name) {
-          log_fatal("player%d.c%d.changed_from_id: unknown improvement (%d)",
-                    plrno, i, id);
-          exit(EXIT_FAILURE);
-        }
-        break;
-      default:
-        log_fatal("player%d.c%d.changed_from_id: version mismatch.",
-                  plrno, i);
-        exit(EXIT_FAILURE);
-      };
+      log_fatal("Player %d, city %d: No old production name",
+                plrno, i);
+      exit(EXIT_FAILURE);
     }
     pcity->changed_from = universal_by_rule_name(kind, name);
     if (pcity->changed_from.kind == universals_n_invalid()) {
@@ -2850,22 +2551,9 @@ static void player_load_cities(struct player *plr, int plrno,
     p = secfile_lookup_str(file, "player%d.c%d.improvements_new",
                            plrno, i);
     if (!p) {
-      /* old savegames */
-      p = secfile_lookup_str(file, "player%d.c%d.improvements", plrno, i);
-      for (k = 0; p[k]; k++) {
-        const char *name = old_impr_type_name(k);
-        if (!name) {
-          log_fatal("player%d.c%d.improvements: unknown building (%d)",
-                    plrno, i, k);
-          exit(EXIT_FAILURE);
-        }
-        if (p[k] == '1') {
-          struct impr_type *pimprove = improvement_by_rule_name(name);
-          if (pimprove) {
-            city_add_improvement(pcity, pimprove);
-          }
-        }
-      }
+      log_fatal("Player %d, city %d: No buildings information",
+                plrno, i);
+      exit(EXIT_FAILURE);
     } else {
       for (k = 0; k < improvement_order_size && p[k]; k++) {
         if (p[k] == '1') {
@@ -3424,10 +3112,10 @@ static void game_load_internal(struct section_file *file)
   /* [game] */
   game_version = secfile_lookup_int_default(file, 0, "game.version");
 
-  /* we require at least version 1.9.0 */
-  if (10900 > game_version) {
+  /* we require at least version 2.0.0 */
+  if (20000 > game_version) {
     /* TRANS: Fatal error message. */
-    log_fatal(_("Saved game is too old, at least version 1.9.0 required."));
+    log_fatal(_("Saved game is too old, at least version 2.0.0 required."));
     exit(EXIT_FAILURE);
   }
 
@@ -4117,23 +3805,8 @@ static void game_load_internal(struct section_file *file)
     /* destroyed wonders: */
     string = secfile_lookup_str(file, "game.destroyed_wonders_new");
     if (!string) {
-      /* old savegames */
-      string = secfile_lookup_str_default(file, "",
-                                          "game.destroyed_wonders");
-      for (k = 0; string[k]; k++) {
-        const char *name = old_impr_type_name(k);
-        if (!name) {
-          log_fatal("game.destroyed_wonders: unknown building (%d)", k);
-          exit(EXIT_FAILURE);
-        }
-        if (string[k] == '1') {
-          struct impr_type *pimprove = improvement_by_rule_name(name);
-          if (pimprove) {
-            game.info.great_wonder_owners[improvement_index(pimprove)] =
-                WONDER_DESTROYED;
-          }
-        }
-      }
+      log_fatal("No destroyed wonders information");
+      exit(EXIT_FAILURE);
     } else {
       for (k = 0; k < improvement_order_size && string[k]; k++) {
         if (string[k] == '1') {
