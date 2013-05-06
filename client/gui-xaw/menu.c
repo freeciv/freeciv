@@ -149,7 +149,7 @@ static struct MenuEntry view_menu_entries[]={
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Terrain"), 0              },      "", MENU_VIEW_SHOW_TERRAIN, 0 },
     { { N_("Coastline"), 0            },      "", MENU_VIEW_SHOW_COASTLINE, 0 },
-    { { N_("Roads & Rails"), 0        },      "", MENU_VIEW_SHOW_ROADS_RAILS, 0 },
+    { { N_("Paths"), 0                },      "", MENU_VIEW_SHOW_PATHS, 0 },
     { { N_("Irrigation"), 0           },      "", MENU_VIEW_SHOW_IRRIGATION, 0 },
     { { N_("Mines"), 0                },      "", MENU_VIEW_SHOW_MINES, 0 },
     { { N_("Bases"), 0                },      "", MENU_VIEW_SHOW_BASES, 0 },
@@ -361,7 +361,7 @@ void real_menus_update(void)
 			 draw_city_names);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_TERRAIN, 1);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_COASTLINE, !draw_terrain);
-    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_ROADS_RAILS, 1);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_PATHS, 1);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_IRRIGATION, 1);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_MINES, 1);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_BASES, 1);
@@ -665,7 +665,7 @@ static void view_menu_callback(Widget w, XtPointer client_data,
   case MENU_VIEW_SHOW_COASTLINE:
     key_coastline_toggle();
     break;
-  case MENU_VIEW_SHOW_ROADS_RAILS:
+  case MENU_VIEW_SHOW_PATHS:
     key_roads_rails_toggle();
     break;
   case MENU_VIEW_SHOW_IRRIGATION:

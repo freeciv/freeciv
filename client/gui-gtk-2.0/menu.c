@@ -1491,7 +1491,7 @@ static GtkActionGroup *get_safe_group(void)
       {"SHOW_COASTLINE", NULL, _("C_oastline"),
        NULL, NULL, G_CALLBACK(show_coastline_callback), FALSE},
 
-      {"SHOW_ROADS_RAILS", NULL, _("_Roads & Rails"),
+      {"SHOW_PATHS", NULL, _("_Paths"),
        NULL, NULL, G_CALLBACK(show_road_rails_callback), FALSE},
       {"SHOW_IRRIGATION", NULL, _("_Irrigation"),
        NULL, NULL, G_CALLBACK(show_irrigation_callback), FALSE},
@@ -2510,7 +2510,7 @@ void real_menus_init(void)
                    draw_city_trade_routes);
   menus_set_active(safe_group, "SHOW_TERRAIN", draw_terrain);
   menus_set_active(safe_group, "SHOW_COASTLINE", draw_coastline);
-  menus_set_active(safe_group, "SHOW_ROADS_RAILS", draw_roads_rails);
+  menus_set_active(safe_group, "SHOW_PATHS", draw_roads_rails);
   menus_set_active(safe_group, "SHOW_IRRIGATION", draw_irrigation);
   menus_set_active(safe_group, "SHOW_MINES", draw_mines);
   menus_set_active(safe_group, "SHOW_BASES", draw_fortress_airbase);
