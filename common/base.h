@@ -141,17 +141,13 @@ struct player *base_owner(const struct tile *ptile);
 void base_types_init(void);
 void base_types_free(void);
 
-struct base_type *base_array_first(void);
-const struct base_type *base_array_last(void);
-
 #define base_type_iterate(_p)						\
-{									\
-  struct base_type *_p = base_array_first();				\
-  if (NULL != _p) {							\
-    for (; _p <= base_array_last(); _p++) {
+{                                                                       \
+  int _i_;                                                              \
+  for (_i_ = 0; _i_ < game.control.num_base_types ; _i_++) {            \
+    struct base_type *_p = base_by_number(_i_);
 
 #define base_type_iterate_end						\
-    }									\
   }									\
 }
 

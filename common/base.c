@@ -21,13 +21,12 @@
 #include "string_vector.h"
 
 /* common */
+#include "extras.h"
 #include "game.h"
 #include "tile.h"
 #include "unit.h"
 
 #include "base.h"
-
-static struct base_type base_types[MAX_BASE_TYPES];
 
 /****************************************************************************
   Check if base provides effect
@@ -214,7 +213,8 @@ struct base_type *base_by_number(const Base_type_id id)
   if (id < 0 || id >= game.control.num_base_types) {
     return NULL;
   }
-  return &base_types[id];
+
+  return &extras_type_get(EXTRAS_BASE, id)->data.base;
 }
 
 /**************************************************************************
@@ -235,7 +235,10 @@ Base_type_id base_number(const struct base_type *pbase)
 Base_type_id base_index(const struct base_type *pbase)
 {
   fc_assert_ret_val(NULL != pbase, -1);
-  return pbase - base_types;
+
+  /* FIXME: */
+  /*  return pbase - base_types; */
+  return base_number(pbase);
 }
 
 /**************************************************************************
@@ -246,28 +249,6 @@ Base_type_id base_count(void)
   return game.control.num_base_types;
 }
 
-/**************************************************************************
-  Return the last item of base_types.
-**************************************************************************/
-const struct base_type *base_array_last(void)
-{
-  if (game.control.num_base_types > 0) {
-    return &base_types[game.control.num_base_types - 1];
-  }
-  return NULL;
-}
-
-/**************************************************************************
-  Return the first item of base_types.
-**************************************************************************/
-struct base_type *base_array_first(void)
-{
-  if (game.control.num_base_types > 0) {
-    return base_types;
-  }
-  return NULL;
-}
-
 /****************************************************************************
   Initialize base_type structures.
 ****************************************************************************/
@@ -275,9 +256,11 @@ void base_types_init(void)
 {
   int i;
 
-  for (i = 0; i < ARRAY_SIZE(base_types); i++) {
-    base_types[i].item_number = i;
-    requirement_vector_init(&base_types[i].reqs);
+  for (i = 0; i < MAX_BASE_TYPES; i++) {
+    struct base_type *pbase = &extras_type_get(EXTRAS_BASE, i)->data.base;
+
+    pbase->item_number = i;
+    requirement_vector_init(&pbase->reqs);
   }
 }
 

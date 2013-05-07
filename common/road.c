@@ -20,6 +20,7 @@
 #include "string_vector.h"
 
 /* common */
+#include "extras.h"
 #include "fc_types.h"
 #include "game.h"
 #include "movement.h"
@@ -27,8 +28,6 @@
 #include "unittype.h"
 
 #include "road.h"
-
-static struct road_type roads[MAX_ROAD_TYPES];
 
 /**************************************************************************
   Return the road id.
@@ -50,7 +49,9 @@ Road_type_id road_index(const struct road_type *proad)
 {
   fc_assert_ret_val(NULL != proad, -1);
 
-  return proad - roads;
+  /* FIXME: */
+  /* return proad - roads; */
+  return road_number(proad);
 }
 
 /**************************************************************************
@@ -68,7 +69,7 @@ struct road_type *road_by_number(Road_type_id id)
 {
   fc_assert_ret_val(id >= 0 && id < game.control.num_road_types, NULL);
 
-  return &roads[id];
+  return &extras_type_get(EXTRAS_ROAD, id)->data.road;
 }
 
 /****************************************************************************
@@ -79,10 +80,12 @@ void road_types_init(void)
   int i;
 
   for (i = 0; i < MAX_ROAD_TYPES; i++) {
-    roads[i].id = i;
-    requirement_vector_init(&roads[i].reqs);
-    roads[i].hiders = NULL;
-    roads[i].helptext = NULL;
+    struct road_type *proad = &extras_type_get(EXTRAS_ROAD, i)->data.road;
+
+    proad->id = i;
+    requirement_vector_init(&proad->reqs);
+    proad->hiders = NULL;
+    proad->helptext = NULL;
   }
 }
 

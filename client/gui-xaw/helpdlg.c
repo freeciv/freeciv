@@ -29,19 +29,22 @@
 #include <X11/Xaw/AsciiText.h>
 #include <X11/Xaw/Tree.h>
 
-/* common & utility */
-#include "city.h"
+/* utility */
 #include "fcintl.h"
 #include "genlist.h"
-#include "government.h"
 #include "mem.h"
-#include "movement.h"
 #include "shared.h"
+#include "support.h"
+
+/* common */
+#include "city.h"
+#include "game.h"
+#include "government.h"
+#include "movement.h"
 #include "specialist.h"
 #include "tech.h"
 #include "unit.h"
 #include "map.h"
-#include "support.h"
 #include "version.h"
 
 /* client */

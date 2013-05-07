@@ -17,15 +17,30 @@
 extern "C" {
 #endif /* __cplusplus */
 
-enum extras_type_id 
+/* common */
+#include "base.h"
+#include "fc_types.h"
+#include "road.h"
+
+struct extras_type
+{
+  int id;
+  enum extras_type_id type;
+
+  union
   {
-    EXTRAS_ROAD,
-    EXTRAS_BASE,
-    EXTRAS_SPECIAL
-  };
+    enum tile_special_type special;
+    struct base_type base;
+    struct road_type road;
+  } data;
+};
 
 void extras_init(void);
 void extras_free(void);
+
+struct extras_type *extras_by_number(int id);
+
+struct extras_type *extras_type_get(enum extras_type_id type, int subid);
 
 #ifdef __cplusplus
 }

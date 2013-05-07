@@ -31,6 +31,7 @@
 
 /* common */
 #include "city.h"
+#include "game.h"
 #include "government.h"
 #include "movement.h"
 #include "specialist.h"

@@ -158,7 +158,8 @@ struct road_type *next_road_for_tile(struct tile *ptile, struct player *pplayer,
     struct road_type *_p = road_by_number(_i_);
 
 #define road_type_iterate_end                    \
-  }}
+  }                                              \
+}
 
 #define road_deps_iterate(_reqs, _dep)                  \
 {                                                       \

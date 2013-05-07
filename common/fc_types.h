@@ -437,6 +437,13 @@ enum diplomacy_mode {
   DIPLO_DISABLED,
 };
 
+enum extras_type_id 
+  {
+    EXTRAS_ROAD,
+    EXTRAS_BASE,
+    EXTRAS_SPECIAL
+  };
+
 /* Used in the network protocol. */
 enum tile_special_type {
   S_IRRIGATION,
