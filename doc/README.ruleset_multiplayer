@@ -109,12 +109,6 @@ Unit changes
 - Caravans cost 30 production (was 50); Freight remain at 50.
 - Elephants, Crusaders, and Fanatics added from the civ2 ruleset.
 
-Extras changes
---------------
-
-- Buoys cannot be built. Current freeciv does not fully support
-  bases like them when national borders are disabled.
-
 Default settings
 ----------------
 

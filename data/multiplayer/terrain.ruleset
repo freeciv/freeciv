@@ -983,10 +983,6 @@ Airbases allow your air units to land and refuel. Air units in an \
 airbase may be attacked by land units.\
 ")
 
-; Buoys do not work properly when borders are disabled.
-; For that reason they are marked non-buildable. They have not
-; been completely removed from the ruleset for compatibility with
-; old savegames.
 [base_buoy]
 name           = _("Buoy")
 graphic        = "base.buoy"
@@ -1001,12 +997,11 @@ reqs           =
       "CityTile", "Center", "Local", TRUE
     }
 gui_type       = "Fortress"
-buildable      = FALSE
+buildable      = TRUE
 build_time     = 3
-border_sq      = 0
 vision_main_sq = 5
 helptext       = _("\
-Buoys cannot be built in the multiplayer ruleset.\
+Buoys may be built in the ocean (by units on a sea-going vessel).\
 ")
 
 [base_ruins]
