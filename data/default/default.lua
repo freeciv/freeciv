@@ -49,8 +49,11 @@ function default_hut_get_mercenaries(unit)
   local owner = unit.owner
   local type = find.role_unit_type('HutTech', owner)
 
-  if not type then
+  if not type or not type:can_exist_at_tile(unit.tile) then
     type = find.role_unit_type('Hut', nil)
+    if not type or not type:can_exist_at_tile(unit.tile) then
+      type = nil
+    end
   end
 
   if type then
@@ -73,7 +76,7 @@ function default_hut_get_city(unit)
     notify.event(owner, unit.tile, E.HUT_CITY,
                  _("You found a friendly city."))
   else
-    if settlers then
+    if settlers and settlers:can_exist_at_tile(unit.tile) then
       notify.event(owner, unit.tile, E.HUT_SETTLER,
                    _("Friendly nomads are impressed by you, and join you."))
       create_unit(owner, unit.tile, settlers, 0, unit:get_homecity(), -1)
