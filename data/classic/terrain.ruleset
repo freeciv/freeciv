@@ -1025,7 +1025,6 @@ reqs           =
     }
 gui_type       = "Fortress"
 build_time     = 3
-border_sq      = 0
 vision_main_sq = 5
 helptext       = _("\
 Buoys may be built in the ocean (by units on a sea-going vessel).\
