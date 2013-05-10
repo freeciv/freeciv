@@ -24,7 +24,7 @@ There's alien life, but more surprisingly also some edible\
 plants just like on Earth.\n\n\
 Radio doesn't work, air doesn't allow flying, some basic Physics\
 does not apply here.\n\n\
-You struggle to live on this planet, and read Stalker by Strugatski\
+You struggle to live on this planet, and read Roadside Picnic by Strugatsky\
 brothers once more."))
   end
 end
