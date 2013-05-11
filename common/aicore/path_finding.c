@@ -2400,7 +2400,6 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
           pf_fuel_map_create_segment(pffm, tile1, node1);
           /* It is the first part of a fuel segment. */
           node1->waited = (NS_WAITING == node->status);
-          node1->waited = TRUE;
           if (NS_PROCESSED != node1->status) {
             /* Node status B. to C. */
             node1->status = NS_NEW;
