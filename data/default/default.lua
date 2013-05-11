@@ -25,6 +25,11 @@ function default_hut_get_gold(unit, gold)
   owner:change_gold(gold)
 end
 
+-- Default if intended hut behavior wasn't possible.
+function default_hut_consolation_prize(unit)
+  default_hut_get_gold(unit, 25)
+end
+
 -- Get a tech from entering a hut.
 function default_hut_get_tech(unit)
   local owner = unit.owner
@@ -75,11 +80,15 @@ function default_hut_get_city(unit)
     owner:create_city(unit.tile, "")
     notify.event(owner, unit.tile, E.HUT_CITY,
                  _("You found a friendly city."))
+    return true
   else
     if settlers and settlers:can_exist_at_tile(unit.tile) then
       notify.event(owner, unit.tile, E.HUT_SETTLER,
                    _("Friendly nomads are impressed by you, and join you."))
       owner:create_unit(unit.tile, settlers, 0, unit:get_homecity(), -1)
+      return true
+    else
+      return false
     end
   end
 end
@@ -127,12 +136,14 @@ function default_hut_enter_callback(unit)
     default_hut_get_tech(unit)
   elseif chance == 8 or chance == 9 then
     if not default_hut_get_mercenaries(unit) then
-      default_hut_get_gold(unit, 25)
+      default_hut_consolation_prize(unit)
     end
   elseif chance == 10 then
     alive = default_hut_get_barbarians(unit)
   elseif chance == 11 then
-    default_hut_get_city(unit)
+    if not default_hut_get_city(unit) then
+      default_hut_consolation_prize(unit)
+    end
   end
 
   -- continue processing if unit is alive
