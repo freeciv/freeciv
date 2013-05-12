@@ -944,7 +944,10 @@ void tilespec_try_read(const char *tileset_name, bool verbose)
       struct tileset *t = tileset_read_toplevel(file, FALSE);
 
       if (t) {
-        if (!tileset || t->priority > tileset->priority) {
+        if (!tileset) {
+          tileset = t;
+        } else if (t->priority > tileset->priority) {
+          tileset_free(tileset);
           tileset = t;
         } else {
           tileset_free(t);
