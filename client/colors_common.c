@@ -75,6 +75,8 @@ void color_system_free(struct color_system *colors)
     rgbcolor_destroy(*(colors->stdcolors + stdcolor));
   }
 
+  free(colors->stdcolors);
+
   free(colors);
 }
 

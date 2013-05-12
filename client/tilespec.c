@@ -1009,6 +1009,9 @@ void tileset_free(struct tileset *t)
 {
   tileset_free_tiles(t);
   tileset_free_toplevel(t);
+  players_iterate(pplayer) {
+    tileset_player_free(tileset, pplayer);
+  } players_iterate_end;
   specfile_list_destroy(t->specfiles);
   small_sprite_list_destroy(t->small_sprites);
   free(t);
@@ -1029,7 +1032,10 @@ void tilespec_try_read(const char *tileset_name, bool verbose)
       struct tileset *t = tileset_read_toplevel(file, FALSE);
 
       if (t) {
-        if (!tileset || t->priority > tileset->priority) {
+        if (!tileset) {
+          tileset = t;
+        } else if (t->priority > tileset->priority) {
+          tileset_free(tileset);
           tileset = t;
         } else {
           tileset_free(t);
@@ -1888,6 +1894,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 
     if (!rstyle_hash_insert(t->rstyle_hash, name, style)) {
       log_error("warning: duplicate roadstyle entry [%s].", roadname);
+      FC_FREE(name);
+      FC_FREE(style);
       goto ON_ERROR;
     }
   }
