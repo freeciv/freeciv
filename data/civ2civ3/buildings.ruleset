@@ -912,10 +912,10 @@ Space Modules are the most expensive parts of spaceships.  There\
 - Habitation Module: provides living space for 10,000 people.\
 "), _("\
 - Life Support Module: provides food and water for the population of\
-  one Habitation Module.\
+ one Habitation Module.\
 "), _("\
 - Solar Panels: provides the energy needed for any two of the other\
-  Modules.\
+ Modules.\
 "), _("\
 You can build up to 4 Space Modules of each kind.\
 "), _("\
