@@ -401,7 +401,7 @@ int universal_number(const struct universal *source)
   Pass this some values like "Building", "Factory".
 ****************************************************************************/
 struct requirement req_from_str(const char *type, const char *range,
-				bool survives, bool negated,
+				bool survives, bool present,
 				const char *value)
 {
   struct requirement req;
@@ -452,7 +452,7 @@ struct requirement req_from_str(const char *type, const char *range,
   }
 
   req.survives = survives;
-  req.negated = negated;
+  req.present = present;
 
   /* These checks match what combinations are supported inside
    * is_req_active(). */
@@ -517,7 +517,7 @@ struct requirement req_from_str(const char *type, const char *range,
   if (invalid) {
     log_error("Invalid requirement %s | %s | %s | %s | %s",
               type, range, survives ? "survives" : "",
-              negated ? "negated" : "", value);
+              present ? "present" : "", value);
     req.source.kind = universals_n_invalid();
   }
 
@@ -529,7 +529,7 @@ struct requirement req_from_str(const char *type, const char *range,
   of req_get_values.
 ****************************************************************************/
 struct requirement req_from_values(int type, int range,
-				   bool survives, bool negated,
+				   bool survives, bool present,
 				   int value)
 {
   struct requirement req;
@@ -537,7 +537,7 @@ struct requirement req_from_values(int type, int range,
   req.source = universal_by_number(type, value);
   req.range = range;
   req.survives = survives;
-  req.negated = negated;
+  req.present = present;
   return req;
 }
 
@@ -547,13 +547,13 @@ struct requirement req_from_values(int type, int range,
 ****************************************************************************/
 void req_get_values(const struct requirement *req,
 		    int *type, int *range,
-		    bool *survives, bool *negated,
+		    bool *survives, bool *present,
 		    int *value)
 {
   universal_extraction(&req->source, type, value);
   *range = req->range;
   *survives = req->survives;
-  *negated = req->negated;
+  *present = req->present;
 }
 
 /****************************************************************************
@@ -565,7 +565,7 @@ bool are_requirements_equal(const struct requirement *req1,
   return (are_universals_equal(&req1->source, &req2->source)
 	  && req1->range == req2->range
 	  && req1->survives == req2->survives
-	  && req1->negated == req2->negated);
+	  && req1->present == req2->present);
 }
 
 /****************************************************************************
@@ -1536,10 +1536,10 @@ bool is_req_active(const struct player *target_player,
     return FALSE;
   }
 
-  if (req->negated) {
-    return !eval;
-  } else {
+  if (req->present) {
     return eval;
+  } else {
+    return !eval;
   }
 }
 

@@ -2,7 +2,7 @@
 
 [datafile]
 description="Alien World tile_type data for Freeciv"
-options="+Freeciv-ruleset-Devel-2013.Apr.23"
+options="+Freeciv-ruleset-Devel-2013.May.14"
 
 [control]
 ; Names for custom unit type flags.
@@ -542,11 +542,11 @@ activity_gfx  = "unit.tower"
 act_gfx_alt   = "unit.fortress"
 buildable     = TRUE
 reqs          =
-    { "type", "name", "range", "negated"
-      "Tech", "Strong Force", "Player", FALSE
-      "TerrainClass", "Land", "Local", FALSE
-      "UnitFlag", "Settlers", "Local", FALSE
-      "CityTile", "Center", "Local", TRUE
+    { "type", "name", "range", "present"
+      "Tech", "Strong Force", "Player", TRUE
+      "TerrainClass", "Land", "Local", TRUE
+      "UnitFlag", "Settlers", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
     }
 gui_type      = "Fortress"
 build_time    = 3
@@ -563,11 +563,11 @@ activity_gfx  = "unit.force_fortress"
 act_gfx_alt   = "unit.fortress"
 buildable     = TRUE
 reqs          =
-    { "type", "name", "range", "negated"
-      "Tech", "Force Channeling", "Player", FALSE
-      "TerrainClass", "Land", "Local", FALSE
-      "UnitFlag", "Settlers", "Local", FALSE
-      "CityTile", "Center", "Local", TRUE
+    { "type", "name", "range", "present"
+      "Tech", "Force Channeling", "Player", TRUE
+      "TerrainClass", "Land", "Local", TRUE
+      "UnitFlag", "Settlers", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
     }
 gui_type      = "Fortress"
 build_time    = 3
@@ -584,11 +584,11 @@ activity_gfx = "unit.antigrav_base"
 act_gfx_alt  = "unit.airbase"
 buildable    = TRUE
 reqs         =
-    { "type", "name", "range", "negated"
-      "Tech", "Commercial Antigravity", "Player", FALSE
-      "TerrainClass", "Land", "Local", FALSE
-      "UnitFlag", "Settlers", "Local", FALSE
-      "CityTile", "Center", "Local", TRUE
+    { "type", "name", "range", "present"
+      "Tech", "Commercial Antigravity", "Player", TRUE
+      "TerrainClass", "Land", "Local", TRUE
+      "UnitFlag", "Settlers", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
     }
 gui_type     = "Airbase"
 build_time   = 3

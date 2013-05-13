@@ -1651,7 +1651,7 @@ PACKET_RULESET_EFFECT_REQ = 176; sc, lsend
 
   REQ_RANGE range;
   BOOL survives;
-  BOOL negated;
+  BOOL present;
 end
 
 PACKET_RULESET_RESOURCE = 177; sc, lsend

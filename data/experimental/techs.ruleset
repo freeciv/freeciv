@@ -11,7 +11,7 @@
 
 [datafile]
 description="Experimental technology data for Freeciv"
-options="+Freeciv-ruleset-Devel-2013.Apr.23"
+options="+Freeciv-ruleset-Devel-2013.May.14"
 
 ; /* <-- avoid gettext warnings
 ;

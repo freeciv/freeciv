@@ -11,7 +11,7 @@
 
 [datafile]
 description="Default game rules for Freeciv"
-options="+Freeciv-ruleset-Devel-2013.Apr.23"
+options="+Freeciv-ruleset-Devel-2013.May.14"
 
 [about]
 ; Ruleset name

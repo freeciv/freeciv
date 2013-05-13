@@ -54,7 +54,7 @@ struct requirement {
   struct universal source;		/* requirement source */
   enum req_range range;			/* requirement range */
   bool survives; /* set if destroyed sources satisfy the req*/
-  bool negated;	 /* set if the requirement is to be negated */
+  bool present;	 /* set if the requirement is to be present */
 };
 
 #define SPECLIST_TAG requirement
@@ -73,14 +73,14 @@ struct requirement {
 
 /* General requirement functions. */
 struct requirement req_from_str(const char *type, const char *range,
-				bool survives, bool negated,
+				bool survives, bool present,
 				const char *value);
 
 void req_get_values(const struct requirement *req, int *type,
-		    int *range, bool *survives, bool *negated,
+		    int *range, bool *survives, bool *present,
 		    int *value);
 struct requirement req_from_values(int type, int range,
-				   bool survives, bool negated, int value);
+				   bool survives, bool present, int value);
 
 bool are_requirements_equal(const struct requirement *req1,
 			    const struct requirement *req2);

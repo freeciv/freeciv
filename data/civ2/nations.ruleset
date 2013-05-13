@@ -13,7 +13,7 @@
 
 [datafile]
 description="Civ2-equivalent nations data for Freeciv"
-options="+Freeciv-ruleset-Devel-2013.Apr.23"
+options="+Freeciv-ruleset-Devel-2013.May.14"
 
 [compatibility]
 ; Initial government for all the nations that do not

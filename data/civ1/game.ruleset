@@ -11,7 +11,7 @@
 
 [datafile]
 description="Civ1-style game rules for Freeciv"
-options="+Freeciv-ruleset-Devel-2013.Apr.23"
+options="+Freeciv-ruleset-Devel-2013.May.14"
 
 [about]
 ; Ruleset name
@@ -214,8 +214,8 @@ effects        = "DestroyBuilding"
 [disaster_famine]
 name           = _("Famine")
 reqs           =
-    { "type", "name", "range", "negated"
-      "Building", "Granary", "City", TRUE
+    { "type", "name", "range", "present"
+      "Building", "Granary", "City", FALSE
     }
 frequency      = 10
 effects        = "ReducePopulation", "EmptyFoodStock"
@@ -223,8 +223,8 @@ effects        = "ReducePopulation", "EmptyFoodStock"
 [disaster_fire]
 name           = _("Fire")
 reqs           =
-    { "type", "name", "range", "negated"
-      "Building", "Aqueduct", "City", TRUE
+    { "type", "name", "range", "present"
+      "Building", "Aqueduct", "City", FALSE
     }
 frequency      = 10
 effects        = "DestroyBuilding"
@@ -232,9 +232,9 @@ effects        = "DestroyBuilding"
 [disaster_flood]
 name           = _("Flood")
 reqs           =
-    { "type", "name", "range", "negated"
-      "Road", "River", "Adjacent", FALSE
-      "Building", "City Walls", "City", TRUE
+    { "type", "name", "range", "present"
+      "Road", "River", "Adjacent", TRUE
+      "Building", "City Walls", "City", FALSE
     }
 frequency      = 10
 effects        = "ReducePopulation"
@@ -242,11 +242,11 @@ effects        = "ReducePopulation"
 [disaster_piracy]
 name           = _("Piracy")
 reqs           =
-    { "type", "name", "range", "negated"
-      "Terrain", "Ocean", "Adjacent", FALSE
-      "Building", "Barracks", "City", TRUE
-      "Building", "Barracks II", "City", TRUE
-      "Building", "Barracks III", "City", TRUE
+    { "type", "name", "range", "present"
+      "Terrain", "Ocean", "Adjacent", TRUE
+      "Building", "Barracks", "City", FALSE
+      "Building", "Barracks II", "City", FALSE
+      "Building", "Barracks III", "City", FALSE
     }
 frequency      = 10
 effects        = "EmptyFoodStock", "EmptyProdStock"
@@ -254,9 +254,9 @@ effects        = "EmptyFoodStock", "EmptyProdStock"
 [disaster_plague]
 name           = _("Plague")
 reqs          =
-    { "type", "name", "range", "negated"
-      "Tech", "Medicine", "Player", TRUE
-      "Building", "Aqueduct", "City", TRUE
+    { "type", "name", "range", "present"
+      "Tech", "Medicine", "Player", FALSE
+      "Building", "Aqueduct", "City", FALSE
     }
 frequency      = 10
 effects        = "ReducePopulation"
@@ -264,9 +264,9 @@ effects        = "ReducePopulation"
 [disaster_volcano]
 name           = _("Volcano")
 reqs           =
-    { "type", "name", "range", "negated"
-      "Terrain", "Mountains", "Adjacent", FALSE
-      "Building", "Temple", "City", TRUE
+    { "type", "name", "range", "present"
+      "Terrain", "Mountains", "Adjacent", TRUE
+      "Building", "Temple", "City", FALSE
     }
 frequency      = 10
 effects        = "ReducePopulation"

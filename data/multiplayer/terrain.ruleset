@@ -12,7 +12,7 @@
 
 [datafile]
 description="Multiplayer terrain data for Freeciv"
-options="+Freeciv-ruleset-Devel-2013.Apr.23"
+options="+Freeciv-ruleset-Devel-2013.May.14"
 
 [control]
 ; Names for custom unit type flags.
@@ -942,11 +942,11 @@ graphic_alt    = "-"
 activity_gfx   = "unit.fortress"
 act_gfx_alt    = "-"
 reqs           =
-    { "type", "name", "range", "negated"
-      "Tech", "Construction", "Player", FALSE
-      "TerrainClass", "Land", "Local", FALSE
-      "UnitFlag", "Settlers", "Local", FALSE
-      "CityTile", "Center", "Local", TRUE
+    { "type", "name", "range", "present"
+      "Tech", "Construction", "Player", TRUE
+      "TerrainClass", "Land", "Local", TRUE
+      "UnitFlag", "Settlers", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
     }
 gui_type       = "Fortress"
 build_time     = 3
@@ -968,11 +968,11 @@ graphic_alt    = "-"
 activity_gfx   = "unit.airbase"
 act_gfx_alt    = "-"
 reqs           =
-    { "type", "name", "range", "negated"
-      "Tech", "Radio", "Player", FALSE
-      "TerrainClass", "Land", "Local", FALSE
-      "UnitFlag", "Airbase", "Local", FALSE
-      "CityTile", "Center", "Local", TRUE
+    { "type", "name", "range", "present"
+      "Tech", "Radio", "Player", TRUE
+      "TerrainClass", "Land", "Local", TRUE
+      "UnitFlag", "Airbase", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
     }
 gui_type       = "Airbase"
 build_time     = 3
@@ -990,11 +990,11 @@ graphic_alt    = "base.fortress"
 activity_gfx   = "unit.buoy"
 act_gfx_alt    = "unit.fortress"
 reqs           =
-    { "type", "name", "range", "negated"
-      "Tech", "Radio", "Player", FALSE
-      "TerrainClass", "Oceanic", "Local", FALSE
-      "UnitFlag", "Airbase", "Local", FALSE
-      "CityTile", "Center", "Local", TRUE
+    { "type", "name", "range", "present"
+      "Tech", "Radio", "Player", TRUE
+      "TerrainClass", "Oceanic", "Local", TRUE
+      "UnitFlag", "Airbase", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
     }
 gui_type       = "Fortress"
 buildable      = TRUE
@@ -1011,9 +1011,9 @@ graphic_alt    = "-"
 activity_gfx   = "unit.ruins"
 act_gfx_alt    = "unit.fortress"
 reqs           =
-    { "type", "name", "range", "negated"
-      "TerrainClass", "Land", "Local", FALSE
-      "CityTile", "Center", "Local", TRUE
+    { "type", "name", "range", "present"
+      "TerrainClass", "Land", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
     }
 buildable      = FALSE
 build_time     = 0

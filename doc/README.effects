@@ -39,8 +39,9 @@ certain ranges; this is not yet documented. In particular, at present,
 A requirement may have a 'survives' field, and if this 'TRUE', the effect
 survives destruction (wonders only, at world or player range only).
 
-A requirement may have a 'negated' field, and if this is 'TRUE', the
-requirement is negated.  If this is 'FALSE', the requirement is not negated.
+A requirement may have a 'present' field, and if this is 'FALSE',
+the requirement is negated (the condition must not be true for the req to be
+met).
 
 
 Requirement types and supported ranges

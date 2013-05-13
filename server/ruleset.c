@@ -70,7 +70,7 @@
 #include "ruleset.h"
 
 
-#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2013.Apr.23"
+#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2013.May.14"
 /*
  * Ruleset capabilities acceptable to this program:
  *
@@ -338,7 +338,7 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
                                                  sec, sub, j)); j++) {
     char buf[MAX_LEN_NAME];
     const char *range;
-    bool survives, negated;
+    bool survives, present;
     struct entry *pentry;
     struct requirement req;
 
@@ -396,16 +396,16 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
                     "'%s.%s%d'.", filename, sec, sub, j);
     }
 
-    negated = FALSE;
-    if ((pentry = secfile_entry_lookup(file, "%s.%s%d.negated",
+    present = TRUE;
+    if ((pentry = secfile_entry_lookup(file, "%s.%s%d.present",
                                         sec, sub, j))
-        && !entry_bool_get(pentry, &negated)) {
+        && !entry_bool_get(pentry, &present)) {
       ruleset_error(LOG_ERROR,
-                    "\"%s\": invalid boolean value for negated for "
+                    "\"%s\": invalid boolean value for present for "
                     "'%s.%s%d'.", filename, sec, sub, j);
     }
 
-    req = req_from_str(type, range, survives, negated, name);
+    req = req_from_str(type, range, survives, present, name);
     if (req.source.kind == universals_n_invalid()) {
       ruleset_error(LOG_ERROR, "\"%s\" [%s] has unknown req: \"%s\" \"%s\".",
                     filename, sec, type, name);

@@ -1003,13 +1003,13 @@ bool dio_get_uint16_vec8(struct data_in *din, int **values, int stop_value)
 bool dio_get_requirement(struct data_in *din, struct requirement *preq)
 {
   int type, range, value;
-  bool survives, negated;
+  bool survives, present;
 
   if (!dio_get_uint8(din, &type)
       || !dio_get_sint32(din, &value)
       || !dio_get_uint8(din, &range)
       || !dio_get_bool8(din, &survives)
-      || !dio_get_bool8(din, &negated)) {
+      || !dio_get_bool8(din, &present)) {
     log_packet("Got a bad requirement");
     return FALSE;
   }
@@ -1017,7 +1017,7 @@ bool dio_get_requirement(struct data_in *din, struct requirement *preq)
   /*
    * FIXME: the value returned by req_from_values() should be checked!
    */
-  *preq = req_from_values(type, range, survives, negated, value);
+  *preq = req_from_values(type, range, survives, present, value);
 
   return TRUE;
 }
@@ -1028,13 +1028,13 @@ bool dio_get_requirement(struct data_in *din, struct requirement *preq)
 void dio_put_requirement(struct data_out *dout, const struct requirement *preq)
 {
   int type, range, value;
-  bool survives, negated;
+  bool survives, present;
 
-  req_get_values(preq, &type, &range, &survives, &negated, &value);
+  req_get_values(preq, &type, &range, &survives, &present, &value);
 
   dio_put_uint8(dout, type);
   dio_put_sint32(dout, value);
   dio_put_uint8(dout, range);
   dio_put_bool8(dout, survives);
-  dio_put_bool8(dout, negated);
+  dio_put_bool8(dout, present);
 }

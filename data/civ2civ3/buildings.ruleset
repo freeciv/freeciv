@@ -12,7 +12,7 @@
 
 [datafile]
 description="Civ2Civ3 buildings data for Freeciv"
-options="+Freeciv-ruleset-Devel-2013.Apr.23"
+options="+Freeciv-ruleset-Devel-2013.May.14"
 
 ; /* <-- avoid gettext warnings
 ;
@@ -75,10 +75,10 @@ Two cities with Airports can airlift one unit per turn. \
 name		= _("Aqueduct")
 genus		= "Improvement"
 reqs	=
-    { "type", "name", "range", "negated"
-      "Tech", "Construction", "Player", FALSE
-      "Road", "River", "Adjacent", TRUE
-      "Terrain", "Lake", "Adjacent", TRUE
+    { "type", "name", "range", "present"
+      "Tech", "Construction", "Player", TRUE
+      "Road", "River", "Adjacent", FALSE
+      "Terrain", "Lake", "Adjacent", FALSE
     }
 graphic	= "b.aqueduct"
 graphic_alt	= "-"
@@ -98,8 +98,8 @@ Allows a city to grow larger than size 8 and reduces the chance of plague\
 name		= _("Aqueduct, near Lake")
 genus		= "Improvement"
 reqs	=
-    { "type", "name", "range", "negated"
-      "Terrain", "Lake", "Adjacent", FALSE
+    { "type", "name", "range"
+      "Terrain", "Lake", "Adjacent"
     }
 graphic	= "b.aqueduct"
 graphic_alt	= "-"
@@ -119,9 +119,9 @@ Allows a city to grow larger than size 8 and reduces the chance of plague\
 name		= _("Aqueduct, near River")
 genus		= "Improvement"
 reqs	=
-    { "type", "name", "range", "negated"
-      "Road", "River", "Adjacent", FALSE
-      "Terrain", "Lake", "Adjacent", TRUE
+    { "type", "name", "range", "present"
+      "Road", "River", "Adjacent", TRUE
+      "Terrain", "Lake", "Adjacent", FALSE
     }
 graphic	= "b.aqueduct"
 graphic_alt	= "-"
