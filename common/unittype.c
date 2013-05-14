@@ -934,12 +934,13 @@ static void unit_type_free(struct unit_type *punittype)
   if (NULL != punittype->helptext) {
     strvec_destroy(punittype->helptext);
     punittype->helptext = NULL;
-    veteran_system_destroy(punittype->veteran);
-    combat_bonus_list_iterate(punittype->bonuses, pbonus) {
-      FC_FREE(pbonus);
-    } combat_bonus_list_iterate_end;
-    combat_bonus_list_destroy(punittype->bonuses);
   }
+
+  veteran_system_destroy(punittype->veteran);
+  combat_bonus_list_iterate(punittype->bonuses, pbonus) {
+    FC_FREE(pbonus);
+  } combat_bonus_list_iterate_end;
+  combat_bonus_list_destroy(punittype->bonuses);
 }
 
 /***************************************************************
