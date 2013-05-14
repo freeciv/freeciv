@@ -978,8 +978,9 @@ static void unit_type_free(struct unit_type *punittype)
   if (NULL != punittype->helptext) {
     strvec_destroy(punittype->helptext);
     punittype->helptext = NULL;
-    veteran_system_destroy(punittype->veteran);
   }
+
+  veteran_system_destroy(punittype->veteran);
 }
 
 /***************************************************************
