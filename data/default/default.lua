@@ -25,7 +25,7 @@ function default_hut_get_gold(unit, gold)
   change_gold(owner, gold)
 end
 
--- Default if intended hut behavior wasn't possible.
+-- Default if intended hut behavior wasn`t possible.
 function default_hut_consolation_prize(unit)
   default_hut_get_gold(unit, 25)
 end
