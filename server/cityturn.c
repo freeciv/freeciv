@@ -842,14 +842,14 @@ static void city_populate(struct city *pcity)
     map_claim_border(pcity->tile, pcity->owner);
   } else if (pcity->food_stock < 0) {
     /* FIXME: should this depend on units with ability to build
-     * cities or on units that require food in uppkeep?
+     * cities or on units that require food in upkeep?
      * I'll assume citybuilders (units that 'contain' 1 pop) -- sjolie
      * The above may make more logical sense, but in game terms
      * you want to disband a unit that is draining your food
      * reserves.  Hence, I'll assume food upkeep > 0 units. -- jjm
      */
     unit_list_iterate_safe(pcity->units_supported, punit) {
-      if (unit_type(punit)->upkeep[O_FOOD] > 0 
+      if (punit->upkeep[O_FOOD] > 0 
           && !unit_has_type_flag(punit, F_UNDISBANDABLE)) {
 
         notify_player(city_owner(pcity), city_tile(pcity),
