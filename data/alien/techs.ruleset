@@ -281,6 +281,7 @@ req2        = "High-Tech Filtering"
 flags       = ""
 graphic     = "a.food_regen"
 graphic_alt = "-"
+; /* xgettext:no-c-format */
 helptext    = _("If what we harvest grows back faster, we get more food. \
 It's simple as that.\n\n\
 Farmland tiles get additional 50% food production bonus.")
@@ -436,6 +437,7 @@ req2        = "War Monsters"
 flags       = ""
 graphic     = "a.new_frontier"
 graphic_alt = "-"
+; /* xgettext:no-c-format */
 helptext    = _("We finally fully realize that we are not limited to what \
 we had as part of Earth empire.\n\n\
 Increases max tax/science/lux rate by 10%.")
@@ -476,6 +478,7 @@ req1        = "Virtual Entertainment"
 req2        = "Teleportation"
 graphic     = "a.personal_contact"
 graphic_alt = "-"
+; /* xgettext:no-c-format */
 helptext    = _("With Virtual Reality it's like actor actually was there \
 with you. When you allow actors to teleport to meet their audience, maybe \
 she is.\n\n\
@@ -488,6 +491,7 @@ req1        = "Organic Structures"
 req2        = "Spitter Control"
 graphic     = "a.protein_mod"
 graphic_alt = "-"
+; /* xgettext:no-c-format */
 helptext    = _("Turns out we can make alien lifeforms edible.\n\n\
 Engineers can build Farmland, which increases tile food production by 50%.")
 flags       = "Farmland"
@@ -520,6 +524,7 @@ req2        = "None"
 flags       = ""
 graphic     = "a.research_methods"
 graphic_alt = "-"
+; /* xgettext:no-c-format */
 helptext    = _("Research methods suitable for tackling challenges here \
 allow us to gain knowledge much faster.\n\n\
 Simply knowing this tech increases science output by 35%.")
