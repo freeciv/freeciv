@@ -70,6 +70,7 @@ upkeep		= 1
 sabotage	= 100
 sound		= "b_library"
 sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
 helptext	= _("\
 Increases the science production of a city by 75%.")
 
@@ -209,6 +210,7 @@ upkeep          = 1
 sabotage        = 30
 sound           = "b_city_walls"
 sound_alt       = "b_generic"
+; /* xgettext:no-c-format */
 helptext        = _("\
 Force Walls doubles city defense against all kind of attacks. \
 Bonus is increased to 150% when Strong Force technology is known.")
@@ -386,6 +388,7 @@ upkeep		= 1
 sabotage	= 100
 sound		= "b_university"
 sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
 helptext	= _("\
 Increases the science production of a city by 100%.")
 
@@ -597,6 +600,7 @@ upkeep		= 0
 sabotage	= 0
 sound		= "w_eiffel_tower"
 sound_alt	= "w_generic"
+; /* xgettext:no-c-format */
 helptext	= _("\
 All player's antigravity units will regenerate 50% of their hitpoints each \
 turn.\
@@ -637,6 +641,7 @@ upkeep		= 0
 sabotage	= 0
 sound		= "w_womens_suffrage"
 sound_alt	= "w_generic"
+; /* xgettext:no-c-format */
 helptext	= _("\
 All player's native alien units will regenerate 50% of their hitpoints each \
 turn.\
