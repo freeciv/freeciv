@@ -41,8 +41,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-01 23:10+0300\n"
-"PO-Revision-Date: 2013-05-01 17:18+0100\n"
+"POT-Creation-Date: 2013-05-17 02:58+0300\n"
+"PO-Revision-Date: 2013-05-18 08:24+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -1580,8 +1580,9 @@ msgstr ""
 
 #: client/editor.c:159 common/terrain.c:1026 common/unit.c:777
 #: data/civ1/terrain.ruleset:818 data/civ2/terrain.ruleset:944
-#: data/classic/terrain.ruleset:1119 data/experimental/terrain.ruleset:1093
-#: data/civ2civ3/terrain.ruleset:1118 data/multiplayer/terrain.ruleset:1097
+#: data/classic/terrain.ruleset:1118 data/experimental/terrain.ruleset:1092
+#: data/civ2civ3/terrain.ruleset:1117 data/alien/terrain.ruleset:664
+#: data/multiplayer/terrain.ruleset:1092
 msgid "Road"
 msgstr "Droga"
 
@@ -3528,7 +3529,7 @@ msgid "Select tax, luxury and science rates"
 msgstr "Wybierz stosunek podatków, luksusu i nauki"
 
 #: client/gui-gtk-2.0/gamedlgs.c:247 client/gui-gtk-3.0/gamedlgs.c:247
-#: server/plrhand.c:285
+#: server/plrhand.c:288
 msgid "Tax"
 msgstr "Podatek"
 
@@ -3543,12 +3544,12 @@ msgid "Lock"
 msgstr "Blokuj"
 
 #: client/gui-gtk-2.0/gamedlgs.c:267 client/gui-gtk-3.0/gamedlgs.c:272
-#: common/city.c:87 server/plrhand.c:287
+#: common/city.c:87 server/plrhand.c:290
 msgid "Luxury"
 msgstr "Luksus"
 
 #: client/gui-gtk-2.0/gamedlgs.c:287 client/gui-gtk-3.0/gamedlgs.c:297
-#: common/city.c:88 server/plrhand.c:289
+#: common/city.c:88 server/plrhand.c:292
 msgid "Science"
 msgstr "Nauka"
 
@@ -3715,6 +3716,7 @@ msgstr "Cudy: "
 
 #: client/gui-gtk-2.0/happiness.c:209 client/gui-gtk-3.0/happiness.c:209
 #: client/gui-sdl/citydlg.c:2066 client/gui-sdl/citydlg.c:3746
+#: data/alien/techs.ruleset:330
 msgid "Happiness"
 msgstr "Zadowolenie"
 
@@ -3724,96 +3726,96 @@ msgid "Additional information is available via left click on the citizens."
 msgstr ""
 "Więcej informacji po kliknięciu lewym przyciskiem myszy na mieszkańców."
 
-#: client/gui-gtk-2.0/helpdlg.c:98 client/gui-gtk-2.0/helpdlg.c:101
-#: client/gui-gtk-2.0/helpdlg.c:105 client/gui-gtk-3.0/helpdlg.c:98
-#: client/gui-gtk-3.0/helpdlg.c:101 client/gui-gtk-3.0/helpdlg.c:105
+#: client/gui-gtk-2.0/helpdlg.c:99 client/gui-gtk-2.0/helpdlg.c:102
+#: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:99
+#: client/gui-gtk-3.0/helpdlg.c:102 client/gui-gtk-3.0/helpdlg.c:106
 #: client/gui-sdl/helpdlg.c:349 client/gui-sdl/helpdlg.c:744
 #: data/Freeciv.in:654 data/Freeciv.in:796
 msgid "Cost:"
 msgstr "Koszt:"
 
-#: client/gui-gtk-2.0/helpdlg.c:98 client/gui-gtk-3.0/helpdlg.c:98
+#: client/gui-gtk-2.0/helpdlg.c:99 client/gui-gtk-3.0/helpdlg.c:99
 #: client/gui-sdl/helpdlg.c:357 client/gui-sdl/helpdlg.c:753
 #: data/Freeciv.in:671
 msgid "Upkeep:"
 msgstr "Utrzymanie:"
 
-#: client/gui-gtk-2.0/helpdlg.c:98 client/gui-gtk-2.0/helpdlg.c:101
-#: client/gui-gtk-2.0/helpdlg.c:109 client/gui-gtk-3.0/helpdlg.c:98
-#: client/gui-gtk-3.0/helpdlg.c:101 client/gui-gtk-3.0/helpdlg.c:109
+#: client/gui-gtk-2.0/helpdlg.c:99 client/gui-gtk-2.0/helpdlg.c:102
+#: client/gui-gtk-2.0/helpdlg.c:110 client/gui-gtk-3.0/helpdlg.c:99
+#: client/gui-gtk-3.0/helpdlg.c:102 client/gui-gtk-3.0/helpdlg.c:110
 #: client/gui-sdl/helpdlg.c:368 client/gui-sdl/helpdlg.c:794
 #: data/Freeciv.in:712
 msgid "Requirement:"
 msgstr "Wymagania:"
 
-#: client/gui-gtk-2.0/helpdlg.c:101 client/gui-gtk-2.0/helpdlg.c:109
-#: client/gui-gtk-3.0/helpdlg.c:101 client/gui-gtk-3.0/helpdlg.c:109
+#: client/gui-gtk-2.0/helpdlg.c:102 client/gui-gtk-2.0/helpdlg.c:110
+#: client/gui-gtk-3.0/helpdlg.c:102 client/gui-gtk-3.0/helpdlg.c:110
 #: client/gui-sdl/helpdlg.c:400 client/gui-sdl/helpdlg.c:821
 #: data/Freeciv.in:750
 msgid "Obsolete by:"
 msgstr "Przestarzałe przy:"
 
-#: client/gui-gtk-2.0/helpdlg.c:105 client/gui-gtk-3.0/helpdlg.c:105
+#: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:106
 #: client/gui-sdl/helpdlg.c:777 data/Freeciv.in:813
 msgid "Attack:"
 msgstr "Atak:"
 
-#: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:106
+#: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:107
 #: client/gui-sdl/helpdlg.c:778 data/Freeciv.in:831
 msgid "Defense:"
 msgstr "Obrona:"
 
-#: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:106
+#: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:107
 #: client/gui-sdl/helpdlg.c:779 data/Freeciv.in:849
 msgid "Move:"
 msgstr "Ruch:"
 
-#: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:107
+#: client/gui-gtk-2.0/helpdlg.c:108 client/gui-gtk-3.0/helpdlg.c:108
 #: client/gui-sdl/helpdlg.c:782
 msgid "FirePower:"
 msgstr "Siła ognia:"
 
-#: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:107
+#: client/gui-gtk-2.0/helpdlg.c:108 client/gui-gtk-3.0/helpdlg.c:108
 #: client/gui-sdl/helpdlg.c:783 data/Freeciv.in:894
 msgid "Hitpoints:"
 msgstr "Punkty obrażeń:"
 
-#: client/gui-gtk-2.0/helpdlg.c:108 client/gui-gtk-3.0/helpdlg.c:108
+#: client/gui-gtk-2.0/helpdlg.c:109 client/gui-gtk-3.0/helpdlg.c:109
 #: data/Freeciv.in:930
 msgid "Basic Upkeep:"
 msgstr "Utrzymanie:"
 
-#: client/gui-gtk-2.0/helpdlg.c:108 client/gui-gtk-3.0/helpdlg.c:108
+#: client/gui-gtk-2.0/helpdlg.c:109 client/gui-gtk-3.0/helpdlg.c:109
 #: client/gui-sdl/helpdlg.c:781 data/Freeciv.in:912
 msgid "Vision:"
 msgstr "Pole widzenia:"
 
-#: client/gui-gtk-2.0/helpdlg.c:114 client/gui-gtk-3.0/helpdlg.c:114
+#: client/gui-gtk-2.0/helpdlg.c:115 client/gui-gtk-3.0/helpdlg.c:115
 msgid "Move/Defense:"
 msgstr "Ruch/Obrona:"
 
-#: client/gui-gtk-2.0/helpdlg.c:114 client/gui-gtk-3.0/helpdlg.c:114
+#: client/gui-gtk-2.0/helpdlg.c:115 client/gui-gtk-3.0/helpdlg.c:115
 msgid "Food/Res/Trade:"
 msgstr "Żywn/Zas/Hand:"
 
-#: client/gui-gtk-2.0/helpdlg.c:115 client/gui-gtk-3.0/helpdlg.c:115
+#: client/gui-gtk-2.0/helpdlg.c:116 client/gui-gtk-3.0/helpdlg.c:116
 #: data/Freeciv.in:990
 msgid "Resources:"
 msgstr "Zasoby:"
 
-#: client/gui-gtk-2.0/helpdlg.c:116 client/gui-gtk-3.0/helpdlg.c:116
+#: client/gui-gtk-2.0/helpdlg.c:117 client/gui-gtk-3.0/helpdlg.c:117
 msgid "Road Rslt/Time:"
 msgstr "Droga daje/czas:"
 
-#: client/gui-gtk-2.0/helpdlg.c:116 client/gui-gtk-3.0/helpdlg.c:116
+#: client/gui-gtk-2.0/helpdlg.c:117 client/gui-gtk-3.0/helpdlg.c:117
 msgid "Irrig. Rslt/Time:"
 msgstr "Nawodn. daje/czas:"
 
-#: client/gui-gtk-2.0/helpdlg.c:117 client/gui-gtk-3.0/helpdlg.c:117
+#: client/gui-gtk-2.0/helpdlg.c:118 client/gui-gtk-3.0/helpdlg.c:118
 msgid "Mine Rslt/Time:"
 msgstr "Kopal. daje/czas:"
 
-#: client/gui-gtk-2.0/helpdlg.c:117 client/gui-gtk-3.0/helpdlg.c:117
+#: client/gui-gtk-2.0/helpdlg.c:118 client/gui-gtk-3.0/helpdlg.c:118
 msgid "Trans. Rslt/Time:"
 msgstr "Przekszt. daje/czas:"
 
@@ -3825,76 +3827,76 @@ msgstr "Przekszt. daje/czas:"
 #. * something like "3 MP" (where MP = Movement Points)
 #. TRANS: Label for build cost for roads in help. Will be followed by
 #. * something like "3 MP" (where MP = Movement Points)
-#: client/gui-gtk-2.0/helpdlg.c:123 client/gui-gtk-2.0/helpdlg.c:131
-#: client/gui-gtk-3.0/helpdlg.c:123 client/gui-gtk-3.0/helpdlg.c:131
+#: client/gui-gtk-2.0/helpdlg.c:124 client/gui-gtk-2.0/helpdlg.c:132
+#: client/gui-gtk-3.0/helpdlg.c:124 client/gui-gtk-3.0/helpdlg.c:132
 msgid "Build:"
 msgstr "Budowa:"
 
 #. TRANS: Base conflicts in help. Will be followed by a list of bases
 #. * that can't be built on the same tile as this one.
-#: client/gui-gtk-2.0/helpdlg.c:126 client/gui-gtk-3.0/helpdlg.c:126
+#: client/gui-gtk-2.0/helpdlg.c:127 client/gui-gtk-3.0/helpdlg.c:127
 msgid "Conflicts with:"
 msgstr "Kłóci się z:"
 
 #. TRANS: "None" tech
-#: client/gui-gtk-2.0/helpdlg.c:133 client/gui-gtk-3.0/helpdlg.c:133
+#: client/gui-gtk-2.0/helpdlg.c:134 client/gui-gtk-3.0/helpdlg.c:134
 #: client/gui-qt/repodlgs.cpp:300 client/gui-qt/repodlgs.cpp:315
 #: client/gui-sdl/citydlg.c:730 client/gui-sdl/gui_tilespec.c:488
 #: client/gui-sdl/helpdlg.c:376 client/gui-sdl/helpdlg.c:803
 #: client/gui-sdl/helpdlg.c:829 client/gui-sdl/mapview.c:317
 #: client/gui-sdl/mapview.c:334 client/gui-sdl/mapview.c:775
-#: client/gui-xaw/helpdlg.c:817 client/gui-xaw/helpdlg.c:863
-#: client/gui-xaw/helpdlg.c:882 common/tech.c:1017 common/tech.c:1020
+#: client/gui-xaw/helpdlg.c:820 client/gui-xaw/helpdlg.c:866
+#: client/gui-xaw/helpdlg.c:885 common/tech.c:1017 common/tech.c:1020
 #: tools/civmanual.c:426 tools/civmanual.c:432 server/settings.h:59
 msgid "None"
 msgstr "Brak"
 
-#: client/gui-gtk-2.0/helpdlg.c:134 client/gui-gtk-3.0/helpdlg.c:134
-#: client/gui-xaw/helpdlg.c:764 client/gui-xaw/helpdlg.c:808
-#: client/gui-xaw/helpdlg.c:816 client/gui-xaw/helpdlg.c:855
-#: client/gui-xaw/helpdlg.c:880
+#: client/gui-gtk-2.0/helpdlg.c:135 client/gui-gtk-3.0/helpdlg.c:135
+#: client/gui-xaw/helpdlg.c:767 client/gui-xaw/helpdlg.c:811
+#: client/gui-xaw/helpdlg.c:819 client/gui-xaw/helpdlg.c:858
+#: client/gui-xaw/helpdlg.c:883
 msgid "(Never)"
 msgstr "(Nigdy)"
 
-#: client/gui-gtk-2.0/helpdlg.c:217 client/gui-gtk-3.0/helpdlg.c:217
-#: client/gui-xaw/helpdlg.c:272
+#: client/gui-gtk-2.0/helpdlg.c:218 client/gui-gtk-3.0/helpdlg.c:218
+#: client/gui-xaw/helpdlg.c:275
 msgid "Removed"
 msgstr "Usunięte"
 
-#: client/gui-gtk-2.0/helpdlg.c:449 client/gui-gtk-3.0/helpdlg.c:449
+#: client/gui-gtk-2.0/helpdlg.c:450 client/gui-gtk-3.0/helpdlg.c:450
 #: data/Freeciv.in:594
 msgid "Freeciv Help Browser"
 msgstr "Przeglądarka pomocy Freeciv"
 
-#: client/gui-gtk-2.0/helpdlg.c:709 client/gui-gtk-3.0/helpdlg.c:715
+#: client/gui-gtk-2.0/helpdlg.c:710 client/gui-gtk-3.0/helpdlg.c:716
 msgid "Expand All"
 msgstr "Rozwiń wszystko"
 
-#: client/gui-gtk-2.0/helpdlg.c:710 client/gui-gtk-3.0/helpdlg.c:716
+#: client/gui-gtk-2.0/helpdlg.c:711 client/gui-gtk-3.0/helpdlg.c:717
 msgid "Collapse All"
 msgstr "Zwiń wszystko"
 
-#: client/gui-gtk-2.0/helpdlg.c:996 client/gui-gtk-2.0/helpdlg.c:1026
-#: client/gui-gtk-2.0/helpdlg.c:1038 client/gui-gtk-2.0/helpdlg.c:1046
-#: client/gui-gtk-2.0/helpdlg.c:1063 client/gui-gtk-3.0/helpdlg.c:1015
-#: client/gui-gtk-3.0/helpdlg.c:1045 client/gui-gtk-3.0/helpdlg.c:1057
-#: client/gui-gtk-3.0/helpdlg.c:1065 client/gui-gtk-3.0/helpdlg.c:1082
+#: client/gui-gtk-2.0/helpdlg.c:997 client/gui-gtk-2.0/helpdlg.c:1027
+#: client/gui-gtk-2.0/helpdlg.c:1039 client/gui-gtk-2.0/helpdlg.c:1047
+#: client/gui-gtk-2.0/helpdlg.c:1064 client/gui-gtk-3.0/helpdlg.c:1016
+#: client/gui-gtk-3.0/helpdlg.c:1046 client/gui-gtk-3.0/helpdlg.c:1058
+#: client/gui-gtk-3.0/helpdlg.c:1066 client/gui-gtk-3.0/helpdlg.c:1083
 #: client/gui-sdl/helpdlg.c:991
 msgid "Allows"
 msgstr "Pozwala na"
 
-#: client/gui-gtk-2.0/helpdlg.c:1009 client/gui-gtk-3.0/helpdlg.c:1028
+#: client/gui-gtk-2.0/helpdlg.c:1010 client/gui-gtk-3.0/helpdlg.c:1029
 msgid "Obsoletes"
 msgstr "Czyni przestarzałym"
 
-#: client/gui-gtk-2.0/helpdlg.c:1050 client/gui-gtk-2.0/helpdlg.c:1067
-#: client/gui-gtk-3.0/helpdlg.c:1069 client/gui-gtk-3.0/helpdlg.c:1086
+#: client/gui-gtk-2.0/helpdlg.c:1051 client/gui-gtk-2.0/helpdlg.c:1068
+#: client/gui-gtk-3.0/helpdlg.c:1070 client/gui-gtk-3.0/helpdlg.c:1087
 msgid "with"
 msgstr "razem z"
 
 # Puste
-#: client/gui-gtk-2.0/helpdlg.c:1055 client/gui-gtk-2.0/helpdlg.c:1072
-#: client/gui-gtk-3.0/helpdlg.c:1074 client/gui-gtk-3.0/helpdlg.c:1091
+#: client/gui-gtk-2.0/helpdlg.c:1056 client/gui-gtk-2.0/helpdlg.c:1073
+#: client/gui-gtk-3.0/helpdlg.c:1075 client/gui-gtk-3.0/helpdlg.c:1092
 msgid "?techhelp:"
 msgstr "?techhelp:"
 
@@ -3907,44 +3909,44 @@ msgstr "?techhelp:"
 #. TRANS: "Resources: (none)".
 #. TRANS: "Conflicts with: (none)" (bases)
 #. TRANS: missing value
-#: client/gui-gtk-2.0/helpdlg.c:1120 client/gui-gtk-2.0/helpdlg.c:1214
-#: client/gui-gtk-2.0/inteldlg.c:413 client/gui-gtk-3.0/helpdlg.c:1139
-#: client/gui-gtk-3.0/helpdlg.c:1233 client/gui-gtk-3.0/inteldlg.c:405
-#: client/gui-xaw/helpdlg.c:1007 client/gui-xaw/helpdlg.c:1088
+#: client/gui-gtk-2.0/helpdlg.c:1121 client/gui-gtk-2.0/helpdlg.c:1215
+#: client/gui-gtk-2.0/inteldlg.c:413 client/gui-gtk-3.0/helpdlg.c:1140
+#: client/gui-gtk-3.0/helpdlg.c:1234 client/gui-gtk-3.0/inteldlg.c:405
+#: client/gui-xaw/helpdlg.c:1010 client/gui-xaw/helpdlg.c:1091
 #: common/requirements.c:1784
 #, c-format
 msgid "(none)"
 msgstr "(brak)"
 
-#: client/gui-gtk-2.0/helpdlg.c:1131 client/gui-gtk-2.0/helpdlg.c:1145
-#: client/gui-gtk-3.0/helpdlg.c:1150 client/gui-gtk-3.0/helpdlg.c:1164
-#: client/gui-xaw/helpdlg.c:1018 client/gui-xaw/helpdlg.c:1032
-#: client/gui-xaw/helpdlg.c:1051
+#: client/gui-gtk-2.0/helpdlg.c:1132 client/gui-gtk-2.0/helpdlg.c:1146
+#: client/gui-gtk-3.0/helpdlg.c:1151 client/gui-gtk-3.0/helpdlg.c:1165
+#: client/gui-xaw/helpdlg.c:1021 client/gui-xaw/helpdlg.c:1035
+#: client/gui-xaw/helpdlg.c:1054
 msgid "n/a"
 msgstr "n/d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1134 client/gui-gtk-3.0/helpdlg.c:1153
-#: client/gui-xaw/helpdlg.c:1021
+#: client/gui-gtk-2.0/helpdlg.c:1135 client/gui-gtk-3.0/helpdlg.c:1154
+#: client/gui-xaw/helpdlg.c:1024
 #, c-format
 msgid "+%d Food / %d"
 msgstr "+%d żywności / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1148 client/gui-gtk-3.0/helpdlg.c:1167
-#: client/gui-xaw/helpdlg.c:1035
+#: client/gui-gtk-2.0/helpdlg.c:1149 client/gui-gtk-3.0/helpdlg.c:1168
+#: client/gui-xaw/helpdlg.c:1038
 #, c-format
 msgid "+%d Res. / %d"
 msgstr "+%d zas. / %d"
 
 #. TRANS: "MP" = movement points
-#: client/gui-gtk-2.0/helpdlg.c:1194 client/gui-gtk-2.0/helpdlg.c:1240
-#: client/gui-gtk-3.0/helpdlg.c:1213 client/gui-gtk-3.0/helpdlg.c:1259
+#: client/gui-gtk-2.0/helpdlg.c:1195 client/gui-gtk-2.0/helpdlg.c:1241
+#: client/gui-gtk-3.0/helpdlg.c:1214 client/gui-gtk-3.0/helpdlg.c:1260
 #, c-format
 msgid "%d MP"
 msgstr "%d PR"
 
 #. TRANS: Build time depends on terrain.
-#: client/gui-gtk-2.0/helpdlg.c:1197 client/gui-gtk-2.0/helpdlg.c:1243
-#: client/gui-gtk-3.0/helpdlg.c:1216 client/gui-gtk-3.0/helpdlg.c:1262
+#: client/gui-gtk-2.0/helpdlg.c:1198 client/gui-gtk-2.0/helpdlg.c:1244
+#: client/gui-gtk-3.0/helpdlg.c:1217 client/gui-gtk-3.0/helpdlg.c:1263
 #, c-format
 msgid "Terrain specific"
 msgstr "Zależne od terenu"
@@ -4331,8 +4333,8 @@ msgid "C_oastline"
 msgstr "Linia brzegu"
 
 #: client/gui-gtk-2.0/menu.c:1494 client/gui-gtk-3.0/menu.c:1494
-msgid "_Roads & Rails"
-msgstr "Drogi i koleje"
+msgid "_Paths"
+msgstr "_Ścieżki"
 
 #: client/gui-gtk-2.0/menu.c:1496 client/gui-gtk-3.0/menu.c:1496
 msgid "_Irrigation"
@@ -7451,7 +7453,7 @@ msgid "Loading theme \"%s\"."
 msgstr "Wczytuję motyw \"%s\"."
 
 #: client/gui-sdl/themespec.c:485 client/gui-sdl/themespec.c:519
-#: client/tilespec.c:1237 client/tilespec.c:1271
+#: client/tilespec.c:1243 client/tilespec.c:1277
 #, c-format
 msgid ""
 "Could not open '%s':\n"
@@ -7579,7 +7581,7 @@ msgstr ""
 
 #. TRANS: <year> <label> -> "1000 BC"
 #. TRANS: <year> <label> -> "1000 AD"
-#: client/gui-sdl/wldlg.c:1437 common/game.c:680 common/game.c:684
+#: client/gui-sdl/wldlg.c:1437 common/game.c:678 common/game.c:682
 #, c-format
 msgid "%d %s"
 msgstr "%d %s"
@@ -7822,31 +7824,31 @@ msgstr "Polecenie 'xset fr rehash' może tymczasowo rozwiązać problem."
 msgid "Font for charset %s is lacking"
 msgstr "Nie ma fontu dla znaków %s"
 
-#: client/gui-xaw/helpdlg.c:916 client/gui-xaw/helpdlg.c:929
-#: client/gui-xaw/helpdlg.c:936
+#: client/gui-xaw/helpdlg.c:919 client/gui-xaw/helpdlg.c:932
+#: client/gui-xaw/helpdlg.c:939
 #, c-format
 msgid "Allows %s.\n"
 msgstr "Pozwala na %s.\n"
 
-#: client/gui-xaw/helpdlg.c:921
+#: client/gui-xaw/helpdlg.c:924
 #, c-format
 msgid "Obsoletes %s.\n"
 msgstr "Czyni przestarzałym %s.\n"
 
-#: client/gui-xaw/helpdlg.c:939 client/gui-xaw/helpdlg.c:944
+#: client/gui-xaw/helpdlg.c:942 client/gui-xaw/helpdlg.c:947
 #, c-format
 msgid "Allows %s (with %s).\n"
 msgstr "Pozwala na %s (z %s).\n"
 
 #. TRANS: Build cost for bases in help. "MP" = movement points
-#: client/gui-xaw/helpdlg.c:1074 client/gui-xaw/helpdlg.c:1115
+#: client/gui-xaw/helpdlg.c:1077 client/gui-xaw/helpdlg.c:1118
 #, c-format
 msgid "Build: %d MP\n"
 msgstr "Buduj: %d PR\n"
 
 #. TRANS: Base conflicts in help. Will be followed by a list of bases
 #. * that can't be built on the same tile as this one.
-#: client/gui-xaw/helpdlg.c:1078
+#: client/gui-xaw/helpdlg.c:1081
 #, c-format
 msgid "Conflicts with: "
 msgstr "Konflikty z:"
@@ -7949,8 +7951,8 @@ msgid "Coastline"
 msgstr "Linia brzegu"
 
 #: client/gui-xaw/menu.c:152
-msgid "Roads & Rails"
-msgstr "Drogi i koleje"
+msgid "Paths"
+msgstr "Ścieżki"
 
 #: client/gui-xaw/menu.c:153 common/terrain.c:549 common/terrain.c:833
 #: common/unit.c:757 tools/civmanual.c:287
@@ -11951,28 +11953,28 @@ msgstr "Jednostki zbrojne nie mają wpływu na zadowolenie. "
 msgid "Luxury: %d total."
 msgstr "Luksus: ogółem %d."
 
-#: client/tilespec.c:1042
+#: client/tilespec.c:1048
 msgid "No usable default tileset found, aborting!"
 msgstr "Nie znalazłem odpowiedniego zestawu graficznego, kończę pracę!"
 
-#: client/tilespec.c:1074
+#: client/tilespec.c:1080
 #, c-format
 msgid "Loading tileset \"%s\"."
 msgstr "Wczytuję zestaw graficzny \"%s\"."
 
-#: client/tilespec.c:1558
+#: client/tilespec.c:1564
 msgid "Client does not support isometric tilesets."
 msgstr "Klient nie obsługuje izometrycznych zestawów graficznych."
 
-#: client/tilespec.c:1559 client/tilespec.c:1565
+#: client/tilespec.c:1565 client/tilespec.c:1571
 msgid "Using default tileset instead."
 msgstr "Używam domyślnego zestawu."
 
-#: client/tilespec.c:1564
+#: client/tilespec.c:1570
 msgid "Client does not support overhead view tilesets."
 msgstr "Klient nie obsługuje \"wystającej\" grafiki."
 
-#: client/tilespec.c:4641
+#: client/tilespec.c:4649
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -11981,7 +11983,7 @@ msgstr ""
 "Zestaw graficzny \"%s\" nie wspiera długich ścieżek 'idź do', takich jak %d. "
 "Ścieżka nie wyświetlona zgodnie z oczekiwaniami."
 
-#: client/tilespec.c:5003
+#: client/tilespec.c:5011
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -12258,7 +12260,7 @@ msgstr "Łapówka"
 msgid "Caused Incident"
 msgstr "Skandal dyplomatyczny"
 
-#: common/events.c:118
+#: common/events.c:118 data/alien/techs.ruleset:247
 msgid "Escape"
 msgstr "Ucieczka"
 
@@ -13522,7 +13524,8 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:229 data/civ2/buildings.ruleset:283
 #: data/classic/buildings.ruleset:310 data/experimental/buildings.ruleset:315
-#: data/civ2civ3/buildings.ruleset:353 data/multiplayer/buildings.ruleset:311
+#: data/civ2civ3/buildings.ruleset:353 data/alien/buildings.ruleset:159
+#: data/multiplayer/buildings.ruleset:311
 msgid "Factory"
 msgstr "Fabryka"
 
@@ -13745,13 +13748,15 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:522 data/civ2/buildings.ruleset:760
 #: data/classic/buildings.ruleset:814 data/experimental/buildings.ruleset:866
-#: data/civ2civ3/buildings.ruleset:860 data/multiplayer/buildings.ruleset:796
+#: data/civ2civ3/buildings.ruleset:860 data/alien/buildings.ruleset:476
+#: data/multiplayer/buildings.ruleset:796
 msgid "Space Component"
 msgstr "Napęd Rakiety"
 
 #: data/civ1/buildings.ruleset:536 data/civ2/buildings.ruleset:774
 #: data/classic/buildings.ruleset:829 data/experimental/buildings.ruleset:881
-#: data/civ2civ3/buildings.ruleset:879 data/multiplayer/buildings.ruleset:811
+#: data/civ2civ3/buildings.ruleset:879 data/alien/buildings.ruleset:490
+#: data/multiplayer/buildings.ruleset:811
 msgid ""
 "Space Components can be differentiated into Propulsion and Fuel Components.  "
 "Each pair of them reduces your spaceship's travel time.  You can build up to "
@@ -13777,7 +13782,8 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:546 data/civ2/buildings.ruleset:784
 #: data/classic/buildings.ruleset:839 data/experimental/buildings.ruleset:891
-#: data/civ2civ3/buildings.ruleset:889 data/multiplayer/buildings.ruleset:821
+#: data/civ2civ3/buildings.ruleset:889 data/alien/buildings.ruleset:497
+#: data/multiplayer/buildings.ruleset:821
 msgid "Space Module"
 msgstr "Moduł Rakiety"
 
@@ -13799,7 +13805,7 @@ msgstr "- Moduł Mieszkalny: zapewnia przestrzeń życiową 10 000 ludzi."
 
 #: data/civ1/buildings.ruleset:565 data/civ2/buildings.ruleset:803
 #: data/classic/buildings.ruleset:859 data/experimental/buildings.ruleset:911
-#: data/multiplayer/buildings.ruleset:841
+#: data/civ2civ3/buildings.ruleset:913 data/multiplayer/buildings.ruleset:841
 msgid ""
 "- Life Support Module: provides food and water for the population of one "
 "Habitation Module."
@@ -13809,7 +13815,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:568 data/civ2/buildings.ruleset:806
 #: data/classic/buildings.ruleset:862 data/experimental/buildings.ruleset:914
-#: data/multiplayer/buildings.ruleset:844
+#: data/civ2civ3/buildings.ruleset:916 data/multiplayer/buildings.ruleset:844
 msgid ""
 "- Solar Panels: provides the energy needed for any two of the other Modules."
 msgstr "- Panele Słoneczne: zapewniają energię dla dwóch innych Modułów."
@@ -13822,13 +13828,15 @@ msgstr "Możesz zbudować do 4 Modułów każdego typu."
 
 #: data/civ1/buildings.ruleset:579 data/civ2/buildings.ruleset:817
 #: data/classic/buildings.ruleset:873 data/experimental/buildings.ruleset:925
-#: data/civ2civ3/buildings.ruleset:927 data/multiplayer/buildings.ruleset:855
+#: data/civ2civ3/buildings.ruleset:927 data/alien/buildings.ruleset:527
+#: data/multiplayer/buildings.ruleset:855
 msgid "Space Structural"
 msgstr "Łącznik Rakiety"
 
 #: data/civ1/buildings.ruleset:593 data/civ2/buildings.ruleset:831
 #: data/classic/buildings.ruleset:888 data/experimental/buildings.ruleset:940
-#: data/civ2civ3/buildings.ruleset:945 data/multiplayer/buildings.ruleset:870
+#: data/civ2civ3/buildings.ruleset:945 data/alien/buildings.ruleset:541
+#: data/multiplayer/buildings.ruleset:870
 msgid ""
 "Space Structurals form the base of your spaceship.  All other spaceship "
 "parts need to be connected to Structurals in order to function.  You can "
@@ -14203,7 +14211,8 @@ msgstr ""
 
 #: data/civ1/cities.ruleset:44 data/civ2/cities.ruleset:44
 #: data/classic/cities.ruleset:44 data/experimental/cities.ruleset:46
-#: data/civ2civ3/cities.ruleset:44 data/multiplayer/cities.ruleset:43
+#: data/civ2civ3/cities.ruleset:44 data/alien/cities.ruleset:38
+#: data/multiplayer/cities.ruleset:43
 msgid "?Elvis:E"
 msgstr "?Elvis:K"
 
@@ -14219,7 +14228,8 @@ msgstr ""
 
 #: data/civ1/cities.ruleset:57 data/civ2/cities.ruleset:57
 #: data/classic/cities.ruleset:57 data/experimental/cities.ruleset:59
-#: data/civ2civ3/cities.ruleset:57 data/multiplayer/cities.ruleset:56
+#: data/civ2civ3/cities.ruleset:57 data/alien/cities.ruleset:46
+#: data/multiplayer/cities.ruleset:56
 msgid "?Scientist:S"
 msgstr "?Scientistst:N"
 
@@ -14232,7 +14242,8 @@ msgstr ""
 
 #: data/civ1/cities.ruleset:70 data/civ2/cities.ruleset:70
 #: data/classic/cities.ruleset:70 data/experimental/cities.ruleset:72
-#: data/civ2civ3/cities.ruleset:70 data/multiplayer/cities.ruleset:69
+#: data/civ2civ3/cities.ruleset:70 data/alien/cities.ruleset:54
+#: data/multiplayer/cities.ruleset:69
 msgid "?Taxman:T"
 msgstr "?Taxman:PP"
 
@@ -14321,12 +14332,12 @@ msgstr ""
 "pełne \"zdrowie\".\n"
 
 #: data/civ1/game.ruleset:206 data/classic/game.ruleset:240
-#: data/experimental/game.ruleset:246
+#: data/experimental/game.ruleset:246 data/alien/game.ruleset:229
 msgid "Earthquake"
 msgstr "Trzęsienie ziemi"
 
 #: data/civ1/game.ruleset:224 data/classic/game.ruleset:250
-#: data/experimental/game.ruleset:251
+#: data/experimental/game.ruleset:251 data/alien/game.ruleset:234
 msgid "Fire"
 msgstr "Pożar"
 
@@ -14373,7 +14384,7 @@ msgstr "Zespół 3"
 #: data/civ1/governments.ruleset:58 data/civ2/governments.ruleset:56
 #: data/classic/governments.ruleset:59
 #: data/experimental/governments.ruleset:61
-#: data/civ2civ3/governments.ruleset:59
+#: data/civ2civ3/governments.ruleset:59 data/alien/governments.ruleset:49
 #: data/multiplayer/governments.ruleset:59
 msgid "Anarchy"
 msgstr "Anarchia"
@@ -14422,7 +14433,7 @@ msgstr ""
 #: data/civ1/governments.ruleset:79 data/civ2/governments.ruleset:77
 #: data/classic/governments.ruleset:80
 #: data/experimental/governments.ruleset:84
-#: data/civ2civ3/governments.ruleset:93
+#: data/civ2civ3/governments.ruleset:93 data/alien/governments.ruleset:64
 #: data/multiplayer/governments.ruleset:80
 msgid "Despotism"
 msgstr "Despotyzm"
@@ -14518,16 +14529,16 @@ msgstr "Poziom Korupcji w Monarchii jest tak samo niski jak w Republice."
 #: data/classic/governments.ruleset:122 data/classic/techs.ruleset:182
 #: data/experimental/governments.ruleset:126
 #: data/experimental/techs.ruleset:196 data/civ2civ3/governments.ruleset:127
-#: data/civ2civ3/techs.ruleset:199 data/multiplayer/governments.ruleset:122
-#: data/multiplayer/techs.ruleset:182
+#: data/civ2civ3/techs.ruleset:199 data/alien/governments.ruleset:84
+#: data/multiplayer/governments.ruleset:122 data/multiplayer/techs.ruleset:182
 msgid "Communism"
 msgstr "Komunizm"
 
 #: data/civ1/governments.ruleset:128 data/civ2/governments.ruleset:126
 #: data/classic/governments.ruleset:129
 #: data/experimental/governments.ruleset:133
-#: data/civ2civ3/governments.ruleset:134
-#: data/multiplayer/governments.ruleset:129
+#: data/civ2civ3/governments.ruleset:134 data/alien/governments.ruleset:92
+#: data/alien/governments.ruleset:132 data/multiplayer/governments.ruleset:129
 #, c-format
 msgid "Comrade %s"
 msgstr "Towarzysz %s"
@@ -14535,8 +14546,8 @@ msgstr "Towarzysz %s"
 #: data/civ1/governments.ruleset:129 data/civ2/governments.ruleset:127
 #: data/classic/governments.ruleset:130
 #: data/experimental/governments.ruleset:134
-#: data/civ2civ3/governments.ruleset:135
-#: data/multiplayer/governments.ruleset:130
+#: data/civ2civ3/governments.ruleset:135 data/alien/governments.ruleset:93
+#: data/alien/governments.ruleset:133 data/multiplayer/governments.ruleset:130
 #, c-format
 msgid "?female:Comrade %s"
 msgstr "?female:Towarzyszka %s"
@@ -14621,16 +14632,16 @@ msgstr ""
 #: data/classic/governments.ruleset:168 data/classic/techs.ruleset:224
 #: data/experimental/governments.ruleset:172
 #: data/experimental/techs.ruleset:243 data/civ2civ3/governments.ruleset:217
-#: data/civ2civ3/techs.ruleset:246 data/multiplayer/governments.ruleset:168
-#: data/multiplayer/techs.ruleset:224
+#: data/civ2civ3/techs.ruleset:246 data/alien/governments.ruleset:104
+#: data/multiplayer/governments.ruleset:168 data/multiplayer/techs.ruleset:224
 msgid "Democracy"
 msgstr "Demokracja"
 
 #: data/civ1/governments.ruleset:174 data/civ2/governments.ruleset:200
 #: data/classic/governments.ruleset:153
 #: data/experimental/governments.ruleset:157
-#: data/civ2civ3/governments.ruleset:202
-#: data/multiplayer/governments.ruleset:153
+#: data/civ2civ3/governments.ruleset:202 data/alien/governments.ruleset:112
+#: data/alien/governments.ruleset:152 data/multiplayer/governments.ruleset:153
 #, c-format
 msgid "President %s"
 msgstr "Prezydent %s"
@@ -14638,8 +14649,8 @@ msgstr "Prezydent %s"
 #: data/civ1/governments.ruleset:175 data/civ2/governments.ruleset:201
 #: data/classic/governments.ruleset:154
 #: data/experimental/governments.ruleset:158
-#: data/civ2civ3/governments.ruleset:203
-#: data/multiplayer/governments.ruleset:154
+#: data/civ2civ3/governments.ruleset:203 data/alien/governments.ruleset:113
+#: data/alien/governments.ruleset:153 data/multiplayer/governments.ruleset:154
 #, c-format
 msgid "?female:President %s"
 msgstr "?female:Prezydent %s"
@@ -15344,49 +15355,51 @@ msgid "Imperatrix %s"
 msgstr "Cesarzowa %s"
 
 #: data/civ1/nations.ruleset:1214 data/civ2/nations.ruleset:1528
-#: data/nation/armenian.ruleset:24 data/nation/assyrian.ruleset:21
-#: data/nation/atlantean.ruleset:22 data/nation/bosporan.ruleset:33
-#: data/nation/byzantium.ruleset:26 data/nation/carthaginian.ruleset:23
-#: data/nation/crusader.ruleset:32 data/nation/czech.ruleset:31
-#: data/nation/egyptian.ruleset:26 data/nation/elamite.ruleset:32
-#: data/nation/epirote.ruleset:28 data/nation/etruscan.ruleset:31
-#: data/nation/frankish.ruleset:39 data/nation/gepid.ruleset:41
-#: data/nation/greek.ruleset:22 data/nation/hittite.ruleset:26
-#: data/nation/hunnic.ruleset:38 data/nation/israelite.ruleset:31
-#: data/nation/latin.ruleset:39 data/nation/median.ruleset:29
-#: data/nation/mitanni.ruleset:30 data/nation/nubian.ruleset:32
-#: data/nation/ostrogothic.ruleset:30 data/nation/palatinate.ruleset:28
-#: data/nation/palmyrene.ruleset:19 data/nation/parthian.ruleset:33
-#: data/nation/pelasgian.ruleset:24 data/nation/phoenician.ruleset:27
-#: data/nation/pictish.ruleset:24 data/nation/pontic.ruleset:33
-#: data/nation/roman.ruleset:48 data/nation/sabine.ruleset:26
-#: data/nation/samnite.ruleset:26 data/nation/seleucid.ruleset:28
-#: data/nation/sumerian.ruleset:27 data/nation/vandalic.ruleset:29
-#: data/nation/visigothic.ruleset:37 data/nation/westernroman.ruleset:29
+#: data/alien/governments.ruleset:54 data/nation/armenian.ruleset:24
+#: data/nation/assyrian.ruleset:21 data/nation/atlantean.ruleset:22
+#: data/nation/bosporan.ruleset:33 data/nation/byzantium.ruleset:26
+#: data/nation/carthaginian.ruleset:23 data/nation/crusader.ruleset:32
+#: data/nation/czech.ruleset:31 data/nation/egyptian.ruleset:26
+#: data/nation/elamite.ruleset:32 data/nation/epirote.ruleset:28
+#: data/nation/etruscan.ruleset:31 data/nation/frankish.ruleset:39
+#: data/nation/gepid.ruleset:41 data/nation/greek.ruleset:22
+#: data/nation/hittite.ruleset:26 data/nation/hunnic.ruleset:38
+#: data/nation/israelite.ruleset:31 data/nation/latin.ruleset:39
+#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
+#: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
+#: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
+#: data/nation/phoenician.ruleset:27 data/nation/pictish.ruleset:24
+#: data/nation/pontic.ruleset:33 data/nation/roman.ruleset:48
+#: data/nation/sabine.ruleset:26 data/nation/samnite.ruleset:26
+#: data/nation/seleucid.ruleset:28 data/nation/sumerian.ruleset:27
+#: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:37
+#: data/nation/westernroman.ruleset:29
 #, c-format
 msgid "Usurper %s"
 msgstr "Uzurpator %s"
 
 #: data/civ1/nations.ruleset:1214 data/civ2/nations.ruleset:1528
-#: data/nation/armenian.ruleset:24 data/nation/assyrian.ruleset:21
-#: data/nation/atlantean.ruleset:22 data/nation/bosporan.ruleset:33
-#: data/nation/byzantium.ruleset:26 data/nation/carthaginian.ruleset:23
-#: data/nation/crusader.ruleset:32 data/nation/czech.ruleset:31
-#: data/nation/egyptian.ruleset:26 data/nation/elamite.ruleset:32
-#: data/nation/epirote.ruleset:28 data/nation/etruscan.ruleset:31
-#: data/nation/frankish.ruleset:39 data/nation/gepid.ruleset:41
-#: data/nation/greek.ruleset:22 data/nation/hittite.ruleset:26
-#: data/nation/hunnic.ruleset:38 data/nation/israelite.ruleset:31
-#: data/nation/latin.ruleset:39 data/nation/median.ruleset:29
-#: data/nation/mitanni.ruleset:30 data/nation/nubian.ruleset:32
-#: data/nation/ostrogothic.ruleset:30 data/nation/palatinate.ruleset:28
-#: data/nation/palmyrene.ruleset:19 data/nation/parthian.ruleset:33
-#: data/nation/pelasgian.ruleset:24 data/nation/phoenician.ruleset:27
-#: data/nation/pictish.ruleset:24 data/nation/pontic.ruleset:33
-#: data/nation/roman.ruleset:48 data/nation/sabine.ruleset:26
-#: data/nation/samnite.ruleset:26 data/nation/seleucid.ruleset:28
-#: data/nation/sumerian.ruleset:27 data/nation/vandalic.ruleset:29
-#: data/nation/visigothic.ruleset:37 data/nation/westernroman.ruleset:29
+#: data/alien/governments.ruleset:55 data/nation/armenian.ruleset:24
+#: data/nation/assyrian.ruleset:21 data/nation/atlantean.ruleset:22
+#: data/nation/bosporan.ruleset:33 data/nation/byzantium.ruleset:26
+#: data/nation/carthaginian.ruleset:23 data/nation/crusader.ruleset:32
+#: data/nation/czech.ruleset:31 data/nation/egyptian.ruleset:26
+#: data/nation/elamite.ruleset:32 data/nation/epirote.ruleset:28
+#: data/nation/etruscan.ruleset:31 data/nation/frankish.ruleset:39
+#: data/nation/gepid.ruleset:41 data/nation/greek.ruleset:22
+#: data/nation/hittite.ruleset:26 data/nation/hunnic.ruleset:38
+#: data/nation/israelite.ruleset:31 data/nation/latin.ruleset:39
+#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
+#: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
+#: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
+#: data/nation/phoenician.ruleset:27 data/nation/pictish.ruleset:24
+#: data/nation/pontic.ruleset:33 data/nation/roman.ruleset:48
+#: data/nation/sabine.ruleset:26 data/nation/samnite.ruleset:26
+#: data/nation/seleucid.ruleset:28 data/nation/sumerian.ruleset:27
+#: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:37
+#: data/nation/westernroman.ruleset:29
 #, c-format
 msgid "?female:Usurper %s"
 msgstr "?female:Uzurpatorka %s"
@@ -15910,10 +15923,10 @@ msgstr "Garncarstwo"
 
 #: data/civ1/techs.ruleset:453 data/civ1/terrain.ruleset:842
 #: data/civ2/techs.ruleset:579 data/civ2/terrain.ruleset:968
-#: data/classic/techs.ruleset:585 data/classic/terrain.ruleset:1143
-#: data/experimental/techs.ruleset:644 data/experimental/terrain.ruleset:1117
-#: data/civ2civ3/techs.ruleset:650 data/civ2civ3/terrain.ruleset:1142
-#: data/multiplayer/techs.ruleset:593 data/multiplayer/terrain.ruleset:1121
+#: data/classic/techs.ruleset:585 data/classic/terrain.ruleset:1142
+#: data/experimental/techs.ruleset:644 data/experimental/terrain.ruleset:1116
+#: data/civ2civ3/techs.ruleset:650 data/civ2civ3/terrain.ruleset:1141
+#: data/multiplayer/techs.ruleset:593 data/multiplayer/terrain.ruleset:1116
 msgid "Railroad"
 msgstr "Kolej"
 
@@ -16001,7 +16014,8 @@ msgstr "Pismo"
 
 #: data/civ1/terrain.ruleset:160 data/civ2/terrain.ruleset:159
 #: data/classic/terrain.ruleset:204 data/experimental/terrain.ruleset:204
-#: data/civ2civ3/terrain.ruleset:204 data/multiplayer/terrain.ruleset:202
+#: data/civ2civ3/terrain.ruleset:204 data/alien/terrain.ruleset:358
+#: data/multiplayer/terrain.ruleset:202
 msgid "Ocean"
 msgstr "Ocean"
 
@@ -16051,7 +16065,8 @@ msgstr "Lasy są gęsto zarośnięte, co sprawia kłopoty rolnictwu."
 
 #: data/civ1/terrain.ruleset:316 data/civ2/terrain.ruleset:316
 #: data/classic/terrain.ruleset:420 data/experimental/terrain.ruleset:410
-#: data/civ2civ3/terrain.ruleset:420 data/multiplayer/terrain.ruleset:408
+#: data/civ2civ3/terrain.ruleset:420 data/alien/terrain.ruleset:155
+#: data/multiplayer/terrain.ruleset:408
 msgid "Grassland"
 msgstr "Trawy"
 
@@ -16063,7 +16078,8 @@ msgstr "Trawy dają wielkie możliwości rolnictwu."
 
 #: data/civ1/terrain.ruleset:354 data/civ2/terrain.ruleset:354
 #: data/classic/terrain.ruleset:462 data/experimental/terrain.ruleset:450
-#: data/civ2civ3/terrain.ruleset:462 data/multiplayer/terrain.ruleset:448
+#: data/civ2civ3/terrain.ruleset:462 data/alien/terrain.ruleset:280
+#: data/multiplayer/terrain.ruleset:448
 msgid "Hills"
 msgstr "Wzgórza"
 
@@ -16163,7 +16179,8 @@ msgstr "Węgiel"
 
 #: data/civ1/terrain.ruleset:628 data/civ2/terrain.ruleset:655
 #: data/classic/terrain.ruleset:782 data/experimental/terrain.ruleset:758
-#: data/civ2civ3/terrain.ruleset:782 data/multiplayer/terrain.ruleset:756
+#: data/civ2civ3/terrain.ruleset:782 data/alien/terrain.ruleset:473
+#: data/multiplayer/terrain.ruleset:756
 msgid "Fish"
 msgstr "Ryby"
 
@@ -16192,8 +16209,8 @@ msgstr "Ropa"
 
 #: data/civ1/terrain.ruleset:668 data/civ2/terrain.ruleset:720
 #: data/classic/terrain.ruleset:857 data/experimental/terrain.ruleset:833
-#: data/civ2civ3/terrain.ruleset:857 data/multiplayer/terrain.ruleset:831
-#: tools/civmanual.c:284
+#: data/civ2civ3/terrain.ruleset:857 data/alien/terrain.ruleset:437
+#: data/multiplayer/terrain.ruleset:831 tools/civmanual.c:284
 msgid "Resources"
 msgstr "Zasoby"
 
@@ -16212,8 +16229,8 @@ msgid "Fortresses improve defense for land units."
 msgstr "Fortece poprawiają zdolności obronne jednostek lądowych."
 
 #: data/civ1/terrain.ruleset:867 data/civ2/terrain.ruleset:993
-#: data/classic/terrain.ruleset:1168 data/experimental/terrain.ruleset:1166
-#: data/civ2civ3/terrain.ruleset:1167 data/multiplayer/terrain.ruleset:1146
+#: data/classic/terrain.ruleset:1167 data/experimental/terrain.ruleset:1165
+#: data/civ2civ3/terrain.ruleset:1166 data/multiplayer/terrain.ruleset:1141
 msgid "River"
 msgstr "Rzeka"
 
@@ -16234,7 +16251,8 @@ msgstr "?unitclass:Lądowa"
 #. TRANS: Unit class: used adjectivally
 #: data/civ1/units.ruleset:114 data/civ2/units.ruleset:128
 #: data/classic/units.ruleset:133 data/experimental/units.ruleset:147
-#: data/civ2civ3/units.ruleset:157 data/multiplayer/units.ruleset:133
+#: data/civ2civ3/units.ruleset:157 data/alien/units.ruleset:111
+#: data/multiplayer/units.ruleset:133
 msgid "?unitclass:Sea"
 msgstr "?unitclass:Morska"
 
@@ -16248,13 +16266,15 @@ msgstr "?unitclass:Powietrzna"
 #. TRANS: Unit class: used adjectivally
 #: data/civ1/units.ruleset:129 data/civ2/units.ruleset:111
 #: data/classic/units.ruleset:116 data/experimental/units.ruleset:119
-#: data/civ2civ3/units.ruleset:116 data/multiplayer/units.ruleset:116
+#: data/civ2civ3/units.ruleset:116 data/alien/units.ruleset:138
+#: data/multiplayer/units.ruleset:116
 msgid "?unitclass:Missile"
 msgstr "?unitclass:Pocisk"
 
 #: data/civ1/units.ruleset:236 data/civ2/units.ruleset:240
 #: data/classic/units.ruleset:348 data/experimental/units.ruleset:362
-#: data/civ2civ3/units.ruleset:372 data/multiplayer/units.ruleset:348
+#: data/civ2civ3/units.ruleset:372 data/alien/units.ruleset:330
+#: data/multiplayer/units.ruleset:348
 msgid "Settlers"
 msgstr "Osadnicy"
 
@@ -16875,7 +16895,8 @@ msgstr ""
 
 #: data/civ1/units.ruleset:1206 data/civ2/units.ruleset:1966
 #: data/classic/units.ruleset:2035 data/experimental/units.ruleset:2072
-#: data/civ2civ3/units.ruleset:2180 data/multiplayer/units.ruleset:2134
+#: data/civ2civ3/units.ruleset:2180 data/alien/units.ruleset:1208
+#: data/multiplayer/units.ruleset:2134
 msgid "Caravan"
 msgstr "Karawana"
 
@@ -17263,7 +17284,7 @@ msgstr ""
 #: data/experimental/buildings.ruleset:974 data/civ2civ3/buildings.ruleset:978
 #: data/multiplayer/buildings.ruleset:904
 msgid "Super Highways"
-msgstr "Autostrady"
+msgstr "Super Autostrady"
 
 #: data/civ2/buildings.ruleset:880 data/classic/buildings.ruleset:937
 #: data/experimental/buildings.ruleset:989
@@ -18307,9 +18328,9 @@ msgstr ""
 "Jednostki powietrzne w bazie lotniczej mogą być atakowane przez jednostki "
 "lądowe."
 
-#: data/civ2/terrain.ruleset:1007 data/classic/terrain.ruleset:1190
-#: data/experimental/terrain.ruleset:1180
-#: data/multiplayer/terrain.ruleset:1160
+#: data/civ2/terrain.ruleset:1007 data/classic/terrain.ruleset:1189
+#: data/experimental/terrain.ruleset:1179
+#: data/multiplayer/terrain.ruleset:1155
 msgid ""
 "Any land terrain type may have a River on it.  A River adds 1 trade to the "
 "resources produced by that tile.  It also increases a tile's defense factor "
@@ -18321,14 +18342,14 @@ msgstr ""
 "obrony pola o 50%. Jednostki lądowe mogą poruszać się wzdłuż Rzeki (ale nie "
 "po przekątnych); ruch wzdłuż Rzeki kosztuje tylko 1/3 punktu ruchu."
 
-#: data/civ2/terrain.ruleset:1012 data/classic/terrain.ruleset:1195
-#: data/experimental/terrain.ruleset:1185 data/civ2civ3/terrain.ruleset:1186
-#: data/multiplayer/terrain.ruleset:1165
+#: data/civ2/terrain.ruleset:1012 data/classic/terrain.ruleset:1194
+#: data/experimental/terrain.ruleset:1184 data/civ2civ3/terrain.ruleset:1185
+#: data/multiplayer/terrain.ruleset:1160
 msgid ""
 "Roads and railroads can only be built on River tiles if your civilization "
 "has learned Bridge Building technology."
 msgstr ""
-"Drogi i Koleje mogą być budowane na Rzekach tylko jeśli cywilizacja poznała "
+"Drogi i koleje mogą być budowane na Rzekach tylko jeśli cywilizacja poznała "
 "już technologię Budowa Mostów."
 
 #: data/civ2/units.ruleset:20 data/classic/units.ruleset:25
@@ -18735,7 +18756,7 @@ msgstr ""
 
 #: data/civ2/units.ruleset:1491 data/classic/units.ruleset:1532
 #: data/experimental/units.ruleset:1569 data/civ2civ3/units.ruleset:1672
-#: data/multiplayer/units.ruleset:1631
+#: data/alien/units.ruleset:1087 data/multiplayer/units.ruleset:1631
 msgid "Destroyer"
 msgstr "Niszczyciel"
 
@@ -18889,7 +18910,7 @@ msgstr "Szpiedzy tworzeni w Komunizmie będą od razu bardziej doświadczeni."
 
 #: data/civ2/units.ruleset:2005 data/classic/units.ruleset:2074
 #: data/experimental/units.ruleset:2111 data/civ2civ3/units.ruleset:2218
-#: data/multiplayer/units.ruleset:2173
+#: data/alien/units.ruleset:1178 data/multiplayer/units.ruleset:2173
 msgid "Freight"
 msgstr "Ciężarówka"
 
@@ -18900,7 +18921,7 @@ msgstr "Ciężarówka zastępuje karawanę i porusza się dwukrotnie szybciej."
 
 #: data/civ2/units.ruleset:2036 data/classic/units.ruleset:2105
 #: data/experimental/units.ruleset:2142 data/civ2civ3/units.ruleset:2249
-#: data/multiplayer/units.ruleset:2205
+#: data/alien/units.ruleset:959 data/multiplayer/units.ruleset:2205
 msgid "Explorer"
 msgstr "Badacz"
 
@@ -18933,42 +18954,42 @@ msgstr[0] "Znalazłeś/aś %d sztukę złota."
 msgstr[1] "Znalazłeś/aś %d sztuki złota."
 msgstr[2] "Znalazłeś/aś %d sztuk złota."
 
-#: data/default/default.lua:35
+#: data/default/default.lua:40
 #, c-format
 msgid "You found %s in ancient scrolls of wisdom."
 msgstr "Odkryłeś/aś technologię %s w pradawnych zbiorach wiedzy."
 
-#: data/default/default.lua:38
+#: data/default/default.lua:43
 #, c-format
 msgid "The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "%s znaleźli technologię %s w pradawnych zbiorach wiedzy."
 
-#: data/default/default.lua:58
+#: data/default/default.lua:66
 msgid "A band of friendly mercenaries joins your cause."
 msgstr "Przyjaźnie nastawieni najemnicy przyłączyli się do ciebie."
 
-#: data/default/default.lua:74
+#: data/default/default.lua:82
 msgid "You found a friendly city."
 msgstr "Znalazłeś/aś przyjazne miasto."
 
-#: data/default/default.lua:78
+#: data/default/default.lua:87
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Przyjaźni koczownicy są zachwyceni tobą i przyłączają się."
 
-#: data/default/default.lua:96 server/unittools.c:2784
+#: data/default/default.lua:108 server/unittools.c:2784
 msgid "An abandoned village is here."
 msgstr "Ta wioska jest opuszczona."
 
-#: data/default/default.lua:103
+#: data/default/default.lua:115
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Sprowokowałeś/aś barbarzyńców do ataku!"
 
-#: data/default/default.lua:106 server/unittools.c:2787
+#: data/default/default.lua:118 server/unittools.c:2787
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Twoja jednostka %s została zabita przez barbarzyńców!"
 
-#: data/default/default.lua:171 data/default/default.lua:173
+#: data/default/default.lua:185 data/default/default.lua:187
 #, c-format
 msgid "The loss of %s has inspired partisans!"
 msgstr "Strata %s spowodowała powstanie oddziałów partyzanckich!"
@@ -19296,14 +19317,14 @@ msgstr ""
 
 #: data/classic/buildings.ruleset:1610
 #: data/experimental/buildings.ruleset:1667
-#: data/civ2civ3/buildings.ruleset:1732
+#: data/civ2civ3/buildings.ruleset:1732 data/alien/buildings.ruleset:455
 #: data/multiplayer/buildings.ruleset:1576
 msgid "Coinage"
 msgstr "Kapitalizacja"
 
 #: data/classic/buildings.ruleset:1631
 #: data/experimental/buildings.ruleset:1688
-#: data/civ2civ3/buildings.ruleset:1753
+#: data/civ2civ3/buildings.ruleset:1753 data/alien/buildings.ruleset:468
 #: data/multiplayer/buildings.ruleset:1589
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
@@ -19424,22 +19445,22 @@ msgstr ""
 "dzięki którym zwiększa się pole widzenia jednostek przebywających w fortecy."
 
 #: data/classic/terrain.ruleset:1014 data/experimental/terrain.ruleset:989
-#: data/civ2civ3/terrain.ruleset:1013 data/multiplayer/terrain.ruleset:991
+#: data/civ2civ3/terrain.ruleset:1013 data/multiplayer/terrain.ruleset:987
 msgid "Buoy"
 msgstr "Boja"
 
-#: data/classic/terrain.ruleset:1030 data/experimental/terrain.ruleset:1005
-#: data/civ2civ3/terrain.ruleset:1029
+#: data/classic/terrain.ruleset:1029 data/experimental/terrain.ruleset:1004
+#: data/civ2civ3/terrain.ruleset:1028 data/multiplayer/terrain.ruleset:1003
 msgid "Buoys may be built in the ocean (by units on a sea-going vessel)."
 msgstr "Boje mogą być stawiane na oceanie przez jednostki na statkach."
 
-#: data/classic/terrain.ruleset:1035 data/experimental/terrain.ruleset:1010
-#: data/civ2civ3/terrain.ruleset:1034 data/multiplayer/terrain.ruleset:1013
+#: data/classic/terrain.ruleset:1034 data/experimental/terrain.ruleset:1009
+#: data/civ2civ3/terrain.ruleset:1033 data/multiplayer/terrain.ruleset:1008
 msgid "Ruins"
 msgstr "Ruiny"
 
-#: data/classic/terrain.ruleset:1048 data/experimental/terrain.ruleset:1023
-#: data/civ2civ3/terrain.ruleset:1047 data/multiplayer/terrain.ruleset:1026
+#: data/classic/terrain.ruleset:1047 data/experimental/terrain.ruleset:1022
+#: data/civ2civ3/terrain.ruleset:1046 data/multiplayer/terrain.ruleset:1021
 msgid ""
 "Ruins mark the former site of a city that was destroyed or abandoned. They "
 "have no effect on gameplay."
@@ -19665,7 +19686,7 @@ msgid "A Sewer System is required for a city to grow larger than size 12."
 msgstr ""
 "Kanalizacja jest potrzebna, by miasto mogło wzrosnąć powyżej rozmiaru 12."
 
-#: data/experimental/buildings.ruleset:382
+#: data/experimental/buildings.ruleset:382 data/alien/buildings.ruleset:238
 msgid "Hospital"
 msgstr "Szpital"
 
@@ -19701,7 +19722,7 @@ msgid ""
 "city radius is further increased."
 msgstr ""
 "Jeśli metropolia (miasto o rozmiarze większym niż 30) posiada Transport "
-"Publiczny i Autostrady, zwiększa się zasięg miasta."
+"Publiczny i Super Autostrady, zwiększa się zasięg miasta."
 
 #: data/experimental/buildings.ruleset:1041
 msgid "The work of the priests also reduces the effect of plague in the city."
@@ -19728,7 +19749,8 @@ msgid "Under Anarchy, technology cannot be lost due to lack of upkeep."
 msgstr ""
 "W Anarchii nie traci się technologii, nawet jeśli nie można jej utrzymać."
 
-#: data/experimental/terrain.ruleset:1143
+#: data/experimental/terrain.ruleset:1142 data/alien/techs.ruleset:352
+#: data/alien/terrain.ruleset:725
 msgid "Maglev"
 msgstr "Maglev"
 
@@ -20051,19 +20073,6 @@ msgstr ""
 "zanieczyszczenie generowane przez produkcję przemysłową, jeśli w mieście "
 "istnieje Oczyszczalnia."
 
-#: data/civ2civ3/buildings.ruleset:913
-msgid ""
-"- Life Support Module: provides food and water for the population of  one "
-"Habitation Module."
-msgstr ""
-"- Moduł Podtrzymywania Życia: zapewnia żywność i wodę dla mieszkańców "
-"jednego Modułu Mieszkalnego."
-
-#: data/civ2civ3/buildings.ruleset:916
-msgid ""
-"- Solar Panels: provides the energy needed for any two of the other  Modules."
-msgstr "- Panele Słoneczne: zapewniają energię dla dwóch innych Modułów."
-
 #: data/civ2civ3/buildings.ruleset:971
 #, no-c-format
 msgid ""
@@ -20092,8 +20101,8 @@ msgid ""
 "Super Highways also increase the pollution caused by the population of the "
 "city (+25%)."
 msgstr ""
-"Autostrady zwiększają o 25% zanieczyszczenie powodowane przez mieszkańców "
-"miasta."
+"Super Autostrady zwiększają o 25% zanieczyszczenie powodowane przez "
+"mieszkańców miasta."
 
 #: data/civ2civ3/buildings.ruleset:1040
 msgid ""
@@ -20524,7 +20533,7 @@ msgid "Decreases one-time the Waste of shields caused by distance to Capital."
 msgstr ""
 "Zmniejsza jednorazowo straty produkcji spowodowane odległością od stolicy."
 
-#: data/civ2civ3/terrain.ruleset:1181
+#: data/civ2civ3/terrain.ruleset:1180
 msgid ""
 "Any land terrain type may have a River on it.  A River adds 1 trade to the "
 "resources produced by that tile.  It also increases a tile's defense factor "
@@ -20699,6 +20708,2044 @@ msgid ""
 msgstr ""
 "Karawany mogą podróżować jedynie po drogach, torach kolejowych, rzekach i na "
 "statkach; nie dotyczą ich modyfikatory ruchu "
+
+#: data/alien/buildings.ruleset:39
+msgid "Antigrav Port"
+msgstr "Port Antygrawitacyjny"
+
+#: data/alien/buildings.ruleset:54
+#, no-c-format
+msgid ""
+"Allows one unit airlift from and to city, increased to three once Low-Level "
+"Orbit is known."
+msgstr ""
+"Pozwala jednej jednostce przenosić się do i z miasta (trzem po odkryciu "
+"Lotów Na Niskiej Orbicie)."
+
+#: data/alien/buildings.ruleset:59
+msgid "Archive"
+msgstr "Archiwum"
+
+#: data/alien/buildings.ruleset:74
+#, no-c-format
+msgid "Increases the science production of a city by 75%."
+msgstr "Zwiększa produkcję punktów nauki miasta o 75%."
+
+#: data/alien/buildings.ruleset:78
+msgid "Basic Infrastructure"
+msgstr "Podstawowa infrastruktura"
+
+#: data/alien/buildings.ruleset:89
+#, no-c-format
+msgid ""
+"Basic Infrastructure to the city. This improvement has no maintenance, and "
+"cannot be sabotaged by enemy Stealth Spy.\n"
+"\n"
+"Without this improvement city cannot grow bigger than size 2."
+msgstr ""
+"Podstawowa infrastruktura miasta. Budynek ten nie wymaga utrzymywania i nie "
+"może być sabotowany przez wrogiego Cicho-Szpiega.\n"
+"\n"
+"Bez tego budynku miasto nie może wzrosnąć powyżej rozmiaru 2."
+
+#: data/alien/buildings.ruleset:96
+msgid "Bunker"
+msgstr "Schron"
+
+#: data/alien/buildings.ruleset:113
+#, no-c-format
+msgid "Revolt cannot be incited in a city with bunker."
+msgstr " W mieście ze Schronem nie da się podburzyć ludności."
+
+#: data/alien/buildings.ruleset:118
+msgid "Central Mine"
+msgstr "Kopalnia Miejska"
+
+#: data/alien/buildings.ruleset:134
+#, no-c-format
+msgid "City center tile produces three extra shields."
+msgstr "Pole pośrodku miasta daje 3 dodatkowe tarcze."
+
+#: data/alien/buildings.ruleset:139
+msgid "Cyberpart Factory"
+msgstr "Fabryka Cyberczęści"
+
+#: data/alien/buildings.ruleset:154
+#, no-c-format
+msgid "Increases the tax output in a city by 75%."
+msgstr "Zwiększa produkcję podatków z miasta o 50%."
+
+#: data/alien/buildings.ruleset:173
+msgid ""
+"Factory produces spare parts for two units removing their production upkeep."
+msgstr ""
+"Fabryka produkuje części zamienne dla 2 jednostek, eliminując tym samym "
+"koszt ich utrzymania."
+
+#: data/alien/buildings.ruleset:178
+msgid "Filter"
+msgstr "Filtr"
+
+#: data/alien/buildings.ruleset:193
+msgid ""
+"Filter System gets 1 extra food and 1 extra production from each oceanic "
+"tile."
+msgstr ""
+"System Filtrów daje 1 dodatkowy punkt żywności i 1 dodatkowy punkt produkcji "
+"z każdego pola morskiego."
+
+#: data/alien/buildings.ruleset:198
+msgid "Force Walls"
+msgstr "Pole Siłowe"
+
+#: data/alien/buildings.ruleset:214
+#, no-c-format
+msgid ""
+"Force Walls doubles city defense against all kind of attacks. Bonus is "
+"increased to 150% when Strong Force technology is known."
+msgstr ""
+"Pola Siłowe podwajają zdolności obronne miasta przed wszystkimi rodzajami "
+"ataków. Obronność wzrasta o 150% po odkryciu Mocnego Oddziaływania."
+
+#: data/alien/buildings.ruleset:219
+msgid "Headquarters"
+msgstr "Centrum Dowodzenia"
+
+#: data/alien/buildings.ruleset:233
+#, no-c-format
+msgid ""
+"Headquarters building marks city as your capital. City with headquarters is "
+"also safe from enemy's incite revolt attacks."
+msgstr ""
+"Miasto z Centrum Dowodzenia jest twoją stolicą. W mieście takim nie da się "
+"podburzyć ludności."
+
+#: data/alien/buildings.ruleset:253
+#, no-c-format
+msgid ""
+"Damaged units which stay in city without moving, heal 50% of their hitpoints "
+"each turn."
+msgstr ""
+"Uszkodzone jednostki, które pozostają z obrębie miasta i nie ruszają się, "
+"odzyskują 50% punktów obrażeń na turę."
+
+#: data/alien/buildings.ruleset:258
+msgid "Information Distillery"
+msgstr "Ośrodek Przetwarzania Informacji"
+
+#: data/alien/buildings.ruleset:273
+#, no-c-format
+msgid ""
+"Improved information gathering. Only 2 other civilizations needs to know "
+"given technology before we gain access to it."
+msgstr ""
+"Ulepszone pozyskiwanie informacji. Tylko 2 inne cywilizacje muszą znać daną "
+"technologię, nim my zyskamy do niej dostęp."
+
+#: data/alien/buildings.ruleset:278
+msgid "Mood Center"
+msgstr "Centrum Nastroju"
+
+#: data/alien/buildings.ruleset:293
+#, no-c-format
+msgid "Makes 3 unhappy citizens content."
+msgstr "Czyni 3 niezadowolonych mieszkańców zadowolonymi."
+
+#: data/alien/buildings.ruleset:298
+msgid "Training Facility"
+msgstr "Centrum Szkoleniowe"
+
+#: data/alien/buildings.ruleset:313
+#, no-c-format
+msgid "All new units are built as Elite ones."
+msgstr "Wszystkie nowe jednostki tworzone są jako elitarne."
+
+#: data/alien/buildings.ruleset:318
+msgid "Transportation"
+msgstr "Transport"
+
+#: data/alien/buildings.ruleset:333
+#, no-c-format
+msgid ""
+"City workers can travel further from city center to work and goods can be "
+"transported from further away to city center. Makes city area 8 tiles bigger."
+msgstr ""
+"Robotnicy miejscy mogą udawać się dalej poza miasto i dostarczać dobra z "
+"odleglejszych pól. Zwiększa obszar miasta o 8 pól."
+
+#: data/alien/buildings.ruleset:340
+msgid "Radar Tower"
+msgstr "Wieża Radarowa"
+
+#: data/alien/buildings.ruleset:354
+msgid "City with Radar Tower sees much further than one without."
+msgstr "Miasto z Wieżą Radarową na znacznie większe pole widzenia."
+
+#: data/alien/buildings.ruleset:358
+msgid "Radiation Resistor"
+msgstr "Osłona Przeciwpromienna"
+
+#: data/alien/buildings.ruleset:372
+msgid "Radiation Resistor increases maximum city size by 3."
+msgstr "Osłona Przeciwpromienna zwiąksza maksymalny rozmiar miasta o 3."
+
+#: data/alien/buildings.ruleset:377
+msgid "Research Nest"
+msgstr "Centrum Nauki"
+
+#: data/alien/buildings.ruleset:392
+#, no-c-format
+msgid "Increases the science production of a city by 100%."
+msgstr "Zwiększa produkcję punktów nauki miasta o 100%."
+
+#: data/alien/buildings.ruleset:396
+msgid "Secret Police"
+msgstr "Tajna Policja"
+
+#: data/alien/buildings.ruleset:410
+msgid ""
+"Secret Police is good at leading army.\n"
+"\n"
+"Makes martial law possible. Each military unit in city makes one unhappy "
+"citizen content, to the maximum of 2."
+msgstr ""
+"Tajna Policja dobrze sprawdza się w kierowaniu armią.\n"
+"\n"
+"Umożliwia ona wprowadzanie stanu wyjątkowego. Każda jednostka zbrojna w "
+"mieście czyni 1 niezadowolonego mieszkańca zadowolonym (maksymalnie 2)."
+
+#: data/alien/buildings.ruleset:416
+msgid "Skyscraper"
+msgstr "Drapacz Chmur"
+
+#: data/alien/buildings.ruleset:430
+msgid ""
+"Radiation is weaker miles high. Top levels of really tall buildings can "
+"safely house more people.\n"
+"\n"
+"Cities can grow 5 sizes bigger."
+msgstr ""
+"Promieniowanie jest niższe kilka kilometrów nad powierzchnią ziemi. Górne "
+"piętra bardzo wysokich budynków dają schronienie większej ilości "
+"mieszkańców.\n"
+"\n"
+"Miasto może wzrosnąć o kolejnych 5 rozmiarów."
+
+#: data/alien/buildings.ruleset:435
+msgid "Virtual Reality Theatre"
+msgstr "Teatr VR"
+
+#: data/alien/buildings.ruleset:450
+#, no-c-format
+msgid "Makes two unhappy citizens content."
+msgstr "Czyni 2 niezadowolonych mieszkańców zadowolonymi."
+
+#: data/alien/buildings.ruleset:511
+msgid ""
+"Space Modules are the most expensive parts of spaceships.  There are three "
+"different types of Space Module:\n"
+"\n"
+"- Habitation Module: provides living space for 10,000 people.\n"
+"\n"
+"- Life Support Module: provides food and water for the population of  one "
+"Habitation Module.\n"
+"\n"
+"- Solar Panels: provides the energy needed for any two of the other  "
+"Modules.\n"
+"\n"
+"You can build up to 4 Space Modules of each kind."
+msgstr ""
+"Moduły to najdroższe części Rakiet Kosmicznych. Mamy trzy różne typy "
+"modułów:\n"
+"\n"
+"- Moduły Mieszkalne: zapewniają mieszkanie dla 10 000 osób.\n"
+"\n"
+"- Moduły Podtrzymywania Życia: zapewniają żywność i wodę dla jednego modułu "
+"mieszkalnego.\n"
+"\n"
+"- Baterie Słoneczne: zapewniają energię dla dowolnych dwóch modułów.\n"
+"\n"
+"Możesz zbudować do 4 modułów z każdego typu."
+
+#: data/alien/buildings.ruleset:548
+msgid "Earth Monument"
+msgstr "Pomnik Ziemi"
+
+#: data/alien/buildings.ruleset:561
+msgid ""
+"Monument to celebrate our true home planet, Earth.\n"
+"\n"
+"Each square around the city where this wonder is built that is already "
+"generating some trade produces one extra trade resource."
+msgstr ""
+"Pomnik upamiętniający nasz prawdziwy dom - Ziemię.\n"
+"\n"
+"Każde pole wokół miasta, w których zbudowano ten cud, jeśli daje już jakieś "
+"punkty handlu, przynosi 1 dodatkowy punkt handlu."
+
+#: data/alien/buildings.ruleset:568
+msgid "Great Tunnel"
+msgstr "Wielki Tunel"
+
+#: data/alien/buildings.ruleset:582
+msgid ""
+"Real deep mining.\n"
+"\n"
+"Each square around the city where this wonder is built that is already "
+"generating some production produces one extra shield resource."
+msgstr ""
+"Umożliwie głębokie prace wydobywcze.\n"
+"\n"
+"Każda pole wokół miasta, w którym zbudowano ten cud, jeśli daje już jakieś "
+"tarcze, przynosi 1 dodatkową tarczę."
+
+#: data/alien/buildings.ruleset:589
+msgid "Antigrav Control Center"
+msgstr "Centrum Sterowania Antygrawitacją"
+
+#: data/alien/buildings.ruleset:604
+#, no-c-format
+msgid ""
+"All player's antigravity units will regenerate 50% of their hitpoints each "
+"turn."
+msgstr ""
+"Jednostki antygrawitacyjne wszystkich graczy odzyskują 50% punktów obrażeń "
+"na turę."
+
+#: data/alien/buildings.ruleset:610
+msgid "Oceanic Downtown"
+msgstr "Oceaniczne Śródmieście"
+
+#: data/alien/buildings.ruleset:625
+msgid "Each oceanic city center generates 3 points more trade and production."
+msgstr ""
+"Cenrum każdego wodnego miasta daje o 3 punkty handlu i produkcji więcej."
+
+#: data/alien/buildings.ruleset:630
+msgid "Monument of Co-operation"
+msgstr "Pomnik Współpracy"
+
+#: data/alien/buildings.ruleset:645
+#, no-c-format
+msgid ""
+"All player's native alien units will regenerate 50% of their hitpoints each "
+"turn."
+msgstr ""
+"Wszystkie natywne jednostki gracza odzyskują 50% punktów obrażeń na turę."
+
+#: data/alien/buildings.ruleset:651
+msgid "Protector"
+msgstr "Egida"
+
+#: data/alien/buildings.ruleset:665
+msgid ""
+"Provides additional protection against radiation making it possible for all "
+"cities player owns to grow 2 sizes bigger."
+msgstr ""
+"Zapewnia dodatkową ochronę przed promieniowaniem, więc wszystkie miasta "
+"gracza mogą osiągnąć rozmiar większy o 2."
+
+#: data/alien/cities.ruleset:37
+msgid "elvis"
+msgstr "komik"
+
+#: data/alien/cities.ruleset:45
+msgid "scientist"
+msgstr "naukowiec"
+
+#: data/alien/cities.ruleset:53
+msgid "taxman"
+msgstr "poborca pod."
+
+#: data/alien/cities.ruleset:102
+msgid "?citystyle:Human"
+msgstr "?citystyle:Ludzki"
+
+#: data/alien/cities.ruleset:116
+msgid "?citystyle:Dual"
+msgstr "?citystyle:Dwie Rasy"
+
+#: data/alien/game.ruleset:9
+msgid "Alien World"
+msgstr "Obcy Świat"
+
+#: data/alien/game.ruleset:12
+msgid ""
+"One of the design goals of this ruleset is that it has to provide gameplay "
+"different from standard rules. Do not assume that any rules you know from "
+"default rules apply with this ruleset.\n"
+"\n"
+"See README.ruleset_alien and http://www.cazfi.net/freeciv/alien/ for ruleset "
+"info."
+msgstr ""
+"Jednym z celów tego zestawu zasad jest stworzenie zasad gry zupełnie "
+"odmiennych od standardowych. Nie zakładaj, że będę tu działały jakiekolwiek "
+"prawa znane ci z innych zestawów zasad.\n"
+"\n"
+"Więcej informacji znajdziesz w pliku README.ruleset_alien oraz na http://www."
+"cazfi.net/freeciv/alien/ ."
+
+#: data/alien/game.ruleset:207
+msgid "GE"
+msgstr "e.g."
+
+#: data/alien/game.ruleset:208
+msgid "BGE"
+msgstr "p.e.g."
+
+#: data/alien/game.ruleset:239
+msgid "Radiation Burst"
+msgstr "Wzrost promieniowania"
+
+#: data/alien/game.ruleset:244
+msgid "Rebels"
+msgstr "Buntownicy"
+
+#: data/alien/game.ruleset:249
+msgid "Alien Microbes"
+msgstr "Obce mikroby"
+
+#: data/alien/governments.ruleset:57
+msgid "Anarchy happens between government changes."
+msgstr "Do Anarchii dochodzi w okresie przejściowym podczas zmiany ustroju."
+
+#: data/alien/governments.ruleset:72 data/alien/governments.ruleset:73
+#: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:45
+#: data/nation/iranian.ruleset:40
+#, c-format
+msgid "Leader %s"
+msgstr "Przywódca %s"
+
+#: data/alien/governments.ruleset:75
+msgid ""
+"This is the only available form of government in the beginning.\n"
+"\n"
+"Max tax/science/lux rate is 40%.\n"
+"\n"
+"Despotism suffers 20% penalty to both trade and production."
+msgstr ""
+"Jest to jedyny ustrój dostępny na początku rozgrywki.\n"
+"\n"
+"Maksymalna stawka podatku/nauki/luksusu to 40%.\n"
+"\n"
+"Despotyzm zmniejsza handel i produkcję o 20%."
+
+#: data/alien/governments.ruleset:95
+msgid ""
+"Government type for military might.\n"
+"\n"
+"Max tax/science/lux rate is 60%.\n"
+"\n"
+"Communism suffers 20% penalty to trade."
+msgstr ""
+"Jest to ustrój dla rządów wojskowych.\n"
+"\n"
+"Maksymalna stawka podatku/nauki/luksusu to 60%.\n"
+"\n"
+"Komunizm zmniejsza handel o 20%u."
+
+#: data/alien/governments.ruleset:115
+msgid ""
+"Government type of freedom.\n"
+"\n"
+"Max tax/science/lux rate is 70%.\n"
+"\n"
+"Democracy suffers 20% penalty to production."
+msgstr ""
+"Jest to ustrój, w którym najważnejsza jest wolność.\n"
+"\n"
+"Maksymalna stawka podatku/nauki/luksusu to 70%.\n"
+"\n"
+"Demokracja zmniejsza produkcję o 20%."
+
+#: data/alien/governments.ruleset:124
+msgid "Dual Communism"
+msgstr "DwuKomunizm"
+
+#: data/alien/governments.ruleset:135
+msgid ""
+"Government type for military might for both humans and aliens alike.\n"
+"\n"
+"Max tax/science/lux rate is 80%.\n"
+"\n"
+"Dual Communism gains 20% production bonus."
+msgstr ""
+"Jest to ustrój dla rządów wojskowych zarówno dla ludzi, jak i dla obcych.\n"
+"\n"
+"Maksymalna stawka podatku/nauki/luksusu to 80%.\n"
+"\n"
+"DwuKomunizm zwiększa produkcję o 20%."
+
+#: data/alien/governments.ruleset:144
+msgid "Dual Democracy"
+msgstr "DwuDemokracja"
+
+#: data/alien/governments.ruleset:155
+msgid ""
+"Government type of freedom for both humans and aliens alike.\n"
+"\n"
+"Max tax/science/lux rate is 90%.\n"
+"\n"
+"Dual Democracy gains 20% trade bonus."
+msgstr ""
+"Jest to ustrój, w którym najważnejsza jest wolność zarówno dla ludzi, jak i "
+"dla obcych.\n"
+"\n"
+"Maksymalna stawka podatku/nauki/luksusu to 90%.\n"
+"\n"
+"DwuDemokracja zwiększa handel o 20%."
+
+#: data/alien/script.lua:15
+msgid ""
+"Deneb 7 was known to have strange force field surrounding itthat made it "
+"impossible to get near planet with year 250 Galactic Era Earthtechnology. "
+"However, when you were flying past, that field suddenlyreverted and sucked "
+"you to the planet.\n"
+"\n"
+"You find yourself in a strange world, probably touched by "
+"superiortechnology, where big portion of Earth science is invalid. Youhave "
+"to learn new rules, rules of this world.\n"
+"\n"
+"There's deadly radiation that no known shielding works against.There's alien "
+"life, but more surprisingly also some edibleplants just like on Earth.\n"
+"\n"
+"Radio doesn't work, air doesn't allow flying, some basic Physicsdoes not "
+"apply here.\n"
+"\n"
+"You struggle to live on this planet, and read Roadside Picnic by "
+"Strugatskybrothers once more."
+msgstr ""
+"Deneb 7 otoczony jest dziwnym polem siłowym, które uniemożliwiało ludziom "
+"zbliżenie się do planety przy użyciu ziemskiej techniki z roku 250 Ery "
+"Galaktycznej. Jednak gdy przelatywaliście w pobliżu Deneba 7, pole nagle "
+"zmieniło kierunek i ściągnęło was na powierzchnię.\n"
+"\n"
+"Znaleźliście się w dziwnym świecie, prawdopodobnie zmienionym przez jakąś "
+"supertechnologię, w którym nie obowiązuje wiele praw ziemskiej nauki. Teraz "
+"musisz odkryć nowe prawa, prawa tego świata.\n"
+"\n"
+"Występuje to śmiercionośne promieniowanie, przeciw któremu nie działają "
+"żadne znane ci osłony. Istnieją tu obce formy życia zwierzęcego, ale także "
+"jadalne rośliny, podobne do tych na Ziemi.\n"
+"\n"
+"Radio nie działa, atmosfera nie pozwala na latanie, nie obowiązują też "
+"niektóre podstawowe prawa fizyki.\n"
+"\n"
+"Próbujesz nauczyć się żyć na tej dziwnej planecie i ponownie czytasz "
+"\"Piknik na skraju drogi\" braci Strugackich."
+
+#: data/alien/techs.ruleset:55
+msgid "Alien Rights"
+msgstr "Prawa Obcych"
+
+#: data/alien/techs.ruleset:61
+msgid ""
+"They're smart. Should they have rights too?\n"
+"\n"
+"Alien Forest tiles produce +1 production."
+msgstr ""
+"Są inteligentni. Czy oni też powinni mieć prawa?\n"
+"\n"
+"Pola Obcego Lasu dają o 1 punkt produkcji więcej."
+
+#: data/alien/techs.ruleset:66
+msgid "Alien Taming"
+msgstr "Oswajanie Obcych"
+
+#: data/alien/techs.ruleset:72
+msgid "Some of the Alien lifeforms now work for us."
+msgstr "Niektóre lokalne formy życia teraz z nami współpracują."
+
+#: data/alien/techs.ruleset:75
+msgid "Alien Training"
+msgstr "Szkolenie Obcych"
+
+#: data/alien/techs.ruleset:81
+msgid "Trained native lifeforms - deadly."
+msgstr "Szkolenie lokalnych form życia - z zabójczym efektem..."
+
+#: data/alien/techs.ruleset:84
+msgid "Amphibious Tactics"
+msgstr "Taktyka Wodno-lądowa"
+
+#: data/alien/techs.ruleset:90
+msgid "Warfare with amphibious units."
+msgstr "Wojna przy użyciu jednostek wodno-lądowych."
+
+#: data/alien/techs.ruleset:93
+msgid "Antigravity"
+msgstr "Antygrawitacja"
+
+#: data/alien/techs.ruleset:99
+msgid ""
+"Even if normal method of flying is impossible in this world antigravity "
+"works. We just need to master it."
+msgstr ""
+"Mimo że normalny lot nie jest tu możliwy, działa antygrawitacja. Musimy "
+"jedynie nauczyć się ją wykorzystywać."
+
+#: data/alien/techs.ruleset:103
+msgid "Burrowing"
+msgstr "Drążenie"
+
+#: data/alien/techs.ruleset:109
+msgid ""
+"Since it seems to be impossible to fly in this world, we focus on opposite "
+"direction. Burrowing through earth is possible."
+msgstr ""
+"Wydaje się, że latanie nie jest możliwe na tej planecie, więc idziemu w "
+"drugą stronę. Drążenie w ziemi jest możliwe."
+
+#: data/alien/techs.ruleset:113
+msgid "Brain Development"
+msgstr "Rozwój mózgu"
+
+#: data/alien/techs.ruleset:121
+msgid "Brute Force"
+msgstr "Wojna Totalna"
+
+#: data/alien/techs.ruleset:127
+msgid "It's time to make more powerfull weapons than ever before."
+msgstr "Czas stworzyć broń potężniejszą niż kiedykolwiek przedtem."
+
+#: data/alien/techs.ruleset:130
+msgid "City Defense"
+msgstr "Obrona Miasta"
+
+#: data/alien/techs.ruleset:136
+msgid ""
+"Advanced form of force channeling allows us to protect city size objects "
+"with channeled radiation energy."
+msgstr ""
+"Zaawansowana inżynieria pola siłowego pozwala nam chronić obiekty wielkości "
+"miasta przy pomocy energii planety."
+
+#: data/alien/techs.ruleset:140
+msgid "Commercial Antigravity"
+msgstr "Komercyjna Antygrawitacja"
+
+#: data/alien/techs.ruleset:146
+msgid ""
+"Antigravity is not only for military. It has commercial applications as well."
+msgstr ""
+"Antygrawitacja nie jest technologią wyłącznie wojskową; ma także cywilne "
+"zastosowania komercyjne."
+
+#: data/alien/techs.ruleset:150
+msgid "Communication"
+msgstr "Komunikacja"
+
+#: data/alien/techs.ruleset:156
+msgid ""
+"Conventional radio does not work here. Develop working alternative that "
+"takes advantage of the local radiation. You'll get contact to other factions."
+msgstr ""
+"Tradycyjne radio nie działa na tej planecie. Rozwiń alternatywne formy "
+"komunikacji wykorzystujące lokalne promieniowanie. Dzięki temu nawiążesz "
+"kontakt z innymi grupami."
+
+#: data/alien/techs.ruleset:160
+msgid "Composites"
+msgstr "Kompozyty"
+
+#: data/alien/techs.ruleset:166
+msgid "Stronger materials mean stronger armors."
+msgstr "Mocniejsze materiały to mocniejsze pancerze."
+
+#: data/alien/techs.ruleset:169
+msgid "Crust Defense"
+msgstr "Obrona Podziemna"
+
+#: data/alien/techs.ruleset:175
+msgid "Defense against burrowing units."
+msgstr "Obrona przed jednostkami drążącymi."
+
+#: data/alien/techs.ruleset:178
+msgid "Cyber Aliens"
+msgstr "Cyber-Obcy"
+
+#: data/alien/techs.ruleset:184
+msgid "Alliance of the machine and alien organisms."
+msgstr "Sojusz maszyn i obcych form życia."
+
+#: data/alien/techs.ruleset:187
+msgid "Cybermodules"
+msgstr "Cybermoduły"
+
+#: data/alien/techs.ruleset:193
+msgid ""
+"Standardized cyber units save money - or make money to those producing them."
+msgstr ""
+"Standaryzowane cyber jednostki to oszczędność pieniędzy lub niezły interes "
+"dla tych, którzy je produkują."
+
+#: data/alien/techs.ruleset:197
+msgid "Cybernetics"
+msgstr "Cybernetyka"
+
+#: data/alien/techs.ruleset:203
+msgid ""
+"Making old Earth technology better than before is relatively easy task to "
+"do. For small investment, cybernetics gives us much better attack units."
+msgstr ""
+"Rozwijanie starych ziemskich technologii to stosunkowo łatwe zadanie. Dzięki "
+"cybernetyce można niewielkim kosztem stworzyć znacznie lepsze jednostki "
+"zaczepne."
+
+#: data/alien/techs.ruleset:207
+msgid "Data Storage"
+msgstr "Przechowywanie Danych"
+
+#: data/alien/techs.ruleset:213
+msgid ""
+"Needs to archive all the media produced for and by politics drive "
+"development of better data storage methods."
+msgstr ""
+"Potrzeba przechowywanie wszystkich przekazów tworzonych przez polityków dała "
+"impuls do rozwoju lepszych metod przechowywanie danych."
+
+#: data/alien/techs.ruleset:217
+msgid "Deep Pumping"
+msgstr "Pompy Głębinowe"
+
+#: data/alien/techs.ruleset:223
+msgid ""
+"We can pump water from the depths of the crust. We no longerneed any of the "
+"adjacent tiles to have water in order to build irrigation."
+msgstr ""
+"Możemy teraz pompować wodę z głębin skorupy planetarnej. Od teraz "
+"nawodnienia budować można także na polach nie sąsiadujących ze źródłami wody."
+
+#: data/alien/techs.ruleset:227
+msgid "Deneb Radar"
+msgstr "Radar denebański"
+
+#: data/alien/techs.ruleset:233
+msgid ""
+"Not really an conventional radar, but named so as it fills similar role. "
+"It's based on Deneb 7 radiation and works on this planet."
+msgstr ""
+"Nie jest to wprawdzie konwencjonalny radar, ale pełni podobną rolę "
+"wykorzystując promieniowanie Deneba 7 i tylko on działa na tej planecie."
+
+#: data/alien/techs.ruleset:237
+msgid "Dual Government"
+msgstr "DwuRząd"
+
+#: data/alien/techs.ruleset:243
+msgid "Government should consider both Humans and Native aliens."
+msgstr ""
+"Ustrój powinien uwzględniać przedstawicieli zarówno Ludzi, jak i Obcych"
+
+#: data/alien/techs.ruleset:253
+msgid ""
+"We are finally able to escape force field surrounding Deneb 7. In addition "
+"to technical insight it requires correct attitude."
+msgstr ""
+"Możemy wreszcie wyrwać się poza pole siłowe otaczające Deneb 7. Oprócz "
+"odpowiedniej wiedzy technicznej potrzebne jest także odpowiednie podejście."
+
+#: data/alien/techs.ruleset:257
+msgid "Faction Government"
+msgstr "Rząd Frakcyjny"
+
+#: data/alien/techs.ruleset:263
+msgid "Familiar government types adjusted to local environment."
+msgstr "Znane typy ustrojów dostosowane do lokalnych warunków."
+
+#: data/alien/techs.ruleset:266
+msgid "Faction Politics"
+msgstr "Polityka Frakcyjna"
+
+#: data/alien/techs.ruleset:272
+msgid ""
+"Human relations in this situation, where various factions have been forced "
+"to this strange planet, are quite unlike anything seen before. It very well "
+"deserves small study. Maybe we then can co-operate with other factions."
+msgstr ""
+"Na planecie, na której różne grupy zmuszone zostały do życia obok siebie, "
+"relacje społeczne nie są podobne do niczego w znanym Wszechświecie. Może "
+"jeśli dokładnie zbadamy tą nietypową sytuację, współpraca między różnymi "
+"grupami będzie układać się gładko?"
+
+#: data/alien/techs.ruleset:278
+msgid "Food Regeneration"
+msgstr "Odzyskiwanie Żywności"
+
+#: data/alien/techs.ruleset:285
+#, no-c-format
+msgid ""
+"If what we harvest grows back faster, we get more food. It's simple as "
+"that.\n"
+"\n"
+"Farmland tiles get additional 50% food production bonus."
+msgstr ""
+"To proste: jeśli rośiny, które zbierzemy będą odrastać szybciej, będziemy "
+"mieli więcej żywności.\n"
+"\n"
+"Pola z farmami dają o 50% więcej żywności."
+
+#: data/alien/techs.ruleset:290
+msgid "Force Channeling"
+msgstr "Inżynieria Pola Siłowego"
+
+#: data/alien/techs.ruleset:296
+msgid ""
+"Radiation is obstacle for us, but now also an resource. We know how to "
+"channel Deneb 7's power to our own use.\n"
+"\n"
+"Engineers can build Force Fortresses."
+msgstr ""
+"Promieniowanie jest dla nas przeszkodą, lecz także dobrodziejstwem, odkąd "
+"nauczyliśmy się wykorzystywać pole siłowe Deneba 7 do naszych potrzeb.\n"
+"\n"
+"Inżynierowie mogą budować Fortece Siłowe."
+
+#: data/alien/techs.ruleset:301
+msgid "Gravity Manipulation"
+msgstr "Inżynieria Grawitacyjna"
+
+#: data/alien/techs.ruleset:307
+msgid ""
+"From inside the crust we gather information required to understand how "
+"gravity works and what one can do with it."
+msgstr ""
+"Badając skorupę planety, gromadzimy informację o tym, jak działa grawitacja "
+"i jak możemy ją wykorzystać."
+
+#: data/alien/techs.ruleset:311
+msgid "Global Knowledge"
+msgstr "Globalna Wiedza"
+
+#: data/alien/techs.ruleset:317
+msgid ""
+"Information flows to us. We learn any tech known by four other civilizations."
+msgstr ""
+"Spływają do nas informacje. Poznajemy każdą technologię znaną czterem innym "
+"cywilizacjom."
+
+#: data/alien/techs.ruleset:321
+msgid "High-Tech Filtering"
+msgstr "Zaawansowane Filtrowanie"
+
+#: data/alien/techs.ruleset:327
+msgid "You can get a lot of things from ocean if you know how."
+msgstr "Oceany mogą dać nam wiele rzeczy, jeśli tylko wiemy jak je wydobyć."
+
+#: data/alien/techs.ruleset:336
+msgid "Simply knowing this tech makes two content citizens happy in each city."
+msgstr ""
+"Znajomość tej technologii czyni 2 zadowolonych mieszkańców szczęśliwymi w "
+"każdym mieście."
+
+#: data/alien/techs.ruleset:340
+msgid "Low-Level Orbit"
+msgstr "Loty Na Niskiej Orbicie"
+
+#: data/alien/techs.ruleset:346
+msgid ""
+"With further advances in antigravitics we are able to enter orbit even if we "
+"still are prisoners of the force field surronding Deneb 7.\n"
+"\n"
+"Makes Antigrav Ports more efficient. They can airlift three units instead of "
+"just one."
+msgstr ""
+"Dalsze postępy w badaniach nad antygrawitacją pozwoliły nam wchodzić na "
+"orbitę, mimo tego że nadal jesteśmy więźniami pola siłowego otaczającego "
+"Deneb 7.\n"
+"\n"
+"Usprawnia działanie Portów Antygrawitacyjnych. Mogą się w nich przemieszczać "
+"trzy jednostki na turę."
+
+#: data/alien/techs.ruleset:358
+msgid ""
+"Using planet's own power available everywhere land travel speeds can reach "
+"levels never seen before."
+msgstr ""
+"Wykorzystując energię planety, może podróżować po lądzie z niespotykaną "
+"dotąd szybkością."
+
+#: data/alien/techs.ruleset:362
+msgid "Manufacturing"
+msgstr "Wytwórstwo"
+
+#: data/alien/techs.ruleset:368
+msgid ""
+"It takes some research to even make basic manufacturing in this alien world."
+msgstr ""
+"Na tej planecie nawet podstawowa działalność wytwórcza jest trudna bez "
+"dodatkowych badań."
+
+#: data/alien/techs.ruleset:372
+msgid "Martial Law"
+msgstr "Stan Wyjątkowy"
+
+#: data/alien/techs.ruleset:378
+msgid ""
+"Effective martial law requires that we can react quickly, to immediately "
+"send forces where they are needed.\n"
+"\n"
+"Maximum martial law for cities with Secret Police is increased from two to "
+"five."
+msgstr ""
+"Aby stan wyjątkowy był skuteczny, musimy być w stanie szybko wysyłać wojsko "
+"tam, gdzie jest potrzebne.\n"
+"\n"
+"Maksymalny stan wyjątkowy dla miast z Tajną Policją zwiększa się z 2 do 5."
+
+#: data/alien/techs.ruleset:384
+msgid "Mental Powers"
+msgstr "Zdolności Mentalne"
+
+#: data/alien/techs.ruleset:390
+msgid ""
+"I WANT\n"
+"\n"
+"One way to resist radiation is willpower.\n"
+"\n"
+"Simply knowing this tech allows cities to grow 3 sizes bigger."
+msgstr ""
+"CHCĘ\n"
+"\n"
+"Jednym ze sposobów na uchronienie się przed promieniowaniem jest siła woli.\n"
+"\n"
+"Znajomość tej technologii pozwala miastom wzrosnąć o 3 rozmiary."
+
+#: data/alien/techs.ruleset:395 tools/civmanual.c:287
+msgid "Mining"
+msgstr "Kopalnie"
+
+#: data/alien/techs.ruleset:401
+msgid ""
+"Earthly mining technologies were not sufficient for heavy scale mining on "
+"this planet."
+msgstr ""
+"Ziemska technologia górnicza nie wystarczała, by prowadzić duże prace "
+"wydobywcze na tej planecie."
+
+#: data/alien/techs.ruleset:405
+msgid "Modified Spitter"
+msgstr "Zmodyfikowana Plujka"
+
+#: data/alien/techs.ruleset:411
+msgid ""
+"We already know how to make modifications to alien lifeforms. Let's improve "
+"spitters."
+msgstr "Potrafimy już modyfikować ocbe formy życia. Ulepszmy plujki!"
+
+#: data/alien/techs.ruleset:415
+msgid "Mood Manipulation"
+msgstr "Inżynieria Nastroju"
+
+#: data/alien/techs.ruleset:421
+msgid "People are happy if they believe that they are happy."
+msgstr "Ludzie są szczęśliwi, jeśli wierzą, że są szczęśliwi."
+
+#: data/alien/techs.ruleset:424
+msgid "Naval Superiority"
+msgstr "Zaawansowana Wojna Morska"
+
+#: data/alien/techs.ruleset:430
+msgid ""
+"It's no longer enough to replicate old Earth technologies. We want "
+"superiority."
+msgstr ""
+"Nie wystarcza nam już kopiowanie ziemskiej technologii. Chcemy ją "
+"prześcignąć."
+
+#: data/alien/techs.ruleset:434
+msgid "New Frontier"
+msgstr "Nowe Granice"
+
+#: data/alien/techs.ruleset:441
+#, no-c-format
+msgid ""
+"We finally fully realize that we are not limited to what we had as part of "
+"Earth empire.\n"
+"\n"
+"Increases max tax/science/lux rate by 10%."
+msgstr ""
+"Zdaliśmy sobie wreszcie sprawę, że nie musimy się ograniczać do tego, co "
+"mieliśmy w ziemskim imperium.\n"
+"\n"
+"Zwiększa maksymalną stawkę podatków/nauki/luksusu o 10%."
+
+#: data/alien/techs.ruleset:446
+msgid "Ocean Cities"
+msgstr "Wodne Miasta"
+
+#: data/alien/techs.ruleset:452
+msgid "Cities on ocean. Why not?"
+msgstr "Miasta na Oceanie. Dlaczegóż by nie?"
+
+#: data/alien/techs.ruleset:455
+msgid "Organic Structures"
+msgstr "Struktury Organiczne"
+
+#: data/alien/techs.ruleset:461
+msgid ""
+"The art of making armor from alien organisms resistant to Deneb 7's strange "
+"radiation allows us to enter new areas.\n"
+"\n"
+"Cities can work radiating tiles."
+msgstr ""
+"Umiejętność tworzenia pancerzy z lokalnych organizmów odpornych na dziwne "
+"promieniowanie Deneba 7 pozwala nam wkroczyć na nowe tereny.\n"
+"\n"
+"Miasta mogą zagospodarować radioaktywne pola."
+
+#: data/alien/techs.ruleset:466
+msgid "Paradrop"
+msgstr "Desant"
+
+#: data/alien/techs.ruleset:471
+msgid ""
+"It's easy to fall all the way from orbit, but to hit small target and to be "
+"ready to act immediately after landing are hard for aliens. They need extra "
+"mental powers for that."
+msgstr ""
+"Łatwo jest spaść z orbity, lecz trafić w niewielki cel i być gotowym do "
+"działania od razu po wylądowaniu jest dla obcych znacznie trudniejsze. "
+"Potrzebne są im do tego dodatkowe zdolności mentalne."
+
+#: data/alien/techs.ruleset:476
+msgid "Personal Contact"
+msgstr "Kontakt Osobisty"
+
+#: data/alien/techs.ruleset:482
+#, no-c-format
+msgid ""
+"With Virtual Reality it's like actor actually was there with you. When you "
+"allow actors to teleport to meet their audience, maybe she is.\n"
+"\n"
+"Stealth Spies protecting your cities against enemy Spies will get 40% bonus. "
+"It also gets 40% harder for enemies to sabotage specific buildings."
+msgstr ""
+"Dzięki wirtualnej rzeczywistości masz wrażenie, że aktor naprawdę jest tuż "
+"obok ciebie. Gdy pozwolisz aktorom, by teleportowali się na spotkania z "
+"widownią, może rzeczywiście tak jest.\n"
+"\n"
+"Skuteczność Cicho-Szpiegów broniący miasta przed wrogimi Szpiegami zwiększa "
+"się o 40%. Szansa na skuteczny sabotaż konkretnego budynku spada o 40%."
+
+#: data/alien/techs.ruleset:489
+msgid "Protein Modifications"
+msgstr "Modyfikowane Białka"
+
+#: data/alien/techs.ruleset:495
+#, no-c-format
+msgid ""
+"Turns out we can make alien lifeforms edible.\n"
+"\n"
+"Engineers can build Farmland, which increases tile food production by 50%."
+msgstr ""
+"Okazuje się, że możemy sprawić, by obce formy życia były jadalne.\n"
+"\n"
+"Inżynierowie mogą budować Farmy, które zwiększają produkcję żywności na polu "
+"o 50%."
+
+#: data/alien/techs.ruleset:500
+msgid "Radiation Resistance"
+msgstr "Odporność Na Promieniowanie"
+
+#: data/alien/techs.ruleset:506
+msgid ""
+"By closely examining alien lifeform and how they survive the radiation, we "
+"are able to build some radiation resistance to our cities. \n"
+"\n"
+"Simply knowing this tech allows cities to grow 1 size bigger."
+msgstr ""
+"Po gruntownym zbadaniu lokalnych form życia i tego, jak radzą sobie z "
+"promieniowaniem, udało nam się zwiększych odporność na promieniowanie "
+"naszych miast. \n"
+"\n"
+"Znajomość tej technologii pozwala naszym miastom wzrosnąć o 1."
+
+#: data/alien/techs.ruleset:511
+msgid "Regeneration"
+msgstr "Regeneracja"
+
+#: data/alien/techs.ruleset:517
+msgid ""
+"We know how aliens regenerate, we know how self-repairing machines "
+"regenerate, we know how Earth organisms regenerate."
+msgstr ""
+"Wiemy jak regenerują się obcy, wiemy jak regenerują się samonaprawiające się "
+"maszyny, wiemy jak regenerują się ziemskie organizmy."
+
+#: data/alien/techs.ruleset:521
+msgid "Research Methods"
+msgstr "Metody Badawcze"
+
+#: data/alien/techs.ruleset:528
+#, no-c-format
+msgid ""
+"Research methods suitable for tackling challenges here allow us to gain "
+"knowledge much faster.\n"
+"\n"
+"Simply knowing this tech increases science output by 35%."
+msgstr ""
+"Metody badawcze przydatne w rozwiązywaniu tutejszych problemów pozwalają nam "
+"zdobywać wiedzę znacznie szybciej.\n"
+"\n"
+"Znajomość tej technologii zwiększa produkcję punktów nauki o 35%."
+
+#: data/alien/techs.ruleset:533
+msgid "Smart Aliens"
+msgstr "Inteligentni Obcy"
+
+#: data/alien/techs.ruleset:539
+msgid ""
+"Once we have given some smarts, backed with some remote control, to them, "
+"they can work on more demanding tasks."
+msgstr ""
+"Uczyniliśmy je bardziej inteligentnymi i wsparliśmy zdalnym sterowaniem, "
+"dzięki czemu mogą wykonywać trudniejsze zadania."
+
+#: data/alien/techs.ruleset:543
+msgid "Soul"
+msgstr "Dusza"
+
+#: data/alien/techs.ruleset:549
+msgid ""
+"By combining our knowledge about humans and aliens we finally understand "
+"universal concept of soul.\n"
+"\n"
+"We can cause terror in our enemies. Once somebody knows Soul, two content "
+"citizens is converted to unhappy in every city in the world unless owner of "
+"the city also knows Soul."
+msgstr ""
+"Łącząc naszą wiedzę o ludziach i obcych, poznaliśmy uniwersalną naturę "
+"duszy.\n"
+"\n"
+"Możemy wzbudzać przerażenie w naszych wrogach. Gdy któryś z graczy pozna "
+"Duszę, 2 mieszkańców staje się niezadowolonymi w każdym mieście na świecie, "
+"chyba że dany naród również posiadł wiedzę Dusza."
+
+#: data/alien/techs.ruleset:556
+msgid "Specialist Training"
+msgstr "Szkolenia Specjalistów"
+
+#: data/alien/techs.ruleset:562
+msgid ""
+"Based on our Tactics teaching techniques, we can teach our specialists trick "
+"or two.\n"
+"\n"
+"Output of all specialists doubles."
+msgstr ""
+"Dzięki Taktyce udoskonaliliśmy nasze techniki nauczanie i możemy podszkolić "
+"naszych specjalistów.\n"
+"\n"
+"Wydajność specjalistów zwiększa się dwukrotnie."
+
+#: data/alien/techs.ruleset:567
+msgid "Spitter Control"
+msgstr "Plujki Bojowe"
+
+#: data/alien/techs.ruleset:573
+msgid ""
+"Alien lifeforms spitting solid objects are interesting research subject."
+msgstr ""
+"Obce formy życia plujące twardymi \"pociskami\" to ciekawy przedmiot badań."
+
+#: data/alien/techs.ruleset:577
+msgid "Stealth Module"
+msgstr "Moduł Niewidzialności"
+
+#: data/alien/techs.ruleset:583
+msgid ""
+"Even when we know this technology making our units invisible, it's far too "
+"expensive to be used for armies. It's perfect for individuals in espionage "
+"mission."
+msgstr ""
+"Choć dzięki tej technologii nasze jednostki mogą stać się niewidzialne, jest "
+"ona zbyt kosztowna, by objąć nią całe armie. Sprawdza się za to znakomicie w "
+"misjach szpiegowskich."
+
+#: data/alien/techs.ruleset:588
+msgid "Strong Force"
+msgstr "Mocne Oddziaływanie"
+
+#: data/alien/techs.ruleset:594
+msgid ""
+"We are quite capable of making different energy fields out of radiation. We "
+"can still improve, though.\n"
+"\n"
+"Allows Engineers to build Towers instead of Force Fortresses."
+msgstr ""
+"Potrafimy już wykorzystywać promieniowanie do tworzenia różnych typów pola "
+"siłowego. Nadal możemy jednak ulepszyć to i owo.\n"
+"\n"
+"Inżynierowie mogą budować Wieże zamiast Fortec Siłowych."
+
+#: data/alien/techs.ruleset:599
+msgid "Strong Resistance"
+msgstr "Zwiększona Odporność"
+
+#: data/alien/techs.ruleset:605
+msgid ""
+"We get better at building resistance against radiation.\n"
+"\n"
+"Simply knowing this tech allows cities to grow 2 sizes bigger."
+msgstr ""
+"Umiemy lepiej bronić się przed promieniowaniem.\n"
+"\n"
+"Znajomość tej technologii pozwala miastom wzrosnąć o 2 rozmiary."
+
+#: data/alien/techs.ruleset:609
+msgid "Supermodule"
+msgstr "Supermoduł"
+
+#: data/alien/techs.ruleset:615
+msgid "Supermodule combines lesser modules in one extremely efficient pack."
+msgstr "Supermoduł pozwala łączyć mniejsze moduły w niezwykle wydajne systemy."
+
+#: data/alien/techs.ruleset:619
+msgid "Synthetic Food"
+msgstr "Syntetyczna Żywność"
+
+#: data/alien/techs.ruleset:625
+msgid ""
+"This is completely new, and extremely efficient, way of making synthetic "
+"food.\n"
+"\n"
+"As their food consumption is no longer an problem, we can grow bigger, "
+"meaner, aliens."
+msgstr ""
+"To zupełnie nowa i niezwykle wydajna metoda pozyskiwania żywności.\n"
+"\n"
+"Skoro pozyskiwanie żywności nie stanowi już problemu, możemy teraz hodować "
+"większych i groźniejszych obcych."
+
+#: data/alien/techs.ruleset:631
+msgid "Teleportation"
+msgstr "Teleportacja"
+
+#: data/alien/techs.ruleset:637
+msgid ""
+"We can teleport relatively small objects relatively short distances. This "
+"reduces problem of not being able to fly."
+msgstr ""
+"Potrafimy teleportować stosunkowo małe przedmioty na niewielkie odległości. "
+"Zmniejsza to problem niemożności latania."
+
+#: data/alien/techs.ruleset:641
+msgid "Thermal Module"
+msgstr "Moduł Cieplny"
+
+#: data/alien/techs.ruleset:647
+msgid ""
+"To be competent in boiling waters requires good control of temperature "
+"surrounding vessels. Also, knowledge about basic module technology allows "
+"more advanced modules in the future.\n"
+"\n"
+"Cities can work Boiling Ocean tiles."
+msgstr ""
+"Aby radzić sobie z wrzącymi wodami, musisz nauczyć się kontrolować "
+"temperaturę na zewnątrz statków. Ponadto wiedza na temat podstawowych "
+"modułów pozwoli ci tworzyć bardziej zaawansowane moduły w przyszłości.\n"
+"\n"
+"Miasta mogą korzystać z pól Wrzącego Oceanu."
+
+#: data/alien/techs.ruleset:653
+msgid "Underground Habitat"
+msgstr "Podziemne Osiedle"
+
+#: data/alien/techs.ruleset:659
+msgid ""
+"If needed, we can produce everything we need without ever leaving "
+"underground bunker."
+msgstr ""
+"Jeśli zajdzie taka potrzeba, możemy wyprodukować wszystko bez konieczności "
+"opuszczania podziemniego schronu."
+
+#: data/alien/techs.ruleset:663
+msgid "Travel"
+msgstr "Podróż"
+
+#: data/alien/techs.ruleset:669
+msgid ""
+"Once we master ship manufacturing, traveling more hospitable seas of Deneb 7 "
+"proved to be no different from other planets."
+msgstr ""
+"Gdy już opanowaliśmy sztukę budowania statków, podróżowanie po gościnnych "
+"wodach Deneba 7 stało się proste."
+
+#: data/alien/techs.ruleset:674
+msgid "Unified Theory"
+msgstr "Teoria Unifikacji"
+
+#: data/alien/techs.ruleset:680
+msgid ""
+"We now understand that radiation and antigravity are two sides of the same "
+"phenomenom."
+msgstr ""
+"Wiemy już teraz, że promieniowanie i grawitacja to dwa aspekty tego samego "
+"zjawiska."
+
+#: data/alien/techs.ruleset:684
+msgid "Virtual Entertainment"
+msgstr "Wirtualna Rozrywka"
+
+#: data/alien/techs.ruleset:690
+msgid "Another tech that Earth has long been close to mastering."
+msgstr "Kolejna technologia, którą na Ziemi prawie udało się rozwinąć."
+
+#: data/alien/techs.ruleset:693
+msgid "Virtual Reality Training"
+msgstr "Szkolenia VR"
+
+#: data/alien/techs.ruleset:699
+msgid ""
+"Virtual Reality provides excellent way to train our forces, both infantry "
+"and naval forces."
+msgstr ""
+"Ćwiczenia w wirtualnej rzeczywistości to znakomity sposób na szkolenie "
+"naszych wojsk, zarówno lądowych, jak i morskich."
+
+#: data/alien/techs.ruleset:703
+msgid "War Monsters"
+msgstr "Potwory Bojowe"
+
+#: data/alien/techs.ruleset:709
+msgid ""
+"We can tame monsters suitable for war. These might be relatively weak, but "
+"they are the only thing that can wage war on radiating areas for the time "
+"being."
+msgstr ""
+"Potrafimy oswajać potwory nadające się do walki. Są wprawdzie stosunkowo "
+"słabe, lecz jak na razie tylko one potrafią prowadzić działania wojenne na "
+"radioaktywnych terenach."
+
+#: data/alien/techs.ruleset:714
+msgid "Water Flow"
+msgstr "Fizyka Płynów"
+
+#: data/alien/techs.ruleset:720
+msgid ""
+"We understand Deneb 7 fluid dynamics and can get water to flow where we "
+"want. Irrigation becomes possible in tiles adjacent to cities and rivers."
+msgstr ""
+"Wiedza na temat fizyki płynów na Denebie 7 pozwala nam doprowadzić wodą tam, "
+"gdzie chcemy. Możemy teraz tworzyć nawodnienie na polach przylegających do "
+"miast i rzek."
+
+#: data/alien/terrain.ruleset:11
+msgid "Terrain has alien radiation"
+msgstr "Teren, na którym występuje obce promieniowanie."
+
+#: data/alien/terrain.ruleset:190
+msgid "For some reason, there is Earth like grass and animals around."
+msgstr ""
+"Z jakichś dziwnych powodów występują tu trawa i zwierzęta podobne do "
+"ziemskich."
+
+#: data/alien/terrain.ruleset:195
+msgid "Alien Forest"
+msgstr "Obcy Las"
+
+#: data/alien/terrain.ruleset:230
+msgid ""
+"These forests are filled with strange alien organisms. Planet's radiation "
+"makes it impossible for Earthly organisms to survive here.\n"
+"\n"
+"Cities can work these tiles only when Organic Structures is known. Inventing "
+"Alien Rights gives +1 production bonus to Alien Forest tiles."
+msgstr ""
+"Lasy te zamieszkują dziwne obce formy życia. Promieniowanie planety sprawia, "
+"że ziemskie organizmy nie są tu wstanie przetrwać.\n"
+"\n"
+"Miasta mogą korzystać z tych pól tylko, jeśli poznaliśmy technologię "
+"Struktury Organiczne. Poznanie Praw Obcych zwiększa produkcję na polach "
+"Obcego Lasu o 1."
+
+#: data/alien/terrain.ruleset:238
+msgid "Radiating Rocks"
+msgstr "Radioaktywne Skały"
+
+#: data/alien/terrain.ruleset:273
+msgid ""
+"Planet's radiation makes it impossible for Earth organisms to survive here.\n"
+"\n"
+"Cities can work these tiles only when Organic Structures is known."
+msgstr ""
+"Promieniowanie planety sprawia, że ziemskie organizmy nie są w stanie tu "
+"żyć.\n"
+"\n"
+"Miasta mogą zagospodarować te pola tylko jeśli poznamy technologię Struktury "
+"Organiczne."
+
+#: data/alien/terrain.ruleset:314
+msgid "Hills just like on Earth."
+msgstr "Wzgórza takie jak na Ziemi."
+
+#: data/alien/terrain.ruleset:319
+msgid "Thick Mountains"
+msgstr "Twarde Góry"
+
+#: data/alien/terrain.ruleset:352
+msgid ""
+"What are these mountains made of?!? Diamond drill makes no scratch on them.\n"
+"\n"
+"Burrowing units are unable to burrow through these mountains."
+msgstr ""
+"Z czego zrobione są te góry?!? Diamentowe wiertła nie mogą ich nawet "
+"zadrasnąć.\n"
+"\n"
+"Jednostki drążące nie mogą przedostać się przez te góry."
+
+#: data/alien/terrain.ruleset:392
+msgid "This is normal oceanic terrain."
+msgstr "Normalny teren morski."
+
+#: data/alien/terrain.ruleset:397
+msgid "Boiling Ocean"
+msgstr "Wrzący Ocean"
+
+#: data/alien/terrain.ruleset:431
+msgid ""
+"This ocean is boiling. No ship without special equipment can enter.\n"
+"\n"
+"Cities can work these tiles only when Thermal Module is known."
+msgstr ""
+"Ten ocean wrze. Mogą go przemierzać jedynie jednostki ze specjalnym "
+"wyposażeniem.\n"
+"\n"
+"Miasta mogą zagospodarować te pola tylko, jeśli znana jest technologia Moduł "
+"Cieplny."
+
+#: data/alien/terrain.ruleset:446
+msgid "Alien mine"
+msgstr "Kopalnia obcych"
+
+#: data/alien/terrain.ruleset:455
+msgid "Huge Plant"
+msgstr "Wielkie rośliny"
+
+#: data/alien/terrain.ruleset:464
+msgid "Thermal Vent"
+msgstr "Gejzer termiczny"
+
+#: data/alien/terrain.ruleset:482
+msgid "Glowing Rocks"
+msgstr "Świecące skały"
+
+#: data/alien/terrain.ruleset:538
+msgid "Tower"
+msgstr "Wieża"
+
+#: data/alien/terrain.ruleset:559
+msgid "Force Fortress"
+msgstr "Forteca Siłowa"
+
+#: data/alien/terrain.ruleset:580
+msgid "Antigrav Base"
+msgstr "Baza Antygrawitacyjna"
+
+#: data/alien/terrain.ruleset:686
+msgid ""
+"Basic Road is available for building from the beginning of the game.\n"
+"\n"
+"Movement via Road costs 2/3 movement points. Having Road on Grassland tile "
+"provides increase of +1 to trade on that tile."
+msgstr ""
+"Podstawowe drogi można budować od samego początku rozgrywki.\n"
+"\n"
+"Poruszanie się po drodze zużywa 2/3 punktu ruchu. Droga na trawach zwiększa "
+"produkcję handlu na tym polu o 1."
+
+#: data/alien/terrain.ruleset:694
+msgid "Highway"
+msgstr "Autostrada"
+
+#: data/alien/terrain.ruleset:718
+msgid ""
+"You can upgrade Roads to Highways.\n"
+"\n"
+"Movement via Highway costs 1/3 movement points."
+msgstr ""
+"Możesz ulepszyć drogi do autostrad.\n"
+"\n"
+"Ruch po autostradzie zużywa 1/3 punktu ruchu."
+
+#: data/alien/terrain.ruleset:749
+#, no-c-format
+msgid ""
+"You can upgrade Highways to Maglevs.\n"
+"\n"
+"Units can move via Maglevs indefinitely, Shield production of any tile with "
+"Maglev is increased by 50%."
+msgstr ""
+"Możesz ulepszych autostrady do maglewów.\n"
+"\n"
+"Poruszanie po maglewach nie zużywa punktów ruchu, a pole z maglewem zwiększa "
+"produkcję tarcz o 50%."
+
+#: data/alien/terrain.ruleset:757
+msgid "Tunnel"
+msgstr "Tunel"
+
+#: data/alien/terrain.ruleset:782
+#, no-c-format
+msgid ""
+"Earthly units can travel on radiating tiles with tunnel built on them. "
+"Tunnel provides no increase to unit speed, but they give 35% defense bonus."
+msgstr ""
+"Ziemskie jednostki mogą poruszać się po radioaktywnych polach tylko, jeśli "
+"zbudowano na nich tunele. Tunele nie zwiększają szybkości jednostki, lecz "
+"polepszają ich walory obronne o 35%."
+
+#: data/alien/terrain.ruleset:788
+msgid "Burrow Tube"
+msgstr "Kanał Drążniczy"
+
+#: data/alien/terrain.ruleset:810
+msgid "Burrow Tubes provide the only way for burrowing units to cross oceans."
+msgstr ""
+"Tylko Kanały Drążnicze pozwalają jednostkom drążącym przekraczać oceany."
+
+#: data/alien/terrain.ruleset:815
+msgid "Green River"
+msgstr "Zielona Rzeka"
+
+#: data/alien/terrain.ruleset:831 data/alien/terrain.ruleset:858
+#, no-c-format
+msgid ""
+"Any river increases a tile's defense factor by 50%. Native and Amphibious "
+"units may move along a River (but not diagonally); movement along a River "
+"costs only 1/3 of a movement point."
+msgstr ""
+"Każda Rzeka zwiększa współczynnik obrony pola o 50%. Jednostki natywne i "
+"wodno-lądowe mogą poruszać się wzdłuż Rzeki (ale nie po przekątnych); ruch "
+"wzdłuż Rzeki kosztuje tylko 1/3 punktu ruchu."
+
+#: data/alien/terrain.ruleset:835
+msgid "Green River increases also tile's food production by 1."
+msgstr "Zielona Rzeka zwiększa produkcję żywności na polu o 1."
+
+#: data/alien/terrain.ruleset:840
+msgid "Brown River"
+msgstr "Brązowa Rzeka"
+
+#: data/alien/terrain.ruleset:862
+msgid "Brown River increases also tile's shield production by 1. "
+msgstr "Brązowa Rzeka zwiększa produkcję tarcz na polu o 1."
+
+#: data/alien/units.ruleset:14 data/alien/units.ruleset:1262
+msgid "Regular"
+msgstr "Zwykły"
+
+#: data/alien/units.ruleset:14 data/alien/units.ruleset:1262
+msgid "Elite"
+msgstr "Elitarny"
+
+#: data/alien/units.ruleset:95
+msgid "?unitclass:Earthly"
+msgstr "?unitclass:Ziemska"
+
+#: data/alien/units.ruleset:103
+msgid "?unitclass:Native"
+msgstr "?unitclass:Natywna"
+
+#: data/alien/units.ruleset:118
+msgid "?unitclass:Amphibious"
+msgstr "?unitclass:Wodno-lądowa"
+
+#: data/alien/units.ruleset:126
+msgid "?unitclass:Antigravity"
+msgstr "?unitclass:Antygrawitacyjna"
+
+#: data/alien/units.ruleset:132
+msgid "?unitclass:Burrowing"
+msgstr "?unitclass:Drążąca"
+
+#: data/alien/units.ruleset:356
+msgid ""
+"This is Earth technology settler. Most military enemy units can capture it "
+"instead of killing it."
+msgstr ""
+"Ten osadnik używa ziemskiej technologii. Większość jednostek zbrojnych może "
+"pojmać tą jednostkę, zamiast ją niszczyć."
+
+#: data/alien/units.ruleset:362
+msgid "Native Settlers"
+msgstr "Natywni Osadnicy"
+
+#: data/alien/units.ruleset:388
+msgid ""
+"This is native Settler that can enter radiating areas. Most military enemy "
+"units can capture it instead of killing it."
+msgstr ""
+"Ten natywne osadnik może poruszać się po promieniotwórczych terenach. "
+"Większość jednostek zbrojnych może pojmać tą jednostkę, zamiast ją niszczyć."
+
+#: data/alien/units.ruleset:394
+msgid "Engineer"
+msgstr "Inżynier"
+
+#: data/alien/units.ruleset:420
+msgid "This is Earth technology engineer."
+msgstr "To jest inżynier w zakresie ziemskiej technologii."
+
+#: data/alien/units.ruleset:425
+msgid "Native Engineer"
+msgstr "Natywny Inżynier"
+
+#: data/alien/units.ruleset:451
+msgid "Native version of the Engineer unit."
+msgstr "Natywna wersja Inżyniera."
+
+#: data/alien/units.ruleset:456
+msgid "Water Engineer"
+msgstr "Inżynier Wodno-lądowy"
+
+#: data/alien/units.ruleset:483
+msgid ""
+"Amphibious Engineer that can also establish new cities on Ocean.Cities it "
+"builds, start at size 2."
+msgstr ""
+"Inżynierowie wodno-lądowi mogą też budować nowe miasta na Oceanie. Miasta, "
+"które zbudują, mają od razu rozmiar 2."
+
+#: data/alien/units.ruleset:488
+msgid "Star Marines"
+msgstr "Piechota Gwiezdna"
+
+#: data/alien/units.ruleset:514
+msgid ""
+"This unit may be built from the start of the game.  It is the weakest "
+"military unit."
+msgstr ""
+"Ta jednostka może zostać utworzona już na początku rozgrywki. Jest to "
+"najsłabsza jednostka zbrojna."
+
+#: data/alien/units.ruleset:520
+msgid "Cyborgs"
+msgstr "Cyborgi"
+
+#: data/alien/units.ruleset:546
+msgid "Attack power to the early game."
+msgstr "Jednostka zaczepna we wczesnej fazie gry."
+
+#: data/alien/units.ruleset:551
+msgid "Tank"
+msgstr "Czołg"
+
+#: data/alien/units.ruleset:577
+msgid "This is the most powerful Earth technology unit."
+msgstr "Najsilniejsza jednostka bazująca na ziemskiej technologii."
+
+#: data/alien/units.ruleset:582
+msgid "War Monster"
+msgstr "Potwór Bojowy"
+
+#: data/alien/units.ruleset:608
+msgid "As a native unit, this can move and fight on radiating areas too."
+msgstr ""
+"Jako jednostka natywna może poruszać się i walczyć także na radioaktywnych "
+"terenach."
+
+#: data/alien/units.ruleset:613
+msgid "Crusher"
+msgstr "Ścigacz"
+
+#: data/alien/units.ruleset:639
+msgid "Alien lifeform trained to be fast."
+msgstr "Obca forma życia o zwiększonej szybkości."
+
+#: data/alien/units.ruleset:644
+msgid "Cyber Alien"
+msgstr "Cyber-Obcy"
+
+#: data/alien/units.ruleset:670
+msgid ""
+"Alien lifeform with cybernetic implants. Good in combat, and has better "
+"vision than any purely organic unit."
+msgstr ""
+"Obca forma życia z cybernetycznymi implantami. Dobra w walce; ma większe "
+"pole widzenia niż jakakolwiek czysto biologiczna jednostka."
+
+#. TRANS: Alien lifeform. Name refers to Tyrannosaurus Rex, not "King" role
+#: data/alien/units.ruleset:676
+msgid "Rex"
+msgstr "Rex"
+
+#: data/alien/units.ruleset:701
+msgid "Most powerful alien lifeform, like one from Earth's Jurassic period."
+msgstr ""
+"Najpotężniejsza obca forma życia, podobna do ziemskich organizmów z okresu "
+"jurajskiego."
+
+#: data/alien/units.ruleset:706
+msgid "Paradropper"
+msgstr "Desantowiec"
+
+#: data/alien/units.ruleset:734
+msgid "Alien lifeform able to paradrop."
+msgstr "Obca forma życia wyszkolona do zrzutów na teren wroga."
+
+#: data/alien/units.ruleset:739
+msgid "Turtle Defender"
+msgstr "Tankietka"
+
+#: data/alien/units.ruleset:765
+msgid "This is excellent defense vehicle."
+msgstr "Jest to znakomity pojazd obronny."
+
+#: data/alien/units.ruleset:770
+msgid "Earth Sub"
+msgstr "Kret"
+
+#: data/alien/units.ruleset:796
+msgid ""
+"Burrow through earth. Only some special units can attack against Earth Sub. "
+"These can pass ocean tiles only through Burrow Tubes."
+msgstr ""
+"Porusza się pod ziemią, drążąc przejścia. Tylko niektóre jednostki mogą "
+"atakować Kreta. Jednostka może przekraczać oceany tylko przez Kanały "
+"Drążnicze."
+
+#: data/alien/units.ruleset:801
+msgid "Hunter"
+msgstr "Łowca"
+
+#: data/alien/units.ruleset:828
+msgid ""
+"Burrowing unit that also has capability to attack Antigravity units with its "
+"own minimissiles.\n"
+"\n"
+"It's also an settler type unit for hostile areas, well capable of defending "
+"itself."
+msgstr ""
+"Jednostka drążąca potrafiąca atakować jednostki antygrawitacyjne przy pomocy "
+"własnych minipocisków.\n"
+"\n"
+"Jest to też typ jednostki osadniczej działającej na nieprzyjaznych terenach, "
+"zdolna do bronienia się przed atakiem."
+
+#: data/alien/units.ruleset:835
+msgid "Light Saucer"
+msgstr "Lekki Spodek"
+
+#: data/alien/units.ruleset:861
+msgid ""
+"Nobody, but some of the other Antigravity units and Hunters can attack this "
+"unit. This unit itself can attack other Antigravity units."
+msgstr ""
+"Tylko inne jednostki antygrawitacyjne i Łowcy mogą atakować tę jednostkę. "
+"Lekki Spodek może atakować inne jednostki antygrawitacyjne."
+
+#: data/alien/units.ruleset:866
+msgid "Bomb Saucer"
+msgstr "Spodek Bombardujący"
+
+#: data/alien/units.ruleset:892
+msgid ""
+"Nobody, but some of the other Antigravity and Hunters units can attack this "
+"unit."
+msgstr ""
+"Tylko inne jednostki antygrawitacyjne i Łowcy mogą atakować tę jednostkę."
+
+#: data/alien/units.ruleset:896
+msgid "Spitter"
+msgstr "Plujka"
+
+#: data/alien/units.ruleset:922
+msgid "This alien lifeform is first bombarding unit."
+msgstr ""
+"Ta obca forma życia to pierwsza jednostka mogąca przeprowadzać bombardowania."
+
+#: data/alien/units.ruleset:927
+msgid "Heavy Spitter"
+msgstr "Ciężka Plujka"
+
+#: data/alien/units.ruleset:954
+msgid ""
+"This improved spitter can both make bombard attacks, and transport missiles "
+"next to targets."
+msgstr ""
+"Ulepszona Plujka może przeprowadzać bombardowania i przenosić pociski w "
+"pobliże celów."
+
+#: data/alien/units.ruleset:985
+msgid ""
+"Like all Earthly units, Explorer are unable to enter radiating tiles. They "
+"can maintain themselves, no upkeep cost to homecity."
+msgstr ""
+"Tak jak wszystkie ziemskie jednostki, Badacz nie jest może wchodzić na "
+"radioaktywne pola. Utrzymują się sami, więc nie obciążają kosztami miasta "
+"pochodzenia."
+
+#: data/alien/units.ruleset:991
+msgid "Scout Animal"
+msgstr "Łazik"
+
+#: data/alien/units.ruleset:1017
+msgid "This is native scout animal that can enter any land terrain."
+msgstr ""
+"Jest to lokalne zwierzę wędrowne zdolne do poruszania się na dowolnych "
+"terenie lądowym"
+
+#: data/alien/units.ruleset:1022
+msgid "Raft"
+msgstr "Tratwa"
+
+#: data/alien/units.ruleset:1049
+msgid "  This vessel allows coastal travel, but not on Boiling Seas."
+msgstr ""
+"  Ten środek transportu pozwala pływać po wodach przybrzeżnych, lecz nie po "
+"Wrzącym Oceanie."
+
+#: data/alien/units.ruleset:1054
+msgid "Ship"
+msgstr "Statek"
+
+#: data/alien/units.ruleset:1081
+msgid ""
+"  This is basic ship type. It has no any special equipment, so it cannot "
+"enter boiling seas."
+msgstr ""
+"  Jest to podstawowy rodzaj statku. Nie ma specjalnego wyposażenia, więc nie "
+"może zapuszczać się na Wrzący Ocean."
+
+#: data/alien/units.ruleset:1112
+msgid "This vessel is for battle! Too bad it cannot enter boiling oceans."
+msgstr ""
+"To jest okręt wojenny! Szkoda, że nie może zapuszczać się na Wrzący Ocean."
+
+#: data/alien/units.ruleset:1117
+msgid "Battle Unit"
+msgstr "Amfibia"
+
+#: data/alien/units.ruleset:1142
+msgid "Amphibious battle machine."
+msgstr "Wodno-lądowa maszyna wojenna."
+
+#: data/alien/units.ruleset:1146
+msgid "Amphibious Transport"
+msgstr "Transport wodno-lądowy"
+
+#: data/alien/units.ruleset:1173
+msgid "This is first unit that can enter boiling oceans - and more."
+msgstr ""
+"Jest to pierwsza jednostka, która może pływać po Wrzącym Oceanie (i nie "
+"tylko)."
+
+#: data/alien/units.ruleset:1204
+msgid ""
+"Earth technology unit that can establish traderoutes and transfer goods to "
+"help building wonders in other cities."
+msgstr ""
+"Jednostka wykorzystująca ziemską technologię, może ustanawiać szlaki "
+"handlowe i przewozić dobra, by wspomóc budowę cudów w innych miastach."
+
+#: data/alien/units.ruleset:1234
+msgid "Native caravan unit, that can move on all land terrains."
+msgstr ""
+"Natywne jednostki handlowe mogą poruszać się po wszystkich polach lądowch."
+
+#: data/alien/units.ruleset:1237
+msgid "Stealth Spy"
+msgstr "Cicho-Szpieg"
+
+#: data/alien/units.ruleset:1268
+msgid ""
+"Stealth Spy can make diplomatic actions, and is invisible until next to "
+"enemy unit or city."
+msgstr ""
+"Cicho-Szpieg może przeprowadzać działania dyplomatyczna i pozostaje "
+"niewidoczny, jeśli nie znajduje się obok wrogiej jednostki lub miasta."
+
+#: data/alien/units.ruleset:1273
+msgid "Teleporting Missile"
+msgstr "Pocisk Teleportujący"
+
+#: data/alien/units.ruleset:1297
+msgid "Teleporting Missile can teleport and attack to neighbour tile."
+msgstr ""
+"Pocisk Teleportacyjny może być przeteleportowany w celu zaatakowania "
+"sąsiedniego pola."
+
+#: data/alien/units.ruleset:1301
+msgid "Antiburrow Missile"
+msgstr "Pocisk Przeciwdrążący"
+
+#: data/alien/units.ruleset:1326
+msgid ""
+"Missile that can attack also against burrowing units. Since more expensive "
+"than normal Teleporting Missile, does not completely replace it."
+msgstr ""
+"Pocisk, który może atakować jednostki drążące. Jest droższy niż Pocisk "
+"Teleportacyjny, nie jest więc jego zamiennikiem."
+
+#: data/alien/nation/adventurers.ruleset:3
+msgid "Adventurers"
+msgstr "Łowcy Przygód"
+
+#: data/alien/nation/adventurers.ruleset:4
+msgid "?plural:Adventurers"
+msgstr "?plural:Łowcy Przygód"
+
+#: data/alien/nation/adventurers.ruleset:6
+msgid ""
+"Without any destination, they were just traveling around, looking for "
+"trouble.\n"
+"\n"
+"* All units have one extra movement point"
+msgstr ""
+"Rozbijali się bez celu po galaktyce i szukali kłopotów.\n"
+"\n"
+"* Wszystkie jednostki mają 1 dodatkowy punkt ruchu."
+
+#: data/alien/nation/galacticsound.ruleset:3
+msgid "Galactic Sound"
+msgstr "Dźwięk Galaktyki"
+
+#: data/alien/nation/galacticsound.ruleset:4
+msgid "?plural:Fans"
+msgstr "?plural:Fani Muzyki"
+
+#: data/alien/nation/galacticsound.ruleset:6
+msgid ""
+"Shipful of music fans originally heading to big concert happening.\n"
+"\n"
+"* Three unhappy citizens in each city becomes content"
+msgstr ""
+"Tłum fanów muzyki, którzy lecieli na wielki koncert.\n"
+"\n"
+"* Trzej niezadowoleni mieszkańcy stają się zadowoleni w każdym mieście."
+
+#: data/alien/nation/jw.ruleset:3
+msgid "J&W Corporation"
+msgstr "Korporacja J&W"
+
+#: data/alien/nation/jw.ruleset:4
+msgid "?plural:JeeWees"
+msgstr "?plural:JotWutowcy"
+
+#: data/alien/nation/jw.ruleset:6
+msgid ""
+"J&W Corporation ship was heading to establish another branch.\n"
+"\n"
+"* 40% bonus to trade."
+msgstr ""
+"Statek korporacji J&W przemierzał kosmos w celu założenia nowej filii "
+"przedsiębiorstwa.\n"
+"\n"
+"* 40% dodatku do handlu."
+
+#: data/alien/nation/kindergarden.ruleset:3
+msgid "Kindergarden"
+msgstr "Przedszkole"
+
+#: data/alien/nation/kindergarden.ruleset:4
+msgid "?plural:Children"
+msgstr "?plural:Przedszkolanie"
+
+#: data/alien/nation/kindergarden.ruleset:6
+#, c-format
+msgid ""
+"Deneb 5 ended vacation of children and their parents. Everyone had kids, so "
+"obviously there was nobody supporting zero child policy.\n"
+"\n"
+"* Granary is not emptied when city grows, but set to 25% full"
+msgstr ""
+"Deneb 5 położył kres wakacjom dzieci i ich rodziców. Wszyscy mieli dzieci, "
+"więc rzecz jasna nikt nie popierał polityki \"zero potomstwa\".\n"
+"\n"
+"* Spichlerz nie jest opróżniany, gdy miasto wzrasta, lecz zachowuje "
+"25% zapasów."
+
+#: data/alien/nation/lunatics.ruleset:3
+msgid "Lunatic"
+msgstr "Wariaci"
+
+#: data/alien/nation/lunatics.ruleset:4
+msgid "?plural:Lunatics"
+msgstr "?plural:Wariaci"
+
+#: data/alien/nation/lunatics.ruleset:5
+msgid "Something drove them crazy, made them escape the society to seas."
+msgstr "Zwariowali i uciekli od reszty społeczeństwa."
+
+#: data/alien/nation/madmen.ruleset:3
+msgid "Madmen"
+msgstr "Szaleńcy"
+
+#: data/alien/nation/madmen.ruleset:4
+msgid "?plural:Madmen"
+msgstr "?plural:Szaleńcy"
+
+#: data/alien/nation/madmen.ruleset:5
+msgid "They have escaped society, and attack it for no sane reason."
+msgstr "Opuścili społeczeństwo i atakują je bez żadnego sensownego powodu."
+
+#: data/alien/nation/mathclub.ruleset:3
+msgid "Math Club"
+msgstr "Klub Matematyków"
+
+#: data/alien/nation/mathclub.ruleset:4
+msgid "?plural:Mathematicians"
+msgstr "?plural:Matematycy"
+
+#: data/alien/nation/mathclub.ruleset:6
+msgid ""
+"Math Club was traveling home from Math Competition when Deneb 5 got their "
+"ship.\n"
+"\n"
+"* 35% bonus to science output"
+msgstr ""
+"Członkowie Klubu Matematyków wracali do domu z Konkursu Matematycznego, gdy "
+"Deneb 5 przechwycił ich statek.\n"
+"\n"
+"* 35% dodatek do produkcji punktów nauki."
+
+#: data/alien/nation/secretsociety.ruleset:3
+msgid "Secret Society"
+msgstr "Tajne Stowarzyszenie"
+
+#: data/alien/nation/secretsociety.ruleset:4
+msgid "?plural:Billionaries"
+msgstr "?plural:Miliarderzy"
+
+#: data/alien/nation/secretsociety.ruleset:6
+msgid ""
+"They are the truly rich of whom nobody knows anything since they socialize "
+"only in their own circles.\n"
+"\n"
+"* Builds veteran Stealth Spies\n"
+"* Has 50% spy resistance bonus\n"
+"* 20% bonus to trade"
+msgstr ""
+"Wielcy bogacze, o których niewiele wiadomo, gdyż przebywają tylko w swoim "
+"gronie.\n"
+"\n"
+"* Tworzą doświadczonych Cicho-Szpiegów.\n"
+"* 50% dodatku do obrony przed działaniami szpiegowskimi.\n"
+"* 20% dodatku do handlu."
+
+#: data/alien/nation/teamgladiators.ruleset:3
+msgid "Team Gladiators"
+msgstr "Drużyna Gladiatorów"
+
+#: data/alien/nation/teamgladiators.ruleset:4
+msgid "?plural:Athletes"
+msgstr "?plural:Sportowcy"
+
+#: data/alien/nation/teamgladiators.ruleset:6
+msgid ""
+"Spaceball is sport of massive teams. Team Gladiators ship contained enough "
+"players to start entire planetary faction.\n"
+"\n"
+"* Builds veteran units\n"
+"* Each city receives free unit upkeep worth one shield"
+msgstr ""
+"Kosmiczny Futbol to sport ogromnych drużyn. Statek z Drużyną Gladiatorów "
+"wiózł wystarczająco wielu graczy, by mogli teraz stworzyć oddzielną "
+"frakcję.\n"
+"\n"
+"* Tworzą doświadczone jednostki.\n"
+"* Każde miasta utrzymuje za darmo jedną jednostkę, która kosztuje 1 tarczę."
 
 #: data/Freeciv.in:68
 msgid "Connect to Freeciv Server"
@@ -25410,10 +27457,6 @@ msgstr ""
 "Tę technologię zdobywa się jedynie za pierwszym razem, gdy zbuduje się "
 "Wyprawę Darwina."
 
-#: data/multiplayer/terrain.ruleset:1008
-msgid "Buoys cannot be built in the multiplayer ruleset."
-msgstr "Boi nie można budować w zestawie zasad dla gry wieloosobowej."
-
 #: data/multiplayer/units.ruleset:379
 msgid ""
 "Upkeep for Settlers is in food as well as production, and a Settler can die "
@@ -27268,12 +29311,6 @@ msgstr ""
 "\" leży na granicy Hiszpanii oraz Francji i jest podzielony na siedem "
 "historycznych prowincji. Ich język zwany Euskara nie jest spokrewniony z "
 "żadnym znanym językiem."
-
-#: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:45
-#: data/nation/iranian.ruleset:40
-#, c-format
-msgid "Leader %s"
-msgstr "Przywódca %s"
 
 #: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:45
 #: data/nation/iranian.ruleset:40
@@ -40133,10 +42170,6 @@ msgstr "Koszt ruchu"
 msgid "Defense bonus"
 msgstr "Bonus obrony"
 
-#: tools/civmanual.c:287
-msgid "Mining"
-msgstr "Kopalnie"
-
 #: tools/civmanual.c:289
 #, no-c-format
 msgid "% of Road bonus"
@@ -43820,12 +45853,12 @@ msgstr ""
 "Robotnicy we wszystkich miastach spontanicznie ulepszają bazy, jeśli to "
 "tylko możliwe."
 
-#: server/maphand.c:1598
+#: server/maphand.c:1609
 #, c-format
 msgid "Moved your %s due to changing terrain."
 msgstr "Przesunięto jednostkę %s z powodu zmiany terenu."
 
-#: server/maphand.c:1615
+#: server/maphand.c:1626
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
 msgstr "Rozwiązano jednostkę %s z powodu zmiany terenu."
@@ -43839,21 +45872,21 @@ msgstr "Nie melduję się na metaserwerze w tej grze."
 msgid "The %s are no more!"
 msgstr "%s zginęli!"
 
-#: server/plrhand.c:269
+#: server/plrhand.c:272
 msgid "Cannot change rates before game start."
 msgstr "Nie możesz zmieniać stawek przed rozpoczęciem gry."
 
-#: server/plrhand.c:293
+#: server/plrhand.c:296
 #, c-format
 msgid "%s rate exceeds the max rate for %s."
 msgstr "Stawka podatkowa przekroczyła maksimum dla %s (%s)."
 
-#: server/plrhand.c:328
+#: server/plrhand.c:331
 #, c-format
 msgid "%s now governs the %s as a %s."
 msgstr "%s narzucił/a narodowi %s ustrój %s."
 
-#: server/plrhand.c:351
+#: server/plrhand.c:354
 #, c-format
 msgid ""
 "The tax rates for the %s are changed from %3d%%/%3d%%/%3d%% (tax/luxury/"
@@ -43864,7 +45897,7 @@ msgstr ""
 
 #. TRANS: this is a message event so don't make it
 #. * too long.
-#: server/plrhand.c:421
+#: server/plrhand.c:424
 #, c-format
 msgid ""
 "The %s have incited a revolt! %d turn of anarchy will ensue! Target "
@@ -43879,32 +45912,32 @@ msgstr[1] ""
 msgstr[2] ""
 "%s wszczęli rewolucję! Anarchia potrwa %d tur! Docelowy ustrój to %s."
 
-#: server/plrhand.c:434
+#: server/plrhand.c:437
 msgid "Revolution: returning to anarchy."
 msgstr "Rewolucja: powrót do anarchii."
 
-#: server/plrhand.c:490
+#: server/plrhand.c:493
 msgid "You should choose a new government from the government menu."
 msgstr "Wybierz nowy ustrój z menu."
 
-#: server/plrhand.c:515
+#: server/plrhand.c:518
 msgid "Tax rate exceeded the max rate; adjusted."
 msgstr "Stawka podatku przekroczyła maksimum; poprawiono."
 
-#: server/plrhand.c:519
+#: server/plrhand.c:522
 msgid "Science rate exceeded the max rate; adjusted."
 msgstr "Stawka nauki przekroczyła maksimum; poprawiono."
 
-#: server/plrhand.c:523
+#: server/plrhand.c:526
 msgid "Luxury rate exceeded the max rate; adjusted."
 msgstr "Stawka luksusu przekroczyła maksimum %s; poprawiono."
 
-#: server/plrhand.c:617
+#: server/plrhand.c:622
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s nie dzieli się już z nami widokiem!"
 
-#: server/plrhand.c:628
+#: server/plrhand.c:633
 #, c-format
 msgid ""
 "The senate will not allow you to break treaty with the %s.  You must either "
@@ -43913,14 +45946,14 @@ msgstr ""
 "Twój senat nie zezwala na zerwanie umowy z %s. Musisz rozwiązać senat albo "
 "poczekać na bardziej dogodny moment."
 
-#: server/plrhand.c:679
+#: server/plrhand.c:684
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr ""
 "Senat przyjął twoją decyzję w związku z ciągłymi prowokacjami ze strony %s."
 
-#: server/plrhand.c:684
+#: server/plrhand.c:689
 #, c-format
 msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
@@ -43929,12 +45962,12 @@ msgstr ""
 "Senat zabronił zrywania umowy z %s, ale ty bez problemu zwołałeś/aś nowy "
 "senat."
 
-#: server/plrhand.c:719
+#: server/plrhand.c:724
 #, c-format
 msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "Stanem dyplomatycznym między %s i %s jest teraz %s."
 
-#: server/plrhand.c:725
+#: server/plrhand.c:730
 #, c-format
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
@@ -43943,7 +45976,7 @@ msgstr ""
 "%s zerwał/a porozumienie dyplomatyczne! Stanem dyplomatycznym między %s i %s "
 "jest teraz %s."
 
-#: server/plrhand.c:743
+#: server/plrhand.c:748
 #, c-format
 msgid ""
 "%s has attacked your ally %s! You cancel your alliance to the aggressor."
@@ -43951,7 +45984,7 @@ msgstr ""
 "%s zaatakował/a twojego sojusznika %s! Warunki sojuszu zobowiązują cię do "
 "natychmiastowej odpowiedzi."
 
-#: server/plrhand.c:755
+#: server/plrhand.c:760
 #, c-format
 msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
@@ -43960,83 +45993,83 @@ msgstr ""
 "Gracz z twojego zespołu %s wypowiedział/a wojnę %s. Musisz teraz zerwać "
 "sojusz z %s."
 
-#: server/plrhand.c:1461
+#: server/plrhand.c:1466
 msgid "no color"
 msgstr "brak koloru"
 
-#: server/plrhand.c:1547
+#: server/plrhand.c:1552
 #, c-format
 msgid "Removing player %s."
 msgstr "Usuwam gracza %s."
 
-#: server/plrhand.c:1550
+#: server/plrhand.c:1555
 msgid "You've been removed from the game!"
 msgstr "Zostałeś/aś usunięty/a z gry!"
 
-#: server/plrhand.c:1553
+#: server/plrhand.c:1558
 #, c-format
 msgid "%s has been removed from the game."
 msgstr "%s został/a usunięty/a z gry."
 
-#: server/plrhand.c:1686
+#: server/plrhand.c:1691
 msgid "Please choose a non-blank name."
 msgstr "Proszę wybrać nazwę."
 
-#: server/plrhand.c:1699
+#: server/plrhand.c:1704
 msgid "That nation is already in use."
 msgstr "Naród jest już zajęty."
 
-#: server/plrhand.c:1704
+#: server/plrhand.c:1709
 #, c-format
 msgid "Another player already has the name '%s'. Please choose another name."
 msgstr "Inny gracz używa już nazwy '%s'. Proszę wybrać inną nazwę."
 
-#: server/plrhand.c:1728
+#: server/plrhand.c:1733
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Proszę wybrać nazwę zawierającą jedynie znaki ASCII."
 
-#: server/plrhand.c:1803 server/plrhand.c:1817
+#: server/plrhand.c:1808 server/plrhand.c:1822
 #, c-format
 msgid "Player no. %d"
 msgstr "Gracz nr %d"
 
-#: server/plrhand.c:1832
+#: server/plrhand.c:1837
 msgid "A poorly-named player"
 msgstr "Słabo nazwany gracz"
 
-#: server/plrhand.c:1901 server/plrhand.c:1905
+#: server/plrhand.c:1906 server/plrhand.c:1910
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Spotkałeś/aś %s! Rządzi nimi %s."
 
-#: server/plrhand.c:2445
+#: server/plrhand.c:2450
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "Nie można wzniecić wojny domowej u %s - za dużo graczy"
 
-#: server/plrhand.c:2451
+#: server/plrhand.c:2456
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr "Nie można wzniecić wojny domowej u %s - nie ma już dostępnych narodów"
 
-#: server/plrhand.c:2481
+#: server/plrhand.c:2486
 msgid "Your nation is thrust into civil war."
 msgstr "W twoim państwie wybuchła wojna domowa."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:2485
+#: server/plrhand.c:2490
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s jest przywódcą rebelii %s."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:2511
+#: server/plrhand.c:2516
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s deklaruje posłuszeństwo dla %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:2532
+#: server/plrhand.c:2537
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -44046,7 +46079,7 @@ msgstr[2] "Wojna domowa rozbija państwo %s; %s mają teraz %d miast."
 
 #. TRANS: '/delegate cancel' is a server command and must not
 #. * be translated
-#: server/plrhand.c:2674
+#: server/plrhand.c:2679
 #, c-format
 msgid ""
 "User '%s' is currently allowed to take control of your player while you are "
@@ -44056,14 +46089,14 @@ msgstr ""
 "uczestniczysz w rozgrywce. Użyj '/delegate cancel', by anulować "
 "pełnomocnictwo."
 
-#: server/plrhand.c:2686
+#: server/plrhand.c:2691
 #, c-format
 msgid "Control of player '%s' is delegated to you."
 msgstr "Przekazano ci kontrolę nad graczem '%s'."
 
 #. TRANS: '/delegate take' is a server command and must not
 #. * be translated; but <player> should be translated.
-#: server/plrhand.c:2695
+#: server/plrhand.c:2700
 msgid "Use '/delegate take <player>' to take control of a delegated player."
 msgstr ""
 "Użyj '/delegate take <gracz>' by przejąć kontrolę nad graczem z "
@@ -44483,7 +46516,7 @@ msgid "Reducing aifill because there are not enough playable nations."
 msgstr "Zmniejszam wartość allfill - za mało dostępnych narodów."
 
 #. TRANS: Minor error message.
-#: server/savegame2.c:300 server/savegame.c:190
+#: server/savegame2.c:301 server/savegame.c:190
 msgid ""
 "Saved game contains incomplete map data. This can happen with old saved "
 "games, or it may indicate an invalid saved game file. Proceed at your own "
@@ -44493,31 +46526,31 @@ msgstr ""
 "być za stara wersja pliku lub uszkodzenie. Kontynuuj na własną "
 "odpowiedzialność."
 
-#: server/savegame2.c:3397 server/savegame.c:4231 server/srv_main.c:1913
+#: server/savegame2.c:3442 server/savegame.c:3900 server/srv_main.c:1913
 #: server/srv_main.c:1918
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s został/a dodany jako gracz AI, poziom %s (%s)."
 
-#: server/savegame2.c:3402 server/savegame.c:4236
+#: server/savegame2.c:3447 server/savegame.c:3905
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s został/a dodany jako gracz-człowiek."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame2.c:3425 server/savegame.c:4282
+#: server/savegame2.c:3470 server/savegame.c:3951
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s miał/a nieprawidłowy naród; zmieniam na %s."
 
-#: server/savegame2.c:6491
+#: server/savegame2.c:6583
 #, c-format
 msgid ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
 msgstr "Uruchom funkcję zgodności dla wersji <%d (plik gry: %d; serwer: %d)."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:3378
+#: server/savegame.c:3062
 msgid ""
 "Saved game uses the ancient \"classic\" terrain ruleset, and is no longer "
 "supported."
@@ -44525,7 +46558,7 @@ msgstr ""
 "Plik zapisanej gry używa przestarzałych \"klasycznych\" zasad dla terenu, "
 "które nie są już wspierane."
 
-#: server/savegame.c:3386
+#: server/savegame.c:3070
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -44535,10 +46568,10 @@ msgstr ""
 "'%s'"
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:3434
-msgid "Saved game is too old, at least version 1.9.0 required."
+#: server/savegame.c:3118
+msgid "Saved game is too old, at least version 2.0.0 required."
 msgstr ""
-"Plik zapisanej gry jest za stary, wymagana jest wersja co najmniej 1.9.0."
+"Plik zapisanej gry jest za stary, wymagana jest wersja co najmniej 2.0.0."
 
 #: server/sernet.c:149
 msgid "Server cannot read standard input. Ignoring input."
@@ -49617,65 +51650,65 @@ msgstr "Twój przelot wystraszył tubylców, którzy uciekli w popłochu."
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Jednostka %s przerwała wykonywanie rozkazu, gdy dostrzegła ruch wroga."
 
-#: server/unittools.c:3647
+#: server/unittools.c:3644
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr ""
 "Jednostka %s przerwała wykonywanie rozkazu, gdy napotkała wrogie jednostki."
 
-#: server/unittools.c:3716
+#: server/unittools.c:3713
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "Jednostka %s nie wykonała rozkazu, gdyż nie udało się zbudować miasta."
 
-#: server/unittools.c:3768
+#: server/unittools.c:3765
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 "Anulowano rozkaz dla jednostki %s, ponieważ wymaga podjęcia nieprawidłowej "
 "czynności."
 
-#: server/unittools.c:3777
+#: server/unittools.c:3774
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 "Anulowano rozkaz dla jednostki %s, ponieważ zawiera on nieprawidłowe "
 "położenie."
 
-#: server/unittools.c:3787
+#: server/unittools.c:3784
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr ""
 "Jednostka %s przerwała wykonywanie rozkazu, gdy napotkała wrogie jednostki "
 "na swojej drodze."
 
-#: server/unittools.c:3813
+#: server/unittools.c:3810
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr ""
 "Jednostka %s nie wykonała rozkazu z powodu niemożności wykonania ruchu."
 
-#: server/unittools.c:3830
+#: server/unittools.c:3827
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "Nie udało się zmienić miasta pochodzenia jednostki %s."
 
-#: server/unittools.c:3841
+#: server/unittools.c:3838
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Nie udało się ustanowić szlaku handlowego za pomocą %s."
 
-#: server/unittools.c:3853
+#: server/unittools.c:3850
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Nie udało się wspomóc budowy cudu za pomocą %s."
 
-#: server/unittools.c:3862
+#: server/unittools.c:3859
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Twoja jednostka %s ma nieprawidłowe rozkazy."
 
-#: server/unittools.c:3960
+#: server/unittools.c:3957
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."
@@ -50023,6 +52056,27 @@ msgstr "błąd %ld (niepoprawny FormatMessage)"
 msgid "error %d (compiled without strerror)"
 msgstr "błąd %d (skompilowano bez strerror)"
 
+#~ msgid "_Roads & Rails"
+#~ msgstr "Drogi i koleje"
+
+#~ msgid "Roads & Rails"
+#~ msgstr "Drogi i koleje"
+
+#~ msgid ""
+#~ "- Life Support Module: provides food and water for the population of  one "
+#~ "Habitation Module."
+#~ msgstr ""
+#~ "- Moduł Podtrzymywania Życia: zapewnia żywność i wodę dla mieszkańców "
+#~ "jednego Modułu Mieszkalnego."
+
+#~ msgid ""
+#~ "- Solar Panels: provides the energy needed for any two of the other  "
+#~ "Modules."
+#~ msgstr "- Panele Słoneczne: zapewniają energię dla dwóch innych Modułów."
+
+#~ msgid "Buoys cannot be built in the multiplayer ruleset."
+#~ msgstr "Boi nie można budować w zestawie zasad dla gry wieloosobowej."
+
 #~ msgid ""
 #~ "Oceans cover much of the world, and only sea units (Triremes and other "
 #~ "boats) can travel on them."
@@ -50039,9 +52093,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ msgstr ""
 #~ "* Może atakować z jednostek morskich, zarówno miasta jak i jednostki na "
 #~ "lądzie.\n"
-
-#~ msgid "* Land units cannot travel on oceanic terrains."
-#~ msgstr "* Jednostki lądowe nie mogą podróżować po polach morskich."
 
 #~ msgid "Only %s can attack from sea."
 #~ msgstr "Tylko %s mogą atakować z morza."
@@ -52112,38 +54163,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "\n"
 #~ "W Despotyzmie, Pałac zwiększa produkcję o +75%, a w Monarchii o50% ."
 
-#~ msgid ""
-#~ "Space Modules are the most expensive parts of spaceships.  There are "
-#~ "three different types of Space Module:\n"
-#~ "\n"
-#~ "- Habitation Module: provides living space for 10,000 people.\n"
-#~ "\n"
-#~ "- Life Support Module: provides food and water for the population of  one "
-#~ "Habitation Module.\n"
-#~ "\n"
-#~ "- Solar Panels: provides the energy needed for any two of the other  "
-#~ "Modules.\n"
-#~ "\n"
-#~ "You can build up to 4 Space Modules of each kind.\n"
-#~ "\n"
-#~ "Before you can build any spaceship parts, the Apollo Program wonder must "
-#~ "have been built by any player."
-#~ msgstr ""
-#~ "Moduły to najdroższe części statku kosmicznego.  Są trzy różne typy "
-#~ "modułów:\n"
-#~ "\n"
-#~ "- Moduły mieszkalne: zapewniają mieszkanie dla 10 000 osób.\n"
-#~ "\n"
-#~ "- Moduły podtrzymywania życia: zapewniają pożywienie i wodę dla jednego "
-#~ "modułu mieszkalnego.\n"
-#~ "\n"
-#~ "- Baterie Słoneczne: zapewniają energię dla dowolnych dwóch modułów.\n"
-#~ "\n"
-#~ "Możesz zbudować do 4 modułów z każdego typu.\n"
-#~ "\n"
-#~ "Aby rozpocząć budowę statku kosmicznego, cud Program Apollo musi być "
-#~ "zbudowany przez jednego z graczy."
-
 #~ msgid "?nationgroup:Fictional"
 #~ msgstr "?nationgroup:Fikcyjne"
 
@@ -52221,15 +54240,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "Miasto może mieć tylko jedną elektrownię: wodną, cieplną lub atomową.  "
 #~ "Elektrownia wodna może być budowana tylko obok albo na polu z rzeką lub "
 #~ "górą."
-
-#~ msgid "elvis"
-#~ msgstr "komik"
-
-#~ msgid "scientist"
-#~ msgstr "naukowiec"
-
-#~ msgid "taxman"
-#~ msgstr "poborca pod."
 
 #~ msgid "King"
 #~ msgstr "Król"
@@ -52725,9 +54735,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 
 #~ msgid "?female:Bohmugyi"
 #~ msgstr "?female:Bohmugyi"
-
-#~ msgid "Rei"
-#~ msgstr "Król"
 
 #~ msgid "Reina"
 #~ msgstr "Królowa"
@@ -53915,9 +55922,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ msgid "Unload"
 #~ msgstr "Wyładuj"
 
-#~ msgid "Paradrop"
-#~ msgstr "Zrzut"
-
 #, fuzzy
 #~ msgid "Form Traderoute"
 #~ msgstr "Szlaki handlowe"
@@ -54448,9 +56452,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ msgid "Worthless"
 #~ msgstr "Mierni"
 
-#~ msgid "Pathetic"
-#~ msgstr "Żałośni"
-
 #~ msgid "Useless"
 #~ msgstr "Nędzni"
 
@@ -54839,9 +56840,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 
 #~ msgid "Gov_ernment"
 #~ msgstr "Ustrój"
-
-#~ msgid "_Change Government"
-#~ msgstr "_Zmień Ustrój"
 
 #~ msgid "Chan_ge Production"
 #~ msgstr "_Zmień produkcję"
@@ -55237,13 +57235,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 
 #~ msgid "Petroleum"
 #~ msgstr "Ropa"
-
-#~ msgid ""
-#~ "This unit may be built from the start of the game.  It is the weakest "
-#~ "unit."
-#~ msgstr ""
-#~ "Ta jednostka może zostać utworzona już na początku gry. Jest to "
-#~ "najsłabsza z jednostek."
 
 #~ msgid ""
 #~ "A number of Partisans are granted free when an enemy conquers your city, "
@@ -55974,9 +57965,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 
 #~ msgid "with City Walls"
 #~ msgstr "z murami miejskimi"
-
-#~ msgid "Infrastructure: "
-#~ msgstr "Infrastruktura: "
 
 #~ msgid "Unit: %s(%s%s)"
 #~ msgstr "Jednostka: %s(%s%s)"
