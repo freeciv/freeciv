@@ -46,7 +46,7 @@ struct city *find_closest_city(const struct tile *ptile,
                                const struct player *pplayer,
                                bool only_ocean, bool only_continent,
                                bool only_known, bool only_player,
-                               bool only_enemy);
+                               bool only_enemy, const struct unit_class *pclass);
 void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger);
 
 bool send_city_suppression(bool now);
