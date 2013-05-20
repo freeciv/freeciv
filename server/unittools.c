@@ -1726,7 +1726,8 @@ bool try_to_save_unit(struct unit *punit, struct unit_type *pttype,
     /* Only units that cannot find transport are considered for teleport. */
     if (teleporting) {
       struct city *pcity = find_closest_city(ptile, NULL, unit_owner(punit),
-                                             TRUE, FALSE, FALSE, TRUE, FALSE);
+                                             TRUE, FALSE, FALSE, TRUE, FALSE,
+                                             utype_class(pttype));
       if (pcity && teleport_unit_to_city(punit, pcity, 0, FALSE)) {
         notify_player(pplayer, ptile, E_UNIT_RELOCATED, ftc_server,
                       _("%s escaped the destruction of %s, and fled to %s."),

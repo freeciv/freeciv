@@ -876,8 +876,8 @@ static void ai_military_defend(struct player *pplayer,struct unit *punit)
      * is generally a bad idea, since we protect no cities that way, and
      * it looks silly. */
     pcity = find_closest_city(unit_tile(punit), NULL, pplayer,
-                              is_ground_unit(punit), FALSE, FALSE, TRUE,
-                              FALSE);
+                              FALSE, FALSE, FALSE, TRUE, FALSE,
+                              unit_class(punit));
   }
 
   if (!pcity) {
@@ -1567,7 +1567,7 @@ static void ai_military_attack_barbarian(struct player *pplayer,
   }
 
   if ((pc = find_closest_city(unit_tile(punit), NULL, pplayer, FALSE,
-                              only_continent, FALSE, FALSE, TRUE))) {
+                              only_continent, FALSE, FALSE, TRUE, NULL))) {
     if (can_unit_exist_at_tile(punit, unit_tile(punit))) {
       UNIT_LOG(LOG_DEBUG, punit, "Barbarian heading to conquer %s",
                city_name(pc));

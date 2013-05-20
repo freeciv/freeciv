@@ -742,6 +742,8 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
                     player are returned.
   'only_enemy'      if set and 'pplayer' is not NULL only cities of players
                     which are at war with 'pplayer' are returned.
+  'pclass'          if set, and 'pclass' is not NULL only cities that have
+                    adjacent native terrain for that unit class are returned.
 
   If no city is found NULL is returned.
 ****************************************************************************/
@@ -750,7 +752,7 @@ struct city *find_closest_city(const struct tile *ptile,
                                const struct player *pplayer,
                                bool only_ocean, bool only_continent,
                                bool only_known, bool only_player,
-                               bool only_enemy)
+                               bool only_enemy, const struct unit_class *pclass)
 {
   Continent_id con;
   struct city *best_city = NULL;
@@ -791,14 +793,17 @@ struct city *find_closest_city(const struct tile *ptile,
        * - closer than the current best city
        * - (if required) on the same continent
        * - (if required) adjacent to ocean
-       * - (if required) only cities known by the player */
+       * - (if required) only cities known by the player
+       * - (if required) only cities native to the class */
       if ((best_dist == -1 || city_dist < best_dist)
           && (!only_continent || con == tile_continent(pcity->tile))
           && (!only_ocean || is_ocean_near_tile(city_tile(pcity)))
           && (!only_known
               || (map_is_known(city_tile(pcity), pplayer)
                   && map_get_player_site(city_tile(pcity), pplayer)->identity
-                     > IDENTITY_NUMBER_ZERO))) {
+                     > IDENTITY_NUMBER_ZERO))
+          && (pclass == NULL
+              || is_native_near_tile(pclass, city_tile(pcity)))) {
         best_dist = city_dist;
         best_city = pcity;
       }
