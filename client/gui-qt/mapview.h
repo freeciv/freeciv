@@ -78,6 +78,8 @@ const char *const close_button[] = {
  "             "
 };
 
+bool is_point_in_area(int x, int y, int px, int py, int pxe, int pye);
+
 /**************************************************************************
   Struct used for idle callback to execute some callbacks later
 **************************************************************************/
@@ -111,6 +113,10 @@ class map_view : public QWidget
 public:
   map_view();
   void paint(QPainter *painter, QPaintEvent *event);
+  void find_place(int pos_x, int pos_y, int &w, int &h, int wdth, int hght, 
+                  int recursive_nr);
+  void resume_searching(int pos_x,int pos_y,int &w, int &h,
+                        int wdtht, int hght, int recursive_nr);
 
 protected:
   void paintEvent(QPaintEvent *event);
@@ -149,6 +155,7 @@ class fcwidget : public QLabel
   Q_OBJECT
 public:
   virtual void update_menu() = 0;
+  bool was_destroyed;
 };
 
 /**************************************************************************

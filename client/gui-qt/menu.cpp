@@ -135,6 +135,18 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(tr("F6")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_show_research_tab()));
 
+  act = menu->addAction(_("Wonders of the World"));
+  act->setShortcut(QKeySequence(tr("F7")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_traveler()));
+
+  act = menu->addAction(_("Top _Five Cities"));
+  act->setShortcut(QKeySequence(tr("F8")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_top_five()));
+
+  act = menu->addAction(_("Demographics"));
+  act->setShortcut(QKeySequence(tr("F11")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_demographics()));
+
   /* Help Menu */
   menu = this->addMenu(_("Help"));
   act = menu->addAction(_("Copying"));
@@ -340,6 +352,31 @@ void mr_menu::slot_minimap_view()
     ::gui()->minimapview_wdg->hide();
   }
 }
+
+/****************************************************************
+  Action "SHOW DEMOGRAPGHICS REPORT"
+*****************************************************************/
+void mr_menu::slot_demographics()
+{
+  send_report_request(REPORT_DEMOGRAPHIC);
+}
+
+/****************************************************************
+  Action "SHOW TOP FIVE CITIES"
+*****************************************************************/
+void mr_menu::slot_top_five()
+{
+  send_report_request(REPORT_TOP_5_CITIES);
+}
+
+/****************************************************************
+  Action "SHOW WONDERS REPORT"
+*****************************************************************/
+void mr_menu::slot_traveler()
+{
+  send_report_request(REPORT_WONDERS_OF_THE_WORLD);
+}
+
 
 /****************************************************************
   Action "TAX RATES"

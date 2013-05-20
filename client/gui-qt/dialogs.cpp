@@ -336,6 +336,131 @@ void races_dialog::ok_pressed()
 }
 
 /***************************************************************************
+  Constructor for notify dialog
+***************************************************************************/
+notify_dialog::notify_dialog(const char *caption, const char *headline, 
+                             const char *lines, QWidget *parent)
+                             : fcwidget()
+{
+  int x, y;
+  QString qlines;
+  setCursor(Qt::ArrowCursor);
+  setParent(parent);
+  setFrameStyle(QFrame::Box);
+  setWindowOpacity(0.5);
+  cw = new close_widget(this);
+  cw->put_to_corner();
+  qcaption = QString::fromAscii(caption);
+  qheadline = QString::fromAscii(headline);
+  qlines = QString::fromAscii(lines);
+  qlist = qlines.split("\n");
+  small_font =::gui()->fc_fonts.get_font("gui_qt_font_city_label");
+  x = 0;
+  y = 0;
+  calc_size(x, y);
+  resize(x, y);
+  gui()->mapview_wdg->find_place(gui()->mapview_wdg->width() - x - 4, 4,
+                                 x, y, x, y, 0);
+  move(x, y);
+  was_destroyed = false;
+}
+
+/***************************************************************************
+  Calculates size of notify dialog
+***************************************************************************/
+void notify_dialog::calc_size(int &x, int &y)
+{
+  QFontMetrics fm(*small_font);
+  int i;
+  QStringList str_list;
+  str_list = qlist;
+  str_list << qcaption << qheadline;
+
+  for (i = 0; i < str_list.count(); i++) {
+    x = qMax(x, fm.width(str_list.at(i)));
+    y = y + 6 + fm.height();
+  }
+  x = x + 15;
+}
+
+/***************************************************************************
+  Paint Event for notify dialog
+***************************************************************************/
+void notify_dialog::paintEvent(QPaintEvent * paint_event)
+{
+  QPainter painter(this);
+  QPainterPath path;
+  QPen pen;
+  int i;
+
+  pen.setWidth(1);
+  pen.setColor(QColor(232, 255, 0));
+  painter.setBrush(QColor(0, 0, 0, 175));
+  painter.drawRect(0, 0, width(), height());
+  painter.setFont(*small_font);
+  painter.setPen(pen);
+  painter.drawText(10, 20, qcaption);
+  painter.drawText(10, 40, qheadline);
+  for (i = 0; i < qlist.count(); i++) {
+    painter.drawText(10, 60+i*20, qlist[i]);
+  }
+  painter.drawLine(0,0,width(),0);
+  painter.drawLine(0,height()-1,width(),height()-1);
+  painter.drawLine(0,0,0,height());
+  painter.drawLine(width()-1,0,width()-1,height());
+  cw->put_to_corner();
+}
+
+/**************************************************************************
+  Called when mouse button was pressed, just to close on right click
+**************************************************************************/
+void notify_dialog::mousePressEvent(QMouseEvent *event)
+{
+  cursor = event->globalPos() - geometry().topLeft();
+  if (event->button() == Qt::RightButton){
+    was_destroyed = true;
+    close();
+  }
+}
+
+/**************************************************************************
+  Called when mouse button was pressed and moving around
+**************************************************************************/
+void notify_dialog::mouseMoveEvent(QMouseEvent *event)
+{
+  move(event->globalPos() - cursor);
+  setCursor(Qt::SizeAllCursor);
+}
+
+/**************************************************************************
+  Called when mouse button unpressed. Restores cursor.
+**************************************************************************/
+void notify_dialog::mouseReleaseEvent(QMouseEvent *event)
+{
+  setCursor(Qt::ArrowCursor);
+}
+
+/***************************************************************************
+  Called when close button was pressed
+***************************************************************************/
+void notify_dialog::update_menu()
+{
+  was_destroyed = true;
+  destroy();
+}
+
+/***************************************************************************
+  Destructor for notify dialog, notice that somehow object is not destroyed
+  immediately, so it can be still visible for parent, check boolean
+  was_destroyed if u suspect it could not be destroyed yet
+***************************************************************************/
+notify_dialog::~notify_dialog()
+{
+  was_destroyed = true;
+  destroy();
+}
+
+/***************************************************************************
   Button canceling all selections has been pressed. 
 ***************************************************************************/
 void races_dialog::cancel_pressed()
@@ -377,9 +502,11 @@ void popup_connect_msg(const char *headline, const char *message)
   Popup a generic dialog to display some generic information.
 **************************************************************************/
 void popup_notify_dialog(const char *caption, const char *headline,
-			 const char *lines)
+                         const char *lines)
 {
-  /* PORTME */
+  notify_dialog *nd = new notify_dialog(caption, headline, lines,
+                                       gui()->mapview_wdg);
+  nd->show();
 }
 
 /**************************************************************************
@@ -472,7 +599,7 @@ void revolution_response(struct government *government)
     - Keep moving.
 **************************************************************************/
 void popup_caravan_dialog(struct unit *punit,
-			  struct city *phomecity, struct city *pdestcity)
+                          struct city *phomecity, struct city *pdestcity)
 {
   /* PORTME */
 }
