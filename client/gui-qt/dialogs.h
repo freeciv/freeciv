@@ -27,6 +27,8 @@ extern "C" {
 #include <QItemSelection>
 #include <QDialog>
 
+#include "mapview.h"
+
 class QGridLayout;
 class QGorupBox;
 class QRadioButton;
@@ -34,6 +36,7 @@ class QTableWidget;
 class QTextEdit;
 class QToolBox;
 class QWidget;
+
 
 void popup_races_dialog(struct player *pplayer);
 
@@ -74,6 +77,34 @@ private:
   struct player *tplayer;
 };
 
+/***************************************************************************
+ Widget around map view to display informations like demographics report,
+ top 5 cities, traveler's report.
+***************************************************************************/
+class notify_dialog:public fcwidget
+{
+  Q_OBJECT
+public:
+  notify_dialog(const char *caption, const char *headline,
+                const char *lines, QWidget *parent = 0);
+  virtual void update_menu();
+  ~notify_dialog();
+protected:
+  void mousePressEvent(QMouseEvent *event);
+  void mouseMoveEvent(QMouseEvent *event);
+  void mouseReleaseEvent(QMouseEvent *event);
+private:
+  void paintEvent(QPaintEvent *paint_event);
+  void calc_size(int &x, int&y);
+  close_widget *cw;
+  QLabel *label;
+  QVBoxLayout *layout;
+  QString qcaption;
+  QString qheadline;
+  QStringList qlist;
+  QFont *small_font;
+  QPoint cursor;
+};
 void popup_revolution_dialog(struct government *government = NULL);
 void revolution_response(struct government *government);
 

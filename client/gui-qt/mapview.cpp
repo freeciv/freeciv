@@ -38,6 +38,18 @@ extern struct canvas *canvas;
 extern QApplication *qapp;
 
 /**************************************************************************
+  Check if point x, y is in area (px -> pxe, py - pye)
+**************************************************************************/
+bool is_point_in_area(int x, int y, int px, int py, int pxe, int pye)
+{
+  if (x >= px && y >= py && x <= pxe && y <= pye) {
+      return true;
+    }
+  return false;
+}
+
+
+/**************************************************************************
   Constructor for idle callbacks
 **************************************************************************/
 mr_idle::mr_idle()
@@ -102,6 +114,90 @@ void map_view::paint(QPainter *painter, QPaintEvent *event)
 
   painter->drawPixmap(0, 0, width, height, mapview.store->map_pixmap);
 }
+
+/**************************************************************************
+  Sets new point for new search 
+**************************************************************************/
+void map_view::resume_searching(int pos_x ,int pos_y ,int &w, int &h, 
+int wdth, int hght, int recursive_nr) {
+  int new_pos_x, new_pos_y;
+   recursive_nr++;
+
+   new_pos_x = pos_x;
+   new_pos_y = pos_y;
+
+  if (pos_y + hght + 4 < height() && pos_x > width() / 2) {
+    new_pos_y = pos_y + 5;
+  } else if (pos_x > 0 && pos_y > 10) {
+    new_pos_x = pos_x - 5;
+  } else if (pos_y > 0) {
+    new_pos_y = pos_y - 5;
+  } else if (pos_x + wdth + 4 < this->width()) {
+    new_pos_x = pos_x + 5;
+  }
+  find_place(new_pos_x, new_pos_y, w, h, wdth, hght, recursive_nr);
+}
+
+/**************************************************************************
+  Searches place for widget with size w and height h
+  Starts looking from position pos_x, pos_y, going clockwork
+  Returns position as (w,h)
+  Along with resume_searching its recursive function.
+**************************************************************************/
+void map_view::find_place(int pos_x, int pos_y, int &w, int &h, int wdth, 
+                          int hght, int recursive_nr)
+{
+  int i;
+  int x, y, xe, ye;
+  QList <fcwidget *>widgets = this->findChildren <fcwidget *>();
+  bool cont_searching = false;
+
+  if (recursive_nr >= 1000) {
+    /**
+     * give up searching position
+     */
+    return;
+  }
+  /**
+   * try position pos_x, pos_y,
+   * check middle and borders if aren't  above other widget
+   */
+  for (i = 0; i < widgets.count(); i++) {
+    if (widgets[i]->was_destroyed == true) {
+      continue;
+    }
+    x = widgets[i]->pos().x();
+    y = widgets[i]->pos().y();
+    
+    if (x == 0 && y ==0) { 
+      continue;
+    }
+    xe = widgets[i]->pos().x() + widgets[i]->width();
+    ye = widgets[i]->pos().y() + widgets[i]->height();
+
+    if (is_point_in_area(pos_x, pos_y, x, y, xe, ye)) {
+      cont_searching = true;
+    }
+    if (is_point_in_area(pos_x + wdth, pos_y, x, y, xe, ye)) {
+      cont_searching = true;
+    }
+    if (is_point_in_area(pos_x + wdth, pos_y + hght, x, y, xe, ye)) {
+      cont_searching = true;
+    }
+    if (is_point_in_area(pos_x, pos_y + hght, x, y, xe, ye)) {
+      cont_searching = true;
+    }
+    if (is_point_in_area(pos_x + wdth / 2, pos_y + hght / 2, x, y, xe, ye)) {
+      cont_searching = true;
+    }
+  }
+  w = pos_x;
+  h = pos_y;
+  if (cont_searching) {
+    resume_searching(pos_x, pos_y, w, h, wdth, hght, recursive_nr);
+  }
+}
+
 
 /****************************************************************************
   Called when map view has been resized
