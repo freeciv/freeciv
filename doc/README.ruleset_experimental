@@ -82,12 +82,6 @@ this file.
   transferred between civilizations, there is a small chance that each of
   the parties will forget the technology in question.
 
-- Most technologies have "root_req" requirements. This means that it is
-  not possible to acquire the technology by any means unless you already
-  possess its "root_req". Currently-unreachable requirements are entirely
-  hidden by default in the Gtk client, so when the game starts you can
-  only see a few techs; you can see the rest with the "Show all" button.
-
 
 2. Use the new ruleset
    -------------------
