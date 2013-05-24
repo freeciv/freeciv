@@ -1982,7 +1982,9 @@ static void cm_result_copy(struct cm_result *result,
   struct tile *pcenter = city_tile(pcity);
 
   /* clear worker positions */
-  memset(result->worker_positions, 0, sizeof(result->worker_positions));
+  memset(result->worker_positions, 0,
+         sizeof(*result->worker_positions)
+         * city_map_tiles(result->city_radius_sq));
 
   city_tile_iterate_index(result->city_radius_sq, pcenter, ptile, index) {
     if (workers_map == NULL) {
