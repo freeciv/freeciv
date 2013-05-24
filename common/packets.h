@@ -98,7 +98,7 @@ void generic_handle_player_attribute_chunk(struct player *pplayer,
 const char *packet_name(enum packet_type type);
 bool packet_has_game_info_flag(enum packet_type type);
 
-inline void packet_header_init(struct packet_header *packet_header);
+void packet_header_init(struct packet_header *packet_header);
 void post_send_packet_server_join_reply(struct connection *pconn,
                                         const struct packet_server_join_reply
                                         *packet);
