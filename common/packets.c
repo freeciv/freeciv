@@ -542,7 +542,7 @@ void remove_packet_from_buffer(struct socket_packet_buffer *buffer)
 
   NB: These values cannot be changed for backward compatibility reasons.
 ****************************************************************************/
-inline void packet_header_init(struct packet_header *packet_header)
+void packet_header_init(struct packet_header *packet_header)
 {
   packet_header->length = DIOT_UINT16;
   packet_header->type = DIOT_UINT8;
