@@ -848,7 +848,7 @@ sprites =
 		"f.leon", "flags/leon"
 		"f.lesotho", "flags/lesotho"
 		"f.lesotho_old", "flags/lesotho_old"	; used by Sotho
-		"f.liberia", "flags/libya"
+		"f.liberia", "flags/liberia"
 		"f.liburnian", "flags/liburnian"
 		"f.libya", "flags/libya"
 		"f.libya_old", "flags/libya_old"
