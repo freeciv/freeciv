@@ -3073,6 +3073,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 
       /* Set activity to sentry if boarding a ship. */
       if (ptransporter && !pplayer->ai_controlled && !unit_has_orders(punit)
+          && !punit->ai_controlled
           && !can_unit_exist_at_tile(punit, pdesttile)) {
         set_unit_activity(punit, ACTIVITY_SENTRY);
       }
