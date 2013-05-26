@@ -2320,7 +2320,7 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
 
   package_unit(punit, &info);
   package_short_unit(punit, &sinfo, UNIT_INFO_IDENTITY, FALSE, FALSE);
-            
+
   conn_list_iterate(dest, pconn) {
     struct player *pplayer = pconn->playing;
 
@@ -2375,11 +2375,12 @@ static void remove_unit_gone_out_of_sight(struct conn_list *dest,
   conn_list_iterate(dest, pconn) {
     struct player *pplayer = pconn->playing;
 
-    if (can_player_see_unit_at(pplayer, punit, old_tile)
+    if (!conn_is_global_observer(pconn)
+        && can_player_see_unit_at(pplayer, punit, old_tile)
         && !can_player_see_unit_at(pplayer, punit,
                                    unit_tile(punit))) {
       unit_goes_out_of_sight(pplayer, punit);
-    } 
+    }
   } conn_list_iterate_end;
 }
 
