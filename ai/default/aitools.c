@@ -494,7 +494,7 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
         return TRUE; /* Ocean -> Ocean travel ok. */
       }
     } else if ((pcity && pplayers_allied(city_owner(pcity), pplayer))
-               || !unit_has_type_flag(punit, F_NO_LAND_ATTACK)) {
+               || can_attack_non_native(unit_type(punit))) {
       /* Not ocean, but allied city or can bombard, checking if there is
        * good ocean adjacent */
       adjc_iterate(ptile, tmp_tile) {
