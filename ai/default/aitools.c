@@ -503,8 +503,7 @@ bool goto_is_sane(struct ai_type *ait, struct unit *punit,
         return TRUE; /* Ocean -> Ocean travel ok. */
       }
     } else if ((pcity && pplayers_allied(city_owner(pcity), pplayer))
-               || (uclass_has_flag(unit_class(punit), UCF_ATTACK_NON_NATIVE)
-                   && !unit_has_type_flag(punit, UTYF_ONLY_NATIVE_ATTACK))) {
+               || can_attack_non_native(unit_type(punit))) {
       /* Not ocean, but allied city or can bombard, checking if there is
        * good ocean adjacent */
       adjc_iterate(ptile, tmp_tile) {

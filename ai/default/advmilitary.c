@@ -360,8 +360,7 @@ static unsigned int assess_danger_unit(const struct city *pcity,
     if ((PF_IMPOSSIBLE_MC == *move_time
          || *move_time > pos.turn)) {
       *move_time = pos.turn;
-      if (!utype_has_flag(punittype, UTYF_MARINES)
-          && !uclass_has_flag(utype_class(punittype), UCF_ATT_FROM_NON_NATIVE)) {
+      if (!can_attack_from_non_native(punittype)) {
         (*move_time)++;
       }
     }
@@ -728,7 +727,7 @@ int dai_unit_attack_desirability(const struct unit_type *punittype)
   if (utype_has_flag(punittype, UTYF_CITYBUSTER)) {
     desire += desire / 2;
   }
-  if (utype_has_flag(punittype, UTYF_MARINES)) {
+  if (can_attack_from_non_native(punittype)) {
     desire += desire / 4;
   }
   if (utype_has_flag(punittype, UTYF_IGWALL)) {

@@ -979,7 +979,7 @@ bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
                     struct tile **ferry_dest, struct tile **beachhead_tile)
 {
   if (NULL == tile_city(dest_tile)
-      || utype_has_flag(cargo_type, UTYF_MARINES)) {
+      || can_attack_from_non_native(cargo_type)) {
     /* Unit can directly go to 'ptile'. */
     struct tile *best_tile = NULL;
     int best_cost = PF_IMPOSSIBLE_MC, cost;
@@ -2930,8 +2930,7 @@ static void update_simple_ai_types(void)
         && !utype_has_flag(punittype, UTYF_CIVILIAN)
         && !uclass_has_flag(utype_class(punittype), UCF_MISSILE)
         && !(dai_uclass_move_type(utype_class(punittype)) == UMT_SEA
-             && (!uclass_has_flag(utype_class(punittype), UCF_ATTACK_NON_NATIVE)
-                 || utype_has_flag(punittype, UTYF_ONLY_NATIVE_ATTACK)))
+             && !can_attack_non_native(punittype))
         && !utype_fuel(punittype)
         && punittype->transport_capacity < 8) {
       simple_ai_types[i] = punittype;
