@@ -174,6 +174,7 @@ static int normal_move_unit(const struct tile *ptile, enum direction8 dir,
     }
   } else if (!is_native_tile_to_class(param->uclass, ptile)) {
     if (!BV_ISSET(param->unit_flags, UTYF_MARINES)
+        && !uclass_has_flag(param->uclass, UCF_ATT_FROM_NON_NATIVE)
         && (is_non_allied_unit_tile(ptile1, param->owner) 
             || is_non_allied_city_tile(ptile1, param->owner))) {
       move_cost = PF_IMPOSSIBLE_MC;
@@ -213,7 +214,8 @@ static int land_attack_move(const struct tile *src_tile,
     if (!is_non_allied_unit_tile(tgt_tile, param->owner)
         && !is_non_allied_city_tile(tgt_tile, param->owner)) {
       move_cost = tile_terrain(tgt_tile)->movement_cost * SINGLE_MOVE;
-    } else if (BV_ISSET(param->unit_flags, UTYF_MARINES)) {
+    } else if (BV_ISSET(param->unit_flags, UTYF_MARINES)
+               || uclass_has_flag(param->uclass, UCF_ATT_FROM_NON_NATIVE)) {
       /* Can attack!! */
       move_cost = single_move_cost(param, src_tile, tgt_tile);
     } else {
@@ -321,6 +323,7 @@ static int igter_move_unit(const struct tile *ptile,
     }
   } else if (!is_native_tile_to_class(param->uclass, ptile)) {
     if (!BV_ISSET(param->unit_flags, UTYF_MARINES)
+        && !uclass_has_flag(param->uclass, UCF_ATT_FROM_NON_NATIVE)
         && (is_non_allied_unit_tile(ptile1, param->owner) 
             || is_non_allied_city_tile(ptile1, param->owner))) {
       move_cost = PF_IMPOSSIBLE_MC;

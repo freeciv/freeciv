@@ -1826,11 +1826,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
 	    _("  * Doesn't prevent enemy cities from working the tile it's on.\n"));
   }
-  if (uclass_has_flag(utype_class(utype), UCF_ATTACK_NON_NATIVE)
-      && !utype_has_flag(utype, UTYF_ONLY_NATIVE_ATTACK)) {
+  if (can_attack_non_native(utype)) {
     CATLSTR(buf, bufsz,
 	    _("  * Can attack units on non-native tiles.\n"));
   }
+  /* Must use flag to distinguish from UTYF_MARINES text. */
   if (uclass_has_flag(utype_class(utype), UCF_ATT_FROM_NON_NATIVE)) {
     CATLSTR(buf, bufsz,
             _("  * Can launch attack from non-native tiles.\n"));
@@ -2023,6 +2023,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
             _("* Can only attack units on native tiles.\n"));
   }
+  /* Must use flag to distinguish from UCF_ATT_FROM_NON_NATIVE text. */
   if (utype_has_flag(utype, UTYF_MARINES)) {
     CATLSTR(buf, bufsz,
             _("* Can launch attack from non-native tiles.\n"));
