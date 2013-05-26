@@ -370,7 +370,7 @@ static unsigned int assess_danger_unit(const struct city *pcity,
       && !can_attack_non_native(punittype)) {
     return 0;
   }
-  if (is_sailing_unit(punit) && !is_terrain_class_near_tile(ptile, TC_OCEAN)) {
+  if (!is_native_near_tile(unit_class(punit), ptile)) {
     return 0;
   }
 
