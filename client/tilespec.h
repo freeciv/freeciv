@@ -132,6 +132,7 @@ void tileset_init(struct tileset *t);
 void tileset_free(struct tileset *tileset);
 void tileset_load_tiles(struct tileset *t);
 void tileset_free_tiles(struct tileset *t);
+void tileset_ruleset_reset(struct tileset *t);
 
 void finish_loading_sprites(struct tileset *t);
 
