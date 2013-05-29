@@ -730,42 +730,50 @@ static int tile_move_cost_ptrs(const struct unit *punit,
                                const struct player *pplayer,
 			       const struct tile *t1, const struct tile *t2)
 {
-  bool native = TRUE;
-  int cost = tile_terrain(t2)->movement_cost * SINGLE_MOVE;
+  int cost;
   bool cardinal_move;
   bool ri;
+  bool igter = FALSE;
 
   fc_assert(punit == NULL || pclass == NULL || unit_class(punit) == pclass);
 
   if (punit) {
     pclass = unit_class(punit);
-    native = is_native_tile_to_class(pclass, t2);
+    igter = unit_has_type_flag(punit, UTYF_IGTER);
   }
 
-  if (game.info.slow_invasions
-      && pclass
-      && tile_city(t1) == NULL
-      && !is_native_tile_to_class(pclass, t1)
-      && native) {
-    /* If "slowinvasions" option is turned on, units moving from
-     * non-native terrain (from transport) to native terrain lose all their
-     * movement.
-     * e.g. ground units moving from sea to land */
-    if (punit != NULL) {
-      return punit->moves_left;
+  if (pclass != NULL) {
+    /* Try to exit early for detectable conditions */
+
+    if (!uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {
+      /* units without UCF_TERRAIN_SPEED have a constant cost. */
+      return SINGLE_MOVE;
+
+    } else if (!is_native_tile_to_class(pclass, t2)) {
+      /* Loading to transport or entering port.
+       * UTYF_IGTER units get move benefit. */
+      return (igter ? MOVE_COST_IGTER : SINGLE_MOVE);
+
+    } else if (!is_native_tile_to_class(pclass, t1)) {
+      if (game.info.slow_invasions
+          && tile_city(t1) == NULL) {
+        /* If "slowinvasions" option is turned on, units moving from
+         * non-native terrain (from transport) to native terrain lose all
+         * their movement.
+         * e.g. ground units moving from sea to land */
+        if (punit != NULL) {
+          return punit->moves_left;
+        }
+        /* TODO: Could we return something like FC_INFINITY here, or would
+         * some caller then assume that move is not possible at all? */
+      } else {
+        /* Disembarking from transport or leaving port. */
+        return SINGLE_MOVE;
+      }
     }
-    /* TODO: Could we return something like FC_INFINITY here, or would
-     * some caller then assume that move is not possible at all? */
   }
 
-  if (pclass && !uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {
-    return SINGLE_MOVE;
-  }
-
-  /* Railroad check has to be before UTYF_IGTER check so that UTYF_IGTER
-   * units are not penalized. UTYF_IGTER affects also entering and
-   * leaving ships, so UTYF_IGTER check has to be before native terrain
-   * check. We want to give railroad bonus only to native units. */
+  cost = tile_terrain(t2)->movement_cost * SINGLE_MOVE;
   ri = restrict_infra(pplayer, t1, t2);
   cardinal_move = is_move_cardinal(t1, t2);
 
@@ -810,15 +818,8 @@ static int tile_move_cost_ptrs(const struct unit *punit,
     }
   } road_type_iterate_end;
 
-  if (punit && unit_has_type_flag(punit, UTYF_IGTER)) {
-    return MIN(cost, MOVE_COST_IGTER);
-  }
-  if (!native) {
-    /* Loading to transport or entering port */
-    return SINGLE_MOVE;
-  }
-
-  return cost;
+  /* UTYF_IGTER units have a maximum move cost per step. */
+  return (igter ? MIN(cost, MOVE_COST_IGTER) : cost);
 }
 
 /****************************************************************************
