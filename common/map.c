@@ -741,20 +741,24 @@ static int tile_move_cost_ptrs(const struct unit *punit,
     native = is_native_tile_to_class(pclass, t2);
   }
 
-  if (game.info.slow_invasions
-      && pclass
-      && tile_city(t1) == NULL
+  if (pclass
       && !is_native_tile_to_class(pclass, t1)
       && native) {
-    /* If "slowinvasions" option is turned on, units moving from
-     * non-native terrain (from transport) to native terrain lose all their
-     * movement.
-     * e.g. ground units moving from sea to land */
-    if (punit != NULL) {
-      return punit->moves_left;
+    if (game.info.slow_invasions
+        && tile_city(t1) == NULL) {
+      /* If "slowinvasions" option is turned on, units moving from
+       * non-native terrain (from transport) to native terrain lose all their
+       * movement.
+       * e.g. ground units moving from sea to land */
+      if (punit != NULL) {
+        return punit->moves_left;
+      }
+      /* TODO: Could we return something like FC_INFINITY here, or would
+       * some caller then assume that move is not possible at all? */
+    } else {
+      /* Disembarking / leaving port. */
+      return SINGLE_MOVE;
     }
-    /* TODO: Could we return something like FC_INFINITY here, or would
-     * some caller then assume that move is not possible at all? */
   }
 
   if (pclass && !uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {
