@@ -5934,3 +5934,14 @@ void tileset_background_free(struct tileset *t)
     t->sprites.background.graphic = NULL;
   }
 }
+
+/****************************************************************************
+  Reset tileset data specific to ruleset.
+****************************************************************************/
+void tileset_ruleset_reset(struct tileset *t)
+{
+  if (t->rivers != NULL) {
+    road_type_list_destroy(t->rivers);
+  }
+  t->rivers = road_type_list_new();
+}

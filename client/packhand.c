@@ -2819,6 +2819,8 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
       }
     }
   }
+
+  tileset_ruleset_reset(tileset);
 }
 
 /****************************************************************************
