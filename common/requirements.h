@@ -83,6 +83,9 @@ struct requirement req_from_values(int type, int range,
 bool are_requirements_equal(const struct requirement *req1,
 			    const struct requirement *req2);
 
+bool are_requirements_opposites(const struct requirement *req1,
+                                const struct requirement *req2);
+
 bool is_req_active(const struct player *target_player,
 		   const struct city *target_city,
 		   const struct impr_type *target_building,
