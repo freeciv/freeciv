@@ -63,6 +63,8 @@ private slots:
 
   /*used by civilization menu */
   void slot_popup_tax_rates();
+  void slot_show_eco_report();
+  void slot_show_units_report();
   void slot_show_research_tab();
   void slot_gov_change(const int &target);
   void revolution();

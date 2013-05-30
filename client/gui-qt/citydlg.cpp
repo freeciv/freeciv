@@ -783,8 +783,13 @@ void city_dialog::update_building()
         name = improvement_name_translation(target.value.building);
         sprite = get_building_sprite(tileset, target.value.building);
       }
+      if (sprite == NULL){
+      production_combo->insertItem(item, name,
+                                   (int) cid_encode(items[item].item));
+      } else {
       production_combo->insertItem(item, *sprite->pm, name,
                                    (int) cid_encode(items[item].item));
+      }
     }
   }
 
