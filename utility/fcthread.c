@@ -54,7 +54,7 @@ int fc_thread_start(fc_thread *thread, void (*function) (void *arg),
   pthread_attr_t attr;
 
   /* Freed by child thread once it's finished with data */
-  struct fc_thread_wrap_data *data = fc_malloc(sizeof(data));
+  struct fc_thread_wrap_data *data = fc_malloc(sizeof(*data));
 
   data->arg = arg;
   data->func = function;
@@ -180,7 +180,7 @@ static DWORD WINAPI fc_thread_wrapper(LPVOID arg)
 int fc_thread_start(fc_thread *thread, void (*function) (void *arg), void *arg)
 {
   /* Freed by child thread once it's finished with data */
-  struct fc_thread_wrap_data *data = fc_malloc(sizeof(data));
+  struct fc_thread_wrap_data *data = fc_malloc(sizeof(*data));
 
   data->arg = arg;
   data->func = function;
