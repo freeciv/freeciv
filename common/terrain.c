@@ -802,6 +802,7 @@ const char *get_infrastructure_text(bv_special spe, bv_bases bases, bv_roads roa
 {
   static char s[256];
   char *p;
+  int len;
 
   s[0] = '\0';
 
@@ -843,8 +844,9 @@ const char *get_infrastructure_text(bv_special spe, bv_bases bases, bv_roads roa
     }
   } base_type_iterate_end;
 
-  p = s + strlen(s) - 1;
-  if (*p == '/') {
+  len = strlen(s);
+  p = s + len - 1;
+  if (len > 0 && *p == '/') {
     *p = '\0';
   }
 
