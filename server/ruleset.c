@@ -4127,11 +4127,14 @@ static bool sanity_check_req_set(int reqs_of_type[], struct requirement *preq,
 
   fc_assert_ret_val(universals_n_is_valid(preq->source.kind), FALSE);
 
-  /* Add to counter */
-  reqs_of_type[preq->source.kind]++;
+  /* Add to counter for positive requirements 
+   * For negated requirements, there are no limitations */
+  if (!preq->negated) {
+    reqs_of_type[preq->source.kind]++;
+  }
   rc = reqs_of_type[preq->source.kind];
 
-  if (rc > 1) {
+  if (rc > 1 && !preq->negated) {
     /* Multiple requirements of the same type */
     switch (preq->source.kind) {
      case VUT_GOVERNMENT:
@@ -4246,6 +4249,14 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
     if (!sanity_check_req_set(reqs_of_type, preq, max_tiles, list_for)) {
       return FALSE;
     }
+    requirement_vector_iterate(preqs, nreq) {
+      if (are_requirements_opposites(preq, nreq)) {
+        log_error("%s: Identical %s requirement is both active and negated.",
+                  list_for,
+                  universal_type_rule_name(&preq->source));
+        return FALSE;
+      }
+    } requirement_vector_iterate_end;
   } requirement_vector_iterate_end;
 
   return TRUE;
