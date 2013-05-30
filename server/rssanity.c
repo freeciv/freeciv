@@ -69,11 +69,13 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
 
   fc_assert_ret_val(universals_n_is_valid(preq->source.kind), FALSE);
 
-  /* Add to counter */
-  reqs_of_type[preq->source.kind]++;
+  /* Add to counter for positive requirements. */
+  if (preq->present) {
+    reqs_of_type[preq->source.kind]++;
+  }
   rc = reqs_of_type[preq->source.kind];
 
-  if (preq->range == REQ_RANGE_LOCAL) {
+  if (preq->range == REQ_RANGE_LOCAL && preq->present) {
     local_reqs_of_type[preq->source.kind]++;
 
     switch (preq->source.kind) {
@@ -96,7 +98,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
     }
   }
 
-  if (rc > 1) {
+  if (rc > 1 && preq->present) {
     /* Multiple requirements of the same type */
     switch (preq->source.kind) {
      case VUT_GOVERNMENT:
@@ -219,6 +221,14 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
     if (!sanity_check_req_set(reqs_of_type, local_reqs_of_type, preq, max_tiles, list_for)) {
       return FALSE;
     }
+    requirement_vector_iterate(preqs, nreq) {
+      if (are_requirements_opposites(preq, nreq)) {
+        log_error("%s: Identical %s requirement both present and absent.",
+                  list_for,
+                  universal_type_rule_name(&preq->source));
+        return FALSE;
+      }
+    } requirement_vector_iterate_end;
   } requirement_vector_iterate_end;
 
   return TRUE;
