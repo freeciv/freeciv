@@ -796,6 +796,7 @@ const char *get_infrastructure_text(bv_special spe, bv_bases bases)
 {
   static char s[256];
   char *p;
+  int len;
   enum eroad road = ROAD_LAST;
 
   s[0] = '\0';
@@ -829,8 +830,9 @@ const char *get_infrastructure_text(bv_special spe, bv_bases bases)
     }
   } base_type_iterate_end;
 
-  p = s + strlen(s) - 1;
-  if (*p == '/') {
+  len = strlen(s);
+  p = s + len - 1;
+  if (len > 0 && *p == '/') {
     *p = '\0';
   }
 
