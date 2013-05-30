@@ -1261,11 +1261,13 @@ static bool is_tiny_island(struct tile *ptile)
     return FALSE;
   }
 
-  cardinal_adjc_iterate(ptile, tile1) {
+  adjc_iterate(ptile, tile1) {
+    /* This was originally a cardinal_adjc_iterate, which seemed to cause
+     * two or three problems. /MSS */
     if (!is_ocean_tile(tile1)) {
       return FALSE;
     }
-  } cardinal_adjc_iterate_end;
+  } adjc_iterate_end;
 
   return TRUE;
 }
