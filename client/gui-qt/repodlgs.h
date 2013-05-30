@@ -22,6 +22,9 @@ extern "C" {
 #include "repodlgs_g.h"
 }
 
+// client
+#include "climisc.h"
+
 // Qt
 #include <QObject>
 #include <QWidget>
@@ -30,9 +33,13 @@ class QComboBox;
 class QGridLayout;
 class QGroupBox;
 class QHBoxLayout;
+class QItemSelection;
 class QLabel;
 class QProgressBar;
+class QPushButton;
 class QScrollArea;
+class QTableWidget;
+class QTableWidgetItem;
 
 /****************************************************************************
   Helper item for comboboxes, holding string of tech and its id
@@ -99,6 +106,92 @@ private slots:
   void current_tech_changed(int index);
   void goal_tech_changed(int index);
 };
+
+/****************************************************************************
+  Tab widget to display units report (F2)
+****************************************************************************/
+class units_report: public QWidget
+{
+  Q_OBJECT
+  QPushButton *find_button;
+  QPushButton *upgrade_button;
+  QTableWidget *units_widget;
+
+public:
+  units_report();
+  ~units_report();
+  void update_report();
+  void init();
+
+private:
+  int index;
+  int curr_row;
+  int max_row;
+  Unit_type_id uid;
+  struct unit *find_nearest_unit(const struct unit_type *utype,
+                                      struct tile *ptile);
+
+private slots:
+  void find_units();
+  void upgrade_units();
+  void selection_changed(const QItemSelection &sl,
+                         const QItemSelection &ds);
+
+};
+
+/****************************************************************************
+  Tab widget to display economy report (F5)
+****************************************************************************/
+class eco_report: public QWidget
+{
+  Q_OBJECT
+  QPushButton *disband_button;
+  QPushButton *sell_button;
+  QPushButton *sell_redun_button;
+  QTableWidget *eco_widget;
+  QLabel *eco_label;
+
+public:
+  eco_report();
+  ~eco_report();
+  void update_report();
+  void init();
+
+private:
+  int index;
+  int curr_row;
+  int max_row;
+  cid uid;
+  int counter;
+
+private slots:
+  void disband_units();
+  void sell_buildings();
+  void sell_redundant();
+  void selection_changed(const QItemSelection &sl,
+                         const QItemSelection &ds);
+};
+
+/****************************************************************************
+  Tab widget to display economy report (F5)
+****************************************************************************/
+class endgame_report: public QWidget
+{
+  Q_OBJECT
+  QTableWidget *end_widget;
+
+public:
+  endgame_report(const struct packet_endgame_report *packet);
+  ~endgame_report();
+  void update_report(const struct packet_endgame_player *packet);
+  void init();
+
+private:
+  int index;
+  int players;
+
+};
+
 
 bool comp_less_than(const qlist_item &q1, const qlist_item &q2);
 

@@ -131,6 +131,14 @@ void mr_menu::setup_menus()
   gov_menu= menu->addMenu(_("Government"));
   menu->addSeparator();
 
+  act = menu->addAction(_("Units"));
+  act->setShortcut(QKeySequence(tr("F2")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_show_units_report()));
+
+  act = menu->addAction(_("Economy"));
+  act->setShortcut(QKeySequence(tr("F5")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_show_eco_report()));
+
   act = menu->addAction(_("Research"));
   act->setShortcut(QKeySequence(tr("F6")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_show_research_tab()));
@@ -286,6 +294,21 @@ void mr_menu::slot_show_research_tab()
   science_report_dialog_popup(false);
 }
 
+/***************************************************************************
+  Slot for showing economy tab
+***************************************************************************/
+void mr_menu::slot_show_eco_report()
+{
+  economy_report_dialog_popup(false);
+}
+
+/***************************************************************************
+  Slot for showing units tab
+***************************************************************************/
+void mr_menu::slot_show_units_report()
+{
+  units_report_dialog_popup(false);
+}
 
 /****************************************************************
   Action "BUILD_CITY"
