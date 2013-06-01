@@ -228,8 +228,8 @@ color.r              = 43
 color.g              = 107
 color.b              = 19
 helptext	     = _("\
-These forests are filled with strange alien organisms. Planet's radiation makes \
-it impossible for Earthly organisms to survive here.\n\n\
+These forests are filled with strange alien organisms. This planet's \
+radiation makes it impossible for Earthly organisms to survive here.\n\n\
 Cities can work these tiles only when Organic Structures is known. \
 Inventing Alien Rights gives +1 production bonus to Alien Forest tiles.\
 ")

@@ -355,7 +355,7 @@ req2        = "Gravity Manipulation"
 flags       = ""
 graphic     = "a.maglev"
 graphic_alt = "-"
-helptext    = _("Using planet's own power available everywhere land travel\
+helptext    = _("Using Deneb 7's own power available everywhere land travel\
  speeds can reach levels never seen before.")
 
 [advance_manufacturing]
