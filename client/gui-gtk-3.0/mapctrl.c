@@ -373,15 +373,25 @@ void create_line_at_mouse_pos(void)
 **************************************************************************/
 void update_rect_at_mouse_pos(void)
 {
-  int canvas_x, canvas_y;
+  int x, y;
+  GdkWindow *window;
+  GdkDevice *pointer;
+  GdkModifierType mask;
+  GdkDeviceManager *manager =
+      gdk_display_get_device_manager(gtk_widget_get_display(toplevel));
 
-  if (!rbutton_down) {
+  pointer = gdk_device_manager_get_client_pointer(manager);
+  if (!pointer) {
     return;
   }
 
-  /* Reading the mouse pos here saves event queueing. */
-  gdk_window_get_pointer(gtk_widget_get_window(map_canvas), &canvas_x, &canvas_y, NULL);
-  update_selection_rectangle(canvas_x, canvas_y);
+  window = gdk_device_get_window_at_position(pointer, &x, &y);
+  if (window && window == gtk_widget_get_window(map_canvas)) {
+    gdk_device_get_state(pointer, window, NULL, &mask);
+    if (mask & GDK_BUTTON3_MASK) {
+      update_selection_rectangle(x, y);
+    }
+  }
 }
 
 /**************************************************************************
@@ -401,7 +411,10 @@ gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
   cur_x = ev->x;
   cur_y = ev->y;
   update_line(ev->x, ev->y);
-  update_rect_at_mouse_pos();
+  if (rbutton_down && (ev->state & GDK_BUTTON3_MASK)) {
+    update_selection_rectangle(ev->x, ev->y);
+  }
+
   if (keyboardless_goto_button_down && hover_state == HOVER_NONE) {
     maybe_activate_keyboardless_goto(ev->x, ev->y);
   }

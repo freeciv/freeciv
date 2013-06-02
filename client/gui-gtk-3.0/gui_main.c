@@ -681,7 +681,9 @@ static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev)
   }
 
   update_line(cur_x, cur_y);
-  update_rect_at_mouse_pos();
+  if (rbutton_down && (ev->state & GDK_BUTTON3_MASK)) {
+    update_selection_rectangle(ev->x, ev->y);
+  }
 
   if (keyboardless_goto_button_down && hover_state == HOVER_NONE) {
     maybe_activate_keyboardless_goto(cur_x, cur_y);
