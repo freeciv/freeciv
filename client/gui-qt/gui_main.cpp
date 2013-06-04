@@ -39,6 +39,7 @@
 
 // gui-qt
 #include "fc_client.h"
+#include "gui_main.h"
 #include "qtg_cxxside.h"
 
 
@@ -303,7 +304,9 @@ void reset_unit_table(void)
  /* FIXME */
 }
 
-
+/**************************************************************************
+  Open dialog to confirm that user wants to quit client.
+**************************************************************************/
 void popup_quit_dialog()
 {
   QMessageBox ask;

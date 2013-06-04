@@ -45,6 +45,7 @@ libgui_qt_la_SOURCES = \
 	graphics.cpp	\
 	graphics.h	\
 	gui_main.cpp	\
+	gui_main.h	\
 	helpdlg.cpp	\
 	helpdlg.h	\
 	inteldlg.cpp	\
