@@ -77,7 +77,16 @@ void set_turn_done_button_state(bool state)
 **************************************************************************/
 void create_line_at_mouse_pos(void)
 {
-  /* PORTME */
+  QPoint global_pos, local_pos;
+  int x, y;
+  global_pos = QCursor::pos();
+  local_pos = gui()->mapview_wdg->mapFromGlobal(global_pos);
+  x = local_pos.x();
+  y = local_pos.y();
+
+  if (x >= 0 && y >= 0 && x < mapview.width && y < mapview.width) {
+    update_line(x, y);
+  }
 }
 
 /**************************************************************************
@@ -155,41 +164,26 @@ void map_view::keyPressEvent(QKeyEvent * event)
 }
 
 /**************************************************************************
- * Mouse Handler for map_view
- *************************************************************************/
+  Mouse buttons handler for map_view
+**************************************************************************/
 void map_view::mousePressEvent(QMouseEvent *event)
 {
-  struct tile* ptile;
-  struct city *pcity;
-  int i;
 
   if (event->button() == Qt::RightButton) {
     recenter_button_pressed(event->x(), event->y());
     ::gui()->minimapview_wdg->update_image();
   }
 
-  i = 0;
-
   /* Left Button */
   if (event->button() == Qt::LeftButton) {
-    ptile = canvas_pos_to_tile(event->x(), event->y());
-    /* check if over city */
-    if (ptile == NULL) {
-      return;
-    }
-    if(((pcity = tile_city(ptile)) != NULL)
-       && (city_owner(pcity) == client.conn.playing)) {
-    qtg_real_city_dialog_popup(pcity);
-    return;
-    }
-    /* check if clicked unit */
-    unit_list_iterate(ptile->units, punit) {
-      i++;
-
-      if (i == 1) {
-        unit_focus_set(punit);
-      }
-    }
-    unit_list_iterate_end;
+    action_button_pressed(event->pos().x(), event->pos().y(), SELECT_POPUP);
   }
+}
+
+/**************************************************************************
+  Mouse movement handler for map_view
+**************************************************************************/
+void map_view::mouseMoveEvent(QMouseEvent *event)
+{
+  update_line(event->pos().x(), event->pos().y());
 }

@@ -303,6 +303,27 @@ void reset_unit_table(void)
  /* FIXME */
 }
 
+
+void popup_quit_dialog()
+{
+  QMessageBox ask;
+  int ret;
+  ask.setText(_("Are you sure you want to quit?"));
+  ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
+  ask.setDefaultButton(QMessageBox::Cancel);
+  ask.setIcon(QMessageBox::Warning);
+  ret = ask.exec();
+
+  switch (ret) {
+  case QMessageBox::Cancel:
+    return;
+    break;
+  case QMessageBox::Ok:
+    qapp->quit();
+    break;
+  }
+}
+
 /**************************************************************************
   Called to build the unit_below pixmap table.  This is the table on the
   left of the screen that shows all of the inactive units in the current
@@ -312,5 +333,6 @@ void reset_unit_table(void)
 **************************************************************************/
 static void populate_unit_pixmap_table(void)
 {
-  unit_pixmap = new QPixmap(tileset_unit_width(tileset), tileset_unit_height(tileset));
+  unit_pixmap = new QPixmap(tileset_unit_width(tileset), 
+                            tileset_unit_height(tileset));
 }
