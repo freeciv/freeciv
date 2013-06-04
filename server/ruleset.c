@@ -2296,7 +2296,13 @@ static bool load_terrain_names(struct section_file *file)
   }
 
   if (ok) {
+    int idx;
+
     game.control.num_base_types = nval;
+
+    for (idx = 0; idx < nval; idx++) {
+      base_type_init(idx);
+    }
 
     if (base_sections) {
       free(base_sections);
@@ -2331,7 +2337,13 @@ static bool load_terrain_names(struct section_file *file)
   }
 
   if (ok) {
+    int idx;
+
     game.control.num_road_types = nval;
+
+    for (idx = 0; idx < nval; idx++) {
+      road_type_init(idx);
+    }
 
     if (road_sections) {
       free(road_sections);

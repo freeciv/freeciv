@@ -75,18 +75,16 @@ struct road_type *road_by_number(Road_type_id id)
 /****************************************************************************
   Initialize road_type structures.
 ****************************************************************************/
-void road_types_init(void)
+void road_type_init(int idx)
 {
-  int i;
+  struct extras_type *pextra = extras_type_get(EXTRAS_ROAD, idx);
 
-  for (i = 0; i < MAX_ROAD_TYPES; i++) {
-    struct road_type *proad = &extras_type_get(EXTRAS_ROAD, i)->data.road;
+  pextra->type = EXTRAS_ROAD;
 
-    proad->id = i;
-    requirement_vector_init(&proad->reqs);
-    proad->hiders = NULL;
-    proad->helptext = NULL;
-  }
+  pextra->data.road.id = idx;
+  requirement_vector_init(&pextra->data.road.reqs);
+  pextra->data.road.hiders = NULL;
+  pextra->data.road.helptext = NULL;
 }
 
 /****************************************************************************

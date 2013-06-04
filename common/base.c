@@ -252,16 +252,15 @@ Base_type_id base_count(void)
 /****************************************************************************
   Initialize base_type structures.
 ****************************************************************************/
-void base_types_init(void)
+void base_type_init(int idx)
 {
-  int i;
+  struct extras_type *pextra = extras_type_get(EXTRAS_BASE, idx);
 
-  for (i = 0; i < MAX_BASE_TYPES; i++) {
-    struct base_type *pbase = &extras_type_get(EXTRAS_BASE, i)->data.base;
+  pextra->type = EXTRAS_BASE;
 
-    pbase->item_number = i;
-    requirement_vector_init(&pbase->reqs);
-  }
+  pextra->data.base.item_number = idx;
+  requirement_vector_init(&pextra->data.base.reqs);
+  pextra->data.base.helptext = NULL;
 }
 
 /****************************************************************************

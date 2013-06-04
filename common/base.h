@@ -138,7 +138,7 @@ bool territory_claiming_base(const struct base_type *pbase);
 struct player *base_owner(const struct tile *ptile);
 
 /* Initialization and iteration */
-void base_types_init(void);
+void base_type_init(int idx);
 void base_types_free(void);
 
 #define base_type_iterate(_p)						\

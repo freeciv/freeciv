@@ -2758,6 +2758,8 @@ void handle_scenario_info(const struct packet_scenario_info *packet)
 ****************************************************************************/
 void handle_ruleset_control(const struct packet_ruleset_control *packet)
 {
+  int i;
+
   /* The ruleset is going to load new nations. So close
    * the nation selection dialog if it is open. */
   popdown_races_dialog();
@@ -2795,6 +2797,13 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
   governments_alloc(game.control.government_count);
   nations_alloc(game.control.nation_count);
   city_styles_alloc(game.control.styles_count);
+
+  for (i = 0; i < game.control.num_base_types; i++) {
+    base_type_init(i);
+  }
+  for (i = 0; i < game.control.num_road_types; i++) {
+    road_type_init(i);
+  }
 
   if (packet->prefered_tileset[0] != '\0') {
     /* There is tileset suggestion */

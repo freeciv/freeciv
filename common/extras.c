@@ -17,6 +17,7 @@
 
 /* common */
 #include "base.h"
+#include "game.h"
 #include "road.h"
 
 #include "extras.h"
@@ -37,18 +38,10 @@ void extras_init(void)
     extras[i].type = EXTRAS_SPECIAL;
     extras[i].data.special = i;
   }
-  for (; i < S_LAST + MAX_BASE_TYPES; i++) {
-    extras[i].id = i;
-    extras[i].type = EXTRAS_BASE;
-  }
+
   for (; i < MAX_EXTRAS_TYPES; i++) {
     extras[i].id = i;
-    extras[i].type = EXTRAS_ROAD;
   }
-
-
-  base_types_init();
-  road_types_init();
 }
 
 /****************************************************************************
@@ -81,7 +74,7 @@ struct extras_type *extras_type_get(enum extras_type_id type, int subid)
   case EXTRAS_BASE:
     return extras_by_number(S_LAST + subid);
   case EXTRAS_ROAD:
-    return extras_by_number(S_LAST + MAX_BASE_TYPES + subid);
+    return extras_by_number(S_LAST + game.control.num_base_types + subid);
   }
 
   return NULL;

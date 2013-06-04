@@ -145,7 +145,7 @@ bool is_native_tile_to_road(const struct road_type *proad,
 bool is_cardinal_only_road(const struct road_type *proad);
 
 /* Initialization and iteration */
-void road_types_init(void);
+void road_type_init(int idx);
 void road_types_free(void);
 
 struct road_type *next_road_for_tile(struct tile *ptile, struct player *pplayer,
