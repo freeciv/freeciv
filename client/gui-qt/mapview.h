@@ -123,6 +123,7 @@ protected:
   void keyPressEvent(QKeyEvent * event);
   void resizeEvent(QResizeEvent * event);
   void mousePressEvent(QMouseEvent *event);
+  void mouseMoveEvent(QMouseEvent *event);
 
 private:
   QBrush background;

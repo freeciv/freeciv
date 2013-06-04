@@ -98,7 +98,6 @@ class fc_client : public QObject
 {
   Q_OBJECT
 
-  QMainWindow *main_window;
   QWidget *main_wdg;
   QWidget *pages[ (int) PAGE_GGZ + 1];
   QWidget *connect_lan;
@@ -163,6 +162,7 @@ public:
   void rm_game_tab(int index); /* doesn't delete widget */
   void update_start_page();
 
+  QMainWindow *main_window;
   mr_idle mr_idler;
   fc_font fc_fonts;
   QTableWidget *messages_window;

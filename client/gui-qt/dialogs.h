@@ -39,7 +39,6 @@ class QWidget;
 
 
 void popup_races_dialog(struct player *pplayer);
-
 /***************************************************************************
  Dialog for selecting nation, style and leader leader
 ***************************************************************************/
@@ -107,5 +106,7 @@ private:
 };
 void popup_revolution_dialog(struct government *government = NULL);
 void revolution_response(struct government *government);
+void popup_upgrade_dialog(struct unit_list *punits);
+void popup_disband_dialog(struct unit_list *punits);
 
 #endif /* FC__DIALOGS_H */

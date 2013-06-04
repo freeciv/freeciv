@@ -737,3 +737,11 @@ void show_tech_gained_dialog(Tech_type_id tech)
 {
   /* PORTME */
 }
+
+/****************************************************************
+  Popup dialog for upgrade units
+*****************************************************************/
+void popup_upgrade_dialog(struct unit_list *punits)
+{
+  /* PORTME */
+}

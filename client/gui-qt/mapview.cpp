@@ -89,6 +89,7 @@ void mr_idle::add_callback(call_me_back* cb)
 map_view::map_view() : QWidget()
 {
   background = QBrush(QColor (0, 0, 0));
+  setMouseTracking(true);
 }
 
 /**************************************************************************
@@ -118,8 +119,9 @@ void map_view::paint(QPainter *painter, QPaintEvent *event)
 /**************************************************************************
   Sets new point for new search 
 **************************************************************************/
-void map_view::resume_searching(int pos_x ,int pos_y ,int &w, int &h, 
-int wdth, int hght, int recursive_nr) {
+void map_view::resume_searching(int pos_x ,int pos_y ,int &w, int &h,
+                                int wdth, int hght, int recursive_nr)
+{
   int new_pos_x, new_pos_y;
    recursive_nr++;
 

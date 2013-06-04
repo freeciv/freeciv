@@ -356,7 +356,8 @@ void city_map::mousePressEvent(QMouseEvent *event)
 }
 
 /****************************************************************************
-  Constructor for city_dialog, sets layouts, policies ... 
+  Constructor for city_dialog, sets layouts, policies ...
+  FIXME - not possible to change production when building obsolete wonder
 ****************************************************************************/
 city_dialog::city_dialog(QWidget * parent):QDialog(parent)
 {
