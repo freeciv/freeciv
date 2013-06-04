@@ -32,6 +32,7 @@
 #include "fc_client.h"
 #include "chatline.h"
 #include "dialogs.h"
+#include "gui_main.h"
 #include "ratesdlg.h"
 #include "repodlgs.h"
 #include "sprite.h"
@@ -39,7 +40,6 @@
 #include "menu.h"
 
 extern QApplication *qapp;
-extern void popup_quit_dialog();
 
 /**************************************************************************
   Initialize menus (sensitivity, name, etc.) based on the
