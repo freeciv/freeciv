@@ -899,6 +899,20 @@ void tile_remove_road(struct tile *ptile, const struct road_type *proad)
 }
 
 /****************************************************************************
+  Check if tile contains road providing effect
+****************************************************************************/
+bool tile_has_road_flag(const struct tile *ptile, enum road_flag_id flag)
+{
+  road_type_iterate(proad) {
+    if (tile_has_road(ptile, proad) && road_has_flag(proad, flag)) {
+      return TRUE;
+    }
+  } road_type_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
   Returns a virtual tile. If ptile is given, the properties of this tile are
   copied, else it is completely blank (except for the unit list
   vtile->units, which is created for you). Be sure to call tile_virtual_free

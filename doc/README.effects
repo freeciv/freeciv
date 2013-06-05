@@ -52,7 +52,9 @@ Gov:           Player
 Building:      World, Player, Continent, City, Local
 Special:       Local, Adjacent, CAdjacent, City
 Base:          Local, Adjacent, CAdjacent, City
+BaseFlag:      Local, Adjacent, CAdjacent, City
 Road:          Local, Adjacent, CAdjacent, City
+RoadFlag:      Local, Adjacent, CAdjacent, City
 Terrain:       Local, Adjacent, CAdjacent, City
 Resource:      Local, Adjacent, CAdjacent, City
 UnitType:      Local

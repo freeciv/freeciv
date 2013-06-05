@@ -167,9 +167,21 @@ struct universal universal_by_rule_name(const char *kind,
       return source;
     }
     break;
+  case VUT_BASEFLAG:
+    source.value.baseflag = base_flag_id_by_name(value, fc_strcasecmp);
+    if (base_flag_id_is_valid(source.value.baseflag)) {
+      return source;
+    }
+    break;
   case VUT_ROAD:
     source.value.road = road_type_by_rule_name(value);
     if (source.value.road != NULL) {
+      return source;
+    }
+    break;
+  case VUT_ROADFLAG:
+    source.value.roadflag = road_flag_id_by_name(value, fc_strcasecmp);
+    if (road_flag_id_is_valid(source.value.roadflag)) {
       return source;
     }
     break;
@@ -297,8 +309,14 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_BASE:
     source.value.base = base_by_number(value);
     return source;
+  case VUT_BASEFLAG:
+    source.value.baseflag = value;
+    return source;
   case VUT_ROAD:
     source.value.road = road_by_number(value);
+    return source;
+  case VUT_ROADFLAG:
+    source.value.roadflag = value;
     return source;
   case VUT_MINYEAR:
     source.value.minyear = value;
@@ -375,8 +393,12 @@ int universal_number(const struct universal *source)
     return source->value.terrainclass;
   case VUT_BASE:
     return base_number(source->value.base);
+  case VUT_BASEFLAG:
+    return source->value.baseflag;
   case VUT_ROAD:
     return road_number(source->value.road);
+  case VUT_ROADFLAG:
+    return source->value.roadflag;
   case VUT_MINYEAR:
     return source->value.minyear;
   case VUT_TERRAINALTER:
@@ -430,7 +452,9 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_SPECIALIST:
     case VUT_TERRAINCLASS:
     case VUT_BASE:
+    case VUT_BASEFLAG:
     case VUT_ROAD:
+    case VUT_ROADFLAG:
     case VUT_TERRAINALTER:
     case VUT_CITYTILE:
       req.range = REQ_RANGE_LOCAL;
@@ -463,7 +487,9 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_TERRAINCLASS:
   case VUT_TERRFLAG:
   case VUT_BASE:
+  case VUT_BASEFLAG:
   case VUT_ROAD:
+  case VUT_ROADFLAG:
     invalid = (req.range != REQ_RANGE_LOCAL
                && req.range != REQ_RANGE_CADJACENT
 	       && req.range != REQ_RANGE_ADJACENT
@@ -1088,6 +1114,54 @@ static bool is_base_type_in_range(const struct tile *target_tile,
 
 
 /****************************************************************************
+  Is there a base with the given flag within range of the target?
+****************************************************************************/
+static bool is_baseflag_in_range(const struct tile *target_tile,
+                                const struct city *target_city,
+                                enum req_range range, bool survives,
+                                enum base_flag_id baseflag,
+                                enum req_problem_type prob_type)
+{
+  switch (range) {
+  case REQ_RANGE_LOCAL:
+    /* The requirement is filled if the tile has a base with correct flag. */
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    return tile_has_base_flag(target_tile, baseflag);
+  case REQ_RANGE_CADJACENT:
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    return is_base_flag_card_near(target_tile, baseflag);
+  case REQ_RANGE_ADJACENT:
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    return is_base_flag_near_tile(target_tile, baseflag);
+  case REQ_RANGE_CITY:
+    if (!target_city) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    city_tile_iterate(city_map_radius_sq_get(target_city),
+                      city_tile(target_city), ptile) {
+      if (tile_has_base_flag(ptile, baseflag)) {
+        return TRUE;
+      }
+    } city_tile_iterate_end;
+    return FALSE;
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_WORLD:
+  case REQ_RANGE_COUNT:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  return FALSE;
+}
+
+/****************************************************************************
   Is there a source road type within range of the target?
 ****************************************************************************/
 static bool is_road_type_in_range(const struct tile *target_tile,
@@ -1120,6 +1194,54 @@ static bool is_road_type_in_range(const struct tile *target_tile,
     city_tile_iterate(city_map_radius_sq_get(target_city),
                       city_tile(target_city), ptile) {
       if (tile_has_road(ptile, proad)) {
+        return TRUE;
+      }
+    } city_tile_iterate_end;
+    return FALSE;
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_WORLD:
+  case REQ_RANGE_COUNT:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  return FALSE;
+}
+
+/****************************************************************************
+  Is there a road with the given flag within range of the target?
+****************************************************************************/
+static bool is_roadflag_in_range(const struct tile *target_tile,
+                                 const struct city *target_city,
+                                 enum req_range range, bool survives,
+                                 enum road_flag_id roadflag,
+                                 enum req_problem_type prob_type)
+{
+  switch (range) {
+  case REQ_RANGE_LOCAL:
+    /* The requirement is filled if the tile has a road with correct flag. */
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    return tile_has_road_flag(target_tile, roadflag);
+  case REQ_RANGE_CADJACENT:
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    return is_road_flag_card_near(target_tile, roadflag);
+  case REQ_RANGE_ADJACENT:
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    return is_road_flag_near_tile(target_tile, roadflag);
+  case REQ_RANGE_CITY:
+    if (!target_city) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    city_tile_iterate(city_map_radius_sq_get(target_city),
+                      city_tile(target_city), ptile) {
+      if (tile_has_road_flag(ptile, roadflag)) {
         return TRUE;
       }
     } city_tile_iterate_end;
@@ -1516,11 +1638,23 @@ bool is_req_active(const struct player *target_player,
                                  req->source.value.base,
                                  prob_type);
     break;
- case VUT_ROAD:
-   eval = is_road_type_in_range(target_tile, target_city,
-                                req->range, req->survives,
-                                req->source.value.road,
-                                prob_type);
+  case VUT_BASEFLAG:
+    eval = is_baseflag_in_range(target_tile, target_city,
+                                 req->range, req->survives,
+                                 req->source.value.baseflag,
+                                 prob_type);
+    break;
+  case VUT_ROAD:
+    eval = is_road_type_in_range(target_tile, target_city,
+                                 req->range, req->survives,
+                                 req->source.value.road,
+                                 prob_type);
+    break;
+  case VUT_ROADFLAG:
+    eval = is_roadflag_in_range(target_tile, target_city,
+                                 req->range, req->survives,
+                                 req->source.value.roadflag,
+                                 prob_type);
     break;
   case VUT_MINYEAR:
     eval = game.info.year >= req->source.value.minyear;
@@ -1619,6 +1753,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_UCLASS:	/* Not sure about this one */
   case VUT_UCFLAG:	/* Not sure about this one */
   case VUT_ROAD:
+  case VUT_ROADFLAG:
     return FALSE;
   case VUT_SPECIAL:
   case VUT_TERRAIN:
@@ -1627,6 +1762,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_TERRFLAG:
   case VUT_TERRAINALTER:
   case VUT_BASE:
+  case VUT_BASEFLAG:
     /* Terrains, specials and bases aren't really unchanging; in fact they're
      * practically guaranteed to change.  We return TRUE here for historical
      * reasons and so that the AI doesn't get confused (since the AI
@@ -1693,8 +1829,12 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.terrainclass == psource2->value.terrainclass;
   case VUT_BASE:
     return psource1->value.base == psource2->value.base;
+  case VUT_BASEFLAG:
+    return psource1->value.baseflag == psource2->value.baseflag;
   case VUT_ROAD:
     return psource1->value.road == psource2->value.road;
+  case VUT_ROADFLAG:
+    return psource1->value.roadflag == psource2->value.roadflag;
   case VUT_MINYEAR:
     return psource1->value.minyear == psource2->value.minyear;
   case VUT_TERRAINALTER:
@@ -1770,8 +1910,12 @@ const char *universal_rule_name(const struct universal *psource)
     return terrain_class_name(psource->value.terrainclass);
   case VUT_BASE:
     return base_rule_name(psource->value.base);
+  case VUT_BASEFLAG:
+    return base_flag_id_name(psource->value.baseflag);
   case VUT_ROAD:
     return road_rule_name(psource->value.road);
+  case VUT_ROADFLAG:
+    return road_flag_id_name(psource->value.roadflag);
   case VUT_TERRAINALTER:
     return terrain_alteration_name(psource->value.terrainalter);
   case VUT_COUNT:
@@ -1872,11 +2016,19 @@ const char *universal_name_translation(const struct universal *psource,
     cat_snprintf(buf, bufsz, _("%s base"),
                  base_name_translation(psource->value.base));
     return buf;
+  case VUT_BASEFLAG:
+    cat_snprintf(buf, bufsz, _("\"%s\" base"),
+                 /* flag names are never translated */
+                 base_flag_id_name(psource->value.baseflag));
   case VUT_ROAD:
     /* TRANS: Road type requirement: "Road" / "Railroad" / "Maglev" ... */
     cat_snprintf(buf, bufsz, Q_("?road:%s"),
                  road_name_translation(psource->value.road));
     return buf;
+  case VUT_ROADFLAG:
+    cat_snprintf(buf, bufsz, _("\"%s\" road"),
+                 /* flag names are never translated */
+                 road_flag_id_name(psource->value.roadflag));
   case VUT_MINYEAR:
     cat_snprintf(buf, bufsz, _("After %s"),
                  textyear(psource->value.minyear));

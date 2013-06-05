@@ -126,8 +126,12 @@ int count_river_type_near_tile(const struct tile *ptile,
                                const struct road_type *priver,
                                bool percentage);
 
+/* Functions to operate on a road flag. */
 bool road_has_flag(const struct road_type *proad, enum road_flag_id flag);
-
+bool is_road_flag_card_near(const struct tile *ptile,
+                            enum road_flag_id flag);
+bool is_road_flag_near_tile(const struct tile *ptile,
+                            enum road_flag_id flag);
 bool is_native_road_to_uclass(const struct road_type *proad,
                               const struct unit_class *pclass);
 

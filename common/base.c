@@ -37,6 +37,39 @@ bool base_has_flag(const struct base_type *pbase, enum base_flag_id flag)
 }
 
 /****************************************************************************
+  Returns TRUE iff any cardinally adjacent tile contains a base with
+  the given flag
+****************************************************************************/
+bool is_base_flag_card_near(const struct tile *ptile, enum base_flag_id flag)
+{
+  cardinal_adjc_iterate(ptile, adjc_tile) {
+    base_type_iterate(pbase) {
+      if (base_has_flag(pbase, flag) && tile_has_base(adjc_tile, pbase)) {
+        return TRUE;
+      }
+    } base_type_iterate_end;
+  } cardinal_adjc_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Returns TRUE iff any adjacent tile contains a base with the given flag
+****************************************************************************/
+bool is_base_flag_near_tile(const struct tile *ptile, enum base_flag_id flag)
+{
+  adjc_iterate(ptile, adjc_tile) {
+    base_type_iterate(pbase) {
+      if (base_has_flag(pbase, flag) && tile_has_base(adjc_tile, pbase)) {
+        return TRUE;
+      }
+    } base_type_iterate_end;
+  } adjc_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
   Is base native to unit class?
 ****************************************************************************/
 bool is_native_base_to_uclass(const struct base_type *pbase,

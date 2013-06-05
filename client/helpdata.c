@@ -1028,6 +1028,59 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     break;
 
+  case VUT_BASEFLAG:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz, _("Requires \"%s\" base flag on the tile.\n"),
+                     base_flag_id_name(preq->source.value.baseflag));
+      } else {
+        cat_snprintf(buf, bufsz, _("Prevented by \"%s\" base flag on the tile.\n"),
+                     base_flag_id_name(preq->source.value.baseflag));
+      }
+      return TRUE;
+    case REQ_RANGE_CADJACENT:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires \"%s\" base flag on a cardinally adjacent tile.\n"),
+                     base_flag_id_name(preq->source.value.baseflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented by \"%s\" base flag on a cardinally adjacent tile.\n"),
+                     base_flag_id_name(preq->source.value.baseflag));
+      }
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires \"%s\" base flag on an adjacent tile.\n"),
+                     base_flag_id_name(preq->source.value.baseflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented by \"%s\" base flag on an adjacent tile.\n"),
+                     base_flag_id_name(preq->source.value.baseflag));
+      }
+      return TRUE;
+    case REQ_RANGE_CITY:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires \"%s\" base flag on a tile in the city.\n"),
+                     base_flag_id_name(preq->source.value.baseflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented by \"%s\" base flag on a tile in the city.\n"),
+                     base_flag_id_name(preq->source.value.baseflag));
+      }
+      return TRUE;
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_ROAD:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
@@ -1066,6 +1119,59 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz, _("Requires a %s on a tile within the city "
                                    "radius.\n"),
                      road_name_translation(preq->source.value.road));
+      }
+      return TRUE;
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_ROADFLAG:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz, _("Requires \"%s\" road flag on the tile.\n"),
+                     road_flag_id_name(preq->source.value.roadflag));
+      } else {
+        cat_snprintf(buf, bufsz, _("Prevented by \"%s\" road flag on the tile.\n"),
+                     road_flag_id_name(preq->source.value.roadflag));
+      }
+      return TRUE;
+    case REQ_RANGE_CADJACENT:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires \"%s\" road flag on a cardinally adjacent tile.\n"),
+                     road_flag_id_name(preq->source.value.roadflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented by \"%s\" road flag on a cardinally adjacent tile.\n"),
+                     road_flag_id_name(preq->source.value.roadflag));
+      }
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires \"%s\" road flag on an adjacent tile.\n"),
+                     road_flag_id_name(preq->source.value.roadflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented by \"%s\" road flag on an adjacent tile.\n"),
+                     road_flag_id_name(preq->source.value.roadflag));
+      }
+      return TRUE;
+    case REQ_RANGE_CITY:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires \"%s\" road flag on a tile in the city.\n"),
+                     road_flag_id_name(preq->source.value.roadflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented by \"%s\" road flag on a tile in the city.\n"),
+                     road_flag_id_name(preq->source.value.roadflag));
       }
       return TRUE;
     case REQ_RANGE_CONTINENT:
