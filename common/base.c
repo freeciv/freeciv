@@ -247,7 +247,7 @@ struct base_type *base_by_number(const Base_type_id id)
     return NULL;
   }
 
-  return &extras_type_get(EXTRAS_BASE, id)->data.base;
+  return &extra_type_get(EXTRA_BASE, id)->data.base;
 }
 
 /**************************************************************************
@@ -287,9 +287,9 @@ Base_type_id base_count(void)
 ****************************************************************************/
 void base_type_init(int idx)
 {
-  struct extras_type *pextra = extras_type_get(EXTRAS_BASE, idx);
+  struct extra_type *pextra = extra_type_get(EXTRA_BASE, idx);
 
-  pextra->type = EXTRAS_BASE;
+  pextra->type = EXTRA_BASE;
 
   pextra->data.base.item_number = idx;
   requirement_vector_init(&pextra->data.base.reqs);

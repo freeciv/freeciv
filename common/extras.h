@@ -22,10 +22,10 @@ extern "C" {
 #include "fc_types.h"
 #include "road.h"
 
-struct extras_type
+struct extra_type
 {
   int id;
-  enum extras_type_id type;
+  enum extra_type_id type;
 
   union
   {
@@ -38,9 +38,9 @@ struct extras_type
 void extras_init(void);
 void extras_free(void);
 
-struct extras_type *extras_by_number(int id);
+struct extra_type *extra_by_number(int id);
 
-struct extras_type *extras_type_get(enum extras_type_id type, int subid);
+struct extra_type *extra_type_get(enum extra_type_id type, int subid);
 
 #ifdef __cplusplus
 }

@@ -69,7 +69,7 @@ struct road_type *road_by_number(Road_type_id id)
 {
   fc_assert_ret_val(id >= 0 && id < game.control.num_road_types, NULL);
 
-  return &extras_type_get(EXTRAS_ROAD, id)->data.road;
+  return &extra_type_get(EXTRA_ROAD, id)->data.road;
 }
 
 /****************************************************************************
@@ -77,9 +77,9 @@ struct road_type *road_by_number(Road_type_id id)
 ****************************************************************************/
 void road_type_init(int idx)
 {
-  struct extras_type *pextra = extras_type_get(EXTRAS_ROAD, idx);
+  struct extra_type *pextra = extra_type_get(EXTRA_ROAD, idx);
 
-  pextra->type = EXTRAS_ROAD;
+  pextra->type = EXTRA_ROAD;
 
   pextra->data.road.id = idx;
   requirement_vector_init(&pextra->data.road.reqs);

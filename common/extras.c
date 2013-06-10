@@ -22,9 +22,9 @@
 
 #include "extras.h"
 
-#define MAX_EXTRAS_TYPES (S_LAST + MAX_BASE_TYPES + MAX_ROAD_TYPES)
+#define MAX_EXTRA_TYPES (S_LAST + MAX_BASE_TYPES + MAX_ROAD_TYPES)
 
-static struct extras_type extras[MAX_EXTRAS_TYPES];
+static struct extra_type extras[MAX_EXTRA_TYPES];
 
 /****************************************************************************
   Initialize extras structures.
@@ -35,11 +35,11 @@ void extras_init(void)
 
   for (i = 0; i < S_LAST; i++) {
     extras[i].id = i;
-    extras[i].type = EXTRAS_SPECIAL;
+    extras[i].type = EXTRA_SPECIAL;
     extras[i].data.special = i;
   }
 
-  for (; i < MAX_EXTRAS_TYPES; i++) {
+  for (; i < MAX_EXTRA_TYPES; i++) {
     extras[i].id = i;
   }
 }
@@ -56,25 +56,25 @@ void extras_free(void)
 /****************************************************************************
   Return extras type of given id.
 ****************************************************************************/
-struct extras_type *extras_by_number(int id)
+struct extra_type *extra_by_number(int id)
 {
-  fc_assert_ret_val(id >= 0 && id < MAX_EXTRAS_TYPES, NULL);
+  fc_assert_ret_val(id >= 0 && id < MAX_EXTRA_TYPES, NULL);
 
   return &extras[id];
 }
 
 /****************************************************************************
-  Get extras of the given type and given subid
+  Get extra of the given type and given subid
 ****************************************************************************/
-struct extras_type *extras_type_get(enum extras_type_id type, int subid)
+struct extra_type *extra_type_get(enum extra_type_id type, int subid)
 {
   switch (type) {
-  case EXTRAS_SPECIAL:
-    return extras_by_number(subid);
-  case EXTRAS_BASE:
-    return extras_by_number(S_LAST + subid);
-  case EXTRAS_ROAD:
-    return extras_by_number(S_LAST + game.control.num_base_types + subid);
+  case EXTRA_SPECIAL:
+    return extra_by_number(subid);
+  case EXTRA_BASE:
+    return extra_by_number(S_LAST + subid);
+  case EXTRA_ROAD:
+    return extra_by_number(S_LAST + game.control.num_base_types + subid);
   }
 
   return NULL;

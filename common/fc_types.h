@@ -443,11 +443,11 @@ enum diplomacy_mode {
   DIPLO_DISABLED,
 };
 
-enum extras_type_id 
+enum extra_type_id 
   {
-    EXTRAS_ROAD,
-    EXTRAS_BASE,
-    EXTRAS_SPECIAL
+    EXTRA_ROAD,
+    EXTRA_BASE,
+    EXTRA_SPECIAL
   };
 
 /* Used in the network protocol. */
