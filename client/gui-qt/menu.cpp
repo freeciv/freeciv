@@ -351,7 +351,6 @@ void mr_menu::setup_menus()
   /* Civilization menu */
   menu = this->addMenu(_("Civilization"));
   act = menu->addAction(_("Tax Rates..."));
-  menu_list.insertMulti(STANDARD, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_popup_tax_rates()));
   menu->addSeparator();
 

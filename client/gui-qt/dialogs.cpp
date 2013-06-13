@@ -354,7 +354,7 @@ notify_dialog::notify_dialog(const char *caption, const char *headline,
   qheadline = QString::fromAscii(headline);
   qlines = QString::fromAscii(lines);
   qlist = qlines.split("\n");
-  small_font =::gui()->fc_fonts.get_font("gui_qt_font_city_label");
+  small_font =::gui()->fc_fonts.get_font("gui_qt_font_notify_label");
   x = 0;
   y = 0;
   calc_size(x, y);

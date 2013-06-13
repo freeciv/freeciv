@@ -15,8 +15,13 @@
 #include <fc_config.h>
 #endif
 
+// common
+#include "game.h"
+
+// gui-qt
 #include "fc_client.h"
 #include "optiondlg.h"
+
 
 extern QApplication *qapp;
 
@@ -25,6 +30,7 @@ extern QApplication *qapp;
 ****************************************************************************/
 fc_client::fc_client() : QObject()
 {
+  struct rgbcolor *prgbcolor;
   QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
   /**
    * Somehow freeciv-client-common asks to switch to page when all widgets
@@ -142,6 +148,9 @@ fc_client::fc_client() : QObject()
   connect(switch_page_mapper, SIGNAL(mapped( int)),
                 this, SLOT(switch_page(int)));
   fc_fonts.init_fonts();
+  /* workaround for changing tileset from main page */
+  prgbcolor = rgbcolor_new(0,0,0);
+  game.plr_bg_color = prgbcolor;
   main_window->setVisible(true);
 }
 
@@ -473,7 +482,7 @@ QFont *fc_font::get_font(QString name)
    */
 
   if (font_map.contains(name)) {
-    return font_map[name];
+    return font_map.value(name);
   } else {
     return NULL;
   }
@@ -510,8 +519,5 @@ void fc_font::init_fonts()
 ****************************************************************************/
 void fc_font::set_font(QString name, QFont * qf)
 {
-  if (font_map.contains(name)) {
-    font_map.remove(name);
-  };
-  font_map[name] = qf;
+  font_map.insert(name,qf);
 }

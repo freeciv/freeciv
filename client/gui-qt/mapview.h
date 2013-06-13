@@ -176,7 +176,8 @@ protected:
 /**************************************************************************
   QLabel used for displaying overview (minimap)
 **************************************************************************/
-class minimap_view:public fcwidget {
+class minimap_view:public fcwidget 
+{
   Q_OBJECT 
 public:
   minimap_view(QWidget * parent);
@@ -216,32 +217,69 @@ private:
 /**************************************************************************
   Information label about civilization, turn, time etc
 **************************************************************************/
-class info_label : public QLabel
+class info_label : public fcwidget
 {
   Q_OBJECT
-  QHBoxLayout* layout;
-
-  QLabel* turn_info;
-  QLabel* time_label;
-  QLabel* indicator_icons;
-  QLabel* eco_info;
+  QString turn_info;
+  QString time_label;
+  QPixmap *indicator_icons;
+  QString eco_info;
+  QPixmap *rates_label;
+  QFont *ufont;
+  QPixmap *end_turn_pix;
 
 public:
-  info_label();
+  info_label(QWidget *parent);
   void set_turn_info(QString);
   void set_time_info(QString);
   void set_eco_info(QString);
+  void info_update();
+  bool end_turn_button;
+  void update_menu();
+  void set_rates_pixmap();
   void set_indicator_icons(QPixmap*, QPixmap*, QPixmap*, QPixmap*);
-  QPushButton* end_turn_button;
-  QSize sizeHint() const;
-  QLabel* rates_label;
-
+protected:
+  void paint(QPainter *painter, QPaintEvent *event);
+  void paintEvent(QPaintEvent *event);
+  void mousePressEvent(QMouseEvent *event);
+  void mouseMoveEvent(QMouseEvent *event);
+  void wheelEvent(QWheelEvent *event);
 private:
-
-private slots:
-  void slot_end_turn_done_button();
+  void create_end_turn_pixmap();
+  QRect end_button_area;
+  QRect rates_area;
+  QRect indicator_area;
+  bool highlight_end_button;
 };
 
+/**************************************************************************
+  Information label current unit
+**************************************************************************/
+class unit_label:public fcwidget 
+{
+  Q_OBJECT
+  QPixmap *pix;
+  QPixmap *arrow_pix;
+  QFont *ufont;
+public:
+  unit_label(QWidget *parent);
+  void uupdate(unit_list *punits);
+  void update_arrow_pix();
+protected:
+  void paintEvent(QPaintEvent *event);
+  void mousePressEvent(QMouseEvent *event);
+  void mouseMoveEvent(QMouseEvent *event);
+  void paint(QPainter *painter, QPaintEvent *event);
+  void update_menu();
+private:
+  unit_list *ul_units;
+  QBrush background;
+  QRect selection_area;
+  QString unit_label1, unit_label2;
+  bool highlight_pix;
+  bool one_unit;
+  int w_width;
+};
 
 void mapview_freeze(void);
 void mapview_thaw(void);

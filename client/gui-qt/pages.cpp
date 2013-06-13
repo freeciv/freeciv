@@ -444,7 +444,6 @@ void fc_client::create_start_page()
 void fc_client::create_game_page()
 {
   QGridLayout *game_layout;
-  QSizePolicy game_info_label_policy;
 
   pages_layout[PAGE_GAME] = new QGridLayout;
   game_main_widget = new QWidget;
@@ -456,10 +455,10 @@ void fc_client::create_game_page()
   mapview_wdg->setFocusPolicy(Qt::WheelFocus);
   minimapview_wdg = new minimap_view(mapview_wdg);
   minimapview_wdg->show();
-  game_info_label = new info_label;
-  game_info_label_policy.setHorizontalPolicy(QSizePolicy::Expanding);
-  game_info_label_policy.setVerticalPolicy(QSizePolicy::Fixed);
-  game_info_label->setSizePolicy(game_info_label_policy);
+  unitinfo_wdg = new unit_label(mapview_wdg);
+  unitinfo_wdg->show();
+  game_info_label = new info_label(mapview_wdg);
+  game_info_label->show();
 
   game_layout->addWidget(mapview_wdg, 1, 0);
   game_main_widget->setLayout(game_layout);
@@ -472,7 +471,6 @@ void fc_client::create_game_page()
                    SLOT(slot_close_widget(int)));
 
   pages_layout[PAGE_GAME]->addWidget(game_tab_widget, 1, 0);
-  pages_layout[PAGE_GAME]->addWidget(game_info_label, 2, 0);
 }
 
 /***************************************************************************
