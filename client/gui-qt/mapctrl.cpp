@@ -65,11 +65,7 @@ void popup_newcity_dialog(struct unit *punit, const char *suggestname)
 **************************************************************************/
 void set_turn_done_button_state(bool state)
 {
-  if (state) {
-    gui()->game_info_label->end_turn_button->setEnabled(true);
-  } else {
-    gui()->game_info_label->end_turn_button->setDisabled(true);
-  }
+  gui()->game_info_label->end_turn_button = state;
 }
 
 /**************************************************************************
