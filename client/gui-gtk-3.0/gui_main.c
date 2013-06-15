@@ -680,7 +680,7 @@ static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev)
     gtk_widget_grab_focus(map_canvas);
   }
 
-  update_line(cur_x, cur_y);
+  update_line(ev->x, ev->y);
   if (rbutton_down && (ev->state & GDK_BUTTON3_MASK)) {
     update_selection_rectangle(ev->x, ev->y);
   }
