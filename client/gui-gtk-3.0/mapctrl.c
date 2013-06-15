@@ -352,16 +352,18 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 void create_line_at_mouse_pos(void)
 {
   int x, y;
+  GdkDeviceManager *manager =
+      gdk_display_get_device_manager(gtk_widget_get_display(toplevel));
+  GdkDevice *pointer = gdk_device_manager_get_client_pointer(manager);
+  if (!pointer) {
+    return;
+  }
 
-  gdk_window_get_pointer(gtk_widget_get_window(map_canvas), &x, &y, 0);
-  if (x >= 0 && y >= 0
-      && x < mapview.width && y < mapview.width) {
-    update_line(x, y);
-  } else {
-    gdk_window_get_pointer(gtk_widget_get_window(overview_canvas), &x, &y, 0);
-    if (x >= 0 && y >= 0
-	&& x < OVERVIEW_TILE_WIDTH * map.xsize
-	&& y < OVERVIEW_TILE_HEIGHT * map.ysize) {
+  GdkWindow *window = gdk_device_get_window_at_position(pointer, &x, &y);
+  if (window) {
+    if (window == gtk_widget_get_window(map_canvas)) {
+      update_line(x, y);
+    } else if (window == gtk_widget_get_window(overview_canvas)) {
       overview_update_line(x, y);
     }
   }
