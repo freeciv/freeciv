@@ -269,8 +269,10 @@ with AMOUNT == 1 it is max 5 years/turn; with AMOUNT <= 0 the timeline is
 unaffected. The effect will be ignored if game.spacerace isn't set.
 
 Civil_War_Chance
-    Chance of player splitting due to civil war when capital captured is 
-increased by amount.
+    Base chance in per cent of a nation being split by civil war when its
+capital is captured is increased by this amount. This percentage is in-
+creased by 5 for each city in civil disorder and reduced by 5 for each one
+celebrating.
 
 Empire_Size_Base
     Once your civilization has more cities than the value of this effect,
