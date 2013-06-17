@@ -2104,13 +2104,14 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
     /* we check to see if our current goal is feasible */
     struct city *city_dest = tile_city(punit->goto_tile);
 
-    if ((city_dest == NULL) || 
-        !pplayers_allied(unit_owner(punit), city_dest->owner) || 
-       (unit_data->task == AIUNIT_TRADE && 
-         !(can_cities_trade(homecity, city_dest) && 
-           can_establish_trade_route(homecity, city_dest))) ||
-        (unit_data->task == AIUNIT_WONDER && 
-         !is_wonder(city_dest->production.value.building))) {
+    if ((city_dest == NULL) 
+        || !pplayers_allied(unit_owner(punit), city_dest->owner)
+        || (unit_data->task == AIUNIT_TRADE
+            && !(can_cities_trade(homecity, city_dest)
+                 && can_establish_trade_route(homecity, city_dest)))
+        || (unit_data->task == AIUNIT_WONDER
+            && city_dest->production.kind == VUT_IMPROVEMENT
+            && !is_wonder(city_dest->production.value.building))) {
       /* destination invalid! */
       dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
       log_base(LOG_CARAVAN2, "%s %s[%d](%d,%d) destination invalid!",
