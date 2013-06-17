@@ -2565,11 +2565,13 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
         }
 
 	requirement_vector_iterate(&pimprove->reqs, preq) {
-	  if (VUT_TERRAIN == preq->source.kind
+	  if ((VUT_TERRAIN == preq->source.kind
+               || VUT_TERRAINCLASS == preq->source.kind)
 	      && !is_req_active(city_owner(pcity), pcity, NULL,
 				NULL, NULL, NULL, NULL,
 				preq, TRUE)) {
             int price = impr_sell_gold(pimprove);
+
             do_sell_building(pplayer, pcity, pimprove);
             notify_player(pplayer, tile1, E_IMP_SOLD, ftc_server,
                           PL_("You sell %s in %s (now landlocked)"
