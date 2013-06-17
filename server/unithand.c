@@ -869,10 +869,10 @@ static void see_combat(struct unit *pattacker, struct unit *pdefender)
    * Note these packets must be sent out before unit_versus_unit is called,
    * so that the original unit stats (HP) will be sent.
    */
-  package_short_unit(pattacker, &unit_att_short_packet, FALSE,
-		     UNIT_INFO_IDENTITY, 0);
-  package_short_unit(pdefender, &unit_def_short_packet, FALSE,
-		     UNIT_INFO_IDENTITY, 0);
+  package_short_unit(pattacker, &unit_att_short_packet,
+		     UNIT_INFO_IDENTITY, 0, FALSE);
+  package_short_unit(pdefender, &unit_def_short_packet,
+		     UNIT_INFO_IDENTITY, 0, FALSE);
   players_iterate(other_player) {
     /* NOTE: this means the player can see combat between submarines even
      * if neither sub is visible.  See similar comment in send_combat. */
