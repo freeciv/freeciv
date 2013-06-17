@@ -2135,7 +2135,7 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
   CHECK_UNIT(punit);
 
   package_unit(punit, &info);
-  package_short_unit(punit, &sinfo, UNIT_INFO_IDENTITY, FALSE, FALSE);
+  package_short_unit(punit, &sinfo, UNIT_INFO_IDENTITY, 0, FALSE);
 
   conn_list_iterate(dest, pconn) {
     struct player *pplayer = pconn->playing;
