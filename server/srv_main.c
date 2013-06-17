@@ -2226,6 +2226,7 @@ static void srv_running(void)
   struct timer *eot_timer;	/* time server processing at end-of-turn */
   int save_counter = 0, i;
   bool is_new_turn = game.info.is_new_game;
+  bool skip_mapimg = !game.info.is_new_game; /* Do not overwrite start-of-turn image */
   bool need_send_pending_events = !game.info.is_new_game;
 
   /* We may as well reset is_new_game now. */
@@ -2303,15 +2304,19 @@ static void srv_running(void)
 	}
 	save_counter++;
 
-        /* Save map image(s). */
-        for (i = 0; i < mapimg_count(); i++) {
-          struct mapdef *pmapdef = mapimg_isvalid(i);
-          if (pmapdef != NULL) {
-            mapimg_create(pmapdef, FALSE, game.server.save_name,
-                          srvarg.saves_pathname);
-          } else {
-            log_error("%s", mapimg_error());
+        if (!skip_mapimg) {
+          /* Save map image(s). */
+          for (i = 0; i < mapimg_count(); i++) {
+            struct mapdef *pmapdef = mapimg_isvalid(i);
+            if (pmapdef != NULL) {
+              mapimg_create(pmapdef, FALSE, game.server.save_name,
+                            srvarg.saves_pathname);
+            } else {
+              log_error("%s", mapimg_error());
+            }
           }
+        } else {
+          skip_mapimg = FALSE;
         }
       }
 
