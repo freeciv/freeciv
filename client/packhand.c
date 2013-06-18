@@ -1295,6 +1295,20 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   }
 
   if (punit) {
+    /* In some situations, the size of repaint units require can change;
+     * in particular, city-builder units sometimes get a potential-city
+     * outline, but to speed up redraws we don't repaint this whole area
+     * unnecessarily. We need to ensure that when the footprint shrinks,
+     * old bits aren't left behind on the canvas.
+     * If the current (old) status of the unit is such that it gets a large
+     * repaint, as a special case, queue a large repaint immediately, to
+     * schedule the correct amount/location to be redrawn; but rely on the
+     * repaint being deferred until the unit is updated, so that what's
+     * drawn reflects the new status (e.g., no city outline). */
+    if (unit_drawn_with_city_outline(punit, TRUE)) {
+      refresh_unit_mapcanvas(punit, unit_tile(punit), TRUE, FALSE);
+    }
+
     ret = TRUE;
     punit->activity_count = packet_unit->activity_count;
     unit_change_battlegroup(punit, packet_unit->battlegroup);
