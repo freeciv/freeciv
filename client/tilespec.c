@@ -4247,6 +4247,24 @@ static int fill_terrain_sprite_layer(struct tileset *t,
   return sprs - saved_sprs;
 }
 
+/****************************************************************************
+  Indicate whether a unit is to be drawn with a surrounding city outline
+  under current conditions.
+  (This includes being in focus, but if the caller has already checked that,
+  they can bypass this slightly expensive check with check_focus == FALSE.)
+****************************************************************************/
+bool unit_drawn_with_city_outline(const struct unit *punit, bool check_focus)
+{
+  /* Display an outline for city-builder type units if they are selected,
+   * and on a tile where a city can be built.
+   * But suppress the outline if the unit has orders (likely it is in
+   * transit to somewhere else and this will just slow down redraws). */
+  return draw_city_outlines
+         && unit_has_type_flag(punit, F_CITIES)
+         && !unit_has_orders(punit)
+         && city_can_be_built_here(unit_tile(punit), punit)
+         && (!check_focus || unit_is_in_focus(punit));
+}
 
 /****************************************************************************
   Fill in the grid sprites for the given tile, city, and unit.
@@ -4275,11 +4293,9 @@ static int fill_grid_sprite_array(const struct tileset *t,
 
       known[i] = tile && client_tile_get_known(tile) != TILE_UNKNOWN;
       unit[i] = FALSE;
-      if (tile) {
+      if (tile && !citymode) {
         unit_list_iterate(pfocus_units, pfocus_unit) {
-          if (unit_has_type_flag(pfocus_unit, F_CITIES)
-              && !unit_has_orders(pfocus_unit)
-              && city_can_be_built_here(unit_tile(pfocus_unit), pfocus_unit)
+          if (unit_drawn_with_city_outline(pfocus_unit, FALSE)
               && city_tile_to_city_map(&dummy_x, &dummy_y,
                                        game.info.init_city_radius_sq,
                                        unit_tile(pfocus_unit), tile)) {
@@ -4327,7 +4343,7 @@ static int fill_grid_sprite_array(const struct tileset *t,
       if (XOR(city[0], city[1])) {
 	ADD_SPRITE_SIMPLE(t->sprites.grid.city[pedge->type]);
       }
-      if (!citymode && XOR(unit[0], unit[1])) {
+      if (XOR(unit[0], unit[1])) {
 	ADD_SPRITE_SIMPLE(t->sprites.grid.worked[pedge->type]);
       }
     }
