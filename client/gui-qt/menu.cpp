@@ -15,9 +15,6 @@
 #include <fc_config.h>
 #endif
 
-// Qt
-#include <QMenuBar>
-
 // common
 #include "game.h"
 #include "government.h"
@@ -207,6 +204,7 @@ void mr_menu::setup_menus()
   menu->addSeparator();
   act = menu->addAction(_("Unit selection dialog"));
   menu_list.insertMulti(STANDARD, act);
+  act->setShortcut(QKeySequence(tr("ctrl+s")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_selection_dialog()));
   menu->addSeparator();
   act = menu->addAction(_("Wait"));
@@ -274,7 +272,7 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(CONVERT, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_convert()));
   act = menu->addAction(_("Disband"));
-  act->setShortcut(QKeySequence(tr("ctrl+d")));
+  act->setShortcut(QKeySequence(tr("shift+d")));
   menu_list.insertMulti(DISBAND, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_disband()));
 
@@ -1349,7 +1347,10 @@ void mr_menu::slot_select_same_tile()
 ***************************************************************************/
 void mr_menu::slot_selection_dialog()
 {
-  unit_select_dialog_popup(NULL);
+  struct unit *punit = head_of_units_in_focus();
+  if (punit != NULL && punit->tile){
+    unit_select_dialog_popup(punit->tile);
+  }
 }
 
 /***************************************************************************

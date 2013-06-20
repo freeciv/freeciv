@@ -15,15 +15,14 @@
 #include <fc_config.h>
 #endif
 
-// Qt
-#include <QDialog>
-
 // common
 #include "game.h"
 #include "government.h"
+#include "movement.h"
 #include "nation.h"
 
 // client
+#include "control.h"
 #include "helpdata.h"
 #include "packhand.h"
 #include "tilespec.h"
@@ -32,9 +31,6 @@
 #include "dialogs.h"
 #include "qtg_cxxside.h"
 #include "sprite.h"
-
-// utility
-#include "rand.h"
 
 /***************************************************************************
  Constructor for selecting nations
@@ -532,7 +528,9 @@ void popdown_races_dialog(void)
 **************************************************************************/
 void unit_select_dialog_popup(struct tile *ptile)
 {
-  /* PORTME */
+  if(ptile != NULL && unit_list_size(ptile->units) > 1){
+    gui()->toggle_unit_sel_widget(ptile);
+  }
 }
 
 /**************************************************************************
@@ -540,7 +538,7 @@ void unit_select_dialog_popup(struct tile *ptile)
 **************************************************************************/
 void unit_select_dialog_update_real(void)
 {
-  /* PORTME */
+  gui()->update_unit_sel();
 }
 
 /**************************************************************************
@@ -744,4 +742,288 @@ void show_tech_gained_dialog(Tech_type_id tech)
 void popup_upgrade_dialog(struct unit_list *punits)
 {
   /* PORTME */
+}
+
+/****************************************************************
+  Contructor for unit_select
+*****************************************************************/
+unit_select::unit_select(tile *ptile, QWidget *parent)
+{
+  QPoint p, final_p;
+
+  setParent(parent);
+  utile = ptile;
+  pix = NULL;
+  show_line = 0;
+  highligh_num = -1;
+  ufont = new QFont;
+  ufont->setItalic(true);
+  info_font = gui()->fc_fonts.get_font("gui_qt_font_notify_label");
+  update_units();
+  h_pix = NULL;
+  create_pixmap();
+  p = mapFromGlobal(QCursor::pos());
+  setMouseTracking(true);
+  final_p.setX(p.x());
+  final_p.setY(p.y());
+  if (p.x() + width() > parentWidget()->width()) {
+    final_p.setX(parentWidget()->width() - width());
+  }
+  if (p.y() - height() < 0) {
+    final_p.setY(height());
+  }
+  move(final_p.x(), final_p.y() - height());
+}
+
+/****************************************************************
+  Destructor for unit select
+*****************************************************************/
+unit_select::~unit_select()
+{
+    delete h_pix;
+    delete pix;
+    delete ufont;
+}
+
+/****************************************************************
+  Create pixmap of whole widget except borders (pix)
+*****************************************************************/
+void unit_select::create_pixmap()
+{
+  struct unit *punit;
+  QPixmap *tmp_pix;
+  struct canvas *unit_pixmap;
+  QList <QPixmap*>pix_list;
+  QPainter p;
+  QString str;
+  int x, y, i;
+  int rate, f;
+  int a;
+  QPen pen;
+  QFontMetrics fm(*info_font);
+
+  if (pix != NULL) {
+    delete pix;
+    pix = NULL;
+  };
+
+  punit = unit_list.at(0);
+  item_size.setWidth(tileset_full_tile_width(tileset));
+  item_size.setHeight(tileset_tile_height(tileset) * 3 / 2);
+  more = false;
+  if (h_pix == NULL) {
+    h_pix = new QPixmap(item_size.width(), item_size.height());
+    h_pix->fill(QColor(100, 100, 100, 140));
+  }
+  if (unit_list.size() < 5) {
+    row_count = 1;
+    pix = new QPixmap((unit_list.size()) * item_size.width(),
+                      item_size.height());
+  } else if (unit_list.size() < 9) {
+    row_count = 2;
+    pix = new QPixmap(4 * item_size.width(), 2 * item_size.height());
+  } else {
+    row_count = 3;
+    if (unit_list_size(utile->units) > unit_list.size() - 1) {
+      more = true;
+    }
+    pix = new QPixmap(4 * item_size.width(), 3 * item_size.height());
+  }
+  pix->fill(Qt::transparent);
+  foreach(punit, unit_list) {
+    unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
+                                    tileset_tile_height(tileset) * 3 / 2);
+    unit_pixmap->map_pixmap.fill(Qt::transparent);
+    put_unit(punit, unit_pixmap, 0, 0);
+    pix_list.push_back(&unit_pixmap->map_pixmap);
+  }
+  a = qMin(item_size.width() / 4, 12);
+  x = 0, y = -item_size.height(), i = -1;
+  p.begin(pix);
+  ufont->setPixelSize(a);
+  p.setFont(*ufont);
+  pen.setColor(QColor(232, 255, 0));
+  p.setPen(pen);
+
+  while (!pix_list.isEmpty()) {
+    tmp_pix = pix_list.takeFirst();
+    i++;
+    if (i % 4 == 0) {
+      x = 0;
+      y = y + item_size.height();
+    }
+    punit = unit_list.at(i);
+    Q_ASSERT(punit != NULL);
+    rate = unit_type(punit)->move_rate;
+    f = ((punit->fuel) - 1);
+    if (i == highligh_num) {
+      p.drawPixmap(x, y, *h_pix);
+      p.drawPixmap(x, y, *tmp_pix);
+    } else {
+      p.drawPixmap(x, y, *tmp_pix);
+    }
+
+    if (utype_fuel(unit_type(punit))) {
+      str = QString(move_points_text
+                   ((rate * f) + punit->moves_left, NULL, NULL, FALSE));
+    } else {
+      str = QString(move_points_text(punit->moves_left, NULL, NULL, FALSE));
+    }
+    /* TRANS: MP = Movement points */
+    str = QString(_("MP:")) + str;
+    p.drawText(x, y + item_size.height() - 4, str);
+
+    x = x + item_size.width();
+    delete tmp_pix;
+  }
+  p.end();
+  setFixedWidth(pix->width() + 20);
+  setFixedHeight(pix->height() + 2 * (fm.height() + 6));
+  qDeleteAll(pix_list.begin(), pix_list.end());
+}
+
+/****************************************************************
+  Event for mouse moving around unit_select
+*****************************************************************/
+void unit_select::mouseMoveEvent(QMouseEvent *event)
+{
+  int a, b;
+  int old_h;
+  QFontMetrics fm(*info_font);
+  old_h = highligh_num;
+  highligh_num = -1;
+  if (event->x() > width() - 11
+      || event->y() > height() - fm.height() - 5
+      || event->y() < fm.height() + 3 || event->x() < 11) {
+    /** do nothing if mouse is on border, just skip next if */
+  } else if (row_count > 0) {
+    a = (event->x() - 10) / item_size.width();
+    b = (event->y() - fm.height() - 3) / item_size.height();
+    highligh_num = b * 4 + a;
+  }
+  if (old_h != highligh_num) {
+    create_pixmap();
+    update();
+  }
+}
+
+/****************************************************************
+  Mouse pressed event for unit_select.
+  Left Button - chooses units
+  Right Button - closes widget
+*****************************************************************/
+void unit_select::mousePressEvent(QMouseEvent *event)
+{
+  struct unit *punit;
+  if (event->button() == Qt::RightButton) {
+    was_destroyed = true;
+    close();
+    destroy();
+  }
+  if (event->button() == Qt::LeftButton && highligh_num != -1
+      && highligh_num < unit_list.count()) {
+    punit = unit_list.at(highligh_num);
+    unit_focus_set(punit);
+    was_destroyed = true;
+    close();
+    destroy();
+  }
+}
+
+/****************************************************************
+  Redirected paint event
+*****************************************************************/
+void unit_select::paint(QPainter * painter, QPaintEvent * event)
+{
+  QFontMetrics fm(*info_font);
+  int h;
+  QPen pen;
+  QString str, str2;
+  struct unit *punit;
+  if (highligh_num != -1 && highligh_num < unit_list.count()) {
+    punit = unit_list.at(highligh_num);
+    str2 = QString(unit_activity_text(punit))
+        + QString(" ") + QString(_("HP")) + QString(": ")
+        + QString::number(punit->hp) + QString("/")
+        + QString::number(unit_type(punit)->hp);
+  }
+  str = QString::number(unit_list_size(utile->units)) + " "
+      + QString(_("units"));
+  h = fm.height();
+  painter->setBrush(QColor(0, 0, 0, 135));
+  painter->drawRect(0, 0, width(), height());
+  if (pix != NULL) {
+    painter->drawPixmap(10, h + 3, *pix);
+    pen.setColor(QColor(232, 255, 0));
+    painter->setPen(pen);
+    painter->setFont(*info_font);
+    painter->drawText(10, h + 3, str);
+    if (highligh_num != -1 && highligh_num < unit_list.count()) {
+      painter->drawText(10, height() - 5, str2);
+    }
+  }
+}
+/****************************************************************
+  Paint event, redirects to paint(...)
+*****************************************************************/
+void unit_select::paintEvent(QPaintEvent *event)
+{
+  QPainter painter;
+
+  painter.begin(this);
+  paint(&painter, event);
+  painter.end();
+}
+
+/****************************************************************
+  Function from abstract fcwidget to update menu, its not needed
+  cause widget is easy closable via right mouse click
+*****************************************************************/
+void unit_select::update_menu()
+{
+}
+
+/****************************************************************
+  Updates unit list on tile
+*****************************************************************/
+void unit_select::update_units()
+{
+  int i = 1;
+
+  if (utile == NULL) {
+    struct unit *punit = head_of_units_in_focus();
+    if (punit) {
+      utile = unit_tile(punit);
+    }
+  }
+  unit_list.clear();
+  unit_list_iterate(utile->units, punit) {
+    if (i > show_line * 4)
+      unit_list.push_back(punit);
+    i++;
+  }
+  unit_list_iterate_end;
+}
+
+/****************************************************************
+  Mouse wheel event for unit_select
+*****************************************************************/
+void unit_select::wheelEvent(QWheelEvent *event)
+{
+  int nr;
+  if (more == false && utile == NULL) {
+    return;
+  }
+  nr = qCeil(static_cast<qreal>(unit_list_size(utile->units)) / 4) - 3;
+  if (event->delta() < 0) {
+    show_line++;
+    show_line = qMin(show_line, nr);
+  } else {
+    show_line--;
+    show_line = qMax(0, show_line);
+  }
+  update_units();
+  create_pixmap();
+  update();
+  event->accept();
 }

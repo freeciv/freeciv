@@ -23,15 +23,16 @@ extern "C" {
 }
 
 // Qt
-#include <QComboBox>
-#include <QItemSelection>
 #include <QDialog>
 
+// gui-qt
 #include "mapview.h"
 
+class QComboBox;
 class QGridLayout;
-class QGorupBox;
+class QItemSelection;
 class QRadioButton;
+class QTableView;
 class QTableWidget;
 class QTextEdit;
 class QToolBox;
@@ -103,6 +104,41 @@ private:
   QStringList qlist;
   QFont *small_font;
   QPoint cursor;
+};
+
+/***************************************************************************
+ Transparent widget for selecting units
+ TODO Add some simple scrollbars (just paint it during paint event,
+ if 'more' is true->scroll visible and would depend on show_line
+***************************************************************************/
+class unit_select: public fcwidget
+{
+  Q_OBJECT
+  QPixmap *pix;
+  QPixmap *h_pix; /** pixmap for highlighting */
+  QSize item_size; /** size of each pixmap of unit */
+  QList<unit*> unit_list; /** storing units only for drawing, for rest units
+                            * iterate utile->units */
+  QFont *ufont;
+  QFont *info_font;
+  int row_count;
+public:
+  unit_select(struct tile *ptile, QWidget *parent);
+  ~unit_select();
+  void update_menu();
+  void update_units();
+  void create_pixmap();
+  tile *utile;
+protected:
+  void paint(QPainter *painter, QPaintEvent *event);
+  void paintEvent(QPaintEvent *event);
+  void mousePressEvent(QMouseEvent *event);
+  void mouseMoveEvent(QMouseEvent *event);
+  void wheelEvent(QWheelEvent *event);
+private:
+  bool more;
+  int show_line;
+  int highligh_num;
 };
 void popup_revolution_dialog(struct government *government = NULL);
 void revolution_response(struct government *government);

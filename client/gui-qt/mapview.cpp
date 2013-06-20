@@ -29,7 +29,6 @@
 #include "text.h"
 
 // qui-qt
-#include "dialogs.h"
 #include "qtg_cxxside.h"
 #include "mapview.h"
 
@@ -1062,14 +1061,6 @@ void info_label::info_update()
 void update_info_label(void)
 {
   QString eco_info;
-  struct sprite *sprite = get_tax_sprite(tileset, O_LUXURY);
-  int w = sprite->pm->width();
-  int h = sprite->pm->height();
-  QPixmap *final = new QPixmap(10 * w, h);
-  QPainter p;
-  QRect source_rect(0, 0, w, h);
-  QRect dest_rect(0, 0, w, h);
-  final->fill(Qt::black);
   QString s = QString::fromLatin1(textyear(game.info.year)) + " ("
       + _("Turn") + ":" + QString::number(game.info.turn) + ")";
   if (client.conn.playing != NULL) {

@@ -29,19 +29,6 @@
 #include "mapview_common.h"
 #include "tilespec.h"
 
-// Qt
-#include <QApplication>
-#include <QLineEdit>
-#include <QDialog>
-#include <QMainWindow>
-#include <QObject>
-#include <QSocketNotifier>
-#include <QString>
-#include <QTextEdit>
-#include <QTableWidget>
-#include <QLabel>
-#include <QTimer>
-
 // common
 #include "packets.h"
 
@@ -54,19 +41,13 @@
 #include "tilespec.h"
 
 // gui-qt
-#include "pages.h"
+#include "canvas.h"
+#include "chatline.h"
+#include "dialogs.h"
 #include "mapview.h"
 #include "menu.h"
-#include "canvas.h"
+#include "pages.h"
 #include "ratesdlg.h"
-#include "chatline.h"
-
-// Layout
-const int MAPVIEW_X = 0;
-const int MAPVIEW_Y = 0;
-const int TOTAL_WIDTH = 500;
-const int MAPVIEW_WIDTH = TOTAL_WIDTH;
-const int MAPVIEW_HEIGHT = 600;
 
 enum connection_state {
   LOGIN_TYPE,
@@ -84,6 +65,16 @@ enum DOCK_WIDGETS {
 };
 
 class MainWindow;
+class QLabel;
+class QLineEdit;
+class QLineEdit;
+class QString;
+class QTableWidget;
+class QTextEdit;
+class QTimer;
+class QSocketNotifier;
+class QDialog;
+class QApplication;
 
 class fc_font
 {
@@ -143,7 +134,7 @@ class fc_client : public QObject
   QStatusBar *status_bar;
   QSignalMapper *switch_page_mapper;
   QLabel *status_bar_label;
-
+  unit_select *unit_sel;
 
 public:
   fc_client();
@@ -162,6 +153,8 @@ public:
   int add_game_tab(QWidget *widget, QString title, int index);
   void rm_game_tab(int index); /* doesn't delete widget */
   void update_start_page();
+  void toggle_unit_sel_widget(struct tile *ptile);
+  void update_unit_sel();
 
   QMainWindow *main_window;
   mr_idle mr_idler;
