@@ -20,8 +20,8 @@ extern "C" {
 
 // Qt
 #include <QMenuBar>
-#include <QObject>
-#include <QSignalMapper>
+
+class QSignalMapper;
 
 /** used for indicating menu about current option - for renaming 
  * and enabling disbaling */

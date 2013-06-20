@@ -74,6 +74,7 @@ fc_client::fc_client() : QObject()
   game_tab_widget = NULL;
   ver_dock_layout = NULL;
   start_players_tree = NULL;
+  unit_sel = NULL;
 
   for (int i = 0; i < LAST_WIDGET; i++) {
     dock_widget[i] = NULL;
@@ -126,7 +127,6 @@ fc_client::fc_client() : QObject()
   // PAGE_GAME
   pages[PAGE_GAME] = new QWidget(central_wdg);
   init_mapcanvas_and_overview();
-  map_canvas_resized (MAPVIEW_WIDTH, MAPVIEW_HEIGHT);
   create_game_page();
   pages[PAGE_GAME]->setVisible(false);
 
@@ -243,6 +243,7 @@ void fc_client::switch_page(int new_pg)
     update_load_page();
     break;
   case PAGE_GAME:
+    main_window->showMaximized();
     main_window->menuBar()->setVisible(true);
     show_dock_widget(static_cast<int>(OUTPUT_DOCK_WIDGET), true);
     show_dock_widget(static_cast<int>(MESSAGE_DOCK_WIDGET), true);
@@ -438,6 +439,34 @@ int fc_client::gimme_index_of(QString str)
   i = opened_repo_dlgs.indexOf(str);
 
   return places.at(i);
+}
+
+/****************************************************************************
+  Shows/closes unit selection widget
+****************************************************************************/
+void fc_client::toggle_unit_sel_widget(struct tile *ptile)
+{
+  if (unit_sel != NULL) {
+    unit_sel->close();
+    delete unit_sel;
+    unit_sel = new unit_select(ptile, gui()->mapview_wdg);
+    unit_sel->show();
+  } else {
+    unit_sel = new unit_select(ptile, gui()->mapview_wdg);
+    unit_sel->show();
+  }
+}
+
+/****************************************************************************
+  Update unit selection widget if open
+****************************************************************************/
+void fc_client::update_unit_sel()
+{
+  if (unit_sel != NULL){
+    unit_sel->update_units();
+    unit_sel->create_pixmap();
+    unit_sel->update();
+  }
 }
 
 /****************************************************************************
