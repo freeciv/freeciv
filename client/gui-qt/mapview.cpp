@@ -1580,3 +1580,81 @@ void mapview_thaw(void)
     dirty_all();
   }
 }
+
+/**************************************************************************
+  Constructor for info_tile
+**************************************************************************/
+info_tile::info_tile(struct tile *ptile, QWidget *parent): QLabel(parent)
+{
+  setParent(parent);
+  info_font = gui()->fc_fonts.get_font("gui_qt_font_comment_label");
+  itile = ptile;
+  calc_size();
+}
+
+/**************************************************************************
+  Calculates size of info_tile and moves it to be fully visible
+**************************************************************************/
+void info_tile::calc_size()
+{
+  QFontMetrics fm(*info_font);
+  QString str;
+  int hh = tileset_tile_height(tileset);
+  int fin_x;
+  int fin_y;
+  int x, y;
+  int w = 0;
+  str = popup_info_text(itile);
+  str_list = str.split("\n");
+  foreach(str, str_list) {
+    w = qMax(w, fm.width(str));
+  }
+  setFixedHeight(str_list.count() * (fm.height() + 5));
+  setFixedWidth(w + 10);
+  if (tile_to_canvas_pos(&x, &y, itile)) {
+    fin_x = x;
+    fin_y = y;
+    if (y - height() > 0) {
+      fin_y = y - height();
+    } else {
+      fin_y = y + hh;
+    }
+    if (x + width() > parentWidget()->width()) {
+      fin_x = parentWidget()->width() - width();
+    }
+    move(fin_x, fin_y);
+  }
+}
+
+/**************************************************************************
+  Redirected paint event for info_tile
+**************************************************************************/
+void info_tile::paint(QPainter *painter, QPaintEvent *event)
+{
+  QPen pen;
+  QFontMetrics fm(*info_font);
+  int pos, h;
+  h = fm.height();
+  pos = h;
+  pen.setWidth(1);
+  pen.setColor(QColor(232, 255, 0));
+  painter->setBrush(QColor(0, 0, 0, 205));
+  painter->drawRect(0, 0, width(), height());
+  painter->setPen(pen);
+  painter->setFont(*info_font);
+  for (int i = 0; i < str_list.count(); i++) {
+    painter->drawText(5, pos, str_list.at(i));
+    pos = pos + 5 + h;
+  }
+}
+
+/**************************************************************************
+  Paint event for info_tile
+**************************************************************************/
+void info_tile::paintEvent(QPaintEvent *event)
+{
+  QPainter painter;
+  painter.begin(this);
+  paint(&painter, event);
+  painter.end();
+}

@@ -135,6 +135,7 @@ class fc_client : public QObject
   QSignalMapper *switch_page_mapper;
   QLabel *status_bar_label;
   unit_select *unit_sel;
+  info_tile *info_tile_wdg;
 
 public:
   fc_client();
@@ -155,6 +156,8 @@ public:
   void update_start_page();
   void toggle_unit_sel_widget(struct tile *ptile);
   void update_unit_sel();
+  void popup_tile_info(struct tile *ptile);
+  void popdown_tile_info();
 
   QMainWindow *main_window;
   mr_idle mr_idler;

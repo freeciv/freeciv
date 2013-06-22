@@ -24,11 +24,12 @@
 #include <QMouseEvent>
 
 // client
-#include "mapctrl.h"
 #include "client_main.h"
-#include "unit.h"
+#include "climap.h"
 #include "control.h"
+#include "mapctrl.h"
 #include "tile.h"
+#include "unit.h"
 
 // gui-qt
 #include "fc_client.h"
@@ -164,6 +165,9 @@ void map_view::keyPressEvent(QKeyEvent * event)
 **************************************************************************/
 void map_view::mousePressEvent(QMouseEvent *event)
 {
+  struct tile *ptile = NULL;
+  QPoint pos;
+  pos = gui()->mapview_wdg->mapFromGlobal(QCursor::pos());
 
   if (event->button() == Qt::RightButton) {
     recenter_button_pressed(event->x(), event->y());
@@ -174,6 +178,21 @@ void map_view::mousePressEvent(QMouseEvent *event)
   if (event->button() == Qt::LeftButton) {
     action_button_pressed(event->pos().x(), event->pos().y(), SELECT_POPUP);
   }
+  /* Middle Button */
+  if (event->button() == Qt::MiddleButton) {
+    ptile = canvas_pos_to_tile(pos.x(), pos.y());
+   gui()->popup_tile_info(ptile);
+ }
+
+}
+/**************************************************************************
+  Mouse release event for map_view
+**************************************************************************/
+void map_view::mouseReleaseEvent(QMouseEvent *event)
+{
+  if (event->button() == Qt::MiddleButton) {
+    gui()->popdown_tile_info();
+  }
 }
 
 /**************************************************************************
@@ -183,3 +202,39 @@ void map_view::mouseMoveEvent(QMouseEvent *event)
 {
   update_line(event->pos().x(), event->pos().y());
 }
+
+/**************************************************************************
+  Popups information label tile
+**************************************************************************/
+void fc_client::popup_tile_info(struct tile *ptile)
+{
+  struct unit *punit = NULL;
+  Q_ASSERT(info_tile_wdg == NULL);
+  if (TILE_UNKNOWN != client_tile_get_known(ptile)) {
+    mapdeco_set_crosshair(ptile, true);
+    punit = find_visible_unit(ptile);
+    if (punit) {
+      mapdeco_set_gotoroute(punit);
+      if (punit->goto_tile && unit_has_orders(punit)) {
+        mapdeco_set_crosshair(punit->goto_tile, true);
+      }
+    }
+    info_tile_wdg = new info_tile(ptile, mapview_wdg);
+    info_tile_wdg->show();
+  }
+}
+
+/**************************************************************************
+  Popdowns information label tile
+**************************************************************************/
+void fc_client::popdown_tile_info()
+{
+  mapdeco_clear_crosshairs();
+  mapdeco_clear_gotoroutes();
+  if (info_tile_wdg != NULL) {
+    info_tile_wdg->close();
+    delete info_tile_wdg;
+    info_tile_wdg = NULL;
+  }
+}
+
