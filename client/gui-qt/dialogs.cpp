@@ -374,7 +374,7 @@ void notify_dialog::calc_size(int &x, int &y)
 
   for (i = 0; i < str_list.count(); i++) {
     x = qMax(x, fm.width(str_list.at(i)));
-    y = y + 6 + fm.height();
+    y = y + 3 + fm.height();
   }
   x = x + 15;
 }
@@ -387,6 +387,7 @@ void notify_dialog::paintEvent(QPaintEvent * paint_event)
   QPainter painter(this);
   QPainterPath path;
   QPen pen;
+  QFontMetrics fm(*small_font);
   int i;
 
   pen.setWidth(1);
@@ -395,10 +396,10 @@ void notify_dialog::paintEvent(QPaintEvent * paint_event)
   painter.drawRect(0, 0, width(), height());
   painter.setFont(*small_font);
   painter.setPen(pen);
-  painter.drawText(10, 20, qcaption);
-  painter.drawText(10, 40, qheadline);
+  painter.drawText(10, fm.height() + 3, qcaption);
+  painter.drawText(10, 2 * fm.height() + 6, qheadline);
   for (i = 0; i < qlist.count(); i++) {
-    painter.drawText(10, 60+i*20, qlist[i]);
+    painter.drawText(10, 3 + (fm.height() + 3) * (i + 3), qlist[i]);
   }
   painter.drawLine(0,0,width(),0);
   painter.drawLine(0,height()-1,width(),height()-1);
@@ -774,7 +775,6 @@ unit_select::unit_select(tile *ptile, QWidget *parent)
   }
   move(final_p.x(), final_p.y() - height());
 }
-
 /****************************************************************
   Destructor for unit select
 *****************************************************************/
@@ -807,6 +807,7 @@ void unit_select::create_pixmap()
     pix = NULL;
   };
 
+  if (unit_list.count() > 0) {
   punit = unit_list.at(0);
   item_size.setWidth(tileset_full_tile_width(tileset));
   item_size.setHeight(tileset_tile_height(tileset) * 3 / 2);
@@ -880,6 +881,7 @@ void unit_select::create_pixmap()
   setFixedWidth(pix->width() + 20);
   setFixedHeight(pix->height() + 2 * (fm.height() + 6));
   qDeleteAll(pix_list.begin(), pix_list.end());
+  }
 }
 
 /****************************************************************
@@ -933,22 +935,41 @@ void unit_select::mousePressEvent(QMouseEvent *event)
 /****************************************************************
   Redirected paint event
 *****************************************************************/
-void unit_select::paint(QPainter * painter, QPaintEvent * event)
+void unit_select::paint(QPainter *painter, QPaintEvent *event)
 {
   QFontMetrics fm(*info_font);
-  int h;
+  int h, i;
+  int *f_size;
   QPen pen;
   QString str, str2;
   struct unit *punit;
+  int point_size = info_font->pointSize();
+  int pixel_size = info_font->pixelSize();
+  if (point_size < 0) {
+    f_size = &pixel_size;
+  } else {
+    f_size = &point_size;
+  }
   if (highligh_num != -1 && highligh_num < unit_list.count()) {
     punit = unit_list.at(highligh_num);
     str2 = QString(unit_activity_text(punit))
-        + QString(" ") + QString(_("HP")) + QString(": ")
-        + QString::number(punit->hp) + QString("/")
-        + QString::number(unit_type(punit)->hp);
+          + QString(" ") + QString(_("HP")) + QString(": ")
+          + QString::number(punit->hp) + QString("/")
+          + QString::number(unit_type(punit)->hp);
   }
   str = QString::number(unit_list_size(utile->units)) + " "
-      + QString(_("units"));
+        + QString(_("units"));
+  for (i = *f_size; i > 4; i--) {
+    if (point_size < 0) {
+      info_font->setPixelSize(i);
+    } else  {
+      info_font->setPointSize(i);
+    }
+    QFontMetrics qfm(*info_font);
+    if (10 + qfm.width(str2) < width()) {
+      break;
+    }
+  }
   h = fm.height();
   painter->setBrush(QColor(0, 0, 0, 135));
   painter->drawRect(0, 0, width(), height());
@@ -957,10 +978,15 @@ void unit_select::paint(QPainter * painter, QPaintEvent * event)
     pen.setColor(QColor(232, 255, 0));
     painter->setPen(pen);
     painter->setFont(*info_font);
-    painter->drawText(10, h + 3, str);
+    painter->drawText(10, h, str);
     if (highligh_num != -1 && highligh_num < unit_list.count()) {
       painter->drawText(10, height() - 5, str2);
     }
+  }
+  if (point_size < 0) {
+    info_font->setPixelSize(*f_size);
+  } else {
+    info_font->setPointSize(*f_size);
   }
 }
 /****************************************************************

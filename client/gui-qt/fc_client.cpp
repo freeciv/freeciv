@@ -75,6 +75,7 @@ fc_client::fc_client() : QObject()
   ver_dock_layout = NULL;
   start_players_tree = NULL;
   unit_sel = NULL;
+  info_tile_wdg = NULL;
 
   for (int i = 0; i < LAST_WIDGET; i++) {
     dock_widget[i] = NULL;
