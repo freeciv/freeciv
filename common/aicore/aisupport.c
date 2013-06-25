@@ -133,7 +133,7 @@ int city_gold_worth(struct city *pcity)
     }
   } unit_list_iterate_end;
   city_built_iterate(pcity, pimprove) {
-    if (improvement_obsolete(pplayer, pimprove)) {
+    if (improvement_obsolete(pplayer, pimprove, pcity)) {
       worth += impr_sell_gold(pimprove) / 4;
     } else {
       worth += impr_sell_gold(pimprove);

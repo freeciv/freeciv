@@ -195,6 +195,7 @@ void popup_impr_info(Impr_type_id impr)
   struct impr_type *pImpr_type;
   char buffer[64000];
   SDL_Rect area;
+  struct advance *obsTech = NULL;
 
   if(current_help_dlg != HELP_IMPROVEMENT) {
     popdown_help_dialog();
@@ -403,16 +404,23 @@ void popup_impr_info(Impr_type_id impr)
   DownAdd(pObsoleteByLabel, pDock);
   pDock = pObsoleteByLabel;
 
-  if (A_NEVER == pImpr_type->obsolete_by) {
+
+  requirement_vector_iterate(&pImpr_type->obsolete_by, pobs) {
+    if (pobs->source.kind == VUT_ADVANCE) {
+      obsTech = pobs->source.value.advance;
+      break;
+    }
+  } requirement_vector_iterate_end;
+  if (obsTech == NULL) {
     pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
                                                     _("Never"), adj_font(12), 0);
     pObsoleteByLabel2->ID = ID_LABEL;
   } else {
     pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
-                          advance_name_translation(pImpr_type->obsolete_by),
-                          adj_font(12), WF_RESTORE_BACKGROUND);
-    pObsoleteByLabel2->ID = MAX_ID - advance_number(pImpr_type->obsolete_by);
-    pObsoleteByLabel2->string16->fgcol = *get_tech_color(advance_number(pImpr_type->obsolete_by));
+                                                    advance_name_translation(obsTech),
+                                                    adj_font(12), WF_RESTORE_BACKGROUND);
+    pObsoleteByLabel2->ID = MAX_ID - advance_number(obsTech);
+    pObsoleteByLabel2->string16->fgcol = *get_tech_color(advance_number(obsTech));
     pObsoleteByLabel2->action = change_tech_callback;
     set_wstate(pObsoleteByLabel2, FC_WS_NORMAL);
   }

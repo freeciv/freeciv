@@ -3034,7 +3034,10 @@ void handle_ruleset_building(const struct packet_ruleset_building *p)
     requirement_vector_append(&b->reqs, p->reqs[i]);
   }
   fc_assert(b->reqs.size == p->reqs_count);
-  b->obsolete_by = advance_by_number(p->obsolete_by);
+  for (i = 0; i < p->obs_count; i++) {
+    requirement_vector_append(&b->obsolete_by, p->obs_reqs[i]);
+  }
+  fc_assert(b->obsolete_by.size == p->obs_count);
   b->replaced_by = improvement_by_number(p->replaced_by);
   b->build_cost = p->build_cost;
   b->upkeep = p->upkeep;
@@ -3048,11 +3051,6 @@ void handle_ruleset_building(const struct packet_ruleset_building *p)
   if (p->id == improvement_count() - 1) {
     improvement_iterate(b) {
       log_debug("Improvement: %s...", improvement_rule_name(b));
-      if (A_NEVER != b->obsolete_by) {
-        log_debug("  obsolete_by %2d \"%s\"",
-                  advance_number(b->obsolete_by),
-                  advance_rule_name(b->obsolete_by));
-      }
       log_debug("  build_cost %3d", b->build_cost);
       log_debug("  upkeep      %2d", b->upkeep);
       log_debug("  sabotage   %3d", b->sabotage);

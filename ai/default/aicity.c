@@ -188,10 +188,13 @@ void dont_want_tech_obsoleting_impr(struct ai_type *ait,
                                     const struct impr_type *pimprove,
                                     int building_want)
 {
-  if (valid_advance(pimprove->obsolete_by)) {
-    want_tech_for_improvement_effect(ait, pplayer, pcity, pimprove,
-                                     pimprove->obsolete_by, -building_want);
-  }
+  requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
+    if (pobs->source.kind == VUT_ADVANCE) {
+      want_tech_for_improvement_effect(ait, pplayer, pcity, pimprove,
+                                       pobs->source.value.advance,
+                                       -building_want);
+    }
+  } requirement_vector_iterate_end;
 }
 
 /**************************************************************************
@@ -1187,7 +1190,7 @@ static int improvement_effect_value(struct player *pplayer,
       if (nplayers <= amount) {
 	break;
       }
-          
+
       turns = 9999;
       bulbs = 0;
       players_iterate(aplayer) {
@@ -1195,11 +1198,14 @@ static int improvement_effect_value(struct player *pplayer,
 	  + city_list_size(aplayer->cities) + 1;
 
         if (potential > 0) {
-          if (valid_advance(pimprove->obsolete_by)) {
-            turns = MIN(turns,
-                        total_bulbs_required_for_goal(aplayer, advance_number(pimprove->obsolete_by))
+          requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
+            if (pobs->source.kind == VUT_ADVANCE) {
+              turns = MIN(turns,
+                          total_bulbs_required_for_goal(aplayer,
+                                                        advance_number(pobs->source.value.advance))
                         / (potential + 1));
-          }
+            }
+          } requirement_vector_iterate_end;
         }
 	if (players_on_same_team(aplayer, pplayer)) {
 	  continue;
@@ -1894,9 +1900,12 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     }
 
     /* Reduce want if building gets obsoleted soon */
-    if (valid_advance(pimprove->obsolete_by)) {
-      v -= v / MAX(1, num_unknown_techs_for_goal(pplayer, advance_number(pimprove->obsolete_by)));
-    }
+    requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
+      if (pobs->source.kind == VUT_ADVANCE) {
+        v -= v / MAX(1, num_unknown_techs_for_goal(pplayer,
+                                                   advance_number(pobs->source.value.advance)));
+      }
+    } requirement_vector_iterate_end;
 
     /* Are we wonder city? Try to avoid building non-wonders very much. */
     if (pcity->id == ai->wonder_city && !is_wonder(pimprove)) {

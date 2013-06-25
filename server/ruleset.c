@@ -2081,20 +2081,17 @@ static bool load_ruleset_buildings(struct section_file *file)
 
       requirement_vector_copy(&b->reqs, reqs);
 
-      if (!lookup_tech(file, &b->obsolete_by, sec_name, "obsolete_by",
-                       filename, rule_name(&b->name))) {
-        ok = FALSE;
-        break;
-      }
-      if (advance_by_number(A_NONE) == b->obsolete_by) {
-        /* 
-         * The ruleset can specify "None" for a never-obsoleted
-         * improvement.  Currently this means A_NONE, which is an
-         * unnecessary special-case.  We use A_NEVER to flag a
-         * never-obsoleted improvement in the code instead.
-         * (Test for valid_advance() later.)
-         */
-        b->obsolete_by = A_NEVER;
+      {
+        struct requirement_vector *obs_reqs =
+          lookup_req_list(file, sec_name, "obsolete_by",
+                          improvement_rule_name(b));
+
+        if (obs_reqs == NULL) {
+          ok = FALSE;
+          break;
+        } else {
+          requirement_vector_copy(&b->obsolete_by, obs_reqs);
+        }
       }
 
       if (!lookup_building(file, sec_name, "replaced_by",
@@ -2138,20 +2135,6 @@ static bool load_ruleset_buildings(struct section_file *file)
         }
       } unit_type_iterate_end;
     }
-
-    /* Some more consistency checking: */
-    improvement_iterate(b) {
-      if (valid_improvement(b)) {
-        if (A_NEVER != b->obsolete_by
-            && !valid_advance(b->obsolete_by)) {
-          log_error("\"%s\" improvement \"%s\": obsoleted by "
-                    "removed tech \"%s\".",
-                    filename, improvement_rule_name(b),
-                    advance_rule_name(b->obsolete_by));
-          b->obsolete_by = A_NEVER;
-        }
-      }
-    } improvement_iterate_end;
   }
 
   section_list_destroy(sec);
@@ -5100,9 +5083,11 @@ static void send_ruleset_buildings(struct conn_list *dest)
       packet.reqs[j++] = *preq;
     } requirement_vector_iterate_end;
     packet.reqs_count = j;
-    packet.obsolete_by = b->obsolete_by
-                         ? advance_number(b->obsolete_by)
-                         : advance_count();
+    j = 0;
+    requirement_vector_iterate(&b->obsolete_by, pobs) {
+      packet.obs_reqs[j++] = *pobs;
+    } requirement_vector_iterate_end;
+    packet.obs_count = j;
     packet.replaced_by = b->replaced_by
                          ? improvement_number(b->replaced_by)
                          : improvement_count();

@@ -755,7 +755,7 @@ static int dai_war_desire(struct ai_type *ait, struct player *pplayer,
 
     city_built_iterate(pcity, pimprove) {
       want += impr_build_shield_cost(pimprove);
-      if (improvement_obsolete(pplayer, pimprove)) {
+      if (improvement_obsolete(pplayer, pimprove, pcity)) {
         continue;
       }
       if (is_great_wonder(pimprove)) {

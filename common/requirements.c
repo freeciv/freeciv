@@ -735,7 +735,7 @@ static int count_buildings_in_range(const struct player *target_player,
 				    bool survives,
 				    const struct impr_type *source)
 {
-  if (improvement_obsolete(target_player, source)) {
+  if (improvement_obsolete(target_player, source, target_city)) {
     return 0;
   }
 

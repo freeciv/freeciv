@@ -773,7 +773,7 @@ static void help_update_improvement(const struct help_item *pitem,
 }
   
 /**************************************************************************
-...
+  Update wonder help.
 **************************************************************************/
 static void help_update_wonder(const struct help_item *pitem,
 			       char *title)
@@ -786,7 +786,7 @@ static void help_update_wonder(const struct help_item *pitem,
   if (imp  &&  is_great_wonder(imp)) {
     char req_buf[512];
     int i;
-    struct advance *vap;
+    struct advance *obs_tech = NULL;
 
     sprintf(buf, "%d ", impr_build_shield_cost(imp));
     xaw_set_label(help_improvement_cost_data, buf);
@@ -803,10 +803,16 @@ static void help_update_wonder(const struct help_item *pitem,
       break;
     } requirement_vector_iterate_end;
 
-    vap = valid_advance(imp->obsolete_by);
-    if (vap) {
+    requirement_vector_iterate(&imp->obsolete_by, pobs) {
+      if (pobs->source.kind == VUT_ADVANCE) {
+        obs_tech = pobs->source.value.advance;
+        break;
+      }
+    } requirement_vector_iterate_end;
+
+    if (obs_tech != NULL) {
       xaw_set_label(help_wonder_obsolete_data,
-		    advance_name_translation(vap));
+		    advance_name_translation(obs_tech));
     } else {
       xaw_set_label(help_wonder_obsolete_data, _("(Never)"));
     }
@@ -920,9 +926,13 @@ static void help_update_tech(const struct help_item *pitem, char *title)
 		  improvement_name_translation(pimprove));
         }
       } requirement_vector_iterate_end;
-      if (padvance == pimprove->obsolete_by)
-	sprintf(buf+strlen(buf), _("Obsoletes %s.\n"),
-		improvement_name_translation(pimprove));
+      requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
+        if (pobs->source.kind == VUT_ADVANCE
+            && pobs->source.value.advance == padvance) {
+          sprintf(buf+strlen(buf), _("Obsoletes %s.\n"),
+                  improvement_name_translation(pimprove));
+        }
+      } requirement_vector_iterate_end;
     } improvement_iterate_end;
 
     unit_type_iterate(punittype) {

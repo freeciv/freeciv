@@ -495,6 +495,11 @@ bool sanity_check_ruleset_data(void)
       ruleset_error(LOG_ERROR, "Buildings have conflicting requirements!");
       ok = FALSE;
     }
+    if (!sanity_check_req_vec(&pimprove->obsolete_by, -1,
+                              improvement_rule_name(pimprove))) {
+      ruleset_error(LOG_ERROR, "Buildings have conflicting obsolescence req!");
+      ok = FALSE;
+    }
   } improvement_iterate_end;
 
   /* Governments */

@@ -80,7 +80,7 @@ struct impr_type {
   char graphic_str[MAX_LEN_NAME];	/* city icon of improv. */
   char graphic_alt[MAX_LEN_NAME];	/* city icon of improv. */
   struct requirement_vector reqs;
-  struct advance *obsolete_by;		/* A_NEVER = never obsolete */
+  struct requirement_vector obsolete_by;
   struct impr_type *replaced_by;	/* B_NEVER = never replaced */
   int build_cost;			/* Use wrappers to access this. */
   int upkeep;
@@ -169,7 +169,8 @@ struct city *city_from_small_wonder(const struct player *pplayer,
 
 /* player related improvement functions */
 bool improvement_obsolete(const struct player *pplayer,
-			  const struct impr_type *pimprove);
+			  const struct impr_type *pimprove,
+                          const struct city *pcity);
 bool impr_provides_buildable_units(const struct player *pplayer,
                                    const struct impr_type *pimprove);
 bool is_improvement_redundant(const struct city *pcity,

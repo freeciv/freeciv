@@ -375,7 +375,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
 	const char *state = NULL;
 
 	if (is_great_wonder(pimprove)) {
-          if (improvement_obsolete(pplayer, pimprove)) {
+          if (improvement_obsolete(pplayer, pimprove, pcity)) {
             state = _("Obsolete");
           } else if (great_wonder_is_built(pimprove)) {
             state = _("Built");
@@ -385,7 +385,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
             state = _("Great Wonder");
           }
 	} else if (is_small_wonder(pimprove)) {
-	  if (improvement_obsolete(pplayer, pimprove)) {
+	  if (improvement_obsolete(pplayer, pimprove, pcity)) {
 	    state = _("Obsolete");
           } else if (wonder_is_built(pplayer, target.value.building)) {
 	    state = _("Built");

@@ -26,8 +26,7 @@ options="+Freeciv-ruleset-Devel-2013.May.14"
 ;		  and README.effects for help on requirements)
 ; graphic	= icon of improvement (used in city dialog)
 ; graphic_alt	= alternate icon of improvement
-; obsolete_by	= advance which makes building obsolete; special
-;		  value "None" means does not become obsolete
+; obsolete_by	= requirements for the building to become obsolete
 ; build_cost	= production shields required to build
 ; upkeep	= monetary upkeep value
 ; sabotage	= percent chance of diplomat sabotage being successful
@@ -44,7 +43,9 @@ reqs	=
     }
 graphic	= "b.airport"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 140
 upkeep		= 1
 sabotage	= 100
@@ -64,7 +65,9 @@ reqs	=
     }
 graphic	= "b.library"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 80
 upkeep		= 1
 sabotage	= 100
@@ -79,7 +82,9 @@ name		= _("Basic Infrastructure")
 genus		= "Improvement"
 graphic	= "b.super_highways"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 30
 upkeep		= 0
 sabotage	= 0
@@ -103,7 +108,9 @@ reqs    =
     }
 graphic         = "b.sam_battery"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost      = 120
 upkeep          = 1
 sabotage        = 15
@@ -124,7 +131,9 @@ reqs    =
     }
 graphic         = "b.mfg_plant"
 graphic_alt     = "-"
-obsolete_by     = "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost      = 100
 upkeep          = 1
 sabotage        = 80
@@ -144,7 +153,9 @@ reqs	=
     }
 graphic	= "b.marketplace"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 70
 upkeep		= 0
 sabotage	= 100
@@ -164,7 +175,9 @@ reqs    =
     }
 graphic         = "b.factory"
 graphic_alt     = "-"
-obsolete_by     = "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost      = 80
 upkeep          = 1
 sabotage        = 50
@@ -184,7 +197,9 @@ reqs    =
     }
 graphic = "b.sewer_system"
 graphic_alt     = "-"
-obsolete_by     = "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost      = 120
 upkeep          = 1
 sabotage        = 30
@@ -204,7 +219,9 @@ reqs    =
     }
 graphic = "b.city_walls"
 graphic_alt     = "-"
-obsolete_by     = "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost      = 80
 upkeep          = 1
 sabotage        = 30
@@ -223,7 +240,9 @@ reqs	=
     }
 graphic	= "b.palace"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 80
 upkeep		= 1
 sabotage	= 0
@@ -243,7 +262,9 @@ reqs	=
     }
 graphic	= "b.aqueduct"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 70
 upkeep		= 1
 sabotage	= 100
@@ -263,7 +284,9 @@ reqs	=
     }
 graphic	= "b.isaac_newtons_college"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 280
 upkeep		= 1
 sabotage	= 100
@@ -283,7 +306,9 @@ reqs	=
     }
 graphic	= "b.colosseum"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 120
 upkeep		= 1
 sabotage	= 100
@@ -303,7 +328,9 @@ reqs	=
     }
 graphic	= "b.barracks_i"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 50
 upkeep		= 2
 sabotage	= 100
@@ -323,7 +350,9 @@ reqs	=
     }
 graphic	= "b.mass_transit"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 70
 upkeep		= 1
 sabotage	= 100
@@ -345,7 +374,9 @@ reqs	=
     }
 graphic	= "b.coastal_defense"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 100
 upkeep		= 1
 sabotage	= 100
@@ -363,7 +394,9 @@ reqs	=
     }
 graphic	= "b.nuclear_plant"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 70
 upkeep		= 0
 sabotage	= 100
@@ -382,7 +415,9 @@ reqs	=
     }
 graphic	= "b.university"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 130
 upkeep		= 1
 sabotage	= 100
@@ -401,7 +436,9 @@ reqs    =
     }
 graphic = "b.police_station"
 graphic_alt     = "-"
-obsolete_by     = "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost      = 90
 upkeep          = 1
 sabotage        = 100
@@ -421,7 +458,9 @@ reqs    =
     }
 graphic = "b.stock_exchange"
 graphic_alt     = "-"
-obsolete_by     = "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost      = 150
 upkeep          = 2
 sabotage        = 100
@@ -440,7 +479,9 @@ reqs	=
     }
 graphic	= "b.temple"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 80
 upkeep		= 1
 sabotage	= 100
@@ -461,7 +502,9 @@ reqs	=
     }
 graphic	= "b.capitalization"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 999
 upkeep		= 0
 sabotage	= 0
@@ -481,7 +524,9 @@ reqs	=
     }
 graphic	= "b.space_component"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 160
 upkeep		= 0
 sabotage	= 100
@@ -502,7 +547,9 @@ reqs	=
     }
 graphic	= "b.space_modules"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 320
 upkeep		= 0
 sabotage	= 100
@@ -532,7 +579,9 @@ reqs	=
     }
 graphic	= "b.space_structural"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 80
 upkeep		= 0
 sabotage	= 100
@@ -552,7 +601,9 @@ reqs	=
     }
 graphic	= "b.colossus"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 150
 upkeep		= 0
 sabotage	= 0
@@ -573,7 +624,9 @@ reqs	=
     }
 graphic	= "b.king_richards_crusade"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 300
 upkeep		= 0
 sabotage	= 0
@@ -594,7 +647,9 @@ reqs	=
     }
 graphic	= "b.eiffel_tower"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 400
 upkeep		= 0
 sabotage	= 0
@@ -616,7 +671,9 @@ reqs	=
     }
 graphic	= "b.asmiths_trading_co"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 400
 upkeep		= 0
 sabotage	= 0
@@ -635,7 +692,9 @@ reqs	=
     }
 graphic	= "b.womens_suffrage"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 300
 upkeep		= 0
 sabotage	= 0
@@ -656,7 +715,9 @@ reqs	=
     }
 graphic	= "b.great_wall"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 250
 upkeep		= 0
 sabotage	= 0

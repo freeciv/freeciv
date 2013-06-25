@@ -403,6 +403,7 @@ static bool manual_command(void)
 
       improvement_iterate(pimprove) {
         char buf[64000];
+        struct advance *obs_tech = NULL;
 
         if (!valid_improvement(pimprove)
          || is_great_wonder(pimprove) == (manuals == MANUAL_BUILDINGS)) {
@@ -426,9 +427,16 @@ static bool manual_command(void)
                   : _("None"));
         } requirement_vector_iterate_end;
 
+        requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
+          if (pobs->source.kind == VUT_ADVANCE) {
+            obs_tech = pobs->source.value.advance;
+            break;
+          }
+        } requirement_vector_iterate_end;
+
         fprintf(doc, "<em>%s</em></td>\n",
-                valid_advance(pimprove->obsolete_by)
-                ? advance_name_translation(pimprove->obsolete_by)
+                obs_tech != NULL
+                ? advance_name_translation(obs_tech)
                 : _("None"));
         fprintf(doc, "<td>%s</td>\n</tr>\n\n", buf);
       } improvement_iterate_end;

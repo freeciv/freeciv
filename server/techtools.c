@@ -291,15 +291,19 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   if (was_first && vap) {
     /* Alert the owners of any wonders that have been made obsolete */
     improvement_iterate(pimprove) {
-      if (vap == pimprove->obsolete_by
-          && is_great_wonder(pimprove)
-          && (pcity = city_from_great_wonder(pimprove))) {
-        notify_player(city_owner(pcity), NULL, E_WONDER_OBSOLETE, ftc_server,
-                      _("Discovery of %s OBSOLETES %s in %s!"), 
-                      advance_name_for_player(city_owner(pcity), tech_found),
-                      improvement_name_translation(pimprove),
-                      city_link(pcity));
-      }
+      requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
+        if (pobs->source.kind == VUT_ADVANCE
+            && pobs->source.value.advance == vap
+            && pobs->range >= REQ_RANGE_WORLD
+            && is_great_wonder(pimprove)
+            && (pcity = city_from_great_wonder(pimprove))) {
+          notify_player(city_owner(pcity), NULL, E_WONDER_OBSOLETE, ftc_server,
+                        _("Discovery of %s OBSOLETES %s in %s!"), 
+                        advance_name_for_player(city_owner(pcity), tech_found),
+                        improvement_name_translation(pimprove),
+                        city_link(pcity));
+        }
+      } requirement_vector_iterate_end;
     } improvement_iterate_end;
   }
 

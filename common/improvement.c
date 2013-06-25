@@ -53,6 +53,7 @@ void improvements_init(void)
 
     p->item_number = i;
     requirement_vector_init(&p->reqs);
+    requirement_vector_init(&p->obsolete_by);
   }
 }
 
@@ -67,6 +68,7 @@ static void improvement_free(struct impr_type *p)
   }
 
   requirement_vector_free(&p->reqs);
+  requirement_vector_free(&p->obsolete_by);
 }
 
 /***************************************************************
@@ -305,19 +307,23 @@ bool is_improvement_visible(const struct impr_type *pimprove)
  Returns 1 if the improvement is obsolete, now also works for wonders
 **************************************************************************/
 bool improvement_obsolete(const struct player *pplayer,
-			  const struct impr_type *pimprove)
+			  const struct impr_type *pimprove,
+                          const struct city *pcity)
 {
-  if (!valid_advance(pimprove->obsolete_by)) {
-    return FALSE;
+  struct tile *ptile = NULL;
+
+  if (pcity != NULL) {
+    ptile = city_tile(pcity);
   }
 
-  if (is_great_wonder(pimprove)) {
-    /* a great wonder is obsolete, as soon as *any* player researched the
-       obsolete tech */
-   return game.info.global_advances[advance_index(pimprove->obsolete_by)];
-  }
+  requirement_vector_iterate(&pimprove->obsolete_by, preq) {
+    if (is_req_active(pplayer, pcity, pimprove, ptile, NULL, NULL, NULL,
+                      preq, RPT_CERTAIN)) {
+      return TRUE;
+    }
+  } requirement_vector_iterate_end;
 
-  return (player_invention_state(pplayer, advance_number(pimprove->obsolete_by)) == TECH_KNOWN);
+  return FALSE;
 }
 
 /**************************************************************************
@@ -372,7 +378,7 @@ bool is_improvement_redundant(const struct city *pcity,
   /* Otherwise, it's redundant if its effects are available by other means,
    * or if it's an obsolete wonder (great or small). */
   return is_building_replaced(pcity, pimprove, RPT_CERTAIN)
-      || improvement_obsolete(city_owner(pcity), pimprove);
+    || improvement_obsolete(city_owner(pcity), pimprove, pcity);
 }
 
 /**************************************************************************
@@ -442,7 +448,7 @@ bool can_player_build_improvement_now(const struct player *p,
   if (!can_player_build_improvement_direct(p, pimprove)) {
     return FALSE;
   }
-  if (improvement_obsolete(p, pimprove)) {
+  if (improvement_obsolete(p, pimprove, NULL)) {
     return FALSE;
   }
   return TRUE;
@@ -459,7 +465,7 @@ bool can_player_build_improvement_later(const struct player *p,
   if (!valid_improvement(pimprove)) {
     return FALSE;
   }
-  if (improvement_obsolete(p, pimprove)) {
+  if (improvement_obsolete(p, pimprove, NULL)) {
     return FALSE;
   }
 

@@ -647,7 +647,7 @@ const char *city_improvement_name_translation(const struct city *pcity,
   if (pcity) {
     struct player *pplayer = city_owner(pcity);
 
-    if (improvement_obsolete(pplayer, pimprove)) {
+    if (improvement_obsolete(pplayer, pimprove, pcity)) {
       state = Q_("?obsolete:O");
     } else if (is_improvement_redundant(pcity, pimprove)) {
       state = Q_("?redundant:*");
@@ -817,7 +817,7 @@ bool can_city_build_improvement_now(const struct city *pcity,
   if (!can_city_build_improvement_direct(pcity, pimprove)) {
     return FALSE;
   }
-  if (improvement_obsolete(city_owner(pcity), pimprove)) {
+  if (improvement_obsolete(city_owner(pcity), pimprove, pcity)) {
     return FALSE;
   }
   return TRUE;

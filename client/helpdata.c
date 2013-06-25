@@ -1753,14 +1753,15 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
     fc_strlcat(buf, "\n", bufsz);
   }
 
-
-  if (valid_advance(pimprove->obsolete_by)) {
-    cat_snprintf(buf, bufsz,
-		 _("* The discovery of %s will make %s obsolete.\n"),
-		 advance_name_for_player(pplayer,
-					 advance_number(pimprove->obsolete_by)),
-		 improvement_name_translation(pimprove));
-  }
+  requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
+    if (VUT_ADVANCE == pobs->source.kind) {
+      cat_snprintf(buf, bufsz,
+                   _("* The discovery of %s will make %s obsolete.\n"),
+                   advance_name_for_player(pplayer,
+                                           advance_number(pobs->source.value.advance)),
+                   improvement_name_translation(pimprove));
+    }
+  } requirement_vector_iterate_end;
 
   if (is_small_wonder(pimprove)) {
     cat_snprintf(buf, bufsz,

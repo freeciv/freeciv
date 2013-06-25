@@ -821,12 +821,14 @@ static void help_update_wonder(const struct help_item *pitem,
       i++;
       break;
     } requirement_vector_iterate_end;
-    if (valid_advance(imp->obsolete_by)) {
-      gtk_label_set_text(GTK_LABEL(help_wlabel[5]),
-			 advance_name_for_player(client.conn.playing, advance_number(imp->obsolete_by)));
-    } else {
-      gtk_label_set_text(GTK_LABEL(help_wlabel[5]), REQ_LABEL_NEVER);
-    }
+    gtk_label_set_text(GTK_LABEL(help_wlabel[5]), REQ_LABEL_NEVER);
+    requirement_vector_iterate(&imp->obsolete_by, pobs) {
+      if (pobs->source.kind == VUT_ADVANCE) {
+        gtk_label_set_text(GTK_LABEL(help_wlabel[5]),
+                           advance_name_for_player(client.conn.playing, advance_number(pobs->source.value.advance)));
+        break;
+      }
+    } requirement_vector_iterate_end;
 /*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
   }
   else {
@@ -1023,18 +1025,21 @@ static void help_update_tech(const struct help_item *pitem, char *title)
 	  gtk_widget_show_all(hbox);
 	}
       } requirement_vector_iterate_end;
-      if (padvance == pimprove->obsolete_by) {
-        hbox = gtk_grid_new();
-        gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
-        w = gtk_label_new(_("Obsoletes"));
-        gtk_container_add(GTK_CONTAINER(hbox), w);
-        w = help_slink_new(improvement_name_translation(pimprove),
-			   is_great_wonder(pimprove)
-			   ? HELP_WONDER
-			   : HELP_IMPROVEMENT);
-        gtk_container_add(GTK_CONTAINER(hbox), w);
-        gtk_widget_show_all(hbox);
-      }
+      requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
+        if (pobs->source.kind == VUT_ADVANCE
+            && pobs->source.value.advance == padvance) {
+          hbox = gtk_grid_new();
+          gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+          w = gtk_label_new(_("Obsoletes"));
+          gtk_container_add(GTK_CONTAINER(hbox), w);
+          w = help_slink_new(improvement_name_translation(pimprove),
+                             is_great_wonder(pimprove)
+                             ? HELP_WONDER
+                             : HELP_IMPROVEMENT);
+          gtk_container_add(GTK_CONTAINER(hbox), w);
+          gtk_widget_show_all(hbox);
+        }
+      } requirement_vector_iterate_end;
     } improvement_iterate_end;
 
     unit_type_iterate(punittype) {

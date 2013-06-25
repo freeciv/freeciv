@@ -220,7 +220,7 @@ void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
   bool sold = FALSE;
 
   city_built_iterate(pcity, pimprove) {
-    if (improvement_obsolete(pplayer, pimprove)
+    if (improvement_obsolete(pplayer, pimprove, pcity)
      && can_city_sell_building(pcity, pimprove)) {
       do_sell_building(pplayer, pcity, pimprove);
       notify_player(pplayer, city_tile(pcity), E_IMP_SOLD, ftc_server,
@@ -408,12 +408,10 @@ static void city_global_turn_notify(struct conn_list *dest)
   cities_iterate(pcity) {
     struct impr_type *pimprove = pcity->production.value.building;
 
-    /* can_player_build_improvement_now() checks whether wonder is build
-     * elsewhere (or destroyed). */
     if (VUT_IMPROVEMENT == pcity->production.kind
         && is_great_wonder(pimprove)
-        && (1 >= city_production_turns_to_build(pcity, TRUE))
-        && can_player_build_improvement_now(city_owner(pcity), pimprove)) {
+        && great_wonder_is_available(pimprove)
+        && (1 >= city_production_turns_to_build(pcity, TRUE))) {
       notify_conn(dest, city_tile(pcity),
                   E_WONDER_WILL_BE_BUILT, ftc_server,
                   _("Notice: Wonder %s in %s will be finished next turn."),
