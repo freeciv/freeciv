@@ -135,17 +135,29 @@ struct road_type *road_by_compat_special(enum road_compat compat)
 /****************************************************************************
   Return translated name of this road type.
 ****************************************************************************/
-const char *road_name_translation(struct road_type *road)
+const char *road_name_translation(struct road_type *proad)
 {
-  return name_translation(&road->name);
+  struct extra_type *pextra = extra_type_get(EXTRA_ROAD, proad->id);
+
+  if (pextra == NULL) {
+    return NULL;
+  }
+
+  return extra_name_translation(pextra);
 }
 
 /****************************************************************************
   Return untranslated name of this road type.
 ****************************************************************************/
-const char *road_rule_name(const struct road_type *road)
+const char *road_rule_name(const struct road_type *proad)
 {
-  return rule_name(&road->name);
+  struct extra_type *pextra = extra_type_get(EXTRA_ROAD, proad->id);
+
+  if (pextra == NULL) {
+    return NULL;
+  }
+
+  return extra_rule_name(pextra);
 }
 
 /**************************************************************************
@@ -154,15 +166,13 @@ const char *road_rule_name(const struct road_type *road)
 **************************************************************************/
 struct road_type *road_type_by_rule_name(const char *name)
 {
-  const char *qs = Qn_(name);
+  struct extra_type *pextra = extra_type_by_rule_name(name);
 
-  road_type_iterate(proad) {
-    if (!fc_strcasecmp(road_rule_name(proad), qs)) {
-      return proad;
-    }
-  } road_type_iterate_end;
+  if (pextra == NULL || pextra->type != EXTRA_ROAD) {
+    return NULL;
+  }
 
-  return NULL;
+  return &pextra->data.road;
 }
 
 /**************************************************************************
@@ -171,13 +181,13 @@ struct road_type *road_type_by_rule_name(const char *name)
 **************************************************************************/
 struct road_type *road_type_by_translated_name(const char *name)
 {
-  road_type_iterate(proad) {
-    if (0 == strcmp(road_name_translation(proad), name)) {
-      return proad;
-    }
-  } road_type_iterate_end;
+  struct extra_type *pextra = extra_type_by_translated_name(name);
 
-  return NULL;
+  if (pextra == NULL || pextra->type != EXTRA_ROAD) {
+    return NULL;
+  }
+
+  return &pextra->data.road;
 }
 
 /****************************************************************************

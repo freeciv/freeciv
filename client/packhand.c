@@ -30,6 +30,7 @@
 #include "capstr.h"
 #include "citizens.h"
 #include "events.h"
+#include "extras.h"
 #include "game.h"
 #include "government.h"
 #include "idex.h"
@@ -3225,6 +3226,18 @@ void handle_ruleset_resource(const struct packet_ruleset_resource *p)
 }
 
 /****************************************************************************
+  Handle a packet about a particular extra type.
+****************************************************************************/
+void handle_ruleset_extra(const struct packet_ruleset_extra *p)
+{
+  struct extra_type *pextra = extra_by_number(p->id);
+
+  fc_assert_ret_msg(NULL != pextra, "Bad extra %d.", p->id);
+
+  names_set(&pextra->name, p->name, p->rule_name);
+}
+
+/****************************************************************************
   Handle a packet about a particular base type.
 ****************************************************************************/
 void handle_ruleset_base(const struct packet_ruleset_base *p)
@@ -3234,7 +3247,6 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
 
   fc_assert_ret_msg(NULL != pbase, "Bad base %d.", p->id);
 
-  names_set(&pbase->name, p->name, p->rule_name);
   sz_strlcpy(pbase->graphic_str, p->graphic_str);
   sz_strlcpy(pbase->graphic_alt, p->graphic_alt);
   sz_strlcpy(pbase->activity_gfx, p->activity_gfx);
@@ -3274,7 +3286,6 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
 
   fc_assert_ret_msg(NULL != proad, "Bad road %d.", p->id);
 
-  names_set(&proad->name, p->name, p->rule_name);
   sz_strlcpy(proad->graphic_str, p->graphic_str);
   sz_strlcpy(proad->graphic_alt, p->graphic_alt);
   sz_strlcpy(proad->activity_gfx, p->activity_gfx);

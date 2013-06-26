@@ -27,6 +27,7 @@ struct extra_type
 {
   int id;
   enum extra_type_id type;
+  struct name_translation name;
 
   union
   {
@@ -40,8 +41,14 @@ void extras_init(void);
 void extras_free(void);
 
 struct extra_type *extra_by_number(int id);
+int extra_number(const struct extra_type *pextra);
 
 struct extra_type *extra_type_get(enum extra_type_id type, int subid);
+
+const char *extra_name_translation(const struct extra_type *pextra);
+const char *extra_rule_name(const struct extra_type *pextra);
+struct extra_type *extra_type_by_rule_name(const char *name);
+struct extra_type *extra_type_by_translated_name(const char *name);
 
 static inline int extra_max(void)
 {

@@ -63,6 +63,16 @@ struct extra_type *extra_by_number(int id)
   return &extras[id];
 }
 
+/**************************************************************************
+  Return the extra index.
+**************************************************************************/
+int extra_number(const struct extra_type *pextra)
+{
+  fc_assert_ret_val(NULL != pextra, -1);
+
+  return pextra->id;
+}
+
 /****************************************************************************
   Get extra of the given type and given subid
 ****************************************************************************/
@@ -76,6 +86,56 @@ struct extra_type *extra_type_get(enum extra_type_id type, int subid)
   case EXTRA_ROAD:
     return extra_by_number(S_LAST + game.control.num_base_types + subid);
   }
+
+  return NULL;
+}
+
+/**************************************************************************
+  Return the (translated) name of the extra type.
+  You don't have to free the return pointer.
+**************************************************************************/
+const char *extra_name_translation(const struct extra_type *pextra)
+{
+  return name_translation(&pextra->name);
+}
+
+/**************************************************************************
+  Return the (untranslated) rule name of the extra type.
+  You don't have to free the return pointer.
+**************************************************************************/
+const char *extra_rule_name(const struct extra_type *pextra)
+{
+  return rule_name(&pextra->name);
+}
+
+/**************************************************************************
+  Returns extra type matching rule name or NULL if there is no extra type
+  with such name.
+**************************************************************************/
+struct extra_type *extra_type_by_rule_name(const char *name)
+{
+  const char *qs = Qn_(name);
+
+  extra_type_iterate(pextra) {
+    if (!fc_strcasecmp(extra_rule_name(pextra), qs)) {
+      return pextra;
+    }
+  } extra_type_iterate_end;
+
+  return NULL;
+}
+
+/**************************************************************************
+  Returns extra type matching the translated name, or NULL if there is no
+  extra type with that name.
+**************************************************************************/
+struct extra_type *extra_type_by_translated_name(const char *name)
+{
+  extra_type_iterate(pextra) {
+    if (0 == strcmp(extra_name_translation(pextra), name)) {
+      return pextra;
+    }
+  } extra_type_iterate_end;
 
   return NULL;
 }

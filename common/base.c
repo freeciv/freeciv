@@ -114,7 +114,13 @@ bool base_has_flag_for_utype(const struct base_type *pbase,
 **************************************************************************/
 const char *base_name_translation(const struct base_type *pbase)
 {
-  return name_translation(&pbase->name);
+  struct extra_type *pextra = extra_type_get(EXTRA_BASE, pbase->item_number);
+
+  if (pextra == NULL) {
+    return NULL;
+  }
+
+  return extra_name_translation(pextra);
 }
 
 /**************************************************************************
@@ -123,7 +129,13 @@ const char *base_name_translation(const struct base_type *pbase)
 **************************************************************************/
 const char *base_rule_name(const struct base_type *pbase)
 {
-  return rule_name(&pbase->name);
+  struct extra_type *pextra = extra_type_get(EXTRA_BASE, pbase->item_number);
+
+  if (pextra == NULL) {
+    return NULL;
+  }
+
+  return extra_rule_name(pextra);
 }
 
 /**************************************************************************
@@ -132,15 +144,13 @@ const char *base_rule_name(const struct base_type *pbase)
 **************************************************************************/
 struct base_type *base_type_by_rule_name(const char *name)
 {
-  const char *qs = Qn_(name);
+  struct extra_type *pextra = extra_type_by_rule_name(name);
 
-  base_type_iterate(pbase) {
-    if (!fc_strcasecmp(base_rule_name(pbase), qs)) {
-      return pbase;
-    }
-  } base_type_iterate_end;
+  if (pextra == NULL || pextra->type != EXTRA_BASE) {
+    return NULL;
+  }
 
-  return NULL;
+  return &pextra->data.base;
 }
 
 /**************************************************************************
@@ -149,13 +159,13 @@ struct base_type *base_type_by_rule_name(const char *name)
 **************************************************************************/
 struct base_type *base_type_by_translated_name(const char *name)
 {
-  base_type_iterate(pbase) {
-    if (0 == strcmp(base_name_translation(pbase), name)) {
-      return pbase;
-    }
-  } base_type_iterate_end;
+  struct extra_type *pextra = extra_type_by_translated_name(name);
 
-  return NULL;
+  if (pextra == NULL || pextra->type != EXTRA_BASE) {
+    return NULL;
+  }
+
+  return &pextra->data.base;
 }
 
 /****************************************************************************

@@ -67,7 +67,6 @@ struct road_type;
 
 struct road_type {
   int id;
-  struct name_translation name;
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   char activity_gfx[MAX_LEN_NAME];
@@ -109,8 +108,8 @@ struct road_type *road_by_number(Road_type_id id);
 enum road_compat road_compat_special(const struct road_type *proad);
 struct road_type *road_by_compat_special(enum road_compat compat);
 
-const char *road_name_translation(struct road_type *road);
-const char *road_rule_name(const struct road_type *road);
+const char *road_name_translation(struct road_type *proad);
+const char *road_rule_name(const struct road_type *proad);
 struct road_type *road_type_by_rule_name(const char *name);
 struct road_type *road_type_by_translated_name(const char *name);
 

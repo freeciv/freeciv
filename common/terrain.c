@@ -25,6 +25,7 @@
 #include "support.h"
 
 /* common */
+#include "extras.h"
 #include "game.h"
 #include "map.h"
 #include "rgbcolor.h"
@@ -541,34 +542,18 @@ bool is_resource_near_tile(const struct tile *ptile,
   return check_self && tile_resource(ptile) == pres;
 }
 
-/* Names of specials.
- * (These must correspond to enum tile_special_type.)
- */
-static const char *tile_special_type_names[] =
-{
-  N_("Irrigation"),
-  N_("Mine"),
-  N_("Pollution"),
-  N_("Hut"),
-  N_("Farmland"),
-  N_("Fallout")
-};
-
 /****************************************************************************
   Return the special with the given name, or S_LAST.
 ****************************************************************************/
 enum tile_special_type special_by_rule_name(const char *name)
 {
-  fc_assert_ret_val(ARRAY_SIZE(tile_special_type_names) == S_LAST, S_LAST);
+  struct extra_type *pextra = extra_type_by_rule_name(name);
 
-  tile_special_type_iterate(i) {
-    if (tile_special_type_names[i] != NULL
-        && 0 == strcmp(tile_special_type_names[i], name)) {
-      return i;
-    }
-  } tile_special_type_iterate_end;
+  if (pextra == NULL || pextra->type != EXTRA_SPECIAL) {
+    return S_LAST;
+  }
 
-  return S_LAST;
+  return pextra->data.special;
 }
 
 /****************************************************************************
@@ -576,10 +561,13 @@ enum tile_special_type special_by_rule_name(const char *name)
 ****************************************************************************/
 const char *special_name_translation(enum tile_special_type type)
 {
-  fc_assert_ret_val(ARRAY_SIZE(tile_special_type_names) == S_LAST, NULL);
-  fc_assert_ret_val(type >= 0 && type < S_LAST, NULL);
+  struct extra_type *pextra = extra_type_get(EXTRA_SPECIAL, type);
 
-  return _(tile_special_type_names[type]);
+  if (pextra == NULL) {
+    return NULL;
+  }
+
+  return extra_name_translation(pextra);
 }
 
 /****************************************************************************
@@ -587,10 +575,13 @@ const char *special_name_translation(enum tile_special_type type)
 ****************************************************************************/
 const char *special_rule_name(enum tile_special_type type)
 {
-  fc_assert_ret_val(ARRAY_SIZE(tile_special_type_names) == S_LAST, NULL);
-  fc_assert_ret_val(type >= 0 && type < S_LAST, NULL);
+  struct extra_type *pextra = extra_type_get(EXTRA_SPECIAL, type);
 
-  return tile_special_type_names[type];
+  if (pextra == NULL) {
+    return NULL;
+  }
+
+  return extra_rule_name(pextra);
 }
 
 /****************************************************************************

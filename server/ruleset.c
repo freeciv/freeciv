@@ -36,6 +36,7 @@
 #include "capability.h"
 #include "city.h"
 #include "effects.h"
+#include "extras.h"
 #include "fc_types.h"
 #include "game.h"
 #include "government.h"
@@ -151,6 +152,7 @@ static void send_ruleset_units(struct conn_list *dest);
 static void send_ruleset_buildings(struct conn_list *dest);
 static void send_ruleset_terrain(struct conn_list *dest);
 static void send_ruleset_resources(struct conn_list *dest);
+static void send_ruleset_extras(struct conn_list *dest);
 static void send_ruleset_bases(struct conn_list *dest);
 static void send_ruleset_roads(struct conn_list *dest);
 static void send_ruleset_governments(struct conn_list *dest);
@@ -163,6 +165,18 @@ static bool load_ruleset_veteran(struct section_file *file,
                                  struct veteran_system **vsystem, char *err,
                                  size_t err_len);
 
+/* Names of specials.
+ * (These must correspond to enum tile_special_type.)
+ */
+static const char *tile_special_type_names[] =
+{
+  N_("Irrigation"),
+  N_("Mine"),
+  N_("Pollution"),
+  N_("Hut"),
+  N_("Farmland"),
+  N_("Fallout")
+};
 
 /**************************************************************************
   Notifications about ruleset errors to clients. Especially important in
@@ -2281,6 +2295,17 @@ static bool load_terrain_names(struct section_file *file)
   if (ok) {
     int idx;
 
+    for (idx = 0; idx < S_LAST; idx++) {
+      struct extra_type *pextra = extra_type_get(EXTRA_SPECIAL, idx);
+      const char *name = tile_special_type_names[idx];
+
+      names_set(&pextra->name, name, name);
+    }
+  }
+
+  if (ok) {
+    int idx;
+
     game.control.num_base_types = nval;
 
     for (idx = 0; idx < nval; idx++) {
@@ -2295,8 +2320,9 @@ static bool load_terrain_names(struct section_file *file)
     base_type_iterate(pbase) {
       const int i = base_index(pbase);
       const char *sec_name = section_name(section_list_get(sec, i));
+      struct extra_type *pextra = extra_type_get(EXTRA_BASE, pbase->item_number);
 
-      if (!ruleset_load_names(&pbase->name, file, sec_name)) {
+      if (!ruleset_load_names(&pextra->name, file, sec_name)) {
         ok = FALSE;
         break;
       }
@@ -2336,8 +2362,9 @@ static bool load_terrain_names(struct section_file *file)
     road_type_iterate(proad) {
       const int i = road_index(proad);
       const char *sec_name = section_name(section_list_get(sec, i));
+      struct extra_type *pextra = extra_type_get(EXTRA_ROAD, proad->id);
 
-      if (!ruleset_load_names(&proad->name, file, sec_name)) {
+      if (!ruleset_load_names(&pextra->name, file, sec_name)) {
         ok = FALSE;
         break;
       }
@@ -5224,6 +5251,23 @@ static void send_ruleset_resources(struct conn_list *dest)
 }
 
 /**************************************************************************
+  Send the extra ruleset information (all individual extra types) to the
+  specified connections.
+**************************************************************************/
+static void send_ruleset_extras(struct conn_list *dest)
+{
+  struct packet_ruleset_extra packet;
+
+  extra_type_iterate(e) {
+    packet.id = extra_number(e);
+    sz_strlcpy(packet.name, untranslated_name(&e->name));
+    sz_strlcpy(packet.rule_name, rule_name(&e->name));
+
+    lsend_packet_ruleset_extra(dest, &packet);
+  } extra_type_iterate_end;
+}
+
+/**************************************************************************
   Send the base ruleset information (all individual base types) to the
   specified connections.
 **************************************************************************/
@@ -5235,8 +5279,6 @@ static void send_ruleset_bases(struct conn_list *dest)
     int j;
 
     packet.id = base_number(b);
-    sz_strlcpy(packet.name, untranslated_name(&b->name));
-    sz_strlcpy(packet.rule_name, rule_name(&b->name));
     sz_strlcpy(packet.graphic_str, b->graphic_str);
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
     sz_strlcpy(packet.activity_gfx, b->activity_gfx);
@@ -5279,9 +5321,6 @@ static void send_ruleset_roads(struct conn_list *dest)
     int j;
 
     packet.id = road_number(r);
-
-    sz_strlcpy(packet.name, untranslated_name(&r->name));
-    sz_strlcpy(packet.rule_name, rule_name(&r->name));
 
     sz_strlcpy(packet.graphic_str, r->graphic_str);
     sz_strlcpy(packet.graphic_alt, r->graphic_alt);
@@ -5816,6 +5855,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_terrain(dest);
   send_ruleset_bases(dest);
   send_ruleset_roads(dest);
+  send_ruleset_extras(dest);
   send_ruleset_buildings(dest);
   send_ruleset_nations(dest);
   send_ruleset_cities(dest);
