@@ -30,6 +30,7 @@
 #include "chatline.h"
 #include "dialogs.h"
 #include "gui_main.h"
+#include "plrdlg.h"
 #include "ratesdlg.h"
 #include "repodlgs.h"
 #include "sprite.h"
@@ -37,7 +38,6 @@
 #include "menu.h"
 
 extern QApplication *qapp;
-
 /**************************************************************************
   Initialize menus (sensitivity, name, etc.) based on the
   current state and current ruleset, etc.  Call menus_update().
@@ -362,6 +362,10 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("Units"));
   act->setShortcut(QKeySequence(tr("F2")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_show_units_report()));
+
+  act = menu->addAction(_("Players"));
+  act->setShortcut(QKeySequence(tr("F3")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_show_nations()));
 
   act = menu->addAction(_("Economy"));
   act->setShortcut(QKeySequence(tr("F5")));
@@ -884,6 +888,11 @@ void mr_menu::slot_show_map()
 void mr_menu::slot_show_units_report()
 {
   units_report_dialog_popup(false);
+}
+
+void mr_menu::slot_show_nations()
+{
+  popup_players_dialog(false);
 }
 
 /****************************************************************
