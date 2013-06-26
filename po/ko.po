@@ -431,7 +431,7 @@ msgstr ""
 "생산: %10s 사치: %10s\n"
 "무역: %10s 과학: %10s\n"
 "\n"
-"%*s%s: %d\n"
+"%*s%s: %s\n"
 "도시 성장들: %s\n"
 "생산 완료됨: %s"
 
@@ -44785,63 +44785,64 @@ msgstr "\"%s\" 놓친 인수.\n"
 #. TRANS: <FREECIV_DATA_PATH> configuration error
 #. TRANS: <FREECIV_SAVE_PATH> configuration error
 #: utility/shared.c:953 utility/shared.c:998 utility/shared.c:1058
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" is set but empty; trying \"%s\" instead."
-msgstr "FREECIV_PATH는 배치되 있지만 비어있습니다; 대신 기본경로로 사용합니다"
+msgstr "\"%s\" (은)는 설정되어 있지만 비어있습니다; 대신 \"%s\" (을)를 시도합니다."
 
 #. TRANS: <FREECIV_PATH> configuration error
 #: utility/shared.c:959
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" data directories instead."
-msgstr "FREECIV_PATH는 배치되 있지만 비어있습니다; 대신 기본경로로 사용합니다"
+msgstr "\"%s\" (은)는 설정되어 있지만 비어있습니다; 대신 기본 자료 디렉토리들 \"%s\" (으)로 사용합니다"
 
 #. TRANS: <FREECIV_PATH> configuration error
 #: utility/shared.c:1005
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" save directories instead."
-msgstr "FREECIV_PATH는 배치되 있지만 비어있습니다; 대신 기본경로로 사용합니다"
+msgstr "\"%s\" (은)는 설정되어 있지만 비어있습니다; 대신 기본 저장 디렉토리들 \"%s\" (으)로 사용합니다."
 
 #. TRANS: <FREECIV_PATH> configuration error
 #: utility/shared.c:1065
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\"%s\" is set but empty; using default \"%s\" scenario directories instead."
-msgstr "FREECIV_PATH는 배치되 있지만 비어있습니다; 대신 기본경로로 사용합니다"
+msgstr ""
+"\"%s\" (은)는 설정되어 있지만 비어있습니다; 대신 기본 시나리오 디렉토리들 \"%s\" (으)로 사용합니다."
 
 #. TRANS: "...: <externally translated error string>."
 #: utility/shared.c:1134
 #, c-format
 msgid "Could not read data directory %s: %s."
-msgstr "디렉토리 %s에서 데이터를 읽을 수 없습니다: %s."
+msgstr "디렉토리 %s 에서 데이터를 읽을 수 없습니다: %s."
 
 #. TRANS: <FREECIV_PATH> configuration error
 #: utility/shared.c:1356
-#, fuzzy, c-format
+#, c-format
 msgid "The path may be set via the \"%s\" environment variable."
-msgstr "데이터 경로는 변경할수 있는 FREECIV_PATH환경을 통해 세팅할수 있습니다."
+msgstr "그 경로는 변경할 수 있는 \"%s\" 환경을 통해 설정할 수 있습니다."
 
 #: utility/shared.c:1358
-#, fuzzy, c-format
+#, c-format
 msgid "Current path is: \"%s\""
-msgstr "현재 데이터 경로는 : \"%s\""
+msgstr "현재 경로는 : \"%s\" 입니다"
 
 #: utility/shared.c:1359
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
-msgstr " \"%s\"이 요구됩니다... 거부!"
+msgstr "그 \"%s\" 파일이 요구됩니다 ... 중단하는중!"
 
 #: utility/shared.c:1567
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
-msgstr "%s:치명적 에러: 당신은 관리자되려고 시도하려고 했습니다!\n"
+msgstr "%s: 치명적 에러: 당신은 슈퍼 유저로서 나를 실행하기를 시도하고 있습니다!\n"
 
 #: utility/shared.c:1569
 msgid "Use a non-privileged account instead.\n"
-msgstr "일반계정을 대신 사용하세요\n"
+msgstr "비-특권 계정을 대신에 사용하세요.\n"
 
 #: utility/shared.c:1585
 msgid "exact match"
-msgstr "정확한 맞음(match)"
+msgstr "정확한 일치"
 
 #: utility/shared.c:1586
 msgid "only match"
@@ -44849,7 +44850,7 @@ msgstr "오직 경기"
 
 #: utility/shared.c:1587
 msgid "ambiguous"
-msgstr "애매모한"
+msgstr "애매모호한"
 
 #: utility/shared.c:1588
 msgid "empty"
@@ -44861,31 +44862,27 @@ msgstr "너무 깁니다"
 
 #: utility/shared.c:1590
 msgid "non-match"
-msgstr "맞지 않습니다"
+msgstr "맞지-않습니다"
 
 #: utility/shared.c:1911
-#, fuzzy
 msgid "day"
 msgid_plural "days"
-msgstr[0] "5월"
+msgstr[0] "일"
 
 #: utility/shared.c:1916
-#, fuzzy
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] "또는"
+msgstr[0] "시"
 
 #: utility/shared.c:1922
-#, fuzzy
 msgid "minute"
 msgid_plural "minutes"
-msgstr[0] "해병"
+msgstr[0] "분"
 
 #: utility/shared.c:1928
-#, fuzzy
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] "기록"
+msgstr[0] "초"
 
 #: utility/support.c:431
 #, c-format
