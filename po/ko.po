@@ -329,23 +329,24 @@ msgstr ""
 #: ai/default/aicity.c:317 server/citytools.c:2453
 #, c-format
 msgid "The %s have stopped building The %s in %s."
-msgstr "%s(은)는 %s의 건설을 %s에서 중단했습니다."
+msgstr "%s (은)는 %s 의 건설을 %s 에서 중단했습니다."
 
 #: ai/default/aicity.c:328 server/citytools.c:2491
 #, c-format
 msgid "The %s have started building The %s in %s."
-msgstr "%s(은)는 %s의 건설을 %s에서 시작했습니다."
+msgstr "%s (은)는 %s 의 건설을 %s 에서 시작했습니다."
 
 #: ai/default/aicity.c:799
 #, c-format
 msgid "%s is selling %s (not needed) for %d."
-msgstr ""
+msgstr "%s (은)는 %s (필요하지 않는) (을)를 %d (을)를 위해 판매하고 있습니다."
 
 #: ai/threaded/threadedai.c:482
 msgid ""
 "This Freeciv compilation has no full threads implementation, threaded ai "
 "cannot be used."
 msgstr ""
+"이 Freeciv 모음집은 사용될 수 없는 인공지능으로 엮은, 완전히 실가닥들의 완성이 아닙니다."
 
 #: client/agents/cma_core.c:391
 #, c-format
@@ -353,6 +354,7 @@ msgid ""
 "The citizen governor can't fulfill the requirements for %s. Passing back "
 "control."
 msgstr ""
+"그 시장은 %s 를 위한 그 필요조건들을 수행할 수가 없습니다. 통제로 다시 돌아갑니다."
 
 #: client/agents/cma_core.c:400 client/agents/cma_core.c:422
 #, c-format
@@ -360,6 +362,7 @@ msgid ""
 "The citizen governor has gotten confused dealing with %s.  You may want to "
 "have a look."
 msgstr ""
+"그 시장은 %s 를 처리하는데 혼란됨을 가졌습니다. 당신은 아마 보고 싶어 할 것입니다."
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:431 client/gui-sdl/mapview.c:158
@@ -367,7 +370,7 @@ msgstr ""
 #: utility/netintf.c:93 utility/registry_ini.c:725
 #, c-format
 msgid "Please report this message at %s"
-msgstr ""
+msgstr "제발 이 메시지를 %s 에 보고하세요."
 
 #: client/agents/cma_fec.c:226 client/gui-gtk-2.0/cityrep.c:762
 #: client/gui-gtk-2.0/cityrep.c:788 client/gui-gtk-3.0/cityrep.c:770
@@ -398,18 +401,18 @@ msgstr "없음"
 #, c-format
 msgid "%d turn"
 msgid_plural "%d turns"
-msgstr[0] "%d 턴"
+msgstr[0] "%d 차례"
 
 #. TRANS: "W" is worker citizens, as opposed to specialists;
 #. * %s will represent the specialist types, for instance "E/S/T"
 #: client/agents/cma_fec.c:334
 #, c-format
 msgid "People (W/%s)"
-msgstr ""
+msgstr "사람들 (W/%s)"
 
 #: client/agents/cma_fec.c:348
 msgid " happy"
-msgstr " 만족"
+msgstr " 행복한"
 
 #: client/agents/cma_fec.c:359
 #, c-format
@@ -423,172 +426,181 @@ msgid ""
 "          City grows: %s\n"
 "Production completed: %s"
 msgstr ""
+"이름: %s\n"
+"식량: %10s 금:   %10s\n"
+"생산: %10s 사치: %10s\n"
+"무역: %10s 과학: %10s\n"
+"\n"
+"%*s%s: %d\n"
+"도시 성장들: %s\n"
+"생산 완료됨: %s"
 
 #: client/agents/cma_fec.c:427
 msgid "?cma:Very happy"
-msgstr ""
+msgstr "?cma:아주 행복한"
 
 #: client/agents/cma_fec.c:428
 msgid "?cma:Max food"
-msgstr ""
+msgstr "?cma:최대 식량"
 
 #: client/agents/cma_fec.c:429
 msgid "?cma:Max production"
-msgstr ""
+msgstr "?cma:최대 생산"
 
 #: client/agents/cma_fec.c:430
 msgid "?cma:Max gold"
-msgstr ""
+msgstr "?cma:최대 금"
 
 #: client/agents/cma_fec.c:431
 msgid "?cma:Max science"
-msgstr ""
+msgstr "?cma:최대 과학"
 
 #: client/attribute.c:365
 msgid ""
 "There has been a CMA error. Your citizen governor settings may be broken."
 msgstr ""
+"거기에 한 CMA 오류가 있습니다. 당신의 시장 설정들은 아마 깨졌을지도 모릅니다."
 
 #: client/attribute.c:369
 msgid "Old attributes detected and removed."
-msgstr ""
+msgstr "오래된 속성들을 발견하고 제거햇습니다."
 
 #: client/audio.c:122
 #, c-format
 msgid "Plugin '%s' isn't available. Available are %s"
-msgstr ""
+msgstr "플러그꽂기 '%s' (은)는 이용할 수 없습니다. 이용할 수 있는건 %s 입니다."
 
 #: client/audio.c:199
 msgid "No real audio plugin present."
-msgstr ""
+msgstr "진짜의 소리 플러그꽂기가 존재하지 않습니다."
 
 #: client/audio.c:200 client/audio.c:217 client/audio.c:255 client/audio.c:264
 msgid "Proceeding with sound support disabled."
-msgstr ""
+msgstr "소리 지원을 계속하기는 망가졌습니다."
 
 #: client/audio.c:201
 msgid "For sound support, install SDL_mixer"
-msgstr ""
+msgstr "소리 지원을 위하여, SDL_mixer를 설치하십시오."
 
 #: client/audio.c:214
 msgid "To get sound you need to download a sound set!"
-msgstr ""
+msgstr "소리를 받으려면 당신은 한 소리 집단을 내려받을 필요가 있습니다!"
 
 #: client/audio.c:215
 #, c-format
 msgid "Get sound sets from <%s>."
-msgstr ""
+msgstr "<%s> 로부터 소리 집단들을 받습니다."
 
 #: client/audio.c:222
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not load sound spec-file '%s':\n"
 "%s"
-msgstr "스크립트 파일  '%s' 을 읽읈 ㅜ없습니다"
+msgstr ""
+"소리 특정한-파일 '%s' 을(를) 불러 올 수가 없습니다 :\n"
+"%s"
 
 #: client/audio.c:262
 msgid "No real audio subsystem managed to initialize!"
-msgstr ""
+msgstr "초기화하기를 다루는 진짜의 소리 하부 조직이 없습니다!"
 
 #: client/audio.c:263
 msgid "Perhaps there is some misconfiguration or bad permissions."
-msgstr ""
+msgstr "아마 거기에 몇몇의 잘못된 구성이나 나쁜 허락들이 있습니다."
 
 #: client/chatline_common.c:141
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it "
 "under certain conditions;"
 msgstr ""
-"Freeciv는 자유 소프트웨어 이고 당신의 이것에 대한 확실한 조건하에서 복사가 허"
-"용됩니다;"
+"Freeciv 는 자유 소프트웨어이고 당신은 어떤 조건하에 이것의 복사본들을 배포하기를"
+"허용됩니다;"
 
 #: client/chatline_common.c:144
 msgid "See the \"Copying\" item on the Help menu."
-msgstr " 도움말 메뉴에서 \"복사\" 을 보기 바랍니다."
+msgstr "도움 메뉴에서 \"복사\" 항목을 보기 바랍니다."
 
 #: client/chatline_common.c:146
-#, fuzzy
 msgid "Now ... Go give 'em hell!"
-msgstr " 그리고... 해보자구요."
+msgstr "이제 ... 그들에게 지옥을 주러 가자!"
 
 #: client/chatline_common.c:158
 #, c-format
 msgid "Exporting output window to '%s' ..."
-msgstr ""
+msgstr "출력 창을 '%s' 에 내보내는중 ..."
 
 #: client/chatline_common.c:165
 msgid "Export complete."
-msgstr ""
+msgstr "내보내기 완료하다."
 
 #: client/chatline_common.c:168
 msgid "Export failed, couldn't write to file."
-msgstr ""
+msgstr "내보내기 실패하다, 파일에 기록할 수가 없다."
 
 #. TRANS: Use longer of "XXX turns" and "never"
 #: client/citydlg_common.c:257
 msgid "?filler:XXX/XXX XXX turns"
-msgstr ""
+msgstr "?filler:XXX/XXX XXX 차례"
 
 #: client/citydlg_common.c:264
 #, c-format
 msgid "%3d gold per turn"
 msgid_plural "%3d gold per turn"
-msgstr[0] ""
+msgstr[0] "차례마다 %3d 금"
 
 #: client/citydlg_common.c:278
 #, c-format
 msgid "%3d turn"
 msgid_plural "%3d turns"
-msgstr[0] "%3d 턴"
+msgstr[0] "%3d 차례"
 
 #: client/citydlg_common.c:286
-#, fuzzy, c-format
+#, c-format
 msgid "%3d/%s:%s"
-msgstr "%3d/%3d:%s"
+msgstr "%3d/%s:%s"
 
 #: client/citydlg_common.c:289
-#, fuzzy, c-format
+#, c-format
 msgid "%3d/%s %s"
-msgstr "%3d/%3d %s"
+msgstr "%3d/%s %s"
 
 #: client/citydlg_common.c:319 client/citydlg_common.c:418
 #, c-format
 msgid "%d/turn"
-msgstr "%d/턴"
+msgstr "%d/차례"
 
 #: client/citydlg_common.c:379 client/citydlg_common.c:389
 #: client/gui-sdl/wldlg.c:1367
 msgid "Obsolete"
-msgstr ""
+msgstr "구식의"
 
 #: client/citydlg_common.c:381 client/citydlg_common.c:391
 #: client/gui-sdl/repodlgs.c:2049 client/gui-sdl/wldlg.c:1370
 #: client/gui-sdl/wldlg.c:1378 common/events.c:91 common/events.c:161
 msgid "Built"
-msgstr ""
+msgstr "만들어진"
 
 #: client/citydlg_common.c:383 client/gui-sdl/wldlg.c:1372
-#, fuzzy
 msgid "Destroyed"
-msgstr "구축함"
+msgstr "파괴된"
 
 #: client/citydlg_common.c:385 client/gui-sdl/wldlg.c:1374
 msgid "Great Wonder"
-msgstr "불가사의"
+msgstr "큰 불가사의"
 
 #: client/citydlg_common.c:393 client/gui-sdl/wldlg.c:1380
 msgid "Small Wonder"
-msgstr ""
+msgstr "작은 불가사의"
 
 #: client/citydlg_common.c:449
 #, c-format
 msgid "%+4d : Citizens\n"
-msgstr ""
+msgstr "%+4d : 시민들\n"
 
 #: client/citydlg_common.c:456
 #, c-format
 msgid "%+4d : Taxed from trade\n"
-msgstr ""
+msgstr "%+4d : 교역으로부터 부과한 세금\n"
 
 #. TRANS: "unknown" location
 #. TRANS: unrecognized command
@@ -597,117 +609,116 @@ msgstr ""
 #: client/gui-sdl/inteldlg.c:326 client/gui-xaw/inteldlg.c:281
 #: server/stdinhand.c:322
 msgid "(unknown)"
-msgstr ""
+msgstr "(알려지지 않은)"
 
 #: client/citydlg_common.c:478
 #, c-format
 msgid "%+4d : Trade route with %s\n"
-msgstr ""
+msgstr "%+4d : %s (와)과의 교역 경로\n"
 
 #: client/citydlg_common.c:487
 #, c-format
 msgid "%+4d : Building tithes\n"
-msgstr ""
+msgstr "%+4d : 십일조 세금을 만들어 내기\n"
 
 #: client/citydlg_common.c:510
 #, c-format
 msgid "%+4d : Bonus from %s (%+d%%)\n"
-msgstr ""
+msgstr "%+4d :%s (%+d%%) 로부터 상여금\n"
 
 #: client/citydlg_common.c:524
 #, c-format
 msgid "%+4d : Waste\n"
-msgstr ""
+msgstr "%+4d : 쓰레기\n"
 
 #: client/citydlg_common.c:527
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Corruption\n"
-msgstr "부패"
+msgstr "%+4d : 부패\n"
 
 #: client/citydlg_common.c:536
 #, c-format
 msgid "%+4d : Disorder\n"
-msgstr ""
+msgstr "%+4d : 무질서\n"
 
 #: client/citydlg_common.c:542
 #, c-format
 msgid "%+4d : Used\n"
-msgstr ""
+msgstr "%+4d : 사용됨\n"
 
 #: client/citydlg_common.c:547 client/citydlg_common.c:593
 #: client/citydlg_common.c:617
 msgid "==== : Adds up to\n"
-msgstr ""
+msgstr "==== : 합계\n"
 
 #: client/citydlg_common.c:549 client/citydlg_common.c:619
 #, c-format
 msgid "%4d : Total surplus"
-msgstr ""
+msgstr "%4d : 총 과잉"
 
 #: client/citydlg_common.c:564
 msgid "Illness deactivated in ruleset."
-msgstr ""
+msgstr "아픔은 규칙집단 안에서 비활성화되었습니다."
 
 #: client/citydlg_common.c:571
 #, c-format
 msgid "%+5.1f : Risk from overcrowding\n"
-msgstr ""
+msgstr "%+5.1f : 과잉 수용으로부터 위험\n"
 
 #: client/citydlg_common.c:573
-#, fuzzy, c-format
+#, c-format
 msgid "%+5.1f : Risk from trade\n"
-msgstr "%2$s에서 오시는 %1$s"
+msgstr "%+5.1f : 무역으로부터 위험\n"
 
 #: client/citydlg_common.c:575
-#, fuzzy, c-format
+#, c-format
 msgid "%+5.1f : Risk from pollution\n"
-msgstr "%2$s에서 오시는 %1$s"
+msgstr "%+5.1f : 공해으로부터 위험\n"
 
 #: client/citydlg_common.c:588
-#, fuzzy, c-format
+#, c-format
 msgid "%+5.1f : Bonus from %s\n"
-msgstr "%2$s에서 오시는 %1$s"
+msgstr "%+5.1f : %s (으)로부터 상여금\n"
 
 #: client/citydlg_common.c:594
 #, c-format
 msgid "%5.1f : Total chance for a plague"
-msgstr ""
+msgstr "%5.1f : 한 전염병을 위한 총 가능성"
 
 #: client/citydlg_common.c:611
 #, c-format
 msgid "%+4d : Pollution from shields\n"
-msgstr ""
+msgstr "%+4d : 방패들로부터 공해\n"
 
 #: client/citydlg_common.c:613
 #, c-format
 msgid "%+4d : Pollution from citizens\n"
-msgstr ""
+msgstr "%+4d : 시민들로부터 공해\n"
 
 #: client/citydlg_common.c:615
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Pollution modifier\n"
-msgstr "부패"
+msgstr "%+4d : 공해 조정기\n"
 
 #: client/cityrepdata.c:106
-#, fuzzy
 msgid "?city_state:Celebrating"
-msgstr "도시 : 축제"
+msgstr "?city_state:축하"
 
 #: client/cityrepdata.c:107
 msgid "?city_state:Disorder"
-msgstr "혼란"
+msgstr "?city_state:무질서"
 
 #: client/cityrepdata.c:108
 msgid "?city_state:Peace"
-msgstr "평화"
+msgstr "?city_state:평화"
 
 #: client/cityrepdata.c:521
 msgid "(worklist)"
-msgstr "(작업리스트)"
+msgstr "(작업목록)"
 
 #: client/cityrepdata.c:638
 msgid "?city:Name"
-msgstr "이름"
+msgstr "?city:이름"
 
 #: client/cityrepdata.c:638 client/gui-sdl/cityrep.c:196
 msgid "City Name"
@@ -724,11 +735,11 @@ msgstr "도시 이름"
 #: client/gui-qt/pages.cpp:397 client/gui-sdl/repodlgs.c:2081
 #: client/plrdlg_common.c:232
 msgid "Nation"
-msgstr "민족"
+msgstr "국가"
 
 #: client/cityrepdata.c:642
 msgid "?size [short]:Sz"
-msgstr "크"
+msgstr "?size [short]:크"
 
 #: client/cityrepdata.c:642 client/gui-gtk-2.0/editgui.c:1312
 #: client/gui-gtk-2.0/editprop.c:4213 client/gui-gtk-3.0/editgui.c:1343
@@ -741,9 +752,8 @@ msgid "State"
 msgstr "상태"
 
 #: client/cityrepdata.c:644
-#, fuzzy
 msgid "Celebrating/Peace/Disorder"
-msgstr "황홀/평화/혼란"
+msgstr "축하/평화/무질서"
 
 #: client/cityrepdata.c:646
 msgid "Concise *=Celebrating, X=Disorder"
