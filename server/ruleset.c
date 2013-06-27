@@ -95,6 +95,7 @@
 #define NATION_SET_SECTION_PREFIX "nset" /* without underscore? */
 #define NATION_SECTION_PREFIX "nation" /* without underscore? */
 #define RESOURCE_SECTION_PREFIX "resource_"
+#define EXTRA_SECTION_PREFIX "extra_"
 #define BASE_SECTION_PREFIX "base_"
 #define ROAD_SECTION_PREFIX "road_"
 #define SPECIALIST_SECTION_PREFIX "specialist_"
@@ -112,6 +113,7 @@ static const char name_too_long[] = "Name \"%s\" too long; truncating.";
 	(void) loud_strlcpy(dst, src, MAX_SECTION_LABEL, name_too_long)
 static char *resource_sections = NULL;
 static char *terrain_sections = NULL;
+static char *extra_sections = NULL;
 static char *base_sections = NULL;
 static char *road_sections = NULL;
 
@@ -164,19 +166,6 @@ static bool load_ruleset_veteran(struct section_file *file,
                                  const char *path,
                                  struct veteran_system **vsystem, char *err,
                                  size_t err_len);
-
-/* Names of specials.
- * (These must correspond to enum tile_special_type.)
- */
-static const char *tile_special_type_names[] =
-{
-  N_("Irrigation"),
-  N_("Mine"),
-  N_("Pollution"),
-  N_("Hut"),
-  N_("Farmland"),
-  N_("Fallout")
-};
 
 /**************************************************************************
   Notifications about ruleset errors to clients. Especially important in
@@ -2280,6 +2269,48 @@ static bool load_terrain_names(struct section_file *file)
   section_list_destroy(sec);
   sec = NULL;
 
+  /* extra names */
+
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, EXTRA_SECTION_PREFIX);
+    nval = (NULL != sec ? section_list_size(sec) : 0);
+    if (nval > S_LAST) {
+      ruleset_error(LOG_ERROR, "\"%s\": Too many extra types (%d, max %d)",
+                    filename, nval, S_LAST);
+      ok = FALSE;
+    }
+  }
+
+  if (ok) {
+    int idx;
+
+    if (nval != S_LAST) {
+      ruleset_error(LOG_ERROR, "One extra section for each special required");
+      ok = FALSE;
+    }
+
+    if (extra_sections) {
+      free(extra_sections);
+    }
+    extra_sections = fc_calloc(nval, MAX_SECTION_LABEL);
+
+    if (ok) {
+      for (idx = 0; idx < nval; idx++) {
+        const char *sec_name = section_name(section_list_get(sec, idx));
+        struct extra_type *pextra = extra_type_get(EXTRA_SPECIAL, idx);
+
+        if (!ruleset_load_names(&pextra->name, file, sec_name)) {
+          ok = FALSE;
+          break;
+        }
+        section_strlcpy(&extra_sections[idx * MAX_SECTION_LABEL], sec_name);
+      }
+    }
+  }
+
+  section_list_destroy(sec);
+  sec = NULL;
+
   /* base names */
 
   if (ok) {
@@ -2289,17 +2320,6 @@ static bool load_terrain_names(struct section_file *file)
       ruleset_error(LOG_ERROR, "\"%s\": Too many base types (%d, max %d)",
                     filename, nval, MAX_BASE_TYPES);
       ok = FALSE;
-    }
-  }
-
-  if (ok) {
-    int idx;
-
-    for (idx = 0; idx < S_LAST; idx++) {
-      struct extra_type *pextra = extra_type_get(EXTRA_SPECIAL, idx);
-      const char *name = tile_special_type_names[idx];
-
-      names_set(&pextra->name, name, name);
     }
   }
 
@@ -5764,6 +5784,10 @@ static bool load_rulesetdir(const char *rsdir)
   nullcheck_secfile_destroy(nationfile);
   nullcheck_secfile_destroy(effectfile);
 
+  if (extra_sections) {
+    free(extra_sections);
+    extra_sections = NULL;
+  }
   if (base_sections) {
     free(base_sections);
     base_sections = NULL;
