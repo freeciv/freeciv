@@ -141,8 +141,8 @@ flags         = "TerrainSpeed", "DamageSlows", "BuildAnywhere", "CollectRansom",
 name          = _("?unitclass:Big Land")
 min_speed     = 1
 hp_loss_pct   = 0
-flags         = "TerrainSpeed", "DamageSlows", "BuildAnywhere", "CollectRansom",
-                "ZOC", "CanFortify", "TerrainDefense", "KillCitizen"
+flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
+                "CollectRansom","ZOC", "CanFortify", "KillCitizen"
 
 [unitclass_merchant]
 ; /* TRANS: Unit class: used adjectivally */
@@ -506,7 +506,7 @@ Engineers are similar to Workers, but they work twice as fast,\
 name          = _("Warriors")
 class         = "Land"
 tech_req      = "None"
-obsolete_by   = "Pikemen"
+obsolete_by   = "Musketeers"
 graphic       = "u.warriors"
 graphic_alt   = "-"
 sound_move    = "m_warriors"
@@ -643,7 +643,7 @@ sound_fight   = "f_pikemen"
 sound_fight_alt = "f_generic"
 build_cost    = 30
 pop_cost      = 0
-attack        = 1
+attack        = 2
 defense       = 3
 hitpoints     = 10
 firepower     = 1
@@ -972,7 +972,7 @@ Horsemen are mounted warriors and an early\
 name          = _("Chariot")
 class         = "Big Land"
 tech_req      = "The Wheel"
-obsolete_by   = "Knights"
+obsolete_by   = "Crusaders"
 graphic       = "u.chariot"
 graphic_alt   = "-"
 sound_move    = "m_chariot"
@@ -1006,7 +1006,7 @@ class         = "Land"
 tech_req      = "Polytheism"
 obsolete_by   = "Knights"
 graphic       = "u.elephants"
-graphic_alt   = "-"
+graphic_alt   = "u.chariot"
 sound_move    = "m_elephants"
 sound_move_alt = "m_generic"
 sound_fight   = "f_elephants"
@@ -1038,7 +1038,7 @@ class         = "Land"
 tech_req      = "Monotheism"
 obsolete_by   = "Dragoons"
 graphic       = "u.crusaders"
-graphic_alt   = "-"
+graphic_alt   = "u.knights"
 sound_move    = "m_crusaders"
 sound_move_alt = "m_generic"
 sound_fight   = "f_crusaders"
@@ -1309,7 +1309,7 @@ attack        = 12
 defense       = 2
 hitpoints     = 30
 firepower     = 1
-move_rate     = 2
+move_rate     = 1
 vision_radius_sq = 2
 transport_cap = 0
 fuel          = 0
@@ -1350,12 +1350,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 targets       = "Air", "Missile"
-bonuses       =
-   { "flag", "type", "value"
-     "Helicopter", "DefenseDivider", 1
-     "Helicopter", "Firepower1", 1
-   }
-flags         = ""
+flags         = "AirUnit"
 roles         = ""
 helptext      = _("\
 Fighters are your first airborne units. They can\
@@ -1387,14 +1382,14 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "FieldUnit", "OneAttack", "Bombarder"
+flags         = "FieldUnit", "OneAttack", "AirUnit", "Bombarder"
 roles         = ""
 helptext      = _("\
 Bombers are specialized airborne units that may\
  only attack ground targets, not other airborne\
  units.\
 ")
-bombard_rate = 2
+bombard_rate = 3
 
 [unit_helicopter]
 name          = _("Helicopter")
@@ -1422,7 +1417,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 cargo         = "Land"
-flags         = "OneAttack", "Bombarder"
+flags         = "OneAttack", "AirUnit", "Bombarder"
 roles         = ""
 helptext      = _("\
 The Helicopter can transport one unit of infantry, and it can bombard\
@@ -1430,7 +1425,7 @@ The Helicopter can transport one unit of infantry, and it can bombard\
  a small amount of health for every turn not spent in a city or airbase\
  or on a Carrier, and Helicopters may be attacked by ground units.\
 ")
-bombard_rate = 1
+bombard_rate = 2
 
 [unit_stealth_fighter]
 name          = _("Stealth Fighter")
@@ -1458,12 +1453,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 targets       = "Air", "Missile"
-bonuses       =
-   { "flag", "type", "value"
-     "Helicopter", "DefenseDivider", 1
-     "Helicopter", "Firepower1", 1
-   }
-flags         = "Partial_Invis"
+flags         = "Partial_Invis", "AirUnit"
 roles         = ""
 helptext      = _("\
 An improved Fighter, with improved attack and a higher movement\
@@ -1495,13 +1485,13 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Partial_Invis", "FieldUnit", "OneAttack", "Bombarder"
+flags         = "Partial_Invis", "FieldUnit", "OneAttack", "AirUnit", "Bombarder"
 roles         = ""
 helptext      = _("\
 An improved Bomber, with improved attack and a higher movement\
  radius.\
 ")
-bombard_rate = 3
+bombard_rate = 4
 
 [unit_trireme]
 name          = _("Trireme")
@@ -1926,15 +1916,15 @@ attack        = 18
 defense       = 0
 hitpoints     = 10
 firepower     = 1
-move_rate     = 12
+move_rate     = 16
 vision_radius_sq = 2
 transport_cap = 0
 fuel          = 1
-uk_happy      = 1
+uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
-flags         = "FieldUnit", "OneAttack", "AirUnit", "CityBuster"
+flags         = "OneAttack", "AirUnit", "CityBuster"
 roles         = ""
 helptext      = _("\
 The Cruise Missile is a long-distance missile\
@@ -2019,7 +2009,7 @@ move_rate     = 2
 vision_radius_sq = 2
 transport_cap = 0
 fuel          = 0
-uk_happy      = 0
+uk_happy      = 1
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
@@ -2128,7 +2118,7 @@ move_rate     = 3
 vision_radius_sq = 8
 transport_cap = 0
 fuel          = 0
-uk_happy      = 0
+uk_happy      = 1
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
@@ -2371,7 +2361,7 @@ uk_happy      = 1
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "AirUnit"
 roles         = ""
 helptext      = _("\
 The AWACS (Airborne Warning and Control System) is an airplane with an \

@@ -174,7 +174,7 @@ Improvements that normally convert unhappy citizens to content\
 
 name        = _("Federation")
 reqs = { "type", "name", "range"
-         "tech", "Democracy", "Player"
+         "tech", "Economics", "Player"
        }
 graphic     = "s.tax_gold"
 graphic_alt = "-"
