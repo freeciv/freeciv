@@ -437,23 +437,23 @@ msgstr ""
 
 #: client/agents/cma_fec.c:427
 msgid "?cma:Very happy"
-msgstr "?cma:아주 행복한"
+msgstr "아주 행복한"
 
 #: client/agents/cma_fec.c:428
 msgid "?cma:Max food"
-msgstr "?cma:최대 식량"
+msgstr "최대 식량"
 
 #: client/agents/cma_fec.c:429
 msgid "?cma:Max production"
-msgstr "?cma:최대 생산"
+msgstr "최대 생산"
 
 #: client/agents/cma_fec.c:430
 msgid "?cma:Max gold"
-msgstr "?cma:최대 금"
+msgstr "최대 금"
 
 #: client/agents/cma_fec.c:431
 msgid "?cma:Max science"
-msgstr "?cma:최대 과학"
+msgstr "최대 과학"
 
 #: client/attribute.c:365
 msgid ""
@@ -540,7 +540,7 @@ msgstr "내보내기 실패하다, 파일에 기록할 수가 없다."
 #. TRANS: Use longer of "XXX turns" and "never"
 #: client/citydlg_common.c:257
 msgid "?filler:XXX/XXX XXX turns"
-msgstr "?filler:XXX/XXX XXX 차례"
+msgstr "XXX/XXX XXX 차례"
 
 #: client/citydlg_common.c:264
 #, c-format
@@ -702,15 +702,15 @@ msgstr "%+4d : 공해 조정기\n"
 
 #: client/cityrepdata.c:106
 msgid "?city_state:Celebrating"
-msgstr "?city_state:축하"
+msgstr "축하"
 
 #: client/cityrepdata.c:107
 msgid "?city_state:Disorder"
-msgstr "?city_state:무질서"
+msgstr "무질서"
 
 #: client/cityrepdata.c:108
 msgid "?city_state:Peace"
-msgstr "?city_state:평화"
+msgstr "평화"
 
 #: client/cityrepdata.c:521
 msgid "(worklist)"
@@ -718,7 +718,7 @@ msgstr "(작업목록)"
 
 #: client/cityrepdata.c:638
 msgid "?city:Name"
-msgstr "?city:이름"
+msgstr "이름"
 
 #: client/cityrepdata.c:638 client/gui-sdl/cityrep.c:196
 msgid "City Name"
@@ -739,7 +739,7 @@ msgstr "국가"
 
 #: client/cityrepdata.c:642
 msgid "?size [short]:Sz"
-msgstr "?size [short]:크"
+msgstr "크"
 
 #: client/cityrepdata.c:642 client/gui-gtk-2.0/editgui.c:1312
 #: client/gui-gtk-2.0/editprop.c:4213 client/gui-gtk-3.0/editgui.c:1343
@@ -44297,93 +44297,93 @@ msgstr ""
 #: server/unittools.c:331
 #, c-format
 msgid "%s was upgraded for free to %s."
-msgstr ""
+msgstr "%s (은)는 무료로 %s (으)로 개선되었습니다."
 
 #: server/unittools.c:379
 #, c-format
 msgid "Your %s has run out of hit points."
-msgstr ""
+msgstr "당신의 %s (은)는 타격 점수들이 다 떨어졌습니다."
 
 #: server/unittools.c:455
 #, c-format
 msgid "Your %s has returned to refuel."
-msgstr ""
+msgstr "당신의 %s (은)는 연료를 재급유하기 위해 돌아왔습니다."
 
 #: server/unittools.c:486
 #, c-format
 msgid "Your %s has run out of fuel."
-msgstr ""
+msgstr "당신의 %s (은)는 연료가 떨어졌습니다."
 
 #. TRANS: Your <unit> became ... rank of <veteran level>.
 #: server/unittools.c:709
 #, c-format
 msgid "Your %s became more experienced and achieved the rank of %s."
-msgstr ""
+msgstr "당신의 %s (은)는 경험이 더 풍부해졌고 %s 의 그 등급을 달성했습니다."
 
 #: server/unittools.c:728
-#, fuzzy, c-format
+#, c-format
 msgid "%s converted to %s."
-msgstr "%s 가 %s를 정복했습니다"
+msgstr "%s (이)가 %s (으)로 개조되었습니다."
 
 #: server/unittools.c:734
-#, fuzzy, c-format
+#, c-format
 msgid "%s cannot be converted."
-msgstr "이 부대를 매수할 수 없습니다!"
+msgstr "%s (은)는 개조할 수 없습니다."
 
 #: server/unittools.c:1136
 #, c-format
 msgid "Teleported your %s to %s."
-msgstr ""
+msgstr "당신의 %s (을)를 %s (으)로 순간 이동시켰습니다."
 
 #. TRANS: A unit is moved to resolve stack conflicts.
 #: server/unittools.c:1199
 #, c-format
 msgid "Moved your %s."
-msgstr "당신의 %s(을)를 이동시켰습니다."
+msgstr "당신의 %s (을)를 이동시켰습니다."
 
 #. TRANS: A unit is disbanded to resolve stack conflicts.
 #: server/unittools.c:1210
 #, c-format
 msgid "Disbanded your %s."
-msgstr ""
+msgstr "당신의 %s (을)를 해산했습니다."
 
 #: server/unittools.c:1559
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
-msgstr ""
+msgstr "%s (을)를 방어할 수 없어, %s (은)는 그 놀이에 졌습니다."
 
 #: server/unittools.c:1563
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
-msgstr ""
+msgstr "%s (을)를 잃는 것은 그 놀이에 지는 것을 의미합니다! 다음 시간에는 더 조심하세요!"
 
 #: server/unittools.c:1612
 #, c-format
 msgid "%s lost when %s was lost."
-msgstr ""
+msgstr "%s (을)를 %s (을)를 잃었을 때 잃었습니다."
 
 #: server/unittools.c:1802
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
-msgstr ""
+msgstr "%s (은)는 %s 의 그 파괴에 탈출했고, %s (으)로 도망갔습니다."
 
 #: server/unittools.c:1955
 #, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgid_plural "Barbarian leader captured; %d gold ransom paid."
-msgstr[0] ""
+msgstr[0] "야만인 지도자를 포로로 잡았습니다; 몸값 %d 금을 보수로 받습니다."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unittools.c:1976
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
-msgstr ""
+msgstr "당신의 공격하는 %s (은)는 그 %s %s (에)게 맞서 성공했습니다!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
 #: server/unittools.c:1985 server/unittools.c:2046
 #, c-format
 msgid "%s lost to an attack by the %s %s."
-msgstr ""
+msgstr "%s (은)는 그 %s %s 에 의한 하나의 공격에 잃었습니다."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
 #: server/unittools.c:2021
@@ -44391,21 +44391,21 @@ msgstr ""
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
 "Your attacking %s succeeded against the %s %s (and %d other units)!"
-msgstr[0] ""
+msgstr[0] "당신의 공격하는 %s (은)는 그 %s %s (그리고 %d 다른 부대) (에)게 맞서 성공했습니다!"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #: server/unittools.c:2056
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
-msgstr ""
+msgstr "%s (은)는 그 %s %s (이)가 그 %s %s (을)를 공격할 때 잃었습니다."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
 #: server/unittools.c:2072
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
-msgstr ""
+msgstr "%s (그리고 %s) (은)는 그 %s %s 로부터 하나의 공격에 잃었습니다."
 
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
@@ -44414,7 +44414,7 @@ msgstr ""
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
-msgstr[0] ""
+msgstr[0] "%s (와)과 %d 다른 부대들을 그 %s %s 로부터 하나의 공격에 잃었습니다."
 
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -44423,152 +44423,153 @@ msgstr[0] ""
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
-msgstr[0] ""
+msgstr[0] "%d 부대를 그 %s %s (이)가 그 %s %s (을)를 공격할 때 잃었습니다."
 
 #: server/unittools.c:2459
 #, c-format
 msgid "Your %s was nuked by %s."
-msgstr ""
+msgstr "당신의 %s (은)는 %s 에 의해 핵무기로 공격당했습니다."
 
 #: server/unittools.c:2462 server/unittools.c:2480
 msgid "yourself"
-msgstr ""
+msgstr "당신"
 
 #: server/unittools.c:2466
 #, c-format
 msgid "The %s %s was nuked."
-msgstr ""
+msgstr "그 %s %s (은)는 핵무기로 공격당했습니다."
 
 #: server/unittools.c:2477
 #, c-format
 msgid "%s was nuked by %s."
-msgstr ""
+msgstr "%s (은)는 %s 에 의해 핵무기로 공격당했습니다."
 
 #: server/unittools.c:2485
 #, c-format
 msgid "You nuked %s."
-msgstr ""
+msgstr "당신은 %s (을)를 핵무기로 공격했습니다."
 
 #: server/unittools.c:2537
 #, c-format
 msgid "The %s detonated a nuke!"
-msgstr ""
+msgstr "그 %s (은)는 한 핵무기를 폭발시켰습니다!"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
 #: server/unittools.c:2561 server/unittools.c:2569
 #, c-format
 msgid "%s has no capacity to transport %s."
-msgstr ""
+msgstr "%s (은)는 %s (을)를 수송할 용량이 없습니다."
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
 #: server/unittools.c:2580
-#, fuzzy, c-format
+#, c-format
 msgid "%s cannot be transported to %s."
-msgstr "%s(으)로 개조"
+msgstr "%s (은)는 %s (으)로 수송될 수 없습니다."
 
 #: server/unittools.c:2590
 #, c-format
 msgid "%s transported successfully."
-msgstr ""
+msgstr "%s (은)는 성공적으로 수송되었습니다."
 
 #: server/unittools.c:2651
 msgid "This unit type can not be paradropped."
-msgstr ""
+msgstr "이 부대 종류는 공중 투하될 수 없습니다."
 
 #: server/unittools.c:2661
 msgid "You cannot paradrop a unit that is transporting other units."
-msgstr ""
+msgstr "당신은 다른 부대들을 수송하고 있는 한 부대를 공중 투하할 수 없습니다."
 
 #: server/unittools.c:2667
 msgid "The destination location is not known."
-msgstr ""
+msgstr "그 목적지 위치는 알려지지 않았습니다."
 
 #: server/unittools.c:2685
 #, c-format
 msgid "This unit cannot paradrop into %s."
-msgstr ""
+msgstr "이 부대는 %s 안으로 공중 투하할 수 없습니다."
 
 #: server/unittools.c:2714
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
-msgstr ""
+msgstr "그 목표 (%i) 에 대한 그 거리는 그 부대의 거리 (%i) 보다 큽니다."
 
 #: server/unittools.c:2726
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
-msgstr ""
+msgstr "당신의 %s (은)는 그 %s 안으로 공중 투하했고 그리고 잃어버렸습니다."
 
 #: server/unittools.c:2740
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
-msgstr ""
+msgstr "당신의 %s (은)는 공중 투하 목적지에서 적 부대들에 의해 죽임을 당했습니다."
 
 #: server/unittools.c:2815
 msgid "Your overflight frightens the tribe; they scatter in terror."
-msgstr ""
+msgstr "당신의 영공 침범은 그 부족을 겁먹게 만듭니다; 그들은 공포 안에 황급히 흩어집니다."
 
 #: server/unittools.c:3100
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
-msgstr ""
+msgstr "%s 에 대한 명령들이 적 움직임이 발견된 후에 중단되었습니다."
 
 #: server/unittools.c:3647
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
-msgstr ""
+msgstr "%s 에 대한 명령들이 그 곳 가까운 곳에 부대들이 있기 때문에 중단되었습니다."
 
 #: server/unittools.c:3716
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
-msgstr ""
+msgstr "%s 에 대한 명령들이 도시의 건설이 실패했기 때문에 중단되었습니다."
 
 #: server/unittools.c:3768
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
-msgstr ""
+msgstr "%s 에 대한 명령들이 그들이 한 병약한 활동을 주었기 때문에 중단되었습니다."
 
 #: server/unittools.c:3777
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
-msgstr ""
+msgstr "%s 에 대한 명령들이 그들이 한 병약한 위치를 주었기 때문에 중단되었습니다."
 
 #: server/unittools.c:3787
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
-msgstr ""
+msgstr "%s 에 대한 명령들이 그곳에 부대들이 그 길 위에 있기 때문에 중단되었습니다."
 
 #: server/unittools.c:3813
 #, c-format
 msgid "Orders for %s aborted because of failed move."
-msgstr ""
+msgstr "%s 에 대한 명령들이 실패한 이동 때문에 중단되었습니다."
 
 #: server/unittools.c:3830
 #, c-format
 msgid "Attempt to change homecity for %s failed."
-msgstr ""
+msgstr "고향 %s 에 대해 바꾸는 시도가 실패했습니다."
 
 #: server/unittools.c:3841
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
-msgstr ""
+msgstr "무역 경로 %s 에 대해 설립하는 시도가 실패했습니다."
 
 #: server/unittools.c:3853
 #, c-format
 msgid "Attempt to build wonder for %s failed."
-msgstr ""
+msgstr "불가사의 %s 에 대해 건설하는 시도가 실패했습니다."
 
 #: server/unittools.c:3862
 #, c-format
 msgid "Your %s has invalid orders."
-msgstr ""
+msgstr "당신의 %s 은(는) 병약한 명령들을 가졌습니다."
 
 #: server/unittools.c:3960
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."
 msgstr ""
+"당신의 부대는 이번 차례에 다른 %s (으)로 움직일 수 없을지도 모릅니다. /도움 부대대기시간을 보시오."
 
 #. TRANS: "[Vote|Teamvote] 3 \"proposed change\" is ..."
 #: server/voting.c:523
@@ -44576,6 +44577,7 @@ msgstr ""
 msgid ""
 "%s %d \"%s\" is passed %d to %d with %d abstentions and %d who did not vote."
 msgstr ""
+"%s %d \"%s\" 은(는) %d 대 %d 로 %d 기권자들과 그리고 투표하지 않은 %d (으)로 통과되었습니다."
 
 #. TRANS: "[Vote|Teamvote] 3 \"proposed change\" failed ..."
 #: server/voting.c:530
@@ -44583,148 +44585,144 @@ msgstr ""
 msgid ""
 "%s %d \"%s\" failed with %d against, %d for, %d abstentions and %d who did "
 "not vote."
-msgstr ""
+msgstr "%s %d \"%s\" 은(는) %d 반대자와, %d 찬성자, %d 기권자들과 그리고 투표하지 않은 %d (으)로 "
+"실패되었습니다."
 
 #: server/voting.c:550
 #, c-format
 msgid "%s %d: %s voted yes."
-msgstr ""
+msgstr "%s %d: %s 가 찬성했습니다."
 
 #: server/voting.c:555
 #, c-format
 msgid "%s %d: %s voted no."
-msgstr ""
+msgstr "%s %d: %s 가 반대했습니다."
 
 #: server/voting.c:560
 #, c-format
 msgid "%s %d: %s chose to abstain."
-msgstr ""
+msgstr "%s %d: %s 가 기권하기로 결정했습니다."
 
 #. TRANS: Describing a new vote that can only pass
 #. * if there are no dissenting votes.
 #: server/voting.c:730
 #, c-format
 msgid "%s (needs %0.0f%% and no dissent)."
-msgstr ""
+msgstr "%s (%0.0f%% 가 필요하고 반대가 없어야 합니다)."
 
 #. TRANS: Describing a new vote that can pass only if the
 #. * given percentage of players votes 'yes'.
 #: server/voting.c:736
 #, c-format
 msgid "%s (needs %0.0f%% in favor)."
-msgstr ""
+msgstr "%s (%0.0f%% 의 찬성이 필요합니다)."
 
 #. TRANS: "or"-separated string list with one single item.
 #: utility/astring.c:288
 #, c-format
 msgid "?or-list-single:%s"
-msgstr ""
+msgstr "%s"
 
 #. TRANS: "or"-separated string list with 2 items.
 #: utility/astring.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "?or-list:%s or %s"
-msgstr ""
-"%s의\n"
-"작업 리스트"
+msgstr "%s 또는 %s"
 
 #. TRANS: start of an "or"-separated string list with more than two
 #. * items.
 #: utility/astring.c:297
-#, fuzzy, c-format
+#, c-format
 msgid "?or-list:%s"
-msgstr "작업 리스트"
+msgstr "%s"
 
 #. TRANS: next elements of an "or"-separated string list with more
 #. * than two items.
 #: utility/astring.c:301
-#, fuzzy, c-format
+#, c-format
 msgid "?or-list:, %s"
 msgstr ", %s"
 
 #. TRANS: end of an "or"-separated string list with more than two
 #. * items.
 #: utility/astring.c:305
-#, fuzzy, c-format
+#, c-format
 msgid "?or-list:, or %s"
-msgstr ""
-"%s의\n"
-"작업 리스트"
+msgstr ", 또는 %s"
 
 #. TRANS: "and"-separated string list with one single item.
 #: utility/astring.c:326
 #, c-format
 msgid "?and-list-single:%s"
-msgstr ""
+msgstr "%s"
 
 #. TRANS: "and"-separated string list with 2 items.
 #: utility/astring.c:329
-#, fuzzy, c-format
+#, c-format
 msgid "?and-list:%s and %s"
-msgstr ", %s"
+msgstr "%s 그리고 %s"
 
 #. TRANS: start of an "and"-separated string list with more than two
 #. * items.
 #: utility/astring.c:335
-#, fuzzy, c-format
+#, c-format
 msgid "?and-list:%s"
-msgstr "곡창"
+msgstr "%s"
 
 #. TRANS: next elements of an "and"-separated string list with more
 #. * than two items.
 #: utility/astring.c:339
-#, fuzzy, c-format
+#, c-format
 msgid "?and-list:, %s"
 msgstr ", %s"
 
 #. TRANS: end of an "and"-separated string list with more than two
 #. * items.
 #: utility/astring.c:343
-#, fuzzy, c-format
+#, c-format
 msgid "?and-list:, and %s"
-msgstr ", %s"
+msgstr ", 그리고 %s"
 
 #: utility/fciconv.c:132
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You are running Freeciv without using iconv. Unless\n"
 "you are using the latin1 character set, some characters\n"
 "may not be displayed properly. You can download iconv\n"
 "at http://gnu.org/.\n"
 msgstr ""
-"당신은 iconv없이 Freeicv를 하고 계십니다. \n"
-"라틴1 문자세트를 사용하지 않는 다면, \n"
-"몇몇 문자가 적절하게 화면에 나오지 않을 수 있습니다\n"
-"당신은 http://gnu.org/ 에서 iconv를 다운받을 수 있습니다\n"
+"당신은 iconv 없이 Freeciv 를 실행하고 있습니다.\n"
+"당신이 latin1 문자 집합을 사용하지 않는다면,\n"
+"몇몇 문자들이 적절하게 보여지지 않을 수 있습니다.\n"
+"당신은 http://gnu.org/ 에서 iconv 를 내려받을 수 있습니다.\n"
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. *        <externally translated error string>."
 #: utility/fciconv.c:208
 #, c-format
 msgid "Could not convert text from %s to %s: %s"
-msgstr " %s에서  %s로 텍스트를 전환할수 없습니다: %s"
+msgstr "%s 에서 %s (으)로 글을 전환할 수 없었습니다: %s"
 
 #: utility/log.c:104
 #, c-format
 msgid "Bad log level \"%s\".\n"
-msgstr "틀린 로그 레벨 \"%s\".\n"
+msgstr "나쁜 일지 기록 수준 \"%s\".\n"
 
 #: utility/log.c:113 utility/log.c:130
 #, c-format
 msgid "Bad log level %d in \"%s\".\n"
-msgstr "틀린 로그 레벨 %d in \"%s\".\n"
+msgstr "나쁜 일지 기록 수준 %d, \"%s\" 에 있는.\n"
 
 #: utility/log.c:117
 #, c-format
 msgid "Freeciv must be compiled with the DEBUG flag to use debug level %d.\n"
-msgstr ""
-"Freeciv는 반드시  디버그 레벨 %d를 사용하기 위해 DEBUG flag와 함께 번역되어"
-"야 합니다\n"
+msgstr "Freeciv 는 반드시 디버그 수준 %d을 사용하기 위해 그 디버그 신호기와 함께 "
+"명령어를 번역되어야 합니다.\n"
 
 #: utility/log.c:135 utility/log.c:148 utility/log.c:191
 #, c-format
 msgid "Badly formed log level argument \"%s\".\n"
-msgstr "불량하게 형성된 로그 레벨 인수 \"%s\".\n"
+msgstr "나쁘게 형성된 일지 기록 수준 인수 \"%s\".\n"
 
 #: utility/log.c:168 utility/log.c:173
 #, c-format
@@ -44734,21 +44732,20 @@ msgstr "정수가 아닙니다: '%s'\n"
 #: utility/log.c:180
 #, c-format
 msgid "Empty filename in log level argument \"%s\".\n"
-msgstr "로그레벨 인수에서 파일이름이 비어있습니다 \"%s\".\n"
+msgstr "일지 기록 수준 인수 \"%s\" 안에 비어있는 파일명.\n"
 
 #: utility/log.c:201
-#, fuzzy
 msgid ""
 "Freeciv must be compiled with the DEBUG flag to use advanced log levels "
 "based on files.\n"
 msgstr ""
-"Freeciv는 반드시  디버그 레벨 %d를 사용하기 위해 DEBUG flag와 함께 번역되어"
-"야 합니다\n"
+"Freeciv 는 파일들에 기반을 둔 진전된 일지 기록 수준들을 사용하기 위해 "
+"반드시 디버그 신호기와 함께 명령어를 번역되어야 합니다.\n"
 
 #: utility/log.c:403
 #, c-format
 msgid "Couldn't open logfile: %s for appending \"%s\".\n"
-msgstr "로그파일을 읽을수 없습니다: %s for appending \"%s\".\n"
+msgstr "로그파일을 열 수 없었습니다: %s 에 \"%s\" (을)를 첨부하기 위해.\n"
 
 #: utility/log.c:416 utility/log.c:436
 #, c-format
@@ -44760,27 +44757,27 @@ msgstr[0] "마지막 메세지는 %d 번 반복되었습니다"
 #, c-format
 msgid " (total %d repeat)"
 msgid_plural " (total %d repeats)"
-msgstr[0] "(전체 %d번 반복)"
+msgstr[0] "(총 %d 번 반복)"
 
 #: utility/netfile.c:66
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to fetch %s"
-msgstr "AI 플레이어를 생성하는데 에러발생 : %s"
+msgstr "%s 을(를) 불러오기 실패했습니다."
 
 #: utility/netfile.c:139
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open %s for writing"
-msgstr "\"%s\"를 열 수 없었습니다."
+msgstr "작성하기 위한 \"%s\" (을)를 열 수 없었습니다."
 
 #: utility/shared.c:209
 #, c-format
 msgid "Empty argument for \"%s\".\n"
-msgstr "\"%s\" 비어있는 인수.\n"
+msgstr "\"%s\" (을)를 위한 비어있는 인수.\n"
 
 #: utility/shared.c:213
 #, c-format
 msgid "Missing argument for \"%s\".\n"
-msgstr "\"%s\" 놓친 인수.\n"
+msgstr "\"%s\" (을)를 위한 실종된 인수.\n"
 
 #. TRANS: <FREECIV_DATA_PATH> configuration error
 #. TRANS: <FREECIV_SAVE_PATH> configuration error
