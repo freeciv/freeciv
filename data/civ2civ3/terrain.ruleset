@@ -232,7 +232,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "terrain_glacier"
 native_to            = "Sea", "Air", "Missile", "Helicopter", "Trireme"
-flags                = "NoCities", "NoPollution", "UnsafeCoast"
+flags                = "NoCities", "UnsafeCoast"
 property_ocean_depth = 32
 color.r              = 0
 color.g              = 46
@@ -978,9 +978,9 @@ reqs           =
 gui_type       = "Fortress"
 build_time     = 3
 defense_bonus  = 100
-border_sq      = 5
+border_sq      = 0
 native_to      = "Land", "Small Land", "Big Land"
-flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense"
+flags          = "NoStackDeath", "DiplomatDefense", "NativeTile"
 helptext       = _("\
 Fortresses improve defense for land units. Among other effects, a land \
 unit remaining in a fortress for a whole turn without moving recovers \
@@ -1176,7 +1176,7 @@ move_cost      = 1
 move_mode      = "Cardinal"
 trade_incr_const = 1
 compat_special = "River"
-native_to      = "Land", "Small Land", "Big Land", "Merchant"
+native_to      = "Land", "Small Land", "Merchant"
 flags          = "River", "PreventsOtherRoads", "NativeTile", "Natural"
 helptext       = _("\
 Any land terrain type may have a River on it.  A River adds 1\
