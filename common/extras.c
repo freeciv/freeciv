@@ -53,6 +53,34 @@ void extras_free(void)
   road_types_free();
 }
 
+/**************************************************************************
+  Return the number of extra_types.
+**************************************************************************/
+int extra_count(void)
+{
+  return S_LAST + game.control.num_base_types + game.control.num_road_types;
+}
+
+/**************************************************************************
+  Return the extra id.
+**************************************************************************/
+int extra_number(const struct extra_type *pextra)
+{
+  fc_assert_ret_val(NULL != pextra, -1);
+
+  return pextra->id;
+}
+
+/**************************************************************************
+  Return the extra index.
+**************************************************************************/
+int extra_index(const struct extra_type *pextra)
+{
+  fc_assert_ret_val(NULL != pextra, -1);
+
+  return pextra - extras;
+}
+
 /****************************************************************************
   Return extras type of given id.
 ****************************************************************************/
@@ -61,16 +89,6 @@ struct extra_type *extra_by_number(int id)
   fc_assert_ret_val(id >= 0 && id < MAX_EXTRA_TYPES, NULL);
 
   return &extras[id];
-}
-
-/**************************************************************************
-  Return the extra index.
-**************************************************************************/
-int extra_number(const struct extra_type *pextra)
-{
-  fc_assert_ret_val(NULL != pextra, -1);
-
-  return pextra->id;
 }
 
 /****************************************************************************

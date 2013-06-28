@@ -23,6 +23,7 @@ extern "C" {
 
 /* common */
 #include "base.h"
+#include "extras.h"
 #include "fc_types.h"
 #include "player.h"
 #include "road.h"
@@ -50,10 +51,12 @@ struct tile {
   Continent_id continent;
   bv_special special;
   bv_bases bases;
-  /* We're in transition from storing roads in specials to storing roads
-   * in roads vector. Roads vector does not yet always contain correct
-   * information. */
   bv_roads roads;
+#if 0
+  /* We're in transition from storing bases and roads in their own
+   * vectors to storing them in extras vector. */
+  bv_extras extras;
+#endif
   struct resource *resource;		/* NULL for no resource */
   struct terrain *terrain;		/* NULL for unknown tiles */
   struct unit_list *units;
@@ -123,6 +126,9 @@ void tile_clear_all_specials(struct tile *ptile);
 
 bv_bases tile_bases(const struct tile *ptile);
 bv_roads tile_roads(const struct tile *ptile);
+#if 0
+bv_extras tile_extras(const struct tile *ptile);
+#endif
 void tile_set_bases(struct tile *ptile, bv_bases bases);
 bool tile_has_base(const struct tile *ptile, const struct base_type *pbase);
 bool tile_has_any_bases(const struct tile *ptile);
@@ -148,6 +154,10 @@ bool tile_has_road_flag(const struct tile *ptile, enum road_flag_id flag);
 int tile_roads_output_incr(const struct tile *ptile, enum output_type_id o);
 int tile_roads_output_bonus(const struct tile *ptile, enum output_type_id o);
 bool tile_has_river(const struct tile *tile);
+
+bool tile_has_extra(const struct tile *ptile, const struct extra_type *pextra);
+void tile_add_extra(struct tile *ptile, const struct extra_type *pextra);
+void tile_remove_extra(struct tile *ptile, const struct extra_type *pextra);
 
 /* Vision related */
 enum known_type tile_get_known(const struct tile *ptile,

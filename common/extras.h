@@ -20,7 +20,6 @@ extern "C" {
 /* common */
 #include "base.h"
 #include "fc_types.h"
-#include "game.h"
 #include "road.h"
 
 struct extra_type
@@ -40,8 +39,10 @@ struct extra_type
 void extras_init(void);
 void extras_free(void);
 
-struct extra_type *extra_by_number(int id);
+int extra_count(void);
+int extra_index(const struct extra_type *pextra);
 int extra_number(const struct extra_type *pextra);
+struct extra_type *extra_by_number(int id);
 
 struct extra_type *extra_type_get(enum extra_type_id type, int subid);
 
@@ -50,15 +51,11 @@ const char *extra_rule_name(const struct extra_type *pextra);
 struct extra_type *extra_type_by_rule_name(const char *name);
 struct extra_type *extra_type_by_translated_name(const char *name);
 
-static inline int extra_max(void)
-{
-  return S_LAST + game.control.num_base_types + game.control.num_road_types;
-}
-
 #define extra_type_iterate(_p)                    \
 {                                                 \
   int _i_;                                        \
-  for (_i_ = 0; _i_ < extra_max(); _i_++) {       \
+  int _ec_ = extra_count();                       \
+  for (_i_ = 0; _i_ < _ec_; _i_++) {              \
     struct extra_type *_p = extra_by_number(_i_);
 
 #define extra_type_iterate_end                    \

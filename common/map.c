@@ -381,6 +381,9 @@ static void tile_init(struct tile *ptile)
   tile_clear_all_specials(ptile);
   BV_CLR_ALL(ptile->bases);
   BV_CLR_ALL(ptile->roads);
+#if 0
+  BV_CLR_ALL(ptile->extras);
+#endif
   ptile->resource = NULL;
   ptile->terrain  = T_UNKNOWN;
   ptile->units    = unit_list_new();

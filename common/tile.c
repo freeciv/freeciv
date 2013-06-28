@@ -215,6 +215,23 @@ bv_roads tile_roads(const struct tile *ptile)
 }
 
 /****************************************************************************
+  Returns a bit vector of the extras present at the tile.
+****************************************************************************/
+#if 0
+bv_extras tile_extras(const struct tile *ptile)
+{
+  if (!ptile) {
+    bv_extras empty;
+
+    BV_CLR_ALL(empty);
+    return empty;
+  }
+
+  return ptile->extras;
+}
+#endif
+
+/****************************************************************************
   Set the bases on the tile to those present in the given bit vector.
 ****************************************************************************/
 void tile_set_bases(struct tile *ptile, bv_bases bases)
@@ -913,6 +930,69 @@ bool tile_has_road_flag(const struct tile *ptile, enum road_flag_id flag)
 }
 
 /****************************************************************************
+  Returns TRUE if the given tile has a road of given type on it.
+****************************************************************************/
+bool tile_has_extra(const struct tile *ptile, const struct extra_type *pextra)
+{
+#if 0
+  return BV_ISSET(ptile->extras, extra_index(pextra));
+#endif
+
+  switch(pextra->type) {
+  case EXTRA_ROAD:
+    return tile_has_road(ptile, &pextra->data.road);
+  case EXTRA_BASE:
+    return tile_has_base(ptile, &pextra->data.base);
+  case EXTRA_SPECIAL:
+    return tile_has_special(ptile, pextra->data.special);
+  }
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Adds extra to tile
+****************************************************************************/
+void tile_add_extra(struct tile *ptile, const struct extra_type *pextra)
+{
+  if (pextra != NULL) {
+#if 0
+    BV_SET(ptile->extras, extra_index(pextra));
+#endif
+
+    switch(pextra->type) {
+    case EXTRA_ROAD:
+      return tile_add_road(ptile, &pextra->data.road);
+    case EXTRA_BASE:
+      return tile_add_base(ptile, &pextra->data.base);
+    case EXTRA_SPECIAL:
+      return tile_add_special(ptile, pextra->data.special);
+    }
+  }
+}
+
+/****************************************************************************
+  Removes extra from tile if such exist
+****************************************************************************/
+void tile_remove_extra(struct tile *ptile, const struct extra_type *pextra)
+{
+  if (pextra != NULL) {
+#if 0
+    BV_CLR(ptile->extras, extra_index(pextra));
+#endif
+
+   switch(pextra->type) {
+    case EXTRA_ROAD:
+      return tile_remove_road(ptile, &pextra->data.road);
+    case EXTRA_BASE:
+      return tile_remove_base(ptile, &pextra->data.base);
+    case EXTRA_SPECIAL:
+      return tile_remove_special(ptile, pextra->data.special);
+    }
+  }
+}
+
+/****************************************************************************
   Returns a virtual tile. If ptile is given, the properties of this tile are
   copied, else it is completely blank (except for the unit list
   vtile->units, which is created for you). Be sure to call tile_virtual_free
@@ -931,6 +1011,9 @@ struct tile *tile_virtual_new(const struct tile *ptile)
   BV_CLR_ALL(vtile->special);
   BV_CLR_ALL(vtile->bases);
   BV_CLR_ALL(vtile->roads);
+#if 0
+  BV_CLR_ALL(vtile->extras);
+#endif
   vtile->resource = NULL;
   vtile->terrain = NULL;
   vtile->units = unit_list_new();

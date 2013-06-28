@@ -470,6 +470,8 @@ enum tile_special_type {
   S_OLD_RIVER
 };
 
+BV_DEFINE(bv_extras, S_LAST + MAX_BASE_TYPES + MAX_ROAD_TYPES);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
