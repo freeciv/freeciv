@@ -4355,7 +4355,7 @@ static bool load_ruleset_game(const char *rsdir)
   const char *text;
   size_t gni_tmp;
   struct section_list *sec;
-  int nval;
+  size_t nval;
   const char *name;
   bool ok = TRUE;
 
@@ -4422,6 +4422,9 @@ static bool load_ruleset_game(const char *rsdir)
   }
 
   if (ok) {
+    const char **slist;
+    int j;
+
     game.control.popup_tech_help = secfile_lookup_bool_default(file, FALSE,
                                                                "options.popup_tech_help");
 
@@ -4431,31 +4434,26 @@ static bool load_ruleset_game(const char *rsdir)
                                    "civstyle.base_pollution");
 
     game.info.gameloss_style = GAMELOSS_STYLE_CLASSICAL;
-    sval = secfile_lookup_str_default(file, NULL, "civstyle.gameloss_style");
-    if (sval != NULL) {
-      char *tokens[4]; /* 3 is max, but we try to get 4 to see if there's more than max */
-      int cnt = get_tokens(sval, tokens, 4, "|,");
-      int i;
-      int gls;
 
-      if (cnt > 3) {
-        ruleset_error(LOG_ERROR, "Too many gameloss_style tokens.");
-        ok = FALSE;
-      } else {
-        game.info.gameloss_style = 0;
-        for (i = 0; i < cnt; i++) {
-          gls = gameloss_style_by_name(tokens[i], fc_strcasecmp);
-          if (!gameloss_style_is_valid(gls)) {
-            ruleset_error(LOG_ERROR, "Bad value %s for gameloss_style.", tokens[i]);
-            ok = FALSE;
-            break;
-          } else {
-            game.info.gameloss_style |= gls;
-          }
-        }
+    slist = secfile_lookup_str_vec(file, &nval, "civstyle.gameloss_style");
+    for (j = 0; j < nval; j++) {
+      enum gameloss_style style;
+
+      sval = slist[j];
+      if (strcmp(sval, "") == 0) {
+        continue;
       }
-      free_tokens(tokens, cnt);
+      style = gameloss_style_by_name(sval, fc_strcasecmp);
+      if (!gameloss_style_is_valid(style)) {
+        ruleset_error(LOG_ERROR, "\"%s\": bad value \"%s\" for gameloss_style.",
+                      filename, sval);
+        ok = FALSE;
+        break;
+      } else {
+        game.info.gameloss_style |= style;
+      }
     }
+    free(slist);
   }
 
   if (ok) {
@@ -4804,8 +4802,10 @@ static bool load_ruleset_game(const char *rsdir)
     sec = secfile_sections_by_name_prefix(file, DISASTER_SECTION_PREFIX);
     nval = (NULL != sec ? section_list_size(sec) : 0);
     if (nval > MAX_DISASTER_TYPES) {
+      int num = nval; /* No "size_t" to printf */
+
       ruleset_error(LOG_ERROR, "\"%s\": Too many disaster types (%d, max %d)",
-                    filename, nval, MAX_DISASTER_TYPES);
+                    filename, num, MAX_DISASTER_TYPES);
       ok = FALSE;
     } else {
       game.control.num_disaster_types = nval;
