@@ -1242,8 +1242,6 @@ static struct setting settings[] = {
 
   /* Options affecting numbers of players and AI players.  These only
    * affect the start of the game and can not be adjusted after that.
-   * (Actually, minplayers does also affect reloads: you can't start a
-   * reload game until enough players have connected (or are AI).)
    */
   GEN_INT("minplayers", game.server.min_players,
 	  SSET_PLAYERS, SSET_INTERNAL, SSET_VITAL,

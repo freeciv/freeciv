@@ -5598,8 +5598,11 @@ bool start_command(struct connection *caller, bool check, bool notify)
       }
     } players_iterate_end;
 
-    /* check min_players */
-    if (human_players < game.server.min_players) {
+    /* check min_players.
+     * Allow continuing of savegames where some of the original
+     * players have died */
+    if (game.info.is_new_game
+        && human_players < game.server.min_players) {
       start_cmd_reply(caller, notify,
                       _("Not enough human players; game will not start."));
       return FALSE;
