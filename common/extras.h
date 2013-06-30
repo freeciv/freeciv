@@ -51,6 +51,8 @@ const char *extra_rule_name(const struct extra_type *pextra);
 struct extra_type *extra_type_by_rule_name(const char *name);
 struct extra_type *extra_type_by_translated_name(const char *name);
 
+struct extra_type *extra_type_by_cause(enum extra_cause cause);
+
 #define extra_type_iterate(_p)                    \
 {                                                 \
   int _i_;                                        \
@@ -60,6 +62,15 @@ struct extra_type *extra_type_by_translated_name(const char *name);
 
 #define extra_type_iterate_end                    \
   }                                               \
+}
+
+#define extra_type_by_cause_iterate(_cause, _extra)        \
+{                                                          \
+  struct extra_type *_extra = extra_type_by_cause(_cause); \
+  if (_extra != NULL) {
+
+#define extra_type_by_cause_iterate_end                    \
+  }                                                        \
 }
 
 #ifdef __cplusplus

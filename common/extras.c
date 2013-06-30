@@ -157,3 +157,37 @@ struct extra_type *extra_type_by_translated_name(const char *name)
 
   return NULL;
 }
+
+/**************************************************************************
+  Returns extra type for given cause.
+**************************************************************************/
+struct extra_type *extra_type_by_cause(enum extra_cause cause)
+{
+  enum tile_special_type spe;
+
+  switch(cause) {
+  case EC_IRRIGATION:
+    spe = S_IRRIGATION;
+    break;
+  case EC_MINE:
+    spe = S_MINE;
+    break;
+  case EC_POLLUTION:
+    spe = S_POLLUTION;
+    break;
+  case EC_HUT:
+    spe = S_HUT;
+    break;
+  case EC_FARMLAND:
+    spe = S_FARMLAND;
+    break;
+  case EC_FALLOUT:
+    spe = S_FALLOUT;
+    break;
+  default:
+    spe = S_LAST;
+    break;
+  }
+
+  return extra_type_get(EXTRA_SPECIAL, spe);
+}

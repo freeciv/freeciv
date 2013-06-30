@@ -472,6 +472,23 @@ enum tile_special_type {
 
 BV_DEFINE(bv_extras, S_LAST + MAX_BASE_TYPES + MAX_ROAD_TYPES);
 
+#define SPECENUM_NAME extra_cause
+#define SPECENUM_VALUE0 EC_IRRIGATION
+#define SPECENUM_VALUE0NAME "Irrigation"
+#define SPECENUM_VALUE1 EC_MINE
+#define SPECENUM_VALUE1NAME "Mine"
+#define SPECENUM_VALUE2 EC_POLLUTION
+#define SPECENUM_VALUE2NAME "Pollution"
+#define SPECENUM_VALUE3 EC_HUT
+#define SPECENUM_VALUE3NAME "Hut"
+/* TODO: Farmland should be just update to base Irrigation,
+ *       not separate extra cause */
+#define SPECENUM_VALUE4 EC_FARMLAND
+#define SPECENUM_VALUE4NAME "Farmland"
+#define SPECENUM_VALUE5 EC_FALLOUT
+#define SPECENUM_VALUE5NAME "Fallout"
+#include "specenum_gen.h"
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
