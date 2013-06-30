@@ -44033,7 +44033,7 @@ msgstr ""
 #: server/unithand.c:117
 #, c-format
 msgid "Illegal packet, can't upgrade %s (yet)."
-msgstr ""
+msgstr "불법적인 소포, %s (으)로 개선될 수 없습니다 (아직)."
 
 #. TRANS: "2 Musketeers upgraded to Riflemen for 100 gold."
 #. * Plurality is in gold (second %d), not units.
@@ -44041,227 +44041,227 @@ msgstr ""
 #, c-format
 msgid "%d %s upgraded to %s for %d gold."
 msgid_plural "%d %s upgraded to %s for %d gold."
-msgstr[0] ""
+msgstr[0] "%d %s (은)는 %s (으)로 %d 금으로 개선되었습니다."
 
 #: server/unithand.c:159
 msgid "No units could be upgraded."
-msgstr ""
+msgstr "개선될 수 있는 부대들이 없었습니다."
 
 #: server/unithand.c:185
 #, c-format
 msgid "%s upgraded to %s for %d gold."
 msgid_plural "%s upgraded to %s for %d gold."
-msgstr[0] ""
+msgstr[0] "%s (은)는 %s (으)로 %d 금으로 개선되었습니다."
 
 #. TRANS: <tile-terrain>.
 #: server/unithand.c:535
-#, fuzzy, c-format
+#, c-format
 msgid "Can't build a city on %s."
-msgstr "연결 이름: %s"
+msgstr "하나의 도시를 %s 위에 지을 수 없습니다."
 
 #. TRANS: <unit> ... <tile-terrain>.
 #: server/unithand.c:541
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build a city on %s."
-msgstr "%s는 %s를 아직 건설할수 없습니다"
+msgstr "%s (은)는 %s 위에 하나의 도시를 지을 수 없습니다."
 
 #: server/unithand.c:546
 msgid "Can't place a city inside foreigner borders."
-msgstr ""
+msgstr "외국인 국경들 안에 하나의 도시를 둘 수 없습니다."
 
 #: server/unithand.c:550
 msgid "Can't place a city there because another city is too close."
-msgstr ""
+msgstr "다른 도시가 너무 가까이 있기 때문에 그곳에 하나의 도시를 둘 수 없습니다."
 
 #. TRANS: %s is list of units separated by "or".
 #: server/unithand.c:560
 #, c-format
 msgid "Only %s can build a city."
-msgstr ""
+msgstr "오직 %s (이)가 도시를 지을 수 있습니다."
 
 #: server/unithand.c:564
 msgid "Can't build a city."
-msgstr ""
+msgstr "하나의 도시를 지을 수 없습니다."
 
 #. TRANS: %s is list of units separated by "or".
 #: server/unithand.c:575
 #, c-format
 msgid "Only %s can add to a city."
-msgstr ""
+msgstr "오직 %s (이)가 하나의 도시에 추가할 수 있습니다."
 
 #: server/unithand.c:579
 msgid "Can't add to a city."
-msgstr ""
+msgstr "하나의 도시에 추가할 수 없습니다."
 
 #: server/unithand.c:585
 #, c-format
 msgid "%s unit has no moves left to add to %s."
-msgstr ""
+msgstr "%s 부대는 %s 에 추가하기에 남은 이동들이 없습니다."
 
 #: server/unithand.c:590
 #, c-format
 msgid "%s unit has no moves left to build city."
-msgstr ""
+msgstr "%s 부대는 도시를 짓기에 남은 이동들이 없습니다."
 
 #. TRANS: <city> is owned by <nation>, cannot add <unit>.
 #: server/unithand.c:596
 #, c-format
 msgid "%s is owned by %s, cannot add %s."
-msgstr ""
+msgstr "%s 은(는) %s 의 소유입니다, %s (을)를 추가할 수 없습니다."
 
 #: server/unithand.c:603
 #, c-format
 msgid "%s is too big to add %s."
-msgstr ""
+msgstr "%s (은)는 %s (을)를 추가하기에 너무 큽니다."
 
 #: server/unithand.c:608
 #, c-format
 msgid "%s needs an improvement to grow, so you cannot add %s."
-msgstr ""
+msgstr "%s (은)는 자라기 위해 하나의 향상이 필요합니다, 그래서 당신은 %s (을)를 추가할 수 없다."
 
 #: server/unithand.c:618
 #, c-format
 msgid "Can't add %s to %s."
-msgstr ""
+msgstr "%s (을)를 %s (으)로 추가할 수 없습니다."
 
 #: server/unithand.c:641
 #, c-format
 msgid "%s added to aid %s in growing."
-msgstr ""
+msgstr "%s (은)는 커지는 %s (으)로 돕기 위해 추가되었습니다."
 
 #: server/unithand.c:1107
 #, c-format
 msgid "Your %s was shot down by SDI defenses, what a waste."
-msgstr ""
+msgstr "당신의 %s 은(는) SDI 방어들로 격추되었습니다, 무슨 하나의 낭비."
 
 #: server/unithand.c:1110
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
-msgstr ""
+msgstr "%s 위의 그 핵무기 공격은 당신의 SDI 방어로 막혔습니다."
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
 #: server/unithand.c:1206
 #, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
-msgstr ""
+msgstr "당신의 %s (은)는 그 %s %s 로부터 그 불쌍한 공격에 살아남았습니다."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unithand.c:1216
 #, c-format
 msgid "Your attacking %s failed against the %s %s!"
-msgstr ""
+msgstr "당신의 공격하는 %s (은)는 그 %s %s 에 맞서 실패했습니다!"
 
 #: server/unithand.c:1292
 msgid "This type of troops cannot take over a city."
-msgstr ""
+msgstr "이 종류의 부대들은 하나의 도시를 인수할 수 없습니다."
 
 #. TRANS: %s is a list of units separated by "or".
 #: server/unithand.c:1312
 #, c-format
 msgid "Only %s can conquer from a non-native tile."
-msgstr ""
+msgstr "오직 %s (이)가 하나의 비-태생의 타일로부터 정복할 수 있습니다."
 
 #: server/unithand.c:1317
-#, fuzzy
 msgid "Cannot conquer from a non-native tile."
-msgstr "당신은 오직 당신도시 안에서 부대를 업그레이드 시킬수 있습니다"
+msgstr "하나의 비-태생의 타일로부터 정복할 수 없습니다."
 
 #: server/unithand.c:1324 server/unittools.c:2696
 msgid "Cannot attack unless you declare war first."
-msgstr ""
+msgstr "당신이 먼저 전쟁을 선언하지 않는다면 공격할 수 없습니다."
 
 #: server/unithand.c:1329
 #, c-format
 msgid "%s can only move into your own zone of control."
-msgstr ""
+msgstr "%s 은(는) 오직 당신이 소유한 지배의 지역 안에서만 움직일 수 있습니다."
 
 #: server/unithand.c:1335
 #, c-format
 msgid "%s cannot move that far from the coast line."
-msgstr ""
+msgstr "%s (은)는 그 해안 선으로부터 더 이상 이동할 수 없습니다."
 
 #: server/unithand.c:1342 server/unittools.c:2703
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
-msgstr ""
+msgstr "당신이 %s 와(과)의 평화를 먼저 깨지 않는다면 침략할 수 없습니다."
 
 #: server/unithand.c:1350
 #, c-format
 msgid "%s cannot disembark without a native base for %s on the tile."
-msgstr ""
+msgstr "%s (은)는 하나의 태생의 기초 없이 그 타일 위에 %s (을)를 위해 내릴 수 없습니다."
 
 #: server/unithand.c:1397
 msgid "This unit has no moves left."
-msgstr ""
+msgstr "이 부대는 남은 이동들이 없습니다."
 
 #: server/unithand.c:1457
 msgid "No diplomat action possible."
-msgstr ""
+msgstr "행동이 가능한 외교관이 없습니다."
 
 #: server/unithand.c:1461
 #, c-format
 msgid "Unit cannot perform diplomatic action from %s."
-msgstr ""
+msgstr "부대는 %s 에서 외교의 행동을 수행할 수 없습니다."
 
 #: server/unithand.c:1479
 #, c-format
 msgid "You must declare war on %s first.  Try using the Nations report (F3)."
-msgstr ""
+msgstr "당신은 반드시 %s 위에 전쟁을 먼저 선언해야 합니다. 그 국가들 보고서를 사용하기를 시도하다 (F3)."
 
 #. TRANS: <unit> ... <unit>
 #: server/unithand.c:1522
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s succeeded in capturing the %s."
-msgstr "당신의 %s(은)는 %s(을)를 성공적으로 매수하였습니다."
+msgstr "당신의 %s (은)는 %s (을)를 잡기 안에서 성공했습니다."
 
 #. TRANS: <unit> ... <Poles>
 #: server/unithand.c:1527
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was captured by the %s."
-msgstr "당신의 %s는 %s으로부터 뇌물을 받았습니다"
+msgstr "당신의 %s (은)는 그 %s 에게 잡혔습니다."
 
 #: server/unithand.c:1552
 msgid "This unit is being transported, and so cannot bombard."
-msgstr ""
+msgstr "이 부대는 수송되어 있고, 그리고 그래서 공격을 퍼부을 수 없습니다."
 
 #: server/unithand.c:1564
 msgid "You can't attack there."
-msgstr ""
+msgstr "당신은 그곳을 공격할 수 없습니다."
 
 #: server/unithand.c:1607
 msgid "A transported unit is not allied to all units or city on target tile."
-msgstr ""
+msgstr "하나의 수송된 부대는 목표 타일 위의 모든 부대들 또는 도시에 지지하지 않습니다."
 
 #: server/unithand.c:1655
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
-msgstr ""
+msgstr "당신의 %s (은)는 그 %s (이)가 %s 에 있는 것을 짓기를 돕습니다 (%d 남은)."
 
 #: server/unithand.c:1657
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
-msgstr ""
+msgstr "당신의 %s (은)는 그 %s (이)가 %s 에 있는 것을 짓기를 돕습니다 (%d 과잉)."
 
 #: server/unithand.c:1713
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
 msgstr ""
+"미안한, 당신의 %s (은)는 이것이 고향이 없기 때문에 하나의 무역 경로를 설립하지 못합니다."
 
 #: server/unithand.c:1725
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
-msgstr ""
+msgstr "미안한, 당신의 %s (은)는 %s (와)과 %s 사이에 하나의 무역 경로를 설립하지 못합니다."
 
 #: server/unithand.c:1759 server/unithand.c:1780
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
-msgstr ""
+msgstr "미안한, 당신의 %s (은)는 하나의 무역 경로를 여기에 설립하지 못합니다!"
 
 #: server/unithand.c:1764 server/unithand.c:1785
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
-msgstr ""
+msgstr "      %s 의 그 도시는 이미 %d 더 좋은 무역 경로들을 가졌습니다!"
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ...
 #: server/unithand.c:1807
@@ -44273,26 +44273,27 @@ msgid_plural ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
 "research."
 msgstr[0] ""
+"당신의 %s 은(는) %s (으)로부터 %s 안으로 도착했고, 수익들은 금과 연구에 %d 에 이릅니다."
 
 #: server/unithand.c:1833
-#, fuzzy, c-format
+#, c-format
 msgid "New trade route established from %s to %s."
-msgstr "%s을 %s안에 있는, %s에서 %s로 옮겼습니다"
+msgstr "%s 에서 %s (으)로 새로운 무역 경로를 설립했습니다."
 
 #: server/unithand.c:1839
 #, c-format
 msgid "The %s established a trade route between their city %s and %s."
-msgstr ""
+msgstr "그 %s (이)가 그들의 도시 %s (와)과 %s 사이에 무역 경로를 설립했습니다."
 
 #: server/unithand.c:1854 server/unithand.c:1876
 #, c-format
 msgid "Trade route between %s and %s canceled."
-msgstr ""
+msgstr "%s (와)과 %s 사이의 무역 경로를 취소했습니다."
 
 #: server/unithand.c:1861 server/unithand.c:1883
 #, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
-msgstr ""
+msgstr "미안한, 그 %s (은)는 %s 에서 당신의 도시 %s 까지의 그 무역 경로를 취소했습니다."
 
 #: server/unittools.c:331
 #, c-format
