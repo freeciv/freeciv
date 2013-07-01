@@ -458,6 +458,10 @@ reqs	=
       "Tech", "Protein Modifications", "Player"
       "OutputType", "Food", "Local"
     }
+nreqs   =
+    { "type", "name", "range"
+      "Special", "Mine", "Local"
+    }
 
 [effect_citycenter_regeneration]
 name	= "Output_Per_Tile"
@@ -469,6 +473,10 @@ reqs	=
       "Tech", "Protein Modifications", "Player"
       "OutputType", "Food", "Local"
       "Tech", "Food Regeneration", "Player"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "Special", "Mine", "Local"
     }
 
 [effect_hospital]
