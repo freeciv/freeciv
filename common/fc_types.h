@@ -258,6 +258,7 @@ typedef union {
   struct terrain *terrain;
   struct unit_class *uclass;
   struct unit_type *utype;
+  struct extra_type *extra;
   struct base_type *base;
   struct road_type *road;
   struct resource *resource;
@@ -338,6 +339,8 @@ typedef union {
 #define SPECENUM_VALUE24NAME "BaseFlag"
 #define SPECENUM_VALUE25 VUT_ROADFLAG
 #define SPECENUM_VALUE25NAME "RoadFlag"
+#define SPECENUM_VALUE26 VUT_EXTRA
+#define SPECENUM_VALUE26NAME "Extra"
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"
 

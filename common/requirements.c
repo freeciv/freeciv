@@ -69,6 +69,12 @@ struct universal universal_by_rule_name(const char *kind,
       return source;
     }
     break;
+  case VUT_EXTRA:
+    source.value.extra = extra_type_by_rule_name(value);
+    if (source.value.extra != NULL) {
+      return source;
+    }
+    break;
   case VUT_SPECIAL:
     source.value.special = special_by_rule_name(value);
     if (source.value.special != S_LAST) {
@@ -243,6 +249,9 @@ struct universal universal_by_number(const enum universals_n kind,
       return source;
     }
     break;
+  case VUT_EXTRA:
+    source.value.extra = extra_by_number(value);
+    return source;
   case VUT_SPECIAL:
     source.value.special = value;
     return source;
@@ -361,6 +370,8 @@ int universal_number(const struct universal *source)
     return government_number(source->value.govern);
   case VUT_IMPROVEMENT:
     return improvement_number(source->value.building);
+  case VUT_EXTRA:
+    return extra_number(source->value.extra);
   case VUT_SPECIAL:
     return source->value.special;
   case VUT_TERRAIN:
@@ -440,6 +451,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_COUNT:
       break;
     case VUT_IMPROVEMENT:
+    case VUT_EXTRA:
     case VUT_SPECIAL:
     case VUT_TERRAIN:
     case VUT_TERRFLAG:
@@ -482,6 +494,7 @@ struct requirement req_from_str(const char *type, const char *range,
    * is_req_active(). */
   switch (req.source.kind) {
   case VUT_TERRAIN:
+  case VUT_EXTRA:
   case VUT_SPECIAL:
   case VUT_RESOURCE:
   case VUT_TERRAINCLASS:
@@ -812,6 +825,55 @@ static bool is_tech_in_range(const struct player *target_player,
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_COUNT:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  return FALSE;
+}
+
+
+/****************************************************************************
+  Is there a source extra type within range of the target?
+****************************************************************************/
+static bool is_extra_type_in_range(const struct tile *target_tile,
+                                   const struct city *target_city,
+                                   enum req_range range, bool survives,
+                                   struct extra_type *pextra,
+                                   enum req_problem_type prob_type)
+{
+  switch (range) {
+  case REQ_RANGE_LOCAL:
+    /* The requirement is filled if the tile has extra of requested type. */
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    return tile_has_extra(target_tile, pextra);
+  case REQ_RANGE_CADJACENT:
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    return is_extra_card_near(target_tile, pextra);
+  case REQ_RANGE_ADJACENT:
+    if (!target_tile) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    return is_extra_near_tile(target_tile, pextra);
+  case REQ_RANGE_CITY:
+    if (!target_city) {
+      return (prob_type == RPT_POSSIBLE);
+    }
+    city_tile_iterate(city_map_radius_sq_get(target_city),
+                      city_tile(target_city), ptile) {
+      if (tile_has_extra(ptile, pextra)) {
+        return TRUE;
+      }
+    } city_tile_iterate_end;
+    return FALSE;
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_WORLD:
   case REQ_RANGE_COUNT:
     break;
   }
@@ -1538,6 +1600,12 @@ bool is_req_active(const struct player *target_player,
 				     req->range, req->survives,
 				     req->source.value.building) > 0);
     break;
+  case VUT_EXTRA:
+    eval = is_extra_type_in_range(target_tile, target_city,
+                                  req->range, req->survives,
+                                  req->source.value.extra,
+                                  prob_type);
+    break;
   case VUT_SPECIAL:
     eval = is_special_in_range(target_tile, target_city,
                                req->range, req->survives,
@@ -1755,8 +1823,9 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_ROAD:
   case VUT_ROADFLAG:
     return FALSE;
-  case VUT_SPECIAL:
   case VUT_TERRAIN:
+  case VUT_EXTRA:
+  case VUT_SPECIAL:
   case VUT_RESOURCE:
   case VUT_TERRAINCLASS:
   case VUT_TERRFLAG:
@@ -1797,6 +1866,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.govern == psource2->value.govern;
   case VUT_IMPROVEMENT:
     return psource1->value.building == psource2->value.building;
+  case VUT_EXTRA:
+    return psource1->value.extra == psource2->value.extra;
   case VUT_SPECIAL:
     return psource1->value.special == psource2->value.special;
   case VUT_TERRAIN:
@@ -1876,6 +1947,8 @@ const char *universal_rule_name(const struct universal *psource)
     return government_rule_name(psource->value.govern);
   case VUT_IMPROVEMENT:
     return improvement_rule_name(psource->value.building);
+  case VUT_EXTRA:
+    return extra_rule_name(psource->value.extra);
   case VUT_SPECIAL:
     return special_rule_name(psource->value.special);
   case VUT_TERRAIN:
@@ -1949,6 +2022,9 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_IMPROVEMENT:
     fc_strlcat(buf, improvement_name_translation(psource->value.building),
                bufsz);
+    return buf;
+  case VUT_EXTRA:
+    fc_strlcat(buf, extra_name_translation(psource->value.extra), bufsz);
     return buf;
   case VUT_SPECIAL:
     fc_strlcat(buf, special_name_translation(psource->value.special), bufsz);

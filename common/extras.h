@@ -53,6 +53,9 @@ struct extra_type *extra_type_by_translated_name(const char *name);
 
 struct extra_type *extra_type_by_cause(enum extra_cause cause);
 
+bool is_extra_card_near(const struct tile *ptile, const struct extra_type *pextra);
+bool is_extra_near_tile(const struct tile *ptile, const struct extra_type *pextra);
+
 #define extra_type_iterate(_p)                    \
 {                                                 \
   int _i_;                                        \

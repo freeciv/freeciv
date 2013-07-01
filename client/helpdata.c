@@ -462,6 +462,67 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     break;
 
+  case VUT_EXTRA:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires the %s extra on the tile.\n"),
+                     extra_name_translation(preq->source.value.extra));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented by the %s extra on the tile.\n"),
+                     extra_name_translation(preq->source.value.extra));
+      }
+      return TRUE;
+    case REQ_RANGE_CADJACENT:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires the %s extra on the tile or "
+                       "a cardinally adjacent tile.\n"),
+                     extra_name_translation(preq->source.value.extra));
+        } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented by the %s extra on the tile or "
+                       "a cardinally adjacent tile.\n"),
+                     extra_name_translation(preq->source.value.extra));
+        }
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires the %s extra on the tile or "
+                       "an adjacent tile.\n"),
+                     extra_name_translation(preq->source.value.extra));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented by the %s extra on the tile or "
+                       "an adjacent tile.\n"),
+                     extra_name_translation(preq->source.value.extra));
+      }
+      return TRUE;
+    case REQ_RANGE_CITY:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires the %s extra on a tile within "
+                       "the city radius.\n"),
+                     extra_name_translation(preq->source.value.extra));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented by the %s extra on a tile within "
+                       "the city radius.\n"),
+                     extra_name_translation(preq->source.value.extra));
+      }
+      return TRUE;
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_SPECIAL:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:

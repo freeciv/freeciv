@@ -191,3 +191,31 @@ struct extra_type *extra_type_by_cause(enum extra_cause cause)
 
   return extra_type_get(EXTRA_SPECIAL, spe);
 }
+
+/****************************************************************************
+  Is there extra of the given type cardinally near tile?
+****************************************************************************/
+bool is_extra_card_near(const struct tile *ptile, const struct extra_type *pextra)
+{
+  cardinal_adjc_iterate(ptile, adjc_tile) {
+    if (tile_has_extra(adjc_tile, pextra)) {
+      return TRUE;
+    }
+  } cardinal_adjc_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Is there extra of the given type near tile?
+****************************************************************************/
+bool is_extra_near_tile(const struct tile *ptile, const struct extra_type *pextra)
+{
+  adjc_iterate(ptile, adjc_tile) {
+    if (tile_has_extra(adjc_tile, pextra)) {
+      return TRUE;
+    }
+  } adjc_iterate_end;
+
+  return FALSE;
+}

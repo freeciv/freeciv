@@ -50,6 +50,7 @@ Requirement types and supported ranges
 Tech:          World, Player
 Gov:           Player
 Building:      World, Player, Continent, City, Local
+Extra:         Local, Adjacent, CAdjacent, City
 Special:       Local, Adjacent, CAdjacent, City
 Base:          Local, Adjacent, CAdjacent, City
 BaseFlag:      Local, Adjacent, CAdjacent, City

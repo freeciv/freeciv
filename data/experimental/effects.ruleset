@@ -80,7 +80,7 @@ type    = "Unit_Vision_Radius_Sq"
 value   = 8
 reqs    =
     { "type", "name", "range"
-      "Base", "Fortress", "tile"
+      "Extra", "Fortress", "tile"
       "Tech", "Invention", "player"
       "UnitClass", "Land", "Local"
     }
@@ -91,7 +91,7 @@ type    = "Unit_Vision_Radius_Sq"
 value   = 8
 reqs    =
     { "type", "name", "range"
-      "Base", "Fortress", "tile"
+      "Extra", "Fortress", "tile"
       "Tech", "Invention", "player"
       "UnitClass", "Big Land", "Local"
     }
@@ -107,7 +107,7 @@ type    = "HP_Regen"
 value   = 25
 reqs    =
     { "type", "name", "range"
-      "Base", "Fortress", "Tile"
+      "Extra", "Fortress", "Tile"
       "UnitClass", "Land", "Local"
     }
 
@@ -1833,7 +1833,7 @@ name	= "Output_Per_Tile"
 value	= 50
 reqs	=
     { "type", "name", "range"
-      "Road", "Road", "Local"
+      "Extra", "Road", "Local"
       "Building", "Super Highways", "City"
       "OutputType", "Trade", "Local"
     }
@@ -1843,7 +1843,7 @@ name	= "Output_Per_Tile"
 value	= 50
 reqs	=
     { "type", "name", "range"
-      "Special", "Farmland", "Local"
+      "Extra", "Farmland", "Local"
       "Building", "Supermarket", "City"
       "OutputType", "Food", "Local"
     }
@@ -2578,7 +2578,7 @@ type    = "Irrig_Possible"
 value   = 1
 reqs    =
     { "type", "name", "range"
-      "Road", "River", "CAdjacent"
+      "Extra", "River", "CAdjacent"
     }
 
 [effect_irrigate_src_irrigation]
@@ -2586,7 +2586,7 @@ type    = "Irrig_Possible"
 value   = 1
 reqs    =
     { "type", "name", "range"
-      "Special", "Irrigation", "CAdjacent"
+      "Extra", "Irrigation", "CAdjacent"
     }
 
 [effect_mining]

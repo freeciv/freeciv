@@ -154,11 +154,15 @@ void base_types_free(void);
   }									\
 }
 
-#define base_deps_iterate(_reqs, _dep)                                  \
-{                                                                       \
-  requirement_vector_iterate(_reqs, preq) {                             \
-    if (preq->source.kind == VUT_BASE) {                                \
-      struct base_type *_dep = preq->source.value.base;
+#define base_deps_iterate(_reqs, _dep)                       \
+{                                                            \
+  requirement_vector_iterate(_reqs, preq) {                  \
+    struct base_type *_dep;                                  \
+    if ((preq->source.kind == VUT_EXTRA                      \
+         && preq->source.value.extra->type == EXTRA_BASE     \
+         && (_dep = &(preq->source.value.extra->data.base))) \
+        || (preq->source.kind == VUT_BASE                    \
+            && (_dep = preq->source.value.base))) {
 
 #define base_deps_iterate_end                                           \
     }                                                                   \

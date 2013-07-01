@@ -426,7 +426,7 @@ name	= "Output_Per_Tile"
 value	= 50
 reqs	=
     { "type", "name", "range"
-      "Special", "Farmland", "Local"
+      "Extra", "Farmland", "Local"
       "OutputType", "Food", "Local"
     }
 nreqs   =
@@ -439,7 +439,7 @@ name	= "Output_Per_Tile"
 value	= 50
 reqs	=
     { "type", "name", "range"
-      "Special", "Farmland", "Local"
+      "Extra", "Farmland", "Local"
       "OutputType", "Food", "Local"
       "Tech", "Food Regeneration", "Player"
     }
@@ -796,7 +796,7 @@ value   = 1
 reqs    =
   { "type", "name", "range"
     "Tech", "Manufacturing", "Player"
-    "Road", "Green River", "Local"
+    "Extra", "Green River", "Local"
   }
 
 [effect_irrigate_src_brown_river]
@@ -805,7 +805,7 @@ value   = 1
 reqs    =
   { "type", "name", "range"
     "Tech", "Manufacturing", "Player"
-    "Road", "Brown River", "Local"
+    "Extra", "Brown River", "Local"
   }
 
 [effect_irrigate_src_green_river_adjacent]
@@ -814,7 +814,7 @@ value   = 1
 reqs    =
   { "type", "name", "range"
     "Tech", "Water Flow", "Player"
-    "Road", "Green River", "CAdjacent"
+    "Extra", "Green River", "CAdjacent"
   }
 
 [effect_irrigate_src_brown_river_adjacent]
@@ -823,7 +823,7 @@ value   = 1
 reqs    =
   { "type", "name", "range"
     "Tech", "Water Flow", "Player"
-    "Road", "Brown River", "CAdjacent"
+    "Extra", "Brown River", "CAdjacent"
   }
 
 [effect_irrigate_src_citycenter]
