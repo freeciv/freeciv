@@ -2196,12 +2196,17 @@ static bool city_balance_treasury_units(struct city *pcity)
 /**************************************************************************
  Add some Pollution if we have waste
 **************************************************************************/
-static bool place_pollution(struct city *pcity, enum tile_special_type type)
+static bool place_pollution(struct city *pcity, enum extra_cause cause)
 {
   struct tile *ptile;
   struct tile *pcenter = city_tile(pcity);
   int city_radius_sq = city_map_radius_sq_get(pcity);
   int k = 100;
+  struct extra_type *pextra = extra_type_by_cause(cause);
+
+  if (pextra == NULL) {
+    return FALSE;
+  }
 
   while (k > 0) {
     /* place pollution on a random city tile */
@@ -2215,8 +2220,8 @@ static bool place_pollution(struct city *pcity, enum tile_special_type type)
     }
 
     if (!terrain_has_flag(tile_terrain(ptile), TER_NO_POLLUTION)
-        && !tile_has_special(ptile, type)) {
-      tile_set_special(ptile, type);
+        && !tile_has_extra(ptile, pextra)) {
+      tile_add_extra(ptile, pextra);
       update_tile_knowledge(ptile);
 
       return TRUE;
@@ -2234,7 +2239,7 @@ static bool place_pollution(struct city *pcity, enum tile_special_type type)
 static void check_pollution(struct city *pcity)
 {
   if (pcity->pollution != 0 && fc_rand(100) <= pcity->pollution) {
-    if (place_pollution(pcity, S_POLLUTION)) {
+    if (place_pollution(pcity, EC_POLLUTION)) {
       notify_player(city_owner(pcity), city_tile(pcity), E_POLLUTION, ftc_server,
                     _("Pollution near %s."), city_link(pcity));
     }
@@ -3026,7 +3031,7 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
   }
 
   if (disaster_has_effect(pdis, DE_POLLUTION)) {
-    if (place_pollution(pcity, S_POLLUTION)) {
+    if (place_pollution(pcity, EC_POLLUTION)) {
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
                     _("Tile polluted"));
       had_effect = TRUE;
@@ -3034,7 +3039,7 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
   }
 
   if (disaster_has_effect(pdis, DE_FALLOUT)) {
-    if (place_pollution(pcity, S_FALLOUT)) {
+    if (place_pollution(pcity, EC_FALLOUT)) {
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
                     _("Fallout contaminated tile."));
       had_effect = TRUE;

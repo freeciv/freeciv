@@ -544,8 +544,12 @@ int tile_activity_road_time(const struct tile *ptile,
 ****************************************************************************/
 static void tile_clear_dirtiness(struct tile *ptile)
 {
-  tile_clear_special(ptile, S_POLLUTION);
-  tile_clear_special(ptile, S_FALLOUT);
+  extra_type_by_cause_iterate(EC_POLLUTION, pextra) {
+    tile_remove_extra(ptile, pextra);
+  } extra_type_by_cause_iterate_end;
+  extra_type_by_cause_iterate(EC_FALLOUT, pextra) {
+    tile_remove_extra(ptile, pextra);
+  } extra_type_by_cause_iterate_end;
 }
 
 /****************************************************************************
@@ -768,10 +772,10 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act)
 ****************************************************************************/
 static bool tile_info_pollution(char *buf, int bufsz,
                                 const struct tile *ptile,
-                                enum tile_special_type special,
+                                struct extra_type *pextra,
                                 bool prevp, bool linebreak)
 {
-  if (tile_has_special(ptile, special)) {
+  if (tile_has_extra(ptile, pextra)) {
     if (!prevp) {
       if (linebreak) {
         fc_strlcat(buf, "\n[", bufsz);
@@ -782,7 +786,7 @@ static bool tile_info_pollution(char *buf, int bufsz,
       fc_strlcat(buf, "/", bufsz);
     }
 
-    fc_strlcat(buf, special_name_translation(special), bufsz);
+    fc_strlcat(buf, extra_name_translation(pextra), bufsz);
 
     return TRUE;
   }
@@ -844,8 +848,12 @@ const char *tile_get_info_text(const struct tile *ptile, int linebreaks)
   }
 
   pollution = FALSE;
-  pollution = tile_info_pollution(s, bufsz, ptile, S_POLLUTION, pollution, lb);
-  pollution = tile_info_pollution(s, bufsz, ptile, S_FALLOUT, pollution, lb);
+  extra_type_by_cause_iterate(EC_POLLUTION, pextra) {
+    pollution = tile_info_pollution(s, bufsz, ptile, pextra, pollution, lb);
+  } extra_type_by_cause_iterate_end;
+  extra_type_by_cause_iterate(EC_FALLOUT, pextra) {
+    pollution = tile_info_pollution(s, bufsz, ptile, pextra, pollution, lb);
+  } extra_type_by_cause_iterate_end;
   if (pollution) {
     sz_strlcat(s, "]");
   }

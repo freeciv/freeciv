@@ -848,14 +848,18 @@ static void update_unit_activity(struct unit *punit)
 
   case ACTIVITY_POLLUTION:
     if (total_activity_done(ptile, ACTIVITY_POLLUTION)) {
-      tile_clear_special(ptile, S_POLLUTION);
+      extra_type_by_cause_iterate(EC_POLLUTION, pextra) {
+        tile_remove_extra(ptile, pextra);
+      } extra_type_by_cause_iterate_end;
       unit_activity_done = TRUE;
     }
     break;
 
   case ACTIVITY_FALLOUT:
     if (total_activity_done(ptile, ACTIVITY_FALLOUT)) {
-      tile_clear_special(ptile, S_FALLOUT);
+     extra_type_by_cause_iterate(EC_FALLOUT, pextra) {
+        tile_remove_extra(ptile, pextra);
+      } extra_type_by_cause_iterate_end;
       unit_activity_done = TRUE;
     }
     break;
@@ -2493,14 +2497,18 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
 
   if (!terrain_has_flag(tile_terrain(ptile), TER_NO_POLLUTION)
       && fc_rand(2) == 1) {
+    struct extra_type *pextra;
+
     if (game.server.nuke_contamination == CONTAMINATION_POLLUTION) {
-      if (!tile_has_special(ptile, S_POLLUTION)) {
-	tile_set_special(ptile, S_POLLUTION);
+      pextra = extra_type_by_cause(EC_POLLUTION);
+      if (pextra != NULL && !tile_has_extra(ptile, pextra)) {
+	tile_add_extra(ptile, pextra);
 	update_tile_knowledge(ptile);
       }
     } else {
-      if (!tile_has_special(ptile, S_FALLOUT)) {
-	tile_set_special(ptile, S_FALLOUT);
+      pextra = extra_type_by_cause(EC_FALLOUT);
+      if (pextra != NULL && !tile_has_extra(ptile, pextra)) {
+	tile_add_extra(ptile, pextra);
 	update_tile_knowledge(ptile);
       }
     }

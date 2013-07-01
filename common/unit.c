@@ -1066,12 +1066,28 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return TRUE;
 
   case ACTIVITY_POLLUTION:
-    return (unit_has_type_flag(punit, UTYF_SETTLERS)
-	    && tile_has_special(ptile, S_POLLUTION));
+    if (!unit_has_type_flag(punit, UTYF_SETTLERS)) {
+      return FALSE;
+    }
+    extra_type_by_cause_iterate(EC_POLLUTION, pextra) {
+      if (tile_has_extra(ptile, pextra)) {
+        return TRUE;
+      }
+    } extra_type_by_cause_iterate_end;
+
+    return FALSE;
 
   case ACTIVITY_FALLOUT:
-    return (unit_has_type_flag(punit, UTYF_SETTLERS)
-	    && tile_has_special(ptile, S_FALLOUT));
+    if (!unit_has_type_flag(punit, UTYF_SETTLERS)) {
+      return FALSE;
+    }
+    extra_type_by_cause_iterate(EC_FALLOUT, pextra) {
+      if (tile_has_extra(ptile, pextra)) {
+        return TRUE;
+      }
+    } extra_type_by_cause_iterate_end;
+
+    return FALSE;
 
   case ACTIVITY_MINE:
     /* Don't allow it if someone else is irrigating this tile.

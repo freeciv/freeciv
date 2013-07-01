@@ -235,19 +235,27 @@ static int adv_calc_pollution(const struct city *pcity,
 {
   int goodness;
   struct tile *vtile;
+  bool polluted = FALSE;
 
-  fc_assert_ret_val(ptile != NULL, -1)
-
-  if (!tile_has_special(ptile, S_POLLUTION)) {
-    return -1;
-  }
+  fc_assert_ret_val(ptile != NULL, -1);
 
   vtile = tile_virtual_new(ptile);
-  tile_clear_special(vtile, S_POLLUTION);
-  goodness = city_tile_value(pcity, vtile, 0, 0);
 
-  /* FIXME: need a better way to guarantee pollution is cleaned up. */
-  goodness = (goodness + best + 50) * 2;
+  extra_type_by_cause_iterate(EC_POLLUTION, pextra) {
+    if (tile_has_extra(ptile, pextra)) {
+      polluted = TRUE;
+      tile_remove_extra(vtile, pextra);
+    }
+  } extra_type_by_cause_iterate_end;
+
+  if (!polluted) {
+    goodness = -1;
+  } else {
+    goodness = city_tile_value(pcity, vtile, 0, 0);
+
+    /* FIXME: need a better way to guarantee pollution is cleaned up. */
+    goodness = (goodness + best + 50) * 2;
+  }
 
   tile_virtual_destroy(vtile);
 
@@ -267,20 +275,28 @@ static int adv_calc_fallout(const struct city *pcity,
 {
   int goodness;
   struct tile *vtile;
+  bool polluted = FALSE;
 
-  fc_assert_ret_val(ptile != NULL, -1)
-
-  if (!tile_has_special(ptile, S_FALLOUT)) {
-    return -1;
-  }
+  fc_assert_ret_val(ptile != NULL, -1);
 
   vtile = tile_virtual_new(ptile);
-  tile_clear_special(vtile, S_FALLOUT);
-  goodness = city_tile_value(pcity, vtile, 0, 0);
 
-  /* FIXME: need a better way to guarantee fallout is cleaned up. */
-  if (!city_owner(pcity)->ai_controlled) {
-    goodness = (goodness + best + 50) * 2;
+  extra_type_by_cause_iterate(EC_FALLOUT, pextra) {
+    if (tile_has_extra(ptile, pextra)) {
+      tile_remove_extra(vtile, pextra);
+      polluted = TRUE;
+    }
+  } extra_type_by_cause_iterate_end;
+
+  if (!polluted) {
+    goodness = -1;
+  } else {
+    goodness = city_tile_value(pcity, vtile, 0, 0);
+
+    /* FIXME: need a better way to guarantee fallout is cleaned up. */
+    if (!city_owner(pcity)->ai_controlled) {
+      goodness = (goodness + best + 50) * 2;
+    }
   }
 
   tile_virtual_destroy(vtile);
