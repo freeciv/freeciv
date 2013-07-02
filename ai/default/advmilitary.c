@@ -216,14 +216,14 @@ static int base_assess_defense_unit(struct city *pcity, struct unit *punit,
   defense = get_fortified_defense_power(NULL, punit) * punit->hp;
   if (!is_sailing_unit(punit)) {
     defense *= unit_type(punit)->firepower;
-    if (is_ground_unit(punit)) {
-      if (pcity) {
-        /* FIXME: We check if city got defense effect against *some*
-         * unit type. Sea unit danger might cause us to build defenses
-         * against air units... */
-        do_wall = (!igwall && city_got_defense_effect(pcity, NULL));
-        defense *= 3;
-      }
+  }
+
+  if (is_ground_unit(punit)) {
+    if (pcity) {
+      /* FIXME: We check if city got defense effect against *some*
+       * unit type. Sea unit danger might cause us to build defenses
+       * against air units... */
+      do_wall = (!igwall && city_got_defense_effect(pcity, NULL));
     }
   }
   defense /= POWER_DIVIDER;
