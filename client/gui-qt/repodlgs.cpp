@@ -150,7 +150,8 @@ science_report::science_report(): QWidget()
 
   size = res_diag->size();
   res_diag->setMinimumSize(size);
-  scroll->setBackgroundRole(QPalette::Dark);
+  scroll->setAutoFillBackground(true);
+  scroll->setPalette(QPalette(QColor(215,215,215)));
   scroll->setWidget(res_diag);
   scroll->setSizePolicy(size_expanding_policy);
   sci_layout->addWidget(scroll, 4, 0, 1, 10);
@@ -181,11 +182,15 @@ science_report::~science_report()
   It has to be called soon after constructor.
   It could be in constructor but compiler will yell about not used variable
 ****************************************************************************/
-void science_report::init()
+void science_report::init(bool raise)
 {
   index = gui()->gimme_place();
   gui()->add_game_tab(this, _("Research"), index);
-  gui()->game_tab_widget->setCurrentIndex(index);
+  if (raise == false) {
+    gui()->game_tab_widget->change_color(index, Qt::red);
+  } else {
+    gui()->game_tab_widget->setCurrentIndex(index);
+  }
   gui()->add_repo_dlg("SCI");
   update_report();
 }
@@ -1140,19 +1145,27 @@ void endgame_report::update_report(const struct packet_endgame_player *packet)
 **************************************************************************/
 void science_report_dialog_popup(bool raise)
 {
+
   science_report *sci_rep;
   int i;
   QWidget *w;
 
   if (!gui()->is_repo_dlg_open("SCI")) {
     sci_rep = new science_report;
-    sci_rep->init();
+    sci_rep->init(raise);
   } else {
     i = gui()->gimme_index_of("SCI");
     fc_assert(i != -1);
+    if (gui()->game_tab_widget->currentIndex() == i) {
+      return;
+    }
     w = gui()->game_tab_widget->widget(i);
     sci_rep = reinterpret_cast<science_report*>(w);
+    if (raise == false) {
+      gui()->game_tab_widget->change_color(i, Qt::red);
+    } else {
     gui()->game_tab_widget->setCurrentWidget(sci_rep);
+    }
   }
 }
 

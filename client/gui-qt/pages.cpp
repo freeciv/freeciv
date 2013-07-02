@@ -448,7 +448,7 @@ void fc_client::create_game_page()
   pages_layout[PAGE_GAME] = new QGridLayout;
   game_main_widget = new QWidget;
   game_layout = new QGridLayout;
-  game_tab_widget = new QTabWidget;
+  game_tab_widget = new fc_game_tab_widget;
   game_tab_widget->setTabPosition(QTabWidget::South);
   game_tab_widget->setDocumentMode(false);
   mapview_wdg = new map_view();

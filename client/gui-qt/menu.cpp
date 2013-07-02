@@ -28,6 +28,7 @@
 #include "qtg_cxxside.h"
 #include "fc_client.h"
 #include "chatline.h"
+#include "cityrep.h"
 #include "dialogs.h"
 #include "gui_main.h"
 #include "plrdlg.h"
@@ -366,6 +367,10 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("Players"));
   act->setShortcut(QKeySequence(tr("F3")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_show_nations()));
+  
+  act = menu->addAction(_("Cities"));
+  act->setShortcut(QKeySequence(tr("F4")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_show_cities()));
 
   act = menu->addAction(_("Economy"));
   act->setShortcut(QKeySequence(tr("F5")));
@@ -863,7 +868,7 @@ void mr_menu::slot_menu_copying()
 ***************************************************************************/
 void mr_menu::slot_show_research_tab()
 {
-  science_report_dialog_popup(false);
+  science_report_dialog_popup(true);
 }
 
 /***************************************************************************
@@ -893,6 +898,11 @@ void mr_menu::slot_show_units_report()
 void mr_menu::slot_show_nations()
 {
   popup_players_dialog(false);
+}
+
+void mr_menu::slot_show_cities()
+{
+  city_report_dialog_popup(false);
 }
 
 /****************************************************************

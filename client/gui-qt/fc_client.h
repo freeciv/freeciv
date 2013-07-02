@@ -35,6 +35,7 @@
 // client
 #include "chatline_common.h"
 #include "client_main.h"
+#include "climisc.h"
 #include "clinet.h"
 #include "mapview_common.h"
 #include "servers.h"
@@ -75,6 +76,16 @@ class QTimer;
 class QSocketNotifier;
 class QDialog;
 class QApplication;
+
+class fc_game_tab_widget: public QTabWidget
+{
+  Q_OBJECT
+public:
+  fc_game_tab_widget();
+  void change_color(int index, QColor col);
+private slots:
+  void restore_label_color(int index);
+};
 
 class fc_font
 {
@@ -166,7 +177,7 @@ public:
   info_label *game_info_label;
   QWidget *central_wdg;
   mr_menu *menu_bar;
-  QTabWidget *game_tab_widget;
+  fc_game_tab_widget *game_tab_widget;
   int gimme_place();
   int gimme_index_of(QString str);
   void add_repo_dlg(QString str);
