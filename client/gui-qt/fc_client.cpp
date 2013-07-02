@@ -249,6 +249,7 @@ void fc_client::switch_page(int new_pg)
     show_dock_widget(static_cast<int>(OUTPUT_DOCK_WIDGET), true);
     show_dock_widget(static_cast<int>(MESSAGE_DOCK_WIDGET), true);
     mapview_wdg->setFocus();
+    center_on_something();
     break;
   case PAGE_SCENARIO:
     update_scenarios_page();
@@ -550,4 +551,25 @@ void fc_font::init_fonts()
 void fc_font::set_font(QString name, QFont * qf)
 {
   font_map.insert(name,qf);
+}
+
+fc_game_tab_widget::fc_game_tab_widget(): QTabWidget()
+{
+  connect(this, SIGNAL(currentChanged(int)), SLOT(restore_label_color(int)));
+}
+
+/****************************************************************************
+  Restores black color of label
+****************************************************************************/
+void fc_game_tab_widget::restore_label_color(int index)
+{
+  change_color(index, QColor(Qt::black));
+}
+
+/****************************************************************************
+  Changes color of tab widget's label
+****************************************************************************/
+void fc_game_tab_widget::change_color(int index, QColor col)
+{
+  tabBar()->setTabTextColor(index, col);
 }

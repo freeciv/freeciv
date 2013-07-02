@@ -3,7 +3,7 @@
 include $(top_srcdir)/bootstrap/Makerules.mk
 
 noinst_LTLIBRARIES = libgui-qt.la
-AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common $(GUI_qt_CPPFLAGS)
+AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(srcdir)/../agents -I$(top_srcdir)/common/aicore $(GUI_qt_CPPFLAGS)
 
 AM_CFLAGS = $(GUI_qt_CFLAGS) $(SOUND_CFLAGS)
 
@@ -18,6 +18,7 @@ MOC_FILES = \
 	meta_dialogs.cpp	\
 	meta_optiondlg.cpp	\
 	meta_citydlg.cpp	\
+	meta_cityrep.cpp	\
 	meta_plrdlg.cpp
 
 libgui_qt_la_SOURCES = \

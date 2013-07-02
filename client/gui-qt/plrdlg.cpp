@@ -57,7 +57,7 @@ void plr_item_delegate::paint(QPainter *painter, const QStyleOptionViewItem
                                   index.data().value<QPixmap>());
     break;
   case COL_COLOR:
-    pix.fill(index.data().value < QColor > ());
+    pix.fill(index.data().value <QColor> ());
     QItemDelegate::drawBackground(painter, opt, index);
     QItemDelegate::drawDecoration(painter, opt, option.rect, pix);
     break;
@@ -228,6 +228,16 @@ void plr_model::populate()
 }
 
 /**************************************************************************
+  Resets model to call redraw all cells
+**************************************************************************/
+void plr_model::reset_model()
+{
+  beginResetModel();
+  endResetModel();
+}
+
+
+/**************************************************************************
   Constructor for plr_widget
 **************************************************************************/
 plr_widget::plr_widget(plr_report *pr): QTreeView()
@@ -249,6 +259,7 @@ plr_widget::plr_widget(plr_report *pr): QTreeView()
   setItemsExpandable(false);
   setAutoScroll(true);
   header()->setContextMenuPolicy(Qt::CustomContextMenu);
+  hide_columns();
   connect(header(), SIGNAL(customContextMenuRequested(const QPoint &)),
           this, SLOT(display_header_menu(const QPoint &)));
   connect(selectionModel(),
@@ -263,8 +274,9 @@ plr_widget::plr_widget(plr_report *pr): QTreeView()
 **************************************************************************/
 void plr_widget::display_header_menu(const QPoint &)
 {
+  struct player_dlg_column *pcol;
   QMenu hideshowColumn(this);
-  hideshowColumn.setTitle(tr("Column visibility"));
+  hideshowColumn.setTitle(_("Column visibility"));
   QList<QAction *> actions;
   for (int i = 0; i < list_model->columnCount(); ++i) {
     QAction *myAct = hideshowColumn.addAction(
@@ -278,11 +290,36 @@ void plr_widget::display_header_menu(const QPoint &)
   if (act) {
     int col = actions.indexOf(act);
     Q_ASSERT(col >= 0);
+    pcol = &player_dlg_columns[col];
+    pcol->show = !pcol->show;
     setColumnHidden(col, !isColumnHidden(col));
     if (!isColumnHidden(col) && columnWidth(col) <= 5)
       setColumnWidth(col, 100);
   }
 }
+
+/**************************************************************************
+  Returns information about column if hidden
+**************************************************************************/
+QVariant plr_model::hide_data(int section) const
+{
+  struct player_dlg_column *pcol;
+  pcol = &player_dlg_columns[section];
+  return pcol->show;
+}
+
+/**************************************************************************
+  Hides columns in plr widget, depending on info from plr_list
+**************************************************************************/
+void plr_widget::hide_columns()
+{
+  for (int col = 0; col < list_model->columnCount(); col++) {
+   if(!list_model->hide_data(col).toBool()){
+    setColumnHidden(col, !isColumnHidden(col));
+   }
+  }
+}
+
 
 /**************************************************************************
   Slot for selecting player/nation
@@ -444,6 +481,15 @@ plr_model *plr_widget::get_model() const
 }
 
 /**************************************************************************
+  Calls to reset model
+**************************************************************************/
+void plr_widget::reset_model()
+{
+  list_model->reset_model();
+}
+
+
+/**************************************************************************
   Destructor for player widget
 **************************************************************************/
 plr_widget::~plr_widget()
@@ -560,6 +606,7 @@ void plr_report::req_wiithdrw_vision()
 void plr_report::update_report()
 {
   struct player_diplstate *ds;
+  plr_wdg->reset_model();
   meet_but->setDisabled(true);
   cancel_but->setDisabled(true);
   withdraw_but->setDisabled(true);

@@ -95,7 +95,7 @@ public:
   science_report();
   ~science_report();
   void update_report();
-  void init();
+  void init(bool raise);
   void redraw();
 
 private:

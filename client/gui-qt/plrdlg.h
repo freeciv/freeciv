@@ -94,6 +94,8 @@ public:
                int role = Qt::DisplayRole);
   QVariant headerData(int section, Qt::Orientation orientation,
                       int role) const;
+  QVariant hide_data(int section) const;
+  void reset_model();
   void populate();
 private slots:
   void notify_plr_changed(int row);
@@ -121,9 +123,12 @@ public:
   QString ally_str;
   QString tech_str;
   struct player *other_player;
+  void reset_model();
 public slots:
   void display_header_menu(const QPoint &);
   void nation_selected(const QItemSelection &sl, const QItemSelection &ds);
+private:
+  void hide_columns();
 };
 
 /***************************************************************************
