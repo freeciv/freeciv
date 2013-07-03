@@ -490,7 +490,9 @@ BV_DEFINE(bv_extras, S_LAST + MAX_BASE_TYPES + MAX_ROAD_TYPES);
 #define SPECENUM_VALUE4NAME "Farmland"
 #define SPECENUM_VALUE5 EC_FALLOUT
 #define SPECENUM_VALUE5NAME "Fallout"
+#define SPECENUM_COUNT EC_COUNT
 #include "specenum_gen.h"
+#define EC_NONE EC_COUNT
 
 #ifdef __cplusplus
 }

@@ -36,6 +36,15 @@ struct extra_type
   } data;
 };
 
+/* get 'struct extra_type_list' and related functions: */
+#define SPECLIST_TAG extra_type
+#define SPECLIST_TYPE struct extra_type
+#include "speclist.h"
+
+#define extra_type_list_iterate(extralist, pextra) \
+    TYPED_LIST_ITERATE(struct extra_type, extralist, pextra)
+#define extra_type_list_iterate_end LIST_ITERATE_END
+
 void extras_init(void);
 void extras_free(void);
 
@@ -51,6 +60,7 @@ const char *extra_rule_name(const struct extra_type *pextra);
 struct extra_type *extra_type_by_rule_name(const char *name);
 struct extra_type *extra_type_by_translated_name(const char *name);
 
+void extra_to_caused_by_list(struct extra_type *pextra, enum extra_cause cause);
 struct extra_type *extra_type_by_cause(enum extra_cause cause);
 
 bool is_extra_card_near(const struct tile *ptile, const struct extra_type *pextra);

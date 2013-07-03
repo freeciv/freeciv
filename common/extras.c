@@ -26,6 +26,8 @@
 
 static struct extra_type extras[MAX_EXTRA_TYPES];
 
+static struct extra_type_list *caused_by[EC_COUNT + 1];
+
 /****************************************************************************
   Initialize extras structures.
 ****************************************************************************/
@@ -33,14 +35,42 @@ void extras_init(void)
 {
   int i;
 
+  for (i = 0; i < EC_COUNT + 1; i++) {
+    caused_by[i] = extra_type_list_new();
+  }
+
   for (i = 0; i < S_LAST; i++) {
     extras[i].id = i;
     extras[i].type = EXTRA_SPECIAL;
     extras[i].data.special = i;
+    switch(i) {
+    case S_IRRIGATION:
+      extra_to_caused_by_list(&extras[i], EC_IRRIGATION);
+      break;
+    case S_MINE:
+      extra_to_caused_by_list(&extras[i], EC_MINE);
+      break;
+    case S_POLLUTION:
+      extra_to_caused_by_list(&extras[i], EC_POLLUTION);
+      break;
+    case S_HUT:
+      extra_to_caused_by_list(&extras[i], EC_HUT);
+      break;
+    case S_FARMLAND:
+      extra_to_caused_by_list(&extras[i], EC_FARMLAND);
+      break;
+    case S_FALLOUT:
+      extra_to_caused_by_list(&extras[i], EC_FALLOUT);
+      break;
+    default:
+      extra_to_caused_by_list(&extras[i], EC_NONE);
+      break;
+    }
   }
 
   for (; i < MAX_EXTRA_TYPES; i++) {
     extras[i].id = i;
+    extra_to_caused_by_list(&extras[i], EC_NONE);
   }
 }
 
@@ -49,8 +79,14 @@ void extras_init(void)
 ****************************************************************************/
 void extras_free(void)
 {
+  int i;
+
   base_types_free();
   road_types_free();
+
+  for (i = 0; i < EC_COUNT + 1; i++) {
+    extra_type_list_destroy(caused_by[i]);
+  }
 }
 
 /**************************************************************************
@@ -163,33 +199,25 @@ struct extra_type *extra_type_by_translated_name(const char *name)
 **************************************************************************/
 struct extra_type *extra_type_by_cause(enum extra_cause cause)
 {
-  enum tile_special_type spe;
+  fc_assert(cause < EC_COUNT || cause == EC_NONE);
 
-  switch(cause) {
-  case EC_IRRIGATION:
-    spe = S_IRRIGATION;
-    break;
-  case EC_MINE:
-    spe = S_MINE;
-    break;
-  case EC_POLLUTION:
-    spe = S_POLLUTION;
-    break;
-  case EC_HUT:
-    spe = S_HUT;
-    break;
-  case EC_FARMLAND:
-    spe = S_FARMLAND;
-    break;
-  case EC_FALLOUT:
-    spe = S_FALLOUT;
-    break;
-  default:
-    spe = S_LAST;
-    break;
+  /* TODO: Truly support multiple extras caused by same cause.
+   *       Now we always return first one in the list. */
+  if (extra_type_list_size(caused_by[cause]) > 0) {
+    return extra_type_list_get(caused_by[cause], 0);
   }
 
-  return extra_type_get(EXTRA_SPECIAL, spe);
+  return NULL;
+}
+
+/**************************************************************************
+  Add extra type to list of extra caused by given cause.
+**************************************************************************/
+void extra_to_caused_by_list(struct extra_type *pextra, enum extra_cause cause)
+{
+  fc_assert(cause < EC_COUNT || cause == EC_NONE);
+
+  extra_type_list_append(caused_by[cause], pextra);
 }
 
 /****************************************************************************
