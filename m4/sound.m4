@@ -12,7 +12,14 @@ AC_DEFUN([FC_CHECK_SOUND],[
   SDL_VERSION=1.0.0
   AM_PATH_SDL($SDL_VERSION, SDL=yes, SDL=no)
   if test "x$SDL" != "xno"; then
-
+    PKG_CHECK_MODULES([SDLMIXER], [SDL_mixer],
+[
+    SOUND_CFLAGS="$SOUND_CFLAGS $SDLMIXER_CFLAGS"
+    SOUND_LIBS="$SOUND_LIBS $SDLMIXER_LIBS"
+    AC_DEFINE([AUDIO_SDL], [1], [SDL_Mixer support])
+    SDL_mixer=yes
+    SOUND_SDL_OK=true
+], [
     ac_save_CPPFLAGS="$CPPFLAGS"
     ac_save_CFLAGS="$CFLAGS"
     ac_save_LIBS="$LIBS"
@@ -39,7 +46,7 @@ AC_DEFUN([FC_CHECK_SOUND],[
     else
       AC_MSG_RESULT([no SDL_mixer headers found, install from http://www.libsdl.org/projects/SDL_mixer/index.html])
       SDL_mixer="xno"
-    fi
+    fi ])
   fi
   if test "x$USE_SOUND_SDL" = "xyes" && test "x$SOUND_SDL_OK" != "xtrue" ; then
     AC_MSG_ERROR([SDL mixer support requested, but cannot be compiled in])
