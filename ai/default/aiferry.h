@@ -40,6 +40,7 @@ int aiferry_avail_boats(struct ai_type *ait, struct player *pplayer);
  * Initializes aiferry stats for a new unit
  */
 void dai_ferry_init_ferry(struct ai_type *ait, struct unit *ferry);
+void dai_ferry_close_ferry(struct ai_type *ait, struct unit *ferry);
 
 /*
  * Release the boat reserved in punit's ai.ferryboat field.

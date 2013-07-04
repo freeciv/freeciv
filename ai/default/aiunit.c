@@ -3032,6 +3032,7 @@ void dai_unit_close(struct ai_type *ait, struct unit *punit)
   aiguard_clear_charge(ait, punit);
   aiguard_clear_guard(ait, punit);
   aiferry_clear_boat(ait, punit);
+  dai_ferry_close_ferry(ait, punit);
 
   if (unit_data != NULL) {
     unit_set_ai_data(punit, ait, NULL);

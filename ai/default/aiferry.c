@@ -178,6 +178,30 @@ void dai_ferry_init_ferry(struct ai_type *ait, struct unit *ferry)
   }
 }
 
+/**************************************************************************
+  Close ferry when player loses it
+**************************************************************************/
+void dai_ferry_close_ferry(struct ai_type *ait, struct unit *ferry)
+{
+  if (is_sailing_unit(ferry)) {
+    struct unit_ai *unit_data = def_ai_unit_data(ferry, ait);
+
+    unit_class_iterate(punitclass) {
+      if (dai_uclass_move_type(punitclass) == UMT_LAND
+          && can_unit_type_transport(unit_type(ferry), punitclass)) {
+        /* Can transport some land units, so is consider ferry */
+        struct ai_plr *ai = dai_plr_data_get(ait, unit_owner(ferry));
+
+        ai->stats.boats--;
+        if (unit_data->passenger == FERRY_AVAILABLE) {
+          ai->stats.available_boats--;
+        }
+
+        break;
+      }
+    } unit_class_iterate_end;
+  }
+}
 
 /**************************************************************************
   Use on a unit which no longer needs a boat. 
@@ -289,8 +313,6 @@ int aiferry_avail_boats(struct ai_type *ait, struct player *pplayer)
 
   /* To developer: Switch this checking on when testing some new 
    * ferry code. */
-  /* There is one "legitimate" reason for failing this check: a ferry got
-   * killed but wasn't taken off the register */
 #ifdef LOGLEVEL_FERRY_STATS
   int boats = 0;
 
