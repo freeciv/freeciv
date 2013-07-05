@@ -61,7 +61,8 @@ struct extra_type *extra_type_by_rule_name(const char *name);
 struct extra_type *extra_type_by_translated_name(const char *name);
 
 void extra_to_caused_by_list(struct extra_type *pextra, enum extra_cause cause);
-struct extra_type *extra_type_by_cause(enum extra_cause cause);
+struct extra_type_list *extra_type_list_by_cause(enum extra_cause cause);
+struct extra_type *rand_extra_type_by_cause(enum extra_cause cause);
 
 bool is_extra_card_near(const struct tile *ptile, const struct extra_type *pextra);
 bool is_extra_near_tile(const struct tile *ptile, const struct extra_type *pextra);
@@ -77,13 +78,13 @@ bool is_extra_near_tile(const struct tile *ptile, const struct extra_type *pextr
   }                                               \
 }
 
-#define extra_type_by_cause_iterate(_cause, _extra)        \
-{                                                          \
-  struct extra_type *_extra = extra_type_by_cause(_cause); \
-  if (_extra != NULL) {
+#define extra_type_by_cause_iterate(_cause, _extra)                 \
+{                                                                   \
+  struct extra_type_list *_etl_ = extra_type_list_by_cause(_cause); \
+  extra_type_list_iterate(_etl_, _extra) {
 
 #define extra_type_by_cause_iterate_end                    \
-  }                                                        \
+  } extra_type_list_iterate_end                            \
 }
 
 #ifdef __cplusplus

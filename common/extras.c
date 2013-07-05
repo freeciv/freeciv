@@ -15,6 +15,9 @@
 #include <fc_config.h>
 #endif
 
+/* utility */
+#include "rand.h"
+
 /* common */
 #include "base.h"
 #include "game.h"
@@ -197,17 +200,31 @@ struct extra_type *extra_type_by_translated_name(const char *name)
 /**************************************************************************
   Returns extra type for given cause.
 **************************************************************************/
-struct extra_type *extra_type_by_cause(enum extra_cause cause)
+struct extra_type_list *extra_type_list_by_cause(enum extra_cause cause)
 {
   fc_assert(cause < EC_COUNT || cause == EC_NONE);
 
-  /* TODO: Truly support multiple extras caused by same cause.
-   *       Now we always return first one in the list. */
-  if (extra_type_list_size(caused_by[cause]) > 0) {
-    return extra_type_list_get(caused_by[cause], 0);
+  return caused_by[cause];
+}
+
+/**************************************************************************
+  Return random extra type for given cause.
+
+  Use this function only when you absolutely need to get just one
+  extra_type and have no other way to determine which one. This is meant
+  to be only temporary solution until there's better ways to select the
+  correct extra_type.
+**************************************************************************/
+struct extra_type *rand_extra_type_by_cause(enum extra_cause cause)
+{
+  struct extra_type_list *full_list = extra_type_list_by_cause(cause);
+  int options = extra_type_list_size(full_list);
+
+  if (options == 0) {
+    return NULL;
   }
 
-  return NULL;
+  return extra_type_list_get(full_list, fc_rand(options));
 }
 
 /**************************************************************************

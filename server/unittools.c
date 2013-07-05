@@ -2500,13 +2500,13 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
     struct extra_type *pextra;
 
     if (game.server.nuke_contamination == CONTAMINATION_POLLUTION) {
-      pextra = extra_type_by_cause(EC_POLLUTION);
+      pextra = rand_extra_type_by_cause(EC_POLLUTION);
       if (pextra != NULL && !tile_has_extra(ptile, pextra)) {
 	tile_add_extra(ptile, pextra);
 	update_tile_knowledge(ptile);
       }
     } else {
-      pextra = extra_type_by_cause(EC_FALLOUT);
+      pextra = rand_extra_type_by_cause(EC_FALLOUT);
       if (pextra != NULL && !tile_has_extra(ptile, pextra)) {
 	tile_add_extra(ptile, pextra);
 	update_tile_knowledge(ptile);

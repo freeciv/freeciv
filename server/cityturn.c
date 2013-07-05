@@ -2202,7 +2202,7 @@ static bool place_pollution(struct city *pcity, enum extra_cause cause)
   struct tile *pcenter = city_tile(pcity);
   int city_radius_sq = city_map_radius_sq_get(pcity);
   int k = 100;
-  struct extra_type *pextra = extra_type_by_cause(cause);
+  struct extra_type *pextra = rand_extra_type_by_cause(cause);
 
   if (pextra == NULL) {
     return FALSE;
