@@ -489,8 +489,10 @@ identifier  = "g"
 
 ; /* <-- avoid gettext warnings
 ;
-; Each of the specials Irrigation, Mine, Pollution, Hut, Farmland, and Fallout
-; must have section here, in that order.
+; Each of the specials, bases, and roads must have section here, in correct order.
+; First are specials Irrigation, Mine, Pollution, Hut, Farmland, and Fallout.
+; Then are bases in the same order as the dedicated [base] sections.
+; Last are roads in the same order as the dedicated [road] sections.
 ;
 ; Extra types:
 ;
@@ -519,6 +521,36 @@ name           = _("Farmland")
 
 [extra_fallout]
 name           = _("Fallout")
+
+[extra_tower]
+name           = _("Tower")
+
+[extra_force_fortress]
+name           = _("Force Fortress")
+
+[extra_antigrav_base]
+name           = _("Antigrav Base")
+
+[extra_road]
+name           = _("Road")
+
+[extra_highway]
+name           = _("Highway")
+
+[extra_maglev]
+name           = _("Maglev")
+
+[extra_tunnel]
+name           = _("Tunnel")
+
+[extra_burrow_tube]
+name           = _("Burrow Tube")
+
+[extra_green_river]
+name           = _("Green River")
+
+[extra_brown_river]
+name           = _("Brown River")
 
 ; /* <-- avoid gettext warnings
 ;

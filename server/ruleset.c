@@ -2274,7 +2274,7 @@ static bool load_terrain_names(struct section_file *file)
   if (ok) {
     sec = secfile_sections_by_name_prefix(file, EXTRA_SECTION_PREFIX);
     nval = (NULL != sec ? section_list_size(sec) : 0);
-    if (nval > S_LAST) {
+    if (nval > S_LAST + MAX_BASE_TYPES + MAX_ROAD_TYPES) {
       ruleset_error(LOG_ERROR, "\"%s\": Too many extra types (%d, max %d)",
                     filename, nval, S_LAST);
       ok = FALSE;
@@ -2284,7 +2284,9 @@ static bool load_terrain_names(struct section_file *file)
   if (ok) {
     int idx;
 
-    if (nval != S_LAST) {
+    game.control.num_extra_types = nval;
+
+    if (nval < S_LAST) {
       ruleset_error(LOG_ERROR, "One extra section for each special required");
       ok = FALSE;
     }
@@ -2321,6 +2323,11 @@ static bool load_terrain_names(struct section_file *file)
                     filename, nval, MAX_BASE_TYPES);
       ok = FALSE;
     }
+
+    if (S_LAST + nval > game.control.num_extra_types) {
+      ruleset_error(LOG_ERROR, "Less extra sections than specials and bases");
+      ok = FALSE;
+    }
   }
 
   if (ok) {
@@ -2341,11 +2348,16 @@ static bool load_terrain_names(struct section_file *file)
       const int i = base_index(pbase);
       const char *sec_name = section_name(section_list_get(sec, i));
       struct extra_type *pextra = extra_type_get(EXTRA_BASE, pbase->item_number);
+      const char *base_name = secfile_lookup_str(file, "%s.name", sec_name);
+      const char *extra_name = extra_rule_name(pextra);
 
-      if (!ruleset_load_names(&pextra->name, file, sec_name)) {
+      if (fc_strcasecmp(base_name, extra_name)) {
+        ruleset_error(LOG_ERROR, "Base name \"%s\" does not match extra name \"%s\"",
+                      base_name, extra_name);
         ok = FALSE;
         break;
       }
+
       section_strlcpy(&base_sections[i * MAX_SECTION_LABEL], sec_name);
     } base_type_iterate_end;
   }
@@ -2361,6 +2373,11 @@ static bool load_terrain_names(struct section_file *file)
     if (nval > MAX_ROAD_TYPES) {
       ruleset_error(LOG_ERROR, "\"%s\": Too many road types (%d, max %d)",
                     filename, nval, MAX_ROAD_TYPES);
+      ok = FALSE;
+    }
+
+    if (S_LAST + game.control.num_base_types + nval > game.control.num_extra_types) {
+      ruleset_error(LOG_ERROR, "Less extra sections than specials, bases, and roads");
       ok = FALSE;
     }
   }
@@ -2383,11 +2400,16 @@ static bool load_terrain_names(struct section_file *file)
       const int i = road_index(proad);
       const char *sec_name = section_name(section_list_get(sec, i));
       struct extra_type *pextra = extra_type_get(EXTRA_ROAD, proad->id);
+      const char *road_name = secfile_lookup_str(file, "%s.name", sec_name);
+      const char *extra_name = extra_rule_name(pextra);
 
-      if (!ruleset_load_names(&pextra->name, file, sec_name)) {
+      if (fc_strcasecmp(road_name, extra_name)) {
+        ruleset_error(LOG_ERROR, "Road name \"%s\" does not match extra name \"%s\"",
+                      road_name, extra_name);
         ok = FALSE;
         break;
       }
+
       section_strlcpy(&road_sections[i * MAX_SECTION_LABEL], sec_name);
     } road_type_iterate_end;
   }
