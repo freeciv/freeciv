@@ -15,7 +15,7 @@ description="Default tile_type data for Freeciv"
 options="+Freeciv-ruleset-Devel-2013.May.14"
 
 [control]
-; Names for custom unit type flags.
+; Names for custom terrain flags.
 ;flags =
 ;  { "name", "helptxt"
 ;  }
