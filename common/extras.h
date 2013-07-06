@@ -67,11 +67,10 @@ struct extra_type *rand_extra_type_by_cause(enum extra_cause cause);
 bool is_extra_card_near(const struct tile *ptile, const struct extra_type *pextra);
 bool is_extra_near_tile(const struct tile *ptile, const struct extra_type *pextra);
 
-#define extra_type_iterate(_p)                    \
-{                                                 \
-  int _i_;                                        \
-  int _ec_ = extra_count();                       \
-  for (_i_ = 0; _i_ < _ec_; _i_++) {              \
+#define extra_type_iterate(_p)                                \
+{                                                             \
+  int _i_;                                                    \
+  for (_i_ = 0; _i_ < game.control.num_extra_types; _i_++) {  \
     struct extra_type *_p = extra_by_number(_i_);
 
 #define extra_type_iterate_end                    \
