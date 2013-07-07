@@ -42254,216 +42254,213 @@ msgstr ""
 
 #: server/stdinhand.c:178
 msgid "Can't use an empty name."
-msgstr ""
+msgstr "하나의 비어있는 이름을 사용할 수 없습니다."
 
 #: server/stdinhand.c:181
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
-msgstr ""
+msgstr "그 이름은 %d 글자들의 그 최대값을 초과합니다."
 
 #: server/stdinhand.c:186
 msgid "That name is not allowed."
-msgstr "그 이름은 허용되지 않습니다"
+msgstr "그 이름은 허용되지 않습니다."
 
 #. TRANS: ambiguous command
 #: server/stdinhand.c:319
 msgid "(ambiguous)"
-msgstr ""
+msgstr "(애매모호한)"
 
 #: server/stdinhand.c:418
 msgid "Name is empty, so cannot be a player."
-msgstr "이름이 비어있습니다, 따라서 플레이어가 될수 없습니다"
+msgstr "이름이 비어있어서, 하나의 참가자가 될 수 없습니다."
 
 #: server/stdinhand.c:422
 msgid "Name is too long, so cannot be a player."
-msgstr "이름이 너무 깁니다, 따라서 플레이어가 될수 없습니다"
+msgstr "이름이 너무 길어서, 하나의 참가자가 될 수 없습니다."
 
 #: server/stdinhand.c:426
 #, c-format
 msgid "Player name prefix '%s' is ambiguous."
-msgstr ""
+msgstr "참가자 이름 접두사 '%s' (은)는 애매모호합니다."
 
 #: server/stdinhand.c:430
 #, c-format
 msgid "No player by the name of '%s'."
-msgstr ""
+msgstr "'%s' 의 그 이름으로서 참가자가 없습니다."
 
 #: server/stdinhand.c:434 server/stdinhand.c:469
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
-msgstr ""
+msgstr "예상 밖의 경기-결과 %d (%s) '%s' 에 대해서."
 
 #: server/stdinhand.c:453
 msgid "Name is empty, so cannot be a connection."
-msgstr "이름이 비어있어서 접속할수 없습니다"
+msgstr "이름이 비어있어서, 하나의 접속이 될 수 없습니다."
 
 #: server/stdinhand.c:457
 msgid "Name is too long, so cannot be a connection."
-msgstr "이름이 너무 길어서 접속할수 없습니다"
-
+msgstr "이름이 너무 길어서, 하나의 접속이 될 수 없습니다."
 #: server/stdinhand.c:461
 #, c-format
 msgid "Connection name prefix '%s' is ambiguous."
-msgstr ""
+msgstr "접속 이름 접두사 '%s' (은)는 애매모호합니다."
 
 #: server/stdinhand.c:465
 #, c-format
 msgid "No connection by the name of '%s'."
-msgstr ""
+msgstr "'%s' 의 그 이름으로서 접속이 없습니다."
 
 #: server/stdinhand.c:484
 #, c-format
 msgid "Open metaserver connection to [%s]."
-msgstr ""
+msgstr "[%s] 로 메타서버 접속 열기."
 
 #: server/stdinhand.c:497
 #, c-format
 msgid "Close metaserver connection to [%s]."
-msgstr ""
+msgstr "[%s] 로 메타서버 접속 닫기."
 
 #: server/stdinhand.c:512
 msgid "Metaserver connection is open."
-msgstr ""
+msgstr "메타서버 접속은 열렸습니다."
 
 #: server/stdinhand.c:515
 msgid "Metaserver connection is closed."
-msgstr ""
+msgstr "메타서버 접속은 닫혔습니다."
 
 #: server/stdinhand.c:525
 msgid "Metaserver connection is already open."
-msgstr ""
+msgstr "메타서버 접속은 이미 열렸습니다."
 
 #: server/stdinhand.c:536
 msgid "Metaserver connection is already closed."
-msgstr ""
+msgstr "메타서버 접속은 이미 닫혔습니다."
 
 #: server/stdinhand.c:541
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
-msgstr ""
+msgstr "인수는 반드시 'u', 'up', 'd', 'down', 또는 '?' 입니다."
 
 #: server/stdinhand.c:562
 #, c-format
 msgid "Metaserver patches string set to '%s'."
-msgstr ""
+msgstr "메타서버 조각들 끈은 '%s' (으)로 맞춥니다."
 
 #: server/stdinhand.c:565
 #, c-format
 msgid "Metaserver patches string set to '%s', not reporting to metaserver."
-msgstr ""
+msgstr "메타서버에 보고하는 것이 없어서, 메타서버 조각들 끈은 '%s' (으)로 맞춥니다."
 
 #: server/stdinhand.c:586
 #, c-format
 msgid "Metaserver message string set to '%s'."
-msgstr ""
+msgstr "메타서버 메세지 끈은 '%s' (으)로 맞춥니다."
 
 #: server/stdinhand.c:589
 #, c-format
 msgid "Metaserver message string set to '%s', not reporting to metaserver."
-msgstr ""
+msgstr "메타서버에 보고하는 것이 없어서, 메타서버 메세지 끈은 '%s' (으)로 맞춥니다."
 
 #: server/stdinhand.c:610
 #, c-format
 msgid "Metaserver is now [%s]."
-msgstr ""
+msgstr "메타서버는 이제 [%s] 입니다."
 
 #: server/stdinhand.c:619
 #, c-format
 msgid "Server id: %s"
-msgstr ""
+msgstr "서버 id: %s"
 
 #: server/stdinhand.c:736 server/stdinhand.c:754
 msgid "You cannot save games manually on this server."
-msgstr ""
+msgstr "당신은 이 서버 위에서 놀이들을 손으로 저장할 수 없습니다."
 
 #: server/stdinhand.c:772
 msgid "Cannot toggle a barbarian player."
-msgstr ""
+msgstr "하나의 야만인 참가자를 켰다 껐다 할 수 없습니다."
 
 #: server/stdinhand.c:779
 #, c-format
 msgid "%s is now under AI control."
-msgstr ""
+msgstr "%s (은)는 이제 인공지능 통제 아래에 있습니다."
 
 #: server/stdinhand.c:800
 #, c-format
 msgid "%s is now under human control."
-msgstr ""
+msgstr "%s (은)는 이제 인간 통제 아래에 있습니다."
 
 #: server/stdinhand.c:861
 msgid "Wrong number of arguments to create command."
-msgstr ""
+msgstr "명령을 생성하는데 인수들의 잘못된 숫자."
 
 #: server/stdinhand.c:916
-#, fuzzy
 msgid "A living user already exists by that name."
-msgstr "그 이름의 사용자가 이미 존재합니다"
+msgstr "하나의 살아 있는 사용자는 이미 그 이름으로서 존재합니다."
 
 #: server/stdinhand.c:924
-#, fuzzy
 msgid "A living player already exists by that name."
-msgstr "그 이름의 플레이어는 이미 존재합니다"
+msgstr "하나의 살아 있는 참가자는 이미 그 이름으로서 존재합니다."
 
 #: server/stdinhand.c:932
 #, c-format
 msgid "Can't create players, nation %s conflicts with %s."
-msgstr ""
+msgstr "국가 %s (은)는 %s 와 충돌하고 있어, 참가자들을 생성할 수 없습니다."
 
 #: server/stdinhand.c:943
 msgid "Can't create players, no nations available."
-msgstr ""
+msgstr "이용할 수 있는 국가들이 없어, 참가자들을 생성할 수 없습니다."
 
 #: server/stdinhand.c:960 server/stdinhand.c:970
 #, c-format
 msgid "%s is replacing dead player %s as an AI-controlled player."
-msgstr ""
+msgstr "%s (은)는 하나의 인공지능-통제되는 참가자로서 죽은 참가자 %s (을)를 대체합니다."
 
 #: server/stdinhand.c:994 server/stdinhand.c:1119
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create new player %s."
-msgstr "AI 플레이어를 생성하는데 에러발생 : %s"
+msgstr "새로운 참가자 %s (을)를 생성하는데 실패했습니다."
 
 #: server/stdinhand.c:1000
-#, fuzzy, c-format
+#, c-format
 msgid "New player %s created."
-msgstr "플레이어 멸망함"
+msgstr "새로운 참가자 %s (이)가 생성되었습니다."
 
 #. TRANS: keep one space at the beginning of the string.
 #: server/stdinhand.c:1016
-#, fuzzy, c-format
+#, c-format
 msgid " Nation of the new player: %s."
-msgstr "AI 플레이어를 생성하는데 에러발생 : %s"
+msgstr " 그 새로운 참가자의 국가: %s."
 
 #: server/stdinhand.c:1060
 msgid "A player already exists by that name."
-msgstr "그 이름의 플레이어는 이미 존재합니다"
+msgstr "하나의 참가자는 이미 그 이름으로서 존재합니다."
 
 #: server/stdinhand.c:1065
 msgid "A user already exists by that name."
-msgstr "그 이름의 사용자가 이미 존재합니다"
+msgstr "하나의 사용자는 이미 그 이름으로서 존재합니다."
 
 #: server/stdinhand.c:1076
 msgid "Can't add more players, server is full."
-msgstr ""
+msgstr "서버는 배가 불러서, 더 많은 참가자들을 추가할 수 없습니다."
 
 #: server/stdinhand.c:1082
 msgid "Can't add more players, not enough nations."
-msgstr ""
+msgstr "충분하지 않는 국가들로, 더 많은 참가자들을 추가할 수 없습니다."
 
 #: server/stdinhand.c:1092
 #, c-format
 msgid "There is no AI type %s."
-msgstr ""
+msgstr "그곳에는 인공지능 종류 %s (이)가 없습니다."
 
 #. TRANS: <name> replacing <name> ...
 #: server/stdinhand.c:1109
 #, c-format
 msgid "%s replacing %s as an AI-controlled player."
-msgstr ""
+msgstr "%s (은)는 %s (을)를 하나의 인공지공-통제되는 참가자로서 대체하는 중입니다."
 
 #: server/stdinhand.c:1124
-#, fuzzy, c-format
+#, c-format
 msgid "%s has been added as an AI-controlled player (%s)."
-msgstr "%s는 %s에 의해 파괴되었습니다."
+msgstr "%s (은)는 하나의 인공지능-통제되는 참가자 (%s)로서 추가되었습니다."
 
 #: server/stdinhand.c:1167
 #, c-format
@@ -42471,45 +42468,47 @@ msgid ""
 "Command level '%s' or greater needed to remove a player once the game has "
 "started."
 msgstr ""
+"명령 수준 '%s' 또는 더 큰 것은 그 놀이가 시작된 후에 하나의 참가자를 제거하기 위해 "
+"필요했습니다."
 
 #: server/stdinhand.c:1179
 #, c-format
 msgid "Removed player %s from the game."
-msgstr ""
+msgstr "그 놀이로부터 참가자 %s (을)를 제거했습니다."
 
 #: server/stdinhand.c:1244 server/stdinhand.c:3627 server/stdinhand.c:3788
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
-msgstr ""
+msgstr "이름 \"%s\" (은)는 보안 이유들을 위해서 인정하지 않습니다."
 
 #: server/stdinhand.c:1257
 #, c-format
 msgid "No command script found by the name \"%s\"."
-msgstr ""
+msgstr "그 이름 \"%s\" 로서 명령 원고를 찾을 수 없습니다."
 
 #: server/stdinhand.c:1265
-#, fuzzy, c-format
+#, c-format
 msgid "Loading script file '%s'."
-msgstr "스크립트 파일을 로딩중 : %s"
+msgstr "원고 파일 '%s' (을)를 적재하는 중입니다."
 
 #: server/stdinhand.c:1283
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
-msgstr ""
+msgstr "명령 줄 원고파일 '%s' (을)를 읽을 수 없습니다."
 
 #: server/stdinhand.c:1285 server/stdinhand.c:4554
 #, c-format
 msgid "Could not read script file '%s'."
-msgstr "스크립트 파일  '%s' 을 읽을 수 없습니다"
+msgstr "원고 파일 '%s' (을)를 읽을 수 없습니다."
 
 #: server/stdinhand.c:1346
 #, c-format
 msgid "Could not write script file '%s'."
-msgstr ""
+msgstr "원고 파일 '%s' (을)를 기록할 수 없습니다."
 
 #: server/stdinhand.c:1357
 msgid "You cannot use the write command on this server for security reasons."
-msgstr ""
+msgstr "당신은 보안 이유들을 위해서 이 서버 위에서 그 write 명령을 사용할 수 없습니다."
 
 #: server/stdinhand.c:1386
 #, c-format
@@ -42517,248 +42516,252 @@ msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
 "'%s'."
 msgstr ""
+"접속 '%s' 에 대해 명령 접근 수준 '%s' (을)를 감소할 수 없습니다; 당신은 오직 '%s' (을)를 "
+"가집니다."
 
 #: server/stdinhand.c:1395
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
-msgstr ""
+msgstr "명령 접근 수준을 접속 %s 에 대해 '%s' (으)로 맞춥니다."
 
 #: server/stdinhand.c:1445
 #, c-format
 msgid ""
 "Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr ""
+"누구나 지금 그 'first' 명령을 발표함으로서 놀이 조직자 '%s' 가 될 수 있습니다."
 
 #: server/stdinhand.c:1469
 msgid "Command access levels in effect:"
-msgstr ""
+msgstr "사실상 영향 안의 명령 접근 수준들은:"
 
 #: server/stdinhand.c:1476
 #, c-format
 msgid "Command access level for new connections: %s"
-msgstr ""
+msgstr "새로운 접속들을 위한 명령 접근 수준: %s"
 
 #: server/stdinhand.c:1479
 #, c-format
 msgid "Command access level for first player to take it: %s"
-msgstr ""
+msgstr "이것을 가지기 위해 첫 참가자를 위한 명령 접근 수준: %s"
 
 #. TRANS: comma and 'or' separated list of access levels
 #: server/stdinhand.c:1498
 #, c-format
 msgid "Command access level must be one of %s."
-msgstr ""
+msgstr "명령 접근 수준은 반드시 %s 중의 하나입니다."
 
 #: server/stdinhand.c:1504
 #, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr ""
+"명령 접근 수준을 '%s' (으)로 증가할 수 없습니다; 당신은 스스로 오직 '%s' (을)를 가집니다."
 
 #: server/stdinhand.c:1531 server/stdinhand.c:1545 server/stdinhand.c:1566
 #, c-format
 msgid "Command access level set to '%s' for new players."
-msgstr ""
+msgstr "명령 접근 수준은 새로운 참가자들에 대해 '%s' (으)로 맞춥니다."
 
 #: server/stdinhand.c:1536 server/stdinhand.c:1550 server/stdinhand.c:1560
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
-msgstr ""
+msgstr "명령 접근 수준은 첫 참가자에 대해 이것을 붙잡으려고  '%s' (으)로 맞춥니다."
 
 #: server/stdinhand.c:1595
 msgid "The 'first' command makes no sense from the server command line."
-msgstr ""
+msgstr "그 'first' 명령은 그 서버 명령 줄로부터 이해가 되지 않는다."
 
 #: server/stdinhand.c:1599
 #, c-format
 msgid "You already have command access level '%s' or better."
-msgstr ""
+msgstr "당신은 명령 접근 수준 '%s' 또는 더 좋은 것을 이미 가집니다."
 
 #: server/stdinhand.c:1604
 msgid "Someone else is already game organizer."
-msgstr ""
+msgstr "어떤 다른 사람이 이미 놀이 조직자입니다."
 
 #: server/stdinhand.c:1609
 #, c-format
 msgid "Connection %s has opted to become the game organizer."
-msgstr ""
+msgstr "접속 %s (은)는 그 놀이 조직자가 되기를 택합니다."
 
 #: server/stdinhand.c:1661
 #, c-format
 msgid "Invalid argument %d."
-msgstr "유효하지 않은 인자 %d."
+msgstr "병약한 인수 %d."
 
 #: server/stdinhand.c:1668 server/stdinhand.c:2065 server/stdinhand.c:3175
 #: server/stdinhand.c:3324 server/stdinhand.c:3336 server/stdinhand.c:3517
 #: server/stdinhand.c:3615
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage:\n"
 "%s"
-msgstr "사용법 : 승리"
+msgstr ""
+"용법:\n"
+"%s"
 
 #: server/stdinhand.c:1675
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
-msgstr ""
+msgstr "동적인 시간초과를 %d %d %d %d 으로 맞춥니다"
 
 #. TRANS: <untranslated name> - translated short help
 #: server/stdinhand.c:1752
-#, fuzzy, c-format
+#, c-format
 msgid "Option: %s  -  %s"
-msgstr "인구: %s  -  %s"
+msgstr "선택: %s  -  %s"
 
 #. TRANS: <untranslated name>
 #: server/stdinhand.c:1757
-#, fuzzy, c-format
+#, c-format
 msgid "Option: %s"
-msgstr "옵션: %s"
+msgstr "선택: %s"
 
 #: server/stdinhand.c:1764 server/stdinhand.c:5925
 msgid "Description:"
-msgstr "설명:"
+msgstr "서술:"
 
 #: server/stdinhand.c:1769
 #, c-format
 msgid "Status: %s"
-msgstr "상태: %s"
+msgstr "상황: %s"
 
 #: server/stdinhand.c:1770
 msgid "changeable"
-msgstr ""
+msgstr "바꿀 수도 있는"
 
 #: server/stdinhand.c:1770
 msgid "fixed"
-msgstr ""
+msgstr "고정된"
 
 #: server/stdinhand.c:1779 server/stdinhand.c:1799 server/stdinhand.c:1813
-#, fuzzy
 msgid "Value:"
-msgstr "남"
+msgstr "값:"
 
 #: server/stdinhand.c:1832
 msgid "Explanations are available for the following server options:"
-msgstr ""
+msgstr "그 따라오는 서버 선택들을 위한 이용할 수 있는 설명들이 있습니다:"
 
 #: server/stdinhand.c:1877
 msgid "No explanation for that yet."
-msgstr ""
+msgstr "그것에 대한 설명이 아직 없습니다."
 
 #: server/stdinhand.c:1880 server/stdinhand.c:2863
 msgid "Ambiguous option name."
-msgstr ""
+msgstr "애매모호한 선택 이름."
 
 #: server/stdinhand.c:1900
 #, c-format
 msgid "Server Operator: %s"
-msgstr ""
+msgstr "서버 조작하는 사람: %s"
 
 #: server/stdinhand.c:1939
 #, c-format
 msgid "Connectmsg truncated to %u bytes."
-msgstr ""
+msgstr "Connectmsg 는 %u bytes 로 길이를 줄였습니다."
 
 #: server/stdinhand.c:1985 server/stdinhand.c:2022 server/stdinhand.c:2040
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
-msgstr ""
+msgstr "참가자 '%s' (은)는 이제 인공지능 기술 수준 '%s' 을 가집니다."
 
 #: server/stdinhand.c:2027
 #, c-format
 msgid "%s is not controlled by the AI."
-msgstr ""
+msgstr "%s (은)는 그 인공지능에 의해 통제되지 않습니다."
 
 #: server/stdinhand.c:2047
 #, c-format
 msgid "Default AI skill level set to '%s'."
-msgstr ""
+msgstr "기본 인공지능 기술 수준을 '%s' (으)로 맞춥니다."
 
 #: server/stdinhand.c:2062
 msgid "This command is client only."
-msgstr "이 명령은 오직 클라이언트에서만 됩니다"
+msgstr "이 명령은 고객 전용 입니다."
 
 #: server/stdinhand.c:2071
 msgid "Only players may use the away command."
-msgstr ""
+msgstr "오직 참가자들이 그 자리에 없는 명령을 사용할 수 있습니다."
 
 #: server/stdinhand.c:2075
 #, c-format
 msgid "%s set to away mode."
-msgstr "%s(은)는 외출중입니다."
+msgstr "%s (은)는 자리에 없는 방식으로 맞춥니다."
 
 #: server/stdinhand.c:2081
 #, c-format
 msgid "%s returned to game."
-msgstr "%s(은)는 돌아왔습니다."
+msgstr "%s (은)는 놀이로 돌아왔습니다."
 
 #: server/stdinhand.c:2130
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
-msgstr ""
+msgstr "미안한, 당신은 선택 '%s' (을)를 보기 위한 접근권이 없습니다."
 
 #: server/stdinhand.c:2139
 #, c-format
 msgid "Unknown option '%s'."
-msgstr ""
+msgstr "알려지지 않은 선택 '%s'."
 
 #: server/stdinhand.c:2152
 #, c-format
 msgid "Current ruleset directory is \"%s\""
-msgstr ""
+msgstr "현재 규칙집단 디렉토리는 \"%s\" 입니다."
 
 #: server/stdinhand.c:2176
 msgid "All options with non-default values"
-msgstr ""
+msgstr "비-기본값들과 함께 모든 선택들"
 
 #: server/stdinhand.c:2179
 msgid "All options"
-msgstr "모든 옵션들"
+msgstr "모든 선택들"
 
 #: server/stdinhand.c:2182
 msgid "Vital options"
-msgstr "중요한 옵션들"
+msgstr "필수적인 선택들"
 
 #: server/stdinhand.c:2185
 msgid "Situational options"
-msgstr "상황별 옵션"
+msgstr "상황에 따른 선택들"
 
 #: server/stdinhand.c:2188
 msgid "Rarely used options"
-msgstr "거의 사용되지 않는 옵션들"
+msgstr "드물게 사용되는 선택들"
 
 #: server/stdinhand.c:2191
 msgid "Options locked by the ruleset"
-msgstr ""
+msgstr "선택들은 그 규칙집단에 의해 잠겼습니다."
 
 #: server/stdinhand.c:2203
 msgid "In the column '##' the status of the option is shown:"
-msgstr ""
+msgstr "그 기둥 '##' 안에서 그 선택의 그 상황은 보여집니다:"
 
 #: server/stdinhand.c:2204
-#, fuzzy
 msgid " - a '!' means the option is locked by the ruleset."
-msgstr "%s는 %s에 의해 파괴되었습니다."
+msgstr " - 하나의 '!' 은 그 선택이 그 규칙집단에 의해 잠겨있는 것을 의미합니다."
 
 #: server/stdinhand.c:2205
 msgid " - a '+' means you may change the option."
-msgstr ""
+msgstr " - 하나의 '+' 은 당신은 그 선택을 바꿀 수 있는 것을 의미합니다."
 
 #: server/stdinhand.c:2206
 msgid " - a '=' means the option is on its default value."
-msgstr ""
+msgstr " - 하나의 '=' 은 그 선택이 이것의 기본값 위에 있는 것을 의미합니다."
 
 #: server/stdinhand.c:2208
 #, c-format
 msgid "%-*s ## value (min, max)"
-msgstr ""
+msgstr "%-*s ## 값 (최소, 최대)"
 
 #: server/stdinhand.c:2209
 msgid "Option"
-msgstr "옵션"
+msgstr "선택"
 
 #: server/stdinhand.c:2250
 msgid "A help text for each option is available via 'help <option>'."
-msgstr ""
+msgstr "각각 선택을 위한 하나의 도움 글은 'help <option>' 을 통하여 이용할 수 있습니다."
 
 #: server/stdinhand.c:2254
 msgid ""
@@ -42766,10 +42769,13 @@ msgid ""
 "Try 'show changed' to show settings with non-default values.\n"
 "Try 'show locked' to show settings locked by the ruleset."
 msgstr ""
+"더 많은 선택들을 보기 위해서 'show situational' 또는 'show rare' 를 시도하세요.\n"
+"비-기본값들과 함께 설정들을 보여주기 위해 'show changed' 를 시도하세요.\n"
+"그 규칙집단에 의해 잠긴 설정들을 보여주기 위해 'show locked' 를 시도하세요."
 
 #: server/stdinhand.c:2321
 msgid "Cannot change teams once game has begun."
-msgstr ""
+msgstr "놀이가 시작했을 때 팀들을 바꿀 수 없습니다."
 
 #: server/stdinhand.c:2331 server/stdinhand.c:2467 server/stdinhand.c:2658
 #: server/stdinhand.c:2683 server/stdinhand.c:2724 server/stdinhand.c:2755
@@ -42779,33 +42785,34 @@ msgid ""
 "Undefined argument.  Usage:\n"
 "%s"
 msgstr ""
+"정의되지 않은 인수. 용법:\n"
+"%s"
 
 #: server/stdinhand.c:2352
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
-msgstr ""
+msgstr "그런 팀 %s (은)는 없습니다. 제발 하나의 유효한 팀 이름이나 숫자를 주세요."
 
 #: server/stdinhand.c:2359
 msgid "Cannot team a barbarian."
-msgstr "미개인을 팀으로 할수 없습니다"
+msgstr "하나의 야만인을 팀으로 짤 수 없습니다."
 
 #: server/stdinhand.c:2365
 #, c-format
 msgid "Player %s set to team %s."
-msgstr ""
+msgstr "참가자 %s (은)는 팀 %s (으)로 맞춥니다."
 
 #. TRANS: "Vote" or "Teamvote" is voting-as-a-process. Used as
 #. * part of a sentence.
 #. TRANS: "Vote" as a process. Used as part of a sentence.
 #: server/stdinhand.c:2393 server/voting.c:511
-#, fuzzy
 msgid "Teamvote"
-msgstr "팀"
+msgstr "팀투표"
 
 #. TRANS: "Vote" as a process. Used as part of a sentence.
 #: server/stdinhand.c:2393 server/voting.c:516
 msgid "Vote"
-msgstr ""
+msgstr "투표"
 
 #. TRANS: "[Vote|Teamvote] 3 \"proposed change\" (needs ..."
 #: server/stdinhand.c:2396
@@ -42814,209 +42821,207 @@ msgid ""
 "%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of "
 "%d players."
 msgstr ""
+"%s %d \"%s\" (%0.0f%%%s (이)가 필요합니다): %d 참가자 중에 %d 찬성자, %d 반대자, "
+"그리고 %d 기권자."
 
 #: server/stdinhand.c:2400
 msgid " no dissent"
-msgstr ""
+msgstr " 반대가 없습니다"
 
 #: server/stdinhand.c:2408
 msgid "There are no votes going on."
-msgstr ""
+msgstr "그곳에는 진행 중인 투표들이 없습니다."
 
 #: server/stdinhand.c:2453 server/stdinhand.c:2578 server/stdinhand.c:4245
 msgid "You are not allowed to use this command."
-msgstr ""
+msgstr "당신은 이 명령을 사용하기를 허용되지 않았습니다."
 
 #: server/stdinhand.c:2462
 #, c-format
 msgid "The argument \"%s\" is ambiguous."
-msgstr ""
+msgstr "그 인수 \"%s\" (은)는 애매모호합니다."
 
 #: server/stdinhand.c:2479
-#, fuzzy
 msgid "There are no votes running."
-msgstr "게임은 이미 진행중입니다."
+msgstr "그곳에는 달리는 투표들이 없습니다."
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2482
 #, c-format
 msgid "No legal last vote (%d %s)."
-msgstr ""
+msgstr "합법적인 가장 최근의 투표가 없습니다 (%d %s)."
 
 #: server/stdinhand.c:2483
 msgid "other vote running"
 msgid_plural "other votes running"
-msgstr[0] ""
+msgstr[0] "달리는 다른 투표"
 
 #: server/stdinhand.c:2490
 msgid "Value must be an integer."
-msgstr ""
+msgstr "값은 반드시 하나의 정수여야 합니다."
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2497 server/stdinhand.c:2587
 #, c-format
 msgid "No such vote (%d)."
-msgstr ""
+msgstr "그런 투표 (%d) (이)가 없습니다."
 
 #: server/stdinhand.c:2503
-#, fuzzy
 msgid "You are not allowed to vote on that."
-msgstr "당신은 이 옵션을 설정하도록 허용되지 않았습니다"
+msgstr "당신은 그것 위에 투표하기를 허용되지 않았습니다."
 
 #: server/stdinhand.c:2508
 #, c-format
 msgid "You voted for \"%s\""
-msgstr ""
+msgstr "당신은 \"%s\" (을)를 위해 투표했습니다."
 
 #: server/stdinhand.c:2512
 #, c-format
 msgid "You voted against \"%s\""
-msgstr ""
+msgstr "당신은 \"%s\" 에 맞서 투표했습니다."
 
 #: server/stdinhand.c:2517
 #, c-format
 msgid "You abstained from voting on \"%s\""
-msgstr ""
+msgstr "당신은 \"%s\" 위에 투표하기로부터 기권했습니다."
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2554
 msgid "Missing argument <vote number> or the string \"all\"."
-msgstr ""
+msgstr "실종된 인수 <vote number> 또는 그 끈 \"all\"."
 
 #: server/stdinhand.c:2561
-#, fuzzy
 msgid "You don't have any vote going on."
-msgstr "여기에 일꾼을 가질수 없습니다"
+msgstr "당신은 진행 중인 어느 투표도 가지고 있지 않습니다."
 
 #: server/stdinhand.c:2568
-#, fuzzy
 msgid "There isn't any vote going on."
-msgstr "게임은 이미 진행중입니다."
+msgstr "그곳에는 진행 중인 어느 투표도 있지 않습니다."
 
 #. TRANS: "votes" as a process
 #: server/stdinhand.c:2574
 msgid "All votes have been removed."
-msgstr ""
+msgstr "모든 투표들을 제거되었습니다."
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2593
-#, fuzzy, c-format
+#, c-format
 msgid "You are not allowed to cancel this vote (%d)."
-msgstr "당신은 이 옵션을 설정하도록 허용되지 않았습니다"
+msgstr "당신은 이 투표 (%d) 를 취소하도록 허용되지 않았습니다."
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2600
 msgid "Usage: /cancelvote [<vote number>|all]"
-msgstr ""
+msgstr "용법: /cancelvote [<vote number>|all]"
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2610
 #, c-format
 msgid "%s has canceled the vote \"%s\" (number %d)."
-msgstr ""
+msgstr "%s (은)는 그 투표 \"%s\" (숫자 %d) (을)를 취소했습니다."
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2617
 #, c-format
 msgid "The vote \"%s\" (number %d) has been canceled."
-msgstr ""
+msgstr "그 투표 \"%s\" (숫자 %d) (은)는 취소되었습니다."
 
 #: server/stdinhand.c:2638
 msgid "Can only use this command once game has begun."
-msgstr ""
+msgstr "오직 놀이가 시작했을 때 이 명령을 사용할 수 있습니다."
 
 #: server/stdinhand.c:2669
 #, c-format
 msgid "%s diplomacy no longer debugged"
-msgstr ""
+msgstr "%s 외교는 더 이상 디버그하지 않습니다"
 
 #: server/stdinhand.c:2673
 #, c-format
 msgid "%s diplomacy debugged"
-msgstr ""
+msgstr "%s 외교는 디버그합니다"
 
 #: server/stdinhand.c:2694
 #, c-format
 msgid "%s tech no longer debugged"
-msgstr ""
+msgstr "%s 기술은 더 이상 디버그하지 않습니다"
 
 #: server/stdinhand.c:2698
 #, c-format
 msgid "%s tech debugged"
-msgstr ""
+msgstr "%s 기술을 디버그합니다"
 
 #: server/stdinhand.c:2712 server/stdinhand.c:2715
 #, c-format
 msgid "players=%d cities=%d citizens=%d units=%d"
-msgstr ""
+msgstr "참가자들=%d 도시들=%d 시민들=%d 부대들=%d"
 
 #: server/stdinhand.c:2729 server/stdinhand.c:2760
 msgid "Value 2 & 3 must be integer."
-msgstr ""
+msgstr "값 2 & 3 은 반드시 정수여야 합니다."
 
 #: server/stdinhand.c:2733 server/stdinhand.c:2764
 msgid "Bad map coordinates."
-msgstr ""
+msgstr "나쁜 지도 좌표들."
 
 #: server/stdinhand.c:2738
 msgid "No city at this coordinate."
-msgstr "여기에 동등한 도시가 없습니다"
+msgstr "이 좌표에 도시가 없습니다."
 
 #: server/stdinhand.c:2743
 #, c-format
 msgid "%s no longer debugged"
-msgstr ""
+msgstr "%s (은)는 더 이상 디버그하지 않습니다."
 
 #: server/stdinhand.c:2770 server/stdinhand.c:2811
 #, c-format
 msgid "%s %s no longer debugged."
-msgstr ""
+msgstr "%s %s (은)는 더 이상 디버그하지 않습니다."
 
 #: server/stdinhand.c:2785
 msgid "Ferry system is no longer in debug mode."
-msgstr ""
+msgstr "연락선 체계는 더 이상 디버그 방식 안에 없습니다."
 
 #: server/stdinhand.c:2789
 msgid "Ferry system in debug mode."
-msgstr ""
+msgstr "연락선 체계는 디버그 방식 안에 있습니다."
 
 #: server/stdinhand.c:2802
 msgid "Value 2 must be integer."
-msgstr "값 2는 반드시 정수여야 합니다"
+msgstr "값 2는 반드시 정수여야 합니다."
 
 #: server/stdinhand.c:2806
 #, c-format
 msgid "Unit %d does not exist."
-msgstr "부대 %d는 존재하지 않습니다"
+msgstr "부대 %d (은)는 존재하지 않습니다."
 
 #: server/stdinhand.c:2860
 #, c-format
 msgid "Option '%s' not recognized."
-msgstr ""
+msgstr "선택 '%s' (은)는 인정하지 않습니다."
 
 #. TRANS: 'rulesetdir' is the command. Do not translate.
 #: server/stdinhand.c:2868
 #, c-format
 msgid "Use the '%srulesetdir' command to change the ruleset directory."
-msgstr ""
+msgstr "그 규칙집단 디렉토리를 바꾸기 위해 그 '%srulesetdir' 명령을 사용하세요."
 
 #: server/stdinhand.c:2910
 #, c-format
 msgid "The parameter %s should only contain +- and 0-9."
-msgstr ""
+msgstr "그 매개 변수 %s (은)는 오직 +- 와 0-9 만을 포함해야 합니다."
 
 #: server/stdinhand.c:2998
-#, fuzzy, c-format
+#, c-format
 msgid "Console: '%s' has been set to %s."
-msgstr "%s는 %s에 의해 파괴되었습니다."
+msgstr "제어반: '%s' (은)는 %s (으)로 맞추어졌습니다."
 
 #: server/stdinhand.c:3040
 msgid "Sorry, one can't observe globally in this game."
-msgstr ""
+msgstr "미안한, 하나는 이 놀이 안에 전세계적으로 관찰할 수 없습니다."
 
 #: server/stdinhand.c:3048
 msgid "You cannot take a new player at this time."
-msgstr ""
+msgstr "당신은 이 시간에 하나의 새로운 참가자를 가질 수 없습니다."
 
 #. TRANS: Do not translate "maxplayers".
 #: server/stdinhand.c:3056
@@ -43028,451 +43033,451 @@ msgid_plural ""
 "You cannot take a new player because the maximum of %d players has already "
 "been reached (maxplayers setting)."
 msgstr[0] ""
+"참가자의 최대값 %d 이 이미 도달했기 때문에 당신은 하나의 새로운 참가자를 가질 수 없습니다 "
+"(maxplayers setting)."
 
 #: server/stdinhand.c:3068
 msgid "You cannot take a new player because there are no free player slots."
-msgstr ""
+msgstr "그곳에 무료 참가자 자리들이 없기 떄문에 당신은 하나의 새로운 참가자를 가질 수 없습니다."
 
 #: server/stdinhand.c:3080
 msgid "Sorry, one can't observe barbarians in this game."
-msgstr ""
+msgstr "미안한, 하나는 이 놀이 안에 야만인들을 관찰할 수 없습니다."
 
 #: server/stdinhand.c:3083
 msgid "Sorry, one can't take barbarians in this game."
-msgstr ""
+msgstr "미안한, 하나는 이 놀이 안에 야만인들을 가질 수 없습니다."
 
 #: server/stdinhand.c:3092
 msgid "Sorry, one can't observe dead players in this game."
-msgstr ""
+msgstr "미안한, 하나는 이 놀이 안에 죽은 참가자들을 관찰할 수 없습니다."
 
 #: server/stdinhand.c:3096
 msgid "Sorry, one can't take dead players in this game."
-msgstr ""
+msgstr "미안한, 하나는 이 놀이 안에 죽은 참가자들을 가질 수 없습니다."
 
 #: server/stdinhand.c:3106
 msgid "Sorry, one can't observe AI players in this game."
-msgstr ""
+msgstr "미안한, 하나는 이 놀이 안에 인공지능 참가자들을 관찰할 수 없다."
 
 #: server/stdinhand.c:3109
 msgid "Sorry, one can't take AI players in this game."
-msgstr ""
+msgstr "미안한, 하나는 이 놀이 안에 인공지능 참가자들을 가질 수 없다."
 
 #: server/stdinhand.c:3119
 msgid "Sorry, one can't observe human players in this game."
-msgstr ""
+msgstr "미안한, 하나는 이 놀이 안에 인간 참가자들을 관찰할 수 없다."
 
 #: server/stdinhand.c:3123
 msgid "Sorry, one can't take human players in this game."
-msgstr ""
+msgstr "미안한, 하나는 이 놀이 안에 인간 참가자들을 가질 수 없다."
 
 #: server/stdinhand.c:3133
 msgid "Sorry, one can't observe in this game."
-msgstr ""
+msgstr "미안한, 하나는 이 놀이 안에 관찰할 수 없다."
 
 #: server/stdinhand.c:3138
 msgid "Sorry, one can't take players in this game."
-msgstr ""
+msgstr "미안한, 하나는 이 놀이 안에 참가자들을 가질 수 없다."
 
 #: server/stdinhand.c:3145
 msgid "Sorry, one can't take players already connected in this game."
-msgstr ""
+msgstr "미안한, 하나는 이 놀이 안에 이미 접속된 참가자들을 가질 수 없다."
 
 #: server/stdinhand.c:3182 server/stdinhand.c:3331
-#, fuzzy
 msgid "Only the player name form is allowed."
-msgstr "그 이름은 허용되지 않습니다"
+msgstr "오직 그 참가자 이름 유형만 허용됩니다."
 
 #: server/stdinhand.c:3232
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
-msgstr ""
+msgstr "%s (은)는 이미 %s (을)를 통제하고 있습니다. 'observe' 을 "
+"사용하기는 %s 을(를) 제거할 것입니다."
 
 #: server/stdinhand.c:3243
 #, c-format
 msgid "%s is already observing %s."
-msgstr "%s는 이미 %s(을)를 관찰하고 있습니다."
+msgstr "%s (은)는 이미 %s (을)를 관찰하고 있습니다."
 
 #: server/stdinhand.c:3248
 #, c-format
 msgid "%s is already observing."
-msgstr "%s는 이미 관찰하고 있습니다."
+msgstr "%s (은)는 이미 관찰하고 있습니다."
 
 #: server/stdinhand.c:3280
 #, c-format
 msgid "%s now observes %s"
-msgstr "%s는 이제 %s(을)를 관찰합니다"
+msgstr "%s (은)는 이제 %s (을)를 관찰합니다"
 
 #: server/stdinhand.c:3284
 #, c-format
 msgid "%s now observes"
-msgstr "%s는 이제 관찰합니다"
+msgstr "%s (은)는 이제 관찰합니다"
 
 #: server/stdinhand.c:3352
 msgid "You cannot issue \"/take -\" when the game has already started."
-msgstr ""
+msgstr "당신은 그 놀이가 이미 시작되었을 때 \"/take -\" 을 발표할 수 없습니다."
 
 #: server/stdinhand.c:3376
 #, c-format
 msgid "A delegation is active for player '%s'. /take not possible."
-msgstr ""
+msgstr "하나의 위임은 참가자 '%s' (을)를 위해 활성화되어 있습니다. /take 은 "
+"가능하지 않습니다."
 
 #: server/stdinhand.c:3391
 #, c-format
 msgid "%s already controls %s."
-msgstr "%s는 이미 %s(을)를 제어합니다."
+msgstr "%s (은)는 이미 %s (을)를 통제합니다."
 
 #: server/stdinhand.c:3405
 #, c-format
 msgid "There is no free player slot for %s."
-msgstr ""
+msgstr "그곳에 %s (을)를 위한 무료 참가자 자리가 없습니다."
 
 #: server/stdinhand.c:3423
-#, fuzzy, c-format
+#, c-format
 msgid "Reassigned nation to %s by server console."
-msgstr "서버 콘솔상에서만 오직 사용할수 있습니다."
+msgstr "서버 제어반으로 국가를 %s (으)로 다시 배정했습니다."
 
 #: server/stdinhand.c:3427
 #, c-format
 msgid "Reassigned nation to %s by %s."
-msgstr ""
+msgstr "국가 %s (으)로 %s 에서 다시 배정했습니다."
 
 #: server/stdinhand.c:3470
 #, c-format
 msgid "%s now controls %s (%s, %s)."
-msgstr "%s는 이제 %s(을)를 제어합니다 (%s, %s)."
+msgstr "%s (은)는 이제 %s (을)를 제어합니다 (%s, %s)."
 
 #: server/stdinhand.c:3477 server/stdinhand.c:6259
 msgid "Human"
-msgstr "인간"
+msgstr "사람"
 
 #: server/stdinhand.c:3479
 msgid "Alive"
-msgstr "활약중"
+msgstr "살아 있는"
 
 #: server/stdinhand.c:3480
 msgid "Dead"
-msgstr "사망"
+msgstr "죽은"
 
 #: server/stdinhand.c:3483
 #, c-format
 msgid "%s failed to attach to any player."
-msgstr "%s는 사용자와 합체 못 했습니다."
+msgstr "%s (은)는 어느 참가자에게 부여하기를 실패했습니다."
 
 #: server/stdinhand.c:3538
 msgid "You can not detach other users."
-msgstr ""
+msgstr "당신은 다른 사용자들을 분리할 수 없습니다."
 
 #: server/stdinhand.c:3547
 #, c-format
 msgid "%s is not attached to any player."
-msgstr ""
+msgstr "%s (은)는 어느 참가자에게 부여되지 않았습니다."
 
 #: server/stdinhand.c:3557
 #, c-format
 msgid "%s detaching from %s"
-msgstr "%s는 %s(으)로부터 분리"
+msgstr "%s (은)는 %s (으)로부터 분리되었습니다"
 
 #: server/stdinhand.c:3560
 #, c-format
 msgid "%s no longer observing."
-msgstr ""
+msgstr "%s (은)는 더 이상 관찰하지 않습니다."
 
 #: server/stdinhand.c:3621
 msgid "Cannot load a game while another is running."
-msgstr ""
+msgstr "다른 것이 달리는 동안 하나의 놀이를 적재할 수 없습니다."
 
 #: server/stdinhand.c:3654
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
-msgstr ""
+msgstr "그 이름 \"%s\" 의 저장놀이나 시나리오를 찾을 수 없습니다."
 
 #: server/stdinhand.c:3667
 #, c-format
 msgid "Could not load savefile: %s"
-msgstr ""
+msgstr "저장파일을 적재할 수 없었습니다: %s"
 
 #: server/stdinhand.c:3769
 msgid ""
 "You must provide a ruleset name. Use \"/show ruleset\" to see what is the "
 "current ruleset."
-msgstr ""
+msgstr "당신은 반드시 하나의 규칙집단에 이름을 제공해야 합니다. 그 현재의 규칙집단이 "
+"무엇인지 보기 위해서 \"/show ruleset\" 을 사용하세요."
 
 #: server/stdinhand.c:3775
 msgid "This setting can't be modified after the game has started."
-msgstr ""
+msgstr "이 설정은 그 놀이가 시작된 후에 수정될 수 없습니다."
 
 #: server/stdinhand.c:3781
 #, c-format
 msgid "Ruleset directory is already \"%s\""
-msgstr ""
+msgstr "규칙집단 디렉토리는 이미 \"%s\" 입니다"
 
 #: server/stdinhand.c:3797
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
-msgstr ""
+msgstr "규칙집단 디렉토리 \"%s\" (을)를 찾지 못했습니다."
 
 #: server/stdinhand.c:3813
 #, c-format
 msgid "Ruleset directory set to \"%s\""
-msgstr ""
+msgstr "규칙집단 디렉토리를 \"%s\" (으)로 맞춥니다"
 
 #: server/stdinhand.c:3816
 #, c-format
 msgid "Failed loading rulesets from directory \"%s\", using \"%s\""
-msgstr ""
+msgstr "디렉토리 \"%s\" 로부터 \"%s\" (을)를 사용하는데, 규칙집단들을 적재하기를 "
+"실패했습니다"
 
 #: server/stdinhand.c:3851 server/stdinhand.c:3887 server/stdinhand.c:6175
 msgid "That would be rather silly, since you are not a player."
-msgstr ""
+msgstr "당신은 하나의 참가자가 아니기 때문에, 그것은 상당히 어리석을 것이다."
 
 #: server/stdinhand.c:3858
 #, c-format
 msgid "%s. Try /help ignore"
-msgstr ""
+msgstr "%s. /help ignore 을 시도하세요"
 
 #: server/stdinhand.c:3870
 #, c-format
 msgid "Added pattern %s as entry %d to your ignore list."
-msgstr ""
+msgstr "당신의 무시 목록에 양식 %s 을(를) 항목 %d (으)로서 추가했습니다."
 
 #: server/stdinhand.c:3896 server/stdinhand.c:6180
-#, fuzzy
 msgid "Your ignore list is empty."
-msgstr "%s의 작업리스트는 현재 비었습니다."
+msgstr "당신의 무시 목록은 비어 있습니다."
 
 #: server/stdinhand.c:3903
 msgid "Missing range. Try /help unignore."
-msgstr ""
+msgstr "실종된 범위. /help unignore 를 시도하세요."
 
 #: server/stdinhand.c:3912 server/stdinhand.c:3920 server/stdinhand.c:3926
 #, c-format
 msgid "\"%s\" is not a valid range. Try /help unignore."
-msgstr ""
+msgstr "\"%s\" (은)는 유효한 범위가 아닙니다. /help unignore 를 시도하세요."
 
 #: server/stdinhand.c:3935
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid entry number: %d."
-msgstr "유효하지 않은 인자 %d."
+msgstr "병약한 항목 숫자: %d."
 
 #: server/stdinhand.c:3938
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid range: %d to %d."
-msgstr "유효하지 않은 인자 %d."
+msgstr "병약한 범위: %d 에서 %d."
 
 #: server/stdinhand.c:3952
 #, c-format
 msgid "Removed pattern %s (entry %d) from your ignore list."
-msgstr ""
+msgstr "당신의 무시 목록으로부터 양식 %s (항목 %d)은 제거했습니다."
 
 #: server/stdinhand.c:3982
 msgid "Two arguments needed. See '/help playercolor'."
-msgstr ""
+msgstr "두 인수들이 필요합니다. '/help playercolor' 를 보세요."
 
 #: server/stdinhand.c:3997
 msgid ""
 "Can only set player color prior to game start if 'plrcolormode' is PLR_SET."
 msgstr ""
+"만약 'plrcolormode' 가 PLR_SET 이라면 게임 시작에 앞서 참가자 색깔을 맞출 수 있습니다."
 
 #: server/stdinhand.c:4008
 msgid "Can only unset player color before game starts."
-msgstr ""
+msgstr "오직 놀이가 시작되기 전에 참가자 색깔을 다시 맞출 수 있습니다."
 
 #: server/stdinhand.c:4014
 msgid "Invalid player color definition. See '/help playercolor'."
-msgstr ""
+msgstr "병약한 참가자 색깔 정의. '/help playercolor' 를 보세요."
 
 #. TRANS: "... [c0ffee] for Caesar ... to Hammurabi."
 #: server/stdinhand.c:4025
 #, c-format
 msgid "Warning: new color [%s] for %s is identical to %s."
-msgstr ""
+msgstr "경고: %s (을)를 위한 새로운 색깔 [%s] (은)는 %s 와 동일합니다."
 
 #: server/stdinhand.c:4038
 #, c-format
 msgid "Color of player %s set to [%s]."
-msgstr ""
+msgstr "참가자 %s 의 색깔은 [%s] (으)로 맞춥니다."
 
 #: server/stdinhand.c:4081
 msgid "Goodbye."
-msgstr "안녕이 가세요"
+msgstr "좋은안녕."
 
 #: server/stdinhand.c:4124
 msgid "Sorry, you are not allowed to use server commands."
-msgstr ""
+msgstr "미안한, 당신은 서버 명령들을 사용하기가 허용되지 않았습니다."
 
 #: server/stdinhand.c:4175
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
-msgstr ""
+msgstr "경고: '%s' (은)는 '%s' (으)로 해석되었으나, 이것은 애매모호합니다. '%shelp' 을 시도하세요."
 
 #: server/stdinhand.c:4179
 #, c-format
 msgid "Unknown command '%s%s'.  Try '%shelp'."
-msgstr ""
+msgstr "알려지지 않은 명령 '%s%s'. '%shelp' 를 시도하세요."
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:4206
 msgid "Your new vote canceled your previous vote."
-msgstr ""
+msgstr "당신의 새로운 투표는 당신의 이전의 투표를 취소했습니다."
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:4213
 msgid "New teamvote"
-msgstr ""
+msgstr "새로운 팀투표"
 
 #. TRANS: "[New vote|New teamvote] (number 3)
 #. * by fred: proposed change"
 #: server/stdinhand.c:4225
 #, c-format
 msgid "%s (number %d) by %s: %s"
-msgstr ""
+msgstr "%s (숫자 %d) %s 에 의한: %s"
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:4235
 #, c-format
 msgid "Your new vote (\"%s\") was not legal or was not recognized."
-msgstr ""
+msgstr "당신의 새로운 투표 (\"%s\") 는 합법적이니 않거나 인정받지 않았습니다."
 
 #: server/stdinhand.c:4278
 msgid "(server prompt)"
-msgstr ""
+msgstr "(서버 프롬프트)"
 
 #: server/stdinhand.c:4417
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
+"그 놀이를 끝을 맺는 중입니다. 모든 고객들이 접속을 끊었을 때 그 서버는 다시 시작할 것입니다."
 
 #: server/stdinhand.c:4422
 msgid "Cannot end the game: no game running."
-msgstr ""
+msgstr "그 놀이를 끝을 맺을 수 없습니다: 달리는 게임이 없습니다."
 
 #: server/stdinhand.c:4438
 #, c-format
 msgid "%s has conceded the game and can no longer win."
-msgstr ""
+msgstr "%s (은)는 그 놀이의 패배를 인정하고 더 이상 이길 수 없습니다."
 
 #: server/stdinhand.c:4443
 msgid "You cannot surrender now."
-msgstr ""
+msgstr "당신은 지금 항복할 수 없습니다."
 
 #: server/stdinhand.c:4493
-#, fuzzy
 msgid "Guessing argument 'ruleset'."
-msgstr "\"%s\" 놓친 인수.\n"
+msgstr "인수 'ruleset' 을 추측하는 중입니다."
 
 #: server/stdinhand.c:4497
-#, fuzzy
 msgid "Guessing argument 'game'."
-msgstr "\"%s\" 놓친 인수.\n"
+msgstr "인수 'game' 을 추측하는 중입니다."
 
 #: server/stdinhand.c:4505
 msgid "The valid arguments are: 'game', 'ruleset', 'script' or 'default'."
-msgstr ""
+msgstr "그 유효한 인수들이 있습니다: 'game', 'ruleset', 'script' or 'default'."
 
 #: server/stdinhand.c:4520
 msgid "Reset all settings to the values at the game start."
-msgstr ""
+msgstr "그 놀이 시작에 모든 설정들을 그 값들로 다시 맞춥니다."
 
 #: server/stdinhand.c:4523
 msgid "No saved settings from the game start available."
-msgstr ""
+msgstr "그 놀이 시작으로부터 이용할 수 있는 저장된 설정들이 없습니다."
 
 #: server/stdinhand.c:4527
-#, fuzzy
 msgid "No game started..."
-msgstr "게임이 시작되었습니다"
+msgstr "시작된 놀이가 없습니다..."
 
 #: server/stdinhand.c:4536
 msgid "Reset all settings to ruleset values."
-msgstr ""
+msgstr "모든 설정들을 규칙집단 값들로 다시 맞춥니다."
 
 #: server/stdinhand.c:4539
-#, fuzzy
 msgid "Failed to reset settings to ruleset values."
-msgstr "AI 플레이어를 생성하는데 에러발생 : %s"
+msgstr "설정들을 규칙집단 값들로 다시 맞추는 것에 실패했습니다."
 
 #: server/stdinhand.c:4545
 msgid "Reset all settings and rereading the server start script."
-msgstr ""
+msgstr "모든 설정들을 다시 맞추고 그 서버 시작 원고를 다시 읽는 중입니다."
 
 #: server/stdinhand.c:4563
 msgid "Reset all settings to default values."
-msgstr ""
+msgstr "모든 설정들을 기본값들에게 다시 맞춥니다."
 
 #: server/stdinhand.c:4569
 msgid "Settings re-initialized."
-msgstr ""
+msgstr "설정들을 다시-초기 내용을 설정했습니다."
 
 #: server/stdinhand.c:4629
 #, c-format
 msgid "Fall back to old syntax '%slua <script command>'."
-msgstr ""
+msgstr "오래된 구문으로 후퇴하세요 '%slua <script command>'."
 
 #: server/stdinhand.c:4639
 #, c-format
 msgid "No lua command or lua script file. See '%shelp lua'."
-msgstr ""
+msgstr "lua 명령 또는 lua 원고 파일이 없습니다. '%shelp lua' 를 보세요."
 
 #: server/stdinhand.c:4662
 #, c-format
 msgid "Freeciv script '%s' disallowed for security reasons."
-msgstr ""
+msgstr "Freeciv 원고 '%s' (을)를 보안 이유들을 위해서 인정하지 않습니다."
 
 #: server/stdinhand.c:4676
 #, c-format
 msgid "No Freeciv script found by the name '%s'."
-msgstr ""
+msgstr "그 이름 '%s' 로서 Freeciv 원고를 찾을 수 없습니다."
 
 #: server/stdinhand.c:4698
-#, fuzzy, c-format
+#, c-format
 msgid "Loading Freeciv script file '%s'."
-msgstr "스크립트 파일을 로딩중 : %s"
+msgstr "Freeciv 원고 파일 '%s' 을 적재하는 중."
 
 #: server/stdinhand.c:4706
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot read Freeciv script '%s'."
-msgstr "권한있는 편집화일 \"%s\"는 읽을 수 없습니다!"
+msgstr "Freeciv 원고를 읽을 수 없습니다 '%s'."
 
 #: server/stdinhand.c:4755
 msgid "Game not started - cannot delegate yet."
-msgstr ""
+msgstr "놀이 안 시작했다 - 아직 위임할 수 없습니다."
 
 #. TRANS: do not translate the command 'delegate'.
 #: server/stdinhand.c:4808
 #, c-format
 msgid "Valid arguments for 'delegate' are: %s."
-msgstr ""
+msgstr "'delegate' 를 위한 이용 가능한 인수들이 있습니다: %s."
 
 #: server/stdinhand.c:4828 server/stdinhand.c:4918
 #, c-format
 msgid "Command level '%s' or greater needed to modify others' delegations."
-msgstr ""
+msgstr "명령 수준 '%s' 또는 보다 큰 것은 다른사람들의 위임들을 수정하기 위해 필요합니다."
 
 #: server/stdinhand.c:4837
 msgid "Please specify a player for whom delegation should be canceled."
-msgstr ""
+msgstr "제발 위임이 취소될 사람에게 하나의 참가자를 명시하세요."
 
 #: server/stdinhand.c:4848 server/stdinhand.c:4878
-#, fuzzy
 msgid "You can't switch players from the console."
-msgstr "이 나라의 부대를 매수할 수 없습니다."
+msgstr "당신은 그 제어반으로부터 참가자들을 전환할 수 없습니다."
 
 #: server/stdinhand.c:4867
 msgid "Please specify a player for whom the delegation should be shown."
-msgstr ""
+msgstr "제발 그 위임이 보여지게 될 자에게 하나의 참가자를 명시하세요."
 
 #: server/stdinhand.c:4892
-#, fuzzy
 msgid "Please specify a player to take control of."
-msgstr "AI 플레이어를 생성하는데 에러발생 : %s"
+msgstr "제발 통제를 가지는 자에게 하나의 참가자를 명시하세요."
 
 #: server/stdinhand.c:4903
 msgid "Please specify a user to whom control is to be delegated."
-msgstr ""
+msgstr "제발 위임되는 자를 통제하는 자에게 하나의 사용자를 명시하세요."
 
 #: server/stdinhand.c:4927
 msgid "You do not control a player."
-msgstr ""
+msgstr "당신은 하나의 참가자를 통제하지 않다."
 
 #: server/stdinhand.c:4963
 #, c-format
@@ -43480,17 +43485,19 @@ msgid ""
 "Can't delegate control of '%s' belonging to %s while they are controlling "
 "another player."
 msgstr ""
+"그들이 다른 참가자를 통제하는 동안 %s 에게 소속된 '%s' 의 통제를 위임할 수 없습니다."
 
 #: server/stdinhand.c:4969
 #, c-format
 msgid "Can't change delegation of '%s' while controlled by delegate %s."
-msgstr ""
+msgstr "대표자 %s 에 의해 통제되는 동안 '%s' 의 위임을 바꿀 수 없습니다."
 
 #: server/stdinhand.c:4976
 msgid ""
 "You can't delegate control while you are controlling a delegated player "
 "yourself."
 msgstr ""
+"당신이 위임된 참가자를 통제하는 동안 통제를 스스로에게 위임할 수 없습니다."
 
 #. TRANS: don't translate 'delegate cancel'
 #: server/stdinhand.c:4990
@@ -43499,6 +43506,8 @@ msgid ""
 "%s already owns '%s', so cannot also be delegate. Use '%sdelegate cancel' to "
 "cancel an existing delegation."
 msgstr ""
+"%s (은)는 이미 '%s' (을)를 소유하기에, 그래서 또한 위임될 수 없습니다. 하나의 존재하는 "
+"위임을 취소하기 위해 '%sdelegate cancel' 을 사용하세요."
 
 #. TRANS: don't translate '/delegate cancel'
 #: server/stdinhand.c:4999
@@ -43506,30 +43515,32 @@ msgid ""
 "You can't delegate control to yourself. Use '/delegate cancel' to cancel an "
 "existing delegation."
 msgstr ""
+"당신은 스스로에게 통제를 위임할 수 없습니다. 하나의 존재하는 위임을 취소하기 위해 "
+"'/delegate cancel' 을 사용하세요."
 
 #: server/stdinhand.c:5012 server/stdinhand.c:5029
-#, fuzzy, c-format
+#, c-format
 msgid "Control of player '%s' delegated to user %s."
-msgstr "%s는 %s에 의해 파괴되었습니다."
+msgstr "참가자 '%s' 의 통제는 사용자 %s 에게 위임했습니다."
 
 #: server/stdinhand.c:5025 server/stdinhand.c:5040
 #, c-format
 msgid "No delegation defined for '%s'."
-msgstr ""
+msgstr "'%s' 에 대해 정의된 위임이 없습니다."
 
 #: server/stdinhand.c:5060 server/stdinhand.c:5136 server/stdinhand.c:5166
 msgid "Unexpected failure."
-msgstr ""
+msgstr "예상 밖의 실패"
 
 #: server/stdinhand.c:5065
 #, c-format
 msgid "Your delegated control of player '%s' was canceled."
-msgstr ""
+msgstr "당신의 위임된 참가자 '%s' 의 통제는 취소되었습니다."
 
 #: server/stdinhand.c:5070
-#, fuzzy, c-format
+#, c-format
 msgid "Delegation of '%s' canceled."
-msgstr "%s와의 모임이 취소되었습니다"
+msgstr "'%s' 의 위임을 취소했습니다."
 
 #. TRANS: don't translate '/delegate restore'.
 #: server/stdinhand.c:5084
@@ -43537,6 +43548,8 @@ msgid ""
 "You are already controlling a delegated player. Use '/delegate restore' to "
 "relinquish control of your current player first."
 msgstr ""
+"당신은 이미 하나의 위임된 참가자를 통제하고 있습니다. 당신의 현재 참가자의 통제를 "
+"포기하기 위해 '/delegate restore' 을 사용하세요."
 
 #. TRANS: don't translate '/delegate cancel'.
 #: server/stdinhand.c:5098
@@ -43544,181 +43557,177 @@ msgid ""
 "Can't take player while you have delegated control yourself. Use '/delegate "
 "cancel' to cancel your own delegation first."
 msgstr ""
+"당신이 통제가 위임된 동안 참가자를 스스로 가질 수가 없습니다. 당신이 소유한 위임을 먼저 "
+"취소하기 위해 '/delegate cancel' 을 사용하세요."
 
 #: server/stdinhand.c:5108
-#, fuzzy, c-format
+#, c-format
 msgid "You already control '%s'."
-msgstr "%s는 이미 %s(을)를 제어합니다."
+msgstr "당신은 이미 '%s' (을)를 통제합니다."
 
 #: server/stdinhand.c:5117
-#, fuzzy, c-format
+#, c-format
 msgid "Control of player '%s' has not been delegated to you."
-msgstr "%s는 %s에 의해 파괴되었습니다."
+msgstr "참가자 '%s' 의 통제는 당신에게 위임되지 않았습니다."
 
 #: server/stdinhand.c:5126
-#, fuzzy, c-format
+#, c-format
 msgid "Another user already controls player '%s'."
-msgstr "%s는 이미 %s(을)를 제어합니다."
+msgstr "다른 사용자가 이미 참가자 '%s' (을)를 통제합니다."
 
 #: server/stdinhand.c:5142
-#, fuzzy, c-format
+#, c-format
 msgid "%s is now controlling player '%s'."
-msgstr "%s(은)는 %s에서 연결했습니다."
+msgstr "지금 %s (은)는 참가자 '%s' (을)를 통제하고 있습니다."
 
 #: server/stdinhand.c:5155
 msgid "You are not currently controlling a delegated player."
-msgstr ""
+msgstr "당신은 현재 하나의 위임된 참가자를 통제하고 있지 않습니다."
 
 #. TRANS: "<user> is now connected to <player>" where <player>
 #. * can also be "global observer" or "nothing"
 #: server/stdinhand.c:5174
-#, fuzzy, c-format
+#, c-format
 msgid "%s is now connected as %s."
-msgstr "%s(은)는 %s에서 연결했습니다."
+msgstr "지금 %s (은)는 %s (으)로서 접속했습니다."
 
 #: server/stdinhand.c:5195
-#, fuzzy, c-format
+#, c-format
 msgid "%s (observer)"
-msgstr " (관찰자)"
+msgstr "%s (관찰자)"
 
 #: server/stdinhand.c:5200
-#, fuzzy
 msgid "global observer"
-msgstr "관찰자"
+msgstr "세계적인 관찰자"
 
 #. TRANS: in place of player name or "global observer"
 #: server/stdinhand.c:5203
-#, fuzzy
 msgid "nothing"
-msgstr "시야"
+msgstr "아무것도"
 
 #: server/stdinhand.c:5258
 msgid "Ambiguous 'mapimg' command."
-msgstr ""
+msgstr "애매모호한 'mapimg' 명령."
 
 #: server/stdinhand.c:5284 server/stdinhand.c:5537
-#, fuzzy, c-format
+#, c-format
 msgid "The valid arguments are: %s."
-msgstr "유효하지 않은 인자 %d."
+msgstr "그 이용가능한 인수들이 있습니다: %s."
 
 #: server/stdinhand.c:5299
-#, fuzzy
 msgid "Missing argument for 'mapimg define'."
-msgstr "\"%s\" 놓친 인수.\n"
+msgstr "'maping define' 에 대한 실종된 인수."
 
 #: server/stdinhand.c:5305 server/stdinhand.c:5314
-#, fuzzy, c-format
+#, c-format
 msgid "Can't use definition: %s."
-msgstr "연결 이름: %s"
+msgstr "정의를 사용할 수 없습니다: %s."
 
 #: server/stdinhand.c:5321
 #, c-format
 msgid "Defined as map image definition %d: '%s'."
-msgstr ""
+msgstr "%d 지도 그림 정의로서 정의했습니다: '%s'."
 
 #: server/stdinhand.c:5331
-#, fuzzy
 msgid "Missing argument for 'mapimg delete'."
-msgstr "\"%s\" 놓친 인수.\n"
+msgstr "'mapimg delete' 에 대한 실종된 인수."
 
 #: server/stdinhand.c:5342
 msgid "All map image definitions deleted."
-msgstr ""
+msgstr "모든 지도 그림 정의들을 삭제했습니다."
 
 #: server/stdinhand.c:5352
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't delete definition: %s."
-msgstr "\"%s\"를 열 수 없었습니다."
+msgstr "정의를 삭제할 수 없었습니다: %s."
 
 #: server/stdinhand.c:5355
 #, c-format
 msgid "Map image definition %d deleted."
-msgstr ""
+msgstr "지도 그림 정의 %d (을)를 삭제했습니다."
 
 #: server/stdinhand.c:5360
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument for 'mapimg delete': '%s'."
-msgstr "\"%s\" 놓친 인수.\n"
+msgstr "'mapimg delete' 에 대한 나쁜 인수: '%s'."
 
 #: server/stdinhand.c:5383
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't show definition: %s."
-msgstr "\"%s\"를 열 수 없었습니다."
+msgstr "정의를 보여 줄 수 없었습니다: %s"
 
 #: server/stdinhand.c:5388
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument for 'mapimg show': '%s'."
-msgstr "\"%s\" 놓친 인수.\n"
+msgstr "'mapimg show' 에 대한 나쁜 인수: '%s'."
 
 #: server/stdinhand.c:5399
 msgid "Map color test images saved."
-msgstr ""
+msgstr "지도 색깔 시험 그림들을 저장했습니다."
 
 #: server/stdinhand.c:5405
-#, fuzzy
 msgid "Missing argument for 'mapimg create'."
-msgstr "\"%s\" 놓친 인수.\n"
+msgstr "'mapimg create' 에 대한 실종된 인수."
 
 #: server/stdinhand.c:5423 server/stdinhand.c:5440
-#, fuzzy, c-format
+#, c-format
 msgid "Error saving map image %d: %s."
-msgstr "스크립트 파일을 로딩중 : %s"
+msgstr "%d 지도 그림을 저장하는데 오류: %s."
 
 #: server/stdinhand.c:5445
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument for 'mapimg create': '%s'."
-msgstr "\"%s\" 놓친 인수.\n"
+msgstr "'mapimg create' 에 대한 나쁜 인수: '%s'."
 
 #: server/stdinhand.c:5489
 msgid "Freeciv database script deactivated at compile time."
-msgstr ""
+msgstr "Freeciv 데이터베이스 원고는 명령어를 번역하는 시간에 비활성화시킵니다."
 
 #: server/stdinhand.c:5507
 msgid "Ambiguous fcdb command."
-msgstr ""
+msgstr "애매모호한 fcdb 명령."
 
 #: server/stdinhand.c:5636
 msgid "Not enough human players; game will not start."
-msgstr ""
+msgstr "인간적인 참가자들이 충분하지 않습니다; 놀이를 시작하지 않을 것입니다."
 
 #: server/stdinhand.c:5641
 msgid "No players; game will not start."
-msgstr ""
+msgstr "참가자들이 없습니다; 놀이를 시작하지 않을 것입니다."
 
 #: server/stdinhand.c:5645
 msgid "Not enough nations for all players; game will not start."
-msgstr ""
+msgstr "모든 참가자들을 위한 국가들이 충분하지 않습니다; 놀이를 시작하지 않을 것입니다."
 
 #: server/stdinhand.c:5654
 msgid "All players are ready; starting game."
-msgstr ""
+msgstr "모든 참가자들이 준비가 되었습니다; 놀이를 시작하는 중."
 
 #. TRANS: given when /start is invoked during gameover.
 #: server/stdinhand.c:5670
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
+"그 놀이를 시작할 수 없습니다: 그 놀이는 모든 고객들이 접속을 끊기를 기다리고 있습니다."
 
 #. TRANS: given when /start is invoked while the game
 #. * is running.
 #: server/stdinhand.c:5677
 msgid "Cannot start the game: it is already running."
-msgstr ""
+msgstr "그 놀이를 시작할 수 없습니다: 이것은 이미 달리는 중입니다."
 
 #: server/stdinhand.c:5708
 #, c-format
 msgid "Cutting connection %s."
-msgstr ""
+msgstr "%s 접속 자르는 중입니다."
 
 #: server/stdinhand.c:5709
-#, fuzzy
 msgid "connection cut"
-msgstr "연결 끊기"
+msgstr "접속 자르다"
 
 #: server/stdinhand.c:5797
-#, fuzzy
 msgid "You may not kick yourself."
-msgstr "성별을 선택하새요."
+msgstr "당신은 스스로를 발로 차면 안됩니다."
 
 #: server/stdinhand.c:5820
 #, c-format
@@ -43726,10 +43735,12 @@ msgid ""
 "There must be at least %d unique connections to the server for this command "
 "to be valid."
 msgstr ""
+"이 명령이 유효하게 되는 것에 대해 그 서버에 독특한 접속들이 적어도 %d (이)가 "
+"반드시 있습니다."
 
 #: server/stdinhand.c:5846
 msgid "kicked"
-msgstr ""
+msgstr "발로 찼다"
 
 #: server/stdinhand.c:5862
 msgid ""
@@ -43751,187 +43762,199 @@ msgid ""
 "  save   -  to save the current game\n"
 "  quit   -  to exit"
 msgstr ""
+"환영 - 이것은 그 Freeciv 서버를 위한 그 도입부의 도움 글입니다.\n"
+"\n"
+"두개의 중요한 서버 개념들은 명령들과 선택들입니다. 'help' 와 같은 명령들을 "
+"그 서버와 소통하기 위해 사용됩니다. 몇몇의 명령들은 우주들에 의해 나눠진, "
+"하나 또는 더 많은 인수들을 가집니다. 많은 경우들 안에 명령들과 명령 인수들은 "
+"축약될 수도 있습니다. 선택들은 설정들이고 그것은 서버가 달리는 동안 통제합니다.\n"
+"\n"
+"어떻게 명령들과 선택들에 대해 더 많은 정보를 얻는지 발견하기 위해, 'help help' "
+"를 사용하세요.\n"
+"\n"
+"불쾌한 것들을 위해, 시작하기 위한 그 가장 큰 명령들이 있습니다:\n"
+"  show - 현재 선택들을 보기 위해\n"
+"  set - 선택들을 정하기 위해\n"
+"  start - 참가자들이 연결했을 때 그 놀이를 시작하기 위해\n"
+"  save - 그 현재 놀이를 저장하기 위해\n"
+"  quit - 종료하기 위해"
 
 #. TRANS: <untranslated name> - translated short help
 #: server/stdinhand.c:5899
-#, fuzzy, c-format
+#, c-format
 msgid "Command: %s  -  %s"
-msgstr "공산주의: %s  -  %s"
+msgstr "명령: %s  -  %s"
 
 #. TRANS: <untranslated name>
 #: server/stdinhand.c:5905
-#, fuzzy, c-format
+#, c-format
 msgid "Command: %s"
-msgstr "공산주의: %s"
+msgstr "명령: %s"
 
 #: server/stdinhand.c:5910
 msgid "Synopsis: "
-msgstr ""
+msgstr "개요: "
 
 #: server/stdinhand.c:5919
 #, c-format
 msgid "Level: %s"
-msgstr ""
+msgstr "수준: %s"
 
 #: server/stdinhand.c:5943
 msgid "The following server commands are available:"
-msgstr ""
+msgstr "그 따라오는 서버 명령들을 이용할 수 있습니다:"
 
 #: server/stdinhand.c:6004
 #, c-format
 msgid "Possible matches: %s"
-msgstr ""
+msgstr "가능한 일치하는 것들: %s"
 
 #: server/stdinhand.c:6066
 #, c-format
 msgid "Help argument '%s' is ambiguous."
-msgstr ""
+msgstr "도움 인수 '%s' (은)는 애매모호합니다."
 
 #: server/stdinhand.c:6073
 #, c-format
 msgid "No match for help argument '%s'."
-msgstr ""
+msgstr "도움 인수 '%s' 에 대해 일치하는 것이 없습니다."
 
 #: server/stdinhand.c:6114
 msgid "List of connections to server:"
-msgstr ""
+msgstr "서버로 접속들의 목록:"
 
 #: server/stdinhand.c:6118
 msgid "<no connections>"
-msgstr "<접속 없음>"
+msgstr "<접속들 없음>"
 
 #: server/stdinhand.c:6139
-#, fuzzy
 msgid "List of all delegations:"
-msgstr "팀의 목록:"
+msgstr "모든 대표단들의 목록:"
 
 #. TRANS: last %s is either " (active)" or empty string
 #: server/stdinhand.c:6151
 #, c-format
 msgid "%s delegates control over player '%s' to user %s%s."
-msgstr ""
+msgstr "%s (은)는 참가자 '%s' 에 대한 통제를 사용자 %s%s 에게 위임합니다."
 
 #: server/stdinhand.c:6153
-#, fuzzy
 msgid " (active)"
-msgstr "활동중"
+msgstr " (활발한)"
 
 #: server/stdinhand.c:6159
 msgid "No delegations defined."
-msgstr ""
+msgstr "대표단들이 정의된게 없음."
 
 #: server/stdinhand.c:6184
 msgid "Your ignore list:"
-msgstr ""
+msgstr "당신의 무시 목록:"
 
 #: server/stdinhand.c:6200
 msgid "List of players:"
-msgstr "플레이어의 목록:"
+msgstr "참가자들의 목록:"
 
 #: server/stdinhand.c:6204 server/stdinhand.c:6371
 msgid "<no players>"
-msgstr "<플레이어 없음>"
+msgstr "<참가자들 없음>"
 
 #: server/stdinhand.c:6234
-#, fuzzy, c-format
+#, c-format
 msgid ", user %s"
-msgstr "사용자 %s, "
+msgstr ", 사용자 %s"
 
 #: server/stdinhand.c:6238
 msgid ", ready"
-msgstr ", 준비 됐슴"
+msgstr ", 준비 됨"
 
 #: server/stdinhand.c:6242
 msgid ", not ready"
-msgstr ", 준비 안 됐슴"
+msgstr ", 준비 되지 않음"
 
 #: server/stdinhand.c:6248
 msgid ", Dead"
-msgstr ", 사망"
+msgstr ", 죽음"
 
 #: server/stdinhand.c:6262
 #, c-format
 msgid ", %s"
-msgstr ""
+msgstr ", %s"
 
 #: server/stdinhand.c:6263
 #, c-format
 msgid ", difficulty level %s"
-msgstr ""
+msgstr ", 어려움 수준 %s"
 
 #: server/stdinhand.c:6269
-#, fuzzy, c-format
+#, c-format
 msgid ", %d connection:"
 msgid_plural ", %d connections:"
-msgstr[0] " 접속수 %d개:"
+msgstr[0] ", %d 접속들:"
 
 #: server/stdinhand.c:6276
 #, c-format
 msgid "%s from %s (command access level %s), bufsize=%dkb"
-msgstr ""
+msgstr "%s 은 %s 에서 왔음 (명령 접근 수준 %s), 늠름한 남자 크기=%dkb"
 
 #: server/stdinhand.c:6281
 msgid " (observer mode)"
-msgstr " (관찰자 모드)"
+msgstr " (관찰자 방식)"
 
 #: server/stdinhand.c:6298
 msgid "List of scenarios available:"
-msgstr ""
+msgstr "이용할 수 있는 시나리오들의 목록:"
 
 #: server/stdinhand.c:6319
 msgid "List of teams:"
-msgstr "팀의 목록:"
+msgstr "팀들의 목록:"
 
 #. TRANS: There will always be at least 2 players here.
 #: server/stdinhand.c:6329
-#, fuzzy, c-format
+#, c-format
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
-msgstr[0] "%2d : '%s' : 사용자 %d명"
+msgstr[0] "%2d : '%s' : %d 참가자들 :"
 
 #: server/stdinhand.c:6350
-#, fuzzy
 msgid "No map image definitions."
-msgstr "(작업리스트 없음)"
+msgstr "지도 그림 정의들의 없습니다."
 
 #: server/stdinhand.c:6352
 msgid "List of map image definitions:"
-msgstr ""
+msgstr "지도 그림 정의들의 목록:"
 
 #: server/stdinhand.c:6357
 #, c-format
 msgid "[%2d] %s"
-msgstr ""
+msgstr "[%2d] %s"
 
 #: server/stdinhand.c:6368
-#, fuzzy
 msgid "List of player colors:"
-msgstr "플레이어의 목록:"
+msgstr "참가자 색깔들의 목록:"
 
 #: server/stdinhand.c:6374
 #, c-format
 msgid "%s (user %s): [%s]"
-msgstr ""
+msgstr "%s (사용자 %s): [%s]"
 
 #: server/stdinhand.c:6431
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
-msgstr ""
+msgstr "나쁜 목록 인수: '%s'. '%s도움 목록' 을 시도해보세요."
 
 #: server/techtools.c:104
 #, c-format
 msgid "The %s have researched %s."
-msgstr ""
+msgstr "그 %s (은)는 %s (을)를 연구했습니다."
 
 #: server/techtools.c:110
 #, c-format
 msgid "The %s have researched Future Tech. %d."
-msgstr ""
+msgstr "그 %s (은)는 미래 기술을 연구했습니다. %d."
 
 #: server/techtools.c:168
 #, c-format
 msgid "%s acquired from %s!"
-msgstr ""
+msgstr "%s (은)는 %s 로부터 획득합니다!"
 
 #: server/techtools.c:222
 #, c-format
@@ -43939,52 +43962,56 @@ msgid ""
 "Discovery of %s makes the government form %s available. You may want to "
 "start a revolution."
 msgstr ""
+"%s 의 발견은 그 정부가 %s (을)를 이용할 수 있도록 형성할 수 있게 만듭니다. 당신은 아마 "
+"하나의 혁명을 시작하는 것을 원할 것입니다."
 
 #: server/techtools.c:298
 #, c-format
 msgid "Discovery of %s OBSOLETES %s in %s!"
-msgstr ""
+msgstr "%s 의 발견은 %s (을)를 %s 안에서 더 이상 쓸모가 없게 합니다!"
 
 #: server/techtools.c:351
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
-msgstr ""
+msgstr "%s (을)를 배웠습니다. 우리의 과학자들은 %s 에 집중합니다; 목표는 %s 입니다."
 
 #: server/techtools.c:368
 #, c-format
 msgid "Learned %s. Scientists do not know what to research next."
-msgstr ""
+msgstr "%s (을)를 배웠습니다. 과학자들은 다음에 무엇을 연구할 것인지 모릅니다."
 
 #: server/techtools.c:373
 #, c-format
 msgid "Learned %s. Scientists choose to research %s."
-msgstr ""
+msgstr "%s (을)를 배웠습니다. 과학자들은 %s (을)를 연구하기를 선택합니다."
 
 #: server/techtools.c:380
 #, c-format
 msgid "Learned %s. "
-msgstr ""
+msgstr "%s (을)를 배웠습니다."
 
 #: server/techtools.c:383
 #, c-format
 msgid "Researching %s."
-msgstr ""
+msgstr "%s (을)를 연구중입니다."
 
 #: server/techtools.c:407
 msgid ""
 "Great scientists from all the world join your civilization: you get an "
 "immediate advance."
 msgstr ""
+"전 세계로부터 위대한 과학자들이 당신의 문명에 합류합니다: 당신은 하나의 즉각적인 "
+"진보를 가집니다."
 
 #: server/techtools.c:502
 #, c-format
 msgid "Insufficient science output. We lost Future Tech. %d."
-msgstr ""
+msgstr "불충분한 과학 생산량. 우리는 미래 기술을 잃었습니다. %d."
 
 #: server/techtools.c:511
-#, fuzzy, c-format
+#, c-format
 msgid "Insufficient science output. We lost %s."
-msgstr "도시 안의 과학 생산물을 50% 로 증가시킵니다."
+msgstr "불충분한 과학 생산량. 우리는 %s (을)를 잃었습니다."
 
 #: server/techtools.c:608
 #, c-format
@@ -43992,6 +44019,8 @@ msgid ""
 "The required technology for our government '%s' was lost. The citizens have "
 "started a revolution into '%s'."
 msgstr ""
+"우리의 정부 '%s' (을)를 위한 그 필요한 기술이 사라졌습니다. "
+"그 시민들은 '%s' (을)를 향해 하나의 혁명을 시작했습니다."
 
 #: server/techtools.c:631
 #, c-format
@@ -43999,36 +44028,38 @@ msgid ""
 "The required technology for our new government '%s' was lost. The citizens "
 "chose '%s' as new target government."
 msgstr ""
+"우리의 정부 '%s' (을)를 위한 그 필요한 기술이 사라졌습니다. "
+"그 시민들은 '%s' (을)를 새로운 목표 정부로서 선택했습니다."
 
 #: server/techtools.c:665 server/techtools.c:677
 #, c-format
 msgid "%s can't build %s. The required technology was lost."
-msgstr ""
+msgstr "%s (은)는 %s (을)를 지을 수 없습니다. 그 필요한 기술이 사라졌습니다."
 
 #: server/techtools.c:842
 #, c-format
 msgid "Technology goal is %s."
-msgstr ""
+msgstr "기술 목표는 %s 입니다."
 
 #: server/techtools.c:1055
 #, c-format
 msgid "You steal %s from the %s."
-msgstr ""
+msgstr "당신은 %s (을)를 그 %s 로부터 훔칩니다."
 
 #: server/techtools.c:1060
 #, c-format
 msgid "The %s stole %s from you!"
-msgstr ""
+msgstr "그 %s (은)는 당신으로부터 %s (을)를 빼앗았습니다!"
 
 #: server/techtools.c:1065
 #, c-format
 msgid "The %s have stolen %s from the %s."
-msgstr ""
+msgstr "그 %s (은)는 %s (을)를 그 %s 로부터 빼앗겼습니다."
 
 #: server/techtools.c:1190
 #, c-format
 msgid "Too bad! You made a mistake transferring the tech %s and lost it."
-msgstr ""
+msgstr "딱하다! 당신은 그 기술 %s (을)를 옮기는 하나의 실수를 만들었고 그리고 이것을 잃어버렸습니다."
 
 #: server/unithand.c:117
 #, c-format
@@ -44570,7 +44601,7 @@ msgstr "당신의 %s 은(는) 병약한 명령들을 가졌습니다."
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."
 msgstr ""
-"당신의 부대는 이번 차례에 다른 %s (으)로 움직일 수 없을지도 모릅니다. /도움 부대대기시간을 보시오."
+"당신의 부대는 이번 차례에 다른 %s (으)로 움직일 수 없을지도 모릅니다. /help unitwaittime 을 보시오."
 
 #. TRANS: "[Vote|Teamvote] 3 \"proposed change\" is ..."
 #: server/voting.c:523
@@ -44827,7 +44858,7 @@ msgstr "현재 경로는 : \"%s\" 입니다"
 #: utility/shared.c:1359
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
-msgstr "그 \"%s\" 파일이 요구됩니다 ... 중단하는중!"
+msgstr "그 \"%s\" 파일이 요구됩니다 ... 중단하는 중입니다!"
 
 #: utility/shared.c:1567
 #, c-format
