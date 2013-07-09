@@ -466,6 +466,7 @@ static void try_summon_barbarians(void)
   struct player *barbarians, *victim;
   struct unit_type *leader_type;
   int barb_count, really_created = 0;
+  bool hut_present = FALSE;
 
   /* We attempt the summons on a particular, random position.  If this is
    * an invalid position then the summons simply fails this time.  This means
@@ -512,9 +513,15 @@ static void try_summon_barbarians(void)
   }
   log_debug("Barbarians are willing to fight");
 
-  if (tile_has_special(utile, S_HUT)) {
-    /* remove the hut in place of uprising */
-    tile_clear_special(utile, S_HUT);
+  /* Remove huts in place of uprising */
+  extra_type_by_cause_iterate(EC_HUT, pextra) {
+    if (tile_has_extra(utile, pextra)) {
+      tile_remove_extra(utile, pextra);
+      hut_present = TRUE;
+    }
+  } extra_type_by_cause_iterate_end;
+
+  if (hut_present) {
     update_tile_knowledge(utile);
   }
 

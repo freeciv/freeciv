@@ -2810,6 +2810,7 @@ static void unit_enter_hut(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   enum hut_behavior behavior = unit_class(punit)->hut_behavior;
+  struct tile *ptile = unit_tile(punit);
 
   /* FIXME: Should we still run "hut_enter" script when
    *        hut_behavior is HUT_NOTHING or HUT_FRIGHTEN? */ 
@@ -2817,24 +2818,29 @@ static void unit_enter_hut(struct unit *punit)
     return;
   }
 
-  tile_clear_special(unit_tile(punit), S_HUT);
-  update_tile_knowledge(unit_tile(punit));
+  extra_type_by_cause_iterate(EC_HUT, pextra) {
+    if (tile_has_extra(ptile, pextra)) {
+      tile_remove_extra(ptile, pextra);
+      update_tile_knowledge(unit_tile(punit));
 
-  if (behavior == HUT_FRIGHTEN) {
-    notify_player(pplayer, unit_tile(punit), E_HUT_BARB, ftc_server,
-                  _("Your overflight frightens the tribe;"
-                    " they scatter in terror."));
-    return;
-  }
+      if (behavior == HUT_FRIGHTEN) {
+        notify_player(pplayer, unit_tile(punit), E_HUT_BARB, ftc_server,
+                      _("Your overflight frightens the tribe;"
+                        " they scatter in terror."));
+        return;
+      }
   
-  /* AI with H_LIMITEDHUTS only gets 25 gold (or barbs if unlucky) */
-  if (pplayer->ai_controlled && ai_handicap(pplayer, H_LIMITEDHUTS)) {
-    (void) hut_get_limited(punit);
-    return;
-  }
+      /* AI with H_LIMITEDHUTS only gets 25 gold (or barbs if unlucky) */
+      if (pplayer->ai_controlled && ai_handicap(pplayer, H_LIMITEDHUTS)) {
+        (void) hut_get_limited(punit);
+        return;
+      }
 
-  script_server_signal_emit("hut_enter", 1,
-                            API_TYPE_UNIT, punit);
+      /* FIXME: Should have parameter for hut extra type */
+      script_server_signal_emit("hut_enter", 1,
+                                API_TYPE_UNIT, punit);
+    }
+  } extra_type_by_cause_iterate_end;
 
   send_player_info_c(pplayer, pplayer->connections); /* eg, gold */
   return;
@@ -3485,7 +3491,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
 
   if (unit_lives) {
     /* Is where a hut? */
-    if (tile_has_special(pdesttile, S_HUT)) {
+    if (tile_has_cause_extra(pdesttile, EC_HUT)) {
       unit_enter_hut(punit);
       unit_lives = unit_alive(saved_id);
     }

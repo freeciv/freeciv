@@ -563,7 +563,11 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
 
   if (is_ocean(pterrain)) {
     /* The code can't handle these specials in ocean. */
-    tile_clear_special(ptile, S_HUT);
+    extra_type_by_cause_iterate(EC_HUT, pextra) {
+      if (tile_has_extra(ptile, pextra)) {
+        tile_remove_extra(ptile, pextra);
+      }
+    } extra_type_by_cause_iterate_end;
   }
 
   if (terrain_has_flag(pterrain, TER_NO_POLLUTION)) {
@@ -954,6 +958,20 @@ bool tile_has_extra(const struct tile *ptile, const struct extra_type *pextra)
   case EXTRA_SPECIAL:
     return tile_has_special(ptile, pextra->data.special);
   }
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Has tile any extras of the specified cause.
+****************************************************************************/
+bool tile_has_cause_extra(const struct tile *ptile, enum extra_cause cause)
+{
+  extra_type_by_cause_iterate(cause, pextra) {
+    if (tile_has_extra(ptile, pextra)) {
+      return TRUE;
+    }
+  } extra_type_by_cause_iterate_end;
 
   return FALSE;
 }

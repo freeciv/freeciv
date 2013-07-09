@@ -481,7 +481,7 @@ static int dai_rampage_want(struct unit *punit, struct tile *ptile)
     }
 
     /* ...or tiny pleasant hut here! */
-    if (tile_has_special(ptile, S_HUT) && !is_barbarian(pplayer)
+    if (tile_has_cause_extra(ptile, EC_HUT) && !is_barbarian(pplayer)
         && is_native_tile(unit_type(punit), ptile)
         && unit_class(punit)->hut_behavior == HUT_NORMAL) {
       return -RAMPAGE_HUT_OR_BETTER;

@@ -199,7 +199,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
 
   /* First do some checks that would make a tile completely non-desirable.
    * If we're a barbarian and the tile has a hut, don't go there. */
-  if (is_barbarian(pplayer) && tile_has_special(ptile, S_HUT)) {
+  if (is_barbarian(pplayer) && tile_has_cause_extra(ptile, EC_HUT)) {
     return 0;
   }
 
@@ -254,7 +254,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
 
   if ((!pplayer->ai_controlled || !ai_handicap(pplayer, H_HUTS))
       && map_is_known(ptile, pplayer)
-      && tile_has_special(ptile, S_HUT)) {
+      && tile_has_cause_extra(ptile, EC_HUT)) {
     /* we want to explore huts whenever we can,
      * even if doing so will not uncover any tiles. */
     desirable += HUT_SCORE;

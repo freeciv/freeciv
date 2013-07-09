@@ -1601,8 +1601,12 @@ static void make_huts(int number)
       if (is_ocean_tile(ptile)) {
 	map_set_placed(ptile); /* not good for a hut */
       } else {
+        struct extra_type *phut = rand_extra_type_by_cause(EC_HUT);
+
 	number--;
-	tile_set_special(ptile, S_HUT);
+        if (phut != NULL) {
+          tile_add_extra(ptile, phut);
+        }
 	set_placed_near_pos(ptile, 3);
       }
     }

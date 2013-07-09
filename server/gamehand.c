@@ -129,6 +129,7 @@ static struct tile *place_starting_unit(struct tile *starttile,
 {
   struct tile *ptile = NULL;
   struct unit_type *utype = crole_to_unit_type(crole, pplayer);
+  bool hut_present = FALSE;
 
   if (utype != NULL) {
     iterate_outward(starttile, map.xsize + map.ysize, itertile) {
@@ -151,8 +152,14 @@ static struct tile *place_starting_unit(struct tile *starttile,
    * other cases, huts are avoided as start positions).  Remove any such hut,
    * and make sure to tell the client, since we may have already sent this
    * tile (with the hut) earlier: */
-  if (tile_has_special(ptile, S_HUT)) {
-    tile_clear_special(ptile, S_HUT);
+  extra_type_by_cause_iterate(EC_HUT, pextra) {
+    if (tile_has_extra(ptile, pextra)) {
+      tile_remove_extra(ptile, pextra);
+      hut_present = TRUE;
+    }
+  } extra_type_by_cause_iterate_end;
+
+  if (hut_present) {
     update_tile_knowledge(ptile);
     log_verbose("Removed hut on start position for %s",
                 player_name(pplayer));
