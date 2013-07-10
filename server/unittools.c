@@ -629,15 +629,16 @@ static int total_activity(struct tile *ptile, enum unit_activity act)
   for a given task and target.
 **************************************************************************/
 static int total_activity_targeted(struct tile *ptile, enum unit_activity act,
-                                   struct act_tgt *tgt)
+                                   struct extra_type *tgt)
 {
   int total = 0;
 
-  unit_list_iterate (ptile->units, punit)
-    if (punit->activity == act && cmp_act_tgt(&punit->activity_target, tgt)) {
+  unit_list_iterate (ptile->units, punit) {
+    if (punit->activity == act && punit->activity_target == tgt) {
       total += punit->activity_count;
     }
-  unit_list_iterate_end;
+  } unit_list_iterate_end;
+
   return total;
 }
 
@@ -649,12 +650,13 @@ static int total_activity_base(struct tile *ptile, Base_type_id base)
 {
   int total = 0;
 
-  unit_list_iterate (ptile->units, punit)
+  unit_list_iterate (ptile->units, punit) {
     if (punit->activity == ACTIVITY_BASE
-        && punit->activity_target.obj.base == base) {
+        && base_index(&(punit->activity_target->data.base)) == base) {
       total += punit->activity_count;
     }
-  unit_list_iterate_end;
+  } unit_list_iterate_end;
+
   return total;
 }
 
@@ -668,10 +670,11 @@ static int total_activity_road(struct tile *ptile, Road_type_id road)
 
   unit_list_iterate (ptile->units, punit) {
     if (punit->activity == ACTIVITY_GEN_ROAD
-        && punit->activity_target.obj.road == road) {
+        && road_index(&(punit->activity_target->data.road)) == road) {
       total += punit->activity_count;
     }
   } unit_list_iterate_end;
+
   return total;
 }
 
@@ -812,16 +815,16 @@ static void update_unit_activity(struct unit *punit)
 
   case ACTIVITY_PILLAGE:
     if (total_activity_targeted(ptile, ACTIVITY_PILLAGE, 
-                                &punit->activity_target) >= 1) {
-      switch (punit->activity_target.type) {
-        case ATT_SPECIAL:
-          tile_clear_special(ptile, punit->activity_target.obj.spe);
+                                punit->activity_target) >= 1) {
+      switch (punit->activity_target->type) {
+        case EXTRA_SPECIAL:
+          tile_clear_special(ptile, punit->activity_target->data.special);
           break;
-        case ATT_BASE:
-          destroy_base(ptile, base_by_number(punit->activity_target.obj.base));
+        case EXTRA_BASE:
+          destroy_base(ptile, &(punit->activity_target->data.base));
           break;
-        case ATT_ROAD:
-          tile_remove_road(ptile, road_by_number(punit->activity_target.obj.road));
+        case EXTRA_ROAD:
+          tile_remove_road(ptile, &(punit->activity_target->data.road));
           break;
       }
 
@@ -829,7 +832,7 @@ static void update_unit_activity(struct unit *punit)
 
       unit_list_iterate (ptile->units, punit2) {
         if ((punit2->activity == ACTIVITY_PILLAGE)
-            && cmp_act_tgt(&punit->activity_target, &punit2->activity_target)) {
+            && punit->activity_target == punit2->activity_target) {
 	  set_unit_activity(punit2, ACTIVITY_IDLE);
 	  send_unit_info(NULL, punit2);
 	}
@@ -865,42 +868,50 @@ static void update_unit_activity(struct unit *punit)
     break;
 
   case ACTIVITY_BASE:
-    if (total_activity_base(ptile, punit->activity_target.obj.base)
-        >= tile_activity_base_time(ptile, punit->activity_target.obj.base)) {
-      struct base_type *new_base = base_by_number(punit->activity_target.obj.base);
+    {
+      struct base_type *new_base = &(punit->activity_target->data.base);
+      int bidx = base_index(new_base);
 
-      create_base(ptile, new_base, unit_owner(punit));
-      update_tile_knowledge(ptile);
+      if (total_activity_base(ptile, bidx)
+          >= tile_activity_base_time(ptile, bidx)) {
 
-      unit_list_iterate (ptile->units, punit2) {
-        if (punit2->activity == ACTIVITY_BASE
-            && cmp_act_tgt(&punit->activity_target, &punit2->activity_target)) {
-	  set_unit_activity(punit2, ACTIVITY_IDLE);
-	  send_unit_info(NULL, punit2);
-	}
-      } unit_list_iterate_end;
-      /* Deliberately don't set unit_activity_done -- we already dealt with
-       * other units working on the same thing above */
+        create_base(ptile, new_base, unit_owner(punit));
+        update_tile_knowledge(ptile);
+
+        unit_list_iterate (ptile->units, punit2) {
+          if (punit2->activity == ACTIVITY_BASE
+              && punit->activity_target == punit2->activity_target) {
+            set_unit_activity(punit2, ACTIVITY_IDLE);
+            send_unit_info(NULL, punit2);
+          }
+        } unit_list_iterate_end;
+        /* Deliberately don't set unit_activity_done -- we already dealt with
+         * other units working on the same thing above */
+      }
     }
     break;
 
   case ACTIVITY_GEN_ROAD:
-    if (total_activity_road(ptile, punit->activity_target.obj.road)
-        >= tile_activity_road_time(ptile, punit->activity_target.obj.road)) {
-      struct road_type *new_road = road_by_number(punit->activity_target.obj.road);
+    {
+      struct road_type *new_road = &(punit->activity_target->data.road);
+      int ridx = road_index(new_road);
 
-      tile_add_road(ptile, new_road);
-      update_tile_knowledge(ptile);
+      if (total_activity_road(ptile, ridx)
+          >= tile_activity_road_time(ptile, ridx)) {
 
-      unit_list_iterate (ptile->units, punit2) {
-        if (punit2->activity == ACTIVITY_GEN_ROAD
-            && cmp_act_tgt(&punit->activity_target, &punit2->activity_target)) {
-	  set_unit_activity(punit2, ACTIVITY_IDLE);
-	  send_unit_info(NULL, punit2);
-	}
-      } unit_list_iterate_end;
-      /* Deliberately don't set unit_activity_done -- we already dealt with
-       * other units working on the same thing above */
+        tile_add_road(ptile, new_road);
+        update_tile_knowledge(ptile);
+
+        unit_list_iterate (ptile->units, punit2) {
+          if (punit2->activity == ACTIVITY_GEN_ROAD
+              && punit->activity_target == punit2->activity_target) {
+            set_unit_activity(punit2, ACTIVITY_IDLE);
+            send_unit_info(NULL, punit2);
+          }
+        } unit_list_iterate_end;
+        /* Deliberately don't set unit_activity_done -- we already dealt with
+         * other units working on the same thing above */
+      }
     }
     break;
 
@@ -1014,33 +1025,33 @@ void unit_forget_last_activity(struct unit *punit)
 **************************************************************************/
 void unit_assign_specific_activity_target(struct unit *punit,
                                           enum unit_activity *activity,
-                                          struct act_tgt *target)
+                                          struct extra_type **target)
 {
   if (*activity == ACTIVITY_PILLAGE
-      && target->type == ATT_SPECIAL && target->obj.spe == S_LAST) {
+      && *target == NULL) {
     struct tile *ptile = unit_tile(punit);
-    struct act_tgt tgt;
+    struct extra_type *tgt;
 
     bv_special specials = tile_specials(ptile);
     bv_bases bases = tile_bases(ptile);
     bv_roads roads = tile_roads(ptile);
 
-    while (get_preferred_pillage(&tgt, specials, bases, roads)) {
+    while ((tgt = get_preferred_pillage(specials, bases, roads))) {
 
-      switch (tgt.type) {
-      case ATT_SPECIAL:
-        clear_special(&specials, tgt.obj.spe);
+      switch (tgt->type) {
+      case EXTRA_SPECIAL:
+        clear_special(&specials, tgt->data.special);
         break;
-      case ATT_BASE:
-        BV_CLR(bases, tgt.obj.base);
+      case EXTRA_BASE:
+        BV_CLR(bases, base_index(&(tgt->data.base)));
         break;
-      case ATT_ROAD:
-        BV_CLR(roads, tgt.obj.road);
+      case EXTRA_ROAD:
+        BV_CLR(roads, road_index(&(tgt->data.road)));
         break;
       }
 
       if (can_unit_do_activity_targeted(punit, *activity,
-                                        &tgt)) {
+                                        tgt)) {
         *target = tgt;
         return;
       }
@@ -2147,37 +2158,19 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   packet->activity = punit->activity;
   packet->activity_count = punit->activity_count;
 
-  packet->activity_tgt_spe = S_LAST;
-  packet->activity_tgt_base = BASE_NONE;
-  packet->activity_tgt_road = ROAD_NONE;
-  switch (punit->activity_target.type) {
-    case ATT_SPECIAL:
-      packet->activity_tgt_spe = punit->activity_target.obj.spe;
-      break;
-    case ATT_BASE:
-      packet->activity_tgt_base = punit->activity_target.obj.base;
-      break;
-    case ATT_ROAD:
-      packet->activity_tgt_road = punit->activity_target.obj.road;
-      break;
+  if (punit->activity_target != NULL) {
+    packet->activity_tgt = extra_index(punit->activity_target);
+  } else {
+    packet->activity_tgt = EXTRA_NONE;
   }
 
   packet->changed_from = punit->changed_from;
   packet->changed_from_count = punit->changed_from_count;
 
-  packet->changed_from_tgt_spe = S_LAST;
-  packet->changed_from_tgt_base = BASE_NONE;
-  packet->changed_from_tgt_road = ROAD_NONE;
-  switch (punit->changed_from_target.type) {
-    case ATT_SPECIAL:
-      packet->changed_from_tgt_spe = punit->changed_from_target.obj.spe;
-      break;
-    case ATT_BASE:
-      packet->changed_from_tgt_base = punit->changed_from_target.obj.base;
-      break;
-    case ATT_ROAD:
-      packet->changed_from_tgt_road = punit->changed_from_target.obj.road;
-      break;
+  if (punit->changed_from_target != NULL) {
+    packet->changed_from_tgt = extra_index(punit->changed_from_target);
+  } else {
+    packet->changed_from_tgt = EXTRA_NONE;
   }
 
   packet->ai = punit->ai_controlled;
@@ -2207,8 +2200,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
       packet->orders[i] = punit->orders.list[i].order;
       packet->orders_dirs[i] = punit->orders.list[i].dir;
       packet->orders_activities[i] = punit->orders.list[i].activity;
-      packet->orders_bases[i] = punit->orders.list[i].base;
-      packet->orders_roads[i] = punit->orders.list[i].road;
+      packet->orders_targets[i] = punit->orders.list[i].target;
     }
   } else {
     packet->orders_length = packet->orders_index = 0;
@@ -2255,13 +2247,10 @@ void package_short_unit(struct unit *punit,
     packet->activity = punit->activity;
   }
 
-  packet->activity_tgt_base = BASE_NONE;
-  packet->activity_tgt_road = ROAD_NONE;
-
-  if (packet->activity == ACTIVITY_BASE) {
-    packet->activity_tgt_base = punit->activity_target.obj.base;
-  } else if (packet->activity == ACTIVITY_GEN_ROAD) {
-    packet->activity_tgt_road = punit->activity_target.obj.road;
+  if (punit->activity_target == NULL) {
+    packet->activity_tgt = EXTRA_NONE;
+  } else {
+    packet->activity_tgt = extra_index(punit->activity_target);
   }
 
   /* Transported_by information is sent to the client even for units that
@@ -3738,7 +3727,7 @@ bool execute_orders(struct unit *punit)
     case ORDER_ACTIVITY:
       activity = order.activity;
       if (activity == ACTIVITY_BASE) {
-        Base_type_id base = order.base;
+        Base_type_id base = base_index(&(extra_by_number(order.target)->data.base));
 
         if (can_unit_do_activity_base(punit, base)) {
           punit->done_moving = TRUE;
@@ -3749,7 +3738,7 @@ bool execute_orders(struct unit *punit)
           break; /* Already built, let's continue. */
         }
       } else if (activity == ACTIVITY_GEN_ROAD) {
-        Road_type_id road = order.road;
+        Road_type_id road = road_index(&(extra_by_number(order.target)->data.road));
 
         if (can_unit_do_activity_road(punit, road)) {
           punit->done_moving = TRUE;

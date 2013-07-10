@@ -428,30 +428,38 @@ static void xaw_key_unit_build_wonder(Widget w, XEvent *event, String *argv, Car
     key_unit_build_wonder();
 }
 
+/****************************************************************
+  User requested connect with road
+*****************************************************************/
 static void xaw_key_unit_connect_road(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if (is_menu_item_active(MENU_ORDER, MENU_ORDER_CONNECT_ROAD)) {
     struct road_type *proad = road_by_compat_special(ROCO_ROAD);
 
     if (proad != NULL) {
-      struct act_tgt tgt = { .type = ATT_ROAD,
-                             .obj.road = road_number(proad) };
+      struct extra_type *tgt;
 
-      key_unit_connect(ACTIVITY_GEN_ROAD, &tgt);
+      tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+
+      key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
     }
   }
 }
 
+/****************************************************************
+  User requested connect with rail
+*****************************************************************/
 static void xaw_key_unit_connect_rail(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if (is_menu_item_active(MENU_ORDER, MENU_ORDER_CONNECT_RAIL)) {
     struct road_type *prail = road_by_compat_special(ROCO_RAILROAD);
 
     if (prail != NULL) {
-      struct act_tgt tgt = { .type = ATT_ROAD,
-                             .obj.road = road_number(prail) };
+      struct extra_type *tgt;
 
-      key_unit_connect(ACTIVITY_GEN_ROAD, &tgt);
+      tgt = extra_type_get(EXTRA_ROAD, road_index(prail));
+
+      key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
     }
   }
 }

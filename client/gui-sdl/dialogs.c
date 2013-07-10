@@ -2162,21 +2162,17 @@ static int pillage_callback(struct widget *pWidget)
 
     if (pUnit)
     {
-      struct act_tgt target;
+      struct extra_type *target;
 
       if (what >= S_LAST + game.control.num_base_types) {
-        target.type = ATT_ROAD;
-        target.obj.road = what - S_LAST - game.control.num_base_types;
+        target = extra_type_get(EXTRA_ROAD, what - S_LAST - game.control.num_base_types);
       } else if (what >= S_LAST) {
-        target.type = ATT_BASE;
-        target.obj.base = what - S_LAST;
+        target = extra_type_get(EXTRA_BASE, what - S_LAST);
       } else {
-        target.type = ATT_SPECIAL;
-        target.obj.spe = what;
+        target = extra_type_get(EXTRA_SPECIAL, what);
       }
 
-      request_new_unit_activity_targeted(pUnit, ACTIVITY_PILLAGE,
-                                         &target);
+      request_new_unit_activity_targeted(pUnit, ACTIVITY_PILLAGE, target);
     }
   }  
   return -1;
@@ -2220,7 +2216,7 @@ void popup_pillage_dialog(struct unit *pUnit,
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
   SDL_Rect area;
-  struct act_tgt tgt;
+  struct extra_type *tgt;
 
   if (pPillage_Dlg) {
     return;
@@ -2259,25 +2255,28 @@ void popup_pillage_dialog(struct unit *pUnit,
   add_to_gui_list(ID_PILLAGE_DLG_EXIT_BUTTON, pBuf);
   /* ---------- */
 
-  while (get_preferred_pillage(&tgt, spe, bases, roads)) {
+  while ((tgt = get_preferred_pillage(spe, bases, roads))) {
     const char *name = NULL;
     int what = S_LAST;
+    int subid;
 
-    switch (tgt.type) {
-      case ATT_SPECIAL:
-        name = special_name_translation(tgt.obj.spe);
-        clear_special(&spe, tgt.obj.spe);
-        what = tgt.obj.spe;
+    switch (tgt->type) {
+      case EXTRA_SPECIAL:
+        name = special_name_translation(tgt->data.special);
+        clear_special(&spe, tgt->data.special);
+        what = tgt->data.special;
         break;
-      case ATT_BASE:
-        name = base_name_translation(base_by_number(tgt.obj.base));
-        BV_CLR(bases, tgt.obj.base);
-        what = tgt.obj.base + S_LAST;
+      case EXTRA_BASE:
+        subid = base_index(&(tgt->data.base));
+        name = base_name_translation(&(tgt->data.base));
+        what = subid + S_LAST;
+        BV_CLR(bases, subid);
         break;
-      case ATT_ROAD:
-        name = road_name_translation(road_by_number(tgt.obj.road));
-        BV_CLR(roads, tgt.obj.road);
-        what = tgt.obj.road + S_LAST + game.control.num_base_types;
+      case EXTRA_ROAD:
+        subid = road_index(&(tgt->data.road));
+        name = road_name_translation(&(tgt->data.road));
+        what = subid + S_LAST + game.control.num_base_types;
+        BV_CLR(roads, subid);
         break;
     }
 

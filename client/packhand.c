@@ -180,27 +180,19 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   punit->activity = packet->activity;
   punit->activity_count = packet->activity_count;
 
-  punit->activity_target.type = ATT_SPECIAL;
-  punit->activity_target.obj.spe = packet->activity_tgt_spe;
-  if (packet->activity_tgt_base != BASE_NONE) {
-    punit->activity_target.type = ATT_BASE;
-    punit->activity_target.obj.base = packet->activity_tgt_base;
-  } else if (packet->activity_tgt_road != ROAD_NONE) {
-    punit->activity_target.type = ATT_ROAD;
-    punit->activity_target.obj.road = packet->activity_tgt_road;
+  if (packet->activity_tgt == EXTRA_NONE) {
+    punit->activity_target = NULL;
+  } else {
+    punit->activity_target = extra_by_number(packet->activity_tgt);
   }
 
   punit->changed_from = packet->changed_from;
   punit->changed_from_count = packet->changed_from_count;
 
-  punit->changed_from_target.type = ATT_SPECIAL;
-  punit->changed_from_target.obj.spe = packet->changed_from_tgt_spe;
-  if (packet->changed_from_tgt_base != BASE_NONE) {
-    punit->changed_from_target.type = ATT_BASE;
-    punit->changed_from_target.obj.base = packet->changed_from_tgt_base;
-  } else if (packet->changed_from_tgt_road != ROAD_NONE) {
-    punit->changed_from_target.type = ATT_ROAD;
-    punit->changed_from_target.obj.road = packet->changed_from_tgt_road;
+ if (packet->changed_from_tgt == EXTRA_NONE) {
+    punit->changed_from_target = NULL;
+  } else {
+    punit->changed_from_target = extra_by_number(packet->changed_from_tgt);
   }
 
   punit->ai_controlled = packet->ai;
@@ -232,8 +224,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
       punit->orders.list[i].order = packet->orders[i];
       punit->orders.list[i].dir = packet->orders_dirs[i];
       punit->orders.list[i].activity = packet->orders_activities[i];
-      punit->orders.list[i].base = packet->orders_bases[i];
-      punit->orders.list[i].road = packet->orders_roads[i];
+      punit->orders.list[i].target = packet->orders_targets[i];
     }
   }
 
@@ -269,14 +260,10 @@ unpackage_short_unit(const struct packet_unit_short_info *packet)
   punit->hp = packet->hp;
   punit->activity = packet->activity;
 
-  punit->activity_target.type = ATT_SPECIAL;
-  punit->activity_target.obj.spe = S_LAST;
-  if (packet->activity_tgt_base != BASE_NONE) {
-    punit->activity_target.type = ATT_BASE;
-    punit->activity_target.obj.base = packet->activity_tgt_base;
-  } else if (packet->activity_tgt_road != ROAD_NONE) {
-    punit->activity_target.type = ATT_ROAD;
-    punit->activity_target.obj.road = packet->activity_tgt_road;
+  if (packet->activity_tgt == EXTRA_NONE) {
+    punit->activity_target = NULL;
+  } else {
+    punit->activity_target = extra_by_number(packet->activity_tgt);
   }
 
   /* Transporter / transporting information. */
@@ -1329,7 +1316,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     }
 
     if (punit->activity != packet_unit->activity
-        || cmp_act_tgt(&punit->activity_target, &packet_unit->activity_target)
+        || punit->activity_target == packet_unit->activity_target
         || punit->client.transported_by != packet_unit->client.transported_by
         || punit->client.occupied != packet_unit->client.occupied
 	|| punit->has_orders != packet_unit->has_orders

@@ -719,7 +719,7 @@ void handle_unit_build_city(struct player *pplayer, int unit_id,
 static void handle_unit_change_activity_real(struct player *pplayer,
                                              int unit_id,
                                              enum unit_activity activity,
-                                             struct act_tgt* activity_target)
+                                             struct extra_type *activity_target)
 {
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
@@ -730,7 +730,7 @@ static void handle_unit_change_activity_real(struct player *pplayer,
   }
 
   if (punit->activity == activity
-      && cmp_act_tgt(&punit->activity_target, activity_target)
+      && punit->activity_target == activity_target
       && !punit->ai_controlled) {
     /* Treat change in ai.control as change in activity, so
      * idle autosettlers behave correctly when selected --dwp
@@ -749,23 +749,15 @@ static void handle_unit_change_activity_real(struct player *pplayer,
 
   switch (activity) {
   case ACTIVITY_BASE:
-    if (!base_by_number(activity_target->obj.base)) {
-      /* Illegal base type */
-      return;
-    }
-    unit_activity_handling_base(punit, activity_target->obj.base);
+    unit_activity_handling_base(punit, base_index(&(activity_target->data.base)));
     break;
 
   case ACTIVITY_GEN_ROAD:
-    if (!road_by_number(activity_target->obj.road)) {
-      /* Illegal road type */
-      return;
-    }
-    unit_activity_handling_road(punit, activity_target->obj.road);
+    unit_activity_handling_road(punit, road_index(&(activity_target->data.road)));
     break;
 
   case ACTIVITY_EXPLORE:
-    unit_activity_handling_targeted(punit, activity, activity_target);
+    unit_activity_handling_targeted(punit, activity, &activity_target);
 
     /* Exploring is handled here explicitly, since the player expects to
      * see an immediate response from setting a unit to auto-explore.
@@ -777,7 +769,7 @@ static void handle_unit_change_activity_real(struct player *pplayer,
     break;
 
   default:
-    unit_activity_handling_targeted(punit, activity, activity_target);
+    unit_activity_handling_targeted(punit, activity, &activity_target);
     break;
   };
 }
@@ -787,48 +779,13 @@ static void handle_unit_change_activity_real(struct player *pplayer,
 **************************************************************************/
 void handle_unit_change_activity(struct player *pplayer, int unit_id,
                                  enum unit_activity activity,
-                                 enum tile_special_type target)
+                                 int target_id)
 {
-  struct act_tgt activity_target = { .type = ATT_SPECIAL, .obj.spe = target };
+  struct extra_type *activity_target;
 
-  if (activity == ACTIVITY_BASE || activity == ACTIVITY_GEN_ROAD
-      || (activity == ACTIVITY_PILLAGE && target == S_LAST)) {
-    return;
-  }
+  activity_target = extra_by_number(target_id);
 
-  handle_unit_change_activity_real(pplayer, unit_id, activity, &activity_target);
-}
-
-/**************************************************************************
-  Handle change in base targeting unit activity.
-**************************************************************************/
-void handle_unit_change_activity_base(struct player *pplayer, int unit_id,
-                                      enum unit_activity activity,
-                                      Base_type_id base)
-{
-  struct act_tgt activity_target = { .type = ATT_BASE, .obj.base = base };
-
-  if (activity != ACTIVITY_BASE && activity != ACTIVITY_PILLAGE) {
-    return;
-  }
-
-  handle_unit_change_activity_real(pplayer, unit_id, activity, &activity_target);
-}
-
-/**************************************************************************
-  Handle change in road targeting unit activity.
-**************************************************************************/
-void handle_unit_change_activity_road(struct player *pplayer, int unit_id,
-                                      enum unit_activity activity,
-                                      Road_type_id road)
-{
-  struct act_tgt target = { .type = ATT_ROAD, .obj.road = road };
-
-  if (activity != ACTIVITY_GEN_ROAD && activity != ACTIVITY_PILLAGE) {
-    return;
-  }
-
-  handle_unit_change_activity_real(pplayer, unit_id, activity, &target);
+  handle_unit_change_activity_real(pplayer, unit_id, activity, activity_target);
 }
 
 /**************************************************************************
@@ -2030,7 +1987,7 @@ void handle_unit_autosettlers(struct player *pplayer, int unit_id)
 **************************************************************************/
 static void unit_activity_dependencies(struct unit *punit,
 				       enum unit_activity old_activity,
-                                       struct act_tgt *old_target)
+                                       struct extra_type *old_target)
 {
   switch (punit->activity) {
   case ACTIVITY_IDLE:
@@ -2039,14 +1996,15 @@ static void unit_activity_dependencies(struct unit *punit,
       {
         enum tile_special_type prereq = S_LAST;
 
-        if (old_target->type == ATT_SPECIAL) {
-	  prereq = get_infrastructure_prereq(old_target->obj.spe);
+        if (old_target != NULL && old_target->type == EXTRA_SPECIAL) {
+	  prereq = get_infrastructure_prereq(old_target->data.special);
         }
         if (prereq != S_LAST) {
+          struct extra_type *preextra = extra_type_get(EXTRA_SPECIAL, prereq);
+
           unit_list_iterate (unit_tile(punit)->units, punit2)
             if (punit2->activity == ACTIVITY_PILLAGE
-                && punit2->activity_target.type == ATT_SPECIAL
-                && punit2->activity_target.obj.spe == prereq) {
+                && punit2->activity_target == preextra) {
               set_unit_activity(punit2, ACTIVITY_IDLE);
               send_unit_info(NULL, punit2);
             }
@@ -2084,18 +2042,18 @@ void unit_activity_handling(struct unit *punit,
                 && new_activity != ACTIVITY_GEN_ROAD);
   
   if (new_activity == ACTIVITY_PILLAGE) {
-    struct act_tgt target = { .type = ATT_SPECIAL, .obj.spe = S_LAST };
+    struct extra_type *target = NULL;
 
     /* Assume untargeted pillaging if no target specified */
     unit_activity_handling_targeted(punit, new_activity, &target);
   } else if (can_unit_do_activity(punit, new_activity)) {
     enum unit_activity old_activity = punit->activity;
-    struct act_tgt old_target = punit->activity_target;
+    struct extra_type *old_target = punit->activity_target;
 
     free_unit_orders(punit);
     set_unit_activity(punit, new_activity);
     send_unit_info(NULL, punit);
-    unit_activity_dependencies(punit, old_activity, &old_target);
+    unit_activity_dependencies(punit, old_activity, old_target);
   }
 }
 
@@ -2104,13 +2062,13 @@ void unit_activity_handling(struct unit *punit,
 **************************************************************************/
 void unit_activity_handling_targeted(struct unit *punit,
                                      enum unit_activity new_activity,
-                                     struct act_tgt *new_target)
+                                     struct extra_type **new_target)
 {
   if (!activity_requires_target(new_activity)) {
     unit_activity_handling(punit, new_activity);
-  } else if (can_unit_do_activity_targeted(punit, new_activity, new_target)) {
+  } else if (can_unit_do_activity_targeted(punit, new_activity, *new_target)) {
     enum unit_activity old_activity = punit->activity;
-    struct act_tgt old_target = punit->activity_target;
+    struct extra_type *old_target = punit->activity_target;
     enum unit_activity stored_activity = new_activity;
 
     free_unit_orders(punit);
@@ -2122,9 +2080,9 @@ void unit_activity_handling_targeted(struct unit *punit,
        * (to ACTIVITY_IDLE in practice) */
       unit_activity_handling(punit, new_activity);
     } else {
-      set_unit_activity_targeted(punit, new_activity, new_target);
+      set_unit_activity_targeted(punit, new_activity, *new_target);
       send_unit_info(NULL, punit);    
-      unit_activity_dependencies(punit, old_activity, &old_target);
+      unit_activity_dependencies(punit, old_activity, old_target);
     }
   }
 }
@@ -2137,12 +2095,12 @@ static void unit_activity_handling_base(struct unit *punit,
 {
   if (can_unit_do_activity_base(punit, base)) {
     enum unit_activity old_activity = punit->activity;
-    struct act_tgt old_target = punit->activity_target;
+    struct extra_type *old_target = punit->activity_target;
 
     free_unit_orders(punit);
     set_unit_activity_base(punit, base);
     send_unit_info(NULL, punit);
-    unit_activity_dependencies(punit, old_activity, &old_target);
+    unit_activity_dependencies(punit, old_activity, old_target);
   }
 }
 
@@ -2154,12 +2112,12 @@ static void unit_activity_handling_road(struct unit *punit,
 {
   if (can_unit_do_activity_road(punit, road)) {
     enum unit_activity old_activity = punit->activity;
-    struct act_tgt old_target = punit->activity_target;
+    struct extra_type *old_target = punit->activity_target;
 
     free_unit_orders(punit);
     set_unit_activity_road(punit, road);
     send_unit_info(NULL, punit);
-    unit_activity_dependencies(punit, old_activity, &old_target);
+    unit_activity_dependencies(punit, old_activity, old_target);
   }
 }
 
@@ -2346,12 +2304,12 @@ void handle_unit_orders(struct player *pplayer,
         }
         break;
       case ACTIVITY_BASE:
-        if (!base_by_number(packet->base[i])) {
+        if (extra_by_number(packet->target[i])->type != EXTRA_BASE) {
           return;
         }
         break;
       case ACTIVITY_GEN_ROAD:
-        if (!road_by_number(packet->road[i])) {
+        if (extra_by_number(packet->target[i])->type != EXTRA_ROAD) {
           return;
         }
         break;
@@ -2399,8 +2357,7 @@ void handle_unit_orders(struct player *pplayer,
     punit->orders.list[i].order = packet->orders[i];
     punit->orders.list[i].dir = packet->dir[i];
     punit->orders.list[i].activity = packet->activity[i];
-    punit->orders.list[i].base = packet->base[i];
-    punit->orders.list[i].road = packet->road[i];
+    punit->orders.list[i].target = packet->target[i];
   }
 
   if (!packet->repeat) {

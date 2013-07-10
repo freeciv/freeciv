@@ -65,7 +65,7 @@ static struct unit_list *urgent_focus_queue = NULL;
 /* These should be set via set_hover_state() */
 enum cursor_hover_state hover_state = HOVER_NONE;
 enum unit_activity connect_activity;
-struct act_tgt connect_tgt;
+struct extra_type *connect_tgt;
 enum unit_orders goto_last_order; /* Last order for goto */
 
 static struct tile *hover_tile = NULL;
@@ -252,7 +252,7 @@ void unit_register_battlegroup(struct unit *punit)
 **************************************************************************/
 void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
 		     enum unit_activity activity,
-                     struct act_tgt *tgt,
+                     struct extra_type *tgt,
 		     enum unit_orders order)
 {
   fc_assert_ret((punits && unit_list_size(punits) > 0)
@@ -262,10 +262,9 @@ void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
   hover_state = state;
   connect_activity = activity;
   if (tgt) {
-    connect_tgt = *tgt;
+    connect_tgt = tgt;
   } else {
-    connect_tgt.type = ATT_SPECIAL;
-    connect_tgt.obj.spe = S_LAST;
+    connect_tgt = NULL;
   }
   goto_last_order = order;
   exit_goto_state();
@@ -1123,7 +1122,7 @@ static bool is_activity_on_tile(struct tile *ptile,
 **************************************************************************/
 bool can_unit_do_connect(struct unit *punit,
                          enum unit_activity activity,
-                         struct act_tgt *tgt) 
+                         struct extra_type *tgt) 
 {
   struct tile *ptile = unit_tile(punit);
   struct terrain *pterrain = tile_terrain(ptile);
@@ -1138,13 +1137,9 @@ bool can_unit_do_connect(struct unit *punit,
    *     (b) it can be done by the unit at this tile. */
   switch (activity) {
   case ACTIVITY_GEN_ROAD:
-    fc_assert(tgt->type == ATT_ROAD);
+    fc_assert(tgt->type == EXTRA_ROAD);
 
-    proad = road_by_number(tgt->obj.road);
-
-    if (proad == NULL) {
-      return FALSE;
-    }
+    proad = &(tgt->data.road);
 
     if (tile_has_road(ptile, proad)) {
       /* This tile has road, can unit build road to other tiles too? */
@@ -1178,7 +1173,7 @@ prompt player for entering destination point for unit connect
 (e.g. connecting with roads)
 **************************************************************************/
 void request_unit_connect(enum unit_activity activity,
-                          struct act_tgt *tgt)
+                          struct extra_type *tgt)
 {
   struct unit_list *punits = get_units_in_focus();
 
@@ -1188,7 +1183,7 @@ void request_unit_connect(enum unit_activity activity,
 
   if (hover_state != HOVER_CONNECT || connect_activity != activity
       || (activity == ACTIVITY_GEN_ROAD
-          && !cmp_act_tgt(&connect_tgt, tgt))) {
+          && connect_tgt != tgt)) {
     set_hover_state(punits, HOVER_CONNECT, activity, tgt, ORDER_LAST);
     enter_goto_state(punits);
     create_line_at_mouse_pos();
@@ -1478,18 +1473,12 @@ void request_new_unit_activity(struct unit *punit, enum unit_activity act)
 **************************************************************************/
 void request_new_unit_activity_targeted(struct unit *punit,
 					enum unit_activity act,
-					struct act_tgt *tgt)
+					struct extra_type *tgt)
 {
-  switch (tgt->type) {
-    case ATT_SPECIAL:
-      dsend_packet_unit_change_activity(&client.conn, punit->id, act, tgt->obj.spe);
-      break;
-    case ATT_BASE:
-      dsend_packet_unit_change_activity_base(&client.conn, punit->id, act, tgt->obj.base);
-      break;
-    case ATT_ROAD:
-      dsend_packet_unit_change_activity_road(&client.conn, punit->id, act, tgt->obj.road);
-      break;
+  if (tgt == NULL) {
+    dsend_packet_unit_change_activity(&client.conn, punit->id, act, EXTRA_NONE);
+  } else {
+    dsend_packet_unit_change_activity(&client.conn, punit->id, act, extra_index(tgt));
   }
 }
 
@@ -1503,8 +1492,8 @@ void request_new_unit_activity_base(struct unit *punit,
     return;
   }
 
-  dsend_packet_unit_change_activity_base(&client.conn, punit->id, ACTIVITY_BASE,
-				         base_number(pbase));
+  request_new_unit_activity_targeted(punit, ACTIVITY_BASE,
+                                     extra_type_get(EXTRA_BASE, base_index(pbase)));
 }
 
 /**************************************************************************
@@ -1517,9 +1506,8 @@ void request_new_unit_activity_road(struct unit *punit,
     return;
   }
 
-  dsend_packet_unit_change_activity_road(&client.conn, punit->id,
-                                         ACTIVITY_GEN_ROAD,
-				         road_number(proad));
+  request_new_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD,
+                                     extra_type_get(EXTRA_ROAD, road_index(proad)));
 }
 
 /**************************************************************************
@@ -1750,11 +1738,11 @@ void request_unit_fortify(struct unit *punit)
 **************************************************************************/
 void request_unit_pillage(struct unit *punit)
 {
-  struct act_tgt target = { .type = ATT_SPECIAL, .obj.spe = S_LAST };
+  struct extra_type *target = NULL;
 
   if (!game.info.pillage_select) {
     /* Leave choice up to the server */
-    request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, &target);
+    request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, target);
   } else {
     struct tile *ptile = unit_tile(punit);
     bv_special pspossible;
@@ -1764,35 +1752,33 @@ void request_unit_pillage(struct unit *punit)
 
     BV_CLR_ALL(pspossible);
     tile_special_type_iterate(spe) {
-      target.obj.spe = spe;
+      target = extra_type_get(EXTRA_SPECIAL, spe);
 
       if (can_unit_do_activity_targeted_at(punit, ACTIVITY_PILLAGE,
-                                           &target, ptile)) {
+                                           target, ptile)) {
         BV_SET(pspossible, spe);
         count++;
       }
     } tile_special_type_iterate_end;
 
     BV_CLR_ALL(bspossible);
-    target.type = ATT_BASE;
     base_type_iterate(pbase) {
-      target.obj.base = base_index(pbase);
+      target = extra_type_get(EXTRA_BASE, base_index(pbase));
 
       if (can_unit_do_activity_targeted_at(punit, ACTIVITY_PILLAGE,
-                                           &target, ptile)) {
-        BV_SET(bspossible, target.obj.base);
+                                           target, ptile)) {
+        BV_SET(bspossible, base_index(pbase));
         count++;
       }
     } base_type_iterate_end;
 
     BV_CLR_ALL(rspossible);
-    target.type = ATT_ROAD;
     road_type_iterate(proad) {
-      target.obj.road = road_index(proad);
+      target = extra_type_get(EXTRA_ROAD, road_index(proad));
 
       if (can_unit_do_activity_targeted_at(punit, ACTIVITY_PILLAGE,
-                                           &target, ptile)) {
-        BV_SET(rspossible, target.obj.road);
+                                           target, ptile)) {
+        BV_SET(rspossible, road_index(proad));
         count++;
       }
     } road_type_iterate_end;
@@ -1801,10 +1787,10 @@ void request_unit_pillage(struct unit *punit)
       popup_pillage_dialog(punit, pspossible, bspossible, rspossible);
     } else {
       /* Should be only one choice... */
-      bool found = get_preferred_pillage(&target, pspossible, bspossible, rspossible);
+      struct extra_type *target = get_preferred_pillage(pspossible, bspossible, rspossible);
 
-      if (found) {
-        request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, &target);
+      if (target != NULL) {
+        request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, target);
       }
     }
   }
@@ -2306,7 +2292,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
       } unit_list_iterate_end;
       break;
     case HOVER_CONNECT:
-      do_unit_connect(ptile, connect_activity, &connect_tgt);
+      do_unit_connect(ptile, connect_activity, connect_tgt);
       break;
     case HOVER_PATROL:
       do_unit_patrol_to(ptile);
@@ -2542,7 +2528,7 @@ void do_unit_patrol_to(struct tile *ptile)
 **************************************************************************/
 void do_unit_connect(struct tile *ptile,
 		     enum unit_activity activity,
-                     struct act_tgt *tgt)
+                     struct extra_type *tgt)
 {
   if (is_valid_goto_draw_line(ptile)) {
     send_connect_route(activity, tgt);
@@ -2667,7 +2653,7 @@ void key_unit_build_wonder(void)
 handle user pressing key for 'Connect' command
 **************************************************************************/
 void key_unit_connect(enum unit_activity activity,
-                      struct act_tgt *tgt)
+                      struct extra_type *tgt)
 {
   request_unit_connect(activity, tgt);
 }
@@ -2944,9 +2930,11 @@ void key_unit_road(void)
                                                  punit);
 
     if (proad != NULL) {
-      struct act_tgt tgt = { .type = ATT_ROAD, .obj.road = road_number(proad) };
+      struct extra_type *tgt;
 
-      if (can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, &tgt)) {
+      tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+
+      if (can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt)) {
         request_new_unit_activity_road(punit, proad);
       }
     }

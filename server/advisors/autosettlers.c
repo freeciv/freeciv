@@ -129,7 +129,7 @@ int adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
           if (punit->activity == ACTIVITY_GEN_ROAD) {
             /* If a road, or its dependency is being built here, consider as if it's already
 	     * built. */
-            int build_rnbr = punit->activity_target.obj.road;
+            int build_rnbr = road_index(&(punit->activity_target->data.road));
 
             if (build_rnbr == rnbr) {
               real_road[i] = TRUE;
@@ -230,14 +230,14 @@ int adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
 ****************************************************************************/
 static void consider_settler_action(const struct player *pplayer, 
                                     enum unit_activity act,
-                                    struct act_tgt *target,
+                                    struct extra_type *target,
                                     int extra,
                                     int new_tile_value, int old_tile_value,
                                     bool in_use, int delay,
                                     int *best_value,
                                     int *best_old_tile_value,
                                     enum unit_activity *best_act,
-                                    struct act_tgt *best_target,
+                                    struct extra_type **best_target,
                                     struct tile **best_tile,
                                     struct tile *ptile)
 {
@@ -276,7 +276,7 @@ static void consider_settler_action(const struct player *pplayer,
     *best_value = total_value;
     *best_old_tile_value = old_tile_value;
     *best_act = act;
-    *best_target = *target;
+    *best_target = target;
     *best_tile = ptile;
   }
 }
@@ -312,7 +312,7 @@ static bool autosettler_enter_territory(const struct player *pplayer,
 ****************************************************************************/
 int settler_evaluate_improvements(struct unit *punit,
                                   enum unit_activity *best_act,
-                                  struct act_tgt *best_target,
+                                  struct extra_type **best_target,
                                   struct tile **best_tile,
                                   struct pf_path **path,
                                   struct settlermap *state)
@@ -400,13 +400,13 @@ int settler_evaluate_improvements(struct unit *punit,
 
           /* Now, consider various activities... */
           activity_type_iterate(act) {
-            struct act_tgt target = { .type = ATT_SPECIAL, .obj.spe = S_LAST };
+            struct extra_type *target = NULL;
 
             if (adv_city_worker_act_get(pcity, cindex, act) >= 0
                 /* These need separate implementations. */
                 && act != ACTIVITY_BASE
                 && act != ACTIVITY_GEN_ROAD
-                && can_unit_do_activity_targeted_at(punit, act, &target,
+                && can_unit_do_activity_targeted_at(punit, act, target,
                                                     ptile)) {
               int extra = 0;
               int base_value = adv_city_worker_act_get(pcity, cindex, act);
@@ -419,7 +419,7 @@ int settler_evaluate_improvements(struct unit *punit,
                 extra = pplayer->ai_common.warmth;
               }
 
-              consider_settler_action(pplayer, act, &target, extra, base_value,
+              consider_settler_action(pplayer, act, target, extra, base_value,
                                       oldv, in_use, time,
                                       &best_newv, &best_oldv,
                                       best_act, best_target, best_tile, ptile);
@@ -428,8 +428,10 @@ int settler_evaluate_improvements(struct unit *punit,
           } activity_type_iterate_end;
 
           road_type_iterate(proad) {
-            struct act_tgt target = { .type = ATT_ROAD, .obj.road = road_number(proad) };
+            struct extra_type *target;
             int base_value = adv_city_worker_road_get(pcity, cindex, proad);
+
+            target = extra_type_get(EXTRA_ROAD, road_index(proad));
 
             if (base_value >= 0) {
               int extra;
@@ -464,18 +466,20 @@ int settler_evaluate_improvements(struct unit *punit,
 
               extra = adv_settlers_road_bonus(ptile, proad) * mc_multiplier / mc_divisor;
 
-              if (can_unit_do_activity_targeted_at(punit, ACTIVITY_GEN_ROAD, &target,
+              if (can_unit_do_activity_targeted_at(punit, ACTIVITY_GEN_ROAD, target,
                                                    ptile)) {
-                consider_settler_action(pplayer, ACTIVITY_GEN_ROAD, &target, extra, base_value,
+                consider_settler_action(pplayer, ACTIVITY_GEN_ROAD, target, extra, base_value,
                                         oldv, in_use, time,
                                         &best_newv, &best_oldv,
                                         best_act, best_target, best_tile, ptile);
               } else {
                 road_deps_iterate(&(proad->reqs), pdep) {
-                  struct act_tgt dep_tgt = { .type = ATT_ROAD, .obj.road = road_number(pdep) };
+                  struct extra_type *dep_tgt;
+
+                  dep_tgt = extra_type_get(EXTRA_ROAD, road_index(pdep));
 
                   if (can_unit_do_activity_targeted_at(punit, ACTIVITY_GEN_ROAD,
-                                                       &dep_tgt, ptile)) {
+                                                       dep_tgt, ptile)) {
                     /* Consider building dependency road for later upgrade to target road.
                      * Here we set value to be sum of dependency
                      * road and target road values, which increases want, and time is sum
@@ -485,7 +489,7 @@ int settler_evaluate_improvements(struct unit *punit,
                     int dep_time = time + get_turns_for_road_at(punit, pdep, ptile);
                     int dep_value = base_value + adv_city_worker_road_get(pcity, cindex, pdep);
 
-                    consider_settler_action(pplayer, ACTIVITY_GEN_ROAD, &dep_tgt, extra,
+                    consider_settler_action(pplayer, ACTIVITY_GEN_ROAD, dep_tgt, extra,
                                             dep_value,
                                             oldv, in_use, dep_time,
                                             &best_newv, &best_oldv,
@@ -497,25 +501,29 @@ int settler_evaluate_improvements(struct unit *punit,
           } road_type_iterate_end;
 
           base_type_iterate(pbase) {
-            struct act_tgt target = { .type = ATT_BASE, .obj.base = base_number(pbase) };
+            struct extra_type *target;
             int base_value = adv_city_worker_base_get(pcity, cindex, pbase);
+
+            target = extra_type_get(EXTRA_BASE, base_index(pbase));
 
             if (base_value > 0) {
 
               time = pos.turn + get_turns_for_base_at(punit, pbase, ptile);
 
-              if (can_unit_do_activity_targeted_at(punit, ACTIVITY_BASE, &target,
+              if (can_unit_do_activity_targeted_at(punit, ACTIVITY_BASE, target,
                                                    ptile)) {
-                consider_settler_action(pplayer, ACTIVITY_BASE, &target, 0, base_value,
+                consider_settler_action(pplayer, ACTIVITY_BASE, target, 0, base_value,
                                         oldv, in_use, time,
                                         &best_newv, &best_oldv,
                                         best_act, best_target, best_tile, ptile);
               } else {
                 base_deps_iterate(&(pbase->reqs), pdep) {
-                  struct act_tgt dep_tgt = { .type = ATT_BASE, .obj.base = base_number(pdep) };
+                  struct extra_type *dep_tgt;
+
+                  dep_tgt = extra_type_get(EXTRA_BASE, base_index(pdep));
 
                   if (can_unit_do_activity_targeted_at(punit, ACTIVITY_BASE,
-                                                       &dep_tgt, ptile)) {
+                                                       dep_tgt, ptile)) {
                     /* Consider building dependency base for later upgrade to
                      * target base.  See similar road implementation above for
                      * extended commentary. */
@@ -525,7 +533,7 @@ int settler_evaluate_improvements(struct unit *punit,
                                                                           cindex,
                                                                           pbase);
 
-                    consider_settler_action(pplayer, ACTIVITY_BASE, &dep_tgt,
+                    consider_settler_action(pplayer, ACTIVITY_BASE, dep_tgt,
                                             0, dep_value, oldv, in_use,
                                             dep_time, &best_newv, &best_oldv,
                                             best_act, best_target,
@@ -569,7 +577,7 @@ int settler_evaluate_improvements(struct unit *punit,
 ****************************************************************************/
 static int settler_evaluate_city_requests(struct unit *punit,
                                           enum unit_activity *best_act,
-                                          struct act_tgt *best_target,
+                                          struct extra_type **best_target,
                                           struct tile **best_tile,
                                           struct pf_path **path,
                                           struct settlermap *state)
@@ -603,7 +611,7 @@ static int settler_evaluate_city_requests(struct unit *punit,
       } unit_list_iterate_end;
 
       if (consider
-          && can_unit_do_activity_targeted_at(punit, ptask->act, &ptask->tgt,
+          && can_unit_do_activity_targeted_at(punit, ptask->act, ptask->tgt,
                                               ptask->ptile)) {
         /* closest worker, if any, headed towards target tile */
         struct unit *enroute = NULL;
@@ -672,7 +680,7 @@ void auto_settler_findwork(struct player *pplayer,
 {
   enum unit_activity best_act;
   struct tile *best_tile = NULL;
-  struct act_tgt best_target;
+  struct extra_type *best_target;
   struct pf_path *path = NULL;
   int value;
 
@@ -746,7 +754,7 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
                              struct pf_path *path,
                              struct tile *best_tile,
                              enum unit_activity best_act,
-                             struct act_tgt *best_target,
+                             struct extra_type **best_target,
                              int completion_time)
 {
   /* Run the "autosettler" program */
@@ -783,7 +791,7 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
 
     state[tile_index(best_tile)].enroute = punit->id;
     state[tile_index(best_tile)].eta = completion_time;
-      
+
     if (displaced) {
       struct tile *goto_tile = punit->goto_tile;
       int saved_id = punit->id;

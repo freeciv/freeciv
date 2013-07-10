@@ -22,6 +22,9 @@ extern "C" {
 #include "fc_types.h"
 #include "road.h"
 
+
+#define EXTRA_NONE (-1)
+
 struct extra_type
 {
   int id;

@@ -113,8 +113,7 @@ struct unit_adv {
 struct unit_order {
   enum unit_orders order;
   enum unit_activity activity;  /* Only valid for ORDER_ACTIVITY. */
-  Base_type_id base;            /* Only valid for activity ACTIVITY_BASE */
-  Road_type_id road;            /* Only valid for activity ACTIVITY_GEN_ROAD */
+  int target;
   enum direction8 dir;          /* Only valid for ORDER_MOVE. */
 };
 
@@ -146,13 +145,13 @@ struct unit {
    * fractional values in some cases). */
   int activity_count;
 
-  struct act_tgt activity_target;
+  struct extra_type *activity_target;
 
   /* Previous activity, so it can be resumed without loss of progress
    * if the user changes their mind during a turn. */
   enum unit_activity changed_from;
   int changed_from_count;
-  struct act_tgt changed_from_target;
+  struct extra_type *changed_from_target;
 
   bool ai_controlled; /* 0: not automated; 1: automated */
   bool moved;
@@ -276,16 +275,15 @@ bool can_unit_change_homecity_to(const struct unit *punit,
 				 const struct city *pcity);
 bool can_unit_change_homecity(const struct unit *punit);
 const char *get_activity_text(enum unit_activity activity);
-bool cmp_act_tgt(struct act_tgt *act1, struct act_tgt *act2);
 bool can_unit_continue_current_activity(struct unit *punit);
 bool can_unit_do_activity(const struct unit *punit,
 			  enum unit_activity activity);
 bool can_unit_do_activity_targeted(const struct unit *punit,
 				   enum unit_activity activity,
-                                   struct act_tgt *target);
+                                   struct extra_type *target);
 bool can_unit_do_activity_targeted_at(const struct unit *punit,
 				      enum unit_activity activity,
-				      struct act_tgt *target,
+				      struct extra_type *target,
 				      const struct tile *ptile);
 bool can_unit_do_activity_base(const struct unit *punit,
                                Base_type_id base);
@@ -294,7 +292,7 @@ bool can_unit_do_activity_road(const struct unit *punit,
 void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
 void set_unit_activity_targeted(struct unit *punit,
 				enum unit_activity new_activity,
-                                struct act_tgt *new_target);
+                                struct extra_type *new_target);
 void set_unit_activity_base(struct unit *punit,
                             Base_type_id base);
 void set_unit_activity_road(struct unit *punit,

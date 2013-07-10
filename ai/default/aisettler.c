@@ -1000,7 +1000,7 @@ void dai_auto_settler_run(struct ai_type *ait, struct player *pplayer,
 {
   int best_impr = 0;            /* best terrain improvement we can do */
   enum unit_activity best_act;
-  struct act_tgt best_target;
+  struct extra_type *best_target;
   struct tile *best_tile = NULL;
   struct pf_path *path = NULL;
 

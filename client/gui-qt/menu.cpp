@@ -413,7 +413,7 @@ void mr_menu::menus_sensitive()
   QHash <munit, QAction *>::iterator i;
   struct unit_list *punits = NULL;
   struct road_type *proad;
-  struct act_tgt tgt;
+  struct extra_type *tgt;
   bool any_cities = false;
   bool city_on_tile;
   bool units_all_same_tile = true;
@@ -659,12 +659,11 @@ void mr_menu::menus_sensitive()
       case CONNECT_ROAD:
         proad = road_by_compat_special(ROCO_ROAD);
         if (proad != NULL) {
-          tgt.type = ATT_ROAD;
-          tgt.obj.road = road_number(proad);
+          tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
         } else {
           break;
         }
-        if (can_units_do_connect(punits, ACTIVITY_GEN_ROAD, &tgt)) {
+        if (can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt)) {
           i.value()->setEnabled(true);
         }
         break;
@@ -677,12 +676,11 @@ void mr_menu::menus_sensitive()
       case CONNECT_RAIL:
         proad = road_by_compat_special(ROCO_RAILROAD);
         if (proad != NULL) {
-          tgt.type = ATT_ROAD;
-          tgt.obj.road = road_number(proad);
+          tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
         } else {
           break;
         }
-        if (can_units_do_connect(punits, ACTIVITY_GEN_ROAD, &tgt)) {
+        if (can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt)) {
           i.value()->setEnabled(true);
         }
         break;
@@ -963,11 +961,12 @@ void mr_menu::slot_conn_irrigation()
 void mr_menu::slot_conn_rail()
 {
   struct road_type *prail = road_by_compat_special(ROCO_RAILROAD);
-  struct act_tgt tgt;
+
   if (prail != NULL) {
-    tgt.type = ATT_ROAD;
-    tgt.obj.road = road_number(prail);
-    key_unit_connect(ACTIVITY_GEN_ROAD, &tgt);
+    struct extra_type *tgt;
+
+    tgt = extra_type_get(EXTRA_ROAD, road_index(prail));
+    key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
   }
 }
 
@@ -985,11 +984,12 @@ void mr_menu::slot_unit_airbase()
 void mr_menu::slot_conn_road()
 {
   struct road_type *proad = road_by_compat_special(ROCO_ROAD);
-  struct act_tgt tgt;
+
   if (proad != NULL) {
-    tgt.type = ATT_ROAD;
-    tgt.obj.road = road_number(proad);
-    key_unit_connect(ACTIVITY_GEN_ROAD, &tgt);
+    struct extra_type *tgt;
+
+    tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+    key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
   }
 }
 
@@ -1031,7 +1031,6 @@ void mr_menu::slot_auto_settler()
 *****************************************************************/
 void mr_menu::slot_build_road()
 {
-  struct act_tgt tgt;
   unit_list_iterate(get_units_in_focus(), punit) {
     /* FIXME: this can provide different actions for different units...
      * not good! */
@@ -1041,10 +1040,11 @@ void mr_menu::slot_build_road()
     bool building_road = FALSE;
 
     if (proad != NULL) {
-      tgt.type = ATT_ROAD;
-      tgt.obj.road = road_number(proad);
+      struct extra_type *tgt;
 
-      if (can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, &tgt)) {
+      tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+
+      if (can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt)) {
         request_new_unit_activity_road(punit, proad);
         building_road = TRUE;
       }

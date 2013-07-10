@@ -857,42 +857,32 @@ enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe)
 }
 
 /****************************************************************************
-  Returns the highest-priority (best) infrastructure (man-made special) to
-  be pillaged from the terrain set.  May return S_LAST if nothing
+  Returns the highest-priority (best) infrastructure (man-made extra) to
+  be pillaged from the terrain set.  May return NULL if nothing
   better is available.
-  Bases are encoded as numbers beyond S_LAST.
 ****************************************************************************/
-bool get_preferred_pillage(struct act_tgt *tgt,
-                           bv_special pset,
-                           bv_bases bases,
-                           bv_roads roads)
+struct extra_type *get_preferred_pillage(bv_special pset,
+                                         bv_bases bases,
+                                         bv_roads roads)
 {
-  tgt->type = ATT_SPECIAL;
   if (contains_special(pset, S_FARMLAND)) {
-    tgt->obj.spe = S_FARMLAND;
-    return TRUE;
+    return extra_type_get(EXTRA_SPECIAL, S_FARMLAND);
   }
   if (contains_special(pset, S_IRRIGATION)) {
-    tgt->obj.spe = S_IRRIGATION;
-    return TRUE;
+    return extra_type_get(EXTRA_SPECIAL, S_IRRIGATION);
   }
   if (contains_special(pset, S_MINE)) {
-    tgt->obj.spe = S_MINE;
-    return TRUE;
+    return extra_type_get(EXTRA_SPECIAL, S_MINE);
   }
   base_type_iterate(pbase) {
     if (BV_ISSET(bases, base_index(pbase))) {
-      tgt->type = ATT_BASE;
-      tgt->obj.base = base_index(pbase);
-      return TRUE;
+      return extra_type_get(EXTRA_BASE, base_index(pbase));
     }
   } base_type_iterate_end;
 
   road_type_iterate(proad) {
     if (BV_ISSET(roads, road_index(proad))) {
-      tgt->type = ATT_ROAD;
-      tgt->obj.road = road_index(proad);
-      return TRUE;
+      return extra_type_get(EXTRA_ROAD, road_index(proad));
     }
   } road_type_iterate_end;
 

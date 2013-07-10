@@ -4903,25 +4903,21 @@ static bool sg_load_player_unit(struct loaddata *loading,
       set_unit_activity(punit, ACTIVITY_IDLE);
     }
   } else if (activity == ACTIVITY_PILLAGE) {
-    struct act_tgt a_target;
+    struct extra_type *a_target;
 
     if (target != S_LAST) {
-      a_target.type = ATT_SPECIAL;
-      a_target.obj.spe = target;
+      a_target = extra_type_get(EXTRA_SPECIAL, target);
     } else if (pbase != NULL) {
-      a_target.type = ATT_BASE;
-      a_target.obj.base = base_index(pbase);
+      a_target = extra_type_get(EXTRA_BASE, base_index(pbase));
     } else if (proad != NULL) {
-      a_target.type = ATT_ROAD;
-      a_target.obj.road = road_index(proad);
+      a_target = extra_type_get(EXTRA_ROAD, road_index(proad));
     } else {
-      a_target.type = ATT_SPECIAL;
-      a_target.obj.spe = S_LAST;
+      a_target = NULL;
     }
     /* An out-of-range base number is seen with old savegames. We take
      * it as indicating undirected pillaging. We will assign pillage
      * targets before play starts. */
-    set_unit_activity_targeted(punit, activity, &a_target);
+    set_unit_activity_targeted(punit, activity, a_target);
   } else {
     set_unit_activity(punit, activity);
   }
@@ -4958,14 +4954,13 @@ static bool sg_load_player_unit(struct loaddata *loading,
   }
 
   if (base >= 0 && base < loading->base.size) {
-    punit->changed_from_target.type = ATT_BASE;
-    punit->changed_from_target.obj.base = base_number(loading->base.order[base]);
+    punit->changed_from_target = extra_type_get(EXTRA_BASE, base_number(loading->base.order[base]));
   } else if (road >= 0 && road < loading->road.size) {
-    punit->changed_from_target.type = ATT_ROAD;
-    punit->changed_from_target.obj.road = road_number(loading->road.order[road]);
+    punit->changed_from_target = extra_type_get(EXTRA_ROAD, road_number(loading->road.order[road]));
+  } else if (cfspe != S_LAST) {
+    punit->changed_from_target = extra_type_get(EXTRA_SPECIAL, cfspe);
   } else {
-    punit->changed_from_target.type = ATT_SPECIAL;
-    punit->changed_from_target.obj.spe = cfspe;
+    punit->changed_from_target = NULL;
   }
   punit->changed_from_count =
     secfile_lookup_int_default(loading->file, 0,
@@ -5119,7 +5114,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                                     NULL, NULL));
           }
 
-          order->base = base;
+          order->target = extra_number(extra_type_get(EXTRA_BASE, base));
         }
 
         if (road_unitstr && road_unitstr[j] != '?') {
@@ -5131,15 +5126,15 @@ static bool sg_load_player_unit(struct loaddata *loading,
             road = 0;
           }
 
-          order->road = road;
+          order->target = extra_number(extra_type_get(EXTRA_ROAD, road));
         }
 
         if (order->activity == ACTIVITY_OLD_ROAD) {
           order->activity = ACTIVITY_GEN_ROAD;
-          order->road = road_idx;
+          order->target = extra_number(extra_type_get(EXTRA_ROAD, road_idx));
         } else if (order->activity == ACTIVITY_OLD_RAILROAD) {
           order->activity = ACTIVITY_GEN_ROAD;
-          order->road = rail_idx;
+          order->target = extra_number(extra_type_get(EXTRA_ROAD, rail_idx));
         }
       }
     } else {
@@ -5241,51 +5236,70 @@ static void sg_save_player_units(struct savedata *saving,
     secfile_insert_int(saving->file, punit->activity, "%s.activity", buf);
     secfile_insert_int(saving->file, punit->activity_count,
                        "%s.activity_count", buf);
-    if (punit->activity_target.type == ATT_SPECIAL) {
-      secfile_insert_int(saving->file, punit->activity_target.obj.spe,
-                         "%s.activity_target", buf);
-    } else {
+    if (punit->activity_target == NULL) {
       secfile_insert_int(saving->file, S_LAST,
                          "%s.activity_target", buf);
-    }
-    if (punit->activity_target.type == ATT_BASE) {
-      secfile_insert_int(saving->file, punit->activity_target.obj.base,
-                         "%s.activity_base", buf);
-    } else {
       secfile_insert_int(saving->file, BASE_NONE,
                          "%s.activity_base", buf);
-    }
-    if (punit->activity_target.type == ATT_ROAD) {
-      secfile_insert_int(saving->file, punit->activity_target.obj.road,
-                         "%s.activity_road", buf);
-    } else {
       secfile_insert_int(saving->file, ROAD_NONE,
                          "%s.activity_road", buf);
+    } else {
+      if (punit->activity_target->type == EXTRA_SPECIAL) {
+        secfile_insert_int(saving->file, punit->activity_target->data.special,
+                           "%s.activity_target", buf);
+      } else {
+        secfile_insert_int(saving->file, S_LAST,
+                           "%s.activity_target", buf);
+      }
+      if (punit->activity_target->type == EXTRA_BASE) {
+        secfile_insert_int(saving->file, base_index(&(punit->activity_target->data.base)),
+                           "%s.activity_base", buf);
+      } else {
+        secfile_insert_int(saving->file, BASE_NONE,
+                           "%s.activity_base", buf);
+      }
+      if (punit->activity_target->type == EXTRA_ROAD) {
+        secfile_insert_int(saving->file, road_index(&(punit->activity_target->data.road)),
+                           "%s.activity_road", buf);
+      } else {
+        secfile_insert_int(saving->file, ROAD_NONE,
+                           "%s.activity_road", buf);
+      }
     }
+
     secfile_insert_int(saving->file, punit->changed_from,
                        "%s.changed_from", buf);
     secfile_insert_int(saving->file, punit->changed_from_count,
                        "%s.changed_from_count", buf);
-    if (punit->changed_from_target.type == ATT_SPECIAL) {
-      secfile_insert_int(saving->file, punit->changed_from_target.obj.spe,
-                         "%s.changed_from_target", buf);
-    } else {
+    if (punit->changed_from_target == NULL) {
       secfile_insert_int(saving->file, S_LAST,
                          "%s.changed_from_target", buf);
-    }
-    if (punit->changed_from_target.type == ATT_BASE) {
-      secfile_insert_int(saving->file, punit->changed_from_target.obj.base,
-                         "%s.changed_from_base", buf);
-    } else {
       secfile_insert_int(saving->file, BASE_NONE,
                          "%s.changed_from_base", buf);
-    }
-    if (punit->changed_from_target.type == ATT_ROAD) {
-      secfile_insert_int(saving->file, punit->changed_from_target.obj.road,
-                         "%s.changed_from_road", buf);
-    } else {
       secfile_insert_int(saving->file, ROAD_NONE,
                          "%s.changed_from_road", buf);
+    } else {
+      if (punit->changed_from_target->type == EXTRA_SPECIAL) {
+        secfile_insert_int(saving->file, punit->changed_from_target->data.special,
+                           "%s.changed_from_target", buf);
+      } else {
+        secfile_insert_int(saving->file, S_LAST,
+                           "%s.changed_from_target", buf);
+      }
+      if (punit->changed_from_target->type == EXTRA_BASE) {
+        secfile_insert_int(saving->file, base_index(&(punit->changed_from_target->data.base)),
+                           "%s.changed_from_base", buf);
+      } else {
+        secfile_insert_int(saving->file, BASE_NONE,
+                           "%s.changed_from_base", buf);
+      }
+      if (punit->changed_from_target->type == EXTRA_ROAD) {
+        secfile_insert_int(saving->file, road_index(&(punit->changed_from_target->data.road)),
+                           "%s.changed_from_road", buf);
+      } else {
+        secfile_insert_int(saving->file, ROAD_NONE,
+                           "%s.changed_from_road", buf);
+      }
     }
     secfile_insert_bool(saving->file, punit->done_moving,
                         "%s.done_moving", buf);
@@ -5351,9 +5365,9 @@ static void sg_save_player_units(struct savedata *saving,
           break;
         case ORDER_ACTIVITY:
           if (punit->orders.list[j].activity == ACTIVITY_BASE) {
-            base_buf[j] = num2char(punit->orders.list[j].base);
+            base_buf[j] = num2char(base_number(&(extra_by_number(punit->orders.list[j].target)->data.base)));
           } else if (punit->orders.list[j].activity == ACTIVITY_GEN_ROAD) {
-            road_buf[j] = num2char(punit->orders.list[j].road);
+            road_buf[j] = num2char(road_number(&(extra_by_number(punit->orders.list[j].target)->data.road)));
           }
           act_buf[j] = activity2char(punit->orders.list[j].activity);
           break;

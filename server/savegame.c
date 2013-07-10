@@ -1367,25 +1367,21 @@ static void player_load_units(struct player *plr, int plrno,
         set_unit_activity(punit, ACTIVITY_IDLE);
       }
     } else if (activity == ACTIVITY_PILLAGE) {
-      struct act_tgt a_target;
+      struct extra_type *a_target;
 
       if (target != S_LAST) {
-        a_target.type = ATT_SPECIAL;
-        a_target.obj.spe = target;
+        a_target = extra_type_get(EXTRA_SPECIAL, target);
       } else if (pbase != NULL) {
-        a_target.type = ATT_BASE;
-        a_target.obj.base = base_index(pbase);
+        a_target = extra_type_get(EXTRA_BASE, base_index(pbase));
       } else if (proad != NULL) {
-        a_target.type = ATT_ROAD;
-        a_target.obj.road = road_index(proad);
+        a_target = extra_type_get(EXTRA_ROAD, road_index(proad));
       } else {
-        a_target.type = ATT_SPECIAL;
-        a_target.obj.road = S_LAST;
+        a_target = NULL;
       }
       /* An out-of-range base number is seen with old savegames. We take
        * it as indicating undirected pillaging. We will assign pillage
        * targets before play starts. */
-      set_unit_activity_targeted(punit, activity, &a_target);
+      set_unit_activity_targeted(punit, activity, a_target);
     } else {
       set_unit_activity(punit, activity);
     }
@@ -1532,7 +1528,7 @@ static void player_load_units(struct player *plr, int plrno,
           if (pbase) {
             /* Either ACTIVITY_FORTRESS or ACTIVITY_AIRBASE */
             order->activity = ACTIVITY_BASE;
-            order->base = base_number(pbase);
+            order->target = extra_number(extra_type_get(EXTRA_BASE, base_index(pbase)));
           } else if (base_buf && base_buf[j] != '?') {
             base = char2num(base_buf[j]);
 
@@ -1544,15 +1540,15 @@ static void player_load_units(struct player *plr, int plrno,
               base = base_number(get_base_by_gui_type(BASE_GUI_FORTRESS, NULL, NULL));
             }
 
-            order->base = base;
+            order->target = extra_number(extra_type_get(EXTRA_BASE, base));
           }
 
           if (order->activity == ACTIVITY_OLD_ROAD) {
             order->activity = ACTIVITY_GEN_ROAD;
-            order->road = road_idx;
+            order->target = extra_number(extra_type_get(EXTRA_ROAD, road_idx));
           } else if (order->activity == ACTIVITY_OLD_RAILROAD) {
             order->activity = ACTIVITY_GEN_ROAD;
-            order->road = rail_idx;
+            order->target = extra_number(extra_type_get(EXTRA_ROAD, rail_idx));
           }
 	}
       } else {

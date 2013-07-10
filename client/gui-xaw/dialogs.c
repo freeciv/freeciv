@@ -545,22 +545,19 @@ static void pillage_callback(Widget w, XtPointer client_data,
   if (client_data) {
     struct unit *punit = game_unit_by_number(unit_to_use_to_pillage);
     if (punit) {
-      struct act_tgt target;
+      struct extra_type *target;
       int what = XTPOINTER_TO_INT(client_data);
 
       if (what >= S_LAST + game.control.num_base_types) {
-        target.type = ATT_ROAD;
-        target.obj.road = what - S_LAST - game.control.num_base_types;
+        target = extra_type_get(EXTRA_ROAD, what - S_LAST - game.control.num_base_types);
       } else if (what >= S_LAST) {
-        target.type = ATT_BASE;
-        target.obj.base = what - S_LAST;
+        target = extra_type_get(EXTRA_BASE, what - S_LAST);
       } else {
-        target.type = ATT_SPECIAL;
-        target.obj.spe = what;
+        target = extra_type_get(EXTRA_SPECIAL, what);
       }
 
       request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE,
-                                         &target);
+                                         target);
     }
   }
 
@@ -578,7 +575,7 @@ void popup_pillage_dialog(struct unit *punit,
                           bv_roads roads)
 {
   Widget shell, form, dlabel, button, prev;
-  struct act_tgt tgt;
+  struct extra_type *tgt;
 
   if (is_showing_pillage_dialog) {
     return;
@@ -594,31 +591,34 @@ void popup_pillage_dialog(struct unit *punit,
   dlabel = I_L(XtVaCreateManagedWidget("dlabel", labelWidgetClass, form, NULL));
 
   prev = dlabel;
-  while (get_preferred_pillage(&tgt, spe, bases, roads)) {
+  while ((tgt = get_preferred_pillage(spe, bases, roads))) {
     bv_special what_spe;
     bv_bases what_base;
     bv_roads what_road;
     int what = S_LAST;
+    int subid;
 
     BV_CLR_ALL(what_spe);
     BV_CLR_ALL(what_base);
     BV_CLR_ALL(what_road);
 
-    switch (tgt.type) {
-      case ATT_SPECIAL:
-        BV_SET(what_spe, tgt.obj.spe);
-        what = tgt.obj.spe;
-        clear_special(&spe, tgt.obj.spe);
+    switch (tgt->type) {
+      case EXTRA_SPECIAL:
+        BV_SET(what_spe, tgt->data.special);
+        what = tgt->data.special;
+        clear_special(&spe, tgt->data.special);
         break;
-      case ATT_BASE:
-        BV_SET(what_base, tgt.obj.base);
-        what = tgt.obj.base + S_LAST;
-        BV_CLR(bases, tgt.obj.base);
+      case EXTRA_BASE:
+        subid = base_index(&(tgt->data.base));
+        BV_SET(what_base, subid);
+        what = subid + S_LAST;
+        BV_CLR(bases, subid);
         break;
-      case ATT_ROAD:
-        BV_SET(what_road, tgt.obj.road);
-        what = tgt.obj.road + S_LAST + game.control.num_base_types;
-        BV_CLR(roads, tgt.obj.road);
+      case EXTRA_ROAD:
+        subid = road_index(&(tgt->data.road));
+        BV_SET(what_road, subid);
+        what = subid + S_LAST + game.control.num_base_types;
+        BV_CLR(roads, subid);
         break;
     }
 

@@ -504,19 +504,6 @@ enum test_result {
   TR_ALREADY_SOLD
 };
 
-enum act_tgt_type { ATT_SPECIAL, ATT_BASE, ATT_ROAD };
-
-union act_tgt_obj {
-  enum tile_special_type spe;
-  Base_type_id base;
-  Road_type_id road;
-};
-
-struct act_tgt {
-  enum act_tgt_type type;
-  union act_tgt_obj obj;
-};
-
 /* Road type compatibility with old specials based roads.
  * Used in the network protocol. */
 enum road_compat { ROCO_ROAD, ROCO_RAILROAD, ROCO_RIVER, ROCO_NONE };

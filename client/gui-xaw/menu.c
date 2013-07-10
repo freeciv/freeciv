@@ -448,11 +448,11 @@ void real_menus_update(void)
 
       proad = road_by_compat_special(ROCO_ROAD);
       if (proad != NULL) {
-        struct act_tgt tgt = { .type = ATT_ROAD,
-                               .obj.road = road_number(proad) }; 
+        struct extra_type *tgt;
 
-        road_conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD,
-                                                  &tgt);
+        tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+
+        road_conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt);
       } else {
         road_conn_possible = FALSE;
       }
@@ -461,11 +461,11 @@ void real_menus_update(void)
 
       proad = road_by_compat_special(ROCO_RAILROAD);
       if (proad != NULL) {
-        struct act_tgt tgt = { .type = ATT_ROAD,
-                               .obj.road = road_number(proad) }; 
+        struct extra_type *tgt;
 
-        road_conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD,
-                                                  &tgt);
+        tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+
+        road_conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt);
       } else {
         road_conn_possible = FALSE;
       }
@@ -783,10 +783,11 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
       struct road_type *proad = road_by_compat_special(ROCO_ROAD);
 
       if (proad != NULL) {
-        struct act_tgt tgt = { .type = ATT_ROAD,
-                               .obj.road = road_number(proad) }; 
+        struct extra_type *tgt;
 
-        key_unit_connect(ACTIVITY_GEN_ROAD, &tgt);
+        tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+
+        key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
       }
     }
     break;
@@ -795,10 +796,11 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
       struct road_type *proad = road_by_compat_special(ROCO_RAILROAD);
 
       if (proad != NULL) {
-        struct act_tgt tgt = { .type = ATT_ROAD,
-                               .obj.road = road_number(proad) }; 
+        struct extra_type *tgt;
 
-        key_unit_connect(ACTIVITY_GEN_ROAD, &tgt);
+        tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+
+        key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
       }
     }
     break;

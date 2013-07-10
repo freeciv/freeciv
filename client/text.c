@@ -435,13 +435,17 @@ const char *concat_tile_activity_text(struct tile *ptile)
     if (punit->activity == ACTIVITY_PILLAGE) {
       pillaging = 1;
     } else if (punit->activity == ACTIVITY_BASE) {
-      base_total[punit->activity_target.obj.base] += punit->activity_count;
-      base_total[punit->activity_target.obj.base] += get_activity_rate_this_turn(punit);
-      base_units[punit->activity_target.obj.base] += get_activity_rate(punit);
+      int bidx = base_index(&(punit->activity_target->data.base));
+
+      base_total[bidx] += punit->activity_count;
+      base_total[bidx] += get_activity_rate_this_turn(punit);
+      base_units[bidx] += get_activity_rate(punit);
     } else if (punit->activity == ACTIVITY_GEN_ROAD) {
-      road_total[punit->activity_target.obj.road] += punit->activity_count;
-      road_total[punit->activity_target.obj.road] += get_activity_rate_this_turn(punit);
-      road_units[punit->activity_target.obj.road] += get_activity_rate(punit);
+      int ridx = road_index(&(punit->activity_target->data.road));
+
+      road_total[ridx] += punit->activity_count;
+      road_total[ridx] += get_activity_rate_this_turn(punit);
+      road_units[ridx] += get_activity_rate(punit);
     } else {
       activity_total[punit->activity] += punit->activity_count;
       activity_total[punit->activity] += get_activity_rate_this_turn(punit);

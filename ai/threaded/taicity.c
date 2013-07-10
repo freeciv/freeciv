@@ -59,8 +59,7 @@ void tai_city_worker_requests_create(struct player *pplayer, struct city *pcity)
   task.want = 0;
   /* The following values are always overridden if anything is chosen */
   task.act = ACTIVITY_IDLE;
-  task.tgt.type = ATT_SPECIAL;
-  task.tgt.obj.spe = S_LAST;
+  task.tgt = NULL;
 
   city_tile_iterate_index(city_map_radius_sq_get(pcity), city_tile(pcity),
                           ptile, cindex) {
@@ -97,8 +96,7 @@ void tai_city_worker_requests_create(struct player *pplayer, struct city *pcity)
           task.want  = value - orig_value;
           task.ptile = ptile;
           task.act   = act;
-          task.tgt.type = ATT_SPECIAL;
-          task.tgt.obj.spe = S_LAST;
+          task.tgt   = NULL;
         }
       }
     } activity_type_iterate_end;
@@ -146,8 +144,7 @@ void tai_city_worker_requests_create(struct player *pplayer, struct city *pcity)
         task.want  = value - orig_value;
         task.ptile = ptile;
         task.act   = ACTIVITY_GEN_ROAD;
-        task.tgt.type = ATT_ROAD;
-        task.tgt.obj.road = road_number(proad);
+        task.tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
       }
     } road_type_iterate_end;
 
@@ -164,8 +161,7 @@ void tai_city_worker_requests_create(struct player *pplayer, struct city *pcity)
         task.want  = value - orig_value;
         task.ptile = ptile;
         task.act   = ACTIVITY_BASE;
-        task.tgt.type = ATT_BASE;
-        task.tgt.obj.road = base_number(pbase);
+        task.tgt   = extra_type_get(EXTRA_BASE, base_index(pbase));
       }
     } base_type_iterate_end;
   } city_tile_iterate_end;

@@ -174,10 +174,11 @@ static int unit_order_callback(struct widget *pOrder_Widget)
         struct road_type *proad = road_by_compat_special(ROCO_ROAD);
 
         if (proad != NULL) {
-          struct act_tgt tgt = { .type = ATT_ROAD,
-                                 .obj.road = road_number(proad) };
+          struct extra_type *tgt;
 
-          key_unit_connect(ACTIVITY_GEN_ROAD, &tgt);
+          tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+
+          key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
         }
       }
       break;
@@ -186,10 +187,11 @@ static int unit_order_callback(struct widget *pOrder_Widget)
         struct road_type *prail = road_by_compat_special(ROCO_RAILROAD);
 
         if (prail != NULL) {
-          struct act_tgt tgt = { .type = ATT_ROAD,
-                                 .obj.road = road_number(prail) };
+          struct extra_type *tgt;
 
-          key_unit_connect(ACTIVITY_GEN_ROAD, &tgt);
+          tgt = extra_type_get(EXTRA_ROAD, road_index(prail));
+
+          key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
         }
       }
       break;
@@ -1347,11 +1349,11 @@ void real_menus_update(void)
         bool road_conn_possible;
 
         if (proad != NULL) {
-          struct act_tgt tgt = { .type = ATT_ROAD,
-                                 .obj.road = road_number(proad) }; 
+          struct extra_type *tgt;
 
-          road_conn_possible = can_unit_do_connect(pUnit, ACTIVITY_GEN_ROAD,
-                                                   &tgt);
+          tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+
+          road_conn_possible = can_unit_do_connect(pUnit, ACTIVITY_GEN_ROAD, tgt);
         } else {
           road_conn_possible = FALSE;
         }
@@ -1368,11 +1370,11 @@ void real_menus_update(void)
         bool road_conn_possible;
 
         if (proad != NULL) {
-          struct act_tgt tgt = { .type = ATT_ROAD,
-                                 .obj.road = road_number(proad) }; 
+          struct extra_type *tgt;
 
-          road_conn_possible = can_unit_do_connect(pUnit, ACTIVITY_GEN_ROAD,
-                                                   &tgt);
+          tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+
+          road_conn_possible = can_unit_do_connect(pUnit, ACTIVITY_GEN_ROAD, tgt);
         } else {
           road_conn_possible = FALSE;
         }

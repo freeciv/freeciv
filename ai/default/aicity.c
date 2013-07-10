@@ -652,7 +652,7 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
   struct unit *virtualunit;
   int want;
   enum unit_activity best_act;
-  struct act_tgt best_target;
+  struct extra_type *best_target;
   struct tile *best_tile = NULL; /* May be accessed by log_*() calls. */
   struct tile *pcenter = city_tile(pcity);
   struct player *pplayer = city_owner(pcity);
@@ -673,7 +673,7 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
   want = settler_evaluate_improvements(virtualunit, &best_act, &best_target,
                                        &best_tile,
                                        NULL, NULL);
-  /* We consider unit_food_upkeep with only hald FOOD_WEIGHTING to
+  /* We consider unit_food_upkeep with only half FOOD_WEIGHTING to
    * balance the fact that unit can improve many tiles during its
    * lifetime, and want is calculated for just one of them.
    * Having full FOOD_WEIGHT here would mean that tile improvement of

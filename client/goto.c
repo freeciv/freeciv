@@ -498,15 +498,15 @@ static int get_activity_time(const struct tile *ptile,
     activity_mc = pterrain->irrigation_time;
     break;
   case ACTIVITY_GEN_ROAD:
-    fc_assert(connect_tgt.type == ATT_ROAD);
+    fc_assert(connect_tgt->type == EXTRA_ROAD);
     {
-      struct road_type *proad = road_by_number(connect_tgt.obj.road);
+      struct road_type *proad = &(connect_tgt->data.road);
 
       if (!tile_has_road(ptile, proad)) {
         if (!player_can_build_road(proad, pplayer, ptile)) {
           return -1;
         }
-        activity_mc += terrain_road_time(pterrain, connect_tgt.obj.road);
+        activity_mc += terrain_road_time(pterrain, road_index(proad));
       }
     }
     break;
@@ -573,7 +573,7 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
 
   fc_assert(connect_activity == ACTIVITY_GEN_ROAD);
 
-  proad = road_by_number(connect_tgt.obj.road);
+  proad = &(connect_tgt->data.road);
 
   if (proad == NULL) {
     /* No suitable road type available */
@@ -1123,7 +1123,7 @@ void send_patrol_route(void)
   to the server.
 **************************************************************************/
 void send_connect_route(enum unit_activity activity,
-                        struct act_tgt *tgt)
+                        struct extra_type *tgt)
 {
   fc_assert_ret(goto_is_active());
   goto_map_unit_iterate(goto_maps, goto_map, punit) {
@@ -1159,14 +1159,15 @@ void send_connect_route(enum unit_activity activity,
 	  /* Assume the unit can irrigate or we wouldn't be here. */
 	  p.orders[p.length] = ORDER_ACTIVITY;
 	  p.activity[p.length] = ACTIVITY_IRRIGATE;
+          p.target[p.length] = EXTRA_NONE;
 	  p.length++;
 	}
 	break;
       case ACTIVITY_GEN_ROAD:
-        if (!tile_has_road(old_tile, road_by_number(tgt->obj.road))) {
+        if (!tile_has_road(old_tile, &(tgt->data.road))) {
           p.orders[p.length] = ORDER_ACTIVITY;
           p.activity[p.length] = ACTIVITY_GEN_ROAD;
-          p.road[p.length] = tgt->obj.road;
+          p.target[p.length] = extra_index(tgt);
           p.length++;
         }
         break;
@@ -1182,6 +1183,7 @@ void send_connect_route(enum unit_activity activity,
 
 	p.orders[p.length] = ORDER_MOVE;
 	p.dir[p.length] = get_direction_for_step(old_tile, new_tile);
+        p.target[p.length] = EXTRA_NONE;
 	p.length++;
 
 	old_tile = new_tile;

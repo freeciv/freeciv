@@ -1071,9 +1071,11 @@ static void build_road_callback(GtkAction *action, gpointer data)
     bool building_road = FALSE;
 
     if (proad != NULL) {
-      struct act_tgt tgt = { .type = ATT_ROAD, .obj.road = road_number(proad) };
+      struct extra_type *tgt;
 
-      if (can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, &tgt)) {
+      tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+
+      if (can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt)) {
         request_new_unit_activity_road(punit, proad);
         building_road = TRUE;
       }
@@ -1109,10 +1111,11 @@ static void connect_road_callback(GtkAction *action, gpointer data)
   struct road_type *proad = road_by_compat_special(ROCO_ROAD);
 
   if (proad != NULL) {
-    struct act_tgt tgt = { .type = ATT_ROAD,
-                           .obj.road = road_number(proad) };
+    struct extra_type *tgt;
 
-    key_unit_connect(ACTIVITY_GEN_ROAD, &tgt);
+    tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+
+    key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
   }
 }
 
@@ -1124,10 +1127,11 @@ static void connect_rail_callback(GtkAction *action, gpointer data)
   struct road_type *prail = road_by_compat_special(ROCO_RAILROAD);
 
   if (prail != NULL) {
-    struct act_tgt tgt = { .type = ATT_ROAD,
-                           .obj.road = road_number(prail) };
+    struct extra_type *tgt;
 
-    key_unit_connect(ACTIVITY_GEN_ROAD, &tgt);
+    tgt = extra_type_get(EXTRA_ROAD, road_index(prail));
+
+    key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
   }
 }
 
@@ -2179,11 +2183,11 @@ void real_menus_update(void)
 
   proad = road_by_compat_special(ROCO_ROAD);
   if (proad != NULL) {
-    struct act_tgt tgt = { .type = ATT_ROAD,
-                           .obj.road = road_number(proad) }; 
+    struct extra_type *tgt;
 
-    road_conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD,
-                                              &tgt);
+    tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+
+    road_conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt);
   } else {
     road_conn_possible = FALSE;
   }
@@ -2191,11 +2195,11 @@ void real_menus_update(void)
 
   proad = road_by_compat_special(ROCO_RAILROAD);
   if (proad != NULL) {
-    struct act_tgt tgt = { .type = ATT_ROAD,
-                           .obj.road = road_number(proad) }; 
+    struct extra_type *tgt;
 
-    road_conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD,
-                                              &tgt);
+    tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+
+    road_conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt);
   } else {
     road_conn_possible = FALSE;
   }

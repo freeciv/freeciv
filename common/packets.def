@@ -252,6 +252,7 @@ type BV_UTYPE_ROLES     = bitvector(bv_unit_type_roles)
 type BV_DISASTER_EFFECTS = bitvector(bv_disaster_effects)
 
 # typedefs for IDs
+type EXTRA              = SINT8
 type BASE               = sint8(Base_type_id)
 type ROAD               = sint8(Road_type_id)
 type CITY               = UINT16
@@ -819,13 +820,9 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   UINT16 activity_count, changed_from_count;
   TILE goto_tile;
   ACTIVITY activity;
-  SPECIAL activity_tgt_spe;
-  BASE activity_tgt_base;
-  ROAD activity_tgt_road;
+  EXTRA activity_tgt;
   ACTIVITY changed_from;
-  SPECIAL changed_from_tgt_spe;
-  BASE changed_from_tgt_base;
-  ROAD changed_from_tgt_road;
+  EXTRA changed_from_tgt;
 
   SINT8 battlegroup;
 
@@ -835,8 +832,7 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   ORDERS orders[MAX_LEN_ROUTE:orders_length];
   DIRECTION orders_dirs[MAX_LEN_ROUTE:orders_length];
   ACTIVITY orders_activities[MAX_LEN_ROUTE:orders_length];
-  BASE orders_bases[MAX_LEN_ROUTE:orders_length];
-  ROAD orders_roads[MAX_LEN_ROUTE:orders_length];
+  EXTRA orders_targets[MAX_LEN_ROUTE:orders_length];
 end
 
 PACKET_UNIT_SHORT_INFO = 64; sc, lsend, is-game-info, cancel(PACKET_UNIT_INFO)
@@ -850,8 +846,7 @@ PACKET_UNIT_SHORT_INFO = 64; sc, lsend, is-game-info, cancel(PACKET_UNIT_INFO)
   BOOL occupied, goes_out_of_sight, transported;
 
   UINT8 hp, activity;
-  BASE activity_tgt_base;
-  ROAD activity_tgt_road;
+  EXTRA activity_tgt;
   UNIT transported_by; /* Only valid if transported is set. */
 
   /* in packet only, not in unit struct */
@@ -912,8 +907,7 @@ PACKET_UNIT_ORDERS = 73; cs
   ORDERS orders[MAX_LEN_ROUTE:length];
   DIRECTION dir[MAX_LEN_ROUTE:length];
   ACTIVITY activity[MAX_LEN_ROUTE:length];
-  BASE base[MAX_LEN_ROUTE:length];
-  ROAD road[MAX_LEN_ROUTE:length];
+  EXTRA target[MAX_LEN_ROUTE:length];
   TILE dest_tile;
 end
 
@@ -978,19 +972,7 @@ end
 PACKET_UNIT_CHANGE_ACTIVITY = 222; cs, dsend
   UNIT unit_id;
   ACTIVITY activity;
-  SPECIAL activity_target;
-end
-
-PACKET_UNIT_CHANGE_ACTIVITY_BASE = 86; cs, dsend
-  UNIT unit_id;
-  ACTIVITY activity;
-  BASE activity_base;
-end
-
-PACKET_UNIT_CHANGE_ACTIVITY_ROAD = 221; cs, dsend
-  UNIT unit_id;
-  ACTIVITY activity;
-  ROAD activity_road;
+  EXTRA target;
 end
 
 /* 88 & 89 are ping packets (not modifiable). */
