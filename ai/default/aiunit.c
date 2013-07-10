@@ -2579,7 +2579,7 @@ static void dai_set_defenders(struct ai_type *ait, struct player *pplayer)
     bool emergency = FALSE;
     int count = 0;
 
-    while (total_defense < total_attack) {
+    while (total_defense <= total_attack) {
       int best_want = 0;
       struct unit *best = NULL;
 
