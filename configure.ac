@@ -708,18 +708,23 @@ AC_SUBST([COMMON_LIBS])
 dnl Check thread implementation
 AC_MSG_CHECKING([for threads implementation])
 thread_impl=none
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <pthread.h>]],
+
+CFLAGS_SAVE="${CFLAGS}"
+LIBS_SAVE="${LIBS}"
+FC_C_FLAGS([-pthread], [], [CFLAGS])
+FC_LD_FLAGS([-pthread], [], [LIBS])
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pthread.h>]],
   [[return pthread_create(NULL, NULL, NULL, NULL);]])],
   [AC_DEFINE([HAVE_PTHREAD], [1], [Use pthreads as thread implementation])
   thread_impl=pthreads
   AC_MSG_RESULT([pthreads])
-  AC_DEFINE([HAVE_THREAD_COND], [1], [Has thread condition variable implementation])
-
-  FC_C_FLAGS([-pthread], [], [CFLAGS])
-  FC_LD_FLAGS([-lpthread], [], [LIBS])])
+  AC_DEFINE([HAVE_THREAD_COND], [1], [Has thread condition variable implementation])])
 
 if test "x$thread_impl" = "xnone" ; then
-  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <windows.h>]],
+  CFLAGS="$CFLAGS_SAVE"
+  LDFLAGS="$LDFLAGS_SAVE"
+
+  AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <windows.h>]],
     [[CreateThread(NULL, 0, NULL, NULL, 0, NULL);]])],
     [AC_DEFINE([HAVE_WINTHREADS], [1], [Use Windows threads as thread implementation])
     thread_impl=windows
