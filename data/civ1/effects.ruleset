@@ -1336,6 +1336,31 @@ reqs    =
       "MinSize", "16", "City"
     }
 
+[effect_irrigation]
+type    = "Irrigation_Pct"
+value   = 100
+reqs    =
+    { "type", "name", "range"
+      "Extra", "Irrigation", "Local"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "CityTile", "Center", "Local"
+    }
+
+[effect_irrigation_2]
+name	= "Irrigation_Pct"
+value	= 100
+reqs	=
+    { "type", "name", "range"
+      "CityTile", "Center", "Local"
+      "TerrainAlter", "CanIrrigate", "Local"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "Extra", "Mine", "Local"
+    }
+
 [effect_irrigate_src_ocean]
 type    = "Irrig_Possible"
 value   = 1

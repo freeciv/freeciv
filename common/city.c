@@ -1218,13 +1218,17 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
     }
     break;
   case O_FOOD:
-    /* The city center tile is auto-irrigated. */
-    if (tile_has_special(ptile, S_IRRIGATION)
-        || (NULL != pcity
-            && is_city_center(pcity, ptile)
-            && pterrain == pterrain->irrigation_result
-            && !tile_has_special(ptile, S_MINE))) {
-      prod += pterrain->irrigation_food_incr;
+    if (pterrain->irrigation_food_incr != 0) {
+      struct player *pplayer = NULL;
+
+      if (pcity != NULL) {
+        pplayer = city_owner(pcity);
+      }
+      prod += pterrain->irrigation_food_incr
+        * get_target_bonus_effects(NULL, pplayer, pcity, NULL,
+                                   ptile, NULL, NULL, NULL,
+                                   EFT_IRRIGATION_PCT)
+        / 100;
     }
     break;
   case O_TRADE:

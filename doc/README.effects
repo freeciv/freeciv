@@ -144,6 +144,9 @@ the city's foodbox.
 Have_Embassies
     Like having embassies with all other players.
 
+Irrigation_Pct
+    Irrigation output of the tile is value %.
+
 Make_Content
     Make amount unhappy citizens content. Applied before martial law and unit 
 penalties.
