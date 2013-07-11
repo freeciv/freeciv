@@ -1213,8 +1213,17 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
 
   switch (otype) {
   case O_SHIELD:
-    if (tile_has_special(ptile, S_MINE)) {
-      prod += pterrain->mining_shield_incr;
+    if (pterrain->mining_shield_incr != 0) {
+      struct player *pplayer = NULL;
+
+      if (pcity != NULL) {
+        pplayer = city_owner(pcity);
+      }
+      prod += pterrain->mining_shield_incr
+        * get_target_bonus_effects(NULL, pplayer, pcity, NULL,
+                                   ptile, NULL, NULL, NULL,
+                                   EFT_MINING_PCT)
+        / 100;
     }
     break;
   case O_FOOD:

@@ -147,6 +147,9 @@ Have_Embassies
 Irrigation_Pct
     Irrigation output of the tile is value %.
 
+Mining_Pct
+    Mining output of the tile is value %.
+
 Make_Content
     Make amount unhappy citizens content. Applied before martial law and unit 
 penalties.

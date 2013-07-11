@@ -1838,6 +1838,14 @@ reqs	=
       "OutputType", "Trade", "Local"
     }
 
+[effect_mine]
+type    = "Mining_Pct"
+value   = 100
+reqs    =
+    { "type", "name", "range"
+      "Extra", "Mine", "Local"
+    }
+
 [effect_irrigation]
 type    = "Irrigation_Pct"
 value   = 100

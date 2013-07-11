@@ -244,8 +244,10 @@ struct requirement;
 #define SPECENUM_VALUE92NAME "Enemy_Citizen_Unhappy_Pct"
 #define SPECENUM_VALUE93 EFT_IRRIGATION_PCT
 #define SPECENUM_VALUE93NAME "Irrigation_Pct"
+#define SPECENUM_VALUE94 EFT_MINING_PCT
+#define SPECENUM_VALUE94NAME "Mining_Pct"
 /* keep this last */
-#define SPECENUM_VALUE94 EFT_LAST
+#define SPECENUM_VALUE95 EFT_LAST
 #include "specenum_gen.h"
 
 /* An effect is provided by a source.  If the source is present, and the
