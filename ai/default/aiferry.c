@@ -88,11 +88,11 @@
 **************************************************************************/
 void aiferry_init_stats(struct ai_type *ait, struct player *pplayer)
 {
-  /* def_ai_player_data() instead of ai_plr_data_get() is deliberate.
-     We are only initializing player data structures and ai_plre_data_get()
+  /* def_ai_player_data() instead of dai_plr_data_get() is deliberate.
+     We are only initializing player data structures and dai_plr_data_get()
      would try to use it uninitialized. We are only setting values to
      data structure, not reading them, so we have no need for extra
-     arrangements ai_plr_data_get() would do compared to def_ai_player_data()
+     arrangements dai_plr_data_get() would do compared to def_ai_player_data()
   */
   struct ai_plr *ai = def_ai_player_data(pplayer, ait);
 
@@ -129,7 +129,7 @@ void aiferry_init_stats(struct ai_type *ait, struct player *pplayer)
 #ifdef LOGLEVEL_FERRY_STATS
 static void aiferry_print_stats(struct ai_type *ait, struct player *pplayer)
 {
-  struct ai_plr *ai = ai_plr_data_get(pplayer);
+  struct ai_plr *ai = dai_plr_data_get(ait, pplayer);
   int n = 1;
 
   log_base(LOGLEVEL_FERRY_STATS, "Boat stats for %s[%d]",
@@ -334,7 +334,7 @@ int aiferry_avail_boats(struct ai_type *ait, struct player *pplayer)
     log_base(LOGLEVEL_FERRY_STATS,
              "Player[%d] in turn %d: boats miscounted.",
              player_number(pplayer), game.info.turn);
-    aiferry_print_stats(pplayer);
+    aiferry_print_stats(ait, pplayer);
   }
 #endif /* LOGLEVEL_FERRY_STATS */
 
