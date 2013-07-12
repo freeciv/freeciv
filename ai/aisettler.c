@@ -301,9 +301,13 @@ void cityresult_fill(struct player *pplayer,
 **************************************************************************/
 static bool food_starvation(struct cityresult *result)
 {
-  /* Avoid starvation: We must have enough food to grow. */
+  /* Avoid starvation: We must have enough food to grow.
+   *   Note: this does not handle the case of a newly founded city breaking
+   * even but being immediately able to build an improvement increasing its
+   * yield (such as supermarkets and harbours in the classic ruleset).
+   * /MSS */
   return (result->citymap[CITY_MAP_MAX_RADIUS][CITY_MAP_MAX_RADIUS].food
-          + result->citymap[result->o_x][result->o_y].food < 3);
+          + result->citymap[result->o_x][result->o_y].food <= game.info.food_cost);
 }
 
 /**************************************************************************
