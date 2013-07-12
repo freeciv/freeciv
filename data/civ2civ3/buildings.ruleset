@@ -78,7 +78,7 @@ genus		= "Improvement"
 reqs	=
     { "type", "name", "range", "present"
       "Tech", "Construction", "Player", TRUE
-      "Road", "River", "Adjacent", FALSE
+      "Extra", "River", "Adjacent", FALSE
       "Terrain", "Lake", "Adjacent", FALSE
     }
 graphic	= "b.aqueduct"
@@ -127,7 +127,7 @@ name		= _("Aqueduct, near River")
 genus		= "Improvement"
 reqs	=
     { "type", "name", "range", "present"
-      "Road", "River", "Adjacent", TRUE
+      "Extra", "River", "Adjacent", TRUE
       "Terrain", "Lake", "Adjacent", FALSE
     }
 graphic	= "b.aqueduct"
@@ -461,7 +461,7 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Electronics", "Player"
       "Building", "Factory", "City"
-      "Road", "River", "Adjacent"
+      "Extra", "River", "Adjacent"
     }
 graphic	= "b.hydro_plant"
 graphic_alt	= "-"
@@ -1416,7 +1416,7 @@ genus		= "GreatWonder"
 reqs	=
     { "type", "name", "range"
       "Tech", "Electronics", "Player"
-      "Road", "River", "Adjacent"
+      "Extra", "River", "Adjacent"
       "Building", "Factory", "City"
     }
 graphic	= "b.hoover_dam"

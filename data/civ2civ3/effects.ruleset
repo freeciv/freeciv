@@ -143,7 +143,7 @@ type    = "Unit_Vision_Radius_Sq"
 value   = 8
 reqs    =
     { "type", "name", "range"
-      "Base", "Fortress", "Tile"
+      "Extra", "Fortress", "Tile"
       "Tech", "Astronomy", "Player"
     }
 
@@ -152,7 +152,7 @@ type    = "Defend_Bonus"
 value   = -50
 reqs    =
     { "type", "name", "range"
-      "Base", "Fortress", "Tile"
+      "Extra", "Fortress", "Tile"
       "UnitFlag", "CityBuster", "Local"
     }
 
@@ -162,7 +162,7 @@ type    = "HP_Regen"
 value   = 25
 reqs    =
     { "type", "name", "range"
-      "Base", "Fortress", "Tile"
+      "Extra", "Fortress", "Tile"
     }
 nreqs   =
     { "type", "name", "range"
@@ -2442,7 +2442,7 @@ reqs    =
     { "type", "name", "range"
       "Terrain", "Deep Ocean", "Local"
       "Building", "Offshore Platform", "City"
-      "Base", "Buoy", "Tile"
+      "Extra", "Buoy", "Tile"
       "OutputType", "Shield", "Local"
     }
 
@@ -2816,13 +2816,13 @@ type    = "Output_Inc_Tile"
 value   = 1
 reqs    =
     { "type", "name", "range"
-      "Road", "Road", "Local"
+      "Extra", "Road", "Local"
       "Building", "Super Highways", "City"
       "OutputType", "Trade", "Local"
     }
 nreqs   =
     { "type", "name", "range"
-      "Special", "Farmland", "Local"
+      "Extra", "Farmland", "Local"
     }
 
 [effect_super_highways_1]
@@ -2891,7 +2891,7 @@ type    = "Output_Per_Tile"
 value   = 50
 reqs    =
     { "type", "name", "range"
-      "Special", "Farmland", "Local"
+      "Extra", "Farmland", "Local"
       "Building", "Supermarket", "City"
       "OutputType", "Food", "Local"
     }
@@ -2912,7 +2912,7 @@ reqs    =
     }
 nreqs   =
     { "type", "name", "range"
-      "Special", "Mine", "Local"
+      "Extra", "Mine", "Local"
     }
 
 [effect_temple]
@@ -3287,7 +3287,7 @@ reqs    =
     }
 nreqs   =
     { "type", "name", "range"
-      "Road", "River", "Local"
+      "Extra", "River", "Local"
     }
 
 [effect_lighthouse_trireme_veteran]
@@ -3701,7 +3701,7 @@ value   = 1
 reqs    =
     { "type", "name", "range"
       "Terrain", "Desert", "Local"
-      "Road", "River", "Local"
+      "Extra", "River", "Local"
       "OutputType", "Food", "Local"
     }
 
@@ -3803,7 +3803,7 @@ type    = "Irrig_Possible"
 value   = 1
 reqs    =
     { "type", "name", "range"
-      "Road", "River", "CAdjacent"
+      "Extra", "River", "CAdjacent"
     }
 
 [effect_irrigate_src_irrigation]
@@ -3811,7 +3811,7 @@ type    = "Irrig_Possible"
 value   = 1
 reqs    =
     { "type", "name", "range"
-      "Special", "Irrigation", "CAdjacent"
+      "Extra", "Irrigation", "CAdjacent"
     }
 
 [effect_mining]
