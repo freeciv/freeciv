@@ -553,10 +553,14 @@ static void tdc_plr_set(struct ai_type *ait, struct player *plr, int tindex,
 **************************************************************************/
 static bool food_starvation(const struct cityresult *result)
 {
-  /* Avoid starvation: We must have enough food to grow. */
+  /* Avoid starvation: We must have enough food to grow.
+   *   Note: this does not handle the case of a newly founded city breaking
+   * even but being immediately able to build an improvement increasing its
+   * yield (such as supermarkets and harbours in the classic ruleset).
+   * /MSS */
   return (result->city_center.tdc->food
           + (result->best_other.tdc ? result->best_other.tdc->food
-                                    : 0) < 3);
+                                    : 0) <= game.info.food_cost);
 }
 
 /**************************************************************************
