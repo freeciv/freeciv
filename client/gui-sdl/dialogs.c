@@ -2162,15 +2162,7 @@ static int pillage_callback(struct widget *pWidget)
 
     if (pUnit)
     {
-      struct extra_type *target;
-
-      if (what >= S_LAST + game.control.num_base_types) {
-        target = extra_type_get(EXTRA_ROAD, what - S_LAST - game.control.num_base_types);
-      } else if (what >= S_LAST) {
-        target = extra_type_get(EXTRA_BASE, what - S_LAST);
-      } else {
-        target = extra_type_get(EXTRA_SPECIAL, what);
-      }
+      struct extra_type *target = extra_by_number(what);
 
       request_new_unit_activity_targeted(pUnit, ACTIVITY_PILLAGE, target);
     }
@@ -2257,28 +2249,27 @@ void popup_pillage_dialog(struct unit *pUnit,
 
   while ((tgt = get_preferred_pillage(spe, bases, roads))) {
     const char *name = NULL;
-    int what = S_LAST;
+    int what;
     int subid;
 
     switch (tgt->type) {
       case EXTRA_SPECIAL:
         name = special_name_translation(tgt->data.special);
         clear_special(&spe, tgt->data.special);
-        what = tgt->data.special;
         break;
       case EXTRA_BASE:
         subid = base_index(&(tgt->data.base));
         name = base_name_translation(&(tgt->data.base));
-        what = subid + S_LAST;
         BV_CLR(bases, subid);
         break;
       case EXTRA_ROAD:
         subid = road_index(&(tgt->data.road));
         name = road_name_translation(&(tgt->data.road));
-        what = subid + S_LAST + game.control.num_base_types;
         BV_CLR(roads, subid);
         break;
     }
+
+    what = extra_index(tgt);
 
     fc_assert(name != NULL);
 

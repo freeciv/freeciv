@@ -548,13 +548,7 @@ static void pillage_callback(Widget w, XtPointer client_data,
       struct extra_type *target;
       int what = XTPOINTER_TO_INT(client_data);
 
-      if (what >= S_LAST + game.control.num_base_types) {
-        target = extra_type_get(EXTRA_ROAD, what - S_LAST - game.control.num_base_types);
-      } else if (what >= S_LAST) {
-        target = extra_type_get(EXTRA_BASE, what - S_LAST);
-      } else {
-        target = extra_type_get(EXTRA_SPECIAL, what);
-      }
+      target = extra_by_number(what);
 
       request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE,
                                          target);
@@ -595,7 +589,7 @@ void popup_pillage_dialog(struct unit *punit,
     bv_special what_spe;
     bv_bases what_base;
     bv_roads what_road;
-    int what = S_LAST;
+    int what;
     int subid;
 
     BV_CLR_ALL(what_spe);
@@ -605,22 +599,21 @@ void popup_pillage_dialog(struct unit *punit,
     switch (tgt->type) {
       case EXTRA_SPECIAL:
         BV_SET(what_spe, tgt->data.special);
-        what = tgt->data.special;
         clear_special(&spe, tgt->data.special);
         break;
       case EXTRA_BASE:
         subid = base_index(&(tgt->data.base));
         BV_SET(what_base, subid);
-        what = subid + S_LAST;
         BV_CLR(bases, subid);
         break;
       case EXTRA_ROAD:
         subid = road_index(&(tgt->data.road));
         BV_SET(what_road, subid);
-        what = subid + S_LAST + game.control.num_base_types;
         BV_CLR(roads, subid);
         break;
     }
+
+    what = extra_index(tgt);
 
     button =
       XtVaCreateManagedWidget ("button", commandWidgetClass, form,
