@@ -64,6 +64,7 @@ struct road_type;
     TYPED_LIST_ITERATE(struct road_type, roadlist, proad)
 #define road_type_list_iterate_end LIST_ITERATE_END
 
+struct extra_type;
 
 struct road_type {
   int id;
@@ -94,6 +95,8 @@ struct road_type {
   struct road_type_list *hiders;
 
   struct strvec *helptext;
+
+  struct extra_type *self;
 };
 
 #define ROAD_NONE (-1)
@@ -104,6 +107,7 @@ Road_type_id road_index(const struct road_type *proad);
 Road_type_id road_number(const struct road_type *proad);
 
 struct road_type *road_by_number(Road_type_id id);
+struct extra_type *road_extra_get(const struct road_type *proad);
 
 enum road_compat road_compat_special(const struct road_type *proad);
 struct road_type *road_by_compat_special(enum road_compat compat);

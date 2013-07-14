@@ -67,6 +67,8 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 
 BV_DEFINE(bv_base_flags, BF_COUNT); /* Used in the network protocol. */
 
+struct extra_type;
+
 struct base_type {
   Base_type_id item_number;
   bool buildable;
@@ -88,6 +90,8 @@ struct base_type {
   bv_bases conflicts;
 
   struct strvec *helptext;
+
+  struct extra_type *self;
 };
 
 #define BASE_NONE       -1
@@ -104,6 +108,8 @@ const char *base_name_translation(const struct base_type *pbase);
 
 struct base_type *base_type_by_rule_name(const char *name);
 struct base_type *base_type_by_translated_name(const char *name);
+
+struct extra_type *base_extra_get(const struct base_type *pbase);
 
 bool is_base_card_near(const struct tile *ptile, const struct base_type *pbase);
 bool is_base_near_tile(const struct tile *ptile, const struct base_type *pbase);

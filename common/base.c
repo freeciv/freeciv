@@ -285,6 +285,14 @@ Base_type_id base_index(const struct base_type *pbase)
 }
 
 /**************************************************************************
+  Return extra that base is.
+**************************************************************************/
+struct extra_type *base_extra_get(const struct base_type *pbase)
+{
+  return pbase->self;
+}
+
+/**************************************************************************
   Return the number of base_types.
 **************************************************************************/
 Base_type_id base_count(void)
@@ -304,6 +312,7 @@ void base_type_init(int idx)
   pextra->data.base.item_number = idx;
   requirement_vector_init(&pextra->data.base.reqs);
   pextra->data.base.helptext = NULL;
+  pextra->data.base.self = pextra;
 }
 
 /****************************************************************************

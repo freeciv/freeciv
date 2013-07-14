@@ -55,6 +55,14 @@ Road_type_id road_index(const struct road_type *proad)
 }
 
 /**************************************************************************
+  Return extra that road is.
+**************************************************************************/
+struct extra_type *road_extra_get(const struct road_type *proad)
+{
+  return proad->self;
+}
+
+/**************************************************************************
   Return the number of road_types.
 **************************************************************************/
 Road_type_id road_count(void)
@@ -85,6 +93,7 @@ void road_type_init(int idx)
   requirement_vector_init(&pextra->data.road.reqs);
   pextra->data.road.hiders = NULL;
   pextra->data.road.helptext = NULL;
+  pextra->data.road.self = pextra;
 }
 
 /****************************************************************************
