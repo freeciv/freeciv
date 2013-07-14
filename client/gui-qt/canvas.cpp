@@ -237,6 +237,7 @@ void qtg_canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
   QPen pen;
   pen.setColor(pcolor->qcolor);
   QPainter p;
+  QPainterPath path;
 
   switch (ltype) {
   case LINE_NORMAL:
@@ -259,10 +260,13 @@ void qtg_canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
   }
 
   p.begin(&pcanvas->map_pixmap);
+  p.setRenderHints(QPainter::Antialiasing);
   p.setPen(pen);
-  // what curve ?
-  //p.drawArc(start_x,start_y,dx,dy); ?
-  p.drawLine(start_x, start_y, start_x + dx, start_y + dy);
+
+  path.moveTo(start_x, start_y);
+  path.cubicTo(start_x + dx / 2, start_y, start_x, start_y + dy / 2,
+               start_x + dx, start_y + dy);
+  p.drawPath(path);
   p.end();
 }
 
