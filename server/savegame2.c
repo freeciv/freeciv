@@ -2947,7 +2947,9 @@ static void sg_load_map_owner(struct loaddata *loading)
 
     sg_failure_ret(buffer1 != NULL, "%s", secfile_error());
     sg_failure_ret(buffer2 != NULL, "%s", secfile_error());
-    sg_failure_ret(buffer3 != NULL, "%s", secfile_error());
+    if (loading->version >= 30) {
+      sg_failure_ret(buffer3 != NULL, "%s", secfile_error());
+    }
 
     for (x = 0; x < map.xsize; x++) {
       char token1[TOKEN_SIZE];
@@ -2978,15 +2980,19 @@ static void sg_load_map_owner(struct loaddata *loading)
         claimer = index_to_tile(number);
       }
 
-      scanin(&ptr3, ",", token3, sizeof(token3));
-      sg_failure_ret(token3[0] != '\0',
-                     "Map size not correct (map.eowner%d).", y);
-      if (strcmp(token3, "-") == 0) {
-        eowner = NULL;
+      if (loading->version >= 30) {
+        scanin(&ptr3, ",", token3, sizeof(token3));
+        sg_failure_ret(token3[0] != '\0',
+                       "Map size not correct (map.eowner%d).", y);
+        if (strcmp(token3, "-") == 0) {
+          eowner = NULL;
+        } else {
+          sg_failure_ret(str_to_int(token3, &number),
+                         "Got base owner %s in (%d, %d).", token3, x, y);
+          eowner = player_by_number(number);
+        }
       } else {
-        sg_failure_ret(str_to_int(token3, &number),
-                       "Got base owner %s in (%d, %d).", token3, x, y);
-        eowner = player_by_number(number);
+        eowner = owner;
       }
 
       map_claim_ownership(ptile, owner, claimer, FALSE);
