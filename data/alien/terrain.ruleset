@@ -895,8 +895,7 @@ flags          = "River", "Natural"
 ; /* xgettext:no-c-format */
 helptext       = _("\
 Any river increases a tile's defense factor by 50%. Native and Amphibious \
-units may move along a River (but not diagonally); movement along a River \
-costs only 1/3 of a movement point.\
+units may move along a River (but not diagonally) for fast travel.\
 "), _("\
 Green River increases also tile's food production by 1.\
 ")
@@ -922,8 +921,7 @@ flags          = "River", "Natural"
 ; /* xgettext:no-c-format */
 helptext       = _("\
 Any river increases a tile's defense factor by 50%. Native and Amphibious \
-units may move along a River (but not diagonally); movement along a River \
-costs only 1/3 of a movement point.\
+units may move along a River (but not diagonally) for fast travel.\
 "), _("\
 Brown River increases also tile's shield production by 1.\
  ")
