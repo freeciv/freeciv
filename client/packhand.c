@@ -3218,10 +3218,16 @@ void handle_ruleset_resource(const struct packet_ruleset_resource *p)
 void handle_ruleset_extra(const struct packet_ruleset_extra *p)
 {
   struct extra_type *pextra = extra_by_number(p->id);
+  int i;
 
   fc_assert_ret_msg(NULL != pextra, "Bad extra %d.", p->id);
 
   names_set(&pextra->name, p->name, p->rule_name);
+
+  for (i = 0; i < p->reqs_count; i++) {
+    requirement_vector_append(&pextra->reqs, p->reqs[i]);
+  }
+  fc_assert(pextra->reqs.size == p->reqs_count);
 }
 
 /****************************************************************************
@@ -3229,7 +3235,6 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
 ****************************************************************************/
 void handle_ruleset_base(const struct packet_ruleset_base *p)
 {
-  int i;
   struct base_type *pbase = base_by_number(p->id);
 
   fc_assert_ret_msg(NULL != pbase, "Bad base %d.", p->id);
@@ -3240,11 +3245,6 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
   sz_strlcpy(pbase->act_gfx_alt, p->act_gfx_alt);
   pbase->buildable = p->buildable;
   pbase->pillageable = p->pillageable;
-
-  for (i = 0; i < p->reqs_count; i++) {
-    requirement_vector_append(&pbase->reqs, p->reqs[i]);
-  }
-  fc_assert(pbase->reqs.size == p->reqs_count);
 
   pbase->native_to = p->native_to;
 
@@ -3269,7 +3269,6 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
 void handle_ruleset_road(const struct packet_ruleset_road *p)
 {
   struct road_type *proad = road_by_number(p->id);
-  int i;
 
   fc_assert_ret_msg(NULL != proad, "Bad road %d.", p->id);
 
@@ -3290,11 +3289,6 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
     proad->tile_incr[o] = p->tile_incr[o];
     proad->tile_bonus[o] = p->tile_bonus[o];
   } output_type_iterate_end;
-
-  for (i = 0; i < p->reqs_count; i++) {
-    requirement_vector_append(&proad->reqs, p->reqs[i]);
-  }
-  fc_assert(proad->reqs.size == p->reqs_count);
 
   proad->compat = p->compat;
 

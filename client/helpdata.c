@@ -2570,6 +2570,8 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
 void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
                    const char *user_text, struct base_type *pbase)
 {
+  struct extra_type *pextra;
+
   fc_assert_ret(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
 
@@ -2577,6 +2579,8 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
     log_error("Unknown base!");
     return;
   }
+
+  pextra = base_extra_get(pbase);
 
   if (NULL != pbase->helptext) {
     strvec_iterate(pbase->helptext, text) {
@@ -2586,11 +2590,11 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
 
   /* XXX Non-zero requirement vector is not a good test of whether
    * insert_requirement() will give any output. */
-  if (requirement_vector_size(&pbase->reqs) > 0) {
+  if (requirement_vector_size(&pextra->reqs) > 0) {
     if (pbase->buildable) {
       CATLSTR(buf, bufsz, _("Requirements to build:\n"));
     }
-    requirement_vector_iterate(&pbase->reqs, preq) {
+    requirement_vector_iterate(&pextra->reqs, preq) {
       (void) insert_requirement(buf, bufsz, pplayer, preq);
     } requirement_vector_iterate_end;
     CATLSTR(buf, bufsz, "\n");
@@ -2695,6 +2699,8 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
 void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
                    const char *user_text, struct road_type *proad)
 {
+  struct extra_type *pextra;
+
   fc_assert_ret(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
 
@@ -2702,6 +2708,8 @@ void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
     log_error("Unknown road!");
     return;
   }
+
+  pextra = road_extra_get(proad);
 
   if (NULL != proad->helptext) {
     strvec_iterate(proad->helptext, text) {
@@ -2711,11 +2719,11 @@ void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
 
   /* XXX Non-zero requirement vector is not a good test of whether
    * insert_requirement() will give any output. */
-  if (requirement_vector_size(&proad->reqs) > 0) {
+  if (requirement_vector_size(&pextra->reqs) > 0) {
     if (proad->buildable) {
       CATLSTR(buf, bufsz, _("Requirements to build:\n"));
     }
-    requirement_vector_iterate(&proad->reqs, preq) {
+    requirement_vector_iterate(&pextra->reqs, preq) {
       (void) insert_requirement(buf, bufsz, pplayer, preq);
     } requirement_vector_iterate_end;
     CATLSTR(buf, bufsz, "\n");

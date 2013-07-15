@@ -84,7 +84,6 @@ struct road_type {
   int tile_bonus[O_LAST];
   enum road_compat compat;
 
-  struct requirement_vector reqs;
   bv_unit_classes native_to;
   bv_roads hidden_by;
   bv_road_flags flags;
@@ -139,6 +138,9 @@ bool is_native_road_to_uclass(const struct road_type *proad,
                               const struct unit_class *pclass);
 
 bool road_can_be_built(const struct road_type *proad, const struct tile *ptile);
+bool can_build_road_base(const struct road_type *proad,
+                         const struct player *pplayer,
+                         const struct tile *ptile);
 bool can_build_road(struct road_type *proad,
 		    const struct unit *punit,
 		    const struct tile *ptile);

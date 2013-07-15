@@ -929,6 +929,8 @@ shield      = 3 ; glacier used to have 4
 ;                           present, 'name' is used. Since the name used in
 ;                           savegames must not change, use this when renaming a
 ;                           base after a ruleset has been released.
+; reqs                    = requirements to build the extra (see effects.ruleset
+;                           and README.effects for help on requirements)
 ;
 ; */ <-- avoid gettext warnings
 
@@ -952,21 +954,59 @@ name           = _("Fallout")
 
 [extra_fortress]
 name           = _("Fortress")
+reqs           =
+    { "type", "name", "range", "present"
+      "Tech", "Construction", "Player", TRUE
+      "TerrainClass", "Land", "Local", TRUE
+      "UnitFlag", "Settlers", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
+    }
 
 [extra_airbase]
 name           = _("Airbase")
+reqs           =
+    { "type", "name", "range", "present"
+      "Tech", "Radio", "Player", TRUE
+      "TerrainClass", "Land", "Local", TRUE
+      "UnitFlag", "Airbase", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
+    }
 
 [extra_buoy]
 name           = _("Buoy")
+reqs           =
+    { "type", "name", "range", "present"
+      "Tech", "Radio", "Player", TRUE
+      "TerrainClass", "Oceanic", "Local", TRUE
+      "UnitFlag", "Airbase", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
+    }
 
 [extra_ruins]
 name           = _("Ruins")
+reqs           =
+    { "type", "name", "range", "present"
+      "TerrainClass", "Land", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
+    }
 
 [extra_road]
 name           = _("Road")
+reqs           =
+    { "type", "name", "range"
+      "UnitFlag", "Settlers", "Local"
+      "TerrainClass", "Land", "Local"
+    }
 
 [extra_railroad]
 name           = _("Railroad")
+reqs           =
+    { "type", "name", "range"
+      "Tech", "Railroad", "Player"
+      "Extra", "Road", "Local"
+      "UnitFlag", "Settlers", "Local"
+      "TerrainClass", "Land", "Local"
+    }
 
 [extra_river]
 name           = _("River")
@@ -987,8 +1027,6 @@ name           = _("River")
 ;                           present. Can use eg "-" for no alternate graphic.
 ; activity_gfx            = tag specifing graphic for unit building base
 ; act_gfx_alt             = tag for alternative graphic for unit building base
-; reqs                    = requirements to build the base (see effects.ruleset
-;                           and README.effects for help on requirements)
 ; gui_type                = How gui should handle this base. Fortress/Airbase/Other
 ; build_time              = How long it takes for a unit to build this base. Value 0
 ;                           means that terrain specific value is used instead.
@@ -1024,13 +1062,6 @@ graphic        = "base.fortress"
 graphic_alt    = "-"
 activity_gfx   = "unit.fortress"
 act_gfx_alt    = "-"
-reqs           =
-    { "type", "name", "range", "present"
-      "Tech", "Construction", "Player", TRUE
-      "TerrainClass", "Land", "Local", TRUE
-      "UnitFlag", "Settlers", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
-    }
 gui_type       = "Fortress"
 build_time     = 3
 defense_bonus  = 100
@@ -1050,13 +1081,6 @@ graphic        = "base.airbase"
 graphic_alt    = "-"
 activity_gfx   = "unit.airbase"
 act_gfx_alt    = "-"
-reqs           =
-    { "type", "name", "range", "present"
-      "Tech", "Radio", "Player", TRUE
-      "TerrainClass", "Land", "Local", TRUE
-      "UnitFlag", "Airbase", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
-    }
 gui_type       = "Airbase"
 build_time     = 3
 native_to      = "Air", "Helicopter", "Missile"
@@ -1072,13 +1096,6 @@ graphic        = "base.buoy"
 graphic_alt    = "base.fortress"
 activity_gfx   = "unit.buoy"
 act_gfx_alt    = "unit.fortress"
-reqs           =
-    { "type", "name", "range", "present"
-      "Tech", "Radio", "Player", TRUE
-      "TerrainClass", "Oceanic", "Local", TRUE
-      "UnitFlag", "Airbase", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
-    }
 gui_type       = "Fortress"
 build_time     = 3
 vision_main_sq = 5
@@ -1092,11 +1109,6 @@ graphic        = "base.ruins"
 graphic_alt    = "-"
 activity_gfx   = "unit.ruins"
 act_gfx_alt    = "unit.fortress"
-reqs           =
-    { "type", "name", "range", "present"
-      "TerrainClass", "Land", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
-    }
 buildable      = FALSE
 build_time     = 0
 gui_type       = "Other"
@@ -1116,8 +1128,6 @@ They have no effect on gameplay.\
 ;                           present. Can use eg "-" for no alternate graphic.
 ; activity_gfx            = tag specifing graphic for unit building road
 ; act_gfx_alt             = tag for alternative graphic for unit building road
-; reqs                    = requirements to build the road (see effects.ruleset
-;                           and README.effects for help on requirements)
 ; move_cost               = how much movement it takes to to travel
 ;                           via this road. Value of 3 indicates full
 ;                           movement point.
@@ -1176,11 +1186,6 @@ graphic        = "road"
 graphic_alt    = "-"
 activity_gfx   = "unit.road"
 act_gfx_alt    = "-"
-reqs           =
-    { "type", "name", "range"
-      "UnitFlag", "Settlers", "Local"
-      "TerrainClass", "Land", "Local"
-    }
 move_cost      = 1
 build_time     = 0
 food_incr      = 0
@@ -1200,13 +1205,6 @@ graphic        = "rail"
 graphic_alt    = "-"
 activity_gfx   = "unit.rail"
 act_gfx_alt    = "unit.road"
-reqs           =
-    { "type", "name", "range"
-      "Tech", "Railroad", "Player"
-      "Extra", "Road", "Local"
-      "UnitFlag", "Settlers", "Local"
-      "TerrainClass", "Land", "Local"
-    }
 move_cost      = 0
 build_time     = 3
 food_incr      = 0

@@ -1065,61 +1065,82 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return FALSE;
 
   case ACTIVITY_MINE:
-    /* Don't allow it if someone else is irrigating this tile.
-     * *Do* allow it if they're transforming - the mine may survive */
-    if (unit_has_type_flag(punit, UTYF_SETTLERS)
-	&& ((pterrain == pterrain->mining_result
-	     && !tile_has_special(ptile, S_MINE)
-             && get_tile_bonus(ptile, punit, EFT_MINING_POSSIBLE) > 0)
-	    || (pterrain != pterrain->mining_result
-		&& pterrain->mining_result != T_NONE
-                && get_tile_bonus(ptile, punit, EFT_MINING_TF_POSSIBLE) > 0
-		&& (!is_ocean(pterrain)
-		    || is_ocean(pterrain->mining_result)
-		    || can_reclaim_ocean(ptile))
-		&& (is_ocean(pterrain)
-		    || !is_ocean(pterrain->mining_result)
-		    || can_channel_land(ptile))
-                && (!terrain_has_flag(pterrain->mining_result, TER_NO_CITIES)
-		    || !tile_city(ptile))))) {
-      unit_list_iterate(ptile->units, tunit) {
-	if (tunit->activity == ACTIVITY_IRRIGATE) {
-	  return FALSE;
-	}
-      } unit_list_iterate_end;
-      return TRUE;
-    } else {
-      return FALSE;
+    {
+      struct extra_type *pextra;
+
+      pextra = extra_type_get(EXTRA_SPECIAL, S_MINE);
+
+      /* Don't allow it if someone else is irrigating this tile.
+       * *Do* allow it if they're transforming - the mine may survive */
+      if (unit_has_type_flag(punit, UTYF_SETTLERS)
+          && ((pterrain == pterrain->mining_result
+               && can_build_extra(pextra, punit, ptile)
+               && !tile_has_special(ptile, S_MINE)
+               && get_tile_bonus(ptile, punit, EFT_MINING_POSSIBLE) > 0)
+              || (pterrain != pterrain->mining_result
+                  && pterrain->mining_result != T_NONE
+                  && get_tile_bonus(ptile, punit, EFT_MINING_TF_POSSIBLE) > 0
+                  && (!is_ocean(pterrain)
+                      || is_ocean(pterrain->mining_result)
+                      || can_reclaim_ocean(ptile))
+                  && (is_ocean(pterrain)
+                      || !is_ocean(pterrain->mining_result)
+                      || can_channel_land(ptile))
+                  && (!terrain_has_flag(pterrain->mining_result, TER_NO_CITIES)
+                      || !tile_city(ptile))))) {
+        unit_list_iterate(ptile->units, tunit) {
+          if (tunit->activity == ACTIVITY_IRRIGATE) {
+            return FALSE;
+          }
+        } unit_list_iterate_end;
+        return TRUE;
+      } else {
+        return FALSE;
+      }
     }
 
   case ACTIVITY_IRRIGATE:
-    /* Don't allow it if someone else is mining this tile.
-     * *Do* allow it if they're transforming - the irrigation may survive */
-    if (unit_has_type_flag(punit, UTYF_SETTLERS)
-	&& (!tile_has_special(ptile, S_IRRIGATION)
-	    || (!tile_has_special(ptile, S_FARMLAND)
-		&& player_knows_techs_with_flag(pplayer, TF_FARMLAND)))
-	&& ((pterrain == pterrain->irrigation_result
-             && can_be_irrigated(ptile, punit))
-	    || (pterrain != pterrain->irrigation_result
-		&& pterrain->irrigation_result != T_NONE
-                && get_tile_bonus(ptile, punit, EFT_IRRIG_TF_POSSIBLE) > 0
-		&& (!is_ocean(pterrain)
-		    || is_ocean(pterrain->irrigation_result)
-		    || can_reclaim_ocean(ptile))
-		&& (is_ocean(pterrain)
-		    || !is_ocean(pterrain->irrigation_result)
-		    || can_channel_land(ptile))
-                && (!terrain_has_flag(pterrain->irrigation_result, TER_NO_CITIES)
-		    || !tile_city(ptile))))) {
-      unit_list_iterate(ptile->units, tunit) {
-	if (tunit->activity == ACTIVITY_MINE) {
-	  return FALSE;
-	}
-      } unit_list_iterate_end;
-      return TRUE;
-    } else {
-      return FALSE;
+    {
+      struct extra_type *pextra;
+
+      if (!tile_has_special(ptile, S_IRRIGATION)) {
+        pextra = extra_type_get(EXTRA_SPECIAL, S_IRRIGATION);
+      } else if (!tile_has_special(ptile, S_FARMLAND)) {
+        pextra = extra_type_get(EXTRA_SPECIAL, S_FARMLAND);
+      } else {
+        /* Already has both Irrigation and Farmland */
+        return FALSE;
+      }
+
+      /* Don't allow it if someone else is mining this tile.
+       * *Do* allow it if they're transforming - the irrigation may survive */
+      if (unit_has_type_flag(punit, UTYF_SETTLERS)
+          && can_build_extra(pextra, punit, ptile)
+          && (!tile_has_special(ptile, S_IRRIGATION)
+              || (!tile_has_special(ptile, S_FARMLAND)
+                  && player_knows_techs_with_flag(pplayer, TF_FARMLAND)))
+          && ((pterrain == pterrain->irrigation_result
+               && can_be_irrigated(ptile, punit))
+              || (pterrain != pterrain->irrigation_result
+                  && pterrain->irrigation_result != T_NONE
+                  && get_tile_bonus(ptile, punit, EFT_IRRIG_TF_POSSIBLE) > 0
+                  && (!is_ocean(pterrain)
+                      || is_ocean(pterrain->irrigation_result)
+                      || can_reclaim_ocean(ptile))
+                  && (is_ocean(pterrain)
+                      || !is_ocean(pterrain->irrigation_result)
+                      || can_channel_land(ptile))
+                  && (!terrain_has_flag(pterrain->irrigation_result, TER_NO_CITIES)
+                      || !tile_city(ptile))))) {
+        unit_list_iterate(ptile->units, tunit) {
+          if (tunit->activity == ACTIVITY_MINE) {
+            return FALSE;
+          }
+        } unit_list_iterate_end;
+        return TRUE;
+      } else {
+        return FALSE;
+      }
     }
 
   case ACTIVITY_FORTIFYING:

@@ -523,23 +523,14 @@ bool sanity_check_ruleset_data(void)
     }
   } specialist_type_iterate_end;
 
-  /* Bases */
-  base_type_iterate(pbase) {
-    if (!sanity_check_req_vec(&pbase->reqs, -1,
-                              base_rule_name(pbase))) {
-      ruleset_error(LOG_ERROR, "Bases have conflicting requirements!");
+  /* Extras */
+  extra_type_iterate(pextra) {
+    if (!sanity_check_req_vec(&pextra->reqs, -1,
+                              extra_rule_name(pextra))) {
+      ruleset_error(LOG_ERROR, "Extras have conflicting requirements!");
       ok = FALSE;
     }
-  } base_type_iterate_end;
-
-  /* Roads */
-  road_type_iterate(proad) {
-    if (!sanity_check_req_vec(&proad->reqs, -1,
-                              road_rule_name(proad))) {
-      ruleset_error(LOG_ERROR, "Roads have conflicting requirements!");
-      ok = FALSE;
-    }
-  } road_type_iterate_end;
+  } extra_type_iterate_end;
 
   /* City styles */
   for (i = 0; i < game.control.styles_count; i++) {

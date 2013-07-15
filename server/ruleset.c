@@ -2729,6 +2729,21 @@ static bool load_ruleset_terrain(struct section_file *file)
   }
 
   if (ok) {
+    /* extra defails */
+    extra_type_iterate(pextra) {
+      const char *section = &extra_sections[extra_index(pextra) * MAX_SECTION_LABEL];
+      struct requirement_vector *reqs;
+
+      reqs = lookup_req_list(file, section, "reqs", extra_rule_name(pextra));
+      if (reqs == NULL) {
+        ok = FALSE;
+        break;
+      }
+      requirement_vector_copy(&pextra->reqs, reqs);
+    } extra_type_iterate_end;
+  }
+
+  if (ok) {
     /* base details */
     base_type_iterate(pbase) {
       BV_CLR_ALL(pbase->conflicts);
@@ -2738,7 +2753,6 @@ static bool load_ruleset_terrain(struct section_file *file)
       const char *section = &base_sections[base_index(pbase) * MAX_SECTION_LABEL];
       int j;
       const char **slist;
-      struct requirement_vector *reqs;
       const char *gui_str;
 
       pbase->buildable = secfile_lookup_bool_default(file, TRUE,
@@ -2757,13 +2771,6 @@ static bool load_ruleset_terrain(struct section_file *file)
       sz_strlcpy(pbase->act_gfx_alt,
                  secfile_lookup_str_default(file, "-",
                                             "%s.act_gfx_alt", section));
-
-      reqs = lookup_req_list(file, section, "reqs", base_rule_name(pbase));
-      if (reqs == NULL) {
-        ok = FALSE;
-        break;
-      }
-      requirement_vector_copy(&pbase->reqs, reqs);
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
       BV_CLR_ALL(pbase->native_to);
@@ -2886,7 +2893,6 @@ static bool load_ruleset_terrain(struct section_file *file)
     road_type_iterate(proad) {
       const char *section = &road_sections[road_index(proad) * MAX_SECTION_LABEL];
       const char **slist;
-      struct requirement_vector *reqs;
       const char *special;
       const char *modestr;
 
@@ -2943,13 +2949,6 @@ static bool load_ruleset_terrain(struct section_file *file)
           secfile_lookup_int_default(file, 0, "%s.%s_bonus",
                                      section, get_output_identifier(o));
       } output_type_iterate_end;
-
-      reqs = lookup_req_list(file, section, "reqs", road_rule_name(proad));
-      if (reqs == NULL) {
-        ok = FALSE;
-        break;
-      }
-      requirement_vector_copy(&proad->reqs, reqs);
 
       special = secfile_lookup_str_default(file, "None", "%s.compat_special", section);
       if (!fc_strcasecmp(special, "Road")) {
@@ -5301,9 +5300,17 @@ static void send_ruleset_extras(struct conn_list *dest)
   struct packet_ruleset_extra packet;
 
   extra_type_iterate(e) {
+    int j;
+
     packet.id = extra_number(e);
     sz_strlcpy(packet.name, untranslated_name(&e->name));
     sz_strlcpy(packet.rule_name, rule_name(&e->name));
+
+    j = 0;
+    requirement_vector_iterate(&e->reqs, preq) {
+      packet.reqs[j++] = *preq;
+    } requirement_vector_iterate_end;
+    packet.reqs_count = j;
 
     lsend_packet_ruleset_extra(dest, &packet);
   } extra_type_iterate_end;
@@ -5318,8 +5325,6 @@ static void send_ruleset_bases(struct conn_list *dest)
   struct packet_ruleset_base packet;
 
   base_type_iterate(b) {
-    int j;
-
     packet.id = base_number(b);
     sz_strlcpy(packet.graphic_str, b->graphic_str);
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
@@ -5328,11 +5333,6 @@ static void send_ruleset_bases(struct conn_list *dest)
     packet.buildable = b->buildable;
     packet.pillageable = b->pillageable;
 
-    j = 0;
-    requirement_vector_iterate(&b->reqs, preq) {
-      packet.reqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    packet.reqs_count = j;
     packet.native_to = b->native_to;
 
     packet.gui_type = b->gui_type;
@@ -5360,8 +5360,6 @@ static void send_ruleset_roads(struct conn_list *dest)
   struct packet_ruleset_road packet;
 
   road_type_iterate(r) {
-    int j;
-
     packet.id = road_number(r);
 
     sz_strlcpy(packet.graphic_str, r->graphic_str);
@@ -5381,12 +5379,6 @@ static void send_ruleset_roads(struct conn_list *dest)
       packet.tile_incr[o] = r->tile_incr[o];
       packet.tile_bonus[o] = r->tile_bonus[o];
     } output_type_iterate_end;
-
-    j = 0;
-    requirement_vector_iterate(&r->reqs, preq) {
-      packet.reqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    packet.reqs_count = j;
 
     packet.compat = r->compat;
 

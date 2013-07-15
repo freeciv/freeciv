@@ -152,8 +152,8 @@ bv_roads get_tile_pillageable_road_set(const struct tile *ptile, int *pcount)
         bool dependency = FALSE;
 
         tile_remove_road(roadless, proad);
-        road_type_iterate(pdependant) {
-          if (tile_has_road(ptile, pdependant)) {
+        extra_type_iterate(pdependant) {
+          if (tile_has_extra(ptile, pdependant)) {
             if (!are_reqs_active(NULL, NULL, NULL, roadless,
                                  NULL, NULL, NULL,
                                  &pdependant->reqs, RPT_POSSIBLE)) {
@@ -161,7 +161,7 @@ bv_roads get_tile_pillageable_road_set(const struct tile *ptile, int *pcount)
               break;
             }
           }
-        } road_type_iterate_end;
+        } extra_type_iterate_end;
 
         tile_virtual_destroy(roadless);
 

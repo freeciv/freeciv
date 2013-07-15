@@ -90,7 +90,6 @@ void road_type_init(int idx)
   pextra->type = EXTRA_ROAD;
 
   pextra->data.road.id = idx;
-  requirement_vector_init(&pextra->data.road.reqs);
   pextra->data.road.hiders = NULL;
   pextra->data.road.helptext = NULL;
   pextra->data.road.self = pextra;
@@ -102,7 +101,6 @@ void road_type_init(int idx)
 void road_types_free(void)
 {
   road_type_iterate(proad) {
-    requirement_vector_free(&proad->reqs);
     if (proad->hiders != NULL) {
       road_type_list_destroy(proad->hiders);
       proad->hiders = NULL;
@@ -234,9 +232,9 @@ bool road_can_be_built(const struct road_type *proad, const struct tile *ptile)
 /****************************************************************************
   Tells if player can build road to tile with suitable unit.
 ****************************************************************************/
-static bool can_build_road_base(const struct road_type *proad,
-                                const struct player *pplayer,
-                                const struct tile *ptile)
+bool can_build_road_base(const struct road_type *proad,
+                         const struct player *pplayer,
+                         const struct tile *ptile)
 {
   if (!road_can_be_built(proad, ptile)) {
     return FALSE;
@@ -265,12 +263,16 @@ bool player_can_build_road(const struct road_type *proad,
                            const struct player *pplayer,
                            const struct tile *ptile)
 {
+  struct extra_type *pextra;
+
   if (!can_build_road_base(proad, pplayer, ptile)) {
     return FALSE;
   }
 
+  pextra = road_extra_get(proad);
+
   return are_reqs_active(pplayer, NULL, NULL, ptile,
-                         NULL, NULL, NULL, &proad->reqs,
+                         NULL, NULL, NULL, &pextra->reqs,
                          RPT_POSSIBLE);
 }
 
@@ -281,14 +283,17 @@ bool can_build_road(struct road_type *proad,
 		    const struct unit *punit,
 		    const struct tile *ptile)
 {
+  struct extra_type *pextra;
   struct player *pplayer = unit_owner(punit);
 
   if (!can_build_road_base(proad, pplayer, ptile)) {
     return FALSE;
   }
 
+  pextra = road_extra_get(proad);
+
   return are_reqs_active(pplayer, NULL, NULL, ptile,
-                         unit_type(punit), NULL, NULL, &proad->reqs,
+                         unit_type(punit), NULL, NULL, &pextra->reqs,
                          RPT_CERTAIN);
 }
 
@@ -459,6 +464,8 @@ bool is_road_flag_near_tile(const struct tile *ptile, enum road_flag_id flag)
 bool is_native_tile_to_road(const struct road_type *proad,
                             const struct tile *ptile)
 {
+  struct extra_type *pextra;
+
   if (road_has_flag(proad, RF_RIVER)) {
     if (!terrain_has_flag(tile_terrain(ptile), TER_CAN_HAVE_RIVER)) {
       return FALSE;
@@ -467,8 +474,10 @@ bool is_native_tile_to_road(const struct road_type *proad,
     return FALSE;
   }
 
+  pextra = extra_type_get(EXTRA_ROAD, road_index(proad));
+
   return are_reqs_active(NULL, NULL, NULL, ptile,
-                         NULL, NULL, NULL, &proad->reqs, RPT_POSSIBLE);
+                         NULL, NULL, NULL, &pextra->reqs, RPT_POSSIBLE);
 }
  
 /****************************************************************************

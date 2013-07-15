@@ -1143,9 +1143,11 @@ bool can_unit_do_connect(struct unit *punit,
 
     if (tile_has_road(ptile, proad)) {
       /* This tile has road, can unit build road to other tiles too? */
+      struct extra_type *pextra = road_extra_get(proad);
+
       return are_reqs_active(NULL, NULL, NULL, NULL,
                              unit_type(punit), NULL, NULL,
-                             &proad->reqs, RPT_POSSIBLE);
+                             &pextra->reqs, RPT_POSSIBLE);
     }
 
     /* To start connect, unit must be able to build road to this

@@ -42,8 +42,12 @@ void extras_init(void)
     caused_by[i] = extra_type_list_new();
   }
 
-  for (i = 0; i < S_LAST; i++) {
+  for (i = 0; i < MAX_EXTRA_TYPES; i++) {
+    requirement_vector_init(&(extras[i].reqs));
     extras[i].id = i;
+  }
+
+  for (i = 0; i < S_LAST; i++) {
     extras[i].type = EXTRA_SPECIAL;
     extras[i].data.special = i;
     switch(i) {
@@ -72,7 +76,6 @@ void extras_init(void)
   }
 
   for (; i < MAX_EXTRA_TYPES; i++) {
-    extras[i].id = i;
     extra_to_caused_by_list(&extras[i], EC_NONE);
   }
 }
@@ -89,6 +92,10 @@ void extras_free(void)
 
   for (i = 0; i < EC_COUNT + 1; i++) {
     extra_type_list_destroy(caused_by[i]);
+  }
+
+  for (i = 0; i < MAX_EXTRA_TYPES; i++) {
+    requirement_vector_free(&(extras[i].reqs));
   }
 }
 
@@ -263,4 +270,83 @@ bool is_extra_near_tile(const struct tile *ptile, const struct extra_type *pextr
   } adjc_iterate_end;
 
   return FALSE;
+}
+
+/****************************************************************************
+  Tells if extra can build to tile if all other requirements are met.
+****************************************************************************/
+bool extra_can_be_built(const struct extra_type *pextra,
+                        const struct tile *ptile)
+{
+  /* We support only specials at this time. */
+  fc_assert(pextra->type == EXTRA_SPECIAL);
+
+  if (tile_has_extra(ptile, pextra)) {
+    /* Extra exist already */
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Tells if player can build extra to tile with suitable unit.
+****************************************************************************/
+static bool can_build_extra_base(const struct extra_type *pextra,
+                                 const struct player *pplayer,
+                                 const struct tile *ptile)
+{
+  switch(pextra->type) {
+  case EXTRA_SPECIAL:
+    if (!extra_can_be_built(pextra, ptile)) {
+      return FALSE;
+    }
+    break;
+  case EXTRA_ROAD:
+    if (!can_build_road_base(&(pextra->data.road), pplayer, ptile)) {
+      return FALSE;
+    }
+    break;
+  case EXTRA_BASE:
+    if (!base_can_be_built(&(pextra->data.base), ptile)) {
+      return FALSE;
+    }
+    break;
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Tells if player can build extra to tile with suitable unit.
+****************************************************************************/
+bool player_can_build_extra(const struct extra_type *pextra,
+                            const struct player *pplayer,
+                            const struct tile *ptile)
+{
+  if (!can_build_extra_base(pextra, pplayer, ptile)) {
+    return FALSE;
+  }
+
+  return are_reqs_active(pplayer, NULL, NULL, ptile,
+                         NULL, NULL, NULL, &pextra->reqs,
+                         RPT_POSSIBLE);
+}
+
+/****************************************************************************
+  Tells if unit can build extra on tile.
+****************************************************************************/
+bool can_build_extra(struct extra_type *pextra,
+                     const struct unit *punit,
+                     const struct tile *ptile)
+{
+  struct player *pplayer = unit_owner(punit);
+
+  if (!can_build_extra_base(pextra, pplayer, ptile)) {
+    return FALSE;
+  }
+
+  return are_reqs_active(pplayer, NULL, NULL, ptile,
+                         unit_type(punit), NULL, NULL, &pextra->reqs,
+                         RPT_CERTAIN);
 }

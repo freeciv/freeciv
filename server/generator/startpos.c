@@ -68,9 +68,12 @@ static int get_tile_value(struct tile *ptile)
     struct unit_type *start_worker = get_role_unit(L_SETTLERS, 0);
 
     road_type_iterate(proad) {
+      struct extra_type *pextra;
+
+      pextra = road_extra_get(proad);
       if (road_can_be_built(proad, ptile)
           && are_reqs_active(NULL, NULL, NULL, ptile,
-                             start_worker, NULL, NULL, &proad->reqs,
+                             start_worker, NULL, NULL, &pextra->reqs,
                              RPT_CERTAIN)) {
         tile_add_road(ptile, proad);
       }

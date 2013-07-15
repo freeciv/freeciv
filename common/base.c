@@ -93,8 +93,12 @@ bool is_native_base_to_utype(const struct base_type *pbase,
 bool is_native_tile_to_base(const struct base_type *pbase,
                             const struct tile *ptile)
 {
+  struct extra_type *pextra;
+
+  pextra = base_extra_get(pbase);
+
   return are_reqs_active(NULL, NULL, NULL, ptile,
-                         NULL, NULL, NULL, &pbase->reqs, RPT_POSSIBLE);
+                         NULL, NULL, NULL, &pextra->reqs, RPT_POSSIBLE);
 }
 
 /****************************************************************************
@@ -199,8 +203,8 @@ bool is_base_near_tile(const struct tile *ptile, const struct base_type *pbase)
 /**************************************************************************
   Can unit build base to given tile?
 **************************************************************************/
-static bool base_can_be_built(const struct base_type *pbase,
-                              const struct tile *ptile)
+bool base_can_be_built(const struct base_type *pbase,
+                       const struct tile *ptile)
 {
   if (tile_terrain(ptile)->base_time == 0) {
     /* Bases cannot be built on this terrain. */
@@ -227,11 +231,16 @@ bool player_can_build_base(const struct base_type *pbase,
                            const struct player *pplayer,
                            const struct tile *ptile)
 {
+  struct extra_type *pextra;
+
   if (!base_can_be_built(pbase, ptile)) {
     return FALSE;
   }
+
+  pextra = base_extra_get(pbase);
+
   return are_reqs_active(pplayer, NULL, NULL, ptile,
-                         NULL, NULL, NULL, &pbase->reqs, RPT_POSSIBLE);
+                         NULL, NULL, NULL, &pextra->reqs, RPT_POSSIBLE);
 }
 
 /**************************************************************************
@@ -240,11 +249,16 @@ bool player_can_build_base(const struct base_type *pbase,
 bool can_build_base(const struct unit *punit, const struct base_type *pbase,
                     const struct tile *ptile)
 {
+  struct extra_type *pextra;
+
   if (!base_can_be_built(pbase, ptile)) {
     return FALSE;
   }
+
+  pextra = base_extra_get(pbase);
+
   return are_reqs_active(unit_owner(punit), NULL, NULL, ptile,
-                         unit_type(punit), NULL, NULL, &pbase->reqs,
+                         unit_type(punit), NULL, NULL, &pextra->reqs,
                          RPT_CERTAIN);
 }
 
@@ -310,7 +324,6 @@ void base_type_init(int idx)
   pextra->type = EXTRA_BASE;
 
   pextra->data.base.item_number = idx;
-  requirement_vector_init(&pextra->data.base.reqs);
   pextra->data.base.helptext = NULL;
   pextra->data.base.self = pextra;
 }
@@ -321,7 +334,6 @@ void base_type_init(int idx)
 void base_types_free(void)
 {
   base_type_iterate(pbase) {
-    requirement_vector_free(&pbase->reqs);
     if (NULL != pbase->helptext) {
       strvec_destroy(pbase->helptext);
       pbase->helptext = NULL;

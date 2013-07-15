@@ -31,6 +31,8 @@ struct extra_type
   enum extra_type_id type;
   struct name_translation name;
 
+  struct requirement_vector reqs;
+
   union
   {
     enum tile_special_type special;
@@ -69,6 +71,14 @@ struct extra_type *rand_extra_type_by_cause(enum extra_cause cause);
 
 bool is_extra_card_near(const struct tile *ptile, const struct extra_type *pextra);
 bool is_extra_near_tile(const struct tile *ptile, const struct extra_type *pextra);
+
+bool extra_can_be_built(const struct extra_type *pextra, const struct tile *ptile);
+bool can_build_extra(struct extra_type *pextra,
+                     const struct unit *punit,
+                     const struct tile *ptile);
+bool player_can_build_extra(const struct extra_type *pextra,
+                            const struct player *pplayer,
+                            const struct tile *ptile);
 
 #define extra_type_iterate(_p)                                \
 {                                                             \

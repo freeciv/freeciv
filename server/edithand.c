@@ -307,13 +307,17 @@ static bool edit_tile_special_handling(struct tile *ptile,
 static bool add_recursive_roads(struct tile *ptile, struct road_type *proad,
                                 int rec)
 {
+  struct extra_type *pextra;
+
   if (rec > MAX_ROAD_TYPES) {
     /* Infinite recursion */
     return FALSE;
   }
 
+  pextra = road_extra_get(proad);
+
   /* First place dependency roads */
-  road_deps_iterate(&(proad->reqs), pdep) {
+  road_deps_iterate(&(pextra->reqs), pdep) {
     if (!tile_has_road(ptile, pdep)) {
       add_recursive_roads(ptile, pdep, rec + 1);
     }
@@ -362,13 +366,17 @@ static bool edit_tile_road_handling(struct tile *ptile,
 static bool add_recursive_bases(struct tile *ptile, struct base_type *pbase,
                                 int rec)
 {
+  struct extra_type *pextra;
+
   if (rec > MAX_BASE_TYPES) {
     /* Infinite recursion */
     return FALSE;
   }
 
-  /* First place dependency roads */
-  base_deps_iterate(&(pbase->reqs), pdep) {
+  pextra = base_extra_get(pbase);
+
+  /* First place dependency bases */
+  base_deps_iterate(&(pextra->reqs), pdep) {
     if (!tile_has_base(ptile, pdep)) {
       add_recursive_bases(ptile, pdep, rec + 1);
     }

@@ -87,14 +87,16 @@ int adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
   struct road_type *pdep_roads[MAX_DEP_ROADS];
   int dep_rnbr[MAX_DEP_ROADS];
   int dep_count = 0;
+  struct extra_type *pextra;
 
   if (proad == NULL) {
     return 0;
   }
 
   rnbr = road_number(proad);
+  pextra = road_extra_get(proad);
 
-  road_deps_iterate(&(proad->reqs), pdep) {
+  road_deps_iterate(&(pextra->reqs), pdep) {
     if (dep_count < MAX_DEP_ROADS) {
       pdep_roads[dep_count] = pdep;
       dep_rnbr[dep_count++] = road_number(pdep);
@@ -473,7 +475,11 @@ int settler_evaluate_improvements(struct unit *punit,
                                         &best_newv, &best_oldv,
                                         best_act, best_target, best_tile, ptile);
               } else {
-                road_deps_iterate(&(proad->reqs), pdep) {
+                struct extra_type *pextra;
+
+                pextra = road_extra_get(proad);
+
+                road_deps_iterate(&(pextra->reqs), pdep) {
                   struct extra_type *dep_tgt;
 
                   dep_tgt = extra_type_get(EXTRA_ROAD, road_index(pdep));
@@ -517,7 +523,11 @@ int settler_evaluate_improvements(struct unit *punit,
                                         &best_newv, &best_oldv,
                                         best_act, best_target, best_tile, ptile);
               } else {
-                base_deps_iterate(&(pbase->reqs), pdep) {
+                struct extra_type *pextra;
+
+                pextra = base_extra_get(pbase);
+
+                base_deps_iterate(&(pextra->reqs), pdep) {
                   struct extra_type *dep_tgt;
 
                   dep_tgt = extra_type_get(EXTRA_BASE, base_index(pdep));
