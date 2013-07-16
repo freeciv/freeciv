@@ -1897,7 +1897,7 @@ reqs	=
     }
 nreqs   =
     { "type", "name", "range"
-      "Special", "Mine", "Local"
+      "Extra", "Mine", "Local"
     }
 
 [effect_temple]

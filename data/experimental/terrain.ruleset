@@ -979,7 +979,7 @@ name           = _("Railroad")
 reqs           =
     { "type", "name", "range"
       "Tech", "Railroad", "Player"
-      "Road", "Road", "Local"
+      "Extra", "Road", "Local"
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Land", "Local"
     }
@@ -989,7 +989,7 @@ name           = _("Maglev")
 reqs           =
     { "type", "name", "range"
       "Tech", "Superconductors", "Player"
-      "Road", "Railroad", "Local"
+      "Extra", "Railroad", "Local"
       "UnitFlag", "Settlers", "Local"
     }
 

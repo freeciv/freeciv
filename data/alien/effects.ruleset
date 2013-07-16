@@ -493,7 +493,7 @@ reqs	=
     }
 nreqs   =
     { "type", "name", "range"
-      "Special", "Mine", "Local"
+      "Extra", "Mine", "Local"
     }
 
 [effect_citycenter_regeneration]
@@ -509,7 +509,7 @@ reqs	=
     }
 nreqs   =
     { "type", "name", "range"
-      "Special", "Mine", "Local"
+      "Extra", "Mine", "Local"
     }
 
 [effect_hospital]
