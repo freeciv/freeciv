@@ -466,6 +466,7 @@ void city_widget::display_list_menu(const QPoint &)
           break;
         case CHANGE_PROD_LAST:
           city_queue_insert(pcity, -1, target);
+          break;
         case SELL:
           building = target.value.building;
           if (sell_ask) {

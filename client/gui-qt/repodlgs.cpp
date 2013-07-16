@@ -809,7 +809,11 @@ void eco_report::update_report()
   int entries_used, building_total, unit_total, tax, i, j;
   char buf[256];
   QTableWidgetItem *item;
-
+  QFont f = QApplication::font();
+  int h;
+  QFontMetrics fm(f);
+  h = fm.height() + 6;
+  QPixmap pix_scaled;
   eco_widget->setRowCount(0);
   eco_widget->clearContents();
   get_economy_report_data(building_entries, &entries_used,
@@ -818,6 +822,7 @@ void eco_report::update_report()
     struct improvement_entry *pentry = building_entries + i;
     struct impr_type *pimprove = pentry->type;
     QPixmap *pix = get_building_sprite(tileset, pimprove)->pm;
+    pix_scaled = pix->scaledToHeight(h);
     cid cid = cid_encode_building(pimprove);
 
     eco_widget->insertRow(i);
@@ -826,7 +831,7 @@ void eco_report::update_report()
       item->setTextAlignment(Qt::AlignHCenter);
       switch (j) {
       case 0:
-        item->setData(Qt::DecorationRole, *pix);
+        item->setData(Qt::DecorationRole, pix_scaled);
         item->setData(Qt::UserRole, cid);
         break;
       case 1:
@@ -1150,6 +1155,9 @@ void science_report_dialog_popup(bool raise)
   int i;
   QWidget *w;
 
+  if (client_is_global_observer()){
+    return;
+  }
   if (!gui()->is_repo_dlg_open("SCI")) {
     sci_rep = new science_report;
     sci_rep->init(raise);

@@ -34,6 +34,7 @@
 
 const char*get_timeout_label_text();
 static int mapview_frozen_level = 0;
+extern void destroy_city_dialog();
 extern struct canvas *canvas;
 extern QApplication *qapp;
 
@@ -772,8 +773,12 @@ void info_label::set_rates_pixmap()
   QPainter p;
   QRect source_rect(0, 0, w, h);
   QRect dest_rect(0, 0, w, h);
-  rates_label->fill(Qt::black);
+  rates_label->fill(Qt::transparent);
   d = 0;
+
+  if (client_is_global_observer()){
+    return;
+  }
 
   for (; d < client.conn.playing->economic.luxury / 10; d++) {
     dest_rect.moveTo(d * w, 0);
@@ -811,6 +816,10 @@ void info_label::mouseMoveEvent(QMouseEvent *event)
   bool redraw;
   struct sprite *sprite;
   int w;
+
+  if (client_is_global_observer()){
+    return;
+  }
 
   if (end_button_area.contains(event->x(), event->y())) {
     if (highlight_end_button == false) {
@@ -864,16 +873,19 @@ void info_label::mouseMoveEvent(QMouseEvent *event)
 **************************************************************************/
 void info_label::wheelEvent(QWheelEvent *event)
 {
-  int a = client.conn.playing->economic.luxury / 10;
-  int b = client.conn.playing->economic.science / 10;
-  int c = 10 - a - b;
+  int a, b, c;
   QPoint p(event->x(), event->y());
   p = this->mapToGlobal(p);
   int delta = event->delta();
   int pos;
   pos = rates_label->width() / 10;
   int p2 = event->x() - rates_area.left();
-
+  if (client_is_global_observer()){
+    return;
+  }
+  a = client.conn.playing->economic.luxury / 10;
+  b = client.conn.playing->economic.science / 10;
+  c = 10 - a - b;
   if (rates_area.contains(event->x(), event->y())) {
     if (a * pos > p2) {
       /* luxury icon */
@@ -941,10 +953,15 @@ void info_label::mousePressEvent(QMouseEvent *event)
   int pos = rates_label->width() / 10;
   int p2 = event->x() - rates_area.left();
   int a;
-  int b = client.conn.playing->economic.science / 10;
+  int b;
   int c;
   p = this->mapToGlobal(p);
 
+  if (client_is_global_observer()){
+    return;
+  }
+
+  b = client.conn.playing->economic.science / 10;
   if (event->button() == Qt::LeftButton) {
     if (end_button_area.contains(event->x(), event->y())) {
       key_end_turn();
@@ -1063,16 +1080,16 @@ void update_info_label(void)
   QString eco_info;
   QString s = QString::fromLatin1(textyear(game.info.year)) + " ("
       + _("Turn") + ":" + QString::number(game.info.turn) + ")";
+  gui()->game_info_label->set_turn_info(s);
+  set_indicator_icons(client_research_sprite(),
+                      client_warming_sprite(),
+                      client_cooling_sprite(), client_government_sprite());
   if (client.conn.playing != NULL) {
-    gui()->game_info_label->set_turn_info(s);
     eco_info = QString(_("Gold")) + ": "
         + QString::number(client.conn.playing->economic.gold);
     gui()->game_info_label->set_eco_info(eco_info);
-    set_indicator_icons(client_research_sprite(),
-                        client_warming_sprite(),
-                        client_cooling_sprite(), client_government_sprite());
-    gui()->game_info_label->set_rates_pixmap();
   }
+  gui()->game_info_label->set_rates_pixmap();
   gui()->game_info_label->info_update();
 }
 
@@ -1294,9 +1311,7 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 void tileset_changed(void)
 {
   gui()->unitinfo_wdg->update_arrow_pix();
-  /* PORTME */
-  /* Here you should do any necessary redraws (for instance, the city
-   * dialogs usually need to be resized). */
+  destroy_city_dialog();
 }
 
 /****************************************************************************
@@ -1367,6 +1382,8 @@ unit_label::unit_label(QWidget *parent)
   selection_area.setWidth(0);
   highlight_pix = false;
   setMouseTracking(true);
+  setFixedWidth(0);
+  setFixedHeight(0);
 }
 
 /**************************************************************************
@@ -1401,7 +1418,7 @@ void unit_label::uupdate(unit_list *punits)
   unit_label1 = get_unit_info_label_text1(punits);
   owner = unit_owner(punit);
   pcity = player_city_by_number(owner, punit->homecity);
-  if (pcity != NULL) {
+  if (pcity != NULL && unit_list_size(punits) == 1) {
     unit_label1 = unit_label1 + " " + _("from") + " ";
     unit_label1 += QString(city_name(pcity));
   }

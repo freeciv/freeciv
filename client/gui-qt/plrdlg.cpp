@@ -223,17 +223,7 @@ void plr_model::populate()
   players_iterate(pplayer) {
     pi = new plr_item(pplayer);
     plr_list << pi;
-  }
-  players_iterate_end;
-}
-
-/**************************************************************************
-  Resets model to call redraw all cells
-**************************************************************************/
-void plr_model::reset_model()
-{
-  beginResetModel();
-  endResetModel();
+  } players_iterate_end;
 }
 
 
@@ -452,8 +442,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
                         + advance_name_for_player(pplayer, tech_id)
                         + "," + QString("</i>") + sp;
       }
-    }
-    advance_iterate_end;
+    } advance_iterate_end;
 
     if (a == 0) {
       techs_known = techs_known + QString("<i>") + sp
@@ -479,15 +468,6 @@ plr_model *plr_widget::get_model() const
 {
   return list_model;
 }
-
-/**************************************************************************
-  Calls to reset model
-**************************************************************************/
-void plr_widget::reset_model()
-{
-  list_model->reset_model();
-}
-
 
 /**************************************************************************
   Destructor for player widget
@@ -606,7 +586,6 @@ void plr_report::req_wiithdrw_vision()
 void plr_report::update_report()
 {
   struct player_diplstate *ds;
-  plr_wdg->reset_model();
   meet_but->setDisabled(true);
   cancel_but->setDisabled(true);
   withdraw_but->setDisabled(true);

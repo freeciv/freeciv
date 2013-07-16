@@ -147,6 +147,9 @@ class fc_client : public QObject
   QLabel *status_bar_label;
   unit_select *unit_sel;
   info_tile *info_tile_wdg;
+  choice_dialog *opened_dialog;
+  int current_unit_id;
+  int current_unit_target_id;
 
 public:
   fc_client();
@@ -169,6 +172,10 @@ public:
   void update_unit_sel();
   void popup_tile_info(struct tile *ptile);
   void popdown_tile_info();
+  void set_current_unit(int curr, int target);
+  void get_current_unit(int *curr, int *target);
+  void set_diplo_dialog(choice_dialog *widget);
+  choice_dialog *get_diplo_dialog();
 
   QMainWindow *main_window;
   mr_idle mr_idler;
