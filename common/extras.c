@@ -205,6 +205,46 @@ struct extra_type *extra_type_by_translated_name(const char *name)
 }
 
 /**************************************************************************
+  Returns base type of extra.
+**************************************************************************/
+struct base_type *extra_base_get(struct extra_type *pextra)
+{
+  fc_assert_ret_val(pextra->type == EXTRA_BASE, NULL);
+
+  return &(pextra->data.base);
+}
+
+/**************************************************************************
+  Returns road type of extra.
+**************************************************************************/
+struct road_type *extra_road_get(struct extra_type *pextra)
+{
+  fc_assert_ret_val(pextra->type == EXTRA_ROAD, NULL);
+
+  return &(pextra->data.road);
+}
+
+/**************************************************************************
+  Returns base type of extra. Uses const parameter.
+**************************************************************************/
+const struct base_type *extra_base_get_const(const struct extra_type *pextra)
+{
+  fc_assert_ret_val(pextra->type == EXTRA_BASE, NULL);
+
+  return &(pextra->data.base);
+}
+
+/**************************************************************************
+  Returns road type of extra. Uses const parameter.
+**************************************************************************/
+const struct road_type *extra_road_get_const(const struct extra_type *pextra)
+{
+  fc_assert_ret_val(pextra->type == EXTRA_ROAD, NULL);
+
+  return &(pextra->data.road);
+}
+
+/**************************************************************************
   Returns extra type for given cause.
 **************************************************************************/
 struct extra_type_list *extra_type_list_by_cause(enum extra_cause cause)
