@@ -1362,14 +1362,21 @@ FIXME: Some continent numbers are unused at the end of this function, fx
 bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
 {
   /* save the current random state: */
-  RANDOM_STATE rstate = fc_rand_state();
+  RANDOM_STATE rstate;
+  RANDOM_TYPE seed_rand;
+
+  /* Call fc_rand() even when result is not needed to make sure
+   * random state proceeds equally for random seeds and explicitly
+   * set seed. */
+  seed_rand = fc_rand(MAX_UINT32);
 
   if (map.server.seed == 0) {
-    /* Create a "random" map seed.  Note the call to fc_rand() which will
-     * depend on the game seed. */
-    map.server.seed = (fc_rand(MAX_UINT32) ^ time(NULL)) & (MAX_UINT32 >> 1);
+    /* Create a "random" map seed. */
+    map.server.seed = seed_rand & (MAX_UINT32 >> 1);
     log_debug("Setting map.seed:%d", map.server.seed);
   }
+
+  rstate = fc_rand_state();
 
   fc_srand(map.server.seed);
 
