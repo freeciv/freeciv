@@ -24,19 +24,24 @@ extern "C" {
 
 // Qt
 #include <QDialog>
+#include <QVariant>
 
 // gui-qt
 #include "mapview.h"
 
 class QComboBox;
 class QGridLayout;
+class QGroupBox;
 class QItemSelection;
 class QRadioButton;
+class QSignalMapper;
 class QTableView;
 class QTableWidget;
 class QTextEdit;
 class QToolBox;
 class QWidget;
+
+typedef void (*pfcn_void)(QVariant, QVariant);
 
 
 void popup_races_dialog(struct player *pplayer);
@@ -60,6 +65,7 @@ class races_dialog:public QDialog
 
 public:
   races_dialog(struct player *pplayer, QWidget *parent = 0);
+  ~races_dialog();
 
 private slots:
   void set_index(int index);
@@ -140,6 +146,32 @@ private:
   int show_line;
   int highligh_num;
 };
+
+/***************************************************************************
+  Simple choice dialog, allowing choosing one of set actions
+***************************************************************************/
+class choice_dialog: public QWidget
+{
+  Q_OBJECT
+  QVBoxLayout *layout;
+  QList<QVariant> data1_list;
+  QList<QVariant> data2_list;
+  QSignalMapper *signal_mapper;
+public:
+  choice_dialog(const QString title, const QString text,
+                QWidget *parent = NULL);
+  ~choice_dialog();
+  void set_layout();
+  void add_item(QString title, pfcn_void func, QVariant data1, 
+                QVariant data2);
+  void show_me();
+  QVBoxLayout *get_layout();
+  QList<pfcn_void> func_list;
+  int unit_id;
+public slots:
+  void execute_action(const int action);
+};
+
 void popup_revolution_dialog(struct government *government = NULL);
 void revolution_response(struct government *government);
 void popup_upgrade_dialog(struct unit_list *punits);
