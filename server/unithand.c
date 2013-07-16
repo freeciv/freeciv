@@ -66,10 +66,6 @@
 static void city_add_unit(struct player *pplayer, struct unit *punit);
 static void city_build(struct player *pplayer, struct unit *punit,
                        const char *name);
-static void unit_activity_handling_base(struct unit *punit,
-                                        Base_type_id base);
-static void unit_activity_handling_road(struct unit *punit,
-                                        Road_type_id road);
 static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id, struct city *pcity_dest);
 static bool unit_bombard(struct unit *punit, struct tile *ptile);
 
@@ -747,16 +743,7 @@ static void handle_unit_change_activity_real(struct player *pplayer,
   punit->ai_controlled = FALSE;
   punit->goto_tile = NULL;
 
-  switch (activity) {
-  case ACTIVITY_BASE:
-    unit_activity_handling_base(punit, base_index(&(activity_target->data.base)));
-    break;
-
-  case ACTIVITY_GEN_ROAD:
-    unit_activity_handling_road(punit, road_index(&(activity_target->data.road)));
-    break;
-
-  case ACTIVITY_EXPLORE:
+  if (activity == ACTIVITY_EXPLORE) {
     unit_activity_handling_targeted(punit, activity, &activity_target);
 
     /* Exploring is handled here explicitly, since the player expects to
@@ -766,12 +753,9 @@ static void handle_unit_change_activity_real(struct player *pplayer,
     if (punit->moves_left > 0) {
       do_explore(punit);
     }
-    break;
-
-  default:
+  } else {
     unit_activity_handling_targeted(punit, activity, &activity_target);
-    break;
-  };
+  }
 }
 
 /**************************************************************************
@@ -2084,40 +2068,6 @@ void unit_activity_handling_targeted(struct unit *punit,
       send_unit_info(NULL, punit);    
       unit_activity_dependencies(punit, old_activity, old_target);
     }
-  }
-}
-
-/**************************************************************************
-  Handle request for military base building.
-**************************************************************************/
-static void unit_activity_handling_base(struct unit *punit,
-                                        Base_type_id base)
-{
-  if (can_unit_do_activity_base(punit, base)) {
-    enum unit_activity old_activity = punit->activity;
-    struct extra_type *old_target = punit->activity_target;
-
-    free_unit_orders(punit);
-    set_unit_activity_base(punit, base);
-    send_unit_info(NULL, punit);
-    unit_activity_dependencies(punit, old_activity, old_target);
-  }
-}
-
-/**************************************************************************
-  Handle request for road building.
-**************************************************************************/
-static void unit_activity_handling_road(struct unit *punit,
-                                        Road_type_id road)
-{
-  if (can_unit_do_activity_road(punit, road)) {
-    enum unit_activity old_activity = punit->activity;
-    struct extra_type *old_target = punit->activity_target;
-
-    free_unit_orders(punit);
-    set_unit_activity_road(punit, road);
-    send_unit_info(NULL, punit);
-    unit_activity_dependencies(punit, old_activity, old_target);
   }
 }
 
