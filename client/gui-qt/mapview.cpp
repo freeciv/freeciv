@@ -38,6 +38,10 @@ extern void destroy_city_dialog();
 extern struct canvas *canvas;
 extern QApplication *qapp;
 
+#define MAX_DIRTY_RECTS 20
+static int num_dirty_rects = 0;
+static QRect dirty_rects[MAX_DIRTY_RECTS];
+
 /**************************************************************************
   Check if point x, y is in area (px -> pxe, py - pye)
 **************************************************************************/
@@ -68,12 +72,11 @@ void mr_idle::idling()
 {
   call_me_back* cb = new call_me_back;
 
-  if (!callback_list.isEmpty()) {
+  while (!callback_list.isEmpty()) {
     cb = callback_list.dequeue();
     (cb->callback) (cb->data);
     delete cb;
   }
-
 }
 
 /**************************************************************************
@@ -89,7 +92,6 @@ void mr_idle::add_callback(call_me_back* cb)
 **************************************************************************/
 map_view::map_view() : QWidget()
 {
-  background = QBrush(QColor (0, 0, 0));
   setMouseTracking(true);
 }
 
@@ -101,7 +103,6 @@ void map_view::paintEvent(QPaintEvent *event)
   QPainter painter;
 
   painter.begin(this);
-  painter.setBackground(background);
   paint(&painter, event);
   painter.end();
 }
@@ -1201,9 +1202,7 @@ struct canvas *get_overview_window(void)
 void flush_mapcanvas(int canvas_x, int canvas_y,
                      int pixel_width, int pixel_height)
 {
-  gui()->mapview_wdg->update(canvas_x - pixel_width,
-                             canvas_y - pixel_height,
-                             3 * pixel_width, 3 * pixel_height);
+  gui()->mapview_wdg->repaint(canvas_x, canvas_y, pixel_width, pixel_height);
 }
 
 /****************************************************************************
@@ -1213,9 +1212,16 @@ void flush_mapcanvas(int canvas_x, int canvas_y,
 void dirty_rect(int canvas_x, int canvas_y,
                 int pixel_width, int pixel_height)
 {
-  gui()->mapview_wdg->update(canvas_x - pixel_width,
-                             canvas_y - pixel_height, 3 * pixel_width,
-                             3 * pixel_height);
+    if (mapview_is_frozen()) {
+    return;
+  }
+  if (num_dirty_rects < MAX_DIRTY_RECTS) {
+    dirty_rects[num_dirty_rects].setX(canvas_x);
+    dirty_rects[num_dirty_rects].setY(canvas_y);
+    dirty_rects[num_dirty_rects].setWidth(pixel_width);
+    dirty_rects[num_dirty_rects].setHeight(pixel_height);
+    num_dirty_rects++;
+  }
 }
 
 /****************************************************************************
@@ -1223,7 +1229,10 @@ void dirty_rect(int canvas_x, int canvas_y,
 ****************************************************************************/
 void dirty_all(void)
 {
-  gui()->mapview_wdg->update();
+  if (mapview_is_frozen()) {
+    return;
+  }
+  num_dirty_rects = MAX_DIRTY_RECTS;
 }
 
 /****************************************************************************
@@ -1233,7 +1242,20 @@ void dirty_all(void)
 ****************************************************************************/
 void flush_dirty(void)
 {
-  gui()->minimapview_wdg->update_image();
+  if (mapview_is_frozen()) {
+    return;
+  }
+  if (num_dirty_rects == MAX_DIRTY_RECTS) {
+    flush_mapcanvas(0, 0, gui()->mapview_wdg->width(),
+                    gui()->mapview_wdg->height());
+  } else {
+    int i;
+    for (i = 0; i < num_dirty_rects; i++) {
+      flush_mapcanvas(dirty_rects[i].x(), dirty_rects[i].y(),
+                      dirty_rects[i].width(), dirty_rects[i].height());
+    }
+  }
+  num_dirty_rects = 0;
 }
 
 /****************************************************************************
@@ -1243,6 +1265,7 @@ void flush_dirty(void)
 ****************************************************************************/
 void gui_flush(void)
 {
+  gui()->mapview_wdg->update();
 }
 
 /****************************************************************************

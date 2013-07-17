@@ -27,13 +27,14 @@ extern "C" {
 }
 
 // Qt
-#include <QQueue>
-#include <QObject>
-#include <QTimer>
-#include <QWidget>
-#include <QPushButton>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QObject>
+#include <QPushButton>
+#include <QQueue>
+#include <QTimer>
+#include <QVariant>
+#include <QWidget>
 
 class minimap_view;
 /* pixmap of resize button */
@@ -125,9 +126,6 @@ protected:
   void mousePressEvent(QMouseEvent *event);
   void mouseReleaseEvent(QMouseEvent *event);
   void mouseMoveEvent(QMouseEvent *event);
-
-private:
-  QBrush background;
 
 };
 
