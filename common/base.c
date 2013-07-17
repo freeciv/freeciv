@@ -118,7 +118,7 @@ bool base_has_flag_for_utype(const struct base_type *pbase,
 **************************************************************************/
 const char *base_name_translation(const struct base_type *pbase)
 {
-  struct extra_type *pextra = extra_type_get(EXTRA_BASE, pbase->item_number);
+  struct extra_type *pextra = base_extra_get(pbase);
 
   if (pextra == NULL) {
     return NULL;
@@ -133,7 +133,7 @@ const char *base_name_translation(const struct base_type *pbase)
 **************************************************************************/
 const char *base_rule_name(const struct base_type *pbase)
 {
-  struct extra_type *pextra = extra_type_get(EXTRA_BASE, pbase->item_number);
+  struct extra_type *pextra = base_extra_get(pbase);
 
   if (pextra == NULL) {
     return NULL;

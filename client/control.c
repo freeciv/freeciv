@@ -1495,7 +1495,7 @@ void request_new_unit_activity_base(struct unit *punit,
   }
 
   request_new_unit_activity_targeted(punit, ACTIVITY_BASE,
-                                     extra_type_get(EXTRA_BASE, base_index(pbase)));
+                                     base_extra_get(pbase));
 }
 
 /**************************************************************************
@@ -1509,7 +1509,7 @@ void request_new_unit_activity_road(struct unit *punit,
   }
 
   request_new_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD,
-                                     extra_type_get(EXTRA_ROAD, road_index(proad)));
+                                     road_extra_get(proad));
 }
 
 /**************************************************************************
@@ -1765,7 +1765,7 @@ void request_unit_pillage(struct unit *punit)
 
     BV_CLR_ALL(bspossible);
     base_type_iterate(pbase) {
-      target = extra_type_get(EXTRA_BASE, base_index(pbase));
+      target = base_extra_get(pbase);
 
       if (can_unit_do_activity_targeted_at(punit, ACTIVITY_PILLAGE,
                                            target, ptile)) {
@@ -1776,7 +1776,7 @@ void request_unit_pillage(struct unit *punit)
 
     BV_CLR_ALL(rspossible);
     road_type_iterate(proad) {
-      target = extra_type_get(EXTRA_ROAD, road_index(proad));
+      target = road_extra_get(proad);
 
       if (can_unit_do_activity_targeted_at(punit, ACTIVITY_PILLAGE,
                                            target, ptile)) {
@@ -2934,7 +2934,7 @@ void key_unit_road(void)
     if (proad != NULL) {
       struct extra_type *tgt;
 
-      tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+      tgt = road_extra_get(proad);
 
       if (can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt)) {
         request_new_unit_activity_road(punit, proad);

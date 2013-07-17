@@ -659,7 +659,7 @@ void mr_menu::menus_sensitive()
       case CONNECT_ROAD:
         proad = road_by_compat_special(ROCO_ROAD);
         if (proad != NULL) {
-          tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+          tgt = road_extra_get(proad);
         } else {
           break;
         }
@@ -676,7 +676,7 @@ void mr_menu::menus_sensitive()
       case CONNECT_RAIL:
         proad = road_by_compat_special(ROCO_RAILROAD);
         if (proad != NULL) {
-          tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+          tgt = road_extra_get(proad);
         } else {
           break;
         }
@@ -965,7 +965,7 @@ void mr_menu::slot_conn_rail()
   if (prail != NULL) {
     struct extra_type *tgt;
 
-    tgt = extra_type_get(EXTRA_ROAD, road_index(prail));
+    tgt = road_extra_get(prail);
     key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
   }
 }
@@ -988,7 +988,7 @@ void mr_menu::slot_conn_road()
   if (proad != NULL) {
     struct extra_type *tgt;
 
-    tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+    tgt = road_extra_get(proad);
     key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
   }
 }
@@ -1042,7 +1042,7 @@ void mr_menu::slot_build_road()
     if (proad != NULL) {
       struct extra_type *tgt;
 
-      tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+      tgt = road_extra_get(proad);
 
       if (can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt)) {
         request_new_unit_activity_road(punit, proad);

@@ -1073,7 +1073,7 @@ static void build_road_callback(GtkAction *action, gpointer data)
     if (proad != NULL) {
       struct extra_type *tgt;
 
-      tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+      tgt = road_extra_get(proad);
 
       if (can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt)) {
         request_new_unit_activity_road(punit, proad);
@@ -1113,7 +1113,7 @@ static void connect_road_callback(GtkAction *action, gpointer data)
   if (proad != NULL) {
     struct extra_type *tgt;
 
-    tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+    tgt = road_extra_get(proad);
 
     key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
   }
@@ -1129,7 +1129,7 @@ static void connect_rail_callback(GtkAction *action, gpointer data)
   if (prail != NULL) {
     struct extra_type *tgt;
 
-    tgt = extra_type_get(EXTRA_ROAD, road_index(prail));
+    tgt = road_extra_get(prail);
 
     key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
   }
@@ -2186,7 +2186,7 @@ void real_menus_update(void)
   if (proad != NULL) {
     struct extra_type *tgt;
 
-    tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+    tgt = road_extra_get(proad);
 
     road_conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt);
   } else {
@@ -2198,7 +2198,7 @@ void real_menus_update(void)
   if (proad != NULL) {
     struct extra_type *tgt;
 
-    tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+    tgt = road_extra_get(proad);
 
     road_conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt);
   } else {

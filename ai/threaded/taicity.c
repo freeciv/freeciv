@@ -144,7 +144,7 @@ void tai_city_worker_requests_create(struct player *pplayer, struct city *pcity)
         task.want  = value - orig_value;
         task.ptile = ptile;
         task.act   = ACTIVITY_GEN_ROAD;
-        task.tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+        task.tgt   = road_extra_get(proad);
       }
     } road_type_iterate_end;
 
@@ -161,7 +161,7 @@ void tai_city_worker_requests_create(struct player *pplayer, struct city *pcity)
         task.want  = value - orig_value;
         task.ptile = ptile;
         task.act   = ACTIVITY_BASE;
-        task.tgt   = extra_type_get(EXTRA_BASE, base_index(pbase));
+        task.tgt   = base_extra_get(pbase);
       }
     } base_type_iterate_end;
   } city_tile_iterate_end;

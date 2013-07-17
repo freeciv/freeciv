@@ -4971,9 +4971,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
     if (target != S_LAST) {
       a_target = extra_type_get(EXTRA_SPECIAL, target);
     } else if (pbase != NULL) {
-      a_target = extra_type_get(EXTRA_BASE, base_index(pbase));
+      a_target = base_extra_get(pbase);
     } else if (proad != NULL) {
-      a_target = extra_type_get(EXTRA_ROAD, road_index(proad));
+      a_target = road_extra_get(proad);
     } else {
       a_target = NULL;
     }
@@ -5017,9 +5017,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
   }
 
   if (base >= 0 && base < loading->base.size) {
-    punit->changed_from_target = extra_type_get(EXTRA_BASE, base_number(loading->base.order[base]));
+    punit->changed_from_target = base_extra_get(loading->base.order[base]);
   } else if (road >= 0 && road < loading->road.size) {
-    punit->changed_from_target = extra_type_get(EXTRA_ROAD, road_number(loading->road.order[road]));
+    punit->changed_from_target = road_extra_get(loading->road.order[road]);
   } else if (cfspe != S_LAST) {
     punit->changed_from_target = extra_type_get(EXTRA_SPECIAL, cfspe);
   } else {

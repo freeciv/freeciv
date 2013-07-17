@@ -176,7 +176,7 @@ static int unit_order_callback(struct widget *pOrder_Widget)
         if (proad != NULL) {
           struct extra_type *tgt;
 
-          tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+          tgt = road_extra_get(proad);
 
           key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
         }
@@ -189,7 +189,7 @@ static int unit_order_callback(struct widget *pOrder_Widget)
         if (prail != NULL) {
           struct extra_type *tgt;
 
-          tgt = extra_type_get(EXTRA_ROAD, road_index(prail));
+          tgt = road_extra_get(prail);
 
           key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
         }
@@ -1351,7 +1351,7 @@ void real_menus_update(void)
         if (proad != NULL) {
           struct extra_type *tgt;
 
-          tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+          tgt = road_extra_get(proad);
 
           road_conn_possible = can_unit_do_connect(pUnit, ACTIVITY_GEN_ROAD, tgt);
         } else {
@@ -1372,7 +1372,7 @@ void real_menus_update(void)
         if (proad != NULL) {
           struct extra_type *tgt;
 
-          tgt = extra_type_get(EXTRA_ROAD, road_index(proad));
+          tgt = road_extra_get(proad);
 
           road_conn_possible = can_unit_do_connect(pUnit, ACTIVITY_GEN_ROAD, tgt);
         } else {

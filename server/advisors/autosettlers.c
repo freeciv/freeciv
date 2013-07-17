@@ -433,7 +433,7 @@ int settler_evaluate_improvements(struct unit *punit,
             struct extra_type *target;
             int base_value = adv_city_worker_road_get(pcity, cindex, proad);
 
-            target = extra_type_get(EXTRA_ROAD, road_index(proad));
+            target = road_extra_get(proad);
 
             if (base_value >= 0) {
               int extra;
@@ -482,7 +482,7 @@ int settler_evaluate_improvements(struct unit *punit,
                 road_deps_iterate(&(pextra->reqs), pdep) {
                   struct extra_type *dep_tgt;
 
-                  dep_tgt = extra_type_get(EXTRA_ROAD, road_index(pdep));
+                  dep_tgt = road_extra_get(pdep);
 
                   if (can_unit_do_activity_targeted_at(punit, ACTIVITY_GEN_ROAD,
                                                        dep_tgt, ptile)) {
@@ -510,7 +510,7 @@ int settler_evaluate_improvements(struct unit *punit,
             struct extra_type *target;
             int base_value = adv_city_worker_base_get(pcity, cindex, pbase);
 
-            target = extra_type_get(EXTRA_BASE, base_index(pbase));
+            target = base_extra_get(pbase);
 
             if (base_value > 0) {
 
@@ -530,7 +530,7 @@ int settler_evaluate_improvements(struct unit *punit,
                 base_deps_iterate(&(pextra->reqs), pdep) {
                   struct extra_type *dep_tgt;
 
-                  dep_tgt = extra_type_get(EXTRA_BASE, base_index(pdep));
+                  dep_tgt = base_extra_get(pdep);
 
                   if (can_unit_do_activity_targeted_at(punit, ACTIVITY_BASE,
                                                        dep_tgt, ptile)) {

@@ -876,13 +876,13 @@ struct extra_type *get_preferred_pillage(bv_special pset,
   }
   base_type_iterate(pbase) {
     if (BV_ISSET(bases, base_index(pbase))) {
-      return extra_type_get(EXTRA_BASE, base_index(pbase));
+      return base_extra_get(pbase);
     }
   } base_type_iterate_end;
 
   road_type_iterate(proad) {
     if (BV_ISSET(roads, road_index(proad))) {
-      return extra_type_get(EXTRA_ROAD, road_index(proad));
+      return road_extra_get(proad);
     }
   } road_type_iterate_end;
 

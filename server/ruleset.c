@@ -2347,7 +2347,7 @@ static bool load_terrain_names(struct section_file *file)
     base_type_iterate(pbase) {
       const int i = base_index(pbase);
       const char *sec_name = section_name(section_list_get(sec, i));
-      struct extra_type *pextra = extra_type_get(EXTRA_BASE, pbase->item_number);
+      struct extra_type *pextra = base_extra_get(pbase);
       const char *base_name = secfile_lookup_str(file, "%s.name", sec_name);
       const char *extra_name = extra_rule_name(pextra);
 
@@ -2399,7 +2399,7 @@ static bool load_terrain_names(struct section_file *file)
     road_type_iterate(proad) {
       const int i = road_index(proad);
       const char *sec_name = section_name(section_list_get(sec, i));
-      struct extra_type *pextra = extra_type_get(EXTRA_ROAD, proad->id);
+      struct extra_type *pextra = road_extra_get(proad);
       const char *road_name = secfile_lookup_str(file, "%s.name", sec_name);
       const char *extra_name = extra_rule_name(pextra);
 

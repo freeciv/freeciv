@@ -1372,9 +1372,9 @@ static void player_load_units(struct player *plr, int plrno,
       if (target != S_LAST) {
         a_target = extra_type_get(EXTRA_SPECIAL, target);
       } else if (pbase != NULL) {
-        a_target = extra_type_get(EXTRA_BASE, base_index(pbase));
+        a_target = base_extra_get(pbase);
       } else if (proad != NULL) {
-        a_target = extra_type_get(EXTRA_ROAD, road_index(proad));
+        a_target = road_extra_get(proad);
       } else {
         a_target = NULL;
       }
@@ -1528,7 +1528,7 @@ static void player_load_units(struct player *plr, int plrno,
           if (pbase) {
             /* Either ACTIVITY_FORTRESS or ACTIVITY_AIRBASE */
             order->activity = ACTIVITY_BASE;
-            order->target = extra_number(extra_type_get(EXTRA_BASE, base_index(pbase)));
+            order->target = extra_number(base_extra_get(pbase));
           } else if (base_buf && base_buf[j] != '?') {
             base = char2num(base_buf[j]);
 

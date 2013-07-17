@@ -144,7 +144,7 @@ struct road_type *road_by_compat_special(enum road_compat compat)
 ****************************************************************************/
 const char *road_name_translation(struct road_type *proad)
 {
-  struct extra_type *pextra = extra_type_get(EXTRA_ROAD, proad->id);
+  struct extra_type *pextra = road_extra_get(proad);
 
   if (pextra == NULL) {
     return NULL;
@@ -158,7 +158,7 @@ const char *road_name_translation(struct road_type *proad)
 ****************************************************************************/
 const char *road_rule_name(const struct road_type *proad)
 {
-  struct extra_type *pextra = extra_type_get(EXTRA_ROAD, proad->id);
+  struct extra_type *pextra = road_extra_get(proad);
 
   if (pextra == NULL) {
     return NULL;
