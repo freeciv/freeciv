@@ -2862,7 +2862,7 @@ static inline void city_support(struct city *pcity)
     int martial_law_max = get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX);
 
     unit_list_iterate(pcity->tile->units, punit) {
-      if ((pcity->martial_law < martial_law_max || martial_law_max == 0)
+      if ((count < martial_law_max || martial_law_max == 0)
           && is_military_unit(punit)
           && unit_owner(punit) == city_owner(pcity)) {
         count++;
