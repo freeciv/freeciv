@@ -259,8 +259,6 @@ typedef union {
   struct unit_class *uclass;
   struct unit_type *utype;
   struct extra_type *extra;
-  struct base_type *base;
-  struct road_type *road;
   struct resource *resource;
 
   enum ai_level ai_level;
@@ -270,7 +268,6 @@ typedef union {
   Output_type_id outputtype;
   int terrainclass;			/* enum terrain_class */
   int terrainalter;                     /* enum terrain_alteration */
-  int special;				/* enum tile_special_type */
   int unitclassflag;			/* enum unit_class_flag_id */
   int unitflag;				/* enum unit_flag_id */
   int terrainflag;                      /* enum terrain_flag_id */
@@ -289,58 +286,52 @@ typedef union {
 #define SPECENUM_VALUE2NAME "Gov"
 #define SPECENUM_VALUE3 VUT_IMPROVEMENT
 #define SPECENUM_VALUE3NAME "Building"
-#define SPECENUM_VALUE4 VUT_SPECIAL
-#define SPECENUM_VALUE4NAME "Special"
-#define SPECENUM_VALUE5 VUT_TERRAIN
-#define SPECENUM_VALUE5NAME "Terrain"
-#define SPECENUM_VALUE6 VUT_NATION
-#define SPECENUM_VALUE6NAME "Nation"
-#define SPECENUM_VALUE7 VUT_UTYPE
-#define SPECENUM_VALUE7NAME "UnitType"
-#define SPECENUM_VALUE8 VUT_UTFLAG
-#define SPECENUM_VALUE8NAME "UnitFlag"
-#define SPECENUM_VALUE9 VUT_UCLASS
-#define SPECENUM_VALUE9NAME "UnitClass"
-#define SPECENUM_VALUE10 VUT_UCFLAG
-#define SPECENUM_VALUE10NAME "UnitClassFlag"
-#define SPECENUM_VALUE11 VUT_OTYPE
-#define SPECENUM_VALUE11NAME "OutputType"
-#define SPECENUM_VALUE12 VUT_SPECIALIST
-#define SPECENUM_VALUE12NAME "Specialist"
+#define SPECENUM_VALUE4 VUT_TERRAIN
+#define SPECENUM_VALUE4NAME "Terrain"
+#define SPECENUM_VALUE5 VUT_NATION
+#define SPECENUM_VALUE5NAME "Nation"
+#define SPECENUM_VALUE6 VUT_UTYPE
+#define SPECENUM_VALUE6NAME "UnitType"
+#define SPECENUM_VALUE7 VUT_UTFLAG
+#define SPECENUM_VALUE7NAME "UnitFlag"
+#define SPECENUM_VALUE8 VUT_UCLASS
+#define SPECENUM_VALUE8NAME "UnitClass"
+#define SPECENUM_VALUE9 VUT_UCFLAG
+#define SPECENUM_VALUE9NAME "UnitClassFlag"
+#define SPECENUM_VALUE10 VUT_OTYPE
+#define SPECENUM_VALUE10NAME "OutputType"
+#define SPECENUM_VALUE11 VUT_SPECIALIST
+#define SPECENUM_VALUE11NAME "Specialist"
 /* Minimum size: at city range means city size */
-#define SPECENUM_VALUE13 VUT_MINSIZE
-#define SPECENUM_VALUE13NAME "MinSize"
+#define SPECENUM_VALUE12 VUT_MINSIZE
+#define SPECENUM_VALUE12NAME "MinSize"
 /* AI level of the player */
-#define SPECENUM_VALUE14 VUT_AI_LEVEL
-#define SPECENUM_VALUE14NAME "AI"
+#define SPECENUM_VALUE13 VUT_AI_LEVEL
+#define SPECENUM_VALUE13NAME "AI"
 /* More generic terrain type currently "Land" or "Ocean" */
-#define SPECENUM_VALUE15 VUT_TERRAINCLASS
-#define SPECENUM_VALUE15NAME "TerrainClass"
-#define SPECENUM_VALUE16 VUT_BASE
-#define SPECENUM_VALUE16NAME "Base"
-#define SPECENUM_VALUE17 VUT_MINYEAR
-#define SPECENUM_VALUE17NAME "MinYear"
+#define SPECENUM_VALUE14 VUT_TERRAINCLASS
+#define SPECENUM_VALUE14NAME "TerrainClass"
+#define SPECENUM_VALUE15 VUT_MINYEAR
+#define SPECENUM_VALUE15NAME "MinYear"
 /* Terrain alterations that are possible */
-#define SPECENUM_VALUE18 VUT_TERRAINALTER
-#define SPECENUM_VALUE18NAME "TerrainAlter"
+#define SPECENUM_VALUE16 VUT_TERRAINALTER
+#define SPECENUM_VALUE16NAME "TerrainAlter"
 /* Target tile is used by city. */
-#define SPECENUM_VALUE19 VUT_CITYTILE
-#define SPECENUM_VALUE19NAME "CityTile"
+#define SPECENUM_VALUE17 VUT_CITYTILE
+#define SPECENUM_VALUE17NAME "CityTile"
+#define SPECENUM_VALUE18 VUT_RESOURCE
+#define SPECENUM_VALUE18NAME "Resource"
+#define SPECENUM_VALUE19 VUT_TERRFLAG
+#define SPECENUM_VALUE19NAME "TerrainFlag"
+#define SPECENUM_VALUE20 VUT_NATIONALITY
+#define SPECENUM_VALUE20NAME "Nationality"
+#define SPECENUM_VALUE21 VUT_BASEFLAG
+#define SPECENUM_VALUE21NAME "BaseFlag"
+#define SPECENUM_VALUE22 VUT_ROADFLAG
+#define SPECENUM_VALUE22NAME "RoadFlag"
+#define SPECENUM_VALUE23 VUT_EXTRA
+#define SPECENUM_VALUE23NAME "Extra"
 /* Keep this last. */
-#define SPECENUM_VALUE20 VUT_ROAD
-#define SPECENUM_VALUE20NAME "Road"
-#define SPECENUM_VALUE21 VUT_RESOURCE
-#define SPECENUM_VALUE21NAME "Resource"
-#define SPECENUM_VALUE22 VUT_TERRFLAG
-#define SPECENUM_VALUE22NAME "TerrainFlag"
-#define SPECENUM_VALUE23 VUT_NATIONALITY
-#define SPECENUM_VALUE23NAME "Nationality"
-#define SPECENUM_VALUE24 VUT_BASEFLAG
-#define SPECENUM_VALUE24NAME "BaseFlag"
-#define SPECENUM_VALUE25 VUT_ROADFLAG
-#define SPECENUM_VALUE25NAME "RoadFlag"
-#define SPECENUM_VALUE26 VUT_EXTRA
-#define SPECENUM_VALUE26NAME "Extra"
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"
 

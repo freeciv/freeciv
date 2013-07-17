@@ -523,67 +523,6 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     break;
 
-  case VUT_SPECIAL:
-    switch (preq->range) {
-    case REQ_RANGE_LOCAL:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz,
-                     _("Requires the %s terrain special on the tile.\n"),
-                     special_name_translation(preq->source.value.special));
-      } else {
-        cat_snprintf(buf, bufsz,
-                     _("Prevented by the %s terrain special on the tile.\n"),
-                     special_name_translation(preq->source.value.special));
-      }
-      return TRUE;
-    case REQ_RANGE_CADJACENT:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz,
-                     _("Requires the %s terrain special on the tile or "
-                       "a cardinally adjacent tile.\n"),
-                     special_name_translation(preq->source.value.special));
-        } else {
-        cat_snprintf(buf, bufsz,
-                     _("Prevented by the %s terrain special on the tile or "
-                       "a cardinally adjacent tile.\n"),
-                     special_name_translation(preq->source.value.special));
-        }
-      return TRUE;
-    case REQ_RANGE_ADJACENT:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz,
-                     _("Requires the %s terrain special on the tile or "
-                       "an adjacent tile.\n"),
-                     special_name_translation(preq->source.value.special));
-      } else {
-        cat_snprintf(buf, bufsz,
-                     _("Prevented by the %s terrain special on the tile or "
-                       "an adjacent tile.\n"),
-                     special_name_translation(preq->source.value.special));
-      }
-      return TRUE;
-    case REQ_RANGE_CITY:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz,
-                     _("Requires the %s terrain special on a tile within "
-                       "the city radius.\n"),
-                     special_name_translation(preq->source.value.special));
-      } else {
-        cat_snprintf(buf, bufsz,
-                     _("Prevented by the %s terrain special on a tile within "
-                       "the city radius.\n"),
-                     special_name_translation(preq->source.value.special));
-      }
-      return TRUE;
-    case REQ_RANGE_CONTINENT:
-    case REQ_RANGE_PLAYER:
-    case REQ_RANGE_WORLD:
-    case REQ_RANGE_COUNT:
-      /* Not supported. */
-      break;
-    }
-    break;
-
   case VUT_TERRAIN:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
@@ -1040,55 +979,6 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     break;
 
-  case VUT_BASE:
-    switch (preq->range) {
-    case REQ_RANGE_LOCAL:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz, _("Requires a %s on the tile.\n"),
-                     base_name_translation(preq->source.value.base));
-      } else {
-        cat_snprintf(buf, bufsz, _("Prevented by a %s on the tile.\n"),
-                     base_name_translation(preq->source.value.base));
-      }
-      return TRUE;
-    case REQ_RANGE_CADJACENT:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz, _("Requires a %s on a cardinally adjacent tile.\n"),
-                     base_name_translation(preq->source.value.base));
-      } else {
-        cat_snprintf(buf, bufsz, _("Prevented by a %s on a cardinally adjacent tile.\n"),
-                     base_name_translation(preq->source.value.base));
-      }
-      return TRUE;
-    case REQ_RANGE_ADJACENT:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz, _("Requires a %s on an adjacent tile.\n"),
-                     base_name_translation(preq->source.value.base));
-      } else {
-        cat_snprintf(buf, bufsz, _("Prevented by a %s on an adjacent tile.\n"),
-                     base_name_translation(preq->source.value.base));
-      }
-      return TRUE;
-    case REQ_RANGE_CITY:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz, _("Requires a %s on a tile within the city "
-                                   "radius.\n"),
-                     base_name_translation(preq->source.value.base));
-      } else {
-        cat_snprintf(buf, bufsz, _("Prevented by a %s on a tile within the "
-                                   "city radius.\n"),
-                     base_name_translation(preq->source.value.base));
-      }
-      return TRUE;
-    case REQ_RANGE_CONTINENT:
-    case REQ_RANGE_PLAYER:
-    case REQ_RANGE_WORLD:
-    case REQ_RANGE_COUNT:
-      /* Not supported. */
-      break;
-    }
-    break;
-
   case VUT_BASEFLAG:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
@@ -1131,55 +1021,6 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      _("Prevented by \"%s\" base flag on a tile in the city.\n"),
                      base_flag_id_name(preq->source.value.baseflag));
-      }
-      return TRUE;
-    case REQ_RANGE_CONTINENT:
-    case REQ_RANGE_PLAYER:
-    case REQ_RANGE_WORLD:
-    case REQ_RANGE_COUNT:
-      /* Not supported. */
-      break;
-    }
-    break;
-
-  case VUT_ROAD:
-    switch (preq->range) {
-    case REQ_RANGE_LOCAL:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz, _("Requires a %s on the tile.\n"),
-                     road_name_translation(preq->source.value.road));
-      } else {
-        cat_snprintf(buf, bufsz, _("Prevented by a %s on the tile.\n"),
-                     road_name_translation(preq->source.value.road));
-      }
-      return TRUE;
-   case REQ_RANGE_CADJACENT:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz, _("Requires a %s on a cardinally adjacent tile.\n"),
-                     road_name_translation(preq->source.value.road));
-      } else {
-        cat_snprintf(buf, bufsz, _("Prevented by a %s on a cardinally adjacent tile.\n"),
-                     road_name_translation(preq->source.value.road));
-      }
-      return TRUE;
-    case REQ_RANGE_ADJACENT:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz, _("Requires a %s on an adjacent tile.\n"),
-                     road_name_translation(preq->source.value.road));
-      } else {
-        cat_snprintf(buf, bufsz, _("Prevented by a %s on an adjacent tile.\n"),
-                     road_name_translation(preq->source.value.road));
-      }
-      return TRUE;
-    case REQ_RANGE_CITY:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz, _("Requires a %s on a tile within the city "
-                                   "radius.\n"),
-                     road_name_translation(preq->source.value.road));
-      } else {
-        cat_snprintf(buf, bufsz, _("Requires a %s on a tile within the city "
-                                   "radius.\n"),
-                     road_name_translation(preq->source.value.road));
       }
       return TRUE;
     case REQ_RANGE_CONTINENT:

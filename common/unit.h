@@ -28,6 +28,8 @@ extern "C" {
 #include "unittype.h"
 #include "vision.h"
 
+struct road_type;
+
 /* Changing this enum will break network compatability. */
 enum unit_orders {
   ORDER_MOVE = 0,

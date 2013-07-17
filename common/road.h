@@ -117,8 +117,6 @@ struct road_type *road_type_by_rule_name(const char *name);
 struct road_type *road_type_by_translated_name(const char *name);
 
 int count_road_near_tile(const struct tile *ptile, const struct road_type *proad);
-bool is_road_card_near(const struct tile *ptile, const struct road_type *proad);
-bool is_road_near_tile(const struct tile *ptile, const struct road_type *proad);
 int count_river_near_tile(const struct tile *ptile,
                           const struct road_type *priver);
 int count_river_type_tile_card(const struct tile *ptile,
@@ -170,15 +168,13 @@ struct road_type *next_road_for_tile(struct tile *ptile, struct player *pplayer,
   }                                              \
 }
 
-#define road_deps_iterate(_reqs, _dep)                       \
-{                                                            \
-  requirement_vector_iterate(_reqs, preq) {                  \
-    struct road_type *_dep;                                  \
-    if ((preq->source.kind == VUT_EXTRA                      \
-         && preq->source.value.extra->type == EXTRA_ROAD     \
-         && (_dep = &(preq->source.value.extra->data.road))) \
-        || (preq->source.kind == VUT_ROAD                    \
-            && (_dep = preq->source.value.road))) {
+#define road_deps_iterate(_reqs, _dep)                                 \
+{                                                                      \
+  requirement_vector_iterate(_reqs, preq) {                            \
+    if (preq->source.kind == VUT_EXTRA                                 \
+        && preq->source.value.extra->type == EXTRA_ROAD) {             \
+      struct road_type *_dep = &(preq->source.value.extra->data.road);
+
 
 #define road_deps_iterate_end                           \
     }                                                   \

@@ -110,9 +110,6 @@ struct base_type *base_type_by_translated_name(const char *name);
 
 struct extra_type *base_extra_get(const struct base_type *pbase);
 
-bool is_base_card_near(const struct tile *ptile, const struct base_type *pbase);
-bool is_base_near_tile(const struct tile *ptile, const struct base_type *pbase);
-
 /* Functions to operate on a base flag. */
 bool base_has_flag(const struct base_type *pbase, enum base_flag_id flag);
 bool is_base_flag_card_near(const struct tile *ptile,
@@ -161,15 +158,12 @@ void base_types_free(void);
   }									\
 }
 
-#define base_deps_iterate(_reqs, _dep)                       \
-{                                                            \
-  requirement_vector_iterate(_reqs, preq) {                  \
-    struct base_type *_dep;                                  \
-    if ((preq->source.kind == VUT_EXTRA                      \
-         && preq->source.value.extra->type == EXTRA_BASE     \
-         && (_dep = &(preq->source.value.extra->data.base))) \
-        || (preq->source.kind == VUT_BASE                    \
-            && (_dep = preq->source.value.base))) {
+#define base_deps_iterate(_reqs, _dep)                                 \
+{                                                                      \
+  requirement_vector_iterate(_reqs, preq) {                            \
+    if (preq->source.kind == VUT_EXTRA                                 \
+        && preq->source.value.extra->type == EXTRA_BASE) {             \
+      struct base_type *_dep = &(preq->source.value.extra->data.base);
 
 #define base_deps_iterate_end                                           \
     }                                                                   \

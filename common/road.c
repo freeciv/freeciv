@@ -390,34 +390,6 @@ int count_river_type_near_tile(const struct tile *ptile,
 }
 
 /****************************************************************************
-  Is there road of the given type cardinally near tile?
-****************************************************************************/
-bool is_road_card_near(const struct tile *ptile, const struct road_type *proad)
-{
-  cardinal_adjc_iterate(ptile, adjc_tile) {
-    if (tile_has_road(adjc_tile, proad)) {
-      return TRUE;
-    }
-  } cardinal_adjc_iterate_end;
-
-  return FALSE;
-}
-
-/****************************************************************************
-  Is there road of the given type near tile?
-****************************************************************************/
-bool is_road_near_tile(const struct tile *ptile, const struct road_type *proad)
-{
-  adjc_iterate(ptile, adjc_tile) {
-    if (tile_has_road(adjc_tile, proad)) {
-      return TRUE;
-    }
-  } adjc_iterate_end;
-
-  return FALSE;
-}
-
-/****************************************************************************
   Check if road provides effect
 ****************************************************************************/
 bool road_has_flag(const struct road_type *proad, enum road_flag_id flag)

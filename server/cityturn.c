@@ -1136,19 +1136,6 @@ static bool worklist_change_build_target(struct player *pplayer,
                                         API_TYPE_CITY, pcity,
                                         API_TYPE_STRING, "need_extra");
 	      break;
-	    case VUT_SPECIAL:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "%s special is required.  Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            special_name_translation(preq->source.value.special));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_special");
-	      break;
 	    case VUT_TERRAIN:
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
@@ -1261,19 +1248,6 @@ static bool worklist_change_build_target(struct player *pplayer,
                                         API_TYPE_CITY, pcity,
                                         API_TYPE_STRING, "need_terrainflag");
 	      break;
-            case VUT_BASE:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "%s base is required.  Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            base_name_translation(preq->source.value.base));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_base");
-              break;
             case VUT_BASEFLAG:
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
@@ -1287,19 +1261,6 @@ static bool worklist_change_build_target(struct player *pplayer,
                                         API_TYPE_CITY, pcity,
                                         API_TYPE_STRING, "need_baseflag");
               break;
-            case VUT_ROAD:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "%s road is required.  Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            road_name_translation(preq->source.value.road));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_road");
-	      break;
             case VUT_ROADFLAG:
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
