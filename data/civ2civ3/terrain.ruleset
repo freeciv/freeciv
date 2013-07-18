@@ -38,6 +38,13 @@ lake_max_size = 14
 ; 0 to disable check.
 min_start_native_area = 0
 
+; How many fragments each movement point has.
+; For example road movement costs are relative to this.
+move_fragments = 3
+
+; How many move fragments IgTer unit movement costs
+igter_cost = 1
+
 ; There is no resources in the middle of the oceans, only near coast
 ocean_resources = FALSE
 
@@ -1127,9 +1134,8 @@ They have no effect on gameplay.\
 ;                           present. Can use eg "-" for no alternate graphic.
 ; activity_gfx            = tag specifing graphic for unit building road
 ; act_gfx_alt             = tag for alternative graphic for unit building road
-; move_cost               = how much movement it takes to to travel
-;                           via this road. Value of 3 indicates full
-;                           movement point.
+; move_cost               = how much movement it takes to travel
+;                           via this road.
 ; move_mode               = how movement costs are applied
 ;   - "NoBonus"    = Road gives no movement bonuses
 ;   - "Cardinal"   = Road cost applies only on cardinal moves

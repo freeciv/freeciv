@@ -1294,6 +1294,8 @@ PACKET_RULESET_TERRAIN_CONTROL = 146; sc, lsend
   UINT8 land_channel_requirement_pct; /* # adjacent ocean tiles for channel */
   UINT8 lake_max_size;                /* bodies of water up to this size are freshwater */
   UINT8 min_start_native_area;
+  UINT8 move_fragments;
+  UINT8 igter_cost;
 
   UINT8 pollution_tile_penalty[O_LAST]; /* % taken from output if polluted */
   UINT8 fallout_tile_penalty[O_LAST]; /* % taken from output if polluted */

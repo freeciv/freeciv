@@ -635,6 +635,7 @@ const char *move_points_text(int mp, const char *prefix, const char *none,
   static struct astring str = ASTRING_INIT;
   static int denomlen = 0;
   int pad1, pad2;
+
   if (denomlen == 0) {
     /* String length of denominator for fractional representation of
      * movement points, for padding */
@@ -652,9 +653,13 @@ const char *move_points_text(int mp, const char *prefix, const char *none,
     prefix = "";
   }
   astr_clear(&str);
-  if (mp == 0 && none) {
+  if ((mp == 0 || SINGLE_MOVE == 0) && none) {
     /* No movement points, special representation */
     astr_add(&str, "%s%*s", none, pad2, "");
+  } else if (SINGLE_MOVE == 0) {
+    /* Do not divide by zero. Important for client before ruleset
+     * received. Just add */
+    astr_add(&str, "0/0");
   } else if ((mp % SINGLE_MOVE) == 0) {
     /* Integer move bonus */
     astr_add(&str, "%s%d%*s", prefix, mp / SINGLE_MOVE, pad2, "");
