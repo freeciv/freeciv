@@ -93,6 +93,8 @@ void road_type_init(int idx)
   pextra->data.road.hiders = NULL;
   pextra->data.road.helptext = NULL;
   pextra->data.road.self = pextra;
+
+  extra_to_caused_by_list(pextra, EC_ROAD);
 }
 
 /****************************************************************************

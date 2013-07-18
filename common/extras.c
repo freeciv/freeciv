@@ -74,10 +74,6 @@ void extras_init(void)
       break;
     }
   }
-
-  for (; i < MAX_EXTRA_TYPES; i++) {
-    extra_to_caused_by_list(&extras[i], EC_NONE);
-  }
 }
 
 /****************************************************************************

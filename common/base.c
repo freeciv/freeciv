@@ -298,6 +298,8 @@ void base_type_init(int idx)
   pextra->data.base.item_number = idx;
   pextra->data.base.helptext = NULL;
   pextra->data.base.self = pextra;
+
+  extra_to_caused_by_list(pextra, EC_BASE);
 }
 
 /****************************************************************************
