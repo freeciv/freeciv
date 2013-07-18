@@ -2387,6 +2387,12 @@ static bool load_ruleset_terrain(struct section_file *file)
   terrain_control.min_start_native_area
     = secfile_lookup_int_default(file, 0,
                                  "parameters.min_start_native_area");
+  terrain_control.move_fragments
+    = secfile_lookup_int_default(file, 3,
+                                 "parameters.move_fragments");
+ terrain_control.igter_cost
+    = secfile_lookup_int_default(file, 1,
+                                 "parameters.igter_cost");
   map.server.ocean_resources
     = secfile_lookup_bool_default(file, FALSE,
                                   "parameters.ocean_resources");

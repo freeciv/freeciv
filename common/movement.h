@@ -20,8 +20,8 @@ extern "C" {
 #include "fc_types.h"
 #include "tile.h"
 
-#define SINGLE_MOVE     3
-#define MOVE_COST_IGTER 1
+#define SINGLE_MOVE     (terrain_control.move_fragments)
+#define MOVE_COST_IGTER (terrain_control.igter_cost)
 
 struct unit_type;
 struct terrain;
