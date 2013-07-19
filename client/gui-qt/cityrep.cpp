@@ -30,6 +30,7 @@ city_item_delegate::city_item_delegate(QObject *parent)
 {
   QFont f = QApplication::font();
   QFontMetrics fm(f);
+
   item_height = fm.height() + 4;
 }
 
@@ -41,6 +42,7 @@ void city_item_delegate::paint(QPainter *painter,
                                const QModelIndex &index) const
 {
   QStyleOptionViewItemV3 opt = QItemDelegate::setOptions(index, option);
+
   painter->save();
     QItemDelegate::drawBackground(painter, opt, index);
     opt.displayAlignment = Qt::AlignLeft;
@@ -56,6 +58,7 @@ QSize city_item_delegate::sizeHint(const QStyleOptionViewItem &option,
                                    const QModelIndex &index) const
 {
   QSize s = QItemDelegate::sizeHint(option, index);
+
   s.setHeight(item_height);
   return s;
 }
@@ -167,6 +170,7 @@ QVariant city_model::headerData(int section, Qt::Orientation orientation,
 {
   char buf[64];
   struct city_report_spec *spec;
+
   if (orientation == Qt::Horizontal && section < NUM_CREPORT_COLS) {
     if (role == Qt::DisplayRole) {
     spec = city_report_specs + section;
@@ -185,6 +189,7 @@ QVariant city_model::headerData(int section, Qt::Orientation orientation,
 QVariant city_model::menu_data(int section) const
 {
   struct city_report_spec *spec;
+
   if (section < NUM_CREPORT_COLS) {
     spec = city_report_specs + section;
       return QString(spec->explanation);
@@ -198,6 +203,7 @@ QVariant city_model::menu_data(int section) const
 QVariant city_model::hide_data(int section) const
 {
   struct city_report_spec *spec;
+
   if (section < NUM_CREPORT_COLS) {
     spec = city_report_specs + section;
       return spec->show;
@@ -211,18 +217,17 @@ QVariant city_model::hide_data(int section) const
 void city_model::populate()
 {
   city_item *ci;
+
   if (client_has_player()) {
     city_list_iterate(client_player()->cities, pcity) {
       ci = new city_item(pcity);
       city_list << ci;
-    }
-    city_list_iterate_end;
+    } city_list_iterate_end;
   } else {
     cities_iterate(pcity) {
       ci = new city_item(pcity);
       city_list << ci;
-    }
-    cities_iterate_end;
+    } cities_iterate_end;
   }
 }
 /***************************************************************************
@@ -231,6 +236,7 @@ void city_model::populate()
 void city_model::city_changed(struct city *pcity)
 {
   city_item *item;
+
   beginResetModel();
   endResetModel();
   for (int i = 0; i < city_list.count(); i++) {
@@ -326,6 +332,7 @@ void city_widget::clear_worlist()
   struct worklist empty;
   worklist_init(&empty);
   struct city *pcity;
+
   foreach(pcity, selected_cities) {
     Q_ASSERT(pcity != NULL);
     city_set_worklist(pcity, &empty);
@@ -338,6 +345,7 @@ void city_widget::clear_worlist()
 void city_widget::buy()
 {
   struct city *pcity;
+
   foreach(pcity, selected_cities){
     Q_ASSERT(pcity != NULL);
     cityrep_buy(pcity);
@@ -384,6 +392,7 @@ void city_widget::display_list_menu(const QPoint &)
   struct impr_type *building;
   struct universal target;
   QMenu list_menu(this);
+  QAction *act;
   QAction cty_view(style()->standardIcon(QStyle::SP_CommandLink),
                    _("View"), 0);
   QAction cty_buy(_("Buy"), 0);
@@ -392,7 +401,6 @@ void city_widget::display_list_menu(const QPoint &)
   QAction wl_clear(_("Clear"), 0);
   QAction wl_empty(_("(no worklists defined)"), 0);
   bool worklist_defined = true;
-
 
   if (!can_client_issue_orders()) {
     return;
@@ -440,7 +448,7 @@ void city_widget::display_list_menu(const QPoint &)
   connect(&cty_buy, SIGNAL(triggered()), this, SLOT(buy()));
   list_menu.addAction(&cty_center);
   connect(&cty_center, SIGNAL(triggered()), this, SLOT(center()));
-  QAction *act = 0;
+  act = 0;
   sell_count = 0;
   sell_gold = 0;
   sell_ask = true;
@@ -530,6 +538,7 @@ void city_widget::fill_production_menus(city_widget::menu_labels what,
                                         TestCityFunc test_func, QMenu *menu)
 {
   QMenu *m1, *m2, *m3;
+
   m1 = menu->addMenu(_("Buildings"));
   m2 = menu->addMenu(_("Units"));
   m3 = menu->addMenu(_("Wonders"));
@@ -550,6 +559,7 @@ void city_widget::fill_data(menu_labels which,
 {
   QAction *action;
   QMap<QString, cid>::const_iterator map_iter;
+
   map_iter = custom_labels.constBegin();
   while (map_iter != custom_labels.constEnd()) {
     action = menu->addAction(map_iter.key());
@@ -578,8 +588,7 @@ void city_widget::gen_worklist_labels(QMap<QString, int> &list)
   list.clear();
   global_worklists_iterate(pgwl) {
     list.insert(global_worklist_name(pgwl), global_worklist_id(pgwl));
-  }
-  global_worklists_iterate_end;
+  } global_worklists_iterate_end;
 }
 
 /***************************************************************************
@@ -600,15 +609,15 @@ void city_widget::gen_production_labels(city_widget::menu_labels what,
   char buf[4][64];
   struct city **data;
   int num_sel = selected_cities.count();
-
   struct city *array[num_sel];
+
   for (i = 0; i < num_sel; i++) {
     array[i] = selected_cities.at(i);
   }
   data = &array[0];
   targets_used
       = collect_production_targets(targets, data, num_sel, append_units,
-                                   append_wonders, TRUE, test_func);
+                                   append_wonders, true, test_func);
   name_and_sort_items(targets, targets_used, items, true, NULL);
   for (i = 0; i < 4; i++) {
     row[i] = buf[i];
@@ -648,8 +657,10 @@ void city_widget::display_header_menu(const QPoint &)
 {
   struct city_report_spec *spec;
   QMenu hideshowColumn(this);
-  hideshowColumn.setTitle(_("Column visibility"));
   QList<QAction *> actions;
+  QAction *act;
+
+  hideshowColumn.setTitle(_("Column visibility"));
   for (int i = 0; i < list_model->columnCount(); i++) {
     QAction *myAct = hideshowColumn.addAction(
                        list_model->menu_data(i).toString());
@@ -657,7 +668,7 @@ void city_widget::display_header_menu(const QPoint &)
     myAct->setChecked(!isColumnHidden(i));
     actions.append(myAct);
   }
-  QAction *act = hideshowColumn.exec(QCursor::pos());
+  act = hideshowColumn.exec(QCursor::pos());
   if (act) {
     int col = actions.indexOf(act);
     Q_ASSERT(col >= 0);
@@ -691,8 +702,8 @@ void city_widget::cities_selected(const QItemSelection &sl,
   QModelIndexList indexes = selectionModel()->selectedIndexes();
   QModelIndex i;
   QVariant qvar;
-
   struct city *pcity;
+
   selected_cities.clear();
 
   if (indexes.isEmpty()) {
@@ -733,6 +744,7 @@ city_report::city_report(): QWidget()
 {
   layout = new QVBoxLayout;
   city_wdg = new city_widget(this);
+
   layout->addWidget(city_wdg);
   setLayout(layout);
 }
@@ -791,8 +803,9 @@ void city_report_dialog_popup(bool raise)
   int i;
   city_report *cr;
   QWidget *w;
+
   if (!gui()->is_repo_dlg_open("CTS")) {
-    city_report *cr = new city_report;
+    cr = new city_report;
     cr->init();
     cr->update_report();
   } else {
@@ -812,6 +825,7 @@ void real_city_report_dialog_update(void)
   int i;
   city_report *cr;
   QWidget *w;
+
   if (gui()->is_repo_dlg_open("CTS")) {
     i = gui()->gimme_index_of("CTS");
     fc_assert(i != -1);
@@ -829,6 +843,7 @@ void real_city_report_update_city(struct city *pcity)
   int i;
   city_report *cr;
   QWidget *w;
+
   if (gui()->is_repo_dlg_open("CTS")) {
     i = gui()->gimme_index_of("CTS");
     fc_assert(i != -1);

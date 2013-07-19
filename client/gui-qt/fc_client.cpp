@@ -31,6 +31,7 @@ extern QApplication *qapp;
 fc_client::fc_client() : QObject()
 {
   struct rgbcolor *prgbcolor;
+
   QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
   /**
    * Somehow freeciv-client-common asks to switch to page when all widgets
@@ -220,6 +221,7 @@ void fc_client::switch_page(int new_pg)
 {
   char buf[256];
   enum client_pages new_page;
+
   new_page = static_cast<client_pages>(new_pg);
   main_window->menuBar()->setVisible(false);
   hide_dock_widgets();

@@ -595,8 +595,7 @@ void fc_client::update_server_list(enum server_scan_type sstype,
     }
 
     row++;
-  }
-  server_list_iterate_end;
+  } server_list_iterate_end;
 }
 
 
@@ -854,8 +853,7 @@ void fc_client::update_load_page(void)
     item->setText(dt.toString(Qt::TextDate));
     saves_load->setItem(row, 1, item);
     row++;
-  }
-  fileinfo_list_iterate_end;
+  } fileinfo_list_iterate_end;
   fileinfo_list_destroy(files);
 }
 
@@ -878,8 +876,7 @@ void fc_client::update_scenarios_page(void)
     scenarios_load->setItem(row, 0, item);
     scenarios_view->setText(pfile->fullname);
     row++;
-  }
-  fileinfo_list_iterate_end;
+  } fileinfo_list_iterate_end;
   fileinfo_list_destroy(files);
 }
 
@@ -1023,8 +1020,7 @@ void fc_client::update_start_page()
         conn_id = pconn->id;
         break;
       }
-    }
-    conn_list_iterate_end;
+    } conn_list_iterate_end;
 
     if (pplayer->ai_controlled) {
       is_ready = true;
@@ -1107,11 +1103,9 @@ void fc_client::update_start_page()
       item_r->setText(5, _("Observer"));
       recursed_items.append(item_r);
       item->addChildren(recursed_items);
-    }
-    conn_list_iterate_end;
+    } conn_list_iterate_end;
     items.append(item);
-  }
-  players_iterate_end;
+  } players_iterate_end;
 
   player_item->addChildren(items);
   start_players_tree->insertTopLevelItem(0, player_item);
@@ -1143,8 +1137,7 @@ void fc_client::update_start_page()
       }
       items.append(item);
     }
-  }
-  conn_list_iterate_end;
+  } conn_list_iterate_end;
 
   global_item->addChildren(items);
   start_players_tree->insertTopLevelItem(1, global_item);
@@ -1165,8 +1158,7 @@ void fc_client::update_start_page()
     item = new QTreeWidgetItem();
     item->setText(0, pconn->username);
     items.append(item);
-  }
-  conn_list_iterate_end;
+  } conn_list_iterate_end;
 
   detach_item->addChildren(items);
   start_players_tree->insertTopLevelItem(2, detach_item);
@@ -1307,7 +1299,7 @@ void fc_client::start_page_menu(QPoint pos)
             if (!need_empty_team) {
               continue;
             }
-            need_empty_team = FALSE;
+            need_empty_team = false;
           }
           str = team_slot_name_translation(tslot);
           action = new QAction(str, start_players);
@@ -1317,8 +1309,7 @@ void fc_client::start_page_menu(QPoint pos)
                   player_menu_mapper, SLOT(map()));
           player_menu_mapper->setMapping(action, str);
           submenu_team.addAction(action);
-        }
-        team_slots_iterate_end;
+        } team_slots_iterate_end;
       }
 
       if (ALLOW_CTRL <= client.conn.access_level && NULL != pplayer) {
@@ -1335,8 +1326,7 @@ void fc_client::start_page_menu(QPoint pos)
       menu.exec(global_pos);
       return;
     }
-  }
-  players_iterate_end;
+  } players_iterate_end;
   delete player_menu_mapper;
 }
 

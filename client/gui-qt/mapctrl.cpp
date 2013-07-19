@@ -49,7 +49,7 @@ void popup_newcity_dialog(struct unit *punit, const char *suggestname)
                                        _("What should we call our new city?"),
                                        QLineEdit::Normal,
                                        QString::fromUtf8(suggestname), &ok);
-  int index=tile_index(unit_tile(punit));
+  int index = tile_index(unit_tile(punit));
 
   if (!ok) {
     cancel_city(index_to_tile(index));
@@ -167,6 +167,7 @@ void map_view::mousePressEvent(QMouseEvent *event)
 {
   struct tile *ptile = NULL;
   QPoint pos;
+
   pos = gui()->mapview_wdg->mapFromGlobal(QCursor::pos());
 
   if (event->button() == Qt::RightButton) {
@@ -209,6 +210,7 @@ void map_view::mouseMoveEvent(QMouseEvent *event)
 void fc_client::popup_tile_info(struct tile *ptile)
 {
   struct unit *punit = NULL;
+
   Q_ASSERT(info_tile_wdg == NULL);
   if (TILE_UNKNOWN != client_tile_get_known(ptile)) {
     mapdeco_set_crosshair(ptile, true);

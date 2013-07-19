@@ -262,13 +262,12 @@ void science_report::update_report()
       item.id = i;
       curr_list->append(item);
     }
-  }
-  advance_index_iterate_end;
+  } advance_index_iterate_end;
 
 
   /** Collect all techs which are reachable in next 10 steps. */
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_reachable(client_player(), i, FALSE)
+    if (player_invention_reachable(client_player(), i, false)
         && TECH_KNOWN != research->inventions[i].state
         && (i == research->tech_goal
             || 10 >= research->inventions[i].num_required_techs)) {
@@ -277,8 +276,7 @@ void science_report::update_report()
       item.id = i;
       goal_list->append(item);
     }
-  }
-  advance_index_iterate_end;
+  } advance_index_iterate_end;
 
   /** sort both lists */
    qSort(goal_list->begin(), goal_list->end(), comp_less_than);
@@ -493,14 +491,13 @@ void units_report::update_report()
         }
       }
       info->active_count++;
-    }
-    unit_list_iterate_end;
+    } unit_list_iterate_end;
     city_list_iterate(pplayer->cities, pcity) {
       if (VUT_UTYPE == pcity->production.kind) {
         int num_units;
         info = unit_array + utype_index(pcity->production.value.utype);
         /* Account for build slots in city */
-        (void) city_production_build_units(pcity, TRUE, &num_units);
+        (void) city_production_build_units(pcity, true, &num_units);
         /* Unit is in progress even if it won't be done this turn */
         num_units = MAX(num_units, 1);
         info->building_count += num_units;
@@ -560,8 +557,7 @@ void units_report::update_report()
     unit_totals.building_count += info->building_count;
 
     row++;
-  }
-  unit_type_iterate_end;
+  } unit_type_iterate_end;
   row++;
   units_widget->setRowCount(row);
   for (column = 0; column < 7; column++) {
@@ -622,10 +618,8 @@ struct unit *units_report::find_nearest_unit(const struct unit_type *utype,
           best_dist = dist;
         }
       }
-    }
-    unit_list_iterate_end;
-  }
-  players_iterate_end;
+    } unit_list_iterate_end;
+  } players_iterate_end;
   return best_candidate;
 }
 
@@ -860,7 +854,7 @@ void eco_report::update_report()
     struct unit_entry *pentry = unit_entries + i;
     struct unit_type *putype = pentry->type;
     QPixmap *pix = get_unittype_sprite(tileset, putype,
-                                       direction8_invalid(), TRUE)->pm;
+                                       direction8_invalid(), true)->pm;
     cid cid = cid_encode_unit(putype);
 
     eco_widget->insertRow(i + max_row);

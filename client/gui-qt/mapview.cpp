@@ -125,10 +125,10 @@ void map_view::resume_searching(int pos_x ,int pos_y ,int &w, int &h,
                                 int wdth, int hght, int recursive_nr)
 {
   int new_pos_x, new_pos_y;
-   recursive_nr++;
 
-   new_pos_x = pos_x;
-   new_pos_y = pos_y;
+  recursive_nr++;
+  new_pos_x = pos_x;
+  new_pos_y = pos_y;
 
   if (pos_y + hght + 4 < height() && pos_x > width() / 2) {
     new_pos_y = pos_y + 5;
@@ -246,6 +246,7 @@ void resize_widget::put_to_corner()
 void resize_widget::mouseMoveEvent(QMouseEvent * event)
 {
   QPoint qp, np;
+
   qp = event->globalPos();
   np.setX(qp.x() - point.x());
   np.setY(qp.y() - point.y());
@@ -260,6 +261,7 @@ void resize_widget::mouseMoveEvent(QMouseEvent * event)
 void resize_widget::mousePressEvent(QMouseEvent* event)
 {
   QPoint qp;
+
   qp = event->globalPos();
   point.setX(qp.x() - parentWidget()->width());
   point.setY(qp.y() - parentWidget()->height());
@@ -300,6 +302,7 @@ void close_widget::mousePressEvent(QMouseEvent* event)
 void close_widget::notify_parent()
 {
   fcwidget *fcw;
+
   fcw = reinterpret_cast<fcwidget *>(parentWidget());
   fcw->update_menu();
 }
@@ -331,6 +334,7 @@ minimap_view::minimap_view(QWidget *parent) : fcwidget()
 void minimap_view::paintEvent(QPaintEvent *event)
 {
   QPainter painter;
+
   painter.begin(this);
   paint(&painter, event);
   painter.end();
@@ -479,6 +483,7 @@ void minimap_view::unscale_point(int &x, int &y)
 {
   int ax, bx;
   int dx, dy;
+
   gui_to_overview(&ax, &bx, mapview.gui_x0 + mapview.width / 2,
                   mapview.gui_y0 + mapview.height / 2);
   dx = qRound(ax * scale_factor - overview.width / 2);
@@ -768,6 +773,7 @@ void info_label::set_rates_pixmap()
   struct sprite *sprite = get_tax_sprite(tileset, O_LUXURY);
   int w = sprite->pm->width();
   int h = sprite->pm->height();
+
   if (rates_label == NULL) {
     rates_label = new QPixmap(10 * w, h);
   }
@@ -876,9 +882,10 @@ void info_label::wheelEvent(QWheelEvent *event)
 {
   int a, b, c;
   QPoint p(event->x(), event->y());
-  p = this->mapToGlobal(p);
   int delta = event->delta();
   int pos;
+
+  p = this->mapToGlobal(p);
   pos = rates_label->width() / 10;
   int p2 = event->x() - rates_area.left();
   if (client_is_global_observer()){
@@ -956,8 +963,8 @@ void info_label::mousePressEvent(QMouseEvent *event)
   int a;
   int b;
   int c;
-  p = this->mapToGlobal(p);
 
+  p = this->mapToGlobal(p);
   if (client_is_global_observer()){
     return;
   }
@@ -1053,8 +1060,9 @@ void info_label::paintEvent(QPaintEvent *event)
 void info_label::info_update()
 {
   int w = 0, h = 0;
-  ufont->setPixelSize(14);
   QFontMetrics fm(*ufont);
+
+  ufont->setPixelSize(14);
   w = qMax(w, fm.width(eco_info));
   w = qMax(w, fm.width(turn_info));
   w = qMax(w, fm.width(time_label));
@@ -1081,6 +1089,7 @@ void update_info_label(void)
   QString eco_info;
   QString s = QString::fromLatin1(textyear(game.info.year)) + " ("
       + _("Turn") + ":" + QString::number(game.info.turn) + ")";
+
   gui()->game_info_label->set_turn_info(s);
   set_indicator_icons(client_research_sprite(),
                       client_warming_sprite(),
@@ -1131,9 +1140,9 @@ void qtg_update_timeout_label(void)
 }
 
 /****************************************************************************
-  If do_restore is FALSE it should change the turn button style (to
+  If do_restore is false it should change the turn button style (to
   draw the user's attention to it).  If called regularly from a timer
-  this will give a blinking turn done button.  If do_restore is TRUE
+  this will give a blinking turn done button.  If do_restore is true
   this should reset the turn done button to the default style.
 ****************************************************************************/
 void update_turn_done_button(bool do_restore)
@@ -1155,13 +1164,14 @@ void update_turn_done_button(bool do_restore)
 void info_label::set_indicator_icons(QPixmap* bulb, QPixmap* sol,
                                      QPixmap* flake, QPixmap* gov)
 {
+  QPainter p;
+  QRect source_rect(0, 0, bulb->width(), bulb->height());
+  QRect dest_rect(0, 0, bulb->width(), bulb->height());
+
   if (indicator_icons == NULL) {
     indicator_icons = new QPixmap(7 * bulb->width(), bulb->height());
   }
   indicator_icons->fill(Qt::transparent);
-  QPainter p;
-  QRect source_rect(0, 0, bulb->width(), bulb->height());
-  QRect dest_rect(0, 0, bulb->width(), bulb->height());
 
   p.begin(indicator_icons);
   dest_rect.setLeft(3 * bulb->width());
@@ -1419,6 +1429,7 @@ void unit_label::uupdate(unit_list *punits)
   struct unit *punit = unit_list_get(punits, 0);
   struct player *owner;
   struct canvas *unit_pixmap;
+
   one_unit = true;
   setFixedHeight(50);
   if (unit_list_size(punits) == 0) {
@@ -1526,6 +1537,7 @@ void unit_label::paint(QPainter *painter, QPaintEvent *event)
   int w;
   QPainter::CompositionMode comp_mode = painter->compositionMode();
   QPen pen;
+
   selection_area.setWidth(0);
   pen.setWidth(1);
   pen.setColor(QColor(232, 255, 0));
@@ -1644,8 +1656,10 @@ void info_tile::calc_size()
   int fin_y;
   int x, y;
   int w = 0;
+
   str = popup_info_text(itile);
   str_list = str.split("\n");
+
   foreach(str, str_list) {
     w = qMax(w, fm.width(str));
   }
@@ -1674,6 +1688,7 @@ void info_tile::paint(QPainter *painter, QPaintEvent *event)
   QPen pen;
   QFontMetrics fm(*info_font);
   int pos, h;
+
   h = fm.height();
   pos = h;
   pen.setWidth(1);
@@ -1694,6 +1709,7 @@ void info_tile::paint(QPainter *painter, QPaintEvent *event)
 void info_tile::paintEvent(QPaintEvent *event)
 {
   QPainter painter;
+
   painter.begin(this);
   paint(&painter, event);
   painter.end();

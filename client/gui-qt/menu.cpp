@@ -96,6 +96,7 @@ void mr_menu::setup_menus()
 {
   QAction *act;
   QMenu *pr;
+
   /* Game Menu */
   menu = this->addMenu(_("Game"));
   pr = menu;
@@ -426,8 +427,7 @@ void mr_menu::menus_sensitive()
       any_cities = true;
       break;
     }
-  }
-  players_iterate_end;
+  } players_iterate_end;
 
   /** Disable first all sensitive menus */
   foreach(QAction * a, menu_list) {
@@ -444,8 +444,7 @@ void mr_menu::menus_sensitive()
       city_on_tile = true;
       break;
     }
-  }
-  unit_list_iterate_end;
+  } unit_list_iterate_end;
 
   unit_list_iterate(punits, punit) {
     fc_assert((ptile == NULL) == (ptype == NULL));
@@ -458,8 +457,7 @@ void mr_menu::menus_sensitive()
         ptype = unit_type(punit);
       }
     }
-  }
-  unit_list_iterate_end;
+  } unit_list_iterate_end;
 
   keys = menu_list.keys();
   foreach(munit key, keys) {
@@ -840,6 +838,7 @@ void mr_menu::rm_gov_menu()
 void mr_menu::slot_gov_change (const int &target)
 {
   struct government *gov;
+
   gov = government_by_number(target);
   popup_revolution_dialog(gov);
 }
@@ -853,6 +852,7 @@ void mr_menu::slot_menu_copying()
   QString s = QString::fromUtf8(_("Freeciv is covered by the GPL. "))
               + QString::fromUtf8(_("See file COPYING distributed with "
                                     "Freeciv for full license text."));
+
   info.setText(s);
   info.setStandardButtons(QMessageBox::Ok);
   info.setDefaultButton(QMessageBox::Cancel);
@@ -1037,7 +1037,7 @@ void mr_menu::slot_build_road()
     struct road_type *proad = next_road_for_tile(unit_tile(punit),
                                                  unit_owner(punit),
                                                  punit);
-    bool building_road = FALSE;
+    bool building_road = false;
 
     if (proad != NULL) {
       struct extra_type *tgt;
@@ -1046,7 +1046,7 @@ void mr_menu::slot_build_road()
 
       if (can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt)) {
         request_new_unit_activity_road(punit, proad);
-        building_road = TRUE;
+        building_road = true;
       }
     }
 
