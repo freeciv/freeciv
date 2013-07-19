@@ -63,7 +63,7 @@ void dbv_debug(struct dbv *pdbv);
 #define _BV_BITMASK(bit)       (1u << ((bit) & 0x7))
 #ifdef DEBUG
 #  define _BV_ASSERT(bv, bit)  fc_assert((bit) >= 0                         \
-                                         && (bit) < sizeof((bv).vec) * 8)
+                                         && (bit) < (signed int) sizeof((bv).vec) * 8)
 #else
 #  define _BV_ASSERT(bv, bit)  (void)0
 #endif
