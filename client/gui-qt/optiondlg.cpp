@@ -53,6 +53,7 @@ option_dialog::option_dialog(const QString & name,
   : QDialog (parent)
 {
   QPushButton *but;
+
   curr_options = options;
   setWindowTitle(name);
   tab_widget = new QTabWidget;
@@ -243,6 +244,7 @@ bool option_dialog::get_bool(struct option *poption)
 void option_dialog::set_int(struct option *poption, int value)
 {
   QSpinBox *s;
+
   s = reinterpret_cast<QSpinBox *>(option_get_gui_data(poption));
   s->setValue(value);
 }
@@ -275,6 +277,7 @@ void option_dialog::set_font(struct option* poption, QString s)
 int option_dialog::get_int(struct option *poption)
 {
   QSpinBox *s;
+
   s = reinterpret_cast<QSpinBox *>(option_get_gui_data(poption));
   return s->value();
 }
@@ -349,6 +352,7 @@ void option_dialog::set_bitwise(struct option *poption, unsigned int value)
   QGroupBox *gb;
   int i;
   QList <QCheckBox *> check_buttons;
+
   gb = reinterpret_cast<QGroupBox *>(option_get_gui_data(poption));
   check_buttons = gb->findChildren <QCheckBox *>();
 
@@ -385,7 +389,8 @@ unsigned int option_dialog::get_bitwise(struct option *poption)
 /****************************************************************************
   Find option indicating colors.
 ****************************************************************************/
-struct option* option_dialog::get_color_option() {
+struct option* option_dialog::get_color_option()
+{
   options_iterate(curr_options, poption) {
     if (option_type(poption) == OT_COLOR) {
       return poption;
@@ -721,6 +726,7 @@ QFont option_dialog::get_font(struct option *poption)
 {
   QFont f;
   QString s;
+
   s = option_font_get(poption);
   f.fromString(s);
   return f;
@@ -733,6 +739,7 @@ char *option_dialog::get_button_font(struct option *poption)
 {
   QPushButton *qp;
   QFont f;
+
   qp = reinterpret_cast<QPushButton *>(option_get_gui_data(poption));
   f = qp->font();
   return f.toString().toUtf8().data();

@@ -33,7 +33,7 @@ static struct sprite *radar_gfx_sprite = NULL;
 ****************************************************************************/
 bool qtg_isometric_view_supported()
 {
-  return TRUE;
+  return true;
 }
 
 /****************************************************************************
@@ -41,7 +41,7 @@ bool qtg_isometric_view_supported()
 ****************************************************************************/
 bool qtg_overhead_view_supported()
 {
-  return TRUE;
+  return true;
 }
 
 /****************************************************************************

@@ -48,7 +48,7 @@ static fc_client *freeciv_qt;
 const char *client_string = "gui-qt";
 
 const char * const gui_character_encoding = "UTF-8";
-const bool gui_use_transliteration = FALSE;
+const bool gui_use_transliteration = false;
 
 static QPixmap *unit_pixmap;
 
@@ -97,11 +97,12 @@ void qtg_ui_main(int argc, char *argv[])
 {
   qapp = new QApplication(argc, argv);
   QPixmap *qpm = new QPixmap;
+  QIcon app_icon;
+
   tileset_init(tileset);
   tileset_load_tiles(tileset);
   populate_unit_pixmap_table();
   qpm = get_icon_sprite(tileset, ICON_FREECIV)->pm;
-  QIcon app_icon;
   app_icon = ::QIcon(*qpm);
   qapp->setWindowIcon(app_icon);
   freeciv_qt = new fc_client();
@@ -226,7 +227,8 @@ void qtg_real_focus_units_changed(void)
 ****************************************************************************/
 void qtg_add_idle_callback(void (callback)(void *), void *data)
 {
-  call_me_back *cb= new call_me_back; /* removed in mr_idler:idling() */
+  call_me_back *cb = new call_me_back; /* removed in mr_idler:idling() */
+
   cb->callback = callback;
   cb->data = data;
   gui()->mr_idler.add_callback(cb);
@@ -311,6 +313,7 @@ void popup_quit_dialog()
 {
   QMessageBox ask;
   int ret;
+
   ask.setText(_("Are you sure you want to quit?"));
   ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
   ask.setDefaultButton(QMessageBox::Cancel);

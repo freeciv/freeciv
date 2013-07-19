@@ -36,7 +36,7 @@ void meswin_dialog_popup(bool raise)
 bool meswin_dialog_is_open(void)
 {
   /* PORTME */
-  return TRUE;
+  return true;
 }
 
 /**************************************************************************

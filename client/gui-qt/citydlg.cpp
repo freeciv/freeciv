@@ -37,7 +37,6 @@
 //gui-qt
 #include "citydlg.h"
 
-
 //agents
 #include "cma_fec.h"
 
@@ -55,8 +54,9 @@ static city_dialog *city_dlg;
 static void pixmap_put_x(QPixmap *pix)
 {
   QPen pen(QColor(0,0,0));
-  pen.setWidth(2);
   QPainter p;
+
+  pen.setWidth(2);
   p.begin(pix);
   p.setRenderHint(QPainter::Antialiasing);
   p.setPen(pen);
@@ -193,7 +193,6 @@ void unit_item::disband()
     return;
     break;
   case QMessageBox::Ok:
-
     if (!unit_has_type_flag(qunit, UTYF_UNDISBANDABLE) && qunit) {
       request_unit_disband(qunit);
       break;
@@ -248,7 +247,6 @@ void unit_item::fortify_unit()
 ****************************************************************************/
 void unit_item::mouseMoveEvent(QMouseEvent * event)
 {
-
   bool red = true;
   QRect r;
   QPoint p = pos();
@@ -320,7 +318,6 @@ void unit_item::sentry_unit()
 ****************************************************************************/
 unit_info::unit_info() : QWidget()
 {
-
   layout = new QHBoxLayout;
   setMouseTracking(true);
   init_layout();
@@ -352,6 +349,7 @@ void unit_info::mouseMoveEvent(QMouseEvent *event)
   int i = unit_list.count();
   unit_item *ui;
   int j;
+
   for (j = 0; j < i; j++) {
     ui = unit_list[j];
     ui->mouseMoveEvent(event);
@@ -369,6 +367,7 @@ void unit_info::init_layout()
   int i = unit_list.count();
   unit_item *ui;
   int j;
+
   setSizePolicy(size_fixed_policy);
   setFixedHeight(tileset_tile_height(tileset) * 3 / 2 + 1);
   for (j = 0; j < i; j++) {
@@ -383,11 +382,11 @@ void unit_info::init_layout()
 ****************************************************************************/
 void unit_info::clear_layout()
 {
-
-  setMouseTracking(false);
   int i = unit_list.count();
   unit_item *ui;
   int j;
+
+  setMouseTracking(false);
 
   for (j = 0; j < i; j++) {
     ui = unit_list[j];
@@ -418,6 +417,7 @@ void city_label::mousePressEvent(QMouseEvent *event)
 {
   int width = tileset_small_sprite_width(tileset);
   int citnum = event->x() / width;
+
   if (!can_client_issue_orders()) {
     return;
   }
@@ -468,6 +468,7 @@ void city_map::paintEvent(QPaintEvent *event)
 {
   QPainter painter;
   QString str;
+
   painter.begin(this);
   painter.drawPixmap(0,0, cutted_width, cutted_height, miniview->map_pixmap);
   if (cma_is_city_under_agent(mcity, NULL)){
@@ -475,7 +476,8 @@ void city_map::paintEvent(QPaintEvent *event)
       pix.fill(QColor(90, 90, 90, 90));
     painter.drawPixmap(0,0, cutted_width, cutted_height, pix);
     painter.setPen(QColor(120,120,120));
-    str = _("CMA") + QString(" ")+  QString(cmafec_get_short_descr_of_city(mcity));
+    str = _("CMA") + QString(" ")
+        +  QString(cmafec_get_short_descr_of_city(mcity));
     painter.drawText(5,cutted_height-10,str);
   }
   painter.end();
@@ -524,8 +526,7 @@ void city_map::mousePressEvent(QMouseEvent *event)
 
   canvas_x = event->x() + delta_x;
   canvas_y = event->y() + delta_y;
-  if (canvas_to_city_pos(&city_x, &city_y,
-                         city_map_radius_sq_get(mcity),
+  if (canvas_to_city_pos(&city_x, &city_y, city_map_radius_sq_get(mcity),
                          canvas_x, canvas_y)) {
     city_toggle_worker(mcity, city_x, city_y);
   }
@@ -540,17 +541,17 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
                                     QSizePolicy::Expanding);
   QSizePolicy size_fixed_policy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   QStringList info_list;
+  QFont *small_font;
   QFont f = QApplication::font();
   QFontMetrics fm(f);
   int info_nr;
-  QLabel *ql;
   int iter;
   QHeaderView *header;
+  QLabel *ql;
   QLabel *lab2;
-
   int h = 2 * fm.height() + 2;
-  QFont *small_font;
   int scroll_height = QStyle::PM_ScrollBarExtent;
+
   small_font = gui()->fc_fonts.get_font("gui_qt_font_small");
   setMouseTracking(true);
   setMaximumWidth(980);
@@ -584,129 +585,135 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
 
   /** Overview tab initiazlization */
   {
-  QGroupBox *map_box = new QGroupBox;
-  QVBoxLayout *v_layout = new QVBoxLayout;
-  QGroupBox *prod_box = new QGroupBox;
-  QGridLayout *prod_layout = new QGridLayout;
-  QScrollArea *scroll;
-  QScrollArea *scroll2;
+    QGroupBox *map_box = new QGroupBox;
+    QVBoxLayout *v_layout = new QVBoxLayout;
+    QGroupBox *prod_box = new QGroupBox;
+    QGridLayout *prod_layout = new QGridLayout;
+    QScrollArea *scroll;
+    QScrollArea *scroll2;
 
-  info_widget = new QWidget(overview_tab); /** City information widget
+    info_widget = new QWidget(overview_tab); /** City information widget
                                         * texts about surpluses and so on */
-  info_grid_layout = new QGridLayout(parent);
-  info_list << _("Food:") << _("Prod:") << _("Trade:") << _("Gold:")
-            << _("Luxury:") << _("Science:") << _("Granary:")
-            << _("Change in:") << _("Corruption:") << _("Waste:")
-            << _("Pollution:") << _("Plague Risk:");
-  info_nr = info_list.count();
-  info_widget->setMinimumHeight(tileset_tile_height(tileset) * 3 +
-                                2 * fm.height() + 2 * scroll_height + 50);
-  info_widget->setMaximumHeight(tileset_tile_height(tileset) * 3 +
-                                2 * fm.height() + 2 * scroll_height + 50);
-  info_widget->setFont(*small_font);
-  for (iter = 0; iter < info_nr; iter++) {
-    ql = new QLabel(info_list[iter], info_widget);
-    info_grid_layout->addWidget(ql, iter, 0);
-    qlt[iter] = new QLabel(info_widget);
-    info_grid_layout->addWidget(qlt[iter], iter, 1);
-  }
-  info_widget->setLayout(info_grid_layout);
-  production_combo = new progress_bar(parent);
-  production_combo->setToolTip(_("Click to change current production"));
+    info_grid_layout = new QGridLayout(parent);
+    info_list << _("Food:") << _("Prod:") << _("Trade:") << _("Gold:")
+              << _("Luxury:") << _("Science:") << _("Granary:")
+              << _("Change in:") << _("Corruption:") << _("Waste:")
+              << _("Pollution:") << _("Plague Risk:");
+    info_nr = info_list.count();
+    info_widget->setMinimumHeight(tileset_tile_height(tileset) * 3 +
+                                  2 * fm.height() + 2 * scroll_height + 50);
+    info_widget->setMaximumHeight(tileset_tile_height(tileset) * 3 +
+                                  2 * fm.height() + 2 * scroll_height + 50);
+    info_widget->setFont(*small_font);
+    for (iter = 0; iter < info_nr; iter++) {
+      ql = new QLabel(info_list[iter], info_widget);
+      info_grid_layout->addWidget(ql, iter, 0);
+      qlt[iter] = new QLabel(info_widget);
+      info_grid_layout->addWidget(qlt[iter], iter, 1);
+    }
+    info_widget->setLayout(info_grid_layout);
+    production_combo = new progress_bar(parent);
+    production_combo->setToolTip(_("Click to change current production"));
 
-  connect(production_combo, SIGNAL(clicked()), SLOT(show_targets()));
-  buy_button = new QPushButton();
-  connect(lcity_name, SIGNAL(clicked()), SLOT(city_rename()));
-  connect(buy_button, SIGNAL(clicked()), SLOT(buy()));
-  item_button = new QPushButton();
-  item_button->setToolTip(_("Click left button to change current production"));
-  connect(item_button, SIGNAL(clicked()), SLOT(show_targets()));
-  production_table = new QTableWidget();
-  production_table->setColumnCount(3);
-  production_table->setProperty("showGrid", "false");
-  production_table->setProperty("selectionBehavior", "SelectRows");
-  production_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
-  production_table->verticalHeader()->setVisible(false);
-  production_table->horizontalHeader()->setVisible(false);
-  production_table->setSelectionMode(QAbstractItemView::SingleSelection);
-  production_combo->setFixedHeight(h);
-  production_combo->setMinimumWidth(200);
-  header = production_table->horizontalHeader();
-  connect(production_table, SIGNAL(itemDoubleClicked(QTableWidgetItem *)),
-          SLOT(dbl_click(QTableWidgetItem *)));
-  header->setStretchLastSection(true);
-  citizens_label = new city_label(FEELING_FINAL);
-  citizen_pixmap = NULL;
-  view = new city_map(this);
-  v_layout->addWidget(view);
-  map_box->setLayout(v_layout);
-  map_box->setTitle(_("City map"));
-  supp_units = new QLabel(_("Supported units"));
-  curr_units = new QLabel(_("Present units"));
-  lcity_name->setAlignment(Qt::AlignRight);
-  supported_units = new unit_info;
-  scroll = new QScrollArea;
-  scroll->setWidgetResizable(true);
-  scroll->setMaximumHeight(tileset_tile_height(tileset)*2);
-  supported_units->init_layout();
-  scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  scroll->setWidget(supported_units);
-  current_units = new unit_info;
-  scroll2 = new QScrollArea;
-  scroll2->setWidgetResizable(true);
-  scroll2->setMaximumHeight(tileset_tile_height(tileset)*2);
-  current_units->init_layout();
-  scroll2->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  scroll2->setWidget(current_units);
-  prod_layout->addWidget(item_button,0,1,1,1);
-  prod_layout->addWidget(production_combo,0,0,1,1);
-  prod_layout->addWidget(buy_button,1,0,1,2);
-  prod_layout->addWidget(production_table,2,0,3,2);
-  prod_box->setLayout(prod_layout);
+    connect(production_combo, SIGNAL(clicked()), SLOT(show_targets()));
+    buy_button = new QPushButton();
+    connect(lcity_name, SIGNAL(clicked()), SLOT(city_rename()));
+    connect(buy_button, SIGNAL(clicked()), SLOT(buy()));
+    item_button = new QPushButton();
+    item_button->setToolTip(_("Click left button to change current"
+                              "production"));
+    connect(item_button, SIGNAL(clicked()), SLOT(show_targets()));
+    production_table = new QTableWidget();
+    production_table->setColumnCount(3);
+    production_table->setProperty("showGrid", "false");
+    production_table->setProperty("selectionBehavior", "SelectRows");
+    production_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    production_table->verticalHeader()->setVisible(false);
+    production_table->horizontalHeader()->setVisible(false);
+    production_table->setSelectionMode(QAbstractItemView::SingleSelection);
+    production_combo->setFixedHeight(h);
+    production_combo->setMinimumWidth(200);
+    header = production_table->horizontalHeader();
+    connect(production_table, SIGNAL(itemDoubleClicked(QTableWidgetItem *)),
+            SLOT(dbl_click(QTableWidgetItem *)));
+    header->setStretchLastSection(true);
+    citizens_label = new city_label(FEELING_FINAL);
+    citizen_pixmap = NULL;
+    view = new city_map(this);
+    v_layout->addWidget(view);
+    map_box->setLayout(v_layout);
+    map_box->setTitle(_("City map"));
+    supp_units = new QLabel(_("Supported units"));
+    curr_units = new QLabel(_("Present units"));
+    lcity_name->setAlignment(Qt::AlignRight);
+    supported_units = new unit_info;
+    scroll = new QScrollArea;
+    scroll->setWidgetResizable(true);
+    scroll->setMaximumHeight(tileset_tile_height(tileset) * 2);
+    supported_units->init_layout();
+    scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scroll->setWidget(supported_units);
+    current_units = new unit_info;
+    scroll2 = new QScrollArea;
+    scroll2->setWidgetResizable(true);
+    scroll2->setMaximumHeight(tileset_tile_height(tileset) * 2);
+    current_units->init_layout();
+    scroll2->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scroll2->setWidget(current_units);
+    prod_layout->addWidget(item_button, 0, 1, 1, 1);
+    prod_layout->addWidget(production_combo, 0, 0, 1, 1);
+    prod_layout->addWidget(buy_button, 1, 0, 1, 2);
+    prod_layout->addWidget(production_table, 2, 0, 3, 2);
+    prod_box->setLayout(prod_layout);
 
-     /*    0     1     2     3     4       5       6
-  0  [.CITIZENS LABEL                   ][CITY NAME]
-  1  [......V..I...E...W........... ][SELECT][ICON]
-  2  [............................. ][.BUY.BUTTON..]
-  3  [......V..I...E..W............ ][..PROD.......]
-  4  [............................. ][.............]
-  5  [.....V...I...E..W............][...TABLE.....]
-  6  [.INFO] [.LABEL1.....................]
-  7  [.INFO] [.SCROLL.1..........................]
-  8  [.INFO] [LABEL2......................]
-  9  [.INFO] [..SCROLL.2.........................]
+    /*    0     1     2     3     4       5       6
+    0  [.CITIZENS LABEL                   ][CITY NAME]
+    1  [......V..I...E...W........... ][SELECT][ICON]
+    2  [............................. ][.BUY.BUTTON..]
+    3  [......V..I...E..W............ ][..PROD.......]
+    4  [............................. ][.............]
+    5  [.....V...I...E..W............][...TABLE.....]
+    6  [.INFO] [.LABEL1.....................]
+    7  [.INFO] [.SCROLL.1..........................]
+    8  [.INFO] [LABEL2......................]
+    9  [.INFO] [..SCROLL.2.........................]
     */
-  overview_grid_layout->addWidget(prod_box, 1, 5, 4, 2);
-  overview_grid_layout->addWidget(info_widget, 6, 0, 4, 1);
-  overview_grid_layout->addWidget(citizens_label, 0, 0, 1, 6);
-  overview_grid_layout->addWidget(map_box, 1, 0, 4, 5);
-  overview_grid_layout->addWidget(lcity_name, 0, 5, 1, 2);
-  overview_grid_layout->addWidget(curr_units, 8, 1, 1, 5);
-  overview_grid_layout->addWidget(scroll2, 9, 1, 1, 6);
-  overview_grid_layout->addWidget(supp_units, 6, 1, 1, 5);
-  overview_grid_layout->addWidget(scroll, 7, 1, 1, 6);
-  overview_grid_layout->setColumnStretch(4, 10);
-  overview_grid_layout->setColumnStretch(5, 10);
-  overview_grid_layout->setColumnStretch(6, 10);
+    overview_grid_layout->addWidget(prod_box, 1, 5, 4, 2);
+    overview_grid_layout->addWidget(info_widget, 6, 0, 4, 1);
+    overview_grid_layout->addWidget(citizens_label, 0, 0, 1, 6);
+    overview_grid_layout->addWidget(map_box, 1, 0, 4, 5);
+    overview_grid_layout->addWidget(lcity_name, 0, 5, 1, 2);
+    overview_grid_layout->addWidget(curr_units, 8, 1, 1, 5);
+    overview_grid_layout->addWidget(scroll2, 9, 1, 1, 6);
+    overview_grid_layout->addWidget(supp_units, 6, 1, 1, 5);
+    overview_grid_layout->addWidget(scroll, 7, 1, 1, 6);
+    overview_grid_layout->setColumnStretch(4, 10);
+    overview_grid_layout->setColumnStretch(5, 10);
+    overview_grid_layout->setColumnStretch(6, 10);
   }
-  /** Production tab initiazlization */
+  /** Production tab initialization */
   {
-    item_button_p = new QPushButton;
-    item_button_p->setToolTip(_("Click left button to change current production"));
     QLabel *label_p = new QLabel;
     QLabel *label_up = new QLabel;
+    QLabel *ql = new QLabel(_("Disband if build settler at size 1"));
     QVBoxLayout *vbox = new QVBoxLayout;
     QVBoxLayout *vbox_layout = new QVBoxLayout;
-    but_remove_item = new QPushButton;
+    QGroupBox *qgb = new QGroupBox;
+    QGroupBox *qgbprod = new QGroupBox;
+    QGroupBox *group_box = new QGroupBox(_("Worklist Option"));
+    QGridLayout *qgrid = new QGridLayout;
     QPushButton *but2 = new QPushButton;
+
+    but_remove_item = new QPushButton;
     but_clear_worklist = new QPushButton;
+    item_button_p = new QPushButton;
+
+    item_button_p->setToolTip(_("Click left button to change"
+                                "current production"));
     label_p->setAlignment(Qt::AlignLeft);
     label_p->setText(_("Show future targets"));
     label_up->setAlignment(Qt::AlignLeft);
     label_up->setText(_("Show units"));
-    QGroupBox *qgb = new QGroupBox();
-    QGroupBox *qgbprod = new QGroupBox();
-    QGridLayout *qgrid = new QGridLayout;
     pcity_name = new fc_label(this);
     lcity_name->setToolTip(_("Click to change city name"));
     pcity_name->setAlignment(Qt::AlignRight);
@@ -719,7 +726,6 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     show_units_p = new QCheckBox;
     show_units_p->setChecked(true);
 
-    QGroupBox *group_box = new QGroupBox(_("Worklist Option"));
     r1 = new QRadioButton(_("Change"));
     r2 = new QRadioButton(_("Insert Before"));
     r3 = new QRadioButton(_("Insert After"));
@@ -752,14 +758,13 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     qgbprod->setLayout(vbox_layout);
 
     disband_at_one = new QCheckBox;
-    QLabel *ql = new QLabel(_("Disband if build settler at size 1"));
     connect(disband_at_one, SIGNAL(stateChanged(int)),
             SLOT(disband_state_changed(int)));
     qgrid->addWidget(future_targets_p, 0, 0, 1, 1);
     qgrid->addWidget(label_p, 0, 1, 1, 1);
     qgrid->addWidget(show_units_p, 1, 0, 1, 1);
-    qgrid->addWidget(disband_at_one,2,0,1,1);
-    qgrid->addWidget(ql,2,1,1,1);
+    qgrid->addWidget(disband_at_one, 2, 0, 1, 1);
+    qgrid->addWidget(ql, 2, 1, 1, 1);
     qgrid->addWidget(label_up, 1, 1, 1, 1);
     qgrid->setColumnStretch(1, 10);
     qgb->setLayout(qgrid);
@@ -767,21 +772,21 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     but2->setText(_("Save worklist"));
     but_clear_worklist->setText(_("Clear worklist"));
 
-  /*
-         0   1    2    3     4       5       6
-    0
-    1
-    2   [prod.combo]      [..group.butts.][c.name]
-    3   [..........]      [...group.box..]
-    4   [.p_table_p]
-    5   [..........]        [icon.][buy]
-    6                       [.rem.][clear][create]
-      */
+    /*
+           0   1    2    3     4       5       6
+      0
+      1
+      2   [prod.combo]      [..group.butts.][c.name]
+      3   [..........]      [...group.box..]
+      4   [.p_table_p]
+      5   [..........]        [icon.][buy]
+      6                       [.rem.][clear][create]
+     */
 
     production_grid_layout->addWidget(qgb, 4, 4, 1, 3);
     production_grid_layout->addWidget(group_box, 2, 4, 2, 2);
     production_grid_layout->addWidget(buy_button_p, 5, 5, 1, 1);
-    production_grid_layout->addWidget(qgbprod, 2, 0, 5,1);
+    production_grid_layout->addWidget(qgbprod, 2, 0, 5, 1);
     production_grid_layout->addWidget(item_button_p, 5, 4, 1, 1);
     production_grid_layout->addWidget(but_remove_item, 6, 4, 1, 1);
     production_grid_layout->addWidget(but2, 6, 6, 1, 1);
@@ -798,15 +803,15 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     connect(production_combo_p, SIGNAL(clicked()),
             SLOT(show_targets_worklist()));
     connect(item_button_p, SIGNAL(clicked()),
-                     SLOT(show_targets()));
+            SLOT(show_targets()));
     connect(p_table_p,
-                     SIGNAL(itemDoubleClicked(QTableWidgetItem *)),
-                     SLOT(dbl_click_p(QTableWidgetItem *)));
+            SIGNAL(itemDoubleClicked(QTableWidgetItem *)),
+            SLOT(dbl_click_p(QTableWidgetItem *)));
     connect(p_table_p->selectionModel(),
-                     SIGNAL(selectionChanged(const QItemSelection &,
-                                             const QItemSelection &)),
-                     SLOT(item_selected(const QItemSelection &,
-                                        const QItemSelection &)));
+            SIGNAL(selectionChanged(const QItemSelection &,
+                                    const QItemSelection &)),
+            SLOT(item_selected(const QItemSelection &,
+                               const QItemSelection &)));
     connect(pcity_name, SIGNAL(clicked()), SLOT(city_rename()));
   } /** Production tab initialization end */
 
@@ -815,6 +820,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
 
     QGroupBox *qgbox = new QGroupBox(_("Happiness"));
     QGridLayout *gridl = new QGridLayout;
+
     nationality_table = new QTableWidget;
     nationality_table->setColumnCount(3);
     nationality_table->setProperty("showGrid", "false");
@@ -823,48 +829,48 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     nationality_table->verticalHeader()->setVisible(false);
 
     info_list.clear();
-    info_list << N_("Cities:") <<N_("Luxuries:") << N_("Buildings:")
-            << N_("Nationality:") << N_("Units:") <<  N_("Wonders:");
+    info_list << N_("Cities:") << N_("Luxuries:") << N_("Buildings:")
+              << N_("Nationality:") << N_("Units:") <<  N_("Wonders:");
     info_nr = info_list.count();
-    for (int i=0; i < info_list.count(); i++)
-    {
-    lab_table[i]= new city_label(1+i);
-    gridl->addWidget(lab_table[i],i,1,1,1);
-    lab2 = new QLabel;
-    lab2->setFont(*small_font);
-    lab2->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    lab2->setText(info_list.at(i));
-    gridl->addWidget(lab2,i,0,1,1);
+    for (int i = 0; i < info_list.count(); i++) {
+      lab_table[i] = new city_label(1 + i);
+      gridl->addWidget(lab_table[i], i, 1, 1, 1);
+      lab2 = new QLabel;
+      lab2->setFont(*small_font);
+      lab2->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+      lab2->setText(info_list.at(i));
+      gridl->addWidget(lab2, i, 0, 1, 1);
     }
     gridl->setSpacing(0);
     qgbox->setLayout(gridl);
     info_view = new city_map(this);
     happiness_grid_layout->addWidget(info_view, 0, 0, 1, 1);
     happiness_grid_layout->addWidget(qgbox, 1, 0, 1 , 1);
-    happiness_grid_layout->addWidget(nationality_table,0,1,1,1);
-    happiness_grid_layout->setRowStretch(1,10);
-    happiness_grid_layout->setColumnStretch(1,10);
+    happiness_grid_layout->addWidget(nationality_table, 0, 1, 1, 1);
+    happiness_grid_layout->setRowStretch(1, 10);
+    happiness_grid_layout->setColumnStretch(1, 10);
   } /** Happiness tab initialization end */
 
-  {/** CMA tab initialization */
+  { /** CMA tab initialization */
     QGroupBox *qgbox = new QGroupBox(_("Presets:"));
     QGroupBox *qsliderbox = new QGroupBox(_("CMA settings"));
     QGroupBox *result_box = new QGroupBox(_("Results:"));
     QHBoxLayout *hbox = new QHBoxLayout;
-    QPushButton *qpush1 
-     = new QPushButton(style()->standardIcon(QStyle::SP_DialogDiscardButton),
-                       _("Delete"));
-    connect(qpush1, SIGNAL(pressed()), SLOT(cma_remove()));
-    QPushButton *qpush2 
-      = new QPushButton(style()->standardIcon(QStyle::SP_DialogSaveButton),
-                        _("Save"));
-    connect(qpush2, SIGNAL(pressed()), SLOT(save_cma()));
     QGridLayout *gridl = new QGridLayout;
     QGridLayout *slider_grid = new QGridLayout;
     QStringList str_list;
     QLabel *some_label;
-
     QSlider *slider;
+    QPushButton *qpush1
+      = new QPushButton(style()->standardIcon(QStyle::SP_DialogDiscardButton),
+                        _("Delete"));
+    QPushButton *qpush2
+      = new QPushButton(style()->standardIcon(QStyle::SP_DialogSaveButton),
+                        _("Save"));
+
+    connect(qpush1, SIGNAL(pressed()), SLOT(cma_remove()));
+    connect(qpush2, SIGNAL(pressed()), SLOT(save_cma()));
+
     cma_info_text = new QLabel;
     cma_info_text->setFont(*small_font);
     cma_info_text->setAlignment(Qt::AlignCenter);
@@ -877,13 +883,14 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     cma_table->verticalHeader()->setVisible(false);
     cma_table->horizontalHeader()->setVisible(false);
     cma_table->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+
     connect(cma_table->selectionModel(),
             SIGNAL(selectionChanged(const QItemSelection &,
                                     const QItemSelection &)),
             SLOT(cma_selected(const QItemSelection &,
                               const QItemSelection &)));
-    gridl->addWidget(cma_table,0,0,1,2);
-    gridl->addWidget(qpush1,1,0,1,2);
+    gridl->addWidget(cma_table, 0, 0, 1, 2);
+    gridl->addWidget(qpush1, 1, 0, 1, 2);
     qgbox->setLayout(gridl);
     hbox->addWidget(cma_info_text);
     result_box->setLayout(hbox);
@@ -891,28 +898,28 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
              << _("Luxury") << _("Science") << _("Celebrate");
     some_label = new QLabel(_("Minimal Surplus"));
     some_label->setAlignment(Qt::AlignCenter);
-    slider_grid->addWidget(some_label,0,1,1,2);
+    slider_grid->addWidget(some_label, 0, 1, 1, 2);
     some_label = new QLabel(_("Priority"));
     some_label->setAlignment(Qt::AlignCenter);
-    slider_grid->addWidget(some_label,0,3,1,2);
-    for (int i=0; i< str_list.count(); i++){
+    slider_grid->addWidget(some_label, 0, 3, 1, 2);
+    for (int i = 0; i < str_list.count(); i++) {
       some_label = new QLabel(str_list.at(i));
-      slider_grid->addWidget(some_label,i+1,0,1,1);
+      slider_grid->addWidget(some_label, i + 1, 0, 1, 1);
       some_label = new QLabel("0");
       some_label->setMinimumWidth(25);
-      if (i != str_list.count() -1){
-      slider = new QSlider(Qt::Horizontal);
-      slider->setFocusPolicy(Qt::TabFocus);
-      slider_tab[2*i] = slider;
-      slider->setRange(-20,20);
-      slider->setSingleStep(1);
-      slider_grid->addWidget(some_label,i+1,1,1,1);
-      slider_grid->addWidget(slider,i+1,2,1,1);
-      slider->setProperty("FC",QVariant::fromValue((void *)some_label));
-      connect(slider,SIGNAL(valueChanged(int)), SLOT(cma_slider(int)));
+      if (i != str_list.count() - 1) {
+        slider = new QSlider(Qt::Horizontal);
+        slider->setFocusPolicy(Qt::TabFocus);
+        slider_tab[2 * i] = slider;
+        slider->setRange(-20, 20);
+        slider->setSingleStep(1);
+        slider_grid->addWidget(some_label, i + 1, 1, 1, 1);
+        slider_grid->addWidget(slider, i + 1, 2, 1, 1);
+        slider->setProperty("FC", QVariant::fromValue((void *)some_label));
+        connect(slider, SIGNAL(valueChanged(int)), SLOT(cma_slider(int)));
       } else {
         cma_celeb_checkbox = new QCheckBox;
-        slider_grid->addWidget(cma_celeb_checkbox,i+1,2,1,1);
+        slider_grid->addWidget(cma_celeb_checkbox, i + 1, 2 , 1 , 1);
         connect(cma_celeb_checkbox,
                 SIGNAL(stateChanged(int)), SLOT(cma_celebrate_changed(int)));
       }
@@ -920,26 +927,26 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
       some_label->setMinimumWidth(25);
       slider = new QSlider(Qt::Horizontal);
       slider->setFocusPolicy(Qt::TabFocus);
-      slider->setRange(0,25);
-      slider_tab[2*i+1] = slider;
-      slider->setProperty("FC",QVariant::fromValue((void *)some_label));
-      slider_grid->addWidget(some_label,i+1,3,1,1);
-      slider_grid->addWidget(slider,i+1,4,1,1);
-      connect(slider,SIGNAL(valueChanged(int)), SLOT(cma_slider(int)));
+      slider->setRange(0, 25);
+      slider_tab[2 * i + 1] = slider;
+      slider->setProperty("FC", QVariant::fromValue((void *)some_label));
+      slider_grid->addWidget(some_label, i + 1, 3, 1, 1);
+      slider_grid->addWidget(slider, i + 1, 4, 1, 1);
+      connect(slider, SIGNAL(valueChanged(int)), SLOT(cma_slider(int)));
     }
 
     cma_enable_but = new QPushButton();
     cma_enable_but->setFocusPolicy(Qt::TabFocus);
     connect(cma_enable_but, SIGNAL(pressed()), SLOT(cma_enable()));
-    slider_grid->addWidget(cma_enable_but,O_LAST+4,1,1,2);
-    slider_grid->addWidget(qpush2,O_LAST+4,3,1,2);
+    slider_grid->addWidget(cma_enable_but, O_LAST + 4, 1, 1, 2);
+    slider_grid->addWidget(qpush2, O_LAST + 4, 3, 1, 2);
 
     qsliderbox->setLayout(slider_grid);
     cma_result = new QLabel;
     cma_grid_layout->addWidget(qgbox, 0, 0, 4 , 1);
-    cma_grid_layout->addWidget(result_box,0,1,1,1);
-    cma_grid_layout->addWidget(cma_result,1,1,1,1);
-    cma_grid_layout->addWidget(qsliderbox,2,1,2,1);
+    cma_grid_layout->addWidget(result_box, 0, 1, 1, 1);
+    cma_grid_layout->addWidget(cma_result, 1, 1, 1, 1);
+    cma_grid_layout->addWidget(qsliderbox, 2, 1, 2, 1);
   } /** CMA tab initialization end */
 
   overview_tab->setLayout(overview_grid_layout);
@@ -1032,6 +1039,7 @@ void city_dialog::city_rename()
                                      _("What should we rename the city to?"),
                                       QLineEdit::Normal,
                                       city_name(pcity), &ok);
+
   if (ok && !text.isEmpty()) {
     ::city_rename(pcity, text.toLocal8Bit().data());
   }
@@ -1049,6 +1057,7 @@ void city_dialog::save_cma()
                                        _("What should we name the preset?"),
                                        QLineEdit::Normal,
                                        _("new preset"), &ok);
+
   if (ok && !text.isEmpty()) {
     param.allow_disorder = false;
     param.allow_specialists = true;
@@ -1083,6 +1092,7 @@ void city_dialog::cma_enable()
 void city_dialog::cma_changed()
 {
   struct cm_parameter param;
+
   param.allow_disorder = false;
   param.allow_specialists = true;
   param.require_happy = cma_celeb_checkbox->isChecked();
@@ -1100,26 +1110,26 @@ void city_dialog::cma_changed()
 void city_dialog::cma_selected(const QItemSelection &sl,
                                const QItemSelection &ds)
 {
-  const struct cm_parameter* param ;
+  const struct cm_parameter *param;
   int output;
   QModelIndex index;
   QModelIndexList indexes = sl.indexes();
 
-  if (indexes.isEmpty() || cma_table->signalsBlocked()){
+  if (indexes.isEmpty() || cma_table->signalsBlocked()) {
     return;
   }
   index = indexes.at(0);
   int ind = index.row();
 
-  if (cma_table->currentRow() == -1 || cmafec_preset_num()==0){
+  if (cma_table->currentRow() == -1 || cmafec_preset_num() == 0) {
     return;
   }
   param = cmafec_preset_get_parameter(ind);
   for (output = O_FOOD; output < O_LAST; output++) {
-    slider_tab[2*output+1]->setValue(param->factor[output]);
-    slider_tab[2*output]->setValue(param->minimal_surplus[output]);
+    slider_tab[2 * output + 1]->setValue(param->factor[output]);
+    slider_tab[2 * output]->setValue(param->minimal_surplus[output]);
   }
-  slider_tab[2*O_LAST+1]->setValue(param->happy_factor);
+  slider_tab[2 * O_LAST + 1]->setValue(param->happy_factor);
   cma_celeb_checkbox->setChecked(param->require_happy);
   if (cma_is_city_under_agent(pcity, NULL)) {
     cma_release_city(pcity);
@@ -1179,6 +1189,7 @@ void city_dialog::cma_remove()
   int i;
   QMessageBox ask;
   int ret;
+
   i = cma_table->currentRow();
   if (i == -1 || cmafec_preset_num() == 0) {
     return;
@@ -1188,6 +1199,7 @@ void city_dialog::cma_remove()
   ask.setDefaultButton(QMessageBox::Cancel);
   ask.setWindowTitle(cmafec_preset_get_descr(i));
   ret = ask.exec();
+
   switch (ret) {
   case QMessageBox::Cancel:
     return;
@@ -1237,10 +1249,12 @@ void city_dialog::cma_slider(int value)
 ****************************************************************************/
 void city_dialog::update_results_text()
 {
-  /* FIXME that looks bad if font is not monospace, make own text ? */
+  /* FIXME that looks bad if font is not monospace, make own text 
+   * in HTML table or in two labels ? */
   QString str;
   struct cm_parameter param;
   struct cm_result *result = cm_result_new(pcity);
+
   cmafec_get_fe_parameter(pcity, &param);
   cm_result_from_main_map(result, pcity);
   str = cmafec_get_result_descr(pcity, result, &param);
@@ -1253,6 +1267,7 @@ void city_dialog::update_results_text()
 void city_dialog::disband_state_changed(int state)
 {
   bv_city_options new_options;
+
   BV_CLR_ALL(new_options);
   if (state == Qt::Checked) {
     BV_SET(new_options, CITYO_DISBAND);
@@ -1269,16 +1284,20 @@ void city_dialog::disband_state_changed(int state)
 ****************************************************************************/
 void city_dialog::display_worklist_menu(const QPoint &p)
 {
+  bool worklist_defined = true;
+  int which_menu;
+  cid c_id;
   QMenu *insert_menu;
   QMenu *add_menu;
   QMenu list_menu(this);
   QMap<QString, cid> list;
-  bool worklist_defined = true;
   QAction wl_clear(_("Clear"), 0);
+  QAction *action;
+  QAction *act;
   QAction wl_empty(_("(no worklists defined)"), 0);
   QVariant qvar;
-  int which_menu;
-  cid c_id;
+  QMap<QString, cid>::const_iterator map_iter;
+
   if (!can_client_issue_orders()) {
     return;
   }
@@ -1287,6 +1306,7 @@ void city_dialog::display_worklist_menu(const QPoint &p)
   connect(&wl_clear, SIGNAL(triggered()), SLOT(clear_worklist()));
   list_menu.addAction(&wl_clear);
   list.clear();
+
   global_worklists_iterate(pgwl) {
     list.insert(global_worklist_name(pgwl), global_worklist_id(pgwl));
   } global_worklists_iterate_end;
@@ -1297,8 +1317,6 @@ void city_dialog::display_worklist_menu(const QPoint &p)
     worklist_defined = false;
   }
 
-  QAction *action;
-  QMap<QString, cid>::const_iterator map_iter;
   map_iter = list.constBegin();
   while (map_iter != list.constEnd()) {
     action = add_menu->addAction(map_iter.key());
@@ -1309,7 +1327,8 @@ void city_dialog::display_worklist_menu(const QPoint &p)
     action->setProperty("FC", 2);
     map_iter++;
   }
-  QAction *act = 0;
+
+  act = 0;
   act = list_menu.exec(QCursor::pos());
   if (act) {
     qvar = act->property("FC");
@@ -1653,11 +1672,12 @@ void city_dialog::dbl_click(QTableWidgetItem *item)
   int price;
   int ret;
   struct universal selected;
+  struct impr_type *pimprove;
 
   qvar = item->data(Qt::UserRole);
   uid = qvar.toInt();
   selected = cid_decode(uid);
-  struct impr_type *pimprove = selected.value.building;
+  pimprove = selected.value.building;
 
   if (!can_client_issue_orders()) {
     return;
@@ -1678,6 +1698,7 @@ void city_dialog::dbl_click(QTableWidgetItem *item)
   ask.setDefaultButton(QMessageBox::Cancel);
   ask.setWindowTitle(_("Sell improvement?"));
   ret = ask.exec();
+
   switch (ret) {
   case QMessageBox::Cancel:
     return;
@@ -1694,6 +1715,7 @@ void city_dialog::dbl_click(QTableWidgetItem *item)
 void city_dialog::delete_prod()
 {
   struct worklist queue;
+
   city_get_queue(pcity, &queue);
   if (selected_row_p < 0 || selected_row_p > worklist_length(&queue)) {
     return;
@@ -1725,6 +1747,7 @@ void city_dialog::update_units()
   struct unit_list *units;
   char buf[256];
   int n;
+
   supported_units->clear_layout();
 
   if (NULL != client.conn.playing
@@ -1744,7 +1767,6 @@ void city_dialog::update_units()
   fc_snprintf(buf, sizeof(buf), _("Supported units %d"), n);
   supp_units->setText(QString(buf));
   supported_units->init_layout();
-
   current_units->clear_layout();
 
   if (NULL != client.conn.playing
@@ -1776,6 +1798,7 @@ void city_dialog::item_selected(const QItemSelection &sl,
 {
   QModelIndex index;
   QModelIndexList indexes = sl.indexes();
+
   if (indexes.isEmpty()){
     return;
   }
@@ -1954,7 +1977,7 @@ void city_dialog::update_improvements()
 
   h = fm.height() + 6;
   targets_used = collect_already_built_targets(targets, pcity);
-  name_and_sort_items(targets, targets_used, items, FALSE, pcity);
+  name_and_sort_items(targets, targets_used, items, false, pcity);
 
   production_table->clearContents();
   production_table->setRowCount(0);
@@ -2012,6 +2035,7 @@ void city_dialog::update_improvements()
    */
   for (int i = 0; i < worklist_length(&queue); i++) {
     struct universal target = queue.entries[i];
+
     if (VUT_UTYPE == target.kind) {
       str = utype_values_translation(target.value.utype);
       cost = utype_build_shield_cost(target.value.utype);
@@ -2074,6 +2098,7 @@ void city_dialog::production_changed(int index)
 void city_dialog::show_targets()
 {
   production_widget *pw;
+
   pw = new production_widget(pcity, false, 0, 0, true);
   pw->show();
 }
@@ -2129,13 +2154,13 @@ void city_dialog::save_worklist()
 {
   struct worklist queue;
   struct global_worklist *gw;
-
   bool ok;
   QString text = QInputDialog::getText(this,
                                       _("Save current worklist"),
                                       _("What should we name new worklist?"),
                                       QLineEdit::Normal,
                                       _("New worklist"), &ok);
+
   if (ok && !text.isEmpty()) {
     gw = global_worklist_new(text.toLocal8Bit().data());
     city_get_queue(pcity, &queue);
@@ -2149,6 +2174,7 @@ void city_dialog::save_worklist()
 void city_dialog::update_title()
 {
   QString buf;
+
   lcity_name->setText(QString("<i><b>") + QString(city_name(pcity))
                       + QString("</b></i>  "));
   pcity_name->setText(QString("<i><b>") + QString(city_name(pcity))
@@ -2307,8 +2333,11 @@ void city_production_delegate::paint(QPainter *painter,
   bool is_flying = false;
   bool is_unit = true;
   QPixmap pix_dec(option.rect.width(), option.rect.height());
+  QStyleOptionViewItemV2 opt;
 
-  if (!option.rect.isValid()) return;
+  if (!option.rect.isValid()) {
+    return;
+  }
   qvar = index.data();
   if (qvar.isNull()) {
     return;
@@ -2327,7 +2356,7 @@ void city_production_delegate::paint(QPainter *painter,
       is_flying = true;
     }
     sprite = get_unittype_sprite(tileset, target->value.utype,
-                              direction8_invalid(), TRUE);
+                              direction8_invalid(), true);
   } else {
     is_unit = false;
     name = improvement_name_translation(target->value.building);
@@ -2343,7 +2372,7 @@ void city_production_delegate::paint(QPainter *painter,
     }
   }
 
-  QStyleOptionViewItemV2 opt = QItemDelegate::setOptions(index, option);
+  opt = QItemDelegate::setOptions(index, option);
   painter->save();
   opt.displayAlignment = Qt::AlignLeft;
   QItemDelegate::drawBackground(painter, opt, index);
@@ -2390,10 +2419,11 @@ void city_production_delegate::drawFocus(QPainter *painter,
                                          const QStyleOptionViewItem &option,
                                          const QRect &rect) const
 {
+  QPixmap pix(option.rect.width(), option.rect.height());
+
   if ((option.state & QStyle::State_MouseOver) == 0 || !rect.isValid()) {
     return;
   }
-  QPixmap pix(option.rect.width(), option.rect.height());
   pix.fill(QColor(50, 50, 50, 50));
   QItemDelegate::drawDecoration(painter, option, option.rect, pix);
 }
@@ -2406,6 +2436,7 @@ QSize city_production_delegate::sizeHint(const QStyleOptionViewItem &option,
                                          const QModelIndex &index) const
 {
   QSize s;
+
   s.setWidth(pd.x());
   s.setHeight(pd.y());
   return s;
@@ -2485,7 +2516,6 @@ QVariant city_production_model::data(const QModelIndex &index, int role) const
 void city_production_model::populate()
 {
   production_item *pi;
-
   struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
   struct item items[MAX_NUM_PRODUCTION_TARGETS];
   struct universal *renegade;
@@ -2555,6 +2585,7 @@ production_widget::production_widget(struct city *pcity, bool future,
   QPoint pos, sh;
   int desk_width = QApplication::desktop()->width();
   int desk_height = QApplication::desktop()->height();
+
   setWindowFlags(Qt::Popup);
   verticalHeader()->setVisible(false);
   horizontalHeader()->setVisible(false);
@@ -2615,6 +2646,7 @@ void production_widget::prod_selected(const QItemSelection &sl,
   QVariant qvar;
   struct worklist queue;
   struct universal *target;
+
   if (indexes.isEmpty() || client_is_observer()) {
     return;
   }
