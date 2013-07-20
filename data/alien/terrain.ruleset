@@ -31,10 +31,10 @@ min_start_native_area = 15
 
 ; How many fragments each movement point has.
 ; For example road movement costs are relative to this.
-move_fragments = 3
+move_fragments = 4
 
 ; How many move fragments IgTer unit movement costs
-igter_cost = 1
+igter_cost = 2
 
 ; There are resources in the middle of the oceans, not only near coast
 ocean_resources = TRUE
@@ -692,8 +692,7 @@ flags          = "AutoOnCityCenter"
 helptext       = _("\
 Basic Road is available for building from the beginning of the game.\
 \n\n\
-Movement via Road costs 2/3 movement points. Having Road on Grassland \
-tile provides increase of +1 to trade on that tile.\
+Having Road on Grassland tile provides increase of +1 to trade on that tile.\
 ")
 
 [road_highway]
@@ -723,8 +722,6 @@ hidden_by      = "Maglev"
 flags          = "AutoOnCityCenter"
 helptext       = _("\
 You can upgrade Roads to Highways.\
-\n\n\
-Movement via Highway costs 1/3 movement points.\
 ")
 
 [road_maglev]
@@ -802,7 +799,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Oceanic", "Local"
     }
-move_cost      = 3
+move_cost      = 4
 build_time     = 3
 food_incr      = 0
 shield_incr    = 0
@@ -826,7 +823,7 @@ act_gfx_alt    = "unit.road"
 buildable      = FALSE
 pillageable    = FALSE
 defense_bonus  = 50
-move_cost      = 1
+move_cost      = 2
 move_mode      = "Cardinal"
 food_incr_const  = 1
 trade_incr_const = 1
@@ -850,7 +847,7 @@ act_gfx_alt    = "unit.road"
 buildable      = FALSE
 pillageable    = FALSE
 defense_bonus  = 50
-move_cost      = 1
+move_cost      = 2
 move_mode      = "Cardinal"
 shield_incr_const = 1
 trade_incr_const  = 1
