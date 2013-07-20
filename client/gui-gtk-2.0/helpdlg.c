@@ -1194,7 +1194,7 @@ static void help_update_base(const struct help_item *pitem, char *title)
     strcat(buf, pitem->text);
   } else {
     /* Cost to build */
-    if (pbase->buildable) {
+    if (base_extra_get(pbase)->buildable) {
       if (pbase->build_time != 0) {
         /* TRANS: "MP" = movement points */
         sprintf(buf, _("%d MP"), pbase->build_time);
@@ -1240,7 +1240,7 @@ static void help_update_road(const struct help_item *pitem, char *title)
     strcat(buf, pitem->text);
   } else {
     /* Cost to build */
-    if (proad->buildable) {
+    if (road_extra_get(proad)->buildable) {
       if (proad->build_time != 0) {
         /* TRANS: "MP" = movement points */
         sprintf(buf, _("%d MP"), proad->build_time);

@@ -1081,8 +1081,9 @@ static void help_update_base(const struct help_item *pitem,
   } else {
     /* FIXME use actual widgets */
     const char *sep = "";
+
     buf[0] = '\0';
-    if (pbase->buildable) {
+    if (base_extra_get(pbase)->buildable) {
       /* TRANS: Build cost for bases in help. "MP" = movement points */
       sprintf(buf, _("Build: %d MP\n"), pbase->build_time);
     }
@@ -1123,7 +1124,7 @@ static void help_update_road(const struct help_item *pitem,
   } else {
     /* FIXME use actual widgets */
     buf[0] = '\0';
-    if (proad->buildable) {
+    if (road_extra_get(proad)->buildable) {
       /* TRANS: Build cost for bases in help. "MP" = movement points */
       sprintf(buf, _("Build: %d MP\n"), proad->build_time);
     }

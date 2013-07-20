@@ -214,7 +214,7 @@ bool is_native_road_to_uclass(const struct road_type *proad,
 bool road_can_be_built(const struct road_type *proad, const struct tile *ptile)
 {
 
- if (!proad->buildable) {
+  if (!(road_extra_get(proad)->buildable)) {
     /* Road type not buildable. */
     return FALSE;
   }

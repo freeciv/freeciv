@@ -317,6 +317,11 @@ bool extra_can_be_built(const struct extra_type *pextra,
   /* We support only specials at this time. */
   fc_assert(pextra->type == EXTRA_SPECIAL);
 
+  if (!pextra->buildable) {
+    /* Extra type not buildable */
+    return FALSE;
+  }
+
   if (tile_has_extra(ptile, pextra)) {
     /* Extra exist already */
     return FALSE;

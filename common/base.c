@@ -183,7 +183,7 @@ bool base_can_be_built(const struct base_type *pbase,
     return FALSE;
   }
 
-  if (!pbase->buildable) {
+  if (!(base_extra_get(pbase)->buildable)) {
     /* Base type not buildable. */
     return FALSE;
   }

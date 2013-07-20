@@ -260,7 +260,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
     } terrain_type_iterate_end;
 
     base_type_iterate(b) {
-      if (b->buildable)
+      if (base_extra_get(b)->buildable)
 	buildable_bases++;
     } base_type_iterate_end;
 
@@ -281,7 +281,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
 	cat_snprintf(outbuf, outlen,
 		     _("\nClean fallout      %3d"), clean_fallout_time);
       base_type_iterate(b) {
-	if (b->buildable) {
+	if (base_extra_get(b)->buildable) {
           const char *name = base_name_translation(b);
           cat_snprintf(outbuf, outlen,
                        "\n%s%*s %3d",
@@ -2432,7 +2432,7 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
   /* XXX Non-zero requirement vector is not a good test of whether
    * insert_requirement() will give any output. */
   if (requirement_vector_size(&pextra->reqs) > 0) {
-    if (pbase->buildable) {
+    if (base_extra_get(pbase)->buildable) {
       CATLSTR(buf, bufsz, _("Requirements to build:\n"));
     }
     requirement_vector_iterate(&pextra->reqs, preq) {
@@ -2492,7 +2492,7 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
     }
   }
 
-  if (!pbase->buildable) {
+  if (!(base_extra_get(pbase)->buildable)) {
     CATLSTR(buf, bufsz,
             _("* Cannot be built.\n"));
   }
@@ -2561,7 +2561,7 @@ void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
   /* XXX Non-zero requirement vector is not a good test of whether
    * insert_requirement() will give any output. */
   if (requirement_vector_size(&pextra->reqs) > 0) {
-    if (proad->buildable) {
+    if (road_extra_get(proad)->buildable) {
       CATLSTR(buf, bufsz, _("Requirements to build:\n"));
     }
     requirement_vector_iterate(&pextra->reqs, preq) {
@@ -2610,7 +2610,7 @@ void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
                  proad->move_cost, SINGLE_MOVE);
   }
 
-  if (!proad->buildable) {
+  if (!(road_extra_get(proad)->buildable)) {
     CATLSTR(buf, bufsz, _("* Cannot be built.\n"));
   }
   if (proad->pillageable) {

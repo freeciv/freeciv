@@ -510,6 +510,7 @@ identifier  = "g"
 ;                           base after a ruleset has been released.
 ; reqs 	                  = requirements to build the extra (see effects.ruleset
 ;                           and README.effects for help on requirements)
+; buildable               = Can extra be built? Defaults to TRUE
 ;
 ; */ <-- avoid gettext warnings
 
@@ -609,9 +610,11 @@ reqs           =
 
 [extra_green_river]
 name           = _("Green River")
+buildable      = FALSE
 
 [extra_brown_river]
 name           = _("Brown River")
+buildable      = FALSE
 
 ; /* <-- avoid gettext warnings
 ;
@@ -622,7 +625,6 @@ name           = _("Brown River")
 ;                           present, 'name' is used. Since the name used in
 ;                           savegames must not change, use this when renaming a
 ;                           base after a ruleset has been released.
-; buildable               = Can base be built? Defaults to TRUE
 ; pillageable             = Can base be pillaged? Defaults to TRUE
 ; graphic                 = tag specifing preferred graphic
 ; graphic_alt	          = tag for alternate graphic if preferred graphic is not 
@@ -664,7 +666,6 @@ graphic       = "base.fortress"
 graphic_alt   = "-"
 activity_gfx  = "unit.tower"
 act_gfx_alt   = "unit.fortress"
-buildable     = TRUE
 gui_type      = "Fortress"
 build_time    = 3
 defense_bonus = 150
@@ -678,7 +679,6 @@ graphic       = "base.fortress"
 graphic_alt   = "-"
 activity_gfx  = "unit.force_fortress"
 act_gfx_alt   = "unit.fortress"
-buildable     = TRUE
 gui_type      = "Fortress"
 build_time    = 3
 defense_bonus = 100
@@ -692,7 +692,6 @@ graphic      = "base.airbase"
 graphic_alt  = "-"
 activity_gfx = "unit.antigrav_base"
 act_gfx_alt  = "unit.airbase"
-buildable    = TRUE
 gui_type     = "Airbase"
 build_time   = 3
 native_to    = "Antigravity"
@@ -719,7 +718,6 @@ flags        = "ParadropFrom", "NoAggressive"
 ; build_time              = how many movement points it takes to build this road. Value of
 ;                           0 means that terrain specific value is used instead.
 ; defense_bonus           = Percent added to defense
-; buildable               = Can road be built? Defaults to TRUE
 ; pillageable             = Can road be pillaged? Defaults to TRUE
 ; food_incr_const         = food production added to tile regardless of terrain
 ; shield_incr_const       = shield production added to tile regardless of terrain
@@ -886,7 +884,6 @@ graphic        = "green_river"
 graphic_alt    = "river"
 activity_gfx   = "unit.rail"
 act_gfx_alt    = "unit.road"
-buildable      = FALSE
 pillageable    = FALSE
 defense_bonus  = 50
 move_cost      = 1
@@ -910,7 +907,6 @@ graphic        = "brown_river"
 graphic_alt    = "river"
 activity_gfx   = "unit.rail"
 act_gfx_alt    = "unit.road"
-buildable      = FALSE
 pillageable    = FALSE
 defense_bonus  = 50
 move_cost      = 1

@@ -938,6 +938,7 @@ shield      = 3 ; glacier used to have 4
 ;                           base after a ruleset has been released.
 ; reqs                    = requirements to build the base (see effects.ruleset
 ;                           and README.effects for help on requirements)
+; buildable               = Can extra be built? Defaults to TRUE
 ;
 ; */ <-- avoid gettext warnings
 
@@ -996,6 +997,7 @@ reqs           =
       "TerrainClass", "Land", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
+buildable      = FALSE
 
 [extra_road]
 name           = _("Road")
@@ -1017,6 +1019,7 @@ reqs           =
 
 [extra_river]
 name           = _("River")
+buildable      = FALSE
 
 ; /* <-- avoid gettext warnings
 ;
@@ -1027,7 +1030,6 @@ name           = _("River")
 ;                           present, 'name' is used. Since the name used in
 ;                           savegames must not change, use this when renaming a
 ;                           base after a ruleset has been released.
-; buildable               = Can base be built? Defaults to TRUE
 ; pillageable             = Can base be pillaged? Defaults to TRUE
 ; graphic                 = tag specifing preferred graphic
 ; graphic_alt             = tag for alternate graphic if preferred graphic is not 
@@ -1115,7 +1117,6 @@ graphic        = "base.ruins"
 graphic_alt    = "-"
 activity_gfx   = "unit.ruins"
 act_gfx_alt    = "unit.fortress"
-buildable      = FALSE
 build_time     = 0
 gui_type       = "Other"
 helptext       = _("\
@@ -1144,7 +1145,6 @@ They have no effect on gameplay.\
 ; build_time              = how many movement points it takes to build this road. Value of
 ;                           0 means that terrain specific value is used instead.
 ; defense_bonus           = Percent added to defense
-; buildable               = Can road be built? Defaults to TRUE
 ; pillageable             = Can road be pillaged? Defaults to TRUE
 ; food_incr_const         = food production added to tile regardless of terrain
 ; shield_incr_const       = shield production added to tile regardless of terrain
@@ -1228,7 +1228,6 @@ graphic        = "river"
 graphic_alt    = "-"
 activity_gfx   = "unit.rail"
 act_gfx_alt    = "unit.road"
-buildable      = FALSE
 pillageable    = FALSE
 defense_bonus  = 25
 move_cost      = 1

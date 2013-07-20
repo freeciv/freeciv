@@ -2459,7 +2459,7 @@ void real_menus_init(void)
 
     /* Add new base entries. */
     base_type_iterate(p) {
-      if (p->buildable) {
+      if (base_extra_get(p)->buildable) {
         item = gtk_menu_item_new_with_label(base_name_translation(p));
         g_object_set_data(G_OBJECT(item), "base", p);
         g_signal_connect(item, "activate", G_CALLBACK(base_callback), p);

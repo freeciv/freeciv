@@ -71,7 +71,6 @@ struct extra_type;
 
 struct base_type {
   Base_type_id item_number;
-  bool buildable;
   bool pillageable;
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];

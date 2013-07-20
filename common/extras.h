@@ -32,6 +32,7 @@ struct extra_type
   struct name_translation name;
 
   struct requirement_vector reqs;
+  bool buildable;
 
   union
   {

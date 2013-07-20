@@ -2746,6 +2746,9 @@ static bool load_ruleset_terrain(struct section_file *file)
         break;
       }
       requirement_vector_copy(&pextra->reqs, reqs);
+
+      pextra->buildable = secfile_lookup_bool_default(file, TRUE,
+                                                      "%s.buildable", section);
     } extra_type_iterate_end;
   }
 
@@ -2761,8 +2764,6 @@ static bool load_ruleset_terrain(struct section_file *file)
       const char **slist;
       const char *gui_str;
 
-      pbase->buildable = secfile_lookup_bool_default(file, TRUE,
-                                                     "%s.buildable", section);
       pbase->pillageable = secfile_lookup_bool_default(file, TRUE,
                                                        "%s.pillageable", section);
 
@@ -2939,8 +2940,6 @@ static bool load_ruleset_terrain(struct section_file *file)
                                                         "%s.defense_bonus",
                                                         section);
 
-      proad->buildable = secfile_lookup_bool_default(file, TRUE,
-                                                     "%s.buildable", section);
       proad->pillageable = secfile_lookup_bool_default(file, TRUE,
                                                        "%s.pillageable", section);
 
@@ -5318,6 +5317,8 @@ static void send_ruleset_extras(struct conn_list *dest)
     } requirement_vector_iterate_end;
     packet.reqs_count = j;
 
+    packet.buildable = e->buildable;
+
     lsend_packet_ruleset_extra(dest, &packet);
   } extra_type_iterate_end;
 }
@@ -5336,7 +5337,6 @@ static void send_ruleset_bases(struct conn_list *dest)
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
     sz_strlcpy(packet.activity_gfx, b->activity_gfx);
     sz_strlcpy(packet.act_gfx_alt, b->act_gfx_alt);
-    packet.buildable = b->buildable;
     packet.pillageable = b->pillageable;
 
     packet.native_to = b->native_to;
@@ -5377,7 +5377,6 @@ static void send_ruleset_roads(struct conn_list *dest)
     packet.move_mode = r->move_mode;
     packet.build_time = r->build_time;
     packet.defense_bonus = r->defense_bonus;
-    packet.buildable = r->buildable;
     packet.pillageable = r->pillageable;
 
     output_type_iterate(o) {

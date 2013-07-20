@@ -3228,6 +3228,8 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
     requirement_vector_append(&pextra->reqs, p->reqs[i]);
   }
   fc_assert(pextra->reqs.size == p->reqs_count);
+
+  pextra->buildable = p->buildable;
 }
 
 /****************************************************************************
@@ -3243,7 +3245,6 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
   sz_strlcpy(pbase->graphic_alt, p->graphic_alt);
   sz_strlcpy(pbase->activity_gfx, p->activity_gfx);
   sz_strlcpy(pbase->act_gfx_alt, p->act_gfx_alt);
-  pbase->buildable = p->buildable;
   pbase->pillageable = p->pillageable;
 
   pbase->native_to = p->native_to;
@@ -3281,7 +3282,6 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   proad->move_mode = p->move_mode;
   proad->build_time = p->build_time;
   proad->defense_bonus = p->defense_bonus;
-  proad->buildable = p->buildable;
   proad->pillageable = p->pillageable;
 
   output_type_iterate(o) {
