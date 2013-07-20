@@ -183,7 +183,8 @@ void dai_ferry_init_ferry(struct ai_type *ait, struct unit *ferry)
 **************************************************************************/
 void dai_ferry_close_ferry(struct ai_type *ait, struct unit *ferry)
 {
-  if (is_ai_data_phase_open(ait, unit_owner(ferry))) {
+  /* Ignore virtual units. */
+  if (ferry->id != 0 && is_ai_data_phase_open(ait, unit_owner(ferry))) {
     if (is_sailing_unit(ferry)) {
       struct unit_ai *unit_data = def_ai_unit_data(ferry, ait);
 
