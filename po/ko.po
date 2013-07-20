@@ -614,7 +614,7 @@ msgstr "(알려지지 않은)"
 #: client/citydlg_common.c:478
 #, c-format
 msgid "%+4d : Trade route with %s\n"
-msgstr "%+4d : %s (와)과의 교역 경로\n"
+msgstr "%+4d : %s (와)과의 무역 경로\n"
 
 #: client/citydlg_common.c:487
 #, c-format
@@ -3517,7 +3517,7 @@ msgstr "Freeciv"
 #: client/gui-gtk-3.0/gui_main.c:1207 client/gui-gtk-3.0/gui_main.c:1215
 #: client/gui-sdl/mapctrl.c:1575 data/Freeciv.in:2663
 msgid "Turn Done"
-msgstr "턴 종료"
+msgstr "차례 다 끝난"
 
 #: client/gui-gtk-2.0/gui_main.c:1218 client/gui-gtk-3.0/gui_main.c:1215
 #: client/gui-sdl/mapctrl.c:1575 client/gui-sdl/mapview.c:894
@@ -3652,7 +3652,7 @@ msgstr "화력:"
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:107
 #: client/gui-sdl/helpdlg.c:783 data/Freeciv.in:894
 msgid "Hitpoints:"
-msgstr "체력:"
+msgstr "타격 점수:"
 
 #: client/gui-gtk-2.0/helpdlg.c:108 client/gui-gtk-3.0/helpdlg.c:108
 #: data/Freeciv.in:930
@@ -10665,7 +10665,7 @@ msgstr "지도 제작"
 
 #: client/options.c:2788
 msgid "Network"
-msgstr "네트워크"
+msgstr "통신망"
 
 #: client/options.c:2790
 #, fuzzy
@@ -12777,7 +12777,7 @@ msgstr "관갱"
 
 #: common/terrain.c:552
 msgid "Hut"
-msgstr "움막"
+msgstr "오두막"
 
 #: common/terrain.c:553 common/terrain.c:831
 msgid "Farmland"
@@ -15578,7 +15578,7 @@ msgstr "추가로 농업이 받아들여지기 위해선, 언덕이 자원에 �
 #: data/classic/terrain.ruleset:505 data/experimental/terrain.ruleset:491
 #: data/civ2civ3/terrain.ruleset:505 data/multiplayer/terrain.ruleset:489
 msgid "Jungle"
-msgstr "정글"
+msgstr "밀림"
 
 #: data/civ1/terrain.ruleset:425 data/civ2/terrain.ruleset:427
 #: data/classic/terrain.ruleset:543 data/experimental/terrain.ruleset:527
@@ -15752,7 +15752,7 @@ msgstr "지도자"
 #: data/classic/units.ruleset:348 data/experimental/units.ruleset:362
 #: data/civ2civ3/units.ruleset:372 data/multiplayer/units.ruleset:348
 msgid "Settlers"
-msgstr "이주자"
+msgstr "정착자"
 
 #: data/civ1/units.ruleset:262 data/civ2/units.ruleset:266
 #: data/classic/units.ruleset:374 data/experimental/units.ruleset:388
@@ -15806,13 +15806,13 @@ msgstr ""
 #: data/classic/units.ruleset:493 data/experimental/units.ruleset:529
 #: data/civ2civ3/units.ruleset:538 data/multiplayer/units.ruleset:494
 msgid "Phalanx"
-msgstr "밀진 보병"
+msgstr "밀집 보병"
 
 #: data/civ1/units.ruleset:332 data/civ2/units.ruleset:379
 #: data/classic/units.ruleset:519 data/experimental/units.ruleset:555
 #: data/civ2civ3/units.ruleset:564 data/multiplayer/units.ruleset:520
 msgid "The Phalanx is armored infantry, suitable for defending your cities."
-msgstr "밀진 보병은 당신의 도시를 방어하기에 적절한, 무장한 보병입니다."
+msgstr "밀집 보병은 당신의 도시를 방어하기에 적절한, 무장한 보병입니다."
 
 #: data/civ1/units.ruleset:337 data/civ2/units.ruleset:416
 #: data/classic/units.ruleset:556 data/experimental/units.ruleset:592
@@ -16891,7 +16891,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:1501 data/classic/buildings.ruleset:1570
 #: data/experimental/buildings.ruleset:1627
 msgid "All your units regain two extra hitpoints per turn."
-msgstr "당신의 모든 부대는 매 차례당 2의 추가적인 타격 단위를 되찾습니다."
+msgstr "당신의 모든 부대는 매 차례당 2의 추가적인 타격 점수들을 되찾습니다."
 
 #: data/civ2/buildings.ruleset:1528 data/classic/buildings.ruleset:1597
 #: data/experimental/buildings.ruleset:1654
@@ -17420,7 +17420,7 @@ msgstr "이주민과 기술자가 요새를 세울 수 있도록 허락합니다
 #: data/experimental/techs.ruleset:252 data/civ2civ3/techs.ruleset:255
 #: data/multiplayer/techs.ruleset:232 server/report.c:163
 msgid "Economics"
-msgstr "경제"
+msgstr "경제학"
 
 #: data/civ2/techs.ruleset:234 data/classic/techs.ruleset:246
 #: data/experimental/techs.ruleset:268
@@ -22185,7 +22185,7 @@ msgstr ""
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:1396
 msgid " Civil War"
-msgstr " 내란"
+msgstr " 내전"
 
 #: data/helpdata.txt:1397
 msgid ""
@@ -22372,9 +22372,9 @@ msgid ""
 "build a light spaceship with many propulsion units that will arrive "
 "earlier.  The only other option is to capture their capital."
 msgstr ""
-"팁: 만약 적군이 우주선을 작동하게 된다면 일찍 도착할수 있는 높은 추진력의 부"
-"대와 함께 라이트 우주선을 건설하십시요.다른 방법은 오직 그들의 수도를 점령하"
-"는 것입니다."
+"팁:  만약 적이 우주선을 발사하게 된다면, 먼저 도착할 수 있는 많은 추진력 구성 단위들과 "
+"함께 가벼운 우주선을 빨리 건설하십시요. 그 유일한 다른 선택은 그들의 수도를 함락시키는 "
+"것입니다."
 
 #: data/helpdata.txt:1548
 msgid ""
@@ -40031,270 +40031,246 @@ msgstr "석유 정제"
 
 #. TRANS: Game state for local server
 #: server/sernet.c:1482 server/settings.c:274
-#, fuzzy
 msgid "Game over"
-msgstr "게임 끝남"
+msgstr "끝이 난 놀이"
 
 #: server/settings.c:212
-#, fuzzy
 msgid "Number of tiles"
-msgstr "무역 경로 수"
+msgstr "타일들의 숫자"
 
 #: server/settings.c:213
-#, fuzzy
 msgid "Tiles per player"
-msgstr "한 플레이어당 시작 금"
+msgstr "참가자마다 타일들"
 
 #: server/settings.c:214
 msgid "Width and height"
-msgstr ""
+msgstr "폭과 높이"
 
 #: server/settings.c:225
 msgid "Wrap East-West"
-msgstr ""
+msgstr "동-서 두르기"
 
 #: server/settings.c:226
 msgid "Wrap North-South"
-msgstr ""
+msgstr "북-남 두르기"
 
 #: server/settings.c:227
-#, fuzzy
 msgid "Isometric"
-msgstr "대장군"
+msgstr "등축도법의"
 
 #: server/settings.c:228
 msgid "Hexagonal"
-msgstr ""
+msgstr "6각형의"
 
 #: server/settings.c:239
-#, fuzzy
 msgid "Scenario map"
-msgstr "시나리오 선택"
+msgstr "시나리오 지도"
 
 #: server/settings.c:240
 msgid "Fully random height"
-msgstr ""
+msgstr "완전히 무작위의 높이"
 
 #: server/settings.c:241
 msgid "Pseudo-fractal height"
-msgstr ""
+msgstr "모조-차원 분열 도형의 높이"
 
 #: server/settings.c:242
 msgid "Island-based"
-msgstr ""
+msgstr "섬-기반을 둔"
 
 #: server/settings.c:254
 msgid "Generator's choice"
-msgstr ""
+msgstr "발생기의 선택"
 
 #: server/settings.c:256
 msgid "One player per continent"
-msgstr ""
+msgstr "대륙마다 하나의 참가자"
 
 #: server/settings.c:258
 msgid "Two or three players per continent"
-msgstr ""
+msgstr "대륙마다 둘 또는 셋의 참가자들"
 
 #: server/settings.c:260
 msgid "All players on a single continent"
-msgstr ""
+msgstr "단 하나의 대륙 위의 모든 참가자들"
 
 #: server/settings.c:262
 msgid "Depending on size of continents"
-msgstr ""
+msgstr "대륙들의 크기에 따라"
 
 #: server/settings.c:273
-#, fuzzy
 msgid "New turn"
-msgstr "%d 턴"
+msgstr "새로운 차례"
 
 #: server/settings.c:275
-#, fuzzy
 msgid "No player connections"
-msgstr "<접속 없음>"
+msgstr "참가자 접속들이 없음"
 
 #: server/settings.c:276
-#, fuzzy
 msgid "Server interrupted"
-msgstr "절단"
+msgstr "서버 중단함"
 
 #: server/settings.c:291
 msgid "See everything inside borders"
-msgstr ""
+msgstr "국경들의 안으로 모든 것을 보기"
 
 #: server/settings.c:293
-#, fuzzy
 msgid "Borders expand to unknown, revealing tiles"
-msgstr "국경 층"
+msgstr "국경들을 타일들을 드러내는, 알려지지 않은 곳으로 확장하기"
 
 #: server/settings.c:304
-#, fuzzy
 msgid "Per-player, in order"
-msgstr "사용자 %d"
+msgstr "참가자-마다, 유효한"
 
 #: server/settings.c:305
 msgid "Per-player, random"
-msgstr ""
+msgstr "참가자-마다, 무작위의"
 
 #: server/settings.c:306
-#, fuzzy
 msgid "Set manually"
-msgstr "선택"
+msgstr "손으로 맞추기"
 
 #: server/settings.c:307
 msgid "Per-team, in order"
-msgstr ""
+msgstr "팀-마다, 유효한"
 
 #: server/settings.c:308
-#, fuzzy
 msgid "Per-nation, in order"
-msgstr "사용자 %d"
+msgstr "국가-마다, 유효한"
 
 #: server/settings.c:319
 msgid "Enabled for everyone"
-msgstr ""
+msgstr "모든 사람에게 할 수 있게 함"
 
 #: server/settings.c:321
 msgid "Only allowed between human players"
-msgstr ""
+msgstr "오직 인간 참가자들 사이에 허용됨"
 
 #: server/settings.c:322
 msgid "Only allowed between AI players"
-msgstr ""
+msgstr "오직 인공지능 참가자들 사이에 허용됨"
 
 #: server/settings.c:323
-#, fuzzy
 msgid "Restricted to teams"
-msgstr "팀의 목록:"
+msgstr "팀들에게 제한함"
 
 #: server/settings.c:324
 msgid "Disabled for everyone"
-msgstr ""
+msgstr "모든 사람에게 장애를 입힘"
 
 #: server/settings.c:335
-#, fuzzy
 msgid "No restrictions"
-msgstr "건설"
+msgstr "제한들 없음"
 
 #: server/settings.c:336
-#, fuzzy
 msgid "Unique to a player"
-msgstr "부대 층"
+msgstr "하나의 참가자에게 독특한"
 
 #: server/settings.c:337
 msgid "Globally unique"
-msgstr ""
+msgstr "전세계적으로 독특한"
 
 #: server/settings.c:338
-#, fuzzy
 msgid "No city name stealing"
-msgstr "허용된 도시 이름"
+msgstr "도시 이름 훔치기 없음"
 
 #: server/settings.c:349
-#, fuzzy
 msgid "No barbarians"
-msgstr "야만인"
+msgstr "야만인들 없음"
 
 #: server/settings.c:350
 msgid "Only in huts"
-msgstr ""
+msgstr "오두막들 안에서만"
 
 #: server/settings.c:351
 msgid "Normal rate of appearance"
-msgstr ""
+msgstr "출현의 보통의 비율"
 
 #: server/settings.c:352
-#, fuzzy
 msgid "Frequent barbarian uprising"
-msgstr "야만인"
+msgstr "빈번한 야만인 발생"
 
 #: server/settings.c:353
-#, fuzzy
 msgid "Raging hordes"
-msgstr "공중 정원"
+msgstr "격렬한 무리들"
 
 #: server/settings.c:364
 msgid "Reveal map at game start"
-msgstr ""
+msgstr "놀이 시작 때 지도를 드러내기"
 
 #: server/settings.c:365
 msgid "Unfog map for dead players"
-msgstr ""
+msgstr "죽은 참가자들에게 지도의 안개 없애기"
 
 #: server/settings.c:377
 msgid "Allows units to be airlifted from allied cities"
-msgstr ""
+msgstr "연합된 도시들로부터 부대들이 공수되기를 허용함"
 
 #: server/settings.c:379
 msgid "Allows units to be airlifted to allied cities"
-msgstr ""
+msgstr "연합된 도시들에게 부대들이 공수되기를 허용함"
 
 #: server/settings.c:381
 msgid "Unlimited units from source city"
-msgstr ""
+msgstr "원천 도시로부터 무제한의 부대들"
 
 #: server/settings.c:383
-#, fuzzy
 msgid "Unlimited units to destination city"
-msgstr "목적지 설정"
+msgstr "목적 도시에 무제한의 부대들"
 
 #: server/settings.c:394
 msgid "All players move concurrently"
-msgstr ""
+msgstr "모든 참가자들이 동시에 움직이기"
 
 #: server/settings.c:396
 msgid "All players alternate movement"
-msgstr ""
+msgstr "모든 참가자들의 이동이 번갈아 나오기"
 
 #: server/settings.c:397
 msgid "Team alternate movement"
-msgstr ""
+msgstr "팀의 이동이 번갈아 나오기"
 
 #: server/settings.c:409
-#, fuzzy
 msgid "No compression"
-msgstr "건설"
+msgstr "압축 없음"
 
 #: server/settings.c:411
 msgid "Using zlib (gzip format)"
-msgstr ""
+msgstr "zlib (gzip 구성 방식) 사용하기"
 
 #: server/settings.c:414
 msgid "Using bzip2"
-msgstr ""
+msgstr "bzip2 사용하기"
 
 #: server/settings.c:417
 msgid "Using xz"
-msgstr ""
+msgstr "xz 사용하기"
 
 #: server/settings.c:429
-#, fuzzy
 msgid "disabled"
-msgstr "해제"
+msgstr "망가짐"
 
 #: server/settings.c:430
-#, fuzzy
 msgid "enabled"
-msgstr "여"
+msgstr "가능함"
 
 #: server/settings.c:523
 #, c-format
 msgid "Invalid save name definition: '%s' (resolves to '%s')."
-msgstr ""
+msgstr "병약한 저장 이름 정의: '%s' ('%s' 로 해결함)."
 
 #: server/settings.c:542
-#, fuzzy
 msgid "You cannot disable the map generator."
-msgstr "%s(을)를 매수할 수 없습니다!"
+msgstr "당신은 그 지도 발생기를 망가뜨릴 수 없습니다."
 
 #: server/settings.c:549
 msgid "You cannot require a map generator when a map is loaded."
-msgstr ""
+msgstr "당신은 하나의 지도가 적재되었을 때 하나의 지도 발생기를 요구할 수 없습니다."
 
 #: server/settings.c:565
 #, c-format
 msgid "Invalid score name definition: '%s'."
-msgstr ""
+msgstr "병약한 득점 이름 정의: '%s'."
 
 #: server/settings.c:587
 #, c-format
@@ -40302,6 +40278,7 @@ msgid ""
 "Demography string validation failed at character: '%c'. Try \"help demography"
 "\"."
 msgstr ""
+"인구 변동 끈 확인은 글자에 실패했습니다: '%c'. \"help demography\" 을 시도하세요."
 
 #: server/settings.c:629
 #, c-format
@@ -40309,6 +40286,7 @@ msgid ""
 "Allowed take string validation failed at character: '%c'. Try \"help "
 "allowtake\"."
 msgstr ""
+"허용된 수익 끈 확인은 글자에 실패했습니다: '%c'. \"help allowtake\" 을 시도하세요."
 
 #: server/settings.c:661
 #, c-format
@@ -40316,14 +40294,15 @@ msgid ""
 "Starting units string validation failed at character '%c'. Try \"help "
 "startunits\"."
 msgstr ""
+"출발 부대들 끈 확인은 글자에 실패했습니다: '%c'. \"help startunits\" 을 시도하세요."
 
 #: server/settings.c:680
 msgid "Cannot set endturn earlier than current turn."
-msgstr ""
+msgstr "현재 차례보다 앞에 끝차례를 맞출 수 없습니다."
 
 #: server/settings.c:698
 msgid "Cannot change maxplayers in GGZ mode."
-msgstr ""
+msgstr "GGZ 방식 안에서 최대참가자들을 바꿀 수 없습니다."
 
 #: server/settings.c:704
 #, c-format
@@ -40331,6 +40310,7 @@ msgid ""
 "Number of players (%d) is higher than requested value (%d). Keeping old "
 "value."
 msgstr ""
+"참가자들의 숫자 (%d) (은)는 요구되는 값 (%d) 보다 더 높습니다. 늙은 값을 보존합니다."
 
 #: server/settings.c:713
 #, c-format
@@ -40338,16 +40318,19 @@ msgid ""
 "Requested value (%d) is greater than number of available start positions "
 "(%d). Keeping old value."
 msgstr ""
+"요구되는 값 (%d) (은)는 이용할 수 있는 시작 위치들의 숫자 (%d) 보다 큽니다. 늙은 "
+"값을 보존합니다."
 
 #: server/settings.c:731
 msgid "You are not allowed to set timeout values less than 30 seconds."
-msgstr ""
+msgstr "당신은 시간초과 값들을 30초 보다 더 적게 맞추기를 허용되지 않았습니다."
 
 #. TRANS: Do not translate setting names in ''.
 #: server/settings.c:740 server/settings.c:768
 msgid ""
 "For autogames ('timeout' = -1) 'unitwaittime' should be deactivated (= 0)."
 msgstr ""
+"자동놀이들을 ('timeout' = -1) 위해 'unitwaittime' 은 비활성화되어야 합니다 (= 0)."
 
 #. TRANS: Do not translate setting names in ''.
 #: server/settings.c:750
@@ -40356,6 +40339,8 @@ msgid ""
 "'timeout' can not be lower than 3/2 of the 'unitwaittime' setting (= %d). "
 "Please change 'unitwaittime' first."
 msgstr ""
+"'timeout' 은 그 'unitwaittime' 설정의 3/2보다 더 낮을 수 없습니다 (= %d). 제발 "
+"'unitwaittime' 을 먼저 바꾸세요."
 
 #. TRANS: Do not translate setting names in ''.
 #: server/settings.c:776
@@ -40364,28 +40349,30 @@ msgid ""
 "'unitwaittime' has to be lower than 2/3 of the 'timeout' setting (= %d). "
 "Please change 'timeout' first."
 msgstr ""
+"'unitwaittime' 은 그 'timeout' 설정의 2/3보다 더 낮아야 합니다 (= %d). 제발 "
+"'timeout' 을 먼저 바꾸세요."
 
 #: server/settings.c:796 server/settings.c:854 server/settings.c:874
 msgid "For an isometric or hexagonal map the ysize must be even."
-msgstr ""
+msgstr "등축도법의 또는 6각형의 지도를 위해서 그 y크기는 반드시 짝수여야 합니다."
 
 #: server/settings.c:814 server/settings.c:839
 #, c-format
 msgid "The map size (%d * %d = %d) must be larger than %d tiles."
-msgstr ""
+msgstr "그 지도 크기 (%d * %d = %d) 는 반드시 %d 타일들보다 더 커야 합니다."
 
 #: server/settings.c:820 server/settings.c:845
 #, c-format
 msgid "The map size (%d * %d = %d) must be lower than %d tiles."
-msgstr ""
+msgstr "그 지도 크기 (%d * %d = %d) 는 반드시 %d 타일들보다 더 낮아야 합니다."
 
 #: server/settings.c:897
 msgid "No nations in the currently loaded ruleset have associated colors."
-msgstr ""
+msgstr "그 현재 적재된 규칙집안 안에서 연관된 색깔들을 가지는 국가들이 없습니다."
 
 #: server/settings.c:954
 msgid "Map size definition"
-msgstr ""
+msgstr "지도 크기 정의"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -40402,10 +40389,17 @@ msgid ""
 "- \"Width and height\" (XYSIZE): Map width and height in tiles (options "
 "'xsize' and 'ysize')."
 msgstr ""
+"그 지도 크기를 정의하는데 사용되기도 하는 그 방법을 선택하세요. 다른 선택들은 각각 "
+"방법을 위한 그 매개 변수들을 명시합니다.\n"
+"- \"타일들의 숫자\" (FULLSIZE): 지도 면적 (option 'size').\n"
+"- \"참가자마다 타일들\" (PLAYER): 참가자마다 (land) 타일들의 숫자 (선택 "
+"'tilesperplayer').\n"
+"- \"폭과 높이\" (XYSIZE): 타일들 안의 지도 폭과 높이 (options "
+"'xsize' and 'ysize')."
 
 #: server/settings.c:971
 msgid "Map area (in thousands of tiles)"
-msgstr ""
+msgstr "지도 면적 (타일들의 몇 천이나 되어)"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -40420,11 +40414,15 @@ msgid ""
 "For this option to take effect, the \"Map size definition\" option "
 "('mapsize') must be set to \"Number of tiles\" (FULLSIZE)."
 msgstr ""
+"이 값은 그 지도 면적을 결정하는데 사용됩니다.\n"
+"  크기 = 4는 4,000 타일들의 하나의 보통의 지도입니다 (default)\n"
+"  크기 = 20은 20,000 타일들의 하나의 거대한 지도입니다\n"
+"효과를 나타내기 위한 이 선택을 위해서, 그 \"지도 크기 정의\" 선택 "
+"('mapsize') 은 반드시 \"타일들의 숫자\" (으)로 맞추어야 합니다 (FULLSIZE)."
 
 #: server/settings.c:987
-#, fuzzy
 msgid "Number of (land) tiles per player"
-msgstr "현재 부대의 수"
+msgstr "참가자마다 (land) 타일들의 숫자"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -40439,10 +40437,14 @@ msgid ""
 "For this option to take effect, the \"Map size definition\" option "
 "('mapsize') must be set to \"Tiles per player\" (PLAYER)."
 msgstr ""
+"이 값은 그 지도 규모들을 결정하는데 사용됩니다. 이것은 참가자들의 그 숫자와 그 설정 "
+"'landmass' 의 그 값에 기반을 두어 놀이 시작에서 그 지도 크기를 계산합니다.\n"
+"효과를 나타내기 위한 이 선택을 위해서, 그 \"지도 크기 정의\" 선택 "
+"('mapsize') 은 반드시 \"참가자마다 타일들\" (으)로 맞추어야 합니다 (PLAYER)."
 
 #: server/settings.c:1004
 msgid "Map width in tiles"
-msgstr ""
+msgstr "타일들 안의 지도 폭"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -40455,10 +40457,13 @@ msgid ""
 "For this option to take effect, the \"Map size definition\" option "
 "('mapsize') must be set to \"Width and height\" (XYSIZE)."
 msgstr ""
+"그 지도 폭을 정의합니다.\n"
+"효과를 나타내기 위한 이 선택을 위해서, 그 \"지도 크기 정의\" 선택 "
+"('mapsize') 은 반드시 \"폭과 높이\" (으)로 맞추어야 합니다 (XYSIZE)."
 
 #: server/settings.c:1018
 msgid "Map height in tiles"
-msgstr ""
+msgstr "타일들 안의 지도 높이"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -40471,10 +40476,13 @@ msgid ""
 "For this option to take effect, the \"Map size definition\" option "
 "('mapsize') must be set to \"Width and height\" (XYSIZE)."
 msgstr ""
+"그 지도 높이를 정의합니다.\n"
+"효과를 나타내기 위한 이 선택을 위해서, 그 \"지도 크기 정의\" 선택 "
+"('mapsize') 은 반드시 \"폭과 높이\" (으)로 맞추어야 합니다 (XYSIZE)."
 
 #: server/settings.c:1033
 msgid "Map topology index"
-msgstr ""
+msgstr "지도 위상 기하학 지표"
 
 #. TRANS: do not edit the ugly ASCII art
 #: server/settings.c:1035
@@ -40496,10 +40504,26 @@ msgid ""
 "   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\\n"
 "   \\/\\/\\/\\/\\/\\/             \\_/ \\_/ \\_/ \\_/ \\_/\n"
 msgstr ""
+"Freeciv 지도들은 항상 이차원입니다. 그들은 하나의 평평한 지도, 하나의 원기둥, "
+"또는 하나의 원환체 (도넛) 를 형성하기 위해서 그 북-남과 동-서 방향들로 두를 것입니다. "
+"각각의 타일들은 하나의 대표적인 정렬이든 또는 등축도법의 정렬이든, 직사각형 또는 6각형일 것입니다. "
+"- 이것은 사용되는 그 타일집단에 기반을 두어 맟추어질 것입니다.\n"
+"대표적인 직사각형:             등축도법의 직사각형:\n"
+"      _________               /\\/\\/\\/\\/\\\n"
+"     |_|_|_|_|_|             /\\/\\/\\/\\/\\/\n"
+"     |_|_|_|_|_|             \\/\\/\\/\\/\\/\\\n"
+"     |_|_|_|_|_|             /\\/\\/\\/\\/\\/\n"
+"                             \\/\\/\\/\\/\\/\n"
+"6각형의 타일들:                등축도법-6각형:\n"
+"  /\\/\\/\\/\\/\\/\\               _   _   _   _   _\n"
+"  | | | | | | |             / \\_/ \\_/ \\_/ \\_/ \\\n"
+"  \\/\\/\\/\\/\\/\\/\\             \\_/ \\_/ \\_/ \\_/ \\_/\n"
+"   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\\n"
+"   \\/\\/\\/\\/\\/\\/             \\_/ \\_/ \\_/ \\_/ \\_/\n"
 
 #: server/settings.c:1059
 msgid "Method used to generate map"
-msgstr ""
+msgstr "지도를 만들어 내는데 사용되는 방법"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -40527,10 +40551,26 @@ msgid ""
 "If the requested generator is incompatible with other server settings, the "
 "server may fall back to another generator."
 msgstr ""
+"그 지도를 발생하는데 사용되는 그 알고리즘을 명시합니다. 그 'startpos' 선택의 그 "
+"기본값이 사용된다면, 그 선택된 발생기가 하나의 적절한 'startpos' 설정을 선택합니다; "
+"만약 그렇지 않으면, 그 발생된 지도는 그 선택된 'startpos' 설정을 수용하는데 노력합니다.\n"
+"- \"시나리오 지도\" (SCENARIO): 하나의 미리-발생한 지도를 나타냅니다. 기본으로, "
+"만약 그 시나리오가 시작 위치들을 명시하지 않았다면, 그들은 그 대륙들의 크기에 따라 "
+"할당받을 것입니다.\n"
+"- \"완전히 무작위의 높이\" (RANDOM): 다수의 동등하게 간격을 둔, 비교적 작은 섬들과 "
+"함께 지도를 발생합니다. 기본으로, 시작 위치들은 대륙 크기에 따라 할당됩니다.\n"
+"- \"모조-차원 분열 도형의 높이\" (FRACTAL): 하나 또는 더 많은 대륙들과 하나의 흩뿌려진 "
+"작은 섬들과 함께 지구과 같은 세계들을 발생합니다. 기본으로, 참가자들은 모두 단 하나의 "
+"대륙 위에 배치됩니다.\n"
+"- \"섬-기반을 둔\" (ISLAND): 각각의 거의 정확하게 그 지형 종류의 같은 비율들과 "
+"함께 많은 비슷한-크기와 -모양의 섬들과 함께 'fair' 지도들을 발생합니다. 기본으로, "
+"각각의 참가자는 그들의 소유한 섬을 가집니다.\n"
+"그 요청되는 발생기가 다른 서버 설정들과 호환성이 없다면, 그 서버는 다른 발생기로 "
+"물러날 것입니다."
 
 #: server/settings.c:1090
 msgid "Method used to choose start positions"
-msgstr ""
+msgstr "시작 위치들을 선택하는데 사용되는 방법"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -40559,39 +40599,60 @@ msgid ""
 "(However, map generators try to create the right number of continents for "
 "the choice of this 'startpos' setting and the number of players, so this is "
 "unlikely to occur.)"
-msgstr ""
+msgstr "그 방법은 각각의 참가자의 초기의 부대들이 그 지도 위에 시작할 때 선택하는데 "
+"사용됩니다. (미리-맞춘 시작 위치들을 포함하는 시나라오에게, 이 설정은 무시됩니다.)\n"
+"- \"발생기의 선택\" (DEFAULT): 그 시작 위치 배치는 그 지도 발생기가 선택한 것에 "
+"의존합니다. 그 'genarator' 설정을 보세요.\n"
+"- \"대륙마다 하나의 참가자\" (SINGLE): 하나의 참가자는 각각의 거의 동등한 값의 "
+"일습의 대륙들 위에 배치됩니다 (가능하다면).\n"
+"- \"대륙마다 둘 또는 셋의 참가자들\" (2or3): 만약 그곳에 참가자들의 홀수의 "
+"숫자가 있다면 그 'best' 대륙 위에 셋과 함께, 두 참가자들이 각각의 대륙 위에 배치될 "
+"것이라는 점을 제외하고 SINGLE과 비슷합니다.\n"
+"- \"단 하나의 대륙 위의 모든 참가자들\" (ALL): 모든 참가자들은 그 'best' 이용할 "
+"수 있는 대륙 위에 시작할 것입니다.\n"
+"- \"대륙들의 크기에 따라\" (VAIABLE): 참가자들은 가능한 한, 그 각각의 "
+"대륙 위의 참가자들의 수는 이것의 값에 비례하는 것, 그런 그 'best' 이용할 수 있는 대륙들 "
+"위에 배치될 것입니다.\n"
+"만약 그곳에 대륙들에 너무 많은 참가자들이 있기 때문에 그 요청되는 설정을 그 서버가 만족시킬 "
+"수 없다면, 그 나머지 것들의 하나로 물러날 것입니다. (그러나, 지도 발생기들은 이 'startpos' "
+"설정의 그 선택과 그 참가자들의 숫자를 위해 그 대륙들의 좋은 숫자를 만들기 위해 노력하니, "
+"이것은 일어날 것 같지 않습니다.)"
 
 #: server/settings.c:1125
 msgid "Presence of 1x1 islands"
-msgstr ""
+msgstr "1x1 섬들이 있음"
 
 #: server/settings.c:1126
 msgid ""
 "This setting controls whether the map generator is allowed to make islands "
 "of one only tile size."
 msgstr ""
+"이 설정은 그 지도 발생기가 오직 하나의 타일 크기의 섬들을 만드는 것을 허용하는지 아닌지를 "
+"통제합니다."
 
 #: server/settings.c:1132
 msgid "Whether the poles are separate continents"
-msgstr ""
+msgstr "그 극들은 따로 떨어진 대륙들인지 아닌지"
 
 #: server/settings.c:1133
 msgid "If this setting is disabled, the continents may attach to poles."
-msgstr ""
+msgstr "만약 이 설정이 망가졌다면, 그 대륙들은 극들을 붙일 것입니다."
 
 #: server/settings.c:1138
 msgid "All the map is temperate"
-msgstr "모든 지도는 온화합니다"
+msgstr "모든 그 지도는 온화합니다"
 
 #: server/settings.c:1139
 msgid ""
 "If this setting is enabled, the temperature will be equivalent everywhere on "
 "the map. As a result, the poles won't be generated."
 msgstr ""
+"만약 이 설정이 할 수 있게 되어 있다면, 그 기온은 그 지도 위에 어디서나 동등할 것입니다. "
+"결과적으로, 그 극들은 발생되지 않을 것입니다."
 
 #: server/settings.c:1146
 msgid "Average temperature of the planet"
-msgstr ""
+msgstr "그 행성의 평균 기온"
 
 #: server/settings.c:1147
 msgid ""
@@ -40606,61 +40667,77 @@ msgid ""
 " 30 means a cold planet with small tropical zones.\n"
 "  0 means a very cold planet with large polar zones and no tropics."
 msgstr ""
+"작은 값들은 하나의 추운 지도를 줄 것이고, 반면에 더 큰 값들은 하나의 더 더운 지도를 "
+"줄 것입니다.\n"
+"\n"
+"100은 극지의 추운 지역들이 없고, 오직 열대 지방과 건조한 지역들과 함께 하나의 아주 "
+"건조하고 더운 행성을 의미합니다.\n"
+" 70은 작은 극지의 얼음과 함께 하나의 더운 행성을 의미합니다.\n"
+" 50은 보통의 극지의, 추운, 온화한, 그리고 열대의 지역들과 함께 하나의 온화한 행성을 "
+"의미합니다; 하나의 사막 지역은 열대와 온화한 지역들에 겹쳐집니다.\n"
+" 30은 소규모의 열대 지역들과 함께 하나의 추운 행성을 의미합니다.\n"
+" 0은 큰 극지의 지역들과 열대들이 없음과 함께 하나의 아주 추운 행성을 의미합니다."
 
 #: server/settings.c:1164
 msgid "Percentage of the map that is land"
-msgstr ""
+msgstr "그것이 육지라는 그 지도의 비율"
 
 #: server/settings.c:1165
 msgid ""
 "This setting gives the approximate percentage of the map that will be made "
 "into land."
 msgstr ""
+"이 설정은 육지로 만들어 질 그 지도의 그 근사치인 백분율을 줍니다."
 
 #: server/settings.c:1171
 msgid "Amount of hills/mountains"
-msgstr ""
+msgstr "언덕들/산들의 양"
 
 #: server/settings.c:1172
 msgid ""
 "Small values give flat maps, while higher values give a steeper map with "
 "more hills and mountains."
 msgstr ""
+"작은 값들은 평평한 지도들을 주고, 반면에 더 높은 값들은 더 많은 언덕들과 산들과 함께 "
+"하나의 가파른 지도를 줍니다."
 
 #: server/settings.c:1178
 msgid "Amount of water on landmasses"
-msgstr ""
+msgstr "대륙 위의 물의 양"
 
 #: server/settings.c:1179
 msgid ""
 "Small values mean lots of dry, desert-like land; higher values give a wetter "
 "map with more swamps, jungles, and rivers."
 msgstr ""
+"작은 값들은 수많은 건조한, 사막-같은 육지를 의미합니다; 더 높은 값들은 더 많은 늪들, "
+"밀림들, 그리고 강들과 함께 하나의 더 젖은 지도를 줍니다."
 
 #: server/settings.c:1186
-#, fuzzy
 msgid "Global warming"
-msgstr "온난화가 생겼습니다"
+msgstr "지구 온난화"
 
 #: server/settings.c:1187
 msgid ""
 "If turned off, global warming will not occur as a result of pollution. This "
 "setting does not affect pollution."
 msgstr ""
+"만약 끈다면, 지구 온난화는 하나의 공해의 결과로서 일어나지 않을 것입니다. 이 설정은 "
+"공해에 영향을 미치지 않습니다."
 
 #: server/settings.c:1194
-#, fuzzy
 msgid "Nuclear winter"
-msgstr "원자력"
+msgstr "핵겨울"
 
 #: server/settings.c:1195
 msgid ""
 "If turned off, nuclear winter will not occur as a result of nuclear war."
 msgstr ""
+"만약 끈다면, 핵겨울은 하나의 핵전쟁의 결과로서 일어나지 않을 것입니다."
 
 #: server/settings.c:1201
 msgid "Map generation random seed"
-msgstr ""
+msgstr "맵 발생 무작위의 종자"
 
 #: server/settings.c:1202
 msgid ""
@@ -40668,50 +40745,61 @@ msgid ""
 "seed will be chosen based on the time to give a random map. This setting is "
 "usually only of interest while debugging the game."
 msgstr ""
+"그 같은 종자는 항상 그 같은 지도를 생산할 것입니다; 0에 대해 (그 기본값) 하나의 종자는 "
+"하나의 무작위의 지도를 주기 위해 그 시간에 기반을 두어 선택될 것입니다. 이 설정은 보통 "
+"오직 그 놀이를 디버깅하는 동안 관심으로 있습니다."
 
 #: server/settings.c:1215
 msgid "Game random seed"
-msgstr ""
+msgstr "놀이 무작위의 종자"
 
 #: server/settings.c:1216
 msgid ""
 "For zero (the default) a seed will be chosen based on the current time. This "
 "setting is usually only of interest while debugging the game."
 msgstr ""
+"0에 대해 (그 기본값) 하나의 종자는 그 현재 시간에 기반을 두어 선택될 것입니다. 이 설정은 "
+"보통 오직 그 놀이를 디버깅하는 동안 관심으로 있습니다."
 
 #: server/settings.c:1223
 msgid "Amount of \"special\" resource tiles"
-msgstr ""
+msgstr "\"special\" 자원 타일들의 양"
 
 #: server/settings.c:1224
 msgid ""
 "Special resources improve the basic terrain type they are on. The server "
 "variable's scale is parts per thousand."
 msgstr ""
+"특수한 자원들은 그들이 위에 있는 그 기본적인 지형 종류를 향상시킵니다. 그 서버 변수의 "
+"규모는 천분율입니다."
 
 #: server/settings.c:1231
 msgid "Amount of huts (minor tribe villages)"
-msgstr ""
+msgstr "오두막들의 양 (작은 부족 마을들)"
 
 #: server/settings.c:1232
 msgid ""
 "This setting gives the exact number of huts that will be placed on the "
 "entire map. Huts are small tribal villages that may be investigated by units."
 msgstr ""
+"이 설정은 그 전체의 지도 위에 배치되어 질 그 오두막들의 정확한 숫자를 줍니다. 오두막들은 "
+"부대들에 의해 조사될 수 있는 작은 부족 마을들입니다."
 
 #: server/settings.c:1245
 msgid "Minimum number of players"
-msgstr ""
+msgstr "참가자들의 최소한의 숫자"
 
 #: server/settings.c:1246
 msgid ""
 "There must be at least this many players (connected human players) before "
 "the game can start."
 msgstr ""
+"그 놀이가 시작할 수 있기 전에 적어도 이 많은 참가자들 (인간 참가자들이 접속한) 이 반드시 "
+"있어야 합니다."
 
 #: server/settings.c:1253
 msgid "Maximum number of players"
-msgstr ""
+msgstr "참가자들의 최대한의 숫자"
 
 #: server/settings.c:1254
 msgid ""
@@ -40721,11 +40809,15 @@ msgid ""
 "When playing a scenario which defines player start positions, this setting "
 "cannot be set to greater than the number of defined start positions."
 msgstr ""
+"그 놀이 안에 있을 수 있는 인간과 인공지능 참가자들의 그 최대한의 숫자. 그 게임 전 상태 "
+"안에 참가자들의 이 숫자가 있을 때, 접속하기를 시도하는 어느 새로운 참가자들은 거부될 "
+"것입니다.\n"
+"참가자 시작 위치들을 정의하는 하나의 시나리오를 놀고 있을 때, 이 설정은 그 정의된 시작 "
+"위치들의 숫자보다 크게 맞출 수 없습니다."
 
 #: server/settings.c:1266
-#, fuzzy
 msgid "Limited number of AI players"
-msgstr "플레이어의 목록:"
+msgstr "인공지능 참가자들의 제한된 숫자"
 
 #: server/settings.c:1267
 msgid ""
@@ -40734,36 +40826,42 @@ msgid ""
 "join, these AI players will be replaced. When set to zero, all AI players "
 "will be removed."
 msgstr ""
+"만약 하나의 양의 값을 맞추었다면, 인공지능 참가자들은 지금 그 참가자들의 총 숫자를 "
+"유지하기 위해 자동적으로 생성되거나 제거됩니다. 더 많은 참가자들이 합류하는 대로, 이것들의 "
+"인공지능 참가자들이 대체될 것입니다. 0으로 맞추어 질 때, 모든 인공지능 참가자들은 제거될 "
+"것입니다."
 
 #: server/settings.c:1278
 msgid "Event cache for this number of turns"
-msgstr ""
+msgstr "이 차례들의 숫자 동안 사건 은닉처"
 
 #: server/settings.c:1279
 msgid ""
 "Event messages are saved for this number of turns. A value of 0 deactivates "
 "the event cache."
 msgstr ""
+"사건 메세지들은 이 차례들의 숫자 동안 저장됩니다. 하나의 0의 값은 그 사건 은닉처를 "
+"비활성화시킵니다."
 
 #: server/settings.c:1287
 msgid "Size of the event cache"
-msgstr ""
+msgstr "그 사건 은닉처의 크기"
 
 #: server/settings.c:1288
 msgid "This defines the maximal number of events in the event cache."
-msgstr ""
+msgstr "이것은 그 사건 은닉처 안으로 그 사건들의 최대한의 숫자를 정의합니다."
 
 #: server/settings.c:1295
 msgid "Save chat messages in the event cache"
-msgstr ""
+msgstr "그 사건 은닉처 안으로 대화 메세지들을 저장하기"
 
 #: server/settings.c:1296
 msgid "If turned on, chat messages will be saved in the event cache."
-msgstr ""
+msgstr "만약 킨다면, 대화 메세지들은 그 사건 은닉처 안으로 저장될 것입니다."
 
 #: server/settings.c:1301
 msgid "Print turn and time for each cached event"
-msgstr ""
+msgstr "각각의 은닉된 사건에 대해 차례와 시간을 인쇄하기"
 
 #. TRANS: Don't translate the text between single quotes.
 #: server/settings.c:1303
@@ -40771,10 +40869,12 @@ msgid ""
 "If turned on, all cached events will be marked by the turn and time of the "
 "event like '(T2 - 15:29:52)'."
 msgstr ""
+"만약 킨다면, 모든 은닉된 사건들은 '(T2 - 15:29:52)' 같이 그 차례와 그 사건의 시간으로 "
+"표시될 것입니다."
 
 #: server/settings.c:1314
 msgid "List of players' initial units"
-msgstr ""
+msgstr "참가자들의 초기의 부대들의 목록"
 
 #: server/settings.c:1315
 msgid ""
@@ -40791,36 +40891,50 @@ msgid ""
 "    a   = Fast attack unit (eg., Horsemen)\n"
 "    A   = Strong attack unit (eg., Catapult)\n"
 msgstr ""
+"이것은 하나의 글자들의 문자열로 되어 있을 것이고, 각각의 글자는 하나의 부대 역할을 "
+"명시합니다. 그곳에는 반드시 그 문자열 안에 적어도 하나의 도시 설립자가 있어야 합니다. "
+"그 글자들과 그들의 의미들은 있습니다:\n"
+"    c   = 도시 설립자 (예를 들어, 정착자)\n"
+"    w   = 지형 노동자 (예를 들어, 기술자)\n"
+"    x   = 탐험가 (예를 들어, 탐험가)\n"
+"    k   = 놀이패배 (예를 들어, 왕)\n"
+"    s   = 외교관 (예를 들어, 외교관)\n"
+"    d   = 괜찮은 방어 부대 (예를 들어, 전사)\n"
+"    D   = 좋은 방어 부대 (예를 들어, 밀집 보병)\n"
+"    a   = 빠른 공격 부대 (예를 들어, 기수)\n"
+"    A   = 강한 공격 부대 (예를 들어, 투석기)\n"
 
 #: server/settings.c:1332
 msgid "Whether player starts with a city"
-msgstr ""
+msgstr "하나의 도시와 함께 참가자가 시작하는지 아닌지"
 
 #: server/settings.c:1333
 msgid ""
 "If this is set, game will start with player's first city already founded to "
 "starting location."
 msgstr ""
+"만약 이것을 맞추었다면, 놀이는 출발 위치에 이미 설립된 참가자의 첫 도시와 함께 시작될 "
+"것입니다."
 
 #: server/settings.c:1339
 msgid "Area where initial units are located"
-msgstr ""
+msgstr "초기의 부대들이 위치될 면적"
 
 #: server/settings.c:1340
 msgid "This is the radius within which the initial units are dispersed."
-msgstr ""
+msgstr "이것은 그 초기의 부대들이 이내에 흩어질 그 반경입니다."
 
 #: server/settings.c:1346
 msgid "Starting gold per player"
-msgstr "한 플레이어당 시작 금"
+msgstr "참가자마다 출발 금"
 
 #: server/settings.c:1347
 msgid "At the beginning of the game, each player is given this much gold."
-msgstr ""
+msgstr "그 놀이의 그 시작에, 각각의 참가자들은 이만큼의 금을 받습니다."
 
 #: server/settings.c:1353
 msgid "Number of initial techs per player"
-msgstr ""
+msgstr "참가자마다 초기의 기술들의 숫자"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
@@ -40831,10 +40945,13 @@ msgid ""
 "of tech_cost_style in the ruleset, a big value for 'techlevel' can make the "
 "next techs really expensive."
 msgstr ""
+"그 놀이의 그 시작에서, 각각의 참가자는 이만큼의 기술들을 받습니다. 그 기술들은 각각의 "
+"참가자에게 무작위로 선택됩니다. 그 규칙집단 안의 tech_cost-style의 그 값에 따라, 하나의 "
+"'techlevel' 에 대한 큰 값은 그 다음 기술들을 정말로 비싸게 만듭니다."
 
 #: server/settings.c:1365
 msgid "Technology cost multiplier percentage"
-msgstr ""
+msgstr "기술 비용 승수 백분율"
 
 #: server/settings.c:1366
 msgid ""
@@ -40842,10 +40959,13 @@ msgid ""
 "are multiplied by this amount (as a percentage). The base tech costs are "
 "determined by the ruleset or other game settings."
 msgstr ""
+"이것은 얼마나 빠르게 새로운 기술을 연구할 수 있는지에 영향을 미칩니다. 모든 기술 비용들은 "
+"이 양에 따라 (하나의 백분율로서) 곱해집니다. 그 기초 기술 비용들은 그 규칙집단 또는 다른 "
+"놀이 설정들에 따라 결정됩니다."
 
 #: server/settings.c:1375
 msgid "Percentage penalty when changing tech"
-msgstr ""
+msgstr "기술을 바꿀 때 백분율 불이익"
 
 #: server/settings.c:1376
 msgid ""
@@ -40853,40 +40973,49 @@ msgid ""
 "research points, you lose this percentage of those research points. This "
 "does not apply when you have just gained a technology this turn."
 msgstr ""
+"만약 당신이 현재의 연구 기술을 바꾸고, 그리고 당신은 양의 연구 점수들을 가졌다면, "
+"당신은 그것들의 연구 점수들의 이 백분율을 잃어버립니다. 이것은 이번 차례에 막 하나의 "
+"기술을 가졌을 떄 적용되지 않습니다."
 
 #: server/settings.c:1385
 msgid "Chance to lose an invention while receiving it"
-msgstr ""
+msgstr "이것을 받는 동안 하나의 발명을 잃을 가능성"
 
 #: server/settings.c:1386
 msgid ""
 "If you receive an invention via a treaty, this setting defines the chance "
 "that the invention is lost during the transfer."
 msgstr ""
+"만약 당신이 하나의 조약을 통하여 하나의 발명을 받는다면, 이 설정은 그 이동하는 동안 그 "
+"발명이 잃어버릴 그 가능성을 정의합니다."
 
 #: server/settings.c:1394
 msgid "Chance to lose an invention while giving it"
-msgstr ""
+msgstr "이것을 주는 동안 하나의 발명을 잃을 가능성"
 
 #: server/settings.c:1395
 msgid ""
 "If you give an invention via a treaty, this setting defines the chance that "
 "the invention is lost for your civilization during the transfer."
 msgstr ""
+"만약 당신이 하나의 조약을 통하여 하나의 발명을 준다면, 이 설정은 그 이동하는 동안 당신의 "
+"문명에서 그 발명이 잃어버릴 그 가능성을 정의합니다."
 
 #: server/settings.c:1403
 msgid "Team pooled research"
-msgstr ""
+msgstr "팀 모인 연구"
 
 #: server/settings.c:1404
 msgid ""
 "If this setting is turned on, then the team mates will share the science "
 "research. Else, every player of the team will have to make its own."
 msgstr ""
+"만약 이 설정이 켜지면, 그 팀 동료들은 그 과학 연구를 공유할 것입니다. 그밖에, 그 팀의 "
+"모든 참가자는 이것들을 자신의 것으로 만들 것입니다."
 
 #: server/settings.c:1411
 msgid "Penalty when getting tech or gold from treaty"
-msgstr ""
+msgstr "조약으로부터 기술이나 금을 얻을 때 불이익"
 
 #: server/settings.c:1412
 msgid ""
@@ -40895,10 +41024,13 @@ msgid ""
 "this is non-zero, you can end up with negative research points. Also applies "
 "to gold transfers in diplomatic treaties."
 msgstr ""
+"각각 기술에 대해 당신은 하나의 외교의 조약으로부터, 당신은 하나의 새로운 기술을 연구하는데 "
+"그 비용의 이 백분율에 동일하게 연구 점수들을 잃습니다. 만약 이것은 0이-아니라면, 당신은 음의 "
+"연구 점수들과 함께하게 될 수 있습니다. 또한 외교의 조약들에서 금 이동에도 적용됩니다."
 
 #: server/settings.c:1422
 msgid "Penalty when getting tech from conquering"
-msgstr ""
+msgstr "정복하는 것으로부터 기술을 받을 때 불이익"
 
 #: server/settings.c:1423
 msgid ""
@@ -40906,10 +41038,13 @@ msgid ""
 "points equal to this percentage of the cost to research a new technology. If "
 "this is non-zero, you can end up with negative research points."
 msgstr ""
+"하나의 적 도시를 정복함으로 당신이 얻는 각각의 기술에 대해, 당신은 하나의 새로운 기술을 "
+"연구하는데 그 비용의 이 백분율에 동일하게 연구 점수들을 잃습니다. 만약 이것은 0이-아니라면, "
+"당신은 음의 연구 점수들과 함께하게 될 수 있습니다."
 
 #: server/settings.c:1433
 msgid "Penalty when getting a free tech"
-msgstr ""
+msgstr "하나의 무료 기술을 받을 때 불이익"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
@@ -40921,10 +41056,14 @@ msgid ""
 "new technology. If this is non-zero, you can end up with negative research "
 "points."
 msgstr ""
+"\"무료로\" ('diplcost' 또는 'conquercost' 로 다뤄지는 것과 다른: 예를 들어, "
+"오두막들로부터 또는 위대한 도서관 효과들로부터) (이)라는 당신이 얻는 각각의 기술에 대해, "
+"당신은 하나의 새로운 기술을 연구하는데 그 비용의 이 백분율에 동일하게 연구 점수들을 "
+"잃습니다. 만약 이것은 0이-아니라면, 당신은 음의 연구 점수들과 함께하게 될 수 있습니다."
 
 #: server/settings.c:1447
 msgid "Negative bulbs allowed before losing tech"
-msgstr ""
+msgstr "기술을 잃기 전에 음의 전구들"
 
 #: server/settings.c:1448
 msgid ""
@@ -40932,10 +41071,13 @@ msgid ""
 "current research cost, you lose one tech and number of bulbs is restored to "
 "0. Special value -1 disables tech loss completely."
 msgstr ""
+"당신의 전구들의 숫자가 이 현재 연구 비용의 백분율보다 더 낮은 음의 값을 가질 때, 당신은 "
+"하나의 기술을 잃고 전구들의 숫자는 0으로 회복됩니다. 특수한 값 -1은 기술 손실을 완전히 "
+"망가뜨립니다."
 
 #: server/settings.c:1458
 msgid "Food required for a city to grow"
-msgstr ""
+msgstr "하나의 도시가 자라는 데 요구하는 식량"
 
 #: server/settings.c:1459
 msgid ""
@@ -40943,10 +41085,12 @@ msgid ""
 "multiplied by another factor that comes from the ruleset and is dependent on "
 "the size of the city."
 msgstr ""
+"이것은 하나의 도시가 자라는데 요구되는 식량의 그 기초 양입니다. 이 값은 그 규칙집단으로부터 "
+"나오는 다른 요인에 따라 곱해지고 그 도시의 그 크기에 의존합니다."
 
 #: server/settings.c:1467
 msgid "Percentage food lost when building needed"
-msgstr ""
+msgstr "건설이 필요로 할 때 식량을 잃어버리는 백분율"
 
 #: server/settings.c:1468
 msgid ""
@@ -40954,20 +41098,25 @@ msgid ""
 "System), it loses this percentage of its foodbox (or half that amount when "
 "it has a Granary)."
 msgstr ""
+"만약 하나의 도시가 확장될 거라면, 이것은 하나의 수로를 필요하기 때문에 (또는 하수도) 이것은 "
+"할 수 없고, 이것은 이것의 식량상자의 이 백분율을 잃습니다 (또는 이것이 하나의 곡창을 가지고 "
+"있을 때는 그 양의 절반)."
 
 #: server/settings.c:1477
 msgid "Multiplier percentage for production costs"
-msgstr ""
+msgstr "생산 비용들에 대한 백분율 배율기"
 
 #: server/settings.c:1478
 msgid ""
 "This affects how quickly units and buildings can be produced.  The base "
 "costs are multiplied by this value (as a percentage)."
 msgstr ""
+"부대들과 건설들이 얼마나 빠르게 생산될 수 있는지에 영향을 미칩니다. 그 기초 소비들은 "
+"이 값에 따라 곱해집니다 (하나의 백분율로서)."
 
 #: server/settings.c:1492
 msgid "Minimum city size to get full trade"
-msgstr ""
+msgstr "완전한 무역을 가지기 위한 최소한의 도시 크기"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
@@ -40978,10 +41127,14 @@ msgid ""
 "gradually to 0% (no penalty except the normal corruption) for "
 "size='fulltradesize'. See also 'notradesize'."
 msgstr ""
+"그곳에는 이것보다 더 작은 모든 도시들 안에 하나의 무역 불이익이 있습니다.그 불이익은 "
+"'notradesize' 로 평가하는 동안 100%이고 (조금도 무역이 아닙니다), 그리고 "
+"size='fulltradesize' 동안 0%로 서서히 감소합니다 (그 보통의 부패를 제외하고 "
+"불이익이 없습니다). 또한 'notradesize' 를 보세요."
 
 #: server/settings.c:1505
 msgid "Maximum size of a city without trade"
-msgstr ""
+msgstr "무역 없이 하나의 도시의 최대의 크기"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
@@ -40991,10 +41144,13 @@ msgid ""
 "amount. The produced trade increases gradually for cities larger than "
 "'notradesize' and smaller than 'fulltradesize'. See also 'fulltradesize'."
 msgstr ""
+"그들의 크기가 이 양보다 더 크지 않는 한 도시들은 어느 무역도 전혀 생산하지 않습니다. "
+"그 생산된 무역은 'notradesize' 보다 더 크고 'fulltradesize' 보다 더 작은 도시들에게 "
+"서서히 증가합니다. 또한 'fulltradesize' 를 보세요."
 
 #: server/settings.c:1517
 msgid "Minimum distance between cities"
-msgstr ""
+msgstr "도시들 사이의 최소한의 거리"
 
 #: server/settings.c:1518
 msgid ""
@@ -41004,38 +41160,40 @@ msgid ""
 "between all existing cities and the new city site. A value of 1 removes any "
 "such restriction on city placement."
 msgstr ""
+"하나의 참가자가 하나의 새로운 도시를 설립하려고 시도할 때, 이것은 어느 존재하는 도시로부터의 "
+"그 거리가 이 설정보다 더 적은 것을 방지됩니다. 예를 들어, 이 설정이 3일 때, 그곳에는 모든 "
+"존재하는 도시들과 그 새로운 도시 위치 사이에 어느 방향으로도 적어도 2개의 분명한 타일들이 "
+"반드시 있어야 합니다. 하나의 1의 값은 도시 배치에 어느 그러한 제한을 제거합니다."
 
 #: server/settings.c:1530
-#, fuzzy
 msgid "Technology trading"
-msgstr "기술"
+msgstr "기술 거래"
 
 #: server/settings.c:1531
 msgid ""
 "If turned off, trading technologies in the diplomacy dialog is not allowed."
 msgstr ""
+"만약 끈다면, 그 외교 대화 안에서 기술들을 거래하는 것은 허용되지 않습니다."
 
 #: server/settings.c:1537
-#, fuzzy
 msgid "Gold trading"
-msgstr "금화: %d"
+msgstr "금 거래"
 
 #: server/settings.c:1538
 msgid "If turned off, trading gold in the diplomacy dialog is not allowed."
-msgstr ""
+msgstr "만약 끈다면, 그 외교 대화 안에서 금을 거래하는 것은 허용되지 않습니다."
 
 #: server/settings.c:1544
-#, fuzzy
 msgid "City trading"
-msgstr "도시 : 축제"
+msgstr "도시 거래"
 
 #: server/settings.c:1545
 msgid "If turned off, trading cities in the diplomacy dialog is not allowed."
-msgstr ""
+msgstr "만약 끈다면, 그 외교 대화 안에서 도시들을 거래하는 것은 허용되지 않습니다."
 
 #: server/settings.c:1551
 msgid "Minimum distance for trade routes"
-msgstr ""
+msgstr "무역 경로들에 대한 최소한의 거리"
 
 #: server/settings.c:1552
 msgid ""
@@ -41044,38 +41202,46 @@ msgid ""
 "distance is calculated as \"Manhattan distance\", that is, the sum of the "
 "displacements along the x and y directions."
 msgstr ""
+"그 같은 문명 안에서 두개의 도시들이 하나의 무역 경로를 설립하기 위해서는, 그들은 반드시 "
+"그 지도 위에서 이 멀리 떨어져서 있어야 합니다. 사각형의 격자무늬에 대해서, 그 거리는 "
+"그 x 과 y 방향들과 함께 그 이동들의 그 합, 그것이, \"Manhattan distance\" 로 "
+"계산됩니다."
 
 #: server/settings.c:1562
 msgid "Number of turns between rapture effect"
-msgstr ""
+msgstr "황홀 효과 사이의 차례들의 숫자"
 
 #: server/settings.c:1563
 msgid ""
 "Sets the number of turns between rapture growth of a city. If set to n a "
 "city will grow after celebrating for n+1 turns."
 msgstr ""
+"하나의 도시의 성장과 황홀 사이의 그 차례들의 숫자를 맞춥니다. 만약 n 으로 맞춘다면 "
+"하나의 도시는 n+1 차례들 동안 축하한 후에 성장할 것입니다."
 
 #: server/settings.c:1572
 msgid "Frequency of disasters"
-msgstr ""
+msgstr "재앙들의 빈번도"
 
 #: server/settings.c:1573
 msgid "Sets frequency of disasters occurring to cities."
-msgstr ""
+msgstr "도시들에게 일어나는 재앙들의 빈번도를 맞춥니다."
 
 #: server/settings.c:1580
 msgid "Chance for conquered building destruction"
-msgstr ""
+msgstr "정복된 건설 파괴에 대한 가능성"
 
 #: server/settings.c:1581
 msgid ""
 "When a player conquers a city, each city improvement has this percentage "
 "chance to be destroyed."
 msgstr ""
+"하나의 참가자가 하나의 도시를 정복할 떄, 각각의 도시 향상은 파괴되는 이 백분율의 "
+"기회를 가집니다."
 
 #: server/settings.c:1587
 msgid "Chance of moving into tile after attack"
-msgstr ""
+msgstr "공격 후에 타일 안으로 이동하는 가능성"
 
 #: server/settings.c:1588
 msgid ""
@@ -41085,20 +41251,27 @@ msgid ""
 "a value between 0 and 100, this will be used as the percent chance of "
 "\"occupying\" territory."
 msgstr ""
+"만약 0으로 맞춘다면, 전투는 Civ1/2-방식입니다 (당신이 공격할 때, 당신은 그 자리에 "
+"남습니다). 만약 100으로 맞춘다면, 공격하는 부대들은 그들이 그 전투를 이길 때 그들이 "
+"공격한 그 타일 안으로 항상 이동할 것입니다 (그리고 그 타일 안에 적 부대들은 남지 "
+"않습니다.) 만약 하나의 값을 0과 100 사이로 맞춘다면, 이것은 그 \"occupying\" 영역의 "
+"백분율의 가능성으로 사용될 것입니다."
 
 #: server/settings.c:1599
 msgid "Turn on/off server-side autoattack"
-msgstr ""
+msgstr "서버-측 자동공격 켜기/끄기"
 
 #: server/settings.c:1600
 msgid ""
 "If set to on, units with moves left will automatically consider attacking "
 "enemy units that move adjacent to them."
 msgstr ""
+"만약 켜기로 맞춘다면, 이동들이 남은 부대들은 그들에게 가까이 이동하는 적 부대들을 "
+"공격하기를 자동적으로 고려할 것입니다."
 
 #: server/settings.c:1606
 msgid "Do all units in tile die with defender"
-msgstr ""
+msgstr "타일 안의 모든 부대들은 방어자와 함께 죽도록 하기"
 
 #: server/settings.c:1607
 msgid ""
@@ -41107,10 +41280,13 @@ msgid ""
 "along with the defender. If this is disabled, only the defender unit is "
 "destroyed."
 msgstr ""
+"만약 이것이 할 수 있게 되어 있다면, 언제나 하나의 방어자 부대는 전투 안에서 잃어버리고, "
+"하나의 도시 또는 적절한 기지 안에 있지 않으면, 그 같은 타일 안의 모든 부대들은 그 방어자와 "
+"함께 파괴됩니다. 만약 이것이 망가졌다면, 오직 그 방어자 부대만 파괴됩니다."
 
 #: server/settings.c:1615
 msgid "Reduce city population after attack"
-msgstr ""
+msgstr "공격 후에 도시 인구 줄이기"
 
 #: server/settings.c:1616
 msgid ""
@@ -41118,10 +41294,13 @@ msgid ""
 "attack of enemy unit. If this is disabled population is never reduced. Even "
 "when this is enabled only some units may kill citizens."
 msgstr ""
+"이 신호기는 적 부대의 성공적인 공격 후에 도시 인구가 축소되는지 아닌지를 나타냅니다. "
+"만약 이것이 망가졌다면 인구는 절대 축소되지 않습니다. 심지어 이것이 할 수 있게 되어 "
+"있다면 오직 몇몇 부대들이 시민들을 죽일 수도 있습니다."
 
 #: server/settings.c:1624
 msgid "Slowly kill units without home cities (e.g., starting units)"
-msgstr ""
+msgstr "고향들이 없는 부대들을 느리게 죽이기 (예를 들어, 출발 부대들)"
 
 #: server/settings.c:1625
 msgid ""
@@ -41130,9 +41309,12 @@ msgid ""
 "the hitpoints of the unit type. At least one hitpoint is lost every turn "
 "until the death of the unit."
 msgstr ""
+"만약 0보다 크다면, 하나의 고향이 없는 모든 부대들은 매 차례마다 타격 점수들을 잃을 "
+"것입니다. 그 타격 점수 상실의 숫자는 그 부대 종류의 그 타격 점수들의 'killunhomed' "
+"백분율에 의해 주어집니다. 적어도 하나의 타격 점수는 그 부대의 그 죽음까지 매 차례마다 "
+"상실됩니다."
 
 #: server/settings.c:1635
-#, fuzzy
 msgid "National borders"
 msgstr "국경"
 
@@ -41141,28 +41323,32 @@ msgid ""
 "If this is not disabled, then any land tiles around a fortress or city will "
 "be owned by that nation."
 msgstr ""
+"만약 이것이 망가지지 않았다면, 하나의 요새 또는 도시 주위의 어느 육지 타일들도 그 "
+"국가들에 의해 소유될 것입니다."
 
 #: server/settings.c:1643
 msgid "Units inside borders cause no unhappiness"
-msgstr ""
+msgstr "국경 안의 부대들은 불만족을 야기하지 않기"
 
 #: server/settings.c:1644
 msgid ""
 "If this is set, units will not cause unhappiness when inside your own "
 "borders."
 msgstr ""
+"만약 이것이 맞추어 진다면, 부대들은 당신의 소유한 국경 안에 있을 때 불만족을 야기하지 "
+"않을 것입니다."
 
 #: server/settings.c:1650
 msgid "Ability to do diplomacy with other players"
-msgstr ""
+msgstr "다른 참가자들과 외교하기 위한 능력"
 
 #: server/settings.c:1651
 msgid "This setting controls the ability to do diplomacy with other players."
-msgstr ""
+msgstr "이 설정은 다른 참가자들과 외교하기 위한 그 능력을 통제합니다."
 
 #: server/settings.c:1657
 msgid "Allowed city names"
-msgstr "허용된 도시 이름"
+msgstr "허용된 도시 이름들"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between parentheses
@@ -41179,11 +41365,19 @@ msgid ""
 "player isn't allowed to use a default city name of another nation unless it "
 "is a default for their nation also."
 msgstr ""
+"- \"제한들 없음\" (NO_RESTRICTIONS): 참가자들은 그 같은 이름들을 가진 다수의 "
+"도시들을 가질 수 있습니다.\n"
+"- \"하나의 참가자에게 독특한\" (PLAYER_UNIQUE): 하나의 참가자는 그 같은 이름을 가진 "
+"다수의 도시들을 가질 수 없습니다.\n"
+"- \"전세계적으로 독특한\" (GLOBAL_UNIQUE): 하나의 놀이 안에서 모든 도시들은 다른 "
+"이름들을 가지고 있어야 합니다.\n"
+"- \"도시 이름 훔치기 없음\" (NO_STEALING): \"전세계적으로 독특한\" 과 같으나, "
+"하나의 참가자는 이것이 그들의 국가에 대해 또한 하나의 기본이지 않는 한 다른 국가의 하나의 "
+"기본 도시 이름을 사용하기를 허용되지 않습니다."
 
 #: server/settings.c:1675
-#, fuzzy
 msgid "How to pick player colors"
-msgstr "플레이어의 목록:"
+msgstr "참가자 색깔들을 선택하는 방법"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single quotes
@@ -41210,10 +41404,26 @@ msgid ""
 "Regardless of this setting, individual player colors can be changed after "
 "the game starts with the 'playercolor' command."
 msgstr ""
+"이 설정은 어떻게 참가자 색깔들이 선택되는지를 결정합니다. 참가자 색깔들을 그 국가들 보고서, "
+"그 지도 위에 국가의 경계, 그리고 기타 등등에 사용됩니다.\n"
+"- \"참가자-마다, 유효한\" (PLR_ORDER): 색깔들은 그 규칙집단에 의해 정의된 하나의 "
+"목록으로부터 차례로 각각의 참가자들에게 배정됩니다.\n"
+"- \"참가자-마다, 무작위의\" (PLR_RANDOM): 색깔들은 그 규칙집단에 의해 정의된 그 "
+"집합으로부터 무작위로 각각의 참가자들에게 배정됩니다.\n"
+"- \"손으로 맞추기\" (PLR_SET): 색깔들은 그 놀이가 시작하기 전에 그 'playercolor' "
+"명령으로 맞출 수 있습니다; 이들은 그 규칙집단 색깔들에게 제한되지 않습니다. 색깔이 없는 "
+"어느 참가자들은 그 규칙집단으로부터 하나의 무작위의 색깔을 그 놀이가 시작할 때 맞추어집니다.\n"
+"- \"팀-마다, 유효한\" (TEAM_ORDER): 색깔들은 그 규칙집단 안의 그 목록으로부터 "
+"팀들에게 배정됩니다. 그 같은 팀 위의 모든 참가자는 그 같은 색깔을 가집니다.\n"
+"- \"국가-마다, 유효한\" (NATION_ORDER): 만약 그 규칙집단이 하나의 참가자의 국가에 "
+"대해 하나의 색깔을 정의한다면, 그 참가자는 그 색깔을 가집니다. 색깔들을 배정받지 않은 국가들의 "
+"어느 참가자들은 그 규칙집단 안의 그 목록으로부터 하나의 무작위의 색깔을 가집니다.\n"
+"이 설정에 상관없이, 각각의 참가자 색깔들은 그 'playercolor' 명령으로 그 놀이가 시작한 후에 "
+"변경될 수 있습니다."
 
 #: server/settings.c:1721
 msgid "Barbarian appearance frequency"
-msgstr "미개인의 등장 빈번도"
+msgstr "야만인 출현 빈번도"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
@@ -41222,30 +41432,32 @@ msgid ""
 "This setting controls how frequently the barbarians appear in the game. See "
 "also the 'onsetbarbs' setting."
 msgstr ""
+"이 설정은 그 놀이 안에서 그 야만인들이 얼마나 자주 나타나는지를 통제합니다. 또한 그 "
+"'onsetbarbs' 설정을 보세요."
 
 #: server/settings.c:1730
-#, fuzzy
 msgid "Barbarian onset turn"
-msgstr "미개인 습격 시작년도"
+msgstr "야만인 시작 차례"
 
 #: server/settings.c:1731
-#, fuzzy
 msgid "Barbarians will not appear before this turn."
-msgstr "미개인들은 이번년도 전에는 나타나지 않을것입니다"
+msgstr "야만인들은 이 차례 전에 나타나지 않을 것입니다."
 
 #: server/settings.c:1737
 msgid "Length in turns of revolution"
-msgstr "혁명의 턴 길이"
+msgstr "혁명의 차례들의 길이"
 
 #: server/settings.c:1738
 msgid ""
 "When changing governments, a period of anarchy lasting this many turns will "
 "occur. Setting this value to 0 will give a random length of 1-5 turns."
 msgstr ""
+"정부들을 바꿀 떄, 이 많은 차례들로 계속되는 하나의 무정부의 기간이 발생할 것입니다. "
+"이 값을 0으로 맞추는 것은 1-5 차례들의 하나의 무작위의 길이를 줄 것입니다."
 
 #: server/settings.c:1747
 msgid "Whether to enable fog of war"
-msgstr ""
+msgstr "전쟁의 안개를 가능하게 하는지 아닌지"
 
 #: server/settings.c:1748
 msgid ""
@@ -41253,10 +41465,13 @@ msgid ""
 "your own units and cities will be revealed to you. You will not see new "
 "cities or terrain changes in tiles not observed."
 msgstr ""
+"만약 이것이 가능하게 되면, 오직 당신의 소유한 부대들 그리고 도시들의 그 시야 거리 안에 "
+"그 부대들과 도시들이 당신에게 드러날 것입니다. 당신은 보고 있지 않는 타일들 안의 새로운 "
+"도시들 또는 지형 변화들을 볼 수 없을 것입니다."
 
 #: server/settings.c:1756
 msgid "Whether fog of war applies to border changes"
-msgstr ""
+msgstr "전쟁의 안개를 국경 변화들에 적용하는지 아닌지"
 
 #: server/settings.c:1757
 msgid ""
@@ -41264,12 +41479,14 @@ msgid ""
 "ownership if they do not have direct sight of the affected tiles. Otherwise, "
 "players can see any or all changes to borders as long as they have "
 "previously seen the tiles."
-msgstr ""
+msgstr "만약 이 설정이 가능하게 되면, 참가자들은 만약 그 영향을 미치는 타일들의 직접적인 "
+"보기를 가지지 않았다면 타일 소유 안의 변화들을 볼 수 없게 될 것입니다. 그렇지 않으면, "
+"참가자들은 그들이 그 타일들을 이전에 보기만 하면 국경들의 어느 또는 모든 변화들을 볼 수 "
+"있습니다."
 
 #: server/settings.c:1766
-#, fuzzy
 msgid "Airlifting style"
-msgstr "공수하기"
+msgstr "공수하는 방식"
 
 #. TRANS: The strings between double quotes are also
 #. * translated separately (they must match!). The strings
@@ -41288,38 +41505,50 @@ msgid ""
 "airlifting to a city doesn't reduce the airlifted counter, and doesn't need "
 "any."
 msgstr ""
+"이 설정은 도시들 사이의 공수하는 부대들에 영향을 미칩니다. 이것은 그 따라오는 값들의 하나의 "
+"집단으로 될 수 있습니다:\n"
+"- \"연합된 도시들로부터 부대들이 공수되기를 허용함\" (FROM_ALLIES).\n"
+"- \"연합된 도시들에게 부대들이 공수되기를 허용함\" (TO_ALLIES).\n"
+"- \"원천 도시로부터 무제한의 부대들\" (SRC_UNLIMITED): 하나의 도시로부터 공수하는 "
+"것은 그 공수되는 계측기를 줄이지 않지만, 아직 적어도 1이 필요하다는 것을 주목하세요.\n"
+"- \"목적 도시에 무제한의 부대들\" (DEST_UNLIMITED): 하나의 도시로 "
+"공수하는 것은 그 공수되는 계측기를 줄이지 않고, 아무것도 필요하지 않다는 것을 주목하세요."
 
 #: server/settings.c:1788
 msgid "Base chance for diplomats and spies to succeed"
-msgstr ""
+msgstr "외교관들과 간첩들이 성공할 기초 가능성"
 
 #: server/settings.c:1789
 msgid ""
 "The base chance of a spy returning from a successful mission and the base "
 "chance of success for diplomats and spies."
 msgstr ""
+"하나의 간첩이 하나의 성공적인 임무로부터 돌아오는 그 기초 가능성과 외교관들과 간첩들에 "
+"대한 성공의 그 기초 가능성."
 
 #: server/settings.c:1796
 msgid "Whether to allow space race"
-msgstr ""
+msgstr "우주 경주를 허용하는지 아닌지"
 
 #: server/settings.c:1797
 msgid "If this option is enabled, players can build spaceships."
-msgstr ""
+msgstr "만약 이 선택이 가능하게 되면, 참가자들은 우주선들을 건설할 수 있습니다."
 
 #: server/settings.c:1802
 msgid "Should the game end if the spaceship arrives?"
-msgstr ""
+msgstr "만약 그 우주선이 도착하면 그 놀이를 끝내야 합니까?"
 
 #: server/settings.c:1803
 msgid ""
 "If this option is turned on, the game will end with the arrival of a "
 "spaceship at Alpha Centauri."
 msgstr ""
+"만약 이 선택을 켜지면, 그 놀이는 알파 센타우리에 하나의 우주선의 그 도착과 함께 "
+"끝날 것입니다."
 
 #: server/settings.c:1809
 msgid "Minimum number of cities for civil war"
-msgstr "내란을 위한 최소 도시의 수"
+msgstr "내전을 위한 도시들의 최소한의 숫자"
 
 #: server/settings.c:1810
 msgid ""
@@ -41327,20 +41556,23 @@ msgid ""
 "player's capital is captured. If this option is set to the maximum value, "
 "civil wars are turned off altogether."
 msgstr ""
+"하나의 내전은 하나의 참가자가 적어도 이 많은 도시들을 가지고 그 참가자의 수도가 함락되었을 "
+"때 작동됩니다. 만약 이 선택이 그 최대값으로 맞추어졌다면, 내전들은 완전히 꺼집니다."
 
 #: server/settings.c:1819
 msgid "Restrict the use of the infrastructure for enemy units"
-msgstr ""
+msgstr "적 부대들에 대해 그 공공 기반 시설의 그 사용을 제한하기"
 
 #: server/settings.c:1820
 msgid ""
 "If this option is enabled, the use of roads and rails will be restricted for "
 "enemy units."
 msgstr ""
+"만약 이 선택이 가능하게 되면, 그 도로들과 철도들의 사용은 적 부대들에 대해 제한될 것입니다."
 
 #: server/settings.c:1826
 msgid "Does unreachable unit protect reachable ones"
-msgstr ""
+msgstr "도달할 수 없는 부대가 도달 가능한 하나의 부대를 보호하는가"
 
 #: server/settings.c:1827
 msgid ""
@@ -41348,10 +41580,14 @@ msgid ""
 "can be attacked. If disabled, any tile with reachable units can be attacked. "
 "If enabled, tiles with an unreachable unit in them cannot be attacked."
 msgstr ""
+"이 선택은 도달할 수 없는 그리고 도달 가능한 부대들 둘 다 함께 있는 타일이 공격받을 수 있는지 "
+"아닌지를 통제합니다. 만약 망가졌다면, 도달 가능한 부대들과 함께 어느 타일은 공격받을 수 "
+"있습니다. 만약 가능하게 되면, 그들 안의 하나의 도달할 수 없는 부대와 함께 타일들은 공격받을 "
+"수 없습니다."
 
 #: server/settings.c:1835
 msgid "Turns until player contact is lost"
-msgstr ""
+msgstr "참가자 접촉이 잃어버리게 될 때까지 차례들"
 
 #: server/settings.c:1836
 msgid ""
@@ -41359,10 +41595,13 @@ msgid ""
 "last met, even when they do not have an embassy. If set to zero, then "
 "players cannot meet unless they have an embassy."
 msgstr ""
+"참가자들은 그들의 부대들이 가장 최근의 만남을 가진 후에, 그들이 하나의 대사관을 가지고 "
+"있지 않을 때도 이 숫자의 차례들 동안 외교에 대해 만날 수 있습니다. 만약 0으로 맞추었다면, "
+"참가자들은 그들이 하나의 대사관을 가지고 있지 않는 한 만날 수 없습니다."
 
 #: server/settings.c:1846
 msgid "Rebuild palace whenever capital is conquered"
-msgstr ""
+msgstr "수도가 정복되었을 때는 언제든지 궁전을 다시 세우기"
 
 #: server/settings.c:1847
 msgid ""
@@ -41372,10 +41611,14 @@ msgid ""
 "ignored. (In some rulesets, buildings other than the palace are affected by "
 "this setting.)"
 msgstr ""
+"만약 이것이 켜지면, 그 수도가 정복되었을 때 그 궁전은 또 하나의 무작위로 선택된 도시 안에 "
+"무료로 자동적으로 다시 세워집니다. 이것은 하나의 궁전을 짓는 것에 대해 그 기술 필요조건이 "
+"무시될 것이기 때문에 중요합니다. (몇몇의 규칙집단 안에서, 그 궁전외에 건설들은 이 설정으로 "
+"영향을 받습니다.)"
 
 #: server/settings.c:1857
 msgid "Give caught units a homecity"
-msgstr ""
+msgstr "붙잡힌 부대들에게 하나의 고향을 주기"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
@@ -41384,10 +41627,12 @@ msgid ""
 "If unset, caught units will have no homecity and will be subject to the "
 "'killunhomed' option."
 msgstr ""
+"만약 다시 맞추면, 붙잡힌 부대들은 고향을 가지지 않을 것이고 그 'killunhomed' 선택에 "
+"종속될 것입니다."
 
 #: server/settings.c:1867
 msgid "Whether allied players can win together"
-msgstr ""
+msgstr "연합된 참가자들이 함께 이길 수 있는지 아닌지"
 
 #: server/settings.c:1868
 msgid ""
@@ -41396,20 +41641,25 @@ msgid ""
 "not part of this alliance, then the game will end in an immediate shared "
 "victory for the allied players."
 msgstr ""
+"만약 이 선택이 켜지고 아직 그 놀이를 이길 수 있는 모든 그 참가자들이 연합들이고, 적어도 "
+"하나의 패배된 참가자가 이 연합의 부분이 아니라는 하나의 시점이 도달되면, 그 놀이는 그 "
+"연합된 참가자들에 대해 하나의 공유된 승리 안으로 끝낼 것입니다."
 
 #: server/settings.c:1877
 msgid "Whether to use natural city names"
-msgstr ""
+msgstr "자연스러운 도시 이름들을 사용하는지 아닌지"
 
 #: server/settings.c:1878
 msgid ""
 "If enabled, the default city names will be determined based on the "
 "surrounding terrain."
 msgstr ""
+"만약 가능하게 되면, 그 기본 도시 이름들은 그 인근의 지형에 기반을 두어 결정될 "
+"것입니다."
 
 #: server/settings.c:1884
 msgid "Whether to enable citizen migration"
-msgstr ""
+msgstr "시민 이주를 가능하게 하는지 아닌지"
 
 #. TRANS: The strings between single quotes are setting names
 #. * and should not be translated.
@@ -41428,10 +41678,21 @@ msgid ""
 "  'mgr_worldchance'  - Chance for inter-nation migration.\n"
 "  'mgr_nationchance' - Chance for intra-nation migration."
 msgstr ""
+"이것은 그 놀이 안에서 시민 이주가 활성화되어 있는지 아닌지를 통제하는 그 가장 큰 설정입니다. "
+"만약 가능하게 되면, 시민들은 덜 가치 있는 도시들에서 더 가치 있는 도시들도 자동적으로 이동할 "
+"것입니다. 하나의 주어진 도시의 그 \"desirability\" (은)는 다수의 요인들로부터 계산됩니다. "
+"보통 더 많은 수입과 향상들과 함께 더 큰 도시들이 선호하게 될 것입니다. 시민들은 그 수도 밖으로, "
+"또는 하나의 도시를 해산함으로서 하나의 불가사의를 잃어버리게 되는 것을 야기하는 이주는 절대로 "
+"안할 것입니다. 다수의 다른 설정들은 이주가 어떻게 행동하는지에 대해 통제합니다:\n"
+"  'mgr_turninterval' - 시민들이 얼마나 자주 이주를 시도하는가.\n"
+"  'mgr_foodneeded'   - 목적지 식량이 점검되는지 아닌지.\n"
+"  'mgr_distance'     - 시민들이 얼마나 멀리 이주할 것인가.\n"
+"  'mgr_worldchance'  - 국가-사이의 이주에 대한 가능성.\n"
+"  'mgr_nationchance' - 국가-내부의 이주에 대한 가능성."
 
 #: server/settings.c:1905
 msgid "Number of turns between migrations from a city"
-msgstr ""
+msgstr "하나의 도시로부터 이주들 사이의 차례들의 숫자"
 
 #. TRANS: Do not translate 'migration' setting name.
 #: server/settings.c:1907
@@ -41443,10 +41704,16 @@ msgid ""
 "city. Migration will never occur the same turn that a city is built. This "
 "setting has no effect unless migration is enabled by the 'migration' setting."
 msgstr ""
+"이 설정은 하나의 주어진 도시에 대해 이주 점검들 사이의 그 차례들의 숫자를 통제합니다. "
+"그 간격은 그 도시의 그 주조하는 차례로부터 계산됩니다. 그래서 예를 들어 만약 이 설정이 "
+"5라면, 시민들은 그들의 현재 도시의 그 주조하는 것으로부터 매 5차례마다 하나의 적절한 "
+"이주 목적지를 찾을 것입니다. 이주는 하나의 도시가 지어진 그 같은 차례에 절대로 일어나지 "
+"않을 것입니다. 이 설정은 그 'migration' 설정에 의해 이주가 가능하게 되지 않는 한 "
+"효과를 가지고 있지 않습니다."
 
 #: server/settings.c:1920
 msgid "Whether migration is limited by food"
-msgstr ""
+msgstr "이주가 식량에 의해 제한되는지 아닌지"
 
 #. TRANS: Do not translate 'migration' setting name.
 #: server/settings.c:1922
@@ -41455,10 +41722,13 @@ msgid ""
 "not have enough food to support them. This setting has no effect unless "
 "migration is enabled by the 'migration' setting."
 msgstr ""
+"만약 이 설정이 가능하게 되었다면, 시민들은 그들을 지원할 충분한 식량을 가지지 않은 "
+"도시들로 이주하지 않을 것입니다. 이 설정은 그 'migration' 설정에 의해 이주가 가능하게 "
+"되지 않는 한 효과를 가지지 않습니다."
 
 #: server/settings.c:1930
 msgid "Maximum distance citizens may migrate"
-msgstr ""
+msgstr "시민들이 이주할 수 있는 최대의 거리"
 
 #. TRANS: Do not translate 'migration' setting name.
 #: server/settings.c:1932
@@ -41469,10 +41739,14 @@ msgid ""
 "If the distance is lower or equal, migration is possible. This setting has "
 "no effect unless migration is activated by the 'migration' setting."
 msgstr ""
+"이 설정은 시민들이 어느 도시로 이주할 지 결정할 때 하나의 적절한 이주 목적지를 얼마나 "
+"멀리까지 찾을 지를 통제합니다. 그 값은 그 현재의 도시 반경에 더하고 그 두 개의 도시들 "
+"사이의 그 거리를 비교합니다. 만약 그 거리가 더 낮거나 같다면, 이주는 가능합니다. 이 "
+"설정은 그 'migration' 설정에 의해 이주가 활성화되지 않는 한 효과를 가지지 않습니다."
 
 #: server/settings.c:1944
 msgid "Percent probability for migration within the same nation"
-msgstr ""
+msgstr "그 같은 국가 안에 이주에 대한 백분율의 확률"
 
 #. TRANS: Do not translate 'migration' setting name.
 #: server/settings.c:1946
@@ -41483,10 +41757,14 @@ msgid ""
 "destination. This setting has no effect unless migration is activated by the "
 "'migration' setting."
 msgstr ""
+"이 설정은 그 같은 참가자에 의해 소유한 도시들 사이의 시민들에 대해 얼마나 이주할 것 "
+"같은 지를 통제합니다. 0은 이주가 절대로 일어나지 않을 것을 나타내고, 100은 만약 그 "
+"시민들이 하나의 적절한 목적지를 찾는다면 항상 일어날 것을 의미합니다. 이 설정은 그 "
+"'migration' 설정에 의해 이주가 활성화되지 않는 한 효과를 가지지 않습니다."
 
 #: server/settings.c:1957
 msgid "Percent probability for migration between foreign cities"
-msgstr ""
+msgstr "외국의 도시들 사이에 이주에 대한 백분율의 확률"
 
 #. TRANS: Do not translate 'migration' setting name.
 #: server/settings.c:1959
@@ -41497,10 +41775,14 @@ msgid ""
 "This setting has no effect if migration is not enabled by the 'migration' "
 "setting."
 msgstr ""
+"이 설정은 다른 참가자들에 의해 소유한 도시들 사이에 이주에 대해 얼마나 일어날 것 같은 지를 "
+"통제합니다. 0은 이주가 절대로 일어나지 않을 것을 나타내고, 100은 만약 그들이 하나의 적절한 "
+"목적지를 찾는다면 항상 이주할 것을 의미합니다. 이 설정은 그 'migration' 설정에 의해 "
+"가능하게 되지 않는다면 효과를 가지지 않습니다."
 
 #: server/settings.c:1977
 msgid "Players that users are allowed to take"
-msgstr ""
+msgstr "사용자들이 가지도록 허용된 참가자들"
 
 #. TRANS: the strings in double quotes are server command names
 #. * and should not be translated.
@@ -41533,30 +41815,53 @@ msgid ""
 "connections;\n"
 "     4 = No controller allowed, observers allowed"
 msgstr ""
+"이것은 하나의 글자들의 문자열로 되어 있을 것이고, 각각의 문자열은 하나의 종류 또는 하나의 "
+"문명 (참가자) 의 신분을 명시합니다.\n"
+"고객들은 오직 그 명시된 글자들의 하나에 일치하는 그들의 참가자들을 가지거나 관찰하도록 "
+"허용될 것입니다. 이것은 오직 그 \"take\" 또는 \"observe\" 명령들의 미래의 사용들에 "
+"영향을 미칩니다; 이것은 반동하는 것이 아닙니다. 그 글자들과 그들의 의미들은 있습니다:\n"
+"    o,O = 전세계적인 관찰자\n"
+"    b   = 야만인 참가자들\n"
+"    d   = 죽은 참가자들\n"
+"    a,A = 인공지능 참가자들\n"
+"    h,H = 인간 참가자들\n"
+"하나의 참가자에 일치하는 이 목록 위의 그 처음의 서술은 적용되는 그 하나입니다. 그래서 "
+"'d' 는 죽은 야만인들을 포함하고 있지 않고, 'a' 는 죽은 인공지능 참가자들을 포함하고 "
+"있지 않고, 기타 등등 입니다. 대문자의 글자들은 그 놀이가 시작되지 전에 적용되고, "
+"소문자의 글자들은 그 후에 적용됩니다.\n"
+"위의 각각의 글자는 그 접속의 방식을 허용하거나 제한하는 그 따라오는 숫자들의 하나에 "
+"의해 따라올 수 있습니다:\n"
+"(none) = 통제 장치 허용됨, 관찰자들 허용됨, 접속들을 대체할 수 있음. "
+"(하나의 접속을 대체하는 것은 심지어 또 하나의 사용자가 이미 그 참가자를 통제할 때, "
+"당신은 하나의 참가자를 인계받을 수도 있음을 의미합니다.)\n"
+"     1 = 통제 장치 허용됨, 관찰자들 허용됨, 접속들을 대체할 수 없음;\n"
+"     2 = 통제 장치 허용됨, 관찰자들 허용안됨, 접속들을 대체할 수 있음;\n"
+"     3 = 통제 장치 허용됨, 관찰자들 허용안됨, 접속들을 대체할 수 없음;\n"
+"     4 = 통제 장치 허용안됨, 관찰자들 허용됨"
 
 #: server/settings.c:2015
 msgid "Whether AI-status toggles with connection"
-msgstr ""
+msgstr "접속과 함께 인공지능-신분을 켰다 껐다 하는지 아닌지"
 
 #: server/settings.c:2016
 msgid ""
 "If enabled, AI status is turned off when a player connects, and on when a "
 "player disconnects."
 msgstr ""
+"만약 가능하게 되면, 인공지능 신분은 하나의 접속할 때 꺼지고, 하나의 참가자가 접속을 "
+"끊을 때 켜집니다."
 
 #: server/settings.c:2022
-#, fuzzy
 msgid "Turn the game ends"
-msgstr "게임이 끝나는 년도"
+msgstr "그 놀이가 끝나는 차례"
 
 #: server/settings.c:2023
-#, fuzzy
 msgid "The game will end at the end of the given turn."
-msgstr "이 게임은 주어진 마지막 년도에 끝날 것입니다"
+msgstr "그 놀이는 그 주어진 차례의 그 끝에 끝날 것입니다."
 
 #: server/settings.c:2029
 msgid "Reveal the map"
-msgstr ""
+msgstr "그 지도를 드러내기"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -41571,10 +41876,15 @@ msgid ""
 "for dead players\" (DEAD) is set, dead players can see the entire map, if "
 "they are alone in their team."
 msgstr ""
+"만약 \"놀이 시작 때 지도를 드러내기\" (START) 가 맞추어 진다면, 그 전체의 지도의 그 "
+"초기의 상태는 비록 이것이 아직도 안개로 끼어 있어도 (그 'fogofwar' 설정에 따라), 그 "
+"놀이의 그 시작으로부터 모든 참가자들에게 알려질 것입니다. 만약 \"죽은 참가자들에게 지도의 "
+"안개 없애기\" (DEAD) 가 맞추어 진다면, 죽은 참가자들은 만약 그들이 그들의 팀 안에 혼자 "
+"있다면, 그 전체의 지도를 볼 수 있습니다."
 
 #: server/settings.c:2046
 msgid "Maximum seconds per turn"
-msgstr "한 턴당 최대 시간 (초)"
+msgstr "차례마다 최대의 초"
 
 #. TRANS: \"Turn Done\" refers to the client button; it is also
 #. * translated separately, the translation should be the same.
@@ -41590,10 +41900,17 @@ msgid ""
 "timer. The first turn is treated as a special case and is controlled by the "
 "'first_timeout' setting."
 msgstr ""
+"만약 모든 참가자들이 이 시간이 다 되기 전에 \"차례 다 끝난\" 을 때리지 않는다면, 그 차례는 "
+"자동적으로 끝납니다. 0은 그곳에 시간초과가 없음을 의미합니다. 디버깅과 함께 명령어를 "
+"번역하는 서버들 안에서, 하나의 -1의 시간초과는 그 자동놀이 시험 방식을 맞춥니다. 오직 "
+"프로그램 조작 수준 접근과 함께 접속들이 그 시간초과를 30초보다 더 낮게 맞출 수도 있습니다. "
+"하나의 동적의 시간을 맞추는 자를 가지기 위해 그 명령 \"timeoutincrease\" 과 함께 사용"
+"하세요. 그 처음의 차례는 하나의 특별한 경우로 취급되고 그 'first_timeout' 설정에 의해 "
+"통제됩니다."
 
 #: server/settings.c:2065
 msgid "First turn timeout"
-msgstr ""
+msgstr "처음의 차례 시간초과"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * should not be translated.
@@ -41604,20 +41921,26 @@ msgid ""
 "If set to -1, the special treatment of T0 will be disabled.\n"
 "See also 'timeout'."
 msgstr ""
+"만약 0보다 크다면, T0은 'first_timeout' 초 동안 지속될 것입니다.\n"
+"만약 0으로 맞추었다면, T0은 하나의 시간초과를 가지지 않을 것입니다.\n"
+"만약 -1로 맞추었다면, T0의 그 특별한 대우는 망가질 것입니다.\n"
+"또한 'timeout' 을 보세요."
 
 #: server/settings.c:2077
 msgid "Timeout at least n seconds when enemy moved"
-msgstr ""
+msgstr "적이 움직였을 때 적어도 n초 시간초과"
 
 #: server/settings.c:2078
 msgid ""
 "Any time a unit moves while in sight of an enemy player, the remaining "
 "timeout is increased to this value."
 msgstr ""
+"언제든 하나의 적 참가자에게 보이는 동안 하나의 부대가 움직이면, 그 남아있는 "
+"시간초과는 이 값으로 증가됩니다."
 
 #: server/settings.c:2084
 msgid "Time between unit moves over turn change"
-msgstr ""
+msgstr "부대가 차례 변경을 통해 이동하는 사이의 시간"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
@@ -41630,20 +41953,27 @@ msgid ""
 "this setting, as well as units moving inside a transporter. This value is "
 "limited to a maximum value of 2/3 'timeout'."
 msgstr ""
+"이 설정은 부대가 하나의 차례 변경이 일어난 후에 움직이는 사이 초 안으로 그 최소한의 "
+"시간의 양을 줍니다. 예를 들어, 만약 이 설정이 20으로 맞추었고 하나의 부대가 그 차례 "
+"변경 전에 5초에 움직이면, 이것은 적어도 15초동안 그 다음 차례 안으로 이동할 수 없습니다. "
+"도시들을 짓는 것은 하나의 수송하는 자 안으로 이동하는 부대들과 마찬가지로, 또한 이 설정에 "
+"의해 영향을 미치게 됩니다. 이 값은 하나의 2/3의 'timeout' 의 최대의 값으로 제한됩니다."
 
 #: server/settings.c:2103
 msgid "Control of simultaneous player/team phases"
-msgstr ""
+msgstr "동시의 참가자/팀 단계들의 통제"
 
 #: server/settings.c:2104
 msgid ""
 "This setting controls whether players may make moves at the same time during "
 "a turn."
 msgstr ""
+"이 설정은 하나의 차례 동안 그 같은 시간에 참가자들이 이동을 만들 수 있는지 아닌지를 "
+"통제합니다."
 
 #: server/settings.c:2110
 msgid "Seconds to let a client's network connection block"
-msgstr ""
+msgstr "하나의 고객의 통신망 접속 차단을 허용하는 초"
 
 #: server/settings.c:2111
 msgid ""
@@ -41651,10 +41981,13 @@ msgid ""
 "the connection is closed. Zero means there is no timeout (although "
 "connections will be automatically disconnected eventually)."
 msgstr ""
+"만약 하나의 통신망 접속이 이 값보다 크게 하나의 시간 동안 차단된다면, 그 접속은 닫혀집니다. "
+"0은 그곳에 시간초과가 없다는 것을 의미합니다 (비록 접속들은 결국 자동적으로 접속이 끊겨질 "
+"것이긴 하지만)."
 
 #: server/settings.c:2120
 msgid "Max seconds for network buffers to drain"
-msgstr ""
+msgstr "통신망 완충 기억 장치들을 소모시키는 최대 초"
 
 #: server/settings.c:2121
 msgid ""
@@ -41662,39 +41995,48 @@ msgid ""
 "all client connection network buffers to unblock. Zero means the server will "
 "not wait at all."
 msgstr ""
+"그 서버는 모든 고객 접속 통신망 완충 기억 장치들에 대해 차단하지 않기 위해, 초 안으로 "
+"이 매개 변수의 그 값까지 동안 기다릴 것입니다. 0은 그 서버가 전혀 기다리지 않을 것을 "
+"의미합니다."
 
 #: server/settings.c:2129
 msgid "Seconds between PINGs"
-msgstr ""
+msgstr "핑들 사이에 초"
 
 #: server/settings.c:2130
 msgid ""
 "The server will poll the clients with a PING request each time this period "
 "elapses."
 msgstr ""
+"그 서버는 매번 이 기간이 지날 때마다 하나의 핑 요청과 함께 그 고객들을 여론 조사를 할 "
+"것입니다."
 
 #: server/settings.c:2137
 msgid "Time to cut a client"
-msgstr ""
+msgstr "하나의 고객을 자르는 시간"
 
 #: server/settings.c:2138
 msgid ""
 "If a client doesn't reply to a PING in this time the client is disconnected."
 msgstr ""
+"만약 하나의 고객이 이 시간 안에 하나의 핑을 대답하지 않는다면 그 고객은 접속이 끊어질 "
+"것입니다."
 
 #: server/settings.c:2144
 msgid "Turn-blocking game play mode"
-msgstr ""
+msgstr "차례-차단하는 놀이 진행 방식"
 
 #: server/settings.c:2145
 msgid ""
 "If this is turned on, the game turn is not advanced until all players have "
 "finished their turn, including disconnected players."
 msgstr ""
+"만약 이것이 켜진다면, 그 놀이 차례는 접속이 끊어진 참가자들을 포함해서, 모든 참가자들이 "
+"그들의 차례를 끝낼 때까지 진행되지 않습니다."
 
 #: server/settings.c:2152
 msgid "Fixed-length turns play mode"
-msgstr ""
+msgstr "고정된-길이 차례를 놀이 방식"
 
 #. TRANS: \"Turn Done\" refers to the client button; it is also
 #. * translated separately, the translation should be the same.
@@ -41703,10 +42045,12 @@ msgid ""
 "If this is turned on the game turn will not advance until the timeout has "
 "expired, even after all players have clicked on \"Turn Done\"."
 msgstr ""
+"만약 이것이 켜진다면 그 놀이 차례는 심지어 모든 참가자들이 \"차례 다 끝난\" 위를 누른 "
+"후에도, 그 시간초과가 만료되기 까지 진행될 수 없습니다."
 
 #: server/settings.c:2162
 msgid "What is in the Demographics report"
-msgstr ""
+msgstr "그 인구 통계 보고서 안에 무엇이 있다"
 
 #. TRANS: The strings between double quotes should be
 #. * translated.
@@ -41731,10 +42075,28 @@ msgid ""
 "    b = display \"best nation\" column\n"
 "The order of characters is not significant, but their capitalization is."
 msgstr ""
+"이것은 하나의 글자들의 문자열로 되어 있을 것이고, 각각의 글자는 그 인구 통계 보고서 "
+"안의 정보의 하나의 행의 그 포함을 명시합니다.\n"
+"그 글자들과 그들의 의미들은 있습니다:\n"
+"    N = 인구를 포함하다\n"
+"    P = 생산을 포함하다\n"
+"    A = 육지 면적을 포함하다\n"
+"    L = 글을 읽고 쓸 줄 아는 능력을 포함하다\n"
+"    R = 연구 속도를 포함하다\n"
+"    S = 정착한 면적을 포함하다\n"
+"    E = 경제학을 포함하다\n"
+"    M = 병역을 포함하다\n"
+"    O = 공해를 포함하다\n"
+"게다가, 그 따라오는 글자들은 그 보고서 안에 보여지는 어떤 기둥들을 어떻든지 "
+"통제합니다:\n"
+"    q = \"수량\" 기둥을 보여주다\n"
+"    r = \"순위\" 기둥을 보여주다\n"
+"    b = \"최고의 국가\" 기둥을 보여주다\n"
+"그 글자들의 순서는 중요하지 않지만, 그들의 대문자 사용은 중요합니다."
 
 #: server/settings.c:2189
 msgid "Turns per auto-save"
-msgstr ""
+msgstr "자동의-저장 마다 차례들"
 
 #. TRANS: The string between double quotes is also translated
 #. * separately (it must match!). The string between single
@@ -41744,10 +42106,12 @@ msgid ""
 "How many turns elapse between automatic game saves. This setting only has an "
 "effect when the 'autosaves' setting includes \"New turn\"."
 msgstr ""
+"얼마나 많이 차례들이 자동의 놀이 저장들 사이를 지나갑니까. 이 설정은 오직 그 'autosaves' "
+"설정이 \"새로운 차례\" 을 포함할 때 하나의 영향을 가집니다."
 
 #: server/settings.c:2200
 msgid "Which savegames are generated automatically"
-msgstr ""
+msgstr "자동적으로 발생되는 저장놀이들은 어떤 것입니까"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -41764,10 +42128,17 @@ msgid ""
 "- \"Server interrupted\" (INTERRUPT): Save when server quits due to "
 "interrupt."
 msgstr ""
+"이 설정은 발생되는 자동저장 종류들이 어떤 것인지 통제합니다:\n"
+"- \"새로운 차례\" (TURN): 매 'saveturns' 차례들마다 한 번, 차례가 시작할 때 저장합니다.\n"
+"- \"끝이 난 놀이\" (GAMEOVER): 놀이가 끝날 때 마지막의 저장합니다.\n"
+"- \"참가자 접속들이 없음\" (QUITIDLE): 참가자들의 부족 때문에 서버가 다시 시작하기 "
+"전에 저장합니다.\n"
+"- \"서버 중단함\" (INTERRUPT): 중단시키기 때문에 서버가 그만두기 전에 "
+"저장합니다."
 
 #: server/settings.c:2218
 msgid "Savegame compression level"
-msgstr ""
+msgstr "저장놀이 압축 수준"
 
 #. TRANS: 'compresstype' setting name should not be translated.
 #: server/settings.c:2220
@@ -41775,18 +42146,20 @@ msgid ""
 "If non-zero, saved games will be compressed depending on the 'compresstype' "
 "setting. Larger values will give better compression but take longer."
 msgstr ""
+"만약 0-이 아니라면, 저장된 놀이들은 그 'compresstype' 설정에 따라 압축될 것입니다. "
+"더 큰 값들은 더 좋은 압축을 줄 것이지만 더 오래 가지고 갑니다."
 
 #: server/settings.c:2228
 msgid "Savegame compression algorithm"
-msgstr ""
+msgstr "저장놀이 압축 알고리즘"
 
 #: server/settings.c:2229
 msgid "Compression library to use for savegames."
-msgstr ""
+msgstr "저장놀이들을 위해 사용하는 압축 도서관"
 
 #: server/settings.c:2234
 msgid "Definition of the save file name"
-msgstr ""
+msgstr "그 놀이 파일 이름의 정의"
 
 #. TRANS: %R, %S, %T and %Y must not be translated. The
 #. * strings (examples and setting names) between single quotes
@@ -41806,10 +42179,21 @@ msgid ""
 "overwrite old ones. If none of the formats is used '-T%04T-Y%05Y-%R' is "
 "appended to the value of 'savename'."
 msgstr ""
+"그 문자열 안에 그 따라오는 맞춤 구성 방식들은 허용됩니다:\n"
+"  %R = <이유>\n"
+"  %S = <접미사>\n"
+"  %T = <차례-숫자>\n"
+"  %Y = <놀이-년도>\n"
+"\n"
+"예를 들어: 'freeciv-T%04T-Y%+05Y-%R' => 'freeciv-T0100-Y00001-manual'\n"
+"\n"
+"적어도 %T와 %Y의 하나를 사용하는 것을 조심하시고, 그 밖의 다른 새로운 저장놀이들은 "
+"오래된 저장놀이들을 덮어쓸 것입니다. 만약 그 구성 방식들의 아무것도 사용되지 않는다면 "
+"'-T%04T-Y%05Y-%R' 이 그 'savename' 의 값으로 덧붙여집니다."
 
 #: server/settings.c:2257
 msgid "Whether to log player statistics"
-msgstr ""
+msgstr "참가자 통계를 일지에 기록하는지 아닌지"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
@@ -41819,19 +42203,22 @@ msgid ""
 "the option 'scorefile' every turn. These statistics can be used to create "
 "power graphs after the game."
 msgstr ""
+"만약 이것이 켜진다면, 참가자 통계는 매 차례마다 그 선택 'scorefile' 에 의해 정의되는 "
+"그 파일에 덧붙여집니다. 이것들의 통계는 그 놀이 후에 힘 도표들을 창작하는데 사용될 수 "
+"있습니다."
 
 #: server/settings.c:2267
 msgid "Name for the score log file"
-msgstr ""
+msgstr "그 점수 일지 파일을 위한 이름"
 
 #. TRANS: Don't translate the string in single quotes.
 #: server/settings.c:2269
 msgid "The default name for the score log file is 'freeciv-score.log'."
-msgstr ""
+msgstr "그 점수 일지 파일을 위한 그 기본 이름은 'freeciv-score.log' 입니다."
 
 #: server/settings.c:2275
 msgid "Maximum number of connections to the server per host"
-msgstr ""
+msgstr "주인 마다 그 서버로 접속들의 최대의 숫자"
 
 #: server/settings.c:2276
 msgid ""
@@ -41840,10 +42227,13 @@ msgid ""
 "0 means that there is no limit, at least up to the maximum number of "
 "connections supported by the server."
 msgstr ""
+"하나의 주어진 주인으로부터 새로운 접속들은 만약 그 아주 정말 같은 주인으로부터 그 접속들의 "
+"총 숫자가 같거나 이 값을 초과한다면 거절될 것입니다. 하나의 0의 값은 적어도 그 서버에 의해 "
+"지원되는 그 접속들의 최대의 숫자까지, 그곳에는 한계가 없다는 것을 의미합니다."
 
 #: server/settings.c:2286
 msgid "Time before a kicked user can reconnect"
-msgstr ""
+msgstr "하나의 발로 차인 사용자가 다시 접속할 수 있는 시간"
 
 #. TRANS: the string in double quotes is a server command name and
 #. * should not be translated
@@ -41852,147 +42242,141 @@ msgid ""
 "Gives the time in seconds before a user kicked using the \"kick\" command "
 "may reconnect. Changing this setting will affect users kicked in the past."
 msgstr ""
+"그 \"kick\" 명령을 사용한 발로 차인 하나의 사용자가 다시 접속할 수도 있기 전에 "
+"그 초 안의 시간을 줍니다. 이 설정을 바꾸는 것은 그 과거 안에 발로 차인 사용자들에게 "
+"영향을 미칠 수 있습니다."
 
 #: server/settings.c:2390
-#, fuzzy, c-format
+#, c-format
 msgid "You are not allowed to change the setting '%s'."
-msgstr "당신은 이 옵션을 설정하도록 허용되지 않았습니다"
+msgstr "당신은 그 설정 '%s' (을)를 바꾸기를 허용되지 않았습니다."
 
 #: server/settings.c:2398
 #, c-format
 msgid "The setting '%s' is locked by the ruleset."
-msgstr ""
+msgstr "그 설정 '%s' (은)는 그 규칙집단에 의해 잠겼습니다."
 
 #: server/settings.c:2412
 #, c-format
 msgid "The setting '%s' can't be modified after the map is fixed."
-msgstr ""
+msgstr "그 설정 '%s' (은)는 그 지도가 고정된 후에 수정될 수 없습니다."
 
 #: server/settings.c:2429
 #, c-format
 msgid "The setting '%s' can't be modified after the game has started."
-msgstr ""
+msgstr "그 설정 '%s' (은)는 그 놀이가 시작된 후에 수정될 수 없습니다."
 
 #: server/settings.c:2441
-#, fuzzy
 msgid "Internal error."
-msgstr "내부"
+msgstr "내부의 오류"
 
 #: server/settings.c:2529
 #, c-format
 msgid "\"%s\" prefix is ambiguous. Candidates are: %s."
-msgstr ""
+msgstr "\"%s\" 접두사는 애매모호합니다. 후보자들은 있습니다: %s."
 
 #: server/settings.c:2536
-#, fuzzy
 msgid "Missing value."
-msgstr "미사일"
+msgstr "실종된 값."
 
 #: server/settings.c:2545
-#, fuzzy, c-format
+#, c-format
 msgid "No match for \"%s\"."
-msgstr "\"%s\" 비어있는 인수.\n"
+msgstr "\"%s\" 에 대해 일치하는 것이 없음."
 
 #: server/settings.c:2583
-#, fuzzy
 msgid "This setting is not a boolean."
-msgstr "이 설정 면"
+msgstr "이 설정은 하나의 불 방식이 아닙니다."
 
 #: server/settings.c:2704
-#, fuzzy
 msgid "This setting is not an integer."
-msgstr "이 설정 면"
+msgstr "이 설정은 하나의 정수가 아닙니다."
 
 #: server/settings.c:2710
 #, c-format
 msgid "Value out of range: %d (min: %d; max: %d)."
-msgstr ""
+msgstr "범위 밖의 값: %d (최소: %d; 최대: %d)."
 
 #: server/settings.c:2765
-#, fuzzy
 msgid "This setting is not a string."
-msgstr "이 설정 면"
+msgstr "이 설정은 하나의 문자열이 아닙니다."
 
 #: server/settings.c:2771
-#, fuzzy, c-format
+#, c-format
 msgid "String value too long (max length: %lu)."
-msgstr "문자열이 너무 깁니다. 사용법 : set <옵션> <값>."
+msgstr "너무 긴 문자열 값 (최대 길이: %lu)."
 
 #: server/settings.c:2849
-#, fuzzy
 msgid "This setting is not an enumerator."
-msgstr "이 설정 면"
+msgstr "이 설정은 하나의 계산자가 아닙니다."
 
 #. TRANS: only emphasizing a string.
 #: server/settings.c:3018
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\""
-msgstr "%s"
+msgstr "\"%s\""
 
 #. TRANS: Bitwise setting has no bits set.
 #: server/settings.c:3027
-#, fuzzy
 msgid "empty value"
-msgstr "미사일"
+msgstr "비어있는 값"
 
 #: server/settings.c:3079
-#, fuzzy
 msgid "This setting is not a bitwise."
-msgstr "이 설정 면"
+msgstr "이 설정은 하나의 비트에 관하여 아닙니다."
 
 #: server/settings.c:3337 server/settings.c:3357 server/settings.c:3377
 #: server/settings.c:3401 server/settings.c:3425
-#, fuzzy, c-format
+#, c-format
 msgid "Ruleset: '%s' has been set to %s."
-msgstr "%s는 %s에 의해 파괴되었습니다."
+msgstr "규칙집단: '%s' (은)는 %s (으)로 맞추어졌습니다."
 
 #: server/settings.c:3442
-#, fuzzy, c-format
+#, c-format
 msgid "Ruleset: '%s' has been locked by the ruleset."
-msgstr "%s는 %s에 의해 파괴되었습니다."
+msgstr "규칙집단: '%s' (은)는 그 규칙집단에 의해 잠겼습니다."
 
 #: server/settings.c:3701 server/settings.c:3726 server/settings.c:3748
 #: server/settings.c:3775 server/settings.c:3802
-#, fuzzy, c-format
+#, c-format
 msgid "Savegame: '%s' has been set to %s."
-msgstr "%s는 %s에 의해 파괴되었습니다."
+msgstr "저장놀이: '%s' (은)는 %s (으)로 맞추어졌습니다."
 
 #: server/settings.h:39
 msgid "Geological"
-msgstr "지질"
+msgstr "지질학의"
 
 #: server/settings.h:41
 msgid "Sociological"
-msgstr "사회"
+msgstr "사회학의"
 
 #: server/settings.h:43
 msgid "Economic"
-msgstr "경제"
+msgstr "경제의"
 
 #: server/settings.h:45
 msgid "Military"
-msgstr "군사"
+msgstr "군사의"
 
 #: server/settings.h:47
 msgid "Scientific"
-msgstr "과학"
+msgstr "과학의"
 
 #: server/settings.h:49
-#, fuzzy
 msgid "Internal"
-msgstr "인터패이스"
+msgstr "내부의"
 
 #: server/settings.h:51
 msgid "Networking"
-msgstr "네트워킹"
+msgstr "통신망 형성"
 
 #: server/settings.h:63
 msgid "Vital"
-msgstr "중요한"
+msgstr "필수적인"
 
 #: server/settings.h:65
 msgid "Situational"
-msgstr "상황적인"
+msgstr "상황에 따른"
 
 #: server/settings.h:67
 msgid "Rare"
@@ -42000,24 +42384,23 @@ msgstr "드문"
 
 #: server/settings.h:69
 msgid "Changed"
-msgstr "바뀜"
+msgstr "변경됨"
 
 #: server/settings.h:71
-#, fuzzy
 msgid "Locked"
-msgstr "잠금"
+msgstr "잠김"
 
 #: server/spacerace.c:169
 msgid "You need to have a capital in order to launch your spaceship."
-msgstr "당신의 우주선을 작동시키기 위해선 수도를 가질 필요가 있습니다"
+msgstr "당신은 당신의 우주선을 발사하기 위하여 하나의 수도를 가질 필요가 있습니다."
 
 #: server/spacerace.c:175
 msgid "Your spaceship is already launched!"
-msgstr "당신의 우주선은 이미 작동되었습니다"
+msgstr "당신의 우주선은 이미 발사되었습니다!"
 
 #: server/spacerace.c:181
 msgid "Your spaceship can't be launched yet!"
-msgstr "당신의 우주선은 아직 작동할수 없습니다"
+msgstr "당신의 우주선은 아직 발사될 수 없습니다!"
 
 #: server/spacerace.c:190
 #, c-format
@@ -42025,120 +42408,122 @@ msgid ""
 "The %s have launched a spaceship!  It is estimated to arrive at Alpha "
 "Centauri in %s."
 msgstr ""
+"그 %s (은)는 하나의 우주선을 발사했습니다! 이것은 %s 안으로 알파 센타우리에 도착될 "
+"것으로 추정됩니다."
 
 #: server/spacerace.c:208
 msgid "Spaceship action received, but you don't have a spaceship!"
-msgstr ""
+msgstr "우주선 행동을 받았습니다만, 당신은 하나의 우주선을 가지고 있지 않습니다!"
 
 #: server/spacerace.c:214
 msgid "You can't modify your spaceship after launch!"
-msgstr "우주선 작동뒤엔 수정할수 없습니다"
+msgstr "당신은 발사 후에 당신의 우주선을 수정할 수 없습니다!"
 
 #: server/spacerace.c:223
 msgid "You don't have any unplaced Space Structurals!"
-msgstr ""
+msgstr "당신은 순위에 들지 않는 우주 구조물들을 전혀 가지고 있지 않습니다!"
 
 #: server/spacerace.c:228
 msgid "That Space Structural would not be connected!"
-msgstr ""
+msgstr "그 우주선 구조물은 연결되지 않을 것입니다!"
 
 #: server/spacerace.c:242 server/spacerace.c:262
 msgid "You don't have any unplaced Space Components!"
-msgstr ""
+msgstr "당신은 순위에 들지 않는 우주 부품들을 전혀 가지고 있지 않습니다!"
 
 #: server/spacerace.c:247
 msgid "Your spaceship already has the maximum number of Fuel Components!"
-msgstr ""
+msgstr "당신의 우주선은 이미 연료 부품들의 그 최대 숫자를 가집니다!"
 
 #: server/spacerace.c:268
 msgid "Your spaceship already has the maximum number of Propulsion Components!"
-msgstr ""
+msgstr "당신의 우주선은 이미 추진력 부품들의 그 최대 숫자를 가집니다!"
 
 #: server/spacerace.c:284 server/spacerace.c:305 server/spacerace.c:326
 msgid "You don't have any unplaced Space Modules!"
-msgstr ""
+msgstr "당신은 순위에 들지 않는 우주 모듈들을 전혀 가지고 있지 않습니다!"
 
 #: server/spacerace.c:289
 msgid "Your spaceship already has the maximum number of Habitation Modules!"
-msgstr ""
+msgstr "당신의 우주선은 이미 거주 모듈들의 그 최대 숫자를 가집니다!"
 
 #: server/spacerace.c:310
 msgid "Your spaceship already has the maximum number of Life Support Modules!"
-msgstr ""
+msgstr "당신의 우주선은 이미 생명 유지 모듈들의 그 최대 숫자를 가집니다!"
 
 #: server/spacerace.c:331
 msgid "Your spaceship already has the maximum number of Solar Panel Modules!"
-msgstr ""
+msgstr "당신의 우주선은 이미 태양 전지판 모듈들의 그 최대 숫자를 가집니다!"
 
 #: server/spacerace.c:350
 #, c-format
 msgid "Without guidance from the capital, the %s spaceship is lost!"
-msgstr ""
+msgstr "그 수도로부터 안내 없이, 그 %s 우주선을 잃어버렸습니다!"
 
 #. TRANS: Another entry in winners list (", the Tibetans")
 #: server/srv_main.c:314 server/srv_main.c:442
 #, c-format
 msgid "?winners:, the %s"
-msgstr ""
+msgstr ", 그 %s"
 
 #. TRANS: Beginning of the winners list ("the French")
 #: server/srv_main.c:318 server/srv_main.c:437
 #, c-format
 msgid "?winners:the %s"
-msgstr ""
+msgstr "그 %s"
 
 #. TRANS: There can be several winners listed
 #: server/srv_main.c:328
-#, fuzzy, c-format
+#, c-format
 msgid "Scenario victory to %s."
-msgstr "%s이(가) 팀승리함"
+msgstr "%s 의 시나리오 승리."
 
 #: server/srv_main.c:357 server/stdinhand.c:4413
-#, fuzzy
 msgid "Game is over."
-msgstr "게임 끝남"
+msgstr "놀이는 끝났습니다."
 
 #: server/srv_main.c:391 server/srv_main.c:527
-#, fuzzy, c-format
+#, c-format
 msgid "Team victory to %s."
-msgstr "%s이(가) 팀승리함"
+msgstr "%s 의 팀 승리."
 
 #. TRANS: There can be several winners listed
 #: server/srv_main.c:449
-#, fuzzy, c-format
+#, c-format
 msgid "Allied victory to %s."
-msgstr "%s이(가) 팀승리함"
+msgstr "%s 의 동맹한 승리."
 
 #: server/srv_main.c:476 server/srv_main.c:536
-#, fuzzy, c-format
+#, c-format
 msgid "Game ended in victory for %s."
-msgstr "%s가(이) 승리함으로 게임이 끝났습니다"
+msgstr "%s 의 승리로 놀이는 끝났습니다."
 
 #: server/srv_main.c:487
-#, fuzzy
 msgid "Game ended as the turn limit was exceeded."
-msgstr "게임이 비김으로 끝났습니다"
+msgstr "그 차례 제한을 초과했기 때문에 놀이는 끝났습니다."
 
 #: server/srv_main.c:498
 #, c-format
 msgid "The %s spaceship has arrived at Alpha Centauri."
-msgstr ""
+msgstr "그 %s 우주선은 알파 센타우리에 도착했습니다."
 
 #: server/srv_main.c:653 server/srv_main.c:664
 #, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
-msgstr ""
+msgstr "당신의 %s (은)는 그 %s (와)과의 당신의 평화 조약에서의 합의 안으로 해산되었습니다."
 
 #: server/srv_main.c:703
 #, c-format
 msgid ""
 "Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr ""
+"걱정하는 시민들은 곧 %s (와)과의 그 정전이 이상 유효하지 않게 될 것을 주목합니다."
 
 #: server/srv_main.c:712 server/srv_main.c:717
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
-msgstr ""
+msgstr "%s (와)과의 그 정전은 더 이상 유효하지 않게 되었습니다. 당신은 이제 "
+"그 %s 와(과) 전쟁 중입니다."
 
 #: server/srv_main.c:738
 #, c-format
@@ -42146,111 +42531,117 @@ msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
 "your alliance with both."
 msgstr ""
+"%s 와(과) %s 사이의 그 정전은 더 이상 유효하지 않게 되었습니다. 그들은 전쟁 중입니다. "
+"동시에 당신은 당신의 동맹국을 취소합니다."
 
 #: server/srv_main.c:1243 server/srv_main.c:1246
 #, c-format
 msgid "Unsupported compression type %d."
-msgstr ""
+msgstr "지원되지 않는 압축 종류 %d."
 
 #: server/srv_main.c:1276
 #, c-format
 msgid "Failed saving game as %s"
-msgstr "%s 로 게임저장 실패"
+msgstr "놀이를 %s (으)로 저장하기를 실패했습니다"
 
 #: server/srv_main.c:1278
 #, c-format
 msgid "Game saved as %s"
-msgstr ""
+msgstr "놀이가 %s (으)로 저장되었습니다"
 
 #: server/srv_main.c:1334
 msgid "The game is already running."
-msgstr "게임은 이미 진행중입니다."
+msgstr "그 놀이는 이미 달리고 있습니다."
 
 #: server/srv_main.c:1342
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
-msgstr ""
+msgstr "%s (은)는 놀이 시작 위에서 cmdlevel 통제를 잃었습니다. 이제부터 투표를 "
+"사용합니다."
 
 #: server/srv_main.c:1349
 msgid "Starting game."
-msgstr "게임 시작"
+msgstr "놀이를 시작하는 중입니다."
 
 #: server/srv_main.c:1425
 #, c-format
 msgid "request for unknown report (type %d)"
-msgstr ""
+msgstr "알려지지 않은 보고서 (종류 %d) 에 대해 요구합니다"
 
 #: server/srv_main.c:1514
 #, c-format
 msgid "Warning: rejecting old client %s"
-msgstr "경고 : 오래된 클라이언트 %s 가(이) 거부됨"
+msgstr "경고: 늙은 고객 %s (을)를 거부하는 중입니다."
 
 #: server/srv_main.c:1524
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
 msgstr ""
+"당신의 고객은 너무 늙었습니다. 이 서버를 사용하기 위해서, 제발 당신의 고객을 하나의 "
+"Freeciv 2.2 또는 그 후로 개선하세요."
 
 #: server/srv_main.c:1582
-#, fuzzy
 msgid "You are not allowed to edit."
-msgstr "당신은 이 옵션을 설정하도록 허용되지 않았습니다"
+msgstr "당신은 편집하기를 허용되지 않습니다."
 
 #: server/srv_main.c:1771
 #, c-format
 msgid "%s nation is not available in this scenario."
-msgstr "%s 이름의 나라는 이 시나리오에서 가능하지 않습니다"
+msgstr "%s 국가는 이 시나리오 안에서 이용할 수 있지 않습니다."
 
 #: server/srv_main.c:1777
 #, c-format
 msgid "%s nation is already in use."
-msgstr ""
+msgstr "%s 국가는 이미 사용되고 있습니다."
 
 #: server/srv_main.c:1790
 #, c-format
 msgid "%s is the %s ruler %s."
-msgstr "%s(은)는 %s의 통치자 %s입니다."
+msgstr "%s (은)는 그 %s 의 통치자 %s 입니다."
 
 #: server/srv_main.c:1844
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
-msgstr "게임시작을 기다립니다: (%d 명 총 %d 명중) 이 이미 시작하였습니다"
+msgstr "놀이가 시작하기를 기다립니다: %d 이 %d 참가자들 중에서 시작하기를 준비합니다."
 
 #: server/srv_main.c:2213 server/srv_main.c:2217
 #, c-format
 msgid "%s rules the %s."
-msgstr "%s(은)는 %s(을)를 통치합니다."
+msgstr "%s (은)는 그 %s (을)를 통치합니다."
 
 #: server/srv_main.c:2378
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
 msgstr ""
+"이 freeciv-server 프로그램은 참가자 인증 지원을 가집니다만, 이것은 현재 사용되지 "
+"않습니다."
 
 #: server/srv_main.c:2447
-#, fuzzy, c-format
+#, c-format
 msgid "Sending info to metaserver <%s>."
-msgstr "metaserver <주소>"
+msgstr "메타서버 <%s> (으)로 정보를 보내는 중입니다."
 
 #: server/srv_main.c:2451
 msgid "Not starting without explicitly requested metaserver connection."
-msgstr ""
+msgstr "명쾌하게 요구한 메타서버 접속 없이 시작하지 않습니다."
 
 #: server/srv_main.c:2472
 msgid "The game is over..."
-msgstr "게임이 끝났습니다..."
+msgstr "그 놀이는 끝났습니다..."
 
 #: server/srv_main.c:2558
 msgid "Failed to create suitable map, retrying with another mapseed"
-msgstr ""
+msgstr "적합한 지도를 만들기에 실패했고, 다른 지도종자로 재시도하는 중입니다"
 
 #: server/srv_main.c:2573
 msgid "Cannot create suitable map with given settings."
-msgstr ""
+msgstr "주어진 설정들로 적합한 지도를 만들 수 없습니다."
 
 #: server/srv_main.c:2777
 msgid "Now accepting new client connections."
-msgstr ""
+msgstr "이제 새로운 고객 접속들을 수락하는 중입니다."
 
 #: server/stdinhand.c:178
 msgid "Can't use an empty name."
@@ -42259,7 +42650,7 @@ msgstr "하나의 비어있는 이름을 사용할 수 없습니다."
 #: server/stdinhand.c:181
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
-msgstr "그 이름은 %d 글자들의 그 최대값을 초과합니다."
+msgstr "그 이름은 %d 글자들의 그 최대를 초과합니다."
 
 #: server/stdinhand.c:186
 msgid "That name is not allowed."
@@ -42834,7 +43225,7 @@ msgstr "그곳에는 진행 중인 투표들이 없습니다."
 
 #: server/stdinhand.c:2453 server/stdinhand.c:2578 server/stdinhand.c:4245
 msgid "You are not allowed to use this command."
-msgstr "당신은 이 명령을 사용하기를 허용되지 않았습니다."
+msgstr "당신은 이 명령을 사용하기를 허용되지 않습니다."
 
 #: server/stdinhand.c:2462
 #, c-format
