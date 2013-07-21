@@ -42,10 +42,10 @@ min_start_native_area = 0
 
 ; How many fragments each movement point has.
 ; For example road movement costs are relative to this.
-move_fragments = 3
+move_fragments = 9
 
 ; How many move fragments IgTer unit movement costs
-igter_cost = 1
+igter_cost = 3
 
 ; There is no resources in the middle of the oceans, only near coast
 ocean_resources = FALSE
@@ -1179,7 +1179,7 @@ graphic        = "road"
 graphic_alt    = "-"
 activity_gfx   = "unit.road"
 act_gfx_alt    = "-"
-move_cost      = 2
+move_cost      = 3
 build_time     = 0
 food_incr      = 0
 shield_incr    = 0
@@ -1236,7 +1236,7 @@ activity_gfx   = "unit.rail"
 act_gfx_alt    = "unit.road"
 pillageable    = FALSE
 defense_bonus  = 50
-move_cost      = 1
+move_cost      = 3
 move_mode      = "Cardinal"
 trade_incr_const = 1
 compat_special = "River"
