@@ -528,6 +528,10 @@ name           = _("Hut")
 
 [extra_farmland]
 name           = _("Farmland")
+reqs           =
+    { "type", "name", "range"
+      "Tech", "Protein Modifications", "Player"
+    }
 
 [extra_fallout]
 name           = _("Fallout")

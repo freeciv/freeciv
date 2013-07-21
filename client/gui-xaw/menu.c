@@ -513,8 +513,9 @@ void real_menus_update(void)
 			  TEXT_ORDER_IRRIGATE_CHANGE_TO,
 			  terrain_name_translation(tinfo->irrigation_result));
       }
-      else if (tile_has_special(ptile, S_IRRIGATION) &&
-	       player_knows_techs_with_flag(client.conn.playing, TF_FARMLAND)) {
+      else if (tile_has_special(ptile, S_IRRIGATION)
+               && player_can_build_extra(extra_type_get(EXTRA_SPECIAL, S_FARMLAND),
+                                         client.conn.playing, ptile)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_IRRIGATE,
 			  TEXT_ORDER_IRRIGATE_FARMLAND, NULL);
       } else {

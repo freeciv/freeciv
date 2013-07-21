@@ -2312,8 +2312,8 @@ void real_menus_update(void)
                   get_tile_change_menu_text(unit_tile(punit),
                                             ACTIVITY_IRRIGATE));
     } else if (tile_has_special(unit_tile(punit), S_IRRIGATION)
-               && player_knows_techs_with_flag(unit_owner(punit),
-                                               TF_FARMLAND)) {
+               && player_can_build_extra(extra_type_get(EXTRA_SPECIAL, S_FARMLAND),
+                                         unit_owner(punit), unit_tile(punit))) {
       sz_strlcpy(irrtext, _("Bu_ild Farmland"));
     } else {
       sz_strlcpy(irrtext, _("Build _Irrigation"));

@@ -721,6 +721,7 @@ name           = _("Hut")
 
 [extra_farmland]
 name           = _("Farmland")
+buildable      = FALSE
 
 [extra_fallout]
 name           = _("Fallout")

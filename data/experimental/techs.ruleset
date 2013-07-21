@@ -51,7 +51,6 @@ options="+Freeciv-ruleset-Devel-2013.May.14"
 ;
 ; "Bonus_Tech" = player gets extra tech if rearched first
 ; "Bridge"   = "Settler" unit types can build bridges over rivers
-; "Farmland" = "Settler" unit types can build farmland
 ; "Population_Pollution_Inc" = Increase the pollution factor created by
 ;                              population by one
 ; "Build_Airborne" = from now on can build air units (for use by AI)
@@ -673,7 +672,7 @@ name     = _("Refrigeration")
 req1     = "Sanitation"
 req2     = "Electricity"
 root_req = "Electricity"
-flags    = "Farmland"
+flags    = ""
 graphic     = "a.refrigeration"
 graphic_alt = "-"
 

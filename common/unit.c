@@ -1031,7 +1031,6 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
                                       struct extra_type *target,
 				      const struct tile *ptile)
 {
-  struct player *pplayer = unit_owner(punit);
   struct terrain *pterrain = tile_terrain(ptile);
   struct unit_class *pclass = unit_class(punit);
 
@@ -1116,9 +1115,6 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
        * *Do* allow it if they're transforming - the irrigation may survive */
       if (unit_has_type_flag(punit, UTYF_SETTLERS)
           && can_build_extra(pextra, punit, ptile)
-          && (!tile_has_special(ptile, S_IRRIGATION)
-              || (!tile_has_special(ptile, S_FARMLAND)
-                  && player_knows_techs_with_flag(pplayer, TF_FARMLAND)))
           && ((pterrain == pterrain->irrigation_result
                && can_be_irrigated(ptile, punit))
               || (pterrain != pterrain->irrigation_result

@@ -1729,36 +1729,6 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
   }						\
 }
 
-/****************************************************************************
-  Return a string containing the techs that have the flag.  Returns the
-  number of techs found.
-
-  pplayer may be NULL.
-****************************************************************************/
-static int techs_with_flag_string(char *buf, size_t bufsz,
-				  struct player *pplayer,
-				  enum tech_flag_id flag)
-{
-  int count = 0;
-
-  fc_assert_ret_val(NULL != buf && 0 < bufsz, 0);
-  buf[0] = '\0';
-
-  techs_with_flag_iterate(flag, tech_id) {
-    const char *name = advance_name_for_player(pplayer, tech_id);
-
-    if (buf[0] == '\0') {
-      CATLSTR(buf, bufsz, name);
-    } else {
-      /* TRANS: continue list, in case comma is not the separator of choice. */
-      cat_snprintf(buf, bufsz, Q_("?clistmore:, %s"), name);
-    }
-    count++;
-  } techs_with_flag_iterate_end;
-
-  return count;
-}
-
 /****************************************************************
   Append misc dynamic text for units.
   Transport capacity, unit flags, fuel.
@@ -1973,28 +1943,10 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 		 game.info.add_to_size_limit - utype_pop_value(utype));
   }
   if (utype_has_flag(utype, UTYF_SETTLERS)) {
-    char buf2[1024];
-
     /* Roads, rail, mines, irrigation. */
     CATLSTR(buf, bufsz, _("* Can build roads and railroads.\n"));
     CATLSTR(buf, bufsz, _("* Can build mines on tiles.\n"));
-    CATLSTR(buf, bufsz, _("* Can build irrigation on tiles.\n"));
-
-    /* Farmland. */
-    switch (techs_with_flag_string(buf2, sizeof(buf2), pplayer, TF_FARMLAND)) {
-    case 0:
-      CATLSTR(buf, bufsz, _("* Can build farmland.\n"));
-      break;
-    case 1:
-      cat_snprintf(buf, bufsz,
-		   _("* Can build farmland (if %s is known).\n"), buf2);
-      break;
-    default:
-      cat_snprintf(buf, bufsz,
-		   _("* Can build farmland (if any of the following are"
-		     " known: %s).\n"), buf2);
-      break;
-    }
+    CATLSTR(buf, bufsz, _("* Can build irrigation and farmland on tiles.\n"));
 
     /* Pollution, fallout. */
     CATLSTR(buf, bufsz, _("* Can clean pollution from tiles.\n"));
@@ -2280,14 +2232,6 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
     cat_snprintf(buf, bufsz,
                  /* TRANS: %s is list of units separated by "and". */
                  _("* Allows %s to build roads on river tiles.\n"),
-                 astr_str(&astr));
-  }
-
-  if (advance_has_flag(i, TF_FARMLAND)
-      && role_units_translations(&astr, UTYF_SETTLERS, FALSE)) {
-    cat_snprintf(buf, bufsz,
-                 /* TRANS: %s is list of units separated by "and". */
-                 _("* Allows %s to upgrade irrigation to farmland.\n"),
                  astr_str(&astr));
   }
 
