@@ -2362,6 +2362,7 @@ static void update_city_activity(struct city *pcity)
      with the added rapture rounds count.  991219 -- Jing */
   if (city_build_stuff(pplayer, pcity)) {
     int saved_id;
+    int revolution_turns;
 
     if (city_celebrating(pcity)) {
       pcity->rapture++;
@@ -2454,8 +2455,9 @@ static void update_city_activity(struct city *pcity)
     check_pollution(pcity);
 
     send_city_info(NULL, pcity);
-    if (pcity->anarchy > 2
-        && get_player_bonus(pplayer, EFT_REVOLUTION_WHEN_UNHAPPY) > 0) {
+
+    revolution_turns = get_city_bonus(pcity, EFT_REVOLUTION_UNHAPPINESS);
+    if (revolution_turns > 0 && pcity->anarchy > revolution_turns) {
       notify_player(pplayer, city_tile(pcity), E_ANARCHY, ftc_server,
                     _("The people have overthrown your %s, "
                       "your country is in turmoil."),

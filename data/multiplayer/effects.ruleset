@@ -664,8 +664,8 @@ reqs  =
     }
 
 [effect_revolution_0]
-type    = "Revolution_When_Unhappy"
-value   = 1
+type    = "Revolution_Unhappiness"
+value   = 2
 reqs	=
     { "type",       "name",      "range"
       "Gov", "Democracy", "Player"
@@ -2129,11 +2129,17 @@ reqs	=
     }
 
 [effect_united_nations_1]
-name	= "Revolution_When_Unhappy"
-value	= 1
+name	= "Revolution_Unhappiness"
+value	= 2
 reqs	=
     { "type", "name", "range"
       "Building", "United Nations", "World"
+    }
+; Without nreq UN would make revolution less likely instead
+; of enabling it with Democracy (value 2 -> 4 instead of 0 -> 2)
+nreqs   =
+    { "type", "name", "range"
+      "Government", "Democracy", "Player"
     }
 
 [effect_womens_suffrage]

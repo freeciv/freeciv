@@ -303,9 +303,10 @@ Rapture_Grow
 Unbribable_Units
     Units cannot be bribed.
 
-Revolution_When_Unhappy
-    If a city owned by this player is in revolt for more than two turns, 
-government falls.
+Revolution_Unhappiness
+    If value is greater than zero, it tells how many turns citizens
+    will tolerate city disorder before government falls. If value is
+    zero, government never falls.
 
 Has_Senate
     Has a senate that prevents declarations of war in most cases.

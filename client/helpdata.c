@@ -2879,10 +2879,14 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
       case EFT_NO_INCITE:
         CATLSTR(buf, bufsz, _("* Your cities cannot be incited to revolt.\n"));
         break;
-      case EFT_REVOLUTION_WHEN_UNHAPPY:
-        CATLSTR(buf, bufsz,
-                _("* If any city is in disorder for more than two turns in a row,"
-                  " government will fall into anarchy.\n"));
+      case EFT_REVOLUTION_UNHAPPINESS:
+        cat_snprintf(buf, bufsz,
+                     PL_("* If a city is in disorder for more than %d turn "
+                         "in a row, government will fall into anarchy.\n",
+                         "* If a city is in disorder for more than %d turns "
+                         "in a row, government will fall into anarchy.\n",
+                         peffect->value),
+                     peffect->value);
         break;
       case EFT_HAS_SENATE:
         CATLSTR(buf, bufsz,

@@ -784,6 +784,7 @@ void adv_best_government(struct player *pplayer)
     governments_iterate(gov) {
       int val = 0;
       int dist;
+      int revolution_turns;
 
       if (gov == game.government_during_revolution) {
         continue; /* pointless */
@@ -807,13 +808,17 @@ void adv_best_government(struct player *pplayer)
        * a very small amount here to choose govt in cases where
        * we have no cities yet. */
       bonus += get_player_bonus(pplayer, EFT_VETERAN_BUILD) > 0 ? 3 : 0;
-      bonus -= get_player_bonus(pplayer, EFT_REVOLUTION_WHEN_UNHAPPY) > 0 ? 3 : 0;
       bonus += get_player_bonus(pplayer, EFT_NO_INCITE) > 0 ? 4 : 0;
       bonus += get_player_bonus(pplayer, EFT_UNBRIBABLE_UNITS) > 0 ? 2 : 0;
       bonus += get_player_bonus(pplayer, EFT_INSPIRE_PARTISANS) > 0 ? 3 : 0;
       bonus += get_player_bonus(pplayer, EFT_RAPTURE_GROW) > 0 ? 2 : 0;
       bonus += get_player_bonus(pplayer, EFT_FANATICS) > 0 ? 3 : 0;
       bonus += get_player_bonus(pplayer, EFT_OUTPUT_INC_TILE) * 8;
+
+      revolution_turns = get_player_bonus(pplayer, EFT_REVOLUTION_UNHAPPINESS);
+      if (revolution_turns > 0) {
+        bonus -= 6 / revolution_turns;
+      }
 
       val += (val * bonus) / 100;
 
