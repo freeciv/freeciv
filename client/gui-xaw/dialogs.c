@@ -563,10 +563,7 @@ static void pillage_callback(Widget w, XtPointer client_data,
   Popup a dialog asking the unit which improvement they would like to
   pillage.
 **************************************************************************/
-void popup_pillage_dialog(struct unit *punit,
-			  bv_special spe,
-                          bv_bases bases,
-                          bv_roads roads)
+void popup_pillage_dialog(struct unit *punit, bv_extras extras)
 {
   Widget shell, form, dlabel, button, prev;
   struct extra_type *tgt;
@@ -585,43 +582,22 @@ void popup_pillage_dialog(struct unit *punit,
   dlabel = I_L(XtVaCreateManagedWidget("dlabel", labelWidgetClass, form, NULL));
 
   prev = dlabel;
-  while ((tgt = get_preferred_pillage(spe, bases, roads))) {
-    bv_special what_spe;
-    bv_bases what_base;
-    bv_roads what_road;
+  while ((tgt = get_preferred_pillage(extras))) {
     int what;
-    int subid;
+    bv_extras what_extras;
 
-    BV_CLR_ALL(what_spe);
-    BV_CLR_ALL(what_base);
-    BV_CLR_ALL(what_road);
-
-    switch (tgt->type) {
-      case EXTRA_SPECIAL:
-        BV_SET(what_spe, tgt->data.special);
-        clear_special(&spe, tgt->data.special);
-        break;
-      case EXTRA_BASE:
-        subid = base_index(&(tgt->data.base));
-        BV_SET(what_base, subid);
-        BV_CLR(bases, subid);
-        break;
-      case EXTRA_ROAD:
-        subid = road_index(&(tgt->data.road));
-        BV_SET(what_road, subid);
-        BV_CLR(roads, subid);
-        break;
-    }
+    BV_CLR_ALL(what_extras);
 
     what = extra_index(tgt);
+
+    BV_CLR(extras, what);
+    BV_SET(what_extras, what);
 
     button =
       XtVaCreateManagedWidget ("button", commandWidgetClass, form,
                                XtNfromVert, prev,
                                XtNlabel,
-                               (XtArgVal)(get_infrastructure_text(what_spe,
-                                                                  what_base,
-                                                                  what_road)),
+                               (XtArgVal)(get_infrastructure_text(what_extras)),
                                NULL);
     XtAddCallback(button, XtNcallback, pillage_callback,
                   INT_TO_XTPOINTER(what));

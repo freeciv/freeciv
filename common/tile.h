@@ -49,14 +49,8 @@ struct tile {
               * (index_to_map_pos()) and (nat_x, nat_y) pairs
               * (index_to_native_pos()). */
   Continent_id continent;
-  bv_special special;
-  bv_bases bases;
-  bv_roads roads;
-#if 0
-  /* We're in transition from storing bases and roads in their own
-   * vectors to storing them in extras vector. */
   bv_extras extras;
-#endif
+  bool resource_valid;
   struct resource *resource;		/* NULL for no resource */
   struct terrain *terrain;		/* NULL for unknown tiles */
   struct unit_list *units;
@@ -102,7 +96,7 @@ void tile_set_owner(struct tile *ptile, struct player *pplayer,
 #define tile_claimer(_tile) ((_tile)->claimer)
 
 #define tile_resource(_tile) ((_tile)->resource)
-#define tile_resource_is_valid(_tile) BV_ISSET((_tile)->special, S_RESOURCE_VALID)
+#define tile_resource_is_valid(_tile) (_tile)->resource_valid
 /*const struct resource *tile_resource(const struct tile *ptile);*/
 void tile_set_resource(struct tile *ptile, struct resource *presource);
 
@@ -115,23 +109,15 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain);
 void tile_set_worked(struct tile *ptile, struct city *pcity);
 
 /* Specials are a bit different */
-bv_special tile_specials(const struct tile *ptile);
 void tile_set_specials(struct tile *ptile, bv_special specials);
 bool tile_has_special(const struct tile *ptile,
 		      enum tile_special_type to_test_for);
-bool tile_has_any_specials(const struct tile *ptile);
 void tile_set_special(struct tile *ptile, enum tile_special_type spe);
 void tile_clear_special(struct tile *ptile, enum tile_special_type spe);
-void tile_clear_all_specials(struct tile *ptile);
 
-bv_bases tile_bases(const struct tile *ptile);
-bv_roads tile_roads(const struct tile *ptile);
-#if 0
 bv_extras tile_extras(const struct tile *ptile);
-#endif
 void tile_set_bases(struct tile *ptile, bv_bases bases);
 bool tile_has_base(const struct tile *ptile, const struct base_type *pbase);
-bool tile_has_any_bases(const struct tile *ptile);
 void tile_add_base(struct tile *ptile, const struct base_type *pbase);
 void tile_remove_base(struct tile *ptile, const struct base_type *pbase);
 bool tile_has_base_flag(const struct tile *ptile, enum base_flag_id flag);

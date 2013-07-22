@@ -2557,25 +2557,8 @@ void handle_tile_info(const struct packet_tile_info *packet)
     };
   }
 
-  tile_special_type_iterate(spe) {
-    if (packet->special[spe]) {
-      if (!tile_has_special(ptile, spe)) {
-	tile_set_special(ptile, spe);
-	tile_changed = TRUE;
-      }
-    } else {
-      if (tile_has_special(ptile, spe)) {
-	tile_clear_special(ptile, spe);
-	tile_changed = TRUE;
-      }
-    }
-  } tile_special_type_iterate_end;
-  if (!BV_ARE_EQUAL(ptile->bases, packet->bases)) {
-    ptile->bases = packet->bases;
-    tile_changed = TRUE;
-  }
-  if (!BV_ARE_EQUAL(ptile->roads, packet->roads)) {
-    ptile->roads = packet->roads;
+  if (!BV_ARE_EQUAL(ptile->extras, packet->extras)) {
+    ptile->extras = packet->extras;
     tile_changed = TRUE;
   }
 

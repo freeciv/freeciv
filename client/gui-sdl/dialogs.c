@@ -2200,10 +2200,7 @@ static void popdown_pillage_dialog(void)
   Popup a dialog asking the unit which improvement they would like to
   pillage.
 **************************************************************************/
-void popup_pillage_dialog(struct unit *pUnit,
-			  bv_special spe,
-                          bv_bases bases,
-                          bv_roads roads)
+void popup_pillage_dialog(struct unit *pUnit, bv_extras extras)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
@@ -2247,28 +2244,12 @@ void popup_pillage_dialog(struct unit *pUnit,
   add_to_gui_list(ID_PILLAGE_DLG_EXIT_BUTTON, pBuf);
   /* ---------- */
 
-  while ((tgt = get_preferred_pillage(spe, bases, roads))) {
+  while ((tgt = get_preferred_pillage(extras))) {
     const char *name = NULL;
     int what;
-    int subid;
 
-    switch (tgt->type) {
-      case EXTRA_SPECIAL:
-        name = special_name_translation(tgt->data.special);
-        clear_special(&spe, tgt->data.special);
-        break;
-      case EXTRA_BASE:
-        subid = base_index(&(tgt->data.base));
-        name = base_name_translation(&(tgt->data.base));
-        BV_CLR(bases, subid);
-        break;
-      case EXTRA_ROAD:
-        subid = road_index(&(tgt->data.road));
-        name = road_name_translation(&(tgt->data.road));
-        BV_CLR(roads, subid);
-        break;
-    }
-
+    BV_CLR(extras, extra_index(tgt));
+    name = extra_name_translation(tgt);
     what = extra_index(tgt);
 
     fc_assert(name != NULL);

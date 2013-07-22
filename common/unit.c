@@ -1165,23 +1165,25 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   case ACTIVITY_PILLAGE:
     {
       if (uclass_has_flag(pclass, UCF_CAN_PILLAGE)) {
-        bv_special pspresent = get_tile_infrastructure_set(ptile, NULL);
-        bv_bases bspresent = get_tile_pillageable_base_set(ptile, NULL);
-	bv_roads rspresent = get_tile_pillageable_road_set(ptile, NULL);
-        bv_special psworking = get_unit_tile_pillage_set(ptile);
-        bv_bases bsworking = get_unit_tile_pillage_base_set(ptile);
-	bv_roads rsworking = get_unit_tile_pillage_road_set(ptile);
-        bv_special pspossible;
-        bv_bases bspossible;
-        bv_roads rspossible;
+        bv_extras pspresent = get_tile_infrastructure_set(ptile, NULL);
+        bv_extras psworking = get_unit_tile_pillage_set(ptile);
+
+        bv_extras pspossible;
 
         BV_CLR_ALL(pspossible);
-        tile_special_type_iterate(spe) {
+        extra_type_iterate(pextra) {
+          int idx = extra_index(pextra);
+
           /* Only one unit can pillage a given improvement at a time */
-          if (BV_ISSET(pspresent, spe) && !BV_ISSET(psworking, spe)) {
-            BV_SET(pspossible, spe);
+          if (BV_ISSET(pspresent, idx) && !BV_ISSET(psworking, idx)) {
+            /* Cannot pillage roads from city tiles. */
+            /* FIXME: Should depend on flags. Also bases. */
+            if (pextra->type != EXTRA_ROAD || !tile_city(ptile)) {
+              BV_SET(pspossible, idx);
+            }
           }
-        } tile_special_type_iterate_end;
+        } extra_type_iterate_end;
+
         tile_special_type_iterate(spe) {
           enum tile_special_type prereq = get_infrastructure_prereq(spe);
           /* If an improvement is present, we can't pillage its prerequisite */
@@ -1189,33 +1191,13 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
            * an improvement and its prerequisite, but this would require care
            * to ensure that the unit pillaging the topmost improvement
            * finished first.) */
-          if (prereq != S_LAST && BV_ISSET(pspresent, spe)) {
-            BV_CLR(pspossible, prereq);
+          if (prereq != S_LAST
+              && BV_ISSET(pspresent, extra_index(extra_type_get(EXTRA_SPECIAL, spe)))) {
+            BV_CLR(pspossible, extra_index(extra_type_get(EXTRA_SPECIAL, prereq)));
           }
         } tile_special_type_iterate_end;
 
-        BV_CLR_ALL(bspossible);
-        base_type_iterate(pb) {
-          Base_type_id b = base_index(pb);
-          if (BV_ISSET(bspresent, b) && !BV_ISSET(bsworking, b)) {
-            BV_SET(bspossible, b);
-          }
-        } base_type_iterate_end;
-
-        BV_CLR_ALL(rspossible);
-        if (!tile_city(ptile)) {
-          /* Cannot pillage roads from city tiles */
-          road_type_iterate(pr) {
-            Road_type_id r = road_index(pr);
-            if (BV_ISSET(rspresent, r) && !BV_ISSET(rsworking, r)) {
-              BV_SET(rspossible, r);
-            }
-          } road_type_iterate_end;
-        }
-
-        if (!BV_ISSET_ANY(pspossible)
-            && !BV_ISSET_ANY(bspossible)
-            && !BV_ISSET_ANY(rspossible)) {
+        if (!BV_ISSET_ANY(pspossible)) {
           /* Nothing available to pillage */
           return FALSE;
         }
@@ -1230,21 +1212,15 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
             /* Needs to match what unit_activity_assign_target chooses */
             struct extra_type *tgt;
 
-            tgt = get_preferred_pillage(pspossible, bspossible, rspossible);
+            tgt = get_preferred_pillage(pspossible);
 
             if (tgt != target) {
               /* Only one target allowed, which wasn't the requested one */
               return FALSE;
             }
           }
-          if (target->type == EXTRA_SPECIAL) {
-            return BV_ISSET(pspossible, target->data.special);
-          } else if (target->type == EXTRA_BASE) {
-            return BV_ISSET(bspossible, base_index(&(target->data.base)));
-          } else {
-            fc_assert(target->type == EXTRA_ROAD);
-            return BV_ISSET(rspossible, road_index(&(target->data.road)));
-          }
+
+          return BV_ISSET(pspossible, extra_index(target));
         }
       } else {
         /* Unit is not a type that can pillage at all */
@@ -1383,53 +1359,14 @@ bool is_unit_activity_on_tile(enum unit_activity activity,
   Return a mask of the specials which are actively (currently) being
   pillaged on the given tile.
 ****************************************************************************/
-bv_special get_unit_tile_pillage_set(const struct tile *ptile)
+bv_extras get_unit_tile_pillage_set(const struct tile *ptile)
 {
-  bv_special tgt_ret;
+  bv_extras tgt_ret;
 
   BV_CLR_ALL(tgt_ret);
   unit_list_iterate(ptile->units, punit) {
-    if (punit->activity == ACTIVITY_PILLAGE
-        && punit->activity_target->type == EXTRA_SPECIAL) {
-      BV_SET(tgt_ret, punit->activity_target->data.special);
-    }
-  } unit_list_iterate_end;
-
-  return tgt_ret;
-}
-
-/****************************************************************************
-  Return a mask of the bases which are actively (currently) being
-  pillaged on the given tile.
-****************************************************************************/
-bv_bases get_unit_tile_pillage_base_set(const struct tile *ptile)
-{
-  bv_bases tgt_ret;
-
-  BV_CLR_ALL(tgt_ret);
-  unit_list_iterate(ptile->units, punit) {
-    if (punit->activity == ACTIVITY_PILLAGE
-        && punit->activity_target->type == EXTRA_BASE) {
-      BV_SET(tgt_ret, base_index(&(punit->activity_target->data.base)));
-    }
-  } unit_list_iterate_end;
-
-  return tgt_ret;
-}
-
-/****************************************************************************
-  Return a mask of the roads which are actively (currently) being
-  pillaged on the given tile.
-****************************************************************************/
-bv_roads get_unit_tile_pillage_road_set(const struct tile *ptile)
-{
-  bv_roads tgt_ret;
-
-  BV_CLR_ALL(tgt_ret);
-  unit_list_iterate(ptile->units, punit) {
-    if (punit->activity == ACTIVITY_PILLAGE
-        && punit->activity_target->type == EXTRA_ROAD) {
-      BV_SET(tgt_ret, road_index(&(punit->activity_target->data.road)));
+    if (punit->activity == ACTIVITY_PILLAGE) {
+      BV_SET(tgt_ret, extra_index(punit->activity_target));
     }
   } unit_list_iterate_end;
 
@@ -1498,50 +1435,12 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
     return;
   case ACTIVITY_PILLAGE:
     if (punit->activity_target != NULL) {
-      switch (punit->activity_target->type) {
-      case EXTRA_SPECIAL:
-        {
-          bv_special pset;
-          bv_bases bases;
-          bv_roads roads;
+      bv_extras pset;
 
-          BV_CLR_ALL(pset);
-          BV_CLR_ALL(bases);
-          BV_CLR_ALL(roads);
-          BV_SET(pset, punit->activity_target->data.special);
-          astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
-                        get_infrastructure_text(pset, bases, roads));
-        }
-        break;
-     case EXTRA_BASE:
-        {
-          bv_special pset;
-          bv_bases bases;
-          bv_roads roads;
-
-          BV_CLR_ALL(pset);
-          BV_CLR_ALL(bases);
-          BV_CLR_ALL(roads);
-          BV_SET(bases, base_index(&(punit->activity_target->data.base)));
-          astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
-                        get_infrastructure_text(pset, bases, roads));
-        }
-        break;
-     case EXTRA_ROAD:
-        {
-          bv_special pset;
-          bv_bases bases;
-          bv_roads roads;
-
-          BV_CLR_ALL(pset);
-          BV_CLR_ALL(bases);
-          BV_CLR_ALL(roads);
-          BV_SET(roads, road_index(&(punit->activity_target->data.road)));
-          astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
-                        get_infrastructure_text(pset, bases, roads));
-        }
-        break;
-      }
+      BV_CLR_ALL(pset);
+      BV_SET(pset, extra_index(punit->activity_target));
+      astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
+                    get_infrastructure_text(pset));
     } else {
       astr_add_line(astr, "%s", get_activity_text(punit->activity));
     }

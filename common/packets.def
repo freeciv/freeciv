@@ -234,6 +234,7 @@ type MOVE_MODE          = uint8(enum road_move_mode)
 
 # typedefs for bit vectors
 type BV_BASE_FLAGS      = bitvector(bv_base_flags)
+type BV_EXTRAS          = bitvector(bv_extras)
 type BV_BASES           = bitvector(bv_bases)
 type BV_ROADS           = bitvector(bv_roads)
 type BV_ROAD_FLAGS      = bitvector(bv_road_flags)
@@ -400,9 +401,7 @@ PACKET_TILE_INFO = 15; sc, lsend, is-game-info
 
   TERRAIN terrain;
   RESOURCE resource;
-  BOOL special[S_LAST];
-  BV_BASES bases;
-  BV_ROADS roads;
+  BV_EXTRAS extras;
   STRING spec_sprite[MAX_LEN_NAME];
   STRING label[MAX_LEN_NAME];
 end
@@ -1766,9 +1765,7 @@ end
 
 PACKET_EDIT_TILE = 206; cs, handle-per-conn, handle-via-packet
   TILE tile; key
-  BV_SPECIAL specials;
-  BV_ROADS roads;
-  BV_BASES bases;
+  BV_EXTRAS extras;
   RESOURCE resource;
   TERRAIN terrain;
   NATION startpos_nation;

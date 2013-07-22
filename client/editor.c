@@ -368,17 +368,17 @@ static void editor_start_selection_rectangle(int canvas_x, int canvas_y)
 ****************************************************************************/
 static inline bool tile_really_has_any_specials(const struct tile *ptile)
 {
-  bv_special specials;
-
   if (!ptile) {
     return FALSE;
   }
 
-  specials = tile_specials(ptile);
+  extra_type_iterate(pextra) {
+    if (pextra->type == EXTRA_SPECIAL && tile_has_extra(ptile, pextra)) {
+      return TRUE;
+    }
+  } extra_type_iterate_end;
 
-  BV_CLR(specials, S_RESOURCE_VALID);
-
-  return BV_ISSET_ANY(specials);
+  return FALSE;
 }
 
 /****************************************************************************
@@ -1476,17 +1476,22 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
       }
       break;
     case EBT_SPECIAL:
-      if (tile_has_any_specials(ptile)) {
-        tile_set_specials(vtile, tile_specials(ptile));
-        copied = TRUE;
-      }
+      extra_type_iterate(pextra) {
+        if (pextra->type == EXTRA_SPECIAL
+            && tile_has_extra(ptile, pextra)) {
+          tile_add_extra(vtile, pextra);
+          copied = TRUE;
+        }
+      } extra_type_iterate_end;
       break;
     case EBT_BASE:
-      if (tile_has_any_bases(ptile)) {
-        tile_set_bases(vtile, tile_bases(ptile));
-        copied = TRUE;
-      }
-      break;
+     extra_type_iterate(pextra) {
+        if (pextra->type == EXTRA_BASE
+            && tile_has_extra(ptile, pextra)) {
+          tile_add_extra(vtile, pextra);
+          copied = TRUE;
+        }
+      } extra_type_iterate_end;
     case EBT_UNIT:
       unit_list_iterate(ptile->units, punit) {
         if (!punit) {
@@ -1546,8 +1551,7 @@ static void fill_tile_edit_packet(struct packet_edit_tile *packet,
     return;
   }
   packet->tile = tile_index(ptile);
-  packet->specials = tile_specials(ptile);
-  packet->bases = tile_bases(ptile);
+  packet->extras = tile_extras(ptile);
 
   presource = tile_resource(ptile);
   packet->resource = presource
@@ -1599,12 +1603,22 @@ static void paste_tile(struct edit_buffer *ebuf,
       dsend_packet_edit_tile_resource(my_conn, tile, value, 1);
       break;
     case EBT_SPECIAL:
-      tile_packet.specials = tile_specials(vtile);
-      send_edit_tile = TRUE;
+      extra_type_iterate(pextra) {
+        if (pextra->type == EXTRA_SPECIAL
+            && tile_has_extra(vtile, pextra)) {
+          BV_SET(tile_packet.extras, extra_index(pextra));
+          send_edit_tile = TRUE;
+        }
+      } extra_type_iterate_end;
       break;
     case EBT_BASE:
-      tile_packet.bases = tile_bases(vtile);
-      send_edit_tile = TRUE;
+      extra_type_iterate(pextra) {
+        if (pextra->type == EXTRA_BASE
+            && tile_has_extra(vtile, pextra)) {
+          BV_SET(tile_packet.extras, extra_index(pextra));
+          send_edit_tile = TRUE;
+        }
+      } extra_type_iterate_end;
       break;
     case EBT_UNIT:
       unit_list_iterate(vtile->units, vunit) {

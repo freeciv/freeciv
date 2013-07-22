@@ -3537,8 +3537,7 @@ static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
 static void build_tile_data(const struct tile *ptile,
 			    struct terrain *pterrain,
 			    struct terrain **tterrain_near,
-			    bv_special *tspecial_near,
-                            bv_roads *troad_near)
+			    bv_extras *textras_near)
 {
   enum direction8 dir;
 
@@ -3551,8 +3550,7 @@ static void build_tile_data(const struct tile *ptile,
 
       if (NULL != terrain1) {
         tterrain_near[dir] = terrain1;
-        tspecial_near[dir] = tile_specials(tile1);
-        troad_near[dir] = tile_roads(tile1);
+        textras_near[dir] = tile_extras(tile1);
         continue;
       }
       log_error("build_tile_data() tile (%d,%d) has no terrain!",
@@ -3561,8 +3559,7 @@ static void build_tile_data(const struct tile *ptile,
     /* At the edges of the (known) map, pretend the same terrain continued
      * past the edge of the map. */
     tterrain_near[dir] = pterrain;
-    BV_CLR_ALL(tspecial_near[dir]);
-    BV_CLR_ALL(troad_near[dir]);
+    BV_CLR_ALL(textras_near[dir]);
   }
 }
 
@@ -3777,8 +3774,8 @@ static int fill_road_corner_sprites(const struct tileset *t,
 static int fill_road_sprite_array(const struct tileset *t,
                                   const struct road_type *proad,
                                   struct drawn_sprite *sprs,
-                                  bv_roads troad,
-                                  bv_roads *troad_near,
+                                  bv_extras textras,
+                                  bv_extras *textras_near,
                                   struct terrain *tterrain_near[8],
                                   const struct city *pcity)
 {
@@ -3788,6 +3785,7 @@ static int fill_road_sprite_array(const struct tileset *t,
   bool draw_road[8], draw_single_road;
   enum direction8 dir;
   int road_idx = -1;
+  int extra_idx = -1;
   bool cl = FALSE;
   enum roadstyle_id roadstyle;
 
@@ -3804,6 +3802,8 @@ static int fill_road_sprite_array(const struct tileset *t,
     return 0;
   }
 
+  extra_idx = extra_index(road_extra_get(proad));
+
   if (road_has_flag(proad, RF_CONNECT_LAND)) {
     cl = TRUE;
   } else {
@@ -3819,11 +3819,11 @@ static int fill_road_sprite_array(const struct tileset *t,
    * whether road/rail is to be drawn in that direction.  draw_single_road
    * and draw_single_rail store whether we need an isolated road/rail to be
    * drawn. */
-  road = BV_ISSET(troad, road_idx);
+  road = BV_ISSET(textras, extra_idx);
 
   hider = FALSE;
   road_type_list_iterate(proad->hiders, phider) {
-    if (BV_ISSET(troad, road_index(phider))) {
+    if (BV_ISSET(textras, extra_index(road_extra_get(phider)))) {
       hider = TRUE;
       break;
     }
@@ -3841,7 +3841,7 @@ static int fill_road_sprite_array(const struct tileset *t,
     /* Check if there is adjacent road/rail. */
     if (!is_cardinal_only_road(proad)
         || is_cardinal_tileset_dir(t, dir)) {
-      road_near[dir] = BV_ISSET(troad_near[dir], road_idx);
+      road_near[dir] = BV_ISSET(textras_near[dir], extra_idx);
       if (cl) {
         land_near[dir] = (tterrain_near[dir] != T_UNKNOWN
                           && terrain_type_terrain_class(tterrain_near[dir]) != TC_OCEAN);
@@ -3865,7 +3865,7 @@ static int fill_road_sprite_array(const struct tileset *t,
 
       if (!is_cardinal_only_road(phider)
           || is_cardinal_tileset_dir(t, dir)) {
-        if (BV_ISSET(troad_near[dir], road_index(phider))) {
+        if (BV_ISSET(textras_near[dir], extra_index(road_extra_get(phider)))) {
           hider_near[dir] = TRUE;
           hider_dir = TRUE;
         }
@@ -3874,7 +3874,7 @@ static int fill_road_sprite_array(const struct tileset *t,
           land_dir = TRUE;
         }
         if (hider_dir || land_dir) {
-          if (BV_ISSET(troad, road_index(phider))) {
+          if (BV_ISSET(textras, extra_index(road_extra_get(phider)))) {
             draw_road[dir] = FALSE;
           }
         }
@@ -3987,7 +3987,7 @@ static int fill_road_sprite_array(const struct tileset *t,
   this).
 **************************************************************************/
 static int get_irrigation_index(const struct tileset *t,
-				bv_special *tspecial_near)
+                                bv_extras *textras_near)
 {
   int tileno = 0, i;
 
@@ -3995,7 +3995,8 @@ static int get_irrigation_index(const struct tileset *t,
     enum direction8 dir = t->cardinal_tileset_dirs[i];
 
     /* A tile with S_FARMLAND will also have S_IRRIGATION set. */
-    if (contains_special(tspecial_near[dir], S_IRRIGATION)) {
+    if (BV_ISSET(textras_near[dir],
+                 extra_index(extra_type_get(EXTRA_SPECIAL, S_IRRIGATION)))) {
       tileno |= 1 << i;
     }
   }
@@ -4007,25 +4008,25 @@ static int get_irrigation_index(const struct tileset *t,
   Fill in the farmland/irrigation sprite for the tile.
 **************************************************************************/
 static int fill_irrigation_sprite_array(const struct tileset *t,
-					struct drawn_sprite *sprs,
-					bv_special tspecial,
-					bv_special *tspecial_near,
-					const struct city *pcity)
+                                        struct drawn_sprite *sprs,
+                                        bv_extras textras,
+                                        bv_extras *textras_near,
+                                        const struct city *pcity)
 {
   struct drawn_sprite *saved_sprs = sprs;
 
-  /* Tiles with S_FARMLAND also have S_IRRIGATION set. */
-  fc_assert_ret_val(!contains_special(tspecial, S_FARMLAND)
-                    || contains_special(tspecial, S_IRRIGATION), 0);
+  fc_assert_ret_val(!BV_ISSET(textras, extra_index(extra_type_get(EXTRA_SPECIAL, S_FARMLAND)))
+                    || BV_ISSET(textras, extra_index(extra_type_get(EXTRA_SPECIAL, S_IRRIGATION))),
+                    0);
 
   /* We don't draw the irrigation if there's a city (it just gets overdrawn
    * anyway, and ends up looking bad). */
   if (draw_irrigation
-      && contains_special(tspecial, S_IRRIGATION)
+      && BV_ISSET(textras, extra_index(extra_type_get(EXTRA_SPECIAL, S_IRRIGATION)))
       && !(pcity && draw_cities)) {
-    int index = get_irrigation_index(t, tspecial_near);
+    int index = get_irrigation_index(t, textras_near);
 
-    if (contains_special(tspecial, S_FARMLAND)) {
+    if (BV_ISSET(textras, extra_index(extra_type_get(EXTRA_SPECIAL, S_FARMLAND)))) {
       ADD_SPRITE_SIMPLE(t->sprites.tx.farmland[index]);
     } else {
       ADD_SPRITE_SIMPLE(t->sprites.tx.irrigation[index]);
@@ -4699,10 +4700,8 @@ int fill_sprite_array(struct tileset *t,
                       const struct unit_type *putype)
 {
   int tileno, dir;
-  bv_special tspecial_near[8];
-  bv_special tspecial;
-  bv_roads troad;
-  bv_roads troad_near[8];
+  bv_extras textras_near[8];
+  bv_extras textras;
   struct terrain *tterrain_near[8];
   struct terrain *pterrain = NULL;
   struct drawn_sprite *save_sprs = sprs;
@@ -4745,20 +4744,17 @@ int fill_sprite_array(struct tileset *t,
   }
 
   if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
-    tspecial = tile_specials(ptile);
-    troad = tile_roads(ptile);
+    textras = tile_extras(ptile);
     pterrain = tile_terrain(ptile);
 
     if (NULL != pterrain) {
-      build_tile_data(ptile, pterrain, tterrain_near, tspecial_near,
-                      troad_near);
+      build_tile_data(ptile, pterrain, tterrain_near, textras_near);
     } else {
       log_error("fill_sprite_array() tile (%d,%d) has no terrain!",
                 TILE_XY(ptile));
     }
   } else {
-    BV_CLR_ALL(tspecial);
-    BV_CLR_ALL(troad);
+    BV_CLR_ALL(textras);
   }
 
   switch (layer) {
@@ -4805,9 +4801,9 @@ int fill_sprite_array(struct tileset *t,
           int didx = DIR4_TO_DIR8[dir];
 
           road_type_list_iterate(t->rivers, priver) {
-            int idx = road_index(priver);
+            int idx = extra_index(road_extra_get(priver));
 
-            if (BV_ISSET(troad_near[didx], idx)) {
+            if (BV_ISSET(textras_near[didx], idx)) {
               ADD_SPRITE_SIMPLE(t->sprites.roads[idx].u.rivers.outlet[dir]);
               break;
             }
@@ -4815,14 +4811,15 @@ int fill_sprite_array(struct tileset *t,
 	}
       }
 
-      sprs += fill_irrigation_sprite_array(t, sprs, tspecial, tspecial_near,
+      sprs += fill_irrigation_sprite_array(t, sprs, textras, textras_near,
 					   pcity);
 
       if (draw_terrain && !solid_bg) {
         road_type_list_iterate(t->rivers, priver) {
           int idx = road_index(priver);
+          int eidx = extra_index(road_extra_get(priver));
 
-          if (BV_ISSET(troad, idx)) {
+          if (BV_ISSET(textras, eidx)) {
             int i;
 
             /* Draw rivers on top of irrigation. */
@@ -4831,7 +4828,7 @@ int fill_sprite_array(struct tileset *t,
               enum direction8 dir = t->cardinal_tileset_dirs[i];
 
               if (terrain_type_terrain_class(tterrain_near[dir]) == TC_OCEAN
-                  || BV_ISSET(troad_near[dir], idx)) {
+                  || BV_ISSET(textras_near[dir], eidx)) {
                 tileno |= 1 << i;
               }
             }
@@ -4847,7 +4844,7 @@ int fill_sprite_array(struct tileset *t,
     if (NULL != pterrain) {
       road_type_iterate(proad) {
         sprs += fill_road_sprite_array(t, proad, sprs,
-                                       troad, troad_near,
+                                       textras, textras_near,
                                        tterrain_near, pcity);
       } road_type_iterate_end;
     }
@@ -4870,7 +4867,8 @@ int fill_sprite_array(struct tileset *t,
         } base_type_iterate_end;
       }
 
-      if (draw_mines && contains_special(tspecial, S_MINE)) {
+      if (draw_mines
+          && BV_ISSET(textras, extra_index(extra_type_get(EXTRA_SPECIAL, S_MINE)))) {
         struct drawing_data *draw = t->sprites.drawing[terrain_index(pterrain)];
 
         if (NULL != draw->mine) {
@@ -4878,7 +4876,8 @@ int fill_sprite_array(struct tileset *t,
 	}
       }
 
-      if (draw_specials && contains_special(tspecial, S_HUT)) {
+      if (draw_specials
+          && BV_ISSET(textras, extra_index(extra_type_get(EXTRA_SPECIAL, S_HUT)))) {
 	ADD_SPRITE_SIMPLE(t->sprites.tx.village);
       }
     }
@@ -4931,11 +4930,13 @@ int fill_sprite_array(struct tileset *t,
         } base_type_iterate_end;
       }
 
-      if (draw_pollution && contains_special(tspecial, S_POLLUTION)) {
-	ADD_SPRITE_SIMPLE(t->sprites.tx.pollution);
+      if (draw_pollution
+         && BV_ISSET(textras, extra_index(extra_type_get(EXTRA_SPECIAL, S_POLLUTION)))) {
+        ADD_SPRITE_SIMPLE(t->sprites.tx.pollution);
       }
-      if (draw_pollution && contains_special(tspecial, S_FALLOUT)) {
-	ADD_SPRITE_SIMPLE(t->sprites.tx.fallout);
+      if (draw_pollution
+          && BV_ISSET(textras, extra_index(extra_type_get(EXTRA_SPECIAL, S_FALLOUT)))) {
+        ADD_SPRITE_SIMPLE(t->sprites.tx.fallout);
       }
     }
     break;

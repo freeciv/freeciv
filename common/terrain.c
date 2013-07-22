@@ -789,7 +789,7 @@ int count_terrain_flag_near_tile(const struct tile *ptile,
     eg: "Road/Farmland"
   This only includes "infrastructure", i.e., man-made specials.
 ****************************************************************************/
-const char *get_infrastructure_text(bv_special spe, bv_bases bases, bv_roads roads)
+const char *get_infrastructure_text(bv_extras extras)
 {
   static char s[256];
   char *p;
@@ -798,15 +798,16 @@ const char *get_infrastructure_text(bv_special spe, bv_bases bases, bv_roads roa
   s[0] = '\0';
 
   road_type_iterate(proad) {
-    if (BV_ISSET(roads, road_index(proad))
+    if (BV_ISSET(extras, extra_index(road_extra_get(proad)))
         && !road_has_flag(proad, RF_NATURAL)) {
       bool hidden = FALSE;
 
       road_type_iterate(top) {
         int topi = road_index(top);
+        int topei = extra_index(road_extra_get(top));
 
         if (BV_ISSET(proad->hidden_by, topi)
-            && BV_ISSET(roads, topi)) {
+            && BV_ISSET(extras, topei)) {
           hidden = TRUE;
           break;
         }
@@ -819,18 +820,18 @@ const char *get_infrastructure_text(bv_special spe, bv_bases bases, bv_roads roa
   } road_type_iterate_end;
 
   /* Likewise for farmland on irrigation */
-  if (contains_special(spe, S_FARMLAND)) {
+  if (BV_ISSET(extras, extra_index(extra_type_get(EXTRA_SPECIAL, S_FARMLAND)))) {
     cat_snprintf(s, sizeof(s), "%s/", _("Farmland"));
-  } else if (contains_special(spe, S_IRRIGATION)) {
+  } else if (BV_ISSET(extras, extra_index(extra_type_get(EXTRA_SPECIAL, S_IRRIGATION)))) {
     cat_snprintf(s, sizeof(s), "%s/", _("Irrigation"));
   }
 
-  if (contains_special(spe, S_MINE)) {
+  if (BV_ISSET(extras, extra_index(extra_type_get(EXTRA_SPECIAL, S_MINE)))) {
     cat_snprintf(s, sizeof(s), "%s/", _("Mine"));
   }
 
   base_type_iterate(pbase) {
-    if (BV_ISSET(bases, base_index(pbase))) {
+    if (BV_ISSET(extras, extra_index(base_extra_get(pbase)))) {
       cat_snprintf(s, sizeof(s), "%s/", base_name_translation(pbase));
     }
   } base_type_iterate_end;
@@ -861,32 +862,39 @@ enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe)
   be pillaged from the terrain set.  May return NULL if nothing
   better is available.
 ****************************************************************************/
-struct extra_type *get_preferred_pillage(bv_special pset,
-                                         bv_bases bases,
-                                         bv_roads roads)
+struct extra_type *get_preferred_pillage(bv_extras extras)
 {
-  if (contains_special(pset, S_FARMLAND)) {
-    return extra_type_get(EXTRA_SPECIAL, S_FARMLAND);
+  struct extra_type *tgt;
+
+  tgt = extra_type_get(EXTRA_SPECIAL, S_FARMLAND);
+  if (BV_ISSET(extras, extra_index(tgt))) {
+    return tgt;
   }
-  if (contains_special(pset, S_IRRIGATION)) {
-    return extra_type_get(EXTRA_SPECIAL, S_IRRIGATION);
+  tgt = extra_type_get(EXTRA_SPECIAL, S_IRRIGATION);
+  if (BV_ISSET(extras, extra_index(tgt))) {
+    return tgt;
   }
-  if (contains_special(pset, S_MINE)) {
-    return extra_type_get(EXTRA_SPECIAL, S_MINE);
+  tgt = extra_type_get(EXTRA_SPECIAL, S_MINE);
+  if (BV_ISSET(extras, extra_index(tgt))) {
+    return tgt;
   }
   base_type_iterate(pbase) {
-    if (BV_ISSET(bases, base_index(pbase))) {
-      return base_extra_get(pbase);
+    tgt = base_extra_get(pbase);
+
+    if (BV_ISSET(extras, extra_index(tgt))) {
+      return tgt;
     }
   } base_type_iterate_end;
 
   road_type_iterate(proad) {
-    if (BV_ISSET(roads, road_index(proad))) {
-      return road_extra_get(proad);
+    tgt = road_extra_get(proad);
+
+    if (BV_ISSET(extras, extra_index(tgt))) {
+      return tgt;
     }
   } road_type_iterate_end;
 
-  return FALSE;
+  return NULL;
 }
 
 /****************************************************************************

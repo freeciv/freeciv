@@ -92,62 +92,40 @@ static bool restrict_infra(const struct player *pplayer, const struct tile *t1,
                            const struct tile *t2);
 
 /****************************************************************************
-  Return a bitfield of the specials on the tile that are infrastructure.
+  Return a bitfield of the extras on the tile that are infrastructure.
 ****************************************************************************/
-bv_special get_tile_infrastructure_set(const struct tile *ptile,
-                                       int *pcount)
+bv_extras get_tile_infrastructure_set(const struct tile *ptile,
+                                      int *pcount)
 {
-  bv_special pspresent;
+  bv_extras pspresent;
   int i, count = 0;
 
   BV_CLR_ALL(pspresent);
   for (i = 0; infrastructure_specials[i] != S_LAST; i++) {
-    if (tile_has_special(ptile, infrastructure_specials[i])) {
-      BV_SET(pspresent, infrastructure_specials[i]);
+    struct extra_type *pextra = extra_type_get(EXTRA_SPECIAL, infrastructure_specials[i]);
+
+    if (tile_has_extra(ptile, pextra)) {
+      BV_SET(pspresent, extra_index(pextra));
       count++;
     }
   }
-  if (pcount) {
-    *pcount = count;
-  }
-  return pspresent;
-}
 
-/****************************************************************************
-  Return a bitfield of the pillageable bases on the tile.
-****************************************************************************/
-bv_bases get_tile_pillageable_base_set(const struct tile *ptile, int *pcount)
-{
-  bv_bases bspresent;
-  int count = 0;
-
-  BV_CLR_ALL(bspresent);
   base_type_iterate(pbase) {
-    if (tile_has_base(ptile, pbase)) {
-      if (pbase->pillageable) {
-        BV_SET(bspresent, base_index(pbase));
+    if (pbase->pillageable) {
+      struct extra_type *pextra = base_extra_get(pbase);
+
+      if (tile_has_extra(ptile, pextra)) {
+        BV_SET(pspresent, extra_index(pextra));
         count++;
       }
     }
   } base_type_iterate_end;
-  if (pcount) {
-    *pcount = count;
-  }
-  return bspresent;
-}
 
-/****************************************************************************
-  Return a bitfield of the pillageable roads on the tile.
-****************************************************************************/
-bv_roads get_tile_pillageable_road_set(const struct tile *ptile, int *pcount)
-{
-  bv_roads rspresent;
-  int count = 0;
-
-  BV_CLR_ALL(rspresent);
   road_type_iterate(proad) {
-    if (tile_has_road(ptile, proad)) {
-      if (proad->pillageable) {
+    if (proad->pillageable) {
+      struct extra_type *pextra = road_extra_get(proad);
+
+      if (tile_has_extra(ptile, pextra)) {
         struct tile *roadless = tile_virtual_new(ptile);
         bool dependency = FALSE;
 
@@ -166,16 +144,18 @@ bv_roads get_tile_pillageable_road_set(const struct tile *ptile, int *pcount)
         tile_virtual_destroy(roadless);
 
         if (!dependency) {
-          BV_SET(rspresent, road_index(proad));
+          BV_SET(pspresent, extra_index(pextra));
           count++;
         }
       }
     }
   } road_type_iterate_end;
+
   if (pcount) {
     *pcount = count;
   }
-  return rspresent;
+
+  return pspresent;
 }
 
 /***************************************************************
@@ -378,12 +358,8 @@ static void tile_init(struct tile *ptile)
 {
   ptile->continent = 0;
 
-  tile_clear_all_specials(ptile);
-  BV_CLR_ALL(ptile->bases);
-  BV_CLR_ALL(ptile->roads);
-#if 0
   BV_CLR_ALL(ptile->extras);
-#endif
+  ptile->resource_valid = FALSE;
   ptile->resource = NULL;
   ptile->terrain  = T_UNKNOWN;
   ptile->units    = unit_list_new();

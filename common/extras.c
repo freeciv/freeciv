@@ -25,8 +25,6 @@
 
 #include "extras.h"
 
-#define MAX_EXTRA_TYPES (S_LAST + MAX_BASE_TYPES + MAX_ROAD_TYPES)
-
 static struct extra_type extras[MAX_EXTRA_TYPES];
 
 static struct extra_type_list *caused_by[EC_COUNT + 1];
@@ -390,4 +388,22 @@ bool can_build_extra(struct extra_type *pextra,
   return are_reqs_active(pplayer, NULL, NULL, ptile,
                          unit_type(punit), NULL, NULL, &pextra->reqs,
                          RPT_CERTAIN);
+}
+
+/****************************************************************************
+  Is tile native to extra?
+****************************************************************************/
+bool is_native_tile_to_extra(const struct extra_type *pextra,
+                             const struct tile *ptile)
+{
+  switch(pextra->type) {
+  case EXTRA_SPECIAL:
+    return TRUE;
+  case EXTRA_BASE:
+    return is_native_tile_to_base(&(pextra->data.base), ptile);
+  case EXTRA_ROAD:
+    return is_native_tile_to_road(&(pextra->data.road), ptile);
+  }
+
+  return FALSE;
 }

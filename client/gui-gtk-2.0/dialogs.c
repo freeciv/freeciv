@@ -334,10 +334,7 @@ static void pillage_destroy_callback(GtkWidget *w, gpointer data)
 /****************************************************************
   Opens pillage dialog listing possible pillage targets.
 *****************************************************************/
-void popup_pillage_dialog(struct unit *punit,
-			  bv_special spe,
-                          bv_bases bases,
-                          bv_roads roads)
+void popup_pillage_dialog(struct unit *punit, bv_extras extras)
 {
   GtkWidget *shl;
 
@@ -351,37 +348,17 @@ void popup_pillage_dialog(struct unit *punit,
 			       _("What To Pillage"),
 			       _("Select what to pillage:"));
 
-    while ((tgt = get_preferred_pillage(spe, bases, roads))) {
-      int what = S_LAST;
-      bv_special what_spe;
-      bv_bases what_base;
-      bv_roads what_road;
-      int subid;
+    while ((tgt = get_preferred_pillage(extras))) {
+      int what;
+      bv_extras what_extras;
 
-      BV_CLR_ALL(what_spe);
-      BV_CLR_ALL(what_base);
-      BV_CLR_ALL(what_road);
-
-      switch (tgt->type) {
-        case EXTRA_SPECIAL:
-          BV_SET(what_spe, tgt->data.special);
-          clear_special(&spe, tgt->data.special);
-          break;
-        case EXTRA_BASE:
-          subid = base_index(&(tgt->data.base));
-          BV_SET(what_base, subid);
-          BV_CLR(bases, subid);
-          break;
-        case EXTRA_ROAD:
-          subid = road_index(&(tgt->data.road));
-          BV_SET(what_road, subid);
-          BV_CLR(roads, subid);
-          break;
-      }
+      BV_CLR_ALL(what_extras);
 
       what = extra_index(tgt);
+      BV_CLR(extras, what);
+      BV_SET(what_extras, what);
 
-      choice_dialog_add(shl, get_infrastructure_text(what_spe, what_base, what_road),
+      choice_dialog_add(shl, get_infrastructure_text(what_extras),
                         G_CALLBACK(pillage_callback), GINT_TO_POINTER(what));
     }
 

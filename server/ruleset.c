@@ -1551,13 +1551,11 @@ static bool load_ruleset_units(struct section_file *file)
         } road_type_iterate_end;
 
         terrain_type_iterate(pterrain) {
-          bv_bases bases;
-          bv_roads roads;
+          bv_extras extras;
 
-          BV_CLR_ALL(bases);
-          BV_CLR_ALL(roads);
+          BV_CLR_ALL(extras);
 
-          if (is_native_to_class(uc, pterrain, bases, roads)) {
+          if (is_native_to_class(uc, pterrain, extras)) {
             if (is_ocean(pterrain)) {
               sea_moving = TRUE;
             } else {

@@ -1378,13 +1378,13 @@ void popup_sabotage_dialog(struct city *pcity)
   Popup a dialog asking the unit which improvement they would like to
   pillage.
 **************************************************************************/
-void popup_pillage_dialog(struct unit *punit, bv_special spe,
-                          bv_bases bases, bv_roads roads)
+void popup_pillage_dialog(struct unit *punit, bv_extras extras)
 {
   QString str;
   QVariant qv1, qv2;
   pfcn_void func;
   choice_dialog *cd;
+  struct extra_type *tgt;
 
   if (is_showing_pillage_dialog){
     return;
@@ -1392,39 +1392,21 @@ void popup_pillage_dialog(struct unit *punit, bv_special spe,
   cd = new choice_dialog(_("What To Pillage"), _("Select what to pillage:"),
                          gui()->game_tab_widget);
   qv2 = punit->id;
-  struct extra_type *tgt;
-    while ((tgt = get_preferred_pillage(spe, bases, roads))) {
-      int what = S_LAST;
-      bv_special what_spe;
-      bv_bases what_base;
-      bv_roads what_road;
-      int subid;
-      BV_CLR_ALL(what_spe);
-      BV_CLR_ALL(what_base);
-      BV_CLR_ALL(what_road);
+  while ((tgt = get_preferred_pillage(extras))) {
+    int what;
+    bv_extras what_extras;
 
-      switch (tgt->type) {
-        case EXTRA_SPECIAL:
-          BV_SET(what_spe, tgt->data.special);
-          clear_special(&spe, tgt->data.special);
-          break;
-        case EXTRA_BASE:
-          subid = base_index(&(tgt->data.base));
-          BV_SET(what_base, subid);
-          BV_CLR(bases, subid);
-          break;
-        case EXTRA_ROAD:
-          subid = road_index(&(tgt->data.road));
-          BV_SET(what_road, subid);
-          BV_CLR(roads, subid);
-          break;
-      }
-      what = extra_index(tgt);
-      func = pillage_something;
-      str = get_infrastructure_text(what_spe, what_base, what_road);
-      qv1 = what;
-      cd->add_item(str, func, qv1,qv2);
-    }
+    BV_CLR_ALL(what_extras);
+
+    what = extra_index(tgt);
+    BV_CLR(extras, what);
+    BV_SET(what_extras, what);
+
+    func = pillage_something;
+    str = get_infrastructure_text(what_extras);
+    qv1 = what;
+    cd->add_item(str, func, qv1,qv2);
+  }
   cd->set_layout();
   cd->show_me();
 }

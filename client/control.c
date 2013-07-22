@@ -1747,49 +1747,23 @@ void request_unit_pillage(struct unit *punit)
     request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, target);
   } else {
     struct tile *ptile = unit_tile(punit);
-    bv_special pspossible;
-    bv_bases bspossible;
-    bv_roads rspossible;
+    bv_extras pspossible;
     int count = 0;
 
     BV_CLR_ALL(pspossible);
-    tile_special_type_iterate(spe) {
-      target = extra_type_get(EXTRA_SPECIAL, spe);
-
+    extra_type_iterate(target) {
       if (can_unit_do_activity_targeted_at(punit, ACTIVITY_PILLAGE,
                                            target, ptile)) {
-        BV_SET(pspossible, spe);
+        BV_SET(pspossible, extra_index(target));
         count++;
       }
-    } tile_special_type_iterate_end;
-
-    BV_CLR_ALL(bspossible);
-    base_type_iterate(pbase) {
-      target = base_extra_get(pbase);
-
-      if (can_unit_do_activity_targeted_at(punit, ACTIVITY_PILLAGE,
-                                           target, ptile)) {
-        BV_SET(bspossible, base_index(pbase));
-        count++;
-      }
-    } base_type_iterate_end;
-
-    BV_CLR_ALL(rspossible);
-    road_type_iterate(proad) {
-      target = road_extra_get(proad);
-
-      if (can_unit_do_activity_targeted_at(punit, ACTIVITY_PILLAGE,
-                                           target, ptile)) {
-        BV_SET(rspossible, road_index(proad));
-        count++;
-      }
-    } road_type_iterate_end;
+    } extra_type_iterate_end;
 
     if (count > 1) {
-      popup_pillage_dialog(punit, pspossible, bspossible, rspossible);
+      popup_pillage_dialog(punit, pspossible);
     } else {
       /* Should be only one choice... */
-      struct extra_type *target = get_preferred_pillage(pspossible, bspossible, rspossible);
+      struct extra_type *target = get_preferred_pillage(pspossible);
 
       if (target != NULL) {
         request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, target);

@@ -1032,26 +1032,13 @@ void unit_assign_specific_activity_target(struct unit *punit,
     struct tile *ptile = unit_tile(punit);
     struct extra_type *tgt;
 
-    bv_special specials = tile_specials(ptile);
-    bv_bases bases = tile_bases(ptile);
-    bv_roads roads = tile_roads(ptile);
+    bv_extras extras = tile_extras(ptile);
 
-    while ((tgt = get_preferred_pillage(specials, bases, roads))) {
+    while ((tgt = get_preferred_pillage(extras))) {
 
-      switch (tgt->type) {
-      case EXTRA_SPECIAL:
-        clear_special(&specials, tgt->data.special);
-        break;
-      case EXTRA_BASE:
-        BV_CLR(bases, base_index(&(tgt->data.base)));
-        break;
-      case EXTRA_ROAD:
-        BV_CLR(roads, road_index(&(tgt->data.road)));
-        break;
-      }
+      BV_CLR(extras, extra_index(tgt));
 
-      if (can_unit_do_activity_targeted(punit, *activity,
-                                        tgt)) {
+      if (can_unit_do_activity_targeted(punit, *activity, tgt)) {
         *target = tgt;
         return;
       }
@@ -1352,7 +1339,7 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
     }
 
     base_type_iterate(pbase) {
-      if (BV_ISSET(plrtile->bases, base_index(pbase))
+      if (BV_ISSET(plrtile->extras, extra_index(base_extra_get(pbase)))
           && is_native_base_to_utype(pbase, type)) {
         return TRUE;
       }
@@ -2676,8 +2663,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   /* Safe terrain according to player map? */
   if (!is_native_terrain(unit_type(punit),
                          plrtile->terrain,
-                         plrtile->bases,
-                         plrtile->roads)
+                         plrtile->extras)
       && (ptransport == NULL
           || !can_player_see_unit_at(pplayer, ptransport, ptile))) {
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,

@@ -167,7 +167,7 @@ bool is_city_channel_tile(const struct unit_class *punitclass,
       if (dbv_isset(&tile_processed, tile_index(piter))) {
         continue;
       } else if (is_native_to_class(punitclass, tile_terrain(piter),
-                                    piter->bases, piter->roads)) {
+                                    tile_extras(piter))) {
         found = TRUE;
         break;
       } else if (NULL != tile_city(piter)) {
@@ -237,7 +237,7 @@ bool is_native_tile(const struct unit_type *punittype,
                     const struct tile *ptile)
 {
   return is_native_to_class(utype_class(punittype), tile_terrain(ptile),
-                            tile_bases(ptile), tile_roads(ptile));
+                            tile_extras(ptile));
 }
 
 
@@ -248,9 +248,9 @@ bool is_native_tile(const struct unit_type *punittype,
 ****************************************************************************/
 bool is_native_terrain(const struct unit_type *punittype,
                        const struct terrain *pterrain,
-                       bv_bases bases, bv_roads roads)
+                       bv_extras extras)
 {
-  return is_native_to_class(utype_class(punittype), pterrain, bases, roads);
+  return is_native_to_class(utype_class(punittype), pterrain, extras);
 }
 
 /****************************************************************************
@@ -262,7 +262,7 @@ bool is_native_tile_to_class(const struct unit_class *punitclass,
                              const struct tile *ptile)
 {
   return is_native_to_class(punitclass, tile_terrain(ptile),
-                            tile_bases(ptile), tile_roads(ptile));
+                            tile_extras(ptile));
 }
 
 /****************************************************************************
@@ -271,7 +271,7 @@ bool is_native_tile_to_class(const struct unit_class *punitclass,
 ****************************************************************************/
 bool is_native_to_class(const struct unit_class *punitclass,
                         const struct terrain *pterrain,
-                        bv_bases bases, bv_roads roads)
+                        bv_extras extras)
 {
   if (!pterrain) {
     /* Unknown is considered native terrain */
@@ -283,7 +283,7 @@ bool is_native_to_class(const struct unit_class *punitclass,
   }
 
   road_type_iterate(proad) {
-    if (BV_ISSET(roads, road_index(proad))
+    if (BV_ISSET(extras, extra_index(road_extra_get(proad)))
         && road_has_flag(proad, RF_NATIVE_TILE)
         && is_native_road_to_uclass(proad, punitclass)) {
       return TRUE;
@@ -291,7 +291,7 @@ bool is_native_to_class(const struct unit_class *punitclass,
   } road_type_iterate_end;
 
   base_type_iterate(pbase) {
-    if (BV_ISSET(bases, base_index(pbase))
+    if (BV_ISSET(extras, extra_index(base_extra_get(pbase)))
         && base_has_flag(pbase, BF_NATIVE_TILE)
         && is_native_base_to_uclass(pbase, punitclass)) {
       return TRUE;

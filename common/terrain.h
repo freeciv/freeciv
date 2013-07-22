@@ -332,11 +332,9 @@ bool is_native_tile_to_special(enum tile_special_type special,
                                const struct tile *ptile);
 
 /* Special helper functions */
-const char *get_infrastructure_text(bv_special pset, bv_bases bases, bv_roads roads);
+const char *get_infrastructure_text(bv_extras extras);
 enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe);
-struct extra_type *get_preferred_pillage(bv_special pset,
-                                         bv_bases bases,
-                                         bv_roads roads);
+struct extra_type *get_preferred_pillage(bv_extras extras);
 
 int terrain_base_time(const struct terrain *pterrain,
                       Base_type_id base);

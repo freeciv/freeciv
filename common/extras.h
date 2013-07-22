@@ -86,6 +86,9 @@ bool player_can_build_extra(const struct extra_type *pextra,
                             const struct player *pplayer,
                             const struct tile *ptile);
 
+bool is_native_tile_to_extra(const struct extra_type *pextra,
+                             const struct tile *ptile);
+
 #define extra_type_iterate(_p)                                \
 {                                                             \
   int _i_;                                                    \
@@ -103,6 +106,18 @@ bool player_can_build_extra(const struct extra_type *pextra,
 
 #define extra_type_by_cause_iterate_end                    \
   } extra_type_list_iterate_end                            \
+}
+
+#define extra_deps_iterate(_reqs, _dep)                 \
+{                                                       \
+  requirement_vector_iterate(_reqs, preq) {             \
+    if (preq->source.kind == VUT_EXTRA) {               \
+      struct extra_type *_dep;                          \
+      _dep = preq->source.value.extra;
+
+#define extra_deps_iterate_end                          \
+    }                                                   \
+  } requirement_vector_iterate_end;                     \
 }
 
 #ifdef __cplusplus

@@ -450,15 +450,13 @@ static void worklist_save(struct section_file *file,
                           int max_length, const char *path, ...);
 static void unit_ordering_calc(void);
 static void unit_ordering_apply(void);
-static void sg_extras_set(bv_special *specials, bv_bases *bases, bv_roads *roads,
-                          char ch, struct extra_type **index);
-static char sg_extras_get(bv_special specials, bv_bases bases, bv_roads roads,
-                          const int *index);
-static void sg_special_set(bv_special *specials, bv_roads *roads, char ch,
+static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **index);
+static char sg_extras_get(bv_extras extras, const int *index);
+static void sg_special_set(bv_extras *extras, char ch,
                            const enum tile_special_type *index,
                            bool rivers_overlay);
-static void sg_bases_set(bv_bases *bases, char ch, struct base_type **index);
-static void sg_roads_set(bv_roads *roads, char ch, struct road_type **index);
+static void sg_bases_set(bv_extras *extras, char ch, struct base_type **index);
+static void sg_roads_set(bv_extras *extras, char ch, struct road_type **index);
 static struct resource *char2resource(char c);
 static char resource2char(const struct resource *presource);
 /* bin2ascii_hex() is defined as macro */
@@ -1262,8 +1260,7 @@ static void unit_ordering_apply(void)
   in four to a character in hex notation. 'index' is a mapping of
   savegame bit -> base bit.
 ****************************************************************************/
-static void sg_extras_set(bv_special *specials, bv_bases *bases,
-                          bv_roads *roads, char ch, struct extra_type **index)
+static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **index)
 {
   int i, bin;
   const char *pch = strchr(hex_chars, ch);
@@ -1282,17 +1279,7 @@ static void sg_extras_set(bv_special *specials, bv_bases *bases,
       continue;
     }
     if (bin & (1 << i)) {
-      switch (pextra->type) {
-      case EXTRA_SPECIAL:
-        set_special(specials, pextra->data.special);
-        break;
-      case EXTRA_BASE:
-        BV_SET(*bases, base_index(&pextra->data.base));
-        break;
-      case EXTRA_ROAD:
-        BV_SET(*roads, road_index(&pextra->data.road));
-        break;
-      }
+      BV_SET(*extras, extra_index(pextra));
     }
   }
 }
@@ -1303,42 +1290,18 @@ static void sg_extras_set(bv_special *specials, bv_bases *bases,
   Extras are packed in four to a character in hex notation. 'index'
   specifies which set of extras are included in this character.
 ****************************************************************************/
-static char sg_extras_get(bv_special specials, bv_bases bases, bv_roads roads,
-                          const int *index)
+static char sg_extras_get(bv_extras extras, const int *index)
 {
   int i, bin = 0;
 
   for (i = 0; i < 4; i++) {
     int extra = index[i];
-    struct extra_type *pextra;
-    bool extra_set;
 
     if (extra < 0) {
       break;
     }
 
-    pextra = extra_by_number(extra);
-    if (pextra == NULL) {
-      break;
-    }
-
-    switch(pextra->type) {
-    case EXTRA_SPECIAL:
-      extra_set = BV_ISSET(specials, pextra->data.special);
-      break;
-    case EXTRA_BASE:
-      extra_set = BV_ISSET(bases, base_index(&pextra->data.base));
-      break;
-    case EXTRA_ROAD:
-      extra_set = BV_ISSET(roads, road_index(&pextra->data.road));
-      break;
-    default:
-      log_error("Uknown extra type %d in sg_extras_get()", pextra->type);
-      extra_set = FALSE;
-      break;
-    }
-
-    if (extra_set) {
+    if (BV_ISSET(extras, extra)) {
       bin |= (1 << i);
     }
   }
@@ -1353,8 +1316,7 @@ static char sg_extras_get(bv_special specials, bv_bases bases, bv_roads roads,
   in four to a character in hex notation. 'index' is a mapping of
   savegame bit -> special bit. S_LAST is used to mark unused savegame bits.
 ****************************************************************************/
-static void sg_special_set(bv_special *specials, bv_roads *roads,
-                           char ch,
+static void sg_special_set(bv_extras *extras, char ch,
                            const enum tile_special_type *index,
                            bool rivers_overlay)
 {
@@ -1380,34 +1342,28 @@ static void sg_special_set(bv_special *specials, bv_roads *roads,
 
     if (bin & (1 << i)) {
       if (sp == S_OLD_ROAD) {
-        if (roads) {
-          struct road_type *proad;
+        struct road_type *proad;
 
-          proad = road_by_compat_special(ROCO_ROAD);
-          if (proad) {
-            BV_SET(*roads, road_index(proad));
-          }
+        proad = road_by_compat_special(ROCO_ROAD);
+        if (proad) {
+          BV_SET(*extras, extra_index(road_extra_get(proad)));
         }
       } else if (sp == S_OLD_RAILROAD) {
-        if (roads) {
-          struct road_type *proad;
+        struct road_type *proad;
 
-          proad = road_by_compat_special(ROCO_RAILROAD);
-          if (proad) {
-            BV_SET(*roads, road_index(proad));
-          }
+        proad = road_by_compat_special(ROCO_RAILROAD);
+        if (proad) {
+          BV_SET(*extras, extra_index(road_extra_get(proad)));
         }
       } else if (sp == S_OLD_RIVER) {
-        if (roads) {
-          struct road_type *proad;
+        struct road_type *proad;
 
-          proad = road_by_compat_special(ROCO_RIVER);
-          if (proad) {
-            BV_SET(*roads, road_index(proad));
-          }
+        proad = road_by_compat_special(ROCO_RIVER);
+        if (proad) {
+          BV_SET(*extras, extra_index(road_extra_get(proad)));
         }
       } else {
-        set_special(specials, sp);
+        BV_SET(*extras, extra_index(extra_type_get(EXTRA_SPECIAL, sp)));
       }
     }
   }
@@ -1420,7 +1376,7 @@ static void sg_special_set(bv_special *specials, bv_roads *roads,
   in four to a character in hex notation. 'index' is a mapping of
   savegame bit -> base bit.
 ****************************************************************************/
-static void sg_bases_set(bv_bases *bases, char ch, struct base_type **index)
+static void sg_bases_set(bv_extras *extras, char ch, struct base_type **index)
 {
   int i, bin;
   const char *pch = strchr(hex_chars, ch);
@@ -1439,7 +1395,7 @@ static void sg_bases_set(bv_bases *bases, char ch, struct base_type **index)
       continue;
     }
     if (bin & (1 << i)) {
-      BV_SET(*bases, base_index(pbase));
+      BV_SET(*extras, extra_index(base_extra_get(pbase)));
     }
   }
 }
@@ -1451,7 +1407,7 @@ static void sg_bases_set(bv_bases *bases, char ch, struct base_type **index)
   in four to a character in hex notation. 'index' is a mapping of
   savegame bit -> road bit.
 ****************************************************************************/
-static void sg_roads_set(bv_roads *roads, char ch, struct road_type **index)
+static void sg_roads_set(bv_extras *extras, char ch, struct road_type **index)
 {
   int i, bin;
   const char *pch = strchr(hex_chars, ch);
@@ -1470,7 +1426,7 @@ static void sg_roads_set(bv_roads *roads, char ch, struct road_type **index)
       continue;
     }
     if (bin & (1 << i)) {
-      BV_SET(*roads, road_index(proad));
+      BV_SET(*extras, extra_index(road_extra_get(proad)));
     }
   }
 }
@@ -2643,9 +2599,7 @@ static void sg_load_map_tiles_extras(struct loaddata *loading)
 
   /* Load extras. */
   halfbyte_iterate_extras(j, loading->extra.size) {
-    LOAD_MAP_CHAR(ch, ptile, sg_extras_set(&ptile->special,
-                                           &ptile->bases, &ptile->roads,
-                                           ch, loading->extra.order + 4 * j),
+    LOAD_MAP_CHAR(ch, ptile, sg_extras_set(&ptile->extras, ch, loading->extra.order + 4 * j),
                   loading->file, "map.e%02d_%04d", j);
   } halfbyte_iterate_extras_end;
 }
@@ -2670,9 +2624,8 @@ static void sg_save_map_tiles_extras(struct savedata *saving)
         mod[l] = 4 * j + l;
       }
     }
-    SAVE_MAP_CHAR(ptile, sg_extras_get(ptile->special, ptile->bases, ptile->roads,
-                                       mod), saving->file,
-                  "map.e%02d_%04d", j);
+    SAVE_MAP_CHAR(ptile, sg_extras_get(ptile->extras, mod),
+                  saving->file, "map.e%02d_%04d", j);
   } halfbyte_iterate_extras_end;
 }
 
@@ -2686,7 +2639,7 @@ static void sg_load_map_tiles_bases(struct loaddata *loading)
 
   /* Load bases. */
   halfbyte_iterate_bases(j, loading->base.size) {
-    LOAD_MAP_CHAR(ch, ptile, sg_bases_set(&ptile->bases, ch,
+    LOAD_MAP_CHAR(ch, ptile, sg_bases_set(&ptile->extras, ch,
                                           loading->base.order + 4 * j),
                   loading->file, "map.b%02d_%04d", j);
   } halfbyte_iterate_bases_end;
@@ -2702,7 +2655,7 @@ static void sg_load_map_tiles_roads(struct loaddata *loading)
 
   /* Load roads. */
   halfbyte_iterate_roads(j, loading->road.size) {
-    LOAD_MAP_CHAR(ch, ptile, sg_roads_set(&ptile->roads, ch,
+    LOAD_MAP_CHAR(ch, ptile, sg_roads_set(&ptile->extras, ch,
                                           loading->road.order + 4 * j),
                   loading->file, "map.r%02d_%04d", j);
   } halfbyte_iterate_roads_end;
@@ -2732,7 +2685,7 @@ static void sg_load_map_tiles_specials(struct loaddata *loading,
    * the rivers overlay but no other specials. Scenarios that encode things
    * this way should have the "riversoverlay" capability. */
   halfbyte_iterate_special(j, loading->special.size) {
-    LOAD_MAP_CHAR(ch, ptile, sg_special_set(&ptile->special, &ptile->roads, ch,
+    LOAD_MAP_CHAR(ch, ptile, sg_special_set(&ptile->extras, ch,
                                             loading->special.order + 4 * j,
                                             rivers_overlay),
                   loading->file, "map.spe%02d_%04d", j);
@@ -2758,7 +2711,7 @@ static void sg_load_map_tiles_resources(struct loaddata *loading)
 
     if (terrain_has_resource(ptile->terrain, ptile->resource)) {
       /* cannot use set_special() for internal values */
-      BV_SET(ptile->special, S_RESOURCE_VALID);
+      ptile->resource_valid = TRUE;
     }
   } whole_map_iterate_end;
 
@@ -5698,9 +5651,7 @@ static void sg_load_player_vision(struct loaddata *loading,
     /* Load player map (extras). */
     halfbyte_iterate_extras(j, loading->extra.size) {
       LOAD_MAP_CHAR(ch, ptile,
-                    sg_extras_set(&map_get_player_tile(ptile, plr)->special,
-                                  &map_get_player_tile(ptile, plr)->bases,
-                                  &map_get_player_tile(ptile, plr)->roads,
+                    sg_extras_set(&map_get_player_tile(ptile, plr)->extras,
                                   ch, loading->extra.order + 4 * j),
                     loading->file, "player%d.map_e%02d_%04d", plrno, j);
     } halfbyte_iterate_extras_end;
@@ -5708,9 +5659,7 @@ static void sg_load_player_vision(struct loaddata *loading,
     /* Load player map (specials). */
     halfbyte_iterate_special(j, loading->special.size) {
       LOAD_MAP_CHAR(ch, ptile,
-                    sg_special_set(
-                                   &map_get_player_tile(ptile, plr)->special,
-                                   &map_get_player_tile(ptile, plr)->roads,
+                    sg_special_set(&map_get_player_tile(ptile, plr)->extras,
                                    ch, loading->special.order + 4 * j, FALSE),
                     loading->file, "player%d.map_spe%02d_%04d", plrno, j);
     } halfbyte_iterate_special_end;
@@ -5718,7 +5667,7 @@ static void sg_load_player_vision(struct loaddata *loading,
     /* Load player map (bases). */
     halfbyte_iterate_bases(j, loading->base.size) {
       LOAD_MAP_CHAR(ch, ptile,
-                    sg_bases_set(&map_get_player_tile(ptile, plr)->bases,
+                    sg_bases_set(&map_get_player_tile(ptile, plr)->extras,
                                  ch, loading->base.order + 4 * j),
                     loading->file, "player%d.map_b%02d_%04d", plrno, j);
     } halfbyte_iterate_bases_end;
@@ -5728,7 +5677,7 @@ static void sg_load_player_vision(struct loaddata *loading,
       /* 2.5.0 or newer */
       halfbyte_iterate_roads(j, loading->road.size) {
         LOAD_MAP_CHAR(ch, ptile,
-                      sg_roads_set(&map_get_player_tile(ptile, plr)->roads,
+                      sg_roads_set(&map_get_player_tile(ptile, plr)->extras,
                                    ch, loading->road.order + 4 * j),
                       loading->file, "player%d.map_r%02d_%04d", plrno, j);
       } halfbyte_iterate_roads_end;
@@ -6017,10 +5966,7 @@ static void sg_save_player_vision(struct savedata *saving,
     }
 
     SAVE_MAP_CHAR(ptile,
-                  sg_extras_get(map_get_player_tile(ptile, plr)->special,
-                                map_get_player_tile(ptile, plr)->bases,
-                                map_get_player_tile(ptile, plr)->roads,
-                                mod),
+                  sg_extras_get(map_get_player_tile(ptile, plr)->extras, mod),
                   saving->file, "player%d.map_e%02d_%04d", plrno, j);
   } halfbyte_iterate_extras_end;
 

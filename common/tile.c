@@ -139,35 +139,12 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
 
   ptile->terrain = pterrain;
   if (NULL != pterrain
-   && NULL != ptile->resource
-   && terrain_has_resource(pterrain, ptile->resource)) {
-    /* cannot use set_special() for internal values */
-    BV_SET(ptile->special, S_RESOURCE_VALID);
+      && NULL != ptile->resource
+      && terrain_has_resource(pterrain, ptile->resource)) {
+    ptile->resource_valid = TRUE;
   } else {
-    BV_CLR(ptile->special, S_RESOURCE_VALID);
+    ptile->resource_valid = FALSE;
   }
-}
-
-/****************************************************************************
-  Return the specials of the tile.  See terrain.h.
-
-  Note that this returns a mask of _all_ the specials on the tile.  To
-  check a specific special use tile_has_special.
-****************************************************************************/
-bv_special tile_specials(const struct tile *ptile)
-{
-  return ptile->special;
-}
-
-/****************************************************************************
-  Sets the tile's specials to those present in the given bit vector.
-****************************************************************************/
-void tile_set_specials(struct tile *ptile, bv_special specials)
-{
-  if (!ptile) {
-    return;
-  }
-  ptile->special = specials;
 }
 
 /****************************************************************************
@@ -176,48 +153,12 @@ void tile_set_specials(struct tile *ptile, bv_special specials)
 bool tile_has_special(const struct tile *ptile,
 		      enum tile_special_type special)
 {
-  return contains_special(ptile->special, special);
-}
-
-/****************************************************************************
-  Returns TRUE iff the given tile has any specials.
-****************************************************************************/
-bool tile_has_any_specials(const struct tile *ptile)
-{
-  return contains_any_specials(ptile->special);
-}
-
-/****************************************************************************
-  Returns a bit vector of the bases present at the tile.
-****************************************************************************/
-bv_bases tile_bases(const struct tile *ptile)
-{
-  if (!ptile) {
-    bv_bases empty;
-    BV_CLR_ALL(empty);
-    return empty;
-  }
-  return ptile->bases;
-}
-
-/****************************************************************************
-  Returns a bit vector of the roads present at the tile.
-****************************************************************************/
-bv_roads tile_roads(const struct tile *ptile)
-{
-  if (!ptile) {
-    bv_roads empty;
-    BV_CLR_ALL(empty);
-    return empty;
-  }
-
-  return ptile->roads;
+  return tile_has_extra(ptile, extra_type_get(EXTRA_SPECIAL, special));
 }
 
 /****************************************************************************
   Returns a bit vector of the extras present at the tile.
 ****************************************************************************/
-#if 0
 bv_extras tile_extras(const struct tile *ptile)
 {
   if (!ptile) {
@@ -229,18 +170,6 @@ bv_extras tile_extras(const struct tile *ptile)
 
   return ptile->extras;
 }
-#endif
-
-/****************************************************************************
-  Set the bases on the tile to those present in the given bit vector.
-****************************************************************************/
-void tile_set_bases(struct tile *ptile, bv_bases bases)
-{
-  if (!ptile) {
-    return;
-  }
-  ptile->bases = bases;
-}
 
 /****************************************************************************
   Adds base to tile.
@@ -248,7 +177,7 @@ void tile_set_bases(struct tile *ptile, bv_bases bases)
 ****************************************************************************/
 void tile_add_base(struct tile *ptile, const struct base_type *pbase)
 {
-  BV_SET(ptile->bases, base_index(pbase));
+  tile_add_extra(ptile, base_extra_get(pbase));
 }
 
 /****************************************************************************
@@ -256,7 +185,7 @@ void tile_add_base(struct tile *ptile, const struct base_type *pbase)
 ****************************************************************************/
 void tile_remove_base(struct tile *ptile, const struct base_type *pbase)
 {
-  BV_CLR(ptile->bases, base_index(pbase));
+  tile_remove_extra(ptile, base_extra_get(pbase));
 }
 
 /****************************************************************************
@@ -401,7 +330,7 @@ bool tile_has_native_base(const struct tile *ptile,
 ****************************************************************************/
 void tile_set_special(struct tile *ptile, enum tile_special_type spe)
 {
-  set_special(&ptile->special, spe);
+  tile_add_extra(ptile, extra_type_get(EXTRA_SPECIAL, spe));
 }
 
 #ifndef tile_resource
@@ -423,10 +352,9 @@ void tile_set_resource(struct tile *ptile, struct resource *presource)
   if (NULL != ptile->terrain
    && NULL != presource
    && terrain_has_resource(ptile->terrain, presource)) {
-    /* cannot use set_special() for internal values */
-    BV_SET(ptile->special, S_RESOURCE_VALID);
+    ptile->resource_valid = TRUE;
   } else {
-    BV_CLR(ptile->special, S_RESOURCE_VALID);
+    ptile->resource_valid = FALSE;
   }
 }
 
@@ -438,15 +366,7 @@ void tile_set_resource(struct tile *ptile, struct resource *presource)
 ****************************************************************************/
 void tile_clear_special(struct tile *ptile, enum tile_special_type spe)
 {
-  clear_special(&ptile->special, spe);
-}
-
-/****************************************************************************
-  Remove any and all specials from this tile.
-****************************************************************************/
-void tile_clear_all_specials(struct tile *ptile)
-{
-  clear_all_specials(&ptile->special);
+  tile_remove_extra(ptile, extra_type_get(EXTRA_SPECIAL, spe));
 }
 
 #ifndef tile_continent
@@ -870,18 +790,7 @@ const char *tile_get_info_text(const struct tile *ptile, int linebreaks)
 ****************************************************************************/
 bool tile_has_base(const struct tile *ptile, const struct base_type *pbase)
 {
-  return BV_ISSET(ptile->bases, base_index(pbase));
-}
-
-/****************************************************************************
-  Returns TRUE if the given tile has any bases on it.
-****************************************************************************/
-bool tile_has_any_bases(const struct tile *ptile)
-{
-  if (!ptile) {
-    return FALSE;
-  }
-  return BV_ISSET_ANY(ptile->bases);
+  return tile_has_extra(ptile, base_extra_get(pbase));
 }
 
 /****************************************************************************
@@ -889,7 +798,7 @@ bool tile_has_any_bases(const struct tile *ptile)
 ****************************************************************************/
 bool tile_has_road(const struct tile *ptile, const struct road_type *proad)
 {
-  return BV_ISSET(ptile->roads, road_index(proad));
+  return tile_has_extra(ptile, road_extra_get(proad));
 }
 
 /****************************************************************************
@@ -913,7 +822,7 @@ bool tile_has_river(const struct tile *ptile)
 void tile_add_road(struct tile *ptile, const struct road_type *proad)
 {
   if (proad != NULL) {
-    BV_SET(ptile->roads, road_index(proad));
+    tile_add_extra(ptile, road_extra_get(proad));
   }
 }
 
@@ -923,7 +832,7 @@ void tile_add_road(struct tile *ptile, const struct road_type *proad)
 void tile_remove_road(struct tile *ptile, const struct road_type *proad)
 {
   if (proad != NULL) {
-    BV_CLR(ptile->roads, road_index(proad));
+    tile_remove_extra(ptile, road_extra_get(proad));
   }
 }
 
@@ -946,20 +855,7 @@ bool tile_has_road_flag(const struct tile *ptile, enum road_flag_id flag)
 ****************************************************************************/
 bool tile_has_extra(const struct tile *ptile, const struct extra_type *pextra)
 {
-#if 0
   return BV_ISSET(ptile->extras, extra_index(pextra));
-#endif
-
-  switch(pextra->type) {
-  case EXTRA_ROAD:
-    return tile_has_road(ptile, &pextra->data.road);
-  case EXTRA_BASE:
-    return tile_has_base(ptile, &pextra->data.base);
-  case EXTRA_SPECIAL:
-    return tile_has_special(ptile, pextra->data.special);
-  }
-
-  return FALSE;
 }
 
 /****************************************************************************
@@ -982,18 +878,7 @@ bool tile_has_cause_extra(const struct tile *ptile, enum extra_cause cause)
 void tile_add_extra(struct tile *ptile, const struct extra_type *pextra)
 {
   if (pextra != NULL) {
-#if 0
     BV_SET(ptile->extras, extra_index(pextra));
-#endif
-
-    switch(pextra->type) {
-    case EXTRA_ROAD:
-      return tile_add_road(ptile, &pextra->data.road);
-    case EXTRA_BASE:
-      return tile_add_base(ptile, &pextra->data.base);
-    case EXTRA_SPECIAL:
-      return tile_add_special(ptile, pextra->data.special);
-    }
   }
 }
 
@@ -1003,18 +888,7 @@ void tile_add_extra(struct tile *ptile, const struct extra_type *pextra)
 void tile_remove_extra(struct tile *ptile, const struct extra_type *pextra)
 {
   if (pextra != NULL) {
-#if 0
     BV_CLR(ptile->extras, extra_index(pextra));
-#endif
-
-   switch(pextra->type) {
-    case EXTRA_ROAD:
-      return tile_remove_road(ptile, &pextra->data.road);
-    case EXTRA_BASE:
-      return tile_remove_base(ptile, &pextra->data.base);
-    case EXTRA_SPECIAL:
-      return tile_remove_special(ptile, pextra->data.special);
-    }
   }
 }
 
@@ -1034,12 +908,7 @@ struct tile *tile_virtual_new(const struct tile *ptile)
   vtile->index = -1;
   vtile->continent = -1;
 
-  BV_CLR_ALL(vtile->special);
-  BV_CLR_ALL(vtile->bases);
-  BV_CLR_ALL(vtile->roads);
-#if 0
   BV_CLR_ALL(vtile->extras);
-#endif
   vtile->resource = NULL;
   vtile->terrain = NULL;
   vtile->units = unit_list_new();
@@ -1055,27 +924,13 @@ struct tile *tile_virtual_new(const struct tile *ptile)
     vtile->index = tile_index(ptile);
 
     /* Copy all but the unit list. */
-    tile_special_type_iterate(spe) {
-      if (BV_ISSET(ptile->special, spe)) {
-        BV_SET(vtile->special, spe);
-      }
-    } tile_special_type_iterate_end;
-
-    if (BV_ISSET(ptile->special, S_RESOURCE_VALID)) {
-      BV_SET(vtile->special, S_RESOURCE_VALID);
-    }
-
-    base_type_iterate(pbase) {
-      if (BV_ISSET(ptile->bases, base_number(pbase))) {
-        BV_SET(vtile->bases, base_number(pbase));
+    extra_type_iterate(pextra) {
+      if (BV_ISSET(ptile->extras, extra_number(pextra))) {
+        BV_SET(vtile->extras, extra_number(pextra));
       }
     } base_type_iterate_end;
 
-    road_type_iterate(proad) {
-      if (tile_has_road(ptile, proad)) {
-        tile_add_road(vtile, proad);
-      }
-    } road_type_iterate_end;
+    vtile->resource_valid = ptile->resource_valid;
 
     vtile->resource = ptile->resource;
     vtile->terrain = ptile->terrain;

@@ -166,8 +166,7 @@ void popup_sabotage_dialog(struct city *pcity)
   Popup a dialog asking the unit which improvement they would like to
   pillage.
 **************************************************************************/
-void popup_pillage_dialog(struct unit *punit, bv_special may_pillage,
-                          bv_bases bases, bv_roads roads)
+void popup_pillage_dialog(struct unit *punit, bv_extras may_pillage)
 {
   /* PORTME */
 }

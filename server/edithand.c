@@ -265,6 +265,61 @@ static bool edit_tile_resource_handling(struct tile *ptile,
 }
 
 /****************************************************************************
+  Recursively add all extra dependencies to add given extra.
+****************************************************************************/
+static bool add_recursive_extras(struct tile *ptile, struct extra_type *pextra,
+                                 int rec)
+{
+  if (rec > MAX_EXTRA_TYPES) {
+    /* Infinite recursion */
+    return FALSE;
+  }
+
+  /* First place dependency extras */
+  extra_deps_iterate(&(pextra->reqs), pdep) {
+    if (!tile_has_extra(ptile, pdep)) {
+      add_recursive_extras(ptile, pdep, rec + 1);
+    }
+  } extra_deps_iterate_end;
+
+  /* Is tile native for extra after that? */
+  if (!is_native_tile_to_extra(pextra, ptile)) {
+    return FALSE;
+  }
+
+  tile_add_extra(ptile, pextra);
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Base function to edit the extras property of a tile. Returns TRUE if
+  the extra state has changed.
+****************************************************************************/
+static bool edit_tile_extra_handling(struct tile *ptile,
+                                     struct extra_type *pextra,
+                                     bool remove_mode, bool send_tile_info)
+{
+  if (remove_mode) {
+    if (!tile_has_extra(ptile, pextra)) {
+      return FALSE;
+    }
+
+    tile_remove_extra(ptile, pextra);
+  } else {
+    if (!add_recursive_extras(ptile, pextra, 0)) {
+      return FALSE;
+    }
+  }
+
+  if (send_tile_info) {
+    update_tile_knowledge(ptile);
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
   Base function to edit the special property of a tile. Returns TRUE if
   the special state has changed.
 ****************************************************************************/
@@ -605,34 +660,15 @@ void handle_edit_tile(struct connection *pc,
     return;
   }
 
-  /* Handle changes in specials. */
-  if (!BV_ARE_EQUAL(packet->specials, ptile->special)) {
-    tile_special_type_iterate(spe) {
-      if (edit_tile_special_handling(ptile, spe,
-                                     !BV_ISSET(packet->specials, spe), FALSE)) {
+  /* Handle changes in extras. */
+  if (!BV_ARE_EQUAL(packet->extras, ptile->extras)) {
+    extra_type_iterate(pextra) {
+      if (edit_tile_extra_handling(ptile, pextra,
+                                   !BV_ISSET(packet->extras, extra_number(pextra)),
+                                   FALSE)) {
         changed = TRUE;
       }
-    } tile_special_type_iterate_end;
-  }
-
-  /* Handle changes in roads. */
-  if (!(BV_ARE_EQUAL(packet->roads, ptile->roads))) {
-    road_type_iterate(proad) {
-      edit_tile_road_handling(ptile, proad,
-                              !BV_ISSET(packet->roads, road_number(proad)),
-                              FALSE);
-    } road_type_iterate_end;
-    changed = TRUE;
-  }
-
-  /* Handle changes in bases. */
-  if (!(BV_ARE_EQUAL(packet->bases, ptile->bases))) {
-    base_type_iterate(pbase) {
-      edit_tile_base_handling(ptile, pbase,
-                              !BV_ISSET(packet->bases, base_number(pbase)),
-                              FALSE);
-    } base_type_iterate_end;
-    changed = TRUE;
+    } extra_type_iterate_end;
   }
 
   /* Handle changes in label */

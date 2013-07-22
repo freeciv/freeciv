@@ -43,6 +43,7 @@ extern "C" {
 #define MAX_VET_LEVELS 20
 #define MAX_BASE_TYPES 32 /* Used in the network protocol. */
 #define MAX_ROAD_TYPES 8 /* Used in the network protocol. */
+#define MAX_EXTRA_TYPES (S_LAST + MAX_BASE_TYPES + MAX_ROAD_TYPES)
 #define MAX_DISASTER_TYPES 10
 #define MAX_NUM_LEADERS MAX_NUM_ITEMS /* Used in the network protocol. */
 #define MAX_NUM_NATION_GROUPS 128 /* Used in the network protocol. */

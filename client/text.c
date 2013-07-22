@@ -291,9 +291,7 @@ const char *popup_info_text(struct tile *ptile)
     } unit_list_iterate_end;
   }
   {
-    const char *infratext = get_infrastructure_text(ptile->special,
-                                                    ptile->bases,
-                                                    ptile->roads);
+    const char *infratext = get_infrastructure_text(ptile->extras);
     if (*infratext != '\0') {
       astr_add_line(&str, _("Infrastructure: %s"), infratext);
     }
@@ -454,14 +452,11 @@ const char *concat_tile_activity_text(struct tile *ptile)
   } unit_list_iterate_end;
 
   if (pillaging) {
-    bv_special pillage_spe = get_unit_tile_pillage_set(ptile);
-    bv_bases pillage_bases = get_unit_tile_pillage_base_set(ptile);
-    bv_roads pillage_roads = get_unit_tile_pillage_road_set(ptile);
-    if (BV_ISSET_ANY(pillage_spe)
-        || BV_ISSET_ANY(pillage_bases)
-        || BV_ISSET_ANY(pillage_roads)) {
+    bv_extras pillage_set = get_unit_tile_pillage_set(ptile);
+
+    if (BV_ISSET_ANY(pillage_set)) {
       astr_add(&str, "%s(%s)", _("Pillage"),
-               get_infrastructure_text(pillage_spe, pillage_bases, pillage_roads));
+               get_infrastructure_text(pillage_set));
     } else {
       /* Untargeted pillaging is happening. */
       astr_add(&str, "%s", _("Pillage"));
@@ -1142,10 +1137,8 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
     astr_add_line(&str, "%s", tile_get_info_text(unit_tile(punit),
                                                  linebreaks));
     {
-      const char *infratext
-        = get_infrastructure_text(unit_tile(punit)->special,
-                                  unit_tile(punit)->bases,
-                                  unit_tile(punit)->roads);
+      const char *infratext = get_infrastructure_text(unit_tile(punit)->extras);
+
       if (*infratext != '\0') {
         astr_add_line(&str, "%s", infratext);
       } else {

@@ -530,11 +530,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
                        ? resource_number(tile_resource(ptile))
                        : resource_count();
 
-      tile_special_type_iterate(spe) {
-	info.special[spe] = BV_ISSET(ptile->special, spe);
-      } tile_special_type_iterate_end;
-      info.bases = ptile->bases;
-      info.roads = ptile->roads;
+      info.extras = ptile->extras;
 
       if (ptile->label != NULL) {
         strncpy(info.label, ptile->label, sizeof(info.label));
@@ -566,11 +562,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
                        ? resource_number(plrtile->resource)
                        : resource_count();
 
-      tile_special_type_iterate(spe) {
-	info.special[spe] = BV_ISSET(plrtile->special, spe);
-      } tile_special_type_iterate_end;
-      info.bases = plrtile->bases;
-      info.roads = plrtile->roads;
+      info.extras = plrtile->extras;
 
       /* Labels never change, so they are not subject to fog of war */
       if (ptile->label != NULL) {
@@ -590,11 +582,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       info.terrain = terrain_count();
       info.resource = resource_count();
 
-      tile_special_type_iterate(spe) {
-        info.special[spe] = FALSE;
-      } tile_special_type_iterate_end;
-      BV_CLR_ALL(info.bases);
-      BV_CLR_ALL(info.roads);
+      BV_CLR_ALL(info.extras);
 
       info.label[0] = '\0';
 
@@ -1150,13 +1138,11 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
   struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
   plrtile->terrain = T_UNKNOWN;
-  clear_all_specials(&plrtile->special);
   plrtile->resource = NULL;
   plrtile->owner = NULL;
   plrtile->extras_owner = NULL;
   plrtile->site = NULL;
-  BV_CLR_ALL(plrtile->bases);
-  BV_CLR_ALL(plrtile->roads);
+  BV_CLR_ALL(plrtile->extras);
   plrtile->last_updated = game.info.year;
 
   plrtile->seen_count[V_MAIN] = !game.server.fogofwar_old;
@@ -1217,21 +1203,19 @@ bool update_player_tile_knowledge(struct player *pplayer, struct tile *ptile)
   struct player *eowner = base_owner(ptile);
 
   if (plrtile->terrain != ptile->terrain
-      || !BV_ARE_EQUAL(plrtile->special, ptile->special)
+      || !BV_ARE_EQUAL(plrtile->extras, ptile->extras)
       || plrtile->resource != ptile->resource
       || plrtile->owner != owner
-      || plrtile->extras_owner != eowner
-      || !BV_ARE_EQUAL(plrtile->bases, ptile->bases)
-      || !BV_ARE_EQUAL(plrtile->roads, ptile->roads)) {
+      || plrtile->extras_owner != eowner) {
     plrtile->terrain = ptile->terrain;
-    plrtile->special = ptile->special;
+    plrtile->extras = ptile->extras;
     plrtile->resource = ptile->resource;
     plrtile->owner = owner;
     plrtile->extras_owner = eowner;
-    plrtile->bases = ptile->bases;
-    plrtile->roads = ptile->roads;
+
     return TRUE;
   }
+
   return FALSE;
 }
 
@@ -1303,10 +1287,8 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
       /* Update and send tile knowledge */
       map_set_known(ptile, pdest);
       dest_tile->terrain = from_tile->terrain;
-      dest_tile->special = from_tile->special;
+      dest_tile->extras   = from_tile->extras;
       dest_tile->resource = from_tile->resource;
-      dest_tile->bases    = from_tile->bases;
-      dest_tile->roads    = from_tile->roads;
       dest_tile->last_updated = from_tile->last_updated;
       send_tile_info(pdest->connections, ptile, FALSE);
 
