@@ -4804,7 +4804,7 @@ int fill_sprite_array(struct tileset *t,
             int idx = extra_index(road_extra_get(priver));
 
             if (BV_ISSET(textras_near[didx], idx)) {
-              ADD_SPRITE_SIMPLE(t->sprites.roads[idx].u.rivers.outlet[dir]);
+              ADD_SPRITE_SIMPLE(t->sprites.roads[road_index(priver)].u.rivers.outlet[dir]);
               break;
             }
           } road_type_list_iterate_end;
