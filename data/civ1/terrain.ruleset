@@ -45,24 +45,6 @@ move_fragments = 3
 ; How many move fragments IgTer unit movement costs
 igter_cost = 1
 
-; percent subtracted from food production if tile is polluted
-pollution_food_penalty=50
-
-; percent subtracted from shield production if tile is polluted
-pollution_shield_penalty=50
-
-; percent subtracted from trade production if tile is polluted
-pollution_trade_penalty=50
-
-; percent subtracted from food production if tile has fallout
-fallout_food_penalty=50
-
-; percent subtracted from shield production if tile has fallout
-fallout_shield_penalty=50
-
-; percent subtracted from trade production if tile has fallout
-fallout_trade_penalty=50
-
 ; /* <-- avoid gettext warnings
 ;
 ; The individual terrain types, one per section.

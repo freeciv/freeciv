@@ -1130,6 +1130,7 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_ENEMY_CITIZEN_UNHAPPY_PCT:
   case EFT_IRRIGATION_PCT:
   case EFT_MINING_PCT:
+  case EFT_OUTPUT_TILE_PUNISH_PCT:
     break;
 
   case EFT_CITY_VISION_RADIUS_SQ:

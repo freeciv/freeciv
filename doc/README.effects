@@ -124,6 +124,9 @@ Output_Inc_Tile
 Output_Per_Tile
     Increase tile output by amount percent.
 
+Output_Tile_Punish_Pct
+    Reduce the output of a tile by amout percent.
+
 Output_Waste_Pct
     Reduce waste by amount percent.
 

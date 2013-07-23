@@ -2459,17 +2459,6 @@ static bool load_ruleset_terrain(struct section_file *file)
     = secfile_lookup_bool_default(file, FALSE,
                                   "parameters.ocean_resources");
 
-  output_type_iterate(o) {
-    terrain_control.pollution_tile_penalty[o]
-      = secfile_lookup_int_default(file, 50,
-				   "parameters.pollution_%s_penalty",
-				   get_output_identifier(o));
-    terrain_control.fallout_tile_penalty[o]
-      = secfile_lookup_int_default(file, 50,
-				   "parameters.fallout_%s_penalty",
-				   get_output_identifier(o));
-  } output_type_iterate_end;
-
   /* terrain details */
 
   terrain_type_iterate(pterrain) {

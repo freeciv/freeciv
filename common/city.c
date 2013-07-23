@@ -1197,6 +1197,8 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
 {
   int prod;
   struct terrain *pterrain = tile_terrain(ptile);
+  const struct output_type *output = &output_types[otype];
+  struct player *pplayer = NULL;
 
   fc_assert_ret_val(otype >= 0 && otype < O_LAST, 0);
 
@@ -1211,14 +1213,13 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
     prod += tile_resource(ptile)->output[otype];
   }
 
+  if (pcity != NULL) {
+    pplayer = city_owner(pcity);
+  }
+
   switch (otype) {
   case O_SHIELD:
     if (pterrain->mining_shield_incr != 0) {
-      struct player *pplayer = NULL;
-
-      if (pcity != NULL) {
-        pplayer = city_owner(pcity);
-      }
       prod += pterrain->mining_shield_incr
         * get_target_bonus_effects(NULL, pplayer, pcity, NULL,
                                    ptile, NULL, NULL, NULL,
@@ -1228,11 +1229,6 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
     break;
   case O_FOOD:
     if (pterrain->irrigation_food_incr != 0) {
-      struct player *pplayer = NULL;
-
-      if (pcity != NULL) {
-        pplayer = city_owner(pcity);
-      }
       prod += pterrain->irrigation_food_incr
         * get_target_bonus_effects(NULL, pplayer, pcity, NULL,
                                    ptile, NULL, NULL, NULL,
@@ -1252,8 +1248,6 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
   prod += (prod * tile_roads_output_bonus(ptile, otype) / 100);
 
   if (pcity) {
-    const struct output_type *output = &output_types[otype];
-
     prod += get_city_tile_output_bonus(pcity, ptile, output,
 				       EFT_OUTPUT_ADD_TILE);
     if (prod > 0) {
@@ -1277,13 +1271,11 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
     }
   }
 
-  if (tile_has_special(ptile, S_POLLUTION)) {
-    prod -= (prod * terrain_control.pollution_tile_penalty[otype]) / 100;
-  }
-
-  if (tile_has_special(ptile, S_FALLOUT)) {
-    prod -= (prod * terrain_control.fallout_tile_penalty[otype]) / 100;
-  }
+  prod -= (prod
+           * get_target_bonus_effects(NULL, pplayer, pcity, NULL,
+                                      ptile, NULL, output, NULL,
+                                      EFT_OUTPUT_TILE_PUNISH_PCT))
+           / 100;
 
   if (NULL != pcity && is_city_center(pcity, ptile)) {
     prod = MAX(prod, game.info.min_city_center_output[otype]);
