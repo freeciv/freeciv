@@ -770,16 +770,19 @@ void info_label::set_rates_pixmap()
 {
   QString eco_info;
   int d;
+  QPainter p;
   struct sprite *sprite = get_tax_sprite(tileset, O_LUXURY);
   int w = sprite->pm->width();
   int h = sprite->pm->height();
+  QRect source_rect;
+  QRect dest_rect;
 
   if (rates_label == NULL) {
     rates_label = new QPixmap(10 * w, h);
   }
-  QPainter p;
-  QRect source_rect(0, 0, w, h);
-  QRect dest_rect(0, 0, w, h);
+
+  source_rect = QRect(0, 0, w, h);
+  dest_rect = QRect(0, 0, w, h);
   rates_label->fill(Qt::transparent);
   d = 0;
 
@@ -884,10 +887,11 @@ void info_label::wheelEvent(QWheelEvent *event)
   QPoint p(event->x(), event->y());
   int delta = event->delta();
   int pos;
+  int p2;
 
   p = this->mapToGlobal(p);
   pos = rates_label->width() / 10;
-  int p2 = event->x() - rates_area.left();
+  p2 = event->x() - rates_area.left();
   if (client_is_global_observer()){
     return;
   }
@@ -995,8 +999,10 @@ void info_label::paint(QPainter *painter, QPaintEvent *event)
 {
   int h = 0;
   int w;
+  QFontMetrics *fm;
   ufont->setPixelSize(14);
-  QFontMetrics fm(*ufont);
+
+  fm = new QFontMetrics(*ufont);
   QPainter::CompositionMode comp_mode = painter->compositionMode();
   QPen pen;
 
@@ -1006,17 +1012,17 @@ void info_label::paint(QPainter *painter, QPaintEvent *event)
   painter->drawRect(0, 0, width(), height());
   painter->setPen(pen);
   painter->setFont(*ufont);
-  h = h + fm.height() + 5;
-  w = fm.width(turn_info);
+  h = h + fm->height() + 5;
+  w = fm->width(turn_info);
   w = (width() - w) / 2;
   painter->drawText(w, h, turn_info);
-  h = h + fm.height() + 5;
-  w = fm.width(time_label);
+  h = h + fm->height() + 5;
+  w = fm->width(time_label);
   w = (width() - w) / 2;
   painter->drawText(w, h, time_label);
-  w = fm.width(eco_info);
+  w = fm->width(eco_info);
   w = (width() - w) / 2;
-  h = h + fm.height() + 5;
+  h = h + fm->height() + 5;
   painter->drawText(w, h, eco_info);
   h = h + indicator_icons->height();
   w = rates_label->width();
@@ -1040,6 +1046,7 @@ void info_label::paint(QPainter *painter, QPaintEvent *event)
   }
   painter->drawPixmap(w, h, *end_turn_pix);
   painter->setCompositionMode(comp_mode);
+  delete fm;
 }
 
 /**************************************************************************
@@ -1060,23 +1067,25 @@ void info_label::paintEvent(QPaintEvent *event)
 void info_label::info_update()
 {
   int w = 0, h = 0;
-  QFontMetrics fm(*ufont);
+  QFontMetrics *fm;
 
   ufont->setPixelSize(14);
-  w = qMax(w, fm.width(eco_info));
-  w = qMax(w, fm.width(turn_info));
-  w = qMax(w, fm.width(time_label));
+  fm = new QFontMetrics(*ufont);
+  w = qMax(w, fm->width(eco_info));
+  w = qMax(w, fm->width(turn_info));
+  w = qMax(w, fm->width(time_label));
   if (rates_label != NULL && indicator_icons != NULL) {
-    h = 3 * (fm.height() + 5) + rates_label->height() +
+    h = 3 * (fm->height() + 5) + rates_label->height() +
         indicator_icons->height();
     w = qMax(w, rates_label->width());
     w = qMax(w, indicator_icons->width());
   }
   ufont->setPixelSize(20);
-  h = h + fm.height() + 20;
+  h = h + fm->height() + 20;
   setFixedWidth(h + 20);
   setFixedHeight(w + 20);
   update();
+  delete fm;
 }
 
 /****************************************************************************
@@ -1088,15 +1097,14 @@ void update_info_label(void)
 {
   QString eco_info;
   QString s = QString::fromLatin1(textyear(game.info.year)) + " ("
-      + _("Turn") + ":" + QString::number(game.info.turn) + ")";
-
+              + _("Turn") + ":" + QString::number(game.info.turn) + ")";
   gui()->game_info_label->set_turn_info(s);
   set_indicator_icons(client_research_sprite(),
                       client_warming_sprite(),
                       client_cooling_sprite(), client_government_sprite());
   if (client.conn.playing != NULL) {
     eco_info = QString(_("Gold")) + ": "
-        + QString::number(client.conn.playing->economic.gold);
+               + QString::number(client.conn.playing->economic.gold);
     gui()->game_info_label->set_eco_info(eco_info);
   }
   gui()->game_info_label->set_rates_pixmap();
@@ -1222,7 +1230,7 @@ void flush_mapcanvas(int canvas_x, int canvas_y,
 void dirty_rect(int canvas_x, int canvas_y,
                 int pixel_width, int pixel_height)
 {
-    if (mapview_is_frozen()) {
+  if (mapview_is_frozen()) {
     return;
   }
   if (num_dirty_rects < MAX_DIRTY_RECTS) {
@@ -1284,7 +1292,7 @@ void gui_flush(void)
 ****************************************************************************/
 void update_map_canvas_scrollbars(void)
 {
-  /* PORTME */
+  gui()->mapview_wdg->update();
 }
 
 /****************************************************************************
@@ -1411,7 +1419,7 @@ unit_label::unit_label(QWidget *parent)
   pix = NULL;
   arrow_pix = NULL;
   ufont = new QFont;
-  w_width =0;
+  w_width = 0;
   selection_area.setWidth(0);
   highlight_pix = false;
   setMouseTracking(true);
