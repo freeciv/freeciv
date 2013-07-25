@@ -1492,6 +1492,14 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
           copied = TRUE;
         }
       } extra_type_iterate_end;
+    case EBT_ROAD:
+     extra_type_iterate(pextra) {
+        if (pextra->type == EXTRA_ROAD
+            && tile_has_extra(ptile, pextra)) {
+          tile_add_extra(vtile, pextra);
+          copied = TRUE;
+        }
+      } extra_type_iterate_end;
     case EBT_UNIT:
       unit_list_iterate(ptile->units, punit) {
         if (!punit) {
@@ -1614,6 +1622,15 @@ static void paste_tile(struct edit_buffer *ebuf,
     case EBT_BASE:
       extra_type_iterate(pextra) {
         if (pextra->type == EXTRA_BASE
+            && tile_has_extra(vtile, pextra)) {
+          BV_SET(tile_packet.extras, extra_index(pextra));
+          send_edit_tile = TRUE;
+        }
+      } extra_type_iterate_end;
+      break;
+    case EBT_ROAD:
+      extra_type_iterate(pextra) {
+        if (pextra->type == EXTRA_ROAD
             && tile_has_extra(vtile, pextra)) {
           BV_SET(tile_packet.extras, extra_index(pextra));
           send_edit_tile = TRUE;

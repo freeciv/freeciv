@@ -152,11 +152,12 @@ enum edit_buffer_types {
   EBT_RESOURCE = 1<<1,
   EBT_SPECIAL  = 1<<2,
   EBT_BASE     = 1<<3,
-  EBT_UNIT     = 1<<4,
-  EBT_CITY     = 1<<5,
+  EBT_ROAD     = 1<<4,
+  EBT_UNIT     = 1<<5,
+  EBT_CITY     = 1<<6,
 
   /* Equal to the bitwise OR of all preceding flags. */
-  EBT_ALL      = (1<<6) - 1
+  EBT_ALL      = (1<<7) - 1
 };
 
 struct edit_buffer *edit_buffer_new(int type_flags);
