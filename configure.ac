@@ -675,20 +675,34 @@ UTILITY_LIBS="${UTILITY_LIBS} -llzma"])])
 AC_SUBST([UTILITY_LIBS])
 AC_SUBST([COMMON_LIBS])
 
+AC_ARG_ENABLE([crosser],
+[  --enable-crosser        build version to be used with crosser environment],
+[case "${enableval}" in
+  yes) crosser=yes ;;
+  no)  crosser=no ;;
+  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-crosser]) ;;
+esac], [crosser=no])
+if test x$crosser = xyes && test x$MINGW32 != xyes ; then
+  AC_MSG_ERROR([--enable-crosser is Windows build specific option])
+fi
+
 dnl Check thread implementation
 AC_MSG_CHECKING([for threads implementation])
 thread_impl=none
 
 CFLAGS_SAVE="${CFLAGS}"
 LIBS_SAVE="${LIBS}"
-FC_C_FLAGS([-pthread], [], [CFLAGS])
-FC_LD_FLAGS([-pthread], [], [LIBS])
-AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pthread.h>]],
-  [[return pthread_create(NULL, NULL, NULL, NULL);]])],
-  [AC_DEFINE([HAVE_PTHREAD], [1], [Use pthreads as thread implementation])
-  thread_impl=pthreads
-  AC_MSG_RESULT([pthreads])
-  AC_DEFINE([HAVE_THREAD_COND], [1], [Has thread condition variable implementation])])
+
+if test x$crosser != xyes ; then
+  FC_C_FLAGS([-pthread], [], [CFLAGS])
+  FC_LD_FLAGS([-pthread], [], [LIBS])
+  AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pthread.h>]],
+    [[return pthread_create(NULL, NULL, NULL, NULL);]])],
+    [AC_DEFINE([HAVE_PTHREAD], [1], [Use pthreads as thread implementation])
+    thread_impl=pthreads
+    AC_MSG_RESULT([pthreads])
+    AC_DEFINE([HAVE_THREAD_COND], [1], [Has thread condition variable implementation])])
+fi
 
 if test "x$thread_impl" = "xnone" ; then
   CFLAGS="$CFLAGS_SAVE"
@@ -1042,17 +1056,6 @@ dnl Checks if SIGPIPE is usable
 AC_MSG_CHECKING([for SIGPIPE])
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <signal.h>]], [[signal (SIGPIPE, SIG_IGN)]])],[AC_MSG_RESULT([yes])
                 AC_DEFINE(HAVE_SIGPIPE, 1, [sigpipe support])],[AC_MSG_RESULT([no])])
-
-AC_ARG_ENABLE([crosser],
-[  --enable-crosser        build version to be used with crosser environment],
-[case "${enableval}" in
-  yes) crosser=yes ;;
-  no)  crosser=no ;;
-  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-crosser]) ;;
-esac], [crosser=no])
-if test x$crosser = xyes && test x$MINGW32 != xyes ; then
-  AC_MSG_ERROR([--enable-crosser is Windows build specific option])
-fi
 
 dnl export where the datadir is going to be installed
 FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
