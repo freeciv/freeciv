@@ -447,7 +447,7 @@ static void cai_unit_log(char *buffer, int buflength, const struct unit *punit)
   Call default ai with classic ai type as parameter.
 **************************************************************************/
 static void cai_consider_plr_dangerous(struct player *plr1, struct player *plr2,
-                                       enum danger_consideration *result)
+                                       enum override_bool *result)
 {
   struct ai_type *deftype = classic_ai_get_self();
 
@@ -458,7 +458,7 @@ static void cai_consider_plr_dangerous(struct player *plr1, struct player *plr2,
   Call default ai with classic ai type as parameter.
 **************************************************************************/
 static void cai_consider_tile_dangerous(struct tile *ptile, struct unit *punit,
-                                        enum danger_consideration *result)
+                                        enum override_bool *result)
 {
   struct ai_type *deftype = classic_ai_get_self();
 

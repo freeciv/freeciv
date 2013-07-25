@@ -258,14 +258,14 @@ bool adv_danger_at(struct unit *punit, struct tile *ptile)
   int a = 0, d, db;
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(ptile);
-  enum danger_consideration dc = DANG_UNDECIDED;
+  enum override_bool dc = NO_OVERRIDE;
   int extras_bonus = 0;
 
   /* Give AI code possibility to decide itself */
   CALL_PLR_AI_FUNC(consider_tile_dangerous, unit_owner(punit), ptile, punit, &dc);
-  if (dc == DANG_YES) {
+  if (dc == OVERRIDE_TRUE) {
     return TRUE;
-  } else if (dc == DANG_NOT) {
+  } else if (dc == OVERRIDE_FALSE) {
     return FALSE;
   }
 

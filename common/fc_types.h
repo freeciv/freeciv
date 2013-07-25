@@ -64,6 +64,8 @@ extern "C" {
 /* symbol to flag missing numbers for better debugging */
 #define IDENTITY_NUMBER_ZERO (0)
 
+enum override_bool { OVERRIDE_TRUE, OVERRIDE_FALSE, NO_OVERRIDE };
+
 /* A bitvector for all player slots. Used in the network protocol. */
 BV_DEFINE(bv_player, MAX_NUM_PLAYER_SLOTS);
 

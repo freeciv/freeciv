@@ -159,7 +159,7 @@ int military_amortize(struct player *pplayer, struct city *pcity,
 ***********************************************************************/
 void dai_consider_plr_dangerous(struct ai_type *ait, struct player *plr1,
                                 struct player *plr2,
-				enum danger_consideration *result)
+				enum override_bool *result)
 {
   struct ai_dip_intel *adip;
 
@@ -167,7 +167,7 @@ void dai_consider_plr_dangerous(struct ai_type *ait, struct player *plr1,
 
   if (adip->countdown >= 0) {
     /* Don't trust our war target */
-    *result = DANG_YES;
+    *result = OVERRIDE_TRUE;
   }
 }
 

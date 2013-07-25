@@ -893,19 +893,19 @@ bool adv_is_player_dangerous(struct player *pplayer,
 {
   struct adv_dipl *dip;
   enum diplstate_type ds;
-  enum danger_consideration dang = DANG_UNDECIDED;
+  enum override_bool dang = NO_OVERRIDE;
 
   if (pplayer->ai_controlled) {
     /* Give AI code possibility to decide itself */
     CALL_PLR_AI_FUNC(consider_plr_dangerous, pplayer, pplayer, aplayer, &dang);
   }
 
-  if (dang == DANG_NOT) {
+  if (dang == OVERRIDE_FALSE) {
     return FALSE;
   }
 
-  if (dang == DANG_YES) {
-    return TRUE;;
+  if (dang == OVERRIDE_TRUE) {
+    return TRUE;
   }
 
   if (pplayer == aplayer) {

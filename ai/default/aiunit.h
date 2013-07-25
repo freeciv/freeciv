@@ -120,7 +120,7 @@ bool is_on_unit_upgrade_path(const struct unit_type *test,
 
 void dai_consider_tile_dangerous(struct ai_type *ait, struct tile *ptile,
                                  struct unit *punit,
-				 enum danger_consideration *result);
+				 enum override_bool *result);
 
 enum unit_move_type dai_uclass_move_type(const struct unit_class *pclass);
 

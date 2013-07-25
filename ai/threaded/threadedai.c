@@ -431,7 +431,7 @@ static void twai_unit_log(char *buffer, int buflength, const struct unit *punit)
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_consider_plr_dangerous(struct player *plr1, struct player *plr2,
-                                        enum danger_consideration *result)
+                                        enum override_bool *result)
 {
   TAI_AIT;
   TAI_DFUNC(dai_consider_plr_dangerous, plr1, plr2, result);
@@ -441,7 +441,7 @@ static void twai_consider_plr_dangerous(struct player *plr1, struct player *plr2
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_consider_tile_dangerous(struct tile *ptile, struct unit *punit,
-                                         enum danger_consideration *result)
+                                         enum override_bool *result)
 {
   TAI_AIT;
   TAI_DFUNC(dai_consider_tile_dangerous, ptile, punit, result);

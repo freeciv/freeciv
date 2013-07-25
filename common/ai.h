@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2013.Apr.11"
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2013.Jul.22"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef DEBUG
@@ -46,8 +46,6 @@ enum incident_type {
   INCIDENT_NUCLEAR, INCIDENT_NUCLEAR_NOT_TARGET,
   INCIDENT_NUCLEAR_SELF, INCIDENT_LAST
 };
-
-enum danger_consideration { DANG_UNDECIDED, DANG_NOT, DANG_YES };
 
 struct ai_type
 {
@@ -210,11 +208,11 @@ struct ai_type
 
     /* Called for player AI type to decide if another player is dangerous. */
     void (*consider_plr_dangerous)(struct player *plr1, struct player *plr2,
-                                   enum danger_consideration *result);
+                                   enum override_bool *result);
 
     /* Called for player AI type to decide if it's dangerous for unit to enter tile. */
     void (*consider_tile_dangerous)(struct tile *ptile, struct unit *punit,
-                                    enum danger_consideration *result);
+                                    enum override_bool *result);
 
     /* Called for player AI to decide if city can be chosen to act as wonder city
      * for building advisor. */

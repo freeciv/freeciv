@@ -2863,7 +2863,7 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
 **************************************************************************/
 void dai_consider_tile_dangerous(struct ai_type *ait, struct tile *ptile,
                                  struct unit *punit,
-				 enum danger_consideration *result)
+				 enum override_bool *result)
 {
   int a = 0, d, db;
   struct player *pplayer = unit_owner(punit);
@@ -2878,7 +2878,7 @@ void dai_consider_tile_dangerous(struct ai_type *ait, struct tile *ptile,
   if (pcity && pplayers_allied(city_owner(pcity), unit_owner(punit))
       && !is_non_allied_unit_tile(ptile, pplayer)) {
     /* We will be safe in a friendly city */
-    *result = DANG_NOT;
+    *result = OVERRIDE_FALSE;
     return;
   }
 
@@ -2902,14 +2902,14 @@ void dai_consider_tile_dangerous(struct ai_type *ait, struct tile *ptile,
         a += adv_unit_att_rating(enemy);
         if ((a * a * 10) >= d) {
           /* The enemies combined strength is too big! */
-          *result = DANG_YES;
+          *result = OVERRIDE_TRUE;
           return;
         }
       }
     } unit_list_iterate_end;
   } adjc_iterate_end;
 
-  *result = DANG_NOT;
+  *result = OVERRIDE_FALSE;
 }
 
 /*************************************************************************
