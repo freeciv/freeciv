@@ -1072,7 +1072,8 @@ void real_menus_update(void)
       struct city *pCity = tile_city(pTile);
       struct terrain *pTerrain = tile_terrain(pTile);
       struct base_type *pbase;
-      struct road_type *proad = next_road_for_tile(pTile, unit_owner(pUnit), pUnit);
+      struct extra_type *pextra = next_extra_for_tile(pTile, EC_ROAD,
+                                                      unit_owner(pUnit), pUnit);
 
       if (!counter) {
 	local_show(ID_UNIT_ORDER_GOTO);
@@ -1104,7 +1105,8 @@ void real_menus_update(void)
 	local_hide(ID_UNIT_ORDER_BUILD_WONDER);
       }
 
-      if (proad != NULL) {
+      if (pextra != NULL) {
+        struct road_type *proad = extra_road_get(pextra);
         enum road_compat compat = road_compat_special(proad);
 
 	time = tile_activity_road_time(pTile, road_number(proad));

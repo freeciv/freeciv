@@ -407,3 +407,28 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
 
   return FALSE;
 }
+
+/****************************************************************************
+  Returns next extra by cause that unit or player can build to tile.
+****************************************************************************/
+struct extra_type *next_extra_for_tile(struct tile *ptile, enum extra_cause cause,
+                                       struct player *pplayer, struct unit *punit)
+{
+  fc_assert(punit != NULL || pplayer != NULL);
+
+  extra_type_by_cause_iterate(cause, pextra) {
+    if (!tile_has_extra(ptile, pextra)) {
+      if (punit != NULL) {
+        if (can_build_extra(pextra, punit, ptile)) {
+          return pextra;
+        }
+      } else {
+        if (player_can_build_extra(pextra, pplayer, ptile)) {
+          return pextra;
+        }
+      }
+    }
+  } extra_type_by_cause_iterate_end;
+
+  return NULL;
+}

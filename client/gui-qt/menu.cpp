@@ -1034,20 +1034,16 @@ void mr_menu::slot_build_road()
   unit_list_iterate(get_units_in_focus(), punit) {
     /* FIXME: this can provide different actions for different units...
      * not good! */
-    struct road_type *proad = next_road_for_tile(unit_tile(punit),
+    struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
+                                                 EC_ROAD,
                                                  unit_owner(punit),
                                                  punit);
     bool building_road = false;
 
-    if (proad != NULL) {
-      struct extra_type *tgt;
-
-      tgt = road_extra_get(proad);
-
-      if (can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt)) {
-        request_new_unit_activity_road(punit, proad);
-        building_road = true;
-      }
+    if (tgt != NULL
+        && can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt)) {
+      request_new_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt);
+      building_road = true;
     }
 
     if (!building_road && unit_can_est_trade_route_here(punit)) {

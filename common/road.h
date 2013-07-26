@@ -154,9 +154,6 @@ bool is_cardinal_only_road(const struct road_type *proad);
 void road_type_init(int idx);
 void road_types_free(void);
 
-struct road_type *next_road_for_tile(struct tile *ptile, struct player *pplayer,
-                                     struct unit *punit);
-
 #define road_type_iterate(_p)                    \
 {                                                \
   int _i_;                                       \

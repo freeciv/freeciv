@@ -1065,20 +1065,16 @@ static void build_road_callback(GtkAction *action, gpointer data)
   unit_list_iterate(get_units_in_focus(), punit) {
     /* FIXME: this can provide different actions for different units...
      * not good! */
-    struct road_type *proad = next_road_for_tile(unit_tile(punit),
+    struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
+                                                 EC_ROAD,
                                                  unit_owner(punit),
                                                  punit);
     bool building_road = FALSE;
 
-    if (proad != NULL) {
-      struct extra_type *tgt;
-
-      tgt = road_extra_get(proad);
-
-      if (can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt)) {
-        request_new_unit_activity_road(punit, proad);
-        building_road = TRUE;
-      }
+    if (tgt != NULL
+        && can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt)) {
+      request_new_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt);
+      building_road = TRUE;
     }
 
     if (!building_road && unit_can_est_trade_route_here(punit)) {
@@ -1264,7 +1260,8 @@ static void road_callback(GtkMenuItem *item, gpointer data)
   struct road_type *proad = data;
 
   unit_list_iterate(get_units_in_focus(), punit) {
-    request_new_unit_activity_road(punit, proad);
+    request_new_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD,
+                                       road_extra_get(proad));
   } unit_list_iterate_end;
 }
 
@@ -2239,21 +2236,22 @@ void real_menus_update(void)
     menus_rename(unit_group, "BUILD_ROAD", _("Establish Trade _Route"));
   } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
     char road_item[500];
-    struct road_type *proad = NULL;
+    struct extra_type *pextra = NULL;
 
     /* FIXME: this overloading doesn't work well with multiple focus
      * units. */
     unit_list_iterate(punits, punit) {
-      proad = next_road_for_tile(unit_tile(punit), unit_owner(punit), punit);
-      if (proad != NULL) {
+      pextra = next_extra_for_tile(unit_tile(punit), EC_ROAD,
+                                   unit_owner(punit), punit);
+      if (pextra != NULL) {
         break;
       }
     } unit_list_iterate_end;
 
-    if (proad != NULL) {
+    if (pextra != NULL) {
       /* TRANS: Build road of specific type (Road/Railroad) */
       snprintf(road_item, sizeof(road_item), _("Build %s"),
-               road_name_translation(proad));
+               extra_name_translation(pextra));
       menus_rename(unit_group, "BUILD_ROAD", road_item);
     }
   } else {

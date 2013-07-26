@@ -1477,6 +1477,10 @@ void request_new_unit_activity_targeted(struct unit *punit,
 					enum unit_activity act,
 					struct extra_type *tgt)
 {
+  if (!can_client_issue_orders()) {
+    return;
+  }
+
   if (tgt == NULL) {
     dsend_packet_unit_change_activity(&client.conn, punit->id, act, EXTRA_NONE);
   } else {
@@ -1496,20 +1500,6 @@ void request_new_unit_activity_base(struct unit *punit,
 
   request_new_unit_activity_targeted(punit, ACTIVITY_BASE,
                                      base_extra_get(pbase));
-}
-
-/**************************************************************************
-  Request road building activity for unit
-**************************************************************************/
-void request_new_unit_activity_road(struct unit *punit,
-				    const struct road_type *proad)
-{
-  if (!can_client_issue_orders()) {
-    return;
-  }
-
-  request_new_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD,
-                                     road_extra_get(proad));
 }
 
 /**************************************************************************
@@ -2901,18 +2891,14 @@ void key_unit_pollution(void)
 void key_unit_road(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    struct road_type *proad = next_road_for_tile(unit_tile(punit),
+    struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
+                                                 EC_ROAD,
                                                  unit_owner(punit),
                                                  punit);
 
-    if (proad != NULL) {
-      struct extra_type *tgt;
-
-      tgt = road_extra_get(proad);
-
-      if (can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt)) {
-        request_new_unit_activity_road(punit, proad);
-      }
+    if (tgt != NULL
+        && can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt)) {
+      request_new_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt);
     }
   } unit_list_iterate_end;
 }
