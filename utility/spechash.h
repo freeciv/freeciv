@@ -125,6 +125,7 @@ extern "C" {
 /* utility */
 #include "genhash.h"
 #include "iterator.h"
+#include "support.h"
 
 #ifndef SPECHASH_TAG
 #error Must define a SPECHASH_TAG to use this header

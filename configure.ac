@@ -1100,6 +1100,8 @@ AC_CHECK_TYPES(socklen_t, [], [],
 #include <sys/socket.h>
 ])
 AC_TYPE_INTPTR_T
+dnl Headers that might contain the intptr_t definition found earlier
+AC_CHECK_HEADERS([inttypes.h stdint.h])
 
 dnl Checks for library functions.
 AC_FUNC_FORK
