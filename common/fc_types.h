@@ -478,16 +478,12 @@ BV_DEFINE(bv_extras, S_LAST + MAX_BASE_TYPES + MAX_ROAD_TYPES);
 #define SPECENUM_VALUE2NAME "Pollution"
 #define SPECENUM_VALUE3 EC_HUT
 #define SPECENUM_VALUE3NAME "Hut"
-/* TODO: Farmland should be just update to base Irrigation,
- *       not separate extra cause */
-#define SPECENUM_VALUE4 EC_FARMLAND
-#define SPECENUM_VALUE4NAME "Farmland"
-#define SPECENUM_VALUE5 EC_FALLOUT
-#define SPECENUM_VALUE5NAME "Fallout"
-#define SPECENUM_VALUE6 EC_BASE
-#define SPECENUM_VALUE6NAME "Base"
-#define SPECENUM_VALUE7 EC_ROAD
-#define SPECENUM_VALUE7NAME "Road"
+#define SPECENUM_VALUE4 EC_FALLOUT
+#define SPECENUM_VALUE4NAME "Fallout"
+#define SPECENUM_VALUE5 EC_BASE
+#define SPECENUM_VALUE5NAME "Base"
+#define SPECENUM_VALUE6 EC_ROAD
+#define SPECENUM_VALUE6NAME "Road"
 #define SPECENUM_COUNT EC_COUNT
 #include "specenum_gen.h"
 #define EC_NONE EC_COUNT

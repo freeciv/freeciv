@@ -62,7 +62,7 @@ void extras_init(void)
       extra_to_caused_by_list(&extras[i], EC_HUT);
       break;
     case S_FARMLAND:
-      extra_to_caused_by_list(&extras[i], EC_FARMLAND);
+      extra_to_caused_by_list(&extras[i], EC_IRRIGATION);
       break;
     case S_FALLOUT:
       extra_to_caused_by_list(&extras[i], EC_FALLOUT);
