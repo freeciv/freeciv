@@ -66,6 +66,16 @@ typedef unsigned int fc_bool;
 #endif /* ! __BEOS__ */
 #endif /* __cplusplus */
 
+/* intptr_t header */
+/* Prefer full inttypes.h if present. */
+#ifdef HAVE_INTTYPES_H
+#include <inttypes.h>
+#else
+#ifdef HAVE_STDINT_H
+#include <stdint.h>
+#endif /* HAVE_STDINT_H */
+#endif /* HAVE_INTTYPES_H */
+
 /* Want to use GCC's __attribute__ keyword to check variadic
  * parameters to printf-like functions, without upsetting other
  * compilers: put any required defines magic here.

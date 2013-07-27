@@ -20,6 +20,7 @@
 #include "log.h"
 #include "mem.h"
 #include "pqueue.h"
+#include "support.h"
 
 /* common */
 #include "game.h"

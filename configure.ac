@@ -995,6 +995,8 @@ ifdef([AC_TYPE_INTPTR_T], [AC_TYPE_INTPTR_T],
 [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <inttypes.h>]],
 [[intptr_t var;]])], [],
 [AC_DEFINE([intptr_t], [unsigned long], [Integer type that can hold pointer])])])
+dnl Headers that might contain the intptr_t definition found earlier
+AC_CHECK_HEADERS([inttypes.h stdint.h])
 
 dnl Checks for library functions.
 AC_FUNC_FORK
