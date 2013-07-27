@@ -6548,6 +6548,54 @@ static void compat_load_020600(struct loaddata *loading)
   sg_check_ret();
 
   log_debug("Upgrading data from savegame to version 2.6.0");
+
+  /* Server setting migration. */
+  {
+    int set_count;
+
+    if (secfile_lookup_int(loading->file, &set_count, "settings.set_count")) {
+      int i;
+      bool gamestart_valid
+        = secfile_lookup_bool_default(loading->file, FALSE,
+                                      "settings.gamestart_valid");
+      for (i = 0; i < set_count; i++) {
+        const char *name
+          = secfile_lookup_str(loading->file, "settings.set%d.name", i);
+        if (!name) {
+          continue;
+        }
+
+        /* In 2.5.x and prior, "spacerace" boolean controlled if
+         * spacerace victory condition was active. */
+        if (!fc_strcasecmp("spacerace", name)) {
+          bool value, value_start;
+          char *srenabled = "SPACERACE";
+          char *srdisabled = "";
+
+          (void) secfile_lookup_bool(loading->file, &value,
+                                     "settings.set%d.value", i);
+          (void) secfile_lookup_bool(loading->file, &value_start,
+                                     "settings.set%d.gamestart", i);
+
+          secfile_replace_str(loading->file, "victories", "settings.set%d.name", i);
+          if (value) {
+            secfile_replace_str(loading->file, srenabled, "settings.set%d.value", i);
+          } else {
+            secfile_replace_str(loading->file, srdisabled, "settings.set%d.value", i);
+          }
+          if (gamestart_valid) {
+            if (value_start) {
+              secfile_replace_str(loading->file, srenabled,
+                                  "settings.set%d.gamestart", i);
+            } else {
+              secfile_replace_str(loading->file, srdisabled,
+                                  "settings.set%d.gamestart", i);
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 /****************************************************************************

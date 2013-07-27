@@ -100,14 +100,16 @@ libfreeciv_la_SOURCES = \
 		unitlist.h	\
 		unittype.c	\
 		unittype.h	\
+		version.c	\
+		version.h	\
+		victory.c	\
+		victory.h	\
 		vision.c	\
 		vision.h	\
 		workertask.c	\
 		workertask.h	\
 		worklist.c	\
-		worklist.h	\
-		version.c	\
-		version.h
+		worklist.h
 
 libfreeciv_la_DEPENDENCIES = \
 	$(top_builddir)/utility/libcivutility.la \

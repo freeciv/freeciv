@@ -22,6 +22,7 @@
 /* common */
 #include "game.h"
 #include "packets.h"
+#include "victory.h"
 
 /* client */
 #include "client_main.h"
@@ -100,15 +101,16 @@ void refresh_spaceship_dialog(struct player *pPlayer)
   struct SMALL_DLG *pSpaceShp;
   struct widget *pBuf;
     
-  if(!(pSpaceShp = get_spaceship_dialog(pPlayer)))
+  if (!(pSpaceShp = get_spaceship_dialog(pPlayer))) {
     return;
+  }
   
   /* launch button */
   pBuf = pSpaceShp->pEndWidgetList->prev->prev;
-  if(game.info.spacerace
-     && pPlayer == client.conn.playing
-     && pPlayer->spaceship.state == SSHIP_STARTED
-     && pPlayer->spaceship.success_rate > 0.0) {
+  if (victory_enabled(VC_SPACERACE)
+      && pPlayer == client.conn.playing
+      && pPlayer->spaceship.state == SSHIP_STARTED
+      && pPlayer->spaceship.success_rate > 0.0) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
   

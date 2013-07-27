@@ -27,6 +27,7 @@
 #include "government.h"
 #include "specialist.h"
 #include "traderoutes.h"
+#include "victory.h"
 
 /* server */
 #include "cityhand.h"
@@ -1263,7 +1264,7 @@ static int improvement_effect_value(struct player *pplayer,
     v += 20 + ai->stats.units.missiles * 5;
     break;
   case EFT_ENABLE_SPACE:
-    if (game.info.spacerace) {
+    if (victory_enabled(VC_SPACERACE)) {
       v += 5;
       if (ai->dipl.production_leader == pplayer) {
 	v += 100;
@@ -1315,7 +1316,7 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_SS_STRUCTURAL:
   case EFT_SS_COMPONENT:
   case EFT_SS_MODULE:
-    if (game.info.spacerace
+    if (victory_enabled(VC_SPACERACE)
 	/* If someone has started building spaceship already or
 	 * we have chance to win a spacerace */
 	&& (ai->dipl.spacerace_leader

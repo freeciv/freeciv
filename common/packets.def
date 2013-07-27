@@ -202,6 +202,7 @@ type WORKLIST           = worklist(struct worklist)
 # typedefs for enums
 type ACTIVITY           = uint8(enum unit_activity)
 type AIRLIFTING_STYLE   = uint8(enum airlifting_style)
+type VICTORY_CONDITIONS = uint8(enum victory_condition_type)
 type AUTH_TYPE          = uint8(enum authentication_type)
 type BASE_GUI           = uint8(enum base_gui_type)
 type BORDERS_MODE       = uint8(enum borders_mode)
@@ -485,7 +486,7 @@ PACKET_GAME_INFO = 16; sc
   UINT32 shieldbox;
   UINT32 skill_level;
   BOOL slow_invasions;
-  BOOL spacerace;
+  VICTORY_CONDITIONS victory_conditions;
   BOOL team_pooled_research;
   UINT32 tech;
   UINT8 tech_cost_style;

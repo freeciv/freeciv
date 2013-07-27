@@ -47,6 +47,7 @@
 #include "unit.h"
 #include "unitlist.h"
 #include "version.h"
+#include "victory.h"
 
 /* server */
 #include "aiiface.h"
@@ -3203,6 +3204,8 @@ static void game_load_internal(struct section_file *file)
   }
 
   {
+    bool spacerace;
+
     set_meta_patches_string(secfile_lookup_str_default(file, 
                                                 default_meta_patches_string(),
                                                 "game.metapatches"));
@@ -3564,8 +3567,14 @@ static void game_load_internal(struct section_file *file)
 	       secfile_lookup_str_default(file, GAME_DEFAULT_ALLOW_TAKE,
 					  "game.allow_take"));
 
-    game.info.spacerace = secfile_lookup_bool_default(file, game.info.spacerace,
-						"game.spacerace");
+    spacerace = secfile_lookup_bool_default(file, victory_enabled(VC_SPACERACE),
+                                            "game.spacerace");
+    if (spacerace) {
+      game.info.victory_conditions |= (1 << VC_SPACERACE);
+    } else {
+      game.info.victory_conditions &= ~(1 << VC_SPACERACE);
+    }
+
     game.server.endspaceship =
       secfile_lookup_bool_default(file, game.server.endspaceship,
                                   "game.endspaceship");

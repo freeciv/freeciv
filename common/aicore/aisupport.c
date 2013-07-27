@@ -28,6 +28,7 @@
 #include "spaceship.h"
 #include "tech.h"
 #include "unitlist.h"
+#include "victory.h"
 
 #include "aisupport.h"
 
@@ -40,7 +41,7 @@ struct player *player_leading_spacerace(void)
   int best_arrival = FC_INFINITY;
   enum spaceship_state best_state = SSHIP_NONE;
 
-  if (game.info.spacerace == FALSE) {
+  if (!victory_enabled(VC_SPACERACE)) {
     return NULL;
   }
 

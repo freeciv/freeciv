@@ -508,4 +508,9 @@ enum road_compat { ROCO_ROAD, ROCO_RAILROAD, ROCO_RIVER, ROCO_NONE };
  */
 #define MAX_TRADE_ROUTES        5
 
+enum victory_condition_type
+{
+  VC_SPACERACE = 0
+};
+
 #endif /* FC__FC_TYPES_H */

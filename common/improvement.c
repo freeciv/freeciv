@@ -27,6 +27,7 @@
 #include "game.h"
 #include "map.h"
 #include "tech.h"
+#include "victory.h"
 
 #include "improvement.h"
 
@@ -159,7 +160,7 @@ struct impr_type *valid_improvement(struct impr_type *pimprove)
     return NULL;
   }
 
-  if (!game.info.spacerace
+  if (!victory_enabled(VC_SPACERACE)
       && (building_has_effect(pimprove, EFT_SS_STRUCTURAL)
 	  || building_has_effect(pimprove, EFT_SS_COMPONENT)
 	  || building_has_effect(pimprove, EFT_SS_MODULE))) {

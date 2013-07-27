@@ -31,6 +31,7 @@
 #include "player.h"
 #include "research.h"
 #include "unit.h"
+#include "victory.h"
 
 /* common/aicore */
 #include "cm.h"
@@ -93,7 +94,7 @@
 **************************************************************************/
 static void dai_manage_spaceship(struct player *pplayer)
 {
-  if (game.info.spacerace) {
+  if (victory_enabled(VC_SPACERACE)) {
     if (pplayer->spaceship.state == SSHIP_STARTED) {
       dai_spaceship_autoplace(pplayer, &pplayer->spaceship);
       /* if we have built the best possible spaceship  -- AJS 19990610 */

@@ -45,6 +45,7 @@
 #include "traderoutes.h"
 #include "unit.h"
 #include "unitlist.h"
+#include "victory.h"
 
 #include "game.h"
 
@@ -307,7 +308,7 @@ static void game_defaults(void)
   game.info.shieldbox        = GAME_DEFAULT_SHIELDBOX;
   game.info.skill_level      = GAME_DEFAULT_SKILL_LEVEL;
   game.info.slow_invasions   = RS_DEFAULT_SLOW_INVASIONS;
-  game.info.spacerace        = GAME_DEFAULT_SPACERACE;
+  game.info.victory_conditions = GAME_DEFAULT_VICTORY_CONDITIONS;
   game.info.team_pooled_research = GAME_DEFAULT_TEAM_POOLED_RESEARCH;
   game.info.tech             = GAME_DEFAULT_TECHLEVEL;
   game.info.timeout          = GAME_DEFAULT_TIMEOUT;
@@ -567,7 +568,7 @@ void initialize_globals(void)
 int game_next_year(int year)
 {
   int increase = get_world_bonus(EFT_TURN_YEARS);
-  const int slowdown = (game.info.spacerace
+  const int slowdown = (victory_enabled(VC_SPACERACE)
 			? get_world_bonus(EFT_SLOW_DOWN_TIMELINE) : 0);
 
   if (game.info.year_0_hack) {

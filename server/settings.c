@@ -265,6 +265,18 @@ static const struct sset_val_name *startpos_name(int startpos)
 }
 
 /****************************************************************************
+  Victory conditions setting names accessor.
+****************************************************************************/
+static const struct sset_val_name *victory_conditions_name(int condition_bit)
+{
+  switch (condition_bit) {
+  NAME_CASE(VC_SPACERACE, "SPACERACE", N_("Spacerace"));
+  };
+
+  return NULL;
+}
+
+/****************************************************************************
   Autosaves setting names accessor.
 ****************************************************************************/
 static const struct sset_val_name *autosaves_name(int autosaves_bit)
@@ -1789,11 +1801,20 @@ static struct setting settings[] = {
           NULL, NULL,
           GAME_MIN_DIPLCHANCE, GAME_MAX_DIPLCHANCE, GAME_DEFAULT_DIPLCHANCE)
 
-  GEN_BOOL("spacerace", game.info.spacerace,
-           SSET_RULES_FLEXIBLE, SSET_SCIENCE, SSET_VITAL, SSET_TO_CLIENT,
-           N_("Whether to allow space race"),
-           N_("If this option is enabled, players can build spaceships."),
-           NULL, NULL, GAME_DEFAULT_SPACERACE)
+  GEN_BITWISE("victories", game.info.victory_conditions,
+              SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
+              N_("What kind of vicrories are possible"),
+              /* TRANS: The strings between double quotes are also translated
+               * separately (they must match!). The strings between single
+               * quotes are setting names and shouldn't be translated. The
+               * strings between parentheses and in uppercase must stay as
+               * untranslated. */
+              N_("This setting controls how game can be won. One can always "
+                 "win by conquering entire planet, but other victory conditions "
+                 "can be enabled or disabled:\n"
+                 "- \"Spacerace\" (SPACERACE): Spaceship is built and travels to "
+                 "Alpha Centauri."),
+              NULL, NULL, victory_conditions_name, GAME_DEFAULT_VICTORY_CONDITIONS)
 
   GEN_BOOL("endspaceship", game.server.endspaceship, SSET_RULES_FLEXIBLE,
            SSET_SCIENCE, SSET_VITAL, SSET_TO_CLIENT,

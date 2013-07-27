@@ -1779,7 +1779,7 @@ void handle_game_info(const struct packet_game_info *pinfo)
     government_by_number(game.info.government_during_revolution_id);
 
   boot_help = (can_client_change_view()
-	       && game.info.spacerace != pinfo->spacerace);
+	       && game.info.victory_conditions != pinfo->victory_conditions);
   if (game.info.timeout != 0 && pinfo->seconds_to_phasedone >= 0) {
     /* If this packet is received in the middle of a turn, this value
      * represents the number of seconds from now to the end of the turn
