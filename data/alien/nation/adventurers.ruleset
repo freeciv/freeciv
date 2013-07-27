@@ -9,8 +9,8 @@ for trouble.\n\n\
 
 leaders = {
  "name", "sex"
- "Indiana Jones", "male"
- "Lara Croft", "female"
+ "Orion Hunter", "male"
+ "Cassiopeia", "female"
 }
 
 flag = "adventurers"
