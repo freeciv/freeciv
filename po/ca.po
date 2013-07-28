@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-07-28 12:21+0200\n"
-"PO-Revision-Date: 2013-07-28 15:44+0200\n"
+"PO-Revision-Date: 2013-07-28 17:06+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -5563,7 +5563,7 @@ msgstr "Canviar ciutat base"
 
 #: client/gui-qt/citydlg.cpp:184 client/gui-qt/dialogs.cpp:1427
 msgid "Are you sure you want to disband that unit?"
-msgstr "Segur que voleu desmantellar aquesta unitat?"
+msgstr "Segur que voleu desmobilitzar aquesta unitat?"
 
 #: client/gui-qt/citydlg.cpp:479 client/gui-qt/citydlg.cpp:573
 #: client/gui-qt/cityrep.cpp:438
@@ -5770,19 +5770,16 @@ msgid "Save current worklist"
 msgstr "Llista de treball actual"
 
 #: client/gui-qt/citydlg.cpp:2160
-#, fuzzy
 msgid "What should we name new worklist?"
-msgstr "Com hem d'anomenar el prefixat?"
+msgstr "Com hem d'anomenar la nova llista de treball?"
 
 #: client/gui-qt/citydlg.cpp:2162
-#, fuzzy
 msgid "New worklist"
-msgstr "llista de treball"
+msgstr "Llista de treball nova"
 
 #: client/gui-qt/citydlg.cpp:2184
-#, fuzzy
 msgid "citizens"
-msgstr "ciutadà"
+msgstr "ciutadans"
 
 #: client/gui-qt/citydlg.cpp:2187
 msgid "DISORDER"
@@ -5805,24 +5802,20 @@ msgid "Center"
 msgstr "Centrar"
 
 #: client/gui-qt/cityrep.cpp:412
-#, fuzzy
 msgid "Add next"
-msgstr "Afegir al _Següent"
+msgstr "Afegir al següent"
 
 #: client/gui-qt/cityrep.cpp:415
-#, fuzzy
 msgid "Add before last"
-msgstr "Afegir nova llista treball"
+msgstr "Afegir abans de l'últim"
 
 #: client/gui-qt/cityrep.cpp:418
-#, fuzzy
 msgid "Add last"
-msgstr "Afegir al _Final"
+msgstr "Afegir al final"
 
 #: client/gui-qt/cityrep.cpp:425
-#, fuzzy
 msgid "Add"
-msgstr "Adreça"
+msgstr "Afegir"
 
 #: client/gui-qt/cityrep.cpp:441 client/gui-sdl/citydlg.c:1437
 #: client/gui-sdl/repodlgs.c:1601
@@ -5831,12 +5824,11 @@ msgstr "Vendre"
 
 #: client/gui-qt/cityrep.cpp:663 client/gui-qt/plrdlg.cpp:269
 msgid "Column visibility"
-msgstr ""
+msgstr "Visibilitat de columna"
 
 #: client/gui-qt/dialogs.cpp:97
-#, fuzzy
 msgid "Select Nation"
-msgstr "Escull una nació"
+msgstr "Triar Nació"
 
 #: client/gui-qt/dialogs.cpp:125 client/gui-sdl/dialogs.c:2705
 #: client/gui-sdl/dialogs.c:3083 data/Freeciv.in:3207
@@ -5849,19 +5841,16 @@ msgid "Male"
 msgstr "Home"
 
 #: client/gui-qt/dialogs.cpp:131
-#, fuzzy
 msgid "Choose nation"
-msgstr "Tria un Escenari"
+msgstr "Trieu la nació"
 
 #: client/gui-qt/dialogs.cpp:132
-#, fuzzy
 msgid "Your leader name"
-msgstr "El teu nou govern"
+msgstr "El nom del teu líder"
 
 #: client/gui-qt/dialogs.cpp:161
-#, fuzzy
 msgid "All Nations"
-msgstr "Totes les nacions"
+msgstr "Totes les Nacions"
 
 #: client/gui-qt/dialogs.cpp:182 client/gui-qt/optiondlg.cpp:64
 #: client/gui-qt/pages.cpp:333 client/gui-qt/pages.cpp:377
@@ -5921,14 +5910,12 @@ msgid "Sabotage Enemy Unit"
 msgstr "Sabotejar unitat enemiga"
 
 #: client/gui-qt/dialogs.cpp:964
-#, fuzzy
 msgid "Do nothing"
-msgstr "res"
+msgstr "No fer res"
 
 #: client/gui-qt/dialogs.cpp:1430
-#, fuzzy
 msgid "Are you sure you want to disband those %1 units?"
-msgstr "Segur que vols sortir?"
+msgstr "Segur que voleu desmobilitzar aquestes %1 unitats?"
 
 #: client/gui-qt/dialogs.cpp:1434 client/gui-qt/menu.cpp:276
 #: client/gui-sdl/dialogs.c:912
@@ -5936,19 +5923,17 @@ msgid "Disband"
 msgstr "Desmobilitzar"
 
 #: client/gui-qt/dialogs.cpp:1438
-#, fuzzy
 msgid "Disband unit(s)"
-msgstr "Desmobilitzar unitat"
+msgstr "Desmobilitzar unitat(s)"
 
 #. TRANS: MP = Movement points
 #: client/gui-qt/dialogs.cpp:1736
 msgid "MP:"
-msgstr ""
+msgstr "PM:"
 
 #: client/gui-qt/dialogs.cpp:1825
-#, fuzzy
 msgid "units"
-msgstr "Unitats"
+msgstr "unitats"
 
 #: client/gui-qt/fc_client.cpp:105
 msgid "Welcome to Freeciv"
@@ -5959,7 +5944,6 @@ msgid "This is Qt-client for Freeciv."
 msgstr "Això és el client-Qt de Freeciv."
 
 #: client/gui-qt/fc_client.cpp:180
-#, fuzzy
 msgid ""
 "In this early Qt-client development phase the only way to connect server is "
 "viacommandline autoconnect parameter \"-a\""
@@ -5969,43 +5953,36 @@ msgstr ""
 "línia de comandes"
 
 #: client/gui-qt/fc_client.cpp:353 client/gui-qt/pages.cpp:1176
-#, fuzzy
 msgid "Don't Observe"
-msgstr "No O_bservar"
+msgstr "No Observar"
 
 #: client/gui-qt/fc_client.cpp:356 client/gui-qt/pages.cpp:429
 #: client/gui-qt/pages.cpp:1178 client/gui-qt/pages.cpp:1227
-#, fuzzy
 msgid "Observe"
-msgstr "_Observar"
+msgstr "Observar"
 
 #: client/gui-qt/fc_client.cpp:508
-#, fuzzy
 msgid "Set server options"
-msgstr "Seleccionar una opció del servidor."
+msgstr "Fixar les opcions del servidor."
 
 #: client/gui-qt/mapview.cpp:741
-#, fuzzy
 msgid "End Turn"
-msgstr "Final de torn"
+msgstr "Acabar el Torn"
 
 #: client/gui-qt/mapview.cpp:870
-#, fuzzy
 msgid ""
 "Shows your current luxury/science/tax rates. Use mouse wheel to change them"
 msgstr ""
-"Mostra les proporcions actuals de luxes/ciència/impostos; clica per canviar-"
-"los."
+"Mostra les proporcions actuals de luxes/ciència/impostos; utilitzeu la roda "
+"del ratolí per modificar-les."
 
 #: client/gui-qt/mapview.cpp:1100
-#, fuzzy
 msgid "Turn"
-msgstr "Torns"
+msgstr "Torn"
 
 #: client/gui-qt/mapview.cpp:1464
-#, fuzzy
 msgid "from"
-msgstr "des de %s"
+msgstr "des de"
 
 #: client/gui-qt/menu.cpp:101 data/Freeciv.in:2044
 msgid "Game"
@@ -6034,19 +6011,16 @@ msgid "Center View"
 msgstr "Centra la Vista"
 
 #: client/gui-qt/menu.cpp:119
-#, fuzzy
 msgid "Fullsceen"
 msgstr "Pantalla completa"
 
 #: client/gui-qt/menu.cpp:125
-#, fuzzy
 msgid "Minimap"
-msgstr "Mínim:"
+msgstr "Minimapa"
 
 #: client/gui-qt/menu.cpp:132
-#, fuzzy
 msgid "City Outlines"
-msgstr "Contorns de Ciutat (_y)"
+msgstr "Contorns de Ciutats"
 
 #: client/gui-qt/menu.cpp:142 client/gui-xaw/menu.c:142
 msgid "Map Grid"
@@ -6070,38 +6044,32 @@ msgid "City Production Levels"
 msgstr "Nivells de Producció de les Ciutats"
 
 #: client/gui-qt/menu.cpp:175
-#, fuzzy
 msgid "City Traderoutes"
-msgstr "Rutes Comercials _de la Ciutat"
+msgstr "Rutes Comercials de la Ciutat"
 
 #: client/gui-qt/menu.cpp:182
 msgid "Select"
 msgstr "Seleccionar"
 
 #: client/gui-qt/menu.cpp:183
-#, fuzzy
 msgid "Single Unit (Unselect Others)"
-msgstr "Unitat _Sola (Deseleccionar les Altres)"
+msgstr "Unitat Sola (Deseleccionar les Altres)"
 
 #: client/gui-qt/menu.cpp:187
-#, fuzzy
 msgid "All On Tile"
-msgstr "_Tots els de la Casella"
+msgstr "Tots els de la Casella"
 
 #: client/gui-qt/menu.cpp:192
-#, fuzzy
 msgid "Same Type on Tile"
-msgstr "T_ipus Igual Dins de la Casella"
+msgstr "Tipus Igual Dins de la Casella"
 
 #: client/gui-qt/menu.cpp:196
-#, fuzzy
 msgid "Same Type on Continent"
-msgstr "Tipus Igual Dins del _Continent"
+msgstr "Tipus Igual Dins del Continent"
 
 #: client/gui-qt/menu.cpp:201
-#, fuzzy
 msgid "Same Type Everywhere"
-msgstr "Tipus Igual a Tot _Arreu"
+msgstr "Tipus Igual a Tot Arreu"
 
 #: client/gui-qt/menu.cpp:212 client/gui-sdl/menu.c:416
 #: client/gui-xaw/menu.c:214
@@ -6118,9 +6086,8 @@ msgid "Go to Tile"
 msgstr "Anar a Casella"
 
 #: client/gui-qt/menu.cpp:227
-#, fuzzy
 msgid "Go to Nearest City"
-msgstr "Tornar a Ciutat Més Propera"
+msgstr "Anar a Ciutat Més Propera"
 
 #: client/gui-qt/menu.cpp:232 client/gui-sdl/menu.c:605
 #: client/gui-xaw/menu.c:197
@@ -6143,9 +6110,8 @@ msgid "Load"
 msgstr "Carregar"
 
 #: client/gui-qt/menu.cpp:255
-#, fuzzy
 msgid "Unload"
-msgstr "Desembarcar (_U)"
+msgstr "Desembarcar (U)"
 
 #: client/gui-qt/menu.cpp:259 client/gui-sdl/menu.c:651
 #: client/gui-xaw/menu.c:189
@@ -6178,9 +6144,8 @@ msgid "Pillage"
 msgstr "Saquejar"
 
 #: client/gui-qt/menu.cpp:298
-#, fuzzy
 msgid "Work"
-msgstr "_Treball"
+msgstr "Treball"
 
 #: client/gui-qt/menu.cpp:299 client/gui-qt/menu.cpp:575
 #: client/gui-sdl/mapctrl.c:2601 client/gui-sdl/menu.c:897
@@ -6189,9 +6154,8 @@ msgid "Build City"
 msgstr "Construir Ciutat"
 
 #: client/gui-qt/menu.cpp:303
-#, fuzzy
 msgid "Go And Build City"
-msgstr "Anar a lloc i Fundar ciu_tat"
+msgstr "Anar a lloc i Fundar Ciutat"
 
 #: client/gui-qt/menu.cpp:307 client/gui-sdl/menu.c:619
 #: client/gui-sdl/menu.c:1319 client/gui-xaw/menu.c:195
@@ -6219,7 +6183,6 @@ msgid "Connect With Road"
 msgstr "Connectar amb Camí"
 
 #: client/gui-qt/menu.cpp:329
-#, fuzzy
 msgid "Connect With Railroad"
 msgstr "Connectar amb Ferrocarril"
 
@@ -6244,9 +6207,8 @@ msgid "Clean Nuclear Fallout"
 msgstr "Netejar Radioactivitat"
 
 #: client/gui-qt/menu.cpp:352
-#, fuzzy
 msgid "Civilization"
-msgstr "C_ivilització"
+msgstr "Civilització"
 
 #: client/gui-qt/menu.cpp:353 client/gui-xaw/menu.c:128
 msgid "Tax Rates..."
@@ -6261,9 +6223,8 @@ msgid "Demographics"
 msgstr "Demografia"
 
 #: client/gui-qt/menu.cpp:401
-#, fuzzy
 msgid "About Qt"
-msgstr "Quant a"
+msgstr "Quant a Qt"
 
 #: client/gui-qt/menu.cpp:511 client/gui-qt/menu.cpp:529
 #: client/gui-qt/menu.cpp:555 client/gui-sdl/menu.c:1225
@@ -6284,15 +6245,13 @@ msgid "Revolution..."
 msgstr "Revolució..."
 
 #: client/gui-qt/menu.cpp:852
-#, fuzzy
 msgid "Freeciv is covered by the GPL. "
-msgstr "Freeciv es distribueix sota la llicència GPL."
+msgstr "Freeciv està cobert per la llicència GPL."
 
 #: client/gui-qt/menu.cpp:853
-#, fuzzy
 msgid "See file COPYING distributed with Freeciv for full license text."
 msgstr ""
-"Vegeu el fitxer COPYING, que es distribueix amb Freeciv per al text complet "
+"Vegeu el fitxer COPYING, que es distribueix amb Freeciv, per al text complet "
 "de la llicència."
 
 #: client/gui-qt/optiondlg.cpp:75 data/Freeciv.in:1671 data/Freeciv.in:1818
@@ -6301,29 +6260,24 @@ msgid "Refresh"
 msgstr "Refrescar"
 
 #: client/gui-qt/optiondlg.cpp:81
-#, fuzzy
 msgid "Apply"
-msgstr "Aplicar un cop"
+msgstr "Aplicar"
 
 #: client/gui-qt/pages.cpp:82
-#, fuzzy
 msgid "Start new game"
 msgstr "Començar una partida nova"
 
 #: client/gui-qt/pages.cpp:82
-#, fuzzy
 msgid "Start scenario game"
-msgstr "Començar Partida en _Escenari"
+msgstr "Començar partida en escenari"
 
 #: client/gui-qt/pages.cpp:83
-#, fuzzy
 msgid "Load saved game"
-msgstr "Carregar Partida Desada"
+msgstr "Carregar partida desada"
 
 #: client/gui-qt/pages.cpp:83
-#, fuzzy
 msgid "Connect to network game"
-msgstr "C_onnectar a Partida en Xarxa"
+msgstr "Connectar a partida en xarxa"
 
 #: client/gui-qt/pages.cpp:239 client/gui-sdl/connectdlg.c:626
 #: client/gui-xaw/connectdlg.c:326 data/Freeciv.in:125 data/Freeciv.in:2555
@@ -6331,60 +6285,52 @@ msgid "Connect"
 msgstr "Connectar"
 
 #: client/gui-qt/pages.cpp:239
-#, fuzzy
 msgid "Login"
-msgstr "Login:"
+msgstr "Login"
 
 #: client/gui-qt/pages.cpp:240 data/Freeciv.in:105
 msgid "Password"
 msgstr "Contrasenya"
 
 #: client/gui-qt/pages.cpp:240
-#, fuzzy
 msgid "Confirm Password"
-msgstr "Conf_irmar la Contrasenya:"
+msgstr "Confirmar la Contrasenya"
 
 #: client/gui-qt/pages.cpp:258
-#, fuzzy
 msgid "&Refresh"
-msgstr "Refrescar"
+msgstr "&Refrescar"
 
 #: client/gui-qt/pages.cpp:264
-#, fuzzy
 msgid "&Cancel"
-msgstr "Cancel·lar"
+msgstr "&Cancel·lar"
 
 #: client/gui-qt/pages.cpp:271
-#, fuzzy
 msgid "&Connect"
-msgstr "Connectar"
+msgstr "&Connectar"
 
 #: client/gui-qt/pages.cpp:281
 msgid "LAN"
-msgstr ""
+msgstr "LAN"
 
 #: client/gui-qt/pages.cpp:282
 msgid "NETWORK"
-msgstr ""
+msgstr "XARXA"
 
 #: client/gui-qt/pages.cpp:308
 msgid "Time"
 msgstr "Hora"
 
 #: client/gui-qt/pages.cpp:329 client/gui-qt/pages.cpp:373
-#, fuzzy
 msgid "Browse"
-msgstr "_Navega..."
+msgstr "Navega"
 
 #: client/gui-qt/pages.cpp:396
-#, fuzzy
 msgid "Leader"
-msgstr "Líder:"
+msgstr "Líder"
 
 #: client/gui-qt/pages.cpp:413
-#, fuzzy
 msgid "More Game Options"
-msgstr "Més _Opcions de Joc..."
+msgstr "Més Opcions de Joc"
 
 #: client/gui-qt/pages.cpp:419 client/gui-xaw/menu.c:122 data/Freeciv.in:3226
 msgid "Disconnect"
@@ -6426,9 +6372,8 @@ msgid "No"
 msgstr "No"
 
 #: client/gui-qt/pages.cpp:1118
-#, fuzzy
 msgid "Global observers"
-msgstr "observador global"
+msgstr "Observadors globals"
 
 #: client/gui-qt/pages.cpp:1269
 #, fuzzy
@@ -15842,7 +15787,7 @@ msgid ""
 "dissolution in 1991 Russia appeared on world map again, now as a federative "
 "republic."
 msgstr ""
-"Segons la llegenda, les tribus Eslaves i Fineses de Novgorod van convidar "
+"Segons la llegenda, les tribus Eslaves i Fineses de Nóvgorod van convidar "
 "l'any 862 el rei Varangès (Víking) Rurik a portar ordre a la seva terra. El "
 "rei Rurik va establir en aquest reialme Kievan Rus, el primer estat rus. El "
 "segle XI, Kievan Rus s'havia desintegrat en principats menors, que es van "
@@ -20661,14 +20606,14 @@ msgstr ""
 "la ciutat (+25%)."
 
 #: data/civ2civ3/buildings.ruleset:1133
-#, fuzzy
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
 "effect.  With both Mysticism and the Temple of Artemis, 4 citizens are made "
 "content.  Does not affect citizens made unhappy by military activity."
 msgstr ""
 "Fa content un ciutadà descontent. L'avenç del Misticisme duplica aquest "
-"efecte. Tenint Misticisme i l'Oracle, es fan contents quatre ciutadans. No "
+"efecte. Tenint Misticisme i el Temple d'Àrtemis, es fan contents quatre "
+"ciutadans. No "
 "afecta els ciutadans fets descontents per activitats militars."
 
 #: data/civ2civ3/buildings.ruleset:1159
@@ -20716,28 +20661,27 @@ msgstr ""
 "per a cada nació."
 
 #: data/civ2civ3/buildings.ruleset:1261
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Each worked tile in the city where this wonder is built produces one extra "
 "science bulb."
 msgstr ""
-"Cada casella del voltant de la ciutat on es construeix aquesta meravella que "
-"estigui generant comerç, genera un punt de comerç addicional."
+"Cada casella treballada del voltant de la ciutat on es construeix aquesta "
+"meravella produeix una bombeta de ciència addicional."
 
 #: data/civ2civ3/buildings.ruleset:1284
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "This stunning technological achievement makes one content citizen happy in "
 "each of your cities (2 extra luxury per city).  It further reduces the "
 "possibility for an illness in the city (-10%)."
 msgstr ""
-"Aquesta fantàstica fita tecnològica converteix un ciutadà descontent a "
-"content en totes les teves ciutats (incloses els ciutadans descontents per "
-"activitats militars). Redueix encara més la possibilitat de malaltia dins de "
-"la ciutat."
+"Aquesta fantàstica fita tecnològica converteix un ciutadà content en feliç a "
+"cadascuna de les teves ciutats (2 punts de luxe addicionals per ciutat). "
+"Redueix encara més la possibilitat de malaltia dins de "
+"la ciutat (-10%)."
 
 #: data/civ2civ3/buildings.ruleset:1309
-#, fuzzy
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science.  All your cities "
@@ -20745,18 +20689,20 @@ msgid ""
 "Scientist specialists for every nation."
 msgstr ""
 "El viatge de Charles Darwin va estimular el descobriment de l'evolució de "
-"les espècies, cosa que va inspirar més confiança en la ciència. Dóna dos "
-"avenços tecnològics immediats."
+"les espècies, cosa que va inspirar més confiança en la ciència. Totes les "
+"teves ciutats generen una bombeta de ciència addicional. També augmenta a 3 "
+"la producció dels especialistes científics a totes les nacions."
 
 #: data/civ2civ3/buildings.ruleset:1334
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as "
 "fast.  It also reduces the pollution caused by the population (-25% "
 "pollution) in all your cities."
 msgstr ""
 "La teva reputació i bona voluntat entre les altres nacions es recupera el "
-"doble de ràpid que no ho faria normalment."
+"doble de ràpid que no ho faria normalment. També redueix la contaminació "
+"causada per la població (-25% de contaminació) a totes les teves ciutats."
 
 #: data/civ2civ3/buildings.ruleset:1358
 msgid ""
@@ -20764,20 +20710,24 @@ msgid ""
 "city where it is built.  It also doubles the effect of Libraries for every "
 "nation."
 msgstr ""
+"Dóna un avenç tecnològic immediat. I 4 bombetes de ciència addicionals a la "
+"ciutat on es construeix. També duplica l'efecte de les Biblioteques per a "
+"totes les nacions."
 
 #: data/civ2civ3/buildings.ruleset:1383
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Works as an extra City Wall (+50% defense bonus) in all your cities."
-msgstr "Actua con a Muralla a totes les teves ciutats."
+msgstr ""
+"Actua con a Muralla addicional (+50% de bonificació defensiva) a totes les "
+"teves ciutats."
 
 #: data/civ2civ3/buildings.ruleset:1408
-#, fuzzy
 msgid ""
 "Makes one unhappy citizen content in every city.  And creates 4 extra "
 "luxuries in the city where it is located."
 msgstr ""
-"Converteix dos ciutadans descontents a contents a cada ciutat (inclosos els "
-"ciutadans descontents per activitats militars)."
+"Converteix un ciutadà descontent en content a cada ciutat. I crea 4 luxes "
+"addicionals a la ciutat on està ubicada."
 
 #: data/civ2civ3/buildings.ruleset:1433
 #, no-c-format
@@ -20786,6 +20736,10 @@ msgid ""
 "reduces the pollution caused by Hydro Plants in all your cities to the same "
 "level as Solar Plants (-25% pollution)."
 msgstr ""
+"Funciona com si tinguessis una Central Hidroelèctrica a la ciutat on està "
+"ubicada, i redueix la contaminació causada per les Centrals Hidroelèctriques "
+"a totes les teves ciutats al mateix nivell que les Centrals Solars (-25% de "
+"contaminació)."
 
 #: data/civ2civ3/buildings.ruleset:1458
 #, no-c-format
@@ -20794,11 +20748,16 @@ msgid ""
 "city where it is built.  It also doubles the effect of Universities for "
 "every nation."
 msgstr ""
+"Dóna un avenç tecnològic immediat. I 6 bombetes de ciència addicionals a la "
+"ciutat on es construeix. També duplica l'efecte de les Universitats per a "
+"totes les nacions."
 
 #: data/civ2civ3/buildings.ruleset:1481
 msgid ""
 "Makes one content citizen happy in every city (2 extra luxury per city)."
 msgstr ""
+"Converteix un ciutadà content en feliç a cada ciutat (2 luxes addicionals per "
+"ciutat)."
 
 #: data/civ2civ3/buildings.ruleset:1504
 #, fuzzy
@@ -21731,11 +21690,11 @@ msgstr "Algunes formes de vida alienígenes ara treballen per nosaltres."
 
 #: data/alien/techs.ruleset:74
 msgid "Alien Training"
-msgstr ""
+msgstr "Entrenament d'alienígenes"
 
 #: data/alien/techs.ruleset:80
 msgid "Trained native lifeforms - deadly."
-msgstr ""
+msgstr "Formes de vida natives entrenades - letals."
 
 #: data/alien/techs.ruleset:83
 msgid "Amphibious Tactics"
@@ -33243,12 +33202,11 @@ msgstr ""
 
 #: data/nation/gepid.ruleset:3
 msgid "Gepid"
-msgstr ""
+msgstr "Gèpida"
 
 #: data/nation/gepid.ruleset:4
-#, fuzzy
 msgid "?plural:Gepids"
-msgstr "Nepalesos"
+msgstr "Gèpides"
 
 #: data/nation/gepid.ruleset:6
 msgid ""
@@ -33268,6 +33226,22 @@ msgid ""
 "them, breaking up their country. Gepids formed part of the Avar Khaganate, "
 "founded on former Gepid territory."
 msgstr ""
+"Els gèpides foren un grup d'antigues tribus germàniques orientals, molt "
+"properes als gots. La seva ubicació original es trobava a la Península "
+"Escandinava. Quan els gots van sortir d'Escandinàvia, ja s'havien traslladat "
+"a la costa sud del Bàltic. Segons Jordanes, vivien en un país anomenat "
+"Specis, prop de la desembocadura del Vístula, probablement localitzat a les "
+"Terres Altes d'Elblag. Després de la migració dels gots al mar Negre, els "
+"gèpides van estendre les seves possessions a Pomerània. El tercer segle de "
+"l'era comuna van traslladar-se cap a Dàcia. Des del segle IV fins a mitjans "
+"del cinquè, van quedar sota l'autoritat dels huns. Després de la mort "
+"d'Àtila, els gèpides van traslladar-se a Pannònia, on van guanyar els huns a "
+"la batalla del riu Nedao, i van obtenir un lloc on viure a l'est del riu "
+"Tisza. A Pannònia van lluitar constantment contra els longobards de l'oest "
+"del Danubi. L'any 567, els longobards es van aliar amb els àvars nòmades "
+"contra els gèpides, i els van guanyar, trossejant el seu país. Els gèpides "
+"van formar part del Khaganat Àvar, que es va fundar a l'antic territori "
+"gèpida."
 
 #: data/nation/gepid.ruleset:40 data/nation/ostrogothic.ruleset:31
 #: data/nation/vandalic.ruleset:28
@@ -35028,12 +35002,11 @@ msgstr ""
 
 #: data/nation/komi.ruleset:3
 msgid "Komi"
-msgstr ""
+msgstr "Komi"
 
 #: data/nation/komi.ruleset:4
-#, fuzzy
 msgid "?plural:Komi"
-msgstr "Bois"
+msgstr "Komi"
 
 #: data/nation/komi.ruleset:6
 msgid ""
@@ -35042,6 +35015,10 @@ msgid ""
 "dominated by the Republic of Novgorod. In the 15th century, the Komi were "
 "subordinated to Moscow, becoming part of Russia."
 msgstr ""
+"Els komi són un poble ugrofinès que viu a la part septentrional de la Rússia "
+"europea. A l'edat mitjana, l'àrea habitada pel poble Komi estava controlada "
+"per la República de Nóvgorod. El segle XV, els komi van quedar subordinats a "
+"Moscú, convertint-se en part de Rússia."
 
 #: data/nation/kongo.ruleset:3
 msgid "Kongo"
@@ -35163,14 +35140,12 @@ msgstr ""
 "del Kurdistan a Iraq és l'única entitat política del món dominada per kurds."
 
 #: data/nation/kushan.ruleset:3
-#, fuzzy
 msgid "Kushan"
-msgstr "Aixanti"
+msgstr "Kuixan"
 
 #: data/nation/kushan.ruleset:4
-#, fuzzy
 msgid "?plural:Kushans"
-msgstr "Kuna"
+msgstr "Kuixans"
 
 #: data/nation/kushan.ruleset:6
 msgid ""
@@ -35183,6 +35158,15 @@ msgid ""
 "the Persian Sassanids and replaced by a Persian vassal kingdom. The last "
 "remnants of the Kushans eventually succumbed to the Hephthalites."
 msgstr ""
+"Els kuixans eren un antic poble indoeuropeu, potser d'origen tocari, que "
+"originalment duia una vida nòmada a l'Àsia Central. Degut a la pressió dels "
+"pobles túrquics, van deixar les seves terres ancestrals i van emigrar cap a "
+"l'Índia. A l'Índia, van fundar un gran imperi, els dirigents del qual es van "
+"convertir al budisme. Els kuixans utilitzaven l'alfabet grec per escriure la "
+"seva llengua. L'Imperi Kuixan va mantenir relacions comercials amb Roma i la "
+"Xina. Van quedar subordinats als sassànides perses i van ser reemplaçats per "
+"un regne vassall persa. Els últims supervivents dels kuixans van acabar sent "
+"vençuts pels heftalites."
 
 #: data/nation/kuwaiti.ruleset:3
 msgid "Kuwaiti"
@@ -35228,12 +35212,11 @@ msgstr ""
 
 #: data/nation/langobardic.ruleset:3
 msgid "Langobardic"
-msgstr ""
+msgstr "Longobard"
 
 #: data/nation/langobardic.ruleset:4
-#, fuzzy
 msgid "?plural:Langobards"
-msgstr "Savoians"
+msgstr "Longobards"
 
 #: data/nation/langobardic.ruleset:6
 msgid ""
@@ -35245,6 +35228,13 @@ msgid ""
 "Italia in 568. They founded a new kingdom with its capital in Pavia. The "
 "modern region of Lombardy derives its name from the Lombards."
 msgstr ""
+"Els longobards eren un antic poble germànic. El seu origen era a "
+"Escandinàvia, però es van establir a l'àrea del baix Elba. L'any 166 EC, van "
+"participar en l'atac contra les províncies romanes de Pannònia i Noricum. El "
+"seu primer estat es va establir al Danubi. Després de derrotar els gèpides en "
+"una aliança amb els àvars, els longobards, sota el rei Alboin, van envair "
+"Itàlia el 568. Van fundar un nou regne amb la capital a Pavia. La moderna "
+"regió de la Llombardia deriva el seu nom dels longobards o llombards."
 
 #: data/nation/langobardic.ruleset:38
 #, c-format
@@ -36099,14 +36089,12 @@ msgid "?female:High Brahmin %s"
 msgstr "Gran Bramana %s"
 
 #: data/nation/marshallese.ruleset:3
-#, fuzzy
 msgid "Marshallese"
-msgstr "Singalès"
+msgstr "Marshallès"
 
 #: data/nation/marshallese.ruleset:4
-#, fuzzy
 msgid "?plural:Marshallese"
-msgstr "Maltesos"
+msgstr "Marshallesos"
 
 #: data/nation/marshallese.ruleset:6
 msgid ""
@@ -36116,6 +36104,11 @@ msgid ""
 "free association with the United States in 1986. In the mid-20th the United "
 "States carried out numerous nuclear tests on the islands."
 msgstr ""
+"Les Illes Marshall són un país al Pacífic Occidental, al nord mateix de "
+"l'Equador, que consisteix en un gran nombre d'illes i atols. Poblades "
+"principalment per micronesis, les illes van convertir-se en república "
+"independent associada lliurement amb els Estats Units el 1986. A mitjans del "
+"segle XX, els Estats Units hi van dur a terme nombroses proves nuclears."
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
@@ -37219,12 +37212,11 @@ msgstr ""
 
 #: data/nation/novgorodian.ruleset:3
 msgid "Novgorodian"
-msgstr ""
+msgstr "Novgorodià"
 
 #: data/nation/novgorodian.ruleset:4
-#, fuzzy
 msgid "?plural:Novgorodians"
-msgstr "Nigerians"
+msgstr "Novgorodians"
 
 #: data/nation/novgorodian.ruleset:6
 msgid ""
@@ -37232,6 +37224,9 @@ msgid ""
 "from the Baltic Sea to the Ural Mountains. It existed between the 12th and "
 "15th centuries and was centered on the city of Novgorod."
 msgstr ""
+"La República de Nóvgorod fou un gran estat rus medieval que s'estenia des de "
+"la Mar Bàltica fins als Urals. Va existir entre els segles XII i XV i tenia "
+"el seu centre a la ciutat de Nóvgorod."
 
 #: data/nation/nubian.ruleset:3
 msgid "Nubian"
@@ -40988,14 +40983,12 @@ msgid "?female:Secretary-General %s"
 msgstr "Secretària General %s"
 
 #: data/nation/urartian.ruleset:3
-#, fuzzy
 msgid "Urartian"
-msgstr "Marcià"
+msgstr "Urartuà"
 
 #: data/nation/urartian.ruleset:4
-#, fuzzy
 msgid "?plural:Urartians"
-msgstr "Marcians"
+msgstr "Urartuans"
 
 #: data/nation/urartian.ruleset:6
 msgid ""
@@ -41006,6 +40999,12 @@ msgid ""
 "formed the dominant element. Urartu played an important role in shaping the "
 "modern Armenian people."
 msgstr ""
+"Urartu fou un antic estat hurrita localitzat al voltant del llac Van, a la "
+"part oriental d'Anatòlia. La menció històrica més antiga d'Urartu ve dels "
+"textos del rei assiri Shalmaneser I, i data del segle XIII aEC. Es creu que "
+"Urartu era un estat multiètnic on les tribus hurrites n'eren l'element "
+"predominant. Urartu va jugar un paper important en la identitat del poble "
+"armeni modern."
 
 #: data/nation/uruguayan.ruleset:3
 msgid "Uruguayan"
@@ -42574,9 +42573,8 @@ msgid "?vertag:S2_5"
 msgstr "S2_5"
 
 #: po/Strings.txt:15
-#, fuzzy
 msgid "?vertag:S2_6"
-msgstr "S2_4"
+msgstr "S2_6"
 
 #: po/Strings.txt:16
 msgid "?vertag:crosser"
@@ -42977,15 +42975,16 @@ msgid "Setup of ai module %s failed."
 msgstr "La configuració del mòdul IA %s ha fallat"
 
 #: server/aiiface.c:164 server/aiiface.c:175
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to setup \"%s\" AI module"
-msgstr "No s'ha pogut inicialitzar el mòdul d'IA enfilat"
+msgstr "No s'ha pogut inicialitzar el mòdul d'IA \"%s\""
 
 #: server/aiiface.c:194
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to setup default AI module \"%s\", cannot continue."
 msgstr ""
-"No s'ha pogut configurar el mòdul IA predeterminat, no es pot continuar."
+"No s'ha pogut configurar el mòdul IA predeterminat \"%s\", no es pot "
+"continuar."
 
 #: server/auth.c:88
 #, c-format
@@ -43247,16 +43246,14 @@ msgid "The people in %s are stunned by your technological insight!"
 msgstr "La gent de %s estan aclaparats pel teu nivell tecnològic!"
 
 #: server/citytools.c:1091
-#, fuzzy, c-format
+#, c-format
 msgid "Workers spontaneously gather and upgrade %s roads."
-msgstr ""
-"Els treballadors s'apleguen espontàniament i instal·len ferrocarril a %s."
+msgstr "Els treballadors s'apleguen espontàniament i milloren %s camins."
 
 #: server/citytools.c:1097
-#, fuzzy, c-format
+#, c-format
 msgid "Workers spontaneously gather and upgrade %s bases."
-msgstr ""
-"Els treballadors s'apleguen espontàniament i instal·len ferrocarril a %s."
+msgstr "Els treballadors s'apleguen espontàniament i milloren %s bases."
 
 #: server/citytools.c:1380
 #, c-format
@@ -44967,21 +44964,18 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/commands.c:552
-#, fuzzy
 msgid ""
 "scensave\n"
 "scensave <file-name>"
 msgstr ""
-"save\n"
-"save <nom-fitxer>"
+"scensave\n"
+"scensave <nom-fitxer>"
 
 #: server/commands.c:554
-#, fuzzy
 msgid "Save game to file as scenario."
-msgstr "Desa la partida en un fitxer."
+msgstr "Desa la partida en un fitxer com a escenari."
 
 #: server/commands.c:555
-#, fuzzy
 msgid ""
 "Save the current game to file <file-name> as scenario. If no file-name "
 "argument is given saves to \"<auto-save name prefix><year>m.sav[.gz]\". To "
@@ -44990,9 +44984,11 @@ msgid ""
 "    '--file <filename>' or '-f <filename>'\n"
 "and use the 'start' command once players have reconnected."
 msgstr ""
-"Desar la partida actual al fitxer <nom-fitxer>. Si no s'especifica cap nom "
+"Desar la partida actual al fitxer <nom-fitxer> com a escenari. Si no "
+"s'especifica cap nom "
 "de fitxer es desa a \"<Prefix dels noms de desar automàtic><any>m.sav[."
-"gz]\". Per a tornar a carregar una partida desada amb 'save', s'ha d'iniciar "
+"gz]\". Per a tornar a carregar una partida desada amb 'scensave', s'ha "
+"d'iniciar "
 "el servidor amb l'argument de la línia de comanda: \n"
 "    '--file <nomfitxer>' o '-f <nomfitxer>'\n"
 "i usar la comanda 'start' un cop els jugadors s'hagin reconnectat."
@@ -46353,58 +46349,52 @@ msgstr ""
 "en tundra."
 
 #: server/maphand.c:262
-#, fuzzy
 msgid ""
 "New hope sweeps like fire through the country as the discovery of new road "
 "building technology is announced."
 msgstr ""
 "L'esperança s'escampa com el foc per tot el país en anunciar-se el "
-"descobriment del ferrocarril."
+"descobriment d'una nova tecnologia de construcció de camins."
 
 #: server/maphand.c:267
-#, fuzzy
 msgid ""
 "The people are pleased to hear that your scientists finally know about new "
 "road building technology."
 msgstr ""
 "La gent es posa contenta de sentir que els teus científics finalment "
-"coneixen els ferrocarrils."
+"coneixen una nova tecnologia de construcció de camins."
 
 #: server/maphand.c:272
-#, fuzzy
 msgid ""
 "Workers spontaneously gather and upgrade all possible cities with better "
 "roads."
 msgstr ""
-"Els treballadors s'apleguen espontàniament i instal·len ferrocarril en totes "
-"les ciutats."
+"Els treballadors s'apleguen espontàniament i milloren totes "
+"les ciutats possibles amb camins millors."
 
 #: server/maphand.c:327
-#, fuzzy
 msgid ""
 "New hope sweeps like fire through the country as the discovery of new base "
 "building technology is announced."
 msgstr ""
 "L'esperança s'escampa com el foc per tot el país en anunciar-se el "
-"descobriment del ferrocarril."
+"descobriment d'una nova tecnologia de construcció de bases."
 
 #: server/maphand.c:332
-#, fuzzy
 msgid ""
 "The people are pleased to hear that your scientists finally know about new "
 "base building technology."
 msgstr ""
 "La gent es posa contenta de sentir que els teus científics finalment "
-"coneixen els ferrocarrils."
+"coneixen una nova tecnologia de construcció de bases."
 
 #: server/maphand.c:337
-#, fuzzy
 msgid ""
 "Workers spontaneously gather and upgrade all possible cities with better "
 "bases."
 msgstr ""
-"Els treballadors s'apleguen espontàniament i instal·len ferrocarril en totes "
-"les ciutats."
+"Els treballadors s'apleguen espontàniament i milloren totes "
+"les ciutats possibles amb bases millors."
 
 #: server/maphand.c:1591
 #, c-format
@@ -47116,9 +47106,8 @@ msgstr ""
 
 #. TRANS: Fatal error message.
 #: server/savegame.c:3094
-#, fuzzy
 msgid "Saved game is too old, at least version 2.0.0 required."
-msgstr "La partida desada és massa vella, cal la versió 1.9.0 com a mínim."
+msgstr "La partida desada és massa vella, cal la versió 2.0.0 com a mínim."
 
 #: server/sernet.c:149
 msgid "Server cannot read standard input. Ignoring input."
@@ -47229,7 +47218,6 @@ msgid "Depending on size of continents"
 msgstr "Segons la mida dels continents"
 
 #: server/settings.c:273
-#, fuzzy
 msgid "Spacerace"
 msgstr "Carrera espacial"
 
@@ -47270,9 +47258,8 @@ msgid "Per-team, in order"
 msgstr "Per equip, en ordre"
 
 #: server/settings.c:320
-#, fuzzy
 msgid "Per-nation, in order"
-msgstr "Fronteres nacionals"
+msgstr "Per nació, en ordre"
 
 #: server/settings.c:331
 msgid "Enabled for everyone"
@@ -47509,7 +47496,7 @@ msgstr "La mida del mapa (%d * %d = %d) ha de ser de menys de %d caselles."
 
 #: server/settings.c:909
 msgid "No nations in the currently loaded ruleset have associated colors."
-msgstr ""
+msgstr "Cap nació del joc de regles carregat actualment té colors associats."
 
 #: server/settings.c:966
 msgid "Map size definition"
