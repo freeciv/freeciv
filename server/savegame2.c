@@ -6554,10 +6554,13 @@ static void compat_load_020600(struct loaddata *loading)
     int set_count;
 
     if (secfile_lookup_int(loading->file, &set_count, "settings.set_count")) {
+      char value_buffer[1024] = "";
+      char gamestart_buffer[1024] = "";
       int i;
       bool gamestart_valid
         = secfile_lookup_bool_default(loading->file, FALSE,
                                       "settings.gamestart_valid");
+
       for (i = 0; i < set_count; i++) {
         const char *name
           = secfile_lookup_str(loading->file, "settings.set%d.name", i);
@@ -6569,30 +6572,49 @@ static void compat_load_020600(struct loaddata *loading)
          * spacerace victory condition was active. */
         if (!fc_strcasecmp("spacerace", name)) {
           bool value, value_start;
-          char *srenabled = "SPACERACE";
-          char *srdisabled = "";
 
           (void) secfile_lookup_bool(loading->file, &value,
                                      "settings.set%d.value", i);
           (void) secfile_lookup_bool(loading->file, &value_start,
                                      "settings.set%d.gamestart", i);
 
-          secfile_replace_str(loading->file, "victories", "settings.set%d.name", i);
           if (value) {
-            secfile_replace_str(loading->file, srenabled, "settings.set%d.value", i);
-          } else {
-            secfile_replace_str(loading->file, srdisabled, "settings.set%d.value", i);
+            sz_strlcat(value_buffer, "|SPACERACE");
           }
-          if (gamestart_valid) {
-            if (value_start) {
-              secfile_replace_str(loading->file, srenabled,
-                                  "settings.set%d.gamestart", i);
-            } else {
-              secfile_replace_str(loading->file, srdisabled,
-                                  "settings.set%d.gamestart", i);
-            }
+          if (value_start) {
+            sz_strlcat(gamestart_buffer, "|SPACERACE");
+          }
+
+          /* We cannot delete old values from the secfile, or rather cannot
+           * change index of the later settings. Renumbering them is not easy as
+           * we don't know type of each setting we would encounter.
+           * So we keep old setting values and only add new "victories" setting. */
+        } else if (!fc_strcasecmp("alliedvictory", name)) {
+          bool value, value_start;
+
+          (void) secfile_lookup_bool(loading->file, &value,
+                                     "settings.set%d.value", i);
+          (void) secfile_lookup_bool(loading->file, &value_start,
+                                     "settings.set%d.gamestart", i);
+
+          if (value) {
+            sz_strlcat(value_buffer, "|ALLIED");
+          }
+          if (value_start) {
+            sz_strlcat(gamestart_buffer, "|ALLIED");
           }
         }
+      }
+
+      secfile_replace_int(loading->file, set_count + 1, "settings.set_count");
+
+      secfile_insert_str(loading->file, "victories", "settings.set%d.name",
+                         set_count);
+      secfile_insert_str(loading->file, value_buffer, "settings.set%d.value",
+                         set_count);
+      if (gamestart_valid) {
+        secfile_insert_str(loading->file, gamestart_buffer, "settings.set%d.gamestart",
+                           set_count);
       }
     }
   }

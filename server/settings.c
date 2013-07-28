@@ -271,6 +271,7 @@ static const struct sset_val_name *victory_conditions_name(int condition_bit)
 {
   switch (condition_bit) {
   NAME_CASE(VC_SPACERACE, "SPACERACE", N_("Spacerace"));
+  NAME_CASE(VC_ALLIED, "ALLIED", N_("Allied victory"));
   };
 
   return NULL;
@@ -1813,7 +1814,9 @@ static struct setting settings[] = {
                  "win by conquering entire planet, but other victory conditions "
                  "can be enabled or disabled:\n"
                  "- \"Spacerace\" (SPACERACE): Spaceship is built and travels to "
-                 "Alpha Centauri."),
+                 "Alpha Centauri.\n"
+                 "- \"Allied\" (ALLIED): After defeating enemies, all remaining "
+                 "players are allied."),
               NULL, NULL, victory_conditions_name, GAME_DEFAULT_VICTORY_CONDITIONS)
 
   GEN_BOOL("endspaceship", game.server.endspaceship, SSET_RULES_FLEXIBLE,
@@ -1879,17 +1882,6 @@ static struct setting settings[] = {
            N_("If unset, caught units will have no homecity and will be "
               "subject to the 'killunhomed' option."),
            NULL, NULL, GAME_DEFAULT_HOMECAUGHTUNITS)
-
-  GEN_BOOL("alliedvictory", game.server.allied_victory,
-           SSET_RULES_FLEXIBLE, SSET_MILITARY,
-           SSET_SITUATIONAL, SSET_TO_CLIENT,
-           N_("Whether allied players can win together"),
-           N_("If this option is turned on and a point is reached where "
-              "all the players still able to win the game are allies, and "
-              "at least one defeated player is not part of this alliance, "
-              "then the game will end in an immediate shared victory for "
-              "the allied players."),
-           NULL, NULL, GAME_DEFAULT_ALLIED_VICTORY)
 
   GEN_BOOL("naturalcitynames", game.server.natural_city_names,
            SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,

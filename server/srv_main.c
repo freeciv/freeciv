@@ -79,6 +79,7 @@
 #include "tech.h"
 #include "unitlist.h"
 #include "version.h"
+#include "victory.h"
 
 /* generator */
 #include "mapgen.h"
@@ -401,7 +402,7 @@ bool check_for_game_over(void)
     }
 
     /* Check for allied victory. */
-    if (1 < candidates && game.server.allied_victory) {
+    if (1 < candidates && victory_enabled(VC_ALLIED)) {
       struct player_list *winner_list = player_list_new();
 
       /* Try to build a winner list. */
@@ -464,7 +465,7 @@ bool check_for_game_over(void)
             && (!pplayer->is_alive
                  || player_status_check((pplayer), PSTATUS_SURRENDER))
             && pplayer->team != victor->team
-            && (!game.server.allied_victory
+            && (!victory_enabled(VC_ALLIED)
                 || !pplayers_allied(victor, pplayer))) {
           found = TRUE;
           break;

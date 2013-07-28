@@ -109,7 +109,6 @@ struct civ_game {
 
       /* Game settings & other data. */
 
-      bool allied_victory;
       enum city_names_mode allowed_city_names;
       enum plrcolor_mode plrcolormode;
       int aqueductloss;
@@ -456,7 +455,7 @@ extern struct civ_game game;
 #define GAME_DEFAULT_SCOREFILE       "freeciv-score.log"
 #define GAME_DEFAULT_SCORETURN       20
 
-#define GAME_DEFAULT_VICTORY_CONDITIONS (1 << VC_SPACERACE)
+#define GAME_DEFAULT_VICTORY_CONDITIONS (1 << VC_SPACERACE | 1 << VC_ALLIED)
 #define GAME_DEFAULT_END_SPACESHIP   TRUE
 
 #define GAME_DEFAULT_TURNBLOCK       TRUE
@@ -589,8 +588,6 @@ extern struct civ_game game;
 #define GAME_DEFAULT_AIRLIFTINGSTYLE AIRLIFTING_CLASSICAL
 
 #define GAME_MAX_READ_RECURSION 10 /* max recursion for the read command */
-
-#define GAME_DEFAULT_ALLIED_VICTORY TRUE
 
 #define GAME_DEFAULT_KICK_TIME 1800     /* 1800 seconds = 30 minutes. */
 #define GAME_MIN_KICK_TIME 0            /* 0 = disabling. */
