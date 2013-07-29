@@ -940,10 +940,8 @@ static void process_attacker_want(struct ai_type *ait,
     int move_type = utype_move_type(punittype);
 
     if ((move_type == UMT_LAND || (move_type == UMT_SEA && shore))
-        && (tech_dist > 0 
-            || U_NOT_OBSOLETED == punittype->obsoleted_by
-            || !can_city_build_unit_direct(pcity, 
-                                      punittype->obsoleted_by))
+        && (U_NOT_OBSOLETED == punittype->obsoleted_by
+            || !can_city_build_unit_direct(pcity, punittype->obsoleted_by))
         && punittype->attack_strength > 0 /* or we'll get SIGFPE */
         && move_type == orig_move_type) {
       /* Values to be computed */
