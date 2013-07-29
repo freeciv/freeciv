@@ -543,8 +543,8 @@ identifier  = "g"
 
 [base_tower]
 name          = _("Tower")
-graphic       = "base.fortress"
-graphic_alt   = "-"
+graphic       = "base.tower"
+graphic_alt   = "base.fortress"
 activity_gfx  = "unit.tower"
 act_gfx_alt   = "unit.fortress"
 buildable     = TRUE
@@ -564,8 +564,8 @@ flags         = "NoAggressive", "NoStackDeath"
 
 [base_fortress]
 name          = _("Force Fortress")
-graphic       = "base.fortress"
-graphic_alt   = "-"
+graphic       = "base.force_fortress"
+graphic_alt   = "base.fortress"
 activity_gfx  = "unit.force_fortress"
 act_gfx_alt   = "unit.fortress"
 buildable     = TRUE
@@ -585,8 +585,8 @@ flags         = "NoAggressive"
 
 [base_antigrav_base]
 name         = _("Antigrav Base")
-graphic      = "base.airbase"
-graphic_alt  = "-"
+graphic      = "base.antigrav_base"
+graphic_alt  = "base.airbase"
 activity_gfx = "unit.antigrav_base"
 act_gfx_alt  = "unit.airbase"
 buildable    = TRUE

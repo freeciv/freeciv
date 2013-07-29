@@ -42,8 +42,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Commercial Antigravity", "Player"
     }
-graphic	= "b.airport"
-graphic_alt	= "-"
+graphic         = "b.antigrav_port"
+graphic_alt     = "b.airport"
 obsolete_by	= "None"
 build_cost	= 140
 upkeep		= 1
@@ -62,8 +62,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Data Storage", "Player"
     }
-graphic	= "b.library"
-graphic_alt	= "-"
+graphic         = "b.archive"
+graphic_alt     = "b.library"
 obsolete_by	= "None"
 build_cost	= 80
 upkeep		= 1
@@ -77,8 +77,8 @@ Increases the science production of a city by 75%.")
 [building_basic_infrastructure]
 name		= _("Basic Infrastructure")
 genus		= "Improvement"
-graphic	= "b.super_highways"
-graphic_alt	= "-"
+graphic         = "b.basic_infra"
+graphic_alt     = "b.super_highways"
 obsolete_by	= "None"
 build_cost	= 30
 upkeep		= 0
@@ -101,8 +101,8 @@ reqs    =
       "Tech", "Underground Habitat", "Player"
       "TerrainClass", "Land", "Local"
     }
-graphic         = "b.sam_battery"
-graphic_alt	= "-"
+graphic         = "b.bunker"
+graphic_alt     = "b.sam_battery"
 obsolete_by	= "None"
 build_cost      = 120
 upkeep          = 1
@@ -122,8 +122,8 @@ reqs    =
       "Tech", "Mining", "Player"
       "TerrainClass", "Land", "Local"
     }
-graphic         = "b.mfg_plant"
-graphic_alt     = "-"
+graphic         = "b.central_mine"
+graphic_alt     = "b.mfg_plant"
 obsolete_by     = "None"
 build_cost      = 100
 upkeep          = 1
@@ -142,8 +142,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Cybermodules", "Player"
     }
-graphic	= "b.marketplace"
-graphic_alt	= "-"
+graphic         = "b.cyberpart_factory"
+graphic_alt     = "b.marketplace"
 obsolete_by	= "None"
 build_cost	= 70
 upkeep		= 0
@@ -182,8 +182,8 @@ reqs    =
       "Tech", "High-Tech Filtering", "Player"
       "TerrainClass", "Oceanic", "Adjacent"
     }
-graphic = "b.sewer_system"
-graphic_alt     = "-"
+graphic         = "b.filter"
+graphic_alt     = "b.sewer_system"
 obsolete_by     = "None"
 build_cost      = 120
 upkeep          = 1
@@ -202,8 +202,8 @@ reqs    =
     { "type", "name", "range"
       "Tech", "City Defense", "Player"
     }
-graphic = "b.city_walls"
-graphic_alt     = "-"
+graphic         = "b.force_walls"
+graphic_alt     = "b.city_walls"
 obsolete_by     = "None"
 build_cost      = 80
 upkeep          = 1
@@ -221,8 +221,8 @@ genus		= "SmallWonder"
 reqs	=
     { "type", "name", "range"
     }
-graphic	= "b.palace"
-graphic_alt	= "-"
+graphic         = "b.headquarters"
+graphic_alt     = "b.palace"
 obsolete_by	= "None"
 build_cost	= 80
 upkeep		= 1
@@ -241,8 +241,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Regeneration", "Player"
     }
-graphic	= "b.aqueduct"
-graphic_alt	= "-"
+graphic         = "b.hospital"
+graphic_alt     = "b.aqueduct"
 obsolete_by	= "None"
 build_cost	= 70
 upkeep		= 1
@@ -261,8 +261,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Global Knowledge", "Player"
     }
-graphic	= "b.isaac_newtons_college"
-graphic_alt	= "-"
+graphic         = "b.information_distillery"
+graphic_alt     = "b.isaac_newtons_college"
 obsolete_by	= "None"
 build_cost	= 280
 upkeep		= 1
@@ -281,8 +281,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Mood Manipulation", "Player"
     }
-graphic	= "b.colosseum"
-graphic_alt	= "-"
+graphic         = "b.mood_center"
+graphic_alt     = "b.colosseum"
 obsolete_by	= "None"
 build_cost	= 120
 upkeep		= 1
@@ -301,8 +301,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Virtual Reality Training", "Player"
     }
-graphic	= "b.barracks_i"
-graphic_alt	= "-"
+graphic         = "b.training_facility"
+graphic_alt     = "b.barracks_i"
 obsolete_by	= "None"
 build_cost	= 50
 upkeep		= 2
@@ -321,8 +321,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Travel", "Player"
     }
-graphic	= "b.mass_transit"
-graphic_alt	= "-"
+graphic         = "b.transportation"
+graphic_alt     = "b.mass_transit"
 obsolete_by	= "None"
 build_cost	= 70
 upkeep		= 1
@@ -343,8 +343,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Deneb Radar", "Player"
     }
-graphic	= "b.coastal_defense"
-graphic_alt	= "-"
+graphic         = "b.radar_tower"
+graphic_alt     = "b.coastal_defense"
 obsolete_by	= "None"
 build_cost	= 100
 upkeep		= 1
@@ -361,8 +361,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Radiation Resistance", "Player"
     }
-graphic	= "b.nuclear_plant"
-graphic_alt	= "-"
+graphic         = "b.radiation_resistor"
+graphic_alt     = "b.nuclear_plant"
 obsolete_by	= "None"
 build_cost	= 70
 upkeep		= 0
@@ -380,8 +380,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Brain Development", "Player"
     }
-graphic	= "b.university"
-graphic_alt	= "-"
+graphic         = "b.research_nest"
+graphic_alt     = "b.university"
 obsolete_by	= "None"
 build_cost	= 130
 upkeep		= 1
@@ -399,8 +399,8 @@ reqs    =
     { "type", "name", "range"
       "Tech", "Brute Force", "Player"
     }
-graphic = "b.police_station"
-graphic_alt     = "-"
+graphic         = "b.secret_police"
+graphic_alt     = "b.police_station"
 obsolete_by     = "None"
 build_cost      = 90
 upkeep          = 1
@@ -419,8 +419,8 @@ reqs    =
     { "type", "name", "range"
       "Tech", "Gravity Manipulation", "Player"
     }
-graphic = "b.stock_exchange"
-graphic_alt     = "-"
+graphic         = "b.skyscraper"
+graphic_alt     = "b.stock_exchange"
 obsolete_by     = "None"
 build_cost      = 150
 upkeep          = 2
@@ -438,8 +438,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Virtual Entertainment", "Player"
     }
-graphic	= "b.temple"
-graphic_alt	= "-"
+graphic         = "b.vr_theatre"
+graphic_alt     = "b.temple"
 obsolete_by	= "None"
 build_cost	= 80
 upkeep		= 1
@@ -459,8 +459,8 @@ reqs	=
     { "type", "name", "range"
 
     }
-graphic	= "b.capitalization"
-graphic_alt	= "-"
+graphic         = "b.coinage"
+graphic_alt     = "b.capitalization"
 obsolete_by	= "None"
 build_cost	= 999
 upkeep		= 0
@@ -479,7 +479,7 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Escape", "Player"
     }
-graphic	= "b.space_component"
+graphic         = "b.space_component"
 graphic_alt	= "-"
 obsolete_by	= "None"
 build_cost	= 160
@@ -500,7 +500,7 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Escape", "Player"
     }
-graphic	= "b.space_modules"
+graphic         = "b.space_modules"
 graphic_alt	= "-"
 obsolete_by	= "None"
 build_cost	= 320
@@ -530,7 +530,7 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Escape", "Player"
     }
-graphic	= "b.space_structural"
+graphic         = "b.space_structural"
 graphic_alt	= "-"
 obsolete_by	= "None"
 build_cost	= 80
@@ -550,8 +550,8 @@ genus		= "GreatWonder"
 reqs	=
     { "type", "name", "range"
     }
-graphic	= "b.colossus"
-graphic_alt	= "-"
+graphic         = "b.earth_monument"
+graphic_alt     = "b.colossus"
 obsolete_by	= "None"
 build_cost	= 150
 upkeep		= 0
@@ -571,8 +571,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Burrowing", "Player"
     }
-graphic	= "b.king_richards_crusade"
-graphic_alt	= "-"
+graphic         = "b.great_tunnel"
+graphic_alt     = "b.king_richards_crusade"
 obsolete_by	= "None"
 build_cost	= 300
 upkeep		= 0
@@ -592,8 +592,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Antigravity", "Player"
     }
-graphic	= "b.eiffel_tower"
-graphic_alt	= "-"
+graphic         = "b.antigrav_ctrl_center"
+graphic_alt     = "b.eiffel_tower"
 obsolete_by	= "None"
 build_cost	= 400
 upkeep		= 0
@@ -614,8 +614,8 @@ reqs	=
       "Tech", "Ocean Cities", "Player"
       "TerrainClass", "Oceanic", "Local"
     }
-graphic	= "b.asmiths_trading_co"
-graphic_alt	= "-"
+graphic         = "b.oceanic_downtown"
+graphic_alt     = "b.asmiths_trading_co"
 obsolete_by	= "None"
 build_cost	= 400
 upkeep		= 0
@@ -633,8 +633,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Alien Rights", "Player"
     }
-graphic	= "b.womens_suffrage"
-graphic_alt	= "-"
+graphic         = "b.monument_co_op"
+graphic_alt     = "b.womens_suffrage"
 obsolete_by	= "None"
 build_cost	= 300
 upkeep		= 0
@@ -654,8 +654,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "City Defense", "Player"
     }
-graphic	= "b.great_wall"
-graphic_alt	= "-"
+graphic         = "b.protector"
+graphic_alt     = "b.great_wall"
 obsolete_by	= "None"
 build_cost	= 250
 upkeep		= 0
