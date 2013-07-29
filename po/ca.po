@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-07-28 12:21+0200\n"
-"PO-Revision-Date: 2013-07-28 17:06+0200\n"
+"PO-Revision-Date: 2013-07-29 19:14+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -5668,9 +5668,8 @@ msgid "Delete"
 msgstr "Esborrar"
 
 #: client/gui-qt/citydlg.cpp:869 client/gui-qt/optiondlg.cpp:87
-#, fuzzy
 msgid "Save"
-msgstr "Desar la Partida"
+msgstr "Desar"
 
 #: client/gui-qt/citydlg.cpp:897 common/city.c:85 data/civ1/techs.ruleset:566
 #: data/civ2/techs.ruleset:733 data/classic/techs.ruleset:739
@@ -6408,9 +6407,8 @@ msgid "Cancel Treaty"
 msgstr "Cancel·lar el tractat"
 
 #: client/gui-qt/plrdlg.cpp:512
-#, fuzzy
 msgid "Withdraw Vision"
-msgstr "Retirar visió (_W)"
+msgstr "Retirar Visió"
 
 #: client/gui-qt/repodlgs.cpp:977
 #, fuzzy
@@ -8260,7 +8258,7 @@ msgstr "Línia de la costa"
 
 #: client/gui-xaw/menu.c:152
 msgid "Paths"
-msgstr ""
+msgstr "Camins"
 
 #: client/gui-xaw/menu.c:153 common/terrain.c:826 common/unit.c:757
 #: data/civ1/terrain.ruleset:693 data/civ2/terrain.ruleset:797
@@ -20760,45 +20758,42 @@ msgstr ""
 "ciutat)."
 
 #: data/civ2civ3/buildings.ruleset:1504
-#, fuzzy
 msgid ""
 "It neutralises the unhappiness caused by 1 aggressively deployed military "
 "unit per city.  Under Monarchy government, it neutralises all the "
 "unhappiness caused by military units."
 msgstr ""
-"Redueix la infelicitat causada per unitats militars de la ciutat desplegades "
-"de forma agressiva en 4 sota Democràcia i en 2 sota República  -- en altres "
-"paraules, neutralitza la infelicitat provocada per dues unitats militars. "
-"Aquesta millora no té cap efecte sota altres tipus de govern."
+"Neutralitza la infelicitat causada per 1 unitat militar de cada ciutat "
+"desplegada "
+"de forma agressiva. Sota un govern en Monarquia, neutralitza tota la "
+"infelicitat causada per unitats militars."
 
 #: data/civ2civ3/buildings.ruleset:1551
-#, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point.  Makes all your new "
 "military sea units veterans (for all your cities)."
 msgstr ""
 "Dóna a totes les teves unitats marítimes 1 punt addicional de moviment. Fa "
-"que totes les teves unitats marítimes noves siguin veteranes (per totes les "
+"que totes les teves unitats marítimes noves siguin veteranes (per a totes les "
 "teves ciutats)."
 
 #: data/civ2civ3/buildings.ruleset:1575
-#, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point. The chance of a sea "
 "unit getting the next veteran level after a battle increases by half."
 msgstr ""
-"Totes les teves noves unitats militars terrestres comencen al primer nivell "
-"de veterania. La probabilitat que una unitat terrestre aconsegueixi el "
+"Dóna a totes les teves unitats marítimes un punt addicional de moviment. La "
+"probabilitat que una unitat marítima aconsegueixi el "
 "següent nivell de veterania després d'una batalla augmenta en un 50%."
 
 #: data/civ2civ3/buildings.ruleset:1640
-#, fuzzy
 msgid ""
 "Doubles the effect of Cathedrals.  This makes 3 additional unhappy citizens "
 "content in each city; however, it does not affect citizens made unhappy by "
 "military activity."
 msgstr ""
-"Entreté els ciutadans, convertint tres ciutadans descontents en contents. No "
+"Duplica l'efecte de les Catedrals. Això fa que tres ciutadans descontents més "
+"passin a contents a cada ciutat; no "
 "obstant, no afecta els ciutadans descontents per activitats militars."
 
 #: data/civ2civ3/buildings.ruleset:1647
@@ -20806,15 +20801,14 @@ msgid "Mausoleum of Mausolos"
 msgstr "Mausoleu d'Halicarnàs"
 
 #: data/civ2civ3/buildings.ruleset:1664
-#, fuzzy
 msgid ""
 "Makes one unhappy citizen content in every city with Walls.  And 3 "
 "additional unhappy citizen content in the city where it is built.  No one of "
 "your cities can be incited to revolt."
 msgstr ""
-"Fa contents dos ciutadans descontents a totes les teves ciutats del mateix "
-"continent on s'ha construït la meravella (inclosos els ciutadans descontents "
-"per activitats militars)."
+"Fa content un ciutadà infeliç a cada ciutat amb Muralles. I 3 ciutadans "
+"infeliços més contents a la ciutat on s'ha construït. Cap de les teves "
+"ciutats es pot incitar a la revolta."
 
 #: data/civ2civ3/buildings.ruleset:1671
 msgid "Statue of Zeus"
@@ -20825,22 +20819,23 @@ msgid ""
 "It neutralises the unhappiness caused by 1 military unit per city, and it "
 "increases by 1 the units free of upkeep per city."
 msgstr ""
+"Neutralitza la infelicitat causada per 1 unitat militar per ciutat, i "
+"augmenta en 1 les unitats sense cost de manteniment per cada ciutat."
 
 #: data/civ2civ3/buildings.ruleset:1694
 msgid "Temple of Artemis"
 msgstr "Temple d'Àrtemis"
 
 #: data/civ2civ3/buildings.ruleset:1712
-#, fuzzy
 msgid ""
 "Makes 2 additional unhappy citizens content in every city with a Temple.  "
 "Does not affect citizens made unhappy by military activity."
 msgstr ""
-"Fa contents dos ciutadans descontents més a totes les ciutats que tinguin "
+"Fa contents dos ciutadans infeliços més a totes les ciutats que tinguin "
 "Temple. No afecta els ciutadans descontents per activitats militars."
 
 #: data/civ2civ3/buildings.ruleset:1737
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Each tile around the city where this wonder is built that is already "
 "generating some shield produces one extra shield resource.  Under Despotism "
@@ -20848,7 +20843,9 @@ msgid ""
 "with output greater than 2."
 msgstr ""
 "Cada casella del voltant de la ciutat on es construeix aquesta meravella que "
-"estigui generant comerç, genera un punt de comerç addicional."
+"estigui generant algun escut, genera un escut addicional. Sota els governs en "
+"Despotisme o Tribals, les Piràmides cancel·len la penalització de les "
+"caselles treballades amb producció superior a 2."
 
 #: data/civ2civ3/buildings.ruleset:1745
 msgid "Internet"
@@ -20873,6 +20870,9 @@ msgid ""
 "is located.  It also increases to 3 the output of Elvis specialists for "
 "every nation."
 msgstr ""
+"Dóna 1 punt addicional de luxe a cada ciutat, i 6 punts de luxe a la ciutat "
+"on està ubicat. També augmenta a 3 la contribució dels especialistes Elvis "
+"per a totes les nacions."
 
 #: data/civ2civ3/buildings.ruleset:1808
 msgid ""
@@ -20880,20 +20880,21 @@ msgid ""
 "has a senate.  It also allows to change the government without the "
 "transition period of Anarchy."
 msgstr ""
+"Et dóna la llibertat de trencar qualsevol acord diplomàtic, fins i tot si el "
+"teu govern té Senat. També permet de canviar el govern sense el període de "
+"transició d'Anarquia."
 
 #: data/civ2civ3/buildings.ruleset:1832
-#, fuzzy
 msgid ""
 "All your new military land units start at the first veteran level.  The "
 "chance of a land unit getting the next veteran level after a battle "
 "increases by half."
 msgstr ""
-"Totes les teves noves unitats militars terrestres comencen al primer nivell "
+"Totes les teves unitats militars terrestres noves comencen al primer nivell "
 "de veterania. La probabilitat que una unitat terrestre aconsegueixi el "
 "següent nivell de veterania després d'una batalla augmenta en un 50%."
 
 #: data/civ2civ3/buildings.ruleset:1855
-#, fuzzy
 msgid ""
 "Creates a world senate that may prevent declarations of war in some "
 "circumstances.  It allows to every nation to choose any government, "
@@ -20902,11 +20903,13 @@ msgid ""
 "your reputation and goodwill among other nations is recovered twice as fast."
 msgstr ""
 "Crea un senat mundial que pot evitar declaracions de guerra en algunes "
-"circumstàncies. Si qualsevol ciutat d'un jugador està en revolta durant més "
-"de dos torns, cau el govern d'aquest jugador."
+"circumstàncies. Permet que cada nació triï qualsevol govern, inclosos els que "
+"encara no s'han descobert. Si qualsevol ciutat d'un jugador està en revolta "
+"durant més "
+"de dos torns, cau el govern d'aquest jugador. A més, la teva reputació i bona "
+"voluntat entre les altres nacions es recupera el doble de ràpid."
 
 #: data/civ2civ3/buildings.ruleset:1888
-#, fuzzy
 msgid ""
 "It reduces the unhappiness caused by aggressively deployed military units "
 "owned by that city by 2 under Democracy and 1 under Republic or Federation "
@@ -20914,14 +20917,14 @@ msgid ""
 "military unit per city."
 msgstr ""
 "Redueix la infelicitat causada per unitats militars de la ciutat desplegades "
-"de forma agressiva en 2 sota Democràcia i en 1 sota República  -- en altres "
-"paraules, neutralitza la infelicitat provocada per una única unitat militar. "
-"Aquesta millora no té cap efecte sota altres tipus de govern."
+"de forma agressiva en 2 sota Democràcia i en 1 sota República o Federació  -- "
+"en altres "
+"paraules, neutralitza la infelicitat provocada per una única unitat militar "
+"per ciutat. "
 
 #: data/civ2civ3/game.ruleset:18
-#, fuzzy
 msgid "Civ2Civ3 ruleset"
-msgstr "Joc de regles de Civ2"
+msgstr "Joc de regles de Civ2Civ3"
 
 #: data/civ2civ3/game.ruleset:21
 msgid ""
@@ -20935,6 +20938,15 @@ msgid ""
 "Detailed description of the differences from the classic ruleset can be "
 "found in README.ruleset_civ2civ3."
 msgstr ""
+"Esteu jugant al Freeciv amb regles civ2civ3:\n"
+"\n"
+"El joc és més semblant a civ3, mantenint el sistema de combat de civ2.\n"
+"\n"
+"Adaptat per a un sol jugador, amb l'IA menys agressiu al principi, però més "
+"difícil cap al final.\n"
+"\n"
+"Es pot trobar una descripció detallada de les diferències respecte el joc de "
+"regles clàssic a README.ruleset_civ2civ3."
 
 #: data/civ2civ3/governments.ruleset:77
 msgid "Tribal"
@@ -20961,6 +20973,18 @@ msgid ""
 "produce `tithes' (gold) equivalent to the number of people they would "
 "convert, and require no maintenance."
 msgstr ""
+"El Fonamentalisme és una forma de govern organitzada al voltant d'un conjunt "
+"central de creences. Les creences, normalment de natura religiosa, formen una "
+"guia rígida per a les accions i les reaccions, tant dels dirigents com del "
+"poble.\n"
+"\n"
+"En una societat fonamentalista, el poble i els seus dirigents estan dedicats "
+"completament a les seves creences, i solen estar disposats a morir per "
+"conservar-les.\n"
+"\n"
+"Les millores que normalment converteixen ciutadans infeliços en contents, "
+"produeixen 'almoines' (or) equivalents al nombre de persones que "
+"convertirien, i no requereixen manteniment."
 
 #: data/civ2civ3/governments.ruleset:175
 msgid "Federation"
@@ -20979,7 +21003,6 @@ msgstr ""
 "evita els moviments separatistes."
 
 #: data/civ2civ3/governments.ruleset:227
-#, fuzzy
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -20988,31 +21011,30 @@ msgid ""
 msgstr ""
 "Sota la Democràcia, els ciutadans governen directament votant sobre els "
 "temes. La Democràcia ofereix el nivell de comerç més alt possible, però "
-"també té el potencial d'infelicitat més alt. No hi ha corrupció en "
-"Democràcia, però els ciutadans es preocupen molt per les guerres."
+"també té el potencial d'infelicitat més alt. La corrupció és molt baixa en "
+"Democràcia, però els ciutadans es preocupen molt durant les guerres."
 
 #: data/civ2civ3/techs.ruleset:67
 msgid "Enables movement of nuclear units."
-msgstr ""
+msgstr "Permet el moviment d'unitats nuclears."
 
 #: data/civ2civ3/techs.ruleset:269
-#, fuzzy
 msgid "Improves the effect of Colosseums, and increases city vision radius."
-msgstr "Millora l'efecte dels Coliseus."
+msgstr ""
+"Millora l'efecte dels Coliseus, i augmenta el radi de visió de la ciutat."
 
 #: data/civ2civ3/techs.ruleset:395
-#, fuzzy
 msgid "Halves upgrade cost of your units."
-msgstr "Només es poden millorar unitats dins de les teves ciutats."
+msgstr "Redueix a la meitat el cost de millora de les teves unitats."
 
 #: data/civ2civ3/techs.ruleset:505
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Reduces by 30% the chance of illness in your cities."
-msgstr "* Fa disminuir la possibilitat d'epidèmia dins les teves ciutats.\n"
+msgstr "Redueix en un 30% la possibilitat de malaltia dins les teves ciutats."
 
 #: data/civ2civ3/techs.ruleset:701
 msgid "Doubles movement of nuclear units."
-msgstr ""
+msgstr "Duplica el moviment de les unitats nuclears."
 
 #: data/civ2civ3/techs.ruleset:783
 msgid ""
@@ -21024,22 +21046,21 @@ msgid "Decreases one-time the Waste of shields caused by distance to Capital."
 msgstr ""
 
 #: data/civ2civ3/terrain.ruleset:1225
-#, fuzzy
 msgid ""
 "Any land terrain type may have a River on it.  A River adds 1 trade to the "
 "resources produced by that tile.  It also increases a tile's defense factor "
 "by 25%.  Finally, land units may move along a River (but not diagonally) for "
 "fast travel."
 msgstr ""
-"Qualsevol tipus de terreny (excepte l'Oceà) pot tenir-hi un Riu. Un Riu "
+"Qualsevol tipus de terreny pot tenir-hi un Riu. Un Riu "
 "afegeix 1 punt de comerç als recursos produïts per aquesta casella. També "
-"augmenta el factor defensiu de la casella en un 50%. Finalment, les unitats "
-"terrestres poden moure's al llarg d'un Riu (però no en diagonal); el "
-"moviment al llarg d'un Riu costa només 1/3 de punt de moviment."
+"augmenta el factor defensiu de la casella en un 25%. Finalment, les unitats "
+"terrestres poden moure's al llarg d'un Riu (però no en diagonal) per a "
+"viatjar ràpidament."
 
 #: data/civ2civ3/units.ruleset:28
 msgid "Attack value halved when attacking Destroyer"
-msgstr ""
+msgstr "El valor d'atac es redueix a la meitat quan s'ataca un Destructor"
 
 #. TRANS: Unit class: used adjectivally
 #: data/civ2civ3/units.ruleset:133
@@ -21049,12 +21070,10 @@ msgstr "Terrestres"
 
 #. TRANS: Unit class: used adjectivally
 #: data/civ2civ3/units.ruleset:149
-#, fuzzy
 msgid "?unitclass:Merchant"
-msgstr "Marítimes"
+msgstr "Mercant"
 
 #: data/civ2civ3/units.ruleset:398
-#, fuzzy
 msgid ""
 "Settlers are one of the key units in the game. As well as building new "
 "cities, they can also improve terrain, for instance by building irrigation, "
@@ -21064,12 +21083,12 @@ msgid ""
 msgstr ""
 "Els Colons són una de les unitats clau del joc. A més de construir noves "
 "ciutats, poden també millorar el terreny, per exemple fent regadius, mines i "
-"camins. Veure la secció d'Alteracions del Terreny de l'ajuda per més detalls."
+"camins. Vegeu la secció d'Alteracions del Terreny de l'ajuda per més detalls. "
+"Els Colons redueixen la població de la ciutat en 2 quan es construeixen."
 
 #: data/civ2civ3/units.ruleset:407
-#, fuzzy
 msgid "Migrants"
-msgstr " Migració"
+msgstr "Emigrants"
 
 #: data/civ2civ3/units.ruleset:433
 msgid ""
@@ -21077,45 +21096,49 @@ msgid ""
 "Migrants reduce the population by 1 when they are built, and can be used to "
 "migrate population to other cities."
 msgstr ""
+"Els emigrants són com Treballadors en el fet que poden millorar el terreny. "
+"No obstant, els Emigrants redueixen la població en 1 quan es construeixen, i "
+"es poden utilitzar per fer emigrar població a d'altres ciutats."
 
 #: data/civ2civ3/units.ruleset:499
 msgid ""
 "Engineers are similar to Workers, but they work twice as fast, move twice as "
 "fast, and they may increase his veteran level by performing useful work."
 msgstr ""
+"Els Enginyers són semblants als Treballadors, però treballen el doble de "
+"ràpid, es mouen el doble de ràpid, i poden augmentar el seu nivell de "
+"veterania fent treballs útils."
 
 #: data/civ2civ3/units.ruleset:601
 msgid "Swordsmen"
-msgstr ""
+msgstr "Espadatxins"
 
 #: data/civ2civ3/units.ruleset:628
-#, fuzzy
 msgid ""
 "Swordsmen are heavily armed and well disciplined infantry units with an "
 "excellent offensive value."
 msgstr ""
-"Les Legions són unitats d'infanteria fortament armades i molt disciplinades "
+"Els Espadatxins són unitats d'infanteria fortament armades i molt "
+"disciplinades "
 "amb un valor ofensiu excel·lent."
 
 #: data/civ2civ3/units.ruleset:833
-#, fuzzy
 msgid ""
 "Fundamentalist nations can maintain Fanatic units without having to pay any "
 "upkeep nor causing military unhappiness.  Instead, each unit reduces the "
 "population by 1."
 msgstr ""
 "Les nacions fonamentalistes poden mantenir unitats de Fanàtics sense haver "
-"de pagar cap escut de manteniment."
+"de pagar cap manteniment ni causar infelicitat militar. En comptes d'això, "
+"cada unitat redueix la població en 1."
 
 #: data/civ2civ3/units.ruleset:1030
-#, fuzzy
 msgid ""
 "Elephants are towering animals trained for war that are often used as "
 "powerful shock troops."
 msgstr ""
 "Els Elefants són animals enormes ensinistrats per la guerra que sovint es "
-"fan servir com unitats d'impressió, però no es defensen gaire bé contra la "
-"majoria de les altres unitats."
+"fan servir com unitats d'impressió."
 
 #: data/civ2civ3/units.ruleset:1422
 #, fuzzy
@@ -21132,45 +21155,47 @@ msgstr ""
 "per unitats terrestres."
 
 #: data/civ2civ3/units.ruleset:1624
-#, fuzzy
 msgid ""
 "The Frigate is a strong offensive ship, but it can not transport any unit."
-msgstr "El Creuer és una unitat marítima fortament ofensiva."
+msgstr ""
+"La Fragata és una unitat marítima fortament ofensiva, però no pot transportar "
+"cap unitat."
 
 #: data/civ2civ3/units.ruleset:1656
-#, fuzzy
 msgid ""
 "The Ironclad is an armored ship with same attack, but better defense than "
 "the Frigate."
 msgstr ""
-"La Patrullera és un vaixell blindat que és molt més robust que la Fragata, "
-"però perd la capacitat de transport d'aquesta última."
+"La Patrullera és un vaixell blindat amb el mateix atac, però millor defensa "
+"que la Fragata."
 
 #: data/civ2civ3/units.ruleset:1692
-#, fuzzy
 msgid ""
 "An improved Ironclad, with better move rate and vision. Equiped with anti-"
 "submarine weapons."
-msgstr "Una patrullera millorada, amb millors moviment i visió."
+msgstr ""
+"Una patrullera millorada, amb millors moviment i visió. Equipat amb armes "
+"antisubmarins."
 
 #: data/civ2civ3/units.ruleset:1695
-#, fuzzy
 msgid ""
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports and Submarines."
 msgstr ""
-"CONSELL: Unitat molt ràpida, que és molt útil per liquidar els Transports "
+"CONSELL: Unitat molt ràpida, que és molt útil per liquidar els Transports i "
+"Submarins "
 "enemics."
 
 #: data/civ2civ3/units.ruleset:1964
-#, fuzzy
 msgid ""
 "You can start building Nuclear units when you have the required advance, and "
 "the Manhattan Project wonder has been built by any player.  You need "
 "Advanced Flight or Rocketry to start using them."
 msgstr ""
-"Pots construir unitats Nuclears quan tens l'avenç requerit, i la meravella "
-"Projecte Manhattan ha estat construïda per qualsevol jugador."
+"Pots començar a construir unitats Nuclears quan tens l'avenç requerit, i la "
+"meravella "
+"Projecte Manhattan ha estat construïda per qualsevol jugador. Necessites Vol "
+"Avançat o Míssils per començar a utilitzar-les."
 
 #: data/civ2civ3/units.ruleset:2095
 msgid ""
@@ -21201,10 +21226,12 @@ msgid ""
 "Caravans can only travel on roads, railroads, rivers or ships, and are not "
 "affected by movement modifiers."
 msgstr ""
+"Les Caravanes només poden viatjar per camins, ferrocarrils, rius o vaixells, "
+"i no els afecten els modificadors de moviment."
 
 #: data/alien/buildings.ruleset:38
 msgid "Antigrav Port"
-msgstr ""
+msgstr "Port antigravitatori"
 
 #: data/alien/buildings.ruleset:55
 #, no-c-format
@@ -21212,21 +21239,21 @@ msgid ""
 "Allows one unit airlift from and to city, increased to three once Low-Level "
 "Orbit is known."
 msgstr ""
+"Permet d'aerotransportar una unitat des de i cap a la ciutat; augmenta a tres "
+"quan es descobreix Òrbita de Nivell Baix."
 
 #: data/alien/buildings.ruleset:60
-#, fuzzy
 msgid "Archive"
-msgstr "Arquers"
+msgstr "Arxiu"
 
 #: data/alien/buildings.ruleset:77
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Increases the science production of a city by 75%."
-msgstr "Augmenta en un 50% la producció de ciència de la ciutat."
+msgstr "Augmenta la producció de ciència d'una ciutat en un 75%."
 
 #: data/alien/buildings.ruleset:81
-#, fuzzy
 msgid "Basic Infrastructure"
-msgstr "Infraestructures: %s"
+msgstr "Infraestructura Bàsica"
 
 #: data/alien/buildings.ruleset:94
 #, no-c-format
@@ -21236,44 +21263,48 @@ msgid ""
 "\n"
 "Without this improvement city cannot grow bigger than size 2."
 msgstr ""
+"Infraestructura Bàsica de la ciutat. Aquesta millora no costa manteniment, i "
+"no la pot sabotejar un Espia Camuflat enemic.\n"
+"\n"
+"Sense aquesta millora, la ciutat no pot créixer a més de mida 2."
 
 #: data/alien/buildings.ruleset:101
 msgid "Bunker"
-msgstr ""
+msgstr "Búnquer"
 
 #: data/alien/buildings.ruleset:120
 #, no-c-format
 msgid "Revolt cannot be incited in a city with bunker."
-msgstr ""
+msgstr "No es pot incitar una revolta en una ciutat amb búnquer."
 
 #: data/alien/buildings.ruleset:125
-#, fuzzy
 msgid "Central Mine"
-msgstr "Centreafricà"
+msgstr "Mina Central"
 
 #: data/alien/buildings.ruleset:143
 #, no-c-format
 msgid "City center tile produces three extra shields."
-msgstr ""
+msgstr "La casella del centre de la ciutat produeix tres escuts addicionals."
 
 #: data/alien/buildings.ruleset:148
 msgid "Cyberpart Factory"
-msgstr ""
+msgstr "Fàbrica de Ciberrecanvis"
 
 #: data/alien/buildings.ruleset:165
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Increases the tax output in a city by 75%."
-msgstr "Augmenta en un 50% la producció de ciència de la ciutat."
+msgstr "Augmenta la recaptació d'impostos de la ciutat en un 75%."
 
 #: data/alien/buildings.ruleset:186
 msgid ""
 "Factory produces spare parts for two units removing their production upkeep."
 msgstr ""
+"La fàbrica produeix recanvis per a dues unitats, eliminant-ne el manteniment "
+"en producció."
 
 #: data/alien/buildings.ruleset:191
-#, fuzzy
 msgid "Filter"
-msgstr "Filtre:"
+msgstr "Filtre"
 
 #: data/alien/buildings.ruleset:208
 msgid ""
@@ -21282,9 +21313,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/buildings.ruleset:213
-#, fuzzy
 msgid "Force Walls"
-msgstr "Gran muralla"
+msgstr "Muralles de Força"
 
 #: data/alien/buildings.ruleset:231
 #, no-c-format
@@ -21292,10 +21322,13 @@ msgid ""
 "Force Walls doubles city defense against all kind of attacks. Bonus is "
 "increased to 150% when Strong Force technology is known."
 msgstr ""
+"Les Muralles de Força dupliquen la defensa de la ciutat contra tota mena "
+"d'atacs. La bonificació augmenta al 150% quan es coneix la tecnologia de "
+"Força Forta."
 
 #: data/alien/buildings.ruleset:236
 msgid "Headquarters"
-msgstr ""
+msgstr "Quarter General"
 
 #: data/alien/buildings.ruleset:252
 #, no-c-format
@@ -21303,6 +21336,8 @@ msgid ""
 "Headquarters building marks city as your capital. City with headquarters is "
 "also safe from enemy's incite revolt attacks."
 msgstr ""
+"L'edifici del Quarter General marca la ciutat com a capital. La ciutat amb "
+"quarter general també és immune als intents enemics d'incitar revoltes."
 
 #: data/alien/buildings.ruleset:274
 #, no-c-format
@@ -21310,11 +21345,12 @@ msgid ""
 "Damaged units which stay in city without moving, heal 50% of their hitpoints "
 "each turn."
 msgstr ""
+"Les unitats malmeses que es queden a la ciutat sense moure's, recuperen un 50%"
+" dels seus punts de vida a cada torn."
 
 #: data/alien/buildings.ruleset:279
-#, fuzzy
 msgid "Information Distillery"
-msgstr "Informe d'informació"
+msgstr "Destil·lació d'informació"
 
 #: data/alien/buildings.ruleset:296
 #, no-c-format
@@ -21322,6 +21358,8 @@ msgid ""
 "Improved information gathering. Only 2 other civilizations needs to know "
 "given technology before we gain access to it."
 msgstr ""
+"Recollida d'informació millorada. Només cal que 2 altres civilitzacions "
+"coneguin una tecnologia donada abans que hi obtenim accés."
 
 #: data/alien/buildings.ruleset:301
 #, fuzzy
@@ -21334,17 +21372,15 @@ msgid "Makes 3 unhappy citizens content."
 msgstr "Cada unitat militar fa content %d ciutadà descontent."
 
 #: data/alien/buildings.ruleset:323
-#, fuzzy
 msgid "Training Facility"
-msgstr "Instal·lació de Port"
+msgstr "Instal·lació d'Entrenament"
 
 #: data/alien/buildings.ruleset:340
 #, no-c-format
 msgid "All new units are built as Elite ones."
-msgstr ""
+msgstr "Totes les unitats noves es construeixen com a Elit."
 
 #: data/alien/buildings.ruleset:345
-#, fuzzy
 msgid "Transportation"
 msgstr "Transport"
 
@@ -21357,11 +21393,11 @@ msgstr ""
 
 #: data/alien/buildings.ruleset:369
 msgid "Radar Tower"
-msgstr ""
+msgstr "Torre de Radar"
 
 #: data/alien/buildings.ruleset:385
 msgid "City with Radar Tower sees much further than one without."
-msgstr ""
+msgstr "Una ciutat amb Torre de Radar veu molt més enllà que una que no en té."
 
 #: data/alien/buildings.ruleset:389
 msgid "Radiation Resistor"
@@ -21383,7 +21419,7 @@ msgstr "Augmenta en un 100% l'aportació a ciència de la ciutat."
 
 #: data/alien/buildings.ruleset:431
 msgid "Secret Police"
-msgstr ""
+msgstr "Policia Secreta"
 
 #: data/alien/buildings.ruleset:447
 msgid ""
@@ -21395,7 +21431,7 @@ msgstr ""
 
 #: data/alien/buildings.ruleset:453
 msgid "Skyscraper"
-msgstr ""
+msgstr "Gratacels"
 
 #: data/alien/buildings.ruleset:469
 msgid ""
@@ -21407,12 +21443,12 @@ msgstr ""
 
 #: data/alien/buildings.ruleset:474
 msgid "Virtual Reality Theatre"
-msgstr ""
+msgstr "Teatre de Realitat Virtual"
 
 #: data/alien/buildings.ruleset:491
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Makes two unhappy citizens content."
-msgstr "* No té ciutadans descontents.\n"
+msgstr "Fa contents dos ciutadans infeliços."
 
 #: data/alien/buildings.ruleset:558
 msgid ""
@@ -21432,7 +21468,7 @@ msgstr ""
 
 #: data/alien/buildings.ruleset:597
 msgid "Earth Monument"
-msgstr ""
+msgstr "Monument a la Terra"
 
 #: data/alien/buildings.ruleset:612
 #, fuzzy
@@ -21446,9 +21482,8 @@ msgstr ""
 "estigui generant comerç, genera un punt de comerç addicional."
 
 #: data/alien/buildings.ruleset:619
-#, fuzzy
 msgid "Great Tunnel"
-msgstr "Gran Meravella"
+msgstr "Gran Túnel"
 
 #: data/alien/buildings.ruleset:635
 #, fuzzy
@@ -21466,11 +21501,13 @@ msgid "Antigrav Control Center"
 msgstr ""
 
 #: data/alien/buildings.ruleset:659
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "All player's antigravity units will regenerate 50% of their hitpoints each "
 "turn."
-msgstr "Totes les teves unitats recuperen dos punts de vida extra per torn."
+msgstr ""
+"Totes les unitats antigravitatòries del jugador recuperaran un 50% dels seus "
+"punts de vida per torn."
 
 #: data/alien/buildings.ruleset:665
 #, fuzzy
@@ -21582,6 +21619,12 @@ msgid ""
 "\n"
 "Despotism suffers 20% penalty to both trade and production."
 msgstr ""
+"Aquest és l'únic tipus de govern disponible al principi.\n"
+"\n"
+"La taxa màxima d'impostos/ciència/luxe és del 40%.\n"
+"\n"
+"El Despotisme pateix una penalització d'un 20% tant per al comerç com per a "
+"la producció."
 
 #: data/alien/governments.ruleset:95
 msgid ""
@@ -21591,6 +21634,11 @@ msgid ""
 "\n"
 "Communism suffers 20% penalty to trade."
 msgstr ""
+"Tipus de govern per a la potència militar.\n"
+"\n"
+"La taxa màxima d'impostos/ciència/luxe és del 60%.\n"
+"\n"
+"El Comunisme pateix un 20% de penalització per al comerç."
 
 #: data/alien/governments.ruleset:115
 msgid ""
@@ -21600,6 +21648,11 @@ msgid ""
 "\n"
 "Democracy suffers 20% penalty to production."
 msgstr ""
+"Tipus de govern per a la llibertat.\n"
+"\n"
+"La taxa màxima d'impostos/ciència/luxe és del 70%.\n"
+"\n"
+"La Democràcia pateix un 20% de penalització per a la producció."
 
 #: data/alien/governments.ruleset:124
 msgid "Dual Communism"
@@ -21613,6 +21666,12 @@ msgid ""
 "\n"
 "Dual Communism gains 20% production bonus."
 msgstr ""
+"Tipus de govern per a la potència militar, tant per a humans com per a "
+"alienígenes.\n"
+"\n"
+"La taxa màxima d'impostos/ciència/luxe és del 80%.\n"
+"\n"
+"El Comunisme Dual obté un 20% de bonificació per a la producció."
 
 #: data/alien/governments.ruleset:144
 msgid "Dual Democracy"
@@ -21626,6 +21685,11 @@ msgid ""
 "\n"
 "Dual Democracy gains 20% trade bonus."
 msgstr ""
+"Tipus de govern per a la llibertat, tant per a humans com per a alienígenes.\n"
+"\n"
+"La taxa màxima d'impostos/ciència/luxe és del 90%.\n"
+"\n"
+"La Democràcia Dual obté un 20% de bonificació per al comerç."
 
 #: data/alien/script.lua:15
 msgid ""
@@ -22227,9 +22291,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:555
-#, fuzzy
 msgid "Specialist Training"
-msgstr "Especialistes: "
+msgstr "Formació d'Especialistes"
 
 #: data/alien/techs.ruleset:561
 msgid ""
@@ -22499,30 +22562,27 @@ msgstr "Fortificació"
 
 #: data/alien/terrain.ruleset:542 data/alien/terrain.ruleset:676
 msgid "Antigrav Base"
-msgstr ""
+msgstr "Base Antigravitatòria"
 
 #: data/alien/terrain.ruleset:560 data/alien/terrain.ruleset:772
-#, fuzzy
 msgid "Highway"
-msgstr "Autopistes"
+msgstr "Autopista"
 
 #: data/alien/terrain.ruleset:580 data/alien/terrain.ruleset:819
 msgid "Tunnel"
-msgstr ""
+msgstr "Túnel"
 
 #: data/alien/terrain.ruleset:589 data/alien/terrain.ruleset:844
 msgid "Burrow Tube"
-msgstr ""
+msgstr "Tub d'Excavació"
 
 #: data/alien/terrain.ruleset:598 data/alien/terrain.ruleset:865
-#, fuzzy
 msgid "Green River"
-msgstr "Grenlandès"
+msgstr "Riu Verd"
 
 #: data/alien/terrain.ruleset:602 data/alien/terrain.ruleset:888
-#, fuzzy
 msgid "Brown River"
-msgstr "Riu"
+msgstr "Riu Marró"
 
 #: data/alien/terrain.ruleset:765
 msgid ""
@@ -22576,9 +22636,8 @@ msgid "Regular"
 msgstr ""
 
 #: data/alien/units.ruleset:14 data/alien/units.ruleset:1262
-#, fuzzy
 msgid "Elite"
-msgstr "elit"
+msgstr "Elit"
 
 #: data/alien/units.ruleset:95
 #, fuzzy
@@ -22596,9 +22655,8 @@ msgid "?unitclass:Amphibious"
 msgstr "Aèries"
 
 #: data/alien/units.ruleset:126
-#, fuzzy
 msgid "?unitclass:Antigravity"
-msgstr "Aèries"
+msgstr "Antigravetat"
 
 #: data/alien/units.ruleset:132
 #, fuzzy
@@ -22684,11 +22742,13 @@ msgstr ""
 
 #: data/alien/units.ruleset:582
 msgid "War Monster"
-msgstr ""
+msgstr "Monstre de Guerra"
 
 #: data/alien/units.ruleset:608
 msgid "As a native unit, this can move and fight on radiating areas too."
 msgstr ""
+"Com a unitat nativa, aquesta pot moure's i lluitar també en àrees amb "
+"radiació."
 
 #: data/alien/units.ruleset:613
 #, fuzzy
@@ -22701,22 +22761,26 @@ msgstr ""
 
 #: data/alien/units.ruleset:644
 msgid "Cyber Alien"
-msgstr ""
+msgstr "Ciberalienígena"
 
 #: data/alien/units.ruleset:670
 msgid ""
 "Alien lifeform with cybernetic implants. Good in combat, and has better "
 "vision than any purely organic unit."
 msgstr ""
+"Forma de vida alienígena amb implants cibernètics. Bo per al combat, i té "
+"millor visió que qualsevol unitat purament orgànica."
 
 #. TRANS: Alien lifeform. Name refers to Tyrannosaurus Rex, not "King" role
 #: data/alien/units.ruleset:676
 msgid "Rex"
-msgstr ""
+msgstr "Rex"
 
 #: data/alien/units.ruleset:701
 msgid "Most powerful alien lifeform, like one from Earth's Jurassic period."
 msgstr ""
+"La forma de vida alienígena més poderosa, com una del període juràssic de la "
+"Terra."
 
 #: data/alien/units.ruleset:706
 #, fuzzy
@@ -22737,9 +22801,8 @@ msgid "This is excellent defense vehicle."
 msgstr ""
 
 #: data/alien/units.ruleset:770
-#, fuzzy
 msgid "Earth Sub"
-msgstr "Terratrèmol"
+msgstr "Submarí Terrestre"
 
 #: data/alien/units.ruleset:796
 msgid ""
@@ -22748,9 +22811,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/units.ruleset:801
-#, fuzzy
 msgid "Hunter"
-msgstr "Centrar"
+msgstr "Caçador"
 
 #: data/alien/units.ruleset:828
 msgid ""
@@ -22760,6 +22822,11 @@ msgid ""
 "It's also an settler type unit for hostile areas, well capable of defending "
 "itself."
 msgstr ""
+"Unitat excavadora que també té capacitat per atacar unitats antigravitatòries "
+"amb els seus propis minimíssils.\n"
+"\n"
+"També és una unitat de tipus colonitzador per a àrees hostils, ben capaç de "
+"defensar-se sola."
 
 #: data/alien/units.ruleset:835
 #, fuzzy
@@ -22817,25 +22884,29 @@ msgstr ""
 
 #: data/alien/units.ruleset:1022
 msgid "Raft"
-msgstr ""
+msgstr "Rai"
 
 #: data/alien/units.ruleset:1049
 msgid "  This vessel allows coastal travel, but not on Boiling Seas."
 msgstr ""
+" Aquest vaixell permet de viatjar per la costa, però no en Mars Bullents."
 
 #: data/alien/units.ruleset:1054
 msgid "Ship"
-msgstr ""
+msgstr "Vaixell"
 
 #: data/alien/units.ruleset:1081
 msgid ""
 "  This is basic ship type. It has no any special equipment, so it cannot "
 "enter boiling seas."
 msgstr ""
+" És el tipus bàsic de vaixell. No té equipament especial, i per tant no pot "
+"entrar en mars bullents."
 
 #: data/alien/units.ruleset:1112
 msgid "This vessel is for battle! Too bad it cannot enter boiling oceans."
 msgstr ""
+"Aquest vaixell és de batalla! Llàstima que no pot entrar en oceans bullents."
 
 #: data/alien/units.ruleset:1117
 #, fuzzy
@@ -22848,9 +22919,8 @@ msgid "Amphibious battle machine."
 msgstr "Guerra Amfíbia"
 
 #: data/alien/units.ruleset:1146
-#, fuzzy
 msgid "Amphibious Transport"
-msgstr "Guerra Amfíbia"
+msgstr "Transport Amfibi"
 
 #: data/alien/units.ruleset:1173
 msgid "This is first unit that can enter boiling oceans - and more."
@@ -22868,15 +22938,16 @@ msgid "Native caravan unit, that can move on all land terrains."
 msgstr "* Les unitats terrestres no poden viatjar per terrenys oceànics."
 
 #: data/alien/units.ruleset:1237
-#, fuzzy
 msgid "Stealth Spy"
-msgstr "Invisibilitat"
+msgstr "Espia Camuflat"
 
 #: data/alien/units.ruleset:1268
 msgid ""
 "Stealth Spy can make diplomatic actions, and is invisible until next to "
 "enemy unit or city."
 msgstr ""
+"L'Espia Camuflat pot dur a terme accions diplomàtiques, i és invisible fins "
+"que està al costat mateix d'una unitat enemiga o d'una ciutat."
 
 #: data/alien/units.ruleset:1273
 #, fuzzy
@@ -22899,12 +22970,11 @@ msgstr ""
 
 #: data/alien/nation/adventurers.ruleset:3
 msgid "Adventurers"
-msgstr ""
+msgstr "Aventurer"
 
 #: data/alien/nation/adventurers.ruleset:4
-#, fuzzy
 msgid "?plural:Adventurers"
-msgstr "Argentins"
+msgstr "Aventurers"
 
 #: data/alien/nation/adventurers.ruleset:6
 msgid ""
@@ -22913,6 +22983,9 @@ msgid ""
 "\n"
 "* All units have one extra movement point"
 msgstr ""
+"Sense destí fix, només estaven donant un volt, buscant problemes.\n"
+"\n"
+"* Totes les unitats tenen un punt addicional de moviment"
 
 #: data/alien/nation/galacticsound.ruleset:3
 msgid "Galactic Sound"
@@ -22966,14 +23039,12 @@ msgid ""
 msgstr ""
 
 #: data/alien/nation/lunatics.ruleset:3
-#, fuzzy
 msgid "Lunatic"
-msgstr "Fanàtics"
+msgstr "Llunàtic"
 
 #: data/alien/nation/lunatics.ruleset:4
-#, fuzzy
 msgid "?plural:Lunatics"
-msgstr "Llatins"
+msgstr "Llunàtics"
 
 #: data/alien/nation/lunatics.ruleset:5
 msgid "Something drove them crazy, made them escape the society to seas."
@@ -24890,6 +24961,22 @@ msgid ""
 "depending on ruleset settings. If nationality is enabled, you can see the "
 "cultural makeup of your cities in the City dialog, on the Happiness tab."
 msgstr ""
+"En el joc de regles predeterminat, els ciutadans sempre consideren que la "
+"seva nacionalitat és la de la seva ciutat origen. No obstant, en alguns jocs "
+"de regles, la nacionalitat dels ciutadans pot ser diferent de la de l'estat "
+"on viuen. Quan una ciutat creix per excés de menjar, els ciutadans nous "
+"prenen la nacionalitat del propietari actual de la ciutat, però quan una "
+"ciutat es conquereix o canvia de mans per qualsevol motiu, els ciutadans "
+"mantenen la seva nacionalitat original, com qualsevol immigrant. Els "
+"ciutadans d'altres nacionalitats treballaran a les teves ciutats com els "
+"propis, i en la majoria dels aspectes, es comportaran igual, però la seva "
+"presència fa que sigui més barat que els agents del seu estat associat "
+"provoquin una revolta a les teves ciutats, i si l'emigració està permesa, "
+"tenen una tendència creixent a emigrar a les ciutats del seu estat. Amb el "
+"temps, els ciutadans es poden assimilar a la seva ciutat origen, depenent de "
+"la configuració del joc de regles. Si està permesa la nacionalitat, pots "
+"veure la composició cultural de les teves ciutats al diàleg de Ciutat, a la "
+"pestanya de Felicitat."
 
 #: data/helpdata.txt:727
 msgid ""
@@ -43484,11 +43571,11 @@ msgstr ""
 "S'ajorna..."
 
 #: server/cityturn.c:1155
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; %s resource is required.  Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball; cal una infraestructura de "
+"%s no pot construir %s de la llista de treball; cal el recurs "
 "%s.  S'ajorna..."
 
 #: server/cityturn.c:1170
@@ -43501,12 +43588,13 @@ msgstr ""
 
 #. TRANS: Latter %s is citizen nationality
 #: server/cityturn.c:1186
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; only city with %s may build this.  "
 "Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball; només %s pot construir-ho.  "
+"%s no pot construir %s de la llista de treball; només pot construir-ho una "
+"ciutat amb %s.  "
 "S'ajorna..."
 
 #: server/cityturn.c:1199
@@ -48049,15 +48137,16 @@ msgstr ""
 "    A   = Unitat d'atac forta (p.ex., Catapulta)\n"
 
 #: server/settings.c:1342
-#, fuzzy
 msgid "Whether player starts with a city"
-msgstr "Si es registren les estadístiques de jugador"
+msgstr "Si el jugador comença amb una ciutat"
 
 #: server/settings.c:1343
 msgid ""
 "If this is set, game will start with player's first city already founded to "
 "starting location."
 msgstr ""
+"Si s'activa, la partida començarà amb la primera ciutat del jugador ja "
+"fundada a la posició d'inici."
 
 #: server/settings.c:1349
 msgid "Area where initial units are located"
@@ -48215,7 +48304,7 @@ msgstr ""
 
 #: server/settings.c:1457
 msgid "Negative bulbs allowed before losing tech"
-msgstr ""
+msgstr "Bombetes negatives permeses abans de perdre tecnologia"
 
 #: server/settings.c:1458
 msgid ""
@@ -48223,6 +48312,10 @@ msgid ""
 "current research cost, you lose one tech and number of bulbs is restored to "
 "0. Special value -1 disables tech loss completely."
 msgstr ""
+"Quan el nombre de bombetes arriba a un valor negatiu menor que aquest "
+"percentatge del cost de recerca actual, perds una tecnologia i el nombre de "
+"bombetes torna a 0. El valor especial -1 desactiva completament la pèrdua de "
+"tecnologia."
 
 #: server/settings.c:1468
 msgid "Food required for a city to grow"
@@ -48431,33 +48524,34 @@ msgstr ""
 
 #: server/settings.c:1616
 msgid "Do all units in tile die with defender"
-msgstr ""
+msgstr "Si totes les unitats de la casella moren amb el defensor"
 
 #: server/settings.c:1617
-#, fuzzy
 msgid ""
 "If this is enabled, each time a defender unit loses in combat, and is not "
 "inside a city or suitable base, all units in the same tile are destroyed "
 "along with the defender. If this is disabled, only the defender unit is "
 "destroyed."
 msgstr ""
-"Si el defensor perd, i no és dins d'una ciutat, fortificació, ni base aèria, "
-"al mateix temps que el defensor també es destrueixen totes les altres "
-"unitats que estan al mateix lloc que el defensor."
+"Si això està activat, cada vegada que una unitat defensiva perd en combat, i "
+"no és dins d'una ciutat, ni cap base, "
+"totes les unitats de la mateixa casella es destrueixen al mateix temps que el "
+"defensor. Si està desactivat, només es destrueix la unitat defensiva."
 
 #: server/settings.c:1625
 msgid "Reduce city population after attack"
 msgstr "Reduir la població de la ciutat després d'un atac."
 
 #: server/settings.c:1626
-#, fuzzy
 msgid ""
 "This flag indicates whether city population is reduced after successful "
 "attack of enemy unit. If this is disabled population is never reduced. Even "
 "when this is enabled only some units may kill citizens."
 msgstr ""
 "Aquest valor indica si la població d'una ciutat es redueix després d'un atac "
-"victoriós d'una unitat enemiga, segons per el seu tipus de moviment."
+"victoriós d'una unitat enemiga. Si està desactivat, la població no es redueix "
+"mai. Fins i tot quan està activat, només algunes unitats poden matar "
+"ciutadans."
 
 #: server/settings.c:1634
 msgid "Slowly kill units without home cities (e.g., starting units)"
@@ -51818,14 +51912,13 @@ msgstr "Aquest tipus de tropes no poden conquerir una ciutat."
 
 #. TRANS: %s is a list of units separated by "or".
 #: server/unithand.c:1253
-#, fuzzy, c-format
+#, c-format
 msgid "Only %s can conquer from a non-native tile."
-msgstr "* Només pot atacar unitats que no siguin en caselles natives.\n"
+msgstr "Només %s poden conquerir des d'una casella no nativa."
 
 #: server/unithand.c:1258
-#, fuzzy
 msgid "Cannot conquer from a non-native tile."
-msgstr "* Només pot atacar unitats que no siguin en caselles natives.\n"
+msgstr "No es pot conquerir des d'una casella no nativa."
 
 #: server/unithand.c:1265 server/unittools.c:2681
 msgid "Cannot attack unless you declare war first."
@@ -51849,7 +51942,7 @@ msgstr "No pots envair si no trenques primer la pau amb %s."
 #: server/unithand.c:1291
 #, c-format
 msgid "%s cannot disembark without a native base for %s on the tile."
-msgstr ""
+msgstr "%s no poden desembarcar sense una base nativa per a %s a la casella."
 
 #: server/unithand.c:1338
 msgid "This unit has no moves left."
