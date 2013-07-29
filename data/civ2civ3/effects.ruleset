@@ -3585,8 +3585,8 @@ reqs    =
 ; of enabling it with Democracy or Republic (value 2 -> 4 instead of 0 -> 2)
 nreqs   =
     { "type", "name", "range"
-      "Government", "Democracy", "Player"
-      "Government", "Republic", "Player"
+      "Gov", "Democracy", "Player"
+      "Gov", "Republic", "Player"
     }
 
 [effect_united_nations_2]
