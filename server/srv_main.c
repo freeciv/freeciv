@@ -62,6 +62,7 @@
 #include "citymap.h"
 
 /* common */
+#include "achievements.h"
 #include "capstr.h"
 #include "city.h"
 #include "dataio.h"
@@ -1110,6 +1111,20 @@ static void end_turn(void)
   }
 
   check_disasters();
+
+  /* Check for new achievements during the turn.
+   * This is not within phase, as multiple players may
+   * achieve at the same turn and everyone deserves equal opportunity
+   * to win. */
+  achievements_iterate(ach) {
+    struct player *achiever = achievement_plr(ach);
+
+    if (achiever != NULL) {
+      /* TODO: Event type of its own for achievements. */
+      notify_player(achiever, NULL, E_CHAT_MSG, ftc_server,
+                    _("You got an achievement: %s"), _(ach->msg));
+    }
+  } achievements_iterate_end;
 
   if (game.info.global_warming) {
     update_environmental_upset(S_POLLUTION, &game.info.heating,

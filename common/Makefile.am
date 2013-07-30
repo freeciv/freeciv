@@ -11,6 +11,8 @@ AM_CPPFLAGS = \
 	$(MAPIMG_WAND_CFLAGS)
 
 libfreeciv_la_SOURCES = \
+		achievements.c	\
+		achievements.h	\
 		ai.c		\
 		ai.h		\
 		base.c		\

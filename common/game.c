@@ -27,6 +27,7 @@
 #include "cm.h"
 
 /* common */
+#include "achievements.h"
 #include "city.h"
 #include "connection.h"
 #include "disaster.h"
@@ -494,6 +495,7 @@ void game_ruleset_init(void)
   nation_groups_init();
   ruleset_cache_init();
   disaster_types_init();
+  achievements_init();
   trade_route_types_init();
   terrains_init();
   extras_init();
@@ -530,6 +532,7 @@ void game_ruleset_free(void)
   improvements_free();
   extras_free();
   city_styles_free();
+  achievements_free();
   disaster_types_free();
   terrains_free();
   user_terrain_flags_free();
