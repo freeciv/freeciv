@@ -3246,7 +3246,7 @@ msgstr ""
 #: client/gui-sdl/dialogs.c:1862 client/gui-sdl/dialogs.c:1881
 #: client/gui-sdl/dialogs.c:1979 client/gui-sdl/dialogs.c:2007
 msgid "Veteran"
-msgstr "숙련가"
+msgstr "전문가"
 
 #: client/gui-gtk-2.0/editprop.c:4215 client/gui-gtk-3.0/editprop.c:4239
 #, fuzzy
@@ -6019,7 +6019,7 @@ msgid ""
 "veteran"
 msgstr ""
 "\n"
-"숙련자"
+"전문가"
 
 #: client/gui-sdl/citydlg.c:954
 msgid ""
@@ -6845,7 +6845,7 @@ msgstr "%s 인구: %s  서기: %s  금화 %d 세금: %d 복지: %d 과학: %d "
 #: data/classic/units.ruleset:34 data/experimental/units.ruleset:37
 #: data/civ2civ3/units.ruleset:34 data/multiplayer/units.ruleset:34
 msgid "veteran"
-msgstr "숙련가"
+msgstr "전문가"
 
 #: client/gui-sdl/mapview.c:564 client/text.c:143 client/text.c:144
 #: client/text.c:149
@@ -15313,7 +15313,7 @@ msgstr "노동 조합"
 #: data/civ2civ3/techs.ruleset:436 data/multiplayer/techs.ruleset:404
 #: server/report.c:161
 msgid "Literacy"
-msgstr "교육"
+msgstr "문해"
 
 #: data/civ1/techs.ruleset:324 data/civ2/techs.ruleset:406
 #: data/classic/techs.ruleset:411 data/experimental/techs.ruleset:452
@@ -19947,7 +19947,7 @@ msgstr "조항 삭제"
 
 #: data/Freeciv.in:492 data/Freeciv.in:501
 msgid "Shared vision"
-msgstr "시야 공유"
+msgstr "공유된 시각"
 
 #: data/Freeciv.in:567
 msgid "Goto and Close"
@@ -38346,127 +38346,130 @@ msgstr "%s(으)로부터 분리."
 
 #: server/console.c:241
 msgid "Ok. RFC-style set."
-msgstr ""
+msgstr "좋다. RFC-방식 집단."
 
 #: server/console.c:243
 msgid "Ok. Standard style set."
-msgstr ""
+msgstr "좋다. 기준 방식 집단."
 
 #: server/console.c:263
 msgid "For introductory help, type 'help'."
-msgstr "도움말을 보기 위해선, 'help'라고 입력하세요"
+msgstr "입문자들을 위한 도움을 위해, 'help' 를 입력하세요."
 
 #: server/diplhand.c:196
 #, c-format
 msgid "The %s can't accept %s."
-msgstr "%s는 %s를 수락할수 없습니다"
+msgstr "그 %s (은)는 %s (을)를 받아들일 수 없습니다"
 
 #: server/diplhand.c:207
 #, c-format
 msgid "You don't have tech %s, you can't accept treaty."
-msgstr ""
+msgstr "당신은 기술 %s (을)를 가지고 있지 않아, 당신은 조약을 받아들일 수 없습니다."
 
 #: server/diplhand.c:216
 msgid "City you are trying to give no longer exists, you can't accept treaty."
-msgstr ""
+msgstr "당신이 주기 위해 노력하는 도시는 더 이상 존재하지 않아, 당신은 조약을 받아들일 "
+"수 없습니다."
 
 #: server/diplhand.c:222
 #, c-format
 msgid "You are not owner of %s, you can't accept treaty."
-msgstr ""
+msgstr "당신은 %s 의 주인이 아니라, 당신은 조약을 받아들일 수 없습니다."
 
 #: server/diplhand.c:228 server/diplhand.c:343
 #, c-format
 msgid "Your capital (%s) is requested, you can't accept treaty."
-msgstr ""
+msgstr "당신의 수도 (%s) (이)가 요구되어, 당신은 조약을 받아들일 수 없습니다."
 
 #: server/diplhand.c:250
 #, c-format
 msgid "You cannot form an alliance because you are at war with an ally of %s."
-msgstr ""
+msgstr "당신은 %s 의 하나의 동맹국과 함께 전쟁 중이기 때문에 당신은 하나의 동맹을 구성할 "
+"수 없습니다."
 
 #: server/diplhand.c:255
 #, c-format
 msgid "You cannot form an alliance because %s is at war with an ally of yours."
-msgstr ""
+msgstr "%s (은)는 당신의 것의 하나의 동명국과 함께 전쟁 중이기 때문에 당신은 하나의 동맹을 "
+"구성할 수 없습니다."
 
 #: server/diplhand.c:266
 msgid "You don't have enough gold, you can't accept treaty."
-msgstr "충분한 금이 없으므로 조약을 받아들일 수 없습니다"
+msgstr "당신은 충분한 금을 가지고 있지 않아, 당신은 조약을 받아들일 수 없습니다."
 
 #: server/diplhand.c:298 server/diplhand.c:303
 #, c-format
 msgid "A treaty containing %d clause was agreed upon."
 msgid_plural "A treaty containing %d clauses was agreed upon."
-msgstr[0] ""
+msgstr[0] "%d 조항이 들어있는 하나의 조약은 합의되었습니다."
 
 #: server/diplhand.c:319 server/diplhand.c:323
 #, c-format
 msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
-msgstr ""
+msgstr "그 %s (이)가 넘겨 받는 그 도시들의 하나는 파괴되었습니다! 조약은 취소되었습니다!"
 
 #: server/diplhand.c:330 server/diplhand.c:335
 #, c-format
 msgid "The %s no longer control %s! Treaty canceled!"
-msgstr ""
+msgstr "그 %s (은)는 더 이상 %s (을)를 통제하지 않습니다! 조약은 취소되었습니다!"
 
 #: server/diplhand.c:373 server/diplhand.c:377
 #, c-format
 msgid "The %s don't have the promised amount of gold! Treaty canceled!"
-msgstr ""
+msgstr "그 %s (은)는 금의 그 약속한 양을 가지고 있지 않습니다! 조약은 취소되었습니다!"
 
 #: server/diplhand.c:405
 #, c-format
 msgid "You gave an embassy to %s."
-msgstr "당신은 %s에 사절단을 주었습니다"
+msgstr "당신은 %s (에)게 하나의 대사관을 주었습니다."
 
 #: server/diplhand.c:408
 #, c-format
 msgid "%s allowed you to create an embassy!"
-msgstr ""
+msgstr "%s (은)는 당신이 하나의 대사관을 창조하는 것을 허용했습니다!"
 
 #: server/diplhand.c:424
 #, c-format
 msgid "You are taught the knowledge of %s."
-msgstr ""
+msgstr "당신은 %s 의 그 지식을 가르침을 받았습니다."
 
 #: server/diplhand.c:429
 #, c-format
 msgid "The %s have acquired %s from the %s."
-msgstr ""
+msgstr "그 %s (은)는 %s (을)를 그 %s (으)로부터 획득했습니다."
 
 #: server/diplhand.c:450
-#, fuzzy, c-format
+#, c-format
 msgid "You get %d gold."
 msgid_plural "You get %d gold."
-msgstr[0] "%d의 금을 얻었습니다"
+msgstr[0] "당신은 %d 금을 받았습니다."
 
 #. TRANS: ... Polish worldmap.
 #: server/diplhand.c:458
 #, c-format
 msgid "You receive the %s worldmap."
-msgstr ""
+msgstr "당신은 그 %s 세계지도를 받습니다."
 
 #. TRANS: ... Polish seamap.
 #: server/diplhand.c:467
 #, c-format
 msgid "You receive the %s seamap."
-msgstr ""
+msgstr "당신은 그 %s 바다지도를 받습니다."
 
 #: server/diplhand.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "You receive the city of %s from %s."
-msgstr "홈시티를  %s 에서  %s 로(으로) 변경하였습니다"
+msgstr "당신은 %s 의 그 도시를 %s (으)로부터 받습니다."
 
 #: server/diplhand.c:487
-#, fuzzy, c-format
+#, c-format
 msgid "You give the city of %s to %s."
-msgstr "홈시티를  %s 에서  %s 로(으로) 변경하였습니다"
+msgstr "당신은 %s 의 그 도시를 %s (에)게 줍니다."
 
 #: server/diplhand.c:499 server/diplhand.c:502
 #, c-format
 msgid "You agree on a cease-fire with %s."
-msgstr ""
+msgstr "당신은 %s (와)과 함께 하나의 정전에 동의합니다."
 
 #. TRANS: ... the Poles ... Polish territory.
 #: server/diplhand.c:519 server/diplhand.c:531
@@ -38478,107 +38481,109 @@ msgid_plural ""
 "You agree on an armistice with the %s. In %d turns, it will become a peace "
 "treaty. Move your units out of %s territory."
 msgstr[0] ""
+"당신은 그 %s (와)과 하나의 휴전에 동의합니다. %d 차례 안에, 이것은 하나의 평화 조약이 "
+"될 것입니다. 당신의 부대들을 %s 영역 밖으로 움직이세요."
 
 #: server/diplhand.c:553 server/diplhand.c:556
 #, c-format
 msgid "You agree on an alliance with %s."
-msgstr ""
+msgstr "당신은 %s (와)과의 하나의 동맹에 동의합니다."
 
 #: server/diplhand.c:564
 #, c-format
 msgid "You give shared vision to %s."
-msgstr ""
+msgstr "당신은 %s (에)게 공유된 시작을 줍니다."
 
 #: server/diplhand.c:567
 #, c-format
 msgid "%s gives you shared vision."
-msgstr "%s 가(이) 시야를 제공했습니다"
+msgstr "%s (이)가 당신에게 공유된 시각을 줍니다."
 
 #: server/diplhand.c:710
 #, c-format
 msgid "%s canceled the meeting!"
-msgstr ""
+msgstr "%s (은)는 그 회의를 취소했습니다!"
 
 #: server/diplhand.c:717
 #, c-format
 msgid "Meeting with %s canceled."
-msgstr "%s와의 모임이 취소되었습니다"
+msgstr "%s (와)과의 회의는 취소되었습니다."
 
 #: server/diplhand.c:759
 msgid "Your diplomatic envoy was decapitated!"
-msgstr ""
+msgstr "당신의 외교의 사절은 참수되었습니다!"
 
 #: server/diplomats.c:112
 #, c-format
 msgid "Your %s could not poison the water supply in %s."
-msgstr ""
+msgstr "당신의 %s (은)는 %s 안에 그 물 공급에 독을 넣을 수 없었습니다."
 
 #: server/diplomats.c:127
 #, c-format
 msgid "Your %s poisoned the water supply of %s."
-msgstr ""
+msgstr "당신의 %s (은)는 %s 의 그 물 공급에 독을 넣었습니다."
 
 #: server/diplomats.c:132
 #, c-format
 msgid "%s is suspected of poisoning the water supply of %s."
-msgstr ""
+msgstr "%s (은)는 %s 의 그 물 공급에 독을 넣은 혐의를 받고 있습니다."
 
 #: server/diplomats.c:281
 #, c-format
 msgid "Your %s was executed in %s by primitive %s."
-msgstr ""
+msgstr "당신의 %s (은)는 원시적인 %s 에 의해 %s 안에서 처형되었습니다."
 
 #: server/diplomats.c:296
 #, c-format
 msgid "You have established an embassy in %s."
-msgstr ""
+msgstr "당신은 %s 안에 하나의 대사관을 설립했습니다."
 
 #: server/diplomats.c:300
 #, c-format
 msgid "The %s have established an embassy in %s."
-msgstr ""
+msgstr "그 %s (은)는 %s 안에 하나의 대사관을 설립했습니다."
 
 #: server/diplomats.c:362
 #, c-format
 msgid "Your %s could not sabotage the %s %s."
-msgstr ""
+msgstr "당신의 %s (은)는 그 %s %s (을)를 사보타주할 수 없었습니다."
 
 #: server/diplomats.c:385
 #, c-format
 msgid "Your %s succeeded in sabotaging the %s %s."
-msgstr ""
+msgstr "당신의 %s (은)는 그 %s %s (을)를 사보타주하기 안에서 성공했습니다."
 
 #. TRANS: ... the Poles!
 #: server/diplomats.c:392
 #, c-format
 msgid "Your %s was sabotaged by the %s!"
-msgstr ""
+msgstr "당신의 %s (은)는 그 %s 에 의해 사보타주되었습니다!"
 
 #: server/diplomats.c:444
 msgid "You can't bribe a unit from this nation."
-msgstr "이 나라의 부대를 매수할 수 없습니다."
+msgstr "당신은 이 국가로부터 하나의 부대를 매수할 수 없습니다."
 
 #: server/diplomats.c:455
 #, c-format
 msgid "You don't have enough gold to bribe the %s %s."
-msgstr "%s %s(을)를 매수 할 금액이 없습니다."
+msgstr "당신은 그 %s %s (을)를 매수하기 위한 충분한 금을 가지고 있지 않습니다."
 
 #: server/diplomats.c:465
 #, c-format
 msgid "You cannot bribe the %s!"
-msgstr "%s(을)를 매수할 수 없습니다!"
+msgstr "당신은 그 %s (을)를 매수할 수 없습니다!"
 
 #. TRANS: <diplomat> ... <unit>
 #: server/diplomats.c:484
 #, c-format
 msgid "Your %s succeeded in bribing the %s."
-msgstr "당신의 %s(은)는 %s(을)를 성공적으로 매수하였습니다."
+msgstr "당신의 %s (은)는 그 %s (을)를 매수하기 안에서 성공했습니다."
 
 #. TRANS: <unit> ... <Poles>
 #: server/diplomats.c:491
 #, c-format
 msgid "Your %s was bribed by the %s."
-msgstr "당신의 %s는 %s으로부터 뇌물을 받았습니다"
+msgstr "당신의 %s (은)는 그 %s 에 의해 매수되었습니다."
 
 #: server/diplomats.c:622
 #, c-format
@@ -38586,242 +38591,255 @@ msgid ""
 "%s was expecting your attempt to steal technology again. Your %s was caught "
 "and executed."
 msgstr ""
+"%s (은)는 한 번 더 기술을 훔치는 당신의 시도를 예상했습니다. 당신의 %s (은)는 잡혔고 "
+"처형됐습니다."
 
 #: server/diplomats.c:629
 #, c-format
 msgid "Your %s was caught in the attempt of stealing technology from %s."
-msgstr ""
+msgstr "당신의 %s (은)는 %s (으)로부터 기술을 훔치는 것의 그 시도 안에 잡혔습니다."
 
 #: server/diplomats.c:636
 #, c-format
 msgid "The %s %s failed to steal technology from %s."
-msgstr ""
+msgstr "그 %s %s (은)는 %s (으)로부터 기술을 훔치기를 실패했습니다."
 
 #: server/diplomats.c:652
 #, c-format
 msgid "No new technology found in %s."
-msgstr "%s에서 새로운 기술을 찾을수 없습니다"
+msgstr "%s 안에 새로운 기술을 찾을 수 없었습니다."
 
 #: server/diplomats.c:710
 msgid "You can't subvert this city."
-msgstr "당신은 이 도시를 멸망시킬수 없습니다"
+msgstr "당신은 이 도시를 전복시킬 수 없습니다."
 
 #: server/diplomats.c:722
 #, c-format
 msgid "You don't have enough gold to subvert %s."
-msgstr ""
+msgstr "당신은 %s (을)를 전복시키기 위한 충분한 금을 가지고 있지 않습니다."
 
 #: server/diplomats.c:740
 #, c-format
 msgid "Your %s was caught in the attempt of inciting a revolt!"
-msgstr ""
+msgstr "당신의 %s (은)는 하나의 봉기를 선동하는 것의 그 시도 안에 잡혔습니다!"
 
 #: server/diplomats.c:745
 #, c-format
 msgid "You caught %s %s attempting to incite a revolt in %s!"
-msgstr ""
+msgstr "당신은 %s %s (이)가 %s 안에서 하나의 봉기를 선동하기를 시도하는 것을 "
+"잡았습니다!"
 
 #: server/diplomats.c:769
 #, c-format
 msgid "Revolt incited in %s, you now rule the city!"
-msgstr ""
+msgstr "봉기는 %s 안에 선동했고, 당신은 이제 그 도시를 통치합니다!"
 
 #: server/diplomats.c:773
 #, c-format
 msgid "%s has revolted, %s influence suspected."
-msgstr ""
+msgstr "%s (은)는 봉기를 일으켰고, %s 영향을 의심합니다."
 
 #: server/diplomats.c:856
 #, c-format
 msgid "Your %s was caught in the attempt of industrial sabotage!"
-msgstr ""
+msgstr "당신의 %s (은)는 산업의 사보타주의 그 시도 안에 잡혔습니다!"
 
 #: server/diplomats.c:861
 #, c-format
 msgid "You caught %s %s attempting sabotage in %s!"
-msgstr ""
+msgstr "당신은 %s %s (이)가 %s 안에서 사보타주를 시도하는 것을 잡았습니다!"
 
 #: server/diplomats.c:896
 #, c-format
 msgid "Your %s could not find anything to sabotage in %s."
-msgstr ""
+msgstr "당신의 %s (은)는 %s 안에서 사보타주하기 위해 아무것도 찾을 수 "
+"없었습니다."
 
 #: server/diplomats.c:945
 #, c-format
 msgid "You cannot sabotage a %s!"
-msgstr ""
+msgstr "당신은 하나의 %s (을)를 사보타주할 수 없습니다!"
 
 #: server/diplomats.c:956
 #, c-format
 msgid "Your %s could not find the %s to sabotage in %s."
-msgstr ""
+msgstr "당신의 %s (은)는 그 %s (을)를 %s 안에서 사보타주하기 위해 찾을 수 "
+"없었습니다."
 
 #: server/diplomats.c:981
 #, c-format
 msgid "Your %s succeeded in destroying the production of %s in %s."
-msgstr ""
+msgstr "당신의 %s (은)는 %s 의 그 생산을 %s 안에서 파괴하는 것 안에서 "
+"성공했습니다."
 
 #: server/diplomats.c:988
 #, c-format
 msgid "The production of %s was destroyed in %s, %s are suspected."
-msgstr ""
+msgstr "%s 의 그 생산은 %s 안에서 파괴되었고, %s (이)가 의심받고 있습니다."
 
 #: server/diplomats.c:1011
 #, c-format
 msgid "Your %s was caught in the attempt of sabotage!"
-msgstr ""
+msgstr "당신의 %s (은)는 사보타주의 그 시도 안에 잡혔습니다!"
 
 #: server/diplomats.c:1015
 #, c-format
 msgid "You caught %s %s attempting to sabotage the %s in %s!"
-msgstr ""
+msgstr "당신은 %s %s (이)가 그 %s (을)를 %s 안에 있는 것으로 사보타주하기를 "
+"시도하는 것을 잡았습니다!"
 
 #: server/diplomats.c:1029
 #, c-format
 msgid "Your %s destroyed the %s in %s."
-msgstr ""
+msgstr "당신의 %s (은)는 그 %s (을)를 %s 안에서 파괴했습니다."
 
 #: server/diplomats.c:1035
 #, c-format
 msgid "The %s destroyed the %s in %s."
-msgstr ""
+msgstr "그 %s (은)는 그 %s (을)를 %s 안에서 파괴했습니다."
 
 #. TRANS: <unit> ... <diplomat>
 #: server/diplomats.c:1175
 #, c-format
 msgid "An enemy %s has been eliminated by your %s."
-msgstr ""
+msgstr "하나의 적 %s (은)는 당신의 %s 에 의해 제거되었습니다."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
 #: server/diplomats.c:1182
 #, c-format
 msgid "Your %s has been eliminated defending %s against a %s."
-msgstr ""
+msgstr "당신의 %s (은)는 %s (을)를 하나의 %s 에 맞서 방어하는 것에 제거되었습니다."
 
 #. TRANS: <nation adj> <unit> ... <city>
 #. * TRANS: ... <diplomat>
 #: server/diplomats.c:1189
 #, c-format
 msgid "A %s %s has been eliminated defending %s against a %s."
-msgstr ""
+msgstr "하나의 %s %s (은)는 %s (을)를 하나의 %s 에 맞서 방어하는 것에 제거되었습니다."
 
 #. TRANS: ... <unit> ... <nation adj> <city>
 #. * TRANS: ... <diplomat>
 #: server/diplomats.c:1196
 #, c-format
 msgid "Your %s has been eliminated defending %s %s against a %s."
-msgstr ""
+msgstr "당신의 %s (은)는 %s %s (을)를 하나의 %s 에 맞서 방어하는 것에 제거되었습니다."
 
 #. TRANS: <unit> ... <diplomat>
 #. TRANS: ... <unit> ... <diplomat>
 #: server/diplomats.c:1205 server/diplomats.c:1216
 #, c-format
 msgid "Your %s has been eliminated defending against a %s."
-msgstr ""
+msgstr "당신의 %s (은)는 하나의 %s 에 맞서 방어하는 것에 제거되었습니다."
 
 #. TRANS: <nation adj> <unit> ... <diplomat>
 #: server/diplomats.c:1210
 #, c-format
 msgid "A %s %s has been eliminated defending against a %s."
-msgstr ""
+msgstr "하나의 %s %s (은)는 하나의 %s 에 맞서 방어하는 것에 제거되었습니다."
 
 #: server/diplomats.c:1238
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
-msgstr ""
+msgstr "당신의 %s (은)는 하나의 방어하는 %s 에 의해 제거되었습니다."
 
 #: server/diplomats.c:1244
 #, c-format
 msgid "Eliminated a %s %s while infiltrating %s."
-msgstr ""
+msgstr "하나의 %s %s (을)를 %s (을)를 침투하는 동안 제거함."
 
 #: server/diplomats.c:1249
 #, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating %s."
-msgstr ""
+msgstr "하나의 %s %s (은)는 하나의 %s %s (을)를 %s (을)를 침투하는 동안 "
+"제거했습니다."
 
 #: server/diplomats.c:1254
 #, c-format
 msgid "Your %s eliminated a %s %s while infiltrating %s."
-msgstr ""
+msgstr "당신의 %s (은)는 하나의 %s %s (을)를 %s (을)를 침투하는 동안 "
+"제거했습니다."
 
 #: server/diplomats.c:1262
 #, c-format
 msgid "Eliminated a %s %s while infiltrating our troops."
-msgstr ""
+msgstr "우리의 부대들에게 침투하는 동안 하나의 %s %s (을)를 제거함."
 
 #: server/diplomats.c:1267
 #, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating our troops."
-msgstr ""
+msgstr "하나의 %s %s (은)는 우리의 부대들에게 침투하는 동안 하나의 %s %s (을)를 "
+"제거했습니다."
 
 #. TRANS: ... <unit> ... <diplomat>
 #: server/diplomats.c:1273
 #, c-format
 msgid "Your %s eliminated a %s %s while infiltrating our troops."
-msgstr ""
+msgstr "당신의 %s (은)는 우리의 부대들에게 침투하는 동안 하나의 %s %s (을)를 "
+"제거했습니다."
 
 #: server/diplomats.c:1337
 #, c-format
 msgid ""
 "Your %s has successfully completed the mission and returned unharmed to %s."
 msgstr ""
+"당신의 %s (은)는 그 임무를 성공적으로 완료하고 %s (으)로 다치지 않고 돌아왔습니다."
 
 #: server/diplomats.c:1356
 #, c-format
 msgid "Your %s was captured after completing the mission in %s."
-msgstr ""
+msgstr "당신의 %s (은)는 %s 안에 그 임무를 완료한 후에 잡혔습니다."
 
 #: server/diplomats.c:1362
 #, c-format
 msgid "Your %s was captured after completing the mission."
-msgstr ""
+msgstr "당신의 %s (은)는 그 임무를 완료한 후에 잡혔습니다."
 
 #: server/diplomats.c:1387
 #, c-format
 msgid "You have caused an incident while bribing the %s %s."
-msgstr ""
+msgstr "당신은 그 %s %s (을)를 매수하는 동안 하나의 사건을 야기했습니다."
 
 #: server/diplomats.c:1392
 #, c-format
 msgid "%s has caused an incident while bribing your %s."
-msgstr ""
+msgstr "%s (은) 당신의 %s (을)를 매수하는 동안 하나의 사건을 야기했습니다."
 
 #: server/diplomats.c:1398
 #, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
-msgstr ""
+msgstr "당신은 %s (으)로부터 기술을 훔치기를 시도하는 동안 하나의 사건을 야기했습니다."
 
 #: server/diplomats.c:1402
 #, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
-msgstr ""
+msgstr "%s (은)는 당신으로부터 기술을 훔치기를 시도하는 동안 하나의 사건을 야기했습니다."
 
 #: server/diplomats.c:1408
 #, c-format
 msgid "You have caused an incident while inciting a revolt in %s."
-msgstr ""
+msgstr "당신은 %s 안에서 하나의 봉기를 선동하는 동안 하나의 사건을 야기했습니다."
 
 #: server/diplomats.c:1412
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have caused an incident while inciting a revolt in %s."
-msgstr "%1$s는 %3$s의 %2$s건설을 마쳤습니다"
+msgstr "그 %s (은)는 %s 안에서 하나의 봉기를 선동하는 동안 하나의 사건을 야기했습니다."
 
 #: server/edithand.c:191
 #, c-format
 msgid " *** Server set to edit mode by %s! *** "
-msgstr ""
+msgstr " *** 서버는 %s 에 의해 편집 방식으로 맞추어짐! *** "
 
 #: server/edithand.c:197
 #, c-format
 msgid " *** Edit mode canceled by %s. *** "
-msgstr ""
+msgstr " *** 편집 방식은 %s 에 의해 취소됨. *** "
 
 #: server/edithand.c:429 server/edithand.c:465 server/edithand.c:492
 #: server/edithand.c:525 server/edithand.c:560 server/edithand.c:595
 #, c-format
 msgid "Cannot edit the tile because %d is not a valid tile index on this map!"
-msgstr ""
+msgstr "그 타일을 %d (이)가 이 지도 위에 하나의 유효한 타일 지표가 아니기 때문에 편집할 "
+"수 없습니다!"
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
 #: server/edithand.c:438
@@ -38829,6 +38847,8 @@ msgstr ""
 msgid ""
 "Cannot modify terrain for the tile %s because %d is not a valid terrain id."
 msgstr ""
+"그 타일 %s (을)를 위한 지형을 %d (이)가 하나의 유효한 지형 id가 아니기 때문에  수정할 "
+"수 없음."
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
 #: server/edithand.c:500
@@ -38837,6 +38857,8 @@ msgid ""
 "Cannot modify specials for the tile %s because %d is not a valid terrain "
 "special id."
 msgstr ""
+"그 타일 %s (을)를 위한 특별한 것들을 %d (이)가 하나의 유효한 지형 특별한 것 id가 "
+"아니기 때문에 수정할 수 없음."
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
 #: server/edithand.c:535
@@ -38844,6 +38866,8 @@ msgstr ""
 msgid ""
 "Cannot modify road for the tile %s because %d is not a valid road type id."
 msgstr ""
+"그 타일 %s (을)를 위한 도로를 %d (이)가 하나의 유효한 도로 종류 id가 아니기 때문에 "
+"수정할 수 없음."
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
 #: server/edithand.c:570
@@ -38851,11 +38875,14 @@ msgstr ""
 msgid ""
 "Cannot modify base for the tile %s because %d is not a valid base type id."
 msgstr ""
+"그 타일 %s (을)를 위한 기초를 %d (이)가 하나의 유효한 기초 종류 id가 아니기 때문에 "
+"수정할 수 없음."
 
 #: server/edithand.c:663
 #, c-format
 msgid "Cannot create units because %d is not a valid tile index on this map!"
-msgstr ""
+msgstr "부대들을 %d (이)가 이 지도 위에 하나의 유효한 타일 지표가 아니기 때문에 창조할 "
+"수 없습니다!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:672
@@ -38863,6 +38890,8 @@ msgstr ""
 msgid ""
 "Cannot create a unit at %s because the given unit type id %d is invalid."
 msgstr ""
+"하나의 부대를 %s 에 창조할 수 없는데 그 주어진 부대 종류 id %d (이)가 병약하기 "
+"때문입니다."
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>"...
 #: server/edithand.c:682
@@ -38871,25 +38900,28 @@ msgid ""
 "Cannot create a unit of type %s at %s because the given owner's player id %d "
 "is invalid."
 msgstr ""
+"종류 %s 의 하나의 부대를 %s 에 창조할 수 없는데 그 주어진 주인의 참가자 id %d (이)가 "
+"병약하기 때문입니다."
 
 #. TRANS: ..." type <unit-type> on enemy tile
 #. * <tile-coordinates>"...
 #: server/edithand.c:695
 #, c-format
 msgid "Cannot create unit of type %s on enemy tile %s."
-msgstr ""
+msgstr "종류 %s 의 부대를 적 타일 %s 위에 창조할 수 없음."
 
 #. TRANS: ..." type <unit-type> on the terrain at
 #. * <tile-coordinates>"...
 #: server/edithand.c:705
 #, c-format
 msgid "Cannot create a unit of type %s on the terrain at %s."
-msgstr ""
+msgstr "종류 %s 의 하나의 부대를 %s 에 그 지형 위에 창조할 수 없음."
 
 #: server/edithand.c:751
 #, c-format
 msgid "Cannot remove units because %d is not a valid tile index on this map!"
-msgstr ""
+msgstr "부대들을 %d (이)가 이 지도 위에 하나의 유효한 타일 지표가 아니기 때문에 제거할 "
+"수 없습니다!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:760
@@ -38897,6 +38929,7 @@ msgstr ""
 msgid ""
 "Cannot remove a unit at %s because the given unit type id %d is invalid."
 msgstr ""
+"하나의 부대를 %s 에서 그 주어진 부대 종류 id %d (이)가 병약하기 때문에 제거할 수 없음."
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>
 #. * because"...
@@ -38906,21 +38939,24 @@ msgid ""
 "Cannot remove a unit of type %s at %s because the given owner's player id %d "
 "is invalid."
 msgstr ""
+"종류 %s 의 하나의 부대를 %s 에서 그 주어진 주인의 참가자 id %d (이)가 병약하기 때문에 "
+"제거할 수 없음."
 
 #: server/edithand.c:802 server/edithand.c:825
 #, c-format
 msgid "No such unit (ID %d)."
-msgstr ""
+msgstr "그런 부대 없음 (ID %d)."
 
 #: server/edithand.c:864
 #, c-format
 msgid "Invalid veteran level %d for unit %d (%s)."
-msgstr ""
+msgstr "병약한 전문가 수준 %d 부대 %d (%s) (을)를 위한."
 
 #: server/edithand.c:895
 #, c-format
 msgid "Cannot create a city because %d is not a valid tile index on this map!"
-msgstr ""
+msgstr "%d (은)는 이 지도 위에 하나의 유효한 타일 지표가 아니기 때문에 하나의 도시를 "
+"창조할 수 없습니다!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:904
@@ -38928,44 +38964,47 @@ msgstr ""
 msgid ""
 "Cannot create a city at %s because the given owner's player id %d is invalid"
 msgstr ""
+"하나의 도시를 %s 에 그 주어진 주인의 참가자 id %d (은)는 병약하기 때문에 창조할 수 없음"
 
 #. TRANS: ..." at <tile-coordinates>."
 #: server/edithand.c:916
 #, c-format
 msgid "A city may not be built at %s."
-msgstr ""
+msgstr "하나의 도시는 %s 에 지어질 수 없습니다."
 
 #: server/edithand.c:964
 #, c-format
 msgid "Cannot edit city with invalid city ID %d."
-msgstr ""
+msgstr "병약한 도시 ID %d (와)과 함께 도시를 편집할 수 없음."
 
 #: server/edithand.c:977
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot edit city name: %s"
-msgstr "연결 이름: %s"
+msgstr "도시 이름을 편집할 수 없음: %s"
 
 #: server/edithand.c:988
 #, c-format
 msgid "Invalid city size %d for city %s."
-msgstr ""
+msgstr "병약한 도시 크기 %d (은)는 도시 %s (을)를 위한."
 
 #: server/edithand.c:1005
 #, c-format
 msgid "It is impossible for a city to have %s!"
-msgstr ""
+msgstr "하나의 도시가 %s (을)를 가지는 것은 불가능입니다!"
 
 #: server/edithand.c:1054
 #, c-format
 msgid ""
 "Invalid city food stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
+"병약한 도시 식량 재고량 %d (은)는 도시 %s (을)를 위한 (허용된 범위는 %d 에서 %d 입니다)."
 
 #: server/edithand.c:1068
 #, c-format
 msgid ""
 "Invalid city shield stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
+"병약한 도시 방패 재고량 %d (은)는 도시 %s (을)를 위한 (허용된 범위는 %d 에서 %d 입니다)."
 
 #: server/edithand.c:1115
 #, c-format
@@ -38973,6 +39012,8 @@ msgid ""
 "No more players can be added because the maximum number of players (%d) has "
 "been reached."
 msgstr ""
+"참가자들의 그 최대한의 숫자 (%d) 가 도달했기 때문에 추가될 수 있는 더 많은 참가자들은 "
+"없습니다."
 
 #: server/edithand.c:1123
 #, c-format
@@ -38980,30 +39021,31 @@ msgid ""
 "No more players can be added because there are no available nations (%d "
 "used)."
 msgstr ""
+"그곳에는 이용할 수 있는 국가들이 없기 때문에 (%d 사용됨) 추가될 수 있는 더 많은 "
+"참가자들은 없습니다."
 
 #: server/edithand.c:1132
 msgid "Player cannot be created because random nation selection failed."
-msgstr ""
+msgstr "무작위의 국가 선발을 실패했기 때문에 참가자는 창조될 수 없습니다."
 
 #: server/edithand.c:1140
-#, fuzzy
 msgid "Player creation failed."
-msgstr "플레이어 멸망함"
+msgstr "참가자 창조 실패함."
 
 #: server/edithand.c:1178
 #, c-format
 msgid "No such player (ID %d)."
-msgstr ""
+msgstr "그런 참가자 없음 (ID %d)."
 
 #: server/edithand.c:1207
 #, c-format
 msgid "Cannot edit player with invalid player ID %d."
-msgstr ""
+msgstr "병약한 참가자 ID %d (와)과 함께 참가자를 편집할 수 없습니다."
 
 #: server/edithand.c:1224
 #, c-format
 msgid "Cannot change name of player (%d) '%s' to '%s': %s"
-msgstr ""
+msgstr "참가자 (%d) '%s' 의 이름을 '%s' (으)로 바꿀 수 없습니다: %s"
 
 #: server/edithand.c:1235
 #, c-format
@@ -39011,6 +39053,8 @@ msgid ""
 "Cannot change nation for player %d (%s) because the given nation ID %d is "
 "invalid."
 msgstr ""
+"참가자 %d (%s) (을)를 위한 국가를 바꾸기는 그 주어진 국가 ID %d (이)가 병약하기 "
+"때문에 할 수 없습니다."
 
 #: server/edithand.c:1241
 #, c-format
@@ -39018,6 +39062,8 @@ msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
 "nation is already assigned to player %d (%s)."
 msgstr ""
+"참가자 %d (%s) (을)를 국가 %d (%s) (으)로 위한 그 국가는 이미 참가자 %d (%s) 에 "
+"배정되었기 때문에 국가를 바꿀 수 없습니다."
 
 #: server/edithand.c:1277
 #, c-format
@@ -39025,11 +39071,14 @@ msgid ""
 "Cannot set gold for player %d (%s) because the value %d is outside the "
 "allowed range."
 msgstr ""
+"참가자 %d (%s) (을)를 위한 그 값 %d (은)는 그 허용된 범위 밖이기 때문에 금을 맞출 "
+"수 없습니다."
 
 #: server/edithand.c:1336
 #, c-format
 msgid "Cannot edit vision because %d is not a valid tile index on this map!"
-msgstr ""
+msgstr "%d (은)는 이 지도 위에 하나의 유효한 타일 지표가 아니기 때문에 시각을 편집할 "
+"수 없습니다!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:1345
@@ -39037,25 +39086,27 @@ msgstr ""
 msgid ""
 "Cannot edit vision for the tile at %s because given player id %d is invalid."
 msgstr ""
+"%s 에 그 타일을 위한 시각을 편집할 수 없는데 주어진 참가자 id %d (이)가 병약하기 "
+"때문입니다."
 
 #: server/edithand.c:1418
 #, c-format
 msgid "No such city (ID %d)."
-msgstr ""
+msgstr "그런 도시 없음 (ID %d)."
 
 #: server/edithand.c:1444
 msgid "Cannot toggle fog-of-war when it is already disabled."
-msgstr ""
+msgstr "이것이 이미 망가졌을 때 전쟁의 안개를 켰다 껐다 할 수 없습니다."
 
 #: server/edithand.c:1452
 #, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
-msgstr ""
+msgstr "병약한 참가자 ID %d (을)를 위한 전쟁의 안개를 켰다 껐다 할 수 없음."
 
 #: server/edithand.c:1480 server/edithand.c:1519
 #, c-format
 msgid "Invalid tile index %d for start position."
-msgstr ""
+msgstr "시작 위치를 위한 병약한 타일 지표 %d"
 
 #: server/edithand.c:1527
 #, c-format
@@ -39063,32 +39114,34 @@ msgid ""
 "Cannot edit start position nations at (%d, %d) because there is no start "
 "position there."
 msgstr ""
+"그곳에는 시작 위치가 거기에 없기 때문에 (%d, %d) 에서 시작 위치 국가들을 편집할 수 "
+"없습니다."
 
 #: server/edithand.c:1559
 #, c-format
 msgid "Cannot set invalid game year %d. Valid year range is from %d to %d."
-msgstr ""
+msgstr "병약한 놀이 년도 %d (을)를 맞출 수 없습니다. 유효한 년도 범위는 %d 에서 %d 입니다."
 
 #: server/edithand.c:1602
 msgid "No permissions to remotely save scenario."
-msgstr ""
+msgstr "원격으로 시나리오를 저장할 허락들이 없습니다."
 
 #: server/edithand.c:1609
 msgid "Scenario information not set. Cannot save scenario."
-msgstr ""
+msgstr "시나리오 정보를 맞추지 않았습니다. 시나리오를 저장할 수 없습니다."
 
 #. TRANS: Further information about option will follow.
 #: server/fcdb.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "fcdb option \"%s\":"
-msgstr "권한이 있는 옵션 \"%s\":"
+msgstr "fcdb 선택 \"%s\":"
 
 #. TRANS: After 'fcdb option "user":'. Option value
 #. may have been inserted between these. Preserve
 #. leading space.
 #: server/fcdb.c:136
 msgid " missing from config file (using default)"
-msgstr "설정파일이 없습니다(기본값을 사용합니다)"
+msgstr " 환경 설정 파일로부터 실종된 (기본값을 사용하는 중)"
 
 #. TRANS: fcdb option originates from internal default
 #: server/fcdb.c:139
@@ -39098,69 +39151,71 @@ msgstr " (기본값)"
 #. TRANS: fcdb option originates from config file
 #: server/fcdb.c:144
 msgid " (config)"
-msgstr " (편집)"
+msgstr " (환경 설정)"
 
 #. TRANS: fcdb option has been set from prompt
 #: server/fcdb.c:148
 msgid " (set)"
-msgstr " (배치)"
+msgstr " (맞춤)"
 
 #: server/fcdb.c:190
 #, c-format
 msgid "Illegal value for fcdb port: \"%s\""
-msgstr ""
+msgstr "fcdb 항구를 위한 불법적인 값: \"%s\""
 
 #: server/fcdb.c:239
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot load fcdb config file '%s':\n"
 "%s"
-msgstr "권한있는 편집화일 \"%s\"는 읽을 수 없습니다!"
+msgstr ""
+"fcdb 환경 설정 파일 '%s' (을)를 적재할 수 없음:\n"
+"%s"
 
 #: server/gamehand.c:172
 #, c-format
 msgid "Sea moving start units are not yet supported. Nobody gets %s."
-msgstr ""
+msgstr "바다 움직이는 출발 부대들은 아직 지원하지 않습니다. 아무도 %s (을)를 받을 수 없습니다."
 
 #: server/gamehand.c:444
 #, c-format
 msgid "No units placed for %s!"
-msgstr ""
+msgstr "%s (을)를 위해 배치한 부대들이 없음!"
 
 #: server/gamehand.c:556
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
-msgstr ""
+msgstr "그 차례 시간초과는 이것의 최대값을 초과해서, 이것의 최대로 고정하는 중."
 
 #: server/gamehand.c:564
 msgid "The turn timeout is smaller than zero, fixing at zero."
-msgstr ""
+msgstr "그 차례 시간초과는 0보다 더 작아서, 0으로 고정하는 중."
 
 #: server/generator/mapgen.c:1525
 msgid "The server couldn't allocate starting positions."
-msgstr ""
+msgstr "그 서버는 출발 자세들을 할당할 수 없었습니다."
 
 #: server/generator/mapgen.c:2180
 msgid "High landmass - this may take a few seconds."
-msgstr ""
+msgstr "높은 대륙 - 이것은 하나의 약간의 초를 가질 수도 있습니다."
 
 #: server/generator/mapgen.c:2456
 msgid "Generator 3 didn't place all big islands."
-msgstr ""
+msgstr "발생기 3은 모든 큰 섬들을 두지 않았습니다."
 
 #: server/generator/mapgen.c:2485
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
-msgstr ""
+msgstr "발생기 3은 순위에 들지 않은 %li 대륙을 남겼습니다."
 
 #: server/generator/mapgen_topology.c:244
 #, c-format
 msgid "Creating a map of size %d x %d = %d tiles (%d requested)."
-msgstr ""
+msgstr "크기 %d x %d = %d 타일들의 하나의 지도를 생성하는 중 (%d 요구됨)."
 
 #: server/generator/mapgen_topology.c:284
 #, c-format
 msgid "Creating a map of size %d x %d = %d tiles (map size: %d)."
-msgstr ""
+msgstr "크기 %d x %d = %d 타일들의 하나의 지도를 생성하는 중 (지도 크기: %d)."
 
 #: server/generator/mapgen_topology.c:296
 #, c-format
@@ -39168,6 +39223,8 @@ msgid ""
 "Map size calculated for %d (land) tiles per player and %d player(s) too "
 "small. Setting map size to the minimal size %d."
 msgstr ""
+"지도 크기는 참가자 마다 %d (육지) 타일들과 %d 참가자(들)이 너무 적다는 것을 위해 "
+"계산했습니다. 지도 크기를 그 최소의 크기 %d (으)로 맞추는 중."
 
 #: server/generator/mapgen_topology.c:301
 #, c-format
@@ -39175,6 +39232,8 @@ msgid ""
 "Map size calculated for %d (land) tiles per player and %d player(s) too "
 "large. Setting map size to the maximal size %d."
 msgstr ""
+"지도 크기는 참가자 마다 %d (육지) 타일들과 %d 참가자(들)이 너무 많다는 것을 위해 "
+"계산했습니다. 지도 크기를 그 최대한의 크기 %d (으)로 맞추는 중."
 
 #: server/generator/mapgen_topology.c:306
 #, c-format
@@ -39182,6 +39241,8 @@ msgid ""
 "Setting map size to %d (approx. %d (land) tiles for each of the %d player"
 "(s))."
 msgstr ""
+"지도 크기를 %d (으)로 맞추는 중 (근사치인. %d (육지) 타일들은 그 %d 참가자(들)의 "
+"각각을 위해)."
 
 #: server/generator/startpos.c:472
 msgid ""
@@ -39189,151 +39250,164 @@ msgid ""
 "starting positions.\n"
 "Maybe the number of players is too high for this map."
 msgstr ""
+"그 서버는 출발 자세들의 그 할당량 안에서 하나의 무한한 고리 안으로 가진 것 같습니다.\n"
+"어쩌면 참가자들의 그 숫자가 이 지도를 위해 너무 높습니다."
 
 #: server/ggzserver.c:125
 msgid "Unable to make temporary directory for GGZ game.\n"
-msgstr ""
+msgstr "GGZ 놀이를 위한 임시의 디렉토리를 만들 수 없습니다.\n"
 
 #: server/ggzserver.c:132
 #, c-format
 msgid "Unable to change into temporary server directory %s.\n"
-msgstr ""
+msgstr "임시의 서버 디렉토리 %s 안으로 바꿀 수 없습니다.\n"
 
 #: server/handchat.c:108
 #, c-format
 msgid "%s is an ambiguous player name-prefix."
-msgstr ""
+msgstr "%s (은)는 하나의 애매모호한 참가자 이름-접두사입니다."
 
 #: server/handchat.c:112
 #, c-format
 msgid "%s is an ambiguous connection name-prefix."
-msgstr ""
+msgstr "%s (은)는 하나의 애매모호한 접속 이름-접두사입니다."
 
 #: server/handchat.c:116
 #, c-format
 msgid "%s is an anonymous name. Use connection name."
-msgstr ""
+msgstr "%s (은)는 하나의 익명의 이름입니다. 접속 이름을 사용하세요."
 
 #: server/handchat.c:135 server/handchat.c:172
 #, c-format
 msgid "You cannot send messages to %s; you are ignored."
-msgstr ""
+msgstr "당신은 %s 에게 메시지들을 보낼 수 없습니다; 당신은 무시되었습니다."
 
 #: server/handchat.c:231
 #, c-format
 msgid "%s to allies: %s"
-msgstr ""
+msgstr "%s (을)를 연합국들로: %s"
 
 #: server/handchat.c:263
-#, fuzzy, c-format
+#, c-format
 msgid "%s to global observers: %s"
-msgstr "%s는 이제 %s(을)를 관찰합니다"
+msgstr "%s (을)를 세계적인 관찰자들로: %s"
 
 #: server/handchat.c:352
 msgid "You are not attached to a player."
-msgstr ""
+msgstr "당신은 하나의 참가자에 부여되지 않았습니다."
 
 #: server/handchat.c:438
 #, c-format
 msgid "%s is not connected."
-msgstr ""
+msgstr "%s (은)는 접속하지 않았습니다."
 
 #: server/handchat.c:449
 #, c-format
 msgid "There is no connection by the name %s."
-msgstr ""
+msgstr "그곳에는 그 이름 %s 로서 접속은 없습니다."
 
 #: server/handchat.c:452
 #, c-format
 msgid "There is no player nor connection by the name %s."
-msgstr ""
+msgstr "그곳에는 그 이름 %s 로서 참가자는 없고 접속도 마찬가지입니다."
 
 #: server/maphand.c:101
 msgid "Global warming has occurred!"
-msgstr "온난화가 생겼습니다"
+msgstr "지구 온난화가 일어났습니다!"
 
 #: server/maphand.c:103
 msgid ""
 "Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
 msgstr ""
+"해안선들은 물에 잠기고 초원의 어마어마한 범위들은 사막들이 되었습니다."
 
 #: server/maphand.c:114
 msgid "Nuclear winter has occurred!"
-msgstr "핵 겨울이 일어났습니다!"
+msgstr "핵겨울이 일어났습니다!"
 
 #: server/maphand.c:116
 msgid "Wetlands have dried up and vast ranges of grassland have become tundra."
-msgstr ""
+msgstr "습지들은 바싹 말랐고 초원의 어마어마한 범위들은 툰드라가 되었습니다."
 
 #: server/maphand.c:262
 msgid ""
 "New hope sweeps like fire through the country as the discovery of new road "
 "building technology is announced."
 msgstr ""
+"새로운 도로 건물 기술의 그 발견이 발표되었기 때문에 새로운 희망이 불과 같이 그 나라를 "
+"통해 휘몰아칩니다."
 
 #: server/maphand.c:267
 msgid ""
 "The people are pleased to hear that your scientists finally know about new "
 "road building technology."
 msgstr ""
+"그 사람들은 당신의 과학자들이 마침내 새로운 도로 건물 기술에 대해 알게 되는 것을 듣는 "
+"것에 기뻐합니다."
 
 #: server/maphand.c:272
 msgid ""
 "Workers spontaneously gather and upgrade all possible cities with better "
 "roads."
 msgstr ""
+"노동자들은 자발적으로 모이고 더 좋은 도로들과 함께 모든 가능한 도시들을 개선합니다."
 
 #: server/maphand.c:327
 msgid ""
 "New hope sweeps like fire through the country as the discovery of new base "
 "building technology is announced."
 msgstr ""
+"새로운 기초 건물 기술의 그 발견이 발표되었기 때문에 새로운 희망이 불과 같이 그 나라를 "
+"통해 휘몰아칩니다."
 
 #: server/maphand.c:332
 msgid ""
 "The people are pleased to hear that your scientists finally know about new "
 "base building technology."
 msgstr ""
+"그 사람들은 당신의 과학자들이 마침내 새로운 기초 건물 기술에 대해 알게 되는 것을 듣는 "
+"것에 기뻐합니다."
 
 #: server/maphand.c:337
 msgid ""
 "Workers spontaneously gather and upgrade all possible cities with better "
 "bases."
 msgstr ""
+"노동자들은 자발적으로 모이고 더 좋은 기초들과 함께 모든 가능한 도시들을 개선합니다."
 
 #: server/maphand.c:1598
 #, c-format
 msgid "Moved your %s due to changing terrain."
-msgstr ""
+msgstr "바뀌는 지형 때문에 당신의 %s (은)는 움직임."
 
 #: server/maphand.c:1615
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
-msgstr ""
+msgstr "바뀌는 지형 때문에 당신의 %s (은)는 해산됨."
 
 #: server/meta.c:196
 msgid "Not reporting to the metaserver in this game."
-msgstr ""
+msgstr "이 놀이 안에서 그 메타서버로 보고하지 않는 중."
 
 #: server/plrhand.c:140
 #, c-format
 msgid "The %s are no more!"
-msgstr "%s(은)는 망했습니다!"
+msgstr "그 %s (은)는 더 이상 없습니다!"
 
 #: server/plrhand.c:269
 msgid "Cannot change rates before game start."
-msgstr ""
+msgstr "놀이가 시작하기 전에 비율들을 바꿀 수 없습니다."
 
 #: server/plrhand.c:293
 #, c-format
 msgid "%s rate exceeds the max rate for %s."
-msgstr ""
+msgstr "%s 비율은 %s (을)를 위한 그 최대 비율을 초과했습니다."
 
 #: server/plrhand.c:328
 #, c-format
 msgid "%s now governs the %s as a %s."
-msgstr ""
+msgstr "%s (은)는 이제 그 %s (을)를 하나의 %s 로서 통치합니다."
 
 #: server/plrhand.c:351
 #, c-format
@@ -39341,6 +39415,8 @@ msgid ""
 "The tax rates for the %s are changed from %3d%%/%3d%%/%3d%% (tax/luxury/"
 "science) to %3d%%/%3d%%/%3d%%."
 msgstr ""
+"그 %s (을)를 위한 그 세금 비율은 %3d%%/%3d%%/%3d%% (세금/사치/과학) 에서 "
+"%3d%%/%3d%%/%3d%% 으로 바뀌었습니다."
 
 #. TRANS: this is a message event so don't make it
 #. * too long.
@@ -39353,31 +39429,33 @@ msgid_plural ""
 "The %s have incited a revolt! %d turns of anarchy will ensue! Target "
 "government is %s."
 msgstr[0] ""
+"그 %s (은)는 하나의 봉기를 선동했습니다! 무정부의 %d 차례는 뒤따를 것입니다! 목표 "
+"정부는 %s 입니다."
 
 #: server/plrhand.c:434
 msgid "Revolution: returning to anarchy."
-msgstr ""
+msgstr "혁명: 무정부로 되돌아가는 중."
 
 #: server/plrhand.c:490
 msgid "You should choose a new government from the government menu."
-msgstr ""
+msgstr "당신은 그 정부 메뉴로부터 하나의 새로운 정부를 선택해야 합니다."
 
 #: server/plrhand.c:515
 msgid "Tax rate exceeded the max rate; adjusted."
-msgstr ""
+msgstr "세금 비율이 그 최대 비율을 초과했습니다; 조정됨."
 
 #: server/plrhand.c:519
 msgid "Science rate exceeded the max rate; adjusted."
-msgstr ""
+msgstr "과학 비율이 그 최대 비율을 초과했습니다; 조정됨."
 
 #: server/plrhand.c:523
 msgid "Luxury rate exceeded the max rate; adjusted."
-msgstr ""
+msgstr "사치 비율이 그 최대 비율을 초과했습니다; 조정됨."
 
 #: server/plrhand.c:617
 #, c-format
 msgid "%s no longer gives us shared vision!"
-msgstr "%s는 더이상 시야를 공유하지 않습니다"
+msgstr "%s (은)는 더 이상 공유된 시각을 주지 않습니다!"
 
 #: server/plrhand.c:628
 #, c-format
@@ -39385,12 +39463,15 @@ msgid ""
 "The senate will not allow you to break treaty with the %s.  You must either "
 "dissolve the senate or wait until a more timely moment."
 msgstr ""
+"그 상원은 당신이 그 %s (와)과의 조약을 부수기를 허용하기 않을 것입니다.  당신은 반드시 "
+"그 상원을 용해시키거나 하나의 더 많은 양의 시기적절한 순간까지 기다려야 하는 양자택일입니다."
 
 #: server/plrhand.c:679
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr ""
+"그 상원은 그 %s 의 그 끊임없는 도발들 때문에 당신의 법안을 통과시킵니다."
 
 #: server/plrhand.c:684
 #, c-format
@@ -39398,11 +39479,13 @@ msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
 "finding a new senate."
 msgstr ""
+"그 상원은 그 %s (와)과의 조약을 부수기를 거절했지만, 당신은 하나의 새로운 상원을 "
+"찾는데 문제를 가지지 않습니다."
 
 #: server/plrhand.c:719
 #, c-format
 msgid "The diplomatic state between the %s and the %s is now %s."
-msgstr ""
+msgstr "이제 그 %s (와)과 그 %s 사이의 그 외교의 상태는 %s 입니다."
 
 #: server/plrhand.c:725
 #, c-format
@@ -39410,12 +39493,16 @@ msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
+" %s (은)는 그 외교의 협정을 취소했습니다! 이제 그 %s (와)과 그 %s 사이의 그 외교의 "
+"상태는 %s 입니다."
 
 #: server/plrhand.c:743
 #, c-format
 msgid ""
 "%s has attacked your ally %s! You cancel your alliance to the aggressor."
 msgstr ""
+"%s (은)는 당신의 동맹국 %s (을)를 공격했습니다! 당신은 그 침략자에게 당신의 동맹을 "
+"취소합니다."
 
 #: server/plrhand.c:755
 #, c-format
@@ -39423,89 +39510,90 @@ msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
 "with %s."
 msgstr ""
+"당신의 팀 친구 %s (은)는 %s 위에 전쟁을 선언했습니다. 당신은 %s 와 동맹을 취소하기 위한 "
+"의무를 가졌습니다."
 
 #: server/plrhand.c:1461
 msgid "no color"
-msgstr ""
+msgstr "아님 색깔"
 
 #: server/plrhand.c:1547
 #, c-format
 msgid "Removing player %s."
-msgstr " %s플레이어 없앰"
+msgstr "참가자 %s (을)를 제거하는 중."
 
 #: server/plrhand.c:1550
 msgid "You've been removed from the game!"
-msgstr "당신은 게임으로 부터 제거 되었습니다"
+msgstr "당신은 그 놀이로부터 제거되었습니다!"
 
 #: server/plrhand.c:1553
 #, c-format
 msgid "%s has been removed from the game."
-msgstr ""
+msgstr "%s (은)는 그 놀이로부터 제거되었습니다."
 
 #: server/plrhand.c:1686
 msgid "Please choose a non-blank name."
-msgstr ""
+msgstr "제발 하나의 안-빈 이름을 선택하세요."
 
 #: server/plrhand.c:1699
 msgid "That nation is already in use."
 msgstr "그 국가는 이미 사용되고 있습니다."
 
 #: server/plrhand.c:1704
-#, fuzzy, c-format
+#, c-format
 msgid "Another player already has the name '%s'. Please choose another name."
-msgstr "또다른 플레이어가 이미 %s 이름을 갖고 있습니다. 다른 이름을 사용하세요"
+msgstr "다른 참가자가 이미 그 이름 '%s' (을)를 가집니다. 제발 다른 이름을 선택하세요."
 
 #: server/plrhand.c:1728
 msgid "Please choose a name containing only ASCII characters."
-msgstr ""
+msgstr "제발 오직 ASCII 글자들이 들어있는 하나의 이름을 선택하세요."
 
 #: server/plrhand.c:1803 server/plrhand.c:1817
-#, fuzzy, c-format
+#, c-format
 msgid "Player no. %d"
-msgstr "사용자 %d"
+msgstr "참가자 번호. %d"
 
 #: server/plrhand.c:1832
-#, fuzzy
 msgid "A poorly-named player"
-msgstr "안타깝게 이름지어진 도시"
+msgstr "하나의 형편없이-이름 지어진 참가자"
 
 #: server/plrhand.c:1901 server/plrhand.c:1905
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
-msgstr ""
+msgstr "당신은 그 %s (은)는 %s 에 의해 통치되는데, 함께 접촉을 만들어 가졌습니다."
 
 #: server/plrhand.c:2445
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
-msgstr ""
+msgstr "%s (을)를 내전 안으로 던질 수 없습니다 - 너무 많은 참가자들"
 
 #: server/plrhand.c:2451
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
-msgstr ""
+msgstr "%s (을)를 내전 안으로 던질 수 없습니다 - 이용할 수 있는 국가들이 없음"
 
 #: server/plrhand.c:2481
 msgid "Your nation is thrust into civil war."
-msgstr ""
+msgstr "당신의 국가는 내전 안으로 밀쳤습니다."
 
 #. TRANS: <leader> ... the Poles.
 #: server/plrhand.c:2485
 #, c-format
 msgid "%s is the rebellious leader of the %s."
-msgstr ""
+msgstr "%s (은)는 그 %s 의 그 반항적인 지도자입니다."
 
 #. TRANS: <city> ... the Poles.
 #: server/plrhand.c:2511
 #, c-format
 msgid "%s declares allegiance to the %s."
-msgstr ""
+msgstr "%s (은)는 그 %s 에게 충성을 선언합니다."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
 #: server/plrhand.c:2532
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
-msgstr[0] ""
+msgstr[0] "내전은 그 %s (을)를 분할합니다; 그 %s (은)는 이제 %d 도시를 잡고 있습니다."
 
 #. TRANS: '/delegate cancel' is a server command and must not
 #. * be translated
@@ -39515,93 +39603,87 @@ msgid ""
 "User '%s' is currently allowed to take control of your player while you are "
 "away. Use '/delegate cancel' to revoke this access."
 msgstr ""
+"현재 사용자 '%s' (은)는 당신이 자리에 없는 동안 당신의 참가자의 통제를 가지기를 "
+"허용되었습니다. 이 접근을 페지하기 위해 'delegate cancel' 을 사용하세요."
 
 #: server/plrhand.c:2686
-#, fuzzy, c-format
+#, c-format
 msgid "Control of player '%s' is delegated to you."
-msgstr "%s는 %s에 의해 파괴되었습니다."
+msgstr "참가자 '%s' 의 통제는 당신에게 위임되었습니다."
 
 #. TRANS: '/delegate take' is a server command and must not
 #. * be translated; but <player> should be translated.
 #: server/plrhand.c:2695
 msgid "Use '/delegate take <player>' to take control of a delegated player."
-msgstr ""
+msgstr "하나의 위임된 참가자의 통제를 가지기 위해 '/delegate take <참가자>' 을 사용하세요."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:84
 #, c-format
 msgid "%s %s reports on the RICHEST Civilizations in the World."
-msgstr ""
+msgstr "%s %s 은(는) 그 세계 안에서 그 가장 부유한 문명들에 대해 발표합니다."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:86
 #, c-format
 msgid "%s %s reports on the most ADVANCED Civilizations in the World."
-msgstr ""
+msgstr "%s %s 은(는) 그 세계 안에서 그 가장 선진의 문명들에 대해 발표합니다."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:88
 #, c-format
 msgid "%s %s reports on the most MILITARIZED Civilizations in the World."
-msgstr ""
+msgstr "%s %s 은(는) 그 세계 안에서 그 가장 무장을 한 문명들에 대해 발표합니다."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:90
 #, c-format
 msgid "%s %s reports on the HAPPIEST Civilizations in the World."
-msgstr ""
+msgstr "%s %s 은(는) 그 세계 안에서 그 가장 행복한 문명들에 대해 발표합니다."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:92
 #, c-format
 msgid "%s %s reports on the LARGEST Civilizations in the World."
-msgstr ""
+msgstr "%s %s 은(는) 그 세계 안에서 그 가장 큰 문명들에 대해 발표합니다."
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:97
-#, fuzzy
 msgid "Herodotus"
 msgstr "헤로도토스"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:99
-#, fuzzy
 msgid "Thucydides"
 msgstr "투키디데스"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:101
-#, fuzzy
 msgid "Pliny the Elder"
-msgstr "大프리니우스"
+msgstr "대(大)플리니우스"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:103
-#, fuzzy
 msgid "Livy"
 msgstr "리비우스"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:105
-#, fuzzy
 msgid "Toynbee"
 msgstr "토인비"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:107
-#, fuzzy
 msgid "Gibbon"
 msgstr "기번"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:109
-#, fuzzy
 msgid "Ssu-ma Ch'ien"
 msgstr "사마천"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:111
-#, fuzzy
 msgid "Pan Ku"
 msgstr "반고"
 
@@ -39611,11 +39693,11 @@ msgstr "인구"
 
 #: server/report.c:158
 msgid "Land Area"
-msgstr "통치된 지역"
+msgstr "육지 면적"
 
 #: server/report.c:159
 msgid "Settled Area"
-msgstr "이주민 지역"
+msgstr "정착한 면적"
 
 #: server/report.c:160
 msgid "Research Speed"
@@ -39627,195 +39709,191 @@ msgstr "병역"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:183
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Supreme %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: 그 최고의 %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:185
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Magnificent %s"
-msgstr "장대한"
+msgstr "%2d: 그 감명 깊은 %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:187
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Great %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: 그 위대한 %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:189
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Glorious %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: 그 장엄한 %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:191
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Excellent %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: 그 훌륭한 %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:193
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Eminent %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: 그 저명한 %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:195
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Distinguished %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: 그 유명한 %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:197
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Average %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: 그 평균의 %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:199
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Mediocre %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: 그 썩 좋지는 않은 %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Ordinary %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: 그 평범한 %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:203
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Pathetic %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: 그 한심한 %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Useless %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: 그 쓸모 없는 %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:207
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Valueless %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: 그 무가치한 %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Worthless %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: 그 가치 없는 %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:211
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Wretched %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: 그 형편없는 %s"
 
 #: server/report.c:280
 msgid "Historian Publishes!"
-msgstr "역사가의 발표"
+msgstr "사학자가 발표하다!"
 
 #. TRANS:"The French City of Lyon (team 3) of size 18".
 #: server/report.c:350
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The %s City of %s (%s) of size %d, "
-msgstr "%2d: %s의 도시 %s 크기 %d, "
+msgstr "%2d: 그 %s 도시는 %s (%s) 의 것으로 크기 %d, "
 
 #: server/report.c:356
 #, c-format
 msgid "%2d: The %s City of %s of size %d, "
-msgstr "%2d: %s의 도시 %s 크기 %d, "
+msgstr "%2d: 그 %s 도시는 %s 의 것으로 크기 %d, "
 
 #: server/report.c:363
 msgid "with no wonders\n"
-msgstr "불가사의 없음\n"
+msgstr "불가사의 없음과 함께\n"
 
 #: server/report.c:366
 #, c-format
 msgid "with %d wonder\n"
 msgid_plural "with %d wonders\n"
-msgstr[0] "불가사의 %d\n"
+msgstr[0] "%d 불가사의과 함께\n"
 
 #: server/report.c:369 server/report.c:443
 msgid "Traveler's Report:"
-msgstr "여행사의 보고:"
+msgstr "여행자의 보고서:"
 
 #: server/report.c:370
 msgid "The Five Greatest Cities in the World!"
-msgstr "세계 5개 대도시!"
+msgstr "그 세계 안에서 그 다섯의 가장 큰 도시들!"
 
 #. TRANS: "Colossus in Rhodes (Greek, team 2)".
 #: server/report.c:396
-#, fuzzy, c-format
+#, c-format
 msgid "%s in %s (%s, %s)\n"
-msgstr "도시: %s | %s (%s, %s)"
+msgstr "%s (은)는 %s 안에 있는 (%s, %s)\n"
 
 #: server/report.c:402
 #, c-format
 msgid "%s in %s (%s)\n"
-msgstr ""
+msgstr "%s (은)는 %s 안에 있는 (%s)\n"
 
 #: server/report.c:408
 #, c-format
 msgid "%s has been DESTROYED\n"
-msgstr ""
+msgstr "%s (은)는 파.괘.되었습니다\n"
 
 #. TRANS: "([...] (Roman, team 4))".
 #: server/report.c:428
-#, fuzzy, c-format
+#, c-format
 msgid "(building %s in %s (%s, %s))\n"
-msgstr "도시: %s | %s (%s, %s)"
+msgstr "(%s (을)를 %s 안에서 짓는 중 (%s, %s))\n"
 
 #: server/report.c:433
 #, c-format
 msgid "(building %s in %s (%s))\n"
-msgstr ""
+msgstr "(%s (을)를 %s 안에서 짓는 중 (%s))\n"
 
 #. TRANS: abbreviation of "square miles"
 #: server/report.c:792
-#, fuzzy
 msgid " sq. mi."
 msgid_plural " sq. mi."
-msgstr[0] "제곱 마일"
+msgstr[0] " 평방 마일"
 
 #. TRANS: "M tons" = million tons, so always plural
 #: server/report.c:812
-#, fuzzy
 msgid " M tons"
 msgid_plural " M tons"
-msgstr[0] "백만 톤"
+msgstr[0] " 백만 톤"
 
 #. TRANS: "M goods" = million goods, so always plural
 #: server/report.c:822
-#, fuzzy
 msgid " M goods"
 msgid_plural " M goods"
-msgstr[0] "백만 상품"
+msgstr[0] " 백만 상품"
 
 #: server/report.c:831
-#, fuzzy
 msgid " bulb"
 msgid_plural " bulbs"
-msgstr[0] "전구"
+msgstr[0] " 전구"
 
 #: server/report.c:840
 msgid " month"
 msgid_plural " months"
-msgstr[0] "개월"
+msgstr[0] " 개월"
 
 #: server/report.c:849
 msgid " ton"
 msgid_plural " tons"
-msgstr[0] "톤"
+msgstr[0] " 톤"
 
 #: server/report.c:881
 #, c-format
 msgid "(ranked %d)"
-msgstr ""
+msgstr "(%d 순위 평가됨)"
 
 #: server/report.c:997 server/report.c:1024
 msgid "Demographics Report:"
@@ -39823,12 +39901,12 @@ msgstr "인구 통계 보고서:"
 
 #: server/report.c:998
 msgid "Sorry, the Demographics report is unavailable."
-msgstr ""
+msgstr "미안한, 그 인구 통계 보고서는 손에 넣을 수 없습니다."
 
 #: server/report.c:1003
 #, c-format
 msgid "%s %s (%s)"
-msgstr "%s의 %s 국가 (%s)"
+msgstr "%s %s (%s)"
 
 #: server/report.c:1466
 msgid "Population\n"
@@ -39854,11 +39932,11 @@ msgstr ""
 
 #: server/report.c:1471
 msgid "Cities\n"
-msgstr "도시\n"
+msgstr "도시들\n"
 
 #: server/report.c:1472
 msgid "Technologies\n"
-msgstr "기술\n"
+msgstr "기술들\n"
 
 #: server/report.c:1473
 msgid ""
@@ -39866,11 +39944,11 @@ msgid ""
 "(months)"
 msgstr ""
 "병역\n"
-"(월간)"
+"(개월)"
 
 #: server/report.c:1474
 msgid "Wonders\n"
-msgstr "불가사의\n"
+msgstr "불가사의들\n"
 
 #: server/report.c:1475
 msgid ""
@@ -39886,6 +39964,8 @@ msgid ""
 "Land Area\n"
 "(sq. mi.)"
 msgstr ""
+"육지 면적\n"
+"(평방 마일)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
 #: server/report.c:1479
@@ -39893,13 +39973,15 @@ msgid ""
 "Settled Area\n"
 "(sq. mi.)"
 msgstr ""
+"정착한 면적\n"
+"(평방 마일)"
 
 #: server/report.c:1480
 msgid ""
 "Literacy\n"
 "(%)"
 msgstr ""
-"교육\n"
+"문해\n"
 "(%)"
 
 #: server/report.c:1481
@@ -39907,34 +39989,30 @@ msgid "Spaceship\n"
 msgstr "우주선\n"
 
 #: server/report.c:1482
-#, fuzzy
 msgid "Built Units\n"
-msgstr "부대 건설중"
+msgstr "만든 부대들\n"
 
 #: server/report.c:1483
-#, fuzzy
 msgid "Killed Units\n"
-msgstr "가능한 부대"
+msgstr "죽인 부대들\n"
 
 #: server/report.c:1484
-#, fuzzy
 msgid "Unit Losses\n"
-msgstr "방배"
+msgstr "부대 손실들\n"
 
 #. TRANS: message about an installation error.
 #: server/ruleset.c:224
 #, c-format
 msgid "Could not find a readable \"%s.%s\" ruleset file."
-msgstr "읽을 수 있는 \"%s.%s\" 룰세트 파일을 못 찾았습니다"
+msgstr "하나의 읽기 쉬운 \"%s.%s\" 규칙집단 파일을 찾을 수 없었습니다."
 
 #: server/ruleset.c:5647
-#, fuzzy
 msgid "Loading rulesets."
-msgstr "룰세트를 읽는 중"
+msgstr "규칙집단들을 적재하는 중."
 
 #: server/ruleset.c:5767
 msgid "Reducing aifill because there are not enough playable nations."
-msgstr ""
+msgstr "그곳에는 경기하기 적합한 국가들이 충분하지 않기 때문에 인공지능채우기를 줄이는 중."
 
 #. TRANS: Minor error message.
 #: server/savegame2.c:300 server/savegame.c:190
@@ -39943,29 +40021,33 @@ msgid ""
 "games, or it may indicate an invalid saved game file. Proceed at your own "
 "risk."
 msgstr ""
+"저장된 놀이는 불완전한 지도 자료가 들어있습니다. 이것은 늙은 저장된 놀이들과 함께 "
+"발생할 수 있거나, 이것은 하나의 병약한 저장된 놀이 파일을 나타낼 수 있습니다. 당신의 "
+"소유한 위험에서 진행합니다."
 
 #: server/savegame2.c:3397 server/savegame.c:4231 server/srv_main.c:1913
 #: server/srv_main.c:1918
-#, fuzzy, c-format
+#, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
-msgstr "%s는 %s에 의해 파괴되었습니다."
+msgstr "%s (은)는 %s 수준 인공지능-통제되는 참가자 (%s) 로서 추가되었습니다."
 
 #: server/savegame2.c:3402 server/savegame.c:4236
 #, c-format
 msgid "%s has been added as human player."
-msgstr ""
+msgstr "%s (은)는 인간 참가자로서 추가되었습니다."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
 #: server/savegame2.c:3425 server/savegame.c:4282
 #, c-format
 msgid "%s had invalid nation; changing to %s."
-msgstr ""
+msgstr "%s (은)는 병약한 국가를 가졌습니다; %s (으)로 바꾸는 중."
 
 #: server/savegame2.c:6491
 #, c-format
 msgid ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
 msgstr ""
+"판을 위해 호환성 기능을 실행합니다: <%d (저장 파일: %d; 서버: %d)."
 
 #. TRANS: Fatal error message.
 #: server/savegame.c:3378
@@ -39973,6 +40055,8 @@ msgid ""
 "Saved game uses the ancient \"classic\" terrain ruleset, and is no longer "
 "supported."
 msgstr ""
+"저장된 놀이는 그 고대의 \"클래식\" 지형 규칙집단을 사용하고, 더 이상 지원되지 "
+"않습니다."
 
 #: server/savegame.c:3386
 #, c-format
@@ -39980,54 +40064,52 @@ msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
 "Using '%s'."
 msgstr ""
+"경고: 다른 규칙집단경로들은 ('%s' and '%s') 더 이상 지원되지 않습니다. '%s' (을)를 "
+"사용하는 중."
 
 #. TRANS: Fatal error message.
 #: server/savegame.c:3434
 msgid "Saved game is too old, at least version 1.9.0 required."
-msgstr ""
+msgstr "저장된 놀이가 너무 늙었고, 적어도 1.9.0 판이 요구됩니다."
 
 #: server/sernet.c:149
 msgid "Server cannot read standard input. Ignoring input."
-msgstr ""
+msgstr "서버가 기준 입력을 읽을 수 없습니다. 입력을 무시하는 중."
 
 #: server/sernet.c:459
 msgid "rejected"
-msgstr ""
+msgstr "거절됨"
 
 #: server/sernet.c:543
-#, fuzzy
 msgid "Restarting for lack of players."
-msgstr "한 플레이어당 시작 금(gold)"
+msgstr "참가자들의 부족으로 다시 시작하는 중"
 
 #: server/sernet.c:561
-#, fuzzy, c-format
+#, c-format
 msgid "Restarting in %d seconds for lack of players."
-msgstr "한 플레이어당 시작 금(gold)"
+msgstr "참가자들의 부족으로 %d 초 안으로 다시 시작하는 중"
 
 #: server/sernet.c:564
-#, fuzzy
 msgid "restarting soon for lack of players"
-msgstr "한 플레이어당 시작 금(gold)"
+msgstr "참가자들의 부족으로 곧 다시 시작하는 중"
 
 #: server/sernet.c:591
 msgid "ping timeout"
-msgstr ""
+msgstr "핑 시간초과"
 
 #: server/sernet.c:832
-#, fuzzy
 msgid "client disconnected"
-msgstr "절단"
+msgstr "고객 접속 끊음"
 
 #: server/sernet.c:1068
 #, c-format
 msgid "Server: bad address: <%s:%d>."
-msgstr ""
+msgstr "서버: 나쁜 주소: <%s:%d>."
 
 #. TRANS: Game state for local server
 #: server/sernet.c:1478
-#, fuzzy
 msgid "Running"
-msgstr "석유 정제"
+msgstr "달리는 중"
 
 #. TRANS: Game state for local server
 #: server/sernet.c:1482 server/settings.c:274
@@ -40763,15 +40845,15 @@ msgstr ""
 
 #: server/settings.c:1223
 msgid "Amount of \"special\" resource tiles"
-msgstr "\"special\" 자원 타일들의 양"
+msgstr "\"특별한 것\" 자원 타일들의 양"
 
 #: server/settings.c:1224
 msgid ""
 "Special resources improve the basic terrain type they are on. The server "
 "variable's scale is parts per thousand."
 msgstr ""
-"특수한 자원들은 그들이 위에 있는 그 기본적인 지형 종류를 향상시킵니다. 그 서버 변수의 "
-"규모는 천분율입니다."
+"특별한 것 자원들은 그들이 위에 있는 그 기본적인 지형 종류를 향상시킵니다. 그 서버 "
+"변수의 규모는 천분율입니다."
 
 #: server/settings.c:1231
 msgid "Amount of huts (minor tribe villages)"
@@ -41063,7 +41145,7 @@ msgstr ""
 
 #: server/settings.c:1447
 msgid "Negative bulbs allowed before losing tech"
-msgstr "기술을 잃기 전에 음의 전구들"
+msgstr "기술을 잃기 전에 허용된 음의 전구들"
 
 #: server/settings.c:1448
 msgid ""
@@ -41072,7 +41154,7 @@ msgid ""
 "0. Special value -1 disables tech loss completely."
 msgstr ""
 "당신의 전구들의 숫자가 이 현재 연구 비용의 백분율보다 더 낮은 음의 값을 가질 때, 당신은 "
-"하나의 기술을 잃고 전구들의 숫자는 0으로 회복됩니다. 특수한 값 -1은 기술 손실을 완전히 "
+"하나의 기술을 잃고 전구들의 숫자는 0으로 회복됩니다. 특별한 값 -1은 기술 손실을 완전히 "
 "망가뜨립니다."
 
 #: server/settings.c:1458
@@ -41641,7 +41723,7 @@ msgid ""
 "not part of this alliance, then the game will end in an immediate shared "
 "victory for the allied players."
 msgstr ""
-"만약 이 선택이 켜지고 아직 그 놀이를 이길 수 있는 모든 그 참가자들이 연합들이고, 적어도 "
+"만약 이 선택이 켜지고 아직 그 놀이를 이길 수 있는 모든 그 참가자들이 연합국들이고, 적어도 "
 "하나의 패배된 참가자가 이 연합의 부분이 아니라는 하나의 시점이 도달되면, 그 놀이는 그 "
 "연합된 참가자들에 대해 하나의 공유된 승리 안으로 끝낼 것입니다."
 
@@ -42081,7 +42163,7 @@ msgstr ""
 "    N = 인구를 포함하다\n"
 "    P = 생산을 포함하다\n"
 "    A = 육지 면적을 포함하다\n"
-"    L = 글을 읽고 쓸 줄 아는 능력을 포함하다\n"
+"    L = 문해를 포함하다\n"
 "    R = 연구 속도를 포함하다\n"
 "    S = 정착한 면적을 포함하다\n"
 "    E = 경제학을 포함하다\n"
