@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 232
+Max id: 233
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -1488,6 +1488,11 @@ PACKET_RULESET_DISASTER = 224; sc, lsend
   BV_DISASTER_EFFECTS effects;
 end
 
+PACKET_RULESET_ACHIEVEMENT = 233; sc, lsend
+  UINT8 id;
+  UINT8 type;
+end
+
 PACKET_RULESET_TRADE = 227; sc, lsend
   UINT8  id;
   UINT16 trade_pct;
@@ -1509,6 +1514,7 @@ PACKET_RULESET_CONTROL = 155; sc, lsend
   UINT16 num_base_types;
   UINT16 num_road_types;
   UINT16 num_disaster_types;
+  UINT16 num_achievement_types;
   UINT16 government_count;
   UINT16 nation_count;
   UINT16 styles_count;

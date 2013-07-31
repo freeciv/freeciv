@@ -242,6 +242,17 @@ negative_label = _("BCE")
 
 ; No disasters in multiplayer ruleset
 
+; /* <-- avoid gettext warnings
+;
+; Achievement types:
+;
+; type                    = What event grants the achievement to player
+;                           "Spaceship"  - Spaceship launched
+;
+; */ <-- avoid gettext warnings
+
+; No achievements in multiplayer ruleset
+
 ;
 ; Trade settings
 ;

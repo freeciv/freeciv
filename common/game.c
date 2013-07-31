@@ -261,6 +261,7 @@ static void game_defaults(void)
   game.control.num_unit_classes        = 0;
   game.control.num_unit_types          = 0;
   game.control.num_disaster_types      = 0;
+  game.control.num_achievement_types   = 0;
   game.control.prefered_tileset[0]     = '\0';
   game.control.resource_count          = 0;
   game.control.styles_count            = 0;

@@ -198,6 +198,17 @@ negative_label = _("BC")
 
 ; No disasters in civ2
 
+; /* <-- avoid gettext warnings
+;
+; Achievement types:
+;
+; type                    = What event grants the achievement to player
+;                           "Spaceship"  - Spaceship launched
+;
+; */ <-- avoid gettext warnings
+
+; No achievements in civ2 ruleset
+
 ;
 ; Trade settings
 ;

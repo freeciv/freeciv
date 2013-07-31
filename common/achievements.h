@@ -17,30 +17,32 @@
 extern "C" {
 #endif /* __cplusplus */
 
-enum achievement_type
-  { ACHIEVEMENT_SPACESHIP = 0,
-    ACHIEVEMENT_LAST };
+/* common */
+#include "fc_types.h"
 
 struct achievement
 {
   int id;
   enum achievement_type type;
   struct player *first;
-  const char *msg;
 };
 
 void achievements_init(void);
 void achievements_free(void);
 
+int achievement_index(const struct achievement *pach);
+int achievement_number(const struct achievement *pach);
 struct achievement *achievement_by_number(int id);
 
 struct player *achievement_plr(struct achievement *ach);
-  bool achievement_check(struct achievement *ach, struct player *pplayer);
+bool achievement_check(struct achievement *ach, struct player *pplayer);
 
-#define achievements_iterate(_ach_)                          \
-{                                                            \
-  int _i_;                                                   \
-  for (_i_ = 0; _i_ < ACHIEVEMENT_LAST; _i_++) {             \
+const char *achievement_first_msg(struct achievement *ach);
+
+#define achievements_iterate(_ach_)                                \
+{                                                                  \
+  int _i_;                                                         \
+  for (_i_ = 0; _i_ < game.control.num_achievement_types; _i_++) { \
     struct achievement *_ach_ = achievement_by_number(_i_);
 
 #define achievements_iterate_end                             \

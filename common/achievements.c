@@ -17,16 +17,18 @@
 
 /* utility */
 #include "fcintl.h"
+#include "log.h"
 #include "rand.h"
 #include "shared.h"
 
 /* common */
+#include "game.h"
 #include "player.h"
 #include "spaceship.h"
 
 #include "achievements.h"
 
-static struct achievement achievements[ACHIEVEMENT_LAST];
+static struct achievement achievements[MAX_ACHIEVEMENT_TYPES];
 
 /****************************************************************
   Initialize achievements.
@@ -38,16 +40,6 @@ void achievements_init(void)
   for (i = 0; i < ARRAY_SIZE(achievements); i++) {
     achievements[i].id = i;
     achievements[i].first = NULL;
-
-    switch(i) {
-    case 0:
-      achievements[i].type = ACHIEVEMENT_SPACESHIP;
-      achievements[i].msg = _("First to launch a spaceship!");
-      break;
-    default:
-      fc_assert(i == 0);
-      break;
-    }
   }
 }
 
@@ -58,12 +50,32 @@ void achievements_free(void)
 {
 }
 
+/**************************************************************************
+  Return the achievement id.
+**************************************************************************/
+int achievement_number(const struct achievement *pach)
+{
+  fc_assert_ret_val(NULL != pach, -1);
+
+  return pach->id;
+}
+
+/**************************************************************************
+  Return the achievement index.
+**************************************************************************/
+int achievement_index(const struct achievement *pach)
+{
+  fc_assert_ret_val(NULL != pach, -1);
+
+  return pach - achievements;
+}
+
 /****************************************************************************
   Return achievements of given id.
 ****************************************************************************/
 struct achievement *achievement_by_number(int id)
 {
-  fc_assert_ret_val(id >= 0 && id < ACHIEVEMENT_LAST, NULL);
+  fc_assert_ret_val(id >= 0 && id < game.control.num_achievement_types, NULL);
 
   return &achievements[id];
 }
@@ -109,10 +121,28 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
   switch(ach->type) {
   case ACHIEVEMENT_SPACESHIP:
     return pplayer->spaceship.state == SSHIP_LAUNCHED;
-  case ACHIEVEMENT_LAST:
-    fc_assert(ach->type != ACHIEVEMENT_LAST);
+  case ACHIEVEMENT_COUNT:
     break;
   }
 
+  log_error("achievement_check(): Illegal achievement type %d", ach->type);
+
   return FALSE;
+}
+
+/****************************************************************************
+  Return message to send to first player gaining the achievement.
+****************************************************************************/
+const char *achievement_first_msg(struct achievement *ach)
+{
+  switch(ach->type) {
+  case ACHIEVEMENT_SPACESHIP:
+    return _("You're the first one to launch spaceship towards Alpha Centauri!");
+  case ACHIEVEMENT_COUNT:
+    break;
+  }
+
+  log_error("achievement_first_msg(): Illegal achievement type %d", ach->type);
+
+  return NULL;
 }

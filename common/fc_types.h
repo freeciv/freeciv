@@ -45,6 +45,7 @@ extern "C" {
 #define MAX_ROAD_TYPES 8 /* Used in the network protocol. */
 #define MAX_EXTRA_TYPES (S_LAST + MAX_BASE_TYPES + MAX_ROAD_TYPES)
 #define MAX_DISASTER_TYPES 10
+#define MAX_ACHIEVEMENT_TYPES 1
 #define MAX_NUM_LEADERS MAX_NUM_ITEMS /* Used in the network protocol. */
 #define MAX_NUM_NATION_GROUPS 128 /* Used in the network protocol. */
 #define MAX_NUM_STARTPOS_NATIONS 1024 /* Used in the network protocol. */
@@ -487,6 +488,13 @@ BV_DEFINE(bv_extras, S_LAST + MAX_BASE_TYPES + MAX_ROAD_TYPES);
 #define SPECENUM_COUNT EC_COUNT
 #include "specenum_gen.h"
 #define EC_NONE EC_COUNT
+
+/* Used in the network protocol. */
+#define SPECENUM_NAME achievement_type
+#define SPECENUM_VALUE0 ACHIEVEMENT_SPACESHIP
+#define SPECENUM_VALUE0NAME "Spaceship"
+#define SPECENUM_COUNT ACHIEVEMENT_COUNT
+#include "specenum_gen.h"
 
 #ifdef __cplusplus
 }

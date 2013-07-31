@@ -252,6 +252,18 @@ name           = _("Fire")
 frequency      = 10
 effects        = "DestroyBuilding"
 
+; /* <-- avoid gettext warnings
+;
+; Achievement types:
+;
+; type                    = What event grants the achievement to player
+;                           "Spaceship"  - Spaceship launched
+;
+; */ <-- avoid gettext warnings
+
+[achievement_spaceship]
+type           = "Spaceship"
+
 ;
 ; Trade settings
 ;

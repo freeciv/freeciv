@@ -1122,7 +1122,7 @@ static void end_turn(void)
     if (achiever != NULL) {
       /* TODO: Event type of its own for achievements. */
       notify_player(achiever, NULL, E_CHAT_MSG, ftc_server,
-                    _("You got an achievement: %s"), _(ach->msg));
+                    "%s", achievement_first_msg(ach));
     }
   } achievements_iterate_end;
 

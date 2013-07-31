@@ -31,6 +31,7 @@
 #include "support.h"
 
 /* common */
+#include "achievements.h"
 #include "ai.h"
 #include "base.h"
 #include "capability.h"
@@ -103,6 +104,7 @@
 #define UNIT_CLASS_SECTION_PREFIX "unitclass_"
 #define UNIT_SECTION_PREFIX "unit_"
 #define DISASTER_SECTION_PREFIX "disaster_"
+#define ACHIEVEMENT_SECTION_PREFIX "achievement_"
 
 #define check_name(name) (check_strlen(name, MAX_LEN_NAME, NULL))
 
@@ -4881,6 +4883,42 @@ static bool load_ruleset_game(const char *rsdir)
   }
 
   if (ok) {
+    sec = secfile_sections_by_name_prefix(file, ACHIEVEMENT_SECTION_PREFIX);
+    nval = (NULL != sec ? section_list_size(sec) : 0);
+    if (nval > MAX_ACHIEVEMENT_TYPES) {
+      int num = nval; /* No "size_t" to printf */
+
+      ruleset_error(LOG_ERROR, "\"%s\": Too many achievement types (%d, max %d)",
+                    filename, num, MAX_ACHIEVEMENT_TYPES);
+      ok = FALSE;
+    } else {
+      game.control.num_achievement_types = nval;
+    }
+  }
+
+  if (ok) {
+    achievements_iterate(pach) {
+      int id = achievement_index(pach);
+      const char *sec_name = section_name(section_list_get(sec, id));
+      const char *typename;
+
+      typename = secfile_lookup_str_default(file, NULL, "%s.type", sec_name);
+
+      pach->type = achievement_type_by_name(typename, fc_strcasecmp);
+      if (!achievement_type_is_valid(pach->type)) {
+        ruleset_error(LOG_ERROR, "Achievement has unknown type \"%s\".",
+                      typename != NULL ? typename : "(NULL)");
+        ok = FALSE;
+
+      }
+
+      if (!ok) {
+        break;
+      }
+    } achievements_iterate_end;
+  }
+
+  if (ok) {
     for (i = 0; (name = secfile_lookup_str_default(file, NULL,
                                                    "trade.settings%d.type",
                                                    i)); i++) {
@@ -5414,6 +5452,23 @@ static void send_ruleset_disasters(struct conn_list *dest)
 }
 
 /**************************************************************************
+  Send the achievement ruleset information (all individual achievement types)
+  to the specified connections.
+**************************************************************************/
+static void send_ruleset_achievements(struct conn_list *dest)
+{
+  struct packet_ruleset_achievement packet;
+
+  achievements_iterate(a) {
+    packet.id = achievement_number(a);
+
+    packet.type = a->type;
+
+    lsend_packet_ruleset_achievement(dest, &packet);
+  } achievements_iterate_end;
+}
+
+/**************************************************************************
   Send the disaster ruleset information (all individual disaster types) to the
   specified connections.
 **************************************************************************/
@@ -5874,6 +5929,7 @@ void send_rulesets(struct conn_list *dest)
 
   send_ruleset_game(dest);
   send_ruleset_disasters(dest);
+  send_ruleset_achievements(dest);
   send_ruleset_trade_routes(dest);
   send_ruleset_team_names(dest);
   send_ruleset_techs(dest);

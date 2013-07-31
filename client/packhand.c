@@ -27,6 +27,7 @@
 #include "support.h"
 
 /* common */
+#include "achievements.h"
 #include "capstr.h"
 #include "citizens.h"
 #include "events.h"
@@ -2768,6 +2769,7 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
   VALIDATE(num_base_types,	MAX_BASE_TYPES,		"bases");
   VALIDATE(num_road_types,      MAX_ROAD_TYPES,         "roads");
   VALIDATE(num_disaster_types,  MAX_DISASTER_TYPES,     "disasters");
+  VALIDATE(num_achievement_types, MAX_ACHIEVEMENT_TYPES, "achievements");
 
   /* game.control.government_count, game.control.nation_count and
    * game.control.styles_count are allocated dynamically, and does
@@ -3304,6 +3306,18 @@ void handle_ruleset_disaster(const struct packet_ruleset_disaster *p)
   pdis->frequency = p->frequency;
 
   pdis->effects = p->effects;
+}
+
+/****************************************************************************
+  Handle a packet about a particular achievement type.
+****************************************************************************/
+void handle_ruleset_achievement(const struct packet_ruleset_achievement *p)
+{
+  struct achievement *pach = achievement_by_number(p->id);
+
+  fc_assert_ret_msg(NULL != pach, "Bad achievement %d.", p->id);
+
+  pach->type = p->type;
 }
 
 /****************************************************************************

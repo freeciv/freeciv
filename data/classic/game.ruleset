@@ -260,6 +260,17 @@ reqs           =
 frequency      = 10
 effects        = "ReducePopulation", "Fallout"
 
+; /* <-- avoid gettext warnings
+;
+; Achievement types:
+;
+; type                    = What event grants the achievement to player
+;                           "Spaceship"  - Spaceship launched
+;
+; */ <-- avoid gettext warnings
+
+; No achievements in classic ruleset
+
 ;
 ; Trade settings
 ;

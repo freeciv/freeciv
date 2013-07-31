@@ -250,6 +250,17 @@ name           = _("Alien Microbes")
 frequency      = 10
 effects        = "ReducePopulation"
 
+; /* <-- avoid gettext warnings
+;
+; Achievement types:
+;
+; type                    = What event grants the achievement to player
+;                           "Spaceship"  - Spaceship launched
+;
+; */ <-- avoid gettext warnings
+
+; No achievements in alien ruleset
+
 ;
 ; Trade settings
 ;
