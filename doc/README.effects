@@ -125,7 +125,9 @@ Output_Per_Tile
     Increase tile output by amount percent.
 
 Output_Tile_Punish_Pct
-    Reduce the output of a tile by amout percent.
+    Reduce the output of a tile by amount percent. The number of units to
+remove is rounded down. Applied after everything except a city center's
+minimal output.
 
 Output_Waste_Pct
     Reduce waste by amount percent.
