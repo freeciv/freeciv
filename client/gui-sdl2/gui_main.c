@@ -83,7 +83,7 @@
 #define UNITS_TIMER_INTERVAL 128	/* milliseconds */
 #define MAP_SCROLL_TIMER_INTERVAL 500
 
-const char *client_string = "gui-sdl";
+const char *client_string = "gui-sdl2";
 
 /* The real GUI character encoding is UTF-16 which is not supported by
  * fciconv code at this time. Conversion between UTF-8 and UTF-16 is done
@@ -1107,7 +1107,7 @@ void ui_exit()
 **************************************************************************/
 enum gui_type get_gui_type(void)
 {
-  return GUI_SDL;
+  return GUI_SDL2;
 }
 
 /**************************************************************************
