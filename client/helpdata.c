@@ -189,7 +189,11 @@ static bool insert_veteran_help(char *outbuf, size_t outlen,
 ****************************************************************************/
 static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
 {
-  if (0 == strcmp (name, "TerrainAlterations")) {
+  if (!game.client.ruleset_init) {
+    return FALSE;
+  }
+
+  if (0 == strcmp(name, "TerrainAlterations")) {
     int clean_pollution_time = -1, clean_fallout_time = -1;
     int buildable_bases = 0;
 

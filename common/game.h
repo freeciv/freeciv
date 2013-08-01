@@ -99,7 +99,7 @@ struct civ_game {
     struct {
       /* Only used at the client (./client/). */
 
-      /* Nothing yet. */
+      bool ruleset_init;
     } client;
 
     struct {

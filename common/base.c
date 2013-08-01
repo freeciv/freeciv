@@ -289,16 +289,19 @@ Base_type_id base_count(void)
 /****************************************************************************
   Initialize base_type structures.
 ****************************************************************************/
-void base_type_init(int idx)
+void base_type_init(struct extra_type *pextra, int idx)
 {
-  struct extra_type *pextra = extra_type_get(EXTRA_BASE, idx);
+  struct base_type *pbase;
 
   pextra->type = EXTRA_BASE;
 
-  pextra->data.base.item_number = idx;
-  pextra->data.base.helptext = NULL;
-  pextra->data.base.self = pextra;
+  pbase = extra_base_get(pextra);
 
+  pbase->item_number = idx;
+  pbase->helptext = NULL;
+  pbase->self = pextra;
+
+  pextra->causes |= (1 << EC_BASE);
   extra_to_caused_by_list(pextra, EC_BASE);
 }
 

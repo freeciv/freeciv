@@ -144,18 +144,18 @@ bool territory_claiming_base(const struct base_type *pbase);
 struct player *base_owner(const struct tile *ptile);
 
 /* Initialization and iteration */
-void base_type_init(int idx);
+void base_type_init(struct extra_type *pextra, int idx);
 void base_types_free(void);
 
-#define base_type_iterate(_p)						\
-{                                                                       \
-  int _i_;                                                              \
-  for (_i_ = 0; _i_ < game.control.num_base_types ; _i_++) {            \
-    struct base_type *_p = base_by_number(_i_);
+#define base_type_iterate(_p)			 \
+{                                                \
+  extra_type_by_cause_iterate(EC_BASE, _e_) {    \
+    struct base_type *_p = extra_base_get(_e_);
 
-#define base_type_iterate_end						\
-  }									\
+#define base_type_iterate_end                    \
+  } extra_type_by_cause_iterate_end              \
 }
+
 
 #define base_deps_iterate(_reqs, _dep)                                 \
 {                                                                      \

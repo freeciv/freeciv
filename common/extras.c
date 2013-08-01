@@ -46,31 +46,48 @@ void extras_init(void)
   }
 
   for (i = 0; i < S_LAST; i++) {
+    enum extra_cause cause;
+
     extras[i].type = EXTRA_SPECIAL;
     extras[i].data.special = i;
     switch(i) {
     case S_IRRIGATION:
-      extra_to_caused_by_list(&extras[i], EC_IRRIGATION);
+    case S_FARMLAND:
+      cause = EC_IRRIGATION;
       break;
     case S_MINE:
-      extra_to_caused_by_list(&extras[i], EC_MINE);
+      cause = EC_MINE;
       break;
     case S_POLLUTION:
-      extra_to_caused_by_list(&extras[i], EC_POLLUTION);
+      cause = EC_POLLUTION;
       break;
     case S_HUT:
-      extra_to_caused_by_list(&extras[i], EC_HUT);
-      break;
-    case S_FARMLAND:
-      extra_to_caused_by_list(&extras[i], EC_IRRIGATION);
+      cause = EC_HUT;
       break;
     case S_FALLOUT:
-      extra_to_caused_by_list(&extras[i], EC_FALLOUT);
+      cause = EC_FALLOUT;
       break;
     default:
-      extra_to_caused_by_list(&extras[i], EC_NONE);
+      cause = EC_NONE;
       break;
     }
+
+    if (cause == EC_NONE) {
+      extras[i].causes = 0;
+    } else {
+      extras[i].causes = (1 << cause);
+    }
+
+    extra_to_caused_by_list(&extras[i], cause);
+  }
+
+  /* This is still needed to make sure type is not EXTRA_BASE
+   * which would make base_type_by_rule_name(), used in
+   * ruleset loading sanity checking, to return this extra
+   * instead of NULL for what is supposed to later become EXTRA_ROAD. */
+  for (;i < MAX_EXTRA_TYPES; i++) {
+    extras[i].type = EXTRA_SPECIAL;
+    extras[i].causes = 0;
   }
 }
 

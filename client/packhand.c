@@ -2744,14 +2744,14 @@ void handle_scenario_info(const struct packet_scenario_info *packet)
 ****************************************************************************/
 void handle_ruleset_control(const struct packet_ruleset_control *packet)
 {
-  int i;
-
   /* The ruleset is going to load new nations. So close
    * the nation selection dialog if it is open. */
   popdown_races_dialog();
 
+  game.client.ruleset_init = FALSE;
   game_ruleset_free();
   game_ruleset_init();
+  game.client.ruleset_init = TRUE;
   game.control = *packet;
 
   /* check the values! */
@@ -2784,13 +2784,6 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
   governments_alloc(game.control.government_count);
   nations_alloc(game.control.nation_count);
   city_styles_alloc(game.control.styles_count);
-
-  for (i = 0; i < game.control.num_base_types; i++) {
-    base_type_init(i);
-  }
-  for (i = 0; i < game.control.num_road_types; i++) {
-    road_type_init(i);
-  }
 
   if (packet->prefered_tileset[0] != '\0') {
     /* There is tileset suggestion */
@@ -3208,6 +3201,15 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   fc_assert_ret_msg(NULL != pextra, "Bad extra %d.", p->id);
 
   names_set(&pextra->name, p->name, p->rule_name);
+
+  pextra->causes = p->causes;
+
+  if (pextra->causes & (1 << EC_BASE)) {
+    base_type_init(pextra, extra_type_list_size(extra_type_list_by_cause(EC_BASE)));
+  }
+  if (pextra->causes & (1 << EC_ROAD)) {
+    road_type_init(pextra, extra_type_list_size(extra_type_list_by_cause(EC_ROAD)));
+  }
 
   for (i = 0; i < p->reqs_count; i++) {
     requirement_vector_append(&pextra->reqs, p->reqs[i]);

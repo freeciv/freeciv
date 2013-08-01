@@ -151,17 +151,16 @@ bool is_native_tile_to_road(const struct road_type *proad,
 bool is_cardinal_only_road(const struct road_type *proad);
 
 /* Initialization and iteration */
-void road_type_init(int idx);
+void road_type_init(struct extra_type *pextra, int idx);
 void road_types_free(void);
 
 #define road_type_iterate(_p)                    \
 {                                                \
-  int _i_;                                       \
-  for (_i_ = 0; _i_ < game.control.num_road_types ; _i_++) { \
-    struct road_type *_p = road_by_number(_i_);
+  extra_type_by_cause_iterate(EC_ROAD, _e_) {    \
+    struct road_type *_p = extra_road_get(_e_);
 
 #define road_type_iterate_end                    \
-  }                                              \
+  } extra_type_by_cause_iterate_end              \
 }
 
 #define road_deps_iterate(_reqs, _dep)                                 \

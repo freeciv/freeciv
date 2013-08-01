@@ -83,17 +83,20 @@ struct road_type *road_by_number(Road_type_id id)
 /****************************************************************************
   Initialize road_type structures.
 ****************************************************************************/
-void road_type_init(int idx)
+void road_type_init(struct extra_type *pextra, int idx)
 {
-  struct extra_type *pextra = extra_type_get(EXTRA_ROAD, idx);
+  struct road_type *proad;
 
   pextra->type = EXTRA_ROAD;
 
-  pextra->data.road.id = idx;
-  pextra->data.road.hiders = NULL;
-  pextra->data.road.helptext = NULL;
-  pextra->data.road.self = pextra;
+  proad = extra_road_get(pextra);
 
+  proad->id = idx;
+  proad->hiders = NULL;
+  proad->helptext = NULL;
+  proad->self = pextra;
+
+  pextra->causes |= (1 << EC_ROAD);
   extra_to_caused_by_list(pextra, EC_ROAD);
 }
 

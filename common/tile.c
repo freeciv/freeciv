@@ -928,7 +928,7 @@ struct tile *tile_virtual_new(const struct tile *ptile)
       if (BV_ISSET(ptile->extras, extra_number(pextra))) {
         BV_SET(vtile->extras, extra_number(pextra));
       }
-    } base_type_iterate_end;
+    } extra_type_iterate_end;
 
     vtile->resource_valid = ptile->resource_valid;
 

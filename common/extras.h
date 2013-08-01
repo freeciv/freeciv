@@ -30,6 +30,7 @@ struct extra_type
   int id;
   enum extra_type_id type;
   struct name_translation name;
+  enum extra_cause causes;
 
   struct requirement_vector reqs;
   bool buildable;

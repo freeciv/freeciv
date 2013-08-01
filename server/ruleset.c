@@ -2299,7 +2299,7 @@ static bool load_terrain_names(struct section_file *file)
     if (ok) {
       for (idx = 0; idx < nval; idx++) {
         const char *sec_name = section_name(section_list_get(sec, idx));
-        struct extra_type *pextra = extra_type_get(EXTRA_SPECIAL, idx);
+        struct extra_type *pextra = extra_by_number(idx);
 
         if (!ruleset_load_names(&pextra->name, file, sec_name)) {
           ok = FALSE;
@@ -2324,42 +2324,34 @@ static bool load_terrain_names(struct section_file *file)
       ok = FALSE;
     }
 
-    if (S_LAST + nval > game.control.num_extra_types) {
-      ruleset_error(LOG_ERROR, "Less extra sections than specials and bases");
-      ok = FALSE;
-    }
+    game.control.num_base_types = nval;
   }
 
   if (ok) {
     int idx;
-
-    game.control.num_base_types = nval;
-
-    for (idx = 0; idx < nval; idx++) {
-      base_type_init(idx);
-    }
 
     if (base_sections) {
       free(base_sections);
     }
     base_sections = fc_calloc(nval, MAX_SECTION_LABEL);
 
-    base_type_iterate(pbase) {
-      const int i = base_index(pbase);
-      const char *sec_name = section_name(section_list_get(sec, i));
-      struct extra_type *pextra = base_extra_get(pbase);
+    /* Cannot use base_type_iterate() before bases are added to
+     * EC_BASE caused_by list. Have to get them by extra_type_by_rule_name() */
+    for (idx = 0; idx < nval; idx++) {
+      const char *sec_name = section_name(section_list_get(sec, idx));
       const char *base_name = secfile_lookup_str(file, "%s.name", sec_name);
-      const char *extra_name = extra_rule_name(pextra);
+      struct extra_type *pextra = extra_type_by_rule_name(base_name);
 
-      if (fc_strcasecmp(base_name, extra_name)) {
-        ruleset_error(LOG_ERROR, "Base name \"%s\" does not match extra name \"%s\"",
-                      base_name, extra_name);
+      if (pextra != NULL && extra_index(pextra) >= S_LAST) {
+        base_type_init(pextra, idx);
+        section_strlcpy(&base_sections[idx * MAX_SECTION_LABEL], sec_name);
+      } else {
+        ruleset_error(LOG_ERROR,
+                      "No extra definition matching base definition \"%s\"",
+                      base_name);
         ok = FALSE;
-        break;
       }
-
-      section_strlcpy(&base_sections[i * MAX_SECTION_LABEL], sec_name);
-    } base_type_iterate_end;
+    }
   }
 
   section_list_destroy(sec);
@@ -2376,42 +2368,40 @@ static bool load_terrain_names(struct section_file *file)
       ok = FALSE;
     }
 
-    if (S_LAST + game.control.num_base_types + nval > game.control.num_extra_types) {
-      ruleset_error(LOG_ERROR, "Less extra sections than specials, bases, and roads");
-      ok = FALSE;
-    }
+    game.control.num_road_types = nval;
   }
 
   if (ok) {
     int idx;
-
-    game.control.num_road_types = nval;
-
-    for (idx = 0; idx < nval; idx++) {
-      road_type_init(idx);
-    }
 
     if (road_sections) {
       free(road_sections);
     }
     road_sections = fc_calloc(nval, MAX_SECTION_LABEL);
 
-    road_type_iterate(proad) {
-      const int i = road_index(proad);
-      const char *sec_name = section_name(section_list_get(sec, i));
-      struct extra_type *pextra = road_extra_get(proad);
+    /* Cannot use road_type_iterate() before roads are added to
+     * EC_ROAD caused_by list. Have to get them by extra_type_by_rule_name() */
+    for (idx = 0; idx < nval; idx++) {
+      const char *sec_name = section_name(section_list_get(sec, idx));
       const char *road_name = secfile_lookup_str(file, "%s.name", sec_name);
-      const char *extra_name = extra_rule_name(pextra);
+      struct extra_type *pextra = extra_type_by_rule_name(road_name);
+      struct base_type *pbase = base_type_by_rule_name(road_name);
 
-      if (fc_strcasecmp(road_name, extra_name)) {
-        ruleset_error(LOG_ERROR, "Road name \"%s\" does not match extra name \"%s\"",
-                      road_name, extra_name);
+      if (pbase != NULL) {
+        ruleset_error(LOG_ERROR,
+                      "Base and road by the same name \"%s\".",
+                      road_name);
         ok = FALSE;
-        break;
+      } else if (pextra != NULL && extra_index(pextra) >= S_LAST) {
+        road_type_init(pextra, idx);
+        section_strlcpy(&road_sections[idx * MAX_SECTION_LABEL], sec_name);
+      } else {
+        ruleset_error(LOG_ERROR,
+                      "No extra definition matching road definition \"%s\"",
+                      road_name);
+        ok = FALSE;
       }
-
-      section_strlcpy(&road_sections[i * MAX_SECTION_LABEL], sec_name);
-    } road_type_iterate_end;
+    }
   }
 
   section_list_destroy(sec);
@@ -5336,6 +5326,8 @@ static void send_ruleset_extras(struct conn_list *dest)
     sz_strlcpy(packet.name, untranslated_name(&e->name));
     sz_strlcpy(packet.rule_name, rule_name(&e->name));
 
+    packet.causes = e->causes;
+
     j = 0;
     requirement_vector_iterate(&e->reqs, preq) {
       packet.reqs[j++] = *preq;
@@ -5939,9 +5931,9 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_specialists(dest);
   send_ruleset_resources(dest);
   send_ruleset_terrain(dest);
+  send_ruleset_extras(dest);
   send_ruleset_bases(dest);
   send_ruleset_roads(dest);
-  send_ruleset_extras(dest);
   send_ruleset_buildings(dest);
   send_ruleset_nations(dest);
   send_ruleset_cities(dest);

@@ -470,6 +470,7 @@ enum tile_special_type {
 
 BV_DEFINE(bv_extras, S_LAST + MAX_BASE_TYPES + MAX_ROAD_TYPES);
 
+/* Used in the network protocol. */
 #define SPECENUM_NAME extra_cause
 #define SPECENUM_VALUE0 EC_IRRIGATION
 #define SPECENUM_VALUE0NAME "Irrigation"

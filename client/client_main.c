@@ -252,6 +252,7 @@ static void client_game_free(void)
   free_help_texts();
   attribute_free();
   agents_free();
+  game.client.ruleset_init = FALSE;
   game_free();
   /* update_queue_init() is correct at this point. The queue is reset to
      a clean state which is also needed if the client is not connected to
@@ -313,6 +314,8 @@ int client_main(int argc, char *argv[])
   i_am_client(); /* Tell to libfreeciv that we are client */
 
   fc_interface_init_client();
+
+  game.client.ruleset_init = FALSE;
 
   /* Ensure that all AIs are initialized to unused state
    * Not using ai_type_iterate as it would stop at
