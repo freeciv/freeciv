@@ -8,6 +8,9 @@ desktopfiledir = $(prefix)/share/applications
 if CLIENT_GUI_SDL
 GUI_SUBDIRS += gui-sdl
 endif
+if CLIENT_GUI_SDL2
+GUI_SUBDIRS += gui-sdl2
+endif
 if CLIENT_GUI_GTK_2_0
 GUI_SUBDIRS += gui-gtk-2.0
 desktopfile_DATA = \
@@ -213,6 +216,23 @@ freeciv_sdl_LDADD = \
  $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
  $(MAPIMG_WAND_LIBS) \
  $(GUI_sdl_LIBS)
+endif
+
+if CLIENT_GUI_SDL2
+bin_PROGRAMS += freeciv-sdl2
+noinst_LTLIBRARIES += libfcgui-sdl2.la
+libfcgui_sdl2_la_SOURCES = $(freeciv_client_src)
+libfcgui_sdl2_la_LIBADD = gui-sdl2/libgui-sdl2.la $(clientlibs)
+freeciv_sdl2_SOURCES = dummy.c
+freeciv_sdl2_LDFLAGS = $(GUI_sdl2_LDFLAGS) $(GGZMOD_LDFLAGS)
+freeciv_sdl2_LDADD = \
+ $(GUI_sdl2_LIBS) \
+ libfcgui-sdl2.la \
+ $(top_builddir)/common/libfreeciv.la \
+ $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
+ $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
+ $(MAPIMG_WAND_LIBS) \
+ $(GUI_sdl2_LIBS)
 endif
 
 if CLIENT_GUI_XAW

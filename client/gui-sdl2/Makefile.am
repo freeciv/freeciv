@@ -1,10 +1,10 @@
 ## Process this file with automake to produce Makefile.in
 
-noinst_LTLIBRARIES = libgui-sdl.la
+noinst_LTLIBRARIES = libgui-sdl2.la
 
-AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/../agents $(GUI_sdl_CFLAGS) $(SOUND_CFLAGS)
+AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/../agents $(GUI_sdl2_CFLAGS) $(SOUND_CFLAGS)
 
-libgui_sdl_la_SOURCES = \
+libgui_sdl2_la_SOURCES = \
 	SDL_gfxPrimitives.c	\
 	SDL_gfxPrimitives.h	\
 	SDL_gfxPrimitives_font.h	\

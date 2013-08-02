@@ -238,7 +238,7 @@ dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE([client],
-  AS_HELP_STRING([--enable-client=auto/all/gtk2/gtk3/sdl/xaw/qt/stub],
+  AS_HELP_STRING([--enable-client=auto/all/gtk2/gtk3/sdl/sdl2/xaw/qt/stub],
                  [clients to compile [auto](list for multiple)]),
 [clients=${enableval}],
 [client=auto])
@@ -254,6 +254,7 @@ fi
 gui_gtk2=no
 gui_gtk3=no
 gui_sdl=no
+gui_sdl2=no
 gui_xaw=no
 gui_qt=no
 gui_beos=no
@@ -778,6 +779,9 @@ if test "x$client" != "xno"; then
   dnl SDL-specific overrides
   FC_SDL_CLIENT
 
+  dnl SDL2-specific overrides
+  FC_SDL2_CLIENT
+
   dnl Xaw-specific overrides
   FC_XAW_CLIENT
 
@@ -832,6 +836,7 @@ if test "x$client" = "xall" ; then
   if test "x$gui_gtk2" = "xyes" ||
      test "x$gui_gtk3" = "xyes" ||
      test "x$gui_sdl" = "xyes" ||
+     test "x$gui_sdl2" = "xyes" ||
      test "x$gui_xaw" = "xyes" ||
      test "x$gui_qt" = "xyes" ||
      test "x$gui_beos" = "xyes" ||
@@ -1014,6 +1019,9 @@ AC_SUBST([GUI_gtk3_LDFLAGS])
 AC_SUBST([GUI_sdl_CFLAGS])
 AC_SUBST([GUI_sdl_LIBS])
 AC_SUBST([GUI_sdl_LDFLAGS])
+AC_SUBST([GUI_sdl2_CFLAGS])
+AC_SUBST([GUI_sdl2_LIBS])
+AC_SUBST([GUI_sdl2_LDFLAGS])
 AC_SUBST([GUI_xaw_CFLAGS])
 AC_SUBST([GUI_xaw_LIBS])
 AC_SUBST([GUI_xaw_LDFLAGS])
@@ -1040,6 +1048,7 @@ AC_SUBST([VERSION_LABEL])
 AC_SUBST([HOST_PATH_SEPARATOR])
 AM_CONDITIONAL(AUDIO_SDL, test "x$SDL_mixer" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_SDL, test "x$gui_sdl" = "xyes")
+AM_CONDITIONAL(CLIENT_GUI_SDL2, test "x$gui_sdl2" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_2_0, test "x$gui_gtk2" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_3_0, test "x$gui_gtk3" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_XAW, test "x$gui_xaw" = "xyes")
@@ -1450,6 +1459,7 @@ AC_CONFIG_FILES([Makefile
 	  client/agents/Makefile
 	  client/include/Makefile
 	  client/gui-sdl/Makefile
+          client/gui-sdl2/Makefile
 	  client/gui-gtk-2.0/Makefile
 	  client/gui-gtk-3.0/Makefile
 	  client/gui-xaw/Makefile
@@ -1540,6 +1550,7 @@ AC_MSG_NOTICE([
   In-development client frontends:
   (these are not yet ready for general use)
     QT:      $gui_qt
+    SDL2:    $gui_sdl2
 
   == Server ==
   Build freeciv server:  $server
