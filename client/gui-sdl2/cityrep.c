@@ -516,9 +516,9 @@ static void real_info_city_report_dialog_update(void)
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
 
     /* ----------- */
-    if(VUT_UTYPE == pCity->production.kind) {
+    if (VUT_UTYPE == pCity->production.kind) {
       struct unit_type *pUnitType = pCity->production.value.utype;
-      pLogo = ResizeSurfaceBox(get_unittype_surface(pUnitType),
+      pLogo = ResizeSurfaceBox(get_unittype_surface(pUnitType, direction8_invalid()),
                                adj_size(36), adj_size(24), 1,
                                TRUE, TRUE);
       togrow = utype_build_shield_cost(pUnitType);
@@ -1049,7 +1049,7 @@ static struct widget *real_city_report_dialog_update_city(struct widget *pWidget
   /* change production */
   if(VUT_UTYPE == pCity->production.kind) {
     struct unit_type *pUnitType = pCity->production.value.utype;
-    pLogo = ResizeSurface(get_unittype_surface(pUnitType),
+    pLogo = ResizeSurface(get_unittype_surface(pUnitType, direction8_invalid()),
               adj_size(36), adj_size(24), 1);
     togrow = utype_build_shield_cost(pUnitType);
     pName = utype_name_translation(pUnitType);

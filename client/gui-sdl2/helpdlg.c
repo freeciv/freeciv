@@ -669,7 +669,7 @@ void popup_unit_info(Unit_type_id type_id)
       FREESURFACE(pText);
 
       /* blit unit icon */
-      pIcon = ResizeSurfaceBox(get_unittype_surface(ut),
+      pIcon = ResizeSurfaceBox(get_unittype_surface(ut, direction8_invalid()),
                                adj_size(36), adj_size(36), 1, TRUE, TRUE);
       dst.x = (adj_size(35) - pIcon->w) / 2;
       dst.y = (pBackground->h - pIcon->h) / 2;
@@ -736,7 +736,7 @@ void popup_unit_info(Unit_type_id type_id)
 
   pUnitType = utype_by_number(type_id);
   pUnitNameLabel= create_iconlabel_from_chars(
-                adj_surf(get_unittype_surface(pUnitType)),
+                adj_surf(get_unittype_surface(pUnitType, direction8_invalid())),
                 pWindow->dst, utype_name_translation(pUnitType),
                 adj_font(24), WF_FREE_THEME);
 
@@ -1200,9 +1200,10 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
   unit_count = 0;
   unit_type_iterate(un) {
     struct unit_type *pUnitType = un;
+
     if (advance_number(pUnitType->require_advance) == tech) {
       pWidget = create_iconlabel_from_chars(
-                  ResizeSurfaceBox(get_unittype_surface(un),
+                                   ResizeSurfaceBox(get_unittype_surface(un, direction8_invalid()),
                                    adj_size(48), adj_size(48), 1, TRUE, TRUE),
                   pWindow->dst, utype_name_translation(pUnitType), adj_font(14),
                   (WF_FREE_THEME|WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
