@@ -1,0 +1,13 @@
+Achivements are something player can gain in game by reaching
+set goals. Achivements active in the ruleset are defined in
+game.ruleset.
+
+Achievements are granted to first player to reach the goal set
+for the achievement type.
+
+
+Achievement types
+=================
+
+Spaceship
+    This achievement is granted when player launches spaceship.

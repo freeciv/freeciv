@@ -9,9 +9,10 @@ EXTRA_DIST =			\
 	HACKING			\
 	INSTALL.Cygwin		\
 	HOWTOPLAY		\
+	README.achievements     \
+	README.agents		\
 	README.AI		\
 	README.AI_modules	\
-	README.agents		\
 	README.attributes 	\
 	README.cma		\
 	README.delta		\
