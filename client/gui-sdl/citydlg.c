@@ -438,7 +438,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     fc_snprintf(cBuf, sizeof(cBuf), "%s", unit_description(pUnit));
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-    pBuf = create_iconlabel(adj_surf(get_unittype_surface(pUType)),
+    pBuf = create_iconlabel(adj_surf(get_unittype_surface(pUType, pUnit->facing)),
                             pWindow->dst, pStr, WF_FREE_THEME);
     area.w = MAX(area.w, pBuf->size.w);
     add_to_gui_list(ID_LABEL, pBuf);
@@ -3233,7 +3233,7 @@ static void redraw_city_dialog(struct city *pCity)
     copy_chars_to_string16(pStr, utype_name_translation(pUnitType));
     pBuf = create_text_surf_from_str16(pStr);
     
-    pBuf2 = get_unittype_surface(pUnitType);
+    pBuf2 = get_unittype_surface(pUnitType, DIR8_EAST);
     pBuf2 = zoomSurface(pBuf2, DEFAULT_ZOOM * ((float)32 / pBuf2->h), DEFAULT_ZOOM * ((float)32 / pBuf2->h), 1);
 
     /* blit unit icon */

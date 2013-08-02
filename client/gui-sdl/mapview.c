@@ -701,7 +701,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       FREESURFACE(pName);
       
       /* draw unit sprite */
-      pTmpSurf = ResizeSurfaceBox(get_unittype_surface(unit_type(pUnit)),
+      pTmpSurf = ResizeSurfaceBox(get_unittype_surface(unit_type(pUnit), pUnit->facing),
                                   adj_size(80), adj_size(80), 1, TRUE, TRUE);
       pBuf_Surf = blend_surface(pTmpSurf, 32);
       FREESURFACE(pTmpSurf);
