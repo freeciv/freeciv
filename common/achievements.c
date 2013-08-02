@@ -81,6 +81,39 @@ struct achievement *achievement_by_number(int id)
 }
 
 /****************************************************************************
+  Return translated name of this achievement type.
+****************************************************************************/
+const char *achievement_name_translation(struct achievement *pach)
+{
+  return name_translation(&pach->name);
+}
+
+/****************************************************************************
+  Return untranslated name of this achievement type.
+****************************************************************************/
+const char *achievement_rule_name(struct achievement *pach)
+{
+  return rule_name(&pach->name);
+}
+
+/**************************************************************************
+  Returns achievement matching rule name or NULL if there is no achievement
+  with such name.
+**************************************************************************/
+struct achievement *achievement_by_rule_name(const char *name)
+{
+  const char *qs = Qn_(name);
+
+  achievements_iterate(pach) {
+    if (!fc_strcasecmp(achievement_rule_name(pach), qs)) {
+      return pach;
+    }
+  } achievements_iterate_end;
+
+  return NULL;
+}
+
+/****************************************************************************
   Check if some player has now achieved the achievement and return the player
   in question.
 ****************************************************************************/

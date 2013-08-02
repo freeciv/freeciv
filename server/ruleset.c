@@ -4892,6 +4892,13 @@ static bool load_ruleset_game(const char *rsdir)
       const char *sec_name = section_name(section_list_get(sec, id));
       const char *typename;
 
+      if (!ruleset_load_names(&pach->name, file, sec_name)) {
+        ruleset_error(LOG_ERROR, "\"%s\": Cannot load achievement names",
+                      filename);
+        ok = FALSE;
+        break;
+      }
+
       typename = secfile_lookup_str_default(file, NULL, "%s.type", sec_name);
 
       pach->type = achievement_type_by_name(typename, fc_strcasecmp);
@@ -4899,7 +4906,6 @@ static bool load_ruleset_game(const char *rsdir)
         ruleset_error(LOG_ERROR, "Achievement has unknown type \"%s\".",
                       typename != NULL ? typename : "(NULL)");
         ok = FALSE;
-
       }
 
       if (!ok) {
@@ -5453,6 +5459,9 @@ static void send_ruleset_achievements(struct conn_list *dest)
 
   achievements_iterate(a) {
     packet.id = achievement_number(a);
+
+    sz_strlcpy(packet.name, untranslated_name(&a->name));
+    sz_strlcpy(packet.rule_name, rule_name(&a->name));
 
     packet.type = a->type;
 

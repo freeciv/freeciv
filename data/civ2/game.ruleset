@@ -202,6 +202,11 @@ negative_label = _("BC")
 ;
 ; Achievement types:
 ;
+; name                    = translatable name as seen by user
+; rule_name               = (optional) name for savegames, rulesets etc; if not
+;                           present, 'name' is used. Since the name used in
+;                           savegames must not change, use this when renaming a
+;                           achievement after a ruleset has been released.
 ; type                    = What event grants the achievement to player
 ;                           "Spaceship"  - Spaceship launched
 ;

@@ -115,6 +115,7 @@
 #include "timing.h"
 
 /* common */
+#include "achievements.h"
 #include "ai.h"
 #include "bitvector.h"
 #include "capability.h"
@@ -3847,6 +3848,7 @@ static void sg_load_player_main(struct loaddata *loading,
     }
   }
 
+  /* Traits */
   {
     for (i = 0; i < loading->trait.size; i++) {
       enum trait tr = trait_by_name(loading->trait.order[i], fc_strcasecmp);
@@ -3854,6 +3856,40 @@ static void sg_load_player_main(struct loaddata *loading,
       if (trait_is_valid(tr)) {
         secfile_lookup_int(loading->file, &plr->ai_common.traits[tr].mod, 
                            "plr%d.trait.mod%d", plrno, i);
+      }
+    }
+  }
+
+  /* Achievements */
+  {
+    int count;
+
+    count = secfile_lookup_int_default(loading->file, -1,
+                                       "player%d.achievement_count", plrno);
+
+    if (count > 0) {
+      for (i = 0; i < count; i++) {
+        const char *name;
+        struct achievement *pach;
+        bool first;
+
+        name = secfile_lookup_str(loading->file,
+                                  "player%d.achievement%d.name", plrno, i);
+        pach = achievement_by_rule_name(name);
+
+        sg_failure_ret(pach != NULL,
+                       "Unknown achievement \"%s\".", name);
+
+        secfile_lookup_bool(loading->file, &first,
+                            "player%d.achievement%d.first", plrno, i);
+
+        sg_failure_ret(pach->first == NULL || !first,
+                       "Multiple players listed as first to get achievement \"%s\".",
+                       name);
+
+        if (first) {
+          pach->first = plr;
+        }
       }
     }
   }
@@ -4098,6 +4134,24 @@ static void sg_save_player_main(struct savedata *saving,
       secfile_insert_int(saving->file, plr->ai_common.traits[tr].mod,
                          "player%d.trait.mod%d", plrno, j);
     }
+  }
+
+  /* Save achievements */
+  {
+    int j = 0;
+
+    achievements_iterate(pach) {
+      if (pach->first == plr) {
+        secfile_insert_str(saving->file, achievement_rule_name(pach),
+                           "player%d.achievement%d.name", plrno, j);
+        secfile_insert_bool(saving->file, TRUE,
+                            "player%d.achievement%d.first", plrno, j);
+        j++;
+      }
+    } achievements_iterate_end;
+
+    secfile_insert_int(saving->file, j,
+                       "player%d.achievement_count", plrno);
   }
 
   secfile_insert_bool(saving->file, plr->server.capital,

@@ -19,10 +19,12 @@ extern "C" {
 
 /* common */
 #include "fc_types.h"
+#include "name_translation.h"
 
 struct achievement
 {
   int id;
+  struct name_translation name;
   enum achievement_type type;
   struct player *first;
 };
@@ -33,6 +35,10 @@ void achievements_free(void);
 int achievement_index(const struct achievement *pach);
 int achievement_number(const struct achievement *pach);
 struct achievement *achievement_by_number(int id);
+
+const char *achievement_name_translation(struct achievement *pach);
+const char *achievement_rule_name(struct achievement *pach);
+struct achievement *achievement_by_rule_name(const char *name);
 
 struct player *achievement_plr(struct achievement *ach);
 bool achievement_check(struct achievement *ach, struct player *pplayer);
