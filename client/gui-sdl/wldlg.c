@@ -1550,7 +1550,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
   
       pText = create_text_surf_from_str16(pStr);
   
-      pZoom = adj_surf(get_unittype_surface(un));
+      pZoom = adj_surf(get_unittype_surface(un, direction8_invalid()));
       dst.x = (pIcon->w - pZoom->w)/2;
       dst.y = (pIcon->h/2 - pZoom->h)/2;
       alphablit(pZoom, NULL, pIcon, &dst);

@@ -457,7 +457,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       upgrade = (can_upgrade_unittype(client.conn.playing, i) != NULL);
 	
       /* unit type icon */
-      pBuf = create_iconlabel(adj_surf(get_unittype_surface(i)), pWindow->dst, NULL,
+      pBuf = create_iconlabel(adj_surf(get_unittype_surface(i, direction8_invalid())), pWindow->dst, NULL,
 			WF_RESTORE_BACKGROUND | WF_FREE_THEME);
       if(count > adj_size(72)) {
 	set_wflag(pBuf, WF_HIDDEN);
@@ -2453,7 +2453,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
     unit_type_iterate(un) {
       pUnit = un;
       if (advance_number(pUnit->require_advance) == tech_id) {
-        Surf_Array[w++] = adj_surf(get_unittype_surface(un));
+        Surf_Array[w++] = adj_surf(get_unittype_surface(un, direction8_invalid()));
       }
     } unit_type_iterate_end;
 
@@ -2672,14 +2672,18 @@ void real_science_report_dialog_update(void)
     unit_type_iterate(un) {
       pUnit = un;
       if (advance_number(pUnit->require_advance) == player_research_get(client.conn.playing)->researching) {
-	if (get_unittype_surface(un)->w > 64) {
-	  float zoom = DEFAULT_ZOOM * (64.0 / get_unittype_surface(un)->w);
-	  pSurf = zoomSurface(get_unittype_surface(un), zoom, zoom, 1);
+        SDL_Surface *surf = get_unittype_surface(un, direction8_invalid());
+        int w = surf->w;
+
+	if (w > 64) {
+	  float zoom = DEFAULT_ZOOM * (64.0 / w);
+
+	  pSurf = zoomSurface(surf, zoom, zoom, 1);
 	  alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
           dest.x += pSurf->w + adj_size(2);          
 	  FREESURFACE(pSurf);
 	} else {
-          pSurf = adj_surf(get_unittype_surface(un));
+          pSurf = adj_surf(surf);
           alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
           dest.x += pSurf->w + adj_size(2);
 	}
@@ -2748,14 +2752,18 @@ void real_science_report_dialog_update(void)
       unit_type_iterate(un) {
         pUnit = un;
         if (advance_number(pUnit->require_advance) == player_research_get(client.conn.playing)->tech_goal) {
-	  if (get_unittype_surface(un)->w > 64) {
-	    float zoom = DEFAULT_ZOOM * (64.0 / get_unittype_surface(un)->w);
-	    pSurf = zoomSurface(get_unittype_surface(un), zoom, zoom, 1);
+          SDL_Surface *surf = get_unittype_surface(un, direction8_invalid());
+          int w = surf->w;
+
+	  if (w > 64) {
+	    float zoom = DEFAULT_ZOOM * (64.0 / w);
+
+	    pSurf = zoomSurface(surf, zoom, zoom, 1);
 	    alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
             dest.x += pSurf->w + adj_size(2);
 	    FREESURFACE(pSurf);
 	  } else {
-            pSurf = adj_surf(get_unittype_surface(un));
+            pSurf = adj_surf(surf);
             alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
             dest.x += pSurf->w + adj_size(2);
 	  }
