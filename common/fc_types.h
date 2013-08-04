@@ -367,12 +367,10 @@ BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
 #define SPECENUM_VALUE4NAME "xaw"
 #define SPECENUM_VALUE5 GUI_QT
 #define SPECENUM_VALUE5NAME "qt"
-#define SPECENUM_VALUE6 GUI_WIN32
-#define SPECENUM_VALUE6NAME "win32"
-#define SPECENUM_VALUE7 GUI_SDL2
-#define SPECENUM_VALUE7NAME "sdl2"
-#define SPECENUM_VALUE8 GUI_WEB
-#define SPECENUM_VALUE8NAME "web"
+#define SPECENUM_VALUE6 GUI_SDL2
+#define SPECENUM_VALUE6NAME "sdl2"
+#define SPECENUM_VALUE7 GUI_WEB
+#define SPECENUM_VALUE7NAME "web"
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */
