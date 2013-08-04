@@ -234,10 +234,6 @@ struct video_mode gui_sdl_screen = VIDEO_MODE(640, 480);
 bool gui_sdl_do_cursor_animation = TRUE;
 bool gui_sdl_use_color_cursors = TRUE;
 
-/* gui-win32 client specific options. */
-bool gui_win32_better_fog = TRUE;
-bool gui_win32_enable_alpha = TRUE;
-
 /* gui-qt client specific options. */
 char gui_qt_font_city_label[512] = "Monospace,8,-1,5,50,0,0,0,0,0";
 char gui_qt_font_notify_label[512] = "Monospace,8,-1,5,75,0,0,0,0,0";
@@ -1713,7 +1709,6 @@ static const struct copt_val_name
 /* Some changed callbacks. */
 static void reqtree_show_icons_callback(struct option *poption);
 static void view_option_changed_callback(struct option *poption);
-static void mapview_redraw_callback(struct option *poption);
 static void voteinfo_bar_callback(struct option *poption);
 static void font_changed_callback(struct option *poption);
 static void mapimg_changed_callback(struct option *poption);
@@ -2607,21 +2602,6 @@ static struct client_option client_options[] = {
                   N_("If this option is disabled, the cursor will "
                      "always be displayed in black and white."),
                   COC_INTERFACE, GUI_SDL, TRUE, NULL),
-
-  /* gui-win32 client specific options. */
-  GEN_BOOL_OPTION(gui_win32_better_fog,
-                  N_("Better fog-of-war drawing"),
-                  N_("If this is enabled then a better method is used for "
-                     "drawing fog-of-war.  It is not any slower but will "
-                     "consume about twice as much memory."),
-                  COC_GRAPHICS, GUI_WIN32, TRUE, mapview_redraw_callback),
-  GEN_BOOL_OPTION(gui_win32_enable_alpha,
-                  N_("Enable alpha blending"),
-                  N_("If this is enabled, then alpha blending will be "
-                     "used in rendering, instead of an ordered dither.  "
-                     "If there is no hardware support for alpha "
-                     "blending, this is much slower."),
-                  COC_GRAPHICS, GUI_WIN32, TRUE, mapview_redraw_callback),
 
   /* gui-qt client specific options. */
   GEN_FONT_OPTION(gui_qt_font_city_label, "city_label",
@@ -5499,15 +5479,6 @@ void options_free(void)
 
   message_options_free();
   global_worklists_free();
-}
-
-
-/****************************************************************************
-  Callback when a mapview graphics option is changed (redraws the canvas).
-****************************************************************************/
-static void mapview_redraw_callback(struct option *poption)
-{
-  update_map_canvas_visible();
 }
 
 /****************************************************************************
