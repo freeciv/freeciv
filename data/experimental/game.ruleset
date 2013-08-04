@@ -270,6 +270,10 @@ effects        = "DestroyBuilding"
 name           = _("Spaceship Launch")
 type           = "Spaceship"
 
+[achievement_map_known]
+name           = _("Entire Map Known")
+type           = "Map_Known"
+
 ;
 ; Trade settings
 ;

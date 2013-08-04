@@ -154,6 +154,21 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
   switch(ach->type) {
   case ACHIEVEMENT_SPACESHIP:
     return pplayer->spaceship.state == SSHIP_LAUNCHED;
+  case ACHIEVEMENT_MAP:
+    whole_map_iterate(ptile) {
+      if (is_server()) {
+        if (!dbv_isset(&pplayer->tile_known, tile_index(ptile))) {
+          return FALSE;
+        }
+      } else {
+        /* Client */
+        if (ptile->terrain == T_UNKNOWN) {
+          return FALSE;
+        }
+      }
+    } whole_map_iterate_end;
+
+    return TRUE;
   case ACHIEVEMENT_COUNT:
     break;
   }
@@ -171,6 +186,8 @@ const char *achievement_first_msg(struct achievement *ach)
   switch(ach->type) {
   case ACHIEVEMENT_SPACESHIP:
     return _("You're the first one to launch spaceship towards Alpha Centauri!");
+  case ACHIEVEMENT_MAP:
+    return _("You're the first one to have entire world mapped!");
   case ACHIEVEMENT_COUNT:
     break;
   }
