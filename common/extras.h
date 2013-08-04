@@ -91,7 +91,8 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
                              const struct tile *ptile);
 
 struct extra_type *next_extra_for_tile(struct tile *ptile, enum extra_cause cause,
-                                       struct player *pplayer, struct unit *punit);
+                                       struct player *pplayer,
+                                       const struct unit *punit);
 
 #define extra_type_iterate(_p)                                \
 {                                                             \

@@ -37,6 +37,7 @@
 
 /* client */
 #include "client_main.h" /* client_state */
+#include "climisc.h"
 #include "control.h"
 
 /* gui-sdl */
@@ -167,7 +168,17 @@ static int unit_order_callback(struct widget *pOrder_Widget)
       key_unit_auto_explore();
       break;
     case ID_UNIT_ORDER_CONNECT_IRRIGATE:
-      key_unit_connect(ACTIVITY_IRRIGATE, NULL);
+      {
+        struct extra_type_list *extras = extra_type_list_by_cause(EC_IRRIGATION);
+
+        if (extra_type_list_size(extras) > 0) {
+          struct extra_type *pextra;
+
+          pextra = extra_type_list_get(extra_type_list_by_cause(EC_IRRIGATION), 0);
+
+          key_unit_connect(ACTIVITY_IRRIGATE, pextra);
+        }
+      }
       break;
     case ID_UNIT_ORDER_CONNECT_ROAD:
       {
@@ -1340,10 +1351,24 @@ void real_menus_update(void)
 	local_hide(ID_UNIT_ORDER_AUTO_EXPLORE);
       }
 
-      if (can_unit_do_connect(pUnit, ACTIVITY_IRRIGATE, NULL)) {
-	local_show(ID_UNIT_ORDER_CONNECT_IRRIGATE);
-      } else {
-	local_hide(ID_UNIT_ORDER_CONNECT_IRRIGATE);
+      {
+        bool conn_possible = FALSE;
+        struct extra_type_list *extras;
+
+        extras = extra_type_list_by_cause(EC_IRRIGATION);
+
+        if (extra_type_list_size(extras) > 0) {
+          struct extra_type *tgt;
+
+          tgt = extra_type_list_get(extras, 0);
+          conn_possible = can_units_do_connect(punits, ACTIVITY_IRRIGATE, tgt);
+        }
+
+        if (conn_possible) {
+          local_show(ID_UNIT_ORDER_CONNECT_IRRIGATE);
+        } else {
+          local_hide(ID_UNIT_ORDER_CONNECT_IRRIGATE);
+        }
       }
 
       {

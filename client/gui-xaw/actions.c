@@ -464,10 +464,21 @@ static void xaw_key_unit_connect_rail(Widget w, XEvent *event, String *argv, Car
   }
 }
 
+/****************************************************************************
+  Invoked when the key binding for connect with irrigation is pressed.
+****************************************************************************/
 static void xaw_key_unit_connect_irrigate(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if (is_menu_item_active(MENU_ORDER, MENU_ORDER_CONNECT_IRRIGATE)) {
-    key_unit_connect(ACTIVITY_IRRIGATE, NULL);
+    struct extra_type_list *extras = extra_type_list_by_cause(EC_IRRIGATION);
+
+    if (extra_type_list_size(extras) > 0) {
+      struct extra_type *pextra;
+
+      pextra = extra_type_list_get(extra_type_list_by_cause(EC_IRRIGATION), 0);
+
+      key_unit_connect(ACTIVITY_IRRIGATE, pextra);
+    }
   }
 }
 
@@ -538,10 +549,14 @@ static void xaw_key_unit_homecity(Widget w, XEvent *event, String *argv, Cardina
     key_unit_homecity();
 }
 
+/****************************************************************************
+  Invoked when the key binding for irrigate is pressed.
+****************************************************************************/
 static void xaw_key_unit_irrigate(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_IRRIGATE))
+  if (is_menu_item_active(MENU_ORDER, MENU_ORDER_IRRIGATE)) {
     key_unit_irrigate();
+  }
 }
 
 static void xaw_key_unit_mine(Widget w, XEvent *event, String *argv, Cardinal *argc)

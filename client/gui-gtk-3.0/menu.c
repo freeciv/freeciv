@@ -1134,9 +1134,17 @@ static void connect_rail_callback(GtkAction *action, gpointer data)
 /****************************************************************
   Action "CONNECT_IRRIGATION" callback.
 *****************************************************************/
-static void connect_irrigation_callack(GtkAction *action, gpointer data)
+static void connect_irrigation_callback(GtkAction *action, gpointer data)
 {
-  key_unit_connect(ACTIVITY_IRRIGATE, NULL);
+  struct extra_type_list *extras = extra_type_list_by_cause(EC_IRRIGATION);
+
+  if (extra_type_list_size(extras) > 0) {
+    struct extra_type *pextra;
+
+    pextra = extra_type_list_get(extra_type_list_by_cause(EC_IRRIGATION), 0);
+
+    key_unit_connect(ACTIVITY_IRRIGATE, pextra);
+  }
 }
 
 /****************************************************************
@@ -1658,7 +1666,7 @@ static GtkActionGroup *get_unit_group(void)
       {"CONNECT_RAIL", NULL, _("Connect With Rai_l"),
        "<Shift>l", NULL, G_CALLBACK(connect_rail_callback)},
       {"CONNECT_IRRIGATION", NULL, _("Connect With Irri_gation"),
-       "<Shift>i", NULL, G_CALLBACK(connect_irrigation_callack)},
+       "<Shift>i", NULL, G_CALLBACK(connect_irrigation_callback)},
 
       {"TRANSFORM_TERRAIN", NULL, _("Transf_orm Terrain"),
        "o", NULL, G_CALLBACK(transform_terrain_callack)},
@@ -1998,8 +2006,9 @@ void real_menus_update(void)
   GtkMenu *menu;
   char acttext[128], irrtext[128], mintext[128], transtext[128];
   struct terrain *pterrain;
-  bool road_conn_possible;
+  bool conn_possible;
   struct road_type *proad;
+  struct extra_type_list *extras;
 
   if (NULL == ui_manager && !can_client_change_view()) {
     return;
@@ -2184,11 +2193,11 @@ void real_menus_update(void)
 
     tgt = road_extra_get(proad);
 
-    road_conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt);
+    conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt);
   } else {
-    road_conn_possible = FALSE;
+    conn_possible = FALSE;
   }
-  menus_set_sensitive(unit_group, "CONNECT_ROAD", road_conn_possible);
+  menus_set_sensitive(unit_group, "CONNECT_ROAD", conn_possible);
 
   proad = road_by_compat_special(ROCO_RAILROAD);
   if (proad != NULL) {
@@ -2196,14 +2205,24 @@ void real_menus_update(void)
 
     tgt = road_extra_get(proad);
 
-    road_conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt);
+    conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt);
   } else {
-    road_conn_possible = FALSE;
+    conn_possible = FALSE;
   }
-  menus_set_sensitive(unit_group, "CONNECT_RAIL", road_conn_possible);
+  menus_set_sensitive(unit_group, "CONNECT_RAIL", conn_possible);
 
-  menus_set_sensitive(unit_group, "CONNECT_IRRIGATION",
-                      can_units_do_connect(punits, ACTIVITY_IRRIGATE, NULL));
+  extras = extra_type_list_by_cause(EC_IRRIGATION);
+
+  if (extra_type_list_size(extras) > 0) { 
+    struct extra_type *tgt;
+
+    tgt = extra_type_list_get(extras, 0);
+    conn_possible = can_units_do_connect(punits, ACTIVITY_IRRIGATE, tgt);
+  } else {
+    conn_possible = FALSE;
+  }
+  menus_set_sensitive(unit_group, "CONNECT_IRRIGATION", conn_possible);
+
   menus_set_sensitive(unit_group, "DIPLOMAT_ACTION",
                       can_units_do_diplomat_action(punits,
                                                    DIPLOMAT_ANY_ACTION));
@@ -2308,12 +2327,26 @@ void real_menus_update(void)
       fc_snprintf(irrtext, sizeof(irrtext), _("Change to %s"),
                   get_tile_change_menu_text(unit_tile(punit),
                                             ACTIVITY_IRRIGATE));
-    } else if (tile_has_special(unit_tile(punit), S_IRRIGATION)
-               && player_can_build_extra(extra_type_get(EXTRA_SPECIAL, S_FARMLAND),
-                                         unit_owner(punit), unit_tile(punit))) {
-      sz_strlcpy(irrtext, _("Bu_ild Farmland"));
-    } else {
-      sz_strlcpy(irrtext, _("Build _Irrigation"));
+    } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
+      struct extra_type *pextra = NULL;
+
+      /* FIXME: this overloading doesn't work well with multiple focus
+       * units. */
+      unit_list_iterate(punits, punit) {
+        pextra = next_extra_for_tile(unit_tile(punit), EC_IRRIGATION,
+                                     unit_owner(punit), punit);
+        if (pextra != NULL) {
+          break;
+        }
+      } unit_list_iterate_end;
+
+      if (pextra != NULL) {
+        /* TRANS: Build irrigation of specific type */
+        snprintf(irrtext, sizeof(irrtext), _("Build %s"),
+                 extra_name_translation(pextra));
+      } else {
+        sz_strlcpy(irrtext, _("Build _Irrigation"));
+      }
     }
 
     if (pterrain->mining_result != T_NONE

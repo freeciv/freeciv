@@ -1153,16 +1153,24 @@ bool can_unit_do_connect(struct unit *punit,
     /* To start connect, unit must be able to build road to this
      * particular tile. */
     return can_build_road(proad, punit, ptile);
-    
+
   case ACTIVITY_IRRIGATE:
     /* Special case for irrigation: only irrigate to make S_IRRIGATION,
      * never to transform tiles. */
-    return (unit_has_type_flag(punit, UTYF_SETTLERS)
-            && (tile_has_special(ptile, S_IRRIGATION)
-                || (pterrain == pterrain->irrigation_result
-                    && can_be_irrigated(ptile, punit)
-                    && !is_activity_on_tile(ptile,
-                                            ACTIVITY_MINE))));
+    if (!unit_has_type_flag(punit, UTYF_SETTLERS)) {
+      return FALSE;
+    }
+    if (tile_has_extra(ptile, tgt)) {
+      return are_reqs_active(NULL, NULL, NULL, NULL,
+                             unit_type(punit), NULL, NULL,
+                             &tgt->reqs, RPT_POSSIBLE);
+    }
+
+    return pterrain == pterrain->irrigation_result
+      && can_be_irrigated(ptile, punit)
+      && can_build_extra(tgt, punit, ptile)
+      && !is_activity_on_tile(ptile,
+                              ACTIVITY_MINE);
   default:
     break;
   }
@@ -2843,8 +2851,14 @@ void key_unit_homecity(void)
 void key_unit_irrigate(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity(punit, ACTIVITY_IRRIGATE)) {
-      request_new_unit_activity(punit, ACTIVITY_IRRIGATE);
+    struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
+                                                 EC_IRRIGATION,
+                                                 unit_owner(punit),
+                                                 punit);
+
+    if (tgt != NULL
+        && can_unit_do_activity_targeted(punit, ACTIVITY_IRRIGATE, tgt)) {
+      request_new_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, tgt);
     }
   } unit_list_iterate_end;
 }

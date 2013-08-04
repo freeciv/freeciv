@@ -4966,6 +4966,18 @@ static bool sg_load_player_unit(struct loaddata *loading,
       proad = road_by_compat_special(ROCO_RAILROAD);
     }
 
+    if (activity == ACTIVITY_IRRIGATE) {
+      struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
+                                                   EC_IRRIGATION,
+                                                   unit_owner(punit),
+                                                   punit);
+      if (tgt != NULL) {
+        set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, tgt);
+      } else {
+        set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, NULL);
+      }
+    }
+
     /* We need changed_from == ACTIVITY_IDLE by now so that
      * set_unit_activity() and friends don't spuriously restore activity
      * points -- unit should have been created this way */
@@ -5060,6 +5072,18 @@ static bool sg_load_player_unit(struct loaddata *loading,
       punit->changed_from_target = extra_type_get(EXTRA_SPECIAL, cfspe);
     } else {
       punit->changed_from_target = NULL;
+    }
+
+    if (punit->changed_from == ACTIVITY_IRRIGATE) {
+      struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
+                                                   EC_IRRIGATION,
+                                                   unit_owner(punit),
+                                                   punit);
+      if (tgt != NULL) {
+        punit->changed_from_target = tgt;
+      } else {
+        punit->changed_from_target = NULL;
+      }
     }
   }
 

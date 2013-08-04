@@ -1102,13 +1102,19 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     {
       struct extra_type *pextra;
 
-      if (!tile_has_special(ptile, S_IRRIGATION)) {
-        pextra = extra_type_get(EXTRA_SPECIAL, S_IRRIGATION);
-      } else if (!tile_has_special(ptile, S_FARMLAND)) {
-        pextra = extra_type_get(EXTRA_SPECIAL, S_FARMLAND);
+      if (target != NULL) {
+        pextra = target;
       } else {
-        /* Already has both Irrigation and Farmland */
-        return FALSE;
+        /* TODO: Make sure that all callers set target so that
+         * we don't need this fallback. */
+        pextra = next_extra_for_tile(unit_tile(punit),
+                                     EC_IRRIGATION,
+                                     unit_owner(punit),
+                                     punit);
+        if (pextra == NULL) {
+          /* No available irrigation extras */
+          return FALSE;
+        }
       }
 
       /* Don't allow it if someone else is mining this tile.

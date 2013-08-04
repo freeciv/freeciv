@@ -523,19 +523,36 @@ void mr_menu::menus_sensitive()
         }
         if (units_all_same_tile) {
           struct unit *punit = unit_list_get(punits, 0);
+
           pterrain = tile_terrain(unit_tile(punit));
           if (pterrain->irrigation_result != T_NONE
               && pterrain->irrigation_result != pterrain) {
             i.value()->setText(QString(_("Transform to")) + " "
                                + QString(get_tile_change_menu_text
                                (unit_tile(punit), ACTIVITY_IRRIGATE)));
-          } else if (tile_has_special(unit_tile(punit), S_IRRIGATION)
-                     && player_can_build_extra(extra_type_get(EXTRA_SPECIAL, S_FARMLAND),
-                                               unit_owner(punit), unit_tile(punit))) {
-            i.value()->setText(QString(_("Build Farmland")));
+          } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)){
+            struct extra_type *pextra = NULL;
+
+            /* FIXME: this overloading doesn't work well with multiple focus
+             * units. */
+            unit_list_iterate(punits, punit) {
+              pextra = next_extra_for_tile(unit_tile(punit), EC_IRRIGATION,
+                                           unit_owner(punit), punit);
+              if (pextra != NULL) {
+                break;
+              }
+            } unit_list_iterate_end;
+
+            if (pextra != NULL) {
+              /* TRANS: Build irrigation of specific type */
+              i.value()->setText(QString(_("Build %1")).arg(extra_name_translation(pextra)));
+            } else {
+              i.value()->setText(QString(_("Build Irrigation")));
+            }
           } else {
             i.value()->setText(QString(_("Build Irrigation")));
           }
+          
         }
         break;
 
@@ -684,8 +701,17 @@ void mr_menu::menus_sensitive()
         break;
 
       case CONNECT_IRRIGATION:
-        if (can_units_do_connect(punits, ACTIVITY_IRRIGATE, NULL)) {
-          i.value()->setEnabled(true);
+        {
+          struct extra_type_list *extras = extra_type_list_by_cause(EC_IRRIGATION);
+
+          if (extra_type_list_size(extras) > 0) {
+            struct extra_type *pextra;
+
+            pextra = extra_type_list_get(extra_type_list_by_cause(EC_IRRIGATION), 0);
+            if (can_units_do_connect(punits, ACTIVITY_IRRIGATE, pextra)) {
+              i.value()->setEnabled(true);
+            }
+          }
         }
         break;
 
@@ -952,7 +978,15 @@ void mr_menu::slot_clean_pollution()
 ***************************************************************************/
 void mr_menu::slot_conn_irrigation()
 {
-  key_unit_connect(ACTIVITY_IRRIGATE, NULL);
+  struct extra_type_list *extras = extra_type_list_by_cause(EC_IRRIGATION);
+
+  if (extra_type_list_size(extras) > 0) {
+    struct extra_type *pextra;
+
+    pextra = extra_type_list_get(extra_type_list_by_cause(EC_IRRIGATION), 0);
+
+    key_unit_connect(ACTIVITY_IRRIGATE, pextra);
+  }
 }
 
 /***************************************************************************

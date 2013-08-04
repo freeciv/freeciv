@@ -1338,7 +1338,17 @@ static void player_load_units(struct player *plr, int plrno,
       proad = road_by_compat_special(ROCO_RAILROAD);
     }
 
-    if (activity == ACTIVITY_BASE) {
+    if (activity == ACTIVITY_IRRIGATE) {
+      struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
+                                                   EC_IRRIGATION,
+                                                   unit_owner(punit),
+                                                   punit);
+      if (tgt != NULL) {
+        set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, tgt);
+      } else {
+        set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, NULL);
+      }
+    } else if (activity == ACTIVITY_BASE) {
       if (pbase) {
         set_unit_activity_base(punit, base_number(pbase));
       } else {

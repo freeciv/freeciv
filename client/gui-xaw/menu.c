@@ -75,8 +75,8 @@
 #define TEXT_ORDER_CITY_BUILD   0
 #define TEXT_ORDER_CITY_ADD_TO  1
 
-#define TEXT_ORDER_IRRIGATE_IRRIGATE   0
-#define TEXT_ORDER_IRRIGATE_FARMLAND   1
+#define TEXT_ORDER_IRRIGATE            0
+#define TEXT_ORDER_IRRIGATE_GENERIC    1
 #define TEXT_ORDER_IRRIGATE_CHANGE_TO  2
 
 #define TEXT_ORDER_MINE_MINE       0
@@ -168,8 +168,8 @@ static struct MenuEntry order_menu_entries[]={
     { { N_("Build City"),
         N_("Add to City"), 0          },     "b", MENU_ORDER_BUILD_CITY, 0 },
     { { N_("Build Road"), 0           },     "r", MENU_ORDER_ROAD, 0 },
-    { { N_("Build Irrigation"),
-        N_("Build Farmland"),
+    { { N_("Build %s"),
+        N_("Build Irrigation"),
         N_("Change to %s"), 0         },     "i", MENU_ORDER_IRRIGATE, 0 },
     { { N_("Build Mine"),
         N_("Change to %s"), 0         },     "m", MENU_ORDER_MINE, 0 },
@@ -392,8 +392,9 @@ void real_menus_update(void)
       struct tile *ptile = NULL;
       bool can_build;
       struct unit_list *punits = get_units_in_focus();
-      bool road_conn_possible;
+      bool conn_possible;
       struct road_type *proad;
+      struct extra_type_list *extras;
 
       XtSetSensitive(menus[MENU_ORDER]->button, True);
 
@@ -452,12 +453,11 @@ void real_menus_update(void)
 
         tgt = road_extra_get(proad);
 
-        road_conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt);
+        conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt);
       } else {
-        road_conn_possible = FALSE;
+        conn_possible = FALSE;
       }
-      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT_ROAD,
-			   road_conn_possible);
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT_ROAD, conn_possible);
 
       proad = road_by_compat_special(ROCO_RAILROAD);
       if (proad != NULL) {
@@ -465,15 +465,25 @@ void real_menus_update(void)
 
         tgt = road_extra_get(proad);
 
-        road_conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt);
+        conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt);
       } else {
-        road_conn_possible = FALSE;
+        conn_possible = FALSE;
       }
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT_RAIL,
-                           road_conn_possible);
+                           conn_possible);
 
-      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT_IRRIGATE,
-			   can_units_do_connect(punits, ACTIVITY_IRRIGATE, NULL));
+      extras = extra_type_list_by_cause(EC_IRRIGATION);
+
+      if (extra_type_list_size(extras) > 0) { 
+        struct extra_type *tgt;
+
+        tgt = extra_type_list_get(extras, 0);
+        conn_possible = can_units_do_connect(punits, ACTIVITY_IRRIGATE, tgt);
+      } else {
+        conn_possible = FALSE;
+      }
+
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT_IRRIGATE, conn_possible);
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_GOTO_CITY,
 			   any_cities);
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_BUILD_WONDER,
@@ -512,15 +522,27 @@ void real_menus_update(void)
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_IRRIGATE,
 			  TEXT_ORDER_IRRIGATE_CHANGE_TO,
 			  terrain_name_translation(tinfo->irrigation_result));
-      }
-      else if (tile_has_special(ptile, S_IRRIGATION)
-               && player_can_build_extra(extra_type_get(EXTRA_SPECIAL, S_FARMLAND),
-                                         client.conn.playing, ptile)) {
-	menu_entry_rename(MENU_ORDER, MENU_ORDER_IRRIGATE,
-			  TEXT_ORDER_IRRIGATE_FARMLAND, NULL);
-      } else {
-	menu_entry_rename(MENU_ORDER, MENU_ORDER_IRRIGATE,
-			  TEXT_ORDER_IRRIGATE_IRRIGATE, NULL);
+      } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
+        struct extra_type *pextra = NULL;
+
+        /* FIXME: this overloading doesn't work well with multiple focus
+         * units. */
+        unit_list_iterate(punits, punit) {
+          pextra = next_extra_for_tile(unit_tile(punit), EC_IRRIGATION,
+                                       unit_owner(punit), punit);
+          if (pextra != NULL) {
+            break;
+          }
+        } unit_list_iterate_end;
+
+        if (pextra != NULL) {
+          /* TRANS: Build irrigation of specific type */
+          menu_entry_rename(MENU_ORDER, MENU_ORDER_IRRIGATE,
+                            TEXT_ORDER_IRRIGATE, extra_name_translation(pextra));
+        } else {
+          menu_entry_rename(MENU_ORDER, MENU_ORDER_IRRIGATE,
+                            TEXT_ORDER_IRRIGATE_GENERIC, NULL);
+        }
       }
 
       if ((tinfo->mining_result != T_NONE)
@@ -806,7 +828,17 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
     }
     break;
   case MENU_ORDER_CONNECT_IRRIGATE:
-    key_unit_connect(ACTIVITY_IRRIGATE, NULL);
+    {
+      struct extra_type_list *extras = extra_type_list_by_cause(EC_IRRIGATION);
+
+      if (extra_type_list_size(extras) > 0) {
+        struct extra_type *pextra;
+
+        pextra = extra_type_list_get(extra_type_list_by_cause(EC_IRRIGATION), 0);
+
+        key_unit_connect(ACTIVITY_IRRIGATE, pextra);
+      }
+    }
     break;
   case MENU_ORDER_PATROL:
     key_unit_patrol();
