@@ -219,6 +219,14 @@ extern struct video_mode gui_sdl_screen;
 extern bool gui_sdl_do_cursor_animation;
 extern bool gui_sdl_use_color_cursors;
 
+/* gui-sdl2 client specific options. */
+#define FC_SDL2_DEFAULT_THEME_NAME "human"
+extern char gui_sdl2_default_theme_name[512];
+extern bool gui_sdl2_fullscreen;
+extern struct video_mode gui_sdl2_screen;
+extern bool gui_sdl2_do_cursor_animation;
+extern bool gui_sdl2_use_color_cursors;
+
 #define SPECENUM_NAME option_type
 #define SPECENUM_VALUE0 OT_BOOLEAN
 #define SPECENUM_VALUE1 OT_INTEGER

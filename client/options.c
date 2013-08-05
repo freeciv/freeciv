@@ -234,6 +234,13 @@ struct video_mode gui_sdl_screen = VIDEO_MODE(640, 480);
 bool gui_sdl_do_cursor_animation = TRUE;
 bool gui_sdl_use_color_cursors = TRUE;
 
+/* gui-sdl2 client specific options. */
+char gui_sdl2_default_theme_name[512] = FC_SDL2_DEFAULT_THEME_NAME;
+bool gui_sdl2_fullscreen = FALSE;
+struct video_mode gui_sdl2_screen = VIDEO_MODE(640, 480);
+bool gui_sdl2_do_cursor_animation = TRUE;
+bool gui_sdl2_use_color_cursors = TRUE;
+
 /* gui-qt client specific options. */
 char gui_qt_font_city_label[512] = "Monospace,8,-1,5,50,0,0,0,0,0";
 char gui_qt_font_notify_label[512] = "Monospace,8,-1,5,75,0,0,0,0,0";
@@ -1756,9 +1763,9 @@ static struct client_option client_options[] = {
                  N_("The chat log file"),
                  N_("The name of the chat log file."),
                  COC_INTERFACE, GUI_STUB, GUI_DEFAULT_CHAT_LOGFILE, NULL),
-  /* gui_gtk2/3_default_theme_name and gui_sdl_default_theme_name are
+  /* gui_gtk2/3_default_theme_name and gui_sdl/2_default_theme_name are
    * different settings to avoid client crash after loading the
-   * style for the other gui.  Keeps 3 different options! */
+   * style for the other gui.  Keeps 4 different options! */
   GEN_STR_LIST_OPTION(gui_gtk2_default_theme_name, N_("Theme"),
                       N_("By changing this option you change the "
                          "active theme."),
@@ -1773,6 +1780,11 @@ static struct client_option client_options[] = {
                       N_("By changing this option you change the "
                          "active theme."),
                       COC_GRAPHICS, GUI_SDL, FC_SDL_DEFAULT_THEME_NAME,
+                      get_themes_list, theme_reread_callback),
+  GEN_STR_LIST_OPTION(gui_sdl2_default_theme_name, N_("Theme"),
+                      N_("By changing this option you change the "
+                         "active theme."),
+                      COC_GRAPHICS, GUI_SDL2, FC_SDL2_DEFAULT_THEME_NAME,
                       get_themes_list, theme_reread_callback),
 
   /* It's important to give empty string instead of NULL as as default
@@ -2602,6 +2614,24 @@ static struct client_option client_options[] = {
                   N_("If this option is disabled, the cursor will "
                      "always be displayed in black and white."),
                   COC_INTERFACE, GUI_SDL, TRUE, NULL),
+
+  /* gui-sdl2 client specific options. */
+  GEN_BOOL_OPTION(gui_sdl2_fullscreen, N_("Fullscreen"),
+                  N_("If this option is set the client will use the "
+                     "whole screen area for drawing."),
+                  COC_INTERFACE, GUI_SDL2, FALSE, NULL),
+  GEN_VIDEO_OPTION(gui_sdl2_screen, N_("Screen resolution"),
+                   N_("This option controls the resolution of the "
+                      "selected screen."),
+                   COC_INTERFACE, GUI_SDL2, 640, 480, NULL),
+  GEN_BOOL_OPTION(gui_sdl2_do_cursor_animation, N_("Do cursor animation"),
+                  N_("If this option is disabled, the cursor will "
+                     "always be displayed as static."),
+                  COC_INTERFACE, GUI_SDL2, TRUE, NULL),
+  GEN_BOOL_OPTION(gui_sdl2_use_color_cursors, N_("Use color cursors"),
+                  N_("If this option is disabled, the cursor will "
+                     "always be displayed in black and white."),
+                  COC_INTERFACE, GUI_SDL2, TRUE, NULL),
 
   /* gui-qt client specific options. */
   GEN_FONT_OPTION(gui_qt_font_city_label, "city_label",

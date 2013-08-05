@@ -193,12 +193,12 @@ static void parse_options(int argc, char **argv)
       print_usage(argv[0]);
       exit(EXIT_SUCCESS);
     } else if (is_option("--fullscreen",argv[i])) {
-      gui_sdl_fullscreen = TRUE;
+      gui_sdl2_fullscreen = TRUE;
     } else if (is_option("--eventthread",argv[i])) {
       /* init events in other thread ( only linux and BeOS ) */  
       SDL_InitSubSystem(SDL_INIT_EVENTTHREAD);
     } else if ((option = get_option_malloc("--theme", argv, &i, argc))) {
-      sz_strlcpy(gui_sdl_default_theme_name, option);
+      sz_strlcpy(gui_sdl2_default_theme_name, option);
     }
     i++;
   }
@@ -371,7 +371,7 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
   }
 
 #ifndef UNDER_CE
-  if (gui_sdl_fullscreen) {
+  if (gui_sdl2_fullscreen) {
     check_scroll_area(pMotionEvent->x, pMotionEvent->y);
   }
 #endif /* UNDER_CE */
@@ -853,12 +853,12 @@ static void real_resize_window_callback(void *data)
   struct widget *widget;
   Uint32 flags = Main.screen->flags;
 
-  if (gui_sdl_fullscreen) {
+  if (gui_sdl2_fullscreen) {
     flags |= SDL_FULLSCREEN;
   } else {
     flags &= ~SDL_FULLSCREEN;
   }
-  set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height, flags);
+  set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height, flags);
 
   if (C_S_RUNNING == client_state()) {
     /* Move units window to botton-right corner. */
@@ -910,8 +910,8 @@ void gui_options_extra_init(void)
     log_error("Didn't find option %s!", #var);                              \
   }
 
-  option_var_set_callback(gui_sdl_fullscreen, resize_window_callback);
-  option_var_set_callback(gui_sdl_screen, resize_window_callback);
+  option_var_set_callback(gui_sdl2_fullscreen, resize_window_callback);
+  option_var_set_callback(gui_sdl2_screen, resize_window_callback);
 #undef option_var_set_callback
 }
 
@@ -1014,19 +1014,19 @@ void ui_main(int argc, char *argv[])
     
   setup_auxiliary_tech_icons();
   
-  if (gui_sdl_fullscreen) {
+  if (gui_sdl2_fullscreen) {
     #ifdef SMALL_SCREEN
       #ifdef UNDER_CE
         /* set 320x240 fullscreen */
-        set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height,
+        set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height,
                        SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
       #else  /* UNDER_CE */
         /* small screen on desktop -> don't set 320x240 fullscreen mode */
-        set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height,
+        set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height,
                        SDL_SWSURFACE | SDL_ANYFORMAT);
       #endif /* UNDER_CE */
     #else  /* SMALL_SCREEN */
-      set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height,
+      set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height,
                      SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
     #endif /* SMALL_SCREEN */
     
@@ -1034,14 +1034,14 @@ void ui_main(int argc, char *argv[])
     
     #ifdef SMALL_SCREEN
       #ifdef UNDER_CE    
-      set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height,
+      set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height,
                      SDL_SWSURFACE | SDL_ANYFORMAT);
       #else  /* UNDER_CE */
-      set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height,
+      set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height,
                      SDL_SWSURFACE | SDL_ANYFORMAT);
       #endif /* UNDER_CE */
     #else  /* SMALL_SCREEN */
-    set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height,
+    set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height,
       SDL_SWSURFACE | SDL_ANYFORMAT);
     #endif /* SMALL_SCREEN */
     
