@@ -5,6 +5,9 @@ usr/share/applications/freeciv-server.desktop
 usr/share/games/freeciv/default
 usr/share/games/freeciv/default.serv
 usr/share/games/freeciv/classic
+usr/share/games/freeciv/classic.serv
+usr/share/games/freeciv/alien
+usr/share/games/freeciv/alien.serv
 usr/share/games/freeciv/multiplayer
 usr/share/games/freeciv/multiplayer.serv
 usr/share/games/freeciv/experimental
