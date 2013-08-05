@@ -26,6 +26,7 @@ struct achievement
   int id;
   struct name_translation name;
   enum achievement_type type;
+  int value;
   struct player *first;
 };
 
@@ -43,7 +44,7 @@ struct achievement *achievement_by_rule_name(const char *name);
 struct player *achievement_plr(struct achievement *ach);
 bool achievement_check(struct achievement *ach, struct player *pplayer);
 
-const char *achievement_first_msg(struct achievement *ach);
+const char *achievement_first_msg(struct achievement *pach);
 
 #define achievements_iterate(_ach_)                                \
 {                                                                  \

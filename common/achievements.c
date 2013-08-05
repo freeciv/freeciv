@@ -40,6 +40,7 @@ void achievements_init(void)
   for (i = 0; i < ARRAY_SIZE(achievements); i++) {
     achievements[i].id = i;
     achievements[i].first = NULL;
+    achievements[i].value = 0;
   }
 }
 
@@ -155,20 +156,53 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
   case ACHIEVEMENT_SPACESHIP:
     return pplayer->spaceship.state == SSHIP_LAUNCHED;
   case ACHIEVEMENT_MAP:
-    whole_map_iterate(ptile) {
-      if (is_server()) {
-        if (!dbv_isset(&pplayer->tile_known, tile_index(ptile))) {
-          return FALSE;
-        }
-      } else {
-        /* Client */
-        if (ptile->terrain == T_UNKNOWN) {
-          return FALSE;
-        }
-      }
-    } whole_map_iterate_end;
+    {
+      int max_unknown;
+      int required;
+      int total;
+      int known = 0;
+      int unknown = 0;
 
-    return TRUE;
+      /* We calculate max_unknown first for getting the
+       * rounding correctly.
+       * Consider 50 tile map from which we want 25% known.
+       * 50 * 25% = 12.5. Would we round that number of tiles
+       * down, we would get < 25% that's minimum requirement.
+       * Instead we round down (50 - 12.5 = 37.5) -> 37 and then
+       * get the minimum number of full tiles as 50 - 37 = 13. */
+      total = map_num_tiles();
+      max_unknown = (total * (100 - ach->value)) / 100;
+      required = total - max_unknown;
+
+      whole_map_iterate(ptile) {
+        bool this_is_known = FALSE;
+
+        if (is_server()) {
+          if (dbv_isset(&pplayer->tile_known, tile_index(ptile))) {
+            this_is_known = TRUE;
+          }
+        } else {
+          /* Client */
+          if (ptile->terrain != T_UNKNOWN) {
+            this_is_known = TRUE;
+          }
+        }
+
+        if (this_is_known) {
+          known++;
+          if (known >= required) {
+            return TRUE;
+          }
+        } else {
+          unknown++;
+          if (unknown >= max_unknown) {
+            return FALSE;
+          }
+        }
+      } whole_map_iterate_end;
+    }
+
+    return FALSE;
   case ACHIEVEMENT_COUNT:
     break;
   }
@@ -181,18 +215,27 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
 /****************************************************************************
   Return message to send to first player gaining the achievement.
 ****************************************************************************/
-const char *achievement_first_msg(struct achievement *ach)
+const char *achievement_first_msg(struct achievement *pach)
 {
-  switch(ach->type) {
+  static char buf[1024]; /* TODO: Get rid of this */
+
+  switch(pach->type) {
   case ACHIEVEMENT_SPACESHIP:
     return _("You're the first one to launch spaceship towards Alpha Centauri!");
   case ACHIEVEMENT_MAP:
-    return _("You're the first one to have entire world mapped!");
+    if (pach->value >= 100) {
+      return _("You're the first one to have entire world mapped!");
+    } else {
+      fc_snprintf(buf, sizeof(buf),
+                  _("You're the first one to have %d%% of the world mapped!"),
+                    pach->value);
+      return buf;
+    }
   case ACHIEVEMENT_COUNT:
     break;
   }
 
-  log_error("achievement_first_msg(): Illegal achievement type %d", ach->type);
+  log_error("achievement_first_msg(): Illegal achievement type %d", pach->type);
 
   return NULL;
 }

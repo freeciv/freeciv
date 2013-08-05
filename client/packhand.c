@@ -3322,6 +3322,7 @@ void handle_ruleset_achievement(const struct packet_ruleset_achievement *p)
   names_set(&pach->name, p->name, p->rule_name);
 
   pach->type = p->type;
+  pach->value = p->value;
 }
 
 /****************************************************************************

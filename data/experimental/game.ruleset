@@ -263,6 +263,8 @@ effects        = "DestroyBuilding"
 ;                           achievement after a ruleset has been released.
 ; type                    = What event grants the achievement to player.
 ;                           See README.achievements for list of these types.
+; value                   = Value to reach. Exact meaning of this depends on
+;                           achievement type.
 ;
 ; */ <-- avoid gettext warnings
 
@@ -273,6 +275,12 @@ type           = "Spaceship"
 [achievement_map_known]
 name           = _("Entire Map Known")
 type           = "Map_Known"
+value          = 100
+
+[achievement_map_known_20p]
+name           = _("Map Known 20 pct")
+type           = "Map_Known"
+value          = 20
 
 ;
 ; Trade settings

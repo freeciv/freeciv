@@ -264,6 +264,8 @@ effects        = "ReducePopulation", "Fallout"
 ;                           achievement after a ruleset has been released.
 ; type                    = What event grants the achievement to player.
 ;                           See README.achievements for list of these types.
+; value                   = Value to reach. Exact meaning of this depends on
+;                           achievement type.
 ;
 ; */ <-- avoid gettext warnings
 

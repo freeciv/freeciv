@@ -4908,6 +4908,8 @@ static bool load_ruleset_game(const char *rsdir)
         ok = FALSE;
       }
 
+      pach->value = secfile_lookup_int_default(file, 1, "%s.value", sec_name);
+
       if (!ok) {
         break;
       }
@@ -5464,6 +5466,7 @@ static void send_ruleset_achievements(struct conn_list *dest)
     sz_strlcpy(packet.rule_name, rule_name(&a->name));
 
     packet.type = a->type;
+    packet.value = a->value;
 
     lsend_packet_ruleset_achievement(dest, &packet);
   } achievements_iterate_end;

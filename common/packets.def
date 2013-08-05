@@ -1494,6 +1494,7 @@ PACKET_RULESET_ACHIEVEMENT = 233; sc, lsend
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
   UINT8 type;
+  UINT16 value;
 end
 
 PACKET_RULESET_TRADE = 227; sc, lsend

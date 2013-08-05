@@ -2,15 +2,18 @@ Achivements are something player can gain in game by reaching
 set goals. Achivements active in the ruleset are defined in
 game.ruleset.
 
-Achievements are granted to first player to reach the goal set
-for the achievement type.
+Achievements are granted to first player to reach the goal for
+the achievement. Goal is defined by achievement type and
+another value specific to that achievement type.
 
 
 Achievement types
 =================
 
 Map_Known
-    Achievement is granted when all the world has been mapped.
+    Achievement is granted when player has mapped at least
+    value% of the world.
 
 Spaceship
     This achievement is granted when player launches spaceship.
+    Value is ignored.
