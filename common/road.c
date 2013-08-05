@@ -75,9 +75,15 @@ Road_type_id road_count(void)
 ****************************************************************************/
 struct road_type *road_by_number(Road_type_id id)
 {
-  fc_assert_ret_val(id >= 0 && id < game.control.num_road_types, NULL);
+  struct extra_type_list *roads;
 
-  return &extra_type_get(EXTRA_ROAD, id)->data.road;
+  roads = extra_type_list_by_cause(EC_ROAD);
+
+  if (id < 0 || id >= extra_type_list_size(roads)) {
+    return NULL;
+  }
+
+  return extra_road_get(extra_type_list_get(roads, id));
 }
 
 /****************************************************************************
@@ -451,7 +457,7 @@ bool is_native_tile_to_road(const struct road_type *proad,
     return FALSE;
   }
 
-  pextra = extra_type_get(EXTRA_ROAD, road_index(proad));
+  pextra = road_extra_get(proad);
 
   return are_reqs_active(NULL, NULL, NULL, ptile,
                          NULL, NULL, NULL, &pextra->reqs, RPT_POSSIBLE);

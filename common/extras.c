@@ -149,17 +149,12 @@ struct extra_type *extra_by_number(int id)
 }
 
 /****************************************************************************
-  Get extra of the given type and given subid
+  Get extra of the given special
 ****************************************************************************/
-struct extra_type *extra_type_get(enum extra_type_id type, int subid)
+struct extra_type *special_extra_get(enum tile_special_type spe)
 {
-  switch (type) {
-  case EXTRA_SPECIAL:
-    return extra_by_number(subid);
-  case EXTRA_BASE:
-    return extra_by_number(S_LAST + subid);
-  case EXTRA_ROAD:
-    return extra_by_number(S_LAST + game.control.num_base_types + subid);
+  if (spe < S_LAST) { 
+    return extra_by_number(spe);
   }
 
   return NULL;

@@ -153,7 +153,7 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
 bool tile_has_special(const struct tile *ptile,
 		      enum tile_special_type special)
 {
-  return tile_has_extra(ptile, extra_type_get(EXTRA_SPECIAL, special));
+  return tile_has_extra(ptile, special_extra_get(special));
 }
 
 /****************************************************************************
@@ -330,7 +330,7 @@ bool tile_has_native_base(const struct tile *ptile,
 ****************************************************************************/
 void tile_set_special(struct tile *ptile, enum tile_special_type spe)
 {
-  tile_add_extra(ptile, extra_type_get(EXTRA_SPECIAL, spe));
+  tile_add_extra(ptile, special_extra_get(spe));
 }
 
 #ifndef tile_resource
@@ -366,7 +366,7 @@ void tile_set_resource(struct tile *ptile, struct resource *presource)
 ****************************************************************************/
 void tile_clear_special(struct tile *ptile, enum tile_special_type spe)
 {
-  tile_remove_extra(ptile, extra_type_get(EXTRA_SPECIAL, spe));
+  tile_remove_extra(ptile, special_extra_get(spe));
 }
 
 #ifndef tile_continent

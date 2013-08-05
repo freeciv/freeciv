@@ -1364,7 +1364,7 @@ static void sg_special_set(bv_extras *extras, char ch,
           BV_SET(*extras, extra_index(road_extra_get(proad)));
         }
       } else {
-        BV_SET(*extras, extra_index(extra_type_get(EXTRA_SPECIAL, sp)));
+        BV_SET(*extras, extra_index(special_extra_get(sp)));
       }
     }
   }
@@ -5003,7 +5003,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
       struct extra_type *a_target;
 
       if (target != S_LAST) {
-        a_target = extra_type_get(EXTRA_SPECIAL, target);
+        a_target = special_extra_get(target);
       } else if (pbase != NULL) {
         a_target = base_extra_get(pbase);
       } else if (proad != NULL) {
@@ -5069,7 +5069,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
     } else if (road_id >= 0 && road_id < loading->road.size) {
       punit->changed_from_target = road_extra_get(loading->road.order[road_id]);
     } else if (cfspe != S_LAST) {
-      punit->changed_from_target = extra_type_get(EXTRA_SPECIAL, cfspe);
+      punit->changed_from_target = special_extra_get(cfspe);
     } else {
       punit->changed_from_target = NULL;
     }
@@ -5259,7 +5259,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                                          NULL, NULL));
             }
 
-            order->target = extra_number(extra_type_get(EXTRA_BASE, base_id));
+            order->target = extra_number(base_extra_get(base_by_number(base_id)));
           }
 
           if (road_unitstr && road_unitstr[j] != '?') {
@@ -5271,15 +5271,15 @@ static bool sg_load_player_unit(struct loaddata *loading,
               road_id = 0;
             }
 
-            order->target = extra_number(extra_type_get(EXTRA_ROAD, road_id));
+            order->target = extra_number(road_extra_get(road_by_number(road_id)));
           }
 
           if (order->activity == ACTIVITY_OLD_ROAD) {
             order->activity = ACTIVITY_GEN_ROAD;
-            order->target = extra_number(extra_type_get(EXTRA_ROAD, road_idx));
+            order->target = extra_number(road_extra_get(road_by_number(road_idx)));
           } else if (order->activity == ACTIVITY_OLD_RAILROAD) {
             order->activity = ACTIVITY_GEN_ROAD;
-            order->target = extra_number(extra_type_get(EXTRA_ROAD, rail_idx));
+            order->target = extra_number(road_extra_get(road_by_number(rail_idx)));
           }
         }
       }

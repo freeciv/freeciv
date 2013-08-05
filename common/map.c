@@ -102,7 +102,7 @@ bv_extras get_tile_infrastructure_set(const struct tile *ptile,
 
   BV_CLR_ALL(pspresent);
   for (i = 0; infrastructure_specials[i] != S_LAST; i++) {
-    struct extra_type *pextra = extra_type_get(EXTRA_SPECIAL, infrastructure_specials[i]);
+    struct extra_type *pextra = special_extra_get(infrastructure_specials[i]);
 
     if (tile_has_extra(ptile, pextra)) {
       BV_SET(pspresent, extra_index(pextra));

@@ -239,11 +239,15 @@ bool can_build_base(const struct unit *punit, const struct base_type *pbase,
 ****************************************************************************/
 struct base_type *base_by_number(const Base_type_id id)
 {
-  if (id < 0 || id >= game.control.num_base_types) {
+  struct extra_type_list *bases;
+
+  bases = extra_type_list_by_cause(EC_BASE);
+
+  if (id < 0 || id >= extra_type_list_size(bases)) {
     return NULL;
   }
 
-  return &extra_type_get(EXTRA_BASE, id)->data.base;
+  return extra_base_get(extra_type_list_get(bases, id));
 }
 
 /**************************************************************************

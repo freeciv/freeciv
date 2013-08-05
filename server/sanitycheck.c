@@ -81,14 +81,14 @@ static void check_specials(const char *file, const char *function, int line)
   whole_map_iterate(ptile) {
     const struct terrain *pterrain = tile_terrain(ptile);
 
-    if (tile_has_extra(ptile, extra_type_get(EXTRA_SPECIAL, S_FARMLAND))) {
+    if (tile_has_extra(ptile, special_extra_get(S_FARMLAND))) {
       SANITY_TILE(ptile,
-                  tile_has_extra(ptile, extra_type_get(EXTRA_SPECIAL, S_IRRIGATION)));
+                  tile_has_extra(ptile, special_extra_get(S_IRRIGATION)));
     }
-    if (tile_has_extra(ptile, extra_type_get(EXTRA_SPECIAL, S_MINE))) {
+    if (tile_has_extra(ptile, special_extra_get(S_MINE))) {
       SANITY_TILE(ptile, pterrain->mining_result == pterrain);
     }
-    if (tile_has_extra(ptile, extra_type_get(EXTRA_SPECIAL, S_IRRIGATION))) {
+    if (tile_has_extra(ptile, special_extra_get(S_IRRIGATION))) {
       SANITY_TILE(ptile, pterrain->irrigation_result == pterrain);
     }
 

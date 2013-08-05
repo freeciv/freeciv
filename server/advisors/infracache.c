@@ -95,7 +95,7 @@ static int adv_calc_irrigate(const struct city *pcity,
      * potentially greater benefit.  Note the hack: autosettler ordinarily
      * discounts benefits by the time it takes to make them; farmland takes
      * twice as long, so make it look half as good. */
-    if (player_can_build_extra(extra_type_get(EXTRA_SPECIAL, S_FARMLAND),
+    if (player_can_build_extra(special_extra_get(S_FARMLAND),
                                city_owner(pcity), ptile)) {
       int oldv = city_tile_value(pcity, ptile, 0, 0);
       vtile = tile_virtual_new(ptile);
@@ -113,7 +113,7 @@ static int adv_calc_irrigate(const struct city *pcity,
   } else if (old_terrain == new_terrain
              && tile_has_special(ptile, S_IRRIGATION)
              && !tile_has_special(ptile, S_FARMLAND)
-             && player_can_build_extra(extra_type_get(EXTRA_SPECIAL, S_FARMLAND),
+             && player_can_build_extra(special_extra_get(S_FARMLAND),
                                        city_owner(pcity), ptile)) {
     /* The tile is currently irrigated; irrigating it more puts an
      * S_FARMLAND on it.  Calculate the benefit of doing so. */

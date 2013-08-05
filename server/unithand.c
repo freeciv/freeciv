@@ -1984,7 +1984,7 @@ static void unit_activity_dependencies(struct unit *punit,
 	  prereq = get_infrastructure_prereq(old_target->data.special);
         }
         if (prereq != S_LAST) {
-          struct extra_type *preextra = extra_type_get(EXTRA_SPECIAL, prereq);
+          struct extra_type *preextra = special_extra_get(prereq);
 
           unit_list_iterate (unit_tile(punit)->units, punit2)
             if (punit2->activity == ACTIVITY_PILLAGE

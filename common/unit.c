@@ -989,7 +989,7 @@ bool can_unit_do_activity(const struct unit *punit,
 bool can_unit_do_activity_base(const struct unit *punit,
                                Base_type_id base)
 {
-  struct extra_type *target = extra_type_get(EXTRA_BASE, base);
+  struct extra_type *target = base_extra_get(base_by_number(base));
 
   return can_unit_do_activity_targeted(punit, ACTIVITY_BASE, target);
 }
@@ -1001,7 +1001,7 @@ bool can_unit_do_activity_base(const struct unit *punit,
 bool can_unit_do_activity_road(const struct unit *punit,
                                Road_type_id road)
 {
-  struct extra_type *target = extra_type_get(EXTRA_ROAD, road);
+  struct extra_type *target = road_extra_get(road_by_number(road));
 
   return can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, target);
 }
@@ -1067,7 +1067,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     {
       struct extra_type *pextra;
 
-      pextra = extra_type_get(EXTRA_SPECIAL, S_MINE);
+      pextra = special_extra_get(S_MINE);
 
       /* Don't allow it if someone else is irrigating this tile.
        * *Do* allow it if they're transforming - the mine may survive */
@@ -1198,8 +1198,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
            * to ensure that the unit pillaging the topmost improvement
            * finished first.) */
           if (prereq != S_LAST
-              && BV_ISSET(pspresent, extra_index(extra_type_get(EXTRA_SPECIAL, spe)))) {
-            BV_CLR(pspossible, extra_index(extra_type_get(EXTRA_SPECIAL, prereq)));
+              && BV_ISSET(pspresent, extra_index(special_extra_get(spe)))) {
+            BV_CLR(pspossible, extra_index(special_extra_get(prereq)));
           }
         } tile_special_type_iterate_end;
 
@@ -1326,7 +1326,7 @@ void set_unit_activity_base(struct unit *punit,
                             Base_type_id base)
 {
   set_unit_activity_internal(punit, ACTIVITY_BASE);
-  punit->activity_target = extra_type_get(EXTRA_BASE, base);
+  punit->activity_target = base_extra_get(base_by_number(base));
   if (ACTIVITY_BASE == punit->changed_from
       && punit->activity_target == punit->changed_from_target) {
     punit->activity_count = punit->changed_from_count;
@@ -1340,7 +1340,7 @@ void set_unit_activity_road(struct unit *punit,
                             Road_type_id road)
 {
   set_unit_activity_internal(punit, ACTIVITY_GEN_ROAD);
-  punit->activity_target = extra_type_get(EXTRA_ROAD, road);
+  punit->activity_target = road_extra_get(road_by_number(road));
   if (ACTIVITY_GEN_ROAD == punit->changed_from
       && punit->activity_target == punit->changed_from_target) {
     punit->activity_count = punit->changed_from_count;

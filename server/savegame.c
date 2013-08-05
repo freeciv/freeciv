@@ -824,7 +824,7 @@ static void set_savegame_special(bv_extras *extras,
           BV_SET(*extras, extra_index(road_extra_get(proad)));
         }
       } else {
-        BV_SET(*extras, extra_index(extra_type_get(EXTRA_SPECIAL, sp)));
+        BV_SET(*extras, extra_index(special_extra_get(sp)));
       }
     }
   }
@@ -1368,7 +1368,7 @@ static void player_load_units(struct player *plr, int plrno,
       struct extra_type *a_target;
 
       if (target != S_LAST) {
-        a_target = extra_type_get(EXTRA_SPECIAL, target);
+        a_target = special_extra_get(target);
       } else if (pbase != NULL) {
         a_target = base_extra_get(pbase);
       } else if (proad != NULL) {
@@ -1538,15 +1538,15 @@ static void player_load_units(struct player *plr, int plrno,
               base = base_number(get_base_by_gui_type(BASE_GUI_FORTRESS, NULL, NULL));
             }
 
-            order->target = extra_number(extra_type_get(EXTRA_BASE, base));
+            order->target = extra_number(base_extra_get(base_by_number(base)));
           }
 
           if (order->activity == ACTIVITY_OLD_ROAD) {
             order->activity = ACTIVITY_GEN_ROAD;
-            order->target = extra_number(extra_type_get(EXTRA_ROAD, road_idx));
+            order->target = extra_number(road_extra_get(road_by_number(road_idx)));
           } else if (order->activity == ACTIVITY_OLD_RAILROAD) {
             order->activity = ACTIVITY_GEN_ROAD;
-            order->target = extra_number(extra_type_get(EXTRA_ROAD, rail_idx));
+            order->target = extra_number(road_extra_get(road_by_number(rail_idx)));
           }
 	}
       } else {

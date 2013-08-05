@@ -60,7 +60,7 @@ int extra_index(const struct extra_type *pextra);
 int extra_number(const struct extra_type *pextra);
 struct extra_type *extra_by_number(int id);
 
-struct extra_type *extra_type_get(enum extra_type_id type, int subid);
+struct extra_type *special_extra_get(enum tile_special_type spe);
 
 const char *extra_name_translation(const struct extra_type *pextra);
 const char *extra_rule_name(const struct extra_type *pextra);

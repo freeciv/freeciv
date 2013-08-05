@@ -3996,7 +3996,7 @@ static int get_irrigation_index(const struct tileset *t,
 
     /* A tile with S_FARMLAND will also have S_IRRIGATION set. */
     if (BV_ISSET(textras_near[dir],
-                 extra_index(extra_type_get(EXTRA_SPECIAL, S_IRRIGATION)))) {
+                 extra_index(special_extra_get(S_IRRIGATION)))) {
       tileno |= 1 << i;
     }
   }
@@ -4015,18 +4015,18 @@ static int fill_irrigation_sprite_array(const struct tileset *t,
 {
   struct drawn_sprite *saved_sprs = sprs;
 
-  fc_assert_ret_val(!BV_ISSET(textras, extra_index(extra_type_get(EXTRA_SPECIAL, S_FARMLAND)))
-                    || BV_ISSET(textras, extra_index(extra_type_get(EXTRA_SPECIAL, S_IRRIGATION))),
+  fc_assert_ret_val(!BV_ISSET(textras, extra_index(special_extra_get(S_FARMLAND)))
+                    || BV_ISSET(textras, extra_index(special_extra_get(S_IRRIGATION))),
                     0);
 
   /* We don't draw the irrigation if there's a city (it just gets overdrawn
    * anyway, and ends up looking bad). */
   if (draw_irrigation
-      && BV_ISSET(textras, extra_index(extra_type_get(EXTRA_SPECIAL, S_IRRIGATION)))
+      && BV_ISSET(textras, extra_index(special_extra_get(S_IRRIGATION)))
       && !(pcity && draw_cities)) {
     int index = get_irrigation_index(t, textras_near);
 
-    if (BV_ISSET(textras, extra_index(extra_type_get(EXTRA_SPECIAL, S_FARMLAND)))) {
+    if (BV_ISSET(textras, extra_index(special_extra_get(S_FARMLAND)))) {
       ADD_SPRITE_SIMPLE(t->sprites.tx.farmland[index]);
     } else {
       ADD_SPRITE_SIMPLE(t->sprites.tx.irrigation[index]);
@@ -4868,7 +4868,7 @@ int fill_sprite_array(struct tileset *t,
       }
 
       if (draw_mines
-          && BV_ISSET(textras, extra_index(extra_type_get(EXTRA_SPECIAL, S_MINE)))) {
+          && BV_ISSET(textras, extra_index(special_extra_get(S_MINE)))) {
         struct drawing_data *draw = t->sprites.drawing[terrain_index(pterrain)];
 
         if (NULL != draw->mine) {
@@ -4877,7 +4877,7 @@ int fill_sprite_array(struct tileset *t,
       }
 
       if (draw_specials
-          && BV_ISSET(textras, extra_index(extra_type_get(EXTRA_SPECIAL, S_HUT)))) {
+          && BV_ISSET(textras, extra_index(special_extra_get(S_HUT)))) {
 	ADD_SPRITE_SIMPLE(t->sprites.tx.village);
       }
     }
@@ -4931,11 +4931,11 @@ int fill_sprite_array(struct tileset *t,
       }
 
       if (draw_pollution
-         && BV_ISSET(textras, extra_index(extra_type_get(EXTRA_SPECIAL, S_POLLUTION)))) {
+         && BV_ISSET(textras, extra_index(special_extra_get(S_POLLUTION)))) {
         ADD_SPRITE_SIMPLE(t->sprites.tx.pollution);
       }
       if (draw_pollution
-          && BV_ISSET(textras, extra_index(extra_type_get(EXTRA_SPECIAL, S_FALLOUT)))) {
+          && BV_ISSET(textras, extra_index(special_extra_get(S_FALLOUT)))) {
         ADD_SPRITE_SIMPLE(t->sprites.tx.fallout);
       }
     }

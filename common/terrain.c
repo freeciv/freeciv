@@ -561,7 +561,7 @@ enum tile_special_type special_by_rule_name(const char *name)
 ****************************************************************************/
 const char *special_name_translation(enum tile_special_type type)
 {
-  struct extra_type *pextra = extra_type_get(EXTRA_SPECIAL, type);
+  struct extra_type *pextra = special_extra_get(type);
 
   if (pextra == NULL) {
     return NULL;
@@ -575,7 +575,7 @@ const char *special_name_translation(enum tile_special_type type)
 ****************************************************************************/
 const char *special_rule_name(enum tile_special_type type)
 {
-  struct extra_type *pextra = extra_type_get(EXTRA_SPECIAL, type);
+  struct extra_type *pextra = special_extra_get(type);
 
   if (pextra == NULL) {
     return NULL;
@@ -820,13 +820,13 @@ const char *get_infrastructure_text(bv_extras extras)
   } road_type_iterate_end;
 
   /* Likewise for farmland on irrigation */
-  if (BV_ISSET(extras, extra_index(extra_type_get(EXTRA_SPECIAL, S_FARMLAND)))) {
+  if (BV_ISSET(extras, extra_index(special_extra_get(S_FARMLAND)))) {
     cat_snprintf(s, sizeof(s), "%s/", _("Farmland"));
-  } else if (BV_ISSET(extras, extra_index(extra_type_get(EXTRA_SPECIAL, S_IRRIGATION)))) {
+  } else if (BV_ISSET(extras, extra_index(special_extra_get(S_IRRIGATION)))) {
     cat_snprintf(s, sizeof(s), "%s/", _("Irrigation"));
   }
 
-  if (BV_ISSET(extras, extra_index(extra_type_get(EXTRA_SPECIAL, S_MINE)))) {
+  if (BV_ISSET(extras, extra_index(special_extra_get(S_MINE)))) {
     cat_snprintf(s, sizeof(s), "%s/", _("Mine"));
   }
 
@@ -866,15 +866,15 @@ struct extra_type *get_preferred_pillage(bv_extras extras)
 {
   struct extra_type *tgt;
 
-  tgt = extra_type_get(EXTRA_SPECIAL, S_FARMLAND);
+  tgt = special_extra_get(S_FARMLAND);
   if (BV_ISSET(extras, extra_index(tgt))) {
     return tgt;
   }
-  tgt = extra_type_get(EXTRA_SPECIAL, S_IRRIGATION);
+  tgt = special_extra_get(S_IRRIGATION);
   if (BV_ISSET(extras, extra_index(tgt))) {
     return tgt;
   }
-  tgt = extra_type_get(EXTRA_SPECIAL, S_MINE);
+  tgt = special_extra_get(S_MINE);
   if (BV_ISSET(extras, extra_index(tgt))) {
     return tgt;
   }
