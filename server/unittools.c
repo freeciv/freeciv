@@ -1119,9 +1119,9 @@ void place_partisans(struct tile *pcenter, struct player *powner,
 }
 
 /**************************************************************************
-Teleport punit to city at cost specified.  Returns success.
+Teleport punit to city at cost specified. Returns success. Note that unit
+may die if it succesfully moves, i.e., even when return value is TRUE.
 (If specified cost is -1, then teleportation costs all movement.)
-                         - Kris Bubendorfer
 **************************************************************************/
 bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
 			  int move_cost, bool verbose)
@@ -1143,9 +1143,11 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
     /* Silently free orders since they won't be applicable anymore. */
     free_unit_orders(punit);
 
-    if (move_cost == -1)
+    if (move_cost == -1) {
       move_cost = punit->moves_left;
+    }
     unit_move(punit, dst_tile, move_cost);
+
     return TRUE;
   }
   return FALSE;
@@ -1780,6 +1782,8 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
 
 /****************************************************************************
   Determine if it is possible to save a given unit, and if so, save them.
+  Note that despite being saved from drowning, teleporting the units to
+  "safety" may have killed them in the end.
 ****************************************************************************/
 bool try_to_save_unit(struct unit *punit, struct unit_type *pttype,
                       bool helpless, bool teleporting)
@@ -1800,13 +1804,19 @@ bool try_to_save_unit(struct unit *punit, struct unit_type *pttype,
       struct city *pcity = find_closest_city(ptile, NULL, unit_owner(punit),
                                              FALSE, FALSE, FALSE, TRUE, FALSE,
                                              utype_class(pttype));
-      if (pcity && teleport_unit_to_city(punit, pcity, 0, FALSE)) {
-        notify_player(pplayer, ptile, E_UNIT_RELOCATED, ftc_server,
-                      _("%s escaped the destruction of %s, and fled to %s."),
-                      unit_link(punit),
-                      utype_name_translation(pttype),
-                      city_link(pcity));
-        return TRUE;
+      if (pcity != NULL) {
+        char tplink[MAX_LEN_LINK]; /* In case unit dies when teleported */
+
+        sz_strlcpy(tplink, unit_link(punit));
+
+        if (teleport_unit_to_city(punit, pcity, 0, FALSE)) {
+          notify_player(pplayer, ptile, E_UNIT_RELOCATED, ftc_server,
+                        _("%s escaped the destruction of %s, and fled to %s."),
+                        tplink,
+                        utype_name_translation(pttype),
+                        city_link(pcity));
+          return TRUE;
+        }
       }
     }
   }
