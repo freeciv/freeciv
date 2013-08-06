@@ -139,6 +139,7 @@ static struct {
   GEN_EV(E_HUT_SETTLER,		E_S_HUT,	N_("Settler Found in Hut")),
   GEN_EV(E_HUT_TECH,		E_S_HUT,	N_("Tech Found in Hut")),
   GEN_EV(E_HUT_BARB_CITY_NEAR,	E_S_HUT,	N_("Unit Spared by Barbarians")),
+  GEN_EV(E_ACHIEVEMENT,         E_S_NATION,     N_("Achievements")),
   GEN_EV(E_UPRISING,		E_S_NATION,	N_("Barbarian Uprising")),
   GEN_EV(E_CIVIL_WAR,		E_S_NATION,	N_("Civil War")),
   GEN_EV(E_ANARCHY,		E_S_NATION,	N_("Collapse to Anarchy")),

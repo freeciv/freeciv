@@ -192,7 +192,7 @@ m_trireme = "stdsounds/inh2o.ogg" ; [pox]
 ;w_womens_suffrage = ""
 
 
-; This list contains all events up to E_DISASTER
+; This list contains all events up to E_ACHIEVEMENT
 ; (as numbered in common/events.h), in the sorted order.
 ; Alphabetical sorting is based on these tag names,
 ; as the message names and contents change. {was}
@@ -300,6 +300,7 @@ e_log_fatal = "stdsounds/LrgExpl.ogg" ; [warzone]
 ;e_unit_win_att = ""
 ;e_uprising = ""
 ;e_disaster = ""
+;e_achievement = ""
 ;e_vote_new = ""
 ;e_vote_resolved = ""
 ;e_vote_aborted = ""

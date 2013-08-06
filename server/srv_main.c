@@ -1120,8 +1120,7 @@ static void end_turn(void)
     struct player *achiever = achievement_plr(ach);
 
     if (achiever != NULL) {
-      /* TODO: Event type of its own for achievements. */
-      notify_player(achiever, NULL, E_CHAT_MSG, ftc_server,
+      notify_player(achiever, NULL, E_ACHIEVEMENT, ftc_server,
                     "%s", achievement_first_msg(ach));
     }
   } achievements_iterate_end;
