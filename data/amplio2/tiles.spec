@@ -37,9 +37,9 @@ tiles = { "row", "column", "tag"
   2, 16, "unit.pollution"
   2, 17, "unit.road"
   2, 18, "unit.irrigate"
-  2, 19, "unit.fortifying",
-         "unit.fortress"
-  3, 16, "unit.airbase"
+  2, 19, "unit.fortifying"
+;  2, 19, "unit.fortress"
+;  3, 16, "unit.airbase"
   3, 17, "unit.pillage"
   3, 18, "unit.fortified"
   3, 19, "unit.fallout"
@@ -138,6 +138,11 @@ tiles = { "row", "column", "tag"
   7, 17, "upkeep.unhappy"
   7, 18, "upkeep.unhappy2"
   7, 19, "upkeep.shield"
+
+; Base building activities
+  8, 15, "unit.fortress"
+  8, 16, "unit.airbase"
+  8, 17, "unit.buoy"
 
 ; Nuclear explosion: this could maybe now be handled as one 
 ; big graphic (?), but for now is done old way as 3 by 3:
