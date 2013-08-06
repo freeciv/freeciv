@@ -1034,9 +1034,9 @@ void place_partisans(struct tile *pcenter, struct player *powner,
 }
 
 /**************************************************************************
-Teleport punit to city at cost specified.  Returns success.
+Teleport punit to city at cost specified. Returns success. Note that unit
+may die if it succesfully moves, i.e., even when return value is TRUE.
 (If specified cost is -1, then teleportation costs all movement.)
-                         - Kris Bubendorfer
 **************************************************************************/
 bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
 			  int move_cost, bool verbose)
@@ -1058,9 +1058,11 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
     /* Silently free orders since they won't be applicable anymore. */
     free_unit_orders(punit);
 
-    if (move_cost == -1)
+    if (move_cost == -1) {
       move_cost = punit->moves_left;
+    }
     move_unit(punit, dst_tile, move_cost);
+
     return TRUE;
   }
   return FALSE;
@@ -1599,6 +1601,8 @@ void wipe_unit(struct unit *punit, bool count_lost, struct player *killer)
           && (unit_has_type_flag(pcargo, F_UNDISBANDABLE)
            || unit_has_type_flag(pcargo, F_GAMELOSS))) {
         struct unit *ptransport = transport_from_tile(pcargo, ptile);
+        bool teleported = FALSE;
+
         if (ptransport != NULL) {
           unit_transport_load_tp_status(pcargo, ptransport);
           send_unit_info(NULL, pcargo);
@@ -1606,16 +1610,22 @@ void wipe_unit(struct unit *punit, bool count_lost, struct player *killer)
           if (unit_has_type_flag(pcargo, F_UNDISBANDABLE)) {
             pcity = find_closest_city(pcargo->tile, NULL, unit_owner(pcargo),
                                       TRUE, FALSE, FALSE, TRUE, FALSE);
-            if (pcity && teleport_unit_to_city(pcargo, pcity, 0, FALSE)) {
-              notify_player(pplayer, ptile, E_UNIT_RELOCATED, ftc_server,
-                            _("%s escaped the destruction of %s, and "
-                              "fled to %s."),
-                            unit_link(pcargo),
-                            utype_name_translation(putype_save),
-                            city_link(pcity));
+            if (pcity) {
+              char tplink[MAX_LEN_LINK]; /* In case unit dies when teleported */
+
+              sz_strlcpy(tplink, unit_link(pcargo));
+              if (teleport_unit_to_city(pcargo, pcity, 0, FALSE)) {
+                notify_player(pplayer, ptile, E_UNIT_RELOCATED, ftc_server,
+                              _("%s escaped the destruction of %s, and "
+                                "fled to %s."),
+                              tplink,
+                              utype_name_translation(putype_save),
+                              city_link(pcity));
+                teleported = TRUE;
+              }
 	    }
           }
-          if (!unit_has_type_flag(pcargo, F_UNDISBANDABLE) || !pcity) {
+          if (!teleported) {
             unit_lost_with_transport(pplayer, pcargo, putype_save, killer);
           }
         }
@@ -2797,7 +2807,7 @@ static void unit_move_consequences(struct unit *punit,
   if (tocity) {
     unit_enter_city(punit, tocity, passenger);
 
-    if(!unit_alive(saved_id)) {
+    if (!unit_alive(saved_id)) {
       /* Unit died inside unit_enter_city().
        * This means that some cleanup has already taken place when it was
        * removed from game. */
