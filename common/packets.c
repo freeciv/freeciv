@@ -184,9 +184,10 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
 {
   /* default for the server */
   int result = 0;
+  int packet_type = data[2];
 
   log_packet("sending packet type=%s(%d) len=%d to %s",
-             packet_name(data[2]), data[2], len,
+             packet_name(packet_type), packet_type, len,
              is_server() ? pc->username : "server");
 
   if (!is_server()) {
@@ -197,15 +198,13 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
   }
 
   if (pc->outgoing_packet_notify) {
-    pc->outgoing_packet_notify(pc, data[2], len, result);
+    pc->outgoing_packet_notify(pc, packet_type, len, result);
   }
 
 #ifdef USE_COMPRESSION
   if (TRUE) {
-    int packet_type;
     int size = len;
 
-    packet_type = data[2];
     if (conn_compression_frozen(pc)) {
       size_t old_size = pc->compression.queue.size;
 
@@ -249,7 +248,6 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
     static int last_start_turn_seen = -1;
     static bool start_turn_seen = FALSE;
 
-    int packet_type = data[2];
     int size = len;
     bool print = FALSE;
     bool clear = FALSE;
