@@ -80,6 +80,7 @@ bool fullscreen_mode = FALSE;
 
 /** Migrations **/
 bool gui_gtk3_migrated_from_gtk2 = FALSE;
+bool gui_sdl2_migrated_from_sdl = FALSE;
 
 /** Local Options: **/
 
@@ -5242,6 +5243,9 @@ void options_load(void)
   gui_gtk3_migrated_from_gtk2 =
     secfile_lookup_bool_default(sf, gui_gtk3_migrated_from_gtk2,
                                 "%s.migration_gtk3_from_gtk2", prefix);
+  gui_sdl2_migrated_from_sdl =
+    secfile_lookup_bool_default(sf, gui_sdl2_migrated_from_sdl,
+                                "%s.migration_sdl2_from_sdl", prefix);
 
   /* Backwards compatibility for removed options replaced by entirely "new"
    * options. The equivalent "new" option will override these, if set. */
@@ -5321,6 +5325,8 @@ void options_save(void)
   /* Migrations */
   secfile_insert_bool(sf, gui_gtk3_migrated_from_gtk2,
                       "client.migration_gtk3_from_gtk2");
+  secfile_insert_bool(sf, gui_sdl2_migrated_from_sdl,
+                      "client.migration_sdl2_from_sdl");
 
   client_options_iterate_all(poption) {
     client_option_save(poption, sf);

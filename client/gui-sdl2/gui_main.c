@@ -941,6 +941,26 @@ int main(int argc, char **argv)
 }
 
 /**************************************************************************
+  Migrate sdl2 client specific options from sdl client options.
+**************************************************************************/
+static void migrate_options_from_sdl(void)
+{
+  log_normal("Migrating options from sdl to sdl2 client");
+
+#define MIGRATE_OPTION(opt) gui_sdl2_##opt = gui_sdl_##opt;
+
+  /* Default theme name is never migrated */
+  MIGRATE_OPTION(fullscreen);
+  MIGRATE_OPTION(screen);
+  MIGRATE_OPTION(do_cursor_animation);
+  MIGRATE_OPTION(use_color_cursors);
+
+#undef MIGRATE_OPTION
+
+  gui_sdl2_migrated_from_sdl = TRUE;
+}
+
+/**************************************************************************
   The main loop for the UI.  This is called from main(), and when it
   exits the client will exit.
 **************************************************************************/
@@ -954,7 +974,11 @@ void ui_main(int argc, char *argv[])
   SDL_Event __pMap_Scroll_User_Event;
   
   parse_options(argc, argv);
-  
+
+  if (!gui_sdl2_migrated_from_sdl) {
+    migrate_options_from_sdl();
+  }
+
   __Net_User_Event.type = SDL_USEREVENT;
   __Net_User_Event.user.code = NET;
   __Net_User_Event.user.data1 = NULL;

@@ -58,6 +58,7 @@ extern bool fullscreen_mode;
 
 /** Migrations **/
 extern bool gui_gtk3_migrated_from_gtk2;
+extern bool gui_sdl2_migrated_from_sdl;
 
 /** Local Options: **/
 
