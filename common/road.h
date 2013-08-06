@@ -168,7 +168,7 @@ void road_types_free(void);
   requirement_vector_iterate(_reqs, preq) {                            \
     if (preq->source.kind == VUT_EXTRA                                 \
         && preq->source.value.extra->type == EXTRA_ROAD) {             \
-      struct road_type *_dep = &(preq->source.value.extra->data.road);
+      struct road_type *_dep = extra_road_get(preq->source.value.extra);
 
 
 #define road_deps_iterate_end                           \

@@ -43,6 +43,8 @@ void extras_init(void)
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
     requirement_vector_init(&(extras[i].reqs));
     extras[i].id = i;
+    extras[i].data.base = NULL;
+    extras[i].data.road = NULL;
   }
 
   for (i = 0; i < S_LAST; i++) {
@@ -100,6 +102,17 @@ void extras_free(void)
 
   base_types_free();
   road_types_free();
+
+  for (i = 0; i < game.control.num_extra_types; i++) {
+    if (extras[i].data.base != NULL) {
+      FC_FREE(extras[i].data.base);
+      extras[i].data.base = NULL;
+    }
+    if (extras[i].data.road != NULL) {
+      FC_FREE(extras[i].data.road);
+      extras[i].data.road = NULL;
+    }
+  }
 
   for (i = 0; i < EC_COUNT + 1; i++) {
     extra_type_list_destroy(caused_by[i]);
@@ -217,7 +230,7 @@ struct base_type *extra_base_get(struct extra_type *pextra)
 {
   fc_assert_ret_val(pextra->type == EXTRA_BASE, NULL);
 
-  return &(pextra->data.base);
+  return pextra->data.base;
 }
 
 /**************************************************************************
@@ -227,7 +240,7 @@ struct road_type *extra_road_get(struct extra_type *pextra)
 {
   fc_assert_ret_val(pextra->type == EXTRA_ROAD, NULL);
 
-  return &(pextra->data.road);
+  return pextra->data.road;
 }
 
 /**************************************************************************
@@ -237,7 +250,7 @@ const struct base_type *extra_base_get_const(const struct extra_type *pextra)
 {
   fc_assert_ret_val(pextra->type == EXTRA_BASE, NULL);
 
-  return &(pextra->data.base);
+  return pextra->data.base;
 }
 
 /**************************************************************************
@@ -247,7 +260,7 @@ const struct road_type *extra_road_get_const(const struct extra_type *pextra)
 {
   fc_assert_ret_val(pextra->type == EXTRA_ROAD, NULL);
 
-  return &(pextra->data.road);
+  return pextra->data.road;
 }
 
 /**************************************************************************
@@ -354,12 +367,12 @@ static bool can_build_extra_base(const struct extra_type *pextra,
     }
     break;
   case EXTRA_ROAD:
-    if (!can_build_road_base(&(pextra->data.road), pplayer, ptile)) {
+    if (!can_build_road_base(extra_road_get_const(pextra), pplayer, ptile)) {
       return FALSE;
     }
     break;
   case EXTRA_BASE:
-    if (!base_can_be_built(&(pextra->data.base), ptile)) {
+    if (!base_can_be_built(extra_base_get_const(pextra), ptile)) {
       return FALSE;
     }
     break;
@@ -412,9 +425,9 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
   case EXTRA_SPECIAL:
     return TRUE;
   case EXTRA_BASE:
-    return is_native_tile_to_base(&(pextra->data.base), ptile);
+    return is_native_tile_to_base(extra_base_get_const(pextra), ptile);
   case EXTRA_ROAD:
-    return is_native_tile_to_road(&(pextra->data.road), ptile);
+    return is_native_tile_to_road(extra_road_get_const(pextra), ptile);
   }
 
   return FALSE;

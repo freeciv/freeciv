@@ -35,11 +35,11 @@ struct extra_type
   struct requirement_vector reqs;
   bool buildable;
 
-  union
+  struct
   {
     enum tile_special_type special;
-    struct base_type base;
-    struct road_type road;
+    struct base_type *base;
+    struct road_type *road;
   } data;
 };
 

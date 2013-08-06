@@ -95,7 +95,9 @@ void road_type_init(struct extra_type *pextra, int idx)
 
   pextra->type = EXTRA_ROAD;
 
-  proad = extra_road_get(pextra);
+  proad = fc_malloc(sizeof(*proad));
+
+  pextra->data.road = proad;
 
   proad->id = idx;
   proad->hiders = NULL;
@@ -190,7 +192,7 @@ struct road_type *road_type_by_rule_name(const char *name)
     return NULL;
   }
 
-  return &pextra->data.road;
+  return extra_road_get(pextra);
 }
 
 /**************************************************************************
@@ -205,7 +207,7 @@ struct road_type *road_type_by_translated_name(const char *name)
     return NULL;
   }
 
-  return &pextra->data.road;
+  return extra_road_get(pextra);
 }
 
 /****************************************************************************

@@ -154,7 +154,7 @@ struct base_type *base_type_by_rule_name(const char *name)
     return NULL;
   }
 
-  return &pextra->data.base;
+  return extra_base_get(pextra);
 }
 
 /**************************************************************************
@@ -169,7 +169,7 @@ struct base_type *base_type_by_translated_name(const char *name)
     return NULL;
   }
 
-  return &pextra->data.base;
+  return extra_base_get(pextra);
 }
 
 /**************************************************************************
@@ -299,7 +299,9 @@ void base_type_init(struct extra_type *pextra, int idx)
 
   pextra->type = EXTRA_BASE;
 
-  pbase = extra_base_get(pextra);
+  pbase = fc_malloc(sizeof(*pbase));
+
+  pextra->data.base = pbase;
 
   pbase->item_number = idx;
   pbase->helptext = NULL;

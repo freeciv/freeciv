@@ -433,13 +433,13 @@ const char *concat_tile_activity_text(struct tile *ptile)
     if (punit->activity == ACTIVITY_PILLAGE) {
       pillaging = 1;
     } else if (punit->activity == ACTIVITY_BASE) {
-      int bidx = base_index(&(punit->activity_target->data.base));
+      int bidx = base_index(extra_base_get(punit->activity_target));
 
       base_total[bidx] += punit->activity_count;
       base_total[bidx] += get_activity_rate_this_turn(punit);
       base_units[bidx] += get_activity_rate(punit);
     } else if (punit->activity == ACTIVITY_GEN_ROAD) {
-      int ridx = road_index(&(punit->activity_target->data.road));
+      int ridx = road_index(extra_road_get(punit->activity_target));
 
       road_total[ridx] += punit->activity_count;
       road_total[ridx] += get_activity_rate_this_turn(punit);

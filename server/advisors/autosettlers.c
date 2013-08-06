@@ -131,7 +131,7 @@ int adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
           if (punit->activity == ACTIVITY_GEN_ROAD) {
             /* If a road, or its dependency is being built here, consider as if it's already
 	     * built. */
-            int build_rnbr = road_index(&(punit->activity_target->data.road));
+            int build_rnbr = road_index(extra_road_get(punit->activity_target));
 
             if (build_rnbr == rnbr) {
               real_road[i] = TRUE;

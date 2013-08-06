@@ -1155,10 +1155,10 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return FALSE;
 
   case ACTIVITY_BASE:
-    return can_build_base(punit, &(target->data.base), ptile);
+    return can_build_base(punit, extra_base_get(target), ptile);
 
   case ACTIVITY_GEN_ROAD:
-    return can_build_road(&(target->data.road), punit, ptile);
+    return can_build_road(extra_road_get(target), punit, ptile);
 
   case ACTIVITY_SENTRY:
     if (!can_unit_survive_at_tile(punit, unit_tile(punit))
@@ -1455,7 +1455,7 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
     {
       struct base_type *pbase;
 
-      pbase = &(punit->activity_target->data.base);
+      pbase = extra_base_get(punit->activity_target);
       astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
                     base_name_translation(pbase));
     }
@@ -1464,7 +1464,7 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
     {
       struct road_type *proad;
 
-      proad = &(punit->activity_target->data.road);
+      proad = extra_road_get(punit->activity_target);
       astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
                     road_name_translation(proad));
     }

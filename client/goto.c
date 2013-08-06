@@ -500,7 +500,7 @@ static int get_activity_time(const struct tile *ptile,
   case ACTIVITY_GEN_ROAD:
     fc_assert(connect_tgt->type == EXTRA_ROAD);
     {
-      struct road_type *proad = &(connect_tgt->data.road);
+      struct road_type *proad = extra_road_get(connect_tgt);
 
       if (!tile_has_road(ptile, proad)) {
         if (!player_can_build_road(proad, pplayer, ptile)) {
@@ -573,7 +573,7 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
 
   fc_assert(connect_activity == ACTIVITY_GEN_ROAD);
 
-  proad = &(connect_tgt->data.road);
+  proad = extra_road_get(connect_tgt);
 
   if (proad == NULL) {
     /* No suitable road type available */
@@ -1164,7 +1164,7 @@ void send_connect_route(enum unit_activity activity,
 	}
 	break;
       case ACTIVITY_GEN_ROAD:
-        if (!tile_has_road(old_tile, &(tgt->data.road))) {
+        if (!tile_has_extra(old_tile, tgt)) {
           p.orders[p.length] = ORDER_ACTIVITY;
           p.activity[p.length] = ACTIVITY_GEN_ROAD;
           p.target[p.length] = extra_index(tgt);

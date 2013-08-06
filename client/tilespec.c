@@ -3648,10 +3648,10 @@ static int fill_unit_sprite_array(const struct tileset *t,
       s = t->sprites.unit.transform;
       break;
     case ACTIVITY_BASE:
-      s = t->sprites.bases[base_index(&(punit->activity_target->data.base))].activity;
+      s = t->sprites.bases[base_index(extra_base_get(punit->activity_target))].activity;
       break;
     case ACTIVITY_GEN_ROAD:
-      s = t->sprites.roads[road_index(&(punit->activity_target->data.road))].activity;
+      s = t->sprites.roads[road_index(extra_road_get(punit->activity_target))].activity;
       break;
     case ACTIVITY_CONVERT:
       s = t->sprites.unit.convert;

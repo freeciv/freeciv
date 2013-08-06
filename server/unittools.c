@@ -652,7 +652,7 @@ static int total_activity_base(struct tile *ptile, Base_type_id base)
 
   unit_list_iterate (ptile->units, punit) {
     if (punit->activity == ACTIVITY_BASE
-        && base_index(&(punit->activity_target->data.base)) == base) {
+        && base_index(extra_base_get(punit->activity_target)) == base) {
       total += punit->activity_count;
     }
   } unit_list_iterate_end;
@@ -670,7 +670,7 @@ static int total_activity_road(struct tile *ptile, Road_type_id road)
 
   unit_list_iterate (ptile->units, punit) {
     if (punit->activity == ACTIVITY_GEN_ROAD
-        && road_index(&(punit->activity_target->data.road)) == road) {
+        && road_index(extra_road_get(punit->activity_target)) == road) {
       total += punit->activity_count;
     }
   } unit_list_iterate_end;
@@ -821,10 +821,10 @@ static void update_unit_activity(struct unit *punit)
           tile_clear_special(ptile, punit->activity_target->data.special);
           break;
         case EXTRA_BASE:
-          destroy_base(ptile, &(punit->activity_target->data.base));
+          destroy_base(ptile, extra_base_get(punit->activity_target));
           break;
         case EXTRA_ROAD:
-          tile_remove_road(ptile, &(punit->activity_target->data.road));
+          tile_remove_road(ptile, extra_road_get(punit->activity_target));
           break;
       }
 
@@ -869,7 +869,7 @@ static void update_unit_activity(struct unit *punit)
 
   case ACTIVITY_BASE:
     {
-      struct base_type *new_base = &(punit->activity_target->data.base);
+      struct base_type *new_base = extra_base_get(punit->activity_target);
       int bidx = base_index(new_base);
 
       if (total_activity_base(ptile, bidx)
@@ -893,7 +893,7 @@ static void update_unit_activity(struct unit *punit)
 
   case ACTIVITY_GEN_ROAD:
     {
-      struct road_type *new_road = &(punit->activity_target->data.road);
+      struct road_type *new_road = extra_road_get(punit->activity_target);
       int ridx = road_index(new_road);
 
       if (total_activity_road(ptile, ridx)
@@ -3713,7 +3713,7 @@ bool execute_orders(struct unit *punit)
     case ORDER_ACTIVITY:
       activity = order.activity;
       if (activity == ACTIVITY_BASE) {
-        Base_type_id base = base_index(&(extra_by_number(order.target)->data.base));
+        Base_type_id base = base_index(extra_base_get(extra_by_number(order.target)));
 
         if (can_unit_do_activity_base(punit, base)) {
           punit->done_moving = TRUE;
@@ -3724,7 +3724,7 @@ bool execute_orders(struct unit *punit)
           break; /* Already built, let's continue. */
         }
       } else if (activity == ACTIVITY_GEN_ROAD) {
-        Road_type_id road = road_index(&(extra_by_number(order.target)->data.road));
+        Road_type_id road = road_index(extra_road_get(extra_by_number(order.target)));
 
         if (can_unit_do_activity_road(punit, road)) {
           punit->done_moving = TRUE;

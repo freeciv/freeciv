@@ -1139,7 +1139,7 @@ bool can_unit_do_connect(struct unit *punit,
   case ACTIVITY_GEN_ROAD:
     fc_assert(tgt->type == EXTRA_ROAD);
 
-    proad = &(tgt->data.road);
+    proad = extra_road_get(tgt);
 
     if (tile_has_road(ptile, proad)) {
       /* This tile has road, can unit build road to other tiles too? */

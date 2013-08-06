@@ -162,7 +162,7 @@ void base_types_free(void);
   requirement_vector_iterate(_reqs, preq) {                            \
     if (preq->source.kind == VUT_EXTRA                                 \
         && preq->source.value.extra->type == EXTRA_BASE) {             \
-      struct base_type *_dep = &(preq->source.value.extra->data.base);
+      struct base_type *_dep = extra_base_get(preq->source.value.extra);
 
 #define base_deps_iterate_end                                           \
     }                                                                   \
