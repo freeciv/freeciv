@@ -275,6 +275,7 @@ typedef union {
   int unitclassflag;			/* enum unit_class_flag_id */
   int unitflag;				/* enum unit_flag_id */
   int terrainflag;                      /* enum terrain_flag_id */
+  int techflag;                         /* enum tech_flag_id */
   int baseflag;                         /* enum base_flag_id */
   int roadflag;                         /* enum road_flag_id */
 } universals_u;
@@ -335,6 +336,8 @@ typedef union {
 #define SPECENUM_VALUE22NAME "RoadFlag"
 #define SPECENUM_VALUE23 VUT_EXTRA
 #define SPECENUM_VALUE23NAME "Extra"
+#define SPECENUM_VALUE24 VUT_TECHFLAG
+#define SPECENUM_VALUE24NAME "TechFlag"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"

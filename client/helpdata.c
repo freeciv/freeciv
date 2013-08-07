@@ -370,6 +370,41 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     break;
 
+  case VUT_TECHFLAG:
+    switch (preq->range) {
+    case REQ_RANGE_PLAYER:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires you to have researched technology with \%s\" flag.\n"),
+                     tech_flag_id_name(preq->source.value.techflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented if you to have researched technology with \%s\" flag.\n"),
+                     tech_flag_id_name(preq->source.value.techflag));
+      }
+      return TRUE;
+    case REQ_RANGE_WORLD:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that any player has researched technology with \"%s\" flag.\n"),
+                     tech_flag_id_name(preq->source.value.techflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that no player has researched technology with \"%s\" flag.\n"),
+                     tech_flag_id_name(preq->source.value.techflag));
+      }
+      return TRUE;
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_GOVERNMENT:
     if (preq->present) {
       cat_snprintf(buf, bufsz, _("Requires the %s government.\n"),

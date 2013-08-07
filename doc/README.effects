@@ -48,6 +48,7 @@ Requirement types and supported ranges
 ======================================
 
 Tech:          World, Player
+TechFlag:      World, Player
 Gov:           Player
 Building:      World, Player, Continent, City, Local
 Extra:         Local, Adjacent, CAdjacent, City

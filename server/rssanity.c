@@ -146,6 +146,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
        /* Note that there can be more than 1 extra / tile. */
      case VUT_NONE:
      case VUT_ADVANCE:
+     case VUT_TECHFLAG:
      case VUT_IMPROVEMENT:
      case VUT_UTFLAG:
      case VUT_UCFLAG:
