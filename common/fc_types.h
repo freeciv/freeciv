@@ -273,6 +273,7 @@ typedef union {
   int unitclassflag;			/* enum unit_class_flag_id */
   int unitflag;				/* enum unit_flag_id */
   int terrainflag;                      /* enum terrain_flag_id */
+  int techflag;                         /* enum tech_flag_id */
 } universals_u;
 
 /* The kind of universals_u (value_union_type was req_source_type).
@@ -332,6 +333,8 @@ typedef union {
 #define SPECENUM_VALUE22NAME "TerrainFlag"
 #define SPECENUM_VALUE23 VUT_NATIONALITY
 #define SPECENUM_VALUE23NAME "Nationality"
+#define SPECENUM_VALUE24 VUT_TECHFLAG
+#define SPECENUM_VALUE24NAME "TechFlag"
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"
 

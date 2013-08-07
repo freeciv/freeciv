@@ -57,6 +57,13 @@ struct universal universal_by_rule_name(const char *kind,
       return source;
     }
     break;
+  case VUT_TECHFLAG:
+    source.value.techflag
+      = tech_flag_id_by_name(value, fc_strcasecmp);
+    if (tech_flag_id_is_valid(source.value.techflag)) {
+      return source;
+    }
+    break;
   case VUT_GOVERNMENT:
     source.value.govern = government_by_rule_name(value);
     if (source.value.govern != NULL) {
@@ -219,6 +226,9 @@ struct universal universal_by_number(const enum universals_n kind,
       return source;
     }
     break;
+ case VUT_TECHFLAG:
+    source.value.techflag = value;
+    return source;
   case VUT_GOVERNMENT:
     source.value.govern = government_by_number(value);
     if (source.value.govern != NULL) {
@@ -339,6 +349,8 @@ int universal_number(const struct universal *source)
     return 0;
   case VUT_ADVANCE:
     return advance_number(source->value.advance);
+  case VUT_TECHFLAG:
+    return source->value.techflag;
   case VUT_GOVERNMENT:
     return government_number(source->value.govern);
   case VUT_IMPROVEMENT:
@@ -441,6 +453,7 @@ struct requirement req_from_str(const char *type, const char *range,
       break;
     case VUT_GOVERNMENT:
     case VUT_ADVANCE:
+    case VUT_TECHFLAG:
     case VUT_NATION:
     case VUT_AI_LEVEL:
       req.range = REQ_RANGE_PLAYER;
@@ -470,6 +483,7 @@ struct requirement req_from_str(const char *type, const char *range,
                && req.range != REQ_RANGE_CITY);
     break;
   case VUT_ADVANCE:
+  case VUT_TECHFLAG:
     invalid = (req.range < REQ_RANGE_PLAYER);
     break;
   case VUT_GOVERNMENT:
@@ -778,7 +792,7 @@ static bool is_tech_in_range(const struct player *target_player,
       return TECH_KNOWN == player_invention_state(target_player, tech);
     } else {
       return RPT_POSSIBLE == prob_type;
-    }
+    };
   case REQ_RANGE_WORLD:
     return game.info.global_advances[tech];
   case REQ_RANGE_LOCAL:
@@ -1086,6 +1100,42 @@ static bool is_base_type_in_range(const struct tile *target_tile,
   return FALSE;
 }
 
+/****************************************************************************
+  Is there a tech with the given flag within range of the target?
+****************************************************************************/
+static bool is_techflag_in_range(const struct player *target_player,
+                                 enum req_range range,
+                                 enum tech_flag_id techflag,
+                                 enum req_problem_type prob_type)
+{
+  switch (range) {
+  case REQ_RANGE_PLAYER:
+    if (NULL != target_player) {
+      return player_knows_techs_with_flag(target_player, techflag);
+    } else {
+      return RPT_POSSIBLE == prob_type;
+    };
+    break;
+  case REQ_RANGE_WORLD:
+    players_iterate(pplayer) {
+      if (player_knows_techs_with_flag(pplayer, techflag)) {
+        return TRUE;
+      }
+    } players_iterate_end;
+
+    return FALSE;
+  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_CADJACENT:
+  case REQ_RANGE_ADJACENT:
+  case REQ_RANGE_CITY:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_COUNT:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  return FALSE;
+}
 
 /****************************************************************************
   Is there a source road type within range of the target?
@@ -1399,6 +1449,11 @@ bool is_req_active(const struct player *target_player,
                             advance_number(req->source.value.advance),
                             prob_type);
     break;
+ case VUT_TECHFLAG:
+    eval = is_techflag_in_range(target_player, req->range,
+                                req->source.value.techflag,
+                                prob_type);
+    break;
   case VUT_GOVERNMENT:
     /* The requirement is filled if the player is using the government. */
     if (target_player == NULL) {
@@ -1610,6 +1665,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_CITYTILE:
     return TRUE;
   case VUT_ADVANCE:
+  case VUT_TECHFLAG:
   case VUT_GOVERNMENT:
   case VUT_IMPROVEMENT:
   case VUT_MINSIZE:
@@ -1657,6 +1713,8 @@ bool are_universals_equal(const struct universal *psource1,
     return TRUE;
   case VUT_ADVANCE:
     return psource1->value.advance == psource2->value.advance;
+  case VUT_TECHFLAG:
+    return psource1->value.techflag == psource2->value.techflag;
   case VUT_GOVERNMENT:
     return psource1->value.govern == psource2->value.govern;
   case VUT_IMPROVEMENT:
@@ -1732,6 +1790,8 @@ const char *universal_rule_name(const struct universal *psource)
     return buffer;
   case VUT_ADVANCE:
     return advance_rule_name(psource->value.advance);
+  case VUT_TECHFLAG:
+    return tech_flag_id_name(psource->value.techflag);
   case VUT_GOVERNMENT:
     return government_rule_name(psource->value.govern);
   case VUT_IMPROVEMENT:
@@ -1797,6 +1857,11 @@ const char *universal_name_translation(const struct universal *psource,
     return buf;
   case VUT_ADVANCE:
     fc_strlcat(buf, advance_name_translation(psource->value.advance), bufsz);
+    return buf;
+  case VUT_TECHFLAG:
+    cat_snprintf(buf, bufsz, _("\"%s\" tech"),
+                 /* flag names are never translated */
+                 tech_flag_id_name(psource->value.techflag));
     return buf;
   case VUT_GOVERNMENT:
     fc_strlcat(buf, government_name_translation(psource->value.govern),
