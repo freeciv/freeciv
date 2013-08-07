@@ -107,7 +107,7 @@ static struct {
 
   /* This array provides a full list of the effects of this type
    * (It's not really a cache, it's the real data.) */
-  struct effect_list *effects[EFT_LAST];
+  struct effect_list *effects[EFT_COUNT];
 
   struct {
     /* This cache shows for each building, which effects it provides. */
@@ -709,7 +709,7 @@ int get_player_output_bonus(const struct player *pplayer,
 
   fc_assert_ret_val(pplayer != NULL, 0);
   fc_assert_ret_val(poutput != NULL, 0);
-  fc_assert_ret_val(effect_type != EFT_LAST, 0);
+  fc_assert_ret_val(effect_type != EFT_COUNT, 0);
   return get_target_bonus_effects(NULL, pplayer, NULL, NULL, NULL,
                                   NULL, poutput, NULL, effect_type);
 }
@@ -727,7 +727,7 @@ int get_city_output_bonus(const struct city *pcity,
 
   fc_assert_ret_val(pcity != NULL, 0);
   fc_assert_ret_val(poutput != NULL, 0);
-  fc_assert_ret_val(effect_type != EFT_LAST, 0);
+  fc_assert_ret_val(effect_type != EFT_COUNT, 0);
   return get_target_bonus_effects(NULL, city_owner(pcity), pcity, NULL,
                                   NULL, NULL, poutput, NULL, effect_type);
 }

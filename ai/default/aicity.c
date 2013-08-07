@@ -1492,7 +1492,7 @@ static int improvement_effect_value(struct player *pplayer,
       v += trait;
     }
     break;
-  case EFT_LAST:
+  case EFT_COUNT:
     log_error("Bad effect type.");
     break;
   }

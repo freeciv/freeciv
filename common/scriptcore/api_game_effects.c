@@ -28,7 +28,7 @@
 *****************************************************************************/
 int api_effects_world_bonus(lua_State *L, const char *effect_type)
 {
-  enum effect_type etype = EFT_LAST;
+  enum effect_type etype = EFT_COUNT;
 
   LUASCRIPT_CHECK_STATE(L, 0);
   LUASCRIPT_CHECK_ARG_NIL(L, effect_type, 2, string, 0);
@@ -46,7 +46,7 @@ int api_effects_world_bonus(lua_State *L, const char *effect_type)
 int api_effects_player_bonus(lua_State *L, Player *pplayer,
                              const char *effect_type)
 {
-  enum effect_type etype = EFT_LAST;
+  enum effect_type etype = EFT_COUNT;
 
   LUASCRIPT_CHECK_STATE(L, 0);
   LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 2, Player, 0);
@@ -64,7 +64,7 @@ int api_effects_player_bonus(lua_State *L, Player *pplayer,
 *****************************************************************************/
 int api_effects_city_bonus(lua_State *L, City *pcity, const char *effect_type)
 {
-  enum effect_type etype = EFT_LAST;
+  enum effect_type etype = EFT_COUNT;
 
   LUASCRIPT_CHECK_STATE(L, 0);
   LUASCRIPT_CHECK_ARG_NIL(L, pcity, 2, City, 0);
