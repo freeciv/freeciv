@@ -1094,7 +1094,7 @@ static void build_irrigation_callback(GtkAction *action, gpointer data)
 /****************************************************************
   Action "BUILD_MINE" callback.
 *****************************************************************/
-static void build_mine_callack(GtkAction *action, gpointer data)
+static void build_mine_callback(GtkAction *action, gpointer data)
 {
   key_unit_mine();
 }
@@ -1659,7 +1659,7 @@ static GtkActionGroup *get_unit_group(void)
       {"BUILD_IRRIGATION", NULL, _("Build _Irrigation"),
        "i", NULL, G_CALLBACK(build_irrigation_callback)},
       {"BUILD_MINE", NULL, _("Build _Mine"),
-       "m", NULL, G_CALLBACK(build_mine_callack)},
+       "m", NULL, G_CALLBACK(build_mine_callback)},
 
       {"CONNECT_ROAD", NULL, _("Connect With Roa_d"),
        "<Shift>r", NULL, G_CALLBACK(connect_road_callback)},
@@ -2353,8 +2353,26 @@ void real_menus_update(void)
         && pterrain->mining_result != pterrain) {
       fc_snprintf(mintext, sizeof(mintext), _("Change to %s"),
                   get_tile_change_menu_text(unit_tile(punit), ACTIVITY_MINE));
-    } else {
-      sz_strlcpy(mintext, _("Build _Mine"));
+    } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
+      struct extra_type *pextra = NULL;
+
+      /* FIXME: this overloading doesn't work well with multiple focus
+       * units. */
+      unit_list_iterate(punits, punit) {
+        pextra = next_extra_for_tile(unit_tile(punit), EC_MINE,
+                                     unit_owner(punit), punit);
+        if (pextra != NULL) {
+          break;
+        }
+      } unit_list_iterate_end;
+
+      if (pextra != NULL) {
+        /* TRANS: Build mine of specific type */
+        snprintf(mintext, sizeof(mintext), _("Build %s"),
+                 extra_name_translation(pextra));
+      } else {
+        sz_strlcpy(mintext, _("Build _Mine"));
+      }
     }
 
     if (pterrain->transform_result != T_NONE

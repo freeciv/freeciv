@@ -505,14 +505,34 @@ void mr_menu::menus_sensitive()
 
         if (units_all_same_tile) {
           struct unit *punit = unit_list_get(punits, 0);
+
           pterrain = tile_terrain(unit_tile(punit));
           if (pterrain->mining_result != T_NONE
               && pterrain->mining_result != pterrain) {
             i.value()->setText(QString(_("Transform to")) + " "
                                + QString(get_tile_change_menu_text
                                          (unit_tile(punit), ACTIVITY_MINE)));
+          } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)){
+            struct extra_type *pextra = NULL;
+
+            /* FIXME: this overloading doesn't work well with multiple focus
+             * units. */
+            unit_list_iterate(punits, punit) {
+              pextra = next_extra_for_tile(unit_tile(punit), EC_MINE,
+                                           unit_owner(punit), punit);
+              if (pextra != NULL) {
+                break;
+              }
+            } unit_list_iterate_end;
+
+            if (pextra != NULL) {
+              /* TRANS: Build mine of specific type */
+              i.value()->setText(QString(_("Build %1")).arg(extra_name_translation(pextra)));
+            } else {
+              i.value()->setText(QString(_("Build Mine")));
+            }
           } else {
-            i.value()->setText(_("Build Mine"));
+            i.value()->setText(QString(_("Build Mine")));
           }
         }
         break;

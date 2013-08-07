@@ -79,8 +79,9 @@
 #define TEXT_ORDER_IRRIGATE_GENERIC    1
 #define TEXT_ORDER_IRRIGATE_CHANGE_TO  2
 
-#define TEXT_ORDER_MINE_MINE       0
-#define TEXT_ORDER_MINE_CHANGE_TO  1
+#define TEXT_ORDER_MINE            0
+#define TEXT_ORDER_MINE_GENERIC    1
+#define TEXT_ORDER_MINE_CHANGE_TO  2
 
 #define TEXT_ORDER_TRANSFORM_TERRAIN       0
 #define TEXT_ORDER_TRANSFORM_TRANSFORM_TO  1
@@ -171,7 +172,8 @@ static struct MenuEntry order_menu_entries[]={
     { { N_("Build %s"),
         N_("Build Irrigation"),
         N_("Change to %s"), 0         },     "i", MENU_ORDER_IRRIGATE, 0 },
-    { { N_("Build Mine"),
+    { { N_("Build %s"),
+        N_("Build Mine"),
         N_("Change to %s"), 0         },     "m", MENU_ORDER_MINE, 0 },
     { { N_("Transform Terrain"),
         N_("Transform to %s"), 0      },     "o", MENU_ORDER_TRANSFORM, 0 },
@@ -550,9 +552,27 @@ void real_menus_update(void)
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_MINE,
 			  TEXT_ORDER_MINE_CHANGE_TO,
 			  terrain_name_translation(tinfo->mining_result));
-      } else {
-	menu_entry_rename(MENU_ORDER, MENU_ORDER_MINE,
-			  TEXT_ORDER_MINE_MINE, NULL);
+      } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
+        struct extra_type *pextra = NULL;
+
+        /* FIXME: this overloading doesn't work well with multiple focus
+         * units. */
+        unit_list_iterate(punits, punit) {
+          pextra = next_extra_for_tile(unit_tile(punit), EC_MINE,
+                                       unit_owner(punit), punit);
+          if (pextra != NULL) {
+            break;
+          }
+        } unit_list_iterate_end;
+
+        if (pextra != NULL) {
+          /* TRANS: Build mine of specific type */
+          menu_entry_rename(MENU_ORDER, MENU_ORDER_MINE,
+                            TEXT_ORDER_MINE, extra_name_translation(pextra));
+        } else {
+          menu_entry_rename(MENU_ORDER, MENU_ORDER_MINE,
+                            TEXT_ORDER_MINE_GENERIC, NULL);
+        }
       }
 
       if ((tinfo->transform_result != T_NONE)

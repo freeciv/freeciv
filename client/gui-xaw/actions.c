@@ -559,10 +559,14 @@ static void xaw_key_unit_irrigate(Widget w, XEvent *event, String *argv, Cardina
   }
 }
 
+/****************************************************************************
+  Invoked when the key binding for mine is pressed.
+****************************************************************************/
 static void xaw_key_unit_mine(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_MINE))
+  if (is_menu_item_active(MENU_ORDER, MENU_ORDER_MINE)) {
     key_unit_mine();
+  }
 }
 
 static void xaw_key_unit_nuke(Widget w, XEvent *event, String *argv, Cardinal *argc)

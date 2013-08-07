@@ -2846,21 +2846,29 @@ void key_unit_homecity(void)
 }
 
 /**************************************************************************
-  Handle user 'irrigate' input
+  Handle user extra building input of given type
 **************************************************************************/
-void key_unit_irrigate(void)
+static void key_unit_extra(enum unit_activity act, enum extra_cause cause)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
-                                                 EC_IRRIGATION,
+                                                 cause,
                                                  unit_owner(punit),
                                                  punit);
 
     if (tgt != NULL
-        && can_unit_do_activity_targeted(punit, ACTIVITY_IRRIGATE, tgt)) {
-      request_new_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, tgt);
+        && can_unit_do_activity_targeted(punit, act, tgt)) {
+      request_new_unit_activity_targeted(punit, act, tgt);
     }
   } unit_list_iterate_end;
+}
+
+/**************************************************************************
+  Handle user 'irrigate' input
+**************************************************************************/
+void key_unit_irrigate(void)
+{
+  key_unit_extra(ACTIVITY_IRRIGATE, EC_IRRIGATION);
 }
 
 /**************************************************************************
@@ -2868,11 +2876,7 @@ void key_unit_irrigate(void)
 **************************************************************************/
 void key_unit_mine(void)
 {
-  unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity(punit, ACTIVITY_MINE)) {
-      request_new_unit_activity(punit, ACTIVITY_MINE);
-    }
-  } unit_list_iterate_end;
+  key_unit_extra(ACTIVITY_MINE, EC_MINE);
 }
 
 /**************************************************************************

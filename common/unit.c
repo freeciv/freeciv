@@ -1064,17 +1064,29 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return FALSE;
 
   case ACTIVITY_MINE:
-    {
+   {
       struct extra_type *pextra;
 
-      pextra = special_extra_get(S_MINE);
+      if (target != NULL) {
+        pextra = target;
+      } else {
+        /* TODO: Make sure that all callers set target so that
+         * we don't need this fallback. */
+        pextra = next_extra_for_tile(unit_tile(punit),
+                                     EC_MINE,
+                                     unit_owner(punit),
+                                     punit);
+        if (pextra == NULL) {
+          /* No available mine extras */
+          return FALSE;
+        }
+      }
 
       /* Don't allow it if someone else is irrigating this tile.
        * *Do* allow it if they're transforming - the mine may survive */
       if (unit_has_type_flag(punit, UTYF_SETTLERS)
           && ((pterrain == pterrain->mining_result
                && can_build_extra(pextra, punit, ptile)
-               && !tile_has_special(ptile, S_MINE)
                && get_tile_bonus(ptile, punit, EFT_MINING_POSSIBLE) > 0)
               || (pterrain != pterrain->mining_result
                   && pterrain->mining_result != T_NONE

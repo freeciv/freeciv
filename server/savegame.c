@@ -1348,6 +1348,16 @@ static void player_load_units(struct player *plr, int plrno,
       } else {
         set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, NULL);
       }
+    } else if (activity == ACTIVITY_MINE) {
+      struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
+                                                   EC_MINE,
+                                                   unit_owner(punit),
+                                                   punit);
+      if (tgt != NULL) {
+        set_unit_activity_targeted(punit, ACTIVITY_MINE, tgt);
+      } else {
+        set_unit_activity_targeted(punit, ACTIVITY_MINE, NULL);
+      }
     } else if (activity == ACTIVITY_BASE) {
       if (pbase) {
         set_unit_activity_base(punit, base_number(pbase));

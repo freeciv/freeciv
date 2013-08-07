@@ -4977,6 +4977,17 @@ static bool sg_load_player_unit(struct loaddata *loading,
         set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, NULL);
       }
     }
+    if (activity == ACTIVITY_MINE) {
+      struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
+                                                   EC_MINE,
+                                                   unit_owner(punit),
+                                                   punit);
+      if (tgt != NULL) {
+        set_unit_activity_targeted(punit, ACTIVITY_MINE, tgt);
+      } else {
+        set_unit_activity_targeted(punit, ACTIVITY_MINE, NULL);
+      }
+    }
 
     /* We need changed_from == ACTIVITY_IDLE by now so that
      * set_unit_activity() and friends don't spuriously restore activity
@@ -5077,6 +5088,17 @@ static bool sg_load_player_unit(struct loaddata *loading,
     if (punit->changed_from == ACTIVITY_IRRIGATE) {
       struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
                                                    EC_IRRIGATION,
+                                                   unit_owner(punit),
+                                                   punit);
+      if (tgt != NULL) {
+        punit->changed_from_target = tgt;
+      } else {
+        punit->changed_from_target = NULL;
+      }
+    }
+    if (punit->changed_from == ACTIVITY_MINE) {
+      struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
+                                                   EC_MINE,
                                                    unit_owner(punit),
                                                    punit);
       if (tgt != NULL) {
