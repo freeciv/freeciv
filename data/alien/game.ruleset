@@ -337,7 +337,7 @@ colorlist =
 set =
    { "name", "value"
      "topology",    "WRAPX|WRAPY"
-     "aifill",      5
+     "aifill",      7
      "sciencebox",  150
      "foodbox",     150
      "revolen",     7
