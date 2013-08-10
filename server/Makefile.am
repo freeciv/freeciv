@@ -85,6 +85,8 @@ libfreeciv_srv_la_SOURCES = \
 		ruleset.h	\
 		sanitycheck.c	\
 		sanitycheck.h	\
+		savecompat.c	\
+		savecompat.h	\
 		savegame.c	\
 		savegame.h	\
 		savegame2.c	\
