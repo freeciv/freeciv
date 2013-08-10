@@ -65,6 +65,7 @@ files =
   "amplio/tiles.spec",
   "amplio/fog.spec",
   "misc/small.spec",
+  "misc/governments.spec",
   "amplio/units.spec",
   "misc/flags.spec",
   "misc/buildings-large.spec",

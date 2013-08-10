@@ -67,6 +67,7 @@ files =
   "amplio2/tiles.spec",
   "amplio2/fog.spec",
   "misc/small.spec",
+  "misc/governments.spec",
   "amplio2/veterancy.spec",
   "cimpletoon/orient_units.spec",
   "misc/flags-large.spec",

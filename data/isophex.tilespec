@@ -76,6 +76,7 @@ files =
   "isophex/grid.spec",
   "isophex/rivers.spec",
   "misc/small.spec",
+  "misc/governments.spec",
   "misc/buildings.spec",
   "trident/units.spec",
   "isotrident/unitextras.spec",
