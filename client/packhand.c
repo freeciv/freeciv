@@ -2983,6 +2983,31 @@ void handle_ruleset_tech(const struct packet_ruleset_tech *p)
 }
 
 /****************************************************************************
+  Packet ruleset_tech_flag handler.
+****************************************************************************/
+void handle_ruleset_tech_flag(const struct packet_ruleset_tech_flag *p)
+{
+  const char *flagname;
+  const char *helptxt;
+
+  fc_assert_ret_msg(p->id >= TECH_USER_1 && p->id <= TECH_USER_LAST, "Bad user flag %d.", p->id);
+
+  if (p->name[0] == '\0') {
+    flagname = NULL;
+  } else {
+    flagname = p->name;
+  }
+
+  if (p->helptxt[0] == '\0') {
+    helptxt = NULL;
+  } else {
+    helptxt = p->helptxt;
+  }
+
+  set_user_tech_flag_name(p->id, flagname, helptxt);
+}
+
+/****************************************************************************
   Packet ruleset_building handler.
 ****************************************************************************/
 void handle_ruleset_building(const struct packet_ruleset_building *p)

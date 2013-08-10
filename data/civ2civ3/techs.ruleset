@@ -11,6 +11,12 @@
 description="Civ2Civ3 technology data for Freeciv"
 options="+Freeciv-ruleset-Devel-2013.May.14"
 
+[control]
+; Names for custom tech flags.
+;flags =
+;  { "name", "helptxt"
+;  }
+
 ; /* <-- avoid gettext warnings
 ;
 ; Below: The individual advances, one per section.

@@ -87,9 +87,20 @@ typedef int Tech_type_id;
 /* Player can claim ocean tiles non-adjacent to border source */ 
 #define SPECENUM_VALUE4 TF_CLAIM_OCEAN
 #define SPECENUM_VALUE4NAME "Claim_Ocean"
+#define SPECENUM_VALUE5 TECH_USER_1
+#define SPECENUM_VALUE6 TECH_USER_2
+#define SPECENUM_VALUE7 TECH_USER_3
+#define SPECENUM_VALUE8 TECH_USER_4
+#define SPECENUM_VALUE9 TECH_USER_5
+#define SPECENUM_VALUE10 TECH_USER_6
+#define SPECENUM_VALUE11 TECH_USER_7
+#define SPECENUM_VALUE12 TECH_USER_LAST
 /* Keep this last. */
 #define SPECENUM_COUNT TF_COUNT
+#define SPECENUM_NAMEOVERRIDE
 #include "specenum_gen.h"
+
+#define MAX_NUM_USER_TECH_FLAGS (TECH_USER_LAST - TECH_USER_1 + 1)
 
 BV_DEFINE(bv_tech_flags, TF_COUNT); /* Used in the network protocol. */
 
@@ -162,6 +173,11 @@ const char *advance_name_researching(const struct player *pplayer);
 
 const char *advance_rule_name(const struct advance *padvance);
 const char *advance_name_translation(const struct advance *padvance);
+
+void user_tech_flags_init(void);
+void user_tech_flags_free(void);
+void set_user_tech_flag_name(enum tech_flag_id id, const char *name, const char *helptxt);
+const char *tech_flag_helptxt(enum tech_flag_id id);
 
 /* General advance/technology flag accessor routines */
 bool advance_has_flag(Tech_type_id tech, enum tech_flag_id flag);

@@ -2212,6 +2212,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
     .kind = VUT_ADVANCE,
     .value = {.advance = vap}
   };
+  int flagid;
 
   fc_assert_ret(NULL != buf && 0 < bufsz && NULL != user_text);
   fc_strlcpy(buf, user_text, bufsz);
@@ -2272,6 +2273,18 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
                  /* TRANS: %s is list of units separated by "and". */
                  _("* Allows %s to build roads on river tiles.\n"),
                  astr_str(&astr));
+  }
+
+  for (flagid = TECH_USER_1 ; flagid <= TECH_USER_LAST; flagid++) {
+    if (advance_has_flag(i, flagid)) {
+      const char *helptxt = tech_flag_helptxt(flagid);
+
+      if (helptxt != NULL) {
+        CATLSTR(buf, bufsz, "* ");
+        CATLSTR(buf, bufsz, _(helptxt));
+        CATLSTR(buf, bufsz, "\n");
+      }
+    }
   }
 
   /* FIXME: bases -- but there is no good way to find out which bases a tech

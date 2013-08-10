@@ -50,6 +50,8 @@ static double techcoststyle1[A_LAST];
 
 static int tech_upkeep_calc(const struct player *pplayer);
 
+static struct user_flag user_tech_flags[MAX_NUM_USER_TECH_FLAGS];
+
 /**************************************************************************
   Return the last item of advances/technologies.
 **************************************************************************/
@@ -986,6 +988,81 @@ const char *advance_name_translation(const struct advance *padvance)
 const char *advance_rule_name(const struct advance *padvance)
 {
   return rule_name(&padvance->name);
+}
+
+/**************************************************************************
+  Initialize user tech flags.
+**************************************************************************/
+void user_tech_flags_init(void)
+{
+  int i;
+
+  for (i = 0; i < MAX_NUM_USER_TECH_FLAGS; i++) {
+    user_flag_init(&user_tech_flags[i]);
+  }
+}
+
+/***************************************************************
+  Frees the memory associated with all user tech flags
+***************************************************************/
+void user_tech_flags_free(void)
+{
+  int i;
+
+  for (i = 0; i < MAX_NUM_USER_TECH_FLAGS; i++) {
+    user_flag_free(&user_tech_flags[i]);
+  }
+}
+
+/**************************************************************************
+  Sets user defined name for tech flag.
+**************************************************************************/
+void set_user_tech_flag_name(enum tech_flag_id id, const char *name,
+                             const char *helptxt)
+{
+  int tfid = id - TECH_USER_1;
+
+  fc_assert_ret(id >= TECH_USER_1 && id <= TECH_USER_LAST);
+
+  if (user_tech_flags[tfid].name != NULL) {
+    FC_FREE(user_tech_flags[tfid].name);
+    user_tech_flags[tfid].name = NULL;
+  }
+
+  if (name && name[0] != '\0') {
+    user_tech_flags[tfid].name = fc_strdup(name);
+  }
+
+  if (user_tech_flags[tfid].helptxt != NULL) {
+    FC_FREE(user_tech_flags[tfid].helptxt);
+    user_tech_flags[tfid].helptxt = NULL;
+  }
+
+  if (helptxt && helptxt[0] != '\0') {
+    user_tech_flags[tfid].helptxt = fc_strdup(helptxt);
+  }
+}
+
+/**************************************************************************
+  Tech flag name callback, called from specenum code.
+**************************************************************************/
+char *tech_flag_id_name_cb(enum tech_flag_id flag)
+{
+  if (flag < TECH_USER_1 || flag > TECH_USER_LAST) {
+    return NULL;
+  }
+
+  return user_tech_flags[flag-TECH_USER_1].name;
+}
+
+/**************************************************************************
+  Return the (untranslated) helptxt of the user tech flag.
+**************************************************************************/
+const char *tech_flag_helptxt(enum tech_flag_id id)
+{
+  fc_assert(id >= TECH_USER_1 && id <= TECH_USER_LAST);
+
+  return user_tech_flags[id - TECH_USER_1].helptxt;
 }
 
 /**************************************************************************

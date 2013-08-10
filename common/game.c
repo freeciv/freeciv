@@ -507,6 +507,7 @@ void game_ruleset_init(void)
   specialists_init();
   user_unit_type_flags_init();
   user_terrain_flags_init();
+  user_tech_flags_init();
 }
 
 /***************************************************************
@@ -536,6 +537,7 @@ void game_ruleset_free(void)
   achievements_free();
   disaster_types_free();
   terrains_free();
+  user_tech_flags_free();
   user_terrain_flags_free();
   ruleset_cache_free();
   nation_groups_free();
