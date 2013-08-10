@@ -210,9 +210,4 @@ const_mt = {
 }
 setmetatable(const, const_mt)
 
--- define TRUE = 1
-const.TRUE = 1
--- define FALSE = 0
-const.FALSE = 0
-
 $]
