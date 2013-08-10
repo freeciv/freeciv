@@ -7,15 +7,15 @@ AC_DEFUN([FC_SDL2_CLIENT],
 [
   if test "x$gui_sdl2" = "xyes" || test "x$client" = "xall" ||
      test "x$client" = "xauto" ; then
-    AM_PATH_SDL([1.1.4], [sdl2_found="yes"], [sdl2_found="no"])
+    AM_PATH_SDL2([2.0.0], [sdl2_found="yes"], [sdl2_found="no"])
     if test "$sdl2_found" = yes; then
       ac_save_CPPFLAGS="$CPPFLAGS"
       ac_save_CFLAGS="$CFLAGS"
       ac_save_LIBS="$LIBS"
-      CPPFLAGS="$CPPFLAGS $SDL_CFLAGS"
-      CFLAGS="$CFLAGS $SDL_CFLAGS"
+      CPPFLAGS="$CPPFLAGS $SDL2_CFLAGS"
+      CFLAGS="$CFLAGS $SDL2_CFLAGS"
       LIBS="$LIBS $SDL2_LIBS"
-      AC_CHECK_LIB([SDL_image], [IMG_Load],
+      AC_CHECK_LIB([SDL2_image], [IMG_Load],
                    [sdl2_image_found="yes"], [sdl2_image_found="no"])
       if test "$sdl2_image_found" = "yes"; then
         AC_CHECK_HEADER([SDL/SDL_image.h],
@@ -26,8 +26,8 @@ AC_DEFUN([FC_SDL2_CLIENT],
           LIBS="$ac_save_LIBS"
 	  AC_CHECK_FT2([2.1.3], [freetype_found="yes"],[freetype_found="no"])
           if test "$freetype_found" = yes; then
-	    GUI_sdl2_CFLAGS="$SDL_CFLAGS $FT2_CFLAGS"
-	    GUI_sdl2_LIBS="-lSDL_image $SDL_LIBS $FT2_LIBS"
+	    GUI_sdl2_CFLAGS="$SDL2_CFLAGS $FT2_CFLAGS"
+	    GUI_sdl2_LIBS="-lSDL2_image $SDL2_LIBS $FT2_LIBS"
 	    found_client=yes
           elif test "x$gui_sdl2" = "xyes"; then
             AC_MSG_ERROR([specified client 'sdl2' not configurable (FreeType2 >= 2.1.3 is needed (www.freetype.org))])
@@ -55,11 +55,11 @@ AC_DEFUN([FC_SDL2_CLIENT],
 
       dnl Check for some other libraries - needed under BeOS for instance.
       dnl These should perhaps be checked for in all cases?
-      AC_CHECK_LIB(socket, connect, GUI_sdl_LIBS="-lsocket $GUI_sdl2_LIBS")
-      AC_CHECK_LIB(bind, gethostbyaddr, GUI_sdl_LIBS="-lbind $GUI_sdl2_LIBS")
+      AC_CHECK_LIB(socket, connect, GUI_sdl2_LIBS="-lsocket $GUI_sdl2_LIBS")
+      AC_CHECK_LIB(bind, gethostbyaddr, GUI_sdl2_LIBS="-lbind $GUI_sdl2_LIBS")
 
     elif test "x$gui_sdl2" = "xyes"; then
-      AC_MSG_ERROR([specified client 'sdl2' not configurable (SDL >= 1.1.4 is needed (www.libsdl.org))])
+      AC_MSG_ERROR([specified client 'sdl2' not configurable (SDL2 >= 2.0.0 is needed (www.libsdl.org))])
     fi
   fi
 ])

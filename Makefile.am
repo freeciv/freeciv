@@ -77,6 +77,7 @@ EXTRA_DIST=	autogen.sh 			\
 		m4/sdl-client.m4		\
 		m4/sdl.m4			\
 		m4/sdl2-client.m4		\
+		m4/sdl2.m4			\
 		m4/sqlite3.m4			\
 		m4/sound.m4			\
 		m4/vsnprintf.m4			\
