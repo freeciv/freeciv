@@ -995,26 +995,48 @@ static void ruleset_load_traits(int *traits, struct section_file *file,
 **************************************************************************/
 static bool load_tech_names(struct section_file *file)
 {
-  struct section_list *sec;
+  struct section_list *sec = NULL;
   /* Number of techs in the ruleset (means without A_NONE). */
   int num_techs = 0;
   int i;
   const char *filename = secfile_name(file);
   bool ok = TRUE;
+  const char *flag;
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
 
-  /* The names: */
-  sec = secfile_sections_by_name_prefix(file, ADVANCE_SECTION_PREFIX);
-  if (NULL == sec || 0 == (num_techs = section_list_size(sec))) {
-    ruleset_error(LOG_ERROR, "\"%s\": No Advances?!?", filename);
-    ok = FALSE;
-  } else {
-    log_verbose("%d advances (including possibly unused)", num_techs);
-    if (num_techs + A_FIRST > A_LAST_REAL) {
-      ruleset_error(LOG_ERROR, "\"%s\": Too many advances (%d, max %d)",
-                    filename, num_techs, A_LAST_REAL-A_FIRST);
+  /* User tech flag names */
+  for (i = 0; (flag = secfile_lookup_str_default(file, NULL, "control.flags%d.name", i)) ;
+       i++) {
+    const char *helptxt = secfile_lookup_str_default(file, NULL, "control.flags%d.helptxt",
+                                                     i);
+    if (i > MAX_NUM_USER_TECH_FLAGS) {
+      ruleset_error(LOG_ERROR, "\"%s\": Too many user tech flags!",
+                    filename);
       ok = FALSE;
+      break;
+    }
+
+    set_user_tech_flag_name(TECH_USER_1 + i, flag, helptxt);
+  }
+
+  if (ok) {
+    for (; i < MAX_NUM_USER_TECH_FLAGS; i++) {
+      set_user_tech_flag_name(TECH_USER_1 + i, NULL, NULL);
+    }
+
+    /* The techs: */
+    sec = secfile_sections_by_name_prefix(file, ADVANCE_SECTION_PREFIX);
+    if (NULL == sec || 0 == (num_techs = section_list_size(sec))) {
+      ruleset_error(LOG_ERROR, "\"%s\": No Advances?!?", filename);
+      ok = FALSE;
+    } else {
+      log_verbose("%d advances (including possibly unused)", num_techs);
+      if (num_techs + A_FIRST > A_LAST_REAL) {
+        ruleset_error(LOG_ERROR, "\"%s\": Too many advances (%d, max %d)",
+                      filename, num_techs, A_LAST_REAL-A_FIRST);
+        ok = FALSE;
+      }
     }
   }
 
@@ -5046,6 +5068,31 @@ static void send_ruleset_specialists(struct conn_list *dest)
 static void send_ruleset_techs(struct conn_list *dest)
 {
   struct packet_ruleset_tech packet;
+  struct packet_ruleset_tech_flag fpacket;
+  int i;
+
+  for (i = 0; i < MAX_NUM_USER_TECH_FLAGS; i++) {
+    const char *flagname;
+    const char *helptxt;
+
+    fpacket.id = i + TECH_USER_1;
+
+    flagname = tech_flag_id_name_cb(i + TECH_USER_1);
+    if (flagname == NULL) {
+      fpacket.name[0] = '\0';
+    } else {
+      sz_strlcpy(fpacket.name, flagname);
+    }
+
+    helptxt = tech_flag_helptxt(i + TECH_USER_1);
+    if (helptxt == NULL) {
+      fpacket.helptxt[0] = '\0';
+    } else {
+      sz_strlcpy(fpacket.helptxt, helptxt);
+    }
+
+    lsend_packet_ruleset_tech_flag(dest, &fpacket);
+  }
 
   advance_iterate(A_NONE, a) {
     packet.id = advance_number(a);

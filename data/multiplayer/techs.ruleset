@@ -11,6 +11,12 @@
 description="Multiplayer technology data for Freeciv"
 options="+Freeciv-ruleset-Devel-2013.Apr.23"
 
+[control]
+; Names for custom tech flags.
+;flags =
+;  { "name", "helptxt"
+;  }
+
 ; /* <-- avoid gettext warnings
 ;
 ; Below: The individual advances, one per section.
