@@ -76,6 +76,7 @@ files =
   "hex2t/items.spec",
   "hex2t/grid.spec",
   "misc/small.spec",
+  "misc/governments.spec",
   "misc/buildings.spec",
   "misc/flags.spec",
   "misc/shields.spec",

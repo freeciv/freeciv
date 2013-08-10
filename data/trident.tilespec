@@ -62,6 +62,7 @@ files =
   "trident/tiles.spec",
   "trident/earth.spec",
   "misc/small.spec",
+  "misc/governments.spec",
   "trident/units.spec",
   "trident/select.spec",
   "misc/flags.spec",

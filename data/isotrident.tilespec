@@ -64,6 +64,7 @@ files =
   "isotrident/tiles.spec",
   "isotrident/grid.spec",
   "misc/small.spec",
+  "misc/governments.spec",
   "trident/units.spec",
   "isotrident/unitextras.spec",
   "isotrident/select.spec",
