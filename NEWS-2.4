@@ -1,10 +1,175 @@
-==============================
-Welcome to Freeciv 2.4.0-beta2
-==============================
+============================
+Welcome to Freeciv 2.4.0-RC1
+============================
 
 The changes in the 2.4.x series are summarised below.
 For changes prior to 2.4, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.4.0-beta2 TO 2.4.0-RC1
+---------------------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.4.0-RC1>)
+
+Server / General
+
+Gameplay
+
+     * City centre tiles now lose their automatic irrigation bonus if a
+       mine is built on them, since mines and irrigation cannot coexist on
+       a tile. GNA#20932
+          + Similarly, in the supplied rulesets, cities on a tile with a
+            mine can no longer get a farmland bonus.
+     * Fix a pathfinding bug where aerial units would stop to refuel at
+       any city or airbase they passed through, regardless of need.
+       GNA#20786
+     * Cities were erroneously enjoying martial law benefits from
+       unlimited numbers of units, even under governments with a
+       Martial_Law_Max specified (such as Monarchy and Communism in the
+       default ruleset). GNA#20971
+     * Auto-settler units would revert to manual control when moving
+       between adjacent landmasses through a transport. GNAPATCH#3904
+     * When a city chose food-consuming units to disband due to
+       starvation, it could choose units not actually consuming food
+       currently, for instance due to government-type related free upkeep.
+       For instance this could lead to cities disbanding all their units
+       in the 'civ2civ3' ruleset. GNAPATCH#3902
+     * Unit transport related fixes:
+          + Fix assertion failures and similar problems associated with
+            loaded transports of allied players (with whom you don't have
+            shared vision) going out of sight. GNA#20774 GNA#20727
+            GNA#20837
+          + Prevent units in nested transports (which can't disembark)
+            from being chosen to attempt to defend a tile. GNA#20747
+     * Fixes for undisbandable units in destroyed transports:
+          + If such a unit was teleported to safety and immediately died
+            (for instance due to auto-attack), the server could crash.
+            GNA#20626
+          + Such cargo on non-boat-like transports are now saved in more
+            circumstances (this does not affect the supplied rulesets).
+            (part of GNAPATCH#3856)
+     * If a city becomes landlocked due to terrain change, its
+       ocean-requiring buildings should now correctly be sold. GNA#20902
+     * When 'tinyisles' was disabled, the map generator was
+       overenthusiastic about removing 1x1 islands from the map; it could
+       also remove peninsulas from continents in some circumstances.
+       GNA#20847
+
+Clerical
+
+     * Do not prohibit loading a savegame where the number of surviving
+       players has fallen below the server's 'minplayers' setting.
+       GNA#20835
+     * When loading a savegame with automatic 'mapimg' image saving
+       enabled, do not overwrite an image created previously at the start
+       of a turn with a new one. GNA#20079
+     * When a unit is created in the editor, assign it a homecity
+       appropriate for its type more often. (part of GNAPATCH#3856)
+     * Fix a possible infinite loop when logging character encoding
+       conversion errors. GNA#20721
+     * Fix a possible crash when sending server details to the metaserver.
+       (part of GNA#20778)
+     * Fix a minor memory leak. GNA#20788
+     * Various internal changes which should only affect developers.
+       GNAPATCH#3891 GNA#20777 GNA#20903
+
+Clients
+
+     * Speed up movement drawing of city-building units (the client was
+       redrawing more than necessary). GNA#20905
+     * Fix a possible crash that could occur in circumstances such as
+       viewing the terrain activity popup. (part of GNA#20778)
+     * Fix a minor memory leak. GNAPATCH#3896
+     * (Gtk3) Fix an assertion failure / crash when closing the unit
+       selection dialog. GNA#19486
+     * (Gtk3) Refactoring which should have no visible effect.
+       GNAPATCH#3550
+     * (SDL) In tilesets with unit orientation (such as Cimpletoon), do
+       not use randomly-oriented unit sprites in the unit orders or
+       production display. GNA#20998
+
+Tilesets / Art
+
+     * Use correct small flag for Liberia. GNA#20838
+
+Gameplay / Rules Changes
+
+Supplied rulesets
+
+     * Remove technology root_reqs from the experimental ruleset for now,
+       due to bugs hindering their use. GNAPATCH#3912
+     * In the civ1 and civ2 rulesets, the Oracle bonus was too generous in
+       the rare case where the player gained the Oracle by conquering
+       without knowing Mysticism; it should (and now does) double the
+       effect of Temples, which in this case means +1 content citizen
+       rather than +2. GNA#20616
+
+Other rulesets
+
+     * Prevent units being spawned to terrain to which they are not
+       native:
+          + Partisans GNAPATCH#3869
+          + Settlers and mercenaries from huts GNAPATCH#3895 GNAPATCH#3909
+     * Ruleset sanity checking could erroneously emit warnings about valid
+       effects combinations if negated requirements were used (such as a
+       base that could not be built on either mountains or hills). In
+       addition, warnings are now emitted if a requirement and its exact
+       negative are simultaneously specified, as this is probably a
+       mistake in the ruleset. GNAPATCH#3835
+     * The Lua definitions const.TRUE and const.FALSE (new in 2.4.0-beta1)
+       have been removed; the const module remains. GNAPATCH#3937
+
+AI
+
+     * When assessing the threat from enemy units near cities, fear any
+       unit that can take over a city (such as helicopters), rather than
+       just land units. GNA#20785
+     * Reduced the weighting of the AI's assessment of defence strength,
+       so that it defends its own cities more convincingly, and is less
+       fearful of its enemy's defenders when attacking their cities.
+       GNAPATCH#3960
+     * The AI now tends to keep a unit constantly defending each of its
+       cities even in the absence of an obvious threat, rather than
+       relying on being able to acquire one when a threat appears.
+       GNAPATCH#3958
+     * Remove some assumptions about units' ability to attack from/to
+       non-native terrain. Most likely to make a difference with unusual
+       rulesets. GNAPATCH#3837
+     * Military land units with nothing to do were seeking coastal cities
+       to defend rather than just the nearest, for no good reason. (part
+       of GNAPATCH#3856)
+     * The AI no longer hardcodes a food_cost of 2 when assessing
+       potential city sites. This makes no difference to its behaviour
+       with the supplied rulesets. GNA#20856
+     * Fix a possible crash when starting the (experimental) threaded AI.
+       (part of GNA#20778
+
+Help / Documentation
+
+     * Remove some redundant information from online help for ocean-going
+       units. (part of GNAPATCH#3815)
+     * Miscellaneous improvements to developer/ruleset docs. GNAPATCH#3883
+       GNAPATCH#3929
+
+Translations
+
+     * Updated translations:
+          + Complete translations: Catalan, French, Polish, British
+            English.
+          + Incomplete translations: Scottish Gaelic (95%), German (91%),
+            Finnish (84%).
+
+Build/portability
+
+     * Fix a pthread-related build failure observed on MinGW. GNA#20950
+     * Windows builds using the Crosser framework will no longer use
+       pthread even if it appears to be present. GNAPATCH#4001
+     * Fix a build failure on OpenBSD due to failure to find intptr_t.
+       GNA#20946
+     * Fix a build warning (which could prevent building with
+       --enable-debug due to -Werror). GNA#20973
+     * Fix a build warning in non-debug builds. GNA#20750
 
 
 CHANGES FROM 2.4.0-beta1 TO 2.4.0-beta2

@@ -106,10 +106,11 @@ Clients
           + The first time you run this client, it will copy any Gtk2
             client settings you have set. Thereafter, Gtk2 and Gtk3
             settings will remain separate.
-          + Known issue: when compiled against some versions of Gtk3,
-            there are assertion failures and crashes associated with the
-            unit selection dialog. This is believed due to a Gtk bug
-            (671939). GNA#19846
+          + Known issue in beta1/beta2: when compiled against some
+            versions of Gtk3, there are assertion failures and crashes
+            associated with the unit selection dialog. This is believed
+            due to a Gtk bug (671939); however, it's been worked around in
+            the Freeciv code as of RC1. GNA#19846
      * (In the code there is also the start of a Qt client. However, at
        this point it is just a stub and is unlikely to be of interest.
        Development will continue in 2.5.)
@@ -211,13 +212,6 @@ Changes affecting supplied rulesets
             GNAPATCH#2481
           + Galleons can now carry Big Land units, and Frigates no longer
             can. Old savegames are handled gracefully. GNAPATCH#2643
-          + Most technologies now have 'root_req' requirements. This means
-            that it is not possible to acquire the technology by any means
-            unless you already possess its 'root_req'.
-            Currently-unreachable requirements are entirely hidden by
-            default in the Gtk client, so when the game starts you can
-            only see a few techs; you can see the rest with the 'Show all'
-            button. GNAPATCH#2381
 
 Changes and new features for rulesets/modpacks/scenarios
 
@@ -326,18 +320,28 @@ AI
             regardless of whether one was needed, often hurting expansion
             and leaving useless settlers. Now it only insists on room for
             a bodyguard if one is actually needed. GNA#19815
-     * (as of beta2) Improvements to AI city defense:
-          + Reduced the tendency of AI city defenders to be lured out of
-            their city by nearby targets even in the presence of threats.
-            GNA#20504
-          + Cities in grave danger of invasion with no defending units
-            were tending to build City Walls, uselessly. They will now
-            prioritise acquiring a defender. GNA#20559
+     * Improvements to AI city defense:
+          + (as of beta2) Reduced the tendency of AI city defenders to be
+            lured out of their city by nearby targets even in the presence
+            of threats. GNA#20504
+          + (as of beta2) Cities in grave danger of invasion with no
+            defending units were tending to build City Walls, uselessly.
+            They will now prioritise acquiring a defender. GNA#20559
+          + (as of RC1) Reduced the weighting of the AI's assessment of
+            defence strength, so that it defends its own cities more
+            convincingly. (part of GNAPATCH#3960)
+          + (as of RC1) The AI now tends to keep a unit constantly
+            defending each of its cities even in the absence of an obvious
+            threat, rather than relying on being able to acquire one when
+            a threat appears. GNAPATCH#3958
      * (as of beta2) Improvements to AI caravan management:
           + Caravans in transit are now taken into account when a city is
             deciding whether to build more caravans. Previously, a city
             could end up building endless caravans if existing ones did
             not complete their trade route. GNAPATCH#3529
+     * (as of RC1) The AI's new weighting of defence strength assessment
+       means that it is less fearful of its enemy's defenders when
+       attacking their cities. (part of GNAPATCH#3960)
      * The AI's management of its tax rates has been reworked to be more
        sophisticated; notably, it now takes tech upkeep into account. It
        also considers tech upkeep when determining the value of a tech.
@@ -357,7 +361,8 @@ Translations
      * New Indonesian translation.
      * (as of beta2) New Traditional Chinese translation.
      * Updated translations: Bulgarian, Catalan, Spanish, Scottish Gaelic,
-       Korean, Polish, Dutch, Irish, and French.
+       Korean, Polish, Dutch, Irish, French, German, Finnish, and British
+       English.
 
 Development
 
