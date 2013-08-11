@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-28 12:17+0200\n"
+"POT-Creation-Date: 2013-08-11 10:31+0100\n"
 "PO-Revision-Date: 2013-07-29 18:53+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -4984,7 +4984,7 @@ msgstr "_Commuta el mode d'IA"
 #: client/gui-gtk-2.0/repodlgs.c:520 client/gui-gtk-3.0/repodlgs.c:539
 #: client/gui-sdl/mapctrl.c:1418 client/gui-sdl/mapview.c:334
 #: client/gui-sdl/mapview.c:338 client/gui-sdl/mapview.c:344
-#: client/gui-sdl/repodlgs.c:3278 client/gui-xaw/menu.c:230
+#: client/gui-sdl/repodlgs.c:3286 client/gui-xaw/menu.c:230
 #: client/gui-xaw/repodlgs.c:252 client/gui-xaw/repodlgs.c:475
 #: data/Freeciv.in:1384
 msgid "Research"
@@ -5405,12 +5405,12 @@ msgstr "Continuar movent-se"
 #: client/gui-sdl/diplomat_dialog.c:1179 client/gui-sdl/diplomat_dialog.c:1250
 #: client/gui-sdl/diplomat_dialog.c:1464 client/gui-sdl/finddlg.c:149
 #: client/gui-sdl/gotodlg.c:258 client/gui-sdl/helpdlg.c:234
-#: client/gui-sdl/helpdlg.c:627 client/gui-sdl/helpdlg.c:1936
+#: client/gui-sdl/helpdlg.c:627 client/gui-sdl/helpdlg.c:1937
 #: client/gui-sdl/inteldlg.c:250 client/gui-sdl/optiondlg.c:783
 #: client/gui-sdl/plrdlg.c:351 client/gui-sdl/plrdlg.c:634
 #: client/gui-sdl/repodlgs.c:390 client/gui-sdl/repodlgs.c:2007
-#: client/gui-sdl/repodlgs.c:2884 client/gui-sdl/repodlgs.c:3072
-#: client/gui-sdl/repodlgs.c:3339 client/gui-sdl/spaceshipdlg.c:164
+#: client/gui-sdl/repodlgs.c:2892 client/gui-sdl/repodlgs.c:3080
+#: client/gui-sdl/repodlgs.c:3347 client/gui-sdl/spaceshipdlg.c:164
 msgid "Close Dialog (Esc)"
 msgstr "Tancar Diàleg (Esc)"
 
@@ -5994,7 +5994,7 @@ msgstr "Donar ambaixada"
 msgid "Gold(max %d)"
 msgstr "Or (màxim %d)"
 
-#: client/gui-sdl/diplodlg.c:649 client/gui-sdl/helpdlg.c:1983
+#: client/gui-sdl/diplodlg.c:649 client/gui-sdl/helpdlg.c:1984
 #: data/Freeciv.in:410 data/Freeciv.in:419
 msgid "Advances"
 msgstr "Avenços"
@@ -6224,7 +6224,7 @@ msgstr "( amb "
 msgid " )"
 msgstr " )"
 
-#: client/gui-sdl/helpdlg.c:1915
+#: client/gui-sdl/helpdlg.c:1916
 msgid "Help : Advances Tree"
 msgstr "Ajuda : Arbre d'Avenços"
 
@@ -6890,32 +6890,32 @@ msgstr "Actualitzar"
 msgid "Wonder"
 msgstr "Meravella"
 
-#: client/gui-sdl/repodlgs.c:2868
+#: client/gui-sdl/repodlgs.c:2876
 msgid "What should we focus on now?"
 msgstr "En què ens hem de centrar ara ?"
 
-#: client/gui-sdl/repodlgs.c:3056
+#: client/gui-sdl/repodlgs.c:3064
 msgid "Select target :"
 msgstr "Seleccionar objectiu :"
 
-#: client/gui-sdl/repodlgs.c:3125
+#: client/gui-sdl/repodlgs.c:3133
 msgid "step"
 msgid_plural "steps"
 msgstr[0] "pas"
 msgstr[1] "passos"
 
-#: client/gui-sdl/repodlgs.c:3415 client/gui-xaw/repodlgs.c:1193
+#: client/gui-sdl/repodlgs.c:3423 client/gui-xaw/repodlgs.c:1193
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
 msgstr[0] "%2d: Els %s de líder %s puntuen %d \n"
 msgstr[1] "%2d: Els %s de líder %s puntuen %d \n"
 
-#: client/gui-sdl/repodlgs.c:3422 client/gui-xaw/repodlgs.c:1200
+#: client/gui-sdl/repodlgs.c:3430 client/gui-xaw/repodlgs.c:1200
 msgid "Final Report:"
 msgstr "Informe final:"
 
-#: client/gui-sdl/repodlgs.c:3423 client/gui-xaw/repodlgs.c:1201
+#: client/gui-sdl/repodlgs.c:3431 client/gui-xaw/repodlgs.c:1201
 msgid "The Greatest Civilizations in the world."
 msgstr "Les civilitzacions més grans del món."
 
@@ -12148,11 +12148,11 @@ msgstr "el toolkit ppm només pot crear imatges en format ppm"
 msgid "could not open file: %s"
 msgstr "no s'ha pogut obrir l'arxiu: %s"
 
-#: common/packets.c:392
+#: common/packets.c:390
 msgid "illegal packet size"
 msgstr "Mida de paquet il·legal"
 
-#: common/packets.c:416 common/packets.c:461
+#: common/packets.c:414 common/packets.c:459
 msgid "decoding error"
 msgstr "error de decodificació"
 
@@ -13042,8 +13042,8 @@ msgid ""
 msgstr ""
 "Fa content un ciutadà descontent. L'avenç del Misticisme duplica aquest "
 "efecte, igual que la meravella Oracle. Tenint Misticisme i l'Oracle, es fan "
-"contents quatre ciutadans. No "
-"afecta els ciutadans fets descontents per activitats militars."
+"contents quatre ciutadans. No afecta els ciutadans fets descontents per "
+"activitats militars."
 
 #: data/civ1/buildings.ruleset:625 data/civ1/techs.ruleset:574
 #: data/civ2/buildings.ruleset:930 data/civ2/techs.ruleset:741
@@ -18256,7 +18256,7 @@ msgstr ""
 msgid "?citystyle:ElectricAge"
 msgstr "EraElèctrica"
 
-#: data/default/default.lua:22 server/unittools.c:2580
+#: data/default/default.lua:22 server/unittools.c:2590
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -18285,7 +18285,7 @@ msgstr "Has trobat una ciutat amistosa."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Impressiones uns nòmades i se t'uneixen."
 
-#: data/default/default.lua:108 server/unittools.c:2587
+#: data/default/default.lua:108 server/unittools.c:2597
 msgid "An abandoned village is here."
 msgstr "Només hi ha un poble abandonat."
 
@@ -18293,7 +18293,7 @@ msgstr "Només hi ha un poble abandonat."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Has alliberat una horda de bàrbars!"
 
-#: data/default/default.lua:118 server/unittools.c:2590
+#: data/default/default.lua:118 server/unittools.c:2600
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "El teu %s ha mort a mans de bàrbars!"
@@ -47213,7 +47213,7 @@ msgstr "Només els %s poden atacar des del mar."
 msgid "Cannot attack from sea."
 msgstr "No pots atacar des del mar."
 
-#: server/unithand.c:1290 server/unittools.c:2504
+#: server/unithand.c:1290 server/unittools.c:2514
 msgid "Cannot attack unless you declare war first."
 msgstr "No pots atacar a no ser que declaris la guerra abans."
 
@@ -47227,7 +47227,7 @@ msgstr "%s només es pot moure dins de la teva zona de control."
 msgid "%s cannot move that far from the coast line."
 msgstr "%s no pot moure's tan lluny de la costa."
 
-#: server/unithand.c:1308 server/unittools.c:2511
+#: server/unithand.c:1308 server/unittools.c:2521
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "No pots envair si no trenques primer la pau amb %s."
@@ -47381,39 +47381,39 @@ msgid "Teleported your %s to %s."
 msgstr "S'ha teleportat el teu %s a %s."
 
 #. TRANS: A unit is moved to resolve stack conflicts.
-#: server/unittools.c:1165
+#: server/unittools.c:1167
 #, c-format
 msgid "Moved your %s."
 msgstr "S'ha mogut el teu %s."
 
 #. TRANS: A unit is disbanded to resolve stack conflicts.
-#: server/unittools.c:1176
+#: server/unittools.c:1178
 #, c-format
 msgid "Disbanded your %s."
 msgstr "S'ha desmobilitzat el teu %s."
 
-#: server/unittools.c:1525
+#: server/unittools.c:1527
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "No es pot defensar %s, %s ha perdut la partida."
 
-#: server/unittools.c:1529
+#: server/unittools.c:1531
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 "La pèrdua de %s significa perdre la partida! Vigila més la propera vegada!"
 
-#: server/unittools.c:1578
+#: server/unittools.c:1580
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "%s perdut en perdre %s."
 
-#: server/unittools.c:1733
+#: server/unittools.c:1742
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s s'ha escapat de la destrucció de %s i s'ha refugiat a %s."
 
-#: server/unittools.c:1807
+#: server/unittools.c:1817
 #, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgid_plural "Barbarian leader captured; %d gold ransom paid."
@@ -47423,19 +47423,19 @@ msgstr[1] ""
 "S'ha capturat el líder bàrbar; ens paguen un rescat de %d peces d'or."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1828
+#: server/unittools.c:1838
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "El teu %1$s ha reeixit en l'atac contra el %3$s %2$s!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1837 server/unittools.c:1898
+#: server/unittools.c:1847 server/unittools.c:1908
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%1$s perdut en un atac del %3$s %2$s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1873
+#: server/unittools.c:1883
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -47447,14 +47447,14 @@ msgstr[1] ""
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1908
+#: server/unittools.c:1918
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "Has perdut un %1$s quan el %3$s %2$s ha atacat el %5$s %4$s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1924
+#: server/unittools.c:1934
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%1$s (i %2$s) perduts en un atac del %4$s %3$s."
@@ -47462,7 +47462,7 @@ msgstr "%1$s (i %2$s) perduts en un atac del %4$s %3$s."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1935
+#: server/unittools.c:1945
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -47472,158 +47472,158 @@ msgstr[1] "%1$s i %2$d unitats més perduts en un atac del %4$s %3$s."
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1950
+#: server/unittools.c:1960
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%1$d unitat perduda quan el %3$s %2$s ha atacat el %5$s %4$s."
 msgstr[1] "%1$d unitats perdudes quan el %3$s %2$s ha atacat el %5$s %4$s."
 
-#: server/unittools.c:2277
+#: server/unittools.c:2287
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Els teus %s han estat atacats per %s amb una arma nuclear."
 
-#: server/unittools.c:2280 server/unittools.c:2298
+#: server/unittools.c:2290 server/unittools.c:2308
 msgid "yourself"
 msgstr "tu mateix"
 
-#: server/unittools.c:2284
+#: server/unittools.c:2294
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "%2$s %1$s atacat amb una arma nuclear."
 
-#: server/unittools.c:2295
+#: server/unittools.c:2305
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s atacada amb una arma nuclear per %s."
 
-#: server/unittools.c:2303
+#: server/unittools.c:2313
 #, c-format
 msgid "You nuked %s."
 msgstr "Has atacat amb una arma nuclear %s."
 
-#: server/unittools.c:2355
+#: server/unittools.c:2365
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "Els %s han detonat una arma nuclear!"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2379 server/unittools.c:2387
+#: server/unittools.c:2389 server/unittools.c:2397
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr "%s no té capacitat per transportar %s."
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2398
+#: server/unittools.c:2408
 #, c-format
 msgid "%s cannot be transported to %s."
 msgstr "%s no es poden transportar a %s."
 
-#: server/unittools.c:2408
+#: server/unittools.c:2418
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s s'ha transportat satisfactòriament."
 
-#: server/unittools.c:2467
+#: server/unittools.c:2477
 msgid "This unit type can not be paradropped."
 msgstr "Aquest tipus d'unitat no pot ser llançat amb paracaigudes."
 
-#: server/unittools.c:2477
+#: server/unittools.c:2487
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr ""
 "No es pot llançar en paracaigudes una unitat que en transporta d'altres."
 
-#: server/unittools.c:2483
+#: server/unittools.c:2493
 msgid "The destination location is not known."
 msgstr "La ubicació de destí és desconeguda."
 
-#: server/unittools.c:2493
+#: server/unittools.c:2503
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Aquesta unitat no es pot llançar en paracaigudes a %s."
 
-#: server/unittools.c:2522
+#: server/unittools.c:2532
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "La distància a l'objectiu (%i) és més gran que el rang de la unitat (%i)."
 
-#: server/unittools.c:2533
+#: server/unittools.c:2543
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "El teu %s s'ha llançat en paracaigudes a %s i ha mort."
 
-#: server/unittools.c:2547
+#: server/unittools.c:2557
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 "El teu %s ha estat mort per unitats enemigues a la destinació de llançament."
 
-#: server/unittools.c:2618
+#: server/unittools.c:2628
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "La teva sobrevolada ha espantat a la tribu, s'escampen aterrits."
 
-#: server/unittools.c:2898
+#: server/unittools.c:2908
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Les ordres per %s s'han avortat en veure moviment d'enemics."
 
-#: server/unittools.c:3452
+#: server/unittools.c:3462
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Les ordres per %s s'han avortat perquè hi ha unitats a la vora."
 
-#: server/unittools.c:3503
+#: server/unittools.c:3513
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr ""
 "Les ordres per %s s'han avortat perquè no s'ha pogut construir la ciutat."
 
-#: server/unittools.c:3519
+#: server/unittools.c:3529
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 "Les ordres per %s s'han avortat perquè provoquen una activitat no vàlida."
 
-#: server/unittools.c:3538
+#: server/unittools.c:3548
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "Les ordres per %s s'han avortat perquè donen una ubicació no vàlida."
 
-#: server/unittools.c:3548
+#: server/unittools.c:3558
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "Les ordres per %s s'han avortat perquè hi ha unitats al mig del pas."
 
-#: server/unittools.c:3573
+#: server/unittools.c:3583
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Les ordres per %s s'han avortat per moviment incorrecte."
 
-#: server/unittools.c:3614
+#: server/unittools.c:3624
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "L'intent de canviar la ciutat d'origen per %s ha fallat."
 
-#: server/unittools.c:3625
+#: server/unittools.c:3635
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "L'intent d'establir una ruta comercial per %s ha fallat."
 
-#: server/unittools.c:3637
+#: server/unittools.c:3647
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "L'intent de construir meravella per %s ha fallat"
 
-#: server/unittools.c:3646
+#: server/unittools.c:3656
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "El teu %s té ordres incorrectes"
 
-#: server/unittools.c:3744
+#: server/unittools.c:3754
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."

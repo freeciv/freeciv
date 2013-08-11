@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-27 11:39+0100\n"
+"POT-Creation-Date: 2013-08-11 10:31+0100\n"
 "PO-Revision-Date: 2006-03-26 14:53+0800\n"
 "Last-Translator: Hongjia Cao <hjcao@yahoo.com>\n"
 "Language-Team: zh_CN <i18n-translation@linux.net.cn>\n"
@@ -292,12 +292,12 @@ msgstr ""
 "*%s (AI)*  %s 野蛮地攻击了我们，我们需要您的帮助！兑现您对我们光荣同盟的承诺"
 "吧，您的名字将会被永世不忘！"
 
-#: ai/default/aicity.c:308 server/citytools.c:2411
+#: ai/default/aicity.c:308 server/citytools.c:2416
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%1$s 停止在 %3$s 中建造 %2$s。"
 
-#: ai/default/aicity.c:319 server/citytools.c:2449
+#: ai/default/aicity.c:319 server/citytools.c:2454
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr " %1$s 开始在 %3$s 中建造 %2$s。"
@@ -329,7 +329,7 @@ msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:431 client/gui-sdl/mapview.c:159
-#: server/console.c:71 server/srv_main.c:2558 utility/log.c:516
+#: server/console.c:71 server/srv_main.c:2563 utility/log.c:516
 #: utility/netintf.c:93 utility/registry.c:893
 #, c-format
 msgid "Please report this message at %s"
@@ -3240,9 +3240,9 @@ msgstr "发明创造"
 
 #: client/gui-gtk-2.0/editprop.c:4167 client/gui-gtk-2.0/repodlgs.c:1251
 #: client/gui-gtk-3.0/editprop.c:4191 client/gui-gtk-3.0/repodlgs.c:1283
-#: common/city.c:85 data/civ1/terrain.ruleset:609
-#: data/civ2/terrain.ruleset:623 data/default/terrain.ruleset:737
-#: data/experimental/terrain.ruleset:739 data/multiplayer/terrain.ruleset:737
+#: common/city.c:85 data/civ1/terrain.ruleset:608
+#: data/civ2/terrain.ruleset:622 data/default/terrain.ruleset:736
+#: data/experimental/terrain.ruleset:738 data/multiplayer/terrain.ruleset:736
 msgid "Gold"
 msgstr "黄金"
 
@@ -3475,40 +3475,40 @@ msgid "Report bugs at %s\n"
 msgstr "将错误报告发送到 <%s>。\n"
 
 #: client/gui-gtk-2.0/gui_main.c:748 client/gui-gtk-2.0/gui_main.c:1553
-#: client/gui-gtk-3.0/gui_main.c:733 client/gui-gtk-3.0/gui_main.c:1609
+#: client/gui-gtk-3.0/gui_main.c:735 client/gui-gtk-3.0/gui_main.c:1611
 #: client/gui-sdl/gui_main.c:795 client/gui-sdl/gui_main.c:810
 msgid "Freeciv"
 msgstr "Freeciv"
 
 #: client/gui-gtk-2.0/gui_main.c:1210 client/gui-gtk-2.0/gui_main.c:1218
-#: client/gui-gtk-3.0/gui_main.c:1207 client/gui-gtk-3.0/gui_main.c:1215
+#: client/gui-gtk-3.0/gui_main.c:1209 client/gui-gtk-3.0/gui_main.c:1217
 #: client/gui-sdl/mapctrl.c:1575 data/Freeciv.in:2663
 msgid "Turn Done"
 msgstr "回合结束"
 
-#: client/gui-gtk-2.0/gui_main.c:1218 client/gui-gtk-3.0/gui_main.c:1215
+#: client/gui-gtk-2.0/gui_main.c:1218 client/gui-gtk-3.0/gui_main.c:1217
 #: client/gui-sdl/mapctrl.c:1575 client/gui-sdl/mapview.c:895
 msgid "Shift+Return"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1289 client/gui-gtk-3.0/gui_main.c:1292
+#: client/gui-gtk-2.0/gui_main.c:1289 client/gui-gtk-3.0/gui_main.c:1294
 msgid "?noun:View"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1401 client/gui-gtk-3.0/gui_main.c:1412
+#: client/gui-gtk-2.0/gui_main.c:1401 client/gui-gtk-3.0/gui_main.c:1414
 msgid "Chat"
 msgstr "聊天"
 
-#: client/gui-gtk-2.0/gui_main.c:1425 client/gui-gtk-3.0/gui_main.c:1439
+#: client/gui-gtk-2.0/gui_main.c:1425 client/gui-gtk-3.0/gui_main.c:1441
 msgid "Allies Only"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1434 client/gui-gtk-3.0/gui_main.c:1448
+#: client/gui-gtk-2.0/gui_main.c:1434 client/gui-gtk-3.0/gui_main.c:1450
 #, fuzzy
 msgid "Clear links"
 msgstr "目标工作列表(_W)"
 
-#: client/gui-gtk-2.0/gui_main.c:2002 client/gui-gtk-3.0/gui_main.c:2006
+#: client/gui-gtk-2.0/gui_main.c:2002 client/gui-gtk-3.0/gui_main.c:2008
 #: modinst/modinst.c:102
 msgid "Are you sure you want to quit?"
 msgstr "确认想退出？"
@@ -3740,7 +3740,7 @@ msgstr "?techhelp:"
 #: client/gui-gtk-2.0/inteldlg.c:410 client/gui-gtk-3.0/helpdlg.c:1121
 #: client/gui-gtk-3.0/helpdlg.c:1215 client/gui-gtk-3.0/inteldlg.c:402
 #: client/gui-xaw/helpdlg.c:1007 client/gui-xaw/helpdlg.c:1092
-#: common/requirements.c:1376 common/requirements.c:1430
+#: common/requirements.c:1388 common/requirements.c:1442
 #, c-format
 msgid "(none)"
 msgstr "（无）"
@@ -5039,7 +5039,7 @@ msgstr "切换 AI 模式(_T)"
 #: client/gui-gtk-2.0/repodlgs.c:520 client/gui-gtk-3.0/repodlgs.c:539
 #: client/gui-sdl/mapctrl.c:1418 client/gui-sdl/mapview.c:334
 #: client/gui-sdl/mapview.c:338 client/gui-sdl/mapview.c:344
-#: client/gui-sdl/repodlgs.c:3278 client/gui-xaw/menu.c:230
+#: client/gui-sdl/repodlgs.c:3286 client/gui-xaw/menu.c:230
 #: client/gui-xaw/repodlgs.c:252 client/gui-xaw/repodlgs.c:475
 #: data/Freeciv.in:1384
 #, fuzzy
@@ -5469,12 +5469,12 @@ msgstr "继续前进"
 #: client/gui-sdl/diplomat_dialog.c:1179 client/gui-sdl/diplomat_dialog.c:1250
 #: client/gui-sdl/diplomat_dialog.c:1464 client/gui-sdl/finddlg.c:149
 #: client/gui-sdl/gotodlg.c:258 client/gui-sdl/helpdlg.c:234
-#: client/gui-sdl/helpdlg.c:627 client/gui-sdl/helpdlg.c:1936
+#: client/gui-sdl/helpdlg.c:627 client/gui-sdl/helpdlg.c:1937
 #: client/gui-sdl/inteldlg.c:250 client/gui-sdl/optiondlg.c:783
 #: client/gui-sdl/plrdlg.c:351 client/gui-sdl/plrdlg.c:634
 #: client/gui-sdl/repodlgs.c:390 client/gui-sdl/repodlgs.c:2007
-#: client/gui-sdl/repodlgs.c:2884 client/gui-sdl/repodlgs.c:3072
-#: client/gui-sdl/repodlgs.c:3339 client/gui-sdl/spaceshipdlg.c:164
+#: client/gui-sdl/repodlgs.c:2892 client/gui-sdl/repodlgs.c:3080
+#: client/gui-sdl/repodlgs.c:3347 client/gui-sdl/spaceshipdlg.c:164
 #, fuzzy
 msgid "Close Dialog (Esc)"
 msgstr "关闭对话框"
@@ -6101,7 +6101,7 @@ msgstr "提供使馆"
 msgid "Gold(max %d)"
 msgstr "黄金(最大 %d)"
 
-#: client/gui-sdl/diplodlg.c:649 client/gui-sdl/helpdlg.c:1983
+#: client/gui-sdl/diplodlg.c:649 client/gui-sdl/helpdlg.c:1984
 #: data/Freeciv.in:410 data/Freeciv.in:419
 msgid "Advances"
 msgstr "科技进展"
@@ -6332,7 +6332,7 @@ msgstr " 若有 "
 msgid " )"
 msgstr ""
 
-#: client/gui-sdl/helpdlg.c:1915
+#: client/gui-sdl/helpdlg.c:1916
 msgid "Help : Advances Tree"
 msgstr ""
 
@@ -6921,7 +6921,7 @@ msgid "R.I.P."
 msgstr "已死亡"
 
 #: client/gui-sdl/plrdlg.c:653 client/plrdlg_common.c:236
-#: server/stdinhand.c:3456 server/stdinhand.c:6225
+#: server/stdinhand.c:3456 server/stdinhand.c:6228
 msgid "AI"
 msgstr "AI"
 
@@ -7029,33 +7029,33 @@ msgstr "更新"
 msgid "Wonder"
 msgstr "奇迹"
 
-#: client/gui-sdl/repodlgs.c:2868
+#: client/gui-sdl/repodlgs.c:2876
 #, fuzzy
 msgid "What should we focus on now?"
 msgstr "新城市叫什么名字？"
 
-#: client/gui-sdl/repodlgs.c:3056
+#: client/gui-sdl/repodlgs.c:3064
 #, fuzzy
 msgid "Select target :"
 msgstr "选择一个城市："
 
-#: client/gui-sdl/repodlgs.c:3125
+#: client/gui-sdl/repodlgs.c:3133
 #, fuzzy
 msgid "step"
 msgid_plural "steps"
 msgstr[0] "%d 步"
 
-#: client/gui-sdl/repodlgs.c:3415 client/gui-xaw/repodlgs.c:1193
+#: client/gui-sdl/repodlgs.c:3423 client/gui-xaw/repodlgs.c:1193
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
 msgstr[0] "%2d： %s 的统治者 %s 得 %d 分\n"
 
-#: client/gui-sdl/repodlgs.c:3422 client/gui-xaw/repodlgs.c:1200
+#: client/gui-sdl/repodlgs.c:3430 client/gui-xaw/repodlgs.c:1200
 msgid "Final Report:"
 msgstr "最终的报告："
 
-#: client/gui-sdl/repodlgs.c:3423 client/gui-xaw/repodlgs.c:1201
+#: client/gui-sdl/repodlgs.c:3431 client/gui-xaw/repodlgs.c:1201
 msgid "The Greatest Civilizations in the world."
 msgstr "世界上最伟大的文明。"
 
@@ -7092,7 +7092,7 @@ msgid "Loading theme \"%s\"."
 msgstr "正在装入规则集合"
 
 #: client/gui-sdl/themespec.c:485 client/gui-sdl/themespec.c:519
-#: client/tilespec.c:1186 client/tilespec.c:1220
+#: client/tilespec.c:1192 client/tilespec.c:1226
 #, fuzzy, c-format
 msgid ""
 "Could not open '%s':\n"
@@ -7560,7 +7560,7 @@ msgstr "海岸线"
 msgid "Roads & Rails"
 msgstr "公路和铁路"
 
-#: client/gui-xaw/menu.c:156 common/terrain.c:512 common/terrain.c:819
+#: client/gui-xaw/menu.c:156 common/terrain.c:512 common/terrain.c:820
 #: common/unit.c:699 manual/civmanual.c:281
 msgid "Irrigation"
 msgstr "水利"
@@ -10192,22 +10192,22 @@ msgstr "客户端能力串： %s"
 msgid "Server capability string: %s"
 msgstr "服务器能力串： %s"
 
-#: client/packhand.c:1068
+#: client/packhand.c:1069
 #, c-format
 msgid "Start of turn %d"
 msgstr "回合 %d 开始"
 
-#: client/packhand.c:1197
+#: client/packhand.c:1198
 #, fuzzy
 msgid "Welcome"
 msgstr "欢迎 %s "
 
-#: client/packhand.c:1988
+#: client/packhand.c:2009
 #, fuzzy
 msgid "AI mode is now ON."
 msgstr "当前的 AI 模式为 %s。"
 
-#: client/packhand.c:1990
+#: client/packhand.c:2011
 #, fuzzy
 msgid "AI mode is now OFF."
 msgstr "当前的 AI 模式为 %s。"
@@ -11013,37 +11013,37 @@ msgstr "军事部队对欢乐没有影响。"
 msgid "Luxury: %d total."
 msgstr "娱乐：总共 %d 。"
 
-#: client/tilespec.c:994
+#: client/tilespec.c:1000
 msgid "No usable default tileset found, aborting!"
 msgstr "未能找到可用的默认地图风格，正在中止！"
 
-#: client/tilespec.c:1026
+#: client/tilespec.c:1032
 #, fuzzy, c-format
 msgid "Loading tileset \"%s\"."
 msgstr "正在装入规则集合"
 
-#: client/tilespec.c:1490
+#: client/tilespec.c:1496
 #, fuzzy
 msgid "Client does not support isometric tilesets."
 msgstr "客户端不支持 isometric 地图风格。使用默认地图风格代替。"
 
-#: client/tilespec.c:1491 client/tilespec.c:1497
+#: client/tilespec.c:1497 client/tilespec.c:1503
 msgid "Using default tileset instead."
 msgstr ""
 
-#: client/tilespec.c:1496
+#: client/tilespec.c:1502
 #, fuzzy
 msgid "Client does not support overhead view tilesets."
 msgstr "客户端不支持上方视角的地图风格。使用默认地图风格代替。"
 
-#: client/tilespec.c:4428
+#: client/tilespec.c:4450
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
 "displayed as expected."
 msgstr ""
 
-#: client/tilespec.c:4753
+#: client/tilespec.c:4775
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -11056,7 +11056,7 @@ msgid "Too many AI modules. Max is %d."
 msgstr ""
 
 #: common/city.c:84 data/civ1/techs.ruleset:566 data/civ2/techs.ruleset:733
-#: data/default/techs.ruleset:737 data/experimental/techs.ruleset:816
+#: data/default/techs.ruleset:737 data/experimental/techs.ruleset:739
 #: data/Freeciv.in:3108 data/multiplayer/techs.ruleset:745
 msgid "Trade"
 msgstr "贸易"
@@ -12073,11 +12073,11 @@ msgstr ""
 msgid "could not open file: %s"
 msgstr "无法打开“%s”。"
 
-#: common/packets.c:392
+#: common/packets.c:390
 msgid "illegal packet size"
 msgstr ""
 
-#: common/packets.c:416 common/packets.c:461
+#: common/packets.c:414 common/packets.c:459
 msgid "decoding error"
 msgstr ""
 
@@ -12171,71 +12171,71 @@ msgid "?diplomatic_state:Team"
 msgstr "团队"
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:520 common/requirements.c:535
+#: common/requirements.c:532 common/requirements.c:547
 msgid "World-ranged requirements are only supported for wonders."
 msgstr "只有奇迹支持世界范围的需求。"
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:560 common/requirements.c:576
+#: common/requirements.c:572 common/requirements.c:588
 msgid "Player-ranged requirements are only supported for wonders."
 msgstr "只有奇迹支持玩家范围的需求。"
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:598
+#: common/requirements.c:610
 msgid "Island-ranged requirements are only supported for wonders."
 msgstr "只有奇迹支持岛屿范围的需求。"
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:650
+#: common/requirements.c:662
 #, fuzzy
 msgid "Surviving requirements are only supported at world and player ranges."
 msgstr "只支持世界范围的存活需求。"
 
-#: common/requirements.c:1402 common/requirements.c:1479
+#: common/requirements.c:1414 common/requirements.c:1491
 #, c-format
 msgid "Size %d"
 msgstr "规模 %d"
 
-#: common/requirements.c:1457 common/requirements.c:1466
+#: common/requirements.c:1469 common/requirements.c:1478
 #, fuzzy, c-format
 msgid "\"%s\" units"
 msgstr " 部队"
 
-#: common/requirements.c:1462
+#: common/requirements.c:1474
 #, c-format
 msgid "%s units"
 msgstr "%s 部队"
 
 #. TRANS: "Hard AI"
-#: common/requirements.c:1484
+#: common/requirements.c:1496
 #, fuzzy, c-format
 msgid "%s AI"
 msgstr "%s。"
 
 #. TRANS: "Land terrain"
-#: common/requirements.c:1489
+#: common/requirements.c:1501
 #, fuzzy, c-format
 msgid "%s terrain"
 msgstr "地形"
 
 #. TRANS: "Fortress base"
-#: common/requirements.c:1494
+#: common/requirements.c:1506
 #, c-format
 msgid "%s base"
 msgstr ""
 
-#: common/requirements.c:1498
+#: common/requirements.c:1510
 #, fuzzy, c-format
 msgid "After %s"
 msgstr "接近 %s"
 
 #. TRANS: "Irrigation possible"
-#: common/requirements.c:1503
+#: common/requirements.c:1515
 #, fuzzy, c-format
 msgid "%s possible"
 msgstr "%s 人口"
 
-#: common/requirements.c:1507
+#: common/requirements.c:1519
 #, fuzzy
 msgid "City center tile"
 msgstr "中心视图"
@@ -12245,7 +12245,7 @@ msgid "Road"
 msgstr "公路"
 
 #: common/road.c:29 data/civ1/techs.ruleset:453 data/civ2/techs.ruleset:579
-#: data/default/techs.ruleset:583 data/experimental/techs.ruleset:643
+#: data/default/techs.ruleset:583 data/experimental/techs.ruleset:585
 #: data/multiplayer/techs.ruleset:592
 msgid "Railroad"
 msgstr "铁路"
@@ -12274,7 +12274,7 @@ msgstr "未来技术 %d"
 msgid "Future Tech."
 msgstr "未来技术"
 
-#: common/terrain.c:514 common/terrain.c:823 common/unit.c:697
+#: common/terrain.c:514 common/terrain.c:824 common/unit.c:697
 msgid "Mine"
 msgstr "矿井"
 
@@ -12282,9 +12282,9 @@ msgstr "矿井"
 msgid "Hut"
 msgstr "茅屋"
 
-#: common/terrain.c:517 common/unit.c:705 data/civ1/terrain.ruleset:730
-#: data/civ2/terrain.ruleset:842 data/default/terrain.ruleset:956
-#: data/experimental/terrain.ruleset:958 data/multiplayer/terrain.ruleset:956
+#: common/terrain.c:517 common/unit.c:705 data/civ1/terrain.ruleset:729
+#: data/civ2/terrain.ruleset:841 data/default/terrain.ruleset:955
+#: data/experimental/terrain.ruleset:957 data/multiplayer/terrain.ruleset:955
 msgid "Fortress"
 msgstr "要塞"
 
@@ -12292,13 +12292,13 @@ msgstr "要塞"
 msgid "River"
 msgstr "河流"
 
-#: common/terrain.c:519 common/terrain.c:817
+#: common/terrain.c:519 common/terrain.c:818
 msgid "Farmland"
 msgstr "农场"
 
-#: common/terrain.c:520 common/unit.c:717 data/civ2/terrain.ruleset:864
-#: data/default/terrain.ruleset:980 data/experimental/terrain.ruleset:982
-#: data/multiplayer/terrain.ruleset:980
+#: common/terrain.c:520 common/unit.c:717 data/civ2/terrain.ruleset:863
+#: data/default/terrain.ruleset:979 data/experimental/terrain.ruleset:981
+#: data/multiplayer/terrain.ruleset:979
 msgid "Airbase"
 msgstr "空军基地"
 
@@ -12924,13 +12924,12 @@ msgid "Temple"
 msgstr "庙宇"
 
 #: data/civ1/buildings.ruleset:617 data/civ2/buildings.ruleset:922
-#: data/default/buildings.ruleset:981 data/experimental/buildings.ruleset:1036
-#: data/multiplayer/buildings.ruleset:961
 #, fuzzy
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
-"effect.  With both Mysticism and the Oracle, 4 citizens are made content.  "
-"Does not affect citizens made unhappy by military activity."
+"effect, as does Oracle wonder.  With both Mysticism and the Oracle, 4 "
+"citizens are made content.  Does not affect citizens made unhappy by "
+"military activity."
 msgstr ""
 "使一个忧郁的市民满足。科技进展神秘主义和奇迹神喻都将使其作用翻倍。在同时有神"
 "秘主义和神喻的情况下，4个市民被变成满足的。"
@@ -12939,7 +12938,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:930 data/civ2/techs.ruleset:741
 #: data/default/buildings.ruleset:989 data/default/techs.ruleset:745
 #: data/experimental/buildings.ruleset:1046
-#: data/experimental/techs.ruleset:825 data/multiplayer/buildings.ruleset:969
+#: data/experimental/techs.ruleset:747 data/multiplayer/buildings.ruleset:969
 #: data/multiplayer/techs.ruleset:753
 msgid "University"
 msgstr "大学"
@@ -13174,23 +13173,21 @@ msgid "Oracle"
 msgstr "神喻"
 
 #: data/civ1/buildings.ruleset:965 data/civ2/buildings.ruleset:1377
-#: data/default/buildings.ruleset:1444
-#: data/experimental/buildings.ruleset:1501
 #, fuzzy
 msgid ""
-"Makes two additional unhappy citizens content in every city with a Temple.  "
-"Does not affect citizens made unhappy by military activity."
+"Doubles the effect of a Temple in every city. Does not affect citizens made "
+"unhappy by military activity."
 msgstr "使您修建该奇迹的大陆上的所有城市中两个忧郁市民变成满足的。"
 
-#: data/civ1/buildings.ruleset:972 data/civ2/buildings.ruleset:1384
+#: data/civ1/buildings.ruleset:971 data/civ2/buildings.ruleset:1383
 #: data/default/buildings.ruleset:1451
 #: data/experimental/buildings.ruleset:1508
 #: data/multiplayer/buildings.ruleset:1427
 msgid "Pyramids"
 msgstr "金字塔"
 
-#: data/civ1/buildings.ruleset:986 data/civ1/buildings.ruleset:1048
-#: data/civ2/buildings.ruleset:1459 data/default/buildings.ruleset:1528
+#: data/civ1/buildings.ruleset:985 data/civ1/buildings.ruleset:1047
+#: data/civ2/buildings.ruleset:1458 data/default/buildings.ruleset:1528
 #: data/experimental/buildings.ruleset:1585
 #: data/multiplayer/buildings.ruleset:1504
 msgid ""
@@ -13201,25 +13198,25 @@ msgstr ""
 "允许您选择所有的政府类型，包括那些您的文明还没有研究的，并且不用经历无政府状"
 "态的过渡时期。"
 
-#: data/civ1/buildings.ruleset:993 data/civ2/buildings.ruleset:1403
+#: data/civ1/buildings.ruleset:992 data/civ2/buildings.ruleset:1402
 #: data/default/buildings.ruleset:1473
 #: data/experimental/buildings.ruleset:1530
 msgid "SETI Program"
 msgstr "太空计划"
 
-#: data/civ1/buildings.ruleset:1008
+#: data/civ1/buildings.ruleset:1007
 #, no-c-format
 msgid "Boosts science production in each city by 50%."
 msgstr "将每个城市中的科研产出提升 50% 。"
 
-#: data/civ1/buildings.ruleset:1013 data/civ2/buildings.ruleset:1424
+#: data/civ1/buildings.ruleset:1012 data/civ2/buildings.ruleset:1423
 #: data/default/buildings.ruleset:1493
 #: data/experimental/buildings.ruleset:1550
 #: data/multiplayer/buildings.ruleset:1469
 msgid "Shakespeare's Theater"
 msgstr "莎士比亚剧院"
 
-#: data/civ1/buildings.ruleset:1028 data/civ2/buildings.ruleset:1439
+#: data/civ1/buildings.ruleset:1027 data/civ2/buildings.ruleset:1438
 #: data/default/buildings.ruleset:1508
 #: data/experimental/buildings.ruleset:1565
 #: data/multiplayer/buildings.ruleset:1484
@@ -13229,21 +13226,21 @@ msgid ""
 "located, including citizens unhappy about military activity."
 msgstr "使的它所在城市的所有市民变得满足。"
 
-#: data/civ1/buildings.ruleset:1034 data/civ2/buildings.ruleset:1488
+#: data/civ1/buildings.ruleset:1033 data/civ2/buildings.ruleset:1487
 #: data/default/buildings.ruleset:1556
 #: data/experimental/buildings.ruleset:1613
 #: data/multiplayer/buildings.ruleset:1531
 msgid "United Nations"
 msgstr "联合国"
 
-#: data/civ1/buildings.ruleset:1060 data/civ2/buildings.ruleset:1515
+#: data/civ1/buildings.ruleset:1059 data/civ2/buildings.ruleset:1514
 #: data/default/buildings.ruleset:1583
 #: data/experimental/buildings.ruleset:1640
 #: data/multiplayer/buildings.ruleset:1552
 msgid "Women's Suffrage"
 msgstr "妇女选举权"
 
-#: data/civ1/buildings.ruleset:1074
+#: data/civ1/buildings.ruleset:1073
 msgid ""
 "In all cities, the unhappiness effect of every unit is reduced by 1. This "
 "means that in a Republic, units do not cause unhappiness, and in a "
@@ -13469,7 +13466,7 @@ msgstr ""
 #: data/civ2/governments.ruleset:97 data/civ2/techs.ruleset:478
 #: data/default/governments.ruleset:100 data/default/techs.ruleset:482
 #: data/experimental/governments.ruleset:104
-#: data/experimental/techs.ruleset:531
+#: data/experimental/techs.ruleset:484
 #: data/multiplayer/governments.ruleset:100 data/multiplayer/techs.ruleset:491
 msgid "Monarchy"
 msgstr "君主制"
@@ -13510,7 +13507,7 @@ msgstr ""
 #: data/civ2/governments.ruleset:119 data/civ2/techs.ruleset:170
 #: data/default/governments.ruleset:122 data/default/techs.ruleset:181
 #: data/experimental/governments.ruleset:126
-#: data/experimental/techs.ruleset:195
+#: data/experimental/techs.ruleset:183
 #: data/multiplayer/governments.ruleset:122 data/multiplayer/techs.ruleset:181
 msgid "Communism"
 msgstr "共产主义"
@@ -13596,7 +13593,7 @@ msgstr ""
 #: data/civ2/governments.ruleset:193 data/civ2/techs.ruleset:212
 #: data/default/governments.ruleset:168 data/default/techs.ruleset:223
 #: data/experimental/governments.ruleset:172
-#: data/experimental/techs.ruleset:242
+#: data/experimental/techs.ruleset:225
 #: data/multiplayer/governments.ruleset:168 data/multiplayer/techs.ruleset:223
 msgid "Democracy"
 msgstr "民主制"
@@ -14545,91 +14542,91 @@ msgid "Advanced Flight"
 msgstr "高级航空"
 
 #: data/civ1/techs.ruleset:58 data/civ2/techs.ruleset:58
-#: data/default/techs.ruleset:69 data/experimental/techs.ruleset:72
+#: data/default/techs.ruleset:69 data/experimental/techs.ruleset:71
 #: data/multiplayer/techs.ruleset:69
 msgid "Alphabet"
 msgstr "字母表"
 
 #: data/civ1/techs.ruleset:66 data/civ2/techs.ruleset:74
-#: data/default/techs.ruleset:85 data/experimental/techs.ruleset:89
+#: data/default/techs.ruleset:85 data/experimental/techs.ruleset:87
 #: data/multiplayer/techs.ruleset:85
 msgid "Astronomy"
 msgstr "天文学"
 
 #: data/civ1/techs.ruleset:74 data/civ2/techs.ruleset:82
-#: data/default/techs.ruleset:93 data/experimental/techs.ruleset:98
+#: data/default/techs.ruleset:93 data/experimental/techs.ruleset:95
 #: data/multiplayer/techs.ruleset:93
 msgid "Atomic Theory"
 msgstr "原子理论"
 
 #: data/civ1/techs.ruleset:82 data/civ2/techs.ruleset:90
-#: data/default/techs.ruleset:101 data/experimental/techs.ruleset:107
+#: data/default/techs.ruleset:101 data/experimental/techs.ruleset:103
 #: data/multiplayer/techs.ruleset:101
 msgid "Automobile"
 msgstr "自动化"
 
 #: data/civ1/techs.ruleset:90 data/civ2/techs.ruleset:98
-#: data/default/techs.ruleset:109 data/experimental/techs.ruleset:116
+#: data/default/techs.ruleset:109 data/experimental/techs.ruleset:111
 #: data/multiplayer/techs.ruleset:109
 msgid "Banking"
 msgstr "银行业"
 
 #: data/civ1/techs.ruleset:98 data/civ2/techs.ruleset:106
-#: data/default/techs.ruleset:117 data/experimental/techs.ruleset:125
+#: data/default/techs.ruleset:117 data/experimental/techs.ruleset:119
 #: data/multiplayer/techs.ruleset:117
 msgid "Bridge Building"
 msgstr "桥梁建造"
 
 #: data/civ1/techs.ruleset:106 data/civ2/techs.ruleset:114
-#: data/default/techs.ruleset:125 data/experimental/techs.ruleset:134
+#: data/default/techs.ruleset:125 data/experimental/techs.ruleset:127
 #: data/multiplayer/techs.ruleset:125
 msgid "Bronze Working"
 msgstr "青铜制造"
 
 #: data/civ1/techs.ruleset:114 data/civ2/techs.ruleset:122
-#: data/default/techs.ruleset:133 data/experimental/techs.ruleset:142
+#: data/default/techs.ruleset:133 data/experimental/techs.ruleset:135
 #: data/multiplayer/techs.ruleset:133
 msgid "Ceremonial Burial"
 msgstr "葬礼仪式"
 
 #: data/civ1/techs.ruleset:122 data/civ2/techs.ruleset:130
-#: data/default/techs.ruleset:141 data/experimental/techs.ruleset:150
+#: data/default/techs.ruleset:141 data/experimental/techs.ruleset:143
 #: data/multiplayer/techs.ruleset:141
 msgid "Chemistry"
 msgstr "化学"
 
 #: data/civ1/techs.ruleset:130 data/civ2/techs.ruleset:138
-#: data/default/techs.ruleset:149 data/experimental/techs.ruleset:159
+#: data/default/techs.ruleset:149 data/experimental/techs.ruleset:151
 #: data/multiplayer/techs.ruleset:149
 msgid "Chivalry"
 msgstr "骑士制度"
 
 #: data/civ1/techs.ruleset:138 data/civ2/techs.ruleset:146
-#: data/default/techs.ruleset:157 data/experimental/techs.ruleset:168
+#: data/default/techs.ruleset:157 data/experimental/techs.ruleset:159
 #: data/multiplayer/techs.ruleset:157
 msgid "Code of Laws"
 msgstr "法典"
 
 #: data/civ1/techs.ruleset:146 data/civ2/techs.ruleset:162
-#: data/default/techs.ruleset:173 data/experimental/techs.ruleset:186
+#: data/default/techs.ruleset:173 data/experimental/techs.ruleset:175
 #: data/multiplayer/techs.ruleset:173
 msgid "Combustion"
 msgstr "内燃机"
 
 #: data/civ1/techs.ruleset:162 data/civ2/techs.ruleset:179
-#: data/default/techs.ruleset:190 data/experimental/techs.ruleset:205
+#: data/default/techs.ruleset:190 data/experimental/techs.ruleset:192
 #: data/multiplayer/techs.ruleset:190
 msgid "Computers"
 msgstr "计算机"
 
 #: data/civ1/techs.ruleset:170 data/civ2/techs.ruleset:187
-#: data/default/techs.ruleset:198 data/experimental/techs.ruleset:214
+#: data/default/techs.ruleset:198 data/experimental/techs.ruleset:200
 #: data/multiplayer/techs.ruleset:198
 msgid "Conscription"
 msgstr "征召"
 
 #: data/civ1/techs.ruleset:178 data/civ2/techs.ruleset:195
-#: data/default/techs.ruleset:206 data/experimental/techs.ruleset:223
+#: data/default/techs.ruleset:206 data/experimental/techs.ruleset:208
 #: data/multiplayer/techs.ruleset:206
 msgid "Construction"
 msgstr "建筑"
@@ -14640,43 +14637,43 @@ msgid "Allows Settlers to build fortresses."
 msgstr "* 使 %s 能够建筑要塞。\n"
 
 #: data/civ1/techs.ruleset:187 data/civ2/techs.ruleset:204
-#: data/default/techs.ruleset:215 data/experimental/techs.ruleset:233
+#: data/default/techs.ruleset:215 data/experimental/techs.ruleset:217
 #: data/multiplayer/techs.ruleset:215
 msgid "Currency"
 msgstr "货币"
 
 #: data/civ1/techs.ruleset:203 data/civ2/techs.ruleset:228
-#: data/default/techs.ruleset:239 data/experimental/techs.ruleset:260
+#: data/default/techs.ruleset:239 data/experimental/techs.ruleset:241
 #: data/multiplayer/techs.ruleset:239
 msgid "Electricity"
 msgstr "电力学"
 
 #: data/civ1/techs.ruleset:211 data/civ2/techs.ruleset:237
-#: data/default/techs.ruleset:248 data/experimental/techs.ruleset:270
+#: data/default/techs.ruleset:248 data/experimental/techs.ruleset:250
 #: data/multiplayer/techs.ruleset:248
 msgid "Electronics"
 msgstr "电子学"
 
 #: data/civ1/techs.ruleset:219 data/civ2/techs.ruleset:245
-#: data/default/techs.ruleset:256 data/experimental/techs.ruleset:279
+#: data/default/techs.ruleset:256 data/experimental/techs.ruleset:258
 #: data/multiplayer/techs.ruleset:256
 msgid "Engineering"
 msgstr "工程学"
 
 #: data/civ1/techs.ruleset:227 data/civ2/techs.ruleset:269
-#: data/default/techs.ruleset:280 data/experimental/techs.ruleset:306
+#: data/default/techs.ruleset:280 data/experimental/techs.ruleset:282
 #: data/multiplayer/techs.ruleset:282
 msgid "Explosives"
 msgstr "炸药"
 
 #: data/civ1/techs.ruleset:235 data/civ2/techs.ruleset:277
-#: data/default/techs.ruleset:288 data/experimental/techs.ruleset:315
+#: data/default/techs.ruleset:288 data/experimental/techs.ruleset:290
 #: data/multiplayer/techs.ruleset:290
 msgid "Feudalism"
 msgstr "封建制度"
 
 #: data/civ1/techs.ruleset:243 data/civ2/techs.ruleset:285
-#: data/default/techs.ruleset:296 data/experimental/techs.ruleset:324
+#: data/default/techs.ruleset:296 data/experimental/techs.ruleset:298
 #: data/multiplayer/techs.ruleset:298
 msgid "Flight"
 msgstr "航空技术"
@@ -14684,168 +14681,168 @@ msgstr "航空技术"
 #: data/civ1/techs.ruleset:249 data/civ1/techs.ruleset:459
 #: data/civ2/techs.ruleset:291 data/civ2/techs.ruleset:585
 #: data/default/techs.ruleset:302 data/default/techs.ruleset:589
-#: data/experimental/techs.ruleset:331 data/experimental/techs.ruleset:650
+#: data/experimental/techs.ruleset:304 data/experimental/techs.ruleset:591
 msgid "Decreases one-time revenue from new trade routes."
 msgstr ""
 
 #: data/civ1/techs.ruleset:252 data/civ2/techs.ruleset:302
-#: data/default/techs.ruleset:305 data/experimental/techs.ruleset:334
+#: data/default/techs.ruleset:305 data/experimental/techs.ruleset:307
 #: data/multiplayer/techs.ruleset:314
 msgid "Fusion Power"
 msgstr "聚变技术"
 
 #: data/civ1/techs.ruleset:260 data/civ2/techs.ruleset:310
-#: data/default/techs.ruleset:313 data/experimental/techs.ruleset:343
+#: data/default/techs.ruleset:313 data/experimental/techs.ruleset:315
 #: data/multiplayer/techs.ruleset:322
 msgid "Genetic Engineering"
 msgstr "遗传工程"
 
 #: data/civ1/techs.ruleset:268 data/civ2/techs.ruleset:326
-#: data/default/techs.ruleset:329 data/experimental/techs.ruleset:361
+#: data/default/techs.ruleset:329 data/experimental/techs.ruleset:331
 #: data/multiplayer/techs.ruleset:338
 msgid "Gunpowder"
 msgstr "火药"
 
 #: data/civ1/techs.ruleset:276 data/civ2/techs.ruleset:334
-#: data/default/techs.ruleset:337 data/experimental/techs.ruleset:370
+#: data/default/techs.ruleset:337 data/experimental/techs.ruleset:339
 #: data/multiplayer/techs.ruleset:346
 msgid "Horseback Riding"
 msgstr "骑术"
 
 #: data/civ1/techs.ruleset:284 data/civ2/techs.ruleset:342
-#: data/default/techs.ruleset:345 data/experimental/techs.ruleset:378
+#: data/default/techs.ruleset:345 data/experimental/techs.ruleset:347
 #: data/multiplayer/techs.ruleset:354
 msgid "Industrialization"
 msgstr "工业化"
 
 #: data/civ1/techs.ruleset:292 data/civ2/techs.ruleset:350
-#: data/default/techs.ruleset:353 data/experimental/techs.ruleset:387
+#: data/default/techs.ruleset:353 data/experimental/techs.ruleset:355
 #: data/multiplayer/techs.ruleset:362
 msgid "Invention"
 msgstr "发明创造"
 
 #: data/civ1/techs.ruleset:300 data/civ2/techs.ruleset:358
-#: data/default/techs.ruleset:362 data/experimental/techs.ruleset:397
+#: data/default/techs.ruleset:362 data/experimental/techs.ruleset:364
 #: data/multiplayer/techs.ruleset:371
 msgid "Iron Working"
 msgstr "铁器制造"
 
 #: data/civ1/techs.ruleset:308 data/civ2/techs.ruleset:366
-#: data/default/techs.ruleset:370 data/experimental/techs.ruleset:406
+#: data/default/techs.ruleset:370 data/experimental/techs.ruleset:372
 #: data/multiplayer/techs.ruleset:379
 msgid "Labor Union"
 msgstr "劳工联盟"
 
 #: data/civ1/techs.ruleset:316 data/civ2/techs.ruleset:390
-#: data/default/techs.ruleset:394 data/experimental/techs.ruleset:433
+#: data/default/techs.ruleset:394 data/experimental/techs.ruleset:396
 #: data/multiplayer/techs.ruleset:403 server/report.c:161
 msgid "Literacy"
 msgstr "文学"
 
 #: data/civ1/techs.ruleset:324 data/civ2/techs.ruleset:406
-#: data/default/techs.ruleset:410 data/experimental/techs.ruleset:451
+#: data/default/techs.ruleset:410 data/experimental/techs.ruleset:412
 #: data/multiplayer/techs.ruleset:419
 msgid "Magnetism"
 msgstr "磁学"
 
 #: data/civ1/techs.ruleset:332 data/civ2/techs.ruleset:414
-#: data/default/techs.ruleset:418 data/experimental/techs.ruleset:460
+#: data/default/techs.ruleset:418 data/experimental/techs.ruleset:420
 #: data/multiplayer/techs.ruleset:427
 msgid "Map Making"
 msgstr "地图制造"
 
 #: data/civ1/techs.ruleset:340 data/civ2/techs.ruleset:422
-#: data/default/techs.ruleset:426 data/experimental/techs.ruleset:469
+#: data/default/techs.ruleset:426 data/experimental/techs.ruleset:428
 #: data/multiplayer/techs.ruleset:435
 msgid "Masonry"
 msgstr "砖石建筑"
 
 #: data/civ1/techs.ruleset:348 data/civ2/techs.ruleset:430
-#: data/default/techs.ruleset:434 data/experimental/techs.ruleset:477
+#: data/default/techs.ruleset:434 data/experimental/techs.ruleset:436
 #: data/multiplayer/techs.ruleset:443
 msgid "Mass Production"
 msgstr "大规模生产"
 
 #: data/civ1/techs.ruleset:356 data/civ2/techs.ruleset:438
-#: data/default/techs.ruleset:442 data/experimental/techs.ruleset:486
+#: data/default/techs.ruleset:442 data/experimental/techs.ruleset:444
 #: data/multiplayer/techs.ruleset:451
 msgid "Mathematics"
 msgstr "数学"
 
 #: data/civ1/techs.ruleset:364 data/civ2/techs.ruleset:446
-#: data/default/techs.ruleset:450 data/experimental/techs.ruleset:495
+#: data/default/techs.ruleset:450 data/experimental/techs.ruleset:452
 #: data/multiplayer/techs.ruleset:459
 msgid "Medicine"
 msgstr "医学"
 
 #: data/civ1/techs.ruleset:372 data/civ2/techs.ruleset:454
-#: data/default/techs.ruleset:458 data/experimental/techs.ruleset:504
+#: data/default/techs.ruleset:458 data/experimental/techs.ruleset:460
 #: data/multiplayer/techs.ruleset:467
 msgid "Metallurgy"
 msgstr "冶金"
 
 #: data/civ1/techs.ruleset:388 data/civ2/techs.ruleset:494
-#: data/default/techs.ruleset:498 data/experimental/techs.ruleset:549
+#: data/default/techs.ruleset:498 data/experimental/techs.ruleset:500
 #: data/multiplayer/techs.ruleset:507
 msgid "Mysticism"
 msgstr "神秘主义"
 
 #: data/civ1/techs.ruleset:394 data/civ2/techs.ruleset:500
-#: data/default/techs.ruleset:504 data/experimental/techs.ruleset:556
+#: data/default/techs.ruleset:504 data/experimental/techs.ruleset:506
 #: data/multiplayer/techs.ruleset:513
 msgid "Improves the effect of Temples."
 msgstr "增强庙宇的效果。"
 
 #: data/civ1/techs.ruleset:397 data/civ2/techs.ruleset:503
-#: data/default/techs.ruleset:507 data/experimental/techs.ruleset:559
+#: data/default/techs.ruleset:507 data/experimental/techs.ruleset:509
 #: data/multiplayer/techs.ruleset:516
 msgid "Navigation"
 msgstr "航海术"
 
 #: data/civ1/techs.ruleset:405 data/civ2/techs.ruleset:511
-#: data/default/techs.ruleset:515 data/experimental/techs.ruleset:568
+#: data/default/techs.ruleset:515 data/experimental/techs.ruleset:517
 #: data/multiplayer/techs.ruleset:524
 msgid "Nuclear Fission"
 msgstr "核裂变"
 
 #: data/civ1/techs.ruleset:413 data/civ2/techs.ruleset:519
-#: data/default/techs.ruleset:523 data/experimental/techs.ruleset:577
+#: data/default/techs.ruleset:523 data/experimental/techs.ruleset:525
 #: data/multiplayer/techs.ruleset:532
 msgid "Nuclear Power"
 msgstr "核能"
 
 #: data/civ1/techs.ruleset:421 data/civ2/techs.ruleset:528
-#: data/default/techs.ruleset:532 data/experimental/techs.ruleset:587
+#: data/default/techs.ruleset:532 data/experimental/techs.ruleset:534
 #: data/multiplayer/techs.ruleset:541
 msgid "Philosophy"
 msgstr "哲学"
 
 #: data/civ1/techs.ruleset:429 data/civ2/techs.ruleset:538
-#: data/default/techs.ruleset:542 data/experimental/techs.ruleset:598
+#: data/default/techs.ruleset:542 data/experimental/techs.ruleset:544
 #: data/multiplayer/techs.ruleset:551
 msgid "Physics"
 msgstr "物理"
 
 #: data/civ1/techs.ruleset:437 data/civ2/techs.ruleset:546
-#: data/default/techs.ruleset:550 data/experimental/techs.ruleset:607
+#: data/default/techs.ruleset:550 data/experimental/techs.ruleset:552
 #: data/multiplayer/techs.ruleset:559
 msgid "Plastics"
 msgstr "塑料"
 
 #: data/civ1/techs.ruleset:445 data/civ2/techs.ruleset:562
-#: data/default/techs.ruleset:566 data/experimental/techs.ruleset:625
+#: data/default/techs.ruleset:566 data/experimental/techs.ruleset:568
 #: data/multiplayer/techs.ruleset:575
 msgid "Pottery"
 msgstr "陶器制造"
 
 #: data/civ1/techs.ruleset:462 data/civ2/techs.ruleset:588
-#: data/default/techs.ruleset:592 data/experimental/techs.ruleset:653
+#: data/default/techs.ruleset:592 data/experimental/techs.ruleset:594
 #: data/multiplayer/techs.ruleset:600
 msgid "Recycling"
 msgstr "回收利用"
 
 #: data/civ1/techs.ruleset:470 data/civ2/techs.ruleset:596
-#: data/default/techs.ruleset:600 data/experimental/techs.ruleset:662
+#: data/default/techs.ruleset:600 data/experimental/techs.ruleset:602
 #: data/multiplayer/techs.ruleset:608
 msgid "Refining"
 msgstr "炼制技术"
@@ -14855,67 +14852,67 @@ msgid "Religion"
 msgstr "宗教"
 
 #: data/civ1/techs.ruleset:486 data/civ2/techs.ruleset:612
-#: data/default/techs.ruleset:616 data/experimental/techs.ruleset:680
+#: data/default/techs.ruleset:616 data/experimental/techs.ruleset:618
 #: data/multiplayer/techs.ruleset:624
 msgid "Robotics"
 msgstr "机器人"
 
 #: data/civ1/techs.ruleset:494 data/civ2/techs.ruleset:620
-#: data/default/techs.ruleset:624 data/experimental/techs.ruleset:689
+#: data/default/techs.ruleset:624 data/experimental/techs.ruleset:626
 #: data/multiplayer/techs.ruleset:632
 msgid "Rocketry"
 msgstr "火箭技术"
 
 #: data/civ1/techs.ruleset:502 data/civ2/techs.ruleset:644
-#: data/default/techs.ruleset:648 data/experimental/techs.ruleset:716
+#: data/default/techs.ruleset:648 data/experimental/techs.ruleset:650
 #: data/multiplayer/techs.ruleset:656
 msgid "Space Flight"
 msgstr "航天技术"
 
 #: data/civ1/techs.ruleset:510 data/civ2/techs.ruleset:660
-#: data/default/techs.ruleset:664 data/experimental/techs.ruleset:734
+#: data/default/techs.ruleset:664 data/experimental/techs.ruleset:666
 #: data/multiplayer/techs.ruleset:672
 msgid "Steam Engine"
 msgstr "蒸汽机"
 
 #: data/civ1/techs.ruleset:518 data/civ2/techs.ruleset:668
-#: data/default/techs.ruleset:672 data/experimental/techs.ruleset:743
+#: data/default/techs.ruleset:672 data/experimental/techs.ruleset:674
 #: data/multiplayer/techs.ruleset:680
 msgid "Steel"
 msgstr "钢铁"
 
 #: data/civ1/techs.ruleset:526 data/civ2/techs.ruleset:676
-#: data/default/techs.ruleset:680 data/experimental/techs.ruleset:752
+#: data/default/techs.ruleset:680 data/experimental/techs.ruleset:682
 #: data/multiplayer/techs.ruleset:688
 msgid "Superconductors"
 msgstr "超导技术"
 
 #: data/civ1/techs.ruleset:534 data/civ2/techs.ruleset:692
-#: data/default/techs.ruleset:696 data/experimental/techs.ruleset:770
+#: data/default/techs.ruleset:696 data/experimental/techs.ruleset:698
 #: data/multiplayer/techs.ruleset:704
 msgid "The Corporation"
 msgstr "公司"
 
 #: data/civ1/techs.ruleset:542 data/civ2/techs.ruleset:700
-#: data/default/techs.ruleset:704 data/experimental/techs.ruleset:779
+#: data/default/techs.ruleset:704 data/experimental/techs.ruleset:706
 #: data/multiplayer/techs.ruleset:712
 msgid "The Republic"
 msgstr "共和制"
 
 #: data/civ1/techs.ruleset:550 data/civ2/techs.ruleset:708
-#: data/default/techs.ruleset:712 data/experimental/techs.ruleset:788
+#: data/default/techs.ruleset:712 data/experimental/techs.ruleset:714
 #: data/multiplayer/techs.ruleset:720
 msgid "The Wheel"
 msgstr "制轮术"
 
 #: data/civ1/techs.ruleset:558 data/civ2/techs.ruleset:725
-#: data/default/techs.ruleset:729 data/experimental/techs.ruleset:807
+#: data/default/techs.ruleset:729 data/experimental/techs.ruleset:731
 #: data/multiplayer/techs.ruleset:737
 msgid "Theory of Gravity"
 msgstr "重力理论"
 
 #: data/civ1/techs.ruleset:582 data/civ2/techs.ruleset:757
-#: data/default/techs.ruleset:761 data/experimental/techs.ruleset:842
+#: data/default/techs.ruleset:761 data/experimental/techs.ruleset:763
 #: data/multiplayer/techs.ruleset:769
 msgid "Writing"
 msgstr "书写"
@@ -14927,197 +14924,190 @@ msgid "Ocean"
 msgstr "海洋"
 
 #: data/civ1/terrain.ruleset:216 data/civ2/terrain.ruleset:224
-#, fuzzy
-msgid ""
-"Oceans cover much of the world, and only sea units (Triremes and other "
-"boats) can travel on them."
+msgid "Oceans cover much of the world."
 msgstr ""
-"海洋覆盖了大部分世界，而且只有海上部队(三层桨座帆船和其它船只)才能在其中航"
-"行。\n"
-"\n"
-"海洋方格从不会被污染或辐射。"
 
-#: data/civ1/terrain.ruleset:222
+#: data/civ1/terrain.ruleset:221
 msgid "Arctic"
 msgstr "极地"
 
-#: data/civ1/terrain.ruleset:252
+#: data/civ1/terrain.ruleset:251
 #, fuzzy
 msgid ""
 "Arctic tiles are found only in the most northerly or southerly reaches of "
 "the world.  They are very cold, and hence difficult to work with."
 msgstr "极地方格是世界最北端或最南端的地点。它们非常寒冷，因此很难从事工作。"
 
-#: data/civ1/terrain.ruleset:259 data/civ2/terrain.ruleset:267
-#: data/default/terrain.ruleset:355 data/experimental/terrain.ruleset:357
-#: data/multiplayer/terrain.ruleset:355
+#: data/civ1/terrain.ruleset:258 data/civ2/terrain.ruleset:266
+#: data/default/terrain.ruleset:354 data/experimental/terrain.ruleset:356
+#: data/multiplayer/terrain.ruleset:354
 msgid "Desert"
 msgstr "沙漠"
 
-#: data/civ1/terrain.ruleset:290 data/civ2/terrain.ruleset:299
-#: data/default/terrain.ruleset:390 data/experimental/terrain.ruleset:392
-#: data/multiplayer/terrain.ruleset:390
+#: data/civ1/terrain.ruleset:289 data/civ2/terrain.ruleset:298
+#: data/default/terrain.ruleset:389 data/experimental/terrain.ruleset:391
+#: data/multiplayer/terrain.ruleset:389
 msgid ""
 "Deserts are regions of extreme dryness, making agriculture and trade very "
 "difficult."
 msgstr "沙漠是极度干燥的地区，这使得农业和贸易活动变得非常困难。"
 
-#: data/civ1/terrain.ruleset:296 data/civ2/terrain.ruleset:305
-#: data/default/terrain.ruleset:396 data/experimental/terrain.ruleset:398
-#: data/multiplayer/terrain.ruleset:396
+#: data/civ1/terrain.ruleset:295 data/civ2/terrain.ruleset:304
+#: data/default/terrain.ruleset:395 data/experimental/terrain.ruleset:397
+#: data/multiplayer/terrain.ruleset:395
 msgid "Forest"
 msgstr "森林"
 
-#: data/civ1/terrain.ruleset:329 data/civ2/terrain.ruleset:338
-#: data/default/terrain.ruleset:432 data/experimental/terrain.ruleset:434
-#: data/multiplayer/terrain.ruleset:432
+#: data/civ1/terrain.ruleset:328 data/civ2/terrain.ruleset:337
+#: data/default/terrain.ruleset:431 data/experimental/terrain.ruleset:433
+#: data/multiplayer/terrain.ruleset:431
 msgid "Forests are densely wooded, making agriculture somewhat problematic."
 msgstr "森林是茂密的林木，这给农业活动带来一些问题。"
 
-#: data/civ1/terrain.ruleset:335 data/civ2/terrain.ruleset:344
-#: data/default/terrain.ruleset:438 data/experimental/terrain.ruleset:440
-#: data/multiplayer/terrain.ruleset:438
+#: data/civ1/terrain.ruleset:334 data/civ2/terrain.ruleset:343
+#: data/default/terrain.ruleset:437 data/experimental/terrain.ruleset:439
+#: data/multiplayer/terrain.ruleset:437
 msgid "Grassland"
 msgstr "草地"
 
-#: data/civ1/terrain.ruleset:366 data/civ2/terrain.ruleset:375
-#: data/default/terrain.ruleset:472 data/experimental/terrain.ruleset:474
-#: data/multiplayer/terrain.ruleset:472
+#: data/civ1/terrain.ruleset:365 data/civ2/terrain.ruleset:374
+#: data/default/terrain.ruleset:471 data/experimental/terrain.ruleset:473
+#: data/multiplayer/terrain.ruleset:471
 msgid "Grasslands afford exceptional agricultural opportunities."
 msgstr "草地提供很好的农业机会。"
 
-#: data/civ1/terrain.ruleset:371 data/civ2/terrain.ruleset:380
-#: data/default/terrain.ruleset:477 data/experimental/terrain.ruleset:479
-#: data/multiplayer/terrain.ruleset:477
+#: data/civ1/terrain.ruleset:370 data/civ2/terrain.ruleset:379
+#: data/default/terrain.ruleset:476 data/experimental/terrain.ruleset:478
+#: data/multiplayer/terrain.ruleset:476
 msgid "Hills"
 msgstr "丘陵"
 
-#: data/civ1/terrain.ruleset:402 data/civ2/terrain.ruleset:411
-#: data/default/terrain.ruleset:511 data/experimental/terrain.ruleset:513
-#: data/multiplayer/terrain.ruleset:511
+#: data/civ1/terrain.ruleset:401 data/civ2/terrain.ruleset:410
+#: data/default/terrain.ruleset:510 data/experimental/terrain.ruleset:512
+#: data/multiplayer/terrain.ruleset:510
 msgid ""
 "In addition to being amenable to agriculture, Hills are frequently rich in "
 "resources."
 msgstr "除了适于农业以外，丘陵往往富含物资。"
 
-#: data/civ1/terrain.ruleset:408 data/civ2/terrain.ruleset:417
-#: data/default/terrain.ruleset:517 data/experimental/terrain.ruleset:519
-#: data/multiplayer/terrain.ruleset:517
+#: data/civ1/terrain.ruleset:407 data/civ2/terrain.ruleset:416
+#: data/default/terrain.ruleset:516 data/experimental/terrain.ruleset:518
+#: data/multiplayer/terrain.ruleset:516
 msgid "Jungle"
 msgstr "丛林"
 
-#: data/civ1/terrain.ruleset:438 data/civ2/terrain.ruleset:449
-#: data/default/terrain.ruleset:552 data/experimental/terrain.ruleset:554
-#: data/multiplayer/terrain.ruleset:552
+#: data/civ1/terrain.ruleset:437 data/civ2/terrain.ruleset:448
+#: data/default/terrain.ruleset:551 data/experimental/terrain.ruleset:553
+#: data/multiplayer/terrain.ruleset:551
 msgid "Jungles are densely overgrown, making agriculture somewhat problematic."
 msgstr "丛林是浓密的植物，这给农业带来了一些问题。"
 
-#: data/civ1/terrain.ruleset:444 data/civ2/terrain.ruleset:455
-#: data/default/terrain.ruleset:558 data/experimental/terrain.ruleset:560
-#: data/multiplayer/terrain.ruleset:558
+#: data/civ1/terrain.ruleset:443 data/civ2/terrain.ruleset:454
+#: data/default/terrain.ruleset:557 data/experimental/terrain.ruleset:559
+#: data/multiplayer/terrain.ruleset:557
 msgid "Mountains"
 msgstr "山脉"
 
-#: data/civ1/terrain.ruleset:473 data/civ2/terrain.ruleset:485
-#: data/default/terrain.ruleset:591 data/experimental/terrain.ruleset:593
-#: data/multiplayer/terrain.ruleset:591
+#: data/civ1/terrain.ruleset:472 data/civ2/terrain.ruleset:484
+#: data/default/terrain.ruleset:590 data/experimental/terrain.ruleset:592
+#: data/multiplayer/terrain.ruleset:590
 msgid ""
 "Mountains are regions of extreme altitude, making agriculture and trade very "
 "difficult."
 msgstr "山脉是海拔很高的地区，这使得农业和贸易活动很困难。"
 
-#: data/civ1/terrain.ruleset:479 data/civ2/terrain.ruleset:491
-#: data/default/terrain.ruleset:597 data/experimental/terrain.ruleset:599
-#: data/multiplayer/terrain.ruleset:597
+#: data/civ1/terrain.ruleset:478 data/civ2/terrain.ruleset:490
+#: data/default/terrain.ruleset:596 data/experimental/terrain.ruleset:598
+#: data/multiplayer/terrain.ruleset:596
 msgid "Plains"
 msgstr "平原"
 
-#: data/civ1/terrain.ruleset:510 data/civ2/terrain.ruleset:523
-#: data/default/terrain.ruleset:631 data/experimental/terrain.ruleset:633
-#: data/multiplayer/terrain.ruleset:631
+#: data/civ1/terrain.ruleset:509 data/civ2/terrain.ruleset:522
+#: data/default/terrain.ruleset:630 data/experimental/terrain.ruleset:632
+#: data/multiplayer/terrain.ruleset:630
 msgid ""
 "Plains are very broad, sparse regions, which makes trade slightly "
 "inconvenient."
 msgstr "平原是十分宽敞、空旷的区域，这给贸易带来了一点不便。"
 
-#: data/civ1/terrain.ruleset:516 data/civ2/terrain.ruleset:529
-#: data/default/terrain.ruleset:637 data/experimental/terrain.ruleset:639
-#: data/multiplayer/terrain.ruleset:637
+#: data/civ1/terrain.ruleset:515 data/civ2/terrain.ruleset:528
+#: data/default/terrain.ruleset:636 data/experimental/terrain.ruleset:638
+#: data/multiplayer/terrain.ruleset:636
 msgid "Swamp"
 msgstr "沼泽"
 
-#: data/civ1/terrain.ruleset:548 data/civ2/terrain.ruleset:562
-#: data/default/terrain.ruleset:673 data/experimental/terrain.ruleset:675
-#: data/multiplayer/terrain.ruleset:673
+#: data/civ1/terrain.ruleset:547 data/civ2/terrain.ruleset:561
+#: data/default/terrain.ruleset:672 data/experimental/terrain.ruleset:674
+#: data/multiplayer/terrain.ruleset:672
 msgid ""
 "Swamps suffer from an over-abundance of water, making agriculture somewhat "
 "problematic."
 msgstr "沼泽含有过多的水份，这给农业带来了一些问题。"
 
-#: data/civ1/terrain.ruleset:554 data/civ2/terrain.ruleset:568
-#: data/default/terrain.ruleset:679 data/experimental/terrain.ruleset:681
-#: data/multiplayer/terrain.ruleset:679
+#: data/civ1/terrain.ruleset:553 data/civ2/terrain.ruleset:567
+#: data/default/terrain.ruleset:678 data/experimental/terrain.ruleset:680
+#: data/multiplayer/terrain.ruleset:678
 msgid "Tundra"
 msgstr "苔原"
 
-#: data/civ1/terrain.ruleset:584 data/civ2/terrain.ruleset:598
-#: data/default/terrain.ruleset:712 data/experimental/terrain.ruleset:714
-#: data/multiplayer/terrain.ruleset:712
+#: data/civ1/terrain.ruleset:583 data/civ2/terrain.ruleset:597
+#: data/default/terrain.ruleset:711 data/experimental/terrain.ruleset:713
+#: data/multiplayer/terrain.ruleset:711
 msgid ""
 "Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr "苔原是广阔，寒冷的地区，仅仅适合一些农业。"
 
-#: data/civ1/terrain.ruleset:617 data/civ2/terrain.ruleset:639
-#: data/default/terrain.ruleset:753 data/experimental/terrain.ruleset:755
-#: data/multiplayer/terrain.ruleset:753
+#: data/civ1/terrain.ruleset:616 data/civ2/terrain.ruleset:638
+#: data/default/terrain.ruleset:752 data/experimental/terrain.ruleset:754
+#: data/multiplayer/terrain.ruleset:752
 msgid "?animals:Game"
 msgstr "猎物"
 
-#: data/civ1/terrain.ruleset:625 data/civ2/terrain.ruleset:657
-#: data/default/terrain.ruleset:771 data/experimental/terrain.ruleset:773
-#: data/multiplayer/terrain.ruleset:771
+#: data/civ1/terrain.ruleset:624 data/civ2/terrain.ruleset:656
+#: data/default/terrain.ruleset:770 data/experimental/terrain.ruleset:772
+#: data/multiplayer/terrain.ruleset:770
 msgid "Coal"
 msgstr "煤炭"
 
-#: data/civ1/terrain.ruleset:633 data/civ2/terrain.ruleset:669
-#: data/default/terrain.ruleset:779 data/experimental/terrain.ruleset:781
-#: data/multiplayer/terrain.ruleset:779
+#: data/civ1/terrain.ruleset:632 data/civ2/terrain.ruleset:668
+#: data/default/terrain.ruleset:778 data/experimental/terrain.ruleset:780
+#: data/multiplayer/terrain.ruleset:778
 msgid "Fish"
 msgstr "鱼"
 
-#: data/civ1/terrain.ruleset:641 data/civ2/terrain.ruleset:686
-#: data/default/terrain.ruleset:796 data/experimental/terrain.ruleset:798
-#: data/multiplayer/terrain.ruleset:796
+#: data/civ1/terrain.ruleset:640 data/civ2/terrain.ruleset:685
+#: data/default/terrain.ruleset:795 data/experimental/terrain.ruleset:797
+#: data/multiplayer/terrain.ruleset:795
 msgid "Gems"
 msgstr "宝石"
 
-#: data/civ1/terrain.ruleset:649
+#: data/civ1/terrain.ruleset:648
 msgid "Horses"
 msgstr "骑兵"
 
-#: data/civ1/terrain.ruleset:657 data/civ2/terrain.ruleset:710
-#: data/default/terrain.ruleset:828 data/experimental/terrain.ruleset:830
-#: data/multiplayer/terrain.ruleset:828
+#: data/civ1/terrain.ruleset:656 data/civ2/terrain.ruleset:709
+#: data/default/terrain.ruleset:827 data/experimental/terrain.ruleset:829
+#: data/multiplayer/terrain.ruleset:827
 msgid "Oasis"
 msgstr "绿洲"
 
-#: data/civ1/terrain.ruleset:665 data/civ2/terrain.ruleset:786
-#: data/civ2/terrain.ruleset:794 data/default/terrain.ruleset:908
-#: data/experimental/terrain.ruleset:910 data/multiplayer/terrain.ruleset:908
+#: data/civ1/terrain.ruleset:664 data/civ2/terrain.ruleset:785
+#: data/civ2/terrain.ruleset:793 data/default/terrain.ruleset:907
+#: data/experimental/terrain.ruleset:909 data/multiplayer/terrain.ruleset:907
 msgid "Oil"
 msgstr "油田"
 
-#: data/civ1/terrain.ruleset:673 data/civ2/terrain.ruleset:734
-#: data/default/terrain.ruleset:854 data/experimental/terrain.ruleset:856
-#: data/multiplayer/terrain.ruleset:854 manual/civmanual.c:278
+#: data/civ1/terrain.ruleset:672 data/civ2/terrain.ruleset:733
+#: data/default/terrain.ruleset:853 data/experimental/terrain.ruleset:855
+#: data/multiplayer/terrain.ruleset:853 manual/civmanual.c:278
 msgid "Resources"
 msgstr "矿产"
 
-#: data/civ1/terrain.ruleset:681
+#: data/civ1/terrain.ruleset:680
 msgid "Seals"
 msgstr "海豹"
 
-#: data/civ1/terrain.ruleset:745
+#: data/civ1/terrain.ruleset:744
 msgid "Fortresses improve defense for land units."
 msgstr ""
 
@@ -16188,11 +16178,11 @@ msgstr ""
 "发现将增加大教堂的效果，使另外一个忧郁市民满足。共产主义的发现将减弱大教堂的"
 "效果，把忧郁市民变得满足的数目将被减1。"
 
-#: data/civ2/buildings.ruleset:1398
+#: data/civ2/buildings.ruleset:1397
 msgid "Counts as having a Granary in every city."
 msgstr "相当于每个城市有一个谷仓。"
 
-#: data/civ2/buildings.ruleset:1418
+#: data/civ2/buildings.ruleset:1417
 #, no-c-format
 msgid ""
 "Boosts science production in each city with a Library by 50%.  (Counts as "
@@ -16201,19 +16191,19 @@ msgstr ""
 "使每个拥有图书馆的城市的科研产出增加50%。（相当于您的所有城市都有一座研究实验"
 "室。）"
 
-#: data/civ2/buildings.ruleset:1445 data/default/buildings.ruleset:1514
+#: data/civ2/buildings.ruleset:1444 data/default/buildings.ruleset:1514
 #: data/experimental/buildings.ruleset:1571
 #: data/multiplayer/buildings.ruleset:1490
 msgid "Statue of Liberty"
 msgstr "自由女神像"
 
-#: data/civ2/buildings.ruleset:1466 data/default/buildings.ruleset:1535
+#: data/civ2/buildings.ruleset:1465 data/default/buildings.ruleset:1535
 #: data/experimental/buildings.ruleset:1592
 #: data/multiplayer/buildings.ruleset:1511
 msgid "Sun Tzu's War Academy"
 msgstr "孙子战争学院"
 
-#: data/civ2/buildings.ruleset:1481
+#: data/civ2/buildings.ruleset:1480
 #, fuzzy, no-c-format
 msgid ""
 "All your new military land units become veterans (for all cities).  The "
@@ -16223,12 +16213,12 @@ msgstr ""
 "您所有的新建的地面部队将是老练的（对所有城市）。一个部队在战斗之后变成老练的"
 "的机会从50%增加到100%。"
 
-#: data/civ2/buildings.ruleset:1502 data/default/buildings.ruleset:1570
+#: data/civ2/buildings.ruleset:1501 data/default/buildings.ruleset:1570
 #: data/experimental/buildings.ruleset:1627
 msgid "All your units regain two extra hitpoints per turn."
 msgstr "所有部队每回合额外恢复2点生命值。"
 
-#: data/civ2/buildings.ruleset:1529 data/default/buildings.ruleset:1597
+#: data/civ2/buildings.ruleset:1528 data/default/buildings.ruleset:1597
 #: data/experimental/buildings.ruleset:1654
 #, fuzzy
 msgid ""
@@ -16241,11 +16231,11 @@ msgstr ""
 "相当于每个城市都有一座警察局。（也就是，对每个城市来说，在民主制下将城市外面"
 "的军事部队引起的忧郁减少2，共和制下减少1。此奇迹在其它政府类型下没有作用。）"
 
-#: data/civ2/buildings.ruleset:1539
+#: data/civ2/buildings.ruleset:1538
 msgid "Capitalization"
 msgstr "资本化"
 
-#: data/civ2/buildings.ruleset:1552
+#: data/civ2/buildings.ruleset:1551
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Capitalization means its shield production is converted to tax output "
@@ -16696,7 +16686,7 @@ msgid "?female:%s Jarl"
 msgstr "红衣主教"
 
 #: data/civ2/nations.ruleset:1951 data/nation/barbarian.ruleset:3
-#: server/stdinhand.c:3454 server/stdinhand.c:6223
+#: server/stdinhand.c:3454 server/stdinhand.c:6226
 msgid "Barbarian"
 msgstr "野人"
 
@@ -16729,17 +16719,17 @@ msgid ""
 msgstr ""
 
 #: data/civ2/techs.ruleset:66 data/default/techs.ruleset:77
-#: data/experimental/techs.ruleset:80 data/multiplayer/techs.ruleset:77
+#: data/experimental/techs.ruleset:79 data/multiplayer/techs.ruleset:77
 msgid "Amphibious Warfare"
 msgstr "两栖作战"
 
 #: data/civ2/techs.ruleset:154 data/default/techs.ruleset:165
-#: data/experimental/techs.ruleset:177 data/multiplayer/techs.ruleset:165
+#: data/experimental/techs.ruleset:167 data/multiplayer/techs.ruleset:165
 msgid "Combined Arms"
 msgstr "联合作战"
 
 #: data/civ2/techs.ruleset:176 data/default/techs.ruleset:187
-#: data/experimental/techs.ruleset:202 data/multiplayer/techs.ruleset:187
+#: data/experimental/techs.ruleset:189 data/multiplayer/techs.ruleset:187
 msgid "Reduces the effect of Cathedrals."
 msgstr "减弱大教堂的效果。"
 
@@ -16749,80 +16739,80 @@ msgid "Allows Settlers and Engineers to build fortresses."
 msgstr "* 使 %s 能够建筑要塞。\n"
 
 #: data/civ2/techs.ruleset:220 data/default/techs.ruleset:231
-#: data/experimental/techs.ruleset:251 data/multiplayer/techs.ruleset:231
+#: data/experimental/techs.ruleset:233 data/multiplayer/techs.ruleset:231
 #: server/report.c:163
 msgid "Economics"
 msgstr "经济学"
 
 #: data/civ2/techs.ruleset:234 data/default/techs.ruleset:245
-#: data/experimental/techs.ruleset:267
+#: data/experimental/techs.ruleset:247
 msgid "Improves the effect of Colosseums."
 msgstr "增强圆形大剧场的效果。"
 
 #: data/civ2/techs.ruleset:253 data/default/techs.ruleset:264
-#: data/experimental/techs.ruleset:288 data/multiplayer/techs.ruleset:264
+#: data/experimental/techs.ruleset:266 data/multiplayer/techs.ruleset:264
 msgid "Environmentalism"
 msgstr "环境保护"
 
 #: data/civ2/techs.ruleset:261 data/default/techs.ruleset:272
-#: data/experimental/techs.ruleset:297 data/multiplayer/techs.ruleset:274
+#: data/experimental/techs.ruleset:274 data/multiplayer/techs.ruleset:274
 msgid "Espionage"
 msgstr "侦探"
 
 #: data/civ2/techs.ruleset:318 data/default/techs.ruleset:321
-#: data/experimental/techs.ruleset:352 data/multiplayer/techs.ruleset:330
+#: data/experimental/techs.ruleset:323 data/multiplayer/techs.ruleset:330
 msgid "Guerilla Warfare"
 msgstr "游击战"
 
 #: data/civ2/techs.ruleset:374 data/default/techs.ruleset:378
-#: data/experimental/techs.ruleset:415 data/multiplayer/techs.ruleset:387
+#: data/experimental/techs.ruleset:380 data/multiplayer/techs.ruleset:387
 msgid "Laser"
 msgstr "激光"
 
 #: data/civ2/techs.ruleset:382 data/default/techs.ruleset:386
-#: data/experimental/techs.ruleset:424 data/multiplayer/techs.ruleset:395
+#: data/experimental/techs.ruleset:388 data/multiplayer/techs.ruleset:395
 msgid "Leadership"
 msgstr "领导能力"
 
 #: data/civ2/techs.ruleset:398 data/default/techs.ruleset:402
-#: data/experimental/techs.ruleset:442 data/multiplayer/techs.ruleset:411
+#: data/experimental/techs.ruleset:404 data/multiplayer/techs.ruleset:411
 msgid "Machine Tools"
 msgstr "机器工具"
 
 #: data/civ2/techs.ruleset:462 data/default/techs.ruleset:466
-#: data/experimental/techs.ruleset:513 data/multiplayer/techs.ruleset:475
+#: data/experimental/techs.ruleset:468 data/multiplayer/techs.ruleset:475
 msgid "Miniaturization"
 msgstr "小型化"
 
 #: data/civ2/techs.ruleset:470 data/default/techs.ruleset:474
-#: data/experimental/techs.ruleset:522 data/multiplayer/techs.ruleset:483
+#: data/experimental/techs.ruleset:476 data/multiplayer/techs.ruleset:483
 msgid "Mobile Warfare"
 msgstr "机动作战"
 
 #: data/civ2/techs.ruleset:486 data/default/techs.ruleset:490
-#: data/experimental/techs.ruleset:540 data/multiplayer/techs.ruleset:499
+#: data/experimental/techs.ruleset:492 data/multiplayer/techs.ruleset:499
 msgid "Monotheism"
 msgstr "一神论"
 
 #: data/civ2/techs.ruleset:525 data/default/techs.ruleset:529
-#: data/experimental/techs.ruleset:584 data/multiplayer/techs.ruleset:538
+#: data/experimental/techs.ruleset:531 data/multiplayer/techs.ruleset:538
 msgid "Gives sea units one extra move."
 msgstr "使海洋部队多一点移动力。"
 
 #: data/civ2/techs.ruleset:532 data/default/techs.ruleset:536
-#: data/experimental/techs.ruleset:592
+#: data/experimental/techs.ruleset:538
 msgid ""
 "Great philosophers from all the world join your civilization: you get an "
 "immediate advance."
 msgstr "来自于全世界的哲学家加入了您的文明：您立刻得到了进步。"
 
 #: data/civ2/techs.ruleset:554 data/default/techs.ruleset:558
-#: data/experimental/techs.ruleset:616 data/multiplayer/techs.ruleset:567
+#: data/experimental/techs.ruleset:560 data/multiplayer/techs.ruleset:567
 msgid "Polytheism"
 msgstr "多神论"
 
 #: data/civ2/techs.ruleset:570 data/default/techs.ruleset:574
-#: data/experimental/techs.ruleset:633 data/multiplayer/techs.ruleset:583
+#: data/experimental/techs.ruleset:576 data/multiplayer/techs.ruleset:583
 msgid "Radio"
 msgstr "无线电"
 
@@ -16832,42 +16822,42 @@ msgid "Allows Settlers and Engineers to build airbases."
 msgstr "* 使 %s 能够建筑空军基地。\n"
 
 #: data/civ2/techs.ruleset:604 data/default/techs.ruleset:608
-#: data/experimental/techs.ruleset:671 data/multiplayer/techs.ruleset:616
+#: data/experimental/techs.ruleset:610 data/multiplayer/techs.ruleset:616
 msgid "Refrigeration"
 msgstr "冷藏技术"
 
 #: data/civ2/techs.ruleset:628 data/default/techs.ruleset:632
-#: data/experimental/techs.ruleset:698 data/multiplayer/techs.ruleset:640
+#: data/experimental/techs.ruleset:634 data/multiplayer/techs.ruleset:640
 msgid "Sanitation"
 msgstr "公共卫生"
 
 #: data/civ2/techs.ruleset:636 data/default/techs.ruleset:640
-#: data/experimental/techs.ruleset:707 data/multiplayer/techs.ruleset:648
+#: data/experimental/techs.ruleset:642 data/multiplayer/techs.ruleset:648
 msgid "Seafaring"
 msgstr "海上工作"
 
 #: data/civ2/techs.ruleset:652 data/default/techs.ruleset:656
-#: data/experimental/techs.ruleset:725 data/multiplayer/techs.ruleset:664
+#: data/experimental/techs.ruleset:658 data/multiplayer/techs.ruleset:664
 msgid "Stealth"
 msgstr "隐型技术"
 
 #: data/civ2/techs.ruleset:684 data/default/techs.ruleset:688
-#: data/experimental/techs.ruleset:761 data/multiplayer/techs.ruleset:696
+#: data/experimental/techs.ruleset:690 data/multiplayer/techs.ruleset:696
 msgid "Tactics"
 msgstr "兵法"
 
 #: data/civ2/techs.ruleset:716 data/default/techs.ruleset:720
-#: data/experimental/techs.ruleset:797 data/multiplayer/techs.ruleset:728
+#: data/experimental/techs.ruleset:722 data/multiplayer/techs.ruleset:728
 msgid "Theology"
 msgstr "神学"
 
 #: data/civ2/techs.ruleset:722 data/default/techs.ruleset:726
-#: data/experimental/techs.ruleset:804 data/multiplayer/techs.ruleset:734
+#: data/experimental/techs.ruleset:728 data/multiplayer/techs.ruleset:734
 msgid "Improves the effect of Cathedrals."
 msgstr "增强大教堂的效果。"
 
 #: data/civ2/techs.ruleset:749 data/default/techs.ruleset:753
-#: data/experimental/techs.ruleset:834 data/multiplayer/techs.ruleset:761
+#: data/experimental/techs.ruleset:755 data/multiplayer/techs.ruleset:761
 msgid "Warrior Code"
 msgstr "武士精神"
 
@@ -16894,87 +16884,87 @@ msgid ""
 "has learned Bridge Building technology."
 msgstr ""
 
-#: data/civ2/terrain.ruleset:230 data/default/terrain.ruleset:315
-#: data/experimental/terrain.ruleset:317 data/multiplayer/terrain.ruleset:315
+#: data/civ2/terrain.ruleset:229 data/default/terrain.ruleset:314
+#: data/experimental/terrain.ruleset:316 data/multiplayer/terrain.ruleset:314
 msgid "Glacier"
 msgstr "冰川"
 
-#: data/civ2/terrain.ruleset:260 data/default/terrain.ruleset:348
-#: data/experimental/terrain.ruleset:350 data/multiplayer/terrain.ruleset:348
+#: data/civ2/terrain.ruleset:259 data/default/terrain.ruleset:347
+#: data/experimental/terrain.ruleset:349 data/multiplayer/terrain.ruleset:347
 msgid ""
 "Glaciers are found only in the most northerly or southerly reaches of the "
 "world.  They are very cold, and hence difficult to work with."
 msgstr "冰川仅能在地球的最北端和最南端发现。它们极其寒冷，因而难以在其上工作。"
 
-#: data/civ2/terrain.ruleset:631 data/default/terrain.ruleset:745
-#: data/experimental/terrain.ruleset:747 data/multiplayer/terrain.ruleset:745
+#: data/civ2/terrain.ruleset:630 data/default/terrain.ruleset:744
+#: data/experimental/terrain.ruleset:746 data/multiplayer/terrain.ruleset:744
 msgid "Iron"
 msgstr "铁"
 
-#: data/civ2/terrain.ruleset:648 data/default/terrain.ruleset:762
-#: data/experimental/terrain.ruleset:764 data/multiplayer/terrain.ruleset:762
+#: data/civ2/terrain.ruleset:647 data/default/terrain.ruleset:761
+#: data/experimental/terrain.ruleset:763 data/multiplayer/terrain.ruleset:761
 msgid "Furs"
 msgstr "皮草"
 
-#: data/civ2/terrain.ruleset:677 data/default/terrain.ruleset:787
-#: data/experimental/terrain.ruleset:789 data/multiplayer/terrain.ruleset:787
+#: data/civ2/terrain.ruleset:676 data/default/terrain.ruleset:786
+#: data/experimental/terrain.ruleset:788 data/multiplayer/terrain.ruleset:786
 msgid "Fruit"
 msgstr "水果"
 
-#: data/civ2/terrain.ruleset:694 data/default/terrain.ruleset:806
-#: data/experimental/terrain.ruleset:808 data/multiplayer/terrain.ruleset:806
+#: data/civ2/terrain.ruleset:693 data/default/terrain.ruleset:805
+#: data/experimental/terrain.ruleset:807 data/multiplayer/terrain.ruleset:805
 msgid "Buffalo"
 msgstr "野牛"
 
-#: data/civ2/terrain.ruleset:702 data/default/terrain.ruleset:814
-#: data/experimental/terrain.ruleset:816 data/multiplayer/terrain.ruleset:814
+#: data/civ2/terrain.ruleset:701 data/default/terrain.ruleset:813
+#: data/experimental/terrain.ruleset:815 data/multiplayer/terrain.ruleset:813
 msgid "Wheat"
 msgstr "小麦"
 
-#: data/civ2/terrain.ruleset:718 data/default/terrain.ruleset:836
-#: data/experimental/terrain.ruleset:838 data/multiplayer/terrain.ruleset:836
+#: data/civ2/terrain.ruleset:717 data/default/terrain.ruleset:835
+#: data/experimental/terrain.ruleset:837 data/multiplayer/terrain.ruleset:835
 msgid "Peat"
 msgstr "泥炭"
 
-#: data/civ2/terrain.ruleset:726 data/default/terrain.ruleset:844
-#: data/experimental/terrain.ruleset:846 data/multiplayer/terrain.ruleset:844
+#: data/civ2/terrain.ruleset:725 data/default/terrain.ruleset:843
+#: data/experimental/terrain.ruleset:845 data/multiplayer/terrain.ruleset:843
 msgid "Pheasant"
 msgstr "野鸡"
 
-#: data/civ2/terrain.ruleset:742 data/default/terrain.ruleset:862
-#: data/experimental/terrain.ruleset:864 data/multiplayer/terrain.ruleset:862
+#: data/civ2/terrain.ruleset:741 data/default/terrain.ruleset:861
+#: data/experimental/terrain.ruleset:863 data/multiplayer/terrain.ruleset:861
 msgid "Ivory"
 msgstr "象牙"
 
-#: data/civ2/terrain.ruleset:752 data/default/terrain.ruleset:872
-#: data/experimental/terrain.ruleset:874 data/multiplayer/terrain.ruleset:872
+#: data/civ2/terrain.ruleset:751 data/default/terrain.ruleset:871
+#: data/experimental/terrain.ruleset:873 data/multiplayer/terrain.ruleset:871
 msgid "Silk"
 msgstr "蚕丝"
 
-#: data/civ2/terrain.ruleset:760 data/default/terrain.ruleset:880
-#: data/experimental/terrain.ruleset:882 data/multiplayer/terrain.ruleset:880
+#: data/civ2/terrain.ruleset:759 data/default/terrain.ruleset:879
+#: data/experimental/terrain.ruleset:881 data/multiplayer/terrain.ruleset:879
 msgid "Spice"
 msgstr "香料"
 
-#: data/civ2/terrain.ruleset:769 data/default/terrain.ruleset:891
-#: data/experimental/terrain.ruleset:893 data/multiplayer/terrain.ruleset:891
+#: data/civ2/terrain.ruleset:768 data/default/terrain.ruleset:890
+#: data/experimental/terrain.ruleset:892 data/multiplayer/terrain.ruleset:890
 msgid "Whales"
 msgstr "鲸鱼"
 
-#: data/civ2/terrain.ruleset:778 data/default/terrain.ruleset:900
-#: data/experimental/terrain.ruleset:902 data/multiplayer/terrain.ruleset:900
+#: data/civ2/terrain.ruleset:777 data/default/terrain.ruleset:899
+#: data/experimental/terrain.ruleset:901 data/multiplayer/terrain.ruleset:899
 msgid "Wine"
 msgstr "酒"
 
-#: data/civ2/terrain.ruleset:857
+#: data/civ2/terrain.ruleset:856
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
 "of its hit points."
 msgstr ""
 
-#: data/civ2/terrain.ruleset:878 data/default/terrain.ruleset:994
-#: data/experimental/terrain.ruleset:996 data/multiplayer/terrain.ruleset:994
+#: data/civ2/terrain.ruleset:877 data/default/terrain.ruleset:993
+#: data/experimental/terrain.ruleset:995 data/multiplayer/terrain.ruleset:993
 msgid ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
@@ -17583,6 +17573,17 @@ msgstr ""
 "\n"
 "一个城市只能有水力电厂、火力电厂和核电厂之一。"
 
+#: data/default/buildings.ruleset:981 data/experimental/buildings.ruleset:1036
+#: data/multiplayer/buildings.ruleset:961
+#, fuzzy
+msgid ""
+"Makes one unhappy citizen content.  The Mysticism advance doubles this "
+"effect.  With both Mysticism and the Oracle, 4 citizens are made content.  "
+"Does not affect citizens made unhappy by military activity."
+msgstr ""
+"使一个忧郁的市民满足。科技进展神秘主义和奇迹神喻都将使其作用翻倍。在同时有神"
+"秘主义和神喻的情况下，4个市民被变成满足的。"
+
 #: data/default/buildings.ruleset:1005
 #: data/experimental/buildings.ruleset:1062
 #: data/multiplayer/buildings.ruleset:985
@@ -17637,6 +17638,14 @@ msgstr ""
 #: data/experimental/buildings.ruleset:1420
 msgid "Gives all your sea units 2 additional movement points."
 msgstr "为所有海洋部队提供额外2点移动力。"
+
+#: data/default/buildings.ruleset:1444
+#: data/experimental/buildings.ruleset:1501
+#, fuzzy
+msgid ""
+"Makes two additional unhappy citizens content in every city with a Temple.  "
+"Does not affect citizens made unhappy by military activity."
+msgstr "使您修建该奇迹的大陆上的所有城市中两个忧郁市民变成满足的。"
 
 #: data/default/buildings.ruleset:1466
 #: data/experimental/buildings.ruleset:1523
@@ -17701,48 +17710,48 @@ msgstr ""
 msgid "?citystyle:ElectricAge"
 msgstr "凯尔特"
 
-#: data/default/default.lua:22 server/unittools.c:2549
+#: data/default/default.lua:22 server/unittools.c:2590
 #, fuzzy, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
 msgstr[0] "您找到 %d 黄金。"
 
-#: data/default/default.lua:35
+#: data/default/default.lua:40
 #, c-format
 msgid "You found %s in ancient scrolls of wisdom."
 msgstr "您在古代卷轴中发现了 %s。"
 
-#: data/default/default.lua:38
+#: data/default/default.lua:43
 #, c-format
 msgid "The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "%s 在古代卷轴中得到了 %s。"
 
-#: data/default/default.lua:58
+#: data/default/default.lua:66
 msgid "A band of friendly mercenaries joins your cause."
 msgstr "一支友好的雇佣军加入了您的队伍。"
 
-#: data/default/default.lua:74
+#: data/default/default.lua:82
 msgid "You found a friendly city."
 msgstr "您找到了一座友好城市。"
 
-#: data/default/default.lua:78
+#: data/default/default.lua:87
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "友好的流浪者被您感动并加入了您的队伍。"
 
-#: data/default/default.lua:96 server/unittools.c:2556
+#: data/default/default.lua:108 server/unittools.c:2597
 msgid "An abandoned village is here."
 msgstr "这里是一座废弃的村庄。"
 
-#: data/default/default.lua:103
+#: data/default/default.lua:115
 msgid "You have unleashed a horde of barbarians!"
 msgstr "您激活了一群野人！"
 
-#: data/default/default.lua:106 server/unittools.c:2559
+#: data/default/default.lua:118 server/unittools.c:2600
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "您的 %s 被野人杀死了！"
 
-#: data/default/default.lua:174 data/default/default.lua:176
+#: data/default/default.lua:188 data/default/default.lua:190
 #, c-format
 msgid "The loss of %s has inspired partisans!"
 msgstr ""
@@ -17812,18 +17821,18 @@ msgstr ""
 msgid "?nationgroup:Imaginary"
 msgstr "神秘"
 
-#: data/default/techs.ruleset:212 data/experimental/techs.ruleset:230
+#: data/default/techs.ruleset:212 data/experimental/techs.ruleset:214
 #: data/multiplayer/techs.ruleset:212
 #, fuzzy
 msgid "Allows Settlers, Workers and Engineers to build fortresses."
 msgstr "移民者和工程师拥有几种变更地形的能力。"
 
-#: data/default/techs.ruleset:359 data/experimental/techs.ruleset:394
+#: data/default/techs.ruleset:359 data/experimental/techs.ruleset:361
 #: data/multiplayer/techs.ruleset:368
 msgid "Increases units' vision when in fortresses."
 msgstr ""
 
-#: data/default/techs.ruleset:580 data/experimental/techs.ruleset:640
+#: data/default/techs.ruleset:580 data/experimental/techs.ruleset:582
 #: data/multiplayer/techs.ruleset:589
 #, fuzzy
 msgid "Allows Workers and Engineers to build airbases and buoys."
@@ -17844,18 +17853,17 @@ msgstr ""
 #: data/multiplayer/terrain.ruleset:269
 msgid ""
 "Shallow oceans are mostly found near coastlines, and are often rich sources "
-"of food and other resources. They can be traversed by sea units, including "
-"Triremes."
+"of food and other resources."
 msgstr ""
 
-#: data/default/terrain.ruleset:276 data/experimental/terrain.ruleset:278
-#: data/multiplayer/terrain.ruleset:276
+#: data/default/terrain.ruleset:275 data/experimental/terrain.ruleset:277
+#: data/multiplayer/terrain.ruleset:275
 #, fuzzy
 msgid "Deep Ocean"
 msgstr "海洋"
 
-#: data/default/terrain.ruleset:309 data/experimental/terrain.ruleset:311
-#: data/multiplayer/terrain.ruleset:309
+#: data/default/terrain.ruleset:308 data/experimental/terrain.ruleset:310
+#: data/multiplayer/terrain.ruleset:308
 #, fuzzy
 msgid ""
 "Deep oceans cover much of the world away from coastlines, and only seaworthy "
@@ -17866,8 +17874,8 @@ msgstr ""
 "\n"
 "海洋方格从不会被污染或辐射。"
 
-#: data/default/terrain.ruleset:972 data/experimental/terrain.ruleset:974
-#: data/multiplayer/terrain.ruleset:972
+#: data/default/terrain.ruleset:971 data/experimental/terrain.ruleset:973
+#: data/multiplayer/terrain.ruleset:971
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
@@ -17875,24 +17883,24 @@ msgid ""
 "units can see further afield."
 msgstr ""
 
-#: data/default/terrain.ruleset:1000 data/experimental/terrain.ruleset:1002
-#: data/multiplayer/terrain.ruleset:1004
+#: data/default/terrain.ruleset:999 data/experimental/terrain.ruleset:1001
+#: data/multiplayer/terrain.ruleset:1003
 #, fuzzy
 msgid "Buoy"
 msgstr "购买"
 
-#: data/default/terrain.ruleset:1014 data/experimental/terrain.ruleset:1016
+#: data/default/terrain.ruleset:1013 data/experimental/terrain.ruleset:1015
 msgid "Buoys may be built in the ocean (by units on a sea-going vessel)."
 msgstr ""
 
-#: data/default/terrain.ruleset:1019 data/experimental/terrain.ruleset:1021
-#: data/multiplayer/terrain.ruleset:1024
+#: data/default/terrain.ruleset:1018 data/experimental/terrain.ruleset:1020
+#: data/multiplayer/terrain.ruleset:1023
 #, fuzzy
 msgid "Ruins"
 msgstr "回合"
 
-#: data/default/terrain.ruleset:1030 data/experimental/terrain.ruleset:1032
-#: data/multiplayer/terrain.ruleset:1035
+#: data/default/terrain.ruleset:1029 data/experimental/terrain.ruleset:1031
+#: data/multiplayer/terrain.ruleset:1034
 msgid ""
 "Ruins mark the former site of a city that was destroyed or abandoned. They "
 "have no effect on gameplay."
@@ -22004,7 +22012,7 @@ msgid ""
 "This technology is only acquired the first time you build Darwin's Voyage."
 msgstr ""
 
-#: data/multiplayer/terrain.ruleset:1019
+#: data/multiplayer/terrain.ruleset:1018
 msgid "Buoys cannot be built in the multiplayer ruleset."
 msgstr ""
 
@@ -34925,127 +34933,127 @@ msgid "%s lost along with control of %s."
 msgstr "失去对 %2$s 控制的同时损失了 %1$s。"
 
 #. TRANS: <building> ... <city>
-#: server/citytools.c:913
+#: server/citytools.c:918
 #, fuzzy, c-format
 msgid "A replacement %s was built in %s."
 msgstr "。正在 %2$s 中建造新的 %1$s。"
 
-#: server/citytools.c:1002
+#: server/citytools.c:1007
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr "您已经有一个城市名叫 %s了。 城市被改名为 %s 。"
 
-#: server/citytools.c:1069
+#: server/citytools.c:1074
 #, fuzzy, c-format
 msgid "The people in %s are stunned by your technological insight!"
 msgstr ""
 "%s 中的人民被您对科技的洞察力所震惊！\n"
 "       工人们自发地召集起来用铁路升级了城市。"
 
-#: server/citytools.c:1073
+#: server/citytools.c:1078
 #, fuzzy, c-format
 msgid "Workers spontaneously gather and upgrade %s with railroads."
 msgstr ""
 "%s 中的人民被您对科技的洞察力所震惊！\n"
 "       工人们自发地召集起来用铁路升级了城市。"
 
-#: server/citytools.c:1347
+#: server/citytools.c:1352
 #, fuzzy, c-format
 msgid "You have founded %s."
 msgstr "您建立了 %s"
 
-#: server/citytools.c:1427
+#: server/citytools.c:1432
 #, fuzzy, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr "游戏： 将 %s 移出了解散的城市 %s 以避免被陆地包围。"
 
-#: server/citytools.c:1440
+#: server/citytools.c:1445
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr "当 %s 被解散时您的 %s 没能出来，因而损失了。"
 
-#: server/citytools.c:1598
+#: server/citytools.c:1603
 #, c-format
 msgid "You destroy %s completely."
 msgstr "您彻底毁灭了 %s。"
 
-#: server/citytools.c:1601
+#: server/citytools.c:1606
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%s 被 %s 毁灭了。"
 
-#: server/citytools.c:1627
+#: server/citytools.c:1632
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] "您征服了 %s ，您的战利品总计为 %d 黄金！"
 
-#: server/citytools.c:1634
+#: server/citytools.c:1639
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s 征服了 %s 并从该城市掠夺了 %d 黄金。"
 
-#: server/citytools.c:1643
+#: server/citytools.c:1648
 #, fuzzy, c-format
 msgid "You conquer %s."
 msgstr "您征服了 %s "
 
-#: server/citytools.c:1646
+#: server/citytools.c:1651
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s 征服了 %s。"
 
-#: server/citytools.c:1653
+#: server/citytools.c:1658
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] "您解放了 %s ！战利品总计为 %d 黄金。"
 
-#: server/citytools.c:1660
+#: server/citytools.c:1665
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] "%s 解放了 %s 并从该城市中掠夺了 %d 黄金。"
 
-#: server/citytools.c:1669
+#: server/citytools.c:1674
 #, c-format
 msgid "You have liberated %s!"
 msgstr "您解放了 %s！"
 
-#: server/citytools.c:1672
+#: server/citytools.c:1677
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s 解放了 %s。"
 
-#: server/citytools.c:2428
+#: server/citytools.c:2433
 msgid " from the worklist"
 msgstr " 从工作列表"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:2440
+#: server/citytools.c:2445
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s 正在建造 %s%s。"
 
-#: server/citytools.c:2607
+#: server/citytools.c:2614
 #, fuzzy, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
 msgstr[0] "您以 %3$d 黄金的价格卖出 %2$s 中的 %1$s （目前被陆地包围）。"
 
-#: server/citytools.c:2740
+#: server/citytools.c:2747
 #, fuzzy, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "%2$s（%3$s） 的 %1$s"
 
-#: server/citytools.c:2742
+#: server/citytools.c:2749
 #, fuzzy
 msgid "increased"
 msgstr "空军基地"
 
-#: server/citytools.c:2743
+#: server/citytools.c:2750
 msgid "reduced"
 msgstr ""
 
@@ -37248,20 +37256,20 @@ msgid ""
 "Cannot modify base for the tile %s because %d is not a valid base type id."
 msgstr ""
 
-#: server/edithand.c:535
+#: server/edithand.c:534
 #, c-format
 msgid "Cannot create units because %d is not a valid tile index on this map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:544
+#: server/edithand.c:543
 #, fuzzy, c-format
 msgid ""
 "Cannot create a unit at %s because the given unit type id %d is invalid."
 msgstr "* 您不能在此地形上建造城市。"
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>"...
-#: server/edithand.c:554
+#: server/edithand.c:553
 #, fuzzy, c-format
 msgid ""
 "Cannot create a unit of type %s at %s because the given owner's player id %d "
@@ -37270,25 +37278,25 @@ msgstr "* 您不能在此地形上建造城市。"
 
 #. TRANS: ..." type <unit-type> on enemy tile
 #. * <tile-coordinates>"...
-#: server/edithand.c:567
+#: server/edithand.c:566
 #, fuzzy, c-format
 msgid "Cannot create unit of type %s on enemy tile %s."
 msgstr "* 您不能在此地形上建造城市。"
 
 #. TRANS: ..." type <unit-type> on the terrain at
 #. * <tile-coordinates>"...
-#: server/edithand.c:577
+#: server/edithand.c:576
 #, fuzzy, c-format
 msgid "Cannot create a unit of type %s on the terrain at %s."
 msgstr "* 您不能在此地形上建造城市。"
 
-#: server/edithand.c:623
+#: server/edithand.c:619
 #, c-format
 msgid "Cannot remove units because %d is not a valid tile index on this map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:632
+#: server/edithand.c:628
 #, c-format
 msgid ""
 "Cannot remove a unit at %s because the given unit type id %d is invalid."
@@ -37296,182 +37304,182 @@ msgstr ""
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>
 #. * because"...
-#: server/edithand.c:643
+#: server/edithand.c:639
 #, c-format
 msgid ""
 "Cannot remove a unit of type %s at %s because the given owner's player id %d "
 "is invalid."
 msgstr ""
 
-#: server/edithand.c:674 server/edithand.c:697
+#: server/edithand.c:670 server/edithand.c:693
 #, fuzzy, c-format
 msgid "No such unit (ID %d)."
 msgstr "没有这样的投票（%d）。"
 
-#: server/edithand.c:736
+#: server/edithand.c:732
 #, c-format
 msgid "Invalid veteran level %d for unit %d (%s)."
 msgstr ""
 
-#: server/edithand.c:767
+#: server/edithand.c:763
 #, c-format
 msgid "Cannot create a city because %d is not a valid tile index on this map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:776
+#: server/edithand.c:772
 #, c-format
 msgid ""
 "Cannot create a city at %s because the given owner's player id %d is invalid"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates>."
-#: server/edithand.c:788
+#: server/edithand.c:784
 #, fuzzy, c-format
 msgid "A city may not be built at %s."
 msgstr "* 不能在城市中修建。\n"
 
-#: server/edithand.c:835
+#: server/edithand.c:831
 #, c-format
 msgid "Cannot edit city with invalid city ID %d."
 msgstr ""
 
-#: server/edithand.c:848
+#: server/edithand.c:844
 #, fuzzy, c-format
 msgid "Cannot edit city name: %s"
 msgstr "正在连接中"
 
-#: server/edithand.c:859
+#: server/edithand.c:855
 #, c-format
 msgid "Invalid city size %d for city %s."
 msgstr ""
 
-#: server/edithand.c:876
+#: server/edithand.c:872
 #, c-format
 msgid "It is impossible for a city to have %s!"
 msgstr ""
 
-#: server/edithand.c:925
+#: server/edithand.c:921
 #, c-format
 msgid ""
 "Invalid city food stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
 
-#: server/edithand.c:939
+#: server/edithand.c:935
 #, c-format
 msgid ""
 "Invalid city shield stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
 
-#: server/edithand.c:986
+#: server/edithand.c:982
 #, c-format
 msgid ""
 "No more players can be added because the maximum number of players (%d) has "
 "been reached."
 msgstr ""
 
-#: server/edithand.c:994
+#: server/edithand.c:990
 #, c-format
 msgid ""
 "No more players can be added because there are no available nations (%d "
 "used)."
 msgstr ""
 
-#: server/edithand.c:1003
+#: server/edithand.c:999
 #, fuzzy
 msgid "Player cannot be created because random nation selection failed."
 msgstr "无法在游戏开始后删除玩家。"
 
-#: server/edithand.c:1011
+#: server/edithand.c:1007
 #, fuzzy
 msgid "Player creation failed."
 msgstr "玩家已被摧毁"
 
-#: server/edithand.c:1045
+#: server/edithand.c:1041
 #, fuzzy, c-format
 msgid "No such player (ID %d)."
 msgstr "没有这样的投票（%d）。"
 
-#: server/edithand.c:1074
+#: server/edithand.c:1070
 #, c-format
 msgid "Cannot edit player with invalid player ID %d."
 msgstr ""
 
-#: server/edithand.c:1091
+#: server/edithand.c:1087
 #, c-format
 msgid "Cannot change name of player (%d) '%s' to '%s': %s"
 msgstr ""
 
-#: server/edithand.c:1102
+#: server/edithand.c:1098
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) because the given nation ID %d is "
 "invalid."
 msgstr ""
 
-#: server/edithand.c:1108
+#: server/edithand.c:1104
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
 "nation is already assigned to player %d (%s)."
 msgstr ""
 
-#: server/edithand.c:1144
+#: server/edithand.c:1140
 #, c-format
 msgid ""
 "Cannot set gold for player %d (%s) because the value %d is outside the "
 "allowed range."
 msgstr ""
 
-#: server/edithand.c:1203
+#: server/edithand.c:1199
 #, c-format
 msgid "Cannot edit vision because %d is not a valid tile index on this map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:1212
+#: server/edithand.c:1208
 #, c-format
 msgid ""
 "Cannot edit vision for the tile at %s because given player id %d is invalid."
 msgstr ""
 
-#: server/edithand.c:1285
+#: server/edithand.c:1281
 #, fuzzy, c-format
 msgid "No such city (ID %d)."
 msgstr "没有这样的投票（%d）。"
 
-#: server/edithand.c:1311
+#: server/edithand.c:1307
 #, fuzzy
 msgid "Cannot toggle fog-of-war when it is already disabled."
 msgstr "无法开始游戏：它开始过了。"
 
-#: server/edithand.c:1319
+#: server/edithand.c:1315
 #, fuzzy, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
 msgstr "无法切换野人玩家。"
 
-#: server/edithand.c:1347 server/edithand.c:1386
+#: server/edithand.c:1343 server/edithand.c:1382
 #, c-format
 msgid "Invalid tile index %d for start position."
 msgstr ""
 
-#: server/edithand.c:1394
+#: server/edithand.c:1390
 #, c-format
 msgid ""
 "Cannot edit start position nations at (%d, %d) because there is no start "
 "position there."
 msgstr ""
 
-#: server/edithand.c:1426
+#: server/edithand.c:1422
 #, c-format
 msgid "Cannot set invalid game year %d. Valid year range is from %d to %d."
 msgstr ""
 
-#: server/edithand.c:1469
+#: server/edithand.c:1465
 msgid "No permissions to remotely save scenario."
 msgstr ""
 
-#: server/edithand.c:1476
+#: server/edithand.c:1472
 msgid "Scenario information not set. Cannot save scenario."
 msgstr ""
 
@@ -37535,19 +37543,19 @@ msgstr "回合超时超出了最大值，改正为其最大值"
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "回合超时小于0，改正为0 。"
 
-#: server/generator/mapgen.c:1465
+#: server/generator/mapgen.c:1467
 msgid "The server couldn't allocate starting positions."
 msgstr ""
 
-#: server/generator/mapgen.c:2108
+#: server/generator/mapgen.c:2110
 msgid "High landmass - this may take a few seconds."
 msgstr "大型的陆地 －这可能需要几秒钟。"
 
-#: server/generator/mapgen.c:2384
+#: server/generator/mapgen.c:2386
 msgid "Generator 3 didn't place all big islands."
 msgstr "生成器 3 未能成功放置所有的大型岛屿。"
 
-#: server/generator/mapgen.c:2413
+#: server/generator/mapgen.c:2415
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "生成器3留下了 %li 陆地未能放置。"
@@ -39224,22 +39232,22 @@ msgstr ""
 "此选项精确地给出被放置在整个地图上的茅屋数量。茅屋是可以被部队探索的小型部落"
 "村庄。"
 
-#: server/settings.c:1251
+#: server/settings.c:1249
 msgid "Minimum number of players"
 msgstr "最少的玩家数"
 
-#: server/settings.c:1252
+#: server/settings.c:1250
 #, fuzzy
 msgid ""
 "There must be at least this many players (connected human players) before "
 "the game can start."
 msgstr "至少有这么多的玩家(接入的玩家或电脑玩家)才能开始游戏。"
 
-#: server/settings.c:1259
+#: server/settings.c:1257
 msgid "Maximum number of players"
 msgstr "最多的玩家数"
 
-#: server/settings.c:1260
+#: server/settings.c:1258
 #, fuzzy
 msgid ""
 "The maximal number of human and AI players who can be in the game. When this "
@@ -39251,12 +39259,12 @@ msgstr ""
 "游戏中能够存在的人类和电脑玩家的最大数目。在预备游戏状态中当连入玩家的数目达"
 "到这个限度时，将拒绝任何试图接入的新玩家"
 
-#: server/settings.c:1272
+#: server/settings.c:1270
 #, fuzzy
 msgid "Limited number of AI players"
 msgstr "最少的玩家数"
 
-#: server/settings.c:1273
+#: server/settings.c:1271
 #, fuzzy
 msgid ""
 "If set to a positive value, then AI players will be automatically created or "
@@ -39266,48 +39274,48 @@ msgid ""
 msgstr ""
 "如果设置为正值，将会自动创建或删除 AI 玩家来使得总共的玩家数目保持此值。"
 
-#: server/settings.c:1284
+#: server/settings.c:1282
 msgid "Event cache for this number of turns"
 msgstr ""
 
-#: server/settings.c:1285
+#: server/settings.c:1283
 msgid ""
 "Event messages are saved for this number of turns. A value of 0 deactivates "
 "the event cache."
 msgstr ""
 
-#: server/settings.c:1293
+#: server/settings.c:1291
 msgid "Size of the event cache"
 msgstr ""
 
-#: server/settings.c:1294
+#: server/settings.c:1292
 msgid "This defines the maximal number of events in the event cache."
 msgstr ""
 
-#: server/settings.c:1301
+#: server/settings.c:1299
 msgid "Save chat messages in the event cache"
 msgstr ""
 
-#: server/settings.c:1302
+#: server/settings.c:1300
 msgid "If turned on, chat messages will be saved in the event cache."
 msgstr ""
 
-#: server/settings.c:1307
+#: server/settings.c:1305
 msgid "Print turn and time for each cached event"
 msgstr ""
 
 #. TRANS: Don't translate the text between single quotes.
-#: server/settings.c:1309
+#: server/settings.c:1307
 msgid ""
 "If turned on, all cached events will be marked by the turn and time of the "
 "event like '(T2 - 15:29:52)'."
 msgstr ""
 
-#: server/settings.c:1320
+#: server/settings.c:1318
 msgid "List of players' initial units"
 msgstr "玩家的初始部队列表"
 
-#: server/settings.c:1321
+#: server/settings.c:1319
 msgid ""
 "This should be a string of characters, each of which specifies a unit role. "
 "There must be at least one city founder in the string. The characters and "
@@ -39334,29 +39342,29 @@ msgstr ""
 "    a   = 快速攻击部队（如骑兵）\n"
 "    A   = 强攻击部队（如石弩）\n"
 
-#: server/settings.c:1338
+#: server/settings.c:1336
 msgid "Area where initial units are located"
 msgstr "初始部队所在区域"
 
-#: server/settings.c:1339
+#: server/settings.c:1337
 msgid "This is the radius within which the initial units are dispersed."
 msgstr "此值为玩家初始部队的分布区域半径。"
 
-#: server/settings.c:1345
+#: server/settings.c:1343
 msgid "Starting gold per player"
 msgstr "每个玩家开始时的黄金"
 
-#: server/settings.c:1346
+#: server/settings.c:1344
 msgid "At the beginning of the game, each player is given this much gold."
 msgstr "在游戏开始时，每个玩家得到这么多的黄金。"
 
-#: server/settings.c:1352
+#: server/settings.c:1350
 msgid "Number of initial techs per player"
 msgstr "每个玩家开始时的科技数量"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:1355
+#: server/settings.c:1353
 #, fuzzy
 msgid ""
 "At the beginning of the game, each player is given this many technologies. "
@@ -39367,11 +39375,11 @@ msgstr ""
 "在游戏开始时，每个玩家得到这么多种科技。每个玩家得到的科技是随机的。根据规则"
 "集中 tech_cost_style 的值的设置，大的 techlevel 值可以使下一个科技非常昂贵。"
 
-#: server/settings.c:1364
+#: server/settings.c:1362
 msgid "Technology cost multiplier percentage"
 msgstr "科技成本乘数百分比"
 
-#: server/settings.c:1365
+#: server/settings.c:1363
 msgid ""
 "This affects how quickly players can research new technology. All tech costs "
 "are multiplied by this amount (as a percentage). The base tech costs are "
@@ -39380,11 +39388,11 @@ msgstr ""
 "这影响了玩家能以多快的速度研究新科技。所有科技的成本都被乘上此值（作为百分"
 "比）。基础的科技成本由规则集或其他游戏设置决定。"
 
-#: server/settings.c:1374
+#: server/settings.c:1372
 msgid "Percentage penalty when changing tech"
 msgstr "改变科技时的损失百分比"
 
-#: server/settings.c:1375
+#: server/settings.c:1373
 msgid ""
 "If you change your current research technology, and you have positive "
 "research points, you lose this percentage of those research points. This "
@@ -39393,42 +39401,42 @@ msgstr ""
 "如果您改变当前研究的科技，并且您已经有了研究进度，将损失此比例的研究进度。不"
 "适用于您当前回合刚刚开始研究某项科技的情况。"
 
-#: server/settings.c:1384
+#: server/settings.c:1382
 msgid "Chance to lose an invention while receiving it"
 msgstr ""
 
-#: server/settings.c:1385
+#: server/settings.c:1383
 msgid ""
 "If you receive an invention via a treaty, this setting defines the chance "
 "that the invention is lost during the transfer."
 msgstr ""
 
-#: server/settings.c:1393
+#: server/settings.c:1391
 msgid "Chance to lose an invention while giving it"
 msgstr ""
 
-#: server/settings.c:1394
+#: server/settings.c:1392
 msgid ""
 "If you give an invention via a treaty, this setting defines the chance that "
 "the invention is lost for your civilization during the transfer."
 msgstr ""
 
-#: server/settings.c:1402
+#: server/settings.c:1400
 msgid "Team pooled research"
 msgstr ""
 
-#: server/settings.c:1403
+#: server/settings.c:1401
 msgid ""
 "If this setting is turned on, then the team mates will share the science "
 "research. Else, every player of the team will have to make its own."
 msgstr ""
 
-#: server/settings.c:1410
+#: server/settings.c:1408
 #, fuzzy
 msgid "Penalty when getting tech or gold from treaty"
 msgstr "从协定获得科技所受的损失"
 
-#: server/settings.c:1411
+#: server/settings.c:1409
 #, fuzzy
 msgid ""
 "For each technology you gain from a diplomatic treaty, you lose research "
@@ -39439,11 +39447,11 @@ msgstr ""
 "对每项从外交协定获得的科技进展，您损失的研究点数与研究一项新进展所需点数的比"
 "例等于此百分比值。如果此值非0您可能得到负的研究点数。"
 
-#: server/settings.c:1421
+#: server/settings.c:1419
 msgid "Penalty when getting tech from conquering"
 msgstr "从征服获得科技所受的损失"
 
-#: server/settings.c:1422
+#: server/settings.c:1420
 msgid ""
 "For each technology you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research a new technology. If "
@@ -39452,13 +39460,13 @@ msgstr ""
 "对每项从征服敌方城市所获得的科技进展，您损失的研究点数与研究一项新进展所需点"
 "数的比例等于此百分比值。如果此值非0您可能得到负的研究点数。"
 
-#: server/settings.c:1432
+#: server/settings.c:1430
 msgid "Penalty when getting a free tech"
 msgstr "获得免费科技所受的损失"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:1435
+#: server/settings.c:1433
 #, fuzzy
 msgid ""
 "For each technology you gain \"for free\" (other than covered by 'diplcost' "
@@ -39471,11 +39479,11 @@ msgstr ""
 "说，从茅屋或大图书馆获得的），您损失的研究点数与研究一项新进展所需点数的比例"
 "等于此百分比值。如果此值非0您可能得到负的研究点数。<"
 
-#: server/settings.c:1446
+#: server/settings.c:1444
 msgid "Food required for a city to grow"
 msgstr "城市增长所需的食物"
 
-#: server/settings.c:1447
+#: server/settings.c:1445
 msgid ""
 "This is the base amount of food required to grow a city. This value is "
 "multiplied by another factor that comes from the ruleset and is dependent on "
@@ -39484,12 +39492,12 @@ msgstr ""
 "这是增长城市所需要食物的基本数量。此值将被乘上来自规则集并且依赖于城市规模的"
 "另一个因子。"
 
-#: server/settings.c:1455
+#: server/settings.c:1453
 #, fuzzy
 msgid "Percentage food lost when building needed"
 msgstr "需要引水工程时损失食物的百分比"
 
-#: server/settings.c:1456
+#: server/settings.c:1454
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount when "
@@ -39498,24 +39506,24 @@ msgstr ""
 "如果一个城市即将增长，但是因为需要引水工程（或下水道系统）而不能进行，它将失"
 "去此比例的粮仓中的食物（或者减半，如果城市有谷仓的话）。"
 
-#: server/settings.c:1465
+#: server/settings.c:1463
 msgid "Multiplier percentage for production costs"
 msgstr "生产成本乘数百分比"
 
-#: server/settings.c:1466
+#: server/settings.c:1464
 msgid ""
 "This affects how quickly units and buildings can be produced.  The base "
 "costs are multiplied by this value (as a percentage)."
 msgstr ""
 "影响部队和建筑以多快速度被生产（修建）。基础成本被乘上此值（作为百分比）。"
 
-#: server/settings.c:1480
+#: server/settings.c:1478
 msgid "Minimum city size to get full trade"
 msgstr "获得完全贸易的最小城市规模"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:1483
+#: server/settings.c:1481
 #, fuzzy
 msgid ""
 "There is a trade penalty in all cities smaller than this. The penalty is "
@@ -39527,13 +39535,13 @@ msgstr ""
 "本没有贸易），并随着城市规模增加到fulltradesize逐渐减少到0%（除了正常的腐败之"
 "外没有损失）。请参见notradesieze。"
 
-#: server/settings.c:1493
+#: server/settings.c:1491
 msgid "Maximum size of a city without trade"
 msgstr "无贸易的城市最大规模"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:1496
+#: server/settings.c:1494
 #, fuzzy
 msgid ""
 "Cities do not produce any trade at all unless their size is larger than this "
@@ -39543,11 +39551,11 @@ msgstr ""
 "所有小于等于此规模的城市都不会产出贸易。贸易产出在规模是notradesize和"
 "fulltradesize之间的城市逐渐增长。也请参见fulltradesize。"
 
-#: server/settings.c:1505
+#: server/settings.c:1503
 msgid "Minimum distance between cities"
 msgstr "城市之间的最小距离"
 
-#: server/settings.c:1506
+#: server/settings.c:1504
 #, fuzzy
 msgid ""
 "When a player attempts to found a new city, it is prevented if the distance "
@@ -39560,40 +39568,40 @@ msgstr ""
 "citymindist是3，那么在每个方向上两个城市之间至少要有2个空的方格。如果设置为0"
 "（默认），将使用当前规则集中的值。"
 
-#: server/settings.c:1518
+#: server/settings.c:1516
 #, fuzzy
 msgid "Technology trading"
 msgstr "科技"
 
-#: server/settings.c:1519
+#: server/settings.c:1517
 msgid ""
 "If turned off, trading technologies in the diplomacy dialog is not allowed."
 msgstr ""
 
-#: server/settings.c:1525
+#: server/settings.c:1523
 #, fuzzy
 msgid "Gold trading"
 msgstr "黄金：%d"
 
-#: server/settings.c:1526
+#: server/settings.c:1524
 msgid "If turned off, trading gold in the diplomacy dialog is not allowed."
 msgstr ""
 
-#: server/settings.c:1532
+#: server/settings.c:1530
 #, fuzzy
 msgid "City trading"
 msgstr "城市： 正在欢庆"
 
-#: server/settings.c:1533
+#: server/settings.c:1531
 msgid "If turned off, trading cities in the diplomacy dialog is not allowed."
 msgstr ""
 
-#: server/settings.c:1539
+#: server/settings.c:1537
 #, fuzzy
 msgid "Minimum distance for trade routes"
 msgstr "城市之间的最小距离"
 
-#: server/settings.c:1540
+#: server/settings.c:1538
 msgid ""
 "In order for two cities in the same civilization to establish a trade route, "
 "they must be at least this far apart on the map. For square grids, the "
@@ -39601,32 +39609,32 @@ msgid ""
 "displacements along the x and y directions."
 msgstr ""
 
-#: server/settings.c:1550
+#: server/settings.c:1548
 msgid "Number of turns between rapture effect"
 msgstr "产生狂欢效果需要的回合数"
 
-#: server/settings.c:1551
+#: server/settings.c:1549
 msgid ""
 "Sets the number of turns between rapture growth of a city. If set to n a "
 "city will grow after celebrating for n+1 turns."
 msgstr ""
 "设置城市在狂欢增长之间的回合数。如果设置为n，城市将在狂欢n+1个回合后增长。"
 
-#: server/settings.c:1560
+#: server/settings.c:1558
 msgid "Chance for conquered building destruction"
 msgstr "被征服建筑毁坏的机会"
 
-#: server/settings.c:1561
+#: server/settings.c:1559
 msgid ""
 "When a player conquers a city, each city improvement has this percentage "
 "chance to be destroyed."
 msgstr "当玩家征服一个城市时，每个城市建筑有此百分比的机会被摧毁。"
 
-#: server/settings.c:1567
+#: server/settings.c:1565
 msgid "Chance of moving into tile after attack"
 msgstr "攻击后移动到方格的机会"
 
-#: server/settings.c:1568
+#: server/settings.c:1566
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). "
 "If set to 100, attacking units will always move into the tile they attacked "
@@ -39638,22 +39646,22 @@ msgstr ""
 "的部队若赢得战斗（并且方格中不再有敌方部队）将总是移动到它们所进攻的方格。如"
 "设为0到100之间的值，将作为“占领”领土机会的百分比。"
 
-#: server/settings.c:1579
+#: server/settings.c:1577
 msgid "Turn on/off server-side autoattack"
 msgstr "打开/关闭服务器端自动攻击"
 
-#: server/settings.c:1580
+#: server/settings.c:1578
 #, fuzzy
 msgid ""
 "If set to on, units with moves left will automatically consider attacking "
 "enemy units that move adjacent to them."
 msgstr "如果打开，具有移动力的部队将自动考虑攻击靠近它们的敌方部队。"
 
-#: server/settings.c:1586
+#: server/settings.c:1584
 msgid "Reduce city population after attack"
 msgstr "在攻击后减少城市人口"
 
-#: server/settings.c:1587
+#: server/settings.c:1585
 #, fuzzy
 msgid ""
 "This flag indicates whether city population is reduced after successful "
@@ -39666,11 +39674,11 @@ msgstr ""
 "  4＝直升飞机\n"
 "  8＝空中部队"
 
-#: server/settings.c:1594
+#: server/settings.c:1592
 msgid "Slowly kill units without home cities (e.g., starting units)"
 msgstr ""
 
-#: server/settings.c:1595
+#: server/settings.c:1593
 msgid ""
 "If greater than 0, then every unit without a homecity will lose hitpoints "
 "each turn. The number of hitpoints lost is given by 'killunhomed' percent of "
@@ -39678,44 +39686,44 @@ msgid ""
 "until the death of the unit."
 msgstr ""
 
-#: server/settings.c:1605
+#: server/settings.c:1603
 #, fuzzy
 msgid "National borders"
 msgstr "国家边界"
 
-#: server/settings.c:1606
+#: server/settings.c:1604
 msgid ""
 "If this is not disabled, then any land tiles around a fortress or city will "
 "be owned by that nation."
 msgstr ""
 
-#: server/settings.c:1613
+#: server/settings.c:1611
 msgid "Units inside borders cause no unhappiness"
 msgstr "军事部队国界内不会引起忧郁。"
 
-#: server/settings.c:1614
+#: server/settings.c:1612
 msgid ""
 "If this is set, units will not cause unhappiness when inside your own "
 "borders."
 msgstr "如果设置，则在您自己的国界内军事部队不会引起忧郁。"
 
-#: server/settings.c:1620
+#: server/settings.c:1618
 msgid "Ability to do diplomacy with other players"
 msgstr "与其他玩家进行外交的能力"
 
-#: server/settings.c:1621
+#: server/settings.c:1619
 #, fuzzy
 msgid "This setting controls the ability to do diplomacy with other players."
 msgstr "与其他玩家进行外交的能力"
 
-#: server/settings.c:1627
+#: server/settings.c:1625
 msgid "Allowed city names"
 msgstr "允许的城市名称"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between parentheses
 #. * and in uppercase must not be translated.
-#: server/settings.c:1631
+#: server/settings.c:1629
 #, fuzzy
 msgid ""
 "- \"No restrictions\" (NO_RESTRICTIONS): players can have multiple cities "
@@ -39738,7 +39746,7 @@ msgstr ""
 "3 = 类似2，但是玩家不允许使用另一个民族的默认城市名字，除非那也是他民族的默认"
 "城市名字。"
 
-#: server/settings.c:1645
+#: server/settings.c:1643
 #, fuzzy
 msgid "How to pick player colors"
 msgstr "玩家列表："
@@ -39747,7 +39755,7 @@ msgstr "玩家列表："
 #. * separately (they must match!). The strings between single quotes
 #. * are setting names and shouldn't be translated. The strings
 #. * between parentheses and in uppercase must not be translated.
-#: server/settings.c:1650
+#: server/settings.c:1648
 msgid ""
 "This setting determines how player colors are chosen. Player colors are used "
 "in the Nations report, for national borders on the map, and so on.\n"
@@ -39765,33 +39773,33 @@ msgid ""
 "the game starts with the 'playercolor' command."
 msgstr ""
 
-#: server/settings.c:1686
+#: server/settings.c:1684
 msgid "Barbarian appearance frequency"
 msgstr "野人出现频率"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:1689
+#: server/settings.c:1687
 msgid ""
 "This setting controls how frequently the barbarians appear in the game. See "
 "also the 'onsetbarbs' setting."
 msgstr ""
 
-#: server/settings.c:1695
+#: server/settings.c:1693
 #, fuzzy
 msgid "Barbarian onset turn"
 msgstr "野人出现年代"
 
-#: server/settings.c:1696
+#: server/settings.c:1694
 #, fuzzy
 msgid "Barbarians will not appear before this turn."
 msgstr "野人不会在此年代之前出现。"
 
-#: server/settings.c:1702
+#: server/settings.c:1700
 msgid "Length in turns of revolution"
 msgstr "革命所需回合数"
 
-#: server/settings.c:1703
+#: server/settings.c:1701
 #, fuzzy
 msgid ""
 "When changing governments, a period of anarchy lasting this many turns will "
@@ -39800,11 +39808,11 @@ msgstr ""
 "当改变政府类型时，将会有一段持续这么久的无政府状态时期。设置为0将使用1-6个回"
 "合之间的随即数值。"
 
-#: server/settings.c:1712
+#: server/settings.c:1710
 msgid "Whether to enable fog of war"
 msgstr "是否使能战雾"
 
-#: server/settings.c:1713
+#: server/settings.c:1711
 #, fuzzy
 msgid ""
 "If this is enabled, only those units and cities within the vision range of "
@@ -39814,11 +39822,11 @@ msgstr ""
 "如果设置为1，只有那些位于您自己的部队和城市视野范围内的部队和城市会显示给您。"
 "您不能看到观察不到的方格内的新城市或地形变化。"
 
-#: server/settings.c:1721
+#: server/settings.c:1719
 msgid "Whether fog of war applies to border changes"
 msgstr ""
 
-#: server/settings.c:1722
+#: server/settings.c:1720
 msgid ""
 "If this setting is enabled, players will not be able to see changes in tile "
 "ownership if they do not have direct sight of the affected tiles. Otherwise, "
@@ -39826,7 +39834,7 @@ msgid ""
 "previously seen the tiles."
 msgstr ""
 
-#: server/settings.c:1731
+#: server/settings.c:1729
 #, fuzzy
 msgid "Airlifting style"
 msgstr "空运"
@@ -39835,7 +39843,7 @@ msgstr "空运"
 #. * translated separately (they must match!). The strings
 #. * between parenthesis and in uppercase must not be
 #. * translated.
-#: server/settings.c:1736
+#: server/settings.c:1734
 msgid ""
 "This setting affects airlifting units between cities. It can be a set of the "
 "following values:\n"
@@ -39849,43 +39857,43 @@ msgid ""
 "any."
 msgstr ""
 
-#: server/settings.c:1753
+#: server/settings.c:1751
 #, fuzzy
 msgid "Base chance for diplomats and spies to succeed"
 msgstr "外交官和间谍成功的基础几率。"
 
-#: server/settings.c:1754
+#: server/settings.c:1752
 #, fuzzy
 msgid ""
 "The base chance of a spy returning from a successful mission and the base "
 "chance of success for diplomats and spies."
 msgstr "间谍成功完成使命后返回的机会，以及外交官和间谍成功的基础机会。"
 
-#: server/settings.c:1761
+#: server/settings.c:1759
 msgid "Whether to allow space race"
 msgstr "是否允许太空竞赛"
 
-#: server/settings.c:1762
+#: server/settings.c:1760
 #, fuzzy
 msgid "If this option is enabled, players can build spaceships."
 msgstr "如果此选项为 1，玩家可以建造宇宙飞船。"
 
-#: server/settings.c:1767
+#: server/settings.c:1765
 msgid "Should the game end if the spaceship arrives?"
 msgstr ""
 
-#: server/settings.c:1768
+#: server/settings.c:1766
 #, fuzzy
 msgid ""
 "If this option is turned on, the game will end with the arrival of a "
 "spaceship at Alpha Centauri."
 msgstr "如果此选项为 1，玩家可以建造宇宙飞船。"
 
-#: server/settings.c:1774
+#: server/settings.c:1772
 msgid "Minimum number of cities for civil war"
 msgstr "发生内战的最小城市数目"
 
-#: server/settings.c:1775
+#: server/settings.c:1773
 msgid ""
 "A civil war is triggered when a player has at least this many cities and the "
 "player's capital is captured. If this option is set to the maximum value, "
@@ -39894,32 +39902,32 @@ msgstr ""
 "如果玩家拥有至少这么多的城市，并且玩家的首都被占领，将会发生内战。如果此选项"
 "被设置为最大值，将禁止内战。"
 
-#: server/settings.c:1784
+#: server/settings.c:1782
 msgid "Restrict the use of the infrastructure for enemy units"
 msgstr ""
 
-#: server/settings.c:1785
+#: server/settings.c:1783
 msgid ""
 "If this option is enabled, the use of roads and rails will be restricted for "
 "enemy units."
 msgstr ""
 
-#: server/settings.c:1791
+#: server/settings.c:1789
 msgid "Does unreachable unit protect reachable ones"
 msgstr ""
 
-#: server/settings.c:1792
+#: server/settings.c:1790
 msgid ""
 "This option controls whether tiles with both unreachable and reachable units "
 "can be attacked. If disabled, any tile with reachable units can be attacked. "
 "If enabled, tiles with an unreachable unit in them cannot be attacked."
 msgstr ""
 
-#: server/settings.c:1800
+#: server/settings.c:1798
 msgid "Turns until player contact is lost"
 msgstr "玩家联系丢失的回合数"
 
-#: server/settings.c:1801
+#: server/settings.c:1799
 msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
 "last met, even when they do not have an embassy. If set to zero, then "
@@ -39928,12 +39936,12 @@ msgstr ""
 "玩家在他们的部队上次相遇这么多个回合内可以进行外交会晤，即使他们没有大使馆。"
 "若设成 0 则玩家除非有大使馆不能会晤。"
 
-#: server/settings.c:1811
+#: server/settings.c:1809
 #, fuzzy
 msgid "Rebuild palace whenever capital is conquered"
 msgstr "若首都被征服就重建皇宫"
 
-#: server/settings.c:1812
+#: server/settings.c:1810
 #, fuzzy
 msgid ""
 "If this is turned on, when the capital is conquered the palace is "
@@ -39945,24 +39953,24 @@ msgstr ""
 "如果此选项被设置为1，当首都被征服后，皇宫自动在一个随机选择的城市中免费建造。"
 "这很重要因为修建皇宫所需要的科技将被忽略。"
 
-#: server/settings.c:1822
+#: server/settings.c:1820
 #, fuzzy
 msgid "Give caught units a homecity"
 msgstr "* 从来没有基地城市。\n"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:1825
+#: server/settings.c:1823
 msgid ""
 "If unset, caught units will have no homecity and will be subject to the "
 "'killunhomed' option."
 msgstr ""
 
-#: server/settings.c:1832
+#: server/settings.c:1830
 msgid "Whether allied players can win together"
 msgstr ""
 
-#: server/settings.c:1833
+#: server/settings.c:1831
 msgid ""
 "If this option is turned on and a point is reached where all the players "
 "still able to win the game are allies, and at least one defeated player is "
@@ -39970,24 +39978,24 @@ msgid ""
 "victory for the allied players."
 msgstr ""
 
-#: server/settings.c:1842
+#: server/settings.c:1840
 msgid "Whether to use natural city names"
 msgstr "是否使用自然城市名"
 
-#: server/settings.c:1843
+#: server/settings.c:1841
 msgid ""
 "If enabled, the default city names will be determined based on the "
 "surrounding terrain."
 msgstr "如果启用，将根据周围地形确定默认城市名。"
 
-#: server/settings.c:1849
+#: server/settings.c:1847
 #, fuzzy
 msgid "Whether to enable citizen migration"
 msgstr "是否使能战雾"
 
 #. TRANS: The strings between single quotes are setting names
 #. * and should not be translated.
-#: server/settings.c:1852
+#: server/settings.c:1850
 msgid ""
 "This is the master setting that controls whether citizen migration is active "
 "in the game. If enabled, citizens may automatically move from less desirable "
@@ -40003,13 +40011,13 @@ msgid ""
 "  'mgr_nationchance' - Chance for intra-nation migration."
 msgstr ""
 
-#: server/settings.c:1870
+#: server/settings.c:1868
 #, fuzzy
 msgid "Number of turns between migrations from a city"
 msgstr "产生狂欢效果需要的回合数"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1872
+#: server/settings.c:1870
 msgid ""
 "This setting controls the number of turns between migration checks for a "
 "given city. The interval is calculated from the founding turn of the city. "
@@ -40019,25 +40027,25 @@ msgid ""
 "setting has no effect unless migration is enabled by the 'migration' setting."
 msgstr ""
 
-#: server/settings.c:1885
+#: server/settings.c:1883
 msgid "Whether migration is limited by food"
 msgstr ""
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1887
+#: server/settings.c:1885
 msgid ""
 "If this setting is enabled, citizens will not migrate to cities which would "
 "not have enough food to support them. This setting has no effect unless "
 "migration is enabled by the 'migration' setting."
 msgstr ""
 
-#: server/settings.c:1895
+#: server/settings.c:1893
 #, fuzzy
 msgid "Maximum distance citizens may migrate"
 msgstr "城市之间的最小距离"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1897
+#: server/settings.c:1895
 msgid ""
 "This setting controls how far citizens may look for a suitable migration "
 "destination when deciding which city to migrate to. The value is added to "
@@ -40046,12 +40054,12 @@ msgid ""
 "no effect unless migration is activated by the 'migration' setting."
 msgstr ""
 
-#: server/settings.c:1909
+#: server/settings.c:1907
 msgid "Percent probability for migration within the same nation"
 msgstr ""
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1911
+#: server/settings.c:1909
 msgid ""
 "This setting controls how likely it is for citizens to migrate between "
 "cities owned by the same player. Zero indicates migration will never occur, "
@@ -40060,12 +40068,12 @@ msgid ""
 "'migration' setting."
 msgstr ""
 
-#: server/settings.c:1922
+#: server/settings.c:1920
 msgid "Percent probability for migration between foreign cities"
 msgstr ""
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1924
+#: server/settings.c:1922
 msgid ""
 "This setting controls how likely it is for migration to occur between cities "
 "owned by different players. Zero indicates migration will never occur, 100 "
@@ -40074,13 +40082,13 @@ msgid ""
 "setting."
 msgstr ""
 
-#: server/settings.c:1942
+#: server/settings.c:1940
 msgid "Players that users are allowed to take"
 msgstr "用户可以接替的玩家"
 
 #. TRANS: the strings in double quotes are server command names
 #. * and should not be translated.
-#: server/settings.c:1945
+#: server/settings.c:1943
 #, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
@@ -40136,28 +40144,28 @@ msgstr ""
 "     4 = 不允许控制者，允许旁观者；\n"
 "\n"
 
-#: server/settings.c:1980
+#: server/settings.c:1978
 msgid "Whether AI-status toggles with connection"
 msgstr "是否随连接状态切换 AI 状态"
 
-#: server/settings.c:1981
+#: server/settings.c:1979
 #, fuzzy
 msgid ""
 "If enabled, AI status is turned off when a player connects, and on when a "
 "player disconnects."
 msgstr "如果此选项被设置为1，那么当玩家连入时AI状态被关闭，玩家断开时被打开。"
 
-#: server/settings.c:1987
+#: server/settings.c:1985
 #, fuzzy
 msgid "Turn the game ends"
 msgstr "游戏结束的年代"
 
-#: server/settings.c:1988
+#: server/settings.c:1986
 #, fuzzy
 msgid "The game will end at the end of the given turn."
 msgstr "游戏将在指定的年代结束后结束。"
 
-#: server/settings.c:1994
+#: server/settings.c:1992
 msgid "Reveal the map"
 msgstr ""
 
@@ -40166,7 +40174,7 @@ msgstr ""
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between parentheses and in uppercase must not be
 #. * translated.
-#: server/settings.c:2000
+#: server/settings.c:1998
 msgid ""
 "If \"Reveal map at game start\" (START) is set, the initial state of the "
 "entire map will be known to all players from the start of the game, although "
@@ -40175,7 +40183,7 @@ msgid ""
 "they are alone in their team."
 msgstr ""
 
-#: server/settings.c:2011
+#: server/settings.c:2009
 msgid "Maximum seconds per turn"
 msgstr "每一回合的最大秒数"
 
@@ -40183,7 +40191,7 @@ msgstr "每一回合的最大秒数"
 #. * translated separately, the translation should be the same.
 #. * \"timeoutincrease\" is a command name and must not to be
 #. * translated.
-#: server/settings.c:2016
+#: server/settings.c:2014
 #, fuzzy
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
@@ -40198,13 +40206,13 @@ msgstr ""
 "没有超时。在带有debug功能编译的服务器中，超时值为-1将设置自动游戏测试模式。和"
 "命令“timeoutincrease”一起使用以获得动态超时时间。"
 
-#: server/settings.c:2030
+#: server/settings.c:2028
 msgid "First turn timeout"
 msgstr ""
 
 #. TRANS: The strings between single quotes are setting names and
 #. * should not be translated.
-#: server/settings.c:2033
+#: server/settings.c:2031
 msgid ""
 "If greater than 0, T0 will last for 'first_timeout' seconds.\n"
 "If set to 0, T0 will not have a timeout.\n"
@@ -40212,11 +40220,11 @@ msgid ""
 "See also 'timeout'."
 msgstr ""
 
-#: server/settings.c:2042
+#: server/settings.c:2040
 msgid "Timeout at least n seconds when enemy moved"
 msgstr "敌人移动时的最少超时秒数"
 
-#: server/settings.c:2043
+#: server/settings.c:2041
 #, fuzzy
 msgid ""
 "Any time a unit moves while in sight of an enemy player, the remaining "
@@ -40225,13 +40233,13 @@ msgstr ""
 "无论何时当部队移动到敌人玩家的视野中时，如果剩余的超时时间比此值小则被设置为"
 "此值。"
 
-#: server/settings.c:2049
+#: server/settings.c:2047
 msgid "Time between unit moves over turn change"
 msgstr ""
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:2052
+#: server/settings.c:2050
 msgid ""
 "This setting gives the minimum amount of time in seconds between unit moves "
 "after a turn change occurs. For example, if this setting is set to 20 and a "
@@ -40241,22 +40249,22 @@ msgid ""
 "limited to a maximum value of 2/3 'timeout'."
 msgstr ""
 
-#: server/settings.c:2068
+#: server/settings.c:2066
 #, fuzzy
 msgid "Control of simultaneous player/team phases"
 msgstr "玩家是否同时移动。"
 
-#: server/settings.c:2069
+#: server/settings.c:2067
 msgid ""
 "This setting controls whether players may make moves at the same time during "
 "a turn."
 msgstr ""
 
-#: server/settings.c:2075
+#: server/settings.c:2073
 msgid "Seconds to let a client's network connection block"
 msgstr "客户端连接可以阻塞的秒数"
 
-#: server/settings.c:2076
+#: server/settings.c:2074
 msgid ""
 "If a network connection is blocking for a time greater than this value, then "
 "the connection is closed. Zero means there is no timeout (although "
@@ -40265,11 +40273,11 @@ msgstr ""
 "如果一个网络连接阻塞超过此时间，则该连接被关闭。0意味着没有超时（尽管连接最终"
 "将会被自动断开）。"
 
-#: server/settings.c:2085
+#: server/settings.c:2083
 msgid "Max seconds for network buffers to drain"
 msgstr "等待网络缓冲区变空的最大秒数"
 
-#: server/settings.c:2086
+#: server/settings.c:2084
 msgid ""
 "The server will wait for up to the value of this parameter in seconds, for "
 "all client connection network buffers to unblock. Zero means the server will "
@@ -40278,31 +40286,31 @@ msgstr ""
 "服务器将等待最多此参数长的时间，用于使所有的客户端连接缓冲区解除阻塞。0意味着"
 "服务器根本不等待。"
 
-#: server/settings.c:2094
+#: server/settings.c:2092
 msgid "Seconds between PINGs"
 msgstr "PING 之间间隔的秒数"
 
-#: server/settings.c:2095
+#: server/settings.c:2093
 #, fuzzy
 msgid ""
 "The server will poll the clients with a PING request each time this period "
 "elapses."
 msgstr "每隔这么久服务器将通过一个PING请求轮询客户端。"
 
-#: server/settings.c:2102
+#: server/settings.c:2100
 msgid "Time to cut a client"
 msgstr "断开一个客户端的时间"
 
-#: server/settings.c:2103
+#: server/settings.c:2101
 msgid ""
 "If a client doesn't reply to a PING in this time the client is disconnected."
 msgstr "如果客户端在此时长内没有响应PING请求，该客户端将被断开。"
 
-#: server/settings.c:2109
+#: server/settings.c:2107
 msgid "Turn-blocking game play mode"
 msgstr "回合阻塞模式"
 
-#: server/settings.c:2110
+#: server/settings.c:2108
 #, fuzzy
 msgid ""
 "If this is turned on, the game turn is not advanced until all players have "
@@ -40310,13 +40318,13 @@ msgid ""
 msgstr ""
 "如果设置为1，则直到所有玩家都结束回合，包括断开连接的玩家，游戏回合才算结束。"
 
-#: server/settings.c:2117
+#: server/settings.c:2115
 msgid "Fixed-length turns play mode"
 msgstr "固定时间回合模式"
 
 #. TRANS: \"Turn Done\" refers to the client button; it is also
 #. * translated separately, the translation should be the same.
-#: server/settings.c:2120
+#: server/settings.c:2118
 #, fuzzy
 msgid ""
 "If this is turned on the game turn will not advance until the timeout has "
@@ -40325,13 +40333,13 @@ msgstr ""
 "如果被设置为1，则游戏的每个回合在超时之前不会结束，即使所有玩家都点击了“回合"
 "结束”。"
 
-#: server/settings.c:2127
+#: server/settings.c:2125
 msgid "What is in the Demographics report"
 msgstr "人口统计报告的内容"
 
 #. TRANS: The strings between double quotes should be
 #. * translated.
-#: server/settings.c:2130
+#: server/settings.c:2128
 msgid ""
 "This should be a string of characters, each of which specifies the inclusion "
 "of a line of information in the Demographics report.\n"
@@ -40369,20 +40377,20 @@ msgstr ""
 "    b = 显示“最佳民族”列\n"
 "（这些字符的顺序不重要，但是它们的大小写重要。）"
 
-#: server/settings.c:2154
+#: server/settings.c:2152
 msgid "Turns per auto-save"
 msgstr "自动存盘之间的回合数"
 
 #. TRANS: The string between double quotes is also translated
 #. * separately (it must match!). The string between single
 #. * quotes is a setting name and shouldn't be translated.
-#: server/settings.c:2158
+#: server/settings.c:2156
 msgid ""
 "How many turns elapse between automatic game saves. This setting only has an "
 "effect when the 'autosaves' setting includes \"New turn\"."
 msgstr ""
 
-#: server/settings.c:2165
+#: server/settings.c:2163
 msgid "Which savegames are generated automatically"
 msgstr ""
 
@@ -40391,7 +40399,7 @@ msgstr ""
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between parentheses and in uppercase must stay as
 #. * untranslated.
-#: server/settings.c:2171
+#: server/settings.c:2169
 msgid ""
 "This setting controls which autosave types get generated:\n"
 "- \"New turn\" (TURN): Save when turn begins, once every 'saveturns' turns.\n"
@@ -40402,12 +40410,12 @@ msgid ""
 "interrupt."
 msgstr ""
 
-#: server/settings.c:2183
+#: server/settings.c:2181
 msgid "Savegame compression level"
 msgstr "存盘游戏的压缩级别"
 
 #. TRANS: 'compresstype' setting name should not be translated.
-#: server/settings.c:2185
+#: server/settings.c:2183
 #, fuzzy
 msgid ""
 "If non-zero, saved games will be compressed depending on the 'compresstype' "
@@ -40416,33 +40424,33 @@ msgstr ""
 "若非0，保存的游戏将被使用zlib（gzip格式）压缩。值越大将得到更好的压缩效果但是"
 "将耗费更长的时间。若最大值为0表明此服务器被编译为不能使用zlib。"
 
-#: server/settings.c:2193
+#: server/settings.c:2191
 #, fuzzy
 msgid "Savegame compression algorithm"
 msgstr "存盘游戏的压缩级别"
 
-#: server/settings.c:2194
+#: server/settings.c:2192
 msgid "Compression library to use for savegames."
 msgstr ""
 
-#: server/settings.c:2199
+#: server/settings.c:2197
 msgid "Save using the given savegame version"
 msgstr ""
 
-#: server/settings.c:2200
+#: server/settings.c:2198
 msgid ""
 "Create a savegame which can be loaded by the given version of Freeciv. Note "
 "that some features will not be saved/restored for older versions."
 msgstr ""
 
-#: server/settings.c:2207
+#: server/settings.c:2205
 msgid "Definition of the save file name"
 msgstr ""
 
 #. TRANS: %R, %S, %T and %Y must not be translated. The
 #. * strings (examples and setting names) between single quotes
 #. * neither. The strings between <> should be translated.
-#: server/settings.c:2212
+#: server/settings.c:2210
 #, no-c-format
 msgid ""
 "Within the string the following custom formats are allowed:\n"
@@ -40458,13 +40466,13 @@ msgid ""
 "appended to the value of 'savename'."
 msgstr ""
 
-#: server/settings.c:2230
+#: server/settings.c:2228
 msgid "Whether to log player statistics"
 msgstr "是否记录玩家统计信息"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:2233
+#: server/settings.c:2231
 #, fuzzy
 msgid ""
 "If this is turned on, player statistics are appended to the file defined by "
@@ -40474,21 +40482,21 @@ msgstr ""
 "如果被置为1，则每个回合后都将把玩家统计信息添加到文件“civscore.log”中。这些"
 "统计信息可以在游戏结束后用于创建势力图。"
 
-#: server/settings.c:2240
+#: server/settings.c:2238
 msgid "Name for the score log file"
 msgstr ""
 
 #. TRANS: Don't translate the string in single quotes.
-#: server/settings.c:2242
+#: server/settings.c:2240
 msgid "The default name for the score log file is 'freeciv-score.log'."
 msgstr ""
 
-#: server/settings.c:2248
+#: server/settings.c:2246
 #, fuzzy
 msgid "Maximum number of connections to the server per host"
 msgstr "到服务器的连接列表："
 
-#: server/settings.c:2249
+#: server/settings.c:2247
 msgid ""
 "New connections from a given host will be rejected if the total number of "
 "connections from the very same host equals or exceeds this value. A value of "
@@ -40496,118 +40504,118 @@ msgid ""
 "connections supported by the server."
 msgstr ""
 
-#: server/settings.c:2259
+#: server/settings.c:2257
 msgid "Time before a kicked user can reconnect"
 msgstr ""
 
 #. TRANS: the string in double quotes is a server command name and
 #. * should not be translated
-#: server/settings.c:2262
+#: server/settings.c:2260
 msgid ""
 "Gives the time in seconds before a user kicked using the \"kick\" command "
 "may reconnect. Changing this setting will affect users kicked in the past."
 msgstr ""
 
-#: server/settings.c:2363
+#: server/settings.c:2361
 #, fuzzy, c-format
 msgid "You are not allowed to change the setting '%s'."
 msgstr "不允许您设置此选项。"
 
-#: server/settings.c:2371
+#: server/settings.c:2369
 #, c-format
 msgid "The setting '%s' is locked by the ruleset."
 msgstr ""
 
-#: server/settings.c:2385
+#: server/settings.c:2383
 #, fuzzy, c-format
 msgid "The setting '%s' can't be modified after the map is fixed."
 msgstr "在游戏开始之后不能修改该设置。"
 
-#: server/settings.c:2402
+#: server/settings.c:2400
 #, fuzzy, c-format
 msgid "The setting '%s' can't be modified after the game has started."
 msgstr "在游戏开始之后不能修改该设置。"
 
-#: server/settings.c:2414
+#: server/settings.c:2412
 #, fuzzy
 msgid "Internal error."
 msgstr "内部"
 
-#: server/settings.c:2502
+#: server/settings.c:2500
 #, c-format
 msgid "\"%s\" prefix is ambiguous. Candidates are: %s."
 msgstr ""
 
-#: server/settings.c:2509
+#: server/settings.c:2507
 #, fuzzy
 msgid "Missing value."
 msgstr "巡航导弹"
 
-#: server/settings.c:2518
+#: server/settings.c:2516
 #, fuzzy, c-format
 msgid "No match for \"%s\"."
 msgstr "您投票支持“%s”"
 
-#: server/settings.c:2556
+#: server/settings.c:2554
 #, fuzzy
 msgid "This setting is not a boolean."
 msgstr "本设置页"
 
-#: server/settings.c:2677
+#: server/settings.c:2675
 #, fuzzy
 msgid "This setting is not an integer."
 msgstr "本设置页"
 
-#: server/settings.c:2683
+#: server/settings.c:2681
 #, fuzzy, c-format
 msgid "Value out of range: %d (min: %d; max: %d)."
 msgstr "值超出预定范围 (最小：%d，最大：%d)。"
 
-#: server/settings.c:2738
+#: server/settings.c:2736
 #, fuzzy
 msgid "This setting is not a string."
 msgstr "本设置页"
 
-#: server/settings.c:2744
+#: server/settings.c:2742
 #, fuzzy, c-format
 msgid "String value too long (max length: %lu)."
 msgstr "过长的字符串值。用法：set <选项> <值>。"
 
-#: server/settings.c:2822
+#: server/settings.c:2820
 #, fuzzy
 msgid "This setting is not an enumerator."
 msgstr "本设置页"
 
 #. TRANS: only emphasizing a string.
-#: server/settings.c:2991
+#: server/settings.c:2989
 #, fuzzy, c-format
 msgid "\"%s\""
 msgstr "%s"
 
 #. TRANS: Bitwise setting has no bits set.
-#: server/settings.c:3000
+#: server/settings.c:2998
 #, fuzzy
 msgid "empty value"
 msgstr "巡航导弹"
 
-#: server/settings.c:3052
+#: server/settings.c:3050
 #, fuzzy
 msgid "This setting is not a bitwise."
 msgstr "本设置页"
 
-#: server/settings.c:3310 server/settings.c:3330 server/settings.c:3350
-#: server/settings.c:3374 server/settings.c:3398
+#: server/settings.c:3308 server/settings.c:3328 server/settings.c:3348
+#: server/settings.c:3372 server/settings.c:3396
 #, fuzzy, c-format
 msgid "Ruleset: '%s' has been set to %s."
 msgstr "选项：%s 已被设置为“%s”。"
 
-#: server/settings.c:3415
+#: server/settings.c:3413
 #, fuzzy, c-format
 msgid "Ruleset: '%s' has been locked by the ruleset."
 msgstr "选项：%s 已被设置为“%s”。"
 
-#: server/settings.c:3671 server/settings.c:3696 server/settings.c:3718
-#: server/settings.c:3745 server/settings.c:3772
+#: server/settings.c:3669 server/settings.c:3694 server/settings.c:3716
+#: server/settings.c:3743 server/settings.c:3770
 #, fuzzy, c-format
 msgid "Savegame: '%s' has been set to %s."
 msgstr "选项：%s 已被设置为“%s”。"
@@ -40878,35 +40886,35 @@ msgstr "等待游戏开始：%2$d 个玩家中的 %1$d 个已经准备就绪。"
 msgid "%s rules the %s."
 msgstr "%s 统治 %s。"
 
-#: server/srv_main.c:2362
+#: server/srv_main.c:2367
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
 msgstr ""
 
-#: server/srv_main.c:2431
+#: server/srv_main.c:2436
 #, fuzzy, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "将信息发送到元服务器 [%s]"
 
-#: server/srv_main.c:2435
+#: server/srv_main.c:2440
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 
-#: server/srv_main.c:2456
+#: server/srv_main.c:2461
 msgid "The game is over..."
 msgstr "游戏结束..."
 
-#: server/srv_main.c:2541
+#: server/srv_main.c:2546
 msgid "Failed to create suitable map, retrying with another mapseed"
 msgstr ""
 
-#: server/srv_main.c:2556
+#: server/srv_main.c:2561
 #, fuzzy
 msgid "Cannot create suitable map with given settings."
 msgstr "* 您不能在此地形上建造城市。"
 
-#: server/srv_main.c:2754
+#: server/srv_main.c:2759
 msgid "Now accepting new client connections."
 msgstr "现在接受新客户端的连接。"
 
@@ -41276,7 +41284,7 @@ msgstr "选项：%s 已被设置为“%s”。"
 msgid "Option: %s"
 msgstr "选项 %s"
 
-#: server/stdinhand.c:1744 server/stdinhand.c:5893
+#: server/stdinhand.c:1744 server/stdinhand.c:5896
 msgid "Description:"
 msgstr "描述："
 
@@ -41811,7 +41819,7 @@ msgstr ""
 msgid "%s now controls %s (%s, %s)."
 msgstr "%s 现在控制 %s （%s，%s）"
 
-#: server/stdinhand.c:3457 server/stdinhand.c:6227
+#: server/stdinhand.c:3457 server/stdinhand.c:6230
 msgid "Human"
 msgstr "真人"
 
@@ -41886,7 +41894,7 @@ msgstr "找不到规则集目录“%s”"
 msgid "Ruleset directory set to \"%s\""
 msgstr "规则集合目录被设置为“%s”"
 
-#: server/stdinhand.c:3813 server/stdinhand.c:3849 server/stdinhand.c:6143
+#: server/stdinhand.c:3813 server/stdinhand.c:3849 server/stdinhand.c:6146
 msgid "That would be rather silly, since you are not a player."
 msgstr ""
 
@@ -41900,7 +41908,7 @@ msgstr ""
 msgid "Added pattern %s as entry %d to your ignore list."
 msgstr ""
 
-#: server/stdinhand.c:3858 server/stdinhand.c:6148
+#: server/stdinhand.c:3858 server/stdinhand.c:6151
 #, fuzzy
 msgid "Your ignore list is empty."
 msgstr "%s 的工作列表现在为空。"
@@ -42344,65 +42352,65 @@ msgstr ""
 msgid "Ambiguous fcdb command."
 msgstr ""
 
-#: server/stdinhand.c:5604
+#: server/stdinhand.c:5607
 #, fuzzy
 msgid "Not enough human players; game will not start."
 msgstr "玩家人数不足，不能开始游戏。"
 
-#: server/stdinhand.c:5609
+#: server/stdinhand.c:5612
 #, fuzzy
 msgid "No players; game will not start."
 msgstr "玩家人数不足，不能开始游戏。"
 
-#: server/stdinhand.c:5613
+#: server/stdinhand.c:5616
 #, fuzzy
 msgid "Not enough nations for all players; game will not start."
 msgstr "玩家人数不足，不能开始游戏。"
 
-#: server/stdinhand.c:5622
+#: server/stdinhand.c:5625
 msgid "All players are ready; starting game."
 msgstr "所有玩家就绪；启动游戏。"
 
 #. TRANS: given when /start is invoked during gameover.
-#: server/stdinhand.c:5638
+#: server/stdinhand.c:5641
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr "无法开始游戏：游戏正在等待所有的客户端断开连接。"
 
 #. TRANS: given when /start is invoked while the game
 #. * is running.
-#: server/stdinhand.c:5645
+#: server/stdinhand.c:5648
 msgid "Cannot start the game: it is already running."
 msgstr "无法开始游戏：它已经在运行了。"
 
-#: server/stdinhand.c:5676
+#: server/stdinhand.c:5679
 #, c-format
 msgid "Cutting connection %s."
 msgstr "切断连接 %s。"
 
-#: server/stdinhand.c:5677
+#: server/stdinhand.c:5680
 #, fuzzy
 msgid "connection cut"
 msgstr "切断连接"
 
-#: server/stdinhand.c:5765
+#: server/stdinhand.c:5768
 #, fuzzy
 msgid "You may not kick yourself."
 msgstr "您必须选择您的性别。"
 
-#: server/stdinhand.c:5788
+#: server/stdinhand.c:5791
 #, c-format
 msgid ""
 "There must be at least %d unique connections to the server for this command "
 "to be valid."
 msgstr ""
 
-#: server/stdinhand.c:5814
+#: server/stdinhand.c:5817
 #, fuzzy
 msgid "kicked"
 msgstr "已阻塞"
 
-#: server/stdinhand.c:5830
+#: server/stdinhand.c:5833
 #, fuzzy
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
@@ -42442,168 +42450,168 @@ msgstr ""
 "  quit   -  退出"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:5867
+#: server/stdinhand.c:5870
 #, fuzzy, c-format
 msgid "Command: %s  -  %s"
 msgstr "命令： %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:5873
+#: server/stdinhand.c:5876
 #, fuzzy, c-format
 msgid "Command: %s"
 msgstr "命令： %s"
 
-#: server/stdinhand.c:5878
+#: server/stdinhand.c:5881
 msgid "Synopsis: "
 msgstr "提要： "
 
-#: server/stdinhand.c:5887
+#: server/stdinhand.c:5890
 #, c-format
 msgid "Level: %s"
 msgstr "级别： %s"
 
-#: server/stdinhand.c:5911
+#: server/stdinhand.c:5914
 msgid "The following server commands are available:"
 msgstr "可以使用下列服务器命令："
 
-#: server/stdinhand.c:5972
+#: server/stdinhand.c:5975
 #, c-format
 msgid "Possible matches: %s"
 msgstr ""
 
-#: server/stdinhand.c:6034
+#: server/stdinhand.c:6037
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "帮助参数“%s”有歧义。"
 
-#: server/stdinhand.c:6041
+#: server/stdinhand.c:6044
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "没有匹配的帮助参数“%s”。"
 
-#: server/stdinhand.c:6082
+#: server/stdinhand.c:6085
 msgid "List of connections to server:"
 msgstr "到服务器的连接列表："
 
-#: server/stdinhand.c:6086
+#: server/stdinhand.c:6089
 msgid "<no connections>"
 msgstr "<无连接>"
 
-#: server/stdinhand.c:6107
+#: server/stdinhand.c:6110
 #, fuzzy
 msgid "List of all delegations:"
 msgstr "团队列表："
 
 #. TRANS: last %s is either " (active)" or empty string
-#: server/stdinhand.c:6119
+#: server/stdinhand.c:6122
 #, c-format
 msgid "%s delegates control over player '%s' to user %s%s."
 msgstr ""
 
-#: server/stdinhand.c:6121
+#: server/stdinhand.c:6124
 #, fuzzy
 msgid " (active)"
 msgstr "活动"
 
-#: server/stdinhand.c:6127
+#: server/stdinhand.c:6130
 msgid "No delegations defined."
 msgstr ""
 
-#: server/stdinhand.c:6152
+#: server/stdinhand.c:6155
 msgid "Your ignore list:"
 msgstr ""
 
-#: server/stdinhand.c:6168
+#: server/stdinhand.c:6171
 msgid "List of players:"
 msgstr "玩家列表："
 
-#: server/stdinhand.c:6172 server/stdinhand.c:6339
+#: server/stdinhand.c:6175 server/stdinhand.c:6342
 msgid "<no players>"
 msgstr "<无玩家>"
 
-#: server/stdinhand.c:6202
+#: server/stdinhand.c:6205
 #, fuzzy, c-format
 msgid ", user %s"
 msgstr "用户 %s，"
 
-#: server/stdinhand.c:6206
+#: server/stdinhand.c:6209
 msgid ", ready"
 msgstr "，就绪"
 
-#: server/stdinhand.c:6210
+#: server/stdinhand.c:6213
 msgid ", not ready"
 msgstr "未就绪"
 
-#: server/stdinhand.c:6216
+#: server/stdinhand.c:6219
 msgid ", Dead"
 msgstr "，死亡"
 
-#: server/stdinhand.c:6230
+#: server/stdinhand.c:6233
 #, c-format
 msgid ", %s"
 msgstr ""
 
-#: server/stdinhand.c:6231
+#: server/stdinhand.c:6234
 #, c-format
 msgid ", difficulty level %s"
 msgstr "，难度级别 %s"
 
-#: server/stdinhand.c:6237
+#: server/stdinhand.c:6240
 #, fuzzy, c-format
 msgid ", %d connection:"
 msgid_plural ", %d connections:"
 msgstr[0] " %d 个连接："
 
-#: server/stdinhand.c:6244
+#: server/stdinhand.c:6247
 #, fuzzy, c-format
 msgid "%s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s 来自 %s （命令访问级别 %s ），缓冲区大小 ＝ %d kb"
 
-#: server/stdinhand.c:6249
+#: server/stdinhand.c:6252
 msgid " (observer mode)"
 msgstr " （旁观者模式）"
 
-#: server/stdinhand.c:6266
+#: server/stdinhand.c:6269
 msgid "List of scenarios available:"
 msgstr "可用的情景列表："
 
-#: server/stdinhand.c:6287
+#: server/stdinhand.c:6290
 msgid "List of teams:"
 msgstr "团队列表："
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:6297
+#: server/stdinhand.c:6300
 #, fuzzy, c-format
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
 msgstr[0] "%2d ：“%s” ： %d 个玩家"
 
-#: server/stdinhand.c:6318
+#: server/stdinhand.c:6321
 #, fuzzy
 msgid "No map image definitions."
 msgstr "玩家的初始部队列表"
 
-#: server/stdinhand.c:6320
+#: server/stdinhand.c:6323
 #, fuzzy
 msgid "List of map image definitions:"
 msgstr "玩家的初始部队列表"
 
-#: server/stdinhand.c:6325
+#: server/stdinhand.c:6328
 #, c-format
 msgid "[%2d] %s"
 msgstr ""
 
-#: server/stdinhand.c:6336
+#: server/stdinhand.c:6339
 #, fuzzy
 msgid "List of player colors:"
 msgstr "玩家列表："
 
-#: server/stdinhand.c:6342
+#: server/stdinhand.c:6345
 #, fuzzy, c-format
 msgid "%s (user %s): [%s]"
 msgstr "新投票（编号 %d），由 %s：%s 发起。"
 
-#: server/stdinhand.c:6399
+#: server/stdinhand.c:6402
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "错误的列表参数：“%s”。试用“%shelp list”。"
@@ -42867,7 +42875,7 @@ msgstr "只有 %s 可以从海洋进行攻击。"
 msgid "Cannot attack from sea."
 msgstr "无法从海洋进行攻击。"
 
-#: server/unithand.c:1290 server/unittools.c:2473
+#: server/unithand.c:1290 server/unittools.c:2514
 msgid "Cannot attack unless you declare war first."
 msgstr "除非您首先宣战否则无法攻击。"
 
@@ -42881,7 +42889,7 @@ msgstr "%s 只能移动到您自己控制的区域。"
 msgid "%s cannot move that far from the coast line."
 msgstr ""
 
-#: server/unithand.c:1308 server/unittools.c:2480
+#: server/unithand.c:1308 server/unittools.c:2521
 #, fuzzy, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "除非您首先宣战否则无法攻击。"
@@ -42990,89 +42998,89 @@ msgstr ""
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr "抱歉，%s 取消了从 %s 到您的城市 %s 的贸易路线。"
 
-#: server/unittools.c:329
+#: server/unittools.c:331
 #, fuzzy, c-format
 msgid "%s was upgraded for free to %s."
 msgstr "已经将 %s 免费升级到 %s。"
 
-#: server/unittools.c:377
+#: server/unittools.c:379
 #, c-format
 msgid "Your %s has run out of hit points."
 msgstr "您的 %s 已经耗尽了生命值。"
 
-#: server/unittools.c:453
+#: server/unittools.c:455
 #, c-format
 msgid "Your %s has returned to refuel."
 msgstr "您的 %s 已经回去添加燃料。"
 
-#: server/unittools.c:484
+#: server/unittools.c:486
 #, c-format
 msgid "Your %s has run out of fuel."
 msgstr "您的 %s 的燃料已经耗尽。"
 
 #. TRANS: Your <unit> became ... rank of <veteran level>.
-#: server/unittools.c:692
+#: server/unittools.c:694
 #, fuzzy, c-format
 msgid "Your %s became more experienced and achieved the rank of %s."
 msgstr "您的 %s 变得更有经验！"
 
-#: server/unittools.c:1099
+#: server/unittools.c:1102
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr "已将您的 %s 传送到 %s 。"
 
 #. TRANS: A unit is moved to resolve stack conflicts.
-#: server/unittools.c:1162
+#: server/unittools.c:1167
 #, fuzzy, c-format
 msgid "Moved your %s."
 msgstr "解散了您的 %s。"
 
 #. TRANS: A unit is disbanded to resolve stack conflicts.
-#: server/unittools.c:1173
+#: server/unittools.c:1178
 #, c-format
 msgid "Disbanded your %s."
 msgstr "解散了您的 %s。"
 
-#: server/unittools.c:1522
+#: server/unittools.c:1527
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "不能防御 %s ，%s 输掉了游戏。"
 
-#: server/unittools.c:1526
+#: server/unittools.c:1531
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr "丢掉 %s 就意味着输掉游戏！下次小心点！"
 
-#: server/unittools.c:1575
+#: server/unittools.c:1580
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "%s 随 %s 的损失而损失。"
 
-#: server/unittools.c:1729
+#: server/unittools.c:1742
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s 从 %s 的解体中逃脱出来，并流亡到 %s。"
 
-#: server/unittools.c:1803
+#: server/unittools.c:1817
 #, fuzzy, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgid_plural "Barbarian leader captured; %d gold ransom paid."
 msgstr[0] "捕获野人头领，获得 %d 赎金。"
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1824
+#: server/unittools.c:1838
 #, fuzzy, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "您的 %1$s 对 %2$s 的 %3$s 的攻击成功！"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1833 server/unittools.c:1894
+#: server/unittools.c:1847 server/unittools.c:1908
 #, fuzzy, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "在 %2$s 的 %3$s 的攻击下损失了 %1$s 。"
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1869
+#: server/unittools.c:1883
 #, fuzzy, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -43081,14 +43089,14 @@ msgstr[0] "您的 %s 对 %s 的 %s （以及 %d 其它部队）的攻击成功！"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1904
+#: server/unittools.c:1918
 #, fuzzy, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "在 %2$s 的 %3$s 攻击 %4$s 的 %5$s 时损失了 %1$s 。"
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1920
+#: server/unittools.c:1934
 #, fuzzy, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "在 %3$s 的 %4$s 的攻击下损失了 %1$s %2$s 。"
@@ -43096,7 +43104,7 @@ msgstr "在 %3$s 的 %4$s 的攻击下损失了 %1$s %2$s 。"
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1931
+#: server/unittools.c:1945
 #, fuzzy, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -43105,153 +43113,153 @@ msgstr[0] "在 %3$s 的 %4$s 的攻击下损失了 %2$s %1$d 。"
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1946
+#: server/unittools.c:1960
 #, fuzzy, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%d 自动攻击： %s 的 %s 正在攻击 %s 的 %s"
 
-#: server/unittools.c:2246
+#: server/unittools.c:2287
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "您的 %s 被 %s “核”了。"
 
-#: server/unittools.c:2249 server/unittools.c:2267
+#: server/unittools.c:2290 server/unittools.c:2308
 msgid "yourself"
 msgstr "您自己"
 
-#: server/unittools.c:2253
+#: server/unittools.c:2294
 #, fuzzy, c-format
 msgid "The %s %s was nuked."
 msgstr "%s 的 %s 遭到核武器的攻击。"
 
-#: server/unittools.c:2264
+#: server/unittools.c:2305
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s 遭到 %s 的核武器的攻击。"
 
-#: server/unittools.c:2272
+#: server/unittools.c:2313
 #, c-format
 msgid "You nuked %s."
 msgstr "您以核武器攻击 %s。"
 
-#: server/unittools.c:2324
+#: server/unittools.c:2365
 #, fuzzy, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s 引爆了核弹！"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2348 server/unittools.c:2356
+#: server/unittools.c:2389 server/unittools.c:2397
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr ""
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2367
+#: server/unittools.c:2408
 #, fuzzy, c-format
 msgid "%s cannot be transported to %s."
 msgstr "改变为 %s"
 
-#: server/unittools.c:2377
+#: server/unittools.c:2418
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s 运输成功。"
 
-#: server/unittools.c:2436
+#: server/unittools.c:2477
 msgid "This unit type can not be paradropped."
 msgstr "这种类型的部队不能空降。"
 
-#: server/unittools.c:2446
+#: server/unittools.c:2487
 #, fuzzy
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "您不能空降一个运输部队。"
 
-#: server/unittools.c:2452
+#: server/unittools.c:2493
 msgid "The destination location is not known."
 msgstr "目的位置未知。"
 
-#: server/unittools.c:2462
+#: server/unittools.c:2503
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "此部队不能空降到 %s。"
 
-#: server/unittools.c:2491
+#: server/unittools.c:2532
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "到目标的距离（%i）超出了部队的范围（%i）。"
 
-#: server/unittools.c:2502
+#: server/unittools.c:2543
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "您的 %s 被空降到 %s 并全部损失。"
 
-#: server/unittools.c:2516
+#: server/unittools.c:2557
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "您的 %s 在空降目的地被敌方部队杀死了。"
 
-#: server/unittools.c:2587
+#: server/unittools.c:2628
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "您在空中的飞过惊吓了部落；他们被吓得四下逃窜。"
 
-#: server/unittools.c:2867
+#: server/unittools.c:2908
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "因附近有部队而取消对 %s 的命令。"
 
-#: server/unittools.c:3398
+#: server/unittools.c:3462
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "因附近有部队而取消对 %s 的命令。"
 
-#: server/unittools.c:3449
+#: server/unittools.c:3513
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "因修建城市失败而取消对 %s 的命令。"
 
-#: server/unittools.c:3465
+#: server/unittools.c:3529
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "%s 的命令被取消因为它给出了无效的活动。"
 
-#: server/unittools.c:3484
+#: server/unittools.c:3548
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "%s 的命令被取消因为它给出了无效的位置。"
 
-#: server/unittools.c:3494
+#: server/unittools.c:3558
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "因有部队挡在路中而取消对 %s 的命令。"
 
-#: server/unittools.c:3519
+#: server/unittools.c:3583
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "因移动无效而取消对 %s 的命令。"
 
-#: server/unittools.c:3560
+#: server/unittools.c:3624
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "试图改变 %s 的基地城市失败。"
 
-#: server/unittools.c:3571
+#: server/unittools.c:3635
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "试图为 %s 建立贸易路线失败。"
 
-#: server/unittools.c:3583
+#: server/unittools.c:3647
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "试图为 %s 修建奇迹失败。"
 
-#: server/unittools.c:3592
+#: server/unittools.c:3656
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "您的 %s 得到了无效的命令。"
 
-#: server/unittools.c:3690
+#: server/unittools.c:3754
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."
@@ -43381,7 +43389,7 @@ msgstr ""
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. *        <externally translated error string>."
-#: utility/fciconv.c:205
+#: utility/fciconv.c:208
 #, c-format
 msgid "Could not convert text from %s to %s: %s"
 msgstr "不能将文本从 %s 转换成 %s ：%s"
@@ -43574,6 +43582,16 @@ msgstr "错误 %ld （格式化消息失败）"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "错误 %d （编译时未引入 strerror）"
+
+#, fuzzy
+#~ msgid ""
+#~ "Oceans cover much of the world, and only sea units (Triremes and other "
+#~ "boats) can travel on them."
+#~ msgstr ""
+#~ "海洋覆盖了大部分世界，而且只有海上部队(三层桨座帆船和其它船只)才能在其中航"
+#~ "行。\n"
+#~ "\n"
+#~ "海洋方格从不会被污染或辐射。"
 
 #~ msgid "* Land units cannot travel on oceanic terrains."
 #~ msgstr "* 陆地部队不能在海洋地形上穿行。"

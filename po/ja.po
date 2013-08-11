@@ -156,7 +156,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-27 11:39+0100\n"
+"POT-Creation-Date: 2013-08-11 10:31+0100\n"
 "PO-Revision-Date: 2012-03-30 04:47+0900\n"
 "Last-Translator: Belgae <freeciv.belgae AT gmail.com>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -508,12 +508,12 @@ msgstr ""
 "*%s (AI)* 我々は%sの猛攻を受けており，貴国の助力を必要としている！我々の光栄"
 "ある同盟を守りたまえ，貴君の名は永遠のものとなるであろう！"
 
-#: ai/default/aicity.c:308 server/citytools.c:2411
+#: ai/default/aicity.c:308 server/citytools.c:2416
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%sは%sを %sに建てるのを中断しました。"
 
-#: ai/default/aicity.c:319 server/citytools.c:2449
+#: ai/default/aicity.c:319 server/citytools.c:2454
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "%sは%sを %sに建て始めました。"
@@ -549,7 +549,7 @@ msgstr "総督府は %sの扱いに混乱してしまいました。確認した
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:431 client/gui-sdl/mapview.c:159
-#: server/console.c:71 server/srv_main.c:2558 utility/log.c:516
+#: server/console.c:71 server/srv_main.c:2563 utility/log.c:516
 #: utility/netintf.c:93 utility/registry.c:893
 #, c-format
 msgid "Please report this message at %s"
@@ -3545,9 +3545,9 @@ msgstr "発明"
 
 #: client/gui-gtk-2.0/editprop.c:4167 client/gui-gtk-2.0/repodlgs.c:1251
 #: client/gui-gtk-3.0/editprop.c:4191 client/gui-gtk-3.0/repodlgs.c:1283
-#: common/city.c:85 data/civ1/terrain.ruleset:609
-#: data/civ2/terrain.ruleset:623 data/default/terrain.ruleset:737
-#: data/experimental/terrain.ruleset:739 data/multiplayer/terrain.ruleset:737
+#: common/city.c:85 data/civ1/terrain.ruleset:608
+#: data/civ2/terrain.ruleset:622 data/default/terrain.ruleset:736
+#: data/experimental/terrain.ruleset:738 data/multiplayer/terrain.ruleset:736
 msgid "Gold"
 msgstr "金"
 
@@ -3795,40 +3795,40 @@ msgstr "%s へバグを報告してください。\n"
 # No, just leave it "Freeciv" wherever you find it.
 # (Also, note that the "c" in "Freeciv" is not capitalized.)
 #: client/gui-gtk-2.0/gui_main.c:748 client/gui-gtk-2.0/gui_main.c:1553
-#: client/gui-gtk-3.0/gui_main.c:733 client/gui-gtk-3.0/gui_main.c:1609
+#: client/gui-gtk-3.0/gui_main.c:735 client/gui-gtk-3.0/gui_main.c:1611
 #: client/gui-sdl/gui_main.c:795 client/gui-sdl/gui_main.c:810
 msgid "Freeciv"
 msgstr "Freeciv"
 
 #: client/gui-gtk-2.0/gui_main.c:1210 client/gui-gtk-2.0/gui_main.c:1218
-#: client/gui-gtk-3.0/gui_main.c:1207 client/gui-gtk-3.0/gui_main.c:1215
+#: client/gui-gtk-3.0/gui_main.c:1209 client/gui-gtk-3.0/gui_main.c:1217
 #: client/gui-sdl/mapctrl.c:1575 data/Freeciv.in:2663
 msgid "Turn Done"
 msgstr "ターン終了"
 
-#: client/gui-gtk-2.0/gui_main.c:1218 client/gui-gtk-3.0/gui_main.c:1215
+#: client/gui-gtk-2.0/gui_main.c:1218 client/gui-gtk-3.0/gui_main.c:1217
 #: client/gui-sdl/mapctrl.c:1575 client/gui-sdl/mapview.c:895
 msgid "Shift+Return"
 msgstr "Shift+Return"
 
-#: client/gui-gtk-2.0/gui_main.c:1289 client/gui-gtk-3.0/gui_main.c:1292
+#: client/gui-gtk-2.0/gui_main.c:1289 client/gui-gtk-3.0/gui_main.c:1294
 msgid "?noun:View"
 msgstr "ビュー"
 
-#: client/gui-gtk-2.0/gui_main.c:1401 client/gui-gtk-3.0/gui_main.c:1412
+#: client/gui-gtk-2.0/gui_main.c:1401 client/gui-gtk-3.0/gui_main.c:1414
 msgid "Chat"
 msgstr "チャット"
 
-#: client/gui-gtk-2.0/gui_main.c:1425 client/gui-gtk-3.0/gui_main.c:1439
+#: client/gui-gtk-2.0/gui_main.c:1425 client/gui-gtk-3.0/gui_main.c:1441
 msgid "Allies Only"
 msgstr "同盟のみ"
 
-#: client/gui-gtk-2.0/gui_main.c:1434 client/gui-gtk-3.0/gui_main.c:1448
+#: client/gui-gtk-2.0/gui_main.c:1434 client/gui-gtk-3.0/gui_main.c:1450
 msgid "Clear links"
 msgstr "リンクの解除"
 
 # Daniel
-#: client/gui-gtk-2.0/gui_main.c:2002 client/gui-gtk-3.0/gui_main.c:2006
+#: client/gui-gtk-2.0/gui_main.c:2002 client/gui-gtk-3.0/gui_main.c:2008
 #: modinst/modinst.c:102
 msgid "Are you sure you want to quit?"
 msgstr "ゲームを終了してよろしいですか？"
@@ -4080,7 +4080,7 @@ msgstr "）"
 #: client/gui-gtk-2.0/inteldlg.c:410 client/gui-gtk-3.0/helpdlg.c:1121
 #: client/gui-gtk-3.0/helpdlg.c:1215 client/gui-gtk-3.0/inteldlg.c:402
 #: client/gui-xaw/helpdlg.c:1007 client/gui-xaw/helpdlg.c:1092
-#: common/requirements.c:1376 common/requirements.c:1430
+#: common/requirements.c:1388 common/requirements.c:1442
 #, c-format
 msgid "(none)"
 msgstr "(なし)"
@@ -5365,7 +5365,7 @@ msgstr "AI状態を切り替える(_T)"
 #: client/gui-gtk-2.0/repodlgs.c:520 client/gui-gtk-3.0/repodlgs.c:539
 #: client/gui-sdl/mapctrl.c:1418 client/gui-sdl/mapview.c:334
 #: client/gui-sdl/mapview.c:338 client/gui-sdl/mapview.c:344
-#: client/gui-sdl/repodlgs.c:3278 client/gui-xaw/menu.c:230
+#: client/gui-sdl/repodlgs.c:3286 client/gui-xaw/menu.c:230
 #: client/gui-xaw/repodlgs.c:252 client/gui-xaw/repodlgs.c:475
 #: data/Freeciv.in:1384
 msgid "Research"
@@ -5803,12 +5803,12 @@ msgstr "なにもしない"
 #: client/gui-sdl/diplomat_dialog.c:1179 client/gui-sdl/diplomat_dialog.c:1250
 #: client/gui-sdl/diplomat_dialog.c:1464 client/gui-sdl/finddlg.c:149
 #: client/gui-sdl/gotodlg.c:258 client/gui-sdl/helpdlg.c:234
-#: client/gui-sdl/helpdlg.c:627 client/gui-sdl/helpdlg.c:1936
+#: client/gui-sdl/helpdlg.c:627 client/gui-sdl/helpdlg.c:1937
 #: client/gui-sdl/inteldlg.c:250 client/gui-sdl/optiondlg.c:783
 #: client/gui-sdl/plrdlg.c:351 client/gui-sdl/plrdlg.c:634
 #: client/gui-sdl/repodlgs.c:390 client/gui-sdl/repodlgs.c:2007
-#: client/gui-sdl/repodlgs.c:2884 client/gui-sdl/repodlgs.c:3072
-#: client/gui-sdl/repodlgs.c:3339 client/gui-sdl/spaceshipdlg.c:164
+#: client/gui-sdl/repodlgs.c:2892 client/gui-sdl/repodlgs.c:3080
+#: client/gui-sdl/repodlgs.c:3347 client/gui-sdl/spaceshipdlg.c:164
 msgid "Close Dialog (Esc)"
 msgstr "閉じる(Esc)"
 
@@ -6400,7 +6400,7 @@ msgstr "大使館を与える"
 msgid "Gold(max %d)"
 msgstr "金(最大 %d)"
 
-#: client/gui-sdl/diplodlg.c:649 client/gui-sdl/helpdlg.c:1983
+#: client/gui-sdl/diplodlg.c:649 client/gui-sdl/helpdlg.c:1984
 #: data/Freeciv.in:410 data/Freeciv.in:419
 msgid "Advances"
 msgstr "科学技術"
@@ -6626,7 +6626,7 @@ msgstr "( 付随条件 "
 msgid " )"
 msgstr " )"
 
-#: client/gui-sdl/helpdlg.c:1915
+#: client/gui-sdl/helpdlg.c:1916
 msgid "Help : Advances Tree"
 msgstr "ヘルプ: 科学技術ツリー"
 
@@ -7204,7 +7204,7 @@ msgid "R.I.P."
 msgstr "永眠"
 
 #: client/gui-sdl/plrdlg.c:653 client/plrdlg_common.c:236
-#: server/stdinhand.c:3456 server/stdinhand.c:6225
+#: server/stdinhand.c:3456 server/stdinhand.c:6228
 msgid "AI"
 msgstr "AI"
 
@@ -7307,31 +7307,31 @@ msgstr "更新"
 msgid "Wonder"
 msgstr "不思議"
 
-#: client/gui-sdl/repodlgs.c:2868
+#: client/gui-sdl/repodlgs.c:2876
 msgid "What should we focus on now?"
 msgstr "何を目標にしますか?"
 
-#: client/gui-sdl/repodlgs.c:3056
+#: client/gui-sdl/repodlgs.c:3064
 msgid "Select target :"
 msgstr "目的を選択:"
 
-#: client/gui-sdl/repodlgs.c:3125
+#: client/gui-sdl/repodlgs.c:3133
 msgid "step"
 msgid_plural "steps"
 msgstr[0] "ステップ"
 
 #  1: The 雄大な 日本人 scored 165 points
-#: client/gui-sdl/repodlgs.c:3415 client/gui-xaw/repodlgs.c:1193
+#: client/gui-sdl/repodlgs.c:3423 client/gui-xaw/repodlgs.c:1193
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
 msgstr[0] "%2d: %s%s %d点\n"
 
-#: client/gui-sdl/repodlgs.c:3422 client/gui-xaw/repodlgs.c:1200
+#: client/gui-sdl/repodlgs.c:3430 client/gui-xaw/repodlgs.c:1200
 msgid "Final Report:"
 msgstr "最終報告:"
 
-#: client/gui-sdl/repodlgs.c:3423 client/gui-xaw/repodlgs.c:1201
+#: client/gui-sdl/repodlgs.c:3431 client/gui-xaw/repodlgs.c:1201
 msgid "The Greatest Civilizations in the world."
 msgstr "世界の偉大な文明。"
 
@@ -7368,7 +7368,7 @@ msgid "Loading theme \"%s\"."
 msgstr "テーマ\"%s\"をロードしています。"
 
 #: client/gui-sdl/themespec.c:485 client/gui-sdl/themespec.c:519
-#: client/tilespec.c:1186 client/tilespec.c:1220
+#: client/tilespec.c:1192 client/tilespec.c:1226
 #, c-format
 msgid ""
 "Could not open '%s':\n"
@@ -7890,7 +7890,7 @@ msgstr "海岸線"
 msgid "Roads & Rails"
 msgstr "道路と鉄道"
 
-#: client/gui-xaw/menu.c:156 common/terrain.c:512 common/terrain.c:819
+#: client/gui-xaw/menu.c:156 common/terrain.c:512 common/terrain.c:820
 #: common/unit.c:699 manual/civmanual.c:281
 msgid "Irrigation"
 msgstr "灌漑"
@@ -10753,20 +10753,20 @@ msgstr "クライアントの機能指定文字列: %s"
 msgid "Server capability string: %s"
 msgstr "サーバの機能指定文字列: %s"
 
-#: client/packhand.c:1068
+#: client/packhand.c:1069
 #, c-format
 msgid "Start of turn %d"
 msgstr "ターン%d の開始"
 
-#: client/packhand.c:1197
+#: client/packhand.c:1198
 msgid "Welcome"
 msgstr "ようこそ"
 
-#: client/packhand.c:1988
+#: client/packhand.c:2009
 msgid "AI mode is now ON."
 msgstr "現在のAIモードはオンです。"
 
-#: client/packhand.c:1990
+#: client/packhand.c:2011
 msgid "AI mode is now OFF."
 msgstr "現在のAIモードはオフです。"
 
@@ -11625,28 +11625,28 @@ msgstr "軍事ユニットは幸福に影響を与えません。"
 msgid "Luxury: %d total."
 msgstr "贅沢: 合計 %d"
 
-#: client/tilespec.c:994
+#: client/tilespec.c:1000
 msgid "No usable default tileset found, aborting!"
 msgstr "利用可能なデフォルト・タイルセットが見つかりません。中断しています!"
 
-#: client/tilespec.c:1026
+#: client/tilespec.c:1032
 #, c-format
 msgid "Loading tileset \"%s\"."
 msgstr "タイルセット\"%s\"をロードしています。"
 
-#: client/tilespec.c:1490
+#: client/tilespec.c:1496
 msgid "Client does not support isometric tilesets."
 msgstr "クライアントは等角タイルセットをサポートしていません。"
 
-#: client/tilespec.c:1491 client/tilespec.c:1497
+#: client/tilespec.c:1497 client/tilespec.c:1503
 msgid "Using default tileset instead."
 msgstr "代わりにデフォルトのタイルセットを使用します。"
 
-#: client/tilespec.c:1496
+#: client/tilespec.c:1502
 msgid "Client does not support overhead view tilesets."
 msgstr "クライアントは頭上ビュータイルセットをサポートしていません。"
 
-#: client/tilespec.c:4428
+#: client/tilespec.c:4450
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -11655,7 +11655,7 @@ msgstr ""
 "タイルセット \"%s\" は %dもの長距離のgotoパスをサポートしていません。パスが表"
 "示されないのは仕様どおりです。"
 
-#: client/tilespec.c:4753
+#: client/tilespec.c:4775
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -11670,7 +11670,7 @@ msgid "Too many AI modules. Max is %d."
 msgstr ""
 
 #: common/city.c:84 data/civ1/techs.ruleset:566 data/civ2/techs.ruleset:733
-#: data/default/techs.ruleset:737 data/experimental/techs.ruleset:816
+#: data/default/techs.ruleset:737 data/experimental/techs.ruleset:739
 #: data/Freeciv.in:3108 data/multiplayer/techs.ruleset:745
 msgid "Trade"
 msgstr "交易"
@@ -12644,12 +12644,12 @@ msgstr ""
 msgid "could not open file: %s"
 msgstr "\"%s\" を開けません。"
 
-#: common/packets.c:392
+#: common/packets.c:390
 #, fuzzy
 msgid "illegal packet size"
 msgstr "%sのパスが不適切です。"
 
-#: common/packets.c:416 common/packets.c:461
+#: common/packets.c:414 common/packets.c:459
 msgid "decoding error"
 msgstr "デコードエラー"
 
@@ -12746,75 +12746,75 @@ msgstr "チーム"
 
 # clefs
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:520 common/requirements.c:535
+#: common/requirements.c:532 common/requirements.c:547
 msgid "World-ranged requirements are only supported for wonders."
 msgstr "世界規模での必要条件は不思議のみでサポートされています。"
 
 # clefs
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:560 common/requirements.c:576
+#: common/requirements.c:572 common/requirements.c:588
 msgid "Player-ranged requirements are only supported for wonders."
 msgstr "プレイヤー単位での必要条件は不思議のみでサポートされています。"
 
 # clefs
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:598
+#: common/requirements.c:610
 msgid "Island-ranged requirements are only supported for wonders."
 msgstr "島単位での必要条件は不思議のみでサポートされています。"
 
 # よくわからないのでパス(clefs)
 # Cソースのコメントからするとこんな感じでしょうか（Belgae）
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:650
+#: common/requirements.c:662
 #, fuzzy
 msgid "Surviving requirements are only supported at world and player ranges."
 msgstr "現存するかどうかの必要条件は世界規模のみでサポートされます。"
 
-#: common/requirements.c:1402 common/requirements.c:1479
+#: common/requirements.c:1414 common/requirements.c:1491
 #, c-format
 msgid "Size %d"
 msgstr "大きさ %d"
 
-#: common/requirements.c:1457 common/requirements.c:1466
+#: common/requirements.c:1469 common/requirements.c:1478
 #, c-format
 msgid "\"%s\" units"
 msgstr "\"%s\"ユニット"
 
-#: common/requirements.c:1462
+#: common/requirements.c:1474
 #, c-format
 msgid "%s units"
 msgstr "%sユニット"
 
 #. TRANS: "Hard AI"
-#: common/requirements.c:1484
+#: common/requirements.c:1496
 #, c-format
 msgid "%s AI"
 msgstr "%sAI"
 
 #. TRANS: "Land terrain"
-#: common/requirements.c:1489
+#: common/requirements.c:1501
 #, c-format
 msgid "%s terrain"
 msgstr "%s地形"
 
 #. TRANS: "Fortress base"
-#: common/requirements.c:1494
+#: common/requirements.c:1506
 #, c-format
 msgid "%s base"
 msgstr "%s基地"
 
-#: common/requirements.c:1498
+#: common/requirements.c:1510
 #, c-format
 msgid "After %s"
 msgstr "%s以降"
 
 #. TRANS: "Irrigation possible"
-#: common/requirements.c:1503
+#: common/requirements.c:1515
 #, c-format
 msgid "%s possible"
 msgstr "%s可能"
 
-#: common/requirements.c:1507
+#: common/requirements.c:1519
 msgid "City center tile"
 msgstr "都市中心タイル"
 
@@ -12823,7 +12823,7 @@ msgid "Road"
 msgstr "道路"
 
 #: common/road.c:29 data/civ1/techs.ruleset:453 data/civ2/techs.ruleset:579
-#: data/default/techs.ruleset:583 data/experimental/techs.ruleset:643
+#: data/default/techs.ruleset:583 data/experimental/techs.ruleset:585
 #: data/multiplayer/techs.ruleset:592
 msgid "Railroad"
 msgstr "鉄道"
@@ -12855,7 +12855,7 @@ msgstr "先端技術"
 # Belgae
 # was: 資源化
 # 労働者がMの作業中に，中クリックで表示される「活動: %s」と，作業完成後の地形特徴（道路/鉱山）の両方で使用されます。「活動: %s」は「%sが完成するまで何ターンか」を意味するので，どちらでも「鉱山」の訳でよいと判断しました。
-#: common/terrain.c:514 common/terrain.c:823 common/unit.c:697
+#: common/terrain.c:514 common/terrain.c:824 common/unit.c:697
 msgid "Mine"
 msgstr "鉱山"
 
@@ -12863,9 +12863,9 @@ msgstr "鉱山"
 msgid "Hut"
 msgstr "小屋"
 
-#: common/terrain.c:517 common/unit.c:705 data/civ1/terrain.ruleset:730
-#: data/civ2/terrain.ruleset:842 data/default/terrain.ruleset:956
-#: data/experimental/terrain.ruleset:958 data/multiplayer/terrain.ruleset:956
+#: common/terrain.c:517 common/unit.c:705 data/civ1/terrain.ruleset:729
+#: data/civ2/terrain.ruleset:841 data/default/terrain.ruleset:955
+#: data/experimental/terrain.ruleset:957 data/multiplayer/terrain.ruleset:955
 msgid "Fortress"
 msgstr "要塞"
 
@@ -12873,13 +12873,13 @@ msgstr "要塞"
 msgid "River"
 msgstr "川"
 
-#: common/terrain.c:519 common/terrain.c:817
+#: common/terrain.c:519 common/terrain.c:818
 msgid "Farmland"
 msgstr "農地"
 
-#: common/terrain.c:520 common/unit.c:717 data/civ2/terrain.ruleset:864
-#: data/default/terrain.ruleset:980 data/experimental/terrain.ruleset:982
-#: data/multiplayer/terrain.ruleset:980
+#: common/terrain.c:520 common/unit.c:717 data/civ2/terrain.ruleset:863
+#: data/default/terrain.ruleset:979 data/experimental/terrain.ruleset:981
+#: data/multiplayer/terrain.ruleset:979
 msgid "Airbase"
 msgstr "飛行場"
 
@@ -13547,12 +13547,12 @@ msgid "Temple"
 msgstr "寺院"
 
 #: data/civ1/buildings.ruleset:617 data/civ2/buildings.ruleset:922
-#: data/default/buildings.ruleset:981 data/experimental/buildings.ruleset:1036
-#: data/multiplayer/buildings.ruleset:961
+#, fuzzy
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
-"effect.  With both Mysticism and the Oracle, 4 citizens are made content.  "
-"Does not affect citizens made unhappy by military activity."
+"effect, as does Oracle wonder.  With both Mysticism and the Oracle, 4 "
+"citizens are made content.  Does not affect citizens made unhappy by "
+"military activity."
 msgstr ""
 "1不幸市民を平静にします。科学技術の「神秘主義」があると，この効果が倍になりま"
 "す。「神秘主義」と「神託所」の両方があると，4市民が平静します。軍事活動にとも"
@@ -13562,7 +13562,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:930 data/civ2/techs.ruleset:741
 #: data/default/buildings.ruleset:989 data/default/techs.ruleset:745
 #: data/experimental/buildings.ruleset:1046
-#: data/experimental/techs.ruleset:825 data/multiplayer/buildings.ruleset:969
+#: data/experimental/techs.ruleset:747 data/multiplayer/buildings.ruleset:969
 #: data/multiplayer/techs.ruleset:753
 msgid "University"
 msgstr "大学"
@@ -13813,24 +13813,23 @@ msgid "Oracle"
 msgstr "アポローン神殿"
 
 #: data/civ1/buildings.ruleset:965 data/civ2/buildings.ruleset:1377
-#: data/default/buildings.ruleset:1444
-#: data/experimental/buildings.ruleset:1501
+#, fuzzy
 msgid ""
-"Makes two additional unhappy citizens content in every city with a Temple.  "
-"Does not affect citizens made unhappy by military activity."
+"Doubles the effect of a Temple in every city. Does not affect citizens made "
+"unhappy by military activity."
 msgstr ""
 "寺院のあるすべての都市で，さらに不幸市民2を平静にします。軍事活動にともなう市"
 "民の不幸には効果がありません。"
 
-#: data/civ1/buildings.ruleset:972 data/civ2/buildings.ruleset:1384
+#: data/civ1/buildings.ruleset:971 data/civ2/buildings.ruleset:1383
 #: data/default/buildings.ruleset:1451
 #: data/experimental/buildings.ruleset:1508
 #: data/multiplayer/buildings.ruleset:1427
 msgid "Pyramids"
 msgstr "ピラミッド"
 
-#: data/civ1/buildings.ruleset:986 data/civ1/buildings.ruleset:1048
-#: data/civ2/buildings.ruleset:1459 data/default/buildings.ruleset:1528
+#: data/civ1/buildings.ruleset:985 data/civ1/buildings.ruleset:1047
+#: data/civ2/buildings.ruleset:1458 data/default/buildings.ruleset:1528
 #: data/experimental/buildings.ruleset:1585
 #: data/multiplayer/buildings.ruleset:1504
 msgid ""
@@ -13841,25 +13840,25 @@ msgstr ""
 "まだ発見していないものを含むすべての政治体制を，無政府状態の期間を経ずに選択"
 "できるようになります。"
 
-#: data/civ1/buildings.ruleset:993 data/civ2/buildings.ruleset:1403
+#: data/civ1/buildings.ruleset:992 data/civ2/buildings.ruleset:1402
 #: data/default/buildings.ruleset:1473
 #: data/experimental/buildings.ruleset:1530
 msgid "SETI Program"
 msgstr "SETI計画"
 
-#: data/civ1/buildings.ruleset:1008
+#: data/civ1/buildings.ruleset:1007
 #, no-c-format
 msgid "Boosts science production in each city by 50%."
 msgstr "各都市の科学ポイント生産が50%増加します。"
 
-#: data/civ1/buildings.ruleset:1013 data/civ2/buildings.ruleset:1424
+#: data/civ1/buildings.ruleset:1012 data/civ2/buildings.ruleset:1423
 #: data/default/buildings.ruleset:1493
 #: data/experimental/buildings.ruleset:1550
 #: data/multiplayer/buildings.ruleset:1469
 msgid "Shakespeare's Theater"
 msgstr "シェイクスピアの劇場"
 
-#: data/civ1/buildings.ruleset:1028 data/civ2/buildings.ruleset:1439
+#: data/civ1/buildings.ruleset:1027 data/civ2/buildings.ruleset:1438
 #: data/default/buildings.ruleset:1508
 #: data/experimental/buildings.ruleset:1565
 #: data/multiplayer/buildings.ruleset:1484
@@ -13870,14 +13869,14 @@ msgstr ""
 "建てられた都市の怒ったまたは不幸な市民すべてを平静にします（軍事活動にともな"
 "う市民の不幸も対象となります）。"
 
-#: data/civ1/buildings.ruleset:1034 data/civ2/buildings.ruleset:1488
+#: data/civ1/buildings.ruleset:1033 data/civ2/buildings.ruleset:1487
 #: data/default/buildings.ruleset:1556
 #: data/experimental/buildings.ruleset:1613
 #: data/multiplayer/buildings.ruleset:1531
 msgid "United Nations"
 msgstr "国際連合"
 
-#: data/civ1/buildings.ruleset:1060 data/civ2/buildings.ruleset:1515
+#: data/civ1/buildings.ruleset:1059 data/civ2/buildings.ruleset:1514
 #: data/default/buildings.ruleset:1583
 #: data/experimental/buildings.ruleset:1640
 #: data/multiplayer/buildings.ruleset:1552
@@ -13885,7 +13884,7 @@ msgid "Women's Suffrage"
 msgstr "婦人参政権"
 
 # yasu, ama
-#: data/civ1/buildings.ruleset:1074
+#: data/civ1/buildings.ruleset:1073
 msgid ""
 "In all cities, the unhappiness effect of every unit is reduced by 1. This "
 "means that in a Republic, units do not cause unhappiness, and in a "
@@ -14141,7 +14140,7 @@ msgstr ""
 #: data/civ2/governments.ruleset:97 data/civ2/techs.ruleset:478
 #: data/default/governments.ruleset:100 data/default/techs.ruleset:482
 #: data/experimental/governments.ruleset:104
-#: data/experimental/techs.ruleset:531
+#: data/experimental/techs.ruleset:484
 #: data/multiplayer/governments.ruleset:100 data/multiplayer/techs.ruleset:491
 msgid "Monarchy"
 msgstr "君主政"
@@ -14182,7 +14181,7 @@ msgstr "君主政は，共和政と同程度の小さな汚職を被ります。
 #: data/civ2/governments.ruleset:119 data/civ2/techs.ruleset:170
 #: data/default/governments.ruleset:122 data/default/techs.ruleset:181
 #: data/experimental/governments.ruleset:126
-#: data/experimental/techs.ruleset:195
+#: data/experimental/techs.ruleset:183
 #: data/multiplayer/governments.ruleset:122 data/multiplayer/techs.ruleset:181
 msgid "Communism"
 msgstr "共産主義"
@@ -14280,7 +14279,7 @@ msgstr ""
 #: data/civ2/governments.ruleset:193 data/civ2/techs.ruleset:212
 #: data/default/governments.ruleset:168 data/default/techs.ruleset:223
 #: data/experimental/governments.ruleset:172
-#: data/experimental/techs.ruleset:242
+#: data/experimental/techs.ruleset:225
 #: data/multiplayer/governments.ruleset:168 data/multiplayer/techs.ruleset:223
 msgid "Democracy"
 msgstr "民主主義"
@@ -15315,91 +15314,91 @@ msgid "Advanced Flight"
 msgstr "上級飛行術"
 
 #: data/civ1/techs.ruleset:58 data/civ2/techs.ruleset:58
-#: data/default/techs.ruleset:69 data/experimental/techs.ruleset:72
+#: data/default/techs.ruleset:69 data/experimental/techs.ruleset:71
 #: data/multiplayer/techs.ruleset:69
 msgid "Alphabet"
 msgstr "アルファベット"
 
 #: data/civ1/techs.ruleset:66 data/civ2/techs.ruleset:74
-#: data/default/techs.ruleset:85 data/experimental/techs.ruleset:89
+#: data/default/techs.ruleset:85 data/experimental/techs.ruleset:87
 #: data/multiplayer/techs.ruleset:85
 msgid "Astronomy"
 msgstr "天文学"
 
 #: data/civ1/techs.ruleset:74 data/civ2/techs.ruleset:82
-#: data/default/techs.ruleset:93 data/experimental/techs.ruleset:98
+#: data/default/techs.ruleset:93 data/experimental/techs.ruleset:95
 #: data/multiplayer/techs.ruleset:93
 msgid "Atomic Theory"
 msgstr "原子理論"
 
 #: data/civ1/techs.ruleset:82 data/civ2/techs.ruleset:90
-#: data/default/techs.ruleset:101 data/experimental/techs.ruleset:107
+#: data/default/techs.ruleset:101 data/experimental/techs.ruleset:103
 #: data/multiplayer/techs.ruleset:101
 msgid "Automobile"
 msgstr "自動車"
 
 #: data/civ1/techs.ruleset:90 data/civ2/techs.ruleset:98
-#: data/default/techs.ruleset:109 data/experimental/techs.ruleset:116
+#: data/default/techs.ruleset:109 data/experimental/techs.ruleset:111
 #: data/multiplayer/techs.ruleset:109
 msgid "Banking"
 msgstr "銀行制度"
 
 #: data/civ1/techs.ruleset:98 data/civ2/techs.ruleset:106
-#: data/default/techs.ruleset:117 data/experimental/techs.ruleset:125
+#: data/default/techs.ruleset:117 data/experimental/techs.ruleset:119
 #: data/multiplayer/techs.ruleset:117
 msgid "Bridge Building"
 msgstr "橋梁建設"
 
 #: data/civ1/techs.ruleset:106 data/civ2/techs.ruleset:114
-#: data/default/techs.ruleset:125 data/experimental/techs.ruleset:134
+#: data/default/techs.ruleset:125 data/experimental/techs.ruleset:127
 #: data/multiplayer/techs.ruleset:125
 msgid "Bronze Working"
 msgstr "青銅器"
 
 #: data/civ1/techs.ruleset:114 data/civ2/techs.ruleset:122
-#: data/default/techs.ruleset:133 data/experimental/techs.ruleset:142
+#: data/default/techs.ruleset:133 data/experimental/techs.ruleset:135
 #: data/multiplayer/techs.ruleset:133
 msgid "Ceremonial Burial"
 msgstr "葬儀"
 
 #: data/civ1/techs.ruleset:122 data/civ2/techs.ruleset:130
-#: data/default/techs.ruleset:141 data/experimental/techs.ruleset:150
+#: data/default/techs.ruleset:141 data/experimental/techs.ruleset:143
 #: data/multiplayer/techs.ruleset:141
 msgid "Chemistry"
 msgstr "化学"
 
 #: data/civ1/techs.ruleset:130 data/civ2/techs.ruleset:138
-#: data/default/techs.ruleset:149 data/experimental/techs.ruleset:159
+#: data/default/techs.ruleset:149 data/experimental/techs.ruleset:151
 #: data/multiplayer/techs.ruleset:149
 msgid "Chivalry"
 msgstr "騎士道"
 
 #: data/civ1/techs.ruleset:138 data/civ2/techs.ruleset:146
-#: data/default/techs.ruleset:157 data/experimental/techs.ruleset:168
+#: data/default/techs.ruleset:157 data/experimental/techs.ruleset:159
 #: data/multiplayer/techs.ruleset:157
 msgid "Code of Laws"
 msgstr "法律"
 
 #: data/civ1/techs.ruleset:146 data/civ2/techs.ruleset:162
-#: data/default/techs.ruleset:173 data/experimental/techs.ruleset:186
+#: data/default/techs.ruleset:173 data/experimental/techs.ruleset:175
 #: data/multiplayer/techs.ruleset:173
 msgid "Combustion"
 msgstr "内燃機関"
 
 #: data/civ1/techs.ruleset:162 data/civ2/techs.ruleset:179
-#: data/default/techs.ruleset:190 data/experimental/techs.ruleset:205
+#: data/default/techs.ruleset:190 data/experimental/techs.ruleset:192
 #: data/multiplayer/techs.ruleset:190
 msgid "Computers"
 msgstr "コンピュータ"
 
 #: data/civ1/techs.ruleset:170 data/civ2/techs.ruleset:187
-#: data/default/techs.ruleset:198 data/experimental/techs.ruleset:214
+#: data/default/techs.ruleset:198 data/experimental/techs.ruleset:200
 #: data/multiplayer/techs.ruleset:198
 msgid "Conscription"
 msgstr "徴兵制"
 
 #: data/civ1/techs.ruleset:178 data/civ2/techs.ruleset:195
-#: data/default/techs.ruleset:206 data/experimental/techs.ruleset:223
+#: data/default/techs.ruleset:206 data/experimental/techs.ruleset:208
 #: data/multiplayer/techs.ruleset:206
 msgid "Construction"
 msgstr "建設"
@@ -15411,43 +15410,43 @@ msgstr "開拓者が要塞を建築できるようになります"
 # clefs
 # was "通貨"
 #: data/civ1/techs.ruleset:187 data/civ2/techs.ruleset:204
-#: data/default/techs.ruleset:215 data/experimental/techs.ruleset:233
+#: data/default/techs.ruleset:215 data/experimental/techs.ruleset:217
 #: data/multiplayer/techs.ruleset:215
 msgid "Currency"
 msgstr "貨幣"
 
 #: data/civ1/techs.ruleset:203 data/civ2/techs.ruleset:228
-#: data/default/techs.ruleset:239 data/experimental/techs.ruleset:260
+#: data/default/techs.ruleset:239 data/experimental/techs.ruleset:241
 #: data/multiplayer/techs.ruleset:239
 msgid "Electricity"
 msgstr "電気学"
 
 #: data/civ1/techs.ruleset:211 data/civ2/techs.ruleset:237
-#: data/default/techs.ruleset:248 data/experimental/techs.ruleset:270
+#: data/default/techs.ruleset:248 data/experimental/techs.ruleset:250
 #: data/multiplayer/techs.ruleset:248
 msgid "Electronics"
 msgstr "電子工学"
 
 #: data/civ1/techs.ruleset:219 data/civ2/techs.ruleset:245
-#: data/default/techs.ruleset:256 data/experimental/techs.ruleset:279
+#: data/default/techs.ruleset:256 data/experimental/techs.ruleset:258
 #: data/multiplayer/techs.ruleset:256
 msgid "Engineering"
 msgstr "工学"
 
 #: data/civ1/techs.ruleset:227 data/civ2/techs.ruleset:269
-#: data/default/techs.ruleset:280 data/experimental/techs.ruleset:306
+#: data/default/techs.ruleset:280 data/experimental/techs.ruleset:282
 #: data/multiplayer/techs.ruleset:282
 msgid "Explosives"
 msgstr "爆薬"
 
 #: data/civ1/techs.ruleset:235 data/civ2/techs.ruleset:277
-#: data/default/techs.ruleset:288 data/experimental/techs.ruleset:315
+#: data/default/techs.ruleset:288 data/experimental/techs.ruleset:290
 #: data/multiplayer/techs.ruleset:290
 msgid "Feudalism"
 msgstr "封建制度"
 
 #: data/civ1/techs.ruleset:243 data/civ2/techs.ruleset:285
-#: data/default/techs.ruleset:296 data/experimental/techs.ruleset:324
+#: data/default/techs.ruleset:296 data/experimental/techs.ruleset:298
 #: data/multiplayer/techs.ruleset:298
 msgid "Flight"
 msgstr "飛行術"
@@ -15455,168 +15454,168 @@ msgstr "飛行術"
 #: data/civ1/techs.ruleset:249 data/civ1/techs.ruleset:459
 #: data/civ2/techs.ruleset:291 data/civ2/techs.ruleset:585
 #: data/default/techs.ruleset:302 data/default/techs.ruleset:589
-#: data/experimental/techs.ruleset:331 data/experimental/techs.ruleset:650
+#: data/experimental/techs.ruleset:304 data/experimental/techs.ruleset:591
 msgid "Decreases one-time revenue from new trade routes."
 msgstr "新たな交易路が結ばれた際に即時に得られる収益が減少します。"
 
 #: data/civ1/techs.ruleset:252 data/civ2/techs.ruleset:302
-#: data/default/techs.ruleset:305 data/experimental/techs.ruleset:334
+#: data/default/techs.ruleset:305 data/experimental/techs.ruleset:307
 #: data/multiplayer/techs.ruleset:314
 msgid "Fusion Power"
 msgstr "核融合"
 
 #: data/civ1/techs.ruleset:260 data/civ2/techs.ruleset:310
-#: data/default/techs.ruleset:313 data/experimental/techs.ruleset:343
+#: data/default/techs.ruleset:313 data/experimental/techs.ruleset:315
 #: data/multiplayer/techs.ruleset:322
 msgid "Genetic Engineering"
 msgstr "遺伝子工学"
 
 #: data/civ1/techs.ruleset:268 data/civ2/techs.ruleset:326
-#: data/default/techs.ruleset:329 data/experimental/techs.ruleset:361
+#: data/default/techs.ruleset:329 data/experimental/techs.ruleset:331
 #: data/multiplayer/techs.ruleset:338
 msgid "Gunpowder"
 msgstr "火薬"
 
 #: data/civ1/techs.ruleset:276 data/civ2/techs.ruleset:334
-#: data/default/techs.ruleset:337 data/experimental/techs.ruleset:370
+#: data/default/techs.ruleset:337 data/experimental/techs.ruleset:339
 #: data/multiplayer/techs.ruleset:346
 msgid "Horseback Riding"
 msgstr "騎乗"
 
 #: data/civ1/techs.ruleset:284 data/civ2/techs.ruleset:342
-#: data/default/techs.ruleset:345 data/experimental/techs.ruleset:378
+#: data/default/techs.ruleset:345 data/experimental/techs.ruleset:347
 #: data/multiplayer/techs.ruleset:354
 msgid "Industrialization"
 msgstr "産業化"
 
 #: data/civ1/techs.ruleset:292 data/civ2/techs.ruleset:350
-#: data/default/techs.ruleset:353 data/experimental/techs.ruleset:387
+#: data/default/techs.ruleset:353 data/experimental/techs.ruleset:355
 #: data/multiplayer/techs.ruleset:362
 msgid "Invention"
 msgstr "発明"
 
 #: data/civ1/techs.ruleset:300 data/civ2/techs.ruleset:358
-#: data/default/techs.ruleset:362 data/experimental/techs.ruleset:397
+#: data/default/techs.ruleset:362 data/experimental/techs.ruleset:364
 #: data/multiplayer/techs.ruleset:371
 msgid "Iron Working"
 msgstr "鉄器"
 
 #: data/civ1/techs.ruleset:308 data/civ2/techs.ruleset:366
-#: data/default/techs.ruleset:370 data/experimental/techs.ruleset:406
+#: data/default/techs.ruleset:370 data/experimental/techs.ruleset:372
 #: data/multiplayer/techs.ruleset:379
 msgid "Labor Union"
 msgstr "労働組合"
 
 #: data/civ1/techs.ruleset:316 data/civ2/techs.ruleset:390
-#: data/default/techs.ruleset:394 data/experimental/techs.ruleset:433
+#: data/default/techs.ruleset:394 data/experimental/techs.ruleset:396
 #: data/multiplayer/techs.ruleset:403 server/report.c:161
 msgid "Literacy"
 msgstr "読み書き"
 
 #: data/civ1/techs.ruleset:324 data/civ2/techs.ruleset:406
-#: data/default/techs.ruleset:410 data/experimental/techs.ruleset:451
+#: data/default/techs.ruleset:410 data/experimental/techs.ruleset:412
 #: data/multiplayer/techs.ruleset:419
 msgid "Magnetism"
 msgstr "磁気学"
 
 #: data/civ1/techs.ruleset:332 data/civ2/techs.ruleset:414
-#: data/default/techs.ruleset:418 data/experimental/techs.ruleset:460
+#: data/default/techs.ruleset:418 data/experimental/techs.ruleset:420
 #: data/multiplayer/techs.ruleset:427
 msgid "Map Making"
 msgstr "地図"
 
 #: data/civ1/techs.ruleset:340 data/civ2/techs.ruleset:422
-#: data/default/techs.ruleset:426 data/experimental/techs.ruleset:469
+#: data/default/techs.ruleset:426 data/experimental/techs.ruleset:428
 #: data/multiplayer/techs.ruleset:435
 msgid "Masonry"
 msgstr "建築"
 
 #: data/civ1/techs.ruleset:348 data/civ2/techs.ruleset:430
-#: data/default/techs.ruleset:434 data/experimental/techs.ruleset:477
+#: data/default/techs.ruleset:434 data/experimental/techs.ruleset:436
 #: data/multiplayer/techs.ruleset:443
 msgid "Mass Production"
 msgstr "大量生産"
 
 #: data/civ1/techs.ruleset:356 data/civ2/techs.ruleset:438
-#: data/default/techs.ruleset:442 data/experimental/techs.ruleset:486
+#: data/default/techs.ruleset:442 data/experimental/techs.ruleset:444
 #: data/multiplayer/techs.ruleset:451
 msgid "Mathematics"
 msgstr "数学"
 
 #: data/civ1/techs.ruleset:364 data/civ2/techs.ruleset:446
-#: data/default/techs.ruleset:450 data/experimental/techs.ruleset:495
+#: data/default/techs.ruleset:450 data/experimental/techs.ruleset:452
 #: data/multiplayer/techs.ruleset:459
 msgid "Medicine"
 msgstr "医学"
 
 #: data/civ1/techs.ruleset:372 data/civ2/techs.ruleset:454
-#: data/default/techs.ruleset:458 data/experimental/techs.ruleset:504
+#: data/default/techs.ruleset:458 data/experimental/techs.ruleset:460
 #: data/multiplayer/techs.ruleset:467
 msgid "Metallurgy"
 msgstr "冶金"
 
 #: data/civ1/techs.ruleset:388 data/civ2/techs.ruleset:494
-#: data/default/techs.ruleset:498 data/experimental/techs.ruleset:549
+#: data/default/techs.ruleset:498 data/experimental/techs.ruleset:500
 #: data/multiplayer/techs.ruleset:507
 msgid "Mysticism"
 msgstr "神秘主義"
 
 #: data/civ1/techs.ruleset:394 data/civ2/techs.ruleset:500
-#: data/default/techs.ruleset:504 data/experimental/techs.ruleset:556
+#: data/default/techs.ruleset:504 data/experimental/techs.ruleset:506
 #: data/multiplayer/techs.ruleset:513
 msgid "Improves the effect of Temples."
 msgstr "寺院の効果を増やします。"
 
 #: data/civ1/techs.ruleset:397 data/civ2/techs.ruleset:503
-#: data/default/techs.ruleset:507 data/experimental/techs.ruleset:559
+#: data/default/techs.ruleset:507 data/experimental/techs.ruleset:509
 #: data/multiplayer/techs.ruleset:516
 msgid "Navigation"
 msgstr "航海術"
 
 #: data/civ1/techs.ruleset:405 data/civ2/techs.ruleset:511
-#: data/default/techs.ruleset:515 data/experimental/techs.ruleset:568
+#: data/default/techs.ruleset:515 data/experimental/techs.ruleset:517
 #: data/multiplayer/techs.ruleset:524
 msgid "Nuclear Fission"
 msgstr "核分裂"
 
 #: data/civ1/techs.ruleset:413 data/civ2/techs.ruleset:519
-#: data/default/techs.ruleset:523 data/experimental/techs.ruleset:577
+#: data/default/techs.ruleset:523 data/experimental/techs.ruleset:525
 #: data/multiplayer/techs.ruleset:532
 msgid "Nuclear Power"
 msgstr "原子力"
 
 #: data/civ1/techs.ruleset:421 data/civ2/techs.ruleset:528
-#: data/default/techs.ruleset:532 data/experimental/techs.ruleset:587
+#: data/default/techs.ruleset:532 data/experimental/techs.ruleset:534
 #: data/multiplayer/techs.ruleset:541
 msgid "Philosophy"
 msgstr "哲学"
 
 #: data/civ1/techs.ruleset:429 data/civ2/techs.ruleset:538
-#: data/default/techs.ruleset:542 data/experimental/techs.ruleset:598
+#: data/default/techs.ruleset:542 data/experimental/techs.ruleset:544
 #: data/multiplayer/techs.ruleset:551
 msgid "Physics"
 msgstr "物理学"
 
 #: data/civ1/techs.ruleset:437 data/civ2/techs.ruleset:546
-#: data/default/techs.ruleset:550 data/experimental/techs.ruleset:607
+#: data/default/techs.ruleset:550 data/experimental/techs.ruleset:552
 #: data/multiplayer/techs.ruleset:559
 msgid "Plastics"
 msgstr "プラスチック"
 
 #: data/civ1/techs.ruleset:445 data/civ2/techs.ruleset:562
-#: data/default/techs.ruleset:566 data/experimental/techs.ruleset:625
+#: data/default/techs.ruleset:566 data/experimental/techs.ruleset:568
 #: data/multiplayer/techs.ruleset:575
 msgid "Pottery"
 msgstr "陶芸"
 
 #: data/civ1/techs.ruleset:462 data/civ2/techs.ruleset:588
-#: data/default/techs.ruleset:592 data/experimental/techs.ruleset:653
+#: data/default/techs.ruleset:592 data/experimental/techs.ruleset:594
 #: data/multiplayer/techs.ruleset:600
 msgid "Recycling"
 msgstr "リサイクル"
 
 #: data/civ1/techs.ruleset:470 data/civ2/techs.ruleset:596
-#: data/default/techs.ruleset:600 data/experimental/techs.ruleset:662
+#: data/default/techs.ruleset:600 data/experimental/techs.ruleset:602
 #: data/multiplayer/techs.ruleset:608
 msgid "Refining"
 msgstr "石油精製"
@@ -15626,67 +15625,67 @@ msgid "Religion"
 msgstr "宗教"
 
 #: data/civ1/techs.ruleset:486 data/civ2/techs.ruleset:612
-#: data/default/techs.ruleset:616 data/experimental/techs.ruleset:680
+#: data/default/techs.ruleset:616 data/experimental/techs.ruleset:618
 #: data/multiplayer/techs.ruleset:624
 msgid "Robotics"
 msgstr "ロボット工学"
 
 #: data/civ1/techs.ruleset:494 data/civ2/techs.ruleset:620
-#: data/default/techs.ruleset:624 data/experimental/techs.ruleset:689
+#: data/default/techs.ruleset:624 data/experimental/techs.ruleset:626
 #: data/multiplayer/techs.ruleset:632
 msgid "Rocketry"
 msgstr "ロケット工学"
 
 #: data/civ1/techs.ruleset:502 data/civ2/techs.ruleset:644
-#: data/default/techs.ruleset:648 data/experimental/techs.ruleset:716
+#: data/default/techs.ruleset:648 data/experimental/techs.ruleset:650
 #: data/multiplayer/techs.ruleset:656
 msgid "Space Flight"
 msgstr "宇宙飛行"
 
 #: data/civ1/techs.ruleset:510 data/civ2/techs.ruleset:660
-#: data/default/techs.ruleset:664 data/experimental/techs.ruleset:734
+#: data/default/techs.ruleset:664 data/experimental/techs.ruleset:666
 #: data/multiplayer/techs.ruleset:672
 msgid "Steam Engine"
 msgstr "蒸気機関"
 
 #: data/civ1/techs.ruleset:518 data/civ2/techs.ruleset:668
-#: data/default/techs.ruleset:672 data/experimental/techs.ruleset:743
+#: data/default/techs.ruleset:672 data/experimental/techs.ruleset:674
 #: data/multiplayer/techs.ruleset:680
 msgid "Steel"
 msgstr "鋼鉄"
 
 #: data/civ1/techs.ruleset:526 data/civ2/techs.ruleset:676
-#: data/default/techs.ruleset:680 data/experimental/techs.ruleset:752
+#: data/default/techs.ruleset:680 data/experimental/techs.ruleset:682
 #: data/multiplayer/techs.ruleset:688
 msgid "Superconductors"
 msgstr "超伝導"
 
 #: data/civ1/techs.ruleset:534 data/civ2/techs.ruleset:692
-#: data/default/techs.ruleset:696 data/experimental/techs.ruleset:770
+#: data/default/techs.ruleset:696 data/experimental/techs.ruleset:698
 #: data/multiplayer/techs.ruleset:704
 msgid "The Corporation"
 msgstr "株式会社"
 
 #: data/civ1/techs.ruleset:542 data/civ2/techs.ruleset:700
-#: data/default/techs.ruleset:704 data/experimental/techs.ruleset:779
+#: data/default/techs.ruleset:704 data/experimental/techs.ruleset:706
 #: data/multiplayer/techs.ruleset:712
 msgid "The Republic"
 msgstr "共和政"
 
 #: data/civ1/techs.ruleset:550 data/civ2/techs.ruleset:708
-#: data/default/techs.ruleset:712 data/experimental/techs.ruleset:788
+#: data/default/techs.ruleset:712 data/experimental/techs.ruleset:714
 #: data/multiplayer/techs.ruleset:720
 msgid "The Wheel"
 msgstr "車輪"
 
 #: data/civ1/techs.ruleset:558 data/civ2/techs.ruleset:725
-#: data/default/techs.ruleset:729 data/experimental/techs.ruleset:807
+#: data/default/techs.ruleset:729 data/experimental/techs.ruleset:731
 #: data/multiplayer/techs.ruleset:737
 msgid "Theory of Gravity"
 msgstr "万有引力の法則"
 
 #: data/civ1/techs.ruleset:582 data/civ2/techs.ruleset:757
-#: data/default/techs.ruleset:761 data/experimental/techs.ruleset:842
+#: data/default/techs.ruleset:761 data/experimental/techs.ruleset:763
 #: data/multiplayer/techs.ruleset:769
 msgid "Writing"
 msgstr "筆記"
@@ -15698,18 +15697,14 @@ msgid "Ocean"
 msgstr "海"
 
 #: data/civ1/terrain.ruleset:216 data/civ2/terrain.ruleset:224
-msgid ""
-"Oceans cover much of the world, and only sea units (Triremes and other "
-"boats) can travel on them."
+msgid "Oceans cover much of the world."
 msgstr ""
-"海は世界の多くを覆っています。海上ユニット(トライリームや他の船舶)のみが海を"
-"渡れます。"
 
-#: data/civ1/terrain.ruleset:222
+#: data/civ1/terrain.ruleset:221
 msgid "Arctic"
 msgstr "極地"
 
-#: data/civ1/terrain.ruleset:252
+#: data/civ1/terrain.ruleset:251
 msgid ""
 "Arctic tiles are found only in the most northerly or southerly reaches of "
 "the world.  They are very cold, and hence difficult to work with."
@@ -15717,179 +15712,179 @@ msgstr ""
 "極地タイルは世界の最北部と最南部にのみ存在します。とても寒いので働くのが大変"
 "です。"
 
-#: data/civ1/terrain.ruleset:259 data/civ2/terrain.ruleset:267
-#: data/default/terrain.ruleset:355 data/experimental/terrain.ruleset:357
-#: data/multiplayer/terrain.ruleset:355
+#: data/civ1/terrain.ruleset:258 data/civ2/terrain.ruleset:266
+#: data/default/terrain.ruleset:354 data/experimental/terrain.ruleset:356
+#: data/multiplayer/terrain.ruleset:354
 msgid "Desert"
 msgstr "砂漠"
 
-#: data/civ1/terrain.ruleset:290 data/civ2/terrain.ruleset:299
-#: data/default/terrain.ruleset:390 data/experimental/terrain.ruleset:392
-#: data/multiplayer/terrain.ruleset:390
+#: data/civ1/terrain.ruleset:289 data/civ2/terrain.ruleset:298
+#: data/default/terrain.ruleset:389 data/experimental/terrain.ruleset:391
+#: data/multiplayer/terrain.ruleset:389
 msgid ""
 "Deserts are regions of extreme dryness, making agriculture and trade very "
 "difficult."
 msgstr "砂漠は極端に乾燥した地帯です。農業や交易を行うのは非常に難しいです。"
 
-#: data/civ1/terrain.ruleset:296 data/civ2/terrain.ruleset:305
-#: data/default/terrain.ruleset:396 data/experimental/terrain.ruleset:398
-#: data/multiplayer/terrain.ruleset:396
+#: data/civ1/terrain.ruleset:295 data/civ2/terrain.ruleset:304
+#: data/default/terrain.ruleset:395 data/experimental/terrain.ruleset:397
+#: data/multiplayer/terrain.ruleset:395
 msgid "Forest"
 msgstr "森"
 
-#: data/civ1/terrain.ruleset:329 data/civ2/terrain.ruleset:338
-#: data/default/terrain.ruleset:432 data/experimental/terrain.ruleset:434
-#: data/multiplayer/terrain.ruleset:432
+#: data/civ1/terrain.ruleset:328 data/civ2/terrain.ruleset:337
+#: data/default/terrain.ruleset:431 data/experimental/terrain.ruleset:433
+#: data/multiplayer/terrain.ruleset:431
 msgid "Forests are densely wooded, making agriculture somewhat problematic."
 msgstr "森には木が密集していて，農業を行うには幾分問題があります。"
 
-#: data/civ1/terrain.ruleset:335 data/civ2/terrain.ruleset:344
-#: data/default/terrain.ruleset:438 data/experimental/terrain.ruleset:440
-#: data/multiplayer/terrain.ruleset:438
+#: data/civ1/terrain.ruleset:334 data/civ2/terrain.ruleset:343
+#: data/default/terrain.ruleset:437 data/experimental/terrain.ruleset:439
+#: data/multiplayer/terrain.ruleset:437
 msgid "Grassland"
 msgstr "草原"
 
-#: data/civ1/terrain.ruleset:366 data/civ2/terrain.ruleset:375
-#: data/default/terrain.ruleset:472 data/experimental/terrain.ruleset:474
-#: data/multiplayer/terrain.ruleset:472
+#: data/civ1/terrain.ruleset:365 data/civ2/terrain.ruleset:374
+#: data/default/terrain.ruleset:471 data/experimental/terrain.ruleset:473
+#: data/multiplayer/terrain.ruleset:471
 msgid "Grasslands afford exceptional agricultural opportunities."
 msgstr "草原は農業をするのに最適です。"
 
-#: data/civ1/terrain.ruleset:371 data/civ2/terrain.ruleset:380
-#: data/default/terrain.ruleset:477 data/experimental/terrain.ruleset:479
-#: data/multiplayer/terrain.ruleset:477
+#: data/civ1/terrain.ruleset:370 data/civ2/terrain.ruleset:379
+#: data/default/terrain.ruleset:476 data/experimental/terrain.ruleset:478
+#: data/multiplayer/terrain.ruleset:476
 msgid "Hills"
 msgstr "丘"
 
-#: data/civ1/terrain.ruleset:402 data/civ2/terrain.ruleset:411
-#: data/default/terrain.ruleset:511 data/experimental/terrain.ruleset:513
-#: data/multiplayer/terrain.ruleset:511
+#: data/civ1/terrain.ruleset:401 data/civ2/terrain.ruleset:410
+#: data/default/terrain.ruleset:510 data/experimental/terrain.ruleset:512
+#: data/multiplayer/terrain.ruleset:510
 msgid ""
 "In addition to being amenable to agriculture, Hills are frequently rich in "
 "resources."
 msgstr "丘は農業を行えるだけでなく，しばしば資源にも富んでいます。"
 
-#: data/civ1/terrain.ruleset:408 data/civ2/terrain.ruleset:417
-#: data/default/terrain.ruleset:517 data/experimental/terrain.ruleset:519
-#: data/multiplayer/terrain.ruleset:517
+#: data/civ1/terrain.ruleset:407 data/civ2/terrain.ruleset:416
+#: data/default/terrain.ruleset:516 data/experimental/terrain.ruleset:518
+#: data/multiplayer/terrain.ruleset:516
 msgid "Jungle"
 msgstr "ジャングル"
 
-#: data/civ1/terrain.ruleset:438 data/civ2/terrain.ruleset:449
-#: data/default/terrain.ruleset:552 data/experimental/terrain.ruleset:554
-#: data/multiplayer/terrain.ruleset:552
+#: data/civ1/terrain.ruleset:437 data/civ2/terrain.ruleset:448
+#: data/default/terrain.ruleset:551 data/experimental/terrain.ruleset:553
+#: data/multiplayer/terrain.ruleset:551
 msgid "Jungles are densely overgrown, making agriculture somewhat problematic."
 msgstr "ジャングルは密林です。農業を行うのは少し難しいかもしれません。"
 
 # 「山岳」もいいなあ (clefs)
-#: data/civ1/terrain.ruleset:444 data/civ2/terrain.ruleset:455
-#: data/default/terrain.ruleset:558 data/experimental/terrain.ruleset:560
-#: data/multiplayer/terrain.ruleset:558
+#: data/civ1/terrain.ruleset:443 data/civ2/terrain.ruleset:454
+#: data/default/terrain.ruleset:557 data/experimental/terrain.ruleset:559
+#: data/multiplayer/terrain.ruleset:557
 msgid "Mountains"
 msgstr "山"
 
-#: data/civ1/terrain.ruleset:473 data/civ2/terrain.ruleset:485
-#: data/default/terrain.ruleset:591 data/experimental/terrain.ruleset:593
-#: data/multiplayer/terrain.ruleset:591
+#: data/civ1/terrain.ruleset:472 data/civ2/terrain.ruleset:484
+#: data/default/terrain.ruleset:590 data/experimental/terrain.ruleset:592
+#: data/multiplayer/terrain.ruleset:590
 msgid ""
 "Mountains are regions of extreme altitude, making agriculture and trade very "
 "difficult."
 msgstr "山は標高が極めて高い地帯で，農業や交易を行うのは非常に困難です。"
 
-#: data/civ1/terrain.ruleset:479 data/civ2/terrain.ruleset:491
-#: data/default/terrain.ruleset:597 data/experimental/terrain.ruleset:599
-#: data/multiplayer/terrain.ruleset:597
+#: data/civ1/terrain.ruleset:478 data/civ2/terrain.ruleset:490
+#: data/default/terrain.ruleset:596 data/experimental/terrain.ruleset:598
+#: data/multiplayer/terrain.ruleset:596
 msgid "Plains"
 msgstr "平野"
 
-#: data/civ1/terrain.ruleset:510 data/civ2/terrain.ruleset:523
-#: data/default/terrain.ruleset:631 data/experimental/terrain.ruleset:633
-#: data/multiplayer/terrain.ruleset:631
+#: data/civ1/terrain.ruleset:509 data/civ2/terrain.ruleset:522
+#: data/default/terrain.ruleset:630 data/experimental/terrain.ruleset:632
+#: data/multiplayer/terrain.ruleset:630
 msgid ""
 "Plains are very broad, sparse regions, which makes trade slightly "
 "inconvenient."
 msgstr "平野はとても広くまばらな地帯です。交易にはやや不便です。"
 
-#: data/civ1/terrain.ruleset:516 data/civ2/terrain.ruleset:529
-#: data/default/terrain.ruleset:637 data/experimental/terrain.ruleset:639
-#: data/multiplayer/terrain.ruleset:637
+#: data/civ1/terrain.ruleset:515 data/civ2/terrain.ruleset:528
+#: data/default/terrain.ruleset:636 data/experimental/terrain.ruleset:638
+#: data/multiplayer/terrain.ruleset:636
 msgid "Swamp"
 msgstr "湿地"
 
-#: data/civ1/terrain.ruleset:548 data/civ2/terrain.ruleset:562
-#: data/default/terrain.ruleset:673 data/experimental/terrain.ruleset:675
-#: data/multiplayer/terrain.ruleset:673
+#: data/civ1/terrain.ruleset:547 data/civ2/terrain.ruleset:561
+#: data/default/terrain.ruleset:672 data/experimental/terrain.ruleset:674
+#: data/multiplayer/terrain.ruleset:672
 msgid ""
 "Swamps suffer from an over-abundance of water, making agriculture somewhat "
 "problematic."
 msgstr "湿地は水が多すぎる土地です。農業を行うのは少し難しいかもしれません。"
 
-#: data/civ1/terrain.ruleset:554 data/civ2/terrain.ruleset:568
-#: data/default/terrain.ruleset:679 data/experimental/terrain.ruleset:681
-#: data/multiplayer/terrain.ruleset:679
+#: data/civ1/terrain.ruleset:553 data/civ2/terrain.ruleset:567
+#: data/default/terrain.ruleset:678 data/experimental/terrain.ruleset:680
+#: data/multiplayer/terrain.ruleset:678
 msgid "Tundra"
 msgstr "ツンドラ"
 
-#: data/civ1/terrain.ruleset:584 data/civ2/terrain.ruleset:598
-#: data/default/terrain.ruleset:712 data/experimental/terrain.ruleset:714
-#: data/multiplayer/terrain.ruleset:712
+#: data/civ1/terrain.ruleset:583 data/civ2/terrain.ruleset:597
+#: data/default/terrain.ruleset:711 data/experimental/terrain.ruleset:713
+#: data/multiplayer/terrain.ruleset:711
 msgid ""
 "Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr ""
 "ツンドラは広く寒い地帯です。農業には多少向いていますが，他にはほとんど何もあ"
 "りません。"
 
-#: data/civ1/terrain.ruleset:617 data/civ2/terrain.ruleset:639
-#: data/default/terrain.ruleset:753 data/experimental/terrain.ruleset:755
-#: data/multiplayer/terrain.ruleset:753
+#: data/civ1/terrain.ruleset:616 data/civ2/terrain.ruleset:638
+#: data/default/terrain.ruleset:752 data/experimental/terrain.ruleset:754
+#: data/multiplayer/terrain.ruleset:752
 msgid "?animals:Game"
 msgstr "獲物"
 
-#: data/civ1/terrain.ruleset:625 data/civ2/terrain.ruleset:657
-#: data/default/terrain.ruleset:771 data/experimental/terrain.ruleset:773
-#: data/multiplayer/terrain.ruleset:771
+#: data/civ1/terrain.ruleset:624 data/civ2/terrain.ruleset:656
+#: data/default/terrain.ruleset:770 data/experimental/terrain.ruleset:772
+#: data/multiplayer/terrain.ruleset:770
 msgid "Coal"
 msgstr "石炭"
 
-#: data/civ1/terrain.ruleset:633 data/civ2/terrain.ruleset:669
-#: data/default/terrain.ruleset:779 data/experimental/terrain.ruleset:781
-#: data/multiplayer/terrain.ruleset:779
+#: data/civ1/terrain.ruleset:632 data/civ2/terrain.ruleset:668
+#: data/default/terrain.ruleset:778 data/experimental/terrain.ruleset:780
+#: data/multiplayer/terrain.ruleset:778
 msgid "Fish"
 msgstr "魚"
 
-#: data/civ1/terrain.ruleset:641 data/civ2/terrain.ruleset:686
-#: data/default/terrain.ruleset:796 data/experimental/terrain.ruleset:798
-#: data/multiplayer/terrain.ruleset:796
+#: data/civ1/terrain.ruleset:640 data/civ2/terrain.ruleset:685
+#: data/default/terrain.ruleset:795 data/experimental/terrain.ruleset:797
+#: data/multiplayer/terrain.ruleset:795
 msgid "Gems"
 msgstr "宝石"
 
-#: data/civ1/terrain.ruleset:649
+#: data/civ1/terrain.ruleset:648
 msgid "Horses"
 msgstr "馬"
 
-#: data/civ1/terrain.ruleset:657 data/civ2/terrain.ruleset:710
-#: data/default/terrain.ruleset:828 data/experimental/terrain.ruleset:830
-#: data/multiplayer/terrain.ruleset:828
+#: data/civ1/terrain.ruleset:656 data/civ2/terrain.ruleset:709
+#: data/default/terrain.ruleset:827 data/experimental/terrain.ruleset:829
+#: data/multiplayer/terrain.ruleset:827
 msgid "Oasis"
 msgstr "オアシス"
 
-#: data/civ1/terrain.ruleset:665 data/civ2/terrain.ruleset:786
-#: data/civ2/terrain.ruleset:794 data/default/terrain.ruleset:908
-#: data/experimental/terrain.ruleset:910 data/multiplayer/terrain.ruleset:908
+#: data/civ1/terrain.ruleset:664 data/civ2/terrain.ruleset:785
+#: data/civ2/terrain.ruleset:793 data/default/terrain.ruleset:907
+#: data/experimental/terrain.ruleset:909 data/multiplayer/terrain.ruleset:907
 msgid "Oil"
 msgstr "油"
 
-#: data/civ1/terrain.ruleset:673 data/civ2/terrain.ruleset:734
-#: data/default/terrain.ruleset:854 data/experimental/terrain.ruleset:856
-#: data/multiplayer/terrain.ruleset:854 manual/civmanual.c:278
+#: data/civ1/terrain.ruleset:672 data/civ2/terrain.ruleset:733
+#: data/default/terrain.ruleset:853 data/experimental/terrain.ruleset:855
+#: data/multiplayer/terrain.ruleset:853 manual/civmanual.c:278
 msgid "Resources"
 msgstr "資源"
 
-#: data/civ1/terrain.ruleset:681
+#: data/civ1/terrain.ruleset:680
 msgid "Seals"
 msgstr "アザラシ"
 
-#: data/civ1/terrain.ruleset:745
+#: data/civ1/terrain.ruleset:744
 msgid "Fortresses improve defense for land units."
 msgstr "要塞は陸上ユニットの防御力を高めます。"
 
@@ -17130,11 +17125,11 @@ msgstr ""
 "より大聖堂の効果が増し，不幸市民1をさらに平静にします。共産主義の発見により大"
 "聖堂の効果は衰え，平静になる不幸市民の数が1減少します。"
 
-#: data/civ2/buildings.ruleset:1398
+#: data/civ2/buildings.ruleset:1397
 msgid "Counts as having a Granary in every city."
 msgstr "各都市に穀物庫を持っているものとみなします。"
 
-#: data/civ2/buildings.ruleset:1418
+#: data/civ2/buildings.ruleset:1417
 #, no-c-format
 msgid ""
 "Boosts science production in each city with a Library by 50%.  (Counts as "
@@ -17143,19 +17138,19 @@ msgstr ""
 "図書館のある各都市の科学ポイント生産が50%増加します。(都市すべてに研究所があ"
 "ると見なします。)"
 
-#: data/civ2/buildings.ruleset:1445 data/default/buildings.ruleset:1514
+#: data/civ2/buildings.ruleset:1444 data/default/buildings.ruleset:1514
 #: data/experimental/buildings.ruleset:1571
 #: data/multiplayer/buildings.ruleset:1490
 msgid "Statue of Liberty"
 msgstr "自由の女神像"
 
-#: data/civ2/buildings.ruleset:1466 data/default/buildings.ruleset:1535
+#: data/civ2/buildings.ruleset:1465 data/default/buildings.ruleset:1535
 #: data/experimental/buildings.ruleset:1592
 #: data/multiplayer/buildings.ruleset:1511
 msgid "Sun Tzu's War Academy"
 msgstr "孫子の兵法学校"
 
-#: data/civ2/buildings.ruleset:1481
+#: data/civ2/buildings.ruleset:1480
 #, no-c-format
 msgid ""
 "All your new military land units become veterans (for all cities).  The "
@@ -17166,12 +17161,12 @@ msgstr ""
 "ニットが戦闘の後にベテランになる確率が50%から100%に増えます。"
 
 # Daniel
-#: data/civ2/buildings.ruleset:1502 data/default/buildings.ruleset:1570
+#: data/civ2/buildings.ruleset:1501 data/default/buildings.ruleset:1570
 #: data/experimental/buildings.ruleset:1627
 msgid "All your units regain two extra hitpoints per turn."
 msgstr "ターンごとにユニットの体力が2多く回復します。"
 
-#: data/civ2/buildings.ruleset:1529 data/default/buildings.ruleset:1597
+#: data/civ2/buildings.ruleset:1528 data/default/buildings.ruleset:1597
 #: data/experimental/buildings.ruleset:1654
 msgid ""
 "Counts as a Police Station in every city. (That is, for each city, it "
@@ -17186,12 +17181,12 @@ msgstr ""
 "他の政治体制下では効力がありません。"
 
 # clefs (was "資本化")
-#: data/civ2/buildings.ruleset:1539
+#: data/civ2/buildings.ruleset:1538
 msgid "Capitalization"
 msgstr "現金化"
 
 # Belgae
-#: data/civ2/buildings.ruleset:1552
+#: data/civ2/buildings.ruleset:1551
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Capitalization means its shield production is converted to tax output "
@@ -17697,7 +17692,7 @@ msgid "?female:%s Jarl"
 msgstr "%s ヤール"
 
 #: data/civ2/nations.ruleset:1951 data/nation/barbarian.ruleset:3
-#: server/stdinhand.c:3454 server/stdinhand.c:6223
+#: server/stdinhand.c:3454 server/stdinhand.c:6226
 msgid "Barbarian"
 msgstr "バーバリアン"
 
@@ -17735,17 +17730,17 @@ msgstr ""
 "厄であり続けています。"
 
 #: data/civ2/techs.ruleset:66 data/default/techs.ruleset:77
-#: data/experimental/techs.ruleset:80 data/multiplayer/techs.ruleset:77
+#: data/experimental/techs.ruleset:79 data/multiplayer/techs.ruleset:77
 msgid "Amphibious Warfare"
 msgstr "上陸戦"
 
 #: data/civ2/techs.ruleset:154 data/default/techs.ruleset:165
-#: data/experimental/techs.ruleset:177 data/multiplayer/techs.ruleset:165
+#: data/experimental/techs.ruleset:167 data/multiplayer/techs.ruleset:165
 msgid "Combined Arms"
 msgstr "陸海空共同軍"
 
 #: data/civ2/techs.ruleset:176 data/default/techs.ruleset:187
-#: data/experimental/techs.ruleset:202 data/multiplayer/techs.ruleset:187
+#: data/experimental/techs.ruleset:189 data/multiplayer/techs.ruleset:187
 msgid "Reduces the effect of Cathedrals."
 msgstr "大聖堂の効果を減らします。"
 
@@ -17754,33 +17749,33 @@ msgid "Allows Settlers and Engineers to build fortresses."
 msgstr "開拓者とエンジニアが，要塞を建築できるようになります。"
 
 #: data/civ2/techs.ruleset:220 data/default/techs.ruleset:231
-#: data/experimental/techs.ruleset:251 data/multiplayer/techs.ruleset:231
+#: data/experimental/techs.ruleset:233 data/multiplayer/techs.ruleset:231
 #: server/report.c:163
 msgid "Economics"
 msgstr "経済"
 
 #: data/civ2/techs.ruleset:234 data/default/techs.ruleset:245
-#: data/experimental/techs.ruleset:267
+#: data/experimental/techs.ruleset:247
 msgid "Improves the effect of Colosseums."
 msgstr "コロシアムの効果を増やします。"
 
 #: data/civ2/techs.ruleset:253 data/default/techs.ruleset:264
-#: data/experimental/techs.ruleset:288 data/multiplayer/techs.ruleset:264
+#: data/experimental/techs.ruleset:266 data/multiplayer/techs.ruleset:264
 msgid "Environmentalism"
 msgstr "環境学"
 
 #: data/civ2/techs.ruleset:261 data/default/techs.ruleset:272
-#: data/experimental/techs.ruleset:297 data/multiplayer/techs.ruleset:274
+#: data/experimental/techs.ruleset:274 data/multiplayer/techs.ruleset:274
 msgid "Espionage"
 msgstr "偵察"
 
 #: data/civ2/techs.ruleset:318 data/default/techs.ruleset:321
-#: data/experimental/techs.ruleset:352 data/multiplayer/techs.ruleset:330
+#: data/experimental/techs.ruleset:323 data/multiplayer/techs.ruleset:330
 msgid "Guerilla Warfare"
 msgstr "ゲリラ戦"
 
 #: data/civ2/techs.ruleset:374 data/default/techs.ruleset:378
-#: data/experimental/techs.ruleset:415 data/multiplayer/techs.ruleset:387
+#: data/experimental/techs.ruleset:380 data/multiplayer/techs.ruleset:387
 msgid "Laser"
 msgstr "レーザー工学"
 
@@ -17789,37 +17784,37 @@ msgstr "レーザー工学"
 # どう訳してもうまくいかない。原文の方を改善してほしいところ。(clefs)
 # LeaderとLeadershipで区別出来ているはずなので分けます。(Belgae)
 #: data/civ2/techs.ruleset:382 data/default/techs.ruleset:386
-#: data/experimental/techs.ruleset:424 data/multiplayer/techs.ruleset:395
+#: data/experimental/techs.ruleset:388 data/multiplayer/techs.ruleset:395
 msgid "Leadership"
 msgstr "指揮"
 
 #: data/civ2/techs.ruleset:398 data/default/techs.ruleset:402
-#: data/experimental/techs.ruleset:442 data/multiplayer/techs.ruleset:411
+#: data/experimental/techs.ruleset:404 data/multiplayer/techs.ruleset:411
 msgid "Machine Tools"
 msgstr "工作機械"
 
 #: data/civ2/techs.ruleset:462 data/default/techs.ruleset:466
-#: data/experimental/techs.ruleset:513 data/multiplayer/techs.ruleset:475
+#: data/experimental/techs.ruleset:468 data/multiplayer/techs.ruleset:475
 msgid "Miniaturization"
 msgstr "小型化"
 
 #: data/civ2/techs.ruleset:470 data/default/techs.ruleset:474
-#: data/experimental/techs.ruleset:522 data/multiplayer/techs.ruleset:483
+#: data/experimental/techs.ruleset:476 data/multiplayer/techs.ruleset:483
 msgid "Mobile Warfare"
 msgstr "機動戦"
 
 #: data/civ2/techs.ruleset:486 data/default/techs.ruleset:490
-#: data/experimental/techs.ruleset:540 data/multiplayer/techs.ruleset:499
+#: data/experimental/techs.ruleset:492 data/multiplayer/techs.ruleset:499
 msgid "Monotheism"
 msgstr "一神教"
 
 #: data/civ2/techs.ruleset:525 data/default/techs.ruleset:529
-#: data/experimental/techs.ruleset:584 data/multiplayer/techs.ruleset:538
+#: data/experimental/techs.ruleset:531 data/multiplayer/techs.ruleset:538
 msgid "Gives sea units one extra move."
 msgstr "海上ユニットがさらに1多く移動できます。"
 
 #: data/civ2/techs.ruleset:532 data/default/techs.ruleset:536
-#: data/experimental/techs.ruleset:592
+#: data/experimental/techs.ruleset:538
 msgid ""
 "Great philosophers from all the world join your civilization: you get an "
 "immediate advance."
@@ -17827,12 +17822,12 @@ msgstr ""
 "世界中の偉大な哲学者があなたの文明に加わりました。即座に科学を1つ得ました。"
 
 #: data/civ2/techs.ruleset:554 data/default/techs.ruleset:558
-#: data/experimental/techs.ruleset:616 data/multiplayer/techs.ruleset:567
+#: data/experimental/techs.ruleset:560 data/multiplayer/techs.ruleset:567
 msgid "Polytheism"
 msgstr "多神教"
 
 #: data/civ2/techs.ruleset:570 data/default/techs.ruleset:574
-#: data/experimental/techs.ruleset:633 data/multiplayer/techs.ruleset:583
+#: data/experimental/techs.ruleset:576 data/multiplayer/techs.ruleset:583
 msgid "Radio"
 msgstr "無線"
 
@@ -17841,44 +17836,44 @@ msgid "Allows Settlers and Engineers to build airbases."
 msgstr "開拓者とエンジニアが，飛行場を建築できるようになります。"
 
 #: data/civ2/techs.ruleset:604 data/default/techs.ruleset:608
-#: data/experimental/techs.ruleset:671 data/multiplayer/techs.ruleset:616
+#: data/experimental/techs.ruleset:610 data/multiplayer/techs.ruleset:616
 msgid "Refrigeration"
 msgstr "冷凍"
 
 #: data/civ2/techs.ruleset:628 data/default/techs.ruleset:632
-#: data/experimental/techs.ruleset:698 data/multiplayer/techs.ruleset:640
+#: data/experimental/techs.ruleset:634 data/multiplayer/techs.ruleset:640
 msgid "Sanitation"
 msgstr "公衆衛生"
 
 # Seafaring「航海」とNavigation「航海術」は紛らわしいので
 # 何かいい言い換えが欲しいところ (clefs)
 #: data/civ2/techs.ruleset:636 data/default/techs.ruleset:640
-#: data/experimental/techs.ruleset:707 data/multiplayer/techs.ruleset:648
+#: data/experimental/techs.ruleset:642 data/multiplayer/techs.ruleset:648
 msgid "Seafaring"
 msgstr "航海"
 
 #: data/civ2/techs.ruleset:652 data/default/techs.ruleset:656
-#: data/experimental/techs.ruleset:725 data/multiplayer/techs.ruleset:664
+#: data/experimental/techs.ruleset:658 data/multiplayer/techs.ruleset:664
 msgid "Stealth"
 msgstr "ステルス"
 
 #: data/civ2/techs.ruleset:684 data/default/techs.ruleset:688
-#: data/experimental/techs.ruleset:761 data/multiplayer/techs.ruleset:696
+#: data/experimental/techs.ruleset:690 data/multiplayer/techs.ruleset:696
 msgid "Tactics"
 msgstr "戦術"
 
 #: data/civ2/techs.ruleset:716 data/default/techs.ruleset:720
-#: data/experimental/techs.ruleset:797 data/multiplayer/techs.ruleset:728
+#: data/experimental/techs.ruleset:722 data/multiplayer/techs.ruleset:728
 msgid "Theology"
 msgstr "神学"
 
 #: data/civ2/techs.ruleset:722 data/default/techs.ruleset:726
-#: data/experimental/techs.ruleset:804 data/multiplayer/techs.ruleset:734
+#: data/experimental/techs.ruleset:728 data/multiplayer/techs.ruleset:734
 msgid "Improves the effect of Cathedrals."
 msgstr "大聖堂の効果を増やします。"
 
 #: data/civ2/techs.ruleset:749 data/default/techs.ruleset:753
-#: data/experimental/techs.ruleset:834 data/multiplayer/techs.ruleset:761
+#: data/experimental/techs.ruleset:755 data/multiplayer/techs.ruleset:761
 msgid "Warrior Code"
 msgstr "兵法"
 
@@ -17905,80 +17900,80 @@ msgstr ""
 "「橋梁建設」の技術を習得していなければ，川のあるタイルに道路や鉄道を敷設する"
 "ことはできません。"
 
-#: data/civ2/terrain.ruleset:230 data/default/terrain.ruleset:315
-#: data/experimental/terrain.ruleset:317 data/multiplayer/terrain.ruleset:315
+#: data/civ2/terrain.ruleset:229 data/default/terrain.ruleset:314
+#: data/experimental/terrain.ruleset:316 data/multiplayer/terrain.ruleset:314
 msgid "Glacier"
 msgstr "氷河"
 
-#: data/civ2/terrain.ruleset:260 data/default/terrain.ruleset:348
-#: data/experimental/terrain.ruleset:350 data/multiplayer/terrain.ruleset:348
+#: data/civ2/terrain.ruleset:259 data/default/terrain.ruleset:347
+#: data/experimental/terrain.ruleset:349 data/multiplayer/terrain.ruleset:347
 msgid ""
 "Glaciers are found only in the most northerly or southerly reaches of the "
 "world.  They are very cold, and hence difficult to work with."
 msgstr ""
 "氷河は世界の最北部と最南部にのみ存在します。とても寒いので働くのが大変です。"
 
-#: data/civ2/terrain.ruleset:631 data/default/terrain.ruleset:745
-#: data/experimental/terrain.ruleset:747 data/multiplayer/terrain.ruleset:745
+#: data/civ2/terrain.ruleset:630 data/default/terrain.ruleset:744
+#: data/experimental/terrain.ruleset:746 data/multiplayer/terrain.ruleset:744
 msgid "Iron"
 msgstr "鉄"
 
-#: data/civ2/terrain.ruleset:648 data/default/terrain.ruleset:762
-#: data/experimental/terrain.ruleset:764 data/multiplayer/terrain.ruleset:762
+#: data/civ2/terrain.ruleset:647 data/default/terrain.ruleset:761
+#: data/experimental/terrain.ruleset:763 data/multiplayer/terrain.ruleset:761
 msgid "Furs"
 msgstr "毛皮"
 
-#: data/civ2/terrain.ruleset:677 data/default/terrain.ruleset:787
-#: data/experimental/terrain.ruleset:789 data/multiplayer/terrain.ruleset:787
+#: data/civ2/terrain.ruleset:676 data/default/terrain.ruleset:786
+#: data/experimental/terrain.ruleset:788 data/multiplayer/terrain.ruleset:786
 msgid "Fruit"
 msgstr "フルーツ"
 
-#: data/civ2/terrain.ruleset:694 data/default/terrain.ruleset:806
-#: data/experimental/terrain.ruleset:808 data/multiplayer/terrain.ruleset:806
+#: data/civ2/terrain.ruleset:693 data/default/terrain.ruleset:805
+#: data/experimental/terrain.ruleset:807 data/multiplayer/terrain.ruleset:805
 msgid "Buffalo"
 msgstr "水牛"
 
-#: data/civ2/terrain.ruleset:702 data/default/terrain.ruleset:814
-#: data/experimental/terrain.ruleset:816 data/multiplayer/terrain.ruleset:814
+#: data/civ2/terrain.ruleset:701 data/default/terrain.ruleset:813
+#: data/experimental/terrain.ruleset:815 data/multiplayer/terrain.ruleset:813
 msgid "Wheat"
 msgstr "小麦"
 
-#: data/civ2/terrain.ruleset:718 data/default/terrain.ruleset:836
-#: data/experimental/terrain.ruleset:838 data/multiplayer/terrain.ruleset:836
+#: data/civ2/terrain.ruleset:717 data/default/terrain.ruleset:835
+#: data/experimental/terrain.ruleset:837 data/multiplayer/terrain.ruleset:835
 msgid "Peat"
 msgstr "泥炭"
 
-#: data/civ2/terrain.ruleset:726 data/default/terrain.ruleset:844
-#: data/experimental/terrain.ruleset:846 data/multiplayer/terrain.ruleset:844
+#: data/civ2/terrain.ruleset:725 data/default/terrain.ruleset:843
+#: data/experimental/terrain.ruleset:845 data/multiplayer/terrain.ruleset:843
 msgid "Pheasant"
 msgstr "キジ"
 
-#: data/civ2/terrain.ruleset:742 data/default/terrain.ruleset:862
-#: data/experimental/terrain.ruleset:864 data/multiplayer/terrain.ruleset:862
+#: data/civ2/terrain.ruleset:741 data/default/terrain.ruleset:861
+#: data/experimental/terrain.ruleset:863 data/multiplayer/terrain.ruleset:861
 msgid "Ivory"
 msgstr "象牙"
 
-#: data/civ2/terrain.ruleset:752 data/default/terrain.ruleset:872
-#: data/experimental/terrain.ruleset:874 data/multiplayer/terrain.ruleset:872
+#: data/civ2/terrain.ruleset:751 data/default/terrain.ruleset:871
+#: data/experimental/terrain.ruleset:873 data/multiplayer/terrain.ruleset:871
 msgid "Silk"
 msgstr "絹"
 
-#: data/civ2/terrain.ruleset:760 data/default/terrain.ruleset:880
-#: data/experimental/terrain.ruleset:882 data/multiplayer/terrain.ruleset:880
+#: data/civ2/terrain.ruleset:759 data/default/terrain.ruleset:879
+#: data/experimental/terrain.ruleset:881 data/multiplayer/terrain.ruleset:879
 msgid "Spice"
 msgstr "スパイス"
 
-#: data/civ2/terrain.ruleset:769 data/default/terrain.ruleset:891
-#: data/experimental/terrain.ruleset:893 data/multiplayer/terrain.ruleset:891
+#: data/civ2/terrain.ruleset:768 data/default/terrain.ruleset:890
+#: data/experimental/terrain.ruleset:892 data/multiplayer/terrain.ruleset:890
 msgid "Whales"
 msgstr "鯨"
 
-#: data/civ2/terrain.ruleset:778 data/default/terrain.ruleset:900
-#: data/experimental/terrain.ruleset:902 data/multiplayer/terrain.ruleset:900
+#: data/civ2/terrain.ruleset:777 data/default/terrain.ruleset:899
+#: data/experimental/terrain.ruleset:901 data/multiplayer/terrain.ruleset:899
 msgid "Wine"
 msgstr "ワイン"
 
-#: data/civ2/terrain.ruleset:857
+#: data/civ2/terrain.ruleset:856
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
@@ -17988,8 +17983,8 @@ msgstr ""
 "丸1ターンの間移動せず留まっていた場合，ヒットポイントが最大値の4分の1回復しま"
 "す。"
 
-#: data/civ2/terrain.ruleset:878 data/default/terrain.ruleset:994
-#: data/experimental/terrain.ruleset:996 data/multiplayer/terrain.ruleset:994
+#: data/civ2/terrain.ruleset:877 data/default/terrain.ruleset:993
+#: data/experimental/terrain.ruleset:995 data/multiplayer/terrain.ruleset:993
 msgid ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
@@ -18669,6 +18664,17 @@ msgstr ""
 "わさると150%の生産物ボーナスが得られる一方，その都市での生産に伴う公害は完全"
 "に発生しなくなります。"
 
+#: data/default/buildings.ruleset:981 data/experimental/buildings.ruleset:1036
+#: data/multiplayer/buildings.ruleset:961
+msgid ""
+"Makes one unhappy citizen content.  The Mysticism advance doubles this "
+"effect.  With both Mysticism and the Oracle, 4 citizens are made content.  "
+"Does not affect citizens made unhappy by military activity."
+msgstr ""
+"1不幸市民を平静にします。科学技術の「神秘主義」があると，この効果が倍になりま"
+"す。「神秘主義」と「神託所」の両方があると，4市民が平静します。軍事活動にとも"
+"なう市民の不幸には効果がありません。"
+
 # Daniel
 # Belgae
 #: data/default/buildings.ruleset:1005
@@ -18739,6 +18745,15 @@ msgstr ""
 msgid "Gives all your sea units 2 additional movement points."
 msgstr "すべての海上ユニットの移動ポイントを2増やします。"
 
+#: data/default/buildings.ruleset:1444
+#: data/experimental/buildings.ruleset:1501
+msgid ""
+"Makes two additional unhappy citizens content in every city with a Temple.  "
+"Does not affect citizens made unhappy by military activity."
+msgstr ""
+"寺院のあるすべての都市で，さらに不幸市民2を平静にします。軍事活動にともなう市"
+"民の不幸には効果がありません。"
+
 # clefs
 #: data/default/buildings.ruleset:1466
 #: data/experimental/buildings.ruleset:1523
@@ -18805,51 +18820,51 @@ msgstr "徴税者は1人につき3の金を帝国の金庫に毎ターン追加�
 msgid "?citystyle:ElectricAge"
 msgstr "電子時代風"
 
-#: data/default/default.lua:22 server/unittools.c:2549
+#: data/default/default.lua:22 server/unittools.c:2590
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
 msgstr[0] "金 %dを見つけました。"
 
-#: data/default/default.lua:35
+#: data/default/default.lua:40
 #, c-format
 msgid "You found %s in ancient scrolls of wisdom."
 msgstr "%sを古代の知識の巻物の中から見つけました。"
 
-#: data/default/default.lua:38
+#: data/default/default.lua:43
 #, c-format
 msgid "The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "%sは古代の知識の巻物から%sを得ました。"
 
-#: data/default/default.lua:58
+#: data/default/default.lua:66
 msgid "A band of friendly mercenaries joins your cause."
 msgstr "友好的なユニットが加わりました。"
 
-#: data/default/default.lua:74
+#: data/default/default.lua:82
 msgid "You found a friendly city."
 msgstr "友好的な都市を見つけました。"
 
-#: data/default/default.lua:78
+#: data/default/default.lua:87
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "友好的な放浪者があなたに感銘し，ユニットとして加わりました。"
 
 # Belgae
 # was: 廃墟の村があります。
 # メッセージ設定のUnit Spared by Barbarians（ユニットがバーバリアンから危害を受けない）で制御されるメッセージですから，ユニットが村に入った時点ではまだ村は廃墟ではなくバーバリアンがいたけれども，「都市に近すぎるので退去してもらえないか」という交渉（圧力）により明け渡された(abandoned)という状況を言っているものと思われます。
-#: data/default/default.lua:96 server/unittools.c:2556
+#: data/default/default.lua:108 server/unittools.c:2597
 msgid "An abandoned village is here."
 msgstr "バーバリアンは村から平和裏に退去しました。"
 
-#: data/default/default.lua:103
+#: data/default/default.lua:115
 msgid "You have unleashed a horde of barbarians!"
 msgstr "バーバリアンの大群を解放してしまいました!"
 
-#: data/default/default.lua:106 server/unittools.c:2559
+#: data/default/default.lua:118 server/unittools.c:2600
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "%sはバーバリアンによって殺されました。"
 
-#: data/default/default.lua:174 data/default/default.lua:176
+#: data/default/default.lua:188 data/default/default.lua:190
 #, c-format
 msgid "The loss of %s has inspired partisans!"
 msgstr "%sを失ったことにより，パルチザンが決起しました!"
@@ -18921,17 +18936,17 @@ msgstr "オセアニア"
 msgid "?nationgroup:Imaginary"
 msgstr "架空"
 
-#: data/default/techs.ruleset:212 data/experimental/techs.ruleset:230
+#: data/default/techs.ruleset:212 data/experimental/techs.ruleset:214
 #: data/multiplayer/techs.ruleset:212
 msgid "Allows Settlers, Workers and Engineers to build fortresses."
 msgstr "開拓者，労働者，エンジニアが，要塞を建築できるようになります。"
 
-#: data/default/techs.ruleset:359 data/experimental/techs.ruleset:394
+#: data/default/techs.ruleset:359 data/experimental/techs.ruleset:361
 #: data/multiplayer/techs.ruleset:368
 msgid "Increases units' vision when in fortresses."
 msgstr "都市内にユニットがいる場合の視界が広がります。"
 
-#: data/default/techs.ruleset:580 data/experimental/techs.ruleset:640
+#: data/default/techs.ruleset:580 data/experimental/techs.ruleset:582
 #: data/multiplayer/techs.ruleset:589
 msgid "Allows Workers and Engineers to build airbases and buoys."
 msgstr "労働者とエンジニアが，飛行場およびブイを建築できるようになります。"
@@ -18949,22 +18964,22 @@ msgstr "湖は大量の淡水が溜まっている場所です。"
 
 #: data/default/terrain.ruleset:269 data/experimental/terrain.ruleset:271
 #: data/multiplayer/terrain.ruleset:269
+#, fuzzy
 msgid ""
 "Shallow oceans are mostly found near coastlines, and are often rich sources "
-"of food and other resources. They can be traversed by sea units, including "
-"Triremes."
+"of food and other resources."
 msgstr ""
 "海は外洋に比べて水深が浅く，ほとんどは海岸線の近くに見られます。しばしば食料"
 "他の豊かな資源を得られます。トライリームも含む海上ユニットにより，海を渡るこ"
 "とができます。"
 
-#: data/default/terrain.ruleset:276 data/experimental/terrain.ruleset:278
-#: data/multiplayer/terrain.ruleset:276
+#: data/default/terrain.ruleset:275 data/experimental/terrain.ruleset:277
+#: data/multiplayer/terrain.ruleset:275
 msgid "Deep Ocean"
 msgstr "外洋"
 
-#: data/default/terrain.ruleset:309 data/experimental/terrain.ruleset:311
-#: data/multiplayer/terrain.ruleset:309
+#: data/default/terrain.ruleset:308 data/experimental/terrain.ruleset:310
+#: data/multiplayer/terrain.ruleset:308
 msgid ""
 "Deep oceans cover much of the world away from coastlines, and only seaworthy "
 "units (not including Triremes) can travel on them."
@@ -18972,8 +18987,8 @@ msgstr ""
 "外洋は海岸線から沖に離れた地域で，世界の大部分を覆っています。耐波性のある海"
 "上ユニット(トライリームは含まれません)のみが外洋を渡れます。"
 
-#: data/default/terrain.ruleset:972 data/experimental/terrain.ruleset:974
-#: data/multiplayer/terrain.ruleset:972
+#: data/default/terrain.ruleset:971 data/experimental/terrain.ruleset:973
+#: data/multiplayer/terrain.ruleset:971
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
@@ -18985,22 +19000,22 @@ msgstr ""
 "す。「発明」を持っていると要塞に望楼が付属し，ユニットがいる場合の視界が拡大"
 "します。"
 
-#: data/default/terrain.ruleset:1000 data/experimental/terrain.ruleset:1002
-#: data/multiplayer/terrain.ruleset:1004
+#: data/default/terrain.ruleset:999 data/experimental/terrain.ruleset:1001
+#: data/multiplayer/terrain.ruleset:1003
 msgid "Buoy"
 msgstr "ブイ"
 
-#: data/default/terrain.ruleset:1014 data/experimental/terrain.ruleset:1016
+#: data/default/terrain.ruleset:1013 data/experimental/terrain.ruleset:1015
 msgid "Buoys may be built in the ocean (by units on a sea-going vessel)."
 msgstr "ブイは（船舶に積載されたユニットによって）海に建設できます。"
 
-#: data/default/terrain.ruleset:1019 data/experimental/terrain.ruleset:1021
-#: data/multiplayer/terrain.ruleset:1024
+#: data/default/terrain.ruleset:1018 data/experimental/terrain.ruleset:1020
+#: data/multiplayer/terrain.ruleset:1023
 msgid "Ruins"
 msgstr "廃墟"
 
-#: data/default/terrain.ruleset:1030 data/experimental/terrain.ruleset:1032
-#: data/multiplayer/terrain.ruleset:1035
+#: data/default/terrain.ruleset:1029 data/experimental/terrain.ruleset:1031
+#: data/multiplayer/terrain.ruleset:1034
 msgid ""
 "Ruins mark the former site of a city that was destroyed or abandoned. They "
 "have no effect on gameplay."
@@ -24120,7 +24135,7 @@ msgid ""
 "This technology is only acquired the first time you build Darwin's Voyage."
 msgstr "この科学技術はダーウィンの航海を最初に建設したときにのみ獲得できます。"
 
-#: data/multiplayer/terrain.ruleset:1019
+#: data/multiplayer/terrain.ruleset:1018
 msgid "Buoys cannot be built in the multiplayer ruleset."
 msgstr ""
 
@@ -38783,128 +38798,128 @@ msgid "%s lost along with control of %s."
 msgstr "%2$sの支配権を失うと共に%1$sを失いました。"
 
 #. TRANS: <building> ... <city>
-#: server/citytools.c:913
+#: server/citytools.c:918
 #, c-format
 msgid "A replacement %s was built in %s."
 msgstr "代わりの %sが %sに建造させました。"
 
-#: server/citytools.c:1002
+#: server/citytools.c:1007
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr "既に%sと呼ばれる都市があります。都市は%sと改名されました。"
 
-#: server/citytools.c:1069
+#: server/citytools.c:1074
 #, fuzzy, c-format
 msgid "The people in %s are stunned by your technological insight!"
 msgstr ""
 "%s の市民は，あなたの技術を垣間見，驚愕しました。\n"
 "      労働者は自発的に集まり，都市に鉄道を引きました。"
 
-#: server/citytools.c:1073
+#: server/citytools.c:1078
 #, fuzzy, c-format
 msgid "Workers spontaneously gather and upgrade %s with railroads."
 msgstr ""
 "%s の市民は，あなたの技術を垣間見，驚愕しました。\n"
 "      労働者は自発的に集まり，都市に鉄道を引きました。"
 
-#: server/citytools.c:1347
+#: server/citytools.c:1352
 #, c-format
 msgid "You have founded %s."
 msgstr "%sを作りました。"
 
-#: server/citytools.c:1427
+#: server/citytools.c:1432
 #, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr "%sを解散した都市 %sから移動しました(%sには留まれないため)。"
 
-#: server/citytools.c:1440
+#: server/citytools.c:1445
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr "%sが解散した時， %sは外に出ることができなかったため座礁しました。"
 
-#: server/citytools.c:1598
+#: server/citytools.c:1603
 #, c-format
 msgid "You destroy %s completely."
 msgstr "%sを完全に破壊しました。"
 
-#: server/citytools.c:1601
+#: server/citytools.c:1606
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%s は %sによって破壊されました。"
 
-#: server/citytools.c:1627
+#: server/citytools.c:1632
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] "%sを制圧し，金 %dを略奪しました!"
 
-#: server/citytools.c:1634
+#: server/citytools.c:1639
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s は %sを制圧し，金 %dを略奪しました。"
 
-#: server/citytools.c:1643
+#: server/citytools.c:1648
 #, c-format
 msgid "You conquer %s."
 msgstr "%sを制圧しました。"
 
-#: server/citytools.c:1646
+#: server/citytools.c:1651
 #, c-format
 msgid "%s conquered %s."
 msgstr "%sは %sを制圧しました。"
 
-#: server/citytools.c:1653
+#: server/citytools.c:1658
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] "%sを解放しました。金 %dを略奪しました。"
 
-#: server/citytools.c:1660
+#: server/citytools.c:1665
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] "%sは %sを解放し，金 %dが都市から略奪されました。"
 
-#: server/citytools.c:1669
+#: server/citytools.c:1674
 #, c-format
 msgid "You have liberated %s!"
 msgstr "%sを解放しました！"
 
-#: server/citytools.c:1672
+#: server/citytools.c:1677
 #, c-format
 msgid "%s liberated %s."
 msgstr "%sは %sを解放しました。"
 
-#: server/citytools.c:2428
+#: server/citytools.c:2433
 msgid " from the worklist"
 msgstr "作業リストから"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:2440
+#: server/citytools.c:2445
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%sで%s%sを作り始めました。"
 
-#: server/citytools.c:2607
+#: server/citytools.c:2614
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
 msgstr[0] "(今は陸地で囲まれている)%2$sの %1$sを %3$dで売ります。"
 
-#: server/citytools.c:2740
+#: server/citytools.c:2747
 #, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "%sの都市マップのサイズが %sされました。"
 
 # "The size of the city map of %s is %s."の後者の%sに代入されます。
-#: server/citytools.c:2742
+#: server/citytools.c:2749
 msgid "increased"
 msgstr "拡大"
 
 # "The size of the city map of %s is %s."の後者の%sに代入されます。
-#: server/citytools.c:2743
+#: server/citytools.c:2750
 msgid "reduced"
 msgstr "縮小"
 
@@ -41377,7 +41392,7 @@ msgid ""
 msgstr ""
 "タイル %sの基地を変更できません。 %dは適切な基地タイプIDではありません。"
 
-#: server/edithand.c:535
+#: server/edithand.c:534
 #, c-format
 msgid "Cannot create units because %d is not a valid tile index on this map!"
 msgstr ""
@@ -41385,7 +41400,7 @@ msgstr ""
 "ありません!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:544
+#: server/edithand.c:543
 #, c-format
 msgid ""
 "Cannot create a unit at %s because the given unit type id %d is invalid."
@@ -41393,7 +41408,7 @@ msgstr ""
 "%sでユニットを作成できません。指定されたユニットタイプID %dが不正です。"
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>"...
-#: server/edithand.c:554
+#: server/edithand.c:553
 #, c-format
 msgid ""
 "Cannot create a unit of type %s at %s because the given owner's player id %d "
@@ -41404,19 +41419,19 @@ msgstr ""
 
 #. TRANS: ..." type <unit-type> on enemy tile
 #. * <tile-coordinates>"...
-#: server/edithand.c:567
+#: server/edithand.c:566
 #, c-format
 msgid "Cannot create unit of type %s on enemy tile %s."
 msgstr "タイプ %sのユニットを敵のタイル %sに作成することはできません。"
 
 #. TRANS: ..." type <unit-type> on the terrain at
 #. * <tile-coordinates>"...
-#: server/edithand.c:577
+#: server/edithand.c:576
 #, c-format
 msgid "Cannot create a unit of type %s on the terrain at %s."
 msgstr "タイプ %sのユニットを %sの地形に作成することはできません。"
 
-#: server/edithand.c:623
+#: server/edithand.c:619
 #, c-format
 msgid "Cannot remove units because %d is not a valid tile index on this map!"
 msgstr ""
@@ -41424,7 +41439,7 @@ msgstr ""
 "ありません!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:632
+#: server/edithand.c:628
 #, c-format
 msgid ""
 "Cannot remove a unit at %s because the given unit type id %d is invalid."
@@ -41433,7 +41448,7 @@ msgstr ""
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>
 #. * because"...
-#: server/edithand.c:643
+#: server/edithand.c:639
 #, c-format
 msgid ""
 "Cannot remove a unit of type %s at %s because the given owner's player id %d "
@@ -41442,17 +41457,17 @@ msgstr ""
 "%1$sのタイプ %2$sのユニットを削除できません。指定した所有者のプレイヤーID "
 "%3$dは不適切です。"
 
-#: server/edithand.c:674 server/edithand.c:697
+#: server/edithand.c:670 server/edithand.c:693
 #, c-format
 msgid "No such unit (ID %d)."
 msgstr "そのようなユニットはありません(ID %d)。"
 
-#: server/edithand.c:736
+#: server/edithand.c:732
 #, c-format
 msgid "Invalid veteran level %d for unit %d (%s)."
 msgstr "ユニット %2$d (%3$s)のベテランレベル %1$dは不適切です。"
 
-#: server/edithand.c:767
+#: server/edithand.c:763
 #, c-format
 msgid "Cannot create a city because %d is not a valid tile index on this map!"
 msgstr ""
@@ -41460,7 +41475,7 @@ msgstr ""
 "ません!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:776
+#: server/edithand.c:772
 #, c-format
 msgid ""
 "Cannot create a city at %s because the given owner's player id %d is invalid"
@@ -41468,32 +41483,32 @@ msgstr ""
 "%sに都市を創設できません。指定した所有者のプレイヤーID %dは不適切です。"
 
 #. TRANS: ..." at <tile-coordinates>."
-#: server/edithand.c:788
+#: server/edithand.c:784
 #, c-format
 msgid "A city may not be built at %s."
 msgstr "%sに都市を創設することはできません。"
 
-#: server/edithand.c:835
+#: server/edithand.c:831
 #, c-format
 msgid "Cannot edit city with invalid city ID %d."
 msgstr "都市ID %dが不適切なため，都市を編集できません。"
 
-#: server/edithand.c:848
+#: server/edithand.c:844
 #, c-format
 msgid "Cannot edit city name: %s"
 msgstr "都市名を編集できません: %s"
 
-#: server/edithand.c:859
+#: server/edithand.c:855
 #, c-format
 msgid "Invalid city size %d for city %s."
 msgstr "都市 %2$sの大きさ %1$dは不適切です。"
 
-#: server/edithand.c:876
+#: server/edithand.c:872
 #, c-format
 msgid "It is impossible for a city to have %s!"
 msgstr "都市には %sはできません!"
 
-#: server/edithand.c:925
+#: server/edithand.c:921
 #, c-format
 msgid ""
 "Invalid city food stock amount %d for city %s (allowed range is %d to %d)."
@@ -41501,7 +41516,7 @@ msgstr ""
 "都市 %2$sの食料貯蔵量 %1$dは不適切です（可能な範囲は %3$dから %4$dまでで"
 "す）。"
 
-#: server/edithand.c:939
+#: server/edithand.c:935
 #, c-format
 msgid ""
 "Invalid city shield stock amount %d for city %s (allowed range is %d to %d)."
@@ -41509,7 +41524,7 @@ msgstr ""
 "都市 %2$sのシールド貯蔵量 %1$dは不適切です（可能な範囲は %3$dから %4$dまでで"
 "す）。"
 
-#: server/edithand.c:986
+#: server/edithand.c:982
 #, c-format
 msgid ""
 "No more players can be added because the maximum number of players (%d) has "
@@ -41517,7 +41532,7 @@ msgid ""
 msgstr ""
 "これ以上プレイヤーを追加できません。プレイヤーの最大値(%d)に達しています。"
 
-#: server/edithand.c:994
+#: server/edithand.c:990
 #, c-format
 msgid ""
 "No more players can be added because there are no available nations (%d "
@@ -41526,30 +41541,30 @@ msgstr ""
 "これ以上プレイヤーを追加できません。使用できる民族がありません (%d民族使用"
 "中)。"
 
-#: server/edithand.c:1003
+#: server/edithand.c:999
 msgid "Player cannot be created because random nation selection failed."
 msgstr "プレイヤーを作成できません。ランダムな民族選択に失敗しました。"
 
-#: server/edithand.c:1011
+#: server/edithand.c:1007
 msgid "Player creation failed."
 msgstr "プレイヤーの生成に失敗しました。"
 
-#: server/edithand.c:1045
+#: server/edithand.c:1041
 #, c-format
 msgid "No such player (ID %d)."
 msgstr "そのようなプレイヤーはいません (ID %d)。"
 
-#: server/edithand.c:1074
+#: server/edithand.c:1070
 #, c-format
 msgid "Cannot edit player with invalid player ID %d."
 msgstr "プレイヤーID %dが不適切なため，プレイヤーを編集できません。"
 
-#: server/edithand.c:1091
+#: server/edithand.c:1087
 #, c-format
 msgid "Cannot change name of player (%d) '%s' to '%s': %s"
 msgstr "プレイヤー(%d) '%s'の名前を'%s'に変更することはできません。 %s"
 
-#: server/edithand.c:1102
+#: server/edithand.c:1098
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) because the given nation ID %d is "
@@ -41557,7 +41572,7 @@ msgid ""
 msgstr ""
 "プレイヤー %d (%s)の民族を変更できません。指定された民族ID %dは不適切です。"
 
-#: server/edithand.c:1108
+#: server/edithand.c:1104
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
@@ -41566,7 +41581,7 @@ msgstr ""
 "プレイヤー %d (%s)の民族を %d (%s)に変更できません。指定された民族はすでにプ"
 "レイヤー %d (%s)に割り当てられています。"
 
-#: server/edithand.c:1144
+#: server/edithand.c:1140
 #, c-format
 msgid ""
 "Cannot set gold for player %d (%s) because the value %d is outside the "
@@ -41574,7 +41589,7 @@ msgid ""
 msgstr ""
 "プレイヤー %d (%s)の金を設定できません。指定された値 %dは有効範囲外です。"
 
-#: server/edithand.c:1203
+#: server/edithand.c:1199
 #, c-format
 msgid "Cannot edit vision because %d is not a valid tile index on this map!"
 msgstr ""
@@ -41582,35 +41597,35 @@ msgstr ""
 "ません!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:1212
+#: server/edithand.c:1208
 #, c-format
 msgid ""
 "Cannot edit vision for the tile at %s because given player id %d is invalid."
 msgstr ""
 "%sのタイルの視界を編集できません。指定されたプレイヤーID %dは不適切です。"
 
-#: server/edithand.c:1285
+#: server/edithand.c:1281
 #, c-format
 msgid "No such city (ID %d)."
 msgstr "そのような都市はありません (ID %d)。"
 
-#: server/edithand.c:1311
+#: server/edithand.c:1307
 msgid "Cannot toggle fog-of-war when it is already disabled."
 msgstr "戦場の霧を切り替えることができません。すでに無効です。"
 
-#: server/edithand.c:1319
+#: server/edithand.c:1315
 #, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
 msgstr ""
 "戦場の霧を切り替えることができません。対象のプレイヤーID %dが正しくありませ"
 "ん。"
 
-#: server/edithand.c:1347 server/edithand.c:1386
+#: server/edithand.c:1343 server/edithand.c:1382
 #, c-format
 msgid "Invalid tile index %d for start position."
 msgstr "開始位置のタイルインデックス %dが正しくありません。"
 
-#: server/edithand.c:1394
+#: server/edithand.c:1390
 #, c-format
 msgid ""
 "Cannot edit start position nations at (%d, %d) because there is no start "
@@ -41619,18 +41634,18 @@ msgstr ""
 "タイル (%d, %d) での開始位置民族を編集できません。指定した座標には開始位置が"
 "ありません。"
 
-#: server/edithand.c:1426
+#: server/edithand.c:1422
 #, c-format
 msgid "Cannot set invalid game year %d. Valid year range is from %d to %d."
 msgstr ""
 "ゲームの年 %dは不適切なため設定できません。適切な年の範囲は %dから %dまでで"
 "す。"
 
-#: server/edithand.c:1469
+#: server/edithand.c:1465
 msgid "No permissions to remotely save scenario."
 msgstr "リモートからシナリオを保存する権限がありません。"
 
-#: server/edithand.c:1476
+#: server/edithand.c:1472
 msgid "Scenario information not set. Cannot save scenario."
 msgstr "シナリオ情報が設定されていません。シナリオを保存できません。"
 
@@ -41698,20 +41713,20 @@ msgstr "ターン・タイムアウトが最大値を越えています。最大
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "ターン・タイムアウトが0より小さいです。0に修正しています。"
 
-#: server/generator/mapgen.c:1465
+#: server/generator/mapgen.c:1467
 msgid "The server couldn't allocate starting positions."
 msgstr ""
 
 # clefs
-#: server/generator/mapgen.c:2108
+#: server/generator/mapgen.c:2110
 msgid "High landmass - this may take a few seconds."
 msgstr "広大な土地です - 少し時間がかかるかもしれません。"
 
-#: server/generator/mapgen.c:2384
+#: server/generator/mapgen.c:2386
 msgid "Generator 3 didn't place all big islands."
 msgstr "Generator 3 は大きな島のいくつかを配置できません。"
 
-#: server/generator/mapgen.c:2413
+#: server/generator/mapgen.c:2415
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Generator 3 は配置しなかった%liの島を残しました。"
@@ -43482,13 +43497,13 @@ msgstr ""
 "で，そこをユニットが探査します。[訳註:プレイヤーの数に合わせて増減しないと望"
 "ましくない結果になります]"
 
-#: server/settings.c:1251
+#: server/settings.c:1249
 msgid "Minimum number of players"
 msgstr "最小プレイヤー数"
 
 # clefs
 # Belgae
-#: server/settings.c:1252
+#: server/settings.c:1250
 msgid ""
 "There must be at least this many players (connected human players) before "
 "the game can start."
@@ -43496,11 +43511,11 @@ msgstr ""
 "ゲームが始まる前に，少なくともこの数のプレイヤー（接続済みの人間プレイヤー）"
 "がいなければなりません。"
 
-#: server/settings.c:1259
+#: server/settings.c:1257
 msgid "Maximum number of players"
 msgstr "最大プレイヤー数"
 
-#: server/settings.c:1260
+#: server/settings.c:1258
 msgid ""
 "The maximal number of human and AI players who can be in the game. When this "
 "number of players are connected in the pregame state, any new players who "
@@ -43514,11 +43529,11 @@ msgstr ""
 "プレイヤーの開始位置が指定されているシナリオをプレイする場合は，指定開始位置"
 "の数を超える値を設定することはできません。"
 
-#: server/settings.c:1272
+#: server/settings.c:1270
 msgid "Limited number of AI players"
 msgstr "AIプレイヤーの最大数"
 
-#: server/settings.c:1273
+#: server/settings.c:1271
 msgid ""
 "If set to a positive value, then AI players will be automatically created or "
 "removed to keep the total number of players at this amount. As more players "
@@ -43530,11 +43545,11 @@ msgstr ""
 "プレイヤーが入れ替えの対象となります。0に設定した場合は，すべてのAIプレイヤー"
 "が除去されます。"
 
-#: server/settings.c:1284
+#: server/settings.c:1282
 msgid "Event cache for this number of turns"
 msgstr "イベントキャッシュの頻度"
 
-#: server/settings.c:1285
+#: server/settings.c:1283
 msgid ""
 "Event messages are saved for this number of turns. A value of 0 deactivates "
 "the event cache."
@@ -43542,28 +43557,28 @@ msgstr ""
 "ここで設定したターン数ごとにイベントキャッシュを保存します。0に設定するとイベ"
 "ントキャッシュは無効になります。"
 
-#: server/settings.c:1293
+#: server/settings.c:1291
 msgid "Size of the event cache"
 msgstr "イベントキャッシュの大きさ"
 
-#: server/settings.c:1294
+#: server/settings.c:1292
 msgid "This defines the maximal number of events in the event cache."
 msgstr "最大でいくつのイベントをイベントキャッシュに保存するかを設定します。"
 
-#: server/settings.c:1301
+#: server/settings.c:1299
 msgid "Save chat messages in the event cache"
 msgstr "チャットメッセージをイベントキャッシュに保存する"
 
-#: server/settings.c:1302
+#: server/settings.c:1300
 msgid "If turned on, chat messages will be saved in the event cache."
 msgstr "オンにすると，チャットメッセージがイベントキャッシュに保存されます。"
 
-#: server/settings.c:1307
+#: server/settings.c:1305
 msgid "Print turn and time for each cached event"
 msgstr "キャッシュの各イベントにターンと時刻を付記する"
 
 #. TRANS: Don't translate the text between single quotes.
-#: server/settings.c:1309
+#: server/settings.c:1307
 msgid ""
 "If turned on, all cached events will be marked by the turn and time of the "
 "event like '(T2 - 15:29:52)'."
@@ -43571,7 +43586,7 @@ msgstr ""
 "オンにすると，キャッシュされるすべてのイベントに「(T2 - 15:29:52)」のような書"
 "式でターンと時刻が明記されます。"
 
-#: server/settings.c:1320
+#: server/settings.c:1318
 msgid "List of players' initial units"
 msgstr "開始時にプレイヤーが所持するユニット"
 
@@ -43579,7 +43594,7 @@ msgstr "開始時にプレイヤーが所持するユニット"
 # 実際には "King"「王様」なんてユニットはないんだけれど
 # "Leadership" ならある
 # Belgae:指導者のユニット名はLeaderになっていますが，この説明文は直っていませんね。
-#: server/settings.c:1321
+#: server/settings.c:1319
 msgid ""
 "This should be a string of characters, each of which specifies a unit role. "
 "There must be at least one city founder in the string. The characters and "
@@ -43606,36 +43621,36 @@ msgstr ""
 "    a   = 高速な攻撃ユニット   (例: 騎馬兵)\n"
 "    A   = 強力な攻撃ユニット   (例: カタパルト)\n"
 
-#: server/settings.c:1338
+#: server/settings.c:1336
 msgid "Area where initial units are located"
 msgstr "最初のユニットが置かれる範囲"
 
 # clefs
 # was "これは、最初のユニットが分散する土地の片側の長さの半分です。"
-#: server/settings.c:1339
+#: server/settings.c:1337
 msgid "This is the radius within which the initial units are dispersed."
 msgstr "開始時に，この値の半径の範囲内でユニットが分散して配置されます。"
 
 # clefs
 # was "プレイヤーごとの開始時の金"
-#: server/settings.c:1345
+#: server/settings.c:1343
 msgid "Starting gold per player"
 msgstr "各プレイヤーが開始時に持っている金額"
 
 # clefs
-#: server/settings.c:1346
+#: server/settings.c:1344
 msgid "At the beginning of the game, each player is given this much gold."
 msgstr "ゲーム開始時に，各プレイヤーはこの額の資金を与えられることになります。"
 
 # clefs
-#: server/settings.c:1352
+#: server/settings.c:1350
 msgid "Number of initial techs per player"
 msgstr "各プレイヤーが最初に持っている科学技術の数"
 
 # clefs
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:1355
+#: server/settings.c:1353
 msgid ""
 "At the beginning of the game, each player is given this many technologies. "
 "The technologies chosen are random for each player. Depending on the value "
@@ -43648,12 +43663,12 @@ msgstr ""
 "開発コストが極めて大きいものになることがあります。"
 
 # clefs
-#: server/settings.c:1364
+#: server/settings.c:1362
 msgid "Technology cost multiplier percentage"
 msgstr "科学技術研究コストの係数(パーセント)"
 
 # clefs
-#: server/settings.c:1365
+#: server/settings.c:1363
 msgid ""
 "This affects how quickly players can research new technology. All tech costs "
 "are multiplied by this amount (as a percentage). The base tech costs are "
@@ -43663,11 +43678,11 @@ msgstr ""
 "技術のコストにはこの係数（パーセント）がかけられます。係数をかける前の基本コ"
 "ストはルールセットや他の設定により決定されます。"
 
-#: server/settings.c:1374
+#: server/settings.c:1372
 msgid "Percentage penalty when changing tech"
 msgstr "科学技術を変更した時に受けるペナルティーの割合"
 
-#: server/settings.c:1375
+#: server/settings.c:1373
 msgid ""
 "If you change your current research technology, and you have positive "
 "research points, you lose this percentage of those research points. This "
@@ -43677,11 +43692,11 @@ msgstr ""
 "ここで指定した割合だけ研究ポイントを失います。ただし，現在のターンに科学技術"
 "を得た場合には，この規則は適用されません。"
 
-#: server/settings.c:1384
+#: server/settings.c:1382
 msgid "Chance to lose an invention while receiving it"
 msgstr "科学技術を受け取る際に失われる確率"
 
-#: server/settings.c:1385
+#: server/settings.c:1383
 msgid ""
 "If you receive an invention via a treaty, this setting defines the chance "
 "that the invention is lost during the transfer."
@@ -43689,11 +43704,11 @@ msgstr ""
 "この設定は，条約に基づいて科学技術を受け取る場合に，輸送中に科学技術が失われ"
 "る確率を決定します。"
 
-#: server/settings.c:1393
+#: server/settings.c:1391
 msgid "Chance to lose an invention while giving it"
 msgstr "科学技術を与える際に失われる確率"
 
-#: server/settings.c:1394
+#: server/settings.c:1392
 msgid ""
 "If you give an invention via a treaty, this setting defines the chance that "
 "the invention is lost for your civilization during the transfer."
@@ -43701,11 +43716,11 @@ msgstr ""
 "この設定は，条約に基づいて科学技術を与える場合に，輸送中に科学技術が失われる"
 "確率を決定します。"
 
-#: server/settings.c:1402
+#: server/settings.c:1400
 msgid "Team pooled research"
 msgstr "チーム協力研究"
 
-#: server/settings.c:1403
+#: server/settings.c:1401
 msgid ""
 "If this setting is turned on, then the team mates will share the science "
 "research. Else, every player of the team will have to make its own."
@@ -43714,14 +43729,14 @@ msgstr ""
 "合，チームのプレイヤーはそれぞれ独自に研究する必要があります。"
 
 # clefs
-#: server/settings.c:1410
+#: server/settings.c:1408
 msgid "Penalty when getting tech or gold from treaty"
 msgstr "条約により科学技術または金を得た時のペナルティー"
 
 # clefs
 # 改善の余地あり
 # Belgae
-#: server/settings.c:1411
+#: server/settings.c:1409
 msgid ""
 "For each technology you gain from a diplomatic treaty, you lose research "
 "points equal to this percentage of the cost to research a new technology. If "
@@ -43733,11 +43748,11 @@ msgstr ""
 "イントを失います。この値が0以外の場合，研究ポイントがマイナスになることもあり"
 "ます。外交条約でやりとりされた現金についても適用されます。"
 
-#: server/settings.c:1421
+#: server/settings.c:1419
 msgid "Penalty when getting tech from conquering"
 msgstr "征服により科学技術を得た時のペナルティー"
 
-#: server/settings.c:1422
+#: server/settings.c:1420
 msgid ""
 "For each technology you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research a new technology. If "
@@ -43749,13 +43764,13 @@ msgstr ""
 "ます。"
 
 # Belgae
-#: server/settings.c:1432
+#: server/settings.c:1430
 msgid "Penalty when getting a free tech"
 msgstr "無償で科学技術を得た時のペナルティー"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:1435
+#: server/settings.c:1433
 #, fuzzy
 msgid ""
 "For each technology you gain \"for free\" (other than covered by 'diplcost' "
@@ -43769,12 +43784,12 @@ msgstr ""
 "トにここで指定したパーセンテージを掛けたものと等しいだけの研究ポイントを失い"
 "ます。この値が0以外の場合，研究ポイントがマイナスになることもあります。"
 
-#: server/settings.c:1446
+#: server/settings.c:1444
 msgid "Food required for a city to grow"
 msgstr "都市拡大に必要な食料"
 
 # clefs
-#: server/settings.c:1447
+#: server/settings.c:1445
 msgid ""
 "This is the base amount of food required to grow a city. This value is "
 "multiplied by another factor that comes from the ruleset and is dependent on "
@@ -43783,12 +43798,12 @@ msgstr ""
 "都市が拡大するために必要な食料の量です。この値はルールセットによる他の要素に"
 "より修正されるほか，都市の大きさによっても変わってきます。"
 
-#: server/settings.c:1455
+#: server/settings.c:1453
 msgid "Percentage food lost when building needed"
 msgstr "水道/下水道が必要な時に失う食料の割合"
 
 # ama, yasu
-#: server/settings.c:1456
+#: server/settings.c:1454
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount when "
@@ -43798,13 +43813,13 @@ msgstr ""
 "こで指定した割合だけ(穀物庫がある場合はその半分)食料備蓄から失います。"
 
 # clefs
-#: server/settings.c:1465
+#: server/settings.c:1463
 msgid "Multiplier percentage for production costs"
 msgstr "生産コストの係数（パーセント）"
 
 # clefs
 # Belgae
-#: server/settings.c:1466
+#: server/settings.c:1464
 msgid ""
 "This affects how quickly units and buildings can be produced.  The base "
 "costs are multiplied by this value (as a percentage)."
@@ -43812,14 +43827,14 @@ msgstr ""
 "ユニットおよび都市建造物の生産/建造スピードに影響します。基本値にこの係数"
 "（パーセント）がかけられます。"
 
-#: server/settings.c:1480
+#: server/settings.c:1478
 msgid "Minimum city size to get full trade"
 msgstr "最大交易を得るための最小都市規模"
 
 # clefs
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:1483
+#: server/settings.c:1481
 msgid ""
 "There is a trade penalty in all cities smaller than this. The penalty is "
 "100% (no trade at all) for sizes up to 'notradesize', and decreases "
@@ -43831,13 +43846,13 @@ msgstr ""
 "size=fulltradesizeでは0%(通常の汚職を除いてペナルティなし)になります。"
 "notradesizeも参照。"
 
-#: server/settings.c:1493
+#: server/settings.c:1491
 msgid "Maximum size of a city without trade"
 msgstr "交易のない都市の最大規模"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:1496
+#: server/settings.c:1494
 msgid ""
 "Cities do not produce any trade at all unless their size is larger than this "
 "amount. The produced trade increases gradually for cities larger than "
@@ -43847,11 +43862,11 @@ msgstr ""
 "notradesize より大きくfulltradesizeより小さい都市では，徐々に交易ポイントが増"
 "えます。fulltradesize も参照。"
 
-#: server/settings.c:1505
+#: server/settings.c:1503
 msgid "Minimum distance between cities"
 msgstr "都市間の最小距離"
 
-#: server/settings.c:1506
+#: server/settings.c:1504
 #, fuzzy
 msgid ""
 "When a player attempts to found a new city, it is prevented if the distance "
@@ -43864,36 +43879,36 @@ msgstr ""
 "す。例えば値が3なら，2都市間の各方向に最低2の空地がなければなりません。0(既定"
 "値)に設定した場合は，ルールセットの既定値を使用します。"
 
-#: server/settings.c:1518
+#: server/settings.c:1516
 msgid "Technology trading"
 msgstr "科学技術の授受"
 
-#: server/settings.c:1519
+#: server/settings.c:1517
 msgid ""
 "If turned off, trading technologies in the diplomacy dialog is not allowed."
 msgstr "オフにすると，外交ダイアログで科学技術の授受ができなくなります。"
 
-#: server/settings.c:1525
+#: server/settings.c:1523
 msgid "Gold trading"
 msgstr "金の授受"
 
-#: server/settings.c:1526
+#: server/settings.c:1524
 msgid "If turned off, trading gold in the diplomacy dialog is not allowed."
 msgstr "オフにすると，外交ダイアログで金の授受ができなくなります。"
 
-#: server/settings.c:1532
+#: server/settings.c:1530
 msgid "City trading"
 msgstr "都市の授受"
 
-#: server/settings.c:1533
+#: server/settings.c:1531
 msgid "If turned off, trading cities in the diplomacy dialog is not allowed."
 msgstr "オフにすると，外交ダイアログで都市の授受ができなくなります。"
 
-#: server/settings.c:1539
+#: server/settings.c:1537
 msgid "Minimum distance for trade routes"
 msgstr "交易路の最小距離"
 
-#: server/settings.c:1540
+#: server/settings.c:1538
 msgid ""
 "In order for two cities in the same civilization to establish a trade route, "
 "they must be at least this far apart on the map. For square grids, the "
@@ -43906,12 +43921,12 @@ msgstr ""
 "[訳注:例えば，2つの都市の座標がそれぞれ(42, 20)，(47, 13)の場合，「距離」は"
 "(47-42)+(20-13)=5+7=12となります。]"
 
-#: server/settings.c:1550
+#: server/settings.c:1548
 msgid "Number of turns between rapture effect"
 msgstr "歓喜を得るまでのターン数"
 
 # clefs
-#: server/settings.c:1551
+#: server/settings.c:1549
 msgid ""
 "Sets the number of turns between rapture growth of a city. If set to n a "
 "city will grow after celebrating for n+1 turns."
@@ -43920,23 +43935,23 @@ msgstr ""
 "nに設定した場合，都市はn+1ターンの祝典の後に成長します。"
 
 # yasu
-#: server/settings.c:1560
+#: server/settings.c:1558
 msgid "Chance for conquered building destruction"
 msgstr "占領した建物が壊れる確率"
 
 # yasu, clefs
-#: server/settings.c:1561
+#: server/settings.c:1559
 msgid ""
 "When a player conquers a city, each city improvement has this percentage "
 "chance to be destroyed."
 msgstr "都市を占領した場合，都市の各施設はそれぞれこの確率で破壊されます。"
 
-#: server/settings.c:1567
+#: server/settings.c:1565
 msgid "Chance of moving into tile after attack"
 msgstr "攻撃の後タイルへ移動する可能性"
 
 # clefs
-#: server/settings.c:1568
+#: server/settings.c:1566
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). "
 "If set to 100, attacking units will always move into the tile they attacked "
@@ -43950,12 +43965,12 @@ msgstr ""
 "100の間の値を設定したら，「占領」の発生する確率として使用されます。"
 
 # clefs
-#: server/settings.c:1579
+#: server/settings.c:1577
 msgid "Turn on/off server-side autoattack"
 msgstr "サーバ側での自動攻撃のオン・オフ"
 
 # clefs
-#: server/settings.c:1580
+#: server/settings.c:1578
 msgid ""
 "If set to on, units with moves left will automatically consider attacking "
 "enemy units that move adjacent to them."
@@ -43963,11 +43978,11 @@ msgstr ""
 "オンに設定すると，移動ポイントが残っているユニットはすぐそばで移動する敵を自"
 "動で攻撃しようとするようになります。"
 
-#: server/settings.c:1586
+#: server/settings.c:1584
 msgid "Reduce city population after attack"
 msgstr "攻撃による都市人口の減少"
 
-#: server/settings.c:1587
+#: server/settings.c:1585
 msgid ""
 "This flag indicates whether city population is reduced after successful "
 "attack of enemy unit, depending on its movement type."
@@ -43975,12 +43990,12 @@ msgstr ""
 "このフラグは，都市人口が敵ユニットの攻撃成功によって減らされるかどうかを示し"
 "ます。ユニットの移動タイプによって影響は異なります。"
 
-#: server/settings.c:1594
+#: server/settings.c:1592
 msgid "Slowly kill units without home cities (e.g., starting units)"
 msgstr "所属都市のないユニット（初期ユニット等）の消耗"
 
 # 意訳(Belgae)
-#: server/settings.c:1595
+#: server/settings.c:1593
 msgid ""
 "If greater than 0, then every unit without a homecity will lose hitpoints "
 "each turn. The number of hitpoints lost is given by 'killunhomed' percent of "
@@ -43992,37 +44007,37 @@ msgstr ""
 "ントを掛けた値になりますが，最低でも1ターンに1HP減少し，ヒットポイントが0にな"
 "ると死亡します。"
 
-#: server/settings.c:1605
+#: server/settings.c:1603
 msgid "National borders"
 msgstr "国境線"
 
-#: server/settings.c:1606
+#: server/settings.c:1604
 msgid ""
 "If this is not disabled, then any land tiles around a fortress or city will "
 "be owned by that nation."
 msgstr "無効以外の場合，要塞や都市周辺の陸上タイルは，その民族に帰属します。"
 
-#: server/settings.c:1613
+#: server/settings.c:1611
 msgid "Units inside borders cause no unhappiness"
 msgstr "ユニットが国境線内にいるときは不幸をもたらさない"
 
 # clefs
 # そのまんま
-#: server/settings.c:1614
+#: server/settings.c:1612
 msgid ""
 "If this is set, units will not cause unhappiness when inside your own "
 "borders."
 msgstr "設定すると，ユニットが国境線内にいるときは不幸をもたらさなくなります。"
 
-#: server/settings.c:1620
+#: server/settings.c:1618
 msgid "Ability to do diplomacy with other players"
 msgstr "他のプレイヤーと外交を行えるか"
 
-#: server/settings.c:1621
+#: server/settings.c:1619
 msgid "This setting controls the ability to do diplomacy with other players."
 msgstr "この設定は，他のプレイヤーと外交交渉を行う能力を制御します。"
 
-#: server/settings.c:1627
+#: server/settings.c:1625
 msgid "Allowed city names"
 msgstr "都市名の許可"
 
@@ -44030,7 +44045,7 @@ msgstr "都市名の許可"
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between parentheses
 #. * and in uppercase must not be translated.
-#: server/settings.c:1631
+#: server/settings.c:1629
 msgid ""
 "- \"No restrictions\" (NO_RESTRICTIONS): players can have multiple cities "
 "with the same names.\n"
@@ -44053,7 +44068,7 @@ msgstr ""
 "ても]使用することはできません（自民族でもその名前が既定値に含まれている場合は"
 "除く）。"
 
-#: server/settings.c:1645
+#: server/settings.c:1643
 #, fuzzy
 msgid "How to pick player colors"
 msgstr "プレイヤーのリスト:"
@@ -44062,7 +44077,7 @@ msgstr "プレイヤーのリスト:"
 #. * separately (they must match!). The strings between single quotes
 #. * are setting names and shouldn't be translated. The strings
 #. * between parentheses and in uppercase must not be translated.
-#: server/settings.c:1650
+#: server/settings.c:1648
 msgid ""
 "This setting determines how player colors are chosen. Player colors are used "
 "in the Nations report, for national borders on the map, and so on.\n"
@@ -44080,13 +44095,13 @@ msgid ""
 "the game starts with the 'playercolor' command."
 msgstr ""
 
-#: server/settings.c:1686
+#: server/settings.c:1684
 msgid "Barbarian appearance frequency"
 msgstr "バーバリアンの出現頻度"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:1689
+#: server/settings.c:1687
 msgid ""
 "This setting controls how frequently the barbarians appear in the game. See "
 "also the 'onsetbarbs' setting."
@@ -44094,21 +44109,21 @@ msgstr ""
 "この設定は，ゲームにどの程度の頻度でバーバリアンが出現するかを制御します。設"
 "定'onsetbarbs'も参照してください。"
 
-#: server/settings.c:1695
+#: server/settings.c:1693
 msgid "Barbarian onset turn"
 msgstr "バーバリアン来襲ターン"
 
-#: server/settings.c:1696
+#: server/settings.c:1694
 msgid "Barbarians will not appear before this turn."
 msgstr "バーバリアンはこのターンより前には出現しません。"
 
 # clefs
-#: server/settings.c:1702
+#: server/settings.c:1700
 msgid "Length in turns of revolution"
 msgstr "革命に必要なターン数"
 
 # clefs
-#: server/settings.c:1703
+#: server/settings.c:1701
 msgid ""
 "When changing governments, a period of anarchy lasting this many turns will "
 "occur. Setting this value to 0 will give a random length of 1-5 turns."
@@ -44116,11 +44131,11 @@ msgstr ""
 "統治形態を変更する時に，この値のターン数の間，無政府状態が発生します。0に設定"
 "すると，ランダムで1から5ターンの無政府状態となります。"
 
-#: server/settings.c:1712
+#: server/settings.c:1710
 msgid "Whether to enable fog of war"
 msgstr "戦場の霧を有効にする"
 
-#: server/settings.c:1713
+#: server/settings.c:1711
 msgid ""
 "If this is enabled, only those units and cities within the vision range of "
 "your own units and cities will be revealed to you. You will not see new "
@@ -44130,11 +44145,11 @@ msgstr ""
 "を見ることができます。監視されていない場所の新しい都市や地形の変更をあなたは"
 "見ることができません。"
 
-#: server/settings.c:1721
+#: server/settings.c:1719
 msgid "Whether fog of war applies to border changes"
 msgstr "国境の変化に戦場の霧を適用する"
 
-#: server/settings.c:1722
+#: server/settings.c:1720
 msgid ""
 "If this setting is enabled, players will not be able to see changes in tile "
 "ownership if they do not have direct sight of the affected tiles. Otherwise, "
@@ -44145,7 +44160,7 @@ msgstr ""
 "変化は見えなくなります。無効の場合は，既知のタイルでの国境の変化をすべて見る"
 "ことができます。"
 
-#: server/settings.c:1731
+#: server/settings.c:1729
 msgid "Airlifting style"
 msgstr "空輸の条件"
 
@@ -44153,7 +44168,7 @@ msgstr "空輸の条件"
 #. * translated separately (they must match!). The strings
 #. * between parenthesis and in uppercase must not be
 #. * translated.
-#: server/settings.c:1736
+#: server/settings.c:1734
 msgid ""
 "This setting affects airlifting units between cities. It can be a set of the "
 "following values:\n"
@@ -44178,12 +44193,12 @@ msgstr ""
 "ん。"
 
 # clefs
-#: server/settings.c:1753
+#: server/settings.c:1751
 msgid "Base chance for diplomats and spies to succeed"
 msgstr "外交官・スパイの基本成功確率"
 
 # clefs
-#: server/settings.c:1754
+#: server/settings.c:1752
 #, fuzzy
 msgid ""
 "The base chance of a spy returning from a successful mission and the base "
@@ -44192,19 +44207,19 @@ msgstr ""
 "外交官またはスパイが任務に成功する確率，および任務に成功したスパイが生還する"
 "確率です。"
 
-#: server/settings.c:1761
+#: server/settings.c:1759
 msgid "Whether to allow space race"
 msgstr "宇宙開発競争を有効にする"
 
-#: server/settings.c:1762
+#: server/settings.c:1760
 msgid "If this option is enabled, players can build spaceships."
 msgstr "このオプションが有効の場合，プレイヤーは宇宙船を建造できます。"
 
-#: server/settings.c:1767
+#: server/settings.c:1765
 msgid "Should the game end if the spaceship arrives?"
 msgstr "宇宙船の到達でゲームを終了する"
 
-#: server/settings.c:1768
+#: server/settings.c:1766
 msgid ""
 "If this option is turned on, the game will end with the arrival of a "
 "spaceship at Alpha Centauri."
@@ -44212,12 +44227,12 @@ msgstr ""
 "このオプションをオンにした場合，アルファケンタウリに宇宙船が到達した時点で"
 "ゲームは終了します。"
 
-#: server/settings.c:1774
+#: server/settings.c:1772
 msgid "Minimum number of cities for civil war"
 msgstr "内戦の起こる都市数の最小"
 
 # ama, clefs
-#: server/settings.c:1775
+#: server/settings.c:1773
 msgid ""
 "A civil war is triggered when a player has at least this many cities and the "
 "player's capital is captured. If this option is set to the maximum value, "
@@ -44227,11 +44242,11 @@ msgstr ""
 "き起こされます。このオプションを最大値に設定すると，内戦は完全にやみます。"
 
 # 鉱山とか都市建造物も使えないと誤解されないように，「インフラ」ではなく「交通路」と限定しました。また，「制限」だと効果が弱まるもののある程度の効果があるように読めてしまうかもしれないので「禁止」としました。(Belgae)
-#: server/settings.c:1784
+#: server/settings.c:1782
 msgid "Restrict the use of the infrastructure for enemy units"
 msgstr "敵ユニットによる交通路の使用を禁止する"
 
-#: server/settings.c:1785
+#: server/settings.c:1783
 msgid ""
 "If this option is enabled, the use of roads and rails will be restricted for "
 "enemy units."
@@ -44239,11 +44254,11 @@ msgstr ""
 "このオプションを有効にすると，敵ユニットが道路および鉄道を使用できなくなりま"
 "す。"
 
-#: server/settings.c:1791
+#: server/settings.c:1789
 msgid "Does unreachable unit protect reachable ones"
 msgstr "射程外ユニットによる射程内ユニットの防護"
 
-#: server/settings.c:1792
+#: server/settings.c:1790
 msgid ""
 "This option controls whether tiles with both unreachable and reachable units "
 "can be attacked. If disabled, any tile with reachable units can be attacked. "
@@ -44253,12 +44268,12 @@ msgstr ""
 "かどうかを制御します。無効の場合，射程内ユニットがいるタイルは攻撃可能です。"
 "有効の場合，射程外ユニットがいるタイルには攻撃できません。"
 
-#: server/settings.c:1800
+#: server/settings.c:1798
 msgid "Turns until player contact is lost"
 msgstr "プレイヤー間の接触が失われるまでのターン数"
 
 # clefs
-#: server/settings.c:1801
+#: server/settings.c:1799
 msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
 "last met, even when they do not have an embassy. If set to zero, then "
@@ -44268,12 +44283,12 @@ msgstr ""
 "はプレイヤー同士の外交会談を持つことができます。0に設定すると，大使館を開設し"
 "ない限り会談は持てなくなります。"
 
-#: server/settings.c:1811
+#: server/settings.c:1809
 msgid "Rebuild palace whenever capital is conquered"
 msgstr "首都が占領された時に宮殿を再建築する"
 
 # Belgae
-#: server/settings.c:1812
+#: server/settings.c:1810
 msgid ""
 "If this is turned on, when the capital is conquered the palace is "
 "automatically rebuilt for free in another randomly chosen city. This is "
@@ -44286,13 +44301,13 @@ msgstr ""
 "うかに関係なく発生します（ルールセットによっては，宮殿以外の建造物にもこの設"
 "定が影響する場合があります）。"
 
-#: server/settings.c:1822
+#: server/settings.c:1820
 msgid "Give caught units a homecity"
 msgstr "捕獲ユニットに所属都市を設定する"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:1825
+#: server/settings.c:1823
 msgid ""
 "If unset, caught units will have no homecity and will be subject to the "
 "'killunhomed' option."
@@ -44300,11 +44315,11 @@ msgstr ""
 "オフにした場合，捕獲されたユニットは都市に所属しておらず，killunhomedオプショ"
 "ンに従います。"
 
-#: server/settings.c:1832
+#: server/settings.c:1830
 msgid "Whether allied players can win together"
 msgstr "同盟プレイヤーの同時勝利"
 
-#: server/settings.c:1833
+#: server/settings.c:1831
 msgid ""
 "If this option is turned on and a point is reached where all the players "
 "still able to win the game are allies, and at least one defeated player is "
@@ -44316,23 +44331,23 @@ msgstr ""
 "したら，その時点でただちにゲームは終了し，同盟プレイヤーの共有勝利となりま"
 "す。"
 
-#: server/settings.c:1842
+#: server/settings.c:1840
 msgid "Whether to use natural city names"
 msgstr "自然な都市名を使う"
 
-#: server/settings.c:1843
+#: server/settings.c:1841
 msgid ""
 "If enabled, the default city names will be determined based on the "
 "surrounding terrain."
 msgstr "有効にした場合，デフォルトの都市名は周囲の地形を基準に決定されます。"
 
-#: server/settings.c:1849
+#: server/settings.c:1847
 msgid "Whether to enable citizen migration"
 msgstr "移民を有効にする"
 
 #. TRANS: The strings between single quotes are setting names
 #. * and should not be translated.
-#: server/settings.c:1852
+#: server/settings.c:1850
 msgid ""
 "This is the master setting that controls whether citizen migration is active "
 "in the game. If enabled, citizens may automatically move from less desirable "
@@ -44359,12 +44374,12 @@ msgstr ""
 "  mgr_worldchance  - 他国の都市へ移住する確率\n"
 "  mgr_nationchance - 自国の都市へ移住する確率"
 
-#: server/settings.c:1870
+#: server/settings.c:1868
 msgid "Number of turns between migrations from a city"
 msgstr "移民が発生するターン間隔"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1872
+#: server/settings.c:1870
 msgid ""
 "This setting controls the number of turns between migration checks for a "
 "given city. The interval is calculated from the founding turn of the city. "
@@ -44379,12 +44394,12 @@ msgstr ""
 "は移民は発生しません。この設定は，「migration」の設定が有効になっていない場合"
 "には何も影響を与えません。"
 
-#: server/settings.c:1885
+#: server/settings.c:1883
 msgid "Whether migration is limited by food"
 msgstr "移民を食料によって制限する"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1887
+#: server/settings.c:1885
 msgid ""
 "If this setting is enabled, citizens will not migrate to cities which would "
 "not have enough food to support them. This setting has no effect unless "
@@ -44394,12 +44409,12 @@ msgstr ""
 "には移住しません。この設定は，「migration」の設定が有効になっていない場合には"
 "何も影響を与えません。"
 
-#: server/settings.c:1895
+#: server/settings.c:1893
 msgid "Maximum distance citizens may migrate"
 msgstr "移民対象都市までの最大距離"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1897
+#: server/settings.c:1895
 msgid ""
 "This setting controls how far citizens may look for a suitable migration "
 "destination when deciding which city to migrate to. The value is added to "
@@ -44412,12 +44427,12 @@ msgstr ""
 "す。距離が合計値以下の場合に，移民が可能となります。この設定は，「migration」"
 "の設定が有効になっていない場合には何も影響を与えません。"
 
-#: server/settings.c:1909
+#: server/settings.c:1907
 msgid "Percent probability for migration within the same nation"
 msgstr "自国内の都市に移民する確率"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1911
+#: server/settings.c:1909
 msgid ""
 "This setting controls how likely it is for citizens to migrate between "
 "cities owned by the same player. Zero indicates migration will never occur, "
@@ -44430,12 +44445,12 @@ msgstr ""
 "たら，必ず移民が発生します。この設定は，「migration」の設定が有効になっていな"
 "い場合には何も影響を与えません。"
 
-#: server/settings.c:1922
+#: server/settings.c:1920
 msgid "Percent probability for migration between foreign cities"
 msgstr "他国の都市に移民する確率"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1924
+#: server/settings.c:1922
 msgid ""
 "This setting controls how likely it is for migration to occur between cities "
 "owned by different players. Zero indicates migration will never occur, 100 "
@@ -44448,14 +44463,14 @@ msgstr ""
 "たら，必ず移民が発生します。この設定は，「migration」の設定が有効になっていな"
 "い場合には何も影響を与えません。"
 
-#: server/settings.c:1942
+#: server/settings.c:1940
 msgid "Players that users are allowed to take"
 msgstr "ユーザーが取得できるプレイヤー"
 
 # clefs,Belgae
 #. TRANS: the strings in double quotes are server command names
 #. * and should not be translated.
-#: server/settings.c:1945
+#: server/settings.c:1943
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
 "status of a civilization (player).\n"
@@ -44509,11 +44524,11 @@ msgstr ""
 "   3 = 操作可，観察不可，接続の乗っ取り不可\n"
 "   4 = 操作不可，観察可"
 
-#: server/settings.c:1980
+#: server/settings.c:1978
 msgid "Whether AI-status toggles with connection"
 msgstr "接続によってAIの状態を切りかえる"
 
-#: server/settings.c:1981
+#: server/settings.c:1979
 msgid ""
 "If enabled, AI status is turned off when a player connects, and on when a "
 "player disconnects."
@@ -44521,15 +44536,15 @@ msgstr ""
 "有効にした場合，プレイヤーが接続した時にはAIを無効にし，切断した時にはAIを有"
 "効にします。"
 
-#: server/settings.c:1987
+#: server/settings.c:1985
 msgid "Turn the game ends"
 msgstr "ゲーム終了ターン"
 
-#: server/settings.c:1988
+#: server/settings.c:1986
 msgid "The game will end at the end of the given turn."
 msgstr "このターンの終わりにゲームが終了します。"
 
-#: server/settings.c:1994
+#: server/settings.c:1992
 msgid "Reveal the map"
 msgstr ""
 
@@ -44538,7 +44553,7 @@ msgstr ""
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between parentheses and in uppercase must not be
 #. * translated.
-#: server/settings.c:2000
+#: server/settings.c:1998
 msgid ""
 "If \"Reveal map at game start\" (START) is set, the initial state of the "
 "entire map will be known to all players from the start of the game, although "
@@ -44547,7 +44562,7 @@ msgid ""
 "they are alone in their team."
 msgstr ""
 
-#: server/settings.c:2011
+#: server/settings.c:2009
 msgid "Maximum seconds per turn"
 msgstr "ターンの最大秒数"
 
@@ -44555,7 +44570,7 @@ msgstr "ターンの最大秒数"
 #. * translated separately, the translation should be the same.
 #. * \"timeoutincrease\" is a command name and must not to be
 #. * translated.
-#: server/settings.c:2016
+#: server/settings.c:2014
 #, fuzzy
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
@@ -44573,13 +44588,13 @@ msgstr ""
 "ユーザのみです。この変数とコマンド \"timeoutincrease\" を併用して動的なタイ"
 "マー制御を実現できます。"
 
-#: server/settings.c:2030
+#: server/settings.c:2028
 msgid "First turn timeout"
 msgstr ""
 
 #. TRANS: The strings between single quotes are setting names and
 #. * should not be translated.
-#: server/settings.c:2033
+#: server/settings.c:2031
 msgid ""
 "If greater than 0, T0 will last for 'first_timeout' seconds.\n"
 "If set to 0, T0 will not have a timeout.\n"
@@ -44588,13 +44603,13 @@ msgid ""
 msgstr ""
 
 # clefs XXX
-#: server/settings.c:2042
+#: server/settings.c:2040
 msgid "Timeout at least n seconds when enemy moved"
 msgstr "敵が移動した場合に最低限残すタイムアウトまでの秒数"
 
 # clefs XXX
 # Belgae
-#: server/settings.c:2043
+#: server/settings.c:2041
 msgid ""
 "Any time a unit moves while in sight of an enemy player, the remaining "
 "timeout is increased to this value."
@@ -44602,13 +44617,13 @@ msgstr ""
 "ユニットが敵プレイヤーの視界内を通過した場合，タイムアウトまでの残り時間がこ"
 "の値よりも小さければこの値にセットされます。"
 
-#: server/settings.c:2049
+#: server/settings.c:2047
 msgid "Time between unit moves over turn change"
 msgstr "ターンをまたいでユニットが移動できるようになるまでの秒数"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:2052
+#: server/settings.c:2050
 msgid ""
 "This setting gives the minimum amount of time in seconds between unit moves "
 "after a turn change occurs. For example, if this setting is set to 20 and a "
@@ -44623,23 +44638,23 @@ msgstr ""
 "を創設する場合や輸送されているユニットもこの設定の影響を受けます。この値は最"
 "大でもtimeoutの2/3に制限されます。"
 
-#: server/settings.c:2068
+#: server/settings.c:2066
 msgid "Control of simultaneous player/team phases"
 msgstr "プレイヤー/チームのフェーズの同期制御"
 
-#: server/settings.c:2069
+#: server/settings.c:2067
 msgid ""
 "This setting controls whether players may make moves at the same time during "
 "a turn."
 msgstr "この設定は，ターン中にプレイヤーが同時に移動するかどうかを制御します。"
 
-#: server/settings.c:2075
+#: server/settings.c:2073
 msgid "Seconds to let a client's network connection block"
 msgstr "クライアントの接続中断を待つ秒数"
 
 # ama, clefs
 # Belgae
-#: server/settings.c:2076
+#: server/settings.c:2074
 msgid ""
 "If a network connection is blocking for a time greater than this value, then "
 "the connection is closed. Zero means there is no timeout (although "
@@ -44649,12 +44664,12 @@ msgstr ""
 "ウトしません（ただし，最終的には自動的に接続が切断されます）。"
 
 # clefs
-#: server/settings.c:2085
+#: server/settings.c:2083
 msgid "Max seconds for network buffers to drain"
 msgstr "ネットワークバッファを空にする最大秒数"
 
 # XXX clefs
-#: server/settings.c:2086
+#: server/settings.c:2084
 msgid ""
 "The server will wait for up to the value of this parameter in seconds, for "
 "all client connection network buffers to unblock. Zero means the server will "
@@ -44664,11 +44679,11 @@ msgstr ""
 "るまでこのパラメータで指定した秒を最大待ちます。ゼロはサーバは全く待たないこ"
 "とを意味します。"
 
-#: server/settings.c:2094
+#: server/settings.c:2092
 msgid "Seconds between PINGs"
 msgstr "PING 間の秒数"
 
-#: server/settings.c:2095
+#: server/settings.c:2093
 msgid ""
 "The server will poll the clients with a PING request each time this period "
 "elapses."
@@ -44676,22 +44691,22 @@ msgstr ""
 "ここで指定した秒数経過するたびに，PINGをクライアントに送って接続状態を確認し"
 "ます。"
 
-#: server/settings.c:2102
+#: server/settings.c:2100
 msgid "Time to cut a client"
 msgstr "クライアントを切断するまでの時間"
 
-#: server/settings.c:2103
+#: server/settings.c:2101
 msgid ""
 "If a client doesn't reply to a PING in this time the client is disconnected."
 msgstr ""
 "この時間以内にクライアントがPINGに返答しない場合，そのクライアントは切断され"
 "ます。"
 
-#: server/settings.c:2109
+#: server/settings.c:2107
 msgid "Turn-blocking game play mode"
 msgstr "ターンブロッキング・ゲームプレイモード"
 
-#: server/settings.c:2110
+#: server/settings.c:2108
 msgid ""
 "If this is turned on, the game turn is not advanced until all players have "
 "finished their turn, including disconnected players."
@@ -44699,13 +44714,13 @@ msgstr ""
 "オンにすると，すべてのプレイヤーが自分のターンを終了するまでゲームターンが進"
 "まなくなります。これには切断されたプレイヤーも含みます。"
 
-#: server/settings.c:2117
+#: server/settings.c:2115
 msgid "Fixed-length turns play mode"
 msgstr "固定長ターン・プレイモード"
 
 #. TRANS: \"Turn Done\" refers to the client button; it is also
 #. * translated separately, the translation should be the same.
-#: server/settings.c:2120
+#: server/settings.c:2118
 msgid ""
 "If this is turned on the game turn will not advance until the timeout has "
 "expired, even after all players have clicked on \"Turn Done\"."
@@ -44713,14 +44728,14 @@ msgstr ""
 "オンにすると，すべてのプレイヤーが「ターン終了」を実行しても，タイムアウトす"
 "るまでゲームターンが進まなくなります。"
 
-#: server/settings.c:2127
+#: server/settings.c:2125
 msgid "What is in the Demographics report"
 msgstr "人口統計報告の項目"
 
 # clefs
 #. TRANS: The strings between double quotes should be
 #. * translated.
-#: server/settings.c:2130
+#: server/settings.c:2128
 msgid ""
 "This should be a string of characters, each of which specifies the inclusion "
 "of a line of information in the Demographics report.\n"
@@ -44759,20 +44774,20 @@ msgstr ""
 "(これらの文字の順には意味がありませんが，大文字小文字の違いには意味がありま"
 "す。)"
 
-#: server/settings.c:2154
+#: server/settings.c:2152
 msgid "Turns per auto-save"
 msgstr "自動保存の間隔"
 
 #. TRANS: The string between double quotes is also translated
 #. * separately (it must match!). The string between single
 #. * quotes is a setting name and shouldn't be translated.
-#: server/settings.c:2158
+#: server/settings.c:2156
 msgid ""
 "How many turns elapse between automatic game saves. This setting only has an "
 "effect when the 'autosaves' setting includes \"New turn\"."
 msgstr ""
 
-#: server/settings.c:2165
+#: server/settings.c:2163
 msgid "Which savegames are generated automatically"
 msgstr ""
 
@@ -44781,7 +44796,7 @@ msgstr ""
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between parentheses and in uppercase must stay as
 #. * untranslated.
-#: server/settings.c:2171
+#: server/settings.c:2169
 msgid ""
 "This setting controls which autosave types get generated:\n"
 "- \"New turn\" (TURN): Save when turn begins, once every 'saveturns' turns.\n"
@@ -44792,12 +44807,12 @@ msgid ""
 "interrupt."
 msgstr ""
 
-#: server/settings.c:2183
+#: server/settings.c:2181
 msgid "Savegame compression level"
 msgstr "セーブファイルの圧縮レベル"
 
 #. TRANS: 'compresstype' setting name should not be translated.
-#: server/settings.c:2185
+#: server/settings.c:2183
 msgid ""
 "If non-zero, saved games will be compressed depending on the 'compresstype' "
 "setting. Larger values will give better compression but take longer."
@@ -44805,19 +44820,19 @@ msgstr ""
 "ゼロ以外の値なら，ゲームのセーブファイルは'compresstype'設定に従って圧縮され"
 "ます。値を大きくするほど圧縮率は高くなりますが，時間がかかるようになります。"
 
-#: server/settings.c:2193
+#: server/settings.c:2191
 msgid "Savegame compression algorithm"
 msgstr "セーブファイルの圧縮アルゴリズム"
 
-#: server/settings.c:2194
+#: server/settings.c:2192
 msgid "Compression library to use for savegames."
 msgstr "セーブファイルに使用する圧縮ライブラリです。"
 
-#: server/settings.c:2199
+#: server/settings.c:2197
 msgid "Save using the given savegame version"
 msgstr "セーブファイルのバージョン"
 
-#: server/settings.c:2200
+#: server/settings.c:2198
 msgid ""
 "Create a savegame which can be loaded by the given version of Freeciv. Note "
 "that some features will not be saved/restored for older versions."
@@ -44826,14 +44841,14 @@ msgstr ""
 "いバージョンでは，いくつかの機能がセーブ/ロードできないことに注意してくださ"
 "い。"
 
-#: server/settings.c:2207
+#: server/settings.c:2205
 msgid "Definition of the save file name"
 msgstr "セーブファイル名の定義"
 
 #. TRANS: %R, %S, %T and %Y must not be translated. The
 #. * strings (examples and setting names) between single quotes
 #. * neither. The strings between <> should be translated.
-#: server/settings.c:2212
+#: server/settings.c:2210
 #, no-c-format
 msgid ""
 "Within the string the following custom formats are allowed:\n"
@@ -44861,7 +44876,7 @@ msgstr ""
 "フォーマットを使用しなかった場合は，'savename'の値の後ろに'-T%04T-Y%05Y-%R'が"
 "付加されます。"
 
-#: server/settings.c:2230
+#: server/settings.c:2228
 msgid "Whether to log player statistics"
 msgstr "プレイヤー統計を記録する"
 
@@ -44869,7 +44884,7 @@ msgstr "プレイヤー統計を記録する"
 # Belgae
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:2233
+#: server/settings.c:2231
 msgid ""
 "If this is turned on, player statistics are appended to the file defined by "
 "the option 'scorefile' every turn. These statistics can be used to create "
@@ -44879,20 +44894,20 @@ msgstr ""
 "します。これらの統計を使用すれば，ゲーム後に勢力消長グラフを作ることができま"
 "す。"
 
-#: server/settings.c:2240
+#: server/settings.c:2238
 msgid "Name for the score log file"
 msgstr "スコアログファイルの名前"
 
 #. TRANS: Don't translate the string in single quotes.
-#: server/settings.c:2242
+#: server/settings.c:2240
 msgid "The default name for the score log file is 'freeciv-score.log'."
 msgstr "スコアログファイルの既定の名前は'freeciv-score.log'です。"
 
-#: server/settings.c:2248
+#: server/settings.c:2246
 msgid "Maximum number of connections to the server per host"
 msgstr "ホストごとのサーバへの最大接続数"
 
-#: server/settings.c:2249
+#: server/settings.c:2247
 msgid ""
 "New connections from a given host will be rejected if the total number of "
 "connections from the very same host equals or exceeds this value. A value of "
@@ -44905,13 +44920,13 @@ msgstr ""
 
 # Belgae
 # kickの訳語「追放」？
-#: server/settings.c:2259
+#: server/settings.c:2257
 msgid "Time before a kicked user can reconnect"
 msgstr "追放されたユーザーが再接続できるようになるまでの時間"
 
 #. TRANS: the string in double quotes is a server command name and
 #. * should not be translated
-#: server/settings.c:2262
+#: server/settings.c:2260
 msgid ""
 "Gives the time in seconds before a user kicked using the \"kick\" command "
 "may reconnect. Changing this setting will affect users kicked in the past."
@@ -44919,100 +44934,100 @@ msgstr ""
 "kickコマンドを使用して追放したユーザーが再接続できるようになるまでの時間を秒"
 "で指定します。この設定をを変更すると，既に追放済みのユーザーにも影響します。"
 
-#: server/settings.c:2363
+#: server/settings.c:2361
 #, c-format
 msgid "You are not allowed to change the setting '%s'."
 msgstr "設定 '%s' の変更は認められていません。"
 
-#: server/settings.c:2371
+#: server/settings.c:2369
 #, c-format
 msgid "The setting '%s' is locked by the ruleset."
 msgstr "設定 '%s' はルールセットによって固定されています。"
 
-#: server/settings.c:2385
+#: server/settings.c:2383
 #, c-format
 msgid "The setting '%s' can't be modified after the map is fixed."
 msgstr "設定 '%s' はマップ確定後には変更できません。"
 
-#: server/settings.c:2402
+#: server/settings.c:2400
 #, c-format
 msgid "The setting '%s' can't be modified after the game has started."
 msgstr "設定 '%s' はゲーム開始後には変更できません。"
 
-#: server/settings.c:2414
+#: server/settings.c:2412
 msgid "Internal error."
 msgstr "内部エラー。"
 
-#: server/settings.c:2502
+#: server/settings.c:2500
 #, c-format
 msgid "\"%s\" prefix is ambiguous. Candidates are: %s."
 msgstr "\"%s\" では確定するには不十分です。候補: %s。"
 
-#: server/settings.c:2509
+#: server/settings.c:2507
 msgid "Missing value."
 msgstr "値が見つかりません。"
 
-#: server/settings.c:2518
+#: server/settings.c:2516
 #, c-format
 msgid "No match for \"%s\"."
 msgstr "\"%s\"に合致するものはありません。"
 
-#: server/settings.c:2556
+#: server/settings.c:2554
 msgid "This setting is not a boolean."
 msgstr "この設定はブーリアンになっていません。"
 
-#: server/settings.c:2677
+#: server/settings.c:2675
 msgid "This setting is not an integer."
 msgstr "この設定は整数になっていません。"
 
-#: server/settings.c:2683
+#: server/settings.c:2681
 #, c-format
 msgid "Value out of range: %d (min: %d; max: %d)."
 msgstr "範囲外の値です: %d (最小値: %d, 最大値: %d)。"
 
-#: server/settings.c:2738
+#: server/settings.c:2736
 msgid "This setting is not a string."
 msgstr "この設定は文字列になっていません。"
 
-#: server/settings.c:2744
+#: server/settings.c:2742
 #, c-format
 msgid "String value too long (max length: %lu)."
 msgstr "文字列の値が長すぎます（最大長: %lu）。"
 
 # Belgae
-#: server/settings.c:2822
+#: server/settings.c:2820
 msgid "This setting is not an enumerator."
 msgstr "この設定は列挙子ではありません。"
 
 #. TRANS: only emphasizing a string.
-#: server/settings.c:2991
+#: server/settings.c:2989
 #, c-format
 msgid "\"%s\""
 msgstr "\"%s\""
 
 #. TRANS: Bitwise setting has no bits set.
-#: server/settings.c:3000
+#: server/settings.c:2998
 #, fuzzy
 msgid "empty value"
 msgstr "値がありません。"
 
-#: server/settings.c:3052
+#: server/settings.c:3050
 msgid "This setting is not a bitwise."
 msgstr "この設定はビット単位になっていません。"
 
-#: server/settings.c:3310 server/settings.c:3330 server/settings.c:3350
-#: server/settings.c:3374 server/settings.c:3398
+#: server/settings.c:3308 server/settings.c:3328 server/settings.c:3348
+#: server/settings.c:3372 server/settings.c:3396
 #, c-format
 msgid "Ruleset: '%s' has been set to %s."
 msgstr "ルールセット: '%s' は %s に設定されました。"
 
-#: server/settings.c:3415
+#: server/settings.c:3413
 #, c-format
 msgid "Ruleset: '%s' has been locked by the ruleset."
 msgstr "ルールセット: %s はルールセットで固定されています。"
 
-#: server/settings.c:3671 server/settings.c:3696 server/settings.c:3718
-#: server/settings.c:3745 server/settings.c:3772
+#: server/settings.c:3669 server/settings.c:3694 server/settings.c:3716
+#: server/settings.c:3743 server/settings.c:3770
 #, c-format
 msgid "Savegame: '%s' has been set to %s."
 msgstr "セーブファイル: '%s' は %s に設定されました。"
@@ -45312,7 +45327,7 @@ msgstr "ゲームの開始待ち中――%2$d人のうち%1$d人は準備を完�
 msgid "%s rules the %s."
 msgstr "%sは%sを統治します。"
 
-#: server/srv_main.c:2362
+#: server/srv_main.c:2367
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -45320,30 +45335,30 @@ msgstr ""
 "このfreeciv-serverプログラムはプレイヤー認証に対応していますが，現在はその機"
 "能を使用していません。"
 
-#: server/srv_main.c:2431
+#: server/srv_main.c:2436
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "メタサーバ <%s>に情報を送信しています"
 
-#: server/srv_main.c:2435
+#: server/srv_main.c:2440
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr "メタサーバへの接続を明示的に要求しなければ起動しません。"
 
-#: server/srv_main.c:2456
+#: server/srv_main.c:2461
 msgid "The game is over..."
 msgstr "ゲームオーバーです!"
 
-#: server/srv_main.c:2541
+#: server/srv_main.c:2546
 msgid "Failed to create suitable map, retrying with another mapseed"
 msgstr ""
 
-#: server/srv_main.c:2556
+#: server/srv_main.c:2561
 #, fuzzy
 msgid "Cannot create suitable map with given settings."
 msgstr ""
 "%sでユニットを作成できません。指定されたユニットタイプID %dが不正です。"
 
-#: server/srv_main.c:2754
+#: server/srv_main.c:2759
 msgid "Now accepting new client connections."
 msgstr "新しいクライアント接続を受け付けています。"
 
@@ -45732,7 +45747,7 @@ msgstr "オプション: %s  -  %s"
 msgid "Option: %s"
 msgstr "オプション: %s"
 
-#: server/stdinhand.c:1744 server/stdinhand.c:5893
+#: server/stdinhand.c:1744 server/stdinhand.c:5896
 msgid "Description:"
 msgstr "説明:"
 
@@ -46305,7 +46320,7 @@ msgstr "%2$sにより， %1$sに民族を再割り当てしました。"
 msgid "%s now controls %s (%s, %s)."
 msgstr "%sは %sを操作します(%s, %s)"
 
-#: server/stdinhand.c:3457 server/stdinhand.c:6227
+#: server/stdinhand.c:3457 server/stdinhand.c:6230
 msgid "Human"
 msgstr "人間"
 
@@ -46391,7 +46406,7 @@ msgid "Ruleset directory set to \"%s\""
 msgstr "ルールセットディレクトリを\"%s\"に設定します。"
 
 # Belgae
-#: server/stdinhand.c:3813 server/stdinhand.c:3849 server/stdinhand.c:6143
+#: server/stdinhand.c:3813 server/stdinhand.c:3849 server/stdinhand.c:6146
 msgid "That would be rather silly, since you are not a player."
 msgstr "駄目ですよ。あなたはプレイヤーではありませんから。"
 
@@ -46405,7 +46420,7 @@ msgstr "%s。 /help ignoreを確認してください。"
 msgid "Added pattern %s as entry %d to your ignore list."
 msgstr "パターン %sをあなたの無視リストに項目 %dとして追加しました。"
 
-#: server/stdinhand.c:3858 server/stdinhand.c:6148
+#: server/stdinhand.c:3858 server/stdinhand.c:6151
 msgid "Your ignore list is empty."
 msgstr "あなたの無視リストは空です。"
 
@@ -46860,27 +46875,27 @@ msgstr ""
 msgid "Ambiguous fcdb command."
 msgstr ""
 
-#: server/stdinhand.c:5604
+#: server/stdinhand.c:5607
 msgid "Not enough human players; game will not start."
 msgstr "人間プレイヤーが足りないので，ゲームを開始できません。"
 
-#: server/stdinhand.c:5609
+#: server/stdinhand.c:5612
 msgid "No players; game will not start."
 msgstr "プレイヤーがいないので，ゲームを開始できません。"
 
-#: server/stdinhand.c:5613
+#: server/stdinhand.c:5616
 msgid "Not enough nations for all players; game will not start."
 msgstr ""
 "プレイヤー全員に割り当てるための国が足りないので，ゲームを開始できません。"
 
 # clefs
-#: server/stdinhand.c:5622
+#: server/stdinhand.c:5625
 msgid "All players are ready; starting game."
 msgstr "全員準備が整いました。ゲームを開始します。"
 
 # clefs
 #. TRANS: given when /start is invoked during gameover.
-#: server/stdinhand.c:5638
+#: server/stdinhand.c:5641
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
@@ -46889,25 +46904,25 @@ msgstr ""
 
 #. TRANS: given when /start is invoked while the game
 #. * is running.
-#: server/stdinhand.c:5645
+#: server/stdinhand.c:5648
 msgid "Cannot start the game: it is already running."
 msgstr "ゲームを開始できません: 既にゲームは始まっています。"
 
-#: server/stdinhand.c:5676
+#: server/stdinhand.c:5679
 #, c-format
 msgid "Cutting connection %s."
 msgstr "%sとの接続を切りました。"
 
 # clefs
-#: server/stdinhand.c:5677
+#: server/stdinhand.c:5680
 msgid "connection cut"
 msgstr "接続切断"
 
-#: server/stdinhand.c:5765
+#: server/stdinhand.c:5768
 msgid "You may not kick yourself."
 msgstr "自分自身は追放できません。"
 
-#: server/stdinhand.c:5788
+#: server/stdinhand.c:5791
 #, c-format
 msgid ""
 "There must be at least %d unique connections to the server for this command "
@@ -46915,11 +46930,11 @@ msgid ""
 msgstr ""
 "このコマンドが有効になるためには，独立した接続が少なくとも %d個以上必要です。"
 
-#: server/stdinhand.c:5814
+#: server/stdinhand.c:5817
 msgid "kicked"
 msgstr "追放済"
 
-#: server/stdinhand.c:5830
+#: server/stdinhand.c:5833
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -46956,171 +46971,171 @@ msgstr ""
 "  quit   -  終了します。"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:5867
+#: server/stdinhand.c:5870
 #, c-format
 msgid "Command: %s  -  %s"
 msgstr "コマンド: %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:5873
+#: server/stdinhand.c:5876
 #, c-format
 msgid "Command: %s"
 msgstr "コマンド: %s"
 
 # Usageと同様にコマンドの引数のとり方を説明する箇所なので、訳を変更しました(Belgae)
-#: server/stdinhand.c:5878
+#: server/stdinhand.c:5881
 msgid "Synopsis: "
 msgstr "使用法: "
 
-#: server/stdinhand.c:5887
+#: server/stdinhand.c:5890
 #, c-format
 msgid "Level: %s"
 msgstr "レベル: %s"
 
-#: server/stdinhand.c:5911
+#: server/stdinhand.c:5914
 msgid "The following server commands are available:"
 msgstr "以下のサーバコマンドが利用できます:"
 
-#: server/stdinhand.c:5972
+#: server/stdinhand.c:5975
 #, c-format
 msgid "Possible matches: %s"
 msgstr "可能性のある引数: %s"
 
-#: server/stdinhand.c:6034
+#: server/stdinhand.c:6037
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "ヘルプ引数 '%s' は省略しすぎです。"
 
-#: server/stdinhand.c:6041
+#: server/stdinhand.c:6044
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "ヘルプ引数 '%s' は理解できません。"
 
-#: server/stdinhand.c:6082
+#: server/stdinhand.c:6085
 msgid "List of connections to server:"
 msgstr "サーバへの接続のリスト:"
 
-#: server/stdinhand.c:6086
+#: server/stdinhand.c:6089
 msgid "<no connections>"
 msgstr "<接続なし>"
 
-#: server/stdinhand.c:6107
+#: server/stdinhand.c:6110
 #, fuzzy
 msgid "List of all delegations:"
 msgstr "チームのリスト:"
 
 #. TRANS: last %s is either " (active)" or empty string
-#: server/stdinhand.c:6119
+#: server/stdinhand.c:6122
 #, c-format
 msgid "%s delegates control over player '%s' to user %s%s."
 msgstr ""
 
-#: server/stdinhand.c:6121
+#: server/stdinhand.c:6124
 #, fuzzy
 msgid " (active)"
 msgstr "活躍中"
 
-#: server/stdinhand.c:6127
+#: server/stdinhand.c:6130
 msgid "No delegations defined."
 msgstr ""
 
-#: server/stdinhand.c:6152
+#: server/stdinhand.c:6155
 msgid "Your ignore list:"
 msgstr "あなたの無視リスト:"
 
-#: server/stdinhand.c:6168
+#: server/stdinhand.c:6171
 msgid "List of players:"
 msgstr "プレイヤーのリスト:"
 
-#: server/stdinhand.c:6172 server/stdinhand.c:6339
+#: server/stdinhand.c:6175 server/stdinhand.c:6342
 msgid "<no players>"
 msgstr "<なし>"
 
-#: server/stdinhand.c:6202
+#: server/stdinhand.c:6205
 #, fuzzy, c-format
 msgid ", user %s"
 msgstr "ユーザ名 %s, "
 
 # clefs
-#: server/stdinhand.c:6206
+#: server/stdinhand.c:6209
 msgid ", ready"
 msgstr ", 準備完了"
 
 # clefs
-#: server/stdinhand.c:6210
+#: server/stdinhand.c:6213
 msgid ", not ready"
 msgstr ", 準備中"
 
-#: server/stdinhand.c:6216
+#: server/stdinhand.c:6219
 msgid ", Dead"
 msgstr ", 死亡"
 
-#: server/stdinhand.c:6230
+#: server/stdinhand.c:6233
 #, c-format
 msgid ", %s"
 msgstr ""
 
-#: server/stdinhand.c:6231
+#: server/stdinhand.c:6234
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", 難易度レベル %s"
 
-#: server/stdinhand.c:6237
+#: server/stdinhand.c:6240
 #, fuzzy, c-format
 msgid ", %d connection:"
 msgid_plural ", %d connections:"
 msgstr[0] " %d接続:"
 
-#: server/stdinhand.c:6244
+#: server/stdinhand.c:6247
 #, fuzzy, c-format
 msgid "%s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s (%sから，コマンドアクセスレベル %s)， bufsize=%dkb"
 
-#: server/stdinhand.c:6249
+#: server/stdinhand.c:6252
 msgid " (observer mode)"
 msgstr " (観察者モード)"
 
-#: server/stdinhand.c:6266
+#: server/stdinhand.c:6269
 msgid "List of scenarios available:"
 msgstr "利用可能なシナリオ一覧:"
 
-#: server/stdinhand.c:6287
+#: server/stdinhand.c:6290
 msgid "List of teams:"
 msgstr "チームのリスト:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:6297
+#: server/stdinhand.c:6300
 #, c-format
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
 msgstr[0] "%2d : '%s' : %d人のプレイヤー"
 
-#: server/stdinhand.c:6318
+#: server/stdinhand.c:6321
 #, fuzzy
 msgid "No map image definitions."
 msgstr "開始時にプレイヤーが所持するユニット"
 
-#: server/stdinhand.c:6320
+#: server/stdinhand.c:6323
 #, fuzzy
 msgid "List of map image definitions:"
 msgstr "開始時にプレイヤーが所持するユニット"
 
-#: server/stdinhand.c:6325
+#: server/stdinhand.c:6328
 #, c-format
 msgid "[%2d] %s"
 msgstr ""
 
-#: server/stdinhand.c:6336
+#: server/stdinhand.c:6339
 #, fuzzy
 msgid "List of player colors:"
 msgstr "プレイヤーのリスト:"
 
-#: server/stdinhand.c:6342
+#: server/stdinhand.c:6345
 #, fuzzy, c-format
 msgid "%s (user %s): [%s]"
 msgstr "%s （番号 %d，提案者 %s）: %s"
 
-#: server/stdinhand.c:6399
+#: server/stdinhand.c:6402
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "listの引数'%s'は間違っています。'%shelp list'を参照してください。"
@@ -47398,7 +47413,7 @@ msgstr "%sだけが海から攻撃できます。"
 msgid "Cannot attack from sea."
 msgstr "海から攻撃できません。"
 
-#: server/unithand.c:1290 server/unittools.c:2473
+#: server/unithand.c:1290 server/unittools.c:2514
 msgid "Cannot attack unless you declare war first."
 msgstr "戦争を宣言しなければ攻撃できません。"
 
@@ -47414,7 +47429,7 @@ msgid "%s cannot move that far from the coast line."
 msgstr "%sを海岸線から離して移動させることはできません。"
 
 # Daniel
-#: server/unithand.c:1308 server/unittools.c:2480
+#: server/unithand.c:1308 server/unittools.c:2521
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "%sとの平和条約を破棄しなければ攻撃できません。"
@@ -47530,92 +47545,92 @@ msgstr "%sと %sとの間の交易路は断絶されました。"
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr "残念ですが， %sは%sからあなたの%sへの交易路を断絶させました。"
 
-#: server/unittools.c:329
+#: server/unittools.c:331
 #, c-format
 msgid "%s was upgraded for free to %s."
 msgstr "%sは %sへ無償で新型化されました。"
 
-#: server/unittools.c:377
+#: server/unittools.c:379
 #, c-format
 msgid "Your %s has run out of hit points."
 msgstr "%sは体力が尽きました。"
 
-#: server/unittools.c:453
+#: server/unittools.c:455
 #, c-format
 msgid "Your %s has returned to refuel."
 msgstr "%sは補給のため帰還しました。"
 
-#: server/unittools.c:484
+#: server/unittools.c:486
 #, c-format
 msgid "Your %s has run out of fuel."
 msgstr "%sの燃料が切れました。"
 
 #. TRANS: Your <unit> became ... rank of <veteran level>.
-#: server/unittools.c:692
+#: server/unittools.c:694
 #, fuzzy, c-format
 msgid "Your %s became more experienced and achieved the rank of %s."
 msgstr "%sの練度が増し， %sになりました。"
 
-#: server/unittools.c:1099
+#: server/unittools.c:1102
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr "%sを %sへテレポートしました。"
 
 #. TRANS: A unit is moved to resolve stack conflicts.
-#: server/unittools.c:1162
+#: server/unittools.c:1167
 #, c-format
 msgid "Moved your %s."
 msgstr "%sを移動しました。"
 
 #. TRANS: A unit is disbanded to resolve stack conflicts.
-#: server/unittools.c:1173
+#: server/unittools.c:1178
 #, c-format
 msgid "Disbanded your %s."
 msgstr "%sを解散しました。"
 
 # clefs
-#: server/unittools.c:1522
+#: server/unittools.c:1527
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "%sを守り切れなかったので， %sは負けになりました。"
 
 # clefs
-#: server/unittools.c:1526
+#: server/unittools.c:1531
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr "%sを失うと負けです！次はもっと気を付けて！"
 
-#: server/unittools.c:1575
+#: server/unittools.c:1580
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "%2$sを失った時に%1$sを失いました。"
 
-#: server/unittools.c:1729
+#: server/unittools.c:1742
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s は %sの破壊から辛くも脱出し， %sに落ち延びました。"
 
 # ama, clefs
-#: server/unittools.c:1803
+#: server/unittools.c:1817
 #, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgid_plural "Barbarian leader captured; %d gold ransom paid."
 msgstr[0] "バーバリアンの指導者が捕えられ，身代金 %dが支払われました。"
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1824
+#: server/unittools.c:1838
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "%1$sは %2$sの %3$sを攻撃し，成功しました。"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1833 server/unittools.c:1894
+#: server/unittools.c:1847 server/unittools.c:1908
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%2$sの %3$sによる攻撃で %1$sを失いました。"
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1869
+#: server/unittools.c:1883
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -47624,7 +47639,7 @@ msgstr[0] "%sは %sの %s(およびその他 %dユニット)への攻撃に成�
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1904
+#: server/unittools.c:1918
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "%2$sの %3$sが %4$sの %5$sを攻撃した際に %1$sが失われました。"
@@ -47632,7 +47647,7 @@ msgstr "%2$sの %3$sが %4$sの %5$sを攻撃した際に %1$sが失われまし
 # 射手 lost to an attack from Lluis Companys's チャリオット.
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1920
+#: server/unittools.c:1934
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%3$sの %4$sからの攻撃で %1$s(と %2$s)を失いました。"
@@ -47641,7 +47656,7 @@ msgstr "%3$sの %4$sからの攻撃で %1$s(と %2$s)を失いました。"
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1931
+#: server/unittools.c:1945
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -47650,167 +47665,167 @@ msgstr[0] "%3$sの %4$sからの攻撃で %1$sおよび他 %2$dユニットを�
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1946
+#: server/unittools.c:1960
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%dユニットが， %sの %sが %sの %sを攻撃した際に失われました。"
 
-#: server/unittools.c:2246
+#: server/unittools.c:2287
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "%sは %sによって核攻撃されました。"
 
-#: server/unittools.c:2249 server/unittools.c:2267
+#: server/unittools.c:2290 server/unittools.c:2308
 msgid "yourself"
 msgstr "あなた自身"
 
-#: server/unittools.c:2253
+#: server/unittools.c:2294
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "%sの%sは核攻撃されました。"
 
-#: server/unittools.c:2264
+#: server/unittools.c:2305
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%sは%sによって核攻撃されました。"
 
-#: server/unittools.c:2272
+#: server/unittools.c:2313
 #, c-format
 msgid "You nuked %s."
 msgstr "%sを核攻撃しました。"
 
-#: server/unittools.c:2324
+#: server/unittools.c:2365
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%sは核を爆発させました！"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2348 server/unittools.c:2356
+#: server/unittools.c:2389 server/unittools.c:2397
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr "%sは %sを輸送する収容力がありません。"
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2367
+#: server/unittools.c:2408
 #, c-format
 msgid "%s cannot be transported to %s."
 msgstr "%sを %sに輸送できませんでした。"
 
-#: server/unittools.c:2377
+#: server/unittools.c:2418
 #, c-format
 msgid "%s transported successfully."
 msgstr "%sは首尾よく輸送しました。"
 
-#: server/unittools.c:2436
+#: server/unittools.c:2477
 msgid "This unit type can not be paradropped."
 msgstr "このユニットのタイプは落下傘降下させられません。"
 
-#: server/unittools.c:2446
+#: server/unittools.c:2487
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "他のユニットにより輸送中のユニットは落下傘降下できません。"
 
-#: server/unittools.c:2452
+#: server/unittools.c:2493
 msgid "The destination location is not known."
 msgstr "目的地は知られていません。"
 
-#: server/unittools.c:2462
+#: server/unittools.c:2503
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "%sへは落下傘降下できません。"
 
-#: server/unittools.c:2491
+#: server/unittools.c:2532
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "目的への距離(%i)は，ユニットの行動範囲(%i)を越えています。"
 
 # clefs
-#: server/unittools.c:2502
+#: server/unittools.c:2543
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "%sは %sに落下傘降下し消息を絶ちました。"
 
-#: server/unittools.c:2516
+#: server/unittools.c:2557
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "%sは降下目標地にいた敵ユニットによって殺されました。"
 
 # clefs
-#: server/unittools.c:2587
+#: server/unittools.c:2628
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "飛行物体を見て部族は驚き，恐れおののいて四散してしまいました。"
 
 # climb
 # Belgae
-#: server/unittools.c:2867
+#: server/unittools.c:2908
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "敵ユニットの移動を確認したので， %sは命令遂行を中断しました。"
 
 # climb
-#: server/unittools.c:3398
+#: server/unittools.c:3462
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "近くにユニットがいるので， %sは命令遂行を中断しました。"
 
 # climb
-#: server/unittools.c:3449
+#: server/unittools.c:3513
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "都市を建設できなかったので， %sは命令遂行を中断しました。"
 
 # climb
-#: server/unittools.c:3465
+#: server/unittools.c:3529
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "無効な活動が指定されているので， %sは命令遂行を中断しました。"
 
 # climb
-#: server/unittools.c:3484
+#: server/unittools.c:3548
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "無効な位置が指定されているので， %sは命令遂行を中断しました。"
 
 # climb
-#: server/unittools.c:3494
+#: server/unittools.c:3558
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "道をふさいでいるユニットがいるので， %sは命令遂行を中断しました。"
 
 # climb
-#: server/unittools.c:3519
+#: server/unittools.c:3583
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "移動に失敗したため， %sは命令遂行を中断しました。"
 
 # clefs
-#: server/unittools.c:3560
+#: server/unittools.c:3624
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "帰属を %sに変えられませんでした。"
 
 # clefs
-#: server/unittools.c:3571
+#: server/unittools.c:3635
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "%sとの交易路の確立に失敗しました。"
 
 # clefs
 # 建設中の不思議がなかった場合
-#: server/unittools.c:3583
+#: server/unittools.c:3647
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "%sのために不思議建設をすることはできませんでした。"
 
 # clefs
-#: server/unittools.c:3592
+#: server/unittools.c:3656
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "%sには無効な命令が与えられています。"
 
-#: server/unittools.c:3690
+#: server/unittools.c:3754
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."
@@ -47951,7 +47966,7 @@ msgstr ""
 # clefs
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. *        <externally translated error string>."
-#: utility/fciconv.c:205
+#: utility/fciconv.c:208
 #, c-format
 msgid "Could not convert text from %s to %s: %s"
 msgstr "テキストを %sから %sに変換できませんでした: %s"
@@ -48151,6 +48166,13 @@ msgstr "エラー %ld （FormatMessageに失敗しました）"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "エラー %d (strerror 無しでコンパイルされました)"
+
+#~ msgid ""
+#~ "Oceans cover much of the world, and only sea units (Triremes and other "
+#~ "boats) can travel on them."
+#~ msgstr ""
+#~ "海は世界の多くを覆っています。海上ユニット(トライリームや他の船舶)のみが海"
+#~ "を渡れます。"
 
 # clefs
 #~ msgid "* Land units cannot travel on oceanic terrains."

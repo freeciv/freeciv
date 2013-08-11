@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-17 16:46+0300\n"
+"POT-Creation-Date: 2013-08-11 10:31+0100\n"
 "PO-Revision-Date: 2013-08-08 13:18+0100\n"
 "Last-Translator: Michael Bauer <fios@akerbeltz.org>\n"
 "Language-Team: Akerbeltz\n"
@@ -5110,7 +5110,7 @@ msgstr "_Toglaich modh na h-Inntinne Fhuadain"
 #: client/gui-gtk-2.0/repodlgs.c:520 client/gui-gtk-3.0/repodlgs.c:539
 #: client/gui-sdl/mapctrl.c:1418 client/gui-sdl/mapview.c:334
 #: client/gui-sdl/mapview.c:338 client/gui-sdl/mapview.c:344
-#: client/gui-sdl/repodlgs.c:3278 client/gui-xaw/menu.c:230
+#: client/gui-sdl/repodlgs.c:3286 client/gui-xaw/menu.c:230
 #: client/gui-xaw/repodlgs.c:252 client/gui-xaw/repodlgs.c:475
 #: data/Freeciv.in:1384
 msgid "Research"
@@ -5546,12 +5546,12 @@ msgstr "Cum ort a' gluasad"
 #: client/gui-sdl/diplomat_dialog.c:1179 client/gui-sdl/diplomat_dialog.c:1250
 #: client/gui-sdl/diplomat_dialog.c:1464 client/gui-sdl/finddlg.c:149
 #: client/gui-sdl/gotodlg.c:258 client/gui-sdl/helpdlg.c:234
-#: client/gui-sdl/helpdlg.c:627 client/gui-sdl/helpdlg.c:1936
+#: client/gui-sdl/helpdlg.c:627 client/gui-sdl/helpdlg.c:1937
 #: client/gui-sdl/inteldlg.c:250 client/gui-sdl/optiondlg.c:783
 #: client/gui-sdl/plrdlg.c:351 client/gui-sdl/plrdlg.c:634
 #: client/gui-sdl/repodlgs.c:390 client/gui-sdl/repodlgs.c:2007
-#: client/gui-sdl/repodlgs.c:2884 client/gui-sdl/repodlgs.c:3072
-#: client/gui-sdl/repodlgs.c:3339 client/gui-sdl/spaceshipdlg.c:164
+#: client/gui-sdl/repodlgs.c:2892 client/gui-sdl/repodlgs.c:3080
+#: client/gui-sdl/repodlgs.c:3347 client/gui-sdl/spaceshipdlg.c:164
 msgid "Close Dialog (Esc)"
 msgstr "Dùin an còmhradh (Esc)"
 
@@ -6137,7 +6137,7 @@ msgstr "Thoir dhaibh ambasaid"
 msgid "Gold(max %d)"
 msgstr "Òr(as motha %d)"
 
-#: client/gui-sdl/diplodlg.c:649 client/gui-sdl/helpdlg.c:1983
+#: client/gui-sdl/diplodlg.c:649 client/gui-sdl/helpdlg.c:1984
 #: data/Freeciv.in:410 data/Freeciv.in:419
 msgid "Advances"
 msgstr "Adhartasan"
@@ -6377,7 +6377,7 @@ msgstr "( le"
 msgid " )"
 msgstr " )"
 
-#: client/gui-sdl/helpdlg.c:1915
+#: client/gui-sdl/helpdlg.c:1916
 msgid "Help : Advances Tree"
 msgstr "Cobhair : Craobh nan adhartasan"
 
@@ -7049,15 +7049,15 @@ msgstr "Ùraich"
 msgid "Wonder"
 msgstr "Mìorbhail"
 
-#: client/gui-sdl/repodlgs.c:2868
+#: client/gui-sdl/repodlgs.c:2876
 msgid "What should we focus on now?"
 msgstr "Dè nì sinn fòcas air a-nis?"
 
-#: client/gui-sdl/repodlgs.c:3056
+#: client/gui-sdl/repodlgs.c:3064
 msgid "Select target :"
 msgstr "Tagh an targaid :"
 
-#: client/gui-sdl/repodlgs.c:3125
+#: client/gui-sdl/repodlgs.c:3133
 msgid "step"
 msgid_plural "steps"
 msgstr[0] "cheum"
@@ -7065,7 +7065,7 @@ msgstr[1] "cheum"
 msgstr[2] "ceuman"
 msgstr[3] "ceum"
 
-#: client/gui-sdl/repodlgs.c:3415 client/gui-xaw/repodlgs.c:1193
+#: client/gui-sdl/repodlgs.c:3423 client/gui-xaw/repodlgs.c:1193
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
@@ -7074,11 +7074,11 @@ msgstr[1] "%1$2d: Fhuair %3$s, riaghlaiche %2$s %4$d phuing\n"
 msgstr[2] "%1$2d: Fhuair %3$s, riaghlaiche %2$s %4$d puingean\n"
 msgstr[3] "%1$2d: Fhuair %3$s, riaghlaiche %2$s %4$d puing\n"
 
-#: client/gui-sdl/repodlgs.c:3422 client/gui-xaw/repodlgs.c:1200
+#: client/gui-sdl/repodlgs.c:3430 client/gui-xaw/repodlgs.c:1200
 msgid "Final Report:"
 msgstr "An aithisg mu dheireadh:"
 
-#: client/gui-sdl/repodlgs.c:3423 client/gui-xaw/repodlgs.c:1201
+#: client/gui-sdl/repodlgs.c:3431 client/gui-xaw/repodlgs.c:1201
 msgid "The Greatest Civilizations in the world."
 msgstr "Na sìobhaltasan as fhearr san t-saoghal"
 
@@ -12526,11 +12526,11 @@ msgstr ""
 msgid "could not open file: %s"
 msgstr "cha do ghabh am faidhle a leanas fhosgladh: %s"
 
-#: common/packets.c:392
+#: common/packets.c:390
 msgid "illegal packet size"
 msgstr "pacaid de mheud mì-dhligheach"
 
-#: common/packets.c:416 common/packets.c:461
+#: common/packets.c:414 common/packets.c:459
 msgid "decoding error"
 msgstr "mearachd 'ga dhì-chòdachadh"
 
@@ -13437,8 +13437,8 @@ msgid ""
 msgstr ""
 "Nì seo aon saoranach mì-thoilichte riaraichte. Nuair a lorgas tu "
 "fàidheantas, thèid a' bhuaidh a dhùblachadh. Ma bhios fàidheantas agad, nì "
-"seo riaraichte 4 saoranaich. Cha bhi buaidh air saoranaich a tha "
-"mì-thoilichte air sgàth gnìomhachd an airm."
+"seo riaraichte 4 saoranaich. Cha bhi buaidh air saoranaich a tha mì-"
+"thoilichte air sgàth gnìomhachd an airm."
 
 #: data/civ1/buildings.ruleset:625 data/civ1/techs.ruleset:574
 #: data/civ2/buildings.ruleset:930 data/civ2/techs.ruleset:741
@@ -17227,13 +17227,13 @@ msgid ""
 "civilized peoples of Europe and Asia Minor. The Celts colonized much of "
 "Europe and had a large influence on the development of European civilization."
 msgstr ""
-"Bha na Ceiltich 'nam buidheann de chinnidhean aig an robh cànain "
-"Innd-eòrpach ann an taobh an iar na Roinn-Eòrpa. Tha coltas gun dàinig iad "
-"às an sgìre eadar ceann uachdarach na Rèine agus na Danuib agus gun do "
-"dh'èirich iad à cultar Urnfield agus meur an iar cultar Hallstatt. Bha cliù "
-"aig na Ceiltich mar ghaisgich bhorba a rinn sgrios air seann-sìobhaltasan na "
-"Roinn-Eòrpa agus Asia Minor. Thuinich iad cuid mhath dhen Roinn-Eòrpa agus "
-"bha buaidh mhòr aca air leasachadh cultar na Roinn-Eòrpa."
+"Bha na Ceiltich 'nam buidheann de chinnidhean aig an robh cànain Innd-"
+"eòrpach ann an taobh an iar na Roinn-Eòrpa. Tha coltas gun dàinig iad às an "
+"sgìre eadar ceann uachdarach na Rèine agus na Danuib agus gun do dh'èirich "
+"iad à cultar Urnfield agus meur an iar cultar Hallstatt. Bha cliù aig na "
+"Ceiltich mar ghaisgich bhorba a rinn sgrios air seann-sìobhaltasan na Roinn-"
+"Eòrpa agus Asia Minor. Thuinich iad cuid mhath dhen Roinn-Eòrpa agus bha "
+"buaidh mhòr aca air leasachadh cultar na Roinn-Eòrpa."
 
 #: data/civ2/nations.ruleset:354 data/nation/celtic.ruleset:37
 #, c-format
@@ -18726,7 +18726,7 @@ msgstr ""
 msgid "?citystyle:ElectricAge"
 msgstr "?citystyle:Linn an Dealain"
 
-#: data/default/default.lua:22 server/unittools.c:2580
+#: data/default/default.lua:22 server/unittools.c:2590
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -18759,7 +18759,7 @@ msgstr ""
 "Tha do shìobhaltas 'na chùis dhrùidhteach dha na h-iniltearan càirdeil agus "
 "tha iad ag aonadh riut. "
 
-#: data/default/default.lua:108 server/unittools.c:2587
+#: data/default/default.lua:108 server/unittools.c:2597
 msgid "An abandoned village is here."
 msgstr "Tha baile fàs an-seo."
 
@@ -18767,7 +18767,7 @@ msgstr "Tha baile fàs an-seo."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Leig thu prasgan bhorbach mu sgaoil!"
 
-#: data/default/default.lua:118 server/unittools.c:2590
+#: data/default/default.lua:118 server/unittools.c:2600
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Chaidh an %s agad a mharbhadh le borbaich!"
@@ -23602,8 +23602,8 @@ msgid ""
 "i] test[/b] this[/s] [/c]new[/u] feature[/c]'."
 msgstr ""
 "Gun teagamh, 's urrainn dhut diofar dhiubh a chleachdadh aig an aon àm, mar "
-"'[i][c fg=\"blue\"]tha e [b]is [s]èibhinn[c bg=\"green\"] [u]am feart ùr "
-"seo[/i] a[/b] chur[/s] [/c]fo[/u] dheuchainn[/c]'."
+"'[i][c fg=\"blue\"]tha e [b]is [s]èibhinn[c bg=\"green\"] [u]am feart ùr seo"
+"[/i] a[/b] chur[/s] [/c]fo[/u] dheuchainn[/c]'."
 
 #: data/helpdata.txt:1916
 msgid ""
@@ -29062,8 +29062,7 @@ msgstr ""
 "Chaidh a chur air bhonn san 9mh linn agus cha do shoirbhich leatha a "
 "chumhachd a dhaingneachadh mar a rinn na diùcachdan eile agus cha robh i ann "
 "tuilleadh aig deireadh na 12na linn. Tha Franconia ann fhathast mar sgìre "
-"chultarach eadar Bavaria, Thuringia agus Baden-Württemberg an latha an-"
-"diugh."
+"chultarach eadar Bavaria, Thuringia agus Baden-Württemberg an latha an-diugh."
 
 #: data/nation/franconian.ruleset:25 data/nation/hanoverian.ruleset:23
 #: data/nation/lorrain.ruleset:31 data/nation/montenegrin.ruleset:28
@@ -30005,8 +30004,8 @@ msgid ""
 "expanding Muslim empire."
 msgstr ""
 "Bha na Ħimyâr 'nan treubh nam beanntan far a bheil an Eaman an-diugh agus "
-"cheannsaich iad na rìoghachdan Arabach eile san taobh a deas, a' gabhail "
-"a-steach Sabaea ann an 115 RC, a bha beairteach le malairt na tùise. 'S e "
+"cheannsaich iad na rìoghachdan Arabach eile san taobh a deas, a' gabhail a-"
+"steach Sabaea ann an 115 RC, a bha beairteach le malairt na tùise. 'S e "
 "luchd-togail chaistealan a bha sna Ħimyâr; b' fheudar dhaibh torr-"
 "chathraichean a thogail mar dhìon an aghaidh creachan nam Bedouin. Bha "
 "Sabaea fo smachd rìoghachd Axum san Itiop eadar 340 agus 378 AD ach chaidh "
@@ -30241,10 +30240,10 @@ msgid ""
 "were independent for centuries, until conquered by the Roman Republic."
 msgstr ""
 "Bha na h-Illyrich 'nan treubhan Innd-Eòrpaich a nochd ann an taobh an iar a' "
-"Bhalcain ron bhliadhna 1000 RC, a' gabhail a-steach Eilean Corcyra agus "
-"Bàgh Ambracia ann an Epirus ro-eachdraidheil san deas. Cho-mheasgaich iad le "
-"muinntir Thrace ann an Dardnia san ear agus thuinich iad ann an Messapia "
-"air taobh thall na Mara Adriatach. Bha grunn rìoghachdan Illyriach neo-"
+"Bhalcain ron bhliadhna 1000 RC, a' gabhail a-steach Eilean Corcyra agus Bàgh "
+"Ambracia ann an Epirus ro-eachdraidheil san deas. Cho-mheasgaich iad le "
+"muinntir Thrace ann an Dardnia san ear agus thuinich iad ann an Messapia air "
+"taobh thall na Mara Adriatach. Bha grunn rìoghachdan Illyriach neo-"
 "eisimeileach ann fad linntean mus deach an ceannsachadh le Poblachd na "
 "Ròimhe."
 
@@ -30278,9 +30277,9 @@ msgstr ""
 "Aimeireaga a Deas o thaobh a Deas na Sile gu meadhan-chrios an t-saoghail. "
 "'S e an droch fhortan a bha aca gun do rinn iad sin beagan dheicheadan mus "
 "do nochd conquistadores na Spàinnte sna 1530an. San ùine bheag a bha aca, "
-"thog na h-Inca barrachd air 15,000 mìle de rathaidean air feadh na "
-"h-impireachd aca. B' ann aca-san a bha an stàit as motha sna h-Aimeireagan "
-"ro cheannsachadh nan Spàinnteach agus chum iad smachd oirre tro shiostam "
+"thog na h-Inca barrachd air 15,000 mìle de rathaidean air feadh na h-"
+"impireachd aca. B' ann aca-san a bha an stàit as motha sna h-Aimeireagan ro "
+"cheannsachadh nan Spàinnteach agus chum iad smachd oirre tro shiostam "
 "rianachd iom-fhillte is prataigeach. Ge-tà, chaidh am milleadh a-rithist 's "
 "a-rithist le còmhstrithean mun chòir-sheilbheachd. Nuair a ràinig na "
 "Spàinntich, bha na h-Inca am meadhan còmhstri mar sin -- an cogadh eadar "
@@ -31889,10 +31888,10 @@ msgstr ""
 "e 'na phàirt dhen Rìoghachd Aonaichte gu foirmeil agus tha e 'na "
 "Eisimeileachd Fèin-Riaghlaidh aig Crùn Bhreatainn. Bha e an teis-mheadhan "
 "Rìoghachd Mhanainn 's nan Eilean sna Meadhan-Aoisean agus Tighearnas "
-"Mhanainn an uairsin. Tha cliù aca leis gu bheil a' phàrlamaid as sine san "
-"t-saoghal aca tha ag obair fhathast, an Tinwaal, a chaidh a stèidheachadh "
-"ann an 979 AD. Tha an t-eilean air a bhith 'na eisimeileachd Bhreatainn "
-"a-mach o 1765."
+"Mhanainn an uairsin. Tha cliù aca leis gu bheil a' phàrlamaid as sine san t-"
+"saoghal aca tha ag obair fhathast, an Tinwaal, a chaidh a stèidheachadh ann "
+"an 979 AD. Tha an t-eilean air a bhith 'na eisimeileachd Bhreatainn a-mach o "
+"1765."
 
 #: data/nation/manx.ruleset:35 data/nation/westindian.ruleset:23
 #: data/nation/zanzibari.ruleset:27
@@ -32213,13 +32212,12 @@ msgid ""
 "North America, of which many belong to the \"Hmong\" sub-group."
 msgstr ""
 "A-rèir fionn-sgeulan nan Sìnich, rinn Impire Buidhe Huáxià cogadh ri Chī "
-"Yóu, ceannard Naoidh Treubhan nan Lí, ann am Blàr Zhuōlù san 26mh linn RC. "
-"A-rèir nam Miao, cinneadh a tha beò san t-Sìn an-diugh, 's e rìgh miotasach "
-"a tha ann an Chī Yóu - ris a chanas iad-san \"Txiv Yawg\" - agus stèidheadair "
+"Yóu, ceannard Naoidh Treubhan nan Lí, ann am Blàr Zhuōlù san 26mh linn RC. A-"
+"rèir nam Miao, cinneadh a tha beò san t-Sìn an-diugh, 's e rìgh miotasach a "
+"tha ann an Chī Yóu - ris a chanas iad-san \"Txiv Yawg\" - agus stèidheadair "
 "an nàisein aca. Tha cuid mhath dhe na Miao a' fuireach ann an taobh a deas "
 "na Sìne ach tha àireamh mhòr air imrich a dhèanamh air feadh Àisea agus dhan "
-"Roinn-Eòrpa is Aimeireaga a Tuath, le mòran dhiubh dhen fho-chinneadh "
-"Hmong."
+"Roinn-Eòrpa is Aimeireaga a Tuath, le mòran dhiubh dhen fho-chinneadh Hmong."
 
 #: data/nation/micronesian.ruleset:3
 msgid "Micronesian"
@@ -32828,13 +32826,13 @@ msgstr ""
 "Chaidh Talamh an Èisg agus Labradar a thuineachadh leis na Beothuk ro linn "
 "Cholombo ged a bha tuineachasan beaga aig na Lochlannaich ann cuideachd mun "
 "bhliadhna 1000 AD. Thadhail na Portagailich agus na Sasannaich air Talamh an "
-"Èisg a-mach o dheireadh na 15mh linn. Bha an dà chuid Sasann agus an "
-"Fhraing a' tagradh an eilein gu ruige 1713 nuair a ghèill na Frangaich. "
-"Chaidh uachdranachd a dhèanamh de Thalamh an Èisg ann an 1907. Dh'fhulaing e "
-"gu mòr rè an Ìsleachaidh Mhòir agus ghèill e uachdranachd dhan Rìoghachd "
-"Aonaichte gu saor-thoileach ann an 1934. Chaidh a thilleadh a Chanada ann an "
-"1949 agus 's e Mòr-Roinn Talamh an Èisg agus Labrador an t-ainm a tha air "
-"aig an àm seo."
+"Èisg a-mach o dheireadh na 15mh linn. Bha an dà chuid Sasann agus an Fhraing "
+"a' tagradh an eilein gu ruige 1713 nuair a ghèill na Frangaich. Chaidh "
+"uachdranachd a dhèanamh de Thalamh an Èisg ann an 1907. Dh'fhulaing e gu mòr "
+"rè an Ìsleachaidh Mhòir agus ghèill e uachdranachd dhan Rìoghachd Aonaichte "
+"gu saor-thoileach ann an 1934. Chaidh a thilleadh a Chanada ann an 1949 agus "
+"'s e Mòr-Roinn Talamh an Èisg agus Labrador an t-ainm a tha air aig an àm "
+"seo."
 
 #: data/nation/newzealand.ruleset:3
 msgid "New Zealand"
@@ -34030,8 +34028,8 @@ msgstr ""
 "thòisich iad air ceannsachadh Mheagsago ann an 1519, chuir na h-Aztecich "
 "tosgaire a dh'iarraidh taic nam P'urhépecha ach chaidh a dhiùltadh. Bha iad "
 "air eòlas fhaighinn air cliù nam Spàinnteach agus thairg iad basailleachd do "
-"Rìgh na Spàinnte seach dàn an seann nàimhdean a dh'fhulaing iad fhèin. "
-"Ge-tà, cha robh e furasta dhaibh gabhail ri riadhladh nan Spàinnteach agus "
+"Rìgh na Spàinnte seach dàn an seann nàimhdean a dh'fhulaing iad fhèin. Ge-"
+"tà, cha robh e furasta dhaibh gabhail ri riadhladh nan Spàinnteach agus "
 "dh'èirich còmhstri. Chaidh an impireachd, a chaidh a chur air bhonn ann an "
 "1450 AD, à bith ann an 1530."
 
@@ -34273,8 +34271,8 @@ msgstr ""
 "A-rèir nam fionn-sgeulan, thug treubhan Slàbhach de Novgorod cuireadh do "
 "Rìgh Rurik nan Lochlannach a thighinn ann gus rian a chur air an dùthaich. "
 "Stèidhich Rurik Rus Kiev ann, a' chiad stàit Ruiseanach. Bha Rus Kiev air "
-"tuiteam às a chèile san 11mh linn agus chaidh na prionnsalachdan beaga a "
-"cho-aonadh a-rithist le Ivan III san 15mh linn. Às dèidh dha buaidh mhòr a "
+"tuiteam às a chèile san 11mh linn agus chaidh na prionnsalachdan beaga a cho-"
+"aonadh a-rithist le Ivan III san 15mh linn. Às dèidh dha buaidh mhòr a "
 "thoirt air an t-Suain, bhuannaich Peter I talamh mòr agus stèidhich e "
 "Impireachd na Ruise. Mhair i gu ruige 1917 nuair a sguab reabhlaid "
 "shòisealach impire na Ruise mu dheireadh às a rìgh-chathair. Nuair a chaidh "
@@ -34503,8 +34501,8 @@ msgid ""
 "founded by Saint Marinus in 301 CE."
 msgstr ""
 "'S e dùthaich fìor bheag gun chladach sam bith a tha ann an San Marino, am "
-"broinn na h-Eadailte. 'S ise a' phoblachd neo-eisimeileach as sine san "
-"t-saoghal. A-rèir nan seann sgeulachdan, chaidh a chur air bhonn le Naomh "
+"broinn na h-Eadailte. 'S ise a' phoblachd neo-eisimeileach as sine san t-"
+"saoghal. A-rèir nan seann sgeulachdan, chaidh a chur air bhonn le Naomh "
 "Marinus ann an 301 AD."
 
 #: data/nation/sammarinese.ruleset:26
@@ -34795,8 +34793,8 @@ msgstr ""
 "i a' Ghàidhlig a bha aig a' chuid a bu mhotha dhen t-sluagh air feadh Alba "
 "ann an linn Calum III, cho fada deas ri Srath Chluaidh, Gall-Ghaidhealaibh "
 "is cuid de Lodainn is nan Crìochan. Chan eil air fhàgail an-diugh ach mu "
-"60,000 de luchd-bruidhinn na Gàidhlig an-diugh, an dàrna cuid dhiubh sna "
-"h-eileanan agus air a' Ghàidhealachd agus a' chuid eile air feadh na h-Alba, "
+"60,000 de luchd-bruidhinn na Gàidhlig an-diugh, an dàrna cuid dhiubh sna h-"
+"eileanan agus air a' Ghàidhealachd agus a' chuid eile air feadh na h-Alba, "
 "gu h-àraidh ann an Roinn a' Mheadhain."
 
 #: data/nation/scottishgaelic.ruleset:37
@@ -34864,8 +34862,8 @@ msgstr ""
 "Scythianaich, làmh an uachdar air an sgìre seo aig deireadh na Linne "
 "Chlasaigeach. Tha mòran dhen fhiosrachadh a tha againn orra a' tighinn à "
 "Eachdraidhean an eachdraiche Ghreugaich Herodotus (mun bhliadhna 440 RC) "
-"agus dàn eilthireachd Ovid 'Epistulae ex Ponto' agus fianais àrc-eòlach na "
-"h-ealain òir a chaidh a lorg sna tomain tìodhlacaidh san Ucràin agus Ruis a "
+"agus dàn eilthireachd Ovid 'Epistulae ex Ponto' agus fianais àrc-eòlach na h-"
+"ealain òir a chaidh a lorg sna tomain tìodhlacaidh san Ucràin agus Ruis a "
 "Deas."
 
 #: data/nation/seleucid.ruleset:3
@@ -35726,10 +35724,10 @@ msgstr ""
 "Ghabh Rìoghachd na Suaine ri Crìostaidheachd agus chaidh a dhaingneachadh "
 "mar eintiteas poileataigeach san 12na linn AD. Rinn an dùthaich àite dhi "
 "fhèin am measg cumhachdan mòra na Roinn-Eòrpa san 17mh linn ri linn "
-"ceannsachaidhean mòra armailteach nan Rìghrean Cathach. Ge-tà, chaill an "
-"t-Suain cuid mhath dhen talamh a bha i air cosnadh an cois crìonach na "
-"h-eaconomaidh agus buaidh na Ruise ann an grunn bhlàran. Cha robh an "
-"dùthaich an sàs còmhstri armailteach a-mach o 1814."
+"ceannsachaidhean mòra armailteach nan Rìghrean Cathach. Ge-tà, chaill an t-"
+"Suain cuid mhath dhen talamh a bha i air cosnadh an cois crìonach na h-"
+"eaconomaidh agus buaidh na Ruise ann an grunn bhlàran. Cha robh an dùthaich "
+"an sàs còmhstri armailteach a-mach o 1814."
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
@@ -36047,8 +36045,7 @@ msgid ""
 "independence through the colonial era of the 18th and 19th centuries CE."
 msgstr ""
 "B' i rìoghachd nan Tàidh an aon dùthaich ann an Ear-dheas Àisea a ghlèidh a "
-"neo-eisimeileachd air feadh linn an tuineachais san 18mh is san 19mh linn "
-"AD."
+"neo-eisimeileachd air feadh linn an tuineachais san 18mh is san 19mh linn AD."
 
 #: data/nation/thracian.ruleset:3
 msgid "Thracian"
@@ -36473,10 +36470,10 @@ msgid ""
 msgstr ""
 "Chaidh na treubhan Turcmanach a cho-aonadh fo Toghrul Beg, an dàrna "
 "riaghlaiche de dh'Impireachd nan Seljukach,  san 11d linn AD a' chiad turas. "
-"Nuair nach b' urrainn do stàit nan Seljuk seasamh ri ionnsaighean nam "
-"Mongol tuilleadh, thòisich iad air imrich dhan iar. Thuinich iad na sgìrean "
-"eadar an abhainn Amu Darya agus am Muir Caspach ri linn sin, cha mhòr far a "
-"bheil Turcmanastàn an-diugh."
+"Nuair nach b' urrainn do stàit nan Seljuk seasamh ri ionnsaighean nam Mongol "
+"tuilleadh, thòisich iad air imrich dhan iar. Thuinich iad na sgìrean eadar "
+"an abhainn Amu Darya agus am Muir Caspach ri linn sin, cha mhòr far a bheil "
+"Turcmanastàn an-diugh."
 
 #: data/nation/turkmen.ruleset:28
 #, c-format
@@ -36878,8 +36875,8 @@ msgid ""
 "biodiversity."
 msgstr ""
 "'S e a' Bheiniseala an dùthaich as fhaide tuath ann an Aimeireaga a Deas. "
-"Bha i 'na tuineachas Spàinnteach fad ùine mhòr on 16mh linn ach fhuair i "
-"neo-eisimeileachd 5mh dhen Iuchar 1811 fo cheannardas El Libertador Simón "
+"Bha i 'na tuineachas Spàinnteach fad ùine mhòr on 16mh linn ach fhuair i neo-"
+"eisimeileachd 5mh dhen Iuchar 1811 fo cheannardas El Libertador Simón "
 "Bolívar - an Saoradair."
 
 #: data/nation/vermont.ruleset:3
@@ -39563,7 +39560,8 @@ msgstr "Luchdaich mòideal na h-IF MODULE. Faodaidh seo nochdadh iomadh turas"
 
 #: server/civserver.c:440
 msgid "Requested authentication with --auth, but no --Database given\n"
-msgstr "Dh'iarradh dearbhadh le --auth ach cha deach --Database a shònrachadh\n"
+msgstr ""
+"Dh'iarradh dearbhadh le --auth ach cha deach --Database a shònrachadh\n"
 
 #: server/commands.c:53
 msgid "Start the game, or restart after loading a savegame."
@@ -41829,8 +41827,8 @@ msgstr ""
 #: server/generator/mapgen_topology.c:306
 #, c-format
 msgid ""
-"Setting map size to %d (approx. %d (land) tiles for each of the %d "
-"player(s))."
+"Setting map size to %d (approx. %d (land) tiles for each of the %d player"
+"(s))."
 msgstr ""
 "Ag atharrachadh meud a' mhapa gu %d (mu thuaiream %d leacag (talamhainn) "
 "aison gach aon dhen na %d cluicheadair(ean))."
@@ -47598,7 +47596,7 @@ msgstr "Chan urrann ach %s ionnsaigh a thoirt on mhuir."
 msgid "Cannot attack from sea."
 msgstr "Chan urrainn dha ionnsaigh a thoirt on mhuir."
 
-#: server/unithand.c:1290 server/unittools.c:2504
+#: server/unithand.c:1290 server/unittools.c:2514
 msgid "Cannot attack unless you declare war first."
 msgstr "Chan urrainn dhut ionnsaigh a thoirt mus do ghairm thu cogadh."
 
@@ -47612,7 +47610,7 @@ msgstr "Feumaidh na %s gluasad dhan àrainn fo do smachd."
 msgid "%s cannot move that far from the coast line."
 msgstr "Chan urrainn an %s gluasad cho fada on mhuir."
 
-#: server/unithand.c:1308 server/unittools.c:2511
+#: server/unithand.c:1308 server/unittools.c:2521
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr ""
@@ -47777,40 +47775,40 @@ msgid "Teleported your %s to %s."
 msgstr "Chaidh %s agad a thele-phortadh gu %s."
 
 #. TRANS: A unit is moved to resolve stack conflicts.
-#: server/unittools.c:1165
+#: server/unittools.c:1167
 #, c-format
 msgid "Moved your %s."
 msgstr "Chaidh %s agad a ghluasad."
 
 #. TRANS: A unit is disbanded to resolve stack conflicts.
-#: server/unittools.c:1176
+#: server/unittools.c:1178
 #, c-format
 msgid "Disbanded your %s."
 msgstr "Chaidh %s agad fhàsachadh."
 
-#: server/unittools.c:1525
+#: server/unittools.c:1527
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Cha deach %s a dhìon gu soirbheachail, chaill %s an geama."
 
-#: server/unittools.c:1529
+#: server/unittools.c:1531
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 "Chaill thu an geama 's tu air an %s a chall! Bi nas fhaiceallaiche an ath "
 "thuras!"
 
-#: server/unittools.c:1578
+#: server/unittools.c:1580
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "Chaill %s nuair a thuit %s."
 
-#: server/unittools.c:1733
+#: server/unittools.c:1742
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "Theich %s à sgriosadh %s agus rinn iad air %s."
 
-#: server/unittools.c:1807
+#: server/unittools.c:1817
 #, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgid_plural "Barbarian leader captured; %d gold ransom paid."
@@ -47824,19 +47822,19 @@ msgstr[3] ""
 "Chaidh ceannard nam borbach a ghlacadh is fhuair thu %d òr de dh'ìoc-èirig."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1828
+#: server/unittools.c:1838
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "Shoirbhich an %1$s agad leis an ionnsaigh air aonad %3$s %2$s!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1837 server/unittools.c:1898
+#: server/unittools.c:1847 server/unittools.c:1908
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "Chaidh %1$s a chall an cois ionnsaigh %3$s %2$s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1873
+#: server/unittools.c:1883
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -47856,7 +47854,7 @@ msgstr[3] ""
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1908
+#: server/unittools.c:1918
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr ""
@@ -47864,7 +47862,7 @@ msgstr ""
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1924
+#: server/unittools.c:1934
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "Chaidh %1$s (agus %2$s) a chall an cois ionnsaigh %4$s %3$s."
@@ -47872,7 +47870,7 @@ msgstr "Chaidh %1$s (agus %2$s) a chall an cois ionnsaigh %4$s %3$s."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1935
+#: server/unittools.c:1945
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -47888,7 +47886,7 @@ msgstr[3] ""
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1950
+#: server/unittools.c:1960
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
@@ -47901,168 +47899,168 @@ msgstr[2] ""
 msgstr[3] ""
 "Chaidh %1$d aonad a chall nuair a thug %3$s %2$s ionnsaigh air %5$s %4$s."
 
-#: server/unittools.c:2277
+#: server/unittools.c:2287
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Chaidh an %s agad a sgriosadh le arm niùclasach aig %s."
 
-#: server/unittools.c:2280 server/unittools.c:2298
+#: server/unittools.c:2290 server/unittools.c:2308
 msgid "yourself"
 msgstr "thu fhèin"
 
-#: server/unittools.c:2284
+#: server/unittools.c:2294
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "Chaill %s %s an cois airm niùclasaich."
 
-#: server/unittools.c:2295
+#: server/unittools.c:2305
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "Chaidh %s a sgriosadh le arm niùclasach aig %s."
 
-#: server/unittools.c:2303
+#: server/unittools.c:2313
 #, c-format
 msgid "You nuked %s."
 msgstr "Leig thusa arm niùclasach air %s."
 
-#: server/unittools.c:2355
+#: server/unittools.c:2365
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "Spreadh %s arm niùclasach!"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2379 server/unittools.c:2387
+#: server/unittools.c:2389 server/unittools.c:2397
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr "Chan eil comas ann an %s %s a ghiùlan."
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2398
+#: server/unittools.c:2408
 #, c-format
 msgid "%s cannot be transported to %s."
 msgstr "Cha ghabh %s a ghiùlan ann (%s)."
 
-#: server/unittools.c:2408
+#: server/unittools.c:2418
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s air a ghiùlan gu soirbheachail."
 
-#: server/unittools.c:2467
+#: server/unittools.c:2477
 msgid "This unit type can not be paradropped."
 msgstr "Chan urrainn dhut paradrop a dhèanamh leis a leithid a dh'aonad."
 
-#: server/unittools.c:2477
+#: server/unittools.c:2487
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr ""
 "Chan urrainn dhut paradrop a dhèanamh le aonad a tha a' giùlan aonadan eile."
 
-#: server/unittools.c:2483
+#: server/unittools.c:2493
 msgid "The destination location is not known."
 msgstr "Chan eil ionad a' chinn-uidhe aithnichte."
 
-#: server/unittools.c:2493
+#: server/unittools.c:2503
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Cha ghabh paradrop a dhèanamh air %s leis an aonad seo."
 
-#: server/unittools.c:2522
+#: server/unittools.c:2532
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "Tha astar nas fhaide (%i) eadar an t-aonad 's a cheann-uidhe nas urrainn dha "
 "siubhal (%i)."
 
-#: server/unittools.c:2533
+#: server/unittools.c:2543
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Chaidh %s a leigeil air %s le paradrop agus chaidh a chall."
 
-#: server/unittools.c:2547
+#: server/unittools.c:2557
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 "Chaidh an %s agad a mharbhadh le aonadan do nàmhaid far an do leig thu às e "
 "le paradrop."
 
-#: server/unittools.c:2618
+#: server/unittools.c:2628
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Chuir thu eagal air an fhine 's tu a' dol seachad orra le itealan; tha iad "
 "a' teicheadh ann an uamhann."
 
-#: server/unittools.c:2898
+#: server/unittools.c:2908
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad nuair a chunnacas gluasad an "
 "nàmhaid."
 
-#: server/unittools.c:3452
+#: server/unittools.c:3462
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad a chionn 's gu bheil aonadad "
 "faisg air."
 
-#: server/unittools.c:3503
+#: server/unittools.c:3513
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad a chionn 's gun do "
 "dh'fhàillig togail a' bhaile."
 
-#: server/unittools.c:3519
+#: server/unittools.c:3529
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad a chionn 's gun d' fhuair "
 "iad àithne mhì-dhligheach."
 
-#: server/unittools.c:3538
+#: server/unittools.c:3548
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad a chionn 's gun d' fhuair "
 "iad ionad mì-dhligheach."
 
-#: server/unittools.c:3548
+#: server/unittools.c:3558
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad a chionn 's gu bheil aonadan "
 "san t-slighe."
 
-#: server/unittools.c:3573
+#: server/unittools.c:3583
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad air sgàth gluasad a "
 "dh'fhàillig."
 
-#: server/unittools.c:3614
+#: server/unittools.c:3624
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr ""
 "Dh'fheuch thu ris am baile dachaigh aig %s atharrachadh ach dh'fhàillig e."
 
-#: server/unittools.c:3625
+#: server/unittools.c:3635
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Dh'fheuch thu ris an t-slighe malairt aig %s ach dh'fhàillig e."
 
-#: server/unittools.c:3637
+#: server/unittools.c:3647
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Dh'fheuch thu ri mìorbhail a thogail airson %s ach dh'fhàillig e."
 
-#: server/unittools.c:3646
+#: server/unittools.c:3656
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Tha òrduighean mì-dhligheach aig an aonad (%s) agad."
 
-#: server/unittools.c:3744
+#: server/unittools.c:3754
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-27 11:39+0100\n"
+"POT-Creation-Date: 2013-08-11 10:31+0100\n"
 "PO-Revision-Date: 2011-10-06 17:27+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -363,12 +363,12 @@ msgstr ""
 "*%s (ШІ)* Нас було варварськи атаковано %s, та нам потрібна ваша допомога! "
 "Вшануйте наш славетний альянс та ваше ім'я ніколи не буде забуто!"
 
-#: ai/default/aicity.c:308 server/citytools.c:2411
+#: ai/default/aicity.c:308 server/citytools.c:2416
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%s припинили будівництво дива %s у %s."
 
-#: ai/default/aicity.c:319 server/citytools.c:2449
+#: ai/default/aicity.c:319 server/citytools.c:2454
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "%s розпочали будівництво дива %s у %s."
@@ -402,7 +402,7 @@ msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:431 client/gui-sdl/mapview.c:159
-#: server/console.c:71 server/srv_main.c:2558 utility/log.c:516
+#: server/console.c:71 server/srv_main.c:2563 utility/log.c:516
 #: utility/netintf.c:93 utility/registry.c:893
 #, c-format
 msgid "Please report this message at %s"
@@ -3331,9 +3331,9 @@ msgstr "Винахідництво"
 
 #: client/gui-gtk-2.0/editprop.c:4167 client/gui-gtk-2.0/repodlgs.c:1251
 #: client/gui-gtk-3.0/editprop.c:4191 client/gui-gtk-3.0/repodlgs.c:1283
-#: common/city.c:85 data/civ1/terrain.ruleset:609
-#: data/civ2/terrain.ruleset:623 data/default/terrain.ruleset:737
-#: data/experimental/terrain.ruleset:739 data/multiplayer/terrain.ruleset:737
+#: common/city.c:85 data/civ1/terrain.ruleset:608
+#: data/civ2/terrain.ruleset:622 data/default/terrain.ruleset:736
+#: data/experimental/terrain.ruleset:738 data/multiplayer/terrain.ruleset:736
 msgid "Gold"
 msgstr "Гроші"
 
@@ -3562,40 +3562,40 @@ msgid "Report bugs at %s\n"
 msgstr "Про помилки повідомляйте на %s\n"
 
 #: client/gui-gtk-2.0/gui_main.c:748 client/gui-gtk-2.0/gui_main.c:1553
-#: client/gui-gtk-3.0/gui_main.c:733 client/gui-gtk-3.0/gui_main.c:1609
+#: client/gui-gtk-3.0/gui_main.c:735 client/gui-gtk-3.0/gui_main.c:1611
 #: client/gui-sdl/gui_main.c:795 client/gui-sdl/gui_main.c:810
 msgid "Freeciv"
 msgstr "Freeciv"
 
 #: client/gui-gtk-2.0/gui_main.c:1210 client/gui-gtk-2.0/gui_main.c:1218
-#: client/gui-gtk-3.0/gui_main.c:1207 client/gui-gtk-3.0/gui_main.c:1215
+#: client/gui-gtk-3.0/gui_main.c:1209 client/gui-gtk-3.0/gui_main.c:1217
 #: client/gui-sdl/mapctrl.c:1575 data/Freeciv.in:2663
 msgid "Turn Done"
 msgstr "Завершити хід"
 
-#: client/gui-gtk-2.0/gui_main.c:1218 client/gui-gtk-3.0/gui_main.c:1215
+#: client/gui-gtk-2.0/gui_main.c:1218 client/gui-gtk-3.0/gui_main.c:1217
 #: client/gui-sdl/mapctrl.c:1575 client/gui-sdl/mapview.c:895
 msgid "Shift+Return"
 msgstr "Shift+Return"
 
-#: client/gui-gtk-2.0/gui_main.c:1289 client/gui-gtk-3.0/gui_main.c:1292
+#: client/gui-gtk-2.0/gui_main.c:1289 client/gui-gtk-3.0/gui_main.c:1294
 msgid "?noun:View"
 msgstr "Огляд"
 
-#: client/gui-gtk-2.0/gui_main.c:1401 client/gui-gtk-3.0/gui_main.c:1412
+#: client/gui-gtk-2.0/gui_main.c:1401 client/gui-gtk-3.0/gui_main.c:1414
 msgid "Chat"
 msgstr "Чат"
 
-#: client/gui-gtk-2.0/gui_main.c:1425 client/gui-gtk-3.0/gui_main.c:1439
+#: client/gui-gtk-2.0/gui_main.c:1425 client/gui-gtk-3.0/gui_main.c:1441
 msgid "Allies Only"
 msgstr "Лише союзники"
 
-#: client/gui-gtk-2.0/gui_main.c:1434 client/gui-gtk-3.0/gui_main.c:1448
+#: client/gui-gtk-2.0/gui_main.c:1434 client/gui-gtk-3.0/gui_main.c:1450
 #, fuzzy
 msgid "Clear links"
 msgstr "План будівництва:"
 
-#: client/gui-gtk-2.0/gui_main.c:2002 client/gui-gtk-3.0/gui_main.c:2006
+#: client/gui-gtk-2.0/gui_main.c:2002 client/gui-gtk-3.0/gui_main.c:2008
 #: modinst/modinst.c:102
 msgid "Are you sure you want to quit?"
 msgstr "Ви впевнені, що хочете вийти?"
@@ -3821,7 +3821,7 @@ msgstr "?техдопомога:"
 #: client/gui-gtk-2.0/inteldlg.c:410 client/gui-gtk-3.0/helpdlg.c:1121
 #: client/gui-gtk-3.0/helpdlg.c:1215 client/gui-gtk-3.0/inteldlg.c:402
 #: client/gui-xaw/helpdlg.c:1007 client/gui-xaw/helpdlg.c:1092
-#: common/requirements.c:1376 common/requirements.c:1430
+#: common/requirements.c:1388 common/requirements.c:1442
 #, c-format
 msgid "(none)"
 msgstr "(немає)"
@@ -5057,7 +5057,7 @@ msgstr "Переключити Режим ШІ"
 #: client/gui-gtk-2.0/repodlgs.c:520 client/gui-gtk-3.0/repodlgs.c:539
 #: client/gui-sdl/mapctrl.c:1418 client/gui-sdl/mapview.c:334
 #: client/gui-sdl/mapview.c:338 client/gui-sdl/mapview.c:344
-#: client/gui-sdl/repodlgs.c:3278 client/gui-xaw/menu.c:230
+#: client/gui-sdl/repodlgs.c:3286 client/gui-xaw/menu.c:230
 #: client/gui-xaw/repodlgs.c:252 client/gui-xaw/repodlgs.c:475
 #: data/Freeciv.in:1384
 msgid "Research"
@@ -5481,12 +5481,12 @@ msgstr "Продовжувати рух"
 #: client/gui-sdl/diplomat_dialog.c:1179 client/gui-sdl/diplomat_dialog.c:1250
 #: client/gui-sdl/diplomat_dialog.c:1464 client/gui-sdl/finddlg.c:149
 #: client/gui-sdl/gotodlg.c:258 client/gui-sdl/helpdlg.c:234
-#: client/gui-sdl/helpdlg.c:627 client/gui-sdl/helpdlg.c:1936
+#: client/gui-sdl/helpdlg.c:627 client/gui-sdl/helpdlg.c:1937
 #: client/gui-sdl/inteldlg.c:250 client/gui-sdl/optiondlg.c:783
 #: client/gui-sdl/plrdlg.c:351 client/gui-sdl/plrdlg.c:634
 #: client/gui-sdl/repodlgs.c:390 client/gui-sdl/repodlgs.c:2007
-#: client/gui-sdl/repodlgs.c:2884 client/gui-sdl/repodlgs.c:3072
-#: client/gui-sdl/repodlgs.c:3339 client/gui-sdl/spaceshipdlg.c:164
+#: client/gui-sdl/repodlgs.c:2892 client/gui-sdl/repodlgs.c:3080
+#: client/gui-sdl/repodlgs.c:3347 client/gui-sdl/spaceshipdlg.c:164
 msgid "Close Dialog (Esc)"
 msgstr "Закрити вікно (Esc)"
 
@@ -6072,7 +6072,7 @@ msgstr "Надіслати посольство"
 msgid "Gold(max %d)"
 msgstr "Гроші(макс %d)"
 
-#: client/gui-sdl/diplodlg.c:649 client/gui-sdl/helpdlg.c:1983
+#: client/gui-sdl/diplodlg.c:649 client/gui-sdl/helpdlg.c:1984
 #: data/Freeciv.in:410 data/Freeciv.in:419
 msgid "Advances"
 msgstr "Технології"
@@ -6310,7 +6310,7 @@ msgstr "(з "
 msgid " )"
 msgstr " )"
 
-#: client/gui-sdl/helpdlg.c:1915
+#: client/gui-sdl/helpdlg.c:1916
 msgid "Help : Advances Tree"
 msgstr "Допомога: Дерево Досягнень"
 
@@ -6878,7 +6878,7 @@ msgid "R.I.P."
 msgstr "СПОЧИВ"
 
 #: client/gui-sdl/plrdlg.c:653 client/plrdlg_common.c:236
-#: server/stdinhand.c:3456 server/stdinhand.c:6225
+#: server/stdinhand.c:3456 server/stdinhand.c:6228
 msgid "AI"
 msgstr "Комп'ютер"
 
@@ -6980,22 +6980,22 @@ msgstr "Поновити"
 msgid "Wonder"
 msgstr "Диво"
 
-#: client/gui-sdl/repodlgs.c:2868
+#: client/gui-sdl/repodlgs.c:2876
 msgid "What should we focus on now?"
 msgstr "На чому тепер слід сфокусуватися?"
 
-#: client/gui-sdl/repodlgs.c:3056
+#: client/gui-sdl/repodlgs.c:3064
 msgid "Select target :"
 msgstr "Оберіть ціль :"
 
-#: client/gui-sdl/repodlgs.c:3125
+#: client/gui-sdl/repodlgs.c:3133
 msgid "step"
 msgid_plural "steps"
 msgstr[0] "крок"
 msgstr[1] "кроки"
 msgstr[2] "кроків"
 
-#: client/gui-sdl/repodlgs.c:3415 client/gui-xaw/repodlgs.c:1193
+#: client/gui-sdl/repodlgs.c:3423 client/gui-xaw/repodlgs.c:1193
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
@@ -7003,11 +7003,11 @@ msgstr[0] "%2d: %s правитель %s заробив %d бал\n"
 msgstr[1] "%2d: %s правитель %s заробив %d бали\n"
 msgstr[2] "%2d: %s правитель %s заробив %d балів\n"
 
-#: client/gui-sdl/repodlgs.c:3422 client/gui-xaw/repodlgs.c:1200
+#: client/gui-sdl/repodlgs.c:3430 client/gui-xaw/repodlgs.c:1200
 msgid "Final Report:"
 msgstr "Кінцевий звіт:"
 
-#: client/gui-sdl/repodlgs.c:3423 client/gui-xaw/repodlgs.c:1201
+#: client/gui-sdl/repodlgs.c:3431 client/gui-xaw/repodlgs.c:1201
 msgid "The Greatest Civilizations in the world."
 msgstr "Найвеличніші цивілізації в світі."
 
@@ -7043,7 +7043,7 @@ msgid "Loading theme \"%s\"."
 msgstr "Завантажую тему  \"%s\"."
 
 #: client/gui-sdl/themespec.c:485 client/gui-sdl/themespec.c:519
-#: client/tilespec.c:1186 client/tilespec.c:1220
+#: client/tilespec.c:1192 client/tilespec.c:1226
 #, c-format
 msgid ""
 "Could not open '%s':\n"
@@ -7548,7 +7548,7 @@ msgstr "Узберіжжя"
 msgid "Roads & Rails"
 msgstr "Шляхи та Залізниці"
 
-#: client/gui-xaw/menu.c:156 common/terrain.c:512 common/terrain.c:819
+#: client/gui-xaw/menu.c:156 common/terrain.c:512 common/terrain.c:820
 #: common/unit.c:699 manual/civmanual.c:281
 msgid "Irrigation"
 msgstr "Зрошення"
@@ -10284,21 +10284,21 @@ msgstr "Строка сумісності клієнта: %s"
 msgid "Server capability string: %s"
 msgstr "Строка сумісності сервера: %s"
 
-#: client/packhand.c:1068
+#: client/packhand.c:1069
 #, c-format
 msgid "Start of turn %d"
 msgstr "Початок ходу %d"
 
-#: client/packhand.c:1197
+#: client/packhand.c:1198
 msgid "Welcome"
 msgstr "Ласкаво просимо"
 
-#: client/packhand.c:1988
+#: client/packhand.c:2009
 #, fuzzy
 msgid "AI mode is now ON."
 msgstr "Комп'ютерні гравці тепер %s."
 
-#: client/packhand.c:1990
+#: client/packhand.c:2011
 #, fuzzy
 msgid "AI mode is now OFF."
 msgstr "Комп'ютерні гравці тепер %s."
@@ -11147,38 +11147,38 @@ msgstr "Військові підрозділи не впливають на щ�
 msgid "Luxury: %d total."
 msgstr "Розкіш: %d загалом."
 
-#: client/tilespec.c:994
+#: client/tilespec.c:1000
 msgid "No usable default tileset found, aborting!"
 msgstr "Не знайдено фонів по замовчуванню, перериваюся! "
 
-#: client/tilespec.c:1026
+#: client/tilespec.c:1032
 #, fuzzy, c-format
 msgid "Loading tileset \"%s\"."
 msgstr "Завантажую правила"
 
-#: client/tilespec.c:1490
+#: client/tilespec.c:1496
 #, fuzzy
 msgid "Client does not support isometric tilesets."
 msgstr ""
 "Клієнт не підтримує ізометричні фони. Використовую фони по замовчуванню."
 
-#: client/tilespec.c:1491 client/tilespec.c:1497
+#: client/tilespec.c:1497 client/tilespec.c:1503
 msgid "Using default tileset instead."
 msgstr ""
 
-#: client/tilespec.c:1496
+#: client/tilespec.c:1502
 #, fuzzy
 msgid "Client does not support overhead view tilesets."
 msgstr "Клієнт не підтримує горішні фони. Використовую фони по замовчуванню."
 
-#: client/tilespec.c:4428
+#: client/tilespec.c:4450
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
 "displayed as expected."
 msgstr ""
 
-#: client/tilespec.c:4753
+#: client/tilespec.c:4775
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -11191,7 +11191,7 @@ msgid "Too many AI modules. Max is %d."
 msgstr ""
 
 #: common/city.c:84 data/civ1/techs.ruleset:566 data/civ2/techs.ruleset:733
-#: data/default/techs.ruleset:737 data/experimental/techs.ruleset:816
+#: data/default/techs.ruleset:737 data/experimental/techs.ruleset:739
 #: data/Freeciv.in:3108 data/multiplayer/techs.ruleset:745
 msgid "Trade"
 msgstr "Торгівля"
@@ -12127,11 +12127,11 @@ msgstr ""
 msgid "could not open file: %s"
 msgstr "Не можу відкрити \"%s\"."
 
-#: common/packets.c:392
+#: common/packets.c:390
 msgid "illegal packet size"
 msgstr ""
 
-#: common/packets.c:416 common/packets.c:461
+#: common/packets.c:414 common/packets.c:459
 msgid "decoding error"
 msgstr "помилка декодування"
 
@@ -12220,71 +12220,71 @@ msgid "?diplomatic_state:Team"
 msgstr "Команда"
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:520 common/requirements.c:535
+#: common/requirements.c:532 common/requirements.c:547
 msgid "World-ranged requirements are only supported for wonders."
 msgstr "Вимоги всесвітнього характеру підтримуються тільки для див."
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:560 common/requirements.c:576
+#: common/requirements.c:572 common/requirements.c:588
 msgid "Player-ranged requirements are only supported for wonders."
 msgstr "Вимоги щодо гравців підтримуються тільки для див."
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:598
+#: common/requirements.c:610
 msgid "Island-ranged requirements are only supported for wonders."
 msgstr "Вимоги щодо островів підтримуються тільки для див."
 
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:650
+#: common/requirements.c:662
 #, fuzzy
 msgid "Surviving requirements are only supported at world and player ranges."
 msgstr "Вимоги щодо виживання підтримуються тільки для див."
 
-#: common/requirements.c:1402 common/requirements.c:1479
+#: common/requirements.c:1414 common/requirements.c:1491
 #, c-format
 msgid "Size %d"
 msgstr "Розмір %d"
 
-#: common/requirements.c:1457 common/requirements.c:1466
+#: common/requirements.c:1469 common/requirements.c:1478
 #, c-format
 msgid "\"%s\" units"
 msgstr "\"%s\" підрозділів"
 
-#: common/requirements.c:1462
+#: common/requirements.c:1474
 #, c-format
 msgid "%s units"
 msgstr "%s підрозділів"
 
 #. TRANS: "Hard AI"
-#: common/requirements.c:1484
+#: common/requirements.c:1496
 #, c-format
 msgid "%s AI"
 msgstr "%s ШІ"
 
 #. TRANS: "Land terrain"
-#: common/requirements.c:1489
+#: common/requirements.c:1501
 #, c-format
 msgid "%s terrain"
 msgstr "%s земля"
 
 #. TRANS: "Fortress base"
-#: common/requirements.c:1494
+#: common/requirements.c:1506
 #, c-format
 msgid "%s base"
 msgstr "База %s"
 
-#: common/requirements.c:1498
+#: common/requirements.c:1510
 #, c-format
 msgid "After %s"
 msgstr "Після %s"
 
 #. TRANS: "Irrigation possible"
-#: common/requirements.c:1503
+#: common/requirements.c:1515
 #, c-format
 msgid "%s possible"
 msgstr "%s можливо"
 
-#: common/requirements.c:1507
+#: common/requirements.c:1519
 msgid "City center tile"
 msgstr "Клітинка з центром міста"
 
@@ -12293,7 +12293,7 @@ msgid "Road"
 msgstr "Шлях"
 
 #: common/road.c:29 data/civ1/techs.ruleset:453 data/civ2/techs.ruleset:579
-#: data/default/techs.ruleset:583 data/experimental/techs.ruleset:643
+#: data/default/techs.ruleset:583 data/experimental/techs.ruleset:585
 #: data/multiplayer/techs.ruleset:592
 msgid "Railroad"
 msgstr "Залізниця"
@@ -12322,7 +12322,7 @@ msgstr "Технологія майбутнього %d"
 msgid "Future Tech."
 msgstr "Технологія майбутнього."
 
-#: common/terrain.c:514 common/terrain.c:823 common/unit.c:697
+#: common/terrain.c:514 common/terrain.c:824 common/unit.c:697
 msgid "Mine"
 msgstr "Шахта"
 
@@ -12330,9 +12330,9 @@ msgstr "Шахта"
 msgid "Hut"
 msgstr "Хутір"
 
-#: common/terrain.c:517 common/unit.c:705 data/civ1/terrain.ruleset:730
-#: data/civ2/terrain.ruleset:842 data/default/terrain.ruleset:956
-#: data/experimental/terrain.ruleset:958 data/multiplayer/terrain.ruleset:956
+#: common/terrain.c:517 common/unit.c:705 data/civ1/terrain.ruleset:729
+#: data/civ2/terrain.ruleset:841 data/default/terrain.ruleset:955
+#: data/experimental/terrain.ruleset:957 data/multiplayer/terrain.ruleset:955
 msgid "Fortress"
 msgstr "Укріплення"
 
@@ -12340,13 +12340,13 @@ msgstr "Укріплення"
 msgid "River"
 msgstr "Ріка"
 
-#: common/terrain.c:519 common/terrain.c:817
+#: common/terrain.c:519 common/terrain.c:818
 msgid "Farmland"
 msgstr "Ферма"
 
-#: common/terrain.c:520 common/unit.c:717 data/civ2/terrain.ruleset:864
-#: data/default/terrain.ruleset:980 data/experimental/terrain.ruleset:982
-#: data/multiplayer/terrain.ruleset:980
+#: common/terrain.c:520 common/unit.c:717 data/civ2/terrain.ruleset:863
+#: data/default/terrain.ruleset:979 data/experimental/terrain.ruleset:981
+#: data/multiplayer/terrain.ruleset:979
 msgid "Airbase"
 msgstr "Авіабаза"
 
@@ -13005,12 +13005,12 @@ msgid "Temple"
 msgstr "Церква"
 
 #: data/civ1/buildings.ruleset:617 data/civ2/buildings.ruleset:922
-#: data/default/buildings.ruleset:981 data/experimental/buildings.ruleset:1036
-#: data/multiplayer/buildings.ruleset:961
+#, fuzzy
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
-"effect.  With both Mysticism and the Oracle, 4 citizens are made content.  "
-"Does not affect citizens made unhappy by military activity."
+"effect, as does Oracle wonder.  With both Mysticism and the Oracle, 4 "
+"citizens are made content.  Does not affect citizens made unhappy by "
+"military activity."
 msgstr ""
 "Нейтралізує одного нещасного у місті. Знання Містицизму подвоює цей ефект. "
 "Разом з Містицизмом та Оракулом, 4 нещасних нейтралізуються. Не впливає на "
@@ -13020,7 +13020,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:930 data/civ2/techs.ruleset:741
 #: data/default/buildings.ruleset:989 data/default/techs.ruleset:745
 #: data/experimental/buildings.ruleset:1046
-#: data/experimental/techs.ruleset:825 data/multiplayer/buildings.ruleset:969
+#: data/experimental/techs.ruleset:747 data/multiplayer/buildings.ruleset:969
 #: data/multiplayer/techs.ruleset:753
 msgid "University"
 msgstr "Університет"
@@ -13260,24 +13260,23 @@ msgid "Oracle"
 msgstr "Оракл"
 
 #: data/civ1/buildings.ruleset:965 data/civ2/buildings.ruleset:1377
-#: data/default/buildings.ruleset:1444
-#: data/experimental/buildings.ruleset:1501
+#, fuzzy
 msgid ""
-"Makes two additional unhappy citizens content in every city with a Temple.  "
-"Does not affect citizens made unhappy by military activity."
+"Doubles the effect of a Temple in every city. Does not affect citizens made "
+"unhappy by military activity."
 msgstr ""
 "Нейтралізує додатково 2 нещасних у кожному місті з Церквою. Не впливає на "
 "городян, нещасних внаслідок військових дій."
 
-#: data/civ1/buildings.ruleset:972 data/civ2/buildings.ruleset:1384
+#: data/civ1/buildings.ruleset:971 data/civ2/buildings.ruleset:1383
 #: data/default/buildings.ruleset:1451
 #: data/experimental/buildings.ruleset:1508
 #: data/multiplayer/buildings.ruleset:1427
 msgid "Pyramids"
 msgstr "Піраміди"
 
-#: data/civ1/buildings.ruleset:986 data/civ1/buildings.ruleset:1048
-#: data/civ2/buildings.ruleset:1459 data/default/buildings.ruleset:1528
+#: data/civ1/buildings.ruleset:985 data/civ1/buildings.ruleset:1047
+#: data/civ2/buildings.ruleset:1458 data/default/buildings.ruleset:1528
 #: data/experimental/buildings.ruleset:1585
 #: data/multiplayer/buildings.ruleset:1504
 msgid ""
@@ -13288,25 +13287,25 @@ msgstr ""
 "Дозволяє Вам обирати будь яку форму керування, включаючи ті що не досліджені "
 "Вашою цивілізацією, та без перехідного періоду Анархії."
 
-#: data/civ1/buildings.ruleset:993 data/civ2/buildings.ruleset:1403
+#: data/civ1/buildings.ruleset:992 data/civ2/buildings.ruleset:1402
 #: data/default/buildings.ruleset:1473
 #: data/experimental/buildings.ruleset:1530
 msgid "SETI Program"
 msgstr "Програма SETI"
 
-#: data/civ1/buildings.ruleset:1008
+#: data/civ1/buildings.ruleset:1007
 #, no-c-format
 msgid "Boosts science production in each city by 50%."
 msgstr "Збільшує розвиток науки в усіх містах на 50%."
 
-#: data/civ1/buildings.ruleset:1013 data/civ2/buildings.ruleset:1424
+#: data/civ1/buildings.ruleset:1012 data/civ2/buildings.ruleset:1423
 #: data/default/buildings.ruleset:1493
 #: data/experimental/buildings.ruleset:1550
 #: data/multiplayer/buildings.ruleset:1469
 msgid "Shakespeare's Theater"
 msgstr "Театр Шекспіра"
 
-#: data/civ1/buildings.ruleset:1028 data/civ2/buildings.ruleset:1439
+#: data/civ1/buildings.ruleset:1027 data/civ2/buildings.ruleset:1438
 #: data/default/buildings.ruleset:1508
 #: data/experimental/buildings.ruleset:1565
 #: data/multiplayer/buildings.ruleset:1484
@@ -13317,21 +13316,21 @@ msgstr ""
 "Нейтралізує усіх сердитих та нещасних городян у місті, де воно розташовано, "
 "включно з городянами, нещасними через військові дії."
 
-#: data/civ1/buildings.ruleset:1034 data/civ2/buildings.ruleset:1488
+#: data/civ1/buildings.ruleset:1033 data/civ2/buildings.ruleset:1487
 #: data/default/buildings.ruleset:1556
 #: data/experimental/buildings.ruleset:1613
 #: data/multiplayer/buildings.ruleset:1531
 msgid "United Nations"
 msgstr "Об'єднанні нації"
 
-#: data/civ1/buildings.ruleset:1060 data/civ2/buildings.ruleset:1515
+#: data/civ1/buildings.ruleset:1059 data/civ2/buildings.ruleset:1514
 #: data/default/buildings.ruleset:1583
 #: data/experimental/buildings.ruleset:1640
 #: data/multiplayer/buildings.ruleset:1552
 msgid "Women's Suffrage"
 msgstr "Право голосу"
 
-#: data/civ1/buildings.ruleset:1074
+#: data/civ1/buildings.ruleset:1073
 msgid ""
 "In all cities, the unhappiness effect of every unit is reduced by 1. This "
 "means that in a Republic, units do not cause unhappiness, and in a "
@@ -13568,7 +13567,7 @@ msgstr ""
 #: data/civ2/governments.ruleset:97 data/civ2/techs.ruleset:478
 #: data/default/governments.ruleset:100 data/default/techs.ruleset:482
 #: data/experimental/governments.ruleset:104
-#: data/experimental/techs.ruleset:531
+#: data/experimental/techs.ruleset:484
 #: data/multiplayer/governments.ruleset:100 data/multiplayer/techs.ruleset:491
 msgid "Monarchy"
 msgstr "Монархія"
@@ -13611,7 +13610,7 @@ msgstr "Монархії властивий такий же низький рі�
 #: data/civ2/governments.ruleset:119 data/civ2/techs.ruleset:170
 #: data/default/governments.ruleset:122 data/default/techs.ruleset:181
 #: data/experimental/governments.ruleset:126
-#: data/experimental/techs.ruleset:195
+#: data/experimental/techs.ruleset:183
 #: data/multiplayer/governments.ruleset:122 data/multiplayer/techs.ruleset:181
 msgid "Communism"
 msgstr "Комунізм"
@@ -13705,7 +13704,7 @@ msgstr ""
 #: data/civ2/governments.ruleset:193 data/civ2/techs.ruleset:212
 #: data/default/governments.ruleset:168 data/default/techs.ruleset:223
 #: data/experimental/governments.ruleset:172
-#: data/experimental/techs.ruleset:242
+#: data/experimental/techs.ruleset:225
 #: data/multiplayer/governments.ruleset:168 data/multiplayer/techs.ruleset:223
 msgid "Democracy"
 msgstr "Демократія"
@@ -14661,91 +14660,91 @@ msgid "Advanced Flight"
 msgstr "Розвинені польоти"
 
 #: data/civ1/techs.ruleset:58 data/civ2/techs.ruleset:58
-#: data/default/techs.ruleset:69 data/experimental/techs.ruleset:72
+#: data/default/techs.ruleset:69 data/experimental/techs.ruleset:71
 #: data/multiplayer/techs.ruleset:69
 msgid "Alphabet"
 msgstr "Алфавіт"
 
 #: data/civ1/techs.ruleset:66 data/civ2/techs.ruleset:74
-#: data/default/techs.ruleset:85 data/experimental/techs.ruleset:89
+#: data/default/techs.ruleset:85 data/experimental/techs.ruleset:87
 #: data/multiplayer/techs.ruleset:85
 msgid "Astronomy"
 msgstr "Астрономія"
 
 #: data/civ1/techs.ruleset:74 data/civ2/techs.ruleset:82
-#: data/default/techs.ruleset:93 data/experimental/techs.ruleset:98
+#: data/default/techs.ruleset:93 data/experimental/techs.ruleset:95
 #: data/multiplayer/techs.ruleset:93
 msgid "Atomic Theory"
 msgstr "Теорія атому"
 
 #: data/civ1/techs.ruleset:82 data/civ2/techs.ruleset:90
-#: data/default/techs.ruleset:101 data/experimental/techs.ruleset:107
+#: data/default/techs.ruleset:101 data/experimental/techs.ruleset:103
 #: data/multiplayer/techs.ruleset:101
 msgid "Automobile"
 msgstr "Автомобіль"
 
 #: data/civ1/techs.ruleset:90 data/civ2/techs.ruleset:98
-#: data/default/techs.ruleset:109 data/experimental/techs.ruleset:116
+#: data/default/techs.ruleset:109 data/experimental/techs.ruleset:111
 #: data/multiplayer/techs.ruleset:109
 msgid "Banking"
 msgstr "Банківська справа"
 
 #: data/civ1/techs.ruleset:98 data/civ2/techs.ruleset:106
-#: data/default/techs.ruleset:117 data/experimental/techs.ruleset:125
+#: data/default/techs.ruleset:117 data/experimental/techs.ruleset:119
 #: data/multiplayer/techs.ruleset:117
 msgid "Bridge Building"
 msgstr "Будівництво мостів"
 
 #: data/civ1/techs.ruleset:106 data/civ2/techs.ruleset:114
-#: data/default/techs.ruleset:125 data/experimental/techs.ruleset:134
+#: data/default/techs.ruleset:125 data/experimental/techs.ruleset:127
 #: data/multiplayer/techs.ruleset:125
 msgid "Bronze Working"
 msgstr "Обробка бронзи"
 
 #: data/civ1/techs.ruleset:114 data/civ2/techs.ruleset:122
-#: data/default/techs.ruleset:133 data/experimental/techs.ruleset:142
+#: data/default/techs.ruleset:133 data/experimental/techs.ruleset:135
 #: data/multiplayer/techs.ruleset:133
 msgid "Ceremonial Burial"
 msgstr "Церемонія спалення"
 
 #: data/civ1/techs.ruleset:122 data/civ2/techs.ruleset:130
-#: data/default/techs.ruleset:141 data/experimental/techs.ruleset:150
+#: data/default/techs.ruleset:141 data/experimental/techs.ruleset:143
 #: data/multiplayer/techs.ruleset:141
 msgid "Chemistry"
 msgstr "Хімія"
 
 #: data/civ1/techs.ruleset:130 data/civ2/techs.ruleset:138
-#: data/default/techs.ruleset:149 data/experimental/techs.ruleset:159
+#: data/default/techs.ruleset:149 data/experimental/techs.ruleset:151
 #: data/multiplayer/techs.ruleset:149
 msgid "Chivalry"
 msgstr "Лицарство"
 
 #: data/civ1/techs.ruleset:138 data/civ2/techs.ruleset:146
-#: data/default/techs.ruleset:157 data/experimental/techs.ruleset:168
+#: data/default/techs.ruleset:157 data/experimental/techs.ruleset:159
 #: data/multiplayer/techs.ruleset:157
 msgid "Code of Laws"
 msgstr "Кодекс законів"
 
 #: data/civ1/techs.ruleset:146 data/civ2/techs.ruleset:162
-#: data/default/techs.ruleset:173 data/experimental/techs.ruleset:186
+#: data/default/techs.ruleset:173 data/experimental/techs.ruleset:175
 #: data/multiplayer/techs.ruleset:173
 msgid "Combustion"
 msgstr "Двигун внутрішнього згоряння"
 
 #: data/civ1/techs.ruleset:162 data/civ2/techs.ruleset:179
-#: data/default/techs.ruleset:190 data/experimental/techs.ruleset:205
+#: data/default/techs.ruleset:190 data/experimental/techs.ruleset:192
 #: data/multiplayer/techs.ruleset:190
 msgid "Computers"
 msgstr "Комп`ютери"
 
 #: data/civ1/techs.ruleset:170 data/civ2/techs.ruleset:187
-#: data/default/techs.ruleset:198 data/experimental/techs.ruleset:214
+#: data/default/techs.ruleset:198 data/experimental/techs.ruleset:200
 #: data/multiplayer/techs.ruleset:198
 msgid "Conscription"
 msgstr "Військовий обов'язок"
 
 #: data/civ1/techs.ruleset:178 data/civ2/techs.ruleset:195
-#: data/default/techs.ruleset:206 data/experimental/techs.ruleset:223
+#: data/default/techs.ruleset:206 data/experimental/techs.ruleset:208
 #: data/multiplayer/techs.ruleset:206
 msgid "Construction"
 msgstr "Конструювання"
@@ -14755,43 +14754,43 @@ msgid "Allows Settlers to build fortresses."
 msgstr "Дозволяє Колоністам будувати укріплення."
 
 #: data/civ1/techs.ruleset:187 data/civ2/techs.ruleset:204
-#: data/default/techs.ruleset:215 data/experimental/techs.ruleset:233
+#: data/default/techs.ruleset:215 data/experimental/techs.ruleset:217
 #: data/multiplayer/techs.ruleset:215
 msgid "Currency"
 msgstr "Гроші"
 
 #: data/civ1/techs.ruleset:203 data/civ2/techs.ruleset:228
-#: data/default/techs.ruleset:239 data/experimental/techs.ruleset:260
+#: data/default/techs.ruleset:239 data/experimental/techs.ruleset:241
 #: data/multiplayer/techs.ruleset:239
 msgid "Electricity"
 msgstr "Електрика"
 
 #: data/civ1/techs.ruleset:211 data/civ2/techs.ruleset:237
-#: data/default/techs.ruleset:248 data/experimental/techs.ruleset:270
+#: data/default/techs.ruleset:248 data/experimental/techs.ruleset:250
 #: data/multiplayer/techs.ruleset:248
 msgid "Electronics"
 msgstr "Електроника"
 
 #: data/civ1/techs.ruleset:219 data/civ2/techs.ruleset:245
-#: data/default/techs.ruleset:256 data/experimental/techs.ruleset:279
+#: data/default/techs.ruleset:256 data/experimental/techs.ruleset:258
 #: data/multiplayer/techs.ruleset:256
 msgid "Engineering"
 msgstr "Техніка"
 
 #: data/civ1/techs.ruleset:227 data/civ2/techs.ruleset:269
-#: data/default/techs.ruleset:280 data/experimental/techs.ruleset:306
+#: data/default/techs.ruleset:280 data/experimental/techs.ruleset:282
 #: data/multiplayer/techs.ruleset:282
 msgid "Explosives"
 msgstr "Вибухівка"
 
 #: data/civ1/techs.ruleset:235 data/civ2/techs.ruleset:277
-#: data/default/techs.ruleset:288 data/experimental/techs.ruleset:315
+#: data/default/techs.ruleset:288 data/experimental/techs.ruleset:290
 #: data/multiplayer/techs.ruleset:290
 msgid "Feudalism"
 msgstr "Феодалізм"
 
 #: data/civ1/techs.ruleset:243 data/civ2/techs.ruleset:285
-#: data/default/techs.ruleset:296 data/experimental/techs.ruleset:324
+#: data/default/techs.ruleset:296 data/experimental/techs.ruleset:298
 #: data/multiplayer/techs.ruleset:298
 msgid "Flight"
 msgstr "Літаки"
@@ -14799,168 +14798,168 @@ msgstr "Літаки"
 #: data/civ1/techs.ruleset:249 data/civ1/techs.ruleset:459
 #: data/civ2/techs.ruleset:291 data/civ2/techs.ruleset:585
 #: data/default/techs.ruleset:302 data/default/techs.ruleset:589
-#: data/experimental/techs.ruleset:331 data/experimental/techs.ruleset:650
+#: data/experimental/techs.ruleset:304 data/experimental/techs.ruleset:591
 msgid "Decreases one-time revenue from new trade routes."
 msgstr "Зменшує разову виручку від нових торгових шляхів."
 
 #: data/civ1/techs.ruleset:252 data/civ2/techs.ruleset:302
-#: data/default/techs.ruleset:305 data/experimental/techs.ruleset:334
+#: data/default/techs.ruleset:305 data/experimental/techs.ruleset:307
 #: data/multiplayer/techs.ruleset:314
 msgid "Fusion Power"
 msgstr "Атомна енергія"
 
 #: data/civ1/techs.ruleset:260 data/civ2/techs.ruleset:310
-#: data/default/techs.ruleset:313 data/experimental/techs.ruleset:343
+#: data/default/techs.ruleset:313 data/experimental/techs.ruleset:315
 #: data/multiplayer/techs.ruleset:322
 msgid "Genetic Engineering"
 msgstr "Генетика"
 
 #: data/civ1/techs.ruleset:268 data/civ2/techs.ruleset:326
-#: data/default/techs.ruleset:329 data/experimental/techs.ruleset:361
+#: data/default/techs.ruleset:329 data/experimental/techs.ruleset:331
 #: data/multiplayer/techs.ruleset:338
 msgid "Gunpowder"
 msgstr "Порох"
 
 #: data/civ1/techs.ruleset:276 data/civ2/techs.ruleset:334
-#: data/default/techs.ruleset:337 data/experimental/techs.ruleset:370
+#: data/default/techs.ruleset:337 data/experimental/techs.ruleset:339
 #: data/multiplayer/techs.ruleset:346
 msgid "Horseback Riding"
 msgstr "Верхова їзда"
 
 #: data/civ1/techs.ruleset:284 data/civ2/techs.ruleset:342
-#: data/default/techs.ruleset:345 data/experimental/techs.ruleset:378
+#: data/default/techs.ruleset:345 data/experimental/techs.ruleset:347
 #: data/multiplayer/techs.ruleset:354
 msgid "Industrialization"
 msgstr "Індустріалізація"
 
 #: data/civ1/techs.ruleset:292 data/civ2/techs.ruleset:350
-#: data/default/techs.ruleset:353 data/experimental/techs.ruleset:387
+#: data/default/techs.ruleset:353 data/experimental/techs.ruleset:355
 #: data/multiplayer/techs.ruleset:362
 msgid "Invention"
 msgstr "Винахідництво"
 
 #: data/civ1/techs.ruleset:300 data/civ2/techs.ruleset:358
-#: data/default/techs.ruleset:362 data/experimental/techs.ruleset:397
+#: data/default/techs.ruleset:362 data/experimental/techs.ruleset:364
 #: data/multiplayer/techs.ruleset:371
 msgid "Iron Working"
 msgstr "Обробка заліза"
 
 #: data/civ1/techs.ruleset:308 data/civ2/techs.ruleset:366
-#: data/default/techs.ruleset:370 data/experimental/techs.ruleset:406
+#: data/default/techs.ruleset:370 data/experimental/techs.ruleset:372
 #: data/multiplayer/techs.ruleset:379
 msgid "Labor Union"
 msgstr "Профспілка"
 
 #: data/civ1/techs.ruleset:316 data/civ2/techs.ruleset:390
-#: data/default/techs.ruleset:394 data/experimental/techs.ruleset:433
+#: data/default/techs.ruleset:394 data/experimental/techs.ruleset:396
 #: data/multiplayer/techs.ruleset:403 server/report.c:161
 msgid "Literacy"
 msgstr "Література"
 
 #: data/civ1/techs.ruleset:324 data/civ2/techs.ruleset:406
-#: data/default/techs.ruleset:410 data/experimental/techs.ruleset:451
+#: data/default/techs.ruleset:410 data/experimental/techs.ruleset:412
 #: data/multiplayer/techs.ruleset:419
 msgid "Magnetism"
 msgstr "Магнетизм"
 
 #: data/civ1/techs.ruleset:332 data/civ2/techs.ruleset:414
-#: data/default/techs.ruleset:418 data/experimental/techs.ruleset:460
+#: data/default/techs.ruleset:418 data/experimental/techs.ruleset:420
 #: data/multiplayer/techs.ruleset:427
 msgid "Map Making"
 msgstr "Картографія"
 
 #: data/civ1/techs.ruleset:340 data/civ2/techs.ruleset:422
-#: data/default/techs.ruleset:426 data/experimental/techs.ruleset:469
+#: data/default/techs.ruleset:426 data/experimental/techs.ruleset:428
 #: data/multiplayer/techs.ruleset:435
 msgid "Masonry"
 msgstr "Будівництво"
 
 #: data/civ1/techs.ruleset:348 data/civ2/techs.ruleset:430
-#: data/default/techs.ruleset:434 data/experimental/techs.ruleset:477
+#: data/default/techs.ruleset:434 data/experimental/techs.ruleset:436
 #: data/multiplayer/techs.ruleset:443
 msgid "Mass Production"
 msgstr "Серійне виробництво"
 
 #: data/civ1/techs.ruleset:356 data/civ2/techs.ruleset:438
-#: data/default/techs.ruleset:442 data/experimental/techs.ruleset:486
+#: data/default/techs.ruleset:442 data/experimental/techs.ruleset:444
 #: data/multiplayer/techs.ruleset:451
 msgid "Mathematics"
 msgstr "Математика"
 
 #: data/civ1/techs.ruleset:364 data/civ2/techs.ruleset:446
-#: data/default/techs.ruleset:450 data/experimental/techs.ruleset:495
+#: data/default/techs.ruleset:450 data/experimental/techs.ruleset:452
 #: data/multiplayer/techs.ruleset:459
 msgid "Medicine"
 msgstr "Медицина"
 
 #: data/civ1/techs.ruleset:372 data/civ2/techs.ruleset:454
-#: data/default/techs.ruleset:458 data/experimental/techs.ruleset:504
+#: data/default/techs.ruleset:458 data/experimental/techs.ruleset:460
 #: data/multiplayer/techs.ruleset:467
 msgid "Metallurgy"
 msgstr "Металургія"
 
 #: data/civ1/techs.ruleset:388 data/civ2/techs.ruleset:494
-#: data/default/techs.ruleset:498 data/experimental/techs.ruleset:549
+#: data/default/techs.ruleset:498 data/experimental/techs.ruleset:500
 #: data/multiplayer/techs.ruleset:507
 msgid "Mysticism"
 msgstr "Містицизм"
 
 #: data/civ1/techs.ruleset:394 data/civ2/techs.ruleset:500
-#: data/default/techs.ruleset:504 data/experimental/techs.ruleset:556
+#: data/default/techs.ruleset:504 data/experimental/techs.ruleset:506
 #: data/multiplayer/techs.ruleset:513
 msgid "Improves the effect of Temples."
 msgstr "Збільшує ефективність Церков."
 
 #: data/civ1/techs.ruleset:397 data/civ2/techs.ruleset:503
-#: data/default/techs.ruleset:507 data/experimental/techs.ruleset:559
+#: data/default/techs.ruleset:507 data/experimental/techs.ruleset:509
 #: data/multiplayer/techs.ruleset:516
 msgid "Navigation"
 msgstr "Навігація"
 
 #: data/civ1/techs.ruleset:405 data/civ2/techs.ruleset:511
-#: data/default/techs.ruleset:515 data/experimental/techs.ruleset:568
+#: data/default/techs.ruleset:515 data/experimental/techs.ruleset:517
 #: data/multiplayer/techs.ruleset:524
 msgid "Nuclear Fission"
 msgstr "Атомна зброя"
 
 #: data/civ1/techs.ruleset:413 data/civ2/techs.ruleset:519
-#: data/default/techs.ruleset:523 data/experimental/techs.ruleset:577
+#: data/default/techs.ruleset:523 data/experimental/techs.ruleset:525
 #: data/multiplayer/techs.ruleset:532
 msgid "Nuclear Power"
 msgstr "Атомна Енергія"
 
 #: data/civ1/techs.ruleset:421 data/civ2/techs.ruleset:528
-#: data/default/techs.ruleset:532 data/experimental/techs.ruleset:587
+#: data/default/techs.ruleset:532 data/experimental/techs.ruleset:534
 #: data/multiplayer/techs.ruleset:541
 msgid "Philosophy"
 msgstr "Філософія"
 
 #: data/civ1/techs.ruleset:429 data/civ2/techs.ruleset:538
-#: data/default/techs.ruleset:542 data/experimental/techs.ruleset:598
+#: data/default/techs.ruleset:542 data/experimental/techs.ruleset:544
 #: data/multiplayer/techs.ruleset:551
 msgid "Physics"
 msgstr "Фізика"
 
 #: data/civ1/techs.ruleset:437 data/civ2/techs.ruleset:546
-#: data/default/techs.ruleset:550 data/experimental/techs.ruleset:607
+#: data/default/techs.ruleset:550 data/experimental/techs.ruleset:552
 #: data/multiplayer/techs.ruleset:559
 msgid "Plastics"
 msgstr "Пласмаси"
 
 #: data/civ1/techs.ruleset:445 data/civ2/techs.ruleset:562
-#: data/default/techs.ruleset:566 data/experimental/techs.ruleset:625
+#: data/default/techs.ruleset:566 data/experimental/techs.ruleset:568
 #: data/multiplayer/techs.ruleset:575
 msgid "Pottery"
 msgstr "Гончарство"
 
 #: data/civ1/techs.ruleset:462 data/civ2/techs.ruleset:588
-#: data/default/techs.ruleset:592 data/experimental/techs.ruleset:653
+#: data/default/techs.ruleset:592 data/experimental/techs.ruleset:594
 #: data/multiplayer/techs.ruleset:600
 msgid "Recycling"
 msgstr "Утилізація"
 
 #: data/civ1/techs.ruleset:470 data/civ2/techs.ruleset:596
-#: data/default/techs.ruleset:600 data/experimental/techs.ruleset:662
+#: data/default/techs.ruleset:600 data/experimental/techs.ruleset:602
 #: data/multiplayer/techs.ruleset:608
 msgid "Refining"
 msgstr "Рафінування"
@@ -14970,67 +14969,67 @@ msgid "Religion"
 msgstr "Релігія"
 
 #: data/civ1/techs.ruleset:486 data/civ2/techs.ruleset:612
-#: data/default/techs.ruleset:616 data/experimental/techs.ruleset:680
+#: data/default/techs.ruleset:616 data/experimental/techs.ruleset:618
 #: data/multiplayer/techs.ruleset:624
 msgid "Robotics"
 msgstr "Робототехніка"
 
 #: data/civ1/techs.ruleset:494 data/civ2/techs.ruleset:620
-#: data/default/techs.ruleset:624 data/experimental/techs.ruleset:689
+#: data/default/techs.ruleset:624 data/experimental/techs.ruleset:626
 #: data/multiplayer/techs.ruleset:632
 msgid "Rocketry"
 msgstr "Ракетобудування"
 
 #: data/civ1/techs.ruleset:502 data/civ2/techs.ruleset:644
-#: data/default/techs.ruleset:648 data/experimental/techs.ruleset:716
+#: data/default/techs.ruleset:648 data/experimental/techs.ruleset:650
 #: data/multiplayer/techs.ruleset:656
 msgid "Space Flight"
 msgstr "Космічні польоти"
 
 #: data/civ1/techs.ruleset:510 data/civ2/techs.ruleset:660
-#: data/default/techs.ruleset:664 data/experimental/techs.ruleset:734
+#: data/default/techs.ruleset:664 data/experimental/techs.ruleset:666
 #: data/multiplayer/techs.ruleset:672
 msgid "Steam Engine"
 msgstr "Паровий двигун"
 
 #: data/civ1/techs.ruleset:518 data/civ2/techs.ruleset:668
-#: data/default/techs.ruleset:672 data/experimental/techs.ruleset:743
+#: data/default/techs.ruleset:672 data/experimental/techs.ruleset:674
 #: data/multiplayer/techs.ruleset:680
 msgid "Steel"
 msgstr "Сталь"
 
 #: data/civ1/techs.ruleset:526 data/civ2/techs.ruleset:676
-#: data/default/techs.ruleset:680 data/experimental/techs.ruleset:752
+#: data/default/techs.ruleset:680 data/experimental/techs.ruleset:682
 #: data/multiplayer/techs.ruleset:688
 msgid "Superconductors"
 msgstr "Надпровідники"
 
 #: data/civ1/techs.ruleset:534 data/civ2/techs.ruleset:692
-#: data/default/techs.ruleset:696 data/experimental/techs.ruleset:770
+#: data/default/techs.ruleset:696 data/experimental/techs.ruleset:698
 #: data/multiplayer/techs.ruleset:704
 msgid "The Corporation"
 msgstr "Корпорації"
 
 #: data/civ1/techs.ruleset:542 data/civ2/techs.ruleset:700
-#: data/default/techs.ruleset:704 data/experimental/techs.ruleset:779
+#: data/default/techs.ruleset:704 data/experimental/techs.ruleset:706
 #: data/multiplayer/techs.ruleset:712
 msgid "The Republic"
 msgstr "Республіка"
 
 #: data/civ1/techs.ruleset:550 data/civ2/techs.ruleset:708
-#: data/default/techs.ruleset:712 data/experimental/techs.ruleset:788
+#: data/default/techs.ruleset:712 data/experimental/techs.ruleset:714
 #: data/multiplayer/techs.ruleset:720
 msgid "The Wheel"
 msgstr "Колесо"
 
 #: data/civ1/techs.ruleset:558 data/civ2/techs.ruleset:725
-#: data/default/techs.ruleset:729 data/experimental/techs.ruleset:807
+#: data/default/techs.ruleset:729 data/experimental/techs.ruleset:731
 #: data/multiplayer/techs.ruleset:737
 msgid "Theory of Gravity"
 msgstr "Теорія гравітації"
 
 #: data/civ1/techs.ruleset:582 data/civ2/techs.ruleset:757
-#: data/default/techs.ruleset:761 data/experimental/techs.ruleset:842
+#: data/default/techs.ruleset:761 data/experimental/techs.ruleset:763
 #: data/multiplayer/techs.ruleset:769
 msgid "Writing"
 msgstr "Письмо"
@@ -15042,18 +15041,14 @@ msgid "Ocean"
 msgstr "Океан"
 
 #: data/civ1/terrain.ruleset:216 data/civ2/terrain.ruleset:224
-msgid ""
-"Oceans cover much of the world, and only sea units (Triremes and other "
-"boats) can travel on them."
+msgid "Oceans cover much of the world."
 msgstr ""
-"Океан вкриває більшу частину світу, і лише морські підрозділи (Триреми та "
-"інші кораблі) можуть пересуватися по ньому."
 
-#: data/civ1/terrain.ruleset:222
+#: data/civ1/terrain.ruleset:221
 msgid "Arctic"
 msgstr "Арктіка"
 
-#: data/civ1/terrain.ruleset:252
+#: data/civ1/terrain.ruleset:251
 msgid ""
 "Arctic tiles are found only in the most northerly or southerly reaches of "
 "the world.  They are very cold, and hence difficult to work with."
@@ -15061,15 +15056,15 @@ msgstr ""
 "Арктичні території знаходяться лише на крайньому півночі або півдні. Там "
 "дуже холодно, і працювати там важко."
 
-#: data/civ1/terrain.ruleset:259 data/civ2/terrain.ruleset:267
-#: data/default/terrain.ruleset:355 data/experimental/terrain.ruleset:357
-#: data/multiplayer/terrain.ruleset:355
+#: data/civ1/terrain.ruleset:258 data/civ2/terrain.ruleset:266
+#: data/default/terrain.ruleset:354 data/experimental/terrain.ruleset:356
+#: data/multiplayer/terrain.ruleset:354
 msgid "Desert"
 msgstr "Пустеля"
 
-#: data/civ1/terrain.ruleset:290 data/civ2/terrain.ruleset:299
-#: data/default/terrain.ruleset:390 data/experimental/terrain.ruleset:392
-#: data/multiplayer/terrain.ruleset:390
+#: data/civ1/terrain.ruleset:289 data/civ2/terrain.ruleset:298
+#: data/default/terrain.ruleset:389 data/experimental/terrain.ruleset:391
+#: data/multiplayer/terrain.ruleset:389
 msgid ""
 "Deserts are regions of extreme dryness, making agriculture and trade very "
 "difficult."
@@ -15077,39 +15072,39 @@ msgstr ""
 "Пустелі це засушливі теріторії, що робить їх практично непридатними для "
 "сільського господарства та торгівлі."
 
-#: data/civ1/terrain.ruleset:296 data/civ2/terrain.ruleset:305
-#: data/default/terrain.ruleset:396 data/experimental/terrain.ruleset:398
-#: data/multiplayer/terrain.ruleset:396
+#: data/civ1/terrain.ruleset:295 data/civ2/terrain.ruleset:304
+#: data/default/terrain.ruleset:395 data/experimental/terrain.ruleset:397
+#: data/multiplayer/terrain.ruleset:395
 msgid "Forest"
 msgstr "Ліс"
 
-#: data/civ1/terrain.ruleset:329 data/civ2/terrain.ruleset:338
-#: data/default/terrain.ruleset:432 data/experimental/terrain.ruleset:434
-#: data/multiplayer/terrain.ruleset:432
+#: data/civ1/terrain.ruleset:328 data/civ2/terrain.ruleset:337
+#: data/default/terrain.ruleset:431 data/experimental/terrain.ruleset:433
+#: data/multiplayer/terrain.ruleset:431
 msgid "Forests are densely wooded, making agriculture somewhat problematic."
 msgstr "Сільське господарство у лісах дещо проблематичне."
 
-#: data/civ1/terrain.ruleset:335 data/civ2/terrain.ruleset:344
-#: data/default/terrain.ruleset:438 data/experimental/terrain.ruleset:440
-#: data/multiplayer/terrain.ruleset:438
+#: data/civ1/terrain.ruleset:334 data/civ2/terrain.ruleset:343
+#: data/default/terrain.ruleset:437 data/experimental/terrain.ruleset:439
+#: data/multiplayer/terrain.ruleset:437
 msgid "Grassland"
 msgstr "Степ"
 
-#: data/civ1/terrain.ruleset:366 data/civ2/terrain.ruleset:375
-#: data/default/terrain.ruleset:472 data/experimental/terrain.ruleset:474
-#: data/multiplayer/terrain.ruleset:472
+#: data/civ1/terrain.ruleset:365 data/civ2/terrain.ruleset:374
+#: data/default/terrain.ruleset:471 data/experimental/terrain.ruleset:473
+#: data/multiplayer/terrain.ruleset:471
 msgid "Grasslands afford exceptional agricultural opportunities."
 msgstr "Степи найкращі території для сільського господарства."
 
-#: data/civ1/terrain.ruleset:371 data/civ2/terrain.ruleset:380
-#: data/default/terrain.ruleset:477 data/experimental/terrain.ruleset:479
-#: data/multiplayer/terrain.ruleset:477
+#: data/civ1/terrain.ruleset:370 data/civ2/terrain.ruleset:379
+#: data/default/terrain.ruleset:476 data/experimental/terrain.ruleset:478
+#: data/multiplayer/terrain.ruleset:476
 msgid "Hills"
 msgstr "Пагорби"
 
-#: data/civ1/terrain.ruleset:402 data/civ2/terrain.ruleset:411
-#: data/default/terrain.ruleset:511 data/experimental/terrain.ruleset:513
-#: data/multiplayer/terrain.ruleset:511
+#: data/civ1/terrain.ruleset:401 data/civ2/terrain.ruleset:410
+#: data/default/terrain.ruleset:510 data/experimental/terrain.ruleset:512
+#: data/multiplayer/terrain.ruleset:510
 msgid ""
 "In addition to being amenable to agriculture, Hills are frequently rich in "
 "resources."
@@ -15117,59 +15112,59 @@ msgstr ""
 "Разом з доступністю для сільського господарства, Пагорби часто багаті "
 "ресурсами."
 
-#: data/civ1/terrain.ruleset:408 data/civ2/terrain.ruleset:417
-#: data/default/terrain.ruleset:517 data/experimental/terrain.ruleset:519
-#: data/multiplayer/terrain.ruleset:517
+#: data/civ1/terrain.ruleset:407 data/civ2/terrain.ruleset:416
+#: data/default/terrain.ruleset:516 data/experimental/terrain.ruleset:518
+#: data/multiplayer/terrain.ruleset:516
 msgid "Jungle"
 msgstr "Джунглі"
 
-#: data/civ1/terrain.ruleset:438 data/civ2/terrain.ruleset:449
-#: data/default/terrain.ruleset:552 data/experimental/terrain.ruleset:554
-#: data/multiplayer/terrain.ruleset:552
+#: data/civ1/terrain.ruleset:437 data/civ2/terrain.ruleset:448
+#: data/default/terrain.ruleset:551 data/experimental/terrain.ruleset:553
+#: data/multiplayer/terrain.ruleset:551
 msgid "Jungles are densely overgrown, making agriculture somewhat problematic."
 msgstr ""
 "Джунглі заполонена рослинами місцевість непридатна для сільського "
 "господарства."
 
-#: data/civ1/terrain.ruleset:444 data/civ2/terrain.ruleset:455
-#: data/default/terrain.ruleset:558 data/experimental/terrain.ruleset:560
-#: data/multiplayer/terrain.ruleset:558
+#: data/civ1/terrain.ruleset:443 data/civ2/terrain.ruleset:454
+#: data/default/terrain.ruleset:557 data/experimental/terrain.ruleset:559
+#: data/multiplayer/terrain.ruleset:557
 msgid "Mountains"
 msgstr "Гори"
 
-#: data/civ1/terrain.ruleset:473 data/civ2/terrain.ruleset:485
-#: data/default/terrain.ruleset:591 data/experimental/terrain.ruleset:593
-#: data/multiplayer/terrain.ruleset:591
+#: data/civ1/terrain.ruleset:472 data/civ2/terrain.ruleset:484
+#: data/default/terrain.ruleset:590 data/experimental/terrain.ruleset:592
+#: data/multiplayer/terrain.ruleset:590
 msgid ""
 "Mountains are regions of extreme altitude, making agriculture and trade very "
 "difficult."
 msgstr ""
 "Гори це висока місцевість мало придатна для господарювання та торгівлі."
 
-#: data/civ1/terrain.ruleset:479 data/civ2/terrain.ruleset:491
-#: data/default/terrain.ruleset:597 data/experimental/terrain.ruleset:599
-#: data/multiplayer/terrain.ruleset:597
+#: data/civ1/terrain.ruleset:478 data/civ2/terrain.ruleset:490
+#: data/default/terrain.ruleset:596 data/experimental/terrain.ruleset:598
+#: data/multiplayer/terrain.ruleset:596
 msgid "Plains"
 msgstr "Рівнини"
 
-#: data/civ1/terrain.ruleset:510 data/civ2/terrain.ruleset:523
-#: data/default/terrain.ruleset:631 data/experimental/terrain.ruleset:633
-#: data/multiplayer/terrain.ruleset:631
+#: data/civ1/terrain.ruleset:509 data/civ2/terrain.ruleset:522
+#: data/default/terrain.ruleset:630 data/experimental/terrain.ruleset:632
+#: data/multiplayer/terrain.ruleset:630
 msgid ""
 "Plains are very broad, sparse regions, which makes trade slightly "
 "inconvenient."
 msgstr ""
 "Рівнини це широкі, малозаселені території, що робить торгівлю трохи невдалою."
 
-#: data/civ1/terrain.ruleset:516 data/civ2/terrain.ruleset:529
-#: data/default/terrain.ruleset:637 data/experimental/terrain.ruleset:639
-#: data/multiplayer/terrain.ruleset:637
+#: data/civ1/terrain.ruleset:515 data/civ2/terrain.ruleset:528
+#: data/default/terrain.ruleset:636 data/experimental/terrain.ruleset:638
+#: data/multiplayer/terrain.ruleset:636
 msgid "Swamp"
 msgstr "Болота"
 
-#: data/civ1/terrain.ruleset:548 data/civ2/terrain.ruleset:562
-#: data/default/terrain.ruleset:673 data/experimental/terrain.ruleset:675
-#: data/multiplayer/terrain.ruleset:673
+#: data/civ1/terrain.ruleset:547 data/civ2/terrain.ruleset:561
+#: data/default/terrain.ruleset:672 data/experimental/terrain.ruleset:674
+#: data/multiplayer/terrain.ruleset:672
 msgid ""
 "Swamps suffer from an over-abundance of water, making agriculture somewhat "
 "problematic."
@@ -15177,72 +15172,72 @@ msgstr ""
 "Болота перенасищені водою, що робить їх непридатними для сільського "
 "господарства."
 
-#: data/civ1/terrain.ruleset:554 data/civ2/terrain.ruleset:568
-#: data/default/terrain.ruleset:679 data/experimental/terrain.ruleset:681
-#: data/multiplayer/terrain.ruleset:679
+#: data/civ1/terrain.ruleset:553 data/civ2/terrain.ruleset:567
+#: data/default/terrain.ruleset:678 data/experimental/terrain.ruleset:680
+#: data/multiplayer/terrain.ruleset:678
 msgid "Tundra"
 msgstr "Тундра"
 
-#: data/civ1/terrain.ruleset:584 data/civ2/terrain.ruleset:598
-#: data/default/terrain.ruleset:712 data/experimental/terrain.ruleset:714
-#: data/multiplayer/terrain.ruleset:712
+#: data/civ1/terrain.ruleset:583 data/civ2/terrain.ruleset:597
+#: data/default/terrain.ruleset:711 data/experimental/terrain.ruleset:713
+#: data/multiplayer/terrain.ruleset:711
 msgid ""
 "Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr ""
 "Тундра це холодні регіони - які пригодні для деякого сільського господарства "
 "та мабуть не більше."
 
-#: data/civ1/terrain.ruleset:617 data/civ2/terrain.ruleset:639
-#: data/default/terrain.ruleset:753 data/experimental/terrain.ruleset:755
-#: data/multiplayer/terrain.ruleset:753
+#: data/civ1/terrain.ruleset:616 data/civ2/terrain.ruleset:638
+#: data/default/terrain.ruleset:752 data/experimental/terrain.ruleset:754
+#: data/multiplayer/terrain.ruleset:752
 msgid "?animals:Game"
 msgstr "Дичина"
 
-#: data/civ1/terrain.ruleset:625 data/civ2/terrain.ruleset:657
-#: data/default/terrain.ruleset:771 data/experimental/terrain.ruleset:773
-#: data/multiplayer/terrain.ruleset:771
+#: data/civ1/terrain.ruleset:624 data/civ2/terrain.ruleset:656
+#: data/default/terrain.ruleset:770 data/experimental/terrain.ruleset:772
+#: data/multiplayer/terrain.ruleset:770
 msgid "Coal"
 msgstr "Вугілля"
 
-#: data/civ1/terrain.ruleset:633 data/civ2/terrain.ruleset:669
-#: data/default/terrain.ruleset:779 data/experimental/terrain.ruleset:781
-#: data/multiplayer/terrain.ruleset:779
+#: data/civ1/terrain.ruleset:632 data/civ2/terrain.ruleset:668
+#: data/default/terrain.ruleset:778 data/experimental/terrain.ruleset:780
+#: data/multiplayer/terrain.ruleset:778
 msgid "Fish"
 msgstr "Риба"
 
-#: data/civ1/terrain.ruleset:641 data/civ2/terrain.ruleset:686
-#: data/default/terrain.ruleset:796 data/experimental/terrain.ruleset:798
-#: data/multiplayer/terrain.ruleset:796
+#: data/civ1/terrain.ruleset:640 data/civ2/terrain.ruleset:685
+#: data/default/terrain.ruleset:795 data/experimental/terrain.ruleset:797
+#: data/multiplayer/terrain.ruleset:795
 msgid "Gems"
 msgstr "Діаманти"
 
-#: data/civ1/terrain.ruleset:649
+#: data/civ1/terrain.ruleset:648
 msgid "Horses"
 msgstr "Коні"
 
-#: data/civ1/terrain.ruleset:657 data/civ2/terrain.ruleset:710
-#: data/default/terrain.ruleset:828 data/experimental/terrain.ruleset:830
-#: data/multiplayer/terrain.ruleset:828
+#: data/civ1/terrain.ruleset:656 data/civ2/terrain.ruleset:709
+#: data/default/terrain.ruleset:827 data/experimental/terrain.ruleset:829
+#: data/multiplayer/terrain.ruleset:827
 msgid "Oasis"
 msgstr "Оазіс"
 
-#: data/civ1/terrain.ruleset:665 data/civ2/terrain.ruleset:786
-#: data/civ2/terrain.ruleset:794 data/default/terrain.ruleset:908
-#: data/experimental/terrain.ruleset:910 data/multiplayer/terrain.ruleset:908
+#: data/civ1/terrain.ruleset:664 data/civ2/terrain.ruleset:785
+#: data/civ2/terrain.ruleset:793 data/default/terrain.ruleset:907
+#: data/experimental/terrain.ruleset:909 data/multiplayer/terrain.ruleset:907
 msgid "Oil"
 msgstr "Нафта"
 
-#: data/civ1/terrain.ruleset:673 data/civ2/terrain.ruleset:734
-#: data/default/terrain.ruleset:854 data/experimental/terrain.ruleset:856
-#: data/multiplayer/terrain.ruleset:854 manual/civmanual.c:278
+#: data/civ1/terrain.ruleset:672 data/civ2/terrain.ruleset:733
+#: data/default/terrain.ruleset:853 data/experimental/terrain.ruleset:855
+#: data/multiplayer/terrain.ruleset:853 manual/civmanual.c:278
 msgid "Resources"
 msgstr "Ресурси"
 
-#: data/civ1/terrain.ruleset:681
+#: data/civ1/terrain.ruleset:680
 msgid "Seals"
 msgstr "Тюлені"
 
-#: data/civ1/terrain.ruleset:745
+#: data/civ1/terrain.ruleset:744
 msgid "Fortresses improve defense for land units."
 msgstr "Фортеці покращують захист сухопутних підрозділів."
 
@@ -16393,11 +16388,11 @@ msgstr ""
 "дій. Відкриття Теології збільшує ефективність Соборів, втішаючи ще одного "
 "нещасного. Відкриття Комунізму зменшує на одиницю ефективність Соборів."
 
-#: data/civ2/buildings.ruleset:1398
+#: data/civ2/buildings.ruleset:1397
 msgid "Counts as having a Granary in every city."
 msgstr "Рахується як володіння Амбаром у кожному місті"
 
-#: data/civ2/buildings.ruleset:1418
+#: data/civ2/buildings.ruleset:1417
 #, no-c-format
 msgid ""
 "Boosts science production in each city with a Library by 50%.  (Counts as "
@@ -16406,19 +16401,19 @@ msgstr ""
 "Збільшує науковий розвиток у місті з Бібліотекою на 50%. (Рахується як "
 "Дослідна Лабораторія у кожному місті.)"
 
-#: data/civ2/buildings.ruleset:1445 data/default/buildings.ruleset:1514
+#: data/civ2/buildings.ruleset:1444 data/default/buildings.ruleset:1514
 #: data/experimental/buildings.ruleset:1571
 #: data/multiplayer/buildings.ruleset:1490
 msgid "Statue of Liberty"
 msgstr "Статуя Свободи"
 
-#: data/civ2/buildings.ruleset:1466 data/default/buildings.ruleset:1535
+#: data/civ2/buildings.ruleset:1465 data/default/buildings.ruleset:1535
 #: data/experimental/buildings.ruleset:1592
 #: data/multiplayer/buildings.ruleset:1511
 msgid "Sun Tzu's War Academy"
 msgstr "Мистецтво Війни Сун Дзу"
 
-#: data/civ2/buildings.ruleset:1481
+#: data/civ2/buildings.ruleset:1480
 #, no-c-format
 msgid ""
 "All your new military land units become veterans (for all cities).  The "
@@ -16429,12 +16424,12 @@ msgstr ""
 "Вірогідність того, що підрозділ стане ветераном після битви збільшується з "
 "50% до 100%."
 
-#: data/civ2/buildings.ruleset:1502 data/default/buildings.ruleset:1570
+#: data/civ2/buildings.ruleset:1501 data/default/buildings.ruleset:1570
 #: data/experimental/buildings.ruleset:1627
 msgid "All your units regain two extra hitpoints per turn."
 msgstr "Ваші загони відновлюють два додаткові пункти здоров'я за хід."
 
-#: data/civ2/buildings.ruleset:1529 data/default/buildings.ruleset:1597
+#: data/civ2/buildings.ruleset:1528 data/default/buildings.ruleset:1597
 #: data/experimental/buildings.ruleset:1654
 #, fuzzy
 msgid ""
@@ -16450,11 +16445,11 @@ msgstr ""
 "нещасливість, спричинену одним військовим підрозділом на місто. Не діє за "
 "інших форм правління.)"
 
-#: data/civ2/buildings.ruleset:1539
+#: data/civ2/buildings.ruleset:1538
 msgid "Capitalization"
 msgstr "Капіталізація"
 
-#: data/civ2/buildings.ruleset:1552
+#: data/civ2/buildings.ruleset:1551
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Capitalization means its shield production is converted to tax output "
@@ -16911,7 +16906,7 @@ msgid "?female:%s Jarl"
 msgstr "%s Ярлиця"
 
 #: data/civ2/nations.ruleset:1951 data/nation/barbarian.ruleset:3
-#: server/stdinhand.c:3454 server/stdinhand.c:6223
+#: server/stdinhand.c:3454 server/stdinhand.c:6226
 msgid "Barbarian"
 msgstr "Дикун"
 
@@ -16945,17 +16940,17 @@ msgstr ""
 "само як і усіх прибрежних жителів."
 
 #: data/civ2/techs.ruleset:66 data/default/techs.ruleset:77
-#: data/experimental/techs.ruleset:80 data/multiplayer/techs.ruleset:77
+#: data/experimental/techs.ruleset:79 data/multiplayer/techs.ruleset:77
 msgid "Amphibious Warfare"
 msgstr "Морські війни"
 
 #: data/civ2/techs.ruleset:154 data/default/techs.ruleset:165
-#: data/experimental/techs.ruleset:177 data/multiplayer/techs.ruleset:165
+#: data/experimental/techs.ruleset:167 data/multiplayer/techs.ruleset:165
 msgid "Combined Arms"
 msgstr "Комбіновані армії"
 
 #: data/civ2/techs.ruleset:176 data/default/techs.ruleset:187
-#: data/experimental/techs.ruleset:202 data/multiplayer/techs.ruleset:187
+#: data/experimental/techs.ruleset:189 data/multiplayer/techs.ruleset:187
 msgid "Reduces the effect of Cathedrals."
 msgstr "Зменшує ефективність Соборів."
 
@@ -16964,68 +16959,68 @@ msgid "Allows Settlers and Engineers to build fortresses."
 msgstr "Дозволяє Колоністам та Інженерам будувати укріплення."
 
 #: data/civ2/techs.ruleset:220 data/default/techs.ruleset:231
-#: data/experimental/techs.ruleset:251 data/multiplayer/techs.ruleset:231
+#: data/experimental/techs.ruleset:233 data/multiplayer/techs.ruleset:231
 #: server/report.c:163
 msgid "Economics"
 msgstr "Економіка"
 
 #: data/civ2/techs.ruleset:234 data/default/techs.ruleset:245
-#: data/experimental/techs.ruleset:267
+#: data/experimental/techs.ruleset:247
 msgid "Improves the effect of Colosseums."
 msgstr "Збільшує ефективність Цирків."
 
 #: data/civ2/techs.ruleset:253 data/default/techs.ruleset:264
-#: data/experimental/techs.ruleset:288 data/multiplayer/techs.ruleset:264
+#: data/experimental/techs.ruleset:266 data/multiplayer/techs.ruleset:264
 msgid "Environmentalism"
 msgstr "Дослідження середовища"
 
 #: data/civ2/techs.ruleset:261 data/default/techs.ruleset:272
-#: data/experimental/techs.ruleset:297 data/multiplayer/techs.ruleset:274
+#: data/experimental/techs.ruleset:274 data/multiplayer/techs.ruleset:274
 msgid "Espionage"
 msgstr "Шпигунство"
 
 #: data/civ2/techs.ruleset:318 data/default/techs.ruleset:321
-#: data/experimental/techs.ruleset:352 data/multiplayer/techs.ruleset:330
+#: data/experimental/techs.ruleset:323 data/multiplayer/techs.ruleset:330
 msgid "Guerilla Warfare"
 msgstr "Партизанська війна"
 
 #: data/civ2/techs.ruleset:374 data/default/techs.ruleset:378
-#: data/experimental/techs.ruleset:415 data/multiplayer/techs.ruleset:387
+#: data/experimental/techs.ruleset:380 data/multiplayer/techs.ruleset:387
 msgid "Laser"
 msgstr "Лазер"
 
 #: data/civ2/techs.ruleset:382 data/default/techs.ruleset:386
-#: data/experimental/techs.ruleset:424 data/multiplayer/techs.ruleset:395
+#: data/experimental/techs.ruleset:388 data/multiplayer/techs.ruleset:395
 msgid "Leadership"
 msgstr "Лідерство"
 
 #: data/civ2/techs.ruleset:398 data/default/techs.ruleset:402
-#: data/experimental/techs.ruleset:442 data/multiplayer/techs.ruleset:411
+#: data/experimental/techs.ruleset:404 data/multiplayer/techs.ruleset:411
 msgid "Machine Tools"
 msgstr "Станки"
 
 #: data/civ2/techs.ruleset:462 data/default/techs.ruleset:466
-#: data/experimental/techs.ruleset:513 data/multiplayer/techs.ruleset:475
+#: data/experimental/techs.ruleset:468 data/multiplayer/techs.ruleset:475
 msgid "Miniaturization"
 msgstr "Мініатюризація"
 
 #: data/civ2/techs.ruleset:470 data/default/techs.ruleset:474
-#: data/experimental/techs.ruleset:522 data/multiplayer/techs.ruleset:483
+#: data/experimental/techs.ruleset:476 data/multiplayer/techs.ruleset:483
 msgid "Mobile Warfare"
 msgstr "Мобільна війна"
 
 #: data/civ2/techs.ruleset:486 data/default/techs.ruleset:490
-#: data/experimental/techs.ruleset:540 data/multiplayer/techs.ruleset:499
+#: data/experimental/techs.ruleset:492 data/multiplayer/techs.ruleset:499
 msgid "Monotheism"
 msgstr "Монотеїзм"
 
 #: data/civ2/techs.ruleset:525 data/default/techs.ruleset:529
-#: data/experimental/techs.ruleset:584 data/multiplayer/techs.ruleset:538
+#: data/experimental/techs.ruleset:531 data/multiplayer/techs.ruleset:538
 msgid "Gives sea units one extra move."
 msgstr "Надає морськім підрозділам один додатковий хід."
 
 #: data/civ2/techs.ruleset:532 data/default/techs.ruleset:536
-#: data/experimental/techs.ruleset:592
+#: data/experimental/techs.ruleset:538
 msgid ""
 "Great philosophers from all the world join your civilization: you get an "
 "immediate advance."
@@ -17034,12 +17029,12 @@ msgstr ""
 "отримуєте нове знання."
 
 #: data/civ2/techs.ruleset:554 data/default/techs.ruleset:558
-#: data/experimental/techs.ruleset:616 data/multiplayer/techs.ruleset:567
+#: data/experimental/techs.ruleset:560 data/multiplayer/techs.ruleset:567
 msgid "Polytheism"
 msgstr "Політеізм"
 
 #: data/civ2/techs.ruleset:570 data/default/techs.ruleset:574
-#: data/experimental/techs.ruleset:633 data/multiplayer/techs.ruleset:583
+#: data/experimental/techs.ruleset:576 data/multiplayer/techs.ruleset:583
 msgid "Radio"
 msgstr "Радіо"
 
@@ -17048,42 +17043,42 @@ msgid "Allows Settlers and Engineers to build airbases."
 msgstr "Дозволяє Колоністам та Інженерам будувати авіабази."
 
 #: data/civ2/techs.ruleset:604 data/default/techs.ruleset:608
-#: data/experimental/techs.ruleset:671 data/multiplayer/techs.ruleset:616
+#: data/experimental/techs.ruleset:610 data/multiplayer/techs.ruleset:616
 msgid "Refrigeration"
 msgstr "Заморожування"
 
 #: data/civ2/techs.ruleset:628 data/default/techs.ruleset:632
-#: data/experimental/techs.ruleset:698 data/multiplayer/techs.ruleset:640
+#: data/experimental/techs.ruleset:634 data/multiplayer/techs.ruleset:640
 msgid "Sanitation"
 msgstr "Санітарія"
 
 #: data/civ2/techs.ruleset:636 data/default/techs.ruleset:640
-#: data/experimental/techs.ruleset:707 data/multiplayer/techs.ruleset:648
+#: data/experimental/techs.ruleset:642 data/multiplayer/techs.ruleset:648
 msgid "Seafaring"
 msgstr "Мореплавство"
 
 #: data/civ2/techs.ruleset:652 data/default/techs.ruleset:656
-#: data/experimental/techs.ruleset:725 data/multiplayer/techs.ruleset:664
+#: data/experimental/techs.ruleset:658 data/multiplayer/techs.ruleset:664
 msgid "Stealth"
 msgstr "Маскування"
 
 #: data/civ2/techs.ruleset:684 data/default/techs.ruleset:688
-#: data/experimental/techs.ruleset:761 data/multiplayer/techs.ruleset:696
+#: data/experimental/techs.ruleset:690 data/multiplayer/techs.ruleset:696
 msgid "Tactics"
 msgstr "Тактика"
 
 #: data/civ2/techs.ruleset:716 data/default/techs.ruleset:720
-#: data/experimental/techs.ruleset:797 data/multiplayer/techs.ruleset:728
+#: data/experimental/techs.ruleset:722 data/multiplayer/techs.ruleset:728
 msgid "Theology"
 msgstr "Теологія"
 
 #: data/civ2/techs.ruleset:722 data/default/techs.ruleset:726
-#: data/experimental/techs.ruleset:804 data/multiplayer/techs.ruleset:734
+#: data/experimental/techs.ruleset:728 data/multiplayer/techs.ruleset:734
 msgid "Improves the effect of Cathedrals."
 msgstr "Підвищує ефективність Соборів."
 
 #: data/civ2/techs.ruleset:749 data/default/techs.ruleset:753
-#: data/experimental/techs.ruleset:834 data/multiplayer/techs.ruleset:761
+#: data/experimental/techs.ruleset:755 data/multiplayer/techs.ruleset:761
 msgid "Warrior Code"
 msgstr "Військове діло"
 
@@ -17109,13 +17104,13 @@ msgstr ""
 "Шляхи та Залізниці можна будувати на річках лише за умови відкриття вашою "
 "цивілізацією технології Мостобудування."
 
-#: data/civ2/terrain.ruleset:230 data/default/terrain.ruleset:315
-#: data/experimental/terrain.ruleset:317 data/multiplayer/terrain.ruleset:315
+#: data/civ2/terrain.ruleset:229 data/default/terrain.ruleset:314
+#: data/experimental/terrain.ruleset:316 data/multiplayer/terrain.ruleset:314
 msgid "Glacier"
 msgstr "Льодовик"
 
-#: data/civ2/terrain.ruleset:260 data/default/terrain.ruleset:348
-#: data/experimental/terrain.ruleset:350 data/multiplayer/terrain.ruleset:348
+#: data/civ2/terrain.ruleset:259 data/default/terrain.ruleset:347
+#: data/experimental/terrain.ruleset:349 data/multiplayer/terrain.ruleset:347
 msgid ""
 "Glaciers are found only in the most northerly or southerly reaches of the "
 "world.  They are very cold, and hence difficult to work with."
@@ -17123,67 +17118,67 @@ msgstr ""
 "Льодовики знаходяться лише недалеко від полюсів - південного та північного. "
 "Вони дуже холодні - що робить важкою працю на них."
 
-#: data/civ2/terrain.ruleset:631 data/default/terrain.ruleset:745
-#: data/experimental/terrain.ruleset:747 data/multiplayer/terrain.ruleset:745
+#: data/civ2/terrain.ruleset:630 data/default/terrain.ruleset:744
+#: data/experimental/terrain.ruleset:746 data/multiplayer/terrain.ruleset:744
 msgid "Iron"
 msgstr "Залізо"
 
-#: data/civ2/terrain.ruleset:648 data/default/terrain.ruleset:762
-#: data/experimental/terrain.ruleset:764 data/multiplayer/terrain.ruleset:762
+#: data/civ2/terrain.ruleset:647 data/default/terrain.ruleset:761
+#: data/experimental/terrain.ruleset:763 data/multiplayer/terrain.ruleset:761
 msgid "Furs"
 msgstr "Хутра"
 
-#: data/civ2/terrain.ruleset:677 data/default/terrain.ruleset:787
-#: data/experimental/terrain.ruleset:789 data/multiplayer/terrain.ruleset:787
+#: data/civ2/terrain.ruleset:676 data/default/terrain.ruleset:786
+#: data/experimental/terrain.ruleset:788 data/multiplayer/terrain.ruleset:786
 msgid "Fruit"
 msgstr "Фрукти"
 
-#: data/civ2/terrain.ruleset:694 data/default/terrain.ruleset:806
-#: data/experimental/terrain.ruleset:808 data/multiplayer/terrain.ruleset:806
+#: data/civ2/terrain.ruleset:693 data/default/terrain.ruleset:805
+#: data/experimental/terrain.ruleset:807 data/multiplayer/terrain.ruleset:805
 msgid "Buffalo"
 msgstr "Воли"
 
-#: data/civ2/terrain.ruleset:702 data/default/terrain.ruleset:814
-#: data/experimental/terrain.ruleset:816 data/multiplayer/terrain.ruleset:814
+#: data/civ2/terrain.ruleset:701 data/default/terrain.ruleset:813
+#: data/experimental/terrain.ruleset:815 data/multiplayer/terrain.ruleset:813
 msgid "Wheat"
 msgstr "Пшениця"
 
-#: data/civ2/terrain.ruleset:718 data/default/terrain.ruleset:836
-#: data/experimental/terrain.ruleset:838 data/multiplayer/terrain.ruleset:836
+#: data/civ2/terrain.ruleset:717 data/default/terrain.ruleset:835
+#: data/experimental/terrain.ruleset:837 data/multiplayer/terrain.ruleset:835
 msgid "Peat"
 msgstr "Торф"
 
-#: data/civ2/terrain.ruleset:726 data/default/terrain.ruleset:844
-#: data/experimental/terrain.ruleset:846 data/multiplayer/terrain.ruleset:844
+#: data/civ2/terrain.ruleset:725 data/default/terrain.ruleset:843
+#: data/experimental/terrain.ruleset:845 data/multiplayer/terrain.ruleset:843
 msgid "Pheasant"
 msgstr "Фазани"
 
-#: data/civ2/terrain.ruleset:742 data/default/terrain.ruleset:862
-#: data/experimental/terrain.ruleset:864 data/multiplayer/terrain.ruleset:862
+#: data/civ2/terrain.ruleset:741 data/default/terrain.ruleset:861
+#: data/experimental/terrain.ruleset:863 data/multiplayer/terrain.ruleset:861
 msgid "Ivory"
 msgstr "Бівні"
 
-#: data/civ2/terrain.ruleset:752 data/default/terrain.ruleset:872
-#: data/experimental/terrain.ruleset:874 data/multiplayer/terrain.ruleset:872
+#: data/civ2/terrain.ruleset:751 data/default/terrain.ruleset:871
+#: data/experimental/terrain.ruleset:873 data/multiplayer/terrain.ruleset:871
 msgid "Silk"
 msgstr "Шовк"
 
-#: data/civ2/terrain.ruleset:760 data/default/terrain.ruleset:880
-#: data/experimental/terrain.ruleset:882 data/multiplayer/terrain.ruleset:880
+#: data/civ2/terrain.ruleset:759 data/default/terrain.ruleset:879
+#: data/experimental/terrain.ruleset:881 data/multiplayer/terrain.ruleset:879
 msgid "Spice"
 msgstr "Пряності"
 
-#: data/civ2/terrain.ruleset:769 data/default/terrain.ruleset:891
-#: data/experimental/terrain.ruleset:893 data/multiplayer/terrain.ruleset:891
+#: data/civ2/terrain.ruleset:768 data/default/terrain.ruleset:890
+#: data/experimental/terrain.ruleset:892 data/multiplayer/terrain.ruleset:890
 msgid "Whales"
 msgstr "Кити"
 
-#: data/civ2/terrain.ruleset:778 data/default/terrain.ruleset:900
-#: data/experimental/terrain.ruleset:902 data/multiplayer/terrain.ruleset:900
+#: data/civ2/terrain.ruleset:777 data/default/terrain.ruleset:899
+#: data/experimental/terrain.ruleset:901 data/multiplayer/terrain.ruleset:899
 msgid "Wine"
 msgstr "Вино"
 
-#: data/civ2/terrain.ruleset:857
+#: data/civ2/terrain.ruleset:856
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
@@ -17193,8 +17188,8 @@ msgstr ""
 "підрозділ, що залишається у фортеці протягом ходу і не рухається, відновлює "
 "четвертину здоров'я."
 
-#: data/civ2/terrain.ruleset:878 data/default/terrain.ruleset:994
-#: data/experimental/terrain.ruleset:996 data/multiplayer/terrain.ruleset:994
+#: data/civ2/terrain.ruleset:877 data/default/terrain.ruleset:993
+#: data/experimental/terrain.ruleset:995 data/multiplayer/terrain.ruleset:993
 msgid ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
@@ -17852,6 +17847,17 @@ msgstr ""
 "\n"
 "Місто може мати лише одну Тепло, Гідро, Атомну чи Соняшну станцію."
 
+#: data/default/buildings.ruleset:981 data/experimental/buildings.ruleset:1036
+#: data/multiplayer/buildings.ruleset:961
+msgid ""
+"Makes one unhappy citizen content.  The Mysticism advance doubles this "
+"effect.  With both Mysticism and the Oracle, 4 citizens are made content.  "
+"Does not affect citizens made unhappy by military activity."
+msgstr ""
+"Нейтралізує одного нещасного у місті. Знання Містицизму подвоює цей ефект. "
+"Разом з Містицизмом та Оракулом, 4 нещасних нейтралізуються. Не впливає на "
+"нещасних внаслідок військових дій."
+
 #: data/default/buildings.ruleset:1005
 #: data/experimental/buildings.ruleset:1062
 #: data/multiplayer/buildings.ruleset:985
@@ -17909,6 +17915,15 @@ msgstr ""
 #: data/experimental/buildings.ruleset:1420
 msgid "Gives all your sea units 2 additional movement points."
 msgstr "Надає всім Вашим морським підрозділам 2 додаткові ходи."
+
+#: data/default/buildings.ruleset:1444
+#: data/experimental/buildings.ruleset:1501
+msgid ""
+"Makes two additional unhappy citizens content in every city with a Temple.  "
+"Does not affect citizens made unhappy by military activity."
+msgstr ""
+"Нейтралізує додатково 2 нещасних у кожному місті з Церквою. Не впливає на "
+"городян, нещасних внаслідок військових дій."
 
 #: data/default/buildings.ruleset:1466
 #: data/experimental/buildings.ruleset:1523
@@ -17975,7 +17990,7 @@ msgstr "Кожен податківець додає до скарбниці т�
 msgid "?citystyle:ElectricAge"
 msgstr "Віку Електрики"
 
-#: data/default/default.lua:22 server/unittools.c:2549
+#: data/default/default.lua:22 server/unittools.c:2590
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -17983,42 +17998,42 @@ msgstr[0] "Ви знайшли %d гривню."
 msgstr[1] "Ви знайшли %d гривні."
 msgstr[2] "Ви знайшли %d гривень."
 
-#: data/default/default.lua:35
+#: data/default/default.lua:40
 #, c-format
 msgid "You found %s in ancient scrolls of wisdom."
 msgstr "Ви знайшли знання про %s у загадковій схованці зниклої цивілізації."
 
-#: data/default/default.lua:38
+#: data/default/default.lua:43
 #, c-format
 msgid "The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "%s дізнався про %s у загадковій схованці зниклої цивілізації."
 
-#: data/default/default.lua:58
+#: data/default/default.lua:66
 msgid "A band of friendly mercenaries joins your cause."
 msgstr "Група дружніх найманців приєдналася до Вас."
 
-#: data/default/default.lua:74
+#: data/default/default.lua:82
 msgid "You found a friendly city."
 msgstr "Ви знайшли дружнє місто."
 
-#: data/default/default.lua:78
+#: data/default/default.lua:87
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Дружні кочівники приєднуються до Вас."
 
-#: data/default/default.lua:96 server/unittools.c:2556
+#: data/default/default.lua:108 server/unittools.c:2597
 msgid "An abandoned village is here."
 msgstr "Пустий хутір."
 
-#: data/default/default.lua:103
+#: data/default/default.lua:115
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Ви знайшли армію дикунів!"
 
-#: data/default/default.lua:106 server/unittools.c:2559
+#: data/default/default.lua:118 server/unittools.c:2600
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Ваш загін %s знищено дикуни!"
 
-#: data/default/default.lua:174 data/default/default.lua:176
+#: data/default/default.lua:188 data/default/default.lua:190
 #, c-format
 msgid "The loss of %s has inspired partisans!"
 msgstr "Втрата %s надихнула партизанів!"
@@ -18082,17 +18097,17 @@ msgstr "?nationgroup:Океаньські"
 msgid "?nationgroup:Imaginary"
 msgstr "Уявні"
 
-#: data/default/techs.ruleset:212 data/experimental/techs.ruleset:230
+#: data/default/techs.ruleset:212 data/experimental/techs.ruleset:214
 #: data/multiplayer/techs.ruleset:212
 msgid "Allows Settlers, Workers and Engineers to build fortresses."
 msgstr "Дозволяє Колоністам, Робітникам та Інженерам будувати укріплення."
 
-#: data/default/techs.ruleset:359 data/experimental/techs.ruleset:394
+#: data/default/techs.ruleset:359 data/experimental/techs.ruleset:361
 #: data/multiplayer/techs.ruleset:368
 msgid "Increases units' vision when in fortresses."
 msgstr "Покращує зір підрозділів в укріпленнях."
 
-#: data/default/techs.ruleset:580 data/experimental/techs.ruleset:640
+#: data/default/techs.ruleset:580 data/experimental/techs.ruleset:582
 #: data/multiplayer/techs.ruleset:589
 msgid "Allows Workers and Engineers to build airbases and buoys."
 msgstr "Дозволяє Робітникам та Інженерам будувати авіабази та буї."
@@ -18109,22 +18124,22 @@ msgstr "Озера - це великі скупчення прісної вод�
 
 #: data/default/terrain.ruleset:269 data/experimental/terrain.ruleset:271
 #: data/multiplayer/terrain.ruleset:269
+#, fuzzy
 msgid ""
 "Shallow oceans are mostly found near coastlines, and are often rich sources "
-"of food and other resources. They can be traversed by sea units, including "
-"Triremes."
+"of food and other resources."
 msgstr ""
 "Мілководдя знаходиться, переважно, біля узбережжя, і часто є багатим "
 "джерелом харчів та інших ресурсів. Їх можна перетинати морськими "
 "підрозділами, в тому числі Триремами."
 
-#: data/default/terrain.ruleset:276 data/experimental/terrain.ruleset:278
-#: data/multiplayer/terrain.ruleset:276
+#: data/default/terrain.ruleset:275 data/experimental/terrain.ruleset:277
+#: data/multiplayer/terrain.ruleset:275
 msgid "Deep Ocean"
 msgstr "Глибокий океан"
 
-#: data/default/terrain.ruleset:309 data/experimental/terrain.ruleset:311
-#: data/multiplayer/terrain.ruleset:309
+#: data/default/terrain.ruleset:308 data/experimental/terrain.ruleset:310
+#: data/multiplayer/terrain.ruleset:308
 msgid ""
 "Deep oceans cover much of the world away from coastlines, and only seaworthy "
 "units (not including Triremes) can travel on them."
@@ -18132,8 +18147,8 @@ msgstr ""
 "Глибокі океани вкривають значну частину світу подалі від узбережжя, і лише "
 "морські підрозділи (окрім Трирем) можуть подорожувати ними."
 
-#: data/default/terrain.ruleset:972 data/experimental/terrain.ruleset:974
-#: data/multiplayer/terrain.ruleset:972
+#: data/default/terrain.ruleset:971 data/experimental/terrain.ruleset:973
+#: data/multiplayer/terrain.ruleset:971
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
@@ -18141,22 +18156,22 @@ msgid ""
 "units can see further afield."
 msgstr ""
 
-#: data/default/terrain.ruleset:1000 data/experimental/terrain.ruleset:1002
-#: data/multiplayer/terrain.ruleset:1004
+#: data/default/terrain.ruleset:999 data/experimental/terrain.ruleset:1001
+#: data/multiplayer/terrain.ruleset:1003
 msgid "Buoy"
 msgstr "Буй"
 
-#: data/default/terrain.ruleset:1014 data/experimental/terrain.ruleset:1016
+#: data/default/terrain.ruleset:1013 data/experimental/terrain.ruleset:1015
 msgid "Buoys may be built in the ocean (by units on a sea-going vessel)."
 msgstr "Буї можна будувати в океані (підрозділами на кораблях)."
 
-#: data/default/terrain.ruleset:1019 data/experimental/terrain.ruleset:1021
-#: data/multiplayer/terrain.ruleset:1024
+#: data/default/terrain.ruleset:1018 data/experimental/terrain.ruleset:1020
+#: data/multiplayer/terrain.ruleset:1023
 msgid "Ruins"
 msgstr "Руїни"
 
-#: data/default/terrain.ruleset:1030 data/experimental/terrain.ruleset:1032
-#: data/multiplayer/terrain.ruleset:1035
+#: data/default/terrain.ruleset:1029 data/experimental/terrain.ruleset:1031
+#: data/multiplayer/terrain.ruleset:1034
 msgid ""
 "Ruins mark the former site of a city that was destroyed or abandoned. They "
 "have no effect on gameplay."
@@ -22526,7 +22541,7 @@ msgid ""
 "This technology is only acquired the first time you build Darwin's Voyage."
 msgstr ""
 
-#: data/multiplayer/terrain.ruleset:1019
+#: data/multiplayer/terrain.ruleset:1018
 msgid "Buoys cannot be built in the multiplayer ruleset."
 msgstr ""
 
@@ -35455,58 +35470,58 @@ msgid "%s lost along with control of %s."
 msgstr "%s втрачено разом з контролем над %s."
 
 #. TRANS: <building> ... <city>
-#: server/citytools.c:913
+#: server/citytools.c:918
 #, c-format
 msgid "A replacement %s was built in %s."
 msgstr "Заміна %s збудована у %s."
 
-#: server/citytools.c:1002
+#: server/citytools.c:1007
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr "Ви вже маєте місто %s. Назву міста змінено на %s."
 
-#: server/citytools.c:1069
+#: server/citytools.c:1074
 #, fuzzy, c-format
 msgid "The people in %s are stunned by your technological insight!"
 msgstr ""
 "Городяни у %s вражені Вашим технологічним рівнем!\n"
 "Працівники зібралися та збудували у місті залізницю."
 
-#: server/citytools.c:1073
+#: server/citytools.c:1078
 #, fuzzy, c-format
 msgid "Workers spontaneously gather and upgrade %s with railroads."
 msgstr ""
 "Городяни у %s вражені Вашим технологічним рівнем!\n"
 "Працівники зібралися та збудували у місті залізницю."
 
-#: server/citytools.c:1347
+#: server/citytools.c:1352
 #, c-format
 msgid "You have founded %s."
 msgstr "Ви заснували %s"
 
-#: server/citytools.c:1427
+#: server/citytools.c:1432
 #, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr ""
 "Переміщено %s з розпущеного міста %s тому що він не може залишатися на %s."
 
-#: server/citytools.c:1440
+#: server/citytools.c:1445
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr "Коли %s було розпущено, ваш %s не зміг вибратися та був втрачений."
 
-#: server/citytools.c:1598
+#: server/citytools.c:1603
 #, c-format
 msgid "You destroy %s completely."
 msgstr "Ви повністю знищили %s."
 
-#: server/citytools.c:1601
+#: server/citytools.c:1606
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%s знищений %s."
 
-#: server/citytools.c:1627
+#: server/citytools.c:1632
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
@@ -35514,7 +35529,7 @@ msgstr[0] "Ви захопили %s; здобич склала %d гривню!"
 msgstr[1] "Ви захопили %s; здобич склала %d гривні!"
 msgstr[2] "Ви захопили %s; здобич склала %d гривень!"
 
-#: server/citytools.c:1634
+#: server/citytools.c:1639
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
@@ -35522,17 +35537,17 @@ msgstr[0] "%s захопив %s та отримав з міста здобичі
 msgstr[1] "%s захопив %s та отримав з міста здобичі %d гривні."
 msgstr[2] "%s захопив %s та отримав з міста здобичі %d гривень."
 
-#: server/citytools.c:1643
+#: server/citytools.c:1648
 #, c-format
 msgid "You conquer %s."
 msgstr "Ви захопили  %s."
 
-#: server/citytools.c:1646
+#: server/citytools.c:1651
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s захопив %s."
 
-#: server/citytools.c:1653
+#: server/citytools.c:1658
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
@@ -35540,7 +35555,7 @@ msgstr[0] "Ви визволили %s! Здобич склала %d гривню
 msgstr[1] "Ви визволили %s! Здобич склала %d гривні!"
 msgstr[2] "Ви визволили %s! Здобич склала %d гривень!"
 
-#: server/citytools.c:1660
+#: server/citytools.c:1665
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
@@ -35548,27 +35563,27 @@ msgstr[0] "%s визволив %s та отримав з міста здобич
 msgstr[1] "%s визволив %s та отримав з міста здобичі %d гривні."
 msgstr[2] "%s визволив %s та отримав з міста здобичі %d гривень."
 
-#: server/citytools.c:1669
+#: server/citytools.c:1674
 #, c-format
 msgid "You have liberated %s!"
 msgstr "Ви визволили %s!"
 
-#: server/citytools.c:1672
+#: server/citytools.c:1677
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s визволив %s."
 
-#: server/citytools.c:2428
+#: server/citytools.c:2433
 msgid " from the worklist"
 msgstr " з плану будівництва"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:2440
+#: server/citytools.c:2445
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s будує %s%s."
 
-#: server/citytools.c:2607
+#: server/citytools.c:2614
 #, fuzzy, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
@@ -35576,16 +35591,16 @@ msgstr[0] "Ви продали %s у %s (тепер блоковано) за %d 
 msgstr[1] "Ви продали %s у %s (тепер блоковано) за %d гривень."
 msgstr[2] "Ви продали %s у %s (тепер блоковано) за %d гривень."
 
-#: server/citytools.c:2740
+#: server/citytools.c:2747
 #, fuzzy, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "%s з %s"
 
-#: server/citytools.c:2742
+#: server/citytools.c:2749
 msgid "increased"
 msgstr "зросли"
 
-#: server/citytools.c:2743
+#: server/citytools.c:2750
 msgid "reduced"
 msgstr "зменшилось"
 
@@ -37894,20 +37909,20 @@ msgid ""
 "Cannot modify base for the tile %s because %d is not a valid base type id."
 msgstr ""
 
-#: server/edithand.c:535
+#: server/edithand.c:534
 #, c-format
 msgid "Cannot create units because %d is not a valid tile index on this map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:544
+#: server/edithand.c:543
 #, fuzzy, c-format
 msgid ""
 "Cannot create a unit at %s because the given unit type id %d is invalid."
 msgstr "Не можу створити підрозділ %s у цій місцевості."
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>"...
-#: server/edithand.c:554
+#: server/edithand.c:553
 #, fuzzy, c-format
 msgid ""
 "Cannot create a unit of type %s at %s because the given owner's player id %d "
@@ -37916,25 +37931,25 @@ msgstr "Не можу створити підрозділ %s у цій місц�
 
 #. TRANS: ..." type <unit-type> on enemy tile
 #. * <tile-coordinates>"...
-#: server/edithand.c:567
+#: server/edithand.c:566
 #, fuzzy, c-format
 msgid "Cannot create unit of type %s on enemy tile %s."
 msgstr "Не можу створити підрозділ на ворожий території."
 
 #. TRANS: ..." type <unit-type> on the terrain at
 #. * <tile-coordinates>"...
-#: server/edithand.c:577
+#: server/edithand.c:576
 #, fuzzy, c-format
 msgid "Cannot create a unit of type %s on the terrain at %s."
 msgstr "Не можу створити підрозділ %s у цій місцевості."
 
-#: server/edithand.c:623
+#: server/edithand.c:619
 #, c-format
 msgid "Cannot remove units because %d is not a valid tile index on this map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:632
+#: server/edithand.c:628
 #, c-format
 msgid ""
 "Cannot remove a unit at %s because the given unit type id %d is invalid."
@@ -37942,74 +37957,74 @@ msgstr ""
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>
 #. * because"...
-#: server/edithand.c:643
+#: server/edithand.c:639
 #, c-format
 msgid ""
 "Cannot remove a unit of type %s at %s because the given owner's player id %d "
 "is invalid."
 msgstr ""
 
-#: server/edithand.c:674 server/edithand.c:697
+#: server/edithand.c:670 server/edithand.c:693
 #, c-format
 msgid "No such unit (ID %d)."
 msgstr "Немає такого підрозділу (ID %d)."
 
-#: server/edithand.c:736
+#: server/edithand.c:732
 #, c-format
 msgid "Invalid veteran level %d for unit %d (%s)."
 msgstr "Невірний рівень ветерана %d у підрозділу %d (%s)."
 
-#: server/edithand.c:767
+#: server/edithand.c:763
 #, c-format
 msgid "Cannot create a city because %d is not a valid tile index on this map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:776
+#: server/edithand.c:772
 #, c-format
 msgid ""
 "Cannot create a city at %s because the given owner's player id %d is invalid"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates>."
-#: server/edithand.c:788
+#: server/edithand.c:784
 #, c-format
 msgid "A city may not be built at %s."
 msgstr "Місто не можна будувати на %s."
 
-#: server/edithand.c:835
+#: server/edithand.c:831
 #, c-format
 msgid "Cannot edit city with invalid city ID %d."
 msgstr "Не можна редагувати місто з невірним ID %d."
 
-#: server/edithand.c:848
+#: server/edithand.c:844
 #, c-format
 msgid "Cannot edit city name: %s"
 msgstr "Не можу змінити назву міста: %s"
 
-#: server/edithand.c:859
+#: server/edithand.c:855
 #, c-format
 msgid "Invalid city size %d for city %s."
 msgstr "Невірний розмір %d для міста %s."
 
-#: server/edithand.c:876
+#: server/edithand.c:872
 #, c-format
 msgid "It is impossible for a city to have %s!"
 msgstr "Місто не може мати %s!"
 
-#: server/edithand.c:925
+#: server/edithand.c:921
 #, c-format
 msgid ""
 "Invalid city food stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
 
-#: server/edithand.c:939
+#: server/edithand.c:935
 #, c-format
 msgid ""
 "Invalid city shield stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
 
-#: server/edithand.c:986
+#: server/edithand.c:982
 #, c-format
 msgid ""
 "No more players can be added because the maximum number of players (%d) has "
@@ -38018,7 +38033,7 @@ msgstr ""
 "Більше гравців додавати не можна, бо досягнуто максимальної кількості "
 "гравців (%d)."
 
-#: server/edithand.c:994
+#: server/edithand.c:990
 #, c-format
 msgid ""
 "No more players can be added because there are no available nations (%d "
@@ -38026,39 +38041,39 @@ msgid ""
 msgstr ""
 "Більше гравців додавати не можна, бо немає вільних націй (використано %d)."
 
-#: server/edithand.c:1003
+#: server/edithand.c:999
 msgid "Player cannot be created because random nation selection failed."
 msgstr "Гравця не можна створити, бо випадковий вибір нації зазнав невдачі."
 
-#: server/edithand.c:1011
+#: server/edithand.c:1007
 msgid "Player creation failed."
 msgstr "Не вдалося створити гравця."
 
-#: server/edithand.c:1045
+#: server/edithand.c:1041
 #, c-format
 msgid "No such player (ID %d)."
 msgstr "Немає такого гравця (ID %d)."
 
-#: server/edithand.c:1074
+#: server/edithand.c:1070
 #, c-format
 msgid "Cannot edit player with invalid player ID %d."
 msgstr "Не можна редагувати гравця з невірним ID %d."
 
-#: server/edithand.c:1091
+#: server/edithand.c:1087
 #, fuzzy, c-format
 msgid "Cannot change name of player (%d) '%s' to '%s': %s"
 msgstr ""
 "Не можна змінити ім'я гравця (%d) з '%s' на '%s': інший гравець (%d) уже має "
 "таке ім'я."
 
-#: server/edithand.c:1102
+#: server/edithand.c:1098
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) because the given nation ID %d is "
 "invalid."
 msgstr ""
 
-#: server/edithand.c:1108
+#: server/edithand.c:1104
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
@@ -38067,46 +38082,46 @@ msgstr ""
 "Не можна змінити націю гравця %d (%s) на націю %d (%s), бо та нація вже "
 "призначена гравцю %d (%s)."
 
-#: server/edithand.c:1144
+#: server/edithand.c:1140
 #, c-format
 msgid ""
 "Cannot set gold for player %d (%s) because the value %d is outside the "
 "allowed range."
 msgstr ""
 
-#: server/edithand.c:1203
+#: server/edithand.c:1199
 #, c-format
 msgid "Cannot edit vision because %d is not a valid tile index on this map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:1212
+#: server/edithand.c:1208
 #, c-format
 msgid ""
 "Cannot edit vision for the tile at %s because given player id %d is invalid."
 msgstr ""
 
-#: server/edithand.c:1285
+#: server/edithand.c:1281
 #, c-format
 msgid "No such city (ID %d)."
 msgstr "Немає такого міста (ID %d)."
 
-#: server/edithand.c:1311
+#: server/edithand.c:1307
 #, fuzzy
 msgid "Cannot toggle fog-of-war when it is already disabled."
 msgstr "Не можу стартувати гру: її вже запущено."
 
-#: server/edithand.c:1319
+#: server/edithand.c:1315
 #, fuzzy, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
 msgstr "Не можливо перемикнути гравця дикуна."
 
-#: server/edithand.c:1347 server/edithand.c:1386
+#: server/edithand.c:1343 server/edithand.c:1382
 #, c-format
 msgid "Invalid tile index %d for start position."
 msgstr "Невірний індекс клітинки %d для початкового положення."
 
-#: server/edithand.c:1394
+#: server/edithand.c:1390
 #, fuzzy, c-format
 msgid ""
 "Cannot edit start position nations at (%d, %d) because there is no start "
@@ -38114,16 +38129,16 @@ msgid ""
 msgstr ""
 "Не можна встановити початкове розташування у (%d, %d), бо це поза мапою!"
 
-#: server/edithand.c:1426
+#: server/edithand.c:1422
 #, c-format
 msgid "Cannot set invalid game year %d. Valid year range is from %d to %d."
 msgstr ""
 
-#: server/edithand.c:1469
+#: server/edithand.c:1465
 msgid "No permissions to remotely save scenario."
 msgstr "Немає прав для віддаленого збереження сценарію."
 
-#: server/edithand.c:1476
+#: server/edithand.c:1472
 msgid "Scenario information not set. Cannot save scenario."
 msgstr "Інформацію про сценарій не встановлено. Не можу зберегти сценарій."
 
@@ -38187,19 +38202,19 @@ msgstr "Таймаут ходу перевищує максимум, випра�
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Таймаут ходу менше нуля, виправляю на нуль."
 
-#: server/generator/mapgen.c:1465
+#: server/generator/mapgen.c:1467
 msgid "The server couldn't allocate starting positions."
 msgstr ""
 
-#: server/generator/mapgen.c:2108
+#: server/generator/mapgen.c:2110
 msgid "High landmass - this may take a few seconds."
 msgstr "Багато землі - це займе декілька секунд."
 
-#: server/generator/mapgen.c:2384
+#: server/generator/mapgen.c:2386
 msgid "Generator 3 didn't place all big islands."
 msgstr "Генератор 3 не може розташувати усі великі острови."
 
-#: server/generator/mapgen.c:2413
+#: server/generator/mapgen.c:2415
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Генератор 3 залишив нерозміщеними %li земель."
@@ -39844,22 +39859,22 @@ msgstr ""
 "Хутори є маленькими племінними селами, які можуть бути досліджені "
 "підрозділами."
 
-#: server/settings.c:1251
+#: server/settings.c:1249
 msgid "Minimum number of players"
 msgstr "Мінімальна кількість гравців"
 
-#: server/settings.c:1252
+#: server/settings.c:1250
 msgid ""
 "There must be at least this many players (connected human players) before "
 "the game can start."
 msgstr ""
 "Гравців (під'єднаних людей) має бути принаймі стільки, щоб гра розпочалась."
 
-#: server/settings.c:1259
+#: server/settings.c:1257
 msgid "Maximum number of players"
 msgstr "Максимальна кількість гравців."
 
-#: server/settings.c:1260
+#: server/settings.c:1258
 #, fuzzy
 msgid ""
 "The maximal number of human and AI players who can be in the game. When this "
@@ -39872,11 +39887,11 @@ msgstr ""
 "участь у грі. Якщо цього числа досягнуто під'єднаними гравцями перед грою, "
 "будь які нові з'єднання відхиляються."
 
-#: server/settings.c:1272
+#: server/settings.c:1270
 msgid "Limited number of AI players"
 msgstr "Обмежена кількість комп'ютерних гравців"
 
-#: server/settings.c:1273
+#: server/settings.c:1271
 #, fuzzy
 msgid ""
 "If set to a positive value, then AI players will be automatically created or "
@@ -39887,11 +39902,11 @@ msgstr ""
 "Якщо гравців при старті гри менше, додаткові комп'ютерні гравці будуть "
 "створені аби збільшити кількість гравців до значення цієї опції."
 
-#: server/settings.c:1284
+#: server/settings.c:1282
 msgid "Event cache for this number of turns"
 msgstr "Кеш подій для цієї кількості ходів"
 
-#: server/settings.c:1285
+#: server/settings.c:1283
 msgid ""
 "Event messages are saved for this number of turns. A value of 0 deactivates "
 "the event cache."
@@ -39899,30 +39914,30 @@ msgstr ""
 "Повідомлення про події зберігаються вказану кількість ходів. Значення 0 "
 "деактивує кеш подій."
 
-#: server/settings.c:1293
+#: server/settings.c:1291
 msgid "Size of the event cache"
 msgstr "Розмір кешу подій"
 
-#: server/settings.c:1294
+#: server/settings.c:1292
 msgid "This defines the maximal number of events in the event cache."
 msgstr "Визначає максимальну кількість подій у кеші подій."
 
-#: server/settings.c:1301
+#: server/settings.c:1299
 msgid "Save chat messages in the event cache"
 msgstr "Зберегти повідомлення чату в кеші подій"
 
-#: server/settings.c:1302
+#: server/settings.c:1300
 #, fuzzy
 msgid "If turned on, chat messages will be saved in the event cache."
 msgstr ""
 "Якщо встановлено в 1, повідомлення чату будуть зберігатися у кеші подій."
 
-#: server/settings.c:1307
+#: server/settings.c:1305
 msgid "Print turn and time for each cached event"
 msgstr "Друкувати хід і час для кожного закешованого повідомлення"
 
 #. TRANS: Don't translate the text between single quotes.
-#: server/settings.c:1309
+#: server/settings.c:1307
 #, fuzzy
 msgid ""
 "If turned on, all cached events will be marked by the turn and time of the "
@@ -39931,11 +39946,11 @@ msgstr ""
 "Якщо встановлено в 1, усі закешовані події будуть позначені своїм ходом і "
 "часом, наприклад: '(T2 - 15:29:52)'."
 
-#: server/settings.c:1320
+#: server/settings.c:1318
 msgid "List of players' initial units"
 msgstr "Перелік початкових підрозділів гравців"
 
-#: server/settings.c:1321
+#: server/settings.c:1319
 msgid ""
 "This should be a string of characters, each of which specifies a unit role. "
 "There must be at least one city founder in the string. The characters and "
@@ -39951,29 +39966,29 @@ msgid ""
 "    A   = Strong attack unit (eg., Catapult)\n"
 msgstr ""
 
-#: server/settings.c:1338
+#: server/settings.c:1336
 msgid "Area where initial units are located"
 msgstr "Місцерозташування підрозділів на початку гри."
 
-#: server/settings.c:1339
+#: server/settings.c:1337
 msgid "This is the radius within which the initial units are dispersed."
 msgstr "Це радіус, у якому буде розкидано початкові підрозділи."
 
-#: server/settings.c:1345
+#: server/settings.c:1343
 msgid "Starting gold per player"
 msgstr "Початкова кількість гривень на гравця"
 
-#: server/settings.c:1346
+#: server/settings.c:1344
 msgid "At the beginning of the game, each player is given this much gold."
 msgstr "На початку гри кажний гравець отримує таку кількість грошей."
 
-#: server/settings.c:1352
+#: server/settings.c:1350
 msgid "Number of initial techs per player"
 msgstr "Початкова кількість технологій на гравця"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:1355
+#: server/settings.c:1353
 msgid ""
 "At the beginning of the game, each player is given this many technologies. "
 "The technologies chosen are random for each player. Depending on the value "
@@ -39981,11 +39996,11 @@ msgid ""
 "next techs really expensive."
 msgstr ""
 
-#: server/settings.c:1364
+#: server/settings.c:1362
 msgid "Technology cost multiplier percentage"
 msgstr "Процент множника вартості технології"
 
-#: server/settings.c:1365
+#: server/settings.c:1363
 msgid ""
 "This affects how quickly players can research new technology. All tech costs "
 "are multiplied by this amount (as a percentage). The base tech costs are "
@@ -39995,11 +40010,11 @@ msgstr ""
 "технологій множиться на цю величину (у відсотках). Базова вартість "
 "технологій визначається набором правил та іншими ігровими налаштуваннями."
 
-#: server/settings.c:1374
+#: server/settings.c:1372
 msgid "Percentage penalty when changing tech"
 msgstr "Втрата балів при зміні досліджуваної технології"
 
-#: server/settings.c:1375
+#: server/settings.c:1373
 #, fuzzy
 msgid ""
 "If you change your current research technology, and you have positive "
@@ -40010,32 +40025,32 @@ msgstr ""
 "втратите саме таку кількість балів. Це не розповсюджується на випадки "
 "отримання технології цього ходу та вибору нової."
 
-#: server/settings.c:1384
+#: server/settings.c:1382
 msgid "Chance to lose an invention while receiving it"
 msgstr ""
 
-#: server/settings.c:1385
+#: server/settings.c:1383
 msgid ""
 "If you receive an invention via a treaty, this setting defines the chance "
 "that the invention is lost during the transfer."
 msgstr ""
 
-#: server/settings.c:1393
+#: server/settings.c:1391
 msgid "Chance to lose an invention while giving it"
 msgstr ""
 
-#: server/settings.c:1394
+#: server/settings.c:1392
 msgid ""
 "If you give an invention via a treaty, this setting defines the chance that "
 "the invention is lost for your civilization during the transfer."
 msgstr ""
 
-#: server/settings.c:1402
+#: server/settings.c:1400
 #, fuzzy
 msgid "Team pooled research"
 msgstr "Швидкість досліджень: немає досліджень"
 
-#: server/settings.c:1403
+#: server/settings.c:1401
 msgid ""
 "If this setting is turned on, then the team mates will share the science "
 "research. Else, every player of the team will have to make its own."
@@ -40044,11 +40059,11 @@ msgstr ""
 "дослідження. В іншому випадку, кожен гравець команди вестиме дослідження "
 "самостійно."
 
-#: server/settings.c:1410
+#: server/settings.c:1408
 msgid "Penalty when getting tech or gold from treaty"
 msgstr "Штраф при отриманні технології чи золота за угодою"
 
-#: server/settings.c:1411
+#: server/settings.c:1409
 msgid ""
 "For each technology you gain from a diplomatic treaty, you lose research "
 "points equal to this percentage of the cost to research a new technology. If "
@@ -40061,11 +40076,11 @@ msgstr ""
 "значення не 0. Це також стосується передачі золота внаслідок дипломатичних "
 "угод."
 
-#: server/settings.c:1421
+#: server/settings.c:1419
 msgid "Penalty when getting tech from conquering"
 msgstr "Втрата балів при отриманні технології при захопленні"
 
-#: server/settings.c:1422
+#: server/settings.c:1420
 #, fuzzy
 msgid ""
 "For each technology you gain by conquering an enemy city, you lose research "
@@ -40076,13 +40091,13 @@ msgstr ""
 "кількість балів буде зписана з Вас. Ви можете опинитися навіть з негативним "
 "балансом, якщо значення не 0."
 
-#: server/settings.c:1432
+#: server/settings.c:1430
 msgid "Penalty when getting a free tech"
 msgstr "Втрата балів при вільному отриманні технології"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:1435
+#: server/settings.c:1433
 #, fuzzy
 msgid ""
 "For each technology you gain \"for free\" (other than covered by 'diplcost' "
@@ -40095,11 +40110,11 @@ msgstr ""
 "Велика Бібліотека) саме така кількість балів буде зписана з Вас. Ви можете "
 "опинитися навіть з негативним балансом, якщо значення не 0."
 
-#: server/settings.c:1446
+#: server/settings.c:1444
 msgid "Food required for a city to grow"
 msgstr "Їжа що необхідна місту для росту."
 
-#: server/settings.c:1447
+#: server/settings.c:1445
 msgid ""
 "This is the base amount of food required to grow a city. This value is "
 "multiplied by another factor that comes from the ruleset and is dependent on "
@@ -40109,11 +40124,11 @@ msgstr ""
 "помножується на інший фактор, який береться із збіра правил та залежить від "
 "розміра міста."
 
-#: server/settings.c:1455
+#: server/settings.c:1453
 msgid "Percentage food lost when building needed"
 msgstr "Відсоток втрат їжі коли місто потребує будівлі"
 
-#: server/settings.c:1456
+#: server/settings.c:1454
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount when "
@@ -40123,11 +40138,11 @@ msgstr ""
 "Каналізації), воно втрачає відсоток від своїх запасів продуктів (або його "
 "половину за наявності Амбару)."
 
-#: server/settings.c:1465
+#: server/settings.c:1463
 msgid "Multiplier percentage for production costs"
 msgstr "Процент множника вартості продукції"
 
-#: server/settings.c:1466
+#: server/settings.c:1464
 msgid ""
 "This affects how quickly units and buildings can be produced.  The base "
 "costs are multiplied by this value (as a percentage)."
@@ -40135,13 +40150,13 @@ msgstr ""
 "Ця установка впливає на те, як швидко виробляються підрозділи та будівлі.  "
 "Базова вартість помножується на це значення (як процент)."
 
-#: server/settings.c:1480
+#: server/settings.c:1478
 msgid "Minimum city size to get full trade"
 msgstr "Мінімальний розмір міста аби займатися торгівлею."
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:1483
+#: server/settings.c:1481
 #, fuzzy
 msgid ""
 "There is a trade penalty in all cities smaller than this. The penalty is "
@@ -40154,13 +40169,13 @@ msgstr ""
 "notradesize, та зменшується відповідно до росту міста до 0% (немає стягнень "
 "окрім корупції) для розміру=fulltradesize. Також дивись notradesize."
 
-#: server/settings.c:1493
+#: server/settings.c:1491
 msgid "Maximum size of a city without trade"
 msgstr "Максимальний розмір міста без торгівлі."
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:1496
+#: server/settings.c:1494
 #, fuzzy
 msgid ""
 "Cities do not produce any trade at all unless their size is larger than this "
@@ -40171,11 +40186,11 @@ msgstr ""
 "Торгівля поступово зростає із ростом міста коли воно більше ніж notradesize "
 "та менше ніж fulltradesize. Також дивись fulltradesize."
 
-#: server/settings.c:1505
+#: server/settings.c:1503
 msgid "Minimum distance between cities"
 msgstr "Мінімальна відстань між містами"
 
-#: server/settings.c:1506
+#: server/settings.c:1504
 #, fuzzy
 msgid ""
 "When a player attempts to found a new city, it is prevented if the distance "
@@ -40189,39 +40204,39 @@ msgstr ""
 "пусті поля між двома містами у будь якому напрямку. Якщо встановлено 0 "
 "(типово), значення береться з набору правил."
 
-#: server/settings.c:1518
+#: server/settings.c:1516
 #, fuzzy
 msgid "Technology trading"
 msgstr "Технологія"
 
-#: server/settings.c:1519
+#: server/settings.c:1517
 msgid ""
 "If turned off, trading technologies in the diplomacy dialog is not allowed."
 msgstr "Якщо вимкнено, обмін технологіями через дипломатію неможливий."
 
-#: server/settings.c:1525
+#: server/settings.c:1523
 #, fuzzy
 msgid "Gold trading"
 msgstr "Грошей: %d"
 
-#: server/settings.c:1526
+#: server/settings.c:1524
 msgid "If turned off, trading gold in the diplomacy dialog is not allowed."
 msgstr "Якщо вимкнено, обмін золотом через дипломатію неможливий."
 
-#: server/settings.c:1532
+#: server/settings.c:1530
 #, fuzzy
 msgid "City trading"
 msgstr "Місто: Свято"
 
-#: server/settings.c:1533
+#: server/settings.c:1531
 msgid "If turned off, trading cities in the diplomacy dialog is not allowed."
 msgstr "Якщо вимкнено, обмін містами через дипломатію неможливий."
 
-#: server/settings.c:1539
+#: server/settings.c:1537
 msgid "Minimum distance for trade routes"
 msgstr "Мінімальна відстань для торгових шляхів"
 
-#: server/settings.c:1540
+#: server/settings.c:1538
 msgid ""
 "In order for two cities in the same civilization to establish a trade route, "
 "they must be at least this far apart on the map. For square grids, the "
@@ -40229,11 +40244,11 @@ msgid ""
 "displacements along the x and y directions."
 msgstr ""
 
-#: server/settings.c:1550
+#: server/settings.c:1548
 msgid "Number of turns between rapture effect"
 msgstr "Кількість ходів між бумами"
 
-#: server/settings.c:1551
+#: server/settings.c:1549
 #, fuzzy
 msgid ""
 "Sets the number of turns between rapture growth of a city. If set to n a "
@@ -40242,11 +40257,11 @@ msgstr ""
 "Встановлює кількість ходів між взривним зростанням міста. Якщо встановлено у "
 "n місто зросте після буму на n+1 хіді."
 
-#: server/settings.c:1560
+#: server/settings.c:1558
 msgid "Chance for conquered building destruction"
 msgstr "Ймовірність знищення будівлі при захопленні міста"
 
-#: server/settings.c:1561
+#: server/settings.c:1559
 msgid ""
 "When a player conquers a city, each city improvement has this percentage "
 "chance to be destroyed."
@@ -40254,11 +40269,11 @@ msgstr ""
 "Коли гравець захоплює місто, то кожна будівля має таку відсоткову "
 "ймовірність бути зруйнованою. "
 
-#: server/settings.c:1567
+#: server/settings.c:1565
 msgid "Chance of moving into tile after attack"
 msgstr "Ймовірність руху вперед після атаки"
 
-#: server/settings.c:1568
+#: server/settings.c:1566
 #, fuzzy
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). "
@@ -40274,11 +40289,11 @@ msgstr ""
 "між 0 та 100, це використовується як процент ймовірності 'захоплення' "
 "території."
 
-#: server/settings.c:1579
+#: server/settings.c:1577
 msgid "Turn on/off server-side autoattack"
 msgstr "Включити/відключити автоатаку на боці сервера"
 
-#: server/settings.c:1580
+#: server/settings.c:1578
 #, fuzzy
 msgid ""
 "If set to on, units with moves left will automatically consider attacking "
@@ -40287,11 +40302,11 @@ msgstr ""
 "Якщо це активовано, підрозділи із залишком ходів будуть автоматично "
 "атакувати ворожі підрозділи поблизу себе."
 
-#: server/settings.c:1586
+#: server/settings.c:1584
 msgid "Reduce city population after attack"
 msgstr "Зменшити місцеве населення після атаки"
 
-#: server/settings.c:1587
+#: server/settings.c:1585
 #, fuzzy
 msgid ""
 "This flag indicates whether city population is reduced after successful "
@@ -40304,11 +40319,11 @@ msgstr ""
 "  4 = гелікоптери\n"
 "  8 = повітряні"
 
-#: server/settings.c:1594
+#: server/settings.c:1592
 msgid "Slowly kill units without home cities (e.g., starting units)"
 msgstr ""
 
-#: server/settings.c:1595
+#: server/settings.c:1593
 msgid ""
 "If greater than 0, then every unit without a homecity will lose hitpoints "
 "each turn. The number of hitpoints lost is given by 'killunhomed' percent of "
@@ -40316,21 +40331,21 @@ msgid ""
 "until the death of the unit."
 msgstr ""
 
-#: server/settings.c:1605
+#: server/settings.c:1603
 msgid "National borders"
 msgstr "Національні кордони"
 
-#: server/settings.c:1606
+#: server/settings.c:1604
 msgid ""
 "If this is not disabled, then any land tiles around a fortress or city will "
 "be owned by that nation."
 msgstr ""
 
-#: server/settings.c:1613
+#: server/settings.c:1611
 msgid "Units inside borders cause no unhappiness"
 msgstr "Підрозділи в межах кордонів не спричиняють нещастя."
 
-#: server/settings.c:1614
+#: server/settings.c:1612
 msgid ""
 "If this is set, units will not cause unhappiness when inside your own "
 "borders."
@@ -40338,23 +40353,23 @@ msgstr ""
 "Якщо це встановлено, підрозділи не будуть викликати нещастя, якщо "
 "знаходяться у межах своїх кордонів."
 
-#: server/settings.c:1620
+#: server/settings.c:1618
 msgid "Ability to do diplomacy with other players"
 msgstr "Можливість проводити дипломатичні зустрічі із іншими гравцями"
 
-#: server/settings.c:1621
+#: server/settings.c:1619
 #, fuzzy
 msgid "This setting controls the ability to do diplomacy with other players."
 msgstr "Можливість проводити дипломатичні зустрічі із іншими гравцями"
 
-#: server/settings.c:1627
+#: server/settings.c:1625
 msgid "Allowed city names"
 msgstr "Дозволені назви міст"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between parentheses
 #. * and in uppercase must not be translated.
-#: server/settings.c:1631
+#: server/settings.c:1629
 #, fuzzy
 msgid ""
 "- \"No restrictions\" (NO_RESTRICTIONS): players can have multiple cities "
@@ -40373,7 +40388,7 @@ msgstr ""
 "глобально унікальними: усі міста у грі повинні мати різні назви. Якщо 3, "
 "гравцю не дозволено використовувати назву міста по замовчуванню іншої нації."
 
-#: server/settings.c:1645
+#: server/settings.c:1643
 #, fuzzy
 msgid "How to pick player colors"
 msgstr "Список гравців:"
@@ -40382,7 +40397,7 @@ msgstr "Список гравців:"
 #. * separately (they must match!). The strings between single quotes
 #. * are setting names and shouldn't be translated. The strings
 #. * between parentheses and in uppercase must not be translated.
-#: server/settings.c:1650
+#: server/settings.c:1648
 msgid ""
 "This setting determines how player colors are chosen. Player colors are used "
 "in the Nations report, for national borders on the map, and so on.\n"
@@ -40400,31 +40415,31 @@ msgid ""
 "the game starts with the 'playercolor' command."
 msgstr ""
 
-#: server/settings.c:1686
+#: server/settings.c:1684
 msgid "Barbarian appearance frequency"
 msgstr "Рівень присутность дикунів"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:1689
+#: server/settings.c:1687
 msgid ""
 "This setting controls how frequently the barbarians appear in the game. See "
 "also the 'onsetbarbs' setting."
 msgstr ""
 
-#: server/settings.c:1695
+#: server/settings.c:1693
 msgid "Barbarian onset turn"
 msgstr "Хід нападу дикунів"
 
-#: server/settings.c:1696
+#: server/settings.c:1694
 msgid "Barbarians will not appear before this turn."
 msgstr "Дикуни не будуть з'являтися до цього ходу."
 
-#: server/settings.c:1702
+#: server/settings.c:1700
 msgid "Length in turns of revolution"
 msgstr "Тривалість революції у ходах"
 
-#: server/settings.c:1703
+#: server/settings.c:1701
 #, fuzzy
 msgid ""
 "When changing governments, a period of anarchy lasting this many turns will "
@@ -40433,11 +40448,11 @@ msgstr ""
 "Під час зміни уряду, період анархії буде тривати вказане число ходів. Якщо "
 "встановлено у 0, то тривалість буде випадкова у межах 1-6 ходів."
 
-#: server/settings.c:1712
+#: server/settings.c:1710
 msgid "Whether to enable fog of war"
 msgstr "Чи вмикати мару війни"
 
-#: server/settings.c:1713
+#: server/settings.c:1711
 #, fuzzy
 msgid ""
 "If this is enabled, only those units and cities within the vision range of "
@@ -40448,11 +40463,11 @@ msgstr ""
 "Ваших міст та підрозділів доступні Вашому погляду. Ви не побачите нові міста "
 "або зміни територій на клітинах що поза відстан'ю sightrange."
 
-#: server/settings.c:1721
+#: server/settings.c:1719
 msgid "Whether fog of war applies to border changes"
 msgstr ""
 
-#: server/settings.c:1722
+#: server/settings.c:1720
 msgid ""
 "If this setting is enabled, players will not be able to see changes in tile "
 "ownership if they do not have direct sight of the affected tiles. Otherwise, "
@@ -40460,7 +40475,7 @@ msgid ""
 "previously seen the tiles."
 msgstr ""
 
-#: server/settings.c:1731
+#: server/settings.c:1729
 #, fuzzy
 msgid "Airlifting style"
 msgstr "Авіатранспорт"
@@ -40469,7 +40484,7 @@ msgstr "Авіатранспорт"
 #. * translated separately (they must match!). The strings
 #. * between parenthesis and in uppercase must not be
 #. * translated.
-#: server/settings.c:1736
+#: server/settings.c:1734
 msgid ""
 "This setting affects airlifting units between cities. It can be a set of the "
 "following values:\n"
@@ -40483,12 +40498,12 @@ msgid ""
 "any."
 msgstr ""
 
-#: server/settings.c:1753
+#: server/settings.c:1751
 #, fuzzy
 msgid "Base chance for diplomats and spies to succeed"
 msgstr "Базовий шанс для дипломатів та шпигунів на вдачу."
 
-#: server/settings.c:1754
+#: server/settings.c:1752
 #, fuzzy
 msgid ""
 "The base chance of a spy returning from a successful mission and the base "
@@ -40497,21 +40512,21 @@ msgstr ""
 "Вірогідність повернення шпигуна з вдалого завдання та базовова вірогідність "
 "успіху для дипломатів та шпигунів."
 
-#: server/settings.c:1761
+#: server/settings.c:1759
 msgid "Whether to allow space race"
 msgstr "Чи дозволено заселення космосу"
 
-#: server/settings.c:1762
+#: server/settings.c:1760
 #, fuzzy
 msgid "If this option is enabled, players can build spaceships."
 msgstr ""
 "Якщо цю опцію встановлено в 1, гравці можуть збудувати космічний корабель."
 
-#: server/settings.c:1767
+#: server/settings.c:1765
 msgid "Should the game end if the spaceship arrives?"
 msgstr "Чи слід грі закінчитися по прибуттю зорельота?"
 
-#: server/settings.c:1768
+#: server/settings.c:1766
 #, fuzzy
 msgid ""
 "If this option is turned on, the game will end with the arrival of a "
@@ -40520,11 +40535,11 @@ msgstr ""
 "Якщо цю опцію встановлено в 1, гра завершиться по прибутті космічного "
 "корабля на Альфу Центавра."
 
-#: server/settings.c:1774
+#: server/settings.c:1772
 msgid "Minimum number of cities for civil war"
 msgstr "Мінімальна кількість міст для громадянської війни"
 
-#: server/settings.c:1775
+#: server/settings.c:1773
 msgid ""
 "A civil war is triggered when a player has at least this many cities and the "
 "player's capital is captured. If this option is set to the maximum value, "
@@ -40534,11 +40549,11 @@ msgstr ""
 "міст, а його столицю буде захоплено. Якщо цю опцію встановлено у максимальне "
 "значення, громадянські війни не відбуватимуться."
 
-#: server/settings.c:1784
+#: server/settings.c:1782
 msgid "Restrict the use of the infrastructure for enemy units"
 msgstr ""
 
-#: server/settings.c:1785
+#: server/settings.c:1783
 #, fuzzy
 msgid ""
 "If this option is enabled, the use of roads and rails will be restricted for "
@@ -40547,22 +40562,22 @@ msgstr ""
 "Якщо цю опцію активовано, диалогі звітів будуть на окремих вкладках, а не у "
 "вспливаючих діалогах."
 
-#: server/settings.c:1791
+#: server/settings.c:1789
 msgid "Does unreachable unit protect reachable ones"
 msgstr ""
 
-#: server/settings.c:1792
+#: server/settings.c:1790
 msgid ""
 "This option controls whether tiles with both unreachable and reachable units "
 "can be attacked. If disabled, any tile with reachable units can be attacked. "
 "If enabled, tiles with an unreachable unit in them cannot be attacked."
 msgstr ""
 
-#: server/settings.c:1800
+#: server/settings.c:1798
 msgid "Turns until player contact is lost"
 msgstr "Ходи до контакту гравця втрачені"
 
-#: server/settings.c:1801
+#: server/settings.c:1799
 msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
 "last met, even when they do not have an embassy. If set to zero, then "
@@ -40573,11 +40588,11 @@ msgstr ""
 "встановлено в нуль, гравці не зможуть вести перемовини, поки не матимуть "
 "посольства."
 
-#: server/settings.c:1811
+#: server/settings.c:1809
 msgid "Rebuild palace whenever capital is conquered"
 msgstr "Перебудовувати палац, якщо столицю захоплено"
 
-#: server/settings.c:1812
+#: server/settings.c:1810
 #, fuzzy
 msgid ""
 "If this is turned on, when the capital is conquered the palace is "
@@ -40591,24 +40606,24 @@ msgstr ""
 "цьому випадку вимоги до технологічного розвитку для будівництва палацу "
 "ігноруються."
 
-#: server/settings.c:1822
+#: server/settings.c:1820
 #, fuzzy
 msgid "Give caught units a homecity"
 msgstr "* Ніколи не має рідного міста.\n"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:1825
+#: server/settings.c:1823
 msgid ""
 "If unset, caught units will have no homecity and will be subject to the "
 "'killunhomed' option."
 msgstr ""
 
-#: server/settings.c:1832
+#: server/settings.c:1830
 msgid "Whether allied players can win together"
 msgstr ""
 
-#: server/settings.c:1833
+#: server/settings.c:1831
 msgid ""
 "If this option is turned on and a point is reached where all the players "
 "still able to win the game are allies, and at least one defeated player is "
@@ -40616,11 +40631,11 @@ msgid ""
 "victory for the allied players."
 msgstr ""
 
-#: server/settings.c:1842
+#: server/settings.c:1840
 msgid "Whether to use natural city names"
 msgstr "Чи використовувати природні назви міст"
 
-#: server/settings.c:1843
+#: server/settings.c:1841
 msgid ""
 "If enabled, the default city names will be determined based on the "
 "surrounding terrain."
@@ -40628,13 +40643,13 @@ msgstr ""
 "Якщо активовано, назва міста по замовчуванню буде буде визначатися "
 "відповідно до прилеглих земель."
 
-#: server/settings.c:1849
+#: server/settings.c:1847
 msgid "Whether to enable citizen migration"
 msgstr "Чи дозволяти міграцію громадян"
 
 #. TRANS: The strings between single quotes are setting names
 #. * and should not be translated.
-#: server/settings.c:1852
+#: server/settings.c:1850
 msgid ""
 "This is the master setting that controls whether citizen migration is active "
 "in the game. If enabled, citizens may automatically move from less desirable "
@@ -40650,12 +40665,12 @@ msgid ""
 "  'mgr_nationchance' - Chance for intra-nation migration."
 msgstr ""
 
-#: server/settings.c:1870
+#: server/settings.c:1868
 msgid "Number of turns between migrations from a city"
 msgstr "Кількість ходів між еміграціями з міста"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1872
+#: server/settings.c:1870
 msgid ""
 "This setting controls the number of turns between migration checks for a "
 "given city. The interval is calculated from the founding turn of the city. "
@@ -40665,24 +40680,24 @@ msgid ""
 "setting has no effect unless migration is enabled by the 'migration' setting."
 msgstr ""
 
-#: server/settings.c:1885
+#: server/settings.c:1883
 msgid "Whether migration is limited by food"
 msgstr "Чи обмежена міграція їжею"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1887
+#: server/settings.c:1885
 msgid ""
 "If this setting is enabled, citizens will not migrate to cities which would "
 "not have enough food to support them. This setting has no effect unless "
 "migration is enabled by the 'migration' setting."
 msgstr ""
 
-#: server/settings.c:1895
+#: server/settings.c:1893
 msgid "Maximum distance citizens may migrate"
 msgstr "Максимальна відстань міграції громадян"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1897
+#: server/settings.c:1895
 msgid ""
 "This setting controls how far citizens may look for a suitable migration "
 "destination when deciding which city to migrate to. The value is added to "
@@ -40691,12 +40706,12 @@ msgid ""
 "no effect unless migration is activated by the 'migration' setting."
 msgstr ""
 
-#: server/settings.c:1909
+#: server/settings.c:1907
 msgid "Percent probability for migration within the same nation"
 msgstr "Відсоткова ймовірність міграції в межах однієї нації"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1911
+#: server/settings.c:1909
 msgid ""
 "This setting controls how likely it is for citizens to migrate between "
 "cities owned by the same player. Zero indicates migration will never occur, "
@@ -40705,12 +40720,12 @@ msgid ""
 "'migration' setting."
 msgstr ""
 
-#: server/settings.c:1922
+#: server/settings.c:1920
 msgid "Percent probability for migration between foreign cities"
 msgstr "Відсоткова ймовірність міграції між іноземними містами."
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1924
+#: server/settings.c:1922
 msgid ""
 "This setting controls how likely it is for migration to occur between cities "
 "owned by different players. Zero indicates migration will never occur, 100 "
@@ -40719,13 +40734,13 @@ msgid ""
 "setting."
 msgstr ""
 
-#: server/settings.c:1942
+#: server/settings.c:1940
 msgid "Players that users are allowed to take"
 msgstr "Гравці, вільні для вибору користувачами"
 
 #. TRANS: the strings in double quotes are server command names
 #. * and should not be translated.
-#: server/settings.c:1945
+#: server/settings.c:1943
 #, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
@@ -40777,11 +40792,11 @@ msgstr ""
 "   (нічого) = Лише один контролюючий.\n"
 "Багато з'єднань та наглядачі наразі ЕКСПЕРЕМЕНТАЛЬНІ."
 
-#: server/settings.c:1980
+#: server/settings.c:1978
 msgid "Whether AI-status toggles with connection"
 msgstr "Чи комп'ютерні гравці залежать від з'єднань."
 
-#: server/settings.c:1981
+#: server/settings.c:1979
 #, fuzzy
 msgid ""
 "If enabled, AI status is turned off when a player connects, and on when a "
@@ -40790,15 +40805,15 @@ msgstr ""
 "Якщо встановлено у 1, комп'ютер передає керування якщо гравець "
 "під'єднується, та забирає його на себе при від'єднанні."
 
-#: server/settings.c:1987
+#: server/settings.c:1985
 msgid "Turn the game ends"
 msgstr "Хід кінця гри"
 
-#: server/settings.c:1988
+#: server/settings.c:1986
 msgid "The game will end at the end of the given turn."
 msgstr "Гра закінчиться у кінці вказаного ходу."
 
-#: server/settings.c:1994
+#: server/settings.c:1992
 msgid "Reveal the map"
 msgstr ""
 
@@ -40807,7 +40822,7 @@ msgstr ""
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between parentheses and in uppercase must not be
 #. * translated.
-#: server/settings.c:2000
+#: server/settings.c:1998
 msgid ""
 "If \"Reveal map at game start\" (START) is set, the initial state of the "
 "entire map will be known to all players from the start of the game, although "
@@ -40816,7 +40831,7 @@ msgid ""
 "they are alone in their team."
 msgstr ""
 
-#: server/settings.c:2011
+#: server/settings.c:2009
 msgid "Maximum seconds per turn"
 msgstr "Кількість секунд на хід"
 
@@ -40824,7 +40839,7 @@ msgstr "Кількість секунд на хід"
 #. * translated separately, the translation should be the same.
 #. * \"timeoutincrease\" is a command name and must not to be
 #. * translated.
-#: server/settings.c:2016
+#: server/settings.c:2014
 #, fuzzy
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
@@ -40840,14 +40855,14 @@ msgstr ""
 "ВІДЛАДОЧНИХ серверах, встановлення у -1 встановлює тестовий режим автогри. "
 "Використовуйте опцію разом з 'timeoutincrease' аби мати дінамічний таймаут."
 
-#: server/settings.c:2030
+#: server/settings.c:2028
 #, fuzzy
 msgid "First turn timeout"
 msgstr "таймаут пінга"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * should not be translated.
-#: server/settings.c:2033
+#: server/settings.c:2031
 msgid ""
 "If greater than 0, T0 will last for 'first_timeout' seconds.\n"
 "If set to 0, T0 will not have a timeout.\n"
@@ -40855,11 +40870,11 @@ msgid ""
 "See also 'timeout'."
 msgstr ""
 
-#: server/settings.c:2042
+#: server/settings.c:2040
 msgid "Timeout at least n seconds when enemy moved"
 msgstr "Затримка що найменьш n секунд, коли супротивник закінчив хід"
 
-#: server/settings.c:2043
+#: server/settings.c:2041
 msgid ""
 "Any time a unit moves while in sight of an enemy player, the remaining "
 "timeout is increased to this value."
@@ -40867,13 +40882,13 @@ msgstr ""
 "Щоразу як підрозділ рухається у полі зору ворожого гравця, залишок часу "
 "збільшується на цю величину."
 
-#: server/settings.c:2049
+#: server/settings.c:2047
 msgid "Time between unit moves over turn change"
 msgstr ""
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:2052
+#: server/settings.c:2050
 msgid ""
 "This setting gives the minimum amount of time in seconds between unit moves "
 "after a turn change occurs. For example, if this setting is set to 20 and a "
@@ -40883,22 +40898,22 @@ msgid ""
 "limited to a maximum value of 2/3 'timeout'."
 msgstr ""
 
-#: server/settings.c:2068
+#: server/settings.c:2066
 #, fuzzy
 msgid "Control of simultaneous player/team phases"
 msgstr "Контроль одночасних фаз гравця/команди."
 
-#: server/settings.c:2069
+#: server/settings.c:2067
 msgid ""
 "This setting controls whether players may make moves at the same time during "
 "a turn."
 msgstr ""
 
-#: server/settings.c:2075
+#: server/settings.c:2073
 msgid "Seconds to let a client's network connection block"
 msgstr "Затримка у секундах блокування мережевого з'єднання клієнта."
 
-#: server/settings.c:2076
+#: server/settings.c:2074
 msgid ""
 "If a network connection is blocking for a time greater than this value, then "
 "the connection is closed. Zero means there is no timeout (although "
@@ -40908,12 +40923,12 @@ msgstr ""
 "Нуль означає відсутність таймаутів (хоча врешті може відбутися автоматичне "
 "роз'єднання)."
 
-#: server/settings.c:2085
+#: server/settings.c:2083
 #, fuzzy
 msgid "Max seconds for network buffers to drain"
 msgstr "Затримка очикування звільнення буферів TCP"
 
-#: server/settings.c:2086
+#: server/settings.c:2084
 #, fuzzy
 msgid ""
 "The server will wait for up to the value of this parameter in seconds, for "
@@ -40924,11 +40939,11 @@ msgstr ""
 "буфери TCP усіх клієнтських з'єднань. Нуль спричиняє відсутність очикування "
 "сервером. "
 
-#: server/settings.c:2094
+#: server/settings.c:2092
 msgid "Seconds between PINGs"
 msgstr "Затримка у секундах між ПІНГами"
 
-#: server/settings.c:2095
+#: server/settings.c:2093
 #, fuzzy
 msgid ""
 "The server will poll the clients with a PING request each time this period "
@@ -40937,21 +40952,21 @@ msgstr ""
 "Сервер перевіряє клієнтів ПІНГ запитами кожного разу коли заданий час "
 "вичерпується."
 
-#: server/settings.c:2102
+#: server/settings.c:2100
 msgid "Time to cut a client"
 msgstr "Час аби відрізати клієнта"
 
-#: server/settings.c:2103
+#: server/settings.c:2101
 msgid ""
 "If a client doesn't reply to a PING in this time the client is disconnected."
 msgstr ""
 "Якщо клієнт не відповість на PING протягом цього часу, його буде відключено."
 
-#: server/settings.c:2109
+#: server/settings.c:2107
 msgid "Turn-blocking game play mode"
 msgstr "Блокування гри по ходах"
 
-#: server/settings.c:2110
+#: server/settings.c:2108
 #, fuzzy
 msgid ""
 "If this is turned on, the game turn is not advanced until all players have "
@@ -40960,13 +40975,13 @@ msgstr ""
 "Якщо встановлено в 1 - ігровий хід не завершується доти, доки усі гравці, "
 "включно з відключеними, не закінчать свій хід."
 
-#: server/settings.c:2117
+#: server/settings.c:2115
 msgid "Fixed-length turns play mode"
 msgstr "Гра ходами фіксованої довжини"
 
 #. TRANS: \"Turn Done\" refers to the client button; it is also
 #. * translated separately, the translation should be the same.
-#: server/settings.c:2120
+#: server/settings.c:2118
 #, fuzzy
 msgid ""
 "If this is turned on the game turn will not advance until the timeout has "
@@ -40975,13 +40990,13 @@ msgstr ""
 "Якщо встановлено в 1, ігровий хід не буде завершено, доки не вичерпається "
 "час затримки, навіть якщо всі гравці натиснуть \"Хід завершено\"."
 
-#: server/settings.c:2127
+#: server/settings.c:2125
 msgid "What is in the Demographics report"
 msgstr "Що включати у демографічний звіт"
 
 #. TRANS: The strings between double quotes should be
 #. * translated.
-#: server/settings.c:2130
+#: server/settings.c:2128
 #, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies the inclusion "
@@ -41016,20 +41031,20 @@ msgstr ""
 "    b = включати стовбець 'краща нація'\n"
 "(Порядок слідування символів значення не має, на відміну від регістра.)"
 
-#: server/settings.c:2154
+#: server/settings.c:2152
 msgid "Turns per auto-save"
 msgstr "Ходів між автозбереженням"
 
 #. TRANS: The string between double quotes is also translated
 #. * separately (it must match!). The string between single
 #. * quotes is a setting name and shouldn't be translated.
-#: server/settings.c:2158
+#: server/settings.c:2156
 msgid ""
 "How many turns elapse between automatic game saves. This setting only has an "
 "effect when the 'autosaves' setting includes \"New turn\"."
 msgstr ""
 
-#: server/settings.c:2165
+#: server/settings.c:2163
 msgid "Which savegames are generated automatically"
 msgstr ""
 
@@ -41038,7 +41053,7 @@ msgstr ""
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between parentheses and in uppercase must stay as
 #. * untranslated.
-#: server/settings.c:2171
+#: server/settings.c:2169
 msgid ""
 "This setting controls which autosave types get generated:\n"
 "- \"New turn\" (TURN): Save when turn begins, once every 'saveturns' turns.\n"
@@ -41049,12 +41064,12 @@ msgid ""
 "interrupt."
 msgstr ""
 
-#: server/settings.c:2183
+#: server/settings.c:2181
 msgid "Savegame compression level"
 msgstr "Рівень компресії збережених ігр"
 
 #. TRANS: 'compresstype' setting name should not be translated.
-#: server/settings.c:2185
+#: server/settings.c:2183
 #, fuzzy
 msgid ""
 "If non-zero, saved games will be compressed depending on the 'compresstype' "
@@ -41064,19 +41079,19 @@ msgstr ""
 "gzip) або bzip2. Більші значення дають кращу компресію, але вона довше "
 "виконується."
 
-#: server/settings.c:2193
+#: server/settings.c:2191
 msgid "Savegame compression algorithm"
 msgstr "Алгорітм компресії збережених ігр"
 
-#: server/settings.c:2194
+#: server/settings.c:2192
 msgid "Compression library to use for savegames."
 msgstr "Бібліотека для компресії збережених ігор."
 
-#: server/settings.c:2199
+#: server/settings.c:2197
 msgid "Save using the given savegame version"
 msgstr "Зберігати з використанням вказаної версії збереження гри"
 
-#: server/settings.c:2200
+#: server/settings.c:2198
 msgid ""
 "Create a savegame which can be loaded by the given version of Freeciv. Note "
 "that some features will not be saved/restored for older versions."
@@ -41084,14 +41099,14 @@ msgstr ""
 "Створити збереження гри, яке зможе завантажити вказана версія Freeciv. "
 "Зауважте, що деякі фічі не збережуться і не завантажаться для старших версій."
 
-#: server/settings.c:2207
+#: server/settings.c:2205
 msgid "Definition of the save file name"
 msgstr "Визначення назви файла збереження"
 
 #. TRANS: %R, %S, %T and %Y must not be translated. The
 #. * strings (examples and setting names) between single quotes
 #. * neither. The strings between <> should be translated.
-#: server/settings.c:2212
+#: server/settings.c:2210
 #, no-c-format
 msgid ""
 "Within the string the following custom formats are allowed:\n"
@@ -41107,13 +41122,13 @@ msgid ""
 "appended to the value of 'savename'."
 msgstr ""
 
-#: server/settings.c:2230
+#: server/settings.c:2228
 msgid "Whether to log player statistics"
 msgstr "Куди зберігати журнал із статистикою гравця"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:2233
+#: server/settings.c:2231
 #, fuzzy
 msgid ""
 "If this is turned on, player statistics are appended to the file defined by "
@@ -41123,20 +41138,20 @@ msgstr ""
 "Якщо 1, статистика гравця додається до файлу 'civscore.log' кожного ходу. Ця "
 "статистика може бути використана для створення графіків після гри."
 
-#: server/settings.c:2240
+#: server/settings.c:2238
 msgid "Name for the score log file"
 msgstr ""
 
 #. TRANS: Don't translate the string in single quotes.
-#: server/settings.c:2242
+#: server/settings.c:2240
 msgid "The default name for the score log file is 'freeciv-score.log'."
 msgstr ""
 
-#: server/settings.c:2248
+#: server/settings.c:2246
 msgid "Maximum number of connections to the server per host"
 msgstr "Максимальна кількість підключень до сервера з одного хоста"
 
-#: server/settings.c:2249
+#: server/settings.c:2247
 msgid ""
 "New connections from a given host will be rejected if the total number of "
 "connections from the very same host equals or exceeds this value. A value of "
@@ -41144,116 +41159,116 @@ msgid ""
 "connections supported by the server."
 msgstr ""
 
-#: server/settings.c:2259
+#: server/settings.c:2257
 msgid "Time before a kicked user can reconnect"
 msgstr ""
 
 #. TRANS: the string in double quotes is a server command name and
 #. * should not be translated
-#: server/settings.c:2262
+#: server/settings.c:2260
 msgid ""
 "Gives the time in seconds before a user kicked using the \"kick\" command "
 "may reconnect. Changing this setting will affect users kicked in the past."
 msgstr ""
 
-#: server/settings.c:2363
+#: server/settings.c:2361
 #, c-format
 msgid "You are not allowed to change the setting '%s'."
 msgstr "Вам не дозволено змінювати опцію '%s'."
 
-#: server/settings.c:2371
+#: server/settings.c:2369
 #, c-format
 msgid "The setting '%s' is locked by the ruleset."
 msgstr ""
 
-#: server/settings.c:2385
+#: server/settings.c:2383
 #, c-format
 msgid "The setting '%s' can't be modified after the map is fixed."
 msgstr "Опцію '%s' не можна змінити коли карту вже зафіксовано."
 
-#: server/settings.c:2402
+#: server/settings.c:2400
 #, c-format
 msgid "The setting '%s' can't be modified after the game has started."
 msgstr "Опцію '%s' не можна змінити коли гру вже запущено."
 
-#: server/settings.c:2414
+#: server/settings.c:2412
 msgid "Internal error."
 msgstr "Внутрішня помилка."
 
-#: server/settings.c:2502
+#: server/settings.c:2500
 #, c-format
 msgid "\"%s\" prefix is ambiguous. Candidates are: %s."
 msgstr "Префікс \"%s\" неоднозначний. Можливі кандидати: %s."
 
-#: server/settings.c:2509
+#: server/settings.c:2507
 msgid "Missing value."
 msgstr "Відсутнє значення"
 
-#: server/settings.c:2518
+#: server/settings.c:2516
 #, fuzzy, c-format
 msgid "No match for \"%s\"."
 msgstr "Ви проголосували за \"%s\""
 
-#: server/settings.c:2556
+#: server/settings.c:2554
 #, fuzzy
 msgid "This setting is not a boolean."
 msgstr "Сторінка поточних установок"
 
-#: server/settings.c:2677
+#: server/settings.c:2675
 #, fuzzy
 msgid "This setting is not an integer."
 msgstr "Сторінка поточних установок"
 
-#: server/settings.c:2683
+#: server/settings.c:2681
 #, c-format
 msgid "Value out of range: %d (min: %d; max: %d)."
 msgstr "Значення поза діапазоном: %d (мін: %d; макс: %d)."
 
-#: server/settings.c:2738
+#: server/settings.c:2736
 #, fuzzy
 msgid "This setting is not a string."
 msgstr "Сторінка поточних установок"
 
-#: server/settings.c:2744
+#: server/settings.c:2742
 #, c-format
 msgid "String value too long (max length: %lu)."
 msgstr "Рядок надто довгий (максимальна довжина: %lu)."
 
-#: server/settings.c:2822
+#: server/settings.c:2820
 #, fuzzy
 msgid "This setting is not an enumerator."
 msgstr "Сторінка поточних установок"
 
 #. TRANS: only emphasizing a string.
-#: server/settings.c:2991
+#: server/settings.c:2989
 #, c-format
 msgid "\"%s\""
 msgstr "\"%s\""
 
 #. TRANS: Bitwise setting has no bits set.
-#: server/settings.c:3000
+#: server/settings.c:2998
 #, fuzzy
 msgid "empty value"
 msgstr "Ракета"
 
-#: server/settings.c:3052
+#: server/settings.c:3050
 #, fuzzy
 msgid "This setting is not a bitwise."
 msgstr "Сторінка поточних установок"
 
-#: server/settings.c:3310 server/settings.c:3330 server/settings.c:3350
-#: server/settings.c:3374 server/settings.c:3398
+#: server/settings.c:3308 server/settings.c:3328 server/settings.c:3348
+#: server/settings.c:3372 server/settings.c:3396
 #, fuzzy, c-format
 msgid "Ruleset: '%s' has been set to %s."
 msgstr "Опція: %s встановлена у \"%s\"."
 
-#: server/settings.c:3415
+#: server/settings.c:3413
 #, fuzzy, c-format
 msgid "Ruleset: '%s' has been locked by the ruleset."
 msgstr "Опція: %s встановлена у \"%s\"."
 
-#: server/settings.c:3671 server/settings.c:3696 server/settings.c:3718
-#: server/settings.c:3745 server/settings.c:3772
+#: server/settings.c:3669 server/settings.c:3694 server/settings.c:3716
+#: server/settings.c:3743 server/settings.c:3770
 #, fuzzy, c-format
 msgid "Savegame: '%s' has been set to %s."
 msgstr "Опція: %s встановлена у \"%s\"."
@@ -41528,7 +41543,7 @@ msgstr "Очікуємо початку гри: %d з %d гравців гото
 msgid "%s rules the %s."
 msgstr "%s головує над %s."
 
-#: server/srv_main.c:2362
+#: server/srv_main.c:2367
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -41536,29 +41551,29 @@ msgstr ""
 "Програма freeciv-server має підтримку аутентифікації гравців, але зараз вона "
 "не використовується."
 
-#: server/srv_main.c:2431
+#: server/srv_main.c:2436
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Відправляю інфо на метасервер <%s>."
 
-#: server/srv_main.c:2435
+#: server/srv_main.c:2440
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 
-#: server/srv_main.c:2456
+#: server/srv_main.c:2461
 msgid "The game is over..."
 msgstr "Гру закінчено..."
 
-#: server/srv_main.c:2541
+#: server/srv_main.c:2546
 msgid "Failed to create suitable map, retrying with another mapseed"
 msgstr ""
 
-#: server/srv_main.c:2556
+#: server/srv_main.c:2561
 #, fuzzy
 msgid "Cannot create suitable map with given settings."
 msgstr "Не можу створити підрозділ %s у цій місцевості."
 
-#: server/srv_main.c:2754
+#: server/srv_main.c:2759
 msgid "Now accepting new client connections."
 msgstr "Тепер приймаємо нові з'єднання."
 
@@ -41937,7 +41952,7 @@ msgstr "Опція: %s  -  %s"
 msgid "Option: %s"
 msgstr "Опція: %s"
 
-#: server/stdinhand.c:1744 server/stdinhand.c:5893
+#: server/stdinhand.c:1744 server/stdinhand.c:5896
 msgid "Description:"
 msgstr "Опис:"
 
@@ -42475,7 +42490,7 @@ msgstr ""
 msgid "%s now controls %s (%s, %s)."
 msgstr "%s тепер контролює %s (%s, %s)."
 
-#: server/stdinhand.c:3457 server/stdinhand.c:6227
+#: server/stdinhand.c:3457 server/stdinhand.c:6230
 msgid "Human"
 msgstr "Людина"
 
@@ -42550,7 +42565,7 @@ msgstr "Каталог правил \"%s\" не знайдено"
 msgid "Ruleset directory set to \"%s\""
 msgstr "Каталог правил встановлено у \"%s\""
 
-#: server/stdinhand.c:3813 server/stdinhand.c:3849 server/stdinhand.c:6143
+#: server/stdinhand.c:3813 server/stdinhand.c:3849 server/stdinhand.c:6146
 msgid "That would be rather silly, since you are not a player."
 msgstr "Це було б безглуздо, оскільки Ви не гравець."
 
@@ -42564,7 +42579,7 @@ msgstr "%s. Спробуйте /help ignore"
 msgid "Added pattern %s as entry %d to your ignore list."
 msgstr ""
 
-#: server/stdinhand.c:3858 server/stdinhand.c:6148
+#: server/stdinhand.c:3858 server/stdinhand.c:6151
 msgid "Your ignore list is empty."
 msgstr "Ваш список ігнорування порожній."
 
@@ -43007,61 +43022,61 @@ msgstr ""
 msgid "Ambiguous fcdb command."
 msgstr ""
 
-#: server/stdinhand.c:5604
+#: server/stdinhand.c:5607
 msgid "Not enough human players; game will not start."
 msgstr "Не вистачає гравців-людей, гра не розпочнеться."
 
-#: server/stdinhand.c:5609
+#: server/stdinhand.c:5612
 msgid "No players; game will not start."
 msgstr "Немає гравців; гра не розпочнеться."
 
-#: server/stdinhand.c:5613
+#: server/stdinhand.c:5616
 msgid "Not enough nations for all players; game will not start."
 msgstr "Не вистачає націй для всіх гравців; гра не розпочнеться."
 
-#: server/stdinhand.c:5622
+#: server/stdinhand.c:5625
 msgid "All players are ready; starting game."
 msgstr "Усі гравці готові; починаємо гру."
 
 #. TRANS: given when /start is invoked during gameover.
-#: server/stdinhand.c:5638
+#: server/stdinhand.c:5641
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr "Не можу розпочати гру: гра чекає, щоб усі клієнти від'єдналися."
 
 #. TRANS: given when /start is invoked while the game
 #. * is running.
-#: server/stdinhand.c:5645
+#: server/stdinhand.c:5648
 msgid "Cannot start the game: it is already running."
 msgstr "Не можу стартувати гру: її вже запущено."
 
-#: server/stdinhand.c:5676
+#: server/stdinhand.c:5679
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Видаляю з'єднання %s."
 
-#: server/stdinhand.c:5677
+#: server/stdinhand.c:5680
 msgid "connection cut"
 msgstr "обрив з'єднання"
 
-#: server/stdinhand.c:5765
+#: server/stdinhand.c:5768
 #, fuzzy
 msgid "You may not kick yourself."
 msgstr "Ви повині вказати вашу стать."
 
-#: server/stdinhand.c:5788
+#: server/stdinhand.c:5791
 #, c-format
 msgid ""
 "There must be at least %d unique connections to the server for this command "
 "to be valid."
 msgstr ""
 
-#: server/stdinhand.c:5814
+#: server/stdinhand.c:5817
 #, fuzzy
 msgid "kicked"
 msgstr "блоковано"
 
-#: server/stdinhand.c:5830
+#: server/stdinhand.c:5833
 #, fuzzy
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
@@ -43101,113 +43116,113 @@ msgstr ""
 "  quit   -  аби вийти"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:5867
+#: server/stdinhand.c:5870
 #, c-format
 msgid "Command: %s  -  %s"
 msgstr "Команда: %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:5873
+#: server/stdinhand.c:5876
 #, c-format
 msgid "Command: %s"
 msgstr "Команда: %s"
 
-#: server/stdinhand.c:5878
+#: server/stdinhand.c:5881
 msgid "Synopsis: "
 msgstr "Синтаксис:"
 
-#: server/stdinhand.c:5887
+#: server/stdinhand.c:5890
 #, c-format
 msgid "Level: %s"
 msgstr "Рівень: %s"
 
-#: server/stdinhand.c:5911
+#: server/stdinhand.c:5914
 msgid "The following server commands are available:"
 msgstr "Доступні наступні команди сервера:"
 
-#: server/stdinhand.c:5972
+#: server/stdinhand.c:5975
 #, c-format
 msgid "Possible matches: %s"
 msgstr "Ймовірні співпадіння: %s"
 
-#: server/stdinhand.c:6034
+#: server/stdinhand.c:6037
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Аргумент допомоги '%s' двозначний."
 
-#: server/stdinhand.c:6041
+#: server/stdinhand.c:6044
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Немає співпадінь для аргумента допомоги '%s'."
 
-#: server/stdinhand.c:6082
+#: server/stdinhand.c:6085
 msgid "List of connections to server:"
 msgstr "Список з'єднань сервера:"
 
-#: server/stdinhand.c:6086
+#: server/stdinhand.c:6089
 msgid "<no connections>"
 msgstr "<немає з'єднань>"
 
-#: server/stdinhand.c:6107
+#: server/stdinhand.c:6110
 #, fuzzy
 msgid "List of all delegations:"
 msgstr "Список команд:"
 
 #. TRANS: last %s is either " (active)" or empty string
-#: server/stdinhand.c:6119
+#: server/stdinhand.c:6122
 #, c-format
 msgid "%s delegates control over player '%s' to user %s%s."
 msgstr ""
 
-#: server/stdinhand.c:6121
+#: server/stdinhand.c:6124
 #, fuzzy
 msgid " (active)"
 msgstr "активний"
 
-#: server/stdinhand.c:6127
+#: server/stdinhand.c:6130
 msgid "No delegations defined."
 msgstr ""
 
-#: server/stdinhand.c:6152
+#: server/stdinhand.c:6155
 msgid "Your ignore list:"
 msgstr "Ваш список ігнорування:"
 
-#: server/stdinhand.c:6168
+#: server/stdinhand.c:6171
 msgid "List of players:"
 msgstr "Список гравців:"
 
-#: server/stdinhand.c:6172 server/stdinhand.c:6339
+#: server/stdinhand.c:6175 server/stdinhand.c:6342
 msgid "<no players>"
 msgstr "<немає гравців>"
 
-#: server/stdinhand.c:6202
+#: server/stdinhand.c:6205
 #, fuzzy, c-format
 msgid ", user %s"
 msgstr "ім'я %s, "
 
-#: server/stdinhand.c:6206
+#: server/stdinhand.c:6209
 msgid ", ready"
 msgstr ", готово"
 
-#: server/stdinhand.c:6210
+#: server/stdinhand.c:6213
 msgid ", not ready"
 msgstr ", не готове"
 
-#: server/stdinhand.c:6216
+#: server/stdinhand.c:6219
 msgid ", Dead"
 msgstr ", Помер"
 
-#: server/stdinhand.c:6230
+#: server/stdinhand.c:6233
 #, c-format
 msgid ", %s"
 msgstr ""
 
-#: server/stdinhand.c:6231
+#: server/stdinhand.c:6234
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", рівень складності %s"
 
-#: server/stdinhand.c:6237
+#: server/stdinhand.c:6240
 #, fuzzy, c-format
 msgid ", %d connection:"
 msgid_plural ", %d connections:"
@@ -43215,25 +43230,25 @@ msgstr[0] " %d з'єднання:"
 msgstr[1] " %d з'єднання:"
 msgstr[2] " %d з'єднань:"
 
-#: server/stdinhand.c:6244
+#: server/stdinhand.c:6247
 #, fuzzy, c-format
 msgid "%s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s приєднався з %s (рівень доступу до команд %s), розмір буферу=%dКБ"
 
-#: server/stdinhand.c:6249
+#: server/stdinhand.c:6252
 msgid " (observer mode)"
 msgstr " (режим наглядача)"
 
-#: server/stdinhand.c:6266
+#: server/stdinhand.c:6269
 msgid "List of scenarios available:"
 msgstr "Список доступних сценаріїв:"
 
-#: server/stdinhand.c:6287
+#: server/stdinhand.c:6290
 msgid "List of teams:"
 msgstr "Список команд:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:6297
+#: server/stdinhand.c:6300
 #, c-format
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
@@ -43241,32 +43256,32 @@ msgstr[0] "%2d : '%s' : %d гравець :"
 msgstr[1] "%2d : '%s' : %d гравці :"
 msgstr[2] "%2d : '%s' : %d гравців :"
 
-#: server/stdinhand.c:6318
+#: server/stdinhand.c:6321
 #, fuzzy
 msgid "No map image definitions."
 msgstr "Визначення розміру карти"
 
-#: server/stdinhand.c:6320
+#: server/stdinhand.c:6323
 #, fuzzy
 msgid "List of map image definitions:"
 msgstr "Визначення розміру карти"
 
-#: server/stdinhand.c:6325
+#: server/stdinhand.c:6328
 #, c-format
 msgid "[%2d] %s"
 msgstr ""
 
-#: server/stdinhand.c:6336
+#: server/stdinhand.c:6339
 #, fuzzy
 msgid "List of player colors:"
 msgstr "Список гравців:"
 
-#: server/stdinhand.c:6342
+#: server/stdinhand.c:6345
 #, fuzzy, c-format
 msgid "%s (user %s): [%s]"
 msgstr "%s (номер %d) від %s: %s."
 
-#: server/stdinhand.c:6399
+#: server/stdinhand.c:6402
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Поганий аргумент для 'list': '%s'. Спробуйте '%shelp list'."
@@ -43536,7 +43551,7 @@ msgstr "Лише %s можуть атакувати з моря."
 msgid "Cannot attack from sea."
 msgstr "Не можу атакувати з моря."
 
-#: server/unithand.c:1290 server/unittools.c:2473
+#: server/unithand.c:1290 server/unittools.c:2514
 msgid "Cannot attack unless you declare war first."
 msgstr "Не можу атакувати доки Ви не проголосите війну."
 
@@ -43550,7 +43565,7 @@ msgstr "%s можуть рухатися лише у підконтрольні�
 msgid "%s cannot move that far from the coast line."
 msgstr "%s не може рухатися так далеко від берега."
 
-#: server/unithand.c:1308 server/unittools.c:2480
+#: server/unithand.c:1308 server/unittools.c:2521
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "Не можна вторгатися, доки Ви не проголосите %s війну."
@@ -43668,70 +43683,70 @@ msgstr "Торговий шлях між %s і %s скасовано."
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr "На жаль, %s скасував торговий шлях із %s до Вашого міста %s."
 
-#: server/unittools.c:329
+#: server/unittools.c:331
 #, c-format
 msgid "%s was upgraded for free to %s."
 msgstr "%s було на шару модернізовано до %s."
 
-#: server/unittools.c:377
+#: server/unittools.c:379
 #, c-format
 msgid "Your %s has run out of hit points."
 msgstr "Ваш підрозділ %s втратив усе здоров'я."
 
-#: server/unittools.c:453
+#: server/unittools.c:455
 #, c-format
 msgid "Your %s has returned to refuel."
 msgstr "Ваш підрозділ %s повернувся для заправки."
 
-#: server/unittools.c:484
+#: server/unittools.c:486
 #, c-format
 msgid "Your %s has run out of fuel."
 msgstr "Вашому %s не вистачило палива."
 
 #. TRANS: Your <unit> became ... rank of <veteran level>.
-#: server/unittools.c:692
+#: server/unittools.c:694
 #, fuzzy, c-format
 msgid "Your %s became more experienced and achieved the rank of %s."
 msgstr "Ваш %s набрався досвіду та став %s."
 
-#: server/unittools.c:1099
+#: server/unittools.c:1102
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr "Ваш %s телепортовано до %s."
 
 #. TRANS: A unit is moved to resolve stack conflicts.
-#: server/unittools.c:1162
+#: server/unittools.c:1167
 #, c-format
 msgid "Moved your %s."
 msgstr "Ваш %s посунуто."
 
 #. TRANS: A unit is disbanded to resolve stack conflicts.
-#: server/unittools.c:1173
+#: server/unittools.c:1178
 #, c-format
 msgid "Disbanded your %s."
 msgstr "Ваш %s розпущено."
 
-#: server/unittools.c:1522
+#: server/unittools.c:1527
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Не можу захистити %s, %s програв гру."
 
-#: server/unittools.c:1526
+#: server/unittools.c:1531
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr "Втрата %s означає програш гри! Будьте більш пильним іншого разу!"
 
-#: server/unittools.c:1575
+#: server/unittools.c:1580
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "Встрачено %s після втрати %s."
 
-#: server/unittools.c:1729
+#: server/unittools.c:1742
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "Ваш підрозділ %s запобіг знищення у %s та втік до %s."
 
-#: server/unittools.c:1803
+#: server/unittools.c:1817
 #, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgid_plural "Barbarian leader captured; %d gold ransom paid."
@@ -43740,19 +43755,19 @@ msgstr[1] "Ватажка дикунів захоплено; отримано %d
 msgstr[2] "Ватажка дикунів захоплено; отримано %d гривень викупу."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1824
+#: server/unittools.c:1838
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "Ваша атака %s на %s %s вдалася!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1833 server/unittools.c:1894
+#: server/unittools.c:1847 server/unittools.c:1908
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%s загинув від нападу %s %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1869
+#: server/unittools.c:1883
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -43763,14 +43778,14 @@ msgstr[2] "Ваша атака %s на %s %s (та ще %d підрозділі�
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1904
+#: server/unittools.c:1918
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "%s загинув, коли %s %s атакував %s %s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1920
+#: server/unittools.c:1934
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%s (і %s) загинув через атаку від %s %s."
@@ -43778,7 +43793,7 @@ msgstr "%s (і %s) загинув через атаку від %s %s."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1931
+#: server/unittools.c:1945
 #, fuzzy, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -43789,7 +43804,7 @@ msgstr[2] "%s (%d) втрачено у атаці від %s %s."
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1946
+#: server/unittools.c:1960
 #, fuzzy, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
@@ -43797,146 +43812,146 @@ msgstr[0] "%d Авто-Атака: %s %s атакував %s %s"
 msgstr[1] "%d Авто-Атака: %s %s атакував %s %s"
 msgstr[2] "%d Авто-Атака: %s %s атакував %s %s"
 
-#: server/unittools.c:2246
+#: server/unittools.c:2287
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Ваш %s атаковано атомною бомбою %s."
 
-#: server/unittools.c:2249 server/unittools.c:2267
+#: server/unittools.c:2290 server/unittools.c:2308
 msgid "yourself"
 msgstr "власноруч"
 
-#: server/unittools.c:2253
+#: server/unittools.c:2294
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "%s %s було атаковано атомною бомбою."
 
-#: server/unittools.c:2264
+#: server/unittools.c:2305
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s атаковано атомною бомбою %s."
 
-#: server/unittools.c:2272
+#: server/unittools.c:2313
 #, c-format
 msgid "You nuked %s."
 msgstr "Вами атаковано атомною бомбою %s."
 
-#: server/unittools.c:2324
+#: server/unittools.c:2365
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s підірвали атомну бомбу!"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2348 server/unittools.c:2356
+#: server/unittools.c:2389 server/unittools.c:2397
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr ""
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2367
+#: server/unittools.c:2408
 #, c-format
 msgid "%s cannot be transported to %s."
 msgstr "%s не можна транспортувати до %s."
 
-#: server/unittools.c:2377
+#: server/unittools.c:2418
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s вдало транспортовано."
 
-#: server/unittools.c:2436
+#: server/unittools.c:2477
 msgid "This unit type can not be paradropped."
 msgstr "Цей підрозділ не може бути парашутований."
 
-#: server/unittools.c:2446
+#: server/unittools.c:2487
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "Не можна парашутувати підрозділ, який транспортує інші підрозділи."
 
-#: server/unittools.c:2452
+#: server/unittools.c:2493
 msgid "The destination location is not known."
 msgstr "Розміщення пункту призначення не відомо."
 
-#: server/unittools.c:2462
+#: server/unittools.c:2503
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Цей підрозділ не може парашутуватися в %s."
 
-#: server/unittools.c:2491
+#: server/unittools.c:2532
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Відстань до цілі (%i) більша ніж дальність підрозділу (%i)."
 
-#: server/unittools.c:2502
+#: server/unittools.c:2543
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Ваші %s парашутувалися в %s та були втрачені."
 
-#: server/unittools.c:2516
+#: server/unittools.c:2557
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Ваших %s вбито ворогами у точці парашутування."
 
-#: server/unittools.c:2587
+#: server/unittools.c:2628
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "Ваш літак навів жаху на тубільців; вони розбіглися."
 
-#: server/unittools.c:2867
+#: server/unittools.c:2908
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Накази для %s скасовано внаслідок виявлення ворожих рухів."
 
-#: server/unittools.c:3398
+#: server/unittools.c:3462
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Накази для %s скасовано через присутність підрозділів поблизу."
 
-#: server/unittools.c:3449
+#: server/unittools.c:3513
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "Накази для %s скасовано, оскільки будівництво міста зазнало невдачі."
 
-#: server/unittools.c:3465
+#: server/unittools.c:3529
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "%s перервав виконання наказу через неможливість дій по його виконанню."
 
-#: server/unittools.c:3484
+#: server/unittools.c:3548
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "%s перервав виконання наказу бо він містить невірне місцезнаходження."
 
-#: server/unittools.c:3494
+#: server/unittools.c:3558
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "Накази для %s скасовано через наявність підрозділів на шляху."
 
-#: server/unittools.c:3519
+#: server/unittools.c:3583
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "%s перервав виконання наказу бо не може рухатися."
 
-#: server/unittools.c:3560
+#: server/unittools.c:3624
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "Спроба змінити прописку для %s зазнала невдачі."
 
-#: server/unittools.c:3571
+#: server/unittools.c:3635
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Спроба встановити торговий шлях для %s зазнала невдачі."
 
-#: server/unittools.c:3583
+#: server/unittools.c:3647
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Спроба збудувати диво для %s закінчилася невдало."
 
-#: server/unittools.c:3592
+#: server/unittools.c:3656
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "У вашого %s невірні накази."
 
-#: server/unittools.c:3690
+#: server/unittools.c:3754
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."
@@ -44066,7 +44081,7 @@ msgstr ""
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. *        <externally translated error string>."
-#: utility/fciconv.c:205
+#: utility/fciconv.c:208
 #, c-format
 msgid "Could not convert text from %s to %s: %s"
 msgstr "Не вдалося конвертувати текст з %s до %s: %s."
@@ -44278,6 +44293,13 @@ msgstr "помилка %ld (невдале FormatMessage)"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "помилка %d (зібрано без strerror)"
+
+#~ msgid ""
+#~ "Oceans cover much of the world, and only sea units (Triremes and other "
+#~ "boats) can travel on them."
+#~ msgstr ""
+#~ "Океан вкриває більшу частину світу, і лише морські підрозділи (Триреми та "
+#~ "інші кораблі) можуть пересуватися по ньому."
 
 #~ msgid "* Land units cannot travel on oceanic terrains."
 #~ msgstr "* Наземні підрозділи не можуть мандрувати океаном."
