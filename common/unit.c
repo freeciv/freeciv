@@ -1321,7 +1321,8 @@ void set_unit_activity_targeted(struct unit *punit,
 				enum unit_activity new_activity,
 				struct extra_type *new_target)
 {
-  fc_assert_ret(activity_requires_target(new_activity));
+  fc_assert_ret(activity_requires_target(new_activity)
+                || new_target == NULL);
 
   set_unit_activity_internal(punit, new_activity);
   punit->activity_target = new_target;
