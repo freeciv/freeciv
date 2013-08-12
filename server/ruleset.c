@@ -126,6 +126,7 @@ static const char *check_ruleset_capabilities(struct section_file *file,
                                               const char *us_capstr,
                                               const char *filename);
 
+static bool load_game_names(struct section_file *file);
 static bool load_tech_names(struct section_file *file);
 static bool load_unit_names(struct section_file *file);
 static bool load_building_names(struct section_file *file);
@@ -148,7 +149,7 @@ static bool load_ruleset_terrain(struct section_file *file);
 static bool load_ruleset_cities(struct section_file *file);
 static bool load_ruleset_effects(struct section_file *file);
 
-static bool load_ruleset_game(const char *rsdir);
+static bool load_ruleset_game(struct section_file *file);
 
 static void send_ruleset_techs(struct conn_list *dest);
 static void send_ruleset_unit_classes(struct conn_list *dest);
@@ -993,6 +994,48 @@ static void ruleset_load_traits(int *traits, struct section_file *file,
 
   fc_assert(tr == trait_end()); /* number of trait_names correct */
 }
+
+/**************************************************************************
+  Load names from game.ruleset so other rulesets can refer to objects
+  with their name.
+**************************************************************************/
+static bool load_game_names(struct section_file *file)
+{
+  struct section_list *sec;
+  int nval;
+  const char *filename = secfile_name(file);
+  bool ok = TRUE;
+
+  sec = secfile_sections_by_name_prefix(file, ACHIEVEMENT_SECTION_PREFIX);
+  nval = (NULL != sec ? section_list_size(sec) : 0);
+  if (nval > MAX_ACHIEVEMENT_TYPES) {
+    int num = nval; /* No "size_t" to printf */
+
+    ruleset_error(LOG_ERROR, "\"%s\": Too many achievement types (%d, max %d)",
+                  filename, num, MAX_ACHIEVEMENT_TYPES);
+    ok = FALSE;
+  } else {
+    game.control.num_achievement_types = nval;
+  }
+
+  if (ok) {
+    achievements_iterate(pach) {
+      const char *sec_name = section_name(section_list_get(sec, achievement_index(pach)));
+
+      if (!ruleset_load_names(&pach->name, file, sec_name)) {
+        ruleset_error(LOG_ERROR, "\"%s\": Cannot load achievement names",
+                      filename);
+        ok = FALSE;
+        break;
+      }
+    } achievements_iterate_end;
+  }
+
+  section_list_destroy(sec);
+
+  return ok;
+}
+
 
 /**************************************************************************
   Load names of technologies so other rulesets can refer to techs with
@@ -4371,9 +4414,8 @@ static int secfile_lookup_int_default_min_max(struct section_file *file,
 /**************************************************************************
   Load ruleset file.
 **************************************************************************/
-static bool load_ruleset_game(const char *rsdir)
+static bool load_ruleset_game(struct section_file *file)
 {
-  struct section_file *file;
   const char *sval, **svec;
   const char *filename;
   int *food_ini;
@@ -4386,7 +4428,6 @@ static bool load_ruleset_game(const char *rsdir)
   const char *name;
   bool ok = TRUE;
 
-  file = openload_ruleset_file("game", rsdir);
   if (file == NULL) {
     return FALSE;
   }
@@ -4896,30 +4937,11 @@ static bool load_ruleset_game(const char *rsdir)
 
   if (ok) {
     sec = secfile_sections_by_name_prefix(file, ACHIEVEMENT_SECTION_PREFIX);
-    nval = (NULL != sec ? section_list_size(sec) : 0);
-    if (nval > MAX_ACHIEVEMENT_TYPES) {
-      int num = nval; /* No "size_t" to printf */
 
-      ruleset_error(LOG_ERROR, "\"%s\": Too many achievement types (%d, max %d)",
-                    filename, num, MAX_ACHIEVEMENT_TYPES);
-      ok = FALSE;
-    } else {
-      game.control.num_achievement_types = nval;
-    }
-  }
-
-  if (ok) {
     achievements_iterate(pach) {
       int id = achievement_index(pach);
       const char *sec_name = section_name(section_list_get(sec, id));
       const char *typename;
-
-      if (!ruleset_load_names(&pach->name, file, sec_name)) {
-        ruleset_error(LOG_ERROR, "\"%s\": Cannot load achievement names",
-                      filename);
-        ok = FALSE;
-        break;
-      }
 
       typename = secfile_lookup_str_default(file, NULL, "%s.type", sec_name);
 
@@ -4973,7 +4995,6 @@ static bool load_ruleset_game(const char *rsdir)
   if (ok) {
     secfile_check_unused(file);
   }
-  secfile_destroy(file);
 
   return ok;
 }
@@ -5809,7 +5830,7 @@ static void nullcheck_secfile_destroy(struct section_file *file)
 static bool load_rulesetdir(const char *rsdir)
 {
   struct section_file *techfile, *unitfile, *buildfile, *govfile, *terrfile;
-  struct section_file *cityfile, *nationfile, *effectfile;
+  struct section_file *cityfile, *nationfile, *effectfile, *gamefile;
   bool ok = TRUE;
 
   log_normal(_("Loading rulesets."));
@@ -5830,6 +5851,7 @@ static bool load_rulesetdir(const char *rsdir)
   cityfile = openload_ruleset_file("cities", rsdir);
   nationfile = openload_ruleset_file("nations", rsdir);
   effectfile = openload_ruleset_file("effects", rsdir);
+  gamefile = openload_ruleset_file("game", rsdir);
 
   if (techfile == NULL
       || buildfile  == NULL
@@ -5838,12 +5860,14 @@ static bool load_rulesetdir(const char *rsdir)
       || terrfile   == NULL
       || cityfile   == NULL
       || nationfile == NULL
-      || effectfile == NULL) {
+      || effectfile == NULL
+      || gamefile == NULL) {
     ok = FALSE;
   }
 
   if (ok) {
-    ok = load_tech_names(techfile)
+    ok = load_game_names(gamefile)
+      && load_tech_names(techfile)
       && load_building_names(buildfile)
       && load_government_names(govfile)
       && load_unit_names(unitfile)
@@ -5877,7 +5901,7 @@ static bool load_rulesetdir(const char *rsdir)
     ok = load_ruleset_effects(effectfile);
   }
   if (ok) {
-    ok = load_ruleset_game(rsdir);
+    ok = load_ruleset_game(gamefile);
   }
 
   if (ok) {
@@ -5895,6 +5919,7 @@ static bool load_rulesetdir(const char *rsdir)
   nullcheck_secfile_destroy(buildfile);
   nullcheck_secfile_destroy(nationfile);
   nullcheck_secfile_destroy(effectfile);
+  nullcheck_secfile_destroy(gamefile);
 
   if (extra_sections) {
     free(extra_sections);

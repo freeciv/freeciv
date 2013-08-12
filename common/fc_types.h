@@ -130,6 +130,7 @@ struct specialist;
 struct terrain;
 struct tile;
 struct unit;
+struct achievement;
 
 
 /* Changing these will break network compatibility. */
@@ -264,6 +265,7 @@ typedef union {
   struct unit_type *utype;
   struct extra_type *extra;
   struct resource *resource;
+  struct achievement *achievement;
 
   enum ai_level ai_level;
   enum citytile_type citytile;
@@ -338,6 +340,8 @@ typedef union {
 #define SPECENUM_VALUE23NAME "Extra"
 #define SPECENUM_VALUE24 VUT_TECHFLAG
 #define SPECENUM_VALUE24NAME "TechFlag"
+#define SPECENUM_VALUE25 VUT_ACHIEVEMENT
+#define SPECENUM_VALUE25NAME "Achievement"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"

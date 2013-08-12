@@ -239,3 +239,24 @@ const char *achievement_first_msg(struct achievement *pach)
 
   return NULL;
 }
+
+/****************************************************************************
+  Has the given player got the achievement?
+****************************************************************************/
+bool achievement_player_has(const struct achievement *pach,
+                            const struct player *pplayer)
+{
+  if (pplayer == NULL) {
+    return FALSE;
+  }
+
+  return pach->first == pplayer;
+}
+
+/****************************************************************************
+  Has anybody got the achievement?
+****************************************************************************/
+bool achievement_claimed(const struct achievement *pach)
+{
+  return pach->first != NULL;
+}

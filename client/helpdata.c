@@ -35,6 +35,7 @@
 #include "support.h"
 
 /* common */
+#include "achievements.h"
 #include "city.h"
 #include "effects.h"
 #include "game.h"
@@ -412,6 +413,16 @@ static bool insert_requirement(char *buf, size_t bufsz,
     } else {
       cat_snprintf(buf, bufsz, _("Not available under the %s government.\n"),
                    government_name_translation(preq->source.value.govern));
+    }
+    return TRUE;
+
+  case VUT_ACHIEVEMENT:
+    if (preq->present) {
+      cat_snprintf(buf, bufsz, _("Requires the %s achievement.\n"),
+                   achievement_name_translation(preq->source.value.achievement));
+    } else {
+      cat_snprintf(buf, bufsz, _("Not available under the %s achievement.\n"),
+                   achievement_name_translation(preq->source.value.achievement));
     }
     return TRUE;
 

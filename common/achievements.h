@@ -46,6 +46,10 @@ bool achievement_check(struct achievement *ach, struct player *pplayer);
 
 const char *achievement_first_msg(struct achievement *pach);
 
+bool achievement_player_has(const struct achievement *pach,
+                            const struct player *pplayer);
+bool achievement_claimed(const struct achievement *pach);
+
 #define achievements_iterate(_ach_)                                \
 {                                                                  \
   int _i_;                                                         \

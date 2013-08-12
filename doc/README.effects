@@ -49,6 +49,7 @@ Requirement types and supported ranges
 
 Tech:          World, Player
 TechFlag:      World, Player
+Achievement:   World, Player
 Gov:           Player
 Building:      World, Player, Continent, City, Local
 Extra:         Local, Adjacent, CAdjacent, City

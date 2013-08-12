@@ -21,6 +21,7 @@
 #include "support.h"
 
 /* common */
+#include "achievements.h"
 #include "citizens.h"
 #include "government.h"
 #include "improvement.h"
@@ -67,6 +68,12 @@ struct universal universal_by_rule_name(const char *kind,
   case VUT_GOVERNMENT:
     source.value.govern = government_by_rule_name(value);
     if (source.value.govern != NULL) {
+      return source;
+    }
+    break;
+  case VUT_ACHIEVEMENT:
+    source.value.achievement = achievement_by_rule_name(value);
+    if (source.value.achievement != NULL) {
       return source;
     }
     break;
@@ -235,6 +242,12 @@ struct universal universal_by_number(const enum universals_n kind,
       return source;
     }
     break;
+  case VUT_ACHIEVEMENT:
+    source.value.achievement = achievement_by_number(value);
+    if (source.value.achievement != NULL) {
+      return source;
+    }
+    break;
   case VUT_IMPROVEMENT:
     source.value.building = improvement_by_number(value);
     if (source.value.building != NULL) {
@@ -353,6 +366,8 @@ int universal_number(const struct universal *source)
     return source->value.techflag;
   case VUT_GOVERNMENT:
     return government_number(source->value.govern);
+  case VUT_ACHIEVEMENT:
+    return achievement_number(source->value.achievement);
   case VUT_IMPROVEMENT:
     return improvement_number(source->value.building);
   case VUT_EXTRA:
@@ -452,6 +467,7 @@ struct requirement req_from_str(const char *type, const char *range,
       req.range = REQ_RANGE_CITY;
       break;
     case VUT_GOVERNMENT:
+    case VUT_ACHIEVEMENT:
     case VUT_ADVANCE:
     case VUT_TECHFLAG:
     case VUT_NATION:
@@ -484,6 +500,7 @@ struct requirement req_from_str(const char *type, const char *range,
     break;
   case VUT_ADVANCE:
   case VUT_TECHFLAG:
+  case VUT_ACHIEVEMENT:
     invalid = (req.range < REQ_RANGE_PLAYER);
     break;
   case VUT_GOVERNMENT:
@@ -1462,6 +1479,16 @@ bool is_req_active(const struct player *target_player,
       eval = (government_of_player(target_player) == req->source.value.govern);
     }
     break;
+  case VUT_ACHIEVEMENT:
+    if (req->range == REQ_RANGE_WORLD) {
+      eval = achievement_claimed(req->source.value.achievement);
+    } else if (target_player == NULL) {
+      eval = (prob_type == RPT_POSSIBLE);
+    } else {
+      eval = achievement_player_has(req->source.value.achievement,
+                                    target_player);
+    }
+    break;
   case VUT_IMPROVEMENT:
     /* The requirement is filled if there's at least one of the building
      * in the city.  (This is a slightly nonstandard use of
@@ -1667,6 +1694,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_ADVANCE:
   case VUT_TECHFLAG:
   case VUT_GOVERNMENT:
+  case VUT_ACHIEVEMENT:
   case VUT_IMPROVEMENT:
   case VUT_MINSIZE:
   case VUT_NATIONALITY:
@@ -1717,6 +1745,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.techflag == psource2->value.techflag;
   case VUT_GOVERNMENT:
     return psource1->value.govern == psource2->value.govern;
+  case VUT_ACHIEVEMENT:
+    return psource1->value.achievement == psource2->value.achievement;
   case VUT_IMPROVEMENT:
     return psource1->value.building == psource2->value.building;
   case VUT_EXTRA:
@@ -1794,6 +1824,8 @@ const char *universal_rule_name(const struct universal *psource)
     return tech_flag_id_name(psource->value.techflag);
   case VUT_GOVERNMENT:
     return government_rule_name(psource->value.govern);
+  case VUT_ACHIEVEMENT:
+    return achievement_rule_name(psource->value.achievement);
   case VUT_IMPROVEMENT:
     return improvement_rule_name(psource->value.building);
   case VUT_EXTRA:
@@ -1865,6 +1897,10 @@ const char *universal_name_translation(const struct universal *psource,
     return buf;
   case VUT_GOVERNMENT:
     fc_strlcat(buf, government_name_translation(psource->value.govern),
+               bufsz);
+    return buf;
+  case VUT_ACHIEVEMENT:
+    fc_strlcat(buf, achievement_name_translation(psource->value.achievement),
                bufsz);
     return buf;
   case VUT_IMPROVEMENT:

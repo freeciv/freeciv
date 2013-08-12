@@ -32,6 +32,7 @@
 #include "cm.h"
 
 /* common */
+#include "achievements.h"
 #include "citizens.h"
 #include "city.h"
 #include "events.h"
@@ -1135,6 +1136,19 @@ static bool worklist_change_build_target(struct player *pplayer,
                                         API_TYPE_BUILDING_TYPE, ptarget,
                                         API_TYPE_CITY, pcity,
                                         API_TYPE_STRING, "need_government");
+	      break;
+	    case VUT_ACHIEVEMENT:
+              notify_player(pplayer, city_tile(pcity),
+                            E_CITY_CANTBUILD, ftc_server,
+                            _("%s can't build %s from the worklist; "
+                              "it needs %s achievement.  Postponing..."),
+                            city_link(pcity),
+                            city_improvement_name_translation(pcity, ptarget),
+                            achievement_name_translation(preq->source.value.achievement));
+              script_server_signal_emit("building_cant_be_built", 3,
+                                        API_TYPE_BUILDING_TYPE, ptarget,
+                                        API_TYPE_CITY, pcity,
+                                        API_TYPE_STRING, "need_achievement");
 	      break;
 	    case VUT_EXTRA:
               notify_player(pplayer, city_tile(pcity),
