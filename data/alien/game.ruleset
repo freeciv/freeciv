@@ -318,12 +318,14 @@ colorlist =
 ; freeciv game settings for the alien ruleset
 set =
    { "name", "value"
-     "topology",    "WRAPX|WRAPY|ISO"
-     "aifill",      7
-     "sciencebox",  150
-     "foodbox",     150
-     "revolen",     7
-     "citymindist", 3
-     "startunits",  "cx"
-     "plrcolormode", "NATION_ORDER"
+     "topology",       " WRAPX|WRAPY|ISO"
+     "mapsize",        "PLAYER"
+     "tilesperplayer", 300
+     "aifill",         7
+     "sciencebox",     150
+     "foodbox",        150
+     "revolen",        7
+     "citymindist",    3
+     "startunits",     "cx"
+     "plrcolormode",   "NATION_ORDER"
    }
