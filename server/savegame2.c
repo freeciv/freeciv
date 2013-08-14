@@ -1550,7 +1550,7 @@ static void sg_load_savefile(struct loaddata *loading)
   loading->special.size
     = secfile_lookup_int_default(loading->file, 0,
                                  "savefile.special_size");
-  {
+  if (loading->special.size) {
     const char **modname;
     size_t nmod;
     enum tile_special_type j;
@@ -1739,59 +1739,6 @@ static void sg_save_savefile(struct savedata *saving)
     secfile_insert_str_vec(saving->file, modname,
                            game.control.num_extra_types,
                            "savefile.extras_vector");
-    free(modname);
-  }
-
-  /* Save specials order in savegame. */
-  secfile_insert_int(saving->file, S_LAST, "savefile.specials_size");
-  {
-    const char **modname;
-
-    modname = fc_calloc(S_LAST, sizeof(*modname));
-    tile_special_type_iterate(j) {
-      modname[j] = special_rule_name(j);
-    } tile_special_type_iterate_end;
-
-    secfile_insert_str_vec(saving->file, modname, S_LAST,
-                           "savefile.specials_vector");
-    free(modname);
-  }
-
-  /* Save bases order in the savegame. */
-  secfile_insert_int(saving->file, game.control.num_base_types,
-                     "savefile.bases_size");
-  if (game.control.num_base_types > 0) {
-    const char **modname;
-    int i = 0;
-
-    modname = fc_calloc(game.control.num_base_types, sizeof(*modname));
-
-    base_type_iterate(pbase) {
-      modname[i++] = base_rule_name(pbase);
-    } base_type_iterate_end;
-
-    secfile_insert_str_vec(saving->file, modname,
-                           game.control.num_base_types,
-                           "savefile.bases_vector");
-    free(modname);
-  }
-
-  /* Save roads order in the savegame. */
-  secfile_insert_int(saving->file, game.control.num_road_types,
-                     "savefile.roads_size");
-  if (game.control.num_road_types > 0) {
-    const char **modname;
-    int i = 0;
-
-    modname = fc_calloc(game.control.num_road_types, sizeof(*modname));
-
-    road_type_iterate(proad) {
-      modname[i++] = road_rule_name(proad);
-    } road_type_iterate_end;
-
-    secfile_insert_str_vec(saving->file, modname,
-                           game.control.num_road_types,
-                           "savefile.roads_vector");
     free(modname);
   }
 }
