@@ -5,11 +5,11 @@ noinst_LTLIBRARIES = libgui-sdl2.la
 AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/../agents $(GUI_sdl2_CFLAGS) $(SOUND_CFLAGS)
 
 libgui_sdl2_la_SOURCES = \
-	SDL_gfxPrimitives.c	\
-	SDL_gfxPrimitives.h	\
-	SDL_gfxPrimitives_font.h	\
-	SDL_rotozoom.c	\
-	SDL_rotozoom.h	\
+	SDL2_gfxPrimitives.c	\
+	SDL2_gfxPrimitives.h	\
+	SDL2_gfxPrimitives_font.h	\
+	SDL2_rotozoom.c	\
+	SDL2_rotozoom.h	\
 	SDL_ttf.c	\
 	SDL_ttf.h	\
 	alphablit.c	\
