@@ -4741,29 +4741,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
       proad = road_by_compat_special(ROCO_RAILROAD);
     }
 
-    if (activity == ACTIVITY_IRRIGATE) {
-      struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
-                                                   EC_IRRIGATION,
-                                                   unit_owner(punit),
-                                                   punit);
-      if (tgt != NULL) {
-        set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, tgt);
-      } else {
-        set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, NULL);
-      }
-    }
-    if (activity == ACTIVITY_MINE) {
-      struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
-                                                   EC_MINE,
-                                                   unit_owner(punit),
-                                                   punit);
-      if (tgt != NULL) {
-        set_unit_activity_targeted(punit, ACTIVITY_MINE, tgt);
-      } else {
-        set_unit_activity_targeted(punit, ACTIVITY_MINE, NULL);
-      }
-    }
-
     /* We need changed_from == ACTIVITY_IDLE by now so that
      * set_unit_activity() and friends don't spuriously restore activity
      * points -- unit should have been created this way */
@@ -4801,8 +4778,28 @@ static bool sg_load_player_unit(struct loaddata *loading,
        * it as indicating undirected pillaging. We will assign pillage
        * targets before play starts. */
       set_unit_activity_targeted(punit, activity, a_target);
+    } else if (activity == ACTIVITY_IRRIGATE) {
+      struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
+                                                   EC_IRRIGATION,
+                                                   unit_owner(punit),
+                                                   punit);
+      if (tgt != NULL) {
+        set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, tgt);
+      } else {
+        set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, NULL);
+      }
+    } else if (activity == ACTIVITY_MINE) {
+      struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
+                                                   EC_MINE,
+                                                   unit_owner(punit),
+                                                   punit);
+      if (tgt != NULL) {
+        set_unit_activity_targeted(punit, ACTIVITY_MINE, tgt);
+      } else {
+        set_unit_activity_targeted(punit, ACTIVITY_MINE, NULL);
+      }
     } else {
-      set_unit_activity(punit, activity);
+      set_unit_activity_targeted(punit, activity, NULL);
     }
   } /* activity_tgt == NULL */
 
