@@ -411,39 +411,29 @@ const char *concat_tile_activity_text(struct tile *ptile)
 {
   int activity_total[ACTIVITY_LAST];
   int activity_units[ACTIVITY_LAST];
-  int base_total[MAX_BASE_TYPES];
-  int base_units[MAX_BASE_TYPES];
-  int road_total[MAX_ROAD_TYPES];
-  int road_units[MAX_ROAD_TYPES];
+  int extra_total[MAX_EXTRA_TYPES];
+  int extra_units[MAX_EXTRA_TYPES];
   int num_activities = 0;
   int pillaging = 0;
-  int remains, turns, i;
+  int remains, turns;
   static struct astring str = ASTRING_INIT;
 
   astr_clear(&str);
 
   memset(activity_total, 0, sizeof(activity_total));
   memset(activity_units, 0, sizeof(activity_units));
-  memset(base_total, 0, sizeof(base_total));
-  memset(base_units, 0, sizeof(base_units));
-  memset(road_total, 0, sizeof(road_total));
-  memset(road_units, 0, sizeof(road_units));
+  memset(extra_total, 0, sizeof(extra_total));
+  memset(extra_units, 0, sizeof(extra_units));
 
   unit_list_iterate(ptile->units, punit) {
     if (punit->activity == ACTIVITY_PILLAGE) {
       pillaging = 1;
-    } else if (punit->activity == ACTIVITY_BASE) {
-      int bidx = base_index(extra_base_get(punit->activity_target));
+    } else if (activity_requires_target(punit->activity)) {
+      int eidx = extra_index(punit->activity_target);
 
-      base_total[bidx] += punit->activity_count;
-      base_total[bidx] += get_activity_rate_this_turn(punit);
-      base_units[bidx] += get_activity_rate(punit);
-    } else if (punit->activity == ACTIVITY_GEN_ROAD) {
-      int ridx = road_index(extra_road_get(punit->activity_target));
-
-      road_total[ridx] += punit->activity_count;
-      road_total[ridx] += get_activity_rate_this_turn(punit);
-      road_units[ridx] += get_activity_rate(punit);
+      extra_total[eidx] += punit->activity_count;
+      extra_total[eidx] += get_activity_rate_this_turn(punit);
+      extra_units[eidx] += get_activity_rate(punit);
     } else {
       activity_total[punit->activity] += punit->activity_count;
       activity_total[punit->activity] += get_activity_rate_this_turn(punit);
@@ -464,48 +454,55 @@ const char *concat_tile_activity_text(struct tile *ptile)
     num_activities++;
   }
 
-  for (i = 0; i < ACTIVITY_LAST; i++) {
-    if (i == ACTIVITY_BASE) {
-      base_type_iterate(bp) {
-        Base_type_id b = base_index(bp);
-	if (base_units[b] > 0) {
-	  remains = tile_activity_base_time(ptile, b) - base_total[b];
-	  if (remains > 0) {
-	    turns = 1 + (remains + base_units[b] - 1) / base_units[b];
-	  } else {
-	    /* base will be finished this turn */
-	    turns = 1;
-	  }
-	  if (num_activities > 0) {
-	    astr_add(&str, "/");
-	  }
-	  astr_add(&str, "%s(%d)", base_name_translation(bp), turns);
-	  num_activities++;
-	}
-      } base_type_iterate_end;
-    } else if (i == ACTIVITY_GEN_ROAD) {
-      road_type_iterate(rp) {
-        Road_type_id r = road_index(rp);
-	if (road_units[r] > 0) {
-	  remains = tile_activity_road_time(ptile, r) - road_total[r];
-	  if (remains > 0) {
-	    turns = 1 + (remains + road_units[r] - 1) / road_units[r];
-	  } else {
-	    /* road will be finished this turn */
-	    turns = 1;
-	  }
-	  if (num_activities > 0) {
-	    astr_add(&str, "/");
-	  }
-	  astr_add(&str, "%s(%d)", road_name_translation(rp), turns);
-	  num_activities++;
-	}
-      } road_type_iterate_end;
+  activity_type_iterate(i) {
+    if (activity_requires_target(i)) {
+      enum extra_cause cause = EC_NONE;
+
+      switch(i) {
+      case ACTIVITY_GEN_ROAD:
+        cause = EC_ROAD;
+        break;
+      case ACTIVITY_BASE:
+        cause = EC_BASE;
+        break;
+      case ACTIVITY_IRRIGATE:
+        cause = EC_IRRIGATION;
+        break;
+      case ACTIVITY_MINE:
+        cause = EC_MINE;
+        break;
+      case ACTIVITY_PILLAGE:
+        break;
+      default:
+        fc_assert(cause != EC_NONE);
+        break;
+      };
+
+      if (cause != EC_NONE) {
+        extra_type_by_cause_iterate(cause, ep) {
+          int ei = extra_index(ep);
+
+          if (extra_units[ei] > 0) {
+            remains = tile_activity_time(i, ptile, ep) - extra_total[ei];
+            if (remains > 0) {
+              turns = 1 + (remains + extra_units[ei] - 1) / extra_units[ei];
+            } else {
+              /* extra will be finished this turn */
+              turns = 1;
+            }
+            if (num_activities > 0) {
+              astr_add(&str, "/");
+            }
+            astr_add(&str, "%s(%d)", extra_name_translation(ep), turns);
+            num_activities++;
+          }
+        } extra_type_by_cause_iterate_end;
+      }
     } else if (is_build_or_clean_activity(i) && activity_units[i] > 0) {
       if (num_activities > 0) {
 	astr_add(&str, "/");
       }
-      remains = tile_activity_time(i, ptile) - activity_total[i];
+      remains = tile_activity_time(i, ptile, NULL) - activity_total[i];
       if (remains > 0) {
 	turns = 1 + (remains + activity_units[i] - 1) / activity_units[i];
       } else {
@@ -515,7 +512,7 @@ const char *concat_tile_activity_text(struct tile *ptile)
       astr_add(&str, "%s(%d)", get_activity_text(i), turns);
       num_activities++;
     }
-  }
+  } activity_type_iterate_end;
 
   return astr_str(&str);
 }

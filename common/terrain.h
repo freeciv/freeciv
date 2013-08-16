@@ -337,10 +337,10 @@ enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe);
 struct extra_type *get_preferred_pillage(bv_extras extras);
 
 int terrain_base_time(const struct terrain *pterrain,
-                      Base_type_id base);
+                      struct extra_type *tgt);
 
 int terrain_road_time(const struct terrain *pterrain,
-                      Road_type_id road);
+                      struct extra_type *tgt);
 
 /* Functions to operate on a terrain special. */
 bool is_special_card_near(const struct tile *ptile,

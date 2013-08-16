@@ -409,17 +409,14 @@ enum known_type tile_get_known(const struct tile *ptile,
 /****************************************************************************
   Time to complete the given activity on the given tile.
 ****************************************************************************/
-int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
+int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
+                       struct extra_type *tgt)
 {
   struct terrain *pterrain = tile_terrain(ptile);
 
   /* Make sure nobody uses old activities */
   fc_assert_ret_val(activity != ACTIVITY_FORTRESS
                     && activity != ACTIVITY_AIRBASE, FC_INFINITY);
-
-  /* ACTIVITY_BASE not handled here */
-  fc_assert_ret_val(activity != ACTIVITY_BASE, FC_INFINITY);
-  fc_assert_ret_val(activity != ACTIVITY_GEN_ROAD, FC_INFINITY);
 
   switch (activity) {
   case ACTIVITY_POLLUTION:
@@ -432,31 +429,13 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
     return pterrain->transform_time * ACTIVITY_FACTOR;
   case ACTIVITY_FALLOUT:
     return pterrain->clean_fallout_time * ACTIVITY_FACTOR;
+  case ACTIVITY_BASE:
+    return terrain_base_time(pterrain, tgt) * ACTIVITY_FACTOR;
+  case ACTIVITY_GEN_ROAD:
+    return terrain_road_time(pterrain, tgt) * ACTIVITY_FACTOR;
   default:
     return 0;
   }
-}
-
-/****************************************************************************
-  Time to complete the base building activity on the given tile.
-****************************************************************************/
-int tile_activity_base_time(const struct tile *ptile,
-                            Base_type_id base)
-{
-  struct terrain *pterrain = tile_terrain(ptile);
-
-  return terrain_base_time(pterrain, base) * ACTIVITY_FACTOR;
-}
-
-/****************************************************************************
-  Time to complete the road building activity on the given tile.
-****************************************************************************/
-int tile_activity_road_time(const struct tile *ptile,
-                            Road_type_id road)
-{
-  struct terrain *pterrain = tile_terrain(ptile);
-
-  return terrain_road_time(pterrain, road) * ACTIVITY_FACTOR;
 }
 
 /****************************************************************************
@@ -637,7 +616,7 @@ static void tile_transform(struct tile *ptile)
   Return false if there was a error or if the activity is not implemented
   by this function.
 ****************************************************************************/
-bool tile_apply_activity(struct tile *ptile, Activity_type_id act) 
+bool tile_apply_activity(struct tile *ptile, Activity_type_id act)
 {
   /* FIXME: for irrigate, mine, and transform we always return TRUE
    * even if the activity fails. */

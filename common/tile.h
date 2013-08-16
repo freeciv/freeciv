@@ -155,11 +155,8 @@ enum known_type tile_get_known(const struct tile *ptile,
  * help to avoid rounding errors; however it should probably be removed. */
 #define ACTIVITY_FACTOR 10
 int tile_activity_time(enum unit_activity activity,
-		       const struct tile *ptile);
-int tile_activity_base_time(const struct tile *ptile,
-                            Base_type_id base);
-int tile_activity_road_time(const struct tile *ptile,
-                            Road_type_id road);
+		       const struct tile *ptile,
+                       struct extra_type *tgt);
 
 /* These are higher-level functions that handle side effects on the tile. */
 void tile_change_terrain(struct tile *ptile, struct terrain *pterrain);

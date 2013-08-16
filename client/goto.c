@@ -506,7 +506,7 @@ static int get_activity_time(const struct tile *ptile,
         if (!player_can_build_road(proad, pplayer, ptile)) {
           return -1;
         }
-        activity_mc += terrain_road_time(pterrain, road_index(proad));
+        activity_mc += terrain_road_time(pterrain, connect_tgt);
       }
     }
     break;

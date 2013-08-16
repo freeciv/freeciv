@@ -610,67 +610,17 @@ static int hp_gain_coord(struct unit *punit)
 
 /**************************************************************************
   Calculate the total amount of activity performed by all units on a tile
-  for a given task.
-**************************************************************************/
-static int total_activity(struct tile *ptile, enum unit_activity act)
-{
-  int total = 0;
-
-  unit_list_iterate (ptile->units, punit)
-    if (punit->activity == act) {
-      total += punit->activity_count;
-    }
-  unit_list_iterate_end;
-  return total;
-}
-
-/**************************************************************************
-  Calculate the total amount of activity performed by all units on a tile
   for a given task and target.
 **************************************************************************/
-static int total_activity_targeted(struct tile *ptile, enum unit_activity act,
-                                   struct extra_type *tgt)
+static int total_activity(struct tile *ptile, enum unit_activity act,
+                          struct extra_type *tgt)
 {
   int total = 0;
+  bool tgt_matters = activity_requires_target(act);
 
   unit_list_iterate (ptile->units, punit) {
-    if (punit->activity == act && punit->activity_target == tgt) {
-      total += punit->activity_count;
-    }
-  } unit_list_iterate_end;
-
-  return total;
-}
-
-/**************************************************************************
-  Calculate the total amount of base building activity performed by all
-  units on a tile for a given base.
-**************************************************************************/
-static int total_activity_base(struct tile *ptile, Base_type_id base)
-{
-  int total = 0;
-
-  unit_list_iterate (ptile->units, punit) {
-    if (punit->activity == ACTIVITY_BASE
-        && base_index(extra_base_get(punit->activity_target)) == base) {
-      total += punit->activity_count;
-    }
-  } unit_list_iterate_end;
-
-  return total;
-}
-
-/**************************************************************************
-  Calculate the total amount of road building activity performed by all
-  units on a tile for a given road.
-**************************************************************************/
-static int total_activity_road(struct tile *ptile, Road_type_id road)
-{
-  int total = 0;
-
-  unit_list_iterate (ptile->units, punit) {
-    if (punit->activity == ACTIVITY_GEN_ROAD
-        && road_index(extra_road_get(punit->activity_target)) == road) {
+    if (punit->activity == act
+        && (!tgt_matters || punit->activity_target == tgt)) {
       total += punit->activity_count;
     }
   } unit_list_iterate_end;
@@ -682,9 +632,10 @@ static int total_activity_road(struct tile *ptile, Road_type_id road)
   Check the total amount of activity performed by all units on a tile
   for a given task.
 **************************************************************************/
-static bool total_activity_done(struct tile *ptile, enum unit_activity act)
+static bool total_activity_done(struct tile *ptile, enum unit_activity act,
+                                struct extra_type *tgt)
 {
-  return total_activity(ptile, act) >= tile_activity_time(act, ptile);
+  return total_activity(ptile, act, tgt) >= tile_activity_time(act, ptile, tgt);
 }
 
 /**************************************************************************
@@ -814,8 +765,8 @@ static void update_unit_activity(struct unit *punit)
     return;
 
   case ACTIVITY_PILLAGE:
-    if (total_activity_targeted(ptile, ACTIVITY_PILLAGE, 
-                                punit->activity_target) >= 1) {
+    if (total_activity(ptile, ACTIVITY_PILLAGE, 
+                       punit->activity_target) >= 1) {
       switch (punit->activity_target->type) {
         case EXTRA_SPECIAL:
           tile_clear_special(ptile, punit->activity_target->data.special);
@@ -850,7 +801,7 @@ static void update_unit_activity(struct unit *punit)
     break;
 
   case ACTIVITY_POLLUTION:
-    if (total_activity_done(ptile, ACTIVITY_POLLUTION)) {
+    if (total_activity_done(ptile, ACTIVITY_POLLUTION, punit->activity_target)) {
       extra_type_by_cause_iterate(EC_POLLUTION, pextra) {
         tile_remove_extra(ptile, pextra);
       } extra_type_by_cause_iterate_end;
@@ -859,7 +810,7 @@ static void update_unit_activity(struct unit *punit)
     break;
 
   case ACTIVITY_FALLOUT:
-    if (total_activity_done(ptile, ACTIVITY_FALLOUT)) {
+    if (total_activity_done(ptile, ACTIVITY_FALLOUT, punit->activity_target)) {
      extra_type_by_cause_iterate(EC_FALLOUT, pextra) {
         tile_remove_extra(ptile, pextra);
       } extra_type_by_cause_iterate_end;
@@ -869,11 +820,9 @@ static void update_unit_activity(struct unit *punit)
 
   case ACTIVITY_BASE:
     {
-      struct base_type *new_base = extra_base_get(punit->activity_target);
-      int bidx = base_index(new_base);
-
-      if (total_activity_base(ptile, bidx)
-          >= tile_activity_base_time(ptile, bidx)) {
+      if (total_activity(ptile, ACTIVITY_BASE, punit->activity_target)
+          >= tile_activity_time(ACTIVITY_BASE, ptile, punit->activity_target)) {
+        struct base_type *new_base = extra_base_get(punit->activity_target);
 
         create_base(ptile, new_base, unit_owner(punit));
         update_tile_knowledge(ptile);
@@ -893,11 +842,9 @@ static void update_unit_activity(struct unit *punit)
 
   case ACTIVITY_GEN_ROAD:
     {
-      struct road_type *new_road = extra_road_get(punit->activity_target);
-      int ridx = road_index(new_road);
-
-      if (total_activity_road(ptile, ridx)
-          >= tile_activity_road_time(ptile, ridx)) {
+      if (total_activity(ptile, ACTIVITY_GEN_ROAD, punit->activity_target)
+          >= tile_activity_time(ACTIVITY_GEN_ROAD, ptile, punit->activity_target)) {
+        struct road_type *new_road = extra_road_get(punit->activity_target);
 
         tile_add_road(ptile, new_road);
         update_tile_knowledge(ptile);
@@ -918,7 +865,7 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_IRRIGATE:
   case ACTIVITY_MINE:
   case ACTIVITY_TRANSFORM:
-    if (total_activity_done(ptile, activity)) {
+    if (total_activity_done(ptile, activity, punit->activity_target)) {
       struct terrain *old = tile_terrain(ptile);
 
       /* The function below could change the terrain. Therefore, we have to

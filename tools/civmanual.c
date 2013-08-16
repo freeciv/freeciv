@@ -375,10 +375,10 @@ static bool manual_command(void)
         road_type_iterate(proad) {
           if (++ri < game.control.num_road_types) {
             fprintf(doc, "%d / ", terrain_road_time(pterrain,
-                                                   road_number(proad)));
+                                                    road_extra_get(proad)));
           } else {
             fprintf(doc, "%d</td>", terrain_road_time(pterrain,
-                                                      road_number(proad)));
+                                                      road_extra_get(proad)));
           }
         } road_type_iterate_end;
         fprintf(doc, "</tr>\n\n");

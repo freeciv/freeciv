@@ -303,13 +303,8 @@ int get_activity_rate(const struct unit *punit);
 int get_activity_rate_this_turn(const struct unit *punit);
 int get_turns_for_activity_at(const struct unit *punit,
 			      enum unit_activity activity,
-			      const struct tile *ptile);
-int get_turns_for_road_at(const struct unit *punit,
-			  const struct road_type *proad,
-			  const struct tile *ptile);
-int get_turns_for_base_at(const struct unit *punit,
-                          const struct base_type *pbase,
-                          const struct tile *ptile);
+			      const struct tile *ptile,
+                              struct extra_type *tgt);
 bool activity_requires_target(enum unit_activity activity);
 bool can_unit_do_autosettlers(const struct unit *punit); 
 bool is_unit_activity_on_tile(enum unit_activity activity,

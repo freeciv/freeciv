@@ -112,7 +112,7 @@ int adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
       potential_road[i] = FALSE;
       is_slow[i] = FALSE; /* FIXME: should be TRUE? */
     } else {
-      int build_time = terrain_road_time(tile_terrain(tile1), rnbr);
+      int build_time = terrain_road_time(tile_terrain(tile1), pextra);
       int j;
 
       real_road[i] = tile_has_road(tile1, proad);
@@ -403,6 +403,18 @@ int settler_evaluate_improvements(struct unit *punit,
           /* Now, consider various activities... */
           activity_type_iterate(act) {
             struct extra_type *target = NULL;
+            enum extra_cause cause = EC_NONE;
+
+            if (act == ACTIVITY_IRRIGATE) {
+              cause = EC_IRRIGATION;
+            } else if (act == ACTIVITY_MINE) {
+              cause = EC_MINE;
+            }
+
+            if (cause != EC_NONE) {
+              target = next_extra_for_tile(ptile, cause, pplayer,
+                                           punit);
+            }
 
             if (adv_city_worker_act_get(pcity, cindex, act) >= 0
                 /* These need separate implementations. */
@@ -413,7 +425,8 @@ int settler_evaluate_improvements(struct unit *punit,
               int extra = 0;
               int base_value = adv_city_worker_act_get(pcity, cindex, act);
 
-              time = pos.turn + get_turns_for_activity_at(punit, act, ptile);
+              time = pos.turn + get_turns_for_activity_at(punit, act, ptile,
+                                                          target);
 
               if (act == ACTIVITY_FALLOUT) {
                 extra = pplayer->ai_common.frost;
@@ -451,7 +464,10 @@ int settler_evaluate_improvements(struct unit *punit,
                 }
               } road_type_iterate_end;
 
-              time = pos.turn + get_turns_for_road_at(punit, proad, ptile);
+              time = pos.turn + get_turns_for_activity_at(punit,
+                                                          ACTIVITY_GEN_ROAD,
+                                                          ptile,
+                                                          target);
 
               if (proad->move_cost < old_move_cost) {
                 if (proad->move_cost >= 3) {
@@ -492,7 +508,10 @@ int settler_evaluate_improvements(struct unit *punit,
                      * of dependency and target build times, which decreases want. This can
                      * result in either bigger or lesser want than when checkin dependency
                      * road for the sake of itself when its turn in road_type_iterate() is. */
-                    int dep_time = time + get_turns_for_road_at(punit, pdep, ptile);
+                    int dep_time = time + get_turns_for_activity_at(punit,
+                                                                    ACTIVITY_GEN_ROAD,
+                                                                    ptile,
+                                                                    dep_tgt);
                     int dep_value = base_value + adv_city_worker_road_get(pcity, cindex, pdep);
 
                     consider_settler_action(pplayer, ACTIVITY_GEN_ROAD, dep_tgt, extra,
@@ -514,7 +533,10 @@ int settler_evaluate_improvements(struct unit *punit,
 
             if (base_value > 0) {
 
-              time = pos.turn + get_turns_for_base_at(punit, pbase, ptile);
+              time = pos.turn + get_turns_for_activity_at(punit,
+                                                          ACTIVITY_BASE,
+                                                          ptile,
+                                                          target);
 
               if (can_unit_do_activity_targeted_at(punit, ACTIVITY_BASE, target,
                                                    ptile)) {
@@ -537,8 +559,10 @@ int settler_evaluate_improvements(struct unit *punit,
                     /* Consider building dependency base for later upgrade to
                      * target base.  See similar road implementation above for
                      * extended commentary. */
-                    int dep_time = time + get_turns_for_base_at(punit, pdep,
-                                                                ptile);
+                    int dep_time = time + get_turns_for_activity_at(punit,
+                                                                    ACTIVITY_BASE,
+                                                                    ptile,
+                                                                    dep_tgt);
                     int dep_value = base_value + adv_city_worker_base_get(pcity,
                                                                           cindex,
                                                                           pbase);

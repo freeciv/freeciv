@@ -600,56 +600,13 @@ int get_activity_rate_this_turn(const struct unit *punit)
 **************************************************************************/
 int get_turns_for_activity_at(const struct unit *punit,
 			      enum unit_activity activity,
-			      const struct tile *ptile)
+			      const struct tile *ptile,
+                              struct extra_type *tgt)
 {
   /* FIXME: This is just an approximation since we don't account for
    * get_activity_rate_this_turn. */
   int speed = get_activity_rate(punit);
-  int time = tile_activity_time(activity, ptile);
-
-  if (time >= 0 && speed >= 0) {
-    return (time - 1) / speed + 1; /* round up */
-  } else {
-    return FC_INFINITY;
-  }
-}
-
-/**************************************************************************
-  Return the estimated number of turns for the worker unit to start and
-  complete the road at the given location.  This assumes no other
-  worker units are helping out, and doesn't take account of any work
-  already done by this unit.
-**************************************************************************/
-int get_turns_for_road_at(const struct unit *punit,
-			  const struct road_type *proad,
-			  const struct tile *ptile)
-{
-  /* FIXME: This is just an approximation since we don't account for
-   * get_activity_rate_this_turn. */
-  int speed = get_activity_rate(punit);
-  int time = tile_activity_road_time(ptile, road_number(proad));
-
-  if (time >= 0 && speed >= 0) {
-    return (time - 1) / speed + 1; /* round up */
-  } else {
-    return FC_INFINITY;
-  }
-}
-
-/**************************************************************************
-  Return the estimated number of turns for the worker unit to start and
-  complete the base road at the given location.  This assumes no other
-  worker units are helping out, and doesn't take account of any work
-  already done by this unit.
-**************************************************************************/
-int get_turns_for_base_at(const struct unit *punit,
-                          const struct base_type *pbase,
-                          const struct tile *ptile)
-{
-  /* FIXME: This is just an approximation since we don't account for
-   * get_activity_rate_this_turn. */
-  int speed = get_activity_rate(punit);
-  int time = tile_activity_base_time(ptile, base_number(pbase));
+  int time = tile_activity_time(activity, ptile, tgt);
 
   if (time >= 0 && speed >= 0) {
     return (time - 1) / speed + 1; /* round up */
@@ -667,11 +624,11 @@ bool activity_requires_target(enum unit_activity activity)
   case ACTIVITY_PILLAGE:
   case ACTIVITY_BASE:
   case ACTIVITY_GEN_ROAD:
+  case ACTIVITY_IRRIGATE:
+  case ACTIVITY_MINE:
     return TRUE;
   case ACTIVITY_IDLE:
   case ACTIVITY_POLLUTION:
-  case ACTIVITY_MINE:
-  case ACTIVITY_IRRIGATE:
   case ACTIVITY_FORTIFIED:
   case ACTIVITY_SENTRY:
   case ACTIVITY_GOTO:
