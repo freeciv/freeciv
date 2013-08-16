@@ -419,7 +419,7 @@ const char *concat_tile_activity_text(struct tile *ptile)
   int road_units[MAX_ROAD_TYPES];
   int num_activities = 0;
   int pillaging = 0;
-  int remains, turns, i;
+  int remains, turns;
   static struct astring str = ASTRING_INIT;
 
   astr_clear(&str);
@@ -465,7 +465,7 @@ const char *concat_tile_activity_text(struct tile *ptile)
     num_activities++;
   }
 
-  for (i = 0; i < ACTIVITY_LAST; i++) {
+  activity_type_iterate(i) {
     if (i == ACTIVITY_BASE) {
       base_type_iterate(bp) {
         Base_type_id b = base_index(bp);
@@ -516,7 +516,7 @@ const char *concat_tile_activity_text(struct tile *ptile)
       astr_add(&str, "%s(%d)", get_activity_text(i), turns);
       num_activities++;
     }
-  }
+  } activity_type_iterate_end;
 
   return astr_str(&str);
 }
