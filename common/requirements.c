@@ -25,6 +25,7 @@
 #include "citizens.h"
 #include "government.h"
 #include "improvement.h"
+#include "player.h"
 #include "map.h"
 #include "road.h"
 #include "specialist.h"
@@ -117,6 +118,12 @@ struct universal universal_by_rule_name(const char *kind,
   case VUT_NATIONALITY:
     source.value.nationality = nation_by_rule_name(value);
     if (source.value.nationality != NO_NATION_SELECTED) {
+      return source;
+    }
+    break;
+  case VUT_DIPLREL:
+    source.value.diplrel = diplrel_by_rule_name(value);
+    if (source.value.diplrel != diplrel_asym_invalid()) {
       return source;
     }
     break;
@@ -278,6 +285,12 @@ struct universal universal_by_number(const enum universals_n kind,
       return source;
     }
     break;
+  case VUT_DIPLREL:
+    source.value.diplrel = value;
+    if (source.value.diplrel != diplrel_asym_invalid()) {
+      return source;
+    }
+    break;
   case VUT_NATIONALITY:
     source.value.nationality = nation_by_number(value);
     if (source.value.nationality != NULL) {
@@ -382,6 +395,8 @@ int universal_number(const struct universal *source)
     return nation_number(source->value.nation);
   case VUT_NATIONALITY:
     return nation_number(source->value.nationality);
+  case VUT_DIPLREL:
+    return source->value.diplrel;
   case VUT_UTYPE:
     return utype_number(source->value.utype);
   case VUT_UTFLAG:
@@ -471,6 +486,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_ADVANCE:
     case VUT_TECHFLAG:
     case VUT_NATION:
+    case VUT_DIPLREL:
     case VUT_AI_LEVEL:
       req.range = REQ_RANGE_PLAYER;
       break;
@@ -517,6 +533,7 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_NATIONALITY:
     invalid = (req.range != REQ_RANGE_CITY);
     break;
+  case VUT_DIPLREL:
   case VUT_NATION:
     invalid = (req.range != REQ_RANGE_PLAYER
 	       && req.range != REQ_RANGE_WORLD);
@@ -1296,6 +1313,40 @@ static bool is_nationality_in_range(const struct city *target_city,
   return FALSE;
 }
 
+/**************************************************************************
+  Is the diplomatic state within range of the target?
+**************************************************************************/
+static bool is_diplrel_in_range(const struct player *target_player,
+                                enum req_range range,
+                                int diplrel,
+                                enum req_problem_type prob_type)
+{
+  switch (range) {
+  case REQ_RANGE_PLAYER:
+    if (target_player == NULL) {
+      return prob_type == RPT_POSSIBLE;
+    }
+    return is_diplrel_to_other(target_player, diplrel);
+  case REQ_RANGE_WORLD:
+    players_iterate_alive(player1) {
+      if (is_diplrel_to_other(player1, diplrel)) {
+        return TRUE;
+      }
+    } players_iterate_alive_end;
+    return FALSE;
+  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_CADJACENT:
+  case REQ_RANGE_ADJACENT:
+  case REQ_RANGE_CITY:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_COUNT:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  return FALSE;
+}
+
 /****************************************************************************
   Is there a unit of the given type within range of the target?
 ****************************************************************************/
@@ -1530,6 +1581,10 @@ bool is_req_active(const struct player *target_player,
     eval = is_nationality_in_range(target_city, req->range,
                                    req->source.value.nationality, prob_type);
     break;
+  case VUT_DIPLREL:
+    eval = is_diplrel_in_range(target_player, req->range,
+                               req->source.value.diplrel, prob_type);
+    break;
   case VUT_UTYPE:
     if (target_unittype == NULL) {
       eval = (prob_type == RPT_POSSIBLE);
@@ -1698,6 +1753,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_IMPROVEMENT:
   case VUT_MINSIZE:
   case VUT_NATIONALITY:
+  case VUT_DIPLREL:
   case VUT_UTYPE:	/* Not sure about this one */
   case VUT_UTFLAG:	/* Not sure about this one */
   case VUT_UCLASS:	/* Not sure about this one */
@@ -1761,6 +1817,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.nation == psource2->value.nation;
   case VUT_NATIONALITY:
     return psource1->value.nationality == psource2->value.nationality;
+  case VUT_DIPLREL:
+    return psource1->value.diplrel == psource2->value.diplrel;
   case VUT_UTYPE:
     return psource1->value.utype == psource2->value.utype;
   case VUT_UTFLAG:
@@ -1838,6 +1896,8 @@ const char *universal_rule_name(const struct universal *psource)
     return resource_rule_name(psource->value.resource);
   case VUT_NATION:
     return nation_rule_name(psource->value.nation);
+  case VUT_DIPLREL:
+    return diplrel_rule_name(psource->value.diplrel);
   case VUT_NATIONALITY:
     return nation_rule_name(psource->value.nationality);
   case VUT_UTYPE:
@@ -1922,6 +1982,10 @@ const char *universal_name_translation(const struct universal *psource,
     return buf;
   case VUT_NATIONALITY:
     fc_strlcat(buf, nation_adjective_translation(psource->value.nationality),
+               bufsz);
+    return buf;
+  case VUT_DIPLREL:
+    fc_strlcat(buf, diplrel_name_translation(psource->value.diplrel),
                bufsz);
     return buf;
   case VUT_UTYPE:

@@ -1318,6 +1318,118 @@ bool are_diplstates_equal(const struct player_diplstate *pds1,
 	  && pds1->contact_turns_left == pds2->contact_turns_left);
 }
 
+/**************************************************************************
+  Return TRUE iff player1 has the diplomatic relation to player2
+**************************************************************************/
+bool is_diplrel_between(const struct player *player1,
+                        const struct player *player2,
+                        int diplrel)
+{
+  fc_assert(player1 != NULL);
+  fc_assert(player2 != NULL);
+
+  if (diplrel < DS_LAST) {
+    return player_diplstate_get(player1, player2)->type == diplrel;
+  }
+
+  switch (diplrel) {
+  case DRA_GIVES_SHARED_VISION:
+    return gives_shared_vision(player1, player2);
+  case DRA_RECEIVES_SHARED_VISION:
+    return gives_shared_vision(player2, player1);
+  case DRA_HOSTS_EMBASSY:
+    return player_has_embassy(player2, player1);
+  case DRA_HAS_EMBASSY:
+    return player_has_embassy(player1, player2);
+  case DRA_HOSTS_REAL_EMBASSY:
+    return player_has_real_embassy(player2, player1);
+  case DRA_HAS_REAL_EMBASSY:
+    return player_has_real_embassy(player1, player2);
+  }
+
+  fc_assert_msg(FALSE, "diplrel_between(): invalid diplrel number %d.",
+                diplrel);
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Return TRUE iff pplayer has the diplomatic relation to any living player
+**************************************************************************/
+bool is_diplrel_to_other(const struct player *pplayer, int diplrel)
+{
+  fc_assert(pplayer != NULL);
+
+  players_iterate_alive(oplayer) {
+    if (oplayer == pplayer) {
+      continue;
+    }
+    if (is_diplrel_between(pplayer, oplayer, diplrel)) {
+      return TRUE;
+    }
+  } players_iterate_alive_end;
+  return FALSE;
+}
+
+/**************************************************************************
+  Return the diplomatic relation that has the given (untranslated) rule
+ name.
+**************************************************************************/
+int diplrel_by_rule_name(const char *value)
+{
+  /* Look for asymmetric diplomatic relations */
+  int diplrel = diplrel_asym_by_name(value, fc_strcasecmp);
+
+  if (diplrel != diplrel_asym_invalid()) {
+    return diplrel;
+  }
+
+  /* Look for symmetric diplomatic relations */
+  diplrel = diplstate_type_by_name(value, fc_strcasecmp);
+
+  /*
+   * Make sure DS_LAST isn't returned as DS_LAST is the first diplrel_asym.
+   *
+   * Can't happend now. This is in case that changes in the future. */
+  fc_assert_ret_val(diplrel != DS_LAST, diplrel_asym_invalid());
+
+  /*
+   * Make sure that diplrel_asym_invalid() is returned.
+   *
+   * Can't happend now. At the moment dpilrel_asym_invalid() is the same as
+   * diplstate_type_invalid(). This is in case that changes in the future.
+   */
+  if (diplrel != diplstate_type_invalid()) {
+    return diplrel;
+  }
+
+  return diplrel_asym_invalid();
+}
+
+/**************************************************************************
+  Return the (untranslated) rule name of the given diplomatic relation.
+**************************************************************************/
+const char *diplrel_rule_name(int value)
+{
+  if (value < DS_LAST) {
+    return diplstate_type_name(value);
+  } else {
+    return diplrel_asym_name(value);
+  }
+}
+
+/**************************************************************************
+  Return the translated name of the given diplomatic relation.
+**************************************************************************/
+const char *diplrel_name_translation(int value)
+{
+  if (value < DS_LAST) {
+    return diplstate_text(value);
+  } else {
+    return _(diplrel_asym_name(value));
+  }
+}
+
 /***************************************************************************
   Return the number of pplayer2's visible units in pplayer's territory,
   from the point of view of pplayer.  Units that cannot be seen by pplayer

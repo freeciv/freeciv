@@ -280,6 +280,8 @@ typedef union {
   int techflag;                         /* enum tech_flag_id */
   int baseflag;                         /* enum base_flag_id */
   int roadflag;                         /* enum road_flag_id */
+  int diplrel;                          /* enum diplstate_type or
+                                           enum diplrel_asym */
 } universals_u;
 
 /* The kind of universals_u (value_union_type was req_source_type).
@@ -342,6 +344,8 @@ typedef union {
 #define SPECENUM_VALUE24NAME "TechFlag"
 #define SPECENUM_VALUE25 VUT_ACHIEVEMENT
 #define SPECENUM_VALUE25NAME "Achievement"
+#define SPECENUM_VALUE26 VUT_DIPLREL
+#define SPECENUM_VALUE26NAME "DiplRel"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"

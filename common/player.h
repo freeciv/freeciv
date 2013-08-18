@@ -142,16 +142,44 @@ struct player_ai {
  *
  * Adding to or reordering this array will break many things.
  */
-enum diplstate_type {
-  DS_ARMISTICE = 0,
-  DS_WAR,
-  DS_CEASEFIRE,
-  DS_PEACE,
-  DS_ALLIANCE,
-  DS_NO_CONTACT,
-  DS_TEAM,
-  DS_LAST	/* leave this last */
-};
+#define SPECENUM_NAME diplstate_type
+#define SPECENUM_VALUE0 DS_ARMISTICE
+#define SPECENUM_VALUE0NAME "Armistice"
+#define SPECENUM_VALUE1 DS_WAR
+#define SPECENUM_VALUE1NAME "War"
+#define SPECENUM_VALUE2 DS_CEASEFIRE
+#define SPECENUM_VALUE2NAME "Cease-fire"
+#define SPECENUM_VALUE3 DS_PEACE
+#define SPECENUM_VALUE3NAME "Peace"
+#define SPECENUM_VALUE4 DS_ALLIANCE
+#define SPECENUM_VALUE4NAME "Alliance"
+#define SPECENUM_VALUE5 DS_NO_CONTACT
+#define SPECENUM_VALUE5NAME "Never met"
+#define SPECENUM_VALUE6 DS_TEAM
+#define SPECENUM_VALUE6NAME "Team"
+  /* When adding or removing entries, note that first value
+   * of diplrel_asym should be next to last diplstate_type */
+#define SPECENUM_COUNT DS_LAST	/* leave this last */
+#include "specenum_gen.h"
+
+/* Asymmetric diplomatic relations.
+ *
+ * The first element here is numbered DS_LAST
+ */
+#define SPECENUM_NAME diplrel_asym
+#define SPECENUM_VALUE7 DRA_GIVES_SHARED_VISION
+#define SPECENUM_VALUE7NAME N_("Gives shared vision")
+#define SPECENUM_VALUE8 DRA_RECEIVES_SHARED_VISION
+#define SPECENUM_VALUE8NAME N_("Receives shared vision")
+#define SPECENUM_VALUE9 DRA_HOSTS_EMBASSY
+#define SPECENUM_VALUE9NAME N_("Hosts embassy")
+#define SPECENUM_VALUE10 DRA_HAS_EMBASSY
+#define SPECENUM_VALUE10NAME N_("Has embassy")
+#define SPECENUM_VALUE11 DRA_HOSTS_REAL_EMBASSY
+#define SPECENUM_VALUE11NAME N_("Hosts real embassy")
+#define SPECENUM_VALUE12 DRA_HAS_REAL_EMBASSY
+#define SPECENUM_VALUE12NAME N_("Has real embassy")
+#include "specenum_gen.h"
 
 enum dipl_reason {
   DIPL_OK, DIPL_ERROR, DIPL_SENATE_BLOCKING,
@@ -385,6 +413,14 @@ int player_in_territory(const struct player *pplayer,
 bool is_barbarian(const struct player *pplayer);
 
 bool gives_shared_vision(const struct player *me, const struct player *them);
+
+bool is_diplrel_between(const struct player *player1,
+                        const struct player *player2,
+                        int diplrel);
+bool is_diplrel_to_other(const struct player *pplayer, int diplrel);
+int diplrel_by_rule_name(const char *value);
+const char *diplrel_rule_name(int value);
+const char *diplrel_name_translation(int value);
 
 /* iterate over all player slots */
 #define player_slots_iterate(_pslot)                                        \

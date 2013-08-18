@@ -737,6 +737,45 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     break;
 
+  case VUT_DIPLREL:
+    switch (preq->range) {
+    case REQ_RANGE_PLAYER:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that your diplomatic relationship to at"
+                       " least one other living player is %s.\n"),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that no diplomatic relationship you have"
+                       " to any living player is %s.\n"),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      }
+      return TRUE;
+    case REQ_RANGE_WORLD:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires the diplomatic relationship %s between two"
+                       " living players.\n"),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Requires the abstinence of the diplomatic"
+                       " relationship %s between any living players.\n"),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      }
+      return TRUE;
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_UTYPE:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
