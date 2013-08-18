@@ -1039,6 +1039,10 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
         }
       }
 
+      if (!(pextra->causes & (1 << EC_MINE))) {
+        return FALSE;
+      }
+
       /* Don't allow it if someone else is irrigating this tile.
        * *Do* allow it if they're transforming - the mine may survive */
       if (unit_has_type_flag(punit, UTYF_SETTLERS)
@@ -1084,6 +1088,10 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
           /* No available irrigation extras */
           return FALSE;
         }
+      }
+
+      if (!(pextra->causes & (1 << EC_IRRIGATION))) {
+        return FALSE;
       }
 
       /* Don't allow it if someone else is mining this tile.
