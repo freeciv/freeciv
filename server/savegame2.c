@@ -1848,6 +1848,26 @@ static void sg_save_savefile(struct savedata *saving)
                            "savefile.technology_vector");
   }
 
+  /* Save activities order in the savegame. */
+  secfile_insert_int(saving->file, ACTIVITY_LAST,
+                     "savefile.activities_size");
+  if (ACTIVITY_LAST > 0) {
+    const char **modname;
+    int i = 0;
+    int j;
+
+    modname = fc_calloc(ACTIVITY_LAST, sizeof(*modname));
+
+    for (j = 0; j < ACTIVITY_LAST; j++) {
+      modname[i++] = unit_activity_name(j);
+    }
+
+    secfile_insert_str_vec(saving->file, modname,
+                           ACTIVITY_LAST,
+                           "savefile.activities_vector");
+    free(modname);
+  }
+
   /* Save trait order in savegame. */
   secfile_insert_int(saving->file, TRAIT_COUNT,
                      "savefile.trait_size");
