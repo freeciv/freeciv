@@ -534,6 +534,10 @@ struct requirement req_from_str(const char *type, const char *range,
     invalid = (req.range != REQ_RANGE_CITY);
     break;
   case VUT_DIPLREL:
+    invalid = (req.range != REQ_RANGE_LOCAL
+               && req.range != REQ_RANGE_PLAYER
+               && req.range != REQ_RANGE_WORLD);
+    break;
   case VUT_NATION:
     invalid = (req.range != REQ_RANGE_PLAYER
 	       && req.range != REQ_RANGE_WORLD);
@@ -1317,6 +1321,7 @@ static bool is_nationality_in_range(const struct city *target_city,
   Is the diplomatic state within range of the target?
 **************************************************************************/
 static bool is_diplrel_in_range(const struct player *target_player,
+                                const struct player *other_player,
                                 enum req_range range,
                                 int diplrel,
                                 enum req_problem_type prob_type)
@@ -1335,6 +1340,10 @@ static bool is_diplrel_in_range(const struct player *target_player,
     } players_iterate_alive_end;
     return FALSE;
   case REQ_RANGE_LOCAL:
+    if (target_player == NULL || other_player == NULL) {
+      return prob_type == RPT_POSSIBLE;
+    }
+    return is_diplrel_between(target_player, other_player, diplrel);
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
@@ -1492,6 +1501,7 @@ static bool is_citytile_in_range(const struct tile *target_tile,
   player as well as the city itself as the target city.
 ****************************************************************************/
 bool is_req_active(const struct player *target_player,
+		   const struct player *other_player,
 		   const struct city *target_city,
 		   const struct impr_type *target_building,
 		   const struct tile *target_tile,
@@ -1582,7 +1592,7 @@ bool is_req_active(const struct player *target_player,
                                    req->source.value.nationality, prob_type);
     break;
   case VUT_DIPLREL:
-    eval = is_diplrel_in_range(target_player, req->range,
+    eval = is_diplrel_in_range(target_player, other_player, req->range,
                                req->source.value.diplrel, prob_type);
     break;
   case VUT_UTYPE:
@@ -1706,6 +1716,7 @@ bool is_req_active(const struct player *target_player,
   player as well as the city itself as the target city.
 ****************************************************************************/
 bool are_reqs_active(const struct player *target_player,
+		     const struct player *other_player,
 		     const struct city *target_city,
 		     const struct impr_type *target_building,
 		     const struct tile *target_tile,
@@ -1716,9 +1727,9 @@ bool are_reqs_active(const struct player *target_player,
                      const enum   req_problem_type prob_type)
 {
   requirement_vector_iterate(reqs, preq) {
-    if (!is_req_active(target_player, target_city, target_building,
-		       target_tile, target_unittype, target_output,
-		       target_specialist,
+    if (!is_req_active(target_player, other_player, target_city,
+                       target_building, target_tile, target_unittype,
+                       target_output, target_specialist,
 		       preq, prob_type)) {
       return FALSE;
     }

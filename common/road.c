@@ -284,7 +284,7 @@ bool player_can_build_road(const struct road_type *proad,
 
   pextra = road_extra_get(proad);
 
-  return are_reqs_active(pplayer, NULL, NULL, ptile,
+  return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
                          NULL, NULL, NULL, &pextra->reqs,
                          RPT_POSSIBLE);
 }
@@ -305,7 +305,7 @@ bool can_build_road(struct road_type *proad,
 
   pextra = road_extra_get(proad);
 
-  return are_reqs_active(pplayer, NULL, NULL, ptile,
+  return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
                          unit_type(punit), NULL, NULL, &pextra->reqs,
                          RPT_CERTAIN);
 }
@@ -461,7 +461,7 @@ bool is_native_tile_to_road(const struct road_type *proad,
 
   pextra = road_extra_get(proad);
 
-  return are_reqs_active(NULL, NULL, NULL, ptile,
+  return are_reqs_active(NULL, NULL, NULL, NULL, ptile,
                          NULL, NULL, NULL, &pextra->reqs, RPT_POSSIBLE);
 }
 

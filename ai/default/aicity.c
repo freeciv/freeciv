@@ -1526,7 +1526,7 @@ static bool adjust_wants_for_reqs(struct ai_type *ait,
   impr_vector_init(&needed_improvements);
 
   requirement_vector_iterate(&pimprove->reqs, preq) {
-    const bool active = is_req_active(pplayer, pcity, pimprove,
+    const bool active = is_req_active(pplayer, NULL, pcity, pimprove,
                                       pcity->tile, NULL, NULL, NULL, preq,
                                       RPT_POSSIBLE);
 
@@ -1803,7 +1803,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     int n_needed_techs = 0;
     struct tech_vector needed_techs;
 
-    if (is_effect_disabled(pplayer, pcity, pimprove,
+    if (is_effect_disabled(pplayer, NULL, pcity, pimprove,
 			   NULL, NULL, NULL, NULL,
 			   peffect, RPT_CERTAIN)) {
       /* We believe that effect if disabled only if there is no change that it
@@ -1824,8 +1824,8 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
 	mypreq = preq;
         continue;
       }
-      if (!is_req_active(pplayer, pcity, pimprove, NULL, NULL, NULL, NULL,
-			 preq, RPT_POSSIBLE)) {
+      if (!is_req_active(pplayer, NULL, pcity, pimprove, NULL, NULL, NULL,
+                         NULL, preq, RPT_POSSIBLE)) {
 	active = FALSE;
 	if (VUT_ADVANCE == preq->source.kind) {
 	  /* This missing requirement is a missing tech requirement.

@@ -1328,6 +1328,11 @@ bool is_diplrel_between(const struct player *player1,
   fc_assert(player1 != NULL);
   fc_assert(player2 != NULL);
 
+  /* No relationship to it self. */
+  if (player1 == player2) {
+    return FALSE;
+  }
+
   if (diplrel < DS_LAST) {
     return player_diplstate_get(player1, player2)->type == diplrel;
   }

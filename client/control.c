@@ -1145,7 +1145,7 @@ bool can_unit_do_connect(struct unit *punit,
       /* This tile has road, can unit build road to other tiles too? */
       struct extra_type *pextra = road_extra_get(proad);
 
-      return are_reqs_active(NULL, NULL, NULL, NULL,
+      return are_reqs_active(NULL, NULL, NULL, NULL, NULL,
                              unit_type(punit), NULL, NULL,
                              &pextra->reqs, RPT_POSSIBLE);
     }
@@ -1161,7 +1161,7 @@ bool can_unit_do_connect(struct unit *punit,
       return FALSE;
     }
     if (tile_has_extra(ptile, tgt)) {
-      return are_reqs_active(NULL, NULL, NULL, NULL,
+      return are_reqs_active(NULL, NULL, NULL, NULL, NULL,
                              unit_type(punit), NULL, NULL,
                              &tgt->reqs, RPT_POSSIBLE);
     }

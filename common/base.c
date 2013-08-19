@@ -97,7 +97,7 @@ bool is_native_tile_to_base(const struct base_type *pbase,
 
   pextra = base_extra_get(pbase);
 
-  return are_reqs_active(NULL, NULL, NULL, ptile,
+  return are_reqs_active(NULL, NULL, NULL, NULL, ptile,
                          NULL, NULL, NULL, &pextra->reqs, RPT_POSSIBLE);
 }
 
@@ -211,7 +211,7 @@ bool player_can_build_base(const struct base_type *pbase,
 
   pextra = base_extra_get(pbase);
 
-  return are_reqs_active(pplayer, NULL, NULL, ptile,
+  return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
                          NULL, NULL, NULL, &pextra->reqs, RPT_POSSIBLE);
 }
 
@@ -229,8 +229,8 @@ bool can_build_base(const struct unit *punit, const struct base_type *pbase,
 
   pextra = base_extra_get(pbase);
 
-  return are_reqs_active(unit_owner(punit), NULL, NULL, ptile,
-                         unit_type(punit), NULL, NULL, &pextra->reqs,
+  return are_reqs_active(unit_owner(punit), tile_owner(ptile), NULL, NULL,
+                         ptile, unit_type(punit), NULL, NULL, &pextra->reqs,
                          RPT_CERTAIN);
 }
 

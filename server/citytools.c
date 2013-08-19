@@ -2646,7 +2646,7 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 	requirement_vector_iterate(&pimprove->reqs, preq) {
 	  if ((VUT_TERRAIN == preq->source.kind
                || VUT_TERRAINCLASS == preq->source.kind)
-	      && !is_req_active(city_owner(pcity), pcity, NULL,
+              && !is_req_active(city_owner(pcity), NULL, pcity, NULL,
 				NULL, NULL, NULL, NULL,
 				preq, TRUE)) {
             int price = impr_sell_gold(pimprove);

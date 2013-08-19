@@ -121,7 +121,7 @@ bool disaster_has_effect(const struct disaster_type *pdis,
 ****************************************************************************/
 bool can_disaster_happen(struct disaster_type *pdis, struct city *pcity)
 {
-  return are_reqs_active(city_owner(pcity), pcity, NULL, city_tile(pcity),
-                         NULL, NULL, NULL, &pdis->reqs,
+  return are_reqs_active(city_owner(pcity), NULL, pcity, NULL,
+                         city_tile(pcity), NULL, NULL, NULL, &pdis->reqs,
                          RPT_POSSIBLE);
 }

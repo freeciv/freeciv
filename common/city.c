@@ -802,7 +802,7 @@ bool can_city_build_improvement_direct(const struct city *pcity,
     return FALSE;
   }
 
-  return are_reqs_active(city_owner(pcity), pcity, NULL,
+  return are_reqs_active(city_owner(pcity), NULL, pcity, NULL,
 			 pcity->tile, NULL, NULL, NULL,
 			 &(pimprove->reqs), RPT_CERTAIN);
 }
@@ -839,7 +839,7 @@ bool can_city_build_improvement_later(const struct city *pcity,
    * they can never be met). */
   requirement_vector_iterate(&pimprove->reqs, preq) {
     if (is_req_unchanging(preq)
-	&& !is_req_active(city_owner(pcity), pcity, NULL,
+        && !is_req_active(city_owner(pcity), NULL, pcity, NULL,
 	  		  pcity->tile, NULL, NULL, NULL, preq, RPT_POSSIBLE)) {
       return FALSE;
     }
@@ -971,7 +971,7 @@ bool can_city_build_later(const struct city *pcity,
 bool city_can_use_specialist(const struct city *pcity,
 			     Specialist_type_id type)
 {
-  return are_reqs_active(city_owner(pcity), pcity, NULL,
+  return are_reqs_active(city_owner(pcity), NULL, pcity, NULL,
 			 NULL, NULL, NULL, NULL,
 			 &specialist_by_number(type)->reqs, RPT_POSSIBLE);
 }
@@ -1221,7 +1221,7 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
   case O_SHIELD:
     if (pterrain->mining_shield_incr != 0) {
       prod += pterrain->mining_shield_incr
-        * get_target_bonus_effects(NULL, pplayer, pcity, NULL,
+        * get_target_bonus_effects(NULL, pplayer, NULL, pcity, NULL,
                                    ptile, NULL, NULL, NULL,
                                    EFT_MINING_PCT)
         / 100;
@@ -1230,7 +1230,7 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
   case O_FOOD:
     if (pterrain->irrigation_food_incr != 0) {
       prod += pterrain->irrigation_food_incr
-        * get_target_bonus_effects(NULL, pplayer, pcity, NULL,
+        * get_target_bonus_effects(NULL, pplayer, NULL, pcity, NULL,
                                    ptile, NULL, NULL, NULL,
                                    EFT_IRRIGATION_PCT)
         / 100;
@@ -1272,7 +1272,7 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
   }
 
   prod -= (prod
-           * get_target_bonus_effects(NULL, pplayer, pcity, NULL,
+           * get_target_bonus_effects(NULL, pplayer, NULL, pcity, NULL,
                                       ptile, NULL, output, NULL,
                                       EFT_OUTPUT_TILE_PUNISH_PCT))
            / 100;
@@ -1574,7 +1574,7 @@ int city_style_of_player(const struct player *plr)
 
   while ((replace = city_styles[prev].replaced_by) != -1) {
     prev = replace;
-    if (are_reqs_active(plr, NULL, NULL, NULL, NULL, NULL, NULL,
+    if (are_reqs_active(plr, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 			&city_styles[replace].reqs, RPT_CERTAIN)) {
       style = replace;
     }

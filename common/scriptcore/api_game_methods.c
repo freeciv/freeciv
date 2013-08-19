@@ -198,7 +198,7 @@ int api_methods_city_inspire_partisans(lua_State *L, City *self, Player *inspire
   if (inspired) {
     /* Cannot use get_city_bonus() as it would use city's current owner
      * instead of inspirer. */
-    return get_target_bonus_effects(NULL, inspirer, self, NULL,
+    return get_target_bonus_effects(NULL, inspirer, NULL, self, NULL,
                                     city_tile(self), NULL, NULL,
                                     NULL, EFT_INSPIRE_PARTISANS);
   }

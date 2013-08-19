@@ -392,7 +392,7 @@ bool player_can_build_extra(const struct extra_type *pextra,
     return FALSE;
   }
 
-  return are_reqs_active(pplayer, NULL, NULL, ptile,
+  return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
                          NULL, NULL, NULL, &pextra->reqs,
                          RPT_POSSIBLE);
 }
@@ -410,7 +410,7 @@ bool can_build_extra(struct extra_type *pextra,
     return FALSE;
   }
 
-  return are_reqs_active(pplayer, NULL, NULL, ptile,
+  return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
                          unit_type(punit), NULL, NULL, &pextra->reqs,
                          RPT_CERTAIN);
 }

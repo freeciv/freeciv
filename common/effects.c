@@ -411,6 +411,7 @@ bool building_has_effect(const struct impr_type *pimprove,
   none of its disabling ones are active).
 **************************************************************************/
 bool is_effect_disabled(const struct player *target_player,
+			const struct player *other_player,
 		        const struct city *target_city,
 		        const struct impr_type *target_building,
 		        const struct tile *target_tile,
@@ -421,9 +422,9 @@ bool is_effect_disabled(const struct player *target_player,
                         const enum   req_problem_type prob_type)
 {
   requirement_list_iterate(peffect->nreqs, preq) {
-    if (is_req_active(target_player, target_city, target_building,
-		      target_tile, target_unittype, target_output,
-		      target_specialist,
+    if (is_req_active(target_player, other_player, target_city,
+                      target_building, target_tile, target_unittype,
+                      target_output, target_specialist,
 		      preq, prob_type)) {
       return TRUE;
     }
@@ -437,6 +438,7 @@ bool is_effect_disabled(const struct player *target_player,
   none of its disabling ones are active).
 **************************************************************************/
 static bool is_effect_enabled(const struct player *target_player,
+			      const struct player *other_player,
 			      const struct city *target_city,
 			      const struct impr_type *target_building,
 			      const struct tile *target_tile,
@@ -447,9 +449,9 @@ static bool is_effect_enabled(const struct player *target_player,
                               const enum   req_problem_type prob_type)
 {
   requirement_list_iterate(peffect->reqs, preq) {
-    if (!is_req_active(target_player, target_city, target_building,
-		       target_tile, target_unittype, target_output,
-		       target_specialist,
+    if (!is_req_active(target_player, other_player, target_city,
+                       target_building, target_tile, target_unittype,
+                       target_output, target_specialist,
 		       preq, prob_type)) {
       return FALSE;
     }
@@ -467,6 +469,7 @@ static bool is_effect_enabled(const struct player *target_player,
   peffect gives the exact effect value
 **************************************************************************/
 static bool is_effect_active(const struct player *target_player,
+			     const struct player *other_player,
 			     const struct city *target_city,
 			     const struct impr_type *target_building,
 			     const struct tile *target_tile,
@@ -477,13 +480,13 @@ static bool is_effect_active(const struct player *target_player,
                              const enum   req_problem_type prob_type)
 {
   /* Reversed prob_type when checking disabling effects */
-  return is_effect_enabled(target_player, target_city, target_building,
-			   target_tile, target_unittype, target_output,
-			   target_specialist,
+  return is_effect_enabled(target_player, other_player, target_city,
+                           target_building, target_tile, target_unittype,
+                           target_output, target_specialist,
 			   peffect, prob_type)
-    && !is_effect_disabled(target_player, target_city, target_building,
-			   target_tile, target_unittype, target_output,
-			   target_specialist,
+    && !is_effect_disabled(target_player, other_player, target_city,
+                           target_building, target_tile, target_unittype,
+                           target_output, target_specialist,
 			   peffect, REVERSED_RPT(prob_type));
 }
 
@@ -500,6 +503,7 @@ static bool is_effect_active(const struct player *target_player,
   peffect gives the exact effect value
 **************************************************************************/
 bool is_effect_useful(const struct player *target_player,
+		      const struct player *other_player,
 		      const struct city *target_city,
 		      const struct impr_type *target_building,
 		      const struct tile *target_tile,
@@ -511,10 +515,10 @@ bool is_effect_useful(const struct player *target_player,
 		      const enum   req_problem_type prob_type)
 {
   /* Reversed prob_type when checking disabling effects */
-  if (is_effect_disabled(target_player, target_city, target_building,
-			 target_tile, target_unittype, target_output,
-			 target_specialist,
-			 peffect, REVERSED_RPT(prob_type))) {
+  if (is_effect_disabled(target_player, other_player, target_city,
+                         target_building, target_tile, target_unittype,
+                         target_output, target_specialist,
+                         peffect, REVERSED_RPT(prob_type))) {
     return FALSE;
   }
   requirement_list_iterate(peffect->reqs, preq) {
@@ -522,9 +526,9 @@ bool is_effect_useful(const struct player *target_player,
 	&& preq->source.value.building == source) {
       continue;
     }
-    if (!is_req_active(target_player, target_city, target_building,
-		       target_tile, target_unittype, target_output,
-		       target_specialist,
+    if (!is_req_active(target_player, other_player, target_city,
+                       target_building, target_tile, target_unittype,
+                       target_output, target_specialist,
 		       preq, prob_type)) {
       return FALSE;
     }
@@ -560,7 +564,7 @@ bool is_building_replaced(const struct city *pcity,
      * checked depends on the range of the effect. */
     /* Prob_type is not reversed here. disabled is equal to replaced, not
      * reverse */
-    if (!is_effect_disabled(city_owner(pcity), pcity,
+    if (!is_effect_disabled(city_owner(pcity), NULL, pcity,
 			    pimprove,
 			    NULL, NULL, NULL, NULL,
 			    peffect, prob_type)) {
@@ -584,6 +588,7 @@ bool is_building_replaced(const struct city *pcity,
 **************************************************************************/
 int get_target_bonus_effects(struct effect_list *plist,
                              const struct player *target_player,
+                             const struct player *other_player,
                              const struct city *target_city,
                              const struct impr_type *target_building,
                              const struct tile *target_tile,
@@ -597,9 +602,9 @@ int get_target_bonus_effects(struct effect_list *plist,
   /* Loop over all effects of this type. */
   effect_list_iterate(get_effects(effect_type), peffect) {
     /* For each effect, see if it is active. */
-    if (is_effect_active(target_player, target_city, target_building,
-			 target_tile, target_unittype, target_output,
-			 target_specialist,
+    if (is_effect_active(target_player, other_player, target_city,
+                         target_building, target_tile, target_unittype,
+                         target_output, target_specialist,
 			 peffect, RPT_CERTAIN)) {
       /* And if so add on the value. */
       bonus += peffect->value;
@@ -623,7 +628,8 @@ int get_world_bonus(enum effect_type effect_type)
   }
 
   return get_target_bonus_effects(NULL,
-				  NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+                                  NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+                                  NULL,
 				  effect_type);
 }
 
@@ -638,7 +644,7 @@ int get_player_bonus(const struct player *pplayer,
   }
 
   return get_target_bonus_effects(NULL,
-				  pplayer, NULL, NULL,
+                                  pplayer, NULL, NULL, NULL,
 				  NULL, NULL, NULL, NULL,
 				  effect_type);
 }
@@ -653,7 +659,7 @@ int get_city_bonus(const struct city *pcity, enum effect_type effect_type)
   }
 
   return get_target_bonus_effects(NULL,
-				  city_owner(pcity), pcity, NULL,
+                                  city_owner(pcity), NULL, pcity, NULL,
 				  NULL, NULL, NULL, NULL,
 				  effect_type);
 }
@@ -670,7 +676,7 @@ int get_city_specialist_output_bonus(const struct city *pcity,
   fc_assert_ret_val(pspecialist != NULL, 0);
   fc_assert_ret_val(poutput != NULL, 0);
   return get_target_bonus_effects(NULL,
-				  city_owner(pcity), pcity, NULL,
+                                  city_owner(pcity), NULL, pcity, NULL,
 				  NULL, NULL, poutput, pspecialist,
 				  effect_type);
 }
@@ -691,7 +697,7 @@ int get_city_tile_output_bonus(const struct city *pcity,
 {
   fc_assert_ret_val(pcity != NULL, 0);
   return get_target_bonus_effects(NULL,
-			 	  city_owner(pcity), pcity, NULL,
+                                  city_owner(pcity), NULL, pcity, NULL,
 				  ptile, NULL, poutput, NULL,
 				  effect_type);
 }
@@ -710,7 +716,7 @@ int get_player_output_bonus(const struct player *pplayer,
   fc_assert_ret_val(pplayer != NULL, 0);
   fc_assert_ret_val(poutput != NULL, 0);
   fc_assert_ret_val(effect_type != EFT_COUNT, 0);
-  return get_target_bonus_effects(NULL, pplayer, NULL, NULL, NULL,
+  return get_target_bonus_effects(NULL, pplayer, NULL, NULL, NULL, NULL,
                                   NULL, poutput, NULL, effect_type);
 }
 
@@ -728,8 +734,9 @@ int get_city_output_bonus(const struct city *pcity,
   fc_assert_ret_val(pcity != NULL, 0);
   fc_assert_ret_val(poutput != NULL, 0);
   fc_assert_ret_val(effect_type != EFT_COUNT, 0);
-  return get_target_bonus_effects(NULL, city_owner(pcity), pcity, NULL,
-                                  NULL, NULL, poutput, NULL, effect_type);
+  return get_target_bonus_effects(NULL, city_owner(pcity), NULL, pcity,
+                                  NULL, NULL, NULL, poutput, NULL,
+                                  effect_type);
 }
 
 /**************************************************************************
@@ -745,7 +752,7 @@ int get_building_bonus(const struct city *pcity,
 
   fc_assert_ret_val(NULL != pcity && NULL != building, 0);
   return get_target_bonus_effects(NULL,
-			 	  city_owner(pcity), pcity,
+                                  city_owner(pcity), NULL, pcity,
 				  building,
 				  NULL, NULL, NULL, NULL,
 				  effect_type);
@@ -779,7 +786,7 @@ int get_unittype_bonus(const struct player *pplayer,
   }
 
   return get_target_bonus_effects(NULL,
-                                  pplayer, pcity, NULL, ptile,
+                                  pplayer, NULL, pcity, NULL, ptile,
                                   punittype, NULL, NULL, effect_type);
 }
 
@@ -795,6 +802,7 @@ int get_unit_bonus(const struct unit *punit, enum effect_type effect_type)
   fc_assert_ret_val(punit != NULL, 0);
   return get_target_bonus_effects(NULL,
                                   unit_owner(punit),
+                                  NULL,
                                   unit_tile(punit)
                                     ? tile_city(unit_tile(punit)) : NULL,
                                   NULL, unit_tile(punit),
@@ -824,6 +832,7 @@ int get_tile_bonus(const struct tile *ptile, const struct unit *punit,
 
   return get_target_bonus_effects(NULL,
                                   pplayer,
+                                  NULL,
                                   tile_city(ptile),
                                   NULL,
                                   ptile,
@@ -848,7 +857,7 @@ int get_player_bonus_effects(struct effect_list *plist,
 
   fc_assert_ret_val(pplayer != NULL, 0);
   return get_target_bonus_effects(plist,
-			  	  pplayer, NULL, NULL,
+                                  pplayer, NULL, NULL, NULL,
 				  NULL, NULL, NULL, NULL,
 				  effect_type);
 }
@@ -870,7 +879,7 @@ int get_city_bonus_effects(struct effect_list *plist,
 
   fc_assert_ret_val(pcity != NULL, 0);
   return get_target_bonus_effects(plist,
-			 	  city_owner(pcity), pcity, NULL,
+                                  city_owner(pcity), NULL, pcity, NULL,
 				  NULL, NULL, poutput, NULL,
 				  effect_type);
 }
@@ -907,7 +916,7 @@ int get_current_construction_bonus(const struct city *pcity,
 	if (peffect->type != effect_type) {
 	  continue;
 	}
-	if (is_effect_useful(city_owner(pcity), pcity, building,
+	if (is_effect_useful(city_owner(pcity), NULL, pcity, building,
 			     NULL, NULL, NULL, NULL,
 			     building, peffect, prob_type)) {
 	  power += peffect->value;

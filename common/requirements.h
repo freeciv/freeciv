@@ -89,6 +89,7 @@ bool are_requirements_opposites(const struct requirement *req1,
                                 const struct requirement *req2);
 
 bool is_req_active(const struct player *target_player,
+		   const struct player *other_player,
 		   const struct city *target_city,
 		   const struct impr_type *target_building,
 		   const struct tile *target_tile,
@@ -98,6 +99,7 @@ bool is_req_active(const struct player *target_player,
 		   const struct requirement *req,
                    const enum   req_problem_type prob_type);
 bool are_reqs_active(const struct player *target_player,
+		     const struct player *other_player,
 		     const struct city *target_city,
 		     const struct impr_type *target_building,
 		     const struct tile *target_tile,

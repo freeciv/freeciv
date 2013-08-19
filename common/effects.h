@@ -297,6 +297,7 @@ void recv_ruleset_effect_req(const struct packet_ruleset_effect_req *packet);
 void send_ruleset_cache(struct conn_list *dest);
 
 bool is_effect_useful(const struct player *target_player,
+		      const struct player *other_player,
 		      const struct city *target_pcity,
 		      const struct impr_type *target_building,
 		      const struct tile *target_tile,
@@ -343,6 +344,7 @@ int get_tile_bonus(const struct tile *ptile, const struct unit *punit,
 /* miscellaneous auxiliary effects functions */
 struct effect_list *get_req_source_effects(struct universal *psource);
 bool is_effect_disabled(const struct player *target_player,
+			const struct player *other_player,
 		        const struct city *target_city,
 		        const struct impr_type *target_building,
 		        const struct tile *target_tile,
@@ -361,6 +363,7 @@ int get_city_bonus_effects(struct effect_list *plist,
 
 int get_target_bonus_effects(struct effect_list *plist,
                              const struct player *target_player,
+                             const struct player *other_player,
                              const struct city *target_city,
                              const struct impr_type *target_building,
                              const struct tile *target_tile,

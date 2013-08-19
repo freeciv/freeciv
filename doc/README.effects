@@ -63,7 +63,7 @@ UnitClass:     Local
 UnitClassFlag: Local
 Nation:        World, Player
 Nationality:   City
-DiplRel:       World, Player
+DiplRel:       World, Player, Local
 OutputType:    Local
 Specialist:    Local
 MinYear:       World

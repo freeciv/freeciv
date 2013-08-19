@@ -766,6 +766,18 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_LOCAL:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that your diplomatic relationship to the"
+                       " other player is %s.\n"),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that your diplomatic relationship to the"
+                       " other player isn't %s.\n"),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      }
+      return TRUE;
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
