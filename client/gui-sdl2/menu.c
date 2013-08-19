@@ -1109,7 +1109,7 @@ void real_menus_update(void)
         struct road_type *proad = extra_road_get(pextra);
         enum road_compat compat = road_compat_special(proad);
 
-	time = tile_activity_road_time(pTile, road_number(proad));
+        time = tile_activity_time(ACTIVITY_GEN_ROAD, pTile, road_extra_get(proad));
 
         /* TRANS: "Build Railroad (R) 3 turns" */
 	fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
@@ -1154,7 +1154,7 @@ void real_menus_update(void)
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_IRRIGATE)) {
-	time = tile_activity_time(ACTIVITY_IRRIGATE, unit_tile(pUnit));
+        time = tile_activity_time(ACTIVITY_IRRIGATE, unit_tile(pUnit), NULL);
 
         if (!strcmp(terrain_rule_name(pTerrain), "Forest") ||
           !strcmp(terrain_rule_name(pTerrain), "Jungle")) {
@@ -1185,7 +1185,7 @@ void real_menus_update(void)
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_MINE)) {
-	time = tile_activity_time(ACTIVITY_MINE, unit_tile(pUnit));
+        time = tile_activity_time(ACTIVITY_MINE, unit_tile(pUnit), NULL);
 
 	/* FIXME: THIS CODE IS WRONG */
    if (!strcmp(terrain_rule_name(pTerrain), "Forest")) {  
@@ -1220,7 +1220,7 @@ void real_menus_update(void)
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_TRANSFORM)) {
-	time = tile_activity_time(ACTIVITY_TRANSFORM, unit_tile(pUnit));
+        time = tile_activity_time(ACTIVITY_TRANSFORM, unit_tile(pUnit), NULL);
 	fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
 	  _("Transform to"),
 	  terrain_name_translation(pTerrain->transform_result),
