@@ -506,10 +506,14 @@ static void xaw_key_unit_done(Widget w, XEvent *event, String *argv, Cardinal *a
     key_unit_done();
 }
 
+/****************************************************************************
+  Invoked when the key binding for fallout cleaning is pressed.
+****************************************************************************/
 static void xaw_key_unit_fallout(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_FALLOUT))
+  if (is_menu_item_active(MENU_ORDER, MENU_ORDER_FALLOUT)) {
     key_unit_fallout();
+  }
 }
 
 static void xaw_key_unit_fortify(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -598,10 +602,14 @@ static void xaw_key_unit_pillage(Widget w, XEvent *event, String *argv, Cardinal
     key_unit_pillage();
 }
 
+/****************************************************************************
+  Invoked when the key binding for pollution cleaning is pressed.
+****************************************************************************/
 static void xaw_key_unit_pollution(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_POLLUTION))
+  if (is_menu_item_active(MENU_ORDER, MENU_ORDER_POLLUTION)) {
     key_unit_pollution();
+  }
 }
 
 static void xaw_key_unit_patrol(Widget w, XEvent *event, String *argv, Cardinal *argc)

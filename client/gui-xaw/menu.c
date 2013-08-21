@@ -776,6 +776,9 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
     key_unit_airbase(); 
     break;
   case MENU_ORDER_POLLUTION: /* or MENU_ORDER_PARADROP */
+    /* FIXME: This calls key_unit_paradrop() / key_unit_pollution()
+     * as many times as there's focus units while those functions
+     * themselves handle all focus units at once. */
     unit_list_iterate(get_units_in_focus(), punit) {
       if (can_unit_paradrop(punit)) {
 	key_unit_paradrop();

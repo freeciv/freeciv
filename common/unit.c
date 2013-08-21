@@ -997,28 +997,72 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return TRUE;
 
   case ACTIVITY_POLLUTION:
-    if (!unit_has_type_flag(punit, UTYF_SETTLERS)) {
-      return FALSE;
-    }
-    extra_type_by_cause_iterate(EC_POLLUTION, pextra) {
+    {
+      struct extra_type *pextra;
+
+      if (target != NULL) {
+        pextra = target;
+      } else {
+        /* TODO: Make sure that all callers set target so that
+         * we don't need this fallback. */
+        pextra = prev_extra_in_tile(unit_tile(punit),
+                                    EC_POLLUTION,
+                                    unit_owner(punit),
+                                    punit);
+        if (pextra == NULL) {
+          /* No available pollution extras */
+          return FALSE;
+        }
+      }
+
+      if (!(pextra->causes & (1 << EC_POLLUTION))) {
+        return FALSE;
+      }
+
+      if (!unit_has_type_flag(punit, UTYF_SETTLERS)) {
+        return FALSE;
+      }
+
       if (tile_has_extra(ptile, pextra)) {
         return TRUE;
       }
-    } extra_type_by_cause_iterate_end;
 
-    return FALSE;
+      return FALSE;
+    }
 
   case ACTIVITY_FALLOUT:
-    if (!unit_has_type_flag(punit, UTYF_SETTLERS)) {
-      return FALSE;
-    }
-    extra_type_by_cause_iterate(EC_FALLOUT, pextra) {
+    {
+      struct extra_type *pextra;
+
+      if (target != NULL) {
+        pextra = target;
+      } else {
+        /* TODO: Make sure that all callers set target so that
+         * we don't need this fallback. */
+        pextra = prev_extra_in_tile(unit_tile(punit),
+                                    EC_FALLOUT,
+                                    unit_owner(punit),
+                                    punit);
+        if (pextra == NULL) {
+          /* No available pollution extras */
+          return FALSE;
+        }
+      }
+
+      if (!(pextra->causes & (1 << EC_FALLOUT))) {
+        return FALSE;
+      }
+
+      if (!unit_has_type_flag(punit, UTYF_SETTLERS)) {
+        return FALSE;
+      }
+
       if (tile_has_extra(ptile, pextra)) {
         return TRUE;
       }
-    } extra_type_by_cause_iterate_end;
 
-    return FALSE;
+      return FALSE;
+    }
 
   case ACTIVITY_MINE:
    {

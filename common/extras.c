@@ -416,6 +416,27 @@ bool can_build_extra(struct extra_type *pextra,
 }
 
 /****************************************************************************
+  Tells if player can remove extra to tile with suitable unit.
+****************************************************************************/
+bool player_can_remove_extra(const struct extra_type *pextra,
+                             const struct player *pplayer,
+                             const struct tile *ptile)
+{
+  /* There's no tech requirements or such for extra removal */
+  return TRUE;
+}
+
+/****************************************************************************
+  Tells if unit can remove extra on tile.
+****************************************************************************/
+bool can_remove_extra(struct extra_type *pextra,
+                      const struct unit *punit,
+                      const struct tile *ptile)
+{
+  return unit_has_type_flag(punit, UTYF_SETTLERS);
+}
+
+/****************************************************************************
   Is tile native to extra?
 ****************************************************************************/
 bool is_native_tile_to_extra(const struct extra_type *pextra,
@@ -455,6 +476,32 @@ struct extra_type *next_extra_for_tile(struct tile *ptile, enum extra_cause caus
       }
     }
   } extra_type_by_cause_iterate_end;
+
+  return NULL;
+}
+
+/****************************************************************************
+  Returns prev extra by cause that unit or player can remove from tile.
+****************************************************************************/
+struct extra_type *prev_extra_in_tile(struct tile *ptile, enum extra_cause cause,
+                                      const struct player *pplayer,
+                                      const struct unit *punit)
+{
+  fc_assert(punit != NULL || pplayer != NULL);
+
+  extra_type_by_cause_iterate_rev(cause, pextra) {
+    if (tile_has_extra(ptile, pextra)) {
+      if (punit != NULL) {
+        if (can_remove_extra(pextra, punit, ptile)) {
+          return pextra;
+        }
+      } else {
+        if (player_can_remove_extra(pextra, pplayer, ptile)) {
+          return pextra;
+        }
+      }
+    }
+  } extra_type_by_cause_iterate_rev_end;
 
   return NULL;
 }

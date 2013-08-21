@@ -4818,6 +4818,26 @@ static bool sg_load_player_unit(struct loaddata *loading,
       } else {
         set_unit_activity_targeted(punit, ACTIVITY_MINE, NULL);
       }
+    } else if (activity == ACTIVITY_POLLUTION) {
+      struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
+                                                  EC_POLLUTION,
+                                                  unit_owner(punit),
+                                                  punit);
+      if (tgt != NULL) {
+        set_unit_activity_targeted(punit, ACTIVITY_POLLUTION, tgt);
+      } else {
+        set_unit_activity_targeted(punit, ACTIVITY_POLLUTION, NULL);
+      }
+    } else if (activity == ACTIVITY_FALLOUT) {
+      struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
+                                                  EC_FALLOUT,
+                                                  unit_owner(punit),
+                                                  punit);
+      if (tgt != NULL) {
+        set_unit_activity_targeted(punit, ACTIVITY_FALLOUT, tgt);
+      } else {
+        set_unit_activity_targeted(punit, ACTIVITY_FALLOUT, NULL);
+      }
     } else {
       set_unit_activity_targeted(punit, activity, NULL);
     }
@@ -4887,12 +4907,31 @@ static bool sg_load_player_unit(struct loaddata *loading,
       } else {
         punit->changed_from_target = NULL;
       }
-    }
-    if (punit->changed_from == ACTIVITY_MINE) {
+    } else if (punit->changed_from == ACTIVITY_MINE) {
       struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
                                                    EC_MINE,
                                                    unit_owner(punit),
                                                    punit);
+      if (tgt != NULL) {
+        punit->changed_from_target = tgt;
+      } else {
+        punit->changed_from_target = NULL;
+      }
+    } else if (punit->changed_from == ACTIVITY_POLLUTION) {
+      struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
+                                                  EC_POLLUTION,
+                                                  unit_owner(punit),
+                                                  punit);
+      if (tgt != NULL) {
+        punit->changed_from_target = tgt;
+      } else {
+        punit->changed_from_target = NULL;
+      }
+    } else if (punit->changed_from == ACTIVITY_FALLOUT) {
+      struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
+                                                  EC_FALLOUT,
+                                                  unit_owner(punit),
+                                                  punit);
       if (tgt != NULL) {
         punit->changed_from_target = tgt;
       } else {

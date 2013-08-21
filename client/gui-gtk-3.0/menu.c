@@ -1163,8 +1163,13 @@ static void clean_pollution_callback(GtkAction *action, gpointer data)
   unit_list_iterate(get_units_in_focus(), punit) {
     /* FIXME: this can provide different actions for different units...
      * not good! */
-    if (can_unit_do_activity(punit, ACTIVITY_POLLUTION)) {
-      request_new_unit_activity(punit, ACTIVITY_POLLUTION);
+    struct extra_type *pextra;
+
+    pextra = prev_extra_in_tile(unit_tile(punit), EC_POLLUTION,
+                                unit_owner(punit), punit);
+
+    if (pextra != NULL) {
+      request_new_unit_activity_targeted(punit, ACTIVITY_POLLUTION, pextra);
     } else if (can_unit_paradrop(punit)) {
       /* FIXME: This is getting worse, we use a key_unit_*() function
        * which assign the order for all units!  Very bad! */

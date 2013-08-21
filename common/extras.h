@@ -52,6 +52,10 @@ struct extra_type
     TYPED_LIST_ITERATE(struct extra_type, extralist, pextra)
 #define extra_type_list_iterate_end LIST_ITERATE_END
 
+#define extra_type_list_iterate_rev(extralist, pextra) \
+    TYPED_LIST_ITERATE_REV(struct extra_type, extralist, pextra)
+#define extra_type_list_iterate_rev_end LIST_ITERATE_REV_END
+
 void extras_init(void);
 void extras_free(void);
 
@@ -87,12 +91,22 @@ bool player_can_build_extra(const struct extra_type *pextra,
                             const struct player *pplayer,
                             const struct tile *ptile);
 
+bool can_remove_extra(struct extra_type *pextra,
+                      const struct unit *punit,
+                      const struct tile *ptile);
+bool player_can_remove_extra(const struct extra_type *pextra,
+                             const struct player *pplayer,
+                             const struct tile *ptile);
+
 bool is_native_tile_to_extra(const struct extra_type *pextra,
                              const struct tile *ptile);
 
 struct extra_type *next_extra_for_tile(struct tile *ptile, enum extra_cause cause,
                                        const struct player *pplayer,
                                        const struct unit *punit);
+struct extra_type *prev_extra_in_tile(struct tile *ptile, enum extra_cause cause,
+                                      const struct player *pplayer,
+                                      const struct unit *punit);
 
 #define extra_type_iterate(_p)                                \
 {                                                             \
@@ -111,6 +125,15 @@ struct extra_type *next_extra_for_tile(struct tile *ptile, enum extra_cause caus
 
 #define extra_type_by_cause_iterate_end                    \
   } extra_type_list_iterate_end                            \
+}
+
+#define extra_type_by_cause_iterate_rev(_cause, _extra)             \
+{                                                                   \
+  struct extra_type_list *_etl_ = extra_type_list_by_cause(_cause); \
+  extra_type_list_iterate_rev(_etl_, _extra) {
+
+#define extra_type_by_cause_iterate_rev_end                \
+  } extra_type_list_iterate_rev_end                        \
 }
 
 #define extra_deps_iterate(_reqs, _dep)                 \

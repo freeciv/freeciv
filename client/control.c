@@ -85,6 +85,8 @@ static struct genlist *diplomat_arrival_queue = NULL;
  */
 bool non_ai_unit_focus;
 
+static void key_unit_clean(enum unit_activity act, enum extra_cause cause);
+
 /*************************************************************************/
 
 static struct unit *quickselect(struct tile *ptile,
@@ -2801,11 +2803,7 @@ void key_unit_convert(void)
 **************************************************************************/
 void key_unit_fallout(void)
 {
-  unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity(punit, ACTIVITY_FALLOUT)) {
-      request_new_unit_activity(punit, ACTIVITY_FALLOUT);
-    }
-  } unit_list_iterate_end;
+  key_unit_clean(ACTIVITY_FALLOUT, EC_FALLOUT);
 }
 
 /**************************************************************************
@@ -2864,6 +2862,24 @@ static void key_unit_extra(enum unit_activity act, enum extra_cause cause)
 }
 
 /**************************************************************************
+  Handle user extra cleaning input of given type
+**************************************************************************/
+static void key_unit_clean(enum unit_activity act, enum extra_cause cause)
+{
+  unit_list_iterate(get_units_in_focus(), punit) {
+    struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
+                                                cause,
+                                                unit_owner(punit),
+                                                punit);
+
+    if (tgt != NULL
+        && can_unit_do_activity_targeted(punit, act, tgt)) {
+      request_new_unit_activity_targeted(punit, act, tgt);
+    }
+  } unit_list_iterate_end;
+}
+
+/**************************************************************************
   Handle user 'irrigate' input
 **************************************************************************/
 void key_unit_irrigate(void)
@@ -2896,11 +2912,7 @@ void key_unit_pillage(void)
 **************************************************************************/
 void key_unit_pollution(void)
 {
-  unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity(punit, ACTIVITY_POLLUTION)) {
-      request_new_unit_activity(punit, ACTIVITY_POLLUTION);
-    }
-  } unit_list_iterate_end;
+  key_unit_clean(ACTIVITY_POLLUTION, EC_POLLUTION);
 }
 
 /**************************************************************************
