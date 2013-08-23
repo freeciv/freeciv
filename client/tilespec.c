@@ -4262,7 +4262,8 @@ bool unit_drawn_with_city_outline(const struct unit *punit, bool check_focus)
   return draw_city_outlines
          && unit_has_type_flag(punit, F_CITIES)
          && !unit_has_orders(punit)
-         && city_can_be_built_here(unit_tile(punit), punit)
+         && (client_tile_get_known(unit_tile(punit)) != TILE_UNKNOWN
+             && city_can_be_built_here(unit_tile(punit), punit))
          && (!check_focus || unit_is_in_focus(punit));
 }
 
