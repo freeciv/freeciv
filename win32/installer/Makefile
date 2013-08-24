@@ -37,7 +37,7 @@ build-freeciv-common:
 	# create build directory
 	mkdir -p build-$(GUI)
 	# configure
-	cd build-$(GUI); ../../../configure --enable-client=$(GUI) --with-followtag="win32" --enable-fcdb=sqlite3
+	cd build-$(GUI); ../../../configure --enable-client=$(GUI) --with-followtag="win32-S2_5" --enable-fcdb=sqlite3
 	# make
 	make -C build-$(GUI)
 
