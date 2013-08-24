@@ -1607,12 +1607,12 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
 static bool is_claimable_ocean(struct tile *ptile, struct tile *source)
 {
   Continent_id cont = tile_continent(ptile);
-  Continent_id source_cont = tile_continent(source);
+  Continent_id cont1 = tile_continent(source);
   Continent_id cont2;
   int ocean_tiles;
 
   if (get_ocean_size(-cont) <= MAXIMUM_CLAIMED_OCEAN_SIZE
-      && get_lake_surrounders(cont) == source_cont) {
+      && get_lake_surrounders(cont) == cont1) {
     return TRUE;
   }
 
@@ -1629,7 +1629,10 @@ static bool is_claimable_ocean(struct tile *ptile, struct tile *source)
     }
     if (cont2 == cont) {
       ocean_tiles++;
-    } else if (cont2 != source_cont) {
+    } else if (cont1 <= 0) {
+      /* First adjacent land */
+      cont1 = cont2;
+    } else if (cont2 != cont1) {
       return FALSE; /* two land continents adjacent, punt! */
     }
   } adjc_iterate_end;
