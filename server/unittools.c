@@ -2201,7 +2201,9 @@ static void remove_unit_gone_out_of_sight(struct conn_list *dest,
   conn_list_iterate(dest, pconn) {
     struct player *pplayer = pconn->playing;
 
-    if (!conn_is_global_observer(pconn)
+    /* Player can be NULL either since connection is global observer,
+     * or new connection that has not yet attached to player */
+    if (pplayer != NULL
         && can_player_see_unit_at(pplayer, punit, old_tile)
         && !can_player_see_unit_at(pplayer, punit,
                                    unit_tile(punit))) {
