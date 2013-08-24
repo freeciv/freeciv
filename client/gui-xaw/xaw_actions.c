@@ -49,7 +49,7 @@
 #include "spaceshipdlg.h"
 #include "wldlg.h"
 
-#include "actions.h"
+#include "xaw_actions.h"
 
 /*******************************************************************************
  Action Routines!!

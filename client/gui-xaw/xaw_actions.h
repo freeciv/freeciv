@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__ACTIONS_H
-#define FC__ACTIONS_H
+#ifndef FC__XAW_ACTIONS_H
+#define FC__XAW_ACTIONS_H
 
 #include <X11/Intrinsic.h>
 
@@ -19,4 +19,4 @@
 extern void InitializeActions (XtAppContext app_context);
 
 
-#endif  /* FC__ACTIONS_H */
+#endif  /* FC__XAW_ACTIONS_H */

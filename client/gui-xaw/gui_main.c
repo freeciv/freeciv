@@ -65,7 +65,7 @@
 #include "tilespec.h"
 
 /* gui-xaw */
-#include "actions.h"
+#include "xaw_actions.h"
 #include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"

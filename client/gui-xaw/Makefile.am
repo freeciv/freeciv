@@ -22,8 +22,8 @@ libgui_xaw_la_LIBADD = -lm
 libgui_xaw_la_SOURCES = \
 	ad2c		\
 	Freeciv.h	\
-	actions.c	\
-	actions.h	\
+	xaw_actions.c	\
+	xaw_actions.h	\
 	canvas.c	\
 	canvas.h	\
 	canvasp.h	\
