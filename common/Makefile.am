@@ -13,6 +13,8 @@ AM_CPPFLAGS = \
 libfreeciv_la_SOURCES = \
 		achievements.c	\
 		achievements.h	\
+		actions.c	\
+		actions.h	\
 		ai.c		\
 		ai.h		\
 		base.c		\

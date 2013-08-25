@@ -67,7 +67,6 @@ static void maybe_cause_incident(enum diplomat_actions action,
 /******************************************************************************
   Poison a city's water supply.
 
-  - Only a Spy can poison a city's water supply.
   - Only allowed against players you are at war with.
 
   - Check for infiltration success.  Our poisoner may not survive this.
@@ -92,10 +91,6 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
     return;
 
   log_debug("poison: unit: %d", pdiplomat->id);
-
-  /* If not a Spy, can't poison. */
-  if (!unit_has_type_flag(pdiplomat, UTYF_SPY))
-    return;
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
   if (!diplomat_infiltrate_tile(pplayer, cplayer, pdiplomat, 
@@ -322,7 +317,6 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 /******************************************************************************
   Sabotage an enemy unit.
 
-  - Only a Spy can sabotage an enemy unit.
   - Only allowed against players you are at war with.
 
   - Can't sabotage a unit if:
@@ -347,10 +341,6 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
     return;
 
   log_debug("sabotage-unit: unit: %d", pdiplomat->id);
-
-  /* If not a Spy, can't sabotage unit. */
-  if (!unit_has_type_flag(pdiplomat, UTYF_SPY))
-    return;
 
   /* N.B: unit_link() always returns the same pointer. */
   sz_strlcpy(victim_link, unit_link(pvictim));

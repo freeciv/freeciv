@@ -25,6 +25,7 @@
 
 /* common */
 #include "ai.h"
+#include "actions.h"
 #include "base.h"
 #include "city.h"
 #include "game.h"
@@ -108,7 +109,8 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
       }
       if(action == SPY_POISON
          && city_size_get(pcity) > 1
-         && unit_has_type_flag(pdiplomat, UTYF_SPY)) {
+         && action_is_enabled_unit_on_city(ACTION_SPY_POISON,
+                                           pdiplomat, pcity)) {
         return pplayers_at_war(unit_owner(pdiplomat), city_owner(pcity));
       }
       if(action==DIPLOMAT_INVESTIGATE)
@@ -127,20 +129,21 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
        is also set to allied units */
     struct unit *punit;
 
-    if ((action == SPY_SABOTAGE_UNIT || action == DIPLOMAT_ANY_ACTION) 
-        && unit_list_size(ptile->units) == 1
-        && unit_has_type_flag(pdiplomat, UTYF_SPY)) {
+    if (unit_list_size(ptile->units) == 1) {
       punit = unit_list_get(ptile->units, 0);
-      if (pplayers_at_war(unit_owner(pdiplomat), unit_owner(punit))) {
-        return TRUE;
-      }
-    }
 
-    if ((action == DIPLOMAT_BRIBE || action == DIPLOMAT_ANY_ACTION)
-        && unit_list_size(ptile->units) == 1) {
-      punit = unit_list_get(ptile->units, 0);
-      if (!pplayers_allied(unit_owner(punit), unit_owner(pdiplomat))) {
-        return TRUE;
+      if ((action == SPY_SABOTAGE_UNIT || action == DIPLOMAT_ANY_ACTION)
+          && action_is_enabled_unit_on_unit(ACTION_SPY_SABOTAGE_UNIT,
+                                            pdiplomat, punit)) {
+        if (pplayers_at_war(unit_owner(pdiplomat), unit_owner(punit))) {
+          return TRUE;
+        }
+      }
+
+      if (action == DIPLOMAT_BRIBE || action == DIPLOMAT_ANY_ACTION) {
+        if (!pplayers_allied(unit_owner(punit), unit_owner(pdiplomat))) {
+          return TRUE;
+        }
       }
     }
   }

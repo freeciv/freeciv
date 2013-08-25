@@ -636,7 +636,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
     }
   
     /* ---------- */
-    if (spy && diplomat_can_do_action(pUnit, SPY_POISON, ptile)) {
+    if (diplomat_can_do_action(pUnit, SPY_POISON, ptile)) {
     
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
 	    _("Poison City"), spy_poison_callback);

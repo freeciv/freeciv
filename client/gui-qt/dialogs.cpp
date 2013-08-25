@@ -892,6 +892,10 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
       cd->add_item(QString(_("Investigate City")), func, qv1, qv2);
     }
     if (!unit_has_type_flag(punit, UTYF_SPY)) {
+      if (diplomat_can_do_action(punit, SPY_POISON, dest_tile)) {
+        func = spy_poison;
+        cd->add_item(QString(_("Poison City")), func, qv1, qv2);
+      }
       if (diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile)) {
         func = diplomat_sabotage;
         cd->add_item(QString(_("_Sabotage City")), func, qv1, qv2);
