@@ -90,6 +90,8 @@ COMMON_DLLS := \
 	exchndl.dll \
 	freetype6.dll \
 	intl.dll \
+	libMagickCore-6.Q16-1.dll \
+	libMagickWand-6.Q16-1.dll \
 	libatk-1.0-0.dll \
 	libbz2-2.dll \
 	libcurl.dll \
@@ -114,6 +116,7 @@ COMMON_DLLS := \
 	libpangoft2-1.0-0.dll \
 	libpangowin32-1.0-0.dll \
 	libpng14-14.dll \
+	libpthread-2.dll \
 	libsqlite3-0.dll \
 	libssl32.dll \
 	libvorbis-0.dll \
