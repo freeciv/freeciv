@@ -16,7 +16,7 @@ ga Irish
 gd Scottish Gaelic
 he Hebrew
 hu Hungarian
-in Indonesian
+id Indonesian
 it Italian
 ja Japanese
 ko Korean
