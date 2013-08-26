@@ -211,15 +211,6 @@ struct road_type *road_type_by_translated_name(const char *name)
 }
 
 /****************************************************************************
-  Is road native to unit class?
-****************************************************************************/
-bool is_native_road_to_uclass(const struct road_type *proad,
-                              const struct unit_class *pclass)
-{
-  return BV_ISSET(proad->native_to, uclass_index(pclass));
-}
-
-/****************************************************************************
   Tells if road can build to tile if all other requirements are met.
 ****************************************************************************/
 bool road_can_be_built(const struct road_type *proad, const struct tile *ptile)

@@ -50,18 +50,15 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 /* Paratroopers can use base for paradrop */
 #define SPECENUM_VALUE3 BF_PARADROP_FROM
 #define SPECENUM_VALUE3NAME "ParadropFrom"
-/* Makes tile native terrain for units */
-#define SPECENUM_VALUE4 BF_NATIVE_TILE
-#define SPECENUM_VALUE4NAME "NativeTile"
+/* Base will be built in cities automatically */
+#define SPECENUM_VALUE4 BF_AUTO_ON_CITY_CENTER
+#define SPECENUM_VALUE4NAME "AutoOnCityCenter"
 /* Owner's flag is displayed next to base */
 #define SPECENUM_VALUE5 BF_SHOW_FLAG
 #define SPECENUM_VALUE5NAME "ShowFlag"
 /* Base is always present in cities */
 #define SPECENUM_VALUE6 BF_ALWAYS_ON_CITY_CENTER
 #define SPECENUM_VALUE6NAME "AlwaysOnCityCenter"
-/* Base will be built in cities automatically */
-#define SPECENUM_VALUE7 BF_AUTO_ON_CITY_CENTER
-#define SPECENUM_VALUE7NAME "AutoOnCityCenter"
 #define SPECENUM_COUNT BF_COUNT
 #include "specenum_gen.h"
 
@@ -83,7 +80,6 @@ struct base_type {
   int vision_main_sq;
   int vision_invis_sq;
 
-  bv_unit_classes native_to;
   bv_base_flags flags;
   bv_bases conflicts;
 
@@ -117,10 +113,6 @@ bool is_base_flag_near_tile(const struct tile *ptile,
                             enum base_flag_id flag);
 bool base_has_flag_for_utype(const struct base_type *pbase,
                              enum base_flag_id flag,
-                             const struct unit_type *punittype);
-bool is_native_base_to_uclass(const struct base_type *pbase,
-                              const struct unit_class *pclass);
-bool is_native_base_to_utype(const struct base_type *pbase,
                              const struct unit_type *punittype);
 bool is_native_tile_to_base(const struct base_type *pbase,
                             const struct tile *ptile);

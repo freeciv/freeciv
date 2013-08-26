@@ -228,7 +228,8 @@ bool tile_has_claimable_base(const struct tile *ptile,
   base_type_iterate(pbase) {
     if (tile_has_base(ptile, pbase)
         && territory_claiming_base(pbase)
-        && is_native_base_to_uclass(pbase, utype_class(punittype))) {
+        && is_native_extra_to_uclass(base_extra_get(pbase),
+                                     utype_class(punittype))) {
       return TRUE;
     }
   } base_type_iterate_end;
@@ -255,14 +256,14 @@ int tile_extras_class_defense_bonus(const struct tile *ptile,
 
   base_type_iterate(pbase) {
     if (tile_has_base(ptile, pbase)
-        && is_native_base_to_uclass(pbase, pclass)) {
+        && is_native_extra_to_uclass(base_extra_get(pbase), pclass)) {
       bonus += pbase->defense_bonus;
     }
   } base_type_iterate_end;
 
   road_type_iterate(proad) {
     if (tile_has_road(ptile, proad)
-        && is_native_road_to_uclass(proad, pclass)) {
+        && is_native_extra_to_uclass(road_extra_get(proad), pclass)) {
       bonus += proad->defense_bonus;
     }
   } road_type_iterate_end;
@@ -312,7 +313,7 @@ bool tile_has_native_base(const struct tile *ptile,
 {
   base_type_iterate(pbase) {
     if (tile_has_base(ptile, pbase)
-        && is_native_base_to_utype(pbase, punittype)) {
+        && is_native_extra_to_utype(base_extra_get(pbase), punittype)) {
       return TRUE;
     }
   } base_type_iterate_end;

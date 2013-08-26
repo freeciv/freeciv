@@ -505,3 +505,29 @@ struct extra_type *prev_extra_in_tile(struct tile *ptile, enum extra_cause cause
 
   return NULL;
 }
+
+/****************************************************************************
+  Is extra native to unit class?
+****************************************************************************/
+bool is_native_extra_to_uclass(const struct extra_type *pextra,
+                               const struct unit_class *pclass)
+{
+  return BV_ISSET(pextra->native_to, uclass_index(pclass));
+}
+
+/****************************************************************************
+  Is extra native to unit type?
+****************************************************************************/
+bool is_native_extra_to_utype(const struct extra_type *pextra,
+                              const struct unit_type *punittype)
+{
+  return is_native_extra_to_uclass(pextra, utype_class(punittype));
+}
+
+/****************************************************************************
+  Check if extra has given flag
+****************************************************************************/
+bool extra_has_flag(const struct extra_type *pextra, enum extra_flag_id flag)
+{
+  return BV_ISSET(pextra->flags, flag);
+}

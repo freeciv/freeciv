@@ -2502,7 +2502,7 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
     int i = 0;
 
     unit_class_iterate(uclass) {
-      if (is_native_base_to_uclass(pbase, uclass)) {
+      if (is_native_extra_to_uclass(pextra, uclass)) {
         classes[i++] = uclass_name_translation(uclass);
       }
     } unit_class_iterate_end;
@@ -2515,7 +2515,7 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
                    astr_build_and_list(&list, classes, i));
       astr_free(&list);
 
-      if (base_has_flag(pbase, BF_NATIVE_TILE)) {
+      if (extra_has_flag(pextra, EF_NATIVE_TILE)) {
         CATLSTR(buf, bufsz,
                 _("  * Such units can move onto this tile even if it would "
                   "not normally be suitable terrain.\n"));
@@ -2631,7 +2631,7 @@ void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
     int i = 0;
 
     unit_class_iterate(uclass) {
-      if (is_native_road_to_uclass(proad, uclass)) {
+      if (is_native_extra_to_uclass(pextra, uclass)) {
         classes[i++] = uclass_name_translation(uclass);
       }
     } unit_class_iterate_end;
@@ -2644,7 +2644,7 @@ void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
                    astr_build_and_list(&list, classes, i));
       astr_free(&list);
 
-      if (road_has_flag(proad, RF_NATIVE_TILE)) {
+      if (extra_has_flag(pextra, EF_NATIVE_TILE)) {
         CATLSTR(buf, bufsz,
                 _("  * Such units can move onto this tile even if it would "
                   "not normally be suitable terrain.\n"));

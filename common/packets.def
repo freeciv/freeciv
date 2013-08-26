@@ -234,6 +234,7 @@ type TRI                = uint8(enum traderoute_illegal_cancelling)
 type MOVE_MODE          = uint8(enum road_move_mode)
 
 # typedefs for bit vectors
+type BV_EXTRA_FLAGS     = bitvector(bv_extra_flags)
 type BV_BASE_FLAGS      = bitvector(bv_base_flags)
 type BV_EXTRAS          = bitvector(bv_extras)
 type BV_BASES           = bitvector(bv_bases)
@@ -1443,6 +1444,8 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   UINT8 reqs_count;
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
   BOOL buildable;
+  BV_UNIT_CLASSES native_to;
+  BV_EXTRA_FLAGS flags;
 end
 
 PACKET_RULESET_BASE = 153; sc, lsend
@@ -1453,7 +1456,6 @@ PACKET_RULESET_BASE = 153; sc, lsend
   STRING activity_gfx[MAX_LEN_NAME];
   STRING act_gfx_alt[MAX_LEN_NAME];
   BASE_GUI gui_type;
-  BV_UNIT_CLASSES native_to;
   UINT8 build_time;
   UINT8 defense_bonus;
   SINT8 border_sq;
@@ -1479,7 +1481,6 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   UINT16 tile_incr[O_LAST];
   UINT16 tile_bonus[O_LAST];
   ROAD_COMPAT compat;
-  BV_UNIT_CLASSES native_to;
   BV_ROADS hidden_by;
   BV_ROAD_FLAGS flags;
   STRING helptext[MAX_LEN_PACKET];

@@ -578,7 +578,7 @@ static bool is_possible_base_fuel(const struct tile *ptile,
   base_type_iterate(pbase) {
     /* All airbases are considered possible, simply attack enemies. */
     if (tile_has_base(ptile, pbase)
-        && is_native_base_to_uclass(pbase, param->uclass)) {
+        && is_native_extra_to_uclass(base_extra_get(pbase), param->uclass)) {
       return TRUE;
     }
   } base_type_iterate_end;

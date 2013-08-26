@@ -1289,7 +1289,7 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
 
     base_type_iterate(pbase) {
       if (BV_ISSET(plrtile->extras, extra_index(base_extra_get(pbase)))
-          && is_native_base_to_utype(pbase, type)) {
+          && is_native_extra_to_utype(base_extra_get(pbase), type)) {
         return TRUE;
       }
     } base_type_iterate_end;

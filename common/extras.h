@@ -22,8 +22,17 @@ extern "C" {
 #include "fc_types.h"
 #include "road.h"
 
+/* Used in the network protocol. */
+#define SPECENUM_NAME extra_flag_id
+/* Tile with this extra is considered native for units in tile. */
+#define SPECENUM_VALUE0 EF_NATIVE_TILE
+#define SPECENUM_VALUE0NAME "NativeTile"
+#define SPECENUM_COUNT EF_COUNT
+#include "specenum_gen.h"
 
 #define EXTRA_NONE (-1)
+
+BV_DEFINE(bv_extra_flags, EF_COUNT); /* Used in the network protocol. */
 
 struct extra_type
 {
@@ -34,6 +43,10 @@ struct extra_type
 
   struct requirement_vector reqs;
   bool buildable;
+
+  bv_unit_classes native_to;
+
+  bv_extra_flags flags;
 
   struct
   {
@@ -98,8 +111,14 @@ bool player_can_remove_extra(const struct extra_type *pextra,
                              const struct player *pplayer,
                              const struct tile *ptile);
 
+bool is_native_extra_to_uclass(const struct extra_type *pextra,
+                               const struct unit_class *pclass);
+bool is_native_extra_to_utype(const struct extra_type *pextra,
+                              const struct unit_type *punittype);
 bool is_native_tile_to_extra(const struct extra_type *pextra,
                              const struct tile *ptile);
+
+bool extra_has_flag(const struct extra_type *pextra, enum extra_flag_id flag);
 
 struct extra_type *next_extra_for_tile(struct tile *ptile, enum extra_cause cause,
                                        const struct player *pplayer,

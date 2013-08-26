@@ -282,21 +282,13 @@ bool is_native_to_class(const struct unit_class *punitclass,
     return TRUE;
   }
 
-  road_type_iterate(proad) {
-    if (BV_ISSET(extras, extra_index(road_extra_get(proad)))
-        && road_has_flag(proad, RF_NATIVE_TILE)
-        && is_native_road_to_uclass(proad, punitclass)) {
+  extra_type_iterate(pextra) {
+    if (BV_ISSET(extras, extra_index(pextra))
+        && extra_has_flag(pextra, EF_NATIVE_TILE)
+        && is_native_extra_to_uclass(pextra, punitclass)) {
       return TRUE;
     }
-  } road_type_iterate_end;
-
-  base_type_iterate(pbase) {
-    if (BV_ISSET(extras, extra_index(base_extra_get(pbase)))
-        && base_has_flag(pbase, BF_NATIVE_TILE)
-        && is_native_base_to_uclass(pbase, punitclass)) {
-      return TRUE;
-    }
-  } base_type_iterate_end;
+  } extra_type_iterate_end;
 
   return FALSE;
 }

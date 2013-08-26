@@ -897,6 +897,10 @@ shield      = 3 ; glacier used to have 4
 ; reqs                    = requirements to build the extra (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; buildable               = Can extra be built? Defaults to TRUE
+; native_to               = List of unit classes that are considered to
+;                           be inside the extra when they are on same tile
+; flags
+;   - "NativeTile"        = Native units consider tile native regardless of terrain
 ;
 ; */ <-- avoid gettext warnings
 
@@ -931,6 +935,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
+native_to      = "Land", "Big Land"
 
 [extra_airbase]
 name           = _("Airbase")
@@ -941,6 +946,7 @@ reqs           =
       "UnitFlag", "Airbase", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
+native_to      = "Air", "Helicopter", "Missile"
 
 [extra_buoy]
 name           = _("Buoy")
@@ -968,6 +974,8 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Land", "Local"
     }
+native_to      = "Land", "Big Land"
+flags          = "NativeTile"
 
 [extra_railroad]
 name           = _("Railroad")
@@ -978,6 +986,8 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Land", "Local"
     }
+native_to      = "Land", "Big Land"
+flags          = "NativeTile"
 
 [extra_maglev]
 name           = _("Maglev")
@@ -987,10 +997,14 @@ reqs           =
       "Extra", "Railroad", "Local"
       "UnitFlag", "Settlers", "Local"
     }
+native_to      = "Land"
+flags          = "NativeTile"
 
 [extra_river]
 name           = _("River")
 buildable      = FALSE
+native_to      = "Land", "Big Land", "Trireme"
+flags          = "NativeTile"
 
 ; /* <-- avoid gettext warnings
 ;
@@ -1017,14 +1031,11 @@ buildable      = FALSE
 ; conflicts               = List of bases that cannot be on the same tile.
 ;                           Bases with non-zero border_sq automatically conflict
 ;                           with each other.
-; native_to               = List of unit classes that are considered to
-;                           be inside the base when they are on same tile
 ; flags
 ;   - "NoAggressive"      = Units inside are not considered aggressive
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
-;   - "NativeTile"        = Units consider tile native regardless of terrain
 ;   - "ShowFlag"          = Draw owner's flag
 ;   - "AlwaysOnCityCenter" = City Center tiles always have this base type no
 ;                           matter about reqs.
@@ -1045,7 +1056,6 @@ gui_type       = "Fortress"
 build_time     = 3
 defense_bonus  = 100
 border_sq      = 5
-native_to      = "Land", "Big Land"
 flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense"
 helptext       = _("\
 Fortresses improve defense for land units. Among other effects, a land \
@@ -1062,7 +1072,6 @@ activity_gfx   = "unit.airbase"
 act_gfx_alt    = "-"
 gui_type       = "Airbase"
 build_time     = 3
-native_to      = "Air", "Helicopter", "Missile"
 flags          = "NoStackDeath", "ParadropFrom"
 helptext       = _("\
 Airbases allow your air units to land and refuel. Air units in an \
@@ -1131,11 +1140,9 @@ They have no effect on gameplay.\
 ; compat_special          = road type used in old savegames with just two road,
 ;                           and one river specials:
 ;                           "Road", "Railroad", "River, or "None"
-; native_to               = List of unit classes that can use this road.
 ; hidden_by               = List of road types that will make this road
 ;                           type not to show on UI if both present.
 ; flags
-;   - "NativeTile"        = Native units consider tile native regardless of terrain
 ;   - "ConnectLand"       = Roads on Oceanic tiles are drawn to connect to adjacent
 ;                           Land tiles even if they have no road. This affects
 ;                           appearance only
@@ -1170,9 +1177,8 @@ food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "Road"
-native_to      = "Land", "Big Land"
 hidden_by      = "Railroad", "Maglev"
-flags          = "NativeTile", "RequiresBridge", "AutoOnCityCenter"
+flags          = "RequiresBridge", "AutoOnCityCenter"
 
 [road_railroad]
 name           = _("Railroad")
@@ -1189,9 +1195,8 @@ food_bonus     = 0
 shield_bonus   = 50
 trade_bonus    = 0
 compat_special = "Railroad"
-native_to      = "Land", "Big Land"
 hidden_by      = "Maglev"
-flags          = "NativeTile", "RequiresBridge", "AutoOnCityCenter"
+flags          = "RequiresBridge", "AutoOnCityCenter"
 
 [road_maglev]
 name           = _("Maglev")
@@ -1207,8 +1212,7 @@ trade_incr     = 0
 food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
-native_to      = "Land"
-flags          = "NativeTile", "RequiresBridge", "AutoOnCityCenter"
+flags          = "RequiresBridge", "AutoOnCityCenter"
 
 [road_river]
 name           = _("River")
@@ -1222,8 +1226,7 @@ move_cost      = 3
 move_mode      = "Cardinal"
 trade_incr_const = 1
 compat_special = "River"
-native_to      = "Land", "Big Land", "Trireme"
-flags          = "River", "PreventsOtherRoads", "NativeTile", "Natural"
+flags          = "River", "PreventsOtherRoads", "Natural"
 helptext       = _("\
 Any land terrain type may have a River on it.  A River adds 1\
  trade to the resources produced by that tile.  It also increases a tile's\

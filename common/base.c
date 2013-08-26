@@ -70,24 +70,6 @@ bool is_base_flag_near_tile(const struct tile *ptile, enum base_flag_id flag)
 }
 
 /****************************************************************************
-  Is base native to unit class?
-****************************************************************************/
-bool is_native_base_to_uclass(const struct base_type *pbase,
-                              const struct unit_class *pclass)
-{
-  return BV_ISSET(pbase->native_to, uclass_index(pclass));
-}
-
-/****************************************************************************
-  Is base native to unit type?
-****************************************************************************/
-bool is_native_base_to_utype(const struct base_type *pbase,
-                             const struct unit_type *punittype)
-{
-  return is_native_base_to_uclass(pbase, utype_class(punittype));
-}
-
-/****************************************************************************
   Is tile native to base?
 ****************************************************************************/
 bool is_native_tile_to_base(const struct base_type *pbase,
@@ -109,7 +91,8 @@ bool base_has_flag_for_utype(const struct base_type *pbase,
                              enum base_flag_id flag,
                              const struct unit_type *punittype)
 {
-  return base_has_flag(pbase, flag) && is_native_base_to_utype(pbase, punittype);
+  return base_has_flag(pbase, flag)
+    && is_native_extra_to_utype(base_extra_get(pbase), punittype);
 }
 
 /**************************************************************************

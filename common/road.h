@@ -19,9 +19,8 @@ extern "C" {
 
 /* Used in the network protocol. */
 #define SPECENUM_NAME road_flag_id
-/* Tile with this road is considered native for units traveling the road. */
-#define SPECENUM_VALUE0 RF_NATIVE_TILE
-#define SPECENUM_VALUE0NAME "NativeTile"
+#define SPECENUM_VALUE0 RF_AUTO_ON_CITY_CENTER
+#define SPECENUM_VALUE0NAME "AutoOnCityCenter"
 #define SPECENUM_VALUE1 RF_CONNECT_LAND
 #define SPECENUM_VALUE1NAME "ConnectLand"
 #define SPECENUM_VALUE2 RF_REQUIRES_BRIDGE
@@ -34,8 +33,6 @@ extern "C" {
 #define SPECENUM_VALUE5NAME "River"
 #define SPECENUM_VALUE6 RF_NATURAL
 #define SPECENUM_VALUE6NAME "Natural"
-#define SPECENUM_VALUE7 RF_AUTO_ON_CITY_CENTER
-#define SPECENUM_VALUE7NAME "AutoOnCityCenter"
 #define SPECENUM_COUNT RF_COUNT
 #include "specenum_gen.h"
 
@@ -83,7 +80,6 @@ struct road_type {
   int tile_bonus[O_LAST];
   enum road_compat compat;
 
-  bv_unit_classes native_to;
   bv_roads hidden_by;
   bv_road_flags flags;
 
@@ -131,8 +127,6 @@ bool is_road_flag_card_near(const struct tile *ptile,
                             enum road_flag_id flag);
 bool is_road_flag_near_tile(const struct tile *ptile,
                             enum road_flag_id flag);
-bool is_native_road_to_uclass(const struct road_type *proad,
-                              const struct unit_class *pclass);
 
 bool road_can_be_built(const struct road_type *proad, const struct tile *ptile);
 bool can_build_road_base(const struct road_type *proad,

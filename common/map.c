@@ -759,7 +759,7 @@ static int tile_move_cost_ptrs(const struct unit *punit,
   road_type_iterate(proad) {
     if (proad->move_mode != RMM_NO_BONUS
         && (!ri || road_has_flag(proad, RF_NATURAL))) {
-      if ((!pclass || is_native_road_to_uclass(proad, pclass))
+      if ((!pclass || is_native_extra_to_uclass(road_extra_get(proad), pclass))
           && tile_has_road(t1, proad) && tile_has_road(t2, proad)) {
         if (cost > proad->move_cost) {
           switch (proad->move_mode) {

@@ -572,23 +572,13 @@ bool sanity_check_ruleset_data(void)
       } terrain_type_iterate_end;
 
       if (!can_exist) {
-        base_type_iterate(pbase) {
-          if (BV_ISSET(pbase->native_to, uclass_index(pclass))
-              && base_has_flag(pbase, BF_NATIVE_TILE)) {
+        extra_type_iterate(pextra) {
+          if (BV_ISSET(pextra->native_to, uclass_index(pclass))
+              && extra_has_flag(pextra, EF_NATIVE_TILE)) {
             can_exist = TRUE;
             break;
           }
-        } base_type_iterate_end;
-      }
-
-      if (!can_exist) {
-        road_type_iterate(proad) {
-          if (BV_ISSET(proad->native_to, uclass_index(pclass))
-             && road_has_flag(proad, RF_NATIVE_TILE)) {
-            can_exist = TRUE;
-            break;
-          }
-        } road_type_iterate_end;
+        } extra_type_iterate_end;
       }
 
       if (!can_exist) {

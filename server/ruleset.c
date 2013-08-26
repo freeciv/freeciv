@@ -1612,7 +1612,7 @@ static bool load_ruleset_units(struct section_file *file)
 
         road_type_iterate(proad) {
           /* Check all roads in case there's native one among them */
-          if (is_native_road_to_uclass(proad, uc)) {
+          if (is_native_extra_to_uclass(road_extra_get(proad), uc)) {
             land_moving = TRUE;
           }
         } road_type_iterate_end;
@@ -1642,7 +1642,7 @@ static bool load_ruleset_units(struct section_file *file)
       } else if (uc->move_type == UMT_SEA) {
         /* Explicitly given SEA_MOVING */
         road_type_iterate(proad) {
-          if (is_native_road_to_uclass(proad, uc)) {
+          if (is_native_extra_to_uclass(road_extra_get(proad), uc)) {
             ruleset_error(LOG_ERROR,
                           "\"%s\" unit_class \"%s\": cannot make road \"%s\" "
                           "native to sea moving unit.",
@@ -2782,6 +2782,7 @@ static bool load_ruleset_terrain(struct section_file *file)
     /* extra defails */
     extra_type_iterate(pextra) {
       const char *section = &extra_sections[extra_index(pextra) * MAX_SECTION_LABEL];
+      const char **slist;
       struct requirement_vector *reqs;
 
       reqs = lookup_req_list(file, section, "reqs", extra_rule_name(pextra));
@@ -2793,6 +2794,48 @@ static bool load_ruleset_terrain(struct section_file *file)
 
       pextra->buildable = secfile_lookup_bool_default(file, TRUE,
                                                       "%s.buildable", section);
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
+      BV_CLR_ALL(pextra->native_to);
+      for (j = 0; j < nval; j++) {
+        struct unit_class *uclass = unit_class_by_rule_name(slist[j]);
+
+        if (uclass == NULL) {
+          ruleset_error(LOG_ERROR,
+                        "\"%s\" extra \"%s\" is native to unknown unit class \"%s\".",
+                        filename,
+                        extra_rule_name(pextra),
+                        slist[j]);
+          ok = FALSE;
+          break;
+        } else {
+          BV_SET(pextra->native_to, uclass_index(uclass));
+        }
+      }
+      free(slist);
+
+      if (!ok) {
+        break;
+      }
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
+      BV_CLR_ALL(pextra->flags);
+      for (j = 0; j < nval; j++) {
+        const char *sval = slist[j];
+        enum base_flag_id flag = extra_flag_id_by_name(sval, fc_strcasecmp);
+
+        if (!extra_flag_id_is_valid(flag)) {
+          ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\": unknown flag \"%s\".",
+                        filename,
+                        extra_rule_name(pextra),
+                        sval);
+          ok = FALSE;
+          break;
+        } else {
+          BV_SET(pextra->flags, flag);
+        }
+      }
+
     } extra_type_iterate_end;
   }
 
@@ -2822,25 +2865,6 @@ static bool load_ruleset_terrain(struct section_file *file)
       sz_strlcpy(pbase->act_gfx_alt,
                  secfile_lookup_str_default(file, "-",
                                             "%s.act_gfx_alt", section));
-
-      slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
-      BV_CLR_ALL(pbase->native_to);
-      for (j = 0; j < nval; j++) {
-        struct unit_class *uclass = unit_class_by_rule_name(slist[j]);
-
-        if (uclass == NULL) {
-          ruleset_error(LOG_ERROR,
-                        "\"%s\" base \"%s\" is native to unknown unit class \"%s\".",
-                        filename,
-                        base_rule_name(pbase),
-                        slist[j]);
-          ok = FALSE;
-          break;
-        } else {
-          BV_SET(pbase->native_to, uclass_index(uclass));
-        }
-      }
-      free(slist);
 
       if (!ok) {
         break;
@@ -3028,29 +3052,6 @@ static bool load_ruleset_terrain(struct section_file *file)
                       special, road_rule_name(proad));
         ok = FALSE;
       }
-
-      if (!ok) {
-        break;
-      }
-
-      slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
-      BV_CLR_ALL(proad->native_to);
-      for (j = 0; j < nval; j++) {
-        struct unit_class *uclass = unit_class_by_rule_name(slist[j]);
-
-        if (!uclass) {
-          ruleset_error(LOG_ERROR,
-                        "\"%s\" road \"%s\" is native to unknown unit class \"%s\".",
-                        filename,
-                        road_rule_name(proad),
-                        slist[j]);
-          ok = FALSE;
-          break;
-        } else {
-          BV_SET(proad->native_to, uclass_index(uclass));
-        }
-      }
-      free(slist);
 
       if (!ok) {
         break;
@@ -5412,6 +5413,10 @@ static void send_ruleset_extras(struct conn_list *dest)
 
     packet.buildable = e->buildable;
 
+    packet.native_to = e->native_to;
+
+    packet.flags = e->flags;
+
     lsend_packet_ruleset_extra(dest, &packet);
   } extra_type_iterate_end;
 }
@@ -5431,8 +5436,6 @@ static void send_ruleset_bases(struct conn_list *dest)
     sz_strlcpy(packet.activity_gfx, b->activity_gfx);
     sz_strlcpy(packet.act_gfx_alt, b->act_gfx_alt);
     packet.pillageable = b->pillageable;
-
-    packet.native_to = b->native_to;
 
     packet.gui_type = b->gui_type;
     packet.build_time = b->build_time;
@@ -5480,7 +5483,6 @@ static void send_ruleset_roads(struct conn_list *dest)
 
     packet.compat = r->compat;
 
-    packet.native_to = r->native_to;
     packet.hidden_by = r->hidden_by;
     packet.flags = r->flags;
 

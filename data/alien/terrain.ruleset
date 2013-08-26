@@ -493,6 +493,10 @@ identifier  = "g"
 ; reqs 	                  = requirements to build the extra (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; buildable               = Can extra be built? Defaults to TRUE
+; native_to               = List of unit classes that are considered to
+;                           be inside the extra when they are on same tile
+; flags
+;   - "NativeTile"        = Native units consider tile native regardless of terrain
 ;
 ; */ <-- avoid gettext warnings
 
@@ -527,6 +531,7 @@ reqs          =
       "UnitFlag", "Settlers", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
+native_to     = "Earthly", "Native", "Amphibious"
 
 [extra_force_fortress]
 name           = _("Force Fortress")
@@ -537,6 +542,7 @@ reqs          =
       "UnitFlag", "Settlers", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
+native_to     = "Earthly", "Native", "Amphibious"
 
 [extra_antigrav_base]
 name           = _("Antigrav Base")
@@ -547,6 +553,7 @@ reqs         =
       "UnitFlag", "Settlers", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
+native_to    = "Antigravity"
 
 [extra_road]
 name           = _("Road")
@@ -555,6 +562,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Land", "Local"
     }
+native_to      = "Earthly", "Native"
 
 [extra_highway]
 name           = _("Highway")
@@ -565,6 +573,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Land", "Local"
     }
+native_to      = "Earthly", "Native"
 
 [extra_maglev]
 name           = _("Maglev")
@@ -575,6 +584,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Land", "Local"
     }
+native_to      = "Earthly", "Native"
 
 [extra_tunnel]
 name           = _("Tunnel")
@@ -584,6 +594,8 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
       "TerrainFlag", "Radiating", "Local"
     }
+native_to      = "Earthly"
+flags          = "NativeTile"
 
 [extra_burrow_tube]
 name           = _("Burrow Tube")
@@ -593,14 +605,18 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Oceanic", "Local"
     }
+native_to      = "Burrowing"
+flags          = "NativeTile"
 
 [extra_green_river]
 name           = _("Green River")
 buildable      = FALSE
+native_to      = "Native", "Amphibious"
 
 [extra_brown_river]
 name           = _("Brown River")
 buildable      = FALSE
+native_to      = "Native", "Amphibious"
 
 ; /* <-- avoid gettext warnings
 ;
@@ -628,14 +644,11 @@ buildable      = FALSE
 ; conflicts               = List of bases that cannot be on the same tile.
 ;                           Bases with non-zero border_sq automatically conflict
 ;                           with each other.
-; native_to               = List of unit classes that are considered to
-;                           be inside the base when they are on same tile
 ; flags
 ;   - "NoAggressive"      = Units inside are not considered aggressive
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
-;   - "NativeTile"        = Units consider tile native regardless of terrain
 ;   - "ShowFlag"          = Draw owner's flag
 ;   - "AlwaysOnCityCenter" = City Center tiles always have this base type no
 ;                           matter about reqs.
@@ -656,7 +669,6 @@ gui_type      = "Fortress"
 build_time    = 3
 defense_bonus = 150
 conflicts     = "Force Fortress"
-native_to     = "Earthly", "Native", "Amphibious"
 flags         = "NoAggressive", "NoStackDeath"
 
 [base_fortress]
@@ -669,7 +681,6 @@ gui_type      = "Fortress"
 build_time    = 3
 defense_bonus = 100
 conflicts     = "Tower"
-native_to     = "Earthly", "Native", "Amphibious"
 flags         = "NoAggressive"
 
 [base_antigrav_base]
@@ -680,7 +691,6 @@ activity_gfx = "unit.antigrav_base"
 act_gfx_alt  = "unit.airbase"
 gui_type     = "Airbase"
 build_time   = 3
-native_to    = "Antigravity"
 flags        = "ParadropFrom", "NoAggressive"
 
 
@@ -720,11 +730,9 @@ flags        = "ParadropFrom", "NoAggressive"
 ; compat_special          = road type used in old savegames with just two road,
 ;                           and one river specials:
 ;                           "Road", "Railroad", "River, or "None"
-; native_to               = List of unit classes that can use this road.
 ; hidden_by               = List of road types that will make this road
 ;                           type not to show on UI if both present.
 ; flags
-;   - "NativeTile"        = Native units consider tile native regardless of terrain
 ;   - "ConnectLand"       = Roads on Oceanic tiles are drawn to connect to adjacent
 ;                           Land tiles even if they have no road. This affects
 ;                           appearance only
@@ -759,7 +767,6 @@ food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "Road"
-native_to      = "Earthly", "Native"
 hidden_by      = "Highway", "Maglev"
 flags          = "AutoOnCityCenter"
 helptext       = _("\
@@ -783,7 +790,6 @@ food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "Railroad"
-native_to      = "Earthly", "Native"
 hidden_by      = "Maglev"
 flags          = "AutoOnCityCenter"
 helptext       = _("\
@@ -805,7 +811,6 @@ food_bonus     = 0
 shield_bonus   = 50
 trade_bonus    = 0
 compat_special = "None"
-native_to      = "Earthly", "Native"
 flags          = "AutoOnCityCenter"
 ; /* xgettext:no-c-format */
 helptext       = _("\
@@ -832,8 +837,7 @@ food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "None"
-native_to      = "Earthly"
-flags          = "NativeTile", "AutoOnCityCenter"
+flags          = "AutoOnCityCenter"
 ; /* xgettext:no-c-format */
 helptext       = _("\
 Earthly units can travel on radiating tiles with tunnel built on them. \
@@ -855,8 +859,7 @@ food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "None"
-native_to      = "Burrowing"
-flags          = "NativeTile", "ConnectLand", "AutoOnCityCenter"
+flags          = "ConnectLand", "AutoOnCityCenter"
 helptext       = _("\
 Burrow Tubes provide the only way for burrowing units to cross oceans.\
 ")
@@ -874,7 +877,6 @@ move_mode      = "Cardinal"
 food_incr_const  = 1
 trade_incr_const = 1
 compat_special = "River"
-native_to      = "Native", "Amphibious"
 flags          = "River", "Natural"
 ; /* xgettext:no-c-format */
 helptext       = _("\
@@ -899,7 +901,6 @@ trade_incr_const  = 1
 food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
-native_to      = "Native", "Amphibious"
 flags          = "River", "Natural"
 ; /* xgettext:no-c-format */
 helptext       = _("\
