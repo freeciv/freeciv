@@ -1314,21 +1314,6 @@ void create_city(struct player *pplayer, struct tile *ptile,
   /* Update citizens. */
   citizens_update(pcity, nationality);
 
-  /* Claim the ground we stand on */
-  tile_set_owner(ptile, saved_owner, saved_claimer);
-  map_claim_ownership(ptile, pplayer, ptile);
-
-  /* Before arranging workers to show unknown land */
-  pcity->server.vision = vision_new(pplayer, ptile);
-  vision_reveal_tiles(pcity->server.vision, game.server.vision_reveal_tiles);
-  city_refresh_vision(pcity);
-  city_list_prepend(pplayer->cities, pcity);
-
-  /* This is dependent on the current vision, so must be done after
-   * vision is prepared and before arranging workers. */
-  map_claim_border(ptile, pplayer);
-  /* city_thaw_workers_queue() later */
-
   /* Remove any roads that don't belong in the city. */
   road_type_iterate(proad) {
     if (tile_has_road(ptile, proad)
@@ -1349,6 +1334,21 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   /* Build any bases that the city should have. */
   upgrade_city_bases(pcity);
+
+  /* Claim the ground we stand on */
+  tile_set_owner(ptile, saved_owner, saved_claimer);
+  map_claim_ownership(ptile, pplayer, ptile);
+
+  /* Before arranging workers to show unknown land */
+  pcity->server.vision = vision_new(pplayer, ptile);
+  vision_reveal_tiles(pcity->server.vision, game.server.vision_reveal_tiles);
+  city_refresh_vision(pcity);
+  city_list_prepend(pplayer->cities, pcity);
+
+  /* This is dependent on the current vision, so must be done after
+   * vision is prepared and before arranging workers. */
+  map_claim_border(ptile, pplayer);
+  /* city_thaw_workers_queue() later */
 
   /* Refresh the city.  First a city refresh is done (this shouldn't
    * send any packets to the client because the city has no supported units)
