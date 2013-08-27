@@ -198,6 +198,10 @@ Reveal_Map
 Incite_Cost_Pct
     Increases revolt cost by amount percent.
 
+Unit_Bribe_Cost_Pct
+    Keep amount percent of the unit bribe cost. Requirements are from the
+point of view of the target unit, not the briber.
+
 Size_Adj
     Increase maximum size of a city by amount.
 

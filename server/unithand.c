@@ -227,7 +227,7 @@ void handle_unit_diplomat_query(struct connection *pc,
 					unit_tile(punit))) {
       dsend_packet_unit_diplomat_answer(pc,
 					diplomat_id, target_id,
-					unit_bribe_cost(punit),
+					unit_bribe_cost(punit, pplayer),
 					action_type);
     }
     break;

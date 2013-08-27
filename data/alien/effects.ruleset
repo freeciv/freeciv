@@ -1031,3 +1031,19 @@ reqs    =
 [effect_trade_routes]
 type    = "Max_Trade_Routes"
 value   = 4
+
+[effect_unit_bribe_cost_standard]
+type	= "Unit_Bribe_Cost_Pct"
+value	= 100
+nreqs	=
+    { "type", "name", "range"
+      "UnitFlag", "Cities", "Local"
+    }
+
+[effect_unit_bribe_cost_settlers]
+type	= "Unit_Bribe_Cost_Pct"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "UnitFlag", "Cities", "Local"
+    }

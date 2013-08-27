@@ -383,11 +383,12 @@ const char *popup_info_text(struct tile *ptile)
     if (unit_owner(punit) == client_player()
         || client_is_global_observer()) {
       /* Show bribe cost for own units. */
-      astr_add_line(&str, _("Bribe cost: %d"), unit_bribe_cost(punit));
+      astr_add_line(&str, _("Probable bribe cost: %d"),
+                    unit_bribe_cost(punit, NULL));
     } else {
       /* We can only give an (lower) boundary for units of other players. */
       astr_add_line(&str, _("Estimated bribe cost: > %d"),
-                    unit_bribe_cost(punit));
+                    unit_bribe_cost(punit, client_player()));
     }
 
     if ((NULL == client.conn.playing || owner == client.conn.playing)

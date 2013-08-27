@@ -1356,6 +1356,10 @@ static int improvement_effect_value(struct player *pplayer,
       v += ai->stats.units.upgradeable * 4;
     }
     break;
+  case EFT_UNIT_BRIBE_COST_PCT:
+    num = num_affected_units(peffect, ai);
+    v += ((2 * c + num) * amount) / 400;
+    break;
   case EFT_DEFEND_BONUS:
     if (ai_handicap(pplayer, H_DEFENSIVE)) {
       v += amount / 10; /* make AI slow */

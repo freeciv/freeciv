@@ -2146,7 +2146,7 @@ void unit_set_ai_data(struct unit *punit, const struct ai_type *ai,
 
   The bribe cost for settlers are halved.
 **************************************************************************/
-int unit_bribe_cost(struct unit *punit)
+int unit_bribe_cost(struct unit *punit, struct player *briber)
 {
   int cost, default_hp, dist = 0;
   struct city *capital;
@@ -2169,10 +2169,14 @@ int unit_bribe_cost(struct unit *punit)
   /* Consider the build cost. */
   cost *= unit_build_shield_cost(punit) / 10;
 
-  /* FIXME: This is a weird one - should be replaced. */
-  if (unit_has_type_flag(punit, UTYF_CITIES)) {
-    cost /= 2;
-  }
+  /* Rule set specific cost modification */
+  cost = (cost
+          * get_target_bonus_effects(NULL, unit_owner(punit), briber,
+                                     game_city_by_number(punit->homecity),
+                                     NULL, unit_tile(punit),
+                                     unit_type(punit), NULL, NULL,
+                                     EFT_UNIT_BRIBE_COST_PCT))
+      / 100;
 
   /* Veterans are not cheap. */
   {
