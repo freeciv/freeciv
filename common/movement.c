@@ -331,8 +331,8 @@ bool can_unit_survive_at_tile(const struct unit *punit,
     return TRUE;
   }
 
-  if (tile_has_native_base(ptile, unit_type(punit))) {
-    /* Unit can always survive at native base */
+  if (tile_has_refuel_extra(ptile, unit_type(punit))) {
+    /* Unit can always survive at refueling base */
     return TRUE;
   }
 

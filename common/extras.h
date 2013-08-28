@@ -27,6 +27,9 @@ extern "C" {
 /* Tile with this extra is considered native for units in tile. */
 #define SPECENUM_VALUE0 EF_NATIVE_TILE
 #define SPECENUM_VALUE0NAME "NativeTile"
+/* Refuel native units */
+#define SPECENUM_VALUE1 EF_REFUEL
+#define SPECENUM_VALUE1NAME "Refuel"
 #define SPECENUM_COUNT EF_COUNT
 #include "specenum_gen.h"
 

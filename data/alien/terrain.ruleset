@@ -497,6 +497,7 @@ identifier  = "g"
 ;                           be inside the extra when they are on same tile
 ; flags
 ;   - "NativeTile"        = Native units consider tile native regardless of terrain
+;   - "Refuel"            = Native units can use tile as refuel point
 ;
 ; */ <-- avoid gettext warnings
 

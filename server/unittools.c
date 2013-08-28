@@ -1268,8 +1268,8 @@ bool is_unit_being_refueled(const struct unit *punit)
 {
   return (unit_transported(punit)           /* Carrier */
           || tile_city(unit_tile(punit))              /* City    */
-          || tile_has_native_base(unit_tile(punit),
-                                  unit_type(punit))); /* Airbase */
+          || tile_has_refuel_extra(unit_tile(punit),
+                                   unit_type(punit))); /* Airbase */
 }
 
 /**************************************************************************
@@ -1287,12 +1287,13 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
       return TRUE;
     }
 
-    base_type_iterate(pbase) {
-      if (BV_ISSET(plrtile->extras, extra_index(base_extra_get(pbase)))
-          && is_native_extra_to_utype(base_extra_get(pbase), type)) {
+    extra_type_iterate(pextra) {
+      if (BV_ISSET(plrtile->extras, extra_index(pextra))
+          && extra_has_flag(pextra, EF_REFUEL)
+          && is_native_extra_to_utype(pextra, type)) {
         return TRUE;
       }
-    } base_type_iterate_end;
+    } extra_type_iterate_end;
   }
 
   cap = unit_class_transporter_capacity(ptile, pplayer, utype_class(type));

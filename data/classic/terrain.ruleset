@@ -925,6 +925,7 @@ shield      = 3 ; glacier used to have 4
 ;                           be inside the extra when they are on same tile
 ; flags
 ;   - "NativeTile"        = Native units consider tile native regardless of terrain
+;   - "Refuel"            = Native units can use tile as refuel point
 ;
 ; */ <-- avoid gettext warnings
 
@@ -971,6 +972,7 @@ reqs           =
       "CityTile", "Center", "Local", FALSE
     }
 native_to      = "Air", "Helicopter", "Missile"
+flags          = "Refuel"
 
 [extra_buoy]
 name           = _("Buoy")
