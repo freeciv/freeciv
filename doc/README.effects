@@ -78,6 +78,7 @@ MinSize is the minimum size of a city required.
 AI is ai player difficulty level.
 TerrainClass is either "Land" or "Oceanic".
 Only "Center" is supported as CityTile type.
+DiplRel is a diplomatic relationship.
 
 
 Effect types
@@ -431,3 +432,26 @@ City_Build_Slots
 
 City_Image
     The index for the city image of the given city style.
+
+Details about requirement types
+===============================
+
+The DiplRel requirement type
+----------------------------
+Look for the diplomatic relationship "Never met", "War", "Cease-fire",
+"Armistice", "Peace", "Alliance", "Team", "Gives shared vision",
+"Receives shared vision", "Hosts embassy", "Has embassy",
+"Hosts real embassy" (not from an effect) or "Has real embassy".
+
+A DiplRel is considered fulfilled for the range
+ * world if some player in the world has the specified diplomatic
+   relationship to some other living player.
+ * player if the player has the specified diplomatic relationship to some
+   other living player.
+ * local if the first player has the specified relationship to the second
+   player. Example: When testing a build requirement for an extra the first
+   player is the owner of the unit and the second player the owner of the
+   terrain the extra is built on.
+
+Only the exact relationship required fulfills it. Example: An alliance or
+an armistice agreement won't fulfill a "Peace" requirement.
