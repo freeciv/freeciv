@@ -538,6 +538,8 @@ void tile_add_special(struct tile *ptile, enum tile_special_type special)
   case S_FARMLAND:
     tile_add_special(ptile, S_IRRIGATION);
     /* Fall through to irrigation */
+    /* ... Nope, the recursive call already handled that! */
+    break;
   case S_IRRIGATION:
     tile_clear_special(ptile, S_MINE);
     break;
@@ -581,19 +583,28 @@ void tile_remove_special(struct tile *ptile, enum tile_special_type special)
 }
 
 /****************************************************************************
+  Apply extra creation activity
+****************************************************************************/
+static void tile_extra_apply(struct tile *ptile, struct extra_type *tgt)
+{
+  tile_add_extra(ptile, tgt);
+}
+
+/****************************************************************************
   Build irrigation on the tile.  This may change the specials of the tile
   or change the terrain type itself.
 ****************************************************************************/
-static void tile_irrigate(struct tile *ptile)
+static void tile_irrigate(struct tile *ptile, struct extra_type *tgt)
 {
   struct terrain *pterrain = tile_terrain(ptile);
 
   if (pterrain == pterrain->irrigation_result) {
-    if (tile_has_special(ptile, S_IRRIGATION)) {
-      tile_add_special(ptile, S_FARMLAND);
-    } else {
-      tile_add_special(ptile, S_IRRIGATION);
-    }
+    tile_extra_apply(ptile, tgt);
+    /* FIXME: Control this via extra definition. Now always removes
+     *        all mines */
+    extra_type_by_cause_iterate(EC_MINE, pextra) {
+      tile_remove_extra(ptile, pextra);
+    } extra_type_by_cause_iterate_end;
   } else if (pterrain->irrigation_result) {
     tile_change_terrain(ptile, pterrain->irrigation_result);
   }
@@ -603,14 +614,17 @@ static void tile_irrigate(struct tile *ptile)
   Build a mine on the tile.  This may change the specials of the tile
   or change the terrain type itself.
 ****************************************************************************/
-static void tile_mine(struct tile *ptile)
+static void tile_mine(struct tile *ptile, struct extra_type *tgt)
 {
   struct terrain *pterrain = tile_terrain(ptile);
 
   if (pterrain == pterrain->mining_result) {
-    tile_set_special(ptile, S_MINE);
-    tile_clear_special(ptile, S_FARMLAND);
-    tile_clear_special(ptile, S_IRRIGATION);
+    tile_extra_apply(ptile, tgt);
+    /* FIXME: Control this via extra definition. Now always removes
+     *        all irrigation */
+    extra_type_by_cause_iterate(EC_IRRIGATION, pextra) {
+      tile_remove_extra(ptile, pextra);
+    } extra_type_by_cause_iterate_end;
   } else if (pterrain->mining_result) {
     tile_change_terrain(ptile, pterrain->mining_result);
   }
@@ -634,22 +648,18 @@ static void tile_transform(struct tile *ptile)
   Return false if there was a error or if the activity is not implemented
   by this function.
 ****************************************************************************/
-bool tile_apply_activity(struct tile *ptile, Activity_type_id act)
+bool tile_apply_activity(struct tile *ptile, Activity_type_id act,
+                         struct extra_type *tgt)
 {
   /* FIXME: for irrigate, mine, and transform we always return TRUE
    * even if the activity fails. */
   switch(act) {
-  case ACTIVITY_POLLUTION:
-  case ACTIVITY_FALLOUT: 
-    tile_clear_dirtiness(ptile);
-    return TRUE;
-
   case ACTIVITY_MINE:
-    tile_mine(ptile);
+    tile_mine(ptile, tgt);
     return TRUE;
 
   case ACTIVITY_IRRIGATE: 
-    tile_irrigate(ptile);
+    tile_irrigate(ptile, tgt);
     return TRUE;
 
   case ACTIVITY_TRANSFORM:
@@ -666,6 +676,8 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act)
   case ACTIVITY_PILLAGE:
   case ACTIVITY_BASE:
   case ACTIVITY_GEN_ROAD:
+  case ACTIVITY_POLLUTION:
+  case ACTIVITY_FALLOUT:
     /* do nothing  - not implemented */
     return FALSE;
 

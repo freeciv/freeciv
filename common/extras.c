@@ -461,8 +461,6 @@ struct extra_type *next_extra_for_tile(struct tile *ptile, enum extra_cause caus
                                        const struct player *pplayer,
                                        const struct unit *punit)
 {
-  fc_assert(punit != NULL || pplayer != NULL);
-
   extra_type_by_cause_iterate(cause, pextra) {
     if (!tile_has_extra(ptile, pextra)) {
       if (punit != NULL) {
@@ -470,6 +468,7 @@ struct extra_type *next_extra_for_tile(struct tile *ptile, enum extra_cause caus
           return pextra;
         }
       } else {
+        /* punit is certainly NULL, pplayer can be too */
         if (player_can_build_extra(pextra, pplayer, ptile)) {
           return pextra;
         }

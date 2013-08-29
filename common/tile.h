@@ -164,7 +164,8 @@ int tile_activity_time(enum unit_activity activity,
 void tile_change_terrain(struct tile *ptile, struct terrain *pterrain);
 void tile_add_special(struct tile *ptile, enum tile_special_type special);
 void tile_remove_special(struct tile *ptile, enum tile_special_type special);
-bool tile_apply_activity(struct tile *ptile, Activity_type_id act);
+bool tile_apply_activity(struct tile *ptile, Activity_type_id act,
+                         struct extra_type *tgt);
 
 #define TILE_LB_TERRAIN_RIVER    (1 << 0)
 #define TILE_LB_RIVER_RESOURCE   (1 << 1)

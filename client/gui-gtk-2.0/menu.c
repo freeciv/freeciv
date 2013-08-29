@@ -1991,7 +1991,7 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
   struct tile *newtile = tile_virtual_new(ptile);
   const char *text;
 
-  tile_apply_activity(newtile, activity);
+  tile_apply_activity(newtile, activity, NULL);
   text = tile_get_info_text(newtile, 0);
   tile_virtual_destroy(newtile);
   return text;

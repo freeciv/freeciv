@@ -801,19 +801,27 @@ static void update_unit_activity(struct unit *punit)
     break;
 
   case ACTIVITY_POLLUTION:
+    /* TODO: Remove this fallback target setting when target always correctly
+     *       set */
+    if (punit->activity_target == NULL) {
+      punit->activity_target = prev_extra_in_tile(ptile, EC_POLLUTION,
+                                                  NULL, punit);
+    }
     if (total_activity_done(ptile, ACTIVITY_POLLUTION, punit->activity_target)) {
-      extra_type_by_cause_iterate(EC_POLLUTION, pextra) {
-        tile_remove_extra(ptile, pextra);
-      } extra_type_by_cause_iterate_end;
+      tile_remove_extra(ptile, punit->activity_target);
       unit_activity_done = TRUE;
     }
     break;
 
   case ACTIVITY_FALLOUT:
+    /* TODO: Remove this fallback target setting when target always correctly
+     *       set */
+    if (punit->activity_target == NULL) {
+      punit->activity_target = prev_extra_in_tile(ptile, EC_FALLOUT,
+                                                  NULL, punit);
+    }
     if (total_activity_done(ptile, ACTIVITY_FALLOUT, punit->activity_target)) {
-     extra_type_by_cause_iterate(EC_FALLOUT, pextra) {
-        tile_remove_extra(ptile, pextra);
-      } extra_type_by_cause_iterate_end;
+      tile_remove_extra(ptile, punit->activity_target);
       unit_activity_done = TRUE;
     }
     break;
@@ -870,7 +878,7 @@ static void update_unit_activity(struct unit *punit)
 
       /* The function below could change the terrain. Therefore, we have to
        * check the terrain (which will also do a sanity check for the tile). */
-      tile_apply_activity(ptile, activity);
+      tile_apply_activity(ptile, activity, punit->activity_target);
       check_terrain_change(ptile, old);
 
       unit_activity_done = TRUE;

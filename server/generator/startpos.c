@@ -79,7 +79,8 @@ static int get_tile_value(struct tile *ptile)
 
   vtile = tile_virtual_new(roaded);
 
-  tile_apply_activity(vtile, ACTIVITY_IRRIGATE);
+  tile_apply_activity(vtile, ACTIVITY_IRRIGATE,
+                      next_extra_for_tile(vtile, EC_IRRIGATION, NULL, NULL));
   irrig_bonus = -value;
   output_type_iterate(o) {
     irrig_bonus += city_tile_output(NULL, vtile, FALSE, o);
@@ -90,7 +91,8 @@ static int get_tile_value(struct tile *ptile)
   /* Same set of roads used with mine as with irrigation. */
   vtile = tile_virtual_new(roaded);
 
-  tile_apply_activity(vtile, ACTIVITY_MINE);
+  tile_apply_activity(vtile, ACTIVITY_MINE,
+                      next_extra_for_tile(vtile, EC_MINE, NULL, NULL));
   mine_bonus = -value;
   output_type_iterate(o) {
     mine_bonus += city_tile_output(NULL, vtile, FALSE, o);
