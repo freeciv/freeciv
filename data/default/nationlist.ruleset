@@ -339,6 +339,7 @@ allowed_city_styles =
 *include "nation/liburnian.ruleset"
 *include "nation/libyan.ruleset"
 *include "nation/liechtensteiner.ruleset"
+*include "nation/ligurian.ruleset"
 *include "nation/lipkatatar.ruleset"
 *include "nation/lippe.ruleset"
 *include "nation/lithuanian.ruleset"
