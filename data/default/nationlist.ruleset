@@ -464,6 +464,7 @@ allowed_city_styles =
 *include "nation/roman.ruleset"
 *include "nation/romansh.ruleset"
 *include "nation/russian.ruleset"
+*include "nation/rusyn.ruleset"
 *include "nation/ruthenian.ruleset"
 *include "nation/rwandan.ruleset"
 *include "nation/ryukyuan.ruleset"

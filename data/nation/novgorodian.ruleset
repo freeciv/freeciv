@@ -46,8 +46,8 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-conflicts_with="ruthenian", "soviet"
-civilwar_nations="ruthenian", "muscovite", "komi", "karelian"
+conflicts_with="soviet"
+civilwar_nations="muscovite", "komi", "karelian"
 
 cities =
  "Veliky Novgorod",

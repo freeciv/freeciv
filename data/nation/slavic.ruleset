@@ -41,19 +41,19 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-conflicts_with="Ruthenian", "Russian", "Belarusian", "Ukrainian",
+conflicts_with="Kievan Rus'", "Russian", "Belarusian", "Ukrainian",
  "Cossack", "Slovakian", "Moravian", "Czech", "Lendian", "Polish",
  "Western Pomeranian", "Sorbian", "Slovenian", "Croatian", "Serbian",
  "Bosnian-Herzegovinian", "Montenegrin", "Macedonian", "Bulgarian",
  "Silesian", "Greater Polish", "Mazovian", "Yugoslav", "Soviet",
  "Czechoslovakian", "Muscovite", "Vistulan", "Chrobatian", "Veletian",
- "Kashubian", "Novgorodian" ; Polabian
-civilwar_nations="Ruthenian", "Russian", "Belarusian", "Ukrainian",
+ "Kashubian", "Novgorodian", "Rusyn" ; Polabian
+civilwar_nations="Kievan Rus'", "Russian", "Belarusian", "Ukrainian",
  "Cossack", "Slovakian", "Moravian", "Czech", "Lendian", "Polish",
  "Western Pomeranian", "Sorbian", "Slovenian", "Croatian", "Serbian",
  "Bosnian-Herzegovinian", "Montenegrin", "Macedonian", "Bulgarian",
  "Silesian", "Greater Polish", "Mazovian", "Muscovite", "Vistulan",
- "Chrobatian", "Veletian", "Kashubian", "Novgorodian" ; Polabian
+ "Chrobatian", "Veletian", "Kashubian", "Novgorodian", "Rusyn" ; Polabian
 
 cities=
 

@@ -423,6 +423,7 @@ sprites =
 		"f.romania", "flags/romania-large"
 		"f.rome", "flags/rome-large"			; Roman republic flag
 		"f.russia", "flags/russia-large"
+		"f.rusyn", "flags/rusyn-large"
 		"f.rvn", "flags/rvn-large"
 		"f.rwanda", "flags/rwanda-large"
 		"f.ryukyu", "flags/ryukyu-large"

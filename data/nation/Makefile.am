@@ -408,6 +408,7 @@ pkgdata_DATA = \
 		roman.ruleset \
 		romansh.ruleset \
 		russian.ruleset \
+		rusyn.ruleset \
 		ruthenian.ruleset \
 		rwandan.ruleset \
 		ryukyuan.ruleset \

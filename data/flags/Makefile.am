@@ -415,6 +415,7 @@ flag_files =				\
 		rome.png		\
 		rvn.png			\
 		russia.png		\
+		rusyn.png		\
 		rwanda.png		\
 		ryukyu.png		\
 		sabinium.png		\
@@ -974,6 +975,7 @@ flag_files =				\
 		rome-large.png		\
 		rvn-large.png			\
 		russia-large.png		\
+		rusyn-large.png			\
 		rwanda-large.png		\
 		ryukyu-large.png		\
 		sabinium-large.png		\
@@ -1535,6 +1537,7 @@ shield_files =					\
 		rome-shield.png			\
 		rvn-shield.png			\
 		russia-shield.png		\
+		rusyn-shield.png		\
 		rwanda-shield.png		\
 		ryukyu-shield.png		\
 		sabinium-shield.png		\
@@ -2094,6 +2097,7 @@ shield_files =					\
 		rome-shield-large.png			\
 		rvn-shield-large.png			\
 		russia-shield-large.png		\
+		rusyn-shield-large.png			\
 		rwanda-shield-large.png		\
 		ryukyu-shield-large.png		\
 		sabinium-shield-large.png		\
@@ -2655,6 +2659,7 @@ svg_files = 				\
 		rome.svg		\
 		rvn.svg			\
 		russia.svg		\
+		rusyn.svg		\
 		rwanda.svg		\
 		ryukyu.svg		\
 		sabinium.svg		\
