@@ -272,7 +272,7 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;		  units other than missiles
 ; "Settlers"	= can irrigate and build roads
 ; "Diplomat"	= can do diplomat actions (see diplchance server option)
-; "Spy"		= can do poison and sabotage, _must_ be "Diplomat" also
+; "Spy"		= enhanced diplomat actions. _Must_ be "Diplomat" also
 ; "Trireme"	= (sea only) cannot leave shoreline
 ; "Nuclear"	= nuke!
 ; "Paratroopers"= (land only) can paradrop

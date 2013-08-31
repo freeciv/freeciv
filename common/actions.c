@@ -27,25 +27,9 @@ static struct action_enabler_list *action_enablers_by_action[ACTION_COUNT];
 **************************************************************************/
 void actions_init(void)
 {
-  struct action_enabler *hardCoded;
-
   action_iterate(act) {
     action_enablers_by_action[act] = action_enabler_list_new();
   } action_iterate_end;
-
-  hardCoded = action_enabler_new();
-  hardCoded->action = ACTION_SPY_POISON;
-  requirement_vector_append(
-          &hardCoded->actor_reqs,
-          req_from_str("UnitFlag", "Local", FALSE, TRUE, "Spy"));
-  action_enabler_add(hardCoded);
-
-  hardCoded = action_enabler_new();
-  hardCoded->action = ACTION_SPY_SABOTAGE_UNIT;
-  requirement_vector_append(
-          &hardCoded->actor_reqs,
-          req_from_str("UnitFlag", "Local", FALSE, TRUE, "Spy"));
-  action_enabler_add(hardCoded);
 }
 
 /**************************************************************************

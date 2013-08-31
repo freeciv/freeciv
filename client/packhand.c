@@ -28,6 +28,7 @@
 
 /* common */
 #include "achievements.h"
+#include "actions.h"
 #include "capstr.h"
 #include "citizens.h"
 #include "events.h"
@@ -3312,6 +3313,32 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   PACKET_STRVEC_EXTRACT(proad->helptext, p->helptext);
 
   tileset_setup_road(tileset, proad);
+}
+
+/****************************************************************************
+  Handle a packet about a particular action enabler.
+****************************************************************************/
+void
+handle_ruleset_action_enabler(const struct packet_ruleset_action_enabler *p)
+{
+  struct action_enabler *enabler;
+  int i;
+
+  enabler = action_enabler_new();
+
+  enabler->action = p->enabled_action;
+
+  for (i = 0; i < p->actor_reqs_count; i++) {
+    requirement_vector_append(&enabler->actor_reqs, p->actor_reqs[i]);
+  }
+  fc_assert(enabler->actor_reqs.size == p->actor_reqs_count);
+
+  for (i = 0; i < p->target_reqs_count; i++) {
+    requirement_vector_append(&enabler->target_reqs, p->target_reqs[i]);
+  }
+  fc_assert(enabler->target_reqs.size == p->target_reqs_count);
+
+  action_enabler_add(enabler);
 }
 
 /****************************************************************************

@@ -32,6 +32,7 @@
 
 /* common */
 #include "achievements.h"
+#include "actions.h"
 #include "ai.h"
 #include "base.h"
 #include "capability.h"
@@ -105,6 +106,7 @@
 #define UNIT_SECTION_PREFIX "unit_"
 #define DISASTER_SECTION_PREFIX "disaster_"
 #define ACHIEVEMENT_SECTION_PREFIX "achievement_"
+#define ACTION_ENABLER_SECTION_PREFIX "actionenabler_"
 
 #define check_name(name) (check_strlen(name, MAX_LEN_NAME, NULL))
 
@@ -4752,6 +4754,57 @@ static bool load_ruleset_game(struct section_file *file)
       = secfile_lookup_bool_default(file, RS_DEFAULT_SLOW_INVASIONS,
                                     "global_unit_options.slow_invasions");
 
+    if (ok) {
+      sec = secfile_sections_by_name_prefix(file,
+                                            ACTION_ENABLER_SECTION_PREFIX);
+
+      section_list_iterate(sec, psection) {
+        struct action_enabler *enabler;
+        const char *sec_name = section_name(psection);
+        enum gen_action action;
+        struct requirement_vector *actor_reqs;
+        struct requirement_vector *target_reqs;
+        const char *action_text;
+
+        enabler = action_enabler_new();
+
+        action_text = secfile_lookup_str(file, "%s.action", sec_name);
+
+        if (action_text == NULL) {
+          log_error("\"%s\" [%s] missing action to enable.",
+                    filename, sec_name);
+          continue;
+        }
+
+        action = gen_action_by_name(action_text, fc_strcasecmp);
+        if (!gen_action_is_valid(action)) {
+          log_error("\"%s\" [%s] lists unknown action type \"%s\".",
+                    filename, sec_name, action_text);
+          continue;
+        }
+
+        enabler->action = action;
+
+        actor_reqs = lookup_req_list(file, sec_name, "actor_reqs", action_text);
+        if (actor_reqs == NULL) {
+          ok = FALSE;
+          break;
+        }
+
+        requirement_vector_copy(&enabler->actor_reqs, actor_reqs);
+
+        target_reqs = lookup_req_list(file, sec_name, "target_reqs", action_text);
+        if (target_reqs == NULL) {
+          ok = FALSE;
+          break;
+        }
+
+        requirement_vector_copy(&enabler->target_reqs, target_reqs);
+
+        action_enabler_add(enabler);
+      } section_list_iterate_end;
+    }
+
     /* section: combat_rules */
     game.info.tired_attack
       = secfile_lookup_bool_default(file, RS_DEFAULT_TIRED_ATTACK,
@@ -5543,6 +5596,33 @@ static void send_ruleset_achievements(struct conn_list *dest)
 }
 
 /**************************************************************************
+  Send the action enabler ruleset information to the specified connections.
+**************************************************************************/
+static void send_ruleset_action_enablers(struct conn_list *dest)
+{
+  int counter;
+  struct packet_ruleset_action_enabler packet;
+
+  action_enablers_iterate(enabler) {
+    packet.enabled_action = enabler->action;
+
+    counter = 0;
+    requirement_vector_iterate(&enabler->actor_reqs, req) {
+      packet.actor_reqs[counter++] = *req;
+    } requirement_vector_iterate_end;
+    packet.actor_reqs_count = counter;
+
+    counter = 0;
+    requirement_vector_iterate(&enabler->target_reqs, req) {
+      packet.target_reqs[counter++] = *req;
+    } requirement_vector_iterate_end;
+    packet.target_reqs_count = counter;
+
+    lsend_packet_ruleset_action_enabler(dest, &packet);
+  } action_enablers_iterate_end;
+}
+
+/**************************************************************************
   Send the disaster ruleset information (all individual disaster types) to the
   specified connections.
 **************************************************************************/
@@ -6010,6 +6090,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_achievements(dest);
   send_ruleset_trade_routes(dest);
   send_ruleset_team_names(dest);
+  send_ruleset_action_enablers(dest);
   send_ruleset_techs(dest);
   send_ruleset_governments(dest);
   send_ruleset_unit_classes(dest);

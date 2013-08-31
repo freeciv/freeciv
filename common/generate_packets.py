@@ -1585,6 +1585,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 /* common */
+#include "actions.h"
 #include "disaster.h"
 
 ''')

@@ -154,6 +154,43 @@ total_factor = 100
 ; strength even if they have only fractional moves left.
 tired_attack = TRUE
 
+; /* <-- avoid gettext warnings
+;
+; Action enablers:
+;
+; action               = the action to enable.
+; actor_reqs           = requirements that apply to the actor.
+; target_reqs          = requirements that apply to the target.
+;
+; An action enabler is active when its actor_reqs AND its target_reqs are
+; satisfied.
+;
+; actions and their hard coded requirements
+;   - "Poison City"    = Kill a citizen in the target city.
+;                        * actor and target must be at war.
+;                        * actor must have the diplomat flag.
+;                        * target city must be size 2 or larger.
+;   - "Sabotage Unit"  = Halve the target unit's hit points.
+;                        * actor and target must be at war.
+;                        * actor must have the diplomat flag.
+;                        * target must have > 1 hp.
+;                        * target must be alone at its tile.
+;
+; */ <-- avoid gettext warnings
+[actionenabler_poison_city]
+action = "Poison City"
+actor_reqs    =
+    { "type",   "name", "range"
+      "UnitFlag", "Spy", "Local"
+    }
+
+[actionenabler_sabotage_unit]
+action = "Sabotage Unit"
+actor_reqs    =
+    { "type",   "name", "range"
+      "Unitflag", "Spy", "Local"
+    }
+
 [borders]
 ; Base border radius from city.
 radius_sq_city = 17

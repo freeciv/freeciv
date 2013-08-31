@@ -22,6 +22,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* Used in the network protocol. */
 #define SPECENUM_NAME gen_action
 #define SPECENUM_VALUE0 ACTION_SPY_POISON
 #define SPECENUM_VALUE0NAME "Poison City"

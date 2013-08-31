@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 234
+Max id: 235
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -232,6 +232,7 @@ type UTYF               = uint8(enum unit_type_flag_id)
 type CBONUS_TYPE        = uint8(enum combat_bonus_type)
 type TRI                = uint8(enum traderoute_illegal_cancelling)
 type MOVE_MODE          = uint8(enum road_move_mode)
+type GEN_ACTION         = uint8(enum gen_action)
 
 # typedefs for bit vectors
 type BV_EXTRA_FLAGS     = bitvector(bv_extra_flags)
@@ -1508,6 +1509,14 @@ PACKET_RULESET_TRADE = 227; sc, lsend
   UINT8  id;
   UINT16 trade_pct;
   TRI    cancelling;
+end
+
+PACKET_RULESET_ACTION_ENABLER = 235; sc, lsend
+  GEN_ACTION enabled_action;
+  UINT8 actor_reqs_count;
+  REQUIREMENT actor_reqs[MAX_NUM_REQS:actor_reqs_count];
+  UINT8 target_reqs_count;
+  REQUIREMENT target_reqs[MAX_NUM_REQS:target_reqs_count];
 end
 
 /**************************************************************************
