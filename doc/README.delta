@@ -33,7 +33,8 @@ denoted by an index of 255.
 =========================================================================
 
 To further reduce the network traffic the (delta) packets are
-compressed. To get better compression results multiple packets are
+compressed using the DEFLATE compression algorithm.
+To get better compression results multiple packets are
 grouped together and compressed into a chunk. This chunk is then
 transfered as a normal packet. A chunk packet starts with the 2 byte
 length field which every packet has. A chunk packet has no type. A
@@ -49,6 +50,7 @@ packet is that the jumbo packet has JUMBO_SIZE in the size field and
 has an additional 4 byte len field after the 2 byte len field. The
 second len field contains the the size of the whole packet (2 byte
 first length field + 4 byte second length field + compressed data).
+The size field of a normal chunk packet is its size + COMPRESSION_BORDER.
 
 Packets are grouped for the compression based on the
 PACKET_PROCESSING_STARTED/PACKET_PROCESSING_FINISHED and
