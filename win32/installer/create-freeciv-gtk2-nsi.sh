@@ -215,6 +215,7 @@ Start Menu shortcut properties."
 
   \${NSD_CB_AddString} \$DefaultLanguageDropList "auto"
   \${NSD_CB_SelectString} \$DefaultLanguageDropList "auto"
+  \${NSD_CB_AddString} \$DefaultLanguageDropList "en_US"
 EOF
 
   cat ../../bootstrap/langnames.txt |
