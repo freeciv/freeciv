@@ -126,8 +126,8 @@ reqs =
    { "type", "name", "range"
      "Tech", "Dual Government", "Player"
    }
-graphic     = "gov.monarchy"
-graphic_alt = "-"
+graphic     = "gov.dual_communism"
+graphic_alt = "gov.monarchy"
 
 ruler_male_title = _("Comrade %s")
 ruler_female_title = _("?female:Comrade %s")
@@ -146,8 +146,8 @@ reqs =
    { "type", "name", "range"
      "Tech", "Dual Government", "Player"
    }
-graphic     = "gov.republic"
-graphic_alt = "-"
+graphic     = "gov.dual_democracy"
+graphic_alt = "gov.republic"
 
 ruler_male_title = _("President %s")
 ruler_female_title = _("?female:President %s")
