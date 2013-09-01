@@ -1,5 +1,5 @@
 ============================
-Welcome to Freeciv 2.4.0-RC1
+Welcome to Freeciv 2.4.0-RC2
 ============================
 
 The changes in the 2.4.x series are summarised below.
@@ -7,8 +7,35 @@ For changes prior to 2.4, see NEWS. For more detailed changes,
 see the ChangeLog file.
 
 
+CHANGES FROM 2.4.0-RC1 TO 2.4.0-RC2
+-----------------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.4.0-RC2>)
+
+   This release fixes a couple of crashes:
+     * The server could crash when a unit moved at a point where a new
+       connection had attached to the server but not yet chosen a player
+       or observer. GNA#21019
+     * The client could crash when another civilisation's Settler unit
+       moved out of visibility range. GNA#21044
+
+   and some other issues:
+     * Windows-specific issues:
+          + It was not possible to install the (partial) Indonesian
+            localisation from the Windows installer. GNA#21058
+          + It was not possible to install Freeciv using the default
+            (en_US) translation on a non-English version of Windows
+            (although it was possible to use British English, en_GB).
+            GNA#21059
+     * In rulesets with ocean cities, fix a bug where those cities could
+       not claim oceanic territory adjacent to land. GNA#21035
+
+   In addition, the source tarball has been updated with changes made to
+   the Windows installer build for 2.4.0-RC1. GNAPATCH#4095
+
+
 CHANGES FROM 2.4.0-beta2 TO 2.4.0-RC1
----------------------------------------
+-------------------------------------
 
    (from <http://www.freeciv.org/wiki/NEWS-2.4.0-RC1>)
 
@@ -64,6 +91,8 @@ Clerical
      * When loading a savegame with automatic 'mapimg' image saving
        enabled, do not overwrite an image created previously at the start
        of a turn with a new one. GNA#20079
+     * The Windows packages now include support for saving map images in
+       formats other than PPM (such as PNG and JPEG). GNAPATCH#4095
      * When a unit is created in the editor, assign it a homecity
        appropriate for its type more often. (part of GNAPATCH#3856)
      * Fix a possible infinite loop when logging character encoding
