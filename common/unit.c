@@ -108,7 +108,6 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
         return TRUE;
       }
       if(action == SPY_POISON
-         && city_size_get(pcity) > 1
          && action_is_enabled_unit_on_city(ACTION_SPY_POISON,
                                            pdiplomat, pcity)) {
         return pplayers_at_war(unit_owner(pdiplomat), city_owner(pcity));

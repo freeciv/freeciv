@@ -205,7 +205,6 @@ tired_attack = FALSE
 ;   - "Poison City"    = Kill a citizen in the target city.
 ;                        * actor and target must be at war.
 ;                        * actor must have the diplomat flag.
-;                        * target city must be size 2 or larger.
 ;   - "Sabotage Unit"  = Halve the target unit's hit points.
 ;                        * actor and target must be at war.
 ;                        * actor must have the diplomat flag.
@@ -218,6 +217,10 @@ action = "Poison City"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Spy", "Local"
+    }
+target_reqs    =
+    { "type",   "name", "range"
+      "MinSize", "2", "City"
     }
 
 [actionenabler_sabotage_unit]

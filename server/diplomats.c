@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -58,6 +58,11 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
                                      struct tile *ptile);
 static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
                             const struct city *pcity);
+static void diplomat_escape_full(struct player *pplayer,
+                                 struct unit *pdiplomat,
+                                 bool city_related,
+                                 struct tile *ptile,
+                                 const char *vlink);
 static void maybe_cause_incident(enum diplomat_actions action,
                                  struct player *offender,
                                  struct player *victim_player,
@@ -70,7 +75,6 @@ static void maybe_cause_incident(enum diplomat_actions action,
   - Only allowed against players you are at war with.
 
   - Check for infiltration success.  Our poisoner may not survive this.
-  - Only cities of size greater than one may be poisoned.
   - If successful, reduces population by one point.
 
   - The poisoner may be captured and executed, or escape to its home town.
@@ -82,6 +86,8 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
 		struct city *pcity)
 {
   struct player *cplayer;
+  struct tile *ctile;
+  const char *clink;
 
   /* Fetch target city's player.  Sanity checks. */
   if (!pcity)
@@ -90,54 +96,51 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
   if (!cplayer || !pplayers_at_war(pplayer, cplayer))
     return;
 
+  ctile = city_tile(pcity);
+  clink = city_link(pcity);
+
   log_debug("poison: unit: %d", pdiplomat->id);
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
-  if (!diplomat_infiltrate_tile(pplayer, cplayer, pdiplomat, 
-                                pcity->tile)) {
+  if (!diplomat_infiltrate_tile(pplayer, cplayer, pdiplomat, ctile)) {
     return;
   }
 
   log_debug("poison: infiltrated");
-
-  /* If city is too small, can't poison. */
-  if (city_size_get(pcity) < 2) {
-    notify_player(pplayer, city_tile(pcity),
-                  E_MY_DIPLOMAT_FAILED, ftc_server,
-                  _("Your %s could not poison the water"
-                    " supply in %s."),
-                  unit_link(pdiplomat),
-                  city_link(pcity));
-    log_debug("poison: target city too small");
-    return;
-  }
-
   log_debug("poison: succeeded");
 
   /* Poison people! */
-  city_reduce_size(pcity, 1, pplayer);
+  if (city_reduce_size(pcity, 1, pplayer)) {
+    /* Notify everybody involved. */
+    notify_player(pplayer, ctile, E_MY_DIPLOMAT_POISON, ftc_server,
+                  _("Your %s poisoned the water supply of %s."),
+                  unit_link(pdiplomat), clink);
+    notify_player(cplayer, ctile,
+                  E_ENEMY_DIPLOMAT_POISON, ftc_server,
+                  _("%s is suspected of poisoning the water supply of %s."),
+                  player_name(pplayer), clink);
 
-  /* Notify everybody involved. */
-  notify_player(pplayer, city_tile(pcity), E_MY_DIPLOMAT_POISON, ftc_server,
-                _("Your %s poisoned the water supply of %s."),
-                unit_link(pdiplomat),
-                city_link(pcity));
-  notify_player(cplayer, city_tile(pcity),
-                E_ENEMY_DIPLOMAT_POISON, ftc_server,
-                _("%s is suspected of poisoning the water supply of %s."),
-                player_name(pplayer),
-                city_link(pcity));
-
-  /* Update clients. */
-  city_refresh (pcity);  
-  send_city_info(NULL, pcity);
+    /* Update clients. */
+    city_refresh (pcity);
+    send_city_info(NULL, pcity);
+  } else {
+    /* Notify everybody involved. */
+    notify_player(pplayer, ctile, E_MY_DIPLOMAT_POISON, ftc_server,
+                  _("Your %s destroyed %s by poisoning its water supply."),
+                  unit_link(pdiplomat), clink);
+    notify_player(cplayer, ctile,
+                  E_ENEMY_DIPLOMAT_POISON, ftc_server,
+                  _("%s is suspected of destroying %s by poisoning its"
+                    " water supply."),
+                  player_name(pplayer), clink);
+  }
 
   /* this may cause a diplomatic incident */
   maybe_cause_incident(SPY_POISON, pplayer, cplayer,
-                       city_tile(pcity), city_link(pcity));
+                       ctile, clink);
 
   /* Now lets see if the spy survives. */
-  diplomat_escape(pplayer, pdiplomat, pcity);
+  diplomat_escape_full(pplayer, pdiplomat, TRUE, ctile, clink);
 }
 
 /******************************************************************************
@@ -1284,7 +1287,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
   This determines if a diplomat/spy survives and escapes.
   If "pcity" is NULL, assume action was in the field.
 
-  Spies have a game.server.diplchance specified chance of survival (better 
+  Spies have a game.server.diplchance specified chance of survival (better
   if veteran):
     - Diplomats always die.
     - Escapes to home city.
@@ -1294,6 +1297,35 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
                             const struct city *pcity)
 {
   struct tile *ptile;
+  const char *vlink;
+
+  if (pcity) {
+    ptile = city_tile(pcity);
+    vlink = city_link(pcity);
+  } else {
+    ptile = unit_tile(pdiplomat);
+    vlink = NULL;
+  }
+
+  return diplomat_escape_full(pplayer, pdiplomat, pcity != NULL,
+                              ptile, vlink);
+}
+
+/**************************************************************************
+  This determines if a diplomat/spy survives and escapes.
+
+  Spies have a game.server.diplchance specified chance of survival (better 
+  if veteran):
+    - Diplomats always die.
+    - Escapes to home city.
+    - Escapee may become a veteran.
+**************************************************************************/
+static void diplomat_escape_full(struct player *pplayer,
+                                 struct unit *pdiplomat,
+                                 bool city_related,
+                                 struct tile *ptile,
+                                 const char *vlink)
+{
   int escapechance;
   struct city *spyhome;
 
@@ -1306,12 +1338,6 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
       *vbase = utype_veteran_level(unit_type(pdiplomat), 0);
     escapechance = game.server.diplchance
       + (vunit->power_fact - vbase->power_fact);
-  }
-
-  if (pcity) {
-    ptile = pcity->tile;
-  } else {
-    ptile = unit_tile(pdiplomat);
   }
 
   /* find closest city for escape target */
@@ -1341,12 +1367,12 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
 
     return;
   } else {
-    if (pcity) {
+    if (city_related) {
       notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
                     _("Your %s was captured after completing"
                       " the mission in %s."),
                     unit_tile_link(pdiplomat),
-                    city_link(pcity));
+                    vlink);
     } else {
       notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
                     _("Your %s was captured after completing"
