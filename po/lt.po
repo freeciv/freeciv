@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-11 10:31+0100\n"
+"POT-Creation-Date: 2013-09-01 11:49+0100\n"
 "PO-Revision-Date: 2010-10-11 20:07+0100\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -11229,14 +11229,14 @@ msgstr ""
 msgid "Client does not support overhead view tilesets."
 msgstr ""
 
-#: client/tilespec.c:4450
+#: client/tilespec.c:4451
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
 "displayed as expected."
 msgstr ""
 
-#: client/tilespec.c:4775
+#: client/tilespec.c:4776
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -17822,7 +17822,7 @@ msgstr ""
 msgid "?citystyle:ElectricAge"
 msgstr "?citystyle:Keltiškas"
 
-#: data/default/default.lua:22 server/unittools.c:2590
+#: data/default/default.lua:22 server/unittools.c:2592
 #, fuzzy, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -17853,7 +17853,7 @@ msgstr ""
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr ""
 
-#: data/default/default.lua:108 server/unittools.c:2597
+#: data/default/default.lua:108 server/unittools.c:2599
 msgid "An abandoned village is here."
 msgstr "Čia yra apleista gyvenvietė."
 
@@ -17862,7 +17862,7 @@ msgstr "Čia yra apleista gyvenvietė."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Jūs įkūrėte ambasadą mieste %s."
 
-#: data/default/default.lua:118 server/unittools.c:2600
+#: data/default/default.lua:118 server/unittools.c:2602
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Jūsų %s buvo užmuštas barbarų!"
@@ -42502,7 +42502,7 @@ msgstr "Tik %s gali atakuoti iš jūros."
 msgid "Cannot attack from sea."
 msgstr "Negali atakuoti iš jūros."
 
-#: server/unithand.c:1290 server/unittools.c:2514
+#: server/unithand.c:1290 server/unittools.c:2516
 msgid "Cannot attack unless you declare war first."
 msgstr "Negalite atakuoti prieš tai nepasklebę karo."
 
@@ -42516,7 +42516,7 @@ msgstr "%s gali eiti tik į savo kontrolės zoną."
 msgid "%s cannot move that far from the coast line."
 msgstr ""
 
-#: server/unithand.c:1308 server/unittools.c:2521
+#: server/unithand.c:1308 server/unittools.c:2523
 #, fuzzy, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "Negalite atakuoti prieš tai nepasklebę karo."
@@ -42778,148 +42778,148 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: server/unittools.c:2287
+#: server/unittools.c:2289
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Ant Jūsų %s buvo numesta branduolinė bomba, kurią numetė %s."
 
-#: server/unittools.c:2290 server/unittools.c:2308
+#: server/unittools.c:2292 server/unittools.c:2310
 msgid "yourself"
 msgstr "patį save"
 
-#: server/unittools.c:2294
+#: server/unittools.c:2296
 #, fuzzy, c-format
 msgid "The %s %s was nuked."
 msgstr "Ant %s %s buvo numesta branduolinė bomba."
 
-#: server/unittools.c:2305
+#: server/unittools.c:2307
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "Ant %s buvo numesta branduolinė bomba. Ją numetė %s."
 
-#: server/unittools.c:2313
+#: server/unittools.c:2315
 #, c-format
 msgid "You nuked %s."
 msgstr "Jūs numetėte branduolinę bombą ant %s."
 
-#: server/unittools.c:2365
+#: server/unittools.c:2367
 #, fuzzy, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s susprogdino branduolinę bombą!"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2389 server/unittools.c:2397
+#: server/unittools.c:2391 server/unittools.c:2399
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr ""
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2408
+#: server/unittools.c:2410
 #, fuzzy, c-format
 msgid "%s cannot be transported to %s."
 msgstr "Transformuoti į %s"
 
-#: server/unittools.c:2418
+#: server/unittools.c:2420
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s sėkmingai transportuotas."
 
-#: server/unittools.c:2477
+#: server/unittools.c:2479
 msgid "This unit type can not be paradropped."
 msgstr "Šio tipo dalinys negali būti nuliestas parašiutu."
 
-#: server/unittools.c:2487
+#: server/unittools.c:2489
 #, fuzzy
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "Negalite nuleisti parašiutu trasportinio dalinio."
 
-#: server/unittools.c:2493
+#: server/unittools.c:2495
 msgid "The destination location is not known."
 msgstr "Tikslo vieta nežinoma."
 
-#: server/unittools.c:2503
+#: server/unittools.c:2505
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Šitas dalinys negali nusileisti parašiutu į %s."
 
-#: server/unittools.c:2532
+#: server/unittools.c:2534
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "Atstumas iki taikinio  (%i) yra didesnis nei dalinio šaudymo atstumas  (%i)."
 
-#: server/unittools.c:2543
+#: server/unittools.c:2545
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Jūsų %s nusileido parašiutu į %s ir buvo sunaikintas."
 
-#: server/unittools.c:2557
+#: server/unittools.c:2559
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Jūsų %s buvo nužudytas priešo dalinių nusileidimo parašiutais vietoje."
 
-#: server/unittools.c:2628
+#: server/unittools.c:2630
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 
-#: server/unittools.c:2908
+#: server/unittools.c:2910
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Dalinio %s įsakymai nutraukti, nes pastebėtas priešo judėjimas."
 
-#: server/unittools.c:3462
+#: server/unittools.c:3464
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Dalinio %s įsakymai nutraukti, nes gretimais yra kitų dalinių."
 
-#: server/unittools.c:3513
+#: server/unittools.c:3515
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "Dalinio %s įsakymai nutraukti, nes žlugo miesto statyba."
 
-#: server/unittools.c:3529
+#: server/unittools.c:3531
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "Dalinio %s įsakymai nutraukti, nes jiems netinkamai įsakyta."
 
-#: server/unittools.c:3548
+#: server/unittools.c:3550
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "Dalinio %s įsakymai nutraukti, nes jiems nurodyta netinkama vieta."
 
-#: server/unittools.c:3558
+#: server/unittools.c:3560
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "Dalinio %s įsakymai nutraukti, nes kelyje yra kitų dalinių."
 
-#: server/unittools.c:3583
+#: server/unittools.c:3585
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Dalinio %s įsakymai nutraukti dėl blogo ėjimo."
 
-#: server/unittools.c:3624
+#: server/unittools.c:3626
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "Bandymas daliniui %s pakeisti namų miestą žlugo."
 
-#: server/unittools.c:3635
+#: server/unittools.c:3637
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Bandymas sukurti prekybos kelią miestui %s žlugo."
 
-#: server/unittools.c:3647
+#: server/unittools.c:3649
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Pastangos pastatyti stebukla mieste %s žlugo."
 
-#: server/unittools.c:3656
+#: server/unittools.c:3658
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Jūsų %s gavo klaidingus nurodymus."
 
-#: server/unittools.c:3754
+#: server/unittools.c:3756
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."

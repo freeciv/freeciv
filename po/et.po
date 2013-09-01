@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-11 10:31+0100\n"
+"POT-Creation-Date: 2013-09-01 11:49+0100\n"
 "PO-Revision-Date: 2009-02-27 00:03+0200\n"
 "Last-Translator: Elmo Todurov <todurov@gmail.com>\n"
 "Language-Team: eesti\n"
@@ -11146,14 +11146,14 @@ msgstr ""
 msgid "Client does not support overhead view tilesets."
 msgstr ""
 
-#: client/tilespec.c:4450
+#: client/tilespec.c:4451
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
 "displayed as expected."
 msgstr ""
 
-#: client/tilespec.c:4775
+#: client/tilespec.c:4776
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -18020,7 +18020,7 @@ msgstr ""
 msgid "?citystyle:ElectricAge"
 msgstr "?citystyle:Keldi"
 
-#: data/default/default.lua:22 server/unittools.c:2590
+#: data/default/default.lua:22 server/unittools.c:2592
 #, fuzzy, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -18049,7 +18049,7 @@ msgstr "Sa leidsid sõbraliku linna."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Sa vaimustasid sõbralikke nomaade, nad ühinevad sinuga."
 
-#: data/default/default.lua:108 server/unittools.c:2597
+#: data/default/default.lua:108 server/unittools.c:2599
 msgid "An abandoned village is here."
 msgstr "Siin on mahajäetud küla."
 
@@ -18057,7 +18057,7 @@ msgstr "Siin on mahajäetud küla."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Sa vallandasid barbarite hordi viha!"
 
-#: data/default/default.lua:118 server/unittools.c:2600
+#: data/default/default.lua:118 server/unittools.c:2602
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Barbarid lõikasid su üksuse %s kõri!"
@@ -43925,7 +43925,7 @@ msgstr "Ainult %s suudab merelt rünnata."
 msgid "Cannot attack from sea."
 msgstr "Merelt ei saa rünnata."
 
-#: server/unithand.c:1290 server/unittools.c:2514
+#: server/unithand.c:1290 server/unittools.c:2516
 msgid "Cannot attack unless you declare war first."
 msgstr "Rünnata ei saa, selleks peab enne sõja kuulutama."
 
@@ -43939,7 +43939,7 @@ msgstr "%s võib liikuda ainult oma kontrolltsoonis."
 msgid "%s cannot move that far from the coast line."
 msgstr ""
 
-#: server/unithand.c:1308 server/unittools.c:2521
+#: server/unithand.c:1308 server/unittools.c:2523
 #, fuzzy, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "Ei saa territooriumile tungida, peab enne sõja kuulutama %s-tele."
@@ -44177,146 +44177,146 @@ msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "Kaotasime %d üksuse, kui %s-ide %s ründas %s-ide %s."
 msgstr[1] "Kaotasime %d üksust, kui %s-ide %s ründas %s-ide %s."
 
-#: server/unittools.c:2287
+#: server/unittools.c:2289
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Sinu linn %s sai  pihta %s tuumapommiga."
 
-#: server/unittools.c:2290 server/unittools.c:2308
+#: server/unittools.c:2292 server/unittools.c:2310
 msgid "yourself"
 msgstr "iseennast"
 
-#: server/unittools.c:2294
+#: server/unittools.c:2296
 #, fuzzy, c-format
 msgid "The %s %s was nuked."
 msgstr "Mängija %s %s sai tuumapommiga pihta."
 
-#: server/unittools.c:2305
+#: server/unittools.c:2307
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s sai pihta %s tuumapommiga."
 
-#: server/unittools.c:2313
+#: server/unittools.c:2315
 #, c-format
 msgid "You nuked %s."
 msgstr "Sa lasid %s tuumapommiga õhku."
 
-#: server/unittools.c:2365
+#: server/unittools.c:2367
 #, fuzzy, c-format
 msgid "The %s detonated a nuke!"
 msgstr "Rahvus %s lasi tuumapommi õhku!"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2389 server/unittools.c:2397
+#: server/unittools.c:2391 server/unittools.c:2399
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr ""
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2408
+#: server/unittools.c:2410
 #, fuzzy, c-format
 msgid "%s cannot be transported to %s."
 msgstr "Muuda %s-ks"
 
-#: server/unittools.c:2418
+#: server/unittools.c:2420
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s edukalt transporditud."
 
-#: server/unittools.c:2477
+#: server/unittools.c:2479
 msgid "This unit type can not be paradropped."
 msgstr "Seda tüüpi üksust ei saa langevarjutada."
 
-#: server/unittools.c:2487
+#: server/unittools.c:2489
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "Ei saa langevarjutada üksust, mis transpordib teisi üksusi."
 
-#: server/unittools.c:2493
+#: server/unittools.c:2495
 msgid "The destination location is not known."
 msgstr "Sihtkoht on tundmatu."
 
-#: server/unittools.c:2503
+#: server/unittools.c:2505
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Seda üksus ei saa langevarjutada linna %s."
 
-#: server/unittools.c:2532
+#: server/unittools.c:2534
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Kaugus sihtmärgini (%i) on suurem, kui üksuse laskeulatus (%i)."
 
-#: server/unittools.c:2543
+#: server/unittools.c:2545
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Su üksus %s langevarjutati linna %s ja kaotati."
 
-#: server/unittools.c:2557
+#: server/unittools.c:2559
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Su üksus %s tapeti vaenlase poolt langevarjutamise sihtkohas."
 
-#: server/unittools.c:2628
+#: server/unittools.c:2630
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "Su ülelend ehmatab hõimu, nad jooksevad paanikas laiali."
 
-#: server/unittools.c:2908
+#: server/unittools.c:2910
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Käsk üksusele %s katkestatud, kuna märgati vaenlase liikumist."
 
-#: server/unittools.c:3462
+#: server/unittools.c:3464
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Käsk üksusele %s katkestatud, kuna läheduses on vastaste mehed."
 
-#: server/unittools.c:3513
+#: server/unittools.c:3515
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "Käsk üksusele %s katkestatud, kuna linna ehitamine ebaõnnestus."
 
-#: server/unittools.c:3529
+#: server/unittools.c:3531
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "Käsk üksusele %s katkestatud, kuna seesugust tegevust ei saa teha."
 
-#: server/unittools.c:3548
+#: server/unittools.c:3550
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "Käsk üksusele %s katkestatud, kuna anti ette vigane asukoht."
 
-#: server/unittools.c:3558
+#: server/unittools.c:3560
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "Käsk üksusele %s katkestatud, kuna teised üksused on tee peal ees."
 
-#: server/unittools.c:3583
+#: server/unittools.c:3585
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Käsk üksusele %s katkestatud, kuna ei õnnestunud liikuda."
 
-#: server/unittools.c:3624
+#: server/unittools.c:3626
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "Katse muuta %s kodulinna ei õnnestunud."
 
-#: server/unittools.c:3635
+#: server/unittools.c:3637
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Katse luua kaubatee linna %s ei õnnestunud."
 
-#: server/unittools.c:3647
+#: server/unittools.c:3649
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Katse ehitada ilmaime linna %s ei õnnestunud."
 
-#: server/unittools.c:3656
+#: server/unittools.c:3658
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Su üksusel %s on vigased käsud."
 
-#: server/unittools.c:3754
+#: server/unittools.c:3756
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."

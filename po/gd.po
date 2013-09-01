@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-11 10:31+0100\n"
+"POT-Creation-Date: 2013-09-01 11:49+0100\n"
 "PO-Revision-Date: 2013-08-08 13:18+0100\n"
 "Last-Translator: Michael Bauer <fios@akerbeltz.org>\n"
 "Language-Team: Akerbeltz\n"
@@ -11533,7 +11533,7 @@ msgstr "A' cleachdadh nan leacagan bunaiteach 'nan àite."
 msgid "Client does not support overhead view tilesets."
 msgstr "Chan eil an cliant a' cur taic ri leacagan Overhead View."
 
-#: client/tilespec.c:4450
+#: client/tilespec.c:4451
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -11542,7 +11542,7 @@ msgstr ""
 "Chan eil seata nan leacagan \"%s\" a' cur taic ri slighean goto fada leithid "
 "%d. Chan eil an t-slighe 'ga shealltainn mar a bhiodh dùil."
 
-#: client/tilespec.c:4775
+#: client/tilespec.c:4776
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -18726,7 +18726,7 @@ msgstr ""
 msgid "?citystyle:ElectricAge"
 msgstr "?citystyle:Linn an Dealain"
 
-#: data/default/default.lua:22 server/unittools.c:2590
+#: data/default/default.lua:22 server/unittools.c:2592
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -18759,7 +18759,7 @@ msgstr ""
 "Tha do shìobhaltas 'na chùis dhrùidhteach dha na h-iniltearan càirdeil agus "
 "tha iad ag aonadh riut. "
 
-#: data/default/default.lua:108 server/unittools.c:2597
+#: data/default/default.lua:108 server/unittools.c:2599
 msgid "An abandoned village is here."
 msgstr "Tha baile fàs an-seo."
 
@@ -18767,7 +18767,7 @@ msgstr "Tha baile fàs an-seo."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Leig thu prasgan bhorbach mu sgaoil!"
 
-#: data/default/default.lua:118 server/unittools.c:2600
+#: data/default/default.lua:118 server/unittools.c:2602
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Chaidh an %s agad a mharbhadh le borbaich!"
@@ -47596,7 +47596,7 @@ msgstr "Chan urrann ach %s ionnsaigh a thoirt on mhuir."
 msgid "Cannot attack from sea."
 msgstr "Chan urrainn dha ionnsaigh a thoirt on mhuir."
 
-#: server/unithand.c:1290 server/unittools.c:2514
+#: server/unithand.c:1290 server/unittools.c:2516
 msgid "Cannot attack unless you declare war first."
 msgstr "Chan urrainn dhut ionnsaigh a thoirt mus do ghairm thu cogadh."
 
@@ -47610,7 +47610,7 @@ msgstr "Feumaidh na %s gluasad dhan àrainn fo do smachd."
 msgid "%s cannot move that far from the coast line."
 msgstr "Chan urrainn an %s gluasad cho fada on mhuir."
 
-#: server/unithand.c:1308 server/unittools.c:2521
+#: server/unithand.c:1308 server/unittools.c:2523
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr ""
@@ -47899,168 +47899,168 @@ msgstr[2] ""
 msgstr[3] ""
 "Chaidh %1$d aonad a chall nuair a thug %3$s %2$s ionnsaigh air %5$s %4$s."
 
-#: server/unittools.c:2287
+#: server/unittools.c:2289
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Chaidh an %s agad a sgriosadh le arm niùclasach aig %s."
 
-#: server/unittools.c:2290 server/unittools.c:2308
+#: server/unittools.c:2292 server/unittools.c:2310
 msgid "yourself"
 msgstr "thu fhèin"
 
-#: server/unittools.c:2294
+#: server/unittools.c:2296
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "Chaill %s %s an cois airm niùclasaich."
 
-#: server/unittools.c:2305
+#: server/unittools.c:2307
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "Chaidh %s a sgriosadh le arm niùclasach aig %s."
 
-#: server/unittools.c:2313
+#: server/unittools.c:2315
 #, c-format
 msgid "You nuked %s."
 msgstr "Leig thusa arm niùclasach air %s."
 
-#: server/unittools.c:2365
+#: server/unittools.c:2367
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "Spreadh %s arm niùclasach!"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2389 server/unittools.c:2397
+#: server/unittools.c:2391 server/unittools.c:2399
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr "Chan eil comas ann an %s %s a ghiùlan."
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2408
+#: server/unittools.c:2410
 #, c-format
 msgid "%s cannot be transported to %s."
 msgstr "Cha ghabh %s a ghiùlan ann (%s)."
 
-#: server/unittools.c:2418
+#: server/unittools.c:2420
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s air a ghiùlan gu soirbheachail."
 
-#: server/unittools.c:2477
+#: server/unittools.c:2479
 msgid "This unit type can not be paradropped."
 msgstr "Chan urrainn dhut paradrop a dhèanamh leis a leithid a dh'aonad."
 
-#: server/unittools.c:2487
+#: server/unittools.c:2489
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr ""
 "Chan urrainn dhut paradrop a dhèanamh le aonad a tha a' giùlan aonadan eile."
 
-#: server/unittools.c:2493
+#: server/unittools.c:2495
 msgid "The destination location is not known."
 msgstr "Chan eil ionad a' chinn-uidhe aithnichte."
 
-#: server/unittools.c:2503
+#: server/unittools.c:2505
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Cha ghabh paradrop a dhèanamh air %s leis an aonad seo."
 
-#: server/unittools.c:2532
+#: server/unittools.c:2534
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "Tha astar nas fhaide (%i) eadar an t-aonad 's a cheann-uidhe nas urrainn dha "
 "siubhal (%i)."
 
-#: server/unittools.c:2543
+#: server/unittools.c:2545
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Chaidh %s a leigeil air %s le paradrop agus chaidh a chall."
 
-#: server/unittools.c:2557
+#: server/unittools.c:2559
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 "Chaidh an %s agad a mharbhadh le aonadan do nàmhaid far an do leig thu às e "
 "le paradrop."
 
-#: server/unittools.c:2628
+#: server/unittools.c:2630
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Chuir thu eagal air an fhine 's tu a' dol seachad orra le itealan; tha iad "
 "a' teicheadh ann an uamhann."
 
-#: server/unittools.c:2908
+#: server/unittools.c:2910
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad nuair a chunnacas gluasad an "
 "nàmhaid."
 
-#: server/unittools.c:3462
+#: server/unittools.c:3464
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad a chionn 's gu bheil aonadad "
 "faisg air."
 
-#: server/unittools.c:3513
+#: server/unittools.c:3515
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad a chionn 's gun do "
 "dh'fhàillig togail a' bhaile."
 
-#: server/unittools.c:3529
+#: server/unittools.c:3531
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad a chionn 's gun d' fhuair "
 "iad àithne mhì-dhligheach."
 
-#: server/unittools.c:3548
+#: server/unittools.c:3550
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad a chionn 's gun d' fhuair "
 "iad ionad mì-dhligheach."
 
-#: server/unittools.c:3558
+#: server/unittools.c:3560
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad a chionn 's gu bheil aonadan "
 "san t-slighe."
 
-#: server/unittools.c:3583
+#: server/unittools.c:3585
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr ""
 "Chaidh na h-òrduighean aig %s a leigeil seachad air sgàth gluasad a "
 "dh'fhàillig."
 
-#: server/unittools.c:3624
+#: server/unittools.c:3626
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr ""
 "Dh'fheuch thu ris am baile dachaigh aig %s atharrachadh ach dh'fhàillig e."
 
-#: server/unittools.c:3635
+#: server/unittools.c:3637
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Dh'fheuch thu ris an t-slighe malairt aig %s ach dh'fhàillig e."
 
-#: server/unittools.c:3647
+#: server/unittools.c:3649
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Dh'fheuch thu ri mìorbhail a thogail airson %s ach dh'fhàillig e."
 
-#: server/unittools.c:3656
+#: server/unittools.c:3658
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Tha òrduighean mì-dhligheach aig an aonad (%s) agad."
 
-#: server/unittools.c:3754
+#: server/unittools.c:3756
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."

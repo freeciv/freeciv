@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-11 10:31+0100\n"
+"POT-Creation-Date: 2013-09-01 11:49+0100\n"
 "PO-Revision-Date: 2007-08-10 18:00+0300\n"
 "Last-Translator: Ahmad M. Zawawi <zeus_go64@yahoo.com>\n"
 "Language-Team: Arabic <freeciv-i18n@freeciv.org>\n"
@@ -11383,14 +11383,14 @@ msgstr ""
 msgid "Client does not support overhead view tilesets."
 msgstr "الزبون الإستعمال."
 
-#: client/tilespec.c:4450
+#: client/tilespec.c:4451
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
 "displayed as expected."
 msgstr ""
 
-#: client/tilespec.c:4775
+#: client/tilespec.c:4776
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -17956,7 +17956,7 @@ msgstr ""
 msgid "?citystyle:ElectricAge"
 msgstr "?citystyle:الكيلتي"
 
-#: data/default/default.lua:22 server/unittools.c:2590
+#: data/default/default.lua:22 server/unittools.c:2592
 #, fuzzy, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -17986,7 +17986,7 @@ msgstr "لقد عثرت على مدينة صديقة."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "أعجب بدو وديون بك، وانضموا إليك."
 
-#: data/default/default.lua:108 server/unittools.c:2597
+#: data/default/default.lua:108 server/unittools.c:2599
 msgid "An abandoned village is here."
 msgstr "توجد قرية مهجورة هنا."
 
@@ -17994,7 +17994,7 @@ msgstr "توجد قرية مهجورة هنا."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "لقد أطلقت العنان لحشود من البرابرة!"
 
-#: data/default/default.lua:118 server/unittools.c:2600
+#: data/default/default.lua:118 server/unittools.c:2602
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "تم قتل وحدتك %s من قبل البرابرة!"
@@ -42967,7 +42967,7 @@ msgstr "يستطيع  %s فقط الهجوم من البحر."
 msgid "Cannot attack from sea."
 msgstr "لا تستطيع الهجوم من البحر."
 
-#: server/unithand.c:1290 server/unittools.c:2514
+#: server/unithand.c:1290 server/unittools.c:2516
 msgid "Cannot attack unless you declare war first."
 msgstr "لا تستطيع الهجوم إلا بعد إعلانك الحرب أولا."
 
@@ -42981,7 +42981,7 @@ msgstr "يستطيع %s التحرك فقط إلى منطقة سيطرتك."
 msgid "%s cannot move that far from the coast line."
 msgstr ""
 
-#: server/unithand.c:1308 server/unittools.c:2521
+#: server/unithand.c:1308 server/unittools.c:2523
 #, fuzzy, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "لا تستطيع الهجوم إلا بعد إعلانك الحرب أولا."
@@ -43226,148 +43226,148 @@ msgstr[0] "خسارة %d وحدة عندما هاجم %s %s ال %s %s."
 msgstr[1] "خسارة %d وحدتان عندما هاجم %s %s ال %s %s."
 msgstr[2] "خسارة %d وحدات عندما هاجم %s %s ال %s %s."
 
-#: server/unittools.c:2287
+#: server/unittools.c:2289
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "تم قصف وحدتك %s بالسلاح النووي من قبل %s."
 
-#: server/unittools.c:2290 server/unittools.c:2308
+#: server/unittools.c:2292 server/unittools.c:2310
 msgid "yourself"
 msgstr "نفسك"
 
-#: server/unittools.c:2294
+#: server/unittools.c:2296
 #, fuzzy, c-format
 msgid "The %s %s was nuked."
 msgstr "تم قصف وحدة %s %s بالسلاح النووي."
 
-#: server/unittools.c:2305
+#: server/unittools.c:2307
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "تم قصف %s بالسلاح النووي من قبل %s."
 
-#: server/unittools.c:2313
+#: server/unittools.c:2315
 #, c-format
 msgid "You nuked %s."
 msgstr "لقد قصفت %s بالسلاح النووي."
 
-#: server/unittools.c:2365
+#: server/unittools.c:2367
 #, fuzzy, c-format
 msgid "The %s detonated a nuke!"
 msgstr "فجر %s سلاحا نوويا!"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2389 server/unittools.c:2397
+#: server/unittools.c:2391 server/unittools.c:2399
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr ""
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2408
+#: server/unittools.c:2410
 #, fuzzy, c-format
 msgid "%s cannot be transported to %s."
 msgstr "تحويل إلى %s"
 
-#: server/unittools.c:2418
+#: server/unittools.c:2420
 #, c-format
 msgid "%s transported successfully."
 msgstr "تم نقل %s بنجاح."
 
-#: server/unittools.c:2477
+#: server/unittools.c:2479
 msgid "This unit type can not be paradropped."
 msgstr "لا يمكن اسقاط نوع هذه الوحدة بالمظلة."
 
-#: server/unittools.c:2487
+#: server/unittools.c:2489
 #, fuzzy
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "لا تستطيع اسقاط وحدة منقولة بالمظلة."
 
-#: server/unittools.c:2493
+#: server/unittools.c:2495
 msgid "The destination location is not known."
 msgstr "موقع الاتجاه مجهول."
 
-#: server/unittools.c:2503
+#: server/unittools.c:2505
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "لا تستطيع اسقاط هذه الوحدة بالمظلة على %s."
 
-#: server/unittools.c:2532
+#: server/unittools.c:2534
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "المسافة إلى الهدف (%i) أكبر من مدى تحرك الوحدة (%i)."
 
-#: server/unittools.c:2543
+#: server/unittools.c:2545
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "تم اسقاط وحدتك %s بالمظلة على %s، وفقدانها."
 
-#: server/unittools.c:2557
+#: server/unittools.c:2559
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "تم قتل وحدتك %s من قبل وحدات العدو عند موقع اسقاط المظليين."
 
-#: server/unittools.c:2628
+#: server/unittools.c:2630
 #, fuzzy
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "ملكك."
 
-#: server/unittools.c:2908
+#: server/unittools.c:2910
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "تم الغاء الأوامر ل %s بعد اكتشاف تحرك للعدو."
 
-#: server/unittools.c:3462
+#: server/unittools.c:3464
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "تم الغاء الأوامر ل %s عن العمل لوجود وحدات قريبة."
 
-#: server/unittools.c:3513
+#: server/unittools.c:3515
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "تم الغاء الأوامر ل %s عن العمل لفشل بناء مدينة."
 
-#: server/unittools.c:3529
+#: server/unittools.c:3531
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "تم الغاء الأوامر ل %s عن العمل لاعطائهم نشاط خاطئ."
 
-#: server/unittools.c:3548
+#: server/unittools.c:3550
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "تم الغاء الأوامر ل %s عن العمل لاعطائهم موقع خاطئ."
 
-#: server/unittools.c:3558
+#: server/unittools.c:3560
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "تم الغاء الأوامر ل %s عن العمل لوجود وحدات على الطريق."
 
-#: server/unittools.c:3583
+#: server/unittools.c:3585
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "تم الغاء الأوامر ل %s عن العمل لحركة فاشلة."
 
-#: server/unittools.c:3624
+#: server/unittools.c:3626
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "فشل محاولة تغيير مدينة المنشأ ل %s."
 
-#: server/unittools.c:3635
+#: server/unittools.c:3637
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "فشل محاولة انشاء طريق للتجارة ل %s."
 
-#: server/unittools.c:3647
+#: server/unittools.c:3649
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "فشل محاولة بناء أعجوبة ل %s."
 
-#: server/unittools.c:3656
+#: server/unittools.c:3658
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "لدى وحدتك %s أوامر خاطئة."
 
-#: server/unittools.c:3754
+#: server/unittools.c:3756
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."
