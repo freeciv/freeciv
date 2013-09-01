@@ -50,7 +50,7 @@ enum unit_focus_status {
 
 /* Changing this enum will break network compatability. */
 enum diplomat_actions {
-  DIPLOMAT_MOVE = 0,	/* move onto city square - only for allied cities */
+  DIPLOMAT_MOVE = 0,	/* move onto tile when other options exist. */
   DIPLOMAT_EMBASSY = 1,
   DIPLOMAT_BRIBE = 2,
   DIPLOMAT_INCITE = 3,
@@ -342,6 +342,8 @@ struct unit *is_enemy_unit_tile(const struct tile *ptile,
 				const struct player *pplayer);
 struct unit *is_non_allied_unit_tile(const struct tile *ptile,
 				     const struct player *pplayer);
+struct unit *is_other_players_unit_tile(const struct tile *ptile,
+					const struct player *pplayer);
 struct unit *is_non_attack_unit_tile(const struct tile *ptile,
 				     const struct player *pplayer);
 struct unit *unit_occupies_tile(const struct tile *ptile,

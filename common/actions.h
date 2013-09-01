@@ -23,6 +23,14 @@ extern "C" {
 #endif /* __cplusplus */
 
 /* Used in the network protocol. */
+#define SPECENUM_NAME action_target_kind
+#define SPECENUM_VALUE0 ATK_CITY
+#define SPECENUM_VALUE0NAME "City"
+#define SPECENUM_VALUE1 ATK_UNIT
+#define SPECENUM_VALUE1NAME "Unit"
+#include "specenum_gen.h"
+
+/* Used in the network protocol. */
 #define SPECENUM_NAME gen_action
 #define SPECENUM_VALUE0 ACTION_SPY_POISON
 #define SPECENUM_VALUE0NAME "Poison City"

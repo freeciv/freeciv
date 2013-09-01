@@ -107,10 +107,9 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
                                       city_owner(pcity))) {
         return TRUE;
       }
-      if(action == SPY_POISON
-         && action_is_enabled_unit_on_city(ACTION_SPY_POISON,
-                                           pdiplomat, pcity)) {
-        return pplayers_at_war(unit_owner(pdiplomat), city_owner(pcity));
+      if (action == SPY_POISON) {
+         return action_is_enabled_unit_on_city(ACTION_SPY_POISON,
+                                               pdiplomat, pcity);
       }
       if(action==DIPLOMAT_INVESTIGATE)
         return TRUE;
@@ -123,9 +122,6 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
         return TRUE;
     }
   } else { /* Action against a unit at a tile */
-    /* If it is made possible to do action against allied units
-       unit_move_handling() should be changed so that pdefender
-       is also set to allied units */
     struct unit *punit;
 
     if (unit_list_size(ptile->units) == 1) {
@@ -134,9 +130,7 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
       if ((action == SPY_SABOTAGE_UNIT || action == DIPLOMAT_ANY_ACTION)
           && action_is_enabled_unit_on_unit(ACTION_SPY_SABOTAGE_UNIT,
                                             pdiplomat, punit)) {
-        if (pplayers_at_war(unit_owner(pdiplomat), unit_owner(punit))) {
-          return TRUE;
-        }
+        return TRUE;
       }
 
       if (action == DIPLOMAT_BRIBE || action == DIPLOMAT_ANY_ACTION) {
@@ -144,6 +138,11 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
           return TRUE;
         }
       }
+    }
+
+    /* Don't pop up diplomat dialog if all that can be done is to move. */
+    if (action == DIPLOMAT_MOVE) {
+      return !is_non_allied_unit_tile(ptile, unit_owner(pdiplomat));
     }
   }
   return FALSE;
@@ -1609,6 +1608,21 @@ struct unit *is_non_allied_unit_tile(const struct tile *ptile,
       return punit;
   }
   unit_list_iterate_end;
+
+  return NULL;
+}
+
+/**************************************************************************
+ is there an unit belonging to another player on this tile?
+**************************************************************************/
+struct unit *is_other_players_unit_tile(const struct tile *ptile,
+                                        const struct player *pplayer)
+{
+  unit_list_iterate(ptile->units, punit) {
+    if (unit_owner(punit) != pplayer) {
+      return punit;
+    }
+  } unit_list_iterate_end;
 
   return NULL;
 }

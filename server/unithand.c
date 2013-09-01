@@ -27,6 +27,7 @@
 #include "shared.h"
 
 /* common */
+#include "actions.h"
 #include "ai.h"
 #include "city.h"
 #include "combat.h"
@@ -263,6 +264,7 @@ void handle_unit_diplomat_action(struct player *pplayer,
 				 enum diplomat_actions action_type)
 {
   struct unit *pdiplomat = player_unit_by_number(pplayer, diplomat_id);
+  struct tile *target_tile;
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
 
@@ -326,9 +328,30 @@ void handle_unit_diplomat_action(struct player *pplayer,
       }
       break;
     case DIPLOMAT_MOVE:
-      if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_MOVE,
-					 pcity->tile)) {
-	(void) unit_move_handling(pdiplomat, pcity->tile, FALSE, TRUE);
+      fc_assert_msg(value == ATK_CITY || value == ATK_UNIT,
+                    "Unexpected target type %d", value);
+
+      switch (value) {
+      case ATK_CITY:
+        if (!pcity) {
+          return;
+        } else {
+          target_tile = pcity->tile;
+        }
+        break;
+      case ATK_UNIT:
+        if (!punit) {
+          return;
+        } else {
+          target_tile = unit_tile(punit);
+        }
+        break;
+      default:
+        return;
+      }
+
+      if (diplomat_can_do_action(pdiplomat, DIPLOMAT_MOVE, target_tile)) {
+        (void) unit_move_handling(pdiplomat, target_tile, FALSE, TRUE);
       }
       break;
     case DIPLOMAT_STEAL:
@@ -1352,15 +1375,18 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     return base_handle_unit_establish_trade(pplayer, punit->id, pcity);
   }
 
-  /* Diplomats. Pop up a diplomat action dialog in the client.  
-   * If the AI has used a goto to send a diplomat to a target do not 
-   * pop up a dialog in the client.  
-   * For allied cities, keep moving if move_diplomat_city tells us to, 
-   * or if the unit is on goto and the city is not the final destination. */
+  /* Diplomats. Pop up a diplomat action dialog in the client.
+   * If the AI has used a goto to send a diplomat to a target do not
+   * pop up a dialog in the client.
+   * For tiles occupied by allied cities or units, keep moving if
+   * move_diplomat_city tells us to, or if the unit is on goto and the tile
+   * is not the final destination. */
   if (is_diplomat_unit(punit)) {
-    struct unit *target = is_non_allied_unit_tile(pdesttile, pplayer);
+    struct unit *target = is_other_players_unit_tile(pdesttile, pplayer);
 
-    if (target || is_non_allied_city_tile(pdesttile, pplayer)
+    if ((target && !move_diplomat_city)
+        || (target && is_non_allied_unit_tile(pdesttile, pplayer))
+        || is_non_allied_city_tile(pdesttile, pplayer)
         || (is_allied_city_tile(pdesttile, pplayer) && !move_diplomat_city)) {
       if (is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION,
 				       pdesttile)) {

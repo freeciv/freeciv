@@ -32,6 +32,7 @@
 #include "log.h"
 
 /* common */
+#include "actions.h"
 #include "game.h"
 #include "improvement.h"
 #include "tech.h"
@@ -694,8 +695,9 @@ void popup_incite_dialog(struct city *pcity, int cost)
   Callback from diplomat/spy dialog for "keep moving".
   (This should only occur when entering allied city.)
 **************************************************************************/
-static void diplomat_keep_moving_callback(Widget w, XtPointer client_data, 
-					  XtPointer call_data)
+static void diplomat_keep_moving_callback_city(Widget w,
+                                               XtPointer client_data,
+                                               XtPointer call_data)
 {
   struct unit *punit;
   struct city *pcity;
@@ -707,7 +709,30 @@ static void diplomat_keep_moving_callback(Widget w, XtPointer client_data,
       && (pcity = game_city_by_number(diplomat_target_id))
       && !same_pos(unit_tile(punit), city_tile(pcity))) {
     request_diplomat_action(DIPLOMAT_MOVE, diplomat_id,
-                            diplomat_target_id, 0);
+                            diplomat_target_id, ATK_CITY);
+  }
+  process_diplomat_arrival(NULL, 0);
+}
+
+/**************************************************************************
+  Callback from diplomat/spy dialog for "keep moving".
+  (This should only occur when entering the tile of an allied unit..)
+**************************************************************************/
+static void diplomat_keep_moving_callback_unit(Widget w,
+                                               XtPointer client_data,
+                                               XtPointer call_data)
+{
+  struct unit *punit;
+  struct unit *tunit;
+
+  destroy_message_dialog(w);
+  diplomat_dialog = NULL;
+
+  if ((punit = game_unit_by_number(diplomat_id))
+      && (tunit = game_unit_by_number(diplomat_target_id))
+      && !same_pos(unit_tile(punit), unit_tile(tunit))) {
+    request_diplomat_action(DIPLOMAT_MOVE, diplomat_id,
+                            diplomat_target_id, ATK_UNIT);
   }
   process_diplomat_arrival(NULL, 0);
 }
@@ -753,7 +778,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 			       diplomat_sabotage_callback, 0, 1,
 			       diplomat_steal_callback, 0, 1,
 			       diplomat_incite_callback, 0, 1,
-			       diplomat_keep_moving_callback, 0, 1,
+			       diplomat_keep_moving_callback_city, 0, 1,
 			       diplomat_cancel_callback, 0, 0,
 			       NULL);
     } else {
@@ -765,7 +790,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 			       spy_request_sabotage_list, 0, 1,
 			       spy_steal_popup, 0, 1,
 			       diplomat_incite_callback, 0, 1,
-			       diplomat_keep_moving_callback, 0, 1,
+			       diplomat_keep_moving_callback_city, 0, 1,
 			       diplomat_cancel_callback, 0, 0,
 			       NULL);
     }
@@ -807,6 +832,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 			       astr_str(&text),
 			       diplomat_bribe_callback, 0, 0,
 			       spy_sabotage_unit_callback, 0, 0,
+			       diplomat_keep_moving_callback_unit, 0, 1,
 			       diplomat_cancel_callback, 0, 0,
 			       NULL);
 	
@@ -814,6 +840,8 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 	XtSetSensitive(XtNameToWidget(shl, "*button0"), FALSE);
       if(!diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_tile))
 	XtSetSensitive(XtNameToWidget(shl, "*button1"), FALSE);
+      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile))
+        XtSetSensitive(XtNameToWidget(shl, "*button2"), FALSE);
     }
   }
   astr_free(&text);

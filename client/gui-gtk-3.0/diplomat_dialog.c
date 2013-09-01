@@ -22,6 +22,7 @@
 #include "support.h"
 
 /* common */
+#include "actions.h"
 #include "game.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -615,7 +616,7 @@ void popup_incite_dialog(struct city *pcity, int cost)
   Callback from diplomat/spy dialog for "keep moving".
   (This should only occur when entering allied city.)
 *****************************************************************/
-static void diplomat_keep_moving_callback(GtkWidget *w, gpointer data)
+static void diplomat_keep_moving_city_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
   struct city *pcity;
@@ -624,7 +625,25 @@ static void diplomat_keep_moving_callback(GtkWidget *w, gpointer data)
       && (pcity = game_city_by_number(diplomat_target_id))
       && !same_pos(unit_tile(punit), city_tile(pcity))) {
     request_diplomat_action(DIPLOMAT_MOVE, diplomat_id,
-                            diplomat_target_id, 0);
+                            diplomat_target_id, ATK_CITY);
+  }
+  gtk_widget_destroy(diplomat_dialog);
+}
+
+/*************************************************************************
+  Callback from diplomat/spy dialog for "keep moving".
+  (This should only occur when entering the tile of an allied unit.)
+**************************************************************************/
+static void diplomat_keep_moving_unit_callback(GtkWidget *w, gpointer data)
+{
+  struct unit *punit;
+  struct unit *tunit;
+
+  if ((punit = game_unit_by_number(diplomat_id))
+      && (tunit = game_unit_by_number(diplomat_target_id))
+      && !same_pos(unit_tile(punit), unit_tile(tunit))) {
+    request_diplomat_action(DIPLOMAT_MOVE, diplomat_id,
+                            diplomat_target_id, ATK_UNIT);
   }
   gtk_widget_destroy(diplomat_dialog);
 }
@@ -679,7 +698,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 	_("_Sabotage City"), diplomat_sabotage_callback, NULL,
 	_("Steal _Technology"), diplomat_steal_callback, NULL,
 	_("Incite a _Revolt"), diplomat_incite_callback, NULL,
-	_("_Keep moving"), diplomat_keep_moving_callback, NULL,
+	_("_Keep moving"), diplomat_keep_moving_city_callback, NULL,
 	GTK_STOCK_CANCEL, diplomat_cancel_callback, NULL,
 	NULL);
     } else {
@@ -691,7 +710,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 	_("Industrial _Sabotage"), spy_request_sabotage_list, NULL,
 	_("Steal _Technology"), spy_steal_popup, NULL,
 	_("Incite a _Revolt"), diplomat_incite_callback, NULL,
-	_("_Keep moving"), diplomat_keep_moving_callback, NULL,
+	_("_Keep moving"), diplomat_keep_moving_city_callback, NULL,
 	GTK_STOCK_CANCEL, diplomat_cancel_callback, NULL,
 	NULL);
      }
@@ -739,6 +758,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 	_("Subvert Enemy Unit"), astr_str(&text),
 	_("_Bribe Enemy Unit"), diplomat_bribe_callback, NULL,
 	_("_Sabotage Enemy Unit"), spy_sabotage_unit_callback, NULL,
+	_("_Keep moving"), diplomat_keep_moving_unit_callback, NULL,
 	GTK_STOCK_CANCEL, diplomat_cancel_callback, NULL,
 	NULL);
 
@@ -747,6 +767,9 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
       }
       if (!diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_tile)) {
 	choice_dialog_button_set_sensitive(shl, 1, FALSE);
+      }
+      if (!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile)) {
+        choice_dialog_button_set_sensitive(shl, 2, FALSE);
       }
 
       diplomat_dialog = shl;

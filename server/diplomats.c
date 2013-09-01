@@ -72,8 +72,6 @@ static void maybe_cause_incident(enum diplomat_actions action,
 /******************************************************************************
   Poison a city's water supply.
 
-  - Only allowed against players you are at war with.
-
   - Check for infiltration success.  Our poisoner may not survive this.
   - If successful, reduces population by one point.
 
@@ -93,8 +91,9 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
   if (!pcity)
     return;
   cplayer = city_owner(pcity);
-  if (!cplayer || !pplayers_at_war(pplayer, cplayer))
+  if (!cplayer) {
     return;
+  }
 
   ctile = city_tile(pcity);
   clink = city_link(pcity);
@@ -320,8 +319,6 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 /******************************************************************************
   Sabotage an enemy unit.
 
-  - Only allowed against players you are at war with.
-
   - Can't sabotage a unit if:
     - It has only one hit point left.
     - It's not the only unit on the square
@@ -340,8 +337,9 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   if (!pvictim)
     return;
   uplayer = unit_owner(pvictim);
-  if (!uplayer || pplayers_allied(pplayer, uplayer))
+  if (!uplayer) {
     return;
+  }
 
   log_debug("sabotage-unit: unit: %d", pdiplomat->id);
 
@@ -1408,6 +1406,20 @@ static void maybe_cause_incident(enum diplomat_actions action,
                     _("%s has caused an incident while bribing your %s."),
                     player_name(offender), victim_link);
       break;
+    case SPY_SABOTAGE_UNIT:
+      notify_player(offender, victim_tile,
+                    E_DIPLOMATIC_INCIDENT, ftc_server,
+                    _("You have caused an incident while"
+                      " sabotaging the %s %s."),
+                    nation_adjective_for_player(victim_player),
+                    victim_link);
+      notify_player(victim_player, victim_tile,
+                    E_DIPLOMATIC_INCIDENT, ftc_server,
+                    _("The %s have caused an incident while"
+                      " sabotaging your %s."),
+                    nation_plural_for_player(offender),
+                    victim_link);
+      break;
     case DIPLOMAT_STEAL:
       notify_player(offender, victim_tile,
                     E_DIPLOMATIC_INCIDENT, ftc_server,
@@ -1429,13 +1441,21 @@ static void maybe_cause_incident(enum diplomat_actions action,
                       "revolt in %s."),
                     nation_plural_for_player(offender), victim_link);
       break;
+    case SPY_POISON:
+      notify_player(offender, victim_tile,
+                    E_DIPLOMATIC_INCIDENT, ftc_server,
+                    _("You have caused an incident while poisoning %s."),
+                    victim_link);
+      notify_player(victim_player, victim_tile,
+                    E_DIPLOMATIC_INCIDENT, ftc_server,
+                    _("The %s have caused an incident while posioning %s."),
+                    nation_plural_for_player(offender), victim_link);
+      break;
     case DIPLOMAT_MOVE:
     case DIPLOMAT_EMBASSY:
     case DIPLOMAT_INVESTIGATE:
       return; /* These are not considered offences */
     case DIPLOMAT_ANY_ACTION:
-    case SPY_POISON:
-    case SPY_SABOTAGE_UNIT:
     case DIPLOMAT_SABOTAGE:
       /* You can only do these when you are at war, so we should never
        * get inside this "if" */
