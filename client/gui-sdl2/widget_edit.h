@@ -32,7 +32,7 @@ enum Edit_Return_Codes {
 #define edit(pEdit) edit_field(pEdit)
 
 struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
-			SDL_String16 *pString16, Uint16 lenght,
+			SDL_String16 *pString16, int length,
 			Uint32 flags);
 enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget);
 int draw_edit(struct widget *pEdit, Sint16 start_x, Sint16 start_y);

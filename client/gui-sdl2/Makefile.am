@@ -12,7 +12,6 @@ libgui_sdl2_la_SOURCES = \
 	SDL2_rotozoom.h	\
 	SDL_ttf.c	\
 	SDL_ttf.h	\
-	alphablit.c	\
 	canvas.c	\
 	canvas.h	\
 	caravan_dialog.c \

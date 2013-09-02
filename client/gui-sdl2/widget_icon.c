@@ -72,6 +72,7 @@ static int redraw_icon(struct widget *pIcon)
 **************************************************************************/
 static int redraw_icon2(struct widget *pIcon)
 {
+#if 0
   int ret;
   SDL_Rect dest;
   Uint32 state;
@@ -127,6 +128,7 @@ static int redraw_icon2(struct widget *pIcon)
   if (ret) {
     return ret;
   }
+#endif
 
   return 0;
 }
@@ -149,6 +151,7 @@ void set_new_icon_theme(struct widget *pIcon_Widget, SDL_Surface * pNew_Theme)
 **************************************************************************/
 SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
 {
+#if 0
   SDL_Color bg_color = { 255, 255, 255, 128 };
   
   SDL_Rect dest, src = get_smaller_surface_rect(pIcon);
@@ -190,6 +193,9 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
   SDL_FillRectAlpha(pTheme, &dest, &bg_color);
 
   return pTheme;
+#endif
+
+  return NULL;
 }
 
 /**************************************************************************

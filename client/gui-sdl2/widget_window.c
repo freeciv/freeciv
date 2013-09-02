@@ -79,11 +79,13 @@ static int redraw_window(struct widget *pWindow)
     }
 
     dst = pWindow->area;    
-    
+
+#if 0    
     putline(pWindow->dst->surface,
             dst.x, dst.y - 1,
             dst.x + dst.w - 1, dst.y - 1,
             get_theme_color(COLOR_THEME_WINDOW_TITLEBAR_SEPARATOR));
+#endif
   }
   
   /* draw frame */
@@ -340,14 +342,16 @@ bool move_window(struct widget *pWindow)
 {
   bool ret;
   struct MOVE pMove;
+
   pMove.pWindow = pWindow;
   pMove.moved = FALSE;
   SDL_GetMouseState(&pMove.prev_x, &pMove.prev_y);
   /* Filter mouse motion events */
-  SDL_SetEventFilter(FilterMouseMotionEvents);
+  SDL_SetEventFilter(FilterMouseMotionEvents, NULL);
   ret = (gui_event_loop((void *)&pMove, NULL, NULL, NULL, NULL,
 	  move_window_button_up, move_window_motion) == ID_MOVED_WINDOW);
   /* Turn off Filter mouse motion events */
-  SDL_SetEventFilter(NULL);
+  SDL_SetEventFilter(NULL, NULL);
+
   return ret;
 }

@@ -613,10 +613,12 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
                 (pWindow->size.h - pWindow->area.h) + area.h);
   FREESURFACE(pLogo);
 
+#if 0
   pLogo = SDL_DisplayFormat(pWindow->theme);
   FREESURFACE(pWindow->theme);
   pWindow->theme = pLogo;
   pLogo = NULL;
+#endif
 
   area = pWindow->area;
   
@@ -637,10 +639,12 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.w = name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5);
   dst.h = pText3->h + adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
-  
+
+#if 0  
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_UNITSREP_FRAME));
+#endif
   
   dst.y += 1;
   dst.x += ((name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5)) - pText3->w) / 2;
@@ -679,10 +683,12 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.w = name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5);
   dst.h = pText4->h + adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
-  
+
+#if 0  
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_UNITSREP_FRAME));
+#endif
   
   dst.y += 1;
   dst.x += ((name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5))- pText4->w) / 2;
@@ -695,11 +701,13 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.w = pText1->w + adj_size(6);
   dst.h = area.h - adj_size(3);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
-    
+
+#if 0    
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_UNITSREP_FRAME));
-    
+#endif
+
   dst.x += adj_size(3);
   alphablit(pText1, NULL, pWindow->theme, &dst);
   ww = pText1->w;
@@ -712,11 +720,13 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.w = ww;
   dst.h = area.h - adj_size(3);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
-  
+
+#if 0  
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_UNITSREP_FRAME));
-  
+#endif
+
   dst.y = area.y + adj_size(3);
   dst.x += ((ww - pIcons->pBIG_Shield->w) / 2);
   alphablit(pIcons->pBIG_Shield, NULL, pWindow->theme, &dst);
@@ -728,10 +738,12 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.w = ww;
   dst.h = area.h - adj_size(3);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
-  
+
+#if 0  
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_UNITSREP_FRAME));
+#endif
   
   dst.y = area.y + adj_size(3);
   dst.x += ((ww - pIcons->pBIG_Food->w) / 2);
@@ -745,9 +757,11 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.h = area.h - adj_size(3);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
+#if 0
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_UNITSREP_FRAME));
+#endif
   
   dst.y = area.y + adj_size(3);
   dst.x += ((ww - pIcons->pBIG_Coin->w) / 2);
@@ -761,10 +775,12 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   w = dst.x;
   dst.h = area.h - adj_size(3);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
-  
+
+#if 0
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_UNITSREP_FRAME));
+#endif
 			  
   dst.x += adj_size(3);
   alphablit(pText2, NULL, pWindow->theme, &dst);
@@ -776,10 +792,12 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.w = pText5->w + adj_size(6);
   dst.h = area.h - adj_size(3);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
-  
+
+#if 0
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_UNITSREP_FRAME));
+#endif
 			  
   dst.x += adj_size(3);
   alphablit(pText5, NULL, pWindow->theme, &dst);
@@ -1329,12 +1347,12 @@ static int horiz_taxrate_callback(struct widget *pHoriz_Src)
     
     MOVE_STEP_Y = 0;
     /* Filter mouse motion events */
-    SDL_SetEventFilter(FilterMouseMotionEvents);
+    SDL_SetEventFilter(FilterMouseMotionEvents, NULL);
     gui_event_loop((void *)(&pMotion), NULL, NULL, NULL, NULL,
                     report_scroll_mouse_button_up,
                           report_scroll_mouse_motion_handler);
     /* Turn off Filter mouse motion events */
-    SDL_SetEventFilter(NULL);
+    SDL_SetEventFilter(NULL, NULL);
     MOVE_STEP_Y = DEFAULT_MOVE_STEP;
     
 END:
@@ -2025,10 +2043,12 @@ void economy_report_dialog_popup(bool make_modal)
     pBackground = create_surf_alpha(adj_size(116), adj_size(116), SDL_SWSURFACE);
     
     SDL_FillRect(pBackground, NULL, map_rgba(pBackground->format, bg_color));
+#if 0
     putframe(pBackground,
              0, 0, pBackground->w - 1, pBackground->h - 1,
              get_theme_color(COLOR_THEME_ECONOMYDLG_FRAME));
-    
+#endif
+
     pStr = create_string16(NULL, 0, adj_font(10));
     pStr->style |= (SF_CENTER|TTF_STYLE_BOLD);
     pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
@@ -2206,10 +2226,12 @@ void economy_report_dialog_popup(bool make_modal)
   h = dst.h;
   
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color2);
-  
+
+#if 0  
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_ECONOMYDLG_FRAME));
+#endif
   
   /* draw statical strings */
   dst.x = area.x + adj_size(10);
@@ -2254,10 +2276,12 @@ void economy_report_dialog_popup(bool make_modal)
   dst.h = pTheme->Horiz->h - adj_size(2);
   
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color3);
-  
+
+#if 0  
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_ECONOMYDLG_FRAME));
+#endif
   
   /* lock icon */
   pBuf = pBuf->prev;
@@ -2278,10 +2302,12 @@ void economy_report_dialog_popup(bool make_modal)
   /* Science Horizontal Scrollbar Background */
   dst.y += pTheme->Horiz->h + 1;
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color3);
-  
+
+#if 0
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_ECONOMYDLG_FRAME));
+#endif
   
   /* science lock icon */
   pBuf = pBuf->prev;
@@ -2367,15 +2393,17 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
   
   if (tech_id == player_research_get(client.conn.playing)->researching)
   {
-    color.unused = 180;
+    color.a = 180;
   } else {
-    color.unused = 128;
+    color.a = 128;
   }
 
   SDL_FillRect(pSurf, NULL, map_rgba(pSurf->format, color));
+#if 0
   putframe(pSurf,
            0,0, pSurf->w - 1, pSurf->h - 1,
            get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
+#endif
   
   pTmp = get_tech_icon(tech_id);
   
@@ -2588,9 +2616,11 @@ void real_science_report_dialog_update(void)
     dest.x = area.x + adj_size(16);
     
     /* separator */
+#if 0
     putline(pWindow->dst->surface,
             dest.x, dest.y, (area.x + area.w - adj_size(16)), dest.y,
             get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
+#endif
 
     dest.y += adj_size(6);
     
@@ -2628,9 +2658,11 @@ void real_science_report_dialog_update(void)
     dest.h = pColb_Surface->h + adj_size(4);
     SDL_FillRectAlpha(pWindow->dst->surface, &dest, &bg_color);
   
+#if 0
     putframe(pWindow->dst->surface,
              dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
              get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
+#endif
   
     if (cost > adj_size(286))
     {
@@ -2695,9 +2727,11 @@ void real_science_report_dialog_update(void)
     dest.x = area.x + adj_size(16);
     dest.y += adj_size(48) + adj_size(6);
 
+#if 0
     putline(pWindow->dst->surface,
             dest.x, dest.y, (area.x + area.w - adj_size(16)), dest.y,
             get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
+#endif
     
     dest.x = pChangeResearchButton->size.x;
     dest.y += adj_size(6);

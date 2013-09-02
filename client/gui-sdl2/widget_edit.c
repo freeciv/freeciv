@@ -105,10 +105,12 @@ static int redraw_edit_chain(struct EDIT *pEdt)
     if (pInputChain_TMP == pEdt->pInputChain) {
       Dest = Dest_Copy;
 
+#if 0
       putline(pEdt->pWidget->dst->surface,
               Dest.x - 1, Dest.y + (pEdt->pBg->h / 8),
               Dest.x - 1, Dest.y + pEdt->pBg->h - (pEdt->pBg->h / 4),
               get_theme_color(COLOR_THEME_EDITFIELD_CARET));
+#endif
       /* save active element position */
       pEdt->InputChain_X = Dest_Copy.x;
     }
@@ -321,8 +323,8 @@ static Uint16 *chain2text(const struct UniChar *pInChain, size_t len)
 
   function return pointer to allocated Edit Widget.
 **************************************************************************/
-struct widget * create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
-		SDL_String16 *pString16, Uint16 length, Uint32 flags)
+struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
+                           SDL_String16 *pString16, int length, Uint32 flags)
 {
   SDL_Rect buf = {0, 0, 0, 0};
 
@@ -395,7 +397,7 @@ int draw_edit(struct widget *pEdit, Sint16 start_x, Sint16 start_y)
   NOTE: This functions can return NULL in 'pEdit_Widget->sting16->text' but
         never free 'pEdit_Widget->sting16' struct.
 **************************************************************************/
-static Uint16 edit_key_down(SDL_keysym Key, void *pData)
+static Uint16 edit_key_down(SDL_Keysym Key, void *pData)
 {
   struct EDIT *pEdt = (struct EDIT *)pData;
   struct UniChar *pInputChain_TMP;
@@ -410,10 +412,12 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
     case SDLK_KP_ENTER:
       /* exit from loop */
       return ED_RETURN;
+      /*
     case SDLK_KP6:
       if(Key.mod & KMOD_NUM) {
 	goto INPUT;
       }
+      */
     case SDLK_RIGHT:
     {
       /* move cursor right */
@@ -429,10 +433,12 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
       }
     }
     break;
+    /*
     case SDLK_KP4:
       if(Key.mod & KMOD_NUM) {
 	goto INPUT;
       }
+    */
     case SDLK_LEFT:
     {
       /* move cursor left */
@@ -450,10 +456,12 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
       }
     }
     break;
+    /*
     case SDLK_KP7:
-      if(Key.mod & KMOD_NUM) {
+      if (Key.mod & KMOD_NUM) {
 	goto INPUT;
-      }  
+      }
+    */ 
     case SDLK_HOME:
     {
       /* move cursor to begin of chain (and edit field) */
@@ -462,10 +470,12 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
       pEdt->Start_X = adj_size(5);
     }
     break;
+    /*
     case SDLK_KP1:
-      if(Key.mod & KMOD_NUM) {
+      if (Key.mod & KMOD_NUM) {
 	goto INPUT;
       }
+    */
     case SDLK_END:
     {
 	/* move cursor to end of chain (and edit field) */
@@ -509,10 +519,12 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
       }
     }
     break;
+    /*
     case SDLK_KP_PERIOD:
-      if(Key.mod & KMOD_NUM) {
+      if (Key.mod & KMOD_NUM) {
 	goto INPUT;
-      }  
+      }
+    */
     case SDLK_DELETE:
     {
 	/* del element of chain */
@@ -541,6 +553,7 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
     break;
     default:
     {
+#if 0
 INPUT:/* add new element of chain (and move cursor right) */
       if (Key.unicode) {
 	if (pEdt->pInputChain != pEdt->pBeginTextChain) {
@@ -587,10 +600,11 @@ INPUT:/* add new element of chain (and move cursor right) */
 	pEdt->ChainLen++;
 	Redraw = TRUE;
       }
+#endif
     }
     break;
   }				/* key pressed switch */
-    
+
   if (Redraw) {
     redraw_edit_chain(pEdt);
   }
@@ -629,10 +643,11 @@ enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
   pEdt.InputChain_X = 0;
   
   pEdit_Widget->data.ptr = (void *)&pEdt;
-  
-  SDL_EnableUNICODE(1);
 
+#if 0  
+  SDL_EnableUNICODE(1);
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+#endif
 
   pEdt.pBg = create_bcgnd_surf(pEdit_Widget->theme, 2,
 			       pEdit_Widget->size.w, pEdit_Widget->size.h);
@@ -739,10 +754,13 @@ enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
   FREESURFACE(pEdt.pBg);
     
   /* disable repeate key */
+
+#if 0
   SDL_EnableKeyRepeat(0, SDL_DEFAULT_REPEAT_INTERVAL);
 
   /* disable Unicode */
   SDL_EnableUNICODE(0);
-    
+#endif
+
   return ret;
 }

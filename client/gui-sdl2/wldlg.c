@@ -1050,9 +1050,11 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
   /* create Target Background Icon */
   pMain = create_surf_alpha(adj_size(116), adj_size(116), SDL_SWSURFACE);
   SDL_FillRect(pMain, NULL, map_rgba(pMain->format, bg_color));
+#if 0
   putframe(pMain,
            0, 0, pMain->w - 1, pMain->h - 1,
            get_theme_color(COLOR_THEME_WLDLG_FRAME));
+#endif
     
   /* ---------------- */
   /* Create Main Window */
@@ -1626,23 +1628,27 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
   
   SDL_FillRect(pWindow->theme, &dst,
     map_rgba(pWindow->theme->format, *get_theme_color(COLOR_THEME_BACKGROUND)));
+#if 0
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_WLDLG_FRAME));
   putframe(pWindow->theme,
            dst.x + 2, dst.y + 2, dst.x + dst.w - 3, dst.y + dst.h - 3,
            get_theme_color(COLOR_THEME_WLDLG_FRAME));
-  
+#endif
+
   dst.x = area.x;
   dst.y += dst.h + adj_size(2);
   dst.w = adj_size(130);
   dst.h = adj_size(228);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color2);
+#if 0
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_WLDLG_FRAME));
-  
-  if(pEditor->pGlobal) {
+#endif
+
+  if (pEditor->pGlobal) {
     dst.x = area.x;
     dst.y += dst.h + adj_size(2);
     dst.w = adj_size(130);
@@ -1650,6 +1656,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
 
     SDL_FillRect(pWindow->theme, &dst,
       map_rgba(pWindow->theme->format, *get_theme_color(COLOR_THEME_BACKGROUND)));
+#if 0
     putframe(pWindow->theme,
              dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
              get_theme_color(COLOR_THEME_WLDLG_FRAME));
@@ -1657,6 +1664,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
              dst.x + adj_size(2), dst.y + adj_size(2),
              dst.x + dst.w - adj_size(3), dst.y + dst.h - adj_size(3),
              get_theme_color(COLOR_THEME_WLDLG_FRAME));
+#endif
   }
 
   widget_set_position(pWindow,

@@ -1130,11 +1130,11 @@ static struct widget *vertic_scroll_widget_list(struct ScrollBar *pVscroll,
   MOVE_STEP_X = 0;
   MOVE_STEP_Y = 3;
   /* Filter mouse motion events */
-  SDL_SetEventFilter(FilterMouseMotionEvents);
+  SDL_SetEventFilter(FilterMouseMotionEvents, NULL);
   gui_event_loop((void *)&pMotion, NULL, NULL, NULL, NULL,
 		  scroll_mouse_button_up, scroll_mouse_motion_handler);
   /* Turn off Filter mouse motion events */
-  SDL_SetEventFilter(NULL);
+  SDL_SetEventFilter(NULL, NULL);
   MOVE_STEP_X = DEFAULT_MOVE_STEP;
   MOVE_STEP_Y = DEFAULT_MOVE_STEP;
   

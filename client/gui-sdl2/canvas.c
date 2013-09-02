@@ -140,8 +140,8 @@ void canvas_put_rectangle(struct canvas *pcanvas, struct color *pcolor,
   SDL_FillRect(pcanvas->surf, &dst, SDL_MapRGBA(pcanvas->surf->format,
                                                 pcolor->color->r,
                                                 pcolor->color->g,
-		                                 pcolor->color->b,
-                                                pcolor->color->unused));
+                                                pcolor->color->b,
+                                                pcolor->color->a));
 }
 
 /****************************************************************************
@@ -158,7 +158,7 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
                                                 pcolor->color->r,
                                                 pcolor->color->g,
 		                                pcolor->color->b,
-                                                pcolor->color->unused));
+                                                pcolor->color->a));
 }
 
 /****************************************************************************
@@ -185,7 +185,7 @@ void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
 		  enum line_type ltype, int start_x, int start_y,
 		  int dx, int dy)
 {
-  putline(pcanvas->surf, start_x, start_y, start_x + dx, start_y + dy, pcolor->color);
+  //  putline(pcanvas->surf, start_x, start_y, start_x + dx, start_y + dy, pcolor->color);
 }
 
 /****************************************************************************

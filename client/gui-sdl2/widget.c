@@ -58,10 +58,10 @@ static SDL_Surface *pInfo_Label = NULL;
   functions.
 **************************************************************************/
 void correct_size_bcgnd_surf(SDL_Surface * pTheme,
-				    Uint16 * pWidth, Uint16 * pHigh)
+                             int *pWidth, int *pHeigh)
 {
   *pWidth = MAX(*pWidth, 2 * (pTheme->w / adj_size(16)));
-  *pHigh = MAX(*pHigh, 2 * (pTheme->h / adj_size(16)));
+  *pHeigh = MAX(*pHeigh, 2 * (pTheme->h / adj_size(16)));
 }
 
 /**************************************************************************
@@ -250,7 +250,7 @@ struct widget *find_next_widget_at_pos(struct widget *pStartWidget, int x, int y
   NOTE: This function ignores CapsLock and NumLock Keys.
 **************************************************************************/
 struct widget *find_next_widget_for_key(struct widget *pStartWidget,
-                                        SDL_keysym key)
+                                        SDL_Keysym key)
 {
   struct widget *pWidget;
   
@@ -505,7 +505,11 @@ void redraw_widget_info_label(SDL_Rect *rect)
     pInfo_Area->w = pBcgd->w + adj_size(2);
     pInfo_Area->h = pBcgd->h + adj_size(3);
 
+#if 0
     pInfo_Label = SDL_DisplayFormatAlpha(pBcgd);
+#else
+    pInfo_Label = pBcgd;
+#endif
 
     FREESURFACE(pBcgd);
     
@@ -518,10 +522,12 @@ void redraw_widget_info_label(SDL_Rect *rect)
     FREESURFACE(pText);    
     
     /* draw frame */
+#if 0
     putframe(pInfo_Label,
              0, 0, pInfo_Label->w - 1, pInfo_Label->h - 1,
              get_theme_color(COLOR_THEME_QUICK_INFO_FRAME));
-    
+#endif
+ 
   }
 
   if (rect) {
@@ -539,8 +545,10 @@ void redraw_widget_info_label(SDL_Rect *rect)
   }
 
   if (correct_rect_region(pInfo_Area)) {
+#if 0
     SDL_UpdateRect(Main.screen, pInfo_Area->x, pInfo_Area->y,
 				    pInfo_Area->w, pInfo_Area->h);
+#endif
   }
   
   return;

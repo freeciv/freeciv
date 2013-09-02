@@ -112,7 +112,9 @@ void draw_mouse_cursor() {
       /* show cursor */    
       SDL_BlitSurface(current_color_cursor.cursor, NULL, Main.screen, &area);
       /* update screen */
+#if 0
       SDL_UpdateRect(Main.screen, area.x, area.y, area.w, area.h);
+#endif
     } else {
       area = (SDL_Rect){0, 0, 0, 0};
     }

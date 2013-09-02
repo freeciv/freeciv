@@ -266,15 +266,19 @@ struct widget * create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
   
   pBuf = create_surf_alpha(pLabel->size.w, pLabel->size.h * 2, SDL_SWSURFACE);
     
-  if(flags & WF_RESTORE_BACKGROUND) {
+  if (flags & WF_RESTORE_BACKGROUND) {
+#if 0
     pTheme = SDL_DisplayFormatAlpha(pBuf);
+#else
+    pTheme = pBuf;
+#endif
     FREESURFACE(pBuf);
   } else {
     pTheme = pBuf;
   }
   
   colorkey = SDL_MapRGBA(pTheme->format, pText->bgcol.r,
-  		pText->bgcol.g, pText->bgcol.b, pText->bgcol.unused);
+  		pText->bgcol.g, pText->bgcol.b, pText->bgcol.a);
   SDL_FillRect(pTheme, NULL, colorkey);
     
   pLabel->size.x = 0;
@@ -294,7 +298,7 @@ struct widget * create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
     store = pText->bgcol;
     SDL_GetRGBA(getpixel(pTheme, area.x , area.y), pTheme->format,
 	      &pText->bgcol.r, &pText->bgcol.g,
-      		&pText->bgcol.b, &pText->bgcol.unused);
+      		&pText->bgcol.b, &pText->bgcol.a);
   } else {
     SDL_FillRectAlpha(pTheme, &area, &bg_color);
   }
@@ -327,7 +331,11 @@ struct widget * convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
 				  pIconLabel->size.h * 2, SDL_SWSURFACE);
   
   if(flags & WF_RESTORE_BACKGROUND) {
+#if 0
     pTheme = SDL_DisplayFormatAlpha(pBuf);
+#else
+    pTheme = pBuf;
+#endif
     FREESURFACE(pBuf);
   } else {
     pTheme = pBuf;
@@ -336,7 +344,7 @@ struct widget * convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
   colorkey = SDL_MapRGBA(pTheme->format, pIconLabel->string16->bgcol.r,
   		pIconLabel->string16->bgcol.g,
 		pIconLabel->string16->bgcol.b,
-		pIconLabel->string16->bgcol.unused);
+		pIconLabel->string16->bgcol.a);
   SDL_FillRect(pTheme, NULL, colorkey);
   
   start = pIconLabel->size;
@@ -359,7 +367,7 @@ struct widget * convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
     SDL_GetRGBA(getpixel(pTheme, area.x , area.y), pTheme->format,
 	      &pIconLabel->string16->bgcol.r, &pIconLabel->string16->bgcol.g,
       		&pIconLabel->string16->bgcol.b,
-			&pIconLabel->string16->bgcol.unused);
+			&pIconLabel->string16->bgcol.a);
   } else {
     SDL_FillRectAlpha(pTheme, &area, &bg_color);
   }

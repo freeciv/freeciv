@@ -62,6 +62,7 @@ struct sprite * load_gfxfile(const char *filename)
     return NULL;		/* Should I use abotr() ? */
   }
 
+#if 0
   if (pBuf->flags & SDL_SRCCOLORKEY) {
     /* convert colorkey to alpha */
     SDL_SetColorKey(pBuf, SDL_SRCCOLORKEY, pBuf->format->colorkey);
@@ -69,6 +70,7 @@ struct sprite * load_gfxfile(const char *filename)
     FREESURFACE(pBuf);
     pBuf = pNew;
   }
+#endif
 
   pNew = pBuf;
   
@@ -120,7 +122,7 @@ struct sprite *crop_sprite(struct sprite *source,
 struct sprite *create_sprite(int width, int height, struct color *pcolor)
 {
   SDL_Surface *mypixbuf = NULL;
-  SDL_Surface *pmask = NULL;
+  /*  SDL_Surface *pmask = NULL; */
 
   fc_assert_ret_val(width > 0, NULL);
   fc_assert_ret_val(height > 0, NULL);
@@ -129,8 +131,10 @@ struct sprite *create_sprite(int width, int height, struct color *pcolor)
   mypixbuf = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 32,
                                   0x00ff0000, 0x0000ff00, 0x000000ff,
                                   0xff000000);
+#if 0
   pmask = SDL_DisplayFormatAlpha(mypixbuf);
   SDL_FillRect(mypixbuf, NULL, map_rgba(pmask->format, *pcolor->color));
+#endif
 
   return ctor_sprite(mypixbuf);
 }

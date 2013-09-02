@@ -61,7 +61,7 @@ struct color *color_alloc_rgba(int r, int g, int b, int a) {
   pcolor->r = r;
   pcolor->g = g;
   pcolor->b = b;
-  pcolor->unused = a;
+  pcolor->a = a;
 	
   result->color = pcolor;
   
@@ -79,7 +79,7 @@ struct color *color_alloc(int r, int g, int b) {
   pcolor->r = r;
   pcolor->g = g;
   pcolor->b = b;
-  pcolor->unused = 255;
+  pcolor->a = 255;
 	
   result->color = pcolor;
   

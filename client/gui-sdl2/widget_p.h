@@ -21,7 +21,7 @@
 struct widget *widget_new(void);
 
 void correct_size_bcgnd_surf(SDL_Surface *pTheme,
-				    Uint16 *pWidth, Uint16 *pHigh);
+                             int *pWidth, int *pHeigh);
 SDL_Surface *get_buffer_layer(int width, int height);
 
 int redraw_iconlabel(struct widget *pLabel);

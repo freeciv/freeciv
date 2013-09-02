@@ -265,7 +265,7 @@ struct widget * create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
 			  SDL_String16 *pStr, Uint32 flags)
 {
   SDL_Rect buf = {0, 0, 0, 0};
-  Uint16 w = 0, h = 0;
+  int w = 0, h = 0;
   struct widget *pButton;
 
   if (!pIcon && !pStr) {

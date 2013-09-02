@@ -26,8 +26,8 @@
 
 #include "graphics_g.h"
 
-#include "SDL_gfxPrimitives.h"
-#include "SDL_rotozoom.h"
+#include "SDL2_gfxPrimitives.h"
+#include "SDL2_rotozoom.h"
 #include "canvas.h"
 #include "gui_main.h"
 
@@ -175,7 +175,7 @@
 #define adj_surf(surf) zoomSurface((surf), DEFAULT_ZOOM, DEFAULT_ZOOM, 0)
 #else
 #define DEFAULT_ZOOM 1.0
-#define adj_surf(surf) SDL_DisplayFormatAlpha((surf))
+#define adj_surf(surf) (surf)
 #endif
 
 struct gui_layer;
@@ -199,7 +199,8 @@ extern struct main Main;
 
 struct gui_layer {
   SDL_Rect dest_rect;  /* only x and y are used */
-  SDL_Surface *surface;  
+  SDL_Surface *surface;
+  SDL_Renderer *renderer;
 };
 
 struct gui_layer *gui_layer_new(int x, int y, SDL_Surface *surface);
@@ -246,7 +247,7 @@ int center_main_window_on_screen(void);
 Uint32 getpixel(SDL_Surface *pSurface, Sint16 x, Sint16 y);
 Uint32 get_first_pixel(SDL_Surface *pSurface);
 
-static inline void putline(SDL_Surface *pDest,
+static inline void putline(SDL_Renderer *pDest,
                            Sint16 x0, Sint16 y0, Sint16 x1, Sint16 y1,
                            SDL_Color *pcolor)
 {
@@ -255,10 +256,10 @@ static inline void putline(SDL_Surface *pDest,
             ((Uint32) pcolor->r << 24) |
             ((Uint32) pcolor->g << 16) |
             ((Uint32) pcolor->b << 8) |
-            ((Uint32) pcolor->unused));
+            ((Uint32) pcolor->a));
 }
 
-static inline void putframe(SDL_Surface *pDest,
+static inline void putframe(SDL_Renderer *pDest,
                             Sint16 x0, Sint16 y0, Sint16 x1, Sint16 y1,
                             SDL_Color *pcolor)
 {
@@ -267,7 +268,7 @@ static inline void putframe(SDL_Surface *pDest,
                  ((Uint32) pcolor->r << 24) |
                  ((Uint32) pcolor->g << 16) |
                  ((Uint32) pcolor->b << 8) |
-                 ((Uint32) pcolor->unused));
+                 ((Uint32) pcolor->a));
 }
 
 /* SDL */
@@ -300,7 +301,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSrc);
 	create_surf_with_format(Main.screen->format , w , h, f)
 
 #define map_rgba(format, color) \
-        SDL_MapRGBA(format, (color).r, (color).g, (color).b, (color).unused)
+        SDL_MapRGBA(format, (color).r, (color).g, (color).b, (color).a)
 
 SDL_Surface *create_surf_alpha(int iWidth, int iHeight, Uint32 iFlags);
 

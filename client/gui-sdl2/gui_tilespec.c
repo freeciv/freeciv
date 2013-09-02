@@ -145,12 +145,12 @@ void tilespec_setup_city_icons(void)
   load_city_icon_surface(pSpr, pBIG_Food, "city.food");
 
   pIcons->pBIG_Food_Surplus = crop_rect_from_surface(pIcons->pBIG_Food, NULL);
-  SDL_SetAlpha(pIcons->pBIG_Food_Surplus, SDL_SRCALPHA, 128);
+  SDL_SetSurfaceAlphaMod(pIcons->pBIG_Food_Surplus, 128);
 
   load_city_icon_surface(pSpr, pBIG_Shield, "city.shield");
 
   pIcons->pBIG_Shield_Surplus = crop_rect_from_surface(pIcons->pBIG_Shield, NULL);
-  SDL_SetAlpha(pIcons->pBIG_Shield_Surplus, SDL_SRCALPHA, 128);
+  SDL_SetSurfaceAlphaMod(pIcons->pBIG_Shield_Surplus, 128);
 
   load_city_icon_surface(pSpr, pBIG_Trade, "city.trade");
   load_city_icon_surface(pSpr, pBIG_Luxury, "city.lux");
@@ -177,6 +177,7 @@ void tilespec_setup_city_icons(void)
   pIcons->pWorklist = create_surf_alpha(9,9, SDL_SWSURFACE);
   SDL_FillRect(pIcons->pWorklist, NULL,
 		  SDL_MapRGB(pIcons->pWorklist->format, 255, 255,255));
+#if 0
   putframe(pIcons->pWorklist,
            0,0, pIcons->pWorklist->w - 1, pIcons->pWorklist->h - 1,
            get_theme_color(COLOR_THEME_CITYREP_FRAME));
@@ -189,6 +190,7 @@ void tilespec_setup_city_icons(void)
   putline(pIcons->pWorklist,
           3, 6, 6, 6,
           get_theme_color(COLOR_THEME_CITYREP_FRAME));
+#endif
   
   /* ================================================================= */
   
@@ -482,6 +484,7 @@ void tilespec_free_theme(void)
 **************************************************************************/
 void setup_auxiliary_tech_icons(void)
 {
+#if 0
   SDL_Color bg_color = {255, 255, 255, 136};
 
   SDL_Surface *pSurf;
@@ -518,7 +521,7 @@ void setup_auxiliary_tech_icons(void)
   FREESURFACE(pSurf);
   
   FREESTRING16(pStr);
-    
+#endif
 }
 
 /**************************************************************************
@@ -536,6 +539,7 @@ void free_auxiliary_tech_icons(void)
 **************************************************************************/
 SDL_Surface * get_tech_icon(Tech_type_id tech)
 {
+#if 0
   switch(tech)
   {
     case A_NONE:
@@ -552,6 +556,7 @@ SDL_Surface * get_tech_icon(Tech_type_id tech)
         return SDL_DisplayFormatAlpha(pNeutral_Tech_Icon);
       }
   }
+#endif
   return NULL;
 }
 

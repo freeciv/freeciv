@@ -157,9 +157,11 @@ static void redraw_impr_info_dlg(void)
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10);
 
   SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
+#if 0
   putframe(pWindow->dst->surface,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
            get_theme_color(COLOR_THEME_HELPDLG_FRAME));
+#endif
 
   /*------------------------------------- */
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
@@ -248,15 +250,21 @@ void popup_impr_info(Impr_type_id impr)
     /* background template for entries in scroll list */
     pBackgroundTmpl = create_surf_alpha(adj_size(135), adj_size(40), SDL_SWSURFACE);
     SDL_FillRect(pBackgroundTmpl, NULL, map_rgba(pBackgroundTmpl->format, bg_color));
+#if 0
     putframe(pBackgroundTmpl,
              0, 0, pBackgroundTmpl->w - 1, pBackgroundTmpl->h - 1,
              get_theme_color(COLOR_THEME_HELPDLG_FRAME));
+#endif
 
     impr_type_count = 0;
     improvement_iterate(pImprove) {
       
       /* copy background surface */  
+#if 0
       pBackground = SDL_DisplayFormatAlpha(pBackgroundTmpl);
+#else
+      pBackground = pBackgroundTmpl;
+#endif
       
       /* blit improvement name */
       copy_chars_to_string16(pStr, improvement_name_translation(pImprove));
@@ -557,9 +565,11 @@ static void redraw_unit_info_dlg(void)
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10);
 
   SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
+#if 0
   putframe(pWindow->dst->surface,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
            get_theme_color(COLOR_THEME_HELPDLG_FRAME));
+#endif
 
   /*------------------------------------- */
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
@@ -650,15 +660,21 @@ void popup_unit_info(Unit_type_id type_id)
     /* background template for entries in scroll list */
     pBackgroundTmpl = create_surf_alpha(adj_size(135), adj_size(40), SDL_SWSURFACE);
     SDL_FillRect(pBackgroundTmpl, NULL, map_rgba(pBackgroundTmpl->format, bg_color));
+#if 0
     putframe(pBackgroundTmpl,
              0, 0, pBackgroundTmpl->w - 1, pBackgroundTmpl->h - 1,
              get_theme_color(COLOR_THEME_HELPDLG_FRAME));
+#endif
 
     utype_count = 0;
     unit_type_iterate(ut) {
 
       /* copy background surface */
+#if 0
       pBackground = SDL_DisplayFormatAlpha(pBackgroundTmpl);
+#else
+      pBackground = pBackgroundTmpl;
+#endif
 
       /* blit unit name */
       copy_chars_to_string16(pStr, utype_name_translation(ut));
@@ -991,9 +1007,11 @@ static void redraw_tech_info_dlg(void)
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10);
 
   SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
+#if 0
   putframe(pWindow->dst->surface,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
            get_theme_color(COLOR_THEME_HELPDLG_FRAME));
+#endif
 
   /* -------------------------- */
   pStr = create_str16_from_char(_("Allows"), adj_font(14));
@@ -1341,14 +1359,16 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
 
 static void redraw_tech_tree_dlg(void)
 {
-  SDL_Color *line_color = get_theme_color(COLOR_THEME_HELPDLG_LINE);
+  /*  SDL_Color *line_color = get_theme_color(COLOR_THEME_HELPDLG_LINE); */
   SDL_Color bg_color = {255, 255, 255, 64};
 
   struct widget *pWindow = pHelpDlg->pEndWidgetList;
   struct widget *pSub0, *pSub1;
   struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pWindow->data.ptr;
   struct widget *pTech = pStore->pDock->prev;
-  int i,j, tech, count, step, mod;
+  int i,j, tech, count;
+  /* int step;
+     int mod; */
   SDL_Rect dst;
 
   /* Redraw Window with exit button */
@@ -1360,9 +1380,11 @@ static void redraw_tech_tree_dlg(void)
   dst.h = pWindow->area.h - (dst.y - pWindow->area.y) - adj_size(10);
 
   SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
+#if 0
   putframe(pWindow->dst->surface,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
            get_theme_color(COLOR_THEME_HELPDLG_FRAME));
+#endif
 
   /* Draw Req arrows */
   i = 0;
@@ -1422,6 +1444,7 @@ static void redraw_tech_tree_dlg(void)
     }
 
     /* draw main Arrow */
+#if 0
     putline(pStore->pRequirementButton[i]->dst->surface,
         pStore->pRequirementButton[i]->size.x + pStore->pRequirementButton[i]->size.w,
         pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
@@ -1471,6 +1494,7 @@ static void redraw_tech_tree_dlg(void)
         pSub1->size.y + pSub1->size.h / 2,
         line_color);
     }
+#endif
     i++;
   }
 
@@ -1481,16 +1505,19 @@ static void redraw_tech_tree_dlg(void)
   }
   count = i;
 
+#if 0
   if (count > 4)
   {
     mod = 3;
   } else {
     mod = 2;
   }
+#endif
 
   for(i=0; i< count; i++)
   {
     tech = MAX_ID - pStore->pTargets[i]->ID;
+#if 0
     step = pTech->size.h / (count + 1);
 
     switch((i % mod))
@@ -1505,6 +1532,7 @@ static void redraw_tech_tree_dlg(void)
         line_color = get_theme_color(COLOR_THEME_HELPDLG_LINE);
       break;
     }
+#endif
 
     /*find Sub_Req's */
     if (advance_required(tech, AR_ONE) == MAX_ID - pTech->ID)
@@ -1540,17 +1568,21 @@ static void redraw_tech_tree_dlg(void)
     /* Draw Sub_Targets arrows */
     if (pSub0 || pSub1)
     {
+#if 0
       putline(pStore->pTargets[i]->dst->surface,
         pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
         pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
         pStore->pTargets[i]->size.x ,
         pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
         line_color);
+#endif
     }
 
     if(pSub0)
     {
+#if 0
       int y;
+
       if (pSub0 == pTech)
       {
         y = pSub0->size.y + step * (i + 1);
@@ -1570,11 +1602,15 @@ static void redraw_tech_tree_dlg(void)
         pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
         y,
         line_color);
+#endif
+
     }
 
     if(pSub1)
     {
+#if 0
       int y;
+
       if (pSub1 == pTech)
       {
         y = pSub1->size.y + step * (i + 1);
@@ -1593,6 +1629,7 @@ static void redraw_tech_tree_dlg(void)
         pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
         y,
         line_color);
+#endif
     }
   }
 

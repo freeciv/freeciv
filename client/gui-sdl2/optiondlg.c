@@ -445,6 +445,7 @@ static inline bool string_to_video_mode(const char *buf,
 ****************************************************************************/
 static struct strvec *video_mode_list(void)
 {
+#if 0
   struct strvec *video_modes = strvec_new();
   /* Don't free this. */
   SDL_Rect **mode = SDL_ListModes(NULL, SDL_FULLSCREEN | Main.screen->flags);
@@ -458,6 +459,9 @@ static struct strvec *video_mode_list(void)
   }
 
   return video_modes;
+#endif
+
+  return NULL;
 }
 
 /****************************************************************************
@@ -1251,9 +1255,11 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
   widget_set_position(background, area.x, area.y);
   SDL_FillRect(background->theme, NULL,
                map_rgba(background->theme->format, bg_color));
+#if 0
   putframe(background->theme,
 		   0, 0, background->theme->w - 1, background->theme->h - 1,
 		   get_theme_color(COLOR_THEME_OPTIONDLG_WORKLISTLIST_FRAME));
+#endif
 
   /* Create the Scrollbar. */
   scrollbar_width = create_vertical_scrollbar(pdialog->advanced,

@@ -196,7 +196,7 @@ void real_players_dialog_update(void)
   if(pPlayers_Dlg) {
     struct widget *pPlayer0, *pPlayer1;
     struct player *pPlayer;
-    SDL_Rect dst0, dst1;
+    /*    SDL_Rect dst0, dst1; */
     int i;
     struct astring astr = ASTRING_INIT;
           
@@ -235,13 +235,17 @@ void real_players_dialog_update(void)
           
       /* now add some eye candy ... */
       if(pPlayer1 != pPlayers_Dlg->pBeginWidgetList) {
+#if 0
         dst0.x = pPlayer0->size.x + pPlayer0->size.w / 2;
         dst0.y = pPlayer0->size.y + pPlayer0->size.h / 2;
+#endif
 
-        do{
+        do {
           pPlayer1 = pPlayer1->prev;
 	  if (have_diplomat_info_about(pPlayer) ||
 	     have_diplomat_info_about(pPlayer1->data.player)) {
+
+#if 0
             dst1.x = pPlayer1->size.x + pPlayer1->size.w / 2;
             dst1.y = pPlayer1->size.y + pPlayer1->size.h / 2;
 
@@ -285,7 +289,8 @@ void real_players_dialog_update(void)
               default:
 	        /* no contact */
               break;
-	    }  
+	    }
+#endif
 	  }
 	  
         } while(pPlayer1 != pPlayers_Dlg->pBeginWidgetList);

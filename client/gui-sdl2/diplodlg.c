@@ -1023,11 +1023,11 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
   src.h = pThm->h;
     
   alphablit(pThm, &src, pLabel->theme, NULL);
-  SDL_SetAlpha(pThm, SDL_SRCALPHA, 255);
+  SDL_SetSurfaceAlphaMod(pThm, 255);
   
   widget_redraw(pLabel);
   widget_flush(pLabel);
-  
+
   /* updates other player's acceptance status */
   pLabel = pdialog->pdialog->pEndWidgetList->prev->prev;
   

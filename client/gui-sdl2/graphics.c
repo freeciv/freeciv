@@ -180,10 +180,13 @@ int alphablit(SDL_Surface *src, SDL_Rect *srcrect,
     return 0;
   }
 
+#if 0
   /* use for RGBA->RGBA blits only */  
   if (src->format->Amask && dst->format->Amask) {
     return pygame_AlphaBlit(src, srcrect, dst, dstrect);
-  } else {
+  } else
+#endif
+ {
     return SDL_BlitSurface(src, srcrect, dst, dstrect);
   }   
 }
@@ -216,9 +219,12 @@ SDL_Surface * crop_rect_from_surface(SDL_Surface *pSource,
   in the mask image will be used to clip pixel (0,0) in the source image
   which is pixel (-x,-y) in the new image.
 **************************************************************************/
-SDL_Surface *mask_surface(SDL_Surface * pSrc, SDL_Surface * pMask,
+SDL_Surface *mask_surface(SDL_Surface *pSrc, SDL_Surface *pMask,
                           int mask_offset_x, int mask_offset_y)
 {
+  return NULL;
+
+#if 0
   SDL_Surface *pDest = NULL;
 
   int row, col;  
@@ -271,6 +277,7 @@ SDL_Surface *mask_surface(SDL_Surface * pSrc, SDL_Surface * pMask,
   FREESURFACE(pSrc); /* result of SDL_DisplayFormatAlpha() */
   
   return pDest;
+#endif
 }
 
 /**************************************************************************
@@ -278,6 +285,9 @@ SDL_Surface *mask_surface(SDL_Surface * pSrc, SDL_Surface * pMask,
 **************************************************************************/
 SDL_Surface *blend_surface(SDL_Surface *pSrc, unsigned char alpha)
 {
+  return NULL;
+
+#if 0
   SDL_Surface *ret;
 
   SDL_Surface *pMask = SDL_DisplayFormatAlpha(pSrc);
@@ -289,6 +299,7 @@ SDL_Surface *blend_surface(SDL_Surface *pSrc, unsigned char alpha)
   FREESURFACE(pMask);
 
   return ret;
+#endif
 }
 
 /**************************************************************************
@@ -307,13 +318,15 @@ SDL_Surface *load_surf(const char *pFname)
     return NULL;
   }
   
-  if(Main.screen) {
+  if (Main.screen) {
     SDL_Surface *pNew_sur;
-    if ((pNew_sur = SDL_DisplayFormatAlpha(pBuf)) == NULL) {
+
+    if ((pNew_sur = SDL_ConvertSurfaceFormat(pBuf, SDL_PIXELFORMAT_RGBA4444, 0)) == NULL) {
       log_error(_("load_surf: Unable to convert file %s "
                   "into screen's format!"), pFname);
     } else {
       FREESURFACE(pBuf);
+
       return pNew_sur;
     }
   }
@@ -328,14 +341,19 @@ SDL_Surface *load_surf(const char *pFname)
 SDL_Surface *load_surf_with_flags(const char *pFname, int iFlags)
 {
   SDL_Surface *pBuf = NULL;
+#if 0
   SDL_Surface *pNew_sur = NULL;
   SDL_PixelFormat *pSpf = SDL_GetVideoSurface()->format;
+#endif
 
   if ((pBuf = IMG_Load(pFname)) == NULL) {
     log_error(_("load_surf_with_flags: Unable to load file %s."), pFname);
     return NULL;
   }
 
+
+  return pBuf;
+#if 0
   if ((pNew_sur = SDL_ConvertSurface(pBuf, pSpf, iFlags)) == NULL) {
     log_error(_("Unable to convert image from file %s into format %d."),
               pFname, iFlags);
@@ -345,6 +363,7 @@ SDL_Surface *load_surf_with_flags(const char *pFname, int iFlags)
   FREESURFACE(pBuf);
 
   return pNew_sur;
+#endif
 }
 
 /**************************************************************************
@@ -376,11 +395,16 @@ SDL_Surface *create_surf_with_format(SDL_PixelFormat * pSpf,
 **************************************************************************/
 SDL_Surface *create_surf_alpha(int iWidth, int iHeight, Uint32 iFlags) {
   SDL_Surface *pTmp = create_surf(iWidth, iHeight, iFlags);
+
+#if 0
   SDL_Surface *pNew = SDL_DisplayFormatAlpha(pTmp);
   FREESURFACE(pTmp);
-  clear_surface(pNew, NULL);  
+  clear_surface(pNew, NULL);
   
   return pNew;
+#endif
+
+  return pTmp;
 }
 
 /**************************************************************************
@@ -411,10 +435,10 @@ SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
 
   SDL_FillRect(pNew, NULL,
 	       SDL_MapRGBA(pNew->format, pColor->r, pColor->g, pColor->b,
-			   pColor->unused));
+			   pColor->a));
 
-  if (pColor->unused != 255) {
-    SDL_SetAlpha(pNew, SDL_SRCALPHA, pColor->unused);
+  if (pColor->a != 255) {
+    SDL_SetSurfaceAlphaMod(pNew, pColor->a);
   }
 
   return pNew;
@@ -455,6 +479,7 @@ int blit_entire_src(SDL_Surface * pSrc, SDL_Surface * pDest,
  */
 int center_main_window_on_screen(void)
 {
+#if 0
   SDL_SysWMinfo myinfo;
   SDL_VERSION(&myinfo.version);
   if (SDL_GetWMInfo(&myinfo) > 0)
@@ -482,6 +507,9 @@ int center_main_window_on_screen(void)
 #endif /* WIN32_NATIVE */
   }
   return -1;
+#endif
+
+  return 0;
 }
 
 /**************************************************************************
@@ -608,6 +636,7 @@ void quit_sdl(void)
 **************************************************************************/
 int set_video_mode(int iWidth, int iHeight, int iFlags)
 {
+#if 0
   /* find best bpp */
   int iDepth = SDL_GetVideoInfo()->vfmt->BitsPerPixel;
 
@@ -658,6 +687,7 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
   }
   
   clear_surface(Main.gui->surface, NULL);
+#endif
  
   return 0;
 }
@@ -2164,7 +2194,7 @@ static int __FillRectAlpha565(SDL_Surface * pSurface, SDL_Rect * pRect,
 
   register Uint32 D, S =
       SDL_MapRGB(pSurface->format, pColor->r, pColor->g, pColor->b);
-  register Uint32 A = pColor->unused >> 3;
+  register Uint32 A = pColor->a >> 3;
 
   S &= 0xFFFF;
 
@@ -2280,7 +2310,7 @@ static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
 
   register Uint32 D, S =
       SDL_MapRGB(pSurface->format, pColor->r, pColor->g, pColor->b);
-  register Uint32 A = pColor->unused >> 3;
+  register Uint32 A = pColor->a >> 3;
 
   S &= 0xFFFF;
 
@@ -2388,7 +2418,7 @@ static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
 static int __FillRectAlpha8888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
 			       SDL_Color * pColor)
 {
-  register Uint32 A = pColor->unused;
+  register Uint32 A = pColor->a;
   register Uint32 dSIMD1, dSIMD2;
   register Uint32 sSIMD1, sSIMD2 = SDL_MapRGB(pSurface->format,
 					    pColor->r, pColor->g,
@@ -2542,7 +2572,7 @@ static int __FillRectAlpha8888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
 static int __FillRectAlpha888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
 			       SDL_Color * pColor)
 {
-  register Uint32 A = pColor->unused;
+  register Uint32 A = pColor->a;
   register Uint32 dSIMD1, dSIMD2;
   register Uint32 sSIMD1, sSIMD2 = SDL_MapRGB(pSurface->format,
 					    pColor->r, pColor->g,
@@ -2692,7 +2722,7 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
 					    pColor->r, pColor->g,
 					    pColor->b);
 
-  register Uint32 A = pColor->unused;
+  register Uint32 A = pColor->a;
 
   S1 = S2 & 0x00FF00FF;
 
@@ -2799,13 +2829,13 @@ int SDL_FillRectAlpha(SDL_Surface * pSurface, SDL_Rect * pRect,
      return -2;
   }
 
-  if (pColor->unused == 255 )
+  if (pColor->a == 255 )
   {
     return SDL_FillRect(pSurface, pRect,
 	SDL_MapRGB(pSurface->format, pColor->r, pColor->g, pColor->b));
   }
 
-  if (!pColor->unused)
+  if (!pColor->a)
   {
     return -3;
   }
@@ -2889,12 +2919,13 @@ bool is_in_rect_area(int x, int y, SDL_Rect rect)
 
 /**************************************************************************
   Most black color is coded like {0,0,0,255} but in sdl if alpha is turned 
-  off and colorkey is set to 0 this black color is trasparent.
+  off and colorkey is set to 0 this black color is transparent.
   To fix this we change all black {0, 0, 0, 255} to newblack {4, 4, 4, 255}
   (first collor != 0 in 16 bit coding).
 **************************************************************************/
 bool correct_black(SDL_Surface * pSrc)
 {
+#if 0
   bool ret = 0;
   register int x;
   if (pSrc->format->BitsPerPixel == 32 && pSrc->format->Amask) {
@@ -2941,6 +2972,9 @@ bool correct_black(SDL_Surface * pSrc)
   }
 
   return ret;
+#endif
+
+  return TRUE;
 }
 
 /* ===================================================================== */
@@ -2950,10 +2984,13 @@ bool correct_black(SDL_Surface * pSrc)
 **************************************************************************/
 SDL_Rect get_smaller_surface_rect(SDL_Surface * pSurface)
 {
+  SDL_Rect src;
+
+#if 0
   int w, h, x, y;
   Uint16 minX, maxX, minY, maxY;
   Uint32 colorkey;
-  SDL_Rect src;
+
   fc_assert(pSurface != NULL);
 
   minX = pSurface->w;
@@ -3219,6 +3256,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface * pSurface)
   src.y = minY;
   src.w = maxX - minX + 1;
   src.h = maxY - minY + 1;
+#endif
   
   return src;
 }

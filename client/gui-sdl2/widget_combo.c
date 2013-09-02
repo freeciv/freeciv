@@ -234,7 +234,7 @@ void combo_popdown(struct widget *combo)
 ****************************************************************************/
 struct widget *combo_new(SDL_Surface *background, struct gui_layer *dest,
                          SDL_String16 *string16, const struct strvec *vector,
-                         Uint16 length, Uint32 flags)
+                         int length, Uint32 flags)
 {
   SDL_Rect buf = {0, 0, 0, 0};
   struct widget *combo = widget_new();

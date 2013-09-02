@@ -2099,7 +2099,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 	|| pCity->feel[CITIZEN_ANGRY][j - 1] != pCity->feel[CITIZEN_ANGRY][j]) {
 
       if (j != 0) {
-	putline(pCityWindow->dst->surface,
+	putline(pCityWindow->dst->renderer,
 	        dest.x, dest.y, dest.x + adj_size(176), dest.y,
                get_theme_color(COLOR_THEME_CITYDLG_FRAME));
 	dest.y += adj_size(5);
@@ -3070,7 +3070,7 @@ static void redraw_city_dialog(struct city *pCity)
 
     SDL_FillRectAlpha(pWindow->dst->surface, &dest, get_theme_color(COLOR_THEME_CITYDLG_GRANARY));
 
-    putframe(pWindow->dst->surface,
+    putframe(pWindow->dst->renderer,
              dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
              get_theme_color(COLOR_THEME_CITYDLG_FRAME));
 		
@@ -3080,7 +3080,7 @@ static void redraw_city_dialog(struct city *pCity)
 
     SDL_FillRectAlpha(pWindow->dst->surface, &dest, get_theme_color(COLOR_THEME_CITYDLG_STOCKS));
 
-    putframe(pWindow->dst->surface,
+    putframe(pWindow->dst->renderer,
              dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
              get_theme_color(COLOR_THEME_CITYDLG_FRAME));
 
@@ -3174,7 +3174,7 @@ static void redraw_city_dialog(struct city *pCity)
 
     SDL_FillRectAlpha(pWindow->dst->surface, &dest, get_theme_color(COLOR_THEME_CITYDLG_FOODSTOCK));
 
-    putframe(pWindow->dst->surface,
+    putframe(pWindow->dst->renderer,
              dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
              get_theme_color(COLOR_THEME_CITYDLG_FRAME));
 
@@ -3313,7 +3313,7 @@ static void redraw_city_dialog(struct city *pCity)
     dest.h = i + adj_size(4);
 
     SDL_FillRectAlpha(pWindow->dst->surface, &dest, get_theme_color(COLOR_THEME_CITYDLG_SHIELDSTOCK));
-    putframe(pWindow->dst->surface,
+    putframe(pWindow->dst->renderer,
              dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
              get_theme_color(COLOR_THEME_CITYDLG_FRAME));
     

@@ -23,7 +23,7 @@ struct strvec;
 
 struct widget *combo_new(SDL_Surface *background, struct gui_layer *dest,
                          SDL_String16 *string16, const struct strvec *vector,
-                         Uint16 length, Uint32 flags);
+                         int length, Uint32 flags);
 void combo_popup(struct widget *combo);
 void combo_popdown(struct widget *combo);
 

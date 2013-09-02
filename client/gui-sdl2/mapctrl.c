@@ -2266,7 +2266,7 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
 /**************************************************************************
   Toggle map drawing stuff.
 **************************************************************************/
-bool map_event_handler(SDL_keysym Key)
+bool map_event_handler(SDL_Keysym Key)
 {
   if (C_S_RUNNING == client_state()) {
     switch (Key.sym) {
@@ -2282,7 +2282,7 @@ bool map_event_handler(SDL_keysym Key)
       
       /* move north */
       case SDLK_UP:
-      case SDLK_KP8:
+        /*      case SDLK_KP8: */
         if(!is_unit_move_blocked) {
           key_unit_move(DIR8_NORTH);
         }
@@ -2290,7 +2290,7 @@ bool map_event_handler(SDL_keysym Key)
   
       /* move northeast */
       case SDLK_PAGEUP:
-      case SDLK_KP9:
+        /*      case SDLK_KP9: */
         if(!is_unit_move_blocked) {
           key_unit_move(DIR8_NORTHEAST);
         }
@@ -2298,7 +2298,7 @@ bool map_event_handler(SDL_keysym Key)
   
       /* move east */
       case SDLK_RIGHT:
-      case SDLK_KP6:
+        /*      case SDLK_KP6: */
         if(!is_unit_move_blocked) {
           key_unit_move(DIR8_EAST);
         }
@@ -2306,7 +2306,7 @@ bool map_event_handler(SDL_keysym Key)
   
       /* move southeast */
       case SDLK_PAGEDOWN:
-      case SDLK_KP3:
+        /*      case SDLK_KP3: */
         if(!is_unit_move_blocked) {
           key_unit_move(DIR8_SOUTHEAST);
         }
@@ -2314,7 +2314,7 @@ bool map_event_handler(SDL_keysym Key)
   
       /* move south */
       case SDLK_DOWN:
-      case SDLK_KP2:
+        /*      case SDLK_KP2: */
         if(!is_unit_move_blocked) {
           key_unit_move(DIR8_SOUTH);
         }
@@ -2322,7 +2322,7 @@ bool map_event_handler(SDL_keysym Key)
   
       /* move southwest */    
       case SDLK_END:
-      case SDLK_KP1:
+        /*      case SDLK_KP1: */
         if(!is_unit_move_blocked) {
           key_unit_move(DIR8_SOUTHWEST);
         }
@@ -2330,7 +2330,7 @@ bool map_event_handler(SDL_keysym Key)
   
       /* move west */
       case SDLK_LEFT:
-      case SDLK_KP4:
+        /*      case SDLK_KP4: */
         if(!is_unit_move_blocked) {
           key_unit_move(DIR8_WEST);
         }
@@ -2338,15 +2338,16 @@ bool map_event_handler(SDL_keysym Key)
   
       /* move northwest */
       case SDLK_HOME:
-      case SDLK_KP7:
+        /*      case SDLK_KP7: */
         if(!is_unit_move_blocked) {
           key_unit_move(DIR8_NORTHWEST);
         }
         return FALSE;
   
-      case SDLK_KP5:
+        /*      case SDLK_KP5:
         key_recall_previous_focus_unit();
         return FALSE;
+        */
   
       /* *** map view settings *** */
   

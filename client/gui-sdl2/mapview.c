@@ -122,7 +122,9 @@ void flush_rect(SDL_Rect rect, bool force_flush)
       i = 0;
 
       /* flush main buffer to framebuffer */
+#if 0
       SDL_UpdateRect(Main.screen, rect.x, rect.y, rect.w, rect.h);
+#endif
     }
   }
 }
@@ -232,7 +234,9 @@ void flush_dirty(void)
     draw_mouse_cursor();    
     
     /* flush main buffer to framebuffer */    
+#if 0
     SDL_UpdateRect(Main.screen, 0, 0, 0, 0);
+#endif
   } else {
     static int i;
     static SDL_Rect src, dst;
@@ -268,7 +272,9 @@ void flush_dirty(void)
     draw_mouse_cursor();            
     
     /* flush main buffer to framebuffer */    
+#if 0
     SDL_UpdateRects(Main.screen, Main.rects_count, Main.rects);
+#endif
   }
   Main.rects_count = 0;
 }
@@ -436,7 +442,8 @@ void update_info_label(void)
       area.h = pTmp->h + adj_size(4);
   
     SDL_FillRect(Main.gui->surface, &area , map_rgba(Main.gui->surface->format, bg_color));
-    
+
+#if 0    
     /* Horizontal lines */
     putline(Main.gui->surface,
                area.x + 1, area.y, area.x + area.w - 2, area.y,
@@ -452,6 +459,7 @@ void update_info_label(void)
     putline(Main.gui->surface,
                area.x, area.y + 1, area.x, area.y + area.h - 2,
                get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
+#endif
   
     /* blit text to screen */  
     blit_entire_src(pTmp, Main.gui->surface, area.x + adj_size(5), area.y + adj_size(2));
@@ -1109,9 +1117,11 @@ void put_cross_overlay_tile(struct tile *ptile)
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 {
   /* PORTME */
+#if 0
   putframe(Main.map,
            canvas_x, canvas_y, canvas_x + w, canvas_y + h,
            get_theme_color(COLOR_THEME_SELECTIONRECTANGLE));
+#endif
 }
 
 /**************************************************************************

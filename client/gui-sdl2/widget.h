@@ -112,7 +112,7 @@ struct CHECKBOX;
 struct widget {
   struct widget *next;
   struct widget *prev;
-    
+
   struct gui_layer *dst;      /* destination buffer layer */
 
   SDL_Surface *theme;
@@ -147,7 +147,7 @@ struct widget {
   
   SDL_Rect area;                /* position and size of the area the widget resides in */
   
-  SDLKey key;			/* key alliased with this widget */
+  SDL_Keycode key;              /* key aliased with this widget */
   Uint16 mod;			/* SHIFT, CTRL, ALT, etc */
   Uint16 ID;			/* ID in widget list */
 
@@ -200,7 +200,7 @@ void del_gui_list(struct widget *pGUI_List);
 void del_main_list(void);
 
 struct widget *find_next_widget_at_pos(struct widget *pStartWidget, int x, int y);
-struct widget *find_next_widget_for_key(struct widget *pStartWidget, SDL_keysym key);
+struct widget *find_next_widget_for_key(struct widget *pStartWidget, SDL_Keysym key);
 
 struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List, Uint16 ID,
                                        enum scan_direction direction);

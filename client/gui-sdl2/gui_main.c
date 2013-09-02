@@ -194,9 +194,11 @@ static void parse_options(int argc, char **argv)
       exit(EXIT_SUCCESS);
     } else if (is_option("--fullscreen",argv[i])) {
       gui_sdl2_fullscreen = TRUE;
+#if 0
     } else if (is_option("--eventthread",argv[i])) {
       /* init events in other thread ( only linux and BeOS ) */  
       SDL_InitSubSystem(SDL_INIT_EVENTTHREAD);
+#endif
     } else if ((option = get_option_malloc("--theme", argv, &i, argc))) {
       sz_strlcpy(gui_sdl2_default_theme_name, option);
     }
@@ -208,7 +210,7 @@ static void parse_options(int argc, char **argv)
 /**************************************************************************
   Main handler for key presses
 **************************************************************************/
-static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
+static Uint16 main_key_down_handler(SDL_Keysym Key, void *pData)
 {
   static struct widget *pWidget;
   if ((pWidget = find_next_widget_for_key(NULL, Key)) != NULL) {
@@ -283,7 +285,7 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
 /**************************************************************************
   Main key release handler.
 **************************************************************************/
-static Uint16 main_key_up_handler(SDL_keysym Key, void *pData)
+static Uint16 main_key_up_handler(SDL_Keysym Key, void *pData)
 {
   if(pSellected_Widget) {
     unsellect_widget_action();
@@ -488,7 +490,7 @@ void force_exit_from_event_loop(void)
   Filter out mouse motion events for too small movement to react to.
   This function may run in a separate event thread.
 **************************************************************************/
-int FilterMouseMotionEvents(const SDL_Event *event)
+int FilterMouseMotionEvents(void *data, SDL_Event *event)
 {
   if (event->type == SDL_MOUSEMOTION) {
     static int x = 0, y = 0;
@@ -509,8 +511,8 @@ int FilterMouseMotionEvents(const SDL_Event *event)
 **************************************************************************/
 Uint16 gui_event_loop(void *pData,
 	void (*loop_action)(void *pData),
-	Uint16 (*key_down_handler)(SDL_keysym Key, void *pData),
-        Uint16 (*key_up_handler)(SDL_keysym Key, void *pData),
+	Uint16 (*key_down_handler)(SDL_Keysym Key, void *pData),
+        Uint16 (*key_up_handler)(SDL_Keysym Key, void *pData),
 	Uint16 (*mouse_button_down_handler)(SDL_MouseButtonEvent *pButtonEvent, void *pData),
         Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *pButtonEvent, void *pData),
         Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *pMotionEvent, void *pData))
@@ -520,8 +522,9 @@ Uint16 gui_event_loop(void *pData,
   static fd_set civfdset;
   Uint32 t_current, t_last_unit_anim, t_last_map_scrolling;
   Uint32 real_timer_next_call;
-  static int result, schot_nr = 0;
-  static char schot[32];
+  static int result;
+  /* static int schot_nr = 0;
+     static char schot[32]; */
 
   ID = ID_ERROR;
   t_last_map_scrolling = t_last_unit_anim = real_timer_next_call = SDL_GetTicks();
@@ -638,11 +641,13 @@ Uint16 gui_event_loop(void *pData,
 
         case SDL_KEYDOWN:
           switch(Main.event.key.keysym.sym) {
+#if 0
             case SDLK_PRINT:
               fc_snprintf(schot, sizeof(schot), "fc_%05d.bmp", schot_nr++);
               log_normal(_("Making screenshot %s"), schot);
               SDL_SaveBMP(Main.screen, schot);
             break;
+#endif
 
             case SDLK_RSHIFT:
               /* Right Shift is Pressed */
@@ -754,7 +759,7 @@ Uint16 gui_event_loop(void *pData,
 **************************************************************************/
 void ui_init(void)
 {
-  char device[20];
+  /*  char device[20]; */
 /*  struct widget *pInit_String = NULL;*/
   SDL_Surface *pBgd;
   Uint32 iSDL_Flags;
@@ -772,8 +777,10 @@ void ui_init(void)
 
   init_sdl(iSDL_Flags);
 
+#if 0
   log_normal(_("Using Video Output: %s"),
              SDL_VideoDriverName(device, sizeof(device)));
+#endif
 
   /* create splash screen */  
 #ifdef SMALL_SCREEN
@@ -786,7 +793,8 @@ void ui_init(void)
 #else  /* SMALL_SCREEN */
   pBgd = load_surf(fileinfoname(get_data_dirs(), "misc/intro.png"));
 #endif /* SMALL_SCREEN */
-  
+
+#if 0
   if (pBgd && SDL_GetVideoInfo()->wm_available) {
     set_video_mode(pBgd->w, pBgd->h, SDL_SWSURFACE | SDL_ANYFORMAT);
 #if 0    
@@ -801,12 +809,14 @@ void ui_init(void)
              &(SDL_Color){255, 255, 255, 255});
     FREESURFACE(pBgd);
     SDL_WM_SetCaption(_("SDL Client for Freeciv"), _("Freeciv"));
-  } else {
+  } else
+#endif
+ {
     
 #ifndef SMALL_SCREEN
-    set_video_mode(640, 480, SDL_SWSURFACE | SDL_ANYFORMAT);
+    set_video_mode(640, 480, SDL_SWSURFACE);
 #else  /* SMALL_SCREEN */
-    set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT);
+    set_video_mode(320, 240, SDL_SWSURFACE);
 #endif /* SMALL_SCREEN */
     
     if(pBgd) {
@@ -815,7 +825,9 @@ void ui_init(void)
       FREESURFACE(pBgd);
     } else {
       SDL_FillRect(Main.map, NULL, SDL_MapRGB(Main.map->format, 0, 0, 128));
+#if 0
       SDL_WM_SetCaption(_("SDL Client for Freeciv"), _("Freeciv"));
+#endif
     }
   }
   
@@ -853,11 +865,13 @@ static void real_resize_window_callback(void *data)
   struct widget *widget;
   Uint32 flags = Main.screen->flags;
 
+#if 0
   if (gui_sdl2_fullscreen) {
     flags |= SDL_FULLSCREEN;
   } else {
     flags &= ~SDL_FULLSCREEN;
   }
+#endif
   set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height, flags);
 
   if (C_S_RUNNING == client_state()) {
@@ -1051,7 +1065,7 @@ void ui_main(int argc, char *argv[])
       #endif /* UNDER_CE */
     #else  /* SMALL_SCREEN */
       set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height,
-                     SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
+                     SDL_SWSURFACE);
     #endif /* SMALL_SCREEN */
     
   } else {
@@ -1066,7 +1080,7 @@ void ui_main(int argc, char *argv[])
       #endif /* UNDER_CE */
     #else  /* SMALL_SCREEN */
     set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height,
-      SDL_SWSURFACE | SDL_ANYFORMAT);
+      SDL_SWSURFACE);
     #endif /* SMALL_SCREEN */
     
 #if 0    

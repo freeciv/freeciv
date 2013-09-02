@@ -258,6 +258,7 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
     SDL_Surface *pTmp = TTF_RenderUNICODE_Solid(pString->font,
 				    pString->text, pString->fgcol);
 
+#if 0
     if ((pText = SDL_DisplayFormat(pTmp)) == NULL) {
       log_error("SDL_create_str16_surf: couldn't convert text "
                 "to display format: %s", SDL_GetError());
@@ -265,6 +266,8 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
     } else {
       FREESURFACE( pTmp );
     }
+#endif
+    pText = pTmp;
     
   }
   break;
@@ -324,13 +327,13 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
 
   /* create and fill surface */
   
-  color = pTmp[0]->format->colorkey;
+  SDL_GetColorKey(pTmp[0], &color);
   
   switch (pString->render) {
   case 1:
     pText = create_surf(w, count * pTmp[0]->h, SDL_SWSURFACE);
     SDL_FillRect(pText, NULL, color);
-    SDL_SetColorKey(pText, SDL_SRCCOLORKEY, color);
+    SDL_SetColorKey(pText, SDL_TRUE, color);
     break;
   case 2:
       pText = create_surf_with_format(pTmp[0]->format,

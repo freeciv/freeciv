@@ -622,10 +622,12 @@ static void real_info_city_report_dialog_update(void)
                 (pWindow->size.h - pWindow->area.h) + area.h);
   FREESURFACE(pLogo);
 
+#if 0
   pLogo = SDL_DisplayFormat(pWindow->theme);
   FREESURFACE(pWindow->theme);
   pWindow->theme = pLogo;
   pLogo = NULL;
+#endif
 
   area = pWindow->area;
   
@@ -668,9 +670,11 @@ static void real_info_city_report_dialog_update(void)
   dst.h = area.h - adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
+#if 0
   putframe(pWindow->theme,
            dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_CITYREP_FRAME));
+#endif
   
   dst.y += (pText2->h - pText3->h) / 2;
   dst.x += ((name_w + adj_size(6)) - pText3->w) / 2;
@@ -700,10 +704,12 @@ static void real_info_city_report_dialog_update(void)
 	  			pText2->w + adj_size(6 + 2);
   dst.h = area.h - adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, get_theme_color(COLOR_THEME_CITYREP_FOODSTOCK));
-  
+
+#if 0  
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_CITYREP_FRAME));
+#endif
   
   dst.y = area.y + 1 + (pText2->h - pIcons->pBIG_Food->h) / 2;
   dst.x += adj_size(5);
@@ -737,9 +743,11 @@ static void real_info_city_report_dialog_update(void)
   
   SDL_FillRectAlpha(pWindow->theme, &dst, get_theme_color(COLOR_THEME_CITYREP_TRADE));
   
+#if 0
   putframe(pWindow->theme,
            dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_CITYREP_FRAME));
+#endif
   
   dst.y = area.y + 1 + (hh - pIcons->pBIG_Trade->h) / 2;
   dst.x += adj_size(5);
@@ -775,9 +783,11 @@ static void real_info_city_report_dialog_update(void)
   
   SDL_FillRectAlpha(pWindow->theme, &dst, get_theme_color(COLOR_THEME_CITYREP_PROD));
   
+#if 0
   putframe(pWindow->theme,
            dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_CITYREP_FRAME));
+#endif
   
   dst.y = area.y + 1 + (hh - pIcons->pBIG_Shield->h) / 2;
   dst.x += adj_size(5);
@@ -808,9 +818,11 @@ static void real_info_city_report_dialog_update(void)
     
   SDL_FillRectAlpha(pWindow->theme, &dst, get_theme_color(COLOR_THEME_CITYREP_PROD));
   
+#if 0
   putframe(pWindow->theme,
            dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_CITYREP_FRAME));
+#endif
   
   dst.y = area.y + 1 + (hh - pText4->h) / 2;
   dst.x += (dst.w - pText4->w) / 2;;
