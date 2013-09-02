@@ -493,6 +493,7 @@ static lu_mem traverseLclosure (global_State *g, LClosure *cl) {
 
 
 static lu_mem traversestack (global_State *g, lua_State *th) {
+  int n = 0;
   StkId o = th->stack;
   if (o == NULL)
     return 1;  /* stack not completely built yet */
@@ -503,7 +504,13 @@ static lu_mem traversestack (global_State *g, lua_State *th) {
     for (; o < lim; o++)  /* clear not-marked stack slice */
       setnilvalue(o);
   }
-  return sizeof(lua_State) + sizeof(TValue) * th->stacksize;
+  else {  /* count call infos to compute size */
+    CallInfo *ci;
+    for (ci = &th->base_ci; ci != th->ci; ci = ci->next)
+      n++;
+  }
+  return sizeof(lua_State) + sizeof(TValue) * th->stacksize +
+         sizeof(CallInfo) * n;
 }
 
 
