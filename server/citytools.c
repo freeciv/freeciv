@@ -1328,7 +1328,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   base_type_iterate(pbase) {
     if (tile_has_base(ptile, pbase)
         && !is_native_tile_to_base(pbase, ptile)) {
-      destroy_base(ptile, pbase);
+      destroy_base(ptile, base_extra_get(pbase));
     }
   } base_type_iterate_end;
 

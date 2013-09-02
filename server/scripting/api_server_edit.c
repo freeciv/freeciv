@@ -345,7 +345,7 @@ void api_edit_create_road(lua_State *L, Tile *ptile, const char *name)
   proad = road_type_by_rule_name(name);
 
   if (proad) {
-    tile_add_road(ptile, proad);
+    create_road(ptile, proad);
   }
 }
 

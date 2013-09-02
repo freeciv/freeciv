@@ -346,7 +346,7 @@ static bool edit_tile_special_handling(struct tile *ptile,
       return FALSE;
     }
 
-    tile_add_special(ptile, special);
+    tile_extra_apply(ptile, special_extra_get(special));
   }
 
   if (send_tile_info) {

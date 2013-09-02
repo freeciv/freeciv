@@ -50,6 +50,7 @@ struct extra_type
   bv_unit_classes native_to;
 
   bv_extra_flags flags;
+  bv_extras conflicts;
 
   struct
   {
@@ -122,6 +123,9 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
                              const struct tile *ptile);
 
 bool extra_has_flag(const struct extra_type *pextra, enum extra_flag_id flag);
+
+bool can_extras_coexist(const struct extra_type *pextra1,
+                        const struct extra_type *pextra2);
 
 struct extra_type *next_extra_for_tile(struct tile *ptile, enum extra_cause cause,
                                        const struct player *pplayer,

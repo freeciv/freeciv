@@ -1075,6 +1075,7 @@ static void help_update_base(const struct help_item *pitem,
 {
   char buf[4096];
   struct base_type *pbase = base_type_by_translated_name(title);
+  struct extra_type *pextra = base_extra_get(pbase);
 
   if (!pbase) {
     strcat(buf, pitem->text);
@@ -1083,22 +1084,22 @@ static void help_update_base(const struct help_item *pitem,
     const char *sep = "";
 
     buf[0] = '\0';
-    if (base_extra_get(pbase)->buildable) {
+    if (pextra->buildable) {
       /* TRANS: Build cost for bases in help. "MP" = movement points */
       sprintf(buf, _("Build: %d MP\n"), pbase->build_time);
     }
     /* TRANS: Base conflicts in help. Will be followed by a list of bases
      * that can't be built on the same tile as this one. */
     sprintf(buf + strlen(buf), _("Conflicts with: "));
-    base_type_iterate(pbase2) {
-      if (!can_bases_coexist(pbase, pbase2)) {
+    extra_type_iterate(pextra2) {
+      if (!can_extras_coexist(pextra, pextra2)) {
         strcat(buf, sep);
-        strcat(buf, base_name_translation(pbase2));
+        strcat(buf, extra_name_translation(pextra2));
         sep = "/";
       }
-    } base_type_iterate_end;
+    } extra_type_iterate_end;
     if (!*sep) {
-      /* TRANS: "Conflicts with: (none)" (bases) */
+      /* TRANS: "Conflicts with: (none)" (extras) */
       strcat(buf, _("(none)"));
     }
     strcat(buf, "\n\n");

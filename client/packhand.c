@@ -3247,6 +3247,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   pextra->native_to = p->native_to;
 
   pextra->flags = p->flags;
+  pextra->conflicts = p->conflicts;
 }
 
 /****************************************************************************
@@ -3272,7 +3273,6 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
   pbase->vision_invis_sq = p->vision_invis_sq;
 
   pbase->flags = p->flags;
-  pbase->conflicts = p->conflicts;
 
   PACKET_STRVEC_EXTRACT(pbase->helptext, p->helptext);
 

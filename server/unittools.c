@@ -772,7 +772,7 @@ static void update_unit_activity(struct unit *punit)
           tile_clear_special(ptile, punit->activity_target->data.special);
           break;
         case EXTRA_BASE:
-          destroy_base(ptile, extra_base_get(punit->activity_target));
+          destroy_base(ptile, punit->activity_target);
           break;
         case EXTRA_ROAD:
           tile_remove_road(ptile, extra_road_get(punit->activity_target));
@@ -854,7 +854,7 @@ static void update_unit_activity(struct unit *punit)
           >= tile_activity_time(ACTIVITY_GEN_ROAD, ptile, punit->activity_target)) {
         struct road_type *new_road = extra_road_get(punit->activity_target);
 
-        tile_add_road(ptile, new_road);
+        create_road(ptile, new_road);
         update_tile_knowledge(ptile);
 
         unit_list_iterate (ptile->units, punit2) {

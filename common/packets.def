@@ -1447,6 +1447,7 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   BOOL buildable;
   BV_UNIT_CLASSES native_to;
   BV_EXTRA_FLAGS flags;
+  BV_EXTRAS conflicts;
 end
 
 PACKET_RULESET_BASE = 153; sc, lsend
@@ -1463,7 +1464,6 @@ PACKET_RULESET_BASE = 153; sc, lsend
   SINT8 vision_main_sq;
   SINT8 vision_invis_sq;
   BV_BASE_FLAGS flags;
-  BV_BASES conflicts;
   STRING helptext[MAX_LEN_PACKET];
 end
 

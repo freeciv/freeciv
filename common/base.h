@@ -81,7 +81,6 @@ struct base_type {
   int vision_invis_sq;
 
   bv_base_flags flags;
-  bv_bases conflicts;
 
   struct strvec *helptext;
 
@@ -129,8 +128,6 @@ bool player_can_build_base(const struct base_type *pbase,
 struct base_type *get_base_by_gui_type(enum base_gui_type type,
                                        const struct unit *punit,
                                        const struct tile *ptile);
-
-bool can_bases_coexist(const struct base_type *base1, const struct base_type *base2);
 
 bool territory_claiming_base(const struct base_type *pbase);
 struct player *base_owner(const struct tile *ptile);

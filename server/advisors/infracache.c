@@ -359,12 +359,12 @@ static int adv_calc_base(const struct city *pcity, const struct tile *ptile,
 
     tile_add_base(vtile, pbase);
 
-    base_type_iterate(cbase) {
-      if (BV_ISSET(pbase->conflicts, base_index(cbase))
-          && tile_has_base(vtile, cbase)) {
-        tile_remove_base(vtile, cbase);
+    extra_type_iterate(cextra) {
+      if (tile_has_extra(vtile, cextra)
+          && !can_extras_coexist(base_extra_get(pbase), cextra)) {
+        tile_remove_extra(vtile, cextra);
       }
-    } base_type_iterate_end;
+    } extra_type_iterate_end;
 
     goodness = city_tile_value(pcity, vtile, 0, 0);
     tile_virtual_destroy(vtile);

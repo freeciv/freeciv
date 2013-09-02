@@ -325,18 +325,6 @@ struct base_type *get_base_by_gui_type(enum base_gui_type type,
 }
 
 /**************************************************************************
-  Can two bases coexist in same tile?
-**************************************************************************/
-bool can_bases_coexist(const struct base_type *base1, const struct base_type *base2)
-{
-  if (base1 == base2) {
-    return TRUE;
-  }
-
-  return !BV_ISSET(base1->conflicts, base_index(base2));
-}
-
-/**************************************************************************
   Does this base type claim territory?
 **************************************************************************/
 bool territory_claiming_base(const struct base_type *pbase)

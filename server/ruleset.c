@@ -2783,6 +2783,10 @@ static bool load_ruleset_terrain(struct section_file *file)
   if (ok) {
     /* extra defails */
     extra_type_iterate(pextra) {
+      BV_CLR_ALL(pextra->conflicts);
+    } extra_type_iterate_end;
+
+    extra_type_iterate(pextra) {
       const char *section = &extra_sections[extra_index(pextra) * MAX_SECTION_LABEL];
       const char **slist;
       struct requirement_vector *reqs;
@@ -2838,20 +2842,41 @@ static bool load_ruleset_terrain(struct section_file *file)
         }
       }
 
+      if (!ok) {
+        break;
+      }
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.conflicts", section);
+      for (j = 0; j < nval; j++) {
+        const char *sval = slist[j];
+        struct extra_type *pextra2 = extra_type_by_rule_name(sval);
+
+        if (pextra2 == NULL) {
+          ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\": unknown conflict extra \"%s\".",
+                        filename,
+                        extra_rule_name(pextra),
+                        sval);
+          ok = FALSE;
+          break;
+        } else {
+          BV_SET(pextra->conflicts, extra_index(pextra2));
+          BV_SET(pextra2->conflicts, extra_index(pextra));
+        }
+      }
+    
+      free(slist);
+
     } extra_type_iterate_end;
   }
 
   if (ok) {
     /* base details */
     base_type_iterate(pbase) {
-      BV_CLR_ALL(pbase->conflicts);
-    } base_type_iterate_end;
-
-    base_type_iterate(pbase) {
       const char *section = &base_sections[base_index(pbase) * MAX_SECTION_LABEL];
       int j;
       const char **slist;
       const char *gui_str;
+      struct extra_type *pextra = base_extra_get(pbase);
 
       pbase->pillageable = secfile_lookup_bool_default(file, TRUE,
                                                        "%s.pillageable", section);
@@ -2925,30 +2950,6 @@ static bool load_ruleset_terrain(struct section_file *file)
         break;
       }
 
-      slist = secfile_lookup_str_vec(file, &nval, "%s.conflicts", section);
-      for (j = 0; j < nval; j++) {
-        const char *sval = slist[j];
-        struct base_type *pbase2 = base_type_by_rule_name(sval);
-
-        if (pbase2 == NULL) {
-          ruleset_error(LOG_ERROR, "\"%s\" base \"%s\": unknown conflict base \"%s\".",
-                        filename,
-                        base_rule_name(pbase),
-                        sval);
-          ok = FALSE;
-          break;
-        } else {
-          BV_SET(pbase->conflicts, base_index(pbase2));
-          BV_SET(pbase2->conflicts, base_index(pbase));
-        }
-      }
-    
-      free(slist);
-
-      if (!ok) {
-        break;
-      }
-
       if (territory_claiming_base(pbase)) {
         base_type_iterate(pbase2) {
           if (pbase == pbase2) {
@@ -2956,8 +2957,10 @@ static bool load_ruleset_terrain(struct section_file *file)
             break;
           }
           if (territory_claiming_base(pbase2)) {
-            BV_SET(pbase->conflicts, base_index(pbase2));
-            BV_SET(pbase2->conflicts, base_index(pbase));
+            struct extra_type *pextra2 = base_extra_get(pbase2);
+
+            BV_SET(pextra->conflicts, extra_index(pextra2));
+            BV_SET(pextra2->conflicts, extra_index(pextra));
           }
         } base_type_iterate_end;
       }
@@ -5469,6 +5472,7 @@ static void send_ruleset_extras(struct conn_list *dest)
     packet.native_to = e->native_to;
 
     packet.flags = e->flags;
+    packet.conflicts = e->conflicts;
 
     lsend_packet_ruleset_extra(dest, &packet);
   } extra_type_iterate_end;
@@ -5498,7 +5502,6 @@ static void send_ruleset_bases(struct conn_list *dest)
     packet.vision_invis_sq = b->vision_invis_sq;
 
     packet.flags = b->flags;
-    packet.conflicts = b->conflicts;
 
     PACKET_STRVEC_COMPUTE(packet.helptext, b->helptext);
 

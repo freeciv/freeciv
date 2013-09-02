@@ -530,3 +530,16 @@ bool extra_has_flag(const struct extra_type *pextra, enum extra_flag_id flag)
 {
   return BV_ISSET(pextra->flags, flag);
 }
+
+/**************************************************************************
+  Can two extras coexist in same tile?
+**************************************************************************/
+bool can_extras_coexist(const struct extra_type *pextra1,
+                        const struct extra_type *pextra2)
+{
+  if (pextra1 == pextra2) {
+    return TRUE;
+  }
+
+  return !BV_ISSET(pextra1->conflicts, extra_index(pextra2));
+}

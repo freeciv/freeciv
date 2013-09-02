@@ -899,6 +899,9 @@ shield      = 3 ; glacier used to have 4
 ; buildable               = Can extra be built? Defaults to TRUE
 ; native_to               = List of unit classes that are considered to
 ;                           be inside the extra when they are on same tile
+; conflicts               = List of extras that cannot be on the same tile.
+;                           Bases with non-zero border_sq automatically conflict
+;                           with each other.
 ; flags
 ;   - "NativeTile"        = Native units consider tile native regardless of terrain
 ;   - "Refuel"            = Native units can use tile as refuel point
@@ -907,9 +910,11 @@ shield      = 3 ; glacier used to have 4
 
 [extra_irrigation]
 name           = _("Irrigation")
+conflicts      = "Mine"
 
 [extra_mine]
 name           = _("Mine")
+conflicts      = "Irrigation", "Farmland"
 
 [extra_pollution]
 name           = _("Pollution")
@@ -923,6 +928,7 @@ reqs           =
     { "type", "name", "range"
       "Tech", "Refrigeration", "Player"
     }
+conflicts      = "Mine"
 
 [extra_fallout]
 name           = _("Fallout")
@@ -1030,9 +1036,6 @@ flags          = "NativeTile"
 ;                           -1 to disable.
 ; vision_main_sq          = Base will have main layer vision to this radius
 ; vision_invis_sq         = Base will have invisible layer vision to this radius
-; conflicts               = List of bases that cannot be on the same tile.
-;                           Bases with non-zero border_sq automatically conflict
-;                           with each other.
 ; flags
 ;   - "NoAggressive"      = Units inside are not considered aggressive
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked

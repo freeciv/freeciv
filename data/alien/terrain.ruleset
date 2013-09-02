@@ -495,6 +495,9 @@ identifier  = "g"
 ; buildable               = Can extra be built? Defaults to TRUE
 ; native_to               = List of unit classes that are considered to
 ;                           be inside the extra when they are on same tile
+; conflicts               = List of extras that cannot be on the same tile.
+;                           Bases with non-zero border_sq automatically conflict
+;                           with each other.
 ; flags
 ;   - "NativeTile"        = Native units consider tile native regardless of terrain
 ;   - "Refuel"            = Native units can use tile as refuel point
@@ -503,9 +506,11 @@ identifier  = "g"
 
 [extra_irrigation]
 name           = _("Irrigation")
+conflicts      = "Mine"
 
 [extra_mine]
 name           = _("Mine")
+conflicts      = "Irrigation", "Farmland"
 
 [extra_pollution]
 name           = _("Pollution")
@@ -519,6 +524,7 @@ reqs           =
     { "type", "name", "range"
       "Tech", "Protein Modifications", "Player"
     }
+conflicts      = "Mine"
 
 [extra_fallout]
 name           = _("Fallout")
@@ -533,6 +539,7 @@ reqs          =
       "CityTile", "Center", "Local", FALSE
     }
 native_to     = "Earthly", "Native", "Amphibious"
+conflicts     = "Force Fortress"
 
 [extra_force_fortress]
 name           = _("Force Fortress")
@@ -544,6 +551,7 @@ reqs          =
       "CityTile", "Center", "Local", FALSE
     }
 native_to     = "Earthly", "Native", "Amphibious"
+conflicts     = "Tower"
 
 [extra_antigrav_base]
 name           = _("Antigrav Base")
@@ -642,9 +650,6 @@ native_to      = "Native", "Amphibious"
 ;                           -1 to disable.
 ; vision_main_sq          = Base will have main layer vision to this radius
 ; vision_invis_sq         = Base will have invisible layer vision to this radius
-; conflicts               = List of bases that cannot be on the same tile.
-;                           Bases with non-zero border_sq automatically conflict
-;                           with each other.
 ; flags
 ;   - "NoAggressive"      = Units inside are not considered aggressive
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
@@ -669,7 +674,6 @@ act_gfx_alt   = "unit.fortress"
 gui_type      = "Fortress"
 build_time    = 3
 defense_bonus = 150
-conflicts     = "Force Fortress"
 flags         = "NoAggressive", "NoStackDeath"
 
 [base_fortress]
@@ -681,7 +685,6 @@ act_gfx_alt   = "unit.fortress"
 gui_type      = "Fortress"
 build_time    = 3
 defense_bonus = 100
-conflicts     = "Tower"
 flags         = "NoAggressive"
 
 [base_antigrav_base]

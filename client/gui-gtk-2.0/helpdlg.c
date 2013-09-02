@@ -1187,6 +1187,7 @@ static void help_update_base(const struct help_item *pitem, char *title)
 {
   char buf[8192];
   struct base_type *pbase = base_type_by_translated_name(title);
+  struct extra_type *pextra = base_extra_get(pbase);
 
   create_help_page(HELP_BASE);
 
@@ -1194,7 +1195,7 @@ static void help_update_base(const struct help_item *pitem, char *title)
     strcat(buf, pitem->text);
   } else {
     /* Cost to build */
-    if (base_extra_get(pbase)->buildable) {
+    if (pextra->buildable) {
       if (pbase->build_time != 0) {
         /* TRANS: "MP" = movement points */
         sprintf(buf, _("%d MP"), pbase->build_time);
@@ -1208,15 +1209,15 @@ static void help_update_base(const struct help_item *pitem, char *title)
     gtk_label_set_text(GTK_LABEL(help_blabel[1]), buf);
     /* Conflicting bases */
     buf[0] = '\0';
-    base_type_iterate(pbase2) {
-      if (!can_bases_coexist(pbase, pbase2)) {
+    extra_type_iterate(pextra2) {
+      if (!can_extras_coexist(pextra, pextra2)) {
         if (buf[0] != '\0') {
           strcat(buf, "/");
         }
-        strcat(buf, base_name_translation(pbase2));
+        strcat(buf, extra_name_translation(pextra2));
       }
-    } base_type_iterate_end;
-    /* TRANS: "Conflicts with: (none)" (bases) */
+    } extra_type_iterate_end;
+    /* TRANS: "Conflicts with: (none)" (extras) */
     gtk_label_set_text(GTK_LABEL(help_blabel[3]), buf[0] ? buf : _("(none)"));
     helptext_base(buf, sizeof(buf), client.conn.playing, pitem->text, pbase);
   }

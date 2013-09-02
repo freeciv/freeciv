@@ -132,7 +132,9 @@ void change_playertile_site(struct player_tile *ptile,
 
 void create_base(struct tile *ptile, struct base_type *pbase,
                  struct player *pplayer);
-void destroy_base(struct tile *ptile, struct base_type *pbase);
+void destroy_base(struct tile *ptile, struct extra_type *pextra);
+
+void create_road(struct tile *ptile, struct road_type *proad);
 
 void give_distorted_map(struct player *pfrom, struct player *pto, int good,
                         int bad, bool reveal_cities);

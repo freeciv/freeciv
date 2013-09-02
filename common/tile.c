@@ -508,7 +508,7 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
         && !is_native_tile_to_base(pbase, ptile)) {
       if (fc_funcs->destroy_base != NULL) {
         /* Assume callback calls tile_remove_base() itself. */
-	fc_funcs->destroy_base(ptile, pbase);
+	fc_funcs->destroy_base(ptile, base_extra_get(pbase));
       } else {
 	tile_remove_base(ptile, pbase);
       }
@@ -521,39 +521,6 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
       tile_remove_road(ptile, proad);
     }
   } road_type_iterate_end;
-}
-
-/****************************************************************************
-  Add the special to the tile.  This does secondary tile updates to
-  the tile.
-****************************************************************************/
-void tile_add_special(struct tile *ptile, enum tile_special_type special)
-{
-  fc_assert_ret(special != S_OLD_FORTRESS && special != S_OLD_AIRBASE);
-  fc_assert_ret(special != S_OLD_ROAD && special != S_OLD_RAILROAD && special != S_OLD_RIVER);
-
-  tile_set_special(ptile, special);
-
-  switch (special) {
-  case S_FARMLAND:
-    tile_add_special(ptile, S_IRRIGATION);
-    /* Fall through to irrigation */
-    /* ... Nope, the recursive call already handled that! */
-    break;
-  case S_IRRIGATION:
-    tile_clear_special(ptile, S_MINE);
-    break;
-  case S_MINE:
-    tile_clear_special(ptile, S_IRRIGATION);
-    tile_clear_special(ptile, S_FARMLAND);
-    break;
-
-  case S_POLLUTION:
-  case S_HUT:
-  case S_FALLOUT:
-  default:
-    break;
-  }
 }
 
 /****************************************************************************
@@ -583,11 +550,19 @@ void tile_remove_special(struct tile *ptile, enum tile_special_type special)
 }
 
 /****************************************************************************
-  Apply extra creation activity
+  Add extra and adjust other extras accordingly.
 ****************************************************************************/
-static void tile_extra_apply(struct tile *ptile, struct extra_type *tgt)
+void tile_extra_apply(struct tile *ptile, struct extra_type *tgt)
 {
   tile_add_extra(ptile, tgt);
+
+  /* Remove conflicting extras */
+  extra_type_iterate(pextra) {
+    if (tile_has_extra(ptile, pextra)
+        && !can_extras_coexist(pextra, tgt)) {
+      tile_remove_extra(ptile, pextra);
+    }
+  } extra_type_iterate_end;
 }
 
 /****************************************************************************
@@ -600,11 +575,6 @@ static void tile_irrigate(struct tile *ptile, struct extra_type *tgt)
 
   if (pterrain == pterrain->irrigation_result) {
     tile_extra_apply(ptile, tgt);
-    /* FIXME: Control this via extra definition. Now always removes
-     *        all mines */
-    extra_type_by_cause_iterate(EC_MINE, pextra) {
-      tile_remove_extra(ptile, pextra);
-    } extra_type_by_cause_iterate_end;
   } else if (pterrain->irrigation_result) {
     tile_change_terrain(ptile, pterrain->irrigation_result);
   }
@@ -620,11 +590,6 @@ static void tile_mine(struct tile *ptile, struct extra_type *tgt)
 
   if (pterrain == pterrain->mining_result) {
     tile_extra_apply(ptile, tgt);
-    /* FIXME: Control this via extra definition. Now always removes
-     *        all irrigation */
-    extra_type_by_cause_iterate(EC_IRRIGATION, pextra) {
-      tile_remove_extra(ptile, pextra);
-    } extra_type_by_cause_iterate_end;
   } else if (pterrain->mining_result) {
     tile_change_terrain(ptile, pterrain->mining_result);
   }

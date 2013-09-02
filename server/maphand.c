@@ -2078,15 +2078,19 @@ void vision_clear_sight(struct vision *vision)
 void create_base(struct tile *ptile, struct base_type *pbase,
                  struct player *pplayer)
 {
-  bool bases_destroyed = FALSE;
+  bool extras_removed = FALSE;
 
-  base_type_iterate(old_base) {
-    if (tile_has_base(ptile, old_base)
-        && !can_bases_coexist(old_base, pbase)) {
-      destroy_base(ptile, old_base);
-      bases_destroyed = TRUE;
+  extra_type_iterate(old_extra) {
+    if (tile_has_extra(ptile, old_extra)
+        && !can_extras_coexist(old_extra, base_extra_get(pbase))) {
+      if (old_extra->type == EXTRA_BASE) {
+        destroy_base(ptile, old_extra);
+      } else {
+        tile_remove_extra(ptile, old_extra);
+      }
+      extras_removed = TRUE;
     }
-  } base_type_iterate_end;
+  } extra_type_iterate_end;
 
   tile_add_base(ptile, pbase);
 
@@ -2116,8 +2120,32 @@ void create_base(struct tile *ptile, struct base_type *pbase,
     map_claim_base(ptile, pbase, base_owner(ptile), NULL);
   }
 
-  if (bases_destroyed) {
-    /* Maybe conflicting base that was removed was the only thing
+  if (extras_removed) {
+    /* Maybe conflicting extra that was removed was the only thing
+     * making tile native to some unit. */
+    bounce_units_on_terrain_change(ptile);
+  }
+}
+
+/****************************************************************************
+  Create road to tile.
+****************************************************************************/
+void create_road(struct tile *ptile, struct road_type *proad)
+{
+  bool extras_removed = FALSE;
+
+  extra_type_iterate(old_extra) {
+    if (tile_has_extra(ptile, old_extra)
+        && !can_extras_coexist(old_extra, road_extra_get(proad))) {
+      tile_remove_extra(ptile, old_extra);
+      extras_removed = TRUE;
+    }
+  } extra_type_iterate_end;
+
+  tile_add_road(ptile, proad);
+
+  if (extras_removed) {
+    /* Maybe conflicting extra that was removed was the only thing
      * making tile native to some unit. */
     bounce_units_on_terrain_change(ptile);
   }
@@ -2126,8 +2154,10 @@ void create_base(struct tile *ptile, struct base_type *pbase,
 /****************************************************************************
   Remove base from tile.
 ****************************************************************************/
-void destroy_base(struct tile *ptile, struct base_type *pbase)
+void destroy_base(struct tile *ptile, struct extra_type *pextra)
 {
+  struct base_type *pbase = extra_base_get(pextra);
+
   if (territory_claiming_base(pbase)) {
     /* Clearing borders will take care of the vision providing
      * bases as well. */
