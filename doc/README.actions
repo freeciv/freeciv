@@ -1,0 +1,32 @@
+An action is something a player can do to achieve something in the game.
+It has properties like cost, chance of success and effects. Some of those
+properties are configurable using effects and other rule set settings. To
+learn how to change them read README.effects and the rule set files of
+classic.
+
+An action enabler enables a player to do an action. Some actions have rule 
+set defined action enablers. For each action that use generalized action
+enablers it is possible to define zero, one or more of them. As long as at
+least one generalized action enabler say it is enabled and nothing in the
+action it self prevents it the player can do the action. If no action
+enablers are defined for an action that use them it is always disabled.
+
+A generalized action enabler lives in game.ruleset. It consists of the
+action it enables and two requirement vectors. The first requirement 
+vector, actor_reqs, applies to the entity doing the action. The second, 
+target_reqs, applies to its target. If both requirement vectors are 
+fulfilled the action is enabled as far as the action enabler is concerned. A 
+hard requirement in the action it self may still disable it. An actions hard 
+requirements should be documented.
+
+
+Actions and their hard coded requirements
+=========================================
+
+"Poison City"      - Kill a citizen in the target city.
+                     * actor must have the diplomat flag.
+
+"Sabotage Unit"    - Halve the target unit's hit points.
+                     * actor must have the diplomat flag.
+                     * target must have > 1 hp.
+                     * target must be alone at its tile.

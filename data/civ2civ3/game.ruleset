@@ -198,16 +198,11 @@ tired_attack = FALSE
 ; actor_reqs           = requirements that apply to the actor.
 ; target_reqs          = requirements that apply to the target.
 ;
+; README.actions lists the possible actions and their hard coded
+; requirements.
+;
 ; An action enabler is active when its actor_reqs AND its target_reqs are
 ; satisfied.
-;
-; actions and their hard coded requirements
-;   - "Poison City"    = Kill a citizen in the target city.
-;                        * actor must have the diplomat flag.
-;   - "Sabotage Unit"  = Halve the target unit's hit points.
-;                        * actor must have the diplomat flag.
-;                        * target must have > 1 hp.
-;                        * target must be alone at its tile.
 ;
 ; */ <-- avoid gettext warnings
 [actionenabler_poison_city]
