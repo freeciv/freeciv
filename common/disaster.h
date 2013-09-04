@@ -32,9 +32,8 @@ extern "C" {
 #define SPECENUM_VALUE5 DE_FALLOUT
 #define SPECENUM_VALUE5NAME "Fallout"
 #define SPECENUM_COUNT DE_COUNT
+#define SPECENUM_BITVECTOR bv_disaster_effects
 #include "specenum_gen.h"
-
-BV_DEFINE(bv_disaster_effects, DE_COUNT); /* Used in the network protocol. */
 
 #define DISASTER_BASE_RARITY 1000000
 
