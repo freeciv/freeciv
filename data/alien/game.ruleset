@@ -173,6 +173,22 @@ slow_invasions = TRUE
 ; strength even if they have only fractional moves left.
 tired_attack = TRUE
 
+; /* <-- avoid gettext warnings
+;
+; Action enablers:
+;
+; action               = the action to enable.
+; actor_reqs           = requirements that apply to the actor.
+; target_reqs          = requirements that apply to the target.
+;
+; README.actions lists the possible actions and their hard coded
+; requirements.
+;
+; An action enabler is active when its actor_reqs AND its target_reqs are
+; satisfied.
+;
+; */ <-- avoid gettext warnings
+
 [borders]
 ; Base border radius from city.
 radius_sq_city = 4
