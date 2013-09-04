@@ -78,11 +78,11 @@ struct ai_type;
 #define SPECENUM_VALUE14NAME "KillCitizen"
 /* keep this last */
 #define SPECENUM_COUNT UCF_COUNT
+#define SPECENUM_BITVECTOR bv_unit_class_flags
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */
 BV_DEFINE(bv_unit_classes, UCL_LAST);
-BV_DEFINE(bv_unit_class_flags, UCF_COUNT);
 
 enum hut_behavior { HUT_NORMAL, HUT_NOTHING, HUT_FRIGHTEN };
 

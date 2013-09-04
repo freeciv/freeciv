@@ -31,11 +31,10 @@ extern "C" {
 #define SPECENUM_VALUE1 EF_REFUEL
 #define SPECENUM_VALUE1NAME "Refuel"
 #define SPECENUM_COUNT EF_COUNT
+#define SPECENUM_BITVECTOR bv_extra_flags
 #include "specenum_gen.h"
 
 #define EXTRA_NONE (-1)
-
-BV_DEFINE(bv_extra_flags, EF_COUNT); /* Used in the network protocol. */
 
 struct extra_type
 {

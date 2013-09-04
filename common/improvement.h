@@ -55,6 +55,7 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 #define SPECENUM_VALUE2 IF_GOLD
 #define SPECENUM_VALUE2NAME "Gold"
 #define SPECENUM_COUNT IF_COUNT
+#define SPECENUM_BITVECTOR bv_impr_flags
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */
@@ -71,7 +72,6 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 
 /* Used in the network protocol. */
 BV_DEFINE(bv_imprs, B_LAST);
-BV_DEFINE(bv_impr_flags, IF_COUNT);
 
 /* Type of improvement. (Read from buildings.ruleset file.) */
 struct impr_type {

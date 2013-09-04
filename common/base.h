@@ -60,9 +60,8 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 #define SPECENUM_VALUE6 BF_ALWAYS_ON_CITY_CENTER
 #define SPECENUM_VALUE6NAME "AlwaysOnCityCenter"
 #define SPECENUM_COUNT BF_COUNT
+#define SPECENUM_BITVECTOR bv_base_flags
 #include "specenum_gen.h"
-
-BV_DEFINE(bv_base_flags, BF_COUNT); /* Used in the network protocol. */
 
 struct extra_type;
 

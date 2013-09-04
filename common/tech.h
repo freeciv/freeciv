@@ -97,12 +97,11 @@ typedef int Tech_type_id;
 #define SPECENUM_VALUE12 TECH_USER_LAST
 /* Keep this last. */
 #define SPECENUM_COUNT TF_COUNT
+#define SPECENUM_BITVECTOR bv_tech_flags
 #define SPECENUM_NAMEOVERRIDE
 #include "specenum_gen.h"
 
 #define MAX_NUM_USER_TECH_FLAGS (TECH_USER_LAST - TECH_USER_1 + 1)
-
-BV_DEFINE(bv_tech_flags, TF_COUNT); /* Used in the network protocol. */
 
 /* TECH_KNOWN is self-explanatory, TECH_PREREQS_KNOWN are those for which all 
  * requirements are fulfilled; all others (including those which can never 

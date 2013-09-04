@@ -34,6 +34,7 @@ extern "C" {
 #define SPECENUM_VALUE6 RF_NATURAL
 #define SPECENUM_VALUE6NAME "Natural"
 #define SPECENUM_COUNT RF_COUNT
+#define SPECENUM_BITVECTOR bv_road_flags
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */
@@ -47,8 +48,6 @@ extern "C" {
 #define SPECENUM_VALUE3 RMM_FAST_ALWAYS
 #define SPECENUM_VALUE3NAME "FastAlways"
 #include "specenum_gen.h"
-
-BV_DEFINE(bv_road_flags, RF_COUNT); /* Used in the network protocol. */
 
 struct road_type;
 
