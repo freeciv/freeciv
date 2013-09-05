@@ -461,7 +461,7 @@ LIBS="$LIBS $LIBICONV"
 
 dnl I18n support
 ALL_LINGUAS="ar bg cs ca da de el en_GB eo es et fa fi fr ga gd he hu id it ja 
-ko lt nl nb no pl pt pt_BR ro ru sr sv tr uk zh_CN zh_TW"
+ko lt nl nb pl pt pt_BR ro ru sr sv tr uk zh_CN zh_TW"
 
 AC_ARG_ENABLE([nls],
   AS_HELP_STRING([--disable-nls], [do not add localization support]),
