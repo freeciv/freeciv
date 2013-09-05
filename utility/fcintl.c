@@ -37,9 +37,9 @@ the normal gettext() manner (as at most one ambiguous string can be).
 This function tests for, and removes if found, the qualifier prefix part
 of a string.
 
-This function should only be called by the Q_() macro.  This macro also
-should, if NLS is enabled, have called gettext() to get the argument
-to pass to this function.
+This function is called by the Q_() macro and specenum.  If used in the
+Q_() macro it should, if NLS is enabled, have called gettext() to get the
+argument to pass to this function. Specenum use it untranslated.
 ***********************************************************************/
 const char *skip_intl_qualifier_prefix(const char *str)
 {
