@@ -402,7 +402,8 @@ void plr_widget::nation_selected(const QItemSelection &sl,
       if (static_cast<int>(state->type) == i) {
         if (added == false) {
           ally_str = ally_str  + QString("<b>")
-                     + QString(diplstate_text(static_cast<diplstate_type>(i)))
+                     + QString(diplstate_type_translated_name(
+                                 static_cast<diplstate_type>(i)))
                      + ": "  + QString("</b>") + nl;
           added = true;
         }

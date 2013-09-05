@@ -725,7 +725,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
                   "and the %s is now %s."),
                 nation_plural_for_player(pplayer),
                 nation_plural_for_player(pplayer2),
-                diplstate_text(new_type));
+                diplstate_type_translated_name(new_type));
   notify_player(pplayer2, NULL, E_TREATY_BROKEN, ftc_server,
                 _(" %s canceled the diplomatic agreement! "
                   "The diplomatic state between the %s and the %s "
@@ -733,7 +733,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
                 player_name(pplayer),
                 nation_plural_for_player(pplayer2),
                 nation_plural_for_player(pplayer),
-                diplstate_text(new_type));
+                diplstate_type_translated_name(new_type));
 
   /* Check fall-out of a war declaration. */
   players_iterate_alive(other) {

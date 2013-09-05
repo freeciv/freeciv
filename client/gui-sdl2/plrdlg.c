@@ -504,7 +504,7 @@ void popup_players_dialog(bool raise)
         break;
       }
       
-      copy_chars_to_string16(pStr, diplstate_text(i));
+      copy_chars_to_string16(pStr, diplstate_type_translated_name(i));
       pLogo = create_text_surf_from_str16(pStr);
   
       pBuf = pBuf->prev;

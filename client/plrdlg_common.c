@@ -110,10 +110,11 @@ static const char *col_diplstate(const struct player *player)
     pds = player_diplstate_get(client.conn.playing, player);
     if (pds->type == DS_CEASEFIRE || pds->type == DS_ARMISTICE) {
       fc_snprintf(buf, sizeof(buf), "%s (%d)",
-                  diplstate_text(pds->type), pds->turns_left);
+                  diplstate_type_translated_name(pds->type),
+                  pds->turns_left);
       return buf;
     } else {
-      return diplstate_text(pds->type);
+      return diplstate_type_translated_name(pds->type);
     }
   }
 }

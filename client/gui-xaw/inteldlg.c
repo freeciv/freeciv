@@ -503,7 +503,7 @@ void update_intel_diplo_dialog(struct intel_dialog *pdialog)
 		  "%-32s %-16s %-16s",
 		  player_name(other),
 		  nation_adjective_for_player(other),
-		  diplstate_text(state->type));
+		  diplstate_type_translated_name(state->type));
       namelist_ptrs[i] = namelist_text[i];
       i++;
     } players_iterate_end;

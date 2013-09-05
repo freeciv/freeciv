@@ -320,7 +320,7 @@ void update_intel_dialog(struct player *p)
 
       gtk_tree_store_append(pdialog->diplstates, &it, NULL);
       g_value_init(&v, G_TYPE_STRING);
-      g_value_set_static_string(&v, diplstate_text(i));
+      g_value_set_static_string(&v, diplstate_type_translated_name(i));
       gtk_tree_store_set_value(pdialog->diplstates, &it, 0, &v);
       g_value_unset(&v);
       diplstates[i] = it;

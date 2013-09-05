@@ -1171,27 +1171,6 @@ const char *love_text(const int love)
   }
 }
 
-/**************************************************************************
-  Return a diplomatic state as a human-readable string
-**************************************************************************/
-const char *diplstate_text(const enum diplstate_type type)
-{
-  static const char *ds_names[DS_LAST] = 
-  {
-    N_("?diplomatic_state:Armistice"),
-    N_("?diplomatic_state:War"), 
-    N_("?diplomatic_state:Cease-fire"),
-    N_("?diplomatic_state:Peace"),
-    N_("?diplomatic_state:Alliance"),
-    N_("?diplomatic_state:Never met"),
-    N_("?diplomatic_state:Team")
-  };
-
-  fc_assert_ret_val_msg(0 <= type && type < DS_LAST, NULL,
-                        "Bad diplstate_type: %d.", type);
-  return Q_(ds_names[type]);
-}
-
 /***************************************************************
   Returns true iff players can attack each other.
 ***************************************************************/
@@ -1429,7 +1408,7 @@ const char *diplrel_rule_name(int value)
 const char *diplrel_name_translation(int value)
 {
   if (value < DS_LAST) {
-    return diplstate_text(value);
+    return diplstate_type_translated_name(value);
   } else {
     return _(diplrel_asym_name(value));
   }

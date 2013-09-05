@@ -144,19 +144,19 @@ struct player_ai {
  */
 #define SPECENUM_NAME diplstate_type
 #define SPECENUM_VALUE0 DS_ARMISTICE
-#define SPECENUM_VALUE0NAME "Armistice"
+#define SPECENUM_VALUE0NAME N_("?diplomatic_state:Armistice")
 #define SPECENUM_VALUE1 DS_WAR
-#define SPECENUM_VALUE1NAME "War"
+#define SPECENUM_VALUE1NAME N_("?diplomatic_state:War")
 #define SPECENUM_VALUE2 DS_CEASEFIRE
-#define SPECENUM_VALUE2NAME "Cease-fire"
+#define SPECENUM_VALUE2NAME N_("?diplomatic_state:Cease-fire")
 #define SPECENUM_VALUE3 DS_PEACE
-#define SPECENUM_VALUE3NAME "Peace"
+#define SPECENUM_VALUE3NAME N_("?diplomatic_state:Peace")
 #define SPECENUM_VALUE4 DS_ALLIANCE
-#define SPECENUM_VALUE4NAME "Alliance"
+#define SPECENUM_VALUE4NAME N_("?diplomatic_state:Alliance")
 #define SPECENUM_VALUE5 DS_NO_CONTACT
-#define SPECENUM_VALUE5NAME "Never met"
+#define SPECENUM_VALUE5NAME N_("?diplomatic_state:Never met")
 #define SPECENUM_VALUE6 DS_TEAM
-#define SPECENUM_VALUE6NAME "Team"
+#define SPECENUM_VALUE6NAME N_("?diplomatic_state:Team")
   /* When adding or removing entries, note that first value
    * of diplrel_asym should be next to last diplstate_type */
 #define SPECENUM_COUNT DS_LAST	/* leave this last */
@@ -383,7 +383,6 @@ struct city *player_capital(const struct player *pplayer);
 bool ai_handicap(const struct player *pplayer, enum handicap_type htype);
 bool ai_fuzzy(const struct player *pplayer, bool normal_decision);
 
-const char *diplstate_text(const enum diplstate_type type);
 const char *love_text(const int love);
 
 struct player_diplstate *player_diplstate_get(const struct player *plr1,
