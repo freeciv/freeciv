@@ -523,6 +523,7 @@ name           = _("Farmland")
 reqs           =
     { "type", "name", "range"
       "Tech", "Protein Modifications", "Player"
+      "Extra", "Irrigation", "Local"
     }
 conflicts      = "Mine"
 
