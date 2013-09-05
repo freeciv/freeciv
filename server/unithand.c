@@ -64,6 +64,8 @@
 
 #include "unithand.h"
 
+static void illegal_action(struct player *pplayer, struct unit *actor,
+                           enum gen_action stopped_action);
 static void city_add_unit(struct player *pplayer, struct unit *punit);
 static void city_build(struct player *pplayer, struct unit *punit,
                        const char *name);
@@ -191,6 +193,24 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
 }
 
 /**************************************************************************
+  Tell the client that the action it requested is illegal. This can be
+  caused by the player (and therefore the client) not knowing that some
+  condition of an action no longer is true.
+
+  Remember to stop using E_MY_DIPLOMAT_FAILED if non diplomat actions start
+  using it.
+**************************************************************************/
+static void illegal_action(struct player *pplayer, struct unit *actor,
+                           enum gen_action stopped_action)
+{
+  notify_player(pplayer, unit_tile(actor),
+                E_MY_DIPLOMAT_FAILED, ftc_server,
+                _("Your %s was unable to %s and don\'t know why."),
+                unit_name_translation(actor),
+                gen_action_translated_name(stopped_action));
+}
+
+/**************************************************************************
   Tell the client the cost of bribing a unit, inciting a revolt, or
   any other parameters needed for action.
 
@@ -294,6 +314,8 @@ void handle_unit_diplomat_action(struct player *pplayer,
       if (punit && diplomat_can_do_action(pdiplomat, SPY_SABOTAGE_UNIT,
 					  unit_tile(punit))) {
 	spy_sabotage_unit(pplayer, pdiplomat, punit);
+      } else {
+        illegal_action(pplayer, pdiplomat, ACTION_SPY_SABOTAGE_UNIT);
       }
       break;
      case DIPLOMAT_SABOTAGE:
@@ -307,6 +329,8 @@ void handle_unit_diplomat_action(struct player *pplayer,
       if(pcity && diplomat_can_do_action(pdiplomat, SPY_POISON,
 					 pcity->tile)) {
 	spy_poison(pplayer, pdiplomat, pcity);
+      } else {
+        illegal_action(pplayer, pdiplomat, ACTION_SPY_POISON);
       }
       break;
     case DIPLOMAT_INVESTIGATE:
