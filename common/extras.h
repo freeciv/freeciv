@@ -164,7 +164,8 @@ struct extra_type *prev_extra_in_tile(struct tile *ptile, enum extra_cause cause
 #define extra_deps_iterate(_reqs, _dep)                 \
 {                                                       \
   requirement_vector_iterate(_reqs, preq) {             \
-    if (preq->source.kind == VUT_EXTRA) {               \
+    if (preq->source.kind == VUT_EXTRA                  \
+        && preq->present) {                             \
       struct extra_type *_dep;                          \
       _dep = preq->source.value.extra;
 
