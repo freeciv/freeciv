@@ -158,7 +158,8 @@ const struct base_type *base_array_last(void);
 #define base_deps_iterate(_reqs, _dep)                                  \
 {                                                                       \
   requirement_vector_iterate(_reqs, preq) {                             \
-    if (preq->source.kind == VUT_BASE) {                                \
+    if (preq->source.kind == VUT_BASE                                   \
+        && !preq->negated) {                                            \
       struct base_type *_dep = preq->source.value.base;
 
 #define base_deps_iterate_end                                           \

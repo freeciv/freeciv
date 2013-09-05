@@ -163,7 +163,8 @@ struct road_type *next_road_for_tile(struct tile *ptile, struct player *pplayer,
 #define road_deps_iterate(_reqs, _dep)                  \
 {                                                       \
   requirement_vector_iterate(_reqs, preq) {             \
-    if (preq->source.kind == VUT_ROAD) {                \
+    if (preq->source.kind == VUT_ROAD                   \
+        && !preq->negated) {                            \
       struct road_type *_dep = preq->source.value.road;
 
 #define road_deps_iterate_end                           \
