@@ -172,7 +172,7 @@ dist2: $(DISTFILES)
 
 # If you change following line, update also configure.ac where it
 # builds Makefile if NLS disabled.
-update-po: Makefile nb.po
+update-po: Makefile
 	$(MAKE) $(PACKAGE).pot
 	if test "$(PACKAGE)" = "gettext"; then PATH=`pwd`/../src:$$PATH; fi; \
 	cd $(srcdir); \
@@ -197,11 +197,6 @@ update-po: Makefile nb.po
 
 update-gmo: Makefile $(GMOFILES)
 	@:
-
-nb.po: no.po
-	cp $(srcdir)/no.po nb.po
-
-BUILT_SOURCES = nb.po
 
 Makefile: Makefile.in.in $(top_builddir)/config.status POTFILES.in
 	cd $(top_builddir) \
