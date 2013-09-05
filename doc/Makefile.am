@@ -10,6 +10,7 @@ EXTRA_DIST =			\
 	INSTALL.Cygwin		\
 	HOWTOPLAY		\
 	README.achievements     \
+	README.actions		\
 	README.agents		\
 	README.AI		\
 	README.AI_modules	\
