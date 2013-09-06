@@ -2139,7 +2139,7 @@ reqs	=
 ; of enabling it with Democracy (value 2 -> 4 instead of 0 -> 2)
 nreqs   =
     { "type", "name", "range"
-      "Government", "Democracy", "Player"
+      "Gov", "Democracy", "Player"
     }
 
 [effect_womens_suffrage]
