@@ -177,11 +177,6 @@ void fc_client::main(QApplication *qapp)
   real_output_window_append(_("This is Qt-client for Freeciv."), NULL, -1);
   chat_welcome_message();
 
-  real_output_window_append(_("In this early Qt-client development phase "
-                              "the only way to connect server is via"
-                              "commandline autoconnect parameter \"-a\""),
-                            NULL, -1);
-
   set_client_state(C_S_DISCONNECTED);
 
   startTimer(TIMER_INTERVAL);
