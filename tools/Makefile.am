@@ -10,8 +10,11 @@ bin_PROGRAMS += freeciv-manual
 endif
 endif
 
-if MODINST_GTK
-bin_PROGRAMS += freeciv-modpack
+if MODINST_GTK2
+bin_PROGRAMS += freeciv-mp-gtk2
+endif
+if MODINST_GTK3
+bin_PROGRAMS += freeciv-mp-gtk3
 endif
 if MODINST_QT
 bin_PROGRAMS += freeciv-mp-qt
@@ -27,7 +30,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/server \
 	-I$(top_srcdir)/client \
 	-I$(top_srcdir)/client/include \
-	$(MP_gtk_CFLAGS) \
+	$(MP_gtk2_CFLAGS) $(MP_gtk3_CFLAGS) \
 	$(MP_qt_CPPFLAGS)
 
 if MINGW32
@@ -63,17 +66,31 @@ libfcmp_la_SOURCES = \
 		mpdb.c		\
 		mpdb.h
 
-if MODINST_GTK
-freeciv_modpack_SOURCES = mpgui_gtk.c
+if MODINST_GTK2
+freeciv_mp_gtk2_SOURCES = mpgui_gtk2.c
 
-freeciv_modpack_LDFLAGS = $(MP_gtk_LDFLAGS)
+freeciv_mp_gtk2_LDFLAGS = $(MP_gtk2_LDFLAGS)
 
-freeciv_modpack_LDADD = \
+freeciv_mp_gtk2_LDADD = \
 		libfcmp.la \
 		$(top_builddir)/common/libfreeciv.la \
 		$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
 		$(MAPIMG_WAND_LIBS) \
-		$(MP_gtk_LIBS) \
+		$(MP_gtk2_LIBS) \
+		$(MPICON)
+endif
+
+if MODINST_GTK3
+freeciv_mp_gtk3_SOURCES = mpgui_gtk3.c
+
+freeciv_mp_gtk3_LDFLAGS = $(MP_gtk3_LDFLAGS)
+
+freeciv_mp_gtk3_LDADD = \
+		libfcmp.la \
+		$(top_builddir)/common/libfreeciv.la \
+		$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
+		$(MAPIMG_WAND_LIBS) \
+		$(MP_gtk3_LIBS) \
 		$(MPICON)
 endif
 

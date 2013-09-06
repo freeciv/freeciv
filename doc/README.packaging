@@ -19,9 +19,13 @@ Updating from 2.4 to 2.5
 * Threads are now hard requirement. Supported threading systems
   are pthreads and Windows threads
 * gtk3-client is now default client
+* It's possible to build both gtk2 and gtk3 based modpack installers
+  simultaneously with --enable-fcmp=gtk2,gtk3. Name of the produced
+  binaries are freeciv-mp-gtk2 and freeciv-mp-gtk3 instead of old
+  freeciv-modpack.
 * Qt-based version of modpack installer has been added. It's still in
   early development. You can build it with configure option
-  --enable-fcmp=qt (or --enable-fcmp=gtk,qt). Resulting binary is
+  --enable-fcmp=qt (or --enable-fcmp=gtk3,qt). Resulting binary is
   called freeciv-mp-qt
 * Name of the default ruleset is no longer "default" but it's renamed as
   "classic" Some files default to all rulesets still reside in data/default,
