@@ -870,11 +870,10 @@ AM_CONDITIONAL([CLIENT], [test "x$client" = "xyes"])
 
 dnl freeciv-modpack checks
 AC_ARG_ENABLE([fcmp],
-  AS_HELP_STRING([--enable-fcmp=no/yes/gtk/gtk2/gtk3/qt/all/auto], [build freeciv-modpack-program [auto]]),
+  AS_HELP_STRING([--enable-fcmp=no/yes/gtk2/gtk3/qt/all/auto], [build freeciv-modpack-program [auto]]),
 [fc_mp=${enableval}],
 [fc_mp=auto])
 
-fcmp_gtk=no
 fcmp_gtk2=no
 fcmp_gtk3=no
 fcmp_qt=no
@@ -886,44 +885,37 @@ for mp in $(echo $fc_mp | $SED 's/,/ /g') ; do
     modinst=auto
   elif test "x$mp" = "xall" ; then
     modinst=all
-  else
-    if test "x$mp" = "xgtk2"   ||
-       test "x$mp" = "xgtk2.0" ||
-       test "x$mp" = "xgtk20"  ||
-       test "x$mp" = "xgtk-2.0" ; then
+  else if test "x$mp" = "xgtk2"   ||
+          test "x$mp" = "xgtk2.0" ||
+          test "x$mp" = "xgtk20"  ||
+          test "x$mp" = "xgtk-2.0" ; then
       req_fcmp_gtk2=yes
     elif test "x$mp" = "xgtk3"   ||
          test "x$mp" = "xgtk3.0" ||
          test "x$mp" = "xgtk30"  ||
          test "x$mp" = "xgtk-3.0" ; then
       req_fcmp_gtk3=yes
-    elif test "x$mp" = "xgtk" ; then
-      req_fcmp_gtk=yes
     elif test "x$mp" = "xqt" ; then
       req_fcmp_qt=yes
     elif test "x$mp" != "xyes" ; then
-      AC_MSG_ERROR(bad value ${mp} for --enable-fcmp)
+      AC_MSG_ERROR([bad value ${mp} for --enable-fcmp])
     fi
   fi
 done
 
-if test "x$req_fcmp_gtk2" = "xyes" && test "x$req_fcmp_gtk3" = "xyes" ; then
-  AC_MSG_ERROR([Cannot build both gtk2 and gtk3 version of modpack installer])
-fi
-
-if test "x$req_fcmp_gtk3" = "xyes" || test "x$req_fcmp_gtk" = "xyes" ||
+if test "x$req_fcmp_gtk3" = "xyes" ||
    test "x$modinst" = "xall" || test "x$modinst" = "xauto" ; then
   AM_PATH_GTK_3_0([3.0.0],
 [
   PKG_CHECK_MODULES([GTHREAD], [gthread-2.0],
 [
   fcmp_gtk3=yes
-  MP_gtk_CFLAGS="$GTK3_CFLAGS $GHTREAD_CFLAGS"
-  MP_gtk_LIBS="$GTK3_LIBS $GTHREAD_LIBS"
+  MP_gtk3_CFLAGS="$GTK3_CFLAGS $GHTREAD_CFLAGS"
+  MP_gtk3_LIBS="$GTK3_LIBS $GTHREAD_LIBS"
   if test "x$MINGW32" = "xyes"; then
     dnl Required to compile gtk3 on Windows platform
-    MP_gtk_CFLAGS="$MP_gtk_CFLAGS -mms-bitfields"
-    MP_gtk_LDFLAGS="$MP_gtk_LDFLAGS -mwindows"
+    MP_gtk3_CFLAGS="$MP_gtk3_CFLAGS -mms-bitfields"
+    MP_gtk3_LDFLAGS="$MP_gtk3_LDFLAGS -mwindows"
   fi
 
   if test "x$modinst" = "xauto" ; then
@@ -937,20 +929,18 @@ if test "x$req_fcmp_gtk3" = "xyes" && test "x$fcmp_gtk3" != "xyes" ; then
 fi
 
 if test "x$req_fcmp_gtk2" = "xyes" ||
-   ( test "x$fcmp_gtk3" != "xyes" && test "x$req_fcmp_gtk" = "xyes") ||
    test "x$modinst" = "xauto" || test "x$modinst" = "xall" ; then
-
   AM_PATH_GTK_2_0([2.12.0],
 [
   PKG_CHECK_MODULES([GTHREAD], [gthread-2.0],
 [
   fcmp_gtk2=yes
-  MP_gtk_CFLAGS="$GTK2_CFLAGS $GTHREAD_CFLAGS"
-  MP_gtk_LIBS="$GTK2_LIBS $GTHREAD_LIBS"
+  MP_gtk2_CFLAGS="$GTK2_CFLAGS $GTHREAD_CFLAGS"
+  MP_gtk2_LIBS="$GTK2_LIBS $GTHREAD_LIBS"
   if test "x$MINGW32" = "xyes"; then
      dnl Required to compile gtk2 on Windows platform
-     MP_gtk_CFLAGS="$MP_gtk_CFLAGS -mms-bitfields"
-     MP_gtk_LDFLAGS="$MP_gtk_LDFLAGS -mwindows"
+     MP_gtk2_CFLAGS="$MP_gtk2_CFLAGS -mms-bitfields"
+     MP_gtk2_LDFLAGS="$MP_gtk2_LDFLAGS -mwindows"
   fi
 
   if test "x$modinst" = "xauto" ; then
@@ -961,11 +951,6 @@ fi
 
 if test "x$req_fcmp_gtk2" = "xyes" && test "x$fcmp_gtk2" != "xyes" ; then
   AC_MSG_ERROR([Cannot build gtk2-version of freeciv-modpack as requested])
-fi
-
-if test "x$req_fcmp_gtk" = "xyes" &&
-   test "x$fcmp_gtk2" != "xyes" && test "x$fcmp_gtk3" != "xyes" ; then
-  AC_MSG_ERROR([Cannot build gtk-version of freeciv-modpack as requested])
 fi
 
 if test "x$req_fcmp_qt" = "xyes" ||
@@ -1002,12 +987,13 @@ fi
 
 if test "x$modinst" != "xno" && test "x$MINGW32" != "xyes" ; then
   dnl Hack to get a run-time icon -- not needed on Windows
-  MP_gtk_CFLAGS="$MP_gtk_CFLAGS -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
+  MP_gtk2_CFLAGS="$MP_gtk2_CFLAGS -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
+  MP_gtk3_CFLAGS="$MP_gtk3_CFLAGS -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
 fi
 
 AM_CONDITIONAL([MODINST], [test "x$modinst" != "xno"])
-AM_CONDITIONAL([MODINST_GTK],
-[test "x$fcmp_gtk3" = "xyes" || test "x$fcmp_gtk2" = "xyes"])
+AM_CONDITIONAL([MODINST_GTK3], [test "x$fcmp_gtk3" = "xyes"])
+AM_CONDITIONAL([MODINST_GTK2], [test "x$fcmp_gtk2" = "xyes"])
 AM_CONDITIONAL([MODINST_QT], [test "x$fcmp_qt" = "xyes"])
 
 AC_SUBST([GUI_gtk2_CFLAGS])
@@ -1036,9 +1022,12 @@ AC_SUBST([GUI_stub_LDFLAGS])
 AC_SUBST([GUI_beos_CFLAGS])
 AC_SUBST([GUI_beos_LIBS])
 AC_SUBST([GUI_beos_LDFLAGS])
-AC_SUBST([MP_gtk_CFLAGS])
-AC_SUBST([MP_gtk_LIBS])
-AC_SUBST([MP_gtk_LDFLAGS])
+AC_SUBST([MP_gtk2_CFLAGS])
+AC_SUBST([MP_gtk2_LIBS])
+AC_SUBST([MP_gtk2_LDFLAGS])
+AC_SUBST([MP_gtk3_CFLAGS])
+AC_SUBST([MP_gtk3_LIBS])
+AC_SUBST([MP_gtk3_LDFLAGS])
 AC_SUBST([MP_qt_CPPFLAGS])
 AC_SUBST([MP_qt_LIBS])
 AC_SUBST([SOUND_CFLAGS])
