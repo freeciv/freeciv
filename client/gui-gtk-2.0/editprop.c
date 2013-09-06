@@ -2338,9 +2338,9 @@ static void objbind_pack_modified_value(struct objbind *ob,
             int ridx = road_index(extra_road_get(pextra));
 
             if (BV_ISSET(pv->data.v_bv_roads, ridx)) {
-              BV_SET(packet->extras, ridx);
+              BV_SET(packet->extras, extra_index(pextra));
             } else {
-              BV_CLR(packet->extras, ridx);
+              BV_CLR(packet->extras, extra_index(pextra));
             }
           }
         } extra_type_iterate_end;
@@ -2351,9 +2351,9 @@ static void objbind_pack_modified_value(struct objbind *ob,
             int bidx = base_index(extra_base_get(pextra));
 
             if (BV_ISSET(pv->data.v_bv_bases, bidx)) {
-                BV_SET(packet->extras, bidx);
+              BV_SET(packet->extras, extra_index(pextra));
             } else {
-              BV_CLR(packet->extras, bidx);
+              BV_CLR(packet->extras, extra_index(pextra));
             }
           }
         } extra_type_iterate_end;
