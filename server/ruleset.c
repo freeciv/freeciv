@@ -4761,51 +4761,53 @@ static bool load_ruleset_game(struct section_file *file)
       sec = secfile_sections_by_name_prefix(file,
                                             ACTION_ENABLER_SECTION_PREFIX);
 
-      section_list_iterate(sec, psection) {
-        struct action_enabler *enabler;
-        const char *sec_name = section_name(psection);
-        enum gen_action action;
-        struct requirement_vector *actor_reqs;
-        struct requirement_vector *target_reqs;
-        const char *action_text;
+      if (sec) {
+        section_list_iterate(sec, psection) {
+          struct action_enabler *enabler;
+          const char *sec_name = section_name(psection);
+          enum gen_action action;
+          struct requirement_vector *actor_reqs;
+          struct requirement_vector *target_reqs;
+          const char *action_text;
 
-        enabler = action_enabler_new();
+          enabler = action_enabler_new();
 
-        action_text = secfile_lookup_str(file, "%s.action", sec_name);
+          action_text = secfile_lookup_str(file, "%s.action", sec_name);
 
-        if (action_text == NULL) {
-          log_error("\"%s\" [%s] missing action to enable.",
-                    filename, sec_name);
-          continue;
-        }
+          if (action_text == NULL) {
+            log_error("\"%s\" [%s] missing action to enable.",
+                      filename, sec_name);
+            continue;
+          }
 
-        action = gen_action_by_name(action_text, fc_strcasecmp);
-        if (!gen_action_is_valid(action)) {
-          log_error("\"%s\" [%s] lists unknown action type \"%s\".",
-                    filename, sec_name, action_text);
-          continue;
-        }
+          action = gen_action_by_name(action_text, fc_strcasecmp);
+          if (!gen_action_is_valid(action)) {
+            log_error("\"%s\" [%s] lists unknown action type \"%s\".",
+                      filename, sec_name, action_text);
+            continue;
+          }
 
-        enabler->action = action;
+          enabler->action = action;
 
-        actor_reqs = lookup_req_list(file, sec_name, "actor_reqs", action_text);
-        if (actor_reqs == NULL) {
-          ok = FALSE;
-          break;
-        }
+          actor_reqs = lookup_req_list(file, sec_name, "actor_reqs", action_text);
+          if (actor_reqs == NULL) {
+            ok = FALSE;
+            break;
+          }
 
-        requirement_vector_copy(&enabler->actor_reqs, actor_reqs);
+          requirement_vector_copy(&enabler->actor_reqs, actor_reqs);
 
-        target_reqs = lookup_req_list(file, sec_name, "target_reqs", action_text);
-        if (target_reqs == NULL) {
-          ok = FALSE;
-          break;
-        }
+          target_reqs = lookup_req_list(file, sec_name, "target_reqs", action_text);
+          if (target_reqs == NULL) {
+            ok = FALSE;
+            break;
+          }
 
-        requirement_vector_copy(&enabler->target_reqs, target_reqs);
+          requirement_vector_copy(&enabler->target_reqs, target_reqs);
 
-        action_enabler_add(enabler);
-      } section_list_iterate_end;
+          action_enabler_add(enabler);
+        } section_list_iterate_end;
+      }
     }
 
     /* section: combat_rules */
