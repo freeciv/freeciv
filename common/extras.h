@@ -30,6 +30,8 @@ extern "C" {
 /* Refuel native units */
 #define SPECENUM_VALUE1 EF_REFUEL
 #define SPECENUM_VALUE1NAME "Refuel"
+#define SPECENUM_VALUE2 EF_TERR_CHANGE_REMOVES
+#define SPECENUM_VALUE2NAME "TerrChangeRemoves"
 #define SPECENUM_COUNT EF_COUNT
 #define SPECENUM_BITVECTOR bv_extra_flags
 #include "specenum_gen.h"

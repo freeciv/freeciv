@@ -929,6 +929,8 @@ shield      = 3 ; glacier used to have 4
 ; flags
 ;   - "NativeTile"        = Native units consider tile native regardless of terrain
 ;   - "Refuel"            = Native units can use tile as refuel point
+;   - "TerrChangeRemoves" = Extra gets removed when ever terrain changes even if target
+;                           terrain could support it.
 ;
 ; */ <-- avoid gettext warnings
 
@@ -1000,6 +1002,7 @@ reqs           =
       "CityTile", "Center", "Local", FALSE
     }
 buildable      = FALSE
+flags          = "TerrChangeRemoves"
 
 [extra_road]
 name           = _("Road")

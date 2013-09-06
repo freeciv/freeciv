@@ -502,6 +502,8 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
     tile_clear_special(ptile, S_FARMLAND);
   }
 
+  /* FIXME: Should not handle bases and roads separately, but have
+   * one iteration that does everything for all extras. */
   /* Clear unsupported bases. */
   base_type_iterate(pbase) {
     if (tile_has_base(ptile, pbase)
@@ -521,6 +523,14 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
       tile_remove_road(ptile, proad);
     }
   } road_type_iterate_end;
+
+  /* Remove unsupported extras */
+  extra_type_iterate(pextra) {
+    if (tile_has_extra(ptile, pextra)
+        && extra_has_flag(pextra, EF_TERR_CHANGE_REMOVES)) {
+      tile_remove_extra(ptile, pextra);
+    }
+  } extra_type_iterate_end;
 }
 
 /****************************************************************************
