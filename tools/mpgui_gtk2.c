@@ -468,7 +468,7 @@ int main(int argc, char *argv[])
     gtk_widget_realize(toplevel);
     gtk_widget_set_name(toplevel, "Freeciv-modpack");
     gtk_window_set_title(GTK_WINDOW(toplevel),
-                         _("Freeciv modpack installer (gtk)"));
+                         _("Freeciv modpack installer (gtk2)"));
 
     /* Keep the icon of the executable on Windows */
 #ifndef WIN32_NATIVE
