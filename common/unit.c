@@ -133,10 +133,10 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
         return TRUE;
       }
 
-      if (action == DIPLOMAT_BRIBE || action == DIPLOMAT_ANY_ACTION) {
-        if (!pplayers_allied(unit_owner(punit), unit_owner(pdiplomat))) {
-          return TRUE;
-        }
+      if ((action == DIPLOMAT_BRIBE || action == DIPLOMAT_ANY_ACTION)
+          && action_is_enabled_unit_on_unit(ACTION_SPY_BRIBE_UNIT,
+                                            pdiplomat, punit)) {
+        return TRUE;
       }
     }
 

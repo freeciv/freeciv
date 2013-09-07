@@ -250,6 +250,8 @@ void handle_unit_diplomat_query(struct connection *pc,
 					diplomat_id, target_id,
 					unit_bribe_cost(punit, pplayer),
 					action_type);
+    } else {
+      illegal_action(pplayer, pdiplomat, ACTION_SPY_BRIBE_UNIT);
     }
     break;
   case DIPLOMAT_INCITE:
@@ -308,6 +310,8 @@ void handle_unit_diplomat_action(struct player *pplayer,
       if (punit && diplomat_can_do_action(pdiplomat, DIPLOMAT_BRIBE,
 					  unit_tile(punit))) {
 	diplomat_bribe(pplayer, pdiplomat, punit);
+      } else {
+        illegal_action(pplayer, pdiplomat, ACTION_SPY_BRIBE_UNIT);
       }
       break;
     case SPY_SABOTAGE_UNIT:

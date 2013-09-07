@@ -213,6 +213,14 @@ target_reqs    =
       "MinSize", "2", "City"
     }
 
+[actionenabler_bribe_unit]
+action = "Bribe Unit"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "DiplRel", "Alliance", "Local", FALSE
+      "DiplRel", "Team", "Local", FALSE
+    }
+
 [actionenabler_sabotage_unit]
 action = "Sabotage Unit"
 actor_reqs    =

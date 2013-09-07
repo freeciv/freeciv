@@ -394,15 +394,12 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 
 /******************************************************************************
   Bribe an enemy unit.
-
-  - Either a Diplomat or Spy can bribe an other players unit.
   
   - Can't bribe a unit if:
     - Owner runs an unbribable government (e.g., democracy).
     - Player doesn't have enough gold.
     - It's not the only unit on the square
       (this is handled outside this function).
-    - You are allied with the unit owner.
   - Otherwise, the unit will be bribed.
 
   - A successful briber will try to move onto the victim's square.
@@ -421,8 +418,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
     return;
   }
   uplayer = unit_owner(pvictim);
-  /* We might make it allowable in peace with a loss of reputation */
-  if (!uplayer || pplayers_allied(pplayer, uplayer)) {
+  if (!uplayer) {
     return;
   }
 

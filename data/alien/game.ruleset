@@ -188,6 +188,13 @@ tired_attack = TRUE
 ; satisfied.
 ;
 ; */ <-- avoid gettext warnings
+[actionenabler_bribe_unit]
+action = "Bribe Unit"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "DiplRel", "Alliance", "Local", FALSE
+      "DiplRel", "Team", "Local", FALSE
+    }
 
 [borders]
 ; Base border radius from city.
