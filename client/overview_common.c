@@ -55,7 +55,8 @@ static void gui_to_natural_pos(const struct tileset *t,
 			       int gui_x, int gui_y)
 {
   const double gui_xd = gui_x, gui_yd = gui_y;
-  const double W = tileset_tile_width(t), H = tileset_tile_height(t);
+  const double W = tileset_tile_width(t) * map_zoom;
+  const double H = tileset_tile_height(t) * map_zoom;
   double map_x, map_y;
 
   /* First convert to map positions.  This ignores hex conversions; we're

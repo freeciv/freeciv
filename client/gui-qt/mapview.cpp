@@ -1478,7 +1478,7 @@ void unit_label::uupdate(unit_list *punits)
     unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
                                     tileset_tile_height(tileset) * 3 / 2);
     unit_pixmap->map_pixmap.fill(Qt::transparent);
-    put_unit(punit, unit_pixmap, 0, 0);
+    put_unit(punit, unit_pixmap, 1.0, 0, 0);
     pix = &unit_pixmap->map_pixmap;
     *pix = pix->scaledToHeight(height());
     w_width = pix->width() + 1;

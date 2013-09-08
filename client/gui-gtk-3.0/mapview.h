@@ -43,7 +43,7 @@ void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p,
 void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar);
 void update_map_canvas_scrollbars_size(void);
 
-void pixmap_put_overlay_tile(GdkWindow *pixmap,
+void pixmap_put_overlay_tile(GdkWindow *pixmap, float zoom,
 			     int canvas_x, int canvas_y,
 			     struct sprite *ssprite);
 

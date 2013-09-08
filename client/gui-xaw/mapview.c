@@ -95,7 +95,7 @@ void overview_size_changed(void)
 }
 
 /**************************************************************************
-...
+  Create a canvas of the given size.
 **************************************************************************/
 struct canvas *canvas_create(int width, int height)
 {
@@ -107,12 +107,21 @@ struct canvas *canvas_create(int width, int height)
 }
 
 /**************************************************************************
-...
+  Free any resources associated with this canvas and the canvas struct
+  itself.
 **************************************************************************/
 void canvas_free(struct canvas *store)
 {
   XFreePixmap(display, store->pixmap);
   free(store);
+}
+
+/****************************************************************************
+  Set canvas zoom for future drawing operations.
+****************************************************************************/
+void canvas_set_zoom(struct canvas *store, float zoom)
+{
+  /* xaw-client has no zoom support */
 }
 
 /****************************************************************************

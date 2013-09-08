@@ -77,7 +77,7 @@ unit_item::unit_item(struct unit *punit) : QLabel()
     unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
                                     tileset_tile_height(tileset) * 3 / 2);
     unit_pixmap->map_pixmap.fill(Qt::transparent);
-    put_unit(punit, unit_pixmap, 0, 0);
+    put_unit(punit, unit_pixmap, 1.0, 0, 0);
   }
   create_actions();
   setFixedWidth(unit_pixmap->map_pixmap.width() + 4);
@@ -280,7 +280,7 @@ void unit_item::mouseMoveEvent(QMouseEvent * event)
     } else {
       unit_pixmap->map_pixmap.fill(Qt::transparent);
     }
-    put_unit(qunit, unit_pixmap, 0, 0);
+    put_unit(qunit, unit_pixmap, 1.0, 0, 0);
   }
   init_pix();
 }

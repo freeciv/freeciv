@@ -71,6 +71,14 @@ void canvas_free(struct canvas *store)
   free(store);
 }
 
+/****************************************************************************
+  Set canvas zoom for future drawing operations.
+****************************************************************************/
+void canvas_set_zoom(struct canvas *store, float zoom)
+{
+  /* gtk2-client has no zoom support */
+}
+
 /**************************************************************************
   Copies an area from the source canvas to the destination canvas.
 **************************************************************************/

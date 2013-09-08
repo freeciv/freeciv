@@ -30,6 +30,8 @@ enum line_type {
 GUI_FUNC_PROTO(struct canvas *, canvas_create, int width, int height)
 GUI_FUNC_PROTO(void, canvas_free, struct canvas *store)
 
+GUI_FUNC_PROTO(void, canvas_set_zoom, struct canvas *store, float zoom)
+
 /* Drawing functions */
 GUI_FUNC_PROTO(void, canvas_copy, struct canvas *dest, struct canvas *src,
                int src_x, int src_y, int dest_x, int dest_y,

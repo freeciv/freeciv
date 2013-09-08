@@ -23,8 +23,9 @@ struct canvas
 {
   cairo_surface_t *surface;
   cairo_t *drawable;
+  float zoom;
 };
 
-#define FC_STATIC_CANVAS_INIT { NULL, NULL }
+#define FC_STATIC_CANVAS_INIT { NULL, NULL, 1.0 }
 
 #endif  /* FC__CANVAS_H */

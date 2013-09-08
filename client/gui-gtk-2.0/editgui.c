@@ -712,7 +712,7 @@ static GdkPixbuf *create_road_pixbuf(const struct road_type *proad)
   canvas_y = 0;
 
   count = fill_basic_road_sprite_array(tileset, sprs, proad);
-  put_drawn_sprites(&canvas, canvas_x, canvas_y, count, sprs, FALSE);
+  put_drawn_sprites(&canvas, 1.0, canvas_x, canvas_y, count, sprs, FALSE);
 
   return pixbuf;
 }
@@ -748,7 +748,7 @@ static GdkPixbuf *create_military_base_pixbuf(const struct base_type *pbase)
   canvas_y = 0;
 
   count = fill_basic_base_sprite_array(tileset, sprs, pbase);
-  put_drawn_sprites(&canvas, canvas_x, canvas_y, count, sprs, FALSE);
+  put_drawn_sprites(&canvas, 1.0, canvas_x, canvas_y, count, sprs, FALSE);
 
   return pixbuf;
 }
@@ -786,7 +786,7 @@ static GdkPixbuf *create_terrain_pixbuf(struct terrain *pterrain)
   for (i = 0; i < 3; i++) {
     count = fill_basic_terrain_layer_sprite_array(tileset, sprs,
                                                   i, pterrain);
-    put_drawn_sprites(&canvas, canvas_x, canvas_y, count, sprs, FALSE);
+    put_drawn_sprites(&canvas, 1.0, canvas_x, canvas_y, count, sprs, FALSE);
   }
 
   return pixbuf;

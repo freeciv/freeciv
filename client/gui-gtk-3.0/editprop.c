@@ -4885,7 +4885,7 @@ static GdkPixbuf *create_pixbuf_from_layers(const struct tile *ptile,
   canvas_y += (fh - h);
 
   for (i = 0; i < num_layers; i++) {
-    put_one_element(&canvas, layers[i],
+    put_one_element(&canvas, 1.0, layers[i],
                     ptile, NULL, NULL, punit, pcity,
                     canvas_x, canvas_y, NULL, NULL);
   }

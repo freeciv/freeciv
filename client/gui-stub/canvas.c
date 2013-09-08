@@ -39,6 +39,14 @@ void gui_canvas_free(struct canvas *store)
 }
 
 /****************************************************************************
+  Set canvas zoom for future drawing operations.
+****************************************************************************/
+void gui_canvas_set_zoom(struct canvas *store, float zoom)
+{
+  /* PORTME */
+}
+
+/****************************************************************************
   Copies an area from the source canvas to the destination canvas.
 ****************************************************************************/
 void gui_canvas_copy(struct canvas *dest, struct canvas *src,

@@ -358,6 +358,7 @@ gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
                               gpointer data)
 {
   map_canvas_resized(ev->width, ev->height);
+
   return TRUE;
 }
 
@@ -452,7 +453,7 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
 
   gtk_pixcomm_clear(p);
 
-  put_unit(punit, &canvas_store, 0, 0);
+  put_unit(punit, &canvas_store, 1.0, 0, 0);
 }
 
 
@@ -476,7 +477,7 @@ void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p,
 /**************************************************************************
   Put overlay tile to pixmap
 **************************************************************************/
-void pixmap_put_overlay_tile(GdkWindow *pixmap,
+void pixmap_put_overlay_tile(GdkWindow *pixmap, float zoom,
 			     int canvas_x, int canvas_y,
 			     struct sprite *ssprite)
 {
@@ -487,6 +488,7 @@ void pixmap_put_overlay_tile(GdkWindow *pixmap,
   }
 
   cr = gdk_cairo_create(pixmap);
+  cairo_scale(cr, zoom, zoom);
   cairo_set_source_surface(cr, ssprite->surface, canvas_x, canvas_y);
   cairo_paint(cr);
   cairo_destroy(cr);
@@ -508,8 +510,8 @@ void pixmap_put_overlay_tile_draw(struct canvas *pcanvas,
   }
 
   get_sprite_dimensions(ssprite, &sswidth, &ssheight);
-  canvas_put_sprite(pcanvas, canvas_x, canvas_y, ssprite,
-		    0, 0, sswidth, ssheight);
+  canvas_put_sprite(pcanvas, canvas_x, canvas_y,
+                    ssprite, 0, 0, sswidth, ssheight);
 
   if (fog) {
     if (!pcanvas->drawable) {
@@ -523,6 +525,7 @@ void pixmap_put_overlay_tile_draw(struct canvas *pcanvas,
     }
 
     cairo_set_operator(cr, CAIRO_OPERATOR_HSL_COLOR);
+    cairo_scale(cr, pcanvas->zoom, pcanvas->zoom);
     cairo_set_source_rgb(cr, 0.65, 0.65, 0.65);
     cairo_fill(cr);
 
@@ -542,7 +545,7 @@ void put_cross_overlay_tile(struct tile *ptile)
   int canvas_x, canvas_y;
 
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
-    pixmap_put_overlay_tile(gtk_widget_get_window(map_canvas),
+    pixmap_put_overlay_tile(gtk_widget_get_window(map_canvas), map_zoom,
 			    canvas_x, canvas_y,
 			    get_attention_crosshair_sprite(tileset));
   }

@@ -625,7 +625,7 @@ static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support, int w,
                                 tileset_full_tile_width(tileset),
                                 tileset_full_tile_height(tileset));  
   
-  put_unit(pUnit, destcanvas, 0, 0);
+  put_unit(pUnit, destcanvas, 1.0, 0, 0);
   
   src_rect = get_smaller_surface_rect(destcanvas->surf);
   pSurf = create_surf_alpha(src_rect.w, src_rect.h, SDL_SWSURFACE);

@@ -68,7 +68,7 @@ void generate_citydlg_dimensions(void)
   city_map_iterate_without_index(CITY_MAP_MAX_RADIUS_SQ, city_x, city_y) {
     int canvas_x, canvas_y;
 
-    map_to_gui_vector(tileset, &canvas_x, &canvas_y, CITY_ABS2REL(city_x),
+    map_to_gui_vector(tileset, 1.0, &canvas_x, &canvas_y, CITY_ABS2REL(city_x),
                       CITY_ABS2REL(city_y));
 
     min_x = MIN(canvas_x, min_x);
@@ -92,7 +92,7 @@ bool city_to_canvas_pos(int *canvas_x, int *canvas_y, int city_x,
   const int height = get_citydlg_canvas_height();
 
   /* The citymap is centered over the center of the citydlg canvas. */
-  map_to_gui_vector(tileset, canvas_x, canvas_y, CITY_ABS2REL(city_x),
+  map_to_gui_vector(tileset, 1.0, canvas_x, canvas_y, CITY_ABS2REL(city_x),
                     CITY_ABS2REL(city_y));
   *canvas_x += (width - tileset_tile_width(tileset)) / 2;
   *canvas_y += (height - tileset_tile_height(tileset)) / 2;
@@ -156,14 +156,14 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
   const int _y##_h = get_citydlg_canvas_height();			\
   index_to_map_pos(&_tile_x, &_tile_y, tile_index((pcity)->tile));      \
 									\
-  map_to_gui_vector(tileset, &_x##_0, &_y##_0, _tile_x, _tile_y);       \
+  map_to_gui_vector(tileset, 1.0, &_x##_0, &_y##_0, _tile_x, _tile_y);  \
   _x##_0 -= (_x##_w - tileset_tile_width(tileset)) / 2;			\
   _y##_0 -= (_y##_h - tileset_tile_height(tileset)) / 2;		\
   log_debug("citydlg: %d,%d + %dx%d",					\
 	    _x##_0, _y##_0, _x##_w, _y##_h);				\
 									\
   gui_rect_iterate_coord(_x##_0, _y##_0, _x##_w, _y##_h,		\
-		   ptile, pedge, pcorner, _x##_g, _y##_g) {		\
+                         ptile, pedge, pcorner, _x##_g, _y##_g, 1.0) {  \
     const int _x = _x##_g - _x##_0;					\
     const int _y = _y##_g - _y##_0;					\
     {
@@ -192,7 +192,7 @@ void city_dialog_redraw_map(struct city *pcity,
 	= ptile ? get_drawable_unit(tileset, ptile, pcity) : NULL;
       struct city *pcity_draw = ptile ? tile_city(ptile) : NULL;
 
-      put_one_element(pcanvas, layer, ptile, pedge, pcorner,
+      put_one_element(pcanvas, 1.0, layer, ptile, pedge, pcorner,
                       punit, pcity_draw, canvas_x, canvas_y, pcity, NULL);
     } citydlg_iterate_end;
   } mapview_layer_iterate_end;

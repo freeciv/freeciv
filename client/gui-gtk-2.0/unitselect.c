@@ -697,7 +697,7 @@ static void usdlg_tab_append_utype(GtkTreeStore *store,
     canvas_store.v.pixbuf = pix;
 
     gdk_pixbuf_fill(pix, 0x00000000);
-    put_unittype(putype, &canvas_store, 0, 0);
+    put_unittype(putype, &canvas_store, 1.0, 0, 0);
   }
 
   /* The name of the unit. */
@@ -794,7 +794,7 @@ static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
     canvas_store.v.pixbuf = pix;
 
     gdk_pixbuf_fill(pix, 0x00000000);
-    put_unit(punit, &canvas_store, 0, 0);
+    put_unit(punit, &canvas_store, 1.0, 0, 0);
   }
 
   phome = game_city_by_number(punit->homecity);

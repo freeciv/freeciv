@@ -823,7 +823,7 @@ void unit_select_dialog_popup(struct tile *ptile)
     XFillRectangle(display, unit_select_pixmaps[i], fill_bg_gc,
 		   0, 0, tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
     store.pixmap = unit_select_pixmaps[i];
-    put_unit(punit, &store, 0, 0);
+    put_unit(punit, &store, 1.0, 0, 0);
 
     nargs=0;
     XtSetArg(args[nargs], XtNbitmap, (XtArgVal)unit_select_pixmaps[i]);nargs++;

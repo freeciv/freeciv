@@ -217,7 +217,7 @@ gboolean butt_release_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
   if (ev->button == 1 || ev->button == 3) {
     release_goto_button(ev->x, ev->y);
   }
-  if(ev->button == 3 && (rbutton_down || hover_state != HOVER_NONE))  {
+  if (ev->button == 3 && (rbutton_down || hover_state != HOVER_NONE))  {
     release_right_button(ev->x, ev->y,
                          (ev->state & GDK_SHIFT_MASK) != 0);
   }

@@ -55,6 +55,7 @@ struct gui_funcs {
 
   struct canvas *(*canvas_create)(int width, int height);
   void (*canvas_free)(struct canvas *store);
+  void (*canvas_set_zoom)(struct canvas *store, float zoom);
   void (*canvas_copy)(struct canvas *dest, struct canvas *src,
                       int src_x, int src_y, int dest_x, int dest_y, int width,
                       int height);

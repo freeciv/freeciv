@@ -186,6 +186,14 @@ void canvas_free(struct canvas *store)
 }
 
 /**************************************************************************
+  Call canvas_set_zoom callback
+**************************************************************************/
+void canvas_set_zoom(struct canvas *store, float zoom)
+{
+  funcs.canvas_set_zoom(store, zoom);
+}
+
+/**************************************************************************
   Call canvas_copy callback
 **************************************************************************/
 void canvas_copy(struct canvas *dest, struct canvas *src,

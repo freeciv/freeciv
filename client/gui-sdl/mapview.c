@@ -779,7 +779,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
           destcanvas = canvas_create(tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
   
-          put_unit(aunit, destcanvas, 0, 0);
+          put_unit(aunit, destcanvas, 1.0, 0, 0);
           
           pTmpSurf = adj_surf(destcanvas->surf);
           
@@ -1156,7 +1156,7 @@ SDL_Surface *get_terrain_surface(struct tile *ptile)
   terrain_canvas = canvas_create_with_alpha(tileset_full_tile_width(tileset),
                                             tileset_full_tile_height(tileset));
 
-  put_terrain(ptile, terrain_canvas, 0, 0);
+  put_terrain(ptile, terrain_canvas, 1.0, 0, 0);
   
   return terrain_canvas->surf;
 }
