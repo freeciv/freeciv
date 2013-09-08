@@ -2403,12 +2403,11 @@ reqs    =
       "UnitFlag", "Transform", "Local"
     }
 
-[effect_pollution_food]
-name	= "Output_Tile_Punish_Pct"
+[effect_pollution]
+type	= "Output_Tile_Punish_Pct"
 value	= 50
 reqs	=
     { "type", "name", "range"
-      "OutputType", "Food", "Local"
       "Extra", "Pollution", "Local"
     }
 nreqs	=
@@ -2416,38 +2415,11 @@ nreqs	=
       "Extra", "Fallout", "Local"
     }
 
-[effect_pollution_shield]
-name	= "Output_Tile_Punish_Pct"
+[effect_fallout]
+type	= "Output_Tile_Punish_Pct"
 value	= 50
 reqs	=
     { "type", "name", "range"
-      "OutputType", "Shield", "Local"
-      "Extra", "Pollution", "Local"
-    }
-nreqs	=
-    { "type", "name", "range"
-      "Extra", "Fallout", "Local"
-    }
-
-[effect_pollution_trade]
-name	= "Output_Tile_Punish_Pct"
-value	= 50
-reqs	=
-    { "type", "name", "range"
-      "OutputType", "Trade", "Local"
-      "Extra", "Pollution", "Local"
-    }
-nreqs	=
-    { "type", "name", "range"
-      "Extra", "Fallout", "Local"
-    }
-
-[effect_fallout_food]
-name	= "Output_Tile_Punish_Pct"
-value	= 50
-reqs	=
-    { "type", "name", "range"
-      "OutputType", "Food", "Local"
       "Extra", "Fallout", "Local"
     }
 nreqs	=
@@ -2455,58 +2427,11 @@ nreqs	=
       "Extra", "Pollution", "Local"
     }
 
-[effect_fallout_shield]
-name	= "Output_Tile_Punish_Pct"
-value	= 50
-reqs	=
-    { "type", "name", "range"
-      "OutputType", "Shield", "Local"
-      "Extra", "Fallout", "Local"
-    }
-nreqs	=
-    { "type", "name", "range"
-      "Extra", "Pollution", "Local"
-    }
-
-[effect_fallout_trade]
-name	= "Output_Tile_Punish_Pct"
-value	= 50
-reqs	=
-    { "type", "name", "range"
-      "OutputType", "Trade", "Local"
-      "Extra", "Fallout", "Local"
-    }
-nreqs	=
-    { "type", "name", "range"
-      "Extra", "Pollution", "Local"
-    }
-
-[effect_pollution_fallout_food]
-name	= "Output_Tile_Punish_Pct"
+[effect_pollution_fallout]
+type	= "Output_Tile_Punish_Pct"
 value	= 75
 reqs	=
     { "type", "name", "range"
-      "OutputType", "Food", "Local"
-      "Extra", "Fallout", "Local"
-      "Extra", "Pollution", "Local"
-    }
-
-[effect_pollution_fallout_shield]
-name	= "Output_Tile_Punish_Pct"
-value	= 75
-reqs	=
-    { "type", "name", "range"
-      "OutputType", "Shield", "Local"
-      "Extra", "Fallout", "Local"
-      "Extra", "Pollution", "Local"
-    }
-
-[effect_pollution_fallout_trade]
-name	= "Output_Tile_Punish_Pct"
-value	= 75
-reqs	=
-    { "type", "name", "range"
-      "OutputType", "Trade", "Local"
       "Extra", "Fallout", "Local"
       "Extra", "Pollution", "Local"
     }

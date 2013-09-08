@@ -1405,30 +1405,11 @@ value   = 1
 type    = "Mining_TF_Possible"
 value   = 1
 
-[effect_pollution_food]
-name	= "Output_Tile_Punish_Pct"
+[effect_pollution]
+type	= "Output_Tile_Punish_Pct"
 value	= 50
 reqs	=
     { "type", "name", "range"
-      "OutputType", "Food", "Local"
-      "Extra", "Pollution", "Local"
-    }
-
-[effect_pollution_shield]
-name	= "Output_Tile_Punish_Pct"
-value	= 50
-reqs	=
-    { "type", "name", "range"
-      "OutputType", "Shield", "Local"
-      "Extra", "Pollution", "Local"
-    }
-
-[effect_pollution_trade]
-name	= "Output_Tile_Punish_Pct"
-value	= 50
-reqs	=
-    { "type", "name", "range"
-      "OutputType", "Trade", "Local"
       "Extra", "Pollution", "Local"
     }
 
