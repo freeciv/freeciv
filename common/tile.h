@@ -143,7 +143,7 @@ int tile_roads_output_incr(const struct tile *ptile, enum output_type_id o);
 int tile_roads_output_bonus(const struct tile *ptile, enum output_type_id o);
 bool tile_has_river(const struct tile *tile);
 
-void tile_extra_apply(struct tile *ptile, struct extra_type *tgt);
+bool tile_extra_apply(struct tile *ptile, struct extra_type *tgt);
 bool tile_has_extra(const struct tile *ptile, const struct extra_type *pextra);
 bool tile_has_cause_extra(const struct tile *ptile, enum extra_cause cause);
 void tile_add_extra(struct tile *ptile, const struct extra_type *pextra);

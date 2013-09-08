@@ -265,34 +265,6 @@ static bool edit_tile_resource_handling(struct tile *ptile,
 }
 
 /****************************************************************************
-  Recursively add all extra dependencies to add given extra.
-****************************************************************************/
-static bool add_recursive_extras(struct tile *ptile, struct extra_type *pextra,
-                                 int rec)
-{
-  if (rec > MAX_EXTRA_TYPES) {
-    /* Infinite recursion */
-    return FALSE;
-  }
-
-  /* First place dependency extras */
-  extra_deps_iterate(&(pextra->reqs), pdep) {
-    if (!tile_has_extra(ptile, pdep)) {
-      add_recursive_extras(ptile, pdep, rec + 1);
-    }
-  } extra_deps_iterate_end;
-
-  /* Is tile native for extra after that? */
-  if (!is_native_tile_to_extra(pextra, ptile)) {
-    return FALSE;
-  }
-
-  tile_add_extra(ptile, pextra);
-
-  return TRUE;
-}
-
-/****************************************************************************
   Base function to edit the extras property of a tile. Returns TRUE if
   the extra state has changed.
 ****************************************************************************/
@@ -307,7 +279,7 @@ static bool edit_tile_extra_handling(struct tile *ptile,
 
     tile_remove_extra(ptile, pextra);
   } else {
-    if (!add_recursive_extras(ptile, pextra, 0)) {
+    if (!tile_extra_apply(ptile, pextra)) {
       return FALSE;
     }
   }

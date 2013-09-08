@@ -560,11 +560,47 @@ void tile_remove_special(struct tile *ptile, enum tile_special_type special)
 }
 
 /****************************************************************************
-  Add extra and adjust other extras accordingly.
+  Recursively add all extra dependencies to add given extra.
 ****************************************************************************/
-void tile_extra_apply(struct tile *ptile, struct extra_type *tgt)
+static bool add_recursive_extras(struct tile *ptile, struct extra_type *pextra,
+                                 int rec)
 {
-  tile_add_extra(ptile, tgt);
+  if (rec > MAX_EXTRA_TYPES) {
+    /* Infinite recursion */
+    return FALSE;
+  }
+
+  /* First place dependency extras */
+  extra_deps_iterate(&(pextra->reqs), pdep) {
+    if (!tile_has_extra(ptile, pdep)) {
+      add_recursive_extras(ptile, pdep, rec + 1);
+    }
+  } extra_deps_iterate_end;
+
+  /* Is tile native for extra after that? */
+  if (!is_native_tile_to_extra(pextra, ptile)) {
+    return FALSE;
+  }
+
+  tile_add_extra(ptile, pextra);
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Add extra and adjust other extras accordingly.
+
+  If not all necessary adjustments can be done, returns FALSE.
+  When problem occurs, changes to tile extras are not reverted.
+  Pass virtual tile to the function if you are not sure it will success
+  and don't want extras adjusted at all in case of failure.
+****************************************************************************/
+bool tile_extra_apply(struct tile *ptile, struct extra_type *tgt)
+{
+  /* Add extra with its dependencies */
+  if (!add_recursive_extras(ptile, tgt, 0)) {
+    return FALSE;
+  }
 
   /* Remove conflicting extras */
   extra_type_iterate(pextra) {
@@ -573,6 +609,8 @@ void tile_extra_apply(struct tile *ptile, struct extra_type *tgt)
       tile_remove_extra(ptile, pextra);
     }
   } extra_type_iterate_end;
+
+  return TRUE;
 }
 
 /****************************************************************************
