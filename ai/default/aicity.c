@@ -1271,6 +1271,9 @@ static int improvement_effect_value(struct player *pplayer,
       }
     }
     break;
+  case EFT_VICTORY:
+    v += 250;
+    break;
   case EFT_GIVE_IMM_TECH:
     if (adv_wants_science(pplayer)) {
       v += amount * (game.info.sciencebox + 1);

@@ -2609,7 +2609,7 @@ void player_status_add(struct player *plr, enum player_status pstatus)
 }
 
 /****************************************************************************
-  Add a status flag to a player.
+  Check player status flag.
 ****************************************************************************/
 bool player_status_check(struct player *plr, enum player_status pstatus)
 {

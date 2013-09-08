@@ -310,7 +310,8 @@ bool check_for_game_over(void)
   /* Check for scenario victory; dead players can win if they are on a team
    * with the winners. */
   players_iterate(pplayer) {
-    if (player_status_check(pplayer, PSTATUS_WINNER)) {
+    if (player_status_check(pplayer, PSTATUS_WINNER)
+        || get_player_bonus(pplayer, EFT_VICTORY) > 0) {
       if (winners) {
         /* TRANS: Another entry in winners list (", the Tibetans") */
         astr_add(&str, Q_("?winners:, the %s"),

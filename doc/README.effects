@@ -433,6 +433,10 @@ City_Build_Slots
 City_Image
     The index for the city image of the given city style.
 
+Victory
+    Positive value means that player wins the game.
+
+
 Details about requirement types
 ===============================
 

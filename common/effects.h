@@ -250,6 +250,8 @@ struct requirement;
 #define SPECENUM_VALUE95NAME "Output_Tile_Punish_Pct"
 #define SPECENUM_VALUE96 EFT_UNIT_BRIBE_COST_PCT
 #define SPECENUM_VALUE96NAME "Unit_Bribe_Cost_Pct"
+#define SPECENUM_VALUE97 EFT_VICTORY
+#define SPECENUM_VALUE97NAME "Victory"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"
