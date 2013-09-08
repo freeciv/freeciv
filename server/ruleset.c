@@ -5011,6 +5011,9 @@ static bool load_ruleset_game(struct section_file *file)
         ok = FALSE;
       }
 
+      pach->unique = secfile_lookup_bool_default(file, TRUE,
+                                                 "%s.unique", sec_name);
+
       pach->value = secfile_lookup_int_default(file, 1, "%s.value", sec_name);
 
       if (!ok) {
@@ -5594,6 +5597,7 @@ static void send_ruleset_achievements(struct conn_list *dest)
     sz_strlcpy(packet.rule_name, rule_name(&a->name));
 
     packet.type = a->type;
+    packet.unique = a->unique;
     packet.value = a->value;
 
     lsend_packet_ruleset_achievement(dest, &packet);

@@ -20,6 +20,7 @@ extern "C" {
 /* common */
 #include "fc_types.h"
 #include "name_translation.h"
+#include "player.h"
 
 struct achievement
 {
@@ -27,7 +28,9 @@ struct achievement
   struct name_translation name;
   enum achievement_type type;
   int value;
+  bool unique;
   struct player *first;
+  bv_player achievers;
 };
 
 void achievements_init(void);
@@ -41,10 +44,12 @@ const char *achievement_name_translation(struct achievement *pach);
 const char *achievement_rule_name(struct achievement *pach);
 struct achievement *achievement_by_rule_name(const char *name);
 
-struct player *achievement_plr(struct achievement *ach);
+struct player *achievement_plr(struct achievement *ach,
+                               struct player_list *achievers);
 bool achievement_check(struct achievement *ach, struct player *pplayer);
 
 const char *achievement_first_msg(struct achievement *pach);
+const char *achievement_later_msg(struct achievement *pach);
 
 bool achievement_player_has(const struct achievement *pach,
                             const struct player *pplayer);

@@ -3682,6 +3682,8 @@ static void sg_load_player_main(struct loaddata *loading,
                        "Multiple players listed as first to get achievement \"%s\".",
                        name);
 
+        BV_SET(pach->achievers, player_index(plr));
+
         if (first) {
           pach->first = plr;
         }
@@ -3936,11 +3938,17 @@ static void sg_save_player_main(struct savedata *saving,
     int j = 0;
 
     achievements_iterate(pach) {
-      if (pach->first == plr) {
+      if (achievement_player_has(pach, plr)) {
         secfile_insert_str(saving->file, achievement_rule_name(pach),
                            "player%d.achievement%d.name", plrno, j);
-        secfile_insert_bool(saving->file, TRUE,
-                            "player%d.achievement%d.first", plrno, j);
+        if (pach->first == plr) {
+          secfile_insert_bool(saving->file, TRUE,
+                              "player%d.achievement%d.first", plrno, j);
+        } else {
+          secfile_insert_bool(saving->file, FALSE,
+                              "player%d.achievement%d.first", plrno, j);
+        }
+
         j++;
       }
     } achievements_iterate_end;

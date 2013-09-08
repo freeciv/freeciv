@@ -1117,12 +1117,25 @@ static void end_turn(void)
    * achieve at the same turn and everyone deserves equal opportunity
    * to win. */
   achievements_iterate(ach) {
-    struct player *achiever = achievement_plr(ach);
+    struct player_list *achievers = player_list_new();
+    struct player *first = achievement_plr(ach, achievers);
 
-    if (achiever != NULL) {
-      notify_player(achiever, NULL, E_ACHIEVEMENT, ftc_server,
+    if (first != NULL) {
+      notify_player(first, NULL, E_ACHIEVEMENT, ftc_server,
                     "%s", achievement_first_msg(ach));
     }
+
+    if (!ach->unique) {
+      player_list_iterate(achievers, pplayer) {
+        /* Message already sent to first one */
+        if (pplayer != first) {
+          notify_player(pplayer, NULL, E_ACHIEVEMENT, ftc_server,
+                        "%s", achievement_later_msg(ach));
+        }
+      } player_list_iterate_end;
+    }
+
+    player_list_destroy(achievers);
   } achievements_iterate_end;
 
   if (game.info.global_warming) {

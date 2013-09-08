@@ -41,6 +41,7 @@ void achievements_init(void)
     achievements[i].id = i;
     achievements[i].first = NULL;
     achievements[i].value = 0;
+    BV_CLR_ALL(achievements[i].achievers);
   }
 }
 
@@ -118,16 +119,22 @@ struct achievement *achievement_by_rule_name(const char *name)
   Check if some player has now achieved the achievement and return the player
   in question.
 ****************************************************************************/
-struct player *achievement_plr(struct achievement *ach)
+struct player *achievement_plr(struct achievement *ach,
+                               struct player_list *achievers)
 {
-  struct player_list *achievers = player_list_new();
   struct player *credited = NULL;
 
   players_iterate(pplayer) {
     if (achievement_check(ach, pplayer)) {
+      BV_SET(ach->achievers, player_index(pplayer));
       player_list_append(achievers, pplayer);
     }
   } players_iterate_end;
+
+  if (ach->first != NULL) {
+    /* Already have first one credited. */
+    return NULL;
+  }
 
   if (player_list_size(achievers) > 0) {
     /* If multiple players achieved at the same turn, randomly select one
@@ -137,8 +144,6 @@ struct player *achievement_plr(struct achievement *ach)
     ach->first = credited;
   }
 
-  player_list_destroy(achievers);
-
   return credited;
 }
 
@@ -147,7 +152,8 @@ struct player *achievement_plr(struct achievement *ach)
 ****************************************************************************/
 bool achievement_check(struct achievement *ach, struct player *pplayer)
 {
-  if (ach->first != NULL) {
+  if ((ach->unique && ach->first != NULL)
+      || (BV_ISSET(ach->achievers, player_index(pplayer)))) {
     /* It was already achieved */
     return FALSE;
   }
@@ -241,6 +247,34 @@ const char *achievement_first_msg(struct achievement *pach)
 }
 
 /****************************************************************************
+  Return message to send to other players gaining the achievement.
+****************************************************************************/
+const char *achievement_later_msg(struct achievement *pach)
+{
+  static char buf[1024]; /* TODO: Get rid of this */
+
+  switch(pach->type) {
+  case ACHIEVEMENT_SPACESHIP:
+    return _("You have launched spaceship towards Alpha Centauri!");
+  case ACHIEVEMENT_MAP:
+    if (pach->value >= 100) {
+      return _("You have entire world mapped!");
+    } else {
+      fc_snprintf(buf, sizeof(buf),
+                  _("You have %d%% of the world mapped!"),
+                    pach->value);
+      return buf;
+    }
+  case ACHIEVEMENT_COUNT:
+    break;
+  }
+
+  log_error("achievement_later_msg(): Illegal achievement type %d", pach->type);
+
+  return NULL;
+}
+
+/****************************************************************************
   Has the given player got the achievement?
 ****************************************************************************/
 bool achievement_player_has(const struct achievement *pach,
@@ -250,7 +284,7 @@ bool achievement_player_has(const struct achievement *pach,
     return FALSE;
   }
 
-  return pach->first == pplayer;
+  return BV_ISSET(pach->achievers, player_index(pplayer));
 }
 
 /****************************************************************************

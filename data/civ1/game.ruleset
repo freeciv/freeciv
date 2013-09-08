@@ -305,6 +305,8 @@ effects        = "ReducePopulation"
 ;                           achievement after a ruleset has been released.
 ; type                    = What event grants the achievement to player.
 ;                           See README.achievements for list of these types.
+; unique                  = If TRUE, only first one reaching the achievement will
+;                           get it. Defaults to TRUE
 ; value                   = Value to reach. Exact meaning of this depends on
 ;                           achievement type.
 ;
