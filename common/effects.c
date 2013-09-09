@@ -660,7 +660,7 @@ int get_city_bonus(const struct city *pcity, enum effect_type effect_type)
 
   return get_target_bonus_effects(NULL,
                                   city_owner(pcity), NULL, pcity, NULL,
-				  NULL, NULL, NULL, NULL,
+				  city_tile(pcity), NULL, NULL, NULL,
 				  effect_type);
 }
 
