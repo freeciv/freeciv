@@ -767,17 +767,7 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_PILLAGE:
     if (total_activity(ptile, ACTIVITY_PILLAGE, 
                        punit->activity_target) >= 1) {
-      switch (punit->activity_target->type) {
-        case EXTRA_SPECIAL:
-          tile_clear_special(ptile, punit->activity_target->data.special);
-          break;
-        case EXTRA_BASE:
-          destroy_base(ptile, punit->activity_target);
-          break;
-        case EXTRA_ROAD:
-          tile_remove_road(ptile, extra_road_get(punit->activity_target));
-          break;
-      }
+      destroy_extra(ptile, punit->activity_target);
 
       bounce_units_on_terrain_change(ptile);
 

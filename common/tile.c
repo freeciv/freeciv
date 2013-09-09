@@ -502,33 +502,17 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
     tile_clear_special(ptile, S_FARMLAND);
   }
 
-  /* FIXME: Should not handle bases and roads separately, but have
-   * one iteration that does everything for all extras. */
-  /* Clear unsupported bases. */
-  base_type_iterate(pbase) {
-    if (tile_has_base(ptile, pbase)
-        && !is_native_tile_to_base(pbase, ptile)) {
-      if (fc_funcs->destroy_base != NULL) {
-        /* Assume callback calls tile_remove_base() itself. */
-	fc_funcs->destroy_base(ptile, base_extra_get(pbase));
-      } else {
-	tile_remove_base(ptile, pbase);
-      }
-    }
-  } base_type_iterate_end;
-
-  road_type_iterate(proad) {
-    if (tile_has_road(ptile, proad)
-        && !is_native_tile_to_road(proad, ptile)) {
-      tile_remove_road(ptile, proad);
-    }
-  } road_type_iterate_end;
-
   /* Remove unsupported extras */
   extra_type_iterate(pextra) {
     if (tile_has_extra(ptile, pextra)
-        && extra_has_flag(pextra, EF_TERR_CHANGE_REMOVES)) {
-      tile_remove_extra(ptile, pextra);
+        && (!is_native_tile_to_extra(pextra, ptile)
+            || extra_has_flag(pextra, EF_TERR_CHANGE_REMOVES))) {
+      if (fc_funcs->destroy_extra != NULL) {
+        /* Assume callback calls tile_remove_extra() itself. */
+        fc_funcs->destroy_extra(ptile, pextra);
+      } else {
+	tile_remove_extra(ptile, pextra);
+      }
     }
   } extra_type_iterate_end;
 }

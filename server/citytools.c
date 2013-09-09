@@ -1314,24 +1314,16 @@ void create_city(struct player *pplayer, struct tile *ptile,
   /* Update citizens. */
   citizens_update(pcity, nationality);
 
-  /* Remove any roads that don't belong in the city. */
-  road_type_iterate(proad) {
-    if (tile_has_road(ptile, proad)
-        && !is_native_tile_to_road(proad, ptile)) {
-      tile_remove_road(ptile, proad);
+  /* Destroy any extras that don't belong in the city. */
+  extra_type_iterate(pextra) {
+    if (tile_has_extra(ptile, pextra)
+        && !is_native_tile_to_extra(pextra, ptile)) {
+      destroy_extra(ptile, pextra);
     }
-  } road_type_iterate_end;
+  } extra_type_iterate_end;
+
   /* Build any roads that the city should have. */
   upgrade_city_roads(pcity);
-
-  /* Destroy any bases that don't belong in the city. */
-  base_type_iterate(pbase) {
-    if (tile_has_base(ptile, pbase)
-        && !is_native_tile_to_base(pbase, ptile)) {
-      destroy_base(ptile, base_extra_get(pbase));
-    }
-  } base_type_iterate_end;
-
   /* Build any bases that the city should have. */
   upgrade_city_bases(pcity);
 
