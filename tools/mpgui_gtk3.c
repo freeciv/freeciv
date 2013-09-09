@@ -346,7 +346,10 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   GtkTreeSelection *selection;
   const char *errmsg;
 
-  mbox = gtk_vbox_new(FALSE, 4);
+  mbox = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(mbox),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing(GTK_GRID(mbox), 4);
 
   main_list = gtk_tree_view_new();
   renderer = gtk_cell_renderer_text_new();
@@ -389,7 +392,9 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   g_object_set_data(G_OBJECT(install_button), "label", install_label);
   gtk_container_add(GTK_CONTAINER(install_button), install_label);
 
-  Ubox = gtk_hbox_new(FALSE, 4);
+  Ubox = gtk_grid_new();
+  gtk_widget_set_halign(Ubox, GTK_ALIGN_CENTER);
+  gtk_grid_set_column_spacing(GTK_GRID(Ubox), 4);
   URL_label = gtk_label_new_with_mnemonic(_("Modpack URL"));
 
   URL_input = gtk_entry_new();
@@ -402,18 +407,21 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   g_signal_connect(install_button, "clicked",
                    G_CALLBACK(install_clicked), URL_input);
 
-  gtk_box_pack_start(GTK_BOX(Ubox), URL_label, TRUE, TRUE, 0);
-  gtk_box_pack_end(GTK_BOX(Ubox), URL_input, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(Ubox), URL_label);
+  gtk_container_add(GTK_CONTAINER(Ubox), URL_input);
 
   progressbar = gtk_progress_bar_new();
 
   statusbar = gtk_label_new(_("Select modpack to install"));
 
-  gtk_box_pack_start(GTK_BOX(mbox), main_list, TRUE, TRUE, 0);
-  gtk_box_pack_start(GTK_BOX(mbox), Ubox, TRUE, TRUE, 0);
-  gtk_box_pack_start(GTK_BOX(mbox), install_button, TRUE, TRUE, 0);
-  gtk_box_pack_start(GTK_BOX(mbox), progressbar, TRUE, TRUE, 0);
-  gtk_box_pack_end(GTK_BOX(mbox), statusbar, TRUE, TRUE, 0);
+  gtk_widget_set_hexpand(main_list, TRUE);
+  gtk_widget_set_vexpand(main_list, TRUE);
+
+  gtk_container_add(GTK_CONTAINER(mbox), main_list);
+  gtk_container_add(GTK_CONTAINER(mbox), Ubox);
+  gtk_container_add(GTK_CONTAINER(mbox), install_button);
+  gtk_container_add(GTK_CONTAINER(mbox), progressbar);
+  gtk_container_add(GTK_CONTAINER(mbox), statusbar);
 
   gtk_container_add(GTK_CONTAINER(toplevel), mbox);
 
@@ -448,8 +456,6 @@ int main(int argc, char *argv[])
   registry_module_init();
 
   fc_init_network();
-
-  g_thread_init(NULL);
 
   log_init(NULL, loglevel, NULL, NULL, -1);
 
