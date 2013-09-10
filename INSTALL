@@ -343,6 +343,18 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    install it as root, see Reinier's libXpm Solaris Installation Notes
    section near the end of this file.
 
+ - A suitable font.
+
+   To run the Xaw client a suitable font is required. The X fonts should do.
+   If the Xaw client complains about not being able to open a font your X
+   installation probably don't have them. X fonts can be obtained from:
+
+     http://xorg.freedesktop.org/releases/individual/font/
+
+   If you use Debian you can install the package named xfonts-base in stead.
+   After installing a suitable font and restarting X the problem should go
+   away.
+
 1e. Prerequisites for the Qt client:
 ====================================
 
