@@ -326,7 +326,9 @@ static struct terrain *pick_terrain_by_flag(enum terrain_flag_id flag)
   int count = 0;
 
   terrain_type_iterate(pterrain) {
-    if ((has_flag[terrain_index(pterrain)] = terrain_has_flag(pterrain, flag))) {
+    if ((has_flag[terrain_index(pterrain)]
+         = (terrain_has_flag(pterrain, flag)
+            && !terrain_has_flag(pterrain, TER_NOT_GENERATED)))) {
       count++;
     }
   } terrain_type_iterate_end;
@@ -367,17 +369,19 @@ static struct terrain *pick_terrain(enum mapgen_terrain_property target,
 
   /* Find the total weight. */
   terrain_type_iterate(pterrain) {
-    if (avoid != MG_UNUSED && pterrain->property[avoid] > 0) {
-      continue;
-    }
-    if (prefer != MG_UNUSED && pterrain->property[prefer] == 0) {
-      continue;
-    }
+    if (!terrain_has_flag(pterrain, TER_NOT_GENERATED)) {
+      if (avoid != MG_UNUSED && pterrain->property[avoid] > 0) {
+        continue;
+      }
+      if (prefer != MG_UNUSED && pterrain->property[prefer] == 0) {
+        continue;
+      }
 
-    if (target != MG_UNUSED) {
-      sum += pterrain->property[target];
-    } else {
-      sum++;
+      if (target != MG_UNUSED) {
+        sum += pterrain->property[target];
+      } else {
+        sum++;
+      }
     }
   } terrain_type_iterate_end;
 
@@ -386,24 +390,26 @@ static struct terrain *pick_terrain(enum mapgen_terrain_property target,
 
   /* Finally figure out which one we picked. */
   terrain_type_iterate(pterrain) {
-    int property;
+    if (!terrain_has_flag(pterrain, TER_NOT_GENERATED)) {
+      int property;
 
-    if (avoid != MG_UNUSED && pterrain->property[avoid] > 0) {
-      continue;
-    }
-    if (prefer != MG_UNUSED && pterrain->property[prefer] == 0) {
-      continue;
-    }
+      if (avoid != MG_UNUSED && pterrain->property[avoid] > 0) {
+        continue;
+      }
+      if (prefer != MG_UNUSED && pterrain->property[prefer] == 0) {
+        continue;
+      }
 
-    if (target != MG_UNUSED) {
-      property = pterrain->property[target];
-    } else {
-      property = 1;
+      if (target != MG_UNUSED) {
+        property = pterrain->property[target];
+      } else {
+        property = 1;
+      }
+      if (sum < property) {
+        return pterrain;
+      }
+      sum -= property;
     }
-    if (sum < property) {
-      return pterrain;
-    }
-    sum -= property;
   } terrain_type_iterate_end;
 
   /* This can happen with sufficient quantities of preferred and avoided
@@ -522,10 +528,10 @@ static void make_polar_land(void)
   Recursively generate terrains.
 **************************************************************************/
 static void place_terrain(struct tile *ptile, int diff, 
-                           struct terrain *pterrain, int *to_be_placed,
-			   wetness_c        wc,
-			   temperature_type tc,
-			   miscellaneous_c  mc)
+                          struct terrain *pterrain, int *to_be_placed,
+                          wetness_c        wc,
+                          temperature_type tc,
+                          miscellaneous_c  mc)
 {
   if (*to_be_placed <= 0) {
     return;
@@ -587,6 +593,7 @@ static void make_plains(void)
     }
   } whole_map_iterate_end;
 }
+
 /**************************************************************************
  This place randomly a cluster of terrains with some characteristics
  **************************************************************************/
@@ -1181,7 +1188,7 @@ static void make_land(void)
    * that terrain. We must set some terrain (and not T_UNKNOWN) so that "
    * continent number assignment works. */
   terrain_type_iterate(pterrain) {
-    if (!is_ocean(pterrain)) {
+    if (!is_ocean(pterrain) && !terrain_has_flag(pterrain, TER_NOT_GENERATED)) {
       land_fill = pterrain;
       break;
     }

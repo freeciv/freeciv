@@ -501,7 +501,8 @@ struct terrain *pick_ocean(int depth)
 
   terrain_type_iterate(pterrain) {
     if (terrain_type_terrain_class(pterrain) == TC_OCEAN
-        &&  TERRAIN_OCEAN_DEPTH_MINIMUM <= pterrain->property[MG_OCEAN_DEPTH]) {
+        && TERRAIN_OCEAN_DEPTH_MINIMUM <= pterrain->property[MG_OCEAN_DEPTH]
+        && !terrain_has_flag(pterrain, TER_NOT_GENERATED)) {
       int match = abs(depth - pterrain->property[MG_OCEAN_DEPTH]);
 
       if (best_match > match) {
