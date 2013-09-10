@@ -470,6 +470,19 @@ static void tile_clear_dirtiness(struct tile *ptile)
 }
 
 /****************************************************************************
+  Destroy extra from tile.
+****************************************************************************/
+static void tile_destroy_extra(struct tile *ptile, struct extra_type *pextra)
+{
+  if (fc_funcs->destroy_extra != NULL) {
+    /* Assume callback calls tile_remove_extra() itself. */
+    fc_funcs->destroy_extra(ptile, pextra);
+  } else {
+    tile_remove_extra(ptile, pextra);
+  }
+}
+
+/****************************************************************************
   Change the terrain to the given type.  This does secondary tile updates to
   the tile (as will happen when mining/irrigation/transforming changes the
   tile's terrain).
@@ -494,12 +507,19 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
   /* Clear mining/irrigation if resulting terrain type cannot support
    * that feature. */
   if (pterrain->mining_result != pterrain) {
-    tile_clear_special(ptile, S_MINE);
+    extra_type_by_cause_iterate(EC_MINE, pextra) {
+      if (tile_has_extra(ptile, pextra)) {
+        tile_destroy_extra(ptile, pextra);
+      }
+    } extra_type_by_cause_iterate_end;
   }
 
   if (pterrain->irrigation_result != pterrain) {
-    tile_clear_special(ptile, S_IRRIGATION);
-    tile_clear_special(ptile, S_FARMLAND);
+    extra_type_by_cause_iterate(EC_IRRIGATION, pextra) {
+      if (tile_has_extra(ptile, pextra)) {
+        tile_destroy_extra(ptile, pextra);
+      }
+    } extra_type_by_cause_iterate_end;
   }
 
   /* Remove unsupported extras */
@@ -507,12 +527,7 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
     if (tile_has_extra(ptile, pextra)
         && (!is_native_tile_to_extra(pextra, ptile)
             || extra_has_flag(pextra, EF_TERR_CHANGE_REMOVES))) {
-      if (fc_funcs->destroy_extra != NULL) {
-        /* Assume callback calls tile_remove_extra() itself. */
-        fc_funcs->destroy_extra(ptile, pextra);
-      } else {
-	tile_remove_extra(ptile, pextra);
-      }
+      tile_destroy_extra(ptile, pextra);
     }
   } extra_type_iterate_end;
 }
