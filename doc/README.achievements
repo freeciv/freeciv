@@ -2,9 +2,10 @@ Achivements are something player can gain in game by reaching
 set goals. Achivements active in the ruleset are defined in
 game.ruleset.
 
-Achievements are granted to first player to reach the goal for
-the achievement. Goal is defined by achievement type and
-another value specific to that achievement type.
+Depending on whether achievement is defined unique or not,
+they are granted only to first player, or all players,
+to reach the goal for the achievement. Goal is defined by
+achievement type and another value specific to that achievement type.
 
 
 Achievement types
