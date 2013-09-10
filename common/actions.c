@@ -22,6 +22,22 @@
 
 static struct action_enabler_list *action_enablers_by_action[ACTION_COUNT];
 
+static bool is_enabler_active(const struct action_enabler *enabler,
+			      const struct player *actor_player,
+			      const struct city *actor_city,
+			      const struct impr_type *actor_building,
+			      const struct tile *actor_tile,
+			      const struct unit_type *actor_unittype,
+			      const struct output_type *actor_output,
+			      const struct specialist *actor_specialist,
+			      const struct player *target_player,
+			      const struct city *target_city,
+			      const struct impr_type *target_building,
+			      const struct tile *target_tile,
+			      const struct unit_type *target_unittype,
+			      const struct output_type *target_output,
+			      const struct specialist *target_specialist);
+
 /**************************************************************************
   Initialize the action enablers.
 **************************************************************************/
@@ -82,6 +98,35 @@ action_enablers_for_action(enum gen_action action)
 }
 
 /**************************************************************************
+  Return TRUE iff the action enabler is active
+**************************************************************************/
+static bool is_enabler_active(const struct action_enabler *enabler,
+			      const struct player *actor_player,
+			      const struct city *actor_city,
+			      const struct impr_type *actor_building,
+			      const struct tile *actor_tile,
+			      const struct unit_type *actor_unittype,
+			      const struct output_type *actor_output,
+			      const struct specialist *actor_specialist,
+			      const struct player *target_player,
+			      const struct city *target_city,
+			      const struct impr_type *target_building,
+			      const struct tile *target_tile,
+			      const struct unit_type *target_unittype,
+			      const struct output_type *target_output,
+			      const struct specialist *target_specialist)
+{
+  return are_reqs_active(actor_player, target_player, actor_city,
+                         actor_building, actor_tile, actor_unittype,
+                         actor_output, actor_specialist,
+                         &enabler->actor_reqs, RPT_CERTAIN)
+      && are_reqs_active(target_player, actor_player, target_city,
+                         target_building, target_tile, target_unittype,
+                         target_output, target_specialist,
+                         &enabler->target_reqs, RPT_CERTAIN);
+}
+
+/**************************************************************************
   Returns TRUE if the wanted action is enabled by an action enabler.
 
   Note that the action may disable it self by doing its own tests after
@@ -90,7 +135,7 @@ action_enablers_for_action(enum gen_action action)
   Should a precondition become expressible in an action enabler's
   requirement vector please move it.
 **************************************************************************/
-bool action_is_enabled(const enum gen_action wanted_action,
+bool is_action_enabled(const enum gen_action wanted_action,
 		       const struct player *actor_player,
 		       const struct city *actor_city,
 		       const struct impr_type *actor_building,
@@ -108,14 +153,12 @@ bool action_is_enabled(const enum gen_action wanted_action,
 {
   action_enabler_list_iterate(action_enablers_for_action(wanted_action),
                               enabler) {
-    if (are_reqs_active(actor_player, target_player, actor_city,
-                        actor_building, actor_tile, actor_unittype,
-                        actor_output, actor_specialist,
-                        &enabler->actor_reqs, RPT_CERTAIN)
-        && are_reqs_active(target_player, actor_player, target_city,
-                           target_building, target_tile, target_unittype,
-                           target_output, target_specialist,
-                           &enabler->target_reqs, RPT_CERTAIN)) {
+    if (is_enabler_active(enabler, actor_player, actor_city,
+                          actor_building, actor_tile, actor_unittype,
+                          actor_output, actor_specialist,
+                          target_player, target_city,
+                          target_building, target_tile, target_unittype,
+                          target_output, target_specialist)) {
       return TRUE;
     }
   } action_enabler_list_iterate_end;
@@ -127,13 +170,13 @@ bool action_is_enabled(const enum gen_action wanted_action,
   Returns TRUE if actor_unit can do wanted_action to target_city as far as
   action enablers are concerned.
 
-  See note in action_is_enabled for why the action may still be disabled.
+  See note in is_action_enabled for why the action may still be disabled.
 **************************************************************************/
-bool action_is_enabled_unit_on_city(const enum gen_action wanted_action,
+bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *target_city)
 {
-  return action_is_enabled(wanted_action,
+  return is_action_enabled(wanted_action,
                            unit_owner(actor_unit), NULL, NULL,
                            unit_tile(actor_unit), unit_type(actor_unit),
                            NULL, NULL,
@@ -145,13 +188,13 @@ bool action_is_enabled_unit_on_city(const enum gen_action wanted_action,
   Returns TRUE if actor_unit can do wanted_action to target_unit as far as
   action enablers are concerned.
 
-  See note in action_is_enabled for why the action may still be disabled.
+  See note in is_action_enabled for why the action may still be disabled.
 **************************************************************************/
-bool action_is_enabled_unit_on_unit(const enum gen_action wanted_action,
+bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct unit *target_unit)
 {
-  return action_is_enabled(wanted_action,
+  return is_action_enabled(wanted_action,
                            unit_owner(actor_unit), NULL, NULL,
                            unit_tile(actor_unit), unit_type(actor_unit),
                            NULL, NULL,

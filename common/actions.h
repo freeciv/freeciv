@@ -85,7 +85,7 @@ action_enablers_for_action(enum gen_action action);
 struct action_enabler *action_enabler_new(void);
 void action_enabler_add(struct action_enabler *enabler);
 
-bool action_is_enabled(const enum gen_action wanted_action,
+bool is_action_enabled(const enum gen_action wanted_action,
 		       const struct player *actor_player,
 		       const struct city *actor_city,
 		       const struct impr_type *actor_building,
@@ -101,11 +101,11 @@ bool action_is_enabled(const enum gen_action wanted_action,
 		       const struct output_type *target_output,
 		       const struct specialist *target_specialist);
 
-bool action_is_enabled_unit_on_city(const enum gen_action wanted_action,
+bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *target_city);
 
-bool action_is_enabled_unit_on_unit(const enum gen_action wanted_action,
+bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct unit *target_unit);
 

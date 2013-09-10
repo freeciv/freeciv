@@ -108,7 +108,7 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
         return TRUE;
       }
       if (action == SPY_POISON) {
-         return action_is_enabled_unit_on_city(ACTION_SPY_POISON,
+         return is_action_enabled_unit_on_city(ACTION_SPY_POISON,
                                                pdiplomat, pcity);
       }
       if(action==DIPLOMAT_INVESTIGATE)
@@ -128,13 +128,13 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
       punit = unit_list_get(ptile->units, 0);
 
       if ((action == SPY_SABOTAGE_UNIT || action == DIPLOMAT_ANY_ACTION)
-          && action_is_enabled_unit_on_unit(ACTION_SPY_SABOTAGE_UNIT,
+          && is_action_enabled_unit_on_unit(ACTION_SPY_SABOTAGE_UNIT,
                                             pdiplomat, punit)) {
         return TRUE;
       }
 
       if ((action == DIPLOMAT_BRIBE || action == DIPLOMAT_ANY_ACTION)
-          && action_is_enabled_unit_on_unit(ACTION_SPY_BRIBE_UNIT,
+          && is_action_enabled_unit_on_unit(ACTION_SPY_BRIBE_UNIT,
                                             pdiplomat, punit)) {
         return TRUE;
       }
