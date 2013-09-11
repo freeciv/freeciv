@@ -792,9 +792,6 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   Otherwise, sabotage the city improvement whose ID is "improvement".
   (Note: Only Spies can select what to sabotage.)
 
-  - Either a Diplomat or Spy can sabotage an enemy city.
-  - The players must be at war
-
   - Check for infiltration success.  Our saboteur may not survive this.
   - Check for basic success.  Again, our saboteur may not survive this.
   - Determine target, given arguments and constraints.
@@ -815,8 +812,9 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   if (!pcity)
     return;
   cplayer = city_owner (pcity);
-  if (!cplayer || !pplayers_at_war(pplayer, cplayer))
+  if (!cplayer) {
     return;
+  }
 
   log_debug("sabotage: unit: %d", pdiplomat->id);
 
@@ -1447,14 +1445,23 @@ static void maybe_cause_incident(enum diplomat_actions action,
                     _("The %s have caused an incident while posioning %s."),
                     nation_plural_for_player(offender), victim_link);
       break;
+    case DIPLOMAT_SABOTAGE:
+      notify_player(offender, victim_tile,
+                    E_DIPLOMATIC_INCIDENT, ftc_server,
+                    _("You have caused an incident while sabotaging %s."),
+                    victim_link);
+      notify_player(victim_player, victim_tile,
+                    E_DIPLOMATIC_INCIDENT, ftc_server,
+                    _("The %s have caused an incident while sabotaging %s."),
+                    nation_plural_for_player(offender), victim_link);
+      break;
     case DIPLOMAT_MOVE:
     case DIPLOMAT_EMBASSY:
     case DIPLOMAT_INVESTIGATE:
       return; /* These are not considered offences */
     case DIPLOMAT_ANY_ACTION:
-    case DIPLOMAT_SABOTAGE:
-      /* You can only do these when you are at war, so we should never
-       * get inside this "if" */
+      /* Special value not representing a particular action. Should never
+       * be given as a parameter here. */
       fc_assert_ret(FALSE);
     }
     player_diplstate_get(victim_player, offender)->has_reason_to_cancel = 2;

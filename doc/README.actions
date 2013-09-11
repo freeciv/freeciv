@@ -23,6 +23,9 @@ requirements should be documented.
 Actions and their hard coded requirements
 =========================================
 
+"Sabotage City"    - Destroy a building or the production in the target city.
+                     * actor must have the diplomat flag.
+
 "Poison City"      - Kill a citizen in the target city.
                      * actor must have the diplomat flag.
 

@@ -97,8 +97,11 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
   if (pcity) {
     if (city_owner(pcity) != unit_owner(pdiplomat)
        && real_map_distance(unit_tile(pdiplomat), pcity->tile) <= 1) {
-      if(action==DIPLOMAT_SABOTAGE)
-	return pplayers_at_war(unit_owner(pdiplomat), city_owner(pcity));
+      if ((action == DIPLOMAT_SABOTAGE || action == DIPLOMAT_ANY_ACTION)
+          && is_action_enabled_unit_on_city(ACTION_SPY_SABOTAGE_CITY,
+                                            pdiplomat, pcity)) {
+        return TRUE;
+      }
       if(action==DIPLOMAT_MOVE)
         return pplayers_allied(unit_owner(pdiplomat), city_owner(pcity));
       if (action == DIPLOMAT_EMBASSY

@@ -268,6 +268,8 @@ void handle_unit_diplomat_query(struct connection *pc,
 					pcity->tile)
      && unit_has_type_flag(pdiplomat, UTYF_SPY)) {
       spy_send_sabotage_list(pc, pdiplomat, pcity);
+    } else {
+      illegal_action(pplayer, pdiplomat, ACTION_SPY_SABOTAGE_CITY);
     }
     break;
   default:
@@ -323,10 +325,12 @@ void handle_unit_diplomat_action(struct player *pplayer,
       }
       break;
      case DIPLOMAT_SABOTAGE:
-      if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_SABOTAGE,
-					 pcity->tile)) {
+      if (pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_SABOTAGE,
+                                          pcity->tile)) {
 	/* packet value is improvement ID + 1 (or some special codes) */
 	diplomat_sabotage(pplayer, pdiplomat, pcity, value - 1);
+      } else {
+        illegal_action(pplayer, pdiplomat, ACTION_SPY_SABOTAGE_CITY);
       }
       break;
     case SPY_POISON:

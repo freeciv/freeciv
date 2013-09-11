@@ -169,6 +169,13 @@ tired_attack = TRUE
 ; satisfied.
 ;
 ; */ <-- avoid gettext warnings
+[actionenabler_sabotage_city]
+action = "Sabotage City"
+actor_reqs    =
+    { "type",   "name", "range"
+      "DiplRel", "War", "Local"
+    }
+
 [actionenabler_poison_city]
 action = "Poison City"
 actor_reqs    =

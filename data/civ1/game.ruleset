@@ -175,6 +175,13 @@ tired_attack = TRUE
 ; satisfied.
 ;
 ; */ <-- avoid gettext warnings
+[actionenabler_sabotage_city]
+action = "Sabotage City"
+actor_reqs    =
+    { "type",   "name", "range"
+      "DiplRel", "War", "Local"
+    }
+
 [actionenabler_bribe_unit]
 action = "Bribe Unit"
 actor_reqs    =
