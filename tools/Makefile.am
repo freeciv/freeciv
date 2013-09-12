@@ -24,14 +24,14 @@ if MODINST
 noinst_LTLIBRARIES = libfcmp.la
 endif
 
-AM_CPPFLAGS = \
+common_cppflags = \
 	-I$(top_srcdir)/utility \
 	-I$(top_srcdir)/common \
 	-I$(top_srcdir)/server \
 	-I$(top_srcdir)/client \
-	-I$(top_srcdir)/client/include \
-	$(MP_gtk2_CFLAGS) $(MP_gtk3_CFLAGS) \
-	$(MP_qt_CPPFLAGS)
+	-I$(top_srcdir)/client/include
+
+AM_CPPFLAGS = $(common_cppflags)
 
 if MINGW32
 MPICON = $(top_builddir)/win32/mpicon.o
@@ -67,6 +67,8 @@ libfcmp_la_SOURCES = \
 		mpdb.h
 
 if MODINST_GTK2
+freeciv_mp_gtk2_CPPFLAGS = $(common_cppflags) $(MP_gtk2_CFLAGS)
+
 freeciv_mp_gtk2_SOURCES = mpgui_gtk2.c
 
 freeciv_mp_gtk2_LDFLAGS = $(MP_gtk2_LDFLAGS)
@@ -81,6 +83,8 @@ freeciv_mp_gtk2_LDADD = \
 endif
 
 if MODINST_GTK3
+freeciv_mp_gtk3_CPPFLAGS = $(common_cppflags) $(MP_gtk3_CFLAGS)
+
 freeciv_mp_gtk3_SOURCES = mpgui_gtk3.c
 
 freeciv_mp_gtk3_LDFLAGS = $(MP_gtk3_LDFLAGS)
@@ -97,6 +101,7 @@ endif
 MOC_FILES = meta_mpgui_qt.cpp
 
 if MODINST_QT
+freeciv_mp_qt_CPPFLAGS = $(common_cppflags) $(MP_qt_CPPFLAGS)
 
 freeciv_mp_qt_SOURCES = \
 	mpgui_qt.cpp	\

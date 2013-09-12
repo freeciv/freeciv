@@ -439,6 +439,7 @@ if test -z $AR; then
 	AC_MSG_ERROR([*** 'ar' missing.  Install binutils, fix your \$PATH, or set \$AR manually. ***])
 fi
 
+AM_PROG_CC_C_O
 AC_PROG_CXX
 FC_WORKING_CXX
 
