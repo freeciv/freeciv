@@ -701,14 +701,13 @@ static GdkPixbuf *create_road_pixbuf(const struct road_type *proad)
   struct drawn_sprite sprs[80];
   int count, w, h, canvas_x, canvas_y;
   GdkPixbuf *pixbuf;
-  struct canvas canvas;
+  struct canvas canvas = FC_STATIC_CANVAS_INIT;
   cairo_t *cr;
 
   w = tileset_tile_width(tileset);
   h = tileset_tile_height(tileset);
 
   canvas.surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, w, h);
-  canvas.drawable = NULL;
   canvas_x = 0;
   canvas_y = 0;
 
@@ -740,14 +739,13 @@ static GdkPixbuf *create_military_base_pixbuf(const struct base_type *pbase)
   struct drawn_sprite sprs[80];
   int count, w, h, canvas_x, canvas_y;
   GdkPixbuf *pixbuf;
-  struct canvas canvas;
+  struct canvas canvas = FC_STATIC_CANVAS_INIT;
   cairo_t *cr;
 
   w = tileset_tile_width(tileset);
   h = tileset_tile_height(tileset);
 
   canvas.surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, w, h);
-  canvas.drawable = NULL;
   canvas_x = 0;
   canvas_y = 0;
 
@@ -779,14 +777,13 @@ static GdkPixbuf *create_terrain_pixbuf(struct terrain *pterrain)
   struct drawn_sprite sprs[80];
   int count, w, h, canvas_x, canvas_y, i;
   GdkPixbuf *pixbuf;
-  struct canvas canvas;
+  struct canvas canvas = FC_STATIC_CANVAS_INIT;
   cairo_t *cr;
 
   w = tileset_tile_width(tileset);
   h = tileset_tile_height(tileset);
 
   canvas.surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, w, h);
-  canvas.drawable = NULL;
   canvas_x = 0;
   canvas_y = 0;
 
