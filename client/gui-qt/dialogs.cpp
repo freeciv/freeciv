@@ -866,116 +866,114 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
   QVariant qv1, qv2;
   pfcn_void func;
 
+  astr_set(&title,
+           /* TRANS: %s is a unit name, e.g., Spy */
+           _("Choose Your %s's Strategy"), unit_name_translation(punit));
+  astr_set(&text,
+           /* TRANS: %s is a unit name, e.g., Diplomat, Spy */
+           _("Your %s is waiting for your command."),
+           unit_name_translation(punit));
+  choice_dialog *cd = new choice_dialog(astr_str(&title),
+                                                 astr_str(&text),
+                                                 gui()->game_tab_widget);
+  diplomat_id = punit->id;
+  qv1 = punit->id;
+  cd->unit_id = diplomat_id;
+
   if ((pcity = tile_city(dest_tile))) {
     /* Spy/Diplomat acting against a city */
     diplomat_target_id = pcity->id;
-    diplomat_id = punit->id;
-    gui()->set_current_unit(diplomat_id, diplomat_target_id);
-    astr_set(&title,
-             /* TRANS: %s is a unit name, e.g., Spy */
-             _("Choose Your %s's Strategy"), unit_name_translation(punit));
-    astr_set(&text,
-             _("Your %s has arrived at %s.\nWhat is your command?"),
-             unit_name_translation(punit),
-             city_name(pcity));
-    choice_dialog *cd = new choice_dialog(astr_str(&title),
-                                                   astr_str(&text),
-                                                   gui()->game_tab_widget);
-    qv1 = punit->id;
+    gui()->set_current_unit(diplomat_id, diplomat_target_id, ATK_CITY);
     qv2 = pcity->id;
-    cd->unit_id = diplomat_id;
+
     if (diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile)) {
       func = diplomat_embassy;
       cd->add_item(QString(_("Establish _Embassy")),
                             func, qv1, qv2);
     }
+
     if (diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile)) {
       func = diplomat_investigate;
       cd->add_item(QString(_("Investigate City")), func, qv1, qv2);
     }
-    if (!unit_has_type_flag(punit, UTYF_SPY)) {
-      if (diplomat_can_do_action(punit, SPY_POISON, dest_tile)) {
-        func = spy_poison;
-        cd->add_item(QString(_("Poison City")), func, qv1, qv2);
-      }
-      if (diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile)) {
+
+    if (diplomat_can_do_action(punit, SPY_POISON, dest_tile)) {
+      func = spy_poison;
+      cd->add_item(QString(_("Poison City")), func, qv1, qv2);
+    }
+
+    if (diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile)) {
+      if (unit_has_type_flag(punit, UTYF_SPY)) {
+        func = spy_request_sabotage_list;
+        cd->add_item(QString(_("Industrial Sabotage")),
+                     func, qv1, qv2);
+      } else {
         func = diplomat_sabotage;
         cd->add_item(QString(_("_Sabotage City")), func, qv1, qv2);
       }
-      if (diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile)) {
-        func = diplomat_steal;
-        cd->add_item(QString(_("Steal Technology")),
-                              func, qv1, qv2);
-      }
-      if (diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile)) {
-        func = diplomat_incite;
-        cd->add_item(QString(_("Incite a Revolt")), func, qv1, qv2);
-      }
-      if (diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile)) {
-        func = diplomat_keep_moving_city;
-        cd->add_item(QString(_("Keep moving")), func, qv1, qv2);
-      }
-    } else  {
-      if (diplomat_can_do_action(punit, SPY_POISON, dest_tile)) {
-        func = spy_poison;
-        cd->add_item(QString(_("Poison City")), func, qv1, qv2);
-      }
-      if (diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile)) {
-        func = spy_request_sabotage_list;
-        cd->add_item(QString(_("Industrial Sabotage")),
-                              func, qv1, qv2);
-      }
-      if (diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile)) {
+    }
+
+    if (diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile)) {
+      if (unit_has_type_flag(punit, UTYF_SPY)) {
         func = spy_steal;
         cd->add_item(QString(_("Steal Technology")),
-                              func, qv1, qv2);
-      }
-      if (diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile)) {
-        func = diplomat_incite;
-        cd->add_item(QString(_("Incite a Revolt")), func, qv1, qv2);
-      }
-      if (diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile)) {
-        func = diplomat_keep_moving_city;
-        cd->add_item(QString(_("Keep moving")), func, qv1, qv2);
+                     func, qv1, qv2);
+      } else {
+        if (diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile)) {
+          func = diplomat_steal;
+          cd->add_item(QString(_("Steal Technology")),
+                       func, qv1, qv2);
+        }
       }
     }
-    cd->set_layout();
-    cd->show_me();
-  } else {
-    if ((ptunit = unit_list_get(dest_tile->units, 0))) {
-      /* Spy/Diplomat acting against a unit */
 
-      diplomat_target_id = ptunit->id;
-      diplomat_id = punit->id;
-      gui()->set_current_unit(diplomat_id, diplomat_target_id);
-      astr_set(&text,
-               /* TRANS: %s is a unit name, e.g., Diplomat, Spy */
-               _("Your %s is waiting for your command."),
-               unit_name_translation(punit));
-      choice_dialog *cd = new choice_dialog(_("Subvert Enemy Unit"),
-                                                     astr_str(&text),
-                                                     gui()->game_tab_widget);
-      qv2 = ptunit->id;
-      qv1 = punit->id;
-      if (diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_tile)) {
-        func = diplomat_bribe;
-        cd->add_item(QString(_("Bribe Enemy Unit")), func, qv1, qv2);
-      }
-      if (diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_tile)) {
-        func = spy_sabotage_unit;
-        cd->add_item(QString(_("Sabotage Enemy Unit")),
-                              func, qv1, qv2);
-      }
-      if (diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile)) {
-        func = diplomat_keep_moving_unit;
-        cd->add_item(QString(_("Keep moving")), func, qv1, qv2);
-      }
-      func = keep_moving;
-      cd->add_item(QString(_("Do nothing")), func, qv1, qv2);
-      cd->set_layout();
-      cd->show_me();
+    if (diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile)) {
+      func = diplomat_incite;
+      cd->add_item(QString(_("Incite a Revolt")), func, qv1, qv2);
     }
   }
+
+  if ((ptunit = unit_list_get(dest_tile->units, 0))) {
+    /* Spy/Diplomat acting against a unit */
+
+    diplomat_target_id = ptunit->id;    
+    gui()->set_current_unit(diplomat_id, diplomat_target_id, ATK_UNIT);
+    qv2 = ptunit->id;
+
+    if (diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_tile)) {
+      func = diplomat_bribe;
+      cd->add_item(QString(_("Bribe Enemy Unit")), func, qv1, qv2);
+    }
+
+    if (diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_tile)) {
+      func = spy_sabotage_unit;
+      cd->add_item(QString(_("Sabotage Enemy Unit")),
+                   func, qv1, qv2);
+    }
+  }
+
+  if (pcity) {
+    qv2 = pcity->id;
+  } else {
+    qv2 = ptunit->id;
+  }
+
+  if (diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile)) {
+    if (pcity) {
+      func = diplomat_keep_moving_city;
+      cd->add_item(QString(_("Keep moving")), func, qv1, qv2);
+    } else {
+      func = diplomat_keep_moving_unit;
+      cd->add_item(QString(_("Keep moving")), func, qv1, qv2);
+    }
+  }
+
+  func = keep_moving;
+  cd->add_item(QString(_("Do nothing")), func, qv1, qv2);
+
+  cd->set_layout();
+  cd->show_me();
+
   astr_free(&title);
   astr_free(&text);
 }
@@ -1064,7 +1062,7 @@ static void spy_steal_something(QVariant data1, QVariant data2)
   int diplomat_id;
   int diplomat_target_id;
 
-  gui()->get_current_unit(&diplomat_id, &diplomat_target_id);
+  gui()->get_current_unit(&diplomat_id, &diplomat_target_id, ATK_CITY);
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
     request_diplomat_action(DIPLOMAT_STEAL, diplomat_id,
@@ -1253,7 +1251,7 @@ void popup_incite_dialog(struct city *pcity, int cost)
       return;
       break;
     case QMessageBox::Ok:
-      gui()->get_current_unit(&diplomat_id, &diplomat_target_id);
+      gui()->get_current_unit(&diplomat_id, &diplomat_target_id, ATK_CITY);
       request_diplomat_action(DIPLOMAT_INCITE, diplomat_id,
                               diplomat_target_id, 0);
       break;
@@ -1284,7 +1282,7 @@ void popup_bribe_dialog(struct unit *punit, int cost)
   int diplomat_id;
   int diplomat_target_id;
 
-  gui()->get_current_unit(&diplomat_id, &diplomat_target_id);
+  gui()->get_current_unit(&diplomat_id, &diplomat_target_id, ATK_UNIT);
   fc_snprintf(buf, ARRAY_SIZE(buf), PL_("Treasury contains %d gold.",
                                         "Treasury contains %d gold.",
                                         client_player()->economic.gold),
@@ -1353,7 +1351,7 @@ static void spy_sabotage(QVariant data1, QVariant data2)
   int diplomat_id;
   int diplomat_target_id;
 
-  gui()->get_current_unit(&diplomat_id, &diplomat_target_id);
+  gui()->get_current_unit(&diplomat_id, &diplomat_target_id, ATK_CITY);
   if (NULL != game_unit_by_number(diplomat_id)
         && NULL != game_city_by_number(diplomat_target_id)) {
       request_diplomat_action(DIPLOMAT_SABOTAGE, diplomat_id,
@@ -1379,7 +1377,7 @@ void popup_sabotage_dialog(struct city *pcity)
   int nr = 0;
   struct astring stra = ASTRING_INIT;
 
-  gui()->get_current_unit(&diplomat_id, &diplomat_target_id);
+  gui()->get_current_unit(&diplomat_id, &diplomat_target_id, ATK_CITY);
   qv1 = diplomat_id;
   func = spy_sabotage;
   cd->add_item(QString(_("City Production")), func, qv1, -1);
@@ -1548,7 +1546,8 @@ void close_diplomat_dialog(void)
   if (cd != NULL){
     cd->close();
   }
-  gui()->set_current_unit(-1, -1);
+  gui()->set_current_unit(-1, -1, ATK_UNIT);
+  gui()->set_current_unit(-1, -1, ATK_CITY);
 }
 
 /****************************************************************
@@ -1949,19 +1948,21 @@ void unit_select::wheelEvent(QWheelEvent *event)
 /***************************************************************************
  Set current unit handled in diplo dialog
 ***************************************************************************/
-void fc_client::set_current_unit(int curr, int target)
+void fc_client::set_current_unit(int curr, int target,
+                                 action_target_kind tgt)
 {
   current_unit_id = curr;
-  current_unit_target_id  = target;
+  current_unit_target_id[tgt] = target;
 }
 
 /***************************************************************************
  Get current unit handled in diplo dialog
 ***************************************************************************/
-void fc_client::get_current_unit(int *curr, int *target)
+void fc_client::get_current_unit(int *curr, int *target,
+                                 action_target_kind tgt)
 {
   *curr = current_unit_id;
-  *target = current_unit_target_id;
+  *target = current_unit_target_id[tgt];
 }
 
 /***************************************************************************

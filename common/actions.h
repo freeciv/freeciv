@@ -28,6 +28,7 @@ extern "C" {
 #define SPECENUM_VALUE0NAME "City"
 #define SPECENUM_VALUE1 ATK_UNIT
 #define SPECENUM_VALUE1NAME "Unit"
+#define SPECENUM_COUNT ATK_COUNT
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */
