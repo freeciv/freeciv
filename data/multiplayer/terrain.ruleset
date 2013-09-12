@@ -168,6 +168,44 @@ fallout_trade_penalty=50
 ;
 ; */ <-- avoid gettext warnings
 
+[terrain_inaccesible]
+name                 = _("Inaccessible")
+graphic              = "inaccessible"
+graphic_alt          = "arctic"
+identifier           = "i"
+class                = "Land"
+movement_cost        = 0
+defense_bonus        = 0
+food                 = 0
+shield               = 0
+trade                = 0
+road_food_incr_pct   = 0
+road_shield_incr_pct = 0
+road_trade_incr_pct  = 0
+base_time            = 0
+road_time            = 0
+irrigation_result    = "no"
+irrigation_food_incr = 0
+irrigation_time      = 0
+mining_result        = "no"
+mining_shield_incr   = 0
+mining_time          = 0
+transform_result     = "no"
+transform_time       = 0
+clean_pollution_time = 0
+clean_fallout_time   = 0
+warmer_wetter_result = "no"
+warmer_drier_result  = "no"
+cooler_wetter_result = "no"
+cooler_drier_result  = "no"
+flags                = "NotGenerated", "NoPollution"
+color.r              = 25
+color.g              = 25
+color.b              = 25
+helptext             = _("\
+No unit can enter this terrain, nor can city work the tile.\
+")
+
 [terrain_lake]
 name                 = _("Lake")
 graphic              = "lake"
