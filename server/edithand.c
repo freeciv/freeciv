@@ -329,38 +329,6 @@ static bool edit_tile_special_handling(struct tile *ptile,
 }
 
 /****************************************************************************
-  Recursively add all road dependencies to add given road.
-****************************************************************************/
-static bool add_recursive_roads(struct tile *ptile, struct road_type *proad,
-                                int rec)
-{
-  struct extra_type *pextra;
-
-  if (rec > MAX_ROAD_TYPES) {
-    /* Infinite recursion */
-    return FALSE;
-  }
-
-  pextra = road_extra_get(proad);
-
-  /* First place dependency roads */
-  road_deps_iterate(&(pextra->reqs), pdep) {
-    if (!tile_has_road(ptile, pdep)) {
-      add_recursive_roads(ptile, pdep, rec + 1);
-    }
-  } road_deps_iterate_end;
-
-  /* Is tile native for road after that? */
-  if (!is_native_tile_to_road(proad, ptile)) {
-    return FALSE;
-  }
-
-  tile_add_road(ptile, proad);
-
-  return TRUE;
-}
-
-/****************************************************************************
   Base function to edit the road property of a tile. Returns TRUE if
   the road state has changed.
 ****************************************************************************/
@@ -375,7 +343,7 @@ static bool edit_tile_road_handling(struct tile *ptile,
 
     tile_remove_road(ptile, proad);
   } else {
-    if (!add_recursive_roads(ptile, proad, 0)) {
+    if (!tile_extra_apply(ptile, road_extra_get(proad))) {
       return FALSE;
     }
   }
@@ -383,38 +351,6 @@ static bool edit_tile_road_handling(struct tile *ptile,
   if (send_tile_info) {
     update_tile_knowledge(ptile);
   }
-
-  return TRUE;
-}
-
-/****************************************************************************
-  Recursively add all base dependencies to add given base.
-****************************************************************************/
-static bool add_recursive_bases(struct tile *ptile, struct base_type *pbase,
-                                int rec)
-{
-  struct extra_type *pextra;
-
-  if (rec > MAX_BASE_TYPES) {
-    /* Infinite recursion */
-    return FALSE;
-  }
-
-  pextra = base_extra_get(pbase);
-
-  /* First place dependency bases */
-  base_deps_iterate(&(pextra->reqs), pdep) {
-    if (!tile_has_base(ptile, pdep)) {
-      add_recursive_bases(ptile, pdep, rec + 1);
-    }
-  } base_deps_iterate_end;
-
-  /* Is tile native for base after that? */
-  if (!is_native_tile_to_base(pbase, ptile)) {
-    return FALSE;
-  }
-
-  tile_add_base(ptile, pbase);
 
   return TRUE;
 }
@@ -434,7 +370,7 @@ static bool edit_tile_base_handling(struct tile *ptile,
 
     tile_remove_base(ptile, pbase);
   } else {
-    if (!add_recursive_bases(ptile, pbase, 0)) {
+    if (!tile_extra_apply(ptile, base_extra_get(pbase))) {
       return FALSE;
     }
   }
