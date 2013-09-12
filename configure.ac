@@ -811,17 +811,11 @@ if test "x$client" != "xno"; then
 
   dnl Stub-specific overrides
   if test "x$gui_stub" = "xyes" || test "x$client" = "xall" ; then
-    found_client=yes
-
-    if test "x$found_client" = "xyes"; then
-      gui_stub=yes
-      if test "x$client" = "xauto" ; then
-        client=yes
-      fi
-      GUI_stub_LIBS="-lm"
-    elif test "x$gui_stub" = "xyes"; then
-      AC_MSG_ERROR(specified client 'stub' not configurable)
+    gui_stub=yes
+    if test "x$client" = "xauto" ; then
+      client=yes
     fi
+    GUI_stub_LIBS="-lm"
   fi
 
   dnl If client still "auto", error out since we couldn't guess it

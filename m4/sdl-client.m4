@@ -28,7 +28,7 @@ AC_DEFUN([FC_SDL_CLIENT],
           if test "$freetype_found" = yes; then
 	    GUI_sdl_CFLAGS="$SDL_CFLAGS $FT2_CFLAGS"
 	    GUI_sdl_LIBS="-lSDL_image $SDL_LIBS $FT2_LIBS"
-	    found_client=yes
+	    found_sdl_client=yes
           elif test "x$gui_sdl" = "xyes"; then
             AC_MSG_ERROR([specified client 'sdl' not configurable (FreeType2 >= 2.1.3 is needed (www.freetype.org))])
           fi    
@@ -40,7 +40,7 @@ AC_DEFUN([FC_SDL_CLIENT],
       fi
     fi
 
-    if test "$found_client" = yes; then
+    if test "$found_sdl_client" = yes; then
       gui_sdl=yes
       if test "x$client" = "xauto" ; then
         client=yes
