@@ -16,6 +16,7 @@
 #endif
 
 /* common */
+#include "achievements.h"
 #include "citizens.h"
 #include "game.h"
 #include "government.h"
@@ -428,6 +429,29 @@ const char *api_methods_disaster_name_translation(lua_State *L,
   LUASCRIPT_CHECK_SELF(L, pdis, NULL);
 
   return disaster_name_translation(pdis);
+}
+
+/*****************************************************************************
+  Return rule name for Achievement
+*****************************************************************************/
+const char *api_methods_achievement_rule_name(lua_State *L, Achievement *pach)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pach, NULL);
+
+  return achievement_rule_name(pach);
+}
+
+/*****************************************************************************
+  Return translated name for Achievement
+*****************************************************************************/
+const char *api_methods_achievement_name_translation(lua_State *L,
+                                                     Achievement *pach)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pach, NULL);
+
+  return achievement_name_translation(pach);
 }
 
 /*****************************************************************************

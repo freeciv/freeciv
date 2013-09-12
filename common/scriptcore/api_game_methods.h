@@ -93,6 +93,11 @@ const char *api_methods_disaster_rule_name(lua_State *L, Disaster *pdis);
 const char *api_methods_disaster_name_translation(lua_State *L,
                                                   Disaster *pdis);
 
+/* Achievement */
+const char *api_methods_achievement_rule_name(lua_State *L, Achievement *pach);
+const char *api_methods_achievement_name_translation(lua_State *L,
+                                                     Achievement *pach);
+
 /* Tile */
 int api_methods_tile_nat_x(lua_State *L, Tile *ptile);
 int api_methods_tile_nat_y(lua_State *L, Tile *ptile);

@@ -97,6 +97,10 @@ struct Disaster {
   const int id;
 };
 
+struct Achievement {
+  const int id;
+};
+
 struct Unit_List_Link {
 };
 
@@ -338,6 +342,14 @@ module Disaster {
     @ rule_name (lua_State *L, Disaster *self);
   const char *api_methods_disaster_name_translation
     @ name_translation (lua_State *L, Disaster *self);
+}
+
+/* Module Achievement. */
+module Achievement {
+  const char *api_methods_achievement_rule_name
+    @ rule_name (lua_State *L, Achievement *self);
+  const char *api_methods_achievement_name_translation
+    @ name_translation (lua_State *L, Achievement *self);
 }
 
 /* Module Unit_List_Link. */

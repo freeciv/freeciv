@@ -1124,6 +1124,12 @@ static void end_turn(void)
     if (first != NULL) {
       notify_player(first, NULL, E_ACHIEVEMENT, ftc_server,
                     "%s", achievement_first_msg(ach));
+
+      script_server_signal_emit("achievement_gained", 3,
+                                API_TYPE_ACHIEVEMENT, ach,
+                                API_TYPE_PLAYER, first,
+                                API_TYPE_BOOL, TRUE);
+
     }
 
     if (!ach->unique) {
@@ -1132,6 +1138,11 @@ static void end_turn(void)
         if (pplayer != first) {
           notify_player(pplayer, NULL, E_ACHIEVEMENT, ftc_server,
                         "%s", achievement_later_msg(ach));
+
+          script_server_signal_emit("achievement_gained", 3,
+                                    API_TYPE_ACHIEVEMENT, ach,
+                                    API_TYPE_PLAYER, pplayer,
+                                    API_TYPE_BOOL, FALSE);
         }
       } player_list_iterate_end;
     }

@@ -47,7 +47,8 @@ do
     "Unit",
     "Unit_List_Link",
     "Unit_Type",
-    "Disaster"
+    "Disaster",
+    "Achievement"
   }
 
   local function id_eq (o1, o2)
