@@ -817,7 +817,8 @@ conflicts      = "Irrigation", "Farmland"
 name           = _("Pollution")
 
 [extra_hut]
-name           = _("Hut")
+name           = _("Minor Tribe Village")
+rule_name      = "Hut"
 
 [extra_farmland]
 name           = _("Farmland")

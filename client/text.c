@@ -153,6 +153,7 @@ const char *popup_info_text(struct tile *ptile)
   char username[MAX_LEN_NAME + 32];
   char nation[2 * MAX_LEN_NAME + 32];
   int tile_x, tile_y, nat_x, nat_y;
+  bool first;
 
   astr_clear(&str);
   index_to_map_pos(&tile_x, &tile_y, tile_index(ptile));
@@ -169,9 +170,17 @@ const char *popup_info_text(struct tile *ptile)
   astr_add_line(&str, _("Terrain: %s"),  tile_get_info_text(ptile, 0));
   astr_add_line(&str, _("Food/Prod/Trade: %s"),
 		get_tile_output_text(ptile));
-  if (tile_has_special(ptile, S_HUT)) {
-    astr_add_line(&str, _("Minor Tribe Village"));
-  }
+  first = TRUE;
+  extra_type_by_cause_iterate(EC_HUT, pextra) {
+    if (tile_has_extra(ptile, pextra)) {
+      if (!first) {
+        astr_add(&str, ",%s", extra_name_translation(pextra));
+      } else {
+        astr_add_line(&str, "%s", extra_name_translation(pextra));
+        first = FALSE;
+      }
+    }
+  } extra_type_by_cause_iterate_end;
   if (BORDERS_DISABLED != game.info.borders && !pcity) {
     struct player *owner = tile_owner(ptile);
 

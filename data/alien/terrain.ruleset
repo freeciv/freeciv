@@ -520,7 +520,7 @@ conflicts      = "Irrigation", "Farmland"
 name           = _("Pollution")
 
 [extra_hut]
-name           = _("Hut")
+name           = _("Space Capsule")
 
 [extra_farmland]
 name           = _("Farmland")
