@@ -48,6 +48,7 @@ tiles = { "row", "column", "tag"
  8,  0, "t.l0.swamp1"
 
  9,  0, "t.l0.jungle1"
+10,  0, "t.l0.inaccessible1"
 
 ; Terrain special resources:
 
