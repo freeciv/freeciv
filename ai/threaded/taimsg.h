@@ -25,6 +25,8 @@
 #define SPECENUM_NAME taireqtype
 #define SPECENUM_VALUE0 TAI_REQ_WORKER_TASK
 #define SPECENUM_VALUE0NAME "WorkerTask"
+#define SPECENUM_VALUE1 TAI_REQ_TURN_DONE
+#define SPECENUM_VALUE1NAME "TurnDone"
 #include "specenum_gen.h"
 
 struct tai_msg

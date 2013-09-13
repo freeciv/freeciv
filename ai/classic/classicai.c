@@ -357,6 +357,8 @@ static void cai_do_first_activities(struct player *pplayer)
   struct ai_type *deftype = classic_ai_get_self();
 
   dai_do_first_activities(deftype, pplayer);
+
+  pplayer->ai_phase_done = TRUE;
 }
 
 /**************************************************************************

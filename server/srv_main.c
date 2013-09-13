@@ -896,6 +896,7 @@ static void begin_phase(bool is_new_phase)
 
   phase_players_iterate(pplayer) {
     pplayer->phase_done = FALSE;
+    pplayer->ai_phase_done = FALSE;
   } phase_players_iterate_end;
   send_player_all_c(NULL, NULL);
 
@@ -1718,15 +1719,20 @@ void check_for_full_turn_done(void)
   }
 
   phase_players_iterate(pplayer) {
-    if (game.server.turnblock && !pplayer->ai_controlled && pplayer->is_alive
-	&& !pplayer->phase_done) {
-      /* If turnblock is enabled check for human players, connected
-       * or not. */
-      return;
-    } else if (pplayer->is_connected && pplayer->is_alive
-	       && !pplayer->phase_done) {
-      /* In all cases, we wait for any connected players. */
-      return;
+    if (!pplayer->phase_done && pplayer->is_alive) {
+      if (pplayer->is_connected) {
+        /* In all cases, we wait for any connected players. */
+        return;
+      }
+      if (game.server.turnblock && !pplayer->ai_controlled) {
+        /* If turnblock is enabled check for human players, connected
+         * or not. */
+        return;
+      }
+      if (pplayer->ai_controlled && !pplayer->ai_phase_done) {
+        /* AI player has not finished */
+        return;
+      }
     }
   } phase_players_iterate_end;
 

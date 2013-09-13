@@ -228,7 +228,8 @@ struct player {
   struct nation_type *nation;
   struct team *team;
   bool is_ready; /* Did the player click "start" yet? */
-  bool phase_done;
+  bool phase_done;    /* Has human player finished */
+  bool ai_phase_done; /* Has AI type finished */
   int nturns_idle;
   bool is_alive;
 

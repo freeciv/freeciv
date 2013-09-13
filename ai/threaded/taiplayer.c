@@ -126,6 +126,9 @@ static enum tai_abort_msg_class tai_check_messages(void)
         }
       } city_list_iterate_safe_end;
       fc_release_mutex(&game.server.mutexes.city_list);
+
+      tai_send_req(TAI_REQ_TURN_DONE, msg->plr, NULL);
+
       break;
     case TAI_MSG_PHASE_FINISHED:
       new_abort = TAI_ABORT_PHASE_END;
@@ -244,6 +247,9 @@ void tai_refresh(struct ai_type *ait, struct player *pplayer)
        switch(req->type) {
        case TAI_REQ_WORKER_TASK:
          tai_req_worker_task_rcv(req);
+         break;
+       case TAI_REQ_TURN_DONE:
+         req->plr->ai_phase_done = TRUE;
          break;
        }
 
