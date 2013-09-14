@@ -114,7 +114,7 @@ static char *terrain_sections = NULL;
 static char *base_sections = NULL;
 static char *road_sections = NULL;
 
-static bool load_rulesetdir(const char *rsdir);
+static bool load_rulesetdir(const char *rsdir, bool act);
 static struct section_file *openload_ruleset_file(const char *whichset,
                                                   const char *rsdir);
 static const char *check_ruleset_capabilities(struct section_file *file,
@@ -143,7 +143,7 @@ static bool load_ruleset_terrain(struct section_file *file);
 static bool load_ruleset_cities(struct section_file *file);
 static bool load_ruleset_effects(struct section_file *file);
 
-static bool load_ruleset_game(const char *rsdir);
+static bool load_ruleset_game(const char *rsdir, bool act);
 
 static void send_ruleset_techs(struct conn_list *dest);
 static void send_ruleset_unit_classes(struct conn_list *dest);
@@ -4330,7 +4330,7 @@ static int secfile_lookup_int_default_min_max(struct section_file *file,
 /**************************************************************************
   Load ruleset file.
 **************************************************************************/
-static bool load_ruleset_game(const char *rsdir)
+static bool load_ruleset_game(const char *rsdir, bool act)
 {
   struct section_file *file;
   const char *sval, **svec;
@@ -4883,7 +4883,7 @@ static bool load_ruleset_game(const char *rsdir)
     }
   }
 
-  settings_ruleset(file, "settings");
+  settings_ruleset(file, "settings", act);
 
   if (ok) {
     secfile_check_unused(file);
@@ -5642,15 +5642,15 @@ static void send_ruleset_team_names(struct conn_list *dest)
 /**************************************************************************
   Loads the rulesets.
 **************************************************************************/
-bool load_rulesets(const char *restore)
+bool load_rulesets(const char *restore, bool act)
 {
-  if (load_rulesetdir(game.server.rulesetdir)) {
+  if (load_rulesetdir(game.server.rulesetdir, act)) {
     return TRUE;
   }
 
   /* Fallback to previous one. */
   if (restore != NULL) {
-    if (load_rulesetdir(restore)) {
+    if (load_rulesetdir(restore, act)) {
       sz_strlcpy(game.server.rulesetdir, restore);
 
       /* We're in sane state as restoring previous ruleset succeeded,
@@ -5663,7 +5663,7 @@ bool load_rulesets(const char *restore)
   /* Fallback to default one, but not if that's what we tried already */
   if (strcmp(GAME_DEFAULT_RULESETDIR, game.server.rulesetdir)
       && (restore == NULL || strcmp(GAME_DEFAULT_RULESETDIR, restore))) {
-    if (load_rulesetdir(GAME_DEFAULT_RULESETDIR)) {
+    if (load_rulesetdir(GAME_DEFAULT_RULESETDIR, act)) {
       /* We're in sane state as fallback ruleset loading succeeded,
        * but return failure to indicate that this is not what caller
        * wanted. */
@@ -5691,7 +5691,7 @@ static void nullcheck_secfile_destroy(struct section_file *file)
   Loads the rulesets from directory.
   This may be called more than once and it will free any stale data.
 **************************************************************************/
-static bool load_rulesetdir(const char *rsdir)
+static bool load_rulesetdir(const char *rsdir, bool act)
 {
   struct section_file *techfile, *unitfile, *buildfile, *govfile, *terrfile;
   struct section_file *cityfile, *nationfile, *effectfile;
@@ -5762,7 +5762,7 @@ static bool load_rulesetdir(const char *rsdir)
     ok = load_ruleset_effects(effectfile);
   }
   if (ok) {
-    ok = load_ruleset_game(rsdir);
+    ok = load_ruleset_game(rsdir, act);
   }
 
   if (ok) {
@@ -5816,7 +5816,7 @@ static bool load_rulesetdir(const char *rsdir)
 
     /* We may need to adjust the number of AI players
      * if the number of available nations changed. */
-    if (game.info.aifill > server.playable_nations) {
+    if (game.info.aifill > server.playable_nations && act) {
       log_normal(_("Reducing aifill because there "
                    "are not enough playable nations."));
       game.info.aifill = server.playable_nations;
@@ -5842,7 +5842,7 @@ bool reload_rulesets_settings(void)
     ok = FALSE;
   }
   if (ok) {
-    settings_ruleset(file, "settings");
+    settings_ruleset(file, "settings", TRUE);
     secfile_destroy(file);
   }
 

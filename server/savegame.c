@@ -3417,7 +3417,7 @@ static void game_load_internal(struct section_file *file)
   }
 
   /* load rulesets */
-  if (!load_rulesets(NULL)) {
+  if (!load_rulesets(NULL, TRUE)) {
     /* Failed to load correct ruleset */
     exit(EXIT_FAILURE);
   }
