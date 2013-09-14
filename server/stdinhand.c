@@ -3808,7 +3808,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
 
     /* load the ruleset (and game settings defined in the ruleset) */
     player_info_freeze();
-    if (load_rulesets(old)) {
+    if (load_rulesets(old, TRUE)) {
       cmd_reply(CMD_RULESETDIR, caller, C_OK, 
                 _("Ruleset directory set to \"%s\""), str);
     } else {

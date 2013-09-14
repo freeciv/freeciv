@@ -142,7 +142,7 @@ static bool manual_command(void)
   /* Reset aifill to zero */
   game.info.aifill = 0;
 
-  if (!load_rulesets(NULL)) {
+  if (!load_rulesets(NULL, FALSE)) {
     /* Failed to load correct ruleset */
     return FALSE;
   }
@@ -514,6 +514,8 @@ int main(int argc, char **argv)
   con_log_init(srvarg.log_filename, srvarg.loglevel,
                srvarg.fatal_assertions);
   /* logging available after this point */
+
+  settings_init(FALSE);
 
   /* Initialize game with default values */
   game_init();

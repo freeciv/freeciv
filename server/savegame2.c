@@ -1472,7 +1472,7 @@ static void sg_load_savefile(struct loaddata *loading)
   if (!strcmp("default", game.server.rulesetdir)) {
     sz_strlcpy(game.server.rulesetdir, "classic");
   }
-  if (!load_rulesets(NULL)) {
+  if (!load_rulesets(NULL, TRUE)) {
     /* Failed to load correct ruleset */
     sg_failure_ret(TRUE, "Failed to load ruleset");
   }

@@ -3260,7 +3260,8 @@ void setting_action(const struct setting *pset)
 /**************************************************************************
   Load game settings from ruleset file 'game.ruleset'.
 **************************************************************************/
-bool settings_ruleset(struct section_file *file, const char *section)
+bool settings_ruleset(struct section_file *file, const char *section,
+                      bool act)
 {
   const char *name;
   int j;
@@ -3291,9 +3292,11 @@ bool settings_ruleset(struct section_file *file, const char *section)
 
   /* Execute all setting actions to consider actions due to the 
    * default values. */
-  settings_iterate(SSET_ALL, pset) {
-    setting_action(pset);
-  } settings_iterate_end;
+  if (act) {
+    settings_iterate(SSET_ALL, pset) {
+      setting_action(pset);
+    } settings_iterate_end;
+  }
 
   /* send game settings */
   send_server_settings(NULL);
@@ -3900,7 +3903,7 @@ bool settings_game_reset(void)
 /**************************************************************************
   Initialize stuff related to this code module.
 **************************************************************************/
-void settings_init(void)
+void settings_init(bool act)
 {
   settings_list_init();
 
@@ -3908,7 +3911,9 @@ void settings_init(void)
     setting_lock_set(pset, FALSE);
     setting_set_to_default(pset);
     setting_game_set(pset, TRUE);
-    setting_action(pset);
+    if (act) {
+      setting_action(pset);
+    }
   } settings_iterate_end;
 
   settings_list_update();
