@@ -194,11 +194,11 @@ reqs	=
     }
 
 [effect_base_enemy_unhappiness]
-name    = "Enemy_Citizen_Unhappy_Pct"
+type    = "Enemy_Citizen_Unhappy_Pct"
 value   = 100
 
 [effect_enemy_unhappiness_communism]
-name    = "Enemy_Citizen_Unhappy_Pct"
+type    = "Enemy_Citizen_Unhappy_Pct"
 value   = -50
 reqs	=
     { "type", "name", "range"
@@ -206,7 +206,7 @@ reqs	=
     }
 
 [effect_enemy_unhappiness_republic]
-name    = "Enemy_Citizen_Unhappy_Pct"
+type    = "Enemy_Citizen_Unhappy_Pct"
 value   = -50
 reqs	=
     { "type", "name", "range"
@@ -214,7 +214,7 @@ reqs	=
     }
 
 [effect_enemy_unhappiness_democracy]
-name    = "Enemy_Citizen_Unhappy_Pct"
+type    = "Enemy_Citizen_Unhappy_Pct"
 value   = -67
 reqs	=
     { "type", "name", "range"
@@ -1215,7 +1215,7 @@ reqs	=
     }
 
 [effect_hospital_health]
-name   = "Health_Pct"
+type   = "Health_Pct"
 value  = 25
 reqs   =
     {"type", "name", "range"
@@ -1287,7 +1287,7 @@ nreqs	=
     }
 
 [effect_genetic_lab_health]
-name   = "Health_Pct"
+type   = "Health_Pct"
 value  = 20
 reqs   =
     {"type", "name", "range"
@@ -1468,7 +1468,7 @@ reqs	=
     }
 
 [effect_palace_5]
-name = "Output_Bonus"
+type = "Output_Bonus"
 value  = 75
 reqs =
     { "type", "name", "range"
@@ -1478,7 +1478,7 @@ reqs =
     }
 
 [effect_palace_6]
-name = "Output_Bonus"
+type = "Output_Bonus"
 value  = 50
 reqs =
     { "type", "name", "range"

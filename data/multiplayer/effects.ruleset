@@ -1304,7 +1304,7 @@ reqs	=
     }
 
 [effect_palace_5]
-name = "Output_Bonus"
+type = "Output_Bonus"
 value  = 75
 reqs =
     { "type", "name", "range"
@@ -1314,7 +1314,7 @@ reqs =
     }
 
 [effect_palace_6]
-name = "Output_Bonus"
+type = "Output_Bonus"
 value  = 50
 reqs =
     { "type", "name", "range"
@@ -2161,7 +2161,7 @@ reqs	=
     }
 
 [effect_fanatics_fundamentalism]
-name  = "Fanatics"
+type  = "Fanatics"
 value = 1
 reqs  =
     { "type", "name", "range"
@@ -2169,7 +2169,7 @@ reqs  =
     }
 
 [effect_corruption_fundamentalism0]
-name  = "Output_Waste"
+type  = "Output_Waste"
 value = 2
 reqs  =
     { "type", "name", "range"
@@ -2178,7 +2178,7 @@ reqs  =
     }
 
 [effect_corruption_fundamentalism1]
-name  = "Output_Waste_By_Distance"
+type  = "Output_Waste_By_Distance"
 value = 2
 reqs  =
     { "type", "name", "range"
@@ -2187,7 +2187,7 @@ reqs  =
     }
 
 [effect_waste_fundamentalism0]
-name  = "Output_Waste"
+type  = "Output_Waste"
 value = 2
 reqs  =
     { "type", "name", "range"
@@ -2196,7 +2196,7 @@ reqs  =
     }
 
 [effect_waste_fundamentalism1]
-name  = "Output_Waste_By_Distance"
+type  = "Output_Waste_By_Distance"
 value = 1
 reqs  =
     { "type", "name", "range"
@@ -2205,7 +2205,7 @@ reqs  =
     }
 
 [effect_fundamentalism_unit_upkeep]
-name  = "Upkeep_Factor"
+type  = "Upkeep_Factor"
 value = 2
 reqs   =
     { "type", "name", "range"
@@ -2214,7 +2214,7 @@ reqs   =
     }
 
 [effect_upkeep_free_units_fundamentalism]
-name  = "Unit_Upkeep_Free_Per_City"
+type  = "Unit_Upkeep_Free_Per_City"
 value = 10
 reqs   =
     { "type", "name", "range"
