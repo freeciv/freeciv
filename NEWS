@@ -65,8 +65,8 @@ Clerical
             replay the progress of the game. A shell script 'mapimg2anim'
             is provided to help with this.
           + PNG/GIF/JPEG output is only available if built against the
-            ImageMagick library. The Windows 2.4.0-beta1 packages only
-            support the basic PPM format.
+            ImageMagick library; this is included in the Windows packages
+            as of 2.4.0-RC1.
      * Player colors are now assigned centrally, and can be changed with
        the '/playercolor' server command. There is a new server setting
        'plrcolormode' that controls how colors are assigned, including a
@@ -181,6 +181,11 @@ Changes affecting supplied rulesets
             remaining players. GNAPATCH#3449 GNAPATCH#3432
           + The civ1 and civ2 rulesets now have their own separate nation
             sets, more closely matching the original games. GNAPATCH#2243
+     * City center tiles now lose their automatic irrigation bonus if a
+       mine is built on them, since mines and irrigation cannot coexist on
+       a tile. GNA#20932
+          + Similarly, in the supplied rulesets, cities on a tile with a
+            mine can no longer get a farmland bonus.
      * The effect of veterancy on the cost of bribing a unit now depends
        on veteran bonuses, not numeric veteran level; bribe costs for
        veteran units have thus changed. GNA#19253
@@ -193,7 +198,7 @@ Changes affecting supplied rulesets
        longer lost. This restores the behavior of previous versions of
        Freeciv. GNA#19487
      * Diplomats and Spies now have special names for their veteran
-       levels, but behaviour is unchanged from 2.3. GNA#19850
+       levels, but behavior is unchanged from 2.3. GNA#19850
      * In the default, multiplayer, and experimental rulesets, years are
        displayed with CE/BCE rather than BC/AD notation. GNA#15090
      * (as of beta2) The default map topology for new games has been
@@ -354,7 +359,7 @@ AI
        chicken-and-egg situation.)
      * The extensive reworking of the AI code (see #Development), while
        not intended to introduce any functional changes (and extensively
-       tested for this), may have changed behaviour in some rare cases.
+       tested for this), may have changed behavior in some rare cases.
 
 Translations
 
@@ -383,7 +388,7 @@ Development
             templates for development and do not work as shipped. They are
             enabled with the configure option
             --enable-aimodules=experimental.
-          + See doc/README.packaging for some more information.
+          + See doc/README.AI_modules for some more information.
 
 Build/portability
 
