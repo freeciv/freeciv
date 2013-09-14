@@ -1494,7 +1494,7 @@ static void sg_load_savefile(struct loaddata *loading)
   sz_strlcpy(game.server.rulesetdir,
              secfile_lookup_str_default(loading->file, "default",
                                         "savefile.rulesetdir"));
-  load_rulesets();
+  load_rulesets(TRUE);
 
   /* Load improvements. */
   loading->improvement.size

@@ -3785,7 +3785,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
 
     /* load the ruleset (and game settings defined in the ruleset) */
     player_info_freeze();
-    load_rulesets();
+    load_rulesets(TRUE);
 
     if (game.est_connections) {
       /* Now that the rulesets are loaded we immediately send updates to any

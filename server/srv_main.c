@@ -2395,7 +2395,7 @@ static void srv_prepare(void)
   
   con_flush();
 
-  settings_init();
+  settings_init(TRUE);
   stdinhand_init();
   edithand_init();
   voting_init();
@@ -2427,7 +2427,7 @@ static void srv_prepare(void)
    || !load_command(NULL, srvarg.load_filename, FALSE)) {
     /* Rulesets are loaded on game initialization, but may be changed later
      * if /load or /rulesetdir is done. */
-    load_rulesets();
+    load_rulesets(TRUE);
   }
 
   maybe_automatic_meta_message(default_meta_message_string());
@@ -2785,7 +2785,7 @@ void srv_main(void)
     server_game_free();
     server_game_init();
     mapimg_reset();
-    load_rulesets();
+    load_rulesets(TRUE);
     game.info.is_new_game = TRUE;
   } while (TRUE);
 

@@ -141,7 +141,7 @@ static bool manual_command(void)
 
   /* Reset aifill to zero */
   game.info.aifill = 0;
-  load_rulesets();
+  load_rulesets(FALSE);
   for (manuals = 0; manuals < MANUAL_COUNT; manuals++) {
     int i;
 
@@ -467,6 +467,8 @@ int main(int argc, char **argv)
   con_log_init(srvarg.log_filename, srvarg.loglevel,
                srvarg.fatal_assertions);
   /* logging available after this point */
+
+  settings_init(FALSE);
 
   /* Initialize game with default values */
   game_init();

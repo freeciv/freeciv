@@ -4571,7 +4571,7 @@ static void game_load_internal(struct section_file *file)
   }
 
   /* load rulesets */
-  load_rulesets();
+  load_rulesets(TRUE);
 
   /* [settings]; must be *after* loading the ruleset */
   settings_game_load(file, "settings");

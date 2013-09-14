@@ -133,7 +133,7 @@ static void load_ruleset_terrain(struct section_file *file);
 static void load_ruleset_cities(struct section_file *file);
 static void load_ruleset_effects(struct section_file *file);
 
-static void load_ruleset_game(void);
+static void load_ruleset_game(bool act);
 
 static void send_ruleset_techs(struct conn_list *dest);
 static void send_ruleset_unit_classes(struct conn_list *dest);
@@ -3259,7 +3259,7 @@ static int secfile_lookup_int_default_min_max(struct section_file *file,
 /**************************************************************************
   Load ruleset file.
 **************************************************************************/
-static void load_ruleset_game(void)
+static void load_ruleset_game(bool act)
 {
   struct section_file *file;
   const char *sval, **svec;
@@ -3619,7 +3619,7 @@ static void load_ruleset_game(void)
   }
   free(svec);
 
-  settings_ruleset(file, "settings");
+  settings_ruleset(file, "settings", act);
 
   secfile_check_unused(file);
   secfile_destroy(file);
@@ -4172,7 +4172,7 @@ static void send_ruleset_team_names(struct conn_list *dest)
 
   This may be called more than once and it will free any stale data.
 **************************************************************************/
-void load_rulesets(void)
+void load_rulesets(bool act)
 {
   struct section_file *techfile, *unitfile, *buildfile, *govfile, *terrfile;
   struct section_file *cityfile, *nationfile, *effectfile;
@@ -4218,7 +4218,7 @@ void load_rulesets(void)
   load_ruleset_buildings(buildfile);
   load_ruleset_nations(nationfile);
   load_ruleset_effects(effectfile);
-  load_ruleset_game();
+  load_ruleset_game(act);
 
   /* Init nations we just loaded. */
   init_available_nations();
@@ -4252,7 +4252,7 @@ void load_rulesets(void)
 
   /* We may need to adjust the number of AI players
    * if the number of available nations changed. */
-  if (game.info.aifill > server.playable_nations) {
+  if (game.info.aifill > server.playable_nations && act) {
     log_normal(_("Reducing aifill because there "
                  "are not enough playable nations."));
     game.info.aifill = server.playable_nations;
@@ -4268,7 +4268,7 @@ void reload_rulesets_settings(void)
   struct section_file *file;
 
   file = openload_ruleset_file("game");
-  settings_ruleset(file, "settings");
+  settings_ruleset(file, "settings", TRUE);
   secfile_destroy(file);
 }
 
