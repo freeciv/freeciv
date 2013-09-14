@@ -133,6 +133,7 @@ fallout_trade_penalty=50
 ;   - NoCities         = Cities may not be built or found on this terrain.
 ;   - NoPollution      = Pollution will not be put on this terrain type.
 ;   - Starter          = Players will only be started on "Starter" terrain.
+;                        (Currently this cannot be Oceanic terrain.)
 ;   - CanHaveRiver     = Set to 1 if this terrain can have river on it (the
 ;                        actual chance of river generation is controlled
 ;                        separately).
