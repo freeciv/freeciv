@@ -175,13 +175,13 @@ static bool manual_command(void)
         }
         fprintf(doc, "<p class=\"misc\">");
         fprintf(doc, _("Level: %s.<br>"),
-                _(sset_level_name(setting_number(pset))));
+                _(sset_level_name(setting_level(pset))));
         fprintf(doc, _("Category: %s.<br>"),
-                _(sset_category_name(setting_number(pset))));
+                _(sset_category_name(setting_category(pset))));
 
-        /* first check if the setting is locked because this is include in
+        /* first check if the setting is locked because this is included in
          * the function setting_is_changeable() */
-        if (!setting_locked(pset)) {
+        if (setting_locked(pset)) {
           fprintf(doc, _("Is locked by the ruleset."));
         } else if (!setting_is_changeable(pset, &my_conn, NULL, 0)) {
           fprintf(doc, _("Can only be used in server console."));
