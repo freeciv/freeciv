@@ -23,7 +23,6 @@ ko Korean
 lt Lithuanian
 nl Dutch
 nb Norwegian Bokmål
-no Norwegian
 pl Polish
 pt_BR Brazilian Portuguese
 pt Portuguese
