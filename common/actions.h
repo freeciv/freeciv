@@ -16,6 +16,7 @@
 
 /* common */
 #include "fc_types.h"
+#include "metaknowledge.h"
 #include "requirements.h"
 
 #ifdef __cplusplus
@@ -113,6 +114,33 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
 bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct unit *target_unit);
+
+enum mk_eval_result
+action_enabled_local(const enum gen_action wanted_action,
+                     const struct player *actor_player,
+                     const struct city *actor_city,
+                     const struct impr_type *actor_building,
+                     const struct tile *actor_tile,
+                     const struct unit_type *actor_unittype,
+                     const struct output_type *actor_output,
+                     const struct specialist *actor_specialist,
+                     const struct player *target_player,
+                     const struct city *target_city,
+                     const struct impr_type *target_building,
+                     const struct tile *target_tile,
+                     const struct unit_type *target_unittype,
+                     const struct output_type *target_output,
+                     const struct specialist *target_specialist);
+
+enum mk_eval_result
+action_enabled_unit_on_city_local(const enum gen_action wanted_action,
+                                  const struct unit *actor_unit,
+                                  const struct city *target_city);
+
+enum mk_eval_result
+action_enabled_unit_on_unit_local(const enum gen_action wanted_action,
+                                  const struct unit *actor_unit,
+                                  const struct unit *target_unit);
 
 #ifdef __cplusplus
 }

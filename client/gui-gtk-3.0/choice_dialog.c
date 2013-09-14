@@ -124,7 +124,7 @@ static void choice_dialog_clicked(GtkWidget *w, gpointer data)
   Add button to choice dialog.
 *****************************************************************/
 void choice_dialog_add(GtkWidget *dshell, const gchar *label,
-			GCallback handler, gpointer data)
+                       GCallback handler, gpointer data, bool warn)
 {
   GtkWidget *button, *bbox;
   char name[512];
@@ -146,6 +146,12 @@ void choice_dialog_add(GtkWidget *dshell, const gchar *label,
 
   g_signal_connect_after(button, "clicked",
 			 G_CALLBACK(choice_dialog_clicked), dshell);
+
+  if (warn) {
+    GdkRGBA warning;
+    gdk_rgba_parse(&warning, "red");
+    gtk_widget_override_background_color(button, 0, &warning);
+  }
 }
 
 /****************************************************************
@@ -190,7 +196,7 @@ GtkWidget *popup_choice_dialog(GtkWindow *parent, const gchar *dialogname,
     handler = va_arg(args, GCallback);
     data = va_arg(args, gpointer);
 
-    choice_dialog_add(dshell, name, handler, data);
+    choice_dialog_add(dshell, name, handler, data, FALSE);
   }
 
   va_end(args);

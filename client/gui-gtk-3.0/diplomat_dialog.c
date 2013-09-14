@@ -667,6 +667,25 @@ static void diplomat_cancel_callback(GtkWidget *w, gpointer data)
   gtk_widget_destroy(diplomat_dialog);
 }
 
+/******************************************************************
+  Show the user the action if it is enabled.
+*******************************************************************/
+static void action_entry(GtkWidget *shl, enum mk_eval_result state,
+                         const gchar *label, GCallback handler)
+{
+  switch (state) {
+  case MKE_FALSE:
+    /* Don't even show disabled actions */
+    break;
+  case MKE_UNCERTAIN:
+    choice_dialog_add(shl, label, handler, NULL, TRUE);
+    break;
+  case MKE_TRUE:
+    choice_dialog_add(shl, label, handler, NULL, FALSE);
+    break;
+  }
+}
+
 /****************************************************************
  Popup new diplomat dialog.
 *****************************************************************/
@@ -700,43 +719,46 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 
     if (diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile)) {
       choice_dialog_add(shl, _("Establish _Embassy"),
-                        (GCallback)diplomat_embassy_callback, NULL);
+                        (GCallback)diplomat_embassy_callback, NULL, FALSE);
     }
 
     if (diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile)) {
       choice_dialog_add(shl, _("_Investigate City"),
-                        (GCallback)diplomat_investigate_callback, NULL);
+                        (GCallback)diplomat_investigate_callback,
+                        NULL, FALSE);
     }
 
-    if (diplomat_can_do_action(punit, SPY_POISON, dest_tile)) {
-      choice_dialog_add(shl, _("_Poison City"),
-                        (GCallback)spy_poison_callback, NULL);
-    }
+    action_entry(shl,
+                 action_enabled_unit_on_city_local(ACTION_SPY_POISON,
+                                                   punit, pcity),
+                 _("_Poison City"),
+                 (GCallback)spy_poison_callback);
 
-    if (diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile)) {
-      choice_dialog_add(shl, _("_Sabotage City"),
-                        (GCallback)diplomat_sabotage_callback, NULL);
-    }
+    action_entry(shl,
+                 action_enabled_unit_on_city_local(
+                   ACTION_SPY_SABOTAGE_CITY, punit, pcity),
+                 _("_Sabotage City"),
+                 (GCallback)diplomat_sabotage_callback);
 
-    if (diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE_TARGET,
-                               dest_tile)) {
-      choice_dialog_add(shl, _("Industrial _Sabotage"),
-                        (GCallback)spy_request_sabotage_list, NULL);
-    }
+    action_entry(shl,
+                 action_enabled_unit_on_city_local(
+                   ACTION_SPY_TARGETED_SABOTAGE_CITY, punit, pcity),
+                 _("Industrial _Sabotage"),
+                 (GCallback)spy_request_sabotage_list);
 
     if (diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile)) {
       if (unit_has_type_flag(punit, UTYF_SPY)) {
         choice_dialog_add(shl, _("Steal _Technology"),
-                          (GCallback)spy_steal_popup, NULL);
+                          (GCallback)spy_steal_popup, NULL, FALSE);
       } else {
         choice_dialog_add(shl, _("Steal _Technology"),
-                          (GCallback)diplomat_steal_callback, NULL);
+                          (GCallback)diplomat_steal_callback, NULL, FALSE);
       }
     }
 
     if (diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile)) {
       choice_dialog_add(shl, _("Incite a _Revolt"),
-                        (GCallback)diplomat_incite_callback, NULL);
+                        (GCallback)diplomat_incite_callback, NULL, FALSE);
     }
   }
 
@@ -745,31 +767,33 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 
     diplomat_target_id[ATK_UNIT] = ptunit->id;
 
-    if (diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_tile)) {
-      choice_dialog_add(shl, _("_Bribe Enemy Unit"),
-                        (GCallback)diplomat_bribe_callback, NULL);
-    }
+    action_entry(shl,
+                 action_enabled_unit_on_unit_local(
+                   ACTION_SPY_BRIBE_UNIT, punit, ptunit),
+                 _("_Bribe Enemy Unit"),
+                 (GCallback)diplomat_bribe_callback);
 
-    if (diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_tile)) {
-      choice_dialog_add(shl, _("_Sabotage Enemy Unit"),
-                        (GCallback)spy_sabotage_unit_callback, NULL);
-    }
+    action_entry(shl,
+                 action_enabled_unit_on_unit_local(
+                   ACTION_SPY_SABOTAGE_UNIT, punit, ptunit),
+                 _("_Sabotage Enemy Unit"),
+                 (GCallback)spy_sabotage_unit_callback);
   }
 
   if (diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile)) {
     if (pcity) {
       choice_dialog_add(shl, _("_Keep moving"),
                         (GCallback)diplomat_keep_moving_city_callback,
-                        NULL);
+                        NULL, FALSE);
     } else {
       choice_dialog_add(shl, _("_Keep moving"),
                         (GCallback)diplomat_keep_moving_unit_callback,
-                        NULL);
+                        NULL, FALSE);
     }
   }
 
   choice_dialog_add(shl, GTK_STOCK_CANCEL,
-                    (GCallback)diplomat_cancel_callback, NULL);
+                    (GCallback)diplomat_cancel_callback, NULL, FALSE);
 
   choice_dialog_end(shl);
 
