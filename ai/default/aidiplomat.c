@@ -536,7 +536,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
         || !HOSTILE_PLAYER(pplayer, unit_owner(pvictim))
         || unit_list_size(ptile->units) > 1
         || tile_city(ptile)
-        || unit_has_type_flag(pvictim, UTYF_UNBRIBABLE)
+        || unit_has_type_flag(pvictim, F_UNBRIBABLE)
         || get_player_bonus(unit_owner(pvictim), EFT_UNBRIBABLE_UNITS) > 0) {
       continue;
     }
