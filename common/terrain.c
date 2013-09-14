@@ -797,46 +797,26 @@ const char *get_infrastructure_text(bv_extras extras)
 
   s[0] = '\0';
 
-  road_type_iterate(proad) {
-    if (BV_ISSET(extras, extra_index(road_extra_get(proad)))
-        && !road_has_flag(proad, RF_NATURAL)) {
+  extra_type_iterate(pextra) {
+    if (pextra->category == ECAT_INFRA
+        && BV_ISSET(extras, extra_index(pextra))) {
       bool hidden = FALSE;
 
-      road_type_iterate(top) {
-        int topi = road_index(top);
-        int topei = extra_index(road_extra_get(top));
+      extra_type_iterate(top) {
+        int topi = extra_index(top);
 
-        if (BV_ISSET(proad->hidden_by, topi)
-            && BV_ISSET(extras, topei)) {
+        if (BV_ISSET(pextra->hidden_by, topi)
+            && BV_ISSET(extras, topi)) {
           hidden = TRUE;
           break;
         }
-      } road_type_iterate_end;
+      } extra_type_iterate_end;
 
       if (!hidden) {
-        cat_snprintf(s, sizeof(s), "%s/", road_name_translation(proad));
+        cat_snprintf(s, sizeof(s), "%s/", extra_name_translation(pextra));
       }
     }
-  } road_type_iterate_end;
-
-  /* TODO: Likewise for farmland on irrigation */
-  extra_type_by_cause_iterate(EC_IRRIGATION, pextra) {
-    if (BV_ISSET(extras, extra_index(pextra))) {
-      cat_snprintf(s, sizeof(s), "%s/", extra_name_translation(pextra));
-    }
-  } extra_type_by_cause_iterate_end;
-
-  extra_type_by_cause_iterate(EC_MINE, pextra) {
-    if (BV_ISSET(extras, extra_index(pextra))) {
-      cat_snprintf(s, sizeof(s), "%s/", extra_name_translation(pextra));
-    }
-  } extra_type_by_cause_iterate_end;
-
-  base_type_iterate(pbase) {
-    if (BV_ISSET(extras, extra_index(base_extra_get(pbase)))) {
-      cat_snprintf(s, sizeof(s), "%s/", base_name_translation(pbase));
-    }
-  } base_type_iterate_end;
+  } extra_type_iterate_end;
 
   len = strlen(s);
   p = s + len - 1;

@@ -43,6 +43,7 @@ void extras_init(void)
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
     requirement_vector_init(&(extras[i].reqs));
     extras[i].id = i;
+    extras[i].hiders = NULL;
     extras[i].data.base = NULL;
     extras[i].data.road = NULL;
   }
@@ -121,6 +122,13 @@ void extras_free(void)
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
     requirement_vector_free(&(extras[i].reqs));
   }
+
+  extra_type_iterate(pextra) {
+    if (pextra->hiders != NULL) {
+      extra_type_list_destroy(pextra->hiders);
+      pextra->hiders = NULL;
+    }
+  } extra_type_iterate_end;
 }
 
 /**************************************************************************

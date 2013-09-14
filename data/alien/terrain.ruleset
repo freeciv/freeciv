@@ -531,6 +531,8 @@ identifier  = "g"
 ;                           present, 'name' is used. Since the name used in
 ;                           savegames must not change, use this when renaming a
 ;                           base after a ruleset has been released.
+; category                = How UI should categorize this extra. One of
+;                           "Infra", "Natural", "Nuisance", or "Bonus"
 ; reqs 	                  = requirements to build the extra (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; buildable               = Can extra be built? Defaults to TRUE
@@ -539,6 +541,8 @@ identifier  = "g"
 ; conflicts               = List of extras that cannot be on the same tile.
 ;                           Bases with non-zero border_sq automatically conflict
 ;                           with each other.
+; hidden_by               = List of extra types that will make this extra
+;                           type not to show on UI if both present.
 ; flags
 ;   - "NativeTile"        = Native units consider tile native regardless of terrain
 ;   - "Refuel"            = Native units can use tile as refuel point
@@ -549,20 +553,26 @@ identifier  = "g"
 
 [extra_irrigation]
 name           = _("Irrigation")
+category       = "Infra"
 conflicts      = "Mine"
+hidden_by      = "Farmland"
 
 [extra_mine]
 name           = _("Mine")
+category       = "Infra"
 conflicts      = "Irrigation", "Farmland"
 
 [extra_pollution]
 name           = _("Pollution")
+category       = "Nuisance"
 
 [extra_hut]
 name           = _("Space Capsule")
+category       = "Bonus"
 
 [extra_farmland]
 name           = _("Farmland")
+category       = "Infra"
 reqs           =
     { "type", "name", "range"
       "Tech", "Protein Modifications", "Player"
@@ -572,53 +582,60 @@ conflicts      = "Mine"
 
 [extra_fallout]
 name           = _("Fallout")
+category       = "Nuisance"
 
 [extra_tower]
 name           = _("Tower")
-reqs          =
+category       = "Infra"
+reqs           =
     { "type", "name", "range", "present"
       "Tech", "Strong Force", "Player", TRUE
       "TerrainClass", "Land", "Local", TRUE
       "UnitFlag", "Settlers", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
-native_to     = "Earthly", "Native", "Amphibious"
-conflicts     = "Force Fortress"
+native_to      = "Earthly", "Native", "Amphibious"
+conflicts      = "Force Fortress"
 
 [extra_force_fortress]
 name           = _("Force Fortress")
-reqs          =
+category       = "Infra"
+reqs           =
     { "type", "name", "range", "present"
       "Tech", "Force Channeling", "Player", TRUE
       "TerrainClass", "Land", "Local", TRUE
       "UnitFlag", "Settlers", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
-native_to     = "Earthly", "Native", "Amphibious"
-conflicts     = "Tower"
+native_to      = "Earthly", "Native", "Amphibious"
+conflicts      = "Tower"
 
 [extra_antigrav_base]
 name           = _("Antigrav Base")
-reqs         =
+category       = "Infra"
+reqs           =
     { "type", "name", "range", "present"
       "Tech", "Commercial Antigravity", "Player", TRUE
       "TerrainClass", "Land", "Local", TRUE
       "UnitFlag", "Settlers", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
-native_to    = "Antigravity"
+native_to      = "Antigravity"
 
 [extra_road]
 name           = _("Road")
+category       = "Infra"
 reqs           =
     { "type", "name", "range"
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Land", "Local"
     }
 native_to      = "Earthly", "Native"
+hidden_by      = "Highway", "Maglev"
 
 [extra_highway]
 name           = _("Highway")
+category       = "Infra"
 reqs           =
     { "type", "name", "range"
       "Tech", "Brute Force", "Player"
@@ -627,9 +644,11 @@ reqs           =
       "TerrainClass", "Land", "Local"
     }
 native_to      = "Earthly", "Native"
+hidden_by      = "Maglev"
 
 [extra_maglev]
 name           = _("Maglev")
+category       = "Infra"
 reqs           =
     { "type", "name", "range"
       "Tech", "Maglev", "Player"
@@ -641,6 +660,7 @@ native_to      = "Earthly", "Native"
 
 [extra_tunnel]
 name           = _("Tunnel")
+category       = "Infra"
 reqs           =
     { "type", "name", "range"
       "Tech", "Strong Resistance", "Player"
@@ -652,6 +672,7 @@ flags          = "NativeTile"
 
 [extra_burrow_tube]
 name           = _("Burrow Tube")
+category       = "Infra"
 reqs           =
     { "type", "name", "range"
       "Tech", "Burrowing", "Player"
@@ -663,11 +684,13 @@ flags          = "NativeTile"
 
 [extra_green_river]
 name           = _("Green River")
+category       = "Natural"
 buildable      = FALSE
 native_to      = "Native", "Amphibious"
 
 [extra_brown_river]
 name           = _("Brown River")
+category       = "Natural"
 buildable      = FALSE
 native_to      = "Native", "Amphibious"
 
@@ -778,8 +801,6 @@ flags        = "ParadropFrom", "NoAggressive"
 ; compat_special          = road type used in old savegames with just two road,
 ;                           and one river specials:
 ;                           "Road", "Railroad", "River, or "None"
-; hidden_by               = List of road types that will make this road
-;                           type not to show on UI if both present.
 ; flags
 ;   - "ConnectLand"       = Roads on Oceanic tiles are drawn to connect to adjacent
 ;                           Land tiles even if they have no road. This affects
@@ -815,7 +836,6 @@ food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "Road"
-hidden_by      = "Highway", "Maglev"
 flags          = "AutoOnCityCenter"
 helptext       = _("\
 Basic Road is available for building from the beginning of the game.\
@@ -838,7 +858,6 @@ food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "Railroad"
-hidden_by      = "Maglev"
 flags          = "AutoOnCityCenter"
 helptext       = _("\
 You can upgrade Roads to Highways.\

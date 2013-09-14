@@ -2790,6 +2790,18 @@ static bool load_ruleset_terrain(struct section_file *file)
       const char *section = &extra_sections[extra_index(pextra) * MAX_SECTION_LABEL];
       const char **slist;
       struct requirement_vector *reqs;
+      const char *catname;
+
+      catname = secfile_lookup_str(file, "%s.category", section);
+      if (catname == NULL) {
+        ok = FALSE;
+        break;
+      }
+      pextra->category = extra_category_by_name(catname, fc_strcasecmp);
+      if (!extra_category_is_valid(pextra->category)) {
+        ok = FALSE;
+        break;
+      }
 
       reqs = lookup_req_list(file, section, "reqs", extra_rule_name(pextra));
       if (reqs == NULL) {
@@ -2865,6 +2877,33 @@ static bool load_ruleset_terrain(struct section_file *file)
       }
     
       free(slist);
+
+      if (!ok) {
+        break;
+      }
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.hidden_by", section);
+      BV_CLR_ALL(pextra->hidden_by);
+      for (j = 0; j < nval; j++) {
+        const char *sval = slist[j];
+        const struct extra_type *top = extra_type_by_rule_name(sval);
+
+        if (top == NULL) {
+          ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\" hidden by unknown extra \"%s\".",
+                        filename,
+                        extra_rule_name(pextra),
+                        sval);
+          ok = FALSE;
+          break;
+        } else {
+          BV_SET(pextra->hidden_by, extra_index(top));
+        }
+      }
+      free(slist);
+
+      if (!ok) {
+        break;
+      }
 
     } extra_type_iterate_end;
   }
@@ -3057,29 +3096,6 @@ static bool load_ruleset_terrain(struct section_file *file)
                       special, road_rule_name(proad));
         ok = FALSE;
       }
-
-      if (!ok) {
-        break;
-      }
-
-      slist = secfile_lookup_str_vec(file, &nval, "%s.hidden_by", section);
-      BV_CLR_ALL(proad->hidden_by);
-      for (j = 0; j < nval; j++) {
-        const char *sval = slist[j];
-        const struct road_type *top = road_type_by_rule_name(sval);
-
-        if (top == NULL) {
-          ruleset_error(LOG_ERROR, "\"%s\" road \"%s\" hidden by unknown road \"%s\".",
-                        filename,
-                        road_rule_name(proad),
-                        sval);
-          ok = FALSE;
-          break;
-        } else {
-          BV_SET(proad->hidden_by, road_index(top));
-        }
-      }
-      free(slist);
 
       if (!ok) {
         break;
@@ -5464,6 +5480,7 @@ static void send_ruleset_extras(struct conn_list *dest)
     sz_strlcpy(packet.name, untranslated_name(&e->name));
     sz_strlcpy(packet.rule_name, rule_name(&e->name));
 
+    packet.category = e->category;
     packet.causes = e->causes;
 
     j = 0;
@@ -5477,6 +5494,7 @@ static void send_ruleset_extras(struct conn_list *dest)
     packet.native_to = e->native_to;
 
     packet.flags = e->flags;
+    packet.hidden_by = e->hidden_by;
     packet.conflicts = e->conflicts;
 
     lsend_packet_ruleset_extra(dest, &packet);
@@ -5544,7 +5562,6 @@ static void send_ruleset_roads(struct conn_list *dest)
 
     packet.compat = r->compat;
 
-    packet.hidden_by = r->hidden_by;
     packet.flags = r->flags;
 
     PACKET_STRVEC_COMPUTE(packet.helptext, r->helptext);

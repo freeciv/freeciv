@@ -43,6 +43,7 @@ struct extra_type
   int id;
   enum extra_type_id type;
   struct name_translation name;
+  enum extra_category category;
   enum extra_cause causes;
 
   struct requirement_vector reqs;
@@ -52,6 +53,12 @@ struct extra_type
 
   bv_extra_flags flags;
   bv_extras conflicts;
+  bv_extras hidden_by;
+
+  /* Same information as in hidden_by, but iterating through this list is much
+   * faster than through all extra types to check which ones are hiding this one.
+   * Only used client side. */
+  struct extra_type_list *hiders;
 
   struct
   {

@@ -100,7 +100,6 @@ void road_type_init(struct extra_type *pextra, int idx)
   pextra->data.road = proad;
 
   proad->id = idx;
-  proad->hiders = NULL;
   proad->helptext = NULL;
   proad->self = pextra;
 
@@ -114,10 +113,6 @@ void road_type_init(struct extra_type *pextra, int idx)
 void road_types_free(void)
 {
   road_type_iterate(proad) {
-    if (proad->hiders != NULL) {
-      road_type_list_destroy(proad->hiders);
-      proad->hiders = NULL;
-    }
     if (NULL != proad->helptext) {
       strvec_destroy(proad->helptext);
       proad->helptext = NULL;
@@ -457,9 +452,17 @@ bool is_native_tile_to_road(const struct road_type *proad,
 }
 
 /****************************************************************************
-  Is road type cardinal only.
+  Is extra cardinal only road.
 ****************************************************************************/
-bool is_cardinal_only_road(const struct road_type *proad)
+bool is_cardinal_only_road(const struct extra_type *pextra)
 {
+  const struct road_type *proad;
+
+  if (pextra->type != EXTRA_ROAD) {
+    return FALSE;
+  }
+
+  proad = extra_road_get_const(pextra);
+
   return proad->move_mode == RMM_CARDINAL || proad->move_mode == RMM_RELAXED;
 }

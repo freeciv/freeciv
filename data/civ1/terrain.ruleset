@@ -686,6 +686,8 @@ food        = 2
 ;                           present, 'name' is used. Since the name used in
 ;                           savegames must not change, use this when renaming a
 ;                           base after a ruleset has been released.
+; category                = How UI should categorize this extra. One of
+;                           "Infra", "Natural", "Nuisance", or "Bonus"
 ; reqs                    = requirements to build the extra (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; buildable               = Can extra be built? Defaults to TRUE
@@ -694,6 +696,8 @@ food        = 2
 ; conflicts               = List of extras that cannot be on the same tile.
 ;                           Bases with non-zero border_sq automatically conflict
 ;                           with each other.
+; hidden_by               = List of extra types that will make this extra
+;                           type not to show on UI if both present.
 ; flags
 ;   - "NativeTile"        = Native units consider tile native regardless of terrain
 ;   - "Refuel"            = Native units can use tile as refuel point
@@ -704,48 +708,58 @@ food        = 2
 
 [extra_irrigation]
 name           = _("Irrigation")
+category       = "Infra"
 conflicts      = "Mine"
 
 [extra_mine]
 name           = _("Mine")
+category       = "Infra"
 conflicts      = "Irrigation"
 
 [extra_pollution]
 name           = _("Pollution")
+category       = "Nuisance"
 
 [extra_hut]
 name           = _("Minor Tribe Village")
 rule_name      = "Hut"
+category       = "Bonus"
 
 [extra_farmland]
 name           = _("Farmland")
+category       = "Infra"
 buildable      = FALSE
 
 [extra_fallout]
 name           = _("Fallout")
+category       = "Nuisance"
 
 [extra_fortress]
 name           = _("Fortress")
-reqs          =
+category       = "Infra"
+reqs           =
     { "type", "name", "range", "present"
       "Tech", "Construction", "Player", TRUE
       "TerrainClass", "Land", "Local", TRUE
       "UnitFlag", "Settlers", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
-native_to     = "Land"
+native_to      = "Land"
 
 [extra_road]
 name           = _("Road")
+category       = "Infra"
 reqs           =
     { "type", "name", "range"
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Land", "Local"
     }
 native_to      = "Land"
+hidden_by      = "Railroad"
 
 [extra_railroad]
 name           = _("Railroad")
+category       = "Infra"
 reqs           =
     { "type", "name", "range"
       "Tech", "Railroad", "Player"
@@ -757,6 +771,7 @@ native_to      = "Land"
 
 [extra_river]
 name           = _("River")
+category       = "Natural"
 buildable      = FALSE
 native_to      = "Land"
 
@@ -849,8 +864,6 @@ Fortresses improve defense for land units.\
 ; compat_special          = road type used in old savegames with just two road,
 ;                           and one river specials:
 ;                           "Road", "Railroad", "River, or "None"
-; hidden_by               = List of road types that will make this road
-;                           type not to show on UI if both present.
 ; flags
 ;   - "ConnectLand"       = Roads on Oceanic tiles are drawn to connect to adjacent
 ;                           Land tiles even if they have no road. This affects
@@ -886,7 +899,6 @@ food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "Road"
-hidden_by      = "Railroad"
 flags          = "RequiresBridge", "AlwaysOnCityCenter"
 
 [road_railroad]

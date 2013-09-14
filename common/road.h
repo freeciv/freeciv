@@ -79,13 +79,7 @@ struct road_type {
   int tile_bonus[O_LAST];
   enum road_compat compat;
 
-  bv_roads hidden_by;
   bv_road_flags flags;
-
-  /* Same information as in hidden_by, but iterating through this list is much
-   * faster than through all road types to check which ones are hidin this one.
-   * Only used client side. */
-  struct road_type_list *hiders;
 
   struct strvec *helptext;
 
@@ -141,7 +135,7 @@ bool player_can_build_road(const struct road_type *proad,
 bool is_native_tile_to_road(const struct road_type *proad,
                             const struct tile *ptile);
 
-bool is_cardinal_only_road(const struct road_type *proad);
+bool is_cardinal_only_road(const struct extra_type *pextra);
 
 /* Initialization and iteration */
 void road_type_init(struct extra_type *pextra, int idx);

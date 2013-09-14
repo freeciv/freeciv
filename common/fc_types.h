@@ -503,6 +503,20 @@ enum tile_special_type {
 BV_DEFINE(bv_extras, S_LAST + MAX_BASE_TYPES + MAX_ROAD_TYPES);
 
 /* Used in the network protocol. */
+#define SPECENUM_NAME extra_category
+#define SPECENUM_VALUE0 ECAT_INFRA
+#define SPECENUM_VALUE0NAME "Infra"
+#define SPECENUM_VALUE1 ECAT_NATURAL
+#define SPECENUM_VALUE1NAME "Natural"
+#define SPECENUM_VALUE2 ECAT_NUISANCE
+#define SPECENUM_VALUE2NAME "Nuisance"
+#define SPECENUM_VALUE3 ECAT_BONUS
+#define SPECENUM_VALUE3NAME "Bonus"
+#define SPECENUM_COUNT ECAT_COUNT
+#include "specenum_gen.h"
+#define ECAT_NONE ECAT_COUNT
+
+/* Used in the network protocol. */
 #define SPECENUM_NAME extra_cause
 #define SPECENUM_VALUE0 EC_IRRIGATION
 #define SPECENUM_VALUE0NAME "Irrigation"

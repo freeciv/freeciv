@@ -171,8 +171,8 @@ const char *popup_info_text(struct tile *ptile)
   astr_add_line(&str, _("Food/Prod/Trade: %s"),
 		get_tile_output_text(ptile));
   first = TRUE;
-  extra_type_by_cause_iterate(EC_HUT, pextra) {
-    if (tile_has_extra(ptile, pextra)) {
+  extra_type_iterate(pextra) {
+    if (pextra->category == ECAT_BONUS && tile_has_visible_extra(ptile, pextra)) {
       if (!first) {
         astr_add(&str, ",%s", extra_name_translation(pextra));
       } else {
@@ -180,7 +180,7 @@ const char *popup_info_text(struct tile *ptile)
         first = FALSE;
       }
     }
-  } extra_type_by_cause_iterate_end;
+  } extra_type_iterate_end;
   if (BORDERS_DISABLED != game.info.borders && !pcity) {
     struct player *owner = tile_owner(ptile);
 

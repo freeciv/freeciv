@@ -720,7 +720,7 @@ static bool tile_info_pollution(char *buf, int bufsz,
                                 struct extra_type *pextra,
                                 bool prevp, bool linebreak)
 {
-  if (tile_has_extra(ptile, pextra)) {
+  if (tile_has_visible_extra(ptile, pextra)) {
     if (!prevp) {
       if (linebreak) {
         fc_strlcat(buf, "\n[", bufsz);
@@ -760,18 +760,18 @@ const char *tile_get_info_text(const struct tile *ptile, int linebreaks)
     lb = TRUE;
   }
 
-  road_type_iterate(proad) {
-    if (tile_has_road(ptile, proad)
-        && road_has_flag(proad, RF_NATURAL)) {
+  extra_type_iterate(pextra) {
+    if (pextra->category == ECAT_NATURAL
+        && tile_has_visible_extra(ptile, pextra)) {
       if (lb) {
         sz_strlcat(s, "\n");
         lb = FALSE;
       } else {
         sz_strlcat(s, "/");
       }
-      sz_strlcat(s, road_name_translation(proad));
+      sz_strlcat(s, extra_name_translation(pextra));
     }
-  } road_type_iterate_end;
+  } extra_type_iterate_end;
   if (linebreaks & TILE_LB_RIVER_RESOURCE) {
     /* New linebreak requested */
     lb = TRUE;
@@ -793,12 +793,11 @@ const char *tile_get_info_text(const struct tile *ptile, int linebreaks)
   }
 
   pollution = FALSE;
-  extra_type_by_cause_iterate(EC_POLLUTION, pextra) {
-    pollution = tile_info_pollution(s, bufsz, ptile, pextra, pollution, lb);
-  } extra_type_by_cause_iterate_end;
-  extra_type_by_cause_iterate(EC_FALLOUT, pextra) {
-    pollution = tile_info_pollution(s, bufsz, ptile, pextra, pollution, lb);
-  } extra_type_by_cause_iterate_end;
+  extra_type_iterate(pextra) {
+    if (pextra->category == ECAT_NUISANCE) {
+      pollution = tile_info_pollution(s, bufsz, ptile, pextra, pollution, lb);
+    }
+  } extra_type_iterate_end;
   if (pollution) {
     sz_strlcat(s, "]");
   }
@@ -877,6 +876,30 @@ bool tile_has_road_flag(const struct tile *ptile, enum road_flag_id flag)
 bool tile_has_extra(const struct tile *ptile, const struct extra_type *pextra)
 {
   return BV_ISSET(ptile->extras, extra_index(pextra));
+}
+
+/****************************************************************************
+  Returns TRUE if the given tile has a road of given type on it.
+****************************************************************************/
+bool tile_has_visible_extra(const struct tile *ptile, const struct extra_type *pextra)
+{
+  bool hidden = FALSE;
+
+  if (!BV_ISSET(ptile->extras, extra_index(pextra))) {
+    return FALSE;
+  }
+
+  extra_type_iterate(top) {
+    int topi = extra_index(top);
+
+    if (BV_ISSET(pextra->hidden_by, topi)
+        && BV_ISSET(ptile->extras, topi)) {
+      hidden = TRUE;
+      break;
+    }
+  } extra_type_iterate_end;
+
+  return !hidden;
 }
 
 /****************************************************************************

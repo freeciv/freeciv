@@ -2818,15 +2818,15 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
 ****************************************************************************/
 void handle_rulesets_ready(void)
 {
-  /* Setup road hiders caches */
-  road_type_iterate(proad) {
-    proad->hiders = road_type_list_new();
-    road_type_iterate(phider) {
-      if (BV_ISSET(proad->hidden_by, road_index(phider))) {
-        road_type_list_append(proad->hiders, phider);
+  /* Setup extra hiders caches */
+  extra_type_iterate(pextra) {
+    pextra->hiders = extra_type_list_new();
+    extra_type_iterate(phider) {
+      if (BV_ISSET(pextra->hidden_by, extra_index(phider))) {
+        extra_type_list_append(pextra->hiders, phider);
       }
-    } road_type_iterate_end;
-  } road_type_iterate_end;
+    } extra_type_iterate_end;
+  } extra_type_iterate_end;
 
   /* We are not going to crop any more sprites from big sprites, free them. */
   finish_loading_sprites(tileset);
@@ -3228,6 +3228,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
 
   names_set(&pextra->name, p->name, p->rule_name);
 
+  pextra->category = p->category;
   pextra->causes = p->causes;
 
   if (pextra->causes & (1 << EC_BASE)) {
@@ -3247,6 +3248,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   pextra->native_to = p->native_to;
 
   pextra->flags = p->flags;
+  pextra->hidden_by = p->hidden_by;
   pextra->conflicts = p->conflicts;
 }
 
@@ -3307,7 +3309,6 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
 
   proad->compat = p->compat;
 
-  proad->hidden_by = p->hidden_by;
   proad->flags = p->flags;
 
   PACKET_STRVEC_EXTRACT(proad->helptext, p->helptext);

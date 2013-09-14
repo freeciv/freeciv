@@ -935,6 +935,8 @@ shield      = 3 ; glacier used to have 4
 ;                           present, 'name' is used. Since the name used in
 ;                           savegames must not change, use this when renaming a
 ;                           base after a ruleset has been released.
+; category                = How UI should categorize this extra. One of
+;                           "Infra", "Natural", "Nuisance", or "Bonus"
 ; reqs                    = requirements to build the extra (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; buildable               = Can extra be built? Defaults to TRUE
@@ -943,6 +945,8 @@ shield      = 3 ; glacier used to have 4
 ; conflicts               = List of extras that cannot be on the same tile.
 ;                           Bases with non-zero border_sq automatically conflict
 ;                           with each other.
+; hidden_by               = List of extra types that will make this extra
+;                           type not to show on UI if both present.
 ; flags
 ;   - "NativeTile"        = Native units consider tile native regardless of terrain
 ;   - "Refuel"            = Native units can use tile as refuel point
@@ -953,21 +957,27 @@ shield      = 3 ; glacier used to have 4
 
 [extra_irrigation]
 name           = _("Irrigation")
+category       = "Infra"
 conflicts      = "Mine"
+hidden_by      = "Farmland"
 
 [extra_mine]
 name           = _("Mine")
+category       = "Infra"
 conflicts      = "Irrigation", "Farmland"
 
 [extra_pollution]
 name           = _("Pollution")
+category       = "Nuisance"
 
 [extra_hut]
 name           = _("Minor Tribe Village")
 rule_name      = "Hut"
+category       = "Bonus"
 
 [extra_farmland]
 name           = _("Farmland")
+category       = "Infra"
 reqs           =
     { "type", "name", "range"
       "Tech", "Refrigeration", "Player"
@@ -977,9 +987,11 @@ conflicts      = "Mine"
 
 [extra_fallout]
 name           = _("Fallout")
+category       = "Nuisance"
 
 [extra_fortress]
 name           = _("Fortress")
+category       = "Infra"
 reqs           =
     { "type", "name", "range", "present"
       "Tech", "Construction", "Player", TRUE
@@ -991,6 +1003,7 @@ native_to      = "Land", "Big Land"
 
 [extra_airbase]
 name           = _("Airbase")
+category       = "Infra"
 reqs           =
     { "type", "name", "range", "present"
       "Tech", "Radio", "Player", TRUE
@@ -1003,6 +1016,7 @@ flags          = "Refuel"
 
 [extra_buoy]
 name           = _("Buoy")
+category       = "Infra"
 reqs           =
     { "type", "name", "range", "present"
       "Tech", "Radio", "Player", TRUE
@@ -1013,6 +1027,7 @@ reqs           =
 
 [extra_ruins]
 name           = _("Ruins")
+category       = "Bonus"
 reqs           =
     { "type", "name", "range", "present"
       "TerrainClass", "Land", "Local", TRUE
@@ -1023,6 +1038,7 @@ flags          = "TerrChangeRemoves"
 
 [extra_road]
 name           = _("Road")
+category       = "Infra"
 reqs           =
     { "type", "name", "range"
       "UnitFlag", "Settlers", "Local"
@@ -1030,9 +1046,11 @@ reqs           =
     }
 native_to      = "Land", "Big Land"
 flags          = "NativeTile"
+hidden_by      = "Railroad", "Maglev"
 
 [extra_railroad]
 name           = _("Railroad")
+category       = "Infra"
 reqs           =
     { "type", "name", "range"
       "Tech", "Railroad", "Player"
@@ -1042,9 +1060,11 @@ reqs           =
     }
 native_to      = "Land", "Big Land"
 flags          = "NativeTile"
+hidden_by      = "Maglev"
 
 [extra_maglev]
 name           = _("Maglev")
+category       = "Infra"
 reqs           =
     { "type", "name", "range"
       "Tech", "Superconductors", "Player"
@@ -1056,6 +1076,7 @@ flags          = "NativeTile"
 
 [extra_river]
 name           = _("River")
+category       = "Natural"
 buildable      = FALSE
 native_to      = "Land", "Big Land", "Trireme"
 flags          = "NativeTile"
@@ -1191,8 +1212,6 @@ They have no effect on gameplay.\
 ; compat_special          = road type used in old savegames with just two road,
 ;                           and one river specials:
 ;                           "Road", "Railroad", "River, or "None"
-; hidden_by               = List of road types that will make this road
-;                           type not to show on UI if both present.
 ; flags
 ;   - "ConnectLand"       = Roads on Oceanic tiles are drawn to connect to adjacent
 ;                           Land tiles even if they have no road. This affects
@@ -1228,7 +1247,6 @@ food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "Road"
-hidden_by      = "Railroad", "Maglev"
 flags          = "RequiresBridge", "AutoOnCityCenter"
 
 [road_railroad]
@@ -1246,7 +1264,6 @@ food_bonus     = 0
 shield_bonus   = 50
 trade_bonus    = 0
 compat_special = "Railroad"
-hidden_by      = "Maglev"
 flags          = "RequiresBridge", "AutoOnCityCenter"
 
 [road_maglev]

@@ -3728,7 +3728,7 @@ static int fill_road_corner_sprites(const struct tileset *t,
   int i;
   int road_idx = road_index(proad);
 
-  if (is_cardinal_only_road(proad)) {
+  if (is_cardinal_only_road(road_extra_get(proad))) {
     return 0;
   }
 
@@ -3822,12 +3822,12 @@ static int fill_road_sprite_array(const struct tileset *t,
   road = BV_ISSET(textras, extra_idx);
 
   hider = FALSE;
-  road_type_list_iterate(proad->hiders, phider) {
-    if (BV_ISSET(textras, extra_index(road_extra_get(phider)))) {
+  extra_type_list_iterate(road_extra_get(proad)->hiders, phider) {
+    if (BV_ISSET(textras, extra_index(phider))) {
       hider = TRUE;
       break;
     }
-  } road_type_list_iterate_end;
+  } extra_type_list_iterate_end;
 
   if (road && (!pcity || !draw_cities) && !hider) {
     draw_single_road = TRUE;
@@ -3839,7 +3839,7 @@ static int fill_road_sprite_array(const struct tileset *t,
     bool roads_exist;
 
     /* Check if there is adjacent road/rail. */
-    if (!is_cardinal_only_road(proad)
+    if (!is_cardinal_only_road(road_extra_get(proad))
         || is_cardinal_tileset_dir(t, dir)) {
       road_near[dir] = BV_ISSET(textras_near[dir], extra_idx);
       if (cl) {
@@ -3859,27 +3859,28 @@ static int fill_road_sprite_array(const struct tileset *t,
     hider_near[dir] = FALSE;
     hland_near[dir] = tterrain_near[dir] != T_UNKNOWN
       && terrain_type_terrain_class(tterrain_near[dir]) != TC_OCEAN;
-    road_type_list_iterate(proad->hiders, phider) {
+    extra_type_list_iterate(road_extra_get(proad)->hiders, phider) {
       bool hider_dir = FALSE;
       bool land_dir = FALSE;
 
       if (!is_cardinal_only_road(phider)
           || is_cardinal_tileset_dir(t, dir)) {
-        if (BV_ISSET(textras_near[dir], extra_index(road_extra_get(phider)))) {
+        if (BV_ISSET(textras_near[dir], extra_index(phider))) {
           hider_near[dir] = TRUE;
           hider_dir = TRUE;
         }
         if (hland_near[dir]
-            && road_has_flag(phider, RF_CONNECT_LAND)) {
+            && phider->type == EXTRA_ROAD
+            && road_has_flag(extra_road_get(phider), RF_CONNECT_LAND)) {
           land_dir = TRUE;
         }
         if (hider_dir || land_dir) {
-          if (BV_ISSET(textras, extra_index(road_extra_get(phider)))) {
+          if (BV_ISSET(textras, extra_index(phider))) {
             draw_road[dir] = FALSE;
           }
         }
       }
-    } road_type_list_iterate_end;
+    } extra_type_list_iterate_end;
 
     /* Don't draw an isolated road/rail if there's any connection.
      * draw_single_road would be true in the first place only if start tile has road,
