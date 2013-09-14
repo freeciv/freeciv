@@ -119,6 +119,7 @@ ocean_resources = FALSE
 ;   - NoPollution      = Pollution and Fallout will not be put on this
 ;                        terrain type.
 ;   - Starter          = Players will only be started on "Starter" terrain.
+;                        (Currently this cannot be Oceanic terrain.)
 ;   - CanHaveRiver     = Set to 1 if this terrain can have river on it (the
 ;                        actual chance of river generation is controlled
 ;                        separately).
