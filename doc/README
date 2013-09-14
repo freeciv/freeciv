@@ -54,6 +54,15 @@ Freeciv is released under the GNU General Public License.  In short,
 you may copy this program (including source) freely, but see the
 COPYING file for full details.
 
+Some materials that were used to prepare the graphics in the game (in
+the 'data' subdirectory), such as 3D models used to prepare bitmap
+images, are not distributed with the main source code due to their
+size; they are not necessary to build Freeciv from source, as the
+(manually) derived graphics are also included in the distribution.
+These materials are available in the separate 'graphics-materials'
+distribution (e.g., freeciv-2.4.0-graphics-materials.tar.bz2), or from
+version control (Subversion).
+
 
 Compiling and installing:
 =========================
