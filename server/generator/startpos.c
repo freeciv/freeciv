@@ -217,6 +217,13 @@ bool create_start_positions(enum map_startpos mode,
   bool failure = FALSE;
   bool is_tmap = temperature_is_initialized();
 
+  if (map.num_continents < 1) {
+    /* Currently we can only place starters on land terrain, so fail
+     * immediately if there isn't any on the map. */
+    log_verbose("Map has no land, so cannot assign start positions!");
+    return FALSE;
+  }
+
   if (!is_tmap) {
     /* The temperature map has already been destroyed by the time start
      * positions have been placed.  We check for this and then create a
@@ -264,11 +271,13 @@ bool create_start_positions(enum map_startpos mode,
 
   initialize_isle_data();
 
-  /* oceans are not good for starters; discard them */
+  /* Only consider tiles marked as 'starter terrains' by ruleset */
   whole_map_iterate(ptile) {
     if (!filter_starters(ptile, NULL)) {
       tile_value[tile_index(ptile)] = 0;
     } else {
+      /* Oceanic terrain cannot be starter terrain currently */
+      fc_assert_action(tile_continent(ptile) > 0, continue);
       islands[tile_continent(ptile)].goodies += tile_value[tile_index(ptile)];
       total_goodies += tile_value[tile_index(ptile)];
     }
