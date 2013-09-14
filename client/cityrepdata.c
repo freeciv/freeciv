@@ -15,6 +15,7 @@
 #include <config.h>
 #endif
 
+#include <errno.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -795,8 +796,9 @@ static void split_string(struct datum_vector *data, const char *str)
     char *endptr;
     float value;
 
+    errno = 0;
     value = strtof(str, &endptr);
-    if(endptr == str || !isfinite(value)) {
+    if (errno != 0 || endptr == str || !isfinite(value)) {
       /* that wasn't a sensible number; go on */
       str++;
     } else {
@@ -813,8 +815,7 @@ static void split_string(struct datum_vector *data, const char *str)
       datum_vector_append(data, d);
 
       /* finally, update the string position pointers */
-      string_start = str;
-      str = endptr;
+      string_start = str = endptr;
     }
   }
 
