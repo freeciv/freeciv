@@ -461,12 +461,12 @@ int main(int argc, char **argv)
                srvarg.fatal_assertions);
   /* logging available after this point */
 
-  /* Initialize game with default values */
-  game_init();
-
   /* Imitate a server - this is needed for as some function only work if this
    * is set. */
   i_am_server();
+
+  /* Initialize game with default values */
+  game_init();
 
   if (showvers && !showhelp) {
     fc_fprintf(stderr, "%s \n", freeciv_name_version());
