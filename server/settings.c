@@ -2373,6 +2373,14 @@ enum sset_level setting_level(const struct setting *pset)
 }
 
 /****************************************************************************
+  Access function for the setting category.
+****************************************************************************/
+enum sset_category setting_category(const struct setting *pset)
+{
+  return pset->scategory;
+}
+
+/****************************************************************************
   Returns whether the specified server setting (option) can currently
   be changed by the caller. If it returns FALSE, the reason of the failure
   is available by the function setting_error().

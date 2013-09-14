@@ -94,6 +94,7 @@ const char *setting_short_help(const struct setting *pset);
 const char *setting_extra_help(const struct setting *pset);
 enum sset_type setting_type(const struct setting *pset);
 enum sset_level setting_level(const struct setting *pset);
+enum sset_category setting_category(const struct setting *pset);
 
 bool setting_is_changeable(const struct setting *pset,
                            struct connection *caller, char *reject_msg,
