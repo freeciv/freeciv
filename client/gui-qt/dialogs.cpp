@@ -903,14 +903,14 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     }
 
     if (diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile)) {
-      if (unit_has_type_flag(punit, UTYF_SPY)) {
-        func = spy_request_sabotage_list;
-        cd->add_item(QString(_("Industrial Sabotage")),
-                     func, qv1, qv2);
-      } else {
-        func = diplomat_sabotage;
-        cd->add_item(QString(_("_Sabotage City")), func, qv1, qv2);
-      }
+      func = diplomat_sabotage;
+      cd->add_item(QString(_("_Sabotage City")), func, qv1, qv2);
+    }
+
+    if (diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE_TARGET, dest_tile)) {
+      func = spy_request_sabotage_list;
+      cd->add_item(QString(_("Industrial Sabotage")),
+                   func, qv1, qv2);
     }
 
     if (diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile)) {
@@ -1080,7 +1080,7 @@ static void spy_request_sabotage_list(QVariant data1, QVariant data2)
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
-    request_diplomat_answer(DIPLOMAT_SABOTAGE, diplomat_id,
+    request_diplomat_answer(DIPLOMAT_SABOTAGE_TARGET, diplomat_id,
                             diplomat_target_id, 0);
   }
 }
@@ -1354,7 +1354,7 @@ static void spy_sabotage(QVariant data1, QVariant data2)
   gui()->get_current_unit(&diplomat_id, &diplomat_target_id, ATK_CITY);
   if (NULL != game_unit_by_number(diplomat_id)
         && NULL != game_city_by_number(diplomat_target_id)) {
-      request_diplomat_action(DIPLOMAT_SABOTAGE, diplomat_id,
+      request_diplomat_action(DIPLOMAT_SABOTAGE_TARGET, diplomat_id,
                               diplomat_target_id,  data2.toInt()+1);
     }
 }

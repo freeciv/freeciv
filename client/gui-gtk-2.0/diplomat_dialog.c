@@ -354,8 +354,9 @@ static void spy_improvements_response(GtkWidget *w, gint response, gpointer data
   if (response == GTK_RESPONSE_ACCEPT && sabotage_improvement > -2) {
     if (NULL != game_unit_by_number(diplomat_id)
         && NULL != game_city_by_number(diplomat_target_id[ATK_CITY])) {
-      request_diplomat_action(DIPLOMAT_SABOTAGE, diplomat_id,
-                              diplomat_target_id[ATK_CITY], sabotage_improvement + 1);
+      request_diplomat_action(DIPLOMAT_SABOTAGE_TARGET, diplomat_id,
+                              diplomat_target_id[ATK_CITY],
+                              sabotage_improvement + 1);
     }
   }
   gtk_widget_destroy(spy_sabotage_shell);
@@ -515,7 +516,7 @@ static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
 {
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id[ATK_CITY])) {
-    request_diplomat_answer(DIPLOMAT_SABOTAGE, diplomat_id,
+    request_diplomat_answer(DIPLOMAT_SABOTAGE_TARGET, diplomat_id,
                             diplomat_target_id[ATK_CITY], 0);
   }
   gtk_widget_destroy(diplomat_dialog);
@@ -703,13 +704,14 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     }
 
     if (diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile)) {
-      if (unit_has_type_flag(punit, UTYF_SPY)) {
-        choice_dialog_add(shl, _("Industrial _Sabotage"),
-                          (GCallback)spy_request_sabotage_list, NULL);
-      } else {
-        choice_dialog_add(shl, _("_Sabotage City"),
-                          (GCallback)diplomat_sabotage_callback, NULL);
-      }
+      choice_dialog_add(shl, _("_Sabotage City"),
+                        (GCallback)diplomat_sabotage_callback, NULL);
+    }
+
+    if (diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE_TARGET,
+                               dest_tile)) {
+      choice_dialog_add(shl, _("Industrial _Sabotage"),
+                        (GCallback)spy_request_sabotage_list, NULL);
     }
 
     if (diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile)) {

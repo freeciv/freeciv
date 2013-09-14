@@ -23,17 +23,21 @@ requirements should be documented.
 Actions and their hard coded requirements
 =========================================
 
-"Sabotage City"    - Destroy a building or the production in the target city.
-                     * actor must have the diplomat flag.
+"Sabotage City" - Destroy a building or the production in the target city.
+ * actor must have the diplomat flag.
 
-"Poison City"      - Kill a citizen in the target city.
-                     * actor must have the diplomat flag.
+"Targeted Sabotage City" - Optionally targeted version of the above.
+ * If a target is selected the action is less likely to succeed.
+ * actor must have the diplomat flag.
 
-"Sabotage Unit"    - Halve the target unit's hit points.
-                     * actor must have the diplomat flag.
-                     * target must have > 1 hp.
-                     * target must be alone at its tile.
+"Poison City" - Kill a citizen in the target city.
+ * actor must have the diplomat flag.
 
-"Bribe Unit"       - Make the target unit join the actors owners side.
-                     * actor must have the diplomat flag.
-                     * target must be alone at its tile.
+"Sabotage Unit" - Halve the target unit's hit points.
+ * actor must have the diplomat flag.
+ * target must have > 1 hp.
+ * target must be alone at its tile.
+
+"Bribe Unit" - Make the target unit join the actors owners side.
+ * actor must have the diplomat flag.
+ * target must be alone at its tile.

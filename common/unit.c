@@ -102,6 +102,12 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
                                             pdiplomat, pcity)) {
         return TRUE;
       }
+      if ((action == DIPLOMAT_SABOTAGE_TARGET
+           || action == DIPLOMAT_ANY_ACTION)
+          && is_action_enabled_unit_on_city(
+            ACTION_SPY_TARGETED_SABOTAGE_CITY, pdiplomat, pcity)) {
+        return TRUE;
+      }
       if(action==DIPLOMAT_MOVE)
         return pplayers_allied(unit_owner(pdiplomat), city_owner(pcity));
       if (action == DIPLOMAT_EMBASSY

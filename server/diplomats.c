@@ -218,11 +218,7 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 /******************************************************************************
   Get list of improvements from city (for purposes of sabotage).
 
-  - Only a Spy can get a a city's sabotage list.
-
   - Always successful; returns list.
-
-  - Spies always survive.
 
   Only send back to the originating connection, if there is one. (?)
 ****************************************************************************/
@@ -790,7 +786,6 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   If "improvement" is B_LAST, sabotage a random improvement or production.
   Else, if "improvement" is -1, sabotage current production.
   Otherwise, sabotage the city improvement whose ID is "improvement".
-  (Note: Only Spies can select what to sabotage.)
 
   - Check for infiltration success.  Our saboteur may not survive this.
   - Check for basic success.  Again, our saboteur may not survive this.
@@ -817,10 +812,6 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   }
 
   log_debug("sabotage: unit: %d", pdiplomat->id);
-
-  /* If not a Spy, do something random. */
-  if (!unit_has_type_flag(pdiplomat, UTYF_SPY))
-    improvement = B_LAST;
 
   /* Twice as difficult if target is specified. */
   success_prob = (improvement >= B_LAST ? game.server.diplchance 
@@ -1445,6 +1436,7 @@ static void maybe_cause_incident(enum diplomat_actions action,
                     _("The %s have caused an incident while posioning %s."),
                     nation_plural_for_player(offender), victim_link);
       break;
+    case DIPLOMAT_SABOTAGE_TARGET:
     case DIPLOMAT_SABOTAGE:
       notify_player(offender, victim_tile,
                     E_DIPLOMATIC_INCIDENT, ftc_server,

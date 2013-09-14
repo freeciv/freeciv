@@ -145,7 +145,8 @@ static int spy_sabotage_request(struct widget *pWidget)
   if (NULL != game_unit_by_number(pDiplomat_Dlg->diplomat_id)
       && NULL != game_city_by_number(
               pDiplomat_Dlg->diplomat_target_id[ATK_CITY])) {
-    request_diplomat_answer(DIPLOMAT_SABOTAGE, pDiplomat_Dlg->diplomat_id,
+    request_diplomat_answer(DIPLOMAT_SABOTAGE_TARGET,
+                            pDiplomat_Dlg->diplomat_id,
                             pDiplomat_Dlg->diplomat_target_id[ATK_CITY],
                             0);
   }
@@ -696,18 +697,33 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
       area.w = MAX(area.w, pBuf->size.w);
       area.h += pBuf->size.h;
     }    
+
     /* ---------- */
     if (diplomat_can_do_action(pUnit, DIPLOMAT_SABOTAGE, ptile)) {
     
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
-	    _("Sabotage City"), 
-      		spy ? spy_sabotage_request : diplomat_sabotage_callback);
+            _("Sabotage City"), diplomat_sabotage_callback);
       
       pBuf->data.city = pCity;
       set_wstate(pBuf, FC_WS_NORMAL);
   
       add_to_gui_list(MAX_ID - pUnit->id, pBuf);
     
+      area.w = MAX(area.w, pBuf->size.w);
+      area.h += pBuf->size.h;
+    }
+
+    /* ---------- */
+    if (diplomat_can_do_action(pUnit, DIPLOMAT_SABOTAGE_TARGET, ptile)) {
+
+      create_active_iconlabel(pBuf, pWindow->dst, pStr,
+            _("Industrial Sabotage"), spy_sabotage_request);
+
+      pBuf->data.city = pCity;
+      set_wstate(pBuf, FC_WS_NORMAL);
+
+      add_to_gui_list(MAX_ID - pUnit->id, pBuf);
+
       area.w = MAX(area.w, pBuf->size.w);
       area.h += pBuf->size.h;
     }
@@ -890,7 +906,7 @@ static int sabotage_impr_callback(struct widget *pWidget)
 
     if (NULL != game_unit_by_number(diplomat_id)
         && NULL != game_city_by_number(diplomat_target_id)) {
-      request_diplomat_action(DIPLOMAT_SABOTAGE, diplomat_id,
+      request_diplomat_action(DIPLOMAT_SABOTAGE_TARGET, diplomat_id,
                               diplomat_target_id, sabotage_improvement + 1);
     }
   }

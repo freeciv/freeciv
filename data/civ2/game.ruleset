@@ -172,8 +172,17 @@ tired_attack = TRUE
 [actionenabler_sabotage_city]
 action = "Sabotage City"
 actor_reqs    =
+    { "type",   "name", "range", "present"
+      "DiplRel", "War", "Local", TRUE
+      "UnitFlag", "Spy", "Local", FALSE
+    }
+
+[actionenabler_sabotage_city_target]
+action = "Targeted Sabotage City"
+actor_reqs    =
     { "type",   "name", "range"
       "DiplRel", "War", "Local"
+      "UnitFlag", "Spy", "Local"
     }
 
 [actionenabler_poison_city]

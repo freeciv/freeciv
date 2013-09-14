@@ -59,6 +59,7 @@ enum diplomat_actions {
   DIPLOMAT_STEAL = 6,
   SPY_POISON = 7, 
   SPY_SABOTAGE_UNIT = 8,
+  DIPLOMAT_SABOTAGE_TARGET = 9,
   DIPLOMAT_ANY_ACTION   /* leave this one last */
 };
 

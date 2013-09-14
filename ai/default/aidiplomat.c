@@ -348,7 +348,16 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
   if (!pplayers_at_war(pplayer, tplayer)) {
     return; /* The rest are casus belli */
   }
-  if (count_impr > 0) T(DIPLOMAT_SABOTAGE, B_LAST+1);
+
+  if (count_impr > 0) {
+    T(DIPLOMAT_SABOTAGE, 0);
+  }
+
+  /* In case untargeted isn't there. TODO: choose target */
+  if (count_impr > 0) {
+    T(DIPLOMAT_SABOTAGE_TARGET, B_LAST + 1);
+  }
+
   T(SPY_POISON, 0); /* absolutely last resort */
 #undef T
 
