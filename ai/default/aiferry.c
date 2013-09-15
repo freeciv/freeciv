@@ -1009,6 +1009,7 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
   struct city *pcity;
   int sanity = punit->id;
   struct unit_ai *unit_data;
+  int bossid;
 
   CHECK_UNIT(punit);
 
@@ -1028,6 +1029,8 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
   }
 
   unit_data = def_ai_unit_data(punit, ait);
+
+  bossid = unit_data->passenger; /* Old boss */
 
   do {
     /* Do we have the passenger-in-charge on board? */
@@ -1075,13 +1078,13 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
                  "appointed %s[%d] our passenger-in-charge",
                  unit_rule_name(candidate),
                  candidate->id);
+        bossid = candidate->id;
         aiferry_psngr_meet_boat(ait, candidate, punit);
       }
     }
 
     if (unit_data->passenger > 0) {
-      int bossid = unit_data->passenger;    /* Loop prevention */
-      struct unit *boss = game_unit_by_number(unit_data->passenger);
+      struct unit *boss = game_unit_by_number(bossid);
 
       fc_assert_ret(NULL != boss);
 
@@ -1106,17 +1109,29 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
           UNIT_LOG(LOG_DEBUG, boss, "drove ferry - done for now");
           def_ai_unit_data(boss, ait)->done = TRUE;
           return;
-        } else if (get_transporter_occupancy(punit) != 0) {
-          /* The boss isn't on the ferry, and we have other passengers?
+        } else if (unit_data->passenger == bossid
+                   && get_transporter_occupancy(punit) != 0) {
+          /* The boss isn't on the ferry, has not passed control away,
+           * and we have other passengers?
            * Forget about him. */
           unit_data->passenger = FERRY_ABANDON_BOSS;
         }
+      }
+      if (unit_data->passenger != bossid
+          && unit_data->passenger != FERRY_ABANDON_BOSS) {
+        /* Boss handling resulted in boss change. Run next round with new boss. */
+        bossid = unit_data->passenger;
       }
     } else {
       /* Cannot select a passenger-in-charge */
       break;
     }
   } while (get_transporter_occupancy(punit) != 0);
+
+  if (unit_data->passenger == FERRY_ABANDON_BOSS) {
+    /* As nobody else wanted the control, restore it to old boss. */
+    unit_data->passenger = bossid;
+  }
 
   /* Not carrying anyone, even the ferryman */
 
