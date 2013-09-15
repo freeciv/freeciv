@@ -32,6 +32,12 @@ extern "C" {
 #define SPECENUM_VALUE1NAME "Refuel"
 #define SPECENUM_VALUE2 EF_TERR_CHANGE_REMOVES
 #define SPECENUM_VALUE2NAME "TerrChangeRemoves"
+/* Extra will be built in cities automatically */
+#define SPECENUM_VALUE3 EF_AUTO_ON_CITY_CENTER
+#define SPECENUM_VALUE3NAME "AutoOnCityCenter"
+/* Extra is always present in cities */
+#define SPECENUM_VALUE4 EF_ALWAYS_ON_CITY_CENTER
+#define SPECENUM_VALUE4NAME "AlwaysOnCityCenter"
 #define SPECENUM_COUNT EF_COUNT
 #define SPECENUM_BITVECTOR bv_extra_flags
 #include "specenum_gen.h"

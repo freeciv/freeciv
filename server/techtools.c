@@ -204,10 +204,9 @@ static void update_player_after_tech_researched(struct player* plr,
 
   remove_obsolete_buildings(plr);
 
-  /* Give free roads or bases in every city */
+  /* Give free infrastructure in every city */
   if (tech_found != A_FUTURE) {
-    upgrade_all_city_roads(plr, was_discovery);  
-    upgrade_all_city_bases(plr, was_discovery);
+    upgrade_all_city_extras(plr, was_discovery);  
   }
 
   /* Enhance vision of units if a player-ranged effect has changed.  Note
@@ -257,7 +256,7 @@ static void fill_have_embassies_array(int* have_embassies)
 
 /****************************************************************************
   Player has a new technology (from somewhere). was_discovery is passed 
-  on to upgrade_city_rails. Logging & notification is not done here as 
+  on to upgrade_city_extras. Logging & notification is not done here as 
   it depends on how the tech came. If next_tech is other than A_NONE, this 
   is the next tech to research.
 ****************************************************************************/

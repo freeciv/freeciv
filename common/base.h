@@ -51,14 +51,8 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 #define SPECENUM_VALUE3 BF_PARADROP_FROM
 #define SPECENUM_VALUE3NAME "ParadropFrom"
 /* Base will be built in cities automatically */
-#define SPECENUM_VALUE4 BF_AUTO_ON_CITY_CENTER
-#define SPECENUM_VALUE4NAME "AutoOnCityCenter"
-/* Owner's flag is displayed next to base */
-#define SPECENUM_VALUE5 BF_SHOW_FLAG
-#define SPECENUM_VALUE5NAME "ShowFlag"
-/* Base is always present in cities */
-#define SPECENUM_VALUE6 BF_ALWAYS_ON_CITY_CENTER
-#define SPECENUM_VALUE6NAME "AlwaysOnCityCenter"
+#define SPECENUM_VALUE4 BF_SHOW_FLAG
+#define SPECENUM_VALUE4NAME "ShowFlag"
 #define SPECENUM_COUNT BF_COUNT
 #define SPECENUM_BITVECTOR bv_base_flags
 #include "specenum_gen.h"

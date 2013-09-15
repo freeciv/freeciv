@@ -958,7 +958,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   bool had_great_wonders = FALSE;
   const citizens old_taker_content_citizens = player_content_citizens(ptaker);
   const citizens old_giver_content_citizens = player_content_citizens(pgiver);
-  bool new_roads, new_bases;
+  bool new_extras;
 
   fc_assert_ret(pgiver != ptaker);
 
@@ -1076,28 +1076,19 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     /* What wasn't obsolete for the old owner may be so now. */
     remove_obsolete_buildings_city(pcity, TRUE);
 
-    new_roads = upgrade_city_roads(pcity);
-    new_bases = upgrade_city_bases(pcity);
+    new_extras = upgrade_city_extras(pcity);
 
-    if (new_roads || new_bases) {
+    if (new_extras) {
       const char *clink = city_link(pcity);
 
       notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
                     _("The people in %s are stunned by your "
                       "technological insight!"),
                     clink);
-      if (new_roads) {
-        notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
-                      _("Workers spontaneously gather and upgrade "
-                        "%s roads."),
-                      clink);
-      }
-      if (new_bases) {
-        notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
-                      _("Workers spontaneously gather and upgrade "
-                        "%s bases."),
-                      clink);
-      }
+      notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
+                    _("Workers spontaneously gather and upgrade "
+                      "%s infrastructure."),
+                    clink);
       update_tile_knowledge(pcenter);
     }
 
@@ -1322,10 +1313,8 @@ void create_city(struct player *pplayer, struct tile *ptile,
     }
   } extra_type_iterate_end;
 
-  /* Build any roads that the city should have. */
-  upgrade_city_roads(pcity);
-  /* Build any bases that the city should have. */
-  upgrade_city_bases(pcity);
+  /* Build any extras that the city should have. */
+  upgrade_city_extras(pcity);
 
   /* Claim the ground we stand on */
   tile_set_owner(ptile, saved_owner, saved_claimer);

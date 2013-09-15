@@ -212,130 +212,65 @@ void climate_change(bool warming, int effect)
 }
 
 /***************************************************************
-  Check city for road upgrade. Returns whether anything was
+  Check city for extra upgrade. Returns whether anything was
   done.
 ***************************************************************/
-bool upgrade_city_roads(struct city *pcity)
+bool upgrade_city_extras(struct city *pcity)
 {
   struct tile *ptile = pcity->tile;
   struct player *pplayer = city_owner(pcity);
   bool upgradet = FALSE;
 
-  road_type_iterate(proad) {
-    if (!tile_has_road(ptile, proad)) {
-      if (road_has_flag(proad, RF_ALWAYS_ON_CITY_CENTER)
-          || (road_has_flag(proad, RF_AUTO_ON_CITY_CENTER)
-              && player_can_build_road(proad, pplayer, ptile))) {
-        tile_add_road(pcity->tile, proad);
+  extra_type_iterate(pextra) {
+    if (!tile_has_extra(ptile, pextra)) {
+      if (extra_has_flag(pextra, EF_ALWAYS_ON_CITY_CENTER)
+          || (extra_has_flag(pextra, EF_AUTO_ON_CITY_CENTER)
+              && player_can_build_extra(pextra, pplayer, ptile))) {
+        tile_add_extra(pcity->tile, pextra);
         upgradet = TRUE;
       }
     }
-  } road_type_iterate_end;
+  } extra_type_iterate_end;
 
   return upgradet;
 }
 
 /***************************************************************
-To be called when a player gains some better road building tech
+To be called when a player gains some better extra building tech
 for the first time.  Sends a message, and upgrades all city
-squares to new roads.  "discovery" just affects the message: set to
+squares to new extras.  "discovery" just affects the message: set to
    1 if the tech is a "discovery",
    0 if otherwise acquired (conquer/trade/GLib).        --dwp
 ***************************************************************/
-void upgrade_all_city_roads(struct player *pplayer, bool discovery)
+void upgrade_all_city_extras(struct player *pplayer, bool discovery)
 {
-  bool roads_upgradet = FALSE;
+  bool extras_upgradet = FALSE;
 
   conn_list_do_buffer(pplayer->connections);
 
   city_list_iterate(pplayer->cities, pcity) {
-    if (upgrade_city_roads(pcity)) {
+    if (upgrade_city_extras(pcity)) {
       update_tile_knowledge(pcity->tile);
-      roads_upgradet = TRUE;
+      extras_upgradet = TRUE;
     }
   }
   city_list_iterate_end;
 
-  if (roads_upgradet) {
+  if (extras_upgradet) {
     if (discovery) {
       notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
 		    _("New hope sweeps like fire through the country as "
-		      "the discovery of new road building technology "
+		      "the discovery of new infrastructure building technology "
 		      "is announced."));
     } else {
       notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
 		    _("The people are pleased to hear that your "
-		      "scientists finally know about new road building "
+		      "scientists finally know about new infrastructure building "
 		      "technology."));
     }
     notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
                   _("Workers spontaneously gather and upgrade all "
-                    "possible cities with better roads."));
-  }
-
-  conn_list_do_unbuffer(pplayer->connections);
-}
-
-/***************************************************************
-  Check city for base upgrade. Returns whether anything was
-  done.
-***************************************************************/
-bool upgrade_city_bases(struct city *pcity)
-{
-  struct tile *ptile = pcity->tile;
-  struct player *pplayer = city_owner(pcity);
-  bool upgradet = FALSE;
-
-  base_type_iterate(pbase) {
-    if (!tile_has_base(ptile, pbase)) {
-      if (base_has_flag(pbase, BF_ALWAYS_ON_CITY_CENTER)
-          || (base_has_flag(pbase, BF_AUTO_ON_CITY_CENTER)
-              && player_can_build_base(pbase, pplayer, ptile))) {
-        tile_add_base(pcity->tile, pbase);
-        upgradet = TRUE;
-      }
-    }
-  } base_type_iterate_end;
-
-  return upgradet;
-}
-
-/***************************************************************
-To be called when a player gains some better base building tech
-for the first time.  Sends a message, and upgrades all city
-squares to new bases.  "discovery" just affects the message: set to
-   1 if the tech is a "discovery",
-   0 if otherwise acquired (conquer/trade/GLib).        --dwp
-***************************************************************/
-void upgrade_all_city_bases(struct player *pplayer, bool discovery)
-{
-  bool bases_upgradet = FALSE;
-
-  conn_list_do_buffer(pplayer->connections);
-
-  city_list_iterate(pplayer->cities, pcity) {
-    if (upgrade_city_bases(pcity)) {
-      update_tile_knowledge(pcity->tile);
-      bases_upgradet = TRUE;
-    }
-  }
-  city_list_iterate_end;
-
-  if (bases_upgradet) {
-    if (discovery) {
-      notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-		    _("New hope sweeps like fire through the country as "
-		      "the discovery of new base building technology "
-		      "is announced."));
-    } else {
-      notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-		    _("The people are pleased to hear that your "
-		      "scientists finally know about new base building "
-		      "technology."));
-    }
-    notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-                  _("Workers spontaneously gather and upgrade all "
-                    "possible cities with better bases."));
+                    "possible cities with better infrastructure."));
   }
 
   conn_list_do_unbuffer(pplayer->connections);
@@ -1657,9 +1592,8 @@ void terrain_changed(struct tile *ptile)
   struct city *pcity = tile_city(ptile);
 
   if (pcity != NULL) {
-    /* Tile is city center and new terrain may support better roads or bases. */
-    upgrade_city_roads(pcity);
-    upgrade_city_bases(pcity);
+    /* Tile is city center and new terrain may support better extras. */
+    upgrade_city_extras(pcity);
   }
 
   bounce_units_on_terrain_change(ptile);
