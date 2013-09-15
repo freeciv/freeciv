@@ -120,7 +120,7 @@ void load_intro_gfx(void)
   radar_gfx_sprite = load_gfxfile(tileset_mini_intro_filename(tileset));
   tot = radar_gfx_sprite->width;
 
-  y = radar_gfx_sprite->height - (lin +
+  y = radar_gfx_sprite->height - (2 * lin +
       1.5 * (exts->max_logical_extent.height + exts->max_logical_extent.y));
 
   w = XmbTextEscapement(main_font_set, word_version(), strlen(word_version()));
@@ -153,6 +153,20 @@ void load_intro_gfx(void)
   XmbDrawString(display, radar_gfx_sprite->pixmap,
 		main_font_set, font_gc,
 		tot / 2 - w / 2, y, s, strlen(s));
+
+  y += lin;
+  
+  w = XmbTextEscapement(main_font_set, client_string, strlen(client_string));
+  XSetForeground(display, font_gc,
+		 get_color(tileset, COLOR_OVERVIEW_UNKNOWN)->color.pixel);
+  XmbDrawString(display, radar_gfx_sprite->pixmap,
+		main_font_set, font_gc,
+		(tot / 2 - w / 2) + 1, y + 1, client_string, strlen(client_string));
+  XSetForeground(display, font_gc,
+		 get_color(tileset, COLOR_OVERVIEW_VIEWRECT)->color.pixel);
+  XmbDrawString(display, radar_gfx_sprite->pixmap,
+		main_font_set, font_gc,
+		tot / 2 - w / 2, y, client_string, strlen(client_string));
 
   /* free colors */
 
