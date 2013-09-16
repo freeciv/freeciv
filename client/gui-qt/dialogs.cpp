@@ -59,6 +59,9 @@ static void caravan_help_build(QVariant data1, QVariant data2);
 static void keep_moving(QVariant data1, QVariant data2);
 static void caravan_keep_moving(QVariant data1, QVariant data2);
 static void pillage_something(QVariant data1, QVariant data2);
+static void action_entry(choice_dialog *cd, enum mk_eval_result state,
+                         QString title, pfcn_void func, QVariant data1,
+                         QVariant data2);
 
 static int caravan_city_id = 0;
 static int caravan_unit_id = 0;
@@ -897,21 +900,22 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
       cd->add_item(QString(_("Investigate City")), func, qv1, qv2);
     }
 
-    if (diplomat_can_do_action(punit, SPY_POISON, dest_tile)) {
-      func = spy_poison;
-      cd->add_item(QString(_("Poison City")), func, qv1, qv2);
-    }
+    action_entry(cd,
+                 action_enabled_unit_on_city_local(ACTION_SPY_POISON,
+                                                   punit, pcity),
+                 QString(_("Poison City")), spy_poison, qv1, qv2);
 
-    if (diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile)) {
-      func = diplomat_sabotage;
-      cd->add_item(QString(_("_Sabotage City")), func, qv1, qv2);
-    }
+    action_entry(cd,
+                 action_enabled_unit_on_city_local(
+                   ACTION_SPY_SABOTAGE_CITY, punit, pcity),
+                 QString(_("_Sabotage City")),
+                 diplomat_sabotage, qv1, qv2);
 
-    if (diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE_TARGET, dest_tile)) {
-      func = spy_request_sabotage_list;
-      cd->add_item(QString(_("Industrial Sabotage")),
-                   func, qv1, qv2);
-    }
+    action_entry(cd,
+                 action_enabled_unit_on_city_local(
+                   ACTION_SPY_TARGETED_SABOTAGE_CITY, punit, pcity),
+                 QString(_("Industrial Sabotage")),
+                 spy_request_sabotage_list, qv1, qv2);
 
     if (diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile)) {
       if (unit_has_type_flag(punit, UTYF_SPY)) {
@@ -940,16 +944,17 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     gui()->set_current_unit(diplomat_id, diplomat_target_id, ATK_UNIT);
     qv2 = ptunit->id;
 
-    if (diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_tile)) {
-      func = diplomat_bribe;
-      cd->add_item(QString(_("Bribe Enemy Unit")), func, qv1, qv2);
-    }
+    action_entry(cd,
+                 action_enabled_unit_on_unit_local(ACTION_SPY_BRIBE_UNIT,
+                                                   punit, ptunit),
+                 QString(_("Bribe Enemy Unit")),
+                 diplomat_bribe, qv1, qv2);
 
-    if (diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_tile)) {
-      func = spy_sabotage_unit;
-      cd->add_item(QString(_("Sabotage Enemy Unit")),
-                   func, qv1, qv2);
-    }
+    action_entry(cd,
+                 action_enabled_unit_on_unit_local(
+                   ACTION_SPY_SABOTAGE_UNIT, punit, ptunit),
+                 QString(_("Sabotage Enemy Unit")),
+                 spy_sabotage_unit, qv1, qv2);
   }
 
   if (pcity) {
@@ -976,6 +981,27 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 
   astr_free(&title);
   astr_free(&text);
+}
+
+/**********************************************************************
+  Show the user the action if it is enabled.
+**********************************************************************/
+static void action_entry(choice_dialog *cd, enum mk_eval_result state,
+                         QString title, pfcn_void func, QVariant data1,
+                         QVariant data2)
+{
+  switch (state) {
+  case MKE_FALSE:
+    /* Don't even show disabled actions */
+    break;
+  case MKE_UNCERTAIN:
+    /* TODO: Mark uncertain actions */
+    cd->add_item(title, func, data1, data2);
+    break;
+  case MKE_TRUE:
+    cd->add_item(title, func, data1, data2);
+    break;
+  }
 }
 
 /***************************************************************************

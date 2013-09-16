@@ -684,7 +684,8 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
     }
   
     /* ---------- */
-    if (diplomat_can_do_action(pUnit, SPY_POISON, ptile)) {
+    if (MKE_FALSE != action_enabled_unit_on_city_local(ACTION_SPY_POISON,
+                                                       pUnit, pCity)) {
     
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
 	    _("Poison City"), spy_poison_callback);
@@ -699,7 +700,8 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
     }    
 
     /* ---------- */
-    if (diplomat_can_do_action(pUnit, DIPLOMAT_SABOTAGE, ptile)) {
+    if (MKE_FALSE != action_enabled_unit_on_city_local(
+          ACTION_SPY_SABOTAGE_CITY, pUnit, pCity)) {
     
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
             _("Sabotage City"), diplomat_sabotage_callback);
@@ -714,7 +716,8 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
     }
 
     /* ---------- */
-    if (diplomat_can_do_action(pUnit, DIPLOMAT_SABOTAGE_TARGET, ptile)) {
+    if (MKE_FALSE != action_enabled_unit_on_city_local(
+          ACTION_SPY_TARGETED_SABOTAGE_CITY, pUnit, pCity)) {
 
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
             _("Industrial Sabotage"), spy_sabotage_request);
@@ -764,7 +767,8 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
     pDiplomat_Dlg->diplomat_target_id[ATK_UNIT] = pTunit->id;
 
     /* ---------- */
-    if (diplomat_can_do_action(pUnit, DIPLOMAT_BRIBE, ptile)) {
+    if (MKE_FALSE != action_enabled_unit_on_unit_local(
+          ACTION_SPY_BRIBE_UNIT, pUnit, pTunit)) {
 
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
                               _("Bribe Enemy Unit"),
@@ -780,7 +784,8 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
     }
 
     /* ---------- */
-    if (diplomat_can_do_action(pUnit, SPY_SABOTAGE_UNIT, ptile)) {
+    if (MKE_FALSE != action_enabled_unit_on_unit_local(
+          ACTION_SPY_SABOTAGE_UNIT, pUnit, pTunit)) {
 
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
                               _("Sabotage Enemy Unit"),

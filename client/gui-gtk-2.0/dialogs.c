@@ -359,10 +359,11 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
       BV_SET(what_extras, what);
 
       choice_dialog_add(shl, get_infrastructure_text(what_extras),
-                        G_CALLBACK(pillage_callback), GINT_TO_POINTER(what));
+                        G_CALLBACK(pillage_callback), GINT_TO_POINTER(what),
+                        FALSE);
     }
 
-    choice_dialog_add(shl, GTK_STOCK_CANCEL, 0, 0);
+    choice_dialog_add(shl, GTK_STOCK_CANCEL, 0, 0, FALSE);
 
     choice_dialog_end(shl);
 
