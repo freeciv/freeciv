@@ -17,6 +17,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* utility */
+#include "bitvector.h"
 #include "support.h"            /* bool type */
 
 /**********************************************************************
@@ -83,13 +85,16 @@ enum spaceship_state {SSHIP_NONE, SSHIP_STARTED,
 #define NUM_SS_COMPONENTS 16
 #define NUM_SS_MODULES 12
 
+/* Used in the network protocol. */
+BV_DEFINE(bv_spaceship_structure, NUM_SS_STRUCTURALS);
+
 struct player_spaceship {
   /* how many of each part built, including any "unplaced": */
   int structurals;
   int components;
   int modules;
   /* which structurals placed: (array of booleans) */
-  bool structure[NUM_SS_STRUCTURALS];
+  bv_spaceship_structure structure;
   /* which components and modules placed: (may or may not be connected) */
   int fuel;
   int propulsion;

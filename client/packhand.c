@@ -2400,7 +2400,7 @@ static bool spaceship_autoplace(struct player *pplayer,
     */
     int req = -1;
     
-    if (!ship->structure[0]) {
+    if (!BV_ISSET(ship->structure, 0)) {
       /* if we don't have the first structural, place that! */
       type = SSHIP_PLACE_STRUCTURAL;
       num = 0;
@@ -2409,20 +2409,20 @@ static bool spaceship_autoplace(struct player *pplayer,
     }
     
     if (ship->habitation >= 1
-	&& !ship->structure[modules_info[0].required]) {
+        && !BV_ISSET(ship->structure, modules_info[0].required)) {
       req = modules_info[0].required;
     } else if (ship->life_support >= 1
-	       && !ship->structure[modules_info[1].required]) {
+               && !BV_ISSET(ship->structure, modules_info[1].required)) {
       req = modules_info[1].required;
     } else if (ship->solar_panels >= 1
-	       && !ship->structure[modules_info[2].required]) {
+               && !BV_ISSET(ship->structure, modules_info[2].required)) {
       req = modules_info[2].required;
     } else {
       int i;
       for(i=0; i<NUM_SS_COMPONENTS; i++) {
 	if ((i%2==0 && ship->fuel > (i/2))
 	    || (i%2==1 && ship->propulsion > (i/2))) {
-	  if (!ship->structure[components_info[i].required]) {
+	  if (!BV_ISSET(ship->structure, components_info[i].required)) {
 	    req = components_info[i].required;
 	    break;
 	  }
@@ -2434,7 +2434,7 @@ static bool spaceship_autoplace(struct player *pplayer,
 	if ((i%3==0 && ship->habitation > (i/3))
 	    || (i%3==1 && ship->life_support > (i/3))
 	    || (i%3==2 && ship->solar_panels > (i/3))) {
-	  if (!ship->structure[modules_info[i].required]) {
+	  if (!BV_ISSET(ship->structure, modules_info[i].required)) {
 	    req = modules_info[i].required;
 	    break;
 	  }
@@ -2443,7 +2443,7 @@ static bool spaceship_autoplace(struct player *pplayer,
     }
     if (req == -1) {
       for(i=0; i<NUM_SS_STRUCTURALS; i++) {
-	if (!ship->structure[i]) {
+        if (!BV_ISSET(ship->structure, i)) {
 	  req = i;
 	  break;
 	}
@@ -2451,13 +2451,13 @@ static bool spaceship_autoplace(struct player *pplayer,
     }
     /* sanity: */
     fc_assert(req != -1);
-    fc_assert(!ship->structure[req]);
+    fc_assert(!BV_ISSET(ship->structure, req));
     
     /* Now we want to find a structural we can build which leads to req.
        This loop should bottom out, because everything leads back to s0,
        and we made sure above that we do s0 first.
      */
-    while(!ship->structure[structurals_info[req].required]) {
+    while(!BV_ISSET(ship->structure, structurals_info[req].required)) {
       req = structurals_info[req].required;
     }
     type = SSHIP_PLACE_STRUCTURAL;
@@ -2473,7 +2473,6 @@ static bool spaceship_autoplace(struct player *pplayer,
 ****************************************************************************/
 void handle_spaceship_info(const struct packet_spaceship_info *p)
 {
-  int i;
   struct player_spaceship *ship;
   struct player *pplayer = player_by_number(p->player_num);
 
@@ -2498,19 +2497,7 @@ void handle_spaceship_info(const struct packet_spaceship_info *p)
   ship->energy_rate  = p->energy_rate;
   ship->success_rate = p->success_rate;
   ship->travel_time  = p->travel_time;
-  
-  for(i=0; i<NUM_SS_STRUCTURALS; i++) {
-    if (p->structure[i] == '0') {
-      ship->structure[i] = FALSE;
-    } else if (p->structure[i] == '1') {
-      ship->structure[i] = TRUE;
-    } else {
-      log_error("handle_spaceship_info() "
-                "invalid spaceship structure '%c' (%d).",
-                p->structure[i], p->structure[i]);
-      ship->structure[i] = FALSE;
-    }
-  }
+  ship->structure    = p->structure;
 
   if (pplayer != client_player()) {
     refresh_spaceship_dialog(pplayer);

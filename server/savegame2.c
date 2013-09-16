@@ -3750,10 +3750,8 @@ static void sg_load_player_main(struct loaddata *loading,
                        "Undefined value '%c' within '%s.structure'.", st[i],
                        prefix)
 
-        if (st[i] == '0') {
-          ship->structure[i] = FALSE;
-        } else {
-          ship->structure[i] = TRUE;
+        if (!(st[i] == '0')) {
+          BV_SET(ship->structure, i);
         }
       }
       if (ship->state >= SSHIP_LAUNCHED) {
@@ -3995,7 +3993,7 @@ static void sg_save_player_main(struct savedata *saving,
                        "%s.solar_panels", buf);
 
     for(i = 0; i < NUM_SS_STRUCTURALS; i++) {
-      st[i] = (ship->structure[i]) ? '1' : '0';
+      st[i] = BV_ISSET(ship->structure, i) ? '1' : '0';
     }
     st[i] = '\0';
     secfile_insert_str(saving->file, st, "%s.structure", buf);

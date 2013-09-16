@@ -1988,12 +1988,11 @@ static void player_load_main(struct player *plr, int plrno,
       st = secfile_lookup_str(file, "%s.structure", prefix);
       for (i = 0; i < NUM_SS_STRUCTURALS; i++) {
 	if (st[i] == '0') {
-	  ship->structure[i] = FALSE;
+	  /* Already not set */
 	} else if (st[i] == '1') {
-	  ship->structure[i] = TRUE;
+	  BV_SET(ship->structure, i);
 	} else {
-          log_error("invalid spaceship structure '%c' (%d)", st[i], st[i]);
-	  ship->structure[i] = FALSE;
+	  log_error("invalid spaceship structure '%c' (%d)", st[i], st[i]);
 	}
       }
       if (ship->state >= SSHIP_LAUNCHED) {

@@ -444,42 +444,6 @@ void dio_put_string(struct data_out *dout, const char *value)
 }
 
 /**************************************************************************
-  Insert number of bits as 16 bit value and then insert bits. In incoming
-  value string each bit is represented by one character, value '1' indicating
-  TRUE bit.
-**************************************************************************/
-void dio_put_bit_string(struct data_out *dout, const char *value)
-{
-  /* Note that size_t is often an unsigned type, so we must be careful
-   * with the math when calculating 'bytes'. */
-  size_t bits = strlen(value), bytes;
-  size_t max = (unsigned short)(-1);
-
-  if (bits > max) {
-    log_error("Bit string too long: %lu bits.", (unsigned long) bits);
-    bits = max;
-  }
-  bytes = (bits + 7) / 8;
-
-  if (enough_space(dout, bytes + 1)) {
-    size_t i;
-
-    dio_put_uint16(dout, bits);
-
-    for (i = 0; i < bits;) {
-      int bit, data = 0;
-
-      for (bit = 0; bit < 8 && i < bits; bit++, i++) {
-	if (value[i] == '1') {
-	  data |= (1 << bit);
-	}
-      }
-      dio_put_uint8(dout, data);
-    }
-  }
-}
-
-/**************************************************************************
   Insert tech numbers from value array as 8 bit values until there is value
   A_LAST or MAX_NUM_TECH_LIST tech numbers have been inserted.
 **************************************************************************/
@@ -792,48 +756,6 @@ bool dio_get_string(struct data_in *din, char *dest, size_t max_dest_size)
   }
 
   din->current += offset + 1;
-  return TRUE;
-}
-
-/**************************************************************************
-  Take bits and produce string containing chars '0' and '1'
-**************************************************************************/
-bool dio_get_bit_string(struct data_in *din, char *dest,
-			size_t max_dest_size)
-{
-  int npack = 0;		/* number claimed in packet */
-  int i;			/* iterate the bytes */
-
-  fc_assert(max_dest_size > 0);
-
-  if (!dio_get_uint16(din, &npack)) {
-    log_packet("Got a bad bit string");
-    return FALSE;
-  }
-
-  if (npack >= max_dest_size) {
-    log_packet("Have size for %lu, got %d",
-               (unsigned long) max_dest_size, npack);
-    return FALSE;
-  }
-
-  for (i = 0; i < npack;) {
-    int bit, byte_value;
-
-    if (!dio_get_uint8(din, &byte_value)) {
-      log_packet("Got a too short bit string");
-      return FALSE;
-    }
-    for (bit = 0; bit < 8 && i < npack; bit++, i++) {
-      if (TEST_BIT(byte_value, bit)) {
-	dest[i] = '1';
-      } else {
-	dest[i] = '0';
-      }
-    }
-  }
-
-  dest[npack] = '\0';
   return TRUE;
 }
 

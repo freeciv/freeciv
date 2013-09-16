@@ -86,7 +86,7 @@ bool dai_spaceship_autoplace(struct player *pplayer,
     */
     int req = -1;
     
-    if (!ship->structure[0]) {
+    if (!BV_ISSET(ship->structure, 0)) {
       /* if we don't have the first structural, place that! */
       type = SSHIP_PLACE_STRUCTURAL;
       num = 0;
@@ -94,20 +94,20 @@ bool dai_spaceship_autoplace(struct player *pplayer,
     }
     
     if (ship->habitation >= 1
-	&& !ship->structure[modules_info[0].required]) {
+        && !BV_ISSET(ship->structure, modules_info[0].required)) {
       req = modules_info[0].required;
     } else if (ship->life_support >= 1
-	       && !ship->structure[modules_info[1].required]) {
+               && !BV_ISSET(ship->structure, modules_info[1].required)) {
       req = modules_info[1].required;
     } else if (ship->solar_panels >= 1
-	       && !ship->structure[modules_info[2].required]) {
+               && !BV_ISSET(ship->structure, modules_info[2].required)) {
       req = modules_info[2].required;
     } else {
       int i;
       for(i=0; i<NUM_SS_COMPONENTS; i++) {
 	if ((i%2==0 && ship->fuel > (i/2))
 	    || (i%2==1 && ship->propulsion > (i/2))) {
-	  if (!ship->structure[components_info[i].required]) {
+	  if (!BV_ISSET(ship->structure, components_info[i].required)) {
 	    req = components_info[i].required;
 	    break;
 	  }
@@ -119,7 +119,7 @@ bool dai_spaceship_autoplace(struct player *pplayer,
 	if ((i%3==0 && ship->habitation > (i/3))
 	    || (i%3==1 && ship->life_support > (i/3))
 	    || (i%3==2 && ship->solar_panels > (i/3))) {
-	  if (!ship->structure[modules_info[i].required]) {
+	  if (!BV_ISSET(ship->structure, modules_info[i].required)) {
 	    req = modules_info[i].required;
 	    break;
 	  }
@@ -128,7 +128,7 @@ bool dai_spaceship_autoplace(struct player *pplayer,
     }
     if (req == -1) {
       for(i=0; i<NUM_SS_STRUCTURALS; i++) {
-	if (!ship->structure[i]) {
+        if (!BV_ISSET(ship->structure, i)) {
 	  req = i;
 	  break;
 	}
@@ -136,13 +136,13 @@ bool dai_spaceship_autoplace(struct player *pplayer,
     }
     /* sanity: */
     fc_assert_ret_val(-1 != req, FALSE);
-    fc_assert_ret_val(!ship->structure[req], FALSE);
+    fc_assert_ret_val(!BV_ISSET(ship->structure, req), FALSE);
     
     /* Now we want to find a structural we can build which leads to req.
        This loop should bottom out, because everything leads back to s0,
        and we made sure above that we do s0 first.
      */
-    while(!ship->structure[structurals_info[req].required]) {
+    while(!BV_ISSET(ship->structure, structurals_info[req].required)) {
       req = structurals_info[req].required;
     }
     type = SSHIP_PLACE_STRUCTURAL;

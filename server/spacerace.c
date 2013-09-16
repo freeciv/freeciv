@@ -60,27 +60,37 @@ void spaceship_calc_derived(struct player_spaceship *ship)
   ship->support_rate = ship->energy_rate =
     ship->success_rate = ship->travel_time = 0.0;
 
-  for(i=0; i<NUM_SS_STRUCTURALS; i++) {
-    if (ship->structure[i]) {
-      ship->mass += (i<6) ? 200 : 100;
+  for (i = 0; i < NUM_SS_STRUCTURALS; i++) {
+    if (BV_ISSET(ship->structure, i)) {
+      ship->mass += (i < 6) ? 200 : 100;
       /* s0 to s3 are heavier; actually in Civ1 its a bit stranger
 	 than this, but not worth figuring out --dwp */
     }
   }
-  for(i=0; i<ship->fuel; i++) {
-    if (ship->structure[components_info[i*2].required]) fuel++;
+  for (i = 0; i < ship->fuel; i++) {
+    if (BV_ISSET(ship->structure, components_info[i * 2].required)) {
+      fuel++;
+    }
   }
-  for(i=0; i<ship->propulsion; i++) {
-    if (ship->structure[components_info[i*2+1].required]) propulsion++;
+  for (i = 0; i < ship->propulsion; i++) {
+    if (BV_ISSET(ship->structure, components_info[i * 2 + 1].required)) {
+      propulsion++;
+    }
   }
-  for(i=0; i<ship->habitation; i++) {
-    if (ship->structure[modules_info[i*3].required]) habitation++;
+  for (i = 0; i < ship->habitation; i++) {
+    if (BV_ISSET(ship->structure, modules_info[i * 3].required)) {
+      habitation++;
+    }
   }
-  for(i=0; i<ship->life_support; i++) {
-    if (ship->structure[modules_info[i*3+1].required]) life_support++;
+  for (i = 0; i < ship->life_support; i++) {
+    if (BV_ISSET(ship->structure, modules_info[i * 3 + 1].required)) {
+      life_support++;
+    }
   }
-  for(i=0; i<ship->solar_panels; i++) {
-    if (ship->structure[modules_info[i*3+2].required]) solar_panels++;
+  for (i = 0; i < ship->solar_panels; i++) {
+    if (BV_ISSET(ship->structure, modules_info[i * 3 + 2].required)) {
+      solar_panels++;
+    }
   }
 
   ship->mass += 1600 * (habitation + life_support)
@@ -117,8 +127,6 @@ void spaceship_calc_derived(struct player_spaceship *ship)
 **************************************************************************/
 void send_spaceship_info(struct player *src, struct conn_list *dest)
 {
-  int j;
-
   if (!dest) {
     dest = game.est_connections;
   }
@@ -145,11 +153,7 @@ void send_spaceship_info(struct player *src, struct conn_list *dest)
       info.energy_rate = ship->energy_rate;
       info.success_rate = ship->success_rate;
       info.travel_time = ship->travel_time;
-      
-      for(j=0; j<NUM_SS_STRUCTURALS; j++) {
-	info.structure[j] = ship->structure[j] ? '1' : '0';
-      }
-      info.structure[j] = '\0';
+      info.structure = ship->structure;
 	  
       lsend_packet_spaceship_info(dest, &info);
     }
@@ -215,7 +219,8 @@ void handle_spaceship_place(struct player *pplayer,
     return;
   }
   if (type == SSHIP_PLACE_STRUCTURAL) {
-    if (num<0 || num>=NUM_SS_STRUCTURALS || ship->structure[num]) {
+    if (num < 0 || num >= NUM_SS_STRUCTURALS
+        || BV_ISSET(ship->structure, num)) {
       return;
     }
     if (num_spaceship_structurals_placed(ship) >= ship->structurals) {
@@ -223,12 +228,13 @@ void handle_spaceship_place(struct player *pplayer,
                     _("You don't have any unplaced Space Structurals!"));
       return;
     }
-    if (num!=0 && !ship->structure[structurals_info[num].required]) {
+    if (num != 0
+        && !BV_ISSET(ship->structure, structurals_info[num].required)) {
       notify_player(pplayer, NULL, E_SPACESHIP, ftc_server,
                     _("That Space Structural would not be connected!"));
       return;
     }
-    ship->structure[num] = TRUE;
+    BV_SET(ship->structure, num);
     spaceship_calc_derived(ship);
     send_spaceship_info(pplayer, NULL);
     return;
