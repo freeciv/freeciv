@@ -29,6 +29,7 @@
 /* client */
 #include "client_main.h"
 #include "climisc.h"
+#include "options.h"
 #include "text.h"
 
 /* client/include */
@@ -177,13 +178,39 @@ const char *plrdlg_col_state(const struct player *plr)
     /* TRANS: Dead -- Rest In Peace -- Reqia In Pace */
     return _("R.I.P.");
   } else if (!plr->is_connected) {
-    return "";
-  } else if (!is_player_phase(plr, game.info.phase)) {
-    return _("waiting");
-  } else if (plr->phase_done) {
-    return _("done");
+    struct option *opt;
+    bool consider_tb = FALSE;
+
+    if (plr->ai_controlled) {
+      return "";
+    }
+
+    opt = optset_option_by_name(server_optset, "turnblock");
+    if (opt != NULL) {
+      consider_tb = option_bool_get(opt);
+    }
+
+    if (!consider_tb) {
+      /* TRANS: No connection */
+      return _("noconn");
+    }
+
+    if (!is_player_phase(plr, game.info.phase)) {
+      return _("waiting");
+    } else if (plr->phase_done) {
+      return _("done");
+    } else {
+      /* TRANS: Turnblocking & player not connected */
+      return _("blocking");
+    }
   } else {
-    return _("moving");
+    if (!is_player_phase(plr, game.info.phase)) {
+      return _("waiting");
+    } else if (plr->phase_done) {
+      return _("done");
+    } else {
+      return _("moving");
+    }
   }
 }
 
