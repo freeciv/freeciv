@@ -491,7 +491,6 @@ enum tile_special_type {
 
   /* internal values not saved */
   S_LAST,
-  S_RESOURCE_VALID = S_LAST,
 
   S_OLD_FORTRESS,
   S_OLD_AIRBASE,
