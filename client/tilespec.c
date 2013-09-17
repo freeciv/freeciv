@@ -3995,11 +3995,11 @@ static int get_irrigation_index(const struct tileset *t,
   for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
     enum direction8 dir = t->cardinal_tileset_dirs[i];
 
-    /* A tile with S_FARMLAND will also have S_IRRIGATION set. */
-    if (BV_ISSET(textras_near[dir],
-                 extra_index(special_extra_get(S_IRRIGATION)))) {
-      tileno |= 1 << i;
-    }
+    extra_type_by_cause_iterate(EC_IRRIGATION, pextra) {
+      if (BV_ISSET(textras_near[dir], extra_index(pextra))) {
+        tileno |= 1 << i;
+      }
+    } extra_type_by_cause_iterate_end;
   }
 
   return tileno;
@@ -4022,16 +4022,29 @@ static int fill_irrigation_sprite_array(const struct tileset *t,
 
   /* We don't draw the irrigation if there's a city (it just gets overdrawn
    * anyway, and ends up looking bad). */
-  if (draw_irrigation
-      && BV_ISSET(textras, extra_index(special_extra_get(S_IRRIGATION)))
-      && !(pcity && draw_cities)) {
-    int index = get_irrigation_index(t, textras_near);
+  if (draw_irrigation && !(pcity && draw_cities)) {
+    extra_type_by_cause_iterate(EC_IRRIGATION, pextra) {
+      if (BV_ISSET(textras, extra_index(pextra))) {
+        bool hidden = FALSE;
 
-    if (BV_ISSET(textras, extra_index(special_extra_get(S_FARMLAND)))) {
-      ADD_SPRITE_SIMPLE(t->sprites.tx.farmland[index]);
-    } else {
-      ADD_SPRITE_SIMPLE(t->sprites.tx.irrigation[index]);
-    }
+        extra_type_list_iterate(pextra->hiders, phider) {
+          if (BV_ISSET(textras, extra_index(phider))) {
+            hidden = TRUE;
+            break;
+          }
+        } extra_type_list_iterate_end;
+
+        if (!hidden) {
+          int index = get_irrigation_index(t, textras_near);
+
+          if (pextra->data.special == S_FARMLAND) {
+            ADD_SPRITE_SIMPLE(t->sprites.tx.farmland[index]);
+          } else {
+            ADD_SPRITE_SIMPLE(t->sprites.tx.irrigation[index]);
+          }
+        }
+      }
+    } extra_type_by_cause_iterate_end;
   }
 
   return sprs - saved_sprs;
@@ -4861,26 +4874,67 @@ int fill_sprite_array(struct tileset *t,
       }
 
       if (ptile && draw_fortress_airbase) {
-        base_type_iterate(pbase) {
-          if (tile_has_base(ptile, pbase)
+        extra_type_by_cause_iterate(EC_BASE, pextra) {
+          struct base_type *pbase = extra_base_get(pextra);
+
+          if (tile_has_extra(ptile, pextra)
               && t->sprites.bases[base_index(pbase)].background) {
-            ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].background);
+            bool hidden = FALSE;
+
+            extra_type_list_iterate(pextra->hiders, phider) {
+              if (BV_ISSET(textras, extra_index(phider))) {
+                hidden = TRUE;
+                break;
+              }
+            } extra_type_list_iterate_end;
+
+            if (!hidden) {
+              ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].background);
+            }
           }
-        } base_type_iterate_end;
+        } extra_type_by_cause_iterate_end;
       }
 
-      if (draw_mines
-          && BV_ISSET(textras, extra_index(special_extra_get(S_MINE)))) {
-        struct drawing_data *draw = t->sprites.drawing[terrain_index(pterrain)];
+      if (draw_mines) {
+        extra_type_by_cause_iterate(EC_MINE, pextra) {
+          if (BV_ISSET(textras, extra_index(pextra))) {
+            bool hidden = FALSE;
 
-        if (NULL != draw->mine) {
-	  ADD_SPRITE_SIMPLE(draw->mine);
-	}
+            extra_type_list_iterate(pextra->hiders, phider) {
+              if (BV_ISSET(textras, extra_index(phider))) {
+                hidden = TRUE;
+                break;
+              }
+            } extra_type_list_iterate_end;
+
+            if (!hidden) {
+              struct drawing_data *draw = t->sprites.drawing[terrain_index(pterrain)];
+
+              if (NULL != draw->mine) {
+                ADD_SPRITE_SIMPLE(draw->mine);
+              }
+            }
+          }
+        } extra_type_by_cause_iterate_end;
       }
 
-      if (draw_specials
-          && BV_ISSET(textras, extra_index(special_extra_get(S_HUT)))) {
-	ADD_SPRITE_SIMPLE(t->sprites.tx.village);
+      if (draw_specials) {
+        extra_type_by_cause_iterate(EC_HUT, pextra) {
+          if (BV_ISSET(textras, extra_index(pextra))) {
+            bool hidden = FALSE;
+
+            extra_type_list_iterate(pextra->hiders, phider) {
+              if (BV_ISSET(textras, extra_index(phider))) {
+                hidden = TRUE;
+                break;
+              }
+            } extra_type_list_iterate_end;
+
+            if (!hidden) {
+              ADD_SPRITE_SIMPLE(t->sprites.tx.village);
+            }
+          }
+        } extra_type_by_cause_iterate_end;
       }
     }
     break;
@@ -4924,21 +4978,62 @@ int fill_sprite_array(struct tileset *t,
   case LAYER_SPECIAL2:
     if (NULL != pterrain) {
       if (ptile && draw_fortress_airbase) {
-        base_type_iterate(pbase) {
-          if (tile_has_base(ptile, pbase)
+        extra_type_by_cause_iterate(EC_BASE, pextra) {
+          struct base_type *pbase = extra_base_get(pextra);
+
+          if (tile_has_extra(ptile, pextra)
               && t->sprites.bases[base_index(pbase)].middleground) {
-            ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].middleground);
+            bool hidden = FALSE;
+
+            extra_type_list_iterate(pextra->hiders, phider) {
+              if (BV_ISSET(textras, extra_index(phider))) {
+                hidden = TRUE;
+                break;
+              }
+            } extra_type_list_iterate_end;
+
+            if (!hidden) {
+              ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].middleground);
+            }
           }
-        } base_type_iterate_end;
+        } extra_type_by_cause_iterate_end;
       }
 
-      if (draw_pollution
-         && BV_ISSET(textras, extra_index(special_extra_get(S_POLLUTION)))) {
-        ADD_SPRITE_SIMPLE(t->sprites.tx.pollution);
+      if (draw_pollution) {
+        extra_type_by_cause_iterate(EC_POLLUTION, pextra) {
+          if (BV_ISSET(textras, extra_index(pextra))) {
+            bool hidden = FALSE;
+
+            extra_type_list_iterate(pextra->hiders, phider) {
+              if (BV_ISSET(textras, extra_index(phider))) {
+                hidden = TRUE;
+                break;
+              }
+            } extra_type_list_iterate_end;
+
+            if (!hidden) {
+              ADD_SPRITE_SIMPLE(t->sprites.tx.pollution);
+            }
+          }
+        } extra_type_by_cause_iterate_end;
       }
-      if (draw_pollution
-          && BV_ISSET(textras, extra_index(special_extra_get(S_FALLOUT)))) {
-        ADD_SPRITE_SIMPLE(t->sprites.tx.fallout);
+      if (draw_pollution) {
+        extra_type_by_cause_iterate(EC_FALLOUT, pextra) {
+          if (BV_ISSET(textras, extra_index(pextra))) {
+            bool hidden = FALSE;
+
+            extra_type_list_iterate(pextra->hiders, phider) {
+              if (BV_ISSET(textras, extra_index(phider))) {
+                hidden = TRUE;
+                break;
+              }
+            } extra_type_list_iterate_end;
+
+            if (!hidden) {
+              ADD_SPRITE_SIMPLE(t->sprites.tx.fallout);
+            }
+          }
+        } extra_type_by_cause_iterate_end;
       }
     }
     break;
@@ -4970,18 +5065,31 @@ int fill_sprite_array(struct tileset *t,
         bool show_flag = FALSE;
         struct player *owner = base_owner(ptile);
 
-        base_type_iterate(pbase) {
-          if (tile_has_base(ptile, pbase)) {
-            if (t->sprites.bases[base_index(pbase)].foreground) {
-              /* Draw fortress front in iso-view (non-iso view only has a fortress
-               * back). */
-              ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].foreground);
-            }
-            if (base_has_flag(pbase, BF_SHOW_FLAG)) {
-              show_flag = TRUE;
+        extra_type_by_cause_iterate(EC_BASE, pextra) {
+          struct base_type *pbase = extra_base_get(pextra);
+          show_flag = base_has_flag(pbase, BF_SHOW_FLAG);
+
+          if (tile_has_extra(ptile, pextra)
+              && (t->sprites.bases[base_index(pbase)].foreground
+                  || show_flag)) {
+            bool hidden = FALSE;
+
+            extra_type_list_iterate(pextra->hiders, phider) {
+              if (BV_ISSET(textras, extra_index(phider))) {
+                hidden = TRUE;
+                break;
+              }
+            } extra_type_list_iterate_end;
+
+            if (!hidden) {
+              if (t->sprites.bases[base_index(pbase)].foreground) {
+                ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].foreground);
+              }
+            } else {
+              show_flag = FALSE;
             }
           }
-        } base_type_iterate_end;
+        } extra_type_by_cause_iterate_end;
 
         if (show_flag && owner != NULL) {
           ADD_SPRITE(get_nation_flag_sprite(t, nation_of_player(owner)), TRUE,
