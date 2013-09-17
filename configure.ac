@@ -991,6 +991,15 @@ AM_CONDITIONAL([MODINST_GTK3], [test "x$fcmp_gtk3" = "xyes"])
 AM_CONDITIONAL([MODINST_GTK2], [test "x$fcmp_gtk2" = "xyes"])
 AM_CONDITIONAL([MODINST_QT], [test "x$fcmp_qt" = "xyes"])
 
+AC_ARG_ENABLE([ruledit],
+  AS_HELP_STRING([--enable-ruledit], [build freeciv-ruledit (WIP)]),
+[case "${enableval}" in
+  yes) ruledit=yes ;;
+  no)  ruledit=no ;;
+  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-ruledit]) ;;
+esac], [ruledit=no])
+AM_CONDITIONAL([RULEDIT], [test "x$ruledit" = "xyes"])
+
 AC_SUBST([GUI_gtk2_CFLAGS])
 AC_SUBST([GUI_gtk2_LIBS])
 AC_SUBST([GUI_gtk2_LDFLAGS])
@@ -1455,6 +1464,7 @@ AC_CONFIG_FILES([Makefile
 	  server/generator/Makefile
 	  server/scripting/Makefile
           tools/Makefile
+          tools/ruledit/Makefile
 	  po/Makefile.in
 	  doc/Makefile
 	  doc/man/Makefile
