@@ -217,7 +217,7 @@ bool client_start_server(void)
   /* This also resets client_has_hack. */
   client_kill_server(TRUE);
 
-  output_window_append(ftc_client, _("Starting server..."));
+  output_window_append(ftc_client, _("Starting local server..."));
 
   /* find a free port */
   internal_server_port = find_next_free_port(DEFAULT_SOCK_PORT, family);
