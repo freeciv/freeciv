@@ -1694,7 +1694,9 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   char homecity_link[MAX_LEN_LINK], destcity_link[MAX_LEN_LINK];
   char punit_link[MAX_LEN_LINK];
   int revenue, i;
-  bool can_establish, home_full = FALSE, dest_full = FALSE;
+  bool can_establish;
+  int home_overbooked = 0;
+  int dest_overbooked = 0;
   int home_max;
   int dest_max;
   struct city *pcity_homecity;
@@ -1757,16 +1759,18 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   if (can_establish) {
     home_max = max_trade_routes(pcity_homecity);
     dest_max = max_trade_routes(pcity_dest);
-    home_full = (city_num_trade_routes(pcity_homecity) == home_max);
-    dest_full = (city_num_trade_routes(pcity_dest) == dest_max);
+    home_overbooked = city_num_trade_routes(pcity_homecity) - home_max;
+    dest_overbooked = city_num_trade_routes(pcity_dest) - dest_max;
   }
 
-  if (home_full || dest_full) {
+  if (home_overbooked > 0 || dest_overbooked > 0) {
     int slot, trade = trade_between_cities(pcity_homecity, pcity_dest);
 
     /* See if there's a trade route we can cancel at the home city. */
-    if (home_full) {
-      if (home_max > 0 && get_city_min_trade_route(pcity_homecity, &slot) < trade) {
+    if (home_overbooked > 0) {
+      /* Can cancel one route at max */
+      if (home_overbooked == 1
+          && home_max > 0 && get_city_min_trade_route(pcity_homecity, &slot) < trade) {
         pcity_out_of_home = game_city_by_number(pcity_homecity->trade[slot]);
         fc_assert(pcity_out_of_home != NULL);
       } else {
@@ -1786,8 +1790,10 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     }
     
     /* See if there's a trade route we can cancel at the dest city. */
-    if (can_establish && dest_full) {
-      if (dest_max > 0 && get_city_min_trade_route(pcity_dest, &slot) < trade) {
+    if (can_establish && dest_overbooked > 0) {
+      /* Can cancel one route at max */
+      if (dest_overbooked == 1
+          && dest_max > 0 && get_city_min_trade_route(pcity_dest, &slot) < trade) {
         pcity_out_of_dest = game_city_by_number(pcity_dest->trade[slot]);
         fc_assert(pcity_out_of_dest != NULL);
       } else {
