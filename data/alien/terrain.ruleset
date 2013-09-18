@@ -675,8 +675,7 @@ reqs           =
       "TerrainFlag", "Radiating", "Local"
     }
 native_to      = "Earthly"
-flags          = "NativeTile"
-flags          = "AutoOnCityCenter"
+flags          = "NativeTile", "AutoOnCityCenter"
 
 [extra_burrow_tube]
 name           = _("Burrow Tube")
