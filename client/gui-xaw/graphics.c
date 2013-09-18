@@ -85,6 +85,7 @@ void load_intro_gfx(void)
   int have_face;
   const char *motto = freeciv_motto();
   XFontSetExtents *exts;
+  const char *rev_ver = fc_svn_revision();
 
   /* metrics */
 
@@ -139,9 +140,11 @@ void load_intro_gfx(void)
 
   y += lin;
 
-  fc_snprintf(s, sizeof(s), "%d.%d.%d%s",
-	      MAJOR_VERSION, MINOR_VERSION,
-	      PATCH_VERSION, VERSION_LABEL);
+  if (rev_ver != NULL) {
+    fc_snprintf(s, sizeof(s), "%s (%s)", VERSION_STRING, rev_ver);
+  } else {
+    fc_snprintf(s, sizeof(s), "%s", VERSION_STRING);
+  }
   w = XmbTextEscapement(main_font_set, s, strlen(s));
   XSetForeground(display, font_gc,
 		 get_color(tileset, COLOR_OVERVIEW_UNKNOWN)->color.pixel);
