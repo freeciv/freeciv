@@ -305,7 +305,7 @@ static void show_main_page(void)
           line_color);
 #endif
   
-  set_output_window_text(_("SDLClient welcomes you..."));
+  set_output_window_text(_("SDL2-client welcomes you..."));
   chat_welcome_message();
 
   meswin_dialog_popup(TRUE);
