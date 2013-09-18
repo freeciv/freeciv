@@ -931,10 +931,11 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
       }
     }
 
-    if (diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile)) {
-      func = diplomat_incite;
-      cd->add_item(QString(_("Incite a Revolt")), func, qv1, qv2);
-    }
+    action_entry(cd,
+                 action_enabled_unit_on_city_local(ACTION_SPY_INCITE_CITY,
+                                                   punit, pcity),
+                 QString(_("Incite a Revolt")),
+                 diplomat_incite, qv1, qv2);
   }
 
   if ((ptunit = unit_list_get(dest_tile->units, 0))) {

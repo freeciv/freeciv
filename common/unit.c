@@ -125,8 +125,11 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
       if (action == DIPLOMAT_STEAL && !is_barbarian(city_owner(pcity))) {
 	return TRUE;
       }
-      if(action==DIPLOMAT_INCITE)
-        return !pplayers_allied(city_owner(pcity), unit_owner(pdiplomat));
+      if ((action == DIPLOMAT_INCITE || action == DIPLOMAT_ANY_ACTION)
+          && is_action_enabled_unit_on_city(ACTION_SPY_INCITE_CITY,
+                                            pdiplomat, pcity)) {
+        return TRUE;
+      }
       if(action==DIPLOMAT_ANY_ACTION)
         return TRUE;
     }

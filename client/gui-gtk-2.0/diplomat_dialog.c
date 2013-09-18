@@ -746,10 +746,11 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
       }
     }
 
-    if (diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile)) {
-      choice_dialog_add(shl, _("Incite a _Revolt"),
-                        (GCallback)diplomat_incite_callback, NULL, FALSE);
-    }
+    action_entry(shl,
+                 action_enabled_unit_on_city_local(ACTION_SPY_INCITE_CITY,
+                                                   punit, pcity),
+                 _("Incite a _Revolt"),
+                 (GCallback)diplomat_incite_callback);
   }
 
   if ((ptunit = unit_list_get(dest_tile->units, 0))){

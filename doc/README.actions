@@ -37,6 +37,9 @@ Actions and their hard coded requirements
 "Poison City" - Kill a citizen in the target city.
  * actor must have the diplomat flag.
 
+"Incite City" - Pay the target city to join the actors owners side.
+ * actor must have the diplomat flag.
+
 "Sabotage Unit" - Halve the target unit's hit points.
  * actor must have the diplomat flag.
  * target must have > 1 hp.

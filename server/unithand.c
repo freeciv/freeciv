@@ -261,6 +261,8 @@ void handle_unit_diplomat_query(struct connection *pc,
 					diplomat_id, target_id,
 					city_incite_cost(pplayer, pcity),
 					action_type);
+    } else {
+      illegal_action(pplayer, pdiplomat, ACTION_SPY_INCITE_CITY);
     }
     break;
   case DIPLOMAT_SABOTAGE_TARGET:
@@ -370,6 +372,8 @@ void handle_unit_diplomat_action(struct player *pplayer,
       if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_INCITE,
 					 pcity->tile)) {
 	diplomat_incite(pplayer, pdiplomat, pcity);
+      } else {
+        illegal_action(pplayer, pdiplomat, ACTION_SPY_INCITE_CITY);
       }
       break;
     case DIPLOMAT_MOVE:

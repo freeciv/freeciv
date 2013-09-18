@@ -747,7 +747,9 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
     }
       
     /* ---------- */
-    if (diplomat_can_do_action(pUnit, DIPLOMAT_INCITE, ptile)) {
+    if (MKE_FALSE
+        != action_enabled_unit_on_city_local(ACTION_SPY_INCITE_CITY,
+                                             pUnit, pCity)) {
     
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
 	    _("Incite a Revolt"), diplomat_incite_callback);

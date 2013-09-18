@@ -182,6 +182,14 @@ actor_reqs    =
       "DiplRel", "War", "Local"
     }
 
+[actionenabler_incite_city]
+action = "Incite City"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "DiplRel", "Alliance", "Local", FALSE
+      "DiplRel", "Team", "Local", FALSE
+    }
+
 [actionenabler_bribe_unit]
 action = "Bribe Unit"
 actor_reqs    =

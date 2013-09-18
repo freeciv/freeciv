@@ -656,12 +656,9 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 /**************************************************************************
   Incite a city to disaffect.
 
-  - Either a Diplomat or Spy can incite a city to disaffect.
-
   - Can't incite a city to disaffect if:
     - Owner runs an unbribable government (e.g., democracy).
     - Player doesn't have enough gold.
-    - You are allied with the city owner.
   - Check for infiltration success.  Our provocateur may not survive this.
   - Check for basic success.  Again, our provocateur may not survive this.
   - Otherwise, the city will disaffect:
@@ -681,8 +678,9 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   if (!pcity)
     return;
   cplayer = city_owner (pcity);
-  if (!cplayer || pplayers_allied(cplayer, pplayer))
+  if (!cplayer) {
     return;
+  }
 
   log_debug("incite: unit: %d", pdiplomat->id);
 
