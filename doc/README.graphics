@@ -148,8 +148,6 @@ options include:
                           is also specified then you have an iso-hex tileset.
                           Hex tilesets should be used with topologies 8-11 and
                           iso-hex tilesets with topologies 12-15.
-  is_mountainous        : set to 1 for blending hills and mountains together.
-  is_full_citybar       : set to 1 to enable city bar.
 
   String lists (a comma-separated list of strings)
   ------------------------------------------------
