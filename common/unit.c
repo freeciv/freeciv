@@ -141,6 +141,7 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
     punit = unit_list_get(ptile->units, 0);
 
     if ((action == SPY_SABOTAGE_UNIT || action == DIPLOMAT_ANY_ACTION)
+        && can_player_see_unit_at(unit_owner(pdiplomat), punit, ptile)
         && is_action_enabled_unit_on_unit(ACTION_SPY_SABOTAGE_UNIT,
                                           pdiplomat, punit)) {
       return TRUE;
