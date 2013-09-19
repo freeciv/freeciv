@@ -2794,6 +2794,9 @@ static bool load_ruleset_terrain(struct section_file *file)
 
       catname = secfile_lookup_str(file, "%s.category", section);
       if (catname == NULL) {
+        ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\" has no category.",
+                      filename,
+                      extra_rule_name(pextra));
         ok = FALSE;
         break;
       }
