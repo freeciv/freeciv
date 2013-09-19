@@ -79,6 +79,17 @@ static bool is_req_knowable(const struct player *pow_player,
     }
   }
 
+  if (req->source.kind == VUT_CITYTILE
+      && req->range == REQ_RANGE_LOCAL) {
+    enum known_type vision =
+        tile_get_known(target_tile, pow_player);
+
+    if (vision == TILE_KNOWN_SEEN
+        || (target_city && city_owner(target_city) == pow_player)) {
+      return TRUE;
+    }
+  }
+
   if (req->source.kind == VUT_ADVANCE || req->source.kind == VUT_TECHFLAG) {
     if (req->range == REQ_RANGE_PLAYER
         && (pow_player == target_player

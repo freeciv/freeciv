@@ -44,7 +44,9 @@ Actions and their hard coded requirements
  * actor must have the diplomat flag.
  * target must have > 1 hp.
  * target must be alone at its tile.
+ * target can't be in a city.
 
 "Bribe Unit" - Make the target unit join the actors owners side.
  * actor must have the diplomat flag.
  * target must be alone at its tile.
+ * target can't be in a city.

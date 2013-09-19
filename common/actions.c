@@ -19,6 +19,7 @@
 #include "actions.h"
 #include "city.h"
 #include "unit.h"
+#include "tile.h"
 
 static struct action_enabler_list *action_enablers_by_action[ACTION_COUNT];
 
@@ -86,6 +87,29 @@ void action_enabler_add(struct action_enabler *enabler)
   action_enabler_list_append(
         action_enablers_for_action(enabler->action),
         enabler);
+}
+
+/**************************************************************************
+  Some actions have hard requirements that can be expressed as normal
+  requirement vectors. Append those to the action enabler so the action
+  struct won't need those fields.
+
+  Reconsider this choice if many enablers for each action should become
+  common.
+**************************************************************************/
+void action_enabler_append_hard(struct action_enabler *enabler)
+{
+  /* All actions that currently use action enablers are spy actions. */
+  requirement_vector_append(&enabler->actor_reqs,
+                            req_from_str("UnitFlag", "Local", FALSE,
+                                         TRUE, "Diplomat"));
+
+  if (enabler->action == ACTION_SPY_SABOTAGE_UNIT
+      || enabler->action == ACTION_SPY_BRIBE_UNIT) {
+    requirement_vector_append(&enabler->target_reqs,
+                              req_from_str("CityTile", "Local", FALSE,
+                                           FALSE, "Center"));
+  }
 }
 
 /**************************************************************************
@@ -198,7 +222,8 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                            unit_owner(actor_unit), NULL, NULL,
                            unit_tile(actor_unit), unit_type(actor_unit),
                            NULL, NULL,
-                           unit_owner(target_unit), NULL, NULL,
+                           unit_owner(target_unit),
+                           tile_city(unit_tile(target_unit)), NULL,
                            unit_tile(target_unit), unit_type(target_unit),
                            NULL, NULL);
 }
@@ -294,7 +319,8 @@ action_enabled_unit_on_unit_local(const enum gen_action wanted_action,
                               unit_owner(actor_unit), NULL, NULL,
                               unit_tile(actor_unit), unit_type(actor_unit),
                               NULL, NULL,
-                              unit_owner(target_unit), NULL, NULL,
+                              unit_owner(target_unit),
+                              tile_city(unit_tile(target_unit)), NULL,
                               unit_tile(target_unit),
                               unit_type(target_unit), NULL, NULL);
 }
