@@ -35,9 +35,6 @@ city_flag_offset_y = 9
 unit_offset_x = 19
 unit_offset_y = 18
 
-;Enable city bar
-is_full_citybar = 1
-
 ; offset the city bar text by this amount (from the city tile origin)
 citybar_offset_y = 30
 
