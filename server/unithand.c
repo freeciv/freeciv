@@ -205,7 +205,7 @@ static void illegal_action(struct player *pplayer, struct unit *actor,
 {
   notify_player(pplayer, unit_tile(actor),
                 E_MY_DIPLOMAT_FAILED, ftc_server,
-                _("Your %s was unable to %s and don\'t know why."),
+                _("Your %s was unable to %s."),
                 unit_name_translation(actor),
                 gen_action_translated_name(stopped_action));
 }

@@ -22,7 +22,7 @@ requirements should be documented.
 If the player don't have the knowledge required to find out if an action is
 enabled or not the action should be shown in case it is. If the player tries
 to do an illegal action the server will inform him that his unit was unable
-to do it and don't know why.
+to do it.
 
 Actions and their hard coded requirements
 =========================================
