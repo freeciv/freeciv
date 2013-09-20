@@ -22,6 +22,7 @@
 #include "shared.h"
 
 /* common */
+#include "citizens.h"
 #include "game.h"
 #include "player.h"
 #include "spaceship.h"
@@ -209,6 +210,30 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
     }
 
     return FALSE;
+  case ACHIEVEMENT_MULTICULTURAL:
+    {
+      bv_player seen_citizens;
+      int count = 0;
+
+      BV_CLR_ALL(seen_citizens);
+
+      city_list_iterate(pplayer->cities, pcity) {
+        citizens_iterate(pcity, pslot, pnat) {
+          int idx = player_index(player_slot_get_player(pslot));
+
+          if (!BV_ISSET(seen_citizens, idx)) {
+            BV_SET(seen_citizens, idx);
+            count++;
+            if (count >= ach->value) {
+              /* There's at least value different nationalities. */
+              return TRUE;
+            }
+          }
+        } citizens_iterate_end;
+      } city_list_iterate_end;
+    }
+
+    return FALSE;
   case ACHIEVEMENT_COUNT:
     break;
   }
@@ -237,6 +262,12 @@ const char *achievement_first_msg(struct achievement *pach)
                     pach->value);
       return buf;
     }
+    break;
+  case ACHIEVEMENT_MULTICULTURAL:
+    fc_snprintf(buf, sizeof(buf),
+                _("You're the first one to have %d different nationalities "
+                  "in your cities!"), pach->value);
+    return buf;
   case ACHIEVEMENT_COUNT:
     break;
   }
@@ -265,6 +296,11 @@ const char *achievement_later_msg(struct achievement *pach)
                     pach->value);
       return buf;
     }
+  case ACHIEVEMENT_MULTICULTURAL:
+    fc_snprintf(buf, sizeof(buf),
+                _("You have %d different nationalities "
+                  "in your cities!"), pach->value);
+    return buf;
   case ACHIEVEMENT_COUNT:
     break;
   }

@@ -13,8 +13,12 @@ Achievement types
 
 Map_Known
     Achievement is granted when player has mapped at least
-    value% of the world.
+    <value>% of the world.
 
 Spaceship
     This achievement is granted when player launches spaceship.
     Value is ignored.
+
+Multicultural
+    Achievement is granted when player has citizens of at least
+    <value> different nationalities.
