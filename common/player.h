@@ -179,6 +179,10 @@ struct player_ai {
 #define SPECENUM_VALUE11NAME N_("Hosts real embassy")
 #define SPECENUM_VALUE12 DRA_HAS_REAL_EMBASSY
 #define SPECENUM_VALUE12NAME N_("Has real embassy")
+#define SPECENUM_VALUE13 DRA_HAS_CASUS_BELLI
+#define SPECENUM_VALUE13NAME N_("Has Casus Belli")
+#define SPECENUM_VALUE14 DRA_PROVIDED_CASUS_BELLI
+#define SPECENUM_VALUE14NAME N_("Provided Casus Belli")
 #include "specenum_gen.h"
 
 enum dipl_reason {

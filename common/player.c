@@ -1329,6 +1329,10 @@ bool is_diplrel_between(const struct player *player1,
     return player_has_real_embassy(player2, player1);
   case DRA_HAS_REAL_EMBASSY:
     return player_has_real_embassy(player1, player2);
+  case DRA_HAS_CASUS_BELLI:
+    return 0 < player_diplstate_get(player1, player2)->has_reason_to_cancel;
+  case DRA_PROVIDED_CASUS_BELLI:
+    return 0 < player_diplstate_get(player2, player1)->has_reason_to_cancel;
   }
 
   fc_assert_msg(FALSE, "diplrel_between(): invalid diplrel number %d.",

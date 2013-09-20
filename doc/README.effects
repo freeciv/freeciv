@@ -445,7 +445,8 @@ The DiplRel requirement type
 Look for the diplomatic relationship "Never met", "War", "Cease-fire",
 "Armistice", "Peace", "Alliance", "Team", "Gives shared vision",
 "Receives shared vision", "Hosts embassy", "Has embassy",
-"Hosts real embassy" (not from an effect) or "Has real embassy".
+"Hosts real embassy" (not from an effect), "Has real embassy",
+"Has Casus Belli" (reason for war) or "Provided Casus Belli".
 
 A DiplRel is considered fulfilled for the range
  * world if some player in the world has the specified diplomatic
