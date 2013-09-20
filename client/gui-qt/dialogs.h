@@ -163,7 +163,7 @@ public:
   ~choice_dialog();
   void set_layout();
   void add_item(QString title, pfcn_void func, QVariant data1, 
-                QVariant data2);
+                QVariant data2, bool warn);
   void show_me();
   QVBoxLayout *get_layout();
   QList<pfcn_void> func_list;

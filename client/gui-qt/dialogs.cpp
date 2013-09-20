@@ -682,7 +682,7 @@ void choice_dialog::set_layout()
   Adds new action for choice dialog
 ***************************************************************************/
 void choice_dialog::add_item(QString title, pfcn_void func, QVariant data1,
-                             QVariant data2)
+                             QVariant data2, bool warn)
 {
    QPushButton *button = new QPushButton(title);
    connect(button, SIGNAL(clicked()), signal_mapper, SLOT(map()));
@@ -690,6 +690,13 @@ void choice_dialog::add_item(QString title, pfcn_void func, QVariant data1,
    func_list.append(func);
    data1_list.append(data1);
    data2_list.append(data2);
+
+   if (warn) {
+     button->setToolTip(QString(_("Starting to do this"
+                                  " may currently be impossible.")));
+     button->setIcon(QIcon::fromTheme("dialog-warning"));
+   }
+
    layout->addWidget(button);
 }
 
@@ -827,14 +834,15 @@ void popup_caravan_dialog(struct unit *punit,
     func = caravan_establish_trade;
     str = can_establish ? QString(_("Establish _Trade route")) :
           QString(_("Enter Marketplace"));
-    caravan_dialog->add_item(str, func, qv1, qv2);
+    caravan_dialog->add_item(str, func, qv1, qv2, FALSE);
   }
   if (can_wonder) {
     func = caravan_help_build;
-    caravan_dialog->add_item(wonder, func, qv1, qv2);
+    caravan_dialog->add_item(wonder, func, qv1, qv2, FALSE);
   }
   func = caravan_keep_moving;
-  caravan_dialog->add_item(QString(_("Keep moving")), func, qv1, qv2);
+  caravan_dialog->add_item(QString(_("Keep moving")),
+                           func, qv1, qv2, FALSE);
 
   caravan_dialog->set_layout();
   caravan_dialog->show_me();
@@ -892,12 +900,12 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     if (diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile)) {
       func = diplomat_embassy;
       cd->add_item(QString(_("Establish _Embassy")),
-                            func, qv1, qv2);
+                            func, qv1, qv2, FALSE);
     }
 
     if (diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile)) {
       func = diplomat_investigate;
-      cd->add_item(QString(_("Investigate City")), func, qv1, qv2);
+      cd->add_item(QString(_("Investigate City")), func, qv1, qv2, FALSE);
     }
 
     action_entry(cd,
@@ -921,12 +929,12 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
       if (unit_has_type_flag(punit, UTYF_SPY)) {
         func = spy_steal;
         cd->add_item(QString(_("Steal Technology")),
-                     func, qv1, qv2);
+                     func, qv1, qv2, FALSE);
       } else {
         if (diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile)) {
           func = diplomat_steal;
           cd->add_item(QString(_("Steal Technology")),
-                       func, qv1, qv2);
+                       func, qv1, qv2, FALSE);
         }
       }
     }
@@ -967,15 +975,15 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
   if (diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile)) {
     if (pcity) {
       func = diplomat_keep_moving_city;
-      cd->add_item(QString(_("Keep moving")), func, qv1, qv2);
+      cd->add_item(QString(_("Keep moving")), func, qv1, qv2, FALSE);
     } else {
       func = diplomat_keep_moving_unit;
-      cd->add_item(QString(_("Keep moving")), func, qv1, qv2);
+      cd->add_item(QString(_("Keep moving")), func, qv1, qv2, FALSE);
     }
   }
 
   func = keep_moving;
-  cd->add_item(QString(_("Do nothing")), func, qv1, qv2);
+  cd->add_item(QString(_("Do nothing")), func, qv1, qv2, FALSE);
 
   cd->set_layout();
   cd->show_me();
@@ -996,11 +1004,10 @@ static void action_entry(choice_dialog *cd, enum mk_eval_result state,
     /* Don't even show disabled actions */
     break;
   case MKE_UNCERTAIN:
-    /* TODO: Mark uncertain actions */
-    cd->add_item(title, func, data1, data2);
+    cd->add_item(title, func, data1, data2, TRUE);
     break;
   case MKE_TRUE:
-    cd->add_item(title, func, data1, data2);
+    cd->add_item(title, func, data1, data2, FALSE);
     break;
   }
 }
@@ -1066,7 +1073,7 @@ static void spy_steal(QVariant data1, QVariant data2)
            player_invention_state(pplayer, i) == TECH_PREREQS_KNOWN)) {
         func = spy_steal_something;
         str = advance_name_for_player(client.conn.playing, i);
-        cd->add_item(str, func, qv1, i);
+        cd->add_item(str, func, qv1, i, FALSE);
         nr++;
       }
     } advance_index_iterate_end;
@@ -1074,7 +1081,7 @@ static void spy_steal(QVariant data1, QVariant data2)
              unit_name_translation(game_unit_by_number(diplomat_id)));
     func = spy_steal_something;
     str = astr_str(&stra);
-    cd->add_item(str, func, qv1, A_UNSET);
+    cd->add_item(str, func, qv1, A_UNSET, FALSE);
     cd->set_layout();
     cd->show_me();
   }
@@ -1407,13 +1414,13 @@ void popup_sabotage_dialog(struct city *pcity)
   gui()->get_current_unit(&diplomat_id, &diplomat_target_id, ATK_CITY);
   qv1 = diplomat_id;
   func = spy_sabotage;
-  cd->add_item(QString(_("City Production")), func, qv1, -1);
+  cd->add_item(QString(_("City Production")), func, qv1, -1, FALSE);
   city_built_iterate(pcity, pimprove) {
     if (pimprove->sabotage > 0) {
       func = spy_sabotage;
       str = city_improvement_name_translation(pcity, pimprove);
       qv2 = nr;
-      cd->add_item(str, func, qv1, improvement_number(pimprove));
+      cd->add_item(str, func, qv1, improvement_number(pimprove), FALSE);
       nr++;
     }
   } city_built_iterate_end;
@@ -1421,7 +1428,7 @@ void popup_sabotage_dialog(struct city *pcity)
            unit_name_translation(game_unit_by_number(diplomat_id)));
   func = spy_sabotage;
   str = astr_str(&stra);
-  cd->add_item(str, func, qv1, B_LAST);
+  cd->add_item(str, func, qv1, B_LAST, FALSE);
   cd->set_layout();
   cd->show_me();
   astr_free(&stra);
@@ -1458,7 +1465,7 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
     func = pillage_something;
     str = get_infrastructure_text(what_extras);
     qv1 = what;
-    cd->add_item(str, func, qv1,qv2);
+    cd->add_item(str, func, qv1, qv2, FALSE);
   }
   cd->set_layout();
   cd->show_me();
