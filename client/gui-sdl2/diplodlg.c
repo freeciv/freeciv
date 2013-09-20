@@ -1506,9 +1506,15 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     
     /* ============================================================= */
     /* label */
-    fc_snprintf(cBuf, sizeof(cBuf), _("Sir!, the %s ambassador has arrived\n"
-    		"What are your wishes?"),
-    		nation_adjective_for_player(pPlayer));
+    if (client.conn.playing == NULL || client.conn.playing->is_male) {
+      fc_snprintf(cBuf, sizeof(cBuf), _("Sir!, the %s ambassador has arrived\n"
+                                        "What are your wishes?"),
+                  nation_adjective_for_player(pPlayer));
+    } else {
+      fc_snprintf(cBuf, sizeof(cBuf), _("Ma'am!, the %s ambassador has arrived\n"
+                                        "What are your wishes?"),
+                  nation_adjective_for_player(pPlayer));
+    }
   
     pStr = create_str16_from_char(cBuf, adj_font(14));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
