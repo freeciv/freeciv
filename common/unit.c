@@ -97,42 +97,47 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
 
   if ((pcity = tile_city(ptile))) {
     if (city_owner(pcity) != unit_owner(pdiplomat)
-       && real_map_distance(unit_tile(pdiplomat), pcity->tile) <= 1) {
+        && real_map_distance(unit_tile(pdiplomat), pcity->tile) <= 1) {
       if ((action == DIPLOMAT_SABOTAGE || action == DIPLOMAT_ANY_ACTION)
           && is_action_enabled_unit_on_city(ACTION_SPY_SABOTAGE_CITY,
                                             pdiplomat, pcity)) {
         return TRUE;
       }
+
       if ((action == DIPLOMAT_SABOTAGE_TARGET
            || action == DIPLOMAT_ANY_ACTION)
           && is_action_enabled_unit_on_city(
             ACTION_SPY_TARGETED_SABOTAGE_CITY, pdiplomat, pcity)) {
         return TRUE;
       }
-      if(action==DIPLOMAT_MOVE)
-        return pplayers_allied(unit_owner(pdiplomat), city_owner(pcity));
-      if (action == DIPLOMAT_EMBASSY
+
+      if ((action == DIPLOMAT_EMBASSY || action == DIPLOMAT_ANY_ACTION)
           && !get_player_bonus(city_owner(pcity), EFT_NO_DIPLOMACY)
           && !player_has_real_embassy(unit_owner(pdiplomat),
                                       city_owner(pcity))) {
         return TRUE;
       }
-      if (action == SPY_POISON) {
-         return is_action_enabled_unit_on_city(ACTION_SPY_POISON,
-                                               pdiplomat, pcity);
-      }
-      if(action==DIPLOMAT_INVESTIGATE)
+
+      if ((action == SPY_POISON || action == DIPLOMAT_ANY_ACTION)
+          && is_action_enabled_unit_on_city(ACTION_SPY_POISON,
+                                            pdiplomat, pcity)) {
         return TRUE;
-      if (action == DIPLOMAT_STEAL && !is_barbarian(city_owner(pcity))) {
-	return TRUE;
       }
+
+      if (action==DIPLOMAT_INVESTIGATE || action == DIPLOMAT_ANY_ACTION) {
+        return TRUE;
+      }
+
+      if ((action == DIPLOMAT_STEAL || action == DIPLOMAT_ANY_ACTION)
+          && !is_barbarian(city_owner(pcity))) {
+        return TRUE;
+      }
+
       if ((action == DIPLOMAT_INCITE || action == DIPLOMAT_ANY_ACTION)
           && is_action_enabled_unit_on_city(ACTION_SPY_INCITE_CITY,
                                             pdiplomat, pcity)) {
         return TRUE;
       }
-      if(action==DIPLOMAT_ANY_ACTION)
-        return TRUE;
     }
   }
 
@@ -155,8 +160,12 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
   }
 
   /* Don't pop up diplomat dialog if all that can be done is to move. */
-  if (action == DIPLOMAT_MOVE && !pcity) {
-    return !is_non_allied_unit_tile(ptile, unit_owner(pdiplomat));
+  if (action == DIPLOMAT_MOVE) {
+    if (pcity) {
+      return pplayers_allied(unit_owner(pdiplomat), city_owner(pcity));
+    } else {
+      return !is_non_allied_unit_tile(ptile, unit_owner(pdiplomat));
+    }
   }
 
   return FALSE;
