@@ -1481,7 +1481,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
   max_sr = TRAIT_MAX_VALUE_SR;
   aggr_sr = sqrt(aggr);
 
-  war_threshold = (MAX_AI_LOVE * (0.67 + aggr_sr / max_sr / 3.0)) - MAX_AI_LOVE;
+  war_threshold = (MAX_AI_LOVE * (0.70 + aggr_sr / max_sr / 2.0)) - MAX_AI_LOVE;
 
   if (need_targets && target && most_hatred < war_threshold
       && dai_diplomacy_get(ait, pplayer, target)->countdown == -1) {
