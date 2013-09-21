@@ -262,11 +262,11 @@ msgstr ""
       fi
     fi
 
-    # We need to process the po/ directory.
-    POSUB=po
+    # We need to process the translations/freeciv/ directory.
+    POSUB=translations/freeciv
 
-    AC_CONFIG_COMMANDS([default-1],[[case "$CONFIG_FILES" in *po/Makefile.in*)
-        sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile
+    AC_CONFIG_COMMANDS([default-1],[[case "$CONFIG_FILES" in *translations/freeciv/Makefile.in*)
+        sed -e "/POTFILES =/r translations/freeciv/POTFILES" translations/freeciv/Makefile.in > translations/freeciv/Makefile
       esac]],[[]])
 
     dnl These rules are solely for the distribution goal.  While doing this
@@ -357,7 +357,7 @@ glib_DEFUN([GLIB_GNU_GETTEXT],
    AC_SUBST(MKINSTALLDIRS)
 
    dnl Generate list of files to be processed by xgettext which will
-   dnl be included in po/Makefile.
+   dnl be included in translations/freeciv/Makefile.
    test -d po || mkdir po
    if test "x$srcdir" != "x."; then
      if test "x`echo $srcdir | sed 's@/.*@@'`" = "x"; then
@@ -368,15 +368,15 @@ glib_DEFUN([GLIB_GNU_GETTEXT],
    else
      posrcprefix="../"
    fi
-   rm -f po/POTFILES
+   rm -f translations/freeciv/POTFILES
    sed -e "/^#/d" -e "/^\$/d" -e "s,.*,	$posrcprefix& \\\\," -e "\$s/\(.*\) \\\\/\1/" \
-	< $srcdir/po/POTFILES.in > po/POTFILES
+	< $srcdir/translations/freeciv/POTFILES.in > translations/freeciv/POTFILES
   ])
 
 # AM_GLIB_DEFINE_LOCALEDIR(VARIABLE)
 # -------------------------------
 # Define VARIABLE to the location where catalog files will
-# be installed by po/Makefile.
+# be installed by translations/freeciv/Makefile.
 glib_DEFUN([GLIB_DEFINE_LOCALEDIR],
 [glib_REQUIRE([GLIB_GNU_GETTEXT])dnl
 glib_save_prefix="$prefix"

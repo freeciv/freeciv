@@ -20,7 +20,7 @@ else
 DSUBDIRS =
 endif
 
-SUBDIRS = $(DSUBDIRS) dependencies utility common tests win32 $(SSUBDIRS) $(CSUBDIRS) po doc tools
+SUBDIRS = $(DSUBDIRS) dependencies utility common tests win32 $(SSUBDIRS) $(CSUBDIRS) translations doc tools
 
 ## Automake should distribute config.rpath automatically - and new
 ## versions probably do. We still support versions that do not, so

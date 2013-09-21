@@ -5,6 +5,8 @@ Below is ABOUT-NLS file from upstream gettext -package.
 Freeciv usage of gettext differs a bit from what it says.
 
 - There is no --with-included-gettext configure option
+- Translations are not in directory called 'po', but in 'translations'
+  -hierarchy
 
 =========================================================================
 
