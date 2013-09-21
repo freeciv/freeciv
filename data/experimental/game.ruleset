@@ -250,9 +250,12 @@ actor_reqs    =
 [actionenabler_sabotage_unit]
 action = "Sabotage Unit"
 actor_reqs    =
+    { "type",   "name", "range"
+      "Unitflag", "Spy", "Local"
+      "DiplRel", "War", "Local"
+    }
+target_reqs    =
     { "type",   "name", "range", "present"
-      "Unitflag", "Spy", "Local", TRUE
-      "DiplRel", "War", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
 
