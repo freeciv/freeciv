@@ -183,6 +183,7 @@ static void caravan_search_from(const struct unit *caravan,
                                 const struct caravan_parameter *param,
                                 struct tile *start_tile,
                                 int turns_before, int moves_left_before,
+                                bool omniscient,
                                 search_callback callback,
                                 void *callback_data) {
   struct pf_map *pfm;
@@ -195,6 +196,7 @@ static void caravan_search_from(const struct unit *caravan,
   pft_fill_unit_parameter(&pfparam, (struct unit *) caravan);
   pfparam.start_tile = start_tile;
   pfparam.moves_left_initially = moves_left_before;
+  pfparam.omniscience = omniscient;
   pfm = pf_map_new(&pfparam);
 
   /* For every tile in distance order:
@@ -506,7 +508,8 @@ static bool cewt_callback(void *vdata, const struct city *dest,
 static void caravan_evaluate_withtransit(const struct unit *caravan,
                                          const struct city *dest,
                                          const struct caravan_parameter *param,
-                                         struct caravan_result *result)
+                                         struct caravan_result *result,
+                                         bool omniscient)
 {
   struct cewt_data data;
 
@@ -515,7 +518,7 @@ static void caravan_evaluate_withtransit(const struct unit *caravan,
   caravan_result_init(result, game_city_by_number(caravan->homecity),
                       dest, 0);
   caravan_search_from(caravan, param, unit_tile(caravan), 0,
-                      caravan->moves_left, cewt_callback, &data);
+                      caravan->moves_left, omniscient, cewt_callback, &data);
 }
 
 
@@ -525,12 +528,12 @@ static void caravan_evaluate_withtransit(const struct unit *caravan,
 void caravan_evaluate(const struct unit *caravan,
                       const struct city *dest,
                       const struct caravan_parameter *param,
-                      struct caravan_result *result)
+                      struct caravan_result *result, bool omniscient)
 {
   if (param->ignore_transit_time) {
     caravan_evaluate_notransit(caravan, dest, param, result);
   } else {
-    caravan_evaluate_withtransit(caravan, dest, param, result);
+    caravan_evaluate_withtransit(caravan, dest, param, result, omniscient);
   }
 }
 
@@ -592,6 +595,7 @@ static void caravan_find_best_destination_withtransit(
     const struct city *src,
     int turns_before,
     int moves_left,
+    bool omniscient,
     struct caravan_result *result) 
 {
   struct tile *start_tile;
@@ -609,7 +613,7 @@ static void caravan_find_best_destination_withtransit(
   }
 
   caravan_search_from(caravan, param, start_tile, turns_before,
-                      caravan->moves_left, cfbdw_callback, &data);
+                      caravan->moves_left, omniscient, cfbdw_callback, &data);
 }
 
 
@@ -620,7 +624,7 @@ static void caravan_find_best_destination_withtransit(
  ***************************************************************************/
 void caravan_find_best_destination(const struct unit *caravan,
                                    const struct caravan_parameter *parameter,
-                                   struct caravan_result *result)
+                                   struct caravan_result *result, bool omniscient)
 {
   if (parameter->ignore_transit_time) {
     caravan_find_best_destination_notransit(caravan, parameter, result);
@@ -630,11 +634,9 @@ void caravan_find_best_destination(const struct unit *caravan,
     fc_assert(src != NULL);
 
     caravan_find_best_destination_withtransit(caravan, parameter, src, 0, 
-                                              caravan->moves_left, result);
+                                              caravan->moves_left, omniscient, result);
   }
 }
-
-
 
 /***************************************************************************
   Find the best pair-wise trade route, ignoring transit time.
@@ -673,6 +675,7 @@ struct cowt_data {
   const struct caravan_parameter *param;
   const struct unit *caravan;
   struct caravan_result *best;
+  bool omniscient;
 };
 
 static bool cowt_callback(void *vdata, const struct city *pcity,
@@ -693,7 +696,8 @@ static bool cowt_callback(void *vdata, const struct city *pcity,
   /* next, try changing home city (if we're allowed to) */
   if (city_owner(pcity) == unit_owner(caravan)) {
     caravan_find_best_destination_withtransit(
-        caravan, data->param, pcity, arrival_time, moves_left, &current);
+                caravan, data->param, pcity, arrival_time, moves_left, data->omniscient,
+                &current);
     if (caravan_result_compare(&current, data->best) > 0) {
       *data->best = current;
     }
@@ -708,16 +712,17 @@ static bool cowt_callback(void *vdata, const struct city *pcity,
  ***************************************************************************/
 static void caravan_optimize_withtransit(const struct unit *caravan,
                                         const struct caravan_parameter *param,
-                                        struct caravan_result *result)
+                                         struct caravan_result *result, bool omniscient)
 {
   struct cowt_data data;
 
   data.param = param;
   data.caravan = caravan;
   data.best = result;
+  data.omniscient = omniscient;
   caravan_result_init_zero(data.best);
   caravan_search_from(caravan, param, unit_tile(caravan), 0,
-                      caravan->moves_left, cowt_callback, &data);
+                      caravan->moves_left, omniscient, cowt_callback, &data);
 }
 
 
@@ -728,11 +733,11 @@ static void caravan_optimize_withtransit(const struct unit *caravan,
  ***************************************************************************/
 void caravan_optimize_allpairs(const struct unit *caravan,
                                const struct caravan_parameter *param,
-                               struct caravan_result *result)
+                               struct caravan_result *result, bool omniscient)
 {
   if (param->ignore_transit_time) {
     caravan_optimize_notransit(caravan, param, result);
   } else {
-    caravan_optimize_withtransit(caravan, param, result);
+    caravan_optimize_withtransit(caravan, param, result, omniscient);
   }
 }

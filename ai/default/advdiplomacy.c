@@ -53,6 +53,7 @@
 
 /* ai */
 #include "aitraits.h"
+#include "handicaps.h"
 
 /* ai/default */
 #include "aicity.h"
@@ -333,7 +334,7 @@ static int dai_goldequiv_clause(struct ai_type *ait,
   case CLAUSE_PEACE:
   case CLAUSE_CEASEFIRE:
     /* Don't do anything in away mode */
-    if (ai_handicap(pplayer, H_AWAY)) {
+    if (has_handicap(pplayer, H_AWAY)) {
       notify(aplayer, _("*%s (AI)* In away mode AI can't sign such a treaty."),
              player_name(pplayer));
       worth = -BIG_NUMBER;
@@ -453,7 +454,7 @@ static int dai_goldequiv_clause(struct ai_type *ait,
       /* Don't like him? Don't give him! */
       worth = MIN(pplayer->ai_common.love[player_index(aplayer)] * 7, worth);
       /* Make maps from novice player cheap */
-      if (ai_handicap(pplayer, H_DIPLOMACY)) {
+      if (has_handicap(pplayer, H_DIPLOMACY)) {
         worth /= 2;
       }
     }
@@ -476,7 +477,7 @@ static int dai_goldequiv_clause(struct ai_type *ait,
       /* Don't like him? Don't give him! */
       worth = MIN(pplayer->ai_common.love[player_index(aplayer)] * 10, worth);
       /* Make maps from novice player cheap */
-      if (ai_handicap(pplayer, H_DIPLOMACY)) {
+      if (has_handicap(pplayer, H_DIPLOMACY)) {
         worth /= 6;
       }
     }
@@ -848,7 +849,7 @@ static int dai_war_desire(struct ai_type *ait, struct player *pplayer,
                  / (2 * MAX_AI_LOVE));
 
   /* Make novice AI more peaceful with human players */
-  if (ai_handicap(pplayer, H_DIPLOMACY) && !target->ai_controlled) {
+  if (has_handicap(pplayer, H_DIPLOMACY) && !target->ai_controlled) {
     want /= 2;
   }
 
@@ -889,7 +890,7 @@ static void dai_diplomacy_suggest(struct player *pplayer,
 void dai_diplomacy_first_contact(struct ai_type *ait, struct player *pplayer,
                                  struct player *aplayer)
 {
-  if (pplayer->ai_controlled && !ai_handicap(pplayer, H_AWAY)) {
+  if (pplayer->ai_controlled && !has_handicap(pplayer, H_AWAY)) {
     notify(aplayer, _("*%s (AI)* Greetings %s! May we suggest a ceasefire "
            "while we get to know each other better?"),
            player_name(pplayer),
@@ -1151,8 +1152,8 @@ static void dai_share(struct player *pplayer, struct player *aplayer)
   if (!player_has_embassy(aplayer, pplayer)) {
     dai_diplomacy_suggest(pplayer, aplayer, CLAUSE_EMBASSY, 0);
   }
-  
-  if (!ai_handicap(pplayer, H_DIPLOMACY) || !aplayer->ai_controlled) {
+
+  if (!has_handicap(pplayer, H_DIPLOMACY) || !aplayer->ai_controlled) {
     suggest_tech_exchange(pplayer, aplayer);
   }
 }

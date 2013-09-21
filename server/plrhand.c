@@ -71,6 +71,7 @@
 
 /* ai */
 #include "aitraits.h"
+#include "handicaps.h"
 
 
 struct rgbcolor;
@@ -393,7 +394,7 @@ void handle_player_change_government(struct player *pplayer, int government)
      * or even in the past (if the player is in anarchy and hasn't chosen
      * a government). */
     turns = pplayer->revolution_finishes - game.info.turn;
-  } else if ((pplayer->ai_controlled && !ai_handicap(pplayer, H_REVOLUTION))
+  } else if ((pplayer->ai_controlled && !has_handicap(pplayer, H_REVOLUTION))
 	     || get_player_bonus(pplayer, EFT_NO_ANARCHY)) {
     /* AI players without the H_REVOLUTION handicap can skip anarchy */
     turns = 0;
@@ -1289,6 +1290,7 @@ void server_player_init(struct player *pplayer, bool initmap,
   pplayer->server.orig_username[0] = '\0';
 
   ai_traits_init(pplayer);
+  handicaps_init(pplayer);
 }
 
 /****************************************************************************
@@ -1608,6 +1610,7 @@ void server_remove_player(struct player *pplayer)
   /* Destroy advisor and ai data. */
   CALL_FUNC_EACH_AI(player_free, pplayer);
 
+  handicaps_close(pplayer);
   ai_traits_close(pplayer);
   adv_data_close(pplayer);
   player_destroy(pplayer);

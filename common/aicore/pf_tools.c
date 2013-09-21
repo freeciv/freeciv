@@ -744,7 +744,7 @@ static void pft_fill_utype_default_parameter(struct pf_parameter *parameter,
     parameter->can_invade_tile = NULL;
   }
 
-  parameter->omniscience = !ai_handicap(powner, H_MAP);
+  parameter->omniscience = FALSE;
 }
 
 /**********************************************************************
@@ -773,7 +773,7 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
     parameter->can_invade_tile = NULL;
   }
 
-  parameter->omniscience = !ai_handicap(unit_owner(punit), H_MAP);
+  parameter->omniscience = FALSE;
 }
 
 /**********************************************************************

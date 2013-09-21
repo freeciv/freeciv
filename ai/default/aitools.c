@@ -56,6 +56,9 @@
 #include "infracache.h" /* adv_city */
 
 /* ai */
+#include "handicaps.h"
+
+/* ai/default */
 #include "advmilitary.h"
 #include "aidata.h"
 #include "aiferry.h"
@@ -323,8 +326,10 @@ struct tile *immediate_destination(struct unit *punit,
     struct pf_map *pfm;
     struct pf_path *path;
     size_t i;
+    struct player *pplayer = unit_owner(punit);
 
     pft_fill_unit_parameter(&parameter, punit);
+    parameter.omniscience = !has_handicap(pplayer, H_MAP);
     pfm = pf_map_new(&parameter);
     path = pf_map_path(pfm, punit->goto_tile);
 
@@ -554,10 +559,11 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
   const bool barbarian = is_barbarian(unit_owner(punit));
   bool is_ferry = FALSE;
   struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
+  struct player *pplayer = unit_owner(punit);
 
   /* This function is now always omniscient and should not be used
    * for human players any more. */
-  fc_assert(unit_owner(punit)->ai_controlled);
+  fc_assert(pplayer->ai_controlled);
 
   if (unit_data->task != AIUNIT_HUNTER
       && get_transporter_capacity(punit) > 0) {
@@ -591,6 +597,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
   } else {
     pft_fill_unit_parameter(parameter, punit);
   }
+  parameter->omniscience = !has_handicap(pplayer, H_MAP);
 
   /* Should we use the risk avoidance code?
    * The risk avoidance code uses omniscience, so do not use for

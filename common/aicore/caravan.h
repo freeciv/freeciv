@@ -132,14 +132,14 @@ int caravan_result_compare(const struct caravan_result *a,
 
 void caravan_evaluate(const struct unit *caravan, const struct city *dest,
                       const struct caravan_parameter *parameter,
-                      struct caravan_result *result);
+                      struct caravan_result *result, bool omniscient);
 
 void caravan_find_best_destination(const struct unit *caravan,
                                    const struct caravan_parameter *parameter,
-                                   struct caravan_result *result);
+                                   struct caravan_result *result, bool omniscient);
 
 void caravan_optimize_allpairs(const struct unit *caravan,
                                const struct caravan_parameter *parameter,
-                               struct caravan_result *result);
+                               struct caravan_result *result, bool omniscient);
 
-#endif
+#endif /* FC__CARAVAN_H */

@@ -55,6 +55,9 @@
 #include "autosettlers.h"
 
 /* ai */
+#include "handicaps.h"
+
+/* ai/default */
 #include "advmilitary.h"
 #include "aicity.h"
 #include "aidata.h"
@@ -181,7 +184,7 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
     return;
   }
 
-  if (ai_handicap(pplayer, H_DIPLOMAT)) {
+  if (has_handicap(pplayer, H_DIPLOMAT)) {
     /* Diplomats are too tough on newbies */
     return;
   }
@@ -198,6 +201,7 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
                                              do_make_unit_veteran(pcity, ut));
 
     pft_fill_unit_parameter(&parameter, punit);
+    parameter.omniscience = !has_handicap(pplayer, H_MAP);
     pfm = pf_map_new(&parameter);
 
     find_city_to_diplomat(pplayer, punit, &acity, &time_to_dest, pfm);
@@ -377,7 +381,7 @@ static bool is_city_surrounded_by_our_spies(struct player *pplayer,
                                             struct city *enemy_city)
 {
   adjc_iterate(city_tile(enemy_city), ptile) {
-    if (ai_handicap(pplayer, H_FOG)
+    if (has_handicap(pplayer, H_FOG)
         && !map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
       /* We cannot see danger at (ptile) => assume there is none. */
       continue;
@@ -651,6 +655,7 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
 
   /* Generate map */
   pft_fill_unit_parameter(&parameter, punit);
+  parameter.omniscience = !has_handicap(pplayer, H_MAP);
   parameter.get_zoc = NULL; /* kludge */
   parameter.get_TB = no_intermediate_fights;
   pfm = pf_map_new(&parameter);
@@ -720,6 +725,7 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
       || unit_data->task == AIUNIT_NONE) {
     pf_map_destroy(pfm);
     pft_fill_unit_parameter(&parameter, punit);
+    parameter.omniscience = !has_handicap(pplayer, H_MAP);
     parameter.get_zoc = NULL; /* kludge */
     parameter.get_TB = no_intermediate_fights;
     pfm = pf_map_new(&parameter);

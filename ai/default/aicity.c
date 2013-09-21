@@ -47,6 +47,7 @@
 
 /* ai */
 #include "aitraits.h"
+#include "handicaps.h"
 
 /* ai/default */
 #include "advdiplomacy.h"
@@ -263,7 +264,7 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
 
   init_choice(&newchoice);
 
-  if (ai_handicap(pplayer, H_AWAY)
+  if (has_handicap(pplayer, H_AWAY)
       && city_built_last_turn(pcity)
       && city_data->urgency == 0) {
     /* Don't change existing productions unless we have to. */
@@ -1364,7 +1365,7 @@ static int improvement_effect_value(struct player *pplayer,
     v += ((2 * c + num) * amount) / 400;
     break;
   case EFT_DEFEND_BONUS:
-    if (ai_handicap(pplayer, H_DEFENSIVE)) {
+    if (has_handicap(pplayer, H_DEFENSIVE)) {
       v += amount / 10; /* make AI slow */
     }
     uclass = affected_unit_class(peffect);
@@ -1416,7 +1417,7 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_GAIN_AI_LOVE:
     players_iterate(aplayer) {
       if (aplayer->ai_controlled) {
-	if (ai_handicap(pplayer, H_DEFENSIVE)) {
+	if (has_handicap(pplayer, H_DEFENSIVE)) {
 	  v += amount / 10;
 	} else {
 	  v += amount / 20;

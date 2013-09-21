@@ -50,6 +50,9 @@
 #include "advtools.h"
 
 /* ai */
+#include "handicaps.h"
+
+/* ai/default */
 #include "advdiplomacy.h"
 #include "advmilitary.h"
 #include "advspace.h"
@@ -201,7 +204,7 @@ enum celebration {
 *****************************************************************************/
 static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
 {
-  int maxrate = (ai_handicap(pplayer, H_RATES)
+  int maxrate = (has_handicap(pplayer, H_RATES)
                  ? get_player_bonus(pplayer, EFT_MAX_RATES) : 100);
   struct player_research *research = player_research_get(pplayer);
   enum celebration celebrate = AI_CELEBRATION_UNCHECKED;
@@ -437,7 +440,7 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
    * this is ignored. Maybe we need ruleset AI hints. */
   /* TODO: Allow celebrate individual cities? No modpacks use this yet. */
   if (get_player_bonus(pplayer, EFT_RAPTURE_GROW) > 0
-      && !ai_handicap(pplayer, H_AWAY)
+      && !has_handicap(pplayer, H_AWAY)
       && 100 > rate_tax_min + rate_sci_min) {
     celebrate = AI_CELEBRATION_NO;
 
@@ -679,7 +682,7 @@ static void dai_manage_government(struct player *pplayer)
 {
   struct adv_data *ai = adv_data_get(pplayer);
 
-  if (!pplayer->is_alive || ai_handicap(pplayer, H_AWAY)) {
+  if (!pplayer->is_alive || has_handicap(pplayer, H_AWAY)) {
     return;
   }
 

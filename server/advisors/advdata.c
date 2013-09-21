@@ -49,6 +49,9 @@
 #include "advtools.h"
 #include "autosettlers.h"
 
+/* ai */
+#include "handicaps.h"
+
 #include "advdata.h"
 
 static void adv_dipl_new(const struct player *plr1,
@@ -370,7 +373,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
     Continent_id continent = tile_continent(ptile);
 
     if (is_ocean_tile(ptile)) {
-      if (adv->explore.sea_done && ai_handicap(pplayer, H_TARGETS) 
+      if (adv->explore.sea_done && has_handicap(pplayer, H_TARGETS) 
           && !map_is_known(ptile, pplayer)) {
 	/* We're not done there. */
         adv->explore.sea_done = FALSE;
@@ -384,13 +387,13 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
       continue;
     }
     if (tile_has_cause_extra(ptile, EC_HUT) 
-        && (!ai_handicap(pplayer, H_HUTS)
+        && (!has_handicap(pplayer, H_HUTS)
              || map_is_known(ptile, pplayer))) {
       adv->explore.land_done = FALSE;
       adv->explore.continent[continent] = TRUE;
       continue;
     }
-    if (ai_handicap(pplayer, H_TARGETS) && !map_is_known(ptile, pplayer)) {
+    if (has_handicap(pplayer, H_TARGETS) && !map_is_known(ptile, pplayer)) {
       /* this AI must explore */
       adv->explore.land_done = FALSE;
       adv->explore.continent[continent] = TRUE;
@@ -479,7 +482,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
    * than the best human players. This should lead to more exciting games
    * for the beginners.
    */
-  if (ai_handicap(pplayer, H_EXPANSION)) {
+  if (has_handicap(pplayer, H_EXPANSION)) {
     bool found_human = FALSE;
     adv->max_num_cities = 3;
     players_iterate_alive(aplayer) {
@@ -776,7 +779,7 @@ void adv_best_government(struct player *pplayer)
   adv->goal.govt.req = A_UNSET;
   adv->goal.revolution = current_gov;
 
-  if (ai_handicap(pplayer, H_AWAY) || !pplayer->is_alive) {
+  if (has_handicap(pplayer, H_AWAY) || !pplayer->is_alive) {
     return;
   }
 

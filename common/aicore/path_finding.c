@@ -2989,7 +2989,7 @@ static int pf_reverse_map_get_costs(const struct tile *to_tile,
 ****************************************************************************/
 struct pf_reverse_map *pf_reverse_map_new(const struct player *pplayer,
                                           struct tile *start_tile,
-                                          int max_turns)
+                                          int max_turns, bool omniscient)
 {
   struct pf_reverse_map *pfrm = fc_malloc(sizeof(struct pf_reverse_map));
   struct pf_parameter *param = &pfrm->param;
@@ -2999,7 +2999,7 @@ struct pf_reverse_map *pf_reverse_map_new(const struct player *pplayer,
   param->get_costs = pf_reverse_map_get_costs;
   param->start_tile = start_tile;
   param->owner = pplayer;
-  param->omniscience = !ai_handicap(pplayer, H_MAP);
+  param->omniscience = omniscient;
   param->data = FC_INT_TO_PTR(max_turns);
 
   /* Initialize the map vector. */
@@ -3014,9 +3014,9 @@ struct pf_reverse_map *pf_reverse_map_new(const struct player *pplayer,
 ****************************************************************************/
 struct pf_reverse_map *pf_reverse_map_new_for_city(const struct city *pcity,
                                                    const struct player *attacker,
-                                                   int max_turns)
+                                                   int max_turns, bool omniscient)
 {
-  return pf_reverse_map_new(attacker, city_tile(pcity), max_turns);
+  return pf_reverse_map_new(attacker, city_tile(pcity), max_turns, omniscient);
 }
 
 /****************************************************************************
@@ -3024,9 +3024,10 @@ struct pf_reverse_map *pf_reverse_map_new_for_city(const struct city *pcity,
   it won't try to iterate the maps beyond this number of turns.
 ****************************************************************************/
 struct pf_reverse_map *pf_reverse_map_new_for_unit(const struct unit *punit,
-                                                   int max_turns)
+                                                   int max_turns, bool omniscient)
 {
-  return pf_reverse_map_new(unit_owner(punit), unit_tile(punit), max_turns);
+  return pf_reverse_map_new(unit_owner(punit), unit_tile(punit), max_turns,
+                            omniscient);
 }
 
 /****************************************************************************

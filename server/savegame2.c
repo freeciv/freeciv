@@ -3534,7 +3534,6 @@ static void sg_load_player_main(struct loaddata *loading,
   CALL_FUNC_EACH_AI(player_load, plr, loading->file, plrno);
 
   /* Some sane defaults */
-  BV_CLR_ALL(plr->ai_common.handicaps);
   plr->ai_common.fuzzy = 0;
   plr->ai_common.expand = 100;
   plr->ai_common.science_cost = 100;

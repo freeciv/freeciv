@@ -41,6 +41,9 @@
 #include "utilities.h"
 
 /* ai */
+#include "handicaps.h"
+
+/* ai/default */
 #include "aicity.h"
 #include "aiplayer.h"
 #include "aiunit.h"
@@ -96,7 +99,7 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
     if (acity && pplayers_at_war(unit_owner(punit), city_owner(acity)) &&
         (unit_list_size(ptile->units) == 0)) {
       if (!map_is_known_and_seen(ptile, pplayer, V_MAIN)
-          && ai_handicap(pplayer, H_FOG)) {
+          && has_handicap(pplayer, H_FOG)) {
         continue;
       }
       /* Prefer big cities on other continents */
@@ -138,14 +141,14 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
       if (unit_list_size(target->units) == 0
           || !can_unit_attack_tile(punit, target)
 	  || is_ocean_tile(target)
-	  || (ai_handicap(pplayer, H_FOG)
+	  || (has_handicap(pplayer, H_FOG)
 	      && !map_is_known_and_seen(target, pplayer, V_MAIN))) {
         continue;
       }
       val = 0;
       if (is_stack_vulnerable(target)) {
         unit_list_iterate(target->units, victim) {
-          if ((!ai_handicap(pplayer, H_FOG)
+          if ((!has_handicap(pplayer, H_FOG)
                || can_player_see_unit_at(pplayer, victim, target))
               && can_unit_attack_unit_at_tile(punit, victim, target)) {
             val += victim->hp * 100;

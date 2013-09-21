@@ -77,6 +77,9 @@
 #include "autoexplorer.h"
 #include "autosettlers.h"
 
+/* ai */
+#include "handicaps.h"
+
 #include "unittools.h"
 
 /* We need this global variable for our sort algorithm */
@@ -405,6 +408,7 @@ void player_restore_units(struct player *pplayer)
           struct pf_parameter parameter;
 
           pft_fill_unit_parameter(&parameter, punit);
+          parameter.omniscience = !has_handicap(pplayer, H_MAP);
           pfm = pf_map_new(&parameter);
 
           pf_map_move_costs_iterate(pfm, ptile, move_cost, TRUE) {
@@ -2764,7 +2768,7 @@ static void unit_enter_hut(struct unit *punit)
       }
   
       /* AI with H_LIMITEDHUTS only gets 25 gold (or barbs if unlucky) */
-      if (pplayer->ai_controlled && ai_handicap(pplayer, H_LIMITEDHUTS)) {
+      if (pplayer->ai_controlled && has_handicap(pplayer, H_LIMITEDHUTS)) {
         (void) hut_get_limited(punit);
         return;
       }

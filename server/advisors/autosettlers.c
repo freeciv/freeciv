@@ -53,6 +53,9 @@
 #include "advtools.h"
 #include "infracache.h"
 
+/* ai */
+#include "handicaps.h"
+
 #include "autosettlers.h"
 
 /* This factor is multiplied on when calculating the want.  This is done
@@ -333,6 +336,7 @@ int settler_evaluate_improvements(struct unit *punit,
   struct unit *enroute = NULL;
 
   pft_fill_unit_parameter(&parameter, punit);
+  parameter.omniscience = !has_handicap(pplayer, H_MAP);
   parameter.can_invade_tile = autosettler_enter_territory;
   pfm = pf_map_new(&parameter);
 
@@ -625,6 +629,7 @@ static int settler_evaluate_city_requests(struct unit *punit,
   int dist = FC_INFINITY;
 
   pft_fill_unit_parameter(&parameter, punit);
+  parameter.omniscience = !has_handicap(pplayer, H_MAP);
   parameter.can_invade_tile = autosettler_enter_territory;
   pfm = pf_map_new(&parameter);
 
@@ -858,6 +863,7 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
 
     if (!path) {
       pft_fill_unit_parameter(&parameter, punit);
+      parameter.omniscience = !has_handicap(pplayer, H_MAP);
       parameter.can_invade_tile = autosettler_enter_territory;
       pfm = pf_map_new(&parameter);
       path = pf_map_path(pfm, best_tile);
@@ -904,7 +910,7 @@ bool adv_settler_safe_tile(const struct player *pplayer, struct unit *punit,
     }
   } unit_list_iterate_end;
 
-  if (is_square_threatened(pplayer, ptile)) {
+  if (is_square_threatened(pplayer, ptile, !has_handicap(pplayer, H_FOG))) {
     return FALSE;
   }
 

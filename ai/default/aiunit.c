@@ -44,6 +44,9 @@
 #include "pf_tools.h"
 
 /* ai */
+#include "handicaps.h"
+
+/* ai/default */
 #include "advmilitary.h"
 #include "aiair.h"
 #include "aicity.h"
@@ -507,6 +510,7 @@ static struct pf_path *find_rampage_target(struct unit *punit,
   struct player *pplayer = unit_owner(punit);
  
   pft_fill_unit_attack_param(&parameter, punit);
+  parameter.omniscience = !has_handicap(pplayer, H_MAP);
   /* When trying to find rampage targets we ignore risks such as
    * enemy units because we are looking for trouble!
    * Hence no call ai_avoid_risks()
@@ -523,7 +527,7 @@ static struct pf_path *find_rampage_target(struct unit *punit,
       break;
     }
 
-    if (ai_handicap(pplayer, H_TARGETS) 
+    if (has_handicap(pplayer, H_TARGETS) 
         && !map_is_known_and_seen(iter_tile, pplayer, V_MAIN)) {
       /* The target is under fog of war */
       continue;
@@ -700,6 +704,7 @@ int look_for_charge(struct ai_type *ait, struct player *pplayer,
   }
 
   pft_fill_unit_parameter(&parameter, punit);
+  parameter.omniscience = !has_handicap(pplayer, H_MAP);
   pfm = pf_map_new(&parameter);
 
   pf_map_move_costs_iterate(pfm, ptile, move_cost, TRUE) {
@@ -1062,7 +1067,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
   struct city *pcity;
   struct ai_city *acity_data;
   int bcost, bcost_bal; /* Build cost of the attacker (+adjustments). */
-  bool handicap = ai_handicap(pplayer, H_TARGETS);
+  bool handicap = has_handicap(pplayer, H_TARGETS);
   bool unhap = FALSE;   /* Do we make unhappy citizen. */
   bool harbor = FALSE;  /* Do we have access to sea? */
   bool go_by_boat;      /* Whether we need a boat or not. */
@@ -1187,6 +1192,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
   bcost_bal = build_cost_balanced(punit_type);
 
   pft_fill_unit_attack_param(&parameter, punit);
+  parameter.omniscience = !has_handicap(pplayer, H_MAP);
   punit_map = pf_map_new(&parameter);
 
   if (MOVE_NONE == punit_class->adv.sea_move) {
@@ -1213,6 +1219,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
   if (NULL != ferryboat) {
     boattype = unit_type(ferryboat);
     pft_fill_unit_overlap_param(&parameter, ferryboat);
+    parameter.omniscience = !has_handicap(pplayer, H_MAP);
     ferry_map = pf_map_new(&parameter);
   } else {
     boattype = best_role_unit_for_player(pplayer, L_FERRYBOAT);
@@ -1224,6 +1231,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
       /* Let's simulate a boat at 'punit' position. */
       pft_fill_utype_overlap_param(&parameter, boattype, punit_tile,
                                    pplayer);
+      parameter.omniscience = !has_handicap(pplayer, H_MAP);
       ferry_map = pf_map_new(&parameter);
     } else {
       ferry_map = NULL;
@@ -1540,6 +1548,7 @@ struct city *find_nearest_safe_city(struct unit *punit)
   int best = FC_INFINITY, cur;
 
   pft_fill_unit_parameter(&parameter, punit);
+  parameter.omniscience = !has_handicap(pplayer, H_MAP);
   pfm = pf_map_new(&parameter);
 
   pf_map_move_costs_iterate(pfm, ptile, move_cost, TRUE) {
@@ -2163,7 +2172,7 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
       parameter.allow_foreign_trade = FALSE;
       parameter.ignore_transit_time = FALSE;
     }
-    caravan_find_best_destination(punit, &parameter, &result);
+    caravan_find_best_destination(punit, &parameter, &result, !has_handicap(pplayer, H_MAP));
     if (result.dest != NULL) {
       /* we did find a new destination for the unit */
       dest = result.dest;
@@ -2275,7 +2284,7 @@ void dai_manage_military(struct ai_type *ait, struct player *pplayer,
 
   if ((punit->activity == ACTIVITY_SENTRY
        || punit->activity == ACTIVITY_FORTIFIED)
-      && ai_handicap(pplayer, H_AWAY)) {
+      && has_handicap(pplayer, H_AWAY)) {
     /* Don't move sentried or fortified units controlled by a player
      * in away mode. */
     unit_data->done = TRUE;
@@ -2740,6 +2749,7 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
 
   if (0 < body_guards) {
     pft_fill_unit_parameter(&parameter, leader);
+    parameter.omniscience = !has_handicap(pplayer, H_MAP);
     pfm = pf_map_new(&parameter);
 
     /* Find the closest body guard. FIXME: maybe choose the strongest too? */
@@ -2777,7 +2787,7 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
   }
 
   /* Check for units we could fear. */
-  pfrm = pf_reverse_map_new_for_unit(leader, 3);
+  pfrm = pf_reverse_map_new_for_unit(leader, 3, !has_handicap(pplayer, H_MAP));
   worst_danger = NULL;
   best_move_cost = FC_INFINITY;
 
@@ -2809,6 +2819,7 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
   }
 
   pft_fill_unit_parameter(&parameter, worst_danger);
+  parameter.omniscience = !has_handicap(pplayer, H_MAP);
   pfm = pf_map_new(&parameter);
   best_move_cost = pf_map_move_cost(pfm, leader_tile);
 
@@ -2890,7 +2901,7 @@ void dai_consider_tile_dangerous(struct ai_type *ait, struct tile *ptile,
   d = adv_unit_def_rating_basic_sq(punit) * db;
 
   adjc_iterate(ptile, ptile1) {
-    if (ai_handicap(pplayer, H_FOG)
+    if (has_handicap(pplayer, H_FOG)
         && !map_is_known_and_seen(ptile1, unit_owner(punit), V_MAIN)) {
       /* We cannot see danger at (ptile1) => assume there is none */
       continue;

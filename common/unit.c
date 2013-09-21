@@ -396,13 +396,12 @@ bool is_diplomat_unit(const struct unit *punit)
   Return TRUE iff this tile is threatened from any unit within 2 tiles.
 **************************************************************************/
 bool is_square_threatened(const struct player *pplayer,
-			  const struct tile *ptile)
+			  const struct tile *ptile, bool omniscient)
 {
   square_iterate(ptile, 2, ptile1) {
     unit_list_iterate(ptile1->units, punit) {
-      if ( ( (pplayer->ai_controlled
-              && !ai_handicap(pplayer, H_FOG))
-            || can_player_see_unit_at(pplayer, punit, ptile1))
+      if ( ( omniscient
+             || can_player_see_unit_at(pplayer, punit, ptile1))
           && pplayers_at_war(pplayer, unit_owner(punit))
           && (is_diplomat_unit(punit)
               || (is_military_unit(punit) && is_attack_unit(punit)))

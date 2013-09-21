@@ -537,7 +537,6 @@ static void player_defaults(struct player *pplayer)
   spaceship_init(&pplayer->spaceship);
 
   pplayer->ai_controlled = FALSE;
-  BV_CLR_ALL(pplayer->ai_common.handicaps);
   pplayer->ai_common.skill_level = 0;
   pplayer->ai_common.fuzzy = 0;
   pplayer->ai_common.expand = 100;
@@ -1094,20 +1093,6 @@ struct city *player_capital(const struct player *pplayer)
     }
   } city_list_iterate_end;
   return NULL;
-}
-
-/**************************************************************************
-  AI players may have handicaps - allowing them to cheat or preventing
-  them from using certain algorithms.  This function returns whether the
-  player has the given handicap.  Human players are assumed to have no
-  handicaps.
-**************************************************************************/
-bool ai_handicap(const struct player *pplayer, enum handicap_type htype)
-{
-  if (!pplayer->ai_controlled) {
-    return TRUE;
-  }
-  return BV_ISSET(pplayer->ai_common.handicaps, htype);
 }
 
 /**************************************************************************

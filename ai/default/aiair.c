@@ -38,6 +38,9 @@
 #include "advgoto.h"
 
 /* ai */
+#include "handicaps.h"
+
+/* ai/default */
 #include "aicity.h"
 #include "aiplayer.h"
 #include "aitools.h"
@@ -61,6 +64,7 @@ static struct tile *find_nearest_airbase(const struct unit *punit,
   struct pf_map *pfm;
 
   pft_fill_unit_parameter(&parameter, punit);
+  parameter.omniscience = !has_handicap(pplayer, H_MAP);
   pfm = pf_map_new(&parameter);
 
   pf_map_move_costs_iterate(pfm, ptile, move_cost, TRUE) {
@@ -195,6 +199,7 @@ static int find_something_to_bomb(struct ai_type *ait, struct unit *punit,
   int best = 0;
 
   pft_fill_unit_parameter(&parameter, punit);
+  parameter.omniscience = !has_handicap(pplayer, H_MAP);
   pfm = pf_map_new(&parameter);
 
   /* Let's find something to bomb */
@@ -204,12 +209,12 @@ static int find_something_to_bomb(struct ai_type *ait, struct unit *punit,
       break;
     }
 
-    if (ai_handicap(pplayer, H_MAP) && !map_is_known(ptile, pplayer)) {
+    if (has_handicap(pplayer, H_MAP) && !map_is_known(ptile, pplayer)) {
       /* The target tile is unknown */
       continue;
     }
 
-    if (ai_handicap(pplayer, H_FOG) 
+    if (has_handicap(pplayer, H_FOG) 
         && !map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
       /* The tile is fogged */
       continue;
@@ -259,6 +264,7 @@ static struct tile *dai_find_strategic_airbase(struct ai_type *ait,
   int best_worth = 0, target_worth;
 
   pft_fill_unit_parameter(&parameter, punit);
+  parameter.omniscience = !has_handicap(pplayer, H_MAP);
   pfm = pf_map_new(&parameter);
   pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
     if (move_cost >= punit->moves_left) {
@@ -429,7 +435,7 @@ bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
   bool want_something = FALSE;
 
   /* This AI doesn't know to build planes */
-  if (ai_handicap(pplayer, H_NOPLANES)) {
+  if (has_handicap(pplayer, H_NOPLANES)) {
     return FALSE;
   }
 

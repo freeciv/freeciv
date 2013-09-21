@@ -44,6 +44,9 @@
 #include "infracache.h" /* adv_city */
 
 /* ai */
+#include "handicaps.h"
+
+/* ai/default */
 #include "aiair.h"
 #include "aicity.h"
 #include "aidata.h"
@@ -472,7 +475,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
 
   /* Initialize data. */
   memset(&danger_reduced, 0, sizeof(danger_reduced));
-  if (ai_handicap(pplayer, H_DANGER)) {
+  if (has_handicap(pplayer, H_DANGER)) {
     /* Always thinks that city is in grave danger */
     city_data->grave_danger = 1;
   } else {
@@ -543,7 +546,8 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
       assess_turns = 3;
     }
 
-    pcity_map = pf_reverse_map_new_for_city(pcity, aplayer, assess_turns);
+    pcity_map = pf_reverse_map_new_for_city(pcity, aplayer, assess_turns,
+                                            !has_handicap(pplayer, H_MAP));
 
     unit_list_iterate(aplayer->units, punit) {
       int move_time;
@@ -651,7 +655,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
     }
   }
 
-  if (ai_handicap(pplayer, H_DANGER) && 0 == total_danger) {
+  if (has_handicap(pplayer, H_DANGER) && 0 == total_danger) {
     /* Has to have some danger
      * Otherwise grave_danger will be ignored. */
     city_data->danger = 1;
@@ -983,6 +987,7 @@ static void process_attacker_want(struct ai_type *ait,
 
       pft_fill_utype_parameter(&parameter, punittype, city_tile(pcity),
                                pplayer);
+      parameter.omniscience = !has_handicap(pplayer, H_MAP);
       pfm = pf_map_new(&parameter);
 
       /* Set the move_time appropriatelly. */

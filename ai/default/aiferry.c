@@ -43,6 +43,9 @@
 #include "advdata.h"
 
 /* ai */
+#include "handicaps.h"
+
+/* ai/default */
 #include "aidata.h"
 #include "aiguard.h"
 #include "aiplayer.h"
@@ -463,6 +466,7 @@ int aiferry_find_boat(struct ai_type *ait, struct unit *punit,
   int best_id = 0;
   struct pf_parameter param;
   struct pf_map *search_map;
+  struct player *pplayer = unit_owner(punit);
 
   /* currently assigned ferry */
   int ferryboat = def_ai_unit_data(punit, ait)->ferryboat;
@@ -480,7 +484,7 @@ int aiferry_find_boat(struct ai_type *ait, struct unit *punit,
                     || FERRY_WANTED == ferryboat, 0);
   UNIT_LOG(LOGLEVEL_FINDFERRY, punit, "asked aiferry_find_boat for a boat");
 
-  if (aiferry_avail_boats(ait, unit_owner(punit)) <= 0 
+  if (aiferry_avail_boats(ait, pplayer) <= 0 
       && ferryboat <= 0) {
     /* No boats to be found (the second check is to ensure that we are not 
      * the ones keeping the last boat busy) */
@@ -488,6 +492,7 @@ int aiferry_find_boat(struct ai_type *ait, struct unit *punit,
   }
 
   pft_fill_unit_parameter(&param, punit);
+  param.omniscience = !has_handicap(pplayer, H_MAP);
   param.get_TB = no_fights_or_unknown;
   param.get_EC = sea_move;
   param.get_MC = combined_land_sea_move;
@@ -855,6 +860,7 @@ static bool aiferry_findcargo(struct ai_type *ait, struct unit *pferry)
   struct pf_map *pfm;
   struct pf_parameter parameter;
   int passengers = dai_plr_data_get(ait, unit_owner(pferry))->stats.passengers;
+  struct player *pplayer;
 
   if (passengers <= 0) {
     /* No passangers anywhere */
@@ -863,7 +869,9 @@ static bool aiferry_findcargo(struct ai_type *ait, struct unit *pferry)
 
   UNIT_LOG(LOGLEVEL_FERRY, pferry, "Ferryboat is looking for cargo.");
 
+  pplayer = unit_owner(pferry);
   pft_fill_unit_overlap_param(&parameter, pferry);
+  parameter.omniscience = !has_handicap(pplayer, H_MAP);
   /* If we have omniscience, we use it, since paths to some places
    * might be "blocked" by unknown.  We don't want to fight though */
   parameter.get_TB = no_fights;

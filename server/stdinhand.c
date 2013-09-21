@@ -78,6 +78,9 @@
 #include "script_server.h"
 #include "script_fcdb.h"
 
+/* ai */
+#include "handicaps.h"
+
 #include "stdinhand.h"
 
 #define TOKEN_DELIMITERS " \t\n,"
@@ -1947,7 +1950,7 @@ static bool connectmsg_command(struct connection *caller, char *str,
 ******************************************************************/
 void set_ai_level_directer(struct player *pplayer, enum ai_level level)
 {
-  pplayer->ai_common.handicaps = handicap_of_skill_level(level);
+  handicaps_set(pplayer, handicap_of_skill_level(level));
   pplayer->ai_common.fuzzy = fuzzy_of_skill_level(level);
   pplayer->ai_common.expand = expansionism_of_skill_level(level);
   pplayer->ai_common.science_cost = science_cost_of_skill_level(level);

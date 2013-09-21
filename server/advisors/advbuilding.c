@@ -40,6 +40,9 @@
 #include "advtools.h"
 #include "infracache.h" /* adv_city */
 
+/* ai */
+#include "handicaps.h"
+
 #include "advbuilding.h"
 
 /**************************************************************************
@@ -79,6 +82,7 @@ static void calculate_city_clusters(struct player *pplayer)
 
     unit_tile_set(ghost, pcity->tile);
     pft_fill_unit_parameter(&parameter, ghost);
+    parameter.omniscience = !has_handicap(pplayer, H_MAP);
     pfm = pf_map_new(&parameter);
 
     pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {

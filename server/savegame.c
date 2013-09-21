@@ -1822,7 +1822,6 @@ static void player_load_main(struct player *plr, int plrno,
     research->tech_goal = A_UNSET;
   }
   /* Some sane defaults */
-  BV_CLR_ALL(plr->ai_common.handicaps); /* set later */
   plr->ai_common.fuzzy = 0;		 /* set later */
   plr->ai_common.expand = 100;		 /* set later */
   plr->ai_common.science_cost = 100;	 /* set later */

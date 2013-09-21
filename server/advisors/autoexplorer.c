@@ -37,6 +37,9 @@
 /* server/advisors */
 #include "advgoto.h"
 
+/* ai */
+#include "handicaps.h"
+
 #include "autoexplorer.h"
 
 
@@ -123,8 +126,10 @@ static bool explorer_goto(struct unit *punit, struct tile *ptile)
   bool alive = TRUE;
   struct pf_map *pfm;
   struct pf_path *path;
+  struct player *pplayer = unit_owner(punit);
 
   pft_fill_unit_parameter(&parameter, punit);
+  parameter.omniscience = !has_handicap(pplayer, H_MAP);
   parameter.get_TB = explorer_tb;
   adv_avoid_risks(&parameter, &risk_cost, punit, NORMAL_STACKING_FEARFULNESS);
 
@@ -252,7 +257,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
     desirable = 0;
   }
 
-  if ((!pplayer->ai_controlled || !ai_handicap(pplayer, H_HUTS))
+  if ((!pplayer->ai_controlled || !has_handicap(pplayer, H_HUTS))
       && map_is_known(ptile, pplayer)
       && tile_has_cause_extra(ptile, EC_HUT)) {
     /* we want to explore huts whenever we can,

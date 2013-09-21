@@ -50,27 +50,6 @@ enum plrcolor_mode {
 
 struct player_slot;
 
-enum handicap_type {
-  H_DIPLOMAT = 0,     /* Can't build offensive diplomats */
-  H_AWAY,             /* Away mode */
-  H_LIMITEDHUTS,      /* Can get only 25 gold and barbs from huts */
-  H_DEFENSIVE,        /* Build defensive buildings without calculating need */
-  H_EXPERIMENTAL,     /* Enable experimental AI features (for testing) */
-  H_RATES,            /* Can't set its rates beyond government limits */
-  H_TARGETS,          /* Can't target anything it doesn't know exists */
-  H_HUTS,             /* Doesn't know which unseen tiles have huts on them */
-  H_FOG,              /* Can't see through fog of war */
-  H_NOPLANES,         /* Doesn't build air units */
-  H_MAP,              /* Only knows map_is_known tiles */
-  H_DIPLOMACY,        /* Not very good at diplomacy */
-  H_REVOLUTION,       /* Cannot skip anarchy */
-  H_EXPANSION,        /* Don't like being much larger than human */
-  H_DANGER,           /* Always thinks its city is in danger */
-  H_LAST
-};
-
-BV_DEFINE(bv_handicap, H_LAST);
-
 struct player_economic {
   int gold;
   int tax;
@@ -123,7 +102,7 @@ struct player_ai {
   int maxbuycost;
   /* The units of tech_want seem to be shields */
   int tech_want[A_LAST+1];
-  bv_handicap handicaps;        /* sum of enum handicap_type */
+  void *handicaps;
   enum ai_level skill_level;   	/* 0-10 value for save/load/display */
   int fuzzy;			/* chance in 1000 to mis-decide */
   int expand;			/* percentage factor to value new cities */
@@ -385,7 +364,6 @@ int player_get_expected_income(const struct player *pplayer);
 
 struct city *player_capital(const struct player *pplayer);
 
-bool ai_handicap(const struct player *pplayer, enum handicap_type htype);
 bool ai_fuzzy(const struct player *pplayer, bool normal_decision);
 
 const char *love_text(const int love);

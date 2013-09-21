@@ -44,6 +44,9 @@
 #include "autosettlers.h"
 
 /* ai */
+#include "handicaps.h"
+
+/* ai/default */
 #include "aicity.h"
 #include "aiplayer.h"
 #include "aitools.h"
@@ -247,7 +250,7 @@ void dai_hunter_choice(struct ai_type *ait, struct player *pplayer,
 
   if ((!best_land_hunter && !best_sea_hunter)
       || is_barbarian(pplayer) || !pplayer->is_alive
-      || ai_handicap(pplayer, H_TARGETS)) {
+      || has_handicap(pplayer, H_TARGETS)) {
     return; /* None available */
   }
   if (hunter) {
@@ -301,6 +304,7 @@ static void dai_hunter_try_launch(struct ai_type *ait,
         && uclass_has_flag(unit_class(missile), UCF_MISSILE)) {
       UNIT_LOG(LOGLEVEL_HUNT, missile, "checking for hunt targets");
       pft_fill_unit_parameter(&parameter, punit);
+      parameter.omniscience = !has_handicap(pplayer, H_MAP);
       pfm = pf_map_new(&parameter);
 
       pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
@@ -395,7 +399,7 @@ static void dai_hunter_juiciness(struct player *pplayer, struct unit *punit,
   also used for construction want).
 
   We try to keep track of our original target, but also opportunistically
-  snatch up closer targts if they are better.
+  snatch up closer targets if they are better.
 
   We set punit->server.ai->target to target's id.
 **************************************************************************/
@@ -414,6 +418,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
   fc_assert_ret_val(pplayer->is_alive, 0);
 
   pft_fill_unit_parameter(&parameter, punit);
+  parameter.omniscience = !has_handicap(pplayer, H_MAP);
   pfm = pf_map_new(&parameter);
 
   if (original_target) {

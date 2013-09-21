@@ -51,6 +51,9 @@
 #include "infracache.h"
 
 /* ai */
+#include "handicaps.h"
+
+/* ai/default */
 #include "aidata.h"
 #include "aicity.h"
 #include "aiferry.h"
@@ -276,7 +279,7 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
   struct player *saved_owner = NULL;
   struct tile *saved_claimer = NULL;
   bool virtual_city = FALSE;
-  bool handicap = ai_handicap(pplayer, H_MAP);
+  bool handicap = has_handicap(pplayer, H_MAP);
   struct adv_data *adv = adv_data_get(pplayer);
   struct ai_plr *ai = dai_plr_data_get(ait, pplayer);
   struct cityresult *result;
@@ -701,7 +704,7 @@ struct cityresult *city_desirability(struct ai_type *ait, struct player *pplayer
   fc_assert_ret_val(ai, NULL);
 
   if (!city_can_be_built_here(ptile, punit)
-      || (ai_handicap(pplayer, H_MAP)
+      || (has_handicap(pplayer, H_MAP)
           && !map_is_known(ptile, pplayer))) {
     return NULL;
   }
@@ -886,6 +889,7 @@ static struct cityresult *find_best_city_placement(struct ai_type *ait,
   /* Phase 1: Consider building cities on our continent */
 
   pft_fill_unit_parameter(&parameter, punit);
+  parameter.omniscience = !has_handicap(pplayer, H_MAP);
   cr1 = settler_map_iterate(ait, &parameter, punit, 0);
 
   if (cr1 && cr1->result > RESULT_IS_ENOUGH) {
@@ -933,6 +937,7 @@ static struct cityresult *find_best_city_placement(struct ai_type *ait,
 
     fc_assert(ferry_class->adv.sea_move != MOVE_NONE);
     pft_fill_unit_overlap_param(&parameter, ferry);
+    parameter.omniscience = !has_handicap(pplayer, H_MAP);
     parameter.get_TB = no_fights_or_unknown;
 
     /* FIXME: Maybe penalty for using an existing boat is too high?

@@ -315,7 +315,7 @@ bool is_attack_unit(const struct unit *punit);
 bool is_military_unit(const struct unit *punit);           /* !set !dip !cara */
 bool is_diplomat_unit(const struct unit *punit);
 bool is_square_threatened(const struct player *pplayer,
-			  const struct tile *ptile);
+			  const struct tile *ptile, bool omniscient);
 bool is_field_unit(const struct unit *punit);              /* ships+aero */
 bool is_hiding_unit(const struct unit *punit);
 bool unit_can_add_to_city(const struct unit *punit);

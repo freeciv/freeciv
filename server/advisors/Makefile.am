@@ -5,7 +5,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/server \
 	-I$(top_srcdir)/utility \
 	-I$(top_srcdir)/common \
-	-I$(top_srcdir)/common/aicore
+	-I$(top_srcdir)/common/aicore \
+	-I$(top_srcdir)/ai
 
 libadvisors_la_SOURCES = \
 	advbuilding.c	\

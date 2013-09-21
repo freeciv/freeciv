@@ -49,6 +49,7 @@
 
 /* ai */
 #include "aitraits.h"
+#include "handicaps.h"
 
 /* ai/default */
 #include "advmilitary.h"
@@ -534,6 +535,7 @@ void dai_wonder_city_distance(struct ai_type *ait, struct player *pplayer,
   maxrange = unit_move_rate(ghost) * 7;
 
   pft_fill_unit_parameter(&parameter, ghost);
+  parameter.omniscience = !has_handicap(pplayer, H_MAP);
   pfm = pf_map_new(&parameter);
 
   pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
