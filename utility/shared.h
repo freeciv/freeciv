@@ -39,6 +39,9 @@ extern "C" {
    another unreachable condition. */
 #define FC_INFINITY    	(1000 * 1000 * 1000)
 
+enum fc_tristate { TRI_NO, TRI_YES, TRI_MAYBE };
+#define BOOL_TO_TRISTATE(tri) ((tri) ? TRI_YES : TRI_NO)
+
 #ifndef MAX
 #define MAX(x,y) (((x)>(y))?(x):(y))
 #define MIN(x,y) (((x)<(y))?(x):(y))
