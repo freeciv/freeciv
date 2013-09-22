@@ -203,6 +203,10 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
 static void illegal_action(struct player *pplayer, struct unit *actor,
                            enum gen_action stopped_action)
 {
+  /* The mistake has a cost */
+  actor->moves_left = MAX(0, actor->moves_left -1);
+  send_unit_info(NULL, actor);
+
   notify_player(pplayer, unit_tile(actor),
                 E_MY_DIPLOMAT_FAILED, ftc_server,
                 _("Your %s was unable to %s."),
