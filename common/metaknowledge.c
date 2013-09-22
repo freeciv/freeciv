@@ -16,6 +16,7 @@
 #endif
 
 /* common */
+#include "diptreaty.h"
 #include "metaknowledge.h"
 #include "tile.h"
 
@@ -58,7 +59,8 @@ static bool is_req_knowable(const struct player *pow_player,
 {
   fc_assert_ret_val_msg(NULL != pow_player, false, "No point of view");
 
-  if (req->source.kind == VUT_UTFLAG && target_unittype != NULL) {
+  if ((req->source.kind == VUT_UTFLAG || req->source.kind == VUT_UTYPE)
+      && target_unittype != NULL) {
     return TRUE;
   }
 
@@ -94,6 +96,14 @@ static bool is_req_knowable(const struct player *pow_player,
     if (req->range == REQ_RANGE_PLAYER
         && (pow_player == target_player
             || player_has_embassy(pow_player, target_player))) {
+      return TRUE;
+    }
+  }
+
+  if (req->source.kind == VUT_GOVERNMENT) {
+    if (req->range == REQ_RANGE_PLAYER
+        && (pow_player == target_player
+            || could_intel_with_player(pow_player, target_player))) {
       return TRUE;
     }
   }
