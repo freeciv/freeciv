@@ -754,6 +754,10 @@ fi
 dnl Check and choose clients
 if test "x$client" != "xno"; then
 
+  dnl Check for sound support, sets SOUND_CFLAGS, SOUND_LIBS, AUDIO_SDL
+  dnl Client gui checks need to know which mixer version this has selected
+  FC_CHECK_SOUND()
+
   dnl if specified --with-xaw or --with-xaw3d, assume --enable-client=xaw
   if test -n "$WITH_XAW" || test -n "$WITH_XAW3D"; then
     if test "x$client" = "xauto" ; then
@@ -822,9 +826,6 @@ if test "x$client" != "xno"; then
   if test "x$client" = "xauto" ; then
     AC_MSG_ERROR(could not guess which client to compile)
   fi
-
-  dnl Check for sound support, sets SOUND_CFLAGS, SOUND_LIBS, AUDIO_SDL
-  FC_CHECK_SOUND()
 fi
 
 if test "x$client" = "xall" ; then
@@ -1039,7 +1040,7 @@ AC_SUBST([SOUND_LIBS])
 AC_SUBST([VERSION_WITHOUT_LABEL])
 AC_SUBST([VERSION_LABEL])
 AC_SUBST([HOST_PATH_SEPARATOR])
-AM_CONDITIONAL(AUDIO_SDL, test "x$SDL_mixer" = "xyes")
+AM_CONDITIONAL(AUDIO_SDL, test "x$SDL_mixer" != "xno")
 AM_CONDITIONAL(CLIENT_GUI_SDL, test "x$gui_sdl" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_SDL2, test "x$gui_sdl2" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_2_0, test "x$gui_gtk2" = "xyes")
