@@ -670,22 +670,19 @@ static int count_buildings_in_range(const struct player *target_player,
 /****************************************************************************
   Is there a source tech within range of the target?
 ****************************************************************************/
-static bool is_tech_in_range(const struct player *target_player,
-                             enum req_range range,
-                             Tech_type_id tech,
-                             enum req_problem_type prob_type)
+static enum fc_tristate is_tech_in_range(const struct player *target_player,
+                                         enum req_range range,
+                                         Tech_type_id tech)
 {
   switch (range) {
   case REQ_RANGE_PLAYER:
-    /* If target_player is NULL and prob_type RPT_POSSIBLE, then it will
-     * consider the advance is in range. */
     if (NULL != target_player) {
-      return TECH_KNOWN == player_invention_state(target_player, tech);
+      return BOOL_TO_TRISTATE(TECH_KNOWN == player_invention_state(target_player, tech));
     } else {
-      return RPT_POSSIBLE == prob_type;
+      return TRI_MAYBE;
     }
   case REQ_RANGE_WORLD:
-    return game.info.global_advances[tech];
+    return BOOL_TO_TRISTATE(game.info.global_advances[tech]);
   case REQ_RANGE_LOCAL:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
@@ -695,22 +692,23 @@ static bool is_tech_in_range(const struct player *target_player,
   }
 
   fc_assert_msg(FALSE, "Invalid range %d.", range);
-  return FALSE;
+
+  return TRI_MAYBE;
 }
 
 /****************************************************************************
   Is there a source special within range of the target?
 ****************************************************************************/
-static bool is_special_in_range(const struct tile *target_tile,
-				enum req_range range, bool survives,
-				enum tile_special_type special)
+static enum fc_tristate is_special_in_range(const struct tile *target_tile,
+                                            enum req_range range, bool survives,
+                                            enum tile_special_type special)
 
 {
   switch (range) {
   case REQ_RANGE_LOCAL:
-    return target_tile && tile_has_special(target_tile, special);
+    return BOOL_TO_TRISTATE(target_tile && tile_has_special(target_tile, special));
   case REQ_RANGE_ADJACENT:
-    return target_tile && is_special_near_tile(target_tile, special, TRUE);
+    return BOOL_TO_TRISTATE(target_tile && is_special_near_tile(target_tile, special, TRUE));
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
@@ -720,26 +718,27 @@ static bool is_special_in_range(const struct tile *target_tile,
   }
 
   fc_assert_msg(FALSE, "Invalid range %d.", range);
-  return FALSE;
+
+  return TRI_MAYBE;
 }
 
 /****************************************************************************
   Is there a source tile within range of the target?
 ****************************************************************************/
-static bool is_terrain_in_range(const struct tile *target_tile,
-				enum req_range range, bool survives,
-				const struct terrain *pterrain)
+static enum fc_tristate is_terrain_in_range(const struct tile *target_tile,
+                                            enum req_range range, bool survives,
+                                            const struct terrain *pterrain)
 {
   if (!target_tile) {
-    return FALSE;
+    return TRI_MAYBE;
   }
 
   switch (range) {
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has the terrain. */
-    return pterrain && tile_terrain(target_tile) == pterrain;
+    return BOOL_TO_TRISTATE(pterrain && tile_terrain(target_tile) == pterrain);
   case REQ_RANGE_ADJACENT:
-    return pterrain && is_terrain_near_tile(target_tile, pterrain, TRUE);
+    return BOOL_TO_TRISTATE(pterrain && is_terrain_near_tile(target_tile, pterrain, TRUE));
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
@@ -749,26 +748,27 @@ static bool is_terrain_in_range(const struct tile *target_tile,
   }
 
   fc_assert_msg(FALSE, "Invalid range %d.", range);
-  return FALSE;
+
+  return TRI_MAYBE;
 }
 
 /****************************************************************************
   Is there a source terrain class within range of the target?
 ****************************************************************************/
-static bool is_terrain_class_in_range(const struct tile *target_tile,
-                                      enum req_range range, bool survives,
-                                      enum terrain_class class)
+static enum fc_tristate is_terrain_class_in_range(const struct tile *target_tile,
+                                                  enum req_range range, bool survives,
+                                                  enum terrain_class class)
 {
   if (!target_tile) {
-    return FALSE;
+    return TRI_MAYBE;
   }
 
   switch (range) {
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has the terrain of correct class. */
-    return terrain_belongs_to_class(tile_terrain(target_tile), class);
+    return BOOL_TO_TRISTATE(terrain_belongs_to_class(tile_terrain(target_tile), class));
   case REQ_RANGE_ADJACENT:
-    return is_terrain_class_near_tile(target_tile, class);
+    return BOOL_TO_TRISTATE(is_terrain_class_near_tile(target_tile, class));
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
@@ -778,26 +778,27 @@ static bool is_terrain_class_in_range(const struct tile *target_tile,
   }
 
   fc_assert_msg(FALSE, "Invalid range %d.", range);
-  return FALSE;
+
+  return TRI_MAYBE;
 }
 
 /****************************************************************************
   Is there a source base type within range of the target?
 ****************************************************************************/
-static bool is_base_type_in_range(const struct tile *target_tile,
-                                  enum req_range range, bool survives,
-                                  struct base_type *pbase)
+static enum fc_tristate is_base_type_in_range(const struct tile *target_tile,
+                                              enum req_range range, bool survives,
+                                              struct base_type *pbase)
 {
   if (!target_tile) {
-    return FALSE;
+    return TRI_MAYBE;
   }
 
   switch (range) {
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has base of requested type. */
-    return tile_has_base(target_tile, pbase);
+    return BOOL_TO_TRISTATE(tile_has_base(target_tile, pbase));
   case REQ_RANGE_ADJACENT:
-    return is_base_near_tile(target_tile, pbase);
+    return BOOL_TO_TRISTATE(is_base_near_tile(target_tile, pbase));
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
@@ -807,25 +808,26 @@ static bool is_base_type_in_range(const struct tile *target_tile,
   }
 
   fc_assert_msg(FALSE, "Invalid range %d.", range);
-  return FALSE;
+
+  return TRI_MAYBE;
 }
 
 /****************************************************************************
   Is there a terrain which can support the specified infrastructure
   within range of the target?
 ****************************************************************************/
-static bool is_terrain_alter_possible_in_range(const struct tile *target_tile,
-                                           enum req_range range, bool survives,
-                                           enum terrain_alteration alteration)
+static enum fc_tristate is_terrain_alter_possible_in_range(const struct tile *target_tile,
+                                                           enum req_range range, bool survives,
+                                                           enum terrain_alteration alteration)
 {
   if (!target_tile) {
-    return FALSE;
+    return TRI_MAYBE;
   }
 
   switch (range) {
   case REQ_RANGE_LOCAL:
-    return terrain_can_support_alteration(tile_terrain(target_tile),
-                                          alteration);
+    return BOOL_TO_TRISTATE(terrain_can_support_alteration(tile_terrain(target_tile),
+                                                           alteration));
   case REQ_RANGE_ADJACENT: /* XXX Could in principle support ADJACENT. */
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
@@ -836,26 +838,26 @@ static bool is_terrain_alter_possible_in_range(const struct tile *target_tile,
   }
 
   fc_assert_msg(FALSE, "Invalid range %d.", range);
-  return FALSE;
+
+  return TRI_MAYBE;
 }
 
 /****************************************************************************
   Is there a nation within range of the target?
 ****************************************************************************/
-static bool is_nation_in_range(const struct player *target_player,
-			       enum req_range range, bool survives,
-			       const struct nation_type *nation,
-                               enum req_problem_type prob_type)
+static enum fc_tristate is_nation_in_range(const struct player *target_player,
+                                           enum req_range range, bool survives,
+                                           const struct nation_type *nation)
 {
   switch (range) {
   case REQ_RANGE_PLAYER:
     if (target_player == NULL) {
-      return prob_type == RPT_POSSIBLE;
+      return TRI_MAYBE;
     }
-    return nation_of_player(target_player) == nation;
+    return BOOL_TO_TRISTATE(nation_of_player(target_player) == nation);
   case REQ_RANGE_WORLD:
-    return (NULL != nation->player
-            && (survives || nation->player->is_alive));
+    return BOOL_TO_TRISTATE(NULL != nation->player
+                            && (survives || nation->player->is_alive));
   case REQ_RANGE_LOCAL:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
@@ -865,76 +867,73 @@ static bool is_nation_in_range(const struct player *target_player,
   }
 
   fc_assert_msg(FALSE, "Invalid range %d.", range);
-  return FALSE;
+
+  return TRI_MAYBE;
 }
 
 /****************************************************************************
   Is there a unit of the given type within range of the target?
 ****************************************************************************/
-static bool is_unittype_in_range(const struct unit_type *target_unittype,
-				 enum req_range range, bool survives,
-				 struct unit_type *punittype)
+static enum fc_tristate is_unittype_in_range(const struct unit_type *target_unittype,
+                                             enum req_range range, bool survives,
+                                             struct unit_type *punittype)
 {
   /* If no target_unittype is given, we allow the req to be met.  This is
    * to allow querying of certain effect types (like the presence of city
    * walls) without actually knowing the target unit. */
-  return (range == REQ_RANGE_LOCAL
-	  && (!target_unittype
-	      || target_unittype == punittype));
+  return BOOL_TO_TRISTATE(range == REQ_RANGE_LOCAL
+                          && (!target_unittype
+                              || target_unittype == punittype));
 }
 
 /****************************************************************************
   Is there a unit with the given flag within range of the target?
 ****************************************************************************/
-static bool is_unitflag_in_range(const struct unit_type *target_unittype,
-				 enum req_range range, bool survives,
-				 enum unit_flag_id unitflag,
-                                 enum req_problem_type prob_type)
+static enum fc_tristate is_unitflag_in_range(const struct unit_type *target_unittype,
+                                             enum req_range range, bool survives,
+                                             enum unit_flag_id unitflag)
 {
   /* If no target_unittype is given, we allow the req to be met.  This is
    * to allow querying of certain effect types (like the presence of city
    * walls) without actually knowing the target unit. */
   if (range != REQ_RANGE_LOCAL) {
-    return FALSE;
+    return TRI_NO;
   }
   if (!target_unittype) {
-    /* Unknow means TRUE  for RPT_POSSIBLE
-     *              FALSE for RPT_CERTAIN
-     */
-    return prob_type == RPT_POSSIBLE;
+    return TRI_MAYBE;
   }
 
-  return utype_has_flag(target_unittype, unitflag);
+  return BOOL_TO_TRISTATE(utype_has_flag(target_unittype, unitflag));
 }
 
 /****************************************************************************
   Is there a unit with the given flag within range of the target?
 ****************************************************************************/
-static bool is_unitclass_in_range(const struct unit_type *target_unittype,
-				  enum req_range range, bool survives,
-				  struct unit_class *pclass)
+static enum fc_tristate is_unitclass_in_range(const struct unit_type *target_unittype,
+                                              enum req_range range, bool survives,
+                                              struct unit_class *pclass)
 {
   /* If no target_unittype is given, we allow the req to be met.  This is
    * to allow querying of certain effect types (like the presence of city
    * walls) without actually knowing the target unit. */
-  return (range == REQ_RANGE_LOCAL
-	  && (!target_unittype
-	      || utype_class(target_unittype) == pclass));
+  return BOOL_TO_TRISTATE(range == REQ_RANGE_LOCAL
+                          && (!target_unittype
+                              || utype_class(target_unittype) == pclass));
 }
 
 /****************************************************************************
   Is there a unit with the given flag within range of the target?
 ****************************************************************************/
-static bool is_unitclassflag_in_range(const struct unit_type *target_unittype,
-				      enum req_range range, bool survives,
-				      enum unit_class_flag_id ucflag)
+static enum fc_tristate is_unitclassflag_in_range(const struct unit_type *target_unittype,
+                                                  enum req_range range, bool survives,
+                                                  enum unit_class_flag_id ucflag)
 {
   /* If no target_unittype is given, we allow the req to be met.  This is
    * to allow querying of certain effect types (like the presence of city
    * walls) without actually knowing the target unit. */
-  return (range == REQ_RANGE_LOCAL
-	  && (!target_unittype
-	      || uclass_has_flag(utype_class(target_unittype), ucflag)));
+  return BOOL_TO_TRISTATE(range == REQ_RANGE_LOCAL
+                          && (!target_unittype
+                              || uclass_has_flag(utype_class(target_unittype), ucflag)));
 }
 
 /****************************************************************************
@@ -958,7 +957,7 @@ bool is_req_active(const struct player *target_player,
 		   const struct requirement *req,
                    const enum   req_problem_type prob_type)
 {
-  bool eval = FALSE;
+  enum fc_tristate eval = TRI_NO;
 
   /* Note the target may actually not exist.  In particular, effects that
    * have a VUT_SPECIAL or VUT_TERRAIN may often be passed to this function
@@ -966,34 +965,35 @@ bool is_req_active(const struct player *target_player,
    * not met. */
   switch (req->source.kind) {
   case VUT_NONE:
-    eval = TRUE;
+    eval = TRI_YES;
     break;
   case VUT_ADVANCE:
     /* The requirement is filled if the player owns the tech. */
     eval = is_tech_in_range(target_player, req->range,
-                            advance_number(req->source.value.advance),
-                            prob_type);
+                            advance_number(req->source.value.advance));
     break;
   case VUT_GOVERNMENT:
     /* The requirement is filled if the player is using the government. */
     if (target_player == NULL) {
-      eval = (prob_type == RPT_POSSIBLE);
+      eval = TRI_MAYBE;
     } else {
-      eval = (government_of_player(target_player) == req->source.value.govern);
+      eval = BOOL_TO_TRISTATE(government_of_player(target_player) == req->source.value.govern);
     }
     break;
   case VUT_IMPROVEMENT:
     /* The requirement is filled if there's at least one of the building
      * in the city.  (This is a slightly nonstandard use of
      * count_sources_in_range.) */
-    eval = (count_buildings_in_range(target_player, target_city,
-				     target_building,
-				     req->range, req->survives,
-				     req->source.value.building) > 0);
+    /* FIXME: NULL target_player or target_city should sometimes evaluate
+     *        as TRI_MAYBE */
+    eval = BOOL_TO_TRISTATE(count_buildings_in_range(target_player, target_city,
+                                                     target_building,
+                                                     req->range, req->survives,
+                                                     req->source.value.building) > 0);
     break;
   case VUT_SPECIAL:
     if (target_tile == NULL) {
-      eval = (prob_type == RPT_POSSIBLE);
+      eval = TRI_MAYBE;
     } else {
       eval = is_special_in_range(target_tile,
                                  req->range, req->survives,
@@ -1002,7 +1002,7 @@ bool is_req_active(const struct player *target_player,
     break;
   case VUT_TERRAIN:
     if (target_tile == NULL) {
-      eval = (prob_type == RPT_POSSIBLE);
+      eval = TRI_MAYBE;
     } else {
       eval = is_terrain_in_range(target_tile,
                                  req->range, req->survives,
@@ -1011,11 +1011,11 @@ bool is_req_active(const struct player *target_player,
     break;
   case VUT_NATION:
     eval = is_nation_in_range(target_player, req->range, req->survives,
-                              req->source.value.nation, prob_type);
+                              req->source.value.nation);
     break;
   case VUT_UTYPE:
     if (target_unittype == NULL) {
-      eval = (prob_type == RPT_POSSIBLE);
+      eval = TRI_MAYBE;
     } else {
       eval = is_unittype_in_range(target_unittype,
                                   req->range, req->survives,
@@ -1024,12 +1024,11 @@ bool is_req_active(const struct player *target_player,
     break;
   case VUT_UTFLAG:
     if (target_unittype == NULL) {
-      eval = (prob_type == RPT_POSSIBLE);
+      eval = TRI_MAYBE;
     } else {
       eval = is_unitflag_in_range(target_unittype,
                                   req->range, req->survives,
-                                  req->source.value.unitflag,
-                                  prob_type);
+                                  req->source.value.unitflag);
     }
     break;
   case VUT_UCLASS:
@@ -1043,7 +1042,7 @@ bool is_req_active(const struct player *target_player,
     break;
   case VUT_UCFLAG:
     if (target_unittype == NULL) {
-      eval = (prob_type == RPT_POSSIBLE);
+      eval = TRI_MAYBE;
     } else {
       eval = is_unitclassflag_in_range(target_unittype,
                                        req->range, req->survives,
@@ -1051,31 +1050,31 @@ bool is_req_active(const struct player *target_player,
     }
     break;
   case VUT_OTYPE:
-    eval = (target_output
-	    && target_output->index == req->source.value.outputtype);
+    eval = BOOL_TO_TRISTATE(target_output
+                            && target_output->index == req->source.value.outputtype);
     break;
   case VUT_SPECIALIST:
-    eval = (target_specialist
-	    && target_specialist == req->source.value.specialist);
+    eval = BOOL_TO_TRISTATE(target_specialist
+                            && target_specialist == req->source.value.specialist);
     break;
   case VUT_MINSIZE:
     if (target_city == NULL) {
-      eval = (prob_type == RPT_POSSIBLE);
+      eval = TRI_MAYBE;
     } else {
-      eval = target_city->size >= req->source.value.minsize;
+      eval = BOOL_TO_TRISTATE(target_city->size >= req->source.value.minsize);
     }
     break;
   case VUT_AI_LEVEL:
     if (target_player == NULL) {
-      eval = (prob_type == RPT_POSSIBLE);
+      eval = TRI_MAYBE;
     } else {
-      eval = target_player->ai_controlled
-        && target_player->ai_common.skill_level == req->source.value.ai_level;
+      eval = BOOL_TO_TRISTATE(target_player->ai_controlled
+                              && target_player->ai_common.skill_level == req->source.value.ai_level);
     }
     break;
   case VUT_TERRAINCLASS:
     if (target_tile == NULL) {
-      eval = (prob_type == RPT_POSSIBLE);
+      eval = TRI_MAYBE;
     } else {
       eval = is_terrain_class_in_range(target_tile,
                                        req->range, req->survives,
@@ -1084,7 +1083,7 @@ bool is_req_active(const struct player *target_player,
     break;
   case VUT_BASE:
     if (target_tile == NULL) {
-      eval = (prob_type == RPT_POSSIBLE);
+      eval = TRI_MAYBE;
     } else {
       eval = is_base_type_in_range(target_tile,
                                    req->range, req->survives,
@@ -1092,11 +1091,11 @@ bool is_req_active(const struct player *target_player,
     }
     break;
   case VUT_MINYEAR:
-    eval = game.info.year >= req->source.value.minyear;
+    eval = BOOL_TO_TRISTATE(game.info.year >= req->source.value.minyear);
     break;
   case VUT_TERRAINALTER:
     if (target_tile == NULL) {
-      eval = (prob_type == RPT_POSSIBLE);
+      eval = TRI_MAYBE;
     } else {
       eval = is_terrain_alter_possible_in_range(target_tile,
                                                 req->range, req->survives,
@@ -1107,9 +1106,9 @@ bool is_req_active(const struct player *target_player,
     if (target_tile != NULL) {
       if (req->source.value.citytile == CITYT_CENTER) {
         if (target_city) {
-          eval = is_city_center(target_city, target_tile);
+          eval = BOOL_TO_TRISTATE(is_city_center(target_city, target_tile));
         } else {
-          eval = tile_city(target_tile) != NULL;
+          eval = BOOL_TO_TRISTATE(tile_city(target_tile) != NULL);
         }
       } else {
         /* Not implemented */
@@ -1118,7 +1117,7 @@ bool is_req_active(const struct player *target_player,
         return FALSE;
       }
     } else {
-      eval = (prob_type == RPT_POSSIBLE);
+      eval = TRI_MAYBE;
     }
     break;
   case VUT_COUNT:
@@ -1126,10 +1125,18 @@ bool is_req_active(const struct player *target_player,
     return FALSE;
   }
 
+  if (eval == TRI_MAYBE) {
+    if (prob_type == RPT_POSSIBLE) {
+      return TRUE;
+    } else {
+      return FALSE;
+    }
+  }
+
   if (req->negated) {
-    return !eval;
+    return (eval == TRI_NO);
   } else {
-    return eval;
+    return (eval == TRI_YES);
   }
 }
 
