@@ -7,7 +7,14 @@ AC_DEFUN([FC_SDL_CLIENT],
 [
   if test "x$gui_sdl" = "xyes" || test "x$client" = "xall" ||
      test "x$client" = "xauto" ; then
-    AM_PATH_SDL([1.1.4], [sdl_found="yes"], [sdl_found="no"])
+    if test "x$SDL_mixer" = "xsdl2" ; then
+      if test "x$gui_sdl" = "xyes"; then
+        AC_MSG_ERROR([specified client 'sdl' not configurable (cannot use SDL2_mixer with it))])
+      fi
+      sdl_found=no
+    else
+      AM_PATH_SDL([1.1.4], [sdl_found="yes"], [sdl_found="no"])
+    fi
     if test "$sdl_found" = yes; then
       ac_save_CPPFLAGS="$CPPFLAGS"
       ac_save_CFLAGS="$CFLAGS"

@@ -18,7 +18,7 @@ AC_DEFUN([FC_CHECK_SOUND],[
     SOUND_CFLAGS="$SOUND_CFLAGS $SDLMIXER_CFLAGS"
     SOUND_LIBS="$SOUND_LIBS $SDLMIXER_LIBS"
     AC_DEFINE([AUDIO_SDL], [1], [SDL_Mixer support])
-    SDL_mixer=yes
+    SDL_mixer=sdl
     SOUND_SDL_OK=true
 ], [
     ac_save_CPPFLAGS="$CPPFLAGS"
@@ -35,7 +35,7 @@ AC_DEFUN([FC_CHECK_SOUND],[
 
     AC_MSG_CHECKING([building SDL_mixer support])
     if test "x$SDL_mixer_h" = "x1"; then
-      if test "x$SDL_mixer" = "xyes"; then
+      if test "x$SDL_mixer" = "xsdl"; then
         SOUND_CFLAGS="$SOUND_CFLAGS $SDL_CFLAGS"
         SOUND_LIBS="$SOUND_LIBS -lSDL_mixer $SDL_LIBS"
         AC_DEFINE([AUDIO_SDL], [1], [SDL_Mixer support])
@@ -46,7 +46,7 @@ AC_DEFUN([FC_CHECK_SOUND],[
       fi
     else
       AC_MSG_RESULT([no SDL_mixer headers found, install from http://www.libsdl.org/projects/SDL_mixer/index.html])
-      SDL_mixer="no"
+      SDL_mixer=no
     fi ])
   fi
 elif test "x$USE_SOUND_SDL" = "xsdl2" ; then
@@ -59,7 +59,7 @@ elif test "x$USE_SOUND_SDL" = "xsdl2" ; then
     SOUND_CFLAGS="$SOUND_CFLAGS $SDL2MIXER_CFLAGS"
     SOUND_LIBS="$SOUND_LIBS $SDL2MIXER_LIBS"
     AC_DEFINE([AUDIO_SDL], [1], [SDL2_Mixer support])
-    SDL_mixer=yes
+    SDL_mixer=sdl2
     SOUND_SDL_OK=true
 ], [
     ac_save_CPPFLAGS="$CPPFLAGS"
@@ -76,7 +76,7 @@ elif test "x$USE_SOUND_SDL" = "xsdl2" ; then
 
     AC_MSG_CHECKING([building SDL2_mixer support])
     if test "x$SDL_mixer_h" = "x1"; then
-      if test "x$SDL_mixer" = "xyes"; then
+      if test "x$SDL_mixer" = "xsdl2"; then
         SOUND_CFLAGS="$SOUND_CFLAGS $SDL2_CFLAGS"
         SOUND_LIBS="$SOUND_LIBS -lSDL2_mixer $SDL2_LIBS"
         AC_DEFINE([AUDIO_SDL], [1], [SDL_Mixer support])
@@ -87,7 +87,7 @@ elif test "x$USE_SOUND_SDL" = "xsdl2" ; then
       fi
     else
       AC_MSG_RESULT([no SDL2_mixer headers found, install from http://www.libsdl.org/projects/SDL_mixer/index.html])
-      SDL_mixer="no"
+      SDL_mixer=no
     fi ])
   fi
 fi
