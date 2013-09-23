@@ -1559,12 +1559,18 @@ bool is_req_active(const struct player *target_player,
     /* The requirement is filled if there's at least one of the building
      * in the city.  (This is a slightly nonstandard use of
      * count_sources_in_range.) */
-    /* FIXME: NULL target_player or target_city should sometimes evaluate
-     *        as TRI_MAYBE */
-    eval = BOOL_TO_TRISTATE(count_buildings_in_range(target_player, target_city,
-                                                     target_building,
-                                                     req->range, req->survives,
-                                                     req->source.value.building) > 0);
+    /* With NULL target_player count_buildings_in_range() would
+     * return 0, which would cause evaluation to return FALSE
+     * even for RPT_POSSIBLE */
+    if ((req->range == REQ_RANGE_PLAYER && target_player == NULL)
+        || (req->range == REQ_RANGE_CITY && target_city == NULL)) {
+      eval = TRI_MAYBE;
+    } else {
+      eval = BOOL_TO_TRISTATE(count_buildings_in_range(target_player, target_city,
+                                                       target_building,
+                                                       req->range, req->survives,
+                                                       req->source.value.building) > 0);
+    }
     break;
   case VUT_EXTRA:
     eval = is_extra_type_in_range(target_tile, target_city,
