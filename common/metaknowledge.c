@@ -92,6 +92,10 @@ static bool is_req_knowable(const struct player *pow_player,
     }
   }
 
+  if (req->source.kind == VUT_NATION) {
+    return TRUE;
+  }
+
   if (req->source.kind == VUT_ADVANCE || req->source.kind == VUT_TECHFLAG) {
     if (req->range == REQ_RANGE_PLAYER
         && (pow_player == target_player

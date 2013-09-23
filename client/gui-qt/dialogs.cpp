@@ -897,11 +897,11 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     gui()->set_current_unit(diplomat_id, diplomat_target_id, ATK_CITY);
     qv2 = pcity->id;
 
-    if (diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile)) {
-      func = diplomat_embassy;
-      cd->add_item(QString(_("Establish _Embassy")),
-                            func, qv1, qv2, FALSE);
-    }
+    action_entry(cd,
+                 action_enabled_unit_on_city_local(
+                   ACTION_ESTABLISH_EMBASSY, punit, pcity),
+                 QString(_("Establish _Embassy")),
+                 diplomat_embassy, qv1, qv2);
 
     if (diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile)) {
       func = diplomat_investigate;

@@ -370,6 +370,8 @@ void handle_unit_diplomat_action(struct player *pplayer,
       if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_EMBASSY,
 					 pcity->tile)) {
 	diplomat_embassy(pplayer, pdiplomat, pcity);
+      } else {
+        illegal_action(pplayer, pdiplomat, ACTION_ESTABLISH_EMBASSY);
       }
       break;
     case DIPLOMAT_INCITE:

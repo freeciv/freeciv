@@ -112,9 +112,8 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
       }
 
       if ((action == DIPLOMAT_EMBASSY || action == DIPLOMAT_ANY_ACTION)
-          && !get_player_bonus(city_owner(pcity), EFT_NO_DIPLOMACY)
-          && !player_has_real_embassy(unit_owner(pdiplomat),
-                                      city_owner(pcity))) {
+          && is_action_enabled_unit_on_city(ACTION_ESTABLISH_EMBASSY,
+                                            pdiplomat, pcity)) {
         return TRUE;
       }
 

@@ -653,8 +653,8 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
     pDiplomat_Dlg->diplomat_target_id[ATK_CITY] = pCity->id;
     
     /* -------------- */
-    if (diplomat_can_do_action(pUnit, DIPLOMAT_EMBASSY, ptile))
-    {
+    if (MKE_FALSE != action_enabled_unit_on_city_local(
+          ACTION_ESTABLISH_EMBASSY, pUnit, pCity)) {
 	
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
 	    _("Establish Embassy"), diplomat_embassy_callback);

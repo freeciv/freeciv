@@ -182,6 +182,13 @@ actor_reqs    =
       "DiplRel", "War", "Local"
     }
 
+[actionenabler_establish_embassy]
+action       = "Establish Embassy"
+target_reqs  =
+    { "type",   "name", "range", "present"
+      "Nation", "Barbarian", "Player", FALSE
+    }
+
 [actionenabler_incite_city]
 action = "Incite City"
 actor_reqs    =

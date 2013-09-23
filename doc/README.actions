@@ -27,6 +27,10 @@ will inform the player that his unit was unable to perform it.
 Actions and their hard coded requirements
 =========================================
 
+"Establish Embassy" - Establish a real embassy to the target player
+ * actor must have the diplomat flag.
+ * actor can't have a real emabassy to the target player
+
 "Sabotage City" - Destroy a building or the production in the target city.
  * actor must have the diplomat flag.
 

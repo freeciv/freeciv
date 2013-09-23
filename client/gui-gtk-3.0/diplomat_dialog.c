@@ -717,10 +717,11 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 
     diplomat_target_id[ATK_CITY] = pcity->id;
 
-    if (diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile)) {
-      choice_dialog_add(shl, _("Establish _Embassy"),
-                        (GCallback)diplomat_embassy_callback, NULL, FALSE);
-    }
+    action_entry(shl,
+                 action_enabled_unit_on_city_local(
+                   ACTION_ESTABLISH_EMBASSY, punit, pcity),
+                 _("Establish _Embassy"),
+                 (GCallback)diplomat_embassy_callback);
 
     if (diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile)) {
       choice_dialog_add(shl, _("_Investigate City"),

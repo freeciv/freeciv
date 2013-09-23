@@ -244,8 +244,6 @@ void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
 /******************************************************************************
   Establish an embassy.
 
-  - Either a Diplomat or Spy can establish an embassy.
-
   - Barbarians always execute ambassadors.
   - Otherwise, the embassy is created.
   - It costs some minimal movement to establish an embassy.
