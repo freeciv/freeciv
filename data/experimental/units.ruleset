@@ -30,6 +30,7 @@ flags =
     "AirUnit", _("Very bad at attacking AEGIS.")
     "Horse", _("Attack value halved when attacking Pikemen.")
     "Helicopter", _("Defends very badly against Fighters.")
+    "Unbribable", _("May not be bribed.")
   }
 
 [veteran_system]
@@ -286,7 +287,6 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;		  the same time; barbarians cannot use this at present
 ; "GameLoss"	= losing one of these units means you lose the game, but it
 ;		  is produced without homecity and upkeep
-; "Unbribable"	= this unit cannot be bribed
 ; "Undisbandable" = this unit cannot be disbanded, will not drown, and will not
 ;		  disband due to lack of shields to upkeep it in homecity;
 ;		  if not given enough food to upkeep it, homecity will shrink 

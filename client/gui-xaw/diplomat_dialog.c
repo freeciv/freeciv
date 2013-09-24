@@ -118,11 +118,7 @@ void popup_bribe_dialog(struct unit *punit, int cost)
                                           client_player()->economic.gold),
               client_player()->economic.gold);
 
-  if (unit_has_type_flag(punit, UTYF_UNBRIBABLE)) {
-    popup_message_dialog(toplevel, "diplomatbribedialog",
-                         _("This unit cannot be bribed!"),
-                         diplomat_bribe_no_callback, 0, 0, NULL);
-  } else if (cost <= client_player()->economic.gold) {
+  if (cost <= client_player()->economic.gold) {
     fc_snprintf(buf, sizeof(buf),
                 /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
                 PL_("Bribe unit for %d gold?\n%s",

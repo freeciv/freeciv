@@ -1319,12 +1319,6 @@ void popup_bribe_dialog(struct unit *punit, int cost)
                                         "Treasury contains %d gold.",
                                         client_player()->economic.gold),
               client_player()->economic.gold);
-  if (unit_has_type_flag(punit, UTYF_UNBRIBABLE)) {
-    ask.setWindowTitle(_("Ooops..."));
-    ask.setText(_("This unit cannot be bribed!"));
-    ask.exec();
-    return;
-  }
 
   ask.setWindowTitle(QString(_("Bribe Enemy Unit")));
   if (cost <= client_player()->economic.gold) {

@@ -440,14 +440,6 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
     return;
   }
 
-  if (unit_has_type_flag(pvictim, UTYF_UNBRIBABLE)) {
-    notify_player(pplayer, unit_tile(pdiplomat),
-                  E_MY_DIPLOMAT_FAILED, ftc_server,
-                  _("You cannot bribe the %s!"),
-                  unit_link(pvictim));
-    return;
-  }
-
   log_debug("bribe-unit: succeeded");
 
   victim_tile = unit_tile(pvictim);

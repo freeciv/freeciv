@@ -93,13 +93,7 @@ void popup_bribe_dialog(struct unit *punit, int cost)
                                         client_player()->economic.gold),
               client_player()->economic.gold);
 
-  if (unit_has_type_flag(punit, UTYF_UNBRIBABLE)) {
-    shell = popup_choice_dialog(GTK_WINDOW(toplevel), _("Ooops..."),
-                                 _("This unit cannot be bribed!"),
-                                 GTK_STOCK_OK, NULL, NULL, NULL);
-    gtk_window_present(GTK_WINDOW(shell));
-    return;
-  } else if (cost <= client_player()->economic.gold) {
+  if (cost <= client_player()->economic.gold) {
     shell = gtk_message_dialog_new(NULL, 0,
       GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
       /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
