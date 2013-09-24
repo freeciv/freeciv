@@ -211,7 +211,8 @@ static int spy_steal_callback(struct widget *pWidget)
     if (NULL != game_unit_by_number(pDiplomat_Dlg->diplomat_id)
         && NULL != game_city_by_number(
                 pDiplomat_Dlg->diplomat_target_id[ATK_CITY])) {
-      request_diplomat_action(DIPLOMAT_STEAL, pDiplomat_Dlg->diplomat_id,
+      request_diplomat_action(DIPLOMAT_STEAL_TARGET,
+                              pDiplomat_Dlg->diplomat_id,
                               pDiplomat_Dlg->diplomat_target_id[ATK_CITY],
                               steal_advance);
     }
@@ -264,7 +265,7 @@ static int spy_steal_popup(struct widget *pWidget)
        send steal order at Spy's Discretion */
     int target_id = pVcity->id;
 
-    request_diplomat_action(DIPLOMAT_STEAL, id, target_id, A_UNSET);
+    request_diplomat_action(DIPLOMAT_STEAL_TARGET, id, target_id, A_UNSET);
     return -1;
   }
     
@@ -598,7 +599,6 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
   SDL_String16 *pStr;
   struct city *pCity;
   struct unit *pTunit;
-  bool spy;
   SDL_Rect area;
   
   if (pDiplomat_Dlg) {
@@ -607,7 +607,6 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
   
   is_unit_move_blocked = TRUE;
   pCity = tile_city(ptile);
-  spy = unit_has_type_flag(pUnit, UTYF_SPY);
   
   pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
   pDiplomat_Dlg->diplomat_id = pUnit->id;
@@ -732,16 +731,31 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
     }
   
     /* ---------- */
-    if (diplomat_can_do_action(pUnit, DIPLOMAT_STEAL, ptile)) {
+    if (MKE_FALSE != action_enabled_unit_on_city_local(
+          ACTION_SPY_STEAL_TECH, pUnit, pCity)) {
     
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
-	    _("Steal Technology"),
-      			spy ? spy_steal_popup : diplomat_steal_callback);
+            _("Steal Technology"), diplomat_steal_callback);
       pBuf->data.city = pCity;
       set_wstate(pBuf , FC_WS_NORMAL);
   
       add_to_gui_list(MAX_ID - pUnit->id , pBuf);
     
+      area.w = MAX(area.w , pBuf->size.w);
+      area.h += pBuf->size.h;
+    }
+
+    /* ---------- */
+    if (MKE_FALSE != action_enabled_unit_on_city_local(
+          ACTION_SPY_TARGETED_STEAL_TECH, pUnit, pCity)) {
+
+      create_active_iconlabel(pBuf, pWindow->dst, pStr,
+            _("Industrial espionage"), spy_steal_popup);
+      pBuf->data.city = pCity;
+      set_wstate(pBuf , FC_WS_NORMAL);
+
+      add_to_gui_list(MAX_ID - pUnit->id , pBuf);
+
       area.w = MAX(area.w , pBuf->size.w);
       area.h += pBuf->size.h;
     }

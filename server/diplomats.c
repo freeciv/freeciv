@@ -501,8 +501,6 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   Otherwise, steal the technology whose ID is "technology".
   (Note: Only Spies can select what to steal.)
 
-  - Either a Diplomat or Spy can steal a technology.
-
   - Check for infiltration success.  Our thief may not survive this.
   - Check for basic success.  Again, our thief may not survive this.
   - If a technology has already been stolen from this city at any time:
@@ -558,11 +556,6 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   }
 
   log_debug("steal-tech: unit: %d", pdiplomat->id);
-
-  /* If not a Spy, do something random. */
-  if (!unit_has_type_flag(pdiplomat, UTYF_SPY)) {
-    technology = A_UNSET;
-  }
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
   if (!diplomat_infiltrate_tile(pplayer, cplayer, pdiplomat, 
@@ -1402,6 +1395,7 @@ static void maybe_cause_incident(enum diplomat_actions action,
                     victim_link);
       break;
     case DIPLOMAT_STEAL:
+    case DIPLOMAT_STEAL_TARGET:
       notify_player(offender, victim_tile,
                     E_DIPLOMATIC_INCIDENT, ftc_server,
                     _("You have caused an incident while attempting "

@@ -229,6 +229,30 @@ target_reqs  =
       "Nation", "Pirate", "Player", FALSE
     }
 
+[actionenabler_steal_tech_random]
+action = "Steal Tech"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "Spy", "Local", FALSE
+    }
+target_reqs  =
+    { "type",   "name", "range", "present"
+      "Nation", "Barbarian", "Player", FALSE
+      "Nation", "Pirate", "Player", FALSE
+    }
+
+[actionenabler_steal_tech_target]
+action = "Targeted Steal Tech"
+actor_reqs    =
+    { "type",   "name", "range"
+      "UnitFlag", "Spy", "Local"
+    }
+target_reqs  =
+    { "type",   "name", "range", "present"
+      "Nation", "Barbarian", "Player", FALSE
+      "Nation", "Pirate", "Player", FALSE
+    }
+
 [actionenabler_poison_city]
 action = "Poison City"
 actor_reqs    =

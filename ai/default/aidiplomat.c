@@ -334,7 +334,10 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
 
   if (count_tech > 0 
       && (ctarget->server.steal == 0 || unit_has_type_flag(punit, UTYF_SPY))) {
-    T(DIPLOMAT_STEAL,0);
+    T(DIPLOMAT_STEAL, 0);
+
+    /* In case untargeted isn't there. TODO: choose target */
+    T(DIPLOMAT_STEAL_TARGET, A_UNSET);
   } else {
     UNIT_LOG(LOG_DIPLOMAT, punit, "We have already stolen from %s!",
              city_name(ctarget));

@@ -41,6 +41,13 @@ Actions and their hard coded requirements
 "Poison City" - Kill a citizen in the target city.
  * actor must have the diplomat flag.
 
+"Steal Tech" - Steal a random tech from the targets owner.
+ * actor must have the diplomat flag.
+
+"Targeted Steal Tech" - Optionally targeted version of the above.
+ * If a target is selected the action is less likely to succeed.
+ * actor must have the diplomat flag.
+
 "Incite City" - Pay the target city to join the actors owners side.
  * actor must have the diplomat flag.
 

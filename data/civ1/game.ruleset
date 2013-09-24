@@ -189,6 +189,13 @@ target_reqs  =
       "Nation", "Barbarian", "Player", FALSE
     }
 
+[actionenabler_steal_tech_random]
+action = "Steal Tech"
+target_reqs  =
+    { "type",   "name", "range", "present"
+      "Nation", "Barbarian", "Player", FALSE
+    }
+
 [actionenabler_incite_city]
 action = "Incite City"
 actor_reqs    =

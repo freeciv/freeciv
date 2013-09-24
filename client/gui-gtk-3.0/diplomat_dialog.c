@@ -204,7 +204,7 @@ static void spy_advances_response(GtkWidget *w, gint response, gpointer data)
   if (response == GTK_RESPONSE_ACCEPT && steal_advance > 0) {
     if (NULL != game_unit_by_number(diplomat_id)
         && NULL != game_city_by_number(diplomat_target_id[ATK_CITY])) {
-      request_diplomat_action(DIPLOMAT_STEAL, diplomat_id,
+      request_diplomat_action(DIPLOMAT_STEAL_TARGET, diplomat_id,
                               diplomat_target_id[ATK_CITY], steal_advance);
     }
   }
@@ -747,15 +747,17 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
                  _("Industrial _Sabotage"),
                  (GCallback)spy_request_sabotage_list);
 
-    if (diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile)) {
-      if (unit_has_type_flag(punit, UTYF_SPY)) {
-        choice_dialog_add(shl, _("Steal _Technology"),
-                          (GCallback)spy_steal_popup, NULL, FALSE);
-      } else {
-        choice_dialog_add(shl, _("Steal _Technology"),
-                          (GCallback)diplomat_steal_callback, NULL, FALSE);
-      }
-    }
+    action_entry(shl,
+                 action_enabled_unit_on_city_local(
+                   ACTION_SPY_STEAL_TECH, punit, pcity),
+                 _("Steal _Technology"),
+                 (GCallback)diplomat_steal_callback);
+
+    action_entry(shl,
+                 action_enabled_unit_on_city_local(
+                   ACTION_SPY_TARGETED_STEAL_TECH, punit, pcity),
+                 _("Industrial espionage"),
+                 (GCallback)spy_steal_popup);
 
     action_entry(shl,
                  action_enabled_unit_on_city_local(ACTION_SPY_INCITE_CITY,

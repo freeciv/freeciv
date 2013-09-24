@@ -410,10 +410,21 @@ void handle_unit_diplomat_action(struct player *pplayer,
       }
       break;
     case DIPLOMAT_STEAL:
-      if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_STEAL,
-					 pcity->tile)) {
+      if (pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_STEAL,
+                                          pcity->tile)) {
 	/* packet value is technology ID (or some special codes) */
-	diplomat_get_tech(pplayer, pdiplomat, pcity, value);
+	diplomat_get_tech(pplayer, pdiplomat, pcity, A_UNSET);
+      } else {
+        illegal_action(pplayer, pdiplomat, ACTION_SPY_STEAL_TECH);
+      }
+      break;
+    case DIPLOMAT_STEAL_TARGET:
+      if (pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_STEAL_TARGET,
+                                          pcity->tile)) {
+        /* packet value is technology ID (or some special codes) */
+        diplomat_get_tech(pplayer, pdiplomat, pcity, value);
+      } else {
+        illegal_action(pplayer, pdiplomat, ACTION_SPY_TARGETED_STEAL_TECH);
       }
       break;
     case DIPLOMAT_ANY_ACTION:

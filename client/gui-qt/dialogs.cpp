@@ -925,19 +925,17 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
                  QString(_("Industrial Sabotage")),
                  spy_request_sabotage_list, qv1, qv2);
 
-    if (diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile)) {
-      if (unit_has_type_flag(punit, UTYF_SPY)) {
-        func = spy_steal;
-        cd->add_item(QString(_("Steal Technology")),
-                     func, qv1, qv2, FALSE);
-      } else {
-        if (diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile)) {
-          func = diplomat_steal;
-          cd->add_item(QString(_("Steal Technology")),
-                       func, qv1, qv2, FALSE);
-        }
-      }
-    }
+    action_entry(cd,
+                 action_enabled_unit_on_city_local(ACTION_SPY_STEAL_TECH,
+                                                   punit, pcity),
+                 QString(_("Steal Technology")),
+                 diplomat_steal, qv1, qv2);
+
+    action_entry(cd,
+                 action_enabled_unit_on_city_local(
+                   ACTION_SPY_TARGETED_STEAL_TECH, punit, pcity),
+                 QString(_("Industrial espionage")),
+                 spy_steal, qv1, qv2);
 
     action_entry(cd,
                  action_enabled_unit_on_city_local(ACTION_SPY_INCITE_CITY,
@@ -1099,7 +1097,7 @@ static void spy_steal_something(QVariant data1, QVariant data2)
   gui()->get_current_unit(&diplomat_id, &diplomat_target_id, ATK_CITY);
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
-    request_diplomat_action(DIPLOMAT_STEAL, diplomat_id,
+    request_diplomat_action(DIPLOMAT_STEAL_TARGET, diplomat_id,
                             diplomat_target_id, data2.toInt());
   }
 }
