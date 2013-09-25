@@ -2196,18 +2196,7 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
     return;
   }
 
-  if (get_transporter_capacity(punit) > 0) {
-    unit_class_iterate(pclass) {
-      /* FIXME: UMT_BOTH units need ferry only if they use fuel */
-      if (can_unit_type_transport(unit_type(punit), pclass)
-          && (pclass->move_type == UMT_LAND
-              || (pclass->move_type == UMT_BOTH
-                  && !uclass_has_flag(pclass, UCF_MISSILE)))) {
-        is_ferry = TRUE;
-        break;
-      }
-    } unit_class_iterate_end;
-  }
+  is_ferry = dai_is_ferry(punit);
 
   if ((unit_has_type_flag(punit, F_DIPLOMAT))
       || (unit_has_type_flag(punit, F_SPY))) {
