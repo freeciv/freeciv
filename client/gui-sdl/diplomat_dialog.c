@@ -668,7 +668,8 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
     }
   
     /* ---------- */
-    if (diplomat_can_do_action(pUnit, DIPLOMAT_INVESTIGATE, ptile)) {
+    if (MKE_FALSE != action_enabled_unit_on_city_local(
+          ACTION_SPY_INVESTIGATE_CITY, pUnit, pCity)) {
     
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
 			      _("Investigate City"),

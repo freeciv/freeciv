@@ -188,6 +188,9 @@ actor_reqs    =
 [actionenabler_establish_embassy]
 action       = "Establish Embassy"
 
+[actionenabler_investigate_city]
+action       = "Investigate City"
+
 [actionenabler_poison_city]
 action = "Poison City"
 actor_reqs    =

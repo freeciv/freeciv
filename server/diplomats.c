@@ -145,9 +145,6 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
 /******************************************************************************
   Investigate a city.
 
-  - Either a Diplomat or Spy can investigate a city.
-  - Allowed against all players.
-
   - It costs some minimal movement to investigate a city.
 
   - Diplomats die after investigation.

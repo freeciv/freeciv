@@ -229,6 +229,9 @@ target_reqs  =
       "Nation", "Pirate", "Player", FALSE
     }
 
+[actionenabler_investigate_city]
+action       = "Investigate City"
+
 [actionenabler_steal_tech_random]
 action = "Steal Tech"
 actor_reqs    =

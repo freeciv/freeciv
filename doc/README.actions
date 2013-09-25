@@ -31,6 +31,9 @@ Actions and their hard coded requirements
  * actor must have the diplomat flag.
  * actor can't have a real emabassy to the target player
 
+"Investigate City" - Look at the city dialog of a foreign city
+ * actor must have the diplomat flag.
+
 "Sabotage City" - Destroy a building or the production in the target city.
  * actor must have the diplomat flag.
 

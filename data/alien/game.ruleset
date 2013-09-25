@@ -203,6 +203,9 @@ target_reqs  =
       "Nation", "Madmen", "Player", FALSE
     }
 
+[actionenabler_investigate_city]
+action       = "Investigate City"
+
 [actionenabler_steal_tech_random]
 action = "Steal Tech"
 target_reqs  =

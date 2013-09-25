@@ -123,7 +123,9 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
         return TRUE;
       }
 
-      if (action==DIPLOMAT_INVESTIGATE || action == DIPLOMAT_ANY_ACTION) {
+      if ((action == DIPLOMAT_INVESTIGATE || action == DIPLOMAT_ANY_ACTION)
+          && is_action_enabled_unit_on_city(ACTION_SPY_INVESTIGATE_CITY,
+                                            pdiplomat, pcity)) {
         return TRUE;
       }
 

@@ -364,6 +364,8 @@ void handle_unit_diplomat_action(struct player *pplayer,
       if(pcity && diplomat_can_do_action(pdiplomat,DIPLOMAT_INVESTIGATE,
 					 pcity->tile)) {
 	diplomat_investigate(pplayer, pdiplomat, pcity);
+      } else {
+        illegal_action(pplayer, pdiplomat, ACTION_SPY_INVESTIGATE_CITY);
       }
       break;
     case DIPLOMAT_EMBASSY:
