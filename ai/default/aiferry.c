@@ -103,18 +103,11 @@ void aiferry_init_stats(struct ai_type *ait, struct player *pplayer)
   unit_list_iterate(pplayer->units, punit) {
     struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
 
-    if (is_sailing_unit(punit)) {
-      unit_class_iterate(punitclass) {
-        if (dai_uclass_move_type(punitclass) == UMT_LAND
-            && can_unit_type_transport(unit_type(punit), punitclass)) {
-          /* Can transport some land units. */
-          ai->stats.boats++;
-          if (unit_data->passenger == FERRY_AVAILABLE) {
-            ai->stats.available_boats++;
-          }
-          break;
-        }
-      } unit_class_iterate_end;
+    if (dai_is_ferry(punit)) {
+      ai->stats.boats++;
+      if (unit_data->passenger == FERRY_AVAILABLE) {
+        ai->stats.available_boats++;
+      }
     }
     if (unit_data->ferryboat == FERRY_WANTED) {
       UNIT_LOG(LOG_DEBUG, punit, "wants a boat.");
@@ -137,44 +130,49 @@ static void aiferry_print_stats(struct ai_type *ait, struct player *pplayer)
   log_base(LOGLEVEL_FERRY_STATS, "Registered: %d free out of total %d",
            ai->stats.available_boats, ai->stats.boats);
   unit_list_iterate(pplayer->units, punit) {
-    if (is_sailing_unit(punit)) {
-        unit_class_iterate(punitclass) {
-          if (punitclass->move_type == UMT_LAND
-              && can_unit_type_transport(unit_type(punit), punitclass)) {
-            /* Can transport some land units. */
-            log_base(LOGLEVEL_FERRY_STATS, "#%d. %s[%d], psngr=%d", n,
-                     unit_rule_name(punit), punit->id,
-                     def_ai_unit_data(punit, ait)->passenger);
-            n++;
-            break;
-          }
-        } unit_class_iterate_end;
+    if (dai_is_ferry(punit)) {
+      log_base(LOGLEVEL_FERRY_STATS, "#%d. %s[%d], psngr=%d", n,
+               unit_rule_name(punit), punit->id,
+               def_ai_unit_data(punit, ait)->passenger);
+      n++;
     }
   } unit_list_iterate_end;
 }
 #endif /* LOGLEVEL_FERRY_STATS */
 
 /**************************************************************************
+  Should unit be considered a ferry?
+**************************************************************************/
+bool dai_is_ferry(struct unit *pferry)
+{
+  if (get_transporter_capacity(pferry) > 0
+      && dai_uclass_move_type(unit_class(pferry)) != UMT_LAND) {
+    unit_class_iterate(pclass) {
+      enum unit_move_type mt = dai_uclass_move_type(pclass);
+
+      if (mt == UMT_LAND
+          && can_unit_type_transport(unit_type(pferry), pclass)) {
+        /* Can transport some land moving unit. */
+        return TRUE;
+      }
+    } unit_class_iterate_end;
+  }
+
+  return FALSE;
+}
+
+/**************************************************************************
   Initialize new ferry when player gets it
 **************************************************************************/
 void dai_ferry_init_ferry(struct ai_type *ait, struct unit *ferry)
 {
-  if (is_sailing_unit(ferry)) {
+  if (dai_is_ferry(ferry)) {
     struct unit_ai *unit_data = def_ai_unit_data(ferry, ait);
+    struct ai_plr *ai = dai_plr_data_get(ait, unit_owner(ferry));
 
-    unit_class_iterate(punitclass) {
-      if (dai_uclass_move_type(punitclass) == UMT_LAND
-          && can_unit_type_transport(unit_type(ferry), punitclass)) {
-        /* Can transport some land units, so is consider ferry */
-        struct ai_plr *ai = dai_plr_data_get(ait, unit_owner(ferry));
-
-        unit_data->passenger = FERRY_AVAILABLE;
-        ai->stats.boats++;
-        ai->stats.available_boats++;
-
-        break;
-      }
-    } unit_class_iterate_end;
+    unit_data->passenger = FERRY_AVAILABLE;
+    ai->stats.boats++;
+    ai->stats.available_boats++;
   }
 }
 
@@ -185,23 +183,14 @@ void dai_ferry_close_ferry(struct ai_type *ait, struct unit *ferry)
 {
   /* Ignore virtual units. */
   if (ferry->id != 0 && is_ai_data_phase_open(ait, unit_owner(ferry))) {
-    if (is_sailing_unit(ferry)) {
+    if (dai_is_ferry(ferry)) {
       struct unit_ai *unit_data = def_ai_unit_data(ferry, ait);
+      struct ai_plr *ai = dai_plr_data_get(ait, unit_owner(ferry));
 
-      unit_class_iterate(punitclass) {
-        if (dai_uclass_move_type(punitclass) == UMT_LAND
-            && can_unit_type_transport(unit_type(ferry), punitclass)) {
-          /* Can transport some land units, so is consider ferry */
-          struct ai_plr *ai = dai_plr_data_get(ait, unit_owner(ferry));
-
-          ai->stats.boats--;
-          if (unit_data->passenger == FERRY_AVAILABLE) {
-            ai->stats.available_boats--;
-          }
-
-          break;
-        }
-      } unit_class_iterate_end;
+      ai->stats.boats--;
+      if (unit_data->passenger == FERRY_AVAILABLE) {
+        ai->stats.available_boats--;
+      }
     }
   }
 }
@@ -320,16 +309,9 @@ int aiferry_avail_boats(struct ai_type *ait, struct player *pplayer)
   int boats = 0;
 
   unit_list_iterate(pplayer->units, punit) {
-    if (is_sailing_unit(punit)
+    if (dai_is_ferry(punit)
         && def_ai_unit_data(punit, ait)->passenger == FERRY_AVAILABLE) {
-      unit_class_iterate(punitclass) {
-        if (punitclass->move_type == UMT_LAND
-            && can_unit_type_transport(unit_type(punit), punitclass)) {
-          /* Can transport some land units. */
-          boats++;
-          break;
-        }
-      } unit_class_iterate_end;
+      boats++;
     }
   } unit_list_iterate_end;
 
