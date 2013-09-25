@@ -1314,13 +1314,13 @@ AC_CONFIG_COMMANDS([fc_default-4],[[if test -f translations/freeciv/Makefile ; t
    fi]],[[]])
 
 dnl The BeOS sys/uio.h is broken.  This kludges it out of existence.
-dnl (This still causes lots of spurious changes to config.h on BeOS.)
+dnl (This still causes lots of spurious changes to fc_config.h on BeOS.)
 AC_CONFIG_COMMANDS([fc_default-5],[[if test x`uname -s` = xBeOS ; then
-     if grep '#define HAVE_SYS_UIO_H 1' config.h >/dev/null 2>&1 ; then
-       echo kluging config.h 
-       mv -f config.h config.h.tmp
-       sed -e 's/#define HAVE_SYS_UIO_H 1/#undef HAVE_SYS_UIO_H/g' config.h.tmp > config.h
-       rm config.h.tmp
+     if grep '#define HAVE_SYS_UIO_H 1' fc_config.h >/dev/null 2>&1 ; then
+       echo kluging fc_config.h
+       mv -f fc_config.h fc_config.h.tmp
+       sed -e 's/#define HAVE_SYS_UIO_H 1/#undef HAVE_SYS_UIO_H/g' fc_config.h.tmp > fc_config.h
+       rm fc_config.h.tmp
      fi
    fi]],[[]])
 
