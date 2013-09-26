@@ -209,11 +209,13 @@ static void gui_download_modpack(const char *URL)
 
   strcpy(URLbuf, URL);
 
-  downloader = g_thread_create(download_thread, URLbuf, FALSE, NULL);
+  downloader = g_thread_new("Downloader", download_thread, URLbuf);
   if (downloader == NULL) {
     gtk_label_set_text(GTK_LABEL(statusbar),
                        _("Failed to start downloader"));
     free(URLbuf);
+  } else {
+    g_thread_unref(downloader);
   }
 }
 
