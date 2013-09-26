@@ -342,11 +342,16 @@ struct named_sprites {
   } tx;				/* terrain extra */
   struct {
     struct sprite
-      *background,
-      *middleground,
-      *foreground,
       *activity;
-  } bases[MAX_BASE_TYPES];
+    union {
+      struct {
+        struct sprite
+          *background,
+          *middleground,
+          *foreground;
+      } bmf;
+    } u;
+  } extras[MAX_EXTRA_TYPES];
   struct {
     struct sprite
       *main[EDGE_COUNT],
@@ -3111,25 +3116,26 @@ void tileset_setup_base(struct tileset *t,
                         const struct base_type *pbase)
 {
   char full_tag_name[MAX_LEN_NAME + strlen("_fg")];
-  const int id = base_index(pbase);
+  struct extra_type *pextra = base_extra_get(pbase);
+  const int id = extra_index(pextra);
 
-  fc_assert_ret(id >= 0 && id < base_count());
+  fc_assert_ret(id >= 0 && id < extra_count());
 
   sz_strlcpy(full_tag_name, pbase->graphic_str);
   strcat(full_tag_name, "_bg");
-  t->sprites.bases[id].background = load_sprite(t, full_tag_name);
+  t->sprites.extras[id].u.bmf.background = load_sprite(t, full_tag_name);
 
   sz_strlcpy(full_tag_name, pbase->graphic_str);
   strcat(full_tag_name, "_mg");
-  t->sprites.bases[id].middleground = load_sprite(t, full_tag_name);
+  t->sprites.extras[id].u.bmf.middleground = load_sprite(t, full_tag_name);
 
   sz_strlcpy(full_tag_name, pbase->graphic_str);
   strcat(full_tag_name, "_fg");
-  t->sprites.bases[id].foreground = load_sprite(t, full_tag_name);
+  t->sprites.extras[id].u.bmf.foreground = load_sprite(t, full_tag_name);
 
-  if (t->sprites.bases[id].background == NULL
-      && t->sprites.bases[id].middleground == NULL
-      && t->sprites.bases[id].foreground == NULL) {
+  if (t->sprites.extras[id].u.bmf.background == NULL
+      && t->sprites.extras[id].u.bmf.middleground == NULL
+      && t->sprites.extras[id].u.bmf.foreground == NULL) {
     /* No primary graphics at all. Try alternative */
     log_verbose("Using alternate graphic \"%s\" "
                 "(instead of \"%s\") for base \"%s\".",
@@ -3138,19 +3144,19 @@ void tileset_setup_base(struct tileset *t,
 
     sz_strlcpy(full_tag_name, pbase->graphic_alt);
     strcat(full_tag_name, "_bg");
-    t->sprites.bases[id].background = load_sprite(t, full_tag_name);
+    t->sprites.extras[id].u.bmf.background = load_sprite(t, full_tag_name);
 
     sz_strlcpy(full_tag_name, pbase->graphic_alt);
     strcat(full_tag_name, "_mg");
-    t->sprites.bases[id].middleground = load_sprite(t, full_tag_name);
+    t->sprites.extras[id].u.bmf.middleground = load_sprite(t, full_tag_name);
 
     sz_strlcpy(full_tag_name, pbase->graphic_alt);
     strcat(full_tag_name, "_fg");
-    t->sprites.bases[id].foreground = load_sprite(t, full_tag_name);
+    t->sprites.extras[id].u.bmf.foreground = load_sprite(t, full_tag_name);
 
-    if (t->sprites.bases[id].background == NULL
-        && t->sprites.bases[id].middleground == NULL
-        && t->sprites.bases[id].foreground == NULL) {
+    if (t->sprites.extras[id].u.bmf.background == NULL
+        && t->sprites.extras[id].u.bmf.middleground == NULL
+        && t->sprites.extras[id].u.bmf.foreground == NULL) {
       /* Cannot find alternative graphics either */
       log_fatal("No graphics for base \"%s\" at all!",
                 base_rule_name(pbase));
@@ -3158,10 +3164,10 @@ void tileset_setup_base(struct tileset *t,
     }
   }
 
-  t->sprites.bases[id].activity = load_sprite(t, pbase->activity_gfx);
-  if (t->sprites.bases[id].activity == NULL) {
-    t->sprites.bases[id].activity = load_sprite(t, pbase->act_gfx_alt);
-    if (t->sprites.bases[id].activity == NULL) {
+  t->sprites.extras[id].activity = load_sprite(t, pbase->activity_gfx);
+  if (t->sprites.extras[id].activity == NULL) {
+    t->sprites.extras[id].activity = load_sprite(t, pbase->act_gfx_alt);
+    if (t->sprites.extras[id].activity == NULL) {
       log_fatal("Missing %s building activity tag \"%s\" and alternative \"%s\".",
                 base_rule_name(pbase), pbase->activity_gfx, pbase->act_gfx_alt);
       exit(EXIT_FAILURE);
@@ -3648,7 +3654,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
       s = t->sprites.unit.transform;
       break;
     case ACTIVITY_BASE:
-      s = t->sprites.bases[base_index(extra_base_get(punit->activity_target))].activity;
+      s = t->sprites.extras[extra_index(punit->activity_target)].activity;
       break;
     case ACTIVITY_GEN_ROAD:
       s = t->sprites.roads[road_index(extra_road_get(punit->activity_target))].activity;
@@ -4875,10 +4881,8 @@ int fill_sprite_array(struct tileset *t,
 
       if (ptile && draw_fortress_airbase) {
         extra_type_by_cause_iterate(EC_BASE, pextra) {
-          struct base_type *pbase = extra_base_get(pextra);
-
           if (tile_has_extra(ptile, pextra)
-              && t->sprites.bases[base_index(pbase)].background) {
+              && t->sprites.extras[extra_index(pextra)].u.bmf.background) {
             bool hidden = FALSE;
 
             extra_type_list_iterate(pextra->hiders, phider) {
@@ -4889,7 +4893,7 @@ int fill_sprite_array(struct tileset *t,
             } extra_type_list_iterate_end;
 
             if (!hidden) {
-              ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].background);
+              ADD_SPRITE_FULL(t->sprites.extras[extra_index(pextra)].u.bmf.background);
             }
           }
         } extra_type_by_cause_iterate_end;
@@ -4979,10 +4983,8 @@ int fill_sprite_array(struct tileset *t,
     if (NULL != pterrain) {
       if (ptile && draw_fortress_airbase) {
         extra_type_by_cause_iterate(EC_BASE, pextra) {
-          struct base_type *pbase = extra_base_get(pextra);
-
           if (tile_has_extra(ptile, pextra)
-              && t->sprites.bases[base_index(pbase)].middleground) {
+              && t->sprites.extras[extra_index(pextra)].u.bmf.middleground) {
             bool hidden = FALSE;
 
             extra_type_list_iterate(pextra->hiders, phider) {
@@ -4993,7 +4995,7 @@ int fill_sprite_array(struct tileset *t,
             } extra_type_list_iterate_end;
 
             if (!hidden) {
-              ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].middleground);
+              ADD_SPRITE_FULL(t->sprites.extras[extra_index(pextra)].u.bmf.middleground);
             }
           }
         } extra_type_by_cause_iterate_end;
@@ -5070,7 +5072,7 @@ int fill_sprite_array(struct tileset *t,
           show_flag = base_has_flag(pbase, BF_SHOW_FLAG);
 
           if (tile_has_extra(ptile, pextra)
-              && (t->sprites.bases[base_index(pbase)].foreground
+              && (t->sprites.extras[extra_index(pextra)].u.bmf.foreground
                   || show_flag)) {
             bool hidden = FALSE;
 
@@ -5082,8 +5084,8 @@ int fill_sprite_array(struct tileset *t,
             } extra_type_list_iterate_end;
 
             if (!hidden) {
-              if (t->sprites.bases[base_index(pbase)].foreground) {
-                ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].foreground);
+              if (t->sprites.extras[extra_index(pextra)].u.bmf.foreground) {
+                ADD_SPRITE_FULL(t->sprites.extras[extra_index(pextra)].u.bmf.foreground);
               }
             } else {
               show_flag = FALSE;
@@ -5936,9 +5938,9 @@ int fill_basic_base_sprite_array(const struct tileset *t,
     return 0;
   }
 
-  index = base_index(pbase);
+  index = extra_index(base_extra_get(pbase));
 
-  if (!(0 <= index && index < game.control.num_base_types)) {
+  if (!(0 <= index && index < game.control.num_extra_types)) {
     return 0;
   }
 
@@ -5949,9 +5951,9 @@ int fill_basic_base_sprite_array(const struct tileset *t,
 } while (0)
 
   /* Corresponds to LAYER_SPECIAL{1,2,3} order. */
-  ADD_SPRITE_IF_NOT_NULL(t->sprites.bases[index].background);
-  ADD_SPRITE_IF_NOT_NULL(t->sprites.bases[index].middleground);
-  ADD_SPRITE_IF_NOT_NULL(t->sprites.bases[index].foreground);
+  ADD_SPRITE_IF_NOT_NULL(t->sprites.extras[index].u.bmf.background);
+  ADD_SPRITE_IF_NOT_NULL(t->sprites.extras[index].u.bmf.middleground);
+  ADD_SPRITE_IF_NOT_NULL(t->sprites.extras[index].u.bmf.foreground);
 
 #undef ADD_SPRITE_IF_NOT_NULL
 
