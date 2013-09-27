@@ -38,6 +38,11 @@ bool diplomacy_possible(const struct player *pplayer1,
     return (!pplayer1->ai_controlled && !pplayer2->ai_controlled);
   case DIPLO_FOR_AIS:
     return (pplayer1->ai_controlled && pplayer2->ai_controlled);
+  case DIPLO_NO_AIS:
+    return (!pplayer1->ai_controlled || !pplayer2->ai_controlled);
+  case DIPLO_NO_MIXED:
+    return ((pplayer1->ai_controlled && pplayer2->ai_controlled)
+            || (!pplayer1->ai_controlled && !pplayer2->ai_controlled));
   case DIPLO_FOR_TEAMS:
     return players_on_same_team(pplayer1, pplayer2);
   case DIPLO_DISABLED:
