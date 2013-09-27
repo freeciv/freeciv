@@ -403,6 +403,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   struct tile *victim_tile;
   int bribe_cost;
   int diplomat_id = pdiplomat->id;
+  struct city *pcity;
 
   /* Fetch target unit's player.  Sanity checks. */
   if (!pvictim) {
@@ -461,6 +462,12 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
                 _("Your %s was bribed by the %s."),
                 victim_link, nation_plural_for_player(pplayer));
 
+  /* The unit may have been in a city */
+  pcity = tile_city(unit_tile(pvictim));
+  if (NULL != pcity && !pplayers_allied(city_owner(pcity), pplayer)) {
+    bounce_unit(pvictim, TRUE);
+  }
+
   /* This costs! */
   pplayer->economic.gold -= bribe_cost;
 
@@ -472,8 +479,9 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
     return;
   }
 
-  /* Now, try to move the briber onto the victim's square. */
-  if (!unit_move_handling(pdiplomat, victim_tile, FALSE, FALSE)) {
+  /* Try to move the briber onto the victim's square unless its a city. */
+  if (NULL == pcity
+      && !unit_move_handling(pdiplomat, victim_tile, FALSE, FALSE)) {
     pdiplomat->moves_left = 0;
   }
   if (NULL != player_unit_by_number(pplayer, diplomat_id)) {

@@ -104,12 +104,6 @@ void action_enabler_append_hard(struct action_enabler *enabler)
                             req_from_str("UnitFlag", "Local", FALSE,
                                          TRUE, "Diplomat"));
 
-  if (enabler->action == ACTION_SPY_BRIBE_UNIT) {
-    requirement_vector_append(&enabler->target_reqs,
-                              req_from_str("CityTile", "Local", FALSE,
-                                           FALSE, "Center"));
-  }
-
   if (enabler->action == ACTION_ESTABLISH_EMBASSY) {
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("DiplRel", "Local", FALSE,
