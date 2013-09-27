@@ -144,6 +144,7 @@ int tile_roads_output_bonus(const struct tile *ptile, enum output_type_id o);
 bool tile_has_river(const struct tile *tile);
 
 bool tile_extra_apply(struct tile *ptile, struct extra_type *tgt);
+bool tile_extra_rm_apply(struct tile *ptile, struct extra_type *tgt);
 bool tile_has_extra(const struct tile *ptile, const struct extra_type *pextra);
 bool tile_has_visible_extra(const struct tile *ptile, const struct extra_type *pextra);
 bool tile_has_cause_extra(const struct tile *ptile, enum extra_cause cause);
@@ -164,7 +165,6 @@ int tile_activity_time(enum unit_activity activity,
 
 /* These are higher-level functions that handle side effects on the tile. */
 void tile_change_terrain(struct tile *ptile, struct terrain *pterrain);
-void tile_remove_special(struct tile *ptile, enum tile_special_type special);
 bool tile_apply_activity(struct tile *ptile, Activity_type_id act,
                          struct extra_type *tgt);
 

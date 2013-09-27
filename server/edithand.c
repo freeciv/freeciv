@@ -277,7 +277,9 @@ static bool edit_tile_extra_handling(struct tile *ptile,
       return FALSE;
     }
 
-    tile_remove_extra(ptile, pextra);
+    if (!tile_extra_rm_apply(ptile, pextra)) {
+      return FALSE;
+    }
   } else {
     if (!tile_extra_apply(ptile, pextra)) {
       return FALSE;
@@ -308,7 +310,7 @@ static bool edit_tile_special_handling(struct tile *ptile,
       return FALSE;
     }
 
-    tile_remove_special(ptile, special);
+    tile_extra_rm_apply(ptile, special_extra_get(special));
 
     terrain_changed(ptile);
 
@@ -341,7 +343,7 @@ static bool edit_tile_road_handling(struct tile *ptile,
       return FALSE;
     }
 
-    tile_remove_road(ptile, proad);
+    tile_extra_rm_apply(ptile, road_extra_get(proad));
   } else {
     if (!tile_extra_apply(ptile, road_extra_get(proad))) {
       return FALSE;
@@ -368,7 +370,7 @@ static bool edit_tile_base_handling(struct tile *ptile,
       return FALSE;
     }
 
-    tile_remove_base(ptile, pbase);
+    tile_extra_rm_apply(ptile, base_extra_get(pbase));
   } else {
     if (!tile_extra_apply(ptile, base_extra_get(pbase))) {
       return FALSE;

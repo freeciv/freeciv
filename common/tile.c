@@ -533,32 +533,6 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
 }
 
 /****************************************************************************
-  Remove the special from the tile.  This does secondary tile updates to
-  the tile.
-****************************************************************************/
-void tile_remove_special(struct tile *ptile, enum tile_special_type special)
-{
-  fc_assert_ret(special != S_OLD_FORTRESS && special != S_OLD_AIRBASE);
-  fc_assert_ret(special != S_OLD_ROAD && special != S_OLD_RAILROAD && special != S_OLD_RIVER);
-
-  tile_clear_special(ptile, special);
-
-  switch (special) {
-  case S_IRRIGATION:
-    tile_clear_special(ptile, S_FARMLAND);
-    break;
-
-  case S_MINE:
-  case S_POLLUTION:
-  case S_HUT:
-  case S_FARMLAND:
-  case S_FALLOUT:
-  default:
-    break;
-  }
-}
-
-/****************************************************************************
   Recursively add all extra dependencies to add given extra.
 ****************************************************************************/
 static bool add_recursive_extras(struct tile *ptile, struct extra_type *pextra,
@@ -587,6 +561,35 @@ static bool add_recursive_extras(struct tile *ptile, struct extra_type *pextra,
 }
 
 /****************************************************************************
+  Recursively remove all extras depending on  given extra.
+****************************************************************************/
+static bool rm_recursive_extras(struct tile *ptile, struct extra_type *pextra,
+                                 int rec)
+{
+  if (rec > MAX_EXTRA_TYPES) {
+    /* Infinite recursion */
+    return FALSE;
+  }
+
+  extra_type_iterate(pdepending) {
+    if (tile_has_extra(ptile, pdepending)) {
+      extra_deps_iterate(&(pdepending->reqs), pdep) {
+        if (pdep == pextra) {
+          /* Depends on what we are going to remove */
+          if (!rm_recursive_extras(ptile, pdepending, rec + 1)) {
+            return FALSE;
+          }
+        }
+      } extra_deps_iterate_end;
+    }
+  } extra_type_iterate_end;
+
+  tile_remove_extra(ptile, pextra);
+
+  return TRUE;
+}
+
+/****************************************************************************
   Add extra and adjust other extras accordingly.
 
   If not all necessary adjustments can be done, returns FALSE.
@@ -608,6 +611,24 @@ bool tile_extra_apply(struct tile *ptile, struct extra_type *tgt)
       tile_remove_extra(ptile, pextra);
     }
   } extra_type_iterate_end;
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Remove extra and adjust other extras accordingly.
+
+  If not all necessary adjustments can be done, returns FALSE.
+  When problem occurs, changes to tile extras are not reverted.
+  Pass virtual tile to the function if you are not sure it will success
+  and don't want extras adjusted at all in case of failure.
+****************************************************************************/
+bool tile_extra_rm_apply(struct tile *ptile, struct extra_type *tgt)
+{
+  /* Remove extra with everything depending on it. */
+  if (!rm_recursive_extras(ptile, tgt, 0)) {
+    return FALSE;
+  }
 
   return TRUE;
 }
