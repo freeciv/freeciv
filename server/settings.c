@@ -320,6 +320,8 @@ static const struct sset_val_name *diplomacy_name(int diplomacy)
   NAME_CASE(DIPLO_FOR_HUMANS, "HUMAN",
             N_("Only allowed between human players"));
   NAME_CASE(DIPLO_FOR_AIS, "AI", N_("Only allowed between AI players"));
+  NAME_CASE(DIPLO_NO_AIS, "NOAI", N_("Only allowed when human involved"));
+  NAME_CASE(DIPLO_NO_MIXED, "NOMIXED", N_("Only allowed between two humans, or two AI players"));
   NAME_CASE(DIPLO_FOR_TEAMS, "TEAM", N_("Restricted to teams"));
   NAME_CASE(DIPLO_DISABLED, "DISABLED", N_("Disabled for everyone"));
   }
