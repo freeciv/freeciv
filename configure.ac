@@ -463,6 +463,7 @@ LIBS="$LIBS $LIBICONV"
 dnl I18n support
 ALL_LINGUAS="ar bg cs ca da de el en_GB eo es et fa fi fr ga gd he hu id it ja 
 ko lt nl nb pl pt pt_BR ro ru sr sv tr uk zh_CN zh_TW"
+PO_DOMAINS="freeciv"
 
 AC_ARG_ENABLE([nls],
   AS_HELP_STRING([--disable-nls], [do not add localization support]),
@@ -1263,55 +1264,61 @@ dnl Since the Gettext supplied Autoconf support
 dnl doesn't seem to have a way to add new keywords to its xgettext call,
 dnl we do the following.
 dnl The Gettext supplied Autoconf support starts with
-dnl 'translations/freeciv/Makefile.in.in', and builds
-dnl 'translations/freeciv/Makefile.in' then 'translations/freeciv/Makefile'.
+dnl 'translations/<domain>/Makefile.in.in', and builds
+dnl 'translations/<domain>/Makefile.in' then 'translations/<domain>/Makefile'.
 dnl In order for the commonly used _() and N_() macros to work, there
-dnl should be somewhere in that 'translations/freeciv/Makefile' a call
+dnl should be somewhere in that 'translations/<domain>/Makefile' a call
 dnl to xgettext with "--keyword=_" and "--keyword=N_" as arguments.
 dnl To support Q_() and PL_(), the following simply replaces instances of 
 dnl "--keyword=N_" with "--keyword=N_ --keyword=Q_ --keyword=PL_:1,2"
-dnl in the 'translations/freeciv/Makefile' file.
-AC_CONFIG_COMMANDS([fc_default-1],[[if test -f translations/freeciv/Makefile ; then
-     if grep 'keyword=N_ --keyword=Q_ --keyword=PL_:1,2' translations/freeciv/Makefile >/dev/null 2>&1 ; then
+dnl in the 'translations/<domain>/Makefile' file.
+AC_CONFIG_COMMANDS([fc_default-1],[[for domain in $PO_DOMAINS ; do
+   if test -f translations/${domain}/Makefile ; then
+     if grep 'keyword=N_ --keyword=Q_ --keyword=PL_:1,2' translations/${domain}/Makefile >/dev/null 2>&1 ; then
        # has already been extended
        :
      else
-       echo extending translations/freeciv/Makefile
-       mv -f translations/freeciv/Makefile translations/freeciv/Makefile.tmp
-       sed -e 's/--keyword=N_/--keyword=N_ --keyword=Q_ --keyword=PL_:1,2/g' translations/freeciv/Makefile.tmp > translations/freeciv/Makefile
-       rm translations/freeciv/Makefile.tmp
+       echo extending translations/${domain}/Makefile
+       mv -f translations/${domain}/Makefile translations/${domain}/Makefile.tmp
+       sed -e 's/--keyword=N_/--keyword=N_ --keyword=Q_ --keyword=PL_:1,2/g' translations/${domain}/Makefile.tmp > translations/${domain}/Makefile
+       rm translations/${domain}/Makefile.tmp
      fi
-   fi]],[[]])
+   fi
+ done]],[PO_DOMAINS="$PO_DOMAINS"])
 
 dnl Vast quantities of meaningless errors from xgettext is also annoying.
 dnl We fix this by forcing xgettext to assume all files are C source files.
-AC_CONFIG_COMMANDS([fc_default-2],[[if test -f translations/freeciv/Makefile ; then
-     if grep 'language=C --files-from=\$(srcdir)/POTFILES.in' translations/freeciv/Makefile >/dev/null 2>&1 ; then
+AC_CONFIG_COMMANDS([fc_default-2],[[for domain in $PO_DOMAINS ; do
+   if test -f translations/freeciv/Makefile ; then
+     if grep 'language=C --files-from=\$(srcdir)/POTFILES.in' translations/${domain}/Makefile >/dev/null 2>&1 ; then
        # has already been silenced
        :
      else
-       echo silencing translations/freeciv/Makefile
-       mv -f translations/freeciv/Makefile translations/freeciv/Makefile.tmp
-       sed -e 's/--files-from=$(srcdir)\/POTFILES.in/--language=C --files-from=$(srcdir)\/POTFILES.in/' translations/freeciv/Makefile.tmp > translations/freeciv/Makefile
-       rm translations/freeciv/Makefile.tmp
+       echo silencing translations/${domain}/Makefile
+       mv -f translations/${domain}/Makefile translations/${domain}/Makefile.tmp
+       sed -e 's/--files-from=$(srcdir)\/POTFILES.in/--language=C --files-from=$(srcdir)\/POTFILES.in/' translations/${domain}/Makefile.tmp > translations/${domain}/Makefile
+       rm translations/${domain}/Makefile.tmp
      fi
-   fi]],[[]])
+   fi
+ done]],[PO_DOMAINS="$PO_DOMAINS"])
 
 dnl Most of the C comments copied to freeciv.pot are spurious; 
 dnl change to only copy those with prefix "TRANS:"
 dnl Also add --escape to the arguments to convert extended
 dnl characters to escape characters.
-AC_CONFIG_COMMANDS([fc_default-4],[[if test -f translations/freeciv/Makefile ; then
-     if grep 'add-comments="TRANS:" --escape' translations/freeciv/Makefile >/dev/null 2>&1 ; then
+AC_CONFIG_COMMANDS([fc_default-4],[[for domain in $PO_DOMAINS ; do
+   if test -f translations/${domain}/Makefile ; then
+     if grep 'add-comments="TRANS:" --escape' translations/${domain}/Makefile >/dev/null 2>&1 ; then
        # has already been modified
        :
      else
-       echo modifying translations/freeciv/Makefile add-comments/escape
-       mv -f translations/freeciv/Makefile translations/freeciv/Makefile.tmp
-       sed -e 's/add-comments/add-comments="TRANS:" --escape/' translations/freeciv/Makefile.tmp > translations/freeciv/Makefile
-       rm translations/freeciv/Makefile.tmp
+       echo modifying translations/${domain}/Makefile add-comments/escape
+       mv -f translations/${domain}/Makefile translations/${domain}/Makefile.tmp
+       sed -e 's/add-comments/add-comments="TRANS:" --escape/' translations/${domain}/Makefile.tmp > translations/${domain}/Makefile
+       rm translations/${domain}/Makefile.tmp
      fi
-   fi]],[[]])
+   fi
+ done]],[PO_DOMAINS="$PO_DOMAINS"])
 
 dnl The BeOS sys/uio.h is broken.  This kludges it out of existence.
 dnl (This still causes lots of spurious changes to fc_config.h on BeOS.)
@@ -1480,10 +1487,11 @@ if test "$USE_NLS" != "yes" ; then
   dnl but it still checks 'if test x$FORCE_DIST = xyes'. We cannot
   dnl do that check in configure when producing config.status.
   AC_CONFIG_COMMANDS([translations/freeciv/Makefile], [
+    for domain in $PO_DOMAINS ; do
     dnl Usually glib-gettext.m4:AM_GLIB_GNU_GETTEXT outputs commands to
-    dnl generate translations/freeciv/Makefile.
+    dnl generate translations/${domain}/Makefile.
     dnl If NLS is disabled, we generate one here.
-    rm -f translations/freeciv/Makefile
+    rm -f translations/${domain}/Makefile
 
     dnl - Add nonls_warn as dependency to dist -target
     dnl - Remove dependencies from update-po, so it is never rebuilt
@@ -1491,17 +1499,19 @@ if test "$USE_NLS" != "yes" ; then
     sed -e 's/^dist distdir:.*/dist distdir: nonls_warn/' \
         -e 's/^update-po:.*/update-po:/' \
         -e 's/^DISTFILES =.*/DISTFILES = ChangeLog Makefile.in.in POTFILES.in POTFILES.skip \$(POFILES)/' \
-        translations/freeciv/Makefile.in > translations/freeciv/Makefile
+        translations/${domain}/Makefile.in > translations/${domain}/Makefile
 
     dnl Create nonls_warn target.
-    echo >> translations/freeciv/Makefile
-    echo nonls_warn: >> translations/freeciv/Makefile
+    echo >> translations/${domain}/Makefile
+    echo nonls_warn: >> translations/${domain}/Makefile
     if test "x$FORCE_DIST" = "xyes" ; then
-      echo "	@echo Building dist without generated localization files!" >> translations/freeciv/Makefile
+      echo "	@echo Building dist without generated localization files!" >> translations/${domain}/Makefile
     else
-      echo "	@echo Cannot build dist with NLS disabled! && /bin/false" >> translations/freeciv/Makefile
+      echo "	@echo Cannot build dist with NLS disabled! && /bin/false" >> translations/${domain}/Makefile
     fi
-  ], [FORCE_DIST=$FORCE_DIST])
+    done
+  ], [FORCE_DIST=$FORCE_DIST
+PO_DOMAINS="$PO_DOMAINS"])
 fi
 
 AC_OUTPUT
