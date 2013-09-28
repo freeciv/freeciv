@@ -309,11 +309,13 @@ static bool rs_barbarian_units(void)
     return FALSE;
   } else if (num_role_units(L_BARBARIAN_BOAT) > 0) {
     struct unit_type *u;
+    enum unit_move_type mt;
 
     u = get_role_unit(L_BARBARIAN_BOAT, 0);
-    if (utype_move_type(get_role_unit(L_BARBARIAN_BOAT, 0)) != UMT_SEA) {
+    mt = utype_move_type(u);
+    if (mt != UMT_SEA && mt != UMT_BOTH) {
       ruleset_error(LOG_ERROR,
-                    "Barbarian boat (%s) needs to be a sea unit.",
+                    "Barbarian boat (%s) needs to be able to move at sea.",
                     utype_rule_name(u));
       return FALSE;
     }
