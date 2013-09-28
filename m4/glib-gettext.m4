@@ -262,12 +262,11 @@ msgstr ""
       fi
     fi
 
-    # We need to process the translations/freeciv/ directory.
-    POSUB=translations/freeciv
-
-    AC_CONFIG_COMMANDS([default-1],[[case "$CONFIG_FILES" in *translations/freeciv/Makefile.in*)
-        sed -e "/POTFILES =/r translations/freeciv/POTFILES" translations/freeciv/Makefile.in > translations/freeciv/Makefile
-      esac]],[[]])
+    AC_CONFIG_COMMANDS([default-1],[[for domain in $PO_DOMAINS ; do
+      case "$CONFIG_FILES" in *translations/${domain}/Makefile.in*)
+        sed -e "/POTFILES =/r translations/${domain}/POTFILES" translations/${domain}/Makefile.in > translations/${domain}/Makefile
+      esac
+    done]],[PO_DOMAINS="$PO_DOMAINS"])
 
     dnl These rules are solely for the distribution goal.  While doing this
     dnl we only have to keep exactly one list of the available catalogs
