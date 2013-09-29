@@ -4347,15 +4347,17 @@ static bool load_ruleset_effects(struct section_file *file)
       type = secfile_lookup_str(file, "%s.name", sec_name);
     }
     if (type == NULL) {
-      log_error("\"%s\" [%s] missing effect name.", filename, sec_name);
-      continue;
+      ruleset_error(LOG_ERROR, "\"%s\" [%s] missing effect name.", filename, sec_name);
+      ok = FALSE;
+      break;
     }
 
     eff = effect_type_by_name(type, fc_strcasecmp);
     if (!effect_type_is_valid(eff)) {
-      log_error("\"%s\" [%s] lists unknown effect type \"%s\".",
+      ruleset_error(LOG_ERROR, "\"%s\" [%s] lists unknown effect type \"%s\".",
                 filename, sec_name, type);
-      continue;
+      ok = FALSE;
+      break;
     }
 
     value = secfile_lookup_int_default(file, 1, "%s.value", sec_name);
@@ -4794,16 +4796,18 @@ static bool load_ruleset_game(struct section_file *file, bool act)
           action_text = secfile_lookup_str(file, "%s.action", sec_name);
 
           if (action_text == NULL) {
-            log_error("\"%s\" [%s] missing action to enable.",
-                      filename, sec_name);
-            continue;
+            ruleset_error(LOG_ERROR, "\"%s\" [%s] missing action to enable.",
+                          filename, sec_name);
+            ok = FALSE;
+            break;
           }
 
           action = gen_action_by_name(action_text, fc_strcasecmp);
           if (!gen_action_is_valid(action)) {
-            log_error("\"%s\" [%s] lists unknown action type \"%s\".",
-                      filename, sec_name, action_text);
-            continue;
+            ruleset_error(LOG_ERROR, "\"%s\" [%s] lists unknown action type \"%s\".",
+                          filename, sec_name, action_text);
+            ok = FALSE;
+            break;
           }
 
           enabler->action = action;
