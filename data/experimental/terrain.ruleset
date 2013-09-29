@@ -1074,6 +1074,7 @@ reqs           =
       "Tech", "Superconductors", "Player"
       "Extra", "Railroad", "Local"
       "UnitFlag", "Settlers", "Local"
+      "TerrainClass", "Land", "Local"
     }
 native_to      = "Land"
 flags          = "NativeTile", "AutoOnCityCenter"
