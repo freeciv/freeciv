@@ -5670,16 +5670,21 @@ static void sg_load_player_vision(struct loaddata *loading,
           map_get_player_tile(ptile, plr)->owner = player_by_number(number);
         }
 
-        scanin(&ptr2, ",", token2, sizeof(token2));
-        sg_failure_ret('\0' != token2[0],
-                       "Savegame corrupt - map size not correct.");
-        if (strcmp(token2, "-") == 0) {
-          map_get_player_tile(ptile, plr)->extras_owner = NULL;
-        } else  {
-          sg_failure_ret(str_to_int(token2, &number),
-                         "Savegame corrupt - got extras owner=%s in (%d, %d).",
-                         token, x, y);
-          map_get_player_tile(ptile, plr)->extras_owner = player_by_number(number);
+        if (loading->version >= 30) {
+          scanin(&ptr2, ",", token2, sizeof(token2));
+          sg_failure_ret('\0' != token2[0],
+                         "Savegame corrupt - map size not correct.");
+          if (strcmp(token2, "-") == 0) {
+            map_get_player_tile(ptile, plr)->extras_owner = NULL;
+          } else  {
+            sg_failure_ret(str_to_int(token2, &number),
+                           "Savegame corrupt - got extras owner=%s in (%d, %d).",
+                           token, x, y);
+            map_get_player_tile(ptile, plr)->extras_owner = player_by_number(number);
+          }
+        } else {
+          map_get_player_tile(ptile, plr)->extras_owner
+            = map_get_player_tile(ptile, plr)->owner;
         }
       }
     }
