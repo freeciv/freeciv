@@ -1197,6 +1197,7 @@ reqs           =
       "Tech", "Superconductors", "Player"
       "Road", "Railroad", "Local"
       "UnitFlag", "Settlers", "Local"
+      "TerrainClass", "Land", "Local"
     }
 move_cost      = 0
 build_time     = 3
