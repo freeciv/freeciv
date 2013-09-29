@@ -246,27 +246,6 @@ struct named_sprites {
     struct sprite *frame[NUM_CURSOR_FRAMES];
   } cursor[CURSOR_LAST];
   struct {
-    enum roadstyle_id roadstyle;
-    struct sprite
-      *activity,
-      /* for roadstyles RSTYLE_ALL_SEPARATE and RSTYLE_PARITY_COMBINED */
-      *isolated,
-      *corner[8]; /* Indexed by direction; only non-cardinal dirs used. */
-    union {
-      /* for RSTYLE_ALL_SEPARATE */
-      struct sprite *dir[8];     /* all entries used */
-      /* RSTYLE_PARITY_COMBINED */
-      struct {
-        struct sprite
-          *even[MAX_INDEX_HALF],    /* first unused */
-          *odd[MAX_INDEX_HALF];     /* first unused */
-      } combo;
-      /* RSTYLE_ALL_SEPARATE */
-      struct sprite *total[MAX_INDEX_VALID];
-      struct river_sprites rivers;
-    } u;
-  } roads[MAX_ROAD_TYPES];
-  struct {
     struct sprite_vector unit;
     struct sprite *nuke;
   } explode;
@@ -350,6 +329,26 @@ struct named_sprites {
           *middleground,
           *foreground;
       } bmf;
+      struct {
+        enum roadstyle_id roadstyle;
+        struct sprite
+        /* for roadstyles RSTYLE_ALL_SEPARATE and RSTYLE_PARITY_COMBINED */
+        *isolated,
+          *corner[8]; /* Indexed by direction; only non-cardinal dirs used. */
+        union {
+          /* for RSTYLE_ALL_SEPARATE */
+          struct sprite *dir[8];     /* all entries used */
+          /* RSTYLE_PARITY_COMBINED */
+          struct {
+            struct sprite
+            *even[MAX_INDEX_HALF],    /* first unused */
+              *odd[MAX_INDEX_HALF];     /* first unused */
+          } combo;
+          /* RSTYLE_ALL_SEPARATE */
+          struct sprite *total[MAX_INDEX_VALID];
+          struct river_sprites rivers;
+        } ru;
+      } road;
     } u;
   } extras[MAX_EXTRA_TYPES];
   struct {
@@ -2969,7 +2968,7 @@ void tileset_setup_road(struct tileset *t,
 {
   char full_tag_name[MAX_LEN_NAME + strlen("r._isolated")];
   char full_alt_name[MAX_LEN_NAME + strlen("r._isolated")];
-  const int id = road_index(proad);
+  const int id = extra_index(road_extra_get(proad));
   int i;
   enum roadstyle_id *roadstyle;
 
@@ -2983,7 +2982,7 @@ void tileset_setup_road(struct tileset *t,
     exit(EXIT_FAILURE);
   }
 
-  t->sprites.roads[id].roadstyle = *roadstyle;
+  t->sprites.extras[id].u.road.roadstyle = *roadstyle;
 
   if (*roadstyle == RSTYLE_RIVER) {
     road_type_list_append(t->rivers, proad);
@@ -2997,7 +2996,7 @@ void tileset_setup_road(struct tileset *t,
     fc_snprintf(full_alt_name, sizeof(full_alt_name),
                 "r.%s_isolated", proad->graphic_alt);
 
-    SET_SPRITE_ALT(roads[id].isolated, full_tag_name, full_alt_name);
+    SET_SPRITE_ALT(extras[id].u.road.isolated, full_tag_name, full_alt_name);
   }
 
   if (*roadstyle == RSTYLE_ALL_SEPARATE) {
@@ -3012,7 +3011,7 @@ void tileset_setup_road(struct tileset *t,
       fc_snprintf(full_alt_name, sizeof(full_alt_name),
                   "r.%s_%s", proad->graphic_alt, dir_name);
 
-      SET_SPRITE_ALT(roads[id].u.dir[i], full_tag_name, full_alt_name);
+      SET_SPRITE_ALT(extras[id].u.road.ru.dir[i], full_tag_name, full_alt_name);
     }
   } else if (*roadstyle == RSTYLE_PARITY_COMBINED) {
     int num_index = 1 << (t->num_valid_tileset_dirs / 2), j;
@@ -3042,14 +3041,14 @@ void tileset_setup_road(struct tileset *t,
       fc_snprintf(full_alt_name, sizeof(full_alt_name),
                   "r.c_%s_%s", proad->graphic_alt, c);
 
-      SET_SPRITE_ALT(roads[id].u.combo.even[i], full_tag_name, full_alt_name);
+      SET_SPRITE_ALT(extras[id].u.road.ru.combo.even[i], full_tag_name, full_alt_name);
 
       fc_snprintf(full_tag_name, sizeof(full_tag_name),
                   "r.d_%s_%s", proad->graphic_str, d);
       fc_snprintf(full_alt_name, sizeof(full_alt_name),
                   "r.d_%s_%s", proad->graphic_alt, d);
 
-      SET_SPRITE_ALT(roads[id].u.combo.odd[i], full_tag_name, full_alt_name);
+      SET_SPRITE_ALT(extras[id].u.road.ru.combo.odd[i], full_tag_name, full_alt_name);
     }
   } else if (*roadstyle == RSTYLE_ALL_COMBINED) {
     /* RSTYLE_ALL_COMBINED includes 256 sprites, one for every possibility.
@@ -3062,12 +3061,12 @@ void tileset_setup_road(struct tileset *t,
       fc_snprintf(full_alt_name, sizeof(full_alt_name),
                   "r.%s_%s", proad->graphic_alt, idx_str);
 
-      SET_SPRITE_ALT(roads[id].u.total[i], full_tag_name, full_alt_name);
+      SET_SPRITE_ALT(extras[id].u.road.ru.total[i], full_tag_name, full_alt_name);
     }
   } else if (*roadstyle == RSTYLE_RIVER) {
-    if (!load_river_sprites(t, &t->sprites.roads[id].u.rivers,
+    if (!load_river_sprites(t, &t->sprites.extras[id].u.road.ru.rivers,
                             proad->graphic_str)) {
-      if (!load_river_sprites(t, &t->sprites.roads[id].u.rivers,
+      if (!load_river_sprites(t, &t->sprites.extras[id].u.road.ru.rivers,
                               proad->graphic_alt)) {
         log_fatal("Cannot load river \"%s\" or \"%s\"",
                   proad->graphic_str, proad->graphic_alt);
@@ -3092,15 +3091,15 @@ void tileset_setup_road(struct tileset *t,
         fc_snprintf(full_alt_name, sizeof(full_alt_name),
                     "r.c_%s_%s", proad->graphic_alt, dtn);
 
-        SET_SPRITE_ALT_OPT(roads[id].corner[dir], full_tag_name, full_alt_name);
+        SET_SPRITE_ALT_OPT(extras[id].u.road.corner[dir], full_tag_name, full_alt_name);
       }
     }
   }
 
-  t->sprites.roads[id].activity = load_sprite(t, proad->activity_gfx);
-  if (t->sprites.roads[id].activity == NULL) {
-    t->sprites.roads[id].activity = load_sprite(t, proad->act_gfx_alt);
-    if (t->sprites.roads[id].activity == NULL) {
+  t->sprites.extras[id].activity = load_sprite(t, proad->activity_gfx);
+  if (t->sprites.extras[id].activity == NULL) {
+    t->sprites.extras[id].activity = load_sprite(t, proad->act_gfx_alt);
+    if (t->sprites.extras[id].activity == NULL) {
       log_fatal("Missing %s building activity tag \"%s\" and alternative \"%s\".",
                 road_rule_name(proad), proad->activity_gfx, proad->act_gfx_alt);
       exit(EXIT_FAILURE);
@@ -3654,10 +3653,8 @@ static int fill_unit_sprite_array(const struct tileset *t,
       s = t->sprites.unit.transform;
       break;
     case ACTIVITY_BASE:
-      s = t->sprites.extras[extra_index(punit->activity_target)].activity;
-      break;
     case ACTIVITY_GEN_ROAD:
-      s = t->sprites.roads[road_index(extra_road_get(punit->activity_target))].activity;
+      s = t->sprites.extras[extra_index(punit->activity_target)].activity;
       break;
     case ACTIVITY_CONVERT:
       s = t->sprites.unit.convert;
@@ -3732,7 +3729,7 @@ static int fill_road_corner_sprites(const struct tileset *t,
 {
   struct drawn_sprite *saved_sprs = sprs;
   int i;
-  int road_idx = road_index(proad);
+  int extra_idx = extra_index(road_extra_get(proad));
 
   if (is_cardinal_only_road(road_extra_get(proad))) {
     return 0;
@@ -3762,11 +3759,11 @@ static int fill_road_corner_sprites(const struct tileset *t,
       enum direction8 dir_cw = t->valid_tileset_dirs[cw];
       enum direction8 dir_ccw = t->valid_tileset_dirs[ccw];
 
-      if (t->sprites.roads[road_idx].corner[dir]
+      if (t->sprites.extras[extra_idx].u.road.corner[dir]
 	  && (road_near[dir_cw] && road_near[dir_ccw]
 	      && !(hider_near[dir_cw] && hider_near[dir_ccw]))
 	  && !(road && road_near[dir] && !(hider && hider_near[dir]))) {
-	ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].corner[dir]);
+	ADD_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.corner[dir]);
       }
     }
   }
@@ -3790,7 +3787,7 @@ static int fill_road_sprite_array(const struct tileset *t,
   bool land_near[8], hland_near[8];
   bool draw_road[8], draw_single_road;
   enum direction8 dir;
-  int road_idx = -1;
+  struct extra_type *pextra;
   int extra_idx = -1;
   bool cl = FALSE;
   enum roadstyle_id roadstyle;
@@ -3800,15 +3797,14 @@ static int fill_road_sprite_array(const struct tileset *t,
     return 0;
   }
 
-  road_idx = road_index(proad);
+  pextra = road_extra_get(proad);
+  extra_idx = extra_index(pextra);
 
-  roadstyle = t->sprites.roads[road_idx].roadstyle;
+  roadstyle = t->sprites.extras[extra_idx].u.road.roadstyle;
 
   if (roadstyle == RSTYLE_RIVER) {
     return 0;
   }
-
-  extra_idx = extra_index(road_extra_get(proad));
 
   if (road_has_flag(proad, RF_CONNECT_LAND)) {
     cl = TRUE;
@@ -3828,7 +3824,7 @@ static int fill_road_sprite_array(const struct tileset *t,
   road = BV_ISSET(textras, extra_idx);
 
   hider = FALSE;
-  extra_type_list_iterate(road_extra_get(proad)->hiders, phider) {
+  extra_type_list_iterate(pextra->hiders, phider) {
     if (BV_ISSET(textras, extra_index(phider))) {
       hider = TRUE;
       break;
@@ -3845,7 +3841,7 @@ static int fill_road_sprite_array(const struct tileset *t,
     bool roads_exist;
 
     /* Check if there is adjacent road/rail. */
-    if (!is_cardinal_only_road(road_extra_get(proad))
+    if (!is_cardinal_only_road(pextra)
         || is_cardinal_tileset_dir(t, dir)) {
       road_near[dir] = BV_ISSET(textras_near[dir], extra_idx);
       if (cl) {
@@ -3865,7 +3861,7 @@ static int fill_road_sprite_array(const struct tileset *t,
     hider_near[dir] = FALSE;
     hland_near[dir] = tterrain_near[dir] != T_UNKNOWN
       && terrain_type_terrain_class(tterrain_near[dir]) != TC_OCEAN;
-    extra_type_list_iterate(road_extra_get(proad)->hiders, phider) {
+    extra_type_list_iterate(pextra->hiders, phider) {
       bool hider_dir = FALSE;
       bool land_dir = FALSE;
 
@@ -3913,7 +3909,7 @@ static int fill_road_sprite_array(const struct tileset *t,
     if (road) {
       for (i = 0; i < t->num_valid_tileset_dirs; i++) {
 	if (draw_road[t->valid_tileset_dirs[i]]) {
-	  ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].u.dir[i]);
+	  ADD_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.ru.dir[i]);
 	}
       }
     }
@@ -3942,10 +3938,10 @@ static int fill_road_sprite_array(const struct tileset *t,
 
       /* Draw the cardinal/even roads first. */
       if (road_even_tileno != 0) {
-	ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].u.combo.even[road_even_tileno]);
+	ADD_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.ru.combo.even[road_even_tileno]);
       }
       if (road_odd_tileno != 0) {
-	ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].u.combo.odd[road_odd_tileno]);
+	ADD_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.ru.combo.odd[road_odd_tileno]);
       }
     }
   } else if (roadstyle == RSTYLE_ALL_COMBINED) {
@@ -3966,7 +3962,7 @@ static int fill_road_sprite_array(const struct tileset *t,
       }
 
       if (road_tileno != 0 || draw_single_road) {
-        ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].u.total[road_tileno]);
+        ADD_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.ru.total[road_tileno]);
       }
     }
   } else {
@@ -3977,7 +3973,7 @@ static int fill_road_sprite_array(const struct tileset *t,
      RSTYLE_PARITY_COMBINED only). */
   if (roadstyle == RSTYLE_ALL_SEPARATE || roadstyle == RSTYLE_PARITY_COMBINED) { 
     if (draw_single_road) {
-      ADD_SPRITE_SIMPLE(t->sprites.roads[road_idx].isolated);
+      ADD_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.isolated);
     }
   }
 
@@ -4825,7 +4821,7 @@ int fill_sprite_array(struct tileset *t,
             int idx = extra_index(road_extra_get(priver));
 
             if (BV_ISSET(textras_near[didx], idx)) {
-              ADD_SPRITE_SIMPLE(t->sprites.roads[road_index(priver)].u.rivers.outlet[dir]);
+              ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.outlet[dir]);
               break;
             }
           } road_type_list_iterate_end;
@@ -4837,10 +4833,9 @@ int fill_sprite_array(struct tileset *t,
 
       if (draw_terrain && !solid_bg) {
         road_type_list_iterate(t->rivers, priver) {
-          int idx = road_index(priver);
-          int eidx = extra_index(road_extra_get(priver));
+          int idx = extra_index(road_extra_get(priver));
 
-          if (BV_ISSET(textras, eidx)) {
+          if (BV_ISSET(textras, idx)) {
             int i;
 
             /* Draw rivers on top of irrigation. */
@@ -4849,12 +4844,12 @@ int fill_sprite_array(struct tileset *t,
               enum direction8 dir = t->cardinal_tileset_dirs[i];
 
               if (terrain_type_terrain_class(tterrain_near[dir]) == TC_OCEAN
-                  || BV_ISSET(textras_near[dir], eidx)) {
+                  || BV_ISSET(textras_near[dir], idx)) {
                 tileno |= 1 << i;
               }
             }
 
-            ADD_SPRITE_SIMPLE(t->sprites.roads[idx].u.rivers.spec[tileno]);
+            ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.spec[tileno]);
           }
         } road_type_list_iterate_end;
       }
@@ -5892,29 +5887,29 @@ int fill_basic_road_sprite_array(const struct tileset *t,
     return 0;
   }
 
-  index = road_index(proad);
+  index = extra_index(road_extra_get(proad));
 
-  if (!(0 <= index && index < game.control.num_road_types)) {
+  if (!(0 <= index && index < game.control.num_extra_types)) {
     return 0;
   }
 
-  roadstyle = t->sprites.roads[index].roadstyle;
+  roadstyle = t->sprites.extras[index].u.road.roadstyle;
 
   if (roadstyle == RSTYLE_RIVER) {
-    ADD_SPRITE_FULL(t->sprites.roads[index].u.rivers.spec[0]);
+    ADD_SPRITE_FULL(t->sprites.extras[index].u.road.ru.rivers.spec[0]);
   } else {
     for (i = 0; i < t->num_valid_tileset_dirs; i++) {
       if (!t->valid_tileset_dirs[i]) {
         continue;
       }
       if (roadstyle == RSTYLE_ALL_SEPARATE) {
-        ADD_SPRITE_FULL(t->sprites.roads[index].u.dir[i]);
+        ADD_SPRITE_FULL(t->sprites.extras[index].u.road.ru.dir[i]);
       } else if (roadstyle == RSTYLE_PARITY_COMBINED) {
         if ((i % 2) == 0) {
-          ADD_SPRITE_FULL(t->sprites.roads[index].u.combo.even[1 << (i / 2)]);
+          ADD_SPRITE_FULL(t->sprites.extras[index].u.road.ru.combo.even[1 << (i / 2)]);
         }
       } else if (roadstyle == RSTYLE_ALL_COMBINED) {
-        ADD_SPRITE_FULL(t->sprites.roads[index].u.total[1 << i]);
+        ADD_SPRITE_FULL(t->sprites.extras[index].u.road.ru.total[1 << i]);
       }
     }
   }
