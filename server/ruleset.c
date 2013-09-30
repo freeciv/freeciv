@@ -822,6 +822,73 @@ static bool lookup_move_type(struct section_file *file,
   return TRUE;
 }
 
+/**************************************************************************
+  What move types nativity of this extra will give?
+**************************************************************************/
+static enum unit_move_type move_type_from_extra(struct extra_type *pextra,
+                                                struct unit_class *puc)
+{
+  bool land_allowed = TRUE;
+  bool sea_allowed = TRUE;
+
+  if (!extra_has_flag(pextra, EF_NATIVE_TILE)) {
+    return unit_move_type_invalid();
+  }
+  if (!is_native_extra_to_uclass(pextra, puc)) {
+    return unit_move_type_invalid();
+  }
+
+  if (pextra->type == EXTRA_ROAD
+      && road_has_flag(extra_road_get(pextra), RF_RIVER)) {
+    /* Natural rivers are created to land only */
+    sea_allowed = FALSE;
+  }
+
+  requirement_vector_iterate(&pextra->reqs, preq) {
+    if (preq->source.kind == VUT_TERRAINCLASS) {
+      if (!preq->present) {
+        if (preq->source.value.terrainclass == TC_LAND) {
+          land_allowed = FALSE;
+        } else if (preq->source.value.terrainclass == TC_OCEAN) {
+          sea_allowed = FALSE;
+        }
+      } else {
+        if (preq->source.value.terrainclass == TC_LAND) {
+          sea_allowed = FALSE;
+        } else if (preq->source.value.terrainclass == TC_OCEAN) {
+          land_allowed = FALSE;
+        }
+      }
+    } else if (preq->source.kind == VUT_TERRAIN) {
+     if (!preq->present) {
+        if (preq->source.value.terrain->tclass == TC_LAND) {
+          land_allowed = FALSE;
+        } else if (preq->source.value.terrain->tclass == TC_OCEAN) {
+          sea_allowed = FALSE;
+        }
+      } else {
+        if (preq->source.value.terrain->tclass == TC_LAND) {
+          sea_allowed = FALSE;
+        } else if (preq->source.value.terrain->tclass == TC_OCEAN) {
+          land_allowed = FALSE;
+        }
+      }
+    }
+  } requirement_vector_iterate_end;
+
+  if (land_allowed && sea_allowed) {
+    return UMT_BOTH;
+  }
+  if (land_allowed && !sea_allowed) {
+    return UMT_LAND;
+  }
+  if (!land_allowed && sea_allowed) {
+    return UMT_SEA;
+  }
+
+  return unit_move_type_invalid();
+}
+
 /****************************************************************************
   Lookup optional string, returning allocated memory or NULL.
 ****************************************************************************/
@@ -1612,12 +1679,18 @@ static bool load_ruleset_units(struct section_file *file)
         bool land_moving = FALSE;
         bool sea_moving = FALSE;
 
-        road_type_iterate(proad) {
-          /* Check all roads in case there's native one among them */
-          if (is_native_extra_to_uclass(road_extra_get(proad), uc)) {
+        extra_type_iterate(pextra) {
+          enum unit_move_type eut = move_type_from_extra(pextra, uc);
+
+          if (eut == UMT_BOTH) {
             land_moving = TRUE;
+            sea_moving = TRUE;
+          } else if (eut == UMT_LAND) {
+            land_moving = TRUE;
+          } else if (eut == UMT_SEA) {
+            sea_moving = TRUE;
           }
-        } road_type_iterate_end;
+        } extra_type_iterate_end;
 
         terrain_type_iterate(pterrain) {
           bv_extras extras;
@@ -1641,19 +1714,23 @@ static bool load_ruleset_units(struct section_file *file)
           /* If unit has no native terrains, it is considered land moving */
           uc->move_type = UMT_LAND;
         }
-      } else if (uc->move_type == UMT_SEA) {
-        /* Explicitly given SEA_MOVING */
-        road_type_iterate(proad) {
-          if (is_native_extra_to_uclass(road_extra_get(proad), uc)) {
+      } else if (uc->move_type != UMT_BOTH) {
+        /* Explicitly given move type */
+        extra_type_iterate(pextra) {
+          enum unit_move_type eut = move_type_from_extra(pextra, uc);
+
+          if (eut == UMT_BOTH
+              || (uc->move_type == UMT_LAND && eut == UMT_SEA)
+              || (uc->move_type == UMT_SEA && eut == UMT_LAND)) {
             ruleset_error(LOG_ERROR,
-                          "\"%s\" unit_class \"%s\": cannot make road \"%s\" "
-                          "native to sea moving unit.",
+                          "\"%s\" unit_class \"%s\": cannot make extra \"%s\" "
+                          "native to unit of current move_type.",
                           filename, uclass_rule_name(uc),
-                          road_rule_name(proad));
+                          extra_rule_name(pextra));
             ok = FALSE;
             break;
           }
-        } road_type_iterate_end;
+        } extra_type_iterate_end;
       }
 
       if (!ok) {
