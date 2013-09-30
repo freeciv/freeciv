@@ -2535,11 +2535,13 @@ void real_menus_init(void)
 
     /* Add new road entries. */
     road_type_iterate(r) {
-      item = gtk_menu_item_new_with_label(road_name_translation(r));
-      g_object_set_data(G_OBJECT(item), "road", r);
-      g_signal_connect(item, "activate", G_CALLBACK(road_callback), r);
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-      gtk_widget_show(item);
+      if (road_extra_get(r)->buildable) {
+        item = gtk_menu_item_new_with_label(road_name_translation(r));
+        g_object_set_data(G_OBJECT(item), "road", r);
+        g_signal_connect(item, "activate", G_CALLBACK(road_callback), r);
+        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+        gtk_widget_show(item);
+      }
     } road_type_iterate_end;
   }
 
