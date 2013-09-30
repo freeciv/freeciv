@@ -362,10 +362,10 @@ glib_DEFUN([GLIB_GNU_GETTEXT],
      if test "x`echo $srcdir | sed 's@/.*@@'`" = "x"; then
        posrcprefix="$srcdir/"
      else
-       posrcprefix="../$srcdir/"
+       posrcprefix="../../$srcdir/"
      fi
    else
-     posrcprefix="../"
+     posrcprefix="../../"
    fi
    rm -f translations/freeciv/POTFILES
    sed -e "/^#/d" -e "/^\$/d" -e "s,.*,	$posrcprefix& \\\\," -e "\$s/\(.*\) \\\\/\1/" \
