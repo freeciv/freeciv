@@ -814,6 +814,133 @@ static bool lookup_move_type(struct section_file *file,
   return TRUE;
 }
 
+/**************************************************************************
+  What move types nativity of this road will give?
+**************************************************************************/
+static enum unit_move_type move_type_from_road(struct road_type *proad,
+                                               struct unit_class *puc)
+{
+  bool land_allowed = TRUE;
+  bool sea_allowed = TRUE;
+
+  if (!road_has_flag(proad, RF_NATIVE_TILE)) {
+    return unit_move_type_invalid();
+  }
+  if (!is_native_road_to_uclass(proad, puc)) {
+    return unit_move_type_invalid();
+  }
+
+  if (road_has_flag(proad, RF_RIVER)) {
+    /* Natural rivers are created to land only */
+    sea_allowed = FALSE;
+  }
+
+  requirement_vector_iterate(&proad->reqs, preq) {
+    if (preq->source.kind == VUT_TERRAINCLASS) {
+      if (preq->negated) {
+        if (preq->source.value.terrainclass == TC_LAND) {
+          land_allowed = FALSE;
+        } else if (preq->source.value.terrainclass == TC_OCEAN) {
+          sea_allowed = FALSE;
+        }
+      } else {
+        if (preq->source.value.terrainclass == TC_LAND) {
+          sea_allowed = FALSE;
+        } else if (preq->source.value.terrainclass == TC_OCEAN) {
+          land_allowed = FALSE;
+        }
+      }
+    } else if (preq->source.kind == VUT_TERRAIN) {
+     if (preq->negated) {
+        if (preq->source.value.terrain->tclass == TC_LAND) {
+          land_allowed = FALSE;
+        } else if (preq->source.value.terrain->tclass == TC_OCEAN) {
+          sea_allowed = FALSE;
+        }
+      } else {
+        if (preq->source.value.terrain->tclass == TC_LAND) {
+          sea_allowed = FALSE;
+        } else if (preq->source.value.terrain->tclass == TC_OCEAN) {
+          land_allowed = FALSE;
+        }
+      }
+    }
+  } requirement_vector_iterate_end;
+
+  if (land_allowed && sea_allowed) {
+    return UMT_BOTH;
+  }
+  if (land_allowed && !sea_allowed) {
+    return UMT_LAND;
+  }
+  if (!land_allowed && sea_allowed) {
+    return UMT_SEA;
+  }
+
+  return unit_move_type_invalid();
+}
+
+/**************************************************************************
+  What move types nativity of this base will give?
+**************************************************************************/
+static enum unit_move_type move_type_from_base(struct base_type *pbase,
+                                               struct unit_class *puc)
+{
+  bool land_allowed = TRUE;
+  bool sea_allowed = TRUE;
+
+  if (!base_has_flag(pbase, BF_NATIVE_TILE)) {
+    return unit_move_type_invalid();
+  }
+  if (!is_native_base_to_uclass(pbase, puc)) {
+    return unit_move_type_invalid();
+  }
+
+  requirement_vector_iterate(&pbase->reqs, preq) {
+    if (preq->source.kind == VUT_TERRAINCLASS) {
+      if (preq->negated) {
+        if (preq->source.value.terrainclass == TC_LAND) {
+          land_allowed = FALSE;
+        } else if (preq->source.value.terrainclass == TC_OCEAN) {
+          sea_allowed = FALSE;
+        }
+      } else {
+        if (preq->source.value.terrainclass == TC_LAND) {
+          sea_allowed = FALSE;
+        } else if (preq->source.value.terrainclass == TC_OCEAN) {
+          land_allowed = FALSE;
+        }
+      }
+    } else if (preq->source.kind == VUT_TERRAIN) {
+     if (preq->negated) {
+        if (preq->source.value.terrain->tclass == TC_LAND) {
+          land_allowed = FALSE;
+        } else if (preq->source.value.terrain->tclass == TC_OCEAN) {
+          sea_allowed = FALSE;
+        }
+      } else {
+        if (preq->source.value.terrain->tclass == TC_LAND) {
+          sea_allowed = FALSE;
+        } else if (preq->source.value.terrain->tclass == TC_OCEAN) {
+          land_allowed = FALSE;
+        }
+      }
+    }
+  } requirement_vector_iterate_end;
+
+  if (land_allowed && sea_allowed) {
+    return UMT_BOTH;
+  }
+  if (land_allowed && !sea_allowed) {
+    return UMT_LAND;
+  }
+  if (!land_allowed && sea_allowed) {
+    return UMT_SEA;
+  }
+
+  return unit_move_type_invalid();
+}
+
 /****************************************************************************
   Lookup optional string, returning allocated memory or NULL.
 ****************************************************************************/
@@ -1563,11 +1690,30 @@ static bool load_ruleset_units(struct section_file *file)
         bool sea_moving = FALSE;
 
         road_type_iterate(proad) {
-          /* Check all roads in case there's native one among them */
-          if (is_native_road_to_uclass(proad, uc)) {
+          enum unit_move_type eut = move_type_from_road(proad, uc);
+
+          if (eut == UMT_BOTH) {
             land_moving = TRUE;
+            sea_moving = TRUE;
+          } else if (eut == UMT_LAND) {
+            land_moving = TRUE;
+          } else if (eut == UMT_SEA) {
+            sea_moving = TRUE;
           }
         } road_type_iterate_end;
+
+        base_type_iterate(pbase) {
+          enum unit_move_type eut = move_type_from_base(pbase, uc);
+
+          if (eut == UMT_BOTH) {
+            land_moving = TRUE;
+            sea_moving = TRUE;
+          } else if (eut == UMT_LAND) {
+            land_moving = TRUE;
+          } else if (eut == UMT_SEA) {
+            sea_moving = TRUE;
+          }
+        } base_type_iterate_end;
 
         terrain_type_iterate(pterrain) {
           bv_bases bases;
@@ -1593,19 +1739,38 @@ static bool load_ruleset_units(struct section_file *file)
           /* If unit has no native terrains, it is considered land moving */
           uc->move_type = UMT_LAND;
         }
-      } else if (uc->move_type == UMT_SEA) {
-        /* Explicitly given SEA_MOVING */
+      } else if (uc->move_type != UMT_BOTH) {
+        /* Explicitly given move type */
         road_type_iterate(proad) {
-          if (is_native_road_to_uclass(proad, uc)) {
+          enum unit_move_type eut = move_type_from_road(proad, uc);
+
+          if (eut == UMT_BOTH
+              || (uc->move_type == UMT_LAND && eut == UMT_SEA)
+              || (uc->move_type == UMT_SEA && eut == UMT_LAND)) {
             ruleset_error(LOG_ERROR,
                           "\"%s\" unit_class \"%s\": cannot make road \"%s\" "
-                          "native to sea moving unit.",
+                          "native to unit of current move_type.",
                           filename, uclass_rule_name(uc),
                           road_rule_name(proad));
             ok = FALSE;
             break;
           }
         } road_type_iterate_end;
+        base_type_iterate(pbase) {
+          enum unit_move_type eut = move_type_from_base(pbase, uc);
+
+          if (eut == UMT_BOTH
+              || (uc->move_type == UMT_LAND && eut == UMT_SEA)
+              || (uc->move_type == UMT_SEA && eut == UMT_LAND)) {
+            ruleset_error(LOG_ERROR,
+                          "\"%s\" unit_class \"%s\": cannot make base \"%s\" "
+                          "native to unit of current move_type.",
+                          filename, uclass_rule_name(uc),
+                          base_rule_name(pbase));
+            ok = FALSE;
+            break;
+          }
+        } base_type_iterate_end;
       }
 
       if (!ok) {
