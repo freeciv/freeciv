@@ -1549,7 +1549,7 @@ static void sg_load_savefile(struct loaddata *loading)
   /* Load specials. */
   loading->special.size
     = secfile_lookup_int_default(loading->file, 0,
-                                 "savefile.special_size");
+                                 "savefile.specials_size");
   if (loading->special.size) {
     const char **modname;
     size_t nmod;
