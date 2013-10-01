@@ -2879,6 +2879,9 @@ static bool load_ruleset_terrain(struct section_file *file)
       }
       pextra->category = extra_category_by_name(catname, fc_strcasecmp);
       if (!extra_category_is_valid(pextra->category)) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" extra \"%s\" has invalid category \"%s\".",
+                      filename, extra_rule_name(pextra), catname);
         ok = FALSE;
         break;
       }
