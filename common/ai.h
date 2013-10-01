@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2013.Jul.22"
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2013.Oct.02"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef DEBUG
@@ -172,6 +172,10 @@ struct ai_type
     /* Called for player AI type in the beginning of player phase.
      * Unlike with phase_begin, everything is set up for phase already. */
     void (*first_activities)(struct player *pplayer);
+
+    /* Called for player AI when game continues from savegame and
+     * player phase is already active. */
+    void (*restart_savegame)(struct player *pplayer);
 
     /* Called for player AI type in the beginning of player phase. Not for barbarian
      * players. */

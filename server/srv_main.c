@@ -947,6 +947,12 @@ static void begin_phase(bool is_new_phase)
 
     log_debug("Aistartturn");
     ai_start_phase();
+  } else {
+    phase_players_iterate(pplayer) {
+      if (pplayer->ai_controlled) {
+        CALL_PLR_AI_FUNC(restart_savegame, pplayer, pplayer);
+      }
+    } phase_players_iterate_end;
   }
 
   sanity_check();

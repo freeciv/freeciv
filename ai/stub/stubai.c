@@ -31,9 +31,9 @@ const char *fc_ai_stub_capstr(void)
 }
 
 /**************************************************************************
-  Set phase done in AI activities
+  Set phase done
 **************************************************************************/
-static void stub_ai_do_first_activities(struct player *pplayer)
+static void stub_end_turn(struct player *pplayer)
 {
   pplayer->ai_phase_done = TRUE;
 }
@@ -45,7 +45,8 @@ bool fc_ai_stub_setup(struct ai_type *ai)
 {
   strncpy(ai->name, "stub", sizeof(ai->name));
 
-  ai->funcs.first_activities = stub_ai_do_first_activities;
+  ai->funcs.first_activities = stub_end_turn;
+  ai->funcs.restart_savegame = stub_end_turn;
 
   return TRUE;
 }
