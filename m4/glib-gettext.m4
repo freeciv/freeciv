@@ -356,8 +356,9 @@ glib_DEFUN([GLIB_GNU_GETTEXT],
    AC_SUBST(MKINSTALLDIRS)
 
    dnl Generate list of files to be processed by xgettext which will
-   dnl be included in translations/freeciv/Makefile.
-   test -d po || mkdir po
+   dnl be included in translations/<domain>/Makefile.
+   for domain in $PO_DOMAINS ; do
+   test -d translations/${domain} || ${MKDIR_P} translations/${domain}
    if test "x$srcdir" != "x."; then
      if test "x`echo $srcdir | sed 's@/.*@@'`" = "x"; then
        posrcprefix="$srcdir/"
@@ -367,15 +368,16 @@ glib_DEFUN([GLIB_GNU_GETTEXT],
    else
      posrcprefix="../../"
    fi
-   rm -f translations/freeciv/POTFILES
+   rm -f translations/${domain}/POTFILES
    sed -e "/^#/d" -e "/^\$/d" -e "s,.*,	$posrcprefix& \\\\," -e "\$s/\(.*\) \\\\/\1/" \
-	< $srcdir/translations/freeciv/POTFILES.in > translations/freeciv/POTFILES
+       < $srcdir/translations/${domain}/POTFILES.in > translations/${domain}/POTFILES
+   done
   ])
 
 # AM_GLIB_DEFINE_LOCALEDIR(VARIABLE)
 # -------------------------------
 # Define VARIABLE to the location where catalog files will
-# be installed by translations/freeciv/Makefile.
+# be installed by translations/<domain>/Makefile.
 glib_DEFUN([GLIB_DEFINE_LOCALEDIR],
 [glib_REQUIRE([GLIB_GNU_GETTEXT])dnl
 glib_save_prefix="$prefix"

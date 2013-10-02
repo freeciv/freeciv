@@ -74,6 +74,8 @@ ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 UTILITY_LIBS=
 
+AC_PROG_MKDIR_P
+
 dnl Sed is needed for the configuration
 dnl of the clients, database setting and the mapimg toolkits.
 AC_PROG_SED
