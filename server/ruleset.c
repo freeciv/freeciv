@@ -2886,6 +2886,13 @@ static bool load_ruleset_terrain(struct section_file *file)
         break;
       }
 
+      sz_strlcpy(pextra->activity_gfx,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.activity_gfx", section));
+      sz_strlcpy(pextra->act_gfx_alt,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.act_gfx_alt", section));
+
       reqs = lookup_req_list(file, section, "reqs", extra_rule_name(pextra));
       if (reqs == NULL) {
         ok = FALSE;
@@ -3008,13 +3015,6 @@ static bool load_ruleset_terrain(struct section_file *file)
       sz_strlcpy(pbase->graphic_alt,
                  secfile_lookup_str_default(file, "-",
                                             "%s.graphic_alt", section));
-      sz_strlcpy(pbase->activity_gfx,
-                 secfile_lookup_str_default(file, "-",
-                                            "%s.activity_gfx", section));
-      sz_strlcpy(pbase->act_gfx_alt,
-                 secfile_lookup_str_default(file, "-",
-                                            "%s.act_gfx_alt", section));
-
       if (!ok) {
         break;
       }
@@ -3103,12 +3103,6 @@ static bool load_ruleset_terrain(struct section_file *file)
       sz_strlcpy(proad->graphic_alt,
                  secfile_lookup_str_default(file, "-",
                                             "%s.graphic_alt", section));
-      sz_strlcpy(proad->activity_gfx,
-                 secfile_lookup_str_default(file, "-",
-                                            "%s.activity_gfx", section));
-      sz_strlcpy(proad->act_gfx_alt,
-                 secfile_lookup_str_default(file, "-",
-                                            "%s.act_gfx_alt", section));
 
       if (!secfile_lookup_int(file, &proad->move_cost,
                               "%s.move_cost", section)) {
@@ -5573,6 +5567,9 @@ static void send_ruleset_extras(struct conn_list *dest)
     packet.category = e->category;
     packet.causes = e->causes;
 
+    sz_strlcpy(packet.activity_gfx, e->activity_gfx);
+    sz_strlcpy(packet.act_gfx_alt, e->act_gfx_alt);
+
     j = 0;
     requirement_vector_iterate(&e->reqs, preq) {
       packet.reqs[j++] = *preq;
@@ -5603,8 +5600,6 @@ static void send_ruleset_bases(struct conn_list *dest)
     packet.id = base_number(b);
     sz_strlcpy(packet.graphic_str, b->graphic_str);
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
-    sz_strlcpy(packet.activity_gfx, b->activity_gfx);
-    sz_strlcpy(packet.act_gfx_alt, b->act_gfx_alt);
     packet.pillageable = b->pillageable;
 
     packet.gui_type = b->gui_type;
@@ -5635,8 +5630,6 @@ static void send_ruleset_roads(struct conn_list *dest)
 
     sz_strlcpy(packet.graphic_str, r->graphic_str);
     sz_strlcpy(packet.graphic_alt, r->graphic_alt);
-    sz_strlcpy(packet.activity_gfx, r->activity_gfx);
-    sz_strlcpy(packet.act_gfx_alt, r->act_gfx_alt);
 
     packet.move_cost = r->move_cost;
     packet.move_mode = r->move_mode;

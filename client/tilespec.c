@@ -1149,6 +1149,9 @@ void tilespec_reread(const char *new_tileset_name)
   governments_iterate(gov) {
     tileset_setup_government(tileset, gov);
   } governments_iterate_end;
+  extra_type_iterate(pextra) {
+    tileset_setup_extra(tileset, pextra);
+  } extra_type_iterate_end;
   road_type_iterate(proad) {
     tileset_setup_road(tileset, proad);
   } road_type_iterate_end;
@@ -2444,10 +2447,10 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(unit.auto_explore, "unit.auto_explore");
   SET_SPRITE(unit.fallout,	"unit.fallout");
   SET_SPRITE(unit.fortified,	"unit.fortified");     
-  SET_SPRITE(unit.fortifying,	"unit.fortifying");     
-  SET_SPRITE(unit.go_to,	"unit.goto");     
-  SET_SPRITE(unit.irrigate,     "unit.irrigate");
-  SET_SPRITE(unit.mine,	        "unit.mine");
+  SET_SPRITE(unit.fortifying,	"unit.fortifying");
+  SET_SPRITE(unit.go_to,	"unit.goto");
+  SET_SPRITE(unit.irrigate,     "unit.irrigate"); 
+  SET_SPRITE(unit.mine,         "unit.mine");
   SET_SPRITE(unit.pillage,	"unit.pillage");
   SET_SPRITE(unit.pollution,    "unit.pollution");
   SET_SPRITE(unit.sentry,	"unit.sentry");
@@ -2960,6 +2963,26 @@ void tileset_setup_resource(struct tileset *t,
 }
 
 /****************************************************************************
+  Set extra sprite values; should only happen after
+  tilespec_load_tiles().
+****************************************************************************/
+void tileset_setup_extra(struct tileset *t,
+                         struct extra_type *pextra)
+{
+  const int id = extra_index(pextra);
+
+  t->sprites.extras[id].activity = load_sprite(t, pextra->activity_gfx);
+  if (t->sprites.extras[id].activity == NULL) {
+    t->sprites.extras[id].activity = load_sprite(t, pextra->act_gfx_alt);
+    if (t->sprites.extras[id].activity == NULL) {
+      log_fatal("Missing %s building activity tag \"%s\" and alternative \"%s\".",
+                extra_rule_name(pextra), pextra->activity_gfx, pextra->act_gfx_alt);
+      exit(EXIT_FAILURE);
+    }
+  }
+}
+
+/****************************************************************************
   Set road sprite values; should only happen after
   tilespec_load_tiles().
 ****************************************************************************/
@@ -3095,16 +3118,6 @@ void tileset_setup_road(struct tileset *t,
       }
     }
   }
-
-  t->sprites.extras[id].activity = load_sprite(t, proad->activity_gfx);
-  if (t->sprites.extras[id].activity == NULL) {
-    t->sprites.extras[id].activity = load_sprite(t, proad->act_gfx_alt);
-    if (t->sprites.extras[id].activity == NULL) {
-      log_fatal("Missing %s building activity tag \"%s\" and alternative \"%s\".",
-                road_rule_name(proad), proad->activity_gfx, proad->act_gfx_alt);
-      exit(EXIT_FAILURE);
-    }
-  }
 }
 
 /****************************************************************************
@@ -3162,18 +3175,7 @@ void tileset_setup_base(struct tileset *t,
       exit(EXIT_FAILURE);
     }
   }
-
-  t->sprites.extras[id].activity = load_sprite(t, pbase->activity_gfx);
-  if (t->sprites.extras[id].activity == NULL) {
-    t->sprites.extras[id].activity = load_sprite(t, pbase->act_gfx_alt);
-    if (t->sprites.extras[id].activity == NULL) {
-      log_fatal("Missing %s building activity tag \"%s\" and alternative \"%s\".",
-                base_rule_name(pbase), pbase->activity_gfx, pbase->act_gfx_alt);
-      exit(EXIT_FAILURE);
-    }
-  }
 }
-
 
 /**********************************************************************
   Set tile_type sprite values; should only happen after
@@ -3620,7 +3622,18 @@ static int fill_unit_sprite_array(const struct tileset *t,
     struct sprite *s = NULL;
     switch(punit->activity) {
     case ACTIVITY_MINE:
-      s = t->sprites.unit.mine;
+      if (punit->activity_target == NULL) {
+        s = t->sprites.unit.mine;
+      } else {
+        s = t->sprites.extras[extra_index(punit->activity_target)].activity;
+      }
+      break;
+    case ACTIVITY_IRRIGATE:
+     if (punit->activity_target == NULL) {
+        s = t->sprites.unit.irrigate;
+      } else {
+        s = t->sprites.extras[extra_index(punit->activity_target)].activity;
+      }
       break;
     case ACTIVITY_POLLUTION:
       s = t->sprites.unit.pollution;
@@ -3630,9 +3643,6 @@ static int fill_unit_sprite_array(const struct tileset *t,
       break;
     case ACTIVITY_PILLAGE:
       s = t->sprites.unit.pillage;
-      break;
-    case ACTIVITY_IRRIGATE:
-      s = t->sprites.unit.irrigate;
       break;
     case ACTIVITY_EXPLORE:
       s = t->sprites.unit.auto_explore;

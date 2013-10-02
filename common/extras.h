@@ -52,6 +52,9 @@ struct extra_type
   enum extra_category category;
   enum extra_cause causes;
 
+  char activity_gfx[MAX_LEN_NAME];
+  char act_gfx_alt[MAX_LEN_NAME];
+
   struct requirement_vector reqs;
   bool buildable;
 

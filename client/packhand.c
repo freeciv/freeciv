@@ -3225,6 +3225,9 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
     road_type_init(pextra, extra_type_list_size(extra_type_list_by_cause(EC_ROAD)));
   }
 
+  sz_strlcpy(pextra->activity_gfx, p->activity_gfx);
+  sz_strlcpy(pextra->act_gfx_alt, p->act_gfx_alt);
+
   for (i = 0; i < p->reqs_count; i++) {
     requirement_vector_append(&pextra->reqs, p->reqs[i]);
   }
@@ -3237,6 +3240,8 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   pextra->flags = p->flags;
   pextra->hidden_by = p->hidden_by;
   pextra->conflicts = p->conflicts;
+
+  tileset_setup_extra(tileset, pextra);
 }
 
 /****************************************************************************
@@ -3250,8 +3255,6 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
 
   sz_strlcpy(pbase->graphic_str, p->graphic_str);
   sz_strlcpy(pbase->graphic_alt, p->graphic_alt);
-  sz_strlcpy(pbase->activity_gfx, p->activity_gfx);
-  sz_strlcpy(pbase->act_gfx_alt, p->act_gfx_alt);
   pbase->pillageable = p->pillageable;
 
   pbase->gui_type = p->gui_type;
@@ -3279,8 +3282,6 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
 
   sz_strlcpy(proad->graphic_str, p->graphic_str);
   sz_strlcpy(proad->graphic_alt, p->graphic_alt);
-  sz_strlcpy(proad->activity_gfx, p->activity_gfx);
-  sz_strlcpy(proad->act_gfx_alt, p->act_gfx_alt);
 
   proad->move_cost = p->move_cost;
   proad->move_mode = p->move_mode;

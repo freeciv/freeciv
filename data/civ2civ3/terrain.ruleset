@@ -961,6 +961,8 @@ shield      = 3 ; glacier used to have 4
 ;                           base after a ruleset has been released.
 ; category                = How UI should categorize this extra. One of
 ;                           "Infra", "Natural", "Nuisance", or "Bonus"
+; activity_gfx            = tag specifing graphic for unit building extra
+; act_gfx_alt             = tag for alternative graphic for unit building extra
 ; reqs                    = requirements to build the base (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; buildable               = Can extra be built? Defaults to TRUE
@@ -986,26 +988,36 @@ shield      = 3 ; glacier used to have 4
 [extra_irrigation]
 name           = _("Irrigation")
 category       = "Infra"
+activity_gfx   = "unit.irrigate"
+act_gfx_alt    = "-"
 conflicts      = "Mine"
 hidden_by      = "Farmland"
 
 [extra_mine]
 name           = _("Mine")
 category       = "Infra"
+activity_gfx   = "unit.mine"
+act_gfx_alt    = "-"
 conflicts      = "Irrigation", "Farmland"
 
 [extra_pollution]
 name           = _("Pollution")
 category       = "Nuisance"
+activity_gfx   = "unit.mine"
+act_gfx_alt    = "-"
 
 [extra_hut]
 name           = _("Minor Tribe Village")
 rule_name      = "Hut"
 category       = "Bonus"
+activity_gfx   = "unit.mine"
+act_gfx_alt    = "-"
 
 [extra_farmland]
 name           = _("Farmland")
 category       = "Infra"
+activity_gfx   = "unit.farmland"
+act_gfx_alt    = "unit.irrigate"
 reqs           =
     { "type", "name", "range"
       "Tech", "Refrigeration", "Player"
@@ -1016,10 +1028,14 @@ conflicts      = "Mine"
 [extra_fallout]
 name           = _("Fallout")
 category       = "Nuisance"
+activity_gfx   = "unit.mine"
+act_gfx_alt    = "-"
 
 [extra_fortress]
 name           = _("Fortress")
 category       = "Infra"
+activity_gfx   = "unit.fortress"
+act_gfx_alt    = "-"
 reqs           =
     { "type", "name", "range", "present"
       "Tech", "Construction", "Player", TRUE
@@ -1033,6 +1049,8 @@ flags          = "NativeTile"
 [extra_airbase]
 name           = _("Airbase")
 category       = "Infra"
+activity_gfx   = "unit.airbase"
+act_gfx_alt    = "-"
 reqs           =
     { "type", "name", "range", "present"
       "Tech", "Radio", "Player", TRUE
@@ -1046,6 +1064,8 @@ flags          = "Refuel"
 [extra_buoy]
 name           = _("Buoy")
 category       = "Infra"
+activity_gfx   = "unit.buoy"
+act_gfx_alt    = "unit.fortress"
 reqs           =
     { "type", "name", "range", "present"
       "Tech", "Radio", "Player", TRUE
@@ -1057,6 +1077,8 @@ reqs           =
 [extra_ruins]
 name           = _("Ruins")
 category       = "Bonus"
+activity_gfx   = "unit.ruins"
+act_gfx_alt    = "unit.fortress"
 reqs           =
     { "type", "name", "range", "present"
       "TerrainClass", "Land", "Local", TRUE
@@ -1068,6 +1090,8 @@ flags          = "TerrChangeRemoves"
 [extra_road]
 name           = _("Road")
 category       = "Infra"
+activity_gfx   = "unit.road"
+act_gfx_alt    = "-"
 reqs           =
     { "type", "name", "range"
       "UnitFlag", "Settlers", "Local"
@@ -1080,6 +1104,8 @@ flags          = "NativeTile", "AutoOnCityCenter"
 [extra_railroad]
 name           = _("Railroad")
 category       = "Infra"
+activity_gfx   = "unit.rail"
+act_gfx_alt    = "unit.road"
 reqs           =
     { "type", "name", "range"
       "Tech", "Railroad", "Player"
@@ -1093,6 +1119,8 @@ flags          = "NativeTile", "AutoOnCityCenter"
 [extra_river]
 name           = _("River")
 category       = "Natural"
+activity_gfx   = "unit.river"
+act_gfx_alt    = "unit.road"
 buildable      = FALSE
 native_to      = "Land", "Small Land", "Merchant"
 flags          = "NativeTile"
@@ -1110,8 +1138,6 @@ flags          = "NativeTile"
 ; graphic                 = tag specifing preferred graphic
 ; graphic_alt             = tag for alternate graphic if preferred graphic is not 
 ;                           present. Can use eg "-" for no alternate graphic.
-; activity_gfx            = tag specifing graphic for unit building base
-; act_gfx_alt             = tag for alternative graphic for unit building base
 ; gui_type                = How gui should handle this base. Fortress/Airbase/Other
 ; build_time              = How long it takes for a unit to build this base. Value 0
 ;                           means that terrain specific value is used instead.
@@ -1135,8 +1161,6 @@ flags          = "NativeTile"
 name           = _("Fortress")
 graphic        = "base.fortress"
 graphic_alt    = "-"
-activity_gfx   = "unit.fortress"
-act_gfx_alt    = "-"
 gui_type       = "Fortress"
 build_time     = 3
 defense_bonus  = 100
@@ -1152,8 +1176,6 @@ a quarter of its hit points.\
 name           = _("Airbase")
 graphic        = "base.airbase"
 graphic_alt    = "-"
-activity_gfx   = "unit.airbase"
-act_gfx_alt    = "-"
 gui_type       = "Airbase"
 build_time     = 3
 flags          = "NoStackDeath", "ParadropFrom"
@@ -1166,8 +1188,6 @@ airbase may be attacked by land units.\
 name           = _("Buoy")
 graphic        = "base.buoy"
 graphic_alt    = "base.fortress"
-activity_gfx   = "unit.buoy"
-act_gfx_alt    = "unit.fortress"
 gui_type       = "Fortress"
 build_time     = 3
 vision_main_sq = 5
@@ -1179,8 +1199,6 @@ Buoys may be built in the ocean (by units on a sea-going vessel).\
 name           = _("Ruins")
 graphic        = "base.ruins"
 graphic_alt    = "-"
-activity_gfx   = "unit.ruins"
-act_gfx_alt    = "unit.fortress"
 build_time     = 0
 gui_type       = "Other"
 helptext       = _("\
@@ -1197,8 +1215,6 @@ They have no effect on gameplay.\
 ; graphic                 = tag specifing preferred graphic
 ; graphic_alt             = tag for alternate graphic if preferred graphic is not 
 ;                           present. Can use eg "-" for no alternate graphic.
-; activity_gfx            = tag specifing graphic for unit building road
-; act_gfx_alt             = tag for alternative graphic for unit building road
 ; move_cost               = how much movement it takes to travel
 ;                           via this road.
 ; move_mode               = how movement costs are applied
@@ -1245,8 +1261,6 @@ They have no effect on gameplay.\
 name           = _("Road")
 graphic        = "road"
 graphic_alt    = "-"
-activity_gfx   = "unit.road"
-act_gfx_alt    = "-"
 move_cost      = 1
 build_time     = 0
 food_incr      = 0
@@ -1262,8 +1276,6 @@ flags          = "RequiresBridge"
 name           = _("Railroad")
 graphic        = "rail"
 graphic_alt    = "-"
-activity_gfx   = "unit.rail"
-act_gfx_alt    = "unit.road"
 move_cost      = 0
 build_time     = 3
 food_incr      = 0
@@ -1279,8 +1291,6 @@ flags          = "RequiresBridge"
 name           = _("River")
 graphic        = "river"
 graphic_alt    = "-"
-activity_gfx   = "unit.rail"
-act_gfx_alt    = "unit.road"
 pillageable    = FALSE
 defense_bonus  = 25
 move_cost      = 1
