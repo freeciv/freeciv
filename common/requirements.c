@@ -175,6 +175,12 @@ struct universal universal_by_rule_name(const char *kind,
       return source;
     }
     break;
+  case VUT_MAXTILEUNITS:
+    source.value.maxTileUnits = atoi(value);
+    if (0 <= source.value.maxTileUnits) {
+      return source;
+    }
+    break;
   case VUT_TERRAINCLASS:
     source.value.terrainclass
       = terrain_class_by_name(value, fc_strcasecmp);
@@ -327,6 +333,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_AI_LEVEL:
     source.value.ai_level = value;
     return source;
+  case VUT_MAXTILEUNITS:
+    source.value.maxTileUnits = value;
+    return source;
   case VUT_TERRAINCLASS:
     source.value.terrainclass = value;
     return source;
@@ -413,6 +422,8 @@ int universal_number(const struct universal *source)
     return source->value.minsize;
   case VUT_AI_LEVEL:
     return source->value.ai_level;
+  case VUT_MAXTILEUNITS:
+    return source->value.maxTileUnits;
   case VUT_TERRAINCLASS:
     return source->value.terrainclass;
   case VUT_BASEFLAG:
@@ -475,6 +486,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_ROADFLAG:
     case VUT_TERRAINALTER:
     case VUT_CITYTILE:
+    case VUT_MAXTILEUNITS:
       req.range = REQ_RANGE_LOCAL;
       break;
     case VUT_MINSIZE:
@@ -552,6 +564,7 @@ struct requirement req_from_str(const char *type, const char *range,
     invalid = (req.range != REQ_RANGE_LOCAL);
     break;
   case VUT_CITYTILE:
+  case VUT_MAXTILEUNITS:
     invalid = (req.range != REQ_RANGE_LOCAL
                && req.range != REQ_RANGE_CADJACENT
                && req.range != REQ_RANGE_ADJACENT);
@@ -872,6 +885,53 @@ static enum fc_tristate is_techflag_in_range(const struct player *target_player,
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_COUNT:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
+
+  return TRI_MAYBE;
+}
+
+/****************************************************************************
+  Is there a tile with max X units within range of the target?
+****************************************************************************/
+static enum fc_tristate
+is_tile_units_in_range(const struct tile *target_tile, enum req_range range,
+                       int maxUnits)
+{
+  /* TODO: if can't see V_INVIS -> TRI_MAYBE */
+  switch (range) {
+  case REQ_RANGE_LOCAL:
+    if (!target_tile) {
+      return TRI_MAYBE;
+    }
+    return BOOL_TO_TRISTATE(unit_list_size(target_tile->units) <= maxUnits);
+  case REQ_RANGE_CADJACENT:
+    if (!target_tile) {
+      return TRI_MAYBE;
+    }
+    cardinal_adjc_iterate(target_tile, adjc_tile) {
+      if (unit_list_size(adjc_tile->units) <= maxUnits) {
+        return TRI_YES;
+      }
+    } cardinal_adjc_iterate_end;
+    return TRI_NO;
+  case REQ_RANGE_ADJACENT:
+    if (!target_tile) {
+      return TRI_MAYBE;
+    }
+    adjc_iterate(target_tile, adjc_tile) {
+      if (unit_list_size(adjc_tile->units) <= maxUnits) {
+        return TRI_YES;
+      }
+    } adjc_iterate_end;
+    return TRI_NO;
+  case REQ_RANGE_CITY:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_WORLD:
   case REQ_RANGE_COUNT:
     break;
   }
@@ -1659,6 +1719,10 @@ bool is_req_active(const struct player *target_player,
                               && target_player->ai_common.skill_level == req->source.value.ai_level);
     }
     break;
+  case VUT_MAXTILEUNITS:
+    eval = is_tile_units_in_range(target_tile, req->range,
+                                  req->source.value.maxTileUnits);
+    break;
   case VUT_TERRAINCLASS:
     eval = is_terrain_class_in_range(target_tile, target_city,
                                      req->range, req->survives,
@@ -1777,6 +1841,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_MINSIZE:
   case VUT_NATIONALITY:
   case VUT_DIPLREL:
+  case VUT_MAXTILEUNITS:
   case VUT_UTYPE:	/* Not sure about this one */
   case VUT_UTFLAG:	/* Not sure about this one */
   case VUT_UCLASS:	/* Not sure about this one */
@@ -1858,6 +1923,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.minsize == psource2->value.minsize;
   case VUT_AI_LEVEL:
     return psource1->value.ai_level == psource2->value.ai_level;
+  case VUT_MAXTILEUNITS:
+    return psource1->value.maxTileUnits == psource2->value.maxTileUnits;
   case VUT_TERRAINCLASS:
     return psource1->value.terrainclass == psource2->value.terrainclass;
   case VUT_BASEFLAG:
@@ -1941,6 +2008,9 @@ const char *universal_rule_name(const struct universal *psource)
     return buffer;
   case VUT_AI_LEVEL:
     return ai_level_name(psource->value.ai_level);
+  case VUT_MAXTILEUNITS:
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.maxTileUnits);
+    return buffer;
   case VUT_TERRAINCLASS:
     return terrain_class_name(psource->value.terrainclass);
   case VUT_BASEFLAG:
@@ -2044,6 +2114,10 @@ const char *universal_name_translation(const struct universal *psource,
     /* TRANS: "Hard AI" */
     cat_snprintf(buf, bufsz, _("%s AI"),
                  ai_level_name(psource->value.ai_level)); /* FIXME */
+    return buf;
+  case VUT_MAXTILEUNITS:
+    cat_snprintf(buf, bufsz, _("Max %d unit(s) on the tile"),
+                 psource->value.maxTileUnits);
     return buf;
   case VUT_TERRAINCLASS:
     /* TRANS: "Land terrain" */

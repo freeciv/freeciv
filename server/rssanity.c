@@ -144,6 +144,8 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
 
      case VUT_EXTRA:
        /* Note that there can be more than 1 extra / tile. */
+     case VUT_MAXTILEUNITS:
+       /* Can require present and non present to represent a range */
      case VUT_NONE:
      case VUT_ADVANCE:
      case VUT_TECHFLAG:

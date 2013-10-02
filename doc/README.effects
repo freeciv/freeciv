@@ -69,6 +69,7 @@ Specialist:    Local
 MinYear:       World
 MinSize:       City
 AI:            Player
+MaxUnitsOnTile:Local, Adjacent, CAdjacent
 TerrainClass:  Local, Adjacent, CAdjacent, City
 TerrainFlag:   Local, Adjacent, CAdjacent, City
 TerrainAlter:  Local
@@ -79,7 +80,7 @@ AI is ai player difficulty level.
 TerrainClass is either "Land" or "Oceanic".
 Only "Center" is supported as CityTile type.
 DiplRel is a diplomatic relationship.
-
+MaxUnitsOnTile is about the number of units present on a tile.
 
 Effect types
 ============
@@ -460,3 +461,12 @@ A DiplRel is considered fulfilled for the range
 
 Only the exact relationship required fulfills it. Example: An alliance or
 an armistice agreement won't fulfill a "Peace" requirement.
+
+The MaxUnitsOnTile requirement type
+----------------------------
+Check the number of units present on a tile. Is true if no more than the
+specified number of units are present on a single tile.
+
+Hint: By using negation ("not present") it is possible to check if a tile
+has more than the given numbers. It is possible to combine a negated and a
+non negated requirement to specify a range.

@@ -952,6 +952,54 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     return TRUE;
 
+  case VUT_MAXTILEUNITS:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Max %d unit(s) can be present on the tile.\n"),
+                     preq->source.value.maxTileUnits);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("More than %d unit(s) must be present"
+                       " on the tile.\n"),
+                     preq->source.value.maxTileUnits);
+      }
+      return TRUE;
+    case REQ_RANGE_CADJACENT:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("A tile with max %d unit(s)"
+                       " must be cardinally adjacent.\n"),
+                     preq->source.value.maxTileUnits);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("A tile with more than than %d unit(s)"
+                       " must be cardinally adjacent.\n"),
+                     preq->source.value.maxTileUnits);
+      }
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("A tile with max %d unit(s) must be adjacent.\n"),
+                     preq->source.value.maxTileUnits);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("A tile with more than than %d unit(s)"
+                       " must be adjacent.\n"),
+                     preq->source.value.maxTileUnits);
+      }
+      return TRUE;
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+
   case VUT_AI_LEVEL:
     if (preq->present) {
       cat_snprintf(buf, bufsz, _("Requires AI player of level %s.\n"),

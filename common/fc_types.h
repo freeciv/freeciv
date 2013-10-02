@@ -303,6 +303,7 @@ typedef union {
   int roadflag;                         /* enum road_flag_id */
   int diplrel;                          /* enum diplstate_type or
                                            enum diplrel_asym */
+  int maxTileUnits;
 } universals_u;
 
 /* The kind of universals_u (value_union_type was req_source_type).
@@ -367,6 +368,8 @@ typedef union {
 #define SPECENUM_VALUE25NAME "Achievement"
 #define SPECENUM_VALUE26 VUT_DIPLREL
 #define SPECENUM_VALUE26NAME "DiplRel"
+#define SPECENUM_VALUE27 VUT_MAXTILEUNITS
+#define SPECENUM_VALUE27NAME "MaxUnitsOnTile"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"
