@@ -13,6 +13,17 @@
 #ifndef FC__RULESET_H
 #define FC__RULESET_H
 
+#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2013.May.14"
+/*
+ * Ruleset capabilities acceptable to this program:
+ *
+ * +Freeciv-2.3-ruleset
+ *    - basic ruleset format for Freeciv versions 2.3.x; required
+ *
+ * +Freeciv-tilespec-Devel-YYYY.MMM.DD
+ *    - ruleset of the development version at the given data
+ */
+
 struct conn_list;
 
 /* functions */

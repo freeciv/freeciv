@@ -7,8 +7,10 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/common \
 	-I$(top_srcdir)/server
 
-freeciv_ruledit_SOURCES = \
-		ruledit.c
+freeciv_ruledit_SOURCES =	\
+		ruledit.c	\
+		rulesave.c	\
+		rulessave.h
 
 freeciv_ruledit_LDADD = \
  $(top_builddir)/server/libfreeciv-srv.la \

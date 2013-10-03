@@ -74,18 +74,6 @@
 
 #include "ruleset.h"
 
-
-#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2013.May.14"
-/*
- * Ruleset capabilities acceptable to this program:
- *
- * +Freeciv-2.3-ruleset
- *    - basic ruleset format for Freeciv versions 2.3.x; required
- *
- * +Freeciv-tilespec-Devel-YYYY.MMM.DD
- *    - ruleset of the development version at the given data
- */
-
 /* RULESET_SUFFIX already used, no leading dot here */
 #define RULES_SUFFIX "ruleset"
 #define SCRIPT_SUFFIX "lua"
