@@ -85,12 +85,16 @@ static void check_specials(const char *file, const char *function, int line)
       SANITY_TILE(ptile,
                   tile_has_extra(ptile, special_extra_get(S_IRRIGATION)));
     }
-    if (tile_has_extra(ptile, special_extra_get(S_MINE))) {
-      SANITY_TILE(ptile, pterrain->mining_result == pterrain);
-    }
-    if (tile_has_extra(ptile, special_extra_get(S_IRRIGATION))) {
-      SANITY_TILE(ptile, pterrain->irrigation_result == pterrain);
-    }
+    extra_type_by_cause_iterate(EC_MINE, pextra) {
+      if (tile_has_extra(ptile, pextra)) {
+        SANITY_TILE(ptile, pterrain->mining_result == pterrain);
+      }
+    } extra_type_by_cause_iterate_end;
+    extra_type_by_cause_iterate(EC_IRRIGATION, pextra) {
+      if (tile_has_extra(ptile, pextra)) {
+        SANITY_TILE(ptile, pterrain->irrigation_result == pterrain);
+      }
+    } extra_type_by_cause_iterate_end;
 
     SANITY_TILE(ptile, terrain_index(pterrain) >= T_FIRST 
                        && terrain_index(pterrain) < terrain_count());
