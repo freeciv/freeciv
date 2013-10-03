@@ -1516,7 +1516,7 @@ if test "$USE_NLS" != "yes" ; then
     dnl - Set list of distributed files (no generated files)
     sed -e 's/^dist distdir:.*/dist distdir: nonls_warn/' \
         -e 's/^update-po:.*/update-po:/' \
-        -e 's/^DISTFILES =.*/DISTFILES = ChangeLog Makefile.in.in POTFILES.in POTFILES.skip \$(POFILES)/' \
+        -e 's/^DISTFILES =.*/DISTFILES = Makefile.in.in POTFILES.in POTFILES.skip \$(POFILES)/' \
         translations/${domain}/Makefile.in > translations/${domain}/Makefile
 
     dnl Create nonls_warn target.
