@@ -2096,54 +2096,68 @@ static bool load_ruleset_units(struct section_file *file)
   }
 
   /* roles */
-  unit_type_iterate(u) {
-    const int i = utype_index(u);
+  if (ok) {
+    unit_type_iterate(u) {
+      const int i = utype_index(u);
 
-    BV_CLR_ALL(u->roles);
+      BV_CLR_ALL(u->roles);
     
-    slist = secfile_lookup_str_vec(file, &nval, "%s.roles",
-                                   section_name(section_list_get(sec, i)));
-    for(j=0; j<nval; j++) {
-      sval = slist[j];
-      if(strcmp(sval,"")==0) {
-	continue;
+      slist = secfile_lookup_str_vec(file, &nval, "%s.roles",
+                                     section_name(section_list_get(sec, i)));
+      for (j = 0; j < nval; j++) {
+        sval = slist[j];
+        if (strcmp(sval, "") == 0) {
+          continue;
+        }
+        ival = unit_role_id_by_name(sval, fc_strcasecmp);
+        if (!unit_role_id_is_valid(ival)) {
+          ruleset_error(LOG_ERROR, "\"%s\" unit_type \"%s\": bad role name \"%s\".",
+                        filename, utype_rule_name(u), sval);
+          ok = FALSE;
+          break;
+        } else if ((ival == L_FERRYBOAT || ival == L_BARBARIAN_BOAT)
+                   && u->uclass->move_type == UMT_LAND) {
+          ruleset_error(LOG_ERROR, "\"%s\" unit_type \"%s\": role \"%s\" "
+                        "for land moving unit.",
+                        filename, utype_rule_name(u), sval);
+          ok = FALSE;
+          break;
+        } else {
+          BV_SET(u->roles, ival - L_FIRST);
+        }
+        fc_assert(utype_has_role(u, ival));
       }
-      ival = unit_role_id_by_name(sval, fc_strcasecmp);
-      if (!unit_role_id_is_valid(ival)) {
-        log_error("\"%s\" unit_type \"%s\": bad role name \"%s\".",
-                  filename, utype_rule_name(u), sval);
-      } else if ((ival == L_FERRYBOAT || ival == L_BARBARIAN_BOAT)
-                 && u->uclass->move_type == UMT_LAND) {
-        log_error( "\"%s\" unit_type \"%s\": role \"%s\" "
-                  "for land moving unit.",
-                  filename, utype_rule_name(u), sval);
-      } else {
-        BV_SET(u->roles, ival - L_FIRST);
+      free(slist);
+    } unit_type_iterate_end;
+  }
+
+  if (ok) { 
+    /* Some more consistency checking: */
+    unit_type_iterate(u) {
+      if (!valid_advance(u->require_advance)) {
+        ruleset_error(LOG_ERROR, "\"%s\" unit_type \"%s\": depends on removed tech \"%s\".",
+                       filename, utype_rule_name(u),
+                       advance_rule_name(u->require_advance));
+        u->require_advance = A_NEVER;
+        ok = FALSE;
+        break;
       }
-      fc_assert(utype_has_role(u, ival));
-    }
-    free(slist);
-  } unit_type_iterate_end;
 
-  /* Some more consistency checking: */
-  unit_type_iterate(u) {
-    if (!valid_advance(u->require_advance)) {
-      log_error("\"%s\" unit_type \"%s\": depends on removed tech \"%s\".",
-                filename, utype_rule_name(u),
-                advance_rule_name(u->require_advance));
-      u->require_advance = A_NEVER;
-    }
+      if (utype_has_flag(u, UTYF_SETTLERS)
+          && u->city_size <= 0) {
+        ruleset_error(LOG_ERROR, "\"%s\": Unit %s would build size %d cities",
+                      filename, utype_rule_name(u), u->city_size);
+        u->city_size = 1;
+        ok = FALSE;
+        break;
+      }
+    } unit_type_iterate_end;
+  }
 
-    if (utype_has_flag(u, UTYF_SETTLERS)
-        && u->city_size <= 0) {
-      ruleset_error(LOG_ERROR, "\"%s\": Unit %s would build size %d cities",
-                    filename, utype_rule_name(u), u->city_size);
-      u->city_size = 1;
-    }
-  } unit_type_iterate_end;
-
-  /* Setup roles and flags pre-calcs: */
-  role_unit_precalcs();
+  if (ok) {
+    /* Setup roles and flags pre-calcs: */
+    role_unit_precalcs();
+  }
 
   section_list_destroy(csec);
   section_list_destroy(sec);
