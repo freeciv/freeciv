@@ -3811,14 +3811,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
 
     /* load the ruleset (and game settings defined in the ruleset) */
     player_info_freeze();
-    if (load_rulesets(old, TRUE)) {
-      cmd_reply(CMD_RULESETDIR, caller, C_OK, 
-                _("Ruleset directory set to \"%s\""), str);
-    } else {
-      cmd_reply(CMD_RULESETDIR, caller, C_SYNTAX,
-                _("Failed loading rulesets from directory \"%s\", using \"%s\""),
-                str, game.server.rulesetdir);
-
+    if (!load_rulesets(old, TRUE)) {
       success = FALSE;
 
       /* While loading of the requested ruleset failed, we might
@@ -3834,6 +3827,15 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
     /* list changed values */
     show_changed(caller, check, read_recursion);
     player_info_thaw();
+
+    if (success) {
+      cmd_reply(CMD_RULESETDIR, caller, C_OK, 
+                _("Ruleset directory set to \"%s\""), str);
+    } else {
+      cmd_reply(CMD_RULESETDIR, caller, C_SYNTAX,
+                _("Failed loading rulesets from directory \"%s\", using \"%s\""),
+                str, game.server.rulesetdir);
+    }
 
     return success;
   }

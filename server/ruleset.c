@@ -40,6 +40,7 @@
 #include "effects.h"
 #include "extras.h"
 #include "fc_types.h"
+#include "featured_text.h"
 #include "game.h"
 #include "government.h"
 #include "map.h"
@@ -59,6 +60,7 @@
 
 /* server */
 #include "citytools.h"
+#include "notify.h"
 #include "plrhand.h"
 #include "rssanity.h"
 #include "settings.h"
@@ -5967,6 +5969,14 @@ static void send_ruleset_team_names(struct conn_list *dest)
 }
 
 /**************************************************************************
+  Make it clear to everyone that requested ruleset has not been loaded.
+**************************************************************************/
+static void notify_ruleset_fallback(const char *msg)
+{
+  notify_conn(NULL, NULL, E_LOG_FATAL, ftc_warning, "%s", msg);
+}
+
+/**************************************************************************
   Loads the rulesets.
 **************************************************************************/
 bool load_rulesets(const char *restore, bool act)
@@ -5979,6 +5989,8 @@ bool load_rulesets(const char *restore, bool act)
   if (restore != NULL) {
     if (load_rulesetdir(restore, act)) {
       sz_strlcpy(game.server.rulesetdir, restore);
+
+      notify_ruleset_fallback(_("Ruleset couldn't be loaded. Keeping previous one."));
 
       /* We're in sane state as restoring previous ruleset succeeded,
        * but return failure to indicate that this is not what caller
@@ -5995,6 +6007,8 @@ bool load_rulesets(const char *restore, bool act)
        * but return failure to indicate that this is not what caller
        * wanted. */
       sz_strlcpy(game.server.rulesetdir, GAME_DEFAULT_RULESETDIR);
+
+      notify_ruleset_fallback(_("Ruleset couldn't be loaded. Switching to default one."));
 
       return FALSE;
     }
