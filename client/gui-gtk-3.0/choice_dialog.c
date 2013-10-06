@@ -151,6 +151,10 @@ void choice_dialog_add(GtkWidget *dshell, const gchar *label,
     GdkRGBA warning;
     gdk_rgba_parse(&warning, "red");
     gtk_widget_override_background_color(button, 0, &warning);
+
+    gtk_widget_set_tooltip_text(button,
+                                _("Starting to do this"
+                                  " may currently be impossible."));
   }
 }
 
