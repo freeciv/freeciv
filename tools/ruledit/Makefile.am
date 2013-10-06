@@ -10,7 +10,7 @@ AM_CPPFLAGS = \
 freeciv_ruledit_SOURCES =	\
 		ruledit.c	\
 		rulesave.c	\
-		rulessave.h
+		rulesave.h
 
 freeciv_ruledit_LDADD = \
  $(top_builddir)/server/libfreeciv-srv.la \
