@@ -659,16 +659,16 @@ bool activity_requires_target(enum unit_activity activity)
   case ACTIVITY_GEN_ROAD:
   case ACTIVITY_IRRIGATE:
   case ACTIVITY_MINE:
+  case ACTIVITY_POLLUTION:
+  case ACTIVITY_FALLOUT:
     return TRUE;
   case ACTIVITY_IDLE:
-  case ACTIVITY_POLLUTION:
   case ACTIVITY_FORTIFIED:
   case ACTIVITY_SENTRY:
   case ACTIVITY_GOTO:
   case ACTIVITY_EXPLORE:
   case ACTIVITY_TRANSFORM:
   case ACTIVITY_FORTIFYING:
-  case ACTIVITY_FALLOUT:
   case ACTIVITY_CONVERT:
     return FALSE;
   /* These shouldn't be kicking around internally. */
