@@ -1627,6 +1627,14 @@ void show_tech_gained_dialog(Tech_type_id tech)
 }
 
 /****************************************************************
+  Show tileset error dialog.
+*****************************************************************/
+void show_tileset_error(const char *msg)
+{
+  /* PORTME */
+}
+
+/****************************************************************
   Popup dialog for upgrade units
 *****************************************************************/
 void popup_upgrade_dialog(struct unit_list *punits)
