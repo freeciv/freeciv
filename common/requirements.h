@@ -39,8 +39,10 @@ extern "C" {
 #define SPECENUM_VALUE4NAME "Continent"
 #define SPECENUM_VALUE5 REQ_RANGE_PLAYER
 #define SPECENUM_VALUE5NAME "Player"
-#define SPECENUM_VALUE6 REQ_RANGE_WORLD
-#define SPECENUM_VALUE6NAME "World"
+#define SPECENUM_VALUE6 REQ_RANGE_ALLIANCE
+#define SPECENUM_VALUE6NAME "Alliance"
+#define SPECENUM_VALUE7 REQ_RANGE_WORLD
+#define SPECENUM_VALUE7NAME "World"
 #define SPECENUM_COUNT REQ_RANGE_COUNT /* keep this last */
 #include "specenum_gen.h"
 

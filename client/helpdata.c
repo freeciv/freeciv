@@ -345,6 +345,19 @@ static bool insert_requirement(char *buf, size_t bufsz,
                                              (preq->source.value.advance)));
       }
       return TRUE;
+    case REQ_RANGE_ALLIANCE:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that player allied to you has researched the %s technology.\n"),
+                     advance_name_for_player(pplayer, advance_number
+                                             (preq->source.value.advance)));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented if player allied to you has researched the %s technology.\n"),
+                     advance_name_for_player(pplayer, advance_number
+                                             (preq->source.value.advance)));
+      }
+      return TRUE;
     case REQ_RANGE_WORLD:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -381,6 +394,17 @@ static bool insert_requirement(char *buf, size_t bufsz,
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented if you to have researched technology with \%s\" flag.\n"),
+                     tech_flag_id_name(preq->source.value.techflag));
+      }
+      return TRUE;
+    case REQ_RANGE_ALLIANCE:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that player allied to you has researched technology with \%s\" flag.\n"),
+                     tech_flag_id_name(preq->source.value.techflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented if player allied to you has researched technology with \%s\" flag.\n"),
                      tech_flag_id_name(preq->source.value.techflag));
       }
       return TRUE;
@@ -440,6 +464,20 @@ static bool insert_requirement(char *buf, size_t bufsz,
           cat_snprintf(buf, bufsz,
                        _("Requires that the %s wonder has not yet been built "
                          "by any player.\n"),
+                       improvement_name_translation
+                       (preq->source.value.building));
+        }
+        return TRUE;
+      }
+      break;
+    case REQ_RANGE_ALLIANCE:
+      if (is_wonder(preq->source.value.building)) {
+        if (preq->present) {
+          cat_snprintf(buf, bufsz, _("Requires someone allied to you to own the %s wonder.\n"),
+                       improvement_name_translation
+                       (preq->source.value.building));
+        } else {
+          cat_snprintf(buf, bufsz, _("Prevented if someone allied to you own the %s wonder.\n"),
                        improvement_name_translation
                        (preq->source.value.building));
         }
@@ -566,6 +604,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
+    case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -621,6 +660,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
+    case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -676,6 +716,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
+    case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -694,6 +735,14 @@ static bool insert_requirement(char *buf, size_t bufsz,
                      nation_adjective_translation(preq->source.value.nation));
       }
       return TRUE;
+    case REQ_RANGE_ALLIANCE:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz, _("Requires that you are allied with %s nation.\n"),
+                     nation_adjective_translation(preq->source.value.nation));
+      } else {
+        cat_snprintf(buf, bufsz, _("Requires that you are not allied with %s nation.\n"),
+                     nation_adjective_translation(preq->source.value.nation));
+      }
     case REQ_RANGE_WORLD:
       if (preq->present) {
         cat_snprintf(buf, bufsz, _("Requires the %s nation in the game.\n"),
@@ -726,6 +775,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_WORLD:
+    case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_LOCAL:
     case REQ_RANGE_CADJACENT:
@@ -752,6 +802,18 @@ static bool insert_requirement(char *buf, size_t bufsz,
                      diplrel_name_translation(preq->source.value.diplrel));
       }
       return TRUE;
+    case REQ_RANGE_ALLIANCE:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that somebody in your alliance has %s "
+                       "diplomatic relationship to another living player.\n"),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that nobody in your alliance has %s "
+                       "diplomatic relationship to another living player.\n"),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      }
     case REQ_RANGE_WORLD:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -806,6 +868,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CITY:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
+    case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -842,6 +905,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CITY:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
+    case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -867,6 +931,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CITY:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
+    case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -906,6 +971,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       case REQ_RANGE_CITY:
       case REQ_RANGE_CONTINENT:
       case REQ_RANGE_PLAYER:
+      case REQ_RANGE_ALLIANCE:
       case REQ_RANGE_WORLD:
       case REQ_RANGE_COUNT:
         /* Not supported. */
@@ -994,6 +1060,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CITY:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
+    case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -1066,6 +1133,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
+    case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -1121,6 +1189,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
+    case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -1174,6 +1243,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
+    case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -1227,6 +1297,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
+    case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -1264,6 +1335,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CITY:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
+    case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
       /* Not supported. */

@@ -32,7 +32,7 @@ Value is integral amount parameter for many effects (must be in the range
 
 Requirement range may be one of: "None", "Local",
 "CAdjacent" (Cardinally Adjacent), "Adjacent", "City", 
-"Continent", "Player", "World". Some requirement types may only work at 
+"Continent", "Player", "Allied, "World". Some requirement types may only work at 
 certain ranges; this is not yet documented. In particular, at present, 
 "Continent" effects can affect only cities and units in cities.
 
@@ -47,11 +47,11 @@ met).
 Requirement types and supported ranges
 ======================================
 
-Tech:          World, Player
-TechFlag:      World, Player
-Achievement:   World, Player
+Tech:          World, Alliance, Player
+TechFlag:      World, Alliance, Player
+Achievement:   World, Alliance, Player
 Gov:           Player
-Building:      World, Player, Continent, City, Local
+Building:      World, Alliance, Player, Continent, City, Local
 Extra:         Local, Adjacent, CAdjacent, City
 BaseFlag:      Local, Adjacent, CAdjacent, City
 RoadFlag:      Local, Adjacent, CAdjacent, City
@@ -61,9 +61,9 @@ UnitType:      Local
 UnitFlag:      Local
 UnitClass:     Local
 UnitClassFlag: Local
-Nation:        World, Player
+Nation:        World, Alliance, Player
 Nationality:   City
-DiplRel:       World, Player, Local
+DiplRel:       World, Alliance, Player, Local
 OutputType:    Local
 Specialist:    Local
 MinYear:       World
