@@ -17,6 +17,7 @@
 
 //common
 #include "game.h"
+#include "version.h"
 
 //client
 #include "client_main.h"
@@ -72,10 +73,30 @@ void fc_client::create_main_page(void)
 
   QPixmap main_graphics(tileset_main_intro_filename(tileset));
   QLabel* free_main_pic = new QLabel;
-  pages_layout[PAGE_MAIN] = new QGridLayout;
+  QPainter painter(&main_graphics);
   QStringList buttons_names;
   int buttons_nr;
+  char msgbuf[128];
+  const char *rev_ver;
+  QFont f = QApplication::font();
+  QFontMetrics fm(f);
 
+  pages_layout[PAGE_MAIN] = new QGridLayout;
+
+  rev_ver = fc_svn_revision();
+  if (rev_ver == NULL) {
+    /* TRANS: "version 2.6.0, Qt client" */
+    fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, Qt client"),
+                word_version(), VERSION_STRING);
+  } else {
+    /* TRANS: "version 2.6.0 (r25000), Qt client" */
+    fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s (%s), Qt client"),
+                word_version(), VERSION_STRING, rev_ver);
+  }
+
+  painter.setPen(Qt::white);
+  painter.drawText(main_graphics.width()-fm.width(msgbuf)-10,
+                   main_graphics.height()-fm.descent(), msgbuf);
   free_main_pic->setPixmap(main_graphics);
   pages_layout[PAGE_MAIN]->addWidget(free_main_pic,
                                      0, 0, 1, 2, Qt::AlignCenter);
