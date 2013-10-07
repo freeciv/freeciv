@@ -1180,3 +1180,21 @@ void show_tech_gained_dialog(Tech_type_id tech)
     popup_help_dialog_typed(advance_name_for_player(client.conn.playing, tech), HELP_TECH);
   }
 }
+
+/****************************************************************
+  Show tileset error dialog. It's blocking as client will
+  shutdown as soon as this function returns.
+*****************************************************************/
+void show_tileset_error(const char *msg)
+{
+  GtkWidget *dialog;
+
+  dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
+                                  GTK_BUTTONS_CLOSE,
+                                  _("Tileset problem, it's probably incompatible with the ruleset:\n%s"),
+                                    msg);
+
+  gtk_dialog_run(GTK_DIALOG(dialog));
+
+  gtk_widget_destroy(dialog);
+}
