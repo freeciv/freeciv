@@ -112,6 +112,16 @@ EXTRA_DIST=	autogen.sh 			\
 
 noinst_HEADERS= fc_version
 
+docs =			\
+	ABOUT-NLS	\
+	AUTHORS		\
+	ChangeLog	\
+	COPYING		\
+	INSTALL		\
+	NEWS
+
+doc_DATA = $(docs)
+
 src-check:
 	cd tests && $(MAKE) $(AM_MAKEFLAGS) src-check
 

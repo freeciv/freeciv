@@ -2,7 +2,7 @@
 
 SUBDIRS = man ca de fr it ja nl sv
 
-EXTRA_DIST =			\
+docs =				\
 	BUGS			\
 	CodingStyle		\
 	FAQ			\
@@ -27,3 +27,7 @@ EXTRA_DIST =			\
 	README.SDLClient	\
 	README.sound		\
 	TODO
+
+doc_DATA = $(docs)
+
+EXTRA_DIST = $(docs)

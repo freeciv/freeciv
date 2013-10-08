@@ -57,15 +57,13 @@ install-freeciv-common:
 	mv install-$(GUI)/usr/local/share/freeciv install-$(GUI)/data
 	mkdir -p install-$(GUI)/share
 	mv install-$(GUI)/usr/local/share/locale install-$(GUI)/share/
+	mv install-$(GUI)/usr/local/share/doc install-$(GUI)/doc
 	# delete unneeded files
 	rm -r install-$(GUI)/usr
 	# strip 'freeciv-manual' and 'freeciv-modpack' executables
 	strip install-$(GUI)/freeciv-m*
 	# add start menu files
 	cp freeciv-server.cmd freeciv-modpack.cmd freeciv-$(GUI).cmd Freeciv.url install-$(GUI)/
-	# add documentation
-	cp -R $(addprefix ../../, doc ABOUT-NLS AUTHORS ChangeLog COPYING INSTALL NEWS README) install-$(GUI)/
-	find install-$(GUI)/doc -name 'Makefile.*' -delete
 
 install-freeciv-gtk2: install-freeciv-common
 
