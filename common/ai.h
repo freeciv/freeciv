@@ -173,9 +173,8 @@ struct ai_type
      * Unlike with phase_begin, everything is set up for phase already. */
     void (*first_activities)(struct player *pplayer);
 
-    /* Called for player AI when game continues from savegame and
-     * player phase is already active. */
-    void (*restart_savegame)(struct player *pplayer);
+    /* Called for player AI when player phase is already active when AI gains control. */
+    void (*restart_phase)(struct player *pplayer);
 
     /* Called for player AI type in the beginning of player phase. Not for barbarian
      * players. */

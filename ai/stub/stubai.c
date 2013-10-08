@@ -46,7 +46,7 @@ bool fc_ai_stub_setup(struct ai_type *ai)
   strncpy(ai->name, "stub", sizeof(ai->name));
 
   ai->funcs.first_activities = stub_end_turn;
-  ai->funcs.restart_savegame = stub_end_turn;
+  ai->funcs.restart_phase    = stub_end_turn;
 
   return TRUE;
 }

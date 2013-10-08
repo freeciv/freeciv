@@ -355,7 +355,7 @@ static void twai_first_activities(struct player *pplayer)
   Do complete run after savegame loaded - we don't know what has been
   done before.
 **************************************************************************/
-static void twai_restart_savegame(struct player *pplayer)
+static void twai_restart_phase(struct player *pplayer)
 {
   twai_first_activities(pplayer);
 }
@@ -535,7 +535,7 @@ bool fc_ai_threaded_setup(struct ai_type *ai)
   ai->funcs.settler_cont = twai_auto_settler_cont;
 
   ai->funcs.first_activities = twai_first_activities;
-  ai->funcs.restart_savegame = twai_restart_savegame;
+  ai->funcs.restart_phase = twai_restart_phase;
   ai->funcs.diplomacy_actions = twai_diplomacy_actions;
   ai->funcs.last_activities = twai_last_activities;
 

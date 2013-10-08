@@ -364,7 +364,7 @@ static void cai_do_first_activities(struct player *pplayer)
 /**************************************************************************
   Mark turn done as we have already done everything before game was saved.
 **************************************************************************/
-static void cai_restart_savegame(struct player *pplayer)
+static void cai_restart_phase(struct player *pplayer)
 {
   pplayer->ai_phase_done = TRUE;
 }
@@ -551,7 +551,7 @@ bool fc_ai_classic_setup(struct ai_type *ai)
   ai->funcs.settler_cont = cai_auto_settler_cont;
 
   ai->funcs.first_activities = cai_do_first_activities;
-  ai->funcs.restart_savegame = cai_restart_savegame;
+  ai->funcs.restart_phase = cai_restart_phase;
   ai->funcs.diplomacy_actions = cai_diplomacy_actions;
   ai->funcs.last_activities = cai_do_last_activities;
   ai->funcs.treaty_evaluate = cai_treaty_evaluate;

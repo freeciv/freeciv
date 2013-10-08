@@ -794,6 +794,10 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
 
     CALL_PLR_AI_FUNC(gained_control, pplayer, pplayer);
 
+    if (is_player_phase(pplayer, game.info.phase)) {
+      CALL_PLR_AI_FUNC(restart_phase, pplayer, pplayer);
+    }
+
     if (S_S_RUNNING == server_state()) {
       /* In case this was last player who has not pressed turn done. */
       check_for_full_turn_done();
