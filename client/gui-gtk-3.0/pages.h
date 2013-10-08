@@ -35,5 +35,7 @@ void save_scenario_dialog_popup(void);
 void save_mapimg_dialog_popup(void);
 void mapimg_client_save(const char *filename);
 
+void ai_fill_changed_by_server(int aifill);
+
 #endif  /* FC__PAGES_H */
 
