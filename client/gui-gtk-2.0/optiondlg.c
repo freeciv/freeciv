@@ -31,6 +31,7 @@
 #include "colors.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
+#include "pages.h"
 
 #include "optiondlg.h"
 
@@ -991,6 +992,19 @@ void option_dialog_popdown(const struct option_set *poptset)
 }
 
 /****************************************************************************
+  Pass on updated option values to controls outside the main option
+  dialogs.
+****************************************************************************/
+static void option_gui_update_extra(struct option *poption)
+{
+  if (option_optset(poption) == server_optset) {
+    if (strcmp(option_name(poption), "aifill") == 0) {
+      ai_fill_changed_by_server(option_int_get(poption));
+    }
+  }
+}
+
+/****************************************************************************
   Update the GUI for the option.
 ****************************************************************************/
 void option_gui_update(struct option *poption)
@@ -1000,6 +1014,8 @@ void option_gui_update(struct option *poption)
   if (NULL != pdialog) {
     option_dialog_option_refresh(poption);
   }
+
+  option_gui_update_extra(poption);
 }
 
 /****************************************************************************
@@ -1012,6 +1028,8 @@ void option_gui_add(struct option *poption)
   if (NULL != pdialog) {
     option_dialog_option_add(pdialog, poption, TRUE);
   }
+
+  option_gui_update_extra(poption);
 }
 
 /****************************************************************************

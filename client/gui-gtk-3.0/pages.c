@@ -1383,7 +1383,7 @@ static GtkWidget *start_options_table;
 static GtkWidget *observe_button, *ready_button, *nation_button;
 static GtkTreeStore *connection_list_store;
 static GtkTreeView *connection_list_view;
-static GtkWidget *start_aifill_spin;
+static GtkWidget *start_aifill_spin = NULL;
 
 
 /* NB: Must match creation arugments in connection_list_store_new(). */
@@ -1575,14 +1575,35 @@ static void ruleset_enter(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
-  AI fill setting callback.
+  User changed AI fill setting.
 **************************************************************************/
 static bool send_new_aifill_to_server = TRUE;
-static void ai_fill_callback(GtkWidget *w, gpointer data)
+static void ai_fill_changed_by_user(GtkWidget *w, gpointer data)
 {
   if (send_new_aifill_to_server) {
-    send_chat_printf("/set aifill %d",
-                     gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(w)));
+    option_int_set(optset_option_by_name(server_optset, "aifill"),
+                   gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(w)));
+  }
+}
+
+/**************************************************************************
+  Server changed AI fill setting.
+**************************************************************************/
+void ai_fill_changed_by_server(int aifill)
+{
+  if (start_aifill_spin) {
+    bool old = send_new_aifill_to_server;
+    /* Suppress callback from this change to avoid a loop. */
+    send_new_aifill_to_server = FALSE;
+    /* HACK: this GUI control doesn't have quite the same semantics as the
+     * server 'aifill' option, in that it claims to represent the minimum
+     * number of players _including humans_. The GUI control has a minimum
+     * value of 1, so aifill==0 will not be represented correctly.
+     * But there's generally exactly one human player because the control
+     * only shows up for a locally spawned server, so we more or less
+     * get away with this. */
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(start_aifill_spin), aifill);
+    send_new_aifill_to_server = old;
   }
 }
 
@@ -1591,12 +1612,6 @@ static void ai_fill_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 void update_start_page(void)
 {
-  bool old = send_new_aifill_to_server;
-
-  send_new_aifill_to_server = FALSE;
-  gtk_spin_button_set_value(GTK_SPIN_BUTTON(start_aifill_spin),
-                            game.info.aifill);
-  send_new_aifill_to_server = old;
   conn_list_dialog_update();
 }
 
@@ -2593,8 +2608,15 @@ GtkWidget *create_start_page(void)
   gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
   gtk_spin_button_set_update_policy(GTK_SPIN_BUTTON(spin), 
                                     GTK_UPDATE_IF_VALID);
+  if (server_optset != NULL) {
+    struct option *paifill = optset_option_by_name(server_optset, "aifill");
+    if (paifill) {
+      gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin),
+                                option_int_get(paifill));
+    } /* else it'll be updated later */
+  }
   g_signal_connect_after(spin, "value_changed",
-                         G_CALLBACK(ai_fill_callback), NULL);
+                         G_CALLBACK(ai_fill_changed_by_user), NULL);
 
   gtk_grid_attach(GTK_GRID(table), spin, 1, 0, 1, 1);
 
