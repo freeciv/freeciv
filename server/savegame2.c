@@ -1781,6 +1781,26 @@ static void sg_save_savefile(struct savedata *saving)
                            "savefile.diplstate_type_vector");
     free(modname);
   }
+
+  /* Save city_option order in the savegame. */
+  secfile_insert_int(saving->file, CITYO_LAST,
+                     "savefile.city_options_size");
+  if (CITYO_LAST > 0) {
+    const char **modname;
+    int i = 0;
+    int j;
+
+    modname = fc_calloc(CITYO_LAST, sizeof(*modname));
+
+    for (j = 0; j < CITYO_LAST; j++) {
+      modname[i++] = city_options_name(j);
+    }
+
+    secfile_insert_str_vec(saving->file, modname,
+                           CITYO_LAST,
+                           "savefile.city_options_vector");
+    free(modname);
+  }
 }
 
 /****************************************************************************

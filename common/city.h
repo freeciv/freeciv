@@ -40,19 +40,25 @@ enum production_class_type {
 
 /* Various city options.  These are stored by the server and can be
  * toggled by the user.  Each one defaults to off.  Adding new ones
- * will break network compatibility.  Reordering them will break savegame
- * compatibility.  If you want to remove one you should replace it with
- * a CITYO_UNUSED entry; new options can just be added at the end.
+ * will break network compatibility. If you want to reorder or remove
+ * an option remeber to load the city option order from the savegame.
+ * It is stored in savefile.city_options_vector
  *
  * Used in the network protocol.
  */
-enum city_options {
-  CITYO_DISBAND,      /* If building a settler at size 1 disbands the city */
-  CITYO_NEW_EINSTEIN, /* If new citizens are science specialists */
-  CITYO_NEW_TAXMAN,   /* If new citizens are gold specialists */
-  CITYO_LAST
-};
-BV_DEFINE(bv_city_options, CITYO_LAST); /* Used in the network protocol. */
+#define SPECENUM_NAME city_options
+/* If building a settler at size 1 disbands the city */
+#define SPECENUM_VALUE0 CITYO_DISBAND
+#define SPECENUM_VALUE0NAME "Disband"
+/* If new citizens are science specialists */
+#define SPECENUM_VALUE1 CITYO_NEW_EINSTEIN
+#define SPECENUM_VALUE1NAME "New_Einstein"
+/* If new citizens are gold specialists */
+#define SPECENUM_VALUE2 CITYO_NEW_TAXMAN
+#define SPECENUM_VALUE2NAME "New_Taxman"
+#define SPECENUM_COUNT CITYO_LAST
+#define SPECENUM_BITVECTOR bv_city_options
+#include "specenum_gen.h"
 
 /* Changing the max radius requires updating network capabilities and results
  * in incompatible savefiles. */
