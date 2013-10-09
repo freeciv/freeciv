@@ -891,11 +891,13 @@ static void process_attacker_want(struct city *pcity,
       int desire, want;
       int move_time;
       int vuln;
-      int will_be_veteran
-          = (ai_find_source_building(pcity, EFT_VETERAN_BUILD,
-                                     utype_class(punittype),
-                                     unit_move_type_invalid())
-             != B_LAST);
+      bool will_be_veteran
+          = (get_target_bonus_effects(NULL,
+                                      pplayer, pcity,
+                                      NULL, city_tile(pcity),
+                                      punittype, NULL,
+                                      NULL,
+                                      EFT_VETERAN_BUILD) > 0);
       /* Cost (shield equivalent) of gaining these techs. */
       /* FIXME? Katvrr advises that this should be weighted more heavily in big
        * danger. */
