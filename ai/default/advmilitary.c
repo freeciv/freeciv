@@ -955,11 +955,12 @@ static void process_attacker_want(struct ai_type *ait,
       int desire, want;
       int move_time;
       int vuln;
-      int will_be_veteran
-          = (dai_find_source_building(pcity, EFT_VETERAN_BUILD,
-                                      utype_class(punittype),
-                                      unit_move_type_invalid())
-             != B_LAST);
+      int veteran_level = get_target_bonus_effects(NULL,
+                                                   pplayer, NULL, pcity,
+                                                   NULL, city_tile(pcity),
+                                                   punittype, NULL,
+                                                   NULL,
+                                                   EFT_VETERAN_BUILD);
       /* Cost (shield equivalent) of gaining these techs. */
       /* FIXME? Katvrr advises that this should be weighted more heavily in big
        * danger. */
@@ -968,7 +969,7 @@ static void process_attacker_want(struct ai_type *ait,
       int bcost_balanced = build_cost_balanced(punittype);
       /* See description of kill_desire() for info about this variables. */
       int bcost = utype_build_shield_cost(punittype);
-      int attack = adv_unittype_att_rating(punittype, will_be_veteran,
+      int attack = adv_unittype_att_rating(punittype, veteran_level,
                                            SINGLE_MOVE,
                                            punittype->hp);
 
