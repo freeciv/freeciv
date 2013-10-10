@@ -21,6 +21,7 @@
 #include "unit.h"
 #include "tile.h"
 
+static struct action *actions[ACTION_COUNT];
 static struct action_enabler_list *action_enablers_by_action[ACTION_COUNT];
 
 static bool is_enabler_active(const struct action_enabler *enabler,
@@ -40,17 +41,28 @@ static bool is_enabler_active(const struct action_enabler *enabler,
 			      const struct specialist *target_specialist);
 
 /**************************************************************************
-  Initialize the action enablers.
+  Initialize the actions and the action enablers.
 **************************************************************************/
 void actions_init(void)
 {
   action_iterate(act) {
+    actions[act] = action_new();
+
+    actions[act]->id = act;
+
+    if (act == ACTION_SPY_SABOTAGE_UNIT ||
+        act == ACTION_SPY_BRIBE_UNIT) {
+      actions[act]->target_kind = ATK_UNIT;
+    } else {
+      actions[act]->target_kind = ATK_CITY;
+    }
+
     action_enablers_by_action[act] = action_enabler_list_new();
   } action_iterate_end;
 }
 
 /**************************************************************************
-  Free the action enablers.
+  Free the actions and the action enablers.
 **************************************************************************/
 void actions_free(void)
 {
@@ -62,7 +74,31 @@ void actions_free(void)
     } action_enabler_list_iterate_end;
 
     action_enabler_list_destroy(action_enablers_by_action[act]);
+
+    free(actions[act]);
   } action_iterate_end;
+}
+
+/**************************************************************************
+  Create a new action.
+**************************************************************************/
+struct action *action_new(void)
+{
+  struct action *action;
+
+  action = fc_malloc(sizeof(*action));
+
+  return action;
+}
+
+/**************************************************************************
+  Get the target kind of an action.
+**************************************************************************/
+enum action_target_kind action_get_target_kind(int action_id)
+{
+  fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
+
+  return actions[action_id]->target_kind;
 }
 
 /**************************************************************************
@@ -158,21 +194,21 @@ static bool is_enabler_active(const struct action_enabler *enabler,
   Should a precondition become expressible in an action enabler's
   requirement vector please move it.
 **************************************************************************/
-bool is_action_enabled(const enum gen_action wanted_action,
-		       const struct player *actor_player,
-		       const struct city *actor_city,
-		       const struct impr_type *actor_building,
-		       const struct tile *actor_tile,
-		       const struct unit_type *actor_unittype,
-		       const struct output_type *actor_output,
-		       const struct specialist *actor_specialist,
-		       const struct player *target_player,
-		       const struct city *target_city,
-		       const struct impr_type *target_building,
-		       const struct tile *target_tile,
-		       const struct unit_type *target_unittype,
-		       const struct output_type *target_output,
-		       const struct specialist *target_specialist)
+static bool is_action_enabled(const enum gen_action wanted_action,
+			      const struct player *actor_player,
+			      const struct city *actor_city,
+			      const struct impr_type *actor_building,
+			      const struct tile *actor_tile,
+			      const struct unit_type *actor_unittype,
+			      const struct output_type *actor_output,
+			      const struct specialist *actor_specialist,
+			      const struct player *target_player,
+			      const struct city *target_city,
+			      const struct impr_type *target_building,
+			      const struct tile *target_tile,
+			      const struct unit_type *target_unittype,
+			      const struct output_type *target_output,
+			      const struct specialist *target_specialist)
 {
   action_enabler_list_iterate(action_enablers_for_action(wanted_action),
                               enabler) {
@@ -199,6 +235,12 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *target_city)
 {
+  fc_assert_ret_val_msg(ATK_CITY == action_get_target_kind(wanted_action),
+                        FALSE, "Action %s is against %s not cities",
+                        gen_action_name(wanted_action),
+                        action_target_kind_name(
+                          action_get_target_kind(wanted_action)));
+
   return is_action_enabled(wanted_action,
                            unit_owner(actor_unit), NULL, NULL,
                            unit_tile(actor_unit), unit_type(actor_unit),
@@ -217,6 +259,12 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct unit *target_unit)
 {
+  fc_assert_ret_val_msg(ATK_UNIT == action_get_target_kind(wanted_action),
+                        FALSE, "Action %s is against %s not units",
+                        gen_action_name(wanted_action),
+                        action_target_kind_name(
+                          action_get_target_kind(wanted_action)));
+
   return is_action_enabled(wanted_action,
                            unit_owner(actor_unit), NULL, NULL,
                            unit_tile(actor_unit), unit_type(actor_unit),
@@ -243,7 +291,7 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
 
   If meta knowledge is missing MKE_UNCERTAIN will be returned.
 **************************************************************************/
-enum mk_eval_result
+static enum mk_eval_result
 action_enabled_local(const enum gen_action wanted_action,
                      const struct player *actor_player,
                      const struct city *actor_city,
@@ -297,6 +345,12 @@ action_enabled_unit_on_city_local(const enum gen_action wanted_action,
                                   const struct unit *actor_unit,
                                   const struct city *target_city)
 {
+  fc_assert_ret_val_msg(ATK_CITY == action_get_target_kind(wanted_action),
+                        FALSE, "Action %s is against %s not cities",
+                        gen_action_name(wanted_action),
+                        action_target_kind_name(
+                          action_get_target_kind(wanted_action)));
+
   return action_enabled_local(wanted_action,
                               unit_owner(actor_unit), NULL, NULL,
                               unit_tile(actor_unit), unit_type(actor_unit),
@@ -314,6 +368,12 @@ action_enabled_unit_on_unit_local(const enum gen_action wanted_action,
                                   const struct unit *actor_unit,
                                   const struct unit *target_unit)
 {
+  fc_assert_ret_val_msg(ATK_UNIT == action_get_target_kind(wanted_action),
+                        FALSE, "Action %s is against %s not units",
+                        gen_action_name(wanted_action),
+                        action_target_kind_name(
+                          action_get_target_kind(wanted_action)));
+
   return action_enabled_local(wanted_action,
                               unit_owner(actor_unit), NULL, NULL,
                               unit_tile(actor_unit), unit_type(actor_unit),

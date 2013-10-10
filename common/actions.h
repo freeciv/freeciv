@@ -57,6 +57,12 @@ extern "C" {
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"
 
+struct action
+{
+  enum gen_action id;
+  enum action_target_kind target_kind;
+};
+
 struct action_enabler
 {
   enum gen_action action;
@@ -95,28 +101,15 @@ struct action_enabler
 void actions_init(void);
 void actions_free(void);
 
+struct action *action_new(void);
+enum action_target_kind action_get_target_kind(int action_id);
+
 struct action_enabler_list *
 action_enablers_for_action(enum gen_action action);
 
 struct action_enabler *action_enabler_new(void);
 void action_enabler_add(struct action_enabler *enabler);
 void action_enabler_append_hard(struct action_enabler *enabler);
-
-bool is_action_enabled(const enum gen_action wanted_action,
-		       const struct player *actor_player,
-		       const struct city *actor_city,
-		       const struct impr_type *actor_building,
-		       const struct tile *actor_tile,
-		       const struct unit_type *actor_unittype,
-		       const struct output_type *actor_output,
-		       const struct specialist *actor_specialist,
-		       const struct player *target_player,
-		       const struct city *target_city,
-		       const struct impr_type *target_building,
-		       const struct tile *target_tile,
-		       const struct unit_type *target_unittype,
-		       const struct output_type *target_output,
-		       const struct specialist *target_specialist);
 
 bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
@@ -125,23 +118,6 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
 bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct unit *target_unit);
-
-enum mk_eval_result
-action_enabled_local(const enum gen_action wanted_action,
-                     const struct player *actor_player,
-                     const struct city *actor_city,
-                     const struct impr_type *actor_building,
-                     const struct tile *actor_tile,
-                     const struct unit_type *actor_unittype,
-                     const struct output_type *actor_output,
-                     const struct specialist *actor_specialist,
-                     const struct player *target_player,
-                     const struct city *target_city,
-                     const struct impr_type *target_building,
-                     const struct tile *target_tile,
-                     const struct unit_type *target_unittype,
-                     const struct output_type *target_output,
-                     const struct specialist *target_specialist);
 
 enum mk_eval_result
 action_enabled_unit_on_city_local(const enum gen_action wanted_action,
