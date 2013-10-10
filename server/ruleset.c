@@ -4265,6 +4265,10 @@ static bool load_ruleset_cities(struct section_file *file)
                                         "%s.short_name", sec_name);
       name_set(&s->abbreviation, item);
 
+      sz_strlcpy(s->graphic_alt,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.graphic_alt", sec_name));
+
       reqs = lookup_req_list(file, sec_name, "reqs", specialist_rule_name(s));
       if (reqs == NULL) {
         ok = FALSE;
@@ -5321,6 +5325,7 @@ static void send_ruleset_specialists(struct conn_list *dest)
     sz_strlcpy(packet.plural_name, untranslated_name(&s->name));
     sz_strlcpy(packet.rule_name, rule_name(&s->name));
     sz_strlcpy(packet.short_name, untranslated_name(&s->abbreviation));
+    sz_strlcpy(packet.graphic_alt, s->graphic_alt);
     j = 0;
     requirement_vector_iterate(&s->reqs, preq) {
       packet.reqs[j++] = *preq;
