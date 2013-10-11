@@ -54,6 +54,8 @@ struct extra_type
 
   char activity_gfx[MAX_LEN_NAME];
   char act_gfx_alt[MAX_LEN_NAME];
+  char rmact_gfx[MAX_LEN_NAME];
+  char rmact_gfx_alt[MAX_LEN_NAME];
 
   struct requirement_vector reqs;
   bool buildable;

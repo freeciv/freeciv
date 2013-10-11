@@ -2896,6 +2896,12 @@ static bool load_ruleset_terrain(struct section_file *file)
       sz_strlcpy(pextra->act_gfx_alt,
                  secfile_lookup_str_default(file, "-",
                                             "%s.act_gfx_alt", section));
+      sz_strlcpy(pextra->rmact_gfx,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.rmact_gfx", section));
+      sz_strlcpy(pextra->rmact_gfx_alt,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.rmact_gfx_alt", section));
 
       reqs = lookup_req_list(file, section, "reqs", extra_rule_name(pextra));
       if (reqs == NULL) {
@@ -5578,6 +5584,8 @@ static void send_ruleset_extras(struct conn_list *dest)
 
     sz_strlcpy(packet.activity_gfx, e->activity_gfx);
     sz_strlcpy(packet.act_gfx_alt, e->act_gfx_alt);
+    sz_strlcpy(packet.rmact_gfx, e->rmact_gfx);
+    sz_strlcpy(packet.rmact_gfx_alt, e->rmact_gfx_alt);
 
     j = 0;
     requirement_vector_iterate(&e->reqs, preq) {

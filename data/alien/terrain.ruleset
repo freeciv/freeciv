@@ -535,6 +535,8 @@ identifier  = "g"
 ;                           "Infra", "Natural", "Nuisance", or "Bonus"
 ; activity_gfx            = tag specifing graphic for unit building extra
 ; act_gfx_alt             = tag for alternative graphic for unit building extra
+; rmact_gfx               = tag specifing graphic for unit removing extra
+; rmact_gfx_alt           = tag for alternative graphic for unit removing extra
 ; reqs 	                  = requirements to build the extra (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; buildable               = Can extra be built? Defaults to TRUE
@@ -562,6 +564,8 @@ name           = _("Irrigation")
 category       = "Infra"
 activity_gfx   = "unit.irrigate"
 act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 conflicts      = "Mine"
 hidden_by      = "Farmland"
 
@@ -570,6 +574,8 @@ name           = _("Mine")
 category       = "Infra"
 activity_gfx   = "unit.mine"
 act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 conflicts      = "Irrigation", "Farmland"
 
 [extra_pollution]
@@ -577,18 +583,24 @@ name           = _("Pollution")
 category       = "Nuisance"
 activity_gfx   = "unit.mine"
 act_gfx_alt    = "-"
+rmact_gfx      = "unit.pollution"
+rmact_gfx_alt  = "-"
 
 [extra_hut]
 name           = _("Space Capsule")
 category       = "Bonus"
 activity_gfx   = "unit.mine"
 act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 
 [extra_farmland]
 name           = _("Farmland")
 category       = "Infra"
 activity_gfx   = "unit.farmland"
 act_gfx_alt    = "unit.irrigate"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range"
       "Tech", "Protein Modifications", "Player"
@@ -601,12 +613,16 @@ name           = _("Fallout")
 category       = "Nuisance"
 activity_gfx   = "unit.mine"
 act_gfx_alt    = "-"
+rmact_gfx      = "unit.fallout"
+rmact_gfx_alt  = "-"
 
 [extra_tower]
 name           = _("Tower")
 category       = "Infra"
 activity_gfx  = "unit.tower"
 act_gfx_alt   = "unit.fortress"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present"
       "Tech", "Strong Force", "Player", TRUE
@@ -622,6 +638,8 @@ name           = _("Force Fortress")
 category       = "Infra"
 activity_gfx   = "unit.force_fortress"
 act_gfx_alt    = "unit.fortress"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present"
       "Tech", "Force Channeling", "Player", TRUE
@@ -637,6 +655,8 @@ name           = _("Antigrav Base")
 category       = "Infra"
 activity_gfx   = "unit.antigrav_base"
 act_gfx_alt    = "unit.airbase"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present"
       "Tech", "Commercial Antigravity", "Player", TRUE
@@ -651,6 +671,8 @@ name           = _("Road")
 category       = "Infra"
 activity_gfx   = "unit.road"
 act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range"
       "UnitFlag", "Settlers", "Local"
@@ -665,6 +687,8 @@ name           = _("Highway")
 category       = "Infra"
 activity_gfx   = "unit.highway"
 act_gfx_alt    = "unit.road"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range"
       "Tech", "Brute Force", "Player"
@@ -681,6 +705,8 @@ name           = _("Maglev")
 category       = "Infra"
 activity_gfx   = "unit.maglev"
 act_gfx_alt    = "unit.road"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range"
       "Tech", "Maglev", "Player"
@@ -696,6 +722,8 @@ name           = _("Tunnel")
 category       = "Infra"
 activity_gfx   = "unit.tunnel"
 act_gfx_alt    = "unit.road"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range"
       "Tech", "Strong Resistance", "Player"
@@ -710,6 +738,8 @@ name           = _("Burrow Tube")
 category       = "Infra"
 activity_gfx   = "unit.tube"
 act_gfx_alt    = "unit.road"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range"
       "Tech", "Burrowing", "Player"
@@ -724,6 +754,8 @@ name           = _("Green River")
 category       = "Natural"
 activity_gfx   = "unit.river"
 act_gfx_alt    = "unit.road"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 buildable      = FALSE
 native_to      = "Native", "Amphibious"
 
@@ -732,6 +764,8 @@ name           = _("Brown River")
 category       = "Natural"
 activity_gfx   = "unit.river"
 act_gfx_alt    = "unit.road"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 buildable      = FALSE
 native_to      = "Native", "Amphibious"
 

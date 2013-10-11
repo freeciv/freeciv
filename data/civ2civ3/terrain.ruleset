@@ -963,6 +963,8 @@ shield      = 3 ; glacier used to have 4
 ;                           "Infra", "Natural", "Nuisance", or "Bonus"
 ; activity_gfx            = tag specifing graphic for unit building extra
 ; act_gfx_alt             = tag for alternative graphic for unit building extra
+; rmact_gfx               = tag specifing graphic for unit removing extra
+; rmact_gfx_alt           = tag for alternative graphic for unit removing extra
 ; reqs                    = requirements to build the base (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; buildable               = Can extra be built? Defaults to TRUE
@@ -990,6 +992,8 @@ name           = _("Irrigation")
 category       = "Infra"
 activity_gfx   = "unit.irrigate"
 act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 conflicts      = "Mine"
 hidden_by      = "Farmland"
 
@@ -998,6 +1002,8 @@ name           = _("Mine")
 category       = "Infra"
 activity_gfx   = "unit.mine"
 act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 conflicts      = "Irrigation", "Farmland"
 
 [extra_pollution]
@@ -1005,6 +1011,8 @@ name           = _("Pollution")
 category       = "Nuisance"
 activity_gfx   = "unit.mine"
 act_gfx_alt    = "-"
+rmact_gfx      = "unit.pollution"
+rmact_gfx_alt  = "-"
 
 [extra_hut]
 name           = _("Minor Tribe Village")
@@ -1012,12 +1020,16 @@ rule_name      = "Hut"
 category       = "Bonus"
 activity_gfx   = "unit.mine"
 act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 
 [extra_farmland]
 name           = _("Farmland")
 category       = "Infra"
 activity_gfx   = "unit.farmland"
 act_gfx_alt    = "unit.irrigate"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range"
       "Tech", "Refrigeration", "Player"
@@ -1030,12 +1042,16 @@ name           = _("Fallout")
 category       = "Nuisance"
 activity_gfx   = "unit.mine"
 act_gfx_alt    = "-"
+rmact_gfx      = "unit.fallout"
+rmact_gfx_alt  = "-"
 
 [extra_fortress]
 name           = _("Fortress")
 category       = "Infra"
 activity_gfx   = "unit.fortress"
 act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present"
       "Tech", "Construction", "Player", TRUE
@@ -1051,6 +1067,8 @@ name           = _("Airbase")
 category       = "Infra"
 activity_gfx   = "unit.airbase"
 act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present"
       "Tech", "Radio", "Player", TRUE
@@ -1066,6 +1084,8 @@ name           = _("Buoy")
 category       = "Infra"
 activity_gfx   = "unit.buoy"
 act_gfx_alt    = "unit.fortress"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present"
       "Tech", "Radio", "Player", TRUE
@@ -1079,6 +1099,8 @@ name           = _("Ruins")
 category       = "Bonus"
 activity_gfx   = "unit.ruins"
 act_gfx_alt    = "unit.fortress"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present"
       "TerrainClass", "Land", "Local", TRUE
@@ -1092,6 +1114,8 @@ name           = _("Road")
 category       = "Infra"
 activity_gfx   = "unit.road"
 act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range"
       "UnitFlag", "Settlers", "Local"
@@ -1106,6 +1130,8 @@ name           = _("Railroad")
 category       = "Infra"
 activity_gfx   = "unit.rail"
 act_gfx_alt    = "unit.road"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range"
       "Tech", "Railroad", "Player"
@@ -1121,6 +1147,8 @@ name           = _("River")
 category       = "Natural"
 activity_gfx   = "unit.river"
 act_gfx_alt    = "unit.road"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 buildable      = FALSE
 native_to      = "Land", "Small Land", "Merchant"
 flags          = "NativeTile"

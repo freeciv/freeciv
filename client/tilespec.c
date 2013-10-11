@@ -257,14 +257,12 @@ struct named_sprites {
       *auto_attack,
       *auto_settler,
       *auto_explore,
-      *fallout,
       *fortified,
       *fortifying,
       *go_to,			/* goto is a C keyword :-) */
       *irrigate,
       *mine,
       *pillage,
-      *pollution,
       *sentry,
       *stack,
       *loaded,
@@ -321,7 +319,8 @@ struct named_sprites {
   } tx;				/* terrain extra */
   struct {
     struct sprite
-      *activity;
+      *activity,
+      *rmact;
     union {
       struct {
         struct sprite
@@ -2475,14 +2474,12 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(unit.auto_attack,  "unit.auto_attack");
   SET_SPRITE(unit.auto_settler, "unit.auto_settler");
   SET_SPRITE(unit.auto_explore, "unit.auto_explore");
-  SET_SPRITE(unit.fallout,	"unit.fallout");
   SET_SPRITE(unit.fortified,	"unit.fortified");     
   SET_SPRITE(unit.fortifying,	"unit.fortifying");
   SET_SPRITE(unit.go_to,	"unit.goto");
   SET_SPRITE(unit.irrigate,     "unit.irrigate"); 
   SET_SPRITE(unit.mine,         "unit.mine");
   SET_SPRITE(unit.pillage,	"unit.pillage");
-  SET_SPRITE(unit.pollution,    "unit.pollution");
   SET_SPRITE(unit.sentry,	"unit.sentry");
   SET_SPRITE(unit.convert,      "unit.convert");      
   SET_SPRITE(unit.stack,	"unit.stack");
@@ -2995,12 +2992,29 @@ void tileset_setup_extra(struct tileset *t,
 {
   const int id = extra_index(pextra);
 
-  t->sprites.extras[id].activity = load_sprite(t, pextra->activity_gfx);
-  if (t->sprites.extras[id].activity == NULL) {
-    t->sprites.extras[id].activity = load_sprite(t, pextra->act_gfx_alt);
+  if (!fc_strcasecmp(pextra->activity_gfx, "none")) {
+    t->sprites.extras[id].activity = NULL;
+  } else {
+    t->sprites.extras[id].activity = load_sprite(t, pextra->activity_gfx);
     if (t->sprites.extras[id].activity == NULL) {
-      tileset_error(LOG_FATAL, _("Missing %s building activity tag \"%s\" and alternative \"%s\"."),
-                    extra_rule_name(pextra), pextra->activity_gfx, pextra->act_gfx_alt);
+      t->sprites.extras[id].activity = load_sprite(t, pextra->act_gfx_alt);
+      if (t->sprites.extras[id].activity == NULL) {
+        tileset_error(LOG_FATAL, _("Missing %s building activity tag \"%s\" and alternative \"%s\"."),
+                      extra_rule_name(pextra), pextra->activity_gfx, pextra->act_gfx_alt);
+      }
+    }
+  }
+
+  if (!fc_strcasecmp(pextra->rmact_gfx, "none")) {
+    t->sprites.extras[id].rmact = NULL;
+  } else {
+    t->sprites.extras[id].rmact = load_sprite(t, pextra->rmact_gfx);
+    if (t->sprites.extras[id].rmact == NULL) {
+      t->sprites.extras[id].rmact = load_sprite(t, pextra->rmact_gfx_alt);
+      if (t->sprites.extras[id].rmact == NULL) {
+        tileset_error(LOG_FATAL, _("Missing %s removal activity tag \"%s\" and alternative \"%s\"."),
+                      extra_rule_name(pextra), pextra->rmact_gfx, pextra->rmact_gfx_alt);
+      }
     }
   }
 }
@@ -3653,10 +3667,8 @@ static int fill_unit_sprite_array(const struct tileset *t,
       }
       break;
     case ACTIVITY_POLLUTION:
-      s = t->sprites.unit.pollution;
-      break;
     case ACTIVITY_FALLOUT:
-      s = t->sprites.unit.fallout;
+      s = t->sprites.extras[extra_index(punit->activity_target)].rmact;
       break;
     case ACTIVITY_PILLAGE:
       s = t->sprites.unit.pillage;
@@ -3690,7 +3702,9 @@ static int fill_unit_sprite_array(const struct tileset *t,
       break;
     }
 
-    ADD_SPRITE_FULL(s);
+    if (s != NULL) {
+      ADD_SPRITE_FULL(s);
+    }
   }
 
   if (punit->ai_controlled && punit->activity != ACTIVITY_EXPLORE) {
