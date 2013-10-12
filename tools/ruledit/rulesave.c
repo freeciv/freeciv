@@ -19,6 +19,8 @@
 #include "registry.h"
 
 /* common */
+#include "game.h"
+#include "movement.h"
 #include "unittype.h"
 
 /* server */
@@ -168,12 +170,48 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
 }
 
 /**************************************************************************
+  Save one veteran system.
+**************************************************************************/
+static bool save_veteran_system(struct section_file *sfile, const char *path,
+                                struct veteran_system *vsystem)
+{
+  const char *vlist_name[vsystem->levels];
+  int vlist_power[vsystem->levels];
+  int vlist_raise[vsystem->levels];
+  int vlist_wraise[vsystem->levels];
+  int vlist_move[vsystem->levels];
+  int i;
+
+  for (i = 0; i < vsystem->levels; i++) {
+    vlist_name[i] = rule_name(&(vsystem->definitions[i].name));
+    vlist_power[i] = vsystem->definitions[i].power_fact;
+    vlist_raise[i] = vsystem->definitions[i].raise_chance;
+    vlist_wraise[i] = vsystem->definitions[i].work_raise_chance;
+    vlist_move[i] = vsystem->definitions[i].move_bonus;
+  }
+
+  secfile_insert_str_vec(sfile, vlist_name, vsystem->levels,
+                         "%s.veteran_names", path);
+  secfile_insert_int_vec(sfile, vlist_power, vsystem->levels,
+                         "%s.veteran_power_fact", path);
+  secfile_insert_int_vec(sfile, vlist_raise, vsystem->levels,
+                         "%s.veteran_raise_chance", path);
+  secfile_insert_int_vec(sfile, vlist_wraise, vsystem->levels,
+                         "%s.veteran_work_raise_chance", path);
+  secfile_insert_int_vec(sfile, vlist_move, vsystem->levels,
+                         "%s.veteran_move_bonus", path);
+
+  return TRUE;
+}
+
+/**************************************************************************
   Save units.ruleset
 **************************************************************************/
 static bool save_units_ruleset(const char *filename, const char *name)
 {
   struct section_file *sfile = create_ruleset_file(name, "unit");
   int i;
+  int sect_idx;
 
   if (sfile == NULL) {
     return FALSE;
@@ -188,6 +226,64 @@ static bool save_units_ruleset(const char *filename, const char *name)
       secfile_insert_str(sfile, helptxt, "control.flags%d.helptxt", i);
     }
   }
+
+  save_veteran_system(sfile, "veteran_system", game.veteran);
+
+  sect_idx = 0;
+  unit_class_iterate(puc) {
+    char path[512];
+    char *hut_str = NULL;
+    const char *flag_names[UCF_COUNT];
+    int flagi;
+    int set_count;
+
+    fc_snprintf(path, sizeof(path), "unitclass_%d", sect_idx++);
+
+    secfile_insert_str(sfile,
+                       untranslated_name(&(puc->name)),
+                       "%s.name", path);
+    if (strcmp(skip_intl_qualifier_prefix(untranslated_name(&(puc->name))),
+               rule_name(&(puc->name)))) {
+      secfile_insert_str(sfile,
+                         rule_name(&(puc->name)),
+                         "%s.rule_name", path);
+    }
+    secfile_insert_int(sfile, puc->min_speed / SINGLE_MOVE,
+                       "%s.min_speed", path);
+    secfile_insert_int(sfile, puc->hp_loss_pct, "%s.hp_loss_pct", path);
+    if (puc->non_native_def_pct != 100) {
+      secfile_insert_int(sfile, puc->non_native_def_pct,
+                         "%s.non_native_def_pct", path);
+    }
+    if (puc->hut_behavior != HUT_NORMAL) {
+      switch (puc->hut_behavior) {
+      case HUT_NORMAL:
+        hut_str = "Normal";
+        break;
+      case HUT_NOTHING:
+        hut_str = "Nothing";
+        break;
+      case HUT_FRIGHTEN:
+        hut_str = "Frighten";
+        break;
+      }
+      fc_assert(hut_str != NULL);
+      secfile_insert_str(sfile, hut_str, "%s.hut_behavior", path);
+    }
+
+    set_count = 0;
+    for (flagi = 0; flagi < UCF_COUNT; flagi++) {
+      if (uclass_has_flag(puc, flagi)) {
+        flag_names[set_count++] = unit_class_flag_id_name(flagi);
+      }
+    }
+
+    if (set_count > 0) {
+      secfile_insert_str_vec(sfile, flag_names, set_count,
+                             "%s.flags", path);
+    }
+
+  } unit_class_iterate_end;
 
   return save_ruleset_file(sfile, filename);
 }
