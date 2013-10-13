@@ -1456,6 +1456,7 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   UINT8 reqs_count;
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
   BOOL buildable;
+  BOOL pillageable;
   BV_UNIT_CLASSES native_to;
   BV_EXTRA_FLAGS flags;
   BV_EXTRAS hidden_by;
@@ -1464,7 +1465,6 @@ end
 
 PACKET_RULESET_BASE = 153; sc, lsend
   UINT8 id;
-  BOOL pillageable;
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
   BASE_GUI gui_type;
@@ -1485,7 +1485,6 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   MOVE_MODE move_mode;
   UINT8 build_time;
   UINT8 defense_bonus;
-  BOOL pillageable;
   UINT16 tile_incr_const[O_LAST];
   UINT16 tile_incr[O_LAST];
   UINT16 tile_bonus[O_LAST];

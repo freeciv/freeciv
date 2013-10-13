@@ -3236,6 +3236,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   fc_assert(pextra->reqs.size == p->reqs_count);
 
   pextra->buildable = p->buildable;
+  pextra->pillageable = p->pillageable;
 
   pextra->native_to = p->native_to;
 
@@ -3257,7 +3258,6 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
 
   sz_strlcpy(pbase->graphic_str, p->graphic_str);
   sz_strlcpy(pbase->graphic_alt, p->graphic_alt);
-  pbase->pillageable = p->pillageable;
 
   pbase->gui_type = p->gui_type;
   pbase->build_time = p->build_time;
@@ -3289,7 +3289,6 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   proad->move_mode = p->move_mode;
   proad->build_time = p->build_time;
   proad->defense_bonus = p->defense_bonus;
-  proad->pillageable = p->pillageable;
 
   output_type_iterate(o) {
     proad->tile_incr_const[o] = p->tile_incr_const[o];

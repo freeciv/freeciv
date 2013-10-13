@@ -846,35 +846,29 @@ enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe)
 ****************************************************************************/
 struct extra_type *get_preferred_pillage(bv_extras extras)
 {
-  struct extra_type *tgt;
-
-  tgt = special_extra_get(S_FARMLAND);
-  if (BV_ISSET(extras, extra_index(tgt))) {
-    return tgt;
-  }
-  tgt = special_extra_get(S_IRRIGATION);
-  if (BV_ISSET(extras, extra_index(tgt))) {
-    return tgt;
-  }
-  tgt = special_extra_get(S_MINE);
-  if (BV_ISSET(extras, extra_index(tgt))) {
-    return tgt;
-  }
-  base_type_iterate(pbase) {
-    tgt = base_extra_get(pbase);
-
-    if (BV_ISSET(extras, extra_index(tgt))) {
-      return tgt;
+  extra_type_by_cause_iterate_rev(EC_IRRIGATION, pextra) {
+    if (pextra->pillageable && BV_ISSET(extras, extra_index(pextra))) {
+      return pextra;
     }
-  } base_type_iterate_end;
+  } extra_type_by_cause_iterate_rev_end;
 
-  road_type_iterate(proad) {
-    tgt = road_extra_get(proad);
-
-    if (BV_ISSET(extras, extra_index(tgt))) {
-      return tgt;
+  extra_type_by_cause_iterate_rev(EC_MINE, pextra) {
+    if (pextra->pillageable && BV_ISSET(extras, extra_index(pextra))) {
+      return pextra;
     }
-  } road_type_iterate_end;
+  } extra_type_by_cause_iterate_rev_end;
+
+  extra_type_by_cause_iterate_rev(EC_BASE, pextra) {
+    if (pextra->pillageable && BV_ISSET(extras, extra_index(pextra))) {
+      return pextra;
+    }
+  } extra_type_by_cause_iterate_rev_end;
+
+  extra_type_by_cause_iterate_rev(EC_ROAD, pextra) {
+    if (pextra->pillageable && BV_ISSET(extras, extra_index(pextra))) {
+      return pextra;
+    }
+  } extra_type_by_cause_iterate_rev_end;
 
   return NULL;
 }

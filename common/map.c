@@ -98,58 +98,35 @@ bv_extras get_tile_infrastructure_set(const struct tile *ptile,
                                       int *pcount)
 {
   bv_extras pspresent;
-  int i, count = 0;
+  int count = 0;
 
   BV_CLR_ALL(pspresent);
-  for (i = 0; infrastructure_specials[i] != S_LAST; i++) {
-    struct extra_type *pextra = special_extra_get(infrastructure_specials[i]);
 
-    if (tile_has_extra(ptile, pextra)) {
-      BV_SET(pspresent, extra_index(pextra));
-      count++;
-    }
-  }
+  extra_type_iterate(pextra) {
+    if (pextra->pillageable && tile_has_extra(ptile, pextra)) {
+      struct tile *missingset = tile_virtual_new(ptile);
+      bool dependency = FALSE;
 
-  base_type_iterate(pbase) {
-    if (pbase->pillageable) {
-      struct extra_type *pextra = base_extra_get(pbase);
+      tile_remove_extra(missingset, pextra);
+      extra_type_iterate(pdependant) {
+        if (tile_has_extra(ptile, pdependant)) {
+          if (!are_reqs_active(NULL, NULL, NULL, NULL, missingset,
+                               NULL, NULL, NULL,
+                               &pdependant->reqs, RPT_POSSIBLE)) {
+            dependency = TRUE;
+            break;
+          }
+        }
+      } extra_type_iterate_end;
 
-      if (tile_has_extra(ptile, pextra)) {
+      tile_virtual_destroy(missingset);
+
+      if (!dependency) {
         BV_SET(pspresent, extra_index(pextra));
         count++;
       }
     }
-  } base_type_iterate_end;
-
-  road_type_iterate(proad) {
-    if (proad->pillageable) {
-      struct extra_type *pextra = road_extra_get(proad);
-
-      if (tile_has_extra(ptile, pextra)) {
-        struct tile *roadless = tile_virtual_new(ptile);
-        bool dependency = FALSE;
-
-        tile_remove_road(roadless, proad);
-        extra_type_iterate(pdependant) {
-          if (tile_has_extra(ptile, pdependant)) {
-            if (!are_reqs_active(NULL, NULL, NULL, NULL, roadless,
-                                 NULL, NULL, NULL,
-                                 &pdependant->reqs, RPT_POSSIBLE)) {
-              dependency = TRUE;
-              break;
-            }
-          }
-        } extra_type_iterate_end;
-
-        tile_virtual_destroy(roadless);
-
-        if (!dependency) {
-          BV_SET(pspresent, extra_index(pextra));
-          count++;
-        }
-      }
-    }
-  } road_type_iterate_end;
+  } extra_type_iterate_end;
 
   if (pcount) {
     *pcount = count;

@@ -2912,6 +2912,8 @@ static bool load_ruleset_terrain(struct section_file *file)
 
       pextra->buildable = secfile_lookup_bool_default(file, TRUE,
                                                       "%s.buildable", section);
+      pextra->pillageable = secfile_lookup_bool_default(file, TRUE,
+                                                        "%s.pillageable", section);
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
       BV_CLR_ALL(pextra->native_to);
@@ -3016,9 +3018,6 @@ static bool load_ruleset_terrain(struct section_file *file)
       const char **slist;
       const char *gui_str;
       struct extra_type *pextra = base_extra_get(pbase);
-
-      pbase->pillageable = secfile_lookup_bool_default(file, TRUE,
-                                                       "%s.pillageable", section);
 
       sz_strlcpy(pbase->graphic_str,
                  secfile_lookup_str_default(file, "-", "%s.graphic", section));
@@ -3138,9 +3137,6 @@ static bool load_ruleset_terrain(struct section_file *file)
       proad->defense_bonus = secfile_lookup_int_default(file, 0,
                                                         "%s.defense_bonus",
                                                         section);
-
-      proad->pillageable = secfile_lookup_bool_default(file, TRUE,
-                                                       "%s.pillageable", section);
 
       output_type_iterate(o) {
         proad->tile_incr_const[o] =
@@ -5594,6 +5590,7 @@ static void send_ruleset_extras(struct conn_list *dest)
     packet.reqs_count = j;
 
     packet.buildable = e->buildable;
+    packet.pillageable = e->pillageable;
 
     packet.native_to = e->native_to;
 
@@ -5617,7 +5614,6 @@ static void send_ruleset_bases(struct conn_list *dest)
     packet.id = base_number(b);
     sz_strlcpy(packet.graphic_str, b->graphic_str);
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
-    packet.pillageable = b->pillageable;
 
     packet.gui_type = b->gui_type;
     packet.build_time = b->build_time;
@@ -5652,7 +5648,6 @@ static void send_ruleset_roads(struct conn_list *dest)
     packet.move_mode = r->move_mode;
     packet.build_time = r->build_time;
     packet.defense_bonus = r->defense_bonus;
-    packet.pillageable = r->pillageable;
 
     output_type_iterate(o) {
       packet.tile_incr_const[o] = r->tile_incr_const[o];

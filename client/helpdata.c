@@ -2665,11 +2665,11 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
     }
   }
 
-  if (!(base_extra_get(pbase)->buildable)) {
+  if (!pextra->buildable) {
     CATLSTR(buf, bufsz,
             _("* Cannot be built.\n"));
   }
-  if (pbase->pillageable) {
+  if (pextra->pillageable) {
     CATLSTR(buf, bufsz,
             _("* Can be pillaged by units.\n"));
   }
@@ -2783,10 +2783,10 @@ void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
                  proad->move_cost, SINGLE_MOVE);
   }
 
-  if (!(road_extra_get(proad)->buildable)) {
+  if (!pextra->buildable) {
     CATLSTR(buf, bufsz, _("* Cannot be built.\n"));
   }
-  if (proad->pillageable) {
+  if (pextra->pillageable) {
     CATLSTR(buf, bufsz,
             _("* Can be pillaged by units.\n"));
   }

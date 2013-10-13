@@ -540,6 +540,7 @@ identifier  = "g"
 ; reqs 	                  = requirements to build the extra (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; buildable               = Can extra be built? Defaults to TRUE
+; pillageable             = Can extra be pillaged? Defaults to TRUE
 ; native_to               = List of unit classes that are considered to
 ;                           be inside the extra when they are on same tile
 ; conflicts               = List of extras that cannot be on the same tile.
@@ -585,6 +586,7 @@ activity_gfx   = "unit.mine"
 act_gfx_alt    = "-"
 rmact_gfx      = "unit.pollution"
 rmact_gfx_alt  = "-"
+pillageable    = FALSE
 
 [extra_hut]
 name           = _("Space Capsule")
@@ -615,6 +617,7 @@ activity_gfx   = "unit.mine"
 act_gfx_alt    = "-"
 rmact_gfx      = "unit.fallout"
 rmact_gfx_alt  = "-"
+pillageable    = FALSE
 
 [extra_tower]
 name           = _("Tower")
@@ -757,6 +760,7 @@ act_gfx_alt    = "unit.road"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 buildable      = FALSE
+pillageable    = FALSE
 native_to      = "Native", "Amphibious"
 
 [extra_brown_river]
@@ -767,6 +771,7 @@ act_gfx_alt    = "unit.road"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 buildable      = FALSE
+pillageable    = FALSE
 native_to      = "Native", "Amphibious"
 
 ; /* <-- avoid gettext warnings
@@ -778,7 +783,6 @@ native_to      = "Native", "Amphibious"
 ;                           present, 'name' is used. Since the name used in
 ;                           savegames must not change, use this when renaming a
 ;                           base after a ruleset has been released.
-; pillageable             = Can base be pillaged? Defaults to TRUE
 ; graphic                 = tag specifing preferred graphic
 ; graphic_alt	          = tag for alternate graphic if preferred graphic is not 
 ;                           present. Can use eg "-" for no alternate graphic.
@@ -846,7 +850,6 @@ flags        = "ParadropFrom", "NoAggressive"
 ; build_time              = how many movement points it takes to build this road. Value of
 ;                           0 means that terrain specific value is used instead.
 ; defense_bonus           = Percent added to defense
-; pillageable             = Can road be pillaged? Defaults to TRUE
 ; food_incr_const         = food production added to tile regardless of terrain
 ; shield_incr_const       = shield production added to tile regardless of terrain
 ; trade_incr_const        = trade production added to tile regardless of terrain
@@ -978,7 +981,6 @@ Burrow Tubes provide the only way for burrowing units to cross oceans.\
 name           = _("Green River")
 graphic        = "green_river"
 graphic_alt    = "river"
-pillageable    = FALSE
 defense_bonus  = 50
 move_cost      = 2
 move_mode      = "Cardinal"
@@ -998,7 +1000,6 @@ Green River increases also tile's food production by 1.\
 name           = _("Brown River")
 graphic        = "brown_river"
 graphic_alt    = "river"
-pillageable    = FALSE
 defense_bonus  = 50
 move_cost      = 2
 move_mode      = "Cardinal"

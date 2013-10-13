@@ -59,6 +59,7 @@ struct extra_type
 
   struct requirement_vector reqs;
   bool buildable;
+  bool pillageable;
 
   bv_unit_classes native_to;
 
