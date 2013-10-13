@@ -310,9 +310,6 @@ struct named_sprites {
     struct sprite
       *farmland[MAX_INDEX_CARDINAL],
       *irrigation[MAX_INDEX_CARDINAL],
-      *pollution,
-      *village,
-      *fallout,
       *fog,
       **fullfog,
       *darkness[MAX_INDEX_CARDINAL]; /* first unused */
@@ -322,6 +319,7 @@ struct named_sprites {
       *activity,
       *rmact;
     union {
+      struct sprite *single;
       struct {
         struct sprite
           *background,
@@ -2613,9 +2611,6 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   
   SET_SPRITE(user.attention, "user.attention");
 
-  SET_SPRITE(tx.fallout,    "tx.fallout");
-  SET_SPRITE(tx.pollution,  "tx.pollution");
-  SET_SPRITE(tx.village,    "tx.village");
   SET_SPRITE(tx.fog,        "tx.fog");
 
   sprite_vector_init(&t->sprites.colors.overlays);
@@ -2991,6 +2986,16 @@ void tileset_setup_extra(struct tileset *t,
                          struct extra_type *pextra)
 {
   const int id = extra_index(pextra);
+
+  if (pextra->causes & (1 << EC_POLLUTION)) {
+    SET_SPRITE(extras[id].u.single, "tx.pollution");
+  }
+  if (pextra->causes & (1 << EC_FALLOUT)) {
+    SET_SPRITE(extras[id].u.single, "tx.fallout");
+  }
+  if (pextra->causes & (1 << EC_HUT)) {
+    SET_SPRITE(extras[id].u.single, "tx.village");
+  }
 
   if (!fc_strcasecmp(pextra->activity_gfx, "none")) {
     t->sprites.extras[id].activity = NULL;
@@ -4971,7 +4976,7 @@ int fill_sprite_array(struct tileset *t,
             } extra_type_list_iterate_end;
 
             if (!hidden) {
-              ADD_SPRITE_SIMPLE(t->sprites.tx.village);
+              ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(pextra)].u.single);
             }
           }
         } extra_type_by_cause_iterate_end;
@@ -5050,7 +5055,7 @@ int fill_sprite_array(struct tileset *t,
             } extra_type_list_iterate_end;
 
             if (!hidden) {
-              ADD_SPRITE_SIMPLE(t->sprites.tx.pollution);
+              ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(pextra)].u.single);
             }
           }
         } extra_type_by_cause_iterate_end;
@@ -5068,7 +5073,7 @@ int fill_sprite_array(struct tileset *t,
             } extra_type_list_iterate_end;
 
             if (!hidden) {
-              ADD_SPRITE_SIMPLE(t->sprites.tx.fallout);
+              ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(pextra)].u.single);
             }
           }
         } extra_type_by_cause_iterate_end;
@@ -5881,6 +5886,8 @@ struct sprite *get_basic_mine_sprite(const struct tileset *t)
 struct sprite *get_basic_special_sprite(const struct tileset *t,
                                         enum tile_special_type special)
 {
+  struct extra_type *pextra = special_extra_get(special);
+
   switch (special) {
   case S_IRRIGATION:
     return t->sprites.tx.irrigation[0];
@@ -5889,16 +5896,12 @@ struct sprite *get_basic_special_sprite(const struct tileset *t,
     return get_basic_mine_sprite(t);
     break;
   case S_POLLUTION:
-    return t->sprites.tx.pollution;
-    break;
+  case S_FALLOUT:
   case S_HUT:
-    return t->sprites.tx.village;
+    return t->sprites.extras[extra_index(pextra)].u.single;
     break;
   case S_FARMLAND:
     return t->sprites.tx.farmland[0];
-    break;
-  case S_FALLOUT:
-    return t->sprites.tx.fallout;
     break;
   default:
     break;
