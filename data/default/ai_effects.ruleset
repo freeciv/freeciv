@@ -5,7 +5,7 @@
 ; into that directory, and then modify that copy.  Then use the
 ; command "rulesetdir <mysubdir>" in the server to have freeciv
 ; use your new customized file. Note that this file is not read
-; directly, but only thorugh *include* in effects.ruleset
+; directly, but only through *include* in effects.ruleset
 
 ; Note that the freeciv AI may not cope well with anything more
 ; than minor changes.
