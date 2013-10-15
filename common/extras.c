@@ -465,7 +465,7 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
 /****************************************************************************
   Returns next extra by cause that unit or player can build to tile.
 ****************************************************************************/
-struct extra_type *next_extra_for_tile(struct tile *ptile, enum extra_cause cause,
+struct extra_type *next_extra_for_tile(const struct tile *ptile, enum extra_cause cause,
                                        const struct player *pplayer,
                                        const struct unit *punit)
 {
@@ -490,7 +490,7 @@ struct extra_type *next_extra_for_tile(struct tile *ptile, enum extra_cause caus
 /****************************************************************************
   Returns prev extra by cause that unit or player can remove from tile.
 ****************************************************************************/
-struct extra_type *prev_extra_in_tile(struct tile *ptile, enum extra_cause cause,
+struct extra_type *prev_extra_in_tile(const struct tile *ptile, enum extra_cause cause,
                                       const struct player *pplayer,
                                       const struct unit *punit)
 {

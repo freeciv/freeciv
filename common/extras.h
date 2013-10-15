@@ -147,10 +147,10 @@ bool extra_has_flag(const struct extra_type *pextra, enum extra_flag_id flag);
 bool can_extras_coexist(const struct extra_type *pextra1,
                         const struct extra_type *pextra2);
 
-struct extra_type *next_extra_for_tile(struct tile *ptile, enum extra_cause cause,
+struct extra_type *next_extra_for_tile(const struct tile *ptile, enum extra_cause cause,
                                        const struct player *pplayer,
                                        const struct unit *punit);
-struct extra_type *prev_extra_in_tile(struct tile *ptile, enum extra_cause cause,
+struct extra_type *prev_extra_in_tile(const struct tile *ptile, enum extra_cause cause,
                                       const struct player *pplayer,
                                       const struct unit *punit);
 
