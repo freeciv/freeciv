@@ -6,8 +6,7 @@ options = "+Freeciv-spec-Devel-2013.Feb.13"
 [info]
 
 artists = "
-    Tatu Rissanen <tatu.rissanen@hut.fi>
-    Jeff Mallatt <jjm@codewell.com> (miscellaneous)
+    Michael Johnson <justaguest>
 "
 
 [file]
