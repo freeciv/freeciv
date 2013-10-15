@@ -11,6 +11,7 @@ artists = "
     Jeff Mallatt <jjm@codewell.com> (miscellaneous)
     Eleazar (buoy)
     Vincent Croisier <vincent.croisier@advalvas.be> (ruins)
+    Michael Johnson <justaguest> (nuke explosion)
 "
 
 [file]
