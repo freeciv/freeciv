@@ -310,8 +310,6 @@ struct named_sprites {
   } user;
   struct {
     struct sprite
-      *farmland[MAX_INDEX_CARDINAL],
-      *irrigation[MAX_INDEX_CARDINAL],
       *fog,
       **fullfog,
       *darkness[MAX_INDEX_CARDINAL]; /* first unused */
@@ -322,6 +320,7 @@ struct named_sprites {
       *rmact;
     union {
       struct sprite *single;
+      struct sprite *cardinals[MAX_INDEX_CARDINAL];
       struct {
         struct sprite
           *background,
@@ -2693,20 +2692,6 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     }
   }
 
-  /* We use direction-specific irrigation and farmland graphics, if they
-   * are available.  If not, we just fall back to the basic irrigation
-   * graphics. */
-  for (i = 0; i < t->num_index_cardinal; i++) {
-    fc_snprintf(buffer, sizeof(buffer), "tx.s_irrigation_%s",
-                cardinal_index_str(t, i));
-    SET_SPRITE_ALT(tx.irrigation[i], buffer, "tx.irrigation");
-  }
-  for (i = 0; i < t->num_index_cardinal; i++) {
-    fc_snprintf(buffer, sizeof(buffer), "tx.s_farmland_%s",
-                cardinal_index_str(t, i));
-    SET_SPRITE_ALT(tx.farmland[i], buffer, "tx.farmland");
-  }
-
   switch (t->darkness_style) {
   case DARKNESS_NONE:
     /* Nothing. */
@@ -3003,6 +2988,27 @@ void tileset_setup_extra(struct tileset *t,
   }
   if (pextra->causes & (1 << EC_HUT)) {
     SET_SPRITE(extras[id].u.single, "tx.village");
+  }
+
+  if (pextra->causes & (1 << EC_IRRIGATION)) {
+    int i;
+    const char *tag;
+    char buffer[512];
+
+    /* We use direction-specific irrigation and farmland graphics, if they
+     * are available.  If not, we just fall back to the basic irrigation
+     * graphics. */
+    if (pextra->data.special == S_FARMLAND) {
+      tag = "tx.farmland";
+    } else {
+      tag = "tx.irrigation";
+    }
+
+    for (i = 0; i < t->num_index_cardinal; i++) {
+      fc_snprintf(buffer, sizeof(buffer), "%s_%s",
+                  tag, cardinal_index_str(t, i));
+      SET_SPRITE_ALT(extras[id].u.cardinals[i], buffer, tag);
+    }
   }
 
   if (!fc_strcasecmp(pextra->activity_gfx, "none")) {
@@ -4080,7 +4086,9 @@ static int fill_irrigation_sprite_array(const struct tileset *t,
    * anyway, and ends up looking bad). */
   if (draw_irrigation && !(pcity && draw_cities)) {
     extra_type_by_cause_iterate(EC_IRRIGATION, pextra) {
-      if (BV_ISSET(textras, extra_index(pextra))) {
+      int eidx = extra_index(pextra);
+
+      if (BV_ISSET(textras, eidx)) {
         bool hidden = FALSE;
 
         extra_type_list_iterate(pextra->hiders, phider) {
@@ -4093,11 +4101,7 @@ static int fill_irrigation_sprite_array(const struct tileset *t,
         if (!hidden) {
           int index = get_irrigation_index(t, textras_near);
 
-          if (pextra->data.special == S_FARMLAND) {
-            ADD_SPRITE_SIMPLE(t->sprites.tx.farmland[index]);
-          } else {
-            ADD_SPRITE_SIMPLE(t->sprites.tx.irrigation[index]);
-          }
+          ADD_SPRITE_SIMPLE(t->sprites.extras[eidx].u.cardinals[index]);
         }
       }
     } extra_type_by_cause_iterate_end;
@@ -5906,7 +5910,8 @@ struct sprite *get_basic_special_sprite(const struct tileset *t,
 
   switch (special) {
   case S_IRRIGATION:
-    return t->sprites.tx.irrigation[0];
+  case S_FARMLAND:
+    return t->sprites.extras[extra_index(pextra)].u.cardinals[0];
     break;
   case S_MINE:
     return get_basic_mine_sprite(t);
@@ -5915,9 +5920,6 @@ struct sprite *get_basic_special_sprite(const struct tileset *t,
   case S_FALLOUT:
   case S_HUT:
     return t->sprites.extras[extra_index(pextra)].u.single;
-    break;
-  case S_FARMLAND:
-    return t->sprites.tx.farmland[0];
     break;
   default:
     break;

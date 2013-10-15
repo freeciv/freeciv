@@ -447,8 +447,7 @@ sprites.
     and irrigation. Additionally, there is support for drawing continuous
     farmland and irrigation (as is used in Civ3). Here there are 16
     irrigation sprites (and the same for farmland), starting with
-    tx.s_irrigation_n0s0e0w0 and running through tx.s_irrigation_n1s1e1w1.
+    tx.irrigation_n0s0e0w0 and running through tx.irrigation_n1s1e1w1.
     An appropriate sprite will be chosen depending on which adjacent tiles
     also have farmland/irrigation. If any of these sprites are not present,
     the default sprite will be used as a fallback.
-
