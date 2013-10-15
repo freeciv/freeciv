@@ -1189,7 +1189,7 @@ void handle_end_turn(void)
 **************************************************************************/
 void play_sound_for_event(enum event_type type)
 {
-  const char *sound_tag = get_event_sound_tag(type);
+  const char *sound_tag = get_event_tag(type);
 
   if (sound_tag) {
     audio_play_sound(sound_tag, NULL);

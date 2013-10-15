@@ -162,7 +162,7 @@ extern enum event_type sorted_events[]; /* [E_COUNT], sorted by the
                                            translated message text */
 
 const char *get_event_message_text(enum event_type event);
-const char *get_event_sound_tag(enum event_type event);
+const char *get_event_tag(enum event_type event);
 
 bool is_city_event(enum event_type event);
 

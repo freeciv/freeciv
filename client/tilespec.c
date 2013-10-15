@@ -209,6 +209,8 @@ struct named_sprites {
 
     *icon[ICON_COUNT],
 
+    *events[E_COUNT],
+
     /* The panel sprites for showing tax % allocations. */
     *tax_luxury, *tax_science, *tax_gold,
     *dither_tile;     /* only used for isometric view */
@@ -2453,6 +2455,12 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
 
     fc_snprintf(buffer, sizeof(buffer), "icon.%s", names[i]);
     SET_SPRITE(icon[i], buffer);
+  }
+
+  for (i = 0; i < E_COUNT; i++) {
+    const char *tag = get_event_tag(i);
+
+    SET_SPRITE(events[i], tag);
   }
 
   SET_SPRITE(explode.nuke, "explode.nuke");
@@ -5561,6 +5569,14 @@ struct sprite *get_tax_sprite(const struct tileset *t, Output_type_id otype)
     break;
   }
   return NULL;
+}
+
+/**************************************************************************
+  Return event icon sprite
+**************************************************************************/
+struct sprite *get_event_sprite(const struct tileset *t, enum event_type event)
+{
+  return t->sprites.events[event];
 }
 
 /**************************************************************************

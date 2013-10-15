@@ -320,6 +320,7 @@ struct sprite *get_resource_sprite(const struct tileset *t,
 struct sprite *get_basic_special_sprite(const struct tileset *t,
                                         enum tile_special_type special);
 struct sprite *get_basic_mine_sprite(const struct tileset *t);
+struct sprite *get_event_sprite(const struct tileset *t, enum event_type event);
 
 struct sprite *tiles_lookup_sprite_tag_alt(struct tileset *t,
                                            enum log_level level,

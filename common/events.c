@@ -246,7 +246,7 @@ static int compar_event_message_texts(const void *i1, const void *i2)
 /****************************************************************************
   Returns a string for the sound to be used for this message type.
 ****************************************************************************/
-const char *get_event_sound_tag(enum event_type event)
+const char *get_event_tag(enum event_type event)
 {
   fc_assert_ret_val(event_type_is_valid(event), NULL);
 
