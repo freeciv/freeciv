@@ -40,10 +40,10 @@ AC_DEFUN([FC_SDL2_CLIENT],
             AC_MSG_ERROR([specified client 'sdl2' not configurable (FreeType2 >= 2.1.3 is needed (www.freetype.org))])
           fi    
 	elif test "x$gui_sdl2" = "xyes"; then
-	    AC_MSG_ERROR([specified client 'sdl2' not configurable (SDL_image-devel is needed (www.libsdl.org))])
+	    AC_MSG_ERROR([specified client 'sdl2' not configurable (SDL2_image-devel is needed (www.libsdl.org))])
 	fi
       elif test "x$gui_sdl2" = "xyes"; then
-        AC_MSG_ERROR([specified client 'sdl2' not configurable (SDL_image is needed (www.libsdl.org))])
+        AC_MSG_ERROR([specified client 'sdl2' not configurable (SDL2_image is needed (www.libsdl.org))])
       fi
     fi
 
