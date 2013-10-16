@@ -35,14 +35,6 @@
 
 static struct terrain civ_terrains[MAX_NUM_TERRAINS];
 static struct resource civ_resources[MAX_NUM_RESOURCES];
-
-enum tile_special_type infrastructure_specials[] = {
-  S_IRRIGATION,
-  S_FARMLAND,
-  S_MINE,
-  S_LAST
-};
-
 static struct user_flag user_terrain_flags[MAX_NUM_USER_TER_FLAGS];
 
 /****************************************************************************

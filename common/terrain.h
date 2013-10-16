@@ -38,9 +38,6 @@ enum special_river_move {
   RMV_FAST_ALWAYS = 3,
 };
 
-/* S_LAST-terminated */
-extern enum tile_special_type infrastructure_specials[];
-
 BV_DEFINE(bv_special, S_LAST); /* Used in the network protocol. */
 
 /* NB: This does not include S_FORTRESS and S_AIRBASE.
