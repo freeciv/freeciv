@@ -321,7 +321,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
       popdown_scale_unitinfo_dlg_callback(NULL);
 #endif
     } else {
-      if (Main.screen->w - pUnits_Info_Window->size.w >=
+      if (main_window_width() - pUnits_Info_Window->size.w >=
                   pMiniMap_Window->dst->dest_rect.x + pMiniMap_Window->size.w) {
   
         set_wstate(pIcon_Widget, FC_WS_NORMAL);
@@ -750,11 +750,11 @@ static void popup_minimap_scale_dialog(void)
 
   area = pWindow->area;
 
-  if (Main.event.motion.x + pWindow->size.w > Main.screen->w) {
+  if (Main.event.motion.x + pWindow->size.w > main_window_width()) {
     if (Main.event.motion.x - pWindow->size.w >= 0) {
       window_x = Main.event.motion.x - pWindow->size.w;
     } else {
-      window_x = (Main.screen->w -pWindow->size. w) / 2;
+      window_x = (main_window_width() - pWindow->size. w) / 2;
     }
   } else {
     window_x = Main.event.motion.x;
@@ -870,8 +870,8 @@ static void Remake_UnitInfo(int w, int h)
   pWidget->size.w = w;
   pWidget->size.h = h;
   
-  pWidget->size.x = Main.screen->w - w;
-  pWidget->size.y = Main.screen->h - h;
+  pWidget->size.x = main_window_width() - w;
+  pWidget->size.y = main_window_height() - h;
   
   FREESURFACE(pWidget->theme);
   pWidget->theme = create_surf_alpha(w, h, SDL_SWSURFACE);
@@ -955,7 +955,7 @@ static int up_info_width_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
-    if (Main.screen->w - ((INFO_WIDTH + 1) * map.xsize + BLOCKU_W +
+    if (main_window_width() - ((INFO_WIDTH + 1) * map.xsize + BLOCKU_W +
          (pMiniMap_Window->size.w - pMiniMap_Window->area.w)) >=
          pMiniMap_Window->size.x + pMiniMap_Window->size.w) {
       INFO_WIDTH++;
@@ -1094,11 +1094,11 @@ static void popup_unitinfo_scale_dialog(void)
 
   /* ------------ */
   
-  if (Main.event.motion.x + pWindow->size.w > Main.screen->w) {
+  if (Main.event.motion.x + pWindow->size.w > main_window_width()) {
     if (Main.event.motion.x - pWindow->size.w >= 0) {
       window_x = Main.event.motion.x - pWindow->size.w;
     } else {
-      window_x = (Main.screen->w - pWindow->size.w) / 2;
+      window_x = (main_window_width() - pWindow->size.w) / 2;
     }
   } else {
     window_x = Main.event.motion.x;
@@ -1238,12 +1238,12 @@ void set_new_unitinfo_window_pos(void)
 
   if (SDL_Client_Flags & CF_UNITINFO_SHOWN) {
     widget_set_position(pUnits_Info_Window,
-                        Main.screen->w - pUnits_Info_Window->size.w, 
-                        Main.screen->h - pUnits_Info_Window->size.h);
+                        main_window_width() - pUnits_Info_Window->size.w, 
+                        main_window_height() - pUnits_Info_Window->size.h);
   } else {
     widget_set_position(pUnit_Window,
-                        Main.screen->w - BLOCKU_W - pTheme->FR_Right->w, 
-                        Main.screen->h - pUnits_Info_Window->size.h);
+                        main_window_width() - BLOCKU_W - pTheme->FR_Right->w, 
+                        main_window_height() - pUnits_Info_Window->size.h);
   }
 
   area.x = pUnits_Info_Window->area.x;
@@ -1291,7 +1291,7 @@ void set_new_minimap_window_pos(void)
 
   widget_set_position(pMiniMap_Window,
                       0, 
-                      Main.screen->h - pMiniMap_Window->size.h);
+                      main_window_height() - pMiniMap_Window->size.h);
 
   area.x = pMiniMap_Window->size.w - pTheme->FR_Right->w - BLOCKM_W;
   area.y = pMiniMap_Window->area.y;
@@ -2665,8 +2665,8 @@ void popup_newcity_dialog(struct unit *pUnit, const char *pSuggestname)
   
   /* set start positions */
   widget_set_position(pWindow,
-    (Main.screen->w - pWindow->size.w) / 2,
-    (Main.screen->h - pWindow->size.h) / 2);
+    (main_window_width() - pWindow->size.w) / 2,
+    (main_window_height() - pWindow->size.h) / 2);
 
   pOK_Button->size.x = area.x + adj_size(10);
   pOK_Button->size.y = area.y + area.h - pOK_Button->size.h - adj_size(10);

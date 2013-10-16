@@ -496,7 +496,7 @@ void redraw_widget_info_label(SDL_Rect *rect)
       pInfo_Area->y = (pWidget->dst->dest_rect.y + pWidget->size.y) - pBcgd->h - adj_size(5);
     }
   
-    if ((pWidget->dst->dest_rect.x + pWidget->size.x) + pBcgd->w + adj_size(5) > Main.screen->w) {
+    if ((pWidget->dst->dest_rect.x + pWidget->size.x) + pBcgd->w + adj_size(5) > main_window_width()) {
       pInfo_Area->x = (pWidget->dst->dest_rect.x + pWidget->size.x) - pBcgd->w - adj_size(5);
     } else {
       pInfo_Area->x = (pWidget->dst->dest_rect.x + pWidget->size.x) + adj_size(3);
@@ -539,9 +539,9 @@ void redraw_widget_info_label(SDL_Rect *rect)
     srcrect.w = MIN((pInfo_Area->x + pInfo_Area->w), (rect->x + rect->w)) - dstrect.x;
     srcrect.h = MIN((pInfo_Area->y + pInfo_Area->h), (rect->y + rect->h)) - dstrect.y;
 
-    alphablit(pInfo_Label, &srcrect, Main.screen, &dstrect);
+    alphablit(pInfo_Label, &srcrect, Main.mainsurf, &dstrect);
   } else {
-    alphablit(pInfo_Label, NULL, Main.screen, pInfo_Area);
+    alphablit(pInfo_Label, NULL, Main.mainsurf, pInfo_Area);
   }
 
   if (correct_rect_region(pInfo_Area)) {

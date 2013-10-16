@@ -259,8 +259,8 @@ void popup_connection_dialog(bool lan_scan)
   area = pLabelWindow->area;
 
   widget_set_position(pLabelWindow,
-                      (Main.screen->w - pLabelWindow->size.w) / 2,
-                      (Main.screen->h - pLabelWindow->size.h) / 2);
+                      (main_window_width() - pLabelWindow->size.w) / 2,
+                      (main_window_height() - pLabelWindow->size.h) / 2);
 
   widget_set_area(pNewWidget, area);
   widget_set_position(pNewWidget,
@@ -388,8 +388,8 @@ void popup_connection_dialog(bool lan_scan)
   area = pWindow->area;
   
   widget_set_position(pWindow,
-                      (Main.screen->w - w) / 2,
-                      (Main.screen->h - meta_h) / 2);
+                      (main_window_width() - w) / 2,
+                      (main_window_height() - meta_h) / 2);
   
   w -= adj_size(20);
   
@@ -659,8 +659,8 @@ void popup_join_game_dialog()
   area = pWindow->area;
   
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w)/ 2,
-                      (Main.screen->h - pWindow->size.h)/ 2 + adj_size(40));
+                      (main_window_width() - pWindow->size.w)/ 2,
+                      (main_window_height() - pWindow->size.h)/ 2 + adj_size(40));
 
   /* player name label */
   pBuf = pConnectDlg->pEndWidgetList->prev;
@@ -852,8 +852,8 @@ static void popup_user_passwd_dialog(const char *pMessage)
   area = pWindow->area;
   
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w)/ 2,
-                      (Main.screen->h - pWindow->size.h)/ 2);
+                      (main_window_width() - pWindow->size.w)/ 2,
+                      (main_window_height() - pWindow->size.h)/ 2);
 
   /* text label */
   pBuf = pConnectDlg->pEndWidgetList->prev;
@@ -1025,8 +1025,8 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
   area = pWindow->area;
   
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w)/ 2,
-                      (Main.screen->h - pWindow->size.h)/ 2);
+                      (main_window_width() - pWindow->size.w)/ 2,
+                      (main_window_height() - pWindow->size.h)/ 2);
 
   /* text label */
   pBuf = pConnectDlg->pEndWidgetList->prev;

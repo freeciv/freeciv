@@ -310,8 +310,8 @@ static void popup_load_game_dialog(void)
   }
 
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w) / 2,
-                      (Main.screen->h - pWindow->size.h) / 2);
+                      (main_window_width() - pWindow->size.w) / 2,
+                      (main_window_height() - pWindow->size.h) / 2);
 
   widget_set_position(pCloseButton,
                       area.x + area.w - pCloseButton->size.w - 1,
@@ -361,8 +361,8 @@ void popup_input_line(void)
   pInput_Edit = create_edit_from_unichars(NULL, Main.gui, NULL, 0, adj_font(12),
                                           adj_size(400), 0);
   
-  pInput_Edit->size.x = (Main.screen->w - pInput_Edit->size.w) / 2;
-  pInput_Edit->size.y = (Main.screen->h - pInput_Edit->size.h) / 2;
+  pInput_Edit->size.x = (main_window_width() - pInput_Edit->size.w) / 2;
+  pInput_Edit->size.y = (main_window_height() - pInput_Edit->size.h) / 2;
   
   if(edit(pInput_Edit) != ED_ESC) {
     inputline_return_callback(pInput_Edit);
@@ -700,7 +700,7 @@ static void popup_conn_list_dialog(void)
 
   /* create window background */
   pSurf = theme_get_background(theme, BACKGROUND_CONNLISTDLG);
-  if (resize_window(pWindow, pSurf, NULL, Main.screen->w, Main.screen->h)) {
+  if (resize_window(pWindow, pSurf, NULL, main_window_width(), main_window_height())) {
     FREESURFACE(pSurf);
   }
   

@@ -623,8 +623,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   area = pWindow->area;
   
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w) / 2,
-                      (Main.screen->h - pWindow->size.h) / 2);
+                      (main_window_width() - pWindow->size.w) / 2,
+                      (main_window_height() - pWindow->size.h) / 2);
   
   ww -= (pWindow->size.w - pWindow->area.w);
   
@@ -2175,8 +2175,8 @@ void economy_report_dialog_popup(bool make_modal)
   area = pWindow->area;
   
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w) / 2,
-                      (Main.screen->h - pWindow->size.h) / 2);
+                      (main_window_width() - pWindow->size.w) / 2,
+                      (main_window_height() - pWindow->size.h) / 2);
 
   /* "Treasury" value label */
   pBuf = pWindow->prev;
@@ -2934,9 +2934,9 @@ static void popup_change_research_dialog(void)
 
   /* ------------------------- */
   /* max col - 104 is sellect tech widget width */
-  max_col = (Main.screen->w - (pWindow->size.w - pWindow->area.w) - adj_size(2)) / adj_size(104);
+  max_col = (main_window_width() - (pWindow->size.w - pWindow->area.w) - adj_size(2)) / adj_size(104);
   /* max row - 204 is sellect tech widget height */
-  max_row = (Main.screen->h - (pWindow->size.h - pWindow->area.h) - adj_size(2)) / adj_size(204);
+  max_row = (main_window_height() - (pWindow->size.h - pWindow->area.h) - adj_size(2)) / adj_size(204);
   
   /* make space on screen for scrollbar */
   if (max_col * max_row < count) {
@@ -3021,8 +3021,8 @@ static void popup_change_research_dialog(void)
   area = pWindow->area;
   
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w) / 2,
-                      (Main.screen->h - pWindow->size.h) / 2);
+                      (main_window_width() - pWindow->size.w) / 2,
+                      (main_window_height() - pWindow->size.h) / 2);
 
     /* exit button */
   pBuf = pWindow->prev;
@@ -3122,10 +3122,10 @@ static void popup_change_research_goal_dialog(void)
 
   /* ------------------------- */
   /* max col - 104 is goal tech widget width */
-  max_col = (Main.screen->w - (pWindow->size.w - pWindow->area.w) - adj_size(2)) / adj_size(104);
+  max_col = (main_window_width() - (pWindow->size.w - pWindow->area.w) - adj_size(2)) / adj_size(104);
   
   /* max row - 204 is goal tech widget height */
-  max_row = (Main.screen->h - (pWindow->size.h - pWindow->area.h) - adj_size(2)) / adj_size(204);
+  max_row = (main_window_height() - (pWindow->size.h - pWindow->area.h) - adj_size(2)) / adj_size(204);
 
   /* make space on screen for scrollbar */
   if (max_col * max_row < count) {
@@ -3216,8 +3216,8 @@ static void popup_change_research_goal_dialog(void)
   area = pWindow->area;
   
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w) / 2,
-                      (Main.screen->h - pWindow->size.h) / 2);
+                      (main_window_width() - pWindow->size.w) / 2,
+                      (main_window_height() - pWindow->size.h) / 2);
 
   /* exit button */
   pBuf = pWindow->prev;
@@ -3337,8 +3337,8 @@ void science_report_dialog_popup(bool raise)
   area = pWindow->area;
   
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w) / 2,
-                      (Main.screen->h - pWindow->size.h) / 2);
+                      (main_window_width() - pWindow->size.w) / 2,
+                      (main_window_height() - pWindow->size.h) / 2);
 
   add_to_gui_list(ID_SCIENCE_DLG_WINDOW, pWindow);
   

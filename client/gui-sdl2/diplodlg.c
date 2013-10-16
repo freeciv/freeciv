@@ -758,7 +758,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   pDlg->pEndActiveWidgetList = pDlg->pEndWidgetList->prev;
   pDlg->pScroll = NULL;
   
-  area.h = (Main.screen->h - adj_size(100) - (pWindow->size.h - pWindow->area.h));
+  area.h = (main_window_height() - adj_size(100) - (pWindow->size.h - pWindow->area.h));
   
   if (area.h < (count * height)) {
     pDlg->pActiveWidgetList = pDlg->pEndActiveWidgetList;
@@ -789,7 +789,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   } else {
     window_x = pMainWindow->dst->dest_rect.x - adj_size(20) - pWindow->size.w;
   }
-  window_y = (Main.screen->h - pWindow->size.h) / 2;
+  window_y = (main_window_height() - pWindow->size.h) / 2;
   
   widget_set_position(pWindow, window_x, window_y);
   
@@ -948,8 +948,8 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     area = pWindow->area;
 
     widget_set_position(pWindow,
-                        (Main.screen->w - pWindow->size.w) / 2,
-                        (Main.screen->h - pWindow->size.h) / 2);
+                        (main_window_width() - pWindow->size.w) / 2,
+                        (main_window_height() - pWindow->size.h) / 2);
 
     pBuf = pWindow->prev;
     pBuf->size.x = area.x + adj_size(17);
@@ -1426,8 +1426,8 @@ static void popup_war_dialog(struct player *pPlayer)
   area = pWindow->area;
 
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w) / 2,
-                      (Main.screen->h - pWindow->size.h) / 2);
+                      (main_window_width() - pWindow->size.w) / 2,
+                      (main_window_height() - pWindow->size.h) / 2);
 
   /* setup rest of widgets */
   /* label */
@@ -1625,8 +1625,8 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     area = pWindow->area;
     
     widget_set_position(pWindow,
-                        (Main.screen->w - pWindow->size.w) / 2,
-                        (Main.screen->h - pWindow->size.h) / 2);
+                        (main_window_width() - pWindow->size.w) / 2,
+                        (main_window_height() - pWindow->size.h) / 2);
 
     /* setup rest of widgets */
     /* label */

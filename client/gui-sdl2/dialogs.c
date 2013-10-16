@@ -107,10 +107,10 @@ void put_window_near_map_tile(struct widget *pWindow,
   int window_x = 0, window_y = 0;
   
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
-    if (canvas_x + tileset_tile_width(tileset) + window_width >= Main.screen->w)
+    if (canvas_x + tileset_tile_width(tileset) + window_width >= main_window_width())
     {
       if (canvas_x - window_width < 0) {
-	window_x = (Main.screen->w - window_width) / 2;
+	window_x = (main_window_width() - window_width) / 2;
       } else {
 	window_x = canvas_x - window_width;
       }
@@ -119,9 +119,9 @@ void put_window_near_map_tile(struct widget *pWindow,
     }
     
     canvas_y += (tileset_tile_height(tileset) - window_height) / 2;
-    if (canvas_y + window_height >= Main.screen->h)
+    if (canvas_y + window_height >= main_window_height())
     {
-      window_y = Main.screen->h - window_height - 1;
+      window_y = main_window_height() - window_height - 1;
     } else {
       if (canvas_y < 0)
       {
@@ -131,8 +131,8 @@ void put_window_near_map_tile(struct widget *pWindow,
       }
     }
   } else {
-    window_x = (Main.screen->w - window_width) / 2;
-    window_y = (Main.screen->h - window_height) / 2;
+    window_x = (main_window_width() - window_width) / 2;
+    window_y = (main_window_height() - window_height) / 2;
   }
   
   widget_set_position(pWindow, window_x, window_y);
@@ -397,8 +397,8 @@ static void notify_goto_dialog_update(struct notify_goto_dialog *pdialog)
                 adj_size(pdialog->label->size.w + 40),
                 adj_size(pdialog->label->size.h + 60));
   widget_set_position(pdialog->window,
-                      (Main.screen->w - pdialog->window->size.w) / 2,
-                      (Main.screen->h - pdialog->window->size.h) / 2);
+                      (main_window_width() - pdialog->window->size.w) / 2,
+                      (main_window_height() - pdialog->window->size.h) / 2);
   widget_set_position(pdialog->close_button, pdialog->window->size.w
                       - pdialog->close_button->size.w - 1,
                       pdialog->window->size.y + adj_size(2));
@@ -575,8 +575,8 @@ void popup_notify_dialog(const char *caption, const char *headline,
   area = pWindow->area;
   
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w) / 2,
-                      (Main.screen->h - pWindow->size.h) / 2);
+                      (main_window_width() - pWindow->size.w) / 2,
+                      (main_window_height() - pWindow->size.h) / 2);
   
   dst.x = area.x + (area.w - pHeadline->w) / 2;
   dst.y = area.y + adj_size(10);
@@ -2496,8 +2496,8 @@ static void popup_government_dialog(void)
   
   /* set window start positions */
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w) / 2,
-                      (Main.screen->h - pWindow->size.h) / 2);
+                      (main_window_width() - pWindow->size.w) / 2,
+                      (main_window_height() - pWindow->size.h) / 2);
   
   /* set buttons start positions and size */
   j = 1;
@@ -2603,8 +2603,8 @@ void popup_revolution_dialog(void)
   
   /* set start positions */
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w) / 2,
-                      (Main.screen->h - pWindow->size.h) / 2);
+                      (main_window_width() - pWindow->size.w) / 2,
+                      (main_window_height() - pWindow->size.h) / 2);
   
   pOK_Button->size.x = area.x + adj_size(10);
   pOK_Button->size.y = area.y + area.h - pOK_Button->size.h - adj_size(10);
@@ -2970,7 +2970,7 @@ static int nation_button_callback(struct widget *pNationButton)
     }
     
     pStr->fgcol = *get_theme_color(COLOR_THEME_NATIONDLG_LEGEND);
-    pText = create_text_surf_smaller_that_w(pStr, Main.screen->w - adj_size(20));
+    pText = create_text_surf_smaller_that_w(pStr, main_window_width() - adj_size(20));
   
     FREESTRING16(pStr);
     
@@ -2985,8 +2985,8 @@ static int nation_button_callback(struct widget *pNationButton)
                   (pWindow->size.h - pWindow->area.h) + area.h);
 
     widget_set_position(pWindow,
-                        (Main.screen->w - pWindow->size.w) / 2,
-                        (Main.screen->h - pWindow->size.h) / 2);
+                        (main_window_width() - pWindow->size.w) / 2,
+                        (main_window_height() - pWindow->size.h) / 2);
     
     area2.x = area.x + adj_size(7);
     area2.y = area.y + adj_size(6);
@@ -3387,8 +3387,8 @@ void popup_races_dialog(struct player *pplayer)
   area = pWindow->area;
   
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w) / 2,
-                      (Main.screen->h - pWindow->size.h) / 2);
+                      (main_window_width() - pWindow->size.w) / 2,
+                      (main_window_height() - pWindow->size.h) / 2);
   
   /* nations */
   

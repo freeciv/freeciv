@@ -284,7 +284,7 @@ void meswin_dialog_popup(bool raise)
   
   hide_scrollbar(pMsg_Dlg->pScroll);
 
-  widget_set_position(pWindow, (Main.screen->w - pWindow->size.w)/2, adj_size(25));
+  widget_set_position(pWindow, (main_window_width() - pWindow->size.w)/2, adj_size(25));
 
   widget_redraw(pWindow);
 

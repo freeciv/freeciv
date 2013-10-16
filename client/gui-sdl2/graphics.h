@@ -184,7 +184,8 @@ struct main {
   int rects_count;		/* update rect. array counter */
   int guis_count;		/* gui buffers array counter */
   SDL_Rect rects[RECT_LIMIT];	/* update rect. list */
-  SDL_Surface *screen;		/* main screen buffer */
+  SDL_Window *screen;           /* main screen buffer */
+  SDL_Surface *mainsurf;
   SDL_Surface *map;		/* map buffer */
   SDL_Surface *dummy;           /* dummy surface for missing sprites */
   struct canvas map_canvas;
@@ -276,6 +277,9 @@ void init_sdl(int f);
 void quit_sdl(void);
 int set_video_mode(int iWidth, int iHeight, int iFlags);
 
+#define main_window_width() Main.mainsurf->w
+#define main_window_height() Main.mainsurf->h
+
 /* Rect */
 bool correct_rect_region(SDL_Rect *pRect);
 bool is_in_rect_area(int x, int y, SDL_Rect rect);
@@ -298,7 +302,7 @@ SDL_Surface *crop_visible_part_from_surface(SDL_Surface *pSrc);
 SDL_Rect get_smaller_surface_rect(SDL_Surface *pSrc);
 
 #define create_surf(w, h, f) \
-	create_surf_with_format(Main.screen->format , w , h, f)
+  create_surf_with_format(Main.mainsurf->format, w , h, f)
 
 #define map_rgba(format, color) \
         SDL_MapRGBA(format, (color).r, (color).g, (color).b, (color).a)

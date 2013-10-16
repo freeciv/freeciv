@@ -291,8 +291,8 @@ static void show_main_page(void)
   SDL_FillRectAlpha(pWindow->theme, &area, &bg_color);
   
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w) - adj_size(20),
-                      (Main.screen->h - pWindow->size.h) - adj_size(20));
+                      (main_window_width() - pWindow->size.w) - adj_size(20),
+                      (main_window_height() - pWindow->size.h) - adj_size(20));
 
   draw_intro_gfx();
   

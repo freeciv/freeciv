@@ -467,8 +467,8 @@ void popup_players_dialog(bool raise)
   a = (2.0 * M_PI) / n;
   
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w) / 2,
-                      (Main.screen->h - pWindow->size.h) / 2);
+                      (main_window_width() - pWindow->size.w) / 2,
+                      (main_window_height() - pWindow->size.h) / 2);
   
   /* exit button */
   pBuf = pWindow->prev;
@@ -774,12 +774,12 @@ void popup_players_nations_dialog(void)
   area = pWindow->area;
   
   widget_set_position(pWindow,
-    ((Main.event.motion.x + pWindow->size.w + adj_size(10) < Main.screen->w) ?
+    ((Main.event.motion.x + pWindow->size.w + adj_size(10) < main_window_width()) ?
       (Main.event.motion.x + adj_size(10)) :
-      (Main.screen->w - pWindow->size.w - adj_size(10))),
-    ((Main.event.motion.y - adj_size(2) + pWindow->size.h < Main.screen->h) ?
+      (main_window_width() - pWindow->size.w - adj_size(10))),
+    ((Main.event.motion.y - adj_size(2) + pWindow->size.h < main_window_height()) ?
       (Main.event.motion.y - adj_size(2)) :
-      (Main.screen->h - pWindow->size.h - adj_size(10))));
+      (main_window_height() - pWindow->size.h - adj_size(10))));
   
   w = area.w;
   

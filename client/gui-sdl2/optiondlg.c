@@ -172,8 +172,8 @@ static void arrange_widgets(struct widget *window, int widgets_per_row,
   }
 
   /* Set window position. */
-  widget_set_position(window, (Main.screen->w - window->size.w) / 2,
-                      (Main.screen->h - window->size.h) / 2);
+  widget_set_position(window, (main_window_width() - window->size.w) / 2,
+                      (main_window_height() - window->size.h) / 2);
 
   area = window->area;
 

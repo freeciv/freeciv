@@ -777,10 +777,8 @@ void ui_init(void)
 
   init_sdl(iSDL_Flags);
 
-#if 0
   log_normal(_("Using Video Output: %s"),
-             SDL_VideoDriverName(device, sizeof(device)));
-#endif
+             SDL_GetCurrentVideoDriver());
 
   /* create splash screen */  
 #ifdef SMALL_SCREEN
@@ -793,6 +791,8 @@ void ui_init(void)
 #else  /* SMALL_SCREEN */
   pBgd = load_surf(fileinfoname(get_data_dirs(), "misc/intro.png"));
 #endif /* SMALL_SCREEN */
+
+  set_video_mode(pBgd->w, pBgd->h, 0);
 
 #if 0
   if (pBgd && SDL_GetVideoInfo()->wm_available) {
@@ -844,8 +844,8 @@ void ui_init(void)
   pInit_String->string16->style |= SF_CENTER;
 
   draw_label(pInit_String,
-	     (Main.screen->w - pInit_String->size.w) / 2,
-	     (Main.screen->h - pInit_String->size.h) / 2);
+	     (main_window_width() - pInit_String->size.w) / 2,
+	     (main_window_height() - pInit_String->size.h) / 2);
 
   flush_all();
   
@@ -863,7 +863,7 @@ void ui_init(void)
 static void real_resize_window_callback(void *data)
 {
   struct widget *widget;
-  Uint32 flags = Main.screen->flags;
+  Uint32 flags = Main.mainsurf->flags;
 
 #if 0
   if (gui_sdl2_fullscreen) {
@@ -882,14 +882,14 @@ static void real_resize_window_callback(void *data)
 
     /* Move cooling/warming icons to botton-right corner. */
     widget = get_widget_pointer_form_main_list(ID_WARMING_ICON);
-    widget_set_position(widget, (Main.screen->w - adj_size(10)
+    widget_set_position(widget, (main_window_width() - adj_size(10)
                                  - (widget->size.w * 2)), widget->size.y);
 
     widget = get_widget_pointer_form_main_list(ID_COOLING_ICON);
-    widget_set_position(widget, (Main.screen->w - adj_size(10)
+    widget_set_position(widget, (main_window_width() - adj_size(10)
                                  - widget->size.w), widget->size.y);
 
-    map_canvas_resized(Main.screen->w, Main.screen->h);
+    map_canvas_resized(main_window_width(), main_window_height());
     update_info_label();
     update_unit_info_label(get_units_in_focus());
     center_on_something();      /* With redrawing full map. */

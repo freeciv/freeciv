@@ -401,8 +401,8 @@ void update_intel_dialog(struct player *p)
     
     /* ------------------------ */  
     widget_set_position(pWindow,
-      (pdialog->pos_x) ? (pdialog->pos_x) : ((Main.screen->w - pWindow->size.w) / 2),
-      (pdialog->pos_y) ? (pdialog->pos_y) : ((Main.screen->h - pWindow->size.h) / 2));
+      (pdialog->pos_x) ? (pdialog->pos_x) : ((main_window_width() - pWindow->size.w) / 2),
+      (pdialog->pos_y) ? (pdialog->pos_y) : ((main_window_height() - pWindow->size.h) / 2));
     
     /* exit button */
     pBuf = pWindow->prev; 

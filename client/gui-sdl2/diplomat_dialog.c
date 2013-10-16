@@ -308,9 +308,9 @@ static int spy_steal_popup(struct widget *pWidget)
   
   count++; /* count + at Spy's Discretion */
   /* max col - 104 is steal tech widget width */
-  max_col = (Main.screen->w - (pWindow->size.w - pWindow->area.w) - adj_size(2)) / adj_size(104);
+  max_col = (main_window_width() - (pWindow->size.w - pWindow->area.w) - adj_size(2)) / adj_size(104);
   /* max row - 204 is steal tech widget height */
-  max_row = (Main.screen->h - (pWindow->size.h - pWindow->area.h)) / adj_size(204);
+  max_row = (main_window_height() - (pWindow->size.h - pWindow->area.h)) / adj_size(204);
   
   /* make space on screen for scrollbar */
   if (max_col * max_row < count) {
@@ -417,8 +417,8 @@ static int spy_steal_popup(struct widget *pWidget)
   area = pWindow->area;
   
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w) / 2,
-                      (Main.screen->h - pWindow->size.h) / 2);
+                      (main_window_width() - pWindow->size.w) / 2,
+                      (main_window_height() - pWindow->size.h) / 2);
   
     /* exit button */
   pBuf = pWindow->prev;

@@ -296,11 +296,11 @@ static void set_new_order_widget_start_pos(void)
   if (w < (pTmpWidget->size.w + adj_size(10)) * 2) {
     if(pMiniMap->size.h == pInfoWind->size.h) {
       xx = 0;
-      w = Main.screen->w;
+      w = main_window_width();
       yy = pInfoWind->size.h;
     } else {
       if (pMiniMap->size.h > pInfoWind->size.h) {
-        w = Main.screen->w - xx - adj_size(20);
+        w = main_window_width() - xx - adj_size(20);
         if (w < (pTmpWidget->size.w + adj_size(10)) * 2) {
 	  xx = 0;
 	  w = pMiniMap->size.w;

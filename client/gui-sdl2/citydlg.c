@@ -1253,7 +1253,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   } else {
     if(is_city_report_open()) {
       fc_assert(pSellected_Widget != NULL);
-      if (pSellected_Widget->size.x + tileset_tile_width(tileset) + pWindow->size.w > Main.screen->w)
+      if (pSellected_Widget->size.x + tileset_tile_width(tileset) + pWindow->size.w > main_window_width())
       {
         window_x = pSellected_Widget->size.x - pWindow->size.w;
       } else {
@@ -1261,9 +1261,9 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
       }
     
       window_y = pSellected_Widget->size.y + (pSellected_Widget->size.h - pWindow->size.h) / 2;
-      if (window_y + pWindow->size.h > Main.screen->h)
+      if (window_y + pWindow->size.h > main_window_height())
       {
-	window_y = Main.screen->h - pWindow->size.h - 1;
+	window_y = main_window_height() - pWindow->size.h - 1;
       } else {
         if (window_y < 0) {
 	  window_y = 0;
@@ -1463,8 +1463,8 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
     
     /* set start positions */
     widget_set_position(pWindow,
-                        (Main.screen->w - pWindow->size.w) / 2,
-                        (Main.screen->h - pWindow->size.h) / 2 + adj_size(10));
+                        (main_window_width() - pWindow->size.w) / 2,
+                        (main_window_height() - pWindow->size.h) / 2 + adj_size(10));
   
     pOK_Button->size.x = area.x + adj_size(10);
     pOK_Button->size.y = area.y + area.h - pOK_Button->size.h - adj_size(10);
@@ -3698,8 +3698,8 @@ void real_city_dialog_popup(struct city *pCity)
   area = pWindow->area;
   
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w) / 2,
-                      (Main.screen->h - pWindow->size.h) / 2);
+                      (main_window_width() - pWindow->size.w) / 2,
+                      (main_window_height() - pWindow->size.h) / 2);
 
   /* ============================================================= */
 

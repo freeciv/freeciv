@@ -632,8 +632,8 @@ static void real_info_city_report_dialog_update(void)
   area = pWindow->area;
   
   widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w) / 2,
-                      (Main.screen->h - pWindow->size.h) / 2);
+                      (main_window_width() - pWindow->size.w) / 2,
+                      (main_window_height() - pWindow->size.h) / 2);
   
   /* exit button */
   pBuf = pWindow->prev;

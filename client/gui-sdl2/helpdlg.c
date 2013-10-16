@@ -465,8 +465,8 @@ void popup_impr_info(Impr_type_id impr)
     area = pWindow->area;
 
     widget_set_position(pWindow,
-                        (Main.screen->w - pWindow->size.w) / 2,
-                        (Main.screen->h - pWindow->size.h) / 2);
+                        (main_window_width() - pWindow->size.w) / 2,
+                        (main_window_height() - pWindow->size.h) / 2);
 
     /* exit button */
     pCloseButton = pWindow->prev;
@@ -896,8 +896,8 @@ void popup_unit_info(Unit_type_id type_id)
     area = pWindow->area;
 
     widget_set_position(pWindow,
-                        (Main.screen->w - pWindow->size.w) / 2,
-                        (Main.screen->h - pWindow->size.h) / 2);
+                        (main_window_width() - pWindow->size.w) / 2,
+                        (main_window_height() - pWindow->size.h) / 2);
 
     /* exit button */
     pCloseButton = pWindow->prev;
@@ -2091,8 +2091,8 @@ void popup_tech_info(Tech_type_id tech)
     area = pWindow->area;
 
     widget_set_position(pWindow,
-                        (Main.screen->w - pWindow->size.w) / 2,
-                        (Main.screen->h - pWindow->size.h) / 2);
+                        (main_window_width() - pWindow->size.w) / 2,
+                        (main_window_height() - pWindow->size.h) / 2);
 
     /* exit button */
     pCloseButton = pWindow->prev;

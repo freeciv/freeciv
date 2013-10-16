@@ -110,13 +110,13 @@ void flush_rect(SDL_Rect rect, bool force_flush)
       if (C_S_RUNNING == client_state()) {     
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);
       }
-      alphablit(Main.map, &rect, Main.screen, &dst);
+      alphablit(Main.map, &rect, Main.mainsurf, &dst);
       if (Main.guis) {
         while((i < Main.guis_count) && Main.guis[i]) {
           src = rect;
           screen_rect_to_layer_rect(Main.guis[i], &src);
           dst = rect;
-          alphablit(Main.guis[i++]->surface, &src, Main.screen, &dst);
+          alphablit(Main.guis[i++]->surface, &src, Main.mainsurf, &dst);
         }
       }
       i = 0;
@@ -219,14 +219,14 @@ void flush_dirty(void)
     
     if ((C_S_RUNNING == client_state()) &&
         (get_client_page() == PAGE_GAME)) {
-      flush_mapcanvas(0, 0, Main.screen->w, Main.screen->h);
+      flush_mapcanvas(0, 0, main_window_width(), main_window_height());
       refresh_overview();
     }
-    alphablit(Main.map, NULL, Main.screen, NULL);
+    alphablit(Main.map, NULL, Main.mainsurf, NULL);
     if (Main.guis) {
       while((j < Main.guis_count) && Main.guis[j]) {
         SDL_Rect dst = Main.guis[j]->dest_rect;
-        alphablit(Main.guis[j++]->surface, NULL, Main.screen, &dst);
+        alphablit(Main.guis[j++]->surface, NULL, Main.mainsurf, &dst);
       }
     }
     j = 0;
@@ -247,13 +247,13 @@ void flush_dirty(void)
       if (C_S_RUNNING == client_state()) {     
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);
       }
-      alphablit(Main.map, &Main.rects[i], Main.screen, &dst);
+      alphablit(Main.map, &Main.rects[i], Main.mainsurf, &dst);
       if (Main.guis) {
         while((j < Main.guis_count) && Main.guis[j]) {
           src = Main.rects[i];
           screen_rect_to_layer_rect(Main.guis[j], &src);
           dst = Main.rects[i];
-          alphablit(Main.guis[j++]->surface, &src, Main.screen, &dst);
+          alphablit(Main.guis[j++]->surface, &src, Main.mainsurf, &dst);
         }
       }
       j = 0;
@@ -369,7 +369,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 ****************************************************************************/
 void overview_size_changed(void)
 {
-  map_canvas_resized(Main.screen->w, Main.screen->h);  	
+  map_canvas_resized(main_window_width(), main_window_height());  	
   
   if (overview_canvas) {
     canvas_free(overview_canvas);
@@ -437,7 +437,7 @@ void update_info_label(void)
     copy_chars_to_string16(pText, buffer);
     pTmp = create_text_surf_from_str16(pText);
 
-    area.x = (Main.screen->w - pTmp->w) / 2 - adj_size(5);
+    area.x = (main_window_width() - pTmp->w) / 2 - adj_size(5);
     area.w = pTmp->w + adj_size(8);
       area.h = pTmp->h + adj_size(4);
   

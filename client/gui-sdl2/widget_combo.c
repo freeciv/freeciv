@@ -177,16 +177,16 @@ void combo_popup(struct widget *combo)
   resize_window(window, NULL, NULL, longest + 2 * adj_size(10), h);
 
   x = combo->size.x + combo->dst->dest_rect.x;
-  if (x + window->size.w > Main.screen->w) {
-    x = Main.screen->w - window->size.w;
+  if (x + window->size.w > main_window_width()) {
+    x = main_window_width() - window->size.w;
   }
   if (x < 0) {
     x = 0;
   }
 
   y = combo->size.y - h + combo->dst->dest_rect.y;
-  if (y + window->size.h > Main.screen->h) {
-    y = Main.screen->h - window->size.h;
+  if (y + window->size.h > main_window_height()) {
+    y = main_window_height() - window->size.h;
   }
   if (y < 0) {
     y = 0;

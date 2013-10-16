@@ -636,6 +636,14 @@ void quit_sdl(void)
 **************************************************************************/
 int set_video_mode(int iWidth, int iHeight, int iFlags)
 {
+  Main.screen = SDL_CreateWindow(_("SDL2 Client for Freeciv"),
+                                 SDL_WINDOWPOS_UNDEFINED,
+                                 SDL_WINDOWPOS_UNDEFINED,
+                                 iWidth, iHeight,
+                                 0);
+
+  Main.mainsurf = SDL_GetWindowSurface(Main.screen);
+
 #if 0
   /* find best bpp */
   int iDepth = SDL_GetVideoInfo()->vfmt->BitsPerPixel;
@@ -2888,12 +2896,12 @@ bool correct_rect_region(SDL_Rect * pRect)
     pRect->y = 0;
   }
 
-  if (pRect->x + ww > Main.screen->w) {
-    ww = Main.screen->w - pRect->x;
+  if (pRect->x + ww > main_window_width()) {
+    ww = main_window_width() - pRect->x;
   }
 
-  if (pRect->y + hh > Main.screen->h) {
-    hh = Main.screen->h - pRect->y;
+  if (pRect->y + hh > main_window_height()) {
+    hh = main_window_height() - pRect->y;
   }
 
   /* End Correction */
