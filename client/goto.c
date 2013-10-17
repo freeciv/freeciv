@@ -1155,11 +1155,11 @@ void send_connect_route(enum unit_activity activity,
     for (i = 0; i < path->length; i++) {
       switch (activity) {
       case ACTIVITY_IRRIGATE:
-	if (!tile_has_special(old_tile, S_IRRIGATION)) {
+	if (!tile_has_extra(old_tile, tgt)) {
 	  /* Assume the unit can irrigate or we wouldn't be here. */
 	  p.orders[p.length] = ORDER_ACTIVITY;
 	  p.activity[p.length] = ACTIVITY_IRRIGATE;
-          p.target[p.length] = EXTRA_NONE;
+          p.target[p.length] = extra_index(tgt);
 	  p.length++;
 	}
 	break;

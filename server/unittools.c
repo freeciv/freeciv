@@ -3674,43 +3674,27 @@ bool execute_orders(struct unit *punit)
       }
     case ORDER_ACTIVITY:
       activity = order.activity;
-      if (activity == ACTIVITY_BASE) {
-        Base_type_id base = base_index(extra_base_get(extra_by_number(order.target)));
+      {
+        struct extra_type *pextra = extra_by_number(order.target);
 
-        if (can_unit_do_activity_base(punit, base)) {
+        if (can_unit_do_activity_targeted(punit, activity, pextra)) {
           punit->done_moving = TRUE;
-          set_unit_activity_base(punit, base);
+          set_unit_activity_targeted(punit, activity, pextra);
           send_unit_info(NULL, punit);
           break;
-        } else if (tile_has_base(unit_tile(punit), base_by_number(base))) {
-          break; /* Already built, let's continue. */
-        }
-      } else if (activity == ACTIVITY_GEN_ROAD) {
-        Road_type_id road = road_index(extra_road_get(extra_by_number(order.target)));
-
-        if (can_unit_do_activity_road(punit, road)) {
-          punit->done_moving = TRUE;
-          set_unit_activity_road(punit, road);
-          send_unit_info(NULL, punit);
-          break;
-         } else if (tile_has_road(unit_tile(punit), road_by_number(road))) {
-          break; /* Already built, let's continue. */
-        }
-      } else {
-        if (can_unit_do_activity(punit, activity)) {
-          punit->done_moving = TRUE;
-          set_unit_activity(punit, activity);
-          send_unit_info(NULL, punit);
-          break;
-        } else if ((ACTIVITY_MINE == activity
-                    && tile_has_special(unit_tile(punit), S_MINE))
-                   || (ACTIVITY_IRRIGATE == activity
-                       && (tile_has_special(unit_tile(punit), S_FARMLAND)
-                           || tile_has_special(unit_tile(punit),
-                                               S_IRRIGATION)))
-                   || (ACTIVITY_MINE == activity
-                       && tile_has_special(unit_tile(punit), S_MINE))) {
-          break; /* Already built, let's continue. */
+        } else {
+          if ((activity == ACTIVITY_BASE
+               || activity == ACTIVITY_GEN_ROAD
+               || activity == ACTIVITY_IRRIGATE
+               || activity == ACTIVITY_MINE)
+              && tile_has_extra(unit_tile(punit), pextra)) {
+            break; /* Already built, let's continue. */
+          } else if ((activity == ACTIVITY_POLLUTION
+                      || activity == ACTIVITY_FALLOUT
+                      || activity == ACTIVITY_PILLAGE)
+                     && !tile_has_extra(unit_tile(punit), pextra)) {
+            break; /* Already removed, let's continue. */
+          }
         }
       }
 
