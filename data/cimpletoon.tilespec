@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+Freeciv-tilespec-Devel-2013.Feb.04"
+options = "+Freeciv-tilespec-Devel-2013.Oct.19"
 
 ; A simple name for the tileset specified by this file:
 name = "cimpletoon"
@@ -140,13 +140,11 @@ num_layers = 3
 layer0_match_type = "shallow"
 layer1_match_type = "ice"
 layer2_match_type = "ice"
-mine_sprite = "tx.oil_mine"
 
 [tile_desert]
 blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
-mine_sprite = "tx.oil_mine"
 
 [tile_forest]
 blend_layer = 1
@@ -166,7 +164,6 @@ num_layers = 2
 layer0_match_type = "land"
 layer1_match_type = "hills"
 layer1_match_with = "hills"
-mine_sprite = "tx.mine"
 
 [tile_jungle]
 blend_layer = 1
@@ -183,7 +180,6 @@ layer1_match_type = "hills"
 layer1_match_with = "hills"
 layer1_is_tall = TRUE
 layer1_offset_y = 6
-mine_sprite = "tx.mine"
 
 [tile_plains]
 blend_layer = 1

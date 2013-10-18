@@ -73,7 +73,7 @@
 
 #include "tilespec.h"
 
-#define TILESPEC_CAPSTR "+Freeciv-tilespec-Devel-2013.Feb.04 duplicates_ok"
+#define TILESPEC_CAPSTR "+Freeciv-tilespec-Devel-2013.Oct.19 duplicates_ok"
 /*
  * Tilespec capabilities acceptable to this program:
  *
@@ -147,7 +147,6 @@ enum sprite_type {
 
 struct drawing_data {
   char *name;
-  char *mine_tag;
 
   int num_layers; /* 1 thru MAX_NUM_LAYERS. */
 #define MAX_NUM_LAYERS 3
@@ -177,8 +176,6 @@ struct drawing_data {
   int blending; /* layer, 0 = none */
   struct sprite *blender;
   struct sprite *blend[4]; /* indexed by a direction4 */
-
-  struct sprite *mine;
 };
 
 struct city_style_threshold {
@@ -599,9 +596,6 @@ static void drawing_data_destroy(struct drawing_data *draw)
   fc_assert_ret(NULL != draw);
 
   free(draw->name);
-  if (NULL != draw->mine_tag) {
-    free(draw->mine_tag);
-  }
   for (i = 0; i < 4; i++) {
     if (draw->blend[i]) {
       free_sprite(draw->blend[i]);
@@ -1736,7 +1730,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   section_list_iterate(sections, psection) {
     const char *sec_name = section_name(psection);
     struct drawing_data *draw = drawing_data_new(sec_name + spl);
-    const char *sprite_type, *str;
+    const char *sprite_type;
     int l;
 
     draw->blending = secfile_lookup_int_default(file, 0, "%s.blend_layer",
@@ -1877,11 +1871,6 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 	}
 	break;
       };
-    }
-
-    str = secfile_lookup_str(file, "%s.mine_sprite", sec_name);
-    if (NULL != str) {
-      draw->mine_tag = fc_strdup(str);
     }
 
     if (!drawing_hash_insert(t->tile_hash, draw->name, draw)) {
@@ -2989,6 +2978,9 @@ void tileset_setup_extra(struct tileset *t,
   if (pextra->causes & (1 << EC_HUT)) {
     SET_SPRITE(extras[id].u.single, "tx.village");
   }
+  if (pextra->causes & (1 << EC_MINE)) {
+    SET_SPRITE(extras[id].u.single, "tx.mine");
+  }
 
   if (pextra->causes & (1 << EC_IRRIGATION)) {
     int i;
@@ -3486,12 +3478,6 @@ void tileset_setup_tile_type(struct tileset *t,
 				     W / 2, H / 2,
 				     t->sprites.dither_tile, 0, 0);
     }
-  }
-
-  if (draw->mine_tag) {
-    draw->mine = load_sprite(t, draw->mine_tag);
-  } else {
-    draw->mine = NULL;
   }
 
   t->sprites.drawing[terrain_index(pterrain)] = draw;
@@ -4965,11 +4951,7 @@ int fill_sprite_array(struct tileset *t,
             } extra_type_list_iterate_end;
 
             if (!hidden) {
-              struct drawing_data *draw = t->sprites.drawing[terrain_index(pterrain)];
-
-              if (NULL != draw->mine) {
-                ADD_SPRITE_SIMPLE(draw->mine);
-              }
+              ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(pextra)].u.single);
             }
           }
         } extra_type_by_cause_iterate_end;
@@ -5872,32 +5854,6 @@ struct sprite *get_resource_sprite(const struct tileset *t,
 }
 
 /****************************************************************************
-  Return a representative sprite for the mine special type (S_MINE).
-****************************************************************************/
-struct sprite *get_basic_mine_sprite(const struct tileset *t)
-{
-  struct drawing_data *draw;
-  struct terrain *tm;
-
-  tm = terrain_by_rule_name("mountains");
-  if (tm != NULL) {
-    draw = t->sprites.drawing[terrain_index(tm)];
-    if (draw->mine != NULL) {
-      return draw->mine;
-    }
-  }
-
-  terrain_type_iterate(pterrain) {
-    draw = t->sprites.drawing[terrain_index(pterrain)];
-    if (draw->mine != NULL) {
-      return draw->mine;
-    }
-  } terrain_type_iterate_end;
-
-  return NULL;
-}
-
-/****************************************************************************
   Return a representative sprite for the given special type.
 
   NB: This does not include generic base specials (S_FORTRESS and
@@ -5913,12 +5869,10 @@ struct sprite *get_basic_special_sprite(const struct tileset *t,
   case S_FARMLAND:
     return t->sprites.extras[extra_index(pextra)].u.cardinals[0];
     break;
-  case S_MINE:
-    return get_basic_mine_sprite(t);
-    break;
   case S_POLLUTION:
   case S_FALLOUT:
   case S_HUT:
+  case S_MINE:
     return t->sprites.extras[extra_index(pextra)].u.single;
     break;
   default:

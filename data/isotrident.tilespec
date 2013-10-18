@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+Freeciv-tilespec-Devel-2013.Feb.04"
+options = "+Freeciv-tilespec-Devel-2013.Oct.19"
 
 ; A simple name for the tileset specified by this file:
 name = "MacroIsoTrident"
@@ -117,13 +117,11 @@ layer0_sprite_type = "corner"
 blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
-mine_sprite = "tx.oil_mine"
 
 [tile_desert]
 blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
-mine_sprite = "tx.oil_mine"
 
 [tile_forest]
 blend_layer = 1
@@ -143,7 +141,6 @@ num_layers = 2
 layer0_match_type = "land"
 layer1_match_type = "hills"
 layer1_match_with = "hills"
-mine_sprite = "tx.mine"
 
 [tile_jungle]
 blend_layer = 1
@@ -156,7 +153,6 @@ num_layers = 2
 layer0_match_type = "land"
 layer1_match_type = "mountains"
 layer1_match_with = "mountains"
-mine_sprite = "tx.mine"
 
 [tile_plains]
 blend_layer = 1

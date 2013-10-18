@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+Freeciv-tilespec-Devel-2013.Feb.04"
+options = "+Freeciv-tilespec-Devel-2013.Oct.19"
 
 ; A simple name for the tileset specified by this file:
 name = "Trident"
@@ -124,14 +124,12 @@ blend_layer = 0
 num_layers = 1
 layer0_match_type = "arctic"
 layer0_match_with = "arctic"
-mine_sprite = "tx.oil_mine"
 
 [tile_desert]
 blend_layer = 0
 num_layers = 1
 layer0_match_type = "desert"
 layer0_match_with = "desert"
-mine_sprite = "tx.oil_mine"
 
 [tile_forest]
 blend_layer = 0
@@ -150,7 +148,6 @@ blend_layer = 0
 num_layers = 1
 layer0_match_type = "hills"
 layer0_match_with = "hills"
-mine_sprite = "tx.mine"
 
 [tile_jungle]
 blend_layer = 0
@@ -163,7 +160,6 @@ blend_layer = 0
 num_layers = 1
 layer0_match_type = "mountains"
 layer0_match_with = "mountains"
-mine_sprite = "tx.mine"
 
 [tile_plains]
 blend_layer = 0
