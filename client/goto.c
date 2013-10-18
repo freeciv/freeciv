@@ -22,6 +22,7 @@
 #include "mem.h"
 
 /* common */
+#include "game.h"
 #include "map.h"
 #include "movement.h"
 #include "packets.h"
@@ -486,12 +487,15 @@ static int get_activity_time(const struct tile *ptile,
     if (pterrain->irrigation_time == 0) {
       return -1;
     }
-    if (tile_has_special(ptile, S_MINE)) {
-      /* Don't overwrite mines. */
-      return -1;
-    }
+    extra_type_iterate(pextra) {
+      if (BV_ISSET(connect_tgt->conflicts, extra_index(pextra))
+          && tile_has_extra(ptile, pextra)) {
+        /* Don't replace old extras. */
+        return -1;
+      }
+    } extra_type_iterate_end;
 
-    if (tile_has_special(ptile, S_IRRIGATION)) {
+    if (tile_has_extra(ptile, connect_tgt)) {
       break;
     }
 

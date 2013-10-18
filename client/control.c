@@ -1194,8 +1194,9 @@ void request_unit_connect(enum unit_activity activity,
   }
 
   if (hover_state != HOVER_CONNECT || connect_activity != activity
-      || (activity == ACTIVITY_GEN_ROAD
-          && connect_tgt != tgt)) {
+      || (connect_tgt != tgt
+          && (activity == ACTIVITY_GEN_ROAD
+              || activity == ACTIVITY_IRRIGATE))) {
     set_hover_state(punits, HOVER_CONNECT, activity, tgt, ORDER_LAST);
     enter_goto_state(punits);
     create_line_at_mouse_pos();
