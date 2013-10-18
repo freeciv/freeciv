@@ -69,15 +69,17 @@ static int adv_calc_irrigate(const struct city *pcity,
   new_terrain = old_terrain->irrigation_result;
 
   if (new_terrain != old_terrain && new_terrain != T_NONE) {
+    struct tile *vtile;
+
     if (tile_city(ptile) && terrain_has_flag(new_terrain, TER_NO_CITIES)) {
       /* Not a valid activity. */
       return -1;
     }
     /* Irrigation would change the terrain type, clearing the mine
      * in the process.  Calculate the benefit of doing so. */
-    struct tile *vtile = tile_virtual_new(ptile);
+    vtile = tile_virtual_new(ptile);
+
     tile_change_terrain(vtile, new_terrain);
-    tile_clear_special(vtile, S_MINE);
     goodness = city_tile_value(pcity, vtile, 0, 0);
     tile_virtual_destroy(vtile);
     return goodness;
@@ -145,16 +147,17 @@ static int adv_calc_mine(const struct city *pcity, const struct tile *ptile)
   new_terrain = old_terrain->mining_result;
 
   if (old_terrain != new_terrain && new_terrain != T_NONE) {
+    struct tile *vtile;
+
     if (tile_city(ptile) && terrain_has_flag(new_terrain, TER_NO_CITIES)) {
       /* Not a valid activity. */
       return -1;
     }
     /* Mining would change the terrain type, clearing the irrigation
      * in the process.  Calculate the benefit of doing so. */
-    struct tile *vtile = tile_virtual_new(ptile);
+    vtile = tile_virtual_new(ptile);
+
     tile_change_terrain(vtile, new_terrain);
-    tile_clear_special(vtile, S_IRRIGATION);
-    tile_clear_special(vtile, S_FARMLAND);
     goodness = city_tile_value(pcity, vtile, 0, 0);
     tile_virtual_destroy(vtile);
     return goodness;
