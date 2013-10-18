@@ -123,17 +123,17 @@ static int re_parse_cmdline(int argc, char *argv[])
       struct cmdhelp *help = cmdhelp_new(argv[0]);
 
       cmdhelp_add(help, "h", "help",
-                  _("Print a summary of the options"));
+                  R__("Print a summary of the options"));
       cmdhelp_add(help, "s",
                   /* TRANS: "source" is exactly what user must type, do not translate. */
-                  _("source RULESET"),
-                  _("Load given ruleset"));
-      cmdhelp_add(help, "d", _("destination DIR"),
-                  _("Save ruleset to given directory"));
-      cmdhelp_add(help, "n", _("name NAME"),
-                  _("Set name of the ruleset"));
+                  R__("source RULESET"),
+                  R__("Load given ruleset"));
+      cmdhelp_add(help, "d", R__("destination DIR"),
+                  R__("Save ruleset to given directory"));
+      cmdhelp_add(help, "n", R__("name NAME"),
+                  R__("Set name of the ruleset"));
       cmdhelp_add(help, "v", "version",
-                  _("Print the version number"));
+                  R__("Print the version number"));
       /* The function below prints a header and footer for the options.
        * Furthermore, the options are sorted. */
       cmdhelp_display(help, TRUE, TRUE, TRUE);
