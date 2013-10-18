@@ -1024,8 +1024,6 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
 
   do {
     /* Do we have the passenger-in-charge on board? */
-    struct tile *ptile = unit_tile(punit);
-
     if (unit_data->passenger > 0) {
       struct unit *psngr = game_unit_by_number(unit_data->passenger);
 
@@ -1045,9 +1043,8 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
       struct unit *candidate = NULL;
 
       /* Try to select passanger-in-charge from among our passengers */
-      unit_list_iterate(ptile->units, aunit) {
-        if (unit_owner(aunit) != pplayer 
-            || unit_transport_get(aunit) != punit) {
+      unit_list_iterate(punit->transporting, aunit) {
+        if (unit_owner(aunit) != pplayer) {
           /* We used to check if ferryboat was set to us or to
            * FERRY_WANTED too, but this was a bit strict. Especially
            * when we don't save these values in a savegame. */
