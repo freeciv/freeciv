@@ -75,12 +75,11 @@ static int adv_calc_irrigate(const struct city *pcity,
       /* Not a valid activity. */
       return -1;
     }
-    /* Irrigation would change the terrain type, clearing the mine
-     * in the process.  Calculate the benefit of doing so. */
+    /* Irrigation would change the terrain type, clearing conflicting
+     * extras in the process.  Calculate the benefit of doing so. */
     vtile = tile_virtual_new(ptile);
 
     tile_change_terrain(vtile, new_terrain);
-    tile_clear_special(vtile, S_MINE);
     goodness = city_tile_value(pcity, vtile, 0, 0);
     tile_virtual_destroy(vtile);
 
@@ -156,13 +155,11 @@ static int adv_calc_mine(const struct city *pcity, const struct tile *ptile)
       /* Not a valid activity. */
       return -1;
     }
-    /* Mining would change the terrain type, clearing the irrigation
-     * in the process.  Calculate the benefit of doing so. */
+    /* Mining would change the terrain type, clearing conflicting
+     * extras in the process.  Calculate the benefit of doing so. */
     vtile = tile_virtual_new(ptile);
 
     tile_change_terrain(vtile, new_terrain);
-    tile_clear_special(vtile, S_IRRIGATION);
-    tile_clear_special(vtile, S_FARMLAND);
     goodness = city_tile_value(pcity, vtile, 0, 0);
     tile_virtual_destroy(vtile);
 
