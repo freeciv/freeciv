@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 21-Sep-13.
+Last minor update was 14-Oct-13.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -273,9 +273,13 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    This library loads the PNG images (with the help of libpng) and converts
    them to "SDL surfaces" that can be handled by the "SDL" library. You may
    obtain it at:
-   
-   http://www.libsdl.org/projects/SDL_image/release/SDL_image-1.2.5.tar.gz
-   
+
+   http://www.libsdl.org/projects/SDL_image/release/SDL_image-1.2.12.tar.gz
+
+ - The "SDL_gfx" library.
+    
+   http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.24.tar.gz
+
  - The "freetype" library.
 
    This library helps to render text for the SDL client, using an externally
