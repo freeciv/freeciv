@@ -1137,7 +1137,9 @@ void mr_menu::slot_unit_fortify()
                                                    punit, unit_tile(punit));
 
     if (pbase && can_unit_do_activity_base(punit, pbase->item_number)) {
-      request_new_unit_activity_base(punit, pbase);
+      struct extra_type *pextra = base_extra_get(pbase);
+
+      request_new_unit_activity_targeted(punit, ACTIVITY_BASE, pextra);
     } else {
       request_unit_fortify(punit);
     }

@@ -1198,7 +1198,9 @@ static void build_fortress_callback(GtkAction *action, gpointer data)
                                                    punit, unit_tile(punit));
 
     if (pbase && can_unit_do_activity_base(punit, pbase->item_number)) {
-      request_new_unit_activity_base(punit, pbase);
+      struct extra_type *pextra = base_extra_get(pbase);
+
+      request_new_unit_activity_targeted(punit, ACTIVITY_BASE, pextra);
     } else {
       request_unit_fortify(punit);
     }
@@ -1259,9 +1261,10 @@ static void government_callback(GtkMenuItem *item, gpointer data)
 static void base_callback(GtkMenuItem *item, gpointer data)
 {
   struct base_type *pbase = data;
+  struct extra_type *pextra = base_extra_get(pbase);
 
   unit_list_iterate(get_units_in_focus(), punit) {
-    request_new_unit_activity_base(punit, pbase);
+    request_new_unit_activity_targeted(punit, ACTIVITY_BASE, pextra);
   } unit_list_iterate_end;
 }
 

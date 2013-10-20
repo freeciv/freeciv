@@ -1500,20 +1500,6 @@ void request_new_unit_activity_targeted(struct unit *punit,
 }
 
 /**************************************************************************
-  Request base building activity for unit
-**************************************************************************/
-void request_new_unit_activity_base(struct unit *punit,
-				    const struct base_type *pbase)
-{
-  if (!can_client_issue_orders()) {
-    return;
-  }
-
-  request_new_unit_activity_targeted(punit, ACTIVITY_BASE,
-                                     base_extra_get(pbase));
-}
-
-/**************************************************************************
   Send request to disband unit to server.
 **************************************************************************/
 void request_unit_disband(struct unit *punit)
@@ -2759,7 +2745,9 @@ void key_unit_airbase(void)
       get_base_by_gui_type(BASE_GUI_AIRBASE, punit, unit_tile(punit));
 
     if (pbase) {
-      request_new_unit_activity_base(punit, pbase);
+      struct extra_type *pextra = base_extra_get(pbase);
+
+      request_new_unit_activity_targeted(punit, ACTIVITY_BASE, pextra);
     }
   } unit_list_iterate_end;
 }
@@ -2829,7 +2817,9 @@ void key_unit_fortress(void)
       get_base_by_gui_type(BASE_GUI_FORTRESS, punit, unit_tile(punit));
 
     if (pbase) {
-      request_new_unit_activity_base(punit, pbase);
+      struct extra_type *pextra = base_extra_get(pbase);
+
+      request_new_unit_activity_targeted(punit, ACTIVITY_BASE, pextra);
     }
   } unit_list_iterate_end;
 }

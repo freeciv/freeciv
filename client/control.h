@@ -72,8 +72,6 @@ void request_new_unit_activity(struct unit *punit, enum unit_activity act);
 void request_new_unit_activity_targeted(struct unit *punit,
 					enum unit_activity act,
 					struct extra_type *tgt);
-void request_new_unit_activity_base(struct unit *punit,
-				    const struct base_type *pbase);
 void request_unit_load(struct unit *pcargo, struct unit *ptransporter);
 void request_unit_unload(struct unit *pcargo);
 void request_unit_autosettlers(const struct unit *punit);
