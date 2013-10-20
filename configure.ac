@@ -466,7 +466,7 @@ LIBS="$LIBS $LIBICONV"
 dnl I18n support
 ALL_LINGUAS="ar bg cs ca da de el en_GB eo es et fa fi fr ga gd he hu id it ja 
 ko lt nl nb pl pt pt_BR ro ru sr sv tr uk zh_CN zh_TW"
-PO_DOMAINS="freeciv"
+PO_DOMAINS="freeciv nations"
 
 AC_ARG_ENABLE([nls],
   AS_HELP_STRING([--disable-nls], [do not add localization support]),
@@ -1478,6 +1478,7 @@ AC_CONFIG_FILES([Makefile
           tools/ruledit/Makefile
           translations/Makefile
 	  translations/freeciv/Makefile.in
+	  translations/nations/Makefile.in
 	  doc/Makefile
 	  doc/man/Makefile
           doc/man/freeciv-client.6
