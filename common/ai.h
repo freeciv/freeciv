@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2013.Oct.02"
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2013.Oct.21"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef DEBUG
@@ -134,9 +134,6 @@ struct ai_type
 
     /* Called for player AI type when player loses control of unit. */
     void (*unit_lost)(struct unit *punit);
-
-    /* Called for unit owner AI type when new unit is created for player. */
-    void (*unit_created)(struct unit *punit);
 
     /* Called for unit owner AI type for each unit when turn ends. */
     void (*unit_turn_end)(struct unit *punit);

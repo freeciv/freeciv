@@ -266,6 +266,16 @@ static void cai_ferry_init_ferry(struct unit *ferry)
 /**************************************************************************
   Call default ai with classic ai type as parameter.
 **************************************************************************/
+static void cai_ferry_close_ferry(struct unit *ferry)
+{
+  struct ai_type *deftype = classic_ai_get_self();
+
+  dai_ferry_close_ferry(deftype, ferry);
+}
+
+/**************************************************************************
+  Call default ai with classic ai type as parameter.
+**************************************************************************/
 static void cai_unit_turn_end(struct unit *punit)
 {
   struct ai_type *deftype = classic_ai_get_self();
@@ -535,9 +545,8 @@ bool fc_ai_classic_setup(struct ai_type *ai)
   */
   ai->funcs.unit_alloc = cai_unit_init;
   ai->funcs.unit_free = cai_unit_close;
-  ai->funcs.unit_got = NULL;
-  ai->funcs.unit_lost = NULL;
-  ai->funcs.unit_created = cai_ferry_init_ferry;
+  ai->funcs.unit_got = cai_ferry_init_ferry;
+  ai->funcs.unit_lost = cai_ferry_close_ferry;
 
   ai->funcs.unit_turn_end = cai_unit_turn_end;
   ai->funcs.unit_move = cai_unit_move_or_attack;
