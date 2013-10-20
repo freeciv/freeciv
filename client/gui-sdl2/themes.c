@@ -30,7 +30,7 @@
 #include "themes_g.h"
 
 /*****************************************************************************
-  Loads a gui-sdl theme directory/theme_name
+  Loads a gui-sdl2 theme directory/theme_name
 *****************************************************************************/
 void gui_load_theme(const char *directory, const char *theme_name)
 {
@@ -53,7 +53,7 @@ void gui_clear_theme(void)
   theme_free(theme);
   if (!load_theme(gui_sdl2_default_theme_name)) {
     /* TRANS: No full stop after the URL, could cause confusion. */
-    log_fatal(_("No gui-sdl theme was found. For instructions on how to "
+    log_fatal(_("No gui-sdl2 theme was found. For instructions on how to "
                 "get one, please visit %s"), WIKI_URL);
     exit(EXIT_FAILURE);
   }
@@ -86,7 +86,7 @@ char **get_gui_specific_themes_directories(int *count)
 /*****************************************************************************
   Return an array of names of usable themes in the given directory.
   Array size is stored in count.
-  Useable theme for gui-sdl is a directory which contains file theme.themespec.
+  Useable theme for gui-sdl2 is a directory which contains file theme.themespec.
   The caller is responsible for freeing the array and the names
 *****************************************************************************/
 char **get_useable_themes_in_directory(const char *directory, int *count)

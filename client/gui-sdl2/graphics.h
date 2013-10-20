@@ -175,7 +175,8 @@
 #define adj_surf(surf) zoomSurface((surf), DEFAULT_ZOOM, DEFAULT_ZOOM, 0)
 #else
 #define DEFAULT_ZOOM 1.0
-#define adj_surf(surf) (surf)
+/* Cannot return the original as callers free what we return */
+#define adj_surf(surf) copy_surface(surf)
 #endif
 
 struct gui_layer;
@@ -236,7 +237,9 @@ SDL_Surface *crop_rect_from_surface(SDL_Surface *pSource,
 SDL_Surface *mask_surface(SDL_Surface * pSrc, SDL_Surface * pMask,
                           int mask_offset_x, int mask_offset_y);
 
-SDL_Surface *blend_surface(SDL_Surface *pSrc, unsigned char alpha); 
+SDL_Surface *blend_surface(SDL_Surface *pSrc, unsigned char alpha);
+
+SDL_Surface *copy_surface(SDL_Surface *pSrc);
 
 bool correct_black(SDL_Surface * pSrc);
 

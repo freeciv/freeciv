@@ -222,25 +222,26 @@ SDL_Surface * crop_rect_from_surface(SDL_Surface *pSource,
 SDL_Surface *mask_surface(SDL_Surface *pSrc, SDL_Surface *pMask,
                           int mask_offset_x, int mask_offset_y)
 {
-  return NULL;
-
-#if 0
   SDL_Surface *pDest = NULL;
 
   int row, col;  
-  bool free_pMask = FALSE;
+  //  bool free_pMask = FALSE;
   Uint32 *pSrc_Pixel = NULL;
   Uint32 *pDest_Pixel = NULL;
   Uint32 *pMask_Pixel = NULL;
   unsigned char src_alpha, mask_alpha;
 
+#if 0
   if (!pMask->format->Amask) {
     pMask = SDL_DisplayFormatAlpha(pMask);
     free_pMask = TRUE;
   }
-  
+
   pSrc = SDL_DisplayFormatAlpha(pSrc);
   pDest = SDL_DisplayFormatAlpha(pSrc);
+#endif
+
+  pDest = copy_surface(pSrc);
   
   lock_surf(pSrc);
   lock_surf(pMask);  
@@ -270,14 +271,15 @@ SDL_Surface *mask_surface(SDL_Surface *pSrc, SDL_Surface *pMask,
   unlock_surf(pMask);    
   unlock_surf(pSrc);
   
+#if 0
   if (free_pMask) {
     FREESURFACE(pMask);
   }
 
   FREESURFACE(pSrc); /* result of SDL_DisplayFormatAlpha() */
+#endif
   
   return pDest;
-#endif
 }
 
 /**************************************************************************
@@ -643,6 +645,14 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
                                  0);
 
   Main.mainsurf = SDL_GetWindowSurface(Main.screen);
+
+  Main.map = SDL_CreateRGBSurface(0, 640, 480, 32,
+#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+			0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000
+#else
+			0xFF000000,  0x00FF0000, 0x0000FF00, 0x000000FF
+#endif
+);
 
 #if 0
   /* find best bpp */
@@ -3346,6 +3356,20 @@ SDL_Surface *ResizeSurfaceBox(const SDL_Surface * pSrc,
   }
 
   return result;  
+}
+
+/**************************************************************************
+  Return copy of the surface
+**************************************************************************/
+SDL_Surface *copy_surface(SDL_Surface *pSrc)
+{
+  SDL_Surface *pDest;
+
+  pDest = SDL_CreateRGBSurface(0, pSrc->w, pSrc->h, pSrc->format->BitsPerPixel,
+                               pSrc->format->Rmask, pSrc->format->Gmask,
+                               pSrc->format->Bmask, pSrc->format->Amask);
+
+  return pDest;
 }
 
 /* ============ Freeciv game graphics function =========== */
