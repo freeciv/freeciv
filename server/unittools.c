@@ -1499,7 +1499,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   city_map_update_tile_now(ptile);
   sync_cities();
 
-  CALL_PLR_AI_FUNC(unit_created, unit_owner(punit), punit);
+  CALL_PLR_AI_FUNC(unit_got, pplayer, punit);
 
   return punit;
 }
@@ -1514,12 +1514,15 @@ static void server_remove_unit(struct unit *punit, enum unit_loss_reason reason)
   struct city *pcity = tile_city(ptile);
   struct city *phomecity = game_city_by_number(punit->homecity);
   struct unit *ptrans;
+  struct player *pplayer = unit_owner(punit);
 
 #ifdef DEBUG
   unit_list_iterate(ptile->units, pcargo) {
     fc_assert(unit_transport_get(pcargo) != punit);
   } unit_list_iterate_end;
 #endif
+
+  CALL_PLR_AI_FUNC(unit_lost, pplayer, punit);
 
   /* Save transporter for updating below. */
   ptrans = unit_transport_get(punit);
@@ -1560,8 +1563,8 @@ static void server_remove_unit(struct unit *punit, enum unit_loss_reason reason)
     notify_conn(game.est_connections, ptile, E_UNIT_LOST_MISC, ftc_server,
                 _("Unable to defend %s, %s has lost the game."),
                 unit_link(punit),
-                player_name(unit_owner(punit)));
-    notify_player(unit_owner(punit), ptile, E_GAME_END, ftc_server,
+                player_name(pplayer));
+    notify_player(pplayer, ptile, E_GAME_END, ftc_server,
                   _("Losing %s meant losing the game! "
                   "Be more careful next time!"),
                   unit_link(punit));
