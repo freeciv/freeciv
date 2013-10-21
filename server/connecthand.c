@@ -466,7 +466,7 @@ void lost_connection_to_client(struct connection *pconn)
               conn_controls_player(pconn) ? ftc_player_lost : ftc_server,
               _("Lost connection: %s."), desc);
 
-  connection_detach(pconn);
+  connection_detach(pconn, TRUE);
   send_conn_info_remove(pconn->self, game.est_connections);
   notify_if_first_access_level_is_available();
 
@@ -700,8 +700,11 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
   pconn->playing->is_connected and pconn->observer.
 
   pconn remains a member of game.est_connections.
+
+  If remove_unused_player is TRUE, may remove a player left with no
+  controlling connection (only in pregame, and not if explicitly /created).
 ****************************************************************************/
-void connection_detach(struct connection *pconn)
+void connection_detach(struct connection *pconn, bool remove_unused_player)
 {
   struct player *pplayer;
 
@@ -717,7 +720,7 @@ void connection_detach(struct connection *pconn)
     restore_access_level(pconn);
     strcpy(pplayer->ranked_username, ANON_USER_NAME);
 
-    /* If any other (non-observing) conn is attached to  this player, the
+    /* If any other (non-observing) conn is attached to this player, the
      * player is still connected. */
     pplayer->is_connected = FALSE;
     conn_list_iterate(pplayer->connections, aconn) {
@@ -728,15 +731,18 @@ void connection_detach(struct connection *pconn)
     } conn_list_iterate_end;
 
     if (was_connected && !pplayer->is_connected) {
-      if (!pplayer->was_created && !game_was_started()) {
+      /* Player just lost its controlling connection. */
+      if (remove_unused_player &&
+          !pplayer->was_created && !game_was_started()) {
         /* Remove player. */
         conn_list_iterate(pplayer->connections, aconn) {
           /* Detach all. */
           fc_assert_action(aconn != pconn, continue);
           notify_conn(aconn->self, NULL, E_CONNECTION, ftc_server,
                       _("Detaching from %s."), player_name(pplayer));
-          /* Recursive... but shouldn't be problem. */
-          connection_detach(aconn);
+          /* Recursive... but shouldn't be a problem, as this can only
+           * be a non-controlling connection so can't get back here. */
+          connection_detach(aconn, TRUE);
         } conn_list_iterate_end;
 
         /* Actually do the removal. */
@@ -798,7 +804,7 @@ bool connection_delegate_take(struct connection *pconn,
 
   /* Detach the current connection. */
   if (NULL != pconn->playing || pconn->observer) {
-    connection_detach(pconn);
+    connection_detach(pconn, FALSE);
   }
 
   /* Try to attach to the new player */
@@ -857,7 +863,7 @@ bool connection_delegate_restore(struct connection *pconn)
 
   /* Detach the current (delegate) connection from the delegated player. */
   if (NULL != pconn->playing || pconn->observer) {
-    connection_detach(pconn);
+    connection_detach(pconn, FALSE);
   }
 
   /* Try to attach to the delegate's original player */

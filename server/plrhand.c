@@ -1560,7 +1560,7 @@ void server_remove_player(struct player *pplayer)
   /* Don't use conn_list_iterate here because connection_detach() can be
    * recursive and free the next connection pointer. */
   while (conn_list_size(pplayer->connections) > 0) {
-    connection_detach(conn_list_get(pplayer->connections, 0));
+    connection_detach(conn_list_get(pplayer->connections, 0), FALSE);
   }
 
   script_server_remove_exported_object(pplayer);
