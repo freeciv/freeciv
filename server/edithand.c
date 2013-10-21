@@ -1045,7 +1045,7 @@ void handle_edit_player_remove(struct connection *pc, int id)
   /* Don't use conn_list_iterate here because connection_detach() can be
    * recursive and free the next connection pointer. */
   while (conn_list_size(pplayer->connections) > 0) {
-    connection_detach(conn_list_get(pplayer->connections, 0));
+    connection_detach(conn_list_get(pplayer->connections, 0), FALSE);
   }
 
   kill_player(pplayer);
