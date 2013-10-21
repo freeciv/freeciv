@@ -3166,7 +3166,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
       sz_strlcpy(name, player_name(pplayer));
     }
 
-    connection_detach(pconn);
+    connection_detach(pconn, TRUE);
 
     if (pplayer) {
       /* find pplayer again, the pointer might have been changed */
@@ -3212,7 +3212,6 @@ static bool take_command(struct connection *caller, char *str, bool check)
   struct connection *pconn = caller;
   struct player *pplayer = NULL;
   bool res = FALSE;
-  bool player_was_created;
 
   /******** PART I: fill pconn and pplayer ********/
 
@@ -3304,8 +3303,6 @@ static bool take_command(struct connection *caller, char *str, bool check)
     goto end;
   }
 
-  player_was_created = (NULL != pplayer ? pplayer->was_created : FALSE);
-
   /* If the player is controlled by another user, forcibly detach
    * the user. */
   if (pplayer && pplayer->is_connected) {
@@ -3320,15 +3317,11 @@ static bool take_command(struct connection *caller, char *str, bool check)
                   caller->username);
     }
 
-    /* HACK: to keep this player on S_S_INITIAL state, we set temporarily
-     * it as created with the /create command. */
-    pplayer->was_created = TRUE;
-
     /* We are reassigning this nation, so we need to detach the current
      * user to set a new one. */
     conn_list_iterate(pplayer->connections, aconn) {
       if (!aconn->observer) {
-        connection_detach(aconn);
+        connection_detach(aconn, FALSE);
       }
     } conn_list_iterate_end;
   }
@@ -3344,7 +3337,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
       sz_strlcpy(name, player_name(pplayer));
     }
 
-    connection_detach(pconn);
+    connection_detach(pconn, TRUE);
 
     if (pplayer) {
       /* find pplayer again; the pointer might have been changed */
@@ -3374,8 +3367,6 @@ static bool take_command(struct connection *caller, char *str, bool check)
               _("%s failed to attach to any player."),
               pconn->username);
   }
-
-  pplayer->was_created = player_was_created;
 
   end:;
   /* free our args */
@@ -3453,7 +3444,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
   }
 
   /* Actually do the detaching. */
-  connection_detach(pconn);
+  connection_detach(pconn, TRUE);
 
   /* The user explicitly wanted to detach, so if a player is marked for him,
    * reset its username. */
@@ -3570,10 +3561,10 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   global_observers = conn_list_new();
   conn_list_iterate(game.est_connections, pconn) {
     if (pconn->playing != NULL) {
-      connection_detach(pconn);
+      connection_detach(pconn, TRUE);
     } else if (pconn->observer) {
       conn_list_append(global_observers, pconn);
-      connection_detach(pconn);
+      connection_detach(pconn, TRUE);
     }
   } conn_list_iterate_end;
 
