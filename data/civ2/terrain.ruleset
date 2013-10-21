@@ -792,6 +792,9 @@ shield      = 3
 ;                           base after a ruleset has been released.
 ; category                = How UI should categorize this extra. One of
 ;                           "Infra", "Natural", "Nuisance", or "Bonus"
+; graphic                 = tag specifing preferred graphic
+; graphic_alt             = tag for alternate graphic if preferred graphic is not
+;                           present. Can use eg "-" for no alternate graphic.
 ; activity_gfx            = tag specifing graphic for unit building extra
 ; act_gfx_alt             = tag for alternative graphic for unit building extra
 ; rmact_gfx               = tag specifing graphic for unit removing extra
@@ -822,6 +825,8 @@ shield      = 3
 [extra_irrigation]
 name           = _("Irrigation")
 category       = "Infra"
+graphic        = "tx.irrigation"
+graphic_alt    = "-"
 activity_gfx   = "unit.irrigate"
 act_gfx_alt    = "-"
 rmact_gfx      = "None"
@@ -832,6 +837,8 @@ hidden_by      = "Farmland"
 [extra_mine]
 name           = _("Mine")
 category       = "Infra"
+graphic        = "tx.mine"
+graphic_alt    = "-"
 activity_gfx   = "unit.mine"
 act_gfx_alt    = "-"
 rmact_gfx      = "None"
@@ -841,6 +848,8 @@ conflicts      = "Irrigation", "Farmland"
 [extra_pollution]
 name           = _("Pollution")
 category       = "Nuisance"
+graphic        = "tx.pollution"
+graphic_alt    = "-"
 activity_gfx   = "unit.mine"
 act_gfx_alt    = "-"
 rmact_gfx      = "unit.pollution"
@@ -851,6 +860,8 @@ pillageable    = FALSE
 name           = _("Minor Tribe Village")
 rule_name      = "Hut"
 category       = "Bonus"
+graphic        = "tx.village"
+graphic_alt    = "-"
 activity_gfx   = "unit.mine"
 act_gfx_alt    = "-"
 rmact_gfx      = "None"
@@ -859,6 +870,8 @@ rmact_gfx_alt  = "-"
 [extra_farmland]
 name           = _("Farmland")
 category       = "Infra"
+graphic        = "tx.farmland"
+graphic_alt    = "-"
 activity_gfx   = "unit.farmland"
 act_gfx_alt    = "unit.irrigate"
 rmact_gfx      = "None"
@@ -873,6 +886,8 @@ conflicts      = "Mine"
 [extra_fallout]
 name           = _("Fallout")
 category       = "Nuisance"
+graphic        = "tx.fallout"
+graphic_alt    = "-"
 activity_gfx   = "unit.mine"
 act_gfx_alt    = "-"
 rmact_gfx      = "unit.fallout"
@@ -882,6 +897,8 @@ pillageable    = FALSE
 [extra_fortress]
 name           = _("Fortress")
 category       = "Infra"
+graphic        = "base.fortress"
+graphic_alt    = "-"
 activity_gfx   = "unit.fortress"
 act_gfx_alt    = "-"
 rmact_gfx      = "None"
@@ -898,6 +915,8 @@ native_to      = "Land"
 [extra_airbase]
 name           = _("Airbase")
 category       = "Infra"
+graphic        = "base.airbase"
+graphic_alt    = "-"
 activity_gfx   = "unit.airbase"
 act_gfx_alt    = "-"
 rmact_gfx      = "None"
@@ -915,6 +934,8 @@ flags          = "Refuel"
 [extra_road]
 name           = _("Road")
 category       = "Infra"
+graphic        = "road"
+graphic_alt    = "-"
 activity_gfx   = "unit.road"
 act_gfx_alt    = "-"
 rmact_gfx      = "None"
@@ -931,6 +952,8 @@ flags          = "AlwaysOnCityCenter"
 [extra_railroad]
 name           = _("Railroad")
 category       = "Infra"
+graphic        = "rail"
+graphic_alt    = "-"
 activity_gfx   = "unit.rail"
 act_gfx_alt    = "unit.road"
 rmact_gfx      = "None"
@@ -948,6 +971,8 @@ flags          = "AutoOnCityCenter"
 [extra_river]
 name           = _("River")
 category       = "Natural"
+graphic        = "river"
+graphic_alt    = "-"
 activity_gfx   = "unit.river"
 act_gfx_alt    = "unit.road"
 rmact_gfx      = "None"
@@ -965,9 +990,6 @@ native_to      = "Land"
 ;                           present, 'name' is used. Since the name used in
 ;                           savegames must not change, use this when renaming a
 ;                           base after a ruleset has been released.
-; graphic                 = tag specifing preferred graphic
-; graphic_alt             = tag for alternate graphic if preferred graphic is not 
-;                           present. Can use eg "-" for no alternate graphic.
 ; gui_type                = How gui should handle this base. Fortress/Airbase/Other
 ; build_time              = How long it takes for a unit to build this base
 ; defense_bonus           = Percent added to defense
@@ -988,8 +1010,6 @@ native_to      = "Land"
 
 [base_fortress]
 name          = _("Fortress")
-graphic       = "base.fortress"
-graphic_alt   = "-"
 gui_type      = "Fortress"
 build_time    = 3
 defense_bonus = 100
@@ -1002,8 +1022,6 @@ a quarter of its hit points.\
 
 [base_airbase]
 name          = _("Airbase")
-graphic       = "base.airbase"
-graphic_alt   = "-"
 gui_type      = "Airbase"
 build_time    = 3
 flags         = "NoStackDeath", "ParadropFrom"
@@ -1017,9 +1035,6 @@ airbase may be attacked by land units.\
 ; Road types:
 ;
 ; name                    = translatable name as seen by user
-; graphic                 = tag specifing preferred graphic
-; graphic_alt             = tag for alternate graphic if preferred graphic is not 
-;                           present. Can use eg "-" for no alternate graphic.
 ; move_cost               = how much movement it takes to travel
 ;                           via this road.
 ; move_mode               = how movement costs are applied
@@ -1063,8 +1078,6 @@ airbase may be attacked by land units.\
 
 [road_road]
 name           = _("Road")
-graphic        = "road"
-graphic_alt    = "-"
 move_cost      = 1
 build_time     = 0
 food_incr      = 0
@@ -1078,8 +1091,6 @@ flags          = "RequiresBridge"
 
 [road_railroad]
 name           = _("Railroad")
-graphic        = "rail"
-graphic_alt    = "-"
 move_cost      = 0
 build_time     = 3
 food_incr      = 0
@@ -1093,8 +1104,6 @@ flags          = "RequiresBridge"
 
 [road_river]
 name           = _("River")
-graphic        = "river"
-graphic_alt    = "-"
 defense_bonus  = 50
 move_cost      = 1
 move_mode      = "Cardinal"

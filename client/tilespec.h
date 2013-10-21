@@ -152,10 +152,6 @@ void tileset_setup_resource(struct tileset *t,
 			    const struct resource *presource);
 void tileset_setup_extra(struct tileset *t,
                          struct extra_type *pextra);
-void tileset_setup_road(struct tileset *t,
-                        struct road_type *proad);
-void tileset_setup_base(struct tileset *t,
-                        const struct base_type *pbase);
 void tileset_setup_government(struct tileset *t,
 			      struct government *gov);
 void tileset_setup_nation_flag(struct tileset *t, 

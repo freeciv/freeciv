@@ -47,21 +47,10 @@ extern "C" {
 
 struct road_type;
 
-/* get 'struct road_type_list' and related functions: */
-#define SPECLIST_TAG road_type
-#define SPECLIST_TYPE struct road_type
-#include "speclist.h"
-
-#define road_type_list_iterate(roadlist, proad) \
-    TYPED_LIST_ITERATE(struct road_type, roadlist, proad)
-#define road_type_list_iterate_end LIST_ITERATE_END
-
 struct extra_type;
 
 struct road_type {
   int id;
-  char graphic_str[MAX_LEN_NAME];
-  char graphic_alt[MAX_LEN_NAME];
 
   int move_cost;
   enum road_move_mode move_mode;

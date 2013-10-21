@@ -3229,6 +3229,8 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   sz_strlcpy(pextra->act_gfx_alt, p->act_gfx_alt);
   sz_strlcpy(pextra->rmact_gfx, p->rmact_gfx);
   sz_strlcpy(pextra->rmact_gfx_alt, p->rmact_gfx_alt);
+  sz_strlcpy(pextra->graphic_str, p->graphic_str);
+  sz_strlcpy(pextra->graphic_alt, p->graphic_alt);
 
   for (i = 0; i < p->reqs_count; i++) {
     requirement_vector_append(&pextra->reqs, p->reqs[i]);
@@ -3256,9 +3258,6 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
 
   fc_assert_ret_msg(NULL != pbase, "Bad base %d.", p->id);
 
-  sz_strlcpy(pbase->graphic_str, p->graphic_str);
-  sz_strlcpy(pbase->graphic_alt, p->graphic_alt);
-
   pbase->gui_type = p->gui_type;
   pbase->build_time = p->build_time;
   pbase->defense_bonus = p->defense_bonus;
@@ -3269,8 +3268,6 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
   pbase->flags = p->flags;
 
   PACKET_STRVEC_EXTRACT(pbase->helptext, p->helptext);
-
-  tileset_setup_base(tileset, pbase);
 }
 
 /****************************************************************************
@@ -3281,9 +3278,6 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   struct road_type *proad = road_by_number(p->id);
 
   fc_assert_ret_msg(NULL != proad, "Bad road %d.", p->id);
-
-  sz_strlcpy(proad->graphic_str, p->graphic_str);
-  sz_strlcpy(proad->graphic_alt, p->graphic_alt);
 
   proad->move_cost = p->move_cost;
   proad->move_mode = p->move_mode;
@@ -3301,8 +3295,6 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   proad->flags = p->flags;
 
   PACKET_STRVEC_EXTRACT(proad->helptext, p->helptext);
-
-  tileset_setup_road(tileset, proad);
 }
 
 /****************************************************************************
