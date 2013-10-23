@@ -5643,9 +5643,10 @@ bool start_command(struct connection *caller, bool check, bool notify)
       start_cmd_reply(caller, notify,
                       _("No players; game will not start."));
       return FALSE;
-    } else if (player_count() - server.nbarbarians > server.playable_nations) {
-      cmd_reply(CMD_START_GAME, caller, C_FAIL,
-		_("Not enough nations for all players; game will not start."));
+    } else if (normal_player_count() > server.playable_nations) {
+      start_cmd_reply(caller, notify,
+                      _("Not enough nations for all players; game will "
+                        "not start."));
       return FALSE;
     } else if (check) {
       return TRUE;
