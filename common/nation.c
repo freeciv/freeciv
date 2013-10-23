@@ -698,7 +698,7 @@ struct nation_group *nation_group_new(const char *name)
 ****************************************************************************/
 struct nation_group *nation_group_by_number(int id)
 {
-  if (id < 0 && id >= num_nation_groups) {
+  if (id < 0 || id >= num_nation_groups) {
     return NULL;
   }
   return nation_groups + id;
