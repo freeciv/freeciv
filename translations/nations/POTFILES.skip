@@ -367,6 +367,7 @@ tools/mpcmdline.c
 tools/mpgui_gtk2.c
 tools/mpgui_gtk3.c
 tools/mpgui_qt.cpp
+tools/ruledit/ruledit.c
 server/aiiface.c
 server/auth.c
 server/barbarian.c
