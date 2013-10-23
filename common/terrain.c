@@ -621,49 +621,6 @@ bool contains_any_specials(bv_special set)
 }
 
 /****************************************************************************
-  Returns TRUE iff the special can be supported by the terrain type.
-****************************************************************************/
-bool is_native_terrain_to_special(enum tile_special_type special,
-                                  const struct terrain *pterrain)
-{
-  /* FIXME: The special definition should be moved into the ruleset. */
-  switch (special) {
-  case S_IRRIGATION:
-    return (pterrain == pterrain->irrigation_result);
-  case S_MINE:
-    return (pterrain == pterrain->mining_result);
-  case S_POLLUTION:
-    return !terrain_has_flag(pterrain, TER_NO_POLLUTION);
-  case S_HUT:
-    return TRUE;
-  case S_FARMLAND:
-    return (pterrain == pterrain->irrigation_result);
-  case S_FALLOUT:
-    return !terrain_has_flag(pterrain, TER_NO_POLLUTION);
-  case S_OLD_ROAD:
-  case S_OLD_RAILROAD:
-  case S_OLD_RIVER:
-  case S_OLD_FORTRESS:
-  case S_OLD_AIRBASE:
-    fc_assert(FALSE);
-  case S_LAST:
-    break;
-  }
-
-  return FALSE;
-}
-
-/****************************************************************************
-  Returns TRUE iff the special can be supported by the terrain type of the
-  tile.
-****************************************************************************/
-bool is_native_tile_to_special(enum tile_special_type special,
-                               const struct tile *ptile)
-{
-  return is_native_terrain_to_special(special, tile_terrain(ptile));
-}
-
-/****************************************************************************
   Returns TRUE iff any cardinally tile adjacent to (map_x,map_y) has the
   given special.
 ****************************************************************************/

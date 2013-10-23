@@ -302,25 +302,29 @@ static bool edit_tile_special_handling(struct tile *ptile,
                                        bool remove_mode,
                                        bool send_tile_info)
 {
+  struct extra_type *pextra;
+
   fc_assert_ret_val(special != S_OLD_FORTRESS && special != S_OLD_AIRBASE, FALSE);
   fc_assert_ret_val(special != S_OLD_ROAD && special != S_OLD_RAILROAD, FALSE);
 
+  pextra = special_extra_get(special);
+
   if (remove_mode) {
-    if (!tile_has_special(ptile, special)) {
+    if (!tile_has_extra(ptile, pextra)) {
       return FALSE;
     }
 
-    tile_extra_rm_apply(ptile, special_extra_get(special));
+    tile_extra_rm_apply(ptile, pextra);
 
     terrain_changed(ptile);
 
   } else {
-    if (tile_has_special(ptile, special)
-        || !is_native_tile_to_special(special, ptile)) {
+    if (tile_has_extra(ptile, pextra)
+        || !is_native_tile_to_extra(pextra, ptile)) {
       return FALSE;
     }
 
-    tile_extra_apply(ptile, special_extra_get(special));
+    tile_extra_apply(ptile, pextra);
   }
 
   if (send_tile_info) {
