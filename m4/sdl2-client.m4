@@ -16,34 +16,28 @@ AC_DEFUN([FC_SDL2_CLIENT],
       AM_PATH_SDL2([2.0.0], [sdl2_found="yes"], [sdl2_found="no"])
     fi
     if test "$sdl2_found" = yes; then
-      ac_save_CPPFLAGS="$CPPFLAGS"
-      ac_save_CFLAGS="$CFLAGS"
-      ac_save_LIBS="$LIBS"
-      CPPFLAGS="$CPPFLAGS $SDL2_CFLAGS"
-      CFLAGS="$CFLAGS $SDL2_CFLAGS"
-      LIBS="$LIBS $SDL2_LIBS"
-      AC_CHECK_LIB([SDL2_image], [IMG_Load],
-                   [sdl2_image_found="yes"], [sdl2_image_found="no"])
-      if test "$sdl2_image_found" = "yes"; then
-        AC_CHECK_HEADER([SDL/SDL_image.h],
-                        [sdl2_image_h_found="yes"], [sdl2_image_h_found="no"])
-    	if test "$sdl2_image_h_found" = yes; then
-          CPPFLAGS="$ac_save_CPPFLAGS"
-          CFLAGS="$ac_save_CFLAGS"
-          LIBS="$ac_save_LIBS"
-	  AC_CHECK_FT2([2.1.3], [freetype_found="yes"],[freetype_found="no"])
-          if test "$freetype_found" = yes; then
-	    GUI_sdl2_CFLAGS="$SDL2_CFLAGS $FT2_CFLAGS"
-	    GUI_sdl2_LIBS="-lSDL2_image $SDL2_LIBS $FT2_LIBS"
-	    found_sdl2_client=yes
-          elif test "x$gui_sdl2" = "xyes"; then
-            AC_MSG_ERROR([specified client 'sdl2' not configurable (FreeType2 >= 2.1.3 is needed (www.freetype.org))])
-          fi    
-	elif test "x$gui_sdl2" = "xyes"; then
-	    AC_MSG_ERROR([specified client 'sdl2' not configurable (SDL2_image-devel is needed (www.libsdl.org))])
-	fi
+      GUI_sdl2_CFLAGS="$SDL2_CFLAGS"
+      GUI_sdl2_LIBS="$SDL2_LIBS"
+      FC_SDL2_PROJECT([SDL2_image], [IMG_Load], [SDL/SDL_image.h])
+      if test "x$sdl2_h_found" = "xyes" ; then
+        AC_CHECK_FT2([2.1.3], [freetype_found="yes"],[freetype_found="no"])
+        if test "$freetype_found" = yes; then
+          GUI_sdl2_CFLAGS="$GUI_sdl2_CFLAGS $FT2_CFLAGS"
+          GUI_sdl2_LIBS="$GUI_sdl2_LIBS $FT2_LIBS"
+          found_sdl2_client=yes
+        elif test "x$gui_sdl2" = "xyes"; then
+          AC_MSG_ERROR([specified client 'sdl2' not configurable (FreeType2 >= 2.1.3 is needed (www.freetype.org))])
+        fi    
       elif test "x$gui_sdl2" = "xyes"; then
-        AC_MSG_ERROR([specified client 'sdl2' not configurable (SDL2_image is needed (www.libsdl.org))])
+        if test "x$missing_2_project" = "x" ; then
+          missing_2_project="SDL2_image"
+        fi
+        if test "x$sdl2_lib_found" = "xyes" ; then
+          missing_type="-devel"
+        else
+          missing_type=""
+        fi
+        AC_MSG_ERROR([specified client 'sdl2' not configurable (${missing_2_project}${missing_type} is needed (www.libsdl.org))])
       fi
     fi
 
@@ -69,4 +63,25 @@ AC_DEFUN([FC_SDL2_CLIENT],
       AC_MSG_ERROR([specified client 'sdl2' not configurable (SDL2 >= 2.0.0 is needed (www.libsdl.org))])
     fi
   fi
+])
+
+AC_DEFUN([FC_SDL2_PROJECT],
+[
+  ac_save_CPPFLAGS="$CPPFLAGS"
+  ac_save_CFLAGS="$CFLAGS"
+  ac_save_LIBS="$LIBS"
+  CPPFLAGS="$CPPFLAGS $SDL2_CFLAGS"
+  CFLAGS="$CFLAGS $SDL2_CFLAGS"
+  LIBS="$LIBS $SDL2_LIBS"
+  AC_CHECK_LIB([$1], [$2],
+               [sdl2_lib_found="yes"], [sdl2_lib_found="no"
+sdl2_h_found="no"])
+  if test "x$sdl2_lib_found" = "xyes" ; then
+    AC_CHECK_HEADER([$3],
+                    [sdl2_h_found="yes"
+GUI_sdl2_LIBS="${GUI_sdl2_LIBS} -l$1"], [sdl2_h_found="no"])
+  fi
+  CPPFLAGS="$ac_save_CPPFLAGS"
+  CFLAGS="$ac_save_CFLAGS"
+  LIBS="$ac_save_LIBS"
 ])
