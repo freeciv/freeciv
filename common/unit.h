@@ -289,10 +289,6 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 				      enum unit_activity activity,
 				      struct extra_type *target,
 				      const struct tile *ptile);
-bool can_unit_do_activity_base(const struct unit *punit,
-                               Base_type_id base);
-bool can_unit_do_activity_road(const struct unit *punit,
-                               Road_type_id road);
 void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
 void set_unit_activity_targeted(struct unit *punit,
 				enum unit_activity new_activity,

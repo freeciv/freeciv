@@ -973,30 +973,6 @@ bool can_unit_do_activity(const struct unit *punit,
 }
 
 /**************************************************************************
-  Return TRUE iff the unit can do the given base building activity at its
-  current location.
-**************************************************************************/
-bool can_unit_do_activity_base(const struct unit *punit,
-                               Base_type_id base)
-{
-  struct extra_type *target = base_extra_get(base_by_number(base));
-
-  return can_unit_do_activity_targeted(punit, ACTIVITY_BASE, target);
-}
-
-/**************************************************************************
-  Return TRUE iff the unit can do the given road building activity at its
-  current location.
-**************************************************************************/
-bool can_unit_do_activity_road(const struct unit *punit,
-                               Road_type_id road)
-{
-  struct extra_type *target = road_extra_get(road_by_number(road));
-
-  return can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, target);
-}
-
-/**************************************************************************
   Return whether the unit can do the targeted activity at its current
   location.
 **************************************************************************/

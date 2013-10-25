@@ -1196,10 +1196,13 @@ static void build_fortress_callback(GtkAction *action, gpointer data)
      * not good! */
     struct base_type *pbase = get_base_by_gui_type(BASE_GUI_FORTRESS,
                                                    punit, unit_tile(punit));
+    struct extra_type *pextra = NULL;
 
-    if (pbase && can_unit_do_activity_base(punit, pbase->item_number)) {
-      struct extra_type *pextra = base_extra_get(pbase);
+    if (pbase) {
+      pextra = base_extra_get(pbase);
+    }
 
+    if (pextra && can_unit_do_activity_targeted(punit, ACTIVITY_BASE, pextra)) {
       request_new_unit_activity_targeted(punit, ACTIVITY_BASE, pextra);
     } else {
       request_unit_fortify(punit);
@@ -1260,8 +1263,7 @@ static void government_callback(GtkMenuItem *item, gpointer data)
 ****************************************************************************/
 static void base_callback(GtkMenuItem *item, gpointer data)
 {
-  struct base_type *pbase = data;
-  struct extra_type *pextra = base_extra_get(pbase);
+  struct extra_type *pextra = data;
 
   unit_list_iterate(get_units_in_focus(), punit) {
     request_new_unit_activity_targeted(punit, ACTIVITY_BASE, pextra);
@@ -1273,11 +1275,11 @@ static void base_callback(GtkMenuItem *item, gpointer data)
 ****************************************************************************/
 static void road_callback(GtkMenuItem *item, gpointer data)
 {
-  struct road_type *proad = data;
+  struct extra_type *pextra = data;
 
   unit_list_iterate(get_units_in_focus(), punit) {
     request_new_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD,
-                                       road_extra_get(proad));
+                                       pextra);
   } unit_list_iterate_end;
 }
 
@@ -2109,15 +2111,16 @@ void real_menus_update(void)
   /* Set base sensitivity. */
   if ((menu = find_action_menu(unit_group, "MENU_BUILD_BASE"))) {
     GList *list, *iter;
-    struct base_type *pbase;
+    struct extra_type *pextra;
 
     list = gtk_container_get_children(GTK_CONTAINER(menu));
     for (iter = list; NULL != iter; iter = g_list_next(iter)) {
-      pbase = g_object_get_data(G_OBJECT(iter->data), "base");
-      if (NULL != pbase) {
+      pextra = g_object_get_data(G_OBJECT(iter->data), "base");
+      if (NULL != pextra) {
         gtk_widget_set_sensitive(GTK_WIDGET(iter->data),
-                                 can_units_do_base(punits,
-                                                   base_number(pbase)));
+                                 can_units_do_activity_targeted(punits,
+                                                                ACTIVITY_BASE,
+                                                                pextra));
       }
     }
     g_list_free(list);
@@ -2126,15 +2129,16 @@ void real_menus_update(void)
   /* Set road sensitivity. */
   if ((menu = find_action_menu(unit_group, "MENU_BUILD_PATH"))) {
     GList *list, *iter;
-    struct road_type *proad;
+    struct extra_type *pextra;
 
     list = gtk_container_get_children(GTK_CONTAINER(menu));
     for (iter = list; NULL != iter; iter = g_list_next(iter)) {
-      proad = g_object_get_data(G_OBJECT(iter->data), "road");
-      if (NULL != proad) {
+      pextra = g_object_get_data(G_OBJECT(iter->data), "road");
+      if (NULL != pextra) {
         gtk_widget_set_sensitive(GTK_WIDGET(iter->data),
-                                 can_units_do_road(punits,
-                                                   road_number(proad)));
+                                 can_units_do_activity_targeted(punits,
+                                                                ACTIVITY_GEN_ROAD,
+                                                                pextra));
       }
     }
     g_list_free(list);
@@ -2515,10 +2519,12 @@ void real_menus_init(void)
 
     /* Add new base entries. */
     base_type_iterate(p) {
-      if (base_extra_get(p)->buildable) {
-        item = gtk_menu_item_new_with_label(base_name_translation(p));
-        g_object_set_data(G_OBJECT(item), "base", p);
-        g_signal_connect(item, "activate", G_CALLBACK(base_callback), p);
+      struct extra_type *pextra = base_extra_get(p);
+
+      if (pextra->buildable) {
+        item = gtk_menu_item_new_with_label(extra_name_translation(pextra));
+        g_object_set_data(G_OBJECT(item), "base", pextra);
+        g_signal_connect(item, "activate", G_CALLBACK(base_callback), pextra);
         gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
         gtk_widget_show(item);
       }
@@ -2538,10 +2544,12 @@ void real_menus_init(void)
 
     /* Add new road entries. */
     road_type_iterate(r) {
-      if (road_extra_get(r)->buildable) {
-        item = gtk_menu_item_new_with_label(road_name_translation(r));
-        g_object_set_data(G_OBJECT(item), "road", r);
-        g_signal_connect(item, "activate", G_CALLBACK(road_callback), r);
+      struct extra_type *pextra = road_extra_get(r);
+
+      if (pextra->buildable) {
+        item = gtk_menu_item_new_with_label(extra_name_translation(pextra));
+        g_object_set_data(G_OBJECT(item), "road", pextra);
+        g_signal_connect(item, "activate", G_CALLBACK(road_callback), pextra);
         gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
         gtk_widget_show(item);
       }

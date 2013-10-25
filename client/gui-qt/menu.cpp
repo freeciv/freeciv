@@ -1135,10 +1135,13 @@ void mr_menu::slot_unit_fortify()
      * not good! */
     struct base_type *pbase = get_base_by_gui_type(BASE_GUI_FORTRESS,
                                                    punit, unit_tile(punit));
+    struct extra_type *pextra = NULL;
 
-    if (pbase && can_unit_do_activity_base(punit, pbase->item_number)) {
-      struct extra_type *pextra = base_extra_get(pbase);
+    if (pbase) {
+      pextra = base_extra_get(pbase);
+    }
 
+    if (pextra && can_unit_do_activity_targeted(punit, ACTIVITY_BASE, pextra)) {
       request_new_unit_activity_targeted(punit, ACTIVITY_BASE, pextra);
     } else {
       request_unit_fortify(punit);
