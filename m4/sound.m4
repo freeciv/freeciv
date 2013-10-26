@@ -28,7 +28,7 @@ AC_DEFUN([FC_CHECK_SOUND],[
     CFLAGS="$CFLAGS $SDL_CFLAGS"
     LIBS="$LIBS $SDL_LIBS"
     AC_CHECK_HEADER([SDL_mixer.h], [SDL_mixer_h=1], [SDL_mixer_h=0])
-    AC_CHECK_LIB([SDL_mixer], [Mix_OpenAudio], [SDL_mixer=yes])
+    AC_CHECK_LIB([SDL_mixer], [Mix_OpenAudio], [SDL_mixer=sdl])
     CPPFLAGS="$ac_save_CPPFLAGS"
     CFLAGS="$ac_save_CFLAGS"
     LIBS="$ac_save_LIBS"
@@ -69,7 +69,7 @@ elif test "x$USE_SOUND_SDL" = "xsdl2" ; then
     CFLAGS="$CFLAGS $SDL2_CFLAGS"
     LIBS="$LIBS $SDL2_LIBS"
     AC_CHECK_HEADER([SDL_mixer.h], [SDL_mixer_h=1], [SDL_mixer_h=0])
-    AC_CHECK_LIB([SDL2_mixer], [Mix_OpenAudio], [SDL_mixer=yes])
+    AC_CHECK_LIB([SDL2_mixer], [Mix_OpenAudio], [SDL_mixer=sdl2])
     CPPFLAGS="$ac_save_CPPFLAGS"
     CFLAGS="$ac_save_CFLAGS"
     LIBS="$ac_save_LIBS"
@@ -95,5 +95,8 @@ if test "x$USE_SOUND_SDL" = "xsdl" || test "x$USE_SOUND_SDL" = "xsdl2" ;then
   if  test "x$SOUND_SDL_OK" != "xtrue" ; then
      AC_MSG_ERROR([SDL mixer support requested, but cannot be compiled in])
   fi
+fi
+if test "x$SDL_mixer" = "x" ; then
+  SDL_mixer=no
 fi
 ])
