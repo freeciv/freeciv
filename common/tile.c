@@ -491,35 +491,8 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
 {
   tile_set_terrain(ptile, pterrain);
 
-  if (is_ocean(pterrain)) {
-    /* The code can't handle these specials in ocean. */
-    extra_type_by_cause_iterate(EC_HUT, pextra) {
-      if (tile_has_extra(ptile, pextra)) {
-        tile_remove_extra(ptile, pextra);
-      }
-    } extra_type_by_cause_iterate_end;
-  }
-
   if (terrain_has_flag(pterrain, TER_NO_POLLUTION)) {
     tile_clear_dirtiness(ptile);
-  }
-
-  /* Clear mining/irrigation if resulting terrain type cannot support
-   * that feature. */
-  if (pterrain->mining_result != pterrain) {
-    extra_type_by_cause_iterate(EC_MINE, pextra) {
-      if (tile_has_extra(ptile, pextra)) {
-        tile_destroy_extra(ptile, pextra);
-      }
-    } extra_type_by_cause_iterate_end;
-  }
-
-  if (pterrain->irrigation_result != pterrain) {
-    extra_type_by_cause_iterate(EC_IRRIGATION, pextra) {
-      if (tile_has_extra(ptile, pextra)) {
-        tile_destroy_extra(ptile, pextra);
-      }
-    } extra_type_by_cause_iterate_end;
   }
 
   /* Remove unsupported extras */

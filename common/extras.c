@@ -450,6 +450,24 @@ bool can_remove_extra(struct extra_type *pextra,
 bool is_native_tile_to_extra(const struct extra_type *pextra,
                              const struct tile *ptile)
 {
+  struct terrain *pterr = tile_terrain(ptile);
+
+  if (pextra->causes & (1 << EC_IRRIGATION)
+      && pterr->irrigation_result != pterr) {
+    return FALSE;
+  }
+
+  if (pextra->causes & (1 << EC_MINE)
+      && pterr->mining_result != pterr) {
+    return FALSE;
+  }
+
+  if (pextra->causes & (1 << EC_HUT)
+      && is_ocean(pterr)) {
+    /* The code can't handle these specials in ocean. */
+    return FALSE;
+  }
+
   switch(pextra->type) {
   case EXTRA_SPECIAL:
     return TRUE;
