@@ -1,11 +1,6 @@
 #!/bin/sh
 # Run this to generate all the initial makefiles, etc.
 
-# This is a kludge to make Gentoo behave and select the 
-# correct version of automake to use.
-WANT_AUTOMAKE=1.8
-export WANT_AUTOMAKE
-
 DIE=0
 package=freeciv
 srcfile=common/game.c
@@ -238,9 +233,9 @@ real_package_name "autoheader" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 59 || DIE
 AUTOHEADER=$REALPKGNAME
 
 # automake and aclocal version numbers must be kept in sync
-real_package_name "automake" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 7 || DIE=1
+real_package_name "automake" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 9 || DIE=1
 AUTOMAKE=$REALPKGNAME
-real_package_name "aclocal" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 7 || DIE=1
+real_package_name "aclocal" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 9 || DIE=1
 ACLOCAL=$REALPKGNAME
 real_package_name "libtoolize" "ftp://ftp.gnu.org/pub/gnu/libtool/" 1 4 3 || DIE=1
 LIBTOOLIZE=$REALPKGNAME
