@@ -25,7 +25,7 @@
 /* utility */
 #include "fc_types.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "gui_main.h"
 #include "gui_string.h"
 

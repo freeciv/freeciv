@@ -19,7 +19,7 @@
 #include "registry.h"
 #include "mem.h"
 
-/* client/gui-sdl */
+/* client/gui-sdl2 */
 #include "graphics.h"
 #include "themespec.h"
 

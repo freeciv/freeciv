@@ -32,7 +32,7 @@
 /* client */
 #include "client_main.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "colors.h"
 #include "graphics.h"
 #include "gui_main.h"

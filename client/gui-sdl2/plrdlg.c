@@ -27,7 +27,7 @@
 #include "client_main.h"
 #include "climisc.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "colors.h"
 #include "diplodlg.h"
 #include "graphics.h"

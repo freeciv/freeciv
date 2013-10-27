@@ -47,7 +47,7 @@
 #include "pages_g.h"
 #include "text.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"

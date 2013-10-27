@@ -35,7 +35,7 @@
 /* client */
 #include "tilespec.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "SDL_ttf.h"
 #include "gui_tilespec.h"
 #include "mapview.h"

@@ -30,7 +30,7 @@
 #include "log.h"
 #include "mem.h"
 
-/* client/gui-sdl */
+/* client/gui-sdl2 */
 #include "colors.h"
 #include "graphics.h"
 #include "gui_iconv.h"

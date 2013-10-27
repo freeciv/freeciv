@@ -37,7 +37,7 @@
 #include "packhand.h"
 #include "servers.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "chatline.h"
 #include "colors.h"
 #include "graphics.h"

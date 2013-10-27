@@ -20,7 +20,7 @@
 /* utility */
 #include "log.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "colors.h"
 #include "graphics.h"
 #include "themespec.h"

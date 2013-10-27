@@ -28,7 +28,7 @@
 /* client */
 #include "tilespec.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "themespec.h"
 
 #include "colors.h"

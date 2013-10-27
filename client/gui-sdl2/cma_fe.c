@@ -26,7 +26,7 @@
 /* client */
 #include "client_main.h" /* can_client_issue_orders() */
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "citydlg.h"
 #include "cityrep.h"
 #include "cma_fec.h"

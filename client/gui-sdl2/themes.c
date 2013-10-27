@@ -23,7 +23,7 @@
 #include "mem.h"
 #include "string_vector.h"
 
-/* client/gui-sdl */
+/* client/gui-sdl2 */
 #include "themespec.h"
 
 #include "themes_common.h"

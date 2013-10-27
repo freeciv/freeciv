@@ -30,7 +30,7 @@
 #include "climisc.h"
 #include "packhand.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "chatline.h"
 #include "colors.h"
 #include "dialogs.h"

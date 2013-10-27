@@ -37,7 +37,7 @@
 #include "climisc.h"
 #include "overview_common.h"
 
-/* client/gui-sdl */
+/* client/gui-sdl2 */
 #include "citydlg.h"
 #include "cityrep.h"
 #include "colors.h"

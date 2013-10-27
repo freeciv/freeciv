@@ -40,7 +40,7 @@
 #include "climisc.h"
 #include "global_worklist.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "citydlg.h"
 #include "colors.h"
 #include "graphics.h"

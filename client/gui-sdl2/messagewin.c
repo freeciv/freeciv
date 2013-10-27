@@ -31,7 +31,7 @@
 /* client */
 #include "options.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "citydlg.h"
 #include "colors.h"
 #include "graphics.h"

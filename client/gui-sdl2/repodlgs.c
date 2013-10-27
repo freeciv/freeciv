@@ -37,7 +37,7 @@
 #include "client_main.h"
 #include "text.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "cityrep.h"
 #include "colors.h"
 #include "dialogs.h"

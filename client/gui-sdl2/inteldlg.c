@@ -28,7 +28,7 @@
 /* client */
 #include "client_main.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"

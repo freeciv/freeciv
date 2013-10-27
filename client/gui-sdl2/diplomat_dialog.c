@@ -29,7 +29,7 @@
 #include "client_main.h"
 #include "control.h"
 
-/* client/gui-sdl */
+/* client/gui-sdl2 */
 #include "citydlg.h"
 #include "colors.h"
 #include "dialogs.h"

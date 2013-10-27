@@ -58,7 +58,7 @@
 #include "tilespec.h"
 #include "update_queue.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "chatline.h"
 #include "citydlg.h"
 #include "cityrep.h"

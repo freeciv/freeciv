@@ -39,7 +39,7 @@
 #include "citydlg_common.h"
 #include "client_main.h"		/* for client_state() */
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "dialogs.h"
 #include "gui_tilespec.h"
 #include "mapview.h"

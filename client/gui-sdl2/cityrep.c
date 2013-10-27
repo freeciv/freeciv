@@ -26,7 +26,7 @@
 /* client */
 #include "client_main.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "citydlg.h"
 #include "cma_fe.h"
 #include "colors.h"

@@ -39,7 +39,7 @@
 #include "client_main.h" /* client_state */
 #include "control.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "dialogs.h"
 #include "gotodlg.h"
 #include "graphics.h"

@@ -38,7 +38,7 @@
 #include "clinet.h"
 #include "connectdlg_common.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"

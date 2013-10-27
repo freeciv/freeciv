@@ -41,7 +41,7 @@
 #include "control.h"
 #include "text.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "cityrep.h"
 #include "cma_fe.h"
 #include "colors.h"

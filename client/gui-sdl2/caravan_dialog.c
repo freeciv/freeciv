@@ -25,7 +25,7 @@
 #include "client_main.h"
 #include "control.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "gui_id.h"
 #include "graphics.h"
 #include "mapview.h"

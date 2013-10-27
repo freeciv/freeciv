@@ -34,7 +34,7 @@
 #include "control.h"
 #include "goto.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "colors.h"
 #include "graphics.h"
 #include "gui_id.h"

@@ -18,7 +18,7 @@
 /* utility */
 #include "mem.h"
 
-/* client/gui-sdl */
+/* client/gui-sdl2 */
 #include "colors.h"
 #include "themespec.h"
 

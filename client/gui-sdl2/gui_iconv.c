@@ -51,7 +51,7 @@
 #include "log.h"
 #include "mem.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "unistring.h"
 
 #include "gui_iconv.h"
