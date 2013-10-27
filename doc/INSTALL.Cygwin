@@ -1,7 +1,3 @@
-This document has not been updated in a very long time. Most of it probably
-does not apply with current version of Cygwin or Freeciv!
-
-===========================================================================
 
 Cygwin installation notes
 =========================
@@ -15,9 +11,7 @@ subdirectories of doc/.
 See also the generic installation notes in INSTALL.
 
 Cygwin is a free Unix variant for MS Windows operating systems.
-Recent versions come with an X server, XFree86.  This version of
-Freeciv has been tested with Cygwin DLL version 1.3.16 and its
-X server version 4.2.0.
+Recent versions come with an X server, Xorg.
 
 To install Freeciv for Cygwin:
 
@@ -25,28 +19,18 @@ a) Install or update your Cygwin using the "Install Cygwin Now!" link
    on http://www.cygwin.com/; many packages are required, and some
    are a good idea to have; examples:
 
-      gcc, autoconf, automake, imlib, xpm, gettext, iconv, sdl, xfree
+      gcc, autoconf, automake, gettext, iconv, x11, libcurl
   
   If you have the disk space, install everything, just to be sure.
 
-b) If you want the GTK+ 1.2 client:
-
-   Install the GTK+ libraries.  An easy way to do this is to use
-   Hansom Young's binary distribution called "Cygnome", linked to
-   from http://www.cygwin.com/.  Follow the Cygnome installation procedure.
+b) Install gtk2 and/or gtk3, depending which freeciv client you
+   want to build.
 
 c) Get a Freeciv source tree (this file is in its top directory).
-   Put it in a temporary place like /tmp.  cd into it.
-   To select the Xaw client, run
+   Put it in a temporary place like /tmp.
 
-      ./autogen.sh --with-xaw  [any other options e.g. --prefix=...]
-
-   To select the GTK+ client, make sure gtk-config and the GTK+ DLLs
-   are in your $PATH.
-   They will normally be in /opt/gnome/bin, so in bash you'd do
-
-      PATH=${PATH}:/opt/gnome/bin; export PATH
-      ./autogen.sh   [any other options e.g. --prefix=...]
+      ./autogen.sh --enable-client=<gui> [any other options e.g. --prefix=...]
+   where <gui> is either "gtk2", "gtk3" or both as "gtk2,gtk3" 
 
    If you get messages of missing or outdated components, install them.
 
@@ -65,12 +49,8 @@ e) Test the results:
 
   will start the server, but you only need it for private games.
   To start the client, you need to run the X server (this can be
-  done by typing 'startx'), then into a terminal type
+  done by typing 'initx'), then into a terminal type
 
     /path/to/freeciv-<gui>.exe  [any additional options]
 
-  If you installed the GTK+ client, make sure the GTK+ DLLs
-  are in your path (see above).
-
 More details on using server and client are in doc/README.
-
