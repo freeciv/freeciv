@@ -154,7 +154,8 @@ bool is_ground_unittype(const struct unit_type *punittype)
   Check for a city channel.
 ****************************************************************************/
 bool is_city_channel_tile(const struct unit_class *punitclass,
-                          const struct tile *ptile)
+                          const struct tile *ptile,
+                          const struct tile *pexclude)
 {
   struct dbv tile_processed;
   struct tile_list *process_queue = tile_list_new();
@@ -166,11 +167,13 @@ bool is_city_channel_tile(const struct unit_class *punitclass,
     adjc_iterate(ptile, piter) {
       if (dbv_isset(&tile_processed, tile_index(piter))) {
         continue;
-      } else if (is_native_to_class(punitclass, tile_terrain(piter),
-                                    piter->bases, piter->roads)) {
+      } else if (piter != pexclude
+                 && is_native_to_class(punitclass, tile_terrain(piter),
+                                       piter->bases, piter->roads)) {
         found = TRUE;
         break;
-      } else if (NULL != tile_city(piter)) {
+      } else if (piter != pexclude
+                 && NULL != tile_city(piter)) {
         tile_list_append(process_queue, piter);
       } else {
         dbv_set(&tile_processed, tile_index(piter));
@@ -205,7 +208,7 @@ bool can_exist_at_tile(const struct unit_type *utype,
       && (uclass_has_flag(utype_class(utype), UCF_BUILD_ANYWHERE)
           || is_native_near_tile(utype_class(utype), ptile)
           || (1 == game.info.citymindist
-              && is_city_channel_tile(utype_class(utype), ptile)))) {
+              && is_city_channel_tile(utype_class(utype), ptile, NULL)))) {
     return TRUE;
   }
 
