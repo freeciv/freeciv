@@ -57,7 +57,8 @@ bool is_sailing_unittype(const struct unit_type *punittype);
 bool is_ground_unittype(const struct unit_type *punittype);
 
 bool is_city_channel_tile(const struct unit_class *punitclass,
-                          const struct tile *ptile);
+                          const struct tile *ptile,
+                          const struct tile *pexclude);
 
 bool is_native_tile(const struct unit_type *punittype,
                     const struct tile *ptile);
