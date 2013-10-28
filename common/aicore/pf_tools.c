@@ -167,7 +167,7 @@ static int normal_move_unit(const struct tile *ptile, enum direction8 dir,
                && (uclass_has_flag(param->uclass, UCF_BUILD_ANYWHERE)
                    || is_native_near_tile(param->uclass, ptile)
                    || (1 == game.info.citymindist
-                       && is_city_channel_tile(param->uclass, ptile)))) {
+                       && is_city_channel_tile(param->uclass, ptile, NULL)))) {
       move_cost = single_move_cost(param, ptile, ptile1);
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
