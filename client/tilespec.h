@@ -136,7 +136,7 @@ void tileset_free_tiles(struct tileset *t);
 void finish_loading_sprites(struct tileset *t);
 
 void tilespec_try_read(const char *tileset_name, bool verbose);
-void tilespec_reread(const char *tileset_name);
+void tilespec_reread(const char *tileset_name, bool game_fully_initialized);
 void tilespec_reread_callback(struct option *poption);
 
 void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id);
