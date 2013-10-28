@@ -2078,21 +2078,18 @@ static void unit_activity_dependencies(struct unit *punit,
     switch (old_activity) {
     case ACTIVITY_PILLAGE: 
       {
-        enum tile_special_type prereq = S_LAST;
-
-        if (old_target != NULL && old_target->type == EXTRA_SPECIAL) {
-	  prereq = get_infrastructure_prereq(old_target->data.special);
-        }
-        if (prereq != S_LAST) {
-          struct extra_type *preextra = special_extra_get(prereq);
-
-          unit_list_iterate (unit_tile(punit)->units, punit2)
-            if (punit2->activity == ACTIVITY_PILLAGE
-                && punit2->activity_target == preextra) {
-              set_unit_activity(punit2, ACTIVITY_IDLE);
-              send_unit_info(NULL, punit2);
+        if (old_target != NULL) {
+          unit_list_iterate_safe(unit_tile(punit)->units, punit2) {
+            if (punit2->activity == ACTIVITY_PILLAGE) {
+              extra_deps_iterate(&(punit2->activity_target->reqs), pdep) {
+                if (pdep == old_target) {
+                  set_unit_activity(punit2, ACTIVITY_IDLE);
+                  send_unit_info(NULL, punit2);
+                  break;
+                }
+              } extra_deps_iterate_end;
             }
-          unit_list_iterate_end;
+          } unit_list_iterate_safe_end;
         }
         break;
       }

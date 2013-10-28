@@ -1215,23 +1215,28 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
             /* Cannot pillage roads from city tiles. */
             /* FIXME: Should depend on flags. Also bases. */
             if (pextra->type != EXTRA_ROAD || !tile_city(ptile)) {
-              BV_SET(pspossible, idx);
+              bool required = FALSE;
+
+              extra_type_iterate(pdepending) {
+                if (BV_ISSET(pspresent, extra_index(pdepending))) {
+                  extra_deps_iterate(&(pdepending->reqs), pdep) {
+                    if (pdep == pextra) {
+                      required = TRUE;
+                      break;
+                    }
+                  } extra_deps_iterate_end;
+                }
+                if (required) {
+                  break;
+                }
+              } extra_type_iterate_end;
+
+              if (!required) {
+                BV_SET(pspossible, idx);
+              }
             }
           }
         } extra_type_iterate_end;
-
-        tile_special_type_iterate(spe) {
-          enum tile_special_type prereq = get_infrastructure_prereq(spe);
-          /* If an improvement is present, we can't pillage its prerequisite */
-          /* (FIXME: Could in principle allow simultaneous pillaging of
-           * an improvement and its prerequisite, but this would require care
-           * to ensure that the unit pillaging the topmost improvement
-           * finished first.) */
-          if (prereq != S_LAST
-              && BV_ISSET(pspresent, extra_index(special_extra_get(spe)))) {
-            BV_CLR(pspossible, extra_index(special_extra_get(prereq)));
-          }
-        } tile_special_type_iterate_end;
 
         if (!BV_ISSET_ANY(pspossible)) {
           /* Nothing available to pillage */
@@ -1393,7 +1398,7 @@ bool is_unit_activity_on_tile(enum unit_activity activity,
 }
 
 /****************************************************************************
-  Return a mask of the specials which are actively (currently) being
+  Return a mask of the extras which are actively (currently) being
   pillaged on the given tile.
 ****************************************************************************/
 bv_extras get_unit_tile_pillage_set(const struct tile *ptile)

@@ -328,7 +328,6 @@ bool contains_any_specials(bv_special all);
 
 /* Special helper functions */
 const char *get_infrastructure_text(bv_extras extras);
-enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe);
 struct extra_type *get_preferred_pillage(bv_extras extras);
 
 int terrain_base_time(const struct terrain *pterrain,

@@ -777,18 +777,6 @@ const char *get_infrastructure_text(bv_extras extras)
 }
 
 /****************************************************************************
-  Return the prerequesites needed before building the given infrastructure.
-****************************************************************************/
-enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe)
-{
-  if (spe == S_FARMLAND) {
-    return S_IRRIGATION;
-  } else {
-    return S_LAST;
-  }
-}
-
-/****************************************************************************
   Returns the highest-priority (best) infrastructure (man-made extra) to
   be pillaged from the terrain set.  May return NULL if nothing
   better is available.
