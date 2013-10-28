@@ -1082,7 +1082,7 @@ void tilespec_try_read(const char *tileset_name, bool verbose)
 
   It will also call the necessary functions to redraw the graphics.
 ***********************************************************************/
-void tilespec_reread(const char *new_tileset_name)
+void tilespec_reread(const char *new_tileset_name, bool game_fully_initialized)
 {
   int id;
   struct tile *center_tile;
@@ -1126,10 +1126,13 @@ void tilespec_reread(const char *new_tileset_name)
   sz_strlcpy(default_tileset_name, tileset->name);
   tileset_load_tiles(tileset);
   tileset_use_prefered_theme(tileset);
-  players_iterate(pplayer) {
-    tileset_player_init(tileset, pplayer);
-  } players_iterate_end;
-  tileset_background_init(tileset);
+
+  if (game_fully_initialized) {
+    players_iterate(pplayer) {
+      tileset_player_init(tileset, pplayer);
+    } players_iterate_end;
+    tileset_background_init(tileset);
+  }
 
   /* Step 3: Setup
    *
@@ -1208,7 +1211,7 @@ void tilespec_reread_callback(struct option *poption)
   const char *tileset_name = option_str_get(poption);
 
   fc_assert_ret(NULL != tileset_name && tileset_name[0] != '\0');
-  tilespec_reread(tileset_name);
+  tilespec_reread(tileset_name, TRUE);
   menus_init();
 }
 
