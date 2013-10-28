@@ -35,7 +35,7 @@ static void tileset_suggestion_callback(GtkWidget *dlg, gint arg)
 {
   if (arg == GTK_RESPONSE_YES) {
     /* User accepted tileset loading */
-    tilespec_reread(game.control.prefered_tileset);
+    tilespec_reread(game.control.prefered_tileset, FALSE);
   }
 }
 
