@@ -255,6 +255,8 @@ type BV_DISASTER_EFFECTS = bitvector(bv_disaster_effects)
 type BASE               = sint8(Base_type_id)
 type ROAD               = sint8(Road_type_id)
 type CITY               = UINT16
+# city id, with space for special values
+type CITYSPE            = SINT32
 type CONNECTION         = SINT16
 type CONTINENT          = sint16(Continent_id)
 type GOVERNMENT         = UINT8
@@ -744,7 +746,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   UINT8 color_green;
   UINT8 color_blue;
 
-  CITY wonders[B_LAST]; diff
+  CITYSPE wonders[B_LAST]; diff
 end
 
 PACKET_PLAYER_PHASE_DONE = 52; cs, dsend
