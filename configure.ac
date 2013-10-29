@@ -175,6 +175,8 @@ if test x$ipv6 != xno ; then
   fi
   if test x$enable_ipv6 = xyes ; then
     AC_DEFINE([IPV6_SUPPORT], [1], [IPv6 Support built in])
+  else
+    feature_ipv6=missing
   fi
 fi
 
@@ -698,13 +700,21 @@ dnl Check for bzip2 compression
 AC_CHECK_LIB(bz2, BZ2_bzReadOpen,
   [AC_CHECK_HEADERS([bzlib.h],
    [AC_DEFINE([HAVE_LIBBZ2], [1], [libbzip2 is available])
-UTILITY_LIBS="${UTILITY_LIBS} -lbz2"])])
+UTILITY_LIBS="${UTILITY_LIBS} -lbz2"
+libbz2_available=true])])
+if test "x$libbz2_available" != "xtrue" ; then
+  feature_bz2=missing
+fi
 
 dnl Check for xz compression
 AC_CHECK_LIB(lzma, lzma_code,
   [AC_CHECK_HEADERS([lzma.h],
    [AC_DEFINE([HAVE_LIBLZMA], [1], [liblzma is available])
-UTILITY_LIBS="${UTILITY_LIBS} -llzma"])])
+UTILITY_LIBS="${UTILITY_LIBS} -llzma"
+libxz_available=true])])
+if test "x$libxz_available" != "xtrue" ; then
+  feature_xz=missing
+fi
 
 AC_SUBST([UTILITY_CFLAGS])
 AC_SUBST([UTILITY_LIBS])
@@ -737,6 +747,7 @@ if test x$crosser != xyes ; then
     thread_impl=pthreads
     AC_MSG_RESULT([pthreads])
     AC_DEFINE([HAVE_THREAD_COND], [1], [Has thread condition variable implementation])])
+    thread_cond=true
 fi
 
 if test "x$thread_impl" = "xnone" ; then
@@ -752,6 +763,10 @@ fi
 
 if test "x$thread_impl" = "xnone" ; then
   AC_MSG_ERROR([No usable thread implementation available])
+fi
+
+if test "x$thread_cond" != "xtrue" ; then
+  feature_thr_cond=missing
 fi
 
 dnl Check and choose clients
@@ -1233,6 +1248,7 @@ if test "x$sys_lua" = "xtrue" || test "x$sys_lua" = "xtest" ; then
 [if test "x$sys_lua" = "xtrue" ; then
   AC_MSG_ERROR([Use of included lua disabled, and no lua found from system])
 fi
+feature_syslua=missing
 sys_lua=false])])])
 fi
 
@@ -1571,3 +1587,5 @@ AC_MSG_NOTICE([
       postgres:              $fcdb_postgres
       sqlite3:               $fcdb_sqlite3
 ])
+
+FC_MISSING_FEATURES

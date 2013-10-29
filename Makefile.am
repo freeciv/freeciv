@@ -48,6 +48,7 @@ EXTRA_DIST=	autogen.sh 			\
 		m4/fcdb-mysql.m4		\
 		m4/fcdb-postgres.m4		\
 		m4/fcdb-sqlite3.m4		\
+		m4/features.m4			\
 		m4/freetype2.m4			\
 		m4/gettimeofday.m4		\
 		m4/ggz.m4			\

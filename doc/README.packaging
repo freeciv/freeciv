@@ -65,6 +65,16 @@ so we can update the metaserver.
 have their own means of distributing updates.)
 
 ----------------------------------------------------------------------
+Optional features
+-----------------
+Configure enables many optional features by default when their
+dependencies are satisfied in the system. Downside of this automation
+is that missing dependencies cause no hard error even when you would
+want the features. For getting list of features automatically left out
+because of missing dependencies you can give option --with-missinglist
+to configure, and last thing configure outputs will be that list.
+
+----------------------------------------------------------------------
 Shared libfreeciv
 -----------------
 Libfreeciv contains code common to server and client. By default it's
