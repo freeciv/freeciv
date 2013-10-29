@@ -38,6 +38,8 @@ Updating from 2.4 to 2.5
   of its code in itself
 * AI module "threaded" is usable. For most part it just uses same code
   "classic" module uses, so there's not much difference between the two.
+* New configure option --with-missinglist to see what features have been
+  automatically left out due to missing dependencies.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
@@ -82,6 +84,16 @@ so we can update the metaserver.
 
 (This is unlikely to be of use to Linux distribution packagers, who
 have their own means of distributing updates.)
+
+----------------------------------------------------------------------
+Optional features
+-----------------
+Configure enables many optional features by default when their
+dependencies are satisfied in the system. Downside of this automation
+is that missing dependencies cause no hard error even when you would
+want the features. For getting list of features automatically left out
+because of missing dependencies you can give option --with-missinglist
+to configure, and last thing configure outputs will be that list.
 
 ----------------------------------------------------------------------
 Shared libfreeciv

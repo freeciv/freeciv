@@ -92,9 +92,12 @@ elif test "x$USE_SOUND_SDL" = "xsdl2" ; then
   fi
 fi
 if test "x$USE_SOUND_SDL" = "xsdl" || test "x$USE_SOUND_SDL" = "xsdl2" ;then
-  if  test "x$SOUND_SDL_OK" != "xtrue" ; then
+  if test "x$SOUND_SDL_OK" != "xtrue" ; then
      AC_MSG_ERROR([SDL mixer support requested, but cannot be compiled in])
   fi
+fi
+if test "x$USE_SOUND_SDL" = "xmaybe" && test "x$SOUND_SDL_OK" != "xtrue" ; then
+  feature_sound=missing
 fi
 if test "x$SDL_mixer" = "x" ; then
   SDL_mixer=no

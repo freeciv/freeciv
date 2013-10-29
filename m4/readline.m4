@@ -70,6 +70,7 @@ You may need to install a readline "development" package.])
            else
                AC_MSG_WARN(Did not find readline header file. 
 Configuring server without readline support.)
+               feature_readline=missing
            fi
        else
            dnl Readline lib with rl_completion_suppress_append (i.e >= 4.3)
@@ -120,6 +121,7 @@ runtime test of readline failed.)
                    else
                        AC_MSG_WARN(Runtime test of readline failed. 
 Configuring server without readline support.)
+                       feature_readline=missing
                    fi
                fi
            else
@@ -129,6 +131,7 @@ test to link against the library failed.)
                else
                    AC_MSG_WARN(Test to link against readline library failed. 
 Configuring server without readline support.)
+                   feature_readline=missing
                fi
            fi
        fi

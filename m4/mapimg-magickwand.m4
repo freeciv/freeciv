@@ -22,6 +22,7 @@ AC_DEFUN([FC_MAPIMG_MAGICKWAND],
         AC_MSG_ERROR([mapimg toolkit magickwandclient not available])
       fi
       mapimg_magickwand=no
+      feature_magickwand=missing
     ])
   fi
 ])
