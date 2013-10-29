@@ -63,26 +63,25 @@
              3.16 My Freeciv client dumps core when I start it!
              3.17 Freeciv fails to compile due to the Xaw libraries.
              3.18 How do I compile Freeciv under Solaris?
-             3.19 How do I compile Freeciv under Solaris or FreeBSD?
-             3.20 I hate isometric view! How do I play with Civilization I
+             3.19 I hate isometric view! How do I play with Civilization I
                style graphics?
-             3.21 What other GUI options do I have for the Freeciv client?
-             3.22 How do I enable/disable sound support?
-             3.23 Where can I find more information on the *.ruleset files?
-             3.24 How can I add additional civilizations in the nation/
+             3.20 What other GUI options do I have for the Freeciv client?
+             3.21 How do I enable/disable sound support?
+             3.22 Where can I find more information on the *.ruleset files?
+             3.23 How can I add additional civilizations in the nation/
                subdirectory, or add cities to the list for an existing
                nation?
-             3.25 How do I change the font?
-             3.26 I am having problems with accented characters. What
+             3.24 How do I change the font?
+             3.25 I am having problems with accented characters. What
                gives?
-             3.27 How can I change the language of my client/server?
-             3.28 How do I get the latest development code?
-             3.29 How do I disable full screen mode?
-             3.30 What are the system requirements ?
-                  3.30.1 Memory
-                  3.30.2 Processor
-                  3.30.3 Graphic display
-                  3.30.4 Network
+             3.26 How can I change the language of my client/server?
+             3.27 How do I get the latest development code?
+             3.28 How do I disable full screen mode?
+             3.29 What are the system requirements ?
+                  3.29.1 Memory
+                  3.29.2 Processor
+                  3.29.3 Graphic display
+                  3.29.4 Network
         4 Windows
              4.1 How do I use Freeciv under MS Windows ?
              4.2 Retrieving the Native Windows Freeciv
@@ -941,18 +940,7 @@ configure --with-xaw3d
 
 -------
 
-3.19 How do I compile Freeciv under Solaris or FreeBSD?
-
-   On Solaris, FreeBSD, and some other systems, the default make isn't GNU
-   make. In order to compile you must either
-./configure --disable-auto-deps --disable-nls
-
-   in order to disable the GNU make specific parts of the Makefile, or
-   simply use GNU make.
-
--------
-
-3.20 I hate isometric view! How do I play with Civilization I style graphics?
+3.19 I hate isometric view! How do I play with Civilization I style graphics?
 
    Start the client as
 freeciv-gtk2 --tiles trident
@@ -964,7 +952,7 @@ freeciv-gtk2 --tiles trident
 
 -------
 
-3.21 What other GUI options do I have for the Freeciv client?
+3.20 What other GUI options do I have for the Freeciv client?
 
    The look and feel of your GUI is mainly determined by the Freeciv
    client you use.
@@ -984,10 +972,7 @@ freeciv-gtk2 --tiles trident
    aware of, not just the ones for which our download section provides
    native installation support.
 
-   For Amiga and MS Windows, clients have existed that use the native
-   windowing system rather than X11. Neither of them are actively
-   maintained any longer, however; for Windows, the Gtk and SDL clients
-   are recommended.
+   For Windows, the Gtk and SDL clients are recommended.
 
    Some details of the GUI can be configured from the running client.
 
@@ -1003,7 +988,7 @@ freeciv-gtk2 --tiles trident
 
 -------
 
-3.22 How do I enable/disable sound support?
+3.21 How do I enable/disable sound support?
 
    The client can be started without sound by supplying the commandline
    arguments: -P none
@@ -1026,7 +1011,7 @@ freeciv-gtk2 -d 3 -P <plugin> -S stdsounds
 
 -------
 
-3.23 Where can I find more information on the *.ruleset files?
+3.22 Where can I find more information on the *.ruleset files?
 
    There is some documentation in the ./doc/ directory, such as
    ./doc/README.effects. The default ruleset also has a minimal
@@ -1038,14 +1023,14 @@ freeciv-gtk2 -d 3 -P <plugin> -S stdsounds
 
 -------
 
-3.24 How can I add additional civilizations in the nation/ subdirectory, or add
+3.23 How can I add additional civilizations in the nation/ subdirectory, or add
 cities to the list for an existing nation?
 
    See the Nations article or ./doc/README.nations in the source tarball.
 
 -------
 
-3.25 How do I change the font?
+3.24 How do I change the font?
 
    For the Gtk client, once the game has started, you can change the fonts
    in Game > Options > Local Client, on the Font tab.
@@ -1077,7 +1062,7 @@ set HOME="C:\Documents And Settings\(your username goes here)\Application Data"
 
 -------
 
-3.26 I am having problems with accented characters. What gives?
+3.25 I am having problems with accented characters. What gives?
 
    The problem is that Freeciv (the server or client) simply cannot
    display the characters properly in the character encoding it is set to
@@ -1104,13 +1089,13 @@ set HOME="C:\Documents And Settings\(your username goes here)\Application Data"
 
 -------
 
-3.27 How can I change the language of my client/server?
+3.26 How can I change the language of my client/server?
 
    See Interface Language.
 
 -------
 
-3.28 How do I get the latest development code?
+3.27 How do I get the latest development code?
 
    A snapshot of the development code is made every day and can be
    retrieved with your browser.
@@ -1140,7 +1125,7 @@ set HOME="C:\Documents And Settings\(your username goes here)\Application Data"
 
 -------
 
-3.29 How do I disable full screen mode?
+3.28 How do I disable full screen mode?
 
    In the GTK client, go to View and select Full Screen. It may not take
    effect until the next time you start the client.
@@ -1151,11 +1136,11 @@ set HOME="C:\Documents And Settings\(your username goes here)\Application Data"
 
 -------
 
-3.30 What are the system requirements ?
+3.29 What are the system requirements ?
 
 -------
 
-3.30.1 Memory
+3.29.1 Memory
 
    In a typical game the server takes about 15MB of memory and the client
    needs about 25MB. These values may change with larger maps or tilesets.
@@ -1164,7 +1149,7 @@ set HOME="C:\Documents And Settings\(your username goes here)\Application Data"
 
 -------
 
-3.30.2 Processor
+3.29.2 Processor
 
    We recommend at least a 100MHz processor. If you find your game running
    too slow, these may be the reasons:
@@ -1187,7 +1172,7 @@ set HOME="C:\Documents And Settings\(your username goes here)\Application Data"
 
 -------
 
-3.30.3 Graphic display
+3.29.3 Graphic display
 
    The GTK client works well on 1024x800 or higher resolutions. On smaller
    screens you may want to enable the Arrange widgets for small displays
@@ -1195,7 +1180,7 @@ set HOME="C:\Documents And Settings\(your username goes here)\Application Data"
 
 -------
 
-3.30.4 Network
+3.29.4 Network
 
    A 56Kb modem should be enough to play a typical online game. However,
    many players suggest that a large ping is a big disadvantage. Your ISP
