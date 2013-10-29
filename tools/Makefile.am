@@ -4,6 +4,8 @@ if RULEDIT
 SUBDIRS = ruledit
 endif
 
+MOCCMD=@MOCCMD@
+
 include $(top_srcdir)/bootstrap/Makerules.mk
 
 bin_PROGRAMS = 
