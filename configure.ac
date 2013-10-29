@@ -1011,6 +1011,12 @@ AM_CONDITIONAL([MODINST_GTK3], [test "x$fcmp_gtk3" = "xyes"])
 AM_CONDITIONAL([MODINST_GTK2], [test "x$fcmp_gtk2" = "xyes"])
 AM_CONDITIONAL([MODINST_QT], [test "x$fcmp_qt" = "xyes"])
 
+if test "x$MOCCMD" = "x" ; then
+  dnl There's no user-set moc command, use 'moc'
+  MODCCMD="moc"
+fi
+AC_SUBST([MOCCMD])
+
 AC_SUBST([GUI_gtk2_CFLAGS])
 AC_SUBST([GUI_gtk2_LIBS])
 AC_SUBST([GUI_gtk2_LDFLAGS])

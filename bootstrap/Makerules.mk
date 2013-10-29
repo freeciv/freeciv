@@ -15,5 +15,4 @@
 
 # Generate Qt meta object source from header
 $(MOC_FILES) : meta_%.cpp: %.h
-	moc -o $@ $<
-
+	$(MOCCMD) -o $@ $<

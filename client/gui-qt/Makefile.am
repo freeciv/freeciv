@@ -1,5 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
+MOCCMD=@MOCCMD@
+
 include $(top_srcdir)/bootstrap/Makerules.mk
 
 noinst_LTLIBRARIES = libgui-qt.la
