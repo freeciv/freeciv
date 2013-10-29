@@ -914,6 +914,7 @@ static void package_player_common(struct player *plr,
 
   for (i = 0; i < B_LAST/*improvement_count()*/; i++) {
     packet->wonders[i] = plr->wonders[i];
+    packet->wonders_new[i] = plr->wonders[i];
   }
   packet->science_cost = plr->ai_common.science_cost;
 }

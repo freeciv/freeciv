@@ -244,6 +244,8 @@ type BV_UTYPE_ROLES     = bitvector(bv_unit_type_roles)
 # typedefs for IDs
 type BASE               = sint8(Base_type_id)
 type CITY               = UINT16
+# city id, with space for special values
+type CITYSPE            = SINT32
 type CONNECTION         = SINT16
 type CONTINENT          = sint16(Continent_id)
 type EDIT_TECH_MODE     = uint8(enum editor_tech_mode)
@@ -716,7 +718,8 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   UINT8 color_green;
   UINT8 color_blue;
 
-  CITY wonders[B_LAST]; diff
+  CITY wonders[B_LAST]; diff, remove-cap(wonder_city_id)
+  CITYSPE wonders_new[B_LAST]; diff, add-cap(wonder_city_id)
 end
 
 PACKET_PLAYER_PHASE_DONE = 52; cs, dsend

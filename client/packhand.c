@@ -1999,6 +1999,11 @@ void handle_player_info(const struct packet_player_info *pinfo)
 
   for (i = 0; i < B_LAST; i++) {
     pplayer->wonders[i] = pinfo->wonders[i];
+    if (!has_capability("wonder_city_id", client.conn.capability)) {
+      pplayer->wonders[i] = pinfo->wonders_new[i];
+    } else {
+      pplayer->wonders[i] = pinfo->wonders[i];
+    }
   }
 
   /* We need to set ai.control before read_player_info_techs */
