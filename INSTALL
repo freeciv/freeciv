@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 24-Oct-13.
+Last minor update was 27-Oct-13.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -56,9 +56,6 @@ out whether your system is suitable.  If in doubt, just try it.
    Development of Freeciv is primarily done with "gcc", the GNU
    project's excellent C compiler.  Releases can be compiled with gcc
    or most other compilers (such as the unbundled Solaris C compiler).
-   Development releases and svn snapshots will not work without gcc,
-   unless you give configure the "--disable-auto-deps" option.  See
-   the section below for more information.
    Note that there have been reports that gcc with -O3 miscompiled
    freeciv.
 
@@ -67,11 +64,7 @@ out whether your system is suitable.  If in doubt, just try it.
    Freeciv developers generally use "gmake", the GNU make program.
 
    Officially released versions of Freeciv are designed to have
-   makefiles which work with most make programs.  Development releases
-   and svn snapshots contain things (like dependencies) which use
-   gmake's enhanced features, so gmake is necessary for development,
-   unless you give configure the "--disable-auto-deps" option.  See the
-   section below for more information.
+   makefiles which work with most make programs.
 
    You can check if you have GNU make installed on your system by
    typing:
@@ -410,18 +403,6 @@ script, try the --help option, like this:
 
  % ./configure --help
 
-If you're compiling a development release or a svn snapshot, and you
-don't have both GNU make AND gcc, then pass configure the
-"--disable-auto-deps" option.  You'll especially need to do this if
-you're using the Solaris cc and make programs.
-
-Note that if you do this, dependency checking is disabled.  If you
-change any Freeciv .h files after this for any reason, you should do
-a "make clean" before doing "make" to ensure everything is compiled
-correctly.
-
-"--disable-auto-deps" has no effect when run with a stable release.
-
 By default the configure script will choose the Gtk+ client if the 
 required libraries are found. If you prefer to override this default,
 you can give configure the "--enable-client=xaw" option.
@@ -618,17 +599,9 @@ libraries are on their own in the nonstandard location /path/to/xpm:
   % setenv PATH /opt/SUNWspro/bin:/usr/ccs/bin:/bin
   % unsetenv LD_LIBRARY_PATH
   % ./configure --with-xpm-prefix=/path/to/xpm
-                --disable-auto-deps
   % make
 
-The "--disable-auto-deps" prevents ./configure from creating Makefiles
-specific to GNU make.  The symptoms of this happening are:
-
-  make: Fatal error in reader:
-        Makefile, line 214: = missing from replacement macro reference
-  make: Fatal error: Command failed for target `all-recursive'
-
-Alternatively, you can set up your $PATH and ./configure to use only GNU
+You can set up your $PATH and ./configure to use only GNU
 tools.  Furthermore, Freeciv is known to compile with MIT X, and with
 certain combinations of GNU and Sun tools.  The exact recipes depend on your
 local installation.
