@@ -35,6 +35,7 @@
 #include "movement.h"
 #include "packets.h"
 #include "player.h"
+#include "specialist.h"
 #include "traderoutes.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -2574,10 +2575,27 @@ static void dai_set_defenders(struct ai_type *ait, struct player *pplayer)
     int total_attack = def_ai_city_data(pcity, ait)->danger;
     bool emergency = FALSE;
     int count = 0;
+    int mart_max = get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX);
+    int mart_each = get_city_bonus(pcity, EFT_MARTIAL_LAW_EACH);
+    int martless_unhappy = pcity->feel[CITIZEN_UNHAPPY][FEELING_NATIONALITY]
+      + pcity->feel[CITIZEN_ANGRY][FEELING_NATIONALITY];
+    int entertainers = 0;
 
-    while (total_defense <= total_attack) {
+    specialist_type_iterate(sp) {
+      if (get_specialist_output(pcity, sp, O_LUXURY) > 0) {
+        entertainers += pcity->specialists[sp];
+      }
+    } specialist_type_iterate_end;
+
+    martless_unhappy += entertainers; /* We want to use martial law instead
+                                       * of entertainers. */
+
+    while (total_defense <= total_attack
+           || (count < mart_max && mart_each > 0
+               && martless_unhappy > mart_each * count)) {
       int best_want = 0;
       struct unit *best = NULL;
+      bool defense_needed = total_defense <= total_attack; /* Defense or martial */
 
       unit_list_iterate(pcity->tile->units, punit) {
         struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
@@ -2594,12 +2612,16 @@ static void dai_set_defenders(struct ai_type *ait, struct player *pplayer)
         }
       } unit_list_iterate_end;
       if (best == NULL) {
-        /* Ooops - try to grab any unit as defender! */
-        if (emergency) {
-          CITY_LOG(LOG_DEBUG, pcity, "Not defended properly");
+        if (defense_needed) {
+          /* Ooops - try to grab any unit as defender! */
+          if (emergency) {
+            CITY_LOG(LOG_DEBUG, pcity, "Not defended properly");
+            break;
+          }
+          emergency = TRUE;
+        } else {
           break;
         }
-        emergency = TRUE;
       } else {
         int loglevel = pcity->server.debug ? LOG_AI_TEST : LOG_DEBUG;
 
