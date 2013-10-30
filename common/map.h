@@ -128,11 +128,12 @@ static const bool C_CARDINAL = TRUE;
 static const bool C_NUMBER = FALSE;
 static const bool C_PERCENT = TRUE;
 
-#define MAP_IS_ISOMETRIC (topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX))
+#define MAP_IS_ISOMETRIC (current_topo_has_flag(TF_ISO) || current_topo_has_flag(TF_HEX))
 
 #define CURRENT_TOPOLOGY (map.topology_id)
 
-#define topo_has_flag(flag) ((CURRENT_TOPOLOGY & (flag)) != 0)
+#define topo_has_flag(topo, flag) (((topo) & (flag)) != 0)
+#define current_topo_has_flag(flag) topo_has_flag((CURRENT_TOPOLOGY), (flag))
 
 bool map_is_empty(void);
 void map_init(void);

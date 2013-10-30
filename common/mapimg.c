@@ -386,15 +386,17 @@ struct img {
   const struct rgbcolor **map;
 };
 
-static struct img *img_new(struct mapdef *mapdef, int xsize, int ysize);
+static struct img *img_new(struct mapdef *mapdef, int topo, int xsize, int ysize);
 static void img_destroy(struct img *pimg);
 static inline void img_set_pixel(struct img *pimg, const int index,
                                  const struct rgbcolor *pcolor);
 static inline int img_index(const int x, const int y,
                             const struct img *pimg);
 static const char *img_playerstr(const struct player *pplayer);
-static void img_plot(struct img *pimg, const struct tile *ptile,
+static void img_plot(struct img *pimg, int x, int y,
                      const struct rgbcolor *pcolor, const bv_pixel pixel);
+static void img_plot_tile(struct img *pimg, const struct tile *ptile,
+                          const struct rgbcolor *pcolor, const bv_pixel pixel);
 static bool img_save(const struct img *pimg, const char *mapimgfile,
                      const char *path);
 static bool img_save_ppm(const struct img *pimg, const char *mapimgfile);
@@ -1361,7 +1363,7 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
     generate_save_name(savename, mapimgfile, sizeof(mapimgfile),
                        mapimg_generate_name(pmapdef));
 
-    pimg = img_new(pmapdef, map.xsize, map.ysize);
+    pimg = img_new(pmapdef, CURRENT_TOPOLOGY, map.xsize, map.ysize);
     img_createmap(pimg);
     if (!img_save(pimg, mapimgfile, path)) {
       ret = FALSE;
@@ -1384,7 +1386,7 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
       generate_save_name(savename, mapimgfile, sizeof(mapimgfile),
                          mapimg_generate_name(pmapdef));
 
-      pimg = img_new(pmapdef, map.xsize, map.ysize);
+      pimg = img_new(pmapdef, CURRENT_TOPOLOGY, map.xsize, map.ysize);
       img_createmap(pimg);
       if (!img_save(pimg, mapimgfile, path)) {
         ret = FALSE;
@@ -1420,7 +1422,6 @@ bool mapimg_colortest(const char *savename, const char *path)
   struct img *pimg;
   const struct rgbcolor *pcolor;
   struct mapdef *pmapdef = mapdef_new(TRUE);
-  struct tile *ptile;
   char mapimgfile[MAX_LEN_PATH];
   bv_pixel pixel;
   int i, nat_x, nat_y;
@@ -1432,22 +1433,17 @@ bool mapimg_colortest(const char *savename, const char *path)
 #define SIZE_X 16
 #define SIZE_Y 5
 
-  pimg = img_new(pmapdef, SIZE_X + 2,
+  pimg = img_new(pmapdef, 0, SIZE_X + 2,
                  SIZE_Y * (max_playercolor / SIZE_X) + 2);
 
-  /* Get a dummy tile. */
-  ptile = fc_calloc(1, sizeof(*ptile));
-  ptile->index = 0;
-
-  pixel = pimg->pixel_tile(ptile, NULL, FALSE);
+  pixel = pimg->pixel_tile(NULL, NULL, FALSE);
 
   pcolor = imgcolor_special(IMGCOLOR_OCEAN);
   for (i = 0; i < MAX(max_playercolor, max_terraincolor); i++) {
     nat_x = 1 + i % SIZE_X;
     nat_y = 1 + (i / SIZE_X) * SIZE_Y;
-    ptile->index = native_pos_to_index(nat_x, nat_y);
 
-    img_plot(pimg, ptile, pcolor, pixel);
+    img_plot(pimg, nat_x, nat_y, pcolor, pixel);
   }
 
   for (i = 0; i < MAX(max_playercolor, max_terraincolor); i++) {
@@ -1458,18 +1454,16 @@ bool mapimg_colortest(const char *savename, const char *path)
     nat_x = 1 + i % SIZE_X;
     nat_y = 2 + (i / SIZE_X) * SIZE_Y;
     pcolor = mapimg.mapimg_plrcolor_get(i);
-    ptile->index = native_pos_to_index(nat_x, nat_y);
 
-    img_plot(pimg, ptile, pcolor, pixel);
+    img_plot(pimg, nat_x, nat_y, pcolor, pixel);
   }
 
   pcolor = imgcolor_special(IMGCOLOR_GROUND);
   for (i = 0; i < MAX(max_playercolor, max_terraincolor); i++) {
     nat_x = 1 + i % SIZE_X;
     nat_y = 3 + (i / SIZE_X) * SIZE_Y;
-    ptile->index = native_pos_to_index(nat_x, nat_y);
 
-    img_plot(pimg, ptile, pcolor, pixel);
+    img_plot(pimg, nat_x, nat_y, pcolor, pixel);
   }
 
   for (i = 0; i < MAX(max_playercolor, max_terraincolor); i++) {
@@ -1480,13 +1474,9 @@ bool mapimg_colortest(const char *savename, const char *path)
     nat_x = 1 + i % SIZE_X;
     nat_y = 4 + (i / SIZE_X) * SIZE_Y;
     pcolor = imgcolor_terrain(terrain_by_number(i));
-    ptile->index = native_pos_to_index(nat_x, nat_y);
 
-    img_plot(pimg, ptile, pcolor, pixel);
+    img_plot(pimg, nat_x, nat_y, pcolor, pixel);
   }
-
-  /* Free the dummy tile. */
-  free(ptile);
 
 #undef SIZE_X
 #undef SIZE_Y
@@ -1851,7 +1841,7 @@ static const struct toolkit *img_toolkit_get(enum imagetool tool)
 /****************************************************************************
   Create a new image.
 ****************************************************************************/
-static struct img *img_new(struct mapdef *mapdef, int xsize, int ysize)
+static struct img *img_new(struct mapdef *mapdef, int topo, int xsize, int ysize)
 {
   struct img *pimg;
 
@@ -1869,12 +1859,12 @@ static struct img *img_new(struct mapdef *mapdef, int xsize, int ysize)
   pimg->imgsize.x = 0; /* x size of the map image */
   pimg->imgsize.y = 0; /* y size of the map image */
 
-  if (topo_has_flag(TF_HEX)) {
+  if (topo_has_flag(topo, TF_HEX)) {
     /* additional space for hex maps */
     pimg->imgsize.x += TILE_SIZE / 2;
     pimg->imgsize.y += TILE_SIZE / 2;
 
-    if (topo_has_flag(TF_ISO)) {
+    if (topo_has_flag(topo, TF_ISO)) {
       /* iso-hex */
       pimg->imgsize.x += (pimg->mapsize.x + pimg->mapsize.y / 2)
                          * TILE_SIZE;
@@ -1882,8 +1872,8 @@ static struct img *img_new(struct mapdef *mapdef, int xsize, int ysize)
                          * TILE_SIZE;
 
       /* magic for isohexa: change size if wrapping in only one direction */
-      if ((topo_has_flag(TF_WRAPX) && !topo_has_flag(TF_WRAPY))
-          || (!topo_has_flag(TF_WRAPX) && topo_has_flag(TF_WRAPY))) {
+      if ((topo_has_flag(topo, TF_WRAPX) && !topo_has_flag(topo, TF_WRAPY))
+          || (!topo_has_flag(topo, TF_WRAPX) && topo_has_flag(topo, TF_WRAPY))) {
         pimg->imgsize.y += (pimg->mapsize.x - pimg->mapsize.y / 2) / 2
                            * TILE_SIZE;
       }
@@ -1913,7 +1903,7 @@ static struct img *img_new(struct mapdef *mapdef, int xsize, int ysize)
       pimg->base_coor = base_coor_hexa;
     }
   } else {
-    if (topo_has_flag(TF_ISO)) {
+    if (topo_has_flag(topo, TF_ISO)) {
       /* isometric rectangular */
       pimg->imgsize.x += (pimg->mapsize.x + pimg->mapsize.y / 2) * TILE_SIZE;
       pimg->imgsize.y += (pimg->mapsize.x + pimg->mapsize.y / 2) * TILE_SIZE;
@@ -1983,18 +1973,17 @@ static inline int img_index(const int x, const int y,
 }
 
 /****************************************************************************
-  Plot one tile. Only the pixel of the tile set within 'pixel' are ploted.
+  Plot one tile at (x,y). Only the pixel of the tile set within 'pixel' are ploted.
 ****************************************************************************/
-static void img_plot(struct img *pimg, const struct tile *ptile,
+static void img_plot(struct img *pimg, int x, int y,
                      const struct rgbcolor *pcolor, const bv_pixel pixel)
 {
-  int x, y, base_x, base_y, i, index;
+  int base_x, base_y, i, index;
 
   if (!BV_ISSET_ANY(pixel)) {
     return;
   }
 
-  index_to_map_pos(&x, &y, tile_index(ptile));
   pimg->base_coor(pimg, &base_x, &base_y, x, y);
 
   for (i = 0; i < NUM_PIXEL; i++) {
@@ -2004,6 +1993,19 @@ static void img_plot(struct img *pimg, const struct tile *ptile,
       img_set_pixel(pimg, index, pcolor);
     }
   }
+}
+
+/****************************************************************************
+  Plot one tile. Only the pixel of the tile set within 'pixel' are ploted.
+****************************************************************************/
+static void img_plot_tile(struct img *pimg, const struct tile *ptile,
+                          const struct rgbcolor *pcolor, const bv_pixel pixel)
+{
+  int x, y;
+
+  index_to_map_pos(&x, &y, tile_index(ptile));
+
+  img_plot(pimg, x, y, pcolor, pixel);
 }
 
 /****************************************************************************
@@ -2418,14 +2420,14 @@ static void img_createmap(struct img *pimg)
       /* full terrain */
       pixel = pimg->pixel_tile(ptile, pplayer, plr_knowledge);
       pcolor = imgcolor_terrain(pterrain);
-      img_plot(pimg, ptile, pcolor, pixel);
+      img_plot_tile(pimg, ptile, pcolor, pixel);
     } else {
       /* basic terrain */
       pixel = pimg->pixel_tile(ptile, pplayer, plr_knowledge);
       if (is_ocean(pterrain)) {
-        img_plot(pimg, ptile, imgcolor_special(IMGCOLOR_OCEAN), pixel);
+        img_plot_tile(pimg, ptile, imgcolor_special(IMGCOLOR_OCEAN), pixel);
       } else {
-        img_plot(pimg, ptile, imgcolor_special(IMGCOLOR_GROUND), pixel);
+        img_plot_tile(pimg, ptile, imgcolor_special(IMGCOLOR_GROUND), pixel);
       }
     }
 
@@ -2438,7 +2440,7 @@ static void img_createmap(struct img *pimg)
         /* the tile is land and inside the players borders */
         pixel = pimg->pixel_tile(ptile, pplayer, plr_knowledge);
         pcolor = imgcolor_player(player_id);
-        img_plot(pimg, ptile, pcolor, pixel);
+        img_plot_tile(pimg, ptile, pcolor, pixel);
       } else if (pimg->def->layers[MAPIMG_LAYER_BORDERS]
                  && (BV_ISSET(pimg->def->player.checked_plrbv, player_id)
                      || (plr_knowledge && pplayer != NULL))) {
@@ -2446,7 +2448,7 @@ static void img_createmap(struct img *pimg)
          * displayed player */
         pixel = pimg->pixel_border(ptile, pplayer, plr_knowledge);
         pcolor = imgcolor_player(player_id);
-        img_plot(pimg, ptile, pcolor, pixel);
+        img_plot_tile(pimg, ptile, pcolor, pixel);
       }
     }
 
@@ -2461,7 +2463,7 @@ static void img_createmap(struct img *pimg)
          * displayed player */
         pixel = pimg->pixel_city(ptile, pplayer, plr_knowledge);
         pcolor = imgcolor_player(player_id);
-        img_plot(pimg, ptile, pcolor, pixel);
+        img_plot_tile(pimg, ptile, pcolor, pixel);
       }
     } else if (pimg->def->layers[MAPIMG_LAYER_UNITS] && plr_unit) {
       player_id = player_index(plr_unit);
@@ -2471,7 +2473,7 @@ static void img_createmap(struct img *pimg)
          * displayed player */
         pixel = pimg->pixel_unit(ptile, pplayer, plr_knowledge);
         pcolor = imgcolor_player(player_id);
-        img_plot(pimg, ptile, pcolor, pixel);
+        img_plot_tile(pimg, ptile, pcolor, pixel);
       }
     }
 
@@ -2481,7 +2483,7 @@ static void img_createmap(struct img *pimg)
         && tile_knowledge == TILE_KNOWN_UNSEEN) {
       pixel = pimg->pixel_fogofwar(ptile, pplayer, plr_knowledge);
       pcolor = NULL;
-      img_plot(pimg, ptile, pcolor, pixel);
+      img_plot_tile(pimg, ptile, pcolor, pixel);
     }
   } whole_map_iterate_end;
 }
