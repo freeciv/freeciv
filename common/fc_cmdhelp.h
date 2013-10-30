@@ -17,10 +17,6 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
 struct cmdhelp;
 
 struct cmdhelp *cmdhelp_new(const char *cmdname);
@@ -30,5 +26,9 @@ void cmdhelp_add(struct cmdhelp *pcmdhelp, const char *shortarg,
                  fc__attribute((__format__(__printf__, 4, 5)));
 void cmdhelp_display(struct cmdhelp *pcmdhelp, bool sort, bool gui_options,
                      bool report_bugs);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__FC_CMDHELP_H */
