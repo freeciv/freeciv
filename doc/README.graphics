@@ -216,26 +216,33 @@ more than 3 layers (either in this section or in the [tile_XXX] sections).
                            First letter of the match_type must be unique
                            within layer.
 
-  Road options
+  Extra options
   ------------
 
-  Tilespec should define style of road graphics for each road type in
-  section [roads] like:
+  Tilespec should define style of extra graphics for each extra type in
+  section [extras] like:
 
-  [roads]
+  [extras]
   styles =
-      { "name", "style"
-        "road", "AllSeparate"
-        "rail", "AllSeparate"
+      { "name",          "style"
+        "road",          "RoadAllSeparate"
+        "rail",          "RoadAllSeparate"
+        "river",         "River"
+        "tx.irrigation", "Cardinals"
       }
 
-  AllSeparate    : A single sprite is drawn for every connection the tile has;
-                   only 8 sprites are needed.
-  ParityCombined : A single sprite is drawn for all cardinal connections and
-                   a second sprite is drawn for all diagonal connections;
-                   32 sprites are needed.
-  AllCombined    : One sprite is drawn to show roads in all directions.
-                   There are thus 256 sprites (64 for a hex tileset).
+  RoadAllSeparate    : A single sprite is drawn for every connection the tile has;
+                       only 8 sprites are needed.
+  RoadParityCombined : A single sprite is drawn for all cardinal connections and
+                       a second sprite is drawn for all diagonal connections;
+                       32 sprites are needed.
+  RoadAllCombined    : One sprite is drawn to show roads in all directions.
+                       There are thus 256 sprites (64 for a hex tileset).
+  River              : Cardinal connections are drawn, as well as delta at the coast
+  Single1            : Single sprite at layer Special1
+  Single2            : Single sprite at layer Special2
+  3Layer             : 3 Sprites, tagged <name>_bg, <name>_mg, and <name>_fg
+  Cardinals          : Sprite for each cardinal connection
 
 ----------------------------------------------------------------------
 Individual spec files:

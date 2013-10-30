@@ -196,10 +196,19 @@ blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
-[roads]
+[extras]
 styles =
-    { "name",  "style"
-      "road",  "AllSeparate"
-      "rail",  "AllSeparate"
-      "river", "River"
+    { "name",          "style"
+      "road",          "RoadAllSeparate"
+      "rail",          "RoadAllSeparate"
+      "river",         "River"
+      "tx.irrigation", "Cardinals"
+      "tx.farmland",   "Cardinals"
+      "tx.mine",       "Single1"
+      "tx.pollution",  "Single2"
+      "tx.fallout",    "Single2"
+      "tx.village",    "Single1"
+      "base.fortress", "3Layer"
+      "base.airbase",  "3Layer"
+      "base.ruins",    "3Layer"
     }

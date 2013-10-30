@@ -38,6 +38,9 @@ extern "C" {
 /* Extra is always present in cities */
 #define SPECENUM_VALUE4 EF_ALWAYS_ON_CITY_CENTER
 #define SPECENUM_VALUE4NAME "AlwaysOnCityCenter"
+/* Road style gfx from ocean extra connects to nearby land */
+#define SPECENUM_VALUE5 EF_CONNECT_LAND
+#define SPECENUM_VALUE5NAME "ConnectLand"
 #define SPECENUM_COUNT EF_COUNT
 #define SPECENUM_BITVECTOR bv_extra_flags
 #include "specenum_gen.h"

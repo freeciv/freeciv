@@ -819,6 +819,9 @@ shield      = 3
 ;                           matter about reqs.
 ;   - "AutoOnCityCenter"  = City Center tiles will automatically have this
 ;                           extra type if the player can build it.
+;   - "ConnectLand"       = Road style gfx on Oceanic tiles are drawn to connect to
+;                           adjacent. Land tiles even if they have no extra.
+;                           This affects appearance only
 ;
 ; */ <-- avoid gettext warnings
 
@@ -1061,9 +1064,6 @@ airbase may be attacked by land units.\
 ;                           and one river specials:
 ;                           "Road", "Railroad", "River, or "None"
 ; flags
-;   - "ConnectLand"       = Roads on Oceanic tiles are drawn to connect to adjacent
-;                           Land tiles even if they have no road. This affects
-;                           appearance only
 ;   - "RequiresBridge"    = Road cannot be built to river tiles without
 ;                           appropriate technologies
 ;   - "PreventsOtherRoads" = Other roads with "RequiresBridge" flag cannot be built

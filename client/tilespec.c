@@ -111,15 +111,24 @@
 #define MAX_NUM_CITIZEN_SPRITES 6
 #define MAX_NUM_UPKEEP_SPRITES 10
 
-#define SPECENUM_NAME roadstyle_id
-#define SPECENUM_VALUE0 RSTYLE_ALL_SEPARATE
-#define SPECENUM_VALUE0NAME "AllSeparate"
-#define SPECENUM_VALUE1 RSTYLE_PARITY_COMBINED
-#define SPECENUM_VALUE1NAME "ParityCombined"
-#define SPECENUM_VALUE2 RSTYLE_ALL_COMBINED
-#define SPECENUM_VALUE2NAME "AllCombined"
-#define SPECENUM_VALUE3 RSTYLE_RIVER
+#define SPECENUM_NAME extrastyle_id
+#define SPECENUM_VALUE0 ESTYLE_ROAD_ALL_SEPARATE
+#define SPECENUM_VALUE0NAME "RoadAllSeparate"
+#define SPECENUM_VALUE1 ESTYLE_ROAD_PARITY_COMBINED
+#define SPECENUM_VALUE1NAME "RoadParityCombined"
+#define SPECENUM_VALUE2 ESTYLE_ROAD_ALL_COMBINED
+#define SPECENUM_VALUE2NAME "RoadAllCombined"
+#define SPECENUM_VALUE3 ESTYLE_RIVER
 #define SPECENUM_VALUE3NAME "River"
+#define SPECENUM_VALUE4 ESTYLE_SINGLE1
+#define SPECENUM_VALUE4NAME "Single1"
+#define SPECENUM_VALUE5 ESTYLE_SINGLE2
+#define SPECENUM_VALUE5NAME "Single2"
+#define SPECENUM_VALUE6 ESTYLE_3LAYER
+#define SPECENUM_VALUE6NAME "3Layer"
+#define SPECENUM_VALUE7 ESTYLE_CARDINALS
+#define SPECENUM_VALUE7NAME "Cardinals"
+#define SPECENUM_COUNT ESTYLE_COUNT
 #include "specenum_gen.h"
 
 /* This could be moved to common/map.h if there's more use for it. */
@@ -315,6 +324,7 @@ struct named_sprites {
     struct sprite
       *activity,
       *rmact;
+    enum extrastyle_id extrastyle;
     union {
       struct sprite *single;
       struct sprite *cardinals[MAX_INDEX_CARDINAL];
@@ -325,21 +335,20 @@ struct named_sprites {
           *foreground;
       } bmf;
       struct {
-        enum roadstyle_id roadstyle;
         struct sprite
-        /* for roadstyles RSTYLE_ALL_SEPARATE and RSTYLE_PARITY_COMBINED */
-        *isolated,
+        /* for extrastyles ESTYLE_ROAD_ALL_SEPARATE and ESTYLE_ROAD_PARITY_COMBINED */
+          *isolated,
           *corner[8]; /* Indexed by direction; only non-cardinal dirs used. */
         union {
-          /* for RSTYLE_ALL_SEPARATE */
+          /* for ESTYLE_ROAD_ALL_SEPARATE */
           struct sprite *dir[8];     /* all entries used */
-          /* RSTYLE_PARITY_COMBINED */
+          /* ESTYLE_ROAD_PARITY_COMBINED */
           struct {
             struct sprite
-            *even[MAX_INDEX_HALF],    /* first unused */
+              *even[MAX_INDEX_HALF],    /* first unused */
               *odd[MAX_INDEX_HALF];     /* first unused */
           } combo;
-          /* RSTYLE_ALL_SEPARATE */
+          /* ESTYLE_ALL_SEPARATE */
           struct sprite *total[MAX_INDEX_VALID];
           struct river_sprites rivers;
         } ru;
@@ -468,9 +477,9 @@ static void drawing_data_destroy(struct drawing_data *draw);
 #define SPECHASH_DATA_FREE drawing_data_destroy
 #include "spechash.h"
 
-#define SPECHASH_TAG rstyle
+#define SPECHASH_TAG estyle
 #define SPECHASH_KEY_TYPE char *
-#define SPECHASH_DATA_TYPE enum roadstyle_id *
+#define SPECHASH_DATA_TYPE enum extrastyle_id *
 #define SPECHASH_KEY_VAL genhash_str_val_func
 #define SPECHASH_KEY_COMP genhash_str_comp_func
 #include "spechash.h"
@@ -524,13 +533,13 @@ struct tileset {
   /* This hash table maps terrain graphic strings to drawing data. */
   struct drawing_hash *tile_hash;
 
-  struct rstyle_hash *rstyle_hash;
+  struct estyle_hash *estyle_hash;
 
   struct named_sprites sprites;
 
   struct color_system *color_system;
 
-  struct extra_type_list *rivers;
+  struct extra_type_list *style_lists[ESTYLE_COUNT];
 
   int num_prefered_themes;
   char** prefered_themes;
@@ -556,6 +565,8 @@ static void tileset_setup_base(struct tileset *t,
                                const struct extra_type *pextra);
 static void tileset_setup_road(struct tileset *t,
                                struct extra_type *pextra);
+
+static bool is_extra_drawing_enabled(struct extra_type *pextra);
 
 /****************************************************************************
   Called when ever there's problem in ruleset/tileset compatibility
@@ -998,13 +1009,15 @@ static void tileset_free_toplevel(struct tileset *t)
     drawing_hash_destroy(t->tile_hash);
     t->tile_hash = NULL; /* Helpful for sanity. */
   }
-  if (t->rstyle_hash) {
-    rstyle_hash_destroy(t->rstyle_hash);
-    t->rstyle_hash = NULL;
+  if (t->estyle_hash) {
+    estyle_hash_destroy(t->estyle_hash);
+    t->estyle_hash = NULL;
   }
-  if (t->rivers != NULL) {
-    extra_type_list_destroy(t->rivers);
-    t->rivers = NULL;
+  for (i = 0; i < ESTYLE_COUNT; i++) {
+    if (t->style_lists[i] != NULL) {
+      extra_type_list_destroy(t->style_lists[i]);
+      t->style_lists[i] = NULL;
+    }
   }
  
   for (i = 0; i < MAX_NUM_LAYERS; i++) {
@@ -1504,7 +1517,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   const int spl = strlen(TILE_SECTION_PREFIX);
   struct tileset *t = NULL;
   int ei1, ei2;
-  const char *roadname;
+  const char *extraname;
   const char *tstr;
 
   fname = tilespec_fullname(tileset_name);
@@ -1883,31 +1896,34 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   section_list_destroy(sections);
   sections = NULL;
 
-  t->rstyle_hash = rstyle_hash_new();
-  t->rivers = extra_type_list_new();
+  t->estyle_hash = estyle_hash_new();
 
-  for (i = 0; (roadname = secfile_lookup_str_default(file, NULL,
-                                                     "roads.styles%d.name",
-                                                     i)); i++) {
+  for (i = 0; i < ESTYLE_COUNT; i++) {
+    t->style_lists[i] = extra_type_list_new();
+  }
+
+  for (i = 0; (extraname = secfile_lookup_str_default(file, NULL,
+                                                      "extras.styles%d.name",
+                                                      i)); i++) {
     const char *style_name;
-    enum roadstyle_id *style = fc_malloc(sizeof(enum roadstyle_id));
+    enum extrastyle_id *style = fc_malloc(sizeof(enum extrastyle_id));
     char *name;
 
-    style_name = secfile_lookup_str_default(file, "AllSeparate",
-                                            "roads.styles%d.style", i);
-    *style = roadstyle_id_by_name(style_name, fc_strcasecmp);
-    if (!roadstyle_id_is_valid(*style)) {
-      log_error("Unknown road style \"%s\" for road \"%s\"",
-                style_name, roadname);
+    style_name = secfile_lookup_str_default(file, "Single1",
+                                            "extras.styles%d.style", i);
+    *style = extrastyle_id_by_name(style_name, fc_strcasecmp);
+    if (!extrastyle_id_is_valid(*style)) {
+      log_error("Unknown extra style \"%s\" for road \"%s\"",
+                style_name, extraname);
       FC_FREE(style);
       goto ON_ERROR;
     }
 
-    name = fc_malloc(strlen(roadname) + 1);
-    strcpy(name, roadname);
+    name = fc_malloc(strlen(extraname) + 1);
+    strcpy(name, extraname);
 
-    if (!rstyle_hash_insert(t->rstyle_hash, name, style)) {
-      log_error("warning: duplicate roadstyle entry [%s].", roadname);
+    if (!estyle_hash_insert(t->estyle_hash, name, style)) {
+      log_error("warning: duplicate extrastyle entry [%s].", extraname);
       FC_FREE(name);
       FC_FREE(style);
       goto ON_ERROR;
@@ -2970,50 +2986,71 @@ void tileset_setup_extra(struct tileset *t,
                          struct extra_type *pextra)
 {
   const int id = extra_index(pextra);
+  enum extrastyle_id *extrastyle;
 
-  if (pextra->causes & (1 << EC_BASE)) {
+  if (!estyle_hash_lookup(t->estyle_hash, pextra->graphic_str,
+                          &extrastyle)
+      && !estyle_hash_lookup(t->estyle_hash, pextra->graphic_alt,
+                             &extrastyle)) {
+    tileset_error(LOG_FATAL, _("No extrastyle for \"%s\" or \"%s\"."),
+                  pextra->graphic_str,
+                  pextra->graphic_alt);
+  }
+
+  t->sprites.extras[id].extrastyle = *extrastyle;
+
+  extra_type_list_append(t->style_lists[*extrastyle], pextra);
+
+  switch (*extrastyle) {
+  case ESTYLE_3LAYER:
     tileset_setup_base(t, pextra);
-  }
+    break;
 
-  if (pextra->causes & (1 << EC_ROAD)) {
+  case ESTYLE_ROAD_ALL_SEPARATE:
+  case ESTYLE_ROAD_PARITY_COMBINED:
+  case ESTYLE_ROAD_ALL_COMBINED:
+  case ESTYLE_RIVER:
     tileset_setup_road(t, pextra);
-  }
+    break;
 
-  if (pextra->causes & (1 << EC_POLLUTION)
-      || pextra->causes & (1 << EC_FALLOUT)
-      || pextra->causes & (1 << EC_HUT)
-      || pextra->causes & (1 << EC_MINE)) {
+  case ESTYLE_SINGLE1:
+  case ESTYLE_SINGLE2:
     SET_SPRITE_ALT(extras[id].u.single, pextra->graphic_str, pextra->graphic_alt);
-  }
+    break;
 
-  if (pextra->causes & (1 << EC_IRRIGATION)) {
-    int i;
-    char buffer[512];
+  case ESTYLE_CARDINALS:
+    {
+      int i;
+      char buffer[512];
 
-    /* We use direction-specific irrigation and farmland graphics, if they
-     * are available.  If not, we just fall back to the basic irrigation
-     * graphics. */
-    for (i = 0; i < t->num_index_cardinal; i++) {
-      fc_snprintf(buffer, sizeof(buffer), "%s_%s",
-                  pextra->graphic_str, cardinal_index_str(t, i));
-      t->sprites.extras[id].u.cardinals[i] = load_sprite(t, buffer);
-      if (!t->sprites.extras[id].u.cardinals[i]) {
-        t->sprites.extras[id].u.cardinals[i] = load_sprite(t, pextra->graphic_str);
-      }
-      if (!t->sprites.extras[id].u.cardinals[i]) {
+      /* We use direction-specific irrigation and farmland graphics, if they
+       * are available.  If not, we just fall back to the basic irrigation
+       * graphics. */
+      for (i = 0; i < t->num_index_cardinal; i++) {
         fc_snprintf(buffer, sizeof(buffer), "%s_%s",
-                    pextra->graphic_alt, cardinal_index_str(t, i));
+                    pextra->graphic_str, cardinal_index_str(t, i));
         t->sprites.extras[id].u.cardinals[i] = load_sprite(t, buffer);
-      }
-      if (!t->sprites.extras[id].u.cardinals[i]) {
-        t->sprites.extras[id].u.cardinals[i] = load_sprite(t, pextra->graphic_alt);
-      }
-      if (!t->sprites.extras[id].u.cardinals[i]) {
-        tileset_error(LOG_FATAL, _("Sprite tag '%s' and alternate '%s' are "
-                                   "both missing."),
-                      pextra->graphic_str, pextra->graphic_alt);
+        if (!t->sprites.extras[id].u.cardinals[i]) {
+          t->sprites.extras[id].u.cardinals[i] = load_sprite(t, pextra->graphic_str);
+        }
+        if (!t->sprites.extras[id].u.cardinals[i]) {
+          fc_snprintf(buffer, sizeof(buffer), "%s_%s",
+                      pextra->graphic_alt, cardinal_index_str(t, i));
+          t->sprites.extras[id].u.cardinals[i] = load_sprite(t, buffer);
+        }
+        if (!t->sprites.extras[id].u.cardinals[i]) {
+          t->sprites.extras[id].u.cardinals[i] = load_sprite(t, pextra->graphic_alt);
+        }
+        if (!t->sprites.extras[id].u.cardinals[i]) {
+          tileset_error(LOG_FATAL, _("Sprite tag '%s' and alternate '%s' are "
+                                     "both missing."),
+                        pextra->graphic_str, pextra->graphic_alt);
+        }
       }
     }
+    break;
+  case ESTYLE_COUNT:
+    break;
   }
 
   if (!fc_strcasecmp(pextra->activity_gfx, "none")) {
@@ -3054,26 +3091,12 @@ static void tileset_setup_road(struct tileset *t,
   char full_alt_name[MAX_LEN_NAME + strlen("r._isolated")];
   const int id = extra_index(pextra);
   int i;
-  enum roadstyle_id *roadstyle;
+  enum extrastyle_id extrastyle = t->sprites.extras[id].extrastyle;
 
-  if (!rstyle_hash_lookup(t->rstyle_hash, pextra->graphic_str,
-                          &roadstyle)
-      && !rstyle_hash_lookup(t->rstyle_hash, pextra->graphic_alt,
-                             &roadstyle)) {
-    tileset_error(LOG_FATAL, _("No roadstyle for \"%s\" or \"%s\"."),
-                  pextra->graphic_str,
-                  pextra->graphic_alt);
-  }
-
-  t->sprites.extras[id].u.road.roadstyle = *roadstyle;
-
-  if (*roadstyle == RSTYLE_RIVER) {
-    extra_type_list_append(t->rivers, pextra);
-  }
-
-  /* Isolated road graphics are used by RSTYLE_ALL_SEPARATE and
-     RSTYLE_PARITY_COMBINED. */
-  if (*roadstyle == RSTYLE_ALL_SEPARATE || *roadstyle == RSTYLE_PARITY_COMBINED) {
+  /* Isolated road graphics are used by ESTYLE_ROAD_ALL_SEPARATE and
+     ESTYLE_ROAD_PARITY_COMBINED. */
+  if (extrastyle == ESTYLE_ROAD_ALL_SEPARATE
+      || extrastyle == ESTYLE_ROAD_PARITY_COMBINED) {
     fc_snprintf(full_tag_name, sizeof(full_tag_name),
                 "r.%s_isolated", pextra->graphic_str);
     fc_snprintf(full_alt_name, sizeof(full_alt_name),
@@ -3082,8 +3105,8 @@ static void tileset_setup_road(struct tileset *t,
     SET_SPRITE_ALT(extras[id].u.road.isolated, full_tag_name, full_alt_name);
   }
 
-  if (*roadstyle == RSTYLE_ALL_SEPARATE) {
-    /* RSTYLE_ALL_SEPARATE has just 8 additional sprites for each road type:
+  if (extrastyle == ESTYLE_ROAD_ALL_SEPARATE) {
+    /* ESTYLE_ROAD_ALL_SEPARATE has just 8 additional sprites for each road type:
      * one going off in each direction. */
     for (i = 0; i < t->num_valid_tileset_dirs; i++) {
       enum direction8 dir = t->valid_tileset_dirs[i];
@@ -3096,10 +3119,10 @@ static void tileset_setup_road(struct tileset *t,
 
       SET_SPRITE_ALT(extras[id].u.road.ru.dir[i], full_tag_name, full_alt_name);
     }
-  } else if (*roadstyle == RSTYLE_PARITY_COMBINED) {
+  } else if (extrastyle == ESTYLE_ROAD_PARITY_COMBINED) {
     int num_index = 1 << (t->num_valid_tileset_dirs / 2), j;
 
-    /* RSTYLE_PARITY_COMBINED has 32 additional sprites for each road type:
+    /* ESTYLE_ROAD_PARITY_COMBINED has 32 additional sprites for each road type:
      * 16 each for cardinal and diagonal directions.  Each set
      * of 16 provides a NSEW-indexed sprite to provide connectors for
      * all rails in the cardinal/diagonal directions.  The 0 entry is
@@ -3133,8 +3156,8 @@ static void tileset_setup_road(struct tileset *t,
 
       SET_SPRITE_ALT(extras[id].u.road.ru.combo.odd[i], full_tag_name, full_alt_name);
     }
-  } else if (*roadstyle == RSTYLE_ALL_COMBINED) {
-    /* RSTYLE_ALL_COMBINED includes 256 sprites, one for every possibility.
+  } else if (extrastyle == ESTYLE_ROAD_ALL_COMBINED) {
+    /* ESTYLE_ROAD_ALL_COMBINED includes 256 sprites, one for every possibility.
      * Just go around clockwise, with all combinations. */
     for (i = 0; i < t->num_index_valid; i++) {
       char *idx_str = valid_index_str(t, i);
@@ -3146,7 +3169,7 @@ static void tileset_setup_road(struct tileset *t,
 
       SET_SPRITE_ALT(extras[id].u.road.ru.total[i], full_tag_name, full_alt_name);
     }
-  } else if (*roadstyle == RSTYLE_RIVER) {
+  } else if (extrastyle == ESTYLE_RIVER) {
     if (!load_river_sprites(t, &t->sprites.extras[id].u.road.ru.rivers,
                             pextra->graphic_str)) {
       if (!load_river_sprites(t, &t->sprites.extras[id].u.road.ru.rivers,
@@ -3159,9 +3182,10 @@ static void tileset_setup_road(struct tileset *t,
     fc_assert(FALSE);
   }
 
-  /* Corner road graphics are used by RSTYLE_ALL_SEPARATE and
-   * RSTYLE_PARITY_COMBINED. */
-  if (*roadstyle == RSTYLE_ALL_SEPARATE || *roadstyle == RSTYLE_PARITY_COMBINED) {
+  /* Corner road graphics are used by ESTYLE_ROAD_ALL_SEPARATE and
+   * ESTYLE_ROAD_PARITY_COMBINED. */
+  if (extrastyle == ESTYLE_ROAD_ALL_SEPARATE
+      || extrastyle == ESTYLE_ROAD_PARITY_COMBINED) {
     for (i = 0; i < t->num_valid_tileset_dirs; i++) {
       enum direction8 dir = t->valid_tileset_dirs[i];
 
@@ -3780,20 +3804,18 @@ static int fill_unit_sprite_array(const struct tileset *t,
   Add any corner road sprites to the sprite array.
 **************************************************************************/
 static int fill_road_corner_sprites(const struct tileset *t,
-                                    const struct road_type *proad,
+                                    const struct extra_type *pextra,
 				    struct drawn_sprite *sprs,
 				    bool road, bool *road_near,
 				    bool hider, bool *hider_near)
 {
   struct drawn_sprite *saved_sprs = sprs;
   int i;
-  int extra_idx = extra_index(road_extra_get(proad));
+  int extra_idx = extra_index(pextra);
 
-  if (is_cardinal_only_road(road_extra_get(proad))) {
+  if (is_cardinal_only_road(pextra)) {
     return 0;
   }
-
-  fc_assert_ret_val(draw_roads_rails, 0);
 
   /* Roads going diagonally adjacent to this tile need to be
    * partly drawn on this tile. */
@@ -3833,7 +3855,7 @@ static int fill_road_corner_sprites(const struct tileset *t,
   Fill all road and rail sprites into the sprite array.
 **************************************************************************/
 static int fill_road_sprite_array(const struct tileset *t,
-                                  const struct road_type *proad,
+                                  const struct extra_type *pextra,
                                   struct drawn_sprite *sprs,
                                   bv_extras textras,
                                   bv_extras *textras_near,
@@ -3845,26 +3867,15 @@ static int fill_road_sprite_array(const struct tileset *t,
   bool land_near[8], hland_near[8];
   bool draw_road[8], draw_single_road;
   enum direction8 dir;
-  struct extra_type *pextra;
   int extra_idx = -1;
   bool cl = FALSE;
-  enum roadstyle_id roadstyle;
+  enum extrastyle_id extrastyle;
 
-  if (!draw_roads_rails) {
-    /* Don't draw anything. */
-    return 0;
-  }
-
-  pextra = road_extra_get(proad);
   extra_idx = extra_index(pextra);
 
-  roadstyle = t->sprites.extras[extra_idx].u.road.roadstyle;
+  extrastyle = t->sprites.extras[extra_idx].extrastyle;
 
-  if (roadstyle == RSTYLE_RIVER) {
-    return 0;
-  }
-
-  if (road_has_flag(proad, RF_CONNECT_LAND)) {
+  if (extra_has_flag(pextra, EF_CONNECT_LAND)) {
     cl = TRUE;
   } else {
     int i;
@@ -3931,7 +3942,7 @@ static int fill_road_sprite_array(const struct tileset *t,
         }
         if (hland_near[dir]
             && phider->type == EXTRA_ROAD
-            && road_has_flag(extra_road_get(phider), RF_CONNECT_LAND)) {
+            && extra_has_flag(phider, EF_CONNECT_LAND)) {
           land_dir = TRUE;
         }
         if (hider_dir || land_dir) {
@@ -3955,10 +3966,10 @@ static int fill_road_sprite_array(const struct tileset *t,
 
   /* Draw road corners */
   sprs
-    += fill_road_corner_sprites(t, proad, sprs, road, road_near, hider, hider_near);
+    += fill_road_corner_sprites(t, pextra, sprs, road, road_near, hider, hider_near);
 
-  if (roadstyle == RSTYLE_ALL_SEPARATE) {
-    /* With RSTYLE_ALL_SEPARATE, we simply draw one road for every connection.
+  if (extrastyle == ESTYLE_ROAD_ALL_SEPARATE) {
+    /* With ESTYLE_ROAD_ALL_SEPARATE, we simply draw one road for every connection.
      * This means we only need a few sprites, but a lot of drawing is
      * necessary and it generally doesn't look very good. */
     int i;
@@ -3971,9 +3982,9 @@ static int fill_road_sprite_array(const struct tileset *t,
 	}
       }
     }
-  } else if (roadstyle == RSTYLE_PARITY_COMBINED) {
-    /* With RSTYLE_PARITY_COMBINED, we draw one sprite for cardinal road connections,
-     * one sprite for diagonal road connections, and the same for rail.
+  } else if (extrastyle == ESTYLE_ROAD_PARITY_COMBINED) {
+    /* With ESTYLE_ROAD_PARITY_COMBINED, we draw one sprite for cardinal
+     * road connections, one sprite for diagonal road connections.
      * This means we need about 4x more sprites than in style 0, but up to
      * 4x less drawing is needed.  The drawing quality may also be
      * improved. */
@@ -4002,7 +4013,7 @@ static int fill_road_sprite_array(const struct tileset *t,
 	ADD_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.ru.combo.odd[road_odd_tileno]);
       }
     }
-  } else if (roadstyle == RSTYLE_ALL_COMBINED) {
+  } else if (extrastyle == ESTYLE_ROAD_ALL_COMBINED) {
     /* RSTYLE_ALL_COMBINED is a very simple method that lets us simply retrieve 
      * entire finished tiles, with a bitwise index of the presence of
      * roads in each direction. */
@@ -4027,9 +4038,10 @@ static int fill_road_sprite_array(const struct tileset *t,
     fc_assert(FALSE);
   }
 
-  /* Draw isolated rail/road separately (RSTYLE_ALL_SEPARATE and
-     RSTYLE_PARITY_COMBINED only). */
-  if (roadstyle == RSTYLE_ALL_SEPARATE || roadstyle == RSTYLE_PARITY_COMBINED) { 
+  /* Draw isolated rail/road separately (ESTYLE_ROAD_ALL_SEPARATE and
+     ESTYLE_ROAD_PARITY_COMBINED only). */
+  if (extrastyle == ESTYLE_ROAD_ALL_SEPARATE
+      || extrastyle == ESTYLE_ROAD_PARITY_COMBINED) { 
     if (draw_single_road) {
       ADD_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.isolated);
     }
@@ -4048,6 +4060,7 @@ static int fill_road_sprite_array(const struct tileset *t,
   this).
 **************************************************************************/
 static int get_irrigation_index(const struct tileset *t,
+                                struct extra_type *pextra,
                                 bv_extras *textras_near)
 {
   int tileno = 0, i;
@@ -4055,11 +4068,9 @@ static int get_irrigation_index(const struct tileset *t,
   for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
     enum direction8 dir = t->cardinal_tileset_dirs[i];
 
-    extra_type_by_cause_iterate(EC_IRRIGATION, pextra) {
-      if (BV_ISSET(textras_near[dir], extra_index(pextra))) {
-        tileno |= 1 << i;
-      }
-    } extra_type_by_cause_iterate_end;
+    if (BV_ISSET(textras_near[dir], extra_index(pextra))) {
+      tileno |= 1 << i;
+    }
   }
 
   return tileno;
@@ -4076,33 +4087,31 @@ static int fill_irrigation_sprite_array(const struct tileset *t,
 {
   struct drawn_sprite *saved_sprs = sprs;
 
-  fc_assert_ret_val(!BV_ISSET(textras, extra_index(special_extra_get(S_FARMLAND)))
-                    || BV_ISSET(textras, extra_index(special_extra_get(S_IRRIGATION))),
-                    0);
-
   /* We don't draw the irrigation if there's a city (it just gets overdrawn
    * anyway, and ends up looking bad). */
-  if (draw_irrigation && !(pcity && draw_cities)) {
-    extra_type_by_cause_iterate(EC_IRRIGATION, pextra) {
-      int eidx = extra_index(pextra);
+  if (!(pcity && draw_cities)) {
+    extra_type_list_iterate(t->style_lists[ESTYLE_CARDINALS], pextra) {
+      if (is_extra_drawing_enabled(pextra)) {
+        int eidx = extra_index(pextra);
 
-      if (BV_ISSET(textras, eidx)) {
-        bool hidden = FALSE;
+        if (BV_ISSET(textras, eidx)) {
+          bool hidden = FALSE;
 
-        extra_type_list_iterate(pextra->hiders, phider) {
-          if (BV_ISSET(textras, extra_index(phider))) {
-            hidden = TRUE;
-            break;
+          extra_type_list_iterate(pextra->hiders, phider) {
+            if (BV_ISSET(textras, extra_index(phider))) {
+              hidden = TRUE;
+              break;
+            }
+          } extra_type_list_iterate_end;
+
+          if (!hidden) {
+            int index = get_irrigation_index(t, pextra, textras_near);
+
+            ADD_SPRITE_SIMPLE(t->sprites.extras[eidx].u.cardinals[index]);
           }
-        } extra_type_list_iterate_end;
-
-        if (!hidden) {
-          int index = get_irrigation_index(t, textras_near);
-
-          ADD_SPRITE_SIMPLE(t->sprites.extras[eidx].u.cardinals[index]);
         }
       }
-    } extra_type_by_cause_iterate_end;
+    } extra_type_list_iterate_end;
   }
 
   return sprs - saved_sprs;
@@ -4748,6 +4757,46 @@ static int fill_goto_sprite_array(const struct tileset *t,
 }
 
 /****************************************************************************
+  Should the given extra be drawn
+****************************************************************************/
+static bool is_extra_drawing_enabled(struct extra_type *pextra)
+{
+  if (pextra->causes & (1 << EC_IRRIGATION)) {
+    if (!draw_irrigation) {
+      return FALSE;
+    }
+  }
+  if (pextra->causes & (1 << EC_POLLUTION)
+      || pextra->causes & (1 << EC_FALLOUT)) {
+    if (!draw_pollution) {
+      return FALSE;
+    }
+  }
+  if (pextra->causes & (1 << EC_MINE)) {
+    if (!draw_mines) {
+      return FALSE;
+    }
+  }
+  if (pextra->causes & (1 << EC_HUT)) {
+    if (!draw_specials) {
+      return FALSE;
+    }
+  }
+  if (pextra->causes & (1 << EC_BASE)) {
+    if (!draw_fortress_airbase) {
+      return FALSE;
+    }
+  }
+  if (pextra->causes & (1 << EC_ROAD)) {
+    if (!draw_roads_rails) {
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
   Fill in the sprite array for the given tile, city, and unit.
 
   ptile, if specified, gives the tile.  If specified the terrain and specials
@@ -4873,7 +4922,7 @@ int fill_sprite_array(struct tileset *t,
 	for (dir = 0; dir < 4; dir++) {
           int didx = DIR4_TO_DIR8[dir];
 
-          extra_type_list_iterate(t->rivers, priver) {
+          extra_type_list_iterate(t->style_lists[ESTYLE_RIVER], priver) {
             int idx = extra_index(priver);
 
             if (BV_ISSET(textras_near[didx], idx)) {
@@ -4888,7 +4937,7 @@ int fill_sprite_array(struct tileset *t,
 					   pcity);
 
       if (draw_terrain && !solid_bg) {
-        extra_type_list_iterate(t->rivers, priver) {
+        extra_type_list_iterate(t->style_lists[ESTYLE_RIVER], priver) {
           int idx = extra_index(priver);
 
           if (BV_ISSET(textras, idx)) {
@@ -4914,11 +4963,27 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_ROADS:
     if (NULL != pterrain) {
-      road_type_iterate(proad) {
-        sprs += fill_road_sprite_array(t, proad, sprs,
-                                       textras, textras_near,
-                                       tterrain_near, pcity);
-      } road_type_iterate_end;
+      extra_type_list_iterate(t->style_lists[ESTYLE_ROAD_ALL_SEPARATE], pextra) {
+        if (is_extra_drawing_enabled(pextra)) {
+          sprs += fill_road_sprite_array(t, pextra, sprs,
+                                         textras, textras_near,
+                                         tterrain_near, pcity);
+        }
+      } extra_type_list_iterate_end;
+      extra_type_list_iterate(t->style_lists[ESTYLE_ROAD_PARITY_COMBINED], pextra) {
+        if (is_extra_drawing_enabled(pextra)) {
+          sprs += fill_road_sprite_array(t, pextra, sprs,
+                                         textras, textras_near,
+                                         tterrain_near, pcity);
+        }
+      } extra_type_list_iterate_end;
+      extra_type_list_iterate(t->style_lists[ESTYLE_ROAD_ALL_COMBINED], pextra) {
+        if (is_extra_drawing_enabled(pextra)) {
+          sprs += fill_road_sprite_array(t, pextra, sprs,
+                                         textras, textras_near,
+                                         tterrain_near, pcity);
+        }
+      } extra_type_list_iterate_end;
     }
     break;
 
@@ -4930,9 +4995,10 @@ int fill_sprite_array(struct tileset *t,
 	}
       }
 
-      if (ptile && draw_fortress_airbase) {
-        extra_type_by_cause_iterate(EC_BASE, pextra) {
+      if (ptile) {
+        extra_type_list_iterate(t->style_lists[ESTYLE_3LAYER], pextra) {
           if (tile_has_extra(ptile, pextra)
+              && is_extra_drawing_enabled(pextra)
               && t->sprites.extras[extra_index(pextra)].u.bmf.background) {
             bool hidden = FALSE;
 
@@ -4947,46 +5013,26 @@ int fill_sprite_array(struct tileset *t,
               ADD_SPRITE_FULL(t->sprites.extras[extra_index(pextra)].u.bmf.background);
             }
           }
-        } extra_type_by_cause_iterate_end;
+        } extra_type_list_iterate_end;
       }
 
-      if (draw_mines) {
-        extra_type_by_cause_iterate(EC_MINE, pextra) {
-          if (BV_ISSET(textras, extra_index(pextra))) {
-            bool hidden = FALSE;
+      extra_type_list_iterate(t->style_lists[ESTYLE_SINGLE1], pextra) {
+        if (BV_ISSET(textras, extra_index(pextra))
+            && is_extra_drawing_enabled(pextra)) {
+          bool hidden = FALSE;
 
-            extra_type_list_iterate(pextra->hiders, phider) {
-              if (BV_ISSET(textras, extra_index(phider))) {
-                hidden = TRUE;
-                break;
-              }
-            } extra_type_list_iterate_end;
-
-            if (!hidden) {
-              ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(pextra)].u.single);
+          extra_type_list_iterate(pextra->hiders, phider) {
+            if (BV_ISSET(textras, extra_index(phider))) {
+              hidden = TRUE;
+              break;
             }
+          } extra_type_list_iterate_end;
+
+          if (!hidden) {
+            ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(pextra)].u.single);
           }
-        } extra_type_by_cause_iterate_end;
-      }
-
-      if (draw_specials) {
-        extra_type_by_cause_iterate(EC_HUT, pextra) {
-          if (BV_ISSET(textras, extra_index(pextra))) {
-            bool hidden = FALSE;
-
-            extra_type_list_iterate(pextra->hiders, phider) {
-              if (BV_ISSET(textras, extra_index(phider))) {
-                hidden = TRUE;
-                break;
-              }
-            } extra_type_list_iterate_end;
-
-            if (!hidden) {
-              ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(pextra)].u.single);
-            }
-          }
-        } extra_type_by_cause_iterate_end;
-      }
+        }
+      } extra_type_list_iterate_end;
     }
     break;
 
@@ -5028,9 +5074,10 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_SPECIAL2:
     if (NULL != pterrain) {
-      if (ptile && draw_fortress_airbase) {
-        extra_type_by_cause_iterate(EC_BASE, pextra) {
+      if (ptile) {
+        extra_type_list_iterate(t->style_lists[ESTYLE_3LAYER], pextra) {
           if (tile_has_extra(ptile, pextra)
+              && is_extra_drawing_enabled(pextra)
               && t->sprites.extras[extra_index(pextra)].u.bmf.middleground) {
             bool hidden = FALSE;
 
@@ -5045,45 +5092,26 @@ int fill_sprite_array(struct tileset *t,
               ADD_SPRITE_FULL(t->sprites.extras[extra_index(pextra)].u.bmf.middleground);
             }
           }
-        } extra_type_by_cause_iterate_end;
+        } extra_type_list_iterate_end;
       }
 
-      if (draw_pollution) {
-        extra_type_by_cause_iterate(EC_POLLUTION, pextra) {
-          if (BV_ISSET(textras, extra_index(pextra))) {
-            bool hidden = FALSE;
+      extra_type_list_iterate(t->style_lists[ESTYLE_SINGLE2], pextra) {
+        if (BV_ISSET(textras, extra_index(pextra))
+            && is_extra_drawing_enabled(pextra)) {
+          bool hidden = FALSE;
 
-            extra_type_list_iterate(pextra->hiders, phider) {
-              if (BV_ISSET(textras, extra_index(phider))) {
-                hidden = TRUE;
-                break;
-              }
-            } extra_type_list_iterate_end;
-
-            if (!hidden) {
-              ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(pextra)].u.single);
+          extra_type_list_iterate(pextra->hiders, phider) {
+            if (BV_ISSET(textras, extra_index(phider))) {
+              hidden = TRUE;
+              break;
             }
-          }
-        } extra_type_by_cause_iterate_end;
-      }
-      if (draw_pollution) {
-        extra_type_by_cause_iterate(EC_FALLOUT, pextra) {
-          if (BV_ISSET(textras, extra_index(pextra))) {
-            bool hidden = FALSE;
+          } extra_type_list_iterate_end;
 
-            extra_type_list_iterate(pextra->hiders, phider) {
-              if (BV_ISSET(textras, extra_index(phider))) {
-                hidden = TRUE;
-                break;
-              }
-            } extra_type_list_iterate_end;
-
-            if (!hidden) {
-              ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(pextra)].u.single);
-            }
+          if (!hidden) {
+            ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(pextra)].u.single);
           }
-        } extra_type_by_cause_iterate_end;
-      }
+        }
+      } extra_type_list_iterate_end;
     }
     break;
 
@@ -5110,17 +5138,14 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_SPECIAL3:
     if (NULL != pterrain) {
-      if (ptile && draw_fortress_airbase) {
+      if (ptile) {
         bool show_flag = FALSE;
         struct player *owner = base_owner(ptile);
 
-        extra_type_by_cause_iterate(EC_BASE, pextra) {
-          struct base_type *pbase = extra_base_get(pextra);
-          show_flag = base_has_flag(pbase, BF_SHOW_FLAG);
-
-          if (tile_has_extra(ptile, pextra)
-              && (t->sprites.extras[extra_index(pextra)].u.bmf.foreground
-                  || show_flag)) {
+        extra_type_list_iterate(t->style_lists[ESTYLE_3LAYER], pextra) {
+          if (is_extra_drawing_enabled(pextra)
+              && tile_has_extra(ptile, pextra)
+              && t->sprites.extras[extra_index(pextra)].u.bmf.foreground) {
             bool hidden = FALSE;
 
             extra_type_list_iterate(pextra->hiders, phider) {
@@ -5134,11 +5159,30 @@ int fill_sprite_array(struct tileset *t,
               if (t->sprites.extras[extra_index(pextra)].u.bmf.foreground) {
                 ADD_SPRITE_FULL(t->sprites.extras[extra_index(pextra)].u.bmf.foreground);
               }
-            } else {
-              show_flag = FALSE;
             }
           }
-        } extra_type_by_cause_iterate_end;
+        } extra_type_list_iterate_end;
+
+        /* Show base flag. Not part of previous iteration as
+         * "extras of ESTYLE_3_LAYER" != "bases" */
+        base_type_iterate(pbase) {
+          if (tile_has_base(ptile, pbase)
+              && base_has_flag(pbase, BF_SHOW_FLAG)) {
+            struct extra_type *basextra = base_extra_get(pbase);
+            bool hidden = FALSE;
+
+            extra_type_list_iterate(basextra->hiders, phider) {
+              if (BV_ISSET(textras, extra_index(phider))) {
+                hidden = TRUE;
+                break;
+              }
+            } extra_type_list_iterate_end;
+
+            if (!hidden) {
+              show_flag = TRUE;
+            }
+          }
+        } base_type_iterate_end;
 
         if (show_flag && owner != NULL) {
           ADD_SPRITE(get_nation_flag_sprite(t, nation_of_player(owner)), TRUE,
@@ -5906,7 +5950,7 @@ int fill_basic_road_sprite_array(const struct tileset *t,
   struct drawn_sprite *saved_sprs = sprs;
   int index;
   int i;
-  enum roadstyle_id roadstyle;
+  enum extrastyle_id extrastyle;
 
   if (!t || !sprs || !proad) {
     return 0;
@@ -5918,22 +5962,22 @@ int fill_basic_road_sprite_array(const struct tileset *t,
     return 0;
   }
 
-  roadstyle = t->sprites.extras[index].u.road.roadstyle;
+  extrastyle = t->sprites.extras[index].extrastyle;
 
-  if (roadstyle == RSTYLE_RIVER) {
+  if (extrastyle == ESTYLE_RIVER) {
     ADD_SPRITE_FULL(t->sprites.extras[index].u.road.ru.rivers.spec[0]);
   } else {
     for (i = 0; i < t->num_valid_tileset_dirs; i++) {
       if (!t->valid_tileset_dirs[i]) {
         continue;
       }
-      if (roadstyle == RSTYLE_ALL_SEPARATE) {
+      if (extrastyle == ESTYLE_ROAD_ALL_SEPARATE) {
         ADD_SPRITE_FULL(t->sprites.extras[index].u.road.ru.dir[i]);
-      } else if (roadstyle == RSTYLE_PARITY_COMBINED) {
+      } else if (extrastyle == ESTYLE_ROAD_PARITY_COMBINED) {
         if ((i % 2) == 0) {
           ADD_SPRITE_FULL(t->sprites.extras[index].u.road.ru.combo.even[1 << (i / 2)]);
         }
-      } else if (roadstyle == RSTYLE_ALL_COMBINED) {
+      } else if (extrastyle == ESTYLE_ROAD_ALL_COMBINED) {
         ADD_SPRITE_FULL(t->sprites.extras[index].u.road.ru.total[1 << i]);
       }
     }
@@ -6089,8 +6133,12 @@ void tileset_background_free(struct tileset *t)
 ****************************************************************************/
 void tileset_ruleset_reset(struct tileset *t)
 {
-  if (t->rivers != NULL) {
-    extra_type_list_destroy(t->rivers);
+  int i;
+
+  for (i = 0; i < ESTYLE_COUNT; i++) {
+    if (t->style_lists[i] != NULL) {
+      extra_type_list_destroy(t->style_lists[i]);
+      t->style_lists[i] = extra_type_list_new();
+    }
   }
-  t->rivers = extra_type_list_new();
 }
