@@ -1864,6 +1864,11 @@ static void endgame_report_init(struct endgame_report *preport)
   gtk_container_add(GTK_CONTAINER(sw), view);
   preport->tree_view = GTK_TREE_VIEW(view);
 
+  if (preport->shell->type == GUI_DIALOG_TAB) {
+    gtk_widget_set_hexpand(GTK_WIDGET(view), TRUE);
+    gtk_widget_set_vexpand(GTK_WIDGET(view), TRUE);
+  }
+
   gui_dialog_show_all(preport->shell);
 }
 
