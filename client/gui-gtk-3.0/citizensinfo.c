@@ -238,6 +238,9 @@ static struct citizens_dialog
     }
   }
 
+  gtk_widget_set_hexpand(GTK_WIDGET(pdialog->list), TRUE);
+  gtk_widget_set_vexpand(GTK_WIDGET(pdialog->list), TRUE);
+
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC,
