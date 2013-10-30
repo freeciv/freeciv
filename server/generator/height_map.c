@@ -165,8 +165,8 @@ liklihood of continents butting up to non-wrapped edges.
 **************************************************************************/
 void make_pseudofractal1_hmap(int extra_div)
 {
-  const bool xnowrap = !topo_has_flag(TF_WRAPX);
-  const bool ynowrap = !topo_has_flag(TF_WRAPY);
+  const bool xnowrap = !current_topo_has_flag(TF_WRAPX);
+  const bool ynowrap = !current_topo_has_flag(TF_WRAPY);
 
   /* 
    * How many blocks should the x and y directions be divided into

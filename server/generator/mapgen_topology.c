@@ -52,7 +52,7 @@ int map_colatitude(const struct tile *ptile)
 
   index_to_map_pos(&tile_x, &tile_y, tile_index(ptile));
   do_in_natural_pos(ntl_x, ntl_y, tile_x, tile_y) {
-    if (!topo_has_flag(TF_WRAPX) && !topo_has_flag(TF_WRAPY)) {
+    if (!current_topo_has_flag(TF_WRAPX) && !current_topo_has_flag(TF_WRAPY)) {
       /* A FLAT (unwrapped) map 
        *
        * We assume this is a partial planetary map.  A polar zone is placed
@@ -94,13 +94,13 @@ int map_colatitude(const struct tile *ptile)
 	 / (NATURAL_HEIGHT / 2 - 1));
   } do_in_natural_pos_end;
 
-  if (topo_has_flag(TF_WRAPX) && !topo_has_flag(TF_WRAPY)) {
+  if (current_topo_has_flag(TF_WRAPX) && !current_topo_has_flag(TF_WRAPY)) {
     /* In an Earth-like topology the polar zones are at north and south.
      * This is equivalent to a Mercator projection. */
     return MAX_COLATITUDE * y;
   }
   
-  if (!topo_has_flag(TF_WRAPX) && topo_has_flag(TF_WRAPY)) {
+  if (!current_topo_has_flag(TF_WRAPX) && current_topo_has_flag(TF_WRAPY)) {
     /* In a Uranus-like topology the polar zones are at east and west.
      * This isn't really the way Uranus is; it's the way Earth would look
      * if you tilted your head sideways.  It's still a Mercator
@@ -338,7 +338,7 @@ void generator_init_topology(bool autosize)
   }
 
   /* correction for single pole (Flat Earth) */
-  if (!topo_has_flag(TF_WRAPX) && !topo_has_flag(TF_WRAPY)) {
+  if (!current_topo_has_flag(TF_WRAPX) && !current_topo_has_flag(TF_WRAPY)) {
     ice_base_colatitude /= 2;
   }
 

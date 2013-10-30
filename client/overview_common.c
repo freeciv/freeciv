@@ -92,7 +92,7 @@ static void gui_to_overview_pos(const struct tileset *t,
   *ovr_y = floor((ntl_y - (double)overview.map_y0) * OVERVIEW_TILE_SIZE);
 
   /* Now do additional adjustments.  See map_to_overview_pos(). */
-  if (topo_has_flag(TF_WRAPX)) {
+  if (current_topo_has_flag(TF_WRAPX)) {
     *ovr_x = FC_WRAP(*ovr_x, NATURAL_WIDTH * OVERVIEW_TILE_SIZE);
   } else {
     if (MAP_IS_ISOMETRIC) {
@@ -104,7 +104,7 @@ static void gui_to_overview_pos(const struct tileset *t,
       *ovr_x -= OVERVIEW_TILE_SIZE;
     }
   }
-  if (topo_has_flag(TF_WRAPY)) {
+  if (current_topo_has_flag(TF_WRAPY)) {
     *ovr_y = FC_WRAP(*ovr_y, NATURAL_HEIGHT * OVERVIEW_TILE_SIZE);
   }
 }
@@ -284,13 +284,13 @@ void center_tile_overviewcanvas(void)
   /* NOTE: this embeds the map wrapping in the overview code.  This is
    * basically necessary for the overview to be efficiently
    * updated. */
-  if (topo_has_flag(TF_WRAPX)) {
+  if (current_topo_has_flag(TF_WRAPX)) {
     overview.map_x0 = wrap_double(ntl_x - (double)NATURAL_WIDTH / 2.0,
 				  NATURAL_WIDTH);
   } else {
     overview.map_x0 = 0;
   }
-  if (topo_has_flag(TF_WRAPY)) {
+  if (current_topo_has_flag(TF_WRAPY)) {
     overview.map_y0 = wrap_double(ntl_y - (double)NATURAL_HEIGHT / 2.0,
 				  NATURAL_HEIGHT);
   } else {
@@ -317,7 +317,7 @@ void map_to_overview_pos(int *overview_x, int *overview_y,
   do_in_natural_pos(ntl_x, ntl_y, map_x, map_y) {
     int ovr_x = ntl_x - overview.map_x0, ovr_y = ntl_y - overview.map_y0;
 
-    if (topo_has_flag(TF_WRAPX)) {
+    if (current_topo_has_flag(TF_WRAPX)) {
       ovr_x = FC_WRAP(ovr_x, NATURAL_WIDTH);
     } else {
       if (MAP_IS_ISOMETRIC) {
@@ -329,7 +329,7 @@ void map_to_overview_pos(int *overview_x, int *overview_y,
 	ovr_x--;
       }
     }
-    if (topo_has_flag(TF_WRAPY)) {
+    if (current_topo_has_flag(TF_WRAPY)) {
       ovr_y = FC_WRAP(ovr_y, NATURAL_HEIGHT);
     }
     *overview_x = OVERVIEW_TILE_SIZE * ovr_x;
@@ -346,7 +346,7 @@ void overview_to_map_pos(int *map_x, int *map_y,
   int ntl_x = overview_x / OVERVIEW_TILE_SIZE + overview.map_x0;
   int ntl_y = overview_y / OVERVIEW_TILE_SIZE + overview.map_y0;
 
-  if (MAP_IS_ISOMETRIC && !topo_has_flag(TF_WRAPX)) {
+  if (MAP_IS_ISOMETRIC && !current_topo_has_flag(TF_WRAPX)) {
     /* Clip half tile left and right.  See comment in map_to_overview_pos. */
     ntl_x++;
   }
@@ -405,7 +405,7 @@ void overview_update_tile(struct tile *ptile)
     int overview_x = ntl_x * OVERVIEW_TILE_SIZE;
 
     if (MAP_IS_ISOMETRIC) {
-      if (topo_has_flag(TF_WRAPX)) {
+      if (current_topo_has_flag(TF_WRAPX)) {
 	if (overview_x > overview.width - OVERVIEW_TILE_WIDTH) {
 	  /* This tile is shown half on the left and half on the right
 	   * side of the overview.  So we have to draw it in two parts. */
@@ -439,7 +439,7 @@ void calculate_overview_dimensions(void)
   static int recursion = 0; /* Just to be safe. */
 
   /* Clip half tile left and right.  See comment in map_to_overview_pos. */
-  int shift = (MAP_IS_ISOMETRIC && !topo_has_flag(TF_WRAPX)) ? -1 : 0;
+  int shift = (MAP_IS_ISOMETRIC && !current_topo_has_flag(TF_WRAPX)) ? -1 : 0;
 
   if (recursion > 0 || map.xsize <= 0 || map.ysize <= 0) {
     return;

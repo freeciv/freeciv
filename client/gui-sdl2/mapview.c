@@ -1054,7 +1054,7 @@ void get_overview_area_dimensions(int *width, int *height)
   int overview_tile_size_bak = OVERVIEW_TILE_SIZE;
   
   int xfact = MAP_IS_ISOMETRIC ? 2 : 1;
-  int shift = (MAP_IS_ISOMETRIC && !topo_has_flag(TF_WRAPX)) ? -1 : 0;
+  int shift = (MAP_IS_ISOMETRIC && !current_topo_has_flag(TF_WRAPX)) ? -1 : 0;
   
   OVERVIEW_TILE_SIZE = MIN((DEFAULT_OVERVIEW_W - 1) / (map.xsize * xfact),
                            (DEFAULT_OVERVIEW_H - 1) / map.ysize) + 1;
