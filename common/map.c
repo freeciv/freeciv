@@ -273,13 +273,13 @@ static void generate_map_indices(void)
    * case we're not concerned with going too far and wrapping around, so we
    * just have to make sure we go far enough if we're at one edge of the
    * map. */
-  nat_min_x = (topo_has_flag(TF_WRAPX) ? 0 : (nat_center_x - map.xsize + 1));
-  nat_min_y = (topo_has_flag(TF_WRAPY) ? 0 : (nat_center_y - map.ysize + 1));
+  nat_min_x = (current_topo_has_flag(TF_WRAPX) ? 0 : (nat_center_x - map.xsize + 1));
+  nat_min_y = (current_topo_has_flag(TF_WRAPY) ? 0 : (nat_center_y - map.ysize + 1));
 
-  nat_max_x = (topo_has_flag(TF_WRAPX)
+  nat_max_x = (current_topo_has_flag(TF_WRAPX)
 	       ? (map.xsize - 1)
 	       : (nat_center_x + map.xsize - 1));
-  nat_max_y = (topo_has_flag(TF_WRAPY)
+  nat_max_y = (current_topo_has_flag(TF_WRAPY)
 	       ? (map.ysize - 1)
 	       : (nat_center_y + map.ysize - 1));
   tiles = (nat_max_x - nat_min_x + 1) * (nat_max_y - nat_min_y + 1);
@@ -421,16 +421,16 @@ static inline struct tile *base_native_pos_to_tile(int nat_x, int nat_y)
 {
   /* If the position is out of range in a non-wrapping direction, it is
    * unreal. */
-  if (!((topo_has_flag(TF_WRAPX) || (nat_x >= 0 && nat_x < map.xsize))
-	&& (topo_has_flag(TF_WRAPY) || (nat_y >= 0 && nat_y < map.ysize)))) {
+  if (!((current_topo_has_flag(TF_WRAPX) || (nat_x >= 0 && nat_x < map.xsize))
+	&& (current_topo_has_flag(TF_WRAPY) || (nat_y >= 0 && nat_y < map.ysize)))) {
     return NULL;
   }
 
   /* Wrap in X and Y directions, as needed. */
-  if (topo_has_flag(TF_WRAPX)) {
+  if (current_topo_has_flag(TF_WRAPX)) {
     nat_x = FC_WRAP(nat_x, map.xsize);
   }
-  if (topo_has_flag(TF_WRAPY)) {
+  if (current_topo_has_flag(TF_WRAPY)) {
     nat_y = FC_WRAP(nat_y, map.ysize);
   }
 
@@ -562,7 +562,7 @@ void map_free(void)
 ****************************************************************************/
 static int map_vector_to_distance(int dx, int dy)
 {
-  if (topo_has_flag(TF_HEX)) {
+  if (current_topo_has_flag(TF_HEX)) {
     /* Hex: all directions are cardinal so the distance is equivalent to
      * the real distance. */
     return map_vector_to_real_distance(dx, dy);
@@ -578,8 +578,8 @@ int map_vector_to_real_distance(int dx, int dy)
 {
   const int absdx = abs(dx), absdy = abs(dy);
 
-  if (topo_has_flag(TF_HEX)) {
-    if (topo_has_flag(TF_ISO)) {
+  if (current_topo_has_flag(TF_HEX)) {
+    if (current_topo_has_flag(TF_ISO)) {
       /* Iso-hex: you can't move NE or SW. */
       if ((dx < 0 && dy > 0)
 	  || (dx > 0 && dy < 0)) {
@@ -612,7 +612,7 @@ int map_vector_to_real_distance(int dx, int dy)
 ****************************************************************************/
 int map_vector_to_sq_distance(int dx, int dy)
 {
-  if (topo_has_flag(TF_HEX)) {
+  if (current_topo_has_flag(TF_HEX)) {
     /* Hex: The square distance is just the square of the real distance; we
      * don't worry about pythagorean calculations. */
     int dist = map_vector_to_real_distance(dx, dy);
@@ -935,10 +935,10 @@ struct tile *nearest_real_tile(int x, int y)
   int nat_x, nat_y;
 
   MAP_TO_NATIVE_POS(&nat_x, &nat_y, x, y);
-  if (!topo_has_flag(TF_WRAPX)) {
+  if (!current_topo_has_flag(TF_WRAPX)) {
     nat_x = CLIP(0, nat_x, map.xsize - 1);
   }
-  if (!topo_has_flag(TF_WRAPY)) {
+  if (!current_topo_has_flag(TF_WRAPY)) {
     nat_y = CLIP(0, nat_y, map.ysize - 1);
   }
   NATIVE_TO_MAP_POS(&x, &y, nat_x, nat_y);
@@ -962,7 +962,7 @@ int map_num_tiles(void)
 void base_map_distance_vector(int *dx, int *dy,
 			      int x0, int y0, int x1, int y1)
 {
-  if (topo_has_flag(TF_WRAPX) || topo_has_flag(TF_WRAPY)) {
+  if (current_topo_has_flag(TF_WRAPX) || current_topo_has_flag(TF_WRAPY)) {
     /* Wrapping is done in native coordinates. */
     MAP_TO_NATIVE_POS(&x0, &y0, x0, y0);
     MAP_TO_NATIVE_POS(&x1, &y1, x1, y1);
@@ -971,11 +971,11 @@ void base_map_distance_vector(int *dx, int *dy,
      * map distance vector but is easier to wrap. */
     *dx = x1 - x0;
     *dy = y1 - y0;
-    if (topo_has_flag(TF_WRAPX)) {
+    if (current_topo_has_flag(TF_WRAPX)) {
       /* Wrap dx to be in [-map.xsize/2, map.xsize/2). */
       *dx = FC_WRAP(*dx + map.xsize / 2, map.xsize) - map.xsize / 2;
     }
-    if (topo_has_flag(TF_WRAPY)) {
+    if (current_topo_has_flag(TF_WRAPY)) {
       /* Wrap dy to be in [-map.ysize/2, map.ysize/2). */
       *dy = FC_WRAP(*dy + map.ysize / 2, map.ysize) - map.ysize / 2;
     }
@@ -1206,11 +1206,11 @@ bool is_valid_dir(enum direction8 dir)
   case DIR8_SOUTHEAST:
   case DIR8_NORTHWEST:
     /* These directions are invalid in hex topologies. */
-    return !(topo_has_flag(TF_HEX) && !topo_has_flag(TF_ISO));
+    return !(current_topo_has_flag(TF_HEX) && !current_topo_has_flag(TF_ISO));
   case DIR8_NORTHEAST:
   case DIR8_SOUTHWEST:
     /* These directions are invalid in iso-hex topologies. */
-    return !(topo_has_flag(TF_HEX) && topo_has_flag(TF_ISO));
+    return !(current_topo_has_flag(TF_HEX) && current_topo_has_flag(TF_ISO));
   case DIR8_NORTH:
   case DIR8_EAST:
   case DIR8_SOUTH:
@@ -1238,11 +1238,11 @@ bool is_cardinal_dir(enum direction8 dir)
   case DIR8_SOUTHEAST:
   case DIR8_NORTHWEST:
     /* These directions are cardinal in iso-hex topologies. */
-    return topo_has_flag(TF_HEX) && topo_has_flag(TF_ISO);
+    return current_topo_has_flag(TF_HEX) && current_topo_has_flag(TF_ISO);
   case DIR8_NORTHEAST:
   case DIR8_SOUTHWEST:
     /* These directions are cardinal in hexagonal topologies. */
-    return topo_has_flag(TF_HEX) && !topo_has_flag(TF_ISO);
+    return current_topo_has_flag(TF_HEX) && !current_topo_has_flag(TF_ISO);
   }
   return FALSE;
 }
@@ -1310,9 +1310,9 @@ bool is_singular_tile(const struct tile *ptile, int dist)
     /* Iso-natural coordinates are doubled in scale. */
     dist *= MAP_IS_ISOMETRIC ? 2 : 1;
 
-    return ((!topo_has_flag(TF_WRAPX) 
+    return ((!current_topo_has_flag(TF_WRAPX) 
 	     && (ntl_x < dist || ntl_x >= NATURAL_WIDTH - dist))
-	    || (!topo_has_flag(TF_WRAPY)
+	    || (!current_topo_has_flag(TF_WRAPY)
 		&& (ntl_y < dist || ntl_y >= NATURAL_HEIGHT - dist)));
   } do_in_natural_pos_end;
 }
