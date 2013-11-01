@@ -977,6 +977,7 @@ if test "x$req_fcmp_qt" = "xyes" ||
        fcmp_qt=yes
 
        MP_qt_CPPFLAGS=$FC_QT_CPPFLAGS
+       MP_qt_CXXFLAGS=$FC_QT_CXXFLAGS
        MP_qt_LIBS=$FC_QT_LIBS
 
        if test "x$modinst" = "xauto" ; then
@@ -1058,6 +1059,7 @@ AC_SUBST([MP_gtk3_CFLAGS])
 AC_SUBST([MP_gtk3_LIBS])
 AC_SUBST([MP_gtk3_LDFLAGS])
 AC_SUBST([MP_qt_CPPFLAGS])
+AC_SUBST([MP_qt_CXXFLAGS])
 AC_SUBST([MP_qt_LIBS])
 AC_SUBST([SOUND_CFLAGS])
 AC_SUBST([SOUND_LIBS])
