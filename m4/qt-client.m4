@@ -20,6 +20,7 @@ if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ; then
 
     if test x$fc_qt_usable = xtrue ; then
       GUI_qt_CPPFLAGS=$FC_QT_CPPFLAGS
+      GUI_qt_CXXFLAGS=$FC_QT_CXXFLAGS
       GUI_qt_LIBS=$FC_QT_LIBS
     else
       FC_QT5
@@ -27,6 +28,7 @@ if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ; then
       if test x$fc_qt5_usable = xtrue ; then
         AC_MSG_ERROR([qt4 not found. qt5 found but not yet supported])
         GUI_qt_CPPFLAGS=$FC_QT5_CPPFLAGS
+        GUI_qt_CXXFLAGS=$FC_QT5_CXXFLAGS
         GUI_qt_LIBS=$FC_QT5_LIBS
       fi
     fi

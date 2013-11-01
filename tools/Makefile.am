@@ -104,6 +104,7 @@ MOC_FILES = meta_mpgui_qt.cpp
 
 if MODINST_QT
 freeciv_mp_qt_CPPFLAGS = $(common_cppflags) $(MP_qt_CPPFLAGS)
+freeciv_mp_qt_CXXFLAGS = $(MP_qt_CXXFLAGS)
 
 freeciv_mp_qt_SOURCES = \
 	mpgui_qt.cpp	\
