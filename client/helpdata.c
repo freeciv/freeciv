@@ -2631,7 +2631,8 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
   buf[0] = '\0';
 
   if (pnation->legend[0] != '\0') {
-    sprintf(buf, "%s\n\n", _(pnation->legend));
+    /* Client side legend is stored already translated */
+    sprintf(buf, "%s\n\n", pnation->legend);
   }
   
   cat_snprintf(buf, bufsz,
