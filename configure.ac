@@ -1014,7 +1014,7 @@ AM_CONDITIONAL([MODINST_QT], [test "x$fcmp_qt" = "xyes"])
 
 if test "x$MOCCMD" = "x" ; then
   dnl There's no user-set moc command, use 'moc'
-  MODCCMD="moc"
+  MOCCMD="moc"
 fi
 AC_SUBST([MOCCMD])
 
