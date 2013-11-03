@@ -13,6 +13,10 @@
 #ifndef FC__SERNET_H
 #define FC__SERNET_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 struct connection;
 
 #define BUF_SIZE 512
@@ -36,5 +40,9 @@ void init_connections(void);
 int server_make_connection(int new_sock,
                            const char *client_addr, const char *client_ip);
 void handle_conn_pong(struct connection *pconn);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__SERNET_H */

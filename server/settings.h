@@ -14,6 +14,10 @@
 #ifndef FC__SETTINGS_H
 #define FC__SETTINGS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "shared.h"
 
 #include "game.h"
@@ -202,5 +206,9 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset);
 void send_server_settings(struct conn_list *dest);
 void send_server_hack_level_settings(struct conn_list *dest);
 void send_server_setting_control(struct connection *pconn);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif				/* FC__SETTINGS_H */

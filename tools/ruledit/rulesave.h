@@ -13,6 +13,14 @@
 #ifndef FC__RULESAVE_H
 #define FC__RULESAVE_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 bool save_ruleset(const char *path, const char *name);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__RULESAVE_H */

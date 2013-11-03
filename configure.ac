@@ -1024,6 +1024,11 @@ AC_ARG_ENABLE([ruledit],
   no)  ruledit=no ;;
   *)   AC_MSG_ERROR([bad value ${enableval} for --enable-ruledit]) ;;
 esac], [ruledit=no])
+if test "x$ruledit" = "xyes" ; then
+  if test "x$cxx_works" != "xyes" ; then
+    AC_MSG_ERROR([No working C++ compiler found for building freeciv-ruledit])
+  fi
+fi
 AM_CONDITIONAL([RULEDIT], [test "x$ruledit" = "xyes"])
 
 AC_SUBST([GUI_gtk2_CFLAGS])

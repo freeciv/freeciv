@@ -48,7 +48,7 @@ static int re_parse_cmdline(int argc, char *argv[]);
 **************************************************************************/
 int main(int argc, char **argv)
 {
-  int loglevel = LOG_NORMAL;
+  enum log_level loglevel = LOG_NORMAL;
   int ui_options;
 
   init_nls();

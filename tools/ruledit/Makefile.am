@@ -8,7 +8,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/server
 
 freeciv_ruledit_SOURCES =	\
-		ruledit.c	\
+		ruledit.cpp	\
 		rulesave.c	\
 		rulesave.h
 
