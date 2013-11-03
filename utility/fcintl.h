@@ -45,7 +45,7 @@ extern "C" {
 #define PL_(String1, String2, n) ngettext((String1), (String2), (n))
 
 /* Ruledit */
-#define R__(String) _(String)
+#define R__(String) dgettext("freeciv-ruledit", String)
 
 #else  /* ENABLE_NLS */
 
@@ -57,7 +57,7 @@ extern "C" {
 #define C_(String) capitalized_string(String)
 
 /* Ruledit */
-#define R__(String) _(String)
+#define R__(String) (String)
 
 #undef textdomain
 #undef bindtextdomain

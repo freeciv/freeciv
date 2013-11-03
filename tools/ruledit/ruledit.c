@@ -52,6 +52,11 @@ int main(int argc, char **argv)
   int ui_options;
 
   init_nls();
+
+#ifdef ENABLE_NLS
+  (void) bindtextdomain("freeciv-ruledit", LOCALEDIR);
+#endif
+
   registry_module_init();
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
 
