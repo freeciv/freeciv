@@ -36,6 +36,7 @@ OutFile "Output/\${APPNAME}-\${VERSION}-win32-\${GUI_ID}-setup.exe"
 
 Var STARTMENU_FOLDER
 Var DefaultLanguageCode
+Var LangName
 
 ; Pages
 
@@ -213,9 +214,9 @@ Start Menu shortcut properties."
   \${NSD_CreateDropList} 0 -60% 100% 13u ""
   Pop \$DefaultLanguageDropList
 
-  \${NSD_CB_AddString} \$DefaultLanguageDropList "auto"
-  \${NSD_CB_SelectString} \$DefaultLanguageDropList "auto"
-  \${NSD_CB_AddString} \$DefaultLanguageDropList "en_US"
+  \${NSD_CB_AddString} \$DefaultLanguageDropList "Autodetected"
+  \${NSD_CB_SelectString} \$DefaultLanguageDropList "Autodetected"
+  \${NSD_CB_AddString} \$DefaultLanguageDropList "American English (en_US)"
 EOF
 
   cat ../../bootstrap/langnames.txt |
@@ -223,7 +224,7 @@ EOF
   while read -r code name
   do
   if test -e $1/share/locale/$code/LC_MESSAGES/freeciv.mo; then
-  echo "  \${NSD_CB_AddString} \$DefaultLanguageDropList \"$code\""
+  echo "  \${NSD_CB_AddString} \$DefaultLanguageDropList \"$name ($code)\""
   fi
   done
 
@@ -232,7 +233,25 @@ cat <<EOF
 FunctionEnd
 
 Function DefaultLanguageLeave
-  \${NSD_GetText} \$DefaultLanguageDropList \$DefaultLanguageCode
+  \${NSD_GetText} \$DefaultLanguageDropList \$LangName
+EOF
+
+  echo "  \${If} \$LangName == \"Autodetected\""
+  echo "    StrCpy \$DefaultLanguageCode \"auto\""
+  echo "  \${EndIf}"
+  echo "  \${If} \$LangName == \"American English (en_US)\""
+  echo "    StrCpy \$DefaultLanguageCode \"en_US\""
+  echo "  \${EndIf}"
+
+  cat ../../bootstrap/langnames.txt |
+  while read -r code name
+  do
+    echo "  \${If} \$LangName == \"$name ($code)\""
+    echo "    StrCpy \$DefaultLanguageCode \"$code\""
+    echo "  \${EndIf}"
+  done
+
+cat <<EOF
 FunctionEnd
 
 Function RunFreeciv
