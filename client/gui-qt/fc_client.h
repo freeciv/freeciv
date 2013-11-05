@@ -22,6 +22,9 @@
 #include <fc_config.h>
 #endif
 
+// Qt
+#include <QTabWidget>
+
 // client
 #include "chatline_common.h"
 #include "client_main.h"
@@ -76,6 +79,10 @@ class QTimer;
 class QSocketNotifier;
 class QDialog;
 class QApplication;
+class QTreeWidget;
+class QDockWidget;
+class QStatusBar;
+class QMainWindow;
 
 class fc_game_tab_widget: public QTabWidget
 {

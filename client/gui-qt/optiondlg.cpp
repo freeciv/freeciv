@@ -15,6 +15,14 @@
 #include <fc_config.h>
 #endif
 
+// Qt
+#include <QColorDialog>
+#include <QComboBox>
+#include <QFontDialog>
+#include <QLineEdit>
+#include <QScrollArea>
+#include <QSpinBox>
+
 // utility
 #include "log.h"
 #include "string_vector.h"

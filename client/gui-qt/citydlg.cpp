@@ -15,11 +15,19 @@
 #include <fc_config.h>
 #endif
 
+// Qt
+#include <QApplication>
+#include <QDesktopWidget>
+#include <QHeaderView>
+#include <QInputDialog>
+#include <QMessageBox>
+#include <QRadioButton>
+#include <QScrollArea>
+
 // utility
 #include "support.h"
 
 // client
-
 #include "citydlg_common.h"
 #include "climisc.h"
 #include "control.h"
@@ -882,7 +890,11 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     cma_table->setSelectionMode(QAbstractItemView::SingleSelection);
     cma_table->verticalHeader()->setVisible(false);
     cma_table->horizontalHeader()->setVisible(false);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+    cma_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+#else
     cma_table->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+#endif
 
     connect(cma_table->selectionModel(),
             SIGNAL(selectionChanged(const QItemSelection &,
@@ -1634,9 +1646,18 @@ void city_dialog::update_info_label()
   get_city_dialog_output_text(pcity, O_FOOD, buffer, sizeof(buffer));
   for (int i = 0; i < NUM_INFO_FIELDS; i++) {
     int j = 2*i;
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+    qlt[i]->setText(QString::fromLatin1(buf[2*i]));
+#else
     qlt[i]->setText(QString::fromAscii(buf[2*i]));
+#endif
     if (j != GROWTH && j != GRANARY && j!= WASTE && j!= CORRUPTION){
-    qlt[i]->setToolTip(QString::fromAscii(buf[2*i + 1]));
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+      qlt[i]->setToolTip(QString::fromLatin1(buf[2*i + 1]));
+#else
+      qlt[i]->setToolTip(QString::fromAscii(buf[2*i + 1]));
+#endif
     }
   }
 }
@@ -1924,7 +1945,11 @@ void city_dialog::buy()
   int ret;
   const char *name = city_production_name_translation(pcity);
   int value = city_production_buy_gold_cost(pcity);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+  const QString title = QString::fromUtf8(_("Buy")) + QString::fromLatin1(" ? ");
+#else
   const QString title = QString::fromUtf8(_("Buy")) + QString::fromAscii(" ? ");
+#endif
   QMessageBox ask(this);
 
   if (!can_client_issue_orders()) {
@@ -2319,7 +2344,7 @@ void city_production_delegate::paint(QPainter *painter,
   QString name;
   QVariant qvar;
   QPixmap *pix;
-  QPixmap pix_scaled = NULL;
+  QPixmap pix_scaled;
   QRect rect1;
   QRect rect2;
   struct sprite *sprite;

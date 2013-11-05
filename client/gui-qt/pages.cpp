@@ -15,14 +15,24 @@
 #include <fc_config.h>
 #endif
 
-//common
+// Qt
+#include <QAction>
+#include <QApplication>
+#include <QDockWidget>
+#include <QHeaderView>
+#include <QLineEdit>
+#include <QTableWidget>
+#include <QTextEdit>
+#include <QTreeWidget>
+
+// common
 #include "game.h"
 #include "version.h"
 
-//client
+// client
 #include "client_main.h"
 
-//gui-qt
+// gui-qt
 #include "dialogs.h"
 #include "pages.h"
 #include "sprite.h"
@@ -1183,7 +1193,11 @@ void fc_client::update_start_page()
 
   detach_item->addChildren(items);
   start_players_tree->insertTopLevelItem(2, detach_item);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+  start_players_tree->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+#else
   start_players_tree->header()->setResizeMode(QHeaderView::ResizeToContents);
+#endif
   start_players_tree->expandAll();
   update_obs_button();
 }

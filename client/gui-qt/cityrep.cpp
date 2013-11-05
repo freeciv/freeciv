@@ -15,6 +15,11 @@
 #include <fc_config.h>
 #endif
 
+// Qt
+#include <QApplication>
+#include <QHeaderView>
+#include <QMessageBox>
+
 // gui-qt
 #include "qtg_cxxside.h"
 #include "cityrep.h"

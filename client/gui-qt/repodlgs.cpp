@@ -15,6 +15,15 @@
 #include <fc_config.h>
 #endif
 
+// Qt
+#include <QApplication>
+#include <QComboBox>
+#include <QHeaderView>
+#include <QMessageBox>
+#include <QProgressBar>
+#include <QScrollArea>
+#include <QTableWidget>
+
 // common
 #include "control.h"
 #include "research.h"
