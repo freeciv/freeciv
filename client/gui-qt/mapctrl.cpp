@@ -19,6 +19,8 @@
 #include <stdlib.h>
 
 // Qt
+#include <QApplication>
+#include <QInputDialog>
 #include <QKeyEvent>
 #include <QPushButton>
 #include <QMouseEvent>

@@ -15,6 +15,11 @@
 #include <fc_config.h>
 #endif
 
+// Qt
+#include <QApplication>
+#include <QHeaderView>
+#include <QSplitter>
+
 // gui-qt
 #include "plrdlg.h"
 #include "qtg_cxxside.h"

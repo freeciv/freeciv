@@ -23,6 +23,7 @@
 
 // Qt
 #include <QApplication>
+#include <QMessageBox>
 #include <QScrollBar>
 
 // utility

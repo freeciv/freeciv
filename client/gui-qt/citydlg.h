@@ -17,6 +17,9 @@
 #include <fc_config.h>
 #endif
 
+// Qt
+#include <QItemDelegate>
+
 class QComboBox;
 class QDialog;
 class QGridLayout;
@@ -26,7 +29,6 @@ class QTabWidget;
 class QTableView;
 class QTableWidget;
 class QProgressBar;
-class QItemDelegate;
 class QVariant;
 class QVBoxLayout;
 

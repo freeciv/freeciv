@@ -15,6 +15,11 @@
 #include <fc_config.h>
 #endif
 
+// Qt
+#include <QApplication>
+#include <QMainWindow>
+#include <QMessageBox>
+
 // common
 #include "game.h"
 #include "government.h"

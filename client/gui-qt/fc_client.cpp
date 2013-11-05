@@ -15,6 +15,14 @@
 #include <fc_config.h>
 #endif
 
+// Qt
+#include <QApplication>
+#include <QMainWindow>
+#include <QLineEdit>
+#include <QStatusBar>
+#include <QTabBar>
+#include <QTextEdit>
+
 // common
 #include "game.h"
 
@@ -32,7 +40,9 @@ fc_client::fc_client() : QObject()
 {
   struct rgbcolor *prgbcolor;
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
   QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+#endif
   /**
    * Somehow freeciv-client-common asks to switch to page when all widgets
    * haven't been created yet by Qt, even constructor finished job,

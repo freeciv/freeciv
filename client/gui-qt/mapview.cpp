@@ -15,6 +15,9 @@
 #include <fc_config.h>
 #endif
 
+// Qt
+#include <QToolTip>
+
 // utility
 #include "support.h"
 

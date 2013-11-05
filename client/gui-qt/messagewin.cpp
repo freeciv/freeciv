@@ -15,6 +15,9 @@
 #include <fc_config.h>
 #endif
 
+// Qt
+#include <QTableWidget>
+
 // gui-qt
 #include "fc_client.h"
 #include "qtg_cxxside.h"
