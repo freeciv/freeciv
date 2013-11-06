@@ -367,7 +367,8 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   renderer = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
                                               ML_COL_TYPE,
-                                              _("Type"), renderer, "text", 3,
+                                              Q_("?modpack:Type"),
+                                              renderer, "text", 3,
                                               NULL);
   renderer = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
