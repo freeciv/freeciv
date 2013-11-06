@@ -327,6 +327,10 @@ int client_main(int argc, char *argv[])
   }
 
   init_nls();
+#ifdef ENABLE_NLS
+  (void) bindtextdomain("freeciv-nations", LOCALEDIR);
+#endif
+
   registry_module_init();
   audio_init();
   init_character_encodings(gui_character_encoding, gui_use_transliteration);

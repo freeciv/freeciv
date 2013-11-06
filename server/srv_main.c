@@ -201,6 +201,9 @@ void srv_init(void)
 
   /* NLS init */
   init_nls();
+#ifdef ENABLE_NLS
+  (void) bindtextdomain("freeciv-nations", LOCALEDIR);
+#endif
 
   /* This is before ai module initializations so that if ai module
    * wants to use registry files, it can. */

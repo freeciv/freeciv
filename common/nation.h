@@ -87,6 +87,7 @@ struct nation_type;
 /* Pointer values are allocated on load then freed in free_nations(). */
 struct nation_type {
   Nation_type_id item_number;
+  char *translation_domain;
   struct name_translation adjective;
   struct name_translation noun_plural;
   char flag_graphic_str[MAX_LEN_NAME];
@@ -183,6 +184,9 @@ struct nation_leader *
 nation_leader_by_name(const struct nation_type *pnation, const char *name);
 const char *nation_leader_name(const struct nation_leader *pleader);
 bool nation_leader_is_male(const struct nation_leader *pleader);
+
+const char *nation_legend_translation(const struct nation_type *pnation,
+                                      const char *legend);
 
 /* General nation city accessor functions. */
 struct terrain;

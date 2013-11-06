@@ -1091,17 +1091,17 @@ void techs_init(void)
 
   /* Initialize dummy tech A_NONE */
   /* TRANS: "None" tech */
-  name_set(&advances[A_NONE].name, N_("None"));
+  name_set(&advances[A_NONE].name, NULL, N_("None"));
 
   /* Initialize dummy tech A_UNSET */
-  name_set(&advances[A_UNSET].name, N_("None"));
+  name_set(&advances[A_UNSET].name, NULL, N_("None"));
 
   /* Initialize dummy tech A_FUTURE */
-  name_set(&advances[A_FUTURE].name, N_("Future Tech."));
+  name_set(&advances[A_FUTURE].name, NULL, N_("Future Tech."));
 
   /* Initialize dummy tech A_UNKNOWN */
   /* TRANS: "Unknown" advance/technology */
-  name_set(&advances[A_UNKNOWN].name, N_("(Unknown)"));
+  name_set(&advances[A_UNKNOWN].name, NULL, N_("(Unknown)"));
 }
 
 /***************************************************************

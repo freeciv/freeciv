@@ -1,9 +1,10 @@
 [nation_arab]
 
+translation_domain="freeciv"
+
 name=_("Arab")
 plural=_("?plural:Arabs")
 groups="Medieval", "Asian", "African", "Core"
-; /* TRANS: Legend for nation in "core" set */
 legend=_("The Arab/Islamic civilization of 622 to 1495 CE.")
 
 leaders = {

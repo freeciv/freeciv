@@ -2828,7 +2828,7 @@ void handle_ruleset_unit_class(const struct packet_ruleset_unit_class *p)
 
   fc_assert_ret_msg(NULL != c, "Bad unit_class %d.", p->id);
 
-  names_set(&c->name, p->name, p->rule_name);
+  names_set(&c->name, NULL, p->name, p->rule_name);
   c->move_type   = p->move_type;
   c->min_speed   = p->min_speed;
   c->hp_loss_pct = p->hp_loss_pct;
@@ -2846,7 +2846,7 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
 
   fc_assert_ret_msg(NULL != u, "Bad unit_type %d.", p->id);
 
-  names_set(&u->name, p->name, p->rule_name);
+  names_set(&u->name, NULL, p->name, p->rule_name);
   sz_strlcpy(u->graphic_str, p->graphic_str);
   sz_strlcpy(u->graphic_alt, p->graphic_alt);
   sz_strlcpy(u->sound_move, p->sound_move);
@@ -2956,7 +2956,7 @@ void handle_ruleset_tech(const struct packet_ruleset_tech *p)
 
   fc_assert_ret_msg(NULL != a, "Bad advance %d.", p->id);
 
-  names_set(&a->name, p->name, p->rule_name);
+  names_set(&a->name, NULL, p->name, p->rule_name);
   sz_strlcpy(a->graphic_str, p->graphic_str);
   sz_strlcpy(a->graphic_alt, p->graphic_alt);
   a->require[AR_ONE] = advance_by_number(p->req[AR_ONE]);
@@ -3006,7 +3006,7 @@ void handle_ruleset_building(const struct packet_ruleset_building *p)
   fc_assert_ret_msg(NULL != b, "Bad improvement %d.", p->id);
 
   b->genus = p->genus;
-  names_set(&b->name, p->name, p->rule_name);
+  names_set(&b->name, NULL, p->name, p->rule_name);
   sz_strlcpy(b->graphic_str, p->graphic_str);
   sz_strlcpy(b->graphic_alt, p->graphic_alt);
   for (i = 0; i < p->reqs_count; i++) {
@@ -3070,7 +3070,7 @@ void handle_ruleset_government(const struct packet_ruleset_government *p)
   }
   fc_assert(gov->reqs.size == p->reqs_count);
 
-  names_set(&gov->name, p->name, p->rule_name);
+  names_set(&gov->name, NULL, p->name, p->rule_name);
   sz_strlcpy(gov->graphic_str, p->graphic_str);
   sz_strlcpy(gov->graphic_alt, p->graphic_alt);
 
@@ -3106,7 +3106,7 @@ void handle_ruleset_terrain(const struct packet_ruleset_terrain *p)
 
   pterrain->tclass = p->tclass;
   pterrain->native_to = p->native_to;
-  names_set(&pterrain->name, p->name, p->rule_name);
+  names_set(&pterrain->name, NULL, p->name, p->rule_name);
   sz_strlcpy(pterrain->graphic_str, p->graphic_str);
   sz_strlcpy(pterrain->graphic_alt, p->graphic_alt);
   pterrain->movement_cost = p->movement_cost;
@@ -3192,7 +3192,7 @@ void handle_ruleset_resource(const struct packet_ruleset_resource *p)
 
   fc_assert_ret_msg(NULL != presource, "Bad resource %d.", p->id);
 
-  names_set(&presource->name, p->name, p->rule_name);
+  names_set(&presource->name, NULL, p->name, p->rule_name);
   sz_strlcpy(presource->graphic_str, p->graphic_str);
   sz_strlcpy(presource->graphic_alt, p->graphic_alt);
 
@@ -3213,7 +3213,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
 
   fc_assert_ret_msg(NULL != pextra, "Bad extra %d.", p->id);
 
-  names_set(&pextra->name, p->name, p->rule_name);
+  names_set(&pextra->name, NULL, p->name, p->rule_name);
 
   pextra->category = p->category;
   pextra->causes = p->causes;
@@ -3333,7 +3333,7 @@ void handle_ruleset_disaster(const struct packet_ruleset_disaster *p)
 
   fc_assert_ret_msg(NULL != pdis, "Bad disaster %d.", p->id);
 
-  names_set(&pdis->name, p->name, p->rule_name);
+  names_set(&pdis->name, NULL, p->name, p->rule_name);
 
   for (i = 0; i < p->reqs_count; i++) {
     requirement_vector_append(&pdis->reqs, p->reqs[i]);
@@ -3354,7 +3354,7 @@ void handle_ruleset_achievement(const struct packet_ruleset_achievement *p)
 
   fc_assert_ret_msg(NULL != pach, "Bad achievement %d.", p->id);
 
-  names_set(&pach->name, p->name, p->rule_name);
+  names_set(&pach->name, NULL, p->name, p->rule_name);
 
   pach->type = p->type;
   pach->unique = p->unique;
@@ -3412,8 +3412,15 @@ void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
 
   fc_assert_ret_msg(NULL != pnation, "Bad nation %d.", packet->id);
 
-  names_set(&pnation->adjective, packet->adjective, packet->rule_name);
-  name_set(&pnation->noun_plural, packet->noun_plural);
+  if (packet->translation_domain[0] != '\0') {
+    pnation->translation_domain = fc_malloc(strlen(packet->translation_domain) + 1);
+    sz_strlcpy(pnation->translation_domain, packet->translation_domain);
+  } else {
+    pnation->translation_domain = NULL;
+  }
+  names_set(&pnation->adjective, pnation->translation_domain,
+            packet->adjective, packet->rule_name);
+  name_set(&pnation->noun_plural, pnation->translation_domain, packet->noun_plural);
   sz_strlcpy(pnation->flag_graphic_str, packet->graphic_str);
   sz_strlcpy(pnation->flag_graphic_alt, packet->graphic_alt);
   pnation->city_style = packet->city_style;
@@ -3427,7 +3434,7 @@ void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
   pnation->barb_type = packet->barbarian_type;
 
   if ('\0' != packet->legend[0]) {
-    pnation->legend = fc_strdup(_(packet->legend));
+    pnation->legend = fc_strdup(nation_legend_translation(pnation, packet->legend));
   } else {
     pnation->legend = fc_strdup("");
   }
@@ -3476,7 +3483,7 @@ void handle_ruleset_city(const struct packet_ruleset_city *packet)
   fc_assert(cs->reqs.size == packet->reqs_count);
   cs->replaced_by = packet->replaced_by;
 
-  names_set(&cs->name, packet->name, packet->rule_name);
+  names_set(&cs->name, NULL, packet->name, packet->rule_name);
   sz_strlcpy(cs->graphic, packet->graphic);
   sz_strlcpy(cs->graphic_alt, packet->graphic_alt);
   sz_strlcpy(cs->oceanic_graphic, packet->oceanic_graphic);
@@ -3536,8 +3543,8 @@ void handle_ruleset_specialist(const struct packet_ruleset_specialist *p)
 
   fc_assert_ret_msg(NULL != s, "Bad specialist %d.", p->id);
 
-  names_set(&s->name, p->plural_name, p->rule_name);
-  name_set(&s->abbreviation, p->short_name);
+  names_set(&s->name, NULL, p->plural_name, p->rule_name);
+  name_set(&s->abbreviation, NULL, p->short_name);
 
   sz_strlcpy(s->graphic_alt, p->graphic_alt);
 

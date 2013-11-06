@@ -1178,7 +1178,7 @@ void veteran_system_definition(struct veteran_system *vsystem, int level,
 
   vlevel = vsystem->definitions + level;
 
-  names_set(&vlevel->name, vlist_name, NULL);
+  names_set(&vlevel->name, NULL, vlist_name, NULL);
   vlevel->power_fact = vlist_power;
   vlevel->move_bonus = vlist_move;
   vlevel->raise_chance = vlist_raise;

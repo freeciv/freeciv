@@ -1,9 +1,10 @@
 [nation_apache]
 
+translation_domain="freeciv"
+
 name=_("Apache")
 plural=_("?plural:Apaches")
 groups="American", "Core"
-; /* TRANS: Legend for nation in "core" set */
 legend=_("The Apaches are a group of Athabascan speaking Indian tribes\
  living in Arizona, New Mexico and Oklahoma. Apache groups include the\
  Western, Chiricahua, Mescalero, Jicarilla, Lipan and Plains Apache.\
