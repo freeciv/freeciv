@@ -1,9 +1,10 @@
 [nation_greek]
 
+translation_domain="freeciv"
+
 name=_("Greek")
 plural=_("?plural:Greeks")
 groups="Ancient", "European", "Core"
-; /* TRANS: Legend for nation in "core" set */
 legend=_("The ancient Greeks, between Mycenae and the Roman conquest.")
 
 leaders = {

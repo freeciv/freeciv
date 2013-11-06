@@ -1073,6 +1073,7 @@ static bool lookup_time(const struct section_file *secfile, int *time,
   Load "name" and (optionally) "rule_name" into a struct name_translation.
 **************************************************************************/
 static bool ruleset_load_names(struct name_translation *pname,
+                               const char *domain,
                                struct section_file *file,
                                const char *sec_name)
 {
@@ -1086,7 +1087,7 @@ static bool ruleset_load_names(struct name_translation *pname,
     return FALSE;
   }
 
-  names_set(pname, name, rule_name);
+  names_set(pname, domain, name, rule_name);
 
   return TRUE;
 }
@@ -1174,7 +1175,7 @@ static bool load_tech_names(struct section_file *file)
 
     i = 0;
     advance_iterate(A_FIRST, a) {
-      if (!ruleset_load_names(&a->name, file, section_name(section_list_get(sec, i)))) {
+      if (!ruleset_load_names(&a->name, NULL, file, section_name(section_list_get(sec, i)))) {
         ok = FALSE;
         break;
       }
@@ -1410,7 +1411,7 @@ static bool load_unit_names(struct section_file *file)
 
     unit_class_iterate(punitclass) {
       const int i = uclass_index(punitclass);
-      if (!ruleset_load_names(&punitclass->name, file,
+      if (!ruleset_load_names(&punitclass->name, NULL, file,
                               section_name(section_list_get(sec, i)))) {
         ok = FALSE;
         break;
@@ -1441,7 +1442,7 @@ static bool load_unit_names(struct section_file *file)
 
     unit_type_iterate(punittype) {
       const int i = utype_index(punittype);
-      if (!ruleset_load_names(&punittype->name, file,
+      if (!ruleset_load_names(&punittype->name, NULL, file,
                               section_name(section_list_get(sec, i)))) {
         ok = FALSE;
         break;
@@ -2202,7 +2203,7 @@ static bool load_building_names(struct section_file *file)
     for (i = 0; i < nval; i++) {
       struct impr_type *b = improvement_by_number(i);
 
-      if (!ruleset_load_names(&b->name, file, section_name(section_list_get(sec, i)))) {
+      if (!ruleset_load_names(&b->name, NULL, file, section_name(section_list_get(sec, i)))) {
         ok = FALSE;
         break;
       }
@@ -2430,13 +2431,13 @@ static bool load_terrain_names(struct section_file *file)
       const int i = terrain_index(pterrain);
       const char *sec_name = section_name(section_list_get(sec, i));
 
-      if (!ruleset_load_names(&pterrain->name, file, sec_name)) {
+      if (!ruleset_load_names(&pterrain->name, NULL, file, sec_name)) {
         ok = FALSE;
         break;
       }
 
       if (0 == strcmp(rule_name(&pterrain->name), "unused")) {
-        name_set(&pterrain->name, "");
+        name_set(&pterrain->name, NULL, "");
       }
 
       section_strlcpy(&terrain_sections[i * MAX_SECTION_LABEL], sec_name);
@@ -2470,13 +2471,13 @@ static bool load_terrain_names(struct section_file *file)
       const int i = resource_index(presource);
       const char *sec_name = section_name(section_list_get(sec, i));
 
-      if (!ruleset_load_names(&presource->name, file, sec_name)) {
+      if (!ruleset_load_names(&presource->name, NULL, file, sec_name)) {
         ok = FALSE;
         break;
       }
 
       if (0 == strcmp(rule_name(&presource->name), "unused")) {
-        name_set(&presource->name, "");
+        name_set(&presource->name, NULL, "");
       }
 
       section_strlcpy(&resource_sections[i * MAX_SECTION_LABEL], sec_name);
@@ -2510,7 +2511,7 @@ static bool load_terrain_names(struct section_file *file)
       const int i = base_index(pbase);
       const char *sec_name = section_name(section_list_get(sec, i));
 
-      if (!ruleset_load_names(&pbase->name, file, sec_name)) {
+      if (!ruleset_load_names(&pbase->name, NULL, file, sec_name)) {
         ok = FALSE;
         break;
       }
@@ -2545,7 +2546,7 @@ static bool load_terrain_names(struct section_file *file)
       const int i = road_index(proad);
       const char *sec_name = section_name(section_list_get(sec, i));
 
-      if (!ruleset_load_names(&proad->name, file, sec_name)) {
+      if (!ruleset_load_names(&proad->name, NULL, file, sec_name)) {
         ok = FALSE;
         break;
       }
@@ -3246,7 +3247,7 @@ static bool load_government_names(struct section_file *file)
       const char *sec_name =
         section_name(section_list_get(sec, government_index(gov)));
 
-      if (!ruleset_load_names(&gov->name, file, sec_name)) {
+      if (!ruleset_load_names(&gov->name, NULL, file, sec_name)) {
         ok = FALSE;
         break;
       }
@@ -3440,14 +3441,33 @@ static bool load_nation_names(struct section_file *file)
     nations_iterate(pl) {
       const int i = nation_index(pl);
       const char *sec_name = section_name(section_list_get(sec, i));
+      const char *domain = secfile_lookup_str_default(file, NULL,
+                                                      "%s.translation_domain", sec_name);
       const char *noun_plural = secfile_lookup_str(file,
                                                    "%s.plural", sec_name);
 
-      if (!ruleset_load_names(&pl->adjective, file, sec_name)) {
+
+      if (domain == NULL) {
+        domain = "freeciv-nations";
+      }
+
+      if (!strcmp("freeciv", domain)) {
+        pl->translation_domain = NULL;
+      } else if (!strcmp("freeciv-nations", domain)) {
+        pl->translation_domain = fc_malloc(strlen(domain) + 1);
+        strcpy(pl->translation_domain, domain);
+      } else {
+        ruleset_error(LOG_ERROR, "Unsupported translation domain \"%s\" for %s",
+                      domain, sec_name);
         ok = FALSE;
         break;
       }
-      name_set(&pl->noun_plural, noun_plural);
+
+      if (!ruleset_load_names(&pl->adjective, domain, file, sec_name)) {
+        ok = FALSE;
+        break;
+      }
+      name_set(&pl->noun_plural, domain, noun_plural);
 
       /* Check if nation name is already defined. */
       for (j = 0; j < i && ok; j++) {
@@ -4203,7 +4223,7 @@ static bool load_citystyle_names(struct section_file *file)
   if (NULL != styles) {
     city_styles_alloc(section_list_size(styles));
     section_list_iterate(styles, style) {
-      if (!ruleset_load_names(&city_styles[i].name, file, section_name(style))) {
+      if (!ruleset_load_names(&city_styles[i].name, NULL, file, section_name(style))) {
         ok = FALSE;
         break;
       }
@@ -4250,14 +4270,14 @@ static bool load_ruleset_cities(struct section_file *file)
       struct requirement_vector *reqs;
       const char *sec_name = section_name(psection);
 
-      if (!ruleset_load_names(&s->name, file, sec_name)) {
+      if (!ruleset_load_names(&s->name, NULL, file, sec_name)) {
         ok = FALSE;
         break;
       }
 
       item = secfile_lookup_str_default(file, untranslated_name(&s->name),
                                         "%s.short_name", sec_name);
-      name_set(&s->abbreviation, item);
+      name_set(&s->abbreviation, NULL, item);
 
       reqs = lookup_req_list(file, sec_name, "reqs", specialist_rule_name(s));
       if (reqs == NULL) {
@@ -4989,7 +5009,7 @@ static bool load_ruleset_game(const char *rsdir, bool act)
       struct requirement_vector *reqs;
       const char *sec_name = section_name(section_list_get(sec, id));
 
-      if (!ruleset_load_names(&pdis->name, file, sec_name)) {
+      if (!ruleset_load_names(&pdis->name, NULL, file, sec_name)) {
         ruleset_error(LOG_ERROR, "\"%s\": Cannot load disaster names",
                       filename);
         ok = FALSE;
@@ -5670,6 +5690,11 @@ static void send_ruleset_nations(struct conn_list *dest)
 
   nations_iterate(n) {
     packet.id = nation_number(n);
+    if (n->translation_domain == NULL) {
+      packet.translation_domain[0] = '\0';
+    } else {
+      sz_strlcpy(packet.translation_domain, n->translation_domain);
+    }
     sz_strlcpy(packet.adjective, untranslated_name(&n->adjective));
     sz_strlcpy(packet.rule_name, rule_name(&n->adjective));
     sz_strlcpy(packet.noun_plural, untranslated_name(&n->noun_plural));

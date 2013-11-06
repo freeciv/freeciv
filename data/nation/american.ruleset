@@ -1,9 +1,10 @@
 [nation_american]
 
+translation_domain="freeciv"
+
 name=_("American")
 plural=_("?plural:Americans")
 groups="Early Modern", "Modern", "American", "Core"
-; /* TRANS: Legend for nation in "core" set */
 legend=_("The United States of America achieved its independence from\
  Great Britain after a revolution in 1776-1783 CE. Its constitution was\
  proclaimed in 1789, making the country one of the first modern\

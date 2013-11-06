@@ -1337,6 +1337,7 @@ end
 PACKET_RULESET_NATION = 148; sc, lsend
   NATION id; key
 
+  STRING translation_domain[MAX_LEN_NAME];
   STRING adjective[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
   STRING noun_plural[MAX_LEN_NAME];

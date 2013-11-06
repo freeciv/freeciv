@@ -1,9 +1,10 @@
 [nation_indian]
 
+translation_domain="freeciv"
+
 name=_("Indian")
 plural=_("?plural:Indians")
 groups="Modern", "Asian", "Core"
-; /* TRANS: Legend for nation in "core" set */
 legend=_("The Republic of India was created in 1950 following a\
  non-violent independence movement led by Mahatma Gandhi. With more\
  than a billion inhabitants it is the world's second most populous\
