@@ -145,9 +145,11 @@ static void check_edited_tile_terrains(void)
     need_continents_reassigned = FALSE;
   }
 
+#ifdef SANITY_CHECKING
   tile_hash_iterate(modified_tile_table, ptile) {
     sanity_check_tile(ptile);
   } tile_hash_iterate_end;
+#endif /* SANITY_CHECKING */
   tile_hash_clear(modified_tile_table);
 }
 
