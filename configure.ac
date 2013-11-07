@@ -1233,13 +1233,6 @@ if test -n "$WITH_EFENCE"; then
   fi])
 fi
 
-dnl Checks needed for Lua. Get rid of these if system lua is ever used.
-gl_FUNC_MKSTEMP
-if test x$gl_cv_func_working_mkstemp = xyes ; then
-  AC_DEFINE([HAVE_MKSTEMP], [1], [Have working mkstemp])
-fi
-AC_CHECK_FUNCS([isatty popen _longjmp])
-
 AC_ARG_ENABLE([sys-lua],
   AS_HELP_STRING([--enable-sys-lua], [use lua from system instead of one from freeciv tree [false]]),
 [case "${enableval}" in
@@ -1265,7 +1258,14 @@ feature_syslua=missing
 sys_lua=false])])])
 fi
 
-if test "x$sys_lua" = "xfalse" ; then
+if test "x$sys_lua" = "xtrue" ; then
+  dnl Checks needed for included lua.
+  gl_FUNC_MKSTEMP
+  if test x$gl_cv_func_working_mkstemp = xyes ; then
+    AC_DEFINE([HAVE_MKSTEMP], [1], [Have working mkstemp])
+  fi
+  AC_CHECK_FUNCS([isatty popen _longjmp])
+else
   LUA_CFLAGS="-I\$(top_srcdir)/dependencies/lua-5.2/src"
   LUA_LIBS="\$(top_builddir)/dependencies/lua-5.2/src/liblua.la"
 fi
