@@ -173,6 +173,8 @@ void building_advisor(struct player *pplayer)
   struct adv_data *adv = adv_data_get(pplayer);
   struct city *wonder_city = game_city_by_number(adv->wonder_city);
 
+  CALL_FUNC_EACH_AI(build_adv_init, pplayer);
+
   if (wonder_city && city_owner(wonder_city) != pplayer) {
     /* We lost it to the enemy! */
     adv->wonder_city = 0;
