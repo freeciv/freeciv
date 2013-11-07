@@ -93,6 +93,7 @@ void dont_want_tech_obsoleting_impr(struct ai_type *ait,
                                     const struct impr_type *pimprove,
                                     int building_want);
 
+void dai_build_adv_init(struct ai_type *ait, struct player *pplayer);
 void dai_build_adv_adjust(struct ai_type *ait, struct player *pplayer,
                           struct city *wonder_city);
 

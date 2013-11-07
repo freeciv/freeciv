@@ -206,6 +206,16 @@ static void cai_wonder_city_distance(struct player *pplayer, struct adv_data *ad
 /**************************************************************************
   Call default ai with classic ai type as parameter.
 **************************************************************************/
+static void cai_build_adv_init(struct player *pplayer)
+{
+  struct ai_type *deftype = classic_ai_get_self();
+
+  dai_build_adv_init(deftype, pplayer);
+}
+
+/**************************************************************************
+  Call default ai with classic ai type as parameter.
+**************************************************************************/
 static void cai_build_adv_adjust(struct player *pplayer, struct city *wonder_city)
 {
   struct ai_type *deftype = classic_ai_get_self();
@@ -517,6 +527,7 @@ bool fc_ai_classic_setup(struct ai_type *ai)
   ai->funcs.city_load = cai_city_load;
   ai->funcs.choose_building = cai_build_adv_override;
   ai->funcs.build_adv_prepare = cai_wonder_city_distance;
+  ai->funcs.build_adv_init = cai_build_adv_init;
   ai->funcs.build_adv_adjust_want = cai_build_adv_adjust;
 
   ai->funcs.units_ruleset_init = cai_units_ruleset_init;

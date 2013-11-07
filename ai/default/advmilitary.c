@@ -1035,28 +1035,34 @@ static void process_attacker_want(struct ai_type *ait,
       if (move_type != UMT_LAND && vuln == 0) {
         desire = 0;
         
-      } else if (uclass_has_flag(utype_class(punittype), UCF_CAN_OCCUPY_CITY)
-                 && acity
-                 && acity_data->invasion.attack > 0
-                 && acity_data->invasion.occupy == 0) {
-        desire = bcost * SHIELD_WEIGHTING;
-
       } else {
+        if (acity
+            && uclass_has_flag(utype_class(punittype), UCF_CAN_OCCUPY_CITY)
+            && acity_data->invasion.attack > 0
+            && acity_data->invasion.occupy == 0) {
+          desire = acity_data->worth * 10;
+        } else {
+          desire = 0;
+        }
+
         if (!acity) {
           desire = kill_desire(value, attack, bcost, vuln, victim_count);
         } else {
+          int kd;
           int city_attack = acity_data->attack * acity_data->attack;
 
           /* See aiunit.c:find_something_to_kill() for comments. */
-          desire = kill_desire(value, attack,
-                               (bcost + acity_data->bcost), vuln,
-                               victim_count);
+          kd = kill_desire(value, attack,
+                           (bcost + acity_data->bcost), vuln,
+                           victim_count);
 
           if (value * city_attack > acity_data->bcost * vuln) {
-            desire -= kill_desire(value, city_attack,
-                                  acity_data->bcost, vuln,
-                                  victim_count);
+            kd -= kill_desire(value, city_attack,
+                              acity_data->bcost, vuln,
+                              victim_count);
           }
+
+          desire = MAX(desire, kd);
         }
       }
       

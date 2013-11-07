@@ -1928,6 +1928,20 @@ static bool should_force_recalc(struct city *pcity)
 }
 
 /************************************************************************** 
+  Initialize building advisor. Calculates data of all players, not
+  only of those controlled by current ai type.
+**************************************************************************/
+void dai_build_adv_init(struct ai_type *ait, struct player *pplayer)
+{
+  struct adv_data *ai = adv_data_get(pplayer);
+
+  /* Find current worth of cities and cache this. */
+  city_list_iterate(pplayer->cities, pcity) {
+    def_ai_city_data(pcity, ait)->worth = city_want(pplayer, pcity, ai, NULL);
+  } city_list_iterate_end;
+}
+
+/************************************************************************** 
   Calculate how much an AI player should want to build particular
   improvements, because of the effects of those improvements, and
   increase the want for technologies that will enable buildings with
@@ -1936,13 +1950,6 @@ static bool should_force_recalc(struct city *pcity)
 void dai_build_adv_adjust(struct ai_type *ait, struct player *pplayer,
                           struct city *wonder_city)
 {
-  struct adv_data *ai = adv_data_get(pplayer);
-
-  /* First find current worth of cities and cache this. */
-  city_list_iterate(pplayer->cities, acity) {
-    def_ai_city_data(acity, ait)->worth = city_want(pplayer, acity, ai, NULL);
-  } city_list_iterate_end;
-
   /* Clear old building wants.
    * Do this separately from the iteration over improvement types
    * because each iteration could actually update more than one improvement,

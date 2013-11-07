@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2.5-2013.Oct.21"
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2.5-2013.Oct.29"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef DEBUG
@@ -113,6 +113,10 @@ struct ai_type
 
     /* Called for player AI when building advisor prepares to make decisions. */
     void (*build_adv_prepare)(struct player *pplayer, struct adv_data *adv);
+
+    /* Called for every AI type when building advisor is first initialized
+     * for the turn. */
+    void (*build_adv_init)(struct player *pplayer);
 
     /* Called for player AI when building advisor should set wants for buildings.
      * Without this implemented in AI type building advisor does not adjust wants

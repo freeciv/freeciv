@@ -212,6 +212,15 @@ static void twai_wonder_city_distance(struct player *pplayer, struct adv_data *a
 /**************************************************************************
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
+static void twai_build_adv_init(struct player *pplayer)
+{
+  TAI_AIT;
+  TAI_DFUNC(dai_build_adv_init, pplayer);
+}
+
+/**************************************************************************
+  Call default ai with threaded ai type as parameter.
+**************************************************************************/
 static void twai_build_adv_adjust(struct player *pplayer, struct city *wonder_city)
 {
   TAI_AIT;
@@ -514,6 +523,7 @@ bool fc_ai_threaded_setup(struct ai_type *ai)
   ai->funcs.city_load = twai_city_load;
   ai->funcs.choose_building = twai_build_adv_override;
   ai->funcs.build_adv_prepare = twai_wonder_city_distance;
+  ai->funcs.build_adv_init = twai_build_adv_init;
   ai->funcs.build_adv_adjust_want = twai_build_adv_adjust;
 
   ai->funcs.units_ruleset_init = twai_units_ruleset_init;
