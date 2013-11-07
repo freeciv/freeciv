@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-14 12:18+0100\n"
-"PO-Revision-Date: 2013-08-05 07:49+0200\n"
+"POT-Creation-Date: 2013-10-09 12:06+0300\n"
+"PO-Revision-Date: 2013-11-02 16:09+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -737,129 +737,129 @@ msgstr "%+4d : Pollution due aux citoyens\n"
 msgid "%+4d : Pollution modifier\n"
 msgstr "%+4d : Modificateur de pollution\n"
 
-#: client/cityrepdata.c:106
+#: client/cityrepdata.c:107
 msgid "?city_state:Celebrating"
 msgstr "Fête"
 
-#: client/cityrepdata.c:107
+#: client/cityrepdata.c:108
 msgid "?city_state:Disorder"
 msgstr "Troubles"
 
-#: client/cityrepdata.c:108
+#: client/cityrepdata.c:109
 msgid "?city_state:Peace"
 msgstr "Paix"
 
-#: client/cityrepdata.c:521
+#: client/cityrepdata.c:522
 msgid "(worklist)"
 msgstr "(liste de travail)"
 
-#: client/cityrepdata.c:638
+#: client/cityrepdata.c:639
 msgid "?city:Name"
 msgstr "Nom"
 
-#: client/cityrepdata.c:638 client/gui-sdl/cityrep.c:196
+#: client/cityrepdata.c:639 client/gui-sdl/cityrep.c:196
 msgid "City Name"
 msgstr "Nom Ville"
 
-#: client/cityrepdata.c:640 client/gui-gtk-2.0/citizensinfo.c:65
+#: client/cityrepdata.c:641 client/gui-gtk-2.0/citizensinfo.c:65
 #: client/gui-gtk-2.0/dialogs.c:452 client/gui-gtk-2.0/editprop.c:3437
 #: client/gui-gtk-2.0/editprop.c:4163 client/gui-gtk-2.0/gotodlg.c:213
-#: client/gui-gtk-2.0/pages.c:1294 client/gui-gtk-2.0/pages.c:2637
+#: client/gui-gtk-2.0/pages.c:1294 client/gui-gtk-2.0/pages.c:2659
 #: client/gui-gtk-3.0/citizensinfo.c:65 client/gui-gtk-3.0/dialogs.c:455
 #: client/gui-gtk-3.0/editprop.c:3462 client/gui-gtk-3.0/editprop.c:4187
 #: client/gui-gtk-3.0/gotodlg.c:218 client/gui-gtk-3.0/pages.c:1317
-#: client/gui-gtk-3.0/pages.c:2670 client/gui-sdl/repodlgs.c:2081
-#: client/plrdlg_common.c:232
+#: client/gui-gtk-3.0/pages.c:2692 client/gui-sdl/repodlgs.c:2081
+#: client/plrdlg_common.c:259
 msgid "Nation"
 msgstr "Nation"
 
-#: client/cityrepdata.c:642
+#: client/cityrepdata.c:643
 msgid "?size [short]:Sz"
 msgstr "T"
 
-#: client/cityrepdata.c:642 client/gui-gtk-2.0/editgui.c:1255
+#: client/cityrepdata.c:643 client/gui-gtk-2.0/editgui.c:1255
 #: client/gui-gtk-2.0/editprop.c:4146 client/gui-gtk-3.0/editgui.c:1281
 #: client/gui-gtk-3.0/editprop.c:4170
 msgid "Size"
 msgstr "Taille"
 
-#: client/cityrepdata.c:644 client/plrdlg_common.c:241
+#: client/cityrepdata.c:645 client/plrdlg_common.c:268
 msgid "State"
 msgstr "État"
 
-#: client/cityrepdata.c:644
+#: client/cityrepdata.c:645
 msgid "Celebrating/Peace/Disorder"
 msgstr "Fête/Paix/Troubles"
 
-#: client/cityrepdata.c:646
+#: client/cityrepdata.c:647
 msgid "Concise *=Celebrating, X=Disorder"
 msgstr "Concis * pour Fête, X pour Troubles"
 
-#: client/cityrepdata.c:649
+#: client/cityrepdata.c:650
 msgid "?Happy workers:H"
 msgstr "H"
 
-#: client/cityrepdata.c:649
+#: client/cityrepdata.c:650
 msgid "Workers: Happy"
 msgstr "Travailleurs : Heureux"
 
-#: client/cityrepdata.c:651
+#: client/cityrepdata.c:652
 msgid "?Content workers:C"
 msgstr "C"
 
-#: client/cityrepdata.c:651
+#: client/cityrepdata.c:652
 msgid "Workers: Content"
 msgstr "Travailleurs : Contents"
 
-#: client/cityrepdata.c:653
+#: client/cityrepdata.c:654
 msgid "?Unhappy workers:U"
 msgstr "M"
 
-#: client/cityrepdata.c:653
+#: client/cityrepdata.c:654
 msgid "Workers: Unhappy"
 msgstr "Travailleurs : Mécontents"
 
-#: client/cityrepdata.c:655
+#: client/cityrepdata.c:656
 msgid "?Angry workers:A"
 msgstr "R"
 
-#: client/cityrepdata.c:655
+#: client/cityrepdata.c:656
 msgid "Workers: Angry"
 msgstr "Travailleurs : Révoltés"
 
-#: client/cityrepdata.c:657
+#: client/cityrepdata.c:658
 msgid "?city:Workers"
 msgstr "Travailleurs"
 
-#: client/cityrepdata.c:658
+#: client/cityrepdata.c:659
 msgid "?happy/content/unhappy/angry:H/C/U/A"
 msgstr "H/C/M/R"
 
-#: client/cityrepdata.c:659
+#: client/cityrepdata.c:660
 msgid "Workers: Happy, Content, Unhappy, Angry"
 msgstr "Travailleurs: Heureux, Contents, Mécontents, Révoltés"
 
-#: client/cityrepdata.c:662 client/cityrepdata.c:664
+#: client/cityrepdata.c:663 client/cityrepdata.c:665
 msgid "Best"
 msgstr "Meilleure"
 
-#: client/cityrepdata.c:662
+#: client/cityrepdata.c:663
 msgid "attack"
 msgstr "attaque"
 
-#: client/cityrepdata.c:663
+#: client/cityrepdata.c:664
 msgid "Best attacking units"
 msgstr "Meilleures unités d'attaque"
 
-#: client/cityrepdata.c:664
+#: client/cityrepdata.c:665
 msgid "defense"
 msgstr "défense"
 
-#: client/cityrepdata.c:665
+#: client/cityrepdata.c:666
 msgid "Best defending units"
 msgstr "Meilleures unités défensives"
 
-#: client/cityrepdata.c:666 client/cityrepdata.c:670
+#: client/cityrepdata.c:667 client/cityrepdata.c:671
 #: client/gui-gtk-2.0/cityrep.c:1497 client/gui-gtk-2.0/cityrep.c:1516
 #: client/gui-gtk-2.0/cityrep.c:1535 client/gui-gtk-2.0/cityrep.c:1554
 #: client/gui-gtk-2.0/cityrep.c:1574 client/gui-gtk-2.0/menu.c:1378
@@ -876,89 +876,89 @@ msgid "Units"
 msgstr "Unités"
 
 #. TRANS: Header "Number of units inside city"
-#: client/cityrepdata.c:668
+#: client/cityrepdata.c:669
 msgid "?Present (units):Here"
 msgstr "Ici"
 
-#: client/cityrepdata.c:669
+#: client/cityrepdata.c:670
 msgid "Number of units present"
 msgstr "Nombre d'unités présentes"
 
 #. TRANS: Header "Number of units supported by given city"
-#: client/cityrepdata.c:672
+#: client/cityrepdata.c:673
 msgid "?Supported (units):Owned"
 msgstr "Sup."
 
-#: client/cityrepdata.c:673
+#: client/cityrepdata.c:674
 msgid "Number of units supported"
 msgstr "Nombre d'unités supportées"
 
 #. TRANS: Header "It will take this many turns before city grows"
-#: client/cityrepdata.c:676
+#: client/cityrepdata.c:677
 msgid "?food (population):Grow"
 msgstr "Croissance"
 
-#: client/cityrepdata.c:677 client/cityrepdata.c:722
+#: client/cityrepdata.c:678 client/cityrepdata.c:723
 msgid "?Stock/Target:(Have/Need)"
 msgstr "(Stock/Besoin)"
 
-#: client/cityrepdata.c:678
+#: client/cityrepdata.c:679
 msgid "Turns until growth/famine"
 msgstr "Tours avant croissance/famine"
 
-#: client/cityrepdata.c:681
+#: client/cityrepdata.c:682
 msgid "Surplus"
 msgstr "Surplus"
 
-#: client/cityrepdata.c:681
+#: client/cityrepdata.c:682
 msgid "?food/production/trade:F/P/T"
 msgstr "N/P/C"
 
-#: client/cityrepdata.c:682
+#: client/cityrepdata.c:683
 msgid "Surplus: Food, Production, Trade"
 msgstr "Surplus: Nourriture, Production, Commerce"
 
-#: client/cityrepdata.c:684
+#: client/cityrepdata.c:685
 msgid "?Food surplus [short]:+F"
 msgstr "+N"
 
-#: client/cityrepdata.c:684
+#: client/cityrepdata.c:685
 msgid "Surplus: Food"
 msgstr "Surplus : Nourriture"
 
-#: client/cityrepdata.c:686
+#: client/cityrepdata.c:687
 msgid "?Production surplus [short]:+P"
 msgstr "+P"
 
-#: client/cityrepdata.c:687
+#: client/cityrepdata.c:688
 msgid "Surplus: Production"
 msgstr "Surplus : Production"
 
-#: client/cityrepdata.c:688
+#: client/cityrepdata.c:689
 msgid "?Production loss (waste) [short]:-P"
 msgstr "-P"
 
-#: client/cityrepdata.c:689
+#: client/cityrepdata.c:690
 msgid "Waste"
 msgstr "Gaspillage"
 
-#: client/cityrepdata.c:690
+#: client/cityrepdata.c:691
 msgid "?Trade surplus [short]:+T"
 msgstr "+C"
 
-#: client/cityrepdata.c:690
+#: client/cityrepdata.c:691
 msgid "Surplus: Trade"
 msgstr "Surplus : Commerce"
 
-#: client/cityrepdata.c:692
+#: client/cityrepdata.c:693
 msgid "?Trade loss (corruption) [short]:-T"
 msgstr "-C"
 
-#: client/cityrepdata.c:693
+#: client/cityrepdata.c:694
 msgid "Corruption"
 msgstr "Corruption"
 
-#: client/cityrepdata.c:695 client/gui-gtk-2.0/menu.c:1370
+#: client/cityrepdata.c:696 client/gui-gtk-2.0/menu.c:1370
 #: client/gui-gtk-2.0/repodlgs.c:1035 client/gui-gtk-3.0/menu.c:1370
 #: client/gui-gtk-3.0/repodlgs.c:1068 client/gui-sdl/mapctrl.c:1403
 #: client/gui-xaw/menu.c:228 client/gui-xaw/menu.c:251
@@ -967,76 +967,76 @@ msgstr "Corruption"
 msgid "Economy"
 msgstr "Économie"
 
-#: client/cityrepdata.c:695
+#: client/cityrepdata.c:696
 msgid "?gold/luxury/science:G/L/S"
 msgstr "O/L/S"
 
-#: client/cityrepdata.c:696
+#: client/cityrepdata.c:697
 msgid "Economy: Gold, Luxuries, Science"
 msgstr "Économie: Or, Luxe, Science"
 
-#: client/cityrepdata.c:698
+#: client/cityrepdata.c:699
 msgid "?Gold:G"
 msgstr "O"
 
-#: client/cityrepdata.c:698
+#: client/cityrepdata.c:699
 msgid "Economy: Gold"
 msgstr "Économie : Or"
 
-#: client/cityrepdata.c:700
+#: client/cityrepdata.c:701
 msgid "?Luxury:L"
 msgstr "L"
 
-#: client/cityrepdata.c:700
+#: client/cityrepdata.c:701
 msgid "Economy: Luxury"
 msgstr "Économie : Luxe"
 
-#: client/cityrepdata.c:702
+#: client/cityrepdata.c:703
 msgid "?Science:S"
 msgstr "S"
 
-#: client/cityrepdata.c:702
+#: client/cityrepdata.c:703
 msgid "Economy: Science"
 msgstr "Économie : Science"
 
-#: client/cityrepdata.c:704
+#: client/cityrepdata.c:705
 msgid "?number_trade_routes:n"
 msgstr "n"
 
-#: client/cityrepdata.c:704
+#: client/cityrepdata.c:705
 msgid "?number_trade_routes:R"
 msgstr "RC"
 
-#: client/cityrepdata.c:705
+#: client/cityrepdata.c:706
 msgid "Number of Trade Routes"
 msgstr "Nombre de routes commerciales"
 
-#: client/cityrepdata.c:707
+#: client/cityrepdata.c:708
 msgid "?pollution [short]:Pol"
 msgstr "Pol"
 
-#: client/cityrepdata.c:707 common/events.c:146 common/terrain.c:515
+#: client/cityrepdata.c:708 common/events.c:146 common/terrain.c:515
 #: common/unit.c:692 server/report.c:165
 msgid "Pollution"
 msgstr "Pollution"
 
-#: client/cityrepdata.c:709
+#: client/cityrepdata.c:710
 msgid "?plague risk [short]:Pla"
 msgstr "Épi"
 
-#: client/cityrepdata.c:709
+#: client/cityrepdata.c:710
 msgid "(%)"
 msgstr "(%)"
 
-#: client/cityrepdata.c:709
+#: client/cityrepdata.c:710
 msgid "Plague risk"
 msgstr "Risque épidémique"
 
-#: client/cityrepdata.c:711
+#: client/cityrepdata.c:712
 msgid "?cma:Governor"
 msgstr "Gouverneur"
 
-#: client/cityrepdata.c:711 client/gui-gtk-2.0/cityrep.c:1874
+#: client/cityrepdata.c:712 client/gui-gtk-2.0/cityrep.c:1874
 #: client/gui-gtk-2.0/menu.c:1401 client/gui-gtk-3.0/cityrep.c:1886
 #: client/gui-gtk-3.0/menu.c:1401 client/gui-sdl/citydlg.c:3831
 #: client/gui-sdl/cma_fe.c:898 client/gui-xaw/menu.c:267
@@ -1045,41 +1045,41 @@ msgid "Citizen Governor"
 msgstr "Gouverneur"
 
 #. TRANS: "BS" = "build slots"
-#: client/cityrepdata.c:715
+#: client/cityrepdata.c:716
 msgid "BS"
 msgstr "CC"
 
-#: client/cityrepdata.c:715
+#: client/cityrepdata.c:716
 msgid "Maximum units buildable per turn"
 msgstr "Nombre maximum d'unités constructibles par tour"
 
-#: client/cityrepdata.c:717 client/cityrepdata.c:719
+#: client/cityrepdata.c:718 client/cityrepdata.c:720
 #: client/gui-sdl/cityrep.c:201 server/report.c:162
 msgid "Production"
 msgstr "Production"
 
-#: client/cityrepdata.c:717
+#: client/cityrepdata.c:718
 msgid "Turns/Buy"
 msgstr "Tours/Coût de l'achat"
 
-#: client/cityrepdata.c:721 client/cityrepdata.c:723
+#: client/cityrepdata.c:722 client/cityrepdata.c:724
 msgid "Currently Building"
 msgstr "Construction en cours"
 
-#: client/cityrepdata.c:766
+#: client/cityrepdata.c:767
 msgid "Specialists: "
 msgstr "Spécialistes : "
 
-#: client/cityrepdata.c:772
+#: client/cityrepdata.c:773
 msgid "?specialist:S"
 msgstr "S"
 
-#: client/cityrepdata.c:775
+#: client/cityrepdata.c:776
 #, c-format
 msgid "Specialists: %s"
 msgstr "Spécialistes : %s"
 
-#: client/cityrepdata.c:792
+#: client/cityrepdata.c:793
 msgid "Special"
 msgstr "Spécial"
 
@@ -1099,37 +1099,37 @@ msgid "Skip connect dialog"
 msgstr "Passer le dialogue de connexion"
 
 #. TRANS: "debug" is exactly what user must type, do not translate.
-#: client/client_main.c:350 client/client_main.c:357 manual/civmanual.c:487
-#: manual/civmanual.c:493 server/civserver.c:355 server/civserver.c:361
+#: client/client_main.c:350 client/client_main.c:357 manual/civmanual.c:489
+#: manual/civmanual.c:495 server/civserver.c:355 server/civserver.c:361
 msgid "debug NUM"
 msgstr "debug NUM"
 
-#: client/client_main.c:351 manual/civmanual.c:488 server/civserver.c:356
+#: client/client_main.c:351 manual/civmanual.c:490 server/civserver.c:356
 #, c-format
 msgid "Set debug log level (%d to %d, or %d:file1,min,max:...)"
 msgstr "Choisir le niveau de débogage (%d à %d ou %d:fichier1,min,max:...)"
 
-#: client/client_main.c:358 manual/civmanual.c:494 server/civserver.c:362
+#: client/client_main.c:358 manual/civmanual.c:496 server/civserver.c:362
 #, c-format
 msgid "Set debug log level (%d to %d)"
 msgstr "Choisir le niveau de débogage (%d à %d)"
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: client/client_main.c:364 manual/civmanual.c:500 server/civserver.c:367
+#: client/client_main.c:364 manual/civmanual.c:502 server/civserver.c:367
 msgid "Fatal [SIGNAL]"
 msgstr "Fatal [SIGNAL]"
 
-#: client/client_main.c:365 manual/civmanual.c:501 server/civserver.c:368
+#: client/client_main.c:365 manual/civmanual.c:503 server/civserver.c:368
 msgid "Raise a signal on failed assertion"
 msgstr "Lever un signal sur une assertion non vérifiée"
 
-#: client/client_main.c:368 manual/civmanual.c:504 modinst/mpcmdline.c:59
+#: client/client_main.c:368 manual/civmanual.c:506 modinst/mpcmdline.c:59
 #: server/civserver.c:375
 msgid "Print a summary of the options"
 msgstr "Afficher un résumé des options"
 
 #. TRANS: "log" is exactly what user must type, do not translate.
-#: client/client_main.c:371 manual/civmanual.c:507 server/civserver.c:382
+#: client/client_main.c:371 manual/civmanual.c:509 server/civserver.c:382
 msgid "log FILE"
 msgstr "log FICHIER"
 
@@ -1214,7 +1214,7 @@ msgid "Use data file FILE.tilespec for tiles"
 msgstr ""
 "Utiliser le fichier de données FICHIER.tilespec pour les tuiles graphiques"
 
-#: client/client_main.c:407 manual/civmanual.c:514 modinst/mpcmdline.c:69
+#: client/client_main.c:407 manual/civmanual.c:516 modinst/mpcmdline.c:69
 #: server/civserver.c:427
 msgid "Print the version number"
 msgstr "Afficher le numéro de version"
@@ -1441,8 +1441,8 @@ msgstr ""
 "pendant %d essais"
 
 #: client/connectdlg_common.c:219
-msgid "Starting server..."
-msgstr "Démarrage du serveur..."
+msgid "Starting local server..."
+msgstr "Démarrage du serveur local..."
 
 #: client/connectdlg_common.c:375
 msgid "Couldn't start the server."
@@ -1593,7 +1593,7 @@ msgstr ""
 "Raccourci : c"
 
 #: client/editor.c:162 client/gui-gtk-2.0/editprop.c:4085
-#: client/gui-gtk-3.0/editprop.c:4109 client/plrdlg_common.c:240
+#: client/gui-gtk-3.0/editprop.c:4109 client/plrdlg_common.c:267
 msgid "Vision"
 msgstr "Vision"
 
@@ -1804,8 +1804,8 @@ msgstr "Coloré (Ctrl-C)"
 msgid "foreground"
 msgstr "avant-plan"
 
-#: client/gui-gtk-2.0/chatline.c:1371 client/gui-gtk-2.0/optiondlg.c:623
-#: client/gui-gtk-3.0/chatline.c:1363 client/gui-gtk-3.0/optiondlg.c:627
+#: client/gui-gtk-2.0/chatline.c:1371 client/gui-gtk-2.0/optiondlg.c:624
+#: client/gui-gtk-3.0/chatline.c:1363 client/gui-gtk-3.0/optiondlg.c:628
 msgid "Select the text color"
 msgstr "Sélectionnez la couleur du texte"
 
@@ -1813,8 +1813,8 @@ msgstr "Sélectionnez la couleur du texte"
 msgid "background"
 msgstr "arrière-plan"
 
-#: client/gui-gtk-2.0/chatline.c:1388 client/gui-gtk-2.0/optiondlg.c:632
-#: client/gui-gtk-3.0/chatline.c:1380 client/gui-gtk-3.0/optiondlg.c:636
+#: client/gui-gtk-2.0/chatline.c:1388 client/gui-gtk-2.0/optiondlg.c:633
+#: client/gui-gtk-3.0/chatline.c:1380 client/gui-gtk-3.0/optiondlg.c:637
 msgid "Select the background color"
 msgstr "Sélectionnez la couleur de fond"
 
@@ -1834,10 +1834,10 @@ msgstr "#"
 
 #: client/gui-gtk-2.0/citizensinfo.c:64 client/gui-gtk-2.0/dialogs.c:448
 #: client/gui-gtk-2.0/editprop.c:3468 client/gui-gtk-2.0/editprop.c:3480
-#: client/gui-gtk-2.0/pages.c:2635 client/gui-gtk-3.0/citizensinfo.c:64
+#: client/gui-gtk-2.0/pages.c:2657 client/gui-gtk-3.0/citizensinfo.c:64
 #: client/gui-gtk-3.0/dialogs.c:451 client/gui-gtk-3.0/editprop.c:3493
-#: client/gui-gtk-3.0/editprop.c:3505 client/gui-gtk-3.0/pages.c:2668
-#: client/plrdlg_common.c:231
+#: client/gui-gtk-3.0/editprop.c:3505 client/gui-gtk-3.0/pages.c:2690
+#: client/plrdlg_common.c:258
 msgid "Flag"
 msgstr "Drapeau"
 
@@ -3129,13 +3129,13 @@ msgstr "ID"
 #: client/gui-gtk-2.0/editprop.c:3455 client/gui-gtk-2.0/editprop.c:3470
 #: client/gui-gtk-2.0/editprop.c:3482 client/gui-gtk-2.0/editprop.c:3492
 #: client/gui-gtk-2.0/editprop.c:4136 client/gui-gtk-2.0/editprop.c:4157
-#: client/gui-gtk-2.0/pages.c:1291 client/gui-gtk-2.0/pages.c:2625
+#: client/gui-gtk-2.0/pages.c:1291 client/gui-gtk-2.0/pages.c:2647
 #: client/gui-gtk-2.0/wldlg.c:998 client/gui-gtk-3.0/editprop.c:3455
 #: client/gui-gtk-3.0/editprop.c:3464 client/gui-gtk-3.0/editprop.c:3480
 #: client/gui-gtk-3.0/editprop.c:3495 client/gui-gtk-3.0/editprop.c:3507
 #: client/gui-gtk-3.0/editprop.c:3517 client/gui-gtk-3.0/editprop.c:4160
 #: client/gui-gtk-3.0/editprop.c:4181 client/gui-gtk-3.0/pages.c:1314
-#: client/gui-gtk-3.0/pages.c:2658 client/gui-gtk-3.0/wldlg.c:1001
+#: client/gui-gtk-3.0/pages.c:2680 client/gui-gtk-3.0/wldlg.c:1001
 #: data/Freeciv.in:97 manual/civmanual.c:364 modinst/modinst.c:283
 msgid "Name"
 msgstr "Nom"
@@ -3295,9 +3295,9 @@ msgstr "Inventions"
 
 #: client/gui-gtk-2.0/editprop.c:4167 client/gui-gtk-2.0/repodlgs.c:1251
 #: client/gui-gtk-3.0/editprop.c:4191 client/gui-gtk-3.0/repodlgs.c:1283
-#: common/city.c:85 data/civ1/terrain.ruleset:608
-#: data/civ2/terrain.ruleset:622 data/default/terrain.ruleset:736
-#: data/experimental/terrain.ruleset:738 data/multiplayer/terrain.ruleset:736
+#: common/city.c:85 data/civ1/terrain.ruleset:609
+#: data/civ2/terrain.ruleset:623 data/default/terrain.ruleset:737
+#: data/experimental/terrain.ruleset:739 data/multiplayer/terrain.ruleset:737
 msgid "Gold"
 msgstr "Or"
 
@@ -3798,7 +3798,7 @@ msgstr "?techhelp:"
 #: client/gui-gtk-2.0/inteldlg.c:410 client/gui-gtk-3.0/helpdlg.c:1121
 #: client/gui-gtk-3.0/helpdlg.c:1215 client/gui-gtk-3.0/inteldlg.c:402
 #: client/gui-xaw/helpdlg.c:1007 client/gui-xaw/helpdlg.c:1092
-#: common/requirements.c:1388 common/requirements.c:1442
+#: common/requirements.c:1402 common/requirements.c:1456
 #, c-format
 msgid "(none)"
 msgstr "(aucun)"
@@ -4285,8 +4285,8 @@ msgstr "Basculer le _brouillard de guerre"
 msgid "Game/Scenario Properties"
 msgstr "_Propriétés de la partie/du scenario"
 
-#: client/gui-gtk-2.0/menu.c:1519 client/gui-gtk-2.0/pages.c:3244
-#: client/gui-gtk-3.0/menu.c:1519 client/gui-gtk-3.0/pages.c:3300
+#: client/gui-gtk-2.0/menu.c:1519 client/gui-gtk-2.0/pages.c:3266
+#: client/gui-gtk-3.0/menu.c:1519 client/gui-gtk-3.0/pages.c:3322
 msgid "Save Scenario"
 msgstr "_Sauvegarder le scenario"
 
@@ -4606,23 +4606,23 @@ msgstr "pop"
 msgid "Messages"
 msgstr "Messages"
 
-#: client/gui-gtk-2.0/optiondlg.c:194 client/gui-gtk-3.0/optiondlg.c:194
+#: client/gui-gtk-2.0/optiondlg.c:195 client/gui-gtk-3.0/optiondlg.c:195
 msgid "Refresh this option"
 msgstr "Rafraichir cette option"
 
-#: client/gui-gtk-2.0/optiondlg.c:201 client/gui-gtk-3.0/optiondlg.c:201
+#: client/gui-gtk-2.0/optiondlg.c:202 client/gui-gtk-3.0/optiondlg.c:202
 msgid "Reset this option"
 msgstr "Réinitialiser cette option"
 
-#: client/gui-gtk-2.0/optiondlg.c:209 client/gui-gtk-3.0/optiondlg.c:209
+#: client/gui-gtk-2.0/optiondlg.c:210 client/gui-gtk-3.0/optiondlg.c:210
 msgid "Apply the changes for this option"
 msgstr "Appliquer les changements pour cette option"
 
-#: client/gui-gtk-2.0/optiondlg.c:328 client/gui-gtk-3.0/optiondlg.c:331
+#: client/gui-gtk-2.0/optiondlg.c:329 client/gui-gtk-3.0/optiondlg.c:332
 msgid "Select a color"
 msgstr "Choisissez une couleur"
 
-#: client/gui-gtk-2.0/optiondlg.c:366 client/gui-gtk-3.0/optiondlg.c:368
+#: client/gui-gtk-2.0/optiondlg.c:367 client/gui-gtk-3.0/optiondlg.c:369
 msgid "Reset"
 msgstr "Réinitialiser"
 
@@ -4657,9 +4657,9 @@ msgstr "Se connecter à Gaming _Zone"
 msgid "Select Location to Save"
 msgstr "Choisissez l'endroit où sauvegarder"
 
-#: client/gui-gtk-2.0/pages.c:504 client/gui-gtk-2.0/pages.c:2834
-#: client/gui-gtk-2.0/pages.c:3041 client/gui-gtk-3.0/pages.c:514
-#: client/gui-gtk-3.0/pages.c:2875 client/gui-gtk-3.0/pages.c:3097
+#: client/gui-gtk-2.0/pages.c:504 client/gui-gtk-2.0/pages.c:2856
+#: client/gui-gtk-2.0/pages.c:3063 client/gui-gtk-3.0/pages.c:514
+#: client/gui-gtk-3.0/pages.c:2897 client/gui-gtk-3.0/pages.c:3119
 msgid "_Browse..."
 msgstr "_Parcourir..."
 
@@ -4745,224 +4745,224 @@ msgstr "Hôte"
 msgid "C_onnect"
 msgstr "C_onnexion"
 
-#: client/gui-gtk-2.0/pages.c:1650 client/gui-gtk-3.0/pages.c:1674
+#: client/gui-gtk-2.0/pages.c:1665 client/gui-gtk-3.0/pages.c:1689
 #, c-format
 msgid "Connection name: %s"
 msgstr "Nom de connexion : %s"
 
-#: client/gui-gtk-2.0/pages.c:1653 client/gui-gtk-3.0/pages.c:1677
+#: client/gui-gtk-2.0/pages.c:1668 client/gui-gtk-3.0/pages.c:1692
 #, c-format
 msgid "Player name: %s"
 msgstr "Nom du joueur : %s"
 
-#: client/gui-gtk-2.0/pages.c:1658 client/gui-gtk-3.0/pages.c:1682
+#: client/gui-gtk-2.0/pages.c:1673 client/gui-gtk-3.0/pages.c:1697
 #, c-format
 msgid "Host: %s"
 msgstr "Hôte : %s"
 
-#: client/gui-gtk-2.0/pages.c:1666 client/gui-gtk-3.0/pages.c:1690
+#: client/gui-gtk-2.0/pages.c:1681 client/gui-gtk-3.0/pages.c:1705
 msgid "Player/conn info"
 msgstr "Info joueur/connect"
 
-#: client/gui-gtk-2.0/pages.c:1699 client/gui-gtk-3.0/pages.c:1723
+#: client/gui-gtk-2.0/pages.c:1714 client/gui-gtk-3.0/pages.c:1738
 #, c-format
 msgid "%s info"
 msgstr "%s info"
 
-#: client/gui-gtk-2.0/pages.c:1707 client/gui-gtk-3.0/pages.c:1731
+#: client/gui-gtk-2.0/pages.c:1722 client/gui-gtk-3.0/pages.c:1746
 msgid "Toggle player ready"
 msgstr "Permuter joueur prêt"
 
-#: client/gui-gtk-2.0/pages.c:1713 client/gui-gtk-3.0/pages.c:1737
+#: client/gui-gtk-2.0/pages.c:1728 client/gui-gtk-3.0/pages.c:1752
 msgid "Pick nation"
 msgstr "Choisir la nation"
 
-#: client/gui-gtk-2.0/pages.c:1721 client/gui-gtk-3.0/pages.c:1745
+#: client/gui-gtk-2.0/pages.c:1736 client/gui-gtk-3.0/pages.c:1760
 msgid "Observe this player"
 msgstr "Observer ce joueur"
 
-#: client/gui-gtk-2.0/pages.c:1728 client/gui-gtk-3.0/pages.c:1752
+#: client/gui-gtk-2.0/pages.c:1743 client/gui-gtk-3.0/pages.c:1767
 msgid "Take this player"
 msgstr "Prendre ce joueur"
 
-#: client/gui-gtk-2.0/pages.c:1740 client/gui-gtk-3.0/pages.c:1764
+#: client/gui-gtk-2.0/pages.c:1755 client/gui-gtk-3.0/pages.c:1779
 msgid "Cut connection"
 msgstr "Couper la connexion"
 
-#: client/gui-gtk-2.0/pages.c:1751 client/gui-gtk-3.0/pages.c:1775
+#: client/gui-gtk-2.0/pages.c:1766 client/gui-gtk-3.0/pages.c:1790
 msgid "Aitoggle player"
 msgstr "Permuter entre IA et jouer"
 
-#: client/gui-gtk-2.0/pages.c:1759 client/gui-gtk-3.0/pages.c:1783
+#: client/gui-gtk-2.0/pages.c:1774 client/gui-gtk-3.0/pages.c:1798
 msgid "Remove player"
 msgstr "Retirer le Joueur"
 
 #. TRANS: Give access level to a connection.
-#: client/gui-gtk-2.0/pages.c:1775 client/gui-gtk-3.0/pages.c:1799
+#: client/gui-gtk-2.0/pages.c:1790 client/gui-gtk-3.0/pages.c:1814
 #, c-format
 msgid "Give %s access"
 msgstr "Donner le niveau d'accès %s"
 
 #. TRANS: e.g., "Put on Team 5"
-#: client/gui-gtk-2.0/pages.c:1829 client/gui-gtk-3.0/pages.c:1853
+#: client/gui-gtk-2.0/pages.c:1844 client/gui-gtk-3.0/pages.c:1868
 #, c-format
 msgid "Put on %s"
 msgstr "Ajouté dans %s"
 
-#: client/gui-gtk-2.0/pages.c:2085 client/gui-gtk-3.0/pages.c:2109
+#: client/gui-gtk-2.0/pages.c:2100 client/gui-gtk-3.0/pages.c:2124
 msgid "Not _ready"
 msgstr "Pas p_rêt"
 
-#: client/gui-gtk-2.0/pages.c:2096 client/gui-gtk-2.0/pages.c:2704
-#: client/gui-gtk-3.0/pages.c:2120 client/gui-gtk-3.0/pages.c:2739
+#: client/gui-gtk-2.0/pages.c:2111 client/gui-gtk-2.0/pages.c:2726
+#: client/gui-gtk-3.0/pages.c:2135 client/gui-gtk-3.0/pages.c:2761
 msgid "_Ready"
 msgstr "P_rêt"
 
-#: client/gui-gtk-2.0/pages.c:2100 client/gui-gtk-2.0/pages.c:2104
-#: client/gui-gtk-3.0/pages.c:2124 client/gui-gtk-3.0/pages.c:2128
+#: client/gui-gtk-2.0/pages.c:2115 client/gui-gtk-2.0/pages.c:2119
+#: client/gui-gtk-3.0/pages.c:2139 client/gui-gtk-3.0/pages.c:2143
 msgid "_Start"
 msgstr "_Démarrage"
 
-#: client/gui-gtk-2.0/pages.c:2112 client/gui-gtk-3.0/pages.c:2136
+#: client/gui-gtk-2.0/pages.c:2127 client/gui-gtk-3.0/pages.c:2151
 #, c-format
 msgid "_Take %s"
 msgstr "Prendre %s"
 
-#: client/gui-gtk-2.0/pages.c:2116 client/gui-gtk-2.0/pages.c:2694
-#: client/gui-gtk-3.0/pages.c:2140 client/gui-gtk-3.0/pages.c:2729
+#: client/gui-gtk-2.0/pages.c:2131 client/gui-gtk-2.0/pages.c:2716
+#: client/gui-gtk-3.0/pages.c:2155 client/gui-gtk-3.0/pages.c:2751
 msgid "Pick _Nation"
 msgstr "_Choisir une nation"
 
-#: client/gui-gtk-2.0/pages.c:2119 client/gui-gtk-3.0/pages.c:2143
+#: client/gui-gtk-2.0/pages.c:2134 client/gui-gtk-3.0/pages.c:2158
 msgid "_Take a Player"
 msgstr "Prendre ce _joueur"
 
-#: client/gui-gtk-2.0/pages.c:2127 client/gui-gtk-3.0/pages.c:2151
+#: client/gui-gtk-2.0/pages.c:2142 client/gui-gtk-3.0/pages.c:2166
 #, c-format
 msgid "_Observe %s"
 msgstr "_Observer %s"
 
-#: client/gui-gtk-2.0/pages.c:2132 client/gui-gtk-2.0/pages.c:2699
-#: client/gui-gtk-3.0/pages.c:2156 client/gui-gtk-3.0/pages.c:2734
+#: client/gui-gtk-2.0/pages.c:2147 client/gui-gtk-2.0/pages.c:2721
+#: client/gui-gtk-3.0/pages.c:2171 client/gui-gtk-3.0/pages.c:2756
 msgid "_Observe"
 msgstr "_Observer"
 
-#: client/gui-gtk-2.0/pages.c:2135 client/gui-gtk-3.0/pages.c:2159
+#: client/gui-gtk-2.0/pages.c:2150 client/gui-gtk-3.0/pages.c:2174
 msgid "Do not _observe"
 msgstr "Ne pas _observer"
 
 #. TRANS: "<Novice AI>"
-#: client/gui-gtk-2.0/pages.c:2265 client/gui-gtk-3.0/pages.c:2289
+#: client/gui-gtk-2.0/pages.c:2280 client/gui-gtk-3.0/pages.c:2304
 #: client/gui-xaw/pages.c:248
 #, c-format
 msgid "<%s AI>"
 msgstr "<IA %s>"
 
-#: client/gui-gtk-2.0/pages.c:2277 client/gui-gtk-3.0/pages.c:2301
+#: client/gui-gtk-2.0/pages.c:2292 client/gui-gtk-3.0/pages.c:2316
 #: client/gui-xaw/pages.c:255
 msgid "Random"
 msgstr "Aléatoire"
 
-#: client/gui-gtk-2.0/pages.c:2351 client/gui-gtk-2.0/pages.c:2408
-#: client/gui-gtk-3.0/pages.c:2375 client/gui-gtk-3.0/pages.c:2432
+#: client/gui-gtk-2.0/pages.c:2366 client/gui-gtk-2.0/pages.c:2423
+#: client/gui-gtk-3.0/pages.c:2390 client/gui-gtk-3.0/pages.c:2447
 msgid "Observer"
 msgstr "Observateur"
 
-#: client/gui-gtk-2.0/pages.c:2433 client/gui-gtk-3.0/pages.c:2457
+#: client/gui-gtk-2.0/pages.c:2448 client/gui-gtk-3.0/pages.c:2472
 msgid "Detached"
 msgstr "Détaché"
 
-#: client/gui-gtk-2.0/pages.c:2549 client/gui-gtk-3.0/pages.c:2579
+#: client/gui-gtk-2.0/pages.c:2571 client/gui-gtk-3.0/pages.c:2601
 msgid "Number of _Players (including AI):"
 msgstr "Nombre de _joueurs (y compris IA) :"
 
-#: client/gui-gtk-2.0/pages.c:2574 client/gui-gtk-3.0/pages.c:2605
+#: client/gui-gtk-2.0/pages.c:2596 client/gui-gtk-3.0/pages.c:2627
 msgid "AI Skill _Level:"
 msgstr "Niveau de l'I_A :"
 
-#: client/gui-gtk-2.0/pages.c:2600 client/gui-gtk-3.0/pages.c:2631
+#: client/gui-gtk-2.0/pages.c:2622 client/gui-gtk-3.0/pages.c:2653
 msgid "Ruleset _Version:"
 msgstr "_Règles du jeu :"
 
-#: client/gui-gtk-2.0/pages.c:2608 client/gui-gtk-3.0/pages.c:2638
+#: client/gui-gtk-2.0/pages.c:2630 client/gui-gtk-3.0/pages.c:2660
 msgid "_More Game Options..."
 msgstr "_Plus d'options..."
 
-#: client/gui-gtk-2.0/pages.c:2627 client/gui-gtk-3.0/pages.c:2660
+#: client/gui-gtk-2.0/pages.c:2649 client/gui-gtk-3.0/pages.c:2682
 msgid "Record"
 msgstr "Enregistré"
 
-#: client/gui-gtk-2.0/pages.c:2629 client/gui-gtk-3.0/pages.c:2662
+#: client/gui-gtk-2.0/pages.c:2651 client/gui-gtk-3.0/pages.c:2684
 msgid "Rating"
 msgstr "Classement"
 
-#: client/gui-gtk-2.0/pages.c:2631 client/gui-gtk-2.0/unitselect.c:470
-#: client/gui-gtk-3.0/pages.c:2664 client/gui-gtk-3.0/unitselect.c:472
+#: client/gui-gtk-2.0/pages.c:2653 client/gui-gtk-2.0/unitselect.c:470
+#: client/gui-gtk-3.0/pages.c:2686 client/gui-gtk-3.0/unitselect.c:472
 #: modinst/modinst.c:150
 msgid "Ready"
 msgstr "Prêt"
 
-#: client/gui-gtk-2.0/pages.c:2633 client/gui-gtk-3.0/pages.c:2666
+#: client/gui-gtk-2.0/pages.c:2655 client/gui-gtk-3.0/pages.c:2688
 msgid "?player:Leader"
 msgstr "Chef"
 
 # AR
-#: client/gui-gtk-2.0/pages.c:2639 client/gui-gtk-3.0/pages.c:2672
-#: client/plrdlg_common.c:235
+#: client/gui-gtk-2.0/pages.c:2661 client/gui-gtk-3.0/pages.c:2694
+#: client/plrdlg_common.c:262
 msgid "Team"
 msgstr "Équipe"
 
-#: client/gui-gtk-2.0/pages.c:2758 client/gui-gtk-3.0/pages.c:2793
+#: client/gui-gtk-2.0/pages.c:2780 client/gui-gtk-3.0/pages.c:2815
 #: client/gui-sdl/chatline.c:197
 msgid "Choose Saved Game to Load"
 msgstr "Choisissez la partie à charger"
 
-#: client/gui-gtk-2.0/pages.c:2814 client/gui-gtk-3.0/pages.c:2854
+#: client/gui-gtk-2.0/pages.c:2836 client/gui-gtk-3.0/pages.c:2876
 msgid "Choose Saved Game to _Load:"
 msgstr "Choisissez _la partie à charger :"
 
-#: client/gui-gtk-2.0/pages.c:2901 client/gui-gtk-3.0/pages.c:2942
+#: client/gui-gtk-2.0/pages.c:2923 client/gui-gtk-3.0/pages.c:2964
 msgid "Choose a Scenario"
 msgstr "Choisissez un scenario"
 
-#: client/gui-gtk-2.0/pages.c:2988 client/gui-gtk-3.0/pages.c:3039
+#: client/gui-gtk-2.0/pages.c:3010 client/gui-gtk-3.0/pages.c:3061
 msgid "Choose a _Scenario:"
 msgstr "Choisissez un _scenario :"
 
-#: client/gui-gtk-2.0/pages.c:3021 client/gui-gtk-3.0/pages.c:3072
+#: client/gui-gtk-2.0/pages.c:3043 client/gui-gtk-3.0/pages.c:3094
 msgid "Filename:"
 msgstr "Nom du fichier :"
 
-#: client/gui-gtk-2.0/pages.c:3209 client/gui-gtk-3.0/pages.c:3265
+#: client/gui-gtk-2.0/pages.c:3231 client/gui-gtk-3.0/pages.c:3287
 #: client/gui-sdl/optiondlg.c:832
 msgid "Save Game"
 msgstr "Sauvegarder la partie"
 
-#: client/gui-gtk-2.0/pages.c:3209 client/gui-gtk-3.0/pages.c:3265
+#: client/gui-gtk-2.0/pages.c:3231 client/gui-gtk-3.0/pages.c:3287
 msgid "Saved _Games:"
 msgstr "Parties sauve_gardées :"
 
-#: client/gui-gtk-2.0/pages.c:3210 client/gui-gtk-3.0/pages.c:3266
+#: client/gui-gtk-2.0/pages.c:3232 client/gui-gtk-3.0/pages.c:3288
 msgid "Save _Filename:"
 msgstr "Sauvegarder le _fichier :"
 
-#: client/gui-gtk-2.0/pages.c:3244 client/gui-gtk-3.0/pages.c:3300
+#: client/gui-gtk-2.0/pages.c:3266 client/gui-gtk-3.0/pages.c:3322
 msgid "Saved Sce_narios:"
 msgstr "Sce_narii sauvegardés :"
 
-#: client/gui-gtk-2.0/pages.c:3245 client/gui-gtk-3.0/pages.c:3301
+#: client/gui-gtk-2.0/pages.c:3267 client/gui-gtk-3.0/pages.c:3323
 msgid "Save Sc_enario:"
 msgstr "Sauvegarder le sc_enario"
 
-#: client/gui-gtk-2.0/pages.c:3273 client/gui-gtk-3.0/pages.c:3329
+#: client/gui-gtk-2.0/pages.c:3295 client/gui-gtk-3.0/pages.c:3351
 msgid "Save Map Image"
 msgstr "Sauvegarder l'image de carte"
 
-#: client/gui-gtk-2.0/pages.c:3273 client/gui-gtk-3.0/pages.c:3329
+#: client/gui-gtk-2.0/pages.c:3295 client/gui-gtk-3.0/pages.c:3351
 msgid "Saved Map _Images:"
 msgstr "_Images de carte sauvegardées :"
 
-#: client/gui-gtk-2.0/pages.c:3274 client/gui-gtk-3.0/pages.c:3330
+#: client/gui-gtk-2.0/pages.c:3296 client/gui-gtk-3.0/pages.c:3352
 msgid "Save _Map Images:"
 msgstr "Sauvegarder les i_mages de carte :"
 
@@ -5166,7 +5166,7 @@ msgid "Score\n"
 msgstr "Score\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1819 client/gui-gtk-3.0/repodlgs.c:1850
-#: client/plrdlg_common.c:234
+#: client/plrdlg_common.c:261
 msgid "Score"
 msgstr "Score"
 
@@ -6045,7 +6045,7 @@ msgstr "Devons-nous lui déclarer la guerre ?"
 msgid "Foreign Minister"
 msgstr "Ministre des Affaires étrangères"
 
-#: client/gui-sdl/diplodlg.c:1509
+#: client/gui-sdl/diplodlg.c:1510
 #, c-format
 msgid ""
 "Sir!, the %s ambassador has arrived\n"
@@ -6054,23 +6054,32 @@ msgstr ""
 "Sire, un ambassadeur de %s est arrivé\n"
 "Quels sont vos souhaits ?"
 
-#: client/gui-sdl/diplodlg.c:1525
+#: client/gui-sdl/diplodlg.c:1514
+#, c-format
+msgid ""
+"Ma'am!, the %s ambassador has arrived\n"
+"What are your wishes?"
+msgstr ""
+"Madame, un ambassadeur de %s est arrivé\n"
+"Quels sont vos souhaits ?"
+
+#: client/gui-sdl/diplodlg.c:1531
 msgid "Declare WAR"
 msgstr "Déclarer la guerre"
 
-#: client/gui-sdl/diplodlg.c:1527
+#: client/gui-sdl/diplodlg.c:1533
 msgid "Cancel Treaty"
 msgstr "Annuler traité"
 
-#: client/gui-sdl/diplodlg.c:1550 data/Freeciv.in:3302
+#: client/gui-sdl/diplodlg.c:1556 data/Freeciv.in:3302
 msgid "Withdraw vision"
 msgstr "Retirer la vue"
 
-#: client/gui-sdl/diplodlg.c:1567
+#: client/gui-sdl/diplodlg.c:1573
 msgid "Call Diplomatic Meeting"
 msgstr "Demande de réunion diplomatique"
 
-#: client/gui-sdl/diplodlg.c:1581
+#: client/gui-sdl/diplodlg.c:1587
 msgid "Send him back"
 msgstr "Le renvoyer"
 
@@ -6814,20 +6823,21 @@ msgid "SDLClient welcomes you..."
 msgstr "SDLClient vous souhaite la bienvenue..."
 
 #. TRANS: Dead -- Rest In Peace -- Reqia In Pace
-#: client/gui-sdl/plrdlg.c:429 client/plrdlg_common.c:178
+#: client/gui-sdl/plrdlg.c:429 client/plrdlg_common.c:179
 msgid "R.I.P."
 msgstr "Mort"
 
-#: client/gui-sdl/plrdlg.c:653 client/plrdlg_common.c:236
+#: client/gui-sdl/plrdlg.c:653 client/plrdlg_common.c:263
 #: server/stdinhand.c:3456 server/stdinhand.c:6228
 msgid "AI"
 msgstr "IA"
 
-#: client/gui-sdl/plrdlg.c:657 client/plrdlg_common.c:184
+#: client/gui-sdl/plrdlg.c:657 client/plrdlg_common.c:201
+#: client/plrdlg_common.c:210
 msgid "done"
 msgstr "terminé"
 
-#: client/gui-sdl/plrdlg.c:659 client/plrdlg_common.c:186
+#: client/gui-sdl/plrdlg.c:659 client/plrdlg_common.c:212
 msgid "moving"
 msgstr "en mouvement"
 
@@ -10356,44 +10366,54 @@ msgstr "L'IA est maintenant activée."
 msgid "AI mode is now OFF."
 msgstr "L'IA est maintenant désactivée."
 
-#: client/plrdlg_common.c:182
+#. TRANS: No connection
+#: client/plrdlg_common.c:195
+msgid "noconn"
+msgstr "pas conn."
+
+#: client/plrdlg_common.c:199 client/plrdlg_common.c:208
 msgid "waiting"
 msgstr "en attente"
 
-#: client/plrdlg_common.c:229
+#. TRANS: Turnblocking & player not connected
+#: client/plrdlg_common.c:204
+msgid "blocking"
+msgstr "bloqué"
+
+#: client/plrdlg_common.c:256
 msgid "?Player:Name"
 msgstr "Nom"
 
-#: client/plrdlg_common.c:230
+#: client/plrdlg_common.c:257
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: client/plrdlg_common.c:233
+#: client/plrdlg_common.c:260
 msgid "Border"
 msgstr "Frontière"
 
-#: client/plrdlg_common.c:237
+#: client/plrdlg_common.c:264
 msgid "Attitude"
 msgstr "Attitude"
 
-#: client/plrdlg_common.c:238 common/events.c:117 common/events.c:124
+#: client/plrdlg_common.c:265 common/events.c:117 common/events.c:124
 #: common/events.c:153
 msgid "Embassy"
 msgstr "Ambassade"
 
-#: client/plrdlg_common.c:239
+#: client/plrdlg_common.c:266
 msgid "Dipl.State"
 msgstr "État dipl."
 
-#: client/plrdlg_common.c:242
+#: client/plrdlg_common.c:269
 msgid "?Player_dlg:Host"
 msgstr "Hôte"
 
-#: client/plrdlg_common.c:243
+#: client/plrdlg_common.c:270
 msgid "?Player_dlg:Idle"
 msgstr "Inactif"
 
-#: client/plrdlg_common.c:244
+#: client/plrdlg_common.c:271
 msgid "Ping"
 msgstr "Ping"
 
@@ -12321,51 +12341,51 @@ msgstr ""
 "Les exigences de survie ne sont prises en charge qu'à portée du monde et du "
 "joueur."
 
-#: common/requirements.c:1414 common/requirements.c:1491
+#: common/requirements.c:1428 common/requirements.c:1505
 #, c-format
 msgid "Size %d"
 msgstr "Taille %d"
 
-#: common/requirements.c:1469 common/requirements.c:1478
+#: common/requirements.c:1483 common/requirements.c:1492
 #, c-format
 msgid "\"%s\" units"
 msgstr "unités \"%s\""
 
-#: common/requirements.c:1474
+#: common/requirements.c:1488
 #, c-format
 msgid "%s units"
 msgstr "unités \"%s\""
 
 #. TRANS: "Hard AI"
-#: common/requirements.c:1496
+#: common/requirements.c:1510
 #, c-format
 msgid "%s AI"
 msgstr "IA %s"
 
 #. TRANS: "Land terrain"
-#: common/requirements.c:1501
+#: common/requirements.c:1515
 #, c-format
 msgid "%s terrain"
 msgstr "terrain \"%s\""
 
 #. TRANS: "Fortress base"
-#: common/requirements.c:1506
+#: common/requirements.c:1520
 #, c-format
 msgid "%s base"
 msgstr "base \"%s\""
 
-#: common/requirements.c:1510
+#: common/requirements.c:1524
 #, c-format
 msgid "After %s"
 msgstr "après %s"
 
 #. TRANS: "Irrigation possible"
-#: common/requirements.c:1515
+#: common/requirements.c:1529
 #, c-format
 msgid "%s possible"
 msgstr "%s possible"
 
-#: common/requirements.c:1519
+#: common/requirements.c:1533
 msgid "City center tile"
 msgstr "centre-ville"
 
@@ -12412,9 +12432,9 @@ msgstr "Mine"
 msgid "Hut"
 msgstr "Hutte"
 
-#: common/terrain.c:517 common/unit.c:705 data/civ1/terrain.ruleset:729
-#: data/civ2/terrain.ruleset:841 data/default/terrain.ruleset:955
-#: data/experimental/terrain.ruleset:957 data/multiplayer/terrain.ruleset:955
+#: common/terrain.c:517 common/unit.c:705 data/civ1/terrain.ruleset:730
+#: data/civ2/terrain.ruleset:842 data/default/terrain.ruleset:956
+#: data/experimental/terrain.ruleset:958 data/multiplayer/terrain.ruleset:956
 msgid "Fortress"
 msgstr "Forteresse"
 
@@ -12426,9 +12446,9 @@ msgstr "Rivière"
 msgid "Farmland"
 msgstr "Champs"
 
-#: common/terrain.c:520 common/unit.c:717 data/civ2/terrain.ruleset:863
-#: data/default/terrain.ruleset:979 data/experimental/terrain.ruleset:981
-#: data/multiplayer/terrain.ruleset:979
+#: common/terrain.c:520 common/unit.c:717 data/civ2/terrain.ruleset:864
+#: data/default/terrain.ruleset:980 data/experimental/terrain.ruleset:982
+#: data/multiplayer/terrain.ruleset:980
 msgid "Airbase"
 msgstr "Base aérienne"
 
@@ -14797,6 +14817,48 @@ msgid "?female:Principal Chief %s"
 msgstr "Cheftaine Principale %s"
 
 # AR
+#: data/civ1/nations.ruleset:1398 data/civ2/nations.ruleset:1951
+#: data/nation/barbarian.ruleset:3 server/stdinhand.c:3454
+#: server/stdinhand.c:6226
+msgid "Barbarian"
+msgstr "Barbare"
+
+#: data/civ1/nations.ruleset:1399 data/civ2/nations.ruleset:1952
+#: data/nation/barbarian.ruleset:4
+msgid "?plural:Barbarians"
+msgstr "Barbares"
+
+#. TRANS: Legend for nation in "core" set
+#: data/civ1/nations.ruleset:1400 data/civ2/nations.ruleset:1953
+#: data/nation/barbarian.ruleset:7
+msgid ""
+"Since the dawn of civilization, barbarians have been a threat to cultured "
+"peoples everywhere."
+msgstr ""
+"Depuis l'aube des civilisations, les barbares ont été une menace pour les "
+"peuples cultivés où qu'ils soient."
+
+#: data/civ1/nations.ruleset:1430 data/civ2/nations.ruleset:1983
+#: data/nation/pirate.ruleset:3
+msgid "Pirate"
+msgstr "Pirate"
+
+#: data/civ1/nations.ruleset:1431 data/civ2/nations.ruleset:1984
+#: data/nation/pirate.ruleset:4
+msgid "?plural:Pirates"
+msgstr "Pirates"
+
+#. TRANS: Legend for nation in "core" set
+#: data/civ1/nations.ruleset:1432 data/civ2/nations.ruleset:1985
+#: data/nation/pirate.ruleset:7
+msgid ""
+"As long as honest men have sailed the seas, pirates have been a scourge of "
+"them and of all coastal dwelling peoples."
+msgstr ""
+"Depuis aussi longtemps que les hommes honnêtes ont vogué sur les mers, les "
+"pirates ont été un fléau pour eux, et pour tous les peuples côtiers."
+
+# AR
 #: data/civ1/techs.ruleset:50 data/civ2/techs.ruleset:50
 #: data/default/techs.ruleset:61 data/experimental/techs.ruleset:63
 #: data/multiplayer/techs.ruleset:61
@@ -15178,21 +15240,21 @@ msgstr "Théorie de la Gravitation"
 msgid "Writing"
 msgstr "Écriture"
 
-#: data/civ1/terrain.ruleset:186 data/civ2/terrain.ruleset:194
-#: data/default/terrain.ruleset:236 data/experimental/terrain.ruleset:238
-#: data/multiplayer/terrain.ruleset:236
+#: data/civ1/terrain.ruleset:187 data/civ2/terrain.ruleset:195
+#: data/default/terrain.ruleset:237 data/experimental/terrain.ruleset:239
+#: data/multiplayer/terrain.ruleset:237
 msgid "Ocean"
 msgstr "Océan"
 
-#: data/civ1/terrain.ruleset:216 data/civ2/terrain.ruleset:224
+#: data/civ1/terrain.ruleset:217 data/civ2/terrain.ruleset:225
 msgid "Oceans cover much of the world."
 msgstr "Les océans recouvrent la majorité du monde."
 
-#: data/civ1/terrain.ruleset:221
+#: data/civ1/terrain.ruleset:222
 msgid "Arctic"
 msgstr "Arctique"
 
-#: data/civ1/terrain.ruleset:251
+#: data/civ1/terrain.ruleset:252
 msgid ""
 "Arctic tiles are found only in the most northerly or southerly reaches of "
 "the world.  They are very cold, and hence difficult to work with."
@@ -15200,15 +15262,15 @@ msgstr ""
 "Les parcelles arctiques ne se trouvent qu'aux abords des deux pôles. Elles "
 "sont gelées et ne se prêtent guère à une quelconque exploitation."
 
-#: data/civ1/terrain.ruleset:258 data/civ2/terrain.ruleset:266
-#: data/default/terrain.ruleset:354 data/experimental/terrain.ruleset:356
-#: data/multiplayer/terrain.ruleset:354
+#: data/civ1/terrain.ruleset:259 data/civ2/terrain.ruleset:267
+#: data/default/terrain.ruleset:355 data/experimental/terrain.ruleset:357
+#: data/multiplayer/terrain.ruleset:355
 msgid "Desert"
 msgstr "Désert"
 
-#: data/civ1/terrain.ruleset:289 data/civ2/terrain.ruleset:298
-#: data/default/terrain.ruleset:389 data/experimental/terrain.ruleset:391
-#: data/multiplayer/terrain.ruleset:389
+#: data/civ1/terrain.ruleset:290 data/civ2/terrain.ruleset:299
+#: data/default/terrain.ruleset:390 data/experimental/terrain.ruleset:392
+#: data/multiplayer/terrain.ruleset:390
 msgid ""
 "Deserts are regions of extreme dryness, making agriculture and trade very "
 "difficult."
@@ -15216,41 +15278,41 @@ msgstr ""
 "Les déserts sont des régions de sécheresse extrême, rendant l'agriculture et "
 "le commerce difficile."
 
-#: data/civ1/terrain.ruleset:295 data/civ2/terrain.ruleset:304
-#: data/default/terrain.ruleset:395 data/experimental/terrain.ruleset:397
-#: data/multiplayer/terrain.ruleset:395
+#: data/civ1/terrain.ruleset:296 data/civ2/terrain.ruleset:305
+#: data/default/terrain.ruleset:396 data/experimental/terrain.ruleset:398
+#: data/multiplayer/terrain.ruleset:396
 msgid "Forest"
 msgstr "Forêt"
 
-#: data/civ1/terrain.ruleset:328 data/civ2/terrain.ruleset:337
-#: data/default/terrain.ruleset:431 data/experimental/terrain.ruleset:433
-#: data/multiplayer/terrain.ruleset:431
+#: data/civ1/terrain.ruleset:329 data/civ2/terrain.ruleset:338
+#: data/default/terrain.ruleset:432 data/experimental/terrain.ruleset:434
+#: data/multiplayer/terrain.ruleset:432
 msgid "Forests are densely wooded, making agriculture somewhat problematic."
 msgstr ""
 "Les forêts sont des zones fortement boisées, rendant la pratique de "
 "l'agriculture problématique."
 
-#: data/civ1/terrain.ruleset:334 data/civ2/terrain.ruleset:343
-#: data/default/terrain.ruleset:437 data/experimental/terrain.ruleset:439
-#: data/multiplayer/terrain.ruleset:437
+#: data/civ1/terrain.ruleset:335 data/civ2/terrain.ruleset:344
+#: data/default/terrain.ruleset:438 data/experimental/terrain.ruleset:440
+#: data/multiplayer/terrain.ruleset:438
 msgid "Grassland"
 msgstr "Prairie"
 
-#: data/civ1/terrain.ruleset:365 data/civ2/terrain.ruleset:374
-#: data/default/terrain.ruleset:471 data/experimental/terrain.ruleset:473
-#: data/multiplayer/terrain.ruleset:471
+#: data/civ1/terrain.ruleset:366 data/civ2/terrain.ruleset:375
+#: data/default/terrain.ruleset:472 data/experimental/terrain.ruleset:474
+#: data/multiplayer/terrain.ruleset:472
 msgid "Grasslands afford exceptional agricultural opportunities."
 msgstr "Les prairies offrent des conditions de culture exceptionnelles."
 
-#: data/civ1/terrain.ruleset:370 data/civ2/terrain.ruleset:379
-#: data/default/terrain.ruleset:476 data/experimental/terrain.ruleset:478
-#: data/multiplayer/terrain.ruleset:476
+#: data/civ1/terrain.ruleset:371 data/civ2/terrain.ruleset:380
+#: data/default/terrain.ruleset:477 data/experimental/terrain.ruleset:479
+#: data/multiplayer/terrain.ruleset:477
 msgid "Hills"
 msgstr "Collines"
 
-#: data/civ1/terrain.ruleset:401 data/civ2/terrain.ruleset:410
-#: data/default/terrain.ruleset:510 data/experimental/terrain.ruleset:512
-#: data/multiplayer/terrain.ruleset:510
+#: data/civ1/terrain.ruleset:402 data/civ2/terrain.ruleset:411
+#: data/default/terrain.ruleset:511 data/experimental/terrain.ruleset:513
+#: data/multiplayer/terrain.ruleset:511
 msgid ""
 "In addition to being amenable to agriculture, Hills are frequently rich in "
 "resources."
@@ -15259,30 +15321,30 @@ msgstr ""
 "souvent riches en ressources naturelles."
 
 # AR
-#: data/civ1/terrain.ruleset:407 data/civ2/terrain.ruleset:416
-#: data/default/terrain.ruleset:516 data/experimental/terrain.ruleset:518
-#: data/multiplayer/terrain.ruleset:516
+#: data/civ1/terrain.ruleset:408 data/civ2/terrain.ruleset:417
+#: data/default/terrain.ruleset:517 data/experimental/terrain.ruleset:519
+#: data/multiplayer/terrain.ruleset:517
 msgid "Jungle"
 msgstr "Jungle"
 
-#: data/civ1/terrain.ruleset:437 data/civ2/terrain.ruleset:448
-#: data/default/terrain.ruleset:551 data/experimental/terrain.ruleset:553
-#: data/multiplayer/terrain.ruleset:551
+#: data/civ1/terrain.ruleset:438 data/civ2/terrain.ruleset:449
+#: data/default/terrain.ruleset:552 data/experimental/terrain.ruleset:554
+#: data/multiplayer/terrain.ruleset:552
 msgid "Jungles are densely overgrown, making agriculture somewhat problematic."
 msgstr ""
 "Les jungles sont couvertes d'une végétation luxuriante, rendant "
 "l'agriculture problématique."
 
 # AR
-#: data/civ1/terrain.ruleset:443 data/civ2/terrain.ruleset:454
-#: data/default/terrain.ruleset:557 data/experimental/terrain.ruleset:559
-#: data/multiplayer/terrain.ruleset:557
+#: data/civ1/terrain.ruleset:444 data/civ2/terrain.ruleset:455
+#: data/default/terrain.ruleset:558 data/experimental/terrain.ruleset:560
+#: data/multiplayer/terrain.ruleset:558
 msgid "Mountains"
 msgstr "Montagnes"
 
-#: data/civ1/terrain.ruleset:472 data/civ2/terrain.ruleset:484
-#: data/default/terrain.ruleset:590 data/experimental/terrain.ruleset:592
-#: data/multiplayer/terrain.ruleset:590
+#: data/civ1/terrain.ruleset:473 data/civ2/terrain.ruleset:485
+#: data/default/terrain.ruleset:591 data/experimental/terrain.ruleset:593
+#: data/multiplayer/terrain.ruleset:591
 msgid ""
 "Mountains are regions of extreme altitude, making agriculture and trade very "
 "difficult."
@@ -15290,15 +15352,15 @@ msgstr ""
 "Les montagnes sont des régions de très haute altitude, rendant "
 "l'agriculture  et le commerce très difficile."
 
-#: data/civ1/terrain.ruleset:478 data/civ2/terrain.ruleset:490
-#: data/default/terrain.ruleset:596 data/experimental/terrain.ruleset:598
-#: data/multiplayer/terrain.ruleset:596
+#: data/civ1/terrain.ruleset:479 data/civ2/terrain.ruleset:491
+#: data/default/terrain.ruleset:597 data/experimental/terrain.ruleset:599
+#: data/multiplayer/terrain.ruleset:597
 msgid "Plains"
 msgstr "Plaines"
 
-#: data/civ1/terrain.ruleset:509 data/civ2/terrain.ruleset:522
-#: data/default/terrain.ruleset:630 data/experimental/terrain.ruleset:632
-#: data/multiplayer/terrain.ruleset:630
+#: data/civ1/terrain.ruleset:510 data/civ2/terrain.ruleset:523
+#: data/default/terrain.ruleset:631 data/experimental/terrain.ruleset:633
+#: data/multiplayer/terrain.ruleset:631
 msgid ""
 "Plains are very broad, sparse regions, which makes trade slightly "
 "inconvenient."
@@ -15306,15 +15368,15 @@ msgstr ""
 "Les plaines forment de vastes régions clairsemées, gênant quelque peu le "
 "commerce."
 
-#: data/civ1/terrain.ruleset:515 data/civ2/terrain.ruleset:528
-#: data/default/terrain.ruleset:636 data/experimental/terrain.ruleset:638
-#: data/multiplayer/terrain.ruleset:636
+#: data/civ1/terrain.ruleset:516 data/civ2/terrain.ruleset:529
+#: data/default/terrain.ruleset:637 data/experimental/terrain.ruleset:639
+#: data/multiplayer/terrain.ruleset:637
 msgid "Swamp"
 msgstr "Marécage"
 
-#: data/civ1/terrain.ruleset:547 data/civ2/terrain.ruleset:561
-#: data/default/terrain.ruleset:672 data/experimental/terrain.ruleset:674
-#: data/multiplayer/terrain.ruleset:672
+#: data/civ1/terrain.ruleset:548 data/civ2/terrain.ruleset:562
+#: data/default/terrain.ruleset:673 data/experimental/terrain.ruleset:675
+#: data/multiplayer/terrain.ruleset:673
 msgid ""
 "Swamps suffer from an over-abundance of water, making agriculture somewhat "
 "problematic."
@@ -15322,72 +15384,72 @@ msgstr ""
 "Les marécages souffrent d'un excès d'eau, rendant l'agriculture plutôt "
 "problématique."
 
-#: data/civ1/terrain.ruleset:553 data/civ2/terrain.ruleset:567
-#: data/default/terrain.ruleset:678 data/experimental/terrain.ruleset:680
-#: data/multiplayer/terrain.ruleset:678
+#: data/civ1/terrain.ruleset:554 data/civ2/terrain.ruleset:568
+#: data/default/terrain.ruleset:679 data/experimental/terrain.ruleset:681
+#: data/multiplayer/terrain.ruleset:679
 msgid "Tundra"
 msgstr "Toundra"
 
-#: data/civ1/terrain.ruleset:583 data/civ2/terrain.ruleset:597
-#: data/default/terrain.ruleset:711 data/experimental/terrain.ruleset:713
-#: data/multiplayer/terrain.ruleset:711
+#: data/civ1/terrain.ruleset:584 data/civ2/terrain.ruleset:598
+#: data/default/terrain.ruleset:712 data/experimental/terrain.ruleset:714
+#: data/multiplayer/terrain.ruleset:712
 msgid ""
 "Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr ""
 "La toundra est une vaste région froide, qui accepte tout juste un peu "
 "d'agriculture."
 
-#: data/civ1/terrain.ruleset:616 data/civ2/terrain.ruleset:638
-#: data/default/terrain.ruleset:752 data/experimental/terrain.ruleset:754
-#: data/multiplayer/terrain.ruleset:752
+#: data/civ1/terrain.ruleset:617 data/civ2/terrain.ruleset:639
+#: data/default/terrain.ruleset:753 data/experimental/terrain.ruleset:755
+#: data/multiplayer/terrain.ruleset:753
 msgid "?animals:Game"
 msgstr "Gibier"
 
-#: data/civ1/terrain.ruleset:624 data/civ2/terrain.ruleset:656
-#: data/default/terrain.ruleset:770 data/experimental/terrain.ruleset:772
-#: data/multiplayer/terrain.ruleset:770
+#: data/civ1/terrain.ruleset:625 data/civ2/terrain.ruleset:657
+#: data/default/terrain.ruleset:771 data/experimental/terrain.ruleset:773
+#: data/multiplayer/terrain.ruleset:771
 msgid "Coal"
 msgstr "Charbon"
 
-#: data/civ1/terrain.ruleset:632 data/civ2/terrain.ruleset:668
-#: data/default/terrain.ruleset:778 data/experimental/terrain.ruleset:780
-#: data/multiplayer/terrain.ruleset:778
+#: data/civ1/terrain.ruleset:633 data/civ2/terrain.ruleset:669
+#: data/default/terrain.ruleset:779 data/experimental/terrain.ruleset:781
+#: data/multiplayer/terrain.ruleset:779
 msgid "Fish"
 msgstr "Poisson"
 
-#: data/civ1/terrain.ruleset:640 data/civ2/terrain.ruleset:685
-#: data/default/terrain.ruleset:795 data/experimental/terrain.ruleset:797
-#: data/multiplayer/terrain.ruleset:795
+#: data/civ1/terrain.ruleset:641 data/civ2/terrain.ruleset:686
+#: data/default/terrain.ruleset:796 data/experimental/terrain.ruleset:798
+#: data/multiplayer/terrain.ruleset:796
 msgid "Gems"
 msgstr "Diamants"
 
-#: data/civ1/terrain.ruleset:648
+#: data/civ1/terrain.ruleset:649
 msgid "Horses"
 msgstr "Chevaux"
 
-#: data/civ1/terrain.ruleset:656 data/civ2/terrain.ruleset:709
-#: data/default/terrain.ruleset:827 data/experimental/terrain.ruleset:829
-#: data/multiplayer/terrain.ruleset:827
+#: data/civ1/terrain.ruleset:657 data/civ2/terrain.ruleset:710
+#: data/default/terrain.ruleset:828 data/experimental/terrain.ruleset:830
+#: data/multiplayer/terrain.ruleset:828
 msgid "Oasis"
 msgstr "Oasis"
 
-#: data/civ1/terrain.ruleset:664 data/civ2/terrain.ruleset:785
-#: data/civ2/terrain.ruleset:793 data/default/terrain.ruleset:907
-#: data/experimental/terrain.ruleset:909 data/multiplayer/terrain.ruleset:907
+#: data/civ1/terrain.ruleset:665 data/civ2/terrain.ruleset:786
+#: data/civ2/terrain.ruleset:794 data/default/terrain.ruleset:908
+#: data/experimental/terrain.ruleset:910 data/multiplayer/terrain.ruleset:908
 msgid "Oil"
 msgstr "Pétrole"
 
-#: data/civ1/terrain.ruleset:672 data/civ2/terrain.ruleset:733
-#: data/default/terrain.ruleset:853 data/experimental/terrain.ruleset:855
-#: data/multiplayer/terrain.ruleset:853 manual/civmanual.c:278
+#: data/civ1/terrain.ruleset:673 data/civ2/terrain.ruleset:734
+#: data/default/terrain.ruleset:854 data/experimental/terrain.ruleset:856
+#: data/multiplayer/terrain.ruleset:854 manual/civmanual.c:278
 msgid "Resources"
 msgstr "Ressources"
 
-#: data/civ1/terrain.ruleset:680
+#: data/civ1/terrain.ruleset:681
 msgid "Seals"
 msgstr "Phoques"
 
-#: data/civ1/terrain.ruleset:744
+#: data/civ1/terrain.ruleset:745
 msgid "Fortresses improve defense for land units."
 msgstr "Les forteresses améliorent la défense des unités terrestres."
 
@@ -17187,42 +17249,6 @@ msgstr "Jarl %s"
 msgid "?female:%s Jarl"
 msgstr "Jarl %s"
 
-# AR
-#: data/civ2/nations.ruleset:1951 data/nation/barbarian.ruleset:3
-#: server/stdinhand.c:3454 server/stdinhand.c:6226
-msgid "Barbarian"
-msgstr "Barbare"
-
-#: data/civ2/nations.ruleset:1952 data/nation/barbarian.ruleset:4
-msgid "?plural:Barbarians"
-msgstr "Barbares"
-
-#. TRANS: Legend for nation in "core" set
-#: data/civ2/nations.ruleset:1953 data/nation/barbarian.ruleset:7
-msgid ""
-"Since the dawn of civilization, barbarians have been a threat to cultured "
-"peoples everywhere."
-msgstr ""
-"Depuis l'aube des civilisations, les barbares ont été une menace pour les "
-"peuples cultivés où qu'ils soient."
-
-#: data/civ2/nations.ruleset:1983 data/nation/pirate.ruleset:3
-msgid "Pirate"
-msgstr "Pirate"
-
-#: data/civ2/nations.ruleset:1984 data/nation/pirate.ruleset:4
-msgid "?plural:Pirates"
-msgstr "Pirates"
-
-#. TRANS: Legend for nation in "core" set
-#: data/civ2/nations.ruleset:1985 data/nation/pirate.ruleset:7
-msgid ""
-"As long as honest men have sailed the seas, pirates have been a scourge of "
-"them and of all coastal dwelling peoples."
-msgstr ""
-"Depuis aussi longtemps que les hommes honnêtes ont vogué sur les mers, les "
-"pirates ont été un fléau pour eux, et pour tous les peuples côtiers."
-
 #: data/civ2/techs.ruleset:66 data/default/techs.ruleset:77
 #: data/experimental/techs.ruleset:79 data/multiplayer/techs.ruleset:77
 msgid "Amphibious Warfare"
@@ -17390,14 +17416,14 @@ msgstr ""
 "possédant une rivière que si votre civilisation a appris la technologie "
 "Construction de ponts."
 
-#: data/civ2/terrain.ruleset:229 data/default/terrain.ruleset:314
-#: data/experimental/terrain.ruleset:316 data/multiplayer/terrain.ruleset:314
+#: data/civ2/terrain.ruleset:230 data/default/terrain.ruleset:315
+#: data/experimental/terrain.ruleset:317 data/multiplayer/terrain.ruleset:315
 msgid "Glacier"
 msgstr "Glacier"
 
 # AR
-#: data/civ2/terrain.ruleset:259 data/default/terrain.ruleset:347
-#: data/experimental/terrain.ruleset:349 data/multiplayer/terrain.ruleset:347
+#: data/civ2/terrain.ruleset:260 data/default/terrain.ruleset:348
+#: data/experimental/terrain.ruleset:350 data/multiplayer/terrain.ruleset:348
 msgid ""
 "Glaciers are found only in the most northerly or southerly reaches of the "
 "world.  They are very cold, and hence difficult to work with."
@@ -17405,67 +17431,67 @@ msgstr ""
 "Les glaciers ne se trouvent qu'aux abords des deux pôles. Le froid qui y "
 "règne les rend difficiles à exploiter."
 
-#: data/civ2/terrain.ruleset:630 data/default/terrain.ruleset:744
-#: data/experimental/terrain.ruleset:746 data/multiplayer/terrain.ruleset:744
+#: data/civ2/terrain.ruleset:631 data/default/terrain.ruleset:745
+#: data/experimental/terrain.ruleset:747 data/multiplayer/terrain.ruleset:745
 msgid "Iron"
 msgstr "Fer"
 
-#: data/civ2/terrain.ruleset:647 data/default/terrain.ruleset:761
-#: data/experimental/terrain.ruleset:763 data/multiplayer/terrain.ruleset:761
+#: data/civ2/terrain.ruleset:648 data/default/terrain.ruleset:762
+#: data/experimental/terrain.ruleset:764 data/multiplayer/terrain.ruleset:762
 msgid "Furs"
 msgstr "Fourrures"
 
-#: data/civ2/terrain.ruleset:676 data/default/terrain.ruleset:786
-#: data/experimental/terrain.ruleset:788 data/multiplayer/terrain.ruleset:786
+#: data/civ2/terrain.ruleset:677 data/default/terrain.ruleset:787
+#: data/experimental/terrain.ruleset:789 data/multiplayer/terrain.ruleset:787
 msgid "Fruit"
 msgstr "Fruit"
 
-#: data/civ2/terrain.ruleset:693 data/default/terrain.ruleset:805
-#: data/experimental/terrain.ruleset:807 data/multiplayer/terrain.ruleset:805
+#: data/civ2/terrain.ruleset:694 data/default/terrain.ruleset:806
+#: data/experimental/terrain.ruleset:808 data/multiplayer/terrain.ruleset:806
 msgid "Buffalo"
 msgstr "Bison"
 
-#: data/civ2/terrain.ruleset:701 data/default/terrain.ruleset:813
-#: data/experimental/terrain.ruleset:815 data/multiplayer/terrain.ruleset:813
+#: data/civ2/terrain.ruleset:702 data/default/terrain.ruleset:814
+#: data/experimental/terrain.ruleset:816 data/multiplayer/terrain.ruleset:814
 msgid "Wheat"
 msgstr "Blé"
 
-#: data/civ2/terrain.ruleset:717 data/default/terrain.ruleset:835
-#: data/experimental/terrain.ruleset:837 data/multiplayer/terrain.ruleset:835
+#: data/civ2/terrain.ruleset:718 data/default/terrain.ruleset:836
+#: data/experimental/terrain.ruleset:838 data/multiplayer/terrain.ruleset:836
 msgid "Peat"
 msgstr "Tourbe"
 
-#: data/civ2/terrain.ruleset:725 data/default/terrain.ruleset:843
-#: data/experimental/terrain.ruleset:845 data/multiplayer/terrain.ruleset:843
+#: data/civ2/terrain.ruleset:726 data/default/terrain.ruleset:844
+#: data/experimental/terrain.ruleset:846 data/multiplayer/terrain.ruleset:844
 msgid "Pheasant"
 msgstr "Faisan"
 
-#: data/civ2/terrain.ruleset:741 data/default/terrain.ruleset:861
-#: data/experimental/terrain.ruleset:863 data/multiplayer/terrain.ruleset:861
+#: data/civ2/terrain.ruleset:742 data/default/terrain.ruleset:862
+#: data/experimental/terrain.ruleset:864 data/multiplayer/terrain.ruleset:862
 msgid "Ivory"
 msgstr "Ivoire"
 
-#: data/civ2/terrain.ruleset:751 data/default/terrain.ruleset:871
-#: data/experimental/terrain.ruleset:873 data/multiplayer/terrain.ruleset:871
+#: data/civ2/terrain.ruleset:752 data/default/terrain.ruleset:872
+#: data/experimental/terrain.ruleset:874 data/multiplayer/terrain.ruleset:872
 msgid "Silk"
 msgstr "Soie"
 
-#: data/civ2/terrain.ruleset:759 data/default/terrain.ruleset:879
-#: data/experimental/terrain.ruleset:881 data/multiplayer/terrain.ruleset:879
+#: data/civ2/terrain.ruleset:760 data/default/terrain.ruleset:880
+#: data/experimental/terrain.ruleset:882 data/multiplayer/terrain.ruleset:880
 msgid "Spice"
 msgstr "Épice"
 
-#: data/civ2/terrain.ruleset:768 data/default/terrain.ruleset:890
-#: data/experimental/terrain.ruleset:892 data/multiplayer/terrain.ruleset:890
+#: data/civ2/terrain.ruleset:769 data/default/terrain.ruleset:891
+#: data/experimental/terrain.ruleset:893 data/multiplayer/terrain.ruleset:891
 msgid "Whales"
 msgstr "Baleines"
 
-#: data/civ2/terrain.ruleset:777 data/default/terrain.ruleset:899
-#: data/experimental/terrain.ruleset:901 data/multiplayer/terrain.ruleset:899
+#: data/civ2/terrain.ruleset:778 data/default/terrain.ruleset:900
+#: data/experimental/terrain.ruleset:902 data/multiplayer/terrain.ruleset:900
 msgid "Wine"
 msgstr "Vin"
 
-#: data/civ2/terrain.ruleset:856
+#: data/civ2/terrain.ruleset:857
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
@@ -17475,8 +17501,8 @@ msgstr ""
 "effets, une unité qui reste dans une forteresse sans bouger pendant un tour "
 "récupère un quart de ses points de vie."
 
-#: data/civ2/terrain.ruleset:877 data/default/terrain.ruleset:993
-#: data/experimental/terrain.ruleset:995 data/multiplayer/terrain.ruleset:993
+#: data/civ2/terrain.ruleset:878 data/default/terrain.ruleset:994
+#: data/experimental/terrain.ruleset:996 data/multiplayer/terrain.ruleset:994
 msgid ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
@@ -18477,18 +18503,18 @@ msgstr ""
 "Permet aux Travailleurs et Ingénieurs de construire des bases aériennes et "
 "des balises flottantes."
 
-#: data/default/terrain.ruleset:198 data/experimental/terrain.ruleset:200
-#: data/multiplayer/terrain.ruleset:198
+#: data/default/terrain.ruleset:199 data/experimental/terrain.ruleset:201
+#: data/multiplayer/terrain.ruleset:199
 msgid "Lake"
 msgstr "Lac"
 
-#: data/default/terrain.ruleset:231 data/experimental/terrain.ruleset:233
-#: data/multiplayer/terrain.ruleset:231
+#: data/default/terrain.ruleset:232 data/experimental/terrain.ruleset:234
+#: data/multiplayer/terrain.ruleset:232
 msgid "Lakes are substantial bodies of fresh water."
 msgstr "Les lacs sont d'importantes retenues d'eau douce."
 
-#: data/default/terrain.ruleset:269 data/experimental/terrain.ruleset:271
-#: data/multiplayer/terrain.ruleset:269
+#: data/default/terrain.ruleset:270 data/experimental/terrain.ruleset:272
+#: data/multiplayer/terrain.ruleset:270
 msgid ""
 "Shallow oceans are mostly found near coastlines, and are often rich sources "
 "of food and other resources."
@@ -18496,13 +18522,13 @@ msgstr ""
 "Les océans peu profonds sont principalement situés près des côtes, et sont "
 "souvent de riches sources de nourriture et autres ressources."
 
-#: data/default/terrain.ruleset:275 data/experimental/terrain.ruleset:277
-#: data/multiplayer/terrain.ruleset:275
+#: data/default/terrain.ruleset:276 data/experimental/terrain.ruleset:278
+#: data/multiplayer/terrain.ruleset:276
 msgid "Deep Ocean"
 msgstr "Océan profond"
 
-#: data/default/terrain.ruleset:308 data/experimental/terrain.ruleset:310
-#: data/multiplayer/terrain.ruleset:308
+#: data/default/terrain.ruleset:309 data/experimental/terrain.ruleset:311
+#: data/multiplayer/terrain.ruleset:309
 msgid ""
 "Deep oceans cover much of the world away from coastlines, and only seaworthy "
 "units (not including Triremes) can travel on them."
@@ -18510,8 +18536,8 @@ msgstr ""
 "Les océans profonds couvrent la plus grande partie du monde, loin des côtes, "
 "et seules les unités marines (sauf les Trirèmes) peuvent voyager dessus."
 
-#: data/default/terrain.ruleset:971 data/experimental/terrain.ruleset:973
-#: data/multiplayer/terrain.ruleset:971
+#: data/default/terrain.ruleset:972 data/experimental/terrain.ruleset:974
+#: data/multiplayer/terrain.ruleset:972
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
@@ -18524,24 +18550,24 @@ msgstr ""
 "Invention, les forteresses gagnent des tours de guet, à partir desquelles "
 "les unités peuvent voir des territoires plus lointains."
 
-#: data/default/terrain.ruleset:999 data/experimental/terrain.ruleset:1001
-#: data/multiplayer/terrain.ruleset:1003
+#: data/default/terrain.ruleset:1000 data/experimental/terrain.ruleset:1002
+#: data/multiplayer/terrain.ruleset:1004
 msgid "Buoy"
 msgstr "Balise"
 
-#: data/default/terrain.ruleset:1013 data/experimental/terrain.ruleset:1015
+#: data/default/terrain.ruleset:1014 data/experimental/terrain.ruleset:1016
 msgid "Buoys may be built in the ocean (by units on a sea-going vessel)."
 msgstr ""
 "Des balises flottantes peuvent être construites sur l'océan (par des unités "
 "à bord de navires)."
 
-#: data/default/terrain.ruleset:1018 data/experimental/terrain.ruleset:1020
-#: data/multiplayer/terrain.ruleset:1023
+#: data/default/terrain.ruleset:1019 data/experimental/terrain.ruleset:1021
+#: data/multiplayer/terrain.ruleset:1024
 msgid "Ruins"
 msgstr "Ruines"
 
-#: data/default/terrain.ruleset:1029 data/experimental/terrain.ruleset:1031
-#: data/multiplayer/terrain.ruleset:1034
+#: data/default/terrain.ruleset:1030 data/experimental/terrain.ruleset:1032
+#: data/multiplayer/terrain.ruleset:1035
 msgid ""
 "Ruins mark the former site of a city that was destroyed or abandoned. They "
 "have no effect on gameplay."
@@ -23781,7 +23807,7 @@ msgstr ""
 "Cette technologie est uniquement acquise la première fois que vous "
 "construisez le Voyage de Darwin."
 
-#: data/multiplayer/terrain.ruleset:1018
+#: data/multiplayer/terrain.ruleset:1019
 msgid "Buoys cannot be built in the multiplayer ruleset."
 msgstr ""
 "Les bouées ne peuvent pas être construites dans les règles du jeu "
@@ -38606,16 +38632,16 @@ msgstr "Plus d'info"
 msgid "Manual file %s successfully written."
 msgstr "Fichier manuel %s écrit avec succès"
 
-#: manual/civmanual.c:508 server/civserver.c:383
+#: manual/civmanual.c:510 server/civserver.c:383
 msgid "Use FILE as logfile"
 msgstr "Utiliser FICHIER en tant que fichier de traces"
 
 #. TRANS: "ruleset" is exactly what user must type, do not translate.
-#: manual/civmanual.c:511
+#: manual/civmanual.c:513
 msgid "ruleset RULESET"
 msgstr "ruleset REGLES"
 
-#: manual/civmanual.c:512
+#: manual/civmanual.c:514
 msgid "Make manual for RULESET"
 msgstr "Créer un manuel pour REGLES"
 
@@ -42035,13 +42061,13 @@ msgstr ""
 #: server/generator/mapgen_topology.c:306
 #, c-format
 msgid ""
-"Setting map size to %d (approx. %d (land) tiles for each of the %d player"
-"(s))."
+"Setting map size to %d (approx. %d (land) tiles for each of the %d "
+"player(s))."
 msgstr ""
 "Taille de la carte positionnée à %d (approximativement %d cases (de terre) "
 "pour chacun des %d joueurs(s))"
 
-#: server/generator/startpos.c:394
+#: server/generator/startpos.c:403
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
 "starting positions.\n"
@@ -42818,11 +42844,11 @@ msgstr "Unités perdues\n"
 msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "Impossible de trouver un fichier de règles lisible \"%s.%s\"."
 
-#: server/ruleset.c:4180
+#: server/ruleset.c:4272
 msgid "Loading rulesets."
 msgstr "Chargement des différentes règles du jeu."
 
-#: server/ruleset.c:4256
+#: server/ruleset.c:4348
 msgid "Reducing aifill because there are not enough playable nations."
 msgstr "aifill réduit parce qu'il n'y a pas assez de nations jouables."
 
@@ -45259,101 +45285,101 @@ msgstr ""
 "'kick' ne soit autorisé à se reconnecter. Modifier cette option affectera "
 "les joueurs éjectés par le passé."
 
-#: server/settings.c:2361
+#: server/settings.c:2369
 #, c-format
 msgid "You are not allowed to change the setting '%s'."
 msgstr "Vous n'êtes pas autorisé à changer l'option '%s'."
 
-#: server/settings.c:2369
+#: server/settings.c:2377
 #, c-format
 msgid "The setting '%s' is locked by the ruleset."
 msgstr "L'option '%s' est verrouillée par les règles du jeu."
 
-#: server/settings.c:2383
+#: server/settings.c:2391
 #, c-format
 msgid "The setting '%s' can't be modified after the map is fixed."
 msgstr ""
 "L'option '%s' ne peut pas être modifiée une fois que la carte est fixée."
 
-#: server/settings.c:2400
+#: server/settings.c:2408
 #, c-format
 msgid "The setting '%s' can't be modified after the game has started."
 msgstr ""
 "L'option '%s' ne peut pas être modifiée après que la partie ait commencé."
 
-#: server/settings.c:2412
+#: server/settings.c:2420
 msgid "Internal error."
 msgstr "Erreur interne."
 
-#: server/settings.c:2500
+#: server/settings.c:2508
 #, c-format
 msgid "\"%s\" prefix is ambiguous. Candidates are: %s."
 msgstr "Le préfixe \"%s\" est ambigu. Les candidats sont : %s."
 
-#: server/settings.c:2507
+#: server/settings.c:2515
 msgid "Missing value."
 msgstr "Valeur manquante."
 
 # AR
-#: server/settings.c:2516
+#: server/settings.c:2524
 #, c-format
 msgid "No match for \"%s\"."
 msgstr "Pas de correspondance pour \"%s\""
 
-#: server/settings.c:2554
+#: server/settings.c:2562
 msgid "This setting is not a boolean."
 msgstr "Cette option n'est pas booléenne."
 
-#: server/settings.c:2675
+#: server/settings.c:2683
 msgid "This setting is not an integer."
 msgstr "Cette option n'est pas un entier."
 
-#: server/settings.c:2681
+#: server/settings.c:2689
 #, c-format
 msgid "Value out of range: %d (min: %d; max: %d)."
 msgstr "Valeur hors bornes : %d (minimum : %d, maximum : %d)."
 
-#: server/settings.c:2736
+#: server/settings.c:2744
 msgid "This setting is not a string."
 msgstr "Cette option n'est pas textuelle."
 
-#: server/settings.c:2742
+#: server/settings.c:2750
 #, c-format
 msgid "String value too long (max length: %lu)."
 msgstr "Chaîne trop longue (longueur maximale : %lu)."
 
-#: server/settings.c:2820
+#: server/settings.c:2828
 msgid "This setting is not an enumerator."
 msgstr "Cette option n'est pas un énuméré."
 
 #. TRANS: only emphasizing a string.
-#: server/settings.c:2989
+#: server/settings.c:2997
 #, c-format
 msgid "\"%s\""
 msgstr "\"%s\""
 
 #. TRANS: Bitwise setting has no bits set.
-#: server/settings.c:2998
+#: server/settings.c:3006
 msgid "empty value"
 msgstr "valeur vide"
 
-#: server/settings.c:3050
+#: server/settings.c:3058
 msgid "This setting is not a bitwise."
 msgstr "Cette option n'est pas un champ de bits."
 
-#: server/settings.c:3308 server/settings.c:3328 server/settings.c:3348
-#: server/settings.c:3372 server/settings.c:3396
+#: server/settings.c:3319 server/settings.c:3339 server/settings.c:3359
+#: server/settings.c:3383 server/settings.c:3407
 #, c-format
 msgid "Ruleset: '%s' has been set to %s."
 msgstr "Règles du jeu : '%s' a été positionnée à %s."
 
-#: server/settings.c:3413
+#: server/settings.c:3424
 #, c-format
 msgid "Ruleset: '%s' has been locked by the ruleset."
 msgstr "Règles du jeu : '%s' a été verrouillée par les règles du jeu."
 
-#: server/settings.c:3669 server/settings.c:3694 server/settings.c:3716
-#: server/settings.c:3743 server/settings.c:3770
+#: server/settings.c:3680 server/settings.c:3705 server/settings.c:3727
+#: server/settings.c:3754 server/settings.c:3781
 #, c-format
 msgid "Savegame: '%s' has been set to %s."
 msgstr "Sauvegarde : '%s' a été positionnée à %s."
@@ -54651,8 +54677,8 @@ msgstr "erreur %d (compilation sans strerror)"
 #~ "Maj-Ctrl-B: \"aller à\" et fonder une ville à la cible\n"
 #~ "Maj-Ctrl-R: connecter la case courante et la cible par la (r)oute\n"
 #~ "Maj-Ctrl-L: connecter la case courante et la cible par le rai(l)\n"
-#~ "Maj-Ctrl-I: connecter la case courante et la cible avec le l'(i)"
-#~ "rrigation\n"
+#~ "Maj-Ctrl-I: connecter la case courante et la cible avec le "
+#~ "l'(i)rrigation\n"
 
 #~ msgid ""
 #~ "Unit Movement:\n"
@@ -59283,8 +59309,8 @@ msgstr "erreur %d (compilation sans strerror)"
 #~ msgstr "_Auto-attaquer"
 
 #~ msgid ""
-#~ "Auto-connecting to server \"%s\" at port %d as \"%s\" every %d.%d second"
-#~ "(s) for %d times"
+#~ "Auto-connecting to server \"%s\" at port %d as \"%s\" every %d.%d "
+#~ "second(s) for %d times"
 #~ msgstr ""
 #~ "Autoconnexion au serveur \"%s\" port %d en tant que \"%s\" chaque %d.%d "
 #~ "seconde(s) pendant %d essais"
