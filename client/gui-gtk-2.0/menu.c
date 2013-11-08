@@ -2359,6 +2359,8 @@ void real_menus_update(void)
       } else {
         sz_strlcpy(irrtext, _("Build _Irrigation"));
       }
+    } else {
+      sz_strlcpy(irrtext, _("Build _Irrigation"));
     }
 
     if (pterrain->mining_result != T_NONE
@@ -2385,6 +2387,8 @@ void real_menus_update(void)
       } else {
         sz_strlcpy(mintext, _("Build _Mine"));
       }
+    } else {
+      sz_strlcpy(mintext, _("Build _Mine"));
     }
 
     if (pterrain->transform_result != T_NONE
