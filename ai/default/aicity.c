@@ -1088,6 +1088,17 @@ static int improvement_effect_value(struct player *pplayer,
   enum unit_move_type move = unit_move_type_invalid();
   int num;
 
+  if (amount == 0) {
+    /* We could prune such effects in ruleset loading already,
+     * but we allow people tuning their rulesets to temporarily disable
+     * the effect by setting value to 0 without need to completely
+     * remove the effect.
+     * Shortcutting these effects here is not only for performance,
+     * more importantly it makes sure code below assuming amount to
+     * be positive does not assign positive value. */
+    return 0;
+  }
+
   switch (peffect->type) {
   /* These (Wonder) effects have already been evaluated in base_want() */
   case EFT_CAPITAL_CITY:
