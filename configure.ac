@@ -1025,7 +1025,17 @@ AC_ARG_ENABLE([ruledit],
   *)   AC_MSG_ERROR([bad value ${enableval} for --enable-ruledit]) ;;
 esac], [ruledit=no])
 if test "x$ruledit" = "xyes" ; then
-  if test "x$cxx_works" != "xyes" ; then
+  if test "x$cxx_works" = "xyes" ; then
+    FC_QT5
+
+    if test "x$fc_qt5_usable" = "xtrue" ; then
+      ruledit_CPPFLAGS=$FC_QT5_CPPFLAGS
+      ruledit_CXXFLAGS=$FC_QT5_CXXFLAGS
+      ruledit_LIBS=$FC_QT5_LIBS
+    else
+      AC_MSG_ERROR([Qt5 not found for building freeciv-ruledit])
+    fi
+  else
     AC_MSG_ERROR([No working C++ compiler found for building freeciv-ruledit])
   fi
 fi
@@ -1066,6 +1076,9 @@ AC_SUBST([MP_gtk3_LDFLAGS])
 AC_SUBST([MP_qt_CPPFLAGS])
 AC_SUBST([MP_qt_CXXFLAGS])
 AC_SUBST([MP_qt_LIBS])
+AC_SUBST([ruledit_CPPFLAGS])
+AC_SUBST([ruledit_CXXFLAGS])
+AC_SUBST([ruledit_LIBS])
 AC_SUBST([SOUND_CFLAGS])
 AC_SUBST([SOUND_LIBS])
 AC_SUBST([VERSION_WITHOUT_LABEL])

@@ -35,10 +35,11 @@
 #include "settings.h"
 
 /* ruledit */
-#include "rulesave.h"
+#include "ruledit_qt.h"
+
+#include "ruledit.h"
 
 const char *source_rs = "classic";
-const char *dest_dir = NULL;
 const char *rs_name = NULL;
 
 static int re_parse_cmdline(int argc, char *argv[]);
@@ -75,6 +76,8 @@ int main(int argc, char **argv)
     game_init();
     i_am_server();
 
+    ruledit_qt_setup(ui_options, argv);
+
     if (source_rs !=  NULL) {
       sz_strlcpy(game.server.rulesetdir, source_rs);
     }
@@ -96,9 +99,8 @@ int main(int argc, char **argv)
       log_normal("Bases:        %d", game.control.num_base_types);
       log_normal("Roads:        %d", game.control.num_road_types);
 
-      if (dest_dir != NULL) {
-        save_ruleset(dest_dir, rs_name);
-      }
+      ruledit_qt_run();
+      ruledit_qt_close();
     } else {
       log_error("Loading ruleset %s failed", game.server.rulesetdir);
     }
@@ -133,8 +135,6 @@ static int re_parse_cmdline(int argc, char *argv[])
                   /* TRANS: "source" is exactly what user must type, do not translate. */
                   R__("source RULESET"),
                   R__("Load given ruleset"));
-      cmdhelp_add(help, "d", R__("destination DIR"),
-                  R__("Save ruleset to given directory"));
       cmdhelp_add(help, "n", R__("name NAME"),
                   R__("Set name of the ruleset"));
       cmdhelp_add(help, "v", "version",
@@ -147,8 +147,6 @@ static int re_parse_cmdline(int argc, char *argv[])
       exit(EXIT_SUCCESS);
     } else if ((option = get_option_malloc("--source", argv, &i, argc))) {
       source_rs = option;
-    } else if ((option = get_option_malloc("--destination", argv, &i, argc))) {
-      dest_dir = option;
     } else if ((option = get_option_malloc("--name", argv, &i, argc))) {
       rs_name = option;
     } else if (is_option("--version", argv[i])) {
@@ -163,4 +161,12 @@ static int re_parse_cmdline(int argc, char *argv[])
   }
 
   return ui_options;
+}
+
+/**************************************************************************
+  Return ruleset name.
+**************************************************************************/
+const char *ruleset_name()
+{
+  return rs_name;
 }
