@@ -40,6 +40,8 @@ Updating from 2.4 to 2.5
   "classic" module uses, so there's not much difference between the two.
 * New configure option --with-missinglist to see what features have been
   automatically left out due to missing dependencies.
+* Lua5.2 is now used. If you are using --enable-sys-lua, provide
+  lua5.2 instead of lua5.1 in your system.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
