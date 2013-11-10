@@ -72,6 +72,56 @@ static bool save_name_translation(struct section_file *sfile,
 }
 
 /**************************************************************************
+  Save list of requirements
+**************************************************************************/
+static bool save_reqs_list(struct section_file *sfile,
+                           struct requirement_vector *reqs,
+                           const char *path, const char *entry)
+{
+  int i;
+  bool includes_negated = FALSE;
+  bool includes_surviving = FALSE;
+
+  requirement_vector_iterate(reqs, preq) {
+    if (!preq->present) {
+      includes_negated = TRUE;
+    }
+    if (preq->survives) {
+      includes_surviving = TRUE;
+    }
+  } requirement_vector_iterate_end;
+
+  i = 0;
+  requirement_vector_iterate(reqs, preq) {
+    secfile_insert_str(sfile,
+                       universals_n_name(preq->source.kind),
+                       "%s.%s%d.type", path, entry, i);
+    secfile_insert_str(sfile,
+                       universal_rule_name(&(preq->source)),
+                       "%s.%s%d.name", path, entry, i);
+    secfile_insert_str(sfile,
+                       req_range_name(preq->range),
+                       "%s.%s%d.range", path, entry, i);
+
+    if (includes_surviving) {
+      secfile_insert_bool(sfile,
+                          preq->survives,
+                          "%s.%s%d.survives", path, entry, i);
+    }
+
+    if (includes_negated) {
+      secfile_insert_bool(sfile,
+                          preq->present,
+                          "%s.%s%d.present", path, entry, i);
+    }
+
+    i++;
+  } requirement_vector_iterate_end;
+
+  return TRUE;
+}
+
+/**************************************************************************
   Save tech reference
 **************************************************************************/
 static bool save_tech_ref(struct section_file *sfile,
@@ -86,6 +136,18 @@ static bool save_tech_ref(struct section_file *sfile,
    }
 
    return TRUE;
+}
+
+/**************************************************************************
+  Save government reference
+**************************************************************************/
+static bool save_gov_ref(struct section_file *sfile,
+                         const struct government *gov,
+                         const char *path, const char *entry)
+{
+  secfile_insert_str(sfile, government_rule_name(gov), "%s.%s", path, entry);
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -207,10 +269,55 @@ static bool save_game_ruleset(const char *filename, const char *name)
 static bool save_governments_ruleset(const char *filename, const char *name)
 {
   struct section_file *sfile = create_ruleset_file(name, "government");
+  int sect_idx;
 
   if (sfile == NULL) {
     return FALSE;
   }
+
+  save_gov_ref(sfile, game.government_during_revolution, "governments",
+               "during_revolution");
+
+  sect_idx = 0;
+  governments_iterate(pg) {
+    char path[512];
+    struct ruler_title *prtitle;
+
+    fc_snprintf(path, sizeof(path), "government_%d", sect_idx++);
+
+    save_name_translation(sfile, &(pg->name), path);
+
+    secfile_insert_str(sfile, pg->graphic_str, "%s.graphic", path);
+    secfile_insert_str(sfile, pg->graphic_alt, "%s.graphic_alt", path);
+
+    save_reqs_list(sfile, &(pg->reqs), path, "reqs");
+
+    if (pg->ai.better != NULL) {
+      save_gov_ref(sfile, pg->ai.better, path,
+                   "ai_better");
+    }
+
+    ruler_title_hash_lookup(pg->ruler_titles, NULL,
+                            &prtitle);
+    if (prtitle != NULL) {
+      const char *title;
+
+      title = ruler_title_male_untranslated_name(prtitle);
+      if (title != NULL) {
+        secfile_insert_str(sfile, title,
+                           "%s.ruler_male_title", path);
+      }
+
+      title = ruler_title_female_untranslated_name(prtitle);
+      if (title != NULL) {
+        secfile_insert_str(sfile, title,
+                           "%s.ruler_female_title", path);
+      }
+    }
+
+    save_strvec(sfile, pg->helptext, path, "helptext");
+
+  } governments_iterate_end;
 
   return save_ruleset_file(sfile, filename);
 }
