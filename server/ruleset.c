@@ -2791,23 +2791,25 @@ static void load_ruleset_nations(struct section_file *file)
   }
 
   sec = secfile_sections_by_name_prefix(file, NATION_GROUP_SECTION_PREFIX);
-  section_list_iterate(sec, psection) {
-    struct nation_group *pgroup;
+  if (sec) {
+    section_list_iterate(sec, psection) {
+      struct nation_group *pgroup;
 
-    name = secfile_lookup_str(file, "%s.name", section_name(psection));
-    if (NULL == name) {
-      ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
-    }
-    pgroup = nation_group_new(name);
-    if (pgroup == NULL) {
-      ruleset_error(LOG_FATAL, "Couldn't create nation group.");
-    }
-    if (!secfile_lookup_int(file, &j, "%s.match", section_name(psection))) {
-      ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
-    }
-    nation_group_set_match(pgroup, j);
-  } section_list_iterate_end;
-  section_list_destroy(sec);
+      name = secfile_lookup_str(file, "%s.name", section_name(psection));
+      if (NULL == name) {
+        ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
+      }
+      pgroup = nation_group_new(name);
+      if (pgroup == NULL) {
+        ruleset_error(LOG_FATAL, "Couldn't create nation group.");
+      }
+      if (!secfile_lookup_int(file, &j, "%s.match", section_name(psection))) {
+        ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
+      }
+      nation_group_set_match(pgroup, j);
+    } section_list_iterate_end;
+    section_list_destroy(sec);
+  }
 
   sec = secfile_sections_by_name_prefix(file, NATION_SECTION_PREFIX);
   nations_iterate(pnation) {
