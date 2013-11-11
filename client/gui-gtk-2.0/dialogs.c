@@ -495,17 +495,24 @@ static GtkWidget* create_nation_selection_list(void)
   vbox = gtk_vbox_new(FALSE, 2);
   
   nation_list = create_list_of_nations_in_group(NULL, 0);  
-  label = g_object_new(GTK_TYPE_LABEL,
-      "use-underline", TRUE,
-      "mnemonic-widget", nation_list,
-      "label", _("Nation _Groups:"),
-      "xalign", 0.0,
-      "yalign", 0.5,
-      NULL);
   notebook = gtk_notebook_new();
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_LEFT);  
+
+  /* Suppress notebook tabs if there will be only one ("All") */
+  if (nation_group_count() == 0) {
+    gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), FALSE);
+  } else {
+    label = g_object_new(GTK_TYPE_LABEL,
+        "use-underline", TRUE,
+        "mnemonic-widget", nation_list,
+        "label", _("Nation _Groups:"),
+        "xalign", 0.0,
+        "yalign", 0.5,
+        NULL);
+    gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);  
+    gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), TRUE);
+  }
   
-  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);  
   gtk_box_pack_start(GTK_BOX(vbox), notebook, TRUE, TRUE, 0);
   
   for (i = 1; i <= nation_group_count(); i++) {
