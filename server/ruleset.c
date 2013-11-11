@@ -2782,6 +2782,9 @@ static void load_ruleset_nations(struct section_file *file)
         ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
       }
       pset = nation_group_new(name);
+      if (pset == NULL) {
+        ruleset_error(LOG_FATAL, "Couldn't create nation set.");
+      }
       nation_group_set_set(pset, TRUE);
     } section_list_iterate_end;
     section_list_destroy(sec);
@@ -2796,6 +2799,9 @@ static void load_ruleset_nations(struct section_file *file)
       ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
     }
     pgroup = nation_group_new(name);
+    if (pgroup == NULL) {
+      ruleset_error(LOG_FATAL, "Couldn't create nation group.");
+    }
     if (!secfile_lookup_int(file, &j, "%s.match", section_name(psection))) {
       ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
     }
