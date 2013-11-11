@@ -1538,6 +1538,10 @@ AC_CONFIG_FILES([Makefile
 	  freeciv.spec:bootstrap/freeciv.spec.in
 	  data/Freeciv
 	  client/freeciv.desktop:bootstrap/freeciv.desktop.in
+          client/freeciv-gtk2.desktop:bootstrap/freeciv-gtk2.desktop.in
+          client/freeciv-sdl.desktop:bootstrap/freeciv-sdl.desktop.in
+          client/freeciv-sdl2.desktop:bootstrap/freeciv-sdl2.desktop.in
+          client/freeciv-qt.desktop:bootstrap/freeciv-qt.desktop.in
 	  server/freeciv-server.desktop:bootstrap/freeciv-server.desktop.in
 	  tools/freeciv-modpack.desktop:bootstrap/freeciv-modpack.desktop.in])
 AC_CONFIG_FILES([fcgui:bootstrap/fcgui.in], [chmod +x fcgui])
