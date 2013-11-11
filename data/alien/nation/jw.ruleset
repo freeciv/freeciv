@@ -2,7 +2,6 @@
 
 name = _("J&W Corporation")
 plural = _("?plural:JeeWees")
-groups = "Alien World"
 legend = _("J&W Corporation ship was heading to establish another \
 branch.\n\n\
 * 40% bonus to trade.")

@@ -2,7 +2,6 @@
 
 name = _("Math Club")
 plural = _("?plural:Mathematicians")
-groups = "Alien World"
 legend = _("Math Club was traveling home from Math Competition when Deneb 7 \
 got their ship.\n\n\
 * 35% bonus to science output")

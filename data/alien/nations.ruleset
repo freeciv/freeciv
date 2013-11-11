@@ -20,10 +20,6 @@ default_government = "Despotism"
 ;trader = 50
 ;aggressive = 50
 
-[ngroup_aw]
-name = _("?nationgroup:Alien World")
-match = 3
-
 *include "alien/nation/mathclub.ruleset"
 *include "alien/nation/secretsociety.ruleset"
 *include "alien/nation/kindergarden.ruleset"

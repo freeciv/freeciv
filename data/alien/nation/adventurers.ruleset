@@ -2,7 +2,6 @@
 
 name = _("Adventurers")
 plural = _("?plural:Adventurers")
-groups = "Alien World"
 legend = _("Without any destination, they were just traveling around, looking \
 for trouble.\n\n\
 * All units have one extra movement point")
