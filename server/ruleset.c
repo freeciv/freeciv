@@ -3762,29 +3762,31 @@ static bool load_ruleset_nations(struct section_file *file)
 
   if (ok) {
     sec = secfile_sections_by_name_prefix(file, NATION_GROUP_SECTION_PREFIX);
-    section_list_iterate(sec, psection) {
-      struct nation_group *pgroup;
+    if (sec) {
+      section_list_iterate(sec, psection) {
+        struct nation_group *pgroup;
 
-      name = secfile_lookup_str(file, "%s.name", section_name(psection));
-      if (NULL == name) {
-        ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
-        ok = FALSE;
-        break;
-      }
-      pgroup = nation_group_new(name);
-      if (pgroup == NULL) {
-        ok = FALSE;
-        break;
-      }
-      if (!secfile_lookup_int(file, &j, "%s.match", section_name(psection))) {
-        ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
-        ok = FALSE;
-        break;
-      }
-      nation_group_set_match(pgroup, j);
-    } section_list_iterate_end;
-    section_list_destroy(sec);
-    sec = NULL;
+        name = secfile_lookup_str(file, "%s.name", section_name(psection));
+        if (NULL == name) {
+          ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
+          ok = FALSE;
+          break;
+        }
+        pgroup = nation_group_new(name);
+        if (pgroup == NULL) {
+          ok = FALSE;
+          break;
+        }
+        if (!secfile_lookup_int(file, &j, "%s.match", section_name(psection))) {
+          ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
+          ok = FALSE;
+          break;
+        }
+        nation_group_set_match(pgroup, j);
+      } section_list_iterate_end;
+      section_list_destroy(sec);
+      sec = NULL;
+    }
   }
 
   if (ok) {
