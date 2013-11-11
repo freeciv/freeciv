@@ -446,6 +446,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
 
   list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   gtk_tree_view_set_search_column(GTK_TREE_VIEW(list), 3);
+  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(list), FALSE);
   races_nation_list[index] = list;
   g_object_unref(store);
 
@@ -462,13 +463,12 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
   gtk_container_add(GTK_CONTAINER(sw), list);
  
   render = gtk_cell_renderer_pixbuf_new();
-  column = gtk_tree_view_column_new_with_attributes(_("Flag"), render,
+  column = gtk_tree_view_column_new_with_attributes("Flag", render,
       "pixbuf", 2, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(list), column);
   render = gtk_cell_renderer_text_new();
-  column = gtk_tree_view_column_new_with_attributes(_("Nation"), render,
+  column = gtk_tree_view_column_new_with_attributes("Nation", render,
       "text", 3, "strikethrough", 1, NULL);
-  gtk_tree_view_column_set_sort_column_id(column, 3);
   gtk_tree_view_append_column(GTK_TREE_VIEW(list), column);
   render = gtk_cell_renderer_text_new();
   g_object_set(render, "style", PANGO_STYLE_ITALIC, NULL);
