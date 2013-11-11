@@ -51,6 +51,8 @@ EXTRA_DIST=	autogen.sh 			\
 		bootstrap/fc_svnrev_gen.h.in	\
 		bootstrap/generate_svnrev.sh	\
 		bootstrap/freeciv.desktop.in	\
+		bootstrap/freeciv-gtk3.desktop.in \
+		bootstrap/freeciv-sdl.desktop.in \
 		bootstrap/freeciv-server.desktop.in	\
 		bootstrap/freeciv-modpack.desktop.in	\
 		bootstrap/freeciv.spec.in	\
