@@ -3748,9 +3748,14 @@ static bool load_ruleset_nations(struct section_file *file)
         break;
       }
       pset = nation_group_new(name);
+      if (pset == NULL) {
+        ok = FALSE;
+        break;
+      }
       nation_group_set_set(pset, TRUE);
     } section_list_iterate_end;
     section_list_destroy(sec);
+    sec = NULL;
   }
 
   if (ok) {
@@ -3765,6 +3770,10 @@ static bool load_ruleset_nations(struct section_file *file)
         break;
       }
       pgroup = nation_group_new(name);
+      if (pgroup == NULL) {
+        ok = FALSE;
+        break;
+      }
       if (!secfile_lookup_int(file, &j, "%s.match", section_name(psection))) {
         ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
         ok = FALSE;
@@ -3773,6 +3782,7 @@ static bool load_ruleset_nations(struct section_file *file)
       nation_group_set_match(pgroup, j);
     } section_list_iterate_end;
     section_list_destroy(sec);
+    sec = NULL;
   }
 
   if (ok) {
@@ -3852,7 +3862,7 @@ static bool load_ruleset_nations(struct section_file *file)
                         nation_rule_name(pnation), name);
           ok = FALSE;
           break;
-      }
+        }
 
         sex = secfile_lookup_str(file, "%s.leaders%d.sex", sec_name, j);
         if (NULL == sex) {
@@ -3914,7 +3924,7 @@ static bool load_ruleset_nations(struct section_file *file)
 
       /* Nation player color preference, if any */
       fc_assert_ret_val(pnation->server.rgb == NULL, FALSE);
-      rgbcolor_load(file, &pnation->server.rgb, "%s.color", sec_name);
+      (void) rgbcolor_load(file, &pnation->server.rgb, "%s.color", sec_name);
 
       /* Load nation traits */
       ruleset_load_traits(pnation->server.traits, file, sec_name, "trait_");
@@ -4032,6 +4042,9 @@ static bool load_ruleset_nations(struct section_file *file)
           ok = FALSE;
           break;
         }
+      }
+      if (!ok) {
+        break;
       }
 
       /* City styles */
@@ -4179,13 +4192,20 @@ static bool load_ruleset_nations(struct section_file *file)
 
       pnation->player = NULL;
     } nations_iterate_end;
+    section_list_destroy(sec);
+    sec = NULL;
+  }
+
+  /* Clean up on aborted load */
+  if (sec) {
+    fc_assert(!ok);
+    section_list_destroy(sec);
   }
 
   free(allowed_govs);
   free(allowed_terrains);
   free(allowed_cstyles);
 
-  section_list_destroy(sec);
   if (ok) {
     secfile_check_unused(file);
   }
