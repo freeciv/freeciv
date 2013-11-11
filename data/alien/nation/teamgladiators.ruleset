@@ -2,7 +2,6 @@
 
 name = _("Team Gladiators")
 plural = _("?plural:Athletes")
-groups = "Alien World"
 legend = _("Spaceball is sport of massive teams. Team Gladiators ship contained \
 enough players to start entire planetary faction.\n\n\
 * Builds veteran units\n\
