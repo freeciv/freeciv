@@ -1320,14 +1320,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_LOCAL:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     _("Requires terrain on which %s can be built on tile.\n"),
-                     terrain_alteration_name_translation
-                     (preq->source.value.terrainalter));
+                     _("Requires terrain on which alteration %s is possible.\n"),
+                     Q_(terrain_alteration_name(preq->source.value.terrainalter)));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented by terrain on which %s can be built on tile.\n"),
-                     terrain_alteration_name_translation
-                     (preq->source.value.terrainalter));
+                     _("Prevented by terrain on which alteration %s cannot be made.\n"),
+                     Q_(terrain_alteration_name(preq->source.value.terrainalter)));
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:

@@ -2232,7 +2232,7 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_TERRAINALTER:
     /* TRANS: "Irrigation possible" */
     cat_snprintf(buf, bufsz, _("%s possible"),
-                 terrain_alteration_name_translation(psource->value.terrainalter));
+                 Q_(terrain_alteration_name(psource->value.terrainalter)));
     return buf;
   case VUT_CITYTILE:
     fc_strlcat(buf, _("City center tile"), bufsz);

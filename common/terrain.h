@@ -97,13 +97,13 @@ struct resource {
 #define SPECENUM_NAME terrain_alteration
 /* Can build irrigation without changing terrain */
 #define SPECENUM_VALUE0 TA_CAN_IRRIGATE
-#define SPECENUM_VALUE0NAME "CanIrrigate"
+#define SPECENUM_VALUE0NAME N_("CanIrrigate")
 /* Can build mine without changing terrain */
 #define SPECENUM_VALUE1 TA_CAN_MINE
-#define SPECENUM_VALUE1NAME "CanMine"
+#define SPECENUM_VALUE1NAME N_("CanMine")
 /* Can build roads and/or railroads */
 #define SPECENUM_VALUE2 TA_CAN_ROAD
-#define SPECENUM_VALUE2NAME "CanRoad"
+#define SPECENUM_VALUE2NAME N_("CanRoad")
 #include "specenum_gen.h"
 
 #define SPECENUM_NAME terrain_flag_id
@@ -358,7 +358,6 @@ int count_terrain_class_near_tile(const struct tile *ptile,
                                   enum terrain_class tclass);
 
 /* Functions to deal with possible terrain alterations. */
-const char *terrain_alteration_name_translation(enum terrain_alteration talter);
 bool terrain_can_support_alteration(const struct terrain *pterrain,
                                     enum terrain_alteration talter);
 

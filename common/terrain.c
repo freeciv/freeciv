@@ -916,24 +916,6 @@ bool terrain_can_support_alteration(const struct terrain *pterrain,
 }
 
 /****************************************************************************
-  Return the (translated) name of the infrastructure (e.g., "Irrigation").
-  You don't have to free the return pointer.
-****************************************************************************/
-const char *terrain_alteration_name_translation(enum terrain_alteration talter)
-{
-  switch(talter) {
-   case TA_CAN_IRRIGATE:
-     return special_name_translation(S_IRRIGATION);
-   case TA_CAN_MINE:
-     return special_name_translation(S_MINE);
-   case TA_CAN_ROAD:
-     return _("Road");
-   default:
-     return NULL;
-  }
-}
-
-/****************************************************************************
    Time to complete the base building activity on the given terrain.
 ****************************************************************************/
 int terrain_base_time(const struct terrain *pterrain,
