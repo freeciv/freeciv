@@ -19,12 +19,12 @@ desktopfile_DATA += \
 endif
 if CLIENT_GUI_GTK_2_0
 GUI_SUBDIRS += gui-gtk-2.0
-desktopfile_DATA = \
+desktopfile_DATA += \
 	freeciv-gtk2.desktop
 endif
 if CLIENT_GUI_GTK_3_0
 GUI_SUBDIRS += gui-gtk-3.0
-desktopfile_DATA = \
+desktopfile_DATA += \
 	freeciv.desktop
 endif
 if CLIENT_GUI_XAW
