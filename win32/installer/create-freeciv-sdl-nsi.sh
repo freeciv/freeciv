@@ -242,7 +242,7 @@ Start Menu shortcut properties."
 
   \${NSD_CB_AddString} \$DefaultLanguageDropList "Autodetected"
   \${NSD_CB_SelectString} \$DefaultLanguageDropList "Autodetected"
-  \${NSD_CB_AddString} \$DefaultLanguageDropList "American English (en_US)"
+  \${NSD_CB_AddString} \$DefaultLanguageDropList "US English (en_US)"
 EOF
 
   cat ../../bootstrap/langnames.txt |
@@ -265,7 +265,7 @@ EOF
   echo "  \${If} \$LangName == \"Autodetected\""
   echo "    StrCpy \$DefaultLanguageCode \"auto\""
   echo "  \${EndIf}"
-  echo "  \${If} \$LangName == \"American English (en_US)\""
+  echo "  \${If} \$LangName == \"US English (en_US)\""
   echo "    StrCpy \$DefaultLanguageCode \"en_US\""
   echo "  \${EndIf}"
 
