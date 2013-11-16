@@ -44,11 +44,12 @@
 
 //gui-qt
 #include "citydlg.h"
+#include "colors.h"
 
 //agents
 #include "cma_fec.h"
 
-
+extern QApplication *qapp;
 static bool city_dlg_created = false; /** defines if dialog for city has been
                                        * already created. It's created only
                                        * once per client
@@ -2359,16 +2360,27 @@ void city_production_delegate::paint(QPainter *painter,
   bool is_unit = true;
   QPixmap pix_dec(option.rect.width(), option.rect.height());
   QStyleOptionViewItemV2 opt;
+  color col;
+  QIcon icon = qapp->style()->standardIcon(QStyle::SP_DialogCancelButton);
+  bool free_sprite = false;
 
   if (!option.rect.isValid()) {
     return;
   }
+
   qvar = index.data();
   if (qvar.isNull()) {
     return;
   }
   target = reinterpret_cast<universal *>(qvar.value<void *>());
-  if (VUT_UTYPE == target->kind) {
+  if (target == NULL) {
+    col.qcolor = Qt::white;
+    sprite = qtg_create_sprite(100,100,&col);
+    free_sprite = true;
+    *sprite->pm = icon.pixmap(100,100);
+    name = _("Cancel");
+    is_unit = false;
+  } else if (VUT_UTYPE == target->kind) {
     name = utype_name_translation(target->value.utype);
     is_defender = utype_has_role(target->value.utype, L_DEFEND_OK);
     is_fast_attacker = utype_has_role(target->value.utype, L_ATTACK_FAST);
@@ -2435,6 +2447,9 @@ void city_production_delegate::paint(QPainter *painter,
   drawFocus(painter, opt, option.rect);
 
   painter->restore();
+  if (free_sprite == TRUE){
+    qtg_free_sprite(sprite);
+  }
 }
 
 /****************************************************************************
@@ -2481,7 +2496,9 @@ production_item::production_item(struct universal *ptarget): QObject()
 production_item::~production_item()
 {
   /* allocated as renegade in model */
-  delete target;
+  if (target != NULL){
+    delete target;
+  }
 }
 
 /****************************************************************************
@@ -2577,6 +2594,9 @@ void city_production_model::populate()
       }
     }
   }
+  renegade = NULL;
+  pi = new production_item(renegade);
+  city_target_list << pi;
   sh.setX(sh.y() + sh.x());
 }
 
@@ -2681,41 +2701,43 @@ void production_widget::prod_selected(const QItemSelection &sl,
     return;
   }
   target = reinterpret_cast<universal *>(qvar.value<void *>());
-  city_get_queue(pw_city, &queue);
-  switch (when_change) {
-  case 0: /*Change current tech*/
-    city_change_production(pw_city, *target);
-    break;
-  case 1:                 /* Change current (selected on list)*/
-    if (curr_selection < 0 || curr_selection > worklist_length(&queue)) {
-      return;
+  if (target != NULL) {
+    city_get_queue(pw_city, &queue);
+    switch (when_change) {
+    case 0: /*Change current tech*/
+      city_change_production(pw_city, *target);
+      break;
+    case 1:                 /* Change current (selected on list)*/
+      if (curr_selection < 0 || curr_selection > worklist_length(&queue)) {
+        return;
+      }
+      worklist_remove(&queue, curr_selection);
+      worklist_insert(&queue, *target, curr_selection);
+      city_set_queue(pw_city, &queue);
+      break;
+    case 2:                 /* Insert before */
+      if (curr_selection < 0 || curr_selection > worklist_length(&queue)) {
+        return;
+      }
+      curr_selection--;
+      curr_selection = qMax(0, curr_selection);
+      worklist_insert(&queue, *target, curr_selection);
+      city_set_queue(pw_city, &queue);
+      break;
+    case 3:                 /* Insert after */
+      if (curr_selection < 0 || curr_selection > worklist_length(&queue)) {
+        return;
+      }
+      curr_selection++;
+      worklist_insert(&queue, *target, curr_selection);
+      city_set_queue(pw_city, &queue);
+      break;
+    case 4:                 /* Add last */
+      city_queue_insert(pw_city, -1, *target);
+      break;
+    default:
+      break;
     }
-    worklist_remove(&queue, curr_selection);
-    worklist_insert(&queue, *target, curr_selection);
-    city_set_queue(pw_city, &queue);
-    break;
-  case 2:                 /* Insert before */
-    if (curr_selection < 0 || curr_selection > worklist_length(&queue)) {
-      return;
-    }
-    curr_selection--;
-    curr_selection = qMax(0, curr_selection);
-    worklist_insert(&queue, *target, curr_selection);
-    city_set_queue(pw_city, &queue);
-    break;
-  case 3:                 /* Insert after */
-    if (curr_selection < 0 || curr_selection > worklist_length(&queue)) {
-      return;
-    }
-    curr_selection++;
-    worklist_insert(&queue, *target, curr_selection);
-    city_set_queue(pw_city, &queue);
-    break;
-  case 4:                 /* Add last */
-    city_queue_insert(pw_city, -1, *target);
-    break;
-  default:
-    break;
   }
   close();
   destroy();
