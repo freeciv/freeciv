@@ -9,5 +9,7 @@
 /freeciv-stub
 /.deps
 /freeciv.desktop
+/freeciv-gtk3.desktop
+/freeciv-sdl.desktop
 /packhand_gen.c
 /packhand_gen.h
