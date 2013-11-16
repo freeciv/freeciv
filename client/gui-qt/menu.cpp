@@ -513,9 +513,11 @@ void mr_menu::menus_sensitive()
           pterrain = tile_terrain(unit_tile(punit));
           if (pterrain->mining_result != T_NONE
               && pterrain->mining_result != pterrain) {
-            i.value()->setText(QString(_("Transform to")) + " "
-                               + QString(get_tile_change_menu_text
-                                         (unit_tile(punit), ACTIVITY_MINE)));
+            i.value()->setText(
+              QString(_("Transform to %1")).
+              /* TRANS: Transfrom terrain to specific type */
+              arg(QString(get_tile_change_menu_text
+                          (unit_tile(punit), ACTIVITY_MINE))));
           } else {
             i.value()->setText(_("Build Mine"));
           }
@@ -531,9 +533,10 @@ void mr_menu::menus_sensitive()
           pterrain = tile_terrain(unit_tile(punit));
           if (pterrain->irrigation_result != T_NONE
               && pterrain->irrigation_result != pterrain) {
-            i.value()->setText(QString(_("Transform to")) + " "
-                               + QString(get_tile_change_menu_text
-                               (unit_tile(punit), ACTIVITY_IRRIGATE)));
+            i.value()->setText(QString(_("Transform to %1")).
+                               /* TRANS: Transfrom terrain to specific type */
+                               arg(QString(get_tile_change_menu_text
+                                           (unit_tile(punit), ACTIVITY_IRRIGATE))));
           } else if (tile_has_special(unit_tile(punit), S_IRRIGATION)
                      && player_knows_techs_with_flag(unit_owner(punit),
                                                      TF_FARMLAND)) {
@@ -557,10 +560,10 @@ void mr_menu::menus_sensitive()
           pterrain = tile_terrain(unit_tile(punit));
           if (pterrain->transform_result != T_NONE
               && pterrain->transform_result != pterrain) {
-            i.value()->setText(QString(_("Transform to")) + " " 
-                               + QString(get_tile_change_menu_text
-                                        (unit_tile(punit),
-                                         ACTIVITY_TRANSFORM)));
+            i.value()->setText(QString(_("Transform to %1")).
+                        /* TRANS: Transfrom terrain to specific type */
+                        arg(QString(get_tile_change_menu_text
+                        (unit_tile(punit), ACTIVITY_TRANSFORM))));
           } else {
             i.value()->setText(_("Transform Terrain"));
           }
