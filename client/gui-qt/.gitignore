@@ -2,3 +2,12 @@
 /Makefile
 /.deps
 /meta_fc_client.cpp
+/meta_ratesdlg.cpp
+/meta_mapview.cpp
+/meta_menu.cpp
+/meta_repodlgs.cpp
+/meta_dialogs.cpp
+/meta_optiondlg.cpp
+/meta_citydlg.cpp
+/meta_cityrep.cpp
+/meta_plrdlg.cpp
