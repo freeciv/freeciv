@@ -1297,12 +1297,18 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_SIZE_UNLIMIT:
     /* Note we look up the SIZE_UNLIMIT again right below.  This could
      * be avoided... */
-    if (get_city_bonus(pcity, EFT_SIZE_UNLIMIT) == 0) {
-      amount = 20; /* really big city */
+    if (amount > 0) {
+      if (get_city_bonus(pcity, EFT_SIZE_UNLIMIT) <= 0) {
+        amount = 20; /* really big city */
+      }
+    } else {
+      /* Effect trying to remove unlimit. */
+      v -= 30 * c * ai->food_priority;
+      break;
     }
     /* there not being a break here is deliberate, mind you */
   case EFT_SIZE_ADJ:
-    if (get_city_bonus(pcity, EFT_SIZE_UNLIMIT) == 0) {
+    if (get_city_bonus(pcity, EFT_SIZE_UNLIMIT) <= 0) {
       const int aqueduct_size = get_city_bonus(pcity, EFT_SIZE_ADJ);
 
       if (!city_can_grow_to(pcity, city_size_get(pcity) + 1)) {
