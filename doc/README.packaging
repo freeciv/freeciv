@@ -99,6 +99,8 @@ You may want to remove some of these when Freeciv is uninstalled.
 * freeciv-modpack saves data under "~/.freeciv/2.6/" and
   "~/.freeciv/scenarios/"
 * Server can write log to file specified with "-l" command line option
+* When mapimage feature is used, it can save colortest images to
+  working directory and actual map images to save directory (same as above)
 
 ----------------------------------------------------------------------
 Building multiple clients at once
