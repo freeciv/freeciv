@@ -177,12 +177,6 @@ int fill_basic_terrain_layer_sprite_array(struct tileset *t,
                                           struct drawn_sprite *sprs,
                                           int layer,
                                           struct terrain *pterrain);
-int fill_basic_road_sprite_array(const struct tileset *t,
-                                 struct drawn_sprite *sprs,
-                                 const struct road_type *proad);
-int fill_basic_base_sprite_array(const struct tileset *t,
-                                 struct drawn_sprite *sprs,
-                                 const struct base_type *pbase);
 
 double get_focus_unit_toggle_timeout(const struct tileset *t);
 void reset_focus_unit_state(struct tileset *t);
@@ -313,9 +307,9 @@ struct sprite *get_unit_upkeep_sprite(const struct tileset *t,
 struct sprite *get_basic_fog_sprite(const struct tileset *t);
 struct sprite *get_resource_sprite(const struct tileset *t,
                                    const struct resource *presouce);
-struct sprite *get_basic_special_sprite(const struct tileset *t,
-                                        enum tile_special_type special);
-struct sprite *get_basic_mine_sprite(const struct tileset *t);
+int fill_basic_extra_sprite_array(const struct tileset *t,
+                                  struct drawn_sprite *sprs,
+                                  const struct extra_type *pextra);
 struct sprite *get_event_sprite(const struct tileset *t, enum event_type event);
 
 struct sprite *tiles_lookup_sprite_tag_alt(struct tileset *t,

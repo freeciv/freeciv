@@ -568,6 +568,13 @@ static void tileset_setup_road(struct tileset *t,
 
 static bool is_extra_drawing_enabled(struct extra_type *pextra);
 
+static int fill_basic_road_sprite_array(const struct tileset *t,
+                                        struct drawn_sprite *sprs,
+                                        const struct extra_type *pextra);
+static int fill_basic_base_sprite_array(const struct tileset *t,
+                                        struct drawn_sprite *sprs,
+                                        const struct extra_type *pextra);
+
 /****************************************************************************
   Called when ever there's problem in ruleset/tileset compatibility
 ****************************************************************************/
@@ -5910,32 +5917,36 @@ struct sprite *get_resource_sprite(const struct tileset *t,
 }
 
 /****************************************************************************
-  Return a representative sprite for the given special type.
-
-  NB: This does not include generic base specials (S_FORTRESS and
-  S_AIRBASE). Use fill_basic_base_sprite_array and the base type for that.
+  Return a representative sprite for the given extra type.
 ****************************************************************************/
-struct sprite *get_basic_special_sprite(const struct tileset *t,
-                                        enum tile_special_type special)
+int fill_basic_extra_sprite_array(const struct tileset *t,
+                                  struct drawn_sprite *sprs,
+                                  const struct extra_type *pextra)
 {
-  struct extra_type *pextra = special_extra_get(special);
+  int idx = extra_index(pextra);
+  struct drawn_sprite *saved_sprs = sprs;
 
-  switch (special) {
-  case S_IRRIGATION:
-  case S_FARMLAND:
-    return t->sprites.extras[extra_index(pextra)].u.cardinals[0];
+  switch (t->sprites.extras[idx].extrastyle) {
+  case ESTYLE_SINGLE1:
+  case ESTYLE_SINGLE2:
+    ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.single);
     break;
-  case S_POLLUTION:
-  case S_FALLOUT:
-  case S_HUT:
-  case S_MINE:
-    return t->sprites.extras[extra_index(pextra)].u.single;
+  case ESTYLE_CARDINALS:
+    ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.cardinals[0]);
     break;
-  default:
+  case ESTYLE_ROAD_ALL_SEPARATE:
+  case ESTYLE_ROAD_PARITY_COMBINED:
+  case ESTYLE_ROAD_ALL_COMBINED:
+  case ESTYLE_RIVER:
+    return fill_basic_road_sprite_array(t, sprs, pextra);
+  case ESTYLE_3LAYER:
+    return fill_basic_base_sprite_array(t, sprs, pextra);
+  case ESTYLE_COUNT:
+    fc_assert(t->sprites.extras[idx].extrastyle != ESTYLE_COUNT);
     break;
   }
 
-  return NULL;
+  return sprs - saved_sprs;
 }
 
 /****************************************************************************
@@ -5945,18 +5956,18 @@ struct sprite *get_basic_special_sprite(const struct tileset *t,
 ****************************************************************************/
 int fill_basic_road_sprite_array(const struct tileset *t,
                                  struct drawn_sprite *sprs,
-                                 const struct road_type *proad)
+                                 const struct extra_type *pextra)
 {
   struct drawn_sprite *saved_sprs = sprs;
   int index;
   int i;
   enum extrastyle_id extrastyle;
 
-  if (!t || !sprs || !proad) {
+  if (!t || !sprs || !pextra) {
     return 0;
   }
 
-  index = extra_index(road_extra_get(proad));
+  index = extra_index(pextra);
 
   if (!(0 <= index && index < game.control.num_extra_types)) {
     return 0;
@@ -5993,16 +6004,16 @@ int fill_basic_road_sprite_array(const struct tileset *t,
 ****************************************************************************/
 int fill_basic_base_sprite_array(const struct tileset *t,
                                  struct drawn_sprite *sprs,
-                                 const struct base_type *pbase)
+                                 const struct extra_type *pextra)
 {
   struct drawn_sprite *saved_sprs = sprs;
   int index;
 
-  if (!t || !sprs || !pbase) {
+  if (!t || !sprs || !pextra) {
     return 0;
   }
 
-  index = extra_index(base_extra_get(pbase));
+  index = extra_index(pextra);
 
   if (!(0 <= index && index < game.control.num_extra_types)) {
     return 0;
