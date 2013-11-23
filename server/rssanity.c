@@ -276,7 +276,7 @@ static bool sanity_check_req_nreq_list(const struct requirement_list *preqs,
 /**************************************************************************
   Sanity check callback for iterating effects cache.
 **************************************************************************/
-static bool effect_list_sanity_cb(const struct effect *peffect)
+static bool effect_list_sanity_cb(const struct effect *peffect, void *data)
 {
   int one_tile = -1; /* TODO: Determine correct value from effect.
                       *       -1 disables checking */
@@ -477,7 +477,7 @@ bool sanity_check_ruleset_data(void)
 
   /* Check requirement sets against conflicting requirements.
    * Effects use requirement lists */
-  if (!iterate_effect_cache(effect_list_sanity_cb)) {
+  if (!iterate_effect_cache(effect_list_sanity_cb, NULL)) {
     ruleset_error(LOG_ERROR, "Effects have conflicting requirements!");
     ok = FALSE;
   }

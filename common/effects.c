@@ -953,12 +953,12 @@ void get_effect_req_text(struct effect *peffect, char *buf, size_t buf_len)
   ruleset sanity checking. If any callback returns FALSE, there is no
   further checking and this will return FALSE.
 **************************************************************************/
-bool iterate_effect_cache(iec_cb cb)
+bool iterate_effect_cache(iec_cb cb, void *data)
 {
   fc_assert_ret_val(cb != NULL, FALSE);
 
   effect_list_iterate(ruleset_cache.tracker, peffect) {
-    if (!cb(peffect)) {
+    if (!cb(peffect, data)) {
       return FALSE;
     }
   } effect_list_iterate_end;

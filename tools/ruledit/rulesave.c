@@ -72,11 +72,11 @@ static bool save_name_translation(struct section_file *sfile,
 }
 
 /**************************************************************************
-  Save list of requirements
+  Save vector of requirements
 **************************************************************************/
-static bool save_reqs_list(struct section_file *sfile,
-                           struct requirement_vector *reqs,
-                           const char *path, const char *entry)
+static bool save_reqs_vector(struct section_file *sfile,
+                             struct requirement_vector *reqs,
+                             const char *path, const char *entry)
 {
   int i;
   bool includes_negated = FALSE;
@@ -117,6 +117,56 @@ static bool save_reqs_list(struct section_file *sfile,
 
     i++;
   } requirement_vector_iterate_end;
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Save list of requirements
+**************************************************************************/
+static bool save_reqs_list(struct section_file *sfile,
+                           const struct requirement_list *reqs,
+                           const char *path, const char *entry)
+{
+  int i;
+  bool includes_negated = FALSE;
+  bool includes_surviving = FALSE;
+
+  requirement_list_iterate(reqs, preq) {
+    if (!preq->present) {
+      includes_negated = TRUE;
+    }
+    if (preq->survives) {
+      includes_surviving = TRUE;
+    }
+  } requirement_list_iterate_end;
+
+  i = 0;
+  requirement_list_iterate(reqs, preq) {
+    secfile_insert_str(sfile,
+                       universals_n_name(preq->source.kind),
+                       "%s.%s%d.type", path, entry, i);
+    secfile_insert_str(sfile,
+                       universal_rule_name(&(preq->source)),
+                       "%s.%s%d.name", path, entry, i);
+    secfile_insert_str(sfile,
+                       req_range_name(preq->range),
+                       "%s.%s%d.range", path, entry, i);
+
+    if (includes_surviving) {
+      secfile_insert_bool(sfile,
+                          preq->survives,
+                          "%s.%s%d.survives", path, entry, i);
+    }
+
+    if (includes_negated) {
+      secfile_insert_bool(sfile,
+                          preq->present,
+                          "%s.%s%d.present", path, entry, i);
+    }
+
+    i++;
+  } requirement_list_iterate_end;
 
   return TRUE;
 }
@@ -236,13 +286,50 @@ static bool save_cities_ruleset(const char *filename, const char *name)
 }
 
 /**************************************************************************
+  Effect saving callback data structure.
+**************************************************************************/
+typedef struct {
+  int idx;
+  struct section_file *sfile;
+} effect_cb_data;
+
+/**************************************************************************
+  Save one effect. Callback called for each effect in cache.
+**************************************************************************/
+static bool effect_save(const struct effect *peffect, void *data)
+{
+  effect_cb_data *cbdata = (effect_cb_data *)data;
+  char path[512];
+
+  fc_snprintf(path, sizeof(path), "effect_%d", cbdata->idx++);
+
+  secfile_insert_str(cbdata->sfile,
+                     effect_type_name(peffect->type),
+                     "%s.type", path);
+  secfile_insert_int(cbdata->sfile, peffect->value, "%s.value", path);
+
+  save_reqs_list(cbdata->sfile, peffect->reqs, path, "reqs");
+  save_reqs_list(cbdata->sfile, peffect->nreqs, path, "nreqs");
+
+  return TRUE;
+}
+
+/**************************************************************************
   Save effects.ruleset
 **************************************************************************/
 static bool save_effects_ruleset(const char *filename, const char *name)
 {
   struct section_file *sfile = create_ruleset_file(name, "effect");
+  effect_cb_data data;
 
   if (sfile == NULL) {
+    return FALSE;
+  }
+
+  data.idx = 0;
+  data.sfile = sfile;
+
+  if (!iterate_effect_cache(effect_save, &data)) {
     return FALSE;
   }
 
@@ -290,7 +377,7 @@ static bool save_governments_ruleset(const char *filename, const char *name)
     secfile_insert_str(sfile, pg->graphic_str, "%s.graphic", path);
     secfile_insert_str(sfile, pg->graphic_alt, "%s.graphic_alt", path);
 
-    save_reqs_list(sfile, &(pg->reqs), path, "reqs");
+    save_reqs_vector(sfile, &(pg->reqs), path, "reqs");
 
     if (pg->ai.better != NULL) {
       save_gov_ref(sfile, pg->ai.better, path,

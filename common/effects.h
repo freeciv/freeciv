@@ -384,8 +384,8 @@ int get_current_construction_bonus(const struct city *pcity,
 
 struct effect_list *get_effects(enum effect_type effect_type);
 
-typedef bool (*iec_cb)(const struct effect*);
-bool iterate_effect_cache(iec_cb cb);
+typedef bool (*iec_cb)(const struct effect*, void *data);
+bool iterate_effect_cache(iec_cb cb, void *data);
 
 #ifdef __cplusplus
 }
