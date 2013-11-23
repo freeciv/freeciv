@@ -615,18 +615,22 @@ static void do_have_embassies_effect(void)
 /**************************************************************************
   Handle environmental upsets, meaning currently pollution or fallout.
 **************************************************************************/
-static void update_environmental_upset(enum tile_special_type cause,
+static void update_environmental_upset(enum environment_upset_type type,
 				       int *current, int *accum, int *level,
 				       void (*upset_action_fn)(int))
 {
   int count;
 
   count = 0;
-  whole_map_iterate(ptile) {
-    if (tile_has_special(ptile, cause)) {
-      count++;
+  extra_type_iterate(cause) {
+    if (extra_causes_env_upset(cause, type)) {
+      whole_map_iterate(ptile) {
+        if (tile_has_extra(ptile, cause)) {
+          count++;
+        }
+      } whole_map_iterate_end;
     }
-  } whole_map_iterate_end;
+  } extra_type_iterate_end;
 
   *current = count;
   *accum += count;
@@ -641,8 +645,8 @@ static void update_environmental_upset(enum tile_special_type cause,
     }
   }
 
-  log_debug("environmental_upset: cause=%-4d current=%-2d "
-            "level=%-2d accum=%-2d", cause, *current, *level, *accum);
+  log_debug("environmental_upset: type=%-4d current=%-2d "
+            "level=%-2d accum=%-2d", type, *current, *level, *accum);
 }
 
 /**************************************************************************
@@ -1161,13 +1165,13 @@ static void end_turn(void)
   } achievements_iterate_end;
 
   if (game.info.global_warming) {
-    update_environmental_upset(S_POLLUTION, &game.info.heating,
+    update_environmental_upset(EUT_GLOBAL_WARMING, &game.info.heating,
                                &game.info.globalwarming,
                                &game.info.warminglevel, global_warming);
   }
 
   if (game.info.nuclear_winter) {
-    update_environmental_upset(S_FALLOUT, &game.info.cooling,
+    update_environmental_upset(EUT_NUCLEAR_WINTER, &game.info.cooling,
                                &game.info.nuclearwinter,
                                &game.info.coolinglevel, nuclear_winter);
   }

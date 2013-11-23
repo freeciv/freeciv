@@ -967,6 +967,10 @@ shield      = 3 ; glacier used to have 4
 ;   - "ConnectLand"       = Road style gfx on Oceanic tiles are drawn to connect to
 ;                           adjacent. Land tiles even if they have no extra.
 ;                           This affects appearance only
+;   - "GlobalWarming"     = Instances of this extra on map count towards
+;                           Global Warming
+;   - "NuclearWinter"     = Instances of this extra on map count towards
+;                           Nuclear Winter
 ;
 ; */ <-- avoid gettext warnings
 
@@ -1003,6 +1007,7 @@ act_gfx_alt    = "-"
 rmact_gfx      = "unit.pollution"
 rmact_gfx_alt  = "-"
 pillageable    = FALSE
+flags          = "GlobalWarming"
 
 [extra_hut]
 name           = _("Minor Tribe Village")
@@ -1041,6 +1046,7 @@ act_gfx_alt    = "-"
 rmact_gfx      = "unit.fallout"
 rmact_gfx_alt  = "-"
 pillageable    = FALSE
+flags          = "NuclearWinter"
 
 [extra_fortress]
 name           = _("Fortress")

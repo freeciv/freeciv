@@ -41,6 +41,12 @@ extern "C" {
 /* Road style gfx from ocean extra connects to nearby land */
 #define SPECENUM_VALUE5 EF_CONNECT_LAND
 #define SPECENUM_VALUE5NAME "ConnectLand"
+/* Counts towards Global Warming */
+#define SPECENUM_VALUE6 EF_GLOBAL_WARMING
+#define SPECENUM_VALUE6NAME "GlobalWarming"
+/* Counts towards Nuclear Winter */
+#define SPECENUM_VALUE7 EF_NUCLEAR_WINTER
+#define SPECENUM_VALUE7NAME "NuclearWinter"
 #define SPECENUM_COUNT EF_COUNT
 #define SPECENUM_BITVECTOR bv_extra_flags
 #include "specenum_gen.h"
@@ -148,6 +154,9 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
                              const struct tile *ptile);
 
 bool extra_has_flag(const struct extra_type *pextra, enum extra_flag_id flag);
+
+bool extra_causes_env_upset(struct extra_type *pextra,
+                            enum environment_upset_type upset);
 
 bool can_extras_coexist(const struct extra_type *pextra1,
                         const struct extra_type *pextra2);

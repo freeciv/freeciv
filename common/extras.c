@@ -569,3 +569,19 @@ bool can_extras_coexist(const struct extra_type *pextra1,
 
   return !BV_ISSET(pextra1->conflicts, extra_index(pextra2));
 }
+
+/**************************************************************************
+  Does the extra count toward environment upset?
+**************************************************************************/
+bool extra_causes_env_upset(struct extra_type *pextra,
+                            enum environment_upset_type upset)
+{
+  switch (upset) {
+  case EUT_GLOBAL_WARMING:
+    return extra_has_flag(pextra, EF_GLOBAL_WARMING);
+  case EUT_NUCLEAR_WINTER:
+    return extra_has_flag(pextra, EF_NUCLEAR_WINTER);
+  }
+
+  return FALSE;
+}

@@ -579,4 +579,10 @@ enum victory_condition_type
   VC_ALLIED
 };
 
+enum environment_upset_type
+{
+  EUT_GLOBAL_WARMING = 0,
+  EUT_NUCLEAR_WINTER
+};
+
 #endif /* FC__FC_TYPES_H */
