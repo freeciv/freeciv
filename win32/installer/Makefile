@@ -27,6 +27,7 @@
 # build all installers
 
 all: 
+	make GUI=gtk3 installer-gtk3
 	make GUI=gtk2 installer-gtk2
 	make GUI=sdl installer-sdl
 
@@ -40,6 +41,8 @@ build-freeciv-common:
 	cd build-$(GUI); ../../../configure --enable-client=$(GUI) --with-followtag="win32" --enable-fcdb=sqlite3
 	# make
 	make -C build-$(GUI)
+
+build-freeciv-gtk3: build-freeciv-common
 
 build-freeciv-gtk2: build-freeciv-common
 
@@ -65,6 +68,8 @@ install-freeciv-common:
 	# add start menu files
 	cp freeciv-server.cmd freeciv-modpack.cmd freeciv-$(GUI).cmd Freeciv.url install-$(GUI)/
 
+install-freeciv-gtk3: install-freeciv-common
+
 install-freeciv-gtk2: install-freeciv-common
 
 install-freeciv-sdl: install-freeciv-common
@@ -75,9 +80,6 @@ install-freeciv-sdl: install-freeciv-common
 	cp /opt/sazanami-20040629/README install-sdl/data/themes/gui-sdl/human/COPYING.sazanami
 	cp /opt/un-fonts/UnDotum.ttf install-sdl/data/themes/gui-sdl/human/
 	cp /opt/un-fonts/COPYING install-sdl/data/themes/gui-sdl/human/COPYING.UnDotum
-	# add Freeciv GTK+ theme for modpack installer
-	cp -R ../../data/themes/gui-gtk-2.0 install-sdl/data/themes/
-	find install-sdl/data/themes/gui-gtk-2.0 -name 'Makefile.*' -delete
 
 
 # install Freeciv environment
@@ -94,47 +96,68 @@ COMMON_DLLS := \
 	libbz2-2.dll \
 	libcurl.dll \
 	libcairo-2.dll \
+	libcairo-gobject-2.dll \
 	libeay32.dll \
-	libexpat-1.dll \
+	libffi-6.dll \
 	libfontconfig-1.dll \
+	libfreetype-6.dll \
 	libgcc_s_dw2-1.dll \
-	libgdk-win32-2.0-0.dll \
+	libgdk-3-0.dll \
 	libgdk_pixbuf-2.0-0.dll \
 	libgio-2.0-0.dll \
 	libglib-2.0-0.dll \
 	libgmodule-2.0-0.dll \
 	libgobject-2.0-0.dll \
 	libgthread-2.0-0.dll \
-	libgtk-win32-2.0-0.dll \
+	libgtk-3-0.dll \
 	libiconv-2.dll \
 	libidn-11.dll \
+	libintl-8.dll \
+	liblzma-5.dll \
 	libogg-0.dll \
 	libpango-1.0-0.dll \
 	libpangocairo-1.0-0.dll \
 	libpangoft2-1.0-0.dll \
 	libpangowin32-1.0-0.dll \
+	libpixman-1-0.dll \
 	libpng14-14.dll \
+	libpng15-15.dll \
 	libpthread-2.dll \
 	libsqlite3-0.dll \
 	libssl32.dll \
 	libvorbis-0.dll \
 	libvorbisfile-3.dll \
+	libxml2-2.dll \
+	pthreadGC2.dll \
 	zlib1.dll
 
 install-env-common:
 	# add DLLs
 	cp -R $(addprefix /bin/, $(COMMON_DLLS)) install-$(GUI)
-	# add GTK+ config files
+	# add additional GTK+3 files
+	mkdir -p install-$(GUI)/etc
+	cp -R /etc/gtk-3.0 install-$(GUI)/etc/
+	mkdir -p install-$(GUI)/lib/gtk-3.0/
+	cp -R /lib/gtk-3.0/3.0.0 install-$(GUI)/lib/gtk-3.0/
+	cp -R /share/locale install-$(GUI)/share/
+	find install-$(GUI)/share/locale -type f -not -name freeciv.mo -and -not -name gtk30.mo -delete
+
+install-env-gtk3: install-env-common
+
+GTK2_DLLS := \
+	libgdk-win32-2.0-0.dll \
+	libgtk-win32-2.0-0.dll
+
+install-env-gtk2: install-env-common
+	# add DLLs
+	cp -R $(addprefix /bin/, $(GTK2_DLLS)) install-$(GUI)
+	# add additional GTK+2 files
 	mkdir -p install-$(GUI)/etc
 	cp -R /etc/gtk-2.0 install-$(GUI)/etc/
 	mkdir -p install-$(GUI)/lib/gtk-2.0/
 	cp -R /lib/gtk-2.0/2.10.0 install-$(GUI)/lib/gtk-2.0/
-	echo "include \"../../data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/gtkrc\"" > install-$(GUI)/etc/gtk-2.0/gtkrc
-	# add GTK+ locale files
 	cp -R /share/locale install-$(GUI)/share/
-	find install-$(GUI)/share/locale -type f -not -name freeciv.mo -and -not -name gtk20.mo -delete
-
-install-env-gtk2: install-env-common
+	find install-$(GUI)/share/locale -type f -not -name freeciv.mo -and -not -name gtk30.mo -and -not -name gtk20.mo -delete
 
 SDL_DLLS := \
 	libpng12-0.dll \
@@ -155,6 +178,8 @@ installer-common: clean-install-common install-freeciv-$(GUI) install-env-$(GUI)
 	# create installer executable
 	mkdir -p Output
 	makensis Freeciv-$(FREECIV_VERSION)-$(GUI).nsi
+
+installer-gtk3: build-freeciv-gtk3 installer-common
 
 installer-gtk2: build-freeciv-gtk2 installer-common
 
