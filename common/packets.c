@@ -114,6 +114,10 @@ static bool conn_compression_flush(struct connection *pconn)
                     compression_level);
   fc_assert_ret_val(error == Z_OK, FALSE);
 
+  /* Compression signalling currently assumes a 2-byte packet length; if that
+   * changes, the protocol should probably be changed */
+  fc_assert_ret_val(data_type_size(pconn->packet_header.length) == 2, FALSE);
+
   /* Include normal length field in decision */
   jumbo = (compressed_size+2 >= JUMBO_BORDER);
 
@@ -129,6 +133,8 @@ static bool conn_compression_flush(struct connection *pconn)
 
     if (!jumbo) {
       unsigned char header[2];
+      FC_STATIC_ASSERT(COMPRESSION_BORDER > MAX_LEN_PACKET,
+                       uncompressed_compressed_packet_len_overlap);
 
       log_compress("COMPRESS: sending %ld as normal", compressed_size);
 
@@ -138,6 +144,8 @@ static bool conn_compression_flush(struct connection *pconn)
       connection_send_data(pconn, compressed, compressed_size);
     } else {
       unsigned char header[6];
+      FC_STATIC_ASSERT(JUMBO_SIZE >= JUMBO_BORDER+COMPRESSION_BORDER,
+                       compressed_normal_jumbo_packet_len_overlap);
 
       log_compress("COMPRESS: sending %ld as jumbo", compressed_size);
       dio_output_init(&dout, header, sizeof(header));
@@ -376,6 +384,9 @@ void *get_packet_from_connection(struct connection *pc,
   whole_packet_len = len_read;
 
 #ifdef USE_COMPRESSION
+  /* Compression signalling currently assumes a 2-byte packet length; if that
+   * changes, the protocol should probably be changed */
+  fc_assert(data_type_size(pc->packet_header.length) == 2);
   if (len_read == JUMBO_SIZE) {
     compressed_packet = TRUE;
     header_size = 6;
