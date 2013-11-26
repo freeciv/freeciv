@@ -85,7 +85,10 @@ static genhash_val_t attr_key_val(const struct attr_key *pkey,
 static bool attr_key_comp(const struct attr_key *pkey1,
                           const struct attr_key *pkey2)
 {
-  return (0 == memcmp(pkey1, pkey2, sizeof(*pkey1)));
+  return pkey1->key == pkey2->key
+      && pkey1->id  == pkey2->id
+      && pkey1->x   == pkey2->x
+      && pkey1->y   == pkey2->y;
 }
 
 /****************************************************************************
@@ -128,9 +131,7 @@ void attribute_free(void)
 }
 
 /****************************************************************************
-  This method isn't endian safe and there will also be problems if
-  sizeof(int) at serialization time is different from sizeof(int) at
-  deserialization time.
+  Serialize an attribute hash for network/storage.
 ****************************************************************************/
 static enum attribute_serial
 serialize_hash(const struct attribute_hash *hash,
@@ -162,9 +163,9 @@ serialize_hash(const struct attribute_hash *hash,
    * the total_length.
    */
   /* preamble */
-  total_length = 4 * 4;
+  total_length = 4 + 1 + 4 + 4;
   /* body */
-  total_length += entries * (4 + 4 * 4); /* value_size + key */
+  total_length += entries * (4 + 4 + 4 + 2 + 2); /* value_size + key */
   i = 0;
   attribute_hash_values_iterate(hash, pvalue) {
     struct data_in din;
@@ -207,6 +208,10 @@ serialize_hash(const struct attribute_hash *hash,
   } attribute_hash_iterate_end;
 
   fc_assert(!dout.too_short);
+  fc_assert_msg(dio_output_used(&dout) == total_length,
+                "serialize_hash() total_length = %lu, actual = %lu",
+                (long unsigned)total_length,
+                (long unsigned)dio_output_used(&dout));
 
   /*
    * Step 5: return.
@@ -272,19 +277,6 @@ static enum attribute_serial unserialize_hash(struct attribute_hash *hash,
                   "uint32 value_length dio_input_too_short");
       return A_SERIAL_FAIL;
     }
-    if (value_length > dio_input_remaining(&din)) {
-      log_verbose("attribute.c unserialize_hash() "
-                  "uint32 %lu value_length > %lu input_remaining",
-                  (long unsigned) value_length,
-                  (long unsigned) dio_input_remaining(&din));
-      return A_SERIAL_FAIL;
-    }
-    if (value_length < 16 /* including itself */) {
-      log_verbose("attribute.c unserialize_hash() "
-                  "uint32 %lu value_length < 16",
-                  (long unsigned) value_length);
-      return A_SERIAL_FAIL;
-    }
     log_attribute("attribute.c unserialize_hash() "
                   "uint32 %lu value_length", (long unsigned) value_length);
 
@@ -301,7 +293,11 @@ static enum attribute_serial unserialize_hash(struct attribute_hash *hash,
 
     dio_output_init(&dout, pvalue, value_length + 4);
     dio_put_uint32(&dout, value_length);
-    dio_get_memory(&din, ADD_TO_POINTER(pvalue, 4), value_length);
+    if (!dio_get_memory(&din, ADD_TO_POINTER(pvalue, 4), value_length)) {
+      log_verbose("attribute.c unserialize_hash() "
+                  "memory dio_input_too_short");
+      return A_SERIAL_FAIL;
+    }
 
     if (!attribute_hash_insert(hash, &key, pvalue)) {
       /* There are some untraceable attribute bugs caused by the CMA that
@@ -314,6 +310,16 @@ static enum attribute_serial unserialize_hash(struct attribute_hash *hash,
       return A_SERIAL_FAIL;
     }
   }
+
+  if (dio_input_remaining(&din) > 0) {
+    /* This is not an error, as old clients sent overlong serialized
+     * attributes pre gna bug #21295, and these will be hanging around
+     * in savefiles forever. */
+    log_attribute("attribute.c unserialize_hash() "
+                  "ignored %lu trailing octets",
+                  (long unsigned) dio_input_remaining(&din));
+  }
+
   return A_SERIAL_OK;
 }
 
