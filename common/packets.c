@@ -203,22 +203,34 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len,
     int size = len;
 
     if (conn_compression_frozen(pc)) {
-      size_t old_size = pc->compression.queue.size;
+      size_t old_size;
 
-      byte_vector_reserve(&pc->compression.queue, old_size + len);
-      memcpy(pc->compression.queue.p + old_size, data, len);
-      log_compress2("COMPRESS: putting %s into the queue",
-                    packet_name(packet_type));
-      if (MAX_LEN_BUFFER < byte_vector_size(&pc->compression.queue)) {
+      /* Keep this a decent amount less than MAX_LEN_BUFFER to avoid the
+       * (remote) possibility of trying to dump MAX_LEN_BUFFER to the
+       * network in one go */
+#define MAX_LEN_COMPRESS_QUEUE (MAX_LEN_BUFFER/2)
+      FC_STATIC_ASSERT(MAX_LEN_COMPRESS_QUEUE < MAX_LEN_BUFFER,
+                       compress_queue_maxlen_too_big);
+
+      /* If this packet would cause us to overfill the queue, flush
+       * everything that's in there already before queuing this one */
+      if (MAX_LEN_COMPRESS_QUEUE
+          < byte_vector_size(&pc->compression.queue) + len) {
         log_compress2("COMPRESS: huge queue, forcing to flush (%lu/%lu)",
                       (long unsigned)
                       byte_vector_size(&pc->compression.queue),
-                      (long unsigned) MAX_LEN_BUFFER);
+                      (long unsigned) MAX_LEN_COMPRESS_QUEUE);
         if (!conn_compression_flush(pc)) {
           return -1;
         }
         byte_vector_reserve(&pc->compression.queue, 0);
       }
+
+      old_size = byte_vector_size(&pc->compression.queue);
+      byte_vector_reserve(&pc->compression.queue, old_size + len);
+      memcpy(pc->compression.queue.p + old_size, data, len);
+      log_compress2("COMPRESS: putting %s into the queue",
+                    packet_name(packet_type));
     } else {
       stat_size_alone += size;
       log_compress("COMPRESS: sending %s alone (%d bytes total)",
