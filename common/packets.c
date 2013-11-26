@@ -357,8 +357,8 @@ void *get_packet_from_connection(struct connection *pc,
     return NULL;		/* connection was closed, stop reading */
   }
   
-  if (pc->buffer->ndata < 2+2) {
-    /* length and type not read */
+  if (pc->buffer->ndata < data_type_size(pc->packet_header.length)) {
+    /* Not got enough for a length field yet */
     return NULL;
   }
 
