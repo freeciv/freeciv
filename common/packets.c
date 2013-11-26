@@ -105,13 +105,20 @@ static bool conn_compression_flush(struct connection *pconn)
   uLongf compressed_size = 12 + 1.001 * pconn->compression.queue.size;
   int error;
   Bytef compressed[compressed_size];
+  bool jumbo;
+  unsigned long compressed_packet_len;
 
   error = compress2(compressed, &compressed_size,
                     pconn->compression.queue.p,
                     pconn->compression.queue.size,
                     compression_level);
   fc_assert_ret_val(error == Z_OK, FALSE);
-  if (compressed_size + 2 < pconn->compression.queue.size) {
+
+  /* Include normal length field in decision */
+  jumbo = (compressed_size+2 >= JUMBO_BORDER);
+
+  compressed_packet_len = compressed_size + (jumbo ? 6 : 2);
+  if (compressed_packet_len < pconn->compression.queue.size) {
     struct data_out dout;
 
     log_compress("COMPRESS: compressed %lu bytes to %ld (level %d)",
@@ -120,7 +127,7 @@ static bool conn_compression_flush(struct connection *pconn)
     stat_size_uncompressed += pconn->compression.queue.size;
     stat_size_compressed += compressed_size;
 
-    if (compressed_size+2 < JUMBO_BORDER) {
+    if (!jumbo) {
       unsigned char header[2];
 
       log_compress("COMPRESS: sending %ld as normal", compressed_size);
@@ -140,10 +147,10 @@ static bool conn_compression_flush(struct connection *pconn)
       connection_send_data(pconn, compressed, compressed_size);
     }
   } else {
-    log_compress("COMPRESS: would enlarging %lu bytes to %ld; "
+    log_compress("COMPRESS: would enlarge %lu bytes to %ld; "
                  "sending uncompressed",
                  (unsigned long) pconn->compression.queue.size,
-                 compressed_size);
+                 compressed_packet_len);
     connection_send_data(pconn, pconn->compression.queue.p,
                          pconn->compression.queue.size);
     stat_size_no_compression += pconn->compression.queue.size;
