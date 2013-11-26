@@ -355,9 +355,12 @@ bool really_gives_vision(struct player *me, struct player *them)
 static void buffer_shared_vision(struct player *pplayer)
 {
   players_iterate(pplayer2) {
-    if (really_gives_vision(pplayer, pplayer2))
+    if (really_gives_vision(pplayer, pplayer2)) {
+      conn_list_compression_freeze(pplayer2->connections);
       conn_list_do_buffer(pplayer2->connections);
+    }
   } players_iterate_end;
+  conn_list_compression_freeze(pplayer->connections);
   conn_list_do_buffer(pplayer->connections);
 }
 
@@ -367,10 +370,13 @@ static void buffer_shared_vision(struct player *pplayer)
 static void unbuffer_shared_vision(struct player *pplayer)
 {
   players_iterate(pplayer2) {
-    if (really_gives_vision(pplayer, pplayer2))
+    if (really_gives_vision(pplayer, pplayer2)) {
       conn_list_do_unbuffer(pplayer2->connections);
+      conn_list_compression_thaw(pplayer2->connections);
+    }
   } players_iterate_end;
   conn_list_do_unbuffer(pplayer->connections);
+  conn_list_compression_thaw(pplayer->connections);
 }
 
 /**************************************************************************
