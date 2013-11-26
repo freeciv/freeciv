@@ -48,7 +48,7 @@
 #define COMPRESSION_BORDER	(16*1024+1)
 
 /*
- * All compressed packets over this size are sent as a jumbo packet.
+ * All compressed packets this size or greater are sent as a jumbo packet.
  */
 #define JUMBO_BORDER 		(64*1024-COMPRESSION_BORDER-1)
 #endif
@@ -128,7 +128,7 @@ static bool conn_compression_flush(struct connection *pconn)
     stat_size_uncompressed += pconn->compression.queue.size;
     stat_size_compressed += compressed_size;
 
-    if (compressed_size <= JUMBO_BORDER) {
+    if (compressed_size+2 < JUMBO_BORDER) {
       unsigned char header[2];
 
       log_compress("COMPRESS: sending %ld as normal", compressed_size);
