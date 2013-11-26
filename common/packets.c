@@ -161,6 +161,10 @@ bool conn_compression_thaw(struct connection *pconn)
 {
 #ifdef USE_COMPRESSION
   pconn->compression.frozen_level--;
+  fc_assert_action_msg(pconn->compression.frozen_level >= 0,
+                       pconn->compression.frozen_level = 0,
+                       "Too many calls to conn_compression_thaw on %s!",
+                       conn_description(pconn));
   if (0 == pconn->compression.frozen_level) {
     return conn_compression_flush(pconn);
   }
