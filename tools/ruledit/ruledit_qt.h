@@ -18,7 +18,7 @@
 #include <QApplication>
 #include <QObject>
 #include <QLabel>
-#include <QLineEdit>
+#include <QTabWidget>
 
 class ruledit_gui : public QObject
 {
@@ -30,14 +30,10 @@ class ruledit_gui : public QObject
     int run();
     void close();
 
-  private slots:
-    void savedir_given();
-
   private:
     QApplication *app;
     QLabel *msg_dspl;
-
-    QLineEdit *savedir;
+    QTabWidget *stack;
 };
 
 bool ruledit_qt_setup(int argc, char **argv);

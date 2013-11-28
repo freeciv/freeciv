@@ -19,6 +19,7 @@
 #include <QApplication>
 #include <QLabel>
 #include <QMainWindow>
+#include <QVBoxLayout>
 
 // utility
 #include "fcintl.h"
@@ -26,8 +27,9 @@
 #include "registry.h"
 
 // ruledit
+#include "tab_misc.h"
+#include "tab_tech.h"
 #include "ruledit.h"
-#include "rulesave.h"
 
 #include "ruledit_qt.h"
 
@@ -44,8 +46,7 @@ bool ruledit_qt_setup(int argc, char **argv)
 
   qapp = new QApplication(argc, argv);
   main_window = new QMainWindow;
-  main_window->setGeometry(0, 30, 640, 60);
-  main_window->setWindowTitle(_("Freeciv ruleset editor"));
+  main_window->setWindowTitle(R__("Freeciv ruleset editor"));
   central = new QWidget;
 
   gui = new ruledit_gui;
@@ -79,31 +80,28 @@ void ruledit_qt_close()
 **************************************************************************/
 void ruledit_gui::setup(QApplication *qapp, QWidget *central)
 {
-#define SAVE_LABEL_TEXT "Save to directory"
-
-  QLabel *save_label;
-  QFont font("times", 12);
-  QFontMetrics fm(font);
-  int label_len = fm.width(_(SAVE_LABEL_TEXT));
-  int label_end = label_len + 5;
+  tab_misc *misc;
+  tab_tech *tech;
+  QVBoxLayout *main_layout = new QVBoxLayout(central);
 
   app = qapp;
 
-  save_label = new QLabel(_(SAVE_LABEL_TEXT));
-  save_label->setGeometry(5, 0, label_len, 30);
-  save_label->setParent(central);
-
-  savedir = new QLineEdit(central);
-  savedir->setText("ruledit-tmp");
-  savedir->setGeometry(label_end, 0, fm.width("ruledit-template"), 30);
-  savedir->setFocus();
-  connect(savedir, SIGNAL(returnPressed()), this, SLOT(savedir_given()));
-
-  msg_dspl = new QLabel(_("Welcome to freeciv-ruledit"));
+  msg_dspl = new QLabel(R__("Welcome to freeciv-ruledit"));
   msg_dspl->setParent(central);
 
-  msg_dspl->setGeometry(0, 40, 640, 30);
   msg_dspl->setAlignment(Qt::AlignHCenter);
+
+  stack = new QTabWidget(central);
+
+  misc = new tab_misc(central, this);
+  stack->addTab(misc, R__("Misc"));
+  tech = new tab_tech(central, this);
+  stack->addTab(tech, R__("Tech"));
+
+  main_layout->addWidget(stack);
+  main_layout->addWidget(msg_dspl);
+
+  central->setLayout(main_layout);
 }
 
 /**************************************************************************
@@ -130,14 +128,4 @@ void ruledit_gui::close()
 void ruledit_gui::display_msg(const char *msg)
 {
   msg_dspl->setText(msg);
-}
-
-/**************************************************************************
-  User entered savedir
-**************************************************************************/
-void ruledit_gui::savedir_given()
-{
-  save_ruleset(savedir->text().toUtf8().data(), ruleset_name());
-
-  display_msg(_("Ruleset saved"));
 }

@@ -14,9 +14,15 @@ AM_CPPFLAGS = \
 
 freeciv_ruledit_CXXFLAGS = $(ruledit_CXXFLAGS)
 
-MOC_FILES = meta_ruledit_qt.cpp
+MOC_FILES = meta_ruledit_qt.cpp \
+            meta_tab_misc.cpp	\
+            meta_tab_tech.cpp
 
 freeciv_ruledit_SOURCES =	\
+		tab_misc.cpp	\
+		tab_misc.h	\
+                tab_tech.cpp	\
+		tab_tech.h	\
 		ruledit.cpp	\
 		ruledit.h	\
 		ruledit_qt.cpp	\

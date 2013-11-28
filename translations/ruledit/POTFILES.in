@@ -1,3 +1,6 @@
 # List of source files containing translatable strings.
 # (Filenames are sorted alphabetically and relative to top-level directory.)
 tools/ruledit/ruledit.cpp
+tools/ruledit/ruledit_qt.cpp
+tools/ruledit/tab_misc.cpp
+tools/ruledit/tab_tech.cpp
