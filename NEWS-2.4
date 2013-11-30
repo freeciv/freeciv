@@ -1,10 +1,198 @@
 ========================
-Welcome to Freeciv 2.4.0
+Welcome to Freeciv 2.4.1
 ========================
 
 The changes in the 2.4.x series are summarised below.
 For changes prior to 2.4, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.4.0 to 2.4.1
+---------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.4.1>)
+
+   2.4.1 is mostly a bug-fix release; it includes fixes for server and
+   client crashes, and some AI improvements.
+
+Server / general
+
+Changes affecting players (supplied rulesets)
+
+     * If the 'revealmap' server setting was set to show the initial state
+       of the map to players on game start, loading a savegame of that
+       game would freshly reveal the current state of the map to all
+       players. GNA#21172
+     * Fix some bugs in Freeciv's inferences about ruleset effects in the
+       absence of complete information. These are low-level changes whose
+       effects are hard to quantify, but should be more correct; they are
+       most likely to affect client behavior and the AI. The bugs
+       affected:
+          + A particular ruleset definition ('negated' requirements) which
+            is not used in any of the supplied rulesets. GNA#21144
+          + Requirements for the presence of a certain building. GNA#21147
+     * Autosettlers could erroneously believe that by building irrigation
+       or a mine, specials of the other kind would be removed. This is
+       true of the supplied rulesets, but may not be true of other
+       rulesets. GNA#21192
+     * In rulesets such as civ1 where chains of adjacent cities can create
+       'channels' allowing sea units inland, if a city is lost (cutting
+       off the channel), any units now landlocked are correctly destroyed.
+       GNA#21219
+     * Quell some warnings when loading the civ1 ruleset. GNA#20770
+     * Bug fix: random connection loss could occur due to disagreement
+       between client and server about the interpretation of certain
+       compressed network packets. This only affects a very few exact
+       packet sizes, so you'd have to be quite unlucky to run into it; it
+       is most likely to manifest when the client first connects to the
+       server, in which case only the server needs upgrading to avoid the
+       issue. GNA#21300
+     * The server sent incorrect information to the client about wonders
+       which have been built by players and then lost. This is not known
+       to have any adverse effects. GNA#21096
+
+Changes affecting other rulesets / modders
+
+     * Consider bases when automatically determining a unit's Move_Type
+       when not explicitly specified by the ruleset author. GNA#21022
+     * Do not emit errors for rulesets with no nation groups defined.
+       GNAPATCH#4300
+     * If a ruleset defined too many nation groups/sets, this error was
+       not reported clearly. GNAPATCH#4299
+
+Changes affecting server operators
+
+     * The server could crash if '/remove' was used in the pre-game.
+       GNA#21202
+     * Fail more gracefully if a map is generated with no land for players
+       to start on. GNA#21068
+     * In the case where the game cannot start due to there being
+       insufficient nations for all players, ensure everyone is notified.
+       GNA#21207
+     * '/mapimg colortest' caused assertion failures and a possible server
+       crash. GNA#21159
+     * Fix a harmless warning in the verbose log 'unused entry:
+       savefile.specials_size' when loading a savefile. GNA#19836
+     * Fix some recent regressions in the 'freeciv-manual' utility. (Note,
+       however, that it still has large gaps and is of limited use outside
+       the development team.)
+          + Broken server settings documentation. GNA#21063 GNA#21099
+          + Potential trouble finding the default ruleset definitions.
+            GNA#21086
+     * Bring the included Lua 5.1 up to date with the latest patch (patch
+       2). GNAPATCH#4068
+     * Various internal changes which should only affect developers.
+       GNA#21015 GNA#21206 GNA#21232 GNA#21238
+
+AI
+
+     * Fix bugs in the AI's 'ferry' system (for handling boats and similar
+       transports):
+          + A bug which could possibly lead to AI boats left in an
+            unusable state, and overproduction of boats. GNA#20978
+          + General contradiction within the code about which units use
+            the ferry system, which could cause trouble with unusual
+            transports, such as non-seagoing ones (Triremes in the
+            experimental ruleset, which can navigate rivers) and
+            transports which cannot carry non-land units (such as
+            Carriers). GNA#21154
+     * Fix bugs in AI's evaluation of which attacker units to build:
+          + The logic for determining whether they would be built as
+            veteran was wrong in many ways, including treating
+            veterancy-granting buildings in a city as a downside rather
+            than upside, and not handling veterancy-granting wonders.
+            GNAPATCH#4014
+          + When planning to attack a city, units which could occupy
+            cities only had that ability taken into account, not any
+            ability to destroy enemy units; now both are taken into
+            account. As a result, the AI may now prefer building land
+            units rather than ships. GNAPATCH#4015
+     * The AI's logic for deciding when to try bribing units was flawed.
+       It would give up if the enemy's cities were unbribable, and would
+       not take into account whether the unit (or all the enemy's units)
+       were unbribable. GNA#21064 GNA#21136
+     * Ensure that AI never considers a ruleset effect with zero value as
+       a reason to build an improvement. (Should not affect most rulesets,
+       but may sometimes occur when testing a new ruleset.) GNAPATCH#4289
+     * Fix AI behavior in the presence of negative Size_Unlimit effects in
+       the ruleset. It could consider buildings with such effects a bonus
+       rather than a liability, and if a city ended up with a net negative
+       value for this effect, the AI would never go for buildings which
+       could increase the city size limit. GNA#21240
+     * For AI developers: the 'unit_got' callback could be called with the
+       wrong owner when a unit's home city changed. (This does not affect
+       the default AI, as it does not use this callback.) GNA#21200
+
+Clients
+
+     * National borders would disappear from the map when the local
+       settings dialog was opened for the first time. (Unit background
+       colors would also be wrongly displayed, if enabled.) GNA#21116
+       GNA#21151
+     * The client could crash if the user accepted a tileset suggestion
+       made by the ruleset. GNA#21231
+     * In the Nations report, show a status even for disconnected players
+       (including whether they are blocking turn change). GNA#21023
+     * Fix minor bugs in the handling of CMA settings. Unlikely to have a
+       functional effect on most platforms (beyond slightly smaller
+       savefiles). GNA#21295
+     * (Gtk) Fix a possible crash when pressing the Tab key in the
+       chatline, and some other issues with non-ASCII characters and tab
+       completion. GNA#21293
+     * (Gtk) Stop the 'Number of Players (including AI)' control's state
+       for single-player games from getting out of sync with the spawned
+       server. GNA#21179
+     * (Gtk2, Windows) If additional Gtk themes are installed, the Freeciv
+       theme no longer leaks through in places. As a side effect, the
+       modpack installer is no longer themed. GNA#21163
+     * (Gtk3) Activating (double-clicking) a row in the city report would
+       sometimes randomly fail to pop up the city dialog. GNAPATCH#4294
+     * (Gtk3) Fix selling buildings from the city dialog. GNA#20984
+     * (Gtk3) The end-game score list and the citizen nationality list
+       were both drawn too small. GNA#21108
+     * (Xaw) Client now identifies itself as 'gui-xaw' on its startup
+       screen. GNAPATCH#4064
+
+Tilesets / Art
+
+     * New nuclear explosion graphics for the Amplio2 and Trident
+       rulesets. GNAPATCH#4003
+
+Help / Documentation
+
+     * Minor improvements to user documentation and in-game text.
+       GNAPATCH#4092 GNAPATCH#19452
+     * Miscellaneous improvements to developer/ruleset docs. GNAPATCH#4187
+       GNAPATCH#4267 GNAPATCH#4275 GNA#20872
+     * Invisible changes to assist translation. GNAPATCH#4290
+
+Translations
+
+     * The language code 'no' is no longer listed in the Windows
+       installer, since it was just a copy of the language 'nb' (Norwegian
+       Bokmål). GNAPATCH#4134
+     * The Windows installer now lists languages by name rather than
+       obscure language code. GNA#21060
+     * Updated translations:
+          + Complete translations: Catalan, Polish, British English.
+          + Incomplete translations: French (>99.9%).
+
+Build/portability
+
+     * Fix a build failure when building from scratch in the presence of
+       automake 1.8, and document the minimum requirement of automake 1.9.
+       (This did not affect normal building from the distributed
+       tarballs.) GNA#21216
+     * Install documentation as part of 'make install'. GNAPATCH#4072
+     * A Windows installer can now be built for the Gtk3 client as well as
+       the Gtk2 client. GNATASK#7681
+     * If just the Gtk3 client was installed, it was accompanied by a
+       non-working .desktop file. Fix this, and add a .desktop file for
+       the SDL client too. GNA#21243
+     * Fix potential trouble when building for BeOS. GNA#21153
+     * Fix trouble building a distribution without localization. GNA#21139
+     * Fix a compiler warning on builds without --enable-debug. GNA#21237
+     * Build is now warning-clean on GCC 4.8 -O3. GNAPATCH#4255
 
 
 CHANGES FROM 2.4.0-RC2 TO 2.4.0
