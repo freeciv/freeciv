@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-24 20:33+0100\n"
+"POT-Creation-Date: 2013-11-30 10:44+0000\n"
 "PO-Revision-Date: 2013-11-24 20:36+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -481,14 +481,14 @@ msgstr "?cma:Màx or"
 msgid "?cma:Max science"
 msgstr "?cma:Màx ciència"
 
-#: client/attribute.c:368
+#: client/attribute.c:374
 msgid ""
 "There has been a CMA error. Your citizen governor settings may be broken."
 msgstr ""
 "Hi ha hagut un error d'AGC. La teva configuració de gestor de ciutadans pot "
 "estar espatllada."
 
-#: client/attribute.c:372
+#: client/attribute.c:378
 msgid "Old attributes detected and removed."
 msgstr "S'han detectat i suprimit atributs vells."
 
@@ -1738,83 +1738,84 @@ msgstr "Entrar al Mercat"
 msgid "_Keep moving"
 msgstr "_Continuar movent-se"
 
-#: client/gui-gtk-2.0/chatline.c:317 client/gui-gtk-3.0/chatline.c:317
+#. TRANS: comma-separated list of player/user names for completion
+#: client/gui-gtk-2.0/chatline.c:321 client/gui-gtk-3.0/chatline.c:321
 #, c-format
 msgid "Suggestions: %s."
 msgstr "Suggeriments: %s."
 
-#: client/gui-gtk-2.0/chatline.c:462 client/gui-gtk-3.0/chatline.c:468
+#: client/gui-gtk-2.0/chatline.c:466 client/gui-gtk-3.0/chatline.c:472
 msgid "No visible unit on this tile."
 msgstr "No hi ha cap unitat visible en aquesta casella."
 
-#: client/gui-gtk-2.0/chatline.c:608 client/gui-gtk-3.0/chatline.c:614
+#: client/gui-gtk-2.0/chatline.c:612 client/gui-gtk-3.0/chatline.c:618
 msgid "This city isn't known!"
 msgstr "No es coneix aquesta ciutat!"
 
-#: client/gui-gtk-2.0/chatline.c:617 client/gui-gtk-3.0/chatline.c:623
+#: client/gui-gtk-2.0/chatline.c:621 client/gui-gtk-3.0/chatline.c:627
 msgid "This tile doesn't exist in this game!"
 msgstr "Aquesta casella no existeix en aquesta partida!"
 
-#: client/gui-gtk-2.0/chatline.c:627 client/gui-gtk-3.0/chatline.c:633
+#: client/gui-gtk-2.0/chatline.c:631 client/gui-gtk-3.0/chatline.c:637
 msgid "This unit isn't known!"
 msgstr "No es coneix aquesta unitat!"
 
-#: client/gui-gtk-2.0/chatline.c:938 client/gui-gtk-3.0/chatline.c:921
+#: client/gui-gtk-2.0/chatline.c:942 client/gui-gtk-3.0/chatline.c:925
 #: client/gui-qt/chatline.cpp:55 client/gui-stub/chatline.c:50
 #: client/gui-xaw/chatline.c:121
 msgid "Cleared output window."
 msgstr "S'ha netejat la finestra de missatges."
 
 #. TRANS: "text" or "background".
-#: client/gui-gtk-2.0/chatline.c:1120 client/gui-gtk-3.0/chatline.c:1106
+#: client/gui-gtk-2.0/chatline.c:1124 client/gui-gtk-3.0/chatline.c:1110
 #, c-format
 msgid "Select the %s color"
 msgstr "Seleccionar el color %s"
 
-#: client/gui-gtk-2.0/chatline.c:1326 client/gui-gtk-3.0/chatline.c:1318
+#: client/gui-gtk-2.0/chatline.c:1330 client/gui-gtk-3.0/chatline.c:1322
 msgid "Bold (Ctrl-B)"
 msgstr "Negreta (Ctrl-B)"
 
-#: client/gui-gtk-2.0/chatline.c:1334 client/gui-gtk-3.0/chatline.c:1326
+#: client/gui-gtk-2.0/chatline.c:1338 client/gui-gtk-3.0/chatline.c:1330
 msgid "Italic (Ctrl-I)"
 msgstr "Cursiva (Ctrl-I)"
 
-#: client/gui-gtk-2.0/chatline.c:1342 client/gui-gtk-3.0/chatline.c:1334
+#: client/gui-gtk-2.0/chatline.c:1346 client/gui-gtk-3.0/chatline.c:1338
 msgid "Strikethrough (Ctrl-S)"
 msgstr "Ratllat (Ctrl-S)"
 
-#: client/gui-gtk-2.0/chatline.c:1350 client/gui-gtk-3.0/chatline.c:1342
+#: client/gui-gtk-2.0/chatline.c:1354 client/gui-gtk-3.0/chatline.c:1346
 msgid "Underline (Ctrl-U)"
 msgstr "Subratllat (Ctrl-U)"
 
-#: client/gui-gtk-2.0/chatline.c:1358 client/gui-gtk-3.0/chatline.c:1350
+#: client/gui-gtk-2.0/chatline.c:1362 client/gui-gtk-3.0/chatline.c:1354
 msgid "Color (Ctrl-C)"
 msgstr "Color (Ctrl-C)"
 
-#: client/gui-gtk-2.0/chatline.c:1368 client/gui-gtk-3.0/chatline.c:1360
+#: client/gui-gtk-2.0/chatline.c:1372 client/gui-gtk-3.0/chatline.c:1364
 msgid "foreground"
 msgstr "color del tipus de lletra"
 
-#: client/gui-gtk-2.0/chatline.c:1371 client/gui-gtk-2.0/optiondlg.c:624
-#: client/gui-gtk-3.0/chatline.c:1363 client/gui-gtk-3.0/optiondlg.c:628
+#: client/gui-gtk-2.0/chatline.c:1375 client/gui-gtk-2.0/optiondlg.c:624
+#: client/gui-gtk-3.0/chatline.c:1367 client/gui-gtk-3.0/optiondlg.c:628
 msgid "Select the text color"
 msgstr "Seleccionar el color del text"
 
-#: client/gui-gtk-2.0/chatline.c:1384 client/gui-gtk-3.0/chatline.c:1376
+#: client/gui-gtk-2.0/chatline.c:1388 client/gui-gtk-3.0/chatline.c:1380
 msgid "background"
 msgstr "fons"
 
-#: client/gui-gtk-2.0/chatline.c:1388 client/gui-gtk-2.0/optiondlg.c:633
-#: client/gui-gtk-3.0/chatline.c:1380 client/gui-gtk-3.0/optiondlg.c:637
+#: client/gui-gtk-2.0/chatline.c:1392 client/gui-gtk-2.0/optiondlg.c:633
+#: client/gui-gtk-3.0/chatline.c:1384 client/gui-gtk-3.0/optiondlg.c:637
 msgid "Select the background color"
 msgstr "Seleccionar el color de fons"
 
 #. TRANS: "Return" means the return key.
-#: client/gui-gtk-2.0/chatline.c:1406 client/gui-gtk-3.0/chatline.c:1398
+#: client/gui-gtk-2.0/chatline.c:1410 client/gui-gtk-3.0/chatline.c:1402
 msgid "Send the chat (Return)"
 msgstr "Enviar el xat (Retorn)"
 
-#: client/gui-gtk-2.0/chatline.c:1423 client/gui-gtk-3.0/chatline.c:1413
+#: client/gui-gtk-2.0/chatline.c:1427 client/gui-gtk-3.0/chatline.c:1417
 msgid "Chat tools"
 msgstr "Eines de xat"
 
@@ -38832,8 +38833,7 @@ msgid ""
 "When %s was disbanded your %s in %s was trapped, and it was therefore lost."
 msgstr ""
 "Quan %s ha estat desmantellada, el  teu %s de %s hi ha quedat atrapat, i per "
-"tant, "
-"s'ha perdut."
+"tant, s'ha perdut."
 
 #: server/citytools.c:1647
 #, c-format

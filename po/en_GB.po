@@ -65,7 +65,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-17 10:59+0000\n"
+"POT-Creation-Date: 2013-11-30 10:44+0000\n"
 "PO-Revision-Date: 2013-11-17 11:01+0000\n"
 "Last-Translator: Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
@@ -530,13 +530,13 @@ msgstr "?cma:Max gold"
 msgid "?cma:Max science"
 msgstr "?cma:Max science"
 
-#: client/attribute.c:368
+#: client/attribute.c:374
 msgid ""
 "There has been a CMA error. Your citizen governor settings may be broken."
 msgstr ""
 "There has been a CMA error. Your citizen governor settings may be broken."
 
-#: client/attribute.c:372
+#: client/attribute.c:378
 msgid "Old attributes detected and removed."
 msgstr "Old attributes detected and removed."
 
@@ -1777,83 +1777,84 @@ msgstr "Enter Marketplace"
 msgid "_Keep moving"
 msgstr "_Keep moving"
 
-#: client/gui-gtk-2.0/chatline.c:317 client/gui-gtk-3.0/chatline.c:317
+#. TRANS: comma-separated list of player/user names for completion
+#: client/gui-gtk-2.0/chatline.c:321 client/gui-gtk-3.0/chatline.c:321
 #, c-format
 msgid "Suggestions: %s."
 msgstr "Suggestions: %s."
 
-#: client/gui-gtk-2.0/chatline.c:462 client/gui-gtk-3.0/chatline.c:468
+#: client/gui-gtk-2.0/chatline.c:466 client/gui-gtk-3.0/chatline.c:472
 msgid "No visible unit on this tile."
 msgstr "No visible unit on this tile."
 
-#: client/gui-gtk-2.0/chatline.c:608 client/gui-gtk-3.0/chatline.c:614
+#: client/gui-gtk-2.0/chatline.c:612 client/gui-gtk-3.0/chatline.c:618
 msgid "This city isn't known!"
 msgstr "This city isn't known!"
 
-#: client/gui-gtk-2.0/chatline.c:617 client/gui-gtk-3.0/chatline.c:623
+#: client/gui-gtk-2.0/chatline.c:621 client/gui-gtk-3.0/chatline.c:627
 msgid "This tile doesn't exist in this game!"
 msgstr "This tile doesn't exist in this game!"
 
-#: client/gui-gtk-2.0/chatline.c:627 client/gui-gtk-3.0/chatline.c:633
+#: client/gui-gtk-2.0/chatline.c:631 client/gui-gtk-3.0/chatline.c:637
 msgid "This unit isn't known!"
 msgstr "This unit isn't known!"
 
-#: client/gui-gtk-2.0/chatline.c:938 client/gui-gtk-3.0/chatline.c:921
+#: client/gui-gtk-2.0/chatline.c:942 client/gui-gtk-3.0/chatline.c:925
 #: client/gui-qt/chatline.cpp:55 client/gui-stub/chatline.c:50
 #: client/gui-xaw/chatline.c:121
 msgid "Cleared output window."
 msgstr "Cleared output window."
 
 #. TRANS: "text" or "background".
-#: client/gui-gtk-2.0/chatline.c:1120 client/gui-gtk-3.0/chatline.c:1106
+#: client/gui-gtk-2.0/chatline.c:1124 client/gui-gtk-3.0/chatline.c:1110
 #, c-format
 msgid "Select the %s color"
 msgstr "Select the %s colour"
 
-#: client/gui-gtk-2.0/chatline.c:1326 client/gui-gtk-3.0/chatline.c:1318
+#: client/gui-gtk-2.0/chatline.c:1330 client/gui-gtk-3.0/chatline.c:1322
 msgid "Bold (Ctrl-B)"
 msgstr "Bold (Ctrl-B)"
 
-#: client/gui-gtk-2.0/chatline.c:1334 client/gui-gtk-3.0/chatline.c:1326
+#: client/gui-gtk-2.0/chatline.c:1338 client/gui-gtk-3.0/chatline.c:1330
 msgid "Italic (Ctrl-I)"
 msgstr "Italic (Ctrl-I)"
 
-#: client/gui-gtk-2.0/chatline.c:1342 client/gui-gtk-3.0/chatline.c:1334
+#: client/gui-gtk-2.0/chatline.c:1346 client/gui-gtk-3.0/chatline.c:1338
 msgid "Strikethrough (Ctrl-S)"
 msgstr "Strikethrough (Ctrl-S)"
 
-#: client/gui-gtk-2.0/chatline.c:1350 client/gui-gtk-3.0/chatline.c:1342
+#: client/gui-gtk-2.0/chatline.c:1354 client/gui-gtk-3.0/chatline.c:1346
 msgid "Underline (Ctrl-U)"
 msgstr "Underline (Ctrl-U)"
 
-#: client/gui-gtk-2.0/chatline.c:1358 client/gui-gtk-3.0/chatline.c:1350
+#: client/gui-gtk-2.0/chatline.c:1362 client/gui-gtk-3.0/chatline.c:1354
 msgid "Color (Ctrl-C)"
 msgstr "Colour (Ctrl-C)"
 
-#: client/gui-gtk-2.0/chatline.c:1368 client/gui-gtk-3.0/chatline.c:1360
+#: client/gui-gtk-2.0/chatline.c:1372 client/gui-gtk-3.0/chatline.c:1364
 msgid "foreground"
 msgstr "foreground"
 
-#: client/gui-gtk-2.0/chatline.c:1371 client/gui-gtk-2.0/optiondlg.c:624
-#: client/gui-gtk-3.0/chatline.c:1363 client/gui-gtk-3.0/optiondlg.c:628
+#: client/gui-gtk-2.0/chatline.c:1375 client/gui-gtk-2.0/optiondlg.c:624
+#: client/gui-gtk-3.0/chatline.c:1367 client/gui-gtk-3.0/optiondlg.c:628
 msgid "Select the text color"
 msgstr "Select the text colour"
 
-#: client/gui-gtk-2.0/chatline.c:1384 client/gui-gtk-3.0/chatline.c:1376
+#: client/gui-gtk-2.0/chatline.c:1388 client/gui-gtk-3.0/chatline.c:1380
 msgid "background"
 msgstr "background"
 
-#: client/gui-gtk-2.0/chatline.c:1388 client/gui-gtk-2.0/optiondlg.c:633
-#: client/gui-gtk-3.0/chatline.c:1380 client/gui-gtk-3.0/optiondlg.c:637
+#: client/gui-gtk-2.0/chatline.c:1392 client/gui-gtk-2.0/optiondlg.c:633
+#: client/gui-gtk-3.0/chatline.c:1384 client/gui-gtk-3.0/optiondlg.c:637
 msgid "Select the background color"
 msgstr "Select the background colour"
 
 #. TRANS: "Return" means the return key.
-#: client/gui-gtk-2.0/chatline.c:1406 client/gui-gtk-3.0/chatline.c:1398
+#: client/gui-gtk-2.0/chatline.c:1410 client/gui-gtk-3.0/chatline.c:1402
 msgid "Send the chat (Return)"
 msgstr "Send the chat (Return)"
 
-#: client/gui-gtk-2.0/chatline.c:1423 client/gui-gtk-3.0/chatline.c:1413
+#: client/gui-gtk-2.0/chatline.c:1427 client/gui-gtk-3.0/chatline.c:1417
 msgid "Chat tools"
 msgstr "Chat tools"
 

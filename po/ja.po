@@ -156,7 +156,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-14 12:18+0100\n"
+"POT-Creation-Date: 2013-11-30 10:44+0000\n"
 "PO-Revision-Date: 2013-09-09 11:05+0300\n"
 "Last-Translator: Belgae <freeciv.belgae AT gmail.com>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -508,12 +508,12 @@ msgstr ""
 "*%s (AI)* 我々は%sの猛攻を受けており，貴国の助力を必要としている！我々の光栄"
 "ある同盟を守りたまえ，貴君の名は永遠のものとなるであろう！"
 
-#: ai/default/aicity.c:308 server/citytools.c:2416
+#: ai/default/aicity.c:308 server/citytools.c:2460
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%sは%sを %sに建てるのを中断しました。"
 
-#: ai/default/aicity.c:319 server/citytools.c:2454
+#: ai/default/aicity.c:319 server/citytools.c:2498
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "%sは%sを %sに建て始めました。"
@@ -647,12 +647,12 @@ msgstr "現金を最大に"
 msgid "?cma:Max science"
 msgstr "科学を最大に"
 
-#: client/attribute.c:368
+#: client/attribute.c:374
 msgid ""
 "There has been a CMA error. Your citizen governor settings may be broken."
 msgstr "CMAエラーが発生しました。総督府設定が壊れた可能性があります。"
 
-#: client/attribute.c:372
+#: client/attribute.c:378
 msgid "Old attributes detected and removed."
 msgstr "古い属性を検出したので削除しました。"
 
@@ -907,114 +907,114 @@ msgstr "%+4d : 市民による公害\n"
 msgid "%+4d : Pollution modifier\n"
 msgstr "%+4d : 公害修正\n"
 
-#: client/cityrepdata.c:106
+#: client/cityrepdata.c:107
 msgid "?city_state:Celebrating"
 msgstr "祝典"
 
-#: client/cityrepdata.c:107
+#: client/cityrepdata.c:108
 msgid "?city_state:Disorder"
 msgstr "混乱"
 
-#: client/cityrepdata.c:108
+#: client/cityrepdata.c:109
 msgid "?city_state:Peace"
 msgstr "平和"
 
-#: client/cityrepdata.c:521
+#: client/cityrepdata.c:522
 msgid "(worklist)"
 msgstr "(作業リスト)"
 
-#: client/cityrepdata.c:638
+#: client/cityrepdata.c:639
 msgid "?city:Name"
 msgstr "名前"
 
-#: client/cityrepdata.c:638 client/gui-sdl/cityrep.c:196
+#: client/cityrepdata.c:639 client/gui-sdl/cityrep.c:196
 msgid "City Name"
 msgstr "都市名"
 
-#: client/cityrepdata.c:640 client/gui-gtk-2.0/citizensinfo.c:65
+#: client/cityrepdata.c:641 client/gui-gtk-2.0/citizensinfo.c:65
 #: client/gui-gtk-2.0/dialogs.c:452 client/gui-gtk-2.0/editprop.c:3437
 #: client/gui-gtk-2.0/editprop.c:4163 client/gui-gtk-2.0/gotodlg.c:213
-#: client/gui-gtk-2.0/pages.c:1294 client/gui-gtk-2.0/pages.c:2637
+#: client/gui-gtk-2.0/pages.c:1294 client/gui-gtk-2.0/pages.c:2659
 #: client/gui-gtk-3.0/citizensinfo.c:65 client/gui-gtk-3.0/dialogs.c:455
 #: client/gui-gtk-3.0/editprop.c:3462 client/gui-gtk-3.0/editprop.c:4187
 #: client/gui-gtk-3.0/gotodlg.c:218 client/gui-gtk-3.0/pages.c:1317
-#: client/gui-gtk-3.0/pages.c:2670 client/gui-sdl/repodlgs.c:2081
-#: client/plrdlg_common.c:232
+#: client/gui-gtk-3.0/pages.c:2692 client/gui-sdl/repodlgs.c:2081
+#: client/plrdlg_common.c:259
 msgid "Nation"
 msgstr "民族"
 
-#: client/cityrepdata.c:642
+#: client/cityrepdata.c:643
 msgid "?size [short]:Sz"
 msgstr "大"
 
 # Belgae
 # was: 都市の大きさ
 # 編集モードなど，いろいろなところで今後使われそうなので，限定しないようにしました
-#: client/cityrepdata.c:642 client/gui-gtk-2.0/editgui.c:1255
+#: client/cityrepdata.c:643 client/gui-gtk-2.0/editgui.c:1255
 #: client/gui-gtk-2.0/editprop.c:4146 client/gui-gtk-3.0/editgui.c:1281
 #: client/gui-gtk-3.0/editprop.c:4170
 msgid "Size"
 msgstr "大きさ"
 
-#: client/cityrepdata.c:644 client/plrdlg_common.c:241
+#: client/cityrepdata.c:645 client/plrdlg_common.c:268
 msgid "State"
 msgstr "状態"
 
-#: client/cityrepdata.c:644
+#: client/cityrepdata.c:645
 msgid "Celebrating/Peace/Disorder"
 msgstr "祝典/平和/混乱"
 
-#: client/cityrepdata.c:646
+#: client/cityrepdata.c:647
 msgid "Concise *=Celebrating, X=Disorder"
 msgstr "簡略表示 * 祝典, X 混乱"
 
-#: client/cityrepdata.c:649
+#: client/cityrepdata.c:650
 msgid "?Happy workers:H"
 msgstr "幸"
 
-#: client/cityrepdata.c:649
+#: client/cityrepdata.c:650
 msgid "Workers: Happy"
 msgstr "労働者: 幸福"
 
-#: client/cityrepdata.c:651
+#: client/cityrepdata.c:652
 msgid "?Content workers:C"
 msgstr "平"
 
-#: client/cityrepdata.c:651
+#: client/cityrepdata.c:652
 msgid "Workers: Content"
 msgstr "労働者: 平静"
 
-#: client/cityrepdata.c:653
+#: client/cityrepdata.c:654
 msgid "?Unhappy workers:U"
 msgstr "不"
 
-#: client/cityrepdata.c:653
+#: client/cityrepdata.c:654
 msgid "Workers: Unhappy"
 msgstr "労働者: 不幸"
 
-#: client/cityrepdata.c:655
+#: client/cityrepdata.c:656
 msgid "?Angry workers:A"
 msgstr "怒"
 
-#: client/cityrepdata.c:655
+#: client/cityrepdata.c:656
 msgid "Workers: Angry"
 msgstr "労働者: 怒り"
 
-#: client/cityrepdata.c:657
+#: client/cityrepdata.c:658
 msgid "?city:Workers"
 msgstr "労働者"
 
-#: client/cityrepdata.c:658
+#: client/cityrepdata.c:659
 msgid "?happy/content/unhappy/angry:H/C/U/A"
 msgstr "幸/平/不/怒"
 
-#: client/cityrepdata.c:659
+#: client/cityrepdata.c:660
 msgid "Workers: Happy, Content, Unhappy, Angry"
 msgstr "労働者: 幸福, 平静, 不幸, 怒り"
 
 # Belgae
 # was:最適
-#: client/cityrepdata.c:662 client/cityrepdata.c:664
+#: client/cityrepdata.c:663 client/cityrepdata.c:665
 msgid "Best"
 msgstr "上位"
 
@@ -1023,7 +1023,7 @@ msgstr "上位"
 # Belgae
 # was:攻撃部隊
 # 都市内にいるユニットの中で攻撃力上位3ユニットの攻撃力が表示されます。具体的なユニット名は表示されません。"defense"も同様。
-#: client/cityrepdata.c:662
+#: client/cityrepdata.c:663
 msgid "attack"
 msgstr "攻撃力"
 
@@ -1031,25 +1031,25 @@ msgstr "攻撃力"
 # 実際に表示されるのは上位3部隊
 # Belgae
 # was:攻撃に適した部隊。unitsと複数形になっているように，最上級はトップ1限定ではありません。
-#: client/cityrepdata.c:663
+#: client/cityrepdata.c:664
 msgid "Best attacking units"
 msgstr "攻撃力上位ユニット"
 
-#: client/cityrepdata.c:664
+#: client/cityrepdata.c:665
 msgid "defense"
 msgstr "防御力"
 
-#: client/cityrepdata.c:665
+#: client/cityrepdata.c:666
 msgid "Best defending units"
 msgstr "防御力上位ユニット"
 
-#: client/cityrepdata.c:666 client/cityrepdata.c:670
+#: client/cityrepdata.c:667 client/cityrepdata.c:671
 #: client/gui-gtk-2.0/cityrep.c:1497 client/gui-gtk-2.0/cityrep.c:1516
 #: client/gui-gtk-2.0/cityrep.c:1535 client/gui-gtk-2.0/cityrep.c:1554
 #: client/gui-gtk-2.0/cityrep.c:1574 client/gui-gtk-2.0/menu.c:1378
-#: client/gui-gtk-2.0/repodlgs.c:1552 client/gui-gtk-3.0/cityrep.c:1509
-#: client/gui-gtk-3.0/cityrep.c:1528 client/gui-gtk-3.0/cityrep.c:1547
-#: client/gui-gtk-3.0/cityrep.c:1566 client/gui-gtk-3.0/cityrep.c:1586
+#: client/gui-gtk-2.0/repodlgs.c:1552 client/gui-gtk-3.0/cityrep.c:1516
+#: client/gui-gtk-3.0/cityrep.c:1535 client/gui-gtk-3.0/cityrep.c:1554
+#: client/gui-gtk-3.0/cityrep.c:1573 client/gui-gtk-3.0/cityrep.c:1593
 #: client/gui-gtk-3.0/menu.c:1378 client/gui-gtk-3.0/repodlgs.c:1584
 #: client/gui-sdl/helpdlg.c:697 client/gui-sdl/mapctrl.c:1617
 #: client/gui-sdl/repodlgs.c:366 client/gui-xaw/menu.c:162
@@ -1060,91 +1060,91 @@ msgid "Units"
 msgstr "ユニット"
 
 #. TRANS: Header "Number of units inside city"
-#: client/cityrepdata.c:668
+#: client/cityrepdata.c:669
 msgid "?Present (units):Here"
 msgstr "駐留"
 
-#: client/cityrepdata.c:669
+#: client/cityrepdata.c:670
 msgid "Number of units present"
 msgstr "駐留ユニットの数"
 
 #. TRANS: Header "Number of units supported by given city"
-#: client/cityrepdata.c:672
+#: client/cityrepdata.c:673
 msgid "?Supported (units):Owned"
 msgstr "支援"
 
-#: client/cityrepdata.c:673
+#: client/cityrepdata.c:674
 msgid "Number of units supported"
 msgstr "支援ユニットの数"
 
 #. TRANS: Header "It will take this many turns before city grows"
-#: client/cityrepdata.c:676
+#: client/cityrepdata.c:677
 msgid "?food (population):Grow"
 msgstr "拡大"
 
-#: client/cityrepdata.c:677 client/cityrepdata.c:722
+#: client/cityrepdata.c:678 client/cityrepdata.c:723
 msgid "?Stock/Target:(Have/Need)"
 msgstr "(蓄積/必要)"
 
-#: client/cityrepdata.c:678
+#: client/cityrepdata.c:679
 msgid "Turns until growth/famine"
 msgstr "拡大/飢饉までのターン"
 
 # was 「黒字」; マイナスの場合もあるので変更 (clefs)
-#: client/cityrepdata.c:681
+#: client/cityrepdata.c:682
 msgid "Surplus"
 msgstr "剰余"
 
-#: client/cityrepdata.c:681
+#: client/cityrepdata.c:682
 msgid "?food/production/trade:F/P/T"
 msgstr "食/生/交"
 
-#: client/cityrepdata.c:682
+#: client/cityrepdata.c:683
 msgid "Surplus: Food, Production, Trade"
 msgstr "剰余: 食料, 生産物, 交易"
 
-#: client/cityrepdata.c:684
+#: client/cityrepdata.c:685
 msgid "?Food surplus [short]:+F"
 msgstr "+食"
 
-#: client/cityrepdata.c:684
+#: client/cityrepdata.c:685
 msgid "Surplus: Food"
 msgstr "剰余: 食料"
 
-#: client/cityrepdata.c:686
+#: client/cityrepdata.c:687
 msgid "?Production surplus [short]:+P"
 msgstr "+生"
 
-#: client/cityrepdata.c:687
+#: client/cityrepdata.c:688
 msgid "Surplus: Production"
 msgstr "剰余: 生産物"
 
-#: client/cityrepdata.c:688
+#: client/cityrepdata.c:689
 msgid "?Production loss (waste) [short]:-P"
 msgstr "-浪"
 
 # ntaka
-#: client/cityrepdata.c:689
+#: client/cityrepdata.c:690
 msgid "Waste"
 msgstr "浪費"
 
-#: client/cityrepdata.c:690
+#: client/cityrepdata.c:691
 msgid "?Trade surplus [short]:+T"
 msgstr "+交"
 
-#: client/cityrepdata.c:690
+#: client/cityrepdata.c:691
 msgid "Surplus: Trade"
 msgstr "剰余: 交易"
 
-#: client/cityrepdata.c:692
+#: client/cityrepdata.c:693
 msgid "?Trade loss (corruption) [short]:-T"
 msgstr "-汚"
 
-#: client/cityrepdata.c:693
+#: client/cityrepdata.c:694
 msgid "Corruption"
 msgstr "汚職"
 
-#: client/cityrepdata.c:695 client/gui-gtk-2.0/menu.c:1370
+#: client/cityrepdata.c:696 client/gui-gtk-2.0/menu.c:1370
 #: client/gui-gtk-2.0/repodlgs.c:1035 client/gui-gtk-3.0/menu.c:1370
 #: client/gui-gtk-3.0/repodlgs.c:1068 client/gui-sdl/mapctrl.c:1403
 #: client/gui-xaw/menu.c:228 client/gui-xaw/menu.c:251
@@ -1153,79 +1153,79 @@ msgstr "汚職"
 msgid "Economy"
 msgstr "経済"
 
-#: client/cityrepdata.c:695
+#: client/cityrepdata.c:696
 msgid "?gold/luxury/science:G/L/S"
 msgstr "金/贅/科"
 
-#: client/cityrepdata.c:696
+#: client/cityrepdata.c:697
 msgid "Economy: Gold, Luxuries, Science"
 msgstr "経済: 金, 贅沢, 科学"
 
-#: client/cityrepdata.c:698
+#: client/cityrepdata.c:699
 msgid "?Gold:G"
 msgstr "金"
 
-#: client/cityrepdata.c:698
+#: client/cityrepdata.c:699
 msgid "Economy: Gold"
 msgstr "経済: 金"
 
-#: client/cityrepdata.c:700
+#: client/cityrepdata.c:701
 msgid "?Luxury:L"
 msgstr "贅"
 
-#: client/cityrepdata.c:700
+#: client/cityrepdata.c:701
 msgid "Economy: Luxury"
 msgstr "経済: 贅沢"
 
-#: client/cityrepdata.c:702
+#: client/cityrepdata.c:703
 msgid "?Science:S"
 msgstr "科"
 
-#: client/cityrepdata.c:702
+#: client/cityrepdata.c:703
 msgid "Economy: Science"
 msgstr "経済: 科学"
 
-#: client/cityrepdata.c:704
+#: client/cityrepdata.c:705
 msgid "?number_trade_routes:n"
 msgstr "数"
 
-#: client/cityrepdata.c:704
+#: client/cityrepdata.c:705
 msgid "?number_trade_routes:R"
 msgstr "易"
 
-#: client/cityrepdata.c:705
+#: client/cityrepdata.c:706
 msgid "Number of Trade Routes"
 msgstr "交易路の数"
 
-#: client/cityrepdata.c:707
+#: client/cityrepdata.c:708
 msgid "?pollution [short]:Pol"
 msgstr "公"
 
-#: client/cityrepdata.c:707 common/events.c:146 common/terrain.c:515
+#: client/cityrepdata.c:708 common/events.c:146 common/terrain.c:515
 #: common/unit.c:692 server/report.c:165
 msgid "Pollution"
 msgstr "公害"
 
-#: client/cityrepdata.c:709
+#: client/cityrepdata.c:710
 msgid "?plague risk [short]:Pla"
 msgstr "疫"
 
-#: client/cityrepdata.c:709
+#: client/cityrepdata.c:710
 msgid "(%)"
 msgstr "(%)"
 
-#: client/cityrepdata.c:709
+#: client/cityrepdata.c:710
 msgid "Plague risk"
 msgstr "疫病発生率"
 
-#: client/cityrepdata.c:711
+#: client/cityrepdata.c:712
 msgid "?cma:Governor"
 msgstr "総督府"
 
 # 以前CMAと呼んでいたやつ。どう訳したものか (clefs)
 # とりあえず総督府で行きます（Belgae）
-#: client/cityrepdata.c:711 client/gui-gtk-2.0/cityrep.c:1874
-#: client/gui-gtk-2.0/menu.c:1401 client/gui-gtk-3.0/cityrep.c:1886
+#: client/cityrepdata.c:712 client/gui-gtk-2.0/cityrep.c:1874
+#: client/gui-gtk-2.0/menu.c:1401 client/gui-gtk-3.0/cityrep.c:1893
 #: client/gui-gtk-3.0/menu.c:1401 client/gui-sdl/citydlg.c:3831
 #: client/gui-sdl/cma_fe.c:898 client/gui-xaw/menu.c:267
 #: client/include/helpdlg_g.h:33 data/Freeciv.in:1477 data/helpdata.txt:1753
@@ -1233,42 +1233,42 @@ msgid "Citizen Governor"
 msgstr "総督府"
 
 #. TRANS: "BS" = "build slots"
-#: client/cityrepdata.c:715
+#: client/cityrepdata.c:716
 msgid "BS"
 msgstr "枠"
 
-#: client/cityrepdata.c:715
+#: client/cityrepdata.c:716
 msgid "Maximum units buildable per turn"
 msgstr "各ターンに生産可能な最大ユニット数"
 
-#: client/cityrepdata.c:717 client/cityrepdata.c:719
+#: client/cityrepdata.c:718 client/cityrepdata.c:720
 #: client/gui-sdl/cityrep.c:201 server/report.c:162
 msgid "Production"
 msgstr "生産物"
 
-#: client/cityrepdata.c:717
+#: client/cityrepdata.c:718
 msgid "Turns/Buy"
 msgstr "必要ターン/購入金額"
 
-#: client/cityrepdata.c:721 client/cityrepdata.c:723
+#: client/cityrepdata.c:722 client/cityrepdata.c:724
 msgid "Currently Building"
 msgstr "作成中"
 
-#: client/cityrepdata.c:766
+#: client/cityrepdata.c:767
 msgid "Specialists: "
 msgstr "専門家: "
 
 # 科学者とかのことなんだけど (clefs)
-#: client/cityrepdata.c:772
+#: client/cityrepdata.c:773
 msgid "?specialist:S"
 msgstr "専門家"
 
-#: client/cityrepdata.c:775
+#: client/cityrepdata.c:776
 #, c-format
 msgid "Specialists: %s"
 msgstr "専門家: %s"
 
-#: client/cityrepdata.c:792
+#: client/cityrepdata.c:793
 msgid "Special"
 msgstr "専門家"
 
@@ -1290,40 +1290,40 @@ msgid "Skip connect dialog"
 msgstr "  -a, --autoconnect\t接続ダイアログをスキップする\n"
 
 #. TRANS: "debug" is exactly what user must type, do not translate.
-#: client/client_main.c:350 client/client_main.c:357 manual/civmanual.c:487
-#: manual/civmanual.c:493 server/civserver.c:355 server/civserver.c:361
+#: client/client_main.c:350 client/client_main.c:357 manual/civmanual.c:489
+#: manual/civmanual.c:495 server/civserver.c:355 server/civserver.c:361
 msgid "debug NUM"
 msgstr ""
 
-#: client/client_main.c:351 manual/civmanual.c:488 server/civserver.c:356
+#: client/client_main.c:351 manual/civmanual.c:490 server/civserver.c:356
 #, fuzzy, c-format
 msgid "Set debug log level (%d to %d, or %d:file1,min,max:...)"
 msgstr ""
 "  -d, --debug NUM\tデバックログレベルを設定する(0から4，もしくは4:ファイル1,"
 "最小,最大:...)\n"
 
-#: client/client_main.c:358 manual/civmanual.c:494 server/civserver.c:362
+#: client/client_main.c:358 manual/civmanual.c:496 server/civserver.c:362
 #, fuzzy, c-format
 msgid "Set debug log level (%d to %d)"
 msgstr "  -d, --debug NUM\tデバックログレベルを設定する(0から3)\n"
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: client/client_main.c:364 manual/civmanual.c:500 server/civserver.c:367
+#: client/client_main.c:364 manual/civmanual.c:502 server/civserver.c:367
 msgid "Fatal [SIGNAL]"
 msgstr ""
 
-#: client/client_main.c:365 manual/civmanual.c:501 server/civserver.c:368
+#: client/client_main.c:365 manual/civmanual.c:503 server/civserver.c:368
 msgid "Raise a signal on failed assertion"
 msgstr ""
 
-#: client/client_main.c:368 manual/civmanual.c:504 modinst/mpcmdline.c:59
+#: client/client_main.c:368 manual/civmanual.c:506 modinst/mpcmdline.c:59
 #: server/civserver.c:375
 #, fuzzy
 msgid "Print a summary of the options"
 msgstr "  -h, --help\t\tオプションの一覧を表示する\n"
 
 #. TRANS: "log" is exactly what user must type, do not translate.
-#: client/client_main.c:371 manual/civmanual.c:507 server/civserver.c:382
+#: client/client_main.c:371 manual/civmanual.c:509 server/civserver.c:382
 msgid "log FILE"
 msgstr ""
 
@@ -1421,7 +1421,7 @@ msgstr ""
 msgid "Use data file FILE.tilespec for tiles"
 msgstr "  -t, --tiles FILE\tタイルとしてデータファイル FILE.tilespec を使う\n"
 
-#: client/client_main.c:407 manual/civmanual.c:514 modinst/mpcmdline.c:69
+#: client/client_main.c:407 manual/civmanual.c:516 modinst/mpcmdline.c:69
 #: server/civserver.c:427
 #, fuzzy
 msgid "Print the version number"
@@ -1658,7 +1658,8 @@ msgstr ""
 
 # clefs
 #: client/connectdlg_common.c:219
-msgid "Starting server..."
+#, fuzzy
+msgid "Starting local server..."
 msgstr "サーバを起動しています……"
 
 # clefs
@@ -1818,7 +1819,7 @@ msgstr ""
 "ショートカット: c"
 
 #: client/editor.c:162 client/gui-gtk-2.0/editprop.c:4085
-#: client/gui-gtk-3.0/editprop.c:4109 client/plrdlg_common.c:240
+#: client/gui-gtk-3.0/editprop.c:4109 client/plrdlg_common.c:267
 msgid "Vision"
 msgstr "視界"
 
@@ -1972,88 +1973,89 @@ msgstr "市場に参入する"
 msgid "_Keep moving"
 msgstr "なにもしない(_K)"
 
-#: client/gui-gtk-2.0/chatline.c:317 client/gui-gtk-3.0/chatline.c:317
+#. TRANS: comma-separated list of player/user names for completion
+#: client/gui-gtk-2.0/chatline.c:321 client/gui-gtk-3.0/chatline.c:321
 #, c-format
 msgid "Suggestions: %s."
 msgstr "推定: %s"
 
 # clefs
-#: client/gui-gtk-2.0/chatline.c:462 client/gui-gtk-3.0/chatline.c:468
+#: client/gui-gtk-2.0/chatline.c:466 client/gui-gtk-3.0/chatline.c:472
 msgid "No visible unit on this tile."
 msgstr "このタイルには視認可能なユニットがいません。"
 
 # Belgae
-#: client/gui-gtk-2.0/chatline.c:608 client/gui-gtk-3.0/chatline.c:614
+#: client/gui-gtk-2.0/chatline.c:612 client/gui-gtk-3.0/chatline.c:618
 msgid "This city isn't known!"
 msgstr "この都市はまだ確認していません!"
 
 # Belgae
-#: client/gui-gtk-2.0/chatline.c:617 client/gui-gtk-3.0/chatline.c:623
+#: client/gui-gtk-2.0/chatline.c:621 client/gui-gtk-3.0/chatline.c:627
 msgid "This tile doesn't exist in this game!"
 msgstr "このタイルはこのゲーム内に存在しません!"
 
 # Belgae
-#: client/gui-gtk-2.0/chatline.c:627 client/gui-gtk-3.0/chatline.c:633
+#: client/gui-gtk-2.0/chatline.c:631 client/gui-gtk-3.0/chatline.c:637
 msgid "This unit isn't known!"
 msgstr "このユニットはまだ確認していません!"
 
-#: client/gui-gtk-2.0/chatline.c:938 client/gui-gtk-3.0/chatline.c:921
+#: client/gui-gtk-2.0/chatline.c:942 client/gui-gtk-3.0/chatline.c:925
 #: client/gui-qt/chatline.cpp:55 client/gui-stub/chatline.c:50
 #: client/gui-xaw/chatline.c:121
 msgid "Cleared output window."
 msgstr "出力ウィンドウを消去しました。"
 
 #. TRANS: "text" or "background".
-#: client/gui-gtk-2.0/chatline.c:1120 client/gui-gtk-3.0/chatline.c:1106
+#: client/gui-gtk-2.0/chatline.c:1124 client/gui-gtk-3.0/chatline.c:1110
 #, c-format
 msgid "Select the %s color"
 msgstr "%s色の選択"
 
-#: client/gui-gtk-2.0/chatline.c:1326 client/gui-gtk-3.0/chatline.c:1318
+#: client/gui-gtk-2.0/chatline.c:1330 client/gui-gtk-3.0/chatline.c:1322
 msgid "Bold (Ctrl-B)"
 msgstr "太字(Ctrl-B)"
 
-#: client/gui-gtk-2.0/chatline.c:1334 client/gui-gtk-3.0/chatline.c:1326
+#: client/gui-gtk-2.0/chatline.c:1338 client/gui-gtk-3.0/chatline.c:1330
 msgid "Italic (Ctrl-I)"
 msgstr "斜体(Ctrl-I)"
 
-#: client/gui-gtk-2.0/chatline.c:1342 client/gui-gtk-3.0/chatline.c:1334
+#: client/gui-gtk-2.0/chatline.c:1346 client/gui-gtk-3.0/chatline.c:1338
 msgid "Strikethrough (Ctrl-S)"
 msgstr "取り消し(Ctrl-S)"
 
-#: client/gui-gtk-2.0/chatline.c:1350 client/gui-gtk-3.0/chatline.c:1342
+#: client/gui-gtk-2.0/chatline.c:1354 client/gui-gtk-3.0/chatline.c:1346
 msgid "Underline (Ctrl-U)"
 msgstr "下線(Ctrl-U)"
 
-#: client/gui-gtk-2.0/chatline.c:1358 client/gui-gtk-3.0/chatline.c:1350
+#: client/gui-gtk-2.0/chatline.c:1362 client/gui-gtk-3.0/chatline.c:1354
 msgid "Color (Ctrl-C)"
 msgstr "色(Ctrl-C)"
 
-#: client/gui-gtk-2.0/chatline.c:1368 client/gui-gtk-3.0/chatline.c:1360
+#: client/gui-gtk-2.0/chatline.c:1372 client/gui-gtk-3.0/chatline.c:1364
 msgid "foreground"
 msgstr "前景"
 
-#: client/gui-gtk-2.0/chatline.c:1371 client/gui-gtk-2.0/optiondlg.c:623
-#: client/gui-gtk-3.0/chatline.c:1363 client/gui-gtk-3.0/optiondlg.c:627
+#: client/gui-gtk-2.0/chatline.c:1375 client/gui-gtk-2.0/optiondlg.c:624
+#: client/gui-gtk-3.0/chatline.c:1367 client/gui-gtk-3.0/optiondlg.c:628
 msgid "Select the text color"
 msgstr "文字色の選択"
 
-#: client/gui-gtk-2.0/chatline.c:1384 client/gui-gtk-3.0/chatline.c:1376
+#: client/gui-gtk-2.0/chatline.c:1388 client/gui-gtk-3.0/chatline.c:1380
 msgid "background"
 msgstr "背景"
 
-#: client/gui-gtk-2.0/chatline.c:1388 client/gui-gtk-2.0/optiondlg.c:632
-#: client/gui-gtk-3.0/chatline.c:1380 client/gui-gtk-3.0/optiondlg.c:636
+#: client/gui-gtk-2.0/chatline.c:1392 client/gui-gtk-2.0/optiondlg.c:633
+#: client/gui-gtk-3.0/chatline.c:1384 client/gui-gtk-3.0/optiondlg.c:637
 msgid "Select the background color"
 msgstr "背景色の選択"
 
 # Windowsの場合，入力キーはEnterと書いてあるのが普通ですよね...(Belgae)
 #. TRANS: "Return" means the return key.
-#: client/gui-gtk-2.0/chatline.c:1406 client/gui-gtk-3.0/chatline.c:1398
+#: client/gui-gtk-2.0/chatline.c:1410 client/gui-gtk-3.0/chatline.c:1402
 msgid "Send the chat (Return)"
 msgstr "チャットの送信(Return)"
 
-#: client/gui-gtk-2.0/chatline.c:1423 client/gui-gtk-3.0/chatline.c:1413
+#: client/gui-gtk-2.0/chatline.c:1427 client/gui-gtk-3.0/chatline.c:1417
 msgid "Chat tools"
 msgstr "チャットツール"
 
@@ -2063,14 +2065,14 @@ msgstr ""
 
 #: client/gui-gtk-2.0/citizensinfo.c:64 client/gui-gtk-2.0/dialogs.c:448
 #: client/gui-gtk-2.0/editprop.c:3468 client/gui-gtk-2.0/editprop.c:3480
-#: client/gui-gtk-2.0/pages.c:2635 client/gui-gtk-3.0/citizensinfo.c:64
+#: client/gui-gtk-2.0/pages.c:2657 client/gui-gtk-3.0/citizensinfo.c:64
 #: client/gui-gtk-3.0/dialogs.c:451 client/gui-gtk-3.0/editprop.c:3493
-#: client/gui-gtk-3.0/editprop.c:3505 client/gui-gtk-3.0/pages.c:2668
-#: client/plrdlg_common.c:231
+#: client/gui-gtk-3.0/editprop.c:3505 client/gui-gtk-3.0/pages.c:2690
+#: client/plrdlg_common.c:258
 msgid "Flag"
 msgstr "旗"
 
-#: client/gui-gtk-2.0/citizensinfo.c:251 client/gui-gtk-3.0/citizensinfo.c:249
+#: client/gui-gtk-2.0/citizensinfo.c:251 client/gui-gtk-3.0/citizensinfo.c:252
 #: client/gui-sdl/citydlg.c:2562
 msgid "Citizens"
 msgstr "市民"
@@ -2417,11 +2419,11 @@ msgstr[0] "金%2$dで%1$sを売りますか?"
 msgid "Sell It!"
 msgstr "売る"
 
-#: client/gui-gtk-2.0/citydlg.c:2765 client/gui-gtk-3.0/citydlg.c:2806
+#: client/gui-gtk-2.0/citydlg.c:2765 client/gui-gtk-3.0/citydlg.c:2814
 msgid "Rename City"
 msgstr "都市名の変更"
 
-#: client/gui-gtk-2.0/citydlg.c:2766 client/gui-gtk-3.0/citydlg.c:2807
+#: client/gui-gtk-2.0/citydlg.c:2766 client/gui-gtk-3.0/citydlg.c:2815
 #: client/gui-xaw/citydlg.c:1437
 msgid "What should we rename the city to?"
 msgstr "新しい都市名を何と名づけますか?"
@@ -2525,98 +2527,98 @@ msgstr "調査(_I)"
 
 #: client/gui-gtk-2.0/cityrep.c:1499 client/gui-gtk-2.0/cityrep.c:1518
 #: client/gui-gtk-2.0/cityrep.c:1537 client/gui-gtk-2.0/cityrep.c:1556
-#: client/gui-gtk-2.0/cityrep.c:1578 client/gui-gtk-3.0/cityrep.c:1511
-#: client/gui-gtk-3.0/cityrep.c:1530 client/gui-gtk-3.0/cityrep.c:1549
-#: client/gui-gtk-3.0/cityrep.c:1568 client/gui-gtk-3.0/cityrep.c:1590
+#: client/gui-gtk-2.0/cityrep.c:1578 client/gui-gtk-3.0/cityrep.c:1518
+#: client/gui-gtk-3.0/cityrep.c:1537 client/gui-gtk-3.0/cityrep.c:1556
+#: client/gui-gtk-3.0/cityrep.c:1575 client/gui-gtk-3.0/cityrep.c:1597
 #: client/gui-sdl/helpdlg.c:303
 msgid "Improvements"
 msgstr "建造物"
 
 #: client/gui-gtk-2.0/cityrep.c:1501 client/gui-gtk-2.0/cityrep.c:1520
 #: client/gui-gtk-2.0/cityrep.c:1539 client/gui-gtk-2.0/cityrep.c:1558
-#: client/gui-gtk-2.0/cityrep.c:1582 client/gui-gtk-3.0/cityrep.c:1513
-#: client/gui-gtk-3.0/cityrep.c:1532 client/gui-gtk-3.0/cityrep.c:1551
-#: client/gui-gtk-3.0/cityrep.c:1570 client/gui-gtk-3.0/cityrep.c:1594
+#: client/gui-gtk-2.0/cityrep.c:1582 client/gui-gtk-3.0/cityrep.c:1520
+#: client/gui-gtk-3.0/cityrep.c:1539 client/gui-gtk-3.0/cityrep.c:1558
+#: client/gui-gtk-3.0/cityrep.c:1577 client/gui-gtk-3.0/cityrep.c:1601
 msgid "Wonders"
 msgstr "不思議"
 
-#: client/gui-gtk-2.0/cityrep.c:1770 client/gui-gtk-3.0/cityrep.c:1782
+#: client/gui-gtk-2.0/cityrep.c:1770 client/gui-gtk-3.0/cityrep.c:1789
 #: data/Freeciv.in:1156
 msgid "All Cities"
 msgstr "すべての都市"
 
-#: client/gui-gtk-2.0/cityrep.c:1775 client/gui-gtk-3.0/cityrep.c:1787
+#: client/gui-gtk-2.0/cityrep.c:1775 client/gui-gtk-3.0/cityrep.c:1794
 msgid "No Cities"
 msgstr "どれも選択しない"
 
-#: client/gui-gtk-2.0/cityrep.c:1780 client/gui-gtk-3.0/cityrep.c:1792
+#: client/gui-gtk-2.0/cityrep.c:1780 client/gui-gtk-3.0/cityrep.c:1799
 msgid "Invert Selection"
 msgstr "反転する"
 
 # clefs
 # 都市一覧での「選択」メニュー
-#: client/gui-gtk-2.0/cityrep.c:1790 client/gui-gtk-3.0/cityrep.c:1802
+#: client/gui-gtk-2.0/cityrep.c:1790 client/gui-gtk-3.0/cityrep.c:1809
 msgid "Building Units"
 msgstr "ユニットを作成中"
 
-#: client/gui-gtk-2.0/cityrep.c:1796 client/gui-gtk-3.0/cityrep.c:1808
+#: client/gui-gtk-2.0/cityrep.c:1796 client/gui-gtk-3.0/cityrep.c:1815
 msgid "Building Improvements"
 msgstr "建造物を建築中"
 
-#: client/gui-gtk-2.0/cityrep.c:1802 client/gui-gtk-3.0/cityrep.c:1814
+#: client/gui-gtk-2.0/cityrep.c:1802 client/gui-gtk-3.0/cityrep.c:1821
 msgid "Building Wonders"
 msgstr "不思議を建築中"
 
-#: client/gui-gtk-2.0/cityrep.c:1814 client/gui-gtk-3.0/cityrep.c:1826
+#: client/gui-gtk-2.0/cityrep.c:1814 client/gui-gtk-3.0/cityrep.c:1833
 msgid "Building Unit"
 msgstr "ユニットを作成中"
 
-#: client/gui-gtk-2.0/cityrep.c:1818 client/gui-gtk-3.0/cityrep.c:1830
+#: client/gui-gtk-2.0/cityrep.c:1818 client/gui-gtk-3.0/cityrep.c:1837
 msgid "Building Improvement"
 msgstr "建造物を建築中"
 
-#: client/gui-gtk-2.0/cityrep.c:1822 client/gui-gtk-3.0/cityrep.c:1834
+#: client/gui-gtk-2.0/cityrep.c:1822 client/gui-gtk-3.0/cityrep.c:1841
 msgid "Building Wonder"
 msgstr "不思議を建築中"
 
-#: client/gui-gtk-2.0/cityrep.c:1830 client/gui-gtk-3.0/cityrep.c:1842
+#: client/gui-gtk-2.0/cityrep.c:1830 client/gui-gtk-3.0/cityrep.c:1849
 msgid "Coastal Cities"
 msgstr "沿岸都市"
 
-#: client/gui-gtk-2.0/cityrep.c:1835 client/gui-gtk-3.0/cityrep.c:1847
+#: client/gui-gtk-2.0/cityrep.c:1835 client/gui-gtk-3.0/cityrep.c:1854
 msgid "Same Island"
 msgstr "同じ島"
 
-#: client/gui-gtk-2.0/cityrep.c:1845 client/gui-gtk-3.0/cityrep.c:1857
+#: client/gui-gtk-2.0/cityrep.c:1845 client/gui-gtk-3.0/cityrep.c:1864
 msgid "Supported Units"
 msgstr "支援ユニット"
 
-#: client/gui-gtk-2.0/cityrep.c:1848 client/gui-gtk-3.0/cityrep.c:1860
+#: client/gui-gtk-2.0/cityrep.c:1848 client/gui-gtk-3.0/cityrep.c:1867
 msgid "Units Present"
 msgstr "駐留ユニット"
 
-#: client/gui-gtk-2.0/cityrep.c:1852 client/gui-gtk-3.0/cityrep.c:1864
+#: client/gui-gtk-2.0/cityrep.c:1852 client/gui-gtk-3.0/cityrep.c:1871
 msgid "Improvements in City"
 msgstr "都市の建造物"
 
-#: client/gui-gtk-2.0/cityrep.c:1856 client/gui-gtk-3.0/cityrep.c:1868
+#: client/gui-gtk-2.0/cityrep.c:1856 client/gui-gtk-3.0/cityrep.c:1875
 msgid "Wonders in City"
 msgstr "都市の不思議"
 
 # clefs
-#: client/gui-gtk-2.0/cityrep.c:1865 client/gui-gtk-3.0/cityrep.c:1877
+#: client/gui-gtk-2.0/cityrep.c:1865 client/gui-gtk-3.0/cityrep.c:1884
 msgid "Available Units"
 msgstr "作成できるユニット"
 
-#: client/gui-gtk-2.0/cityrep.c:1868 client/gui-gtk-3.0/cityrep.c:1880
+#: client/gui-gtk-2.0/cityrep.c:1868 client/gui-gtk-3.0/cityrep.c:1887
 msgid "Available Improvements"
 msgstr "建設できる建造物"
 
-#: client/gui-gtk-2.0/cityrep.c:1871 client/gui-gtk-3.0/cityrep.c:1883
+#: client/gui-gtk-2.0/cityrep.c:1871 client/gui-gtk-3.0/cityrep.c:1890
 msgid "Available Wonders"
 msgstr "建設できる不思議"
 
-#: client/gui-gtk-2.0/cityrep.c:1985 client/gui-gtk-3.0/cityrep.c:1997
+#: client/gui-gtk-2.0/cityrep.c:1985 client/gui-gtk-3.0/cityrep.c:2004
 #, c-format
 msgid "Total Buy Cost: %d"
 msgstr "合計購入コスト: %d"
@@ -3371,13 +3373,13 @@ msgstr "ID"
 #: client/gui-gtk-2.0/editprop.c:3455 client/gui-gtk-2.0/editprop.c:3470
 #: client/gui-gtk-2.0/editprop.c:3482 client/gui-gtk-2.0/editprop.c:3492
 #: client/gui-gtk-2.0/editprop.c:4136 client/gui-gtk-2.0/editprop.c:4157
-#: client/gui-gtk-2.0/pages.c:1291 client/gui-gtk-2.0/pages.c:2625
+#: client/gui-gtk-2.0/pages.c:1291 client/gui-gtk-2.0/pages.c:2647
 #: client/gui-gtk-2.0/wldlg.c:998 client/gui-gtk-3.0/editprop.c:3455
 #: client/gui-gtk-3.0/editprop.c:3464 client/gui-gtk-3.0/editprop.c:3480
 #: client/gui-gtk-3.0/editprop.c:3495 client/gui-gtk-3.0/editprop.c:3507
 #: client/gui-gtk-3.0/editprop.c:3517 client/gui-gtk-3.0/editprop.c:4160
 #: client/gui-gtk-3.0/editprop.c:4181 client/gui-gtk-3.0/pages.c:1314
-#: client/gui-gtk-3.0/pages.c:2658 client/gui-gtk-3.0/wldlg.c:1001
+#: client/gui-gtk-3.0/pages.c:2680 client/gui-gtk-3.0/wldlg.c:1001
 #: data/Freeciv.in:97 manual/civmanual.c:364 modinst/modinst.c:283
 msgid "Name"
 msgstr "名前"
@@ -3493,7 +3495,6 @@ msgstr "民族"
 #: client/gui-gtk-2.0/repodlgs.c:748 client/gui-gtk-2.0/wldlg.c:998
 #: client/gui-gtk-3.0/editprop.c:4136 client/gui-gtk-3.0/pages.c:1315
 #: client/gui-gtk-3.0/repodlgs.c:776 client/gui-gtk-3.0/wldlg.c:1001
-#: modinst/modinst.c:293
 msgid "Type"
 msgstr "タイプ"
 
@@ -3545,9 +3546,9 @@ msgstr "発明"
 
 #: client/gui-gtk-2.0/editprop.c:4167 client/gui-gtk-2.0/repodlgs.c:1251
 #: client/gui-gtk-3.0/editprop.c:4191 client/gui-gtk-3.0/repodlgs.c:1283
-#: common/city.c:85 data/civ1/terrain.ruleset:608
-#: data/civ2/terrain.ruleset:622 data/default/terrain.ruleset:736
-#: data/experimental/terrain.ruleset:738 data/multiplayer/terrain.ruleset:736
+#: common/city.c:85 data/civ1/terrain.ruleset:609
+#: data/civ2/terrain.ruleset:623 data/default/terrain.ruleset:737
+#: data/experimental/terrain.ruleset:739 data/multiplayer/terrain.ruleset:737
 msgid "Gold"
 msgstr "金"
 
@@ -4080,7 +4081,7 @@ msgstr "）"
 #: client/gui-gtk-2.0/inteldlg.c:410 client/gui-gtk-3.0/helpdlg.c:1121
 #: client/gui-gtk-3.0/helpdlg.c:1215 client/gui-gtk-3.0/inteldlg.c:402
 #: client/gui-xaw/helpdlg.c:1007 client/gui-xaw/helpdlg.c:1092
-#: common/requirements.c:1388 common/requirements.c:1442
+#: common/requirements.c:1408 common/requirements.c:1462
 #, c-format
 msgid "(none)"
 msgstr "(なし)"
@@ -4589,8 +4590,8 @@ msgid "Game/Scenario Properties"
 msgstr "ゲーム/シナリオのプロパティ"
 
 # Daniel
-#: client/gui-gtk-2.0/menu.c:1519 client/gui-gtk-2.0/pages.c:3244
-#: client/gui-gtk-3.0/menu.c:1519 client/gui-gtk-3.0/pages.c:3300
+#: client/gui-gtk-2.0/menu.c:1519 client/gui-gtk-2.0/pages.c:3266
+#: client/gui-gtk-3.0/menu.c:1519 client/gui-gtk-3.0/pages.c:3322
 msgid "Save Scenario"
 msgstr "シナリオの保存"
 
@@ -4914,24 +4915,24 @@ msgstr "ポ"
 msgid "Messages"
 msgstr "メッセージ"
 
-#: client/gui-gtk-2.0/optiondlg.c:194 client/gui-gtk-3.0/optiondlg.c:194
+#: client/gui-gtk-2.0/optiondlg.c:195 client/gui-gtk-3.0/optiondlg.c:195
 msgid "Refresh this option"
 msgstr "このオプションを更新する"
 
-#: client/gui-gtk-2.0/optiondlg.c:201 client/gui-gtk-3.0/optiondlg.c:201
+#: client/gui-gtk-2.0/optiondlg.c:202 client/gui-gtk-3.0/optiondlg.c:202
 msgid "Reset this option"
 msgstr "このオプションをリセットする"
 
-#: client/gui-gtk-2.0/optiondlg.c:209 client/gui-gtk-3.0/optiondlg.c:209
+#: client/gui-gtk-2.0/optiondlg.c:210 client/gui-gtk-3.0/optiondlg.c:210
 msgid "Apply the changes for this option"
 msgstr "このオプションに行った変更を適用する"
 
-#: client/gui-gtk-2.0/optiondlg.c:328 client/gui-gtk-3.0/optiondlg.c:331
+#: client/gui-gtk-2.0/optiondlg.c:329 client/gui-gtk-3.0/optiondlg.c:332
 msgid "Select a color"
 msgstr "色の選択"
 
 # アクセスキーなし(Belgae)
-#: client/gui-gtk-2.0/optiondlg.c:366 client/gui-gtk-3.0/optiondlg.c:368
+#: client/gui-gtk-2.0/optiondlg.c:367 client/gui-gtk-3.0/optiondlg.c:369
 msgid "Reset"
 msgstr "リセット"
 
@@ -4970,9 +4971,9 @@ msgid "Select Location to Save"
 msgstr "保存先を選択してください"
 
 # Daniel
-#: client/gui-gtk-2.0/pages.c:504 client/gui-gtk-2.0/pages.c:2834
-#: client/gui-gtk-2.0/pages.c:3041 client/gui-gtk-3.0/pages.c:514
-#: client/gui-gtk-3.0/pages.c:2875 client/gui-gtk-3.0/pages.c:3097
+#: client/gui-gtk-2.0/pages.c:504 client/gui-gtk-2.0/pages.c:2856
+#: client/gui-gtk-2.0/pages.c:3063 client/gui-gtk-3.0/pages.c:514
+#: client/gui-gtk-3.0/pages.c:2897 client/gui-gtk-3.0/pages.c:3119
 msgid "_Browse..."
 msgstr "ブラウズ(_B)..."
 
@@ -5062,258 +5063,258 @@ msgstr "ホスト"
 msgid "C_onnect"
 msgstr "接続(_O)"
 
-#: client/gui-gtk-2.0/pages.c:1650 client/gui-gtk-3.0/pages.c:1674
+#: client/gui-gtk-2.0/pages.c:1665 client/gui-gtk-3.0/pages.c:1689
 #, c-format
 msgid "Connection name: %s"
 msgstr "接続名: %s"
 
-#: client/gui-gtk-2.0/pages.c:1653 client/gui-gtk-3.0/pages.c:1677
+#: client/gui-gtk-2.0/pages.c:1668 client/gui-gtk-3.0/pages.c:1692
 #, c-format
 msgid "Player name: %s"
 msgstr "プレイヤー名: %s"
 
-#: client/gui-gtk-2.0/pages.c:1658 client/gui-gtk-3.0/pages.c:1682
+#: client/gui-gtk-2.0/pages.c:1673 client/gui-gtk-3.0/pages.c:1697
 #, c-format
 msgid "Host: %s"
 msgstr "ホスト: %s"
 
 # clefs
-#: client/gui-gtk-2.0/pages.c:1666 client/gui-gtk-3.0/pages.c:1690
+#: client/gui-gtk-2.0/pages.c:1681 client/gui-gtk-3.0/pages.c:1705
 msgid "Player/conn info"
 msgstr "プレイヤー/接続情報"
 
 # clefs
-#: client/gui-gtk-2.0/pages.c:1699 client/gui-gtk-3.0/pages.c:1723
+#: client/gui-gtk-2.0/pages.c:1714 client/gui-gtk-3.0/pages.c:1738
 #, c-format
 msgid "%s info"
 msgstr "%s情報"
 
 # clefs
 # Belgae
-#: client/gui-gtk-2.0/pages.c:1707 client/gui-gtk-3.0/pages.c:1731
+#: client/gui-gtk-2.0/pages.c:1722 client/gui-gtk-3.0/pages.c:1746
 msgid "Toggle player ready"
 msgstr "プレイヤーの準備状態を切り替える"
 
 # clefs
-#: client/gui-gtk-2.0/pages.c:1713 client/gui-gtk-3.0/pages.c:1737
+#: client/gui-gtk-2.0/pages.c:1728 client/gui-gtk-3.0/pages.c:1752
 msgid "Pick nation"
 msgstr "民族選択"
 
 # clefs
-#: client/gui-gtk-2.0/pages.c:1721 client/gui-gtk-3.0/pages.c:1745
+#: client/gui-gtk-2.0/pages.c:1736 client/gui-gtk-3.0/pages.c:1760
 msgid "Observe this player"
 msgstr "このプレイヤーを観察する"
 
 # clefs
-#: client/gui-gtk-2.0/pages.c:1728 client/gui-gtk-3.0/pages.c:1752
+#: client/gui-gtk-2.0/pages.c:1743 client/gui-gtk-3.0/pages.c:1767
 msgid "Take this player"
 msgstr "このプレイヤーを操作する"
 
 # clefs
-#: client/gui-gtk-2.0/pages.c:1740 client/gui-gtk-3.0/pages.c:1764
+#: client/gui-gtk-2.0/pages.c:1755 client/gui-gtk-3.0/pages.c:1779
 msgid "Cut connection"
 msgstr "接続切断"
 
 # clefs
-#: client/gui-gtk-2.0/pages.c:1751 client/gui-gtk-3.0/pages.c:1775
+#: client/gui-gtk-2.0/pages.c:1766 client/gui-gtk-3.0/pages.c:1790
 msgid "Aitoggle player"
 msgstr "プレイヤーのAI状態を切り替える"
 
 # clefs
-#: client/gui-gtk-2.0/pages.c:1759 client/gui-gtk-3.0/pages.c:1783
+#: client/gui-gtk-2.0/pages.c:1774 client/gui-gtk-3.0/pages.c:1798
 msgid "Remove player"
 msgstr "プレイヤー除去"
 
 #. TRANS: Give access level to a connection.
-#: client/gui-gtk-2.0/pages.c:1775 client/gui-gtk-3.0/pages.c:1799
+#: client/gui-gtk-2.0/pages.c:1790 client/gui-gtk-3.0/pages.c:1814
 #, c-format
 msgid "Give %s access"
 msgstr "%sレベルのアクセスを与える"
 
 # clefs
 #. TRANS: e.g., "Put on Team 5"
-#: client/gui-gtk-2.0/pages.c:1829 client/gui-gtk-3.0/pages.c:1853
+#: client/gui-gtk-2.0/pages.c:1844 client/gui-gtk-3.0/pages.c:1868
 #, c-format
 msgid "Put on %s"
 msgstr "%s に加える"
 
 # clefs
 # XXX ネット対戦で「まだだよ」と待ってもらうボタン
-#: client/gui-gtk-2.0/pages.c:2085 client/gui-gtk-3.0/pages.c:2109
+#: client/gui-gtk-2.0/pages.c:2100 client/gui-gtk-3.0/pages.c:2124
 msgid "Not _ready"
 msgstr "準備中(_R)"
 
-#: client/gui-gtk-2.0/pages.c:2096 client/gui-gtk-2.0/pages.c:2704
-#: client/gui-gtk-3.0/pages.c:2120 client/gui-gtk-3.0/pages.c:2739
+#: client/gui-gtk-2.0/pages.c:2111 client/gui-gtk-2.0/pages.c:2726
+#: client/gui-gtk-3.0/pages.c:2135 client/gui-gtk-3.0/pages.c:2761
 msgid "_Ready"
 msgstr "準備完了(_R)"
 
-#: client/gui-gtk-2.0/pages.c:2100 client/gui-gtk-2.0/pages.c:2104
-#: client/gui-gtk-3.0/pages.c:2124 client/gui-gtk-3.0/pages.c:2128
+#: client/gui-gtk-2.0/pages.c:2115 client/gui-gtk-2.0/pages.c:2119
+#: client/gui-gtk-3.0/pages.c:2139 client/gui-gtk-3.0/pages.c:2143
 msgid "_Start"
 msgstr "開始(_S)"
 
-#: client/gui-gtk-2.0/pages.c:2112 client/gui-gtk-3.0/pages.c:2136
+#: client/gui-gtk-2.0/pages.c:2127 client/gui-gtk-3.0/pages.c:2151
 #, c-format
 msgid "_Take %s"
 msgstr "%sの操作(_T)"
 
-#: client/gui-gtk-2.0/pages.c:2116 client/gui-gtk-2.0/pages.c:2694
-#: client/gui-gtk-3.0/pages.c:2140 client/gui-gtk-3.0/pages.c:2729
+#: client/gui-gtk-2.0/pages.c:2131 client/gui-gtk-2.0/pages.c:2716
+#: client/gui-gtk-3.0/pages.c:2155 client/gui-gtk-3.0/pages.c:2751
 msgid "Pick _Nation"
 msgstr "民族の選択(_N)"
 
-#: client/gui-gtk-2.0/pages.c:2119 client/gui-gtk-3.0/pages.c:2143
+#: client/gui-gtk-2.0/pages.c:2134 client/gui-gtk-3.0/pages.c:2158
 msgid "_Take a Player"
 msgstr "プレイヤーの操作(_T)"
 
 # Daniel
-#: client/gui-gtk-2.0/pages.c:2127 client/gui-gtk-3.0/pages.c:2151
+#: client/gui-gtk-2.0/pages.c:2142 client/gui-gtk-3.0/pages.c:2166
 #, c-format
 msgid "_Observe %s"
 msgstr "%sの観察(_O)"
 
 # Daniel
-#: client/gui-gtk-2.0/pages.c:2132 client/gui-gtk-2.0/pages.c:2699
-#: client/gui-gtk-3.0/pages.c:2156 client/gui-gtk-3.0/pages.c:2734
+#: client/gui-gtk-2.0/pages.c:2147 client/gui-gtk-2.0/pages.c:2721
+#: client/gui-gtk-3.0/pages.c:2171 client/gui-gtk-3.0/pages.c:2756
 msgid "_Observe"
 msgstr "観察(_O)"
 
-#: client/gui-gtk-2.0/pages.c:2135 client/gui-gtk-3.0/pages.c:2159
+#: client/gui-gtk-2.0/pages.c:2150 client/gui-gtk-3.0/pages.c:2174
 msgid "Do not _observe"
 msgstr "観察終了(_O)"
 
 #. TRANS: "<Novice AI>"
-#: client/gui-gtk-2.0/pages.c:2265 client/gui-gtk-3.0/pages.c:2289
+#: client/gui-gtk-2.0/pages.c:2280 client/gui-gtk-3.0/pages.c:2304
 #: client/gui-xaw/pages.c:248
 #, c-format
 msgid "<%s AI>"
 msgstr "<%sAI>"
 
-#: client/gui-gtk-2.0/pages.c:2277 client/gui-gtk-3.0/pages.c:2301
+#: client/gui-gtk-2.0/pages.c:2292 client/gui-gtk-3.0/pages.c:2316
 #: client/gui-xaw/pages.c:255
 msgid "Random"
 msgstr "ランダム"
 
 # Daniel
-#: client/gui-gtk-2.0/pages.c:2351 client/gui-gtk-2.0/pages.c:2408
-#: client/gui-gtk-3.0/pages.c:2375 client/gui-gtk-3.0/pages.c:2432
+#: client/gui-gtk-2.0/pages.c:2366 client/gui-gtk-2.0/pages.c:2423
+#: client/gui-gtk-3.0/pages.c:2390 client/gui-gtk-3.0/pages.c:2447
 msgid "Observer"
 msgstr "観察者"
 
 # clefs XXX
 # Belgae
 # was 未割り当て
-#: client/gui-gtk-2.0/pages.c:2433 client/gui-gtk-3.0/pages.c:2457
+#: client/gui-gtk-2.0/pages.c:2448 client/gui-gtk-3.0/pages.c:2472
 msgid "Detached"
 msgstr "解任済"
 
 # Daniel
-#: client/gui-gtk-2.0/pages.c:2549 client/gui-gtk-3.0/pages.c:2579
+#: client/gui-gtk-2.0/pages.c:2571 client/gui-gtk-3.0/pages.c:2601
 msgid "Number of _Players (including AI):"
 msgstr "プレイヤーの数(AIも含む)(_P):"
 
 # Daniel
 # Belgae
-#: client/gui-gtk-2.0/pages.c:2574 client/gui-gtk-3.0/pages.c:2605
+#: client/gui-gtk-2.0/pages.c:2596 client/gui-gtk-3.0/pages.c:2627
 msgid "AI Skill _Level:"
 msgstr "AIのレベル(_L):"
 
-#: client/gui-gtk-2.0/pages.c:2600 client/gui-gtk-3.0/pages.c:2631
+#: client/gui-gtk-2.0/pages.c:2622 client/gui-gtk-3.0/pages.c:2653
 msgid "Ruleset _Version:"
 msgstr "ルールセット(_V):"
 
 # clefs
-#: client/gui-gtk-2.0/pages.c:2608 client/gui-gtk-3.0/pages.c:2638
+#: client/gui-gtk-2.0/pages.c:2630 client/gui-gtk-3.0/pages.c:2660
 msgid "_More Game Options..."
 msgstr "詳細なゲーム設定..."
 
-#: client/gui-gtk-2.0/pages.c:2627 client/gui-gtk-3.0/pages.c:2660
+#: client/gui-gtk-2.0/pages.c:2649 client/gui-gtk-3.0/pages.c:2682
 msgid "Record"
 msgstr "記録"
 
 # まだ使われていない関数なのかな
-#: client/gui-gtk-2.0/pages.c:2629 client/gui-gtk-3.0/pages.c:2662
+#: client/gui-gtk-2.0/pages.c:2651 client/gui-gtk-3.0/pages.c:2684
 msgid "Rating"
 msgstr "レーティング"
 
 # clefs
-#: client/gui-gtk-2.0/pages.c:2631 client/gui-gtk-2.0/unitselect.c:470
-#: client/gui-gtk-3.0/pages.c:2664 client/gui-gtk-3.0/unitselect.c:472
+#: client/gui-gtk-2.0/pages.c:2653 client/gui-gtk-2.0/unitselect.c:470
+#: client/gui-gtk-3.0/pages.c:2686 client/gui-gtk-3.0/unitselect.c:472
 #: modinst/modinst.c:150
 msgid "Ready"
 msgstr "準備完了"
 
 # clefs
-#: client/gui-gtk-2.0/pages.c:2633 client/gui-gtk-3.0/pages.c:2666
+#: client/gui-gtk-2.0/pages.c:2655 client/gui-gtk-3.0/pages.c:2688
 msgid "?player:Leader"
 msgstr "指導者"
 
-#: client/gui-gtk-2.0/pages.c:2639 client/gui-gtk-3.0/pages.c:2672
-#: client/plrdlg_common.c:235
+#: client/gui-gtk-2.0/pages.c:2661 client/gui-gtk-3.0/pages.c:2694
+#: client/plrdlg_common.c:262
 msgid "Team"
 msgstr "チーム"
 
-#: client/gui-gtk-2.0/pages.c:2758 client/gui-gtk-3.0/pages.c:2793
+#: client/gui-gtk-2.0/pages.c:2780 client/gui-gtk-3.0/pages.c:2815
 #: client/gui-sdl/chatline.c:197
 msgid "Choose Saved Game to Load"
 msgstr "ロードするセーブファイルを選択"
 
 # Daniel
-#: client/gui-gtk-2.0/pages.c:2814 client/gui-gtk-3.0/pages.c:2854
+#: client/gui-gtk-2.0/pages.c:2836 client/gui-gtk-3.0/pages.c:2876
 msgid "Choose Saved Game to _Load:"
 msgstr "ロードするセーブファイルを選択(_L):"
 
 # Daniel
-#: client/gui-gtk-2.0/pages.c:2901 client/gui-gtk-3.0/pages.c:2942
+#: client/gui-gtk-2.0/pages.c:2923 client/gui-gtk-3.0/pages.c:2964
 msgid "Choose a Scenario"
 msgstr "ロードするシナリオを選択"
 
 # Daniel
-#: client/gui-gtk-2.0/pages.c:2988 client/gui-gtk-3.0/pages.c:3039
+#: client/gui-gtk-2.0/pages.c:3010 client/gui-gtk-3.0/pages.c:3061
 msgid "Choose a _Scenario:"
 msgstr "シナリオを選択(_S):"
 
-#: client/gui-gtk-2.0/pages.c:3021 client/gui-gtk-3.0/pages.c:3072
+#: client/gui-gtk-2.0/pages.c:3043 client/gui-gtk-3.0/pages.c:3094
 msgid "Filename:"
 msgstr "ファイル名:"
 
-#: client/gui-gtk-2.0/pages.c:3209 client/gui-gtk-3.0/pages.c:3265
+#: client/gui-gtk-2.0/pages.c:3231 client/gui-gtk-3.0/pages.c:3287
 #: client/gui-sdl/optiondlg.c:832
 msgid "Save Game"
 msgstr "ゲームの保存"
 
-#: client/gui-gtk-2.0/pages.c:3209 client/gui-gtk-3.0/pages.c:3265
+#: client/gui-gtk-2.0/pages.c:3231 client/gui-gtk-3.0/pages.c:3287
 msgid "Saved _Games:"
 msgstr "保存されたゲーム(_G):"
 
-#: client/gui-gtk-2.0/pages.c:3210 client/gui-gtk-3.0/pages.c:3266
+#: client/gui-gtk-2.0/pages.c:3232 client/gui-gtk-3.0/pages.c:3288
 msgid "Save _Filename:"
 msgstr "保存するファイル名:"
 
 # Daniel
-#: client/gui-gtk-2.0/pages.c:3244 client/gui-gtk-3.0/pages.c:3300
+#: client/gui-gtk-2.0/pages.c:3266 client/gui-gtk-3.0/pages.c:3322
 #, fuzzy
 msgid "Saved Sce_narios:"
 msgstr "シナリオの保存"
 
 # Daniel
-#: client/gui-gtk-2.0/pages.c:3245 client/gui-gtk-3.0/pages.c:3301
+#: client/gui-gtk-2.0/pages.c:3267 client/gui-gtk-3.0/pages.c:3323
 #, fuzzy
 msgid "Save Sc_enario:"
 msgstr "シナリオの保存"
 
-#: client/gui-gtk-2.0/pages.c:3273 client/gui-gtk-3.0/pages.c:3329
+#: client/gui-gtk-2.0/pages.c:3295 client/gui-gtk-3.0/pages.c:3351
 #, fuzzy
 msgid "Save Map Image"
 msgstr "ゲームの保存"
 
-#: client/gui-gtk-2.0/pages.c:3273 client/gui-gtk-3.0/pages.c:3329
+#: client/gui-gtk-2.0/pages.c:3295 client/gui-gtk-3.0/pages.c:3351
 #, fuzzy
 msgid "Saved Map _Images:"
 msgstr "保存されたゲーム(_G):"
 
-#: client/gui-gtk-2.0/pages.c:3274 client/gui-gtk-3.0/pages.c:3330
+#: client/gui-gtk-2.0/pages.c:3296 client/gui-gtk-3.0/pages.c:3352
 #, fuzzy
 msgid "Save _Map Images:"
 msgstr "保存されたゲーム(_G):"
@@ -5527,7 +5528,7 @@ msgstr "取得スコア\n"
 
 # ntaka, Daniel
 #: client/gui-gtk-2.0/repodlgs.c:1819 client/gui-gtk-3.0/repodlgs.c:1850
-#: client/plrdlg_common.c:234
+#: client/plrdlg_common.c:261
 msgid "Score"
 msgstr "スコア"
 
@@ -6423,7 +6424,7 @@ msgstr "宣戦布告しますか?"
 msgid "Foreign Minister"
 msgstr "外務大臣"
 
-#: client/gui-sdl/diplodlg.c:1509
+#: client/gui-sdl/diplodlg.c:1510
 #, c-format
 msgid ""
 "Sir!, the %s ambassador has arrived\n"
@@ -6432,23 +6433,32 @@ msgstr ""
 "閣下！， %sの大使が来訪しました。\n"
 "こちらの要求事項はいかが致しましょう？"
 
-#: client/gui-sdl/diplodlg.c:1525
+#: client/gui-sdl/diplodlg.c:1514
+#, fuzzy, c-format
+msgid ""
+"Ma'am!, the %s ambassador has arrived\n"
+"What are your wishes?"
+msgstr ""
+"閣下！， %sの大使が来訪しました。\n"
+"こちらの要求事項はいかが致しましょう？"
+
+#: client/gui-sdl/diplodlg.c:1531
 msgid "Declare WAR"
 msgstr "宣戦布告"
 
-#: client/gui-sdl/diplodlg.c:1527
+#: client/gui-sdl/diplodlg.c:1533
 msgid "Cancel Treaty"
 msgstr "条約取り消し"
 
-#: client/gui-sdl/diplodlg.c:1550 data/Freeciv.in:3302
+#: client/gui-sdl/diplodlg.c:1556 data/Freeciv.in:3302
 msgid "Withdraw vision"
 msgstr "視野撤回"
 
-#: client/gui-sdl/diplodlg.c:1567
+#: client/gui-sdl/diplodlg.c:1573
 msgid "Call Diplomatic Meeting"
 msgstr "会合を開く"
 
-#: client/gui-sdl/diplodlg.c:1581
+#: client/gui-sdl/diplodlg.c:1587
 msgid "Send him back"
 msgstr "召還する"
 
@@ -7199,20 +7209,21 @@ msgid "SDLClient welcomes you..."
 msgstr "SDLクライアントにようこそ"
 
 #. TRANS: Dead -- Rest In Peace -- Reqia In Pace
-#: client/gui-sdl/plrdlg.c:429 client/plrdlg_common.c:178
+#: client/gui-sdl/plrdlg.c:429 client/plrdlg_common.c:179
 msgid "R.I.P."
 msgstr "永眠"
 
-#: client/gui-sdl/plrdlg.c:653 client/plrdlg_common.c:236
-#: server/stdinhand.c:3456 server/stdinhand.c:6228
+#: client/gui-sdl/plrdlg.c:653 client/plrdlg_common.c:263
+#: server/stdinhand.c:3449 server/stdinhand.c:6220
 msgid "AI"
 msgstr "AI"
 
-#: client/gui-sdl/plrdlg.c:657 client/plrdlg_common.c:184
+#: client/gui-sdl/plrdlg.c:657 client/plrdlg_common.c:201
+#: client/plrdlg_common.c:210
 msgid "done"
 msgstr "終了"
 
-#: client/gui-sdl/plrdlg.c:659 client/plrdlg_common.c:186
+#: client/gui-sdl/plrdlg.c:659 client/plrdlg_common.c:212
 msgid "moving"
 msgstr "移動中"
 
@@ -7368,7 +7379,7 @@ msgid "Loading theme \"%s\"."
 msgstr "テーマ\"%s\"をロードしています。"
 
 #: client/gui-sdl/themespec.c:485 client/gui-sdl/themespec.c:519
-#: client/tilespec.c:1192 client/tilespec.c:1226
+#: client/tilespec.c:1195 client/tilespec.c:1229
 #, c-format
 msgid ""
 "Could not open '%s':\n"
@@ -9299,13 +9310,13 @@ msgstr "%s%d %s"
 msgid "%s%d Unhappy"
 msgstr "%s%d 不幸"
 
-#: client/helpdata.c:2638
+#: client/helpdata.c:2639
 #, fuzzy, c-format
 msgid "Initial government is %s.\n"
 msgstr "%s %s"
 
 #. TRANS: %s is an and-separated list of techs
-#: client/helpdata.c:2655
+#: client/helpdata.c:2656
 #, c-format
 msgid ""
 "Starts with knowledge of %s in addition to the standard starting "
@@ -9314,7 +9325,7 @@ msgstr ""
 
 # yasu
 #. TRANS: %s is an and-separated list of techs
-#: client/helpdata.c:2660
+#: client/helpdata.c:2661
 #, fuzzy, c-format
 msgid "Starts with knowledge of %s.\n"
 msgstr "%sの知識を得ました。"
@@ -9322,7 +9333,7 @@ msgstr "%sの知識を得ました。"
 #. TRANS: a unit type followed by a count. For instance,
 #. * "Fighter (2)" means two Fighters. Count is never 1.
 #. * Used in a list.
-#: client/helpdata.c:2697
+#: client/helpdata.c:2698
 #, fuzzy, c-format
 msgid "%s (%d)"
 msgstr "%s %s (%s)"
@@ -9330,21 +9341,21 @@ msgstr "%s %s (%s)"
 #. TRANS: %s is an and-separated list of unit types
 #. * possibly with counts. Plurality is in total number of
 #. * units represented.
-#: client/helpdata.c:2717
+#: client/helpdata.c:2718
 #, c-format
 msgid "Starts with the following additional unit: %s.\n"
 msgid_plural "Starts with the following additional units: %s.\n"
 msgstr[0] ""
 
 #. TRANS: %s is an and-separated list of improvements
-#: client/helpdata.c:2739
+#: client/helpdata.c:2740
 #, c-format
 msgid ""
 "First city will get %s for free in addition to the standard improvements.\n"
 msgstr ""
 
 #. TRANS: %s is an and-separated list of improvements
-#: client/helpdata.c:2744
+#: client/helpdata.c:2745
 #, c-format
 msgid "First city will get %s for free.\n"
 msgstr ""
@@ -10762,55 +10773,67 @@ msgstr "ターン%d の開始"
 msgid "Welcome"
 msgstr "ようこそ"
 
-#: client/packhand.c:2009
+#: client/packhand.c:2013
 msgid "AI mode is now ON."
 msgstr "現在のAIモードはオンです。"
 
-#: client/packhand.c:2011
+#: client/packhand.c:2015
 msgid "AI mode is now OFF."
 msgstr "現在のAIモードはオフです。"
 
-#: client/plrdlg_common.c:182
+#. TRANS: No connection
+#: client/plrdlg_common.c:195
+msgid "noconn"
+msgstr ""
+
+#: client/plrdlg_common.c:199 client/plrdlg_common.c:208
 msgid "waiting"
 msgstr "待機中"
 
+# clefs
+#. TRANS: Turnblocking & player not connected
+#: client/plrdlg_common.c:204
+#, fuzzy
+msgid "blocking"
+msgstr "拡大不能"
+
 # Daniel
-#: client/plrdlg_common.c:229
+#: client/plrdlg_common.c:256
 msgid "?Player:Name"
 msgstr "名"
 
-#: client/plrdlg_common.c:230
+#: client/plrdlg_common.c:257
 msgid "Username"
 msgstr "ユーザー名"
 
-#: client/plrdlg_common.c:233
+#: client/plrdlg_common.c:260
 msgid "Border"
 msgstr "国境線"
 
-#: client/plrdlg_common.c:237
+#: client/plrdlg_common.c:264
 msgid "Attitude"
 msgstr "態度"
 
-#: client/plrdlg_common.c:238 common/events.c:117 common/events.c:124
+#: client/plrdlg_common.c:265 common/events.c:117 common/events.c:124
 #: common/events.c:153
 msgid "Embassy"
 msgstr "大使館"
 
-#: client/plrdlg_common.c:239
+#: client/plrdlg_common.c:266
 msgid "Dipl.State"
 msgstr "外交状態"
 
 # Daniel
-#: client/plrdlg_common.c:242
+#: client/plrdlg_common.c:269
 msgid "?Player_dlg:Host"
 msgstr "ホスト"
 
 # Daniel
-#: client/plrdlg_common.c:243
+#: client/plrdlg_common.c:270
 msgid "?Player_dlg:Idle"
 msgstr "アイドル"
 
-#: client/plrdlg_common.c:244
+#: client/plrdlg_common.c:271
 msgid "Ping"
 msgstr "Ping"
 
@@ -11634,19 +11657,19 @@ msgstr "利用可能なデフォルト・タイルセットが見つかりませ
 msgid "Loading tileset \"%s\"."
 msgstr "タイルセット\"%s\"をロードしています。"
 
-#: client/tilespec.c:1496
+#: client/tilespec.c:1499
 msgid "Client does not support isometric tilesets."
 msgstr "クライアントは等角タイルセットをサポートしていません。"
 
-#: client/tilespec.c:1497 client/tilespec.c:1503
+#: client/tilespec.c:1500 client/tilespec.c:1506
 msgid "Using default tileset instead."
 msgstr "代わりにデフォルトのタイルセットを使用します。"
 
-#: client/tilespec.c:1502
+#: client/tilespec.c:1505
 msgid "Client does not support overhead view tilesets."
 msgstr "クライアントは頭上ビュータイルセットをサポートしていません。"
 
-#: client/tilespec.c:4451
+#: client/tilespec.c:4454
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -11655,7 +11678,7 @@ msgstr ""
 "タイルセット \"%s\" は %dもの長距離のgotoパスをサポートしていません。パスが表"
 "示されないのは仕様どおりです。"
 
-#: client/tilespec.c:4776
+#: client/tilespec.c:4779
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -12111,7 +12134,7 @@ msgid "Built unit with population cost"
 msgstr "人口がコストとして必要なユニットの作成"
 
 #. TRANS: "vote" as a process
-#: common/events.c:169 server/stdinhand.c:4180
+#: common/events.c:169 server/stdinhand.c:4171
 msgid "New vote"
 msgstr "新規投票"
 
@@ -12286,54 +12309,54 @@ msgstr ""
 msgid "error"
 msgstr "IOエラー"
 
-#: common/mapimg.c:427
+#: common/mapimg.c:429
 msgid "Standard ppm files"
 msgstr ""
 
-#: common/mapimg.c:432
+#: common/mapimg.c:434
 #, fuzzy
 msgid "ImageMagick"
 msgstr "画像"
 
-#: common/mapimg.c:468
+#: common/mapimg.c:470
 #, fuzzy
 msgid "internal error"
 msgstr "内部設定"
 
-#: common/mapimg.c:582
+#: common/mapimg.c:584
 #, fuzzy
 msgid "no players, only terrain"
 msgstr "<接続なし>"
 
 # clefs
 # was "プレイヤーごとの開始時の金"
-#: common/mapimg.c:583
+#: common/mapimg.c:585
 #, fuzzy
 msgid "one image per player"
 msgstr "各プレイヤーが開始時に持っている金額"
 
 # clefs
 # was "プレイヤーごとの開始時の金"
-#: common/mapimg.c:584
+#: common/mapimg.c:586
 #, fuzzy
 msgid "one image per human player"
 msgstr "各プレイヤーが開始時に持っている金額"
 
 # clefs
-#: common/mapimg.c:585
+#: common/mapimg.c:587
 #, fuzzy
 msgid "all players on a single image"
 msgstr "全員準備が整いました。ゲームを開始します。"
 
-#: common/mapimg.c:586
+#: common/mapimg.c:588
 msgid "just the player named with 'plrname'"
 msgstr ""
 
-#: common/mapimg.c:587
+#: common/mapimg.c:589
 msgid "just the player specified with 'plrid'"
 msgstr ""
 
-#: common/mapimg.c:588
+#: common/mapimg.c:590
 msgid "one image per player in 'plrbv'"
 msgstr ""
 
@@ -12341,7 +12364,7 @@ msgstr ""
 #. * "define" in the first column are server keywords that must not
 #. * be translated. Do not translate keywords in single quotes, but
 #. * strings in <angle brackets> should be translated.
-#: common/mapimg.c:678
+#: common/mapimg.c:680
 #, c-format
 msgid ""
 "This command controls the creation of map images. Supported arguments:\n"
@@ -12391,190 +12414,190 @@ msgid ""
 " 'zoom=1:map=t:show=none:format=magick|jpg'"
 msgstr ""
 
-#: common/mapimg.c:764
+#: common/mapimg.c:766
 #, fuzzy
 msgid "no map definition"
 msgstr "開始時にプレイヤーが所持するユニット"
 
-#: common/mapimg.c:770
+#: common/mapimg.c:772
 #, c-format
 msgid "map definition string too long (max %d characters)"
 msgstr ""
 
-#: common/mapimg.c:776
+#: common/mapimg.c:778
 #, c-format
 msgid "maximum number of map definitions reached (%d)"
 msgstr ""
 
 # Daniel
-#: common/mapimg.c:784
+#: common/mapimg.c:786
 #, fuzzy, c-format
 msgid "duplicate of map image definition %d ('%s')"
 msgstr "無効な名前 '%s'"
 
-#: common/mapimg.c:805 common/mapimg.c:809
+#: common/mapimg.c:807 common/mapimg.c:811
 #, fuzzy, c-format
 msgid "unknown map option: '%s'"
 msgstr "未知のオプション '%s'。"
 
-#: common/mapimg.c:825
+#: common/mapimg.c:827
 #, c-format
 msgid "'show=%s' but no player name 'plrname'"
 msgstr ""
 
-#: common/mapimg.c:832
+#: common/mapimg.c:834
 #, c-format
 msgid "'show=%s' but no player id 'plrid'"
 msgstr ""
 
-#: common/mapimg.c:839
+#: common/mapimg.c:841
 #, c-format
 msgid "'show=%s' but no player bitvector 'plrbv'"
 msgstr ""
 
 # Daniel
-#: common/mapimg.c:992
+#: common/mapimg.c:994
 #, fuzzy, c-format
 msgid "invalid character in bitvector: '%c' (%s)"
 msgstr "無効な名前 '%s'"
 
-#: common/mapimg.c:1013
+#: common/mapimg.c:1015
 #, fuzzy, c-format
 msgid "'plrid' should be between 0 and %d"
 msgstr "%sと %sとの間の交易路は断絶されました。"
 
-#: common/mapimg.c:1029
+#: common/mapimg.c:1031
 #, fuzzy, c-format
 msgid "player name too long: '%s' (max: %lu)"
 msgstr "文字列の値が長すぎます。"
 
-#: common/mapimg.c:1059
+#: common/mapimg.c:1061
 msgid "'turns' should be between 0 and 99"
 msgstr ""
 
-#: common/mapimg.c:1077
+#: common/mapimg.c:1079
 msgid "'zoom' factor should be between 1 and 5"
 msgstr ""
 
 # Daniel
-#: common/mapimg.c:1096
+#: common/mapimg.c:1098
 #, fuzzy, c-format
 msgid "invalid value for option '%s': '%s'"
 msgstr "無効な名前 '%s'"
 
-#: common/mapimg.c:1120
+#: common/mapimg.c:1122
 msgid "map definition not checked (game not started)"
 msgstr ""
 
-#: common/mapimg.c:1124
+#: common/mapimg.c:1126
 #, fuzzy, c-format
 msgid "map definition deactivated: %s"
 msgstr "核の冬が起こりました!"
 
 # Daniel
-#: common/mapimg.c:1223
+#: common/mapimg.c:1225
 #, fuzzy, c-format
 msgid "Detailed information for map image definition %d\n"
 msgstr "無効な名前 '%s'"
 
-#: common/mapimg.c:1226
+#: common/mapimg.c:1228
 #, fuzzy, c-format
 msgid "  - status:                   %s (%s)\n"
 msgstr "合計:                       %9d%9d%9d%9d"
 
-#: common/mapimg.c:1229
+#: common/mapimg.c:1231
 #, fuzzy, c-format
 msgid "  - status:                   %s\n"
 msgstr "合計:                       %9d%9d%9d%9d"
 
-#: common/mapimg.c:1232
+#: common/mapimg.c:1234
 #, c-format
 msgid "  - file name string:         %s\n"
 msgstr ""
 
-#: common/mapimg.c:1234
+#: common/mapimg.c:1236
 #, c-format
 msgid "  - image toolkit:            %s\n"
 msgstr ""
 
-#: common/mapimg.c:1236
+#: common/mapimg.c:1238
 #, c-format
 msgid "  - image format:             %s\n"
 msgstr ""
 
-#: common/mapimg.c:1238
+#: common/mapimg.c:1240
 #, c-format
 msgid "  - zoom factor:              %d\n"
 msgstr ""
 
-#: common/mapimg.c:1240
+#: common/mapimg.c:1242
 #, fuzzy, c-format
 msgid "  - show area within borders: %s\n"
 msgstr "国境線の表示"
 
-#: common/mapimg.c:1241 common/mapimg.c:1243 common/mapimg.c:1245
-#: common/mapimg.c:1247 common/mapimg.c:1249 common/mapimg.c:1253
+#: common/mapimg.c:1243 common/mapimg.c:1245 common/mapimg.c:1247
+#: common/mapimg.c:1249 common/mapimg.c:1251 common/mapimg.c:1255
 #, fuzzy
 msgid "yes"
 msgstr "メ"
 
-#: common/mapimg.c:1241 common/mapimg.c:1243 common/mapimg.c:1245
-#: common/mapimg.c:1247 common/mapimg.c:1249 common/mapimg.c:1253
+#: common/mapimg.c:1243 common/mapimg.c:1245 common/mapimg.c:1247
+#: common/mapimg.c:1249 common/mapimg.c:1251 common/mapimg.c:1255
 #, fuzzy
 msgid "no"
 msgstr "なし"
 
-#: common/mapimg.c:1242
+#: common/mapimg.c:1244
 #, c-format
 msgid "  - show borders:             %s\n"
 msgstr ""
 
-#: common/mapimg.c:1244
+#: common/mapimg.c:1246
 #, c-format
 msgid "  - show cities:              %s\n"
 msgstr ""
 
-#: common/mapimg.c:1246
+#: common/mapimg.c:1248
 #, c-format
 msgid "  - show fog of war:          %s\n"
 msgstr ""
 
-#: common/mapimg.c:1248
+#: common/mapimg.c:1250
 #, c-format
 msgid "  - show player knowledge:    %s\n"
 msgstr ""
 
-#: common/mapimg.c:1250
+#: common/mapimg.c:1252
 #, c-format
 msgid "  - show terrain:             %s\n"
 msgstr ""
 
-#: common/mapimg.c:1251
+#: common/mapimg.c:1253
 msgid "full"
 msgstr ""
 
-#: common/mapimg.c:1251
+#: common/mapimg.c:1253
 msgid "basic"
-msgstr ""
-
-#: common/mapimg.c:1252
-#, c-format
-msgid "  - show units:               %s\n"
 msgstr ""
 
 #: common/mapimg.c:1254
 #, c-format
+msgid "  - show units:               %s\n"
+msgstr ""
+
+#: common/mapimg.c:1256
+#, c-format
 msgid "  - players included:         %s"
 msgstr ""
 
-#: common/mapimg.c:1264
+#: common/mapimg.c:1266
 #, fuzzy, c-format
 msgid ""
 "\n"
 "  - player name:              %s"
 msgstr "旅行時間:           適用不可"
 
-#: common/mapimg.c:1268
+#: common/mapimg.c:1270
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -12583,7 +12606,7 @@ msgstr ""
 "\n"
 "鉄道           %3d"
 
-#: common/mapimg.c:1272
+#: common/mapimg.c:1274
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -12591,55 +12614,55 @@ msgid ""
 msgstr "合計:                       %9d%9d%9d%9d"
 
 # clefs
-#: common/mapimg.c:1327
+#: common/mapimg.c:1329
 #, fuzzy
 msgid "map not yet created"
 msgstr ", 準備中"
 
-#: common/mapimg.c:1335 common/mapimg.c:1573
+#: common/mapimg.c:1337 common/mapimg.c:1563
 msgid "map definition not checked or error"
 msgstr ""
 
-#: common/mapimg.c:1556
+#: common/mapimg.c:1546
 #, fuzzy, c-format
 msgid "no map definition with id %d"
 msgstr "核の冬が起こりました!"
 
-#: common/mapimg.c:1662
+#: common/mapimg.c:1652
 #, fuzzy, c-format
 msgid "unknown player name: '%s'"
 msgstr "プレイヤー名: %s"
 
-#: common/mapimg.c:1678
+#: common/mapimg.c:1668
 #, fuzzy, c-format
 msgid "invalid player id: %d"
 msgstr "無効な引数 %d"
 
-#: common/mapimg.c:1863
+#: common/mapimg.c:1853
 #, c-format
 msgid "Turn: %4d - Year: %10s"
 msgstr ""
 
-#: common/mapimg.c:2020
+#: common/mapimg.c:2022
 #, fuzzy
 msgid "toolkit not defined"
 msgstr "(作業リスト未定義)"
 
-#: common/mapimg.c:2083 common/mapimg.c:2291
+#: common/mapimg.c:2085 common/mapimg.c:2293
 #, fuzzy
 msgid "error generating the file name"
 msgstr "セーブファイル名の定義"
 
-#: common/mapimg.c:2257
+#: common/mapimg.c:2259
 #, fuzzy, c-format
 msgid "error saving map image '%s'"
 msgstr "スクリプトファイルをロードしています: %s"
 
-#: common/mapimg.c:2285
+#: common/mapimg.c:2287
 msgid "the ppm toolkit can only create images in the ppm format"
 msgstr ""
 
-#: common/mapimg.c:2297
+#: common/mapimg.c:2299
 #, fuzzy, c-format
 msgid "could not open file: %s"
 msgstr "\"%s\" を開けません。"
@@ -12746,75 +12769,75 @@ msgstr "チーム"
 
 # clefs
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:532 common/requirements.c:547
+#: common/requirements.c:538 common/requirements.c:553
 msgid "World-ranged requirements are only supported for wonders."
 msgstr "世界規模での必要条件は不思議のみでサポートされています。"
 
 # clefs
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:572 common/requirements.c:588
+#: common/requirements.c:578 common/requirements.c:594
 msgid "Player-ranged requirements are only supported for wonders."
 msgstr "プレイヤー単位での必要条件は不思議のみでサポートされています。"
 
 # clefs
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:610
+#: common/requirements.c:616
 msgid "Island-ranged requirements are only supported for wonders."
 msgstr "島単位での必要条件は不思議のみでサポートされています。"
 
 # よくわからないのでパス(clefs)
 # Cソースのコメントからするとこんな感じでしょうか（Belgae）
 #. TRANS: Obscure ruleset error.
-#: common/requirements.c:662
+#: common/requirements.c:668
 #, fuzzy
 msgid "Surviving requirements are only supported at world and player ranges."
 msgstr "現存するかどうかの必要条件は世界規模のみでサポートされます。"
 
-#: common/requirements.c:1414 common/requirements.c:1491
+#: common/requirements.c:1434 common/requirements.c:1511
 #, c-format
 msgid "Size %d"
 msgstr "大きさ %d"
 
-#: common/requirements.c:1469 common/requirements.c:1478
+#: common/requirements.c:1489 common/requirements.c:1498
 #, c-format
 msgid "\"%s\" units"
 msgstr "\"%s\"ユニット"
 
-#: common/requirements.c:1474
+#: common/requirements.c:1494
 #, c-format
 msgid "%s units"
 msgstr "%sユニット"
 
 #. TRANS: "Hard AI"
-#: common/requirements.c:1496
+#: common/requirements.c:1516
 #, c-format
 msgid "%s AI"
 msgstr "%sAI"
 
 #. TRANS: "Land terrain"
-#: common/requirements.c:1501
+#: common/requirements.c:1521
 #, c-format
 msgid "%s terrain"
 msgstr "%s地形"
 
 #. TRANS: "Fortress base"
-#: common/requirements.c:1506
+#: common/requirements.c:1526
 #, c-format
 msgid "%s base"
 msgstr "%s基地"
 
-#: common/requirements.c:1510
+#: common/requirements.c:1530
 #, c-format
 msgid "After %s"
 msgstr "%s以降"
 
 #. TRANS: "Irrigation possible"
-#: common/requirements.c:1515
+#: common/requirements.c:1535
 #, c-format
 msgid "%s possible"
 msgstr "%s可能"
 
-#: common/requirements.c:1519
+#: common/requirements.c:1539
 msgid "City center tile"
 msgstr "都市中心タイル"
 
@@ -12863,9 +12886,9 @@ msgstr "鉱山"
 msgid "Hut"
 msgstr "小屋"
 
-#: common/terrain.c:517 common/unit.c:705 data/civ1/terrain.ruleset:729
-#: data/civ2/terrain.ruleset:841 data/default/terrain.ruleset:955
-#: data/experimental/terrain.ruleset:957 data/multiplayer/terrain.ruleset:955
+#: common/terrain.c:517 common/unit.c:705 data/civ1/terrain.ruleset:730
+#: data/civ2/terrain.ruleset:842 data/default/terrain.ruleset:956
+#: data/experimental/terrain.ruleset:958 data/multiplayer/terrain.ruleset:956
 msgid "Fortress"
 msgstr "要塞"
 
@@ -12877,9 +12900,9 @@ msgstr "川"
 msgid "Farmland"
 msgstr "農地"
 
-#: common/terrain.c:520 common/unit.c:717 data/civ2/terrain.ruleset:863
-#: data/default/terrain.ruleset:979 data/experimental/terrain.ruleset:981
-#: data/multiplayer/terrain.ruleset:979
+#: common/terrain.c:520 common/unit.c:717 data/civ2/terrain.ruleset:864
+#: data/default/terrain.ruleset:980 data/experimental/terrain.ruleset:982
+#: data/multiplayer/terrain.ruleset:980
 msgid "Airbase"
 msgstr "飛行場"
 
@@ -15307,6 +15330,50 @@ msgstr "大族長 %s"
 msgid "?female:Principal Chief %s"
 msgstr "大族長 %s"
 
+#: data/civ1/nations.ruleset:1398 data/civ2/nations.ruleset:1951
+#: data/nation/barbarian.ruleset:3 server/stdinhand.c:3447
+#: server/stdinhand.c:6218
+msgid "Barbarian"
+msgstr "バーバリアン"
+
+#: data/civ1/nations.ruleset:1399 data/civ2/nations.ruleset:1952
+#: data/nation/barbarian.ruleset:4
+msgid "?plural:Barbarians"
+msgstr "バーバリアン"
+
+# clefs
+# barbarianという概念はビミョーなのでちょっと註釈
+#. TRANS: Legend for nation in "core" set
+#: data/civ1/nations.ruleset:1400 data/civ2/nations.ruleset:1953
+#: data/nation/barbarian.ruleset:7
+msgid ""
+"Since the dawn of civilization, barbarians have been a threat to cultured "
+"peoples everywhere."
+msgstr ""
+"文明の夜明けからこのかた，野蛮人はどこでも文明化された人間の脅威であり続けて"
+"います。[訳註:\"barbarian\"は古代ギリシア人が非ギリシアの言語の音を卑しめてバ"
+"ルバロイ(「バブバブ」)と呼んだのが語源です]"
+
+#: data/civ1/nations.ruleset:1430 data/civ2/nations.ruleset:1983
+#: data/nation/pirate.ruleset:3
+msgid "Pirate"
+msgstr "海賊"
+
+#: data/civ1/nations.ruleset:1431 data/civ2/nations.ruleset:1984
+#: data/nation/pirate.ruleset:4
+msgid "?plural:Pirates"
+msgstr "海賊"
+
+#. TRANS: Legend for nation in "core" set
+#: data/civ1/nations.ruleset:1432 data/civ2/nations.ruleset:1985
+#: data/nation/pirate.ruleset:7
+msgid ""
+"As long as honest men have sailed the seas, pirates have been a scourge of "
+"them and of all coastal dwelling peoples."
+msgstr ""
+"誠実な人々が海を渡る限り，海賊は彼らおよび沿岸に住むすべての人々にとっての災"
+"厄であり続けています。"
+
 #: data/civ1/techs.ruleset:50 data/civ2/techs.ruleset:50
 #: data/default/techs.ruleset:61 data/experimental/techs.ruleset:63
 #: data/multiplayer/techs.ruleset:61
@@ -15690,21 +15757,21 @@ msgstr "万有引力の法則"
 msgid "Writing"
 msgstr "筆記"
 
-#: data/civ1/terrain.ruleset:186 data/civ2/terrain.ruleset:194
-#: data/default/terrain.ruleset:236 data/experimental/terrain.ruleset:238
-#: data/multiplayer/terrain.ruleset:236
+#: data/civ1/terrain.ruleset:187 data/civ2/terrain.ruleset:195
+#: data/default/terrain.ruleset:237 data/experimental/terrain.ruleset:239
+#: data/multiplayer/terrain.ruleset:237
 msgid "Ocean"
 msgstr "海"
 
-#: data/civ1/terrain.ruleset:216 data/civ2/terrain.ruleset:224
+#: data/civ1/terrain.ruleset:217 data/civ2/terrain.ruleset:225
 msgid "Oceans cover much of the world."
 msgstr ""
 
-#: data/civ1/terrain.ruleset:221
+#: data/civ1/terrain.ruleset:222
 msgid "Arctic"
 msgstr "極地"
 
-#: data/civ1/terrain.ruleset:251
+#: data/civ1/terrain.ruleset:252
 msgid ""
 "Arctic tiles are found only in the most northerly or southerly reaches of "
 "the world.  They are very cold, and hence difficult to work with."
@@ -15712,179 +15779,179 @@ msgstr ""
 "極地タイルは世界の最北部と最南部にのみ存在します。とても寒いので働くのが大変"
 "です。"
 
-#: data/civ1/terrain.ruleset:258 data/civ2/terrain.ruleset:266
-#: data/default/terrain.ruleset:354 data/experimental/terrain.ruleset:356
-#: data/multiplayer/terrain.ruleset:354
+#: data/civ1/terrain.ruleset:259 data/civ2/terrain.ruleset:267
+#: data/default/terrain.ruleset:355 data/experimental/terrain.ruleset:357
+#: data/multiplayer/terrain.ruleset:355
 msgid "Desert"
 msgstr "砂漠"
 
-#: data/civ1/terrain.ruleset:289 data/civ2/terrain.ruleset:298
-#: data/default/terrain.ruleset:389 data/experimental/terrain.ruleset:391
-#: data/multiplayer/terrain.ruleset:389
+#: data/civ1/terrain.ruleset:290 data/civ2/terrain.ruleset:299
+#: data/default/terrain.ruleset:390 data/experimental/terrain.ruleset:392
+#: data/multiplayer/terrain.ruleset:390
 msgid ""
 "Deserts are regions of extreme dryness, making agriculture and trade very "
 "difficult."
 msgstr "砂漠は極端に乾燥した地帯です。農業や交易を行うのは非常に難しいです。"
 
-#: data/civ1/terrain.ruleset:295 data/civ2/terrain.ruleset:304
-#: data/default/terrain.ruleset:395 data/experimental/terrain.ruleset:397
-#: data/multiplayer/terrain.ruleset:395
+#: data/civ1/terrain.ruleset:296 data/civ2/terrain.ruleset:305
+#: data/default/terrain.ruleset:396 data/experimental/terrain.ruleset:398
+#: data/multiplayer/terrain.ruleset:396
 msgid "Forest"
 msgstr "森"
 
-#: data/civ1/terrain.ruleset:328 data/civ2/terrain.ruleset:337
-#: data/default/terrain.ruleset:431 data/experimental/terrain.ruleset:433
-#: data/multiplayer/terrain.ruleset:431
+#: data/civ1/terrain.ruleset:329 data/civ2/terrain.ruleset:338
+#: data/default/terrain.ruleset:432 data/experimental/terrain.ruleset:434
+#: data/multiplayer/terrain.ruleset:432
 msgid "Forests are densely wooded, making agriculture somewhat problematic."
 msgstr "森には木が密集していて，農業を行うには幾分問題があります。"
 
-#: data/civ1/terrain.ruleset:334 data/civ2/terrain.ruleset:343
-#: data/default/terrain.ruleset:437 data/experimental/terrain.ruleset:439
-#: data/multiplayer/terrain.ruleset:437
+#: data/civ1/terrain.ruleset:335 data/civ2/terrain.ruleset:344
+#: data/default/terrain.ruleset:438 data/experimental/terrain.ruleset:440
+#: data/multiplayer/terrain.ruleset:438
 msgid "Grassland"
 msgstr "草原"
 
-#: data/civ1/terrain.ruleset:365 data/civ2/terrain.ruleset:374
-#: data/default/terrain.ruleset:471 data/experimental/terrain.ruleset:473
-#: data/multiplayer/terrain.ruleset:471
+#: data/civ1/terrain.ruleset:366 data/civ2/terrain.ruleset:375
+#: data/default/terrain.ruleset:472 data/experimental/terrain.ruleset:474
+#: data/multiplayer/terrain.ruleset:472
 msgid "Grasslands afford exceptional agricultural opportunities."
 msgstr "草原は農業をするのに最適です。"
 
-#: data/civ1/terrain.ruleset:370 data/civ2/terrain.ruleset:379
-#: data/default/terrain.ruleset:476 data/experimental/terrain.ruleset:478
-#: data/multiplayer/terrain.ruleset:476
+#: data/civ1/terrain.ruleset:371 data/civ2/terrain.ruleset:380
+#: data/default/terrain.ruleset:477 data/experimental/terrain.ruleset:479
+#: data/multiplayer/terrain.ruleset:477
 msgid "Hills"
 msgstr "丘"
 
-#: data/civ1/terrain.ruleset:401 data/civ2/terrain.ruleset:410
-#: data/default/terrain.ruleset:510 data/experimental/terrain.ruleset:512
-#: data/multiplayer/terrain.ruleset:510
+#: data/civ1/terrain.ruleset:402 data/civ2/terrain.ruleset:411
+#: data/default/terrain.ruleset:511 data/experimental/terrain.ruleset:513
+#: data/multiplayer/terrain.ruleset:511
 msgid ""
 "In addition to being amenable to agriculture, Hills are frequently rich in "
 "resources."
 msgstr "丘は農業を行えるだけでなく，しばしば資源にも富んでいます。"
 
-#: data/civ1/terrain.ruleset:407 data/civ2/terrain.ruleset:416
-#: data/default/terrain.ruleset:516 data/experimental/terrain.ruleset:518
-#: data/multiplayer/terrain.ruleset:516
+#: data/civ1/terrain.ruleset:408 data/civ2/terrain.ruleset:417
+#: data/default/terrain.ruleset:517 data/experimental/terrain.ruleset:519
+#: data/multiplayer/terrain.ruleset:517
 msgid "Jungle"
 msgstr "ジャングル"
 
-#: data/civ1/terrain.ruleset:437 data/civ2/terrain.ruleset:448
-#: data/default/terrain.ruleset:551 data/experimental/terrain.ruleset:553
-#: data/multiplayer/terrain.ruleset:551
+#: data/civ1/terrain.ruleset:438 data/civ2/terrain.ruleset:449
+#: data/default/terrain.ruleset:552 data/experimental/terrain.ruleset:554
+#: data/multiplayer/terrain.ruleset:552
 msgid "Jungles are densely overgrown, making agriculture somewhat problematic."
 msgstr "ジャングルは密林です。農業を行うのは少し難しいかもしれません。"
 
 # 「山岳」もいいなあ (clefs)
-#: data/civ1/terrain.ruleset:443 data/civ2/terrain.ruleset:454
-#: data/default/terrain.ruleset:557 data/experimental/terrain.ruleset:559
-#: data/multiplayer/terrain.ruleset:557
+#: data/civ1/terrain.ruleset:444 data/civ2/terrain.ruleset:455
+#: data/default/terrain.ruleset:558 data/experimental/terrain.ruleset:560
+#: data/multiplayer/terrain.ruleset:558
 msgid "Mountains"
 msgstr "山"
 
-#: data/civ1/terrain.ruleset:472 data/civ2/terrain.ruleset:484
-#: data/default/terrain.ruleset:590 data/experimental/terrain.ruleset:592
-#: data/multiplayer/terrain.ruleset:590
+#: data/civ1/terrain.ruleset:473 data/civ2/terrain.ruleset:485
+#: data/default/terrain.ruleset:591 data/experimental/terrain.ruleset:593
+#: data/multiplayer/terrain.ruleset:591
 msgid ""
 "Mountains are regions of extreme altitude, making agriculture and trade very "
 "difficult."
 msgstr "山は標高が極めて高い地帯で，農業や交易を行うのは非常に困難です。"
 
-#: data/civ1/terrain.ruleset:478 data/civ2/terrain.ruleset:490
-#: data/default/terrain.ruleset:596 data/experimental/terrain.ruleset:598
-#: data/multiplayer/terrain.ruleset:596
+#: data/civ1/terrain.ruleset:479 data/civ2/terrain.ruleset:491
+#: data/default/terrain.ruleset:597 data/experimental/terrain.ruleset:599
+#: data/multiplayer/terrain.ruleset:597
 msgid "Plains"
 msgstr "平野"
 
-#: data/civ1/terrain.ruleset:509 data/civ2/terrain.ruleset:522
-#: data/default/terrain.ruleset:630 data/experimental/terrain.ruleset:632
-#: data/multiplayer/terrain.ruleset:630
+#: data/civ1/terrain.ruleset:510 data/civ2/terrain.ruleset:523
+#: data/default/terrain.ruleset:631 data/experimental/terrain.ruleset:633
+#: data/multiplayer/terrain.ruleset:631
 msgid ""
 "Plains are very broad, sparse regions, which makes trade slightly "
 "inconvenient."
 msgstr "平野はとても広くまばらな地帯です。交易にはやや不便です。"
 
-#: data/civ1/terrain.ruleset:515 data/civ2/terrain.ruleset:528
-#: data/default/terrain.ruleset:636 data/experimental/terrain.ruleset:638
-#: data/multiplayer/terrain.ruleset:636
+#: data/civ1/terrain.ruleset:516 data/civ2/terrain.ruleset:529
+#: data/default/terrain.ruleset:637 data/experimental/terrain.ruleset:639
+#: data/multiplayer/terrain.ruleset:637
 msgid "Swamp"
 msgstr "湿地"
 
-#: data/civ1/terrain.ruleset:547 data/civ2/terrain.ruleset:561
-#: data/default/terrain.ruleset:672 data/experimental/terrain.ruleset:674
-#: data/multiplayer/terrain.ruleset:672
+#: data/civ1/terrain.ruleset:548 data/civ2/terrain.ruleset:562
+#: data/default/terrain.ruleset:673 data/experimental/terrain.ruleset:675
+#: data/multiplayer/terrain.ruleset:673
 msgid ""
 "Swamps suffer from an over-abundance of water, making agriculture somewhat "
 "problematic."
 msgstr "湿地は水が多すぎる土地です。農業を行うのは少し難しいかもしれません。"
 
-#: data/civ1/terrain.ruleset:553 data/civ2/terrain.ruleset:567
-#: data/default/terrain.ruleset:678 data/experimental/terrain.ruleset:680
-#: data/multiplayer/terrain.ruleset:678
+#: data/civ1/terrain.ruleset:554 data/civ2/terrain.ruleset:568
+#: data/default/terrain.ruleset:679 data/experimental/terrain.ruleset:681
+#: data/multiplayer/terrain.ruleset:679
 msgid "Tundra"
 msgstr "ツンドラ"
 
-#: data/civ1/terrain.ruleset:583 data/civ2/terrain.ruleset:597
-#: data/default/terrain.ruleset:711 data/experimental/terrain.ruleset:713
-#: data/multiplayer/terrain.ruleset:711
+#: data/civ1/terrain.ruleset:584 data/civ2/terrain.ruleset:598
+#: data/default/terrain.ruleset:712 data/experimental/terrain.ruleset:714
+#: data/multiplayer/terrain.ruleset:712
 msgid ""
 "Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr ""
 "ツンドラは広く寒い地帯です。農業には多少向いていますが，他にはほとんど何もあ"
 "りません。"
 
-#: data/civ1/terrain.ruleset:616 data/civ2/terrain.ruleset:638
-#: data/default/terrain.ruleset:752 data/experimental/terrain.ruleset:754
-#: data/multiplayer/terrain.ruleset:752
+#: data/civ1/terrain.ruleset:617 data/civ2/terrain.ruleset:639
+#: data/default/terrain.ruleset:753 data/experimental/terrain.ruleset:755
+#: data/multiplayer/terrain.ruleset:753
 msgid "?animals:Game"
 msgstr "獲物"
 
-#: data/civ1/terrain.ruleset:624 data/civ2/terrain.ruleset:656
-#: data/default/terrain.ruleset:770 data/experimental/terrain.ruleset:772
-#: data/multiplayer/terrain.ruleset:770
+#: data/civ1/terrain.ruleset:625 data/civ2/terrain.ruleset:657
+#: data/default/terrain.ruleset:771 data/experimental/terrain.ruleset:773
+#: data/multiplayer/terrain.ruleset:771
 msgid "Coal"
 msgstr "石炭"
 
-#: data/civ1/terrain.ruleset:632 data/civ2/terrain.ruleset:668
-#: data/default/terrain.ruleset:778 data/experimental/terrain.ruleset:780
-#: data/multiplayer/terrain.ruleset:778
+#: data/civ1/terrain.ruleset:633 data/civ2/terrain.ruleset:669
+#: data/default/terrain.ruleset:779 data/experimental/terrain.ruleset:781
+#: data/multiplayer/terrain.ruleset:779
 msgid "Fish"
 msgstr "魚"
 
-#: data/civ1/terrain.ruleset:640 data/civ2/terrain.ruleset:685
-#: data/default/terrain.ruleset:795 data/experimental/terrain.ruleset:797
-#: data/multiplayer/terrain.ruleset:795
+#: data/civ1/terrain.ruleset:641 data/civ2/terrain.ruleset:686
+#: data/default/terrain.ruleset:796 data/experimental/terrain.ruleset:798
+#: data/multiplayer/terrain.ruleset:796
 msgid "Gems"
 msgstr "宝石"
 
-#: data/civ1/terrain.ruleset:648
+#: data/civ1/terrain.ruleset:649
 msgid "Horses"
 msgstr "馬"
 
-#: data/civ1/terrain.ruleset:656 data/civ2/terrain.ruleset:709
-#: data/default/terrain.ruleset:827 data/experimental/terrain.ruleset:829
-#: data/multiplayer/terrain.ruleset:827
+#: data/civ1/terrain.ruleset:657 data/civ2/terrain.ruleset:710
+#: data/default/terrain.ruleset:828 data/experimental/terrain.ruleset:830
+#: data/multiplayer/terrain.ruleset:828
 msgid "Oasis"
 msgstr "オアシス"
 
-#: data/civ1/terrain.ruleset:664 data/civ2/terrain.ruleset:785
-#: data/civ2/terrain.ruleset:793 data/default/terrain.ruleset:907
-#: data/experimental/terrain.ruleset:909 data/multiplayer/terrain.ruleset:907
+#: data/civ1/terrain.ruleset:665 data/civ2/terrain.ruleset:786
+#: data/civ2/terrain.ruleset:794 data/default/terrain.ruleset:908
+#: data/experimental/terrain.ruleset:910 data/multiplayer/terrain.ruleset:908
 msgid "Oil"
 msgstr "油"
 
-#: data/civ1/terrain.ruleset:672 data/civ2/terrain.ruleset:733
-#: data/default/terrain.ruleset:853 data/experimental/terrain.ruleset:855
-#: data/multiplayer/terrain.ruleset:853 manual/civmanual.c:278
+#: data/civ1/terrain.ruleset:673 data/civ2/terrain.ruleset:734
+#: data/default/terrain.ruleset:854 data/experimental/terrain.ruleset:856
+#: data/multiplayer/terrain.ruleset:854 manual/civmanual.c:278
 msgid "Resources"
 msgstr "資源"
 
-#: data/civ1/terrain.ruleset:680
+#: data/civ1/terrain.ruleset:681
 msgid "Seals"
 msgstr "アザラシ"
 
-#: data/civ1/terrain.ruleset:744
+#: data/civ1/terrain.ruleset:745
 msgid "Fortresses improve defense for land units."
 msgstr "要塞は陸上ユニットの防御力を高めます。"
 
@@ -17691,44 +17758,6 @@ msgstr "%s ヤール"
 msgid "?female:%s Jarl"
 msgstr "%s ヤール"
 
-#: data/civ2/nations.ruleset:1951 data/nation/barbarian.ruleset:3
-#: server/stdinhand.c:3454 server/stdinhand.c:6226
-msgid "Barbarian"
-msgstr "バーバリアン"
-
-#: data/civ2/nations.ruleset:1952 data/nation/barbarian.ruleset:4
-msgid "?plural:Barbarians"
-msgstr "バーバリアン"
-
-# clefs
-# barbarianという概念はビミョーなのでちょっと註釈
-#. TRANS: Legend for nation in "core" set
-#: data/civ2/nations.ruleset:1953 data/nation/barbarian.ruleset:7
-msgid ""
-"Since the dawn of civilization, barbarians have been a threat to cultured "
-"peoples everywhere."
-msgstr ""
-"文明の夜明けからこのかた，野蛮人はどこでも文明化された人間の脅威であり続けて"
-"います。[訳註:\"barbarian\"は古代ギリシア人が非ギリシアの言語の音を卑しめてバ"
-"ルバロイ(「バブバブ」)と呼んだのが語源です]"
-
-#: data/civ2/nations.ruleset:1983 data/nation/pirate.ruleset:3
-msgid "Pirate"
-msgstr "海賊"
-
-#: data/civ2/nations.ruleset:1984 data/nation/pirate.ruleset:4
-msgid "?plural:Pirates"
-msgstr "海賊"
-
-#. TRANS: Legend for nation in "core" set
-#: data/civ2/nations.ruleset:1985 data/nation/pirate.ruleset:7
-msgid ""
-"As long as honest men have sailed the seas, pirates have been a scourge of "
-"them and of all coastal dwelling peoples."
-msgstr ""
-"誠実な人々が海を渡る限り，海賊は彼らおよび沿岸に住むすべての人々にとっての災"
-"厄であり続けています。"
-
 #: data/civ2/techs.ruleset:66 data/default/techs.ruleset:77
 #: data/experimental/techs.ruleset:79 data/multiplayer/techs.ruleset:77
 msgid "Amphibious Warfare"
@@ -17900,80 +17929,80 @@ msgstr ""
 "「橋梁建設」の技術を習得していなければ，川のあるタイルに道路や鉄道を敷設する"
 "ことはできません。"
 
-#: data/civ2/terrain.ruleset:229 data/default/terrain.ruleset:314
-#: data/experimental/terrain.ruleset:316 data/multiplayer/terrain.ruleset:314
+#: data/civ2/terrain.ruleset:230 data/default/terrain.ruleset:315
+#: data/experimental/terrain.ruleset:317 data/multiplayer/terrain.ruleset:315
 msgid "Glacier"
 msgstr "氷河"
 
-#: data/civ2/terrain.ruleset:259 data/default/terrain.ruleset:347
-#: data/experimental/terrain.ruleset:349 data/multiplayer/terrain.ruleset:347
+#: data/civ2/terrain.ruleset:260 data/default/terrain.ruleset:348
+#: data/experimental/terrain.ruleset:350 data/multiplayer/terrain.ruleset:348
 msgid ""
 "Glaciers are found only in the most northerly or southerly reaches of the "
 "world.  They are very cold, and hence difficult to work with."
 msgstr ""
 "氷河は世界の最北部と最南部にのみ存在します。とても寒いので働くのが大変です。"
 
-#: data/civ2/terrain.ruleset:630 data/default/terrain.ruleset:744
-#: data/experimental/terrain.ruleset:746 data/multiplayer/terrain.ruleset:744
+#: data/civ2/terrain.ruleset:631 data/default/terrain.ruleset:745
+#: data/experimental/terrain.ruleset:747 data/multiplayer/terrain.ruleset:745
 msgid "Iron"
 msgstr "鉄"
 
-#: data/civ2/terrain.ruleset:647 data/default/terrain.ruleset:761
-#: data/experimental/terrain.ruleset:763 data/multiplayer/terrain.ruleset:761
+#: data/civ2/terrain.ruleset:648 data/default/terrain.ruleset:762
+#: data/experimental/terrain.ruleset:764 data/multiplayer/terrain.ruleset:762
 msgid "Furs"
 msgstr "毛皮"
 
-#: data/civ2/terrain.ruleset:676 data/default/terrain.ruleset:786
-#: data/experimental/terrain.ruleset:788 data/multiplayer/terrain.ruleset:786
+#: data/civ2/terrain.ruleset:677 data/default/terrain.ruleset:787
+#: data/experimental/terrain.ruleset:789 data/multiplayer/terrain.ruleset:787
 msgid "Fruit"
 msgstr "フルーツ"
 
-#: data/civ2/terrain.ruleset:693 data/default/terrain.ruleset:805
-#: data/experimental/terrain.ruleset:807 data/multiplayer/terrain.ruleset:805
+#: data/civ2/terrain.ruleset:694 data/default/terrain.ruleset:806
+#: data/experimental/terrain.ruleset:808 data/multiplayer/terrain.ruleset:806
 msgid "Buffalo"
 msgstr "水牛"
 
-#: data/civ2/terrain.ruleset:701 data/default/terrain.ruleset:813
-#: data/experimental/terrain.ruleset:815 data/multiplayer/terrain.ruleset:813
+#: data/civ2/terrain.ruleset:702 data/default/terrain.ruleset:814
+#: data/experimental/terrain.ruleset:816 data/multiplayer/terrain.ruleset:814
 msgid "Wheat"
 msgstr "小麦"
 
-#: data/civ2/terrain.ruleset:717 data/default/terrain.ruleset:835
-#: data/experimental/terrain.ruleset:837 data/multiplayer/terrain.ruleset:835
+#: data/civ2/terrain.ruleset:718 data/default/terrain.ruleset:836
+#: data/experimental/terrain.ruleset:838 data/multiplayer/terrain.ruleset:836
 msgid "Peat"
 msgstr "泥炭"
 
-#: data/civ2/terrain.ruleset:725 data/default/terrain.ruleset:843
-#: data/experimental/terrain.ruleset:845 data/multiplayer/terrain.ruleset:843
+#: data/civ2/terrain.ruleset:726 data/default/terrain.ruleset:844
+#: data/experimental/terrain.ruleset:846 data/multiplayer/terrain.ruleset:844
 msgid "Pheasant"
 msgstr "キジ"
 
-#: data/civ2/terrain.ruleset:741 data/default/terrain.ruleset:861
-#: data/experimental/terrain.ruleset:863 data/multiplayer/terrain.ruleset:861
+#: data/civ2/terrain.ruleset:742 data/default/terrain.ruleset:862
+#: data/experimental/terrain.ruleset:864 data/multiplayer/terrain.ruleset:862
 msgid "Ivory"
 msgstr "象牙"
 
-#: data/civ2/terrain.ruleset:751 data/default/terrain.ruleset:871
-#: data/experimental/terrain.ruleset:873 data/multiplayer/terrain.ruleset:871
+#: data/civ2/terrain.ruleset:752 data/default/terrain.ruleset:872
+#: data/experimental/terrain.ruleset:874 data/multiplayer/terrain.ruleset:872
 msgid "Silk"
 msgstr "絹"
 
-#: data/civ2/terrain.ruleset:759 data/default/terrain.ruleset:879
-#: data/experimental/terrain.ruleset:881 data/multiplayer/terrain.ruleset:879
+#: data/civ2/terrain.ruleset:760 data/default/terrain.ruleset:880
+#: data/experimental/terrain.ruleset:882 data/multiplayer/terrain.ruleset:880
 msgid "Spice"
 msgstr "スパイス"
 
-#: data/civ2/terrain.ruleset:768 data/default/terrain.ruleset:890
-#: data/experimental/terrain.ruleset:892 data/multiplayer/terrain.ruleset:890
+#: data/civ2/terrain.ruleset:769 data/default/terrain.ruleset:891
+#: data/experimental/terrain.ruleset:893 data/multiplayer/terrain.ruleset:891
 msgid "Whales"
 msgstr "鯨"
 
-#: data/civ2/terrain.ruleset:777 data/default/terrain.ruleset:899
-#: data/experimental/terrain.ruleset:901 data/multiplayer/terrain.ruleset:899
+#: data/civ2/terrain.ruleset:778 data/default/terrain.ruleset:900
+#: data/experimental/terrain.ruleset:902 data/multiplayer/terrain.ruleset:900
 msgid "Wine"
 msgstr "ワイン"
 
-#: data/civ2/terrain.ruleset:856
+#: data/civ2/terrain.ruleset:857
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
@@ -17983,8 +18012,8 @@ msgstr ""
 "丸1ターンの間移動せず留まっていた場合，ヒットポイントが最大値の4分の1回復しま"
 "す。"
 
-#: data/civ2/terrain.ruleset:877 data/default/terrain.ruleset:993
-#: data/experimental/terrain.ruleset:995 data/multiplayer/terrain.ruleset:993
+#: data/civ2/terrain.ruleset:878 data/default/terrain.ruleset:994
+#: data/experimental/terrain.ruleset:996 data/multiplayer/terrain.ruleset:994
 msgid ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
@@ -18951,19 +18980,19 @@ msgstr "都市内にユニットがいる場合の視界が広がります。"
 msgid "Allows Workers and Engineers to build airbases and buoys."
 msgstr "労働者とエンジニアが，飛行場およびブイを建築できるようになります。"
 
-#: data/default/terrain.ruleset:198 data/experimental/terrain.ruleset:200
-#: data/multiplayer/terrain.ruleset:198
+#: data/default/terrain.ruleset:199 data/experimental/terrain.ruleset:201
+#: data/multiplayer/terrain.ruleset:199
 msgid "Lake"
 msgstr "湖"
 
 # Belgae
-#: data/default/terrain.ruleset:231 data/experimental/terrain.ruleset:233
-#: data/multiplayer/terrain.ruleset:231
+#: data/default/terrain.ruleset:232 data/experimental/terrain.ruleset:234
+#: data/multiplayer/terrain.ruleset:232
 msgid "Lakes are substantial bodies of fresh water."
 msgstr "湖は大量の淡水が溜まっている場所です。"
 
-#: data/default/terrain.ruleset:269 data/experimental/terrain.ruleset:271
-#: data/multiplayer/terrain.ruleset:269
+#: data/default/terrain.ruleset:270 data/experimental/terrain.ruleset:272
+#: data/multiplayer/terrain.ruleset:270
 #, fuzzy
 msgid ""
 "Shallow oceans are mostly found near coastlines, and are often rich sources "
@@ -18973,13 +19002,13 @@ msgstr ""
 "他の豊かな資源を得られます。トライリームも含む海上ユニットにより，海を渡るこ"
 "とができます。"
 
-#: data/default/terrain.ruleset:275 data/experimental/terrain.ruleset:277
-#: data/multiplayer/terrain.ruleset:275
+#: data/default/terrain.ruleset:276 data/experimental/terrain.ruleset:278
+#: data/multiplayer/terrain.ruleset:276
 msgid "Deep Ocean"
 msgstr "外洋"
 
-#: data/default/terrain.ruleset:308 data/experimental/terrain.ruleset:310
-#: data/multiplayer/terrain.ruleset:308
+#: data/default/terrain.ruleset:309 data/experimental/terrain.ruleset:311
+#: data/multiplayer/terrain.ruleset:309
 msgid ""
 "Deep oceans cover much of the world away from coastlines, and only seaworthy "
 "units (not including Triremes) can travel on them."
@@ -18987,8 +19016,8 @@ msgstr ""
 "外洋は海岸線から沖に離れた地域で，世界の大部分を覆っています。耐波性のある海"
 "上ユニット(トライリームは含まれません)のみが外洋を渡れます。"
 
-#: data/default/terrain.ruleset:971 data/experimental/terrain.ruleset:973
-#: data/multiplayer/terrain.ruleset:971
+#: data/default/terrain.ruleset:972 data/experimental/terrain.ruleset:974
+#: data/multiplayer/terrain.ruleset:972
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
@@ -19000,22 +19029,22 @@ msgstr ""
 "す。「発明」を持っていると要塞に望楼が付属し，ユニットがいる場合の視界が拡大"
 "します。"
 
-#: data/default/terrain.ruleset:999 data/experimental/terrain.ruleset:1001
-#: data/multiplayer/terrain.ruleset:1003
+#: data/default/terrain.ruleset:1000 data/experimental/terrain.ruleset:1002
+#: data/multiplayer/terrain.ruleset:1004
 msgid "Buoy"
 msgstr "ブイ"
 
-#: data/default/terrain.ruleset:1013 data/experimental/terrain.ruleset:1015
+#: data/default/terrain.ruleset:1014 data/experimental/terrain.ruleset:1016
 msgid "Buoys may be built in the ocean (by units on a sea-going vessel)."
 msgstr "ブイは（船舶に積載されたユニットによって）海に建設できます。"
 
-#: data/default/terrain.ruleset:1018 data/experimental/terrain.ruleset:1020
-#: data/multiplayer/terrain.ruleset:1023
+#: data/default/terrain.ruleset:1019 data/experimental/terrain.ruleset:1021
+#: data/multiplayer/terrain.ruleset:1024
 msgid "Ruins"
 msgstr "廃墟"
 
-#: data/default/terrain.ruleset:1029 data/experimental/terrain.ruleset:1031
-#: data/multiplayer/terrain.ruleset:1034
+#: data/default/terrain.ruleset:1030 data/experimental/terrain.ruleset:1032
+#: data/multiplayer/terrain.ruleset:1035
 msgid ""
 "Ruins mark the former site of a city that was destroyed or abandoned. They "
 "have no effect on gameplay."
@@ -24135,7 +24164,7 @@ msgid ""
 "This technology is only acquired the first time you build Darwin's Voyage."
 msgstr "この科学技術はダーウィンの航海を最初に建設したときにのみ獲得できます。"
 
-#: data/multiplayer/terrain.ruleset:1018
+#: data/multiplayer/terrain.ruleset:1019
 msgid "Buoys cannot be built in the multiplayer ruleset."
 msgstr ""
 
@@ -38300,17 +38329,17 @@ msgstr "詳細"
 msgid "Manual file %s successfully written."
 msgstr ""
 
-#: manual/civmanual.c:508 server/civserver.c:383
+#: manual/civmanual.c:510 server/civserver.c:383
 #, fuzzy
 msgid "Use FILE as logfile"
 msgstr "  -l, --log FILE\tログファイルとしてFILEを使用する\n"
 
 #. TRANS: "ruleset" is exactly what user must type, do not translate.
-#: manual/civmanual.c:511
+#: manual/civmanual.c:513
 msgid "ruleset RULESET"
 msgstr ""
 
-#: manual/civmanual.c:512
+#: manual/civmanual.c:514
 #, fuzzy
 msgid "Make manual for RULESET"
 msgstr "  -r, --ruleset RULESET  RULESET用のマニュアルを作成する\n"
@@ -38420,28 +38449,33 @@ msgstr "?"
 msgid "?license:Unknown"
 msgstr "不明"
 
+#: modinst/modinst.c:293
+#, fuzzy
+msgid "?modpack:Type"
+msgstr "modpack"
+
 #. TRANS: noun
-#: modinst/modinst.c:299
+#: modinst/modinst.c:300
 msgid "License"
 msgstr ""
 
-#: modinst/modinst.c:304
+#: modinst/modinst.c:305
 msgid "URL"
 msgstr "URL"
 
-#: modinst/modinst.c:310
+#: modinst/modinst.c:311
 msgid "Install modpack"
 msgstr "modpackのインストール"
 
-#: modinst/modinst.c:316
+#: modinst/modinst.c:317
 msgid "Modpack URL"
 msgstr "modpackのURL"
 
-#: modinst/modinst.c:333
+#: modinst/modinst.c:334
 msgid "Select modpack to install"
 msgstr "インストールするmodpackの選択"
 
-#: modinst/modinst.c:398
+#: modinst/modinst.c:399
 msgid "Freeciv modpack installer"
 msgstr "Freeciv modpack インストーラー"
 
@@ -38827,99 +38861,105 @@ msgstr ""
 msgid "You have founded %s."
 msgstr "%sを作りました。"
 
-#: server/citytools.c:1432
+#: server/citytools.c:1434
 #, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr "%sを解散した都市 %sから移動しました(%sには留まれないため)。"
 
-#: server/citytools.c:1445
+#: server/citytools.c:1447
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr "%sが解散した時， %sは外に出ることができなかったため座礁しました。"
 
-#: server/citytools.c:1603
+#: server/citytools.c:1480
+#, fuzzy, c-format
+msgid ""
+"When %s was disbanded your %s in %s was trapped, and it was therefore lost."
+msgstr "%sが解散した時， %sは外に出ることができなかったため座礁しました。"
+
+#: server/citytools.c:1647
 #, c-format
 msgid "You destroy %s completely."
 msgstr "%sを完全に破壊しました。"
 
-#: server/citytools.c:1606
+#: server/citytools.c:1650
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%s は %sによって破壊されました。"
 
-#: server/citytools.c:1632
+#: server/citytools.c:1676
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] "%sを制圧し，金 %dを略奪しました!"
 
-#: server/citytools.c:1639
+#: server/citytools.c:1683
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s は %sを制圧し，金 %dを略奪しました。"
 
-#: server/citytools.c:1648
+#: server/citytools.c:1692
 #, c-format
 msgid "You conquer %s."
 msgstr "%sを制圧しました。"
 
-#: server/citytools.c:1651
+#: server/citytools.c:1695
 #, c-format
 msgid "%s conquered %s."
 msgstr "%sは %sを制圧しました。"
 
-#: server/citytools.c:1658
+#: server/citytools.c:1702
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] "%sを解放しました。金 %dを略奪しました。"
 
-#: server/citytools.c:1665
+#: server/citytools.c:1709
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] "%sは %sを解放し，金 %dが都市から略奪されました。"
 
-#: server/citytools.c:1674
+#: server/citytools.c:1718
 #, c-format
 msgid "You have liberated %s!"
 msgstr "%sを解放しました！"
 
-#: server/citytools.c:1677
+#: server/citytools.c:1721
 #, c-format
 msgid "%s liberated %s."
 msgstr "%sは %sを解放しました。"
 
-#: server/citytools.c:2433
+#: server/citytools.c:2477
 msgid " from the worklist"
 msgstr "作業リストから"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:2445
+#: server/citytools.c:2489
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%sで%s%sを作り始めました。"
 
-#: server/citytools.c:2614
+#: server/citytools.c:2658
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
 msgstr[0] "(今は陸地で囲まれている)%2$sの %1$sを %3$dで売ります。"
 
-#: server/citytools.c:2747
+#: server/citytools.c:2791
 #, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "%sの都市マップのサイズが %sされました。"
 
 # "The size of the city map of %s is %s."の後者の%sに代入されます。
-#: server/citytools.c:2749
+#: server/citytools.c:2793
 msgid "increased"
 msgstr "拡大"
 
 # "The size of the city map of %s is %s."の後者の%sに代入されます。
-#: server/citytools.c:2750
+#: server/citytools.c:2794
 msgid "reduced"
 msgstr "縮小"
 
@@ -40817,7 +40857,7 @@ msgid "Lost connection: %s."
 msgstr "接続消失: %s"
 
 # Belgae
-#: server/connecthand.c:723
+#: server/connecthand.c:728
 #, c-format
 msgid "Detaching from %s."
 msgstr "%sを解任しています。"
@@ -41350,18 +41390,18 @@ msgid "The %s have caused an incident while inciting a revolt in %s."
 msgstr "%sは%sで叛乱を煽動しようとして事変を引き起こしました。"
 
 # Belgae
-#: server/edithand.c:191
+#: server/edithand.c:193
 #, c-format
 msgid " *** Server set to edit mode by %s! *** "
 msgstr " ☆☆☆ %sによって，サーバは編集モードになりました！ ☆☆☆"
 
-#: server/edithand.c:197
+#: server/edithand.c:199
 #, c-format
 msgid " *** Edit mode canceled by %s. *** "
 msgstr " ☆☆☆ %sによって，編集モードがキャンセルされました。 ☆☆☆"
 
-#: server/edithand.c:347 server/edithand.c:383 server/edithand.c:410
-#: server/edithand.c:443 server/edithand.c:478
+#: server/edithand.c:349 server/edithand.c:385 server/edithand.c:412
+#: server/edithand.c:445 server/edithand.c:480
 #, c-format
 msgid "Cannot edit the tile because %d is not a valid tile index on this map!"
 msgstr ""
@@ -41369,14 +41409,14 @@ msgstr ""
 "りません!"
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
-#: server/edithand.c:356
+#: server/edithand.c:358
 #, c-format
 msgid ""
 "Cannot modify terrain for the tile %s because %d is not a valid terrain id."
 msgstr "タイル %sの地形を変更できません。 %dは適切な地形IDではありません。"
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
-#: server/edithand.c:418
+#: server/edithand.c:420
 #, c-format
 msgid ""
 "Cannot modify specials for the tile %s because %d is not a valid terrain "
@@ -41385,14 +41425,14 @@ msgstr ""
 "タイル %sの地形特徴を変更できません。 %dは適切な地形特徴IDではありません。"
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
-#: server/edithand.c:453
+#: server/edithand.c:455
 #, c-format
 msgid ""
 "Cannot modify base for the tile %s because %d is not a valid base type id."
 msgstr ""
 "タイル %sの基地を変更できません。 %dは適切な基地タイプIDではありません。"
 
-#: server/edithand.c:534
+#: server/edithand.c:536
 #, c-format
 msgid "Cannot create units because %d is not a valid tile index on this map!"
 msgstr ""
@@ -41400,7 +41440,7 @@ msgstr ""
 "ありません!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:543
+#: server/edithand.c:545
 #, c-format
 msgid ""
 "Cannot create a unit at %s because the given unit type id %d is invalid."
@@ -41408,7 +41448,7 @@ msgstr ""
 "%sでユニットを作成できません。指定されたユニットタイプID %dが不正です。"
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>"...
-#: server/edithand.c:553
+#: server/edithand.c:555
 #, c-format
 msgid ""
 "Cannot create a unit of type %s at %s because the given owner's player id %d "
@@ -41419,19 +41459,19 @@ msgstr ""
 
 #. TRANS: ..." type <unit-type> on enemy tile
 #. * <tile-coordinates>"...
-#: server/edithand.c:566
+#: server/edithand.c:568
 #, c-format
 msgid "Cannot create unit of type %s on enemy tile %s."
 msgstr "タイプ %sのユニットを敵のタイル %sに作成することはできません。"
 
 #. TRANS: ..." type <unit-type> on the terrain at
 #. * <tile-coordinates>"...
-#: server/edithand.c:576
+#: server/edithand.c:578
 #, c-format
 msgid "Cannot create a unit of type %s on the terrain at %s."
 msgstr "タイプ %sのユニットを %sの地形に作成することはできません。"
 
-#: server/edithand.c:619
+#: server/edithand.c:621
 #, c-format
 msgid "Cannot remove units because %d is not a valid tile index on this map!"
 msgstr ""
@@ -41439,7 +41479,7 @@ msgstr ""
 "ありません!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:628
+#: server/edithand.c:630
 #, c-format
 msgid ""
 "Cannot remove a unit at %s because the given unit type id %d is invalid."
@@ -41448,7 +41488,7 @@ msgstr ""
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>
 #. * because"...
-#: server/edithand.c:639
+#: server/edithand.c:641
 #, c-format
 msgid ""
 "Cannot remove a unit of type %s at %s because the given owner's player id %d "
@@ -41457,17 +41497,17 @@ msgstr ""
 "%1$sのタイプ %2$sのユニットを削除できません。指定した所有者のプレイヤーID "
 "%3$dは不適切です。"
 
-#: server/edithand.c:670 server/edithand.c:693
+#: server/edithand.c:672 server/edithand.c:695
 #, c-format
 msgid "No such unit (ID %d)."
 msgstr "そのようなユニットはありません(ID %d)。"
 
-#: server/edithand.c:732
+#: server/edithand.c:734
 #, c-format
 msgid "Invalid veteran level %d for unit %d (%s)."
 msgstr "ユニット %2$d (%3$s)のベテランレベル %1$dは不適切です。"
 
-#: server/edithand.c:763
+#: server/edithand.c:765
 #, c-format
 msgid "Cannot create a city because %d is not a valid tile index on this map!"
 msgstr ""
@@ -41475,7 +41515,7 @@ msgstr ""
 "ません!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:772
+#: server/edithand.c:774
 #, c-format
 msgid ""
 "Cannot create a city at %s because the given owner's player id %d is invalid"
@@ -41483,32 +41523,32 @@ msgstr ""
 "%sに都市を創設できません。指定した所有者のプレイヤーID %dは不適切です。"
 
 #. TRANS: ..." at <tile-coordinates>."
-#: server/edithand.c:784
+#: server/edithand.c:786
 #, c-format
 msgid "A city may not be built at %s."
 msgstr "%sに都市を創設することはできません。"
 
-#: server/edithand.c:831
+#: server/edithand.c:833
 #, c-format
 msgid "Cannot edit city with invalid city ID %d."
 msgstr "都市ID %dが不適切なため，都市を編集できません。"
 
-#: server/edithand.c:844
+#: server/edithand.c:846
 #, c-format
 msgid "Cannot edit city name: %s"
 msgstr "都市名を編集できません: %s"
 
-#: server/edithand.c:855
+#: server/edithand.c:857
 #, c-format
 msgid "Invalid city size %d for city %s."
 msgstr "都市 %2$sの大きさ %1$dは不適切です。"
 
-#: server/edithand.c:872
+#: server/edithand.c:874
 #, c-format
 msgid "It is impossible for a city to have %s!"
 msgstr "都市には %sはできません!"
 
-#: server/edithand.c:921
+#: server/edithand.c:923
 #, c-format
 msgid ""
 "Invalid city food stock amount %d for city %s (allowed range is %d to %d)."
@@ -41516,7 +41556,7 @@ msgstr ""
 "都市 %2$sの食料貯蔵量 %1$dは不適切です（可能な範囲は %3$dから %4$dまでで"
 "す）。"
 
-#: server/edithand.c:935
+#: server/edithand.c:937
 #, c-format
 msgid ""
 "Invalid city shield stock amount %d for city %s (allowed range is %d to %d)."
@@ -41524,7 +41564,7 @@ msgstr ""
 "都市 %2$sのシールド貯蔵量 %1$dは不適切です（可能な範囲は %3$dから %4$dまでで"
 "す）。"
 
-#: server/edithand.c:982
+#: server/edithand.c:984
 #, c-format
 msgid ""
 "No more players can be added because the maximum number of players (%d) has "
@@ -41532,7 +41572,7 @@ msgid ""
 msgstr ""
 "これ以上プレイヤーを追加できません。プレイヤーの最大値(%d)に達しています。"
 
-#: server/edithand.c:990
+#: server/edithand.c:992
 #, c-format
 msgid ""
 "No more players can be added because there are no available nations (%d "
@@ -41541,30 +41581,30 @@ msgstr ""
 "これ以上プレイヤーを追加できません。使用できる民族がありません (%d民族使用"
 "中)。"
 
-#: server/edithand.c:999
+#: server/edithand.c:1001
 msgid "Player cannot be created because random nation selection failed."
 msgstr "プレイヤーを作成できません。ランダムな民族選択に失敗しました。"
 
-#: server/edithand.c:1007
+#: server/edithand.c:1009
 msgid "Player creation failed."
 msgstr "プレイヤーの生成に失敗しました。"
 
-#: server/edithand.c:1041
+#: server/edithand.c:1043
 #, c-format
 msgid "No such player (ID %d)."
 msgstr "そのようなプレイヤーはいません (ID %d)。"
 
-#: server/edithand.c:1070
+#: server/edithand.c:1072
 #, c-format
 msgid "Cannot edit player with invalid player ID %d."
 msgstr "プレイヤーID %dが不適切なため，プレイヤーを編集できません。"
 
-#: server/edithand.c:1087
+#: server/edithand.c:1089
 #, c-format
 msgid "Cannot change name of player (%d) '%s' to '%s': %s"
 msgstr "プレイヤー(%d) '%s'の名前を'%s'に変更することはできません。 %s"
 
-#: server/edithand.c:1098
+#: server/edithand.c:1100
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) because the given nation ID %d is "
@@ -41572,7 +41612,7 @@ msgid ""
 msgstr ""
 "プレイヤー %d (%s)の民族を変更できません。指定された民族ID %dは不適切です。"
 
-#: server/edithand.c:1104
+#: server/edithand.c:1106
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
@@ -41581,7 +41621,7 @@ msgstr ""
 "プレイヤー %d (%s)の民族を %d (%s)に変更できません。指定された民族はすでにプ"
 "レイヤー %d (%s)に割り当てられています。"
 
-#: server/edithand.c:1140
+#: server/edithand.c:1142
 #, c-format
 msgid ""
 "Cannot set gold for player %d (%s) because the value %d is outside the "
@@ -41589,7 +41629,7 @@ msgid ""
 msgstr ""
 "プレイヤー %d (%s)の金を設定できません。指定された値 %dは有効範囲外です。"
 
-#: server/edithand.c:1199
+#: server/edithand.c:1201
 #, c-format
 msgid "Cannot edit vision because %d is not a valid tile index on this map!"
 msgstr ""
@@ -41597,35 +41637,35 @@ msgstr ""
 "ません!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:1208
+#: server/edithand.c:1210
 #, c-format
 msgid ""
 "Cannot edit vision for the tile at %s because given player id %d is invalid."
 msgstr ""
 "%sのタイルの視界を編集できません。指定されたプレイヤーID %dは不適切です。"
 
-#: server/edithand.c:1281
+#: server/edithand.c:1283
 #, c-format
 msgid "No such city (ID %d)."
 msgstr "そのような都市はありません (ID %d)。"
 
-#: server/edithand.c:1307
+#: server/edithand.c:1309
 msgid "Cannot toggle fog-of-war when it is already disabled."
 msgstr "戦場の霧を切り替えることができません。すでに無効です。"
 
-#: server/edithand.c:1315
+#: server/edithand.c:1317
 #, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
 msgstr ""
 "戦場の霧を切り替えることができません。対象のプレイヤーID %dが正しくありませ"
 "ん。"
 
-#: server/edithand.c:1343 server/edithand.c:1382
+#: server/edithand.c:1345 server/edithand.c:1384
 #, c-format
 msgid "Invalid tile index %d for start position."
 msgstr "開始位置のタイルインデックス %dが正しくありません。"
 
-#: server/edithand.c:1390
+#: server/edithand.c:1392
 #, c-format
 msgid ""
 "Cannot edit start position nations at (%d, %d) because there is no start "
@@ -41634,18 +41674,18 @@ msgstr ""
 "タイル (%d, %d) での開始位置民族を編集できません。指定した座標には開始位置が"
 "ありません。"
 
-#: server/edithand.c:1422
+#: server/edithand.c:1424
 #, c-format
 msgid "Cannot set invalid game year %d. Valid year range is from %d to %d."
 msgstr ""
 "ゲームの年 %dは不適切なため設定できません。適切な年の範囲は %dから %dまでで"
 "す。"
 
-#: server/edithand.c:1465
+#: server/edithand.c:1467
 msgid "No permissions to remotely save scenario."
 msgstr "リモートからシナリオを保存する権限がありません。"
 
-#: server/edithand.c:1472
+#: server/edithand.c:1474
 msgid "Scenario information not set. Cannot save scenario."
 msgstr "シナリオ情報が設定されていません。シナリオを保存できません。"
 
@@ -41772,7 +41812,7 @@ msgstr ""
 
 # clefs
 # Belgae
-#: server/generator/startpos.c:394
+#: server/generator/startpos.c:403
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
 "starting positions.\n"
@@ -42036,97 +42076,97 @@ msgstr ""
 "あなたのチームの %s は %s に宣戦しました。あなたも %s との同盟を破棄しなけれ"
 "ばなりません。"
 
-#: server/plrhand.c:1381
+#: server/plrhand.c:1382
 msgid "no color"
 msgstr ""
 
 # yasu, clefs
 # was "プレイヤー %s を中止させます。"
-#: server/plrhand.c:1449
+#: server/plrhand.c:1450
 #, c-format
 msgid "Removing player %s."
 msgstr "プレイヤー %s を除去します。"
 
 # yasu, clefs
 # was "あなたはゲームを中止させられました。"
-#: server/plrhand.c:1452
+#: server/plrhand.c:1453
 msgid "You've been removed from the game!"
 msgstr "あなたはゲームから除去されました！"
 
 # yasu, clefs
 # was "%sはゲームを中止させられました。"
-#: server/plrhand.c:1455
+#: server/plrhand.c:1456
 #, c-format
 msgid "%s has been removed from the game."
 msgstr "%sはゲームから除去されました。"
 
 # yasu
-#: server/plrhand.c:1587
+#: server/plrhand.c:1588
 msgid "Please choose a non-blank name."
 msgstr "空白ではない名前を選んでください。"
 
 # clefs
-#: server/plrhand.c:1600
+#: server/plrhand.c:1601
 msgid "That nation is already in use."
 msgstr "その民族は既に使われています。"
 
 # yasu, ama
-#: server/plrhand.c:1605
+#: server/plrhand.c:1606
 #, c-format
 msgid "Another player already has the name '%s'. Please choose another name."
 msgstr ""
 "他のプレイヤーが既に'%s'という名前を選んでいます。他の名前を選んでください。"
 
 # yasu, clefs
-#: server/plrhand.c:1629
+#: server/plrhand.c:1630
 msgid "Please choose a name containing only ASCII characters."
 msgstr "ASCII文字だけで綴られた名前にしてください。"
 
-#: server/plrhand.c:1704 server/plrhand.c:1718
+#: server/plrhand.c:1705 server/plrhand.c:1719
 #, c-format
 msgid "Player no. %d"
 msgstr "プレイヤー番号 %d"
 
-#: server/plrhand.c:1733
+#: server/plrhand.c:1734
 msgid "A poorly-named player"
 msgstr "いいかげんな名前のプレイヤー"
 
-#: server/plrhand.c:1802 server/plrhand.c:1806
+#: server/plrhand.c:1803 server/plrhand.c:1807
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "あなたは %2$s によって統治された %1$s と接触しました。"
 
 # clefs
-#: server/plrhand.c:2338
+#: server/plrhand.c:2339
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "%sに内戦を起こせませんでした――プレイヤーが多すぎます"
 
 # clefs
-#: server/plrhand.c:2344
+#: server/plrhand.c:2345
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr "%sに内戦を起こせませんでした。使用できる民族がありませんでした。"
 
-#: server/plrhand.c:2374
+#: server/plrhand.c:2375
 msgid "Your nation is thrust into civil war."
 msgstr "あなたの国は内戦になりました。"
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:2378
+#: server/plrhand.c:2379
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%sが %sによる叛乱の指導者になりました。"
 
 # yasu
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:2404
+#: server/plrhand.c:2405
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%sは%sに対する忠誠を宣言しました。"
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:2423
+#: server/plrhand.c:2424
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -42135,21 +42175,21 @@ msgstr[0] ""
 
 #. TRANS: '/delegate cancel' is a server command and must not
 #. * be translated
-#: server/plrhand.c:2565
+#: server/plrhand.c:2566
 #, c-format
 msgid ""
 "User '%s' is currently allowed to take control of your player while you are "
 "away. Use '/delegate cancel' to revoke this access."
 msgstr ""
 
-#: server/plrhand.c:2577
+#: server/plrhand.c:2578
 #, fuzzy, c-format
 msgid "Control of player '%s' is delegated to you."
 msgstr "コンソール: '%s' は %sに設定されました。"
 
 #. TRANS: '/delegate take' is a server command and must not
 #. * be translated; but <player> should be translated.
-#: server/plrhand.c:2586
+#: server/plrhand.c:2587
 msgid "Use '/delegate take <player>' to take control of a delegated player."
 msgstr ""
 
@@ -42546,11 +42586,11 @@ msgstr "失ったユニット\n"
 msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "ルールセットファイル \"%s.%s\" が見つかりません。"
 
-#: server/ruleset.c:4180
+#: server/ruleset.c:4280
 msgid "Loading rulesets."
 msgstr "ルールセットをロードしています"
 
-#: server/ruleset.c:4256
+#: server/ruleset.c:4356
 msgid "Reducing aifill because there are not enough playable nations."
 msgstr "プレイ可能な民族が足りないため，aifillを縮小します。"
 
@@ -44934,100 +44974,100 @@ msgstr ""
 "kickコマンドを使用して追放したユーザーが再接続できるようになるまでの時間を秒"
 "で指定します。この設定をを変更すると，既に追放済みのユーザーにも影響します。"
 
-#: server/settings.c:2361
+#: server/settings.c:2369
 #, c-format
 msgid "You are not allowed to change the setting '%s'."
 msgstr "設定 '%s' の変更は認められていません。"
 
-#: server/settings.c:2369
+#: server/settings.c:2377
 #, c-format
 msgid "The setting '%s' is locked by the ruleset."
 msgstr "設定 '%s' はルールセットによって固定されています。"
 
-#: server/settings.c:2383
+#: server/settings.c:2391
 #, c-format
 msgid "The setting '%s' can't be modified after the map is fixed."
 msgstr "設定 '%s' はマップ確定後には変更できません。"
 
-#: server/settings.c:2400
+#: server/settings.c:2408
 #, c-format
 msgid "The setting '%s' can't be modified after the game has started."
 msgstr "設定 '%s' はゲーム開始後には変更できません。"
 
-#: server/settings.c:2412
+#: server/settings.c:2420
 msgid "Internal error."
 msgstr "内部エラー。"
 
-#: server/settings.c:2500
+#: server/settings.c:2508
 #, c-format
 msgid "\"%s\" prefix is ambiguous. Candidates are: %s."
 msgstr "\"%s\" では確定するには不十分です。候補: %s。"
 
-#: server/settings.c:2507
+#: server/settings.c:2515
 msgid "Missing value."
 msgstr "値が見つかりません。"
 
-#: server/settings.c:2516
+#: server/settings.c:2524
 #, c-format
 msgid "No match for \"%s\"."
 msgstr "\"%s\"に合致するものはありません。"
 
-#: server/settings.c:2554
+#: server/settings.c:2562
 msgid "This setting is not a boolean."
 msgstr "この設定はブーリアンになっていません。"
 
-#: server/settings.c:2675
+#: server/settings.c:2683
 msgid "This setting is not an integer."
 msgstr "この設定は整数になっていません。"
 
-#: server/settings.c:2681
+#: server/settings.c:2689
 #, c-format
 msgid "Value out of range: %d (min: %d; max: %d)."
 msgstr "範囲外の値です: %d (最小値: %d, 最大値: %d)。"
 
-#: server/settings.c:2736
+#: server/settings.c:2744
 msgid "This setting is not a string."
 msgstr "この設定は文字列になっていません。"
 
-#: server/settings.c:2742
+#: server/settings.c:2750
 #, c-format
 msgid "String value too long (max length: %lu)."
 msgstr "文字列の値が長すぎます（最大長: %lu）。"
 
 # Belgae
-#: server/settings.c:2820
+#: server/settings.c:2828
 msgid "This setting is not an enumerator."
 msgstr "この設定は列挙子ではありません。"
 
 #. TRANS: only emphasizing a string.
-#: server/settings.c:2989
+#: server/settings.c:2997
 #, c-format
 msgid "\"%s\""
 msgstr "\"%s\""
 
 #. TRANS: Bitwise setting has no bits set.
-#: server/settings.c:2998
+#: server/settings.c:3006
 #, fuzzy
 msgid "empty value"
 msgstr "値がありません。"
 
-#: server/settings.c:3050
+#: server/settings.c:3058
 msgid "This setting is not a bitwise."
 msgstr "この設定はビット単位になっていません。"
 
-#: server/settings.c:3308 server/settings.c:3328 server/settings.c:3348
-#: server/settings.c:3372 server/settings.c:3396
+#: server/settings.c:3319 server/settings.c:3339 server/settings.c:3359
+#: server/settings.c:3383 server/settings.c:3407
 #, c-format
 msgid "Ruleset: '%s' has been set to %s."
 msgstr "ルールセット: '%s' は %s に設定されました。"
 
-#: server/settings.c:3413
+#: server/settings.c:3424
 #, c-format
 msgid "Ruleset: '%s' has been locked by the ruleset."
 msgstr "ルールセット: %s はルールセットで固定されています。"
 
-#: server/settings.c:3669 server/settings.c:3694 server/settings.c:3716
-#: server/settings.c:3743 server/settings.c:3770
+#: server/settings.c:3680 server/settings.c:3705 server/settings.c:3727
+#: server/settings.c:3754 server/settings.c:3781
 #, c-format
 msgid "Savegame: '%s' has been set to %s."
 msgstr "セーブファイル: '%s' は %s に設定されました。"
@@ -45179,7 +45219,7 @@ msgstr " %s"
 msgid "Scenario victory to %s."
 msgstr "%sのシナリオ勝利です。"
 
-#: server/srv_main.c:350 server/stdinhand.c:4385
+#: server/srv_main.c:350 server/stdinhand.c:4376
 #, fuzzy
 msgid "Game is over."
 msgstr "ゲーム終了"
@@ -45599,7 +45639,7 @@ msgid "Removed player %s from the game."
 msgstr "ゲームからプレイヤー %s を追い出しました。"
 
 # clefs
-#: server/stdinhand.c:1224 server/stdinhand.c:3607 server/stdinhand.c:3766
+#: server/stdinhand.c:1224 server/stdinhand.c:3598 server/stdinhand.c:3757
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
 msgstr "\"%s\" という名前はセキュリティ上の理由から許可されていません。"
@@ -45620,7 +45660,7 @@ msgstr "スクリプトファイル '%s' をロードしています。"
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "コマンドラインスクリプトファイル '%s' を読むことができません。"
 
-#: server/stdinhand.c:1265 server/stdinhand.c:4522
+#: server/stdinhand.c:1265 server/stdinhand.c:4513
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "スクリプトファイル '%s' を読むことができませんでした。"
@@ -45720,8 +45760,8 @@ msgid "Invalid argument %d."
 msgstr "無効な引数 %d"
 
 #: server/stdinhand.c:1648 server/stdinhand.c:2045 server/stdinhand.c:3155
-#: server/stdinhand.c:3304 server/stdinhand.c:3316 server/stdinhand.c:3497
-#: server/stdinhand.c:3595
+#: server/stdinhand.c:3303 server/stdinhand.c:3315 server/stdinhand.c:3488
+#: server/stdinhand.c:3586
 #, c-format
 msgid ""
 "Usage:\n"
@@ -45747,7 +45787,7 @@ msgstr "オプション: %s  -  %s"
 msgid "Option: %s"
 msgstr "オプション: %s"
 
-#: server/stdinhand.c:1744 server/stdinhand.c:5896
+#: server/stdinhand.c:1744 server/stdinhand.c:5888
 msgid "Description:"
 msgstr "説明:"
 
@@ -45981,7 +46021,7 @@ msgstr "（反対なし）"
 msgid "There are no votes going on."
 msgstr "投票は行われていません。"
 
-#: server/stdinhand.c:2433 server/stdinhand.c:2558 server/stdinhand.c:4207
+#: server/stdinhand.c:2433 server/stdinhand.c:2558 server/stdinhand.c:4198
 msgid "You are not allowed to use this command."
 msgstr "そのコマンドを利用できません。"
 
@@ -46251,7 +46291,7 @@ msgstr "残念ながらこのゲームでは新しいプレイヤーの参加を
 msgid "Sorry, one can't take players already connected in this game."
 msgstr "残念ながらこのゲームでは接続済のプレイヤーの乗っ取りを認めていません。"
 
-#: server/stdinhand.c:3162 server/stdinhand.c:3311
+#: server/stdinhand.c:3162 server/stdinhand.c:3310
 msgid "Only the player name form is allowed."
 msgstr "プレイヤー名を指定する必要があります。"
 
@@ -46285,64 +46325,64 @@ msgstr "%sが %sを観察しています"
 msgid "%s now observes"
 msgstr "%sは観察しています"
 
-#: server/stdinhand.c:3332
+#: server/stdinhand.c:3331
 msgid "You cannot issue \"/take -\" when the game has already started."
 msgstr "一旦ゲームが開始された後では，\"/take\"は発行できません。"
 
-#: server/stdinhand.c:3356
+#: server/stdinhand.c:3355
 #, c-format
 msgid "A delegation is active for player '%s'. /take not possible."
 msgstr ""
 
 # clefs
-#: server/stdinhand.c:3371
+#: server/stdinhand.c:3370
 #, c-format
 msgid "%s already controls %s."
 msgstr "%sが既に %sを操作しています"
 
-#: server/stdinhand.c:3385
+#: server/stdinhand.c:3384
 #, c-format
 msgid "There is no free player slot for %s."
 msgstr "%sに対するプレイヤー枠の空きがありません。"
 
-#: server/stdinhand.c:3403
+#: server/stdinhand.c:3400
 #, c-format
 msgid "Reassigned nation to %s by server console."
 msgstr "サーバコンソールにより， %sに民族を再割り当てしました。"
 
-#: server/stdinhand.c:3407
+#: server/stdinhand.c:3404
 #, c-format
 msgid "Reassigned nation to %s by %s."
 msgstr "%2$sにより， %1$sに民族を再割り当てしました。"
 
-#: server/stdinhand.c:3450
+#: server/stdinhand.c:3443
 #, c-format
 msgid "%s now controls %s (%s, %s)."
 msgstr "%sは %sを操作します(%s, %s)"
 
-#: server/stdinhand.c:3457 server/stdinhand.c:6230
+#: server/stdinhand.c:3450 server/stdinhand.c:6222
 msgid "Human"
 msgstr "人間"
 
-#: server/stdinhand.c:3459
+#: server/stdinhand.c:3452
 msgid "Alive"
 msgstr "活躍中"
 
-#: server/stdinhand.c:3460
+#: server/stdinhand.c:3453
 msgid "Dead"
 msgstr "死亡"
 
-#: server/stdinhand.c:3463
+#: server/stdinhand.c:3456
 #, c-format
 msgid "%s failed to attach to any player."
 msgstr "%sをどのプレイヤーにも割り当てることができませんでした。"
 
-#: server/stdinhand.c:3518
+#: server/stdinhand.c:3509
 msgid "You can not detach other users."
 msgstr "あなたは他のユーザーを解任できません。"
 
 # clefs
-#: server/stdinhand.c:3527
+#: server/stdinhand.c:3518
 #, c-format
 msgid "%s is not attached to any player."
 msgstr "%sは誰からも操作されていません。"
@@ -46351,33 +46391,33 @@ msgstr "%sは誰からも操作されていません。"
 # detachのうまい訳語ないかなあ
 # Belgae
 # 放棄→（プレイヤー担当の）解任
-#: server/stdinhand.c:3537
+#: server/stdinhand.c:3528
 #, c-format
 msgid "%s detaching from %s"
 msgstr "%sは%sを解任しています"
 
 # clefs
-#: server/stdinhand.c:3540
+#: server/stdinhand.c:3531
 #, c-format
 msgid "%s no longer observing."
 msgstr "%sはもう観察していません。"
 
-#: server/stdinhand.c:3601
+#: server/stdinhand.c:3592
 msgid "Cannot load a game while another is running."
 msgstr "他のゲームの実行中はゲームをロードできません。"
 
 # clefs
-#: server/stdinhand.c:3634
+#: server/stdinhand.c:3625
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr "\"%s\"というセーブファイルもシナリオも見当たりません。"
 
-#: server/stdinhand.c:3647
+#: server/stdinhand.c:3638
 #, c-format
 msgid "Could not load savefile: %s"
 msgstr "セーブファイルをロードできません: %s"
 
-#: server/stdinhand.c:3747
+#: server/stdinhand.c:3738
 msgid ""
 "You must provide a ruleset name. Use \"/show ruleset\" to see what is the "
 "current ruleset."
@@ -46385,305 +46425,305 @@ msgstr ""
 "ルールセット名を指定する必要があります。\"/show ruleset\"を使用すると，現在の"
 "ルールセットを確認できます。"
 
-#: server/stdinhand.c:3753
+#: server/stdinhand.c:3744
 msgid "This setting can't be modified after the game has started."
 msgstr "ゲームが開始された後，この設定を変更できません。"
 
 # clefs
-#: server/stdinhand.c:3759
+#: server/stdinhand.c:3750
 #, c-format
 msgid "Ruleset directory is already \"%s\""
 msgstr "ルールセットディレクトリは既に\"%s\"です。"
 
-#: server/stdinhand.c:3775
+#: server/stdinhand.c:3766
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "ルールセットディレクトリ\"%s\"が見つかりません。"
 
-#: server/stdinhand.c:3781
+#: server/stdinhand.c:3772
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "ルールセットディレクトリを\"%s\"に設定します。"
 
 # Belgae
-#: server/stdinhand.c:3813 server/stdinhand.c:3849 server/stdinhand.c:6146
+#: server/stdinhand.c:3804 server/stdinhand.c:3840 server/stdinhand.c:6138
 msgid "That would be rather silly, since you are not a player."
 msgstr "駄目ですよ。あなたはプレイヤーではありませんから。"
 
-#: server/stdinhand.c:3820
+#: server/stdinhand.c:3811
 #, c-format
 msgid "%s. Try /help ignore"
 msgstr "%s。 /help ignoreを確認してください。"
 
-#: server/stdinhand.c:3832
+#: server/stdinhand.c:3823
 #, c-format
 msgid "Added pattern %s as entry %d to your ignore list."
 msgstr "パターン %sをあなたの無視リストに項目 %dとして追加しました。"
 
-#: server/stdinhand.c:3858 server/stdinhand.c:6151
+#: server/stdinhand.c:3849 server/stdinhand.c:6143
 msgid "Your ignore list is empty."
 msgstr "あなたの無視リストは空です。"
 
-#: server/stdinhand.c:3865
+#: server/stdinhand.c:3856
 msgid "Missing range. Try /help unignore."
 msgstr "範囲が見当たりません。 /help unignoreを確認してください。"
 
-#: server/stdinhand.c:3874 server/stdinhand.c:3882 server/stdinhand.c:3888
+#: server/stdinhand.c:3865 server/stdinhand.c:3873 server/stdinhand.c:3879
 #, c-format
 msgid "\"%s\" is not a valid range. Try /help unignore."
 msgstr "\"%s\"は範囲指定として不適切です。 /help unignoreを確認してください。"
 
-#: server/stdinhand.c:3897
+#: server/stdinhand.c:3888
 #, c-format
 msgid "Invalid entry number: %d."
 msgstr "不適切なエントリ番号: %d。"
 
-#: server/stdinhand.c:3900
+#: server/stdinhand.c:3891
 #, c-format
 msgid "Invalid range: %d to %d."
 msgstr "不適切な範囲: %dから %d。"
 
-#: server/stdinhand.c:3914
+#: server/stdinhand.c:3905
 #, c-format
 msgid "Removed pattern %s (entry %d) from your ignore list."
 msgstr "パターン %s（項目 %d）をあなたの無視リストから削除しました。"
 
-#: server/stdinhand.c:3944
+#: server/stdinhand.c:3935
 msgid "Two arguments needed. See '/help playercolor'."
 msgstr ""
 
-#: server/stdinhand.c:3959
+#: server/stdinhand.c:3950
 msgid ""
 "Can only set player color prior to game start if 'plrcolormode' is PLR_SET."
 msgstr ""
 
 # yasu
-#: server/stdinhand.c:3970
+#: server/stdinhand.c:3961
 #, fuzzy
 msgid "Can only unset player color before game starts."
 msgstr "ゲーム開始前に比率は変えられません。"
 
-#: server/stdinhand.c:3976
+#: server/stdinhand.c:3967
 msgid "Invalid player color definition. See '/help playercolor'."
 msgstr ""
 
 #. TRANS: "... [c0ffee] for Caesar ... to Hammurabi."
-#: server/stdinhand.c:3987
+#: server/stdinhand.c:3978
 #, c-format
 msgid "Warning: new color [%s] for %s is identical to %s."
 msgstr ""
 
-#: server/stdinhand.c:4000
+#: server/stdinhand.c:3991
 #, fuzzy, c-format
 msgid "Color of player %s set to [%s]."
 msgstr "プレイヤー %s をチーム %s に加えました。"
 
-#: server/stdinhand.c:4043
+#: server/stdinhand.c:4034
 msgid "Goodbye."
 msgstr "さようなら。"
 
-#: server/stdinhand.c:4086
+#: server/stdinhand.c:4077
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "残念ですがサーバコマンドを使うことを許可されていません。"
 
-#: server/stdinhand.c:4137
+#: server/stdinhand.c:4128
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
 "警告: '%1$s' は '%2$s' と解釈されましたが，'%1$s' は一意ではありませ"
 "ん。'%3$shelp'を参照してください。"
 
-#: server/stdinhand.c:4141
+#: server/stdinhand.c:4132
 #, c-format
 msgid "Unknown command '%s%s'.  Try '%shelp'."
 msgstr "不明なコマンド '%s%s'です。'%shelp'を参照してください。"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:4168
+#: server/stdinhand.c:4159
 msgid "Your new vote canceled your previous vote."
 msgstr "再投票したので，前回の票はキャンセルされました。"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:4175
+#: server/stdinhand.c:4166
 msgid "New teamvote"
 msgstr "新規チーム投票"
 
 #. TRANS: "[New vote|New teamvote] (number 3)
 #. * by fred: proposed change"
-#: server/stdinhand.c:4187
+#: server/stdinhand.c:4178
 #, c-format
 msgid "%s (number %d) by %s: %s"
 msgstr "%s （番号 %d，提案者 %s）: %s"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:4197
+#: server/stdinhand.c:4188
 #, c-format
 msgid "Your new vote (\"%s\") was not legal or was not recognized."
 msgstr "あなたの投票(\"%s\")は適切でなかったか，または拒否されました。"
 
-#: server/stdinhand.c:4240
+#: server/stdinhand.c:4231
 msgid "(server prompt)"
 msgstr "(サーバ・プロンプト)"
 
 # clefs
-#: server/stdinhand.c:4389
+#: server/stdinhand.c:4380
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
 "ゲームを終了しています。すべてのクライアントが切断し次第，サーバは再起動しま"
 "す。"
 
-#: server/stdinhand.c:4394
+#: server/stdinhand.c:4385
 msgid "Cannot end the game: no game running."
 msgstr "ゲームを終了できません: ゲームは始まっていません。"
 
 # clefs
-#: server/stdinhand.c:4410
+#: server/stdinhand.c:4401
 #, c-format
 msgid "%s has conceded the game and can no longer win."
 msgstr "%sは敗北宣言したのでもう勝利者になることはできません。"
 
-#: server/stdinhand.c:4415
+#: server/stdinhand.c:4406
 msgid "You cannot surrender now."
 msgstr "今は降参できません。"
 
-#: server/stdinhand.c:4465
+#: server/stdinhand.c:4456
 msgid "Guessing argument 'ruleset'."
 msgstr "引数を 'ruleset' と推定します。"
 
-#: server/stdinhand.c:4469
+#: server/stdinhand.c:4460
 msgid "Guessing argument 'game'."
 msgstr "引数を 'game' と推定します。"
 
-#: server/stdinhand.c:4477
+#: server/stdinhand.c:4468
 msgid "The valid arguments are: 'game', 'ruleset', 'script' or 'default'."
 msgstr "使用可能な引数は 'game'，'ruleset'，'script'，および 'default'です。"
 
-#: server/stdinhand.c:4492
+#: server/stdinhand.c:4483
 msgid "Reset all settings to the values at the game start."
 msgstr "すべての設定をリセットしてゲーム開始時の値にします。"
 
-#: server/stdinhand.c:4495
+#: server/stdinhand.c:4486
 msgid "No saved settings from the game start available."
 msgstr "ゲーム開始時に使用可能な設定が保存されていません。"
 
-#: server/stdinhand.c:4499
+#: server/stdinhand.c:4490
 msgid "No game started..."
 msgstr "ゲームが始まっていません。"
 
-#: server/stdinhand.c:4506
+#: server/stdinhand.c:4497
 msgid "Reset all settings to ruleset values."
 msgstr "すべての設定をルールセットの値にリセットします。"
 
 # Belgae
-#: server/stdinhand.c:4513
+#: server/stdinhand.c:4504
 msgid "Reset all settings and rereading the server start script."
 msgstr "すべての設定をリセットし，サーバ開始スクリプトを再読み込みします。"
 
-#: server/stdinhand.c:4531
+#: server/stdinhand.c:4522
 msgid "Reset all settings to default values."
 msgstr "すべての設定を既定値にリセットします。"
 
-#: server/stdinhand.c:4537
+#: server/stdinhand.c:4528
 msgid "Settings re-initialized."
 msgstr "設定を再初期化しました。"
 
-#: server/stdinhand.c:4597
+#: server/stdinhand.c:4588
 #, c-format
 msgid "Fall back to old syntax '%slua <script command>'."
 msgstr ""
 
-#: server/stdinhand.c:4607
+#: server/stdinhand.c:4598
 #, fuzzy, c-format
 msgid "No lua command or lua script file. See '%shelp lua'."
 msgstr "コマンドライン・スクリプトファイル '%s' を読むことができません。"
 
 # clefs
-#: server/stdinhand.c:4630
+#: server/stdinhand.c:4621
 #, fuzzy, c-format
 msgid "Freeciv script '%s' disallowed for security reasons."
 msgstr "\"%s\" という名前はセキュリティ上の理由から許可されていません。"
 
 # clefs
-#: server/stdinhand.c:4644
+#: server/stdinhand.c:4635
 #, fuzzy, c-format
 msgid "No Freeciv script found by the name '%s'."
 msgstr "'%s' という名前のコマンド・スクリプトはありません。"
 
-#: server/stdinhand.c:4666
+#: server/stdinhand.c:4657
 #, fuzzy, c-format
 msgid "Loading Freeciv script file '%s'."
 msgstr "スクリプトファイルをロードしています: %s"
 
-#: server/stdinhand.c:4674
+#: server/stdinhand.c:4665
 #, fuzzy, c-format
 msgid "Cannot read Freeciv script '%s'."
 msgstr "コマンドライン・スクリプトファイル '%s' を読むことができません。"
 
-#: server/stdinhand.c:4723
+#: server/stdinhand.c:4714
 msgid "Game not started - cannot delegate yet."
 msgstr ""
 
 #. TRANS: do not translate the command 'delegate'.
-#: server/stdinhand.c:4776
+#: server/stdinhand.c:4767
 #, c-format
 msgid "Valid arguments for 'delegate' are: %s."
 msgstr ""
 
-#: server/stdinhand.c:4796 server/stdinhand.c:4886
+#: server/stdinhand.c:4787 server/stdinhand.c:4877
 #, fuzzy, c-format
 msgid "Command level '%s' or greater needed to modify others' delegations."
 msgstr ""
 "一旦ゲームが開始された後にプレイヤーを削除するには，コマンドレベル'%s'以上が"
 "必要です。"
 
-#: server/stdinhand.c:4805
+#: server/stdinhand.c:4796
 msgid "Please specify a player for whom delegation should be canceled."
 msgstr ""
 
-#: server/stdinhand.c:4816 server/stdinhand.c:4846
+#: server/stdinhand.c:4807 server/stdinhand.c:4837
 #, fuzzy
 msgid "You can't switch players from the console."
 msgstr "ここで新たなプレイヤーとなることはできません。"
 
-#: server/stdinhand.c:4835
+#: server/stdinhand.c:4826
 msgid "Please specify a player for whom the delegation should be shown."
 msgstr ""
 
-#: server/stdinhand.c:4860
+#: server/stdinhand.c:4851
 #, fuzzy
 msgid "Please specify a player to take control of."
 msgstr "新しいプレイヤー %sの作成に失敗しました。"
 
-#: server/stdinhand.c:4871
+#: server/stdinhand.c:4862
 msgid "Please specify a user to whom control is to be delegated."
 msgstr ""
 
-#: server/stdinhand.c:4895
+#: server/stdinhand.c:4886
 #, fuzzy
 msgid "You do not control a player."
 msgstr "そこへ攻撃できません。"
 
-#: server/stdinhand.c:4931
+#: server/stdinhand.c:4922
 #, c-format
 msgid ""
 "Can't delegate control of '%s' belonging to %s while they are controlling "
 "another player."
 msgstr ""
 
-#: server/stdinhand.c:4937
+#: server/stdinhand.c:4928
 #, c-format
 msgid "Can't change delegation of '%s' while controlled by delegate %s."
 msgstr ""
 
-#: server/stdinhand.c:4944
+#: server/stdinhand.c:4935
 msgid ""
 "You can't delegate control while you are controlling a delegated player "
 "yourself."
 msgstr ""
 
 #. TRANS: don't translate 'delegate cancel'
-#: server/stdinhand.c:4958
+#: server/stdinhand.c:4949
 #, c-format
 msgid ""
 "%s already owns '%s', so cannot also be delegate. Use '%sdelegate cancel' to "
@@ -46691,211 +46731,211 @@ msgid ""
 msgstr ""
 
 #. TRANS: don't translate '/delegate cancel'
-#: server/stdinhand.c:4967
+#: server/stdinhand.c:4958
 msgid ""
 "You can't delegate control to yourself. Use '/delegate cancel' to cancel an "
 "existing delegation."
 msgstr ""
 
-#: server/stdinhand.c:4980 server/stdinhand.c:4997
+#: server/stdinhand.c:4971 server/stdinhand.c:4988
 #, fuzzy, c-format
 msgid "Control of player '%s' delegated to user %s."
 msgstr "コンソール: '%s' は %sに設定されました。"
 
-#: server/stdinhand.c:4993 server/stdinhand.c:5008
+#: server/stdinhand.c:4984 server/stdinhand.c:4999
 #, fuzzy, c-format
 msgid "No delegation defined for '%s'."
 msgstr "'%s' という名前の接続はありません。"
 
-#: server/stdinhand.c:5028 server/stdinhand.c:5104 server/stdinhand.c:5134
+#: server/stdinhand.c:5019 server/stdinhand.c:5095 server/stdinhand.c:5125
 msgid "Unexpected failure."
 msgstr ""
 
-#: server/stdinhand.c:5033
+#: server/stdinhand.c:5024
 #, fuzzy, c-format
 msgid "Your delegated control of player '%s' was canceled."
 msgstr "%sを海岸線から離して移動させることはできません。"
 
-#: server/stdinhand.c:5038
+#: server/stdinhand.c:5029
 #, fuzzy, c-format
 msgid "Delegation of '%s' canceled."
 msgstr "%sで祝祭が中止されました。"
 
 #. TRANS: don't translate '/delegate restore'.
-#: server/stdinhand.c:5052
+#: server/stdinhand.c:5043
 msgid ""
 "You are already controlling a delegated player. Use '/delegate restore' to "
 "relinquish control of your current player first."
 msgstr ""
 
 #. TRANS: don't translate '/delegate cancel'.
-#: server/stdinhand.c:5066
+#: server/stdinhand.c:5057
 msgid ""
 "Can't take player while you have delegated control yourself. Use '/delegate "
 "cancel' to cancel your own delegation first."
 msgstr ""
 
 # clefs
-#: server/stdinhand.c:5076
+#: server/stdinhand.c:5067
 #, fuzzy, c-format
 msgid "You already control '%s'."
 msgstr "%sが既に %sを操作しています"
 
-#: server/stdinhand.c:5085
+#: server/stdinhand.c:5076
 #, fuzzy, c-format
 msgid "Control of player '%s' has not been delegated to you."
 msgstr "コンソール: '%s' は %sに設定されました。"
 
 # clefs
-#: server/stdinhand.c:5094
+#: server/stdinhand.c:5085
 #, fuzzy, c-format
 msgid "Another user already controls player '%s'."
 msgstr "%sが既に %sを操作しています"
 
-#: server/stdinhand.c:5110
+#: server/stdinhand.c:5101
 #, fuzzy, c-format
 msgid "%s is now controlling player '%s'."
 msgstr "%sはAIで制御されていません。"
 
-#: server/stdinhand.c:5123
+#: server/stdinhand.c:5114
 #, fuzzy
 msgid "You are not currently controlling a delegated player."
 msgstr "そこへ攻撃できません。"
 
 #. TRANS: "<user> is now connected to <player>" where <player>
 #. * can also be "global observer" or "nothing"
-#: server/stdinhand.c:5142
+#: server/stdinhand.c:5133
 #, fuzzy, c-format
 msgid "%s is now connected as %s."
 msgstr "%s は接続されていません"
 
-#: server/stdinhand.c:5163
+#: server/stdinhand.c:5154
 #, fuzzy, c-format
 msgid "%s (observer)"
 msgstr " (観察者)"
 
-#: server/stdinhand.c:5168
+#: server/stdinhand.c:5159
 #, fuzzy
 msgid "global observer"
 msgstr "全体の観察者"
 
 #. TRANS: in place of player name or "global observer"
-#: server/stdinhand.c:5171
+#: server/stdinhand.c:5162
 #, fuzzy
 msgid "nothing"
 msgstr "拡大"
 
-#: server/stdinhand.c:5226
+#: server/stdinhand.c:5217
 #, fuzzy
 msgid "Ambiguous 'mapimg' command."
 msgstr "オプション名を省略し過ぎです。"
 
-#: server/stdinhand.c:5252 server/stdinhand.c:5505
+#: server/stdinhand.c:5243 server/stdinhand.c:5496
 #, fuzzy, c-format
 msgid "The valid arguments are: %s."
 msgstr "無効な引数 %d"
 
-#: server/stdinhand.c:5267
+#: server/stdinhand.c:5258
 #, fuzzy
 msgid "Missing argument for 'mapimg define'."
 msgstr "\"%s\"への引数がみつかりません。\n"
 
 # Daniel
-#: server/stdinhand.c:5273 server/stdinhand.c:5282
+#: server/stdinhand.c:5264 server/stdinhand.c:5273
 #, fuzzy, c-format
 msgid "Can't use definition: %s."
 msgstr "無効な名前 '%s'"
 
 # Daniel
-#: server/stdinhand.c:5289
+#: server/stdinhand.c:5280
 #, fuzzy, c-format
 msgid "Defined as map image definition %d: '%s'."
 msgstr "無効な名前 '%s'"
 
-#: server/stdinhand.c:5299
+#: server/stdinhand.c:5290
 #, fuzzy
 msgid "Missing argument for 'mapimg delete'."
 msgstr "\"%s\"への引数がみつかりません。\n"
 
-#: server/stdinhand.c:5310
+#: server/stdinhand.c:5301
 msgid "All map image definitions deleted."
 msgstr ""
 
 # Daniel
-#: server/stdinhand.c:5320
+#: server/stdinhand.c:5311
 #, fuzzy, c-format
 msgid "Couldn't delete definition: %s."
 msgstr "無効な名前 '%s'"
 
-#: server/stdinhand.c:5323
+#: server/stdinhand.c:5314
 #, c-format
 msgid "Map image definition %d deleted."
 msgstr ""
 
-#: server/stdinhand.c:5328
+#: server/stdinhand.c:5319
 #, fuzzy, c-format
 msgid "Bad argument for 'mapimg delete': '%s'."
 msgstr "\"%s\"への引数がみつかりません。\n"
 
 # Daniel
-#: server/stdinhand.c:5351
+#: server/stdinhand.c:5342
 #, fuzzy, c-format
 msgid "Couldn't show definition: %s."
 msgstr "無効な名前 '%s'"
 
-#: server/stdinhand.c:5356
+#: server/stdinhand.c:5347
 #, fuzzy, c-format
 msgid "Bad argument for 'mapimg show': '%s'."
 msgstr "\"%s\"への引数がみつかりません。\n"
 
-#: server/stdinhand.c:5367
+#: server/stdinhand.c:5358
 msgid "Map color test images saved."
 msgstr ""
 
-#: server/stdinhand.c:5373
+#: server/stdinhand.c:5364
 #, fuzzy
 msgid "Missing argument for 'mapimg create'."
 msgstr "\"%s\"への引数がみつかりません。\n"
 
-#: server/stdinhand.c:5391 server/stdinhand.c:5408
+#: server/stdinhand.c:5382 server/stdinhand.c:5399
 #, fuzzy, c-format
 msgid "Error saving map image %d: %s."
 msgstr "スクリプトファイルをロードしています: %s"
 
-#: server/stdinhand.c:5413
+#: server/stdinhand.c:5404
 #, fuzzy, c-format
 msgid "Bad argument for 'mapimg create': '%s'."
 msgstr "\"%s\"への引数がみつかりません。\n"
 
-#: server/stdinhand.c:5457
+#: server/stdinhand.c:5448
 msgid "Freeciv database script deactivated at compile time."
 msgstr ""
 
-#: server/stdinhand.c:5475
+#: server/stdinhand.c:5466
 msgid "Ambiguous fcdb command."
 msgstr ""
 
-#: server/stdinhand.c:5607
+#: server/stdinhand.c:5598
 msgid "Not enough human players; game will not start."
 msgstr "人間プレイヤーが足りないので，ゲームを開始できません。"
 
-#: server/stdinhand.c:5612
+#: server/stdinhand.c:5603
 msgid "No players; game will not start."
 msgstr "プレイヤーがいないので，ゲームを開始できません。"
 
-#: server/stdinhand.c:5616
+#: server/stdinhand.c:5607
 msgid "Not enough nations for all players; game will not start."
 msgstr ""
 "プレイヤー全員に割り当てるための国が足りないので，ゲームを開始できません。"
 
 # clefs
-#: server/stdinhand.c:5625
+#: server/stdinhand.c:5617
 msgid "All players are ready; starting game."
 msgstr "全員準備が整いました。ゲームを開始します。"
 
 # clefs
 #. TRANS: given when /start is invoked during gameover.
-#: server/stdinhand.c:5641
+#: server/stdinhand.c:5633
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
@@ -46904,25 +46944,25 @@ msgstr ""
 
 #. TRANS: given when /start is invoked while the game
 #. * is running.
-#: server/stdinhand.c:5648
+#: server/stdinhand.c:5640
 msgid "Cannot start the game: it is already running."
 msgstr "ゲームを開始できません: 既にゲームは始まっています。"
 
-#: server/stdinhand.c:5679
+#: server/stdinhand.c:5671
 #, c-format
 msgid "Cutting connection %s."
 msgstr "%sとの接続を切りました。"
 
 # clefs
-#: server/stdinhand.c:5680
+#: server/stdinhand.c:5672
 msgid "connection cut"
 msgstr "接続切断"
 
-#: server/stdinhand.c:5768
+#: server/stdinhand.c:5760
 msgid "You may not kick yourself."
 msgstr "自分自身は追放できません。"
 
-#: server/stdinhand.c:5791
+#: server/stdinhand.c:5783
 #, c-format
 msgid ""
 "There must be at least %d unique connections to the server for this command "
@@ -46930,11 +46970,11 @@ msgid ""
 msgstr ""
 "このコマンドが有効になるためには，独立した接続が少なくとも %d個以上必要です。"
 
-#: server/stdinhand.c:5817
+#: server/stdinhand.c:5809
 msgid "kicked"
 msgstr "追放済"
 
-#: server/stdinhand.c:5833
+#: server/stdinhand.c:5825
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -46971,171 +47011,171 @@ msgstr ""
 "  quit   -  終了します。"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:5870
+#: server/stdinhand.c:5862
 #, c-format
 msgid "Command: %s  -  %s"
 msgstr "コマンド: %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:5876
+#: server/stdinhand.c:5868
 #, c-format
 msgid "Command: %s"
 msgstr "コマンド: %s"
 
 # Usageと同様にコマンドの引数のとり方を説明する箇所なので、訳を変更しました(Belgae)
-#: server/stdinhand.c:5881
+#: server/stdinhand.c:5873
 msgid "Synopsis: "
 msgstr "使用法: "
 
-#: server/stdinhand.c:5890
+#: server/stdinhand.c:5882
 #, c-format
 msgid "Level: %s"
 msgstr "レベル: %s"
 
-#: server/stdinhand.c:5914
+#: server/stdinhand.c:5906
 msgid "The following server commands are available:"
 msgstr "以下のサーバコマンドが利用できます:"
 
-#: server/stdinhand.c:5975
+#: server/stdinhand.c:5967
 #, c-format
 msgid "Possible matches: %s"
 msgstr "可能性のある引数: %s"
 
-#: server/stdinhand.c:6037
+#: server/stdinhand.c:6029
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "ヘルプ引数 '%s' は省略しすぎです。"
 
-#: server/stdinhand.c:6044
+#: server/stdinhand.c:6036
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "ヘルプ引数 '%s' は理解できません。"
 
-#: server/stdinhand.c:6085
+#: server/stdinhand.c:6077
 msgid "List of connections to server:"
 msgstr "サーバへの接続のリスト:"
 
-#: server/stdinhand.c:6089
+#: server/stdinhand.c:6081
 msgid "<no connections>"
 msgstr "<接続なし>"
 
-#: server/stdinhand.c:6110
+#: server/stdinhand.c:6102
 #, fuzzy
 msgid "List of all delegations:"
 msgstr "チームのリスト:"
 
 #. TRANS: last %s is either " (active)" or empty string
-#: server/stdinhand.c:6122
+#: server/stdinhand.c:6114
 #, c-format
 msgid "%s delegates control over player '%s' to user %s%s."
 msgstr ""
 
-#: server/stdinhand.c:6124
+#: server/stdinhand.c:6116
 #, fuzzy
 msgid " (active)"
 msgstr "活躍中"
 
-#: server/stdinhand.c:6130
+#: server/stdinhand.c:6122
 msgid "No delegations defined."
 msgstr ""
 
-#: server/stdinhand.c:6155
+#: server/stdinhand.c:6147
 msgid "Your ignore list:"
 msgstr "あなたの無視リスト:"
 
-#: server/stdinhand.c:6171
+#: server/stdinhand.c:6163
 msgid "List of players:"
 msgstr "プレイヤーのリスト:"
 
-#: server/stdinhand.c:6175 server/stdinhand.c:6342
+#: server/stdinhand.c:6167 server/stdinhand.c:6334
 msgid "<no players>"
 msgstr "<なし>"
 
-#: server/stdinhand.c:6205
+#: server/stdinhand.c:6197
 #, fuzzy, c-format
 msgid ", user %s"
 msgstr "ユーザ名 %s, "
 
 # clefs
-#: server/stdinhand.c:6209
+#: server/stdinhand.c:6201
 msgid ", ready"
 msgstr ", 準備完了"
 
 # clefs
-#: server/stdinhand.c:6213
+#: server/stdinhand.c:6205
 msgid ", not ready"
 msgstr ", 準備中"
 
-#: server/stdinhand.c:6219
+#: server/stdinhand.c:6211
 msgid ", Dead"
 msgstr ", 死亡"
 
-#: server/stdinhand.c:6233
+#: server/stdinhand.c:6225
 #, c-format
 msgid ", %s"
 msgstr ""
 
-#: server/stdinhand.c:6234
+#: server/stdinhand.c:6226
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", 難易度レベル %s"
 
-#: server/stdinhand.c:6240
+#: server/stdinhand.c:6232
 #, fuzzy, c-format
 msgid ", %d connection:"
 msgid_plural ", %d connections:"
 msgstr[0] " %d接続:"
 
-#: server/stdinhand.c:6247
+#: server/stdinhand.c:6239
 #, fuzzy, c-format
 msgid "%s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s (%sから，コマンドアクセスレベル %s)， bufsize=%dkb"
 
-#: server/stdinhand.c:6252
+#: server/stdinhand.c:6244
 msgid " (observer mode)"
 msgstr " (観察者モード)"
 
-#: server/stdinhand.c:6269
+#: server/stdinhand.c:6261
 msgid "List of scenarios available:"
 msgstr "利用可能なシナリオ一覧:"
 
-#: server/stdinhand.c:6290
+#: server/stdinhand.c:6282
 msgid "List of teams:"
 msgstr "チームのリスト:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:6300
+#: server/stdinhand.c:6292
 #, c-format
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
 msgstr[0] "%2d : '%s' : %d人のプレイヤー"
 
-#: server/stdinhand.c:6321
+#: server/stdinhand.c:6313
 #, fuzzy
 msgid "No map image definitions."
 msgstr "開始時にプレイヤーが所持するユニット"
 
-#: server/stdinhand.c:6323
+#: server/stdinhand.c:6315
 #, fuzzy
 msgid "List of map image definitions:"
 msgstr "開始時にプレイヤーが所持するユニット"
 
-#: server/stdinhand.c:6328
+#: server/stdinhand.c:6320
 #, c-format
 msgid "[%2d] %s"
 msgstr ""
 
-#: server/stdinhand.c:6339
+#: server/stdinhand.c:6331
 #, fuzzy
 msgid "List of player colors:"
 msgstr "プレイヤーのリスト:"
 
-#: server/stdinhand.c:6345
+#: server/stdinhand.c:6337
 #, fuzzy, c-format
 msgid "%s (user %s): [%s]"
 msgstr "%s （番号 %d，提案者 %s）: %s"
 
-#: server/stdinhand.c:6402
+#: server/stdinhand.c:6394
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "listの引数'%s'は間違っています。'%shelp list'を参照してください。"
