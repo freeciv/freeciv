@@ -126,7 +126,22 @@ static void tool_init(enum editor_tool_type ett, const char *name,
   tool->applied_player_no = 0;
 
   if (ett == ETT_TERRAIN_SPECIAL) {
-    tool->value = S_IRRIGATION;
+    struct extra_type *first_special = NULL;
+
+    extra_type_iterate(pextra) {
+      if (!(pextra->causes & (1 << EC_BASE))
+          && !(pextra->causes & (1 << EC_ROAD))) {
+        /* Considers extras that are neither bases or roads, specials */
+        first_special = pextra;
+        break;
+      }
+    } extra_type_iterate_end;
+
+    if (first_special != NULL) {
+      tool->value = extra_index(first_special);
+    } else {
+      tool->value = 0;
+    }
   } else {
     tool->value = 0;
   }
