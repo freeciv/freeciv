@@ -101,6 +101,7 @@ sprites =
 		"f.shield.cantonese", "flags/cantonese-shield-large"
 		"f.shield.cape_verde", "flags/cape_verde-shield-large"
 		"f.shield.car", "flags/car-shield-large"
+		"f.shield.carantanian", "flags/carantanian-shield-large"
 		"f.shield.cartago", "flags/cartago-shield-large"
 		"f.shield.castile", "flags/castile-shield-large"
 		"f.shield.catalan", "flags/catalan-shield-large"
