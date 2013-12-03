@@ -141,6 +141,7 @@ artists = "
    Cyrenaica		Daniel Markstedt and J.M. Maalderink
    Czech		Lauris Kaplinski
    Czechoslovakia	Tlusťa (Wikimedia Commons)
+   Dacian		Andrzej M. Gorzym 
    Dahomey		Daniel Markstedt 
    Darfur		Daniel Markstedt
    DDR			Jwnabd (Wikimedia Commons)
@@ -707,6 +708,7 @@ sprites =
 		"f.cyrenaica", "flags/cyrenaica"
 		"f.czech", "flags/czech"
 		"f.czechoslovakia", "flags/czechoslovakia"
+		"f.dacian", "flags/dacian"
 		"f.dahomey", "flags/dahomey"
 		"f.darfur", "flags/darfur"
 		"f.ddr", "flags/ddr"

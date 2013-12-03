@@ -143,6 +143,7 @@ pkgdata_DATA = \
 		cyrenaican.ruleset \
 		czech.ruleset \
 		czechoslovak.ruleset \
+		dacian.ruleset \
 		dahomean.ruleset \
 		danish.ruleset \
 		darfuri.ruleset \
