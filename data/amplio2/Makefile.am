@@ -14,6 +14,8 @@ pkgdata_DATA =          	\
 	grid.spec		\
 	hills.png		\
 	hills.spec		\
+	maglev.png		\
+	maglev.spec		\
 	medievalcities.png	\
 	medievalcities.spec	\
 	moderncities.png	\
