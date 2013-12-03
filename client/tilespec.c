@@ -4769,33 +4769,33 @@ static int fill_goto_sprite_array(const struct tileset *t,
 ****************************************************************************/
 static bool is_extra_drawing_enabled(struct extra_type *pextra)
 {
-  if (pextra->causes & (1 << EC_IRRIGATION)) {
+  if (is_extra_caused_by(pextra, EC_IRRIGATION)) {
     if (!draw_irrigation) {
       return FALSE;
     }
   }
-  if (pextra->causes & (1 << EC_POLLUTION)
-      || pextra->causes & (1 << EC_FALLOUT)) {
+  if (is_extra_caused_by(pextra, EC_POLLUTION)
+      || is_extra_caused_by(pextra, EC_FALLOUT)) {
     if (!draw_pollution) {
       return FALSE;
     }
   }
-  if (pextra->causes & (1 << EC_MINE)) {
+  if (is_extra_caused_by(pextra, EC_MINE)) {
     if (!draw_mines) {
       return FALSE;
     }
   }
-  if (pextra->causes & (1 << EC_HUT)) {
+  if (is_extra_caused_by(pextra, EC_HUT)) {
     if (!draw_specials) {
       return FALSE;
     }
   }
-  if (pextra->causes & (1 << EC_BASE)) {
+  if (is_extra_caused_by(pextra, EC_BASE)) {
     if (!draw_fortress_airbase) {
       return FALSE;
     }
   }
-  if (pextra->causes & (1 << EC_ROAD)) {
+  if (is_extra_caused_by(pextra, EC_ROAD)) {
     if (!draw_roads_rails) {
       return FALSE;
     }

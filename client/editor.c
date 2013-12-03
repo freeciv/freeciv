@@ -129,8 +129,8 @@ static void tool_init(enum editor_tool_type ett, const char *name,
     struct extra_type *first_special = NULL;
 
     extra_type_iterate(pextra) {
-      if (!(pextra->causes & (1 << EC_BASE))
-          && !(pextra->causes & (1 << EC_ROAD))) {
+      if (!is_extra_caused_by(pextra, EC_BASE)
+          && !is_extra_caused_by(pextra, EC_ROAD)) {
         /* Considers extras that are neither bases or roads, specials */
         first_special = pextra;
         break;

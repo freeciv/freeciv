@@ -2096,7 +2096,7 @@ void create_road(struct tile *ptile, struct road_type *proad)
 ****************************************************************************/
 void destroy_extra(struct tile *ptile, struct extra_type *pextra)
 {
-  if (pextra->causes & (1 << EC_BASE)) {
+  if (is_extra_caused_by(pextra, EC_BASE)) {
     struct base_type *pbase = extra_base_get(pextra);
 
     if (territory_claiming_base(pbase)) {

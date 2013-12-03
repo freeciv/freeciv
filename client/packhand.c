@@ -3218,10 +3218,10 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   pextra->category = p->category;
   pextra->causes = p->causes;
 
-  if (pextra->causes & (1 << EC_BASE)) {
+  if (is_extra_caused_by(pextra, EC_BASE)) {
     base_type_init(pextra, extra_type_list_size(extra_type_list_by_cause(EC_BASE)));
   }
-  if (pextra->causes & (1 << EC_ROAD)) {
+  if (is_extra_caused_by(pextra, EC_ROAD)) {
     road_type_init(pextra, extra_type_list_size(extra_type_list_by_cause(EC_ROAD)));
   }
 

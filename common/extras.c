@@ -452,17 +452,17 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
 {
   struct terrain *pterr = tile_terrain(ptile);
 
-  if (pextra->causes & (1 << EC_IRRIGATION)
+  if (is_extra_caused_by(pextra, EC_IRRIGATION)
       && pterr->irrigation_result != pterr) {
     return FALSE;
   }
 
-  if (pextra->causes & (1 << EC_MINE)
+  if (is_extra_caused_by(pextra, EC_MINE)
       && pterr->mining_result != pterr) {
     return FALSE;
   }
 
-  if (pextra->causes & (1 << EC_HUT)
+  if (is_extra_caused_by(pextra, EC_HUT)
       && is_ocean(pterr)) {
     /* The code can't handle these specials in ocean. */
     return FALSE;
@@ -584,4 +584,12 @@ bool extra_causes_env_upset(struct extra_type *pextra,
   }
 
   return FALSE;
+}
+
+/**************************************************************************
+  Is given cause one of the causes for given extra?
+**************************************************************************/
+bool is_extra_caused_by(const struct extra_type *pextra, enum extra_cause cause)
+{
+  return (pextra->causes & (1 << cause));
 }

@@ -1024,7 +1024,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
         }
       }
 
-      if (!(pextra->causes & (1 << EC_POLLUTION))) {
+      if (!is_extra_caused_by(pextra, EC_POLLUTION)) {
         return FALSE;
       }
 
@@ -1058,7 +1058,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
         }
       }
 
-      if (!(pextra->causes & (1 << EC_FALLOUT))) {
+      if (!is_extra_caused_by(pextra, EC_FALLOUT)) {
         return FALSE;
       }
 
@@ -1092,7 +1092,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
         }
       }
 
-      if (!(pextra->causes & (1 << EC_MINE))) {
+      if (!is_extra_caused_by(pextra, EC_MINE)) {
         return FALSE;
       }
 
@@ -1143,7 +1143,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
         }
       }
 
-      if (!(pextra->causes & (1 << EC_IRRIGATION))) {
+      if (!is_extra_caused_by(pextra, EC_IRRIGATION)) {
         return FALSE;
       }
 

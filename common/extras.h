@@ -128,6 +128,8 @@ void extra_to_caused_by_list(struct extra_type *pextra, enum extra_cause cause);
 struct extra_type_list *extra_type_list_by_cause(enum extra_cause cause);
 struct extra_type *rand_extra_type_by_cause(enum extra_cause cause);
 
+bool is_extra_caused_by(const struct extra_type *pextra, enum extra_cause cause);
+
 bool is_extra_card_near(const struct tile *ptile, const struct extra_type *pextra);
 bool is_extra_near_tile(const struct tile *ptile, const struct extra_type *pextra);
 
