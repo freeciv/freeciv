@@ -58,10 +58,12 @@ data/flags/Makefile.am
 
   Another list of flag files - add your flag to this list.
 
-po/POTFILES.in 
+translations/nations/POTFILES.in 
 
   Here is yet another list of nations files; again add your nation
   (data/nation/<nationname>.ruleset) to it.
+  Nations part of the "core" group go to tranlations/freeciv/POTFILES.in
+  instead.
 
 (See utility/fciconv.[ch])
 The data charset is used in all data files and network transactions.
