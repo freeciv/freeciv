@@ -175,6 +175,7 @@ pkgdata_DATA = \
 		finnish.ruleset \
 		flemish.ruleset \
 		florentine.ruleset \
+		formosan.ruleset \
 		franconian.ruleset \
 		frankish.ruleset \
 		french.ruleset \
