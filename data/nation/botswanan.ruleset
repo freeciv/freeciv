@@ -26,7 +26,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations="Boer", "Zimbabwean"
+civilwar_nations="Boer", "khoisan"
 
 cities =
  "Gaborone",

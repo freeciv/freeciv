@@ -257,6 +257,7 @@ flag_files =				\
 		kenya.png		\
 		khazaria.png		\
 		khmer.png		\
+		khoisan.png		\
 		khwarezm.png		\
 		kiev.png		\
 		kiribati.png		\
@@ -819,6 +820,7 @@ flag_files =				\
 		kenya-large.png		\
 		khazaria-large.png		\
 		khmer-large.png			\
+		khoisan-large.png		\
 		khwarezm-large.png		\
 		kiev-large.png		\
 		kiribati-large.png		\
@@ -1383,6 +1385,7 @@ shield_files =					\
 		kenya-shield.png		\
 		khazaria-shield.png		\
 		khmer-shield.png		\
+		khoisan-shield.png		\
 		khwarezm-shield.png		\
 		kiev-shield.png			\
 		kiribati-shield.png		\
@@ -1945,6 +1948,7 @@ shield_files =					\
 		kenya-shield-large.png		\
 		khazaria-shield-large.png		\
 		khmer-shield-large.png			\
+		khoisan-shield-large.png		\
 		khwarezm-shield-large.png		\
 		kiev-shield-large.png			\
 		kiribati-shield-large.png		\
@@ -2509,6 +2513,7 @@ svg_files = 				\
 		kenya.svg		\
 		khazaria.svg		\
 		khmer.svg		\
+		khoisan.svg		\
 		khwarezm.svg		\
 		kiev.svg		\
 		kiribati.svg		\

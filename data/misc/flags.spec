@@ -264,6 +264,7 @@ artists = "
    Kenya		James Ots
    Khazaria		J.M. Maalderink
    Khmer		Caleb Moore and Daniel Markstedt
+   Khoisan		resodan
    Khwarezm		Dan Cottrell and Daniel Markstedt
    Kiev			Maxim (http://logograd.narod.ru/)
    Kiribati		Patricia Fidi
@@ -831,6 +832,7 @@ sprites =
 		"f.kenya", "flags/kenya"
 		"f.khazaria", "flags/khazaria"
 		"f.khmer", "flags/khmer"
+		"f.khoisan", "flags/khoisan"
 		"f.khwarezm", "flags/khwarezm"
 		"f.kiev", "flags/kiev"
 		"f.kiribati", "flags/kiribati"
