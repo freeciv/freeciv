@@ -7,9 +7,12 @@ dist_noinst_DATA = \
 		clienticon.rc 	\
 		mpicon.rc	\
 		servericon.rc	\
+		installer/create-freeciv-gtk-nsi.sh	\
 		installer/create-freeciv-gtk2-nsi.sh	\
+		installer/create-freeciv-gtk3-nsi.sh	\
 		installer/create-freeciv-sdl-nsi.sh	\
 		installer/freeciv-gtk2.cmd		\
+		installer/freeciv-gtk3.cmd		\
 		installer/freeciv-modpack.cmd		\
 		installer/freeciv-sdl.cmd		\
 		installer/freeciv-server.cmd		\
