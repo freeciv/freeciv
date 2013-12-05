@@ -45,7 +45,7 @@ extern "C" {
 #define MAX_VET_LEVELS 20
 #define MAX_BASE_TYPES 32 /* Used in the network protocol. */
 #define MAX_ROAD_TYPES 8 /* Used in the network protocol. */
-#define MAX_EXTRA_TYPES (S_LAST + MAX_BASE_TYPES + MAX_ROAD_TYPES)
+#define MAX_EXTRA_TYPES (16 + MAX_BASE_TYPES + MAX_ROAD_TYPES)
 #define MAX_DISASTER_TYPES 10
 #define MAX_ACHIEVEMENT_TYPES 10
 #define MAX_NUM_LEADERS MAX_NUM_ITEMS /* Used in the network protocol. */
@@ -385,6 +385,7 @@ struct universal {
 struct ai_choice;			/* incorporates universals_u */
 
 /* Used in the network protocol. */
+BV_DEFINE(bv_extras, MAX_EXTRA_TYPES);
 BV_DEFINE(bv_bases, MAX_BASE_TYPES);
 BV_DEFINE(bv_roads, MAX_ROAD_TYPES);
 BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
@@ -505,8 +506,6 @@ enum tile_special_type {
   S_OLD_RAILROAD,
   S_OLD_RIVER
 };
-
-BV_DEFINE(bv_extras, S_LAST + MAX_BASE_TYPES + MAX_ROAD_TYPES);
 
 /* Used in the network protocol. */
 #define SPECENUM_NAME extra_category
