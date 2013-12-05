@@ -1435,15 +1435,23 @@ static GdkPixbuf *get_tool_value_pixbuf(enum editor_tool_type ett,
     break;
   case ETT_TERRAIN_SPECIAL:
     special = value;
-    pixbuf = create_extra_pixbuf(special_extra_get(special));
+    if (special >= 0) {
+      /* FIXME: Special 0 is legal at the moment, but in the future NULL extra
+       * won't be. */
+      pixbuf = create_extra_pixbuf(special_extra_get(special));
+    }
     break;
   case ETT_ROAD:
     proad = road_by_number(value);
-    pixbuf = create_extra_pixbuf(road_extra_get(proad));
+    if (proad != NULL) {
+      pixbuf = create_extra_pixbuf(road_extra_get(proad));
+    }
     break;
   case ETT_MILITARY_BASE:
     pbase = base_by_number(value);
-    pixbuf = create_extra_pixbuf(base_extra_get(pbase));
+    if (pbase != NULL) {
+      pixbuf = create_extra_pixbuf(base_extra_get(pbase));
+    }
     break;
   case ETT_UNIT:
     putype = utype_by_number(value);
