@@ -4523,6 +4523,8 @@ static int fill_terrain_sprite_layer(struct tileset *t,
   const int l = (draw->is_reversed
 		 ? (draw->num_layers - layer_num - 1) : layer_num);
 
+  fc_assert(layer_num < TERRAIN_LAYER_COUNT);
+
   /* Skip the normal drawing process. */
   /* FIXME: this should avoid calling load_sprite since it's slow and
    * increases the refcount without limit. */
@@ -4543,9 +4545,9 @@ static int fill_terrain_sprite_layer(struct tileset *t,
     }
   }
 
-  /* Add darkness on top of the first layer.  Note that darkness is always
+  /* Add darkness on top of the topmost terrain layer.  Note that darkness is always
    * drawn, even in citymode, etc. */
-  if (l == 0) {
+  if (layer_num == TERRAIN_LAYER_COUNT - 1) {
     sprs += fill_terrain_sprite_darkness(t, sprs, ptile, tterrain_near);
   }
 

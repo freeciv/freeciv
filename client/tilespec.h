@@ -80,7 +80,7 @@ enum mapview_layer {
   LAYER_BACKGROUND,
   LAYER_TERRAIN1,
   LAYER_TERRAIN2,
-  LAYER_TERRAIN3,
+  LAYER_TERRAIN3, /* Adjust also TERRAIN_LAYER_COUNT if changing these */
   LAYER_WATER,
   LAYER_ROADS,
   LAYER_SPECIAL1,
@@ -100,6 +100,8 @@ enum mapview_layer {
   LAYER_EDITOR,
   LAYER_COUNT
 };
+
+#define TERRAIN_LAYER_COUNT 3
 
 #define mapview_layer_iterate(layer)			                    \
 {									    \
