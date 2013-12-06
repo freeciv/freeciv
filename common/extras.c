@@ -117,6 +117,7 @@ void extras_free(void)
 
   for (i = 0; i < EC_COUNT + 1; i++) {
     extra_type_list_destroy(caused_by[i]);
+    caused_by[i] = NULL;
   }
 
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {

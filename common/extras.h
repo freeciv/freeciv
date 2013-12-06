@@ -183,10 +183,12 @@ struct extra_type *prev_extra_in_tile(const struct tile *ptile, enum extra_cause
 #define extra_type_by_cause_iterate(_cause, _extra)                 \
 {                                                                   \
   struct extra_type_list *_etl_ = extra_type_list_by_cause(_cause); \
-  extra_type_list_iterate(_etl_, _extra) {
+  if (_etl_ != NULL) {                                              \
+    extra_type_list_iterate(_etl_, _extra) {
 
 #define extra_type_by_cause_iterate_end                    \
-  } extra_type_list_iterate_end                            \
+    } extra_type_list_iterate_end                          \
+  }                                                        \
 }
 
 #define extra_type_by_cause_iterate_rev(_cause, _extra)             \

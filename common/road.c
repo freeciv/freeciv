@@ -79,7 +79,7 @@ struct road_type *road_by_number(Road_type_id id)
 
   roads = extra_type_list_by_cause(EC_ROAD);
 
-  if (id < 0 || id >= extra_type_list_size(roads)) {
+  if (roads == NULL || id < 0 || id >= extra_type_list_size(roads)) {
     return NULL;
   }
 

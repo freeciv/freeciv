@@ -226,7 +226,7 @@ struct base_type *base_by_number(const Base_type_id id)
 
   bases = extra_type_list_by_cause(EC_BASE);
 
-  if (id < 0 || id >= extra_type_list_size(bases)) {
+  if (bases == NULL || id < 0 || id >= extra_type_list_size(bases)) {
     return NULL;
   }
 
