@@ -1214,7 +1214,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
           if (BV_ISSET(pspresent, idx) && !BV_ISSET(psworking, idx)) {
             /* Cannot pillage roads from city tiles. */
             /* FIXME: Should depend on flags. Also bases. */
-            if (pextra->type != EXTRA_ROAD || !tile_city(ptile)) {
+            if (!is_extra_caused_by(pextra, EC_ROAD) || !tile_city(ptile)) {
               bool required = FALSE;
 
               extra_type_iterate(pdepending) {

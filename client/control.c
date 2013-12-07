@@ -1139,7 +1139,7 @@ bool can_unit_do_connect(struct unit *punit,
    *     (b) it can be done by the unit at this tile. */
   switch (activity) {
   case ACTIVITY_GEN_ROAD:
-    fc_assert(tgt->type == EXTRA_ROAD);
+    fc_assert(is_extra_caused_by(tgt, EC_ROAD));
 
     proad = extra_road_get(tgt);
 

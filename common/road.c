@@ -93,8 +93,6 @@ void road_type_init(struct extra_type *pextra, int idx)
 {
   struct road_type *proad;
 
-  pextra->type = EXTRA_ROAD;
-
   proad = fc_malloc(sizeof(*proad));
 
   pextra->data.road = proad;
@@ -183,7 +181,7 @@ struct road_type *road_type_by_rule_name(const char *name)
 {
   struct extra_type *pextra = extra_type_by_rule_name(name);
 
-  if (pextra == NULL || pextra->type != EXTRA_ROAD) {
+  if (pextra == NULL) {
     return NULL;
   }
 
@@ -198,7 +196,7 @@ struct road_type *road_type_by_translated_name(const char *name)
 {
   struct extra_type *pextra = extra_type_by_translated_name(name);
 
-  if (pextra == NULL || pextra->type != EXTRA_ROAD) {
+  if (pextra == NULL) {
     return NULL;
   }
 
@@ -458,7 +456,7 @@ bool is_cardinal_only_road(const struct extra_type *pextra)
 {
   const struct road_type *proad;
 
-  if (pextra->type != EXTRA_ROAD) {
+  if (!is_extra_caused_by(pextra, EC_ROAD)) {
     return FALSE;
   }
 

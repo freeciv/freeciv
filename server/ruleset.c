@@ -828,7 +828,7 @@ static enum unit_move_type move_type_from_extra(struct extra_type *pextra,
     return unit_move_type_invalid();
   }
 
-  if (pextra->type == EXTRA_ROAD
+  if (is_extra_caused_by(pextra, EC_ROAD)
       && road_has_flag(extra_road_get(pextra), RF_RIVER)) {
     /* Natural rivers are created to land only */
     sea_allowed = FALSE;

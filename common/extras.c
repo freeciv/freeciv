@@ -51,7 +51,6 @@ void extras_init(void)
   for (i = 0; i < S_LAST; i++) {
     enum extra_cause cause;
 
-    extras[i].type = EXTRA_SPECIAL;
     extras[i].data.special = i;
     switch(i) {
     case S_IRRIGATION:
@@ -84,12 +83,11 @@ void extras_init(void)
     extra_to_caused_by_list(&extras[i], cause);
   }
 
-  /* This is still needed to make sure type is not EXTRA_BASE
+  /* This is still needed to make sure there's no EC_BASE
    * which would make base_type_by_rule_name(), used in
    * ruleset loading sanity checking, to return this extra
-   * instead of NULL for what is supposed to later become EXTRA_ROAD. */
+   * instead of NULL for what is supposed to later become EC_ROAD. */
   for (;i < MAX_EXTRA_TYPES; i++) {
-    extras[i].type = EXTRA_SPECIAL;
     extras[i].causes = 0;
   }
 }
@@ -235,20 +233,16 @@ struct extra_type *extra_type_by_translated_name(const char *name)
 /**************************************************************************
   Returns base type of extra.
 **************************************************************************/
-struct base_type *extra_base_get(struct extra_type *pextra)
+struct base_type *extra_base_get(const struct extra_type *pextra)
 {
-  fc_assert_ret_val(pextra->type == EXTRA_BASE, NULL);
-
   return pextra->data.base;
 }
 
 /**************************************************************************
   Returns road type of extra.
 **************************************************************************/
-struct road_type *extra_road_get(struct extra_type *pextra)
+struct road_type *extra_road_get(const struct extra_type *pextra)
 {
-  fc_assert_ret_val(pextra->type == EXTRA_ROAD, NULL);
-
   return pextra->data.road;
 }
 
@@ -257,8 +251,6 @@ struct road_type *extra_road_get(struct extra_type *pextra)
 **************************************************************************/
 const struct base_type *extra_base_get_const(const struct extra_type *pextra)
 {
-  fc_assert_ret_val(pextra->type == EXTRA_BASE, NULL);
-
   return pextra->data.base;
 }
 
@@ -267,8 +259,6 @@ const struct base_type *extra_base_get_const(const struct extra_type *pextra)
 **************************************************************************/
 const struct road_type *extra_road_get_const(const struct extra_type *pextra)
 {
-  fc_assert_ret_val(pextra->type == EXTRA_ROAD, NULL);
-
   return pextra->data.road;
 }
 
@@ -346,9 +336,6 @@ bool is_extra_near_tile(const struct tile *ptile, const struct extra_type *pextr
 bool extra_can_be_built(const struct extra_type *pextra,
                         const struct tile *ptile)
 {
-  /* We support only specials at this time. */
-  fc_assert(pextra->type == EXTRA_SPECIAL);
-
   if (!pextra->buildable) {
     /* Extra type not buildable */
     return FALSE;
@@ -369,22 +356,18 @@ static bool can_build_extra_base(const struct extra_type *pextra,
                                  const struct player *pplayer,
                                  const struct tile *ptile)
 {
-  switch(pextra->type) {
-  case EXTRA_SPECIAL:
-    if (!extra_can_be_built(pextra, ptile)) {
-      return FALSE;
-    }
-    break;
-  case EXTRA_ROAD:
-    if (!can_build_road_base(extra_road_get_const(pextra), pplayer, ptile)) {
-      return FALSE;
-    }
-    break;
-  case EXTRA_BASE:
-    if (!base_can_be_built(extra_base_get_const(pextra), ptile)) {
-      return FALSE;
-    }
-    break;
+  if (is_extra_caused_by(pextra, EC_BASE)
+      && base_can_be_built(extra_base_get_const(pextra), ptile)) {
+    return FALSE;
+  }
+
+  if (is_extra_caused_by(pextra, EC_ROAD)
+      && !can_build_road_base(extra_road_get_const(pextra), pplayer, ptile)) {
+    return FALSE;
+  }
+
+  if (!extra_can_be_built(pextra, ptile)) {
+    return FALSE;
   }
 
   return TRUE;
@@ -463,22 +446,31 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
     return FALSE;
   }
 
+  if (is_extra_caused_by(pextra, EC_BASE)
+      && pterr->base_time == 0) {
+    return FALSE;
+  }
+
+  if (is_extra_caused_by(pextra, EC_ROAD)) {
+    struct road_type *proad = extra_road_get(pextra);
+
+    if (road_has_flag(proad, RF_RIVER)) {
+      if (!terrain_has_flag(pterr, TER_CAN_HAVE_RIVER)) {
+        return FALSE;
+      }
+    } else if (pterr->road_time == 0) {
+      return FALSE;
+    }
+  }
+
   if (is_extra_caused_by(pextra, EC_HUT)
       && is_ocean(pterr)) {
     /* The code can't handle these specials in ocean. */
     return FALSE;
   }
 
-  switch(pextra->type) {
-  case EXTRA_SPECIAL:
-    return TRUE;
-  case EXTRA_BASE:
-    return is_native_tile_to_base(extra_base_get_const(pextra), ptile);
-  case EXTRA_ROAD:
-    return is_native_tile_to_road(extra_road_get_const(pextra), ptile);
-  }
-
-  return FALSE;
+  return are_reqs_active(NULL, NULL, NULL, NULL, ptile,
+                         NULL, NULL, NULL, &pextra->reqs, RPT_POSSIBLE);
 }
 
 /****************************************************************************

@@ -56,7 +56,6 @@ extern "C" {
 struct extra_type
 {
   int id;
-  enum extra_type_id type;
   struct name_translation name;
   enum extra_category category;
   enum extra_cause causes;
@@ -119,8 +118,8 @@ const char *extra_rule_name(const struct extra_type *pextra);
 struct extra_type *extra_type_by_rule_name(const char *name);
 struct extra_type *extra_type_by_translated_name(const char *name);
 
-struct base_type *extra_base_get(struct extra_type *pextra);
-struct road_type *extra_road_get(struct extra_type *pextra);
+struct base_type *extra_base_get(const struct extra_type *pextra);
+struct road_type *extra_road_get(const struct extra_type *pextra);
 const struct base_type *extra_base_get_const(const struct extra_type *pextra);
 const struct road_type *extra_road_get_const(const struct extra_type *pextra);
 

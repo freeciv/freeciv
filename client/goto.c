@@ -502,7 +502,7 @@ static int get_activity_time(const struct tile *ptile,
     activity_mc = pterrain->irrigation_time;
     break;
   case ACTIVITY_GEN_ROAD:
-    fc_assert(connect_tgt->type == EXTRA_ROAD);
+    fc_assert(is_extra_caused_by(connect_tgt, EC_ROAD));
     {
       struct road_type *proad = extra_road_get(connect_tgt);
 

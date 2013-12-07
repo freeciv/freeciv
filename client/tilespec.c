@@ -3949,7 +3949,7 @@ static int fill_road_sprite_array(const struct tileset *t,
           hider_dir = TRUE;
         }
         if (hland_near[dir]
-            && phider->type == EXTRA_ROAD
+            && is_extra_caused_by(phider, EC_ROAD)
             && extra_has_flag(phider, EF_CONNECT_LAND)) {
           land_dir = TRUE;
         }

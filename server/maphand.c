@@ -2023,11 +2023,7 @@ void create_base(struct tile *ptile, struct base_type *pbase,
   extra_type_iterate(old_extra) {
     if (tile_has_extra(ptile, old_extra)
         && !can_extras_coexist(old_extra, base_extra_get(pbase))) {
-      if (old_extra->type == EXTRA_BASE) {
-        destroy_extra(ptile, old_extra);
-      } else {
-        tile_remove_extra(ptile, old_extra);
-      }
+      destroy_extra(ptile, old_extra);
       extras_removed = TRUE;
     }
   } extra_type_iterate_end;

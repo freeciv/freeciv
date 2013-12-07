@@ -388,7 +388,10 @@ static inline bool tile_really_has_any_specials(const struct tile *ptile)
   }
 
   extra_type_iterate(pextra) {
-    if (pextra->type == EXTRA_SPECIAL && tile_has_extra(ptile, pextra)) {
+    /* TODO: use EC_SPECIAL once it's implemented */
+    if (tile_has_extra(ptile, pextra)
+        && !is_extra_caused_by(pextra, EC_BASE)
+        && !is_extra_caused_by(pextra, EC_ROAD)) {
       return TRUE;
     }
   } extra_type_iterate_end;
@@ -1492,8 +1495,10 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
       break;
     case EBT_SPECIAL:
       extra_type_iterate(pextra) {
-        if (pextra->type == EXTRA_SPECIAL
-            && tile_has_extra(ptile, pextra)) {
+        /* TODO: EC_SPECIAL */
+        if (tile_has_extra(ptile, pextra)
+            && !is_extra_caused_by(pextra, EC_BASE)
+            && !is_extra_caused_by(pextra, EC_ROAD)) {
           tile_add_extra(vtile, pextra);
           copied = TRUE;
         }
@@ -1501,16 +1506,16 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
       break;
     case EBT_BASE:
      extra_type_iterate(pextra) {
-        if (pextra->type == EXTRA_BASE
-            && tile_has_extra(ptile, pextra)) {
+        if (tile_has_extra(ptile, pextra)
+            && is_extra_caused_by(pextra, EC_BASE)) {
           tile_add_extra(vtile, pextra);
           copied = TRUE;
         }
       } extra_type_iterate_end;
     case EBT_ROAD:
      extra_type_iterate(pextra) {
-        if (pextra->type == EXTRA_ROAD
-            && tile_has_extra(ptile, pextra)) {
+        if (tile_has_extra(ptile, pextra)
+            && is_extra_caused_by(pextra, EC_ROAD)) {
           tile_add_extra(vtile, pextra);
           copied = TRUE;
         }
@@ -1627,8 +1632,10 @@ static void paste_tile(struct edit_buffer *ebuf,
       break;
     case EBT_SPECIAL:
       extra_type_iterate(pextra) {
-        if (pextra->type == EXTRA_SPECIAL
-            && tile_has_extra(vtile, pextra)) {
+        /* TODO: EC_SPECIAL */
+        if (tile_has_extra(vtile, pextra)
+            && !is_extra_caused_by(pextra, EC_BASE)
+            && !is_extra_caused_by(pextra, EC_ROAD)) {
           BV_SET(tile_packet.extras, extra_index(pextra));
           send_edit_tile = TRUE;
         }
@@ -1636,8 +1643,8 @@ static void paste_tile(struct edit_buffer *ebuf,
       break;
     case EBT_BASE:
       extra_type_iterate(pextra) {
-        if (pextra->type == EXTRA_BASE
-            && tile_has_extra(vtile, pextra)) {
+        if (tile_has_extra(vtile, pextra)
+            && is_extra_caused_by(pextra, EC_BASE)) {
           BV_SET(tile_packet.extras, extra_index(pextra));
           send_edit_tile = TRUE;
         }
@@ -1645,8 +1652,8 @@ static void paste_tile(struct edit_buffer *ebuf,
       break;
     case EBT_ROAD:
       extra_type_iterate(pextra) {
-        if (pextra->type == EXTRA_ROAD
-            && tile_has_extra(vtile, pextra)) {
+        if (tile_has_extra(vtile, pextra)
+            && is_extra_caused_by(pextra, EC_ROAD)) {
           BV_SET(tile_packet.extras, extra_index(pextra));
           send_edit_tile = TRUE;
         }

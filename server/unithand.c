@@ -2351,12 +2351,12 @@ void handle_unit_orders(struct player *pplayer,
         }
         break;
       case ACTIVITY_BASE:
-        if (extra_by_number(packet->target[i])->type != EXTRA_BASE) {
+        if (!is_extra_caused_by(extra_by_number(packet->target[i]), EC_BASE)) {
           return;
         }
         break;
       case ACTIVITY_GEN_ROAD:
-        if (extra_by_number(packet->target[i])->type != EXTRA_ROAD) {
+        if (!is_extra_caused_by(extra_by_number(packet->target[i]), EC_ROAD)) {
           return;
         }
         break;

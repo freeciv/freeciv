@@ -1501,8 +1501,10 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       case OPID_TILE_SPECIALS:
         BV_CLR_ALL(pv->data.v_bv_special);
         extra_type_iterate(pextra) {
-          if (pextra->type == EXTRA_SPECIAL
-              && tile_has_extra(ptile, pextra)) {
+          /* TODO: EC_SPECIAL */
+          if (tile_has_extra(ptile, pextra)
+              && !is_extra_caused_by(pextra, EC_BASE)
+              && !is_extra_caused_by(pextra, EC_ROAD)) {
             BV_SET(pv->data.v_bv_special, pextra->data.special);
           }
         } extra_type_iterate_end;
@@ -1510,8 +1512,8 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       case OPID_TILE_ROADS:
         BV_CLR_ALL(pv->data.v_bv_roads);
         extra_type_iterate(pextra) {
-          if (pextra->type == EXTRA_ROAD
-              && tile_has_extra(ptile, pextra)) {
+          if (tile_has_extra(ptile, pextra)
+              && is_extra_caused_by(pextra, EC_ROAD)) {
             BV_SET(pv->data.v_bv_roads, road_index(extra_road_get(pextra)));
           }
         } extra_type_iterate_end;
@@ -1519,8 +1521,8 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       case OPID_TILE_BASES:
         BV_CLR_ALL(pv->data.v_bv_bases);
         extra_type_iterate(pextra) {
-          if (pextra->type == EXTRA_BASE
-              && tile_has_extra(ptile, pextra)) {
+          if (tile_has_extra(ptile, pextra)
+              && is_extra_caused_by(pextra, EC_BASE)) {
             BV_SET(pv->data.v_bv_bases, base_index(extra_base_get(pextra)));
           }
         } extra_type_iterate_end;
@@ -2324,8 +2326,10 @@ static void objbind_pack_modified_value(struct objbind *ob,
       switch (propid) {
       case OPID_TILE_SPECIALS:
         extra_type_iterate(pextra) {
-          if (pextra->type == EXTRA_SPECIAL
-              && BV_ISSET(pv->data.v_bv_special, pextra->data.special)) {
+          /* TODO: EC_SPECIAL */
+          if (BV_ISSET(pv->data.v_bv_special, pextra->data.special)
+              && !is_extra_caused_by(pextra, EC_BASE)
+              && !is_extra_caused_by(pextra, EC_ROAD)) {
             BV_SET(packet->extras, pextra->data.special);
           } else {
             BV_CLR(packet->extras, pextra->data.special);
@@ -2334,7 +2338,7 @@ static void objbind_pack_modified_value(struct objbind *ob,
         return;
       case OPID_TILE_ROADS:
         extra_type_iterate(pextra) {
-          if (pextra->type == EXTRA_ROAD) {
+          if (is_extra_caused_by(pextra, EC_ROAD)) {
             int ridx = road_index(extra_road_get(pextra));
 
             if (BV_ISSET(pv->data.v_bv_roads, ridx)) {
@@ -2347,7 +2351,7 @@ static void objbind_pack_modified_value(struct objbind *ob,
         return;
       case OPID_TILE_BASES:
         extra_type_iterate(pextra) {
-          if (pextra->type == EXTRA_BASE) {
+          if (is_extra_caused_by(pextra, EC_BASE)) {
             int bidx = base_index(extra_base_get(pextra));
 
             if (BV_ISSET(pv->data.v_bv_bases, bidx)) {

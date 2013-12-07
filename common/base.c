@@ -133,7 +133,7 @@ struct base_type *base_type_by_rule_name(const char *name)
 {
   struct extra_type *pextra = extra_type_by_rule_name(name);
 
-  if (pextra == NULL || pextra->type != EXTRA_BASE) {
+  if (pextra == NULL || !is_extra_caused_by(pextra, EC_BASE)) {
     return NULL;
   }
 
@@ -148,7 +148,7 @@ struct base_type *base_type_by_translated_name(const char *name)
 {
   struct extra_type *pextra = extra_type_by_translated_name(name);
 
-  if (pextra == NULL || pextra->type != EXTRA_BASE) {
+  if (pextra == NULL || !is_extra_caused_by(pextra, EC_BASE)) {
     return NULL;
   }
 
@@ -279,8 +279,6 @@ Base_type_id base_count(void)
 void base_type_init(struct extra_type *pextra, int idx)
 {
   struct base_type *pbase;
-
-  pextra->type = EXTRA_BASE;
 
   pbase = fc_malloc(sizeof(*pbase));
 
