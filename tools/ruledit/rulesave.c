@@ -420,6 +420,8 @@ static bool save_nations_ruleset(const char *filename, const char *name)
     return FALSE;
   }
 
+  secfile_insert_include(sfile, "default/nationlist.ruleset");
+
   return save_ruleset_file(sfile, filename);
 }
 

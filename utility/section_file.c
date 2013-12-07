@@ -76,6 +76,7 @@ struct section_file *secfile_new(bool allow_duplicates)
 
   secfile->name = NULL;
   secfile->num_entries = 0;
+  secfile->num_includes = 0;
   secfile->sections = section_list_new_full(section_destroy);
   secfile->allow_duplicates = allow_duplicates;
   secfile->allow_digital_boolean = FALSE; /* Default */

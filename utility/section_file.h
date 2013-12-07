@@ -24,6 +24,7 @@ extern "C" {
 /* Section structure. */
 struct section {
   struct section_file *secfile; /* Parent structure. */
+  bool include;
   char *name;                   /* Name of the section. */
   struct entry_list *entries;   /* The list of the children. */
 };
@@ -32,6 +33,7 @@ struct section {
 struct section_file {
   char *name;                           /* Can be NULL. */
   size_t num_entries;
+  size_t num_includes;
   struct section_list *sections;
   bool allow_duplicates;
   bool allow_digital_boolean;
