@@ -29,7 +29,7 @@ class tab_misc : public QWidget
     explicit tab_misc(QWidget *parent, ruledit_gui *ui_in);
 
   private slots:
-    void savedir_given();
+    void save_now();
 
   private:
     ruledit_gui *ui;

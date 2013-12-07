@@ -18,6 +18,7 @@
 // Qt
 #include <QGridLayout>
 #include <QLineEdit>
+#include <QPushButton>
 
 // utility
 #include "fcintl.h"
@@ -39,6 +40,7 @@ tab_misc::tab_misc(QWidget *parent, ruledit_gui *ui_in) :
   QGridLayout *main_layout = new QGridLayout(this);
   QLabel *save_label;
   QLabel *name_label;
+  QPushButton *save_button;
 
   ui = ui_in;
 
@@ -56,8 +58,10 @@ tab_misc::tab_misc(QWidget *parent, ruledit_gui *ui_in) :
   savedir = new QLineEdit(this);
   savedir->setText("ruledit-tmp");
   savedir->setFocus();
-  connect(savedir, SIGNAL(returnPressed()), this, SLOT(savedir_given()));
   main_layout->addWidget(savedir, 1, 1);
+  save_button = new QPushButton(R__("Save now"), this);
+  connect(save_button, SIGNAL(pressed()), this, SLOT(save_now()));
+  main_layout->addWidget(save_button, 2, 0);
 
   setLayout(main_layout);
 }
@@ -65,7 +69,7 @@ tab_misc::tab_misc(QWidget *parent, ruledit_gui *ui_in) :
 /**************************************************************************
   User entered savedir
 **************************************************************************/
-void tab_misc::savedir_given()
+void tab_misc::save_now()
 {
   save_ruleset(savedir->text().toUtf8().data(), name->text().toUtf8().data());
 
