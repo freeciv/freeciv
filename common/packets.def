@@ -1417,6 +1417,8 @@ PACKET_RULESET_TERRAIN = 151; sc, lsend
   UINT8 mining_shield_incr;
   UINT8 mining_time;
 
+  SINT16 animal;
+
   TERRAIN transform_result;
   UINT8 transform_time;
   UINT8 clean_pollution_time;

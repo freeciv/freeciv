@@ -31,7 +31,7 @@ extern "C" {
 #define MAX_NUM_PLAYER_SLOTS 160 /* Used in the network protocol. */
                                  /* Must be divisable by 32 or iterations
                                   * in savegame2.c needs to be changed */
-#define MAX_NUM_BARBARIANS   10  /* 2, but slots reserved for future use. */
+#define MAX_NUM_BARBARIANS   10  /* 3, but slots reserved for future use. */
 #define MAX_NUM_PLAYERS      MAX_NUM_PLAYER_SLOTS - MAX_NUM_BARBARIANS
 /* Used in the network protocol. */
 #define MAX_NUM_CONNECTIONS (2 * (MAX_NUM_PLAYER_SLOTS))
@@ -248,7 +248,8 @@ enum ai_level {
 enum barbarian_type {
   NOT_A_BARBARIAN = 0,
   LAND_BARBARIAN = 1,
-  SEA_BARBARIAN = 2
+  SEA_BARBARIAN = 2,
+  ANIMAL_BARBARIAN = 3
 };
 
 #define FC_AI_LAST 3

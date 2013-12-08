@@ -3143,6 +3143,11 @@ void handle_ruleset_terrain(const struct packet_ruleset_terrain *p)
   pterrain->mining_result = terrain_by_number(p->mining_result);
   pterrain->mining_shield_incr = p->mining_shield_incr;
   pterrain->mining_time = p->mining_time;
+  if (p->animal < 0) {
+    pterrain->animal = NULL;
+  } else {
+    pterrain->animal = utype_by_number(p->animal);
+  }
   pterrain->transform_result = terrain_by_number(p->transform_result);
   pterrain->transform_time = p->transform_time;
   pterrain->clean_pollution_time = p->clean_pollution_time;

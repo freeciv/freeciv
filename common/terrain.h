@@ -212,6 +212,8 @@ struct terrain {
   int clean_pollution_time;
   int clean_fallout_time;
 
+  struct unit_type *animal;
+
   /* May be NULL if the transformation is impossible. */
   struct terrain *warmer_wetter_result, *warmer_drier_result;
   struct terrain *cooler_wetter_result, *cooler_drier_result;

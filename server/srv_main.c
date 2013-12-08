@@ -91,6 +91,7 @@
 
 /* server */
 #include "aiiface.h"
+#include "animals.h"
 #include "auth.h"
 #include "barbarian.h"
 #include "cityhand.h"
@@ -2643,6 +2644,7 @@ static void srv_ready(void)
     if (map.server.generator != MAPGEN_SCENARIO) {
       script_server_signal_emit("map_generated", 0);
     }
+
     game_map_init();
   }
 
@@ -2740,6 +2742,7 @@ static void srv_ready(void)
 
   if (game.info.is_new_game) {
     init_new_game();
+    create_animals();
 
     if (game.server.revealmap & REVEAL_MAP_START) {
       players_iterate(pplayer) {

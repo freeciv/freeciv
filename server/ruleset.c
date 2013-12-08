@@ -2716,6 +2716,13 @@ static bool load_ruleset_terrain(struct section_file *file)
       break;
     }
 
+    if (!lookup_unit_type(file, tsection, "animal",
+                          &pterrain->animal, filename,
+                          rule_name(&pterrain->name))) {
+      ok = FALSE;
+      break;
+    }
+
     pterrain->transform_result
       = lookup_terrain(file, "transform_result", pterrain);
     if (!lookup_time(file, &pterrain->transform_time,
@@ -3951,34 +3958,29 @@ static bool load_ruleset_nations(struct section_file *file)
       if (fc_strcasecmp(barb_type, "None") == 0) {
         pnation->barb_type = NOT_A_BARBARIAN;
       } else if (fc_strcasecmp(barb_type, "Land") == 0) {
-        if (pnation->is_playable) {
-          /* We can't allow players to use barbarian nations, barbarians
-           * may run out of nations */
-          ruleset_error(LOG_ERROR,
-                        "Nation %s marked both barbarian and playable.",
-                        nation_rule_name(pnation));
-          ok = FALSE;
-          break;
-        }
         pnation->barb_type = LAND_BARBARIAN;
         barb_land_count++;
       } else if (fc_strcasecmp(barb_type, "Sea") == 0) {
-        if (pnation->is_playable) {
-          /* We can't allow players to use barbarian nations, barbarians
-           * may run out of nations */
-          ruleset_error(LOG_ERROR,
-                        "Nation %s marked both barbarian and playable.",
-                        nation_rule_name(pnation));
-          ok = FALSE;
-          break;
-        }
         pnation->barb_type = SEA_BARBARIAN;
         barb_sea_count++;
+      } else if (fc_strcasecmp(barb_type, "Animal") == 0) {
+        pnation->barb_type = ANIMAL_BARBARIAN;
       } else {
         ruleset_error(LOG_ERROR,
                       "Nation %s, barbarian_type is \"%s\". Must be "
                       "\"None\" or \"Land\" or \"Sea\".",
                       nation_rule_name(pnation), barb_type);
+        ok = FALSE;
+        break;
+      }
+
+      if (pnation->barb_type != NOT_A_BARBARIAN
+          && pnation->is_playable) {
+        /* We can't allow players to use barbarian nations, barbarians
+         * may run out of nations */
+        ruleset_error(LOG_ERROR,
+                      "Nation %s marked both barbarian and playable.",
+                      nation_rule_name(pnation));
         ok = FALSE;
         break;
       }
@@ -5550,6 +5552,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
     packet.mining_shield_incr = pterrain->mining_shield_incr;
     packet.mining_time = pterrain->mining_time;
 
+    packet.animal = (pterrain->animal == NULL ? -1 : utype_number(pterrain->animal));
     packet.transform_result = (pterrain->transform_result
 			       ? terrain_number(pterrain->transform_result)
 			       : terrain_count());

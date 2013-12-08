@@ -561,6 +561,19 @@ bool sanity_check_ruleset_data(void)
         }
       }
     } unit_class_iterate_end;
+
+    if (pterr->animal != NULL) {
+      bv_extras no_extras;
+
+      BV_CLR_ALL(no_extras);
+
+      if (!is_native_terrain(pterr->animal, pterr, no_extras)) {
+        ruleset_error(LOG_ERROR,
+                      "%s has %s as animal to appear, but it's not native to the terrain.",
+                      terrain_rule_name(pterr), utype_rule_name(pterr->animal));
+        ok = FALSE;
+      }
+    }
   } terrain_type_iterate_end;
 
   /* Check that all unit classes can exist somewhere */

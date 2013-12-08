@@ -2173,7 +2173,8 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
     return pick_a_nation(choices, ignore_conflicts, only_available, barb_type);
   }
 
-  log_error("No nation found!");
+  log_verbose("No nation found!");
+
   return NO_NATION_SELECTED;
 }
 

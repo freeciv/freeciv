@@ -35,6 +35,8 @@ exe_sources = \
 libfreeciv_srv_la_SOURCES = \
 		aiiface.c	\
 		aiiface.h	\
+		animals.c	\
+		animals.h	\
 		auth.c		\
 		auth.h		\
 		barbarian.c	\

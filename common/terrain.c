@@ -48,6 +48,7 @@ void terrains_init(void)
     /* Can't use terrain_by_number here because it does a bounds check. */
     civ_terrains[i].item_number = i;
     civ_terrains[i].rgb = NULL;
+    civ_terrains[i].animal = NULL;
   }
   for (i = 0; i < ARRAY_SIZE(civ_resources); i++) {
     civ_resources[i].item_number = i;
