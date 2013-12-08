@@ -541,10 +541,10 @@ enum tile_special_type special_by_rule_name(const char *name)
 {
   struct extra_type *pextra = extra_type_by_rule_name(name);
 
-  /* TODO: EC_SPECIAL */
   if (pextra == NULL
       || is_extra_caused_by(pextra, EC_BASE)
       || is_extra_caused_by(pextra, EC_ROAD)) {
+    /* Cannot check if !EC_SPECIAL as EC_SPECIAL is only list, not bit */
     return S_LAST;
   }
 

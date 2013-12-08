@@ -1500,14 +1500,11 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         break;
       case OPID_TILE_SPECIALS:
         BV_CLR_ALL(pv->data.v_bv_special);
-        extra_type_iterate(pextra) {
-          /* TODO: EC_SPECIAL */
-          if (tile_has_extra(ptile, pextra)
-              && !is_extra_caused_by(pextra, EC_BASE)
-              && !is_extra_caused_by(pextra, EC_ROAD)) {
+        extra_type_by_cause_iterate(EC_SPECIAL, pextra) {
+          if (tile_has_extra(ptile, pextra)) {
             BV_SET(pv->data.v_bv_special, pextra->data.special);
           }
-        } extra_type_iterate_end;
+        } extra_type_by_cause_iterate_end;
         break;
       case OPID_TILE_ROADS:
         BV_CLR_ALL(pv->data.v_bv_roads);
@@ -2325,16 +2322,13 @@ static void objbind_pack_modified_value(struct objbind *ob,
 
       switch (propid) {
       case OPID_TILE_SPECIALS:
-        extra_type_iterate(pextra) {
-          /* TODO: EC_SPECIAL */
-          if (BV_ISSET(pv->data.v_bv_special, pextra->data.special)
-              && !is_extra_caused_by(pextra, EC_BASE)
-              && !is_extra_caused_by(pextra, EC_ROAD)) {
+        extra_type_by_cause_iterate(EC_SPECIAL, pextra) {
+          if (BV_ISSET(pv->data.v_bv_special, pextra->data.special)) {
             BV_SET(packet->extras, pextra->data.special);
           } else {
             BV_CLR(packet->extras, pextra->data.special);
           }
-        } extra_type_iterate_end;
+        } extra_type_by_cause_iterate_end;
         return;
       case OPID_TILE_ROADS:
         extra_type_iterate(pextra) {

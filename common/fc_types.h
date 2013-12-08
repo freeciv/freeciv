@@ -532,6 +532,8 @@ enum tile_special_type {
 #define SPECENUM_COUNT EC_COUNT
 #include "specenum_gen.h"
 #define EC_NONE EC_COUNT
+#define EC_SPECIAL (EC_NONE + 1)
+#define EC_LAST (EC_NONE + 2)
 
 /* Used in the network protocol. */
 #define SPECENUM_NAME achievement_type

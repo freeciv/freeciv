@@ -27,7 +27,7 @@
 
 static struct extra_type extras[MAX_EXTRA_TYPES];
 
-static struct extra_type_list *caused_by[EC_COUNT + 1];
+static struct extra_type_list *caused_by[EC_LAST];
 
 /****************************************************************************
   Initialize extras structures.
@@ -36,7 +36,7 @@ void extras_init(void)
 {
   int i;
 
-  for (i = 0; i < EC_COUNT + 1; i++) {
+  for (i = 0; i < EC_LAST; i++) {
     caused_by[i] = extra_type_list_new();
   }
 
@@ -81,6 +81,7 @@ void extras_init(void)
     }
 
     extra_to_caused_by_list(&extras[i], cause);
+    extra_to_caused_by_list(&extras[i], EC_SPECIAL);
   }
 
   /* This is still needed to make sure there's no EC_BASE
@@ -113,7 +114,7 @@ void extras_free(void)
     }
   }
 
-  for (i = 0; i < EC_COUNT + 1; i++) {
+  for (i = 0; i < EC_LAST; i++) {
     extra_type_list_destroy(caused_by[i]);
     caused_by[i] = NULL;
   }
@@ -267,7 +268,7 @@ const struct road_type *extra_road_get_const(const struct extra_type *pextra)
 **************************************************************************/
 struct extra_type_list *extra_type_list_by_cause(enum extra_cause cause)
 {
-  fc_assert(cause < EC_COUNT || cause == EC_NONE);
+  fc_assert(cause < EC_LAST);
 
   return caused_by[cause];
 }
@@ -297,7 +298,7 @@ struct extra_type *rand_extra_type_by_cause(enum extra_cause cause)
 **************************************************************************/
 void extra_to_caused_by_list(struct extra_type *pextra, enum extra_cause cause)
 {
-  fc_assert(cause < EC_COUNT || cause == EC_NONE);
+  fc_assert(cause < EC_LAST);
 
   extra_type_list_append(caused_by[cause], pextra);
 }
@@ -584,5 +585,9 @@ bool extra_causes_env_upset(struct extra_type *pextra,
 **************************************************************************/
 bool is_extra_caused_by(const struct extra_type *pextra, enum extra_cause cause)
 {
+  /* There's some extra cause lists about EC_COUNT that do not have equivalent
+   * bit in pextra->causes */
+  fc_assert(cause < EC_COUNT);
+
   return (pextra->causes & (1 << cause));
 }
