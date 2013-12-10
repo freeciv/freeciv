@@ -16,12 +16,12 @@ if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ; then
 
   if test "x$cxx_works" = "xyes" ; then
 
-    FC_QT
+    FC_QT5
 
-    if test x$fc_qt_usable = xtrue ; then
-      GUI_qt_CPPFLAGS=$FC_QT_CPPFLAGS
-      GUI_qt_CXXFLAGS=$FC_QT_CXXFLAGS
-      GUI_qt_LIBS=$FC_QT_LIBS
+    if test x$fc_qt5_usable = xtrue ; then
+      GUI_qt_CPPFLAGS=$FC_QT5_CPPFLAGS
+      GUI_qt_CXXFLAGS=$FC_QT5_CXXFLAGS
+      GUI_qt_LIBS=$FC_QT5_LIBS
     else
       AC_MSG_RESULT([not found])
     fi
@@ -30,7 +30,7 @@ if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ; then
     AC_MSG_RESULT([not found])
   fi
 
-  if test "x$fc_qt_usable" = "xtrue" ; then
+  if test "x$fc_qt5_usable" = "xtrue" ; then
     gui_qt=yes
     if test "x$client" = "xauto" ; then
       client=yes
