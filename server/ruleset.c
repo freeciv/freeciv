@@ -3705,10 +3705,8 @@ static bool load_ruleset_nations(struct section_file *file)
   int barb_land_count = 0;
   int barb_sea_count = 0;
   const char *sval;
-  struct government *default_government = NULL;
   const char *filename = secfile_name(file);
   struct section_list *sec;
-  int default_traits[TRAIT_COUNT];
   enum trait tr;
   const char **allowed_govs, **allowed_terrains, **allowed_cstyles;
   size_t agcount, atcount, acscount;
@@ -3718,10 +3716,12 @@ static bool load_ruleset_nations(struct section_file *file)
     return FALSE;
   }
 
-  ruleset_load_traits(default_traits, file, "default_traits", "");
+  game.server.default_government = NULL;
+
+  ruleset_load_traits(game.server.default_traits, file, "default_traits", "");
   for (tr = trait_begin(); tr != trait_end(); tr = trait_next(tr)) {
-    if (default_traits[tr] < 0) {
-      default_traits[tr] = TRAIT_DEFAULT_VALUE;
+    if (game.server.default_traits[tr] < 0) {
+      game.server.default_traits[tr] = TRAIT_DEFAULT_VALUE;
     }
   }
 
@@ -3738,7 +3738,7 @@ static bool load_ruleset_nations(struct section_file *file)
    * specified once so not vulnerable to typos, and may usefully be set in
    * a specific ruleset to a gov not explicitly known by the nation set. */
   if (sval != NULL) {
-    default_government = government_by_rule_name(sval);
+    game.server.default_government = government_by_rule_name(sval);
   }
 
   set_allowed_nation_groups(NULL);
@@ -3939,7 +3939,7 @@ static bool load_ruleset_nations(struct section_file *file)
       ruleset_load_traits(pnation->server.traits, file, sec_name, "trait_");
       for (tr = trait_begin(); tr != trait_end(); tr = trait_next(tr)) {
         if (pnation->server.traits[tr] < 0) {
-          pnation->server.traits[tr] = default_traits[tr];
+          pnation->server.traits[tr] = game.server.default_traits[tr];
         }
       }
 
@@ -4156,7 +4156,7 @@ static bool load_ruleset_nations(struct section_file *file)
       fc_strlcat(tmp, sec_name, 200);
       fc_strlcat(tmp, ".init_government", 200);
       pnation->init_government = lookup_government(file, tmp, filename,
-                                                   default_government);
+                                                   game.server.default_government);
       /* init_government has to be in this specific ruleset, not just
        * allowed_govs */
       if (pnation->init_government == NULL) {

@@ -236,6 +236,9 @@ struct civ_game {
       } mutexes;
 
       int first_timeout;
+
+      int default_traits[TRAIT_COUNT];
+      struct government *default_government;
     } server;
   };
 

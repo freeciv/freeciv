@@ -410,6 +410,36 @@ static bool save_governments_ruleset(const char *filename, const char *name)
 }
 
 /**************************************************************************
+  Save list of AI traits
+**************************************************************************/
+static bool save_traits(int *traits, int *default_traits,
+                        struct section_file *sfile,
+                        const char *secname, const char *field_prefix)
+{
+  enum trait tr;
+
+ /* FIXME: Use specenum trait names without duplicating them here.
+   *        Just needs to take care of case. */
+  const char *trait_names[] = {
+    "expansionist",
+    "trader",
+    "aggressive",
+    NULL
+  };
+
+  for (tr = trait_begin(); tr != trait_end() && trait_names[tr] != NULL;
+       tr = trait_next(tr)) {
+    if ((default_traits == NULL && traits[tr] != TRAIT_DEFAULT_VALUE)
+        || (default_traits != NULL && traits[tr] != default_traits[tr])) {
+      secfile_insert_int(sfile, traits[tr], "%s.%s%s", secname, field_prefix,
+                         trait_names[tr]);
+    }
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
   Save nations.ruleset
 **************************************************************************/
 static bool save_nations_ruleset(const char *filename, const char *name)
@@ -418,6 +448,16 @@ static bool save_nations_ruleset(const char *filename, const char *name)
 
   if (sfile == NULL) {
     return FALSE;
+  }
+
+  save_traits(game.server.default_traits, NULL, sfile,
+              "default_traits", "");
+
+  /* TODO: allowed_govs, allowed_terrains, allowed_cstyles */
+
+  if (game.server.default_government != NULL) {
+    secfile_insert_str(sfile, government_rule_name(game.server.default_government),
+                       "compatibility.default_government");
   }
 
   secfile_insert_include(sfile, "default/nationlist.ruleset");
