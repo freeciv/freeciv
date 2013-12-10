@@ -111,7 +111,7 @@
  * #define foo_list_both_iterate(foolist, plink, pfoo)                      \
  *   TYPED_LIST_BOTH_ITERATE(struct foo_list_link, foo_t,                   \
                              foolist, plink, pfoo)
- * #define foo_list_link_iterate_full_end LIST_BOTH_ITERATE_END
+ * #define foo_list_both_iterate_end LIST_BOTH_ITERATE_END
  *
  * #define foo_list_both_iterate_rev(foolist, pfoo)                         \
  *   TYPED_LIST_BOTH_ITERATE_REV(struct foo_list_link, foo_t,               \
