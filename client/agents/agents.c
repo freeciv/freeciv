@@ -61,6 +61,11 @@ struct call {
     TYPED_LIST_ITERATE(struct call, calllist, pcall)
 #define call_list_iterate_end  LIST_ITERATE_END
 
+#define call_list_both_iterate(calllist, plink, pcall) \
+    TYPED_LIST_BOTH_ITERATE(struct call_list_link, struct call, \
+                            calllist, plink, pcall)
+#define call_list_both_iterate_end  LIST_BOTH_ITERATE_END
+
 /*
  * Main data structure. Contains all registered agents and all
  * outstanding calls.
@@ -110,8 +115,9 @@ static bool calls_are_equal(const struct call *pcall1,
 }
 
 /***********************************************************************
- If the call described by the given arguments isn't contained in
- agents.calls list add the call to this list.
+  If the call described by the given arguments isn't contained in
+  agents.calls list, add the call to this list.
+  Maintains the list in a sorted order.
 ***********************************************************************/
 static void enqueue_call(struct my_agent *agent,
 			 enum oct type,
@@ -121,6 +127,7 @@ static void enqueue_call(struct my_agent *agent,
   struct call *pcall2;
   int arg = 0;
   const struct tile *ptile;
+  bool added = FALSE;
 
   va_start(ap, cb_type);
 
@@ -150,32 +157,38 @@ static void enqueue_call(struct my_agent *agent,
   pcall2->cb_type = cb_type;
   pcall2->arg = arg;
 
-  call_list_iterate(agents.calls, pcall) {
+  /* Ensure list is sorted so that calls to agents with lower levels
+   * come first, since that's how we'll want to pop them */
+  call_list_both_iterate(agents.calls, plink, pcall) {
     if (calls_are_equal(pcall, pcall2)) {
+      /* Already got one like this, discard duplicate. */
       free(pcall2);
       return;
     }
-  } call_list_iterate_end;
+    if (pcall->agent->agent.level - pcall2->agent->agent.level > 0) {
+      /* Found a level greater than ours. Can assume that calls_are_equal()
+       * will never be true from here on, since list is sorted by level and
+       * unequal levels => unequal agents => !calls_are_equal().
+       * Insert into list here. */
+      call_list_insert_before(agents.calls, pcall2, plink);
+      added = TRUE;
+      break;
+    }
+  } call_list_both_iterate_end;
 
-  call_list_prepend(agents.calls, pcall2);
+  if (!added) {
+    call_list_append(agents.calls, pcall2);
+  }
 
   log_todo_lists("A: adding call");
 
+  /* agents_busy() may have changed */
   update_turn_done_button_state();
 }
 
 /***********************************************************************
- Helper.
-***********************************************************************/
-static int my_call_sort(const struct call *const *ppa,
-                        const struct call *const *ppb)
-{
-  return (*ppa)->agent->agent.level - (*ppb)->agent->agent.level;
-}
-
-/***********************************************************************
- Return an outstanding call. The call is removed from the agents.calls
- list. Returns NULL if there no more outstanding calls.
+  Return an outstanding call. The call is removed from the agents.calls
+  list. Returns NULL if there no more outstanding calls.
 ***********************************************************************/
 static struct call *remove_and_return_a_call(void)
 {
@@ -185,11 +198,8 @@ static struct call *remove_and_return_a_call(void)
     return NULL;
   }
 
-  /* get calls to agents with low levels first */
-  call_list_sort(agents.calls, my_call_sort);
-
-  result = call_list_get(agents.calls, 0);
-  call_list_remove(agents.calls, result);
+  result = call_list_front(agents.calls);
+  call_list_pop_front(agents.calls);
 
   log_todo_lists("A: removed call");
   return result;
