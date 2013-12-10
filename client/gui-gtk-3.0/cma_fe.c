@@ -483,7 +483,12 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
     gtk_button_set_label(GTK_BUTTON(pdialog->active_command),
                          _("Governor Disabl_ed"));
   }
+#if GTK_CHECK_VERSION(3,6,0)
+  /* We want the state of this button to be as obvious as possible, so
+   * players aren't scratching their heads over why the controls aren't
+   * doing anything. */
   gtk_button_set_always_show_image(GTK_BUTTON(pdialog->active_command), TRUE);
+#endif
   gtk_widget_set_sensitive(pdialog->result_label, controlled);
 
   cm_result_destroy(result);
