@@ -225,7 +225,8 @@ bool upgrade_city_extras(struct city *pcity)
     if (!tile_has_extra(ptile, pextra)) {
       if (extra_has_flag(pextra, EF_ALWAYS_ON_CITY_CENTER)
           || (extra_has_flag(pextra, EF_AUTO_ON_CITY_CENTER)
-              && player_can_build_extra(pextra, pplayer, ptile))) {
+              && player_can_build_extra(pextra, pplayer, ptile)
+              && !tile_has_conflicting_extra(ptile, pextra))) {
         tile_add_extra(pcity->tile, pextra);
         upgradet = TRUE;
       }
