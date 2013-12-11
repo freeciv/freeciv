@@ -290,7 +290,8 @@ bool upgrade_city_bases(struct city *pcity)
     if (!tile_has_base(ptile, pbase)) {
       if (base_has_flag(pbase, BF_ALWAYS_ON_CITY_CENTER)
           || (base_has_flag(pbase, BF_AUTO_ON_CITY_CENTER)
-              && player_can_build_base(pbase, pplayer, ptile))) {
+              && player_can_build_base(pbase, pplayer, ptile)
+              && !tile_has_conflicting_base(ptile, pbase))) {
         tile_add_base(pcity->tile, pbase);
         upgradet = TRUE;
       }

@@ -124,6 +124,7 @@ bv_bases tile_bases(const struct tile *ptile);
 bv_roads tile_roads(const struct tile *ptile);
 void tile_set_bases(struct tile *ptile, bv_bases bases);
 bool tile_has_base(const struct tile *ptile, const struct base_type *pbase);
+bool tile_has_conflicting_base(const struct tile *ptile, const struct base_type *pbase);
 bool tile_has_any_bases(const struct tile *ptile);
 void tile_add_base(struct tile *ptile, const struct base_type *pbase);
 void tile_remove_base(struct tile *ptile, const struct base_type *pbase);

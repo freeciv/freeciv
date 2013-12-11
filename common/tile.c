@@ -844,6 +844,21 @@ bool tile_has_base(const struct tile *ptile, const struct base_type *pbase)
 }
 
 /****************************************************************************
+  Returns TRUE if the given tile has a base conflicting with the given one.
+****************************************************************************/
+bool tile_has_conflicting_base(const struct tile *ptile, const struct base_type *pbase)
+{
+  base_type_iterate(pconfl) {
+    if (BV_ISSET(pbase->conflicts, base_index(pconfl))
+        && tile_has_base(ptile, pconfl)) {
+      return TRUE;
+    }
+  } base_type_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
   Returns TRUE if the given tile has any bases on it.
 ****************************************************************************/
 bool tile_has_any_bases(const struct tile *ptile)
