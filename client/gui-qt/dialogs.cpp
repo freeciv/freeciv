@@ -920,7 +920,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     action_entry(cd,
                  action_enabled_unit_on_city_local(
                    ACTION_ESTABLISH_EMBASSY, punit, pcity),
-                 QString(_("Establish _Embassy")),
+                 QString(_("Establish Embassy")),
                  diplomat_embassy, qv1, qv2);
 
     action_entry(cd,
@@ -937,7 +937,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     action_entry(cd,
                  action_enabled_unit_on_city_local(
                    ACTION_SPY_SABOTAGE_CITY, punit, pcity),
-                 QString(_("_Sabotage City")),
+                 QString(_("Sabotage City")),
                  diplomat_sabotage, qv1, qv2);
 
     action_entry(cd,
