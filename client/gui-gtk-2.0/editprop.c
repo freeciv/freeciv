@@ -892,11 +892,11 @@ static gchar *propval_as_string(struct propval *pv)
     return g_strdup_printf(_("%d known"), count);
 
   case VALTYPE_BV_SPECIAL:
-    tile_special_type_iterate(spe) {
-      if (BV_ISSET(pv->data.v_bv_special, spe)) {
+    extra_type_by_cause_iterate(EC_SPECIAL, spe) {
+      if (BV_ISSET(pv->data.v_bv_special, spe->data.special)) {
         count++;
       }
-    } tile_special_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
     /* TRANS: "The number of terrain specials (e.g. hut,
      * river, pollution, etc.) present on a tile." */
     return g_strdup_printf(_("%d present"), count);
@@ -3648,13 +3648,13 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
 
   case OPID_TILE_SPECIALS:
     gtk_list_store_clear(store);
-    tile_special_type_iterate(spe) {
-      id = spe;
-      name = special_name_translation(spe);
-      present = BV_ISSET(pv->data.v_bv_special, spe);
+    extra_type_by_cause_iterate(EC_SPECIAL, spe) {
+      id = spe->data.special;
+      name = extra_name_translation(spe);
+      present = BV_ISSET(pv->data.v_bv_special, id);
       gtk_list_store_append(store, &iter);
       gtk_list_store_set(store, &iter, 0, present, 1, id, 2, name, -1);
-    } tile_special_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
     buf = propval_as_string(pv);
     gtk_label_set_text(GTK_LABEL(ev->panel_label), buf);
     g_free(buf);

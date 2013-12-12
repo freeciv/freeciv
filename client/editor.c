@@ -503,25 +503,26 @@ static void editor_grab_tool(const struct tile *ptile)
     value = road_number(first_road);
 
   } else if (tile_really_has_any_specials(ptile)) {
-    int specials_array[S_LAST];
-    int count = 0, i, special = -1;
+    struct extra_type *specials_array[MAX_EXTRA_TYPES];
+    int count = 0, i;
+    struct extra_type *special = NULL;
 
-    tile_special_type_iterate(s) {
+    extra_type_by_cause_iterate(EC_SPECIAL, s) {
       specials_array[count++] = s;
-    } tile_special_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
 
     /* Grab specials in reverse order of enum tile_special_type. */
 
     for (i = count - 1; i >= 0; i--) {
-      if (tile_has_special(ptile, specials_array[i])) {
+      if (tile_has_extra(ptile, specials_array[i])) {
         special = specials_array[i];
         break;
       }
     }
 
-    if (special >= 0) {
+    if (special != NULL) {
       ett = ETT_TERRAIN_SPECIAL;
-      value = special;
+      value = special->data.special;
     }
   } else if (tile_resource(ptile) != NULL) {
     ett = ETT_TERRAIN_RESOURCE;

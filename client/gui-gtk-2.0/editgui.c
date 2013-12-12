@@ -823,18 +823,18 @@ static void editbar_reload_tileset(struct editbar *eb)
   store = tvs->store;
   gtk_list_store_clear(store);
 
-  tile_special_type_iterate(special) {
+  extra_type_by_cause_iterate(EC_SPECIAL, spe) {
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
-                       TVS_COL_ID, special,
-                       TVS_COL_NAME, special_name_translation(special),
+                       TVS_COL_ID, spe->data.special,
+                       TVS_COL_NAME, extra_name_translation(spe),
                        -1);
-    pixbuf = create_extra_pixbuf(special_extra_get(special));
+    pixbuf = create_extra_pixbuf(spe);
     if (pixbuf != NULL) {
       gtk_list_store_set(store, &iter, TVS_COL_IMAGE, pixbuf, -1);
       g_object_unref(pixbuf);
     }
-  } tile_special_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
   tvs = eb->tool_selectors[ETT_ROAD];
   store = tvs->store;

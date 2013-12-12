@@ -40,18 +40,6 @@ enum special_river_move {
 
 BV_DEFINE(bv_special, S_LAST); /* Used in the network protocol. */
 
-/* NB: This does not include S_FORTRESS and S_AIRBASE.
- * You must use base_type_iterate and related accessors
- * in base.h for those. */
-#define tile_special_type_iterate(special)                                 \
-{                                                                          \
-  enum tile_special_type special = 0;                                      \
-  for (; special < S_LAST; special++) {                                    \
-    
-#define tile_special_type_iterate_end                                      \
-  }                                                                        \
-}
-
 /* === */
 
 struct resource {
