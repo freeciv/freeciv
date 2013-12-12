@@ -61,6 +61,7 @@
 #include "notify.h"
 #include "plrhand.h"
 #include "ruleset.h"
+#include "savecompat.h"
 #include "score.h"
 #include "settings.h"
 #include "spacerace.h"
@@ -216,7 +217,6 @@
   }									    \
 }
 
-static const char hex_chars[] = "0123456789abcdef";
 static const char num_chars[] =
   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-+";
 
@@ -233,41 +233,6 @@ static struct player *identifier_to_player(char c);
 static void worklist_load(struct section_file *file, struct worklist *pwl,
                           const char *path, ...)
                           fc__attribute((__format__ (__printf__, 3, 4)));
-
-/***************************************************************
-This returns an ascii hex value of the given half-byte of the binary
-integer. See ascii_hex2bin().
-  example: bin2ascii_hex(0xa00, 2) == 'a'
-***************************************************************/
-#define bin2ascii_hex(value, halfbyte_wanted) \
-  hex_chars[((value) >> ((halfbyte_wanted) * 4)) & 0xf]
-
-/***************************************************************
-This returns a binary integer value of the ascii hex char, offset by
-the given number of half-bytes. See bin2ascii_hex().
-  example: ascii_hex2bin('a', 2) == 0xa00
-This is only used in loading games, and it requires some error
-checking so it's done as a function.
-***************************************************************/
-static int ascii_hex2bin(char ch, int halfbyte)
-{
-  const char *pch;
-
-  if (ch == ' ') {
-    /* 
-     * Sane value. It is unknow if there are savegames out there which
-     * need this fix. Savegame.c doesn't write such savegames
-     * (anymore) since the inclusion into CVS (2000-08-25).
-     */
-    return 0;
-  }
-  
-  pch = strchr(hex_chars, ch);
-
-  fc_assert_ret_val_msg(NULL != pch && '\0' != ch, 0,
-                        "Unknown hex value: '%c' %d", ch, ch);
-  return (pch - hex_chars) << (halfbyte * 4);
-}
 
 /****************************************************************************
   Converts single character into numerical value. This is not hex conversion.
