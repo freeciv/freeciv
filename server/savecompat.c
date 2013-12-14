@@ -26,6 +26,12 @@
 
 bool sg_success;
 
+static char *special_names[] =
+  {
+    "Irrigation", "Mine", "Pollution", "Hut", "Farmland",
+    "Fallout", NULL
+  };
+
 static void compat_load_020400(struct loaddata *loading);
 static void compat_load_020500(struct loaddata *loading);
 static void compat_load_020600(struct loaddata *loading);
@@ -152,6 +158,32 @@ int ascii_hex2bin(char ch, int halfbyte)
   sg_failure_ret_val(NULL != pch && '\0' != ch, 0,
                      "Unknown hex value: '%c' %d", ch, ch);
   return (pch - hex_chars) << (halfbyte * 4);
+}
+
+/****************************************************************************
+  Return the special with the given name, or S_LAST.
+****************************************************************************/
+enum tile_special_type special_by_rule_name(const char *name)
+{
+  int i;
+
+  for (i = 0; special_names[i] != NULL; i++) {
+    if (!strcmp(name, special_names[i])) {
+      return i;
+    }
+  }
+
+  return S_LAST;
+}
+
+/****************************************************************************
+  Return the untranslated name of the given special.
+****************************************************************************/
+const char *special_rule_name(enum tile_special_type type)
+{
+  fc_assert(type >= 0 && type < S_LAST);
+
+  return special_names[type];
 }
 
 /* =======================================================================

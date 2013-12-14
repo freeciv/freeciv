@@ -536,51 +536,6 @@ bool is_resource_near_tile(const struct tile *ptile,
 }
 
 /****************************************************************************
-  Return the special with the given name, or S_LAST.
-****************************************************************************/
-enum tile_special_type special_by_rule_name(const char *name)
-{
-  struct extra_type *pextra = extra_type_by_rule_name(name);
-
-  if (pextra == NULL
-      || is_extra_caused_by(pextra, EC_BASE)
-      || is_extra_caused_by(pextra, EC_ROAD)) {
-    /* Cannot check if !EC_SPECIAL as EC_SPECIAL is only list, not bit */
-    return S_LAST;
-  }
-
-  return pextra->data.special;
-}
-
-/****************************************************************************
-  Return the translated name of the given special.
-****************************************************************************/
-const char *special_name_translation(enum tile_special_type type)
-{
-  struct extra_type *pextra = special_extra_get(type);
-
-  if (pextra == NULL) {
-    return NULL;
-  }
-
-  return extra_name_translation(pextra);
-}
-
-/****************************************************************************
-  Return the untranslated name of the given special.
-****************************************************************************/
-const char *special_rule_name(enum tile_special_type type)
-{
-  struct extra_type *pextra = special_extra_get(type);
-
-  if (pextra == NULL) {
-    return NULL;
-  }
-
-  return extra_rule_name(pextra);
-}
-
-/****************************************************************************
   Add the given special to the set.
 ****************************************************************************/
 void set_special(bv_special *set, enum tile_special_type to_set)

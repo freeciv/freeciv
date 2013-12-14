@@ -122,4 +122,7 @@ int current_compat_ver(void);
 char bin2ascii_hex(int value, int halfbyte_wanted);
 int ascii_hex2bin(char ch, int halfbyte);
 
+enum tile_special_type special_by_rule_name(const char *name);
+const char *special_rule_name(enum tile_special_type type);
+
 #endif /* FC__SAVECOMPAT_H */

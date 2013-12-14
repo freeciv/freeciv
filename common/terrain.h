@@ -305,10 +305,6 @@ const char *resource_rule_name(const struct resource *presource);
 const char *resource_name_translation(const struct resource *presource);
 
 /* General special accessor functions. */
-enum tile_special_type special_by_rule_name(const char *name);
-const char *special_rule_name(enum tile_special_type type);
-const char *special_name_translation(enum tile_special_type type);
-
 void set_special(bv_special *set, enum tile_special_type to_set);
 void clear_special(bv_special *set, enum tile_special_type to_clear);
 void clear_all_specials(bv_special *set);

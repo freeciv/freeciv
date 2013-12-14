@@ -1134,7 +1134,7 @@ const char *editor_tool_get_value_name(enum editor_tool_type emt, int value)
     if (!(0 <= value && value < S_LAST)) {
       return "";
     }
-    return special_name_translation(value);
+    return extra_name_translation(special_extra_get(value));
     break;
   case ETT_ROAD:
     proad = road_by_number(value);
