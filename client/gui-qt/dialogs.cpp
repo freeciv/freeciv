@@ -904,7 +904,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     cd->unit_id = diplomat_id;
     if (diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile)) {
       func = diplomat_embassy;
-      cd->add_item(QString(_("Establish _Embassy")),
+      cd->add_item(QString(_("Establish Embassy")),
                             func, qv1, qv2);
     }
     if (diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile)) {
@@ -914,7 +914,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     if (!unit_has_type_flag(punit, UTYF_SPY)) {
       if (diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile)) {
         func = diplomat_sabotage;
-        cd->add_item(QString(_("_Sabotage City")), func, qv1, qv2);
+        cd->add_item(QString(_("Sabotage City")), func, qv1, qv2);
       }
       if (diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile)) {
         func = diplomat_steal;
