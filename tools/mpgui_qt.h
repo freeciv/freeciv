@@ -14,10 +14,19 @@
 #ifndef FC__MPGUI_QT_H
 #define FC__MPGUI_QT_H
 
+#ifdef HAVE_CONFIG_H
+#include <fc_config.h>
+#endif
+
 // Qt
 #include <QObject>
 #include <QLabel>
 #include <QLineEdit>
+
+// tools
+#include "modinst.h"
+
+struct QTableWidget;
 
 class mpgui : public QObject
 {
@@ -26,14 +35,20 @@ class mpgui : public QObject
   public:
     void setup(QWidget *central);
     void display_msg(const char *msg);
+    void setup_list(const char *name, const char *URL,
+                    const char *version, const char *license,
+                    enum modpack_type type, const char *notes);
 
   private slots:
     void URL_given();
+    void row_selected(int, int);
+    void row_download(int, int);
 
   private:
 
     QLineEdit *URLedit;
     QLabel *msg_dspl;
+    QTableWidget *mplist_table;
 };
 
 #endif // FC__MPGUI_QT_H
