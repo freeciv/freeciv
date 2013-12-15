@@ -536,103 +536,6 @@ bool is_resource_near_tile(const struct tile *ptile,
 }
 
 /****************************************************************************
-  Add the given special to the set.
-****************************************************************************/
-void set_special(bv_special *set, enum tile_special_type to_set)
-{
-  fc_assert_ret(to_set >= 0 && to_set < S_LAST);
-  BV_SET(*set, to_set);
-}
-
-/****************************************************************************
-  Remove the given special from the set.
-****************************************************************************/
-void clear_special(bv_special *set, enum tile_special_type to_clear)
-{
-  fc_assert_ret(to_clear >= 0 && to_clear < S_LAST);
-  BV_CLR(*set, to_clear);
-}
-
-/****************************************************************************
-  Clear all specials from the set.
-****************************************************************************/
-void clear_all_specials(bv_special *set)
-{
-  BV_CLR_ALL(*set);
-}
-
-/****************************************************************************
- Returns TRUE iff the given special is found in the given set.
-****************************************************************************/
-bool contains_special(bv_special set,
-		      enum tile_special_type to_test_for)
-{
-  fc_assert_ret_val(to_test_for >= 0 && to_test_for < S_LAST, FALSE);
-  return BV_ISSET(set, to_test_for);
-}
-
-/****************************************************************************
- Returns TRUE iff any specials are set on the tile.
-****************************************************************************/
-bool contains_any_specials(bv_special set)
-{
-  return BV_ISSET_ANY(set);
-}
-
-/****************************************************************************
-  Returns TRUE iff any cardinally tile adjacent to (map_x,map_y) has the
-  given special.
-****************************************************************************/
-bool is_special_card_near(const struct tile *ptile, enum tile_special_type spe,
-                          bool check_self)
-{
-  cardinal_adjc_iterate(ptile, adjc_tile) {
-    if (tile_has_special(adjc_tile, spe)) {
-      return TRUE;
-    }
-  } cardinal_adjc_iterate_end;
-
-  return check_self && tile_has_special(ptile, spe);
-}
-
-/****************************************************************************
-  Returns TRUE iff any tile adjacent to (map_x,map_y) has the given special.
-****************************************************************************/
-bool is_special_near_tile(const struct tile *ptile, enum tile_special_type spe,
-                          bool check_self)
-{
-  adjc_iterate(ptile, adjc_tile) {
-    if (tile_has_special(adjc_tile, spe)) {
-      return TRUE;
-    }
-  } adjc_iterate_end;
-
-  return check_self && tile_has_special(ptile, spe);
-}
-
-/****************************************************************************
-  Returns the number of adjacent tiles that have the given map special.
-****************************************************************************/
-int count_special_near_tile(const struct tile *ptile,
-			    bool cardinal_only, bool percentage,
-			    enum tile_special_type spe)
-{
-  int count = 0, total = 0;
-
-  variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
-    if (tile_has_special(adjc_tile, spe)) {
-      count++;
-    }
-    total++;
-  } variable_adjc_iterate_end;
-
-  if (percentage) {
-    count = count * 100 / total;
-  }
-  return count;
-}
-
-/****************************************************************************
   Returns TRUE iff any cardinally adjacent tile contains terrain with the
   given flag.
 ****************************************************************************/
@@ -692,10 +595,10 @@ int count_terrain_flag_near_tile(const struct tile *ptile,
 }
 
 /****************************************************************************
-  Return a (static) string with special(s) name(s):
+  Return a (static) string with extra(s) name(s):
     eg: "Mine"
     eg: "Road/Farmland"
-  This only includes "infrastructure", i.e., man-made specials.
+  This only includes "infrastructure", i.e., man-made extras.
 ****************************************************************************/
 const char *get_infrastructure_text(bv_extras extras)
 {

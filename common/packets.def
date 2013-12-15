@@ -221,7 +221,6 @@ type PLACE_TYPE         = uint8(enum spaceship_place_type)
 type REPORT_TYPE        = uint8(enum report_type)
 type REQ_RANGE          = uint8(enum req_range)
 type REQ_TYPE           = uint8(enum universals_n)
-type SPECIAL            = uint8(enum tile_special_type)
 type SSET_CLASS         = uint8(enum sset_class)
 type SSET_TYPE          = uint8(enum sset_type)
 type ROAD_COMPAT        = uint8(enum road_compat)
@@ -1766,7 +1765,7 @@ end
 
 PACKET_EDIT_TILE_SPECIAL = 202; cs, handle-per-conn, dsend
   TILE tile; key
-  SPECIAL special;
+  UINT8 special;
   BOOL remove;
   UINT8 size;
 end

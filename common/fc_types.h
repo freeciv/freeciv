@@ -387,6 +387,7 @@ struct ai_choice;			/* incorporates universals_u */
 
 /* Used in the network protocol. */
 BV_DEFINE(bv_extras, MAX_EXTRA_TYPES);
+BV_DEFINE(bv_special, MAX_EXTRA_TYPES);
 BV_DEFINE(bv_bases, MAX_BASE_TYPES);
 BV_DEFINE(bv_roads, MAX_ROAD_TYPES);
 BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);

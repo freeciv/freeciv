@@ -148,15 +148,6 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
 }
 
 /****************************************************************************
-  Returns TRUE iff the given tile has the given special.
-****************************************************************************/
-bool tile_has_special(const struct tile *ptile,
-		      enum tile_special_type special)
-{
-  return tile_has_extra(ptile, special_extra_get(special));
-}
-
-/****************************************************************************
   Returns a bit vector of the extras present at the tile.
 ****************************************************************************/
 bv_extras tile_extras(const struct tile *ptile)
@@ -338,19 +329,6 @@ bool tile_has_native_base(const struct tile *ptile,
   return FALSE;
 }
 
-/****************************************************************************
-  Add the given special or specials to the tile.
-
-  Note that this does not erase any existing specials already on the tile
-  (see tile_clear_special or tile_clear_all_specials for that).  Also note
-  the special to be set may be a mask, so you can set more than one
-  special at a time (but this is not recommended).
-****************************************************************************/
-void tile_set_special(struct tile *ptile, enum tile_special_type spe)
-{
-  tile_add_extra(ptile, special_extra_get(spe));
-}
-
 #ifndef tile_resource
 /****************************************************************************
   Return the resource at the specified tile.
@@ -374,17 +352,6 @@ void tile_set_resource(struct tile *ptile, struct resource *presource)
   } else {
     ptile->resource_valid = FALSE;
   }
-}
-
-/****************************************************************************
-  Clear the given special or specials from the tile.
-
-  This function clears all the specials set in the 'spe' mask from the
-  tile's set of specials.  All other specials are unaffected.
-****************************************************************************/
-void tile_clear_special(struct tile *ptile, enum tile_special_type spe)
-{
-  tile_remove_extra(ptile, special_extra_get(spe));
 }
 
 #ifndef tile_continent
@@ -607,7 +574,7 @@ bool tile_extra_rm_apply(struct tile *ptile, struct extra_type *tgt)
 }
 
 /****************************************************************************
-  Build irrigation on the tile.  This may change the specials of the tile
+  Build irrigation on the tile.  This may change the extras of the tile
   or change the terrain type itself.
 ****************************************************************************/
 static void tile_irrigate(struct tile *ptile, struct extra_type *tgt)
@@ -622,7 +589,7 @@ static void tile_irrigate(struct tile *ptile, struct extra_type *tgt)
 }
 
 /****************************************************************************
-  Build a mine on the tile.  This may change the specials of the tile
+  Build a mine on the tile.  This may change the extras of the tile
   or change the terrain type itself.
 ****************************************************************************/
 static void tile_mine(struct tile *ptile, struct extra_type *tgt)
@@ -698,7 +665,7 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act,
   case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_LAST:
     /* do nothing - these activities have no effect
-       on terrain type or tile specials */
+       on terrain type or tile extras */
     return FALSE;
   }
   fc_assert(FALSE);
@@ -734,7 +701,8 @@ static bool tile_info_pollution(char *buf, int bufsz,
 }
 
 /****************************************************************************
-  Return a (static) string with tile name describing terrain and specials.
+  Return a (static) string with tile name describing terrain and
+  extras of some categories.
 
   Examples:
     "Hills"

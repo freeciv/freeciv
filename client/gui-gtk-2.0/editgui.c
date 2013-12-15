@@ -826,7 +826,7 @@ static void editbar_reload_tileset(struct editbar *eb)
   extra_type_by_cause_iterate(EC_SPECIAL, spe) {
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
-                       TVS_COL_ID, spe->data.special,
+                       TVS_COL_ID, spe->data.special_idx,
                        TVS_COL_NAME, extra_name_translation(spe),
                        -1);
     pixbuf = create_extra_pixbuf(spe);

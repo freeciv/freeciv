@@ -300,14 +300,11 @@ static bool edit_tile_extra_handling(struct tile *ptile,
   the special state has changed.
 ****************************************************************************/
 static bool edit_tile_special_handling(struct tile *ptile,
-                                       enum tile_special_type special,
+                                       int special,
                                        bool remove_mode,
                                        bool send_tile_info)
 {
   struct extra_type *pextra;
-
-  fc_assert_ret_val(special != S_OLD_FORTRESS && special != S_OLD_AIRBASE, FALSE);
-  fc_assert_ret_val(special != S_OLD_ROAD && special != S_OLD_RAILROAD, FALSE);
 
   pextra = special_extra_get(special);
 
@@ -460,7 +457,7 @@ void handle_edit_tile_resource(struct connection *pc, int tile,
   'special' from the tile.
 ****************************************************************************/
 void handle_edit_tile_special(struct connection *pc, int tile,
-                              enum tile_special_type special,
+                              int special,
                               bool remove, int size)
 {
   struct tile *ptile_center;

@@ -108,13 +108,6 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain);
 /* struct city *tile_worked(const struct tile *ptile); */
 void tile_set_worked(struct tile *ptile, struct city *pcity);
 
-/* Specials are a bit different */
-void tile_set_specials(struct tile *ptile, bv_special specials);
-bool tile_has_special(const struct tile *ptile,
-		      enum tile_special_type to_test_for);
-void tile_set_special(struct tile *ptile, enum tile_special_type spe);
-void tile_clear_special(struct tile *ptile, enum tile_special_type spe);
-
 bv_extras tile_extras(const struct tile *ptile);
 void tile_set_bases(struct tile *ptile, bv_bases bases);
 bool tile_has_base(const struct tile *ptile, const struct base_type *pbase);

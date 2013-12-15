@@ -51,7 +51,6 @@ void extras_init(void)
   for (i = 0; i < S_LAST; i++) {
     enum extra_cause cause;
 
-    extras[i].data.special = i;
     switch(i) {
     case S_IRRIGATION:
     case S_FARMLAND:
@@ -81,6 +80,7 @@ void extras_init(void)
     }
 
     extra_to_caused_by_list(&extras[i], cause);
+    extras[i].data.special_idx = extra_type_list_size(extra_type_list_by_cause(EC_SPECIAL));
     extra_to_caused_by_list(&extras[i], EC_SPECIAL);
   }
 
@@ -172,10 +172,12 @@ struct extra_type *extra_by_number(int id)
 /****************************************************************************
   Get extra of the given special
 ****************************************************************************/
-struct extra_type *special_extra_get(enum tile_special_type spe)
+struct extra_type *special_extra_get(int spe)
 {
-  if (spe < S_LAST) { 
-    return extra_by_number(spe);
+  struct extra_type_list *elist = extra_type_list_by_cause(EC_SPECIAL);
+
+  if (spe < extra_type_list_size(elist)) {
+    return extra_type_list_get(elist, spe);
   }
 
   return NULL;

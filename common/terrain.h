@@ -38,8 +38,6 @@ enum special_river_move {
   RMV_FAST_ALWAYS = 3,
 };
 
-BV_DEFINE(bv_special, S_LAST); /* Used in the network protocol. */
-
 /* === */
 
 struct resource {
@@ -304,14 +302,6 @@ struct resource *resource_by_rule_name(const char *name);
 const char *resource_rule_name(const struct resource *presource);
 const char *resource_name_translation(const struct resource *presource);
 
-/* General special accessor functions. */
-void set_special(bv_special *set, enum tile_special_type to_set);
-void clear_special(bv_special *set, enum tile_special_type to_clear);
-void clear_all_specials(bv_special *set);
-bool contains_special(bv_special all,
-		      enum tile_special_type to_test_for);
-bool contains_any_specials(bv_special all);
-
 /* Special helper functions */
 const char *get_infrastructure_text(bv_extras extras);
 struct extra_type *get_preferred_pillage(bv_extras extras);
@@ -321,17 +311,6 @@ int terrain_base_time(const struct terrain *pterrain,
 
 int terrain_road_time(const struct terrain *pterrain,
                       struct extra_type *tgt);
-
-/* Functions to operate on a terrain special. */
-bool is_special_card_near(const struct tile *ptile,
-                          enum tile_special_type spe,
-                          bool check_self);
-bool is_special_near_tile(const struct tile *ptile,
-			  enum tile_special_type spe,
-                          bool check_self);
-int count_special_near_tile(const struct tile *ptile,
-			    bool cardinal_only, bool percentage,
-			    enum tile_special_type spe);
 
 /* Functions to operate on a terrain class. */
 const char *terrain_class_name_translation(enum terrain_class tclass);

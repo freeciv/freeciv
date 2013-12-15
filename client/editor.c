@@ -522,7 +522,7 @@ static void editor_grab_tool(const struct tile *ptile)
 
     if (special != NULL) {
       ett = ETT_TERRAIN_SPECIAL;
-      value = special->data.special;
+      value = special->data.special_idx;
     }
   } else if (tile_resource(ptile) != NULL) {
     ett = ETT_TERRAIN_RESOURCE;

@@ -84,7 +84,7 @@ struct extra_type
 
   struct
   {
-    enum tile_special_type special;
+    int special_idx;
     struct base_type *base;
     struct road_type *road;
   } data;
@@ -111,7 +111,7 @@ int extra_index(const struct extra_type *pextra);
 int extra_number(const struct extra_type *pextra);
 struct extra_type *extra_by_number(int id);
 
-struct extra_type *special_extra_get(enum tile_special_type spe);
+struct extra_type *special_extra_get(int spe);
 
 const char *extra_name_translation(const struct extra_type *pextra);
 const char *extra_rule_name(const struct extra_type *pextra);

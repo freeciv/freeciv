@@ -893,7 +893,7 @@ static gchar *propval_as_string(struct propval *pv)
 
   case VALTYPE_BV_SPECIAL:
     extra_type_by_cause_iterate(EC_SPECIAL, spe) {
-      if (BV_ISSET(pv->data.v_bv_special, spe->data.special)) {
+      if (BV_ISSET(pv->data.v_bv_special, spe->data.special_idx)) {
         count++;
       }
     } extra_type_by_cause_iterate_end;
@@ -1502,7 +1502,7 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         BV_CLR_ALL(pv->data.v_bv_special);
         extra_type_by_cause_iterate(EC_SPECIAL, pextra) {
           if (tile_has_extra(ptile, pextra)) {
-            BV_SET(pv->data.v_bv_special, pextra->data.special);
+            BV_SET(pv->data.v_bv_special, pextra->data.special_idx);
           }
         } extra_type_by_cause_iterate_end;
         break;
@@ -2323,10 +2323,10 @@ static void objbind_pack_modified_value(struct objbind *ob,
       switch (propid) {
       case OPID_TILE_SPECIALS:
         extra_type_by_cause_iterate(EC_SPECIAL, pextra) {
-          if (BV_ISSET(pv->data.v_bv_special, pextra->data.special)) {
-            BV_SET(packet->extras, pextra->data.special);
+          if (BV_ISSET(pv->data.v_bv_special, pextra->data.special_idx)) {
+            BV_SET(packet->extras, pextra->data.special_idx);
           } else {
-            BV_CLR(packet->extras, pextra->data.special);
+            BV_CLR(packet->extras, pextra->data.special_idx);
           }
         } extra_type_by_cause_iterate_end;
         return;
@@ -3674,7 +3674,7 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
   case OPID_TILE_SPECIALS:
     gtk_list_store_clear(store);
     extra_type_by_cause_iterate(EC_SPECIAL, spe) {
-      id = spe->data.special;
+      id = spe->data.special_idx;
       name = extra_name_translation(spe);
       present = BV_ISSET(pv->data.v_bv_special, id);
       gtk_list_store_append(store, &iter);
