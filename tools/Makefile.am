@@ -100,7 +100,9 @@ freeciv_mp_gtk3_LDADD = \
 		$(MPICON)
 endif
 
-MOC_FILES = meta_mpgui_qt.cpp
+MOC_FILES = \
+	meta_mpgui_qt.cpp \
+	meta_mpgui_qt_worker.cpp
 
 if MODINST_QT
 freeciv_mp_qt_CPPFLAGS = $(common_cppflags) $(MP_qt_CPPFLAGS)
@@ -109,6 +111,8 @@ freeciv_mp_qt_CXXFLAGS = $(MP_qt_CXXFLAGS)
 freeciv_mp_qt_SOURCES = \
 	mpgui_qt.cpp	\
 	mpgui_qt.h	\
+	mpgui_qt_worker.cpp \
+	mpgui_qt_worker.h   \
 	$(MOC_FILES)
 
 CLEANFILES = $(MOC_FILES)

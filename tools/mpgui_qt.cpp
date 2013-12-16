@@ -34,6 +34,7 @@
 #include "download.h"
 #include "mpcmdline.h"
 #include "mpdb.h"
+#include "mpgui_qt_worker.h"
 #include "modinst.h"
 
 #include "mpgui_qt.h"
@@ -41,6 +42,9 @@
 struct fcmp_params fcmp = { MODPACK_LIST_URL, NULL };
 
 static mpgui *gui;
+
+static mpqt_worker *worker = NULL;
+
 static int mpcount = 0;
 
 #define ML_COL_NAME   0
@@ -97,6 +101,13 @@ int main(int argc, char **argv)
       gui->display_msg(errmsg);
     }
     qapp->exec();
+
+    if (worker != NULL) {
+      if (worker->isRunning()) {
+        worker->wait();
+      }
+      delete worker;
+    }
 
     delete gui;
     delete qapp;
@@ -186,16 +197,16 @@ void mpgui::display_msg(const char *msg)
 **************************************************************************/
 void mpgui::URL_given()
 {
-  const char *errmsg;
-
-  errmsg = download_modpack(URLedit->text().toUtf8().data(),
-			    &fcmp, msg_callback, NULL);
-
-  if (errmsg != NULL) {
-    display_msg(errmsg);
+  if (worker != NULL) {
+    if (worker->isRunning()) {
+      display_msg(_("Another download already active"));
+      return;
+    }
   } else {
-    display_msg(_("Ready"));
+    worker = new mpqt_worker;
   }
+  
+  worker->download(URLedit->text(), &fcmp, msg_callback, NULL);
 }
 
 /**************************************************************************
