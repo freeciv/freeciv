@@ -858,7 +858,11 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
 {
   struct extra_type *activity_target;
 
-  activity_target = extra_by_number(target_id);
+  if (target_id < 0 || target_id >= game.control.num_extra_types) {
+    activity_target = NULL;
+  } else {
+    activity_target = extra_by_number(target_id);
+  }
 
   handle_unit_change_activity_real(pplayer, unit_id, activity, activity_target);
 }
