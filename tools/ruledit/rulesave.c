@@ -189,6 +189,26 @@ static bool save_tech_ref(struct section_file *sfile,
 }
 
 /**************************************************************************
+  Save terrain reference
+**************************************************************************/
+static bool save_terrain_ref(struct section_file *sfile,
+                             const struct terrain *save,
+                             const struct terrain *pthis,
+                             const char *path, const char *entry)
+{
+  if (save == NULL) {
+    secfile_insert_str(sfile, "none", "%s.%s", path, entry);
+  } else if (save == pthis) {
+    secfile_insert_str(sfile, "yes", "%s.%s", path, entry);   
+  } else {
+    secfile_insert_str(sfile, terrain_rule_name(save),
+                        "%s.%s", path, entry);
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
   Save government reference
 **************************************************************************/
 static bool save_gov_ref(struct section_file *sfile,
@@ -543,10 +563,205 @@ static bool save_techs_ruleset(const char *filename, const char *name)
 static bool save_terrain_ruleset(const char *filename, const char *name)
 {
   struct section_file *sfile = create_ruleset_file(name, "terrain");
+  int sect_idx;
 
   if (sfile == NULL) {
     return FALSE;
   }
+
+  if (terrain_control.ocean_reclaim_requirement_pct <= 100) {
+    secfile_insert_int(sfile, terrain_control.ocean_reclaim_requirement_pct,
+                       "parameters.ocean_reclaim_requirement");
+  }
+  if (terrain_control.land_channel_requirement_pct <= 100) {
+    secfile_insert_int(sfile, terrain_control.land_channel_requirement_pct,
+                       "parameters.land_channel_requirement");
+  }
+  if (terrain_control.lake_max_size != 0) {
+    secfile_insert_int(sfile, terrain_control.lake_max_size,
+                       "parameters.lake_max_size");
+  }
+  if (terrain_control.min_start_native_area != 0) {
+    secfile_insert_int(sfile, terrain_control.min_start_native_area,
+                       "parameters.min_start_native_area");
+  }
+  if (terrain_control.move_fragments != 3) {
+    secfile_insert_int(sfile, terrain_control.move_fragments,
+                       "parameters.move_fragments");
+  }
+  if (terrain_control.igter_cost != 1) {
+    secfile_insert_int(sfile, terrain_control.igter_cost,
+                       "parameters.igter_cost");
+  }
+  if (map.server.ocean_resources) {
+    secfile_insert_bool(sfile, TRUE,
+                       "parameters.ocean_resources");
+  }
+
+  sect_idx = 0;
+  terrain_type_iterate(pterr) {
+    char path[512];
+    char identifier[2];
+    int i;
+    const char *flag_names[TER_USER_LAST];
+    const char *puc_names[UCL_LAST];
+    int flagi;
+    int set_count;
+
+    fc_snprintf(path, sizeof(path), "terrain_%d", sect_idx++);
+
+    save_name_translation(sfile, &(pterr->name), path);
+
+    secfile_insert_str(sfile, pterr->graphic_str, "%s.graphic", path);
+    secfile_insert_str(sfile, pterr->graphic_alt, "%s.graphic_alt", path);
+    identifier[0] = pterr->identifier;
+    identifier[1] = '\0';
+    secfile_insert_str(sfile, identifier, "%s.identifier", path);
+
+    secfile_insert_str(sfile, terrain_class_name(pterr->tclass),
+                       "%s.class", path);
+
+    secfile_insert_int(sfile, pterr->movement_cost, "%s.movement_cost", path);
+    secfile_insert_int(sfile, pterr->defense_bonus, "%s.defense_bonus", path);
+
+    output_type_iterate(o) {
+      if (pterr->output[o] != 0) {
+        secfile_insert_int(sfile, pterr->output[o], "%s.%s", path,
+                           get_output_identifier(o));
+      }
+    } output_type_iterate_end;
+
+    /* Check resource count */
+    for (i = 0; pterr->resources[i] != NULL; i++);
+
+    {
+      const char *resource_names[i];
+
+      for (i = 0; pterr->resources[i] != NULL; i++) {
+        resource_names[i] = resource_rule_name(pterr->resources[i]);
+      }
+
+      secfile_insert_str_vec(sfile, resource_names, i,
+                             "%s.resources", path);
+    }
+
+    output_type_iterate(o) {
+      if (pterr->road_output_incr_pct[o] != 0) {
+        secfile_insert_int(sfile, pterr->road_output_incr_pct[o],
+                           "%s.road_%s_incr_pct", path,
+                           get_output_identifier(o));
+      }
+    } output_type_iterate_end;
+
+    secfile_insert_int(sfile, pterr->base_time, "%s.base_time", path);
+    secfile_insert_int(sfile, pterr->road_time, "%s.road_time", path);
+
+    save_terrain_ref(sfile, pterr->irrigation_result, pterr, path,
+                     "irrigation_result");
+    secfile_insert_int(sfile, pterr->irrigation_food_incr,
+                       "%s.irrigation_food_incr", path);
+    secfile_insert_int(sfile, pterr->irrigation_time,
+                       "%s.irrigation_time", path);
+
+    save_terrain_ref(sfile, pterr->mining_result, pterr, path,
+                     "mining_result");
+    secfile_insert_int(sfile, pterr->mining_shield_incr,
+                       "%s.mining_shield_incr", path);
+    secfile_insert_int(sfile, pterr->mining_time,
+                       "%s.mining_time", path);
+
+    save_terrain_ref(sfile, pterr->transform_result, pterr, path,
+                     "transorm_result");
+    secfile_insert_int(sfile, pterr->transform_time,
+                       "%s.transform_time", path);
+
+    if (pterr->animal != NULL) {
+      secfile_insert_str(sfile, utype_rule_name(pterr->animal),
+                         "%s.animal", path);
+    } else {
+      secfile_insert_str(sfile, "None",
+                         "%s.animal", path);
+    }
+
+    secfile_insert_int(sfile, pterr->clean_pollution_time,
+                       "%s.clean_pollution_time", path);
+    secfile_insert_int(sfile, pterr->clean_fallout_time,
+                       "%s.clean_fallout_time", path);
+
+    save_terrain_ref(sfile, pterr->warmer_wetter_result, pterr, path,
+                     "warmer_wetter_result");
+    save_terrain_ref(sfile, pterr->warmer_drier_result, pterr, path,
+                     "warmer_drier_result");
+    save_terrain_ref(sfile, pterr->cooler_wetter_result, pterr, path,
+                     "cooler_wetter_result");
+    save_terrain_ref(sfile, pterr->cooler_drier_result, pterr, path,
+                     "cooler_drier_result");
+
+    set_count = 0;
+    for (flagi = 0; flagi < TER_USER_LAST; flagi++) {
+      if (terrain_has_flag(pterr, flagi)) {
+        flag_names[set_count++] = terrain_flag_id_name(flagi);
+      }
+    }
+
+    if (set_count > 0) {
+      secfile_insert_str_vec(sfile, flag_names, set_count,
+                             "%s.flags", path);
+    }
+
+    {
+      enum mapgen_terrain_property mtp;
+
+      for (mtp = mapgen_terrain_property_begin();
+           mtp != mapgen_terrain_property_end();
+           mtp = mapgen_terrain_property_next(mtp)) {
+        if (pterr->property[mtp] != 0) {
+          secfile_insert_int(sfile, pterr->property[mtp],
+                             "%s.property_%s", path,
+                             mapgen_terrain_property_name(mtp));
+        }
+      }
+    }
+
+    set_count = 0;
+    unit_class_iterate(puc) {
+      if (BV_ISSET(pterr->native_to, uclass_index(puc))) {
+        puc_names[set_count++] = uclass_rule_name(puc);
+      }
+    } unit_class_iterate_end;
+
+    if (set_count > 0) {
+      secfile_insert_str_vec(sfile, puc_names, set_count,
+                             "%s.native_to", path);
+    }
+
+    rgbcolor_save(sfile, pterr->rgb, "%s.color", path);
+
+    save_strvec(sfile, pterr->helptext, path, "helptext");
+
+  } terrain_type_iterate_end;
+
+  resource_type_iterate(pres) {
+    char path[512];
+    char identifier[2];
+
+    fc_snprintf(path, sizeof(path), "resource_%d", sect_idx++);
+
+    save_name_translation(sfile, &(pres->name), path);
+
+    output_type_iterate(o) {
+      if (pres->output[o] != 0) {
+        secfile_insert_int(sfile, pres->output[o], "%s.%s",
+                           path, get_output_identifier(o));
+      }
+    } output_type_iterate_end;
+
+    secfile_insert_str(sfile, pres->graphic_str, "%s.graphic", path);
+    secfile_insert_str(sfile, pres->graphic_alt, "%s.graphic_alt", path);
+    identifier[0] = pres->identifier;
+    identifier[1] = '\0';
+    secfile_insert_str(sfile, identifier, "%s.identifier", path);
+  } resource_type_iterate_end;
 
   return save_ruleset_file(sfile, filename);
 }
