@@ -1703,7 +1703,9 @@ void check_for_full_turn_done(void)
 ****************************************************************************/
 void init_available_nations(void)
 {
-  if (!game_was_started() && 0 < map_startpos_count()) {
+  if (!game_was_started() && game.scenario.startpos_nations
+      && 0 < map_startpos_count()) {
+    /* Restrict nations to those for which start positions are defined. */
     nations_iterate(pnation) {
       fc_assert_action_msg(NULL == pnation->player,
         if (pnation->player->nation == pnation) {
@@ -1722,12 +1724,23 @@ void init_available_nations(void)
         }, "Player assigned to nation before %s()!", __FUNCTION__);
 
       if (nation_barbarian_type(pnation) != NOT_A_BARBARIAN) {
-        /* Always allow land and sea barbarians. */
+        /* Always allow land and sea barbarians regardless of start
+         * positions. */
         pnation->is_available = TRUE;
       } else {
+        /* Restrict the set of nations offered to players, based on
+         * start positions.
+         * If there are no start positions for a nation, remove it from the
+         * available set. */
         pnation->is_available = FALSE;
         map_startpos_iterate(psp) {
           if (startpos_nation_allowed(psp, pnation)) {
+            /* There is at least one start position that allows this nation,
+             * so allow it to be picked.
+             * (Depending on what nations players actually pick, it's not
+             * guaranteed that the server can always find a match between
+             * nations in this subset and start positions, in which case the
+             * server may create mismatches.) */
             pnation->is_available = TRUE;
             break;
           }
@@ -1735,7 +1748,7 @@ void init_available_nations(void)
       }
     } nations_iterate_end;
   } else {
-    /* No start positions, all nations are available. */
+    /* Not restricting nations by start positions. */
     nations_iterate(pnation) {
       pnation->is_available = TRUE;
     } nations_iterate_end;
@@ -1990,9 +2003,14 @@ void player_nation_defaults(struct player *pplayer, struct nation_type *pnation,
 
   If this is a scenario and the scenario has specific start positions for
   some nations, try to pick those nations, favouring those with start
-  positions which already-assigned players can't use. Otherwise, pick
-  available nations using pick_a_nation(), which tries to pick nations
-  that look good with nations already in the game.
+  positions which already-assigned players can't use. (Note that it's
+  possible that we can't find enough nations with available start positions,
+  depending on what nations players have already picked; in this case,
+  it's OK to pick nations without start positions, as init_new_game() will
+  fall back to mismatched start positions.)
+ 
+  Otherwise, pick available nations using pick_a_nation(), which tries to
+  pick nations that look good with nations already in the game.
 
   For 'aifill' players, the player name/sex is then reset to that of a
   random leader for the chosen nation.
@@ -2171,7 +2189,10 @@ static void generate_players(void)
   if (0 < nations_to_assign) {
     players_iterate(pplayer) {
       if (NO_NATION_SELECTED == pplayer->nation) {
-        /* Pick random race. */
+        /* Pick random race. Try to select from the same set that clients
+         * could pick from (if we fell through here after failing
+         * start-position-based nation selection, this will at least keep
+         * the picked nations vaguely in keeping with the scenario). */
         player_set_nation_full(pplayer, pick_a_nation(NULL, FALSE, TRUE,
                                                       NOT_A_BARBARIAN));
         nations_to_assign--;
@@ -2683,6 +2704,7 @@ static void srv_ready(void)
   conn_list_compression_thaw(game.est_connections);
 
   if (game.info.is_new_game) {
+    /* Place players' initial units, etc */
     init_new_game();
 
     if (game.server.revealmap & REVEAL_MAP_START) {

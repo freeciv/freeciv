@@ -1681,6 +1681,7 @@ PACKET_SCENARIO_INFO = 180; sc, cs, handle-via-packet, handle-per-conn
   STRING name[256];
   STRING description[MAX_LEN_PACKET];
   BOOL   players;
+  BOOL   startpos_nations;
 end
 
 PACKET_SAVE_SCENARIO = 181; cs, handle-per-conn, dsend
@@ -1933,6 +1934,7 @@ PACKET_EDIT_GAME = 218; cs, handle-per-conn, handle-via-packet
   STRING scenario_name[256];
   STRING scenario_desc[MAX_LEN_PACKET];
   BOOL scenario_players;
+  BOOL startpos_nations;
 end
 
 /************** Server Editor Packets **********************/

@@ -2309,6 +2309,9 @@ static void sg_load_scenario(struct loaddata *loading)
     }
     game.scenario.players
       = secfile_lookup_bool_default(loading->file, TRUE, "scenario.players");
+    game.scenario.startpos_nations
+      = secfile_lookup_bool_default(loading->file, FALSE,
+                                    "scenario.startpos_nations");
 
     sg_failure_ret(loading->server_state == S_S_INITIAL
                    || (loading->server_state == S_S_RUNNING
@@ -2344,6 +2347,8 @@ static void sg_save_scenario(struct savedata *saving)
   secfile_insert_str(saving->file, game.scenario.description,
                      "scenario.description");
   secfile_insert_bool(saving->file, game.scenario.players, "scenario.players");
+  secfile_insert_bool(saving->file, game.scenario.startpos_nations,
+                      "scenario.startpos_nations");
 }
 
 /* =======================================================================
@@ -2817,6 +2822,11 @@ static void sg_load_map_startpos(struct loaddata *loading)
                 map_startpos_count(), game.server.max_players);
     game.server.max_players = map_startpos_count();
   }
+
+  /* Re-initialize nation availability in light of start positions.
+   * This has to be after loading [scenario] and [map].startpos and
+   * before we seek nations for players. */
+  init_available_nations();
 }
 
 /****************************************************************************
@@ -3242,10 +3252,6 @@ static void sg_load_players_basic(struct loaddata *loading)
   server.identity_number
     = secfile_lookup_int_default(loading->file, server.identity_number,
                                  "players.identity_number_used");
-
-  /* Initialize nations we loaded from rulesets. This has to be after
-   * map loading and before we seek nations for players */
-  init_available_nations();
 
   /* First remove all defined players. */
   players_iterate(pplayer) {
