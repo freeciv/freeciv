@@ -223,6 +223,12 @@ void init_new_game(void)
   randomize_base64url_string(server.game_identifier,
                              sizeof(server.game_identifier));
 
+  /* Assign players to starting positions on the map.
+   * (In scenarios with restrictions on which nations can use which predefined
+   * start positions, this process tries to satisfy those restrictions, but
+   * does not guarantee to. Even if there is a solution to the matching
+   * problem, this algorithm may not find it.) */
+
   fc_assert(player_count() <= map_startpos_count());
 
   /* Convert the startposition hash table in a linked lists, as we mostly
@@ -246,8 +252,8 @@ void init_new_game(void)
   memset(player_startpos, 0, sizeof(player_startpos));
   log_verbose("Placing players at start positions.");
 
-  /* First assign start positions which requires certain nations only this
-   * one. */
+  /* First assign start positions which have restrictions on which nations
+   * can use them. */
   if (0 < startpos_list_size(targeted_list)) {
     log_verbose("Assigning matching nations.");
 
@@ -278,6 +284,8 @@ void init_new_game(void)
         } startpos_list_iterate_end;
 
         if (NULL != choice) {
+          /* Assign this start position to this player and remove
+           * both from consideration. */
           struct tile *ptile =
               startpos_tile(startpos_list_link_data(choice));
 
@@ -285,14 +293,16 @@ void init_new_game(void)
           startpos_list_erase(targeted_list, choice);
           players_to_place--;
           removed = TRUE;
-          log_verbose("Start position (%d, %d) matches player %s (%s).",
+          log_verbose("Start position (%d, %d) exactly matches player %s (%s).",
                       TILE_XY(ptile), player_name(pplayer),
                       nation_rule_name(pnation));
         }
       } players_iterate_end;
 
       if (!removed) {
-        /* Make arbitrary choice for a player. */
+        /* Didn't find any 1:1 matches. For the next restricted start
+         * position, assign a random matching player. (This may create
+         * restrictions such that more 1:1 matches are possible.) */
         struct startpos *psp = startpos_list_back(targeted_list);
         struct tile *ptile = startpos_tile(psp);
         struct player *rand_plr = NULL;
@@ -318,7 +328,9 @@ void init_new_game(void)
                       TILE_XY(ptile), player_name(rand_plr),
                       nation_rule_name(nation_of_player(rand_plr)));
         } else {
-          /* This start position cannot be assigned. */
+          /* This start position cannot be assigned, given the assignments
+           * made so far. We may have to fall back to mismatched
+           * assignments. */
           log_verbose("Start position (%d, %d) cannot be assigned for "
                       "any player, keeping for the moment...",
                       TILE_XY(ptile));
@@ -329,11 +341,11 @@ void init_new_game(void)
     } while (0 < players_to_place && 0 < startpos_list_size(targeted_list));
   }
 
-  /* Now assign left start positions to every players. */
+  /* Now assign unrestricted start positions to any remaining players. */
   if (0 < players_to_place && 0 < startpos_list_size(flexible_list)) {
     struct tile *ptile;
 
-    log_verbose("Assigning random start positions.");
+    log_verbose("Assigning unrestricted start positions.");
 
     startpos_list_shuffle(flexible_list); /* Randomize. */
     players_iterate(pplayer) {
@@ -356,7 +368,14 @@ void init_new_game(void)
   }
 
   if (0 < players_to_place && 0 < startpos_list_size(impossible_list)) {
+    /* We still have players to place, and we have some restricted start
+     * positions whose nation requirements can't be satisfied given existing
+     * assignments. Fall back to making assignments ignoring the positions'
+     * nation requirements. */
+
     struct tile *ptile;
+
+    log_verbose("Ignoring nation restrictions on remaining start positions.");
 
     startpos_list_shuffle(impossible_list); /* Randomize. */
     players_iterate(pplayer) {
@@ -369,8 +388,8 @@ void init_new_game(void)
       player_startpos[player_index(pplayer)] = ptile;
       players_to_place--;
       startpos_list_pop_front(impossible_list);
-      log_verbose("Start position (%d, %d) assigned by default "
-                  "to player %s (%s).", TILE_XY(ptile), player_name(pplayer),
+      log_verbose("Start position (%d, %d) assigned to mismatched "
+                  "player %s (%s).", TILE_XY(ptile), player_name(pplayer),
                   nation_rule_name(nation_of_player(pplayer)));
       if (0 == startpos_list_size(impossible_list)) {
         break;

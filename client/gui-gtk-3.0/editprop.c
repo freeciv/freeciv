@@ -358,7 +358,8 @@ enum object_property_ids {
   OPID_GAME_SCENARIO,
   OPID_GAME_SCENARIO_NAME,
   OPID_GAME_SCENARIO_DESC,
-  OPID_GAME_SCENARIO_PLAYERS
+  OPID_GAME_SCENARIO_PLAYERS,
+  OPID_GAME_STARTPOS_NATIONS
 };
 
 enum object_property_flags {
@@ -1787,6 +1788,9 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       case OPID_GAME_SCENARIO_PLAYERS:
         pv->data.v_bool = pgame->scenario.players;
         break;
+      case OPID_GAME_STARTPOS_NATIONS:
+        pv->data.v_bool = pgame->scenario.startpos_nations;
+        break;
       default:
         log_error("%s(): Unhandled request for value of property %d "
                   "(%s) from object of type \"%s\".", __FUNCTION__,
@@ -2506,6 +2510,9 @@ static void objbind_pack_modified_value(struct objbind *ob,
       case OPID_GAME_SCENARIO_PLAYERS:
         packet->scenario_players = pv->data.v_bool;
         return;
+      case OPID_GAME_STARTPOS_NATIONS:
+        packet->startpos_nations = pv->data.v_bool;
+        return;
       default:
         break;
       }
@@ -2953,6 +2960,7 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_UNIT_DONE_MOVING:
   case OPID_GAME_SCENARIO:
   case OPID_GAME_SCENARIO_PLAYERS:
+  case OPID_GAME_STARTPOS_NATIONS:
     button = gtk_check_button_new();
     gtk_widget_set_hexpand(button, TRUE);
     gtk_widget_set_halign(button, GTK_ALIGN_END);
@@ -3159,6 +3167,7 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_UNIT_DONE_MOVING:
   case OPID_GAME_SCENARIO:
   case OPID_GAME_SCENARIO_PLAYERS:
+  case OPID_GAME_STARTPOS_NATIONS:
     button = objprop_get_child_widget(op, "checkbutton");
     disable_gobject_callback(G_OBJECT(button),
         G_CALLBACK(objprop_widget_toggle_button_changed));
@@ -4313,6 +4322,8 @@ static void property_page_setup_objprops(struct property_page *pp)
             VALTYPE_STRING);
     ADDPROP(OPID_GAME_SCENARIO_PLAYERS, _("Save Players"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
+    ADDPROP(OPID_GAME_STARTPOS_NATIONS, _("Nation Start Positions"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
     return;
 
   case NUM_OBJTYPES:

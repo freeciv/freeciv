@@ -2721,6 +2721,7 @@ void handle_scenario_info(const struct packet_scenario_info *packet)
   sz_strlcpy(game.scenario.name, packet->name);
   sz_strlcpy(game.scenario.description, packet->description);
   game.scenario.players = packet->players;
+  game.scenario.startpos_nations = packet->startpos_nations;
 
   editgui_notify_object_changed(OBJTYPE_GAME, 1, FALSE);
 }
