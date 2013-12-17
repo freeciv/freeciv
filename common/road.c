@@ -100,9 +100,6 @@ void road_type_init(struct extra_type *pextra, int idx)
   proad->id = idx;
   proad->helptext = NULL;
   proad->self = pextra;
-
-  pextra->causes |= (1 << EC_ROAD);
-  extra_to_caused_by_list(pextra, EC_ROAD);
 }
 
 /****************************************************************************

@@ -287,9 +287,6 @@ void base_type_init(struct extra_type *pextra, int idx)
   pbase->item_number = idx;
   pbase->helptext = NULL;
   pbase->self = pextra;
-
-  pextra->causes |= (1 << EC_BASE);
-  extra_to_caused_by_list(pextra, EC_BASE);
 }
 
 /****************************************************************************

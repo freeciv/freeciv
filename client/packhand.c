@@ -3216,6 +3216,8 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
 {
   struct extra_type *pextra = extra_by_number(p->id);
   int i;
+  bool cbase;
+  bool croad;
 
   fc_assert_ret_msg(NULL != pextra, "Bad extra %d.", p->id);
 
@@ -3224,11 +3226,27 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   pextra->category = p->category;
   pextra->causes = p->causes;
 
-  if (is_extra_caused_by(pextra, EC_BASE)) {
+  if (pextra->causes == 0) {
+    extra_to_caused_by_list(pextra, EC_NONE);
+  } else {
+    for (i = 0; i < EC_COUNT; i++) {
+      if (is_extra_caused_by(pextra, i)) {
+        extra_to_caused_by_list(pextra, i);
+      }
+    }
+  }
+
+  cbase = is_extra_caused_by(pextra, EC_BASE);
+  croad = is_extra_caused_by(pextra, EC_ROAD);
+  if (cbase) {
     base_type_init(pextra, extra_type_list_size(extra_type_list_by_cause(EC_BASE)));
   }
-  if (is_extra_caused_by(pextra, EC_ROAD)) {
+  if (croad) {
     road_type_init(pextra, extra_type_list_size(extra_type_list_by_cause(EC_ROAD)));
+  }
+  if (!cbase && !croad) {
+    pextra->data.special_idx = extra_type_list_size(extra_type_list_by_cause(EC_SPECIAL));
+    extra_to_caused_by_list(pextra, EC_SPECIAL);
   }
 
   sz_strlcpy(pextra->activity_gfx, p->activity_gfx);

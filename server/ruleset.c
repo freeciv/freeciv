@@ -2880,6 +2880,8 @@ static bool load_ruleset_terrain(struct section_file *file)
       const char **slist;
       struct requirement_vector *reqs;
       const char *catname;
+      int j;
+      enum extra_cause cause;
 
       catname = secfile_lookup_str(file, "%s.category", section);
       if (catname == NULL) {
@@ -2897,6 +2899,39 @@ static bool load_ruleset_terrain(struct section_file *file)
         ok = FALSE;
         break;
       }
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.causes", section);
+      pextra->causes = 0;
+      for (j = 0; j < nval; j++) {
+        const char *sval = slist[j];
+        cause = extra_cause_by_name(sval, fc_strcasecmp);
+
+        if (!extra_cause_is_valid(cause)) {
+          ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\": unknown cause \"%s\".",
+                        filename,
+                        extra_rule_name(pextra),
+                        sval);
+          ok = FALSE;
+          break;
+        } else {
+          pextra->causes |= (1 << cause);
+          extra_to_caused_by_list(pextra, cause);
+        }
+      }
+
+      if (pextra->causes == 0) {
+        /* Extras that do not have any causes added to EC_NONE list */
+        extra_to_caused_by_list(pextra, EC_NONE);
+      }
+
+      if (!is_extra_caused_by(pextra, EC_BASE)
+          && !is_extra_caused_by(pextra, EC_ROAD)) {
+        /* Not a base nor road, so special */
+        pextra->data.special_idx = extra_type_list_size(extra_type_list_by_cause(EC_SPECIAL));
+        extra_to_caused_by_list(pextra, EC_SPECIAL);
+      }
+
+      free(slist);
 
       sz_strlcpy(pextra->activity_gfx,
                  secfile_lookup_str_default(file, "-",

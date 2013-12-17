@@ -542,6 +542,9 @@ identifier  = "g"
 ;                           base after a ruleset has been released.
 ; category                = How UI should categorize this extra. One of
 ;                           "Infra", "Natural", "Nuisance", or "Bonus"
+; causes                  = events that can create extra type.
+;                           "Irrigation", "Mine", "Hut", "Pollution", "Fallout",
+;                           "Base", or "Road"
 ; graphic                 = tag specifing preferred graphic
 ; graphic_alt             = tag for alternate graphic if preferred graphic is not
 ;                           present. Can use eg "-" for no alternate graphic.
@@ -582,6 +585,7 @@ identifier  = "g"
 [extra_irrigation]
 name           = _("Irrigation")
 category       = "Infra"
+causes         = "Irrigation"
 graphic        = "tx.irrigation"
 graphic_alt    = "-"
 activity_gfx   = "unit.irrigate"
@@ -594,6 +598,7 @@ hidden_by      = "Farmland"
 [extra_mine]
 name           = _("Mine")
 category       = "Infra"
+causes         = "Mine"
 graphic        = "tx.mine"
 graphic_alt    = "-"
 activity_gfx   = "unit.mine"
@@ -605,6 +610,7 @@ conflicts      = "Irrigation", "Farmland"
 [extra_pollution]
 name           = _("Pollution")
 category       = "Nuisance"
+causes         = "Pollution"
 graphic        = "tx.pollution"
 graphic_alt    = "-"
 activity_gfx   = "None"
@@ -617,6 +623,7 @@ flags          = "GlobalWarming"
 [extra_hut]
 name           = _("Space Capsule")
 category       = "Bonus"
+causes         = "Hut"
 graphic        = "tx.capsule"
 graphic_alt    = "tx.village"
 activity_gfx   = "None"
@@ -627,6 +634,7 @@ rmact_gfx_alt  = "-"
 [extra_farmland]
 name           = _("Farmland")
 category       = "Infra"
+causes         = "Irrigation"
 graphic        = "tx.farmland"
 graphic_alt    = "-"
 activity_gfx   = "unit.farmland"
@@ -643,6 +651,7 @@ conflicts      = "Mine"
 [extra_fallout]
 name           = _("Fallout")
 category       = "Nuisance"
+causes         = "Fallout"
 graphic        = "tx.fallout"
 graphic_alt    = "-"
 activity_gfx   = "None"
@@ -655,6 +664,7 @@ flags          = "NuclearWinter"
 [extra_tower]
 name           = _("Tower")
 category       = "Infra"
+causes         = "Base"
 graphic        = "base.tower"
 graphic_alt    = "base.fortress"
 activity_gfx   = "unit.tower"
@@ -674,6 +684,7 @@ conflicts      = "Force Fortress"
 [extra_force_fortress]
 name           = _("Force Fortress")
 category       = "Infra"
+causes         = "Base"
 graphic        = "base.force_fortress"
 graphic_alt    = "base.fortress"
 activity_gfx   = "unit.force_fortress"
@@ -693,6 +704,7 @@ conflicts      = "Tower"
 [extra_antigrav_base]
 name           = _("Antigrav Base")
 category       = "Infra"
+causes         = "Base"
 graphic        = "base.antigrav_base"
 graphic_alt    = "base.airbase"
 activity_gfx   = "unit.antigrav_base"
@@ -711,6 +723,7 @@ native_to      = "Antigravity"
 [extra_road]
 name           = _("Road")
 category       = "Infra"
+causes         = "Road"
 graphic        = "road"
 graphic_alt    = "-"
 activity_gfx   = "unit.road"
@@ -729,6 +742,7 @@ flags          = "AutoOnCityCenter"
 [extra_highway]
 name           = _("Highway")
 category       = "Infra"
+causes         = "Road"
 graphic        = "highway"
 graphic_alt    = "road"
 activity_gfx   = "unit.highway"
@@ -749,6 +763,7 @@ flags          = "AutoOnCityCenter"
 [extra_maglev]
 name           = _("Maglev")
 category       = "Infra"
+causes         = "Road"
 graphic        = "maglev"
 graphic_alt    = "rail"
 activity_gfx   = "unit.maglev"
@@ -768,6 +783,7 @@ flags          = "AutoOnCityCenter"
 [extra_tunnel]
 name           = _("Tunnel")
 category       = "Infra"
+causes         = "Road"
 graphic        = "tunnel"
 graphic_alt    = "rail"
 activity_gfx   = "unit.tunnel"
@@ -786,6 +802,7 @@ flags          = "NativeTile", "AutoOnCityCenter"
 [extra_burrow_tube]
 name           = _("Burrow Tube")
 category       = "Infra"
+causes         = "Road"
 graphic        = "burrow_tube"
 graphic_alt    = "road"
 activity_gfx   = "unit.tube"
@@ -804,6 +821,7 @@ flags          = "NativeTile", "AutoOnCityCenter", "ConnectLand"
 [extra_green_river]
 name           = _("Green River")
 category       = "Natural"
+causes         = "Road"
 graphic        = "green_river"
 graphic_alt    = "river"
 activity_gfx   = "None"
@@ -817,6 +835,7 @@ native_to      = "Native", "Amphibious"
 [extra_brown_river]
 name           = _("Brown River")
 category       = "Natural"
+causes         = "Road"
 graphic        = "brown_river"
 graphic_alt    = "river"
 activity_gfx   = "None"

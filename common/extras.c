@@ -44,51 +44,9 @@ void extras_init(void)
     requirement_vector_init(&(extras[i].reqs));
     extras[i].id = i;
     extras[i].hiders = NULL;
+    extras[i].data.special_idx = -1;
     extras[i].data.base = NULL;
     extras[i].data.road = NULL;
-  }
-
-  for (i = 0; i < S_LAST; i++) {
-    enum extra_cause cause;
-
-    switch(i) {
-    case S_IRRIGATION:
-    case S_FARMLAND:
-      cause = EC_IRRIGATION;
-      break;
-    case S_MINE:
-      cause = EC_MINE;
-      break;
-    case S_POLLUTION:
-      cause = EC_POLLUTION;
-      break;
-    case S_HUT:
-      cause = EC_HUT;
-      break;
-    case S_FALLOUT:
-      cause = EC_FALLOUT;
-      break;
-    default:
-      cause = EC_NONE;
-      break;
-    }
-
-    if (cause == EC_NONE) {
-      extras[i].causes = 0;
-    } else {
-      extras[i].causes = (1 << cause);
-    }
-
-    extra_to_caused_by_list(&extras[i], cause);
-    extras[i].data.special_idx = extra_type_list_size(extra_type_list_by_cause(EC_SPECIAL));
-    extra_to_caused_by_list(&extras[i], EC_SPECIAL);
-  }
-
-  /* This is still needed to make sure there's no EC_BASE
-   * which would make base_type_by_rule_name(), used in
-   * ruleset loading sanity checking, to return this extra
-   * instead of NULL for what is supposed to later become EC_ROAD. */
-  for (;i < MAX_EXTRA_TYPES; i++) {
     extras[i].causes = 0;
   }
 }
