@@ -590,6 +590,58 @@ void popdown_diplomat_dialog(void)
 }
 
 /**************************************************************************
+  Add an entry for an action in the action choise dialog.
+**************************************************************************/
+static void action_entry(const enum gen_action act,
+                         const char *ui_name,
+                         int (*callback) (struct widget *),
+                         struct unit *act_unit,
+                         struct city *tgt_city,
+                         struct unit *tgt_unit,
+                         struct widget *pWindow,
+                         SDL_Rect *area)
+{
+  struct widget *pBuf;
+  SDL_String16 *pStr;
+  enum mk_eval_result eval;
+
+  eval = MKE_FALSE;
+  switch(action_get_target_kind(act)) {
+  case ATK_CITY:
+    eval = action_enabled_unit_on_city_local(act, act_unit, tgt_city);
+    break;
+  case ATK_UNIT:
+    eval = action_enabled_unit_on_unit_local(act, act_unit, tgt_unit);
+    break;
+  case ATK_COUNT:
+    fc_assert_msg(FALSE, "Unsupported target kind");
+  }
+
+  if (MKE_FALSE != eval) {
+    create_active_iconlabel(pBuf, pWindow->dst, pStr,
+                            _(ui_name), callback);
+
+    switch(action_get_target_kind(act)) {
+    case ATK_CITY:
+      pBuf->data.city = tgt_city;
+      break;
+    case ATK_UNIT:
+      pBuf->data.unit = tgt_unit;
+      break;
+    case ATK_COUNT:
+      fc_assert_msg(FALSE, "Unsupported target kind");
+    }
+
+    set_wstate(pBuf, FC_WS_NORMAL);
+
+    add_to_gui_list(MAX_ID - act_unit->id, pBuf);
+
+    area->w = MAX(area->w, pBuf->size.w);
+    area->h += pBuf->size.h;
+  }
+}
+
+/**************************************************************************
   Popup a dialog giving a diplomatic unit some options when moving into
   the target tile.
 **************************************************************************/
@@ -650,132 +702,54 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
     /* Spy/Diplomat acting against a city */
 
     pDiplomat_Dlg->diplomat_target_id[ATK_CITY] = pCity->id;
-    
-    /* -------------- */
-    if (MKE_FALSE != action_enabled_unit_on_city_local(
-          ACTION_ESTABLISH_EMBASSY, pUnit, pCity)) {
-	
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-	    _("Establish Embassy"), diplomat_embassy_callback);
-      
-      pBuf->data.city = pCity;
-      set_wstate(pBuf, FC_WS_NORMAL);
-  
-      add_to_gui_list(MAX_ID - pUnit->id, pBuf);
-    
-      area.w = MAX(area.w, pBuf->size.w);
-      area.h += pBuf->size.h;
-    }
-  
-    /* ---------- */
-    if (MKE_FALSE != action_enabled_unit_on_city_local(
-          ACTION_SPY_INVESTIGATE_CITY, pUnit, pCity)) {
-    
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-			      _("Investigate City"),
-			      diplomat_investigate_callback);
-      pBuf->data.city = pCity;
-      set_wstate(pBuf, FC_WS_NORMAL);
-  
-      add_to_gui_list(MAX_ID - pUnit->id, pBuf);
-    
-      area.w = MAX(area.w, pBuf->size.w);
-      area.h += pBuf->size.h;
-    }
-  
-    /* ---------- */
-    if (MKE_FALSE != action_enabled_unit_on_city_local(ACTION_SPY_POISON,
-                                                       pUnit, pCity)) {
-    
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-	    _("Poison City"), spy_poison_callback);
-      
-      pBuf->data.city = pCity;
-      set_wstate(pBuf, FC_WS_NORMAL);
-  
-      add_to_gui_list(MAX_ID - pUnit->id, pBuf);
-    
-      area.w = MAX(area.w, pBuf->size.w);
-      area.h += pBuf->size.h;
-    }    
 
-    /* ---------- */
-    if (MKE_FALSE != action_enabled_unit_on_city_local(
-          ACTION_SPY_SABOTAGE_CITY, pUnit, pCity)) {
-    
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-            _("Sabotage City"), diplomat_sabotage_callback);
-      
-      pBuf->data.city = pCity;
-      set_wstate(pBuf, FC_WS_NORMAL);
-  
-      add_to_gui_list(MAX_ID - pUnit->id, pBuf);
-    
-      area.w = MAX(area.w, pBuf->size.w);
-      area.h += pBuf->size.h;
-    }
+    action_entry(ACTION_ESTABLISH_EMBASSY,
+                 "Establish Embassy",
+                 diplomat_embassy_callback,
+                 pUnit, pCity, NULL,
+                 pWindow, &area);
 
-    /* ---------- */
-    if (MKE_FALSE != action_enabled_unit_on_city_local(
-          ACTION_SPY_TARGETED_SABOTAGE_CITY, pUnit, pCity)) {
+    action_entry(ACTION_SPY_INVESTIGATE_CITY,
+                 "Investigate City",
+                 diplomat_investigate_callback,
+                 pUnit, pCity, NULL,
+                 pWindow, &area);
 
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-            _("Industrial Sabotage"), spy_sabotage_request);
+    action_entry(ACTION_SPY_POISON,
+                 "Poison City",
+                 spy_poison_callback,
+                 pUnit, pCity, NULL,
+                 pWindow, &area);
 
-      pBuf->data.city = pCity;
-      set_wstate(pBuf, FC_WS_NORMAL);
+    action_entry(ACTION_SPY_SABOTAGE_CITY,
+                 "Sabotage City",
+                 diplomat_sabotage_callback,
+                 pUnit, pCity, NULL,
+                 pWindow, &area);
 
-      add_to_gui_list(MAX_ID - pUnit->id, pBuf);
+    action_entry(ACTION_SPY_TARGETED_SABOTAGE_CITY,
+                 "Industrial Sabotage",
+                 spy_sabotage_request,
+                 pUnit, pCity, NULL,
+                 pWindow, &area);
 
-      area.w = MAX(area.w, pBuf->size.w);
-      area.h += pBuf->size.h;
-    }
-  
-    /* ---------- */
-    if (MKE_FALSE != action_enabled_unit_on_city_local(
-          ACTION_SPY_STEAL_TECH, pUnit, pCity)) {
-    
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-            _("Steal Technology"), diplomat_steal_callback);
-      pBuf->data.city = pCity;
-      set_wstate(pBuf , FC_WS_NORMAL);
-  
-      add_to_gui_list(MAX_ID - pUnit->id , pBuf);
-    
-      area.w = MAX(area.w , pBuf->size.w);
-      area.h += pBuf->size.h;
-    }
+    action_entry(ACTION_SPY_STEAL_TECH,
+                 "Steal Technology",
+                 diplomat_steal_callback,
+                 pUnit, pCity, NULL,
+                 pWindow, &area);
 
-    /* ---------- */
-    if (MKE_FALSE != action_enabled_unit_on_city_local(
-          ACTION_SPY_TARGETED_STEAL_TECH, pUnit, pCity)) {
+    action_entry(ACTION_SPY_TARGETED_STEAL_TECH,
+                 "Industrial espionage",
+                 spy_steal_popup,
+                 pUnit, pCity, NULL,
+                 pWindow, &area);
 
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-            _("Industrial espionage"), spy_steal_popup);
-      pBuf->data.city = pCity;
-      set_wstate(pBuf , FC_WS_NORMAL);
-
-      add_to_gui_list(MAX_ID - pUnit->id , pBuf);
-
-      area.w = MAX(area.w , pBuf->size.w);
-      area.h += pBuf->size.h;
-    }
-      
-    /* ---------- */
-    if (MKE_FALSE
-        != action_enabled_unit_on_city_local(ACTION_SPY_INCITE_CITY,
-                                             pUnit, pCity)) {
-    
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-	    _("Incite a Revolt"), diplomat_incite_callback);
-      pBuf->data.city = pCity;
-      set_wstate(pBuf , FC_WS_NORMAL);
-  
-      add_to_gui_list(MAX_ID - pUnit->id , pBuf);
-    
-      area.w = MAX(area.w , pBuf->size.w);
-      area.h += pBuf->size.h;
-    }
+    action_entry(ACTION_SPY_INCITE_CITY,
+                 "Incite a Revolt",
+                 diplomat_incite_callback,
+                 pUnit, pCity, NULL,
+                 pWindow, &area);
   }
 
   if ((pTunit = unit_list_get(ptile->units, 0))) {
@@ -783,39 +757,17 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
 
     pDiplomat_Dlg->diplomat_target_id[ATK_UNIT] = pTunit->id;
 
-    /* ---------- */
-    if (MKE_FALSE != action_enabled_unit_on_unit_local(
-          ACTION_SPY_BRIBE_UNIT, pUnit, pTunit)) {
+    action_entry(ACTION_SPY_BRIBE_UNIT,
+                 "Bribe Enemy Unit",
+                 diplomat_bribe_callback,
+                 pUnit, NULL, pTunit,
+                 pWindow, &area);
 
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-                              _("Bribe Enemy Unit"),
-                              diplomat_bribe_callback);
-
-      pBuf->data.unit = pTunit;
-      set_wstate(pBuf , FC_WS_NORMAL);
-
-      add_to_gui_list(MAX_ID - pUnit->id , pBuf);
-
-      area.w = MAX(area.w , pBuf->size.w);
-      area.h += pBuf->size.h;
-    }
-
-    /* ---------- */
-    if (MKE_FALSE != action_enabled_unit_on_unit_local(
-          ACTION_SPY_SABOTAGE_UNIT, pUnit, pTunit)) {
-
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-                              _("Sabotage Enemy Unit"),
-                              spy_sabotage_unit_callback);
-
-      pBuf->data.unit = pTunit;
-      set_wstate(pBuf , FC_WS_NORMAL);
-
-      add_to_gui_list(MAX_ID - pUnit->id , pBuf);
-
-      area.w = MAX(area.w , pBuf->size.w);
-      area.h += pBuf->size.h;
-    }
+    action_entry(ACTION_SPY_SABOTAGE_UNIT,
+                 "Sabotage Enemy Unit",
+                 spy_sabotage_unit_callback,
+                 pUnit, NULL, pTunit,
+                 pWindow, &area);
   }
 
   /* ---------- */
