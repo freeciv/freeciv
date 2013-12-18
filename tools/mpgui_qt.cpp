@@ -53,7 +53,10 @@ static int mpcount = 0;
 #define ML_COL_TYPE   3
 #define ML_COL_LIC    4 
 #define ML_COL_URL    5
-#define ML_COL_COUNT  6
+
+#define ML_TYPE       6
+
+#define ML_COL_COUNT  7
 
 static void setup_modpack_list(const char *name, const char *URL,
                                const char *version, const char *license,
@@ -147,12 +150,13 @@ void mpgui::setup(QWidget *central)
   mplist_table->setColumnCount(ML_COL_COUNT);
   headers << _("Name") << _("Version") << _("Installed");
   headers << Q_("?modpack:Type") << _("License");
-  headers << _("URL");
+  headers << _("URL") << "typeint";
   mplist_table->setHorizontalHeaderLabels(headers);
   mplist_table->verticalHeader()->setVisible(false);
   mplist_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
   mplist_table->setSelectionBehavior(QAbstractItemView::SelectRows);
   mplist_table->setSelectionMode(QAbstractItemView::SingleSelection);
+  mplist_table->hideColumn(ML_TYPE);
 
   connect(mplist_table, SIGNAL(cellClicked(int, int)), this, SLOT(row_selected(int, int)));
   connect(mplist_table, SIGNAL(cellActivated(int, int)), this, SLOT(row_download(int, int)));
@@ -206,7 +210,33 @@ void mpgui::URL_given()
     worker = new mpqt_worker;
   }
   
-  worker->download(URLedit->text(), &fcmp, msg_callback, NULL);
+  worker->download(URLedit->text(), this, &fcmp, msg_callback, NULL);
+}
+
+/**************************************************************************
+  Refresh display of modpack list modpack versions
+**************************************************************************/
+void mpgui::refresh_list_versions()
+{
+  for (int i = 0; i < mpcount; i++) {
+    QString name_str;
+    int type_int;
+    const char *new_inst;
+    enum modpack_type type;
+
+    name_str = mplist_table->item(i, ML_COL_NAME)->text();
+    type_int = mplist_table->item(i, ML_TYPE)->text().toInt();
+    type = (enum modpack_type) type_int;
+    new_inst = get_installed_version(name_str.toUtf8().data(), type);
+
+    if (new_inst == NULL) {
+      new_inst = _("Not installed");
+    }
+
+    mplist_table->item(i, ML_COL_INST)->setText(QString::fromUtf8(new_inst));
+  }
+
+  mplist_table->resizeColumnsToContents();
 }
 
 /**************************************************************************
@@ -219,6 +249,7 @@ void mpgui::setup_list(const char *name, const char *URL,
   const char *type_str;
   const char *lic_str;
   const char *inst_str;
+  QString type_nbr;
 
   if (modpack_type_is_valid(type)) {
     type_str = _(modpack_type_name(type));
@@ -241,12 +272,15 @@ void mpgui::setup_list(const char *name, const char *URL,
 
   mplist_table->setRowCount(mpcount+1);
 
-  mplist_table->setItem(mpcount, ML_COL_NAME, new QTableWidgetItem(name));
+  mplist_table->setItem(mpcount, ML_COL_NAME, new QTableWidgetItem(QString::fromUtf8(name)));
   mplist_table->setItem(mpcount, ML_COL_VER, new QTableWidgetItem(version));
   mplist_table->setItem(mpcount, ML_COL_INST, new QTableWidgetItem(inst_str));
   mplist_table->setItem(mpcount, ML_COL_TYPE, new QTableWidgetItem(type_str));
   mplist_table->setItem(mpcount, ML_COL_LIC, new QTableWidgetItem(lic_str));
   mplist_table->setItem(mpcount, ML_COL_URL, new QTableWidgetItem(URL));
+
+  type_nbr.setNum(type);
+  mplist_table->setItem(mpcount, ML_TYPE, new QTableWidgetItem(type_nbr));
 
   mplist_table->resizeColumnsToContents();
   mpcount++;

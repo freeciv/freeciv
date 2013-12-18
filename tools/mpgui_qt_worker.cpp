@@ -32,6 +32,7 @@
 
 // modinst
 #include "download.h"
+#include "mpgui_qt.h"
 
 #include "mpgui_qt_worker.h"
 
@@ -50,16 +51,20 @@ void mpqt_worker::run()
   } else {
     msg_callback(_("Ready"));
   }
+
+  gui->refresh_list_versions();
 }
 
 /**************************************************************************
   Start thread to download and install given modpack.
 **************************************************************************/
-void mpqt_worker::download(QString URL_in, struct fcmp_params *fcmp_in,
+void mpqt_worker::download(QString URL_in, class mpgui *gui_in,
+                           struct fcmp_params *fcmp_in,
                            dl_msg_callback msg_callback_in,
                            dl_pb_callback pb_callback_in)
 {
   URL = URL_in;
+  gui = gui_in;
   fcmp = fcmp_in;
   msg_callback = msg_callback_in;
   pb_callback = pb_callback_in;
