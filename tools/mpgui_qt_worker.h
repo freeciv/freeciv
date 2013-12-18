@@ -25,6 +25,7 @@
 // tools
 #include "download.h"
 
+class mpgui;
 struct fcmp_params;
 
 class mpqt_worker : public QThread
@@ -33,12 +34,14 @@ class mpqt_worker : public QThread
 
   public:
     void run();
-    void download(QString URL_in, struct fcmp_params *fcmp_in,
+    void download(QString URL_in, class mpgui *gui_in,
+                  struct fcmp_params *fcmp_in,
                   dl_msg_callback msg_callback_in,
                   dl_pb_callback pb_callback_in);
 
   private:
     QString URL;
+    class mpgui *gui;
     struct fcmp_params *fcmp;
     dl_msg_callback msg_callback;
     dl_pb_callback pb_callback;
