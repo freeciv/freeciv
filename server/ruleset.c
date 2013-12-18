@@ -2423,9 +2423,9 @@ static bool load_terrain_names(struct section_file *file)
   if (ok) {
     sec = secfile_sections_by_name_prefix(file, EXTRA_SECTION_PREFIX);
     nval = (NULL != sec ? section_list_size(sec) : 0);
-    if (nval > S_LAST + MAX_BASE_TYPES + MAX_ROAD_TYPES) {
+    if (nval > MAX_EXTRA_TYPES) {
       ruleset_error(LOG_ERROR, "\"%s\": Too many extra types (%d, max %d)",
-                    filename, nval, S_LAST);
+                    filename, nval, MAX_EXTRA_TYPES);
       ok = FALSE;
     }
   }
@@ -2434,11 +2434,6 @@ static bool load_terrain_names(struct section_file *file)
     int idx;
 
     game.control.num_extra_types = nval;
-
-    if (nval < S_LAST) {
-      ruleset_error(LOG_ERROR, "One extra section for each special required");
-      ok = FALSE;
-    }
 
     if (extra_sections) {
       free(extra_sections);
@@ -2491,7 +2486,7 @@ static bool load_terrain_names(struct section_file *file)
       const char *base_name = secfile_lookup_str(file, "%s.name", sec_name);
       struct extra_type *pextra = extra_type_by_rule_name(base_name);
 
-      if (pextra != NULL && extra_index(pextra) >= S_LAST) {
+      if (pextra != NULL) {
         base_type_init(pextra, idx);
         section_strlcpy(&base_sections[idx * MAX_SECTION_LABEL], sec_name);
       } else {
@@ -2534,14 +2529,8 @@ static bool load_terrain_names(struct section_file *file)
       const char *sec_name = section_name(section_list_get(sec, idx));
       const char *road_name = secfile_lookup_str(file, "%s.name", sec_name);
       struct extra_type *pextra = extra_type_by_rule_name(road_name);
-      struct base_type *pbase = base_type_by_rule_name(road_name);
 
-      if (pbase != NULL) {
-        ruleset_error(LOG_ERROR,
-                      "Base and road by the same name \"%s\".",
-                      road_name);
-        ok = FALSE;
-      } else if (pextra != NULL && extra_index(pextra) >= S_LAST) {
+      if (pextra != NULL) {
         road_type_init(pextra, idx);
         section_strlcpy(&road_sections[idx * MAX_SECTION_LABEL], sec_name);
       } else {

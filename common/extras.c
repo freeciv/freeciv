@@ -94,7 +94,7 @@ void extras_free(void)
 **************************************************************************/
 int extra_count(void)
 {
-  return S_LAST + game.control.num_base_types + game.control.num_road_types;
+  return game.control.num_extra_types;
 }
 
 /**************************************************************************

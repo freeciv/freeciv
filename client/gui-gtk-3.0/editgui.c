@@ -1437,7 +1437,6 @@ static GdkPixbuf *get_tool_value_pixbuf(enum editor_tool_type ett,
   struct unit_type *putype;
   struct base_type *pbase;
   struct road_type *proad;
-  enum tile_special_type special;
   const struct editor_sprites *sprites;
 
   sprites = get_editor_sprites(tileset);
@@ -1459,11 +1458,8 @@ static GdkPixbuf *get_tool_value_pixbuf(enum editor_tool_type ett,
     }
     break;
   case ETT_TERRAIN_SPECIAL:
-    special = value;
-    if (special >= 0) {
-      /* FIXME: Special 0 is legal at the moment, but in the future NULL extra
-       * won't be. */
-      pixbuf = create_extra_pixbuf(special_extra_get(special));
+    if (value >= 0) {
+      pixbuf = create_extra_pixbuf(special_extra_get(value));
     }
     break;
   case ETT_ROAD:

@@ -24,6 +24,24 @@ struct extra_type;
 struct base_type;
 struct road_type;
 
+enum tile_special_type {
+  S_IRRIGATION,
+  S_MINE,
+  S_POLLUTION,
+  S_HUT,
+  S_FARMLAND,
+  S_FALLOUT,
+
+  /* internal values not saved */
+  S_LAST,
+
+  S_OLD_FORTRESS,
+  S_OLD_AIRBASE,
+  S_OLD_ROAD,
+  S_OLD_RAILROAD,
+  S_OLD_RIVER
+};
+
 struct loaddata {
   struct section_file *file;
   const char *secfile_options;

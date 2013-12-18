@@ -470,7 +470,7 @@ void handle_edit_tile_special(struct connection *pc, int tile,
     return;
   }
 
-  if (!(0 <= special && special < S_LAST)) {
+  if (special < 0 || special >= game.control.num_extra_types) {
     notify_conn(pc->self, ptile_center, E_BAD_COMMAND, ftc_editor,
                 /* TRANS: ..." the tile <tile-coordinates> because"... */
                 _("Cannot modify specials for the tile %s because "

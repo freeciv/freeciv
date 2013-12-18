@@ -938,10 +938,9 @@ shield      = 3 ; glacier used to have 4
 
 ; /* <-- avoid gettext warnings
 ;
-; Each of the specials, bases, and roads must have section here, in correct order.
-; First are specials Irrigation, Mine, Pollution, Hut, Farmland, and Fallout.
-; Then are bases in the same order as the dedicated [base] sections.
-; Last are roads in the same order as the dedicated [road] sections.
+; Each extra, including bases and roads, must have a section here.
+; Bases and roads have additional sections for their specific features below.
+;
 ;
 ; Extra types:
 ;

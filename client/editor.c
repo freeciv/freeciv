@@ -1131,7 +1131,7 @@ const char *editor_tool_get_value_name(enum editor_tool_type emt, int value)
     return presource ? resource_name_translation(presource) : "";
     break;
   case ETT_TERRAIN_SPECIAL:
-    if (!(0 <= value && value < S_LAST)) {
+    if (value < 0 || value >= extra_type_list_size(extra_type_list_by_cause(EC_SPECIAL))) {
       return "";
     }
     return extra_name_translation(special_extra_get(value));

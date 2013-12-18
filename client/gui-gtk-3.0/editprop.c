@@ -3979,7 +3979,7 @@ static void extviewer_view_cell_toggled(GtkCellRendererToggle *cell,
 
   case OPID_TILE_SPECIALS:
     gtk_tree_model_get(model, &iter, 1, &id, -1);
-    if (!(0 <= id && id < S_LAST)) {
+    if (id < 0 || id >= extra_type_list_size(extra_type_list_by_cause(EC_SPECIAL))) {
       return;
     }
     if (present) {
