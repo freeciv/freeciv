@@ -21,6 +21,7 @@ client/ggzclient.c
 client/global_worklist.c
 client/gui-gtk-2.0/caravan_dialog.c
 client/gui-gtk-2.0/chatline.c
+client/gui-gtk-2.0/choice_dialog.c
 client/gui-gtk-2.0/citizensinfo.c
 client/gui-gtk-2.0/citydlg.c
 client/gui-gtk-2.0/cityrep.c
@@ -57,6 +58,7 @@ client/gui-gtk-2.0/voteinfo_bar.c
 client/gui-gtk-2.0/wldlg.c
 client/gui-gtk-3.0/caravan_dialog.c
 client/gui-gtk-3.0/chatline.c
+client/gui-gtk-3.0/choice_dialog.c
 client/gui-gtk-3.0/citizensinfo.c
 client/gui-gtk-3.0/citydlg.c
 client/gui-gtk-3.0/cityrep.c
@@ -367,6 +369,7 @@ tools/mpcmdline.c
 tools/mpgui_gtk2.c
 tools/mpgui_gtk3.c
 tools/mpgui_qt.cpp
+tools/mpgui_qt_worker.cpp
 tools/ruledit/ruledit.cpp
 server/aiiface.c
 server/auth.c
