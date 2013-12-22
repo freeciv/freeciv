@@ -67,9 +67,6 @@ struct user_flag
   char *helptxt;
 };
 
-#define CONTAMINATION_POLLUTION 1
-#define CONTAMINATION_FALLOUT   2
-
 /* The number of turns that the first user needs to be attached to a 
  * player for that user to be ranked as that player */
 #define TURNS_NEEDED_TO_RANK 10
@@ -145,7 +142,6 @@ struct civ_game {
       int min_players;
       bool natural_city_names;
       int netwait;
-      int nuke_contamination;
       int num_phases;
       int occupychance;
       int onsetbarbarian;

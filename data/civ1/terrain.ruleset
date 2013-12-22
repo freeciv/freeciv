@@ -766,7 +766,7 @@ conflicts      = "Irrigation"
 [extra_pollution]
 name           = _("Pollution")
 category       = "Nuisance"
-causes         = "Pollution"
+causes         = "Pollution", "Fallout"
 graphic        = "tx.pollution"
 graphic_alt    = "-"
 activity_gfx   = "None"
@@ -799,18 +799,6 @@ act_gfx_alt    = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 buildable      = FALSE
-
-[extra_fallout]
-name           = _("Fallout")
-category       = "Nuisance"
-causes         = "Fallout"
-graphic        = "tx.fallout"
-graphic_alt    = "-"
-activity_gfx   = "None"
-act_gfx_alt    = "-"
-rmact_gfx      = "None"
-rmact_gfx_alt  = "-"
-pillageable    = FALSE
 
 [extra_fortress]
 name           = _("Fortress")

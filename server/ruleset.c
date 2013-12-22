@@ -4805,17 +4805,6 @@ static bool load_ruleset_game(struct section_file *file, bool act)
                                              "civstyle.min_city_center_%s",
                                              get_output_identifier(o));
     } output_type_iterate_end;
-
-    sval = secfile_lookup_str(file, "civstyle.nuke_contamination" );
-    if (fc_strcasecmp(sval, "Pollution") == 0) {
-      game.server.nuke_contamination = CONTAMINATION_POLLUTION;
-    } else if (fc_strcasecmp(sval, "Fallout") == 0) {
-      game.server.nuke_contamination = CONTAMINATION_FALLOUT;
-    } else {
-      ruleset_error(LOG_ERROR,
-                    "Bad value %s for nuke_contamination.", sval);
-      ok = FALSE;
-    }
   }
 
   if (ok) {
