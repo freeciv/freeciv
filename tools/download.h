@@ -28,7 +28,7 @@ extern "C" {
 #define FCMP_CONTROLD ".control"
 
 typedef void (*dl_msg_callback)(const char *msg);
-typedef void (*dl_pb_callback)(const double fraction);
+typedef void (*dl_pb_callback)(int downloaded, int max);
 
 const char *download_modpack(const char *URL,
 			     const struct fcmp_params *fcmp,

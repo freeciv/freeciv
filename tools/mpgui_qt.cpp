@@ -20,7 +20,9 @@
 #include <QHBoxLayout>
 #include <QHeaderView>
 #include <QLabel>
+#include <QLineEdit>
 #include <QMainWindow>
+#include <QProgressBar>
 #include <QPushButton>
 #include <QTableWidget>
 #include <QVBoxLayout>
@@ -62,6 +64,7 @@ static void setup_modpack_list(const char *name, const char *URL,
                                const char *version, const char *license,
                                enum modpack_type type, const char *notes);
 static void msg_callback(const char *msg);
+static void progress_callback(int downloaded, int max);
 
 /**************************************************************************
   Entry point for whole freeciv-mp-qt program.
@@ -133,6 +136,14 @@ static void msg_callback(const char *msg)
 }
 
 /**************************************************************************
+  Progress indications from downloader
+**************************************************************************/
+static void progress_callback(int downloaded, int max)
+{
+  gui->progress(downloaded, max);
+}
+
+/**************************************************************************
   Setup GUI object
 **************************************************************************/
 void mpgui::setup(QWidget *central)
@@ -179,6 +190,9 @@ void mpgui::setup(QWidget *central)
   connect(install_button, SIGNAL(pressed()), this, SLOT(URL_given()));
   main_layout->addWidget(install_button);
 
+  bar = new QProgressBar(central);
+  main_layout->addWidget(bar);
+
   msg_dspl = new QLabel(_("Select modpack to install"));
   msg_dspl->setParent(central);
   main_layout->addWidget(msg_dspl);
@@ -197,6 +211,15 @@ void mpgui::display_msg(const char *msg)
 }
 
 /**************************************************************************
+  Update progress bar
+**************************************************************************/
+void mpgui::progress(int downloaded, int max)
+{
+  bar->setMaximum(max);
+  bar->setValue(downloaded);
+}
+
+/**************************************************************************
   User entered URL
 **************************************************************************/
 void mpgui::URL_given()
@@ -209,8 +232,8 @@ void mpgui::URL_given()
   } else {
     worker = new mpqt_worker;
   }
-  
-  worker->download(URLedit->text(), this, &fcmp, msg_callback, NULL);
+
+  worker->download(URLedit->text(), this, &fcmp, msg_callback, progress_callback);
 }
 
 /**************************************************************************

@@ -154,9 +154,7 @@ const char *download_modpack(const char *URL,
 
   if (pbcb != NULL) {
     /* Control file already downloaded */
-    double fraction = (double) 1 / (total_files + 1);
-
-    pbcb(fraction);
+    pbcb(1, total_files + 1);
   }
 
   filenbr = 0;
@@ -225,9 +223,7 @@ const char *download_modpack(const char *URL,
 
     if (pbcb != NULL) {
       /* Count download of control file also */
-      double fraction = (double)(filenbr + 2) / (total_files + 1);
-
-      pbcb(fraction);
+      pbcb(filenbr + 2, total_files + 1);
     }
   }
 
