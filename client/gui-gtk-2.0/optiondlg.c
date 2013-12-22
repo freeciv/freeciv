@@ -29,6 +29,7 @@
 
 /* client/gui-gtk-2.0 */
 #include "colors.h"
+#include "dialogs.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "pages.h"
@@ -1000,6 +1001,8 @@ static void option_gui_update_extra(struct option *poption)
   if (option_optset(poption) == server_optset) {
     if (strcmp(option_name(poption), "aifill") == 0) {
       ai_fill_changed_by_server(option_int_get(poption));
+    } else if (strcmp(option_name(poption), "nationset") == 0) {
+      nationset_sync_to_server(option_str_get(poption));
     }
   }
 }
