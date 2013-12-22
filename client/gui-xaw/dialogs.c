@@ -179,10 +179,13 @@ static void select_random_race(void)
   /* FIXME: this code should be done another way. -ev */
   while (1) {
     unsigned int race_toggle_index = fc_rand(nation_count());
+    const struct nation_type *pnation =
+      races_toggles_to_nations[race_toggle_index];
 
-    if (!is_nation_playable(nation_by_number(race_toggle_index))
-	|| !is_nation_pickable(nation_by_number(race_toggle_index))
-	|| nation_by_number(race_toggle_index)->player) {
+    if (!pnation
+        || !is_nation_playable(pnation)
+        || !is_nation_pickable(pnation)
+        || pnation->player) {
       continue;
     }
     if (XtIsSensitive(races_toggles[race_toggle_index])) {
@@ -1010,7 +1013,7 @@ void create_races_dialog(struct player *pplayer)
   races_player = pplayer;
   maxracelen = 0;
   nations_iterate(pnation) {
-    if (is_nation_playable(pnation)) {
+    if (is_nation_playable(pnation) && is_nation_pickable(pnation)) {
       len = strlen(nation_adjective_translation(pnation));
       maxracelen = MAX(maxracelen, len);
     }
@@ -1053,7 +1056,7 @@ void create_races_dialog(struct player *pplayer)
   j = 0;
   index = 0;
   nations_iterate(pnation) {
-    if (!is_nation_playable(pnation)) {
+    if (!is_nation_playable(pnation) || !is_nation_pickable(pnation)) {
       continue;
     }
 
