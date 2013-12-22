@@ -990,6 +990,15 @@ void popdown_races_dialog(void)
 }
 
 /**************************************************************************
+  The server has changed the set of selectable nations.
+**************************************************************************/
+void races_update_pickable(void)
+{
+  /* FIXME handle this properly */
+  popdown_races_dialog();
+}
+
+/**************************************************************************
   Update which nations are allowed to be selected (due to e.g. another
   player choosing a nation).
 **************************************************************************/

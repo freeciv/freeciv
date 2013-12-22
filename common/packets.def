@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 235
+Max id: 237
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -1316,6 +1316,15 @@ end
 PACKET_RULESETS_READY = 225; sc, lsend
 end
 
+PACKET_RULESET_NATION_SETS = 236; sc, lsend
+  UINT8 nsets;
+  STRING names[MAX_NUM_NATION_SETS:nsets][MAX_LEN_NAME];
+  STRING rule_names[MAX_NUM_NATION_SETS:nsets][MAX_LEN_NAME];
+  /* This relies on MAX_NUM_NATION_SETS not being too big to overflow
+   * the packet length: */
+  STRING descriptions[MAX_NUM_NATION_SETS:nsets][MAX_LEN_MSG]; /*untranslated*/
+end
+
 PACKET_RULESET_NATION_GROUPS = 147; sc, lsend
   UINT8 ngroups;
   STRING groups[MAX_NUM_NATION_GROUPS:ngroups][MAX_LEN_NAME];
@@ -1325,6 +1334,7 @@ PACKET_RULESET_NATION = 148; sc, lsend
   NATION id; key
 
   STRING translation_domain[MAX_LEN_NAME];
+  /* Strings are untranslated */
   STRING adjective[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
   STRING noun_plural[MAX_LEN_NAME];
@@ -1338,9 +1348,12 @@ PACKET_RULESET_NATION = 148; sc, lsend
   STRING leader_name[MAX_NUM_LEADERS:leader_count][MAX_LEN_NAME];
   BOOL leader_is_male[MAX_NUM_LEADERS:leader_count];
 
-  BOOL is_pickable, is_playable;
+  BOOL is_playable;
   UINT8 barbarian_type;
   
+  UINT8 nsets;
+  UINT8 sets[MAX_NUM_NATION_SETS:nsets];
+
   UINT8 ngroups;
   UINT8 groups[MAX_NUM_NATION_GROUPS:ngroups];
 
@@ -1348,6 +1361,13 @@ PACKET_RULESET_NATION = 148; sc, lsend
   TECH_LIST init_techs[MAX_NUM_TECH_LIST];
   UNIT_LIST init_units[MAX_NUM_UNIT_LIST];
   BUILDING_LIST init_buildings[MAX_NUM_BUILDING_LIST];
+end
+
+# Separate from PACKET_RULESET_NATION since it can change in pregame
+# without a ruleset reload
+PACKET_NATION_AVAILABILITY = 237; sc, lsend
+  UINT16 ncount;
+  BOOL is_pickable[MAX_NUM_NATIONS:ncount];
 end
 
 PACKET_RULESET_CITY = 149; sc, lsend

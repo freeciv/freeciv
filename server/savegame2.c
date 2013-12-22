@@ -3318,6 +3318,11 @@ static void sg_load_players(struct loaddata *loading)
     sg_load_player_units_transport(loading, pplayer);
   } players_iterate_end;
 
+  /* Savegame may contain nation assignments that are incompatible with the
+   * current nationset -- for instance, if it predates the introduction of
+   * nationsets. Ensure they are compatible, one way or another. */
+  fit_nationset_to_players();
+
   /* Some players may have invalid nations in the ruleset. Once all players
    * are loaded, pick one of the remaining nations for them. */
   players_iterate(pplayer) {

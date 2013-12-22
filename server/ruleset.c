@@ -83,8 +83,8 @@
 #define CITYSTYLE_SECTION_PREFIX "citystyle_"
 #define EFFECT_SECTION_PREFIX "effect_"
 #define GOVERNMENT_SECTION_PREFIX "government_"
-#define NATION_GROUP_SECTION_PREFIX "ngroup" /* without underscore? */
 #define NATION_SET_SECTION_PREFIX "nset" /* without underscore? */
+#define NATION_GROUP_SECTION_PREFIX "ngroup" /* without underscore? */
 #define NATION_SECTION_PREFIX "nation" /* without underscore? */
 #define RESOURCE_SECTION_PREFIX "resource_"
 #define EXTRA_SECTION_PREFIX "extra_"
@@ -3463,6 +3463,9 @@ static bool load_nation_names(struct section_file *file)
   if (NULL == sec) {
     ruleset_error(LOG_ERROR, "No available nations in this ruleset!");
     ok = FALSE;
+  } else if (section_list_size(sec) > MAX_NUM_NATIONS) {
+    ruleset_error(LOG_ERROR, "Too many nations (max %d, we have %d)!",
+                  MAX_NUM_NATIONS, section_list_size(sec));
   } else {
     game.control.nation_count = section_list_size(sec);
     nations_alloc(game.control.nation_count);
@@ -3726,9 +3729,8 @@ static bool load_ruleset_nations(struct section_file *file)
   char temp_name[MAX_LEN_NAME];
   const char **vec;
   const char *name, *bad_leader;
-  int barb_land_count = 0;
-  int barb_sea_count = 0;
   const char *sval;
+  int default_set;
   const char *filename = secfile_name(file);
   struct section_list *sec;
   enum trait tr;
@@ -3765,28 +3767,57 @@ static bool load_ruleset_nations(struct section_file *file)
     game.server.default_government = government_by_rule_name(sval);
   }
 
-  set_allowed_nation_groups(NULL);
-
   sec = secfile_sections_by_name_prefix(file, NATION_SET_SECTION_PREFIX);
   if (sec) {
     section_list_iterate(sec, psection) {
-      struct nation_group *pset;
+      const char *set_name, *set_rule_name, *set_description;
 
-      name = secfile_lookup_str(file, "%s.name", section_name(psection));
-      if (NULL == name) {
+      set_name = secfile_lookup_str(file, "%s.name", section_name(psection));
+      set_rule_name =
+        secfile_lookup_str(file, "%s.rule_name", section_name(psection));
+      set_description = secfile_lookup_str_default(file, "", "%s.description",
+                                                   section_name(psection));
+      if (NULL == set_name || NULL == set_rule_name) {
         ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
         ok = FALSE;
         break;
       }
-      pset = nation_group_new(name);
-      if (pset == NULL) {
+      if (nation_set_new(set_name, set_rule_name, set_description) == NULL) {
         ok = FALSE;
         break;
       }
-      nation_group_set_set(pset, TRUE);
     } section_list_iterate_end;
     section_list_destroy(sec);
     sec = NULL;
+  } else {
+    ruleset_error(LOG_ERROR,
+                  "At least one nation set [" NATION_SET_SECTION_PREFIX "_*] "
+                  "must be defined.");
+    ok = FALSE;
+  }
+
+  if (ok) {
+    /* Default set that every nation is a member of. */
+    sval = secfile_lookup_str_default(file, NULL,
+                                      "compatibility.default_nationset");
+    if (sval != NULL) {
+      const struct nation_set *pset = nation_set_by_rule_name(sval);
+      if (pset != NULL) {
+        default_set = nation_set_number(pset);
+      } else {
+        ruleset_error(LOG_ERROR,
+                      "Unknown default_nationset \"%s\".", sval);
+        ok = FALSE;
+      }
+    } else if (nation_set_count() == 1) {
+      /* If there's only one set defined, every nation is implicitly a
+       * member of that set. */
+      default_set = 0;
+    } else {
+      /* No default nation set; every nation must explicitly specify at
+       * least one set to be a member of. */
+      default_set = -1;
+    }
   }
 
   if (ok) {
@@ -3827,24 +3858,40 @@ static bool load_ruleset_nations(struct section_file *file)
       const char *barb_type;
       const char *sec_name = section_name(section_list_get(sec, i));
 
-      /* Nation groups. */
+      /* Nation sets and groups. */
+      if (default_set >= 0) {
+        nation_set_list_append(pnation->sets,
+                               nation_set_by_number(default_set));
+      }
       vec = secfile_lookup_str_vec(file, &dim, "%s.groups", sec_name);
       for (j = 0; j < dim; j++) {
+        struct nation_set *pset = nation_set_by_rule_name(vec[j]);
         struct nation_group *pgroup = nation_group_by_rule_name(vec[j]);
 
-        if (NULL != pgroup) {
+        fc_assert(pset == NULL || pgroup == NULL);
+
+        if (NULL != pset) {
+          nation_set_list_append(pnation->sets, pset);
+        } else if (NULL != pgroup) {
           nation_group_list_append(pnation->groups, pgroup);
         } else {
           /* For nation authors, this would probably be considered an error.
            * But it can happen normally. The civ1 compatibility ruleset only
            * uses the nations that were in civ1, so not all of the links will
            * exist. */
-          log_verbose("Nation %s: Unknown group \"%s\".",
+          log_verbose("Nation %s: Unknown set/group \"%s\".",
                       nation_rule_name(pnation), vec[j]);
         }
       }
       if (NULL != vec) {
         free(vec);
+      }
+      if (nation_set_list_size(pnation->sets) < 1) {
+        ruleset_error(LOG_ERROR,
+                      "Nation %s is not a member of any nation set",
+                      nation_rule_name(pnation));
+        ok = FALSE;
+        break;
       }
 
       /* Nation conflicts. */
@@ -3970,10 +4017,6 @@ static bool load_ruleset_nations(struct section_file *file)
       pnation->is_playable =
         secfile_lookup_bool_default(file, TRUE, "%s.is_playable", sec_name);
 
-      if (pnation->is_playable) {
-        server.playable_nations++;
-      }
-
       /* Check barbarian type. Default is "None" meaning not a barbarian */
       barb_type = secfile_lookup_str_default(file, "None",
                                              "%s.barbarian_type", sec_name);
@@ -3981,10 +4024,8 @@ static bool load_ruleset_nations(struct section_file *file)
         pnation->barb_type = NOT_A_BARBARIAN;
       } else if (fc_strcasecmp(barb_type, "Land") == 0) {
         pnation->barb_type = LAND_BARBARIAN;
-        barb_land_count++;
       } else if (fc_strcasecmp(barb_type, "Sea") == 0) {
         pnation->barb_type = SEA_BARBARIAN;
-        barb_sea_count++;
       } else if (fc_strcasecmp(barb_type, "Animal") == 0) {
         pnation->barb_type = ANIMAL_BARBARIAN;
       } else {
@@ -4236,15 +4277,57 @@ static bool load_ruleset_nations(struct section_file *file)
     secfile_check_unused(file);
   }
 
-  if (ok && barb_land_count == 0) {
-    ruleset_error(LOG_ERROR,
-                  "No land barbarian nation defined. At least one required!");
-    ok = FALSE;
-  }
-  if (ok && barb_sea_count == 0) {
-    ruleset_error(LOG_ERROR,
-                  "No sea barbarian nation defined. At least one required!");
-    ok = FALSE;
+  if (ok) {
+    /* Update cached number of playable nations in the current set */
+    count_playable_nations();
+    
+    /* Sanity checks on all sets */
+    nation_sets_iterate(pset) {
+      int num_playable = 0, barb_land_count = 0, barb_sea_count = 0;
+      nations_iterate(pnation) {
+        if (nation_is_in_set(pnation, pset)) {
+          switch (nation_barbarian_type(pnation)) {
+          case NOT_A_BARBARIAN:
+            if (is_nation_playable(pnation)) {
+              num_playable++;
+            }
+            break;
+          case LAND_BARBARIAN:
+            barb_land_count++;
+            break;
+          case SEA_BARBARIAN:
+            barb_sea_count++;
+            break;
+          case ANIMAL_BARBARIAN:
+            /* Animals are optional */
+            break;
+          default:
+            fc_assert_ret_val(FALSE, FALSE);
+          }
+        }
+      } nations_iterate_end;
+      if (num_playable < 1) {
+        ruleset_error(LOG_ERROR,
+                      "Nation set \"%s\" has no playable nations. "
+                      "At least one required!", nation_set_rule_name(pset));
+        ok = FALSE;
+        break;
+      }
+      if (barb_land_count == 0) {
+        ruleset_error(LOG_ERROR,
+                      "No land barbarian nation defined in set \"%s\". "
+                      "At least one required!", nation_set_rule_name(pset));
+        ok = FALSE;
+        break;
+      }
+      if (barb_sea_count == 0) {
+        ruleset_error(LOG_ERROR,
+                      "No sea barbarian nation defined in set \"%s\". "
+                      "At least one required!", nation_set_rule_name(pset));
+        ok = FALSE;
+        break;
+      }
+    } nation_sets_iterate_end;
   }
 
   return ok;
@@ -5855,9 +5938,20 @@ static void send_ruleset_governments(struct conn_list *dest)
 **************************************************************************/
 static void send_ruleset_nations(struct conn_list *dest)
 {
-  struct packet_ruleset_nation packet;
+  struct packet_ruleset_nation_sets sets_packet;
   struct packet_ruleset_nation_groups groups_packet;
+  struct packet_ruleset_nation packet;
   int i;
+
+  sets_packet.nsets = nation_set_count();
+  i = 0;
+  nation_sets_iterate(pset) {
+    sz_strlcpy(sets_packet.names[i], nation_set_untranslated_name(pset));
+    sz_strlcpy(sets_packet.rule_names[i], nation_set_rule_name(pset));
+    sz_strlcpy(sets_packet.descriptions[i], nation_set_description(pset));
+    i++;
+  } nation_sets_iterate_end;
+  lsend_packet_ruleset_nation_sets(dest, &sets_packet);
 
   groups_packet.ngroups = nation_group_count();
   i = 0;
@@ -5890,10 +5984,15 @@ static void send_ruleset_nations(struct conn_list *dest)
 
     packet.city_style = n->city_style;
     packet.is_playable = n->is_playable;
-    packet.is_pickable = is_nation_pickable(n);
     packet.barbarian_type = n->barb_type;
 
     sz_strlcpy(packet.legend, n->legend);
+
+    i = 0;
+    nation_set_list_iterate(n->sets, pset) {
+      packet.sets[i++] = nation_set_number(pset);
+    } nation_set_list_iterate_end;
+    packet.nsets = i;
 
     i = 0;
     nation_group_list_iterate(n->groups, pgroup) {
@@ -5920,6 +6019,9 @@ static void send_ruleset_nations(struct conn_list *dest)
 
     lsend_packet_ruleset_nation(dest, &packet);
   } nations_iterate_end;
+
+  /* Send initial values of is_pickable */
+  send_nation_availability(dest);
 }
 
 /**************************************************************************
@@ -6223,12 +6325,7 @@ static bool load_rulesetdir(const char *rsdir, bool act)
 
     /* We may need to adjust the number of AI players
      * if the number of available nations changed. */
-    if (game.info.aifill > server.playable_nations && act) {
-      log_normal(_("Reducing aifill because there "
-                   "are not enough playable nations."));
-      game.info.aifill = server.playable_nations;
-      aifill(game.info.aifill);
-    }
+    aifill(game.info.aifill);
   }
 
   return ok;

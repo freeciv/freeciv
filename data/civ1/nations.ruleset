@@ -23,6 +23,17 @@ default_government = "Despotism"
 ;trader = 50
 ;aggressive = 50
 
+; Descriptions of nation sets
+; name 		= translatable name of the set
+; rule_name     = unique persistent name used in savefiles etc
+; description   = Optional short user description of this set
+
+; It is mandatory to have a set, but if there is only one then it will be
+; kept out of the way of the user.
+[nset_all]
+name=_("All nations")
+rule_name="all"
+
 ; Descriptions of nation groups
 ; name 		= name of the group
 ; match		= How much the AI will try to select a nation in the same

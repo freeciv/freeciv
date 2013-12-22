@@ -581,7 +581,7 @@ static bool connection_attach_real(struct connection *pconn,
       if (NULL == pplayer) {
         /* no uncontrolled player found */
         if (player_count() >= game.server.max_players
-            || player_count() - server.nbarbarians >= server.playable_nations) {
+            || normal_player_count() >= server.playable_nations) {
           return FALSE;
         }
         /* add new player, or not */

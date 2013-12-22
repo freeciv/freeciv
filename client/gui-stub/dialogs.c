@@ -87,6 +87,14 @@ void unit_select_dialog_update_real(void)
 }
 
 /**************************************************************************
+  The server has changed the set of selectable nations.
+**************************************************************************/
+void races_update_pickable(void)
+{ 
+  /* PORTME */
+}
+
+/**************************************************************************
   In the nation selection dialog, make already-taken nations unavailable.
   This information is contained in the packet_nations_used packet.
 **************************************************************************/

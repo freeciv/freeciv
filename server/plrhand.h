@@ -18,6 +18,7 @@ struct connection;
 struct conn_list;
 struct rgbcolor;
 struct player;
+struct nation_type;
 
 enum plr_info_level { INFO_MINIMUM, INFO_MEETING, INFO_EMBASSY, INFO_FULL };
 
@@ -48,6 +49,19 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
                                   bool ignore_conflicts,
                                   bool needs_startpos,
                                   enum barbarian_type barb_type);
+void count_playable_nations(void);
+void send_nation_availability(struct conn_list *dest);
+void fit_nationset_to_players(void);
+
+/* Iterate over nations in the currently selected set.
+ * Does not filter on playability or anything else. */
+#define allowed_nations_iterate(pnation)                            \
+  nations_iterate(pnation) {                                        \
+    if (nation_is_in_current_set(pnation)) {
+
+#define allowed_nations_iterate_end                                 \
+    }                                                               \
+  } nations_iterate_end
 
 void check_player_max_rates(struct player *pplayer);
 void make_contact(struct player *pplayer1, struct player *pplayer2,

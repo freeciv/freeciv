@@ -1841,7 +1841,7 @@ void handle_nation_select_req(struct connection *pc, int player_no,
 
     if (!is_nation_pickable(new_nation)) {
       notify_player(pplayer, NULL, E_NATION_SELECTED, ftc_server,
-                    _("%s nation is not available in this scenario."),
+                    _("%s nation is not available for user selection."),
                     nation_adjective_translation(new_nation));
       return;
     }
@@ -1858,6 +1858,9 @@ void handle_nation_select_req(struct connection *pc, int player_no,
                     ftc_server, "%s", message);
       return;
     }
+
+    /* Should be caught by is_nation_pickable() */
+    fc_assert_ret(nation_is_in_current_set(new_nation));
 
     notify_conn(NULL, NULL, E_NATION_SELECTED, ftc_server,
                 _("%s is the %s ruler %s."),
@@ -2085,7 +2088,7 @@ static void generate_players(void)
     }
 
     /* See if the player name matches a known leader name. */
-    nations_iterate(pnation) {
+    allowed_nations_iterate(pnation) {
       struct nation_leader *pleader;
       const char *name = player_name(pplayer);
 
@@ -2098,60 +2101,13 @@ static void generate_players(void)
         pplayer->is_male = nation_leader_is_male(pleader);
         break;
       }
-    } nations_iterate_end;
+    } allowed_nations_iterate_end;
     if (pplayer->nation != NO_NATION_SELECTED) {
       announce_player(pplayer);
     } else {
       nations_to_assign++;
     }
   } players_iterate_end;
-
-  /* Calculate the union of the nation sets of assigned nations.
-   * Further assignments (here and throughout the game) will be limited
-   * to this subset of nations. */
-  {
-    struct nation_group_list *sets = nation_group_list_new();
-    players_iterate(pplayer) {
-      int nsets = 0;
-      if (!pplayer->nation) {
-        continue;
-      }
-      nation_group_list_iterate(pplayer->nation->groups, pgroup) {
-        if (nation_group_is_a_set(pgroup)) {
-          if (!nation_group_list_search(sets, pgroup)) {
-            nation_group_list_append(sets, pgroup);
-          }
-          nsets++;
-        }
-      } nation_group_list_iterate_end;
-      if (nsets == 0) {
-        /* Nation is in no explicit sets. Treat it as being in a virtual
-         * set of all nations. This is signalled as NULL. */
-        nation_group_list_destroy(sets);
-        sets = NULL;
-        /* Since the union can't get any bigger after this, bail out now. */
-        break;
-      }
-    } players_iterate_end;
-
-    /* Were there any assigned nations? If so, the list will either have
-     * some members or have been set to NULL to indicate no restrictions. */
-    if (sets && nation_group_list_size(sets) == 0) {
-      /* No -- fall back to default behaviour.
-       * If there are any sets defined, use the first one (we rely on
-       * sets being loaded from the ruleset before other groups),
-       * otherwise no restrictions. */
-      struct nation_group *first = nation_group_by_number(0);
-      if (first && nation_group_is_a_set(first)) {
-        nation_group_list_append(sets, first);
-      } else {
-        nation_group_list_destroy(sets);
-        sets = NULL;
-      }
-    }
-    /* Configure pick_a_nation(). */
-    set_allowed_nation_groups(sets);
-  }
 
   if (0 < nations_to_assign && 0 < map_startpos_count()) {
     /* We're running a scenario game with specified start positions.
@@ -2196,7 +2152,7 @@ static void generate_players(void)
       min = max;
       i = 0;
 
-      nations_iterate(pnation) {
+      allowed_nations_iterate(pnation) {
         if (!is_nation_playable(pnation)
             || NULL != pnation->player) {
           /* Not available. */
@@ -2220,7 +2176,7 @@ static void generate_players(void)
             picked = pnation;
           }
         } startpos_hash_iterate_end;
-      } nations_iterate_end;
+      } allowed_nations_iterate_end;
 
       if (NO_NATION_SELECTED != picked) {
         player_set_nation_full(pplayer, picked);
@@ -2244,14 +2200,24 @@ static void generate_players(void)
   }
 
   if (0 < nations_to_assign) {
+    /* Pick random races. Try to select from the set permitted by
+     * starting positions -- if we fell through here after failing to
+     * match start positions, this will at least keep the picked
+     * nations vaguely in keeping with the scenario.
+     * However, even this may fail (if there are start positions that
+     * can only be filled by nations outside the current nationset),
+     * in which case we fall back to completely random nations. */
+    bool needs_startpos = TRUE;
     players_iterate(pplayer) {
       if (NO_NATION_SELECTED == pplayer->nation) {
-        /* Pick random race. Try to select from the same set that clients
-         * could pick from (if we fell through here after failing
-         * start-position-based nation selection, this will at least keep
-         * the picked nations vaguely in keeping with the scenario). */
-        player_set_nation_full(pplayer, pick_a_nation(NULL, FALSE, TRUE,
-                                                      NOT_A_BARBARIAN));
+        struct nation_type *pnation = pick_a_nation(NULL, FALSE, needs_startpos,
+                                                    NOT_A_BARBARIAN);
+        if (pnation == NO_NATION_SELECTED && needs_startpos) {
+          needs_startpos = FALSE;
+          pnation = pick_a_nation(NULL, FALSE, needs_startpos, NOT_A_BARBARIAN);
+        }
+        fc_assert(pnation != NO_NATION_SELECTED);
+        player_set_nation_full(pplayer, pnation);
         nations_to_assign--;
         announce_player(pplayer);
       }

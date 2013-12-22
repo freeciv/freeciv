@@ -32,6 +32,7 @@
 #include "game.h"
 #include "government.h"
 #include "movement.h"
+#include "nation.h"
 #include "packets.h"
 #include "player.h"
 #include "research.h"
@@ -97,6 +98,8 @@ static void send_player_info_c_real(struct player *src,
                                     struct conn_list *dest);
 static void send_player_diplstate_c_real(struct player *src,
                                          struct conn_list *dest);
+
+static void send_nation_availability_real(struct conn_list *dest);
 
 /* Used by shuffle_players() and shuffled_player(). */
 static int shuffled_order[MAX_NUM_PLAYER_SLOTS];
@@ -787,9 +790,10 @@ static void send_player_remove_info_c(const struct player_slot *pslot,
 }
 
 /****************************************************************************
-  Do not compute and send PACKET_PLAYER_INFO until a call to
-  player_info_thaw(). This is used to discard infos in savegame load or
-  ruleset (re)load cycles.
+  Do not compute and send PACKET_PLAYER_INFO or PACKET_NATION_AVAILABILITY
+  until a call to player_info_thaw(). This is used during savegame load
+  or ruleset (re)load cycles, to avoid sending infos to the client that
+  depend on ruleset data it does not yet have.
 ****************************************************************************/
 void player_info_freeze(void)
 {
@@ -797,12 +801,13 @@ void player_info_freeze(void)
 }
 
 /****************************************************************************
-  If the frozen level is back to 0, send all players infos to all
-  connections.
+  If the frozen level is back to 0, send all players' infos, and nation
+  availability, to all connections.
 ****************************************************************************/
 void player_info_thaw(void)
 {
   if (0 == --player_info_frozen_level) {
+    send_nation_availability_real(game.est_connections);
     send_player_info_c(NULL, NULL);
   }
   fc_assert(0 <= player_info_frozen_level);
@@ -1373,7 +1378,7 @@ void assign_player_colors(void)
   if (game.server.plrcolormode == PLRCOL_NATION_ORDER) {
     /* Additionally, try to avoid color clashes with certain nations not
      * yet in play (barbarians). */
-    nations_iterate(pnation) {
+    allowed_nations_iterate(pnation) {
       const struct rgbcolor *ncol = nation_color(pnation);
       if (ncol && nation_barbarian_type(pnation) != NOT_A_BARBARIAN) {
         /* Don't use this color. */
@@ -1383,7 +1388,7 @@ void assign_player_colors(void)
           }
         } rgbcolor_list_iterate_end;
       }
-    } nations_iterate_end;
+    } allowed_nations_iterate_end;
   }
 
   fc_assert(game.server.plrcolormode == PLRCOL_PLR_RANDOM
@@ -2048,7 +2053,8 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
   nations_iterate(pnation) {
     index = nation_index(pnation);
 
-    if (pnation->player
+    if (!nation_is_in_current_set(pnation)
+        || pnation->player
         || (needs_startpos && game.scenario.startpos_nations
             && pnation->server.no_startpos)
         || (barb_type != nation_barbarian_type(pnation))
@@ -2060,22 +2066,6 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
       nations_used[index] = UNAVAILABLE;
       match[index] = 0;
       continue;
-    }
-
-    if (get_allowed_nation_groups()) {
-      /* Don't consider any nations outside the set of allowed groups. */
-      bool allowed = FALSE;
-      nation_group_list_iterate(get_allowed_nation_groups(), pgroup) {
-        if (nation_is_in_group(pnation, pgroup)) {
-          allowed = TRUE;
-          break;
-        }
-      } nation_group_list_iterate_end;
-      if (!allowed) {
-        nations_used[index] = UNAVAILABLE;
-        match[index] = 0;
-        continue;
-      }
     }
 
     nations_used[index] = AVAILABLE;
@@ -2164,24 +2154,111 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
     }
   }
 
-  /* If we get this far and a restriction to nation set(s) is in force,
-   * _permanently_ remove the restriction and try again (recursively,
-   * but it can only happen once per game).
-   * This should get us a nation if possible, and have the side-effect that
-   * future picked nations won't honor the restrictions.
-   * (This is dirty; it would be better to have prevented attempts to
-   * create more players than the restrictions permit via playable_nations
-   * or similar.) */
-  if (get_allowed_nation_groups()) {
-    log_verbose("Unable to honor restricted nation set(s). Removing "
-                "restrictions for the rest of the game.");
-    set_allowed_nation_groups(NULL);  /* no restrictions */
-    return pick_a_nation(choices, ignore_conflicts, needs_startpos, barb_type);
-  }
-
   log_verbose("No nation found!");
 
   return NO_NATION_SELECTED;
+}
+
+/****************************************************************************
+  Update the server's cached number of playable nations.
+  Call when the nationset changes.
+****************************************************************************/
+void count_playable_nations(void)
+{
+  server.playable_nations = 0;
+  allowed_nations_iterate(pnation) {
+    if (is_nation_playable(pnation)) {
+      server.playable_nations++;
+    }
+  } allowed_nations_iterate_end;
+}
+
+/****************************************************************************
+  Helper doing the actual work for send_nation_availability() (q.v.).
+****************************************************************************/
+static void send_nation_availability_real(struct conn_list *dest)
+{
+  struct packet_nation_availability packet;
+  packet.ncount = nation_count();
+  nations_iterate(pnation) {
+    packet.is_pickable[nation_index(pnation)] = is_nation_pickable(pnation);
+  } nations_iterate_end;
+  lsend_packet_nation_availability(dest, &packet);
+}
+
+/****************************************************************************
+  Tell clients which nations can be picked given current server settings.
+****************************************************************************/
+void send_nation_availability(struct conn_list *dest)
+{
+  if (0 < player_info_frozen_level) {
+    return; /* Discard, see comment for player_info_freeze(). */
+  } else {
+    send_nation_availability_real(dest);
+  }
+}
+
+/****************************************************************************
+  Try to select a nation set that fits the current players' nations, or
+  failing that, unset the nations of some of the players.
+  To be called when loading an old savegame that predates nationsets.
+****************************************************************************/
+void fit_nationset_to_players(void)
+{
+  int misfits[nation_set_count()];
+  nation_sets_iterate(pset) {
+    misfits[nation_set_index(pset)] = 0;
+    players_iterate(pplayer) {
+      if (pplayer->nation != NO_NATION_SELECTED
+          && !nation_is_in_set(pplayer->nation, pset)) {
+        misfits[nation_set_index(pset)]++;
+      }
+    } players_iterate_end;
+  } nation_sets_iterate_end;
+
+  if (misfits[nation_set_index(current_nationset())] == 0) {
+    /* Current set is OK. */
+    return;
+  }
+
+  /* Otherwise, pick the least worst set (requires unsetting fewest
+   * players, possibly none). */
+  {
+    int i, least_misfits;
+    const struct nation_set *best = NULL;
+    for (i=0; i<nation_set_count(); i++) {
+      if (best == NULL || misfits[i] < least_misfits) {
+        best = nation_set_by_number(i);
+        least_misfits = misfits[i];
+        if (least_misfits == 0) {
+          /* Not going to do any better. */
+          break;
+        }
+      }
+    }
+
+    log_verbose("Current nationset \"%s\" doesn't fit all existing players.",
+                nation_set_rule_name(current_nationset()));
+    log_verbose("Selected nationset \"%s\".", nation_set_rule_name(best));
+    fc_strlcpy(game.server.nationset, nation_set_rule_name(best),
+               sizeof(game.server.nationset));
+    count_playable_nations();
+    /* No need to refresh clients, as we're assumed to be in the middle of
+     * loading a savegame and will send new setting/availability later
+     * along with everything else */
+  }
+
+  /* The set we chose may not fit all the players; as a last resort,
+   * unset nations (caller must then arrange new assignments). */
+  players_iterate(pplayer) {
+    if (pplayer->nation != NO_NATION_SELECTED
+        && !nation_is_in_current_set(pplayer->nation)) {
+      log_verbose("Nation %s of player %s not in nationset \"%s\", unsetting.",
+                  nation_plural_for_player(pplayer), player_name(pplayer),
+                  nation_set_rule_name(current_nationset()));
+      player_set_nation(pplayer, NO_NATION_SELECTED);
+    }
+  } players_iterate_end;
 }
 
 /****************************************************************************

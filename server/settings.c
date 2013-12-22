@@ -32,6 +32,7 @@
 #include "gamehand.h"
 #include "ggzserver.h"
 #include "maphand.h"
+#include "notify.h"
 #include "plrhand.h"
 #include "report.h"
 #include "settings.h"
@@ -475,6 +476,38 @@ static void aifill_action(const struct setting *pset)
 }
 
 /*************************************************************************
+  Restrict to the selected nation set.
+*************************************************************************/
+static void nationset_action(const struct setting *pset)
+{
+  /* If any player's existing selection is invalid, abort it */
+  players_iterate(pplayer) {
+    if (pplayer->nation != NULL) {
+      if (!nation_is_in_current_set(pplayer->nation)) {
+        (void) player_set_nation(pplayer, NO_NATION_SELECTED);
+        send_player_info_c(pplayer, game.est_connections);
+      }
+    }
+  } players_iterate_end;
+  count_playable_nations();
+  aifill(game.info.aifill);
+
+  /* There might now be too many players for the available nations.
+   * Rather than getting rid of some players arbitrarily, we let the
+   * situation persist for all already-connected players; the server
+   * will simply refuse to start until someone reduces the number of
+   * players. This policy also avoids annoyance if nationset is
+   * accidentally and transiently set to an unintended value.
+   * (However, new connections will start out detached.) */
+  if (normal_player_count() > server.playable_nations) {
+    notify_conn(NULL, NULL, E_SETTING, ftc_server, "%s",
+                _("Warning: not enough nations for all current players."));
+  }
+
+  send_nation_availability(game.est_connections);
+}
+
+/*************************************************************************
   Clear any user-set player colors in modes other than PLRCOL_PLR_SET.
 *************************************************************************/
 static void plrcol_action(const struct setting *pset)
@@ -732,6 +765,27 @@ static bool maxplayers_callback(int value, struct connection *caller,
   }
 
   return TRUE;
+}
+
+/*************************************************************************
+  Validate the 'nationset' server setting.
+*************************************************************************/
+static bool nationset_callback(const char *value,
+                               struct connection *caller,
+                               char *reject_msg,
+                               size_t reject_msg_len)
+{
+  if (strlen(value) == 0) {
+    return TRUE;
+  } else if (nation_set_by_rule_name(value)) {
+    return TRUE;
+  } else {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      /* TRANS: do not translate 'list nationsets' */
+                      _("Unknown nation set \"%s\". See '%slist nationsets' "
+                        "for possible values."), value, caller ? "/" : "");
+    return FALSE;
+  }
 }
 
 /*************************************************************************
@@ -1284,6 +1338,21 @@ static struct setting settings[] = {
              "all AI players will be removed."), NULL,
           aifill_action, GAME_MIN_AIFILL, GAME_MAX_AIFILL,
           GAME_DEFAULT_AIFILL)
+
+  GEN_STRING("nationset", game.server.nationset,
+             SSET_PLAYERS, SSET_INTERNAL, SSET_RARE, SSET_TO_CLIENT,
+             N_("Set of nations to choose from"),
+             /* TRANS: do not translate '/list nationsets' */
+             N_("Controls the set of nations allowed in the game. The "
+                "choices are defined by the ruleset.\n"
+                "Only nations in the set selected here will be allowed in "
+                "any circumstances, including new players and civil war; "
+                "small sets may thus limit the number of players in a game.\n"
+                "If this is left blank, the ruleset's default nation set is "
+                "used.\n"
+                "See '/list nationsets' for possible choices for the "
+                "currently loaded ruleset."),
+             nationset_callback, nationset_action, GAME_DEFAULT_NATIONSET)
 
   GEN_INT("ec_turns", game.server.event_cache.turns,
           SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL,

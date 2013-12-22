@@ -57,6 +57,15 @@ struct nation_leader;
   TYPED_LIST_ITERATE(struct nation_leader, leaderlist, pleader)
 #define nation_leader_list_iterate_end LIST_ITERATE_END
 
+/* Nation set. */
+struct nation_set;
+#define SPECLIST_TAG nation_set
+#define SPECLIST_TYPE struct nation_set
+#include "speclist.h"
+#define nation_set_list_iterate(setlist, pset)                        \
+  TYPED_LIST_ITERATE(struct nation_set, setlist, pset)
+#define nation_set_list_iterate_end LIST_ITERATE_END
+
 /* Nation group. */
 struct nation_group;
 #define SPECLIST_TAG nation_group
@@ -99,6 +108,9 @@ struct nation_type {
   bool is_playable;
   enum barbarian_type barb_type;
 
+  /* Sets which this nation is assigned to */
+  struct nation_set_list *sets;
+
   /* Groups which this nation is assigned to */
   struct nation_group_list *groups;
 
@@ -140,8 +152,9 @@ struct nation_type {
 
       /* Whether the client is allowed to try to pick the nation at game
        * start. Reasons for restricting this include lack of start positions
-       * in a scenario. However, in some circumstances a nation with this
-       * flag set may still appear in the game.
+       * in a scenario, or a nation outside the current nationset. However,
+       * in some circumstances the server may decide to put a nation with this
+       * flag in the game anyway, so the client can't rely on its absence.
        * (On the server this is calculated on the fly from other values.
        * Use is_nation_pickable() to get the answer on client or server.) */
       bool is_pickable;
@@ -180,9 +193,6 @@ enum barbarian_type nation_barbarian_type(const struct nation_type *nation);
 bool can_conn_edit_players_nation(const struct connection *pconn,
 				  const struct player *pplayer);
 
-void set_allowed_nation_groups(struct nation_group_list *plist);
-const struct nation_group_list *get_allowed_nation_groups(void);
-
 /* General nation leader accessor functions. */
 const struct nation_leader_list *
 nation_leaders(const struct nation_type *pnation);
@@ -219,6 +229,30 @@ nation_city_terrain_preference(const struct nation_city *pncity,
 enum nation_city_preference
 nation_city_river_preference(const struct nation_city *pncity);
 
+/* General nation set accessor routines */
+int nation_set_count(void);
+int nation_set_index(const struct nation_set *pset);
+int nation_set_number(const struct nation_set *pset);
+
+struct nation_set *nation_set_new(const char *set_name,
+                                  const char *set_rule_name,
+                                  const char *set_description);
+struct nation_set *nation_set_by_number(int id);
+struct nation_set *nation_set_by_rule_name(const char *name);
+
+const char *nation_set_untranslated_name(const struct nation_set *pset);
+const char *nation_set_rule_name(const struct nation_set *pset);
+const char *nation_set_name_translation(const struct nation_set *pset);
+const char *nation_set_description(const struct nation_set *pset);
+
+bool nation_is_in_set(const struct nation_type *pnation,
+                      const struct nation_set *pset);
+
+struct nation_set *nation_set_by_setting_value(const char *setting);
+
+struct nation_set *current_nationset(void);
+bool nation_is_in_current_set(const struct nation_type *pnation);
+
 /* General nation group accessor routines */
 int nation_group_count(void);
 int nation_group_index(const struct nation_group *pgroup);
@@ -229,8 +263,6 @@ struct nation_group *nation_group_by_number(int id);
 struct nation_group *nation_group_by_rule_name(const char *name);
 
 void nation_group_set_match(struct nation_group *pgroup, int match);
-void nation_group_set_set(struct nation_group *pgroup, bool is_set);
-bool nation_group_is_a_set(const struct nation_group *pgroup);
 
 const char *nation_group_untranslated_name(const struct nation_group *pgroup);
 const char *nation_group_rule_name(const struct nation_group *pgroup);
@@ -240,8 +272,18 @@ bool nation_is_in_group(const struct nation_type *pnation,
                         const struct nation_group *pgroup);
 
 /* Initialization and iteration */
-void nation_groups_init(void);
-void nation_groups_free(void);
+void nation_sets_groups_init(void);
+void nation_sets_groups_free(void);
+
+struct nation_set_iter;
+size_t nation_set_iter_sizeof(void);
+struct iterator *nation_set_iter_init(struct nation_set_iter *it);
+
+#define nation_sets_iterate(NAME_pset)                                      \
+  generic_iterate(struct nation_set_iter, struct nation_set *,              \
+                  NAME_pset, nation_set_iter_sizeof,                        \
+                  nation_set_iter_init)
+#define nation_sets_iterate_end generic_iterate_end
 
 struct nation_group_iter;
 size_t nation_group_iter_sizeof(void);
@@ -265,8 +307,10 @@ struct nation_iter;
 size_t nation_iter_sizeof(void);
 struct iterator *nation_iter_init(struct nation_iter *it);
 
-/* Iterate over nations.  This iterates over all nations, including
- * unplayable ones (use is_nation_playable to filter if necessary). */
+/* Iterate over nations.  This iterates over _all_ nations, including
+ * unplayable ones (use is_nation_playable to filter if necessary).
+ * This does not take account of the current nationset! -- on the
+ * server, use allowed_nations_iterate() for that. */
 #define nations_iterate(NAME_pnation)\
   generic_iterate(struct nation_iter, struct nation_type *,\
                   NAME_pnation, nation_iter_sizeof, nation_iter_init)

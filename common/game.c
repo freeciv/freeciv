@@ -462,7 +462,6 @@ void game_free(void)
   map_free();
   idex_free();
   team_slots_free();
-  set_allowed_nation_groups(NULL);
   game_ruleset_free();
   cm_free();
 }
@@ -495,7 +494,7 @@ void game_reset(void)
 ***************************************************************/
 void game_ruleset_init(void)
 {
-  nation_groups_init();
+  nation_sets_groups_init();
   ruleset_cache_init();
   disaster_types_init();
   achievements_init();
@@ -544,7 +543,7 @@ void game_ruleset_free(void)
   user_tech_flags_free();
   user_terrain_flags_free();
   ruleset_cache_free();
-  nation_groups_free();
+  nation_sets_groups_free();
 
   /* Destroy the default veteran system. */
   veteran_system_destroy(game.veteran);
