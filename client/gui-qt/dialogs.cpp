@@ -249,7 +249,7 @@ void races_dialog::set_index(int index)
 
   group = nation_group_by_number(index - 1);
   nations_iterate(pnation) {
-    if (!is_nation_playable(pnation) || !pnation->is_available) {
+    if (!is_nation_playable(pnation) || !is_nation_pickable(pnation)) {
       continue;
     }
     if (!nation_is_in_group(pnation, group) && index != 0) {

@@ -3418,7 +3418,7 @@ void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
                              packet->leader_is_male[i]);
   }
 
-  pnation->is_available = packet->is_available;
+  pnation->client.is_pickable = packet->is_pickable;
   pnation->is_playable = packet->is_playable;
   pnation->barb_type = packet->barbarian_type;
 

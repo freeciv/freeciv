@@ -1697,21 +1697,21 @@ void check_for_full_turn_done(void)
 }
 
 /****************************************************************************
-  Initialize the list of available nations.
+  Update information about which nations have start positions on the map.
 
   Call this on server start, or when loading a scenario.
 ****************************************************************************/
-void init_available_nations(void)
+void update_nations_with_startpos(void)
 {
-  if (!game_was_started() && game.scenario.startpos_nations
-      && 0 < map_startpos_count()) {
+  if (!game_was_started() && 0 < map_startpos_count()) {
     /* Restrict nations to those for which start positions are defined. */
     nations_iterate(pnation) {
       fc_assert_action_msg(NULL == pnation->player,
         if (pnation->player->nation == pnation) {
           /* At least assignment is consistent. Leave nation assigned,
-           * and make sure that nation is also marked available. */
-          pnation->is_available = TRUE;
+           * and make sure that nation is also marked pickable. */
+          pnation->server.no_startpos = FALSE;
+          continue;
         } else if (NULL != pnation->player->nation) {
           /* Not consistent. Just initialize the pointer and hope for the
            * best. */
@@ -1726,13 +1726,13 @@ void init_available_nations(void)
       if (nation_barbarian_type(pnation) != NOT_A_BARBARIAN) {
         /* Always allow land and sea barbarians regardless of start
          * positions. */
-        pnation->is_available = TRUE;
+        pnation->server.no_startpos = FALSE;
       } else {
         /* Restrict the set of nations offered to players, based on
          * start positions.
          * If there are no start positions for a nation, remove it from the
          * available set. */
-        pnation->is_available = FALSE;
+        pnation->server.no_startpos = TRUE;
         map_startpos_iterate(psp) {
           if (startpos_nation_allowed(psp, pnation)) {
             /* There is at least one start position that allows this nation,
@@ -1741,7 +1741,7 @@ void init_available_nations(void)
              * guaranteed that the server can always find a match between
              * nations in this subset and start positions, in which case the
              * server may create mismatches.) */
-            pnation->is_available = TRUE;
+            pnation->server.no_startpos = FALSE;
             break;
           }
         } map_startpos_iterate_end;
@@ -1750,7 +1750,7 @@ void init_available_nations(void)
   } else {
     /* Not restricting nations by start positions. */
     nations_iterate(pnation) {
-      pnation->is_available = TRUE;
+      pnation->server.no_startpos = FALSE;
     } nations_iterate_end;
   }
 }
@@ -1782,7 +1782,7 @@ void handle_nation_select_req(struct connection *pc, int player_no,
       return;
     }
 
-    if (!new_nation->is_available) {
+    if (!is_nation_pickable(new_nation)) {
       notify_player(pplayer, NULL, E_NATION_SELECTED, ftc_server,
                     _("%s nation is not available in this scenario."),
                     nation_adjective_translation(new_nation));
@@ -2033,7 +2033,7 @@ static void generate_players(void)
       const char *name = player_name(pplayer);
 
       if (is_nation_playable(pnation)
-          && pnation->is_available
+          && is_nation_pickable(pnation)
           && NULL == pnation->player
           && (pleader = nation_leader_by_name(pnation, name))) {
         player_set_nation(pplayer, pnation);
@@ -2098,7 +2098,8 @@ static void generate_players(void)
 
   if (0 < nations_to_assign && 0 < map_startpos_count()) {
     /* We're running a scenario game with specified start positions.
-     * Prefer nations assigned to those positions. */
+     * Prefer nations assigned to those positions (but we can fall back
+     * to others, even if game.scenario.startpos_nations is set). */
     struct startpos_hash *hash = startpos_hash_new();
     struct nation_type *picked;
     int c, max = -1;
@@ -2140,7 +2141,6 @@ static void generate_players(void)
 
       nations_iterate(pnation) {
         if (!is_nation_playable(pnation)
-            || !pnation->is_available
             || NULL != pnation->player) {
           /* Not available. */
           continue;

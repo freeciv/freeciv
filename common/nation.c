@@ -192,6 +192,20 @@ const char *nation_plural_for_player(const struct player *pplayer)
 }
 
 /****************************************************************************
+  Return whether a nation is "pickable" -- whether players can select it
+  at game start.
+****************************************************************************/
+bool is_nation_pickable(const struct nation_type *nation)
+{
+  NATION_CHECK(nation, return FALSE);
+  if (is_server()) {
+    return !game.scenario.startpos_nations || !nation->server.no_startpos;
+  } else {
+    return nation->client.is_pickable;
+  }
+}
+
+/****************************************************************************
   Return whether a nation is "playable"; i.e., whether a human player can
   choose this nation.  Barbarian and observer nations are not playable.
 

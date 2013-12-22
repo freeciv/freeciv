@@ -99,9 +99,6 @@ struct nation_type {
   bool is_playable;
   enum barbarian_type barb_type;
 
-  /* Unavailable nations aren't allowed to be chosen in the scenario. */
-  bool is_available;
-
   /* Groups which this nation is assigned to */
   struct nation_group_list *groups;
 
@@ -133,11 +130,21 @@ struct nation_type {
       struct rgbcolor *rgb;
 
       int *traits;
+
+      /* This nation has no start position in the current scenario. */
+      bool no_startpos;
     } server;
 
     struct {
       /* Only used at the client. */
-      /* Nothing yet. */
+
+      /* Whether the client is allowed to try to pick the nation at game
+       * start. Reasons for restricting this include lack of start positions
+       * in a scenario. However, in some circumstances a nation with this
+       * flag set may still appear in the game.
+       * (On the server this is calculated on the fly from other values.
+       * Use is_nation_pickable() to get the answer on client or server.) */
+      bool is_pickable;
     } client;
   };
 };
@@ -167,6 +174,7 @@ int city_style_of_nation(const struct nation_type *nation);
 const struct rgbcolor *nation_color(const struct nation_type *pnation);
 
 /* Ancillary nation routines */
+bool is_nation_pickable(const struct nation_type *nation);
 bool is_nation_playable(const struct nation_type *nation);
 enum barbarian_type nation_barbarian_type(const struct nation_type *nation);
 bool can_conn_edit_players_nation(const struct connection *pconn,
