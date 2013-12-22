@@ -44,7 +44,7 @@ void mpqt_worker::run()
   const char *errmsg;
 
   errmsg = download_modpack(URL.toUtf8().data(),
-			    fcmp, msg_callback, NULL);
+			    fcmp, msg_callback, pb_callback);
 
   if (errmsg != NULL) {
     msg_callback(errmsg);

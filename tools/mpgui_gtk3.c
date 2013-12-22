@@ -134,8 +134,11 @@ static void msg_callback(const char *msg)
 /**************************************************************************
   Progress indications from downloader
 **************************************************************************/
-static void pbar_callback(const double fraction)
+static void pbar_callback(int downloaded, int max)
 {
+  /* Control file already downloaded */
+  double fraction = (double) downloaded / (max);
+
   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progressbar), fraction);
 }
 
