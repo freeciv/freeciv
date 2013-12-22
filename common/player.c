@@ -747,6 +747,7 @@ struct player *player_by_number(const int player_id)
 /****************************************************************************
   Set the player's nation to the given nation (may be NULL).  Returns TRUE
   iff there was a change.
+  Doesn't check if the nation is legal wrt nationset.
 ****************************************************************************/
 bool player_set_nation(struct player *pplayer, struct nation_type *pnation)
 {

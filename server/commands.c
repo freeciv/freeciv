@@ -91,6 +91,7 @@ static struct command commands[] = {
              "list map image definitions\n"
              "list players\n"
              "list scenarios\n"
+             "list nationsets\n"
              "list teams\n"
              "list votes\n"),
    N_("Show a list of various things."),
@@ -102,6 +103,7 @@ static struct command commands[] = {
       " - the list of defined map images,\n"
       " - the list of the players in the game,\n"
       " - the available scenarios,\n"
+      " - the available nationsets in this ruleset,\n"
       " - the teams of players or\n"
       " - the running votes.\n"
       "The argument may be abbreviated, and defaults to 'players' if "

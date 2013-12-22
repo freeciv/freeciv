@@ -1243,6 +1243,13 @@ void handle_edit_player(struct connection *pc,
                   packet->nation, nation_plural_translation(pnation),
                   player_number(pnation->player),
                   player_name(pnation->player));
+    } else if (!nation_is_in_current_set(pnation)) {
+      notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+                  _("Cannot change nation for player %d (%s) "
+                    "to nation %d (%s) because that nation is "
+                    "not in the current nationset."),
+                  player_number(pplayer), player_name(pplayer),
+                  packet->nation, nation_plural_translation(pnation));
     } else {
       changed = player_set_nation(pplayer, pnation);
     }

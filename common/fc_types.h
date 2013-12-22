@@ -45,7 +45,12 @@ extern "C" {
 #define MAX_ROAD_TYPES 8 /* Used in the network protocol. */
 #define MAX_DISASTER_TYPES 10
 #define MAX_NUM_LEADERS MAX_NUM_ITEMS /* Used in the network protocol. */
+#define MAX_NUM_NATION_SETS 32 /* Used in the network protocol.
+                                * RULESET_NATION_SETS packet may become too big
+                                * if increased */
 #define MAX_NUM_NATION_GROUPS 128 /* Used in the network protocol. */
+/* Used in the network protocol -- nation count is a UINT16 */
+#define MAX_NUM_NATIONS MAX_UINT16
 #define MAX_NUM_STARTPOS_NATIONS 1024 /* Used in the network protocol. */
 
 /* Changing these will probably break network compatability. */

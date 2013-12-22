@@ -926,6 +926,13 @@ enum rfc_status create_command_newcomer(const char *name,
   }
 
   if (pnation) {
+    if (!nation_is_in_current_set(pnation)) {
+      fc_snprintf(buf, buflen,
+                  _("Can't create player, requested nation %s not in "
+                    "current nationset."),
+                  nation_plural_translation(pnation));
+      return C_FAIL;
+    }
     players_iterate(aplayer) {
       if (0 > nations_match(pnation, nation_of_player(aplayer), FALSE)) {
         fc_snprintf(buf, buflen,
@@ -6307,6 +6314,43 @@ static void show_scenarios(struct connection *caller)
 }
 
 /****************************************************************************
+  List nation sets in the current ruleset.
+****************************************************************************/
+static void show_nationsets(struct connection *caller)
+{
+  cmd_reply(CMD_LIST, caller, C_COMMENT,
+            /* TRANS: don't translate text between '' */
+            _("List of nation sets available for 'nationset' option:"));
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+
+  nation_sets_iterate(pset) {
+    const char *description = nation_set_description(pset);
+    int num_nations = 0;
+    nations_iterate(pnation) {
+      if (is_nation_playable(pnation) && nation_is_in_set(pnation, pset)) {
+        num_nations++;
+      }
+    } nations_iterate_end;
+    cmd_reply(CMD_LIST, caller, C_COMMENT,
+              /* TRANS: nation set description; %d refers to number of playable
+               * nations in set */
+              PL_(" %-10s  %s (%d playable)",
+                  " %-10s  %s (%d playable)", num_nations),
+              nation_set_rule_name(pset), nation_set_name_translation(pset),
+              num_nations);
+    if (strlen(description) > 0) {
+      static const char prefix[] = "   ";
+      char *translated = fc_strdup(_(description));
+      fc_break_lines(translated, LINE_BREAK);
+      cmd_reply_prefix(CMD_LIST, caller, C_COMMENT, prefix, "%s%s",
+                       prefix, translated);
+    }
+  } nation_sets_iterate_end;
+
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+}
+
+/****************************************************************************
   Show a list of teams on the command line.
 ****************************************************************************/
 static void show_teams(struct connection *caller)
@@ -6394,10 +6438,12 @@ static void show_colors(struct connection *caller)
 #define SPECENUM_VALUE5NAME "players"
 #define SPECENUM_VALUE6     LIST_SCENARIOS
 #define SPECENUM_VALUE6NAME "scenarios"
-#define SPECENUM_VALUE7     LIST_TEAMS
-#define SPECENUM_VALUE7NAME "teams"
-#define SPECENUM_VALUE8     LIST_VOTES
-#define SPECENUM_VALUE8NAME "votes"
+#define SPECENUM_VALUE7     LIST_NATIONSETS
+#define SPECENUM_VALUE7NAME "nationsets"
+#define SPECENUM_VALUE8     LIST_TEAMS
+#define SPECENUM_VALUE8NAME "teams"
+#define SPECENUM_VALUE9     LIST_VOTES
+#define SPECENUM_VALUE9NAME "votes"
 #include "specenum_gen.h"
 
 /**************************************************************************
@@ -6454,6 +6500,9 @@ static bool show_list(struct connection *caller, char *arg)
     return TRUE;
   case LIST_SCENARIOS:
     show_scenarios(caller);
+    return TRUE;
+  case LIST_NATIONSETS:
+    show_nationsets(caller);
     return TRUE;
   case LIST_TEAMS:
     show_teams(caller);

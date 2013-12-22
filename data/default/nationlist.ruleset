@@ -1,11 +1,42 @@
 
-; Descriptions of nation sets/groups
-; name 		= name of the group
-; match		= How much the AI will try to select a nation in the same
-;                 group (ngroups only)
+; Descriptions of nation sets
+; These are self-contained subsets of the available nations that can be
+; selected between at runtime with the "nationset" option. No nations
+; outside the selected subset will be used.
+; The first set defined is the one that is used by default.
+; name 		= translatable name of the set
+; rule_name     = unique persistent name used in savefiles etc
+; description   = Optional short user description of this set
 
 [nset_core]
 name=_("?nationset:Core")
+rule_name="core"
+; /* TRANS: if you have translated all nations, feel free to discard the
+; words about localization rather than translating literally. */
+description=_("\
+A small set of playable nations that should be fully localized into \
+languages other than English.\
+")
+[nset_extended]
+name=_("?nationset:Extended")
+rule_name="all"
+; /* TRANS: If you have only translated the Core nations, replace this
+; description to say so rather than making it a literal translation.
+; Conversely, if you have translated everything you can get rid of the
+; caveat about localization. */
+description=_("\
+The complete set of playable nations; this allows for larger games or more \
+variety, but not all of these may have been localized into languages other \
+than English.\
+")
+
+; Descriptions of nation groups
+; These are more cosmetic than sets; they affect the "pick nation" dialog,
+; and also affect random nation selection.
+; name 		= name of the group
+; match		= How much the AI will try to select a nation in the same
+;                 group
+
 [ngroup_ancient]
 name=_("?nationgroup:Ancient")
 match=2
@@ -53,6 +84,10 @@ allowed_terrains =
   "Mountains", "Plains", "Swamp", "Tundra", "Glacier", "River"
 allowed_city_styles =
   "European", "Classical", "Tropical", "Asian", "Babylonian", "Celtic"
+
+; Every nation is a member of the "extended" set (no need to specify in
+; individual nation specs).
+default_nationset = "all"
 
 ; Below: nations data loaded from ruleset files for
 ; all nations available. If you want to have more

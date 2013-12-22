@@ -4271,9 +4271,13 @@ static void game_load_internal(struct section_file *file)
       player_research_update(pplayer);
     } players_iterate_end;
 
+    /* The savegame may contain valid nations that are not included in
+     * the current default nationset for the ruleset, since it predates
+     * nationsets. Try to reconcile these. */
+    fit_nationset_to_players();
+
     /* Some players may have invalid nations in the ruleset.  Once all 
-     * players are loaded, pick one of the remaining nations for them.
-     */
+     * players are loaded, pick one of the remaining nations for them. */
     players_iterate(pplayer) {
       if (pplayer->nation == NO_NATION_SELECTED) {
         player_set_nation(pplayer, pick_a_nation(NULL, FALSE, TRUE,

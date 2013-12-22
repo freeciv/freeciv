@@ -1360,6 +1360,15 @@ void racesdlg_key_ok(Widget w)
 }
 
 /**************************************************************************
+  The server has changed the set of selectable nations.
+**************************************************************************/
+void races_update_pickable(void)
+{ 
+  /* FIXME handle this properly */
+  popdown_races_dialog();
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void races_toggles_set_sensitive(void)

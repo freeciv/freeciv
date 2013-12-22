@@ -3375,7 +3375,25 @@ void handle_ruleset_terrain_control
 }
 
 /****************************************************************************
-  Handle the list of groups, sent by the ruleset.
+  Handle the list of nation sets, sent as part of the ruleset.
+****************************************************************************/
+void handle_ruleset_nation_sets
+    (const struct packet_ruleset_nation_sets *packet)
+{
+  int i;
+
+  for (i = 0; i < packet->nsets; i++) {
+    struct nation_set *pset;
+
+    pset = nation_set_new(packet->names[i], packet->rule_names[i],
+                          packet->descriptions[i]);
+    fc_assert(NULL != pset);
+    fc_assert(i == nation_set_index(pset));
+  }
+}
+
+/****************************************************************************
+  Handle the list of nation groups, sent as part of the ruleset.
 ****************************************************************************/
 void handle_ruleset_nation_groups
     (const struct packet_ruleset_nation_groups *packet)
@@ -3392,7 +3410,7 @@ void handle_ruleset_nation_groups
 }
 
 /****************************************************************************
-  Packet ruleset_nation handler.
+  Handle initial ruleset nation info.
 ****************************************************************************/
 void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
 {
@@ -3418,7 +3436,8 @@ void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
                              packet->leader_is_male[i]);
   }
 
-  pnation->client.is_pickable = packet->is_pickable;
+  /* set later by PACKET_NATION_AVAILABILITY */
+  pnation->client.is_pickable = FALSE; 
   pnation->is_playable = packet->is_playable;
   pnation->barb_type = packet->barbarian_type;
 
@@ -3426,6 +3445,17 @@ void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
     pnation->legend = fc_strdup(nation_legend_translation(pnation, packet->legend));
   } else {
     pnation->legend = fc_strdup("");
+  }
+
+  for (i = 0; i < packet->nsets; i++) {
+    struct nation_set *pset = nation_set_by_number(packet->sets[i]);
+
+    if (NULL != pset) {
+      nation_set_list_append(pnation->sets, pset);
+    } else {
+      log_error("handle_ruleset_nation() \"%s\" have unknown set %d.",
+                nation_rule_name(pnation), packet->sets[i]);
+    }
   }
 
   for (i = 0; i < packet->ngroups; i++) {
@@ -3451,6 +3481,23 @@ void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
   }
 
   tileset_setup_nation_flag(tileset, pnation);
+}
+
+/****************************************************************************
+  Handle nation availability info.
+  This can change during pregame so is separate from ruleset_nation.
+****************************************************************************/
+void handle_nation_availability(int ncount, const bool *is_pickable)
+{
+  int i;
+  fc_assert_action(ncount == nation_count(),
+                   ncount = MIN(ncount, nation_count()));
+
+  for (i=0; i<ncount; i++) {
+    nation_by_number(i)->client.is_pickable = is_pickable[i];
+  }
+
+  races_update_pickable();
 }
 
 /**************************************************************************
