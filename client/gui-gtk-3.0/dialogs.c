@@ -24,6 +24,7 @@
 #include <gdk/gdkkeysyms.h>
 
 /* utility */
+#include "astring.h"
 #include "bitvector.h"
 #include "fcintl.h"
 #include "log.h"
@@ -67,6 +68,7 @@
 
 /******************************************************************/
 static GtkWidget  *races_shell;
+static GtkWidget  *nationsets_chooser;
 struct player *races_player;
 /* One entry per nation group, plus one at the end for 'all nations' */
 static GtkWidget  *races_nation_list[MAX_NUM_NATION_GROUPS + 1];
@@ -633,7 +635,7 @@ static void select_nation(int nation,
 }
 
 /*****************************************************************************
-  Creates a list of pickable nations in the given group
+  Creates a list of currently-pickable nations in the given group
   Inserts appropriate gtk_tree_view into races_nation_list[index] (or NULL if
   the group has no nations)
   If group == NULL, create a list of all nations
@@ -661,7 +663,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
     }
 
     /* Only create tab on demand -- we don't want it if there aren't any
-     * pickable nations in this group. */
+     * currently pickable nations in this group. */
     if (sw == NULL) {
       GtkTreeSelection *select;
       GtkCellRenderer *render;
@@ -743,10 +745,120 @@ static void create_nation_selection_lists(void)
   }
   
   nation_list = create_list_of_nations_in_group(NULL, nation_group_count());
-  fc_assert_ret(nation_list != NULL);
-  group_name_label = gtk_label_new(_("All"));
-  gtk_notebook_append_page(GTK_NOTEBOOK(races_notebook), nation_list,
-                           group_name_label);
+  /* Even this list can be empty if there are no pickable nations (due to
+   * a combination of start position and nationset restrictions). */
+  if (nation_list) {
+    group_name_label = gtk_label_new(_("All"));
+    gtk_notebook_append_page(GTK_NOTEBOOK(races_notebook), nation_list,
+                             group_name_label);
+  }
+}
+
+/*****************************************************************************
+  The server has changed the set of selectable nations.
+  Update any current nations dialog accordingly.
+*****************************************************************************/
+void races_update_pickable(void)
+{
+  int tab, groupidx;
+
+  if (!races_shell) {
+    return;
+  }
+
+  /* Save selected tab */
+  tab = gtk_notebook_get_current_page(GTK_NOTEBOOK(races_notebook));
+  if (tab != -1) {
+    int i = 0;
+    groupidx = 0;
+    /* Turn tab index into a nation group index (they're not always equal,
+     * as some groups may not currently have tabs). */
+    do {
+      while (groupidx <= nation_group_count()
+             && races_nation_list[groupidx] == NULL) {
+        groupidx++;
+      }
+      fc_assert_action(groupidx <= nation_group_count(), break);
+      /* Nation group 'groupidx' is what's displayed on the i'th tab */
+      if (i == tab) {
+        break;
+      }
+      i++;
+      groupidx++;
+    } while(1);
+  } else {
+    /* No tabs currently */
+    groupidx = -1;
+  }
+
+  /* selected_nation already contains currently selected nation; however,
+   * it may no longer be a valid choice */
+  if (selected_nation != -1
+      && !is_nation_pickable(nation_by_number(selected_nation))) {
+    select_nation(-1, NULL, FALSE, 0);
+  }
+
+  /* Delete all list stores, treeviews, tabs */
+  while (gtk_notebook_get_n_pages(GTK_NOTEBOOK(races_notebook)) > 0) {
+    gtk_notebook_remove_page(GTK_NOTEBOOK(races_notebook), -1);
+  }
+
+  /* (Re)create all of them */
+  create_nation_selection_lists();
+
+  /* Can't set current tab before child widget is visible */
+  gtk_widget_show_all(GTK_WIDGET(races_notebook));
+
+  /* Restore selected tab */
+  if (groupidx != -1 && races_nation_list[groupidx] != NULL) {
+    int i;
+    tab = 0;
+    for (i = 0; i < groupidx; i++) {
+      if (races_nation_list[i] != NULL) {
+        tab++;
+      }
+    }
+    gtk_notebook_set_current_page(GTK_NOTEBOOK(races_notebook), tab);
+  }
+
+  /* Restore selected nation */
+  sync_tabs_to_nation(selected_nation);
+}
+
+/*****************************************************************************
+  Sync nationset control with the current state of the server.
+*****************************************************************************/
+void nationset_sync_to_server(const char *nationset)
+{
+  if (nationsets_chooser) {
+    struct nation_set *set = nation_set_by_setting_value(nationset);
+    gtk_combo_box_set_active(GTK_COMBO_BOX(nationsets_chooser),
+                             nation_set_index(set));
+  }
+}
+
+/*****************************************************************************
+  Called when the nationset control's value has changed.
+*****************************************************************************/
+static void nationset_callback(GtkComboBox *b, gpointer data)
+{
+  GtkTreeIter iter;
+  if (gtk_combo_box_get_active_iter(b, &iter)) {
+    struct option *poption = optset_option_by_name(server_optset, "nationset");
+    gchar *rule_name;
+    gtk_tree_model_get(gtk_combo_box_get_model(b), &iter,
+                       0, &rule_name, -1);
+    /* Suppress propagation of an option value equivalent to the current
+     * server state, after canonicalisation, to avoid loops from
+     * nationset_sync_to_server().
+     * (HACK: relies on local Gtk "changed" signal getting here before
+     * server response.) */
+    if (nation_set_by_setting_value(option_str_get(poption))
+        != nation_set_by_rule_name(rule_name)) {
+      option_str_set(poption, rule_name);
+    }
+    FC_FREE(rule_name);
+  }
 }
 
 /*****************************************************************************
@@ -809,12 +921,118 @@ static void create_races_dialog(struct player *pplayer)
   /* Left side: nation list */
   {
     GtkWidget* nation_selection_list = gtk_grid_new();
-    gtk_orientable_set_orientation(GTK_ORIENTABLE(nation_selection_list),
-                                   GTK_ORIENTATION_VERTICAL);
+    nationsets_chooser = NULL;
+
     gtk_grid_set_row_spacing(GTK_GRID(nation_selection_list), 2);
+
+    /* Nationset selector dropdown */
+    /* Only present this if there is more than one choice.
+     * (If ruleset is changed, possibly changing the number of available sets
+     * and invalidating this decision, then dialog will be popped down.) */
+    if (nation_set_count() > 1) {
+      GtkListStore *sets_model = gtk_list_store_new(4, G_TYPE_STRING,
+                                                    G_TYPE_STRING,
+                                                    G_TYPE_STRING,
+                                                    G_TYPE_STRING);
+      GtkCellRenderer *renderer;
+      nation_sets_iterate(pset) {
+        /* Index in list store must match nation_set_index(). */
+        gchar *escaped;
+        struct astring s = ASTRING_INIT;
+        int num_nations = 0;
+        nations_iterate(pnation) {
+          if (is_nation_playable(pnation) && nation_is_in_set(pnation, pset)) {
+            num_nations++;
+          }
+        } nations_iterate_end;
+        escaped = g_markup_escape_text(nation_set_name_translation(pset), -1);
+        /* TRANS: nation set name followed by number of playable nations;
+         * <b> and </b> are Pango markup and should be left alone */
+        astr_set(&s, PL_("<b>%s</b> (%d nation)",
+                         "<b>%s</b> (%d nations)", num_nations),
+                 escaped, num_nations);
+        g_free(escaped);
+        if (strlen(nation_set_description(pset)) > 0) {
+          /* While in principle it would be better to get Gtk to wrap the
+           * drop-down (e.g. via "wrap-width" property), there's no way
+           * to specify the indentation we want. So we do it ourselves. */
+          char *desc = fc_strdup(_(nation_set_description(pset)));
+          char *p = desc;
+          fc_break_lines(desc, 70);
+          astr_add(&s, "\n");
+          while (*p) {
+            int len = strcspn(p, "\n");
+            if (p[len] == '\n') len++;
+            escaped = g_markup_escape_text(p, len);
+            astr_add(&s, "\t%s", escaped);
+            g_free(escaped);
+            p += len;
+          }
+          FC_FREE(desc);
+        }
+        gtk_list_store_insert_with_values(sets_model, NULL, -1,
+                                          0, nation_set_rule_name(pset),
+                                          1, astr_str(&s),
+                                          2, nation_set_name_translation(pset),
+                                          -1);
+        astr_free(&s);
+      } nation_sets_iterate_end;
+
+      /* We want a combo box where the button displays just the set name,
+       * but the dropdown displays the expanded description. */
+      nationsets_chooser
+        = gtk_combo_box_new_with_model_and_entry(GTK_TREE_MODEL(sets_model));
+      g_object_unref(G_OBJECT(sets_model));
+      {
+        /* Do our best to turn the text-entry widget into something more
+         * like a cell-view: disable editing, and focusing (which removes
+         * the caret). */
+        GtkWidget *entry = gtk_bin_get_child(GTK_BIN(nationsets_chooser));
+        gtk_editable_set_editable(GTK_EDITABLE(entry), FALSE);
+        gtk_widget_set_can_focus(entry, FALSE);
+      }
+      /* The entry displays the set name. */
+      gtk_combo_box_set_entry_text_column(GTK_COMBO_BOX(nationsets_chooser),
+                                          2);
+      /* The dropdown displays the marked-up description. */
+      renderer = gtk_cell_renderer_text_new();
+      gtk_cell_layout_clear(GTK_CELL_LAYOUT(nationsets_chooser));
+      gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(nationsets_chooser),
+                                 renderer, TRUE);
+      gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(nationsets_chooser),
+                                     renderer, "markup", 1, NULL);
+      g_signal_connect(nationsets_chooser, "destroy",
+                       G_CALLBACK(gtk_widget_destroyed), &nationsets_chooser);
+      g_signal_connect(nationsets_chooser, "changed",
+                       G_CALLBACK(nationset_callback), NULL);
+      {
+        /* Populate initially from client's view of server setting */
+        struct option *poption = optset_option_by_name(server_optset,
+                                                       "nationset");
+        if (poption) {
+          nationset_sync_to_server(option_str_get(poption));
+        }
+      }
+
+      label = g_object_new(GTK_TYPE_LABEL,
+          "use-underline", TRUE,
+          "label", _("_Nation Set:"),
+          "xalign", 0.0,
+          "yalign", 0.5,
+          NULL);
+      gtk_label_set_mnemonic_widget(GTK_LABEL(label), nationsets_chooser);
+
+      gtk_widget_set_hexpand(nationsets_chooser, TRUE);
+      gtk_grid_attach(GTK_GRID(nation_selection_list), label,
+                      0, 0, 1, 1);
+      gtk_grid_attach(GTK_GRID(nation_selection_list), nationsets_chooser,
+                      1, 0, 1, 1);
+    }
 
     races_notebook = gtk_notebook_new();
     gtk_notebook_set_tab_pos(GTK_NOTEBOOK(races_notebook), GTK_POS_LEFT);  
+    gtk_grid_attach(GTK_GRID(nation_selection_list), races_notebook,
+                    0, 2, 2, 1);
 
     /* Suppress notebook tabs if there will be only one ("All") */
     if (nation_group_count() == 0) {
@@ -827,11 +1045,10 @@ static void create_races_dialog(struct player *pplayer)
           "yalign", 0.5,
           NULL);
       gtk_label_set_mnemonic_widget(GTK_LABEL(label), races_notebook);
-      gtk_container_add(GTK_CONTAINER(nation_selection_list), label);
+      gtk_grid_attach(GTK_GRID(nation_selection_list), label,
+                      0, 1, 2, 1);
       gtk_notebook_set_show_tabs(GTK_NOTEBOOK(races_notebook), TRUE);
     }
-
-    gtk_container_add(GTK_CONTAINER(nation_selection_list), races_notebook);
 
     /* Populate treeview */
     create_nation_selection_lists();
@@ -1030,15 +1247,6 @@ void popdown_races_dialog(void)
   /* We're probably starting a new game, maybe with a new ruleset.
      So we warn the worklist dialog. */
   blank_max_unit_size();
-}
-
-/**************************************************************************
-  The server has changed the set of selectable nations.
-**************************************************************************/
-void races_update_pickable(void)
-{
-  /* FIXME handle this properly */
-  popdown_races_dialog();
 }
 
 /**************************************************************************
