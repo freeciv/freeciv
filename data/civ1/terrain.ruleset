@@ -788,18 +788,6 @@ act_gfx_alt    = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 
-[extra_farmland]
-name           = _("Farmland")
-category       = "Infra"
-causes         = "Irrigation"
-graphic        = "tx.farmland"
-graphic_alt    = "-"
-activity_gfx   = "None"
-act_gfx_alt    = "-"
-rmact_gfx      = "None"
-rmact_gfx_alt  = "-"
-buildable      = FALSE
-
 [extra_fortress]
 name           = _("Fortress")
 category       = "Infra"
