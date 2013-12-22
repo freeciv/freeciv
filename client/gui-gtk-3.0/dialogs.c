@@ -452,7 +452,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
     GtkTreeIter it;
     GValue value = { 0, };
 
-    if (!is_nation_playable(pnation) || !pnation->is_available) {
+    if (!is_nation_playable(pnation) || !is_nation_pickable(pnation)) {
       continue;
     }
 
@@ -840,7 +840,7 @@ void races_toggles_set_sensitive(void)
         gtk_tree_model_get(model, &it, 0, &nation_no, -1);
 	nation = nation_by_number(nation_no);
 
-        chosen = !nation->is_available || nation->player;
+        chosen = !is_nation_pickable(nation) || nation->player;
 
         gtk_list_store_set(GTK_LIST_STORE(model), &it, 1, chosen, -1);
 

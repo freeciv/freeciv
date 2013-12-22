@@ -181,7 +181,7 @@ static void select_random_race(void)
     unsigned int race_toggle_index = fc_rand(nation_count());
 
     if (!is_nation_playable(nation_by_number(race_toggle_index))
-	|| !nation_by_number(race_toggle_index)->is_available
+	|| !is_nation_pickable(nation_by_number(race_toggle_index))
 	|| nation_by_number(race_toggle_index)->player) {
       continue;
     }
@@ -1349,7 +1349,7 @@ void races_toggles_set_sensitive(void)
       continue;
     }
 
-    if (nation->is_available && !nation->player) {
+    if (is_nation_pickable(nation) && !nation->player) {
       continue;
     }
 

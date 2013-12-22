@@ -3969,8 +3969,6 @@ static bool load_ruleset_nations(struct section_file *file)
 
       pnation->is_playable =
         secfile_lookup_bool_default(file, TRUE, "%s.is_playable", sec_name);
-      /* Available for now; init_available_nations() will update this */
-      pnation->is_available = TRUE;
 
       if (pnation->is_playable) {
         server.playable_nations++;
@@ -5892,7 +5890,7 @@ static void send_ruleset_nations(struct conn_list *dest)
 
     packet.city_style = n->city_style;
     packet.is_playable = n->is_playable;
-    packet.is_available = n->is_available;
+    packet.is_pickable = is_nation_pickable(n);
     packet.barbarian_type = n->barb_type;
 
     sz_strlcpy(packet.legend, n->legend);
@@ -6171,7 +6169,7 @@ static bool load_rulesetdir(const char *rsdir, bool act)
 
   if (ok) {
     /* Init nations we just loaded. */
-    init_available_nations();
+    update_nations_with_startpos();
 
     ok = sanity_check_ruleset_data();
   }

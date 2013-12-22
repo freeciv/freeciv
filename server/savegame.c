@@ -1713,9 +1713,9 @@ static void player_load_main(struct player *plr, int plrno,
    * calling is_barbarian() and is_land_barbarian() */
   if (is_barbarian(plr) && plr->nation == NO_NATION_SELECTED) {
     if (is_land_barbarian(plr)) {
-      pnation = pick_a_nation(NULL, FALSE, TRUE, LAND_BARBARIAN);
+      pnation = pick_a_nation(NULL, FALSE, FALSE, LAND_BARBARIAN);
     } else {
-      pnation = pick_a_nation(NULL, FALSE, TRUE, SEA_BARBARIAN);
+      pnation = pick_a_nation(NULL, FALSE, FALSE, SEA_BARBARIAN);
     }
     player_set_nation(plr, pnation);
   }
@@ -3813,7 +3813,7 @@ static void game_load_internal(struct section_file *file)
 
     /* Initialize nations we loaded from rulesets. This has to be after
      * map loading and before we seek nations for players */
-    init_available_nations();
+    update_nations_with_startpos();
 
     /* Load worked tiles map */
     worked_tiles = player_load_cities_worked_map(file, savefile_options);

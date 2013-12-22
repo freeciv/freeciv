@@ -2656,7 +2656,7 @@ static void sg_load_map_startpos(struct loaddata *loading)
   /* Re-initialize nation availability in light of start positions.
    * This has to be after loading [scenario] and [map].startpos and
    * before we seek nations for players. */
-  init_available_nations();
+  update_nations_with_startpos();
 }
 
 /****************************************************************************

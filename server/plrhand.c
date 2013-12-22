@@ -2010,7 +2010,9 @@ struct player *shuffled_player(int i)
 /****************************************************************************
   This function returns a random-ish nation that is suitable for 'barb_type'
   and is usable (not already in use by an existing player, and if
-  only_available is set, has its 'available' bit set).
+  needs_startpos is set, would not be prohibited from starting on the map
+  by the current scenario -- NB this doesn't check that any start position
+  is actually free).
 
   Unless 'ignore_conflicts' is set, this function tries hard to avoid a
   nation marked as "conflicting with" one already in the game. A
@@ -2029,7 +2031,7 @@ struct player *shuffled_player(int i)
 ****************************************************************************/
 struct nation_type *pick_a_nation(const struct nation_list *choices,
                                   bool ignore_conflicts,
-                                  bool only_available,
+                                  bool needs_startpos,
                                   enum barbarian_type barb_type)
 {
   enum {
@@ -2047,10 +2049,14 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
     index = nation_index(pnation);
 
     if (pnation->player
-        || (only_available && !pnation->is_available)
+        || (needs_startpos && game.scenario.startpos_nations
+            && pnation->server.no_startpos)
         || (barb_type != nation_barbarian_type(pnation))
         || (barb_type == NOT_A_BARBARIAN && !is_nation_playable(pnation))) {
-      /* Nation is unplayable or already used: don't consider it. */
+      /* Nation is unplayable or already used: don't consider it.
+       * (If nations aren't currently restricted to those with start
+       * positions, we do nothing special here, but generate_players() will
+       * tend to prefer them.) */
       nations_used[index] = UNAVAILABLE;
       match[index] = 0;
       continue;
@@ -2170,7 +2176,7 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
     log_verbose("Unable to honor restricted nation set(s). Removing "
                 "restrictions for the rest of the game.");
     set_allowed_nation_groups(NULL);  /* no restrictions */
-    return pick_a_nation(choices, ignore_conflicts, only_available, barb_type);
+    return pick_a_nation(choices, ignore_conflicts, needs_startpos, barb_type);
   }
 
   log_verbose("No nation found!");

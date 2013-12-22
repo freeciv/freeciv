@@ -46,7 +46,7 @@ bool server_player_set_name_full(const struct connection *caller,
 
 struct nation_type *pick_a_nation(const struct nation_list *choices,
                                   bool ignore_conflicts,
-                                  bool only_available,
+                                  bool needs_startpos,
                                   enum barbarian_type barb_type);
 
 void check_player_max_rates(struct player *pplayer);
