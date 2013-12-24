@@ -619,7 +619,7 @@ static void action_entry(const enum gen_action act,
 
   if (MKE_FALSE != eval) {
     create_active_iconlabel(pBuf, pWindow->dst, pStr,
-                            _(ui_name), callback);
+                            ui_name, callback);
 
     switch(action_get_target_kind(act)) {
     case ATK_CITY:
@@ -704,49 +704,49 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
     pDiplomat_Dlg->diplomat_target_id[ATK_CITY] = pCity->id;
 
     action_entry(ACTION_ESTABLISH_EMBASSY,
-                 "Establish Embassy",
+                 _("Establish Embassy"),
                  diplomat_embassy_callback,
                  pUnit, pCity, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_INVESTIGATE_CITY,
-                 "Investigate City",
+                 _("Investigate City"),
                  diplomat_investigate_callback,
                  pUnit, pCity, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_POISON,
-                 "Poison City",
+                 _("Poison City"),
                  spy_poison_callback,
                  pUnit, pCity, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_SABOTAGE_CITY,
-                 "Sabotage City",
+                 _("Sabotage City"),
                  diplomat_sabotage_callback,
                  pUnit, pCity, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_TARGETED_SABOTAGE_CITY,
-                 "Industrial Sabotage",
+                 _("Industrial Sabotage"),
                  spy_sabotage_request,
                  pUnit, pCity, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_STEAL_TECH,
-                 "Steal Technology",
+                 _("Steal Technology"),
                  diplomat_steal_callback,
                  pUnit, pCity, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_TARGETED_STEAL_TECH,
-                 "Industrial espionage",
+                 _("Industrial espionage"),
                  spy_steal_popup,
                  pUnit, pCity, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_INCITE_CITY,
-                 "Incite a Revolt",
+                 _("Incite a Revolt"),
                  diplomat_incite_callback,
                  pUnit, pCity, NULL,
                  pWindow, &area);
@@ -758,13 +758,13 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
     pDiplomat_Dlg->diplomat_target_id[ATK_UNIT] = pTunit->id;
 
     action_entry(ACTION_SPY_BRIBE_UNIT,
-                 "Bribe Enemy Unit",
+                 _("Bribe Enemy Unit"),
                  diplomat_bribe_callback,
                  pUnit, NULL, pTunit,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_SABOTAGE_UNIT,
-                 "Sabotage Enemy Unit",
+                 _("Sabotage Enemy Unit"),
                  spy_sabotage_unit_callback,
                  pUnit, NULL, pTunit,
                  pWindow, &area);
