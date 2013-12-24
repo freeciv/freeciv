@@ -19,6 +19,9 @@ Updating from 2.5 to 2.6
 * Minimum gtk3 requirement for building gtk3-client is now 3.6.
 * There's new experimental sdl2-client. It can be built with
   --enable-client=sdl2
+* System lua library is now used by default. Copy of lua distributed
+  with freeciv is used only if system lua is not found, or it's
+  explicitly requested with configure option --disable-sys-lua
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

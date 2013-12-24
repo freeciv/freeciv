@@ -1247,7 +1247,7 @@ if test -n "$WITH_EFENCE"; then
 fi
 
 AC_ARG_ENABLE([sys-lua],
-  AS_HELP_STRING([--enable-sys-lua], [use lua from system instead of one from freeciv tree [false]]),
+  AS_HELP_STRING([--enable-sys-lua], [use lua from system instead of one from freeciv tree [test]]),
 [case "${enableval}" in
   yes)
     sys_lua=true ;;
@@ -1256,7 +1256,7 @@ AC_ARG_ENABLE([sys-lua],
   test)
     sys_lua=test ;;
   *)   AC_MSG_ERROR([bad value ${enableval} for --enable-sys-lua]) ;;
-esac], [sys_lua=false])
+esac], [sys_lua=test])
 
 dnl There's wide divergence on what the pkg-config file for Lua is called
 dnl See http://lua-users.org/lists/lua-l/2008-09/msg00184.html
