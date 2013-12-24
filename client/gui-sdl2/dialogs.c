@@ -3109,8 +3109,9 @@ static int get_playable_nation_count(void)
   int playable_nation_count = 0;
     
   nations_iterate(pnation) {
-    if (pnation->is_playable && !pnation->player && pnation->is_available)
-      ++playable_nation_count;        
+    if (pnation->is_playable && !pnation->player
+        && is_nation_pickable(pnation))
+      playable_nation_count++;
   } nations_iterate_end;
 
   return playable_nation_count;
@@ -3181,7 +3182,7 @@ void popup_races_dialog(struct player *pplayer)
     
   nations_iterate(pNation) {
 
-    if (!is_nation_playable(pNation) || !pNation->is_available) {
+    if (!is_nation_playable(pNation) || !is_nation_pickable(pNation)) {
       continue;
     }
 
@@ -3531,9 +3532,9 @@ void races_toggles_set_sensitive()
   
   nations_iterate(nation) {
   
-    if (!nation->is_available || nation->player) {
+    if (!is_nation_pickable(nation) || nation->player) {
       log_debug("  [%d]: %d = %s", nation_index(nation),
-                (!nation->is_available || nation->player),
+                (!is_nation_pickable(nation) || nation->player),
                 nation_rule_name(nation));
 
       pNat = get_widget_pointer_form_main_list(MAX_ID - nation_index(nation));
