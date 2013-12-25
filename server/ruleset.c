@@ -6155,7 +6155,9 @@ static bool load_rulesetdir(const char *rsdir, bool act)
 
     /* We may need to adjust the number of AI players
      * if the number of available nations changed. */
-    aifill(game.info.aifill);
+    if (act) {
+      aifill(game.info.aifill);
+    }
   }
 
   return ok;
