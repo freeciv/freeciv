@@ -22,6 +22,11 @@ Updating from 2.5 to 2.6
 * System lua library is now used by default. Copy of lua distributed
   with freeciv is used only if system lua is not found, or it's
   explicitly requested with configure option --disable-sys-lua
+* There's new configure option --enable-sys-tolua-cmd to use tolua
+  command from the build system when generating lua bindings. Plain
+  --enable-sys-tolua-cmd searches tolua from the PATH, other values
+  are treated as full path to executable. You have to use system
+  tolua when cross-compiling.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

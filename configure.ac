@@ -1306,13 +1306,42 @@ if test x$enable_fcdb = xyes ; then
   AC_SUBST([LUASQL_AS_DEPENDENCY])
 fi
 
+AC_ARG_ENABLE([sys-tolua-cmd],
+  AS_HELP_STRING([--enable-sys-tolua-cmd], [use tolua command from system instead of one from freeciv tree [true when cross-compiling]]),
+[case "${enableval}" in
+  yes)
+    sys_tolua_cmd=true ;;
+  no)
+    if test "x$cross_compiling" = "xyes" ; then
+      AC_MSG_ERROR([Must use external host tolua command when cross-compiling])
+    fi
+    sys_tolua_cmd=false ;;
+  *)
+    sys_tolua_cmd=${enableval} ;;
+esac], [
+if test "x$cross_compiling" = "xyes" ; then
+  sys_tolua_cmd=true
+else
+  sys_tolua_cmd=false
+fi])
+
+if test "x$sys_tolua_cmd" = "xtrue" ; then
+  AC_PATH_PROG([TOLUA], [tolua], [notfound])
+  if test x$TOLUA = xnotfound ; then
+    AC_MSG_ERROR([tolua command not found from the system])
+  fi
+elif test "x$sys_tolua_cmd" != "xfalse" ; then
+  TOLUA=$sys_tolua_cmd
+else
+  TOLUA="\$(top_builddir)/dependencies/tolua-5.2/src/bin/tolua$EXEEXT"
+fi
+
+AC_SUBST([TOLUA])
+
 TOLUA_CFLAGS="-I\$(top_srcdir)/dependencies/tolua-5.2/include"
 TOLUA_LIBS="\$(top_builddir)/dependencies/tolua-5.2/src/lib/libtolua.la"
 AC_SUBST([TOLUA_CFLAGS])
 AC_SUBST([TOLUA_LIBS])
-
-TOLUA="\$(top_builddir)/dependencies/tolua-5.2/src/bin/tolua$EXEEXT"
-AC_SUBST([TOLUA])
 
 dnl Freeciv uses a non-standard macro, Q_(), to handle cases of qualified
 dnl translatable strings and macro PL_() to handle plural forms.
