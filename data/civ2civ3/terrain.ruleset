@@ -16,9 +16,10 @@ options="+Freeciv-ruleset-Devel-2013.May.14"
 
 [control]
 ; Names for custom terrain flags.
-;flags =
-;  { "name", "helptxt"
-;  }
+flags =
+  { "name", "helptxt"
+    "Oil", _("Has Oil Derrick instead of Mine")
+  }
 
 [parameters]
 
@@ -352,7 +353,7 @@ warmer_drier_result  = "Tundra"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Land", "Small Land", "Air", "Missile", "Helicopter"
-flags                = "NoBarbs", "NoCities", "CanHaveRiver"
+flags                = "NoBarbs", "NoCities", "CanHaveRiver", "Oil"
 property_frozen      = 100
 color.r              = 232
 color.g              = 232
@@ -396,7 +397,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "Tundra"
 cooler_drier_result  = "no"
 native_to            = "Land", "Small Land", "Big Land", "Air", "Missile", "Helicopter"
-flags                = "CanHaveRiver"
+flags                = "CanHaveRiver", "Oil"
 property_dry         = 100
 property_tropical    = 50
 property_temperate   = 20
@@ -1025,7 +1026,7 @@ activity_gfx   = "unit.irrigate"
 act_gfx_alt    = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
-conflicts      = "Mine"
+conflicts      = "Mine", "Oil Well"
 hidden_by      = "Farmland"
 
 [extra_mine]
@@ -1038,6 +1039,26 @@ activity_gfx   = "unit.mine"
 act_gfx_alt    = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range", "present"
+      "TerrainFlag", "Oil", "Local", FALSE
+    }
+conflicts      = "Irrigation", "Farmland"
+
+[extra_oil_well]
+name           = _("Oil Well")
+category       = "Infra"
+causes         = "Mine"
+graphic        = "tx.oil_mine"
+graphic_alt    = "tx.mine"
+activity_gfx   = "unit.oil_mine"
+act_gfx_alt    = "unit.mine"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range"
+      "TerrainFlag", "Oil", "Local"
+    }
 conflicts      = "Irrigation", "Farmland"
 
 [extra_pollution]
@@ -1080,7 +1101,7 @@ reqs           =
       "Tech", "Refrigeration", "Player"
       "Extra", "Irrigation", "Local"
     }
-conflicts      = "Mine"
+conflicts      = "Mine", "Oil Well"
 
 [extra_fallout]
 name           = _("Fallout")

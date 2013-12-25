@@ -198,6 +198,7 @@ styles =
       "tx.irrigation", "Cardinals"
       "tx.farmland",   "Cardinals"
       "tx.mine",       "Single1"
+      "tx.oil_mine",   "Single1"
       "tx.pollution",  "Single2"
       "tx.fallout",    "Single2"
       "tx.village",    "Single1"
