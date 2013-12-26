@@ -273,6 +273,7 @@ void mpgui::setup_list(const char *name, const char *URL,
   const char *lic_str;
   const char *inst_str;
   QString type_nbr;
+  QTableWidgetItem *item;
 
   if (modpack_type_is_valid(type)) {
     type_str = _(modpack_type_name(type));
@@ -295,15 +296,29 @@ void mpgui::setup_list(const char *name, const char *URL,
 
   mplist_table->setRowCount(mpcount+1);
 
-  mplist_table->setItem(mpcount, ML_COL_NAME, new QTableWidgetItem(QString::fromUtf8(name)));
-  mplist_table->setItem(mpcount, ML_COL_VER, new QTableWidgetItem(version));
-  mplist_table->setItem(mpcount, ML_COL_INST, new QTableWidgetItem(inst_str));
-  mplist_table->setItem(mpcount, ML_COL_TYPE, new QTableWidgetItem(type_str));
-  mplist_table->setItem(mpcount, ML_COL_LIC, new QTableWidgetItem(lic_str));
-  mplist_table->setItem(mpcount, ML_COL_URL, new QTableWidgetItem(URL));
+  item = new QTableWidgetItem(QString::fromUtf8(name));
+  item->setToolTip(notes);
+  mplist_table->setItem(mpcount, ML_COL_NAME, item);
+  item = new QTableWidgetItem(version);
+  item->setToolTip(notes);
+  mplist_table->setItem(mpcount, ML_COL_VER, item);
+  item = new QTableWidgetItem(inst_str);
+  item->setToolTip(notes);
+  mplist_table->setItem(mpcount, ML_COL_INST, item);
+  item = new QTableWidgetItem(type_str);
+  item->setToolTip(notes);
+  mplist_table->setItem(mpcount, ML_COL_TYPE, item);
+  item = new QTableWidgetItem(lic_str);
+  item->setToolTip(notes);
+  mplist_table->setItem(mpcount, ML_COL_LIC, item);
+  item = new QTableWidgetItem(URL);
+  item->setToolTip(notes);
+  mplist_table->setItem(mpcount, ML_COL_URL, item);
 
   type_nbr.setNum(type);
-  mplist_table->setItem(mpcount, ML_TYPE, new QTableWidgetItem(type_nbr));
+  item = new QTableWidgetItem(type_nbr);
+  item->setToolTip(notes);
+  mplist_table->setItem(mpcount, ML_TYPE, item);
 
   mplist_table->resizeColumnsToContents();
   mpcount++;
