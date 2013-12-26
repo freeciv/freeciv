@@ -217,15 +217,16 @@ bool unit_has_type_role(const struct unit *punit, enum unit_role_id role)
 }
 
 /****************************************************************************
-  Return whether the unit can take over ennemy cities.
+  Return whether the unit can take over enemy cities.
 ****************************************************************************/
 bool unit_can_take_over(const struct unit *punit)
 {
-  return utype_can_take_over(unit_type(punit));
+  return unit_owner(punit)->ai_common.barbarian_type != ANIMAL_BARBARIAN
+    && utype_can_take_over(unit_type(punit));
 }
 
 /****************************************************************************
-  Return whether the unit type can take over ennemy cities.
+  Return whether the unit type can take over enemy cities.
 ****************************************************************************/
 bool utype_can_take_over(const struct unit_type *punittype)
 {

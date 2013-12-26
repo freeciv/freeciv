@@ -561,7 +561,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
         continue;
       }
 
-      if (0 < vulnerability && utype_can_take_over(unit_type(punit))) {
+      if (0 < vulnerability && unit_can_take_over(punit)) {
         if (3 >= move_time) {
           urgency++;
           if (1 >= move_time) {

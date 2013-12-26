@@ -489,7 +489,7 @@ unit_move_to_tile_test(const struct unit *punit,
   pcity = is_enemy_city_tile(dst_tile, puowner);
   if (NULL != pcity) {
     /* 5) */
-    if (!utype_can_take_over(punittype)) {
+    if (!unit_can_take_over(punit)) {
       return MR_BAD_TYPE_FOR_CITY_TAKE_OVER;
     } else {
       /* No point checking for being able to take over from non-native
