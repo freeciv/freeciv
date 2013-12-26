@@ -47,6 +47,7 @@
 #include "version.h"
 
 /* client */
+#include "client_main.h"
 #include "helpdata.h"
 #include "helpdlg_g.h"
 
@@ -123,6 +124,11 @@ void popup_help_dialog_string(const char *item)
 void popdown_help_dialog(void)
 {
   /* Empty stub. */
+}
+
+enum client_states client_state(void)
+{
+  return C_S_INITIAL;
 }
 
 /**************************************************************************
