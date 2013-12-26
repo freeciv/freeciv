@@ -967,9 +967,10 @@ static void create_races_dialog(struct player *pplayer)
       } nation_sets_iterate_end;
 
       /* We want a combo box where the button displays just the set name,
-       * but the dropdown displays the expanded description. */
+       * but the dropdown displays the expanded description.
+       * The entry displays the set name. */
       nationsets_chooser
-        = gtk_combo_box_new_with_model_and_entry(GTK_TREE_MODEL(sets_model));
+        = gtk_combo_box_entry_new_with_model(GTK_TREE_MODEL(sets_model), 2);
       g_object_unref(G_OBJECT(sets_model));
       {
         /* Do our best to turn the text-entry widget into something more
@@ -979,9 +980,6 @@ static void create_races_dialog(struct player *pplayer)
         gtk_editable_set_editable(GTK_EDITABLE(entry), FALSE);
         gtk_widget_set_can_focus(entry, FALSE);
       }
-      /* The entry displays the set name. */
-      gtk_combo_box_set_entry_text_column(GTK_COMBO_BOX(nationsets_chooser),
-                                          2);
       /* The dropdown displays the marked-up description. */
       renderer = gtk_cell_renderer_text_new();
       gtk_cell_layout_clear(GTK_CELL_LAYOUT(nationsets_chooser));
