@@ -57,6 +57,9 @@ static void place_animal(struct player *plr)
     }
   } extra_type_by_cause_iterate_end;
 
+  if (unit_list_size(ptile->units) > 0 || tile_city(ptile)) {
+    return;
+  }
   adjc_iterate(ptile, padj) {
     if (unit_list_size(padj->units) > 0 || tile_city(padj)) {
       /* No animals next to start units or start city */
