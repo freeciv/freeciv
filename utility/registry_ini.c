@@ -1066,7 +1066,7 @@ struct section *secfile_insert_include(struct section_file *secfile,
   struct section *psection;
   char buffer[200];
 
-  fc_snprintf(buffer, sizeof(buffer), "include_%lu", secfile->num_includes++);
+  fc_snprintf(buffer, sizeof(buffer), "include_%zu", secfile->num_includes++);
 
   fc_assert_ret_val(secfile_section_by_name(secfile, filename) == NULL, NULL);
 
