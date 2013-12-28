@@ -449,6 +449,8 @@ FC_WORKING_CXX
 
 AC_CHECK_PROG(UNAME,uname,uname,:)
 
+AC_CHECK_SIZEOF([int])
+
 dnl Programs already checked by AM_INIT_AUTOMAKE:
 dnl  AC_PROG_MAKE_SET
 

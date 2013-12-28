@@ -327,8 +327,11 @@ void dio_put_sint16(struct data_out *dout, int value)
 **************************************************************************/
 void dio_put_sint32(struct data_out *dout, int value)
 {
-  dio_put_uint32(dout, (0 <= value || sizeof(value) == 4
-                        ? value : value + 0x100000000));
+#if SIZEOF_INT == 4
+  dio_put_uint32(dout, value);
+#else
+  dio_put_uint32(dout, (0 <= value ? value : value + 0x100000000));
+#endif
 }
 
 /**************************************************************************
@@ -736,9 +739,12 @@ bool dio_get_sint32(struct data_in *din, int *dest)
     return FALSE;
   }
 
+#if SIZEOF_INT != 4
   if (tmp > 0x7fffffff) {
     tmp -= 0x100000000;
   }
+#endif
+
   *dest = tmp;
   return TRUE;
 }
