@@ -46,6 +46,14 @@ void ruleset_error_real(const char *file, const char *function,
                        level, format, ## __VA_ARGS__);                  \
   }
 
+/* Default ruleset values that are not settings (in game.h) */
+
+#define GAME_DEFAULT_ADDTOSIZE           9
+#define GAME_DEFAULT_CHANGABLE_TAX       TRUE
+#define GAME_DEFAULT_VISION_REVEAL_TILES FALSE
+#define GAME_DEFAULT_NATIONALITY         FALSE
+#define GAME_DEFAULT_CONVERT_SPEED       50
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

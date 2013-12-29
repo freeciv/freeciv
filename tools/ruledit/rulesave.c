@@ -23,6 +23,7 @@
 #include "game.h"
 #include "government.h"
 #include "movement.h"
+#include "specialist.h"
 #include "unittype.h"
 
 /* server */
@@ -367,9 +368,121 @@ static bool save_buildings_ruleset(const char *filename, const char *name)
 static bool save_cities_ruleset(const char *filename, const char *name)
 {
   struct section_file *sfile = create_ruleset_file(name, "cities");
+  int sect_idx;
+  int i;
 
   if (sfile == NULL) {
     return FALSE;
+  }
+
+  sect_idx = 0;
+  specialist_type_iterate(sp) {
+    struct specialist *s = specialist_by_number(sp);
+    char path[512];
+
+    fc_snprintf(path, sizeof(path), "specialist_%d", sect_idx++);
+
+    save_name_translation(sfile, &(s->name), path);
+
+    if (strcmp(rule_name(&s->name), rule_name(&s->abbreviation))) {
+      secfile_insert_str(sfile, rule_name(&s->abbreviation),
+                         "%s.short_name", path);
+    }
+
+    save_reqs_vector(sfile, &(s->reqs), path, "reqs");
+
+    if (strcmp(s->graphic_alt, "-")) {
+      secfile_insert_str(sfile, s->graphic_alt, "%s.graphic_alt", path);
+    }
+
+    save_strvec(sfile, s->helptext, path, "helptext");
+
+  } specialist_type_iterate_end;
+
+  if (game.info.celebratesize != GAME_DEFAULT_CELEBRATESIZE) {
+    secfile_insert_int(sfile, game.info.celebratesize,
+                       "parameters.celebrate_size_limit");
+  }
+  if (game.info.add_to_size_limit != GAME_DEFAULT_ADDTOSIZE) {
+    secfile_insert_int(sfile, game.info.add_to_size_limit,
+                       "parameters.add_to_size_limit");
+  }
+  if (game.info.angrycitizen != GAME_DEFAULT_ANGRYCITIZEN) {
+    secfile_insert_bool(sfile, game.info.angrycitizen,
+                       "parameters.angry_citizens");
+  }
+  if (game.info.changable_tax != GAME_DEFAULT_CHANGABLE_TAX) {
+    secfile_insert_bool(sfile, game.info.changable_tax,
+                       "parameters.changable_tax");
+  }
+  if (game.info.forced_science != 0) {
+    secfile_insert_int(sfile, game.info.forced_science,
+                       "parameters.forced_science");
+  }
+  if (game.info.forced_luxury != 100) {
+    secfile_insert_int(sfile, game.info.forced_luxury,
+                       "parameters.forced_luxury");
+  }
+  if (game.info.forced_gold != 0) {
+    secfile_insert_int(sfile, game.info.forced_gold,
+                       "parameters.forced_gold");
+  }
+  if (game.server.vision_reveal_tiles != GAME_DEFAULT_VISION_REVEAL_TILES) {
+    secfile_insert_bool(sfile, game.server.vision_reveal_tiles,
+                       "parameters.vision_reveal_tiles");
+  }
+  if (game.info.pop_report_zeroes != 1) {
+    secfile_insert_int(sfile, game.info.pop_report_zeroes,
+                       "parameters.pop_report_zeroes");
+  }
+  if (game.info.citizen_nationality != GAME_DEFAULT_NATIONALITY) {
+    secfile_insert_bool(sfile, game.info.citizen_nationality,
+                       "citizen.nationality");
+  }
+  if (game.info.citizen_convert_speed != GAME_DEFAULT_CONVERT_SPEED) {
+    secfile_insert_int(sfile, game.info.citizen_convert_speed,
+                       "citizen.convert_speed");
+  }
+  if (game.info.citizen_partisans_pct != 0) {
+    secfile_insert_int(sfile, game.info.citizen_partisans_pct,
+                       "citizen.partisans_pct");
+  }
+
+  sect_idx = 0;
+  for (i = 0; i < game.control.styles_count; i++) {
+    char path[512];
+
+    fc_snprintf(path, sizeof(path), "citystyle_%d", sect_idx++);
+
+    save_name_translation(sfile, &(city_styles[i].name), path);
+
+    secfile_insert_str(sfile, city_styles[i].graphic, "%s.graphic", path);
+    secfile_insert_str(sfile, city_styles[i].graphic_alt, "%s.graphic_alt", path);
+    if (strcmp(city_styles[i].oceanic_graphic, "")) {
+      secfile_insert_str(sfile, city_styles[i].oceanic_graphic, "%s.oceanic_graphic", path);
+    }
+    if (strcmp(city_styles[i].oceanic_graphic_alt, "")) {
+      secfile_insert_str(sfile, city_styles[i].oceanic_graphic_alt,
+                         "%s.oceanic_graphic_alt", path);
+    }
+    if (strcmp(city_styles[i].citizens_graphic, "-")) {
+      secfile_insert_str(sfile, city_styles[i].citizens_graphic,
+                         "%s.citizens_graphic", path);
+    }
+    if (strcmp(city_styles[i].citizens_graphic_alt, "generic")) {
+      secfile_insert_str(sfile, city_styles[i].citizens_graphic_alt,
+                         "%s.citizens_graphic_alt", path);
+    }
+
+    save_reqs_vector(sfile, &(city_styles[i].reqs), path, "reqs");
+
+    if (city_styles[i].replaced_by < 0) {
+      secfile_insert_str(sfile, "-", "%s.replaced_by", path);
+    } else {
+      secfile_insert_str(sfile, city_style_rule_name(city_styles[i].replaced_by),
+                         "%s.replaced_by", path);
+    }
+
   }
 
   return save_ruleset_file(sfile, filename);

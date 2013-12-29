@@ -4468,13 +4468,13 @@ static bool load_ruleset_cities(struct section_file *file)
       secfile_lookup_int_default(file, GAME_DEFAULT_CELEBRATESIZE,
                                  "parameters.celebrate_size_limit");
     game.info.add_to_size_limit =
-      secfile_lookup_int_default(file, 9, "parameters.add_to_size_limit");
+      secfile_lookup_int_default(file, GAME_DEFAULT_ADDTOSIZE, "parameters.add_to_size_limit");
     game.info.angrycitizen =
       secfile_lookup_bool_default(file, GAME_DEFAULT_ANGRYCITIZEN,
                                   "parameters.angry_citizens");
 
     game.info.changable_tax = 
-      secfile_lookup_bool_default(file, TRUE, "parameters.changable_tax");
+      secfile_lookup_bool_default(file, GAME_DEFAULT_CHANGABLE_TAX, "parameters.changable_tax");
     game.info.forced_science = 
       secfile_lookup_int_default(file, 0, "parameters.forced_science");
     game.info.forced_luxury = 
@@ -4495,17 +4495,19 @@ static bool load_ruleset_cities(struct section_file *file)
 
     /* civ1 & 2 didn't reveal tiles */
     game.server.vision_reveal_tiles =
-      secfile_lookup_bool_default(file, FALSE, "parameters.vision_reveal_tiles");
+      secfile_lookup_bool_default(file, GAME_DEFAULT_VISION_REVEAL_TILES,
+                                  "parameters.vision_reveal_tiles");
 
     game.info.pop_report_zeroes =
       secfile_lookup_int_default(file, 1, "parameters.pop_report_zeroes");
 
     /* Citizens configuration. */
     game.info.citizen_nationality =
-      secfile_lookup_bool_default(file, FALSE,
+      secfile_lookup_bool_default(file, GAME_DEFAULT_NATIONALITY,
                                   "citizen.nationality");
     game.info.citizen_convert_speed =
-      secfile_lookup_int_default(file, 50, "citizen.convert_speed");
+      secfile_lookup_int_default(file, GAME_DEFAULT_CONVERT_SPEED,
+                                 "citizen.convert_speed");
     game.info.citizen_partisans_pct =
       secfile_lookup_int_default(file, 0, "citizen.partisans_pct");
 
