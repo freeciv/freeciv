@@ -798,7 +798,7 @@ static void update_unit_activity(struct unit *punit)
     /* TODO: Remove this fallback target setting when target always correctly
      *       set */
     if (punit->activity_target == NULL) {
-      punit->activity_target = prev_extra_in_tile(ptile, EC_POLLUTION,
+      punit->activity_target = prev_extra_in_tile(ptile, ERM_CLEANPOLLUTION,
                                                   NULL, punit);
     }
     if (total_activity_done(ptile, ACTIVITY_POLLUTION, punit->activity_target)) {
@@ -811,7 +811,7 @@ static void update_unit_activity(struct unit *punit)
     /* TODO: Remove this fallback target setting when target always correctly
      *       set */
     if (punit->activity_target == NULL) {
-      punit->activity_target = prev_extra_in_tile(ptile, EC_FALLOUT,
+      punit->activity_target = prev_extra_in_tile(ptile, ERM_CLEANFALLOUT,
                                                   NULL, punit);
     }
     if (total_activity_done(ptile, ACTIVITY_FALLOUT, punit->activity_target)) {

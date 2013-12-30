@@ -59,6 +59,7 @@ struct extra_type
   struct name_translation name;
   enum extra_category category;
   enum extra_cause causes;
+  enum extra_rmcause rmcauses;
 
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
@@ -69,7 +70,6 @@ struct extra_type
 
   struct requirement_vector reqs;
   bool buildable;
-  bool pillageable;
 
   bv_unit_classes native_to;
 
@@ -129,6 +129,11 @@ struct extra_type *rand_extra_type_by_cause(enum extra_cause cause);
 
 bool is_extra_caused_by(const struct extra_type *pextra, enum extra_cause cause);
 
+void extra_to_removed_by_list(struct extra_type *pextra, enum extra_rmcause rmcause);
+struct extra_type_list *extra_type_list_by_rmcause(enum extra_rmcause rmcause);
+
+bool is_extra_removed_by(const struct extra_type *pextra, enum extra_rmcause rmcause);
+
 bool is_extra_card_near(const struct tile *ptile, const struct extra_type *pextra);
 bool is_extra_near_tile(const struct tile *ptile, const struct extra_type *pextra);
 
@@ -165,7 +170,7 @@ bool can_extras_coexist(const struct extra_type *pextra1,
 struct extra_type *next_extra_for_tile(const struct tile *ptile, enum extra_cause cause,
                                        const struct player *pplayer,
                                        const struct unit *punit);
-struct extra_type *prev_extra_in_tile(const struct tile *ptile, enum extra_cause cause,
+struct extra_type *prev_extra_in_tile(const struct tile *ptile, enum extra_rmcause rmcause,
                                       const struct player *pplayer,
                                       const struct unit *punit);
 
@@ -190,13 +195,22 @@ struct extra_type *prev_extra_in_tile(const struct tile *ptile, enum extra_cause
   }                                                        \
 }
 
-#define extra_type_by_cause_iterate_rev(_cause, _extra)             \
-{                                                                   \
-  struct extra_type_list *_etl_ = extra_type_list_by_cause(_cause); \
+#define extra_type_by_cause_iterate_rev(_cause, _extra)                 \
+{                                                                      \
+ struct extra_type_list *_etl_ = extra_type_list_by_cause(_cause);     \
   extra_type_list_iterate_rev(_etl_, _extra) {
 
 #define extra_type_by_cause_iterate_rev_end                \
   } extra_type_list_iterate_rev_end                        \
+}
+
+#define extra_type_by_rmcause_iterate(_rmcause, _extra)                   \
+{                                                                         \
+  struct extra_type_list *_etl_ = extra_type_list_by_rmcause(_rmcause);   \
+  extra_type_list_iterate_rev(_etl_, _extra) {
+
+#define extra_type_by_rmcause_iterate_end                \
+  } extra_type_list_iterate_rev_end                      \
 }
 
 #define extra_deps_iterate(_reqs, _dep)                 \

@@ -103,7 +103,7 @@ bv_extras get_tile_infrastructure_set(const struct tile *ptile,
   BV_CLR_ALL(pspresent);
 
   extra_type_iterate(pextra) {
-    if (pextra->pillageable && tile_has_extra(ptile, pextra)) {
+    if (is_extra_removed_by(pextra, ERM_PILLAGE) && tile_has_extra(ptile, pextra)) {
       struct tile *missingset = tile_virtual_new(ptile);
       bool dependency = FALSE;
 

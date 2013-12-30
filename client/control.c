@@ -85,7 +85,7 @@ static struct genlist *diplomat_arrival_queue = NULL;
  */
 bool non_ai_unit_focus;
 
-static void key_unit_clean(enum unit_activity act, enum extra_cause cause);
+static void key_unit_clean(enum unit_activity act, enum extra_rmcause rmcause);
 
 /*************************************************************************/
 
@@ -2791,7 +2791,7 @@ void key_unit_convert(void)
 **************************************************************************/
 void key_unit_fallout(void)
 {
-  key_unit_clean(ACTIVITY_FALLOUT, EC_FALLOUT);
+  key_unit_clean(ACTIVITY_FALLOUT, ERM_CLEANFALLOUT);
 }
 
 /**************************************************************************
@@ -2854,11 +2854,11 @@ static void key_unit_extra(enum unit_activity act, enum extra_cause cause)
 /**************************************************************************
   Handle user extra cleaning input of given type
 **************************************************************************/
-static void key_unit_clean(enum unit_activity act, enum extra_cause cause)
+static void key_unit_clean(enum unit_activity act, enum extra_rmcause rmcause)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
-                                                cause,
+                                                rmcause,
                                                 unit_owner(punit),
                                                 punit);
 
@@ -2902,7 +2902,7 @@ void key_unit_pillage(void)
 **************************************************************************/
 void key_unit_pollution(void)
 {
-  key_unit_clean(ACTIVITY_POLLUTION, EC_POLLUTION);
+  key_unit_clean(ACTIVITY_POLLUTION, ERM_CLEANPOLLUTION);
 }
 
 /**************************************************************************

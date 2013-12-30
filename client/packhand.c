@@ -3225,6 +3225,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
 
   pextra->category = p->category;
   pextra->causes = p->causes;
+  pextra->rmcauses = p->rmcauses;
 
   if (pextra->causes == 0) {
     extra_to_caused_by_list(pextra, EC_NONE);
@@ -3249,6 +3250,12 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
     extra_to_caused_by_list(pextra, EC_SPECIAL);
   }
 
+  for (i = 0; i < ERM_COUNT; i++) {
+    if (is_extra_removed_by(pextra, i)) {
+      extra_to_removed_by_list(pextra, i);
+    }
+  }
+
   sz_strlcpy(pextra->activity_gfx, p->activity_gfx);
   sz_strlcpy(pextra->act_gfx_alt, p->act_gfx_alt);
   sz_strlcpy(pextra->rmact_gfx, p->rmact_gfx);
@@ -3262,7 +3269,6 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   fc_assert(pextra->reqs.size == p->reqs_count);
 
   pextra->buildable = p->buildable;
-  pextra->pillageable = p->pillageable;
 
   pextra->native_to = p->native_to;
 

@@ -1473,6 +1473,7 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   STRING rule_name[MAX_LEN_NAME];
   UINT8 category;
   UINT8 causes;
+  UINT8 rmcauses;
   STRING activity_gfx[MAX_LEN_NAME];
   STRING act_gfx_alt[MAX_LEN_NAME];
   STRING rmact_gfx[MAX_LEN_NAME];
@@ -1482,7 +1483,6 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   UINT8 reqs_count;
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
   BOOL buildable;
-  BOOL pillageable;
   BV_UNIT_CLASSES native_to;
   BV_EXTRA_FLAGS flags;
   BV_EXTRAS hidden_by;

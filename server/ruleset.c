@@ -2897,6 +2897,7 @@ static bool load_ruleset_terrain(struct section_file *file)
       const char *catname;
       int j;
       enum extra_cause cause;
+      enum extra_rmcause rmcause;
 
       catname = secfile_lookup_str(file, "%s.category", section);
       if (catname == NULL) {
@@ -2948,6 +2949,27 @@ static bool load_ruleset_terrain(struct section_file *file)
 
       free(slist);
 
+      slist = secfile_lookup_str_vec(file, &nval, "%s.rmcauses", section);
+      pextra->rmcauses = 0;
+      for (j = 0; j < nval; j++) {
+        const char *sval = slist[j];
+        rmcause = extra_rmcause_by_name(sval, fc_strcasecmp);
+
+        if (!extra_rmcause_is_valid(rmcause)) {
+          ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\": unknown rmcause \"%s\".",
+                        filename,
+                        extra_rule_name(pextra),
+                        sval);
+          ok = FALSE;
+          break;
+        } else {
+          pextra->rmcauses |= (1 << rmcause);
+          extra_to_removed_by_list(pextra, rmcause);
+        }
+      }
+
+      free(slist);
+
       sz_strlcpy(pextra->activity_gfx,
                  secfile_lookup_str_default(file, "-",
                                             "%s.activity_gfx", section));
@@ -2975,8 +2997,6 @@ static bool load_ruleset_terrain(struct section_file *file)
 
       pextra->buildable = secfile_lookup_bool_default(file, TRUE,
                                                       "%s.buildable", section);
-      pextra->pillageable = secfile_lookup_bool_default(file, TRUE,
-                                                        "%s.pillageable", section);
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
       BV_CLR_ALL(pextra->native_to);
@@ -5734,6 +5754,7 @@ static void send_ruleset_extras(struct conn_list *dest)
 
     packet.category = e->category;
     packet.causes = e->causes;
+    packet.rmcauses = e->rmcauses;
 
     sz_strlcpy(packet.activity_gfx, e->activity_gfx);
     sz_strlcpy(packet.act_gfx_alt, e->act_gfx_alt);
@@ -5749,7 +5770,6 @@ static void send_ruleset_extras(struct conn_list *dest)
     packet.reqs_count = j;
 
     packet.buildable = e->buildable;
-    packet.pillageable = e->pillageable;
 
     packet.native_to = e->native_to;
 

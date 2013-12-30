@@ -646,25 +646,25 @@ const char *get_infrastructure_text(bv_extras extras)
 struct extra_type *get_preferred_pillage(bv_extras extras)
 {
   extra_type_by_cause_iterate_rev(EC_IRRIGATION, pextra) {
-    if (pextra->pillageable && BV_ISSET(extras, extra_index(pextra))) {
+    if (is_extra_removed_by(pextra, ERM_PILLAGE) && BV_ISSET(extras, extra_index(pextra))) {
       return pextra;
     }
   } extra_type_by_cause_iterate_rev_end;
 
   extra_type_by_cause_iterate_rev(EC_MINE, pextra) {
-    if (pextra->pillageable && BV_ISSET(extras, extra_index(pextra))) {
+    if (is_extra_removed_by(pextra, ERM_PILLAGE) && BV_ISSET(extras, extra_index(pextra))) {
       return pextra;
     }
   } extra_type_by_cause_iterate_rev_end;
 
   extra_type_by_cause_iterate_rev(EC_BASE, pextra) {
-    if (pextra->pillageable && BV_ISSET(extras, extra_index(pextra))) {
+    if (is_extra_removed_by(pextra, ERM_PILLAGE) && BV_ISSET(extras, extra_index(pextra))) {
       return pextra;
     }
   } extra_type_by_cause_iterate_rev_end;
 
   extra_type_by_cause_iterate_rev(EC_ROAD, pextra) {
-    if (pextra->pillageable && BV_ISSET(extras, extra_index(pextra))) {
+    if (is_extra_removed_by(pextra, ERM_PILLAGE) && BV_ISSET(extras, extra_index(pextra))) {
       return pextra;
     }
   } extra_type_by_cause_iterate_rev_end;

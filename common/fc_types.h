@@ -525,6 +525,17 @@ enum diplomacy_mode {
 #define EC_LAST (EC_NONE + 2)
 
 /* Used in the network protocol. */
+#define SPECENUM_NAME extra_rmcause
+#define SPECENUM_VALUE0 ERM_PILLAGE
+#define SPECENUM_VALUE0NAME "Pillage"
+#define SPECENUM_VALUE1 ERM_CLEANPOLLUTION
+#define SPECENUM_VALUE1NAME "CleanPollution"
+#define SPECENUM_VALUE2 ERM_CLEANFALLOUT
+#define SPECENUM_VALUE2NAME "CleanFallout"
+#define SPECENUM_COUNT ERM_COUNT
+#include "specenum_gen.h"
+
+/* Used in the network protocol. */
 #define SPECENUM_NAME achievement_type
 #define SPECENUM_VALUE0 ACHIEVEMENT_SPACESHIP
 #define SPECENUM_VALUE0NAME "Spaceship"

@@ -1015,7 +1015,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
         /* TODO: Make sure that all callers set target so that
          * we don't need this fallback. */
         pextra = prev_extra_in_tile(unit_tile(punit),
-                                    EC_POLLUTION,
+                                    ERM_CLEANPOLLUTION,
                                     unit_owner(punit),
                                     punit);
         if (pextra == NULL) {
@@ -1024,7 +1024,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
         }
       }
 
-      if (!is_extra_caused_by(pextra, EC_POLLUTION)) {
+      if (!is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)) {
         return FALSE;
       }
 
@@ -1049,7 +1049,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
         /* TODO: Make sure that all callers set target so that
          * we don't need this fallback. */
         pextra = prev_extra_in_tile(unit_tile(punit),
-                                    EC_FALLOUT,
+                                    ERM_CLEANFALLOUT,
                                     unit_owner(punit),
                                     punit);
         if (pextra == NULL) {
@@ -1058,7 +1058,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
         }
       }
 
-      if (!is_extra_caused_by(pextra, EC_FALLOUT)) {
+      if (!is_extra_removed_by(pextra, ERM_CLEANFALLOUT)) {
         return FALSE;
       }
 

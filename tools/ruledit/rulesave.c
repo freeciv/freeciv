@@ -977,6 +977,18 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
                              "%s.causes", path);
     }
 
+    set_count = 0;
+    for (causei = 0; causei < ERM_COUNT; causei++) {
+      if (is_extra_removed_by(pextra, causei)) {
+        cause_names[set_count++] = extra_rmcause_name(causei);
+      }
+    }
+
+    if (set_count > 0) {
+      secfile_insert_str_vec(sfile, cause_names, set_count,
+                             "%s.rmcauses", path);
+    }
+
     if (strcmp(pextra->graphic_str, "-")) {
       secfile_insert_str(sfile, pextra->graphic_str, "%s.graphic", path);
     }
@@ -1000,9 +1012,6 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
 
     if (!pextra->buildable) {
       secfile_insert_bool(sfile, pextra->buildable, "%s.buildable", path);
-    }
-    if (!pextra->pillageable) {
-      secfile_insert_bool(sfile, pextra->pillageable, "%s.pillageable", path);
     }
 
     set_count = 0;

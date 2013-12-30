@@ -995,7 +995,7 @@ void mr_menu::slot_clean_pollution()
      * not good! */
     struct extra_type *pextra;
 
-    pextra = prev_extra_in_tile(unit_tile(punit), EC_POLLUTION,
+    pextra = prev_extra_in_tile(unit_tile(punit), ERM_CLEANPOLLUTION,
                                 unit_owner(punit), punit);
     if (pextra != NULL) {
       request_new_unit_activity_targeted(punit, ACTIVITY_POLLUTION, pextra);

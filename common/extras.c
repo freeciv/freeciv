@@ -28,6 +28,7 @@
 static struct extra_type extras[MAX_EXTRA_TYPES];
 
 static struct extra_type_list *caused_by[EC_LAST];
+static struct extra_type_list *removed_by[ERM_COUNT];
 
 /****************************************************************************
   Initialize extras structures.
@@ -39,6 +40,9 @@ void extras_init(void)
   for (i = 0; i < EC_LAST; i++) {
     caused_by[i] = extra_type_list_new();
   }
+  for (i = 0; i < ERM_COUNT; i++) {
+    removed_by[i] = extra_type_list_new();
+  }
 
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
     requirement_vector_init(&(extras[i].reqs));
@@ -48,6 +52,7 @@ void extras_init(void)
     extras[i].data.base = NULL;
     extras[i].data.road = NULL;
     extras[i].causes = 0;
+    extras[i].rmcauses = 0;
   }
 }
 
@@ -75,6 +80,11 @@ void extras_free(void)
   for (i = 0; i < EC_LAST; i++) {
     extra_type_list_destroy(caused_by[i]);
     caused_by[i] = NULL;
+  }
+
+  for (i = 0; i < ERM_COUNT; i++) {
+    extra_type_list_destroy(removed_by[i]);
+    removed_by[i] = NULL;
   }
 
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
@@ -261,6 +271,36 @@ void extra_to_caused_by_list(struct extra_type *pextra, enum extra_cause cause)
   fc_assert(cause < EC_LAST);
 
   extra_type_list_append(caused_by[cause], pextra);
+}
+
+/**************************************************************************
+  Returns extra type for given rmcause.
+**************************************************************************/
+struct extra_type_list *extra_type_list_by_rmcause(enum extra_rmcause rmcause)
+{
+  fc_assert(rmcause < ERM_COUNT);
+
+  return removed_by[rmcause];
+}
+
+/**************************************************************************
+  Add extra type to list of extra removed by given cause.
+**************************************************************************/
+void extra_to_removed_by_list(struct extra_type *pextra,
+                              enum extra_rmcause rmcause)
+{
+  fc_assert(rmcause < ERM_COUNT);
+
+  extra_type_list_append(removed_by[rmcause], pextra);
+}
+
+/**************************************************************************
+  Is given cause one of the removal causes for given extra?
+**************************************************************************/
+bool is_extra_removed_by(const struct extra_type *pextra,
+                         enum extra_rmcause rmcause)
+{
+  return (pextra->rmcauses & (1 << rmcause));
 }
 
 /****************************************************************************
@@ -462,13 +502,14 @@ struct extra_type *next_extra_for_tile(const struct tile *ptile, enum extra_caus
 /****************************************************************************
   Returns prev extra by cause that unit or player can remove from tile.
 ****************************************************************************/
-struct extra_type *prev_extra_in_tile(const struct tile *ptile, enum extra_cause cause,
+struct extra_type *prev_extra_in_tile(const struct tile *ptile,
+                                      enum extra_rmcause rmcause,
                                       const struct player *pplayer,
                                       const struct unit *punit)
 {
   fc_assert(punit != NULL || pplayer != NULL);
 
-  extra_type_by_cause_iterate_rev(cause, pextra) {
+  extra_type_by_rmcause_iterate(rmcause, pextra) {
     if (tile_has_extra(ptile, pextra)) {
       if (punit != NULL) {
         if (can_remove_extra(pextra, punit, ptile)) {
@@ -480,7 +521,7 @@ struct extra_type *prev_extra_in_tile(const struct tile *ptile, enum extra_cause
         }
       }
     }
-  } extra_type_by_cause_iterate_rev_end;
+  } extra_type_by_rmcause_iterate_end;
 
   return NULL;
 }
@@ -545,7 +586,7 @@ bool extra_causes_env_upset(struct extra_type *pextra,
 **************************************************************************/
 bool is_extra_caused_by(const struct extra_type *pextra, enum extra_cause cause)
 {
-  /* There's some extra cause lists about EC_COUNT that do not have equivalent
+  /* There's some extra cause lists above EC_COUNT that do not have equivalent
    * bit in pextra->causes */
   fc_assert(cause < EC_COUNT);
 

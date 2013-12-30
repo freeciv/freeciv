@@ -2670,9 +2670,13 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
             _("* Cannot be built.\n"));
   }
-  if (pextra->pillageable) {
+  if (is_extra_removed_by(pextra, ERM_PILLAGE)) {
     CATLSTR(buf, bufsz,
             _("* Can be pillaged by units.\n"));
+  }
+  if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION) || is_extra_caused_by(pextra, ERM_CLEANFALLOUT)) {
+    CATLSTR(buf, bufsz,
+            _("* Can be cleaned by units.\n"));
   }
   if (game.info.killstack
       && base_has_flag(pbase, BF_NO_STACK_DEATH)) {
@@ -2787,9 +2791,13 @@ void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
   if (!pextra->buildable) {
     CATLSTR(buf, bufsz, _("* Cannot be built.\n"));
   }
-  if (pextra->pillageable) {
+  if (is_extra_removed_by(pextra, ERM_PILLAGE)) {
     CATLSTR(buf, bufsz,
             _("* Can be pillaged by units.\n"));
+  }
+  if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION) || is_extra_caused_by(pextra, ERM_CLEANFALLOUT)) {
+    CATLSTR(buf, bufsz,
+            _("* Can be cleaned by units.\n"));
   }
 
   if (road_has_flag(proad, RF_REQUIRES_BRIDGE)) {

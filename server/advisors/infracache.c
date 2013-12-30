@@ -276,12 +276,12 @@ static int adv_calc_pollution(const struct city *pcity,
 
   vtile = tile_virtual_new(ptile);
 
-  extra_type_by_cause_iterate(EC_POLLUTION, pextra) {
+  extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
     if (tile_has_extra(ptile, pextra)) {
       polluted = TRUE;
       tile_remove_extra(vtile, pextra);
     }
-  } extra_type_by_cause_iterate_end;
+  } extra_type_by_rmcause_iterate_end;
 
   if (!polluted) {
     goodness = -1;
@@ -316,12 +316,12 @@ static int adv_calc_fallout(const struct city *pcity,
 
   vtile = tile_virtual_new(ptile);
 
-  extra_type_by_cause_iterate(EC_FALLOUT, pextra) {
+  extra_type_by_rmcause_iterate(ERM_CLEANFALLOUT, pextra) {
     if (tile_has_extra(ptile, pextra)) {
       tile_remove_extra(vtile, pextra);
       polluted = TRUE;
     }
-  } extra_type_by_cause_iterate_end;
+  } extra_type_by_rmcause_iterate_end;
 
   if (!polluted) {
     goodness = -1;
