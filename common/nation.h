@@ -250,9 +250,6 @@ bool nation_is_in_set(const struct nation_type *pnation,
 
 struct nation_set *nation_set_by_setting_value(const char *setting);
 
-struct nation_set *current_nationset(void);
-bool nation_is_in_current_set(const struct nation_type *pnation);
-
 /* General nation group accessor routines */
 int nation_group_count(void);
 int nation_group_index(const struct nation_group *pgroup);
