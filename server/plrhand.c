@@ -162,22 +162,12 @@ void kill_player(struct player *pplayer)
   /* let there be civil war */
   if (game.info.gameloss_style & GAMELOSS_STYLE_CWAR) {
     if (city_list_size(pplayer->cities) >= 2 + MIN(GAME_MIN_CIVILWARSIZE, 2)) {
-      struct player *prebelplayer;
-
       log_verbose("Civil war strikes the remaining empire of %s",
                   pplayer->name);
       /* out of sheer cruelty we reanimate the player 
        * so he can behold what happens to his empire */
       pplayer->is_alive = TRUE;
-
-      prebelplayer = civil_war(pplayer);
-      if (prebelplayer) {
-        struct city *prebelcapital = player_capital(prebelplayer);
-
-        if (prebelcapital) {
-          give_midgame_initial_units(prebelplayer, city_tile(prebelcapital));
-        }
-      } 
+      (void) civil_war(pplayer);
     } else {
       log_verbose("The empire of %s is too small for civil war.",
                   pplayer->name);
