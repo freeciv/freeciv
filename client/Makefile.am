@@ -267,6 +267,7 @@ libfcgui_qt_la_LIBADD = gui-qt/libgui-qt.la $(clientlibs)
 freeciv_qt_SOURCES = dummycxx.cpp $(gui_interface_src)
 freeciv_qt_LDFLAGS = $(GUI_qt_LDFLAGS) $(GGZMOD_LDFLAGS)
 freeciv_qt_LDADD = \
+ $(SOUND_LIBS) \
  libfcgui-qt.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
