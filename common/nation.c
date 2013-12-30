@@ -197,38 +197,14 @@ const char *nation_plural_for_player(const struct player *pplayer)
 }
 
 /****************************************************************************
-  Return the nationset currently in effect.
-  (Server only function.)
-****************************************************************************/
-struct nation_set *current_nationset(void)
-{
-  fc_assert_ret_val(is_server(), NULL);
-  return nation_set_by_setting_value(game.server.nationset);
-}
-
-/****************************************************************************
-  Is the nation in the currently selected nationset?
-  If not, it's not allowed to appear in the game.
-  (Server only function.)
-****************************************************************************/
-bool nation_is_in_current_set(const struct nation_type *pnation) {
-  fc_assert_ret_val(is_server(), FALSE);
-  return nation_is_in_set(pnation, current_nationset());
-}
-
-/****************************************************************************
   Return whether a nation is "pickable" -- whether players can select it
   at game start.
+  (Client only function -- on the server, use client_can_pick_nation().)
 ****************************************************************************/
 bool is_nation_pickable(const struct nation_type *nation)
 {
-  NATION_CHECK(nation, return FALSE);
-  if (is_server()) {
-    return nation_is_in_current_set(nation) &&
-      (!game.scenario.startpos_nations || !nation->server.no_startpos);
-  } else {
-    return nation->client.is_pickable;
-  }
+  fc_assert_ret_val(!is_server(), FALSE);
+  return nation->client.is_pickable;
 }
 
 /****************************************************************************

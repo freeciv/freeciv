@@ -2160,6 +2160,23 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
 }
 
 /****************************************************************************
+  Return the nationset currently in effect.
+****************************************************************************/
+static struct nation_set *current_nationset(void)
+{
+  return nation_set_by_setting_value(game.server.nationset);
+}
+
+/****************************************************************************
+  Is the nation in the currently selected nationset?
+  If not, it's not allowed to appear in the game.
+****************************************************************************/
+bool nation_is_in_current_set(const struct nation_type *pnation)
+{
+  return nation_is_in_set(pnation, current_nationset());
+}
+
+/****************************************************************************
   Update the server's cached number of playable nations.
   Call when the nationset changes.
 ****************************************************************************/
@@ -2174,6 +2191,18 @@ void count_playable_nations(void)
 }
 
 /****************************************************************************
+  Return whether a nation is "pickable" -- whether players can select it
+  at game start.
+  (is_nation_pickable() is the equivalent function on the client.)
+****************************************************************************/
+bool client_can_pick_nation(const struct nation_type *pnation)
+{
+  fc_assert_ret_val(pnation != NULL, FALSE);
+  return nation_is_in_current_set(pnation) &&
+    (!game.scenario.startpos_nations || !pnation->server.no_startpos);
+}
+
+/****************************************************************************
   Helper doing the actual work for send_nation_availability() (q.v.).
 ****************************************************************************/
 static void send_nation_availability_real(struct conn_list *dest)
@@ -2181,7 +2210,7 @@ static void send_nation_availability_real(struct conn_list *dest)
   struct packet_nation_availability packet;
   packet.ncount = nation_count();
   nations_iterate(pnation) {
-    packet.is_pickable[nation_index(pnation)] = is_nation_pickable(pnation);
+    packet.is_pickable[nation_index(pnation)] = client_can_pick_nation(pnation);
   } nations_iterate_end;
   lsend_packet_nation_availability(dest, &packet);
 }

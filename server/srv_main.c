@@ -1839,7 +1839,7 @@ void handle_nation_select_req(struct connection *pc, int player_no,
       return;
     }
 
-    if (!is_nation_pickable(new_nation)) {
+    if (!client_can_pick_nation(new_nation)) {
       notify_player(pplayer, NULL, E_NATION_SELECTED, ftc_server,
                     _("%s nation is not available for user selection."),
                     nation_adjective_translation(new_nation));
@@ -2093,7 +2093,7 @@ static void generate_players(void)
       const char *name = player_name(pplayer);
 
       if (is_nation_playable(pnation)
-          && is_nation_pickable(pnation)
+          && client_can_pick_nation(pnation)
           && NULL == pnation->player
           && (pleader = nation_leader_by_name(pnation, name))) {
         player_set_nation(pplayer, pnation);
