@@ -1798,7 +1798,7 @@ PACKET_EDIT_TILE_BASE = 203; cs, handle-per-conn, dsend
   UINT8 size;
 end
 
-PACKET_EDIT_TILE_ROAD = 226; cs, handle-per-conn, dsend
+PACKET_EDIT_TILE_ROAD = 196; cs, handle-per-conn, dsend
   TILE tile; key
   ROAD road_type_id;
   BOOL remove;
