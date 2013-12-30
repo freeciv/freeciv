@@ -3691,16 +3691,20 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
     gtk_list_store_set(store, &iter, 0, all, 1, -1, 3,
                        _("All nations"), -1);
     nations_iterate(pnation) {
-      present = (!all && nation_hash_lookup(pv->data.v_nation_hash,
-                                            pnation, NULL));
-      id = nation_number(pnation);
-      pixbuf = get_flag(pnation);
-      name = nation_adjective_translation(pnation);
-      gtk_list_store_append(store, &iter);
-      gtk_list_store_set(store, &iter, 0, present, 1, id,
-                         2, pixbuf, 3, name, -1);
-      if (pixbuf) {
-        g_object_unref(pixbuf);
+      /* The server should have lifted start-position-based restrictions
+       * on pickability before we're invoked. */
+      if (is_nation_pickable(pnation)) {
+        present = (!all && nation_hash_lookup(pv->data.v_nation_hash,
+                                              pnation, NULL));
+        id = nation_number(pnation);
+        pixbuf = get_flag(pnation);
+        name = nation_adjective_translation(pnation);
+        gtk_list_store_append(store, &iter);
+        gtk_list_store_set(store, &iter, 0, present, 1, id,
+                           2, pixbuf, 3, name, -1);
+        if (pixbuf) {
+          g_object_unref(pixbuf);
+        }
       }
     } nations_iterate_end;
     buf = propval_as_string(pv);
@@ -3732,15 +3736,17 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
   case OPID_PLAYER_NATION:
     gtk_list_store_clear(store);
     nations_iterate(pnation) {
-      present = (pnation == pv->data.v_nation);
-      id = nation_index(pnation);
-      pixbuf = get_flag(pnation);
-      name = nation_adjective_translation(pnation);
-      gtk_list_store_append(store, &iter);
-      gtk_list_store_set(store, &iter, 0, present, 1, id,
-                         2, pixbuf, 3, name, -1);
-      if (pixbuf) {
-        g_object_unref(pixbuf);
+      if (is_nation_pickable(pnation)) {
+        present = (pnation == pv->data.v_nation);
+        id = nation_index(pnation);
+        pixbuf = get_flag(pnation);
+        name = nation_adjective_translation(pnation);
+        gtk_list_store_append(store, &iter);
+        gtk_list_store_set(store, &iter, 0, present, 1, id,
+                           2, pixbuf, 3, name, -1);
+        if (pixbuf) {
+          g_object_unref(pixbuf);
+        }
       }
     } nations_iterate_end;
     gtk_label_set_text(GTK_LABEL(ev->panel_label),
