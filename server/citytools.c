@@ -1669,7 +1669,9 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
   }
 
   coins = cplayer->economic.gold;
-  coins = fc_rand((coins / 20) + 1) + (coins * (city_size_get(pcity))) / 200;
+  coins = MIN(coins,
+              fc_rand((coins / 20) + 1)
+              + (coins * (city_size_get(pcity))) / 200);
   pplayer->economic.gold += coins;
   cplayer->economic.gold -= coins;
   send_player_info_c(cplayer, cplayer->connections);
