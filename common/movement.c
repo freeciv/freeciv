@@ -437,16 +437,17 @@ bool unit_can_move_to_tile(const struct unit *punit,
     1) The unit is idle or on server goto.
     2) The target location is next to the unit.
     3) There are no non-allied units on the target tile.
-    4) Unit can move to a tile where it can't survive on its own if there
+    4) Animals cannot move out from home terrains
+    5) Unit can move to a tile where it can't survive on its own if there
        is free transport capacity.
-    5) Some units cannot take over a city.
-    6) Only units permitted to attack from non-native tiles may do so.
-    7) There are no peaceful but un-allied units on the target tile.
-    8) There is not a peaceful but un-allied city on the target tile.
-    9) There is no non-allied unit blocking (zoc) [or igzoc is true].
-   10) Triremes cannot move out of sight from land.
-   11) It is not the territory of a player we are at peace with.
-   12) The unit is unable to disembark from current transporter.
+    6) Some units cannot take over a city.
+    7) Only units permitted to attack from non-native tiles may do so.
+    8) There are no peaceful but un-allied units on the target tile.
+    9) There is not a peaceful but un-allied city on the target tile.
+   10) There is no non-allied unit blocking (zoc) [or igzoc is true].
+   11) Triremes cannot move out of sight from land.
+   12) It is not the territory of a player we are at peace with.
+   13) The unit is unable to disembark from current transporter.
 **************************************************************************/
 enum unit_move_result
 unit_move_to_tile_test(const struct unit *punit,
@@ -480,6 +481,12 @@ unit_move_to_tile_test(const struct unit *punit,
   }
 
   /* 4) */
+  if (puowner->ai_common.barbarian_type == ANIMAL_BARBARIAN
+      && dst_tile->terrain->animal != punittype) {
+    return MR_NO_TRANSPORTER_CAPACITY;
+  }
+
+  /* 5) */
   if (!(can_exist_at_tile(punittype, dst_tile)
         || unit_class_transporter_capacity(dst_tile, puowner,
                                            utype_class(punittype)) > 0)) {
@@ -488,14 +495,14 @@ unit_move_to_tile_test(const struct unit *punit,
 
   pcity = is_enemy_city_tile(dst_tile, puowner);
   if (NULL != pcity) {
-    /* 5) */
+    /* 6) */
     if (!unit_can_take_over(punit)) {
       return MR_BAD_TYPE_FOR_CITY_TAKE_OVER;
     } else {
       /* No point checking for being able to take over from non-native
        * for units that can't take over a city anyway. */
 
-      /* 6) */
+      /* 7) */
       if (!can_exist_at_tile(punittype, src_tile)
           && !can_attack_from_non_native(punittype)) {
         /* Don't use is_native_tile() because any unit in an
@@ -505,7 +512,7 @@ unit_move_to_tile_test(const struct unit *punit,
     }
   }
 
-  /* 7) */
+  /* 8) */
   if (is_non_attack_unit_tile(dst_tile, puowner)) {
     /* You can't move into a non-allied tile.
      *
@@ -514,7 +521,7 @@ unit_move_to_tile_test(const struct unit *punit,
     return MR_NO_WAR;
   }
 
-  /* 8) */
+  /* 9) */
   pcity = tile_city(dst_tile);
   if (pcity && pplayers_non_attack(city_owner(pcity), puowner)) {
     /* You can't move into an empty city of a civilization you're at
@@ -522,7 +529,7 @@ unit_move_to_tile_test(const struct unit *punit,
     return MR_NO_WAR;
   }
 
-  /* 9) */
+  /* 10) */
   zoc = igzoc
     || can_step_taken_wrt_to_zoc(punittype, puowner, src_tile, dst_tile);
   if (!zoc) {
@@ -530,18 +537,18 @@ unit_move_to_tile_test(const struct unit *punit,
     return MR_ZOC;
   }
 
-  /* 10) */
+  /* 11) */
   if (utype_has_flag(punittype, UTYF_TRIREME) && !is_safe_ocean(dst_tile)) {
     return MR_TRIREME;
   }
 
-  /* 11) */
+  /* 12) */
   if (!utype_has_flag(punittype, UTYF_CIVILIAN)
       && !player_can_invade_tile(puowner, dst_tile)) {
     return MR_PEACE;
   }
 
-  /* 12) */
+  /* 13) */
   if (unit_transported(punit)
      && !can_unit_unload(punit, unit_transport_get(punit))) {
     return MR_CANNOT_DISEMBARK;
