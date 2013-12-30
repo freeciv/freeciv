@@ -631,17 +631,18 @@ static int get_fuel_moves_left_req(const struct tile *ptile,
                                    enum known_type known,
                                    const struct pf_parameter *param)
 {
-  int dist, max, mli;
+  int dist, max;
 
   if (is_possible_base_fuel(ptile, param)) {
     return 0;
   }
 
-  mli = param->moves_left_initially;
-  max = MAX(mli + ((mli - 1) * param->move_rate),
+  /* Upper bound for search for refuel point. Sometimes unit can have more
+   * moves left than its own move rate due to wonder transfer. Compare
+   * pf_moves_left_initially(). */
+  max = MAX(param->moves_left_initially
+            + (param->fuel_left_initially - 1) * param->move_rate,
             param->move_rate * param->fuel);
-  /* Sometimes, unit can have bigger moves left than its own move rate,
-   * due to wonder transfer. See comment for get_turn() in path_finding.c. */
   dist = get_closest_safe_tile_distance(ptile, param, max / SINGLE_MOVE);
 
   return dist != -1 ? dist * SINGLE_MOVE : PF_IMPOSSIBLE_MC;
