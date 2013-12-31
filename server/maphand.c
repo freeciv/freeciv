@@ -1032,43 +1032,78 @@ void player_map_init(struct player *pplayer)
   dbv_init(&pplayer->tile_known, MAP_INDEX_SIZE);
 }
 
-/***************************************************************
- frees a player's private map.
-***************************************************************/
+/**************************************************************************
+  Free a player's private map.
+**************************************************************************/
 void player_map_free(struct player *pplayer)
 {
   if (!pplayer->server.private_map) {
     return;
   }
 
+  free(pplayer->server.private_map);
+  pplayer->server.private_map = NULL;
+
+  dbv_free(&pplayer->tile_known);
+}
+
+/**************************************************************************
+  Remove all knowledge of a player from main map and other players'
+  private maps, and send updates to connected clients.
+  Frees all vision_sites associated with that player.
+**************************************************************************/
+void remove_player_from_maps(struct player *pplayer)
+{
   /* only after removing borders! */
+  conn_list_do_buffer(game.est_connections);
   whole_map_iterate(ptile) {
-    /* Clear player vision. */
-    change_playertile_site(map_get_player_tile(ptile, pplayer), NULL);
-
-    /* Clear other players knowledge about the removed one. */
+    /* Clear all players' knowledge about the removed player, and free
+     * data structures (including those in removed player's player map). */
     players_iterate(aplayer) {
-      struct player_tile *aplrtile = map_get_player_tile(ptile, aplayer);
+      struct player_tile *aplrtile;
+      bool changed = FALSE;
 
+      if (!aplayer->server.private_map) {
+        continue;
+      }
+      aplrtile = map_get_player_tile(ptile, aplayer);
+
+      /* Free vision sites (cities) for removed and other players */
       if (aplrtile && aplrtile->site &&
           vision_site_owner(aplrtile->site) == pplayer) {
         change_playertile_site(aplrtile, NULL);
+        changed = TRUE;
+      }
+
+      /* Remove references to player from others' maps */
+      if (aplrtile->owner == pplayer) {
+        aplrtile->owner = NULL;
+        changed = TRUE;
+      }
+      if (aplrtile->extras_owner == pplayer) {
+        aplrtile->extras_owner = NULL;
+        changed = TRUE;
+      }
+
+      /* Must ensure references to dying player are gone from clients
+       * before player is destroyed */
+      if (changed) {
+        /* This will use player tile if fogged */
+        send_tile_info(pplayer->connections, ptile, FALSE);
       }
     } players_iterate_end;
 
-    /* clear players knowledge */
+    /* Clear removed player's knowledge */
     map_clear_known(ptile, pplayer);
 
     /* Free all claimed tiles. */
     if (tile_owner(ptile) == pplayer) {
       tile_set_owner(ptile, NULL, NULL);
+      /* Update anyone who can see the tile (e.g. global observers) */
+      send_tile_info(NULL, ptile, FALSE);
     }
   } whole_map_iterate_end;
-
-  free(pplayer->server.private_map);
-  pplayer->server.private_map = NULL;
-
-  dbv_free(&pplayer->tile_known);
+  conn_list_do_unbuffer(game.est_connections);
 }
 
 /***************************************************************

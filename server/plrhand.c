@@ -1600,6 +1600,10 @@ void server_remove_player(struct player *pplayer)
   /* We have to clear all player data before the ai memory is freed because
    * some function may depend on it. */
   player_clear(pplayer, TRUE);
+
+  if (!map_is_empty()) {
+    remove_player_from_maps(pplayer);
+  }
   player_map_free(pplayer);
 
   /* Destroy advisor and ai data. */
