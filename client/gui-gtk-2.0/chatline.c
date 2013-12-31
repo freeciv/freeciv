@@ -238,7 +238,7 @@ static int check_player_or_user_name(const char *prefix,
   buf - The buffer to set.
   buf_len - The maximal size of the buffer.
 
-  Returns the lenght of the common prefix (in bytes).
+  Returns the length of the common prefix (in characters).
 **************************************************************************/
 static size_t get_common_prefix(const char *const *prefixes,
                                 size_t num_prefixes,
@@ -260,12 +260,12 @@ static size_t get_common_prefix(const char *const *prefixes,
     }
   }
 
- return strlen(buf);
+ return g_utf8_strlen(buf, -1);
 }
 
 /**************************************************************************
   Autocompletes the input line with a player or user name.
-  Returns FALSE if there is not string to complete.
+  Returns FALSE if there is no string to complete.
 **************************************************************************/
 static bool chatline_autocomplete(GtkEditable *editable)
 {
@@ -273,21 +273,24 @@ static bool chatline_autocomplete(GtkEditable *editable)
   const char *name[MAX_MATCHES];
   char buf[MAX_LEN_NAME * MAX_MATCHES];
   gint pos;
-  gchar *chars, *p;
+  gchar *chars, *p, *prev;
   int num, i;
   size_t prefix_len;
 
   /* Part 1: get the string to complete. */
   pos = gtk_editable_get_position(editable);
   chars = gtk_editable_get_chars(editable, 0, pos);
-  for (p = chars + strlen(chars) - 1; p >= chars; p = g_utf8_prev_char(p)) {
-    if (!g_unichar_isalnum(g_utf8_get_char(p))) {
+
+  p = chars + strlen(chars);
+  while ((prev = g_utf8_find_prev_char(chars, p))) {
+    if (!g_unichar_isalnum(g_utf8_get_char(prev))) {
       break;
     }
+    p = prev;
   }
-  p = g_utf8_next_char(p);
+  /* p points to the start of the last word, or the start of the string. */
 
-  prefix_len = strlen(p);
+  prefix_len = g_utf8_strlen(p, -1);
   if (0 == prefix_len) {
     /* Empty: nothing to complete, propagate the event. */
     g_free(chars);
@@ -314,6 +317,7 @@ static bool chatline_autocomplete(GtkEditable *editable)
     for (i = 1; i < num; i++) {
       cat_snprintf(buf, sizeof(buf), ", %s", name[i]);
     }
+    /* TRANS: comma-separated list of player/user names for completion */
     output_window_printf(ftc_client, _("Suggestions: %s."), buf);
   }
 
