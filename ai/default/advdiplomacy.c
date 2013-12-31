@@ -889,7 +889,8 @@ static void dai_diplomacy_suggest(struct player *pplayer,
 void dai_diplomacy_first_contact(struct ai_type *ait, struct player *pplayer,
                                  struct player *aplayer)
 {
-  if (pplayer->ai_controlled && !ai_handicap(pplayer, H_AWAY)) {
+  if (pplayer->ai_controlled && !ai_handicap(pplayer, H_AWAY)
+      && player_diplstate_get(pplayer, aplayer)->type == DS_WAR) {
     notify(aplayer, _("*%s (AI)* Greetings %s! May we suggest a ceasefire "
            "while we get to know each other better?"),
            player_name(pplayer),
