@@ -85,6 +85,7 @@ void show_map_to_all(void);
 
 void player_map_init(struct player *pplayer);
 void player_map_free(struct player *pplayer);
+void remove_player_from_maps(struct player *pplayer);
 
 struct vision_site *map_get_player_city(const struct tile *ptile,
 					const struct player *pplayer);
