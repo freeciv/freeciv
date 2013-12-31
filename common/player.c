@@ -674,8 +674,9 @@ int player_count(void)
 /**************************************************************************
   Return the player index.
 
-  Currently same as player_number(), paired with player_count()
-  indicates use as an array index.
+  Currently same as player_number(), but indicates use as an array index.
+  The array must be sized by player_slot_count() or MAX_NUM_PLAYER_SLOTS
+  (player_count() *cannot* be used) and is likely to be sparse.
 **************************************************************************/
 int player_index(const struct player *pplayer)
 {
