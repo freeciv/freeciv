@@ -1615,7 +1615,7 @@ static void make_huts(int number)
       if (is_ocean_tile(ptile)) {
 	map_set_placed(ptile); /* not good for a hut */
       } else {
-        struct extra_type *phut = rand_extra_type_by_cause(EC_HUT);
+        struct extra_type *phut = rand_extra_for_tile(ptile, EC_HUT);
 
 	number--;
         if (phut != NULL) {
