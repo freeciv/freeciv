@@ -1216,10 +1216,6 @@ void handle_edit_player_vision(struct connection *pc, int plr_no,
   conn_list_do_buffer(game.est_connections);
   square_iterate(ptile_center, size - 1, ptile) {
 
-    if (known && map_is_known(ptile, pplayer)) {
-      continue;
-    }
-
     if (!known) {
       struct city *pcity = tile_city(ptile);
       bool cannot_make_unknown = FALSE;
