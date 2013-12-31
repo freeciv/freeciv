@@ -171,8 +171,18 @@ static const char *get_player_or_user_name(int id)
 {
   size_t size = conn_list_size(game.all_connections);
 
-  return (id >= size ? player_by_number(id - size)->name
-          : conn_list_get(game.all_connections, id)->username);
+  if (id < size) {
+    return conn_list_get(game.all_connections, id)->username;
+  } else {
+    struct player *pplayer = player_by_number(id - size);
+    if (pplayer) {
+      return pplayer->name;
+    } else {
+      /* Empty slot. Relies on being used with comparison function
+       * which can cope with NULL. */
+      return NULL;
+    }
+  }
 }
 
 /**************************************************************************
@@ -192,7 +202,7 @@ static int check_player_or_user_name(const char *prefix,
   int matches_id[max_matches * 2], ind, num;
 
   switch (match_prefix_full(get_player_or_user_name,
-                            player_count()
+                            player_slot_count()
                             + conn_list_size(game.all_connections),
                             MAX_LEN_NAME, fc_strncasecmp, strlen,
                             prefix, &ind, matches_id,
