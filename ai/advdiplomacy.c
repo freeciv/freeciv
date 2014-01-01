@@ -1462,7 +1462,7 @@ void ai_diplomacy_actions(struct player *pplayer)
     if (player_diplstate_get(pplayer, target)->has_reason_to_cancel > 0) {
       /* We have good reason */
       war_reason = WAR_REASON_EXCUSE;
-    } if (pplayer->ai_common.love[player_index(target)] < 0) {
+    } else if (pplayer->ai_common.love[player_index(target)] < 0) {
       /* We have a reason of sorts from way back, maybe? */
       war_reason = WAR_REASON_HATRED;
     } else {
