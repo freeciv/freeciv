@@ -331,7 +331,7 @@ Increases the defense strength of units within a city by a factor\
 
 [building_colosseum]
 name            = _("Amphitheatre")
-rule_name		= _("Colosseum")
+rule_name	= "Colosseum"
 genus		= "Improvement"
 reqs	=
     { "type", "name", "range"

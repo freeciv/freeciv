@@ -599,7 +599,7 @@ Archers fight with bows and arrows and have a good offensive\
 
 [unit_legion]
 name          = _("Swordsmen")
-rule_name     = _("Legion")
+rule_name     = "Legion"
 class         = "Land"
 tech_req      = "Iron Working"
 obsolete_by   = "Musketeers"
