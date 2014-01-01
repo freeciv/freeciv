@@ -55,7 +55,6 @@ liblua_la_SOURCES = 	\
 	ltablib.c	\
 	ltm.c		\
 	ltm.h		\
-	luac.c		\
 	luaconf.h	\
 	lua.h		\
 	lua.hpp		\
