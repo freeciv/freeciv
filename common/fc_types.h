@@ -534,6 +534,7 @@ enum diplomacy_mode {
 #define SPECENUM_VALUE2NAME "CleanFallout"
 #define SPECENUM_COUNT ERM_COUNT
 #include "specenum_gen.h"
+#define ERM_NONE ERM_COUNT
 
 /* Used in the network protocol. */
 #define SPECENUM_NAME achievement_type

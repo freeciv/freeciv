@@ -744,7 +744,7 @@ const char *get_activity_text(enum unit_activity activity)
   case ACTIVITY_MINE:
     return _("Mine");
   case ACTIVITY_IRRIGATE:
-    return _("Irrigation");
+    return _("Irrigate");
   case ACTIVITY_FORTIFYING:
     return _("Fortifying");
   case ACTIVITY_FORTIFIED:
@@ -1760,21 +1760,58 @@ bool unit_being_aggressive(const struct unit *punit)
 }
 
 /**************************************************************************
-  Returns true if given activity is some kind of building/cleaning.
+  Returns true if given activity is some kind of building.
 **************************************************************************/
-bool is_build_or_clean_activity(enum unit_activity activity)
+bool is_build_activity(enum unit_activity activity, struct tile *ptile)
 {
+  struct terrain *pterr = NULL;
+
+  if (ptile != NULL) {
+    pterr = tile_terrain(ptile);
+  }
+
   switch (activity) {
-  case ACTIVITY_POLLUTION:
   case ACTIVITY_MINE:
+    if (pterr != NULL && pterr->mining_result != pterr) {
+      return FALSE;
+    }
+    return TRUE;
   case ACTIVITY_IRRIGATE:
-  case ACTIVITY_TRANSFORM:
-  case ACTIVITY_FALLOUT:
+    if (pterr != NULL && pterr->irrigation_result != pterr) {
+      return FALSE;
+    }
+    return TRUE;
   case ACTIVITY_BASE:
+  case ACTIVITY_GEN_ROAD:
     return TRUE;
   default:
     return FALSE;
   }
+}
+
+/**************************************************************************
+  Returns true if given activity is some kind of cleaning.
+**************************************************************************/
+bool is_clean_activity(enum unit_activity activity)
+{
+  switch (activity) {
+  case ACTIVITY_PILLAGE:
+  case ACTIVITY_POLLUTION:
+  case ACTIVITY_FALLOUT:
+    return TRUE;
+  default:
+    return FALSE;
+  }
+}
+
+/**************************************************************************
+  Returns true if given activity affects tile.
+**************************************************************************/
+bool is_tile_activity(enum unit_activity activity)
+{
+  return is_build_activity(activity, NULL)
+    || is_clean_activity(activity)
+    || activity == ACTIVITY_TRANSFORM;
 }
 
 /**************************************************************************
