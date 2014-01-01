@@ -424,19 +424,6 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
 }
 
 /****************************************************************************
-  Clear all "dirtiness" (pollution and fallout) from the tile.
-****************************************************************************/
-static void tile_clear_dirtiness(struct tile *ptile)
-{
-  extra_type_by_cause_iterate(EC_POLLUTION, pextra) {
-    tile_remove_extra(ptile, pextra);
-  } extra_type_by_cause_iterate_end;
-  extra_type_by_cause_iterate(EC_FALLOUT, pextra) {
-    tile_remove_extra(ptile, pextra);
-  } extra_type_by_cause_iterate_end;
-}
-
-/****************************************************************************
   Destroy extra from tile.
 ****************************************************************************/
 static void tile_destroy_extra(struct tile *ptile, struct extra_type *pextra)
@@ -457,10 +444,6 @@ static void tile_destroy_extra(struct tile *ptile, struct extra_type *pextra)
 void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
 {
   tile_set_terrain(ptile, pterrain);
-
-  if (terrain_has_flag(pterrain, TER_NO_POLLUTION)) {
-    tile_clear_dirtiness(ptile);
-  }
 
   /* Remove unsupported extras */
   extra_type_iterate(pextra) {

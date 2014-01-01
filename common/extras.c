@@ -471,6 +471,13 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
     }
   }
 
+  if (terrain_has_flag(pterr, TER_NO_POLLUTION)
+      && (is_extra_caused_by(pextra, EC_POLLUTION)
+          || is_extra_caused_by(pextra, EC_FALLOUT))) {
+    /* Pollution cannot exist at that terrain. */
+    return FALSE;
+  }
+
   if (is_extra_caused_by(pextra, EC_HUT)
       && is_ocean(pterr)) {
     /* The code can't handle these specials in ocean. */
