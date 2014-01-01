@@ -1643,7 +1643,11 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   }
   if (t->type == TS_ISOMETRIC) {
     t->full_tile_width = t->normal_tile_width;
-    t->full_tile_height = 3 * t->normal_tile_height / 2;
+    if (tileset_hex_height(t) > 0) {
+      t->full_tile_height = t->normal_tile_height;
+    } else {
+      t->full_tile_height = 3 * t->normal_tile_height / 2;
+    }
   } else {
     t->full_tile_width = t->normal_tile_width;
     t->full_tile_height = t->normal_tile_height;

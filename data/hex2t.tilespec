@@ -30,13 +30,13 @@ darkness_style = 2
  
 ; offset the flags by this amount when drawing units
 unit_flag_offset_x = 1
-unit_flag_offset_y = 59
+unit_flag_offset_y = 23
 city_flag_offset_x = 1
-city_flag_offset_y = 51
+city_flag_offset_y = 25
 
 ; offset units by this amount
 unit_offset_x = 4
-unit_offset_y = 57
+unit_offset_y = 21
 
 ; offset the city bar text by this amount (from the city tile origin)
 citybar_offset_y = 48

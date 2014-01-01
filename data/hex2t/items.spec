@@ -24,7 +24,7 @@ gfx = "hex2t/items"
 x_top_left = 2
 y_top_left = 2
 dx = 40
-dy = 108
+dy = 72
 pixel_border = 2
 
 tiles = { "row", "column", "tag"

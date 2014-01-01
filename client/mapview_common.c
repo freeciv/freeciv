@@ -2202,7 +2202,7 @@ void move_unit_map_canvas(struct unit *punit,
     map_to_gui_vector(tileset, map_zoom, &canvas_dx, &canvas_dy, dx, dy);
 
     tile_to_canvas_pos(&start_x, &start_y, src_tile);
-    if (tileset_is_isometric(tileset)) {
+    if (tileset_is_isometric(tileset) && tileset_hex_height(tileset) == 0) {
       start_y -= tileset_tile_height(tileset) / 2 * map_zoom;
       start_y -= (tileset_unit_height(tileset) - tileset_full_tile_height(tileset)) * map_zoom;
     }
