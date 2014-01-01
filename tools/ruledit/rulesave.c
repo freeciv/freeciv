@@ -53,6 +53,45 @@ static struct section_file *create_ruleset_file(const char *rsname,
 }
 
 /**************************************************************************
+  Save int value that has default applied upon loading.
+**************************************************************************/
+static bool save_default_int(struct section_file *sfile, int value,
+                             int default_value, const char *path, const char *entry)
+{
+  if (value != default_value) {
+    if (entry != NULL) {
+      secfile_insert_int(sfile, value,
+                         "%s.%s", path, entry);
+    } else {
+      secfile_insert_int(sfile, value,
+                         "%s", path);
+    }
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Save bool value that has default applied upon loading.
+**************************************************************************/
+static bool save_default_bool(struct section_file *sfile, bool value,
+                              bool default_value, const char *path, const char *entry)
+{
+  if ((value && !default_value)
+      || (!value && default_value)) {
+    if (entry != NULL) {
+      secfile_insert_bool(sfile, value,
+                          "%s.%s", path, entry);
+    } else {
+      secfile_insert_bool(sfile, value,
+                          "%s", path);
+    }
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
   Save name of the object.
 **************************************************************************/
 static bool save_name_translation(struct section_file *sfile,
@@ -173,6 +212,29 @@ static bool save_reqs_list(struct section_file *sfile,
 }
 
 /**************************************************************************
+  Save techs vector. Input is A_LAST terminated array of techs to save.
+**************************************************************************/
+static bool save_tech_list(struct section_file *sfile, int *input,
+                           const char *path, const char *entry)
+{
+  const char *tech_names[MAX_NUM_TECH_LIST];
+  int set_count;
+  int i;
+
+  set_count = 0;
+  for (i = 0; input[i] != A_LAST && i < MAX_NUM_TECH_LIST; i++) {
+    tech_names[set_count++] = advance_rule_name(advance_by_number(input[i]));
+  }
+
+  if (set_count > 0) {
+    secfile_insert_str_vec(sfile, tech_names, set_count,
+                           "%s.%s", path, entry);
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
   Save tech reference
 **************************************************************************/
 static bool save_tech_ref(struct section_file *sfile,
@@ -217,6 +279,30 @@ static bool save_gov_ref(struct section_file *sfile,
                          const char *path, const char *entry)
 {
   secfile_insert_str(sfile, government_rule_name(gov), "%s.%s", path, entry);
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Save buildings vector. Input is B_LAST terminated array of buildings
+  to save.
+**************************************************************************/
+static bool save_building_list(struct section_file *sfile, int *input,
+                               const char *path, const char *entry)
+{
+  const char *building_names[MAX_NUM_BUILDING_LIST];
+  int set_count;
+  int i;
+
+  set_count = 0;
+  for (i = 0; input[i] != B_LAST && i < MAX_NUM_BUILDING_LIST; i++) {
+    building_names[set_count++] = improvement_rule_name(improvement_by_number(input[i]));
+  }
+
+  if (set_count > 0) {
+    secfile_insert_str_vec(sfile, building_names, set_count,
+                           "%s.%s", path, entry);
+  }
 
   return TRUE;
 }
@@ -545,10 +631,222 @@ static bool save_effects_ruleset(const char *filename, const char *name)
 static bool save_game_ruleset(const char *filename, const char *name)
 {
   struct section_file *sfile = create_ruleset_file(name, "game");
+  int set_count;
+  enum gameloss_style gs;
+  const char *style_names[32]; /* FIXME: Should determine max length automatically.
+                                * currently it's 3 (bits 0,1, and 2) so there's plenty of
+                                * safety margin here. */
+  enum trade_route_type trt;
 
   if (sfile == NULL) {
     return FALSE;
   }
+
+  if (game.control.prefered_tileset[0] != '\0') {
+    secfile_insert_str(sfile, game.control.prefered_tileset,
+                       "tileset.preferred");
+  }
+  if (game.control.prefered_soundset[0] != '\0') {
+    secfile_insert_str(sfile, game.control.prefered_soundset,
+                       "soundset.preferred");
+  }
+
+  secfile_insert_str(sfile, game.control.name, "about.name");
+
+  if (game.control.description[0] != '\0') {
+    secfile_insert_str(sfile, game.control.description,
+                       "about.description");
+  }
+
+  save_tech_list(sfile, game.rgame.global_init_techs,
+                 "options", "global_init_techs");
+  save_building_list(sfile, game.rgame.global_init_buildings,
+                     "options", "global_init_buildings");
+
+  save_default_bool(sfile, game.control.popup_tech_help,
+                    FALSE,
+                    "options.popup_tech_help", NULL);
+  save_default_int(sfile, game.info.base_pollution,
+                   RS_DEFAULT_BASE_POLLUTION,
+                   "civstyle.base_pollution", NULL);
+
+  set_count = 0;
+  for (gs = gameloss_style_begin(); gs != gameloss_style_end(); gs = gameloss_style_next(gs)) {
+    if (game.info.gameloss_style & gs) {
+      style_names[set_count++] = gameloss_style_name(gs);
+    }
+  }
+
+  if (set_count > 0) {
+    secfile_insert_str_vec(sfile, style_names, set_count,
+                           "cvistyle.gameloss_style");
+  }
+
+  save_default_int(sfile, game.info.happy_cost,
+                   RS_DEFAULT_HAPPY_COST,
+                   "civstyle.happy_cost", NULL);
+  save_default_int(sfile, game.info.food_cost,
+                   RS_DEFAULT_FOOD_COST,
+                   "civstyle.food_cost", NULL);
+  save_default_bool(sfile, game.info.civil_war_enabled,
+                    TRUE,
+                    "civstyle.civil_war_enabled", NULL);
+  save_default_bool(sfile, game.info.paradrop_to_transport,
+                    FALSE,
+                    "civstyle.paradrop_to_transport", NULL);
+  save_default_int(sfile, game.info.base_bribe_cost,
+                   RS_DEFAULT_BASE_BRIBE_COST,
+                   "civstyle.base_bribe_cost", NULL);
+  save_default_int(sfile, game.server.ransom_gold,
+                   RS_DEFAULT_RANSOM_GOLD,
+                   "civstyle.ransom_gold", NULL);
+  save_default_bool(sfile, game.info.pillage_select,
+                    RS_DEFAULT_PILLAGE_SELECT,
+                    "civstyle.pillage_select", NULL);
+  save_default_int(sfile, game.server.upgrade_veteran_loss,
+                   RS_DEFAULT_UPGRADE_VETERAN_LOSS,
+                   "civstyle.upgrade_veteran_loss", NULL);
+  save_default_int(sfile, game.server.autoupgrade_veteran_loss,
+                   RS_DEFAULT_UPGRADE_VETERAN_LOSS,
+                   "civstyle.autoupgrade_veteran_loss", NULL);
+  save_default_int(sfile, game.info.base_tech_cost,
+                   RS_DEFAULT_BASE_TECH_COST,
+                   "civstyle.base_tech_cost", NULL);
+
+  secfile_insert_int_vec(sfile, game.info.granary_food_ini,
+                         game.info.granary_num_inis,
+                         "civstyle.granary_food_ini");
+
+  save_default_int(sfile, game.info.granary_food_inc,
+                   RS_DEFAULT_GRANARY_FOOD_INC,
+                   "civstyle.granary_food_inc", NULL);
+
+  output_type_iterate(o) {
+    char buffer[256];
+
+    fc_snprintf(buffer, sizeof(buffer),
+                "civstyle.min_city_center_%s",
+                get_output_identifier(o));
+
+    save_default_int(sfile, game.info.min_city_center_output[o],
+                     RS_DEFAULT_CITY_CENTER_OUTPUT,
+                     buffer, NULL);
+  } output_type_iterate_end;
+
+  save_default_int(sfile, game.server.init_vis_radius_sq,
+                   RS_DEFAULT_VIS_RADIUS_SQ,
+                   "civstyle.init_vis_radius_sq", NULL);
+  save_default_int(sfile, game.info.init_city_radius_sq,
+                   RS_DEFAULT_CITY_RADIUS_SQ,
+                   "civstyle.init_city_radius_sq", NULL);
+  save_default_int(sfile, game.info.gold_upkeep_style,
+                   RS_DEFAULT_GOLD_UPKEEP_STYLE,
+                   "civstyle.gold_upkeep_style", NULL);
+  save_default_int(sfile, game.info.tech_cost_style,
+                   RS_DEFAULT_TECH_COST_STYLE,
+                   "civstyle.tech_cost_style", NULL);
+  save_default_int(sfile, game.info.tech_leakage,
+                   RS_DEFAULT_TECH_LEAKAGE,
+                   "civstyle.tech_leakage", NULL);
+  save_default_bool(sfile, game.info.illness_on,
+                    RS_DEFAULT_ILLNESS_ON,
+                    "illness.illness_on", NULL);
+  save_default_int(sfile, game.info.illness_base_factor,
+                   RS_DEFAULT_ILLNESS_BASE_FACTOR,
+                   "illness.illness_base_factor", NULL);
+  save_default_int(sfile, game.info.illness_min_size,
+                   RS_DEFAULT_ILLNESS_MIN_SIZE,
+                   "illness.illness_min_size", NULL);
+  save_default_int(sfile, game.info.illness_trade_infection,
+                   RS_DEFAULT_ILLNESS_TRADE_INFECTION_PCT,
+                   "illness.illness_trade_infection", NULL);
+  save_default_int(sfile, game.info.illness_pollution_factor,
+                   RS_DEFAULT_ILLNESS_POLLUTION_PCT,
+                   "illness.illness_pollution_factor", NULL);
+  save_default_int(sfile, game.server.base_incite_cost,
+                   RS_DEFAULT_INCITE_BASE_COST,
+                   "incite_cost.base_incite_cost", NULL);
+  save_default_int(sfile, game.server.incite_improvement_factor,
+                   RS_DEFAULT_INCITE_IMPROVEMENT_FCT,
+                   "incite_cost.improvement_factor", NULL);
+  save_default_int(sfile, game.server.incite_unit_factor,
+                   RS_DEFAULT_INCITE_UNIT_FCT,
+                   "incite_cost.unit_factor", NULL);
+  save_default_int(sfile, game.server.incite_total_factor,
+                   RS_DEFAULT_INCITE_TOTAL_FCT,
+                   "incite_cost.total_factor", NULL);
+  save_default_bool(sfile, game.info.slow_invasions,
+                    RS_DEFAULT_SLOW_INVASIONS,
+                    "global_unit_options.slow_invasions", NULL);
+
+  /* TODO: Action enablers */
+
+  save_default_bool(sfile, game.info.tired_attack,
+                    RS_DEFAULT_TIRED_ATTACK,
+                    "combat_rules.tired_attack", NULL);
+  save_default_int(sfile, game.info.border_city_radius_sq,
+                   RS_DEFAULT_BORDER_RADIUS_SQ_CITY,
+                   "borders.radius_sq_city", NULL);
+  save_default_int(sfile, game.info.border_size_effect,
+                   RS_DEFAULT_BORDER_SIZE_EFFECT,
+                   "borders.size_effect", NULL);
+  save_default_int(sfile, game.info.tech_upkeep_style,
+                   RS_DEFAULT_TECH_UPKEEP_STYLE,
+                   "research.tech_upkeep_style", NULL);
+  save_default_int(sfile, game.info.tech_upkeep_divider,
+                   RS_DEFAULT_TECH_UPKEEP_DIVIDER,
+                   "research.tech_upkeep_divider", NULL);
+  secfile_insert_str(sfile, free_tech_method_name(game.info.free_tech_method),
+                     "research.free_tech_method");
+
+  save_default_bool(sfile, game.info.calendar_skip_0,
+                    RS_DEFAULT_CALENDAR_SKIP_0,
+                    "calendar.skip_year_0", NULL);
+  save_default_int(sfile, game.server.start_year,
+                   GAME_START_YEAR,
+                   "calendar.start_year", NULL);
+
+  /* FIXME: These are stored in memory in translated form only -
+   *        So we're currently saving them translated, though ruleset should have
+   *        untranslated form. */
+  if (strcmp(game.info.positive_year_label, RS_DEFAULT_POS_YEAR_LABEL)) {
+    secfile_insert_str(sfile, game.info.positive_year_label,
+                       "calendar.positive_label");
+  }
+  if (strcmp(game.info.negative_year_label, RS_DEFAULT_NEG_YEAR_LABEL)) {
+    secfile_insert_str(sfile, game.info.negative_year_label,
+                       "calendar.negative_label");
+  }
+
+  /* TODO: Player colors */
+
+  /* TODO: Team names */
+
+  /* TODO: Disasters */
+
+  /* TODO: Achievements */
+
+  set_count = 0;
+  for (trt = 0; trt < TRT_LAST; trt++) {
+    struct trade_route_settings *set = trade_route_settings_by_type(trt);
+    const char *cancelling = traderoute_cancelling_type_name(set->cancelling);
+
+    if (set->trade_pct != 100 || strcmp(cancelling, "Active")) {
+      char path[256];
+
+      fc_snprintf(path, sizeof(path),
+                  "trade.settings%d", set_count++);
+
+      secfile_insert_str(sfile, trade_route_type_name(trt),
+                         "%s.name", path);
+      secfile_insert_int(sfile, set->trade_pct,
+                         "%s.pct", path);
+      secfile_insert_str(sfile, cancelling,
+                         "%s.cancelling", path);
+    }
+  }
+
+  /* TODO: Settings */
 
   return save_ruleset_file(sfile, filename);
 }
