@@ -1077,23 +1077,27 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
    {
       struct extra_type *pextra;
 
-      if (target != NULL) {
-        pextra = target;
-      } else {
-        /* TODO: Make sure that all callers set target so that
-         * we don't need this fallback. */
-        pextra = next_extra_for_tile(unit_tile(punit),
-                                     EC_MINE,
-                                     unit_owner(punit),
-                                     punit);
-        if (pextra == NULL) {
-          /* No available mine extras */
+      if (pterrain->mining_result == pterrain) {
+        if (target != NULL) {
+          pextra = target;
+        } else {
+          /* TODO: Make sure that all callers set target so that
+           * we don't need this fallback. */
+          pextra = next_extra_for_tile(unit_tile(punit),
+                                       EC_MINE,
+                                       unit_owner(punit),
+                                       punit);
+          if (pextra == NULL) {
+            /* No available mine extras */
+            return FALSE;
+          }
+        }
+
+        if (!is_extra_caused_by(pextra, EC_MINE)) {
           return FALSE;
         }
-      }
-
-      if (!is_extra_caused_by(pextra, EC_MINE)) {
-        return FALSE;
+      } else {
+        pextra = NULL;
       }
 
       /* Don't allow it if someone else is irrigating this tile.
@@ -1128,30 +1132,35 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     {
       struct extra_type *pextra;
 
-      if (target != NULL) {
-        pextra = target;
-      } else {
-        /* TODO: Make sure that all callers set target so that
-         * we don't need this fallback. */
-        pextra = next_extra_for_tile(unit_tile(punit),
-                                     EC_IRRIGATION,
-                                     unit_owner(punit),
-                                     punit);
-        if (pextra == NULL) {
-          /* No available irrigation extras */
+      if (pterrain->irrigation_result == pterrain) {
+        if (target != NULL) {
+          pextra = target;
+        } else {
+          /* TODO: Make sure that all callers set target so that
+           * we don't need this fallback. */
+          pextra = next_extra_for_tile(unit_tile(punit),
+                                       EC_IRRIGATION,
+                                       unit_owner(punit),
+                                       punit);
+          if (pextra == NULL) {
+            /* No available irrigation extras */
+            return FALSE;
+          }
+        }
+
+        if (!is_extra_caused_by(pextra, EC_IRRIGATION)) {
           return FALSE;
         }
+      } else {
+        pextra = NULL;
       }
 
-      if (!is_extra_caused_by(pextra, EC_IRRIGATION)) {
-        return FALSE;
-      }
 
       /* Don't allow it if someone else is mining this tile.
        * *Do* allow it if they're transforming - the irrigation may survive */
       if (unit_has_type_flag(punit, UTYF_SETTLERS)
-          && can_build_extra(pextra, punit, ptile)
           && ((pterrain == pterrain->irrigation_result
+               && can_build_extra(pextra, punit, ptile)
                && can_be_irrigated(ptile, punit))
               || (pterrain != pterrain->irrigation_result
                   && pterrain->irrigation_result != T_NONE
