@@ -1,5 +1,7 @@
 [nation_jw]
 
+translation_domain="freeciv"
+
 name = _("J&W Corporation")
 plural = _("?plural:JeeWees")
 legend = _("J&W Corporation ship was heading to establish another \

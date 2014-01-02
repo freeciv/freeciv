@@ -50,6 +50,8 @@ match=0
 
 [nation_american]
 
+translation_domain="freeciv"
+
 name=_("American")
 plural=_("?plural:Americans")
 groups="Modern"
@@ -158,6 +160,8 @@ cities =
 
 [nation_aztec]
 
+translation_domain="freeciv"
+
 name=_("Aztec")
 plural=_("?plural:Aztecs")
 groups="Ancient"
@@ -256,6 +260,8 @@ cities =
 
 [nation_babylonian]
 
+translation_domain="freeciv"
+
 name=_("Babylonian")
 plural=_("?plural:Babylonians")
 groups="Ancient"
@@ -318,6 +324,8 @@ cities =
 
 [nation_carthaginian]
 
+translation_domain="freeciv"
+
 name=_("Carthaginian")
 plural=_("?plural:Carthaginians")
 groups="Ancient"
@@ -347,6 +355,8 @@ cities =
   "Githis", "Uthina", "Thamugaddi", "Lambaesis"
 
 [nation_celtic]
+
+translation_domain="freeciv"
 
 name=_("Celtic")
 plural=_("?plural:Celts")
@@ -432,6 +442,8 @@ cities =
     "Reinheim"
 
 [nation_chinese]
+
+translation_domain="freeciv"
 
 name=_("Chinese")
 plural=_("?plural:Chinese")
@@ -577,6 +589,8 @@ cities =
 
 [nation_egyptian]
 
+translation_domain="freeciv"
+
 name=_("Egyptian")
 plural=_("?plural:Egyptians")
 groups="Ancient"
@@ -653,6 +667,8 @@ cities =
  "Apis"
 
 [nation_english]
+
+translation_domain="freeciv"
 
 name=_("English")
 plural=_("?plural:English")
@@ -762,6 +778,8 @@ cities =
  "Cowes"
 
 [nation_french]
+
+translation_domain="freeciv"
 
 name=_("French")
 plural=_("?plural:French")
@@ -883,6 +901,8 @@ cities =
  "Saint-Denis (ocean)"
 
 [nation_german]
+
+translation_domain="freeciv"
 
 name   = _("German")
 plural = _("?plural:Germans")
@@ -1036,6 +1056,8 @@ cities =
 
 [nation_greek]
 
+translation_domain="freeciv"
+
 name=_("Greek")
 plural=_("?plural:Greeks")
 groups="Modern"
@@ -1183,6 +1205,8 @@ cities =
 
 [nation_indian]
 
+translation_domain="freeciv"
+
 name=_("Indian")
 plural=_("?plural:Indians")
 groups="Modern"
@@ -1275,6 +1299,8 @@ cities =
  "Hubballi-Dharwad"
 
 [nation_japanese]
+
+translation_domain="freeciv"
 
 name=_("Japanese")
 plural=_("?plural:Japanese")
@@ -1387,6 +1413,8 @@ cities =
 
 [nation_mongol]
 
+translation_domain="freeciv"
+
 name=_("Mongol")
 plural=_("?plural:Mongols")
 groups="Modern"
@@ -1448,6 +1476,8 @@ cities=
  "Khuld" ; Хулд
 
 [nation_persian]
+
+translation_domain="freeciv"
 
 name=_("Persian")
 plural=_("?plural:Persians")
@@ -1519,6 +1549,8 @@ cities =
 
 [nation_roman]
 
+translation_domain="freeciv"
+
 name=_("Roman")
 plural=_("?plural:Romans")
 groups="Ancient"
@@ -1567,6 +1599,8 @@ cities =
   "Agentoracum", "Moguntiacum", "Arretium", "Thapsus", "Altinum", "Tarsus"
 
 [nation_russian]
+
+translation_domain="freeciv"
 
 name=_("Russian")
 plural=_("?plural:Russians")
@@ -1661,6 +1695,8 @@ cities =
 
 [nation_sioux]
 
+translation_domain="freeciv"
+
 name=_("Sioux")
 plural=_("?plural:Sioux")
 groups="Ancient"
@@ -1749,6 +1785,8 @@ cities =
 
 [nation_spanish]
 
+translation_domain="freeciv"
+
 name=_("Spanish")
 plural=_("?plural:Spanish")
 groups="Modern"
@@ -1819,6 +1857,8 @@ cities =
   "Coria", "Requena", "Aranda"
 
 [nation_viking]
+
+translation_domain="freeciv"
 
 name=_("Viking")
 plural=_("?plural:Vikings")
@@ -1897,6 +1937,8 @@ cities =
 
 [nation_zulu]
 
+translation_domain="freeciv"
+
 name=_("Zulu")
 plural=_("?plural:Zulus")
 groups="Ancient"
@@ -1964,6 +2006,8 @@ cities =
 
 [nation_barbarian]
 
+translation_domain="freeciv"
+
 name=_("Barbarian")
 plural=_("?plural:Barbarians")
 legend=_("Since the dawn of civilization, barbarians have been a threat to\
@@ -1995,6 +2039,8 @@ barbarian_type = "Land"
 ; nothing more needed for barbarians
 
 [nation_pirate]
+
+translation_domain="freeciv"
 
 name=_("Pirate")
 plural=_("?plural:Pirates")

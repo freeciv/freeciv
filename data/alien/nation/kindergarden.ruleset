@@ -1,5 +1,7 @@
 [nation_kindergarden]
 
+translation_domain="freeciv"
+
 name = _("Kindergarden")
 plural = _("?plural:Children")
 legend = _("Deneb 7 ended vacation of children and their parents. Everyone \

@@ -1,5 +1,7 @@
 [nation_galactic_sound]
 
+translation_domain="freeciv"
+
 name = _("Galactic Sound")
 plural = _("?plural:Fans")
 legend = _("Shipful of music fans originally heading to big concert happening.\n\n\
