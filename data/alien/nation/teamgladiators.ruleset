@@ -1,5 +1,7 @@
 [nation_team_gladiators]
 
+translation_domain="freeciv"
+
 name = _("Team Gladiators")
 plural = _("?plural:Athletes")
 legend = _("Spaceball is sport of massive teams. Team Gladiators ship contained \

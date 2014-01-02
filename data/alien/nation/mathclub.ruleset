@@ -1,5 +1,7 @@
 [nation_math_club]
 
+translation_domain="freeciv"
+
 name = _("Math Club")
 plural = _("?plural:Mathematicians")
 legend = _("Math Club was traveling home from Math Competition when Deneb 7 \

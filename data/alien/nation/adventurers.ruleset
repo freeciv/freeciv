@@ -1,5 +1,7 @@
 [nation_adventurers]
 
+translation_domain="freeciv"
+
 name = _("Adventurers")
 plural = _("?plural:Adventurers")
 legend = _("Without any destination, they were just traveling around, looking \
