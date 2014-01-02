@@ -468,7 +468,7 @@ void auto_settler_findwork(struct player *pplayer,
                            struct settlermap *state,
                            int recursion)
 {
-  enum unit_activity best_act;
+  enum unit_activity best_act = ACTIVITY_IDLE;
   struct tile *best_tile = NULL;
   struct pf_path *path = NULL;
 
