@@ -4975,7 +4975,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
       }
     } else if (punit->changed_from == ACTIVITY_POLLUTION) {
       struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
-                                                  EC_POLLUTION,
+                                                  ERM_CLEANPOLLUTION,
                                                   unit_owner(punit),
                                                   punit);
       if (tgt != NULL) {
@@ -4985,7 +4985,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
       }
     } else if (punit->changed_from == ACTIVITY_FALLOUT) {
       struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
-                                                  EC_FALLOUT,
+                                                  ERM_CLEANFALLOUT,
                                                   unit_owner(punit),
                                                   punit);
       if (tgt != NULL) {

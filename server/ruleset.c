@@ -3025,7 +3025,7 @@ static bool load_ruleset_terrain(struct section_file *file)
       BV_CLR_ALL(pextra->flags);
       for (j = 0; j < nval; j++) {
         const char *sval = slist[j];
-        enum base_flag_id flag = extra_flag_id_by_name(sval, fc_strcasecmp);
+        enum extra_flag_id flag = extra_flag_id_by_name(sval, fc_strcasecmp);
 
         if (!extra_flag_id_is_valid(flag)) {
           ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\": unknown flag \"%s\".",
