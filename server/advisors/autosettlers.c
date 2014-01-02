@@ -469,7 +469,7 @@ void auto_settler_findwork(struct player *pplayer,
 {
   struct cityresult result;
   int best_impr = 0;            /* best terrain improvement we can do */
-  enum unit_activity best_act;
+  enum unit_activity best_act = ACTIVITY_IDLE;
   struct tile *best_tile = NULL;
   struct pf_path *path = NULL;
 
