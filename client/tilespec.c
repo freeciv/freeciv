@@ -1496,6 +1496,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   int i;
   size_t num_spec_files;
   const char **spec_filenames;
+  size_t num_prefered_themes;
   struct section_list *sections = NULL;
   const char *file_capstr;
   bool duplicates_ok, is_hex;
@@ -1956,15 +1957,14 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 
   /* FIXME: remove this hack. */
   t->prefered_themes =
-    (char **) secfile_lookup_str_vec(file, (size_t *)
-                                     &t->num_prefered_themes,
+    (char **) secfile_lookup_str_vec(file, &num_prefered_themes,
                                      "tilespec.preferred_themes");
-  if (t->num_prefered_themes <= 0) {
+  if (num_prefered_themes <= 0) {
     t->prefered_themes =
-      (char **) secfile_lookup_str_vec(file, (size_t *)
-                                       &t->num_prefered_themes,
+      (char **) secfile_lookup_str_vec(file, &num_prefered_themes,
                                        "tilespec.prefered_themes");
   }
+  t->num_prefered_themes = num_prefered_themes;
   for (i = 0; i < t->num_prefered_themes; i++) {
     t->prefered_themes[i] = fc_strdup(t->prefered_themes[i]);
   }
