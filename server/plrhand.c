@@ -1921,7 +1921,7 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
     if (pplayer1->ai_controlled) {
       call_first_contact(pplayer1, pplayer2);
     }
-    if (pplayer2->ai_controlled && !pplayer1->ai_controlled) {
+    if (pplayer2->ai_controlled) {
       call_first_contact(pplayer2, pplayer1);
     }
     return;
