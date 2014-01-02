@@ -191,7 +191,9 @@ struct ai_type
                             struct Treaty *ptreaty);
 
     /* Called for player AI type when first contact with another player has been
-     * established. */
+     * established. Note that when contact is between two AI players, callback
+     * might be already called for the other party, so you can't assume
+     * relations to be all-pristine when this gets called. */
     void (*first_contact)(struct player *pplayer, struct player *aplayer);
 
     /* Called for player AI type of the victim when someone does some violation
