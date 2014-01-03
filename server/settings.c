@@ -288,6 +288,7 @@ static const struct sset_val_name *autosaves_name(int autosaves_bit)
   NAME_CASE(AS_GAME_OVER, "GAMEOVER", N_("Game over"));
   NAME_CASE(AS_QUITIDLE, "QUITIDLE", N_("No player connections"));
   NAME_CASE(AS_INTERRUPT, "INTERRUPT", N_("Server interrupted"));
+  NAME_CASE(AS_TIMER, "TIMER", N_("Timer"));
   };
 
   return NULL;
@@ -636,6 +637,29 @@ static bool demography_callback(const char *value,
                         "'%c'. Try \"help demography\"."), value[error]);
     return FALSE;
   }
+}
+
+/*************************************************************************
+  Autosaves setting callback
+*************************************************************************/
+static bool autosaves_callback(unsigned value, struct connection *caller,
+                               char *reject_msg, size_t reject_msg_len)
+{
+  if (S_S_RUNNING == server_state()) {
+    if ((value & (1 << AS_TIMER))
+        && !(game.server.autosaves & (1 << AS_TIMER))) {
+      game.server.save_timer = timer_renew(game.server.save_timer,
+                                           TIMER_USER, TIMER_ACTIVE);
+      timer_start(game.server.save_timer);
+    } else if (!(value & (1 << AS_TIMER))
+               && (game.server.autosaves & (1 << AS_TIMER))) {
+      timer_stop(game.server.save_timer);
+      timer_destroy(game.server.save_timer);
+      game.server.save_timer = NULL;
+    }
+  }
+
+  return TRUE;
 }
 
 /*************************************************************************
@@ -2277,6 +2301,19 @@ static struct setting settings[] = {
              "includes \"New turn\"."), NULL, NULL,
           GAME_MIN_SAVETURNS, GAME_MAX_SAVETURNS, GAME_DEFAULT_SAVETURNS)
 
+  GEN_INT("savefrequency", game.server.save_frequency,
+	  SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
+	  N_("Seconds per auto-save"),
+          /* TRANS: The string between double quotes is also translated
+           * separately (it must match!). The string between single
+           * quotes is a setting name and shouldn't be translated. */
+	  N_("How many minutes elapse between automatic game saves. "
+             "Unlike other save types, this save is only meant as backup "
+             "for computer memory, and it always uses the same name, older "
+             "saves are not kept. This setting only has an effect when the "
+             "'autosaves' setting includes \"Timer\"."), NULL, NULL,
+          GAME_MIN_SAVEFREQUENCY, GAME_MAX_SAVEFREQUENCY, GAME_DEFAULT_SAVEFREQUENCY)
+
   GEN_BITWISE("autosaves", game.server.autosaves,
               SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
               N_("Which savegames are generated automatically"),
@@ -2292,8 +2329,9 @@ static struct setting settings[] = {
                  "- \"No player connections\" (QUITIDLE): "
                  "Save before server restarts due to lack of players.\n"
                  "- \"Server interrupted\" (INTERRUPT): Save when server "
-                 "quits due to interrupt."),
-              NULL, NULL, autosaves_name, GAME_DEFAULT_AUTOSAVES)
+                 "quits due to interrupt.\n"
+                 "- \"Timer\" (TIMER): Save every 'savefrequency' minutes."),
+              autosaves_callback, NULL, autosaves_name, GAME_DEFAULT_AUTOSAVES)
 
   GEN_INT("compress", game.server.save_compress_level,
           SSET_META, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,

@@ -58,7 +58,8 @@ enum autosave_type {
   AS_TURN = 0,
   AS_GAME_OVER,
   AS_QUITIDLE,
-  AS_INTERRUPT
+  AS_INTERRUPT,
+  AS_TIMER
 };
 
 struct user_flag
@@ -155,6 +156,7 @@ struct civ_game {
       int save_compress_level;
       enum fz_method save_compress_type;
       int save_nturns;
+      int save_frequency;
       unsigned autosaves; /* FIXME: char would be enough, but current settings.c code wants to
                              write sizeof(unsigned) bytes */
       bool savepalace;
@@ -186,6 +188,7 @@ struct civ_game {
        * use. The "stored" value is a value the player can change; it won't
        * take effect until the next turn. */
       int phase_mode_stored;
+      struct timer *save_timer;
       char connectmsg[MAX_LEN_MSG];
       char save_name[MAX_LEN_NAME];
       bool scorelog;
@@ -542,6 +545,9 @@ extern struct civ_game game;
 #define GAME_DEFAULT_SAVETURNS       1
 #define GAME_MIN_SAVETURNS           1
 #define GAME_MAX_SAVETURNS           200
+#define GAME_DEFAULT_SAVEFREQUENCY   15
+#define GAME_MIN_SAVEFREQUENCY       2
+#define GAME_MAX_SAVEFREQUENCY       1440
 
 #define GAME_DEFAULT_AUTOSAVES       (1 << AS_TURN | 1 << AS_GAME_OVER | 1 << AS_QUITIDLE | 1 << AS_INTERRUPT)
 

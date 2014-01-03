@@ -674,6 +674,15 @@ enum server_events server_sniff_all_input(void)
 	con_prompt_off();
 	return S_E_END_OF_TURN_TIMEOUT;
       }
+      if ((game.server.autosaves & (1 << AS_TIMER))
+          && S_S_RUNNING == server_state()
+          && (timer_read_seconds(game.server.save_timer)
+              >= game.server.save_frequency * 60)) {
+        save_game_auto("Timer", AS_TIMER);
+        game.server.save_timer = timer_renew(game.server.save_timer,
+                                             TIMER_USER, TIMER_ACTIVE);
+        timer_start(game.server.save_timer);
+      }
 
       if (!no_input) {
 #if defined(__VMS)
@@ -865,6 +874,16 @@ enum server_events server_sniff_all_input(void)
           > game.info.seconds_to_phasedone)) {
     return S_E_END_OF_TURN_TIMEOUT;
   }
+  if ((game.server.autosaves & (1 << AS_TIMER))
+      && S_S_RUNNING == server_state()
+      && (timer_read_seconds(game.server.save_timer)
+          >= game.server.save_frequency * 60)) {
+    save_game_auto("Timer", AS_TIMER);
+    game.server.save_timer = timer_renew(game.server.save_timer,
+                                         TIMER_USER, TIMER_ACTIVE);
+    timer_start(game.server.save_timer);
+  }
+
   return S_E_OTHERWISE;
 }
 

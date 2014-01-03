@@ -1371,12 +1371,19 @@ void save_game_auto(const char *save_reason, enum autosave_type type)
    case AS_INTERRUPT:
      reason_filename = "interrupted";
      break;
+  case AS_TIMER:
+    reason_filename = "timer";
+    break;
   }
 
   fc_assert(256 > strlen(game.server.save_name));
 
-  generate_save_name(game.server.save_name, filename, sizeof(filename),
-                     reason_filename);
+  if (type != AS_TIMER) {
+    generate_save_name(game.server.save_name, filename, sizeof(filename),
+                       reason_filename);
+  } else {
+    fc_snprintf(filename, sizeof(filename), "%s-timer", game.server.save_name);
+  }
   save_game(filename, save_reason, FALSE);
 }
 
@@ -2285,6 +2292,12 @@ static void srv_running(void)
   eot_timer = timer_new(TIMER_CPU, TIMER_ACTIVE);
   timer_start(eot_timer);
 
+  if (game.server.autosaves & (1 << AS_TIMER)) {
+    game.server.save_timer = timer_renew(game.server.save_timer,
+                                         TIMER_USER, TIMER_ACTIVE);
+    timer_start(game.server.save_timer);
+  }
+
   /* 
    * This will freeze the reports and agents at the client.
    * 
@@ -2417,6 +2430,10 @@ static void srv_running(void)
   /* This will thaw the reports and agents at the client.  */
   lsend_packet_thaw_client(game.est_connections);
 
+  if (game.server.save_timer != NULL) {
+    timer_destroy(game.server.save_timer);
+    game.server.save_timer = NULL;
+  }
   timer_destroy(eot_timer);
 }
 
