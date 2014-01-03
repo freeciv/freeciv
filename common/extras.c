@@ -46,6 +46,7 @@ void extras_init(void)
 
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
     requirement_vector_init(&(extras[i].reqs));
+    requirement_vector_init(&(extras[i].rmreqs));
     extras[i].id = i;
     extras[i].hiders = NULL;
     extras[i].data.special_idx = -1;
@@ -89,6 +90,7 @@ void extras_free(void)
 
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
     requirement_vector_free(&(extras[i].reqs));
+    requirement_vector_free(&(extras[i].rmreqs));
   }
 
   extra_type_iterate(pextra) {
@@ -422,8 +424,9 @@ bool player_can_remove_extra(const struct extra_type *pextra,
                              const struct player *pplayer,
                              const struct tile *ptile)
 {
-  /* There's no tech requirements or such for extra removal */
-  return TRUE;
+  return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
+                         NULL, NULL, NULL, &pextra->rmreqs,
+                         RPT_POSSIBLE);
 }
 
 /****************************************************************************
@@ -433,7 +436,11 @@ bool can_remove_extra(struct extra_type *pextra,
                       const struct unit *punit,
                       const struct tile *ptile)
 {
-  return unit_has_type_flag(punit, UTYF_SETTLERS);
+  struct player *pplayer = unit_owner(punit);
+
+  return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
+                         unit_type(punit), NULL, NULL, &pextra->rmreqs,
+                         RPT_CERTAIN);
 }
 
 /****************************************************************************

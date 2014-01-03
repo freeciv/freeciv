@@ -3268,6 +3268,11 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   }
   fc_assert(pextra->reqs.size == p->reqs_count);
 
+  for (i = 0; i < p->rmreqs_count; i++) {
+    requirement_vector_append(&pextra->rmreqs, p->rmreqs[i]);
+  }
+  fc_assert(pextra->rmreqs.size == p->rmreqs_count);
+
   pextra->buildable = p->buildable;
 
   pextra->native_to = p->native_to;

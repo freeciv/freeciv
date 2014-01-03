@@ -69,6 +69,7 @@ struct extra_type
   char rmact_gfx_alt[MAX_LEN_NAME];
 
   struct requirement_vector reqs;
+  struct requirement_vector rmreqs;
   bool buildable;
 
   bv_unit_classes native_to;

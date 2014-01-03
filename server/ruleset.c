@@ -2995,6 +2995,13 @@ static bool load_ruleset_terrain(struct section_file *file)
       }
       requirement_vector_copy(&pextra->reqs, reqs);
 
+      reqs = lookup_req_list(file, section, "rmreqs", extra_rule_name(pextra));
+      if (reqs == NULL) {
+        ok = FALSE;
+        break;
+      }
+      requirement_vector_copy(&pextra->rmreqs, reqs);
+
       pextra->buildable = secfile_lookup_bool_default(file, TRUE,
                                                       "%s.buildable", section);
 
@@ -5768,6 +5775,12 @@ static void send_ruleset_extras(struct conn_list *dest)
       packet.reqs[j++] = *preq;
     } requirement_vector_iterate_end;
     packet.reqs_count = j;
+
+    j = 0;
+    requirement_vector_iterate(&e->rmreqs, preq) {
+      packet.rmreqs[j++] = *preq;
+    } requirement_vector_iterate_end;
+    packet.rmreqs_count = j;
 
     packet.buildable = e->buildable;
 

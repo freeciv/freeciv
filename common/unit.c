@@ -1224,24 +1224,26 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
             /* Cannot pillage roads from city tiles. */
             /* FIXME: Should depend on flags. Also bases. */
             if (!is_extra_caused_by(pextra, EC_ROAD) || !tile_city(ptile)) {
-              bool required = FALSE;
+              if (can_remove_extra(pextra, punit, ptile)) {
+                bool required = FALSE;
 
-              extra_type_iterate(pdepending) {
-                if (BV_ISSET(pspresent, extra_index(pdepending))) {
-                  extra_deps_iterate(&(pdepending->reqs), pdep) {
-                    if (pdep == pextra) {
-                      required = TRUE;
-                      break;
-                    }
-                  } extra_deps_iterate_end;
-                }
-                if (required) {
-                  break;
-                }
-              } extra_type_iterate_end;
+                extra_type_iterate(pdepending) {
+                  if (BV_ISSET(pspresent, extra_index(pdepending))) {
+                    extra_deps_iterate(&(pdepending->reqs), pdep) {
+                      if (pdep == pextra) {
+                        required = TRUE;
+                        break;
+                      }
+                    } extra_deps_iterate_end;
+                  }
+                  if (required) {
+                    break;
+                  }
+                } extra_type_iterate_end;
 
-              if (!required) {
-                BV_SET(pspossible, idx);
+                if (!required) {
+                  BV_SET(pspossible, idx);
+                }
               }
             }
           }

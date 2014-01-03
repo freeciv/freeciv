@@ -966,6 +966,7 @@ shield      = 3 ; glacier used to have 4
 ; rmact_gfx_alt           = tag for alternative graphic for unit removing extra
 ; reqs                    = requirements to build the extra (see effects.ruleset
 ;                           and README.effects for help on requirements)
+; rmreqs                  = requirements to remove the extra
 ; buildable               = Can extra be built? Defaults to TRUE
 ; native_to               = List of unit classes that are considered to
 ;                           be inside the extra when they are on same tile
