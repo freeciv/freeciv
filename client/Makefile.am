@@ -4,23 +4,31 @@
 GUI_SUBDIRS =
 
 desktopfiledir = $(prefix)/share/applications
+appdatafiledir = $(prefix)/share/appdata
 
 desktopfile_DATA =
+appdatafile_DATA =
 
 if CLIENT_GUI_SDL
 GUI_SUBDIRS += gui-sdl
 desktopfile_DATA += \
 	freeciv-sdl.desktop
+appdatafile_DATA += \
+	freeciv-sdl.appdata.xml
 endif
 if CLIENT_GUI_GTK_2_0
 GUI_SUBDIRS += gui-gtk-2.0
 desktopfile_DATA += \
 	freeciv-gtk2.desktop
+appdatafile_DATA += \
+	freeciv-gtk2.appdata.xml
 endif
 if CLIENT_GUI_GTK_3_0
 GUI_SUBDIRS += gui-gtk-3.0
 desktopfile_DATA += \
 	freeciv.desktop
+appdatafile_DATA += \
+	freeciv-gtk3.appdata.xml
 endif
 if CLIENT_GUI_XAW
 GUI_SUBDIRS += gui-xaw
@@ -29,6 +37,8 @@ if CLIENT_GUI_QT
 GUI_SUBDIRS += gui-qt
 desktopfile_DATA += \
 	freeciv-qt.desktop
+appdatafile_DATA += \
+	freeciv-qt.appdata.xml
 endif
 if CLIENT_GUI_STUB
 GUI_SUBDIRS += gui-stub

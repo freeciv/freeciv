@@ -1509,7 +1509,13 @@ AC_CONFIG_FILES([Makefile
           client/freeciv-sdl.desktop:bootstrap/freeciv-sdl.desktop.in
           client/freeciv-qt.desktop:bootstrap/freeciv-qt.desktop.in
 	  server/freeciv-server.desktop:bootstrap/freeciv-server.desktop.in
-	  tools/freeciv-modpack.desktop:bootstrap/freeciv-modpack.desktop.in])
+	  tools/freeciv-modpack.desktop:bootstrap/freeciv-modpack.desktop.in
+          client/freeciv-gtk2.appdata.xml:bootstrap/freeciv-gtk2.appdata.xml.in
+          client/freeciv-gtk3.appdata.xml:bootstrap/freeciv-gtk3.appdata.xml.in
+          client/freeciv-sdl.appdata.xml:bootstrap/freeciv-sdl.appdata.xml.in
+          client/freeciv-qt.appdata.xml:bootstrap/freeciv-qt.appdata.xml.in
+          server/freeciv-server.appdata.xml:bootstrap/freeciv-server.appdata.xml.in
+          tools/freeciv-modpack.appdata.xml:bootstrap/freeciv-modpack.appdata.xml.in])
 AC_CONFIG_FILES([fcgui:bootstrap/fcgui.in], [chmod +x fcgui])
 AC_CONFIG_FILES([fcser:bootstrap/fcser.in], [chmod +x fcser])
 
