@@ -5110,6 +5110,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
           }
 
           order->base = base;
+        } else {
+          order->base = BASE_NONE;
         }
 
         if (road_unitstr && road_unitstr[j] != '?') {
@@ -5122,6 +5124,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
           }
 
           order->road = road;
+        } else {
+          order->road = ROAD_NONE;
         }
 
         if (order->activity == ACTIVITY_OLD_ROAD) {
