@@ -2842,7 +2842,8 @@ void mapdeco_set_gotoroute(const struct unit *punit)
     ind = (punit->orders.index + i) % punit->orders.length;
     porder = &punit->orders.list[ind];
     if (porder->order != ORDER_MOVE) {
-      break;
+      /* FIXME: should display some indication of non-move orders here. */
+      continue;
     }
 
     mapdeco_add_gotoline(ptile, porder->dir);
