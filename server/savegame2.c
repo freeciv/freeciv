@@ -5146,19 +5146,24 @@ static bool sg_load_player_unit(struct loaddata *loading,
         }
 
         if (tgt_unitstr) {
-          if (tgt_unitstr && tgt_unitstr[j] != '?') {
+          if (tgt_unitstr[j] != '?') {
             extra_id = char2num(tgt_unitstr[j]);
 
             if (extra_id < 0 || extra_id >= loading->extra.size) {
               log_sg("Cannot find extra %d for %s to build",
                      extra_id, unit_rule_name(punit));
-              order->target = -1;
+              order->target = EXTRA_NONE;
             } else {
               order->target = extra_id;
             }
+          } else {
+            order->target = EXTRA_NONE;
           }
         } else {
-          if (base_unitstr && base_unitstr[j] != '?') {
+          /* In pre-2.6 savegames, base_list and road_list were only saved
+           * for those activities (and not e.g. pillaging) */
+          if (base_unitstr && base_unitstr[j] != '?'
+              && order->activity == ACTIVITY_BASE) {
             base_id = char2num(base_unitstr[j]);
 
             if (base_id < 0 || base_id >= loading->base.size) {
@@ -5168,10 +5173,10 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                                          NULL, NULL));
             }
 
-            order->target = extra_number(base_extra_get(base_by_number(base_id)));
-          }
-
-          if (road_unitstr && road_unitstr[j] != '?') {
+            order->target
+              = extra_number(base_extra_get(base_by_number(base_id)));
+          } else if (road_unitstr && road_unitstr[j] != '?'
+                     && order->activity == ACTIVITY_OLD_ROAD) {
             road_id = char2num(road_unitstr[j]);
 
             if (road_id < 0 || road_id >= loading->road.size) {
@@ -5180,15 +5185,20 @@ static bool sg_load_player_unit(struct loaddata *loading,
               road_id = 0;
             }
 
-            order->target = extra_number(road_extra_get(road_by_number(road_id)));
+            order->target
+              = extra_number(road_extra_get(road_by_number(road_id)));
+          } else {
+            order->target = EXTRA_NONE;
           }
 
           if (order->activity == ACTIVITY_OLD_ROAD) {
             order->activity = ACTIVITY_GEN_ROAD;
-            order->target = extra_number(road_extra_get(road_by_number(road_idx)));
+            order->target
+              = extra_number(road_extra_get(road_by_number(road_idx)));
           } else if (order->activity == ACTIVITY_OLD_RAILROAD) {
             order->activity = ACTIVITY_GEN_ROAD;
-            order->target = extra_number(road_extra_get(road_by_number(rail_idx)));
+            order->target
+              = extra_number(road_extra_get(road_by_number(rail_idx)));
           }
         }
       }
