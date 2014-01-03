@@ -173,3 +173,7 @@ endif
 desktopfiledir = $(prefix)/share/applications
 desktopfile_DATA = \
 	freeciv-server.desktop
+
+appdatafiledir = $(prefix)/share/appdata
+appdatafile_DATA = \
+	freeciv-server.appdata.xml
