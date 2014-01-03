@@ -4686,6 +4686,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
           }
 
           order->base = base;
+        } else {
+          order->base = BASE_NONE;
         }
       }
     } else {
