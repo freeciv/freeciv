@@ -55,6 +55,11 @@ EXTRA_DIST=	autogen.sh 			\
 		bootstrap/freeciv-sdl.desktop.in \
 		bootstrap/freeciv-server.desktop.in	\
 		bootstrap/freeciv-modpack.desktop.in	\
+		bootstrap/freeciv-gtk2.appdata.xml.in \
+		bootstrap/freeciv-gtk3.appdata.xml.in \
+		bootstrap/freeciv-sdl.appdata.xml.in \
+		bootstrap/freeciv-server.appdata.xml.in \
+		bootstrap/freeciv-modpack.appdata.xml.in \
 		bootstrap/freeciv.spec.in	\
 		bootstrap/config.rpath		\
 		bootstrap/langnames.txt		\

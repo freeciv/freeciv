@@ -10,6 +10,10 @@ else
 desktopfiledir = $(prefix)/share/applications
 desktopfile_DATA = \
 	freeciv-modpack.desktop
+
+appdatafiledir = $(prefix)/share/appdata
+appdatafile_DATA = \
+	freeciv-modpack.appdata.xml
 endif
 
 freeciv_modpack_SOURCES = \
