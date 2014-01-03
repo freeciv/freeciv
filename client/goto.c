@@ -1010,15 +1010,17 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
     if (same_pos(new_tile, old_tile)) {
       p.orders[i] = ORDER_FULL_MP;
       p.dir[i] = -1;
+      p.activity[i] = ACTIVITY_LAST;
+      p.base[i] = BASE_NONE;
       log_goto_packet("  packet[%d] = wait: %d,%d", i, TILE_XY(old_tile));
     } else {
       p.orders[i] = ORDER_MOVE;
       p.dir[i] = get_direction_for_step(old_tile, new_tile);
       p.activity[i] = ACTIVITY_LAST;
+      p.base[i] = BASE_NONE;
       log_goto_packet("  packet[%d] = move %s: %d,%d => %d,%d",
                       i, dir_get_name(p.dir[i]),
                       TILE_XY(old_tile), TILE_XY(new_tile));
-      p.activity[i] = ACTIVITY_LAST;
     }
     old_tile = new_tile;
   }
@@ -1028,6 +1030,7 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
     p.dir[i] = (final_order->order == ORDER_MOVE) ? final_order->dir : -1;
     p.activity[i] = (final_order->order == ORDER_ACTIVITY)
       ? final_order->activity : ACTIVITY_LAST;
+    p.base[i] = final_order->base;
     p.length++;
   }
 
@@ -1154,7 +1157,9 @@ void send_connect_route(enum unit_activity activity)
 	if (!tile_has_special(old_tile, S_IRRIGATION)) {
 	  /* Assume the unit can irrigate or we wouldn't be here. */
 	  p.orders[p.length] = ORDER_ACTIVITY;
+	  p.dir[p.length] = -1;
 	  p.activity[p.length] = ACTIVITY_IRRIGATE;
+	  p.base[p.length] = BASE_NONE;
 	  p.length++;
 	}
 	break;
@@ -1163,14 +1168,18 @@ void send_connect_route(enum unit_activity activity)
 	if (!tile_has_special(old_tile, S_ROAD)) {
 	  /* Assume the unit can build the road or we wouldn't be here. */
 	  p.orders[p.length] = ORDER_ACTIVITY;
+	  p.dir[p.length] = -1;
 	  p.activity[p.length] = ACTIVITY_ROAD;
+	  p.base[p.length] = BASE_NONE;
 	  p.length++;
 	}
 	if (activity == ACTIVITY_RAILROAD) {
 	  if (!tile_has_special(old_tile, S_RAILROAD)) {
 	    /* Assume the unit can build the rail or we wouldn't be here. */
 	    p.orders[p.length] = ORDER_ACTIVITY;
+	    p.dir[p.length] = -1;
 	    p.activity[p.length] = ACTIVITY_RAILROAD;
+	    p.base[p.length] = BASE_NONE;
 	    p.length++;
 	  }
 	}
@@ -1187,6 +1196,8 @@ void send_connect_route(enum unit_activity activity)
 
 	p.orders[p.length] = ORDER_MOVE;
 	p.dir[p.length] = get_direction_for_step(old_tile, new_tile);
+	p.activity[p.length] = ACTIVITY_LAST;
+	p.base[p.length] = BASE_NONE;
 	p.length++;
 
 	old_tile = new_tile;
@@ -1230,6 +1241,7 @@ void send_goto_route(void)
       order.order = goto_last_order;
       order.dir = -1;
       order.activity = ACTIVITY_LAST;
+      order.base = BASE_NONE;
 
       /* ORDER_MOVE would require real direction,
        * ORDER_ACTIVITY would require real activity */

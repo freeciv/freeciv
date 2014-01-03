@@ -1236,7 +1236,9 @@ void request_unit_return(struct unit *punit)
       struct unit_order order;
 
       order.order = ORDER_ACTIVITY;
+      order.dir = -1;
       order.activity = ACTIVITY_SENTRY;
+      order.base = BASE_NONE;
       send_goto_path(punit, path, &order);
     } else {
       send_goto_path(punit, path, NULL);
