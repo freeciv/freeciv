@@ -12,5 +12,9 @@
 /freeciv-gtk2.desktop
 /freeciv-sdl.desktop
 /freeciv-qt.desktop
+/freeciv-gtk2.appdata.xml
+/freeciv-gtk3.appdata.xml
+/freeciv-sdl.appdata.xml
+/freeciv-qt.appdata.xml
 /packhand_gen.c
 /packhand_gen.h
