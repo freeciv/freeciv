@@ -3422,7 +3422,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   }
 
   if (unit_lives) {
-    /* Is where a hut? */
+    /* Is there a hut? */
     if (tile_has_cause_extra(pdesttile, EC_HUT)) {
       unit_enter_hut(punit);
       unit_lives = unit_alive(saved_id);

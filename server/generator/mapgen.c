@@ -1612,17 +1612,13 @@ static void make_huts(int number)
     /* Add a hut.  But not on a polar area, on an ocean, or too close to
      * another hut. */
     if ((ptile = rand_map_pos_characteristic(WC_ALL, TT_NFROZEN, MC_NONE))) {
-      if (is_ocean_tile(ptile)) {
-	map_set_placed(ptile); /* not good for a hut */
-      } else {
-        struct extra_type *phut = rand_extra_for_tile(ptile, EC_HUT);
+      struct extra_type *phut = rand_extra_for_tile(ptile, EC_HUT);
 
-	number--;
-        if (phut != NULL) {
-          tile_add_extra(ptile, phut);
-        }
-	set_placed_near_pos(ptile, 3);
+      number--;
+      if (phut != NULL) {
+        tile_add_extra(ptile, phut);
       }
+      set_placed_near_pos(ptile, 3);
     }
   }
   destroy_placed_map();

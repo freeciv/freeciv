@@ -1067,6 +1067,10 @@ activity_gfx   = "None"
 act_gfx_alt    = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range"
+      "TerrainClass", "Land", "Local"
+    }
 
 [extra_farmland]
 name           = _("Farmland")

@@ -485,12 +485,6 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
     return FALSE;
   }
 
-  if (is_extra_caused_by(pextra, EC_HUT)
-      && is_ocean(pterr)) {
-    /* The code can't handle these specials in ocean. */
-    return FALSE;
-  }
-
   return are_reqs_active(NULL, NULL, NULL, NULL, ptile,
                          NULL, NULL, NULL, &pextra->reqs, RPT_POSSIBLE);
 }
