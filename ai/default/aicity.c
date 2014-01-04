@@ -2046,7 +2046,8 @@ void dai_build_adv_adjust(struct ai_type *ait, struct player *pplayer,
           /* If I am not an expansionist, I want buildings more than units */
           if (pcity->server.adv->building_want[improvement_index(pimprove)] > 0) {
             pcity->server.adv->building_want[improvement_index(pimprove)]
-              *= TRAIT_DEFAULT_VALUE
+              = pcity->server.adv->building_want[improvement_index(pimprove)]
+              * TRAIT_DEFAULT_VALUE
               / ai_trait_get_value(TRAIT_EXPANSIONIST, pplayer);
           }
         }
