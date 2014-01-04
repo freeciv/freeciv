@@ -1045,9 +1045,20 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
 {
   struct section_file *sfile = create_ruleset_file(name, "terrain");
   int sect_idx;
+  int i;
 
   if (sfile == NULL) {
     return FALSE;
+  }
+
+  for (i = 0; i < MAX_NUM_USER_TER_FLAGS; i++) {
+    const char *flagname = terrain_flag_id_name(i + TER_USER_1);
+    const char *helptxt = terrain_flag_helptxt(i + TER_USER_1);
+
+    if (flagname != NULL && helptxt != NULL) {
+      secfile_insert_str(sfile, flagname, "control.flags%d.name", i);
+      secfile_insert_str(sfile, helptxt, "control.flags%d.helptxt", i);
+    }
   }
 
   if (terrain_control.ocean_reclaim_requirement_pct <= 100) {
