@@ -24,7 +24,10 @@ extern "C" {
 #include "terrain.h"
 #include "unittype.h"
 
-/* Range of requirements. */
+/* Range of requirements.
+ * Used in the network protocol.
+ * Order is important -- wider ranges should come later -- some code
+ * assumes a total order, or tests for e.g. >= REQ_RANGE_PLAYER. */
 #define SPECENUM_NAME req_range
 #define SPECENUM_VALUE0 REQ_RANGE_LOCAL
 #define SPECENUM_VALUE0NAME "Local"
