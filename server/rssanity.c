@@ -59,6 +59,44 @@ static bool nation_has_initial_tech(struct nation_type *pnation,
 }
 
 /**************************************************************************
+  Sanity checks on a requirement in isolation.
+  This will generally be things that could only not be checked at
+  ruleset load time because they would have referenced things not yet
+  loaded from the ruleset.
+**************************************************************************/
+static bool sanity_check_req_individual(struct requirement *preq,
+                                        const char *list_for)
+{
+  switch (preq->source.kind) {
+  case VUT_IMPROVEMENT:
+    /* This check corresponds to what is_req_active() will support.
+     * It can't be done in req_from_str(), as we may not have
+     * loaded all building information at that time. */
+    {
+      struct impr_type *pimprove = preq->source.value.building;
+      if (preq->range == REQ_RANGE_WORLD && !is_great_wonder(pimprove)) {
+        log_error("%s: World-ranged requirement not supported for "
+                  "%s (only great wonders supported)", list_for,
+                  improvement_name_translation(pimprove));
+        return FALSE;
+      } else if (preq->range > REQ_RANGE_CITY && !is_wonder(pimprove)) {
+        log_error("%s: %s-ranged requirement not supported for "
+                  "%s (only wonders supported)", list_for,
+                  req_range_name(preq->range),
+                  improvement_name_translation(pimprove));
+        return FALSE;
+      }
+    }
+    break;
+  default:
+    /* No other universals have checks that can't be done at ruleset
+     * load time. See req_from_str(). */
+    break;
+  }
+  return TRUE;
+}
+
+/**************************************************************************
   Helper function for sanity_check_req_list() and sanity_check_req_vec()
 **************************************************************************/
 static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
@@ -68,6 +106,10 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
   int rc;
 
   fc_assert_ret_val(universals_n_is_valid(preq->source.kind), FALSE);
+
+  if (!sanity_check_req_individual(preq, list_for)) {
+    return FALSE;
+  }
 
   if (!conjunctive) {
     /* All the checks below are only meaningful for conjunctive lists. */
@@ -182,7 +224,8 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
 }
 
 /**************************************************************************
-  Check if requirement list is free of conflicting requirements.
+  Sanity check requirement list, including whether it's free of
+  conflicting requirements.
   'conjunctive' should be TRUE if the list is an AND list (all requirements
   must be active), FALSE if it's a disjunctive (OR) list.
   max_tiles is number of tiles that can provide requirement. Value -1
@@ -252,7 +295,7 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
 
 /**************************************************************************
   Check that requirement list and negated requirements list do not have
-  confliciting requirements.
+  conflicting requirements or other problems.
 
   Returns TRUE iff everything ok.
 **************************************************************************/
@@ -490,7 +533,8 @@ bool sanity_check_ruleset_data(void)
   /* Check requirement sets against conflicting requirements.
    * Effects use requirement lists */
   if (!iterate_effect_cache(effect_list_sanity_cb, NULL)) {
-    ruleset_error(LOG_ERROR, "Effects have conflicting requirements!");
+    ruleset_error(LOG_ERROR,
+                  "Effects have conflicting or invalid requirements!");
     ok = FALSE;
   }
 
@@ -500,7 +544,8 @@ bool sanity_check_ruleset_data(void)
   disaster_type_iterate(pdis) {
     if (!sanity_check_req_vec(&pdis->reqs, TRUE, -1,
                               disaster_rule_name(pdis))) {
-      ruleset_error(LOG_ERROR, "Disasters have conflicting requirements!");
+      ruleset_error(LOG_ERROR,
+                    "Disasters have conflicting or invalid requirements!");
       ok = FALSE;
     }
   } disaster_type_iterate_end;
@@ -509,12 +554,14 @@ bool sanity_check_ruleset_data(void)
   improvement_iterate(pimprove) {
     if (!sanity_check_req_vec(&pimprove->reqs, TRUE, -1,
                               improvement_rule_name(pimprove))) {
-      ruleset_error(LOG_ERROR, "Buildings have conflicting requirements!");
+      ruleset_error(LOG_ERROR,
+                    "Buildings have conflicting or invalid requirements!");
       ok = FALSE;
     }
     if (!sanity_check_req_vec(&pimprove->obsolete_by, FALSE, -1,
                               improvement_rule_name(pimprove))) {
-      ruleset_error(LOG_ERROR, "Buildings have conflicting obsolescence req!");
+      ruleset_error(LOG_ERROR,
+                    "Buildings have conflicting or invalid obsolescence req!");
       ok = FALSE;
     }
   } improvement_iterate_end;
@@ -523,7 +570,8 @@ bool sanity_check_ruleset_data(void)
   governments_iterate(pgov) {
     if (!sanity_check_req_vec(&pgov->reqs, TRUE, -1,
                               government_rule_name(pgov))) {
-      ruleset_error(LOG_ERROR, "Governments have conflicting requirements!");
+      ruleset_error(LOG_ERROR,
+                    "Governments have conflicting or invalid requirements!");
       ok = FALSE;
     }
   } governments_iterate_end;
@@ -534,7 +582,8 @@ bool sanity_check_ruleset_data(void)
 
     if (!sanity_check_req_vec(&psp->reqs, TRUE, -1,
                               specialist_rule_name(psp))) {
-      ruleset_error(LOG_ERROR, "Specialists have conflicting requirements!");
+      ruleset_error(LOG_ERROR,
+                    "Specialists have conflicting or invalid requirements!");
       ok = FALSE;
     }
   } specialist_type_iterate_end;
@@ -543,7 +592,8 @@ bool sanity_check_ruleset_data(void)
   extra_type_iterate(pextra) {
     if (!sanity_check_req_vec(&pextra->reqs, TRUE, -1,
                               extra_rule_name(pextra))) {
-      ruleset_error(LOG_ERROR, "Extras have conflicting requirements!");
+      ruleset_error(LOG_ERROR,
+                    "Extras have conflicting or invalid requirements!");
       ok = FALSE;
     }
   } extra_type_iterate_end;
@@ -552,7 +602,8 @@ bool sanity_check_ruleset_data(void)
   for (i = 0; i < game.control.styles_count; i++) {
     if (!sanity_check_req_vec(&city_styles[i].reqs, TRUE, -1,
                               city_style_rule_name(i))) {
-      ruleset_error(LOG_ERROR, "City styles have conflicting requirements!");
+      ruleset_error(LOG_ERROR,
+                    "City styles have conflicting or invalid requirements!");
       ok = FALSE;
     }
   }
