@@ -103,7 +103,6 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
     /* Multiple requirements of the same type */
     switch (preq->source.kind) {
      case VUT_GOVERNMENT:
-     case VUT_NATION:
      case VUT_UTYPE:
      case VUT_UCLASS:
      case VUT_OTYPE:
@@ -147,6 +146,8 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
      case VUT_BASE:
      case VUT_ROAD:
        /* Note that there can be more than 1 special, road, or base / tile. */
+     case VUT_NATION:
+       /* Can require multiple nations at World range. */
      case VUT_NONE:
      case VUT_ADVANCE:
      case VUT_TECHFLAG:
