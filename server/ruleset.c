@@ -405,7 +405,8 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
 
     req = req_from_str(type, range, survives, present, name);
     if (req.source.kind == universals_n_invalid()) {
-      ruleset_error(LOG_ERROR, "\"%s\" [%s] has unknown req: \"%s\" \"%s\".",
+      ruleset_error(LOG_ERROR, "\"%s\" [%s] has invalid or unknown req: "
+                               "\"%s\" \"%s\".",
                     filename, sec, type, name);
 
       return NULL;
