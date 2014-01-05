@@ -377,10 +377,14 @@ void popup_impr_info(Impr_type_id impr)
                                                      adj_font(12), 0);
     pRequirementLabel2->ID = ID_LABEL;
   } else {
-    /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs.
+    /* FIXME: this should show ranges, negated reqs, and all the
+     * MAX_NUM_REQS reqs.
      * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
      * definition. */
     requirement_vector_iterate(&pImpr_type->reqs, preq) {
+      if (preq->negated) {
+        continue;
+      }
       pRequirementLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
                              universal_name_translation(&preq->source, buffer, sizeof(buffer)),
                              adj_font(12), WF_RESTORE_BACKGROUND);

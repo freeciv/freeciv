@@ -740,11 +740,15 @@ static void help_update_improvement(const struct help_item *pitem,
     sprintf(buf, "%d", imp->upkeep);
     gtk_label_set_text(GTK_LABEL(help_ilabel[3]), buf);
 
-    /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
+    /* FIXME: this should show ranges, negated reqs, and all the
+     * MAX_NUM_REQS reqs. 
      * Currently it's limited to 1 req but this code is partially prepared
      * to be extended.  Remember MAX_NUM_REQS is a compile-time
      * definition. */
     requirement_vector_iterate(&imp->reqs, preq) {
+      if (preq->negated) {
+        continue;
+      }
       req = universal_name_translation(&preq->source, req_buf, sizeof(req_buf));
       break;
     } requirement_vector_iterate_end;
@@ -789,12 +793,16 @@ static void help_update_wonder(const struct help_item *pitem,
     sprintf(buf, "%d", impr_build_shield_cost(imp));
     gtk_label_set_text(GTK_LABEL(help_wlabel[1]), buf);
 
-    /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
+    /* FIXME: this should show ranges, negated reqs, and all the
+     * MAX_NUM_REQS reqs. 
      * Currently it's limited to 1 req but this code is partially prepared
      * to be extended.  Remember MAX_NUM_REQS is a compile-time
      * definition. */
     i = 0;
     requirement_vector_iterate(&imp->reqs, preq) {
+      if (preq->negated) {
+        continue;
+      }
       gtk_label_set_text(GTK_LABEL(help_wlabel[3 + i]),
 			 universal_name_translation(&preq->source,
 					     req_buf, sizeof(req_buf)));
