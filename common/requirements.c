@@ -359,6 +359,7 @@ struct requirement req_from_str(const char *type, const char *range,
 {
   struct requirement req;
   bool invalid = TRUE;
+  const char *error = NULL;
 
   req.source = universal_by_rule_name(type, value);
 
@@ -460,9 +461,50 @@ struct requirement req_from_str(const char *type, const char *range,
   }
 
   if (invalid) {
-    log_error("Invalid requirement %s | %s | %s | %s | %s",
+    error = "bad range";
+  } else {
+    /* Check 'survives'. */
+    switch (req.source.kind) {
+    case VUT_IMPROVEMENT:
+      /* See count_buildings_in_range(). */
+      invalid = survives && req.range <= REQ_RANGE_CONTINENT;
+      break;
+    case VUT_NATION:
+      invalid = survives && req.range != REQ_RANGE_WORLD;
+      break;
+    case VUT_ADVANCE:
+    case VUT_GOVERNMENT:
+    case VUT_TERRAIN:
+    case VUT_SPECIAL:
+    case VUT_UTYPE:
+    case VUT_UTFLAG:
+    case VUT_UCLASS:
+    case VUT_UCFLAG:
+    case VUT_OTYPE:
+    case VUT_SPECIALIST:
+    case VUT_MINSIZE:
+    case VUT_AI_LEVEL:
+    case VUT_TERRAINCLASS:
+    case VUT_BASE:
+    case VUT_MINYEAR:
+    case VUT_TERRAINALTER:
+    case VUT_CITYTILE:
+      /* Most requirements don't support 'survives'. */
+      invalid = survives;
+      break;
+    case VUT_NONE:
+    case VUT_COUNT:
+      break;
+    }
+    if (invalid) {
+      error = "bad 'survives'";
+    }
+  }
+
+  if (invalid) {
+    log_error("Invalid requirement %s | %s | %s | %s | %s: %s",
               type, range, survives ? "survives" : "",
-              negated ? "negated" : "", value);
+              negated ? "negated" : "", value, error);
     req.source.kind = universals_n_invalid();
   }
 
