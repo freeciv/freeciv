@@ -62,12 +62,18 @@ static bool nation_has_initial_tech(struct nation_type *pnation,
   Helper function for sanity_check_req_list() and sanity_check_req_vec()
 **************************************************************************/
 static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
-                                 struct requirement *preq,
+                                 struct requirement *preq, bool conjunctive,
                                  int max_tiles, const char *list_for)
 {
   int rc;
 
   fc_assert_ret_val(universals_n_is_valid(preq->source.kind), FALSE);
+
+  if (!conjunctive) {
+    /* All the checks below are only meaningful for conjunctive lists. */
+    /* FIXME: we could add checks suitable for disjunctive lists. */
+    return TRUE;
+  }
 
   /* Add to counter for positive requirements. */
   if (preq->present) {
@@ -177,6 +183,8 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
 
 /**************************************************************************
   Check if requirement list is free of conflicting requirements.
+  'conjunctive' should be TRUE if the list is an AND list (all requirements
+  must be active), FALSE if it's a disjunctive (OR) list.
   max_tiles is number of tiles that can provide requirement. Value -1
   disables checking based on number of tiles.
 
@@ -189,7 +197,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
           range to less than hardcoded max for requirement type
 **************************************************************************/
 static bool sanity_check_req_list(const struct requirement_list *preqs,
-                                  int max_tiles,
+                                  bool conjunctive, int max_tiles,
                                   const char *list_for)
 {
   int reqs_of_type[VUT_COUNT];
@@ -200,7 +208,8 @@ static bool sanity_check_req_list(const struct requirement_list *preqs,
   memset(local_reqs_of_type, 0, sizeof(local_reqs_of_type));
 
   requirement_list_iterate(preqs, preq) {
-    if (!sanity_check_req_set(reqs_of_type, local_reqs_of_type, preq, max_tiles, list_for)) {
+    if (!sanity_check_req_set(reqs_of_type, local_reqs_of_type, preq,
+                              conjunctive, max_tiles, list_for)) {
       return FALSE;
     }
   } requirement_list_iterate_end;
@@ -210,10 +219,10 @@ static bool sanity_check_req_list(const struct requirement_list *preqs,
 
 /**************************************************************************
   Requirement vector version of requirement sanity checking. See
-  retuirement list version for comments.
+  requirement list version for comments.
 **************************************************************************/
 static bool sanity_check_req_vec(const struct requirement_vector *preqs,
-                                 int max_tiles,
+                                 bool conjunctive, int max_tiles,
                                  const char *list_for)
 {
   int reqs_of_type[VUT_COUNT];
@@ -224,7 +233,8 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
   memset(local_reqs_of_type, 0, sizeof(local_reqs_of_type));
 
   requirement_vector_iterate(preqs, preq) {
-    if (!sanity_check_req_set(reqs_of_type, local_reqs_of_type, preq, max_tiles, list_for)) {
+    if (!sanity_check_req_set(reqs_of_type, local_reqs_of_type, preq,
+                              conjunctive, max_tiles, list_for)) {
       return FALSE;
     }
     requirement_vector_iterate(preqs, nreq) {
@@ -252,12 +262,13 @@ static bool sanity_check_req_nreq_list(const struct requirement_list *preqs,
                                        const char *list_for)
 {
   /* Check internal sanity of requirement list */
-  if (!sanity_check_req_list(preqs, one_tile, list_for)) {
+  if (!sanity_check_req_list(preqs, TRUE, one_tile, list_for)) {
     return FALSE;
   }
 
   /* There is no pnreqs in all cases */
   if (pnreqs != NULL) {
+    sanity_check_req_list(preqs, FALSE, one_tile, list_for);
     /* Check sanity between reqs and nreqs */
     requirement_list_iterate(preqs, preq) {
       requirement_list_iterate(pnreqs, pnreq) {
@@ -487,7 +498,7 @@ bool sanity_check_ruleset_data(void)
 
   /* Disasters */
   disaster_type_iterate(pdis) {
-    if (!sanity_check_req_vec(&pdis->reqs, -1,
+    if (!sanity_check_req_vec(&pdis->reqs, TRUE, -1,
                               disaster_rule_name(pdis))) {
       ruleset_error(LOG_ERROR, "Disasters have conflicting requirements!");
       ok = FALSE;
@@ -496,12 +507,12 @@ bool sanity_check_ruleset_data(void)
 
   /* Buildings */
   improvement_iterate(pimprove) {
-    if (!sanity_check_req_vec(&pimprove->reqs, -1,
+    if (!sanity_check_req_vec(&pimprove->reqs, TRUE, -1,
                               improvement_rule_name(pimprove))) {
       ruleset_error(LOG_ERROR, "Buildings have conflicting requirements!");
       ok = FALSE;
     }
-    if (!sanity_check_req_vec(&pimprove->obsolete_by, -1,
+    if (!sanity_check_req_vec(&pimprove->obsolete_by, FALSE, -1,
                               improvement_rule_name(pimprove))) {
       ruleset_error(LOG_ERROR, "Buildings have conflicting obsolescence req!");
       ok = FALSE;
@@ -510,7 +521,7 @@ bool sanity_check_ruleset_data(void)
 
   /* Governments */
   governments_iterate(pgov) {
-    if (!sanity_check_req_vec(&pgov->reqs, -1,
+    if (!sanity_check_req_vec(&pgov->reqs, TRUE, -1,
                               government_rule_name(pgov))) {
       ruleset_error(LOG_ERROR, "Governments have conflicting requirements!");
       ok = FALSE;
@@ -521,7 +532,7 @@ bool sanity_check_ruleset_data(void)
   specialist_type_iterate(sp) {
     struct specialist *psp = specialist_by_number(sp);
 
-    if (!sanity_check_req_vec(&psp->reqs, -1,
+    if (!sanity_check_req_vec(&psp->reqs, TRUE, -1,
                               specialist_rule_name(psp))) {
       ruleset_error(LOG_ERROR, "Specialists have conflicting requirements!");
       ok = FALSE;
@@ -530,7 +541,7 @@ bool sanity_check_ruleset_data(void)
 
   /* Extras */
   extra_type_iterate(pextra) {
-    if (!sanity_check_req_vec(&pextra->reqs, -1,
+    if (!sanity_check_req_vec(&pextra->reqs, TRUE, -1,
                               extra_rule_name(pextra))) {
       ruleset_error(LOG_ERROR, "Extras have conflicting requirements!");
       ok = FALSE;
@@ -539,7 +550,7 @@ bool sanity_check_ruleset_data(void)
 
   /* City styles */
   for (i = 0; i < game.control.styles_count; i++) {
-    if (!sanity_check_req_vec(&city_styles[i].reqs, -1,
+    if (!sanity_check_req_vec(&city_styles[i].reqs, TRUE, -1,
                               city_style_rule_name(i))) {
       ruleset_error(LOG_ERROR, "City styles have conflicting requirements!");
       ok = FALSE;
