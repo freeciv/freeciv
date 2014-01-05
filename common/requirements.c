@@ -404,7 +404,9 @@ struct requirement req_from_str(const char *type, const char *range,
   req.negated = negated;
 
   /* These checks match what combinations are supported inside
-   * is_req_active(). */
+   * is_req_active(). However, it's only possible to do basic checks,
+   * not anything that might depend on the rest of the ruleset which
+   * might not have been lodaed yet. */
   switch (req.source.kind) {
   case VUT_SPECIAL:
   case VUT_TERRAIN:
@@ -420,12 +422,6 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_GOVERNMENT:
   case VUT_AI_LEVEL:
     invalid = (req.range != REQ_RANGE_PLAYER);
-    break;
-  case VUT_IMPROVEMENT:
-    invalid = ((req.range == REQ_RANGE_WORLD
-		&& !is_great_wonder(req.source.value.building))
-	       || (req.range > REQ_RANGE_CITY
-		   && !is_wonder(req.source.value.building)));
     break;
   case VUT_MINSIZE:
     invalid = (req.range != REQ_RANGE_CITY);
@@ -451,6 +447,11 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_MINYEAR:
     invalid = (req.range != REQ_RANGE_WORLD);
     break;
+  case VUT_IMPROVEMENT:
+    /* Valid ranges depend on the building genus (wonder/improvement),
+     * which might not have been loaded from the ruleset yet.
+     * So we allow anything here, and do a proper check once ruleset
+     * loading is complete, in sanity_check_req_individual(). */
   case VUT_NONE:
     invalid = FALSE;
     break;
@@ -534,9 +535,7 @@ static int num_world_buildings_total(const struct impr_type *building)
     return (great_wonder_is_built(building)
             || great_wonder_is_destroyed(building) ? 1 : 0);
   } else {
-    /* TRANS: Obscure ruleset error. */
-    log_error(_("World-ranged requirements are only supported "
-                "for wonders."));
+    log_error("World-ranged requirements are only supported for wonders.");
     return 0;
   }
 }
@@ -549,9 +548,7 @@ static int num_world_buildings(const struct impr_type *building)
   if (is_great_wonder(building)) {
     return (great_wonder_is_built(building) ? 1 : 0);
   } else {
-    /* TRANS: Obscure ruleset error. */
-    log_error(_("World-ranged requirements are only supported "
-                "for wonders."));
+    log_error("World-ranged requirements are only supported for wonders.");
     return 0;
   }
 }
@@ -574,9 +571,7 @@ static bool player_has_ever_built(const struct player *pplayer,
     return (wonder_is_built(pplayer, building)
             || wonder_is_lost(pplayer, building) ? TRUE : FALSE);
   } else {
-    /* TRANS: Obscure ruleset error. */
-    log_error(_("Player-ranged requirements are only supported "
-                "for wonders."));
+    log_error("Player-ranged requirements are only supported for wonders.");
     return FALSE;
   }
 }
@@ -590,9 +585,7 @@ static int num_player_buildings(const struct player *pplayer,
   if (is_wonder(building)) {
     return (wonder_is_built(pplayer, building) ? 1 : 0);
   } else {
-    /* TRANS: Obscure ruleset error. */
-    log_error(_("Player-ranged requirements are only supported "
-                "for wonders."));
+    log_error("Player-ranged requirements are only supported for wonders.");
     return 0;
   }
 }
@@ -612,9 +605,7 @@ static int num_continent_buildings(const struct player *pplayer,
       return 1;
     }
   } else {
-    /* TRANS: Obscure ruleset error. */
-    log_error(_("Island-ranged requirements are only supported "
-                "for wonders."));
+    log_error("Island-ranged requirements are only supported for wonders.");
   }
   return 0;
 }
@@ -664,9 +655,8 @@ static int count_buildings_in_range(const struct player *target_player,
       return player_has_ever_built(target_player, source);
     } else {
       /* There is no sources cache for this. */
-      /* TRANS: Obscure ruleset error. */
-      log_error(_("Surviving requirements are only supported "
-                  "at world and player ranges."));
+      log_error("Surviving requirements are only supported at "
+                "world and player ranges.");
       return 0;
     }
   }
