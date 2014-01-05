@@ -1225,7 +1225,13 @@ static void sg_special_set(bv_extras *extras, char ch,
           BV_SET(*extras, extra_index(road_extra_get(proad)));
         }
       } else {
-        BV_SET(*extras, extra_index(special_extra_get(sp)));
+        struct extra_type *pextra;
+
+        pextra = extra_type_by_rule_name(special_rule_name(sp));
+
+        if (pextra) {
+          BV_SET(*extras, extra_index(pextra));
+        }
       }
     }
   }

@@ -789,7 +789,13 @@ static void set_savegame_special(bv_extras *extras,
           BV_SET(*extras, extra_index(road_extra_get(proad)));
         }
       } else {
-        BV_SET(*extras, extra_index(special_extra_get(sp)));
+        struct extra_type *pextra;
+
+        pextra = extra_type_by_rule_name(special_rule_name(sp));
+
+        if (pextra) {
+          BV_SET(*extras, extra_index(pextra));
+        }
       }
     }
   }
