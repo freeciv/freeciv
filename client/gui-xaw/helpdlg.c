@@ -743,12 +743,16 @@ static void help_update_improvement(const struct help_item *pitem,
 		    advance_name_translation(advance_by_number(imp->tech_req)));
     }*/
     
-    /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
+    /* FIXME: this should show ranges, negated reqs, and all the
+     * MAX_NUM_REQS reqs. 
      * Currently it's limited to 1 req but this code is partially prepared
      * to be extended.  Remember MAX_NUM_REQS is a compile-time
      * definition. */
     i = 0;
     requirement_vector_iterate(&imp->reqs, preq) {
+      if (preq->negated) {
+        continue;
+      }
       xaw_set_label(help_improvement_req_data,
                     universal_name_translation(&preq->source,
                                                req_buf, sizeof(req_buf)));
@@ -787,12 +791,16 @@ static void help_update_wonder(const struct help_item *pitem,
 
     sprintf(buf, "%d ", impr_build_shield_cost(imp));
     xaw_set_label(help_improvement_cost_data, buf);
-     /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
+     /* FIXME: this should show ranges, negated reqs, and all the
+      * MAX_NUM_REQS reqs. 
       * Currently it's limited to 1 req but this code is partially prepared
       * to be extended.  Remember MAX_NUM_REQS is a compile-time
       * definition. */
     i = 0;
     requirement_vector_iterate(&imp->reqs, preq) {
+      if (preq->negated) {
+        continue;
+      }
       xaw_set_label(help_improvement_req_data,
                     universal_name_translation(&preq->source,
                                                req_buf, sizeof(req_buf)));
