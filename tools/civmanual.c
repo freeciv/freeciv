@@ -426,11 +426,15 @@ static bool manual_command(void)
                 pimprove->upkeep);
 
         requirement_vector_iterate(&pimprove->reqs, req) {
-          char text[512];
-          fprintf(doc, "%s<br/>",
-                  VUT_NONE != req->source.kind
-                  ? universal_name_translation(&req->source, text, sizeof(text))
-                  : _("None"));
+          char text[512], text2[512];
+          fc_snprintf(text2, sizeof(text2),
+                      /* TRANS: improvement requires a feature to be absent. */
+                      req->present ? "%s" : _("no %s"),
+                      VUT_NONE != req->source.kind
+                      ? universal_name_translation(&req->source,
+                                                   text, sizeof(text))
+                      : _("None"));
+          fprintf(doc, "%s<br/>", text2);
         } requirement_vector_iterate_end;
 
         requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
