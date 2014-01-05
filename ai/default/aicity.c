@@ -1815,7 +1815,9 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
 
   /* Find number of cities per range.  */
   cities[REQ_RANGE_PLAYER] = city_list_size(pplayer->cities);
-  cities[REQ_RANGE_WORLD] = cities[REQ_RANGE_PLAYER]; /* kludge. */
+  /* kludge -- Number of *our* cities in these ranges. */
+  cities[REQ_RANGE_WORLD] = cities[REQ_RANGE_ALLIANCE]
+    = cities[REQ_RANGE_PLAYER];
 
   cities[REQ_RANGE_CONTINENT] = ai->stats.cities[tile_continent(pcity->tile)];
 
