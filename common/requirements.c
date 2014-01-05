@@ -1395,6 +1395,10 @@ static enum fc_tristate is_nation_in_range(const struct player *target_player,
     } players_iterate_alive_end;
     return TRI_NO;
   case REQ_RANGE_WORLD:
+    /* NB: if a player is ever removed outright from the game
+     * (e.g. via /remove), rather than just dying, this 'survives'
+     * requirement will stop being true for their nation.
+     * create_command_newcomer() can also cause this to happen. */
     return BOOL_TO_TRISTATE(NULL != nation->player
                             && (survives || nation->player->is_alive));
   case REQ_RANGE_LOCAL:
