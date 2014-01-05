@@ -349,7 +349,7 @@ void send_ruleset_cache(struct conn_list *dest)
       packet.source_value = value;
       packet.range = range;
       packet.survives = survives;
-      packet.present = TRUE;
+      packet.present = present;
 
       lsend_packet_ruleset_effect_req(dest, &packet);
     } requirement_list_iterate_end;
@@ -366,7 +366,7 @@ void send_ruleset_cache(struct conn_list *dest)
       packet.source_value = value;
       packet.range = range;
       packet.survives = survives;
-      packet.present = TRUE;
+      packet.present = present;
 
       lsend_packet_ruleset_effect_req(dest, &packet);
     } requirement_list_iterate_end;
