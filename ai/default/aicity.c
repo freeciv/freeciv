@@ -1325,7 +1325,7 @@ static int improvement_effect_value(struct player *pplayer,
     if (get_city_bonus(pcity, EFT_SIZE_UNLIMIT) <= 0) {
       const int aqueduct_size = get_city_bonus(pcity, EFT_SIZE_ADJ);
 
-      if (!city_can_grow_to(pcity, city_size_get(pcity) + 1)) {
+      if (amount > 0 && !city_can_grow_to(pcity, city_size_get(pcity) + 1)) {
 	v += pcity->surplus[O_FOOD] * ai->food_priority * amount;
 	if (city_size_get(pcity) == aqueduct_size) {
 	  v += 30 * pcity->surplus[O_FOOD];
