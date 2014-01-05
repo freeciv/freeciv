@@ -780,12 +780,20 @@ static int buildings_in_range(const struct player *target_player,
   if (survives) {
     if (range == REQ_RANGE_WORLD) {
       return num_world_buildings_total(source);
+    } else if (range == REQ_RANGE_ALLIANCE) {
+      players_iterate_alive(plr2) {
+        if (pplayers_allied(target_player, plr2)
+            && player_has_ever_built(plr2, source)) {
+          return TRUE;
+        }
+      } players_iterate_alive_end;
+      return FALSE;
     } else if (range == REQ_RANGE_PLAYER) {
       return player_has_ever_built(target_player, source);
     } else {
       /* There is no sources cache for this. */
       log_error("Surviving requirements are only supported at "
-                "world and player ranges.");
+                "World/Alliance/Player ranges.");
       return FALSE;
     }
   }
@@ -1704,7 +1712,8 @@ bool is_req_active(const struct player *target_player,
     /* With NULL target_player buildings_in_range() would
      * return FALSE, which would cause evaluation to return FALSE
      * even for RPT_POSSIBLE */
-    if ((req->range == REQ_RANGE_PLAYER && target_player == NULL)
+    if (((req->range == REQ_RANGE_PLAYER || req->range == REQ_RANGE_ALLIANCE)
+         && target_player == NULL)
         || (req->range == REQ_RANGE_CITY && target_city == NULL)) {
       eval = TRI_MAYBE;
     } else {
