@@ -20,6 +20,7 @@
 #include "string_vector.h"
 
 /* common */
+#include "achievements.h"
 #include "game.h"
 #include "government.h"
 #include "movement.h"
@@ -631,6 +632,7 @@ static bool save_effects_ruleset(const char *filename, const char *name)
 static bool save_game_ruleset(const char *filename, const char *name)
 {
   struct section_file *sfile = create_ruleset_file(name, "game");
+  int sect_idx;
   int set_count;
   enum gameloss_style gs;
   const char *style_names[32]; /* FIXME: Should determine max length automatically.
@@ -779,7 +781,18 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     RS_DEFAULT_SLOW_INVASIONS,
                     "global_unit_options.slow_invasions", NULL);
 
-  /* TODO: Action enablers */
+  sect_idx = 0;
+  action_enablers_iterate(pae) {
+    char path[512];
+
+    fc_snprintf(path, sizeof(path), "actionenabler_%d", sect_idx++);
+
+    secfile_insert_str(sfile, gen_action_name(pae->action),
+                       "%s.action", path);
+
+    save_reqs_vector(sfile, &(pae->actor_reqs), path, "actor_reqs");
+    save_reqs_vector(sfile, &(pae->target_reqs), path, "target_reqs");
+  } action_enablers_iterate_end;
 
   save_default_bool(sfile, game.info.tired_attack,
                     RS_DEFAULT_TIRED_ATTACK,
@@ -822,9 +835,55 @@ static bool save_game_ruleset(const char *filename, const char *name)
 
   /* TODO: Team names */
 
-  /* TODO: Disasters */
+  sect_idx = 0;
+  disaster_type_iterate(pd) {
+    char path[512];
+    enum disaster_effect_id de;
+    const char *effect_names[DE_COUNT];
 
-  /* TODO: Achievements */
+    fc_snprintf(path, sizeof(path), "disaster_%d", sect_idx++);
+
+    save_name_translation(sfile, &(pd->name), path);
+    save_reqs_vector(sfile, &(pd->reqs), path, "reqs");
+    if (pd->frequency != GAME_DEFAULT_DISASTER_FREQ) {
+      secfile_insert_int(sfile, pd->frequency,
+                         "%s.frequency", path);
+    }
+
+    set_count = 0;
+    for (de = disaster_effect_id_begin();
+         de != disaster_effect_id_end();
+         de = disaster_effect_id_next(de)) {
+      if (BV_ISSET(pd->effects, de)) {
+        effect_names[set_count++] = disaster_effect_id_name(de);
+      }
+    }
+
+    if (set_count > 0) {
+      secfile_insert_str_vec(sfile, effect_names, set_count,
+                             "%s.effects", path);
+    }
+  } disaster_type_iterate_end;
+
+  sect_idx = 0;
+  achievements_iterate(pach) {
+    char path[512];
+
+    fc_snprintf(path, sizeof(path), "achievement_%d", sect_idx++);
+
+    save_name_translation(sfile, &(pach->name), path);
+
+    secfile_insert_str(sfile, achievement_type_name(pach->type),
+                       "%s.type", path);
+
+    save_default_bool(sfile, pach->unique,
+                      GAME_DEFAULT_ACH_UNIQUE,
+                      path, "unique");
+    save_default_int(sfile, pach->value,
+                     GAME_DEFAULT_ACH_VALUE,
+                     path, "value");
+
+  } achievements_iterate_end;
 
   set_count = 0;
   for (trt = 0; trt < TRT_LAST; trt++) {

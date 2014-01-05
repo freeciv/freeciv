@@ -5254,8 +5254,8 @@ static bool load_ruleset_game(struct section_file *file, bool act)
       }
       requirement_vector_copy(&pdis->reqs, reqs);
 
-      pdis->frequency = secfile_lookup_int_default(file, 10, "%s.frequency",
-                                                   sec_name);
+      pdis->frequency = secfile_lookup_int_default(file, GAME_DEFAULT_DISASTER_FREQ,
+                                                   "%s.frequency", sec_name);
 
       svec = secfile_lookup_str_vec(file, &eff_count, "%s.effects", sec_name);
 
@@ -5304,10 +5304,11 @@ static bool load_ruleset_game(struct section_file *file, bool act)
         ok = FALSE;
       }
 
-      pach->unique = secfile_lookup_bool_default(file, TRUE,
+      pach->unique = secfile_lookup_bool_default(file, GAME_DEFAULT_ACH_UNIQUE,
                                                  "%s.unique", sec_name);
 
-      pach->value = secfile_lookup_int_default(file, 1, "%s.value", sec_name);
+      pach->value = secfile_lookup_int_default(file, GAME_DEFAULT_ACH_VALUE,
+                                               "%s.value", sec_name);
 
       if (!ok) {
         break;

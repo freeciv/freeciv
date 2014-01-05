@@ -53,6 +53,9 @@ void ruleset_error_real(const char *file, const char *function,
 #define GAME_DEFAULT_VISION_REVEAL_TILES FALSE
 #define GAME_DEFAULT_NATIONALITY         FALSE
 #define GAME_DEFAULT_CONVERT_SPEED       50
+#define GAME_DEFAULT_DISASTER_FREQ       10
+#define GAME_DEFAULT_ACH_UNIQUE          TRUE
+#define GAME_DEFAULT_ACH_VALUE           1
 
 #ifdef __cplusplus
 }
