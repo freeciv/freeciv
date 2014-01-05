@@ -985,7 +985,12 @@ void get_effect_req_text(struct effect *peffect, char *buf, size_t buf_len)
 {
   buf[0] = '\0';
 
+  /* FIXME: should we do something for nreqs and negated reqs?
+   * Currently we just ignore them. */
   requirement_list_iterate(peffect->reqs, preq) {
+    if (preq->negated) {
+      continue;
+    }
     if (buf[0] != '\0') {
       fc_strlcat(buf, "+", buf_len);
     }
