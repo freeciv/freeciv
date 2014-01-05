@@ -388,6 +388,9 @@ void popup_impr_info(Impr_type_id impr)
       pRequirementLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
                              universal_name_translation(&preq->source, buffer, sizeof(buffer)),
                              adj_font(12), WF_RESTORE_BACKGROUND);
+      if (preq->source.kind != VUT_ADVANCE) {
+        break; /* FIXME */
+      }
       pRequirementLabel2->ID = MAX_ID - advance_number(preq->source.value.advance);
       pRequirementLabel2->string16->fgcol = *get_tech_color(advance_number(preq->source.value.advance));
       pRequirementLabel2->action = change_tech_callback;
