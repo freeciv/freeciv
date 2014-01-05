@@ -1175,8 +1175,10 @@ static bool insert_requirement(char *buf, size_t bufsz,
 /****************************************************************************
   Generate text for what this requirement source allows.  Something like
 
-    "Allows Communism government (with University technology).\n\n"
-    "Allows Mfg. Plant building (with Factory building).\n\n"
+    "Allows Communism (with University).\n"
+    "Allows Mfg. Plant (with Factory).\n"
+    "Allows Library (absent Fundamentalism).\n"
+    "Prevents Harbor.\n"
 
   This should be called to generate helptext for every possible source
   type.  Note this doesn't handle effects but rather production
@@ -1196,30 +1198,52 @@ static void insert_allows(struct universal *psource,
   improvement_iterate(pimprove) {
     requirement_vector_iterate(&pimprove->reqs, req) {
       if (are_universals_equal(psource, &req->source)) {
-        char coreq_buf[512] = "";
+        if (!req->negated) {
+          /* This source enables a building, but other sources may
+           * also be required (or required to be absent). */
+          char coreq_buf[512] = "", conoreq_buf[512] = "";
 
-        requirement_vector_iterate(&pimprove->reqs, coreq) {
-          if (!are_universals_equal(psource, &coreq->source)) {
-            char buf2[512] = "";
+          requirement_vector_iterate(&pimprove->reqs, coreq) {
+            if (!are_universals_equal(psource, &coreq->source)) {
+              char buf2[512] = "";
+              char *rbuf = coreq->negated ? conoreq_buf : coreq_buf;
 
-            universal_name_translation(&coreq->source, buf2,
-                                       sizeof(buf2));
-            if (coreq_buf[0] == '\0') {
-              sz_strlcpy(coreq_buf, buf2);
+              universal_name_translation(&coreq->source,
+                                         buf2, sizeof(buf2));
+              fc_assert_action(sizeof(coreq_buf) == sizeof(conoreq_buf), break);
+              if (rbuf[0] == '\0') {
+                fc_strlcpy(rbuf, buf2, sizeof(coreq_buf));
+              } else {
+                cat_snprintf(rbuf, sizeof(coreq_buf),
+                             Q_("?clistmore:, %s"), buf2);
+              }
+            }
+          } requirement_vector_iterate_end;
+
+          if (coreq_buf[0] != '\0') {
+            if (conoreq_buf[0] != '\0') {
+              cat_snprintf(buf, bufsz, _("Allows %s (with %s but no %s)."),
+                           improvement_name_translation(pimprove),
+                           coreq_buf, conoreq_buf);
             } else {
-              cat_snprintf(coreq_buf, sizeof(coreq_buf),
-                           Q_("?clistmore:, %s"), buf2);
+              cat_snprintf(buf, bufsz, _("Allows %s (with %s)."),
+                           improvement_name_translation(pimprove),
+                           coreq_buf);
+            }
+          } else {
+            if (conoreq_buf[0] != '\0') {
+              cat_snprintf(buf, bufsz, _("Allows %s (absent %s)."),
+                           improvement_name_translation(pimprove),
+                           conoreq_buf);
+            } else {
+              cat_snprintf(buf, bufsz, _("Allows %s."),
+                           improvement_name_translation(pimprove));
             }
           }
-        } requirement_vector_iterate_end;
-
-        if (coreq_buf[0] == '\0') {
-          cat_snprintf(buf, bufsz, _("Allows %s."),
-                       improvement_name_translation(pimprove));
         } else {
-          cat_snprintf(buf, bufsz, _("Allows %s (with %s)."),
-                       improvement_name_translation(pimprove),
-                       coreq_buf);
+          /* This source can, on its own, prevent a building. */
+          cat_snprintf(buf, bufsz, _("Prevents %s."),
+                       improvement_name_translation(pimprove));
         }
         cat_snprintf(buf, bufsz, "\n");
       }
