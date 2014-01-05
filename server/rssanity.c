@@ -596,6 +596,12 @@ bool sanity_check_ruleset_data(void)
                     "Extras have conflicting or invalid requirements!");
       ok = FALSE;
     }
+    if (!sanity_check_req_vec(&pextra->rmreqs, TRUE, -1,
+                              extra_rule_name(pextra))) {
+      ruleset_error(LOG_ERROR,
+                    "Extras have conflicting or invalid removal requirements!");
+      ok = FALSE;
+    }
   } extra_type_iterate_end;
 
   /* City styles */
