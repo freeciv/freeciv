@@ -34,8 +34,8 @@ Updating from 2.4 to 2.5
   with older versions.
 * It's possible to build freeciv to use SDL2_mixer (SDL 2) instead of
   SDL_mixer (SDL 1.2) by giving configure option --enable-sdl-mixer=sdl2
-* SDL-client depends on SDL_gfx instead of containing copy
-  of its code in itself
+* SDL-client depends on SDL_gfx and SDL_ttf instead of containing copies
+  of their code in itself
 * AI module "threaded" is usable. For most part it just uses same code
   "classic" module uses, so there's not much difference between the two.
 * New configure option --with-missinglist to see what features have been
