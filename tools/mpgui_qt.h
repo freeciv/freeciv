@@ -39,7 +39,8 @@ class mpgui : public QObject
     void progress(int downloaded, int max);
     void setup_list(const char *name, const char *URL,
                     const char *version, const char *license,
-                    enum modpack_type type, const char *notes);
+                    enum modpack_type type, const char *subtype,
+                    const char *notes);
     void refresh_list_versions();
 
   private slots:

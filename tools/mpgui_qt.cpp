@@ -49,20 +49,22 @@ static mpqt_worker *worker = NULL;
 
 static int mpcount = 0;
 
-#define ML_COL_NAME   0
-#define ML_COL_VER    1
-#define ML_COL_INST   2
-#define ML_COL_TYPE   3
-#define ML_COL_LIC    4 
-#define ML_COL_URL    5
+#define ML_COL_NAME    0
+#define ML_COL_VER     1
+#define ML_COL_INST    2
+#define ML_COL_TYPE    3
+#define ML_COL_SUBTYPE 4
+#define ML_COL_LIC     5
+#define ML_COL_URL     6
 
-#define ML_TYPE       6
+#define ML_TYPE        7
 
-#define ML_COL_COUNT  7
+#define ML_COL_COUNT   8
 
 static void setup_modpack_list(const char *name, const char *URL,
                                const char *version, const char *license,
-                               enum modpack_type type, const char *notes);
+                               enum modpack_type type, const char *subtype,
+                               const char *notes);
 static void msg_callback(const char *msg);
 static void progress_callback(int downloaded, int max);
 
@@ -160,7 +162,7 @@ void mpgui::setup(QWidget *central)
   mplist_table->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
   mplist_table->setColumnCount(ML_COL_COUNT);
   headers << _("Name") << _("Version") << _("Installed");
-  headers << Q_("?modpack:Type") << _("License");
+  headers << Q_("?modpack:Type") << _("SubType") << _("License");
   headers << _("URL") << "typeint";
   mplist_table->setHorizontalHeaderLabels(headers);
   mplist_table->verticalHeader()->setVisible(false);
@@ -267,7 +269,8 @@ void mpgui::refresh_list_versions()
 **************************************************************************/
 void mpgui::setup_list(const char *name, const char *URL,
                        const char *version, const char *license,
-                       enum modpack_type type, const char *notes)
+                       enum modpack_type type, const char *subtype,
+                       const char *notes)
 {
   const char *type_str;
   const char *lic_str;
@@ -308,6 +311,9 @@ void mpgui::setup_list(const char *name, const char *URL,
   item = new QTableWidgetItem(type_str);
   item->setToolTip(notes);
   mplist_table->setItem(mpcount, ML_COL_TYPE, item);
+  item = new QTableWidgetItem(subtype);
+  item->setToolTip(notes);
+  mplist_table->setItem(mpcount, ML_COL_SUBTYPE, item);
   item = new QTableWidgetItem(lic_str);
   item->setToolTip(notes);
   mplist_table->setItem(mpcount, ML_COL_LIC, item);
@@ -329,10 +335,11 @@ void mpgui::setup_list(const char *name, const char *URL,
 **************************************************************************/
 static void setup_modpack_list(const char *name, const char *URL,
                                const char *version, const char *license,
-                               enum modpack_type type, const char *notes)
+                               enum modpack_type type, const char *subtype,
+                               const char *notes)
 {
   // Just call setup_list for gui singleton
-  gui->setup_list(name, URL, version, license, type, notes);
+  gui->setup_list(name, URL, version, license, type, subtype, notes);
 }
 
 /**************************************************************************
