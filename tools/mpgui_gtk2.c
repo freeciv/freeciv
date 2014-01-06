@@ -49,18 +49,19 @@ struct fcmp_params fcmp = {
 
 static gboolean quit_dialog_callback(void);
 
-#define ML_COL_NAME   0
-#define ML_COL_VER    1
-#define ML_COL_INST   2
-#define ML_COL_TYPE   3
-#define ML_COL_LIC    4 
-#define ML_COL_URL    5
+#define ML_COL_NAME    0
+#define ML_COL_VER     1
+#define ML_COL_INST    2
+#define ML_COL_TYPE    3
+#define ML_COL_SUBTYPE 4
+#define ML_COL_LIC     5 
+#define ML_COL_URL     6
 
-#define ML_COL_COUNT  6
+#define ML_COL_COUNT   7
 
-#define ML_TYPE       6
-#define ML_NOTES      7
-#define ML_STORE_SIZE 8
+#define ML_TYPE        7
+#define ML_NOTES       8
+#define ML_STORE_SIZE  9
 
 /****************************************************************
   freeciv-modpack quit
@@ -280,7 +281,8 @@ static gboolean query_main_list_tooltip_cb(GtkWidget *widget,
 **************************************************************************/
 static void setup_modpack_list(const char *name, const char *URL,
                                const char *version, const char *license,
-                               enum modpack_type type, const char *notes)
+                               enum modpack_type type, const char *subtype,
+                               const char *notes)
 {
   GtkTreeIter iter;
   const char *type_str;
@@ -312,6 +314,7 @@ static void setup_modpack_list(const char *name, const char *URL,
                      ML_COL_VER, version,
                      ML_COL_INST, inst_str,
                      ML_COL_TYPE, type_str,
+                     ML_COL_SUBTYPE, subtype,
                      ML_COL_LIC, lic_str,
                      ML_COL_URL, URL,
                      ML_TYPE, type,
@@ -375,14 +378,20 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
                                               NULL);
   renderer = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
+                                              ML_COL_SUBTYPE,
+                                              _("SubType"),
+                                              renderer, "text", 4,
+                                              NULL);
+  renderer = gtk_cell_renderer_text_new();
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
                                               ML_COL_LIC,
                                               /* TRANS: noun */
-                                              _("License"), renderer, "text", 4,
+                                              _("License"), renderer, "text", 5,
                                               NULL);
   renderer = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
                                               ML_COL_URL,
-                                              _("URL"), renderer, "text", 5,
+                                              _("URL"), renderer, "text", 6,
                                               NULL);
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(main_list));
   g_signal_connect(selection, "changed", G_CALLBACK(select_from_list), NULL);
@@ -423,7 +432,8 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
 
   main_store = gtk_list_store_new((ML_STORE_SIZE), G_TYPE_STRING, G_TYPE_STRING,
                                   G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
-                                  G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING);
+                                  G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT,
+                                  G_TYPE_STRING);
   errmsg = download_modpack_list(&fcmp, setup_modpack_list, msg_callback);
   gtk_tree_view_set_model(GTK_TREE_VIEW(main_list), GTK_TREE_MODEL(main_store));
 

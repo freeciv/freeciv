@@ -287,6 +287,7 @@ const char *download_modpack_list(const struct fcmp_params *fcmp,
     const char *mpver;
     const char *mplic;
     const char *mp_type_str;
+    const char *mp_subtype;
     const char *mp_notes;
 
     mp_name = secfile_lookup_str_default(list_file, NULL,
@@ -300,6 +301,9 @@ const char *download_modpack_list(const struct fcmp_params *fcmp,
     mp_type_str = secfile_lookup_str_default(list_file, NULL,
                                              "modpacks.list%d.type",
                                              modpack_count);
+    mp_subtype = secfile_lookup_str_default(list_file, NULL,
+                                            "modpacks.list%d.subtype",
+                                            modpack_count);
     mpURL = secfile_lookup_str_default(list_file, NULL,
                                        "modpacks.list%d.URL", modpack_count);
     mp_notes = secfile_lookup_str_default(list_file, NULL,
@@ -313,7 +317,10 @@ const char *download_modpack_list(const struct fcmp_params *fcmp,
       if (mpver == NULL) {
         mpver = "-";
       }
-      cb(mp_name, mpURL, mpver, mplic, type, mp_notes);
+      if (mp_subtype == NULL) {
+        mp_subtype = "-";
+      }
+      cb(mp_name, mpURL, mpver, mplic, type, mp_subtype, mp_notes);
     }
     modpack_count++;
   } while (mp_name != NULL);
