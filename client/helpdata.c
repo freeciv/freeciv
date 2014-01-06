@@ -2432,7 +2432,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
 		   _("Starting now, researching %s would need %d bulbs."),
 		   advance_name_for_player(pplayer, i),
 		   base_total_bulbs_required(pplayer, i));
-    } else if (player_invention_reachable(pplayer, i, FALSE)) {
+    } else if (player_invention_reachable(pplayer, i)) {
       cat_snprintf(buf, bufsz,
                    PL_("To reach %s you need to obtain %d other"
                        " technology first. The whole project"
@@ -2449,7 +2449,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
 	      _("You cannot research this technology."));
     }
     if (!techs_have_fixed_costs()
-     && player_invention_reachable(pplayer, i, FALSE)) {
+     && player_invention_reachable(pplayer, i)) {
       CATLSTR(buf, bufsz,
 	      _(" This number may vary depending on what "
 		"other players research.\n"));

@@ -2860,7 +2860,7 @@ static void popup_change_research_dialog(void)
   }
     
   advance_index_iterate(A_FIRST, i) {
-    if (!player_invention_reachable(client.conn.playing, i, FALSE)
+    if (!player_invention_gettable(client.conn.playing, i, TRUE)
      || TECH_PREREQS_KNOWN != player_invention_state(client.conn.playing, i)) {
       continue;
     }
@@ -2929,8 +2929,8 @@ static void popup_change_research_dialog(void)
   count = 0;
   h = col * max_row;
   advance_index_iterate(A_FIRST, i) {
-    if (!player_invention_reachable(client.conn.playing, i, FALSE)
-     || TECH_PREREQS_KNOWN != player_invention_state(client.conn.playing, i)) {
+    if (!player_invention_gettable(client.conn.playing, i, TRUE)
+        || TECH_PREREQS_KNOWN != player_invention_state(client.conn.playing, i)) {
       continue;
     }
     
@@ -3047,7 +3047,7 @@ static void popup_change_research_goal_dialog(void)
    * hist will hold afterwards the techid of the current choice
    */
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_reachable(client.conn.playing, i, FALSE)
+    if (player_invention_reachable(client.conn.playing, i)
         && TECH_KNOWN != player_invention_state(client.conn.playing, i)
 	&& (11 > num_unknown_techs_for_goal(client.conn.playing, i)
 	    || i == player_research_get(client.conn.playing)->tech_goal)) {
@@ -3121,7 +3121,7 @@ static void popup_change_research_goal_dialog(void)
   count = 0;
   h = col * max_row;
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_reachable(client.conn.playing, i, FALSE)
+    if (player_invention_reachable(client.conn.playing, i)
         && TECH_KNOWN != player_invention_state(client.conn.playing, i)
 	&& (11 > (num = num_unknown_techs_for_goal(client.conn.playing, i))
 	    || i == player_research_get(client.conn.playing)->tech_goal)) {
@@ -3307,13 +3307,13 @@ void science_report_dialog_popup(bool raise)
                       (Main.screen->h - pWindow->size.h) / 2);
 
   add_to_gui_list(ID_SCIENCE_DLG_WINDOW, pWindow);
-  
+
   /* count number of researchable techs */
   count = 0;
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_reachable(client.conn.playing, i, FALSE)
-     && TECH_KNOWN != player_invention_state(client.conn.playing, i)) {
-	count++;
+    if (player_invention_reachable(client.conn.playing, i)
+        && TECH_KNOWN != player_invention_state(client.conn.playing, i)) {
+      count++;
     }
   }  advance_index_iterate_end;
 

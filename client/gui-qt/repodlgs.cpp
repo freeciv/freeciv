@@ -276,7 +276,7 @@ void science_report::update_report()
 
   /** Collect all techs which are reachable in next 10 steps. */
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_reachable(client_player(), i, false)
+    if (player_invention_reachable(client_player(), i)
         && TECH_KNOWN != research->inventions[i].state
         && (i == research->tech_goal
             || 10 >= research->inventions[i].num_required_techs)) {

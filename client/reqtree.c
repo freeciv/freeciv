@@ -387,7 +387,7 @@ static void calculate_diagram_layout(struct reqtree *tree)
   If pplayer is given, add only techs reachable by that player to tree.
 *************************************************************************/
 static struct reqtree *create_dummy_reqtree(struct player *pplayer,
-                                            bool reachable)
+                                            bool show_all)
 {
   struct reqtree *tree = fc_malloc(sizeof(*tree));
   int j;
@@ -399,7 +399,7 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer,
       nodes[tech] = NULL;
       continue;
     }
-    if (pplayer && !player_invention_reachable(pplayer, tech, !reachable)) {
+    if (pplayer && !show_all && !player_invention_reachable(pplayer, tech)) {
       /* Reqtree requested for particular player and this tech is
        * unreachable to him/her. */
       nodes[tech] = NULL;
@@ -424,7 +424,7 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer,
     tech_one = advance_required(tech, AR_ONE);
     tech_two = advance_required(tech, AR_TWO);
 
-    if (reachable && A_NONE != tech_one
+    if (!show_all && A_NONE != tech_one
         && A_LAST != tech_two && A_NONE != tech_two
         && (nodes[tech_one] == NULL || nodes[tech_two] == NULL)) {
       /* Print only reachable techs. */
@@ -880,7 +880,7 @@ static enum color_std node_color(struct tree_node *node)
       return COLOR_REQTREE_KNOWN;
     }
 
-    if (!player_invention_reachable(client.conn.playing, node->tech, FALSE)) {
+    if (!player_invention_gettable(client.conn.playing, node->tech, TRUE)) {
       return COLOR_REQTREE_UNREACHABLE;
     }
 
