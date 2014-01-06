@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 01-Dec-13.
+Last minor update was 02-Jan-14.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -270,8 +270,12 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    http://www.libsdl.org/projects/SDL_image/release/SDL_image-1.2.12.tar.gz
 
  - The "SDL_gfx" library.
-    
-   http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.24.tar.gz
+
+   http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.25.tar.gz
+
+ - The "SDL_ttf" library.
+
+   http://www.libsdl.org/projects/SDL_ttf/release/SDL_ttf-2.0.11.tar.gz
 
  - The "freetype" library.
 

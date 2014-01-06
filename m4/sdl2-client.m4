@@ -20,6 +20,11 @@ AC_DEFUN([FC_SDL2_CLIENT],
       GUI_sdl2_LIBS="$SDL2_LIBS"
       FC_SDL2_PROJECT([SDL2_image], [IMG_Load], [SDL/SDL_image.h])
       if test "x$sdl2_h_found" = "xyes" ; then
+        FC_SDL2_PROJECT([SDL2_ttf], [TTF_OpenFont], [SDL/SDL_ttf.h])
+      else
+        missing_2_project="SDL2_image"
+      fi
+      if test "x$sdl2_h_found" = "xyes" ; then
         AC_CHECK_FT2([2.1.3], [freetype_found="yes"],[freetype_found="no"])
         if test "$freetype_found" = yes; then
           GUI_sdl2_CFLAGS="$GUI_sdl2_CFLAGS $FT2_CFLAGS"
@@ -30,7 +35,7 @@ AC_DEFUN([FC_SDL2_CLIENT],
         fi    
       elif test "x$gui_sdl2" = "xyes"; then
         if test "x$missing_2_project" = "x" ; then
-          missing_2_project="SDL2_image"
+          missing_2_project="SDL2_ttf"
         fi
         if test "x$sdl2_lib_found" = "xyes" ; then
           missing_type="-devel"

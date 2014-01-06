@@ -10,8 +10,6 @@ libgui_sdl2_la_SOURCES = \
 	SDL2_gfxPrimitives_font.h	\
 	SDL2_rotozoom.c	\
 	SDL2_rotozoom.h	\
-	SDL_ttf.c	\
-	SDL_ttf.h	\
 	canvas.c	\
 	canvas.h	\
 	caravan_dialog.c \
