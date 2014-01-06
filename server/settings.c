@@ -2303,7 +2303,7 @@ static struct setting settings[] = {
 
   GEN_INT("savefrequency", game.server.save_frequency,
 	  SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
-	  N_("Seconds per auto-save"),
+	  N_("Minutes per auto-save"),
           /* TRANS: The string between double quotes is also translated
            * separately (it must match!). The string between single
            * quotes is a setting name and shouldn't be translated. */
