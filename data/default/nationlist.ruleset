@@ -1,18 +1,31 @@
 
 ; Descriptions of nation sets
-; These are self-contained subsets of the available nations that can be
-; selected between at runtime with the "nationset" option. No nations
+; These are self-contained subsets of the available nations; one of these
+; can be chosen in pregame with the "nationset" option. No nations
 ; outside the selected subset will be used.
-; The first set defined is the one that is used by default.
-; name 		= translatable name of the set
-; rule_name     = unique persistent name used in savefiles etc
-; description   = Optional short user description of this set
+; The first set defined is the one that is used by default. It is mandatory
+; to have at least one, but if there is only one, it will be kept out of
+; the user's way.
+; name 		= Translatable name of the set presented in the UI.
+; rule_name     = Unique persistent name; this is also visible to users as
+;                 the value of the "nationset" server option, and presented
+;                 in "/list nationsets". It should thus be short, in lower
+;                 case, and not contain spaces or punctuation.
+;                 The same saved "nationset" setting may be used for multiple
+;                 rulesets, so if your custom ruleset has any set which
+;                 contains all of its nations, it is useful to give it a
+;                 rule_name of "all" so that users can specify that they
+;                 always want the choice of all available nations by
+;                 default.
+; description   = Optional short user description of this set.
 
 [nset_core]
 name=_("?nationset:Core")
 rule_name="core"
-; /* TRANS: if you have translated all nations, feel free to discard the
-; words about localization rather than translating literally. */
+; /* TRANS: Description of 'Core' nation set in default rulesets.
+; If you have translated all of the nations in the extended set, not
+; just these core nations, feel free to discard the words about
+; localization, rather than translating literally. */
 description=_("\
 A small set of playable nations that should be fully localized into \
 languages other than English.\
@@ -20,9 +33,11 @@ languages other than English.\
 [nset_extended]
 name=_("?nationset:Extended")
 rule_name="all"
-; /* TRANS: If you have only translated the Core nations, replace this
+; /* TRANS: Description of the 'Extended' nation set in default rulesets,
+; which contains all nations that come with Freeciv.
+; If you have only translated the Core nations, replace this
 ; description to say so rather than making it a literal translation.
-; Conversely, if you have translated everything you can get rid of the
+; Conversely, if you have translated everything, you can get rid of the
 ; caveat about localization. */
 description=_("\
 The complete set of playable nations; this allows for larger games or more \
@@ -33,6 +48,7 @@ than English.\
 ; Descriptions of nation groups
 ; These are more cosmetic than sets; they affect the "pick nation" dialog,
 ; and also affect random nation selection.
+; It's OK to not define any nation groups at all.
 ; name 		= name of the group
 ; match		= How much the AI will try to select a nation in the same
 ;                 group
