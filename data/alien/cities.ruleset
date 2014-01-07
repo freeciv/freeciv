@@ -14,9 +14,7 @@ options="+Freeciv-ruleset-Devel-2013.May.14"
 ; The tag name (in [specialist_*]) doesn't matter so long as it's unique.
 ; For each specialist the following fields may be set:
 ;
-;
-; name		= name as seen by user 
-; short_name    = one-character "short name" used (for instance) in cityrep
+; 
 ; name          = translatable (plural) name as seen by user
 ; rule_name     = (optional) name for savegames, rulesets etc; if not
 ;                 present, 'name' is used. Since the name used in savegames
