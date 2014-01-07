@@ -557,7 +557,7 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_NATION:
     invalid = (req.range != REQ_RANGE_PLAYER
                && req.range != REQ_RANGE_ALLIANCE
-	       && req.range != REQ_RANGE_WORLD);
+               && req.range != REQ_RANGE_WORLD);
     break;
   case VUT_UTYPE:
   case VUT_UTFLAG:
@@ -705,6 +705,33 @@ bool are_requirements_opposites(const struct requirement *req1,
 }
 
 /****************************************************************************
+  Returns TRUE if players are in the same requirements range.
+****************************************************************************/
+static inline bool players_in_same_range(const struct player *pplayer1,
+                                         const struct player *pplayer2,
+                                         enum req_range range)
+{
+  switch (range) {
+  case REQ_RANGE_WORLD:
+    return TRUE;
+  case REQ_RANGE_ALLIANCE:
+    return pplayers_allied(pplayer1, pplayer2);
+  case REQ_RANGE_PLAYER:
+    return pplayer1 == pplayer2;
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_CITY:
+  case REQ_RANGE_ADJACENT:
+  case REQ_RANGE_CADJACENT:
+  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_COUNT:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  return FALSE;
+}
+
+/****************************************************************************
   Returns the number of total world buildings (this includes buildings
   that have been destroyed).
 ****************************************************************************/
@@ -828,23 +855,30 @@ static int buildings_in_range(const struct player *target_player,
   }
 
   if (survives) {
-    if (range == REQ_RANGE_WORLD) {
+    switch (range) {
+    case REQ_RANGE_WORLD:
       return num_world_buildings_total(source);
-    } else if (range == REQ_RANGE_ALLIANCE) {
+    case REQ_RANGE_ALLIANCE:
       players_iterate_alive(plr2) {
-        if (pplayers_allied(target_player, plr2)
+        if (players_in_same_range(target_player, plr2, range)
             && player_has_ever_built(plr2, source)) {
           return TRUE;
         }
       } players_iterate_alive_end;
       return FALSE;
-    } else if (range == REQ_RANGE_PLAYER) {
+    case REQ_RANGE_PLAYER:
       return player_has_ever_built(target_player, source);
-    } else {
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
       /* There is no sources cache for this. */
       log_error("Surviving requirements are only supported at "
                 "World/Alliance/Player ranges.");
       return FALSE;
+    case REQ_RANGE_COUNT:
+      break;
     }
   }
 
@@ -853,7 +887,7 @@ static int buildings_in_range(const struct player *target_player,
     return num_world_buildings(source);
   case REQ_RANGE_ALLIANCE:
     players_iterate_alive(plr2) {
-      if (pplayers_allied(target_player, plr2)
+      if (players_in_same_range(target_player, plr2, range)
           && num_player_buildings(plr2, source) > 0) {
         return TRUE;
       }
@@ -911,7 +945,7 @@ static enum fc_tristate is_tech_in_range(const struct player *target_player,
      return TRI_MAYBE;
    }
    players_iterate_alive(plr2) {
-     if (pplayers_allied(target_player, plr2)) {
+     if (players_in_same_range(target_player, plr2, range)) {
        if (player_invention_state(plr2, tech) == TECH_KNOWN) {
          return TRI_YES;
        }
@@ -955,7 +989,7 @@ static enum fc_tristate is_techflag_in_range(const struct player *target_player,
       return TRI_MAYBE;
     }
     players_iterate_alive(plr2) {
-      if (pplayers_allied(target_player, plr2)
+      if (players_in_same_range(target_player, plr2, range)
           && player_knows_techs_with_flag(plr2, techflag)) {
         return TRI_YES;
       }
@@ -1435,7 +1469,7 @@ static enum fc_tristate is_nation_in_range(const struct player *target_player,
       return TRI_MAYBE;
     }
     players_iterate_alive(plr2) {
-      if (pplayers_allied(target_player, plr2)) {
+      if (players_in_same_range(target_player, plr2, range)) {
         if (nation_of_player(plr2) == nation) {
           return TRI_YES;
         }
@@ -1513,24 +1547,17 @@ static enum fc_tristate is_diplrel_in_range(const struct player *target_player,
     }
     return BOOL_TO_TRISTATE(is_diplrel_to_other(target_player, diplrel));
   case REQ_RANGE_ALLIANCE:
+  case REQ_RANGE_WORLD:
     if (target_player == NULL) {
       return TRI_MAYBE;
     }
     players_iterate_alive(plr2) {
-      if (target_player != plr2 && pplayers_allied(target_player, plr2)) {
+      if (players_in_same_range(target_player, plr2, range)) {
         if (is_diplrel_to_other(plr2, diplrel)) {
           return TRI_YES;
         }
       }
     } players_iterate_alive_end;
-    return TRI_NO;
-  case REQ_RANGE_WORLD:
-    players_iterate_alive(player1) {
-      if (is_diplrel_to_other(player1, diplrel)) {
-        return TRI_YES;
-      }
-    } players_iterate_alive_end;
-
     return TRI_NO;
   case REQ_RANGE_LOCAL:
     if (target_player == NULL || other_player == NULL) {
@@ -1681,6 +1708,39 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
 }
 
 /****************************************************************************
+  Has achievement been claimed by someone in range.
+****************************************************************************/
+static enum fc_tristate
+is_achievement_in_range(const struct player *target_player,
+                        enum req_range range,
+                        const struct achievement *achievement)
+{
+  if (range == REQ_RANGE_WORLD) {
+    return BOOL_TO_TRISTATE(achievement_claimed(achievement));
+  } else if (target_player == NULL) {
+    return TRI_MAYBE;
+  } else if (range == REQ_RANGE_ALLIANCE) {
+    players_iterate_alive(plr2) {
+      if (players_in_same_range(target_player, plr2, range)
+          && achievement_player_has(achievement, plr2)) {
+        return TRI_YES;
+      }
+    } players_iterate_alive_end;
+    return TRI_NO;
+  } else if (range == REQ_RANGE_PLAYER) {
+    if (achievement_player_has(achievement, target_player)) {
+      return TRI_YES;
+    } else {
+      return TRI_NO;
+    }
+  } else {
+    fc_assert_ret_val_msg(FALSE, TRI_MAYBE,
+                          "Illegal range %d for achievement requirement.",
+                          range);
+  }
+}
+
+/****************************************************************************
   Checks the requirement to see if it is active on the given target.
 
   target gives the type of the target
@@ -1730,30 +1790,8 @@ bool is_req_active(const struct player *target_player,
     }
     break;
   case VUT_ACHIEVEMENT:
-    if (req->range == REQ_RANGE_WORLD) {
-      eval = BOOL_TO_TRISTATE(achievement_claimed(req->source.value.achievement));
-    } else if (target_player == NULL) {
-      eval = TRI_MAYBE;
-    } else if (req->range == REQ_RANGE_ALLIANCE) {
-      eval = TRI_NO;
-      players_iterate_alive(plr2) {
-        if (pplayers_allied(target_player, plr2)
-            && achievement_player_has(req->source.value.achievement, plr2)) {
-          eval = TRI_YES;
-          break;
-        }
-      } players_iterate_alive_end;
-    } else if (req->range == REQ_RANGE_PLAYER) {
-      if (achievement_player_has(req->source.value.achievement,
-                                 target_player)) {
-        eval = TRI_YES;
-      } else {
-        eval = TRI_NO;
-      }
-    } else {
-      log_error("is_req_active(): illegal range for achievement requirement.");
-      eval = TRI_MAYBE;
-    }
+    eval = is_achievement_in_range(target_player, req->range,
+                                   req->source.value.achievement);
     break;
   case VUT_IMPROVEMENT:
     /* The requirement is filled if there's at least one of the building
