@@ -21,12 +21,25 @@ default_government = "Despotism"
 ;aggressive = 50
 
 ; Descriptions of nation sets
-; name 		= translatable name of the set
-; rule_name     = unique persistent name used in savefiles etc
-; description   = Optional short user description of this set
+; These are self-contained subsets of the available nations; one of these
+; can be chosen in pregame with the "nationset" option. No nations
+; outside the selected subset will be used.
+; The first set defined is the one that is used by default. It is mandatory
+; to have at least one, but if there is only one, it will be kept out of
+; the user's way.
+; name 		= Translatable name of the set presented in the UI.
+; rule_name     = Unique persistent name; this is also visible to users as
+;                 the value of the "nationset" server option, and presented
+;                 in "/list nationsets". It should thus be short, in lower
+;                 case, and not contain spaces or punctuation.
+;                 The same saved "nationset" setting may be used for multiple
+;                 rulesets, so if your custom ruleset has any set which
+;                 contains all of its nations, it is useful to give it a
+;                 rule_name of "all" so that users can specify that they
+;                 always want the choice of all available nations by
+;                 default.
+; description   = Optional short user description of this set.
 
-; It is mandatory to have a set, but if there is only one then it will be
-; kept out of the way of the user.
 [nset_all]
 name=_("All nations")
 rule_name="all"
