@@ -1063,7 +1063,7 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
    * - known (i.e. due to EFT_GIVE_IMM_TECH). */
   if ((tech_goal != A_FUTURE
        && (!valid_advance_by_number(tech_goal)
-           || !player_invention_reachable(pplayer, tech_goal, FALSE)))
+           || !player_invention_reachable(pplayer, tech_goal, TRUE)))
       || (tech_goal == A_NONE)
       || (TECH_KNOWN == player_invention_state(pplayer, tech_goal))) {
     tech_goal = A_UNSET;
