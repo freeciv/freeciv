@@ -633,6 +633,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
 {
   struct section_file *sfile = create_ruleset_file(name, "game");
   int sect_idx;
+  int col_idx;
   int set_count;
   enum gameloss_style gs;
   const char *style_names[32]; /* FIXME: Should determine max length automatically.
@@ -831,7 +832,14 @@ static bool save_game_ruleset(const char *filename, const char *name)
                        "calendar.negative_label");
   }
 
-  /* TODO: Player colors */
+  if (game.plr_bg_color != NULL) {
+    rgbcolor_save(sfile, game.plr_bg_color, "playercolors.background");
+  }
+
+  col_idx = 0;
+  rgbcolor_list_iterate(game.server.plr_colors, pcol) {
+    rgbcolor_save(sfile, pcol, "playercolors.colorlist%d", col_idx++);
+  } rgbcolor_list_iterate_end;
 
   /* TODO: Team names */
 
