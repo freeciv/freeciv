@@ -97,6 +97,8 @@ enum manuals {
 /* Needed for "About Freeciv" help */
 const char *client_string = "freeciv-manual";
 
+static char *ruleset = NULL;
+
 /**************************************************************************
   Replace html special characters ('&', '<' and '>').
 **************************************************************************/
@@ -423,8 +425,10 @@ int main(int argc, char **argv)
   inx = 1;
   while (inx < argc) {
     if ((option = get_option_malloc("--ruleset", argv, &inx, argc))) {
-      sz_strlcpy(game.server.rulesetdir, option);
-      free(option);
+      if (ruleset != NULL) {
+        free(ruleset);
+      }
+      ruleset = option;
     } else if (is_option("--help", argv[inx])) {
       showhelp = TRUE;
       break;
@@ -468,6 +472,11 @@ int main(int argc, char **argv)
   /* Initialize game with default values */
   game_init();
 
+  /* Set ruleset user requested in to use */
+  if (ruleset != NULL) {
+    sz_strlcpy(game.server.rulesetdir, ruleset);
+  }
+
   if (showvers && !showhelp) {
     fc_fprintf(stderr, "%s \n", freeciv_name_version());
     exit(EXIT_SUCCESS);
@@ -497,6 +506,8 @@ int main(int argc, char **argv)
   }
 
   manual_command();
+
+  FC_FREE(ruleset);
 
   return 0;
 }
