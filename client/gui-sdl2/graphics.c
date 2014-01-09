@@ -644,15 +644,28 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
                                  iWidth, iHeight,
                                  0);
 
-  Main.mainsurf = SDL_GetWindowSurface(Main.screen);
-
-  Main.map = SDL_CreateRGBSurface(0, 640, 480, 32,
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
-			0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000
+  Main.mainsurf = SDL_CreateRGBSurface(0, 640, 480, 32,
+#if SDL_BYTEORDER != SDL_LIL_ENDIAN
+			0x0000FF00, 0x00FF0000, 0xFF000000, 0x000000FF
 #else
-			0xFF000000,  0x00FF0000, 0x0000FF00, 0x000000FF
+			0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000
 #endif
 );
+
+  Main.map = SDL_CreateRGBSurface(0, 640, 480, 32,
+#if SDL_BYTEORDER != SDL_LIL_ENDIAN
+			0x0000FF00, 0x00FF0000, 0xFF000000, 0x000000FF
+#else
+			0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000
+#endif
+);
+
+  Main.renderer = SDL_CreateRenderer(Main.screen, -1, 0);
+
+  Main.maintext = SDL_CreateTexture(Main.renderer,
+                                    SDL_PIXELFORMAT_ARGB8888,
+                                    SDL_TEXTUREACCESS_STREAMING,
+                                    640, 480);
 
 #if 0
   /* find best bpp */
@@ -708,6 +721,18 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
 #endif
  
   return 0;
+}
+
+/**************************************************************************
+  Render from main surface with screen renderer.
+**************************************************************************/
+void update_main_screen(void)
+{
+  SDL_UpdateTexture(Main.maintext, NULL,
+                    Main.mainsurf->pixels, Main.mainsurf->pitch);
+  SDL_RenderClear(Main.renderer);
+  SDL_RenderCopy(Main.renderer, Main.maintext, NULL, NULL);
+  SDL_RenderPresent(Main.renderer);
 }
 
 /**************************************************************************

@@ -189,6 +189,8 @@ struct main {
   SDL_Surface *mainsurf;
   SDL_Surface *map;		/* map buffer */
   SDL_Surface *dummy;           /* dummy surface for missing sprites */
+  SDL_Texture *maintext;
+  SDL_Renderer *renderer;
   struct canvas map_canvas;
   struct gui_layer *gui;        /* gui buffer */
   struct gui_layer **guis;      /* gui buffers used by sdlclient widgets window menager */
@@ -279,6 +281,8 @@ static inline void putframe(SDL_Renderer *pDest,
 void init_sdl(int f);
 void quit_sdl(void);
 int set_video_mode(int iWidth, int iHeight, int iFlags);
+
+void update_main_screen(void);
 
 #define main_window_width() Main.mainsurf->w
 #define main_window_height() Main.mainsurf->h

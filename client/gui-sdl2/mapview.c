@@ -233,10 +233,8 @@ void flush_dirty(void)
 
     draw_mouse_cursor();    
     
-    /* flush main buffer to framebuffer */    
-#if 0
-    SDL_UpdateRect(Main.screen, 0, 0, 0, 0);
-#endif
+    /* flush main buffer to framebuffer */
+    update_main_screen();
   } else {
     static int i;
     static SDL_Rect src, dst;
@@ -269,9 +267,10 @@ void flush_dirty(void)
       
     }
 
-    draw_mouse_cursor();            
-    
-    /* flush main buffer to framebuffer */    
+    draw_mouse_cursor();
+
+    /* flush main buffer to framebuffer */
+    update_main_screen();
 #if 0
     SDL_UpdateRects(Main.screen, Main.rects_count, Main.rects);
 #endif

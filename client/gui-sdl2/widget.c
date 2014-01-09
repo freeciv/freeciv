@@ -546,6 +546,7 @@ void redraw_widget_info_label(SDL_Rect *rect)
   }
 
   if (correct_rect_region(pInfo_Area)) {
+    update_main_screen();
 #if 0
     SDL_UpdateRect(Main.screen, pInfo_Area->x, pInfo_Area->y,
 				    pInfo_Area->w, pInfo_Area->h);
