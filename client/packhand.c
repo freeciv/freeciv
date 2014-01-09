@@ -3240,10 +3240,12 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   cbase = is_extra_caused_by(pextra, EC_BASE);
   croad = is_extra_caused_by(pextra, EC_ROAD);
   if (cbase) {
-    base_type_init(pextra, extra_type_list_size(extra_type_list_by_cause(EC_BASE)));
+    /* Index is one less than size of list when this base is already added. */
+    base_type_init(pextra, extra_type_list_size(extra_type_list_by_cause(EC_BASE)) - 1);
   }
   if (croad) {
-    road_type_init(pextra, extra_type_list_size(extra_type_list_by_cause(EC_ROAD)));
+    /* Index is one less than size of list when this road is already added. */
+    road_type_init(pextra, extra_type_list_size(extra_type_list_by_cause(EC_ROAD)) - 1);
   }
   if (!cbase && !croad) {
     pextra->data.special_idx = extra_type_list_size(extra_type_list_by_cause(EC_SPECIAL));
