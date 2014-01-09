@@ -74,7 +74,6 @@ libfreeciv_la_SOURCES = \
 		packets.h	\
 		packets_gen.c	\
 		packets_gen.h	\
-		packets.def	\
 		player.c	\
 		player.h	\
 		requirements.c	\
@@ -116,6 +115,8 @@ libfreeciv_la_SOURCES = \
 		workertask.h	\
 		worklist.c	\
 		worklist.h
+
+EXTRA_DIST = 	packets.def
 
 libfreeciv_la_DEPENDENCIES = \
 	$(top_builddir)/utility/libcivutility.la \
