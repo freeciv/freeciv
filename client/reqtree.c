@@ -399,7 +399,7 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer,
       nodes[tech] = NULL;
       continue;
     }
-    if (pplayer && !player_invention_reachable(pplayer, tech, !reachable)) {
+    if (pplayer && reachable && !player_invention_reachable(pplayer, tech, TRUE)) {
       /* Reqtree requested for particular player and this tech is
        * unreachable to him/her. */
       nodes[tech] = NULL;
