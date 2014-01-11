@@ -148,7 +148,7 @@ static void dai_select_tech(struct player *pplayer,
         newtech = i;
       }
       if (goal_values[i] > goal_values[newgoal]
-	  && player_invention_reachable(pplayer, i, FALSE)) {
+	  && player_invention_reachable(pplayer, i, TRUE)) {
 	newgoal = i;
       }
     }
@@ -307,7 +307,7 @@ struct unit_type *dai_wants_defender_against(struct player *pplayer,
       }
 
       if (cost < best_cost
-          && player_invention_reachable(pplayer, advance_number(itech), FALSE)) {
+          && player_invention_reachable(pplayer, advance_number(itech), TRUE)) {
         best_tech = itech;
         best_cost = cost;
         best_unit = deftype;
@@ -389,7 +389,7 @@ struct unit_type *dai_wants_role_unit(struct player *pplayer,
       }
 
       if (cost < best_cost
-       && player_invention_reachable(pplayer, advance_number(itech), FALSE)) {
+       && player_invention_reachable(pplayer, advance_number(itech), TRUE)) {
         best_tech = itech;
         best_cost = cost;
         best_unit = iunit;
