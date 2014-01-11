@@ -2135,7 +2135,7 @@ int fc_vsnprintcf(char *buf, size_t buf_len, const char *format,
   const char *f = format;
   char *const max = buf + buf_len - 1;
   char *b = buf, *c;
-  const char *const cmax = cformat + sizeof(cformat - 2);
+  const char *const cmax = cformat + sizeof(cformat) - 2;
   int i, j;
 
   if ((size_t) -1 == sequences_num) {
