@@ -165,6 +165,8 @@ static void ruleset_error_real(const char *file, const char *function,
                        level, format, ## __VA_ARGS__);                      \
   }
 
+static bool negated_messaged;
+
 /**************************************************************************
   Notifications about ruleset errors to clients. Especially important in
   case of internal server crashing.
@@ -304,7 +306,8 @@ static const char *check_ruleset_capabilities(struct section_file *file,
 static struct requirement_vector *lookup_req_list(struct section_file *file,
 						  const char *sec,
 						  const char *sub,
-                                                  const char *rfor)
+                                                  const char *rfor,
+                                                  bool accept_negated)
 {
   const char *type, *name;
   int j;
@@ -367,6 +370,13 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
 	"%s.%s%d.survives", sec, sub, j);
     negated = secfile_lookup_bool_default(file, FALSE,
 	"%s.%s%d.negated", sec, sub, j);
+
+    if (negated && !accept_negated && !negated_messaged) {
+      ruleset_error(LOG_ERROR, "Ruleset has unsupported negated requirement(s) for an effect.");
+      ruleset_error(LOG_ERROR, "You should have them in separate nreqs list instead.");
+      ruleset_error(LOG_ERROR, "This is going to change in future versions.");
+      negated_messaged = TRUE;
+    }
 
     req = req_from_str(type, range, survives, negated, name);
     if (req.source.kind == universals_n_invalid()) {
@@ -1791,7 +1801,7 @@ static void load_ruleset_buildings(struct section_file *file)
     const char *sec_name = section_name(section_list_get(sec, i));
     struct requirement_vector *reqs =
       lookup_req_list(file, sec_name, "reqs",
-                      improvement_rule_name(b));
+                      improvement_rule_name(b), TRUE);
     const char *sval, **slist;
     int j, ival;
     size_t nflags;
@@ -2289,7 +2299,7 @@ static void load_ruleset_terrain(struct section_file *file)
                secfile_lookup_str_default(file, "-",
                                           "%s.activity_gfx", section));
 
-    reqs = lookup_req_list(file, section, "reqs", base_rule_name(pbase));
+    reqs = lookup_req_list(file, section, "reqs", base_rule_name(pbase), TRUE);
     requirement_vector_copy(&pbase->reqs, reqs);
 
     slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
@@ -2446,7 +2456,7 @@ static void load_ruleset_governments(struct section_file *file)
     const int i = government_index(g);
     const char *sec_name = section_name(section_list_get(sec, i));
     struct requirement_vector *reqs =
-      lookup_req_list(file, sec_name, "reqs", government_rule_name(g));
+      lookup_req_list(file, sec_name, "reqs", government_rule_name(g), TRUE);
 
     if (NULL != secfile_entry_lookup(file, "%s.ai_better", sec_name)) {
       char entry[100];
@@ -3159,7 +3169,7 @@ static void load_ruleset_cities(struct section_file *file)
                                       "%s.short_name", sec_name);
     name_set(&s->abbreviation, item);
 
-    reqs = lookup_req_list(file, sec_name, "reqs", specialist_rule_name(s));
+    reqs = lookup_req_list(file, sec_name, "reqs", specialist_rule_name(s), TRUE);
     requirement_vector_copy(&s->reqs, reqs);
 
     s->helptext = lookup_strvec(file, sec_name, "helptext");
@@ -3237,7 +3247,7 @@ static void load_ruleset_cities(struct section_file *file)
 	       secfile_lookup_str_default(file, "generic", 
 	    		"%s.citizens_graphic_alt", sec_name));
 
-    reqs = lookup_req_list(file, sec_name, "reqs", city_style_rule_name(i));
+    reqs = lookup_req_list(file, sec_name, "reqs", city_style_rule_name(i), TRUE);
     requirement_vector_copy(&city_styles[i].reqs, reqs);
 
     replacement = secfile_lookup_str(file, "%s.replaced_by", sec_name);
@@ -3295,7 +3305,7 @@ static void load_ruleset_effects(struct section_file *file)
 
     peffect = effect_new(eff, value);
 
-    requirement_vector_iterate(lookup_req_list(file, sec_name, "reqs", type),
+    requirement_vector_iterate(lookup_req_list(file, sec_name, "reqs", type, FALSE),
                                req) {
       struct requirement *preq = fc_malloc(sizeof(*preq));
 
@@ -3303,7 +3313,7 @@ static void load_ruleset_effects(struct section_file *file)
       effect_req_append(peffect, FALSE, preq);
     } requirement_vector_iterate_end;
     requirement_vector_iterate(lookup_req_list(file, sec_name,
-                                               "nreqs", type),
+                                               "nreqs", type, FALSE),
                                req) {
       struct requirement *preq = fc_malloc(sizeof(*preq));
 
@@ -4287,6 +4297,10 @@ void load_rulesets(bool act)
   game_ruleset_init();
 
   server.playable_nations = 0;
+
+  /* Allow printing the negated requirement warning again when loading
+   * new ruleset */
+  negated_messaged = FALSE;
 
   techfile = openload_ruleset_file("techs");
   load_tech_names(techfile);
