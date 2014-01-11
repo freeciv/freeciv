@@ -269,16 +269,16 @@ $AUTOHEADER || {
   echo "$AUTOHEADER failed"
   exit 1
 }
-echo "+ running $AUTOCONF ... "
-$AUTOCONF || {
-  echo
-  echo "$AUTOCONF failed"
-  exit 1
-}
 echo "+ running $LIBTOOLIZE ... "
 $LIBTOOLIZE -f || {
   echo
   echo "$LIBTOOLIZE failed"
+  exit 1
+}
+echo "+ running $AUTOCONF ... "
+$AUTOCONF || {
+  echo
+  echo "$AUTOCONF failed"
   exit 1
 }
 echo "+ running $AUTOMAKE ... "
