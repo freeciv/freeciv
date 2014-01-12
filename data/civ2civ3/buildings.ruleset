@@ -1674,8 +1674,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Polytheism", "Player"
     }
-graphic	= "b.oracle"
-graphic_alt	= "-"
+graphic	= "b.statue_of_zeus"
+graphic_alt	= "b.oracle"
 obsolete_by	=
     { "type", "name", "range"
       "Tech", "Conscription", "World"

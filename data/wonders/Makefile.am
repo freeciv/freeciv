@@ -29,6 +29,7 @@ pkgdata_DATA =          		\
 	seti_program.png		\
 	shakespeares_theatre.png	\
 	statue_of_liberty.png		\
+	statue_of_zeus.png		\
 	sun_tzus_war_academy.png	\
 	united_nations.png		\
 	womens_suffrage.png
