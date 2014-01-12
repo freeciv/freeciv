@@ -49,6 +49,7 @@ artists = "
   b.manhattan_project
   b.oracle
   b.statue_of_liberty
+  b.statue_of_zeus
 "
 
 [extra]
@@ -79,6 +80,7 @@ sprites =
 		"b.seti_program", "wonders/seti_program"
 		"b.shakespeares_theatre", "wonders/shakespeares_theatre"
 		"b.statue_of_liberty", "wonders/statue_of_liberty"
+                "b.statue_of_zeus", "wonders/statue_of_zeus"
 		"b.sun_tzus_war_academy", "wonders/sun_tzus_war_academy"
 		"b.united_nations", "wonders/united_nations"
 		"b.womens_suffrage", "wonders/womens_suffrage"
