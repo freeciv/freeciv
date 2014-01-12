@@ -83,7 +83,7 @@ tiles = { "row", "column", "tag"
 
   0, 35, "s.right_arrow"
 
-; Event Message Icons - currently unused
+; Event Message Icons
 
   1, 1,  "e_ai_debug"
   1, 0,  "e_city_cantbuild"
