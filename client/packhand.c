@@ -1257,11 +1257,6 @@ void handle_unit_info(const struct packet_unit_info *packet)
   Depending on what caused the change, different actions may be taken.
   Therefore, this function is a bit of a jungle, and it is advisable
   to read thoroughly before changing.
-
-  Exception: When the client puts a unit in focus, it's status is set to
-  idle immediately, before informing the server about the new status. This
-  is because the server can never deny a request for idle, and should not
-  be concerned about which unit the client is focusing on.
 **************************************************************************/
 static bool handle_unit_packet_common(struct unit *packet_unit)
 {
