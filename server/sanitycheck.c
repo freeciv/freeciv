@@ -587,7 +587,7 @@ void real_sanity_check_tile(struct tile *ptile, const char *file,
      * 'easy' test if the unit is transported is done. A complete check is
      * done by check_units() in real_sanity_check(). */
     if (!can_unit_exist_at_tile(punit, ptile)
-        && unit_transported(punit)) {
+        && !unit_transported(punit)) {
       SANITY_FAIL("(%4d,%4d) %s can't survive on %s", TILE_XY(ptile),
                   unit_rule_name(punit), tile_get_info_text(ptile, 0));
     }
