@@ -355,8 +355,6 @@ static void remove_last_part(struct goto_map *goto_map)
 ***********************************************************************/
 bool goto_add_waypoint(void)
 {
-  struct tile *ptile_start = NULL;
-
   fc_assert_ret_val(goto_is_active(), FALSE);
   if (NULL == goto_destination) {
     /* Not a valid position. */
@@ -364,16 +362,8 @@ bool goto_add_waypoint(void)
   }
 
   goto_map_list_iterate(goto_maps, goto_map) {
-    struct part *first_part = &goto_map->parts[0];
-    struct part *last_part = &goto_map->parts[goto_map->num_parts - 1];
-
-    if (NULL == last_part->path) {
+    if (NULL == goto_map->parts[goto_map->num_parts - 1].path) {
       /* The current part has zero length. */
-      return FALSE;
-    } else if (NULL == ptile_start) {
-      ptile_start = first_part->start_tile;
-    } else if (ptile_start != first_part->start_tile) {
-      /* Scattered group (not all in same location). */
       return FALSE;
     }
   } goto_map_list_iterate_end;
