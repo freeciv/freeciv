@@ -45,7 +45,7 @@
 /*
  * The whole path is separated by waypoints into parts.  Each part has its
  * own starting position and requires its own map.  When the unit is unable
- * to move, end_tile equals start_tile.
+ * to move, end_tile equals start_tile and path is NULL.
  */
 struct part {
   int start_moves_left, start_fuel_left;
@@ -282,7 +282,7 @@ static void reset_last_part(struct goto_map *goto_map)
 {
   struct part *p = &goto_map->parts[goto_map->num_parts - 1];
 
-  if (!same_pos(p->start_tile, p->end_tile)) {
+  if (NULL != p->path) {
     /* Otherwise no need to update */
     update_last_part(goto_map, p->start_tile);
   }
@@ -365,7 +365,7 @@ bool goto_add_waypoint(void)
     struct part *first_part = &goto_map->parts[0];
     struct part *last_part = &goto_map->parts[goto_map->num_parts - 1];
 
-    if (same_pos(last_part->start_tile, last_part->end_tile)) {
+    if (NULL == last_part->path) {
       /* The current part has zero length. */
       return FALSE;
     } else if (NULL == ptile_start) {
@@ -1088,7 +1088,7 @@ void send_patrol_route(void)
     struct pf_parameter parameter = goto_map->template;
     struct part *last_part = &goto_map->parts[goto_map->num_parts - 1];
 
-    if (last_part->end_tile == last_part->start_tile) {
+    if (NULL == last_part->path) {
       /* Cannot move there */
       continue;
     }
@@ -1132,7 +1132,7 @@ void send_connect_route(enum unit_activity activity)
     struct pf_path *path = NULL;
     struct part *last_part = &goto_map->parts[goto_map->num_parts - 1];
 
-    if (last_part->end_tile == last_part->start_tile) {
+    if (NULL == last_part->path) {
       /* Cannot move there */
       continue;
     }
@@ -1223,7 +1223,7 @@ void send_goto_route(void)
     struct pf_path *path = NULL;
     struct part *last_part = &goto_map->parts[goto_map->num_parts - 1];
 
-    if (last_part->end_tile == last_part->start_tile) {
+    if (NULL == last_part->path) {
       /* Cannot move there */
       continue;
     }
