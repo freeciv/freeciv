@@ -909,7 +909,7 @@ static void see_combat(struct unit *pattacker, struct unit *pdefender)
                                       &unit_def_short_packet);
         }
       }
-    } else {
+    } else if (pconn->observer) {
       /* Global observer sees everything... */
       send_packet_unit_info(pconn, &unit_att_packet);
       send_packet_unit_info(pconn, &unit_def_packet);
