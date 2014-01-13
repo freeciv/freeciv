@@ -826,7 +826,8 @@ static int num_city_buildings(const struct city *pcity,
 }
 
 /****************************************************************************
-  Is there any source buildings within range of the target?
+  Are there any source buildings within range of the target that are not
+  obsolete?
 
   The target gives the type of the target.  The exact target is a player,
   city, or building specified by the target_xxx arguments.
@@ -838,36 +839,43 @@ static int num_city_buildings(const struct city *pcity,
   living buildings are counted.
 
   source gives the building type of the source in question.
-
-  Note that this function does a lookup into the source caches to find
-  the number of available sources.  However not all source caches exist: if
-  the cache doesn't exist then we return 0.
 ****************************************************************************/
-static int buildings_in_range(const struct player *target_player,
-                              const struct city *target_city,
-                              const struct impr_type *target_building,
-                              enum req_range range,
-                              bool survives,
-                              const struct impr_type *source)
+static enum fc_tristate
+is_building_in_range(const struct player *target_player,
+                     const struct city *target_city,
+                     const struct impr_type *target_building,
+                     enum req_range range,
+                     bool survives,
+                     const struct impr_type *source)
 {
+  /* Check if it's certain that the building is obsolete given the
+   * specification we have */
   if (improvement_obsolete(target_player, source, target_city)) {
-    return FALSE;
+    return TRI_NO;
   }
 
   if (survives) {
+
+    /* Check whether condition has ever held, using cached information. */
     switch (range) {
     case REQ_RANGE_WORLD:
-      return num_world_buildings_total(source);
+      return BOOL_TO_TRISTATE(num_world_buildings_total(source) > 0);
     case REQ_RANGE_ALLIANCE:
+      if (target_player == NULL) {
+        return TRI_MAYBE;
+      }
       players_iterate_alive(plr2) {
         if (players_in_same_range(target_player, plr2, range)
             && player_has_ever_built(plr2, source)) {
-          return TRUE;
+          return TRI_YES;
         }
       } players_iterate_alive_end;
-      return FALSE;
+      return TRI_NO;
     case REQ_RANGE_PLAYER:
-      return player_has_ever_built(target_player, source);
+      if (target_player == NULL) {
+        return TRI_MAYBE;
+      }
+      return BOOL_TO_TRISTATE(player_has_ever_built(target_player, source));
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_CITY:
     case REQ_RANGE_LOCAL:
@@ -876,54 +884,71 @@ static int buildings_in_range(const struct player *target_player,
       /* There is no sources cache for this. */
       log_error("Surviving requirements are only supported at "
                 "World/Alliance/Player ranges.");
-      return FALSE;
+      return TRI_NO;
     case REQ_RANGE_COUNT:
       break;
     }
-  }
 
-  switch (range) {
-  case REQ_RANGE_WORLD:
-    return num_world_buildings(source);
-  case REQ_RANGE_ALLIANCE:
-    players_iterate_alive(plr2) {
-      if (players_in_same_range(target_player, plr2, range)
-          && num_player_buildings(plr2, source) > 0) {
-        return TRUE;
+  } else {
+
+    /* Non-surviving requirement. */
+    switch (range) {
+    case REQ_RANGE_WORLD:
+      return BOOL_TO_TRISTATE(num_world_buildings(source) > 0);
+    case REQ_RANGE_ALLIANCE:
+      if (target_player == NULL) {
+        return TRI_MAYBE;
       }
-    } players_iterate_alive_end;
-
-    return FALSE;
-  case REQ_RANGE_PLAYER:
-    return target_player ? num_player_buildings(target_player, source) : FALSE;
-  case REQ_RANGE_CONTINENT:
-    if (target_player && target_city) {
-      int continent = tile_continent(target_city->tile);
-
-      return num_continent_buildings(target_player, continent, source);
-    } else {
+      players_iterate_alive(plr2) {
+        if (players_in_same_range(target_player, plr2, range)
+            && num_player_buildings(plr2, source) > 0) {
+          return TRI_YES;
+        }
+      } players_iterate_alive_end;
+      return TRI_NO;
+    case REQ_RANGE_PLAYER:
+      if (target_player == NULL) {
+        return TRI_MAYBE;
+      }
+      return BOOL_TO_TRISTATE(num_player_buildings(target_player, source) > 0);
+    case REQ_RANGE_CONTINENT:
       /* At present, "Continent" effects can affect only
        * cities and units in cities. */
-      return FALSE;
+      if (target_player && target_city) {
+        int continent = tile_continent(target_city->tile);
+        return BOOL_TO_TRISTATE(num_continent_buildings(target_player,
+                                                        continent, source) > 0);
+      } else {
+        return TRI_MAYBE;
+      }
+    case REQ_RANGE_CITY:
+      if (target_city) {
+        return BOOL_TO_TRISTATE(num_city_buildings(target_city, source) > 0);
+      } else {
+        return TRI_MAYBE;
+      }
+    case REQ_RANGE_LOCAL:
+      if (target_building) {
+        if (target_building == source) {
+          return BOOL_TO_TRISTATE(num_city_buildings(target_city, source) > 0);
+        } else {
+          return TRI_NO;
+        }
+      } else {
+        /* TODO: other local targets */
+        return TRI_MAYBE;
+      }
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+      return TRI_NO;
+    case REQ_RANGE_COUNT:
+      break;
     }
-  case REQ_RANGE_CITY:
-    return target_city ? num_city_buildings(target_city, source) : FALSE;
-  case REQ_RANGE_LOCAL:
-    if (target_building && target_building == source) {
-      return num_city_buildings(target_city, source);
-    } else {
-      /* TODO: other local targets */
-      return FALSE;
-    }
-  case REQ_RANGE_CADJACENT:
-  case REQ_RANGE_ADJACENT:
-    return FALSE;
-  case REQ_RANGE_COUNT:
-    break;
+
   }
 
   fc_assert_msg(FALSE, "Invalid range %d.", range);
-  return FALSE;
+  return TRI_NO;
 }
 
 /****************************************************************************
@@ -1794,22 +1819,10 @@ bool is_req_active(const struct player *target_player,
                                    req->source.value.achievement);
     break;
   case VUT_IMPROVEMENT:
-    /* The requirement is filled if there's at least one of the building
-     * in the city.  (This is a slightly nonstandard use of
-     * count_sources_in_range.) */
-    /* With NULL target_player buildings_in_range() would
-     * return FALSE, which would cause evaluation to return FALSE
-     * even for RPT_POSSIBLE */
-    if (((req->range == REQ_RANGE_PLAYER || req->range == REQ_RANGE_ALLIANCE)
-         && target_player == NULL)
-        || (req->range == REQ_RANGE_CITY && target_city == NULL)) {
-      eval = TRI_MAYBE;
-    } else {
-      eval = BOOL_TO_TRISTATE(buildings_in_range(target_player, target_city,
-                                                 target_building,
-                                                 req->range, req->survives,
-                                                 req->source.value.building));
-    }
+    eval = is_building_in_range(target_player, target_city,
+                                target_building,
+                                req->range, req->survives,
+                                req->source.value.building);
     break;
   case VUT_EXTRA:
     eval = is_extra_type_in_range(target_tile, target_city,
