@@ -26,6 +26,10 @@
 #define unit_list_iterate(unitlist, punit) \
     TYPED_LIST_ITERATE(struct unit, unitlist, punit)
 #define unit_list_iterate_end  LIST_ITERATE_END
+#define unit_list_both_iterate(unitlist, plink, punit) \
+    TYPED_LIST_BOTH_ITERATE(struct unit_list_link, struct unit, unitlist, \
+                            plink, punit)
+#define unit_list_both_iterate_end LIST_BOTH_ITERATE_END
 
 #define unit_list_iterate_safe(unitlist, _unit)				\
 {									\
