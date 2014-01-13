@@ -703,7 +703,7 @@ static const struct city_report_spec base_city_report_specs[] = {
   { FALSE, 3, 1, NULL, N_("?Science:S"), N_("Economy: Science"),
     NULL, FUNC_TAG(science) },
   { FALSE,  1, 1, N_("?number_trade_routes:n"), N_("?number_trade_routes:R"),
-                                         N_("Number of Trade Routes"),
+                  N_("Number (and total value) of trade routes"),
     NULL, FUNC_TAG(trade_routes) },
   { FALSE,  3, 1, NULL, N_("?pollution [short]:Pol"), N_("Pollution"),
     NULL, FUNC_TAG(pollution) },
