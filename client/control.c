@@ -561,26 +561,37 @@ void unit_focus_advance(void)
 
   if (unit_list_size(urgent_focus_queue) > 0) {
     /* Try top of the urgent list. */
-    candidate = unit_list_get(urgent_focus_queue, 0);
+    struct tile *focus_tile = (get_num_units_in_focus() > 0
+                               ? unit_tile(head_of_units_in_focus())
+                               : NULL);
 
-    if (get_num_units_in_focus() > 0) {
-      /* Rarely, more than one unit on the same tile will be in the list. */
-      unit_list_iterate(urgent_focus_queue, punit) {
-        if (unit_tile(head_of_units_in_focus()) == unit_tile(punit)) {
-          /* Use the first one found */
-          candidate = punit;
-          break;
-        }
-      } unit_list_iterate_end;
-    }
-    unit_list_remove(urgent_focus_queue, candidate);
+    unit_list_both_iterate(urgent_focus_queue, plink, punit) {
+      if (ACTIVITY_IDLE != punit->activity
+          || unit_has_orders(punit)) {
+        /* We have assigned new orders to this unit since, remove it. */
+        unit_list_erase(urgent_focus_queue, plink);
+      } else if (NULL == focus_tile
+                 || focus_tile == unit_tile(punit)) {
+        /* Use the first one found */
+        candidate = punit;
+        break;
+      } else if (NULL == candidate) {
+        candidate = punit;
+      }
+    } unit_list_both_iterate_end;
 
-    /* Autocenter on Wakeup, regardless of the local option 
-     * "auto_center_on_unit". */
-    if (!tile_visible_and_not_on_border_mapcanvas(unit_tile(candidate))) {
-      center_tile_mapcanvas(unit_tile(candidate));
+    if (NULL != candidate) {
+      unit_list_remove(urgent_focus_queue, candidate);
+
+      /* Autocenter on Wakeup, regardless of the local option
+       * "auto_center_on_unit". */
+      if (!tile_visible_and_not_on_border_mapcanvas(unit_tile(candidate))) {
+        center_tile_mapcanvas(unit_tile(candidate));
+      }
     }
-  } else {
+  }
+
+  if (NULL == candidate) {
     candidate = find_best_focus_candidate(FALSE);
 
     if (!candidate) {
