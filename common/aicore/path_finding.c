@@ -2395,11 +2395,10 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
           node1->cost = cost;
           node1->moves_left = moves_left;
           node1->dir_to_here = dir;
+          node1->waited = (NS_WAITING == node->status);
           /* Always record the segment, including when it is not dangerous
            * to move there. */
           pf_fuel_map_create_segment(pffm, tile1, node1);
-          /* It is the first part of a fuel segment. */
-          node1->waited = (NS_WAITING == node->status);
           if (NS_PROCESSED != node1->status) {
             /* Node status B. to C. */
             node1->status = NS_NEW;
