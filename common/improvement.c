@@ -302,7 +302,7 @@ bool is_improvement_visible(const struct impr_type *pimprove)
 }
 
 /**************************************************************************
- Returns 1 if the improvement is obsolete, now also works for wonders
+  Returns TRUE if the improvement or wonder is obsolete
 **************************************************************************/
 bool improvement_obsolete(const struct player *pplayer,
 			  const struct impr_type *pimprove)
