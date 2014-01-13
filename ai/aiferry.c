@@ -594,13 +594,19 @@ bool ai_amphibious_goto_constrained(struct unit *ferry,
       }
       next_tile = path->positions[1].tile;
       if (!is_ocean_tile(next_tile)) {
+        int ferry_id = ferry->id;
+
 	UNIT_LOG(LOG_DEBUG, passenger, "Our boat has arrived "
 		 "[%d](moves left: %d)", ferry->id, ferry->moves_left);
 	UNIT_LOG(LOG_DEBUG, passenger, "Disembarking to (%d,%d)",
 		 TILE_XY(next_tile));
 	/* Land leg */
         alive = adv_follow_path(passenger, path, ptile);
-	if (0 < ferry->moves_left
+        /* Movement of the passenger outside the ferry can cause also
+         * ferry to die. That has happened at least when passenger
+         * destroyed city cutting the civ1-style channel (cities in
+         * a chain) ferry was in. */
+	if (unit_alive(ferry_id) && 0 < ferry->moves_left
             && (!alive || ferry->tile != passenger->tile)) {
 	  /* The passenger is no longer on the ferry,
 	   * and the ferry can still act.
