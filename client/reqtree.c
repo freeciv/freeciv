@@ -880,14 +880,24 @@ static enum color_std node_color(struct tree_node *node)
       return COLOR_REQTREE_KNOWN;
     }
 
-    if (!player_invention_reachable(client.conn.playing, node->tech, FALSE)) {
+    if (!player_invention_reachable(client.conn.playing, node->tech, TRUE)) {
       return COLOR_REQTREE_UNREACHABLE;
+    }
+
+    if (!player_invention_reachable(client.conn.playing, node->tech, FALSE)) {
+      if (is_tech_a_req_for_goal(client.conn.playing, node->tech,
+                                 research->tech_goal)
+          || node->tech == research->tech_goal) {
+        return COLOR_REQTREE_GOAL_NOT_GETTABLE;
+      } else {
+        return COLOR_REQTREE_NOT_GETTABLE;
+      }
     }
 
     if (research->researching == node->tech) {
       return COLOR_REQTREE_RESEARCHING;
     }
-    
+
     if (TECH_KNOWN == player_invention_state(client.conn.playing, node->tech)) {
       return COLOR_REQTREE_KNOWN;
     }

@@ -217,7 +217,7 @@ static void build_required_techs_helper(struct player *pplayer,
 {
   /* The is_tech_a_req_for_goal condition is true if the tech is
    * already marked */
-  if (!player_invention_reachable(pplayer, tech, FALSE)
+  if (!player_invention_reachable(pplayer, tech, TRUE)
       || player_invention_state(pplayer, tech) == TECH_KNOWN
       || is_tech_a_req_for_goal(pplayer, tech, goal)) {
     return;

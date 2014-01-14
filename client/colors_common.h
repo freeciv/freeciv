@@ -97,15 +97,19 @@ struct rgbcolor;
 #define SPECENUM_VALUE28NAME  "reqtree_unknown"
 #define SPECENUM_VALUE29  COLOR_REQTREE_UNREACHABLE
 #define SPECENUM_VALUE29NAME  "reqtree_unreachable"
-#define SPECENUM_VALUE30  COLOR_REQTREE_BACKGROUND          /* black */
-#define SPECENUM_VALUE30NAME  "reqtree_background"
-#define SPECENUM_VALUE31  COLOR_REQTREE_TEXT                /* black */
-#define SPECENUM_VALUE31NAME  "reqtree_text"
-#define SPECENUM_VALUE32  COLOR_REQTREE_EDGE                /* gray */
-#define SPECENUM_VALUE32NAME  "reqtree_edge"
+#define SPECENUM_VALUE30  COLOR_REQTREE_NOT_GETTABLE
+#define SPECENUM_VALUE30NAME  "reqtree_not_gettable"
+#define SPECENUM_VALUE31  COLOR_REQTREE_GOAL_NOT_GETTABLE
+#define SPECENUM_VALUE31NAME  "reqtree_goal_not_gettable"
+#define SPECENUM_VALUE32  COLOR_REQTREE_BACKGROUND          /* black */
+#define SPECENUM_VALUE32NAME  "reqtree_background"
+#define SPECENUM_VALUE33  COLOR_REQTREE_TEXT                /* black */
+#define SPECENUM_VALUE33NAME  "reqtree_text"
+#define SPECENUM_VALUE34  COLOR_REQTREE_EDGE                /* gray */
+#define SPECENUM_VALUE34NAME  "reqtree_edge"
 /* Player dialog */
-#define SPECENUM_VALUE33  COLOR_PLAYER_COLOR_BACKGROUND     /* black */
-#define SPECENUM_VALUE33NAME  "playerdlg_background"
+#define SPECENUM_VALUE35  COLOR_PLAYER_COLOR_BACKGROUND     /* black */
+#define SPECENUM_VALUE35NAME  "playerdlg_background"
 
 #define SPECENUM_COUNT    COLOR_LAST
 #include "specenum_gen.h"
