@@ -34,6 +34,8 @@ pkgdata_DATA =          \
 	small.spec	\
 	space.png	\
 	space.spec	\
+	specialists.png	\
+	specialists.spec \
 	techs.png	\
 	techs.spec	\
 	treaty.png	\

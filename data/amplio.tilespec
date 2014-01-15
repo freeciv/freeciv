@@ -63,6 +63,7 @@ files =
   "amplio/fog.spec",
   "misc/small.spec",
   "misc/governments.spec",
+  "misc/specialists.spec",
   "amplio/units.spec",
   "misc/flags.spec",
   "misc/buildings-large.spec",
