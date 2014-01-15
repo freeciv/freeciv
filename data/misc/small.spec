@@ -12,6 +12,7 @@ artists = "
     Davide Pagnin <nightmare@freeciv.it> (angry citizens)
     Enrico Bini <e.bini@sssup.it> (fundamentalism icon)
     Hogne Håskjold <haskjold@gmail.com> (gold coin)
+    GriffonSpade (specialists)
 "
 
 [file]
@@ -77,9 +78,9 @@ tiles = { "row", "column", "tag"
 
 ; Citizen icons:
 
-  0, 23, "specialist.elvis_0"
-  0, 24, "specialist.scientist_0"
-  0, 25, "specialist.taxman_0"
+  1, 23, "specialist.elvis_0"
+  1, 24, "specialist.scientist_0"
+  1, 25, "specialist.taxman_0"
 
   0, 26, "citizen.content_0"
   0, 27, "citizen.content_1"
