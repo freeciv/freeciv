@@ -15,10 +15,6 @@
 #include <fc_config.h>
 #endif
 
-#ifdef AUDIO_SDL
-#include "SDL.h"
-#endif
-
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
 #endif

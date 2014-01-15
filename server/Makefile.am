@@ -20,7 +20,6 @@ AM_CPPFLAGS = \
 	-I$(srcdir)/advisors \
 	-I$(srcdir)/generator \
 	-I$(srcdir)/scripting \
-	$(MAPIMG_WAND_CFLAGS) \
 	$(LIBGGZ_INCLUDES) $(GGZDMOD_INCLUDES) \
 	$(FCDB_MYSQL_CFLAGS) $(FCDB_POSTGRES_CFLAGS) $(FCDB_SQLITE3_CFLAGS)
 

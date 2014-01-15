@@ -2,7 +2,9 @@
 
 noinst_LTLIBRARIES = libgui-sdl2.la
 
-AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/../agents $(GUI_sdl2_CFLAGS) $(SOUND_CFLAGS)
+AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility \
+        -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/../agents \
+        $(GUI_sdl2_CFLAGS)
 
 libgui_sdl2_la_SOURCES = \
 	SDL2_gfxPrimitives.c	\

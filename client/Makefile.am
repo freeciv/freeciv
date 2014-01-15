@@ -81,9 +81,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/common/scriptcore \
 	-I$(srcdir)/luascript -I$(srcdir)/agents \
 	$(CLIENT_CFLAGS) $(SOUND_CFLAGS) \
-	$(MAPIMG_WAND_CFLAGS) \
 	$(LIBGGZ_INCLUDES) $(GGZMOD_INCLUDES) $(GGZ_GTK_INCLUDES) \
-	$(LUA_CFLAGS) $(LUASQL_CFLAGS) $(TOLUA_CFLAGS) \
 	-I$(top_srcdir)/dependencies/cvercmp
 
 # Build client common functionality in to library
