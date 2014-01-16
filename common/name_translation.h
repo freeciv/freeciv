@@ -75,7 +75,7 @@ static inline void names_set(struct name_translation *ptrans,
     if (domain == NULL) {
       ptrans->translated = Q_(ptrans->vernacular);
     } else {
-      ptrans->translated = skip_intl_qualifier_prefix(dgettext(domain, ptrans->vernacular));
+      ptrans->translated = skip_intl_qualifier_prefix(DG_(domain, ptrans->vernacular));
     }
   } else {
     ptrans->translated = ptrans->vernacular;
