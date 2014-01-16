@@ -1519,8 +1519,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Ceremonial Burial", "Player"
     }
-graphic	= "b.oracle"
-graphic_alt	= "-"
+graphic         = "b.mausoleum"
+graphic_alt     = "b.oracle"
 obsolete_by	= "Explosives"
 build_cost	= 200
 upkeep		= 0
@@ -1561,8 +1561,8 @@ reqs	=
       "Tech", "Mysticism", "Player"
       "Building", "Temple", "City"
     }
-graphic	= "b.oracle"
-graphic_alt	= "-"
+graphic         = "b.temple_of_artemis"
+graphic_alt     = "b.oracle"
 obsolete_by	= "Theology"
 build_cost	= 200
 upkeep		= 0
