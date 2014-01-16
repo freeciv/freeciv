@@ -742,7 +742,8 @@ const char *get_activity_text(enum unit_activity activity)
   case ACTIVITY_POLLUTION:
     return _("Pollution");
   case ACTIVITY_MINE:
-    return _("Mine");
+    /* TRANS: Activity name, verb in English */
+    return _("Plant");
   case ACTIVITY_IRRIGATE:
     return _("Irrigate");
   case ACTIVITY_FORTIFYING:
