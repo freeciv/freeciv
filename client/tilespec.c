@@ -2188,15 +2188,28 @@ void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
   char buffer[512];
   int j;
   const char *name = specialist_rule_name(specialist_by_number(id));
+  const char *graphic_alt = specialist_by_number(id)->graphic_alt;
 
   for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
+    /* Try rule name + index number */
     fc_snprintf(buffer, sizeof(buffer), "specialist.%s_%d", name, j);
     t->sprites.specialist[id].sprite[j] = load_sprite(t, buffer);
+
+    /* Break if no more index specific sprites are defined */
     if (!t->sprites.specialist[id].sprite[j]) {
       break;
     }
   }
+
+  /* Nothing? Try the alt tag */
+  if (j == 0) {
+    t->sprites.specialist[id].sprite[j] = load_sprite(t, graphic_alt);
+    j = 1;
+  }
+
   t->sprites.specialist[id].count = j;
+
+  /* Still nothing? Give up. */
   if (j == 0) {
     tileset_error(LOG_FATAL, _("No graphics for specialist \"%s\"."), name);
   }

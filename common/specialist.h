@@ -31,6 +31,8 @@ struct specialist {
   struct name_translation name;
   struct name_translation abbreviation;
 
+  char graphic_alt[MAX_LEN_NAME];
+
   struct requirement_vector reqs;
 
   struct strvec *helptext;
