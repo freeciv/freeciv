@@ -39,6 +39,7 @@ extern "C" {
 #endif
 
 #define _(String) gettext(String)
+#define DG_(domain, String) dgettext(domain, String)
 #define N_(String) String
 #define Q_(String) skip_intl_qualifier_prefix(gettext(String))
 #define PL_(String1, String2, n) ngettext((String1), (String2), (n))
@@ -46,6 +47,7 @@ extern "C" {
 #else  /* ENABLE_NLS */
 
 #define _(String) (String)
+#define DG_(domain, String) (String)
 #define N_(String) String
 #define Q_(String) skip_intl_qualifier_prefix(String)
 #define PL_(String1, String2, n) ((n) == 1 ? (String1) : (String2))

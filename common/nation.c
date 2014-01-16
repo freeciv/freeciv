@@ -319,7 +319,7 @@ const char *nation_legend_translation(const struct nation_type *pnation,
     return _(legend);
   }
 
-  return dgettext(pnation->translation_domain, legend);
+  return DG_(pnation->translation_domain, legend);
 }
 
 /****************************************************************************
