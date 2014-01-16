@@ -826,12 +826,12 @@ static void improve(struct reqtree *tree)
 
   If pplayer is not NULL, techs unreachable to that player are not shown.
 *************************************************************************/
-struct reqtree *create_reqtree(struct player *pplayer, bool reachable)
+struct reqtree *create_reqtree(struct player *pplayer, bool show_all)
 {
   struct reqtree *tree1, *tree2;
   int i, j;
 
-  tree1 = create_dummy_reqtree(pplayer, reachable);
+  tree1 = create_dummy_reqtree(pplayer, show_all);
   longest_path_layering(tree1);
   tree2 = add_dummy_nodes(tree1);
   destroy_reqtree(tree1);

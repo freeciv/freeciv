@@ -36,7 +36,7 @@ extern "C" {
 
 struct reqtree;
 
-struct reqtree *create_reqtree(struct player *pplayer, bool reachable);
+struct reqtree *create_reqtree(struct player *pplayer, bool show_all);
 void destroy_reqtree(struct reqtree *tree);
 
 void get_reqtree_dimensions(struct reqtree *tree,
