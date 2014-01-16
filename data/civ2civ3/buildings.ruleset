@@ -1650,8 +1650,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Ceremonial Burial", "Player"
     }
-graphic	= "b.oracle"
-graphic_alt	= "-"
+graphic         = "b.mausoleum"
+graphic_alt     = "b.oracle"
 obsolete_by	=
     { "type", "name", "range"
       "Tech", "Explosives", "World"
@@ -1674,8 +1674,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Polytheism", "Player"
     }
-graphic	= "b.statue_of_zeus"
-graphic_alt	= "b.oracle"
+graphic         = "b.statue_of_zeus"
+graphic_alt     = "b.oracle"
 obsolete_by	=
     { "type", "name", "range"
       "Tech", "Conscription", "World"
@@ -1698,8 +1698,8 @@ reqs	=
       "Tech", "Mysticism", "Player"
       "Building", "Temple", "City"
     }
-graphic	= "b.oracle"
-graphic_alt	= "-"
+graphic         = "b.temple_of_artemis"
+graphic_alt     = "b.oracle"
 obsolete_by	=
     { "type", "name", "range"
       "Tech", "Theology", "World"
