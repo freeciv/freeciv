@@ -53,7 +53,6 @@ struct road_type {
   int move_cost;
   enum road_move_mode move_mode;
   int build_time;
-  int defense_bonus;
   int tile_incr_const[O_LAST];
   int tile_incr[O_LAST];
   int tile_bonus[O_LAST];

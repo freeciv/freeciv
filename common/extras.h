@@ -72,6 +72,8 @@ struct extra_type
   struct requirement_vector rmreqs;
   bool buildable;
 
+  int defense_bonus;
+
   bv_unit_classes native_to;
 
   bv_extra_flags flags;

@@ -588,11 +588,12 @@ static int defense_bonus(const struct cityresult *result)
     10 + tile_terrain(result->tile)->defense_bonus / 10;
   int river_bonus = 0;
 
+  /* TODO: Check those extras that would survive on city tile, not roads */
   road_type_iterate(priver) {
     if (tile_has_road(result->tile, priver)) {
       /* TODO: Do not use full bonus of those road types
        *       that are not native to all important units. */
-      river_bonus += priver->defense_bonus;
+      river_bonus += road_extra_get(priver)->defense_bonus;
     }
   } road_type_iterate_end;
 

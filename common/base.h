@@ -63,7 +63,6 @@ struct base_type {
   Base_type_id item_number;
   enum base_gui_type gui_type;
   int build_time;
-  int defense_bonus;
   int border_sq;
   int vision_main_sq;
   int vision_invis_sq;

@@ -1390,6 +1390,9 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     if (!pextra->buildable) {
       secfile_insert_bool(sfile, pextra->buildable, "%s.buildable", path);
     }
+    if (pextra->defense_bonus != 0) {
+      secfile_insert_int(sfile, pextra->defense_bonus, "%s.defense_bonus", path);
+    }
 
     set_count = 0;
     unit_class_iterate(puc) {
@@ -1463,9 +1466,6 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     if (pbase->vision_main_sq >= 0) {
       secfile_insert_int(sfile, pbase->vision_main_sq, "%s.vision_main_sq", path);
     }
-    if (pbase->defense_bonus != 0) {
-      secfile_insert_int(sfile, pbase->defense_bonus, "%s.defense_bonus", path);
-    }
 
     set_count = 0;
     for (flagi = 0; flagi < BF_COUNT; flagi++) {
@@ -1503,10 +1503,6 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     }
 
     secfile_insert_int(sfile, proad->build_time, "%s.build_time", path);
-
-    if (proad->defense_bonus != 0) {
-      secfile_insert_int(sfile, proad->defense_bonus, "%s.defense_bonus", path);
-    }
 
     output_type_iterate(o) {
       if (proad->tile_incr_const[o] != 0) {

@@ -715,6 +715,7 @@ food        = 2
 ;                           and README.effects for help on requirements)
 ; rmreqs                  = requirements to remove the extra
 ; buildable               = Can extra be built? Defaults to TRUE
+; defense_bonus           = Percent added to defense when tile has the extra
 ; native_to               = List of unit classes that are considered to
 ;                           be inside the extra when they are on same tile
 ; conflicts               = List of extras that cannot be on the same tile.
@@ -815,6 +816,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
+defense_bonus  = 100
 native_to      = "Land"
 
 [extra_road]
@@ -884,7 +886,6 @@ native_to      = "Land"
 ; gui_type                = How gui should handle this base. Fortress/Airbase/Other
 ; build_time              = How long it takes for a unit to build this base. Value 0
 ;                           means that terrain specific value is used instead.
-; defense_bonus           = Percent added to defense
 ; border_sq               = Base will claim land ownership up to this radius,
 ;                           -1 to disable.
 ; vision_main_sq          = Base will have main layer vision to this radius
@@ -905,7 +906,6 @@ native_to      = "Land"
 name          = _("Fortress")
 gui_type      = "Fortress"
 build_time    = 3
-defense_bonus = 100
 flags         = "NoAggressive", "NoStackDeath", "DiplomatDefense"
 helptext       = _("\
 Fortresses improve defense for land units.\
@@ -925,7 +925,6 @@ Fortresses improve defense for land units.\
 ;   - "FastAlways" = Road cost applies always between two tiles with the roads (default)
 ; build_time              = how many movement points it takes to build this road. Value of
 ;                           0 means that terrain specific value is used instead.
-; defense_bonus           = Percent added to defense
 ; food_incr_const         = food production added to tile regardless of terrain
 ; shield_incr_const       = shield production added to tile regardless of terrain
 ; trade_incr_const        = trade production added to tile regardless of terrain
@@ -982,7 +981,6 @@ flags          = "RequiresBridge"
 
 [road_river]
 name           = _("River")
-defense_bonus  = 0
 move_cost      = 1
 move_mode      = "NoBonus"
 compat_special = "River"

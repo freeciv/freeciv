@@ -3271,6 +3271,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   fc_assert(pextra->rmreqs.size == p->rmreqs_count);
 
   pextra->buildable = p->buildable;
+  pextra->defense_bonus = p->defense_bonus;
 
   pextra->native_to = p->native_to;
 
@@ -3292,7 +3293,6 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
 
   pbase->gui_type = p->gui_type;
   pbase->build_time = p->build_time;
-  pbase->defense_bonus = p->defense_bonus;
   pbase->border_sq  = p->border_sq;
   pbase->vision_main_sq = p->vision_main_sq;
   pbase->vision_invis_sq = p->vision_invis_sq;
@@ -3314,7 +3314,6 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   proad->move_cost = p->move_cost;
   proad->move_mode = p->move_mode;
   proad->build_time = p->build_time;
-  proad->defense_bonus = p->defense_bonus;
 
   output_type_iterate(o) {
     proad->tile_incr_const[o] = p->tile_incr_const[o];

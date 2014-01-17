@@ -245,19 +245,12 @@ int tile_extras_class_defense_bonus(const struct tile *ptile,
 {
   int bonus = 0;
 
-  base_type_iterate(pbase) {
-    if (tile_has_base(ptile, pbase)
-        && is_native_extra_to_uclass(base_extra_get(pbase), pclass)) {
-      bonus += pbase->defense_bonus;
+  extra_type_iterate(pextra) {
+    if (tile_has_extra(ptile, pextra)
+        && is_native_extra_to_uclass(pextra, pclass)) {
+      bonus += pextra->defense_bonus;
     }
-  } base_type_iterate_end;
-
-  road_type_iterate(proad) {
-    if (tile_has_road(ptile, proad)
-        && is_native_extra_to_uclass(road_extra_get(proad), pclass)) {
-      bonus += proad->defense_bonus;
-    }
-  } road_type_iterate_end;
+  } extra_type_iterate_end;
 
   return bonus;
 }

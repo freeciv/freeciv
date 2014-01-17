@@ -2675,11 +2675,11 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
                 _("  * Can be captured by such units if at war with the "
                   "nation that currently owns it.\n"));
       }
-      if (pbase->defense_bonus) {
+      if (pextra->defense_bonus) {
         cat_snprintf(buf, bufsz,
                      _("  * Such units get a %d%% defense bonus on this "
                        "tile.\n"),
-                     pbase->defense_bonus);
+                     pextra->defense_bonus);
       }
       if (base_has_flag(pbase, BF_DIPLOMAT_DEFENSE)) {
         CATLSTR(buf, bufsz,
@@ -2795,11 +2795,11 @@ void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
                 _("  * Such units can move onto this tile even if it would "
                   "not normally be suitable terrain.\n"));
       }
-      if (proad->defense_bonus) {
+      if (pextra->defense_bonus) {
         cat_snprintf(buf, bufsz,
                      _("  * Such units get a %d%% defense bonus on this "
                        "tile.\n"),
-                     proad->defense_bonus);
+                     pextra->defense_bonus);
       }
     }
   }

@@ -968,6 +968,7 @@ shield      = 3 ; glacier used to have 4
 ;                           and README.effects for help on requirements)
 ; rmreqs                  = requirements to remove the extra
 ; buildable               = Can extra be built? Defaults to TRUE
+; defense_bonus           = Percent added to defense when tile has the extra
 ; native_to               = List of unit classes that are considered to
 ;                           be inside the extra when they are on same tile
 ; conflicts               = List of extras that cannot be on the same tile.
@@ -1121,6 +1122,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
+defense_bonus  = 100
 native_to      = "Land", "Big Land"
 
 [extra_airbase]
@@ -1257,6 +1259,7 @@ act_gfx_alt    = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 buildable      = FALSE
+defense_bonus  = 50
 native_to      = "Land", "Big Land", "Trireme"
 flags          = "NativeTile"
 
@@ -1271,7 +1274,6 @@ flags          = "NativeTile"
 ;                           base after a ruleset has been released.
 ; gui_type                = How gui should handle this base. Fortress/Airbase/Other
 ; build_time              = How long it takes for a unit to build this base
-; defense_bonus           = Percent added to defense
 ; border_sq               = Base will claim land ownership up to this radius,
 ;                           -1 to disable.
 ; vision_main_sq          = Base will have main layer vision to this radius
@@ -1291,7 +1293,6 @@ flags          = "NativeTile"
 name           = _("Fortress")
 gui_type       = "Fortress"
 build_time     = 3
-defense_bonus  = 100
 border_sq      = 5
 flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense"
 helptext       = _("\
@@ -1343,7 +1344,6 @@ They have no effect on gameplay.\
 ;   - "FastAlways" = Road cost applies always between two tiles with the roads (default)
 ; build_time              = how many movement points it takes to build this road. Value of
 ;                           0 means that terrain specific value is used instead.
-; defense_bonus           = Percent added to defense
 ; food_incr_const         = food production added to tile regardless of terrain
 ; shield_incr_const       = shield production added to tile regardless of terrain
 ; trade_incr_const        = trade production added to tile regardless of terrain
@@ -1412,7 +1412,6 @@ flags          = "RequiresBridge"
 
 [road_river]
 name           = _("River")
-defense_bonus  = 50
 move_cost      = 3
 move_mode      = "Cardinal"
 trade_incr_const = 1

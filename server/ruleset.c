@@ -3006,6 +3006,10 @@ static bool load_ruleset_terrain(struct section_file *file)
       pextra->buildable = secfile_lookup_bool_default(file, TRUE,
                                                       "%s.buildable", section);
 
+      pextra->defense_bonus  = secfile_lookup_int_default(file, 0,
+                                                          "%s.defense_bonus",
+                                                          section);
+
       slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
       BV_CLR_ALL(pextra->native_to);
       for (j = 0; j < nval; j++) {
@@ -3135,9 +3139,6 @@ static bool load_ruleset_terrain(struct section_file *file)
       pbase->vision_invis_sq  = secfile_lookup_int_default(file, -1,
                                                            "%s.vision_invis_sq",
                                                            section);
-      pbase->defense_bonus  = secfile_lookup_int_default(file, 0,
-                                                         "%s.defense_bonus",
-                                                         section);
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
       BV_CLR_ALL(pbase->flags);
@@ -3209,10 +3210,6 @@ static bool load_ruleset_terrain(struct section_file *file)
       proad->build_time = 0; /* default */
       lookup_time(file, &proad->build_time, section, "build_time",
                   filename, road_rule_name(proad), &ok);
-
-      proad->defense_bonus = secfile_lookup_int_default(file, 0,
-                                                        "%s.defense_bonus",
-                                                        section);
 
       output_type_iterate(o) {
         proad->tile_incr_const[o] =
@@ -5785,6 +5782,7 @@ static void send_ruleset_extras(struct conn_list *dest)
     packet.rmreqs_count = j;
 
     packet.buildable = e->buildable;
+    packet.defense_bonus = e->defense_bonus;
 
     packet.native_to = e->native_to;
 
@@ -5809,7 +5807,6 @@ static void send_ruleset_bases(struct conn_list *dest)
 
     packet.gui_type = b->gui_type;
     packet.build_time = b->build_time;
-    packet.defense_bonus = b->defense_bonus;
     packet.border_sq = b->border_sq;
     packet.vision_main_sq = b->vision_main_sq;
     packet.vision_invis_sq = b->vision_invis_sq;
@@ -5836,7 +5833,6 @@ static void send_ruleset_roads(struct conn_list *dest)
     packet.move_cost = r->move_cost;
     packet.move_mode = r->move_mode;
     packet.build_time = r->build_time;
-    packet.defense_bonus = r->defense_bonus;
 
     output_type_iterate(o) {
       packet.tile_incr_const[o] = r->tile_incr_const[o];
