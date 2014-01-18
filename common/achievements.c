@@ -127,7 +127,9 @@ struct player *achievement_plr(struct achievement *ach,
 
   players_iterate(pplayer) {
     if (achievement_check(ach, pplayer)) {
-      BV_SET(ach->achievers, player_index(pplayer));
+      if (!ach->unique) {
+        BV_SET(ach->achievers, player_index(pplayer));
+      }
       player_list_append(achievers, pplayer);
     }
   } players_iterate_end;
@@ -143,6 +145,9 @@ struct player *achievement_plr(struct achievement *ach,
     credited = player_list_get(achievers, fc_rand(player_list_size(achievers)));
 
     ach->first = credited;
+
+    /* Mark the selected player as the only one having the achievement */
+    BV_SET(ach->achievers, player_index(credited));
   }
 
   return credited;
