@@ -275,7 +275,7 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
 
   if (pText != NULL) {
     log_debug("SDL_create_str16_surf: Font is generally %d big, and "
-              "string is %hd big", TTF_FontHeight(pString->font), pText->h);
+              "string is %d big", TTF_FontHeight(pString->font), pText->h);
     log_debug("SDL_create_str16_surf: String is %d length", pText->w);
   } else {
     log_debug("SDL_create_str16_surf: pText NULL");
