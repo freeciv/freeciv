@@ -605,8 +605,7 @@ static bool lookup_unit_list(struct section_file *file, const char *prefix,
  array, which should hold MAX_NUM_TECH_LIST items. The output array is
  either A_LAST terminated or full (contains MAX_NUM_TECH_LIST
  items). All valid entries of the output array are guaranteed to
- exist. There should be at least one value, but it may be "",
- meaning empty list.
+ exist.
 **************************************************************************/
 static bool lookup_tech_list(struct section_file *file, const char *prefix,
                              const char *entry, int *output,
@@ -623,9 +622,7 @@ static bool lookup_tech_list(struct section_file *file, const char *prefix,
   }
   slist = secfile_lookup_str_vec(file, &nval, "%s.%s", prefix, entry);
   if (slist == NULL || nval == 0) {
-    ruleset_error(LOG_ERROR, "\"%s\": missing string vector %s.%s",
-                  filename, prefix, entry);
-    return FALSE;
+    return TRUE;
   } else if (nval > MAX_NUM_TECH_LIST) {
     ruleset_error(LOG_ERROR,
                   "\"%s\": string vector %s.%s too long (%d, max %d)",
@@ -671,8 +668,7 @@ static bool lookup_tech_list(struct section_file *file, const char *prefix,
   array, which should hold MAX_NUM_BUILDING_LIST items. The output array is
   either B_LAST terminated or full (contains MAX_NUM_BUILDING_LIST
   items). [All valid entries of the output array are guaranteed to pass
-  improvement_exist()?] There should be at least one value, but it may be
-  "", meaning an empty list.
+  improvement_exist()?]
 **************************************************************************/
 static bool lookup_building_list(struct section_file *file,
                                  const char *prefix, const char *entry,
@@ -688,17 +684,15 @@ static bool lookup_building_list(struct section_file *file,
     output[i] = B_LAST;
   }
   slist = secfile_lookup_str_vec(file, &nval, "%s.%s", prefix, entry);
-  if (nval == 0) {
-    ruleset_error(LOG_ERROR, "\"%s\": missing string vector %s.%s",
-                  filename, prefix, entry);
-    ok = FALSE;
-  } else if (nval > MAX_NUM_BUILDING_LIST) {
+  if (nval > MAX_NUM_BUILDING_LIST) {
     ruleset_error(LOG_ERROR,
                   "\"%s\": string vector %s.%s too long (%d, max %d)",
                   filename, prefix, entry, (int) nval, MAX_NUM_BUILDING_LIST);
     ok = FALSE;
-  } else if (nval == 1 && strcmp(slist[0], "") == 0) {
-    free(slist);
+  } else if (nval == 0 || (nval == 1 && strcmp(slist[0], "") == 0)) {
+    if (slist != NULL) {
+      FC_FREE(slist);
+    }
     return TRUE;
   }
   if (ok) {
