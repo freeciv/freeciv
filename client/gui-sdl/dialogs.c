@@ -1263,12 +1263,12 @@ const char *sdl_get_tile_defense_info_text(struct tile *ptile)
   static char buffer[64];
   int bonus = (tile_terrain(ptile)->defense_bonus - 10) * 10;
 
-  road_type_iterate(proad) {
-    if (tile_has_road(ptile, proad)
-        && road_has_flag(proad, RF_NATURAL)) {
-      bonus += road_extra_get(proad)->defense_bonus;
+  extra_type_iterate(pextra) {
+    if (tile_has_extra(ptile, pextra)
+        && pextra->category == ECAT_NATURAL) {
+      bonus += pextra->defense_bonus;
     }
-  } road_type_iterate_end;
+  } extra_type_iterate_end;
 
   fc_snprintf(buffer, sizeof(buffer), _("Terrain Defense Bonus: +%d%% "), bonus);
 
