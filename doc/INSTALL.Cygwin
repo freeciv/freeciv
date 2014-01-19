@@ -16,25 +16,53 @@ Recent versions come with an X server, Xorg.
 To install Freeciv for Cygwin:
 
 a) Install or update your Cygwin using the "Install Cygwin Now!" link
-   on http://www.cygwin.com/; many packages are required, and some
-   are a good idea to have; examples:
+   on http://www.cygwin.com/;
 
-      gcc, autoconf, automake, gettext, iconv, x11, libcurl
-  
-  If you have the disk space, install everything, just to be sure.
+   In addition to default install, install at least following packages
+   to build freeciv
+   (packages to be installed as dependency of another one in the list
+     are not listed):
+   - gcc-g++ (section Development)
+   - pkg-config (Development)
+   - make (Development)
+   - libiconv-devel (Libs)
+   - libcurl-devel (Libs)
+   - zlib-devel (Libs)
 
-b) Install gtk2 and/or gtk3, depending which freeciv client you
-   want to build.
+  Install development package for the gui you want to compile, one of
+  - libgtk2.0-devel (Libs)
+  - libgtk3-devel (Libs)
 
-c) Get a Freeciv source tree (this file is in its top directory).
+  For additional functionality install also:
+   - libreadline-devel (Libs)
+   - gettext-devel (Development)
+
+  To get and build freeciv development version directly from version control,
+  you need also
+   - subversion (Development)
+   - automake1.14 (Development)
+   - libtool (Development)
+
+  To run freeciv client, you need to install also
+  - xlaunch (X11)
+  - fontconfig (X11)
+
+b) Get a Freeciv source tree (this file is in its top directory).
    Put it in a temporary place like /tmp.
 
-      ./autogen.sh --enable-client=<gui> [any other options e.g. --prefix=...]
-   where <gui> is either "gtk2", "gtk3" or both as "gtk2,gtk3" 
+      ./configure --enable-client=<gui> [any other options e.g. --prefix=...]
+   where <gui> is either "gtk2", "gtk3" or both as "gtk2,gtk3". If you
+   didn't install gettext-devel, you have to give also configure option
+   --disable-nls to disable Native Language Support.
+
+   If you are building directly from version control, and not from
+   tarball that has some files, including ./configure, pregenerated,
+   you need to run ./autogen.sh instead of ./configure. Use same options
+   as you would for directly running ./configure.
 
    If you get messages of missing or outdated components, install them.
 
-d) Compile and install Freeciv:
+c) Compile and install Freeciv:
 
       make
       make install
@@ -43,13 +71,13 @@ You should now have bin/freeciv-server.exe and bin/freeciv-<gui>.exe in the
 directory you installed Freeciv into (/usr/local by default).
 If 'make install' succeeds, the source code tree can be removed.
 
-e) Test the results:
+d) Test the results:
 
     /path/to/freeciv-server.exe  [any additional options]
 
   will start the server, but you only need it for private games.
   To start the client, you need to run the X server (this can be
-  done by typing 'initx'), then into a terminal type
+  done by typing 'xlaunch'), then into a terminal type
 
     /path/to/freeciv-<gui>.exe  [any additional options]
 
