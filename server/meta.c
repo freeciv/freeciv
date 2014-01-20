@@ -313,9 +313,9 @@ static bool send_to_metaserver(enum meta_flag flag)
         netfile_add_form_str(post, "plt[]", type);
         netfile_add_form_str(post, "pll[]", player_name(plr));
         netfile_add_form_str(post, "pln[]",
-                             fc_url_encode(plr->nation != NO_NATION_SELECTED 
-                                           ? nation_plural_for_player(plr)
-                                           : "none"));
+                             plr->nation != NO_NATION_SELECTED 
+                             ? nation_plural_for_player(plr)
+                             : "none");
         netfile_add_form_str(post, "plh[]",
                              pconn ? pconn->addr : "");
 
