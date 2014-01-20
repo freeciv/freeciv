@@ -2235,18 +2235,16 @@ static inline bool
 pf_fuel_map_attack_is_possible(const struct pf_parameter *param,
                                int moves_left, int moves_left_req)
 {
-  if (BV_ISSET(param->unit_flags, UTYF_ONEATTACK)) {
-    if (param->fuel == 1) {
-      /* Case missile */
-      return TRUE;
+  if (uclass_has_flag(param->uclass, UCF_MISSILE)) {
+    /* Case missile */
+    return TRUE;
+  } else if (BV_ISSET(param->unit_flags, UTYF_ONEATTACK)) {
+    /* Case Bombers */
+    if (moves_left <= param->move_rate) {
+      /* We are in the last turn of fuel, don't attack */
+      return FALSE;
     } else {
-      /* Case Bombers */
-      if (moves_left <= param->move_rate) {
-        /* We are in the last turn of fuel, don't attack */
-        return FALSE;
-      } else {
-        return TRUE;
-      }
+      return TRUE;
     }
   } else {
     /* Case fighters */
@@ -2377,9 +2375,8 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
 
         moves_left = loc_moves_left - cost;
         if (moves_left < node1->moves_left_req
-            && (!BV_ISSET(params->unit_flags, UTYF_ONEATTACK)
-                || 1 != params->fuel
-                || 0 >= moves_left)) {
+            && (!uclass_has_flag(params->uclass, UCF_MISSILE)
+                || 0 > moves_left)) {
           /* We don't have enough moves left, but missiles
            * can do suicidal attacks. */
           continue;
