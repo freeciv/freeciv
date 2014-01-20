@@ -142,6 +142,25 @@ bool pq_remove(struct pqueue * q, pq_data_t *dest)
 }
 
 /*********************************************************************
+  Remove all cells where datum is stored.
+**********************************************************************/
+void pq_delete(struct pqueue *q, const pq_data_t datum)
+{
+  const pq_data_t *read = q->cells + 1;
+  pq_data_t *write = q->cells + 1;
+  int i;
+
+  for (i = q->size - 1; i > 0; i--) {
+    if (*read++ == datum) {
+      *write = *read;
+      q->size--;
+    } else {
+      write++;
+    }
+  }
+}
+
+/*********************************************************************
   Store the highest-ranking item in dest without removing it
  
   Return values:
