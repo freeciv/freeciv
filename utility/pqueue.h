@@ -22,6 +22,7 @@ struct pqueue *pq_create(int initial_size);
 void pq_destroy(struct pqueue *q);
 void pq_insert(struct pqueue *q, const pq_data_t datum, int datum_priority);
 bool pq_remove(struct pqueue *q, pq_data_t *dest);
+void pq_delete(struct pqueue *q, const pq_data_t datum);
 bool pq_peek(struct pqueue *q, pq_data_t *dest);
 
 #endif
