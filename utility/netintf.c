@@ -509,52 +509,6 @@ fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
   return fz_from_stream(fp);
 }
 
-/*************************************************************************
-  Returns TRUE if ch is an unreserved ASCII character.
-*************************************************************************/
-static bool is_url_safe(unsigned ch)
-{
-  const char *unreserved = "-_.!~*'|";
-
-  if ((ch>='a' && ch<='z') || (ch>='A' && ch<='Z') || (ch>='0' && ch<='9')) {
-    return TRUE;
-  } else {
-    return (strchr(unreserved, ch) != NULL);
-  }
-}
-
-/***************************************************************
-  URL-encode a string as per RFC 2396.
-  Should work for all ASCII based charsets: including UTF-8.
-***************************************************************/
-const char *fc_url_encode(const char *txt)
-{
-  static char buf[2048];
-  unsigned ch;
-  char *ptr;
-
-  /* in a worst case scenario every character needs "% HEX HEX" encoding. */
-  if (sizeof(buf) <= (3*strlen(txt))) {
-    return "";
-  }
-  
-  for (ptr = buf; *txt != '\0'; txt++) {
-    ch = (unsigned char) *txt;
-
-    if (is_url_safe(ch)) {
-      *ptr++ = *txt;
-    } else if (ch == ' ') {
-      *ptr++ = '+';
-    } else {
-      sprintf(ptr, "%%%2.2X", ch);
-      ptr += 3;
-    }
-  }
-  *ptr++ = '\0';
-
-  return buf;
-}
-
 /************************************************************************** 
   Finds the next (lowest) free port.
 **************************************************************************/ 
