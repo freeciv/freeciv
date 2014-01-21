@@ -203,6 +203,7 @@ type WORKLIST           = worklist(struct worklist)
 type ACTIVITY           = uint8(enum unit_activity)
 type AIRLIFTING_STYLE   = uint8(enum airlifting_style)
 type AUTH_TYPE          = uint8(enum authentication_type)
+type TECH_UPKEEP_STYLE  = uint8(enum tech_upkeep_style)
 type BASE_GUI           = uint8(enum base_gui_type)
 type BORDERS_MODE       = uint8(enum borders_mode)
 type CLAUSE             = uint8(enum clause_type)
@@ -492,7 +493,7 @@ PACKET_GAME_INFO = 16; sc
   UINT8 tech_cost_style;
   UINT8 tech_leakage;
   UINT16 tech_upkeep_divider;
-  UINT8 tech_upkeep_style;
+  TECH_UPKEEP_STYLE tech_upkeep_style;
   FTM free_tech_method;
   GLS gameloss_style;
   UINT32 timeout;

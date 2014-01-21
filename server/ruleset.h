@@ -31,4 +31,6 @@ void ruleset_error_real(const char *file, const char *function,
                        level, format, ## __VA_ARGS__);                  \
   }
 
+#define RS_DEFAULT_TECH_UPKEEP_STYLE     "None"
+
 #endif  /* FC__RULESET_H */

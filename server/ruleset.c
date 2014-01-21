@@ -4876,6 +4876,8 @@ static bool load_ruleset_game(const char *rsdir, bool act)
   }
 
   if (ok) {
+    const char *tus_text;
+
     game.server.init_vis_radius_sq
       = secfile_lookup_int_default_min_max(file,
                                            RS_DEFAULT_VIS_RADIUS_SQ,
@@ -4997,12 +4999,19 @@ static bool load_ruleset_game(const char *rsdir, bool act)
                                            "borders.size_effect");
 
     /* section: research */
-    game.info.tech_upkeep_style
-      = secfile_lookup_int_default_min_max(file,
-                                           RS_DEFAULT_TECH_UPKEEP_STYLE,
-                                           RS_MIN_TECH_UPKEEP_STYLE,
-                                           RS_MAX_TECH_UPKEEP_STYLE,
-                                           "research.tech_upkeep_style");
+    tus_text = secfile_lookup_str_default(file, RS_DEFAULT_TECH_UPKEEP_STYLE,
+                                          "research.tech_upkeep_style");
+
+    game.info.tech_upkeep_style = tech_upkeep_style_by_name(tus_text, fc_strcasecmp);
+
+    if (!tech_upkeep_style_is_valid(game.info.tech_upkeep_style)) {
+      ruleset_error(LOG_ERROR, "Unknown tech upkeep style \"%s\"",
+                    tus_text);
+      ok = FALSE;
+    }
+  }
+
+  if (ok) {
     game.info.tech_upkeep_divider
       = secfile_lookup_int_default_min_max(file,
                                            RS_DEFAULT_TECH_UPKEEP_DIVIDER,

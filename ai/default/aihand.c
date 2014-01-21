@@ -356,7 +356,7 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
 
   /* === Science === */
 
-  if (game.info.tech_upkeep_style == 1) {
+  if (game.info.tech_upkeep_style != TECH_UPKEEP_NONE) {
     /* Tech upkeep activated. */
     int tech_upkeep = research->tech_upkeep;
     int bulbs_researched = research->bulbs_researched;

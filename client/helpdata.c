@@ -2360,7 +2360,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
   /* FIXME: bases -- but there is no good way to find out which bases a tech
    * can enable currently, so we have to remain silent. */
 
-  if (game.info.tech_upkeep_style == 1) {
+  if (game.info.tech_upkeep_style != TECH_UPKEEP_NONE) {
     CATLSTR(buf, bufsz,
             _("* To preserve this technology for our nation some bulbs "
               "are needed each turn.\n"));

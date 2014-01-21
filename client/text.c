@@ -738,14 +738,14 @@ static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs)
         ours += pcity->prod[O_SCIENCE];
       } city_list_iterate_end;
 
-      if (game.info.tech_upkeep_style == 1) {
+      if (game.info.tech_upkeep_style != TECH_UPKEEP_NONE) {
         ours -= player_research_get(pplayer)->tech_upkeep;
       }
     } else if (presearch == player_research_get(pplayer)) {
       team = TRUE;
       theirs += pplayer->bulbs_last_turn;
 
-      if (game.info.tech_upkeep_style == 1) {
+      if (game.info.tech_upkeep_style != TECH_UPKEEP_NONE) {
         theirs -= presearch->tech_upkeep;
       }
     }
@@ -824,7 +824,7 @@ const char *science_dialog_text(void)
   astr_free(&ourbuf);
   astr_free(&theirbuf);
 
-  if (game.info.tech_upkeep_style == 1) {
+  if (game.info.tech_upkeep_style != TECH_UPKEEP_NONE) {
     /* perturn is defined as: (bulbs produced) - upkeep */
     astr_add_line(&str, _("Bulbs produced per turn: %d"), perturn + upkeep);
     /* TRANS: keep leading space; appended to "Bulbs produced per turn: %d" */
@@ -1020,7 +1020,7 @@ const char *get_info_label_text_popup(void)
 		  advance_name_researching(client.conn.playing),
 		  get_science_target_text(NULL));
     /* perturn is defined as: (bulbs produced) - upkeep */
-    if (game.info.tech_upkeep_style == 1) {
+    if (game.info.tech_upkeep_style != TECH_UPKEEP_NONE) {
       astr_add_line(&str, _("Bulbs per turn: %d - %d = %d"), perturn + upkeep,
                     upkeep, perturn);
     } else {
