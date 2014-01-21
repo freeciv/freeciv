@@ -1337,30 +1337,6 @@ struct fileinfo_list *fileinfolist_infix(const struct strvec *dirs,
 }
 
 /***************************************************************************
-  As datafilename(), above, except die with an appropriate log
-  message if we can't find the file in the datapath.
-***************************************************************************/
-const char *fileinfoname_required(const struct strvec *dirs,
-                                  const char *filename)
-{
-  const char *dname;
-
-  fc_assert_exit(NULL != filename);
-  dname = fileinfoname(dirs, filename);
-
-  if (dname) {
-    return dname;
-  } else {
-    /* TRANS: <FREECIV_PATH> configuration error */
-    log_error(_("The path may be set via the \"%s\" environment variable."),
-              FREECIV_PATH);
-    log_error(_("Current path is: \"%s\""), fileinfoname(dirs, NULL));
-    log_fatal(_("The \"%s\" file is required ... aborting!"), filename);
-    exit(EXIT_FAILURE);
-  }
-}
-
-/***************************************************************************
   Language environmental variable (with emulation).
 ***************************************************************************/
 char *get_langname(void)
