@@ -20,7 +20,7 @@ Use FILE as logfile
 \fB\-v\fR, \fB\-\-version\fR
 Print the version number
 .SH DESCRIPTION
-This tool can be used to generate 5 HTML pages with the documentation
+This tool can be used to generate 6 HTML pages with the documentation
 for freeciv-server. The pages cover several topics in detail, including:
 
 \fB*\fP Wonders
@@ -28,6 +28,8 @@ for freeciv-server. The pages cover several topics in detail, including:
 \fB*\fP Buildings
 
 \fB*\fP Terrain
+
+\fB*\fP Governments
 
 \fB*\fP Server commands and
 
