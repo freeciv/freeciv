@@ -30,7 +30,7 @@ extern "C" {
 struct fz_FILE_s;		  /* opaque */
 typedef struct fz_FILE_s fz_FILE;
 
-/* (Possibly) supported methods (depending on config.h). */
+/* (Possibly) supported methods (depending on fc_config.h). */
 enum fz_method {
   FZ_PLAIN = 0,
 #ifdef HAVE_LIBZ

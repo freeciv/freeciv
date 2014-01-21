@@ -16,7 +16,7 @@
   available on all platforms.  Where the functions are available
   natively, these are (mostly) just wrappers.
 
-  Notice the function names here are prefixed by, eg, "my".  An
+  Notice the function names here are prefixed by, eg, "fc".  An
   alternative would be to use the "standard" function name, and
   provide the implementation only if required.  However the method
   here has some advantages:
@@ -27,12 +27,12 @@
    finds a function and defines HAVE_FOO does not necessarily say
    whether or not there is a _prototype_ for the function available.)
 
-   - We don't have to include config.h in support.h, but can instead
+   - We don't have to include fc_config.h in support.h, but can instead
    restrict it to this .c file.
 
    - We can add some extra stuff to these functions if we want.
 
-  The main disadvantage is remembering to use these "my" functions on
+  The main disadvantage is remembering to use these "fc" functions on
   systems which have the functions natively.
 
 **********************************************************************/
