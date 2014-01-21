@@ -163,10 +163,6 @@ struct strvec *fileinfolist(const struct strvec *dirs, const char *suffix);
 struct fileinfo_list *fileinfolist_infix(const struct strvec *dirs,
                                          const char *infix, bool nodups);
 const char *fileinfoname(const struct strvec *dirs, const char *filename);
-struct strvec *fileinfonames(const struct strvec *dirs,
-                             const char *filename);
-const char *fileinfoname_required(const struct strvec *dirs,
-                                  const char *filename);
 
 char *get_langname(void);
 void init_nls(void);
