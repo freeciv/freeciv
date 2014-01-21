@@ -4620,7 +4620,7 @@ static void save_cma_presets(struct section_file *file)
   Returns pointer to static memory containing name of the current
   option file.  Usually used for saving.
   Ie, based on FREECIV_OPT env var, and home dir. (or a
-  OPTION_FILE_NAME define defined in config.h)
+  OPTION_FILE_NAME define defined in fc_config.h)
   Or NULL if problem.
 *****************************************************************/
 static const char *get_current_option_file_name(void)
@@ -4653,7 +4653,7 @@ static const char *get_current_option_file_name(void)
 /****************************************************************************
   Check the last option file we saved. Usually used to load. Ie, based on
   FREECIV_OPT env var, and home dir. (or a OPTION_FILE_NAME define defined
-  in config.h), or NULL if not found.
+  in fc_config.h), or NULL if not found.
 
   Set in allow_digital_boolean if we should look for old boolean values
   (saved as 0 and 1), so if the rc file version is older than 2.3.0.

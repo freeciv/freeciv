@@ -27,13 +27,13 @@
   Notice the struct timer is an opaque type: modules outside timing.c
   can only use it as a pointer (cf FILE type).  This is done for two
   main reasons:
-  
+
    1. General principle of data hiding and encapsulation
-   
-   2. Means we don't have to include config.h and possibly system
+
+   2. Means we don't have to include fc_config.h and possibly system
       specific header files in timing.h.  Such stuff is confined
       inside timing.c.
-      
+
   However there is a disadvantage: any code using a timer must do
   memory allocation and deallocation for it.  Some of the functions
   below are intended to make this reasonably convenient; see function
