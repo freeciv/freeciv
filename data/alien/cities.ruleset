@@ -36,29 +36,41 @@ options="+Freeciv-ruleset-Devel-2013.Apr.23"
 ;
 ; */ <-- avoid gettext warnings
 
-[specialist_elvis]
-name            = _("elvis")
-short_name      = _("?Elvis:E")
+[specialist_culturists]
+name            = _("Culturists")
+short_name      = _("?Culturists:C")
+graphic_alt     = "specialist.elvis_0"
 reqs            =
     { "type", "name", "range"
 ; No requirements
     }
+helptext = _("\
+Culturists create works that keep people satisfied. They create two luxury \
+points per turn, four if Specialist Training tech is known.")
 
 [specialist_scientist]
-name		= _("scientist")
+name		= _("Scientists")
 short_name	= _("?Scientist:S")
+graphic_alt     = "specialist.scientist_0"
 reqs		=
     { "type", "name", "range"
 ; Nothing
     }
+helptext = _("\
+Scientist reseach two bulbs worth of science each turn, four bulbs \
+when Specialist Training tech is known.")
 
-[specialist_taxman]
-name		= _("taxman")
-short_name	= _("?Taxman:T")
+[specialist_government_merchant]
+name		= _("Government Merchants")
+short_name	= _("?Merchant:M")
+graphic_alt     = "specialist.taxman_0"
 reqs		=
     { "type", "name", "range"
 ; Nothing
     }
+helptext = _("\
+Government Merchants produce two gold for the government each turn,
+four once Specialist Training tech is known.")
 
 [parameters]
 add_to_size_limit  = 8		; cities >= this cannot be added to.

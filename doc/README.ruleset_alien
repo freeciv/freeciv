@@ -1,6 +1,6 @@
 
 =======================================================
-Alien World ruleset for Freeciv (Updated 16-Mar-2013)
+Alien World ruleset for Freeciv (Updated 18-Jan-2014)
 =======================================================
 
 Design Philosophy:
@@ -10,7 +10,7 @@ Alien ruleset is very different from standard rules - it
 has been one of the design goals of the ruleset that it
 should provide users with "second game" to play with
 Freeciv. We hope you can enjoy both more standard rulesets
-and Alien ruleset, not just selecting one of them to play.
+and Alien ruleset, not selecting just one of them to play.
 
 
 More info:
@@ -64,3 +64,8 @@ This list is incomplete
 
 - Each movement point is divided to 4 fragments. IgTer movement
   costs 2 fragments, river movement 2, road 2, highway 1.
+
+- Specialists have been renamed, but their effects remain the same
+  Elvis     -> Culturists
+  Scientist -> Scientists
+  Taxman    -> Government Merchants

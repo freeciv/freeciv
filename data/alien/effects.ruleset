@@ -66,22 +66,22 @@ value   = 10
 type    = "Enable_Space"
 value	= 1
 
-[effect_elvis]
+[effect_culturists]
 type    = "Specialist_Output"
 value   = 2
 reqs    =
     { "type", "name", "range"
-      "Specialist", "elvis", "Local"
+      "Specialist", "Culturists", "Local"
       "OutputType", "luxury", "Local"
     }
 
-[effect_expert_elvis]
+[effect_expert_culturists]
 type    = "Specialist_Output"
 value   = 2
 reqs    =
     { "type", "name", "range"
       "Tech", "Specialist Training", "Player"
-      "Specialist", "elvis", "Local"
+      "Specialist", "Culturists", "Local"
       "OutputType", "luxury", "Local"
     }
 
@@ -90,7 +90,7 @@ type    = "Specialist_Output"
 value   = 2
 reqs    =
     { "type", "name", "range"
-      "Specialist", "scientist", "Local"
+      "Specialist", "Scientists", "Local"
       "OutputType", "science", "Local"
     }
 
@@ -100,26 +100,26 @@ value   = 2
 reqs    =
     { "type", "name", "range"
       "Tech", "Specialist Training", "Player"
-      "Specialist", "scientist", "Local"
+      "Specialist", "Scientists", "Local"
       "OutputType", "science", "Local"
     }
 
-[effect_taxman]
+[effect_government_merchant]
 type    = "Specialist_Output"
 value   = 2
 reqs    =
     { "type", "name", "range"
-      "Specialist", "taxman", "Local"
+      "Specialist", "Government Merchants", "Local"
       "OutputType", "gold", "Local"
     }
 
-[effect_expert_taxman]
+[effect_expert_government_merchant]
 type    = "Specialist_Output"
 value   = 2
 reqs    =
     { "type", "name", "range"
       "Tech", "Specialist Training", "Player"
-      "Specialist", "taxman", "Local"
+      "Specialist", "Government Merchants", "Local"
       "OutputType", "gold", "Local"
     }
 
