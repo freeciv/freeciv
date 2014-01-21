@@ -57,6 +57,8 @@ void ruleset_error_real(const char *file, const char *function,
 #define GAME_DEFAULT_ACH_UNIQUE          TRUE
 #define GAME_DEFAULT_ACH_VALUE           1
 
+#define RS_DEFAULT_TECH_UPKEEP_STYLE     "None"
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

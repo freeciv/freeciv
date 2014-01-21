@@ -241,6 +241,8 @@ are unaffected).
 
 Tech_Upkeep_Free
     If this value is greater than 0, the tech upkeep is reduced by this value.
+    For tech upkeep style "Basic" this is total reduction, for tech upkeep
+    style "Cities" this reduction is applied to every city.
 
 No_Unhappy
     No citizens in the city are ever unhappy.

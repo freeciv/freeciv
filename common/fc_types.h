@@ -461,6 +461,18 @@ BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
 #define SPECENUM_VALUE2NAME "Loot"
 #include "specenum_gen.h"
 
+/* Used in the network protocol. */
+#define SPECENUM_NAME tech_upkeep_style
+/* No upkeep */
+#define SPECENUM_VALUE0 TECH_UPKEEP_NONE
+#define SPECENUM_VALUE0NAME "None"
+/* Normal tech upkeep */
+#define SPECENUM_VALUE1 TECH_UPKEEP_BASIC
+#define SPECENUM_VALUE1NAME "Basic"
+/* Tech upkeep multiplied by number of cities */
+#define SPECENUM_VALUE2 TECH_UPKEEP_PER_CITY
+#define SPECENUM_VALUE2NAME "Cities"
+#include "specenum_gen.h"
 
 /* Used in the network protocol. */
 enum phase_mode_types {

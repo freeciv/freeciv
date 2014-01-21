@@ -312,7 +312,7 @@ static int dai_goldequiv_clause(struct ai_type *ait,
       worth += compute_tech_sell_price(aplayer, pplayer, pclause->value,
                                        &is_dangerous);
 
-      if (game.info.tech_upkeep_style == 1) {
+      if (game.info.tech_upkeep_style != TECH_UPKEEP_NONE) {
         /* Consider the upkeep costs! Thus, one can not get an AI player by
          * - given AI lots of techs for gold/cities etc.
          * - AI losses tech due to high upkeep. 

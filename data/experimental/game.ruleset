@@ -303,10 +303,11 @@ size_effect    = 1
 
 [research]
 ; Method of paying tech upkeep
-; 0 - no upkeep
-; 1 - upkeep is calculated as:
-;     <Cost of technology> / tech_upkeep_divider + tech_upkeep_free
-tech_upkeep_style = 1
+; "None"   - no upkeep
+; "Basic"  - upkeep is calculated as:
+;     <Cost of technology> / tech_upkeep_divider - tech_upkeep_free
+; "Cities" - upkeep is calculated like "Basic", but multiplied by number of cities
+tech_upkeep_style = "Basic"
 
 ; upkeep cost is divided by this value
 tech_upkeep_divider = 2000
