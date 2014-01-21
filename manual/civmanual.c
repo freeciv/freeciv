@@ -41,6 +41,7 @@
 #include "fc_cmdhelp.h"
 #include "fc_types.h" /* LINE_BREAK */
 #include "game.h"
+#include "government.h"
 #include "improvement.h"
 #include "map.h"
 #include "player.h"
@@ -71,6 +72,7 @@ enum manuals {
   MANUAL_TERRAIN,
   MANUAL_BUILDINGS,
   MANUAL_WONDERS,
+  MANUAL_GOVS,
   MANUAL_COUNT
 };
 
@@ -401,6 +403,18 @@ static bool manual_command(void)
                 : _("None"));
         fprintf(doc, "<td>%s</td>\n</tr>\n\n", buf);
       } improvement_iterate_end;
+      break;
+
+    case MANUAL_GOVS:
+      /* FIXME: this doesn't resemble the wiki manual at all. */
+      fprintf(doc, _("<h1>Freeciv %s governments help</h1>\n\n"), VERSION_STRING);
+      governments_iterate(pgov) {
+        char buf[64000];
+        fprintf(doc, "%s%s%s\n\n", SECTION_BEGIN,
+                government_name_translation(pgov), SECTION_END);
+        helptext_government(buf, sizeof(buf), NULL, NULL, pgov);
+        fprintf(doc, "%s\n\n", buf);
+      } governments_iterate_end;
       break;
 
     case MANUAL_COUNT:
