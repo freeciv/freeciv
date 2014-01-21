@@ -25,8 +25,8 @@ extern "C" {
 #define SPECENUM_VALUE1NAME "PreventsOtherRoads"
 #define SPECENUM_VALUE2 RF_RIVER
 #define SPECENUM_VALUE2NAME "River"
-#define SPECENUM_VALUE3 RF_NATURAL
-#define SPECENUM_VALUE3NAME "Natural"
+#define SPECENUM_VALUE3 RF_UNRESTRICTED_INFRA
+#define SPECENUM_VALUE3NAME "UnrestrictedInfra"
 #define SPECENUM_COUNT RF_COUNT
 #define SPECENUM_BITVECTOR bv_road_flags
 #include "specenum_gen.h"
