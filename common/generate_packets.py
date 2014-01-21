@@ -22,7 +22,7 @@ generate_stats=0
 
 # generate_logs will generate log calls to debug the delta code.
 generate_logs=1
-use_log_macro="log_packet"
+use_log_macro="log_packet_detailed"
 generate_variant_logs=1
 
 ### The following parameters CHANGE the protocol. You have been warned.
