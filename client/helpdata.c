@@ -3315,7 +3315,9 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
     }
   } unit_type_iterate_end;
 
-  CATLSTR(buf, bufsz, user_text);
+  if (user_text && user_text[0] != '\0') {
+    cat_snprintf(buf, bufsz, "\n%s", user_text);
+  }
 }
 
 /****************************************************************
