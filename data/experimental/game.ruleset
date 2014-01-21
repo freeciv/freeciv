@@ -189,7 +189,7 @@ size_effect    = 1
 ; Method of paying tech upkeep
 ; 0 - no upkeep
 ; 1 - upkeep is calculated as:
-;     <Cost of technology> / tech_upkeep_divider + tech_upkeep_free
+;     <Cost of technology> / tech_upkeep_divider - tech_upkeep_free
 tech_upkeep_style = 1
 
 ; upkeep cost is divided by this value
