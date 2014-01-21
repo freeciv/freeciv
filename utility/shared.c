@@ -929,8 +929,9 @@ static struct strvec *base_get_dirs(const char *dir_list)
 /***************************************************************************
   Returns a list of data directory paths, in the order in which they should
   be searched.  These paths are specified internally or may be set as the
-  environment variable $FREECIV_PATH (a separated list of directories,
+  environment variable $FREECIV_DATA PATH (a separated list of directories,
   where the separator itself is specified internally, platform-dependent).
+  FREECIV_PATH may also be consulted for backward compatibility.
   '~' at the start of a component (provided followed by '/' or '\0') is
   expanded as $HOME.
 
@@ -973,8 +974,9 @@ const struct strvec *get_data_dirs(void)
 /***************************************************************************
   Returns a list of save directory paths, in the order in which they should
   be searched.  These paths are specified internally or may be set as the
-  environment variable $FREECIV_PATH (a separated list of directories,
+  environment variable $FREECIV_SAVE_PATH (a separated list of directories,
   where the separator itself is specified internally, platform-dependent).
+  FREECIV_PATH may also be consulted for backward compatibility.
   '~' at the start of a component (provided followed by '/' or '\0') is
   expanded as $HOME.
 
@@ -1033,9 +1035,10 @@ const struct strvec *get_save_dirs(void)
 /***************************************************************************
   Returns a list of scenario directory paths, in the order in which they
   should be searched.  These paths are specified internally or may be set
-  as the environment variable $FREECIV_PATH (a separated list of
+  as the environment variable $FREECIV_SCENARIO_PATH (a separated list of
   directories, where the separator itself is specified internally,
-  platform-dependent).  '~' at the start of a component (provided followed
+  platform-dependent).  FREECIV_PATH may also be consulted for backward
+  compatibility.  '~' at the start of a component (provided followed
   by '/' or '\0') is expanded as $HOME.
 
   The returned pointer is static and shouldn't be modified, nor destroyed

@@ -248,48 +248,46 @@ Sets the local encoding (used for terminal output).
 .BI FREECIV_MULTICAST_GROUP
 Sets the multicast group (for the LAN tab).
 .TP
-.BI FREECIV_PATH
-A colon separated list of directories pointing to the
-.B freeciv
-directory. By default freeciv looks in the following directories,
-in order, for any data files: the current directory; the "data" subdirectory
-of the current directory; the subdirectories ".freeciv" and
-".freeciv/@DATASUBDIR@" in the user's home directory; and the directory where
-the files are placed by running "make install".  This setting has no effect if
-\fBFREECIV_DATA_PATH\fP, \fBFREECIV_SAVE_PATH\fP and
-\fBFREECIV_SCENARIO_PATH\fP are defined together.
-.TP
 .BI FREECIV_DATA_PATH
 A colon separated list of directories pointing to the
 .B freeciv
-data directories. By default freeciv looks in the following directories,
+data directories. By default Freeciv looks in the following directories,
 in order, for any data files: the current directory; the "data" subdirectory
 of the current directory; the subdirectory ".freeciv/@DATASUBDIR@" in the user's
 home directory; and the directory where the files are placed by running
 "make install".  If not set,
 .BI FREECIV_PATH
-is used instead.
+is checked before these defaults are used.
 .TP
 .BI FREECIV_SAVE_PATH
 A colon separated list of directories pointing to the
 .B freeciv
-save directories. By default freeciv looks in the following directories,
-in order, for any data files: the current directory; and the subdirectory
-".freeciv/saves" in the user's home directory.  If not set,
-.BI FREECIV_PATH
-is used instead, looking also in "saves" potential subdirectories.
+save directories. By default Freeciv looks in the following directories,
+in order, for save files: the current directory; and the subdirectory
+".freeciv/saves" in the user's home directory.  If not set, \fBFREECIV_PATH\fP
+is checked before these defaults are used; in this case Freeciv also
+looks in "saves" potential subdirectories.
 .TP
 .BI FREECIV_SCENARIO_PATH
 A colon separated list of directories pointing to the
 .B freeciv
-data directories. By default freeciv looks in the following directories,
-in order, for any data files: the current directory; the "data/scenario"
-subdirectory of the current directory; the subdirectory ".freeciv/scenarios"
+scenario directories. By default Freeciv looks in the following directories,
+in order, for scenario files: the current directory; the "data/scenario"
+subdirectory of the current directory; the subdirectories
+".freeciv/@DATASUBDIR@/scenarios" and then ".freeciv/scenarios"
 in the user's home directory; and the directory where the files are placed
-by running "make install".  If not set,
+by running "make install".  If not set, \fBFREECIV_PATH\fP
+is checked before these defaults are used; in this case Freeciv also
+looks in "scenario" and "scenarios" potential subdirectories.
+.TP
 .BI FREECIV_PATH
-is used instead, looking also in "scenario" and "scenarios" potential
-subdirectories.
+A colon separated list of directories to look for various files.
+This variable has no effect if \fBFREECIV_DATA_PATH\fP,
+\fBFREECIV_SAVE_PATH\fP and \fBFREECIV_SCENARIO_PATH\fP are defined
+together; those variables are the recommended way to override paths, with
+\fBFREECIV_PATH\fP provided for backward compatibility with older versions
+of Freeciv. The precise search path depends on the type of file being
+searched for.
 .TP
 .BI HOME
 Specifies the user's home directory.
