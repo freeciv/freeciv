@@ -24,6 +24,46 @@ enabled or not the action should be shown in case it is. If the player tries
 to do an illegal action the unit will loose a bit movement and the server
 will inform the player that his unit was unable to perform it.
 
+Example
+=======
+[actionenabler_veil_the_threat_of_terror]
+action = "Incite City"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "DiplRel", "Has Casus Belli", "Local", TRUE
+      "DiplRel", "Provided Casus Belli", "Local", FALSE
+    }
+
+[actionenabler_go_bind_your_sons_to_exile]
+action = "Incite City"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "Tech", "Flight", "Player", TRUE
+    }
+target_reqs    =
+    { "type",   "name", "range", "present"
+      "Tech", "Writing", "Player", False
+    }
+
+Above are two action enablers. They both enable the action "Incite City". If
+all the conditions of at least one of them are fulfilled it will be enabled.
+No information is given to the player about what action enabler enabled an
+action.
+
+The first action enabler, actionenabler_veil_the_threat_of_terror, is
+simple. It allows a player to incite a city if he has a reason to declare
+war on its owner AND the cities owner don't have a reason to declare war on
+him.
+
+The second action enabler, actionenabler_go_bind_your_sons_to_exile, is more
+complex. It allows a player that has Flight to bribe the cities of
+civilizations that don't have writing. The complexity is caused by the
+requirement that the target don't know writing. If the civilization of the
+target city knows writing or not may be unknown to the acting player. To
+avoid this complexity a requirement that the acting player has an embassy to
+the target cities civilization (and therefore knowledge about its techs) can
+be added.
+
 Actions and their hard coded requirements
 =========================================
 
