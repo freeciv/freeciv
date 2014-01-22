@@ -150,7 +150,7 @@ name          = _("?unitclass:Merchant")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "BuildAnywhere", "DoesntOccupyTile",
-                "TerrainDefense"
+                "TerrainDefense", "TerrainSpeed"
 
 [unitclass_sea]
 ; /* TRANS: Unit class: used adjectivally */
@@ -2183,7 +2183,7 @@ attack        = 0
 defense       = 1
 hitpoints     = 10
 firepower     = 1
-move_rate     = 3
+move_rate     = 1
 vision_radius_sq = 2
 transport_cap = 0
 fuel          = 0
@@ -2221,7 +2221,7 @@ attack        = 0
 defense       = 1
 hitpoints     = 10
 firepower     = 1
-move_rate     = 6
+move_rate     = 2
 vision_radius_sq = 2
 transport_cap = 0
 fuel          = 0
