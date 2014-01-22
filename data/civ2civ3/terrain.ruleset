@@ -1247,7 +1247,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Land", "Local"
     }
-native_to      = "Land", "Small Land", "Big Land", "Merchant"
+native_to      = "Land", "Small Land", "Big Land"
 flags          = "NativeTile", "AutoOnCityCenter"
 
 [extra_river]
