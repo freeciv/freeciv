@@ -1013,11 +1013,11 @@ AM_CONDITIONAL([MODINST_GTK3], [test "x$fcmp_gtk3" = "xyes"])
 AM_CONDITIONAL([MODINST_GTK2], [test "x$fcmp_gtk2" = "xyes"])
 AM_CONDITIONAL([MODINST_QT], [test "x$fcmp_qt" = "xyes"])
 
+AC_ARG_VAR([MOCCMD], [the QT 5 moc command. Default is 'moc'])
 if test "x$MOCCMD" = "x" ; then
   dnl There's no user-set moc command, use 'moc'
   MOCCMD="moc"
 fi
-AC_SUBST([MOCCMD])
 
 AC_ARG_ENABLE([ruledit],
   AS_HELP_STRING([--enable-ruledit], [build freeciv-ruledit (WIP)]),
