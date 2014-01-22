@@ -418,25 +418,64 @@ bool can_build_extra(struct extra_type *pextra,
 }
 
 /****************************************************************************
-  Tells if player can remove extra to tile with suitable unit.
+  Is it possible at all to remove this extra now
+****************************************************************************/
+static bool can_extra_be_removed(const struct extra_type *pextra,
+                                 const struct tile *ptile)
+{
+  struct city *pcity = tile_city(ptile);
+
+  /* Cannot remove EF_ALWAYS_ON_CITY_CENTER extras from city center. */
+  if (pcity != NULL) {
+    if (extra_has_flag(pextra, EF_ALWAYS_ON_CITY_CENTER)) {
+      return FALSE;
+    }
+    if (extra_has_flag(pextra, EF_AUTO_ON_CITY_CENTER)) {
+      struct tile *vtile = tile_virtual_new(ptile);
+
+      /* Would extra get rebuilt if removed */ 
+      tile_remove_extra(vtile, pextra);
+      if (player_can_build_extra(pextra, city_owner(pcity), vtile)) {
+        /* No need to worry about conflicting extras - extra would had
+         * not been here if conflicting one is. */
+        return FALSE;
+      }
+    }
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Tells if player can remove extra from tile with suitable unit.
 ****************************************************************************/
 bool player_can_remove_extra(const struct extra_type *pextra,
                              const struct player *pplayer,
                              const struct tile *ptile)
 {
+  if (!can_extra_be_removed(pextra, ptile)) {
+    return FALSE;
+  }
+
   return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
                          NULL, NULL, NULL, &pextra->rmreqs,
                          RPT_POSSIBLE);
 }
 
 /****************************************************************************
-  Tells if unit can remove extra on tile.
+  Tells if unit can remove extra from tile.
 ****************************************************************************/
 bool can_remove_extra(struct extra_type *pextra,
                       const struct unit *punit,
                       const struct tile *ptile)
 {
-  struct player *pplayer = unit_owner(punit);
+  struct player *pplayer;
+
+  if (!can_extra_be_removed(pextra, ptile)) {
+    return FALSE;
+  } 
+
+  pplayer = unit_owner(punit);
 
   return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
                          unit_type(punit), NULL, NULL, &pextra->rmreqs,

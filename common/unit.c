@@ -1221,31 +1221,26 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
           int idx = extra_index(pextra);
 
           /* Only one unit can pillage a given improvement at a time */
-          if (BV_ISSET(pspresent, idx) && !BV_ISSET(psworking, idx)) {
-            /* Cannot pillage roads from city tiles. */
-            /* FIXME: Should depend on flags. Also bases. */
-            if (!is_extra_caused_by(pextra, EC_ROAD) || !tile_city(ptile)) {
-              if (can_remove_extra(pextra, punit, ptile)) {
-                bool required = FALSE;
+          if (BV_ISSET(pspresent, idx) && !BV_ISSET(psworking, idx)
+              && can_remove_extra(pextra, punit, ptile)) {
+            bool required = FALSE;
 
-                extra_type_iterate(pdepending) {
-                  if (BV_ISSET(pspresent, extra_index(pdepending))) {
-                    extra_deps_iterate(&(pdepending->reqs), pdep) {
-                      if (pdep == pextra) {
-                        required = TRUE;
-                        break;
-                      }
-                    } extra_deps_iterate_end;
-                  }
-                  if (required) {
+            extra_type_iterate(pdepending) {
+              if (BV_ISSET(pspresent, extra_index(pdepending))) {
+                extra_deps_iterate(&(pdepending->reqs), pdep) {
+                  if (pdep == pextra) {
+                    required = TRUE;
                     break;
                   }
-                } extra_type_iterate_end;
-
-                if (!required) {
-                  BV_SET(pspossible, idx);
-                }
+                } extra_deps_iterate_end;
               }
+              if (required) {
+                break;
+              }
+            } extra_type_iterate_end;
+
+            if (!required) {
+              BV_SET(pspossible, idx);
             }
           }
         } extra_type_iterate_end;
