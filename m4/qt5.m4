@@ -42,7 +42,7 @@ done])
 
   if test "x$qt5_libs" = "xyes" ; then
     AC_MSG_RESULT([found])
-    fc_qt5_usable=true
+    FC_QT5_VALIDATE_MOC([fc_qt5_usable=true], [fc_qt5_usable=false])
   else
     AC_MSG_RESULT([not found])
     fc_qt5_usable=false
@@ -99,3 +99,32 @@ AC_DEFUN([FC_QT5_LINKTEST],
  CPPFLAGS="${CPPFLAGS_SAVE}"
  CXXFLAGS="${CXXFLAGS_SAVE}"
 ])
+
+dnl If $1 is Qt 5's moc command then $2 else $3
+AC_DEFUN([FC_QT5_IF_QT5_MOC],
+  AS_IF([test "`$1 -v 2<&1 | grep -o 'Qt [[[0-9]]]\+'`" = "Qt 5"],
+    [$2], [$3]))
+
+dnl Set MOCCMD to $1 if it is the Qt 5 "moc". If not run $2 parameter.
+AC_DEFUN([FC_QT5_TRY_MOC],
+  [FC_QT5_IF_QT5_MOC([$1], [MOCCMD="$1"], [$2])])
+
+AC_ARG_VAR([MOCCMD], [QT 5 moc command (autodetected it if not set)])
+
+dnl If a usable moc command is found do $1 else do $2
+AC_DEFUN([FC_QT5_VALIDATE_MOC], [
+  AC_MSG_CHECKING([the Qt 5 moc command])
+
+  dnl Try to find a Qt 5 'moc' if MOCCMD isn't set.
+  dnl Test that the supplied MOCCMD is a Qt 5 'moc' if it is set.
+  AS_IF([test "x$MOCCMD" = "x"],
+    [FC_QT5_TRY_MOC([moc],
+      [FC_QT5_TRY_MOC([qtchooser -run-tool=moc -qt=5],
+        [MOCCMD=""])])],
+    [FC_QT5_TRY_MOC([$MOCCMD],
+      AC_MSG_ERROR(["MOCCMD set to a bad value ($MOCCMD)"]))])
+
+  dnl If no Qt 5 'moc' was found do $2, else do $1
+  AS_IF([test "x$MOCCMD" = "x"],
+    [AC_MSG_RESULT([not found]); $2],
+    [AC_MSG_RESULT([$MOCCMD]); $1])])
