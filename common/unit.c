@@ -1187,23 +1187,66 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
         } tile_special_type_iterate_end;
 
         BV_CLR_ALL(bspossible);
-        base_type_iterate(pb) {
-          Base_type_id b = base_index(pb);
-          if (BV_ISSET(bspresent, b) && !BV_ISSET(bsworking, b)) {
-            BV_SET(bspossible, b);
+        base_type_iterate(bp) {
+          struct city *pcity = tile_city(ptile);
+          bool cannot_pillage = FALSE;
+
+          /* Cannot pillage BF_ALWAYS_ON_CITY_CENTER bases from city center */
+          if (pcity != NULL) {
+            if (base_has_flag(bp, BF_ALWAYS_ON_CITY_CENTER)) {
+              cannot_pillage = TRUE;
+            } else if (base_has_flag(bp, BF_AUTO_ON_CITY_CENTER)) {
+              struct tile *vtile = tile_virtual_new(ptile);
+
+              /* Would base get rebuilt if removed */ 
+              tile_remove_base(vtile, bp);
+              if (player_can_build_base(bp, city_owner(pcity), vtile)) {
+                /* No need to worry about conflicting bases - base would had
+                 * not been here if conflicting one is. */
+                cannot_pillage = TRUE;
+              }
+            }
+          }
+
+          if (!cannot_pillage) {
+            Base_type_id b = base_index(bp);
+
+            if (BV_ISSET(bspresent, b) && !BV_ISSET(bsworking, b)) {
+              BV_SET(bspossible, b);
+            }
           }
         } base_type_iterate_end;
 
         BV_CLR_ALL(rspossible);
-        if (!tile_city(ptile)) {
-          /* Cannot pillage roads from city tiles */
-          road_type_iterate(pr) {
+        road_type_iterate(pr) {
+          struct city *pcity = tile_city(ptile);
+          bool cannot_pillage = FALSE;
+
+          /* Cannot pillage RF_ALWAYS_ON_CITY_CENTER roads from city center */
+          if (pcity != NULL) {
+            if (road_has_flag(pr, RF_ALWAYS_ON_CITY_CENTER)) {
+              cannot_pillage = TRUE;
+            } else if (road_has_flag(pr, RF_AUTO_ON_CITY_CENTER)) {
+              struct tile *vtile = tile_virtual_new(ptile);
+
+              /* Would road get rebuilt if removed */ 
+              tile_remove_road(vtile, pr);
+              if (player_can_build_road(pr, city_owner(pcity), vtile)) {
+                /* No need to worry about conflicting roads - road would had
+                 * not been here if conflicting one is. */
+                cannot_pillage = TRUE;
+              }
+            }
+          }
+
+          if (!cannot_pillage) {
             Road_type_id r = road_index(pr);
+
             if (BV_ISSET(rspresent, r) && !BV_ISSET(rsworking, r)) {
               BV_SET(rspossible, r);
             }
-          } road_type_iterate_end;
-        }
+          }
+        } road_type_iterate_end;
 
         if (!BV_ISSET_ANY(pspossible)
             && !BV_ISSET_ANY(bspossible)
