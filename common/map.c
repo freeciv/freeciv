@@ -752,9 +752,11 @@ static int tile_move_cost_ptrs(const struct unit *punit,
        * e.g. ground units moving from sea to land */
       if (punit != NULL) {
         return punit->moves_left;
+      } else {
+        /* Needs to be bigger than SINGLE_MOVE * move_rate * MAX(1, fuel)
+         * for the most mobile unit possible. */
+        return FC_INFINITY;
       }
-      /* TODO: Could we return something like FC_INFINITY here, or would
-       * some caller then assume that move is not possible at all? */
     } else {
       /* Disembarking / leaving port. */
       return SINGLE_MOVE;
