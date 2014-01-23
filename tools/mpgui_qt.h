@@ -34,7 +34,7 @@ class mpgui : public QObject
   Q_OBJECT
 
   public:
-    void setup(QWidget *central);
+    void setup(QWidget *central, struct fcmp_params *fcmp);
     void display_msg(const char *msg);
     void progress(int downloaded, int max);
     void setup_list(const char *name, const char *URL,

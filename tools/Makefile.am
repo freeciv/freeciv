@@ -12,6 +12,9 @@ bin_PROGRAMS += freeciv-manual
 endif
 endif
 
+if MODINST_CLI
+bin_PROGRAMS += freeciv-mp-cli
+endif
 if MODINST_GTK2
 bin_PROGRAMS += freeciv-mp-gtk2
 endif
@@ -71,6 +74,21 @@ libfcmp_la_SOURCES = \
 		mpcmdline.h	\
 		mpdb.c		\
 		mpdb.h
+
+if MODINST_CLI
+freeciv_mp_cli_CPPFLAGS = $(common_cppflags) $(MP_cli_CFLAGS)
+
+freeciv_mp_cli_SOURCES = mpcli.c
+
+freeciv_mp_cli_LDFLAGS = $(MP_cli_LDFLAGS)
+
+freeciv_mp_cli_LDADD = \
+		libfcmp.la \
+		$(top_builddir)/common/libfreeciv.la \
+		$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
+		$(MAPIMG_WAND_LIBS) \
+		$(MP_cli_LIBS)
+endif
 
 if MODINST_GTK2
 freeciv_mp_gtk2_CPPFLAGS = $(common_cppflags) $(MP_gtk2_CFLAGS)

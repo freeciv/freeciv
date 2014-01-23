@@ -44,7 +44,8 @@ static gboolean downloading = FALSE;
 
 struct fcmp_params fcmp = {
   .list_url = MODPACK_LIST_URL,
-  .inst_prefix = NULL
+  .inst_prefix = NULL,
+  .autoinstall = NULL
 };
 
 static gboolean quit_dialog_callback(void);
@@ -509,6 +510,10 @@ int main(int argc, char *argv[])
     modinst_setup_widgets(toplevel);
 
     gtk_widget_show_all(toplevel);
+
+    if (fcmp.autoinstall != NULL) {
+      gui_download_modpack(fcmp.autoinstall);
+    }
 
     gtk_main();
 
