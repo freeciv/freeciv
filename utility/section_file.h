@@ -33,7 +33,10 @@ struct section {
 struct section_file {
   char *name;                           /* Can be NULL. */
   size_t num_entries;
-  size_t num_includes;
+  /* num_includes should be size_t, but as there's no truly portable
+   * printf format for size_t and we need to construct string containing
+   * num_includes with fc_snprintf(), we set for unsigned int. */
+  unsigned int num_includes;
   struct section_list *sections;
   bool allow_duplicates;
   bool allow_digital_boolean;
