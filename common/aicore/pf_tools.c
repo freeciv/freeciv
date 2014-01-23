@@ -327,6 +327,9 @@ static int igter_move_unit(const struct tile *ptile,
         && (is_non_allied_unit_tile(ptile1, param->owner) 
             || is_non_allied_city_tile(ptile1, param->owner))) {
       move_cost = PF_IMPOSSIBLE_MC;
+    } else if (game.info.slow_invasions
+               && tile_city(ptile1) == NULL) {
+      move_cost = param->move_rate;
     } else {
       move_cost = MOVE_COST_IGTER;
     }

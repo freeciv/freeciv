@@ -2226,6 +2226,27 @@ static void pf_fuel_map_create_segment(struct pf_fuel_map *pffm,
 }
 
 /****************************************************************************
+  Adjust cost for move_rate and fuel usage.
+****************************************************************************/
+static int pf_fuel_map_adjust_cost(const int cost,
+                                   const int moves_left,
+                                   const int move_rate)
+{
+  int remaining_moves;
+
+  if (cost == PF_IMPOSSIBLE_MC) {
+    return PF_IMPOSSIBLE_MC;
+  }
+
+  remaining_moves = moves_left % move_rate;
+  if (remaining_moves == 0) {
+    remaining_moves = move_rate;
+  }
+
+  return MIN(cost, remaining_moves);
+}
+
+/****************************************************************************
   This function returns whether a unit with or without fuel can attack.
 
   moves_left: moves left before the attack.
@@ -2369,6 +2390,11 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
         } else {
           cost = params->get_MC(tile, dir, tile1, params);
         }
+        if (cost == PF_IMPOSSIBLE_MC) {
+          continue;
+        }
+
+        cost = pf_fuel_map_adjust_cost(cost, loc_moves_left, params->move_rate);
         if (cost == PF_IMPOSSIBLE_MC) {
           continue;
         }
