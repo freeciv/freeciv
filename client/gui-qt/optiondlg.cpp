@@ -36,10 +36,6 @@
 #include "options.h"
 #include <client_main.h>
 
-#define SPECLIST_TAG option_dialog
-#define SPECLIST_TYPE struct option_dialog
-#include "speclist.h"
-
 enum {
   RESPONSE_CANCEL,
   RESPONSE_OK,
