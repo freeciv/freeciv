@@ -65,6 +65,10 @@ int fcmp_parse_cmdline(int argc, char *argv[])
                   /* TRANS: "prefix" is exactly what user must type, do not translate. */
                   _("prefix DIR"),
                   _("Install modpacks to given directory hierarchy"));
+      cmdhelp_add(help, "i",
+                  /* TRANS: "install" is exactly what user must type, do not translate. */
+                  _("install URL"),
+                  _("Automatically install modpack from a given URL"));
       cmdhelp_add(help, "v", "version",
                   _("Print the version number"));
       /* The function below prints a header and footer for the options.
@@ -77,6 +81,8 @@ int fcmp_parse_cmdline(int argc, char *argv[])
       fcmp.list_url = option;
     } else if ((option = get_option_malloc("--prefix", argv, &i, argc))) {
       fcmp.inst_prefix = option;
+    } else if ((option = get_option_malloc("--install", argv, &i, argc))) {
+      fcmp.autoinstall = option;
     } else if (is_option("--version", argv[i])) {
       fc_fprintf(stderr, "%s \n", freeciv_name_version());
 

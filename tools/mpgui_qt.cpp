@@ -42,7 +42,7 @@
 
 #include "mpgui_qt.h"
 
-struct fcmp_params fcmp = { MODPACK_LIST_URL, NULL };
+struct fcmp_params fcmp = { MODPACK_LIST_URL, NULL, NULL };
 
 static mpgui *gui;
 
@@ -68,6 +68,8 @@ static void setup_modpack_list(const char *name, const char *URL,
                                const char *notes);
 static void msg_callback(const char *msg);
 static void progress_callback(int downloaded, int max);
+
+static void gui_download_modpack(QString URL);
 
 /**************************************************************************
   Entry point for whole freeciv-mp-qt program.
@@ -102,7 +104,7 @@ int main(int argc, char **argv)
 
     gui = new mpgui;
 
-    gui->setup(central);
+    gui->setup(central, &fcmp);
 
     main_window->setCentralWidget(central);
     main_window->setVisible(true);
@@ -111,6 +113,7 @@ int main(int argc, char **argv)
     if (errmsg != NULL) {
       gui->display_msg(errmsg);
     }
+
     qapp->exec();
 
     if (worker != NULL) {
@@ -152,7 +155,7 @@ static void progress_callback(int downloaded, int max)
 /**************************************************************************
   Setup GUI object
 **************************************************************************/
-void mpgui::setup(QWidget *central)
+void mpgui::setup(QWidget *central, struct fcmp_params *fcmp)
 {
 #define URL_LABEL_TEXT "Modpack URL"
   QVBoxLayout *main_layout = new QVBoxLayout();
@@ -185,7 +188,11 @@ void mpgui::setup(QWidget *central)
   hl->addWidget(URL_label);
 
   URLedit = new QLineEdit(central);
-  URLedit->setText(DEFAULT_URL_START);
+  if (fcmp->autoinstall == NULL) {
+    URLedit->setText(DEFAULT_URL_START);
+  } else {
+    URLedit->setText(QString::fromUtf8(fcmp->autoinstall));
+  }
   URLedit->setFocus();
 
   connect(URLedit, SIGNAL(returnPressed()), this, SLOT(URL_given()));
@@ -226,20 +233,28 @@ void mpgui::progress(int downloaded, int max)
 }
 
 /**************************************************************************
-  User entered URL
+  Download modpack from given URL
 **************************************************************************/
-void mpgui::URL_given()
+static void gui_download_modpack(QString URL)
 {
   if (worker != NULL) {
     if (worker->isRunning()) {
-      display_msg(_("Another download already active"));
+      gui->display_msg(_("Another download already active"));
       return;
     }
   } else {
     worker = new mpqt_worker;
   }
 
-  worker->download(URLedit->text(), this, &fcmp, msg_callback, progress_callback);
+  worker->download(URL, gui, &fcmp, msg_callback, progress_callback);
+}
+
+/**************************************************************************
+  User entered URL
+**************************************************************************/
+void mpgui::URL_given()
+{
+  gui_download_modpack(URLedit->text());
 }
 
 /**************************************************************************

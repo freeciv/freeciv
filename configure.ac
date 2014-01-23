@@ -886,13 +886,19 @@ AM_CONDITIONAL([CLIENT], [test "x$client" = "xyes"])
 
 dnl freeciv-modpack checks
 AC_ARG_ENABLE([fcmp],
-  AS_HELP_STRING([--enable-fcmp=no/yes/gtk2/gtk3/qt/all/auto], [build freeciv-modpack-program [auto]]),
+  AS_HELP_STRING([--enable-fcmp=no/yes/gtk2/gtk3/qt/cli/all/auto], [build freeciv-modpack-program [auto]]),
 [fc_mp=${enableval}],
 [fc_mp=auto])
 
+fcmp_cli=no
 fcmp_gtk2=no
 fcmp_gtk3=no
 fcmp_qt=no
+
+if test "x$fc_mp" = "xcli" ; then
+  dnl Only cli requested -> no gui needed
+  modinst=cli
+fi
 
 for mp in $(echo $fc_mp | $SED 's/,/ /g') ; do
   if test "x$mp" = "xno" ; then
@@ -913,6 +919,8 @@ for mp in $(echo $fc_mp | $SED 's/,/ /g') ; do
       req_fcmp_gtk3=yes
     elif test "x$mp" = "xqt" ; then
       req_fcmp_qt=yes
+    elif test "x$mp" = "xcli" ; then
+      req_fcmp_cli=yes
     elif test "x$mp" != "xyes" ; then
       AC_MSG_ERROR([bad value ${mp} for --enable-fcmp])
     fi
@@ -994,8 +1002,14 @@ if test "x$req_fcmp_qt" = "xyes" && test "x$fcmp_qt" != "xyes" ; then
   AC_MSG_ERROR([Cannot build Qt-version of freeciv-modpack as requested])
 fi
 
+dnl Cli does not satisfy --enable-fcmp=auto as it's not an gui.
+if test "x$req_fcmp_cli" = "xyes" || test "x$modinst" = "xall" ; then
+  fcmp_cli=yes
+fi
+
 if test "x$modinst" != "xfound" &&
    test "x$modinst" != "xno" &&
+   test "x$modinst" != "xcli" &&
    test "x$fcmp_gtk3" != "xyes" &&
    test "x$fcmp_gtk2" != "xyes" &&
    test "x$fcmp_qt" != "xyes" ;then
@@ -1012,6 +1026,7 @@ AM_CONDITIONAL([MODINST], [test "x$modinst" != "xno"])
 AM_CONDITIONAL([MODINST_GTK3], [test "x$fcmp_gtk3" = "xyes"])
 AM_CONDITIONAL([MODINST_GTK2], [test "x$fcmp_gtk2" = "xyes"])
 AM_CONDITIONAL([MODINST_QT], [test "x$fcmp_qt" = "xyes"])
+AM_CONDITIONAL([MODINST_CLI], [test "x$fcmp_cli" = "xyes"])
 
 AC_ARG_ENABLE([ruledit],
   AS_HELP_STRING([--enable-ruledit], [build freeciv-ruledit (WIP)]),
@@ -1063,6 +1078,9 @@ AC_SUBST([GUI_stub_LDFLAGS])
 AC_SUBST([GUI_beos_CFLAGS])
 AC_SUBST([GUI_beos_LIBS])
 AC_SUBST([GUI_beos_LDFLAGS])
+AC_SUBST([MP_cli_CFLAGS])
+AC_SUBST([MP_cli_LIBS])
+AC_SUBST([MP_cli_LDFLAGS])
 AC_SUBST([MP_gtk2_CFLAGS])
 AC_SUBST([MP_gtk2_LIBS])
 AC_SUBST([MP_gtk2_LDFLAGS])

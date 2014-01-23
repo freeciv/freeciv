@@ -17,6 +17,7 @@ struct fcmp_params
 {
   const char *list_url;
   const char *inst_prefix;
+  const char *autoinstall;
 };
 
 #if IS_DEVEL_VERSION
