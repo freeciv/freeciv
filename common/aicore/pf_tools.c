@@ -44,7 +44,8 @@ static inline int single_move_cost(const struct pf_parameter *param,
       && !is_safe_ocean(dest_tile)) {
     return PF_IMPOSSIBLE_MC;
   } else {
-    return map_move_cost(param->owner, param->uclass, src_tile, dest_tile);
+    return map_move_cost(param->owner, param->uclass, src_tile, dest_tile,
+           BV_ISSET(param->unit_flags, UTYF_IGTER));
   }
 }
 
@@ -162,7 +163,7 @@ static int normal_move_unit(const struct tile *ptile, enum direction8 dir,
 
   if (!is_native_tile_to_class(param->uclass, ptile1)) {
     if (unit_class_transporter_capacity(ptile1, param->owner, param->uclass) > 0) {
-      move_cost = SINGLE_MOVE;
+      move_cost = single_move_cost(param, ptile, ptile1);
     } else if (tile_city(ptile1)
                && (uclass_has_flag(param->uclass, UCF_BUILD_ANYWHERE)
                    || is_native_near_tile(param->uclass, ptile)
@@ -272,107 +273,6 @@ static int land_overlap_move(const struct tile *ptile,
   return move_cost;
 }
 
-/************************************************************ 
-  Reversed LAND_MOVE cost function for a unit.
-  Will be used. DO NOT REMOVE.
-************************************************************/
-#ifdef UNUSED
-static int reverse_move_unit(const struct tile *tile0,
-                             enum direction8 dir,
-                             const struct tile *ptile,
-                             const struct pf_parameter *param)
-{
-  int move_cost = PF_IMPOSSIBLE_MC;
-
-  if (!is_native_tile_to_class(param->uclass, ptile)) {
-    if (unit_class_transporter_capacity(ptile, param->owner,
-                                        param->uclass) > 0) {
-      /* Landing */
-      move_cost = terrain0->movement_cost * SINGLE_MOVE;
-    } else {
-      /* Nothing to land from */
-      move_cost = PF_IMPOSSIBLE_MC;
-    }
-  } else if (!is_native_tile_to_class(param->uclass, tile0)) {
-    /* Boarding */
-    move_cost = SINGLE_MOVE;
-  } else {
-    move_cost = ptile->move_cost[DIR_REVERSE(dir)];
-  }
-
-  return move_cost;
-}
-#endif /* UNUSED */
-
-/************************************************************ 
-  IGTER_MOVE cost function for a unit 
-************************************************************/
-static int igter_move_unit(const struct tile *ptile,
-                           enum direction8 dir,
-                           const struct tile *ptile1,
-                           const struct pf_parameter *param)
-{
-  int move_cost;
-
-  if (!is_native_tile_to_class(param->uclass, ptile1)) {
-    if (unit_class_transporter_capacity(ptile1, param->owner,
-                                        param->uclass) > 0) {
-      move_cost = MOVE_COST_IGTER;
-    } else {
-      move_cost = PF_IMPOSSIBLE_MC;
-    }
-  } else if (!is_native_tile_to_class(param->uclass, ptile)) {
-    if (!BV_ISSET(param->unit_flags, UTYF_MARINES)
-        && !uclass_has_flag(param->uclass, UCF_ATT_FROM_NON_NATIVE)
-        && (is_non_allied_unit_tile(ptile1, param->owner) 
-            || is_non_allied_city_tile(ptile1, param->owner))) {
-      move_cost = PF_IMPOSSIBLE_MC;
-    } else if (game.info.slow_invasions
-               && tile_city(ptile1) == NULL) {
-      move_cost = param->move_rate;
-    } else {
-      move_cost = MOVE_COST_IGTER;
-    }
-  } else {
-    move_cost = (map_move_cost(param->owner, param->uclass, ptile, ptile1) != 0
-                 ? MOVE_COST_IGTER : 0);
-  }
-
-  return move_cost;
-}
-
-/************************************************************ 
-  Reversed IGTER_MOVE cost function for a unit.
-  Will be used. DO NOT REMOVE.
-************************************************************/
-#ifdef UNUSED
-static int reverse_igter_move_unit(const struct tile *tile0,
-                                   enum direction8 dir,
-                                   const struct tile *ptile,
-                                   const struct pf_parameter *param)
-{
-  int move_cost;
-
-  if (!is_native_tile_to_class(param->uclass, ptile)) {
-    if (unit_class_transporter_capacity(ptile, param->owner,
-                                        param->uclass) > 0) {
-      /* Landing */
-      move_cost = MOVE_COST_IGTER;
-    } else {
-      move_cost = PF_IMPOSSIBLE_MC;
-    }
-  } else if (!is_native_tile_to_class(param->uclass, tile0)) {
-    /* Boarding */
-    move_cost = MOVE_COST_IGTER;
-  } else {
-    move_cost =
-	(ptile->move_cost[DIR_REVERSE(dir)] != 0 ? MOVE_COST_IGTER : 0);
-  }
-  return move_cost;
-}
-#endif /* UNUSED */
-
-
 /****************************************************************************
   A cost function for amphibious movement.
 ****************************************************************************/
@@ -423,23 +323,6 @@ static int amphibious_move(const struct tile *ptile, enum direction8 dir,
 }
 
 /* ===================== Extra Cost Callbacks ======================== */
-
-/*********************************************************************
-  An example of EC callback.  DO NOT REMOVE you pricks!
-*********************************************************************/
-#ifdef UNUSED
-static int afraid_of_dark_forest(const struct tile *ptile,
-                                 enum known_type known,
-                                 const struct pf_parameter *param)
-{
-  if (terrain_number(tile_terrain(ptile)) == T_FOREST) {
-    /* Willing to spend extra 2 turns to go around a forest tile */
-    return PF_TURN_FACTOR * 2;
-  }
-
-  return 0;
-}
-#endif /* UNUSED */
 
 /****************************************************************************
   Extra cost call back for amphibious movement
@@ -788,11 +671,7 @@ static void pft_fill_parameter(struct pf_parameter *parameter,
 {
   switch (utype_move_type(punittype)) {
   case UMT_LAND:
-    if (utype_has_flag(punittype, UTYF_IGTER)) {
-      parameter->get_MC = igter_move_unit;
-    } else {
-      parameter->get_MC = normal_move_unit;
-    }
+    parameter->get_MC = normal_move_unit;
     break;
   case UMT_SEA:
     if (can_attack_non_native(punittype)) {

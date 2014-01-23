@@ -3034,11 +3034,9 @@ static int pf_reverse_map_get_costs(const struct tile *to_tile,
   } else if (!is_native_tile_to_class(param->uclass, to_tile)
              && !tile_city(to_tile)) {
     return -1;  /* Impossible move. */
-  } else if (BV_ISSET(param->unit_flags, UTYF_IGTER)) {
-    cost = MIN(map_move_cost(param->owner, param->uclass, from_tile, to_tile),
-               SINGLE_MOVE);
   } else {
-    cost = map_move_cost(param->owner, param->uclass, from_tile, to_tile);
+    cost = map_move_cost(param->owner, param->uclass, from_tile, to_tile,
+                         BV_ISSET(param->unit_flags, UTYF_IGTER));
   }
 
   if (to_cost + cost > FC_PTR_TO_INT(param->data)) {

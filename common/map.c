@@ -684,18 +684,17 @@ bool can_channel_land(const struct tile *ptile)
 static int tile_move_cost_ptrs(const struct unit *punit,
                                const struct unit_class *pclass,
                                const struct player *pplayer,
-			       const struct tile *t1, const struct tile *t2)
+                               const struct tile *t1, const struct tile *t2,
+                               bool igter)
 {
   int cost;
   bool cardinal_move;
   bool ri;
-  bool igter = FALSE;
 
   fc_assert(punit == NULL || pclass == NULL || unit_class(punit) == pclass);
 
   if (punit) {
     pclass = unit_class(punit);
-    igter = unit_has_type_flag(punit, UTYF_IGTER);
   }
 
   if (pclass != NULL) {
@@ -810,16 +809,18 @@ static bool restrict_infra(const struct player *pplayer, const struct tile *t1,
 int map_move_cost_unit(struct unit *punit, const struct tile *ptile)
 {
   return tile_move_cost_ptrs(punit, NULL, unit_owner(punit),
-                             unit_tile(punit), ptile);
+                             unit_tile(punit), ptile,
+                             unit_has_type_flag(punit, UTYF_IGTER));
 }
 
 /***************************************************************
   Move cost between two tiles
 ***************************************************************/
 int map_move_cost(const struct player *pplayer, const struct unit_class *pclass,
-                  const struct tile *src_tile, const struct tile *dst_tile)
+                  const struct tile *src_tile, const struct tile *dst_tile,
+                  bool igter)
 {
-  return tile_move_cost_ptrs(NULL, pclass, pplayer, src_tile, dst_tile);
+  return tile_move_cost_ptrs(NULL, pclass, pplayer, src_tile, dst_tile, igter);
 }
 
 /***************************************************************

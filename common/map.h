@@ -363,7 +363,8 @@ bool is_move_cardinal(const struct tile *src_tile,
 int map_move_cost_unit(struct unit *punit, const struct tile *ptile);
 int map_move_cost(const struct player *pplayer, const struct unit_class *pclass,
                   const struct tile *src_tile,
-                  const struct tile *dst_tile);
+                  const struct tile *dst_tile,
+                  bool igter);
 bool is_safe_ocean(const struct tile *ptile);
 bv_extras get_tile_infrastructure_set(const struct tile *ptile,
                                       int *count);
