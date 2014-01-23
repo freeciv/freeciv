@@ -25,6 +25,9 @@
 #include "log.h"
 #include "registry.h"
 
+// common
+#include "game.h"
+
 // ruledit
 #include "ruledit_qt.h"
 #include "rulesave.h"
@@ -50,7 +53,7 @@ tab_misc::tab_misc(QWidget *parent, ruledit_gui *ui_in) :
   name_label->setParent(this);
   main_layout->addWidget(name_label, 0, 0);
   name = new QLineEdit(this);
-  name->setText("");
+  name->setText(game.control.name);
   main_layout->addWidget(name, 0, 1);
   save_label = new QLabel(R__("Save to directory"));
   save_label->setParent(this);
@@ -71,7 +74,15 @@ tab_misc::tab_misc(QWidget *parent, ruledit_gui *ui_in) :
 **************************************************************************/
 void tab_misc::save_now()
 {
-  save_ruleset(savedir->text().toUtf8().data(), name->text().toUtf8().data());
+  char nameUTF8[MAX_LEN_NAME];
+
+  strncpy(nameUTF8, name->text().toUtf8().data(), sizeof(nameUTF8));
+
+  if (nameUTF8 != NULL && nameUTF8[0] != '\0') {
+    strncpy(game.control.name, nameUTF8, sizeof(game.control.name));
+  }
+
+  save_ruleset(savedir->text().toUtf8().data(), nameUTF8);
 
   ui->display_msg(R__("Ruleset saved"));
 }
