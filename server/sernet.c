@@ -254,7 +254,10 @@ void close_connections_and_socket(void)
   for (i = 0; i < listen_count; i++) {
     fc_closesocket(listen_socks[i]);
   }
-  fc_closesocket(socklan);
+
+  if (srvarg.announce != ANNOUNCE_NONE) {
+    fc_closesocket(socklan);
+  }
 
 #ifdef HAVE_LIBREADLINE
   if (history_file) {
@@ -1366,6 +1369,10 @@ static void get_lanserver_announcement(void)
   struct timeval tv;
 
   if (with_ggz) {
+    return;
+  }
+
+  if (srvarg.announce == ANNOUNCE_NONE) {
     return;
   }
 
