@@ -2,4 +2,6 @@
 /Makefile
 /.deps
 /meta_ruledit_qt.cpp
+/meta_tab_misc.cpp
+/meta_tab_tech.cpp
 /freeciv-ruledit
