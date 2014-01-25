@@ -1,4 +1,5 @@
 /Makefile.in
 /Makefile
 /POTFILES
+/freeciv-ruledit.pot
 /*.gmo
