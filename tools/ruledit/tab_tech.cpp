@@ -18,6 +18,8 @@
 // Qt
 #include <QGridLayout>
 #include <QListWidget>
+#include <QMenu>
+#include <QToolButton>
 
 // utility
 #include "fcintl.h"
@@ -42,6 +44,7 @@ tab_tech::tab_tech(QWidget *parent, ruledit_gui *ui_in) :
   QLabel *label;
 
   ui = ui_in;
+  selected = NULL;
 
   tech_list = new QListWidget(this);
 
@@ -72,28 +75,74 @@ tab_tech::tab_tech(QWidget *parent, ruledit_gui *ui_in) :
 
   label = new QLabel(R__("Req1"));
   label->setParent(this);
-  req1 = new QLabel("None");
-  req1->setParent(this);
+  req1_button = new QToolButton();
+  req1_button->setParent(this);
+  req1 = prepare_req_button(req1_button, AR_ONE);
+  connect(req1_button, SIGNAL(pressed()), this, SLOT(req1_jump()));
   tech_layout->addWidget(label, 2, 0);
-  tech_layout->addWidget(req1, 2, 1);
+  tech_layout->addWidget(req1_button, 2, 1);
 
   label = new QLabel(R__("Req2"));
   label->setParent(this);
-  req2 = new QLabel("None");
-  req2->setParent(this);
+  req2_button = new QToolButton();
+  req2 = prepare_req_button(req2_button, AR_TWO);
+  connect(req2_button, SIGNAL(pressed()), this, SLOT(req2_jump()));
   tech_layout->addWidget(label, 3, 0);
-  tech_layout->addWidget(req2, 3, 1);
+  tech_layout->addWidget(req2_button, 3, 1);
 
   label = new QLabel(R__("Root Req"));
   label->setParent(this);
-  root_req = new QLabel("None");
-  root_req->setParent(this);
+  root_req_button = new QToolButton();
+  root_req_button->setParent(this);
+  root_req = prepare_req_button(root_req_button, AR_ROOT);
+  connect(root_req_button, SIGNAL(pressed()), this, SLOT(root_req_jump()));
   tech_layout->addWidget(label, 4, 0);
-  tech_layout->addWidget(root_req, 4, 1);
+  tech_layout->addWidget(root_req_button, 4, 1);
 
   main_layout->addLayout(tech_layout);
 
   setLayout(main_layout);
+}
+
+/**************************************************************************
+  Build tech req button
+**************************************************************************/
+QMenu *tab_tech::prepare_req_button(QToolButton *button, enum tech_req rn)
+{
+  QMenu *menu = new QMenu();
+
+  button->setToolButtonStyle(Qt::ToolButtonTextOnly);
+  button->setPopupMode(QToolButton::MenuButtonPopup);
+
+  switch (rn) {
+  case AR_ONE:
+    connect(menu, SIGNAL(triggered(QAction *)), this, SLOT(req1_menu(QAction *)));
+    break;
+  case AR_TWO:
+    connect(menu, SIGNAL(triggered(QAction *)), this, SLOT(req2_menu(QAction *)));
+    break;
+  case AR_ROOT:
+    connect(menu, SIGNAL(triggered(QAction *)), this, SLOT(root_req_menu(QAction *)));
+    break;
+  case AR_SIZE:
+    fc_assert(rn != AR_SIZE);
+    break;
+  }
+
+  techs_to_menu(menu);
+  button->setMenu(menu);
+
+  return menu;
+}
+
+/**************************************************************************
+  Fill menu with all possible tech values
+**************************************************************************/
+void tab_tech::techs_to_menu(QMenu *fill_menu)
+{
+  advance_iterate(A_NONE, padv) {
+    fill_menu->addAction(tech_name(padv));
+  } advance_iterate_end;
 }
 
 /**************************************************************************
@@ -113,11 +162,13 @@ QString tab_tech::tech_name(struct advance *padv)
 **************************************************************************/
 void tab_tech::update_tech_info(struct advance *adv)
 {
+  selected = adv;
+
   name->setText(untranslated_name(&(adv->name)));
   rname->setText(rule_name(&(adv->name)));
-  req1->setText(tech_name(adv->require[AR_ONE]));
-  req2->setText(tech_name(adv->require[AR_TWO]));
-  root_req->setText(tech_name(adv->require[AR_ROOT]));
+  req1_button->setText(tech_name(adv->require[AR_ONE]));
+  req2_button->setText(tech_name(adv->require[AR_TWO]));
+  root_req_button->setText(tech_name(adv->require[AR_ROOT]));
 }
 
 /**************************************************************************
@@ -129,5 +180,68 @@ void tab_tech::select_tech()
 
   if (!select_list.isEmpty()) {
     update_tech_info(advance_by_rule_name(select_list.at(0)->text().toUtf8().data()));
+  }
+}
+
+/**************************************************************************
+  Req1 of the current tech selected.
+**************************************************************************/
+void tab_tech::req1_jump()
+{
+  if (selected != NULL && advance_number(selected->require[AR_ONE]) != A_NONE) {
+    update_tech_info(selected->require[AR_ONE]);
+  }
+}
+
+/**************************************************************************
+  Req2 of the current tech selected.
+**************************************************************************/
+void tab_tech::req2_jump()
+{
+  if (selected != NULL && advance_number(selected->require[AR_TWO]) != A_NONE) {
+    update_tech_info(selected->require[AR_TWO]);
+  }
+}
+
+/**************************************************************************
+  Root req of the current tech selected.
+**************************************************************************/
+void tab_tech::root_req_jump()
+{
+  if (selected != NULL && advance_number(selected->require[AR_ROOT]) != A_NONE) {
+    update_tech_info(selected->require[AR_ROOT]);
+  }
+}
+
+void tab_tech::req1_menu(QAction *action)
+{
+  struct advance *padv = advance_by_rule_name(action->text().toUtf8().data());
+
+  if (padv != NULL) {
+    selected->require[AR_ONE] = padv;
+
+    update_tech_info(selected);
+  }
+}
+
+void tab_tech::req2_menu(QAction *action)
+{
+  struct advance *padv = advance_by_rule_name(action->text().toUtf8().data());
+
+  if (padv != NULL) {
+    selected->require[AR_TWO] = padv;
+
+    update_tech_info(selected);
+  }
+}
+
+void tab_tech::root_req_menu(QAction *action)
+{
+  struct advance *padv = advance_by_rule_name(action->text().toUtf8().data());
+
+  if (padv != NULL) {
+    selected->require[AR_ROOT] = padv;
+
+    update_tech_info(selected);
   }
 }
