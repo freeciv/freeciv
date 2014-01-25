@@ -16,6 +16,14 @@
 #include <fc_config.h>
 #endif
 
+#ifdef AUDIO_SDL
+/* Though it would happily compile without this include,
+ * it is needed for sound to work as long as SDL-1.2 mixer is
+ * being used. It defines "main" macro to rename our main() so that
+ * it can install SDL's own. */
+#include "SDL.h"
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 
