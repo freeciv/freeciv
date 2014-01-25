@@ -219,11 +219,12 @@ bool client_start_server(void)
   output_window_append(ftc_client, _("Starting local server..."));
 
   /* find a free port */
-  internal_server_port = find_next_free_port(DEFAULT_SOCK_PORT, family);
+  internal_server_port = find_next_free_port(DEFAULT_SOCK_PORT,
+                                             family, "localhost");
 
 # ifdef HAVE_WORKING_FORK
   server_pid = fork();
-  
+
   if (server_pid == 0) {
     int fd, argc = 0;
     const int max_nargs = 18;
