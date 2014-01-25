@@ -1094,7 +1094,9 @@ void remove_player_from_maps(struct player *pplayer)
     } players_iterate_end;
 
     /* Clear removed player's knowledge */
-    map_clear_known(ptile, pplayer);
+    if (pplayer->tile_known.vec) {
+      map_clear_known(ptile, pplayer);
+    }
 
     /* Free all claimed tiles. */
     if (tile_owner(ptile) == pplayer) {
