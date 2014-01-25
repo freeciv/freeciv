@@ -3751,6 +3751,19 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   conn_list_destroy(global_observers);
 
   aifill(game.info.aifill);
+
+  achievements_iterate(pach) {
+    players_iterate(pplayer) {
+      struct packet_achievement_info pack;
+
+      pack.id = achievement_index(pach);
+      pack.gained = achievement_player_has(pach, pplayer);
+      pack.first = (pach->first == pplayer);
+
+      lsend_packet_achievement_info(pplayer->connections, &pack);
+    } players_iterate_end;
+  } achievements_iterate_end;
+
   return TRUE;
 }
 

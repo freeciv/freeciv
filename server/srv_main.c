@@ -1135,10 +1135,18 @@ static void end_turn(void)
   achievements_iterate(ach) {
     struct player_list *achievers = player_list_new();
     struct player *first = achievement_plr(ach, achievers);
+    struct packet_achievement_info pack;
+
+    pack.id = achievement_index(ach);
+    pack.gained = TRUE;
 
     if (first != NULL) {
       notify_player(first, NULL, E_ACHIEVEMENT, ftc_server,
                     "%s", achievement_first_msg(ach));
+
+      pack.first = TRUE;
+
+      lsend_packet_achievement_info(first->connections, &pack);
 
       script_server_signal_emit("achievement_gained", 3,
                                 API_TYPE_ACHIEVEMENT, ach,
@@ -1147,12 +1155,16 @@ static void end_turn(void)
 
     }
 
+    pack.first = FALSE;
+
     if (!ach->unique) {
       player_list_iterate(achievers, pplayer) {
         /* Message already sent to first one */
         if (pplayer != first) {
           notify_player(pplayer, NULL, E_ACHIEVEMENT, ftc_server,
                         "%s", achievement_later_msg(ach));
+
+          lsend_packet_achievement_info(pplayer->connections, &pack);
 
           script_server_signal_emit("achievement_gained", 3,
                                     API_TYPE_ACHIEVEMENT, ach,

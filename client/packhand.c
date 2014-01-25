@@ -2323,6 +2323,31 @@ void handle_conn_ping_info(int connections, const int *conn_id,
 }
 
 /**************************************************************************
+  Received package about gaining an achievement.
+**************************************************************************/
+void handle_achievement_info(int id, bool gained, bool first)
+{
+  struct achievement *pach;
+
+  if (id < 0 || id >= game.control.num_achievement_types) {
+    log_error("Received illegal achievement info %d", id);
+    return;
+  }
+
+  pach = achievement_by_number(id);
+
+  if (gained) {
+    BV_SET(pach->achievers, player_index(client_player()));
+  } else {
+    BV_CLR(pach->achievers, player_index(client_player()));
+  }
+
+  if (first) {
+    pach->first = client_player();
+  }
+}
+
+/**************************************************************************
 Ideally the client should let the player choose which type of
 modules and components to build, and (possibly) where to extend
 structurals.  The protocol now makes this possible, but the
