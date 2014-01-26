@@ -610,11 +610,14 @@ GdkPixbuf *get_flag(const struct nation_type *nation)
   /* croping */
   im = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
   if (im != NULL) {
-    gdk_pixbuf_copy_area(sprite_get_pixbuf(flag), x0, y0, w, h,
+    GdkPixbuf *pixbuf = sprite_get_pixbuf(flag);
+
+    gdk_pixbuf_copy_area(pixbuf, x0, y0, w, h,
                          im, 0, 0);
+    g_object_unref(G_OBJECT(pixbuf));
   }
 
-  /* and finaly store the scaled flag pixbuf in the static flags array */
+  /* and finally store the scaled flag pixbuf in the static flags array */
   return im;
 }
 

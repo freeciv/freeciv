@@ -146,6 +146,7 @@ static void meswin_dialog_refresh(struct meswin_dialog *pdialog)
     GdkPixbuf *pb;
     struct sprite *icon;
     int x0, y0, x1, y1, w, h;
+    GdkPixbuf *pixbuf;
 
     pmsg = meswin_get_message(i);
 
@@ -160,8 +161,10 @@ static void meswin_dialog_refresh(struct meswin_dialog *pdialog)
     w = (x1 - x0) + 1;
     h = (y1 - y0) + 1;
     pb = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
-    gdk_pixbuf_copy_area(sprite_get_pixbuf(icon), x0, y0, w, h,
+    pixbuf = sprite_get_pixbuf(icon);
+    gdk_pixbuf_copy_area(pixbuf, x0, y0, w, h,
                          pb, 0, 0);
+    g_object_unref(G_OBJECT(pixbuf));
 
     meswin_dialog_visited_get_attr(pmsg->visited, &weight, &style);
     gtk_list_store_set(store, &iter,
