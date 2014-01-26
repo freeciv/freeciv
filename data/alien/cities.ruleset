@@ -69,7 +69,7 @@ reqs		=
 ; Nothing
     }
 helptext = _("\
-Government Merchants produce two gold for the government each turn,
+Government Merchants produce two gold for the government each turn, \
 four once Specialist Training tech is known.")
 
 [parameters]

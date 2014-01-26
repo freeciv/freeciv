@@ -29,7 +29,7 @@ default_government = "Despotism"
 ; outside the selected subset will be used.
 ; The first set defined is the one that is used by default. It is mandatory
 ; to have at least one, but if there is only one, it will be kept out of
-; the user's way.
+; the user`s way.
 ; name 		= Translatable name of the set presented in the UI.
 ; rule_name     = Unique persistent name; this is also visible to users as
 ;                 the value of the "nationset" server option, and presented
@@ -50,7 +50,7 @@ rule_name="all"
 ; Descriptions of nation groups
 ; These are more cosmetic than sets; they affect the "pick nation" dialog,
 ; and also affect random nation selection.
-; It's OK to not define any nation groups at all.
+; It`s OK to not define any nation groups at all.
 ; name 		= name of the group
 ; match		= How much the AI will try to select a nation in the same
 ;                 group
