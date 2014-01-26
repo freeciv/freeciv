@@ -246,6 +246,8 @@ bool client_start_server(void)
     argv[argc++] = "~/.freeciv/saves";
     argv[argc++] = "--scenarios";
     argv[argc++] = "~/.freeciv/scenarios";
+    argv[argc++] = "-A";
+    argv[argc++] = "none";
     if (logfile) {
       argv[argc++] = "--debug";
       argv[argc++] = "3";
@@ -346,7 +348,7 @@ bool client_start_server(void)
 
   fc_snprintf(options, sizeof(options),
               "-p %d --bind localhost -q 1 -e%s%s --saves \"%s\" "
-              "--scenarios \"%s\"",
+              "--scenarios \"%s\" -A none",
               internal_server_port, logcmdline, scriptcmdline, savescmdline,
               scenscmdline);
   fc_snprintf(cmdline1, sizeof(cmdline1), "./fcser %s", options);
