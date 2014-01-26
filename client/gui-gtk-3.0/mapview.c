@@ -680,7 +680,12 @@ void tileset_changed(void)
 
   /* keep the icon of the executable on Windows (see PR#36491) */
 #ifndef WIN32_NATIVE
-  gtk_window_set_icon(GTK_WINDOW(toplevel),
-		sprite_get_pixbuf(get_icon_sprite(tileset, ICON_FREECIV)));
-#endif
+  {
+    GdkPixbuf *pixbuf = sprite_get_pixbuf(get_icon_sprite(tileset, ICON_FREECIV));
+
+    /* Only call this after tileset_load_tiles is called. */
+    gtk_window_set_icon(GTK_WINDOW(toplevel), pixbuf);
+    g_object_unref(pixbuf);
+  }
+#endif /* WIN32_NATIVE */
 }

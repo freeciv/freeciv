@@ -862,6 +862,7 @@ static void editbar_reload_tileset(struct editbar *eb)
     }
 
     gtk_list_store_set(store, &iter, TVS_COL_IMAGE, pixbuf, -1);
+    g_object_unref(G_OBJECT(pixbuf));
   } resource_type_iterate_end;
 
 
@@ -959,6 +960,7 @@ static void editbar_reload_tileset(struct editbar *eb)
     }
 
     gtk_list_store_set(store, &iter, TVS_COL_IMAGE, pixbuf, -1);
+    g_object_unref(G_OBJECT(pixbuf));
   } unit_type_iterate_end;
 }
 
@@ -1536,12 +1538,14 @@ static GdkPixbuf *get_tool_value_pixbuf(enum editor_tool_type ett,
 
   if (sprite) {
     pixbuf = sprite_get_pixbuf(sprite);
+    /*
     if (pixbuf) {
       g_object_ref(pixbuf);
     }
+    */
     sprite = NULL;
   }
-  
+
   return pixbuf;
 }
 
@@ -1560,9 +1564,11 @@ static GdkPixbuf *get_tool_mode_pixbuf(enum editor_tool_mode etm)
 
   if (sprite) {
     pixbuf = sprite_get_pixbuf(sprite);
+    /*
     if (pixbuf) {
       g_object_ref(pixbuf);
     }
+    */
   }
 
   return pixbuf;
@@ -1641,8 +1647,8 @@ static void editinfobox_refresh(struct editinfobox *ei)
     gtk_image_set_from_pixbuf(GTK_IMAGE(ei->tool_image), pixbuf);
     if (pixbuf) {
       g_object_unref(G_OBJECT(pixbuf));
+      pixbuf = NULL;
     }
-    pixbuf = NULL;
   } else {
     pixbuf = get_tool_value_pixbuf(ett, value);
     gtk_image_set_from_pixbuf(GTK_IMAGE(ei->tool_image), pixbuf);

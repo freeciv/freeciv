@@ -1359,8 +1359,13 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
   /* keep the icon of the executable on Windows (see PR#36491) */
 #ifndef WIN32_NATIVE
-  gtk_window_set_icon(GTK_WINDOW(pdialog->shell),
-		sprite_get_pixbuf(get_icon_sprite(tileset, ICON_CITYDLG)));
+  {
+    GdkPixbuf *pixbuf = sprite_get_pixbuf(get_icon_sprite(tileset, ICON_CITYDLG));
+
+    /* Only call this after tileset_load_tiles is called. */
+    gtk_window_set_icon(GTK_WINDOW(pdialog->shell), pixbuf);
+    g_object_unref(pixbuf);
+  }
 #endif /* WIN32_NATIVE */
 
   /* Restore size of the city dialog. */
