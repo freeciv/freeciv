@@ -26,7 +26,7 @@ AC_DEFUN([FC_SDL_CLIENT],
       fi
       if test "x$sdl_h_found" = "xyes" ; then
         FC_SDL_PROJECT([SDL_ttf], [TTF_OpenFont], [SDL/SDL_ttf.h])
-      elif "x$missing_project" = "x" ; then
+      elif test "x$missing_project" = "x" ; then
         missing_project="SDL_gfx"
       fi
       if test "x$sdl_h_found" = "xyes" ; then
