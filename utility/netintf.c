@@ -513,7 +513,7 @@ fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
   Finds the next (lowest) free port.
 **************************************************************************/ 
 int find_next_free_port(int starting_port, enum fc_addr_family family,
-                        char *interface)
+                        char *net_interface)
 {
   int port;
   int s;
@@ -559,7 +559,7 @@ int find_next_free_port(int starting_port, enum fc_addr_family family,
     hints.ai_socktype = SOCK_DGRAM;
     hints.ai_flags = AI_PASSIVE | FC_AI_NUMERICSERV;
 
-    err = getaddrinfo(interface, servname, &hints, &res);
+    err = getaddrinfo(net_interface, servname, &hints, &res);
     if (!err) {
       struct addrinfo *current = res;
 
@@ -580,8 +580,8 @@ int find_next_free_port(int starting_port, enum fc_addr_family family,
     memset(&tmp, 0, sizeof(tmp));
     sock4->sin_family = AF_INET;
     sock4->sin_port = htons(port);
-    if (interface != NULL) {
-      sock4->sin_addr.s_addr = inet_addr(interface);
+    if (net_interface != NULL) {
+      sock4->sin_addr.s_addr = inet_addr(net_interface);
     } else {  
       sock4->sin_addr.s_addr = htonl(INADDR_ANY);
     }
