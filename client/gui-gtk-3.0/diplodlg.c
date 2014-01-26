@@ -905,6 +905,7 @@ static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
   GtkListStore *store;
   GtkTreeIter it;
   bool blank = TRUE;
+  GdkPixbuf *pixbuf;
 
   store = pdialog->store;
 
@@ -926,10 +927,12 @@ static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 		 	 "Please add some clauses. ---"), -1);
   }
 
-  gtk_image_set_from_pixbuf(GTK_IMAGE(pdialog->image0),
-			    get_thumb_pixbuf(pdialog->treaty.accept0));
-  gtk_image_set_from_pixbuf(GTK_IMAGE(pdialog->image1),
-			    get_thumb_pixbuf(pdialog->treaty.accept1));
+  pixbuf = get_thumb_pixbuf(pdialog->treaty.accept0);
+  gtk_image_set_from_pixbuf(GTK_IMAGE(pdialog->image0), pixbuf);
+  g_object_unref(G_OBJECT(pixbuf));
+  pixbuf = get_thumb_pixbuf(pdialog->treaty.accept1);
+  gtk_image_set_from_pixbuf(GTK_IMAGE(pdialog->image1), pixbuf);
+  g_object_unref(G_OBJECT(pixbuf));
 }
 
 /****************************************************************************
