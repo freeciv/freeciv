@@ -27,9 +27,9 @@
 # build all installers
 
 all: 
-	make GUI=gtk3 installer-gtk3
-	make GUI=gtk2 installer-gtk2
-	make GUI=sdl installer-sdl
+	make GUI=gtk3 FCMP=gtk3 installer-gtk3
+	make GUI=gtk2 FCMP=gtk2 installer-gtk2
+	make GUI=sdl FCMP=gtk3 installer-sdl
 
 
 # build Freeciv
@@ -38,7 +38,7 @@ build-freeciv-common:
 	# create build directory
 	mkdir -p build-$(GUI)
 	# configure
-	cd build-$(GUI); ../../../configure --enable-client=$(GUI) --with-followtag="win32" --enable-fcdb=sqlite3
+	cd build-$(GUI); ../../../configure --enable-client=$(GUI) --with-followtag="win32" --enable-fcdb=sqlite3 --enable-fcmp=$(FCMP)
 	# make
 	make -C build-$(GUI)
 
@@ -63,7 +63,7 @@ install-freeciv-common:
 	mv install-$(GUI)/usr/local/share/doc install-$(GUI)/doc
 	# delete unneeded files
 	rm -r install-$(GUI)/usr
-	# strip 'freeciv-manual' and 'freeciv-modpack' executables
+	# strip 'freeciv-manual' and 'freeciv-mp-<gui>' executables
 	strip install-$(GUI)/freeciv-m*
 	# add start menu files
 	cp freeciv-server.cmd freeciv-modpack.cmd freeciv-$(GUI).cmd Freeciv.url install-$(GUI)/
@@ -102,14 +102,12 @@ COMMON_DLLS := \
 	libfontconfig-1.dll \
 	libfreetype-6.dll \
 	libgcc_s_dw2-1.dll \
-	libgdk-3-0.dll \
 	libgdk_pixbuf-2.0-0.dll \
 	libgio-2.0-0.dll \
 	libglib-2.0-0.dll \
 	libgmodule-2.0-0.dll \
 	libgobject-2.0-0.dll \
 	libgthread-2.0-0.dll \
-	libgtk-3-0.dll \
 	libiconv-2.dll \
 	libidn-11.dll \
 	libintl-8.dll \
@@ -134,6 +132,13 @@ COMMON_DLLS := \
 install-env-common:
 	# add DLLs
 	cp -R $(addprefix /bin/, $(COMMON_DLLS)) install-$(GUI)
+
+DEFAULT_FCMP_DLLS := \
+	libgdk-3-0.dll \
+	libgtk-3-0.dll
+
+install-env-default-fcmp: install-env-common
+	cp -R $(addprefix /bin/, $(DEFAULT_FCMP_DLLS)) install-$(GUI)
 	# add additional GTK+3 files
 	mkdir -p install-$(GUI)/etc
 	cp -R /etc/gtk-3.0 install-$(GUI)/etc/
@@ -142,7 +147,7 @@ install-env-common:
 	cp -R /share/locale install-$(GUI)/share/
 	find install-$(GUI)/share/locale -type f -not -name freeciv.mo -and -not -name gtk30.mo -delete
 
-install-env-gtk3: install-env-common
+install-env-gtk3: install-env-default-fcmp
 
 GTK2_DLLS := \
 	libgdk-win32-2.0-0.dll \
@@ -163,7 +168,7 @@ SDL_DLLS := \
 	libpng12-0.dll \
 	SDL_image.dll
 
-install-env-sdl: install-env-common
+install-env-sdl: install-env-default-fcmp
 	# add DLLs
 	cp -R $(addprefix /bin/, $(SDL_DLLS)) install-$(GUI)
 
