@@ -28,8 +28,9 @@ freeciv_ruledit_SOURCES =	\
 		ruledit_qt.cpp	\
 		ruledit_qt.h	\
 		rulesave.c	\
-		rulesave.h	\
-		$(MOC_FILES)
+		rulesave.h
+
+nodist_freeciv_ruledit_SOURCES = $(MOC_FILES)
 
 freeciv_ruledit_LDADD = \
  $(ruledit_LIBS) \
@@ -37,3 +38,5 @@ freeciv_ruledit_LDADD = \
  $(top_builddir)/common/libfreeciv.la \
  $(LUA_LIBS) $(TOLUA_LIBS) $(INTLLIBS) \
  $(MAPIMG_WAND_LIBS) $(SERVER_LIBS)
+
+CLEANFILES = $(MOC_FILES)
