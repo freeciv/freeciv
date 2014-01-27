@@ -73,8 +73,9 @@ libgui_qt_la_SOURCES = \
 	voteinfo_bar.cpp \
 	voteinfo_bar.h	\
 	wldlg.cpp	\
-	wldlg.h		\
-	$(MOC_FILES)
+	wldlg.h
+
+nodist_libgui_qt_la_SOURCES = $(MOC_FILES)
 
 # Generate meta object source from header
 $(MOC_FILES) : meta_%.cpp: %.h
