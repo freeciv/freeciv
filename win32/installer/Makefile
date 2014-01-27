@@ -163,8 +163,8 @@ clean-install-common:
 	rm -rf install-$(GUI)
 
 clean-installer-common:
-	rm Output/Freeciv-*-$(GUI)-setup.exe
-	rm Freeciv-*-$(GUI).nsi
+	rm -f Output/Freeciv-*-$(GUI)-setup.exe
+	rm -f Freeciv-*-$(GUI).nsi
 
 clean:
 	make GUI=gtk2 clean-build-common clean-install-common clean-installer-common
