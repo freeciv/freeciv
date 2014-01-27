@@ -100,7 +100,7 @@ int main(int argc, char **argv)
       ruledit_qt_run();
       ruledit_qt_close();
     } else {
-      log_error("Loading ruleset %s failed", game.server.rulesetdir);
+      log_error("Loading ruleset %s failed", source_rs);
     }
   }
 
