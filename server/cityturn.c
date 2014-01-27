@@ -1862,8 +1862,11 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
         /* Additional message if the unit has population cost. */
         notify_player(pplayer, city_tile(pcity), E_UNIT_BUILT_POP_COST,
                       ftc_server,
-                      /* TRANS: <unit> cost... <city> shrinks... */
-                      _("%s cost %d population. %s shrinks to size %d."),
+                      /* TRANS: "<unit> cost... <city> shrinks..."
+                       * Plural in "%d population", not "size %d". */
+                      PL_("%s cost %d population. %s shrinks to size %d.",
+                          "%s cost %d population. %s shrinks to size %d.",
+                          pop_cost),
                       utype_name_translation(utype), pop_cost,
                       city_link(pcity), city_size_get(pcity));
       }
