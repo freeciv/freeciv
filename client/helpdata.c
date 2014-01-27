@@ -2049,50 +2049,87 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
     struct astring outputs_or = ASTRING_INIT;
     struct astring outputs_and = ASTRING_INIT;
     bool extra_reqs = FALSE;
+    bool world_value_valid = TRUE;
 
     /* Grab output type, if there is one */
     requirement_list_iterate(peffect->reqs, preq) {
+      /* FIXME: perhaps we should treat any effect with negated requirements
+       * or nreqs as too complex for us to explain here? */
+      if (preq->negated) {
+        continue;
+      }
       switch (preq->source.kind) {
        case VUT_OTYPE:
-         if (output_type == O_LAST) {
-           /* We should never have multiple outputtype requirements
-            * in one list in the first place (it simply makes no sense,
-            * output cannot be of multiple types)
-            * Ruleset loading code should check against that. */
-           output_type = preq->source.value.outputtype;
-           strvec_append(outputs, get_output_name(output_type));
-         }
+         /* We should never have multiple outputtype requirements
+          * in one list in the first place (it simply makes no sense,
+          * output cannot be of multiple types)
+          * Ruleset loading code should check against that. */
+         fc_assert(output_type == O_LAST);
+         output_type = preq->source.value.outputtype;
+         strvec_append(outputs, get_output_name(output_type));
          break;
        case VUT_UCLASS:
-         if (unitclass == NULL) {
-           unitclass = preq->source.value.uclass;
-         }
+         fc_assert(unitclass == NULL);
+         unitclass = preq->source.value.uclass;
+         /* FIXME: can't easily get world bonus for unit class */
+         world_value_valid = FALSE;
          break;
        case VUT_UTYPE:
-         if (unittype == NULL) {
-           unittype = preq->source.value.utype;
-         }
+         fc_assert(unittype == NULL);
+         unittype = preq->source.value.utype;
          break;
        case VUT_UTFLAG:
          if (unitflag == F_LAST) {
-           /* FIXME: We should list all the unit flag requirements,
-            *        not only first one. */
            unitflag = preq->source.value.unitflag;
+           /* FIXME: can't easily get world bonus for unit type flag */
+           world_value_valid = FALSE;
+         } else {
+           /* Already have a unit flag requirement. More than one is too
+            * complex for us to explain, so say nothing. */
+           /* FIXME: we could handle this */
+           extra_reqs = TRUE;
          }
          break;
        case VUT_GOVERNMENT:
          /* This is government we are generating helptext for.
           * ...or if not, it's ruleset bug that should never make it
           * this far. Fix ruleset loading code. */
+         fc_assert(preq->source.value.govern == gov);
          break;
        default:
          extra_reqs = TRUE;
+         world_value_valid = FALSE;
          break;
       };
     } requirement_list_iterate_end;
 
     if (!extra_reqs) {
-      /* Only list effects that have no special requirements. */
+      /* Only list effects that don't have extra requirements too complex
+       * for us to handle.
+       * Anything more complicated will have to be documented by hand by the
+       * ruleset author. */
+
+      /* Guard condition for simple player-wide effects descriptions.
+       * (FIXME: in many cases, e.g. EFT_MAKE_CONTENT, additional requirements
+       * like unittype will be ignored for gameplay, but will affect our
+       * help here.) */
+      const bool playerwide
+        = world_value_valid && !unittype && (output_type == O_LAST);
+      /* In some cases we give absolute values (world bonus + gov bonus).
+       * We assume the fact that there's an effect with a gov requirement
+       * is sufficient reason to list it in that gov's help.
+       * Guard accesses to these with 'playerwide' or 'world_value_valid'. */
+      int world_value = -999, net_value = -999;
+      if (world_value_valid) {
+        /* Get government-independent world value of effect if the extra
+         * requirements were simple enough. */
+        struct output_type *potype =
+          output_type != O_LAST ? get_output_type(output_type) : NULL;
+        world_value = 
+          get_target_bonus_effects(NULL, NULL, NULL, NULL, NULL,
+                                   unittype, potype, NULL, peffect->type);
+        net_value = peffect->value + world_value;
+      }
 
       if (output_type == O_LAST) {
         /* There was no outputtype requirement. Effect is active for all
@@ -2127,214 +2164,297 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 
       switch (peffect->type) {
       case EFT_UNHAPPY_FACTOR:
-        /* FIXME: EFT_MAKE_CONTENT_MIL_PER would cancel this out. We assume
-         * no-one will set both, so we don't bother handling it. */
-        cat_snprintf(buf, bufsz,
-                     PL_("* Military units away from home and field units"
-                         " will each cause %d citizen to become unhappy.\n",
-                         "* Military units away from home and field units"
-                         " will each cause %d citizens to become unhappy.\n",
-                         peffect->value),
-                     peffect->value);
+        if (playerwide) {
+          /* FIXME: EFT_MAKE_CONTENT_MIL_PER would cancel this out. We assume
+           * no-one will set both, so we don't bother handling it. */
+          cat_snprintf(buf, bufsz,
+                       PL_("* Military units away from home and field units"
+                           " will each cause %d citizen to become unhappy.\n",
+                           "* Military units away from home and field units"
+                           " will each cause %d citizens to become unhappy.\n",
+                           net_value),
+                       net_value);
+        } /* else too complicated or silly ruleset */
         break;
       case EFT_MAKE_CONTENT_MIL:
-        cat_snprintf(buf, bufsz,
-                     PL_("* Each of your cities will avoid %d unhappiness"
-                         " caused by units.\n",
-                         "* Each of your cities will avoid %d unhappiness"
-                         " caused by units.\n",
-                         peffect->value),
-                     peffect->value);
+        if (playerwide) {
+          cat_snprintf(buf, bufsz,
+                       PL_("* Each of your cities will avoid %d unhappiness"
+                           " caused by units.\n",
+                           "* Each of your cities will avoid %d unhappiness"
+                           " caused by units.\n",
+                           peffect->value),
+                       peffect->value);
+        }
         break;
       case EFT_MAKE_CONTENT:
-        cat_snprintf(buf, bufsz,
-                     PL_("* Each of your cities will avoid %d unhappiness,"
-                         " not including that caused by units.\n",
-                         "* Each of your cities will avoid %d unhappiness,"
-                         " not including that caused by units.\n",
-                         peffect->value),
-                     peffect->value);
+        if (playerwide) {
+          cat_snprintf(buf, bufsz,
+                       PL_("* Each of your cities will avoid %d unhappiness,"
+                           " not including that caused by units.\n",
+                           "* Each of your cities will avoid %d unhappiness,"
+                           " not including that caused by units.\n",
+                           peffect->value),
+                       peffect->value);
+        }
         break;
       case EFT_FORCE_CONTENT:
-        cat_snprintf(buf, bufsz,
-                     PL_("* Each of your cities will avoid %d unhappiness,"
-                         " including unhappiness caused by units.\n",
-                         "* Each of your cities will avoid %d unhappiness,"
-                         " including unhappiness caused by units.\n",
-                         peffect->value),
-                     peffect->value);
+        if (playerwide) {
+          cat_snprintf(buf, bufsz,
+                       PL_("* Each of your cities will avoid %d unhappiness,"
+                           " including unhappiness caused by units.\n",
+                           "* Each of your cities will avoid %d unhappiness,"
+                           " including unhappiness caused by units.\n",
+                           peffect->value),
+                       peffect->value);
+        }
         break;
       case EFT_UPKEEP_FACTOR:
-        if (peffect->value > 1 && output_type != O_LAST) {
-          cat_snprintf(buf, bufsz,
-                       /* TRANS: %s is the output type, like 'shield' or 'gold'. */
-                       _("* You pay %d times normal %s upkeep for your units.\n"),
-                       peffect->value, astr_str(&outputs_and));
-        } else if (peffect->value > 1) {
-          cat_snprintf(buf, bufsz,
-                       _("* You pay %d times normal upkeep for your units.\n"),
-                       peffect->value);
-        } else if (peffect->value == 0 && output_type != O_LAST) {
-          cat_snprintf(buf, bufsz,
-                       /* TRANS: %s is the output type, like 'shield' or 'gold'. */
-                       _("* You pay no %s upkeep for your units.\n"),
-                       astr_str(&outputs_or));
-        } else if (peffect->value == 0) {
-          CATLSTR(buf, bufsz,
-                  _("* You pay no upkeep for your units.\n"));
-        }
+        if (world_value_valid && !unittype) {
+          if (net_value == 0) {
+            if (output_type != O_LAST) {
+              cat_snprintf(buf, bufsz,
+                           /* TRANS: %s is the output type, like 'shield'
+                            * or 'gold'. */
+                           _("* You pay no %s upkeep for your units.\n"),
+                           astr_str(&outputs_or));
+            } else {
+              CATLSTR(buf, bufsz,
+                      _("* You pay no upkeep for your units.\n"));
+            }
+          } else if (net_value != world_value) {
+            /* HACK: to avoid breaking a string freeze, we keep quiet about
+             * non-integer ratios. Later versions will fix this. */
+            if (net_value % world_value == 0) {
+              int ratio = net_value / world_value;
+              if (output_type != O_LAST) {
+                cat_snprintf(buf, bufsz,
+                             /* TRANS: %s is the output type, like 'shield'
+                              * or 'gold'. */
+                             _("* You pay %d times normal %s upkeep for your "
+                               "units.\n"),
+                             ratio, astr_str(&outputs_and));
+              } else {
+                cat_snprintf(buf, bufsz,
+                             _("* You pay %d times normal upkeep for your "
+                               "units.\n"),
+                             ratio);
+              }
+            }
+          } /* else this effect somehow has no effect; keep quiet */
+        } /* else there was some extra condition making it complicated */
         break;
       case EFT_UNIT_UPKEEP_FREE_PER_CITY:
-        if (output_type != O_LAST) {
-          cat_snprintf(buf, bufsz,
-                       /* TRANS: %s is the output type, like 'shield' or 'gold'.
-                        * There is currently no way to control the
-                        * singular/plural version of these. */
-                       _("* Each of your cities will avoid paying %d %s"
-                         " upkeep for your units.\n"),
-                       peffect->value, astr_str(&outputs_and));
-        } else {
-          cat_snprintf(buf, bufsz,
-                       /* TRANS: Amount is subtracted from upkeep cost
-                        * for each upkeep type. */
-                       _("* Each of your cities will avoid paying %d"
-                         " upkeep for your units.\n"),
-                       peffect->value);
-        }
+        if (!unittype) {
+          if (output_type != O_LAST) {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: %s is the output type, like 'shield' or
+                          * 'gold'. There is currently no way to control the
+                          * singular/plural version of these. */
+                         _("* Each of your cities will avoid paying %d %s"
+                           " upkeep for your units.\n"),
+                         peffect->value, astr_str(&outputs_and));
+          } else {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: Amount is subtracted from upkeep cost
+                          * for each upkeep type. */
+                         _("* Each of your cities will avoid paying %d"
+                           " upkeep for your units.\n"),
+                         peffect->value);
+          }
+        } /* else too complicated */
         break;
       case EFT_CIVIL_WAR_CHANCE:
-        cat_snprintf(buf, bufsz,
-                     _("* If you lose your capital,"
-                       " the chance of civil war is %d%%.\n"),
-                     peffect->value);
+        if (playerwide) {
+          cat_snprintf(buf, bufsz,
+                       _("* If you lose your capital,"
+                         " the chance of civil war is %d%%.\n"),
+                       net_value);
+        }
         break;
       case EFT_EMPIRE_SIZE_BASE:
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: %d should always be greater than 2. */
-                     _("* When you have %d cities, the first unhappy citizen"
-                       " will appear in each city due to civilization size.\n"),
-                     peffect->value);
+        if (playerwide) {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %d should always be greater than 2. */
+                       _("* When you have %d cities, the first unhappy "
+                         "citizen will appear in each city due to "
+                         "civilization size.\n"),
+                       net_value);
+        }
         break;
       case EFT_EMPIRE_SIZE_STEP:
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: %d should always be greater than 2. */
-                     _("* After the first unhappy citizen due to"
-                       " civilization size, for each %d additional cities"
-                       " another unhappy citizen will appear.\n"),
-                     peffect->value);
+        if (playerwide) {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %d should always be greater than 2. */
+                       _("* After the first unhappy citizen due to"
+                         " civilization size, for each %d additional cities"
+                         " another unhappy citizen will appear.\n"),
+                       net_value);
+        }
         break;
       case EFT_MAX_RATES:
-        if (peffect->value < 100 && game.info.changable_tax) {
-          cat_snprintf(buf, bufsz,
-                       _("* The maximum rate you can set for science,"
-                          " gold, or luxuries is %d%%.\n"),
-                       peffect->value);
-        } else if (game.info.changable_tax) {
-          CATLSTR(buf, bufsz,
-                  _("* Has unlimited science/gold/luxuries rates.\n"));
+        if (playerwide && game.info.changable_tax) {
+          if (net_value < 100) {
+            cat_snprintf(buf, bufsz,
+                         _("* The maximum rate you can set for science,"
+                            " gold, or luxuries is %d%%.\n"),
+                         net_value);
+          } else {
+            CATLSTR(buf, bufsz,
+                    _("* Has unlimited science/gold/luxuries rates.\n"));
+          }
         }
         break;
       case EFT_MARTIAL_LAW_EACH:
-        cat_snprintf(buf, bufsz,
-                     PL_("* Your units may impose martial law."
-                         " Each military unit inside a city will force %d"
-                         " unhappy citizen to become content.\n",
-                         "* Your units may impose martial law."
-                         " Each military unit inside a city will force %d"
-                         " unhappy citizens to become content.\n",
-                         peffect->value),
-                     peffect->value);
+        if (playerwide) {
+          cat_snprintf(buf, bufsz,
+                       PL_("* Your units may impose martial law."
+                           " Each military unit inside a city will force %d"
+                           " unhappy citizen to become content.\n",
+                           "* Your units may impose martial law."
+                           " Each military unit inside a city will force %d"
+                           " unhappy citizens to become content.\n",
+                           peffect->value),
+                       peffect->value);
+        }
         break;
       case EFT_MARTIAL_LAW_MAX:
-        if (peffect->value < 100) {
+        if (playerwide && net_value < 100) {
           cat_snprintf(buf, bufsz,
                        PL_("* A maximum of %d unit in each city can enforce"
                            " martial law.\n",
                            "* A maximum of %d units in each city can enforce"
                            " martial law.\n",
-                           peffect->value),
-                       peffect->value);
+                           net_value),
+                       net_value);
         }
         break;
       case EFT_RAPTURE_GROW:
-        cat_snprintf(buf, bufsz,
-                     _("* You may grow your cities by means of celebrations."));
-        if (game.info.celebratesize > 1) {
+        if (playerwide && net_value > 0) {
           cat_snprintf(buf, bufsz,
-                       /* TRANS: Preserve leading space. %d should always be
-                        * 2 or greater. */
-                       _(" (Cities below size %d cannot grow in this way.)"),
-                       game.info.celebratesize);
+                       _("* You may grow your cities by means of "
+                         "celebrations."));
+          if (game.info.celebratesize > 1) {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: Preserve leading space. %d should always be
+                          * 2 or greater. */
+                         _(" (Cities below size %d cannot grow in this way.)"),
+                         game.info.celebratesize);
+          }
+          cat_snprintf(buf, bufsz, "\n");
         }
-        cat_snprintf(buf, bufsz, "\n");
         break;
       case EFT_UNBRIBABLE_UNITS:
-        CATLSTR(buf, bufsz, _("* Your units cannot be bribed.\n"));
+        if (playerwide && net_value > 0) {
+          CATLSTR(buf, bufsz, _("* Your units cannot be bribed.\n"));
+        }
         break;
       case EFT_NO_INCITE:
-        CATLSTR(buf, bufsz, _("* Your cities cannot be incited to revolt.\n"));
+        if (playerwide && net_value > 0) {
+          CATLSTR(buf, bufsz, _("* Your cities cannot be incited to "
+                                "revolt.\n"));
+        }
         break;
       case EFT_REVOLUTION_WHEN_UNHAPPY:
-        CATLSTR(buf, bufsz,
-                _("* If any city is in disorder for more than two turns in a row,"
-                  " government will fall into anarchy.\n"));
+        if (playerwide && net_value > 0) {
+          CATLSTR(buf, bufsz,
+                  _("* If any city is in disorder for more than two turns "
+                    "in a row, government will fall into anarchy.\n"));
+        }
         break;
       case EFT_HAS_SENATE:
-        CATLSTR(buf, bufsz,
-                _("* Has a senate that may prevent declaration of war.\n"));
+        if (playerwide && net_value > 0) {
+          CATLSTR(buf, bufsz,
+                  _("* Has a senate that may prevent declaration of war.\n"));
+        }
         break;
       case EFT_INSPIRE_PARTISANS:
-        CATLSTR(buf, bufsz,
-                _("* Allows partisans when cities are taken by the enemy.\n"));
+        if (playerwide && net_value > 0) {
+          CATLSTR(buf, bufsz,
+                  _("* Allows partisans when cities are taken by the "
+                    "enemy.\n"));
+        }
         break;
       case EFT_HAPPINESS_TO_GOLD:
-        CATLSTR(buf, bufsz,
-                _("* Buildings that normally confer bonuses against"
-                  " unhappiness will instead give gold.\n"));
+        if (playerwide && net_value > 0) {
+          CATLSTR(buf, bufsz,
+                  _("* Buildings that normally confer bonuses against"
+                    " unhappiness will instead give gold.\n"));
+        }
         break;
       case EFT_FANATICS:
-        CATLSTR(buf, bufsz, _("* Pays no upkeep for fanatics.\n"));
+        if (playerwide && net_value > 0) {
+          CATLSTR(buf, bufsz, _("* Pays no upkeep for fanatics.\n"));
+        }
         break;
       case EFT_NO_UNHAPPY:
-        CATLSTR(buf, bufsz, _("* Has no unhappy citizens.\n"));
+        if (playerwide && net_value > 0) {
+          CATLSTR(buf, bufsz, _("* Has no unhappy citizens.\n"));
+        }
         break;
       case EFT_VETERAN_BUILD:
-        /* FIXME: There could be both class and flag requirement.
-         *        meaning that only some units from class are affected.
-         *          Should class related string, type related strings and
-         *        flag related string to be at least qualified to allow
-         *        different translations? */
-        if (unitclass) {
-          cat_snprintf(buf, bufsz,
-                       _("* Veteran %s units.\n"),
-                       uclass_name_translation(unitclass));
-        } else if (unittype != NULL) {
-          cat_snprintf(buf, bufsz,
-                       _("* Veteran %s units.\n"),
-                       utype_name_translation(unittype));
-        } else if (unitflag != F_LAST) {
-          cat_snprintf(buf, bufsz,
-                       _("* Veteran %s units.\n"),
-                       unit_flag_rule_name(unitflag));
-        } else {
-          CATLSTR(buf, bufsz, _("* Veteran units.\n"));
+        {
+          int conditions = 0;
+          if (unitclass) {
+            conditions++;
+          }
+          if (unittype) {
+            conditions++;
+          }
+          if (unitflag != F_LAST) {
+            conditions++;
+          }
+          if (conditions > 1) {
+            /* More than one requirement on units, too complicated for us
+             * to describe. */
+            break;
+          }
+          /* FIXME: Should class related string, flag related string and
+           * type related string be qualified to allow different
+           * translations? */
+          if (unitclass) {
+            /* FIXME: account for multiple veteran levels, or negative
+             * values. This might lie for complicated rulesets! */
+            cat_snprintf(buf, bufsz,
+                         _("* Veteran %s units.\n"),
+                         uclass_name_translation(unitclass));
+          } else if (unitflag != F_LAST) {
+            /* FIXME: same problems as unitclass */
+            cat_snprintf(buf, bufsz,
+                         _("* Veteran %s units.\n"),
+                         unit_flag_rule_name(unitflag));
+          } else if (unittype != NULL) {
+            if (world_value_valid && net_value > 0) {
+              /* Here we can get net value correct. */
+              cat_snprintf(buf, bufsz,
+                           _("* Veteran %s units.\n"),
+                           utype_name_translation(unittype));
+            } /* else complicated */
+          } else {
+            /* No extra criteria. */
+            /* FIXME: same problems as above */
+            cat_snprintf(buf, bufsz,
+                         _("* Veteran units.\n"));
+          }
         }
         break;
       case EFT_OUTPUT_PENALTY_TILE:
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is list of output types, with 'or' */
-                     _("* Each worked tile that gives more than %d %s will"
-                       " suffer a -1 penalty, unless the city working it"
-                       " is celebrating."),
-                     peffect->value, astr_str(&outputs_or));
-        if (game.info.celebratesize > 1) {
+        if (world_value_valid) {
           cat_snprintf(buf, bufsz,
-                       /* TRANS: Preserve leading space. %d should always be
-                        * 2 or greater. */
-                       _(" (Cities below size %d will not celebrate.)"),
-                       game.info.celebratesize);
+                       /* TRANS: %s is list of output types, with 'or' */
+                       _("* Each worked tile that gives more than %d %s will"
+                         " suffer a -1 penalty, unless the city working it"
+                         " is celebrating."),
+                       net_value, astr_str(&outputs_or));
+          if (game.info.celebratesize > 1) {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: Preserve leading space. %d should always be
+                          * 2 or greater. */
+                         _(" (Cities below size %d will not celebrate.)"),
+                         game.info.celebratesize);
+          }
+          cat_snprintf(buf, bufsz, "\n");
         }
-        cat_snprintf(buf, bufsz, "\n");
         break;
       case EFT_OUTPUT_INC_TILE_CELEBRATE:
         cat_snprintf(buf, bufsz,
@@ -2361,66 +2481,76 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         break;
       case EFT_OUTPUT_BONUS:
       case EFT_OUTPUT_BONUS_2:
+        /* FIXME: makes most sense iff world_value == 0 */
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is list of output types, with 'and' */
                      _("* %s production is increased %d%%.\n"),
                      astr_str(&outputs_and), peffect->value);
         break;
       case EFT_OUTPUT_WASTE:
-        if (peffect->value > 30) {
-          cat_snprintf(buf, bufsz,
-                       /* TRANS: %s is list of output types, with 'and' */
-                       _("* %s production will suffer massive losses.\n"),
-                       astr_str(&outputs_and));
-        } else if (peffect->value >= 15) {
-          cat_snprintf(buf, bufsz,
-                       /* TRANS: %s is list of output types, with 'and' */
-                       _("* %s production will suffer some losses.\n"),
-                       astr_str(&outputs_and));
-        } else {
-          cat_snprintf(buf, bufsz,
-                       /* TRANS: %s is list of output types, with 'and' */
-                       _("* %s production will suffer a small amount of losses.\n"),
-                       astr_str(&outputs_and));
+        if (world_value_valid) {
+          if (net_value > 30) {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: %s is list of output types, with 'and' */
+                         _("* %s production will suffer massive losses.\n"),
+                         astr_str(&outputs_and));
+          } else if (net_value >= 15) {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: %s is list of output types, with 'and' */
+                         _("* %s production will suffer some losses.\n"),
+                         astr_str(&outputs_and));
+          } else if (net_value > 0) {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: %s is list of output types, with 'and' */
+                         _("* %s production will suffer a small amount "
+                           "of losses.\n"),
+                         astr_str(&outputs_and));
+          }
         }
         break;
       case EFT_HEALTH_PCT:
-        if (peffect->value > 0) {
-          CATLSTR(buf, bufsz, _("* Increases the chance of plague"
-                                " within your cities.\n"));
-        } else if (peffect->value < 0) {
-          CATLSTR(buf, bufsz, _("* Decreases the chance of plague"
-                                " within your cities.\n"));
+        if (playerwide) {
+          if (peffect->value > 0) {
+            CATLSTR(buf, bufsz, _("* Increases the chance of plague"
+                                  " within your cities.\n"));
+          } else if (peffect->value < 0) {
+            CATLSTR(buf, bufsz, _("* Decreases the chance of plague"
+                                  " within your cities.\n"));
+          }
         }
         break;
       case EFT_OUTPUT_WASTE_BY_DISTANCE:
-        if (peffect->value >= 3) {
-          cat_snprintf(buf, bufsz,
-                       /* TRANS: %s is list of output types, with 'and' */
-                       _("* %s losses will increase quickly"
-                         " with distance from capital.\n"),
-                       astr_str(&outputs_and));
-        } else if (peffect->value == 2) {
-          cat_snprintf(buf, bufsz,
-                       /* TRANS: %s is list of output types, with 'and' */
-                       _("* %s losses will increase"
-                         " with distance from capital.\n"),
-                       astr_str(&outputs_and));
-        } else {
-          cat_snprintf(buf, bufsz,
-                       /* TRANS: %s is list of output types, with 'and' */
-                       _("* %s losses will increase slowly"
-                         " with distance from capital.\n"),
-                       astr_str(&outputs_and));
+        if (world_value_valid) {
+          if (net_value >= 3) {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: %s is list of output types, with 'and' */
+                         _("* %s losses will increase quickly"
+                           " with distance from capital.\n"),
+                         astr_str(&outputs_and));
+          } else if (net_value == 2) {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: %s is list of output types, with 'and' */
+                         _("* %s losses will increase"
+                           " with distance from capital.\n"),
+                         astr_str(&outputs_and));
+          } else if (net_value > 0) {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: %s is list of output types, with 'and' */
+                         _("* %s losses will increase slowly"
+                           " with distance from capital.\n"),
+                         astr_str(&outputs_and));
+          }
         }
         break;
       case EFT_MIGRATION_PCT:
-        if (peffect->value > 0) {
-          CATLSTR(buf, bufsz, _("* Increases the chance of migration"
-                                " into your cities.\n"));
-        } else if (peffect->value < 0) {
-          CATLSTR(buf, bufsz, _("* Decreases the chance of migration"
-                                " into your cities.\n"));
+        if (playerwide) {
+          if (peffect->value > 0) {
+            CATLSTR(buf, bufsz, _("* Increases the chance of migration"
+                                  " into your cities.\n"));
+          } else if (peffect->value < 0) {
+            CATLSTR(buf, bufsz, _("* Decreases the chance of migration"
+                                  " into your cities.\n"));
+          }
         }
         break;
       default:

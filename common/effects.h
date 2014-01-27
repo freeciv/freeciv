@@ -233,6 +233,16 @@ int get_current_construction_bonus(const struct city *pcity,
 				   enum effect_type effect_type,
                                    const enum req_problem_type prob_type);
 
+int get_target_bonus_effects(struct effect_list *plist,
+                             const struct player *target_player,
+                             const struct city *target_city,
+                             const struct impr_type *target_building,
+                             const struct tile *target_tile,
+                             const struct unit_type *target_unittype,
+                             const struct output_type *target_output,
+                             const struct specialist *target_specialist,
+                             enum effect_type effect_type);
+
 Impr_type_id ai_find_source_building(struct city *pcity,
 				     enum effect_type effect_type,
                                      struct unit_class *uclass,
