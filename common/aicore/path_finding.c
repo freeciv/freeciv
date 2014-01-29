@@ -2479,11 +2479,14 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
           /* Always record the segment, including when it is not dangerous
            * to move there. */
           pf_fuel_map_create_segment(pffm, tile1, node1);
-          if (NS_PROCESSED != node1->status && NS_WAITING != node1->status) {
+          if (NS_INIT == node1->status) {
             /* Node status B. to C. */
             node1->status = NS_NEW;
-          } /* else staying at D. */
-          pq_insert(pffm->queue, index1, -cost_of_path);
+            pq_insert(pffm->queue, index1, -cost_of_path);
+          } else {
+            /* else staying at D. */
+            pq_replace(pffm->queue, index1, -cost_of_path);
+          }
           continue;     /* adjc_dir_iterate() */
         }
 
@@ -2499,8 +2502,8 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
           /* We had a path to this tile. Here, we have to use back the
            * current values because we could have more moves left if we
            * waited somewhere. */
-          old_cost_of_path = pf_total_CC(params, node1->cost,
-                                         node1->extra_cost);
+          old_cost_of_path = pf_total_CC(params, pos->cost,
+                                         pos->extra_cost);
         }
 
         if (moves_left > node1->moves_left
@@ -2541,9 +2544,6 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
       fc = pf_fuel_map_fill_cost_for_full_moves(params, node->cost,
                                                 node->moves_left);
       cc = pf_total_CC(params, fc, node->extra_cost);
-      /* Unlike maps with danger, we must delete all copies of index from the
-       * queue. Else, we won't get the shortest paths. */
-      pq_delete(pffm->queue, index);
       pq_insert(pffm->queue, index, -cc);
     }
 
@@ -2554,7 +2554,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
       tile = index_to_tile(index);
       pfm->tile = tile;
       node = pffm->lattice + index;
-      if (!pf_fuel_node_dangerous(node)) {
+      if (NS_PROCESSED != node->status && !pf_fuel_node_dangerous(node)) {
         /* Node status step C. and D. */
 #ifdef PF_DEBUG
         fc_assert(0 < node->moves_left_req);
