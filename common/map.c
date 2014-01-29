@@ -724,8 +724,9 @@ static int tile_move_cost_ptrs(const struct unit *punit,
           return FC_INFINITY;
         }
       } else {
-        /* Disembarking from transport or leaving port. */
-        return SINGLE_MOVE;
+        /* Disembarking from transport or leaving port.
+         * UTYF_IGTER units get move benefit. */
+        return (igter ? MOVE_COST_IGTER : SINGLE_MOVE);
       }
     }
   }
