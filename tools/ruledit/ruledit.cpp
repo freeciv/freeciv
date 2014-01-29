@@ -149,6 +149,9 @@ static int re_parse_cmdline(int argc, char *argv[])
       exit(EXIT_SUCCESS);
     } else if (is_option("--", argv[i])) {
       ui_separator = TRUE;
+    } else {
+      fc_fprintf(stderr, R__("Unrecognized option: \"%s\"\n"), argv[i]);
+      exit(EXIT_FAILURE);
     }
 
     i++;

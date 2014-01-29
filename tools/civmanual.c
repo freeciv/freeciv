@@ -535,6 +535,9 @@ int main(int argc, char **argv)
         break;
       }
       free(option);
+    } else {
+      fc_fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[inx]);
+      exit(EXIT_FAILURE);
     }
     inx++;
   }
