@@ -31,7 +31,7 @@
   ui-specific options afterwards. Number of those ui-specific options is
   returned.
   Currently this is implemented in a way that it never fails. Either it
-  returns with success or exit()s. Implementation can be changhed so that
+  returns with success or exit()s. Implementation can be changed so that
   this returns with value -1 in case program should be shut down instead
   of exiting itself. Callers are prepared for such implementation.
 **************************************************************************/
@@ -63,6 +63,9 @@ int fcmp_parse_cmdline(int argc, char *argv[])
       exit(EXIT_SUCCESS);
     } else if (is_option("--", argv[i])) {
       ui_separator = TRUE;
+    } else {
+      fc_fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
+      exit(EXIT_FAILURE);
     }
 
     i++;
