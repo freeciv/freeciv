@@ -759,7 +759,12 @@ static int tile_move_cost_ptrs(const struct unit *punit,
       }
     } else {
       /* Disembarking / leaving port. */
-      return SINGLE_MOVE;
+      if (punit && unit_has_type_flag(punit, UTYF_IGTER)) {
+        /* UTYF_IGTER units get move benefit. */
+        return MOVE_COST_IGTER;
+      } else {
+        return SINGLE_MOVE;
+      }
     }
   }
 
