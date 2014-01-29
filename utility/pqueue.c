@@ -94,6 +94,37 @@ void pq_insert(struct pqueue *q, pq_data_t datum, int datum_priority)
   q->priorities[i] = datum_priority;
 }
 
+/***************************************************************************
+  Set a better priority for datum. Insert if datum is not present yet.
+****************************************************************************/
+void pq_replace(struct pqueue *q, const pq_data_t datum, int datum_priority)
+{
+  int i;
+
+  fc_assert_ret(NULL != q);
+
+  /* Lookup for datum... */
+  for (i = q->size - 1; i >= 1; i--) {
+    if (q->cells[i] == datum) {
+      break;
+    }
+  }
+
+  if (i == 0) {
+    /* Not found, insert. */
+    pq_insert(q, datum, datum_priority);
+  } else if (q->priorities[i] < datum_priority) {
+    /* Found, percolate-up. */
+    while (i > 1 && q->priorities[i / 2] < datum_priority) {
+      q->cells[i] = q->cells[i / 2];
+      q->priorities[i] = q->priorities[i / 2];
+      i /= 2;
+    }
+    q->cells[i] = datum;
+    q->priorities[i] = datum_priority;
+  }
+}
+
 /*******************************************************************
   Remove the highest-ranking item from the queue and store it in
   dest. dest maybe NULL.
@@ -138,25 +169,6 @@ bool pq_remove(struct pqueue * q, pq_data_t *dest)
       *dest = top;
   }
   return TRUE;
-}
-
-/*********************************************************************
-  Remove all cells where datum is stored.
-**********************************************************************/
-void pq_delete(struct pqueue *q, const pq_data_t datum)
-{
-  const pq_data_t *read = q->cells + 1;
-  pq_data_t *write = q->cells + 1;
-  int i;
-
-  for (i = q->size - 1; i > 0; i--) {
-    if (*read++ == datum) {
-      *write = *read;
-      q->size--;
-    } else {
-      write++;
-    }
-  }
 }
 
 /*********************************************************************
