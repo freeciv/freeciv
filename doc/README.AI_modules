@@ -54,6 +54,12 @@ which may not work on all platforms.
 Special value --enable-aimodules=experimental makes freeciv also to build
 all the modules in its source tree as dynamically loadable AI modules.
 
+Dynamic AI modules are expected in their correct installation location
+unless one has configured with --enable-debug which allows freeciv
+server to look for supplied modules from build directory too. Otherwise you
+cannot use dynamic modules from the freeciv build dir, but you need
+to "make install" freeciv to install them to correct location.
+
 
 4. Coding new dynamic AI module
 -------------------------------
@@ -69,7 +75,7 @@ const char *fc_ai_<modulename>_capstr(void)
  
 bool fc_ai_<modulename>_setup(struct ai_type *ai)
   This function is called for AI module to setup itself. Most importantly
-  it should setup callback table ai->funcs so that it's other functions
+  it should setup callback table ai->funcs so that its other functions
   get called, and fill ai->name so that it can be referred to in creation of
   new players.
   Callback table, with comments when each callback gets called, is defined
