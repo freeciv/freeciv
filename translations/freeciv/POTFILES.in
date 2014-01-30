@@ -309,6 +309,7 @@ tools/civmanual.c
 tools/download.c
 tools/download.h
 tools/modinst.c
+tools/mpcli.c
 tools/mpcmdline.c
 tools/mpgui_gtk2.c
 tools/mpgui_gtk3.c
