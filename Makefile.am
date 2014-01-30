@@ -33,6 +33,8 @@ EXTRA_DIST=	autogen.sh 			\
 		bootstrap/fcser.in		\
 		bootstrap/fc_svnrev_gen.h.tmpl	\
 		bootstrap/generate_svnrev.sh	\
+		bootstrap/fc_gitrev_gen.h.tmpl	\
+		bootstrap/generate_gitrev.sh	\
 		bootstrap/freeciv.desktop.in	\
 		bootstrap/freeciv-gtk2.desktop.in \
 		bootstrap/freeciv-sdl.desktop.in \

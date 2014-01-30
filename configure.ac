@@ -320,6 +320,18 @@ if test x$svnrev = xtrue ; then
   AC_DEFINE([SVNREV], [1], [Get svn revision information to version number])
 fi
 
+AC_ARG_ENABLE([gitrev],
+  AS_HELP_STRING([--enable-gitrev], [get git revision to version information]),
+[case "${enableval}" in
+  yes) gitrev=true  ;;
+  no)  gitrev=false ;;
+  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-gitrev]) ;;
+esac], [gitrev=false])
+AM_CONDITIONAL([GITREV], [test x$gitrev = xtrue])
+if test x$gitrev = xtrue ; then
+  AC_DEFINE([GITREV], [1], [Get git revision information to version number])
+fi
+
 AC_ARG_ENABLE([make_data],
   AS_HELP_STRING([--disable-make-data], [do not recurse make into data directories]),
 [case "${enableval}" in

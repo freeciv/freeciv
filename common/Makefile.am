@@ -143,7 +143,14 @@ MAINTAINERCLEANFILES = \
 if SVNREV
 BUILT_SOURCES += fc_svnrev_gen.h
 endif
+if GITREV
+BUILT_SOURCES += fc_gitrev_gen.h
+endif
 
-.PHONY : fc_svnrev_gen.h
+.PHONY : fc_svnrev_gen.h fc_gitrev_gen.h
+
 fc_svnrev_gen.h :
 	"$(top_srcdir)/bootstrap/generate_svnrev.sh" "$(top_srcdir)" "$(top_builddir)"
+
+fc_gitrev_gen.h :
+	"$(top_srcdir)/bootstrap/generate_gitrev.sh" "$(top_srcdir)" "$(top_builddir)"
