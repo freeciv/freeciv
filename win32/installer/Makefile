@@ -38,7 +38,7 @@ build-freeciv-common:
 	# create build directory
 	mkdir -p build-$(GUI)
 	# configure
-	cd build-$(GUI); ../../../configure --enable-client=$(GUI) --with-followtag="win32" --enable-fcdb=sqlite3
+	cd build-$(GUI); ../../../configure --enable-client=$(GUI) --with-followtag="win32" --enable-fcdb=sqlite3 --enable-fcmp=gtk2
 	# make
 	make -C build-$(GUI)
 
@@ -102,14 +102,12 @@ COMMON_DLLS := \
 	libfontconfig-1.dll \
 	libfreetype-6.dll \
 	libgcc_s_dw2-1.dll \
-	libgdk-3-0.dll \
 	libgdk_pixbuf-2.0-0.dll \
 	libgio-2.0-0.dll \
 	libglib-2.0-0.dll \
 	libgmodule-2.0-0.dll \
 	libgobject-2.0-0.dll \
 	libgthread-2.0-0.dll \
-	libgtk-3-0.dll \
 	libiconv-2.dll \
 	libidn-11.dll \
 	libintl-8.dll \
@@ -134,23 +132,13 @@ COMMON_DLLS := \
 install-env-common:
 	# add DLLs
 	cp -R $(addprefix /bin/, $(COMMON_DLLS)) install-$(GUI)
-	# add additional GTK+3 files
-	mkdir -p install-$(GUI)/etc
-	cp -R /etc/gtk-3.0 install-$(GUI)/etc/
-	mkdir -p install-$(GUI)/lib/gtk-3.0/
-	cp -R /lib/gtk-3.0/3.0.0 install-$(GUI)/lib/gtk-3.0/
-	cp -R /share/locale install-$(GUI)/share/
-	find install-$(GUI)/share/locale -type f -not -name freeciv.mo -and -not -name gtk30.mo -delete
 
-install-env-gtk3: install-env-common
-
-GTK2_DLLS := \
+DEFAULT_FCMP_DLLS := \
 	libgdk-win32-2.0-0.dll \
 	libgtk-win32-2.0-0.dll
 
-install-env-gtk2: install-env-common
-	# add DLLs
-	cp -R $(addprefix /bin/, $(GTK2_DLLS)) install-$(GUI)
+install-env-default-fcmp: install-env-common
+	cp -R $(addprefix /bin/, $(DEFAULT_FCMP_DLLS)) install-$(GUI)
 	# add additional GTK+2 files
 	mkdir -p install-$(GUI)/etc
 	cp -R /etc/gtk-2.0 install-$(GUI)/etc/
@@ -159,11 +147,28 @@ install-env-gtk2: install-env-common
 	cp -R /share/locale install-$(GUI)/share/
 	find install-$(GUI)/share/locale -type f -not -name freeciv.mo -and -not -name gtk30.mo -and -not -name gtk20.mo -delete
 
+GTK3_DLLS := \
+	libgdk-3-0.dll \
+	libgtk-3-0.dll
+
+install-env-gtk3: install-env-default-fcmp
+	# add DLLs
+	cp -R $(addprefix /bin/, $(GTK3_DLLS)) install-$(GUI)
+	# add additional GTK+3 files
+	mkdir -p install-$(GUI)/etc
+	cp -R /etc/gtk-3.0 install-$(GUI)/etc/
+	mkdir -p install-$(GUI)/lib/gtk-3.0/
+	cp -R /lib/gtk-3.0/3.0.0 install-$(GUI)/lib/gtk-3.0/
+	cp -R /share/locale install-$(GUI)/share/
+	find install-$(GUI)/share/locale -type f -not -name freeciv.mo -and -not -name gtk30.mo -delete
+
+install-env-gtk2: install-env-default-fcmp
+
 SDL_DLLS := \
 	libpng12-0.dll \
 	SDL_image.dll
 
-install-env-sdl: install-env-common
+install-env-sdl: install-env-default-fcmp
 	# add DLLs
 	cp -R $(addprefix /bin/, $(SDL_DLLS)) install-$(GUI)
 
