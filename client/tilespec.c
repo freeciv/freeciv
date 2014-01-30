@@ -4244,9 +4244,9 @@ static int fill_terrain_sprite_layer(struct tileset *t,
     }
   }
 
-  /* Add darkness on top of the topmost terrain layer.  Note that darkness is always
+  /* Add darkness on top of the first layer.  Note that darkness is always
    * drawn, even in citymode, etc. */
-  if (layer_num == TERRAIN_LAYER_COUNT - 1) {
+  if (l == 0) {
     sprs += fill_terrain_sprite_darkness(t, sprs, ptile, tterrain_near);
   }
 
