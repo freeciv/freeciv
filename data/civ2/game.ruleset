@@ -55,6 +55,14 @@ autoupgrade_veteran_loss = 10
 ; Whether player gets to select which terrain improvement to pillage.
 pillage_select           = TRUE
 
+; Whether one can steal a tech for which prereqs are not known
+tech_steal_allow_holes    = TRUE
+; Whether one can get a tech for which prereqs are not known via diplomatic trading
+tech_trade_allow_holes    = TRUE
+; Whether one can get a tech for which prereqs are not known via parasite effect
+; (Great Library)
+tech_parasite_allow_holes = TRUE
+
 ; Whether civil war is possible at all
 civil_war_enabled        = TRUE
 

@@ -56,6 +56,9 @@ void ruleset_error_real(const char *file, const char *function,
 #define GAME_DEFAULT_DISASTER_FREQ       10
 #define GAME_DEFAULT_ACH_UNIQUE          TRUE
 #define GAME_DEFAULT_ACH_VALUE           1
+#define RS_DEFAULT_TECH_STEAL_HOLES      TRUE
+#define RS_DEFAULT_TECH_TRADE_HOLES      TRUE
+#define RS_DEFAULT_TECH_PARASITE_HOLES   TRUE
 
 #define RS_DEFAULT_TECH_UPKEEP_STYLE     "None"
 

@@ -143,8 +143,7 @@ static void dai_select_tech(struct player *pplayer,
   advance_index_iterate(A_FIRST, i) {
     if (valid_advance_by_number(i)) {
       if (values[i] > values[newtech]
-          && player_invention_gettable(pplayer, i, TRUE)
-          && player_invention_state(pplayer, i) == TECH_PREREQS_KNOWN) {
+          && player_invention_gettable(pplayer, i, TRUE)) {
         newtech = i;
       }
       if (goal_values[i] > goal_values[newgoal]

@@ -641,7 +641,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 
     advance_index_iterate(A_FIRST, i) {
       if (player_invention_state(pPlayer0, i) == TECH_KNOWN
-          && player_invention_gettable(pPlayer1, i, TRUE)
+          && player_invention_gettable(pPlayer1, i, game.info.tech_trade_allow_holes)
           && (player_invention_state(pPlayer1, i) == TECH_UNKNOWN
               || player_invention_state(pPlayer1, i) == TECH_PREREQS_KNOWN)) {
 
@@ -652,9 +652,9 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 	     height = MAX(height, pBuf->size.h);
              add_to_gui_list(ID_LABEL, pBuf);
 	     count++;
-	     
+
 	     fc_snprintf(cBuf, sizeof(cBuf), "  %s", advance_name_translation(advance_by_number(i)));
-  
+
              pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(12),
 	         (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
              pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
@@ -669,16 +669,16 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 	     break;
       }
     } advance_index_iterate_end;
-    
+
     if (flag > A_NONE) {
       advance_index_iterate(flag, i) {
         if (player_invention_state(pPlayer0, i) == TECH_KNOWN
-            && player_invention_gettable(pPlayer1, i, TRUE)
+            && player_invention_gettable(pPlayer1, i, game.info.tech_trade_allow_holes)
             && (player_invention_state(pPlayer1, i) == TECH_UNKNOWN
                 || player_invention_state(pPlayer1, i) == TECH_PREREQS_KNOWN)) {
-	     
+
 	     fc_snprintf(cBuf, sizeof(cBuf), "  %s", advance_name_translation(advance_by_number(i)));
-  
+
              pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(12),
 	         (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
              pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);

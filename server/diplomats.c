@@ -536,7 +536,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
       && !valid_advance_by_number(technology)) {
     return;
   }
-  
+
   if (technology == A_FUTURE) {
     if (player_invention_state(pplayer, A_FUTURE) != TECH_PREREQS_KNOWN
         || player_research_get(pplayer)->future_tech >= 
@@ -548,6 +548,10 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
       return;
     }
     if (player_invention_state(cplayer, technology) != TECH_KNOWN) {
+      return;
+    }
+    if (!player_invention_gettable(pplayer, technology,
+                                   game.info.tech_steal_allow_holes)) {
       return;
     }
   }
@@ -747,7 +751,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   nullify_prechange_production(pcity);
 
   /* You get a technology advance, too! */
-  steal_a_tech (pplayer, cplayer, A_UNSET);
+  steal_a_tech(pplayer, cplayer, A_UNSET);
 
   /* this may cause a diplomatic incident */
   maybe_cause_incident(DIPLOMAT_INCITE, pplayer, cplayer,

@@ -149,11 +149,11 @@ static bool player_has_really_useful_tech_parasite(struct player* pplayer)
   if (players_needed == 0) {
     return FALSE;
   }
-  
+
   advance_index_iterate(A_FIRST, tech) {
     int players_having;
 
-    if (!player_invention_gettable(pplayer, tech, TRUE)
+    if (!player_invention_gettable(pplayer, tech, game.info.tech_parasite_allow_holes)
         || TECH_KNOWN == player_invention_state(pplayer, tech)) {
       continue;
     }

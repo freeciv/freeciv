@@ -279,9 +279,8 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
       Tech_type_id i = advance_number(padvance);
 
       if (player_invention_state(pgiver, i) == TECH_KNOWN
-          && player_invention_gettable(pother, i, TRUE)
-          && (player_invention_state(pother, i) == TECH_UNKNOWN
-              || player_invention_state(pother, i) == TECH_PREREQS_KNOWN)) {
+          && player_invention_gettable(pother, i, game.info.tech_trade_allow_holes)
+          && player_invention_state(pother, i) != TECH_KNOWN) {
         sorting_list = g_list_prepend(sorting_list, padvance);
       }
     } advance_iterate_end;
@@ -967,9 +966,8 @@ static void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data)
       Tech_type_id i = advance_number(padvance);
 
       if (player_invention_state(pgiver, i) == TECH_KNOWN
-          && player_invention_gettable(pdest, i, TRUE)
-          && (player_invention_state(pdest, i) == TECH_UNKNOWN
-              || player_invention_state(pdest, i) == TECH_PREREQS_KNOWN)) {
+          && player_invention_gettable(pdest, i, game.info.tech_trade_allow_holes)
+          && player_invention_state(pdest, i) != TECH_KNOWN) {
         dsend_packet_diplomacy_create_clause_req(&client.conn, other, giver,
                                                  CLAUSE_ADVANCE, i);
       }

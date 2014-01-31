@@ -4859,6 +4859,17 @@ static bool load_ruleset_game(struct section_file *file, bool act)
     game.info.pillage_select
       = secfile_lookup_bool_default(file, RS_DEFAULT_PILLAGE_SELECT,
                                     "civstyle.pillage_select");
+
+   game.info.tech_steal_allow_holes
+      = secfile_lookup_bool_default(file, RS_DEFAULT_TECH_STEAL_HOLES,
+                                    "civstyle.tech_steal_allow_holes");
+   game.info.tech_trade_allow_holes
+      = secfile_lookup_bool_default(file, RS_DEFAULT_TECH_TRADE_HOLES,
+                                    "civstyle.tech_trade_allow_holes");
+   game.info.tech_parasite_allow_holes
+      = secfile_lookup_bool_default(file, RS_DEFAULT_TECH_PARASITE_HOLES,
+                                    "civstyle.tech_parasite_allow_holes");
+
     /* TODO: move to global_unit_options */
     game.server.upgrade_veteran_loss
       = secfile_lookup_int_default_min_max(file,

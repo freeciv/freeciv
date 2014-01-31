@@ -2894,8 +2894,7 @@ static void popup_change_research_dialog(void)
   }
     
   advance_index_iterate(A_FIRST, i) {
-    if (!player_invention_gettable(client.conn.playing, i, TRUE)
-        || TECH_PREREQS_KNOWN != player_invention_state(client.conn.playing, i)) {
+    if (!player_invention_gettable(client.conn.playing, i, TRUE)) {
       continue;
     }
     count++;
@@ -2963,8 +2962,7 @@ static void popup_change_research_dialog(void)
   count = 0;
   h = col * max_row;
   advance_index_iterate(A_FIRST, i) {
-    if (!player_invention_gettable(client.conn.playing, i, TRUE)
-        || TECH_PREREQS_KNOWN != player_invention_state(client.conn.playing, i)) {
+    if (!player_invention_gettable(client.conn.playing, i, TRUE)) {
       continue;
     }
     

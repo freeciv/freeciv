@@ -154,7 +154,7 @@ void do_tech_parasite_effect(struct player *pplayer)
     } effect_list_iterate_end;
 
     advance_index_iterate(A_FIRST, i) {
-      if (player_invention_gettable(pplayer, i, TRUE)
+      if (player_invention_gettable(pplayer, i, game.info.tech_parasite_allow_holes)
           && player_invention_state(pplayer, i) != TECH_KNOWN) {
         int num_research = 0;
 
@@ -881,7 +881,7 @@ void init_tech(struct player *plr, bool update)
                 "(now) / %-3s (ever)", player_number(plr),
                 advance_rule_name(advance_by_number(i)), i,
                 base_total_bulbs_required(plr, i),
-                player_invention_gettable(plr, i, TRUE) ? "yes" : "no",
+                player_invention_gettable(plr, i, FALSE) ? "yes" : "no",
                 player_invention_reachable(plr, i) ? "yes" : "no");
     } advance_index_iterate_end;
 
@@ -1011,7 +1011,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
   if (preferred == A_UNSET) {
     int j = 0;
     advance_index_iterate(A_FIRST, i) {
-      if (player_invention_gettable(pplayer, i, TRUE)
+      if (player_invention_gettable(pplayer, i, game.info.tech_steal_allow_holes)
 	  && player_invention_state(pplayer, i) != TECH_KNOWN
 	  && player_invention_state(victim, i) == TECH_KNOWN) {
         j++;
@@ -1032,7 +1032,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
       j = fc_rand(j) + 1;
       stolen_tech = A_NONE; /* avoid compiler warning */
       advance_index_iterate(A_FIRST, i) {
-        if (player_invention_gettable(pplayer, i, TRUE)
+        if (player_invention_gettable(pplayer, i, game.info.tech_steal_allow_holes)
 	    && player_invention_state(pplayer, i) != TECH_KNOWN
 	    && player_invention_state(victim, i) == TECH_KNOWN) {
 	  j--;

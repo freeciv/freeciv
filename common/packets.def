@@ -480,6 +480,9 @@ PACKET_GAME_INFO = 16; sc
   PHASE phase;
   PHASE_MODE phase_mode;
   BOOL pillage_select;
+  BOOL tech_steal_allow_holes;
+  BOOL tech_trade_allow_holes;
+  BOOL tech_parasite_allow_holes;
   STRING positive_year_label[MAX_LEN_NAME];
   UINT8 rapturedelay;
   UINT16 disasters;
