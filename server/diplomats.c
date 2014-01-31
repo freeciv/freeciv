@@ -895,6 +895,10 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     }
   } else {
     struct impr_type *pimprove = improvement_by_number(improvement);
+    if (pimprove == NULL) {
+      log_error("sabotage: requested for invalid improvement %d", improvement);
+      return;
+    }
     /*
      * Told which improvement to pick:
      * If try for wonder or palace, complain, deduct movement cost and return.
