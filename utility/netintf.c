@@ -689,8 +689,22 @@ int find_next_free_port(int starting_port, enum fc_addr_family family,
     sock4->sin_family = AF_INET;
     sock4->sin_port = htons(port);
     if (net_interface != NULL) {
+#if defined(HAVE_INET_ATON)
+      if (inet_aton(net_interface, &sock4->sin_addr) == 0) {
+#else /* HAVE_INET_ATON */
       sock4->sin_addr.s_addr = inet_addr(net_interface);
-    } else {  
+      if (sock4->sin_addr.s_addr == INADDR_NONE) {
+#endif /* HAVE_INET_ATON */
+        struct hostent *hp;
+
+        hp = gethostbyname(net_interface);
+        if (!hp || hp->h_addrtype != AF_INET) {
+          return -1;
+        }
+
+        memcpy(&sock4->sin_addr, hp->h_addr, hp->h_length);
+      }
+    } else {
       sock4->sin_addr.s_addr = htonl(INADDR_ANY);
     }
 

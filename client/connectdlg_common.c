@@ -222,6 +222,13 @@ bool client_start_server(void)
   internal_server_port = find_next_free_port(DEFAULT_SOCK_PORT,
                                              family, "localhost");
 
+  if (internal_server_port < 0) {
+    output_window_append(ftc_client, _("Couldn't start the server."));
+    output_window_append(ftc_client,
+                         _("You'll have to start one manually. Sorry..."));
+    return FALSE;
+  }
+
 # ifdef HAVE_WORKING_FORK
   server_pid = fork();
 
