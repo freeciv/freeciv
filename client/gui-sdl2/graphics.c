@@ -372,7 +372,7 @@ SDL_Surface *load_surf_with_flags(const char *pFname, int iFlags)
    create an surface with format
    MUST NOT BE USED IF NO SDLSCREEN IS SET
 **************************************************************************/
-SDL_Surface *create_surf_with_format(SDL_PixelFormat * pSpf,
+SDL_Surface *create_surf_with_format(SDL_PixelFormat *pSpf,
 				     int iWidth, int iHeight,
 				     Uint32 iFlags)
 {
@@ -709,17 +709,18 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
 
   FREESURFACE(Main.map);
   Main.map = SDL_DisplayFormat(Main.screen);
-  
+
+#endif /* 0 */
+
   if (Main.gui) {
     FREESURFACE(Main.gui->surface);
-    Main.gui->surface = create_surf_alpha(Main.screen->w, Main.screen->h, SDL_SWSURFACE);
+    Main.gui->surface = create_surf_alpha(main_window_width(), main_window_height(), SDL_SWSURFACE);
   } else {
-    Main.gui = add_gui_layer(Main.screen->w, Main.screen->h);
+    Main.gui = add_gui_layer(main_window_width(), main_window_width());
   }
-  
+
   clear_surface(Main.gui->surface, NULL);
-#endif
- 
+
   return 0;
 }
 

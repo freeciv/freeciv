@@ -211,11 +211,12 @@ void flush_all(void)
 void flush_dirty(void)
 {
   static int j = 0;
-  if(!Main.rects_count) {
+
+  if (!Main.rects_count) {
     return;
   }
 
-  if(Main.rects_count >= RECT_LIMIT) {
+  if (Main.rects_count >= RECT_LIMIT) {
     
     if ((C_S_RUNNING == client_state()) &&
         (get_client_page() == PAGE_GAME)) {
@@ -226,20 +227,21 @@ void flush_dirty(void)
     if (Main.guis) {
       while((j < Main.guis_count) && Main.guis[j]) {
         SDL_Rect dst = Main.guis[j]->dest_rect;
+
         alphablit(Main.guis[j++]->surface, NULL, Main.mainsurf, &dst);
       }
     }
     j = 0;
 
-    draw_mouse_cursor();    
-    
+    draw_mouse_cursor();
+
     /* flush main buffer to framebuffer */
     update_main_screen();
   } else {
     static int i;
     static SDL_Rect src, dst;
-    
-    for(i = 0; i<Main.rects_count; i++) {
+
+    for (i = 0; i < Main.rects_count; i++) {
       
       dst = Main.rects[i];
       if (C_S_RUNNING == client_state()) {     
@@ -264,7 +266,6 @@ void flush_dirty(void)
                           || (dst.y > (pInfo_Area->y + pInfo_Area->h)))) {
         redraw_widget_info_label(&dst);     
       }
-      
     }
 
     draw_mouse_cursor();

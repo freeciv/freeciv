@@ -235,8 +235,8 @@ struct widget * create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pDest,
 /**************************************************************************
   ThemeLabel is String16 with Background ( pIcon ).
 **************************************************************************/
-struct widget * create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
-  		SDL_String16 *pText, Uint16 w, Uint16 h, Uint32 flags)
+struct widget *create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
+                                  SDL_String16 *pText, Uint16 w, Uint16 h, Uint32 flags)
 {
   struct widget *pLabel = NULL;
   SDL_Surface *pBuf = NULL, *pTheme = NULL;
@@ -263,20 +263,20 @@ struct widget * create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
 
   pLabel->size.w = MAX(pLabel->size.w, w);
   pLabel->size.h = MAX(pLabel->size.h, h);
-  
+
   pBuf = create_surf_alpha(pLabel->size.w, pLabel->size.h * 2, SDL_SWSURFACE);
-    
+
   if (flags & WF_RESTORE_BACKGROUND) {
 #if 0
     pTheme = SDL_DisplayFormatAlpha(pBuf);
+    FREESURFACE(pBuf);
 #else
     pTheme = pBuf;
 #endif
-    FREESURFACE(pBuf);
   } else {
     pTheme = pBuf;
   }
-  
+
   colorkey = SDL_MapRGBA(pTheme->format, pText->bgcol.r,
   		pText->bgcol.g, pText->bgcol.b, pText->bgcol.a);
   SDL_FillRect(pTheme, NULL, colorkey);
@@ -289,11 +289,11 @@ struct widget * create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
   /* normal */
   redraw_iconlabel(pLabel);
 
-  /* sellected */
+  /* selected */
   area.x = 0;
   area.y = pLabel->size.h;
     
-  if(flags & WF_RESTORE_BACKGROUND) {
+  if (flags & WF_RESTORE_BACKGROUND) {
     SDL_FillRect(pTheme, &area, map_rgba(pTheme->format, bg_color));
     store = pText->bgcol;
     SDL_GetRGBA(getpixel(pTheme, area.x , area.y), pTheme->format,
