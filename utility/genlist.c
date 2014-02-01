@@ -630,7 +630,7 @@ void genlist_sort(struct genlist *pgenlist,
                   int (*compar) (const void *, const void *))
 {
   const size_t n = genlist_size(pgenlist);
-  void **sortbuf = fc_malloc(n * sizeof(void *));
+  void **sortbuf;
   struct genlist_link *myiter;
   int i;
 
@@ -638,6 +638,7 @@ void genlist_sort(struct genlist *pgenlist,
     return;
   }
 
+  sortbuf = fc_malloc(n * sizeof(void *));
   myiter = genlist_head(pgenlist);
   for (i = 0; i < n; i++, myiter = myiter->next) {
     sortbuf[i] = myiter->dataptr;
