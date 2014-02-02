@@ -5,7 +5,7 @@
 # Tomasz Węgrzanowski <maniek@beer.com> 2000
 # Zbigniew Baniewski <zb@ispid.com.pl> 2002
 # Mateusz Stefek <matusik_s@o2.pl> 2002
-# Hubert Kowalewski <hubkow@gmail.com> 2010 - 2013
+# Hubert Kowalewski <hubkow@gmail.com> 2010 - 2014
 #
 # **************************************************************************
 # KONWENCJE:
