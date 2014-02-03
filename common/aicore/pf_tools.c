@@ -565,32 +565,7 @@ static void pft_fill_default_parameter(struct pf_parameter *parameter,
 {
   struct unit_class *punitclass = utype_class(punittype);
 
-  parameter->unknown_MC = SINGLE_MOVE;
-
-  if (uclass_has_flag(punitclass, UCF_TERRAIN_SPEED)) {
-    /* Unit is subject to terrain movement costs */
-    bv_extras extras;
-
-    BV_CLR_ALL(extras);
-
-    terrain_type_iterate(pterrain) {
-      if (is_native_terrain(punittype, pterrain, extras)) {
-        /* Exact movement cost matters only if we can enter
-         * the tile. */
-        int mr = 2 * pterrain->movement_cost;
-
-        parameter->unknown_MC = MAX(mr, parameter->unknown_MC);
-      } else {
-        /* FIXME: We might be unable to enter tile at all.
-                  This should have some cost too? */
-      }
-    } terrain_type_iterate_end;
-  }
-  if (uclass_move_type(punitclass) == UMT_SEA) {
-    /* Sailing units explore less */
-    parameter->unknown_MC *= 2;
-  }
-
+  parameter->unknown_MC = punittype->unknown_move_cost;
   parameter->get_TB = NULL;
   parameter->get_EC = NULL;
   parameter->is_pos_dangerous = NULL;

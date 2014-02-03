@@ -383,6 +383,7 @@ struct unit_type {
   int attack_strength;
   int defense_strength;
   int move_rate;
+  int unknown_move_cost; /* See utype_unknown_move_cost(). */
 
   struct advance *require_advance;	/* may be NULL */
   struct impr_type *need_improvement;	/* may be NULL */

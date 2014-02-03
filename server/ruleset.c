@@ -2081,6 +2081,13 @@ static bool load_ruleset_units(struct section_file *file)
     } unit_type_iterate_end;
   }
 
+  if (ok) {
+    /* Finalize unit_type: cached values. */
+    unit_type_iterate(u) {
+      u->unknown_move_cost = utype_unknown_move_cost(u);
+    } unit_type_iterate_end;
+  }
+
   if (ok) { 
     /* Some more consistency checking: */
     unit_type_iterate(u) {

@@ -38,6 +38,7 @@
 #include "idex.h"
 #include "map.h"
 #include "name_translation.h"
+#include "movement.h"
 #include "nation.h"
 #include "packets.h"
 #include "player.h"
@@ -2835,6 +2836,10 @@ void handle_rulesets_ready(void)
       }
     } extra_type_iterate_end;
   } extra_type_iterate_end;
+
+  unit_type_iterate(u) {
+    u->unknown_move_cost = utype_unknown_move_cost(u);
+  } unit_type_iterate_end;
 
   /* We are not going to crop any more sprites from big sprites, free them. */
   finish_loading_sprites(tileset);

@@ -46,6 +46,8 @@ enum unit_move_result {
 };
 
 int unit_move_rate(const struct unit *punit);
+int utype_unknown_move_cost(const struct unit_type *utype);
+
 bool unit_can_defend_here(const struct unit *punit);
 bool can_attack_non_native(const struct unit_type *utype);
 bool can_attack_from_non_native(const struct unit_type *utype);

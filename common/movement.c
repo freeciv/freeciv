@@ -78,6 +78,56 @@ int unit_move_rate(const struct unit *punit)
   return move_rate;
 }
 
+/****************************************************************************
+  This function calculates the movement cost to unknown tiles. The base
+  value is equal to the highest movement cost the unit can encounter. If
+  the unit cannot enter all terrains, a malus is applied.
+  The returned value is usually cached into utype->unknown_move_cost and
+  used in the path-finding module.
+****************************************************************************/
+int utype_unknown_move_cost(const struct unit_type *utype)
+{
+  const struct unit_class *uclass = utype_class(utype);
+  bv_extras extras;
+  int move_cost;
+
+  BV_CLR_ALL(extras);
+
+  if (!uclass_has_flag(uclass, UCF_TERRAIN_SPEED)) {
+    /* Unit is not subject to terrain movement costs. */
+    move_cost = SINGLE_MOVE;
+  } else if (utype_has_flag(utype, UTYF_IGTER)) {
+    /* All terrain movement costs are equal! */
+    move_cost = MOVE_COST_IGTER;
+  } else {
+    /* Unit is subject to terrain movement costs. */
+    move_cost = 1; /* Arbitrary minimum. */
+    terrain_type_iterate(pterrain) {
+      if (is_native_to_class(uclass, pterrain, extras)
+          && pterrain->movement_cost > move_cost) {
+        /* Exact movement cost matters only if we can enter
+         * the tile. */
+        move_cost = pterrain->movement_cost;
+      }
+    } terrain_type_iterate_end;
+    move_cost *= SINGLE_MOVE; /* Real value. */
+  }
+
+  /* Let's see if we can cross over all terrain types, else apply a malus.
+   * We want units that may encounter unsuitable terrain explore less.
+   * N.B.: We don't take in account terrain no unit can enter here. */
+  terrain_type_iterate(pterrain) {
+    if (BV_ISSET_ANY(pterrain->native_to)
+        && !is_native_to_class(uclass, pterrain, extras)) {
+      /* Units that may encounter unsuitable terrain explore less. */
+      move_cost *= 2;
+      break;
+    }
+  } terrain_type_iterate_end;
+
+  return move_cost;
+}
+
 
 /****************************************************************************
   Return TRUE iff the unit can be a defender at its current location.  This
