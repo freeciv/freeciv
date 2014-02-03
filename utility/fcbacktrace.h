@@ -14,7 +14,11 @@
 #ifndef FC__BACKTRACE_H
 #define FC__BACKTRACE_H
 
+/* utility */
+#include "log.h"
+
 void backtrace_init(void);
 void backtrace_deinit(void);
+void backtrace_print(enum log_level level);
 
 #endif /* FC__BACKTRACE_H */

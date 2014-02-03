@@ -101,31 +101,41 @@ static void backtrace_log(enum log_level level, bool print_from_where,
   }
 
   if (level <= LOG_ERROR) {
-    void *buffer[MAX_NUM_FRAMES];
-    int frames;
-    char **names;
-
-    frames = backtrace(buffer, sizeof(buffer));
-    names = backtrace_symbols(buffer, frames);
-
-    if (names == NULL) {
-      write_backtrace_line(LOG_BACKTRACE, FALSE, NULL, "No backtrace");
-    } else {
-      int i;
-
-      write_backtrace_line(LOG_BACKTRACE, FALSE, NULL, "Backtrace:");
-
-      for (i = 0; i < MIN(frames, MAX_NUM_FRAMES); i++) {
-        char linestr[256];
-
-        fc_snprintf(linestr, sizeof(linestr), "%5d: %s", i, names[i]);
-
-        write_backtrace_line(LOG_BACKTRACE, FALSE, NULL, linestr);
-      }
-
-      free(names);
-    }
+    backtrace_print(LOG_BACKTRACE);
   }
 }
 
 #endif /* BACKTRACE_ACTIVE */
+
+/*****************************************************************************
+  Print backtrace
+*****************************************************************************/
+void backtrace_print(enum log_level level)
+{
+#ifdef BACKTRACE_ACTIVE
+  void *buffer[MAX_NUM_FRAMES];
+  int frames;
+  char **names;
+
+  frames = backtrace(buffer, sizeof(buffer));
+  names = backtrace_symbols(buffer, frames);
+
+  if (names == NULL) {
+    write_backtrace_line(level, FALSE, NULL, "No backtrace");
+  } else {
+    int i;
+
+    write_backtrace_line(level, FALSE, NULL, "Backtrace:");
+
+    for (i = 0; i < MIN(frames, MAX_NUM_FRAMES); i++) {
+      char linestr[256];
+
+      fc_snprintf(linestr, sizeof(linestr), "%5d: %s", i, names[i]);
+
+      write_backtrace_line(level, FALSE, NULL, linestr);
+    }
+
+    free(names);
+  }
+#endif /* BACKTRACE_ACTIVE */
+}
