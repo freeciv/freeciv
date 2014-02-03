@@ -71,7 +71,7 @@ struct mouse_button_behavior {
   struct tile *ptile;
 };
 
-extern struct widget *pSellected_Widget;
+extern struct widget *selected_widget;
 extern Uint32 SDL_Client_Flags;
 extern bool LSHIFT;
 extern bool RSHIFT;

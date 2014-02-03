@@ -100,9 +100,9 @@ static int connect_callback(struct widget *pWidget)
       output_window_append(ftc_any, errbuf);
 
       /* button up */
-      unsellect_widget_action();
-      set_wstate(pWidget, FC_WS_SELLECTED);
-      pSellected_Widget = pWidget;
+      unselect_widget_action();
+      set_wstate(pWidget, FC_WS_SELECTED);
+      selected_widget = pWidget;
       widget_redraw(pWidget);
       widget_flush(pWidget);
     }
@@ -142,7 +142,7 @@ static int exit_meta_severs_dlg_callback(struct widget *pWidget)
 /**************************************************************************
   Server selected from dialog.
 **************************************************************************/
-static int sellect_meta_severs_callback(struct widget *pWidget)
+static int select_meta_servers_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct server *pServer = (struct server *)pWidget->data.ptr;
@@ -335,7 +335,7 @@ void popup_connection_dialog(bool lan_scan)
     pNewWidget->string16->style |= SF_CENTER;
     pNewWidget->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
 
-    pNewWidget->action = sellect_meta_severs_callback;
+    pNewWidget->action = select_meta_servers_callback;
     set_wstate(pNewWidget, FC_WS_NORMAL);
     pNewWidget->data.ptr = (void *)pServer;
     

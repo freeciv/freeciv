@@ -426,10 +426,10 @@ static int std_up_advanced_dlg_callback(struct widget *pWidget)
     if (pBegin) {
       pDlg->pActiveWidgetList = pBegin;
     }
-    
-    unsellect_widget_action();
-    pSellected_Widget = pWidget;
-    set_wstate(pWidget, FC_WS_SELLECTED);
+
+    unselect_widget_action();
+    selected_widget = pWidget;
+    set_wstate(pWidget, FC_WS_SELECTED);
     widget_redraw(pWidget);
     widget_flush(pWidget);
   }
@@ -452,10 +452,10 @@ static int std_down_advanced_dlg_callback(struct widget *pWidget)
     if (pBegin) {
       pDlg->pActiveWidgetList = pBegin;
     }
-  
-    unsellect_widget_action();
-    pSellected_Widget = pWidget;
-    set_wstate(pWidget, FC_WS_SELLECTED);
+
+    unselect_widget_action();
+    selected_widget = pWidget;
+    set_wstate(pWidget, FC_WS_SELECTED);
     widget_redraw(pWidget);
     widget_flush(pWidget);
   }
@@ -478,9 +478,10 @@ static int std_vscroll_advanced_dlg_callback(struct widget *pScrollBar)
     if (pBegin) {
       pDlg->pActiveWidgetList = pBegin;
     }
-    unsellect_widget_action();
-    set_wstate(pScrollBar, FC_WS_SELLECTED);
-    pSellected_Widget = pScrollBar;
+
+    unselect_widget_action();
+    set_wstate(pScrollBar, FC_WS_SELECTED);
+    selected_widget = pScrollBar;
     redraw_vert(pScrollBar);
     widget_flush(pScrollBar);
   }

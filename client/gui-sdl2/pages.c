@@ -160,9 +160,8 @@ static void show_main_page(void)
   }
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, verbuf,
             adj_font(12),
-            (WF_SELLECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
+            (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
-   
   pWidget->string16->style |= SF_CENTER | TTF_STYLE_BOLD;
   
   area.w = MAX(area.w, pWidget->size.w);
@@ -175,8 +174,8 @@ static void show_main_page(void)
   fc_snprintf(verbuf, sizeof(verbuf), _("%s client"), client_string);
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, verbuf,
             adj_font(12),
-            (WF_SELLECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-   
+            (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
+
   pWidget->string16->style |= SF_CENTER | TTF_STYLE_BOLD;
   
   area.w = MAX(area.w, pWidget->size.w);
@@ -188,8 +187,8 @@ static void show_main_page(void)
   /* Start New Game */
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Start New Game"),
             adj_font(14),
-            (WF_SELLECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-  
+            (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
+
   pWidget->action = start_new_game_callback;
   pWidget->string16->style |= SF_CENTER;
   set_wstate(pWidget, FC_WS_NORMAL);
@@ -203,7 +202,8 @@ static void show_main_page(void)
   /* Load Game */  
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Load Game"),
             adj_font(14),
-	    (WF_SELLECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND));
+	    (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND));
+
   pWidget->action = load_game_callback;
   pWidget->string16->style |= SF_CENTER;
   set_wstate(pWidget, FC_WS_NORMAL);
@@ -217,7 +217,8 @@ static void show_main_page(void)
   /* Join Game */
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Join Game"),
             adj_font(14),
-	    WF_SELLECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+	    WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+
   pWidget->action = join_game_callback;
   pWidget->string16->style |= SF_CENTER;  
   set_wstate(pWidget, FC_WS_NORMAL);
@@ -231,7 +232,8 @@ static void show_main_page(void)
   /* Join Pubserver */  
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Join Pubserver"),
             adj_font(14),
-	    WF_SELLECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+	    WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+
   pWidget->action = servers_callback;
   pWidget->string16->style |= SF_CENTER;  
   set_wstate(pWidget, FC_WS_NORMAL);
@@ -245,7 +247,8 @@ static void show_main_page(void)
   /* Join LAN Server */  
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Join LAN Server"),
             adj_font(14),
-	    WF_SELLECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+	    WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+
   pWidget->action = servers_callback;
   pWidget->string16->style |= SF_CENTER;  
   set_wstate(pWidget, FC_WS_NORMAL);
@@ -259,7 +262,8 @@ static void show_main_page(void)
   /* Options */  
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Options"),
             adj_font(14),
-	    WF_SELLECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+	    WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+
   pWidget->action = options_callback;
   pWidget->string16->style |= SF_CENTER;
   set_wstate(pWidget, FC_WS_NORMAL);
@@ -273,7 +277,8 @@ static void show_main_page(void)
   /* Quit */  
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Quit"),
             adj_font(14),
-	    WF_SELLECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+	    WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+
   pWidget->action = quit_callback;
   pWidget->string16->style |= SF_CENTER;
   pWidget->key = SDLK_ESCAPE;

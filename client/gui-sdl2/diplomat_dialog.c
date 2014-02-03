@@ -342,7 +342,7 @@ static int spy_steal_popup(struct widget *pWidget)
       count++;
 
       copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(i)));
-      pSurf = create_sellect_tech_icon(pStr, i, FULL_MODE);
+      pSurf = create_select_tech_icon(pStr, i, FULL_MODE);
       pBuf = create_icon2(pSurf, pWindow->dst,
       		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
@@ -369,8 +369,8 @@ static int spy_steal_popup(struct widget *pWidget)
     copy_chars_to_string16(pStr, astr_str(&str));
     astr_free(&str);
   }
-  pSurf = create_sellect_tech_icon(pStr, i, FULL_MODE);
-	
+  pSurf = create_select_tech_icon(pStr, i, FULL_MODE);
+
   pBuf = create_icon2(pSurf, pWindow->dst,
     	(WF_FREE_THEME | WF_RESTORE_BACKGROUND| WF_FREE_DATA));
   set_wstate(pBuf, FC_WS_NORMAL);

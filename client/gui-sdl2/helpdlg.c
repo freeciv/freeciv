@@ -1179,7 +1179,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
                 pWindow->dst,
                 government_name_translation(gov),
                 adj_font(14),
-                WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR | WF_FREE_THEME);
+                WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR | WF_FREE_THEME);
         set_wstate(pWidget, FC_WS_NORMAL);
         pWidget->action = change_gov_callback;
         pWidget->ID = MAX_ID - government_index(gov);
@@ -1205,7 +1205,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
                 pWindow->dst,
                 improvement_name_translation(pImprove),
                 adj_font(14),
-                WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR);
+                WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR);
         set_wstate(pWidget, FC_WS_NORMAL);
         if (is_wonder(pImprove))
         {
@@ -1231,7 +1231,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
                                    ResizeSurfaceBox(get_unittype_surface(un, direction8_invalid()),
                                    adj_size(48), adj_size(48), 1, TRUE, TRUE),
                   pWindow->dst, utype_name_translation(pUnitType), adj_font(14),
-                  (WF_FREE_THEME|WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
+                  (WF_FREE_THEME | WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR));
       set_wstate(pWidget, FC_WS_NORMAL);
       pWidget->action = change_unit_callback;
       pWidget->ID = MAX_ID - utype_number(un);
@@ -1676,7 +1676,7 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
   pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
   copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(tech)));
-  pSurf = create_sellect_tech_icon(pStr, tech, FULL_MODE);
+  pSurf = create_select_tech_icon(pStr, tech, FULL_MODE);
   pWidget = create_icon2(pSurf, pWindow->dst,
                 WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
@@ -1696,7 +1696,7 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
     if (NULL != vap && A_NONE != ar)
     {
       copy_chars_to_string16(pStr, advance_name_translation(vap));
-      pSurf = create_sellect_tech_icon(pStr, ar, SMALL_MODE);
+      pSurf = create_select_tech_icon(pStr, ar, SMALL_MODE);
       pWidget = create_icon2(pSurf, pWindow->dst,
                 WF_FREE_THEME | WF_RESTORE_BACKGROUND);
       set_wstate(pWidget, FC_WS_NORMAL);
@@ -1727,7 +1727,7 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
         if (NULL != vap && A_NONE != ar)
         {
           copy_chars_to_string16(pStr, advance_name_translation(vap));
-          pSurf = create_sellect_tech_icon(pStr, ar, SMALL_MODE);
+          pSurf = create_select_tech_icon(pStr, ar, SMALL_MODE);
           pWidget = create_icon2(pSurf, pWindow->dst,
                 WF_FREE_THEME | WF_RESTORE_BACKGROUND);
           set_wstate(pWidget, FC_WS_NORMAL);
@@ -1754,7 +1754,7 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
        || advance_required(i, AR_TWO) == tech))
     {
       copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(i)));
-      pSurf = create_sellect_tech_icon(pStr, i, SMALL_MODE);
+      pSurf = create_select_tech_icon(pStr, i, SMALL_MODE);
       pWidget = create_icon2(pSurf, pWindow->dst,
                 WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
@@ -1791,7 +1791,7 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
       }
 
       copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(sub_tech)));
-      pSurf = create_sellect_tech_icon(pStr, sub_tech, SMALL_MODE);
+      pSurf = create_select_tech_icon(pStr, sub_tech, SMALL_MODE);
       pWidget = create_icon2(pSurf, pWindow->dst,
         WF_FREE_THEME | WF_RESTORE_BACKGROUND);
       set_wstate(pWidget, FC_WS_NORMAL);
@@ -2005,7 +2005,7 @@ void popup_tech_info(Tech_type_id tech)
       struct advance *vap = valid_advance_by_number(i);;
       if (vap) {
         copy_chars_to_string16(pStr, advance_name_translation(vap));
-        pSurf = create_sellect_tech_icon(pStr, i, SMALL_MODE);
+        pSurf = create_select_tech_icon(pStr, i, SMALL_MODE);
         pAdvanceLabel = create_icon2(pSurf, pWindow->dst,
                                      WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 

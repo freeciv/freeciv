@@ -65,7 +65,7 @@ static int msg_callback(struct widget *pWidget)
     int message_index = *(int*)pWidget->data.ptr;
       
     pWidget->string16->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
-    unsellect_widget_action();
+    unselect_widget_action();
 
     meswin_double_click(message_index);
     meswin_set_visited_state(message_index, TRUE);

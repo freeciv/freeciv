@@ -1110,7 +1110,7 @@ static int add_new_worklist_callback(struct widget *widget)
     bool redraw_all = FALSE;
 
     set_wstate(widget, FC_WS_NORMAL);
-    pSellected_Widget = NULL;
+    selected_widget = NULL;
 
     /* Create list element. */
     new_worklist_widget =

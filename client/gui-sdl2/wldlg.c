@@ -203,7 +203,7 @@ static void add_target_to_worklist(struct widget *pTarget)
   int i;
   struct universal prod = cid_decode(MAX_ID - pTarget->ID);
   
-  set_wstate(pTarget, FC_WS_SELLECTED);
+  set_wstate(pTarget, FC_WS_SELECTED);
   widget_redraw(pTarget);
   widget_flush(pTarget);
   
@@ -348,7 +348,7 @@ static void add_target_to_production(struct widget *pTarget)
   fc_assert_ret(pTarget != NULL);
   
   /* redraw Target Icon */
-  set_wstate(pTarget, FC_WS_SELLECTED);
+  set_wstate(pTarget, FC_WS_SELECTED);
   widget_redraw(pTarget);
   widget_flush(pTarget);
 
@@ -382,9 +382,9 @@ static void get_target_help_data(struct widget *pTarget)
   struct universal prod;
 
   fc_assert_ret(pTarget != NULL);
-  
+
   /* redraw Target Icon */
-  set_wstate(pTarget, FC_WS_SELLECTED);
+  set_wstate(pTarget, FC_WS_SELECTED);
   widget_redraw(pTarget);
   /*widget_flush(pTarget);*/
   

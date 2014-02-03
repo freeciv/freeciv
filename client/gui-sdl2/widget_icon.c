@@ -97,7 +97,7 @@ static int redraw_icon2(struct widget *pIcon)
   dest.w = pIcon->theme->w;
   dest.h = pIcon->theme->h;
 
-  if (state == FC_WS_SELLECTED) {
+  if (state == FC_WS_SELECTED) {
     putframe(pIcon->dst->surface,
              dest.x + 1, dest.y + 1,
              dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
@@ -163,10 +163,10 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
   /* normal */
   alphablit(pIcon, &src, pTheme, &dest);
 
-  /* sellected */
+  /* selected */
   dest.x += (src.w + adj_size(4));
   alphablit(pIcon, &src, pTheme, &dest);
-  /* draw sellect frame */
+  /* draw selected frame */
   putframe(pTheme,
            dest.x - 1, dest.y - 1, dest.x + (src.w), dest.y + src.h,
            get_theme_color(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
@@ -174,7 +174,7 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
   /* pressed */
   dest.x += (src.w + adj_size(4));
   alphablit(pIcon, &src, pTheme, &dest);
-  /* draw sellect frame */
+  /* draw selected frame */
   putframe(pTheme,
            dest.x - 1, dest.y - 1, dest.x + src.w, dest.y + src.h,
            get_theme_color(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));

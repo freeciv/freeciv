@@ -40,6 +40,7 @@
 #include "SDL.h"
 
 /* utility */
+#include "fcbacktrace.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
@@ -97,7 +98,7 @@ Uint32 widget_info_counter = 0;
 int MOVE_STEP_X = DEFAULT_MOVE_STEP;
 int MOVE_STEP_Y = DEFAULT_MOVE_STEP;
 extern bool draw_goto_patrol_lines;
-SDL_Event *pFlush_User_Event = NULL;
+SDL_Event *flush_event = NULL;
 bool is_unit_move_blocked;
 bool LSHIFT;
 bool RSHIFT;
@@ -287,9 +288,10 @@ static Uint16 main_key_down_handler(SDL_Keysym Key, void *pData)
 **************************************************************************/
 static Uint16 main_key_up_handler(SDL_Keysym Key, void *pData)
 {
-  if(pSellected_Widget) {
-    unsellect_widget_action();
+  if (selected_widget) {
+    unselect_widget_action();
   }
+
   return ID_ERROR;
 }
 
@@ -368,7 +370,7 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
     }
   }
 
-  if(draw_goto_patrol_lines) {
+  if (draw_goto_patrol_lines) {
     update_line(pMotionEvent->x, pMotionEvent->y);
   }
 
@@ -383,11 +385,11 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
                                          pMotionEvent->y)) != NULL) {
     update_mouse_cursor(CURSOR_DEFAULT);
     if (!(get_wstate(pWidget) == FC_WS_DISABLED)) {
-      widget_sellected_action(pWidget);
+      widget_selected_action(pWidget);
     }
   } else {
-    if (pSellected_Widget) {
-      unsellect_widget_action();
+    if (selected_widget) {
+      unselect_widget_action();
     } else {
       control_mouse_cursor(canvas_pos_to_tile(pMotionEvent->x, pMotionEvent->y));
     }
@@ -525,6 +527,8 @@ Uint16 gui_event_loop(void *pData,
   static int result;
   /* static int schot_nr = 0;
      static char schot[32]; */
+
+  backtrace_print(LOG_NORMAL);
 
   ID = ID_ERROR;
   t_last_map_scrolling = t_last_unit_anim = real_timer_next_call = SDL_GetTicks();
@@ -695,7 +699,7 @@ Uint16 gui_event_loop(void *pData,
         break;
 
         case SDL_MOUSEMOTION:
-          if(mouse_motion_handler) {
+          if (mouse_motion_handler) {
             ID = mouse_motion_handler(&Main.event.motion, pData);
           }	
         break;
@@ -733,7 +737,7 @@ Uint16 gui_event_loop(void *pData,
             break;
             default:
             break;
-          }    
+          }
         break;
 
       }
@@ -1021,7 +1025,7 @@ void ui_main(int argc, char *argv[])
   __Flush_User_Event.user.code = FLUSH;
   __Flush_User_Event.user.data1 = NULL;
   __Flush_User_Event.user.data2 = NULL;
-  pFlush_User_Event = &__Flush_User_Event;
+  flush_event = &__Flush_User_Event;
 
   __pMap_Scroll_User_Event.type = SDL_USEREVENT;
   __pMap_Scroll_User_Event.user.code = MAP_SCROLL;
@@ -1101,8 +1105,7 @@ void ui_main(int argc, char *argv[])
   /* Main game loop */
   gui_event_loop(NULL, NULL, main_key_down_handler, main_key_up_handler,
   		 main_mouse_button_down_handler, main_mouse_button_up_handler,
-		 main_mouse_motion_handler);
-                 
+		 main_mouse_motion_handler); 
 }
 
 /**************************************************************************

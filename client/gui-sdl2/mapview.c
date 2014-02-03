@@ -62,7 +62,7 @@
 
 #include "mapview.h"
 
-extern SDL_Event *pFlush_User_Event;
+extern SDL_Event *flush_event;
 extern SDL_Rect *pInfo_Area;
 
 int overview_start_x = 0;
@@ -148,7 +148,7 @@ void unqueue_flush(void)
 void queue_flush(void)
 {
   if (!is_flush_queued) {
-    if (SDL_PushEvent(pFlush_User_Event) == 0) {
+    if (SDL_PushEvent(flush_event) == 0) {
       is_flush_queued = TRUE;
     } else {
       /* We don't want to set is_flush_queued in this case, since then

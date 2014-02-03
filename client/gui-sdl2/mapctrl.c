@@ -254,7 +254,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
       SDL_Rect src, window_area;
   
       set_wstate(pIcon_Widget, FC_WS_NORMAL);
-      pSellected_Widget = NULL;
+      selected_widget = NULL;
     
       if (pUnits_Info_Window->private_data.adv_dlg->pEndActiveWidgetList) {
         del_group(pUnits_Info_Window->private_data.adv_dlg->pBeginActiveWidgetList,
@@ -325,7 +325,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
                   pMiniMap_Window->dst->dest_rect.x + pMiniMap_Window->size.w) {
   
         set_wstate(pIcon_Widget, FC_WS_NORMAL);
-        pSellected_Widget = NULL;
+        selected_widget = NULL;
                     
         /* SHOW */
         copy_chars_to_string16(pIcon_Widget->info_label,
@@ -381,7 +381,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
       SDL_Rect src, map_area = pMiniMap_Window->size;
   
       set_wstate(pMap_Button, FC_WS_NORMAL);
-      pSellected_Widget = NULL;
+      selected_widget = NULL;
 
       copy_chars_to_string16(pMap_Button->info_label, _("Show Mini Map"));
 
@@ -458,7 +458,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
             overview_w + BLOCKM_W) <= pUnits_Info_Window->dst->dest_rect.x) {
         
         set_wstate(pMap_Button, FC_WS_NORMAL);
-        pSellected_Widget = NULL;
+        selected_widget = NULL;
         
         /* show MiniMap */
         copy_chars_to_string16(pMap_Button->info_label, _("Hide Mini Map"));
@@ -498,8 +498,8 @@ static int toggle_minimap_mode_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if (pWidget) {
-      pSellected_Widget = pWidget;
-      set_wstate(pWidget, FC_WS_SELLECTED);
+      selected_widget = pWidget;
+      set_wstate(pWidget, FC_WS_SELECTED);
     }
     toggle_overview_mode();
     refresh_overview();
@@ -518,9 +518,9 @@ static int toggle_msg_window_callback(struct widget *pWidget)
       meswin_dialog_popup(TRUE);
       copy_chars_to_string16(pWidget->info_label, _("Hide Messages (F9)"));
     }
-  
-    pSellected_Widget = pWidget;
-    set_wstate(pWidget, FC_WS_SELLECTED);
+
+    selected_widget = pWidget;
+    set_wstate(pWidget, FC_WS_SELECTED);
     widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     

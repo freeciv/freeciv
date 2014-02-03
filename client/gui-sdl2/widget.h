@@ -86,17 +86,17 @@ enum widget_flag {
   WF_DRAW_FRAME_AROUND_WIDGET	 	= (1<<22),
   WF_DRAW_TEXT_LABEL_WITH_SPACE		= (1<<23),
   WF_WIDGET_HAS_INFO_LABEL		= (1<<24),
-  WF_SELLECT_WITHOUT_BAR		= (1<<25),
+  WF_SELECT_WITHOUT_BAR	                = (1<<25),
   WF_PASSWD_EDIT			= (1<<26),
   WF_EDIT_LOOP				= (1<<27)
 };
 
 /* Widget states */
 enum widget_state {
-  FC_WS_NORMAL		= 0,
-  FC_WS_SELLECTED	= 1,
-  FC_WS_PRESSED		= 2,
-  FC_WS_DISABLED	= 3
+  FC_WS_NORMAL	        = 0,
+  FC_WS_SELECTED        = 1,
+  FC_WS_PRESSED	        = 2,
+  FC_WS_DISABLED        = 3
 };
 
 struct CONTAINER {
@@ -234,10 +234,10 @@ do {								\
 #define hide(ID)	\
   set_wflag(get_widget_pointer_form_main_list(ID), WF_HIDDEN)
 
-void widget_sellected_action(struct widget *pWidget);
+void widget_selected_action(struct widget *pWidget);
 Uint16 widget_pressed_action(struct widget *pWidget);
 
-void unsellect_widget_action(void);
+void unselect_widget_action(void);
 
 #define draw_widget_info_label() redraw_widget_info_label(NULL);
 void redraw_widget_info_label(SDL_Rect *area);
@@ -346,8 +346,8 @@ void group_set_area(struct widget *pBeginGroupWidgetList,
 void popdown_window_group_dialog(struct widget *pBeginGroupWidgetList,
 				 struct widget *pEndGroupWidgetList);
 
-bool sellect_window_group_dialog(struct widget *pBeginWidgetList,
-				struct widget *pWindow);
+bool select_window_group_dialog(struct widget *pBeginWidgetList,
+                                struct widget *pWindow);
 bool move_window_group_dialog(struct widget *pBeginGroupWidgetList,
 			     struct widget *pEndGroupWidgetList);
 void move_window_group(struct widget *pBeginWidgetList, struct widget *pWindow);

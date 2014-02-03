@@ -176,7 +176,7 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     }
 
     set_wstate(pWidget, FC_WS_NORMAL);
-    pSellected_Widget = NULL;
+    selected_widget = NULL;
     widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     
@@ -469,8 +469,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pStr = create_str16_from_char(utype_name_translation(i), adj_font(12));
       pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-			(WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
-      if(upgrade) {
+                              (WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR));
+      if (upgrade) {
 	pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_UNITUPGRADE_TEXT);
 	pBuf->action = popup_upgrade_unit_callback;
 	set_wstate(pBuf, FC_WS_NORMAL);
@@ -1354,11 +1354,11 @@ static int horiz_taxrate_callback(struct widget *pHoriz_Src)
     /* Turn off Filter mouse motion events */
     SDL_SetEventFilter(NULL, NULL);
     MOVE_STEP_Y = DEFAULT_MOVE_STEP;
-    
+
 END:
-    unsellect_widget_action();
-    pSellected_Widget = pHoriz_Src;
-    set_wstate(pHoriz_Src, FC_WS_SELLECTED);
+    unselect_widget_action();
+    selected_widget = pHoriz_Src;
+    set_wstate(pHoriz_Src, FC_WS_SELECTED);
     widget_redraw(pHoriz_Src);
     widget_flush(pHoriz_Src);
   }
@@ -1545,7 +1545,7 @@ static int popup_sell_impv_callback(struct widget *pWidget)
     }
     
     set_wstate(pWidget, FC_WS_NORMAL);
-    pSellected_Widget = NULL;
+    selected_widget = NULL;
     widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     
@@ -2362,7 +2362,8 @@ static struct SMALL_DLG *pScienceDlg = NULL;
 
 static struct ADVANCED_DLG *pChangeTechDlg = NULL;
 
-SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id, enum tech_info_mode mode)
+SDL_Surface * create_select_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
+                                      enum tech_info_mode mode)
 {
   struct unit_type *pUnit = NULL;
   SDL_Surface *pSurf, *pText, *pTmp, *pTmp2;
@@ -2870,8 +2871,8 @@ static int change_research_callback(struct widget *pWidget)
 static int change_research_goal_dialog_callback(struct widget *pWindow)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if(sellect_window_group_dialog(pChangeTechDlg->pBeginWidgetList, pWindow)) {
-        widget_flush(pWindow);
+    if (select_window_group_dialog(pChangeTechDlg->pBeginWidgetList, pWindow)) {
+      widget_flush(pWindow);
     }
   }
   return -1;
@@ -2932,9 +2933,9 @@ static void popup_change_research_dialog(void)
   add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
 
   /* ------------------------- */
-  /* max col - 104 is sellect tech widget width */
+  /* max col - 104 is select tech widget width */
   max_col = (main_window_width() - (pWindow->size.w - pWindow->area.w) - adj_size(2)) / adj_size(104);
-  /* max row - 204 is sellect tech widget height */
+  /* max row - 204 is select tech widget height */
   max_row = (main_window_height() - (pWindow->size.h - pWindow->area.h) - adj_size(2)) / adj_size(204);
   
   /* make space on screen for scrollbar */
@@ -2969,7 +2970,7 @@ static void popup_change_research_dialog(void)
     count++;
     
     copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(i)));
-    pSurf = create_sellect_tech_icon(pStr, i, MED_MODE);
+    pSurf = create_select_tech_icon(pStr, i, MED_MODE);
     pBuf = create_icon2(pSurf, pWindow->dst,
       		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
@@ -3164,7 +3165,7 @@ static void popup_change_research_goal_dialog(void)
                   num,
                   PL_("step", "steps", num));
       copy_chars_to_string16(pStr, cBuf);
-      pSurf = create_sellect_tech_icon(pStr, i, FULL_MODE);
+      pSurf = create_select_tech_icon(pStr, i, FULL_MODE);
       pBuf = create_icon2(pSurf, pWindow->dst,
       		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
@@ -3242,7 +3243,7 @@ static int science_dialog_callback(struct widget *pWindow)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if (!pChangeTechDlg) {
-      if (sellect_window_group_dialog(pScienceDlg->pBeginWidgetList, pWindow)) {
+      if (select_window_group_dialog(pScienceDlg->pBeginWidgetList, pWindow)) {
         widget_flush(pWindow);
       }
       if (move_window_group_dialog(pScienceDlg->pBeginWidgetList, pWindow)) {
@@ -3257,7 +3258,7 @@ static int popup_change_research_dialog_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     set_wstate(pWidget, FC_WS_NORMAL);
-    pSellected_Widget = NULL;
+    selected_widget = NULL;
     widget_redraw(pWidget);
     widget_flush(pWidget);
     
@@ -3270,7 +3271,7 @@ static int popup_change_research_goal_dialog_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     set_wstate(pWidget, FC_WS_NORMAL);
-    pSellected_Widget = NULL;
+    selected_widget = NULL;
     widget_redraw(pWidget);
     widget_flush(pWidget);
     

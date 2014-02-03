@@ -166,8 +166,8 @@ static int min_horiz_cma_callback(struct widget *pWidget)
     MOVE_STEP_X = DEFAULT_MOVE_STEP;
     MOVE_STEP_Y = DEFAULT_MOVE_STEP;
 
-    pSellected_Widget = pWidget;
-    set_wstate(pWidget, FC_WS_SELLECTED);
+    selected_widget = pWidget;
+    set_wstate(pWidget, FC_WS_SELECTED);
     /* save the change */
     cmafec_set_fe_parameter(pCma->pCity, &pCma->edited_cm_parm);
     /* refreshes the cma */
@@ -203,9 +203,9 @@ static int factor_horiz_cma_callback(struct widget *pWidget)
     SDL_SetEventFilter(NULL, NULL);
     MOVE_STEP_X = DEFAULT_MOVE_STEP;
     MOVE_STEP_Y = DEFAULT_MOVE_STEP;
-    
-    pSellected_Widget = pWidget;
-    set_wstate(pWidget, FC_WS_SELLECTED);
+
+    selected_widget = pWidget;
+    set_wstate(pWidget, FC_WS_SELECTED);
     /* save the change */
     cmafec_set_fe_parameter(pCma->pCity, &pCma->edited_cm_parm);
     /* refreshes the cma */

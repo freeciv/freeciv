@@ -93,10 +93,10 @@ static int players_window_dlg_callback(struct widget *pWindow)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if (move_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow)) {
-      sellect_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow);
+      select_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow);
       players_dialog_update();
     } else {
-      if(sellect_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow)) {
+      if (select_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow)) {
         widget_flush(pWindow);
       }      
     }

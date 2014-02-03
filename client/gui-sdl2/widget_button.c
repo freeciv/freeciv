@@ -68,7 +68,7 @@ static int redraw_ibutton(struct widget *pIButton)
 
     if (get_wstate(pIButton) == FC_WS_NORMAL) {
       TMPString.fgcol = *get_theme_color(COLOR_THEME_WIDGET_NORMAL_TEXT);
-    } else if (get_wstate(pIButton) == FC_WS_SELLECTED) {
+    } else if (get_wstate(pIButton) == FC_WS_SELECTED) {
       TMPString.fgcol = *get_theme_color(COLOR_THEME_WIDGET_SELECTED_TEXT);
       TMPString.style |= TTF_STYLE_BOLD;
     } else if (get_wstate(pIButton) == FC_WS_PRESSED) {

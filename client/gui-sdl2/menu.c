@@ -83,10 +83,10 @@ static int unit_order_callback(struct widget *pOrder_Widget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct unit *pUnit = head_of_units_in_focus();
-  
-    set_wstate(pOrder_Widget, FC_WS_SELLECTED);
-    pSellected_Widget = pOrder_Widget;
-  
+
+    set_wstate(pOrder_Widget, FC_WS_SELECTED);
+    selected_widget = pOrder_Widget;
+
     if (!pUnit) {
       return -1;
     }

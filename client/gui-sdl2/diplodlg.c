@@ -1188,8 +1188,8 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
 				player_by_number(counterpart));
   } else {
     /* bring existing dialog to front */
-    sellect_window_group_dialog(pdialog->pdialog->pBeginWidgetList,
-                                         pdialog->pdialog->pEndWidgetList);
+    select_window_group_dialog(pdialog->pdialog->pBeginWidgetList,
+                               pdialog->pdialog->pEndWidgetList);
   }
 
   update_diplomacy_dialog(pdialog);

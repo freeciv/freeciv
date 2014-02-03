@@ -163,8 +163,8 @@ void popup_intel_dialog(struct player *p)
     pdialog = create_intel_dialog(p);
   } else {
     /* bring existing dialog to front */
-    sellect_window_group_dialog(pdialog->pdialog->pBeginWidgetList,
-                                         pdialog->pdialog->pEndWidgetList);
+    select_window_group_dialog(pdialog->pdialog->pBeginWidgetList,
+                               pdialog->pdialog->pEndWidgetList);
   }
 
   update_intel_dialog(p);

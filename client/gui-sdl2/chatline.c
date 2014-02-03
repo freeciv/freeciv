@@ -231,11 +231,11 @@ static void popup_load_game_dialog(void)
   files = fileinfolist_infix(get_save_dirs(), ".sav", FALSE);
   fileinfo_list_iterate(files, pfile) {
     count++;
-    
+
     pFilename = create_str16_from_char(pfile->name, adj_font(13));
     pFilename->style |= SF_CENTER;
     pFilenameLabel = create_iconlabel(NULL, pWindow->dst, pFilename,
-      (WF_FREE_DATA | WF_SELLECT_WITHOUT_BAR | WF_RESTORE_BACKGROUND));
+      (WF_FREE_DATA | WF_SELECT_WITHOUT_BAR | WF_RESTORE_BACKGROUND));
      
     /* store filename */
     pFilenameLabel->data.ptr = fc_calloc(1, strlen(pfile->fullname) + 1);

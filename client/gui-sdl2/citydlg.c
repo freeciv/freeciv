@@ -230,12 +230,12 @@ static int city_dlg_callback(struct widget *pWindow)
     
     if (!pCityDlg->lock) {
       if (pCityDlg->pPanel) {      
-        sellect_window_group_dialog(pCityDlg->pBeginCityWidgetList, pWindow);
-        sellect_window_group_dialog(pCityDlg->pPanel->pBeginWidgetList,
-                                    pCityDlg->pPanel->pEndWidgetList);
+        select_window_group_dialog(pCityDlg->pBeginCityWidgetList, pWindow);
+        select_window_group_dialog(pCityDlg->pPanel->pBeginWidgetList,
+                                   pCityDlg->pPanel->pEndWidgetList);
         widget_flush(pWindow);
       } else {
-        if (sellect_window_group_dialog(pCityDlg->pBeginCityWidgetList, pWindow)) {
+        if (select_window_group_dialog(pCityDlg->pBeginCityWidgetList, pWindow)) {
           widget_flush(pWindow);
         }
       }
@@ -416,7 +416,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     }
 
     /* Disable city dlg */
-    unsellect_widget_action();
+    unselect_widget_action();
     disable_city_dlg_widgets();
   
     pUType = unit_type(pUnit);
@@ -552,11 +552,11 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     set_wstate(pBuf, FC_WS_NORMAL);
     add_to_gui_list(pButton->ID, pBuf);
     pCityDlg->pBeginCityMenuWidgetList = pBuf;
-  
+
     /* ================================================== */
-    unsellect_widget_action();
+    unselect_widget_action();
     /* ================================================== */
-  
+
     area.w += adj_size(10);
     hh += adj_size(4);
   
@@ -1252,15 +1252,15 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
     window_y = pCityDlg->pBuy_Button->size.y - pWindow->size.h;
   } else {
     if(is_city_report_open()) {
-      fc_assert(pSellected_Widget != NULL);
-      if (pSellected_Widget->size.x + tileset_tile_width(tileset) + pWindow->size.w > main_window_width())
+      fc_assert(selected_widget != NULL);
+      if (selected_widget->size.x + tileset_tile_width(tileset) + pWindow->size.w > main_window_width())
       {
-        window_x = pSellected_Widget->size.x - pWindow->size.w;
+        window_x = selected_widget->size.x - pWindow->size.w;
       } else {
-        window_x = pSellected_Widget->size.x + tileset_tile_width(tileset);
+        window_x = selected_widget->size.x + tileset_tile_width(tileset);
       }
     
-      window_y = pSellected_Widget->size.y + (pSellected_Widget->size.h - pWindow->size.h) / 2;
+      window_y = selected_widget->size.y + (selected_widget->size.h - pWindow->size.h) / 2;
       if (window_y + pWindow->size.h > main_window_height())
       {
 	window_y = main_window_height() - pWindow->size.h - 1;
@@ -1396,7 +1396,7 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
     SDL_Rect area;
     int price;
   
-    unsellect_widget_action();
+    unselect_widget_action();
     disable_city_dlg_widgets();
   
     pStr = create_str16_from_char(_("Sell it?"), adj_font(12));
@@ -3771,7 +3771,7 @@ void real_city_dialog_popup(struct city *pCity)
   pLogo = get_scaled_city_map(pCity);
 
   pBuf = create_themelabel(pLogo, pWindow->dst, NULL,
-                           pLogo->w, pLogo->h, WF_SELLECT_WITHOUT_BAR);
+                           pLogo->w, pLogo->h, WF_SELECT_WITHOUT_BAR);
 
   pCityDlg->pResource_Map = pBuf;
 

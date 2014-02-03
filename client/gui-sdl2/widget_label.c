@@ -44,7 +44,7 @@ static inline int redraw_themelabel2(struct widget *pLabel)
     return -3;
   }
 */
-  if(get_wstate(pLabel) == FC_WS_SELLECTED) {
+  if (get_wstate(pLabel) == FC_WS_SELECTED) {
     src.y = pLabel->size.h;
   }
 
@@ -70,9 +70,9 @@ static int redraw_label(struct widget *pLabel)
     return redraw_themelabel2(pLabel);
   }
 
-  /* redraw sellect bar */
-  if (get_wstate(pLabel) == FC_WS_SELLECTED) {
-    if(get_wflags(pLabel) & WF_SELLECT_WITHOUT_BAR) {
+  /* redraw selected bar */
+  if (get_wstate(pLabel) == FC_WS_SELECTED) {
+    if (get_wflags(pLabel) & WF_SELECT_WITHOUT_BAR) {
       if (pLabel->string16) {
         backup_color = pLabel->string16->fgcol;
         pLabel->string16->fgcol = bar_color;
@@ -90,8 +90,8 @@ static int redraw_label(struct widget *pLabel)
   /* redraw icon label */
   ret = redraw_iconlabel(pLabel);
   
-  if ((get_wstate(pLabel) == FC_WS_SELLECTED) && (pLabel->string16)) {
-    if(get_wflags(pLabel) & WF_SELLECT_WITHOUT_BAR) {
+  if ((get_wstate(pLabel) == FC_WS_SELECTED) && (pLabel->string16)) {
+    if (get_wflags(pLabel) & WF_SELECT_WITHOUT_BAR) {
       if (pLabel->string16->style & TTF_STYLE_UNDERLINE) {
 	pLabel->string16->style &= ~TTF_STYLE_UNDERLINE;
       } else {
@@ -126,7 +126,7 @@ void remake_label_size(struct widget *pLabel)
   }
 
   if (pText) {
-    bool without_box = ((get_wflags(pLabel) & WF_SELLECT_WITHOUT_BAR) == WF_SELLECT_WITHOUT_BAR);
+    bool without_box = ((get_wflags(pLabel) & WF_SELECT_WITHOUT_BAR) == WF_SELECT_WITHOUT_BAR);
     bool bold = TRUE;
     
     if (without_box)
@@ -356,8 +356,8 @@ struct widget * convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
   
   /* normal */
   redraw_iconlabel(pIconLabel);
-  
-  /* sellected */
+
+  /* selected */
   area.x = 0;
   area.y = pIconLabel->size.h;
     

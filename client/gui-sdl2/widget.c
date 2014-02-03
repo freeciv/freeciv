@@ -42,7 +42,7 @@
 #include "widget.h"
 #include "widget_p.h"
 
-struct widget *pSellected_Widget;
+struct widget *selected_widget;
 SDL_Rect *pInfo_Area = NULL;
 
 extern Uint32 widget_info_counter;
@@ -318,7 +318,7 @@ Uint16 widget_pressed_action(struct widget * pWidget)
         widget_redraw(pWidget);
         widget_mark_dirty(pWidget);
         flush_dirty();
-        set_wstate(pWidget, FC_WS_SELLECTED);
+        set_wstate(pWidget, FC_WS_SELECTED);
         SDL_Delay(300);
       }
       ID = pWidget->ID;
@@ -377,7 +377,7 @@ Uint16 widget_pressed_action(struct widget * pWidget)
         widget_redraw(pWidget);
         widget_mark_dirty(pWidget);
         flush_dirty();
-        set_wstate(pWidget, FC_WS_SELLECTED);
+        set_wstate(pWidget, FC_WS_SELECTED);
         togle_checkbox(pWidget);
         SDL_Delay(300);
       }
@@ -410,20 +410,19 @@ Uint16 widget_pressed_action(struct widget * pWidget)
 }
 
 /**************************************************************************
-  Unsellect (sellected) widget and redraw this widget;
+  Unselect (selected) widget and redraw this widget;
 **************************************************************************/
-void unsellect_widget_action(void)
+void unselect_widget_action(void)
 {
-  if (pSellected_Widget && (get_wstate(pSellected_Widget) != FC_WS_DISABLED)) {
-    
-      set_wstate(pSellected_Widget, FC_WS_NORMAL);
-  
-      if (!(get_wflags(pSellected_Widget) & WF_HIDDEN)) {
-        pSellected_Widget->unselect(pSellected_Widget);
+  if (selected_widget && (get_wstate(selected_widget) != FC_WS_DISABLED)) {
+    set_wstate(selected_widget, FC_WS_NORMAL);
+
+    if (!(get_wflags(selected_widget) & WF_HIDDEN)) {
+      selected_widget->unselect(selected_widget);
         
-        /* turn off quick info timer/counter */ 
-        widget_info_counter = 0;
-      }
+      /* turn off quick info timer/counter */ 
+      widget_info_counter = 0;
+    }
   }
 
   if (pInfo_Area) {
@@ -432,27 +431,27 @@ void unsellect_widget_action(void)
     FREESURFACE(pInfo_Label);    
   }
 
-  pSellected_Widget = NULL;
+  selected_widget = NULL;
 }
 
 /**************************************************************************
-  Sellect widget.  Redraw this widget;
+  Select widget.  Redraw this widget;
 **************************************************************************/
-void widget_sellected_action(struct widget *pWidget)
+void widget_selected_action(struct widget *pWidget)
 {
-  if (!pWidget || pWidget == pSellected_Widget) {
+  if (!pWidget || pWidget == selected_widget) {
     return;
   }
 
-  if (pSellected_Widget) {
-    unsellect_widget_action();
+  if (selected_widget) {
+    unselect_widget_action();
   }
 
-  set_wstate(pWidget, FC_WS_SELLECTED);  
-  
+  set_wstate(pWidget, FC_WS_SELECTED);  
+
   pWidget->select(pWidget);
-    
-  pSellected_Widget = pWidget  ;
+
+  selected_widget = pWidget;
 
   if (get_wflags(pWidget) & WF_WIDGET_HAS_INFO_LABEL) {
     widget_info_counter = 1;
@@ -468,7 +467,7 @@ void redraw_widget_info_label(SDL_Rect *rect)
   SDL_Rect srcrect, dstrect;
   SDL_Color color;
 
-  struct widget *pWidget = pSellected_Widget;
+  struct widget *pWidget = selected_widget;
 
   if (!pWidget || !pWidget->info_label) {
     return;
@@ -647,8 +646,8 @@ void del_widget_pointer_from_gui_list(struct widget *pGUI)
 
   }
 
-  if (pSellected_Widget == pGUI) {
-    pSellected_Widget = NULL;
+  if (selected_widget == pGUI) {
+    selected_widget = NULL;
   }
 }
 
@@ -991,11 +990,11 @@ void popdown_window_group_dialog(struct widget *pBeginGroupWidgetList,
 }
 
 /**************************************************************************
-  Sellect Window Group. (move widget group up the widgets list)
-  Function return TRUE when group was sellected.
+  Select Window Group. (move widget group up the widgets list)
+  Function return TRUE when group was selected.
 **************************************************************************/
-bool sellect_window_group_dialog(struct widget *pBeginWidgetList,
-							 struct widget *pWindow)
+bool select_window_group_dialog(struct widget *pBeginWidgetList,
+                                struct widget *pWindow)
 {
   if (!is_this_widget_first_on_list(pBeginWidgetList)) {
     move_group_to_front_of_gui_list(pBeginWidgetList, pWindow);
@@ -1036,7 +1035,7 @@ bool move_window_group_dialog(struct widget *pBeginGroupWidgetList,
 **************************************************************************/
 void move_window_group(struct widget *pBeginWidgetList, struct widget *pWindow)
 {
-  if (sellect_window_group_dialog(pBeginWidgetList, pWindow)) {
+  if (select_window_group_dialog(pBeginWidgetList, pWindow)) {
     widget_flush(pWindow);
   }
   

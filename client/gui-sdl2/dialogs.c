@@ -1081,10 +1081,10 @@ void unit_select_dialog_popup(struct tile *ptile)
 
   pWindow->action = unit_select_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
-  
-  add_to_gui_list(ID_UNIT_SELLECT_DLG_WINDOW, pWindow);
+
+  add_to_gui_list(ID_UNIT_SELECT_DLG_WINDOW, pWindow);
   pUnit_Select_Dlg->pEndWidgetList = pWindow;
-  
+
   area = pWindow->area;
   
   /* ---------- */
@@ -1097,9 +1097,9 @@ void unit_select_dialog_popup(struct tile *ptile)
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
   area.w += (pBuf->size.w + adj_size(10));
-  
-  add_to_gui_list(ID_UNIT_SELLECT_DLG_EXIT_BUTTON, pBuf);
-    
+
+  add_to_gui_list(ID_UNIT_SELECT_DLG_EXIT_BUTTON, pBuf);
+
   /* ---------- */
  
   for(i = 0; i < n; i++) {
@@ -2376,7 +2376,7 @@ static void popdown_revolution_dialog(void)
 /* ==================== Public ========================= */
 
 /**************************************************************************
-                           Sellect Goverment Type
+                           Select Goverment Type
 **************************************************************************/
 static struct SMALL_DLG *pGov_Dlg = NULL;
 
@@ -2655,7 +2655,7 @@ static void change_nation_label(void);
 static int nations_dialog_callback(struct widget *pWindow)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if(sellect_window_group_dialog(pNationDlg->pBeginWidgetList, pWindow)) {
+    if (select_window_group_dialog(pNationDlg->pBeginWidgetList, pWindow)) {
       widget_flush(pWindow);
     }      
   }
@@ -2674,8 +2674,8 @@ static int races_dialog_ok_callback(struct widget *pStart_Button)
     /* perform a minimum of sanity test on the name */
     if (strlen(pStr) == 0) {
       output_window_append(ftc_client, _("You must type a legal name."));
-      pSellected_Widget = pStart_Button;
-      set_wstate(pStart_Button, FC_WS_SELLECTED);
+      selected_widget = pStart_Button;
+      set_wstate(pStart_Button, FC_WS_SELECTED);
       widget_redraw(pStart_Button);
       widget_flush(pStart_Button);
       return (-1);
@@ -2709,9 +2709,9 @@ static int change_sex_callback(struct widget *pSex)
     pSetup->leader_sex = !pSetup->leader_sex;
     
     if (pSex) {
-      pSellected_Widget = pSex;
-      set_wstate(pSex, FC_WS_SELLECTED);
-  
+      selected_widget = pSex;
+      set_wstate(pSex, FC_WS_SELECTED);
+
       widget_redraw(pSex);
       widget_flush(pSex);
     }
@@ -2754,8 +2754,8 @@ static int next_name_callback(struct widget *pNext)
     }
   
     if (!(get_wstate(pSetup->pName_Next) == FC_WS_DISABLED)) {
-      pSellected_Widget = pSetup->pName_Next;
-      set_wstate(pSetup->pName_Next, FC_WS_SELLECTED);
+      selected_widget = pSetup->pName_Next;
+      set_wstate(pSetup->pName_Next, FC_WS_SELECTED);
     }
   
     widget_redraw(pSetup->pName_Edit);
@@ -2808,10 +2808,10 @@ static int prev_name_callback(struct widget *pPrev)
     }
   
     if (!(get_wstate(pSetup->pName_Prev) == FC_WS_DISABLED)) {
-      pSellected_Widget = pSetup->pName_Prev;
-      set_wstate(pSetup->pName_Prev, FC_WS_SELLECTED);
+      selected_widget = pSetup->pName_Prev;
+      set_wstate(pSetup->pName_Prev, FC_WS_SELECTED);
     }
-  
+
     widget_redraw(pSetup->pName_Edit);
     widget_redraw(pSetup->pName_Prev);
     widget_redraw(pSetup->pName_Next);
@@ -2859,7 +2859,7 @@ static int city_style_callback(struct widget *pWidget)
     pSetup->nation_city_style = MAX_ID - 1000 - pWidget->ID;
     
     flush_dirty();
-    pSellected_Widget = NULL;
+    selected_widget = NULL;
   }
   return -1;
 }
@@ -2895,8 +2895,8 @@ static int cancel_help_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int nation_button_callback(struct widget *pNationButton)
 {
-  set_wstate(pNationButton, FC_WS_SELLECTED);
-  pSellected_Widget = pNationButton;
+  set_wstate(pNationButton, FC_WS_SELECTED);
+  selected_widget = pNationButton;
   
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
@@ -3421,7 +3421,7 @@ void popup_races_dialog(struct player *pplayer)
 #endif
   }
 
-  /* Sellected Nation Name */
+  /* Selected Nation Name */
   pBuf->size.x = area.x + area.w / 2 + (area.w / 2 - pBuf->size.w) / 2;
   pBuf->size.y = area.y + adj_size(46);
   

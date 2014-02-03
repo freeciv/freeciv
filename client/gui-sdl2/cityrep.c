@@ -148,7 +148,7 @@ static int info_city_report_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     set_wstate(pWidget, FC_WS_NORMAL);
-    pSellected_Widget = NULL;
+    selected_widget = NULL;
     widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     real_info_city_report_dialog_update();
@@ -284,7 +284,7 @@ static void real_info_city_report_dialog_update(void)
     pStr = create_str16_from_char(city_name(pCity), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-			(WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
+                            (WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR));
 
     if (city_unhappy(pCity)) {
       pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_TRADE);
@@ -574,7 +574,7 @@ static void real_info_city_report_dialog_update(void)
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_theme_color(COLOR_THEME_CITYREP_TEXT);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-			(WF_SELLECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND));
+                            (WF_SELECT_WITHOUT_BAR | WF_RESTORE_BACKGROUND));
     if(count > 13 * COL) {
       set_wflag(pBuf, WF_HIDDEN);
     }

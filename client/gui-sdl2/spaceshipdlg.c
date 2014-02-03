@@ -222,8 +222,8 @@ void popup_spaceship_dialog(struct player *pPlayer)
     
     refresh_spaceship_dialog(pPlayer);
   } else {
-    if (sellect_window_group_dialog(pSpaceShp->pBeginWidgetList,
-				   pSpaceShp->pEndWidgetList)) {
+    if (select_window_group_dialog(pSpaceShp->pBeginWidgetList,
+                                   pSpaceShp->pEndWidgetList)) {
       widget_flush(pSpaceShp->pEndWidgetList);
     }
   }
