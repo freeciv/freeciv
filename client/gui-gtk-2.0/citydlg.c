@@ -1479,12 +1479,9 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
 static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
   enum citizen_category citizens[MAX_CITY_SIZE];
-  int i, j, width, size;
+  int i, width, size;
   struct city *pcity = pdialog->pcity;
   int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, citizens);
-  if (can_conn_edit(&client.conn)) {
-    num_citizens += 2;
-  }
 
   /* If there is not enough space we stack the icons. We draw from left to */
   /* right. width is how far we go to the right for each drawn pixmap. The */
@@ -1508,18 +1505,9 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
          2 * GTK_MISC(pdialog->citizen_pixmap)->xpad;
   gtk_widget_set_size_request(GTK_WIDGET(pdialog->citizen_pixmap), size, -1);
 
-  i = 0;
-  if (can_conn_edit(&client.conn)) {
+  for (i = 0; i < num_citizens; i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-                       get_arrow_sprite(tileset, ARROW_PLUS),
-                       i++ * width, 0);
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-                       get_arrow_sprite(tileset, ARROW_MINUS),
-                       i++ * width, 0);
-  }
-  for (j = 0; i < num_citizens; i++, j++) {
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-                       get_citizen_sprite(tileset, citizens[j], j, pcity),
+                       get_citizen_sprite(tileset, citizens[i], i, pcity),
                        i * width, 0);
   }
   gtk_pixcomm_thaw(GTK_PIXCOMM(pdialog->citizen_pixmap));
