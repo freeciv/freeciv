@@ -166,7 +166,9 @@ install-env-gtk2: install-env-common
 
 SDL_DLLS := \
 	libpng12-0.dll \
-	SDL_image.dll
+	libSDL_gfx-15.dll \
+	SDL_image.dll \
+	SDL_ttf.dll
 
 install-env-sdl: install-env-default-fcmp
 	# add DLLs
