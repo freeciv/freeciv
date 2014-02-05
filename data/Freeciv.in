@@ -2329,12 +2329,19 @@ Freeciv*diplomatdialog.*.button7.label:     _("Incite a Revolt")
 Freeciv*diplomatdialog.*.button7.fromVert:  button5
 Freeciv*diplomatdialog.*.button7.fromHoriz: button6
 
-Freeciv*diplomatdialog.*.button8.label:     _("Keep moving")
+Freeciv*diplomatdialog.*.button8.label:     _("Bribe Enemy Unit")
 Freeciv*diplomatdialog.*.button8.fromVert:  button6
 
-Freeciv*diplomatdialog.*.button9.label:     _("Cancel")
+Freeciv*diplomatdialog.*.button9.label:     _("Sabotage Enemy Unit")
 Freeciv*diplomatdialog.*.button9.fromVert:  button7
 Freeciv*diplomatdialog.*.button9.fromHoriz: button8
+
+Freeciv*diplomatdialog.*.button10.label:     _("Keep moving")
+Freeciv*diplomatdialog.*.button10.fromVert:  button8
+
+Freeciv*diplomatdialog.*.button11.label:     _("Cancel")
+Freeciv*diplomatdialog.*.button11.fromVert:  button9
+Freeciv*diplomatdialog.*.button11.fromHoriz: button10
 
 !
 ! Spy Steal Tech Dialog
@@ -2430,19 +2437,6 @@ Freeciv*diplomatbribedialog.*.button0.fromVert:  dlabel
 Freeciv*diplomatbribedialog.*.button1.label:     _("No")
 Freeciv*diplomatbribedialog.*.button1.fromVert:  dlabel
 Freeciv*diplomatbribedialog.*.button1.fromHoriz: button0
-
-!
-! Spy Bribe Dialog
-!
-Freeciv*spybribedialog.title: _("Subvert Enemy Unit")
-Freeciv*spybribedialog.*.dlabel.borderWidth:  0
-Freeciv*spybribedialog.*.button0.label:     _("Bribe Enemy Unit")
-Freeciv*spybribedialog.*.button0.fromVert:  dlabel
-Freeciv*spybribedialog.*.button1.label:     _("Sabotage Enemy Unit")
-Freeciv*spybribedialog.*.button1.fromVert:  dlabel
-Freeciv*spybribedialog.*.button1.fromHoriz: button0
-Freeciv*spybribedialog.*.button2.label:     _("Cancel")
-Freeciv*spybribedialog.*.button2.fromVert:  button0
 
 !
 ! diplomat revolt dialog
