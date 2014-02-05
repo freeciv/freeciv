@@ -24,7 +24,9 @@ is_hex = FALSE
 ; Fogstyle 2, darkness_style 4 : blended fog
 fogstyle = 2
 darkness_style = 4
- 
+; Which terrain layer darkness is drawn top of (0-2)
+darkness_layer = 0
+
 ; offset the flags by this amount when drawing units
 unit_flag_offset_x = 25
 unit_flag_offset_y = 16
