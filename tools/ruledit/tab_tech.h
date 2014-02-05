@@ -38,7 +38,8 @@ class tab_tech : public QWidget
   Q_OBJECT
 
   public:
-    explicit tab_tech(QWidget *parent, ruledit_gui *ui_in);
+    explicit tab_tech(ruledit_gui *ui_in);
+    void refresh();
 
   private:
     ruledit_gui *ui;

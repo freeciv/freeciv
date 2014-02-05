@@ -37,8 +37,7 @@
 /**************************************************************************
   Setup tab_misc object
 **************************************************************************/
-tab_misc::tab_misc(QWidget *parent, ruledit_gui *ui_in) :
-  QWidget(parent)
+tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
 {
   QGridLayout *main_layout = new QGridLayout(this);
   QLabel *save_label;
@@ -53,7 +52,6 @@ tab_misc::tab_misc(QWidget *parent, ruledit_gui *ui_in) :
   name_label->setParent(this);
   main_layout->addWidget(name_label, 0, 0);
   name = new QLineEdit(this);
-  name->setText(game.control.name);
   main_layout->addWidget(name, 0, 1);
   save_label = new QLabel(R__("Save to directory"));
   save_label->setParent(this);
@@ -66,7 +64,17 @@ tab_misc::tab_misc(QWidget *parent, ruledit_gui *ui_in) :
   connect(save_button, SIGNAL(pressed()), this, SLOT(save_now()));
   main_layout->addWidget(save_button, 2, 0);
 
+  refresh();
+
   setLayout(main_layout);
+}
+
+/**************************************************************************
+  Refresh the information.
+**************************************************************************/
+void tab_misc::refresh()
+{
+  name->setText(game.control.name);
 }
 
 /**************************************************************************

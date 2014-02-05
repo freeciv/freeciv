@@ -36,8 +36,7 @@
 /**************************************************************************
   Setup tab_tech object
 **************************************************************************/
-tab_tech::tab_tech(QWidget *parent, ruledit_gui *ui_in) :
-  QWidget(parent)
+tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
 {
   QVBoxLayout *main_layout = new QVBoxLayout(this);
   QGridLayout *tech_layout = new QGridLayout();
@@ -47,12 +46,6 @@ tab_tech::tab_tech(QWidget *parent, ruledit_gui *ui_in) :
   selected = NULL;
 
   tech_list = new QListWidget(this);
-
-  advance_iterate(A_FIRST, padv) {
-    QListWidgetItem *item = new QListWidgetItem(advance_rule_name(padv));
-
-    tech_list->insertItem(advance_index(padv), item);
-  } advance_iterate_end;
 
   connect(tech_list, SIGNAL(itemSelectionChanged()), this, SLOT(select_tech()));
   main_layout->addWidget(tech_list);
@@ -99,9 +92,29 @@ tab_tech::tab_tech(QWidget *parent, ruledit_gui *ui_in) :
   tech_layout->addWidget(label, 4, 0);
   tech_layout->addWidget(root_req_button, 4, 1);
 
+  refresh();
+
   main_layout->addLayout(tech_layout);
 
   setLayout(main_layout);
+}
+
+/**************************************************************************
+  Refresh the information.
+**************************************************************************/
+void tab_tech::refresh()
+{
+  tech_list->clear();
+
+  advance_iterate(A_FIRST, padv) {
+    QListWidgetItem *item = new QListWidgetItem(advance_rule_name(padv));
+
+    tech_list->insertItem(advance_index(padv), item);
+  } advance_iterate_end;
+
+  techs_to_menu(req1);
+  techs_to_menu(req2);
+  techs_to_menu(root_req);
 }
 
 /**************************************************************************
@@ -129,7 +142,6 @@ QMenu *tab_tech::prepare_req_button(QToolButton *button, enum tech_req rn)
     break;
   }
 
-  techs_to_menu(menu);
   button->setMenu(menu);
 
   return menu;
@@ -140,6 +152,8 @@ QMenu *tab_tech::prepare_req_button(QToolButton *button, enum tech_req rn)
 **************************************************************************/
 void tab_tech::techs_to_menu(QMenu *fill_menu)
 {
+  fill_menu->clear();
+
   advance_iterate(A_NONE, padv) {
     fill_menu->addAction(tech_name(padv));
   } advance_iterate_end;

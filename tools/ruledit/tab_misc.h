@@ -26,7 +26,8 @@ class tab_misc : public QWidget
   Q_OBJECT
 
   public:
-    explicit tab_misc(QWidget *parent, ruledit_gui *ui_in);
+    explicit tab_misc(ruledit_gui *ui_in);
+    void refresh();
 
   private slots:
     void save_now();

@@ -26,11 +26,9 @@
 
 /* common */
 #include "fc_cmdhelp.h"
-#include "game.h"
 #include "version.h"
 
 /* server */
-#include "ruleset.h"
 #include "sernet.h"
 #include "settings.h"
 
@@ -38,8 +36,6 @@
 #include "ruledit_qt.h"
 
 #include "ruledit.h"
-
-const char *source_rs = "classic";
 
 static int re_parse_cmdline(int argc, char *argv[]);
 
@@ -75,33 +71,9 @@ int main(int argc, char **argv)
     game_init();
     i_am_server();
 
-    if (source_rs !=  NULL) {
-      sz_strlcpy(game.server.rulesetdir, source_rs);
-    }
-
-    if (load_rulesets(NULL, FALSE)) {
-      log_normal("Terrains:     %d", game.control.terrain_count);
-      log_normal("Resources:    %d", game.control.resource_count);
-      log_normal("Techs:        %d", game.control.num_tech_types);
-      log_normal("Unit classes: %d", game.control.num_unit_classes);
-      log_normal("Unit types:   %d", game.control.num_unit_types);
-      log_normal("Buildings:    %d", game.control.num_impr_types);
-      log_normal("Nations:      %d", game.control.nation_count);
-      log_normal("City Styles:  %d", game.control.styles_count);
-      log_normal("Specialists:  %d", game.control.num_specialist_types);
-      log_normal("Governments:  %d", game.control.government_count);
-      log_normal("Disasters:    %d", game.control.num_disaster_types);
-      log_normal("Achievements: %d", game.control.num_achievement_types);
-      log_normal("Extras:       %d", game.control.num_extra_types);
-      log_normal("Bases:        %d", game.control.num_base_types);
-      log_normal("Roads:        %d", game.control.num_road_types);
-
-      ruledit_qt_setup(ui_options, argv);
-      ruledit_qt_run();
-      ruledit_qt_close();
-    } else {
-      log_error("Loading ruleset %s failed", source_rs);
-    }
+    ruledit_qt_setup(ui_options, argv);
+    ruledit_qt_run();
+    ruledit_qt_close();
   }
 
   log_close();
@@ -118,7 +90,6 @@ static int re_parse_cmdline(int argc, char *argv[])
   int i = 1;
   bool ui_separator = FALSE;
   int ui_options = 0;
-  const char *option = NULL;
 
   while (i < argc) {
     if (ui_separator) {
@@ -129,10 +100,6 @@ static int re_parse_cmdline(int argc, char *argv[])
 
       cmdhelp_add(help, "h", "help",
                   R__("Print a summary of the options"));
-      cmdhelp_add(help, "s",
-                  /* TRANS: "source" is exactly what user must type, do not translate. */
-                  R__("source RULESET"),
-                  R__("Load given ruleset"));
       cmdhelp_add(help, "v", "version",
                   R__("Print the version number"));
       /* The function below prints a header and footer for the options.
@@ -141,8 +108,6 @@ static int re_parse_cmdline(int argc, char *argv[])
       cmdhelp_destroy(help);
 
       exit(EXIT_SUCCESS);
-    } else if ((option = get_option_malloc("--source", argv, &i, argc))) {
-      source_rs = option;
     } else if (is_option("--version", argv[i])) {
       fc_fprintf(stderr, "%s \n", freeciv_name_version());
 

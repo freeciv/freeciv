@@ -20,12 +20,18 @@
 #include <QLabel>
 #include <QTabWidget>
 
+class QLineEdit;
+class QStackedLayout;
+
+class tab_misc;
+class tab_tech;
+
 class ruledit_gui : public QObject
 {
   Q_OBJECT
 
   public:
-    void setup(QApplication *qapp, QWidget *central);
+  void setup(QApplication *qapp, QWidget *central_in);
     void display_msg(const char *msg);
     int run();
     void close();
@@ -34,6 +40,15 @@ class ruledit_gui : public QObject
     QApplication *app;
     QLabel *msg_dspl;
     QTabWidget *stack;
+    QLineEdit *ruleset_select;
+    QWidget *central;
+    QStackedLayout *main_layout;
+
+    tab_misc *misc;
+    tab_tech *tech;
+
+  private slots:
+    void launch_now();
 };
 
 bool ruledit_qt_setup(int argc, char **argv);
