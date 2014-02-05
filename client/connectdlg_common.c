@@ -220,7 +220,10 @@ bool client_start_server(void)
   output_window_append(ftc_client, _("Starting local server..."));
 
   /* find a free port */
-  internal_server_port = find_next_free_port(DEFAULT_SOCK_PORT,
+  /* Mitigate the risk of ending up with the port already
+   * used by standalone server on Windows where this is known to be buggy
+   * by not starting from DEFAULT_SOCK_PORT but from one higher. */
+  internal_server_port = find_next_free_port(DEFAULT_SOCK_PORT + 1,
                                              family, "localhost");
 
   if (internal_server_port < 0) {
