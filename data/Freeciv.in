@@ -2315,55 +2315,26 @@ Freeciv*diplomatdialog.*.button3.label:     _("Sabotage City")
 Freeciv*diplomatdialog.*.button3.fromVert:  button1
 Freeciv*diplomatdialog.*.button3.fromHoriz: button2
 
-Freeciv*diplomatdialog.*.button4.label:     _("Steal Technology")
+Freeciv*diplomatdialog.*.button4.label:     _("Industrial Sabotage")
 Freeciv*diplomatdialog.*.button4.fromVert:  button2
 
-Freeciv*diplomatdialog.*.button5.label:     _("Incite a Revolt")
+Freeciv*diplomatdialog.*.button5.label:     _("Steal Technology")
 Freeciv*diplomatdialog.*.button5.fromVert:  button3
 Freeciv*diplomatdialog.*.button5.fromHoriz: button4
 
-Freeciv*diplomatdialog.*.button6.label:     _("Keep moving")
+Freeciv*diplomatdialog.*.button6.label:     _("Industrial espionage")
 Freeciv*diplomatdialog.*.button6.fromVert:  button4
 
-Freeciv*diplomatdialog.*.button7.label:     _("Cancel")
+Freeciv*diplomatdialog.*.button7.label:     _("Incite a Revolt")
 Freeciv*diplomatdialog.*.button7.fromVert:  button5
 Freeciv*diplomatdialog.*.button7.fromHoriz: button6
 
-!
-! Spy Dialog
-!
-Freeciv*spydialog.title: _("Choose Your Covert Strategy")
-Freeciv*spydialog.dform.*.justify: Center
-Freeciv*spydialog.dform.*.width:   170
-Freeciv*spydialog.dform.dlabel.width:       340
-Freeciv*spydialog.dform.dlabel.borderWidth: 0
-Freeciv*spydialog.*.button0.label:     _("Establish Embassy")
-Freeciv*spydialog.*.button0.fromVert:  dlabel
+Freeciv*diplomatdialog.*.button8.label:     _("Keep moving")
+Freeciv*diplomatdialog.*.button8.fromVert:  button6
 
-Freeciv*spydialog.*.button1.label:     _("Investigate City (free)")
-Freeciv*spydialog.*.button1.fromVert:  dlabel
-Freeciv*spydialog.*.button1.fromHoriz: button0
-
-Freeciv*spydialog.*.button2.label:     _("Poison City")
-Freeciv*spydialog.*.button2.fromVert:  button0
-
-Freeciv*spydialog.*.button3.label:     _("Industrial Sabotage")
-Freeciv*spydialog.*.button3.fromVert:  button1
-Freeciv*spydialog.*.button3.fromHoriz: button2
-
-Freeciv*spydialog.*.button4.label:     _("Steal Technology")
-Freeciv*spydialog.*.button4.fromVert:  button2
-
-Freeciv*spydialog.*.button5.label:     _("Incite a Revolt")
-Freeciv*spydialog.*.button5.fromVert:  button3
-Freeciv*spydialog.*.button5.fromHoriz: button4
-
-Freeciv*spydialog.*.button6.label:     _("Keep moving")
-Freeciv*spydialog.*.button6.fromVert:  button4
-
-Freeciv*spydialog.*.button7.label:     _("Cancel")
-Freeciv*spydialog.*.button7.fromVert:  button5
-Freeciv*spydialog.*.button7.fromHoriz: button6
+Freeciv*diplomatdialog.*.button9.label:     _("Cancel")
+Freeciv*diplomatdialog.*.button9.fromVert:  button7
+Freeciv*diplomatdialog.*.button9.fromHoriz: button8
 
 !
 ! Spy Steal Tech Dialog
