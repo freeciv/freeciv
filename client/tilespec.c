@@ -506,6 +506,7 @@ struct tileset {
 
   enum fog_style fogstyle;
   enum darkness_style darkness_style;
+  int darkness_layer;
 
   int unit_flag_offset_x, unit_flag_offset_y;
   int city_flag_offset_x, city_flag_offset_y;
@@ -1687,6 +1688,13 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     log_error("Invalid darkness style set in tileset \"%s\".", t->name);
     goto ON_ERROR;
   }
+  t->darkness_layer = secfile_lookup_int_default(file, 0, "tilespec.darkness_layer");
+  if (t->darkness_layer < 0 || t->darkness_layer >= TERRAIN_LAYER_COUNT) {
+    tileset_error(LOG_ERROR, "Invalid darkness layer %d in tileset \"%s\"",
+                  t->darkness_layer, t->name);
+    goto ON_ERROR;
+  }
+
   if (!secfile_lookup_int(file, &t->unit_flag_offset_x,
                           "tilespec.unit_flag_offset_x")
       || !secfile_lookup_int(file, &t->unit_flag_offset_y,
@@ -4549,9 +4557,9 @@ static int fill_terrain_sprite_layer(struct tileset *t,
     }
   }
 
-  /* Add darkness on top of the topmost terrain layer.  Note that darkness is always
+  /* Add darkness on top of the designed terrain layer. Note that darkness is always
    * drawn, even in citymode, etc. */
-  if (layer_num == TERRAIN_LAYER_COUNT - 1) {
+  if (layer_num == t->darkness_layer) {
     sprs += fill_terrain_sprite_darkness(t, sprs, ptile, tterrain_near);
   }
 
