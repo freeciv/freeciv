@@ -898,7 +898,7 @@ void popup_sabotage_dialog(struct city *pCity)
   SDL_Rect area, area2;
   int n, w = 0, h, imp_h = 0, y;
   
-  if (pDiplomat_Dlg || !pUnit || !unit_has_type_flag(pUnit, UTYF_SPY)) {
+  if (pDiplomat_Dlg || !pUnit) {
     return;
   }
   
