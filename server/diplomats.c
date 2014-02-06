@@ -1124,6 +1124,11 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
   unit_list_iterate(ptile->units, punit) {
     struct player *uplayer = unit_owner(punit);
 
+    /* I can't confirm if we won't deny that we weren't involved. */
+    if (uplayer == pplayer) {
+      continue;
+    }
+
     if (unit_has_type_flag(punit, UTYF_DIPLOMAT)
         || unit_has_type_flag(punit, UTYF_SUPERSPY)) {
       /* A UTYF_SUPERSPY unit may not actually be a spy, but a superboss
