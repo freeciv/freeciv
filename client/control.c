@@ -2577,7 +2577,6 @@ void key_unit_diplomat_actions(void)
   unit_list_iterate(get_units_in_focus(), punit) {
     if (is_diplomat_unit(punit)
 	&& (pcity = tile_city(punit->tile))
-	&& diplomat_handled_in_diplomat_dialog() != -1    /* confusing otherwise? */
 	&& diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
 				  punit->tile)) {
       process_diplomat_arrival(punit, pcity->id);
