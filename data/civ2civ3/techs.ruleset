@@ -272,7 +272,7 @@ req2     = "Theory of Gravity"
 flags    = ""
 graphic     = "a.electricity"
 graphic_alt = "-"
-helptext = _("Improves the effect of Colosseums, and increases city vision radius.")
+helptext = _("Allows irrigation without adjacent water, improves the effect of Amphitheatres, and increases city vision radius.")
 cost     = 310
 
 [advance_electronics]

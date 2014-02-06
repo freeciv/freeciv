@@ -87,7 +87,7 @@ obsolete_by	=
     { "type", "name", "range"
     }
 build_cost	= 60
-upkeep		= 2
+upkeep		= 1
 sabotage	= 100
 sound		= "b_aqueduct"
 sound_alt	= "b_generic"
@@ -99,7 +99,7 @@ Allows a city to grow larger than size 8 and reduces the chance of plague\
 ")
 
 [building_aqueduct_lake]
-name		= _("Aqueduct, near Lake")
+name		= _("Aqueduct, Lake")
 genus		= "Improvement"
 reqs	=
     { "type", "name", "range"
@@ -123,7 +123,7 @@ Allows a city to grow larger than size 8 and reduces the chance of plague\
 ")
 
 [building_aqueduct_river]
-name		= _("Aqueduct, near River")
+name		= _("Aqueduct, River")
 genus		= "Improvement"
 reqs	=
     { "type", "name", "range", "present"
@@ -161,7 +161,7 @@ obsolete_by	=
     { "type", "name", "range"
     }
 build_cost	= 80
-upkeep		= 2
+upkeep		= 1
 sabotage	= 100
 sound		= "b_bank"
 sound_alt	= "b_generic"
@@ -571,7 +571,7 @@ obsolete_by	=
     { "type", "name", "range"
     }
 build_cost	= 220
-upkeep		= 5
+upkeep		= 4
 sabotage	= 100
 sound		= "b_mfg_plant"
 sound_alt	= "b_generic"
@@ -727,7 +727,7 @@ obsolete_by	=
     { "type", "name", "range"
     }
 build_cost	= 60
-upkeep		= 3
+upkeep		= 2
 sabotage	= 100
 sound		= "b_port_facility"
 sound_alt	= "b_generic"
@@ -812,7 +812,7 @@ sound		= "b_research_lab"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-Increases the luxury and tax output in a city by an additional 50%\
+Increases the science output in a city by an additional 50%\
  (by 100% if the Internet wonder was built by any player).\
 "),
 ; /* xgettext:no-c-format */
@@ -857,7 +857,7 @@ obsolete_by	=
     { "type", "name", "range"
     }
 build_cost	= 140
-upkeep		= 4
+upkeep		= 3
 sabotage	= 100
 sound		= "b_sdi_defense"
 sound_alt	= "b_generic"
@@ -938,7 +938,6 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Superconductors", "Player"
       "Building", "Factory", "City"
-      "Building", "Mfg. Plant", "City"
       "Building", "Library", "City"
       "Building", "University", "City"
       "Building", "Research Lab", "City"
@@ -969,7 +968,6 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Environmentalism", "Player"
       "Building", "Factory", "City"
-      "Building", "Mfg. Plant", "City"
       "Building", "Library", "City"
       "Building", "University", "City"
       "Building", "Research Lab", "City"
@@ -1046,7 +1044,7 @@ obsolete_by	=
     { "type", "name", "range"
     }
 build_cost	= 120
-upkeep		= 3
+upkeep		= 2
 sabotage	= 100
 sound		= "b_stock_exchange"
 sound_alt	= "b_generic"
@@ -1502,9 +1500,8 @@ sabotage	= 0
 sound		= "w_king_richards_crusade"
 sound_alt	= "w_generic"
 helptext	= _("\
-It neutralises the unhappiness caused by 1 aggressively\
- deployed military unit per city.  Under Monarchy government,\
- it neutralises all the unhappiness caused by military units.\
+It neutralises the unhappiness caused by one military unit per city,\
+ and it gives two free gold per city for upkeep of units.\
 ")
 
 [building_leonardos_workshop]
@@ -1654,7 +1651,7 @@ graphic         = "b.mausoleum"
 graphic_alt     = "b.oracle"
 obsolete_by	=
     { "type", "name", "range"
-      "Tech", "Explosives", "World"
+      "Tech", "Sanitation", "World"
     }
 build_cost	= 200
 upkeep		= 0
@@ -1662,9 +1659,9 @@ sabotage	= 0
 sound		= "w_oracle"
 sound_alt	= "w_generic"
 helptext	= _("\
-Makes one unhappy citizen content in every city with Walls. \
- And 3 additional unhappy citizen content in the city where it is built. \
- No one of your cities can be incited to revolt.\
+Makes one unhappy citizen content in every city with Walls, \
+ and one additional unhappy citizen content in every city with Courthouse. \
+ Also, no one of your cities can be incited to revolt.\
 ")
 
 [building_statue_of_zeus]
@@ -1686,8 +1683,8 @@ sabotage	= 0
 sound		= "w_oracle"
 sound_alt	= "w_generic"
 helptext	= _("\
-It neutralises the unhappiness caused by 1 military unit per city,\
- and it increases by 1 the units free of upkeep per city.\
+It neutralises the unhappiness caused by one military unit per city,\
+ and it gives one free shield per city for upkeep of units.\
 ")
 
 [building_temple_of_artemis]
@@ -1806,9 +1803,10 @@ sabotage	= 0
 sound		= "w_statue_of_liberty"
 sound_alt	= "w_generic"
 helptext	= _("\
-Gives you freedom to break any diplomatic agreement even if your government\
- has a senate.  It also allows to change the government without the transition\
- period of Anarchy.\
+Allows you to choose any government, including those that have not yet\
+ been researched by your civilization, and without the transition\
+ period of Anarchy.  It also allows to break any diplomatic agreement,\
+ even when your government has a senate.\
 ")
 
 [building_sun_tzus_war_academy]
@@ -1854,9 +1852,7 @@ sound		= "w_united_nations"
 sound_alt	= "w_generic"
 helptext	= _("\
 Creates a world senate that may prevent declarations of\
- war in some circumstances.  It allows to every nation\
- to choose any government, including those that have not\
- yet been researched.  If any player's city is in revolt\
+ war in some circumstances.  If any player's city is in revolt\
  for more than two turns, that player's government falls. \
  Also, your reputation and goodwill among other nations is\
  recovered twice as fast.\
@@ -1886,10 +1882,9 @@ sabotage	= 0
 sound		= "w_womens_suffrage"
 sound_alt	= "w_generic"
 helptext	= _("\
-It reduces the unhappiness caused by aggressively deployed military\
- units owned by that city by 2 under Democracy and 1 under Republic\
- or Federation -- in other words, it neutralises the unhappiness\
- caused by a single military unit per city.\
+It neutralises the unhappiness caused by one aggressively\
+ deployed military unit per city.  Under Democracy government,\
+ it halves the unhappiness caused by military units.\
 ")
 ; NOTE:
 ; For Civ2 this should reduce unhappiness by one for *each* unit

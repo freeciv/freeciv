@@ -41,10 +41,10 @@ min_start_native_area = 0
 
 ; How many fragments each movement point has.
 ; For example road movement costs are relative to this.
-move_fragments = 3
+move_fragments = 6
 
 ; How many move fragments IgTer unit movement costs
-igter_cost = 1
+igter_cost = 2
 
 ; There is no resources in the middle of the oceans, only near coast
 ocean_resources = FALSE
@@ -352,7 +352,7 @@ warmer_wetter_result = "Lake"
 warmer_drier_result  = "Tundra"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
-native_to            = "Land", "Small Land", "Air", "Missile", "Helicopter"
+native_to            = "Land", "Small Land", "Big Land", "Air", "Missile", "Helicopter"
 flags                = "NoBarbs", "NoCities", "CanHaveRiver", "Oil"
 property_frozen      = 100
 color.r              = 232
@@ -1146,7 +1146,6 @@ reqs           =
       "UnitFlag", "Settlers", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
-defense_bonus  = 100
 native_to      = "Land", "Small Land", "Big Land"
 flags          = "NativeTile"
 
@@ -1262,7 +1261,7 @@ act_gfx_alt    = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 buildable      = FALSE
-native_to      = "Land", "Small Land", "Merchant"
+native_to      = "Land", "Small Land", "Merchant", "Trireme"
 defense_bonus  = 25
 flags          = "NativeTile"
 
@@ -1297,8 +1296,7 @@ flags          = "NativeTile"
 name           = _("Fortress")
 gui_type       = "Fortress"
 build_time     = 3
-border_sq      = 0
-flags          = "NoStackDeath", "DiplomatDefense"
+flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense"
 helptext       = _("\
 Fortresses improve defense for land units. Among other effects, a land \
 unit remaining in a fortress for a whole turn without moving recovers \
@@ -1309,7 +1307,7 @@ a quarter of its hit points.\
 name           = _("Airbase")
 gui_type       = "Airbase"
 build_time     = 3
-flags          = "NoStackDeath", "ParadropFrom"
+flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense", "ParadropFrom"
 helptext       = _("\
 Airbases allow your air units to land and refuel. Air units in an \
 airbase may be attacked by land units.\
@@ -1379,7 +1377,7 @@ They have no effect on gameplay.\
 
 [road_road]
 name           = _("Road")
-move_cost      = 1
+move_cost      = 2
 build_time     = 0
 food_incr      = 0
 shield_incr    = 0
@@ -1392,7 +1390,7 @@ flags          = "RequiresBridge"
 
 [road_railroad]
 name           = _("Railroad")
-move_cost      = 0
+move_cost      = 1
 build_time     = 3
 food_incr      = 0
 shield_incr    = 0
@@ -1405,11 +1403,11 @@ flags          = "RequiresBridge"
 
 [road_river]
 name           = _("River")
-move_cost      = 1
+move_cost      = 2
 move_mode      = "Cardinal"
 trade_incr_const = 1
 compat_special = "River"
-flags          = "River", "PreventsOtherRoads", "UnrestrictedInfra"
+flags          = "River", "PreventsOtherRoads"
 helptext       = _("\
 Any land terrain type may have a River on it.  A River adds 1\
  trade to the resources produced by that tile.  It also increases a tile's\

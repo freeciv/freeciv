@@ -26,7 +26,6 @@ flags =
     "Transform", _("Can transform terrain.")
     "AirUnit", _("Very bad at attacking AEGIS.")
     "Submarine", _("Attack value halved when attacking Destroyer")
-    "Helicopter", _("Defends very badly against Fighters.")
     "Unbribable", _("May not be bribed.")
   }
 
@@ -135,7 +134,7 @@ name          = _("?unitclass:Small Land")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "BuildAnywhere", "CollectRansom",
-                "ZOC", "TerrainDefense", "DoesntOccupyTile", "KillCitizen"
+                "ZOC", "TerrainDefense", "DoesntOccupyTile"
 
 [unitclass_land_big]
 ; /* TRANS: Unit class: used adjectivally */
@@ -172,7 +171,7 @@ flags         = "DamageSlows", "AttFromNonNative"
 name          = _("?unitclass:Helicopter")
 min_speed     = 1
 hp_loss_pct   = 10
-flags         = "CanOccupyCity", "CollectRansom"
+flags         = "Unreachable", "DoesntOccupyTile", "CanOccupyCity", "CollectRansom"
 
 [unitclass_air]
 ; /* TRANS: Unit class: used adjectivally */
@@ -180,7 +179,7 @@ name          = _("?unitclass:Air")
 min_speed     = 1
 hp_loss_pct   = 0
 hut_behavior  = "Frighten"
-flags         = "Unreachable", "DoesntOccupyTile"
+flags         = "Unreachable", "DoesntOccupyTile", "CanPillage"
 
 ; /* <-- avoid gettext warnings
 ;
@@ -403,39 +402,6 @@ Settlers are one of the key units in the game. As well as building new\
  Settlers reduce the population of the city by 2 when they are built.\
 ")
 
-[unit_migrants]
-name          = _("Migrants")
-class         = "Small Land"
-tech_req      = "Pottery"
-obsolete_by   = "None"
-graphic       = "u.refugee"
-graphic_alt   = "u.worker"
-sound_move    = "m_worker"
-sound_move_alt = "m_generic"
-sound_fight   = "f_worker"
-sound_fight_alt = "f_generic"
-build_cost    = 10
-pop_cost      = 1
-attack        = 0
-defense       = 1
-hitpoints     = 20
-firepower     = 1
-move_rate     = 1
-vision_radius_sq = 2
-transport_cap = 0
-fuel          = 0
-uk_happy      = 0
-uk_shield     = 1
-uk_food       = 0
-uk_gold       = 1
-flags         = "Settlers", "NonMil", "AddToCity", "NoVeteran", "Capturable"
-roles         = "Settlers"
-helptext      = _("\
-Migrants are like Workers in that they can improve terrain.\
- However, Migrants reduce the population by 1 when they are\
- built, and can be used to migrate population to other cities.\
-")
-
 [unit_worker]
 name          = _("?unit:Workers")
 class         = "Small Land"
@@ -467,6 +433,39 @@ helptext      = _("\
 Workers are similar to Settlers in that they can improve terrain --\
  see the Terrain Alterations section of the help for more details of\
  the available improvements. However, Workers cannot build new cities.\
+")
+
+[unit_migrants]
+name          = _("Migrants")
+class         = "Small Land"
+tech_req      = "Pottery"
+obsolete_by   = "None"
+graphic       = "u.refugee"
+graphic_alt   = "u.worker"
+sound_move    = "m_worker"
+sound_move_alt = "m_generic"
+sound_fight   = "f_worker"
+sound_fight_alt = "f_generic"
+build_cost    = 10
+pop_cost      = 1
+attack        = 0
+defense       = 1
+hitpoints     = 20
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 1
+flags         = "Settlers", "NonMil", "AddToCity", "NoVeteran", "Capturable"
+roles         = "Settlers"
+helptext      = _("\
+Migrants are like Workers in that they can improve terrain.\
+ However, Migrants reduce the population by 1 when they are\
+ built, and can be used to migrate population to other cities.\
 ")
 
 [unit_engineers]
@@ -527,7 +526,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Capturer"
+flags         = "OneAttack", "Capturer"
 roles         = "DefendOk", "FirstBuild"
 helptext      = _("\
 This unit may be built from the start of the game.  It is the\
@@ -559,7 +558,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Capturer"
+flags         = "OneAttack", "Capturer"
 roles         = "DefendGood", "FirstBuild"
 helptext      = _("\
 The Phalanx is armored infantry, suitable for defending your cities.\
@@ -576,10 +575,10 @@ sound_move    = "m_archers"
 sound_move_alt = "m_generic"
 sound_fight   = "f_archers"
 sound_fight_alt = "f_generic"
-build_cost    = 30
+build_cost    = 20
 pop_cost      = 0
 attack        = 3
-defense       = 2
+defense       = 1
 hitpoints     = 10
 firepower     = 1
 move_rate     = 1
@@ -590,16 +589,15 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "IgZOC", "Capturer"
-roles         = "DefendOk", "Hut", "BarbarianBuild", "BarbarianSea"
+flags         = "OneAttack", "Capturer"
+roles         = "DefendOk", "Hut"
 helptext      = _("\
 Archers fight with bows and arrows and have a good offensive\
- value as well as decent defense.\
+ value.\
 ")
 
 [unit_legion]
-name          = _("Swordsmen")
-rule_name     = "Legion"
+name          = _("Legion")
 class         = "Land"
 tech_req      = "Iron Working"
 obsolete_by   = "Musketeers"
@@ -609,7 +607,7 @@ sound_move    = "m_legion"
 sound_move_alt = "m_generic"
 sound_fight   = "f_legion"
 sound_fight_alt = "f_generic"
-build_cost    = 40
+build_cost    = 30
 pop_cost      = 0
 attack        = 4
 defense       = 2
@@ -623,10 +621,10 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Marines", "Capturer"
-roles         = "DefendOk"
+flags         = "OneAttack", "Marines", "Capturer"
+roles         = "DefendOk", "BarbarianBuild", "BarbarianSea"
 helptext      = _("\
-Swordsmen are heavily armed and well disciplined infantry\
+Legions are heavily armed and well disciplined infantry\
  units with an excellent offensive value.\
 ")
 
@@ -655,7 +653,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Capturer"
+flags         = "OneAttack", "Capturer"
 roles         = "DefendGood", "FirstBuild"
 helptext      = _("\
 Equipped with long pikes, Pikemen replaces Phalanx\
@@ -687,7 +685,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Marines", "Capturer"
+flags         = "OneAttack", "Marines", "Capturer"
 roles         = "DefendGood", "FirstBuild", "HutTech",
                 "BarbarianTech", "BarbarianBuildTech", "BarbarianSeaTech"
 helptext      = _("\
@@ -721,7 +719,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Marines", "Capturer"
+flags         = "OneAttack", "Marines", "Capturer"
 roles         = "DefendGood", "FirstBuild"
 helptext      = _("\
 Riflemen are World War-era infantry, very good\
@@ -753,7 +751,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "IgTer", "Capturer"
+flags         = "OneAttack", "IgTer", "Capturer"
 roles         = "DefendOk"
 helptext      = _("\
 Alpine Troops are highly mobile units as well as\
@@ -785,7 +783,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "IgTer", "IgZOC", "Capturer"
+flags         = "OneAttack", "IgTer", "IgZOC", "Capturer"
 roles         = "DefendGood", "Partisan", "BarbarianTech"
 helptext      = _("\
 Partisans are guerilla fighters who are experts\
@@ -826,7 +824,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Fanatic", "AddToCity", "Capturer"
+flags         = "OneAttack", "Fanatic", "AddToCity", "Capturer"
 roles         = "DefendGood"
 helptext      = _("\
 Fanatics are warriors extremely devoted to a higher cause.\
@@ -861,7 +859,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Marines", "Capturer"
+flags         = "OneAttack", "Marines", "Capturer"
 roles         = "DefendGood", "FirstBuild", "BarbarianSeaTech"
 helptext      = _("\
 Marines are infantry who are experts at marine warfare.\
@@ -892,7 +890,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Paratroopers", "Capturer"
+flags         = "OneAttack", "Paratroopers", "Capturer"
 roles         = "DefendOk"
 helptext      = _("\
 Paratroopers are experts at airborne attacks.\
@@ -927,7 +925,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = ""
+flags         = "OneAttack"
 roles         = "DefendGood", "FirstBuild"
 helptext      = _("\
 The Mechanized Infantry has the strongest defensive strength\
@@ -960,7 +958,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Capturer"
+flags         = "OneAttack", "Capturer"
 roles         = "AttackFast", "Hut", "Barbarian", "Hunter"
 helptext      = _("\
 Horsemen are mounted warriors and an early\
@@ -972,7 +970,7 @@ Horsemen are mounted warriors and an early\
 name          = _("Chariot")
 class         = "Big Land"
 tech_req      = "The Wheel"
-obsolete_by   = "Crusaders"
+obsolete_by   = "Dragoons"
 graphic       = "u.chariot"
 graphic_alt   = "-"
 sound_move    = "m_chariot"
@@ -981,7 +979,7 @@ sound_fight   = "f_chariot"
 sound_fight_alt = "f_generic"
 build_cost    = 30
 pop_cost      = 0
-attack        = 3
+attack        = 4
 defense       = 1
 hitpoints     = 10
 firepower     = 1
@@ -993,8 +991,8 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Capturer"
-roles         = "AttackFast", "Hut", "Hunter"
+flags         = "OneAttack", "Capturer"
+roles         = "AttackFast"
 helptext      = _("\
 Chariots are horse-pulled war wagons, stronger\
  but more expensive than horsemen.\
@@ -1004,7 +1002,7 @@ Chariots are horse-pulled war wagons, stronger\
 name          = _("Elephants")
 class         = "Land"
 tech_req      = "Polytheism"
-obsolete_by   = "Knights"
+obsolete_by   = "Dragoons"
 graphic       = "u.elephants"
 graphic_alt   = "u.chariot"
 sound_move    = "m_elephants"
@@ -1013,7 +1011,7 @@ sound_fight   = "f_elephants"
 sound_fight_alt = "f_generic"
 build_cost    = 30
 pop_cost      = 0
-attack        = 2
+attack        = 3
 defense       = 2
 hitpoints     = 10
 firepower     = 1
@@ -1025,8 +1023,8 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Capturer"
-roles         = "AttackFast"
+flags         = "OneAttack", "Capturer"
+roles         = "DefendOk", "AttackFast", "Hunter"
 helptext      = _("\
 Elephants are towering animals trained for war that are often used as\
  powerful shock troops.\
@@ -1057,8 +1055,8 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Capturer"
-roles         = "AttackFast"
+flags         = "OneAttack", "Capturer"
+roles         = "AttackFast", "Hunter"
 helptext      = _("\
 Crusaders are highly disciplined mounted\
  warriors driven by a higher cause.\
@@ -1078,7 +1076,7 @@ sound_fight_alt = "f_generic"
 build_cost    = 40
 pop_cost      = 0
 attack        = 4
-defense       = 2
+defense       = 3
 hitpoints     = 10
 firepower     = 1
 move_rate     = 2
@@ -1089,9 +1087,9 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Capturer"
-roles         = "AttackFast", "HutTech", "BarbarianTech",
-                "BarbarianBuildTech", "BarbarianSeaTech", "Hunter"
+flags         = "OneAttack", "Capturer"
+roles         = "DefendOk", "AttackFast", "HutTech","BarbarianTech",
+                "BarbarianBuildTech", "Hunter"
 helptext      = _("\
 Knights are mounted and heavily armored warriors.\
 ")
@@ -1121,9 +1119,8 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Capturer"
-roles         = "AttackFast", "BarbarianBuildTech", "BarbarianSeaTech",
-                "Hunter"
+flags         = "OneAttack", "Capturer"
+roles         = "AttackFast", "BarbarianBuildTech", "Hunter"
 helptext      = _("\
 Dragoons are mounted warriors carrying early firearms.\
 ")
@@ -1153,7 +1150,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Capturer"
+flags         = "OneAttack", "Capturer"
 roles         = "AttackFast", "Hunter"
 helptext      = _("\
 Cavalry are mounted and highly trained soldiers.\
@@ -1170,7 +1167,7 @@ sound_move    = "m_armor"
 sound_move_alt = "m_generic"
 sound_fight   = "f_armor"
 sound_fight_alt = "f_generic"
-build_cost    = 80
+build_cost    = 90
 pop_cost      = 0
 attack        = 10
 defense       = 5
@@ -1184,7 +1181,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = ""
+flags         = "OneAttack"
 roles         = "DefendOk", "AttackFast", "Hunter"
 helptext      = _("\
 Armors are motorized war wagons that are faster,\
@@ -1217,7 +1214,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = ""
+flags         = "OneAttack"
 roles         = "AttackStrong"
 helptext      = _("\
 Catapults are large rock-throwing machines of war.\
@@ -1250,7 +1247,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = ""
+flags         = "OneAttack"
 roles         = "AttackStrong", "BarbarianTech", "BarbarianBuildTech"
 helptext      = _("\
 Cannons are large firearms that can fire heavy\
@@ -1284,7 +1281,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "CityBuster"
+flags         = "OneAttack", "CityBuster"
 roles         = "AttackStrong"
 helptext      = _("\
 The artillery is an upgraded cannon. It is a very\
@@ -1317,7 +1314,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "CityBuster"
+flags         = "OneAttack", "CityBuster"
 roles         = "AttackStrong"
 helptext      = _("\
 Howitzers are upgraded artillery with improved\
@@ -1349,9 +1346,9 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-targets       = "Air", "Missile"
+targets       = "Air", "Missile", "Helicopter"
 flags         = "AirUnit"
-roles         = ""
+roles         = "DefendOk"
 helptext      = _("\
 Fighters are your first airborne units. They can\
  move anywhere and attack any unit.\
@@ -1371,7 +1368,7 @@ sound_fight_alt = "f_generic"
 build_cost    = 100
 pop_cost      = 0
 attack        = 6
-defense       = 1
+defense       = 2
 hitpoints     = 30
 firepower     = 1
 move_rate     = 8
@@ -1405,7 +1402,7 @@ sound_fight_alt = "f_generic"
 build_cost    = 70
 pop_cost      = 0
 attack        = 5
-defense       = 2
+defense       = 3
 hitpoints     = 30
 firepower     = 1
 move_rate     = 6
@@ -1423,7 +1420,7 @@ helptext      = _("\
 The Helicopter can transport one unit of infantry, and it can bombard\
  to enemy units.  Care must be exercised, because Helicopters lose\
  a small amount of health for every turn not spent in a city or airbase\
- or on a Carrier, and Helicopters may be attacked by ground units.\
+ or on a Carrier.\
 ")
 bombard_rate = 2
 
@@ -1441,7 +1438,7 @@ sound_fight_alt = "f_generic"
 build_cost    = 80
 pop_cost      = 0
 attack        = 8
-defense       = 7
+defense       = 8
 hitpoints     = 20
 firepower     = 1
 move_rate     = 14
@@ -1452,9 +1449,9 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-targets       = "Air", "Missile"
+targets       = "Air", "Missile", "Helicopter"
 flags         = "Partial_Invis", "AirUnit"
-roles         = ""
+roles         = "DefendGood"
 helptext      = _("\
 An improved Fighter, with improved attack and a higher movement\
  radius.\
@@ -1474,7 +1471,7 @@ sound_fight_alt = "f_generic"
 build_cost    = 120
 pop_cost      = 0
 attack        = 9
-defense       = 3
+defense       = 5
 hitpoints     = 30
 firepower     = 1
 move_rate     = 12
@@ -1486,7 +1483,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 flags         = "Partial_Invis", "FieldUnit", "OneAttack", "AirUnit", "Bombarder"
-roles         = ""
+roles         = "DefendOk"
 helptext      = _("\
 An improved Bomber, with improved attack and a higher movement\
  radius.\
@@ -1497,7 +1494,7 @@ bombard_rate = 4
 name          = _("Trireme")
 class         = "Trireme"
 tech_req      = "Map Making"
-obsolete_by   = "Caravel"
+obsolete_by   = "Transport"
 graphic       = "u.trireme"
 graphic_alt   = "-"
 sound_move    = "m_trireme"
@@ -1538,10 +1535,10 @@ sound_move    = "m_caravel"
 sound_move_alt = "m_generic"
 sound_fight   = "f_caravel"
 sound_fight_alt = "f_generic"
-build_cost    = 50
+build_cost    = 40
 pop_cost      = 0
-attack        = 2
-defense       = 1
+attack        = 1
+defense       = 2
 hitpoints     = 10
 firepower     = 1
 move_rate     = 3
@@ -1556,7 +1553,7 @@ cargo         = "Land", "Small Land", "Merchant"
 flags         = "BadCityDefender", "Only_Native_Attack"
 roles         = "Ferryboat", "BarbarianBoat"
 helptext      = _("\
-The Caravel replaces the Trireme and can enter\
+The Caravel is a sailing ship that can enter\
  any ocean tile.\
 ")
 
@@ -1605,9 +1602,9 @@ sound_move    = "m_frigate"
 sound_move_alt = "m_generic"
 sound_fight   = "f_frigate"
 sound_fight_alt = "f_generic"
-build_cost    = 60
+build_cost    = 50
 pop_cost      = 0
-attack        = 4
+attack        = 3
 defense       = 2
 hitpoints     = 20
 firepower     = 1
@@ -1637,10 +1634,10 @@ sound_move    = "m_ironclad"
 sound_move_alt = "m_generic"
 sound_fight   = "f_ironclad"
 sound_fight_alt = "f_generic"
-build_cost    = 70
+build_cost    = 60
 pop_cost      = 0
 attack        = 4
-defense       = 4
+defense       = 3
 hitpoints     = 20
 firepower     = 1
 move_rate     = 4
@@ -1654,8 +1651,8 @@ uk_gold       = 1
 flags         = "BadCityDefender"
 roles         = "Hunter"
 helptext      = _("\
-The Ironclad is an armored ship with same attack,\
- but better defense than the Frigate.\
+The Ironclad is an armored ship,\
+ more sturdy than the Frigate.\
 ")
 
 [unit_destroyer]
@@ -1790,7 +1787,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 flags         = "BadCityDefender"
-roles         = ""
+roles         = "DefendOk"
 helptext      = _("\
 The Battleship is the supreme naval unit with\
  excellent offensive and defensive values.\
@@ -1817,7 +1814,7 @@ move_rate     = 5
 vision_radius_sq = 8
 transport_cap = 8
 fuel          = 0
-uk_happy      = 1
+uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
@@ -1857,7 +1854,7 @@ uk_food       = 1
 uk_gold       = 1
 cargo         = "Air", "Missile", "Helicopter"
 flags         = "BadCityDefender"
-roles         = ""
+roles         = "DefendGood"
 helptext      = _("\
 The Carrier is a mobile airport.\
 "), _("\
@@ -1892,7 +1889,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 cargo         = "Land", "Small Land", "Big Land", "Merchant"
-flags         = "BadCityDefender"
+flags         = "Settlers", "BadCityDefender"
 roles         = "Ferryboat"
 helptext      = _("\
 The Transport cannot attack on its own but\
@@ -1916,11 +1913,11 @@ attack        = 18
 defense       = 0
 hitpoints     = 10
 firepower     = 1
-move_rate     = 16
+move_rate     = 12
 vision_radius_sq = 2
 transport_cap = 0
 fuel          = 1
-uk_happy      = 0
+uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
@@ -2009,11 +2006,11 @@ move_rate     = 2
 vision_radius_sq = 2
 transport_cap = 0
 fuel          = 0
-uk_happy      = 1
-uk_shield     = 0
+uk_happy      = 0
+uk_shield     = 1
 uk_food       = 0
-uk_gold       = 0
-flags         = "Diplomat", "IgZOC", "NonMil"
+uk_gold       = 1
+flags         = "Partial_Invis", "Diplomat", "IgZOC", "NonMil"
 veteran_names =
 ; /* TRANS: diplomatic rank. */
 ; /* TRANS: Unless translated, the last character in "attache" should be */
@@ -2118,11 +2115,11 @@ move_rate     = 3
 vision_radius_sq = 8
 transport_cap = 0
 fuel          = 0
-uk_happy      = 1
-uk_shield     = 0
+uk_happy      = 0
+uk_shield     = 1
 uk_food       = 0
-uk_gold       = 0
-flags         = "Diplomat", "IgZOC", "NonMil", "Spy"
+uk_gold       = 1
+flags         = "Partial_Invis", "Diplomat", "IgZOC", "NonMil", "Spy"
 veteran_names =
 ; /* TRANS: Spy veteran level */
   _("?spy_level:informant"),
@@ -2188,9 +2185,9 @@ vision_radius_sq = 2
 transport_cap = 0
 fuel          = 0
 uk_happy      = 0
-uk_shield     = 0
+uk_shield     = 1
 uk_food       = 0
-uk_gold       = 0
+uk_gold       = 1
 flags         = "TradeRoute", "HelpWonder", "NonMil", "Capturable"
 roles         = ""
 helptext      = _("\
@@ -2226,9 +2223,9 @@ vision_radius_sq = 2
 transport_cap = 0
 fuel          = 0
 uk_happy      = 0
-uk_shield     = 0
+uk_shield     = 1
 uk_food       = 0
-uk_gold       = 0
+uk_gold       = 1
 flags         = "TradeRoute", "HelpWonder", "NonMil", "Capturable"
 roles         = ""
 helptext      = _("\
@@ -2257,9 +2254,9 @@ vision_radius_sq = 2
 transport_cap = 0
 fuel          = 0
 uk_happy      = 0
-uk_shield     = 0
+uk_shield     = 1
 uk_food       = 0
-uk_gold       = 0
+uk_gold       = 1
 flags         = "IgTer", "IgZOC", "NonMil"
 roles         = "Explorer"
 helptext      = _("\
@@ -2357,10 +2354,10 @@ move_rate     = 16
 vision_radius_sq = 26
 transport_cap = 0
 fuel          = 2
-uk_happy      = 1
-uk_shield     = 0
+uk_happy      = 0
+uk_shield     = 1
 uk_food       = 0
-uk_gold       = 0
+uk_gold       = 1
 flags         = "AirUnit"
 roles         = ""
 helptext      = _("\
