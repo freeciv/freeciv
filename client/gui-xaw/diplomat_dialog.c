@@ -336,7 +336,7 @@ static void spy_sabotage_callback(Widget w, XtPointer client_data,
   XtDestroyWidget(spy_sabotage_shell);
   spy_sabotage_shell = 0l;
   
-  if(!sabotage_improvement){
+  if (sabotage_improvement < -1) {
     log_error("Bug in spy sabotage code");
     process_diplomat_arrival(NULL, 0);
     return;
