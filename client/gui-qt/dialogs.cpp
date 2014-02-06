@@ -902,7 +902,6 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
   struct unit *ptunit;
   struct astring title = ASTRING_INIT, text = ASTRING_INIT;
   int diplomat_id;
-  int diplomat_target_id;
   QVariant qv1, qv2;
   pfcn_void func;
 
@@ -922,8 +921,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 
   if ((pcity = tile_city(dest_tile))) {
     /* Spy/Diplomat acting against a city */
-    diplomat_target_id = pcity->id;
-    gui()->set_current_unit(diplomat_id, diplomat_target_id, ATK_CITY);
+    gui()->set_current_unit(diplomat_id, pcity->id, ATK_CITY);
     qv2 = pcity->id;
 
     action_entry(cd,
@@ -977,8 +975,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
   if ((ptunit = unit_list_get(dest_tile->units, 0))) {
     /* Spy/Diplomat acting against a unit */
 
-    diplomat_target_id = ptunit->id;    
-    gui()->set_current_unit(diplomat_id, diplomat_target_id, ATK_UNIT);
+    gui()->set_current_unit(diplomat_id, ptunit->id, ATK_UNIT);
     qv2 = ptunit->id;
 
     action_entry(cd,
