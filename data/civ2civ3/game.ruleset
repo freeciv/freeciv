@@ -76,10 +76,10 @@ base_bribe_cost  = 750
 ransom_gold      = 100
 
 ; Number of veteran levels lost when upgrading a unit
-upgrade_veteran_loss     = 0
+upgrade_veteran_loss     = 1
 
 ; Number of veteran levels lost when auto-upgrading a unit
-autoupgrade_veteran_loss = 0
+autoupgrade_veteran_loss = 1
 
 ; Whether player gets to select which terrain improvement to pillage.
 pillage_select           = TRUE
@@ -117,7 +117,7 @@ paradrop_to_transport    = FALSE
 ;     gold, alternatively a random buildings from a random cities is sold
 ;     and a random units with gold upkeep is disbanded till the treasury is
 ;     balanced.
-gold_upkeep_style = 2
+gold_upkeep_style = 1
 
 ; Method of calculating technology costs
 ;   0 - Civ (I|II) style. Every new tech add researchcost to cost of next tech.
@@ -203,16 +203,16 @@ size_effect    = 1
 ; "Basic"  - upkeep is calculated as:
 ;     <Cost of technology> / tech_upkeep_divider - tech_upkeep_free
 ; "Cities" - upkeep is calculated like "Basic", but multiplied by number of cities
-tech_upkeep_style = "None"
+tech_upkeep_style = "Cities"
 
 ; upkeep cost is divided by this value
-tech_upkeep_divider = 2000
+tech_upkeep_divider = 6000
 
 ; Method of selecting techs given for free
 ; "Goal"     - Towards player`s goal, random if no goal
 ; "Random"   - Random researchable tech
 ; "Cheapest" - Cheapest researchable tech, random among equal cost ones
-free_tech_method = "Goal"
+free_tech_method = "Cheapest"
 
 [calendar]
 ; Year in the beginning of the game
@@ -245,13 +245,28 @@ negative_label = _("BCE")
 ;
 ; */ <-- avoid gettext warnings
 
+[disaster_earthquake]
+name           = _("Earthquake")
+frequency      = 10
+effects        = "DestroyBuilding", "EmptyProdStock"
+
+[disaster_flood]
+name           = _("Flood")
+frequency      = 10
+effects        = "ReducePopulation", "EmptyFoodStock"
+
+[disaster_fire]
+name           = _("Fire")
+frequency      = 10
+effects        = "DestroyBuilding", "Pollution"
+
 [disaster_nuclear_accident]
 name           = _("Nuclear Accident")
 reqs           =
     { "type", "name", "range"
       "Building", "Nuclear Plant", "City"
     }
-frequency      = 1
+frequency      = 10
 effects        = "ReducePopulation", "Fallout"
 
 ;
@@ -349,4 +364,5 @@ set =
       "restrictinfra", "ENABLED"
       "unreachableprotects", "DISABLED"
       "onsetbarbs", 120
+      "occupychance", 100
     }

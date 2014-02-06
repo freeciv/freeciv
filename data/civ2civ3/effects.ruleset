@@ -18,25 +18,17 @@ options="+Freeciv-ruleset-Devel-2013.Apr.23"
 
 ; Lower chance of AI wars
 ; "Away" "Novice" "Easy" "Normal" "Hard" "Cheating" "Experimental"
-[effect_ai_love]
+[effect_ai_hard_love]
 type    = "Gain_AI_Love"
 value   = 10
-reqs    =
-    { "type", "name", "range"
-      "AI", "Normal", "Player"
-    }
-
-[effect_ai_love_1]
-type    = "Gain_AI_Love"
-value   = 20
 reqs    =
     { "type", "name", "range"
       "AI", "Hard", "Player"
     }
 
-[effect_ai_love_2]
+[effect_ai_cheat_love]
 type    = "Gain_AI_Love"
-value   = 30
+value   = 20
 reqs    =
     { "type", "name", "range"
       "AI", "Cheating", "Player"
@@ -84,6 +76,29 @@ value   = -20
 reqs    =
     { "type", "name", "range"
       "AI", "Cheating", "Player"
+    }
+
+[effect_ai_cheat_defense]
+name    = "Defend_Bonus"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "AI", "Cheating", "Player"
+    }
+nreqs    =
+    { "type", "name", "range"
+      "CityTile", "Center", "Local"
+      "Base", "Fortress", "Tile"
+      "TerrainClass", "Oceanic", "Local"
+;      "UnitClass", "Land", "Local"
+;      "UnitClass", "Small Land", "Local"
+;      "UnitClass", "Big Land", "Local"
+;      "UnitClass", "Merchant", "Local"
+;      "UnitClass", "Sea", "Local"
+;      "UnitClass", "Trireme", "Local"
+      "UnitClass", "Helicopter", "Local"
+      "UnitClass", "Air", "Local"
+      "UnitClass", "Missile", "Local"
     }
 
 [effect_unhappysize]
@@ -147,15 +162,6 @@ reqs    =
       "Tech", "Astronomy", "Player"
     }
 
-[effect_fortress_citybuster]
-type    = "Defend_Bonus"
-value   = -50
-reqs    =
-    { "type", "name", "range"
-      "Base", "Fortress", "Tile"
-      "UnitFlag", "CityBuster", "Local"
-    }
-
 ; Fortress HP regen (Every Land units)
 [effect_fortress_hp_regen]
 type    = "HP_Regen"
@@ -177,9 +183,49 @@ nreqs   =
       "UnitClass", "Missile", "Local"
     }
 
+[effect_fortress_defense]
+name    = "Defend_Bonus"
+value   = 100
+reqs    =
+    { "type", "name", "range"
+      "Base", "Fortress", "Tile"
+    }
+nreqs   =
+    { "type", "name", "range"
+;      "UnitClass", "Land", "Local"
+;      "UnitClass", "Small Land", "Local"
+;      "UnitClass", "Big Land", "Local"
+;      "UnitClass", "Merchant", "Local"
+;      "UnitClass", "Sea", "Local"
+;      "UnitClass", "Trireme", "Local"
+      "UnitClass", "Helicopter", "Local"
+      "UnitClass", "Air", "Local"
+      "UnitClass", "Missile", "Local"
+    }
+
+[effect_airbase_defense]
+name    = "Defend_Bonus"
+value   = 100
+reqs    =
+    { "type", "name", "range"
+      "Base", "Airbase", "Tile"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "UnitClass", "Land", "Local"
+      "UnitClass", "Small Land", "Local"
+      "UnitClass", "Big Land", "Local"
+      "UnitClass", "Merchant", "Local"
+      "UnitClass", "Sea", "Local"
+      "UnitClass", "Trireme", "Local"
+;      "UnitClass", "Helicopter", "Local"
+;      "UnitClass", "Air", "Local"
+;      "UnitClass", "Missile", "Local"
+    }
+
 [effect_trade_routes]
 type    = "Max_Trade_Routes"
-value   = 4
+value   = 2
 
 ; Base vision range - radius of vision is sqrt(5) = 2.24
 [effect_city_vision]
@@ -641,18 +687,6 @@ reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"
     }
-nreqs   =
-    { "type", "name", "range"
-      "Gov", "Anarchy", "Player"
-      "Gov", "Tribal", "Player"
-      "Gov", "Communism", "Player"
-;      "Gov", "Despotism", "Player"
-;      "Gov", "Monarchy", "Player"
-;      "Gov", "Fundamentalism", "Player"
-;      "Gov", "Federation", "Player"
-      "Gov", "Republic", "Player"
-;      "Gov", "Democracy", "Player"
-    }
 
 [effect_unit_unhappiness]
 type    = "Unhappy_Factor"
@@ -667,18 +701,34 @@ nreqs   =
 ;      "Gov", "Fundamentalism", "Player"
 ;      "Gov", "Federation", "Player"
 ;      "Gov", "Republic", "Player"
-      "Gov", "Democracy", "Player"
+;      "Gov", "Democracy", "Player"
     }
 
 [effect_unit_unhappiness_democracy]
 type    = "Unhappy_Factor"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "Gov", "Democracy", "Player"
     }
+nreqs    =
+    { "type", "name", "range"
+      "Building", "Women's Suffrage", "Player"
+    }
 
-[effect_upkeep_free_mil_town_1]
+[effect_unit_unhappiness_democracy_1]
+type    = "Make_Content_Mil"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Gov", "Democracy", "Player"
+    }
+nreqs    =
+    { "type", "name", "range"
+      "Building", "Women's Suffrage", "Player"
+    }
+
+[effect_upkeep_free_mil_1]
 type    = "Make_Content_Mil"
 value   = 1
 nreqs   =
@@ -688,33 +738,13 @@ nreqs   =
       "Gov", "Communism", "Player"
       "Gov", "Despotism", "Player"
       "Gov", "Monarchy", "Player"
-;      "Gov", "Fundamentalism", "Player"
+      "Gov", "Fundamentalism", "Player"
       "Gov", "Federation", "Player"
 ;      "Gov", "Republic", "Player"
-      "Gov", "Democracy", "Player"
+;      "Gov", "Democracy", "Player"
     }
 
-[effect_upkeep_free_mil_city_1]
-type    = "Make_Content_Mil"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "MinSize", "8", "City"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "Gov", "Anarchy", "Player"
-      "Gov", "Tribal", "Player"
-      "Gov", "Communism", "Player"
-      "Gov", "Despotism", "Player"
-      "Gov", "Monarchy", "Player"
-;      "Gov", "Fundamentalism", "Player"
-      "Gov", "Federation", "Player"
-;      "Gov", "Republic", "Player"
-      "Gov", "Democracy", "Player"
-    }
-
-[effect_upkeep_free_mil_town_2]
+[effect_upkeep_free_mil_2]
 type    = "Make_Content_Mil"
 value   = 2
 nreqs   =
@@ -724,33 +754,13 @@ nreqs   =
       "Gov", "Communism", "Player"
 ;      "Gov", "Despotism", "Player"
       "Gov", "Monarchy", "Player"
-      "Gov", "Fundamentalism", "Player"
+;      "Gov", "Fundamentalism", "Player"
 ;      "Gov", "Federation", "Player"
       "Gov", "Republic", "Player"
-;      "Gov", "Democracy", "Player"
+      "Gov", "Democracy", "Player"
     }
 
-[effect_upkeep_free_mil_city_2]
-type    = "Make_Content_Mil"
-value   = 2
-reqs    =
-    { "type", "name", "range"
-      "MinSize", "8", "City"
-    }
-nreqs   =
-    { "type", "name", "range"
-;      "Gov", "Anarchy", "Player"
-;      "Gov", "Tribal", "Player"
-      "Gov", "Communism", "Player"
-;      "Gov", "Despotism", "Player"
-      "Gov", "Monarchy", "Player"
-      "Gov", "Fundamentalism", "Player"
-;      "Gov", "Federation", "Player"
-      "Gov", "Republic", "Player"
-;      "Gov", "Democracy", "Player"
-    }
-
-[effect_upkeep_free_mil_town_3]
+[effect_upkeep_free_mil_3]
 type    = "Make_Content_Mil"
 value   = 3
 nreqs   =
@@ -766,27 +776,7 @@ nreqs   =
       "Gov", "Democracy", "Player"
     }
 
-[effect_upkeep_free_mil_city_3]
-type    = "Make_Content_Mil"
-value   = 3
-reqs    =
-    { "type", "name", "range"
-      "MinSize", "8", "City"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "Gov", "Anarchy", "Player"
-      "Gov", "Tribal", "Player"
-      "Gov", "Communism", "Player"
-      "Gov", "Despotism", "Player"
-;      "Gov", "Monarchy", "Player"
-      "Gov", "Fundamentalism", "Player"
-      "Gov", "Federation", "Player"
-      "Gov", "Republic", "Player"
-      "Gov", "Democracy", "Player"
-    }
-
-[effect_upkeep_free_units_town_anarchy]
+[effect_upkeep_free_units_anarchy]
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 2
 reqs    =
@@ -795,17 +785,7 @@ reqs    =
       "OutputType", "Shield", "Local"
     }
 
-[effect_upkeep_free_units_city_anarchy]
-type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Anarchy", "Player"
-      "OutputType", "Shield", "Local"
-      "MinSize", "8", "City"
-    }
-
-[effect_upkeep_free_units_town_tribal]
+[effect_upkeep_free_units_tribal]
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 2
 reqs    =
@@ -814,17 +794,7 @@ reqs    =
       "OutputType", "Shield", "Local"
     }
 
-[effect_upkeep_free_units_city_tribal]
-type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Tribal", "Player"
-      "OutputType", "Shield", "Local"
-      "MinSize", "8", "City"
-    }
-
-[effect_upkeep_free_units_town_despotism]
+[effect_upkeep_free_units_despotism]
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 2
 reqs    =
@@ -833,17 +803,7 @@ reqs    =
       "OutputType", "Gold", "Local"
     }
 
-[effect_upkeep_free_units_city_despotism]
-type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Despotism", "Player"
-      "OutputType", "Gold", "Local"
-      "MinSize", "8", "City"
-    }
-
-[effect_upkeep_free_units_town_monarchy]
+[effect_upkeep_free_units_monarchy]
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 3
 reqs    =
@@ -852,36 +812,16 @@ reqs    =
       "OutputType", "Gold", "Local"
     }
 
-[effect_upkeep_free_units_city_monarchy]
+[effect_upkeep_free_units_fundamentalism]
 type    = "Unit_Upkeep_Free_Per_City"
-value   = 3
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Monarchy", "Player"
-      "OutputType", "Gold", "Local"
-      "MinSize", "8", "City"
-    }
-
-[effect_upkeep_free_units_town_fundamentalism]
-type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
+value   = 4
 reqs    =
     { "type", "name", "range"
       "Gov", "Fundamentalism", "Player"
       "OutputType", "Gold", "Local"
     }
 
-[effect_upkeep_free_units_city_fundamentalism]
-type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Fundamentalism", "Player"
-      "OutputType", "Gold", "Local"
-      "MinSize", "8", "City"
-    }
-
-[effect_upkeep_free_units_town_republic]
+[effect_upkeep_free_units_republic]
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 1
 reqs    =
@@ -890,17 +830,7 @@ reqs    =
       "OutputType", "Shield", "Local"
     }
 
-[effect_upkeep_free_units_city_republic]
-type    = "Unit_Upkeep_Free_Per_City"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Republic", "Player"
-      "OutputType", "Shield", "Local"
-      "MinSize", "8", "City"
-    }
-
-[effect_upkeep_free_units_town_democracy]
+[effect_upkeep_free_units_democracy]
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 2
 reqs    =
@@ -909,17 +839,7 @@ reqs    =
       "OutputType", "Gold", "Local"
     }
 
-[effect_upkeep_free_units_city_democracy]
-type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Democracy", "Player"
-      "OutputType", "Gold", "Local"
-      "MinSize", "8", "City"
-    }
-
-[effect_upkeep_free_units_town_federation]
+[effect_upkeep_free_units_federation]
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 4
 reqs    =
@@ -928,17 +848,7 @@ reqs    =
       "OutputType", "Gold", "Local"
     }
 
-[effect_upkeep_free_units_city_federation]
-type    = "Unit_Upkeep_Free_Per_City"
-value   = 4
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Federation", "Player"
-      "OutputType", "Gold", "Local"
-      "MinSize", "8", "City"
-    }
-
-[effect_upkeep_free_units_town_communism]
+[effect_upkeep_free_units_communism]
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 3
 reqs    =
@@ -955,27 +865,9 @@ reqs    =
       "OutputType", "Food", "Local"
     }
 
-[effect_upkeep_free_units_food_3]
-type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
-reqs    =
-    { "type", "name", "range"
-      "OutputType", "Food", "Local"
-      "MinSize", "3", "City"
-    }
-
-[effect_upkeep_free_units_food_4]
-type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
-reqs    =
-    { "type", "name", "range"
-      "OutputType", "Food", "Local"
-      "MinSize", "4", "City"
-    }
-
 [effect_upkeep_free_units_food_5]
 type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"
@@ -984,7 +876,7 @@ reqs    =
 
 [effect_upkeep_free_units_food_6]
 type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"
@@ -993,7 +885,7 @@ reqs    =
 
 [effect_upkeep_free_units_food_7]
 type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"
@@ -1002,7 +894,7 @@ reqs    =
 
 [effect_upkeep_free_units_food_8]
 type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"
@@ -1011,7 +903,7 @@ reqs    =
 
 [effect_upkeep_free_units_food_9]
 type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"
@@ -1020,7 +912,7 @@ reqs    =
 
 [effect_upkeep_free_units_food_10]
 type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"
@@ -1029,7 +921,7 @@ reqs    =
 
 [effect_upkeep_free_units_food_11]
 type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"
@@ -1038,7 +930,7 @@ reqs    =
 
 [effect_upkeep_free_units_food_12]
 type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"
@@ -1047,7 +939,7 @@ reqs    =
 
 [effect_upkeep_free_units_food_13]
 type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"
@@ -1056,7 +948,7 @@ reqs    =
 
 [effect_upkeep_free_units_food_14]
 type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"
@@ -1065,7 +957,7 @@ reqs    =
 
 [effect_upkeep_free_units_food_15]
 type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"
@@ -1074,7 +966,7 @@ reqs    =
 
 [effect_upkeep_free_units_food_16]
 type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"
@@ -1083,7 +975,7 @@ reqs    =
 
 [effect_upkeep_free_units_food_17]
 type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"
@@ -1092,7 +984,7 @@ reqs    =
 
 [effect_upkeep_free_units_food_18]
 type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"
@@ -1101,7 +993,7 @@ reqs    =
 
 [effect_upkeep_free_units_food_19]
 type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"
@@ -1110,7 +1002,7 @@ reqs    =
 
 [effect_upkeep_free_units_food_20]
 type    = "Unit_Upkeep_Free_Per_City"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"
@@ -1207,7 +1099,7 @@ reqs    =
 
 [effect_empire_size_base_monarchy]
 type    = "Empire_Size_Base"
-value   = 20
+value   = 12
 reqs    =
     { "type", "name", "range"
       "Gov", "Monarchy", "Player"
@@ -1223,7 +1115,7 @@ reqs    =
 
 [effect_empire_size_base_fundamentalism]
 type    = "Empire_Size_Base"
-value   = 12
+value   = 20
 reqs    =
     { "type", "name", "range"
       "Gov", "Fundamentalism", "Player"
@@ -1271,7 +1163,7 @@ reqs    =
 
 [effect_empire_size_step_monarchy]
 type    = "Empire_Size_Step"
-value   = 20
+value   = 12
 reqs    =
     { "type", "name", "range"
       "Gov", "Monarchy", "Player"
@@ -1287,7 +1179,7 @@ reqs    =
 
 [effect_empire_size_step_fundamentalism]
 type    = "Empire_Size_Step"
-value   = 12
+value   = 20
 reqs    =
     { "type", "name", "range"
       "Gov", "Fundamentalism", "Player"
@@ -1789,28 +1681,16 @@ reqs    =
       "Building", "Aqueduct", "City"
     }
 
-[effect_aqueduct_lake]
-type    = "Size_Adj"
-value   = 8
-reqs    =
-    { "type", "name", "range"
-      "Building", "Aqueduct, near Lake", "City"
-    }
-
-[effect_aqueduct_lake_1]
-type    = "Health_Pct"
-value   = 30
-reqs    =
-    { "type", "name", "range"
-      "Building", "Aqueduct, near Lake", "City"
-    }
-
 [effect_aqueduct_river]
 type    = "Size_Adj"
 value   = 8
 reqs    =
     { "type", "name", "range"
-      "Building", "Aqueduct, near River", "City"
+      "Building", "Aqueduct, River", "City"
+    }
+nreqs    =
+    { "type", "name", "range"
+      "Building", "Aqueduct", "City"
     }
 
 [effect_aqueduct_river_1]
@@ -1818,7 +1698,37 @@ type    = "Health_Pct"
 value   = 30
 reqs    =
     { "type", "name", "range"
-      "Building", "Aqueduct, near River", "City"
+      "Building", "Aqueduct, River", "City"
+    }
+nreqs    =
+    { "type", "name", "range"
+      "Building", "Aqueduct", "City"
+    }
+
+[effect_aqueduct_lake]
+type    = "Size_Adj"
+value   = 8
+reqs    =
+    { "type", "name", "range"
+      "Building", "Aqueduct, Lake", "City"
+    }
+nreqs    =
+    { "type", "name", "range"
+      "Building", "Aqueduct", "City"
+      "Building", "Aqueduct, River", "City"
+    }
+
+[effect_aqueduct_lake_1]
+type    = "Health_Pct"
+value   = 30
+reqs    =
+    { "type", "name", "range"
+      "Building", "Aqueduct, Lake", "City"
+    }
+nreqs    =
+    { "type", "name", "range"
+      "Building", "Aqueduct", "City"
+      "Building", "Aqueduct, River", "City"
     }
 
 [effect_bank]
@@ -1849,6 +1759,8 @@ reqs    =
     }
 nreqs   =
     { "type", "name", "range"
+      "Building", "Barracks II", "City"
+      "Building", "Barracks III", "City"
       "UnitFlag", "NonMil", "Local"
       "UnitFlag", "NoVeteran", "Local"
     }
@@ -1863,6 +1775,8 @@ reqs    =
     }
 nreqs   =
     { "type", "name", "range"
+      "Building", "Barracks II", "City"
+      "Building", "Barracks III", "City"
       "UnitFlag", "NonMil", "Local"
       "UnitFlag", "NoVeteran", "Local"
     }
@@ -1875,6 +1789,11 @@ reqs    =
       "Building", "Barracks", "City"
       "UnitClass", "Land", "Local"
     }
+nreqs   =
+    { "type", "name", "range"
+      "Building", "Barracks II", "City"
+      "Building", "Barracks III", "City"
+    }
 
 [effect_barracks_b_hp]
 type    = "HP_Regen"
@@ -1883,6 +1802,11 @@ reqs    =
     { "type", "name", "range"
       "Building", "Barracks", "City"
       "UnitClass", "Big Land", "Local"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "Building", "Barracks II", "City"
+      "Building", "Barracks III", "City"
     }
 
 [effect_barracks_ii]
@@ -1895,9 +1819,9 @@ reqs    =
     }
 nreqs   =
     { "type", "name", "range"
+      "Building", "Barracks III", "City"
       "UnitFlag", "NonMil", "Local"
       "UnitFlag", "NoVeteran", "Local"
-      "Building", "Barracks", "City"
     }
 
 [effect_barracks_ii_b]
@@ -1910,9 +1834,9 @@ reqs    =
     }
 nreqs   =
     { "type", "name", "range"
+      "Building", "Barracks III", "City"
       "UnitFlag", "NonMil", "Local"
       "UnitFlag", "NoVeteran", "Local"
-      "Building", "Barracks", "City"
     }
 
 [effect_barracks_ii_hp]
@@ -1923,6 +1847,10 @@ reqs    =
       "Building", "Barracks II", "City"
       "UnitClass", "Land", "Local"
     }
+nreqs   =
+    { "type", "name", "range"
+      "Building", "Barracks III", "City"
+    }
 
 [effect_barracks_ii_b_hp]
 type    = "HP_Regen"
@@ -1931,6 +1859,10 @@ reqs    =
     { "type", "name", "range"
       "Building", "Barracks II", "City"
       "UnitClass", "Big Land", "Local"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "Building", "Barracks III", "City"
     }
 
 [effect_barracks_iii]
@@ -1945,8 +1877,6 @@ nreqs   =
     { "type", "name", "range"
       "UnitFlag", "NonMil", "Local"
       "UnitFlag", "NoVeteran", "Local"
-      "Building", "Barracks", "City"
-      "Building", "Barracks II", "City"
     }
 
 [effect_barracks_iii_b]
@@ -1961,8 +1891,6 @@ nreqs   =
     { "type", "name", "range"
       "UnitFlag", "NonMil", "Local"
       "UnitFlag", "NoVeteran", "Local"
-      "Building", "Barracks", "City"
-      "Building", "Barracks II", "City"
     }
 
 [effect_barracks_iii_hp]
@@ -2539,18 +2467,18 @@ reqs    =
     { "type", "name", "range"
       "Building", "Police Station", "City"
     }
-nreqs   =
-    { "type", "name", "range"
-      "Gov", "Democracy", "Player"
-    }
 
 [effect_police_station_democracy]
 type    = "Make_Content_Mil"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "Gov", "Democracy", "Player"
       "Building", "Police Station", "City"
+    }
+nreqs    =
+    { "type", "name", "range"
+      "Building", "Women's Suffrage", "Player"
     }
 
 [effect_port_facility]
@@ -3199,18 +3127,14 @@ reqs    =
     { "type", "name", "range"
       "Building", "King Richard's Crusade", "Player"
     }
-nreqs   =
-    { "type", "name", "range"
-      "Gov", "Monarchy", "Player"
-    }
 
-[effect_king_richards_crusade_monarchy_mil]
-type    = "Unhappy_Factor"
-value   = -1
+[effect_king_richards_crusade_1]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 2
 reqs    =
     { "type", "name", "range"
       "Building", "King Richard's Crusade", "Player"
-      "Gov", "Monarchy", "Player"
+      "OutputType", "Gold", "Local"
     }
 
 [effect_leonardos_workshop]
@@ -3330,10 +3254,11 @@ reqs    =
 
 [effect_mausoleum_of_mausolos_1]
 type    = "Make_Content"
-value   = 3
+value   = 1
 reqs    =
     { "type", "name", "range"
-      "Building", "Mausoleum of Mausolos", "City"
+      "Building", "Courthouse", "City"
+      "Building", "Mausoleum of Mausolos", "Player"
     }
 
 [effect_mausoleum_of_mausolos_2]
@@ -3358,61 +3283,7 @@ value   = 1
 reqs    =
     { "type", "name", "range"
       "Building", "Statue of Zeus", "Player"
-      "OutputType", "Gold", "Local"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "Gov", "Anarchy", "Player"
-      "Gov", "Tribal", "Player"
-      "Gov", "Communism", "Player"
-;      "Gov", "Despotism", "Player"
-;      "Gov", "Monarchy", "Player"
-;      "Gov", "Fundamentalism", "Player"
-;      "Gov", "Federation", "Player"
-      "Gov", "Republic", "Player"
-;      "Gov", "Democracy", "Player"
-    }
-
-[effect_statue_of_zeus_2]
-type    = "Unit_Upkeep_Free_Per_City"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "Building", "Statue of Zeus", "Player"
-      "OutputType", "Gold", "Local"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "Gov", "Anarchy", "Player"
-      "Gov", "Tribal", "Player"
-      "Gov", "Communism", "Player"
-      "Gov", "Despotism", "Player"
-      "Gov", "Monarchy", "Player"
-;      "Gov", "Fundamentalism", "Player"
-;      "Gov", "Federation", "Player"
-      "Gov", "Republic", "Player"
-;      "Gov", "Democracy", "Player"
-    }
-
-[effect_statue_of_zeus_3]
-type    = "Unit_Upkeep_Free_Per_City"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "Building", "Statue of Zeus", "Player"
       "OutputType", "Shield", "Local"
-    }
-nreqs   =
-    { "type", "name", "range"
-;      "Gov", "Anarchy", "Player"
-;      "Gov", "Tribal", "Player"
-;      "Gov", "Communism", "Player"
-      "Gov", "Despotism", "Player"
-      "Gov", "Monarchy", "Player"
-      "Gov", "Fundamentalism", "Player"
-      "Gov", "Federation", "Player"
-;      "Gov", "Republic", "Player"
-      "Gov", "Democracy", "Player"
     }
 
 [effect_temple_of_artemis]
@@ -3499,6 +3370,14 @@ reqs    =
       "Building", "Statue of Liberty", "Player"
     }
 
+[effect_statue_of_liberty_1]
+name    = "Any_Government"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Building", "Statue of Liberty", "Player"
+    }
+
 [effect_sun_tzus_war_academy]
 type    = "Veteran_Build"
 value   = 1
@@ -3550,14 +3429,6 @@ reqs    =
     }
 
 [effect_united_nations_2]
-type    = "Any_Government"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "Building", "United Nations", "World"
-    }
-
-[effect_united_nations_3]
 type    = "Gain_AI_Love"
 value   = 10
 reqs    =
@@ -3574,19 +3445,6 @@ type    = "Make_Content_Mil"
 value   = 1
 reqs    =
     { "type", "name", "range"
-      "Building", "Women's Suffrage", "Player"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "Gov", "Democracy", "Player"
-    }
-
-[effect_womens_suffrage_democracy]
-type    = "Make_Content_Mil"
-value   = 2
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Democracy", "Player"
       "Building", "Women's Suffrage", "Player"
     }
 
@@ -3672,7 +3530,6 @@ reqs    =
       "OutputType", "Food", "Local"
     }
 
-; Excluded terrains that already get extra output when mined
 [effect_city_shield]
 type    = "Output_Add_Tile"
 value   = 1
@@ -3681,12 +3538,6 @@ reqs    =
       "CityTile", "Center", "Local"
       "OutputType", "Shield", "Local"
     }
-nreqs   =
-    { "type", "name", "range"
-      "Terrain", "Desert", "Local"
-      "Terrain", "Hills", "Local"
-      "Terrain", "Mountains", "Local"
-    }
 
 ; Pop pollution increased by buildings, instead of techs
 ; 100 = 25% (400 = 100%)
@@ -3694,10 +3545,10 @@ nreqs   =
 type    = "Pollu_Pop_Pct"
 value   = -100
 
-; tech_upkeep_divider = 2000, Max tech upkeep = 39
+; tech_upkeep_divider = 6000, Max tech upkeep = 13
 [effect_upkeep_tech_base]
 type    = "Tech_Upkeep_Free"
-value   = 24
+value   = 3
 
 [effect_tech_cost_base]
 type    = "Tech_Cost_Factor"
@@ -3759,6 +3610,14 @@ value   = 1
 reqs    =
     { "type", "name", "range"
       "MinSize", "16", "City"
+    }
+
+[effect_irrigate_src_tech]
+type    = "Irrig_Possible"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Tech", "Electricity", "Player"
     }
 
 [effect_irrigate_src_ocean]

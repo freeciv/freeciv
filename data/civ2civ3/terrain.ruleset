@@ -40,10 +40,10 @@ min_start_native_area = 0
 
 ; How many fragments each movement point has.
 ; For example road movement costs are relative to this.
-move_fragments = 3
+move_fragments = 6
 
 ; How many move fragments IgTer unit movement costs
-igter_cost = 1
+igter_cost = 2
 
 ; There is no resources in the middle of the oceans, only near coast
 ocean_resources = FALSE
@@ -363,7 +363,7 @@ warmer_wetter_result = "terrain_lake"
 warmer_drier_result  = "terrain_tundra"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
-native_to            = "Land", "Small Land", "Air", "Missile", "Helicopter"
+native_to            = "Land", "Small Land", "Big Land", "Air", "Missile", "Helicopter"
 flags                = "NoBarbs", "NoCities", "CanHaveRiver"
 property_frozen      = 100
 color.r              = 232
@@ -1025,10 +1025,8 @@ reqs           =
     }
 gui_type       = "Fortress"
 build_time     = 3
-defense_bonus  = 100
-border_sq      = 0
 native_to      = "Land", "Small Land", "Big Land"
-flags          = "NoStackDeath", "DiplomatDefense", "NativeTile"
+flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense", "NativeTile"
 helptext       = _("\
 Fortresses improve defense for land units. Among other effects, a land \
 unit remaining in a fortress for a whole turn without moving recovers \
@@ -1051,7 +1049,7 @@ reqs           =
 gui_type       = "Airbase"
 build_time     = 3
 native_to      = "Air", "Helicopter", "Missile"
-flags          = "NoStackDeath", "ParadropFrom"
+flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense", "ParadropFrom"
 helptext       = _("\
 Airbases allow your air units to land and refuel. Air units in an \
 airbase may be attacked by land units.\
@@ -1174,7 +1172,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Land", "Local"
     }
-move_cost      = 1
+move_cost      = 2
 build_time     = 0
 food_incr      = 0
 shield_incr    = 0
@@ -1200,7 +1198,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Land", "Local"
     }
-move_cost      = 0
+move_cost      = 1
 build_time     = 3
 food_incr      = 0
 shield_incr    = 0
@@ -1221,12 +1219,12 @@ act_gfx_alt    = "unit.road"
 buildable      = FALSE
 pillageable    = FALSE
 defense_bonus  = 25
-move_cost      = 1
+move_cost      = 2
 move_mode      = "Cardinal"
 trade_incr_const = 1
 compat_special = "River"
-native_to      = "Land", "Small Land", "Merchant"
-flags          = "River", "PreventsOtherRoads", "NativeTile", "UnrestrictedInfra", "Natural"
+native_to      = "Land", "Small Land", "Merchant", "Trireme"
+flags          = "River", "PreventsOtherRoads", "NativeTile", "Natural"
 helptext       = _("\
 Any land terrain type may have a River on it.  A River adds 1\
  trade to the resources produced by that tile.  It also increases a tile's\
