@@ -3726,16 +3726,24 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
       }
     }
     break;
-  case DIPLOMAT_MOVE:
-    if (can_client_issue_orders()) {
-      process_diplomat_arrival(pdiplomat, target_id);
-    }
-    break;
   default:
     log_error("handle_unit_diplomat_answer() invalid action_type (%d).",
               action_type);
     break;
   };
+}
+
+/**************************************************************************
+  Handle request for user input on what diplomat action to do.
+**************************************************************************/
+void handle_unit_diplomat_wants_input(int diplomat_id, int target_tile_id)
+{
+  struct unit *pdiplomat = player_unit_by_number(client_player(),
+                                                     diplomat_id);
+
+  if (can_client_issue_orders()) {
+    process_diplomat_arrival(pdiplomat, target_tile_id);
+  }
 }
 
 /**************************************************************************

@@ -916,7 +916,7 @@ void process_caravan_arrival(struct unit *punit)
   re-checking that a popup is appropriate.
   If punit is NULL, just do for the next arrival in the queue.
 **************************************************************************/
-void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
+void process_diplomat_arrival(struct unit *pdiplomat, int target_tile_id)
 {
   int *p_ids;
 
@@ -926,12 +926,12 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
   }
 
   /* diplomat_arrival_queue is a list of individually malloc-ed int[2]s with
-     punit.id and pcity.id values, for units which have arrived. */
+     the punit.id of the diplomat and the index of the targeted tile. */
 
-  if (pdiplomat && victim_id != 0) {
+  if (pdiplomat) {
     p_ids = fc_malloc(2*sizeof(int));
     p_ids[0] = pdiplomat->id;
-    p_ids[1] = victim_id;
+    p_ids[1] = target_tile_id;
     genlist_prepend(diplomat_arrival_queue, p_ids);
   }
 
@@ -941,34 +941,39 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
   }
 
   while (genlist_size(diplomat_arrival_queue) > 0) {
-    int diplomat_id, victim_id;
+    int diplomat_id, target_tile_id;
+    struct tile *ptile;
     struct city *pcity;
     struct unit *punit;
 
     p_ids = genlist_get(diplomat_arrival_queue, 0);
     diplomat_id = p_ids[0];
-    victim_id = p_ids[1];
+    target_tile_id = p_ids[1];
     genlist_remove(diplomat_arrival_queue, p_ids); /* Do free(p_ids). */
     pdiplomat = player_unit_by_number(client_player(), diplomat_id);
-    pcity = game_city_by_number(victim_id);
-    punit = game_unit_by_number(victim_id);
+
+    ptile = index_to_tile(target_tile_id);
+    fc_assert_ret_msg(NULL != ptile, "Unknown tile %i.", target_tile_id);
+
+    pcity = tile_city(ptile);
+    punit = unit_list_get(ptile->units, 0);
 
     if (!pdiplomat || !unit_has_type_flag(pdiplomat, UTYF_DIPLOMAT))
       continue;
 
     if (punit
 	&& is_diplomat_action_available(pdiplomat, DIPLOMAT_ANY_ACTION,
-					unit_tile(punit))
+					ptile)
 	&& diplomat_can_do_action(pdiplomat, DIPLOMAT_ANY_ACTION,
-				  unit_tile(punit))) {
-      popup_diplomat_dialog(pdiplomat, unit_tile(punit));
+				  ptile)) {
+      popup_diplomat_dialog(pdiplomat, ptile);
       return;
     } else if (pcity
 	       && is_diplomat_action_available(pdiplomat, DIPLOMAT_ANY_ACTION,
-					       pcity->tile)
+					       ptile)
 	       && diplomat_can_do_action(pdiplomat, DIPLOMAT_ANY_ACTION,
-					 pcity->tile)) {
-      popup_diplomat_dialog(pdiplomat, pcity->tile);
+					 ptile)) {
+      popup_diplomat_dialog(pdiplomat, ptile);
       return;
     }
   }
@@ -2639,12 +2644,14 @@ void key_unit_connect(enum unit_activity activity,
 void key_unit_diplomat_actions(void)
 {
   struct city *pcity;		/* need pcity->id */
+  struct tile *ptile;
   unit_list_iterate(get_units_in_focus(), punit) {
     if (is_diplomat_unit(punit)
-	&& (pcity = tile_city(unit_tile(punit)))
+        && (ptile = unit_tile(punit))
+        && (pcity = tile_city(ptile))
 	&& diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
-				  unit_tile(punit))) {
-      process_diplomat_arrival(punit, pcity->id);
+				  ptile)) {
+      process_diplomat_arrival(punit, ptile->index);
       return;
       /* FIXME: diplomat dialog for more than one unit at a time. */
     }

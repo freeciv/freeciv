@@ -1462,8 +1462,6 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
         || (is_allied_city_tile(pdesttile, pplayer) && !move_diplomat_city)) {
       if (is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION,
 				       pdesttile)) {
-	int target_id = 0;
-        
         if (pplayer->ai_controlled) {
           return FALSE;
         }
@@ -1475,20 +1473,10 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
          * have been restored, but we only send the unit info at the
          * end of the function.) */
         send_unit_info(pplayer, punit);
-        
-        /* if is_diplomat_action_available() then there must be 
-         * a city or a unit */
-        if (pcity) {
-          target_id = pcity->id;
-        } else if (target) {
-          target_id = target->id;
-        } else {
-          log_error("Bug in %s(): no diplomat target.", __FUNCTION__);
-          return FALSE;
-        }
-	dlsend_packet_unit_diplomat_answer(player_reply_dest(pplayer),
-					   punit->id, target_id,
-					   0, DIPLOMAT_MOVE);
+
+        dlsend_packet_unit_diplomat_wants_input(player_reply_dest(pplayer),
+                                                punit->id,
+                                                pdesttile->index);
         return FALSE;
       } else if (!unit_can_move_to_tile(punit, pdesttile, igzoc)) {
         if (can_unit_exist_at_tile(punit, unit_tile(punit))) {
