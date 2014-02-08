@@ -24,7 +24,7 @@
 #   'propulsion' - 'silnik', 'habitation module' - 'moduł mieszkalny',
 #   'solar panel' - 'panel słoneczny', 'fuel component' - 'zbiornik paliwa'
 #
-# * Opisy komend serwera zapisane są w czasie teraźniejszym, osobie trzeciej
+# * Opisy poleceń serwera zapisane są w czasie teraźniejszym, osobie trzeciej
 #   (np. 'wyświetla', a nie 'wyświetli', 'wyświetl', 'wyświetlane jest')
 #
 # * Nazwy budynków, jednostek, cudów, technologii, ustrojów, stanów dyplomatycznych
@@ -4633,7 +4633,7 @@ msgstr "Liwiusz"
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:106
 msgid "Toynbee"
-msgstr "Tonybee"
+msgstr "Toynbee"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:108
@@ -4673,7 +4673,7 @@ msgstr "Szybkość badań"
 #: data/experimental/techs.ruleset:396
 #: data/multiplayer/techs.ruleset:403
 msgid "Literacy"
-msgstr "Potrafiących Czytać"
+msgstr "Potrafiący Czytać"
 
 #: server/report.c:163
 #: client/cityrepdata.c:566
@@ -4993,7 +4993,7 @@ msgid ""
 "Literacy\n"
 "(%)"
 msgstr ""
-"Potrafiących Czytać\n"
+"Potrafiący czytać\n"
 "(%)"
 
 #: server/report.c:1454
@@ -5268,11 +5268,11 @@ msgstr "Bez kompresji"
 
 #: server/settings.c:373
 msgid "Using zlib (gzip format)"
-msgstr "Użycie zlib (format gzip)"
+msgstr "Użyj zlib (format gzip)"
 
 #: server/settings.c:376
 msgid "Using bzip2"
-msgstr "Użycie bzip2"
+msgstr "Użyj bzip2"
 
 #: server/settings.c:388
 msgid "disabled"
@@ -5647,7 +5647,7 @@ msgstr "Ziarno losowej generacji mapy"
 
 #: server/settings.c:1136
 msgid "The same seed will always produce the same map; for zero (the default) a seed will be chosen based on the time to give a random map. This setting is usually only of interest while debugging the game."
-msgstr "Ta sama wartość 'ziarna' da w efekcie tę samą mapę; zero (wartość domyślna) powoduje losowanie samego 'ziarna', dając w efekcie mapę losową.Ta opcja jest przydatna jedynie w procesie debugowania i nie ma znaczenia dla graczy."
+msgstr "Ta sama wartość 'ziarna' da w efekcie taką samą mapę; zero (wartość domyślna) powoduje losowanie samego 'ziarna', dając w efekcie mapę losową. Ta opcja jest przydatna jedynie w procesie debugowania i nie ma znaczenia dla graczy."
 
 #: server/settings.c:1149
 msgid "Game random seed"
@@ -5690,7 +5690,7 @@ msgid ""
 "The maximal number of human and AI players who can be in the game. When this number of players are connected in the pregame state, any new players who try to connect will be rejected.\n"
 "When playing a scenario which defines player start positions, this setting cannot be set to greater than the number of defined start positions."
 msgstr ""
-"Maksymalna liczba graczy (ludzie plus AI), która może istnieć w grze. Jeżeli liczba graczy jest równa podanej liczbie, to każdy nowy gracz, który będzie chciał się połączyć zostanie odrzucony.\n"
+"Maksymalna liczba graczy (ludzie plus AI), którzy może istnieć w grze. Jeżeli liczba graczy jest równa podanej liczbie, to każdy nowy gracz, który będzie chciał się połączyć zostanie odrzucony.\n"
 "Gdy rozgrywasz scenariusz, który określa pozycje początkowe graczy, opcja ta nie może mieć wartości większej niż liczba pozycji."
 
 #: server/settings.c:1198
@@ -6422,7 +6422,7 @@ msgstr ""
 "    N = Populacja\n"
 "    P = Produkcja\n"
 "    A = Obszar lądowy\n"
-"    L = Potrafiących Czytać\n"
+"    L = Potrafiący czytać\n"
 "    R = Szybkość badań\n"
 "    S = Obszar zamieszkany\n"
 "    E = Ekonomia\n"
@@ -7452,11 +7452,11 @@ msgstr "Domyślny poziom trudności AI ustawiony na '%s'."
 #
 #: server/stdinhand.c:1981
 msgid "This command is client only."
-msgstr "Ten rozkaz ma sens tylko z poziomu klienta."
+msgstr "To polecenie ma sens tylko z poziomu klienta."
 
 #: server/stdinhand.c:1990
 msgid "Only players may use the away command."
-msgstr "Tylko prawdziwi gracze mogą używać polecenia away."
+msgstr "Tylko gracze mogą używać polecenia away."
 
 #: server/stdinhand.c:1994
 #, c-format
@@ -8231,9 +8231,9 @@ msgstr ""
 "\n"
 "Dwa główne elementy serwera to polecenia (komendy) i opcje. Polecenia (np. 'help') służą do sterowania serwerem. Niektóre polecenia pobierają argumenty, które należy rozdzielić spacją. W wielu przypadkach nazwy poleceń i opcji można skrócić. Opcje to ustawienia serwera decydujące o jego pracy.\n"
 "\n"
-"Aby dowiedzieć się więcej o komendach i opcjach, wpisz 'help help'.\n"
+"Aby dowiedzieć się więcej o poleceniach i opcjach, wpisz 'help help'.\n"
 "\n"
-"Dla niecierpliwych, spis najważniejszych komend:\n"
+"Dla niecierpliwych, spis najważniejszych poleceń:\n"
 "  show   -  aby zobaczyć aktualne ustawienia\n"
 "  set    -  aby ustawić opcję\n"
 "  start  -  aby rozpocząć grę, gdy gracze już się połączą\n"
@@ -24458,7 +24458,7 @@ msgstr "Wojsko Zespolone"
 #: data/experimental/techs.ruleset:189
 #: data/multiplayer/techs.ruleset:187
 msgid "Reduces the effect of Cathedrals."
-msgstr "Zmniejsza efekt katedr."
+msgstr "Zmniejsza efekt Katedr."
 
 #: data/civ2/techs.ruleset:201
 msgid "Allows Settlers and Engineers to build fortresses."
@@ -24611,7 +24611,7 @@ msgstr "Teologia"
 #: data/experimental/techs.ruleset:728
 #: data/multiplayer/techs.ruleset:734
 msgid "Improves the effect of Cathedrals."
-msgstr "Wzmacnia efekt katedr."
+msgstr "Wzmacnia efekt Katedr."
 
 #: data/civ2/techs.ruleset:749
 #: data/default/techs.ruleset:753
