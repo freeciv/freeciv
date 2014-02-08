@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv-ru-2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-03 00:30+0600\n"
+"POT-Creation-Date: 2014-02-08 11:24+0000\n"
 "PO-Revision-Date: 2014-02-03 00:11+0600\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -964,7 +964,7 @@ msgstr "Еда/Щиты/Золото:"
 
 #: common/unit.c:1874 client/text.c:1199
 #: client/gui-gtk-2.0/diplomat_dialog.c:89
-#: client/gui-gtk-2.0/diplomat_dialog.c:552 client/gui-gtk-2.0/citydlg.c:2618
+#: client/gui-gtk-2.0/diplomat_dialog.c:552 client/gui-gtk-2.0/citydlg.c:2606
 #: client/gui-gtk-2.0/repodlgs.c:1506 client/gui-sdl/citydlg.c:1147
 #: client/gui-sdl/diplomat_dialog.c:1138 client/gui-sdl/diplomat_dialog.c:1389
 #: client/gui-sdl/repodlgs.c:188 client/gui-xaw/citydlg.c:1945
@@ -4277,74 +4277,74 @@ msgid "The %s destroyed the %s in %s."
 msgstr "%s уничтожили здание %s в городе %s."
 
 #. TRANS: <unit> ... <diplomat>
-#: server/diplomats.c:1170
+#: server/diplomats.c:1175
 #, c-format
 msgid "An enemy %s has been eliminated by your %s."
 msgstr "Вражеский %s был устранён вашим %sом."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
-#: server/diplomats.c:1177
+#: server/diplomats.c:1182
 #, c-format
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "Ваш %s погиб, защищая город %s от %sа."
 
 #. TRANS: <nation adj> <unit> ... <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:1184
+#: server/diplomats.c:1189
 #, c-format
 msgid "A %s %s has been eliminated defending %s against a %s."
 msgstr "%2$s народа %1$s погиб, защищая город %3$s от %4$sа."
 
 #. TRANS: ... <unit> ... <nation adj> <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:1191
+#: server/diplomats.c:1196
 #, c-format
 msgid "Your %s has been eliminated defending %s %s against a %s."
 msgstr "Ваш %1$s погиб, защищая город %3$s народа %2$s от %4$sа."
 
 #. TRANS: <unit> ... <diplomat>
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:1200 server/diplomats.c:1211
+#: server/diplomats.c:1205 server/diplomats.c:1216
 #, c-format
 msgid "Your %s has been eliminated defending against a %s."
 msgstr "Ваш %s погиб, защищаясь от %sа."
 
 #. TRANS: <nation adj> <unit> ... <diplomat>
-#: server/diplomats.c:1205
+#: server/diplomats.c:1210
 #, c-format
 msgid "A %s %s has been eliminated defending against a %s."
 msgstr "%2$s народа %1$s погиб, защищаясь %3$sа."
 
-#: server/diplomats.c:1233
+#: server/diplomats.c:1238
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
 msgstr "Ваш %s был уничтожен защищавшимся %sом."
 
-#: server/diplomats.c:1239
+#: server/diplomats.c:1244
 #, c-format
 msgid "Eliminated a %s %s while infiltrating %s."
 msgstr "%2$s народа %1$s был уничтожен при попытке проникновения в город %3$s."
 
-#: server/diplomats.c:1244
+#: server/diplomats.c:1249
 #, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating %s."
 msgstr ""
 "%2$s народа %1$s уничтожил %4$sа народа %3$s при попытке проникновения в "
 "город %5$s."
 
-#: server/diplomats.c:1249
+#: server/diplomats.c:1254
 #, c-format
 msgid "Your %s eliminated a %s %s while infiltrating %s."
 msgstr "Ваш %1$s уничтожил %3$sа народа %2$s при попытке проникновения в %4$s."
 
-#: server/diplomats.c:1257
+#: server/diplomats.c:1262
 #, c-format
 msgid "Eliminated a %s %s while infiltrating our troops."
 msgstr ""
 "%2$s народа %1$s был уничтожен при его попытке проникнуть в расположение "
 "наших войск."
 
-#: server/diplomats.c:1262
+#: server/diplomats.c:1267
 #, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating our troops."
 msgstr ""
@@ -4352,55 +4352,55 @@ msgstr ""
 "расположение наших войск."
 
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:1268
+#: server/diplomats.c:1273
 #, c-format
 msgid "Your %s eliminated a %s %s while infiltrating our troops."
 msgstr ""
 "Ваш %1$s уничтожил %3$sа народа %2$s при его попытке проникнуть в "
 "расположение наших войск."
 
-#: server/diplomats.c:1323
+#: server/diplomats.c:1328
 #, c-format
 msgid ""
 "Your %s has successfully completed the mission and returned unharmed to %s."
 msgstr "Ваш %s успешно завершил свою миссию и вернулся невредимым в %s."
 
-#: server/diplomats.c:1342
+#: server/diplomats.c:1347
 #, c-format
 msgid "Your %s was captured after completing the mission in %s."
 msgstr "Ваш %s был схвачен после выполнения своей миссии в городе %s."
 
-#: server/diplomats.c:1348
+#: server/diplomats.c:1353
 #, c-format
 msgid "Your %s was captured after completing the mission."
 msgstr "Ваш %s был схвачен после выполнения своей миссии."
 
-#: server/diplomats.c:1372
+#: server/diplomats.c:1377
 #, c-format
 msgid "You have caused an incident while bribing the %s %s."
 msgstr "Вы вызвали дипломатический инцидент при подкупе %2$s народа %1$s."
 
-#: server/diplomats.c:1377
+#: server/diplomats.c:1382
 #, c-format
 msgid "%s has caused an incident while bribing your %s."
 msgstr "%s вызвали дипломатический инцидент при попытке подкупа вашего %s."
 
-#: server/diplomats.c:1383
+#: server/diplomats.c:1388
 #, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
 msgstr "Вы вызвали инцидент при попытке похитить технологию из %s."
 
-#: server/diplomats.c:1387
+#: server/diplomats.c:1392
 #, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
 msgstr "%s вызвали инцидент при попытке похитить Вашу технологию."
 
-#: server/diplomats.c:1393
+#: server/diplomats.c:1398
 #, c-format
 msgid "You have caused an incident while inciting a revolt in %s."
 msgstr "Вы вызвали дипломатический инцидент при попытке взбунтовать город %s."
 
-#: server/diplomats.c:1397
+#: server/diplomats.c:1402
 #, c-format
 msgid "The %s have caused an incident while inciting a revolt in %s."
 msgstr "%s вызвали дипломатический инцидент при попытке взбунтовать город %s."
@@ -4763,8 +4763,8 @@ msgstr ""
 #: server/generator/mapgen_topology.c:303
 #, c-format
 msgid ""
-"Setting map size to %d (approx. %d (land) tiles for each of the %d "
-"player(s))."
+"Setting map size to %d (approx. %d (land) tiles for each of the %d player"
+"(s))."
 msgstr ""
 "Устанавливаем размер карты в %d (примерно %d полей суши на каждого из %d "
 "игроков)."
@@ -10522,7 +10522,7 @@ msgstr[2] "%3d ходов"
 
 #: client/citydlg_common.c:281 client/citydlg_common.c:334
 #: client/citydlg_common.c:425 client/text.c:857 client/agents/cma_fec.c:257
-#: client/agents/cma_fec.c:291 client/gui-gtk-2.0/citydlg.c:1545
+#: client/agents/cma_fec.c:291 client/gui-gtk-2.0/citydlg.c:1533
 #: client/gui-sdl/cityrep.c:530 client/gui-sdl/cityrep.c:1060
 #: client/gui-sdl/wldlg.c:1400 client/gui-sdl/wldlg.c:1405
 #: client/gui-xaw/citydlg.c:251
@@ -10545,7 +10545,7 @@ msgid "%d/turn"
 msgstr "%d/ход"
 
 #: client/citydlg_common.c:331 client/text.c:855 client/agents/cma_fec.c:277
-#: client/agents/cma_fec.c:314 client/gui-gtk-2.0/citydlg.c:1550
+#: client/agents/cma_fec.c:314 client/gui-gtk-2.0/citydlg.c:1538
 #: client/gui-xaw/citydlg.c:256
 #, c-format
 msgid "%d turn"
@@ -15509,7 +15509,7 @@ msgid "Press ENTER or double-click to sell an improvement."
 msgstr "Нажмите Enter или дважды кликните мышкой, чтобы продать здание."
 
 #: client/gui-gtk-2.0/citydlg.c:804 client/gui-gtk-2.0/citydlg.c:993
-#: client/gui-gtk-2.0/citydlg.c:1678
+#: client/gui-gtk-2.0/citydlg.c:1666
 msgid "Production:"
 msgstr "Производство:"
 
@@ -15637,13 +15637,13 @@ msgstr " — праздник"
 msgid " - happy"
 msgstr " — счастливы"
 
-#: client/gui-gtk-2.0/citydlg.c:1543 client/gui-sdl/citydlg.c:3312
+#: client/gui-gtk-2.0/citydlg.c:1531 client/gui-sdl/citydlg.c:3312
 #: client/gui-xaw/citydlg.c:249
 msgid "blocked"
 msgstr "сразу"
 
 #. TRANS: never actually used with built_slots<=1
-#: client/gui-gtk-2.0/citydlg.c:1671
+#: client/gui-gtk-2.0/citydlg.c:1659
 #, c-format
 msgid "Production (up to %d unit per turn):"
 msgid_plural "Production (up to %d units per turn):"
@@ -15651,58 +15651,58 @@ msgstr[0] "Производство (до %d соединения) за ход:"
 msgstr[1] "Производство (до %d соединений) за ход:"
 msgstr[2] "Производство (до %d соединений) за ход:"
 
-#: client/gui-gtk-2.0/citydlg.c:1902
+#: client/gui-gtk-2.0/citydlg.c:1890
 #, c-format
 msgid "Supported units %d"
 msgstr "Поддерживается соединений: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2014
+#: client/gui-gtk-2.0/citydlg.c:2002
 #, c-format
 msgid "Present units %d"
 msgstr "Присутствует соединений: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2138 client/gui-gtk-2.0/cityrep.c:1156
+#: client/gui-gtk-2.0/citydlg.c:2126 client/gui-gtk-2.0/cityrep.c:1156
 msgid "Cen_ter"
 msgstr "Центр (_t)"
 
-#: client/gui-gtk-2.0/citydlg.c:2144 client/gui-gtk-2.0/citydlg.c:2202
+#: client/gui-gtk-2.0/citydlg.c:2132 client/gui-gtk-2.0/citydlg.c:2190
 msgid "_Activate unit"
 msgstr "Задействовать (_A)"
 
-#: client/gui-gtk-2.0/citydlg.c:2150 client/gui-gtk-2.0/citydlg.c:2208
+#: client/gui-gtk-2.0/citydlg.c:2138 client/gui-gtk-2.0/citydlg.c:2196
 msgid "Activate unit, _close dialog"
 msgstr "Задействовать, закрыть диалог (_c)"
 
-#: client/gui-gtk-2.0/citydlg.c:2156 client/gui-gtk-2.0/citydlg.c:2257
+#: client/gui-gtk-2.0/citydlg.c:2144 client/gui-gtk-2.0/citydlg.c:2245
 msgid "_Disband unit"
 msgstr "Расформировать (_D)"
 
-#: client/gui-gtk-2.0/citydlg.c:2214
+#: client/gui-gtk-2.0/citydlg.c:2202
 msgid "_Load unit"
 msgstr "Погрузить (_L)"
 
-#: client/gui-gtk-2.0/citydlg.c:2224
+#: client/gui-gtk-2.0/citydlg.c:2212
 msgid "_Unload unit"
 msgstr "Выгрузить (_U)"
 
-#: client/gui-gtk-2.0/citydlg.c:2235
+#: client/gui-gtk-2.0/citydlg.c:2223
 msgid "_Sentry unit"
 msgstr "Сторожить (_S)"
 
-#: client/gui-gtk-2.0/citydlg.c:2246
+#: client/gui-gtk-2.0/citydlg.c:2234
 msgid "_Fortify unit"
 msgstr "Укрепить (_F)"
 
-#: client/gui-gtk-2.0/citydlg.c:2267 client/gui-gtk-2.0/menu.c:1535
+#: client/gui-gtk-2.0/citydlg.c:2255 client/gui-gtk-2.0/menu.c:1535
 msgid "Set _Home City"
 msgstr "Установить родной город (_H)"
 
-#: client/gui-gtk-2.0/citydlg.c:2274
+#: client/gui-gtk-2.0/citydlg.c:2262
 msgid "U_pgrade unit"
 msgstr "Модернизировать (_p)"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-2.0/citydlg.c:2628 client/gui-sdl/citydlg.c:1158
+#: client/gui-gtk-2.0/citydlg.c:2616 client/gui-sdl/citydlg.c:1158
 #: client/gui-xaw/citydlg.c:1953
 #, c-format
 msgid ""
@@ -15721,13 +15721,13 @@ msgstr[2] ""
 "Купить %s за %d золотых?\n"
 "%s"
 
-#: client/gui-gtk-2.0/citydlg.c:2632 client/gui-gtk-2.0/citydlg.c:2646
+#: client/gui-gtk-2.0/citydlg.c:2620 client/gui-gtk-2.0/citydlg.c:2634
 #: data/Freeciv.in:2245 data/Freeciv.in:2275
 msgid "Buy It!"
 msgstr "Купить!"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-2.0/citydlg.c:2642 client/gui-sdl/citydlg.c:1164
+#: client/gui-gtk-2.0/citydlg.c:2630 client/gui-sdl/citydlg.c:1164
 #: client/gui-xaw/citydlg.c:1964
 #, c-format
 msgid ""
@@ -15746,7 +15746,7 @@ msgstr[2] ""
 "%s стоит %d золотых.\n"
 "%s"
 
-#: client/gui-gtk-2.0/citydlg.c:2697 client/gui-sdl/citydlg.c:1408
+#: client/gui-gtk-2.0/citydlg.c:2685 client/gui-sdl/citydlg.c:1408
 #: client/gui-xaw/citydlg.c:2344
 #, c-format
 msgid "Sell %s for %d gold?"
@@ -15755,15 +15755,15 @@ msgstr[0] "Продать %s за %d золотой?"
 msgstr[1] "Продать %s за %d золота?"
 msgstr[2] "Продать %s за %d золотых?"
 
-#: client/gui-gtk-2.0/citydlg.c:2703 data/Freeciv.in:2264
+#: client/gui-gtk-2.0/citydlg.c:2691 data/Freeciv.in:2264
 msgid "Sell It!"
 msgstr "Продать!"
 
-#: client/gui-gtk-2.0/citydlg.c:2779
+#: client/gui-gtk-2.0/citydlg.c:2767
 msgid "Rename City"
 msgstr "Переименовать город"
 
-#: client/gui-gtk-2.0/citydlg.c:2780 client/gui-xaw/citydlg.c:1437
+#: client/gui-gtk-2.0/citydlg.c:2768 client/gui-xaw/citydlg.c:1437
 msgid "What should we rename the city to?"
 msgstr "Во что переименовать город?"
 
