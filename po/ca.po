@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-01 18:42+0100\n"
+"POT-Creation-Date: 2014-02-08 11:30+0000\n"
 "PO-Revision-Date: 2014-02-01 18:46+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -412,16 +412,16 @@ msgstr "a mida"
 
 #: client/agents/cma_fec.c:257 client/agents/cma_fec.c:291
 #: client/citydlg_common.c:282 client/citydlg_common.c:335
-#: client/citydlg_common.c:426 client/gui-gtk-2.0/citydlg.c:1556
-#: client/gui-gtk-3.0/citydlg.c:1618 client/gui-sdl/cityrep.c:554
+#: client/citydlg_common.c:426 client/gui-gtk-2.0/citydlg.c:1544
+#: client/gui-gtk-3.0/citydlg.c:1606 client/gui-sdl/cityrep.c:554
 #: client/gui-sdl/cityrep.c:1086 client/gui-sdl/wldlg.c:1398
 #: client/gui-sdl/wldlg.c:1403 client/gui-xaw/citydlg.c:251 client/text.c:884
 msgid "never"
 msgstr "mai"
 
 #: client/agents/cma_fec.c:277 client/agents/cma_fec.c:314
-#: client/citydlg_common.c:332 client/gui-gtk-2.0/citydlg.c:1561
-#: client/gui-gtk-3.0/citydlg.c:1623 client/gui-xaw/citydlg.c:256
+#: client/citydlg_common.c:332 client/gui-gtk-2.0/citydlg.c:1549
+#: client/gui-gtk-3.0/citydlg.c:1611 client/gui-xaw/citydlg.c:256
 #: client/text.c:882 client/text.c:1333
 #, c-format
 msgid "%d turn"
@@ -1435,29 +1435,29 @@ msgstr ""
 msgid "Starting local server..."
 msgstr "S'està engegant el servidor local ..."
 
-#: client/connectdlg_common.c:226 client/connectdlg_common.c:385
+#: client/connectdlg_common.c:229 client/connectdlg_common.c:388
 msgid "Couldn't start the server."
 msgstr "No s'ha pogut engegar el servidor"
 
-#: client/connectdlg_common.c:228 client/connectdlg_common.c:387
-#: client/connectdlg_common.c:422
+#: client/connectdlg_common.c:231 client/connectdlg_common.c:390
+#: client/connectdlg_common.c:425
 msgid "You'll have to start one manually. Sorry..."
 msgstr "N'hauràs d'engegar un manualment. Ho sento..."
 
-#: client/connectdlg_common.c:418
+#: client/connectdlg_common.c:421
 msgid "Couldn't connect to the server."
 msgstr "No ens hem pogut connectar al servidor."
 
-#: client/connectdlg_common.c:420
+#: client/connectdlg_common.c:423
 msgid "We probably couldn't start it from here."
 msgstr "Probablement no podríem engegar-lo des d'aquí."
 
-#: client/connectdlg_common.c:533
+#: client/connectdlg_common.c:536
 msgid ""
 "Established control over the server. You have command access level 'hack'."
 msgstr "Tenim el control del servidor. Tens nivell d'accés a comandes 'hack'."
 
-#: client/connectdlg_common.c:539
+#: client/connectdlg_common.c:542
 msgid ""
 "Failed to obtain the required access level to take control of the server. "
 "Attempting to shut down server."
@@ -1911,8 +1911,8 @@ msgid "Press ENTER or double-click to sell an improvement."
 msgstr "Polsa Intro o fes doble clic per vendre un edifici."
 
 #: client/gui-gtk-2.0/citydlg.c:806 client/gui-gtk-2.0/citydlg.c:995
-#: client/gui-gtk-2.0/citydlg.c:1689 client/gui-gtk-3.0/citydlg.c:846
-#: client/gui-gtk-3.0/citydlg.c:1040 client/gui-gtk-3.0/citydlg.c:1737
+#: client/gui-gtk-2.0/citydlg.c:1677 client/gui-gtk-3.0/citydlg.c:846
+#: client/gui-gtk-3.0/citydlg.c:1040 client/gui-gtk-3.0/citydlg.c:1725
 msgid "Production:"
 msgstr "Producció:"
 
@@ -2048,77 +2048,77 @@ msgstr " - celebrant"
 msgid " - happy"
 msgstr " - feliç"
 
-#: client/gui-gtk-2.0/citydlg.c:1554 client/gui-gtk-3.0/citydlg.c:1616
+#: client/gui-gtk-2.0/citydlg.c:1542 client/gui-gtk-3.0/citydlg.c:1604
 #: client/gui-sdl/citydlg.c:3327 client/gui-xaw/citydlg.c:249
 msgid "blocked"
 msgstr "bloquejat"
 
 #. TRANS: never actually used with built_slots<=1
-#: client/gui-gtk-2.0/citydlg.c:1682 client/gui-gtk-3.0/citydlg.c:1730
+#: client/gui-gtk-2.0/citydlg.c:1670 client/gui-gtk-3.0/citydlg.c:1718
 #, c-format
 msgid "Production (up to %d unit per turn):"
 msgid_plural "Production (up to %d units per turn):"
 msgstr[0] "Producció (fins a %d unitat per torn):"
 msgstr[1] "Producció (fins a %d unitats per torn):"
 
-#: client/gui-gtk-2.0/citydlg.c:1908 client/gui-gtk-3.0/citydlg.c:1956
+#: client/gui-gtk-2.0/citydlg.c:1896 client/gui-gtk-3.0/citydlg.c:1944
 #, c-format
 msgid "Supported units %d"
 msgstr "Unitats suportades %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2014 client/gui-gtk-3.0/citydlg.c:2058
+#: client/gui-gtk-2.0/citydlg.c:2002 client/gui-gtk-3.0/citydlg.c:2046
 #, c-format
 msgid "Present units %d"
 msgstr "Unitats presents %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2134 client/gui-gtk-2.0/cityrep.c:1147
-#: client/gui-gtk-3.0/citydlg.c:2178 client/gui-gtk-3.0/cityrep.c:1175
+#: client/gui-gtk-2.0/citydlg.c:2122 client/gui-gtk-2.0/cityrep.c:1147
+#: client/gui-gtk-3.0/citydlg.c:2166 client/gui-gtk-3.0/cityrep.c:1175
 msgid "Cen_ter"
 msgstr "Cen_trar"
 
-#: client/gui-gtk-2.0/citydlg.c:2140 client/gui-gtk-2.0/citydlg.c:2198
-#: client/gui-gtk-3.0/citydlg.c:2184 client/gui-gtk-3.0/citydlg.c:2242
+#: client/gui-gtk-2.0/citydlg.c:2128 client/gui-gtk-2.0/citydlg.c:2186
+#: client/gui-gtk-3.0/citydlg.c:2172 client/gui-gtk-3.0/citydlg.c:2230
 msgid "_Activate unit"
 msgstr "_Activar unitat"
 
-#: client/gui-gtk-2.0/citydlg.c:2146 client/gui-gtk-2.0/citydlg.c:2204
-#: client/gui-gtk-3.0/citydlg.c:2190 client/gui-gtk-3.0/citydlg.c:2248
+#: client/gui-gtk-2.0/citydlg.c:2134 client/gui-gtk-2.0/citydlg.c:2192
+#: client/gui-gtk-3.0/citydlg.c:2178 client/gui-gtk-3.0/citydlg.c:2236
 msgid "Activate unit, _close dialog"
 msgstr "Activar unitat, _tancar diàleg"
 
-#: client/gui-gtk-2.0/citydlg.c:2152 client/gui-gtk-2.0/citydlg.c:2253
-#: client/gui-gtk-3.0/citydlg.c:2196 client/gui-gtk-3.0/citydlg.c:2297
+#: client/gui-gtk-2.0/citydlg.c:2140 client/gui-gtk-2.0/citydlg.c:2241
+#: client/gui-gtk-3.0/citydlg.c:2184 client/gui-gtk-3.0/citydlg.c:2285
 msgid "_Disband unit"
 msgstr "_Desmobilitzar la unitat"
 
-#: client/gui-gtk-2.0/citydlg.c:2210 client/gui-gtk-3.0/citydlg.c:2254
+#: client/gui-gtk-2.0/citydlg.c:2198 client/gui-gtk-3.0/citydlg.c:2242
 msgid "_Load unit"
 msgstr "Embarcar _la unitat"
 
-#: client/gui-gtk-2.0/citydlg.c:2220 client/gui-gtk-3.0/citydlg.c:2264
+#: client/gui-gtk-2.0/citydlg.c:2208 client/gui-gtk-3.0/citydlg.c:2252
 msgid "_Unload unit"
 msgstr "Desembarcar _unitat"
 
-#: client/gui-gtk-2.0/citydlg.c:2231 client/gui-gtk-3.0/citydlg.c:2275
+#: client/gui-gtk-2.0/citydlg.c:2219 client/gui-gtk-3.0/citydlg.c:2263
 msgid "_Sentry unit"
 msgstr "_Sentinella"
 
-#: client/gui-gtk-2.0/citydlg.c:2242 client/gui-gtk-3.0/citydlg.c:2286
+#: client/gui-gtk-2.0/citydlg.c:2230 client/gui-gtk-3.0/citydlg.c:2274
 msgid "_Fortify unit"
 msgstr "_Fortificar unitat"
 
-#: client/gui-gtk-2.0/citydlg.c:2263 client/gui-gtk-2.0/menu.c:1594
-#: client/gui-gtk-3.0/citydlg.c:2307 client/gui-gtk-3.0/menu.c:1594
+#: client/gui-gtk-2.0/citydlg.c:2251 client/gui-gtk-2.0/menu.c:1594
+#: client/gui-gtk-3.0/citydlg.c:2295 client/gui-gtk-3.0/menu.c:1594
 msgid "Set _Home City"
 msgstr "Esta_blir Ciutat Origen"
 
-#: client/gui-gtk-2.0/citydlg.c:2270 client/gui-gtk-3.0/citydlg.c:2314
+#: client/gui-gtk-2.0/citydlg.c:2258 client/gui-gtk-3.0/citydlg.c:2302
 msgid "U_pgrade unit"
 msgstr "_Millorar unitat"
 
-#: client/gui-gtk-2.0/citydlg.c:2617 client/gui-gtk-2.0/diplomat_dialog.c:90
+#: client/gui-gtk-2.0/citydlg.c:2605 client/gui-gtk-2.0/diplomat_dialog.c:90
 #: client/gui-gtk-2.0/diplomat_dialog.c:567 client/gui-gtk-2.0/repodlgs.c:1515
-#: client/gui-gtk-3.0/citydlg.c:2663 client/gui-gtk-3.0/diplomat_dialog.c:90
+#: client/gui-gtk-3.0/citydlg.c:2651 client/gui-gtk-3.0/diplomat_dialog.c:90
 #: client/gui-gtk-3.0/diplomat_dialog.c:577 client/gui-gtk-3.0/repodlgs.c:1547
 #: client/gui-sdl/citydlg.c:1155 client/gui-sdl/diplomat_dialog.c:1151
 #: client/gui-sdl/diplomat_dialog.c:1402 client/gui-sdl/repodlgs.c:188
@@ -2132,7 +2132,7 @@ msgstr[0] "El tresor conté %d peça d'or."
 msgstr[1] "El tresor conté %d peces d'or."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-2.0/citydlg.c:2627 client/gui-gtk-3.0/citydlg.c:2673
+#: client/gui-gtk-2.0/citydlg.c:2615 client/gui-gtk-3.0/citydlg.c:2661
 #: client/gui-sdl/citydlg.c:1166 client/gui-xaw/citydlg.c:1957
 #, c-format
 msgid ""
@@ -2148,14 +2148,14 @@ msgstr[1] ""
 "Comprar %s per %d peces d'or?\n"
 "%s"
 
-#: client/gui-gtk-2.0/citydlg.c:2631 client/gui-gtk-2.0/citydlg.c:2645
-#: client/gui-gtk-3.0/citydlg.c:2677 client/gui-gtk-3.0/citydlg.c:2691
+#: client/gui-gtk-2.0/citydlg.c:2619 client/gui-gtk-2.0/citydlg.c:2633
+#: client/gui-gtk-3.0/citydlg.c:2665 client/gui-gtk-3.0/citydlg.c:2679
 #: data/Freeciv.in:2245 data/Freeciv.in:2275
 msgid "Buy It!"
 msgstr "Compra!"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-2.0/citydlg.c:2641 client/gui-gtk-3.0/citydlg.c:2687
+#: client/gui-gtk-2.0/citydlg.c:2629 client/gui-gtk-3.0/citydlg.c:2675
 #: client/gui-sdl/citydlg.c:1172 client/gui-xaw/citydlg.c:1968
 #, c-format
 msgid ""
@@ -2171,7 +2171,7 @@ msgstr[1] ""
 "%s costa %d peces d'or.\n"
 "%s"
 
-#: client/gui-gtk-2.0/citydlg.c:2692 client/gui-gtk-3.0/citydlg.c:2738
+#: client/gui-gtk-2.0/citydlg.c:2680 client/gui-gtk-3.0/citydlg.c:2726
 #: client/gui-sdl/citydlg.c:1416 client/gui-xaw/citydlg.c:2348
 #, c-format
 msgid "Sell %s for %d gold?"
@@ -2179,16 +2179,16 @@ msgid_plural "Sell %s for %d gold?"
 msgstr[0] "Vendre's %s per %d peça d'or?"
 msgstr[1] "Vendre's %s per %d peces d'or?"
 
-#: client/gui-gtk-2.0/citydlg.c:2698 client/gui-gtk-3.0/citydlg.c:2744
+#: client/gui-gtk-2.0/citydlg.c:2686 client/gui-gtk-3.0/citydlg.c:2732
 #: data/Freeciv.in:2264
 msgid "Sell It!"
 msgstr "Vendre-la!"
 
-#: client/gui-gtk-2.0/citydlg.c:2765 client/gui-gtk-3.0/citydlg.c:2819
+#: client/gui-gtk-2.0/citydlg.c:2753 client/gui-gtk-3.0/citydlg.c:2807
 msgid "Rename City"
 msgstr "Reanomenar ciutat"
 
-#: client/gui-gtk-2.0/citydlg.c:2766 client/gui-gtk-3.0/citydlg.c:2820
+#: client/gui-gtk-2.0/citydlg.c:2754 client/gui-gtk-3.0/citydlg.c:2808
 #: client/gui-xaw/citydlg.c:1437
 msgid "What should we rename the city to?"
 msgstr "Com s'ha de dir la ciutat ?"
@@ -41188,70 +41188,70 @@ msgid "The %s destroyed the %s in %s."
 msgstr "Els %s han destruït %s a %s."
 
 #. TRANS: <unit> ... <diplomat>
-#: server/diplomats.c:1179
+#: server/diplomats.c:1184
 #, c-format
 msgid "An enemy %s has been eliminated by your %s."
 msgstr "El teu %2$s ha eliminat un %1$s enemic."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
-#: server/diplomats.c:1186
+#: server/diplomats.c:1191
 #, c-format
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "El teu %s ha estat eliminat defensant %s contra un %s."
 
 #. TRANS: <nation adj> <unit> ... <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:1193
+#: server/diplomats.c:1198
 #, c-format
 msgid "A %s %s has been eliminated defending %s against a %s."
 msgstr "Un %2$s %1$s ha estat eliminat defensant %3$s contra un %4$s."
 
 #. TRANS: ... <unit> ... <nation adj> <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:1200
+#: server/diplomats.c:1205
 #, c-format
 msgid "Your %s has been eliminated defending %s %s against a %s."
 msgstr "El teu %1$s ha estat eliminat defensant %3$s (%2$s) contra un %4$s."
 
 #. TRANS: <unit> ... <diplomat>
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:1209 server/diplomats.c:1220
+#: server/diplomats.c:1214 server/diplomats.c:1225
 #, c-format
 msgid "Your %s has been eliminated defending against a %s."
 msgstr "El teu %s ha estat eliminat defensant-se d'un %s."
 
 #. TRANS: <nation adj> <unit> ... <diplomat>
-#: server/diplomats.c:1214
+#: server/diplomats.c:1219
 #, c-format
 msgid "A %s %s has been eliminated defending against a %s."
 msgstr "Un %2$s %1$s ha estat eliminat defensant-se d'un %3$s."
 
-#: server/diplomats.c:1242
+#: server/diplomats.c:1247
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
 msgstr "El teu %s ha estat eliminat per un %s defensiu."
 
-#: server/diplomats.c:1248
+#: server/diplomats.c:1253
 #, c-format
 msgid "Eliminated a %s %s while infiltrating %s."
 msgstr "Eliminat un %s %s quan s'infiltrava a %s."
 
-#: server/diplomats.c:1253
+#: server/diplomats.c:1258
 #, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating %s."
 msgstr "Un %2$s %1$s ha eliminat un %4$s %3$s quan s'infiltrava a %5$s."
 
-#: server/diplomats.c:1258
+#: server/diplomats.c:1263
 #, c-format
 msgid "Your %s eliminated a %s %s while infiltrating %s."
 msgstr "El teu %1$s ha eliminat un %3$s %2$s quan s'infiltrava a %4$s."
 
-#: server/diplomats.c:1266
+#: server/diplomats.c:1271
 #, c-format
 msgid "Eliminated a %s %s while infiltrating our troops."
 msgstr "Eliminat un %2$s %1$s quan s'infiltrava en les nostres tropes."
 
-#: server/diplomats.c:1271
+#: server/diplomats.c:1276
 #, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating our troops."
 msgstr ""
@@ -41259,56 +41259,56 @@ msgstr ""
 "tropes."
 
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:1277
+#: server/diplomats.c:1282
 #, c-format
 msgid "Your %s eliminated a %s %s while infiltrating our troops."
 msgstr ""
 "El teu %1$s ha eliminat un %3$s %2$s mentre s'infiltrava en les nostres "
 "tropes."
 
-#: server/diplomats.c:1341
+#: server/diplomats.c:1346
 #, c-format
 msgid ""
 "Your %s has successfully completed the mission and returned unharmed to %s."
 msgstr ""
 "El teu %s ha acomplert la seva missió amb èxit i ha tornat indemne a %s."
 
-#: server/diplomats.c:1360
+#: server/diplomats.c:1365
 #, c-format
 msgid "Your %s was captured after completing the mission in %s."
 msgstr "El teu %s ha estat capturat després d'acomplir la seva missió a %s."
 
-#: server/diplomats.c:1366
+#: server/diplomats.c:1371
 #, c-format
 msgid "Your %s was captured after completing the mission."
 msgstr "El teu %s ha estat capturat després d'acomplir la seva missió."
 
-#: server/diplomats.c:1391
+#: server/diplomats.c:1396
 #, c-format
 msgid "You have caused an incident while bribing the %s %s."
 msgstr "Has provocat un incident en subornar el %2$s %1$s."
 
-#: server/diplomats.c:1396
+#: server/diplomats.c:1401
 #, c-format
 msgid "%s has caused an incident while bribing your %s."
 msgstr "%s ha causat un incident en subornar els teus %s."
 
-#: server/diplomats.c:1402
+#: server/diplomats.c:1407
 #, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
 msgstr "Has causat un incident en intentar robar tecnologia de %s."
 
-#: server/diplomats.c:1406
+#: server/diplomats.c:1411
 #, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
 msgstr "%s ha causat un incident en intentar robar-te tecnologia."
 
-#: server/diplomats.c:1412
+#: server/diplomats.c:1417
 #, c-format
 msgid "You have caused an incident while inciting a revolt in %s."
 msgstr "Has causat un incident en incitar una revolta a %s."
 
-#: server/diplomats.c:1416
+#: server/diplomats.c:1421
 #, c-format
 msgid "The %s have caused an incident while inciting a revolt in %s."
 msgstr "Els %s han causat un incident en incitar una revolta a %s."

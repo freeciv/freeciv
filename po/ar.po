@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-30 10:44+0000\n"
+"POT-Creation-Date: 2014-02-08 11:30+0000\n"
 "PO-Revision-Date: 2007-08-10 18:00+0300\n"
 "Last-Translator: Ahmad M. Zawawi <zeus_go64@yahoo.com>\n"
 "Language-Team: Arabic <freeciv-i18n@freeciv.org>\n"
@@ -89,7 +89,7 @@ msgstr "ال *%s (ذ.ا)* نعم، السلام في وقتنا!"
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
 msgstr "ال *%s (ذ.ا)* موافق. لا مزيد من العداوات، %s."
 
-#: ai/default/advdiplomacy.c:890
+#: ai/default/advdiplomacy.c:891
 #, c-format
 msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
@@ -98,40 +98,40 @@ msgstr ""
 "ال *%s (ذ.ا)* تحياتي يا %s! هل من الممكن اقتراح وقف اطلاق نار بينما نتعارف "
 "أكثر?"
 
-#: ai/default/advdiplomacy.c:1172
+#: ai/default/advdiplomacy.c:1173
 #, c-format
 msgid "*%s (AI)* Space will never be yours. "
 msgstr "ال *%s (ذ.ا)* لن يكون الفضاء ملكك أبدا. "
 
-#: ai/default/advdiplomacy.c:1177
+#: ai/default/advdiplomacy.c:1178
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
 msgstr ""
 "ال *%s (ذ.ا)* لقد تحملت أعمالك الشريرة لوقت طويل بما فيه الكفاية! إلى الحرب!"
 
-#: ai/default/advdiplomacy.c:1183
+#: ai/default/advdiplomacy.c:1184
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
 msgstr "ال *%s (ذ.ا)* السلام في ... وقت آخر."
 
-#: ai/default/advdiplomacy.c:1188
+#: ai/default/advdiplomacy.c:1189
 #, c-format
 msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
 "away with your crimes?"
 msgstr "ال *%s (ذ.ا)* أخيرا أصل إليك! هل فكرت أنك تستطيع حقا الهروب من جرائمك?"
 
-#: ai/default/advdiplomacy.c:1194
+#: ai/default/advdiplomacy.c:1195
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
 msgstr "ال *%s (ذ.ا)* عداواتك الخفية جلبت هذه الحرب عليك!"
 
-#: ai/default/advdiplomacy.c:1201
+#: ai/default/advdiplomacy.c:1202
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
 msgstr "ال *%s (ذ.ا)* عنفك ضد %s كان آخر خطأ لك!"
 
-#: ai/default/advdiplomacy.c:1283
+#: ai/default/advdiplomacy.c:1284
 #, c-format
 msgid ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop "
@@ -149,7 +149,7 @@ msgstr[2] ""
 "ال *%s (ذ.ا)* سنقوم بشن حرب كاملة ضد %s في %d أدوار لايقاف إطلاق السفينة "
 "الفضائية."
 
-#: ai/default/advdiplomacy.c:1293
+#: ai/default/advdiplomacy.c:1294
 #, c-format
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
@@ -157,7 +157,7 @@ msgid ""
 msgstr ""
 "ال *%s (ذ.ا)* إن مساعدتك في هذا الأمر متوقعة. ليعش تحالفنا المجيد طويلا!"
 
-#: ai/default/advdiplomacy.c:1299
+#: ai/default/advdiplomacy.c:1300
 #, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
@@ -177,7 +177,7 @@ msgstr[2] ""
 "ال *%s (ذ.ا)* لقد انتهك %s معاهداته معنا بشكل فظيع لمصلحته الشخصية.  سنرد "
 "عليه بالقوة في %d أدوار ونتوقع منك الايفاء بتحالفك معنا والعمل مثلنا!"
 
-#: ai/default/advdiplomacy.c:1312
+#: ai/default/advdiplomacy.c:1313
 #, c-format
 msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
@@ -191,13 +191,13 @@ msgstr[1] ""
 msgstr[2] ""
 "ال *%s (ذ.ا)* نود نهب وسلب حضارة %s الغنية. سنعلن الحرب في %d أدوار."
 
-#: ai/default/advdiplomacy.c:1320
+#: ai/default/advdiplomacy.c:1321
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
 msgstr "ال *%s (ذ.ا)* إذا كنت تريد جزءا من الغنيمة،شاركنا بالعملية!"
 
-#: ai/default/advdiplomacy.c:1325
+#: ai/default/advdiplomacy.c:1326
 #, c-format
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
@@ -215,12 +215,12 @@ msgstr[2] ""
 "ال *%s (ذ.ا)* لقد أخذنا بما فيه الكفاية من %s. دعنا نمزق هذه الحضارة المثيرة "
 "للشفقة. سنعلن الحرب في %d أدوار."
 
-#: ai/default/advdiplomacy.c:1335
+#: ai/default/advdiplomacy.c:1336
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
 msgstr "ال *%s (ذ.ا)* كحلفائك المجيدين، نتوقع مساعدتك في هذه الحرب."
 
-#: ai/default/advdiplomacy.c:1341
+#: ai/default/advdiplomacy.c:1342
 #, c-format
 msgid ""
 "*%s (AI)* We will honor our alliance and declare war on %s in %d turn.  Hold "
@@ -238,7 +238,7 @@ msgstr[2] ""
 "ال *%s (ذ.ا)* سنوفي بتحالفنا وسنعلن الحرب على %s في %d أدوار.  اصمد - نحن "
 "قادمون!"
 
-#: ai/default/advdiplomacy.c:1350
+#: ai/default/advdiplomacy.c:1351
 #, c-format
 msgid ""
 "*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
@@ -256,7 +256,7 @@ msgstr[2] ""
 "ال *%s (ذ.ا)* سنوفي بتحالفنا مع %s وسنعلن الحرب على %s في %d أدوار.  نتوقع "
 "منك العمل مثلنا."
 
-#: ai/default/advdiplomacy.c:1419
+#: ai/default/advdiplomacy.c:1420
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betrays your true "
@@ -265,7 +265,7 @@ msgstr ""
 "ال *%s (ذ.ا)* محاولتك لاحتلال الفضاء لنفسك تخون بها نواياك الحقيقية، ولن "
 "أكون بهذا التحالف بعد اﻵن!"
 
-#: ai/default/advdiplomacy.c:1434
+#: ai/default/advdiplomacy.c:1435
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
@@ -273,19 +273,19 @@ msgid ""
 msgstr ""
 "ال *%s (ذ.ا)* تعبر محاولتك للسيطرة الفردية على الفضاء الخارجي مهينة جدا."
 
-#: ai/default/advdiplomacy.c:1437
+#: ai/default/advdiplomacy.c:1438
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
 "take action!"
 msgstr "ال *%s (ذ.ا)* إذا لم توقف بناء سفينك الفضائية، سأجبر على اتخاد عمل!"
 
-#: ai/default/advdiplomacy.c:1548
+#: ai/default/advdiplomacy.c:1549
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr "ال *%s (ذ.ا)* آسف، الرؤية المشتركة معاك ليست آمنة بعد اﻵن."
 
-#: ai/default/advdiplomacy.c:1619
+#: ai/default/advdiplomacy.c:1620
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
@@ -293,7 +293,7 @@ msgid ""
 msgstr ""
 "ال *%s (ذ.ا)* تحياتي يا أكثر حليف جدير بالثقة. نطلب منك تدمير عدونا، %s."
 
-#: ai/default/advdiplomacy.c:1625
+#: ai/default/advdiplomacy.c:1626
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
@@ -302,7 +302,7 @@ msgstr ""
 "ال *%s (ذ.ا)* تحياتي أيها الحليف، أرى أنك لم تعلن الحرب على عدونا، %s. لماذا "
 "يجب علي أن أذكرك بوعودك?"
 
-#: ai/default/advdiplomacy.c:1632
+#: ai/default/advdiplomacy.c:1633
 #, c-format
 msgid ""
 "*%s (AI)* Dishonored one, we made a pact of alliance, and yet you remain at "
@@ -312,7 +312,7 @@ msgstr ""
 "ال *%s (ذ.ا)* يا خائن الشرف، لقد دخلنا في تحالف، ولكنك حتى اﻵن في حالة سلام "
 "مع عدونا اللدود، %s! هذا غير مقبول، لا تحالف بيننا بعد اﻵن!"
 
-#: ai/default/advdiplomacy.c:1662
+#: ai/default/advdiplomacy.c:1663
 #, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
@@ -321,13 +321,13 @@ msgstr ""
 "ال *%s (ذ.ا)* تحياتي أيها الصديق، هل من الممكن أن نقترح هدفا موحدا وانضماما "
 "لتحالف?"
 
-#: ai/default/advdiplomacy.c:1677
+#: ai/default/advdiplomacy.c:1678
 #, c-format
 msgid "*%s (AI)* Greetings neighbor, may we suggest more peaceful relations?"
 msgstr ""
 "ال *%s (ذ.ا)* تحياتي أيها الجار، هل من الممكن أن نقترح علاقات سلمية أكثر?"
 
-#: ai/default/advdiplomacy.c:1692
+#: ai/default/advdiplomacy.c:1693
 #, c-format
 msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
@@ -336,7 +336,7 @@ msgstr ""
 "ال *%s (ذ.ا)* لقد أرهقنا اراقة الدماء المستمر. هل من الممكن أن نقترح التوقف "
 "عن العداوات?"
 
-#: ai/default/advdiplomacy.c:1852
+#: ai/default/advdiplomacy.c:1853
 #, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! Honor "
@@ -345,12 +345,12 @@ msgstr ""
 "ال *%s (ذ.ا)* لقد هوجمنا بضراوة من %s، ونحتاج مساعدتك! أوفي بتحالفنا المجيد "
 "واسمك لن ينسى أبدا!"
 
-#: ai/default/aicity.c:308 server/citytools.c:2460
+#: ai/default/aicity.c:308 server/citytools.c:2462
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "ال %s قد توقف عن بناء ال %s في %s."
 
-#: ai/default/aicity.c:319 server/citytools.c:2498
+#: ai/default/aicity.c:319 server/citytools.c:2500
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "ال %s قد بدء بناء ال %s في %s."
@@ -401,16 +401,16 @@ msgstr "مُعدّل"
 
 #: client/agents/cma_fec.c:257 client/agents/cma_fec.c:291
 #: client/citydlg_common.c:282 client/citydlg_common.c:335
-#: client/citydlg_common.c:426 client/gui-gtk-2.0/citydlg.c:1556
-#: client/gui-gtk-3.0/citydlg.c:1613 client/gui-sdl/cityrep.c:554
+#: client/citydlg_common.c:426 client/gui-gtk-2.0/citydlg.c:1544
+#: client/gui-gtk-3.0/citydlg.c:1606 client/gui-sdl/cityrep.c:554
 #: client/gui-sdl/cityrep.c:1086 client/gui-sdl/wldlg.c:1398
 #: client/gui-sdl/wldlg.c:1403 client/gui-xaw/citydlg.c:251 client/text.c:884
 msgid "never"
 msgstr "مستحيل"
 
 #: client/agents/cma_fec.c:277 client/agents/cma_fec.c:314
-#: client/citydlg_common.c:332 client/gui-gtk-2.0/citydlg.c:1561
-#: client/gui-gtk-3.0/citydlg.c:1618 client/gui-xaw/citydlg.c:256
+#: client/citydlg_common.c:332 client/gui-gtk-2.0/citydlg.c:1549
+#: client/gui-gtk-3.0/citydlg.c:1611 client/gui-xaw/citydlg.c:256
 #: client/text.c:882 client/text.c:1333
 #, c-format
 msgid "%d turn"
@@ -764,7 +764,7 @@ msgid "?size [short]:Sz"
 msgstr "الحجم"
 
 #: client/cityrepdata.c:643 client/gui-gtk-2.0/editgui.c:1255
-#: client/gui-gtk-2.0/editprop.c:4146 client/gui-gtk-3.0/editgui.c:1281
+#: client/gui-gtk-2.0/editprop.c:4146 client/gui-gtk-3.0/editgui.c:1283
 #: client/gui-gtk-3.0/editprop.c:4170
 msgid "Size"
 msgstr "الحجم"
@@ -852,11 +852,11 @@ msgstr "أفضل الوحدات الدفاعية"
 #: client/gui-gtk-2.0/cityrep.c:1497 client/gui-gtk-2.0/cityrep.c:1516
 #: client/gui-gtk-2.0/cityrep.c:1535 client/gui-gtk-2.0/cityrep.c:1554
 #: client/gui-gtk-2.0/cityrep.c:1574 client/gui-gtk-2.0/menu.c:1378
-#: client/gui-gtk-2.0/repodlgs.c:1552 client/gui-gtk-3.0/cityrep.c:1516
+#: client/gui-gtk-2.0/repodlgs.c:1560 client/gui-gtk-3.0/cityrep.c:1516
 #: client/gui-gtk-3.0/cityrep.c:1535 client/gui-gtk-3.0/cityrep.c:1554
 #: client/gui-gtk-3.0/cityrep.c:1573 client/gui-gtk-3.0/cityrep.c:1593
-#: client/gui-gtk-3.0/menu.c:1378 client/gui-gtk-3.0/repodlgs.c:1584
-#: client/gui-sdl/helpdlg.c:697 client/gui-sdl/mapctrl.c:1617
+#: client/gui-gtk-3.0/menu.c:1378 client/gui-gtk-3.0/repodlgs.c:1592
+#: client/gui-sdl/helpdlg.c:704 client/gui-sdl/mapctrl.c:1617
 #: client/gui-sdl/repodlgs.c:366 client/gui-xaw/menu.c:162
 #: client/gui-xaw/menu.c:224 client/gui-xaw/menu.c:255
 #: client/gui-xaw/repodlgs.c:889 client/gui-xaw/repodlgs.c:1084
@@ -1006,7 +1006,8 @@ msgid "?number_trade_routes:R"
 msgstr "?number_trade_routes:ط"
 
 #: client/cityrepdata.c:706
-msgid "Number of Trade Routes"
+#, fuzzy
+msgid "Number (and total value) of trade routes"
 msgstr "عدد طرق التجارة"
 
 #: client/cityrepdata.c:708
@@ -1101,40 +1102,40 @@ msgid "Skip connect dialog"
 msgstr "  -a, --autoconnect\tتخطي مربع حوار الاتصال\n"
 
 #. TRANS: "debug" is exactly what user must type, do not translate.
-#: client/client_main.c:350 client/client_main.c:357 manual/civmanual.c:489
-#: manual/civmanual.c:495 server/civserver.c:355 server/civserver.c:361
+#: client/client_main.c:350 client/client_main.c:357 manual/civmanual.c:521
+#: manual/civmanual.c:527 server/civserver.c:355 server/civserver.c:361
 msgid "debug NUM"
 msgstr ""
 
-#: client/client_main.c:351 manual/civmanual.c:490 server/civserver.c:356
+#: client/client_main.c:351 manual/civmanual.c:522 server/civserver.c:356
 #, fuzzy, c-format
 msgid "Set debug log level (%d to %d, or %d:file1,min,max:...)"
 msgstr ""
 "  -d, --debug NUM\tتحديد مستوى سجل التنقيح (0 إلى 4, أو 4:file1,min,"
 "max:...)\n"
 
-#: client/client_main.c:358 manual/civmanual.c:496 server/civserver.c:362
+#: client/client_main.c:358 manual/civmanual.c:528 server/civserver.c:362
 #, fuzzy, c-format
 msgid "Set debug log level (%d to %d)"
 msgstr "  -d, --debug NUM\tتحديد مستوى سجل التنقيح (0 إلى 3)\n"
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: client/client_main.c:364 manual/civmanual.c:502 server/civserver.c:367
+#: client/client_main.c:364 manual/civmanual.c:534 server/civserver.c:367
 msgid "Fatal [SIGNAL]"
 msgstr ""
 
-#: client/client_main.c:365 manual/civmanual.c:503 server/civserver.c:368
+#: client/client_main.c:365 manual/civmanual.c:535 server/civserver.c:368
 msgid "Raise a signal on failed assertion"
 msgstr ""
 
-#: client/client_main.c:368 manual/civmanual.c:506 modinst/mpcmdline.c:59
+#: client/client_main.c:368 manual/civmanual.c:538 modinst/mpcmdline.c:59
 #: server/civserver.c:375
 #, fuzzy
 msgid "Print a summary of the options"
 msgstr "  -h, --help\t\tطباعة ملخص عن الخيارات\n"
 
 #. TRANS: "log" is exactly what user must type, do not translate.
-#: client/client_main.c:371 manual/civmanual.c:509 server/civserver.c:382
+#: client/client_main.c:371 manual/civmanual.c:541 server/civserver.c:382
 msgid "log FILE"
 msgstr ""
 
@@ -1224,13 +1225,13 @@ msgstr ""
 msgid "Use data file FILE.tilespec for tiles"
 msgstr ""
 
-#: client/client_main.c:407 manual/civmanual.c:516 modinst/mpcmdline.c:69
+#: client/client_main.c:407 manual/civmanual.c:548 modinst/mpcmdline.c:69
 #: server/civserver.c:427
 #, fuzzy
 msgid "Print the version number"
 msgstr "  -v, --version\t\tطباعة رقم اصدارة البرنامج\n"
 
-#: client/client_main.c:427 manual/civmanual.c:449 server/civserver.c:218
+#: client/client_main.c:427 manual/civmanual.c:473 server/civserver.c:218
 #, fuzzy, c-format
 msgid "Invalid signal number \"%s\".\n"
 msgstr "اسم المستخدم غير صحيح '%s'"
@@ -1254,7 +1255,7 @@ msgstr "العاجز مع"
 msgid "Invalid announce protocol \"%s\".\n"
 msgstr ""
 
-#: client/client_main.c:491
+#: client/client_main.c:491 manual/civmanual.c:486 modinst/mpcmdline.c:87
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "الخيار غير معترف به: \"%s\"\n"
@@ -1422,7 +1423,7 @@ msgstr "تم الانفصال عن الخادم."
 msgid "server disconnected"
 msgstr "مفصول"
 
-#: client/clinet.c:434 client/clinet.c:487 server/sernet.c:839
+#: client/clinet.c:434 client/clinet.c:487 server/sernet.c:842
 #, fuzzy
 msgid "read error"
 msgstr "أرضنا"
@@ -1455,59 +1456,60 @@ msgstr "السّيّارة"
 msgid "Starting local server..."
 msgstr "جاري تشغيل الخادم..."
 
-#: client/connectdlg_common.c:375
+#: client/connectdlg_common.c:229 client/connectdlg_common.c:388
 msgid "Couldn't start the server."
 msgstr "فشل بدء الخادم."
 
-#: client/connectdlg_common.c:377 client/connectdlg_common.c:412
+#: client/connectdlg_common.c:231 client/connectdlg_common.c:390
+#: client/connectdlg_common.c:425
 msgid "You'll have to start one manually. Sorry..."
 msgstr "يجب عليك بدء هذا يدويا. متأسف..."
 
-#: client/connectdlg_common.c:408
+#: client/connectdlg_common.c:421
 msgid "Couldn't connect to the server."
 msgstr "لا يمكن الاتصال بالخادم."
 
-#: client/connectdlg_common.c:410
+#: client/connectdlg_common.c:423
 msgid "We probably couldn't start it from here."
 msgstr "لن نستطيع غالبا تشغيلها من هنا."
 
-#: client/connectdlg_common.c:523
+#: client/connectdlg_common.c:536
 #, fuzzy
 msgid ""
 "Established control over the server. You have command access level 'hack'."
 msgstr "نحن"
 
-#: client/connectdlg_common.c:529
+#: client/connectdlg_common.c:542
 msgid ""
 "Failed to obtain the required access level to take control of the server. "
 "Attempting to shut down server."
 msgstr ""
 
-#: client/control.c:1191
+#: client/control.c:1202
 msgid "Only transporter units can be unloaded."
 msgstr "يمكن فقط تنزيل الوحدات المنقولة."
 
-#: client/control.c:1530
+#: client/control.c:1543
 msgid "Only settler units can be put into auto mode."
 msgstr "يمكن فقط وضع الوحدات المستعمرة في النمط التلقائي."
 
-#: client/control.c:1625
+#: client/control.c:1638
 msgid "Only nuclear units can do this."
 msgstr "تستطيع فقط الوحدات النووية فعل هذا."
 
-#: client/control.c:1654
+#: client/control.c:1667
 msgid "Only paratrooper units can do this."
 msgstr "تستطيع فقط الوحدات المظلية فعل هذا."
 
-#: client/control.c:2231
+#: client/control.c:2244
 msgid "Too far for this unit."
 msgstr "بعيد جدا لهذه الوحدة."
 
-#: client/control.c:2443 client/control.c:2473 client/control.c:2489
+#: client/control.c:2456 client/control.c:2486 client/control.c:2502
 msgid "Didn't find a route to the destination!"
 msgstr "فشل العثور على طريق إلى الاتجاه المقصود!"
 
-#: client/control.c:2537
+#: client/control.c:2550
 msgid "Oh my! You seem to have no capital!"
 msgstr "أوه يا! يبدو أنك بدون عاصمة!"
 
@@ -1515,7 +1517,7 @@ msgstr "أوه يا! يبدو أنك بدون عاصمة!"
 #: client/gui-gtk-2.0/menu.c:1368 client/gui-gtk-3.0/editprop.c:4076
 #: client/gui-gtk-3.0/menu.c:1368 client/gui-xaw/menu.c:153
 #: client/gui-xaw/menu.c:250 client/include/helpdlg_g.h:44
-#: data/helpdata.txt:280 manual/civmanual.c:277
+#: data/helpdata.txt:280 manual/civmanual.c:281
 msgid "Terrain"
 msgstr "طبيعة الأرض"
 
@@ -1739,88 +1741,88 @@ msgid "_Keep moving"
 msgstr "البقاء _متحركا"
 
 #. TRANS: comma-separated list of player/user names for completion
-#: client/gui-gtk-2.0/chatline.c:321 client/gui-gtk-3.0/chatline.c:321
+#: client/gui-gtk-2.0/chatline.c:331 client/gui-gtk-3.0/chatline.c:331
 #, fuzzy, c-format
 msgid "Suggestions: %s."
 msgstr "خيارات الملف: %s"
 
-#: client/gui-gtk-2.0/chatline.c:466 client/gui-gtk-3.0/chatline.c:472
+#: client/gui-gtk-2.0/chatline.c:476 client/gui-gtk-3.0/chatline.c:482
 #, fuzzy
 msgid "No visible unit on this tile."
 msgstr "لا تستطيع رشوة أي وحدة من هذه الأمة."
 
-#: client/gui-gtk-2.0/chatline.c:612 client/gui-gtk-3.0/chatline.c:618
+#: client/gui-gtk-2.0/chatline.c:622 client/gui-gtk-3.0/chatline.c:628
 msgid "This city isn't known!"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:621 client/gui-gtk-3.0/chatline.c:627
+#: client/gui-gtk-2.0/chatline.c:631 client/gui-gtk-3.0/chatline.c:637
 msgid "This tile doesn't exist in this game!"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:631 client/gui-gtk-3.0/chatline.c:637
+#: client/gui-gtk-2.0/chatline.c:641 client/gui-gtk-3.0/chatline.c:647
 msgid "This unit isn't known!"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:942 client/gui-gtk-3.0/chatline.c:925
+#: client/gui-gtk-2.0/chatline.c:952 client/gui-gtk-3.0/chatline.c:935
 #: client/gui-qt/chatline.cpp:55 client/gui-stub/chatline.c:50
 #: client/gui-xaw/chatline.c:121
 msgid "Cleared output window."
 msgstr "تم محو نافذة المخرجات."
 
 #. TRANS: "text" or "background".
-#: client/gui-gtk-2.0/chatline.c:1124 client/gui-gtk-3.0/chatline.c:1110
+#: client/gui-gtk-2.0/chatline.c:1134 client/gui-gtk-3.0/chatline.c:1120
 #, fuzzy, c-format
 msgid "Select the %s color"
 msgstr "اختيار التقدم لسرقته"
 
-#: client/gui-gtk-2.0/chatline.c:1330 client/gui-gtk-3.0/chatline.c:1322
+#: client/gui-gtk-2.0/chatline.c:1340 client/gui-gtk-3.0/chatline.c:1332
 msgid "Bold (Ctrl-B)"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:1338 client/gui-gtk-3.0/chatline.c:1330
+#: client/gui-gtk-2.0/chatline.c:1348 client/gui-gtk-3.0/chatline.c:1340
 msgid "Italic (Ctrl-I)"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:1346 client/gui-gtk-3.0/chatline.c:1338
+#: client/gui-gtk-2.0/chatline.c:1356 client/gui-gtk-3.0/chatline.c:1348
 msgid "Strikethrough (Ctrl-S)"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:1354 client/gui-gtk-3.0/chatline.c:1346
+#: client/gui-gtk-2.0/chatline.c:1364 client/gui-gtk-3.0/chatline.c:1356
 msgid "Underline (Ctrl-U)"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:1362 client/gui-gtk-3.0/chatline.c:1354
+#: client/gui-gtk-2.0/chatline.c:1372 client/gui-gtk-3.0/chatline.c:1364
 msgid "Color (Ctrl-C)"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:1372 client/gui-gtk-3.0/chatline.c:1364
+#: client/gui-gtk-2.0/chatline.c:1382 client/gui-gtk-3.0/chatline.c:1374
 msgid "foreground"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:1375 client/gui-gtk-2.0/optiondlg.c:624
-#: client/gui-gtk-3.0/chatline.c:1367 client/gui-gtk-3.0/optiondlg.c:628
+#: client/gui-gtk-2.0/chatline.c:1385 client/gui-gtk-2.0/optiondlg.c:624
+#: client/gui-gtk-3.0/chatline.c:1377 client/gui-gtk-3.0/optiondlg.c:628
 #, fuzzy
 msgid "Select the text color"
 msgstr "اختيار التقدم لسرقته"
 
-#: client/gui-gtk-2.0/chatline.c:1388 client/gui-gtk-3.0/chatline.c:1380
+#: client/gui-gtk-2.0/chatline.c:1398 client/gui-gtk-3.0/chatline.c:1390
 #, fuzzy
 msgid "background"
 msgstr "طبقة الخلفية"
 
-#: client/gui-gtk-2.0/chatline.c:1392 client/gui-gtk-2.0/optiondlg.c:633
-#: client/gui-gtk-3.0/chatline.c:1384 client/gui-gtk-3.0/optiondlg.c:637
+#: client/gui-gtk-2.0/chatline.c:1402 client/gui-gtk-2.0/optiondlg.c:633
+#: client/gui-gtk-3.0/chatline.c:1394 client/gui-gtk-3.0/optiondlg.c:637
 #, fuzzy
 msgid "Select the background color"
 msgstr "صلب وحدات"
 
 #. TRANS: "Return" means the return key.
-#: client/gui-gtk-2.0/chatline.c:1410 client/gui-gtk-3.0/chatline.c:1402
+#: client/gui-gtk-2.0/chatline.c:1420 client/gui-gtk-3.0/chatline.c:1412
 #, fuzzy
 msgid "Send the chat (Return)"
 msgstr "الصوت جديد دوران"
 
-#: client/gui-gtk-2.0/chatline.c:1427 client/gui-gtk-3.0/chatline.c:1417
+#: client/gui-gtk-2.0/chatline.c:1437 client/gui-gtk-3.0/chatline.c:1427
 #, fuzzy
 msgid "Chat tools"
 msgstr "تغيير إلى %s"
@@ -1916,8 +1918,8 @@ msgid "Press ENTER or double-click to sell an improvement."
 msgstr "اضغط ENTER أو انقر مرتين لبيع أي تحسين."
 
 #: client/gui-gtk-2.0/citydlg.c:806 client/gui-gtk-2.0/citydlg.c:995
-#: client/gui-gtk-2.0/citydlg.c:1689 client/gui-gtk-3.0/citydlg.c:846
-#: client/gui-gtk-3.0/citydlg.c:1040 client/gui-gtk-3.0/citydlg.c:1732
+#: client/gui-gtk-2.0/citydlg.c:1677 client/gui-gtk-3.0/citydlg.c:846
+#: client/gui-gtk-3.0/citydlg.c:1040 client/gui-gtk-3.0/citydlg.c:1725
 msgid "Production:"
 msgstr "الانتاج:"
 
@@ -2025,45 +2027,45 @@ msgstr "عند التشغيل في المرة القادمة"
 msgid "R_ename..."
 msgstr "اعادة تسمية..."
 
-#: client/gui-gtk-2.0/citydlg.c:1375 client/gui-gtk-3.0/citydlg.c:1431
+#: client/gui-gtk-2.0/citydlg.c:1375 client/gui-gtk-3.0/citydlg.c:1436
 msgid "_List present units..."
 msgstr "_تعداد الوحدات الموجودة..."
 
-#: client/gui-gtk-2.0/citydlg.c:1385 client/gui-gtk-3.0/citydlg.c:1441
+#: client/gui-gtk-2.0/citydlg.c:1385 client/gui-gtk-3.0/citydlg.c:1446
 msgid "_Prev city"
 msgstr "المدينة ال_سابقة"
 
-#: client/gui-gtk-2.0/citydlg.c:1390 client/gui-gtk-3.0/citydlg.c:1446
+#: client/gui-gtk-2.0/citydlg.c:1390 client/gui-gtk-3.0/citydlg.c:1451
 msgid "_Next city"
 msgstr "المدينة ال_لاحقة"
 
-#: client/gui-gtk-2.0/citydlg.c:1444 client/gui-gtk-3.0/citydlg.c:1500
+#: client/gui-gtk-2.0/citydlg.c:1444 client/gui-gtk-3.0/citydlg.c:1505
 #, c-format
 msgid "<b>%s</b> - %s citizens"
 msgstr "<b>%s</b> - %s مواطنيين"
 
-#: client/gui-gtk-2.0/citydlg.c:1449 client/gui-gtk-3.0/citydlg.c:1505
+#: client/gui-gtk-2.0/citydlg.c:1449 client/gui-gtk-3.0/citydlg.c:1510
 #: client/gui-sdl/citydlg.c:3632
 msgid " - DISORDER"
 msgstr " - فوضى أمنية"
 
-#: client/gui-gtk-2.0/citydlg.c:1451 client/gui-gtk-3.0/citydlg.c:1507
+#: client/gui-gtk-2.0/citydlg.c:1451 client/gui-gtk-3.0/citydlg.c:1512
 #: client/gui-sdl/citydlg.c:3635
 msgid " - celebrating"
 msgstr " - يحتفلون"
 
-#: client/gui-gtk-2.0/citydlg.c:1453 client/gui-gtk-3.0/citydlg.c:1509
+#: client/gui-gtk-2.0/citydlg.c:1453 client/gui-gtk-3.0/citydlg.c:1514
 #: client/gui-sdl/citydlg.c:3638
 msgid " - happy"
 msgstr " - سعيدون"
 
-#: client/gui-gtk-2.0/citydlg.c:1554 client/gui-gtk-3.0/citydlg.c:1611
+#: client/gui-gtk-2.0/citydlg.c:1542 client/gui-gtk-3.0/citydlg.c:1604
 #: client/gui-sdl/citydlg.c:3327 client/gui-xaw/citydlg.c:249
 msgid "blocked"
 msgstr "مسدود"
 
 #. TRANS: never actually used with built_slots<=1
-#: client/gui-gtk-2.0/citydlg.c:1682 client/gui-gtk-3.0/citydlg.c:1725
+#: client/gui-gtk-2.0/citydlg.c:1670 client/gui-gtk-3.0/citydlg.c:1718
 #, fuzzy, c-format
 msgid "Production (up to %d unit per turn):"
 msgid_plural "Production (up to %d units per turn):"
@@ -2071,66 +2073,66 @@ msgstr[0] "الانتاج : %d (%d) لكل دور"
 msgstr[1] "الانتاج : %d (%d) لكل دور"
 msgstr[2] "الانتاج : %d (%d) لكل دور"
 
-#: client/gui-gtk-2.0/citydlg.c:1908 client/gui-gtk-3.0/citydlg.c:1951
+#: client/gui-gtk-2.0/citydlg.c:1896 client/gui-gtk-3.0/citydlg.c:1944
 #, c-format
 msgid "Supported units %d"
 msgstr "الوحدات المدعومة %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2014 client/gui-gtk-3.0/citydlg.c:2053
+#: client/gui-gtk-2.0/citydlg.c:2002 client/gui-gtk-3.0/citydlg.c:2046
 #, c-format
 msgid "Present units %d"
 msgstr "الوحدات الموجودة %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2134 client/gui-gtk-2.0/cityrep.c:1147
-#: client/gui-gtk-3.0/citydlg.c:2173 client/gui-gtk-3.0/cityrep.c:1175
+#: client/gui-gtk-2.0/citydlg.c:2122 client/gui-gtk-2.0/cityrep.c:1147
+#: client/gui-gtk-3.0/citydlg.c:2166 client/gui-gtk-3.0/cityrep.c:1175
 msgid "Cen_ter"
 msgstr "و_سط"
 
-#: client/gui-gtk-2.0/citydlg.c:2140 client/gui-gtk-2.0/citydlg.c:2198
-#: client/gui-gtk-3.0/citydlg.c:2179 client/gui-gtk-3.0/citydlg.c:2237
+#: client/gui-gtk-2.0/citydlg.c:2128 client/gui-gtk-2.0/citydlg.c:2186
+#: client/gui-gtk-3.0/citydlg.c:2172 client/gui-gtk-3.0/citydlg.c:2230
 msgid "_Activate unit"
 msgstr "_تشغيل الوحدة"
 
-#: client/gui-gtk-2.0/citydlg.c:2146 client/gui-gtk-2.0/citydlg.c:2204
-#: client/gui-gtk-3.0/citydlg.c:2185 client/gui-gtk-3.0/citydlg.c:2243
+#: client/gui-gtk-2.0/citydlg.c:2134 client/gui-gtk-2.0/citydlg.c:2192
+#: client/gui-gtk-3.0/citydlg.c:2178 client/gui-gtk-3.0/citydlg.c:2236
 msgid "Activate unit, _close dialog"
 msgstr "تشغيل الوحدة، ا_غلاق مربع الحوار"
 
-#: client/gui-gtk-2.0/citydlg.c:2152 client/gui-gtk-2.0/citydlg.c:2253
-#: client/gui-gtk-3.0/citydlg.c:2191 client/gui-gtk-3.0/citydlg.c:2292
+#: client/gui-gtk-2.0/citydlg.c:2140 client/gui-gtk-2.0/citydlg.c:2241
+#: client/gui-gtk-3.0/citydlg.c:2184 client/gui-gtk-3.0/citydlg.c:2285
 msgid "_Disband unit"
 msgstr "_تسريح الوحدة"
 
-#: client/gui-gtk-2.0/citydlg.c:2210 client/gui-gtk-3.0/citydlg.c:2249
+#: client/gui-gtk-2.0/citydlg.c:2198 client/gui-gtk-3.0/citydlg.c:2242
 msgid "_Load unit"
 msgstr "ت_حميل الوحدة"
 
-#: client/gui-gtk-2.0/citydlg.c:2220 client/gui-gtk-3.0/citydlg.c:2259
+#: client/gui-gtk-2.0/citydlg.c:2208 client/gui-gtk-3.0/citydlg.c:2252
 msgid "_Unload unit"
 msgstr "ت_نزيل الوحدة"
 
-#: client/gui-gtk-2.0/citydlg.c:2231 client/gui-gtk-3.0/citydlg.c:2270
+#: client/gui-gtk-2.0/citydlg.c:2219 client/gui-gtk-3.0/citydlg.c:2263
 msgid "_Sentry unit"
 msgstr "ح_راسة الوحدة"
 
-#: client/gui-gtk-2.0/citydlg.c:2242 client/gui-gtk-3.0/citydlg.c:2281
+#: client/gui-gtk-2.0/citydlg.c:2230 client/gui-gtk-3.0/citydlg.c:2274
 msgid "_Fortify unit"
 msgstr "تح_صين الوحدة"
 
-#: client/gui-gtk-2.0/citydlg.c:2263 client/gui-gtk-2.0/menu.c:1594
-#: client/gui-gtk-3.0/citydlg.c:2302 client/gui-gtk-3.0/menu.c:1594
+#: client/gui-gtk-2.0/citydlg.c:2251 client/gui-gtk-2.0/menu.c:1594
+#: client/gui-gtk-3.0/citydlg.c:2295 client/gui-gtk-3.0/menu.c:1594
 #, fuzzy
 msgid "Set _Home City"
 msgstr "مدينة ال_منشأ"
 
-#: client/gui-gtk-2.0/citydlg.c:2270 client/gui-gtk-3.0/citydlg.c:2309
+#: client/gui-gtk-2.0/citydlg.c:2258 client/gui-gtk-3.0/citydlg.c:2302
 msgid "U_pgrade unit"
 msgstr "ت_طوير الوحدة"
 
-#: client/gui-gtk-2.0/citydlg.c:2617 client/gui-gtk-2.0/diplomat_dialog.c:90
-#: client/gui-gtk-2.0/diplomat_dialog.c:567 client/gui-gtk-2.0/repodlgs.c:1507
-#: client/gui-gtk-3.0/citydlg.c:2658 client/gui-gtk-3.0/diplomat_dialog.c:90
-#: client/gui-gtk-3.0/diplomat_dialog.c:577 client/gui-gtk-3.0/repodlgs.c:1539
+#: client/gui-gtk-2.0/citydlg.c:2605 client/gui-gtk-2.0/diplomat_dialog.c:90
+#: client/gui-gtk-2.0/diplomat_dialog.c:567 client/gui-gtk-2.0/repodlgs.c:1515
+#: client/gui-gtk-3.0/citydlg.c:2651 client/gui-gtk-3.0/diplomat_dialog.c:90
+#: client/gui-gtk-3.0/diplomat_dialog.c:577 client/gui-gtk-3.0/repodlgs.c:1547
 #: client/gui-sdl/citydlg.c:1155 client/gui-sdl/diplomat_dialog.c:1151
 #: client/gui-sdl/diplomat_dialog.c:1402 client/gui-sdl/repodlgs.c:188
 #: client/gui-xaw/citydlg.c:1949 client/gui-xaw/diplomat_dialog.c:115
@@ -2150,7 +2152,7 @@ msgstr[2] ""
 "الخزينة تحتوي %d ذهب."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-2.0/citydlg.c:2627 client/gui-gtk-3.0/citydlg.c:2668
+#: client/gui-gtk-2.0/citydlg.c:2615 client/gui-gtk-3.0/citydlg.c:2661
 #: client/gui-sdl/citydlg.c:1166 client/gui-xaw/citydlg.c:1957
 #, fuzzy, c-format
 msgid ""
@@ -2163,14 +2165,14 @@ msgstr[0] "بيع %s ب %d ذهب?"
 msgstr[1] "بيع %s ب %d ذهب?"
 msgstr[2] "بيع %s ب %d ذهب?"
 
-#: client/gui-gtk-2.0/citydlg.c:2631 client/gui-gtk-2.0/citydlg.c:2645
-#: client/gui-gtk-3.0/citydlg.c:2672 client/gui-gtk-3.0/citydlg.c:2686
+#: client/gui-gtk-2.0/citydlg.c:2619 client/gui-gtk-2.0/citydlg.c:2633
+#: client/gui-gtk-3.0/citydlg.c:2665 client/gui-gtk-3.0/citydlg.c:2679
 #: data/Freeciv.in:2245 data/Freeciv.in:2275
 msgid "Buy It!"
 msgstr "اشتريها!"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-2.0/citydlg.c:2641 client/gui-gtk-3.0/citydlg.c:2682
+#: client/gui-gtk-2.0/citydlg.c:2629 client/gui-gtk-3.0/citydlg.c:2675
 #: client/gui-sdl/citydlg.c:1172 client/gui-xaw/citydlg.c:1968
 #, fuzzy, c-format
 msgid ""
@@ -2183,7 +2185,7 @@ msgstr[0] "لقد حصلت على %d ذهب."
 msgstr[1] "لقد حصلت على %d ذهب."
 msgstr[2] "لقد حصلت على %d ذهب."
 
-#: client/gui-gtk-2.0/citydlg.c:2692 client/gui-gtk-3.0/citydlg.c:2733
+#: client/gui-gtk-2.0/citydlg.c:2680 client/gui-gtk-3.0/citydlg.c:2726
 #: client/gui-sdl/citydlg.c:1416 client/gui-xaw/citydlg.c:2348
 #, fuzzy, c-format
 msgid "Sell %s for %d gold?"
@@ -2192,16 +2194,16 @@ msgstr[0] "بيع %s ب %d ذهب?"
 msgstr[1] "بيع %s ب %d ذهب?"
 msgstr[2] "بيع %s ب %d ذهب?"
 
-#: client/gui-gtk-2.0/citydlg.c:2698 client/gui-gtk-3.0/citydlg.c:2739
+#: client/gui-gtk-2.0/citydlg.c:2686 client/gui-gtk-3.0/citydlg.c:2732
 #: data/Freeciv.in:2264
 msgid "Sell It!"
 msgstr "بيعها!"
 
-#: client/gui-gtk-2.0/citydlg.c:2765 client/gui-gtk-3.0/citydlg.c:2814
+#: client/gui-gtk-2.0/citydlg.c:2753 client/gui-gtk-3.0/citydlg.c:2807
 msgid "Rename City"
 msgstr "تغيير اسم المدينة"
 
-#: client/gui-gtk-2.0/citydlg.c:2766 client/gui-gtk-3.0/citydlg.c:2815
+#: client/gui-gtk-2.0/citydlg.c:2754 client/gui-gtk-3.0/citydlg.c:2808
 #: client/gui-xaw/citydlg.c:1437
 msgid "What should we rename the city to?"
 msgstr "ماذا تريد تغيير اسم المدينة إلى?"
@@ -2586,8 +2588,8 @@ msgstr "يجب أن تطبع اسم صحيحا."
 msgid "Upgrade Unit!"
 msgstr "تطوير الوحدة!"
 
-#: client/gui-gtk-2.0/dialogs.c:1084 client/gui-gtk-2.0/repodlgs.c:1527
-#: client/gui-gtk-3.0/dialogs.c:1091 client/gui-gtk-3.0/repodlgs.c:1559
+#: client/gui-gtk-2.0/dialogs.c:1084 client/gui-gtk-2.0/repodlgs.c:1535
+#: client/gui-gtk-3.0/dialogs.c:1091 client/gui-gtk-3.0/repodlgs.c:1567
 #: client/gui-sdl/dialogs.c:678 client/gui-sdl/repodlgs.c:203
 #: data/Freeciv.in:2499
 msgid "Upgrade Obsolete Units"
@@ -2640,19 +2642,19 @@ msgstr "اعطاء _سفارة"
 
 #: client/gui-gtk-2.0/diplodlg.c:419 client/gui-gtk-3.0/diplodlg.c:419
 #: client/gui-sdl/diplodlg.c:498 client/gui-xaw/diplodlg.c:546
-#: common/player.c:1182
+#: common/player.c:1183
 msgid "?diplomatic_state:Cease-fire"
 msgstr "?diplomatic_state:وقف اطلاق النار"
 
 #: client/gui-gtk-2.0/diplodlg.c:425 client/gui-gtk-3.0/diplodlg.c:425
 #: client/gui-sdl/diplodlg.c:512 client/gui-xaw/diplodlg.c:550
-#: common/player.c:1183
+#: common/player.c:1184
 msgid "?diplomatic_state:Peace"
 msgstr "?diplomatic_state:سلام"
 
 #: client/gui-gtk-2.0/diplodlg.c:431 client/gui-gtk-3.0/diplodlg.c:431
 #: client/gui-sdl/diplodlg.c:527 client/gui-xaw/diplodlg.c:554
-#: common/player.c:1184
+#: common/player.c:1185
 msgid "?diplomatic_state:Alliance"
 msgstr "?diplomatic_state:متحالف"
 
@@ -2691,11 +2693,11 @@ msgstr "_إضافة بند..."
 msgid "C_lauses:"
 msgstr "ال_فقرات:"
 
-#: client/gui-gtk-2.0/diplodlg.c:918 client/gui-gtk-3.0/diplodlg.c:925
+#: client/gui-gtk-2.0/diplodlg.c:918 client/gui-gtk-3.0/diplodlg.c:926
 msgid "--- This treaty is blank. Please add some clauses. ---"
 msgstr "--- هذه المعاهدة فارغة. الرجاء إضافة بعض البنود. ---"
 
-#: client/gui-gtk-2.0/diplodlg.c:1149 client/gui-gtk-3.0/diplodlg.c:1156
+#: client/gui-gtk-2.0/diplodlg.c:1149 client/gui-gtk-3.0/diplodlg.c:1159
 #: client/gui-sdl/diplodlg.c:403 client/gui-xaw/diplodlg.c:976
 msgid "Invalid amount of gold specified."
 msgstr "خطأ في كمية الذهب."
@@ -2998,50 +3000,50 @@ msgstr ""
 msgid "Show the property editor."
 msgstr ""
 
-#: client/gui-gtk-2.0/editgui.c:1007 client/gui-gtk-3.0/editgui.c:1019
+#: client/gui-gtk-2.0/editgui.c:1007 client/gui-gtk-3.0/editgui.c:1021
 #, fuzzy
 msgid "Select Tool Value"
 msgstr "اختيار"
 
-#: client/gui-gtk-2.0/editgui.c:1176 client/gui-gtk-3.0/editgui.c:1190
+#: client/gui-gtk-2.0/editgui.c:1176 client/gui-gtk-3.0/editgui.c:1192
 #, fuzzy
 msgid "Editor Tool"
 msgstr "أدوات الماكينة"
 
-#: client/gui-gtk-2.0/editgui.c:1189 client/gui-gtk-3.0/editgui.c:1207
+#: client/gui-gtk-2.0/editgui.c:1189 client/gui-gtk-3.0/editgui.c:1209
 msgid "Click to change value if applicable."
 msgstr ""
 
-#: client/gui-gtk-2.0/editgui.c:1216 client/gui-gtk-3.0/editgui.c:1238
+#: client/gui-gtk-2.0/editgui.c:1216 client/gui-gtk-3.0/editgui.c:1240
 #, fuzzy
 msgid "Click to change tool mode."
 msgstr "فشل فتح ملف مؤقت."
 
-#: client/gui-gtk-2.0/editgui.c:1230 client/gui-gtk-3.0/editgui.c:1255
+#: client/gui-gtk-2.0/editgui.c:1230 client/gui-gtk-3.0/editgui.c:1257
 #, fuzzy
 msgid "Mode"
 msgstr "حديث"
 
-#: client/gui-gtk-2.0/editgui.c:1246 client/gui-gtk-3.0/editgui.c:1272
+#: client/gui-gtk-2.0/editgui.c:1246 client/gui-gtk-3.0/editgui.c:1274
 msgid ""
 "Use this to change the \"size\" parameter for the tool. This parameter "
 "controls for example the half-width of the square of tiles that will be "
 "affected by the tool, or the size of a created city."
 msgstr ""
 
-#: client/gui-gtk-2.0/editgui.c:1263 client/gui-gtk-3.0/editgui.c:1290
+#: client/gui-gtk-2.0/editgui.c:1263 client/gui-gtk-3.0/editgui.c:1292
 msgid ""
 "Use this to change the tool's \"count\" parameter. This controls for example "
 "how many units are placed at once with the unit tool."
 msgstr ""
 
 #: client/gui-gtk-2.0/editgui.c:1271 client/gui-gtk-2.0/repodlgs.c:754
-#: client/gui-gtk-2.0/unitselect.c:97 client/gui-gtk-3.0/editgui.c:1298
+#: client/gui-gtk-2.0/unitselect.c:97 client/gui-gtk-3.0/editgui.c:1300
 #: client/gui-gtk-3.0/repodlgs.c:782 client/gui-gtk-3.0/unitselect.c:97
 msgid "Count"
 msgstr "العدد"
 
-#: client/gui-gtk-2.0/editgui.c:1298 client/gui-gtk-3.0/editgui.c:1324
+#: client/gui-gtk-2.0/editgui.c:1298 client/gui-gtk-3.0/editgui.c:1326
 msgid ""
 "Use this to change the \"applied player\" tool parameter. This controls for "
 "example under which player units and cities are created."
@@ -3063,12 +3065,12 @@ msgid "?play:Game"
 msgstr "?Player:الاسم"
 
 #: client/gui-gtk-2.0/editprop.c:857 client/gui-gtk-3.0/editprop.c:857
-#: utility/shared.c:2194
+#: utility/shared.c:2173
 msgid "TRUE"
 msgstr ""
 
 #: client/gui-gtk-2.0/editprop.c:857 client/gui-gtk-3.0/editprop.c:857
-#: utility/shared.c:2194
+#: utility/shared.c:2173
 msgid "FALSE"
 msgstr ""
 
@@ -3170,7 +3172,7 @@ msgstr ""
 #: client/gui-gtk-3.0/editprop.c:3517 client/gui-gtk-3.0/editprop.c:4160
 #: client/gui-gtk-3.0/editprop.c:4181 client/gui-gtk-3.0/pages.c:1314
 #: client/gui-gtk-3.0/pages.c:2680 client/gui-gtk-3.0/wldlg.c:1001
-#: data/Freeciv.in:97 manual/civmanual.c:364 modinst/modinst.c:283
+#: data/Freeciv.in:97 manual/civmanual.c:368 modinst/modinst.c:283
 msgid "Name"
 msgstr "الاسم"
 
@@ -3345,8 +3347,8 @@ msgstr "الدرع"
 msgid "Inventions"
 msgstr "الاختراع"
 
-#: client/gui-gtk-2.0/editprop.c:4167 client/gui-gtk-2.0/repodlgs.c:1251
-#: client/gui-gtk-3.0/editprop.c:4191 client/gui-gtk-3.0/repodlgs.c:1283
+#: client/gui-gtk-2.0/editprop.c:4167 client/gui-gtk-2.0/repodlgs.c:1236
+#: client/gui-gtk-3.0/editprop.c:4191 client/gui-gtk-3.0/repodlgs.c:1268
 #: common/city.c:85 data/civ1/terrain.ruleset:609
 #: data/civ2/terrain.ruleset:623 data/default/terrain.ruleset:737
 #: data/experimental/terrain.ruleset:739 data/multiplayer/terrain.ruleset:737
@@ -3616,7 +3618,7 @@ msgstr ""
 msgid "Clear links"
 msgstr "الهدف قائمة العمل:"
 
-#: client/gui-gtk-2.0/gui_main.c:2002 client/gui-gtk-3.0/gui_main.c:2008
+#: client/gui-gtk-2.0/gui_main.c:2002 client/gui-gtk-3.0/gui_main.c:2012
 #: modinst/modinst.c:102
 msgid "Are you sure you want to quit?"
 msgstr "هل تريد الخروج?"
@@ -3672,13 +3674,13 @@ msgstr ""
 #: client/gui-gtk-2.0/helpdlg.c:96 client/gui-gtk-2.0/helpdlg.c:99
 #: client/gui-gtk-2.0/helpdlg.c:103 client/gui-gtk-3.0/helpdlg.c:96
 #: client/gui-gtk-3.0/helpdlg.c:99 client/gui-gtk-3.0/helpdlg.c:103
-#: client/gui-sdl/helpdlg.c:349 client/gui-sdl/helpdlg.c:744
+#: client/gui-sdl/helpdlg.c:349 client/gui-sdl/helpdlg.c:751
 #: data/Freeciv.in:654 data/Freeciv.in:796
 msgid "Cost:"
 msgstr "الكلفة:"
 
 #: client/gui-gtk-2.0/helpdlg.c:96 client/gui-gtk-3.0/helpdlg.c:96
-#: client/gui-sdl/helpdlg.c:357 client/gui-sdl/helpdlg.c:753
+#: client/gui-sdl/helpdlg.c:357 client/gui-sdl/helpdlg.c:760
 #: data/Freeciv.in:671
 msgid "Upkeep:"
 msgstr "أجور الصيانة:"
@@ -3686,40 +3688,40 @@ msgstr "أجور الصيانة:"
 #: client/gui-gtk-2.0/helpdlg.c:96 client/gui-gtk-2.0/helpdlg.c:99
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:96
 #: client/gui-gtk-3.0/helpdlg.c:99 client/gui-gtk-3.0/helpdlg.c:107
-#: client/gui-sdl/helpdlg.c:368 client/gui-sdl/helpdlg.c:794
+#: client/gui-sdl/helpdlg.c:368 client/gui-sdl/helpdlg.c:801
 #: data/Freeciv.in:712
 msgid "Requirement:"
 msgstr "المتطلب:"
 
 #: client/gui-gtk-2.0/helpdlg.c:99 client/gui-gtk-2.0/helpdlg.c:107
 #: client/gui-gtk-3.0/helpdlg.c:99 client/gui-gtk-3.0/helpdlg.c:107
-#: client/gui-sdl/helpdlg.c:400 client/gui-sdl/helpdlg.c:821
+#: client/gui-sdl/helpdlg.c:407 client/gui-sdl/helpdlg.c:828
 #: data/Freeciv.in:750
 msgid "Obsolete by:"
 msgstr "يلغى من:"
 
 #: client/gui-gtk-2.0/helpdlg.c:103 client/gui-gtk-3.0/helpdlg.c:103
-#: client/gui-sdl/helpdlg.c:777 data/Freeciv.in:813
+#: client/gui-sdl/helpdlg.c:784 data/Freeciv.in:813
 msgid "Attack:"
 msgstr "الهجوم:"
 
 #: client/gui-gtk-2.0/helpdlg.c:104 client/gui-gtk-3.0/helpdlg.c:104
-#: client/gui-sdl/helpdlg.c:778 data/Freeciv.in:831
+#: client/gui-sdl/helpdlg.c:785 data/Freeciv.in:831
 msgid "Defense:"
 msgstr "الدفاع:"
 
 #: client/gui-gtk-2.0/helpdlg.c:104 client/gui-gtk-3.0/helpdlg.c:104
-#: client/gui-sdl/helpdlg.c:779 data/Freeciv.in:849
+#: client/gui-sdl/helpdlg.c:786 data/Freeciv.in:849
 msgid "Move:"
 msgstr "الحركة:"
 
 #: client/gui-gtk-2.0/helpdlg.c:105 client/gui-gtk-3.0/helpdlg.c:105
-#: client/gui-sdl/helpdlg.c:782
+#: client/gui-sdl/helpdlg.c:789
 msgid "FirePower:"
 msgstr "قوة النار:"
 
 #: client/gui-gtk-2.0/helpdlg.c:105 client/gui-gtk-3.0/helpdlg.c:105
-#: client/gui-sdl/helpdlg.c:783 data/Freeciv.in:894
+#: client/gui-sdl/helpdlg.c:790 data/Freeciv.in:894
 msgid "Hitpoints:"
 msgstr "نقاط التحمل:"
 
@@ -3729,7 +3731,7 @@ msgid "Basic Upkeep:"
 msgstr "أجور الصيانة الأساسية:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:106
-#: client/gui-sdl/helpdlg.c:781 data/Freeciv.in:912
+#: client/gui-sdl/helpdlg.c:788 data/Freeciv.in:912
 msgid "Vision:"
 msgstr "مدى الرؤية:"
 
@@ -3782,19 +3784,19 @@ msgstr ""
 #. TRANS: "None" tech
 #: client/gui-gtk-2.0/helpdlg.c:126 client/gui-gtk-3.0/helpdlg.c:126
 #: client/gui-sdl/citydlg.c:730 client/gui-sdl/gui_tilespec.c:486
-#: client/gui-sdl/helpdlg.c:376 client/gui-sdl/helpdlg.c:803
-#: client/gui-sdl/helpdlg.c:829 client/gui-sdl/mapview.c:318
+#: client/gui-sdl/helpdlg.c:376 client/gui-sdl/helpdlg.c:810
+#: client/gui-sdl/helpdlg.c:836 client/gui-sdl/mapview.c:318
 #: client/gui-sdl/mapview.c:335 client/gui-sdl/mapview.c:776
-#: client/gui-xaw/helpdlg.c:817 client/gui-xaw/helpdlg.c:863
-#: client/gui-xaw/helpdlg.c:882 common/tech.c:1017 common/tech.c:1020
-#: manual/civmanual.c:389 manual/civmanual.c:395 server/settings.h:59
+#: client/gui-xaw/helpdlg.c:825 client/gui-xaw/helpdlg.c:871
+#: client/gui-xaw/helpdlg.c:890 common/tech.c:1017 common/tech.c:1020
+#: manual/civmanual.c:396 manual/civmanual.c:403 server/settings.h:59
 msgid "None"
 msgstr "لا يوجد"
 
 #: client/gui-gtk-2.0/helpdlg.c:127 client/gui-gtk-3.0/helpdlg.c:127
-#: client/gui-xaw/helpdlg.c:764 client/gui-xaw/helpdlg.c:808
-#: client/gui-xaw/helpdlg.c:816 client/gui-xaw/helpdlg.c:855
-#: client/gui-xaw/helpdlg.c:880
+#: client/gui-xaw/helpdlg.c:768 client/gui-xaw/helpdlg.c:816
+#: client/gui-xaw/helpdlg.c:824 client/gui-xaw/helpdlg.c:863
+#: client/gui-xaw/helpdlg.c:888
 msgid "(Never)"
 msgstr "(مستحيل)"
 
@@ -3816,26 +3818,26 @@ msgstr "توسيع الكل"
 msgid "Collapse All"
 msgstr "طوي الكل"
 
-#: client/gui-gtk-2.0/helpdlg.c:976 client/gui-gtk-2.0/helpdlg.c:1006
-#: client/gui-gtk-2.0/helpdlg.c:1018 client/gui-gtk-2.0/helpdlg.c:1026
-#: client/gui-gtk-2.0/helpdlg.c:1043 client/gui-gtk-3.0/helpdlg.c:997
-#: client/gui-gtk-3.0/helpdlg.c:1027 client/gui-gtk-3.0/helpdlg.c:1039
-#: client/gui-gtk-3.0/helpdlg.c:1047 client/gui-gtk-3.0/helpdlg.c:1064
-#: client/gui-sdl/helpdlg.c:991
+#: client/gui-gtk-2.0/helpdlg.c:984 client/gui-gtk-2.0/helpdlg.c:1014
+#: client/gui-gtk-2.0/helpdlg.c:1026 client/gui-gtk-2.0/helpdlg.c:1034
+#: client/gui-gtk-2.0/helpdlg.c:1051 client/gui-gtk-3.0/helpdlg.c:1005
+#: client/gui-gtk-3.0/helpdlg.c:1035 client/gui-gtk-3.0/helpdlg.c:1047
+#: client/gui-gtk-3.0/helpdlg.c:1055 client/gui-gtk-3.0/helpdlg.c:1072
+#: client/gui-sdl/helpdlg.c:998
 msgid "Allows"
 msgstr "يسمح"
 
-#: client/gui-gtk-2.0/helpdlg.c:989 client/gui-gtk-3.0/helpdlg.c:1010
+#: client/gui-gtk-2.0/helpdlg.c:997 client/gui-gtk-3.0/helpdlg.c:1018
 msgid "Obsoletes"
 msgstr "يلغي"
 
-#: client/gui-gtk-2.0/helpdlg.c:1030 client/gui-gtk-2.0/helpdlg.c:1047
-#: client/gui-gtk-3.0/helpdlg.c:1051 client/gui-gtk-3.0/helpdlg.c:1068
+#: client/gui-gtk-2.0/helpdlg.c:1038 client/gui-gtk-2.0/helpdlg.c:1055
+#: client/gui-gtk-3.0/helpdlg.c:1059 client/gui-gtk-3.0/helpdlg.c:1076
 msgid "with"
 msgstr "مع"
 
-#: client/gui-gtk-2.0/helpdlg.c:1035 client/gui-gtk-2.0/helpdlg.c:1052
-#: client/gui-gtk-3.0/helpdlg.c:1056 client/gui-gtk-3.0/helpdlg.c:1073
+#: client/gui-gtk-2.0/helpdlg.c:1043 client/gui-gtk-2.0/helpdlg.c:1060
+#: client/gui-gtk-3.0/helpdlg.c:1064 client/gui-gtk-3.0/helpdlg.c:1081
 msgid "?techhelp:"
 msgstr "?techhelp:"
 
@@ -3848,49 +3850,49 @@ msgstr "?techhelp:"
 #. TRANS: "Resources: (none)".
 #. TRANS: "Conflicts with: (none)" (bases)
 #. TRANS: missing value
-#: client/gui-gtk-2.0/helpdlg.c:1100 client/gui-gtk-2.0/helpdlg.c:1194
-#: client/gui-gtk-2.0/inteldlg.c:410 client/gui-gtk-3.0/helpdlg.c:1121
-#: client/gui-gtk-3.0/helpdlg.c:1215 client/gui-gtk-3.0/inteldlg.c:402
-#: client/gui-xaw/helpdlg.c:1007 client/gui-xaw/helpdlg.c:1092
-#: common/requirements.c:1408 common/requirements.c:1462
+#: client/gui-gtk-2.0/helpdlg.c:1108 client/gui-gtk-2.0/helpdlg.c:1202
+#: client/gui-gtk-2.0/inteldlg.c:410 client/gui-gtk-3.0/helpdlg.c:1129
+#: client/gui-gtk-3.0/helpdlg.c:1223 client/gui-gtk-3.0/inteldlg.c:402
+#: client/gui-xaw/helpdlg.c:1015 client/gui-xaw/helpdlg.c:1100
+#: common/requirements.c:1460 common/requirements.c:1514
 #, c-format
 msgid "(none)"
 msgstr "(لا يوجد)"
 
-#: client/gui-gtk-2.0/helpdlg.c:1105 client/gui-gtk-3.0/helpdlg.c:1126
-#: client/gui-xaw/helpdlg.c:1012
+#: client/gui-gtk-2.0/helpdlg.c:1113 client/gui-gtk-3.0/helpdlg.c:1134
+#: client/gui-xaw/helpdlg.c:1020
 #, c-format
 msgid "+%d Trade / %d"
 msgstr "+%d التجارة / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1109 client/gui-gtk-3.0/helpdlg.c:1130
-#: client/gui-xaw/helpdlg.c:1016
+#: client/gui-gtk-2.0/helpdlg.c:1117 client/gui-gtk-3.0/helpdlg.c:1138
+#: client/gui-xaw/helpdlg.c:1024
 #, c-format
 msgid "no extra / %d"
 msgstr "بدون زيادة / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1112 client/gui-gtk-2.0/helpdlg.c:1116
-#: client/gui-gtk-2.0/helpdlg.c:1130 client/gui-gtk-3.0/helpdlg.c:1133
-#: client/gui-gtk-3.0/helpdlg.c:1137 client/gui-gtk-3.0/helpdlg.c:1151
-#: client/gui-xaw/helpdlg.c:1018 client/gui-xaw/helpdlg.c:1022
-#: client/gui-xaw/helpdlg.c:1036 client/gui-xaw/helpdlg.c:1055
+#: client/gui-gtk-2.0/helpdlg.c:1120 client/gui-gtk-2.0/helpdlg.c:1124
+#: client/gui-gtk-2.0/helpdlg.c:1138 client/gui-gtk-3.0/helpdlg.c:1141
+#: client/gui-gtk-3.0/helpdlg.c:1145 client/gui-gtk-3.0/helpdlg.c:1159
+#: client/gui-xaw/helpdlg.c:1026 client/gui-xaw/helpdlg.c:1030
+#: client/gui-xaw/helpdlg.c:1044 client/gui-xaw/helpdlg.c:1063
 msgid "n/a"
 msgstr "غير متوفر"
 
-#: client/gui-gtk-2.0/helpdlg.c:1119 client/gui-gtk-3.0/helpdlg.c:1140
-#: client/gui-xaw/helpdlg.c:1025
+#: client/gui-gtk-2.0/helpdlg.c:1127 client/gui-gtk-3.0/helpdlg.c:1148
+#: client/gui-xaw/helpdlg.c:1033
 #, c-format
 msgid "+%d Food / %d"
 msgstr "+%d الطعام / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1133 client/gui-gtk-3.0/helpdlg.c:1154
-#: client/gui-xaw/helpdlg.c:1039
+#: client/gui-gtk-2.0/helpdlg.c:1141 client/gui-gtk-3.0/helpdlg.c:1162
+#: client/gui-xaw/helpdlg.c:1047
 #, c-format
 msgid "+%d Res. / %d"
 msgstr "+%d الموارد. / %d"
 
 #. TRANS: "MP" = movement points
-#: client/gui-gtk-2.0/helpdlg.c:1178 client/gui-gtk-3.0/helpdlg.c:1199
+#: client/gui-gtk-2.0/helpdlg.c:1186 client/gui-gtk-3.0/helpdlg.c:1207
 #, c-format
 msgid "%d MP"
 msgstr ""
@@ -5192,7 +5194,7 @@ msgstr "?redundant:م"
 
 #: client/gui-gtk-2.0/repodlgs.c:756 client/gui-gtk-2.0/wldlg.c:998
 #: client/gui-gtk-3.0/repodlgs.c:784 client/gui-gtk-3.0/wldlg.c:1001
-#: manual/civmanual.c:364
+#: manual/civmanual.c:368
 msgid "Cost"
 msgstr "الكلفة"
 
@@ -5243,42 +5245,65 @@ msgstr ""
 msgid "Sell _All"
 msgstr "بيع ال_كل"
 
-#: client/gui-gtk-2.0/repodlgs.c:1238 client/gui-gtk-3.0/repodlgs.c:1270
+#: client/gui-gtk-2.0/repodlgs.c:1221 client/gui-gtk-3.0/repodlgs.c:1253
 msgid "Unit Type"
 msgstr "نوع الوحدة"
 
-#: client/gui-gtk-2.0/repodlgs.c:1240 client/gui-gtk-3.0/repodlgs.c:1272
+#: client/gui-gtk-2.0/repodlgs.c:1223 client/gui-gtk-3.0/repodlgs.c:1255
 #, fuzzy
 msgid "?Upgradable unit [short]:U"
 msgstr "يو"
 
-#. TRANS: "In project" abbreviation.
-#: client/gui-gtk-2.0/repodlgs.c:1243 client/gui-gtk-3.0/repodlgs.c:1275
+#: client/gui-gtk-2.0/repodlgs.c:1224 client/gui-gtk-3.0/repodlgs.c:1256
+#, fuzzy
+msgid "Upgradable"
+msgstr "تطوير"
+
+#. TRANS: "In progress" abbrevation.
+#. URD_COL_IN_PROGRESS
+#: client/gui-gtk-2.0/repodlgs.c:1228 client/gui-gtk-3.0/repodlgs.c:1260
 msgid "In-Prog"
 msgstr "جاري العمل"
 
-#: client/gui-gtk-2.0/repodlgs.c:1245 client/gui-gtk-3.0/repodlgs.c:1277
+#: client/gui-gtk-2.0/repodlgs.c:1229 client/gui-gtk-3.0/repodlgs.c:1261
+#, fuzzy
+msgid "In progress"
+msgstr "البناء"
+
+#: client/gui-gtk-2.0/repodlgs.c:1230 client/gui-gtk-3.0/repodlgs.c:1262
 msgid "Active"
 msgstr "فعال"
 
-#: client/gui-gtk-2.0/repodlgs.c:1247 client/gui-gtk-3.0/repodlgs.c:1279
+#: client/gui-gtk-2.0/repodlgs.c:1232 client/gui-gtk-3.0/repodlgs.c:1264
 #: common/city.c:83
 msgid "Shield"
 msgstr "الدرع"
 
-#: client/gui-gtk-2.0/repodlgs.c:1249 client/gui-gtk-3.0/repodlgs.c:1281
+#: client/gui-gtk-2.0/repodlgs.c:1233 client/gui-gtk-3.0/repodlgs.c:1265
+msgid "Total shield upkeep"
+msgstr ""
+
+#: client/gui-gtk-2.0/repodlgs.c:1234 client/gui-gtk-3.0/repodlgs.c:1266
 #: common/city.c:82
 msgid "Food"
 msgstr "الطعام"
 
-#: client/gui-gtk-2.0/repodlgs.c:1369 client/gui-gtk-3.0/repodlgs.c:1401
+#: client/gui-gtk-2.0/repodlgs.c:1235 client/gui-gtk-3.0/repodlgs.c:1267
+msgid "Total food upkeep"
+msgstr ""
+
+#: client/gui-gtk-2.0/repodlgs.c:1237 client/gui-gtk-3.0/repodlgs.c:1269
+msgid "Total gold upkeep"
+msgstr ""
+
+#: client/gui-gtk-2.0/repodlgs.c:1375 client/gui-gtk-3.0/repodlgs.c:1407
 msgid "Totals:"
 msgstr "المجاميع:"
 
 #. TRANS: Last %s is pre-pluralised
 #. * "Treasury contains %d gold."
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-2.0/repodlgs.c:1518 client/gui-gtk-3.0/repodlgs.c:1550
+#: client/gui-gtk-2.0/repodlgs.c:1526 client/gui-gtk-3.0/repodlgs.c:1558
 #: client/gui-sdl/repodlgs.c:195 client/gui-xaw/repodlgs.c:1017
 #, fuzzy, c-format
 msgid ""
@@ -5297,28 +5322,28 @@ msgstr[2] ""
 "تطوير أكثر عدد من %s إلى %s ممكن مقابل %d ذهب لكل واحد?\n"
 "تحتوي الخرينة على %d ذهب."
 
-#: client/gui-gtk-2.0/repodlgs.c:1605 client/gui-gtk-3.0/repodlgs.c:1642
+#: client/gui-gtk-2.0/repodlgs.c:1627 client/gui-gtk-3.0/repodlgs.c:1664
 msgid "Find _Nearest"
 msgstr "البحث عن الأ_قرب"
 
-#: client/gui-gtk-2.0/repodlgs.c:1608 client/gui-gtk-3.0/repodlgs.c:1637
+#: client/gui-gtk-2.0/repodlgs.c:1630 client/gui-gtk-3.0/repodlgs.c:1659
 msgid "_Upgrade"
 msgstr "ت_طوير"
 
-#: client/gui-gtk-2.0/repodlgs.c:1704 client/gui-gtk-3.0/repodlgs.c:1735
+#: client/gui-gtk-2.0/repodlgs.c:1726 client/gui-gtk-3.0/repodlgs.c:1757
 msgid "Player\n"
 msgstr "اللاعب\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1706 client/gui-gtk-3.0/repodlgs.c:1737
+#: client/gui-gtk-2.0/repodlgs.c:1728 client/gui-gtk-3.0/repodlgs.c:1759
 #, fuzzy
 msgid "Nation\n"
 msgstr "أمة"
 
-#: client/gui-gtk-2.0/repodlgs.c:1708 client/gui-gtk-3.0/repodlgs.c:1739
+#: client/gui-gtk-2.0/repodlgs.c:1730 client/gui-gtk-3.0/repodlgs.c:1761
 msgid "Score\n"
 msgstr "النتيجة\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1819 client/gui-gtk-3.0/repodlgs.c:1850
+#: client/gui-gtk-2.0/repodlgs.c:1841 client/gui-gtk-3.0/repodlgs.c:1872
 #: client/plrdlg_common.c:261
 msgid "Score"
 msgstr "نتيجة"
@@ -5591,7 +5616,7 @@ msgstr "البقاء متحركا"
 #: client/gui-sdl/diplomat_dialog.c:1179 client/gui-sdl/diplomat_dialog.c:1250
 #: client/gui-sdl/diplomat_dialog.c:1464 client/gui-sdl/finddlg.c:149
 #: client/gui-sdl/gotodlg.c:258 client/gui-sdl/helpdlg.c:234
-#: client/gui-sdl/helpdlg.c:627 client/gui-sdl/helpdlg.c:1937
+#: client/gui-sdl/helpdlg.c:634 client/gui-sdl/helpdlg.c:1944
 #: client/gui-sdl/inteldlg.c:250 client/gui-sdl/optiondlg.c:783
 #: client/gui-sdl/plrdlg.c:351 client/gui-sdl/plrdlg.c:634
 #: client/gui-sdl/repodlgs.c:390 client/gui-sdl/repodlgs.c:2007
@@ -6206,7 +6231,7 @@ msgstr "اعطاء سفارة"
 msgid "Gold(max %d)"
 msgstr "الذهب(أعلى حد %d)"
 
-#: client/gui-sdl/diplodlg.c:649 client/gui-sdl/helpdlg.c:1984
+#: client/gui-sdl/diplodlg.c:649 client/gui-sdl/helpdlg.c:1991
 #: data/Freeciv.in:410 data/Freeciv.in:419
 msgid "Advances"
 msgstr "يتّقدّم"
@@ -6406,16 +6431,16 @@ msgstr ""
 msgid "Help : Improvements"
 msgstr "المساعدة: التحسين"
 
-#: client/gui-sdl/helpdlg.c:408
+#: client/gui-sdl/helpdlg.c:415
 #, fuzzy
 msgid "Never"
 msgstr "(مستحيل)"
 
-#: client/gui-sdl/helpdlg.c:607
+#: client/gui-sdl/helpdlg.c:614
 msgid "Help : Units"
 msgstr "المساعدة : الوحدات"
 
-#: client/gui-sdl/helpdlg.c:745 client/gui-sdl/helpdlg.c:758
+#: client/gui-sdl/helpdlg.c:752 client/gui-sdl/helpdlg.c:765
 #: client/gui-sdl/wldlg.c:1396 client/gui-sdl/wldlg.c:1402
 #: client/gui-sdl/wldlg.c:1410 client/gui-sdl/wldlg.c:1416
 #: client/gui-sdl/wldlg.c:1434 client/gui-sdl/wldlg.c:1439
@@ -6427,37 +6452,37 @@ msgstr[0] "درع"
 msgstr[1] "درعان"
 msgstr[2] "دروع"
 
-#: client/gui-sdl/helpdlg.c:750 client/gui-sdl/helpdlg.c:773
+#: client/gui-sdl/helpdlg.c:757 client/gui-sdl/helpdlg.c:780
 msgid "citizen"
 msgid_plural "citizens"
 msgstr[0] "مواطن"
 msgstr[1] "مواطنان"
 msgstr[2] "مواطنيين"
 
-#: client/gui-sdl/helpdlg.c:763
+#: client/gui-sdl/helpdlg.c:770
 msgid "food"
 msgid_plural "foods"
 msgstr[0] "الطعام"
 msgstr[1] "الطعام"
 msgstr[2] "الطعام"
 
-#: client/gui-sdl/helpdlg.c:768
+#: client/gui-sdl/helpdlg.c:775
 msgid "gold"
 msgid_plural "golds"
 msgstr[0] "الذهب"
 msgstr[1] "الذهب"
 msgstr[2] "الذهب"
 
-#: client/gui-sdl/helpdlg.c:1013
+#: client/gui-sdl/helpdlg.c:1020
 #, fuzzy
 msgid "( with "
 msgstr "(مع "
 
-#: client/gui-sdl/helpdlg.c:1016
+#: client/gui-sdl/helpdlg.c:1023
 msgid " )"
 msgstr " )"
 
-#: client/gui-sdl/helpdlg.c:1916
+#: client/gui-sdl/helpdlg.c:1923
 #, fuzzy
 msgid "Help : Advances Tree"
 msgstr "المساعدة يتّقدّم الشجرة"
@@ -6712,7 +6737,7 @@ msgid "Barracks"
 msgstr "الثكنة"
 
 #: client/gui-sdl/mapview.c:622 client/gui-sdl/mapview.c:628
-#: client/gui-sdl/mapview.c:634 client/helpdata.c:2605 client/helpdata.c:2613
+#: client/gui-sdl/mapview.c:634 client/helpdata.c:2762 client/helpdata.c:2770
 msgid "?blistmore:, "
 msgstr ", "
 
@@ -7569,31 +7594,31 @@ msgstr "العمل."
 msgid "Font for charset %s is lacking"
 msgstr "الخطّ"
 
-#: client/gui-xaw/helpdlg.c:916 client/gui-xaw/helpdlg.c:929
-#: client/gui-xaw/helpdlg.c:936
+#: client/gui-xaw/helpdlg.c:924 client/gui-xaw/helpdlg.c:937
+#: client/gui-xaw/helpdlg.c:944
 #, c-format
 msgid "Allows %s.\n"
 msgstr "السماح ب %s.\n"
 
-#: client/gui-xaw/helpdlg.c:921
+#: client/gui-xaw/helpdlg.c:929
 #, c-format
 msgid "Obsoletes %s.\n"
 msgstr "يلغى %s.\n"
 
-#: client/gui-xaw/helpdlg.c:939 client/gui-xaw/helpdlg.c:944
+#: client/gui-xaw/helpdlg.c:947 client/gui-xaw/helpdlg.c:952
 #, c-format
 msgid "Allows %s (with %s).\n"
 msgstr "السماح ب %s (مع %s).\n"
 
 #. TRANS: Build cost for bases in help. "MP" = movement points
-#: client/gui-xaw/helpdlg.c:1078
+#: client/gui-xaw/helpdlg.c:1086
 #, fuzzy, c-format
 msgid "Build: %d MP\n"
 msgstr "بناء منجم"
 
 #. TRANS: Base conflicts in help. Will be followed by a list of bases
 #. * that can't be built on the same tile as this one.
-#: client/gui-xaw/helpdlg.c:1082
+#: client/gui-xaw/helpdlg.c:1090
 #, c-format
 msgid "Conflicts with: "
 msgstr ""
@@ -7718,7 +7743,7 @@ msgid "Roads & Rails"
 msgstr "الطرق والسكك"
 
 #: client/gui-xaw/menu.c:156 common/terrain.c:512 common/terrain.c:820
-#: common/unit.c:699 manual/civmanual.c:281
+#: common/unit.c:699 manual/civmanual.c:285
 msgid "Irrigation"
 msgstr "الري"
 
@@ -8161,39 +8186,54 @@ msgstr ""
 " \n"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: client/helpdata.c:757 client/helpdata.c:1336 client/text.c:1629
+#: client/helpdata.c:764 client/helpdata.c:1360 client/text.c:1629
 #: client/text.c:1669
 #, c-format
 msgid "?clistmore:, %s"
 msgstr ", %s"
 
-#: client/helpdata.c:763
-#, c-format
-msgid "Allows %s."
-msgstr "يسمح %s."
+#: client/helpdata.c:771
+#, fuzzy, c-format
+msgid "Allows %s (with %s but no %s)."
+msgstr "يسمح %s (مع %s)."
 
-#: client/helpdata.c:766
+#: client/helpdata.c:775
 #, c-format
 msgid "Allows %s (with %s)."
 msgstr "يسمح %s (مع %s)."
 
+#: client/helpdata.c:781
+#, fuzzy, c-format
+msgid "Allows %s (absent %s)."
+msgstr "يسمح %s (مع %s)."
+
+#: client/helpdata.c:785
+#, c-format
+msgid "Allows %s."
+msgstr "يسمح %s."
+
+#: client/helpdata.c:791
+#, fuzzy, c-format
+msgid "Prevents %s."
+msgstr "الكاهنة"
+
 #. TRANS: "%*s" is replaced with spaces
-#: client/helpdata.c:927
+#: client/helpdata.c:951
 #, fuzzy, c-format
 msgid "%*sRivers"
 msgstr "الأنهار"
 
-#: client/helpdata.c:1007
+#: client/helpdata.c:1031
 #, fuzzy
 msgid "Current ruleset contains no description."
 msgstr "دليل مجموعة القواعد الحالي هو \"%s\""
 
-#: client/helpdata.c:1146
+#: client/helpdata.c:1170
 #, c-format
 msgid "Sorry, no help topic for %s.\n"
 msgstr "آسف, لا يوجد موضوع مساعدة ل %s.\n"
 
-#: client/helpdata.c:1150
+#: client/helpdata.c:1174
 #, c-format
 msgid ""
 "Sorry, no help topic for %s.\n"
@@ -8204,12 +8244,12 @@ msgstr ""
 "تم انشاء هذه الصفحة تلقائيا.\n"
 "\n"
 
-#: client/helpdata.c:1244
+#: client/helpdata.c:1268
 #, c-format
 msgid "* The discovery of %s will make %s obsolete.\n"
 msgstr "* سيجعل اكتشاف %s ال %s قديما.\n"
 
-#: client/helpdata.c:1252
+#: client/helpdata.c:1276
 msgid ""
 "* A 'small wonder': at most one of your cities may possess this "
 "improvement.\n"
@@ -8217,128 +8257,128 @@ msgstr ""
 
 #. TRANS: 'Allows all players with knowledge of atomic
 #. * power to build nuclear units.'
-#: client/helpdata.c:1265
+#: client/helpdata.c:1289
 #, c-format
 msgid "* Allows all players with knowledge of %s to build %s units.\n"
 msgstr "* السماح لكل اللاعبين مع معرفة ال %s ببناء وحدات %s.\n"
 
-#: client/helpdata.c:1278
+#: client/helpdata.c:1302
 #, c-format
 msgid "* Allows %s (with %s).\n"
 msgstr "* يسمح %s (مع %s).\n"
 
-#: client/helpdata.c:1283
+#: client/helpdata.c:1307
 #, c-format
 msgid "* Allows %s.\n"
 msgstr "* يسمح %s.\n"
 
 #. TRANS: don't translate 'savepalace'
-#: client/helpdata.c:1292
+#: client/helpdata.c:1316
 msgid ""
 "* If you lose the city containing this improvement, it will be rebuilt for "
 "free in another of your cities (if the 'savepalace' server setting is "
 "enabled).\n"
 msgstr ""
 
-#: client/helpdata.c:1369
+#: client/helpdata.c:1393
 #, fuzzy, c-format
 msgid "* Belongs to %s unit class.\n"
 msgstr "الخبير"
 
-#: client/helpdata.c:1373
+#: client/helpdata.c:1397
 #, fuzzy
 msgid "  * Can occupy empty enemy cities.\n"
 msgstr "* يستطيع بناء مدن جديدة.\n"
 
-#: client/helpdata.c:1376
+#: client/helpdata.c:1400
 msgid "  * Speed is not affected by terrain.\n"
 msgstr ""
 
-#: client/helpdata.c:1379
+#: client/helpdata.c:1403
 msgid "  * Does not get defense bonuses from terrain.\n"
-msgstr ""
-
-#: client/helpdata.c:1382
-#, fuzzy
-msgid "  * Not subject to zones of control.\n"
-msgstr "* يهمل مناطق السيطرة.\n"
-
-#: client/helpdata.c:1385
-msgid "  * Slowed down while damaged.\n"
-msgstr ""
-
-#: client/helpdata.c:1388
-#, fuzzy
-msgid "  * Gets used up in making an attack.\n"
-msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة وحدات الهجوم"
-
-#: client/helpdata.c:1394
-#, fuzzy, no-c-format
-msgid "  * Gets a 50% defensive bonus while in cities.\n"
-msgstr "يصبح"
-
-#: client/helpdata.c:1397
-#, fuzzy, no-c-format
-msgid "  * May fortify, granting a 50% defensive bonus when not in a city.\n"
-msgstr "* يستطيع التحصن، فيعطى مكافأة دفاع بمقدار 50%.\n"
-
-#: client/helpdata.c:1402
-msgid "  * Is unreachable. Most units cannot attack this one.\n"
 msgstr ""
 
 #: client/helpdata.c:1406
 #, fuzzy
+msgid "  * Not subject to zones of control.\n"
+msgstr "* يهمل مناطق السيطرة.\n"
+
+#: client/helpdata.c:1409
+msgid "  * Slowed down while damaged.\n"
+msgstr ""
+
+#: client/helpdata.c:1412
+#, fuzzy
+msgid "  * Gets used up in making an attack.\n"
+msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة وحدات الهجوم"
+
+#: client/helpdata.c:1418
+#, fuzzy, no-c-format
+msgid "  * Gets a 50% defensive bonus while in cities.\n"
+msgstr "يصبح"
+
+#: client/helpdata.c:1421
+#, fuzzy, no-c-format
+msgid "  * May fortify, granting a 50% defensive bonus when not in a city.\n"
+msgstr "* يستطيع التحصن، فيعطى مكافأة دفاع بمقدار 50%.\n"
+
+#: client/helpdata.c:1426
+msgid "  * Is unreachable. Most units cannot attack this one.\n"
+msgstr ""
+
+#: client/helpdata.c:1430
+#, fuzzy
 msgid "  * Can pillage tile improvements.\n"
 msgstr "التحسينات المتوفرة"
 
-#: client/helpdata.c:1411 client/helpdata.c:1668
+#: client/helpdata.c:1435 client/helpdata.c:1692
 msgid "  * Doesn't prevent enemy cities from working the tile it's on.\n"
 msgstr ""
 
-#: client/helpdata.c:1416
+#: client/helpdata.c:1440
 #, fuzzy, c-format
 msgid "* Can only be built if there is %s in the city.\n"
 msgstr "* يمكن فقط بنائها مع حكومة %s \n"
 
-#: client/helpdata.c:1422
+#: client/helpdata.c:1446
 #, c-format
 msgid "* Can only be built with %s as government.\n"
 msgstr "* يمكن فقط بنائها مع حكومة %s \n"
 
-#: client/helpdata.c:1427
+#: client/helpdata.c:1451
 msgid "* May not be built in cities.\n"
 msgstr "* لا يمكن بنائها في المدن.\n"
 
-#: client/helpdata.c:1430
+#: client/helpdata.c:1454
 #, fuzzy
 msgid "* Only barbarians may build this.\n"
 msgstr "فقط."
 
 #. TRANS: %s is a list of unit types separated by "or".
-#: client/helpdata.c:1445
+#: client/helpdata.c:1469
 #, c-format
 msgid "* May be obtained by conversion of %s.\n"
 msgstr ""
 
 #. TRANS: %s is a unit type.
-#: client/helpdata.c:1453
+#: client/helpdata.c:1477
 #, fuzzy, c-format
 msgid "* May be converted into %s.\n"
 msgstr "تم اتصال %s من %s."
 
-#: client/helpdata.c:1457
+#: client/helpdata.c:1481
 msgid "* Never has a home city.\n"
 msgstr "* لا مدينة الأصل أبدا.\n"
 
-#: client/helpdata.c:1460
+#: client/helpdata.c:1484
 msgid "* Losing this unit will lose you the game!\n"
 msgstr "* خسارة هذه الوحدة تعني خسارة اللعبة!\n"
 
-#: client/helpdata.c:1464
+#: client/helpdata.c:1488
 msgid "* Each player may only have one of this type of unit.\n"
 msgstr "* يمكن لكل لاعب الحصول على واحدة من نوع هذه الوحدة.\n"
 
-#: client/helpdata.c:1468
+#: client/helpdata.c:1492
 #, fuzzy, c-format
 msgid "* Requires %d population to build.\n"
 msgid_plural "* Requires %d population to build.\n"
@@ -8347,7 +8387,7 @@ msgstr[1] "* يحتاج إلى عدد السكان %d للبناء.\n"
 msgstr[2] "* يحتاج إلى عدد السكان %d للبناء.\n"
 
 #. TRANS: %s is a list of unit classes separated by "or".
-#: client/helpdata.c:1486
+#: client/helpdata.c:1510
 #, fuzzy, c-format
 msgid "* Can carry and refuel %d %s unit.\n"
 msgid_plural "* Can carry and refuel up to %d %s units.\n"
@@ -8355,39 +8395,39 @@ msgstr[0] "يمكن أن وحدات"
 msgstr[1] "يمكن أن وحدات"
 msgstr[2] "يمكن أن وحدات"
 
-#: client/helpdata.c:1493
+#: client/helpdata.c:1517
 msgid "* Must stay next to coast.\n"
 msgstr ""
 
 #. TRANS: "Manhattan" distance is the distance along
 #. * gridlines, with no diagonals allowed.
-#: client/helpdata.c:1499
+#: client/helpdata.c:1523
 #, fuzzy, c-format
 msgid ""
 "* Can establish trade routes (must travel to target city and must be at "
 "least %d tiles [in Manhattan distance] from this unit's home city).\n"
 msgstr "يمكن أن كوكتيل مانهاتان وحدات"
 
-#: client/helpdata.c:1506
+#: client/helpdata.c:1530
 #, fuzzy, c-format
 msgid "* Can help build wonders (adds %d production).\n"
 msgstr "يمكن أن"
 
-#: client/helpdata.c:1510
+#: client/helpdata.c:1534
 msgid "* May not be disbanded.\n"
 msgstr "* لا يمكن تسريحها.\n"
 
-#: client/helpdata.c:1514
+#: client/helpdata.c:1538
 #, fuzzy, no-c-format
 msgid "* May be disbanded in a city to recover 50% of the production cost.\n"
 msgstr "مايو"
 
-#: client/helpdata.c:1518
+#: client/helpdata.c:1542
 msgid "* Can build new cities.\n"
 msgstr "* يستطيع بناء مدن جديدة.\n"
 
 #. TRANS: Plural in "%d population", not "size %d".
-#: client/helpdata.c:1523
+#: client/helpdata.c:1547
 #, fuzzy, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
 msgid_plural "* Can add on %d population to cities of no more than size %d.\n"
@@ -8395,203 +8435,203 @@ msgstr[0] "يمكن أن الحجم"
 msgstr[1] "يمكن أن الحجم"
 msgstr[2] "يمكن أن الحجم"
 
-#: client/helpdata.c:1534
+#: client/helpdata.c:1558
 msgid "* Can build roads and railroads.\n"
 msgstr "* يستطيع بناء طرق وسكك حديدية.\n"
 
-#: client/helpdata.c:1535
+#: client/helpdata.c:1559
 msgid "* Can build mines on tiles.\n"
 msgstr "* يستطيع بناء مناجم على المربعات.\n"
 
-#: client/helpdata.c:1536
+#: client/helpdata.c:1560
 msgid "* Can build irrigation on tiles.\n"
 msgstr "* يستطيع بناء قنوات ري على المربعات.\n"
 
-#: client/helpdata.c:1541
+#: client/helpdata.c:1565
 msgid "* Can build farmland.\n"
 msgstr "* يستطيع بناء أرض زراعية.\n"
 
-#: client/helpdata.c:1545
+#: client/helpdata.c:1569
 #, c-format
 msgid "* Can build farmland (if %s is known).\n"
 msgstr "* يستطيع بناء أرض زراعية (إذا كان %s معروفا).\n"
 
-#: client/helpdata.c:1549
+#: client/helpdata.c:1573
 #, fuzzy, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
 msgstr "يمكن أن"
 
-#: client/helpdata.c:1555
+#: client/helpdata.c:1579
 msgid "* Can clean pollution from tiles.\n"
 msgstr "* يستطيع تنظيف التلوث من المربعات.\n"
 
-#: client/helpdata.c:1556
+#: client/helpdata.c:1580
 msgid "* Can clean nuclear fallout from tiles.\n"
 msgstr "* يستطيع تنظيف الغبار الذري من المربعات.\n"
 
-#: client/helpdata.c:1559
+#: client/helpdata.c:1583
 msgid "* Can transform tiles.\n"
 msgstr "* يستطيع تحويل مربعات.\n"
 
-#: client/helpdata.c:1565
+#: client/helpdata.c:1589
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
 msgstr "* يستطيع تنفيذ أوامر دبلوماسية، بالاضافة إلى امكانيات التجسس الخاصة.\n"
 
-#: client/helpdata.c:1568
+#: client/helpdata.c:1592
 msgid "* Can perform diplomatic actions.\n"
 msgstr "* يستطيع تنفيذ أوامر دبلوماسية.\n"
 
-#: client/helpdata.c:1573
+#: client/helpdata.c:1597
 #, fuzzy
 msgid "* Defends cities against diplomatic actions.\n"
 msgstr "* يستطيع تنفيذ أوامر دبلوماسية.\n"
 
-#: client/helpdata.c:1576
+#: client/helpdata.c:1600
 #, fuzzy
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
 msgstr "سوف مستحيل"
 
-#: client/helpdata.c:1580
+#: client/helpdata.c:1604
 msgid "* Will always survive a spy mission.\n"
 msgstr ""
 
-#: client/helpdata.c:1583
+#: client/helpdata.c:1607
 msgid "* May not be bribed.\n"
 msgstr "* لا تستطيع رشوته.\n"
 
-#: client/helpdata.c:1587
+#: client/helpdata.c:1611
 msgid "* Is invisible except when next to an enemy unit or city.\n"
 msgstr "* يكون خفيا إلا قرب وحدة أو مدينة العدو.\n"
 
-#: client/helpdata.c:1591
+#: client/helpdata.c:1615
 #, fuzzy
 msgid "* Can only attack units on ocean tiles (no land attacks).\n"
 msgstr "* يستطيع فقط مهاجمة الوحدات على مربعات المحيط (بدون هجوم بري ).\n"
 
-#: client/helpdata.c:1595
+#: client/helpdata.c:1619
 #, fuzzy
 msgid ""
 "* Can attack from aboard sea units: against enemy cities and onto land "
 "tiles.\n"
 msgstr "يمكن أن الهجوم"
 
-#: client/helpdata.c:1600
+#: client/helpdata.c:1624
 #, fuzzy, c-format
 msgid ""
 "* Can be paradropped from a friendly city or suitable base (range: %d "
 "tiles).\n"
 msgstr "* يمكن اسقاطه بالمظلة من مدينة صديقة (المدى: %d).\n"
 
-#: client/helpdata.c:1606
+#: client/helpdata.c:1630
 #, fuzzy
 msgid "* Gets double defense against units specified as 'mounted'.\n"
 msgstr "يصبح الدفاع"
 
-#: client/helpdata.c:1610
+#: client/helpdata.c:1634
 #, fuzzy
 msgid "* Counts as 'mounted' against certain defenders.\n"
 msgstr "التهم"
 
-#: client/helpdata.c:1614
+#: client/helpdata.c:1638
 #, fuzzy
 msgid "* Counts as 'helicopter' against certain attackers.\n"
 msgstr "التهم"
 
-#: client/helpdata.c:1618
+#: client/helpdata.c:1642
 #, fuzzy
 msgid "* Very good at attacking 'helicopter' units.\n"
 msgstr "أفضل الوحدات الهجومية"
 
-#: client/helpdata.c:1622
+#: client/helpdata.c:1646
 #, fuzzy
 msgid "* Very bad at attacking AEGIS units.\n"
 msgstr "أفضل الوحدات الهجومية"
 
-#: client/helpdata.c:1627
+#: client/helpdata.c:1651
 #, fuzzy
 msgid "* Making an attack ends this unit's turn.\n"
 msgstr "الجعل الهجوم وحدات دوران"
 
-#: client/helpdata.c:1631
+#: client/helpdata.c:1655
 #, fuzzy
 msgid "* This unit's attack causes a nuclear explosion!\n"
 msgstr "هذا وحدات الهجوم"
 
-#: client/helpdata.c:1635
+#: client/helpdata.c:1659
 #, fuzzy
 msgid "* Gets double firepower when attacking cities.\n"
 msgstr "يصبح"
 
-#: client/helpdata.c:1638
+#: client/helpdata.c:1662
 msgid "* Ignores the effects of city walls.\n"
 msgstr "* يهمل آثار جدران المدينة.\n"
 
-#: client/helpdata.c:1642
+#: client/helpdata.c:1666
 #, fuzzy, c-format
 msgid ""
 "* Does bombard attacks (%d per turn).  These attacks will only damage (never "
 "kill) the defender, but have no risk for the attacker.\n"
 msgstr "يعمل دوران هذه مستحيل"
 
-#: client/helpdata.c:1649
+#: client/helpdata.c:1673
 #, fuzzy
 msgid "* Gets quintuple defense against missiles and aircraft.\n"
 msgstr "يصبح"
 
-#: client/helpdata.c:1653
+#: client/helpdata.c:1677
 #, fuzzy
 msgid "* Ignores terrain effects (treats all tiles as roads).\n"
 msgstr "يهمل"
 
-#: client/helpdata.c:1656
+#: client/helpdata.c:1680
 msgid "* Ignores zones of control.\n"
 msgstr "* يهمل مناطق السيطرة.\n"
 
-#: client/helpdata.c:1660
+#: client/helpdata.c:1684
 msgid "* A non-military unit:\n"
 msgstr ""
 
-#: client/helpdata.c:1662
+#: client/helpdata.c:1686
 #, fuzzy
 msgid "  * Cannot attack.\n"
 msgstr "لا تستطيع الهجوم من البحر."
 
-#: client/helpdata.c:1664
+#: client/helpdata.c:1688
 #, fuzzy
 msgid "  * Doesn't impose martial law.\n"
 msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة وحدات الهجوم"
 
-#: client/helpdata.c:1666
+#: client/helpdata.c:1690
 msgid "  * Can enter foreign territory regardless of peace treaty.\n"
 msgstr ""
 
-#: client/helpdata.c:1672
+#: client/helpdata.c:1696
 #, fuzzy
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة وحدات"
 
-#: client/helpdata.c:1675
+#: client/helpdata.c:1699
 #, fuzzy
 msgid "* Can capture some enemy units.\n"
 msgstr "* يستطيع مهاجمة وحدات العدو الجوية.\n"
 
-#: client/helpdata.c:1678
+#: client/helpdata.c:1702
 #, fuzzy
 msgid "* Can be captured by some enemy units.\n"
 msgstr "* يستطيع مهاجمة وحدات العدو الجوية.\n"
 
-#: client/helpdata.c:1685
+#: client/helpdata.c:1709
 msgid ""
 "* Under certain conditions the shield upkeep of this unit can be converted "
 "to gold upkeep.\n"
 msgstr ""
 
-#: client/helpdata.c:1693
+#: client/helpdata.c:1717
 #, c-format
 msgid "* Can attack against %s units, which are usually not reachable.\n"
 msgstr ""
 
-#: client/helpdata.c:1710
+#: client/helpdata.c:1734
 #, fuzzy, c-format
 msgid "* Unit has to be in a city or a base after %d turn.\n"
 msgid_plural "* Unit has to be in a city or a base after %d turns.\n"
@@ -8600,7 +8640,7 @@ msgstr[1] "الوحدة دوران"
 msgstr[2] "الوحدة دوران"
 
 #. TRANS: %s is a list of unit types separated by "or"
-#: client/helpdata.c:1721
+#: client/helpdata.c:1745
 #, fuzzy, c-format
 msgid "* Unit has to be in a city, a base, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, a base, or on a %s after %d turns.\n"
@@ -8608,42 +8648,42 @@ msgstr[0] "الوحدة دوران"
 msgstr[1] "الوحدة دوران"
 msgstr[2] "الوحدة دوران"
 
-#: client/helpdata.c:1733
+#: client/helpdata.c:1757
 msgid "* Will never achieve veteran status.\n"
 msgstr "* لا يستطيع أبدا الحصول على  وضع الخبير.\n"
 
-#: client/helpdata.c:1747
+#: client/helpdata.c:1771
 #, fuzzy
 msgid "* May acquire veteran status.\n"
 msgstr "* لا يستطيع أبدا الحصول على  وضع الخبير.\n"
 
-#: client/helpdata.c:1752
+#: client/helpdata.c:1776
 msgid "  * Veterans have increased strength in combat.\n"
 msgstr ""
 
-#: client/helpdata.c:1759
+#: client/helpdata.c:1783
 msgid "  * Veterans have improved chances in diplomatic contests.\n"
 msgstr ""
 
-#: client/helpdata.c:1763
+#: client/helpdata.c:1787
 msgid "  * Veterans are more likely to survive missions.\n"
 msgstr ""
 
-#: client/helpdata.c:1769
+#: client/helpdata.c:1793
 #, fuzzy
 msgid "  * Veterans work faster.\n"
 msgstr "الخبير"
 
-#: client/helpdata.c:1780
+#: client/helpdata.c:1804
 msgid "This type of unit has its own veteran levels:"
 msgstr ""
 
-#: client/helpdata.c:1819
+#: client/helpdata.c:1843
 #, fuzzy, c-format
 msgid "Starting now, researching %s would need %d bulbs."
 msgstr "إذا مع."
 
-#: client/helpdata.c:1824
+#: client/helpdata.c:1848
 #, fuzzy, c-format
 msgid ""
 "To reach %s you need to obtain %d other technology first. The whole project "
@@ -8655,156 +8695,156 @@ msgstr[0] "إلى الـ."
 msgstr[1] "إلى الـ."
 msgstr[2] "إلى الـ."
 
-#: client/helpdata.c:1836
+#: client/helpdata.c:1860
 msgid "You cannot research this technology."
 msgstr "لا تستطيع بحث هذه التكنولوجيا."
 
-#: client/helpdata.c:1841
+#: client/helpdata.c:1865
 #, fuzzy
 msgid " This number may vary depending on what other players research.\n"
 msgstr "هذا الرقم متغيير حسب أبحاث اللاعبيين اﻵخرين.\n"
 
-#: client/helpdata.c:1853
+#: client/helpdata.c:1877
 #, fuzzy, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
 msgstr "الـ"
 
-#: client/helpdata.c:1859
+#: client/helpdata.c:1883
 msgid "* Increases the pollution generated by the population.\n"
 msgstr "* يزيد من التلوث الصادر من عدد السكان.\n"
 
 #. TRANS: %s is list of units separated by "and".
-#: client/helpdata.c:1865
+#: client/helpdata.c:1889
 #, fuzzy, c-format
 msgid "* Allows %s to build roads on river tiles.\n"
 msgstr "* يسمح  %s ببناء طرق على مربعات الأنهار.\n"
 
 #. TRANS: %s is list of units separated by "and".
-#: client/helpdata.c:1873
+#: client/helpdata.c:1897
 #, c-format
 msgid "* Allows %s to upgrade roads to railroads.\n"
 msgstr "* يسمح %s بتطوير الطرق إلى سكك حديدية.\n"
 
 #. TRANS: %s is list of units separated by "and".
-#: client/helpdata.c:1881
+#: client/helpdata.c:1905
 #, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
 msgstr "* يسمح %s بتطوير قنوات الري إلى أرض زراعية.\n"
 
-#: client/helpdata.c:1890
+#: client/helpdata.c:1914
 msgid ""
 "* To preserve this technology for our nation some bulbs are needed each "
 "turn.\n"
 msgstr ""
 
-#: client/helpdata.c:1928
+#: client/helpdata.c:1952
 msgid "* Pollution cannot be generated on this terrain."
 msgstr "* لا تستطيع توليد التلوث على هذه التضاريص."
 
-#: client/helpdata.c:1931
+#: client/helpdata.c:1955
 #, fuzzy
 msgid "* Fallout cannot be generated on this terrain."
 msgstr "* لا تستطيع توليد التلوث على هذه التضاريص."
 
-#: client/helpdata.c:1936
+#: client/helpdata.c:1960
 msgid "* You cannot build cities on this terrain."
 msgstr "* لا تستطيع بناء المدن على هذه التضاريص."
 
-#: client/helpdata.c:1942
+#: client/helpdata.c:1966
 msgid "* The coastline of this terrain is unsafe."
 msgstr "* الشريط الساحلي لهذه التضاريص خطر."
 
 #. TRANS: %s is a list of unit classes separated by "and".
-#: client/helpdata.c:1964
+#: client/helpdata.c:1988
 #, fuzzy, c-format
 msgid "* Can be traveled by %s units.\n"
 msgstr "* يستطيع مهاجمة وحدات العدو الجوية.\n"
 
-#: client/helpdata.c:2011
+#: client/helpdata.c:2035
 #, fuzzy
 msgid "Requirements to build:\n"
 msgstr "المتطلب:"
 
 #. TRANS: %s is a list of unit classes separated by "and".
-#: client/helpdata.c:2033
+#: client/helpdata.c:2057
 #, fuzzy, c-format
 msgid "* Native to %s units.\n"
 msgstr ""
 "ينطبق فقط على وحدات %s.\n"
 " \n"
 
-#: client/helpdata.c:2039
+#: client/helpdata.c:2063
 msgid ""
 "  * Such units can move onto this tile even if it would not normally be "
 "suitable terrain.\n"
 msgstr ""
 
-#: client/helpdata.c:2047
+#: client/helpdata.c:2071
 msgid ""
 "  * Such units situated here are not considered aggressive if this tile is "
 "within 3 tiles of a friendly city.\n"
 msgstr ""
 
-#: client/helpdata.c:2052
+#: client/helpdata.c:2076
 msgid ""
 "  * Can be captured by such units if at war with the nation that currently "
 "owns it.\n"
 msgstr ""
 
-#: client/helpdata.c:2057
+#: client/helpdata.c:2081
 #, c-format
 msgid "  * Such units get a %d%% defense bonus on this tile.\n"
 msgstr ""
 
-#: client/helpdata.c:2064
+#: client/helpdata.c:2088
 #, no-c-format
 msgid "  * Diplomatic units get a 25% defense bonus in diplomatic fights.\n"
 msgstr ""
 
-#: client/helpdata.c:2072
+#: client/helpdata.c:2096
 #, fuzzy
 msgid "* Cannot be built.\n"
 msgstr "* لا تستطيع رشوته.\n"
 
-#: client/helpdata.c:2076
+#: client/helpdata.c:2100
 #, fuzzy
 msgid "* Can be pillaged by units.\n"
 msgstr "* يستطيع مهاجمة وحدات العدو الجوية.\n"
 
-#: client/helpdata.c:2081
+#: client/helpdata.c:2105
 msgid ""
 "* Defeat of one unit does not cause death of all other units on this tile.\n"
 msgstr ""
 
-#: client/helpdata.c:2086
+#: client/helpdata.c:2110
 #, fuzzy
 msgid "* Units can paradrop from this tile.\n"
 msgstr "* يستطيع تنظيف الغبار الذري من المربعات.\n"
 
-#: client/helpdata.c:2090
+#: client/helpdata.c:2114
 msgid "* Extends national borders of the building nation.\n"
 msgstr ""
 
-#: client/helpdata.c:2094
+#: client/helpdata.c:2118
 msgid "* Grants permanent vision of an area around the tile to its owner.\n"
 msgstr ""
 
-#: client/helpdata.c:2099
+#: client/helpdata.c:2123
 msgid ""
 "* Allows the owner to see normally invisible units in an area around the "
 "tile.\n"
 msgstr ""
 
-#: client/helpdata.c:2179
+#: client/helpdata.c:2203
 msgid "Features:\n"
 msgstr "الميزّات:\n"
 
 #. TRANS: Empty output type list, should never happen.
-#: client/helpdata.c:2259 client/helpdata.c:2260
+#: client/helpdata.c:2320 client/helpdata.c:2321
 msgid "?outputlist: Nothing "
 msgstr ""
 
-#: client/helpdata.c:2271
+#: client/helpdata.c:2333
 #, fuzzy, c-format
 msgid ""
 "* Military units away from home and field units will each cause %d citizen "
@@ -8816,7 +8856,7 @@ msgstr[0] "عسكري"
 msgstr[1] "عسكري"
 msgstr[2] "عسكري"
 
-#: client/helpdata.c:2280
+#: client/helpdata.c:2344
 #, fuzzy, c-format
 msgid "* Each of your cities will avoid %d unhappiness caused by units.\n"
 msgid_plural ""
@@ -8825,7 +8865,7 @@ msgstr[0] "كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد"
 msgstr[1] "كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد"
 msgstr[2] "كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد"
 
-#: client/helpdata.c:2289
+#: client/helpdata.c:2355
 #, fuzzy, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, not including that caused "
@@ -8837,7 +8877,7 @@ msgstr[0] "كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد"
 msgstr[1] "كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد"
 msgstr[2] "كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد"
 
-#: client/helpdata.c:2298
+#: client/helpdata.c:2366
 #, fuzzy, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, including unhappiness "
@@ -8849,50 +8889,52 @@ msgstr[0] "كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد"
 msgstr[1] "كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد"
 msgstr[2] "كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد"
 
-#. TRANS: %s is the output type, like 'shield' or 'gold'.
-#: client/helpdata.c:2309
-#, fuzzy, c-format
-msgid "* You pay %d times normal %s upkeep for your units.\n"
-msgstr "أنت عادي"
-
-#: client/helpdata.c:2313
-#, fuzzy, c-format
-msgid "* You pay %d times normal upkeep for your units.\n"
-msgstr "أنت عادي"
-
-#. TRANS: %s is the output type, like 'shield' or 'gold'.
-#: client/helpdata.c:2318
+#. TRANS: %s is the output type, like 'shield'
+#. * or 'gold'.
+#: client/helpdata.c:2381
 #, fuzzy, c-format
 msgid "* You pay no %s upkeep for your units.\n"
 msgstr "أنت عادي"
 
-#: client/helpdata.c:2322
+#: client/helpdata.c:2385
 #, fuzzy
 msgid "* You pay no upkeep for your units.\n"
 msgstr "أنت عادي"
 
-#. TRANS: %s is the output type, like 'shield' or 'gold'.
-#. * There is currently no way to control the
+#. TRANS: %s is the output type, like 'shield'
+#. * or 'gold'.
+#: client/helpdata.c:2397
+#, fuzzy, c-format
+msgid "* You pay %d times normal %s upkeep for your units.\n"
+msgstr "أنت عادي"
+
+#: client/helpdata.c:2402
+#, fuzzy, c-format
+msgid "* You pay %d times normal upkeep for your units.\n"
+msgstr "أنت عادي"
+
+#. TRANS: %s is the output type, like 'shield' or
+#. * 'gold'. There is currently no way to control the
 #. * singular/plural version of these.
-#: client/helpdata.c:2331
+#: client/helpdata.c:2417
 #, fuzzy, c-format
 msgid "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
 msgstr "كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد وحدات"
 
 #. TRANS: Amount is subtracted from upkeep cost
 #. * for each upkeep type.
-#: client/helpdata.c:2338
+#: client/helpdata.c:2424
 #, fuzzy, c-format
 msgid "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgstr "كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد وحدات"
 
-#: client/helpdata.c:2345
+#: client/helpdata.c:2433
 #, c-format
 msgid "* If you lose your capital, the chance of civil war is %d%%.\n"
 msgstr ""
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:2352
+#: client/helpdata.c:2442
 #, fuzzy, c-format
 msgid ""
 "* When you have %d cities, the first unhappy citizen will appear in each "
@@ -8900,25 +8942,25 @@ msgid ""
 msgstr "الـ مواطنيين الحجم"
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:2359
+#: client/helpdata.c:2452
 #, fuzzy, c-format
 msgid ""
 "* After the first unhappy citizen due to civilization size, for each %d "
 "additional cities another unhappy citizen will appear.\n"
 msgstr "فيما بعد مواطنيين الحجم مواطنيين"
 
-#: client/helpdata.c:2367
+#: client/helpdata.c:2462
 #, fuzzy, c-format
 msgid ""
 "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 msgstr "الـ الذهب"
 
-#: client/helpdata.c:2372
+#: client/helpdata.c:2467
 #, fuzzy
 msgid "* Has unlimited science/gold/luxuries rates.\n"
 msgstr "له الذهب"
 
-#: client/helpdata.c:2377
+#: client/helpdata.c:2474
 #, fuzzy, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
@@ -8930,7 +8972,7 @@ msgstr[0] "ملكك كلّ :: كلّ امرئ :: لكل قطعة :: لكل وا�
 msgstr[1] "ملكك كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد وحدات"
 msgstr[2] "ملكك كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد وحدات"
 
-#: client/helpdata.c:2389
+#: client/helpdata.c:2487
 #, fuzzy, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
@@ -8938,74 +8980,74 @@ msgstr[0] "أي - الحرف الأوّل في الأبجديّة اللّاتي
 msgstr[1] "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة"
 msgstr[2] "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة"
 
-#: client/helpdata.c:2399
+#: client/helpdata.c:2498
 #, fuzzy
 msgid "* You may grow your cities by means of celebrations."
 msgstr "أنت ملكك الحجم"
 
 #. TRANS: Preserve leading space. %d should always be
 #. * 2 or greater.
-#: client/helpdata.c:2404
+#: client/helpdata.c:2504
 #, c-format
 msgid " (Cities below size %d cannot grow in this way.)"
 msgstr ""
 
-#: client/helpdata.c:2410
+#: client/helpdata.c:2512
 #, fuzzy
 msgid "* Your units cannot be bribed.\n"
 msgstr "ملكك"
 
-#: client/helpdata.c:2413
+#: client/helpdata.c:2517
 #, fuzzy
 msgid "* Your cities cannot be incited to revolt.\n"
 msgstr "ملكك"
 
-#: client/helpdata.c:2417
+#: client/helpdata.c:2524
 #, fuzzy
 msgid ""
 "* If any city is in disorder for more than two turns in a row, government "
 "will fall into anarchy.\n"
 msgstr "الحكومة أدوار"
 
-#: client/helpdata.c:2422
+#: client/helpdata.c:2531
 #, fuzzy
 msgid "* Has a senate that may prevent declaration of war.\n"
 msgstr "له"
 
-#: client/helpdata.c:2426
+#: client/helpdata.c:2537
 #, fuzzy
 msgid "* Allows partisans when cities are taken by the enemy.\n"
 msgstr "يسمح"
 
-#: client/helpdata.c:2430
+#: client/helpdata.c:2544
 #, fuzzy
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
 msgstr "المباني :: العمارات الذهب"
 
-#: client/helpdata.c:2434
+#: client/helpdata.c:2550
 #, fuzzy
 msgid "* Pays no upkeep for fanatics.\n"
 msgstr "الدفعات"
 
-#: client/helpdata.c:2437
+#: client/helpdata.c:2555
 #, fuzzy
 msgid "* Has no unhappy citizens.\n"
 msgstr "له"
 
-#: client/helpdata.c:2447 client/helpdata.c:2451 client/helpdata.c:2455
+#: client/helpdata.c:2582 client/helpdata.c:2587 client/helpdata.c:2593
 #, fuzzy, c-format
 msgid "* Veteran %s units.\n"
 msgstr "الخبير"
 
-#: client/helpdata.c:2458
+#: client/helpdata.c:2600
 #, fuzzy
 msgid "* Veteran units.\n"
 msgstr "الخبير"
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:2464
+#: client/helpdata.c:2608
 #, fuzzy, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty, "
@@ -9014,13 +9056,13 @@ msgstr "كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد"
 
 #. TRANS: Preserve leading space. %d should always be
 #. * 2 or greater.
-#: client/helpdata.c:2472 client/helpdata.c:2488
+#: client/helpdata.c:2616 client/helpdata.c:2633
 #, c-format
 msgid " (Cities below size %d will not celebrate.)"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:2480
+#: client/helpdata.c:2625
 #, fuzzy, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d more of it while the "
@@ -9028,97 +9070,97 @@ msgid ""
 msgstr "كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد مع"
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:2496
+#: client/helpdata.c:2641
 #, fuzzy, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgstr "كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد مع"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2504
+#: client/helpdata.c:2650
 #, fuzzy, c-format
 msgid "* %s production is increased %d%%.\n"
 msgstr "* سيخسر انتاج ال %s كمية هائلة.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2511
+#: client/helpdata.c:2658
 #, fuzzy, c-format
 msgid "* %s production will suffer massive losses.\n"
 msgstr "* سيخسر انتاج ال %s كمية هائلة.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2516
+#: client/helpdata.c:2663
 #, fuzzy, c-format
 msgid "* %s production will suffer some losses.\n"
 msgstr "* سيخسر انتاج ال %s بعض الكمية.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2521
+#: client/helpdata.c:2668
 #, fuzzy, c-format
 msgid "* %s production will suffer a small amount of losses.\n"
 msgstr "* سيخسر انتاج ال %s كمية قليلة.\n"
 
-#: client/helpdata.c:2527
+#: client/helpdata.c:2677
 #, fuzzy
 msgid "* Increases the chance of plague within your cities.\n"
 msgstr "* يزيد من التلوث الصادر من عدد السكان.\n"
 
-#: client/helpdata.c:2530
+#: client/helpdata.c:2680
 #, fuzzy
 msgid "* Decreases the chance of plague within your cities.\n"
 msgstr "* يزيد من التلوث الصادر من عدد السكان.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2538
+#: client/helpdata.c:2690
 #, fuzzy, c-format
 msgid "* %s losses will increase quickly with distance from capital.\n"
 msgstr "مع"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2544
+#: client/helpdata.c:2696
 #, fuzzy, c-format
 msgid "* %s losses will increase with distance from capital.\n"
 msgstr "مع"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2550
+#: client/helpdata.c:2702
 #, fuzzy, c-format
 msgid "* %s losses will increase slowly with distance from capital.\n"
 msgstr "مع"
 
-#: client/helpdata.c:2557
+#: client/helpdata.c:2711
 #, fuzzy
 msgid "* Increases the chance of migration into your cities.\n"
 msgstr "* يزيد من التلوث الصادر من عدد السكان.\n"
 
-#: client/helpdata.c:2560
+#: client/helpdata.c:2714
 #, fuzzy
 msgid "* Decreases the chance of migration into your cities.\n"
 msgstr "* يزيد من التلوث الصادر من عدد السكان.\n"
 
-#: client/helpdata.c:2578
+#: client/helpdata.c:2733
 #, c-format
 msgid "* Allows you to build %s.\n"
 msgstr "* يسمح لك ببناء %s.\n"
 
 #. TRANS: "2 Food" or ", 1 Shield"
-#: client/helpdata.c:2604
+#: client/helpdata.c:2761
 #, c-format
 msgid "%s%d %s"
 msgstr "%s%d %s"
 
 #. TRANS: "2 Unhappy" or ", 1 Unhappy"
-#: client/helpdata.c:2612
+#: client/helpdata.c:2769
 #, fuzzy, c-format
 msgid "%s%d Unhappy"
 msgstr "%s%d تعساء"
 
-#: client/helpdata.c:2639
+#: client/helpdata.c:2796
 #, fuzzy, c-format
 msgid "Initial government is %s.\n"
 msgstr "الحكومة: %s"
 
 #. TRANS: %s is an and-separated list of techs
-#: client/helpdata.c:2656
+#: client/helpdata.c:2813
 #, c-format
 msgid ""
 "Starts with knowledge of %s in addition to the standard starting "
@@ -9126,7 +9168,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: %s is an and-separated list of techs
-#: client/helpdata.c:2661
+#: client/helpdata.c:2818
 #, fuzzy, c-format
 msgid "Starts with knowledge of %s.\n"
 msgstr "لقد عُلّمت معرفة ال %s."
@@ -9134,7 +9176,7 @@ msgstr "لقد عُلّمت معرفة ال %s."
 #. TRANS: a unit type followed by a count. For instance,
 #. * "Fighter (2)" means two Fighters. Count is never 1.
 #. * Used in a list.
-#: client/helpdata.c:2698
+#: client/helpdata.c:2855
 #, fuzzy, c-format
 msgid "%s (%d)"
 msgstr "%s في %s (%s)\n"
@@ -9142,7 +9184,7 @@ msgstr "%s في %s (%s)\n"
 #. TRANS: %s is an and-separated list of unit types
 #. * possibly with counts. Plurality is in total number of
 #. * units represented.
-#: client/helpdata.c:2718
+#: client/helpdata.c:2875
 #, c-format
 msgid "Starts with the following additional unit: %s.\n"
 msgid_plural "Starts with the following additional units: %s.\n"
@@ -9151,14 +9193,14 @@ msgstr[1] ""
 msgstr[2] ""
 
 #. TRANS: %s is an and-separated list of improvements
-#: client/helpdata.c:2740
+#: client/helpdata.c:2897
 #, c-format
 msgid ""
 "First city will get %s for free in addition to the standard improvements.\n"
 msgstr ""
 
 #. TRANS: %s is an and-separated list of improvements
-#: client/helpdata.c:2745
+#: client/helpdata.c:2902
 #, c-format
 msgid "First city will get %s for free.\n"
 msgstr ""
@@ -11391,28 +11433,28 @@ msgstr "لا!"
 msgid "Loading tileset \"%s\"."
 msgstr "جاري تحميل مجموعات القواعد"
 
-#: client/tilespec.c:1499
+#: client/tilespec.c:1500
 #, fuzzy
 msgid "Client does not support isometric tilesets."
 msgstr "الزبون الإستعمال."
 
-#: client/tilespec.c:1500 client/tilespec.c:1506
+#: client/tilespec.c:1501 client/tilespec.c:1507
 msgid "Using default tileset instead."
 msgstr ""
 
-#: client/tilespec.c:1505
+#: client/tilespec.c:1506
 #, fuzzy
 msgid "Client does not support overhead view tilesets."
 msgstr "الزبون الإستعمال."
 
-#: client/tilespec.c:4454
+#: client/tilespec.c:4457
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
 "displayed as expected."
 msgstr ""
 
-#: client/tilespec.c:4779
+#: client/tilespec.c:4782
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -11452,12 +11494,12 @@ msgstr "?obsolete:ق"
 msgid "?redundant:*"
 msgstr "?redundant:م"
 
-#: common/connection.c:195 server/sernet.c:393 server/sernet.c:748
+#: common/connection.c:195 server/sernet.c:396 server/sernet.c:751
 #, fuzzy
 msgid "network exception"
 msgstr "عكس الاختيار"
 
-#: common/connection.c:209 server/sernet.c:339
+#: common/connection.c:209 server/sernet.c:342
 #, fuzzy
 msgid "lagging connection"
 msgstr "<بلا اتصال>"
@@ -12428,11 +12470,11 @@ msgstr ""
 msgid "could not open file: %s"
 msgstr "فشل فتح \"%s\"."
 
-#: common/packets.c:390
+#: common/packets.c:406
 msgid "illegal packet size"
 msgstr ""
 
-#: common/packets.c:414 common/packets.c:459
+#: common/packets.c:430 common/packets.c:475
 msgid "decoding error"
 msgstr ""
 
@@ -12465,137 +12507,116 @@ msgstr "خط الدردشة"
 msgid "Experimental"
 msgstr "تجريبي"
 
-#: common/player.c:1148
+#: common/player.c:1149
 msgid "?attitude:Genocidal"
 msgstr "?attitude:ابادة جماعية"
 
-#: common/player.c:1150
+#: common/player.c:1151
 msgid "?attitude:Belligerent"
 msgstr "?attitude:مولع بالقتال"
 
-#: common/player.c:1152
+#: common/player.c:1153
 msgid "?attitude:Hostile"
 msgstr "?attitude:معادي"
 
-#: common/player.c:1154
+#: common/player.c:1155
 msgid "?attitude:Uncooperative"
 msgstr "?attitude:غير متعاون"
 
-#: common/player.c:1156
+#: common/player.c:1157
 msgid "?attitude:Uneasy"
 msgstr "?attitude:صعب"
 
-#: common/player.c:1158
+#: common/player.c:1159
 msgid "?attitude:Neutral"
 msgstr "?attitude:محايد"
 
-#: common/player.c:1160
+#: common/player.c:1161
 msgid "?attitude:Respectful"
 msgstr "?attitude:محترم"
 
-#: common/player.c:1162
+#: common/player.c:1163
 msgid "?attitude:Helpful"
 msgstr "?attitude:متعاون"
 
-#: common/player.c:1164
+#: common/player.c:1165
 msgid "?attitude:Enthusiastic"
 msgstr "?attitude:متحمس"
 
-#: common/player.c:1166
+#: common/player.c:1167
 msgid "?attitude:Admiring"
 msgstr "?attitude:معجب"
 
-#: common/player.c:1169
+#: common/player.c:1170
 msgid "?attitude:Worshipful"
 msgstr "?attitude:مبجل"
 
-#: common/player.c:1180
+#: common/player.c:1181
 msgid "?diplomatic_state:Armistice"
 msgstr "?diplomatic_state:هدنة"
 
-#: common/player.c:1181
+#: common/player.c:1182
 msgid "?diplomatic_state:War"
 msgstr "?diplomatic_state:حرب"
 
-#: common/player.c:1185
+#: common/player.c:1186
 msgid "?diplomatic_state:Never met"
 msgstr "?diplomatic_state:لم يقابل أبدا"
 
-#: common/player.c:1186
+#: common/player.c:1187
 msgid "?diplomatic_state:Team"
 msgstr "?diplomatic_state:فريق"
 
-#. TRANS: Obscure ruleset error.
-#: common/requirements.c:538 common/requirements.c:553
-msgid "World-ranged requirements are only supported for wonders."
-msgstr "شروط مدى العالم مدعومة فقط للعجائب."
-
-#. TRANS: Obscure ruleset error.
-#: common/requirements.c:578 common/requirements.c:594
-msgid "Player-ranged requirements are only supported for wonders."
-msgstr "شروط مدى اللاعب مدعومة فقط للعجائب."
-
-#. TRANS: Obscure ruleset error.
-#: common/requirements.c:616
-msgid "Island-ranged requirements are only supported for wonders."
-msgstr "شروط مدى الجزيرة مدعومة فقط للعجائب."
-
-#. TRANS: Obscure ruleset error.
-#: common/requirements.c:668
-#, fuzzy
-msgid "Surviving requirements are only supported at world and player ranges."
-msgstr "شروط البقاء  مدعومة فقط عند مدى العالم."
-
-#: common/requirements.c:1434 common/requirements.c:1511
+#: common/requirements.c:1486 common/requirements.c:1563
 #, c-format
 msgid "Size %d"
 msgstr "حجم %d"
 
-#: common/requirements.c:1489 common/requirements.c:1498
+#: common/requirements.c:1541 common/requirements.c:1550
 #, fuzzy, c-format
 msgid "\"%s\" units"
 msgstr "%s وحدات"
 
-#: common/requirements.c:1494
+#: common/requirements.c:1546
 #, c-format
 msgid "%s units"
 msgstr "%s وحدات"
 
 #. TRANS: "Hard AI"
-#: common/requirements.c:1516
+#: common/requirements.c:1568
 #, fuzzy, c-format
 msgid "%s AI"
 msgstr "%d بعد الميلاد"
 
 #. TRANS: "Land terrain"
-#: common/requirements.c:1521
+#: common/requirements.c:1573
 #, fuzzy, c-format
 msgid "%s terrain"
 msgstr "طبيعة الأرض"
 
 #. TRANS: "Fortress base"
-#: common/requirements.c:1526
+#: common/requirements.c:1578
 #, c-format
 msgid "%s base"
 msgstr ""
 
-#: common/requirements.c:1530
+#: common/requirements.c:1582
 #, fuzzy, c-format
 msgid "After %s"
 msgstr "قرب %s"
 
 #. TRANS: "Irrigation possible"
-#: common/requirements.c:1535
+#: common/requirements.c:1587
 #, fuzzy, c-format
 msgid "%s possible"
 msgstr "مستحيل"
 
-#: common/requirements.c:1539
+#: common/requirements.c:1591
 #, fuzzy
 msgid "City center tile"
 msgstr "توسيط العرض"
 
-#: common/road.c:28 manual/civmanual.c:281
+#: common/road.c:28 manual/civmanual.c:285
 msgid "Road"
 msgstr "طريق"
 
@@ -12693,7 +12714,7 @@ msgstr "اذهب"
 msgid "Explore"
 msgstr "استكشف"
 
-#: common/unit.c:715 manual/civmanual.c:281
+#: common/unit.c:715 manual/civmanual.c:285
 msgid "Transform"
 msgstr "تحول"
 
@@ -15481,7 +15502,7 @@ msgstr "نفط"
 
 #: data/civ1/terrain.ruleset:673 data/civ2/terrain.ruleset:734
 #: data/default/terrain.ruleset:854 data/experimental/terrain.ruleset:856
-#: data/multiplayer/terrain.ruleset:854 manual/civmanual.c:278
+#: data/multiplayer/terrain.ruleset:854 manual/civmanual.c:282
 msgid "Resources"
 msgstr "المصادر"
 
@@ -18930,7 +18951,7 @@ msgid "Popup City"
 msgstr "قافزة المدينة"
 
 #. TRANS: Game state for local server
-#: data/Freeciv.in:3381 data/Freeciv.in:3382 server/sernet.c:1472
+#: data/Freeciv.in:3381 data/Freeciv.in:3382 server/sernet.c:1479
 msgid "Pregame"
 msgstr "قبل اللعبة"
 
@@ -34450,12 +34471,12 @@ msgstr ""
 msgid "Loading tutorial events."
 msgstr "جاري تحميل مجموعات القواعد"
 
-#: manual/civmanual.c:152
+#: manual/civmanual.c:156
 #, c-format
 msgid "Could not write manual file %s."
 msgstr "لا يمكن كتابة ملف الدليل %s."
 
-#: manual/civmanual.c:160
+#: manual/civmanual.c:164
 #, c-format
 msgid ""
 "<h1>Freeciv %s server options</h1>\n"
@@ -34464,50 +34485,50 @@ msgstr ""
 "<h1>برنامج Freeciv %s خيارات الخادم</h1>\n"
 "\n"
 
-#: manual/civmanual.c:177
+#: manual/civmanual.c:181
 #, c-format
 msgid "Level: %s.<br>"
 msgstr "المستوى: %s.<br>"
 
-#: manual/civmanual.c:179
+#: manual/civmanual.c:183
 #, c-format
 msgid "Category: %s.<br>"
 msgstr "الصنف: %s.<br>"
 
-#: manual/civmanual.c:185
+#: manual/civmanual.c:189
 #, c-format
 msgid "Is locked by the ruleset."
 msgstr ""
 
-#: manual/civmanual.c:187
+#: manual/civmanual.c:191
 #, fuzzy, c-format
 msgid "Can only be used in server console."
 msgstr "يمكن أن "
 
-#: manual/civmanual.c:195 server/stdinhand.c:1760
+#: manual/civmanual.c:199 server/stdinhand.c:1760
 msgid "Minimum:"
 msgstr ""
 
-#: manual/civmanual.c:196 manual/civmanual.c:229 server/stdinhand.c:1761
+#: manual/civmanual.c:200 manual/civmanual.c:233 server/stdinhand.c:1761
 #: server/stdinhand.c:1779 server/stdinhand.c:1795
 #, fuzzy
 msgid "Default:"
 msgstr "_حذف تجهيز مسبق"
 
-#: manual/civmanual.c:197 server/stdinhand.c:1762
+#: manual/civmanual.c:201 server/stdinhand.c:1762
 #, fuzzy
 msgid "Maximum:"
 msgstr "بدون حد أقصى, "
 
-#: manual/civmanual.c:204 server/stdinhand.c:1769
+#: manual/civmanual.c:208 server/stdinhand.c:1769
 msgid "Possible values:"
 msgstr ""
 
-#: manual/civmanual.c:216 server/stdinhand.c:1787
+#: manual/civmanual.c:220 server/stdinhand.c:1787
 msgid "Possible values (option can take any number of these):"
 msgstr ""
 
-#: manual/civmanual.c:232
+#: manual/civmanual.c:236
 #, c-format
 msgid ""
 "<p class=\"changed\">Value set to %s</p>\n"
@@ -34516,14 +34537,14 @@ msgstr ""
 "<p class=\"changed\">غيرت القيمة إلى %s</p>\n"
 "\n"
 
-#: manual/civmanual.c:239
+#: manual/civmanual.c:243
 #, fuzzy, c-format
 msgid ""
 "<h1>Freeciv %s server commands</h1>\n"
 "\n"
 msgstr "<h1> برنامج Freeciv</h1>"
 
-#: manual/civmanual.c:252
+#: manual/civmanual.c:256
 #, fuzzy, c-format
 msgid ""
 "<table>\n"
@@ -34536,7 +34557,7 @@ msgstr ""
 "<td valign=\"top\"><pre> الخلاصة</pre></td>\n"
 "<td>"
 
-#: manual/civmanual.c:257
+#: manual/civmanual.c:261
 #, c-format
 msgid ""
 "<p class=\"level\">Level: %s</p>\n"
@@ -34545,7 +34566,7 @@ msgstr ""
 "<p class=\"level\">المستوى: %s</p>\n"
 "\n"
 
-#: manual/civmanual.c:266
+#: manual/civmanual.c:270
 #, c-format
 msgid ""
 "<p>Description:</p>\n"
@@ -34554,91 +34575,108 @@ msgstr ""
 "<p>الوصف:</p>\n"
 "\n"
 
-#: manual/civmanual.c:275
+#: manual/civmanual.c:279
 #, fuzzy, c-format
 msgid ""
 "<h1>Freeciv %s terrain help</h1>\n"
 "\n"
 msgstr "<h1> برنامج Freeciv</h1>"
 
-#: manual/civmanual.c:279
+#: manual/civmanual.c:283
 msgid "Move cost"
 msgstr "تكلفة الحركة"
 
-#: manual/civmanual.c:279
+#: manual/civmanual.c:283
 msgid "Defense bonus"
 msgstr "مكافأة الدفاع"
 
-#: manual/civmanual.c:281
+#: manual/civmanual.c:285
 msgid "Mining"
 msgstr "التنجيم"
 
-#: manual/civmanual.c:281
+#: manual/civmanual.c:285
 msgid "turns"
 msgstr "أدوار"
 
-#: manual/civmanual.c:283
+#: manual/civmanual.c:287
 msgid "Rail"
 msgstr "سكة"
 
-#: manual/civmanual.c:284
+#: manual/civmanual.c:288
 msgid "Clean pollution"
 msgstr "تنظيف التلوث"
 
-#: manual/civmanual.c:284
+#: manual/civmanual.c:288
 msgid "Clean fallout"
 msgstr "تنظيف الغبار الذري"
 
-#: manual/civmanual.c:319 manual/civmanual.c:329
+#: manual/civmanual.c:323 manual/civmanual.c:333
 msgid "impossible"
 msgstr "مستحيل"
 
-#: manual/civmanual.c:357
+#: manual/civmanual.c:361
 #, fuzzy, c-format
 msgid ""
 "<h1>Freeciv %s buildings help</h1>\n"
 "\n"
 msgstr "<h1> برنامج Freeciv</h1>"
 
-#: manual/civmanual.c:359
+#: manual/civmanual.c:363
 #, fuzzy, c-format
 msgid ""
 "<h1>Freeciv %s wonders help</h1>\n"
 "\n"
 msgstr "<h1> برنامج Freeciv</h1>"
 
-#: manual/civmanual.c:364
+#: manual/civmanual.c:368
 msgid "Upkeep"
 msgstr "أجور الصيانة"
 
-#: manual/civmanual.c:365
+#: manual/civmanual.c:369
 msgid "Requirement"
 msgstr "شرط"
 
-#: manual/civmanual.c:365
+#: manual/civmanual.c:369
 msgid "Obsolete by"
 msgstr "يلغى ب"
 
-#: manual/civmanual.c:365
+#: manual/civmanual.c:369
 msgid "More info"
 msgstr "معلومات اضافية"
 
-#: manual/civmanual.c:407
+#. TRANS: improvement requires a feature to be absent.
+#: manual/civmanual.c:392
+#, fuzzy, c-format
+msgid "no %s"
+msgstr "أمة"
+
+#: manual/civmanual.c:410
+#, fuzzy, c-format
+msgid ""
+"<h1>Freeciv %s governments help</h1>\n"
+"\n"
+msgstr "<h1> برنامج Freeciv</h1>"
+
+#: manual/civmanual.c:427
 #, c-format
 msgid "Manual file %s successfully written."
 msgstr ""
 
-#: manual/civmanual.c:510 server/civserver.c:383
+#: manual/civmanual.c:454
+msgid "Multiple rulesets requested. Only one ruleset at time supported"
+msgstr ""
+
+#: manual/civmanual.c:542 server/civserver.c:383
 #, fuzzy
 msgid "Use FILE as logfile"
 msgstr "  -l, --log FILE\tاستعمال ملف FILE كملف السجل\n"
 
 #. TRANS: "ruleset" is exactly what user must type, do not translate.
-#: manual/civmanual.c:513
+#: manual/civmanual.c:545
 msgid "ruleset RULESET"
 msgstr ""
 
-#: manual/civmanual.c:514
+#: manual/civmanual.c:546
 msgid "Make manual for RULESET"
 msgstr ""
 
@@ -35162,7 +35200,7 @@ msgstr "لقد دمرت %s كليا."
 msgid "%s has been destroyed by %s."
 msgstr "دمرت %s من قبل %s."
 
-#: server/citytools.c:1676
+#: server/citytools.c:1678
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
@@ -35170,7 +35208,7 @@ msgstr[0] "لقد احتللت %s; تراكمت غنائم نهبك إلى %d ذ
 msgstr[1] "لقد احتللت %s; تراكمت غنائم نهبك إلى %d ذهب!"
 msgstr[2] "لقد احتللت %s; تراكمت غنائم نهبك إلى %d ذهب!"
 
-#: server/citytools.c:1683
+#: server/citytools.c:1685
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
@@ -35178,17 +35216,17 @@ msgstr[0] "احتل %s مدينة %s ونهب %d من الذهب منها."
 msgstr[1] "احتل %s مدينة %s ونهب %d من الذهب منها."
 msgstr[2] "احتل %s مدينة %s ونهب %d من الذهب منها."
 
-#: server/citytools.c:1692
+#: server/citytools.c:1694
 #, fuzzy, c-format
 msgid "You conquer %s."
 msgstr "لقد احتللت %s"
 
-#: server/citytools.c:1695
+#: server/citytools.c:1697
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s احتل %s."
 
-#: server/citytools.c:1702
+#: server/citytools.c:1704
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
@@ -35196,7 +35234,7 @@ msgstr[0] "لقد حررت %s! تراكمت غنائم النهب إلى %d ذه
 msgstr[1] "لقد حررت %s! تراكمت غنائم النهب إلى %d ذهب."
 msgstr[2] "لقد حررت %s! تراكمت غنائم النهب إلى %d ذهب."
 
-#: server/citytools.c:1709
+#: server/citytools.c:1711
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
@@ -35204,27 +35242,27 @@ msgstr[0] "حرر %s مدينة %s ونهب %d من الذهب منها."
 msgstr[1] "حرر %s مدينة %s ونهب %d من الذهب منها."
 msgstr[2] "حرر %s مدينة %s ونهب %d من الذهب منها."
 
-#: server/citytools.c:1718
+#: server/citytools.c:1720
 #, c-format
 msgid "You have liberated %s!"
 msgstr "لقد حررت %s!"
 
-#: server/citytools.c:1721
+#: server/citytools.c:1723
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s حرر %s."
 
-#: server/citytools.c:2477
+#: server/citytools.c:2479
 msgid " from the worklist"
 msgstr " من قائمة العمل"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:2489
+#: server/citytools.c:2491
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s يبني %s%s."
 
-#: server/citytools.c:2658
+#: server/citytools.c:2660
 #, fuzzy, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
@@ -35232,17 +35270,17 @@ msgstr[0] "لقد بعت %s في %s (اﻵن محاط باليابسة) ب %d ذ
 msgstr[1] "لقد بعت %s في %s (اﻵن محاط باليابسة) ب %d ذهب."
 msgstr[2] "لقد بعت %s في %s (اﻵن محاط باليابسة) ب %d ذهب."
 
-#: server/citytools.c:2791
+#: server/citytools.c:2793
 #, fuzzy, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "ال %s من %s (%s)"
 
-#: server/citytools.c:2793
+#: server/citytools.c:2795
 #, fuzzy
 msgid "increased"
 msgstr "قاعدة جوية"
 
-#: server/citytools.c:2794
+#: server/citytools.c:2796
 msgid "reduced"
 msgstr ""
 
@@ -37212,163 +37250,163 @@ msgstr "لقد قبضت على وحدة %s %s عند محاولة التخريب
 msgid "Your %s could not find anything to sabotage in %s."
 msgstr "لم تستطع وحدتك %s العثور على أي شئ قابل للتخريب في %s."
 
-#: server/diplomats.c:945
+#: server/diplomats.c:949
 #, c-format
 msgid "You cannot sabotage a %s!"
 msgstr "لا تستطيع تخريب %s!"
 
-#: server/diplomats.c:956
+#: server/diplomats.c:960
 #, c-format
 msgid "Your %s could not find the %s to sabotage in %s."
 msgstr "لم تستطع وحدتك %s العثور على %s للتخريب في %s."
 
-#: server/diplomats.c:981
+#: server/diplomats.c:985
 #, c-format
 msgid "Your %s succeeded in destroying the production of %s in %s."
 msgstr "لقد نجحت وحدتك %s في تدمير انتاج ال of %s في %s."
 
-#: server/diplomats.c:988
+#: server/diplomats.c:992
 #, c-format
 msgid "The production of %s was destroyed in %s, %s are suspected."
 msgstr "تم تدمير انتاج ال %s في %s, المشتبه به هو %s."
 
-#: server/diplomats.c:1011
+#: server/diplomats.c:1015
 #, c-format
 msgid "Your %s was caught in the attempt of sabotage!"
 msgstr "تم القبض على وحدتك %s عند محاولة التخريب!"
 
-#: server/diplomats.c:1015
+#: server/diplomats.c:1019
 #, c-format
 msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "لقد قبضت على وحدة %s %s عند محاولة تخريب %s في %s!"
 
-#: server/diplomats.c:1029
+#: server/diplomats.c:1033
 #, c-format
 msgid "Your %s destroyed the %s in %s."
 msgstr "لقد دمرت وحدتك %s ال %s في %s."
 
-#: server/diplomats.c:1035
+#: server/diplomats.c:1039
 #, c-format
 msgid "The %s destroyed the %s in %s."
 msgstr "دمر %s ال %s في %s."
 
 #. TRANS: <unit> ... <diplomat>
-#: server/diplomats.c:1175
+#: server/diplomats.c:1184
 #, fuzzy, c-format
 msgid "An enemy %s has been eliminated by your %s."
 msgstr "تم تدمير وحدة العدو %s عند الدفاع عن %s."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
-#: server/diplomats.c:1182
+#: server/diplomats.c:1191
 #, c-format
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "تم تدمير وحدتك %s عند الدفاع عن %s ضد %s."
 
 #. TRANS: <nation adj> <unit> ... <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:1189
+#: server/diplomats.c:1198
 #, fuzzy, c-format
 msgid "A %s %s has been eliminated defending %s against a %s."
 msgstr "تم تدمير وحدتك %s عند الدفاع عن %s ضد %s."
 
 #. TRANS: ... <unit> ... <nation adj> <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:1196
+#: server/diplomats.c:1205
 #, fuzzy, c-format
 msgid "Your %s has been eliminated defending %s %s against a %s."
 msgstr "تم تدمير وحدتك %s عند الدفاع عن %s ضد %s."
 
 #. TRANS: <unit> ... <diplomat>
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:1205 server/diplomats.c:1216
+#: server/diplomats.c:1214 server/diplomats.c:1225
 #, fuzzy, c-format
 msgid "Your %s has been eliminated defending against a %s."
 msgstr "تم تدمير وحدتك %s عند الدفاع عن ضد %s."
 
 #. TRANS: <nation adj> <unit> ... <diplomat>
-#: server/diplomats.c:1210
+#: server/diplomats.c:1219
 #, fuzzy, c-format
 msgid "A %s %s has been eliminated defending against a %s."
 msgstr "تم تدمير وحدتك %s عند الدفاع عن ضد %s."
 
-#: server/diplomats.c:1238
+#: server/diplomats.c:1247
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
 msgstr "تم تدمير وحدتك %s عند الدفاع عن %s."
 
-#: server/diplomats.c:1244
+#: server/diplomats.c:1253
 #, fuzzy, c-format
 msgid "Eliminated a %s %s while infiltrating %s."
 msgstr "تم تدمير وحدة %s %s عند محاولة اختراق %s."
 
-#: server/diplomats.c:1249
+#: server/diplomats.c:1258
 #, fuzzy, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating %s."
 msgstr "تم تدمير وحدة %s %s عند محاولة اختراق %s."
 
-#: server/diplomats.c:1254
+#: server/diplomats.c:1263
 #, fuzzy, c-format
 msgid "Your %s eliminated a %s %s while infiltrating %s."
 msgstr "تم تدمير وحدة %s %s عند محاولة اختراق %s."
 
-#: server/diplomats.c:1262
+#: server/diplomats.c:1271
 #, fuzzy, c-format
 msgid "Eliminated a %s %s while infiltrating our troops."
 msgstr "تم تدمير وحدة %s %s عند محاولة اختراق قواتنا."
 
-#: server/diplomats.c:1267
+#: server/diplomats.c:1276
 #, fuzzy, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating our troops."
 msgstr "تم تدمير وحدة %s %s عند محاولة اختراق قواتنا."
 
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:1273
+#: server/diplomats.c:1282
 #, fuzzy, c-format
 msgid "Your %s eliminated a %s %s while infiltrating our troops."
 msgstr "تم تدمير وحدة %s %s عند محاولة اختراق قواتنا."
 
-#: server/diplomats.c:1337
+#: server/diplomats.c:1346
 #, fuzzy, c-format
 msgid ""
 "Your %s has successfully completed the mission and returned unharmed to %s."
 msgstr "أتمت وحدتك %s مهمتها بنجاح ورجعت سالمة إلى %s."
 
-#: server/diplomats.c:1356
+#: server/diplomats.c:1365
 #, fuzzy, c-format
 msgid "Your %s was captured after completing the mission in %s."
 msgstr "تم القبض على وحدتك %s بعد اتمام مهمتها في %s."
 
-#: server/diplomats.c:1362
+#: server/diplomats.c:1371
 #, fuzzy, c-format
 msgid "Your %s was captured after completing the mission."
 msgstr "تم القبض على وحدتك %s بعد اتمام مهمتها."
 
-#: server/diplomats.c:1387
+#: server/diplomats.c:1396
 #, fuzzy, c-format
 msgid "You have caused an incident while bribing the %s %s."
 msgstr "لقد سببت حادثا عند رشوة وحدة %s%s."
 
-#: server/diplomats.c:1392
+#: server/diplomats.c:1401
 #, c-format
 msgid "%s has caused an incident while bribing your %s."
 msgstr "لقد سبب %s حادثا عند رشوة وحدتك %s."
 
-#: server/diplomats.c:1398
+#: server/diplomats.c:1407
 #, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
 msgstr "لقد سببت حادثا عند محاولة سرقة تكنولوجيا من %s."
 
-#: server/diplomats.c:1402
+#: server/diplomats.c:1411
 #, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
 msgstr "لقد سبب %s حادثا عند محاولة سرقة تكنولوجيا منك."
 
-#: server/diplomats.c:1408
+#: server/diplomats.c:1417
 #, c-format
 msgid "You have caused an incident while inciting a revolt in %s."
 msgstr "لقد سببت حادثا عند محاولة التحريض على ثورة في %s."
 
-#: server/diplomats.c:1412
+#: server/diplomats.c:1421
 #, fuzzy, c-format
 msgid "The %s have caused an incident while inciting a revolt in %s."
 msgstr "لقد سبب %s حادثا عند محاولة التحريض على ثورة في %s."
@@ -37598,43 +37636,43 @@ msgid ""
 "Cannot edit vision for the tile at %s because given player id %d is invalid."
 msgstr ""
 
-#: server/edithand.c:1283
+#: server/edithand.c:1279
 #, fuzzy, c-format
 msgid "No such city (ID %d)."
 msgstr "التصويت غير موجود (%d)."
 
-#: server/edithand.c:1309
+#: server/edithand.c:1305
 #, fuzzy
 msgid "Cannot toggle fog-of-war when it is already disabled."
 msgstr "لا يمكن بدء اللعبة: لقد بدأت أصلا."
 
-#: server/edithand.c:1317
+#: server/edithand.c:1313
 #, fuzzy, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
 msgstr "لا يمكن تفعيل أو تعطيل لاعب بربري."
 
-#: server/edithand.c:1345 server/edithand.c:1384
+#: server/edithand.c:1341 server/edithand.c:1380
 #, c-format
 msgid "Invalid tile index %d for start position."
 msgstr ""
 
-#: server/edithand.c:1392
+#: server/edithand.c:1388
 #, c-format
 msgid ""
 "Cannot edit start position nations at (%d, %d) because there is no start "
 "position there."
 msgstr ""
 
-#: server/edithand.c:1424
+#: server/edithand.c:1420
 #, c-format
 msgid "Cannot set invalid game year %d. Valid year range is from %d to %d."
 msgstr ""
 
-#: server/edithand.c:1467
+#: server/edithand.c:1463
 msgid "No permissions to remotely save scenario."
 msgstr ""
 
-#: server/edithand.c:1474
+#: server/edithand.c:1470
 msgid "Scenario information not set. Cannot save scenario."
 msgstr ""
 
@@ -37856,12 +37894,12 @@ msgstr ""
 "يتفاجئ الناس في %s بامكانياتك التكنولوجية!\n"
 "      يقوم العمال لوحدهم بجمع وتطوير المدينة بالسكك الحديدية."
 
-#: server/maphand.c:1496
+#: server/maphand.c:1538
 #, c-format
 msgid "Moved your %s due to changing terrain."
 msgstr "تم تحريك وحدتك %s لتغير التضاريص."
 
-#: server/maphand.c:1513
+#: server/maphand.c:1555
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
 msgstr "تم تسريح وحدتك %s لتغير التضاريص."
@@ -38014,67 +38052,67 @@ msgstr "لقد تم إزالتك من اللعبة!"
 msgid "%s has been removed from the game."
 msgstr "لقد تم إزالة %s من اللعبة."
 
-#: server/plrhand.c:1588
+#: server/plrhand.c:1592
 msgid "Please choose a non-blank name."
 msgstr "الرجاء إختيار اسم بدون فراغات."
 
-#: server/plrhand.c:1601
+#: server/plrhand.c:1605
 msgid "That nation is already in use."
 msgstr "هذه الأمة أصلا مستعملة."
 
-#: server/plrhand.c:1606
+#: server/plrhand.c:1610
 #, fuzzy, c-format
 msgid "Another player already has the name '%s'. Please choose another name."
 msgstr "عند لاعب آخر أصلا هذا الاسم '%s'.  الرجاء اختيار اسم آخر."
 
-#: server/plrhand.c:1630
+#: server/plrhand.c:1634
 msgid "Please choose a name containing only ASCII characters."
 msgstr "الرجاء اختيار اسم يحتوي على أحرف  ASCII فقط."
 
-#: server/plrhand.c:1705 server/plrhand.c:1719
+#: server/plrhand.c:1709 server/plrhand.c:1723
 #, fuzzy, c-format
 msgid "Player no. %d"
 msgstr "اللاعب %d"
 
-#: server/plrhand.c:1734
+#: server/plrhand.c:1738
 #, fuzzy
 msgid "A poorly-named player"
 msgstr "اسم مدينة ضعيف"
 
-#: server/plrhand.c:1803 server/plrhand.c:1807
+#: server/plrhand.c:1807 server/plrhand.c:1811
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "لقد اتصلت لأول مرة مع %s, المحكوم من %s."
 
-#: server/plrhand.c:2339
+#: server/plrhand.c:2342
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "لا يمكن اشعال الحرب الأهلية في %s  - لوجود لاعبيين كثر"
 
-#: server/plrhand.c:2345
+#: server/plrhand.c:2348
 #, fuzzy, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr "لا يمكن اشعال الحرب الأهلية في %s  - لوجود لاعبيين كثر"
 
-#: server/plrhand.c:2375
+#: server/plrhand.c:2378
 #, fuzzy
 msgid "Your nation is thrust into civil war."
 msgstr "أمتك في حرب أهلية تحت قيادة %s للولايات الثائرة."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:2379
+#: server/plrhand.c:2382
 #, fuzzy, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "أمتك في حرب أهلية تحت قيادة %s للولايات الثائرة."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:2405
+#: server/plrhand.c:2408
 #, fuzzy, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "يعلن %s الولاء إلى %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:2424
+#: server/plrhand.c:2427
 #, fuzzy, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -38093,21 +38131,21 @@ msgstr[2] ""
 
 #. TRANS: '/delegate cancel' is a server command and must not
 #. * be translated
-#: server/plrhand.c:2566
+#: server/plrhand.c:2569
 #, c-format
 msgid ""
 "User '%s' is currently allowed to take control of your player while you are "
 "away. Use '/delegate cancel' to revoke this access."
 msgstr ""
 
-#: server/plrhand.c:2578
+#: server/plrhand.c:2581
 #, fuzzy, c-format
 msgid "Control of player '%s' is delegated to you."
 msgstr "الخيار: %s تم تغييره إلى  \"%s\"."
 
 #. TRANS: '/delegate take' is a server command and must not
 #. * be translated; but <player> should be translated.
-#: server/plrhand.c:2587
+#: server/plrhand.c:2590
 msgid "Use '/delegate take <player>' to take control of a delegated player."
 msgstr ""
 
@@ -38524,17 +38562,17 @@ msgid "Unit Losses\n"
 msgstr "درع"
 
 #. TRANS: message about an installation error.
-#: server/ruleset.c:225
+#: server/ruleset.c:227
 #, c-format
 msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "فشل العثور على ملف مجموعة القواعد قابل للقراءة \"%s.%s\"."
 
-#: server/ruleset.c:4280
+#: server/ruleset.c:4291
 #, fuzzy
 msgid "Loading rulesets."
 msgstr "جاري تحميل مجموعات القواعد"
 
-#: server/ruleset.c:4356
+#: server/ruleset.c:4371
 msgid "Reducing aifill because there are not enough playable nations."
 msgstr ""
 
@@ -38566,28 +38604,28 @@ msgstr "تم إضافة %s كلاعب مسيطر من ال ذ.ا."
 msgid "%s had invalid nation; changing to %s."
 msgstr ""
 
-#: server/savegame2.c:6035
+#: server/savegame2.c:6037
 #, fuzzy
 msgid "current version"
 msgstr "(اصدار بيتا)"
 
-#: server/savegame2.c:6039
+#: server/savegame2.c:6041
 #, fuzzy
 msgid "freeciv 2.3.0"
 msgstr "برنامج Freeciv"
 
-#: server/savegame2.c:6041
+#: server/savegame2.c:6043
 #, fuzzy
 msgid "freeciv 2.4.0"
 msgstr "برنامج Freeciv"
 
-#: server/savegame2.c:6092
+#: server/savegame2.c:6094
 #, c-format
 msgid ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
 msgstr ""
 
-#: server/savegame2.c:6126
+#: server/savegame2.c:6128
 #, c-format
 msgid "Run compatibility function for version: <%d (want: %d, server: %d)."
 msgstr ""
@@ -38620,47 +38658,47 @@ msgstr "ملف اللعبة المحفوظة قديم جدا، يشترط على
 msgid "Server cannot read standard input. Ignoring input."
 msgstr "فشل قراءة الخادم للادخال القياسي.جاري إهمال الادخال."
 
-#: server/sernet.c:469
+#: server/sernet.c:472
 msgid "rejected"
 msgstr ""
 
-#: server/sernet.c:553
+#: server/sernet.c:556
 #, fuzzy
 msgid "Restarting for lack of players."
 msgstr "كمية الذهب لكل لاعب عند البداية"
 
-#: server/sernet.c:571
+#: server/sernet.c:574
 #, fuzzy, c-format
 msgid "Restarting in %d seconds for lack of players."
 msgstr "كمية الذهب لكل لاعب عند البداية"
 
-#: server/sernet.c:574
+#: server/sernet.c:577
 #, fuzzy
 msgid "restarting soon for lack of players"
 msgstr "كمية الذهب لكل لاعب عند البداية"
 
-#: server/sernet.c:600
+#: server/sernet.c:603
 msgid "ping timeout"
 msgstr ""
 
-#: server/sernet.c:836
+#: server/sernet.c:839
 #, fuzzy
 msgid "client disconnected"
 msgstr "مفصول"
 
-#: server/sernet.c:1067
+#: server/sernet.c:1070
 #, fuzzy, c-format
 msgid "Server: bad address: <%s:%d>."
 msgstr "الخادم: العنوان سيء: [%s:%d]."
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1476
+#: server/sernet.c:1483
 #, fuzzy
 msgid "Running"
 msgstr "التصفية"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1480 server/settings.c:290
+#: server/sernet.c:1487 server/settings.c:290
 #, fuzzy
 msgid "Game over"
 msgstr "تم انهاء اللعبة"
@@ -43627,28 +43665,28 @@ msgstr "باراميتر مفقود ل \"%s\".\n"
 
 #. TRANS: <FREECIV_DATA_PATH> configuration error
 #. TRANS: <FREECIV_SAVE_PATH> configuration error
-#: utility/shared.c:953 utility/shared.c:998 utility/shared.c:1058
+#: utility/shared.c:954 utility/shared.c:1000 utility/shared.c:1061
 #, fuzzy, c-format
 msgid "\"%s\" is set but empty; trying \"%s\" instead."
 msgstr ""
 "المتغير FREECIV_PATH محدد ولكنه فارغ; جاري استعمال الدليل الافتراضي بدلا عنه."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:959
+#: utility/shared.c:960
 #, fuzzy, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" data directories instead."
 msgstr ""
 "المتغير FREECIV_PATH محدد ولكنه فارغ; جاري استعمال الدليل الافتراضي بدلا عنه."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1005
+#: utility/shared.c:1007
 #, fuzzy, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" save directories instead."
 msgstr ""
 "المتغير FREECIV_PATH محدد ولكنه فارغ; جاري استعمال الدليل الافتراضي بدلا عنه."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1065
+#: utility/shared.c:1068
 #, fuzzy, c-format
 msgid ""
 "\"%s\" is set but empty; using default \"%s\" scenario directories instead."
@@ -43656,62 +43694,46 @@ msgstr ""
 "المتغير FREECIV_PATH محدد ولكنه فارغ; جاري استعمال الدليل الافتراضي بدلا عنه."
 
 #. TRANS: "...: <externally translated error string>."
-#: utility/shared.c:1134
+#: utility/shared.c:1137
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "لا يمكن قراءة مجلد البيانات %s: %s."
 
-#. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1356
-#, fuzzy, c-format
-msgid "The path may be set via the \"%s\" environment variable."
-msgstr "دليل البيانات يمكن تحديده بواسطة متغير البيئة FREECIV_PATH."
-
-#: utility/shared.c:1358
-#, fuzzy, c-format
-msgid "Current path is: \"%s\""
-msgstr "دليل البيانات الحالي هو: \"%s\""
-
-#: utility/shared.c:1359
-#, c-format
-msgid "The \"%s\" file is required ... aborting!"
-msgstr "الملف \"%s\" مطلوب ... جاري الغاء العملية!"
-
-#: utility/shared.c:1567
+#: utility/shared.c:1546
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr ""
 "ال %s: خطأ قاتل: أنت تحاول تشغيلي كمستخدم الكومبيوتر ذو الصلاحيات العليا  !\n"
 
-#: utility/shared.c:1569
+#: utility/shared.c:1548
 msgid "Use a non-privileged account instead.\n"
 msgstr "استعمل حساب بلا صلاحيات بدلا من ذلك.\n"
 
-#: utility/shared.c:1585
+#: utility/shared.c:1564
 msgid "exact match"
 msgstr "مطابق تماما"
 
-#: utility/shared.c:1586
+#: utility/shared.c:1565
 msgid "only match"
 msgstr "فقط مطابق"
 
-#: utility/shared.c:1587
+#: utility/shared.c:1566
 msgid "ambiguous"
 msgstr "مبهم"
 
-#: utility/shared.c:1588
+#: utility/shared.c:1567
 msgid "empty"
 msgstr "فارغ"
 
-#: utility/shared.c:1589
+#: utility/shared.c:1568
 msgid "too long"
 msgstr "طويل جدا"
 
-#: utility/shared.c:1590
+#: utility/shared.c:1569
 msgid "non-match"
 msgstr "غير مطابق"
 
-#: utility/shared.c:1911
+#: utility/shared.c:1890
 #, fuzzy
 msgid "day"
 msgid_plural "days"
@@ -43719,7 +43741,7 @@ msgstr[0] "أيار"
 msgstr[1] "أيار"
 msgstr[2] "أيار"
 
-#: utility/shared.c:1916
+#: utility/shared.c:1895
 #, fuzzy
 msgid "hour"
 msgid_plural "hours"
@@ -43727,7 +43749,7 @@ msgstr[0] " أو "
 msgstr[1] " أو "
 msgstr[2] " أو "
 
-#: utility/shared.c:1922
+#: utility/shared.c:1901
 #, fuzzy
 msgid "minute"
 msgid_plural "minutes"
@@ -43735,7 +43757,7 @@ msgstr[0] "المدينة: مجاعة"
 msgstr[1] "المدينة: مجاعة"
 msgstr[2] "المدينة: مجاعة"
 
-#: utility/shared.c:1928
+#: utility/shared.c:1907
 #, fuzzy
 msgid "second"
 msgid_plural "seconds"
@@ -43752,6 +43774,31 @@ msgstr "خطأ %ld (فشل FormatMessage)"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "خطأ %d (ترجم بدون strerror)"
+
+#~ msgid "World-ranged requirements are only supported for wonders."
+#~ msgstr "شروط مدى العالم مدعومة فقط للعجائب."
+
+#~ msgid "Player-ranged requirements are only supported for wonders."
+#~ msgstr "شروط مدى اللاعب مدعومة فقط للعجائب."
+
+#~ msgid "Island-ranged requirements are only supported for wonders."
+#~ msgstr "شروط مدى الجزيرة مدعومة فقط للعجائب."
+
+#, fuzzy
+#~ msgid ""
+#~ "Surviving requirements are only supported at world and player ranges."
+#~ msgstr "شروط البقاء  مدعومة فقط عند مدى العالم."
+
+#, fuzzy
+#~ msgid "The path may be set via the \"%s\" environment variable."
+#~ msgstr "دليل البيانات يمكن تحديده بواسطة متغير البيئة FREECIV_PATH."
+
+#, fuzzy
+#~ msgid "Current path is: \"%s\""
+#~ msgstr "دليل البيانات الحالي هو: \"%s\""
+
+#~ msgid "The \"%s\" file is required ... aborting!"
+#~ msgstr "الملف \"%s\" مطلوب ... جاري الغاء العملية!"
 
 #, fuzzy
 #~ msgid ""
@@ -44979,10 +45026,6 @@ msgstr "خطأ %d (ترجم بدون strerror)"
 #, fuzzy
 #~ msgid "?female:%s Taishi"
 #~ msgstr "?female:القنصل"
-
-#, fuzzy
-#~ msgid "Nabongo %s"
-#~ msgstr "أمة"
 
 #, fuzzy
 #~ msgid "?female:Nabongo %s"
