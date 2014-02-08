@@ -2385,24 +2385,19 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
                       _("* You pay no upkeep for your units.\n"));
             }
           } else if (net_value != world_value) {
-            /* HACK: to avoid breaking a short-term string freeze, we
-             * keep quiet about non-integer ratios. This restriction will
-             * be lifted soon. */
-            if (net_value % world_value == 0) {
-              int ratio = net_value / world_value;
-              if (output_type != O_LAST) {
-                cat_snprintf(buf, bufsz,
-                             /* TRANS: %s is the output type, like 'shield'
-                              * or 'gold'. */
-                             _("* You pay %d times normal %s upkeep for your "
-                               "units.\n"),
-                             ratio, astr_str(&outputs_and));
-              } else {
-                cat_snprintf(buf, bufsz,
-                             _("* You pay %d times normal upkeep for your "
-                               "units.\n"),
-                             ratio);
-              }
+            double ratio = net_value / world_value;
+            if (output_type != O_LAST) {
+              cat_snprintf(buf, bufsz,
+                           /* TRANS: %s is the output type, like 'shield'
+                            * or 'gold'. */
+                           _("* You pay %.2g times normal %s upkeep for your "
+                             "units.\n"),
+                           ratio, astr_str(&outputs_and));
+            } else {
+              cat_snprintf(buf, bufsz,
+                           _("* You pay %.2g times normal upkeep for your "
+                             "units.\n"),
+                           ratio);
             }
           } /* else this effect somehow has no effect; keep quiet */
         } /* else there was some extra condition making it complicated */
@@ -2412,17 +2407,22 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
           if (output_type != O_LAST) {
             cat_snprintf(buf, bufsz,
                          /* TRANS: %s is the output type, like 'shield' or
-                          * 'gold'. There is currently no way to control the
-                          * singular/plural version of these. */
-                         _("* Each of your cities will avoid paying %d %s"
-                           " upkeep for your units.\n"),
+                          * 'gold'; pluralised in %d but there is currently
+                          * no way to control the singular/plural name of the
+                          * output type; sorry */
+                         PL_("* Each of your cities will avoid paying %d %s"
+                             " upkeep for your units.\n",
+                             "* Each of your cities will avoid paying %d %s"
+                             " upkeep for your units.\n", peffect->value),
                          peffect->value, astr_str(&outputs_and));
           } else {
             cat_snprintf(buf, bufsz,
                          /* TRANS: Amount is subtracted from upkeep cost
                           * for each upkeep type. */
-                         _("* Each of your cities will avoid paying %d"
-                           " upkeep for your units.\n"),
+                         PL_("* Each of your cities will avoid paying %d"
+                             " upkeep for your units.\n",
+                             "* Each of your cities will avoid paying %d"
+                             " upkeep for your units.\n", peffect->value),
                          peffect->value);
           }
         } /* else too complicated */
@@ -2439,9 +2439,12 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         if (playerwide) {
           cat_snprintf(buf, bufsz,
                        /* TRANS: %d should always be greater than 2. */
-                       _("* When you have %d cities, the first unhappy "
-                         "citizen will appear in each city due to "
-                         "civilization size.\n"),
+                       PL_("* When you have %d city, the first unhappy "
+                           "citizen will appear in each city due to "
+                           "civilization size.\n",
+                           "* When you have %d cities, the first unhappy "
+                           "citizen will appear in each city due to "
+                           "civilization size.\n", net_value),
                        net_value);
         }
         break;
@@ -2449,9 +2452,13 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         if (playerwide) {
           cat_snprintf(buf, bufsz,
                        /* TRANS: %d should always be greater than 2. */
-                       _("* After the first unhappy citizen due to"
-                         " civilization size, for each %d additional cities"
-                         " another unhappy citizen will appear.\n"),
+                       PL_("* After the first unhappy citizen due to"
+                           " civilization size, for each %d additional city"
+                           " another unhappy citizen will appear.\n",
+                           "* After the first unhappy citizen due to"
+                           " civilization size, for each %d additional cities"
+                           " another unhappy citizen will appear.\n",
+                           net_value),
                        net_value);
         }
         break;
@@ -2572,42 +2579,54 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
              * to describe. */
             break;
           }
-          /* FIXME: Should class related string, flag related string and
-           * type related string be qualified to allow different
-           * translations? */
           if (unitclass) {
             /* FIXME: account for multiple veteran levels, or negative
              * values. This might lie for complicated rulesets! */
             cat_snprintf(buf, bufsz,
-                         _("* Veteran %s units.\n"),
+                         /* TRANS: %s is a unit class */
+                         Q_("?unitclass:* New %s units will be veteran.\n"),
                          uclass_name_translation(unitclass));
           } else if (unitflag != F_LAST) {
             /* FIXME: same problems as unitclass */
             cat_snprintf(buf, bufsz,
-                         _("* Veteran %s units.\n"),
+                         /* TRANS: %s is a unit type flag */
+                         Q_("?unitflag:* New %s units will be veteran.\n"),
                          unit_flag_rule_name(unitflag));
           } else if (unittype != NULL) {
             if (world_value_valid && net_value > 0) {
-              /* Here we can get net value correct. */
+              /* Here we can be specific about veteran level, and get
+               * net value correct. */
+              int maxlvl = utype_veteran_system(unittype)->levels - 1;
+              const struct veteran_level *vlevel =
+                utype_veteran_level(unittype, MIN(net_value, maxlvl));
               cat_snprintf(buf, bufsz,
-                           _("* Veteran %s units.\n"),
-                           utype_name_translation(unittype));
+                           /* TRANS: "* New Partisan units will have the rank
+                            * of elite." */
+                           Q_("?unittype:* New %s units will have the rank "
+                              "of %s.\n"),
+                           utype_name_translation(unittype),
+                           name_translation(&vlevel->name));
             } /* else complicated */
           } else {
             /* No extra criteria. */
             /* FIXME: same problems as above */
             cat_snprintf(buf, bufsz,
-                         _("* Veteran units.\n"));
+                         _("* New units will be veteran.\n"));
           }
         }
         break;
       case EFT_OUTPUT_PENALTY_TILE:
         if (world_value_valid) {
           cat_snprintf(buf, bufsz,
-                       /* TRANS: %s is list of output types, with 'or' */
-                       _("* Each worked tile that gives more than %d %s will"
-                         " suffer a -1 penalty, unless the city working it"
-                         " is celebrating."),
+                       /* TRANS: %s is list of output types, with 'or';
+                        * pluralised in %d but of course the output types
+                        * can't be pluralised; sorry */
+                       PL_("* Each worked tile that gives more than %d %s will"
+                           " suffer a -1 penalty, unless the city working it"
+                           " is celebrating.",
+                           "* Each worked tile that gives more than %d %s will"
+                           " suffer a -1 penalty, unless the city working it"
+                           " is celebrating.", net_value),
                        net_value, astr_str(&outputs_or));
           if (game.info.celebratesize > 1) {
             cat_snprintf(buf, bufsz,
@@ -2622,9 +2641,12 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
       case EFT_OUTPUT_INC_TILE_CELEBRATE:
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is list of output types, with 'or' */
-                     _("* Each worked tile with at least 1 %s will yield"
-                       " %d more of it while the city working it is"
-                       " celebrating."),
+                     PL_("* Each worked tile with at least 1 %s will yield"
+                         " %d more of it while the city working it is"
+                         " celebrating.",
+                         "* Each worked tile with at least 1 %s will yield"
+                         " %d more of it while the city working it is"
+                         " celebrating.", peffect->value),
                      astr_str(&outputs_or), peffect->value);
         if (game.info.celebratesize > 1) {
           cat_snprintf(buf, bufsz,
@@ -2638,8 +2660,10 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
       case EFT_OUTPUT_INC_TILE:
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is list of output types, with 'or' */
-                     _("* Each worked tile with at least 1 %s will yield"
-                       " %d more of it.\n"),
+                     PL_("* Each worked tile with at least 1 %s will yield"
+                         " %d more of it.\n",
+                         "* Each worked tile with at least 1 %s will yield"
+                         " %d more of it.\n", peffect->value),
                      astr_str(&outputs_or), peffect->value);
         break;
       case EFT_OUTPUT_BONUS:
