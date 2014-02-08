@@ -21,7 +21,7 @@
 # 'space module' - 'moduł rakiety', 'spaceship' - 'rakieta (kosmiczna)',
 # 'propulsion' - 'silnik', 'habitation module' - 'moduł mieszkalny',
 # 'solar panel' - 'panel słoneczny', 'fuel component' - 'zbiornik paliwa'
-# * Opisy komend serwera zapisane są w czasie teraźniejszym, osobie trzeciej
+# * Opisy poleceń serwera zapisane są w czasie teraźniejszym, osobie trzeciej
 # (np. 'wyświetla', a nie 'wyświetli', 'wyświetl', 'wyświetlane jest')
 # * Nazwy budynków, jednostek, cudów, technologii, ustrojów, stanów dyplomatycznych
 # oraz wyrażenie 'Rakieta Kosmiczna' piszemy z dużej litery.
@@ -4941,7 +4941,7 @@ msgstr "?player:Przywódca"
 #: client/gui-gtk-2.0/pages.c:2661 client/gui-gtk-3.0/pages.c:2694
 #: client/plrdlg_common.c:262
 msgid "Team"
-msgstr "Zespół"
+msgstr "Drużyna"
 
 #: client/gui-gtk-2.0/pages.c:2780 client/gui-gtk-3.0/pages.c:2815
 #: client/gui-sdl/chatline.c:197
@@ -10509,15 +10509,15 @@ msgstr "AI %s"
 #: client/text.c:124
 #, c-format
 msgid "%s, team %s"
-msgstr "%s, zespół %s"
+msgstr "%s, drużyna %s"
 
 #: client/text.c:144
 msgid "?nation:Friendly(team)"
-msgstr "?nation:Przyjaźni(zespół)"
+msgstr "?nation:Przyjaźni(drużyna)"
 
 #: client/text.c:149
 msgid "?city:Friendly(team)"
-msgstr "?city:Przyjazne(zespół)"
+msgstr "?city:Przyjazne(drużyna)"
 
 #: client/text.c:157
 #, c-format
@@ -10751,9 +10751,9 @@ msgstr[2] "%d pkt/turę"
 #, c-format
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
-msgstr[0] ", %d pkt/turę od zespołu"
-msgstr[1] ", %d pkt/turę od zespołu"
-msgstr[2] ", %d pkt/turę od zespołu"
+msgstr[0] ", %d pkt/turę od drużyny"
+msgstr[1] ", %d pkt/turę od drużyny"
+msgstr[2] ", %d pkt/turę od drużyny"
 
 #: client/text.c:787
 #, c-format
@@ -12342,7 +12342,7 @@ msgstr "?diplomatic_state:Brak kontaktu"
 
 #: common/player.c:1187
 msgid "?diplomatic_state:Team"
-msgstr "?diplomatic_state:Zespół"
+msgstr "?diplomatic_state:Drużyna"
 
 #: common/requirements.c:1486 common/requirements.c:1563
 #, c-format
@@ -12405,17 +12405,17 @@ msgstr "Kolej"
 #: common/team.c:221
 #, c-format
 msgid "Team %d"
-msgstr "Zespół %d"
+msgstr "Drużyna %d"
 
 #: common/team.c:438
 #, c-format
 msgid "team %s"
-msgstr "zespół %s"
+msgstr "drużyna %s"
 
 #: common/team.c:440
 #, c-format
 msgid "team %d"
-msgstr "zespół %d"
+msgstr "drużyna %d"
 
 #: common/tech.c:944
 #, c-format
@@ -13237,7 +13237,7 @@ msgid ""
 "least two other teams have achieved."
 msgstr ""
 "Cywilizacja, która posiada Wielką Bibliotekę otrzymuje każde odkrycie, które "
-"zostało osiągnięte przez co najmniej dwa inne zespoły."
+"zostało osiągnięte przez co najmniej dwie inne drużyny."
 
 #: data/civ1/buildings.ruleset:770 data/civ2/buildings.ruleset:1118
 #: data/default/buildings.ruleset:1180
@@ -13570,22 +13570,22 @@ msgstr ""
 #: data/civ1/game.ruleset:220 data/civ2/game.ruleset:214
 #: data/default/game.ruleset:254 data/experimental/game.ruleset:260
 msgid "Team 0"
-msgstr "Zespół 0"
+msgstr "Drużyna 0"
 
 #: data/civ1/game.ruleset:221 data/civ2/game.ruleset:215
 #: data/default/game.ruleset:255 data/experimental/game.ruleset:261
 msgid "Team 1"
-msgstr "Zespół 1"
+msgstr "Drużyna 1"
 
 #: data/civ1/game.ruleset:222 data/civ2/game.ruleset:216
 #: data/default/game.ruleset:256 data/experimental/game.ruleset:262
 msgid "Team 2"
-msgstr "Zespół 2"
+msgstr "Drużyna 2"
 
 #: data/civ1/game.ruleset:223 data/civ2/game.ruleset:217
 #: data/default/game.ruleset:257 data/experimental/game.ruleset:263
 msgid "Team 3"
-msgstr "Zespół 3"
+msgstr "Drużyna 3"
 
 #: data/civ1/governments.ruleset:58 data/civ2/governments.ruleset:56
 #: data/default/governments.ruleset:59
@@ -17182,7 +17182,7 @@ msgstr "Wojsko Zespolone"
 #: data/civ2/techs.ruleset:176 data/default/techs.ruleset:187
 #: data/experimental/techs.ruleset:189 data/multiplayer/techs.ruleset:187
 msgid "Reduces the effect of Cathedrals."
-msgstr "Zmniejsza efekt katedr."
+msgstr "Zmniejsza efekt Katedr."
 
 #: data/civ2/techs.ruleset:201
 msgid "Allows Settlers and Engineers to build fortresses."
@@ -17237,7 +17237,7 @@ msgstr "Miniaturyzacja"
 #: data/civ2/techs.ruleset:470 data/default/techs.ruleset:474
 #: data/experimental/techs.ruleset:476 data/multiplayer/techs.ruleset:483
 msgid "Mobile Warfare"
-msgstr "Wojna błyskawiczna"
+msgstr "Wojna Błyskawiczna"
 
 #: data/civ2/techs.ruleset:486 data/default/techs.ruleset:490
 #: data/experimental/techs.ruleset:492 data/multiplayer/techs.ruleset:499
@@ -17305,7 +17305,7 @@ msgstr "Teologia"
 #: data/civ2/techs.ruleset:722 data/default/techs.ruleset:726
 #: data/experimental/techs.ruleset:728 data/multiplayer/techs.ruleset:734
 msgid "Improves the effect of Cathedrals."
-msgstr "Wzmacnia efekt katedr."
+msgstr "Wzmacnia efekt Katedr."
 
 #: data/civ2/techs.ruleset:749 data/default/techs.ruleset:753
 #: data/experimental/techs.ruleset:755 data/multiplayer/techs.ruleset:761
@@ -19227,7 +19227,7 @@ msgstr "Przedgra"
 
 #: data/Freeciv.in:3398
 msgid "  Name             Ready  Leader           Nation          Team "
-msgstr "Nazwa              Gotowy Dowódca          Naród          Zespół "
+msgstr "Nazwa              Gotowy Dowódca          Naród          Drużyna "
 
 #: data/Freeciv.in:3436
 msgid "Take Player"
@@ -39537,11 +39537,11 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:227
 msgid "team <player> <team>"
-msgstr "team <gracz> <zespół>"
+msgstr "team <gracz> <drużyna>"
 
 #: server/commands.c:228
 msgid "Change a player's team affiliation."
-msgstr "Dodaje lub usuwa gracza z zespołu."
+msgstr "Dodaje lub usuwa gracza z drużyny."
 
 #: server/commands.c:229
 msgid ""
@@ -39551,9 +39551,9 @@ msgid ""
 "only member). This command changes which team a player is a member of. Use "
 "\"\" if names contain whitespace."
 msgstr ""
-"Zespół to grupa graczy, którzy zaczynają jako sojusznicy - mają widok "
+"Drużyna to grupa graczy, którzy zaczynają jako sojusznicy - mają widok "
 "dzielony i ambasady. Walczą o zwycięstwo razem, a wynik każdego gracza są "
-"uśredniany. Każdy gracz jest zawsze członkiem jakiegoś zespołu (możliwe, że "
+"uśredniany. Każdy gracz jest zawsze członkiem jakiejś drużyny (możliwe, że "
 "jedynym). Polecenie to zmienia grupę, do której należy gracz. Użyj \"\", "
 "jeśli nazwy zawierają spacje."
 
@@ -41664,7 +41664,7 @@ msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
 "with %s."
 msgstr ""
-"Gracz z twojego zespołu %s wypowiedział/a wojnę %s. Musisz teraz zerwać "
+"Gracz z twojej drużyny %s wypowiedział/a wojnę %s. Musisz teraz zerwać "
 "sojusz z %s."
 
 #: server/plrhand.c:1382
@@ -41831,7 +41831,7 @@ msgstr "Liwiusz"
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:105
 msgid "Toynbee"
-msgstr "Tonybee"
+msgstr "Toynbee"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:107
@@ -41866,7 +41866,7 @@ msgstr "Szybkość badań"
 
 #: server/report.c:164
 msgid "Military Service"
-msgstr "Służba Wojskowa"
+msgstr "Służba wojskowa"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:183
@@ -42156,7 +42156,7 @@ msgid ""
 "Literacy\n"
 "(%)"
 msgstr ""
-"Potrafiących Czytać\n"
+"Potrafiący czytać\n"
 "(%)"
 
 #: server/report.c:1481
@@ -42165,11 +42165,11 @@ msgstr "Rakieta Kosmiczna\n"
 
 #: server/report.c:1482
 msgid "Built Units\n"
-msgstr "Zbudowane jdnostki\n"
+msgstr "Zbudowane jednostki\n"
 
 #: server/report.c:1483
 msgid "Killed Units\n"
-msgstr "Pokonalne jednostki\n"
+msgstr "Pokonane jednostki\n"
 
 #: server/report.c:1484
 msgid "Unit Losses\n"
@@ -42441,7 +42441,7 @@ msgstr "Możliwe tylko dla graczy AI"
 
 #: server/settings.c:338
 msgid "Restricted to teams"
-msgstr "Tylko dla zespołów"
+msgstr "Tylko dla drużyn"
 
 #: server/settings.c:339
 msgid "Disabled for everyone"
@@ -42517,7 +42517,7 @@ msgstr "Wszyscy gracze ruszają się naprzemiennie"
 
 #: server/settings.c:412
 msgid "Team alternate movement"
-msgstr "Zespoły ruszają się naprzemiennie"
+msgstr "Drużyny ruszają się naprzemiennie"
 
 #: server/settings.c:424
 msgid "No compression"
@@ -42525,15 +42525,15 @@ msgstr "Bez kompresji"
 
 #: server/settings.c:426
 msgid "Using zlib (gzip format)"
-msgstr "Użycie zlib (format gzip)"
+msgstr "Użyj zlib (format gzip)"
 
 #: server/settings.c:429
 msgid "Using bzip2"
-msgstr "Użycie bzip2"
+msgstr "Użyj bzip2"
 
 #: server/settings.c:432
 msgid "Using xz"
-msgstr "Używam xz"
+msgstr "Użyj xz"
 
 #: server/settings.c:444
 msgid "disabled"
@@ -43046,8 +43046,8 @@ msgid ""
 "seed will be chosen based on the time to give a random map. This setting is "
 "usually only of interest while debugging the game."
 msgstr ""
-"Ta sama wartość 'ziarna' da w efekcie tę samą mapę; zero (wartość domyślna) "
-"powoduje losowanie samego 'ziarna', dając w efekcie mapę losową.Ta opcja "
+"Ta sama wartość 'ziarna' da w efekcie taką samą mapę; zero (wartość domyślna) "
+"powoduje losowanie samego 'ziarna', dając w efekcie mapę losową. Ta opcja "
 "jest przydatna jedynie w procesie debugowania i nie ma znaczenia dla graczy."
 
 #: server/settings.c:1221
@@ -43112,7 +43112,7 @@ msgid ""
 "When playing a scenario which defines player start positions, this setting "
 "cannot be set to greater than the number of defined start positions."
 msgstr ""
-"Maksymalna liczba graczy (ludzie plus AI), która może istnieć w grze. Jeżeli "
+"Maksymalna liczba graczy (ludzie plus AI), którzy może istnieć w grze. Jeżeli "
 "liczba graczy jest równa podanej liczbie, to każdy nowy gracz, który będzie "
 "chciał się połączyć zostanie odrzucony.\n"
 "Gdy rozgrywasz scenariusz, który określa pozycje początkowe graczy, opcja ta "
@@ -43299,14 +43299,14 @@ msgstr ""
 
 #: server/settings.c:1400
 msgid "Team pooled research"
-msgstr "Wspólne odkrycia w zespołach"
+msgstr "Wspólne odkrycia w drużynach"
 
 #: server/settings.c:1401
 msgid ""
 "If this setting is turned on, then the team mates will share the science "
 "research. Else, every player of the team will have to make its own."
 msgstr ""
-"Włączenie tej opcji sprawia, że gracze w jednym zespole będą dzielić się "
+"Włączenie tej opcji sprawia, że gracze w jednej drużynie będą dzielić się "
 "odkryciami. W przeciwnym razie każdy gracz będzie musiał odkrywać "
 "technologie na własną rękę."
 
@@ -44314,7 +44314,7 @@ msgstr ""
 
 #: server/settings.c:2115
 msgid "Fixed-length turns play mode"
-msgstr "Tryb rozgrywek `stała długość trwania tury'"
+msgstr "Tryb rozgrywek \"stała długość trwania tury\""
 
 #. TRANS: \"Turn Done\" refers to the client button; it is also
 #. * translated separately, the translation should be the same.
@@ -44358,8 +44358,8 @@ msgstr ""
 "Znaczenie poszczególnych znaków:\n"
 "    N = Populacja\n"
 "    P = Produkcja\n"
-"    A = Obszar Zbadany\n"
-"    L = Potrafiących Czytać\n"
+"    A = Obszar zbadany\n"
+"    L = Potrafiących czytać\n"
 "    R = Szybkość badań\n"
 "    S = Obszar zamieszkany\n"
 "    E = Ekonomia\n"
@@ -44779,7 +44779,7 @@ msgstr "Koniec gry."
 #: server/srv_main.c:384 server/srv_main.c:520
 #, c-format
 msgid "Team victory to %s."
-msgstr "Zwycięstwo zespołowe dla %s"
+msgstr "Zwycięstwo drużynowe dla %s"
 
 #. TRANS: There can be several winners listed
 #: server/srv_main.c:442
@@ -45130,11 +45130,11 @@ msgstr "Użytkownik o takiej nazwie już bierze udział w grze."
 
 #: server/stdinhand.c:1056
 msgid "Can't add more players, server is full."
-msgstr "Więcej uczestników nie obsłużymy - serwer pracuje `pełną parą'."
+msgstr "Więcej uczestników nie obsłużymy - serwer pracuje \"pełną parą\"."
 
 #: server/stdinhand.c:1062
 msgid "Can't add more players, not enough nations."
-msgstr "Więcej uczestników nie obsłużymy - serwer pracuje `pełną parą'."
+msgstr "Więcej uczestników nie obsłużymy - serwer pracuje \"pełną parą\"."
 
 #: server/stdinhand.c:1072
 #, c-format
@@ -45374,11 +45374,11 @@ msgstr "Domyślny poziom trudności AI ustawiony na '%s'."
 #
 #: server/stdinhand.c:2042
 msgid "This command is client only."
-msgstr "Ten rozkaz ma sens tylko z poziomu klienta."
+msgstr "To polecenie ma sens tylko z poziomu klienta."
 
 #: server/stdinhand.c:2051
 msgid "Only players may use the away command."
-msgstr "Tylko prawdziwi gracze mogą używać polecenia away."
+msgstr "Tylko gracze mogą używać polecenia away."
 
 #: server/stdinhand.c:2055
 #, c-format
@@ -45471,7 +45471,7 @@ msgstr ""
 
 #: server/stdinhand.c:2301
 msgid "Cannot change teams once game has begun."
-msgstr "Po rozpoczęciu rozgrywki nie można zmieniać zespołów."
+msgstr "Po rozpoczęciu rozgrywki nie można zmieniać drużyn."
 
 #: server/stdinhand.c:2311 server/stdinhand.c:2447 server/stdinhand.c:2638
 #: server/stdinhand.c:2663 server/stdinhand.c:2704 server/stdinhand.c:2735
@@ -45488,7 +45488,7 @@ msgstr ""
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
 msgstr ""
-"Nie ma zespołu '%s'. Proszę podać prawidłowy numer zespołu lub jego nazwę."
+"Nie ma drużyny '%s'. Proszę podać prawidłowy numer drużyny lub jej nazwę."
 
 #: server/stdinhand.c:2339
 msgid "Cannot team a barbarian."
@@ -45497,14 +45497,14 @@ msgstr "Nie można grać razem z barbarzyńcami."
 #: server/stdinhand.c:2345
 #, c-format
 msgid "Player %s set to team %s."
-msgstr "Gracz %s gra teraz w zespole %s."
+msgstr "Gracz %s gra teraz w drużynie %s."
 
 #. TRANS: "Vote" or "Teamvote" is voting-as-a-process. Used as
 #. * part of a sentence.
 #. TRANS: "Vote" as a process. Used as part of a sentence.
 #: server/stdinhand.c:2373 server/voting.c:511
 msgid "Teamvote"
-msgstr "Głosowanie zespołowe"
+msgstr "Głosowanie drużynowe"
 
 #. TRANS: "Vote" as a process. Used as part of a sentence.
 #: server/stdinhand.c:2373 server/voting.c:516
@@ -46613,7 +46613,7 @@ msgstr "Lista dostępnych scenariuszy:"
 
 #: server/stdinhand.c:6282
 msgid "List of teams:"
-msgstr "Lista zespołów:"
+msgstr "Lista drużyn:"
 
 #. TRANS: There will always be at least 2 players here.
 #: server/stdinhand.c:6292
