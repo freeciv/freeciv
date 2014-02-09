@@ -369,12 +369,17 @@ static void update_source_label(void)
   /* Describe the individual cities. */
   for (i = 0; i < ncities; i++) {
     const char *air_text = get_airlift_text(cities[i].units, NULL);
+
     astr_init(&strs[i]);
-    astr_add(&strs[i], 
-             /* TRANS: goto/airlift dialog. "Paris (airlift: 2/4)".
-              * A set of these appear in an "and"-separated list. */
-             air_text ? _("%s (airlift: %s)") : "%s",
-             city_name(cities[i].city), air_text);
+    if (air_text != NULL) {
+      astr_add(&strs[i], 
+               /* TRANS: goto/airlift dialog. "Paris (airlift: 2/4)".
+                * A set of these appear in an "and"-separated list. */
+               _("%s (airlift: %s)"),
+               city_name(cities[i].city), air_text);
+    } else {
+      astr_add(&strs[i], "%s", city_name(cities[i].city));
+    }
     descriptions[i] = astr_str(&strs[i]);
     unit_list_destroy(cities[i].units);
   }
