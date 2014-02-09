@@ -1570,9 +1570,9 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     }
 
     if (t->type == TS_ISOMETRIC) {
-      t->hex_height = hex_side;
-    } else {
       t->hex_width = hex_side;
+    } else {
+      t->hex_height = hex_side;
     }
     /* Hex tilesets are drawn the same as isometric. */
     /* FIXME: There will be other legal values to be used with hex
