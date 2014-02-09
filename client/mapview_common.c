@@ -3447,3 +3447,14 @@ void link_mark_restore(enum text_link_type type, int id)
     refresh_tile_mapcanvas(ptile, FALSE, FALSE);
   }
 }
+
+/********************************************************************** 
+  Are the topology and tileset compatible?
+***********************************************************************/
+bool tileset_map_topo_compatible(int topology_id, struct tileset *tset)
+{
+  return (!XOR((topology_id & TF_HEX), (tileset_hex_width(tset) > 0
+                                        || tileset_hex_height(tset) > 0))
+          && !XOR(((topology_id & TF_HEX) || (topology_id & TF_ISO)),
+                  tileset_is_isometric(tset)));
+}

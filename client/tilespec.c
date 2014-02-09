@@ -580,7 +580,7 @@ static int fill_basic_base_sprite_array(const struct tileset *t,
 /****************************************************************************
   Called when ever there's problem in ruleset/tileset compatibility
 ****************************************************************************/
-static void tileset_error(enum log_level level, const char *format, ...)
+void tileset_error(enum log_level level, const char *format, ...)
 {
   char buf[2048];
   va_list args;
@@ -1180,6 +1180,11 @@ void tilespec_reread(const char *new_tileset_name, bool game_fully_initialized)
     /* The ruleset data is not sent until this point. */
     return;
   }
+
+  if (!tileset_map_topo_compatible(map.topology_id, tileset)) {
+    tileset_error(LOG_ERROR, _("Map topology and tileset incompatible."));
+  }
+
   terrain_type_iterate(pterrain) {
     tileset_setup_tile_type(tileset, pterrain);
   } terrain_type_iterate_end;

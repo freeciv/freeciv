@@ -1724,6 +1724,11 @@ void handle_map_info(int xsize, int ysize, int topology_id)
 
   map.xsize = xsize;
   map.ysize = ysize;
+
+  if (!tileset_map_topo_compatible(topology_id, tileset)) {
+    tileset_error(LOG_ERROR, _("Map topology and tileset incompatible."));
+  }
+
   map.topology_id = topology_id;
 
   /* Parameter is FALSE so that sizes are kept unchanged. */

@@ -129,6 +129,8 @@ extern struct tileset *tileset;
 struct strvec;
 const struct strvec *get_tileset_list(void);
 
+void tileset_error(enum log_level level, const char *format, ...);
+
 struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose);
 void tileset_init(struct tileset *t);
 void tileset_free(struct tileset *tileset);
