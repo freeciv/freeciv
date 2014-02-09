@@ -276,6 +276,7 @@ struct unit_type *dai_wants_defender_against(struct player *pplayer,
       /* It would be better than current best. Consider researching tech */
       int cost = 0;
       struct advance *itech = deftype->require_advance;
+      bool impossible_to_get = FALSE;
 
       if (A_NEVER != itech
           && player_invention_state(pplayer, advance_number(itech)) != TECH_KNOWN) {
@@ -290,23 +291,30 @@ struct unit_type *dai_wants_defender_against(struct player *pplayer,
           if (VUT_ADVANCE == preq->source.kind) {
             int iimprtech = advance_number(preq->source.value.advance);
 
-            if (TECH_KNOWN != player_invention_state(pplayer, iimprtech)) {
-              int imprcost = total_bulbs_required_for_goal(pplayer, iimprtech);
+            if (!preq->negated) {
+              if (TECH_KNOWN != player_invention_state(pplayer, iimprtech)) {
+                int imprcost = total_bulbs_required_for_goal(pplayer, iimprtech);
 
-              if (imprcost < cost || cost == 0) {
-                /* If we already have the primary tech (cost == 0),
-                 * or the building's tech is cheaper,
-                 * go for the building's required tech. */
-                itech = preq->source.value.advance;
-                cost = 0;
+                if (imprcost < cost || cost == 0) {
+                  /* If we already have the primary tech (cost == 0),
+                   * or the building's tech is cheaper,
+                   * go for the building's required tech. */
+                  itech = preq->source.value.advance;
+                  cost = 0;
+                }
+                cost += imprcost;
               }
-              cost += imprcost;
+            } else {
+              if (TECH_KNOWN == player_invention_state(pplayer, iimprtech)) {
+                /* We're not going to lose tech */
+                impossible_to_get = TRUE;
+              }
             }
           }
         } requirement_vector_iterate_end;
       }
 
-      if (cost < best_cost
+      if (cost < best_cost && !impossible_to_get
           && player_invention_reachable(pplayer, advance_number(itech), TRUE)) {
         best_tech = itech;
         best_cost = cost;
@@ -369,7 +377,7 @@ struct unit_type *dai_wants_role_unit(struct player *pplayer,
         struct impr_type *building = iunit->need_improvement;
 
 	requirement_vector_iterate(&building->reqs, preq) {
-	  if (VUT_ADVANCE == preq->source.kind) {
+	  if (VUT_ADVANCE == preq->source.kind && !preq->negated) {
 	    int iimprtech = advance_number(preq->source.value.advance);
 
 	    if (TECH_KNOWN != player_invention_state(pplayer, iimprtech)) {

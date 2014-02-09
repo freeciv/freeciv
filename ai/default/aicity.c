@@ -983,7 +983,7 @@ void dai_city_load(struct ai_type *ait, const char *aitstr,
 static struct unit_class *affected_unit_class(const struct effect *peffect)
 {
   requirement_list_iterate(peffect->reqs, preq) {
-    if (preq->source.kind == VUT_UCLASS) {
+    if (preq->source.kind == VUT_UCLASS && !preq->negated) {
       return preq->source.value.uclass;
     }
   } requirement_list_iterate_end;
@@ -1537,10 +1537,10 @@ static bool adjust_wants_for_reqs(struct ai_type *ait,
                                       pcity->tile, NULL, NULL, NULL, preq,
                                       RPT_POSSIBLE);
 
-    if (VUT_ADVANCE == preq->source.kind && !active) {
+    if (VUT_ADVANCE == preq->source.kind && !preq->negated && !active) {
       /* Found a missing technology requirement for this improvement. */
       tech_vector_append(&needed_techs, preq->source.value.advance);
-    } else if (VUT_IMPROVEMENT == preq->source.kind && !active) {
+    } else if (VUT_IMPROVEMENT == preq->source.kind && !preq->negated && !active) {
       /* Found a missing improvement requirement for this improvement.
        * For example, in the default ruleset a city must have a Library
        * before it can have a University. */
@@ -1809,6 +1809,8 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     bool active = TRUE;
     int n_needed_techs = 0;
     struct tech_vector needed_techs;
+    bool negated = FALSE;
+    bool impossible_to_get = FALSE;
 
     if (is_effect_disabled(pplayer, pcity, pimprove,
 			   NULL, NULL, NULL, NULL,
@@ -1829,32 +1831,51 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
       if (VUT_IMPROVEMENT == preq->source.kind
 	  && preq->source.value.building == pimprove) {
 	mypreq = preq;
+        negated = preq->negated;
         continue;
       }
       if (!is_req_active(pplayer, pcity, pimprove, NULL, NULL, NULL, NULL,
 			 preq, RPT_POSSIBLE)) {
 	active = FALSE;
 	if (VUT_ADVANCE == preq->source.kind) {
-	  /* This missing requirement is a missing tech requirement.
-	   * This will be for some additional effect
-	   * (For example, in the default ruleset, Mysticism increases
-	   * the effect of Temples). */
-          tech_vector_append(&needed_techs, preq->source.value.advance);
+          if (!preq->negated) {
+            /* This missing requirement is a missing tech requirement.
+             * This will be for some additional effect
+             * (For example, in the default ruleset, Mysticism increases
+             * the effect of Temples). */
+            tech_vector_append(&needed_techs, preq->source.value.advance);
+          } else {
+            /* Would require losing a tech - we're not going to do that. */
+            impossible_to_get = TRUE;
+          }
 	}
       }
     } requirement_list_iterate_end;
 
     n_needed_techs = tech_vector_size(&needed_techs);
-    if (active || n_needed_techs) {
-      const int v1 = improvement_effect_value(pplayer, gov, ai,
-					      pcity, capital, 
-					      pimprove, peffect,
-					      cities[mypreq->range],
-					      nplayers, v);
+    if ((active || n_needed_techs) && !impossible_to_get) {
+      int v1 = improvement_effect_value(pplayer, gov, ai,
+                                        pcity, capital, 
+                                        pimprove, peffect,
+                                        cities[mypreq->range],
+                                        nplayers, v);
       /* v1 could be negative (the effect could be undesirable),
        * although it is usually positive.
        * For example, in the default ruleset, Communism decreases the
        * effectiveness of a Cathedral. */
+
+      if (negated) {
+        /* Building removes the effect */
+        /* But getting a tech will not force building the building,
+         * so don't hold it against the tech. */
+        if (active) {
+          /* Currently v1 is (v + delta). Make it (v - delta) instead */ 
+          v1 = v - (v1 - v);
+        } else {
+          /* Tech */
+          v1 = MAX(v, -v1);
+        }
+      }
 
       if (active) {
 	v = v1;
@@ -2104,7 +2125,7 @@ Impr_type_id dai_find_source_building(struct city *pcity,
       bool wrong_unit = FALSE;
 
       requirement_list_iterate(peffect->reqs, preq) {
-        if (VUT_IMPROVEMENT == preq->source.kind) {
+        if (VUT_IMPROVEMENT == preq->source.kind && !preq->negated) {
           building = preq->source.value.building;
 
           if (!can_city_build_improvement_now(pcity, building)
@@ -2114,12 +2135,15 @@ Impr_type_id dai_find_source_building(struct city *pcity,
           }
         }
         if (VUT_UCLASS == preq->source.kind) {
-          if ((uclass != NULL && preq->source.value.uclass != uclass)
-              || (move != unit_move_type_invalid()
-                  && uclass_move_type(preq->source.value.uclass) != move)) {
-            /* Effect requires other kind of unit than what we are interested about */
-            wrong_unit = TRUE;
-            break;
+          if (uclass != NULL) {
+            if ((!preq->negated && preq->source.value.uclass != uclass)
+                || (preq->negated && preq->source.value.uclass == uclass)
+                || (move != unit_move_type_invalid()
+                    && uclass_move_type(preq->source.value.uclass) != move)) {
+              /* Effect requires other kind of unit than what we are interested about */
+              wrong_unit = TRUE;
+              break;
+            }
           }
         }
       } requirement_list_iterate_end;
