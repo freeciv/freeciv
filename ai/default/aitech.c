@@ -259,6 +259,7 @@ struct unit_type *ai_wants_role_unit(struct player *pplayer,
   for (i = n - 1; i >= 0; i--) {
     struct unit_type *iunit = get_role_unit(role, i);
     struct advance *itech = iunit->require_advance;
+    bool impossible_to_get = FALSE;
 
     if (can_city_build_unit_now(pcity, iunit)) {
       build_unit = iunit;
@@ -279,24 +280,31 @@ struct unit_type *ai_wants_role_unit(struct player *pplayer,
 	  if (VUT_ADVANCE == preq->source.kind) {
 	    int iimprtech = advance_number(preq->source.value.advance);
 
-	    if (TECH_KNOWN != player_invention_state(pplayer, iimprtech)) {
-	      int imprcost = total_bulbs_required_for_goal(pplayer, iimprtech);
+            if (!preq->negated) {
+              if (TECH_KNOWN != player_invention_state(pplayer, iimprtech)) {
+                int imprcost = total_bulbs_required_for_goal(pplayer, iimprtech);
 
-	      if (imprcost < cost || cost == 0) {
-	        /* If we already have the primary tech (cost==0),
-	         * or the building's tech is cheaper,
-	         * go for the building's required tech. */
-	        itech = preq->source.value.advance;
-	        cost = 0;
-	      }
-	      cost += imprcost;
-	    }
+                if (imprcost < cost || cost == 0) {
+                  /* If we already have the primary tech (cost==0),
+                   * or the building's tech is cheaper,
+                   * go for the building's required tech. */
+                  itech = preq->source.value.advance;
+                  cost = 0;
+                }
+                cost += imprcost;
+              }
+            } else {
+              if (TECH_KNOWN == player_invention_state(pplayer, iimprtech)) {
+                /* We're not going to lose tech */
+                impossible_to_get = TRUE;
+              }
+            }
 	  }
 	} requirement_vector_iterate_end;
       }
 
-      if (cost < best_cost
-       && player_invention_reachable(pplayer, advance_number(itech), TRUE)) {
+      if (cost < best_cost && !impossible_to_get
+          && player_invention_reachable(pplayer, advance_number(itech), TRUE)) {
         best_tech = itech;
         best_cost = cost;
         best_unit = iunit;

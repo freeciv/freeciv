@@ -400,7 +400,7 @@ Impr_type_id ai_find_source_building(struct city *pcity,
       bool wrong_unit = FALSE;
 
       requirement_list_iterate(peffect->reqs, preq) {
-        if (VUT_IMPROVEMENT == preq->source.kind) {
+        if (VUT_IMPROVEMENT == preq->source.kind && !preq->negated) {
           building = preq->source.value.building;
 
           if (!can_city_build_improvement_now(pcity, building)
@@ -410,12 +410,15 @@ Impr_type_id ai_find_source_building(struct city *pcity,
           }
         }
         if (VUT_UCLASS == preq->source.kind) {
-          if ((uclass != NULL && preq->source.value.uclass != uclass)
-              || (move != unit_move_type_invalid()
-                  && uclass_move_type(preq->source.value.uclass) != move)) {
-            /* Effect requires other kind of unit than what we are interested about */
-            wrong_unit = TRUE;
-            break;
+          if (uclass != NULL) {
+            if ((!preq->negated && preq->source.value.uclass != uclass)
+                || (preq->negated && preq->source.value.uclass == uclass)
+                || (move != unit_move_type_invalid()
+                    && uclass_move_type(preq->source.value.uclass) != move)) {
+              /* Effect requires other kind of unit than what we are interested about */
+              wrong_unit = TRUE;
+              break;
+            }
           }
         }
       } requirement_list_iterate_end;
