@@ -1023,9 +1023,11 @@ static void package_player_info(struct player *plr,
   if (info_level >= INFO_EMBASSY 
       || (receiver
 	  && player_diplstate_get(plr, receiver)->type == DS_TEAM)) {
-    packet->bulbs_last_turn = plr->bulbs_last_turn;
+    packet->bulbs_last_turn_old = plr->bulbs_last_turn;
+    packet->bulbs_last_turn_new = plr->bulbs_last_turn;
   } else {
-    packet->bulbs_last_turn = 0;
+    packet->bulbs_last_turn_old = 0;
+    packet->bulbs_last_turn_new = 0;
   }
 
   /* Send most civ info about the player only to players who have an

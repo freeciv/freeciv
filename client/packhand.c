@@ -2032,7 +2032,11 @@ void handle_player_info(const struct packet_player_info *pinfo)
 
   poptechup = (research->researching != pinfo->researching
                || research->tech_goal != pinfo->tech_goal);
-  pplayer->bulbs_last_turn = pinfo->bulbs_last_turn;
+  if (has_capability("bulbs_size", client.conn.capability)) {
+    pplayer->bulbs_last_turn = pinfo->bulbs_last_turn_new;
+  } else {
+    pplayer->bulbs_last_turn = pinfo->bulbs_last_turn_old;
+  }
   research->bulbs_researched = pinfo->bulbs_researched;
   research->techs_researched = pinfo->techs_researched;
 
