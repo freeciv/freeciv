@@ -220,9 +220,10 @@ const char **gfx_fileextensions(void)
 struct sprite *load_gfxfile(const char *filename)
 {
   GdkPixbuf *im;
+  GError *err = NULL;
 
-  if (!(im = gdk_pixbuf_new_from_file(filename, NULL))) {
-    log_fatal("Failed reading graphics file: \"%s\"", filename);
+  if (!(im = gdk_pixbuf_new_from_file(filename, &err))) {
+    log_fatal("Failed reading graphics file \"%s\": \"%s\"", filename, err->message);
     exit(EXIT_FAILURE);
   }
 
