@@ -24,12 +24,17 @@
 #
 
 
-# build all installers
+# by default build all installers
+all: gtk3-installer gtk2-installer sdl-installer
 
-all: 
-	make GUI=gtk3 FCMP=gtk3 installer-gtk3
-	make GUI=gtk2 FCMP=gtk2 installer-gtk2
-	make GUI=sdl FCMP=gtk3 installer-sdl
+gtk3-installer:
+	make GUI=gtk3 FCMP=gtk3 wrap-gtk3
+
+gtk2-installer:
+	make GUI=gtk2 FCMP=gtk2 wrap-gtk2
+
+sdl-installer:
+	make GUI=sdl FCMP=gtk3 wrap-sdl
 
 
 # build Freeciv
@@ -186,11 +191,11 @@ installer-common: clean-install-common install-freeciv-$(GUI) install-env-$(GUI)
 	mkdir -p Output
 	makensis Freeciv-$(FREECIV_VERSION)-$(GUI).nsi
 
-installer-gtk3: build-freeciv-gtk3 installer-common
+wrap-gtk3: build-freeciv-gtk3 installer-common
 
-installer-gtk2: build-freeciv-gtk2 installer-common
+wrap-gtk2: build-freeciv-gtk2 installer-common
 
-installer-sdl: build-freeciv-sdl installer-common
+wrap-sdl: build-freeciv-sdl installer-common
 
 
 # cleanup
