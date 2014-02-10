@@ -141,12 +141,14 @@ blend_layer = 0
 num_layers = 1
 layer0_match_type = "forest"
 layer0_match_with = "forest"
+mine_sprite = "tx.mine"
 
 [tile_grassland]
 blend_layer = 0
 num_layers = 1
 layer0_match_type = "grassland"
 layer0_match_with = "grassland"
+mine_sprite = "tx.mine"
 
 [tile_hills]
 blend_layer = 0
@@ -160,6 +162,7 @@ blend_layer = 0
 num_layers = 1
 layer0_match_type = "jungle"
 layer0_match_with = "jungle"
+mine_sprite = "tx.mine"
 
 [tile_mountains]
 blend_layer = 0
@@ -173,18 +176,21 @@ blend_layer = 0
 num_layers = 1
 layer0_match_type = "plains"
 layer0_match_with = "plains"
+mine_sprite = "tx.mine"
 
 [tile_swamp]
 blend_layer = 0
 num_layers = 1
 layer0_match_type = "swamp"
 layer0_match_with = "swamp"
+mine_sprite = "tx.mine"
 
 [tile_tundra]
 blend_layer = 0
 num_layers = 1
 layer0_match_type = "tundra"
 layer0_match_with = "tundra"
+mine_sprite = "tx.oil_mine"
 
 [roads]
 styles =
