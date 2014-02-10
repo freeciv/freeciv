@@ -34,6 +34,7 @@ noinst_LTLIBRARIES = libfcmp.la
 endif
 
 common_cppflags = \
+	-I$(top_srcdir)/dependencies/cvercmp \
 	-I$(top_srcdir)/utility \
 	-I$(top_srcdir)/common \
 	-I$(top_srcdir)/server \
@@ -88,6 +89,7 @@ freeciv_mp_cli_LDFLAGS = $(MP_cli_LDFLAGS)
 
 freeciv_mp_cli_LDADD = \
 		libfcmp.la \
+		$(top_builddir)/dependencies/cvercmp/libcvercmp.la \
 		$(top_builddir)/common/libfreeciv.la \
 		$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
 		$(MAPIMG_WAND_LIBS) \
@@ -103,6 +105,7 @@ freeciv_mp_gtk2_LDFLAGS = $(MP_gtk2_LDFLAGS)
 
 freeciv_mp_gtk2_LDADD = \
 		libfcmp.la \
+		$(top_builddir)/dependencies/cvercmp/libcvercmp.la \
 		$(top_builddir)/common/libfreeciv.la \
 		$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
 		$(MAPIMG_WAND_LIBS) \
@@ -119,6 +122,7 @@ freeciv_mp_gtk3_LDFLAGS = $(MP_gtk3_LDFLAGS)
 
 freeciv_mp_gtk3_LDADD = \
 		libfcmp.la \
+		$(top_builddir)/dependencies/cvercmp/libcvercmp.la \
 		$(top_builddir)/common/libfreeciv.la \
 		$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
 		$(MAPIMG_WAND_LIBS) \
@@ -147,6 +151,7 @@ CLEANFILES = $(MOC_FILES)
 
 freeciv_mp_qt_LDADD = \
 		libfcmp.la \
+		$(top_builddir)/dependencies/cvercmp/libcvercmp.la \
 		$(top_builddir)/common/libfreeciv.la \
 		$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
 		$(MAPIMG_WAND_LIBS) \

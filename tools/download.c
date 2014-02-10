@@ -24,6 +24,9 @@
 #include <unistd.h>
 #include <errno.h>
 
+/* dependencies */
+#include "cvercmp.h"
+
 /* utility */
 #include "capability.h"
 #include "fcintl.h"
@@ -34,6 +37,12 @@
 
 /* modinst */
 #include "download.h"
+
+static const char *download_modpack_recursive(const char *URL,
+                                              const struct fcmp_params *fcmp,
+                                              dl_msg_callback mcb,
+                                              dl_pb_callback pbcb,
+                                              int recursion);
 
 /**************************************************************************
   Message callback called by netfile module when downloading files.
@@ -55,6 +64,18 @@ const char *download_modpack(const char *URL,
                              dl_msg_callback mcb,
                              dl_pb_callback pbcb)
 {
+  return download_modpack_recursive(URL, fcmp, mcb, pbcb, 0);
+}
+
+/**************************************************************************
+  Download modpack and its recursive dependencies.
+**************************************************************************/
+static const char *download_modpack_recursive(const char *URL,
+                                              const struct fcmp_params *fcmp,
+                                              dl_msg_callback mcb,
+                                              dl_pb_callback pbcb,
+                                              int recursion)
+{
   char local_dir[2048];
   char local_name[2048];
   int start_idx;
@@ -69,6 +90,12 @@ const char *download_modpack(const char *URL,
   char fileURL[2048];
   const char *src_name;
   bool partial_failure = FALSE;
+  int dep;
+  const char *dep_name;
+
+  if (recursion > 5) {
+    return _("Recursive dependencies too deep");
+  }
 
   if (URL == NULL || URL[0] == '\0') {
     return _("No URL given");
@@ -92,7 +119,10 @@ const char *download_modpack(const char *URL,
   }
 
   if (mcb != NULL) {
-    mcb(_("Downloading modpack control file."));
+    char buf[2048];
+
+    fc_snprintf(buf, sizeof(buf), _("Downloading \"%s\" control file."), URL + start_idx);
+    mcb(buf);
   }
 
   control = netfile_get_section_file(URL, nf_cb, mcb);
@@ -141,6 +171,63 @@ const char *download_modpack(const char *URL,
   }
 
   baseURL = secfile_lookup_str(control, "info.baseURL");
+
+  dep = 0;
+  do {
+    dep_name = secfile_lookup_str_default(control, NULL,
+                                          "dependencies.list%d.modpack", dep);
+    if (dep_name != NULL) {
+      const char *dep_URL;
+      const char *inst_ver;
+      const char *dep_typestr;
+      enum modpack_type dep_type;
+      bool needed = TRUE;
+
+      dep_URL = secfile_lookup_str_default(control, NULL,
+                                           "dependencies.list%d.URL", dep);
+
+      if (dep_URL == NULL) {
+        return _("Dependency has no download URL");
+      }
+
+      dep_typestr = secfile_lookup_str(control, "dependencies.list%d.type", dep);
+      dep_type = modpack_type_by_name(dep_typestr, fc_strcasecmp);
+      if (!modpack_type_is_valid(dep_type)) {
+        return _("Illegal dependency modpack type");
+      }
+
+      inst_ver = get_installed_version(dep_name, type);
+
+      if (inst_ver != NULL) {
+        const char *dep_ver;
+
+        dep_ver = secfile_lookup_str_default(control, NULL,
+                                             "dependencies.list%d.version", dep);
+
+        if (dep_ver != NULL && cvercmp_max(dep_ver, inst_ver)) {
+          needed = FALSE;
+        }
+      }
+
+      if (needed) {
+        const char *msg;
+
+        if (mcb != NULL) {
+          mcb(_("Download dependency modpack"));
+        }
+
+        msg = download_modpack_recursive(dep_URL, fcmp, mcb, pbcb, recursion + 1);
+
+        if (msg != NULL) {
+          return msg;
+        }
+      }
+    }
+
+    dep++;
+    
+  } while (dep_name != NULL);
+
 
   total_files = 0;
   do {
