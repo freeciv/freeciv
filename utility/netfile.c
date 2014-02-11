@@ -31,8 +31,22 @@ struct netfile_post {
   struct curl_httppost *last;
 };
 
-/* Consecutive transfers can use same handle for better performance */
-static CURL *handle = NULL;
+/********************************************************************** 
+  Set handle to usable state.
+***********************************************************************/
+static CURL *netfile_init_handle(void)
+{
+  /* Consecutive transfers can use same handle for better performance */
+  static CURL *handle = NULL;
+
+  if (handle == NULL) {
+    handle = curl_easy_init();
+  } else {
+    curl_easy_reset(handle);
+  }
+
+  return handle;
+}
 
 /********************************************************************** 
   Fetch file from given URL to given file stream. This is core
@@ -43,10 +57,9 @@ static bool netfile_download_file_core(const char *URL, FILE *fp,
 {
   CURLcode curlret;
   struct curl_slist *headers = NULL;
+  static CURL *handle;
 
-  if (handle == NULL) {
-    handle = curl_easy_init();
-  }
+  handle = netfile_init_handle();
 
   headers = curl_slist_append(headers,"User-Agent: Freeciv/" VERSION_STRING);
 
@@ -208,10 +221,9 @@ bool netfile_send_post(const char *URL, struct netfile_post *post,
   CURLcode curlret;
   long http_resp;
   struct curl_slist *headers = NULL;
+  static CURL *handle;
 
-  if (handle == NULL) {
-    handle = curl_easy_init();
-  }
+  handle = netfile_init_handle();
 
   headers = curl_slist_append(headers,"User-Agent: Freeciv/" VERSION_STRING);
 
