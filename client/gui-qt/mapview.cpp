@@ -826,7 +826,7 @@ void info_label::mouseMoveEvent(QMouseEvent *event)
 {
   QPoint p(event->x(), event->y());
   p = this->mapToGlobal(p);
-  bool redraw;
+  bool redraw = false;
   struct sprite *sprite;
   int w;
 
@@ -1523,7 +1523,8 @@ void unit_label::mousePressEvent(QMouseEvent *event)
 **************************************************************************/
 void unit_label::mouseMoveEvent(QMouseEvent *event)
 {
-  bool redraw;
+  bool redraw = false;
+
   if (selection_area.contains(event->x(), event->y())) {
     if (highlight_pix == false) {
       redraw = true;
