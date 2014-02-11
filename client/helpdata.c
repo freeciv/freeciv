@@ -3092,7 +3092,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
                       _("* You pay no upkeep for your units.\n"));
             }
           } else if (net_value != world_value) {
-            double ratio = net_value / world_value;
+            double ratio = (double)net_value / world_value;
             if (output_type != O_LAST) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is the output type, like 'shield'
