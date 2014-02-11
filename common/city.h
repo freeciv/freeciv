@@ -100,6 +100,7 @@ bool city_tile_index_to_xy(int *city_map_x, int *city_map_y,
 int city_tile_xy_to_index(int city_map_x, int city_map_y,
                           int city_radius_sq);
 
+int rs_max_city_radius_sq(void);
 int city_map_radius_sq_get(const struct city *pcity);
 void city_map_radius_sq_set(struct city *pcity, int radius_sq);
 int city_map_tiles(int city_radius_sq);

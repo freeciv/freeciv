@@ -501,7 +501,7 @@ void city_map::set_pixmap(struct city *pcity)
 
   r = sqrt(city_map_radius_sq_get(pcity));
   if (radius != r) {
-    max_r = sqrt(CITY_MAP_MAX_RADIUS_SQ);
+    max_r = sqrt(rs_max_city_radius_sq());
     radius = r;
     delete miniview;
     cutted_width = wdth * (r + 1) / max_r;

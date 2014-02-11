@@ -63,9 +63,10 @@ int get_citydlg_canvas_height(void)
 void generate_citydlg_dimensions(void)
 {
   int min_x = 0, max_x = 0, min_y = 0, max_y = 0;
+  int max_rad = rs_max_city_radius_sq();
 
   /* use maximum possible squared city radius. */
-  city_map_iterate_without_index(CITY_MAP_MAX_RADIUS_SQ, city_x, city_y) {
+  city_map_iterate_without_index(max_rad, city_x, city_y) {
     int canvas_x, canvas_y;
 
     map_to_gui_vector(tileset, &canvas_x, &canvas_y, CITY_ABS2REL(city_x),
@@ -115,6 +116,7 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
 #endif
   const int width = get_citydlg_canvas_width();
   const int height = get_citydlg_canvas_height();
+  int max_rad = rs_max_city_radius_sq();
 
   /* The citymap is centered over the center of the citydlg canvas. */
   canvas_x -= (width - tileset_tile_width(tileset)) / 2;
@@ -138,8 +140,8 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
 
   /* Add on the offset of the top-left corner to get the final
    * coordinates (like in canvas_to_map_pos). */
-  *city_x += CITY_MAP_MAX_RADIUS;
-  *city_y += CITY_MAP_MAX_RADIUS;
+  *city_x += max_rad;
+  *city_y += max_rad;
 
   log_debug("canvas_to_city_pos(pos=(%d,%d))=(%d,%d)@radius=%d",
             orig_canvas_x, orig_canvas_y, *city_x, *city_y, city_radius_sq);
