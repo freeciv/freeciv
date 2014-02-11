@@ -185,9 +185,9 @@ layer0_match_with = "tundra"
 [extras]
 styles =
     { "name",          "style"
-      "road",          "RoadParityCombined"
-      "rail",          "RoadParityCombined"
-      "river",         "River"
+      "road.road",     "RoadParityCombined"
+      "road.rail",     "RoadParityCombined"
+      "road.river",    "River"
       "tx.irrigation", "Cardinals"
       "tx.farmland",   "Cardinals"
       "tx.mine",       "Single1"

@@ -30,29 +30,29 @@ tiles = { "row", "column", "tag"
 ; Rivers (as special type), and whether north, south, east, west 
 ; also has river or is ocean:
 
- 2,  0, "river_s_n0e0s0w0"
- 2,  1, "river_s_n0e0s0w1"
- 2,  2, "river_s_n0e0s1w0"
- 2,  3, "river_s_n0e0s1w1"
- 2,  4, "river_s_n0e1s0w0"
- 2,  5, "river_s_n0e1s0w1"
- 2,  6, "river_s_n0e1s1w0"
- 2,  7, "river_s_n0e1s1w1"
- 3,  0, "river_s_n1e0s0w0"
- 3,  1, "river_s_n1e0s0w1"
- 3,  2, "river_s_n1e0s1w0"
- 3,  3, "river_s_n1e0s1w1"
- 3,  4, "river_s_n1e1s0w0"
- 3,  5, "river_s_n1e1s0w1"
- 3,  6, "river_s_n1e1s1w0"
- 3,  7, "river_s_n1e1s1w1"
+ 2,  0, "road.river_s_n0e0s0w0"
+ 2,  1, "road.river_s_n0e0s0w1"
+ 2,  2, "road.river_s_n0e0s1w0"
+ 2,  3, "road.river_s_n0e0s1w1"
+ 2,  4, "road.river_s_n0e1s0w0"
+ 2,  5, "road.river_s_n0e1s0w1"
+ 2,  6, "road.river_s_n0e1s1w0"
+ 2,  7, "road.river_s_n0e1s1w1"
+ 3,  0, "road.river_s_n1e0s0w0"
+ 3,  1, "road.river_s_n1e0s0w1"
+ 3,  2, "road.river_s_n1e0s1w0"
+ 3,  3, "road.river_s_n1e0s1w1"
+ 3,  4, "road.river_s_n1e1s0w0"
+ 3,  5, "road.river_s_n1e1s0w1"
+ 3,  6, "road.river_s_n1e1s1w0"
+ 3,  7, "road.river_s_n1e1s1w1"
 
-;river outlets
+; River outlets
 
- 4,  0, "river_outlet_n"
- 4,  1, "river_outlet_e"
- 4,  2, "river_outlet_s"
- 4,  3, "river_outlet_w"
+ 4,  0, "road.river_outlet_n"
+ 4,  1, "road.river_outlet_e"
+ 4,  2, "road.river_outlet_s"
+ 4,  3, "road.river_outlet_w"
 }
 
 

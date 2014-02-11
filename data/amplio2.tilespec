@@ -208,9 +208,9 @@ layer0_match_type = "land"
 [extras]
 styles =
     { "name",          "style"
-      "road",          "RoadAllSeparate"
-      "rail",          "RoadAllSeparate"
-      "river",         "River"
+      "road.road",     "RoadAllSeparate"
+      "road.rail",     "RoadAllSeparate"
+      "road.river",    "River"
       "tx.irrigation", "Cardinals"
       "tx.farmland",   "Cardinals"
       "tx.mine",       "Single1"

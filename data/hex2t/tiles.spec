@@ -26,31 +26,31 @@ pixel_border = 2
 
 tiles = { "row", "column","tag"
 
-; roads
+; Roads
 
- 0, 0, "r.road_n"
- 0, 1, "r.road_ne"
- 0, 2, "r.road_e"
- 0, 7, "r.road_se"
- 0, 3, "r.road_s"
- 0, 4, "r.road_sw"
- 0, 5, "r.road_w"
- 0, 6, "r.road_nw"
+ 0, 0, "road.road_n"
+ 0, 1, "road.road_ne"
+ 0, 2, "road.road_e"
+ 0, 7, "road.road_se"
+ 0, 3, "road.road_s"
+ 0, 4, "road.road_sw"
+ 0, 5, "road.road_w"
+ 0, 6, "road.road_nw"
 
- 0, 8, "r.road_isolated"
+ 0, 8, "road.road_isolated"
 
-; rails
+; Rails
 
- 1, 0, "r.rail_n"
- 1, 1, "r.rail_ne"
- 1, 2, "r.rail_e"
- 1, 7, "r.rail_se"
- 1, 3, "r.rail_s"
- 1, 4, "r.rail_sw"
- 1, 5, "r.rail_w"
- 1, 6, "r.rail_nw"
+ 1, 0, "road.rail_n"
+ 1, 1, "road.rail_ne"
+ 1, 2, "road.rail_e"
+ 1, 7, "road.rail_se"
+ 1, 3, "road.rail_s"
+ 1, 4, "road.rail_sw"
+ 1, 5, "road.rail_w"
+ 1, 6, "road.rail_nw"
 
- 1, 8, "r.rail_isolated"
+ 1, 8, "road.rail_isolated"
 
 
 ; terrain : if more t.whateverN are given it picks one randomly for each tile.
