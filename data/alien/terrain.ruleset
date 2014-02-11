@@ -711,7 +711,7 @@ flags        = "ParadropFrom", "NoAggressive"
 
 [road_road]
 name           = _("Road")
-graphic        = "road"
+graphic        = "road.road"
 graphic_alt    = "-"
 activity_gfx   = "unit.road"
 act_gfx_alt    = "-"
@@ -740,8 +740,8 @@ Having Road on Grassland tile provides increase of +1 to trade on that tile.\
 
 [road_highway]
 name           = _("Highway")
-graphic        = "highway"
-graphic_alt    = "road"
+graphic        = "road.highway"
+graphic_alt    = "road.road"
 activity_gfx   = "unit.highway"
 act_gfx_alt    = "unit.road"
 reqs           =
@@ -769,8 +769,8 @@ You can upgrade Roads to Highways.\
 
 [road_maglev]
 name           = _("Maglev")
-graphic        = "maglev"
-graphic_alt    = "rail"
+graphic        = "road.maglev"
+graphic_alt    = "road.rail"
 activity_gfx   = "unit.maglev"
 act_gfx_alt    = "unit.road"
 reqs           =
@@ -801,8 +801,8 @@ tile with Maglev is increased by 50%.\
 
 [road_tunnel]
 name           = _("Tunnel")
-graphic        = "tunnel"
-graphic_alt    = "rail"
+graphic        = "road.tunnel"
+graphic_alt    = "road.rail"
 activity_gfx   = "unit.tunnel"
 act_gfx_alt    = "unit.road"
 reqs           =
@@ -832,8 +832,8 @@ Tunnel provides no increase to unit speed, but they give 35% defense bonus.\
 
 [road_burrow_tube]
 name           = _("Burrow Tube")
-graphic        = "burrow_tube"
-graphic_alt    = "road"
+graphic        = "road.burrow_tube"
+graphic_alt    = "road.road"
 activity_gfx   = "unit.tube"
 act_gfx_alt    = "unit.road"
 reqs           =
@@ -859,8 +859,8 @@ Burrow Tubes provide the only way for burrowing units to cross oceans.\
 
 [road_green_river]
 name           = _("Green River")
-graphic        = "green_river"
-graphic_alt    = "river"
+graphic        = "road.green_river"
+graphic_alt    = "road.river"
 activity_gfx   = "unit.rail"
 act_gfx_alt    = "unit.road"
 buildable      = FALSE
@@ -883,8 +883,8 @@ Green River increases also tile's food production by 1.\
 
 [road_brown_river]
 name           = _("Brown River")
-graphic        = "brown_river"
-graphic_alt    = "river"
+graphic        = "road.brown_river"
+graphic_alt    = "road.river"
 activity_gfx   = "unit.rail"
 act_gfx_alt    = "unit.road"
 buildable      = FALSE

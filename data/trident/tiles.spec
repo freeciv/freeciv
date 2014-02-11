@@ -169,22 +169,22 @@ tiles = { "row", "column", "tag"
 ; Rivers (as special type), and whether north, south, east, west 
 ; also has river or is ocean:
 
- 19,  0, "river_s_n0e0s0w0"
- 19,  1, "river_s_n1e0s0w0"
- 19,  2, "river_s_n0e1s0w0"
- 19,  3, "river_s_n1e1s0w0"
- 19,  4, "river_s_n0e0s1w0"
- 19,  5, "river_s_n1e0s1w0"
- 19,  6, "river_s_n0e1s1w0"
- 19,  7, "river_s_n1e1s1w0"
- 19,  8, "river_s_n0e0s0w1"
- 19,  9, "river_s_n1e0s0w1"
- 19, 10, "river_s_n0e1s0w1"
- 19, 11, "river_s_n1e1s0w1"
- 19, 12, "river_s_n0e0s1w1"
- 19, 13, "river_s_n1e0s1w1"
- 19, 14, "river_s_n0e1s1w1"
- 19, 15, "river_s_n1e1s1w1"
+ 19,  0, "road.river_s_n0e0s0w0"
+ 19,  1, "road.river_s_n1e0s0w0"
+ 19,  2, "road.river_s_n0e1s0w0"
+ 19,  3, "road.river_s_n1e1s0w0"
+ 19,  4, "road.river_s_n0e0s1w0"
+ 19,  5, "road.river_s_n1e0s1w0"
+ 19,  6, "road.river_s_n0e1s1w0"
+ 19,  7, "road.river_s_n1e1s1w0"
+ 19,  8, "road.river_s_n0e0s0w1"
+ 19,  9, "road.river_s_n1e0s0w1"
+ 19, 10, "road.river_s_n0e1s0w1"
+ 19, 11, "road.river_s_n1e1s0w1"
+ 19, 12, "road.river_s_n0e0s1w1"
+ 19, 13, "road.river_s_n1e0s1w1"
+ 19, 14, "road.river_s_n0e1s1w1"
+ 19, 15, "road.river_s_n1e1s1w1"
 
 ; Ocean, and whether terrain to north, south, east, west 
 ; is more ocean (else shoreline)
@@ -311,10 +311,10 @@ tiles = { "row", "column", "tag"
 
 ; River outlets, river to north, south, east, west 
 
-  8, 16, "river_outlet_n"
-  8, 17, "river_outlet_w"
-  8, 18, "river_outlet_s"
-  8, 19, "river_outlet_e"
+  8, 16, "road.river_outlet_n"
+  8, 17, "road.river_outlet_w"
+  8, 18, "road.river_outlet_s"
+  8, 19, "road.river_outlet_e"
 
 ; Terrain special resources:
 

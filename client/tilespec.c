@@ -3002,8 +3002,8 @@ void tileset_setup_resource(struct tileset *t,
 void tileset_setup_road(struct tileset *t,
                         struct road_type *proad)
 {
-  char full_tag_name[MAX_LEN_NAME + strlen("r._isolated")];
-  char full_alt_name[MAX_LEN_NAME + strlen("r._isolated")];
+  char full_tag_name[MAX_LEN_NAME + strlen("_isolated")];
+  char full_alt_name[MAX_LEN_NAME + strlen("_isolated")];
   const int id = road_index(proad);
   int i;
   enum roadstyle_id *roadstyle;
@@ -3027,9 +3027,9 @@ void tileset_setup_road(struct tileset *t,
      RSTYLE_PARITY_COMBINED. */
   if (*roadstyle == RSTYLE_ALL_SEPARATE || *roadstyle == RSTYLE_PARITY_COMBINED) {
     fc_snprintf(full_tag_name, sizeof(full_tag_name),
-                "r.%s_isolated", proad->graphic_str);
+                "%s_isolated", proad->graphic_str);
     fc_snprintf(full_alt_name, sizeof(full_alt_name),
-                "r.%s_isolated", proad->graphic_alt);
+                "%s_isolated", proad->graphic_alt);
 
     SET_SPRITE_ALT(roads[id].isolated, full_tag_name, full_alt_name);
   }
@@ -3042,9 +3042,9 @@ void tileset_setup_road(struct tileset *t,
       const char *dir_name = dir_get_tileset_name(dir);
 
       fc_snprintf(full_tag_name, sizeof(full_tag_name),
-                  "r.%s_%s", proad->graphic_str, dir_name);
+                  "%s_%s", proad->graphic_str, dir_name);
       fc_snprintf(full_alt_name, sizeof(full_alt_name),
-                  "r.%s_%s", proad->graphic_alt, dir_name);
+                  "%s_%s", proad->graphic_alt, dir_name);
 
       SET_SPRITE_ALT(roads[id].u.dir[i], full_tag_name, full_alt_name);
     }
@@ -3072,16 +3072,16 @@ void tileset_setup_road(struct tileset *t,
       }
 
       fc_snprintf(full_tag_name, sizeof(full_tag_name),
-                  "r.c_%s_%s", proad->graphic_str, c);
+                  "%s_c_%s", proad->graphic_str, c);
       fc_snprintf(full_alt_name, sizeof(full_alt_name),
-                  "r.c_%s_%s", proad->graphic_alt, c);
+                  "%s_c_%s", proad->graphic_alt, c);
 
       SET_SPRITE_ALT(roads[id].u.combo.even[i], full_tag_name, full_alt_name);
 
       fc_snprintf(full_tag_name, sizeof(full_tag_name),
-                  "r.d_%s_%s", proad->graphic_str, d);
+                  "%s_d_%s", proad->graphic_str, d);
       fc_snprintf(full_alt_name, sizeof(full_alt_name),
-                  "r.d_%s_%s", proad->graphic_alt, d);
+                  "%s_d_%s", proad->graphic_alt, d);
 
       SET_SPRITE_ALT(roads[id].u.combo.odd[i], full_tag_name, full_alt_name);
     }
@@ -3092,9 +3092,9 @@ void tileset_setup_road(struct tileset *t,
       char *idx_str = valid_index_str(t, i);
 
       fc_snprintf(full_tag_name, sizeof(full_tag_name),
-                  "r.%s_%s", proad->graphic_str, idx_str);
+                  "%s_%s", proad->graphic_str, idx_str);
       fc_snprintf(full_alt_name, sizeof(full_alt_name),
-                  "r.%s_%s", proad->graphic_alt, idx_str);
+                  "%s_%s", proad->graphic_alt, idx_str);
 
       SET_SPRITE_ALT(roads[id].u.total[i], full_tag_name, full_alt_name);
     }
@@ -3121,9 +3121,9 @@ void tileset_setup_road(struct tileset *t,
         const char *dtn = dir_get_tileset_name(dir);
 
         fc_snprintf(full_tag_name, sizeof(full_tag_name),
-                    "r.c_%s_%s", proad->graphic_str, dtn);
+                    "%s_c_%s", proad->graphic_str, dtn);
         fc_snprintf(full_alt_name, sizeof(full_alt_name),
-                    "r.c_%s_%s", proad->graphic_alt, dtn);
+                    "%s_c_%s", proad->graphic_alt, dtn);
 
         SET_SPRITE_ALT_OPT(roads[id].corner[dir], full_tag_name, full_alt_name);
       }

@@ -1140,7 +1140,7 @@ They have no effect on gameplay.\
 
 [road_road]
 name           = _("Road")
-graphic        = "road"
+graphic        = "road.road"
 graphic_alt    = "-"
 activity_gfx   = "unit.road"
 act_gfx_alt    = "-"
@@ -1164,7 +1164,7 @@ flags          = "NativeTile", "RequiresBridge", "AutoOnCityCenter"
 
 [road_railroad]
 name           = _("Railroad")
-graphic        = "rail"
+graphic        = "road.rail"
 graphic_alt    = "-"
 activity_gfx   = "unit.rail"
 act_gfx_alt    = "unit.road"
@@ -1190,8 +1190,8 @@ flags          = "NativeTile", "RequiresBridge", "AutoOnCityCenter"
 
 [road_maglev]
 name           = _("Maglev")
-graphic        = "maglev"
-graphic_alt    = "rail"
+graphic        = "road.maglev"
+graphic_alt    = "road.rail"
 activity_gfx   = "unit.maglev"
 act_gfx_alt    = "unit.road"
 reqs           =
@@ -1214,7 +1214,7 @@ flags          = "NativeTile", "RequiresBridge", "AutoOnCityCenter"
 
 [road_river]
 name           = _("River")
-graphic        = "river"
+graphic        = "road.river"
 graphic_alt    = "-"
 activity_gfx   = "unit.rail"
 act_gfx_alt    = "unit.road"
