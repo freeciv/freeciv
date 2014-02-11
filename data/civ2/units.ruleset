@@ -234,9 +234,9 @@ Settlers are one of the key units in the game. As well as building new\
  the help for more details.\
 "), _("\
 Upkeep for Settlers is in food as well as production, and a Settler\
- can die if its supporting city runs out of food. Settlers in a\
- Republic or Democracy require twice as much food per turn, and in\
- Communist or Fundamentalist societies, three times as much.\
+ can die if its supporting city runs out of food. Settlers require\
+ twice as much food per turn under Republic, Democracy, Communism,\
+ or Fundamentalism.\
 ")
 
 [unit_engineers]

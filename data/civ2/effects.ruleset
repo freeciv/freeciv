@@ -341,7 +341,7 @@ value = 1
 
 [effect_communism_unit_upkeep]
 name  = "Upkeep_Factor"
-value = 2
+value = 1
 reqs   =
     { "type", "name", "range"
       "Gov", "Communism", "Player"
@@ -350,7 +350,7 @@ reqs   =
 
 [effect_fundamentalism_unit_upkeep]
 name  = "Upkeep_Factor"
-value = 2
+value = 1
 reqs   =
     { "type", "name", "range"
       "Gov", "Fundamentalism", "Player"
