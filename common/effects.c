@@ -292,6 +292,44 @@ void ruleset_cache_free(void)
 }
 
 /****************************************************************************
+  Get the maximum effect value in this ruleset.
+****************************************************************************/
+int effect_cumulative_max(enum effect_type type)
+{
+  struct effect_list *plist = ruleset_cache.tracker;
+  int value = 0;
+
+  if (plist) {
+    effect_list_iterate(plist, peffect) {
+      if (peffect->type == type && peffect->value > 0) {
+        value += peffect->value;
+      }
+    } effect_list_iterate_end;
+  }
+
+  return value;
+}
+
+/****************************************************************************
+  Get the minimum effect value in this ruleset.
+****************************************************************************/
+int effect_cumulative_min(enum effect_type type)
+{
+  struct effect_list *plist = ruleset_cache.tracker;
+  int value = 0;
+
+  if (plist) {
+    effect_list_iterate(plist, peffect) {
+      if (peffect->type == type && peffect->value < 0) {
+        value += peffect->value;
+      }
+    } effect_list_iterate_end;
+  }
+
+  return value;
+}
+
+/****************************************************************************
   Receives a new effect.  This is called by the client when the packet
   arrives.
 ****************************************************************************/

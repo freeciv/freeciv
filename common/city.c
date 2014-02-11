@@ -148,6 +148,17 @@ void city_map_radius_sq_set(struct city *pcity, int radius_sq)
 }
 
 /**************************************************************************
+  Maximum city radius in this ruleset.
+**************************************************************************/
+int rs_max_city_radius_sq(void)
+{
+  int max_rad = game.info.init_city_radius_sq
+    + effect_cumulative_max(EFT_CITY_RADIUS_SQ);
+
+  return MIN(max_rad, CITY_MAP_MAX_RADIUS_SQ);
+}
+
+/**************************************************************************
   Return the number of tiles for the given city radius. Special case is
   the value -1 for no city tiles.
 **************************************************************************/

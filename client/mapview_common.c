@@ -2269,6 +2269,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
   struct city *closest_city;
   struct city *pcity;
   struct unit *closest_settler = NULL, *best_settler = NULL;
+  int max_rad = rs_max_city_radius_sq();
 
   if (punit) {
     *punit = NULL;
@@ -2291,7 +2292,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
   closest_city = NULL;
 
   /* check within maximum (squared) city radius */
-  city_tile_iterate(CITY_MAP_MAX_RADIUS_SQ, ptile, tile1) {
+  city_tile_iterate(max_rad, ptile, tile1) {
     pcity = tile_city(tile1);
     if (pcity
 	&& (NULL == client.conn.playing
@@ -2319,7 +2320,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
   }
 
   /* check within maximum (squared) city radius */
-  city_tile_iterate(CITY_MAP_MAX_RADIUS_SQ, ptile, tile1) {
+  city_tile_iterate(max_rad, ptile, tile1) {
     unit_list_iterate(tile1->units, psettler) {
       if ((NULL == client.conn.playing
            || unit_owner(psettler) == client.conn.playing)
