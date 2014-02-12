@@ -323,7 +323,7 @@ struct ai_plr *dai_plr_data_get(struct ai_type *ait, struct player *pplayer)
       dai_data_phase_begin(ait, pplayer, FALSE);
     } else {
       /* wrong order */
-      log_debug("%s advisor data phase closed when adv_data_get() called",
+      log_debug("%s ai data phase closed when dai_plr_data_get() called",
                 player_name(pplayer));
       dai_data_phase_begin(ait, pplayer, FALSE);
       dai_data_phase_finished(ait, pplayer);
