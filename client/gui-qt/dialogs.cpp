@@ -79,6 +79,7 @@ static bool is_showing_pillage_dialog = false;
 static choice_dialog *caravan_dialog = NULL;
 static races_dialog* race_dialog;
 static bool is_race_dialog_open = false;
+static bool is_more_user_input_needed;
 
 /***************************************************************************
  Constructor for selecting nations
@@ -899,6 +900,28 @@ bool caravan_dialog_is_open(int *unit_id, int *city_id)
 }
 
 /**************************************************************************
+  Move the queue of diplomats that need user input forward unless the
+  current diplomat will need more input.
+**************************************************************************/
+static void diplomat_queue_handle_primary(void)
+{
+  if (!is_more_user_input_needed) {
+    process_diplomat_arrival(NULL, 0);
+  }
+}
+
+/**************************************************************************
+  Move the queue of diplomats that need user input forward since the
+  current diplomat got the extra input that was required.
+**************************************************************************/
+static void diplomat_queue_handle_secondary(void)
+{
+  /* Stop waiting. Move on to the next queued diplomat. */
+  is_more_user_input_needed = FALSE;
+  diplomat_queue_handle_primary();
+}
+
+/**************************************************************************
   Popup a dialog giving a diplomatic unit some options when moving into
   the target tile.
 **************************************************************************/
@@ -911,6 +934,9 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
   QVariant qv1, qv2;
   pfcn_void func;
 
+  /* No extra input is required as no action has been chosen yet. */
+  is_more_user_input_needed = FALSE;
+
   astr_set(&title,
            /* TRANS: %s is a unit name, e.g., Spy */
            _("Choose Your %s's Strategy"), unit_name_translation(punit));
@@ -919,8 +945,9 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
            _("Your %s is waiting for your command."),
            unit_name_translation(punit));
   choice_dialog *cd = new choice_dialog(astr_str(&title),
-                                                 astr_str(&text),
-                                                 gui()->game_tab_widget);
+                                        astr_str(&text),
+                                        gui()->game_tab_widget,
+                                        diplomat_queue_handle_primary);
   diplomat_id = punit->id;
   qv1 = punit->id;
   cd->unit_id = diplomat_id;
@@ -1053,6 +1080,9 @@ static void diplomat_bribe(QVariant data1, QVariant data2)
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_unit_by_number(diplomat_target_id)) {
+    /* Wait for the server's reply before moving on to the next queued diplomat. */
+    is_more_user_input_needed = TRUE;
+
     request_diplomat_answer(DIPLOMAT_BRIBE, diplomat_id,
                             diplomat_target_id, 0);
   }
@@ -1085,6 +1115,9 @@ static void spy_steal(QVariant data1, QVariant data2)
   choice_dialog *cd;
   int nr = 0;
 
+  /* Wait for the player's reply before moving on to the next queued diplomat. */
+  is_more_user_input_needed = TRUE;
+
   if (pvcity) {
     pvictim = city_owner(pvcity);
   }
@@ -1094,7 +1127,8 @@ static void spy_steal(QVariant data1, QVariant data2)
   }
   struct astring stra = ASTRING_INIT;
   cd = new choice_dialog(_("_Steal"), _("Steal Technology"),
-                         gui()->game_tab_widget);
+                         gui()->game_tab_widget,
+                         diplomat_queue_handle_secondary);
   qv1 = data1;
   struct player *pplayer = client.conn.playing;
   if (pvictim) {
@@ -1145,6 +1179,9 @@ static void spy_request_sabotage_list(QVariant data1, QVariant data2)
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
+    /* Wait for the server's reply before moving on to the next queued diplomat. */
+    is_more_user_input_needed = TRUE;
+
     request_diplomat_answer(DIPLOMAT_SABOTAGE_TARGET, diplomat_id,
                             diplomat_target_id, 0);
   }
@@ -1234,6 +1271,9 @@ static void diplomat_incite(QVariant data1, QVariant data2)
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
+    /* Wait for the server's reply before moving on to the next queued diplomat. */
+    is_more_user_input_needed = TRUE;
+
     request_diplomat_answer(DIPLOMAT_INCITE, diplomat_id,
                             diplomat_target_id, 0);
   }
@@ -1331,6 +1371,8 @@ void popup_incite_dialog(struct city *pcity, int cost)
     too_much.setText(QString(buf2));
     too_much.exec();
   }
+
+  diplomat_queue_handle_secondary();
 }
 
 /**************************************************************************
@@ -1380,6 +1422,8 @@ void popup_bribe_dialog(struct unit *punit, int cost)
     ask.setWindowTitle(_("Traitors Demand Too Much!"));
     ask.exec();
   }
+
+  diplomat_queue_handle_secondary();
 }
 
 /***************************************************************************
@@ -1432,7 +1476,8 @@ void popup_sabotage_dialog(struct city *pcity)
   pfcn_void func;
   choice_dialog *cd = new choice_dialog(_("_Sabotage"),
                                         _("Select Improvement to Sabotage"),
-                                        gui()->game_tab_widget);
+                                        gui()->game_tab_widget,
+                                        diplomat_queue_handle_secondary);
   int nr = 0;
   struct astring stra = ASTRING_INIT;
 
