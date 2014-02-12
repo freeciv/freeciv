@@ -8,7 +8,9 @@ bin_PROGRAMS =
 
 if SERVER
 if CLIENT
+if FCMANUAL
 bin_PROGRAMS += freeciv-manual
+endif
 endif
 endif
 
@@ -49,6 +51,8 @@ appdatafiledir = $(prefix)/share/appdata
 appdatafile_DATA = \
 	freeciv-modpack.appdata.xml
 endif
+
+if FCMANUAL
 freeciv_manual_SOURCES = \
 		civmanual.c
 
@@ -64,6 +68,7 @@ freeciv_manual_LDADD = \
  $(INTLLIBS)  $(MAPIMG_WAND_LIBS) \
  $(FCDB_MYSQL_LIBS) $(FCDB_POSTGRES_LIBS) $(FCDB_SQLITE3_LIBS) \
  $(SERVER_LIBS) $(LIB_GGZDMOD)
+endif
 
 libfcmp_la_SOURCES = \
 		download.c	\

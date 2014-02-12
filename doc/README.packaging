@@ -44,6 +44,8 @@ Updating from 2.4 to 2.5
   automatically left out due to missing dependencies.
 * Lua5.2 is now used. If you are using --enable-sys-lua, provide
   lua5.2 instead of lua5.1 in your system.
+* New configure option --without-freeciv-manual to disable build
+  of freeciv-manual tool that's mostly useless for normal users.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

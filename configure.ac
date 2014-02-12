@@ -896,6 +896,11 @@ FC_LD_FLAGS(["-Wl,-rpath=${lib_prefix}"], [], [LDFLAGS])
 
 AM_CONDITIONAL([CLIENT], [test "x$client" = "xyes"])
 
+AC_ARG_WITH([freeciv-manual],
+  AS_HELP_STRING([--without-freeciv-manual], [do not build freeciv-manual]),
+  [fcmanual=${withval}], [fcmanual=yes])
+
+AM_CONDITIONAL([FCMANUAL], [test "x$fcmanual" = "xyes"])
 
 dnl freeciv-modpack checks
 AC_ARG_ENABLE([fcmp],
