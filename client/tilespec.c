@@ -2237,7 +2237,10 @@ void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
   /* Nothing? Try the alt tag */
   if (j == 0) {
     t->sprites.specialist[id].sprite[j] = load_sprite(t, graphic_alt);
-    j = 1;
+
+    if (t->sprites.specialist[id].sprite[j]) {
+      j = 1;
+    }
   }
 
   t->sprites.specialist[id].count = j;
