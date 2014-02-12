@@ -157,9 +157,10 @@ class choice_dialog: public QWidget
   QList<QVariant> data1_list;
   QList<QVariant> data2_list;
   QSignalMapper *signal_mapper;
+  void (*run_on_close)(void);
 public:
   choice_dialog(const QString title, const QString text,
-                QWidget *parent = NULL);
+                QWidget *parent = NULL, void (*run_on_close)(void) = NULL);
   ~choice_dialog();
   void set_layout();
   void add_item(QString title, pfcn_void func, QVariant data1, 

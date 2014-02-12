@@ -670,12 +670,14 @@ void popup_revolution_dialog(struct government *government)
   Constructor for choice_dialog
 ***************************************************************************/
 choice_dialog::choice_dialog(const QString title, const QString text,
-                             QWidget *parent): QWidget(parent)
+                             QWidget *parent,
+                             void (*run_on_close)(void)): QWidget(parent)
 {
   QLabel *l = new QLabel(text);
 
   signal_mapper = new QSignalMapper(this);
   layout = new QVBoxLayout(this);
+  this->run_on_close = run_on_close;
 
   layout->addWidget(l);
   setWindowFlags(Qt::Dialog);
@@ -695,6 +697,10 @@ choice_dialog::~choice_dialog()
   delete signal_mapper;
   gui()->set_diplo_dialog(NULL);
 
+  if (run_on_close) {
+    run_on_close();
+    run_on_close = NULL;
+  }
 }
 
 /***************************************************************************
