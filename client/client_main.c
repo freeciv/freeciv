@@ -738,6 +738,11 @@ void set_client_state(enum client_states newstate)
     return;
   }
 
+  if (oldstate == C_S_RUNNING) {
+    /* Back to menu */
+    audio_play_music("music_start", NULL);
+  }
+
   civclient_state = newstate;
 
   switch (newstate) {
