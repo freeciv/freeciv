@@ -258,7 +258,7 @@ static void build_required_techs(struct player *pplayer, Tech_type_id goal)
 
   /* Include the goal tech */
   research->inventions[goal].bulbs_required =
-      base_total_bulbs_required(pplayer, goal);
+    base_total_bulbs_required(pplayer, goal, FALSE);
   research->inventions[goal].num_required_techs = 1;
 
   counter = 0;
@@ -276,7 +276,7 @@ static void build_required_techs(struct player *pplayer, Tech_type_id goal)
 
     research->inventions[goal].num_required_techs++;
     research->inventions[goal].bulbs_required +=
-	base_total_bulbs_required(pplayer, i);
+      base_total_bulbs_required(pplayer, i, FALSE);
   } advance_index_iterate_end;
 
   /* Undo the changes made above */
@@ -646,7 +646,8 @@ Tech_type_id advance_by_flag(Tech_type_id index, enum tech_flag_id flag)
 int total_bulbs_required(const struct player *pplayer)
 {
   return base_total_bulbs_required(pplayer,
-    player_research_get(pplayer)->researching);
+                                   player_research_get(pplayer)->researching,
+                                   FALSE);
 }
 
 /****************************************************************************
@@ -681,12 +682,12 @@ int total_bulbs_required(const struct player *pplayer)
   by client and manual code).
 ****************************************************************************/
 int base_total_bulbs_required(const struct player *pplayer,
-			      Tech_type_id tech)
+			      Tech_type_id tech, bool loss_value)
 {
   int tech_cost_style = game.info.tech_cost_style;
   double base_cost;
 
-  if (pplayer
+  if (!loss_value && pplayer
       && !is_future_tech(tech)
       && player_invention_state(pplayer, tech) == TECH_KNOWN) {
     /* A non-future tech which is already known costs nothing. */

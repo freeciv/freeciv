@@ -63,7 +63,8 @@ void do_dipl_cost(struct player *pplayer, Tech_type_id tech)
   struct player_research * research = player_research_get(pplayer);
 
   research->bulbs_researched
-    -= (base_total_bulbs_required(pplayer, tech) * game.server.diplcost) / 100;
+    -= (base_total_bulbs_required(pplayer, tech, FALSE)
+        * game.server.diplcost) / 100;
   research->researching_saved = A_UNKNOWN;
 }
 
@@ -75,7 +76,8 @@ void do_free_cost(struct player *pplayer, Tech_type_id tech)
   struct player_research * research = player_research_get(pplayer);
 
   research->bulbs_researched
-    -= (base_total_bulbs_required(pplayer, tech) * game.server.freecost) / 100;
+    -= (base_total_bulbs_required(pplayer, tech, FALSE)
+        * game.server.freecost) / 100;
   research->researching_saved = A_UNKNOWN;
 }
 
@@ -87,7 +89,8 @@ void do_conquer_cost(struct player *pplayer, Tech_type_id tech)
   struct player_research * research = player_research_get(pplayer);  
 
   research->bulbs_researched
-    -= (base_total_bulbs_required(pplayer, tech) * game.server.conquercost) / 100;
+    -= (base_total_bulbs_required(pplayer, tech, FALSE)
+        * game.server.conquercost) / 100;
   research->researching_saved = A_UNKNOWN;
 }
 
@@ -498,29 +501,44 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
   /* if we have a negative number of bulbs we do
    * - try to reduce the number of future techs
    * - or lose one random tech
-   * after that the number of bulbs available is set to zero */
+   * after that the number of bulbs available is incresed based on the value
+   * of the lost tech. */
   if (lose_tech(plr)) {
+    Tech_type_id tech;
+
     if (research->future_tech > 0) {
       notify_player(plr, NULL, E_TECH_GAIN, ftc_server,
                     _("Insufficient science output. We lost Future Tech. %d."),
                     research->future_tech);
       log_debug("%s: tech loss (future tech %d)", player_name(plr),
                 research->future_tech);
+
+      tech = A_FUTURE;
       research->future_tech--;
     } else {
-      Tech_type_id tech = pick_random_tech_researched(plr);
+      tech = pick_random_tech_researched(plr);
+
       if (tech != A_NONE) {
         notify_player(plr, NULL, E_TECH_GAIN, ftc_server,
                       _("Insufficient science output. We lost %s."),
                       advance_name_for_player(plr, tech));
         log_debug("%s: tech loss (%s)", player_name(plr),
                   advance_name_for_player(plr, tech));
+
         player_tech_lost(plr, tech);
       }
     }
-    player_research_update(plr);
 
-    research->bulbs_researched = 0;
+    if (tech != A_NONE) {
+      if (game.server.techloss_restore >= 0) {
+        research->bulbs_researched += base_total_bulbs_required(plr, tech, TRUE)
+          * game.server.techloss_restore / 100;
+      } else {
+        research->bulbs_researched = 0;
+      }
+    }
+
+    player_research_update(plr);
   }
 
   if (check_tech && research->researching != A_UNSET) {
@@ -738,7 +756,7 @@ Tech_type_id pick_cheapest_tech(struct player* plr)
 
   advance_index_iterate(A_FIRST, i) {
     if (player_invention_state(plr, i) == TECH_PREREQS_KNOWN) {
-      int cost = base_total_bulbs_required(plr, i);
+      int cost = base_total_bulbs_required(plr, i, FALSE);
 
       if (cost < cheapest_cost || cheapest_cost == -1) {
         cheapest_cost = cost;
@@ -761,7 +779,7 @@ Tech_type_id pick_cheapest_tech(struct player* plr)
 
   advance_index_iterate(A_FIRST, i) {
     if (player_invention_state(plr, i) == TECH_PREREQS_KNOWN
-        && base_total_bulbs_required(plr, i) == cheapest_cost) {
+        && base_total_bulbs_required(plr, i, FALSE) == cheapest_cost) {
       chosen--;
       if (chosen == 0) {
         return i;
@@ -880,7 +898,7 @@ void init_tech(struct player *plr, bool update)
       log_debug("[player %d] %-25s (ID: %3d) cost: %6d - reachable: %-3s "
                 "(now) / %-3s (ever)", player_number(plr),
                 advance_rule_name(advance_by_number(i)), i,
-                base_total_bulbs_required(plr, i),
+                base_total_bulbs_required(plr, i, FALSE),
                 player_invention_gettable(plr, i, FALSE) ? "yes" : "no",
                 player_invention_reachable(plr, i) ? "yes" : "no");
     } advance_index_iterate_end;

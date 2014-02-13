@@ -2431,7 +2431,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
       cat_snprintf(buf, bufsz,
 		   _("Starting now, researching %s would need %d bulbs."),
 		   advance_name_for_player(pplayer, i),
-		   base_total_bulbs_required(pplayer, i));
+		   base_total_bulbs_required(pplayer, i, FALSE));
     } else if (player_invention_reachable(pplayer, i)) {
       cat_snprintf(buf, bufsz,
                    PL_("To reach %s you need to obtain %d other"
