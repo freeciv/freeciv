@@ -1428,6 +1428,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
   if (is_non_allied_unit_tile(pdesttile, pplayer) 
       || is_non_allied_city_tile(pdesttile, pplayer)) {
     struct unit *victim = NULL;
+    enum unit_attack_result ua_result;
 
     /* We can attack ONLY in enemy cities */
     if ((pcity && !pplayers_at_war(city_owner(pcity), pplayer))
@@ -1516,9 +1517,36 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     /* Depending on 'unreachableprotects' setting, must be physically able
      * to attack EVERY unit there or must be physically able to attack SOME
      * unit there */
-    if (NULL == pcity && !can_unit_attack_units_at_tile(punit, pdesttile)) {
-      notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                    _("You can't attack there."));
+    ua_result = can_unit_attack_units_at_tile(punit, pdesttile);
+    if (NULL == pcity && ua_result != ATT_OK) {
+      struct tile *src_tile = unit_tile(punit);
+
+      switch (ua_result) {
+      case ATT_NON_ATTACK:
+        notify_player(pplayer, src_tile, E_BAD_COMMAND, ftc_server,
+                      _("%s is not an attack unit."), unit_name_translation(punit));
+        break;
+      case ATT_UNREACHABLE:
+        notify_player(pplayer, src_tile, E_BAD_COMMAND, ftc_server,
+                      _("You can't attack there since there's an unreachable unit."));
+        break;
+      case ATT_NONNATIVE_SRC:
+        notify_player(pplayer, src_tile, E_BAD_COMMAND, ftc_server,
+                      _("%s can't launch attack from %s."),
+                        unit_name_translation(punit),
+                        terrain_name_translation(tile_terrain(src_tile)));
+        break;
+      case ATT_NONNATIVE_DST:
+        notify_player(pplayer, src_tile, E_BAD_COMMAND, ftc_server,
+                      _("%s can't attack to %s."),
+                        unit_name_translation(punit),
+                        terrain_name_translation(tile_terrain(pdesttile)));
+        break;
+      case ATT_OK:
+        fc_assert(ua_result != ATT_OK);
+        break;
+      }
+
       return FALSE;
     }
 
