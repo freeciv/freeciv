@@ -28,16 +28,24 @@ extern "C" {
  */
 #define POWER_FACTOR	10
 
+enum unit_attack_result {
+  ATT_OK,
+  ATT_NON_ATTACK,
+  ATT_UNREACHABLE,
+  ATT_NONNATIVE_SRC,
+  ATT_NONNATIVE_DST
+};
+
 bool is_unit_reachable_at(const struct unit *defender,
                           const struct unit *attacker,
                           const struct tile *location);
 bool can_player_attack_tile(const struct player *pplayer,
 			    const struct tile *ptile);
-bool can_unit_attack_unit_at_tile(const struct unit *punit,
-				  const struct unit *pdefender,
-				  const struct tile *dest_tile);
-bool can_unit_attack_units_at_tile(const struct unit *punit,
-                                   const struct tile *ptile);
+enum unit_attack_result can_unit_attack_unit_at_tile(const struct unit *punit,
+                                                     const struct unit *pdefender,
+                                                     const struct tile *dest_tile);
+enum unit_attack_result can_unit_attack_units_at_tile(const struct unit *punit,
+                                                      const struct tile *ptile);
 bool can_unit_attack_tile(const struct unit *punit,
 			  const struct tile *ptile);
 
