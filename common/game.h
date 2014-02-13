@@ -168,6 +168,7 @@ struct civ_game {
       bool start_city;
       int start_year;
       int techloss_forgiveness;
+      int techloss_restore;
       int techlost_donor;
       int techlost_recv;
       int tcptimeout;
@@ -369,6 +370,10 @@ extern struct civ_game game;
 #define GAME_DEFAULT_TECHLOSSFG      -1
 #define GAME_MIN_TECHLOSSFG          -1
 #define GAME_MAX_TECHLOSSFG          200
+
+#define GAME_DEFAULT_TECHLOSSREST    50
+#define GAME_MIN_TECHLOSSREST        -1
+#define GAME_MAX_TECHLOSSREST        100
 
 #define GAME_DEFAULT_CITYMINDIST     2
 #define GAME_MIN_CITYMINDIST         1
