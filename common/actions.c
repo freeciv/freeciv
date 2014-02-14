@@ -145,6 +145,14 @@ void action_enabler_append_hard(struct action_enabler *enabler)
                               req_from_str("DiplRel", "Local", FALSE,
                                            FALSE, "Has real embassy"));
   }
+
+  /* The Freeciv code assumes that the victim is alone at its tile. */
+  if (enabler->action == ACTION_SPY_BRIBE_UNIT
+      || enabler->action == ACTION_SPY_SABOTAGE_UNIT) {
+    requirement_vector_append(&enabler->target_reqs,
+                              req_from_str("MaxUnitsOnTile", "Local",
+                                           FALSE, TRUE, "1"));
+  }
 }
 
 /**************************************************************************
