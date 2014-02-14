@@ -64,6 +64,7 @@ files =
   "trident/tiles.spec",
   "trident/earth.spec",
   "misc/small.spec",
+  "misc/events.spec",
   "misc/governments.spec",
   "misc/specialists.spec",
   "trident/units.spec",

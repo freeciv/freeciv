@@ -78,6 +78,7 @@ files =
   "isophex/grid.spec",
   "isophex/rivers.spec",
   "misc/small.spec",
+  "misc/events.spec",
   "misc/governments.spec",
   "misc/specialists.spec",
   "misc/buildings.spec",

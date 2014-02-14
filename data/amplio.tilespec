@@ -64,6 +64,7 @@ files =
   "amplio/tiles.spec",
   "amplio/fog.spec",
   "misc/small.spec",
+  "misc/events.spec",
   "misc/governments.spec",
   "misc/specialists.spec",
   "amplio/units.spec",

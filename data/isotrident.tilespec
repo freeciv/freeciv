@@ -66,6 +66,7 @@ files =
   "isotrident/tiles.spec",
   "isotrident/grid.spec",
   "misc/small.spec",
+  "misc/events.spec",
   "misc/governments.spec",
   "misc/specialists.spec",
   "trident/units.spec",
