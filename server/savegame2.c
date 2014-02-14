@@ -1775,6 +1775,9 @@ static void sg_load_game(struct loaddata *loading)
   game.server.phase_mode_stored
     = secfile_lookup_int_default(loading->file, GAME_DEFAULT_PHASE_MODE,
                                  "game.phase_mode_stored");
+  game.info.phase
+    = secfile_lookup_int_default(loading->file, 0,
+                                 "game.phase");
   game.server.scoreturn
     = secfile_lookup_int_default(loading->file,
                                  game.info.turn + GAME_DEFAULT_SCORETURN,
@@ -1866,6 +1869,8 @@ static void sg_save_game(struct savedata *saving)
                      "game.phase_mode");
   secfile_insert_int(saving->file, game.server.phase_mode_stored,
                      "game.phase_mode_stored");
+  secfile_insert_int(saving->file, game.info.phase,
+                     "game.phase");
   secfile_insert_int(saving->file, game.server.scoreturn,
                      "game.scoreturn");
 
