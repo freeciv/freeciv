@@ -27,6 +27,8 @@ libfreeciv_la_SOURCES = \
 		citizens.h	\
 		city.c		\
 		city.h		\
+		clientutils.c	\
+		clientutils.h	\
 		combat.c	\
 		combat.h	\
 		connection.c	\
