@@ -79,7 +79,7 @@ static bool is_showing_pillage_dialog = false;
 static choice_dialog *caravan_dialog = NULL;
 static races_dialog* race_dialog;
 static bool is_race_dialog_open = false;
-static bool is_more_user_input_needed;
+static bool is_more_user_input_needed = FALSE;
 
 /***************************************************************************
  Constructor for selecting nations
@@ -934,6 +934,11 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
   QVariant qv1, qv2;
   pfcn_void func;
 
+  /* Could be caused by the server failing to reply to a request for more
+   * information or a bug in the client code. */
+  fc_assert_msg(!is_more_user_input_needed,
+                "Diplomat queue problem. Is another diplomat window open?");
+
   /* No extra input is required as no action has been chosen yet. */
   is_more_user_input_needed = FALSE;
 
@@ -1327,6 +1332,9 @@ void popup_incite_dialog(struct city *pcity, int cost)
   int diplomat_id;
   int diplomat_target_id;
 
+  /* Should be set before sending request to the server. */
+  fc_assert(is_more_user_input_needed);
+
   fc_snprintf(buf, ARRAY_SIZE(buf), PL_("Treasury contains %d gold.",
                                         "Treasury contains %d gold.",
                                         client_player()->economic.gold),
@@ -1388,6 +1396,9 @@ void popup_bribe_dialog(struct unit *punit, int cost)
   char buf2[1024];
   int diplomat_id;
   int diplomat_target_id;
+
+  /* Should be set before sending request to the server. */
+  fc_assert(is_more_user_input_needed);
 
   gui()->get_current_unit(&diplomat_id, &diplomat_target_id, ATK_UNIT);
   fc_snprintf(buf, ARRAY_SIZE(buf), PL_("Treasury contains %d gold.",
@@ -1480,6 +1491,9 @@ void popup_sabotage_dialog(struct city *pcity)
                                         diplomat_queue_handle_secondary);
   int nr = 0;
   struct astring stra = ASTRING_INIT;
+
+  /* Should be set before sending request to the server. */
+  fc_assert(is_more_user_input_needed);
 
   gui()->get_current_unit(&diplomat_id, &diplomat_target_id, ATK_CITY);
   qv1 = diplomat_id;
