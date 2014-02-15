@@ -247,70 +247,98 @@ do {                                                                       \
 } while(0)
 
 
-#define DISEMBLE_RGB(buf, bpp, fmt, pixel, R, G, B)                          \
-do {                                                                         \
-        if(bpp==1){                                                          \
-            pixel = *((Uint8 *)(buf));                                       \
-            R = fmt->palette->colors[pixel].r;                               \
-            G = fmt->palette->colors[pixel].g;                               \
-            B = fmt->palette->colors[pixel].b;                               \
-        } else {                                                             \
-        switch (bpp) {                                                       \
-                case 2:                                                      \
-                        pixel = *((Uint16 *)(buf));                          \
-                break;                                                       \
-                case 4:                                                      \
-                        pixel = *((Uint32 *)(buf));                          \
-                break;                                                       \
-                default:        {/* case 3: FIXME: broken code (no alpha) */ \
-                        Uint8 *b = (Uint8 *)buf;                             \
-                        if(SDL_BYTEORDER == SDL_LIL_ENDIAN) {                \
-                                pixel = b[0] + (b[1] << 8) + (b[2] << 16);   \
-                        } else {                                             \
-                                pixel = (b[0] << 16) + (b[1] << 8) + b[2];   \
-                        }                                                    \
-                }                                                            \
-                break;                                                       \
-            }                                                                \
-            R = ((pixel&fmt->Rmask)>>fmt->Rshift)<<fmt->Rloss;               \
-            G = ((pixel&fmt->Gmask)>>fmt->Gshift)<<fmt->Gloss;               \
-            B = ((pixel&fmt->Bmask)>>fmt->Bshift)<<fmt->Bloss;               \
-        }                                                                    \
+#define DISEMBLE_RGB(buf, bpp, fmt, pixel, R, G, B)               \
+do {                                                              \
+  Uint8 *b = (Uint8 *)buf;                                        \
+  if (bpp == 1) {                                                 \
+    pixel = *((Uint8 *)(buf));                                    \
+    R = fmt->palette->colors[pixel].r;                            \
+    G = fmt->palette->colors[pixel].g;                            \
+    B = fmt->palette->colors[pixel].b;                            \
+  } else {                                                        \
+    switch (bpp) {                                                \
+    case 2:                                                       \
+      if (SDL_BYTEORDER == SDL_LIL_ENDIAN) {                      \
+        pixel = b[0] + (b[1] << 8);                               \
+      } else {                                                    \
+        pixel = (b[0] << 8) + b[1];                               \
+      }                                                           \
+      break;                                                      \
+    case 4:                                                       \
+      if (SDL_BYTEORDER == SDL_LIL_ENDIAN) {                      \
+        pixel = b[0] + (b[1] << 8) + (b[2] << 16) + (b[3] << 24); \
+      } else {                                                    \
+        pixel = (b[0] << 24) + (b[1] << 16) + (b[2] << 8) + b[3]; \
+      }                                                           \
+      break;                                                      \
+    default:                                                      \
+      { /* case 3: FIXME: broken code (no alpha) */               \
+        if (SDL_BYTEORDER == SDL_LIL_ENDIAN) {                    \
+          pixel = b[0] + (b[1] << 8) + (b[2] << 16);              \
+        } else {                                                  \
+          pixel = (b[0] << 16) + (b[1] << 8) + b[2];              \
+        }                                                         \
+      }                                                           \
+      break;                                                      \
+    }                                                             \
+    R = ((pixel & fmt->Rmask) >> fmt->Rshift) << fmt->Rloss;      \
+    G = ((pixel & fmt->Gmask) >> fmt->Gshift) << fmt->Gloss;      \
+    B = ((pixel & fmt->Bmask) >> fmt->Bshift) << fmt->Bloss;      \
+  }                                                               \
 } while(FALSE);
 
-#define DISEMBLE_RGBA(buf, bpp, fmt, pixel, R, G, B, A)                      \
-do {                                                                         \
-  DISEMBLE_RGB(buf, bpp, fmt, pixel, R, G, B);                               \
-  if (bpp == 1) {                                                            \
-    A = 255;                                                                 \
-  } else {                                                                   \
-    A = ((pixel&fmt->Amask)>>fmt->Ashift)<<fmt->Aloss;                       \
-  }                                                                          \
+#define DISEMBLE_RGBA(buf, bpp, fmt, pixel, R, G, B, A)           \
+do {                                                              \
+  DISEMBLE_RGB(buf, bpp, fmt, pixel, R, G, B);                    \
+  if (bpp == 1) {                                                 \
+    A = 255;                                                      \
+  } else {                                                        \
+    A = ((pixel & fmt->Amask) >> fmt->Ashift) << fmt->Aloss;      \
+  }                                                               \
 } while(FALSE);
 
-#define PIXEL_FROM_RGBA(pixel, fmt, r, g, b, a)                         \
-{                                                                       \
-        pixel = ((r>>fmt->Rloss)<<fmt->Rshift)|                                \
-                ((g>>fmt->Gloss)<<fmt->Gshift)|                                \
-                ((b>>fmt->Bloss)<<fmt->Bshift)|                                \
-                ((a<<fmt->Aloss)<<fmt->Ashift);                                \
+#define PIXEL_FROM_RGBA(pixel, fmt, r, g, b, a)                   \
+{                                                                 \
+  pixel = ((r >> fmt->Rloss) << fmt->Rshift) |                    \
+          ((g >> fmt->Gloss) << fmt->Gshift) |                    \
+          ((b >> fmt->Bloss) << fmt->Bshift) |                    \
+          ((a << fmt->Aloss) << fmt->Ashift);                     \
 }
-#define ASSEMBLE_RGBA(buf, bpp, fmt, r, g, b, a)                        \
-{                                                                       \
-        switch (bpp) {                                                        \
-                case 2: {                                                \
-                        Uint16 pixel;                                        \
-                        PIXEL_FROM_RGBA(pixel, fmt, r, g, b, a);        \
-                        *((Uint16 *)(buf)) = pixel;                        \
-                }                                                        \
-                break;                                                        \
-                case 4: {                                                \
-                        Uint32 pixel;                                        \
-                        PIXEL_FROM_RGBA(pixel, fmt, r, g, b, a);        \
-                        *((Uint32 *)(buf)) = pixel;                        \
-                }                                                        \
-                break;                                                        \
-        }                                                                \
+
+#define ASSEMBLE_RGBA(buf, bpp, fmt, r, g, b, a)                  \
+{                                                                 \
+  switch (bpp) {                                                  \
+  case 2:                                                         \
+  {                                                               \
+    Uint16 pixel;                                                 \
+    PIXEL_FROM_RGBA(pixel, fmt, r, g, b, a);                      \
+    if (SDL_BYTEORDER == SDL_LIL_ENDIAN) {                        \
+      buf[0] = (pixel & 0x00ff);                                  \
+      buf[1] = (pixel & 0xff00) >> 8;                             \
+    } else {                                                      \
+      buf[0] = (pixel & 0xff00) >> 8;                             \
+      buf[1] = (pixel & 0x00ff);                                  \
+    }                                                             \
+  }                                                               \
+  break;                                                          \
+  case 4:                                                         \
+  {                                                               \
+    Uint32 pixel;                                                 \
+    PIXEL_FROM_RGBA(pixel, fmt, r, g, b, a);                      \
+    if (SDL_BYTEORDER == SDL_LIL_ENDIAN) {                        \
+      buf[0] = (pixel & 0x000000ff);                              \
+      buf[1] = (pixel & 0x0000ff00) >> 8;                         \
+      buf[2] = (pixel & 0x00ff0000) >> 16;                        \
+      buf[3] = (pixel & 0xff000000) >> 24;                        \
+    } else {                                                      \
+      buf[3] = (pixel & 0x000000ff);                              \
+      buf[2] = (pixel & 0x0000ff00) >> 8;                         \
+      buf[1] = (pixel & 0x00ff0000) >> 16;                        \
+      buf[0] = (pixel & 0xff000000) >> 24;                        \
+    }                                                             \
+  }                                                               \
+  break;                                                          \
+  }                                                               \
 }
 
 #if 0
