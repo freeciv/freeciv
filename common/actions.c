@@ -348,7 +348,7 @@ action_enabled_local(const enum gen_action wanted_action,
   Find out if the action is enabled, may be enabled or isn't enabled given
   what the actor units owner knowns when done by actor_unit on target_city.
 **************************************************************************/
-enum mk_eval_result
+static enum mk_eval_result
 action_enabled_unit_on_city_local(const enum gen_action wanted_action,
                                   const struct unit *actor_unit,
                                   const struct city *target_city)
@@ -371,7 +371,7 @@ action_enabled_unit_on_city_local(const enum gen_action wanted_action,
   Find out if the action is enabled, may be enabled or isn't enabled given
   what the actor units owner knowns when done by actor_unit on target_unit.
 **************************************************************************/
-enum mk_eval_result
+static enum mk_eval_result
 action_enabled_unit_on_unit_local(const enum gen_action wanted_action,
                                   const struct unit *actor_unit,
                                   const struct unit *target_unit)
@@ -390,4 +390,52 @@ action_enabled_unit_on_unit_local(const enum gen_action wanted_action,
                               tile_city(unit_tile(target_unit)), NULL,
                               unit_tile(target_unit),
                               unit_type(target_unit), NULL, NULL);
+}
+
+/**************************************************************************
+  Get an action's probability of success
+**************************************************************************/
+static action_probability action_prob(enum mk_eval_result known)
+{
+  switch (known) {
+  case MKE_FALSE:
+    return ACTPROB_IMPOSSIBLE;
+    break;
+  case MKE_UNCERTAIN:
+    return ACTPROB_NOT_KNOWN;
+    break;
+  case MKE_TRUE:
+    /* TODO: Probabilities for each action. */
+    return ACTPROB_NOT_IMPLEMENTED;
+    break;
+  };
+
+  fc_assert_ret_val_msg(FALSE, ACTPROB_NOT_IMPLEMENTED,
+                        "Unknown knowledge analysis");
+}
+
+/**************************************************************************
+  Get the actor unit's probability of successfully performing the chosen
+  action on the target city.
+**************************************************************************/
+action_probability action_prob_vs_city(struct unit* actor, int action_id,
+                                       struct city* victim)
+{
+  enum mk_eval_result known;
+
+  known = action_enabled_unit_on_city_local(action_id, actor, victim);
+  return action_prob(known);
+}
+
+/**************************************************************************
+  Get the actor unit's probability of successfully performing the chosen
+  action on the target unit.
+**************************************************************************/
+action_probability action_prob_vs_unit(struct unit* actor, int action_id,
+                                       struct unit* victim)
+{
+  enum mk_eval_result known;
+
+  known = action_enabled_unit_on_unit_local(action_id, actor, victim);
+  return action_prob(known);
 }

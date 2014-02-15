@@ -654,17 +654,28 @@ static void diplomat_cancel_callback(GtkWidget *w, gpointer data)
 /******************************************************************
   Show the user the action if it is enabled.
 *******************************************************************/
-static void action_entry(GtkWidget *shl, enum mk_eval_result state,
+static void action_entry(GtkWidget *shl,
+                         action_probability success_propability,
                          const gchar *label, GCallback handler)
 {
-  switch (state) {
-  case MKE_FALSE:
+  /* How to interpret action probabilities like success_propability is
+   * documented in actions.h */
+  switch (success_propability) {
+  case ACTPROB_IMPOSSIBLE:
     /* Don't even show disabled actions */
     break;
-  case MKE_UNCERTAIN:
+  case ACTPROB_NOT_KNOWN:
+    /* Unknown because the player don't have the required knowledge to
+     * determine the probability of success for this action. */
     choice_dialog_add(shl, label, handler, NULL, TRUE);
     break;
-  case MKE_TRUE:
+  case ACTPROB_NOT_IMPLEMENTED:
+    /* Unknown because of missing server support. */
+    choice_dialog_add(shl, label, handler, NULL, FALSE);
+    break;
+  default:
+    /* TODO: Display the propability. */
+    /* The unit of success_propability is 0.5% chance of success. */
     choice_dialog_add(shl, label, handler, NULL, FALSE);
     break;
   }
@@ -702,50 +713,47 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     diplomat_target_id[ATK_CITY] = pcity->id;
 
     action_entry(shl,
-                 action_enabled_unit_on_city_local(
-                   ACTION_ESTABLISH_EMBASSY, punit, pcity),
+                 action_prob_vs_city(
+                   punit, ACTION_ESTABLISH_EMBASSY, pcity),
                  _("Establish _Embassy"),
                  (GCallback)diplomat_embassy_callback);
 
     action_entry(shl,
-                 action_enabled_unit_on_city_local(
-                   ACTION_SPY_INVESTIGATE_CITY, punit, pcity),
+                 action_prob_vs_city(
+                   punit, ACTION_SPY_INVESTIGATE_CITY, pcity),
                  _("_Investigate City"),
                  (GCallback)diplomat_investigate_callback);
 
     action_entry(shl,
-                 action_enabled_unit_on_city_local(ACTION_SPY_POISON,
-                                                   punit, pcity),
+                 action_prob_vs_city(punit, ACTION_SPY_POISON, pcity),
                  _("_Poison City"),
                  (GCallback)spy_poison_callback);
 
     action_entry(shl,
-                 action_enabled_unit_on_city_local(
-                   ACTION_SPY_SABOTAGE_CITY, punit, pcity),
+                 action_prob_vs_city(
+                   punit, ACTION_SPY_SABOTAGE_CITY, pcity),
                  _("_Sabotage City"),
                  (GCallback)diplomat_sabotage_callback);
 
     action_entry(shl,
-                 action_enabled_unit_on_city_local(
-                   ACTION_SPY_TARGETED_SABOTAGE_CITY, punit, pcity),
+                 action_prob_vs_city(
+                   punit, ACTION_SPY_TARGETED_SABOTAGE_CITY, pcity),
                  _("Industrial _Sabotage"),
                  (GCallback)spy_request_sabotage_list);
 
     action_entry(shl,
-                 action_enabled_unit_on_city_local(
-                   ACTION_SPY_STEAL_TECH, punit, pcity),
+                 action_prob_vs_city(punit, ACTION_SPY_STEAL_TECH, pcity),
                  _("Steal _Technology"),
                  (GCallback)diplomat_steal_callback);
 
     action_entry(shl,
-                 action_enabled_unit_on_city_local(
-                   ACTION_SPY_TARGETED_STEAL_TECH, punit, pcity),
+                 action_prob_vs_city(
+                   punit, ACTION_SPY_TARGETED_STEAL_TECH, pcity),
                  _("Industrial espionage"),
                  (GCallback)spy_steal_popup);
 
     action_entry(shl,
-                 action_enabled_unit_on_city_local(ACTION_SPY_INCITE_CITY,
-                                                   punit, pcity),
+                 action_prob_vs_city(punit, ACTION_SPY_INCITE_CITY, pcity),
                  _("Incite a _Revolt"),
                  (GCallback)diplomat_incite_callback);
   }
@@ -756,14 +764,13 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     diplomat_target_id[ATK_UNIT] = ptunit->id;
 
     action_entry(shl,
-                 action_enabled_unit_on_unit_local(
-                   ACTION_SPY_BRIBE_UNIT, punit, ptunit),
+                 action_prob_vs_unit(punit, ACTION_SPY_BRIBE_UNIT, ptunit),
                  _("_Bribe Enemy Unit"),
                  (GCallback)diplomat_bribe_callback);
 
     action_entry(shl,
-                 action_enabled_unit_on_unit_local(
-                   ACTION_SPY_SABOTAGE_UNIT, punit, ptunit),
+                 action_prob_vs_unit(
+                   punit, ACTION_SPY_SABOTAGE_UNIT, ptunit),
                  _("_Sabotage Enemy Unit"),
                  (GCallback)spy_sabotage_unit_callback);
   }

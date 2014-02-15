@@ -634,21 +634,24 @@ static void action_entry(const enum gen_action act,
 {
   struct widget *pBuf;
   SDL_String16 *pStr;
-  enum mk_eval_result eval;
+  action_probability prob;
 
-  eval = MKE_FALSE;
+  prob = ACTPROB_IMPOSSIBLE;
   switch(action_get_target_kind(act)) {
   case ATK_CITY:
-    eval = action_enabled_unit_on_city_local(act, act_unit, tgt_city);
+    prob = action_prob_vs_city(act_unit, act, tgt_city);
     break;
   case ATK_UNIT:
-    eval = action_enabled_unit_on_unit_local(act, act_unit, tgt_unit);
+    prob = action_prob_vs_unit(act_unit, act, tgt_unit);
     break;
   case ATK_COUNT:
     fc_assert_msg(FALSE, "Unsupported target kind");
   }
 
-  if (MKE_FALSE != eval) {
+  /* How to interpret action probabilities like success_propability is
+   * documented in actions.h */
+  /* TODO: Use more of the probability information */
+  if (ACTPROB_IMPOSSIBLE != prob) {
     create_active_iconlabel(pBuf, pWindow->dst, pStr,
                             ui_name, callback);
 

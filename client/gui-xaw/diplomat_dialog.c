@@ -793,45 +793,56 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
                            diplomat_cancel_callback, 0, 0,
                            NULL);
 
-  if (!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile)) {
+  /* TODO: Use more of the probability information.
+   * See the documentation in actions.h for how to use it. */
+  if (!pcity
+      || !action_prob_vs_city(punit, ACTION_ESTABLISH_EMBASSY, pcity)) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button0"), FALSE);
   }
 
-  if (!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile)) {
+  if (!pcity
+      || !action_prob_vs_city(punit, ACTION_SPY_INVESTIGATE_CITY, pcity)) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button1"), FALSE);
   }
 
-  if (!diplomat_can_do_action(punit, SPY_POISON, dest_tile)) {
+  if (!pcity || !action_prob_vs_city(punit, ACTION_SPY_POISON, pcity)) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button2"), FALSE);
   }
 
-  if (!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile)) {
+  if (!pcity
+      || !action_prob_vs_city(punit, ACTION_SPY_SABOTAGE_CITY, pcity)) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button3"), FALSE);
   }
 
-  if (!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE_TARGET,
-                              dest_tile)) {
+  if (!pcity
+      || !action_prob_vs_city(punit, ACTION_SPY_TARGETED_SABOTAGE_CITY,
+                              pcity)) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button4"), FALSE);
   }
 
-  if (!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile)) {
+  if (!pcity
+      || !action_prob_vs_city(punit, ACTION_SPY_STEAL_TECH, pcity)) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button5"), FALSE);
   }
 
-  if (!diplomat_can_do_action(punit, DIPLOMAT_STEAL_TARGET,
-                              dest_tile)) {
+  if (!pcity
+      || !action_prob_vs_city(punit, ACTION_SPY_TARGETED_STEAL_TECH,
+                              pcity)) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button6"), FALSE);
   }
 
-  if (!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile)) {
+  if (!pcity
+      || !action_prob_vs_city(punit, ACTION_SPY_INCITE_CITY, pcity)) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button7"), FALSE);
   }
 
-  if (!diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_tile)) {
+  if (!ptunit
+      || !action_prob_vs_unit(punit, ACTION_SPY_BRIBE_UNIT, ptunit)) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button8"), FALSE);
   }
 
-  if (!diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_tile)) {
+  if (!ptunit
+      || !action_prob_vs_unit(punit, ACTION_SPY_SABOTAGE_UNIT, ptunit)) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button9"), FALSE);
   }
 

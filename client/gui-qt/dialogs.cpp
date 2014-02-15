@@ -68,7 +68,8 @@ static void caravan_help_build(QVariant data1, QVariant data2);
 static void keep_moving(QVariant data1, QVariant data2);
 static void caravan_keep_moving(QVariant data1, QVariant data2);
 static void pillage_something(QVariant data1, QVariant data2);
-static void action_entry(choice_dialog *cd, enum mk_eval_result state,
+static void action_entry(choice_dialog *cd,
+                         action_probability success_propability,
                          QString title, pfcn_void func, QVariant data1,
                          QVariant data2);
 
@@ -963,49 +964,46 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     qv2 = pcity->id;
 
     action_entry(cd,
-                 action_enabled_unit_on_city_local(
-                   ACTION_ESTABLISH_EMBASSY, punit, pcity),
+                 action_prob_vs_city(punit,
+                                     ACTION_ESTABLISH_EMBASSY, pcity),
                  QString(_("Establish Embassy")),
                  diplomat_embassy, qv1, qv2);
 
     action_entry(cd,
-                 action_enabled_unit_on_city_local(
-                   ACTION_SPY_INVESTIGATE_CITY, punit, pcity),
+                 action_prob_vs_city(punit,
+                                     ACTION_SPY_INVESTIGATE_CITY, pcity),
                  QString(_("Investigate City")),
                  diplomat_investigate, qv1, qv2);
 
     action_entry(cd,
-                 action_enabled_unit_on_city_local(ACTION_SPY_POISON,
-                                                   punit, pcity),
+                 action_prob_vs_city(punit, ACTION_SPY_POISON, pcity),
                  QString(_("Poison City")), spy_poison, qv1, qv2);
 
     action_entry(cd,
-                 action_enabled_unit_on_city_local(
-                   ACTION_SPY_SABOTAGE_CITY, punit, pcity),
+                 action_prob_vs_city(punit,
+                                     ACTION_SPY_SABOTAGE_CITY, pcity),
                  QString(_("Sabotage City")),
                  diplomat_sabotage, qv1, qv2);
 
     action_entry(cd,
-                 action_enabled_unit_on_city_local(
-                   ACTION_SPY_TARGETED_SABOTAGE_CITY, punit, pcity),
+                 action_prob_vs_city(punit,
+                     ACTION_SPY_TARGETED_SABOTAGE_CITY, pcity),
                  QString(_("Industrial Sabotage")),
                  spy_request_sabotage_list, qv1, qv2);
 
     action_entry(cd,
-                 action_enabled_unit_on_city_local(ACTION_SPY_STEAL_TECH,
-                                                   punit, pcity),
+                 action_prob_vs_city(punit, ACTION_SPY_STEAL_TECH, pcity),
                  QString(_("Steal Technology")),
                  diplomat_steal, qv1, qv2);
 
     action_entry(cd,
-                 action_enabled_unit_on_city_local(
-                   ACTION_SPY_TARGETED_STEAL_TECH, punit, pcity),
+                 action_prob_vs_city(punit, ACTION_SPY_TARGETED_STEAL_TECH,
+                                     pcity),
                  QString(_("Industrial espionage")),
                  spy_steal, qv1, qv2);
 
     action_entry(cd,
-                 action_enabled_unit_on_city_local(ACTION_SPY_INCITE_CITY,
-                                                   punit, pcity),
+                 action_prob_vs_city(punit, ACTION_SPY_INCITE_CITY, pcity),
                  QString(_("Incite a Revolt")),
                  diplomat_incite, qv1, qv2);
   }
@@ -1017,14 +1015,13 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     qv2 = ptunit->id;
 
     action_entry(cd,
-                 action_enabled_unit_on_unit_local(ACTION_SPY_BRIBE_UNIT,
-                                                   punit, ptunit),
+                 action_prob_vs_unit(punit, ACTION_SPY_BRIBE_UNIT, ptunit),
                  QString(_("Bribe Enemy Unit")),
                  diplomat_bribe, qv1, qv2);
 
     action_entry(cd,
-                 action_enabled_unit_on_unit_local(
-                   ACTION_SPY_SABOTAGE_UNIT, punit, ptunit),
+                 action_prob_vs_unit(punit, ACTION_SPY_SABOTAGE_UNIT,
+                                     ptunit),
                  QString(_("Sabotage Enemy Unit")),
                  spy_sabotage_unit, qv1, qv2);
   }
@@ -1058,18 +1055,29 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 /**********************************************************************
   Show the user the action if it is enabled.
 **********************************************************************/
-static void action_entry(choice_dialog *cd, enum mk_eval_result state,
+static void action_entry(choice_dialog *cd,
+                         action_probability success_propability,
                          QString title, pfcn_void func, QVariant data1,
                          QVariant data2)
 {
-  switch (state) {
-  case MKE_FALSE:
-    /* Don't even show disabled actions */
+  /* How to interpret action probabilities like success_propability is
+   * documented in actions.h */
+  switch (success_propability) {
+  case ACTPROB_IMPOSSIBLE:
+    /* Don't even show disabled actions. */
     break;
-  case MKE_UNCERTAIN:
+  case ACTPROB_NOT_KNOWN:
+    /* Unknown because the player don't have the required knowledge to
+     * determine the probability of success for this action. */
     cd->add_item(title, func, data1, data2, TRUE);
     break;
-  case MKE_TRUE:
+  case ACTPROB_NOT_IMPLEMENTED:
+    /* Unknown because of missing server support. */
+    cd->add_item(title, func, data1, data2, FALSE);
+    break;
+  default:
+    /* TODO: Display the propability. */
+    /* The unit of success_propability is 0.5% chance of success. */
     cd->add_item(title, func, data1, data2, FALSE);
     break;
   }
