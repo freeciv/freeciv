@@ -52,9 +52,12 @@ GUI_FUNC_PROTO(void, popup_diplomat_dialog, struct unit *punit,
                struct tile *ptile)
 GUI_FUNC_PROTO(int, diplomat_handled_in_diplomat_dialog, void)
 GUI_FUNC_PROTO(void, close_diplomat_dialog, void)
-GUI_FUNC_PROTO(void, popup_incite_dialog, struct city *pcity, int cost)
-GUI_FUNC_PROTO(void, popup_bribe_dialog, struct unit *punit, int cost)
-GUI_FUNC_PROTO(void, popup_sabotage_dialog, struct city *pcity)
+GUI_FUNC_PROTO(void, popup_incite_dialog, struct unit *actor,
+               struct city *pcity, int cost)
+GUI_FUNC_PROTO(void, popup_bribe_dialog, struct unit *actor,
+               struct unit *punit, int cost)
+GUI_FUNC_PROTO(void, popup_sabotage_dialog, struct unit *actor,
+               struct city *pcity)
 GUI_FUNC_PROTO(void, popup_pillage_dialog, struct unit *punit,
                bv_special spe, bv_bases bases, bv_roads roads)
 GUI_FUNC_PROTO(void, popup_upgrade_dialog, struct unit_list *punits)
