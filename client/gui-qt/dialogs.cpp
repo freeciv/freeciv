@@ -1332,7 +1332,7 @@ static void diplomat_keep_moving_unit(QVariant data1, QVariant data2)
   Popup a window asking a diplomatic unit if it wishes to incite the
   given enemy city.
 **************************************************************************/
-void popup_incite_dialog(struct city *pcity, int cost)
+void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
 {
   char buf[1024];
   char buf2[1024];
@@ -1395,7 +1395,7 @@ void popup_incite_dialog(struct city *pcity, int cost)
   Popup a dialog asking a diplomatic unit if it wishes to bribe the
   given enemy unit.
 **************************************************************************/
-void popup_bribe_dialog(struct unit *punit, int cost)
+void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost)
 {
   QMessageBox ask;
   int ret;
@@ -1485,7 +1485,7 @@ static void spy_sabotage(QVariant data1, QVariant data2)
   Popup a dialog asking a diplomatic unit if it wishes to sabotage the
   given enemy city.
 **************************************************************************/
-void popup_sabotage_dialog(struct city *pcity)
+void popup_sabotage_dialog(struct unit *actor, struct city *pcity)
 {
 
   QString str;
