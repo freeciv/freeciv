@@ -2601,28 +2601,45 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
 }
 
 /****************************************************************************
-  Append misc dynamic text for bases.
+  Append misc dynamic text for extras.
   Assumes build time and conflicts are handled in the GUI front-end.
 
   pplayer may be NULL.
 ****************************************************************************/
-void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
-                   const char *user_text, struct base_type *pbase)
+void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
+                    const char *user_text, struct extra_type *pextra)
 {
-  struct extra_type *pextra;
+  struct base_type *pbase;
+  struct road_type *proad;
 
   fc_assert_ret(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
 
-  if (!pbase) {
-    log_error("Unknown base!");
+  if (!pextra) {
+    log_error("Unknown extra!");
     return;
   }
 
-  pextra = base_extra_get(pbase);
+  if (is_extra_caused_by(pextra, EC_BASE)) {
+    pbase = pextra->data.base;
+  } else {
+    pbase = NULL;
+  }
 
-  if (NULL != pbase->helptext) {
+  if (is_extra_caused_by(pextra, EC_ROAD)) {
+    proad = pextra->data.road;
+  } else {
+    proad = NULL;
+  }
+
+  if (pbase != NULL && pbase->helptext != NULL) {
     strvec_iterate(pbase->helptext, text) {
+      cat_snprintf(buf, bufsz, "%s\n\n", _(text));
+    } strvec_iterate_end;
+  }
+
+  if (proad != NULL && proad->helptext != NULL) {
+    strvec_iterate(proad->helptext, text) {
       cat_snprintf(buf, bufsz, "%s\n\n", _(text));
     } strvec_iterate_end;
   }
@@ -2630,7 +2647,7 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
   /* XXX Non-zero requirement vector is not a good test of whether
    * insert_requirement() will give any output. */
   if (requirement_vector_size(&pextra->reqs) > 0) {
-    if (base_extra_get(pbase)->buildable) {
+    if (pextra->buildable) {
       CATLSTR(buf, bufsz, _("Requirements to build:\n"));
     }
     requirement_vector_iterate(&pextra->reqs, preq) {
@@ -2652,9 +2669,15 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
     if (0 < i) {
       struct astring list = ASTRING_INIT;
 
-      /* TRANS: %s is a list of unit classes separated by "and". */
-      cat_snprintf(buf, bufsz, _("* Native to %s units.\n"),
-                   astr_build_and_list(&list, classes, i));
+      if (proad != NULL) {
+        /* TRANS: %s is a list of unit classes separated by "and". */
+        cat_snprintf(buf, bufsz, _("* Can be traveled by %s units.\n"),
+                     astr_build_and_list(&list, classes, i));
+      } else {
+        /* TRANS: %s is a list of unit classes separated by "and". */
+        cat_snprintf(buf, bufsz, _("* Native to %s units.\n"),
+                     astr_build_and_list(&list, classes, i));
+      }
       astr_free(&list);
 
       if (extra_has_flag(pextra, EF_NATIVE_TILE)) {
@@ -2662,18 +2685,26 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
                 _("  * Such units can move onto this tile even if it would "
                   "not normally be suitable terrain.\n"));
       }
-      if (BORDERS_DISABLED != game.info.borders
-          && game.info.happyborders
-          && base_has_flag(pbase, BF_NOT_AGGRESSIVE)) {
-        /* "3 tiles" is hardcoded in is_friendly_city_near() */
-        CATLSTR(buf, bufsz,
-                _("  * Such units situated here are not considered aggressive "
-                  "if this tile is within 3 tiles of a friendly city.\n"));
-      }
-      if (territory_claiming_base(pbase)) {
-        CATLSTR(buf, bufsz,
-                _("  * Can be captured by such units if at war with the "
-                  "nation that currently owns it.\n"));
+      if (pbase != NULL) {
+        if (BORDERS_DISABLED != game.info.borders
+            && game.info.happyborders
+            && base_has_flag(pbase, BF_NOT_AGGRESSIVE)) {
+          /* "3 tiles" is hardcoded in is_friendly_city_near() */
+          CATLSTR(buf, bufsz,
+                  _("  * Such units situated here are not considered aggressive "
+                    "if this tile is within 3 tiles of a friendly city.\n"));
+        }
+        if (territory_claiming_base(pbase)) {
+          CATLSTR(buf, bufsz,
+                  _("  * Can be captured by such units if at war with the "
+                    "nation that currently owns it.\n"));
+        }
+        if (base_has_flag(pbase, BF_DIPLOMAT_DEFENSE)) {
+          CATLSTR(buf, bufsz,
+                  /* xgettext:no-c-format */
+                  _("  * Diplomatic units get a 25% defense bonus in "
+                    "diplomatic fights.\n"));
+        }
       }
       if (pextra->defense_bonus) {
         cat_snprintf(buf, bufsz,
@@ -2681,12 +2712,16 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
                        "tile.\n"),
                      pextra->defense_bonus);
       }
-      if (base_has_flag(pbase, BF_DIPLOMAT_DEFENSE)) {
-        CATLSTR(buf, bufsz,
-                /* xgettext:no-c-format */
-                _("  * Diplomatic units get a 25% defense bonus in "
-                  "diplomatic fights.\n"));
-      }
+    }
+  }
+
+  if (proad != NULL) {
+    if (proad->move_cost == 0) {
+      CATLSTR(buf, bufsz, _("* Allows infinite movement.\n"));
+    } else {
+      cat_snprintf(buf, bufsz,
+                   _("* Movement cost along this road is %d/%d movement points.\n"),
+                   proad->move_cost, SINGLE_MOVE);
     }
   }
 
@@ -2702,133 +2737,40 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
             _("* Can be cleaned by units.\n"));
   }
-  if (game.info.killstack
-      && base_has_flag(pbase, BF_NO_STACK_DEATH)) {
-    CATLSTR(buf, bufsz,
-            _("* Defeat of one unit does not cause death of all other units "
-              "on this tile.\n"));
-  }
-  if (base_has_flag(pbase, BF_PARADROP_FROM)) {
-    CATLSTR(buf, bufsz,
-            _("* Units can paradrop from this tile.\n"));
-  }
-  if (territory_claiming_base(pbase)) {
-    CATLSTR(buf, bufsz,
-            _("* Extends national borders of the building nation.\n"));
-  }
-  if (pbase->vision_main_sq >= 0) {
-    CATLSTR(buf, bufsz,
-            _("* Grants permanent vision of an area around the tile to "
-              "its owner.\n"));
-  }
-  if (pbase->vision_invis_sq >= 0) {
-    CATLSTR(buf, bufsz,
-            _("* Allows the owner to see normally invisible units in an "
-              "area around the tile.\n"));
-  }
-
-  if (user_text && user_text[0] != '\0') {
-    CATLSTR(buf, bufsz, "\n\n");
-    CATLSTR(buf, bufsz, user_text);
-  }
-}
-
-/****************************************************************************
-  Append misc dynamic text for roads.
-  Assumes build time is handled in the GUI front-end.
-
-  pplayer may be NULL.
-****************************************************************************/
-void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
-                   const char *user_text, struct road_type *proad)
-{
-  struct extra_type *pextra;
-
-  fc_assert_ret(NULL != buf && 0 < bufsz);
-  buf[0] = '\0';
-
-  if (!proad) {
-    log_error("Unknown road!");
-    return;
-  }
-
-  pextra = road_extra_get(proad);
-
-  if (NULL != proad->helptext) {
-    strvec_iterate(proad->helptext, text) {
-      cat_snprintf(buf, bufsz, "%s\n\n", _(text));
-    } strvec_iterate_end;
-  }
-
-  /* XXX Non-zero requirement vector is not a good test of whether
-   * insert_requirement() will give any output. */
-  if (requirement_vector_size(&pextra->reqs) > 0) {
-    if (road_extra_get(proad)->buildable) {
-      CATLSTR(buf, bufsz, _("Requirements to build:\n"));
+  if (pbase != NULL) {
+    if (game.info.killstack
+        && base_has_flag(pbase, BF_NO_STACK_DEATH)) {
+      CATLSTR(buf, bufsz,
+              _("* Defeat of one unit does not cause death of all other units "
+                "on this tile.\n"));
     }
-    requirement_vector_iterate(&pextra->reqs, preq) {
-      (void) insert_requirement(buf, bufsz, pplayer, preq);
-    } requirement_vector_iterate_end;
-    CATLSTR(buf, bufsz, "\n");
-  }
-
-  {
-    const char *classes[uclass_count()];
-    int i = 0;
-
-    unit_class_iterate(uclass) {
-      if (is_native_extra_to_uclass(pextra, uclass)) {
-        classes[i++] = uclass_name_translation(uclass);
-      }
-    } unit_class_iterate_end;
-
-    if (0 < i) {
-      struct astring list = ASTRING_INIT;
-
-      /* TRANS: %s is a list of unit classes separated by "and". */
-      cat_snprintf(buf, bufsz, _("* Can be traveled by %s units.\n"),
-                   astr_build_and_list(&list, classes, i));
-      astr_free(&list);
-
-      if (extra_has_flag(pextra, EF_NATIVE_TILE)) {
-        CATLSTR(buf, bufsz,
-                _("  * Such units can move onto this tile even if it would "
-                  "not normally be suitable terrain.\n"));
-      }
-      if (pextra->defense_bonus) {
-        cat_snprintf(buf, bufsz,
-                     _("  * Such units get a %d%% defense bonus on this "
-                       "tile.\n"),
-                     pextra->defense_bonus);
-      }
+    if (base_has_flag(pbase, BF_PARADROP_FROM)) {
+      CATLSTR(buf, bufsz,
+              _("* Units can paradrop from this tile.\n"));
+    }
+    if (territory_claiming_base(pbase)) {
+      CATLSTR(buf, bufsz,
+              _("* Extends national borders of the building nation.\n"));
+    }
+    if (pbase->vision_main_sq >= 0) {
+      CATLSTR(buf, bufsz,
+              _("* Grants permanent vision of an area around the tile to "
+                "its owner.\n"));
+    }
+    if (pbase->vision_invis_sq >= 0) {
+      CATLSTR(buf, bufsz,
+              _("* Allows the owner to see normally invisible units in an "
+                "area around the tile.\n"));
     }
   }
 
-  if (proad->move_cost == 0) {
-    CATLSTR(buf, bufsz, _("* Allows infinite movement.\n"));
-  } else {
-    cat_snprintf(buf, bufsz,
-                 _("* Movement cost along this road is %d/%d movement points.\n"),
-                 proad->move_cost, SINGLE_MOVE);
-  }
-
-  if (!pextra->buildable) {
-    CATLSTR(buf, bufsz, _("* Cannot be built.\n"));
-  }
-  if (is_extra_removed_by(pextra, ERM_PILLAGE)) {
-    CATLSTR(buf, bufsz,
-            _("* Can be pillaged by units.\n"));
-  }
-  if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION) || is_extra_removed_by(pextra, ERM_CLEANFALLOUT)) {
-    CATLSTR(buf, bufsz,
-            _("* Can be cleaned by units.\n"));
-  }
-
-  if (road_has_flag(proad, RF_REQUIRES_BRIDGE)) {
-    /* TODO: List actual technologies. */
-    CATLSTR(buf, bufsz,
-            _("* Cannot be built to river tiles unless some technology "
-              "allowing bridge building is knowns.\n"));
+  if (proad != NULL) {
+    if (road_has_flag(proad, RF_REQUIRES_BRIDGE)) {
+      /* TODO: List actual technologies. */
+      CATLSTR(buf, bufsz,
+              _("* Cannot be built to river tiles unless some technology "
+                "allowing bridge building is knowns.\n"));
+    }
   }
 
   if (user_text && user_text[0] != '\0') {

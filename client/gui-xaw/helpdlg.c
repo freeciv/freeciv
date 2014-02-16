@@ -1111,8 +1111,8 @@ static void help_update_base(const struct help_item *pitem,
       strcat(buf, _("(none)"));
     }
     strcat(buf, "\n\n");
-    helptext_base(buf + strlen(buf), sizeof(buf) - strlen(buf),
-                  client.conn.playing, pitem->text, pbase);
+    helptext_extra(buf + strlen(buf), sizeof(buf) - strlen(buf),
+                   client.conn.playing, pitem->text, pextra);
   }
   create_help_page(HELP_TEXT);
   set_title_topic(pitem);
@@ -1127,6 +1127,7 @@ static void help_update_road(const struct help_item *pitem,
 {
   char buf[4096];
   struct road_type *proad = road_type_by_translated_name(title);
+  struct extra_type *pextra = road_extra_get(proad);
 
   if (!proad) {
     strcat(buf, pitem->text);
@@ -1138,8 +1139,8 @@ static void help_update_road(const struct help_item *pitem,
       sprintf(buf, _("Build: %d MP\n"), proad->build_time);
     }
     strcat(buf, "\n\n");
-    helptext_road(buf + strlen(buf), sizeof(buf) - strlen(buf),
-                  client.conn.playing, pitem->text, proad);
+    helptext_extra(buf + strlen(buf), sizeof(buf) - strlen(buf),
+                   client.conn.playing, pitem->text, pextra);
   }
   create_help_page(HELP_TEXT);
   set_title_topic(pitem);

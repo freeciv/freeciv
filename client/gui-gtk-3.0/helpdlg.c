@@ -1246,7 +1246,7 @@ static void help_update_base(const struct help_item *pitem, char *title)
     } extra_type_iterate_end;
     /* TRANS: "Conflicts with: (none)" (extras) */
     gtk_label_set_text(GTK_LABEL(help_blabel[3]), buf[0] ? buf : _("(none)"));
-    helptext_base(buf, sizeof(buf), client.conn.playing, pitem->text, pbase);
+    helptext_extra(buf, sizeof(buf), client.conn.playing, pitem->text, pextra);
   }
   gtk_widget_show(help_btable);
 
@@ -1261,6 +1261,7 @@ static void help_update_road(const struct help_item *pitem, char *title)
 {
   char buf[8192];
   struct road_type *proad = road_type_by_translated_name(title);
+  struct extra_type *pextra = road_extra_get(proad);
 
   create_help_page(HELP_ROAD);
 
@@ -1280,7 +1281,7 @@ static void help_update_road(const struct help_item *pitem, char *title)
       sprintf(buf, "-");
     }
     gtk_label_set_text(GTK_LABEL(help_rlabel[1]), buf);
-    helptext_road(buf, sizeof(buf), client.conn.playing, pitem->text, proad);
+    helptext_extra(buf, sizeof(buf), client.conn.playing, pitem->text, pextra);
   }
   gtk_widget_show(help_rtable);
 
