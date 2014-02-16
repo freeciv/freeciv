@@ -110,7 +110,6 @@ const char **gfx_fileextensions(void)
   static const char *ext[] =
   {
     "png",
-    "xpm",
     NULL
   };
 
