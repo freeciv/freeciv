@@ -751,6 +751,8 @@ Uint16 gui_event_loop(void *pData,
         free(cb);
       }
     }
+
+    update_main_screen();
   }
 
   return ID;
