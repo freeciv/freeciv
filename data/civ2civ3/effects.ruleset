@@ -604,6 +604,14 @@ reqs    =
       "OutputType", "Shield", "Local"
     }
 
+[effect_tech_upkeep_anarchy]
+type    = "Tech_Upkeep_Free"
+value   = 99
+reqs    =
+    { "type", "name", "range"
+      "Gov", "Anarchy", "Player"
+    }
+
 [effect_building_upkeep_anarchy]
 type    = "Upkeep_Free"
 value   = 99

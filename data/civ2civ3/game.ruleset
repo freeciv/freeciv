@@ -499,4 +499,6 @@ set =
       "unreachableprotects", "DISABLED"
       "onsetbarbs", 120
       "occupychance", 100
+      "techlossforgiveness", 0
+      "techlossrestore", 50
     }
