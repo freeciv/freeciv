@@ -128,6 +128,8 @@ freeciv_client_src = $(AUDIO_SDL_FILES) \
 	mapview_common.h \
 	messagewin_common.c \
 	messagewin_common.h \
+	music.c		\
+	music.h		\
 	overview_common.c	\
 	overview_common.h	\
 	packhand.c	\

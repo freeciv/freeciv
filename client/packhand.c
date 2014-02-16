@@ -86,6 +86,7 @@
 #include "goto.h"               /* client_goto_init() */
 #include "helpdata.h"           /* boot_help_texts() */
 #include "mapview_common.h"
+#include "music.h"
 #include "options.h"
 #include "overview_common.h"
 #include "tilespec.h"
@@ -1995,6 +1996,12 @@ void handle_player_info(const struct packet_player_info *pinfo)
   pplayer->gives_shared_vision = pinfo->gives_shared_vision;
   pplayer->city_style = pinfo->city_style;
 
+  if (pplayer == client.conn.playing
+      && pplayer->music_style != pinfo->music_style) {
+    pplayer->music_style = pinfo->music_style;
+    start_style_music();
+  }
+
   /* Don't use player_iterate or player_slot_count here, because we ignore
    * the real number of players and we want to read all the datas. */
   fc_assert(ARRAY_SIZE(pplayer->ai_common.love) >= ARRAY_SIZE(pinfo->love));
@@ -3603,6 +3610,8 @@ void handle_ruleset_city(const struct packet_ruleset_city *packet)
   sz_strlcpy(cs->oceanic_graphic_alt, packet->oceanic_graphic_alt);
   sz_strlcpy(cs->citizens_graphic, packet->citizens_graphic);
   sz_strlcpy(cs->citizens_graphic_alt, packet->citizens_graphic_alt);
+
+  sz_strlcpy(cs->music, packet->music);
 
   tileset_setup_city_tiles(tileset, id);
 }

@@ -728,6 +728,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   GOVERNMENT target_government;
   BOOL real_embassy[MAX_NUM_PLAYER_SLOTS];
   UINT8 city_style;
+  UINT8 music_style;
   NATION nation;
   TEAM team;
   BOOL is_ready;
@@ -1397,6 +1398,7 @@ PACKET_RULESET_CITY = 149; sc, lsend
   STRING graphic_alt[MAX_LEN_NAME];
   STRING oceanic_graphic[MAX_LEN_NAME];
   STRING oceanic_graphic_alt[MAX_LEN_NAME];
+  STRING music[MAX_LEN_NAME];
   SINT8 replaced_by;
 end
 

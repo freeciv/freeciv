@@ -222,6 +222,7 @@ struct player {
   bv_player real_embassy;
   const struct player_diplstate **diplstates;
   int city_style;
+  int music_style;
   struct city_list *cities;
   struct unit_list *units;
   struct player_score score;

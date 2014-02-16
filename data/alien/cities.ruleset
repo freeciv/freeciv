@@ -108,6 +108,7 @@ partisans_pct = 0               ; percentage of own nationality to inspire parti
 ;                        is omitted, same graphics as for land cities is used
 ; citizens_graphic     = group of citizens tiles to use, see citizens/small
 ;                        spec for more info on citizens tiles
+; music       = music tag to play while player has this citystyle
 ; reqs        = requirements for this city style (see README.effects)
 ; replaced_by = which style replaced this one
 ;
@@ -121,6 +122,7 @@ oceanic_graphic      = "city.ocean"
 oceanic_graphic_alt  = "city.classical"
 citizens_graphic     = "human"
 citizens_graphic_alt = "ancient"
+music       = "music_human"
 reqs =
    { "type", "name", "range"
 ; No requirements
@@ -135,6 +137,7 @@ oceanic_graphic      = "city.ocean"
 oceanic_graphic_alt  = "city.modern"
 citizens_graphic     = "dual"
 citizens_graphic_alt = "modern"
+music       = "music_dual"
 reqs =
    { "type", "name", "range"
      "Tech", "Alien Rights", "Player"

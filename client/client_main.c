@@ -84,6 +84,7 @@
 #include "ggzclient.h"
 #include "helpdata.h"           /* boot_help_texts() */
 #include "mapview_common.h"
+#include "music.h"
 #include "options.h"
 #include "overview_common.h"
 #include "packhand.h"
@@ -742,6 +743,8 @@ void set_client_state(enum client_states newstate)
   }
 
   if (oldstate == C_S_RUNNING) {
+    stop_style_music();
+
     /* Back to menu */
     audio_play_music("music_start", NULL);
   }
@@ -834,6 +837,7 @@ void set_client_state(enum client_states newstate)
     if (auto_center_each_turn) {
       center_on_something();
     }
+    start_style_music();
     break;
 
   case C_S_OVER:

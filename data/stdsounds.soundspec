@@ -315,3 +315,14 @@ e_log_fatal = "stdsounds/LrgExpl.ogg" ; [warzone]
 ;e_game_quit = ""
 
 ;music_start = ""
+
+;music_european = ""
+;music_classical = ""
+;music_tropical = ""
+;music_asian = ""
+;music_babylonian = ""
+;music_celtic = ""
+;music_industrial = ""
+;music_electricage = ""
+;music_modern = ""
+;music_postmodern = ""

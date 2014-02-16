@@ -953,6 +953,7 @@ static void package_player_common(struct player *plr,
   } else {
     packet->city_style = 0;
   }
+  packet->music_style = packet->city_style;
 
   packet->is_alive=plr->is_alive;
   packet->is_connected=plr->is_connected;

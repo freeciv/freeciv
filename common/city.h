@@ -439,6 +439,7 @@ struct citystyle {
   char oceanic_graphic_alt[MAX_LEN_NAME];
   char citizens_graphic[MAX_LEN_NAME];
   char citizens_graphic_alt[MAX_LEN_NAME];
+  char music[MAX_LEN_NAME];
   struct requirement_vector reqs;
   int replaced_by;              /* index to replacing style          */
 };                              /* not incl. wall and occupied tiles */
