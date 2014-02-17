@@ -1060,6 +1060,9 @@ static void action_entry(choice_dialog *cd,
                          QString title, pfcn_void func, QVariant data1,
                          QVariant data2)
 {
+  /* TRANS: the probability that a diplomat action will succeed. */
+  QString success = _(" (%1% chance of success)");
+
   /* How to interpret action probabilities like success_propability is
    * documented in actions.h */
   switch (success_propability) {
@@ -1076,9 +1079,14 @@ static void action_entry(choice_dialog *cd,
     cd->add_item(title, func, data1, data2, FALSE);
     break;
   default:
-    /* TODO: Display the propability. */
+    /* Should be in the range 1 (0.5%) to 200 (100%) */
+    fc_assert_msg(success_propability < 201,
+                  "Diplomat action probability out of range");
+
     /* The unit of success_propability is 0.5% chance of success. */
+    title.append(success.arg((double)success_propability / 2));
     cd->add_item(title, func, data1, data2, FALSE);
+
     break;
   }
 }
