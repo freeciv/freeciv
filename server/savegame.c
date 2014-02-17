@@ -4112,6 +4112,12 @@ static void game_load_internal(struct section_file *file)
     pplayer->ai_controlled = saved_ai_control;
   } players_iterate_end;
 
+  /* Player colors are always needed once game has started. Pre-2.4 savegames
+   * lack them. */
+  if (game_was_started()) {
+    assign_player_colors();
+  }
+
   /* Restore game random state, just in case various initialization code
    * inexplicably altered the previously existing state. */
   if (!game.info.is_new_game) {

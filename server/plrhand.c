@@ -1024,6 +1024,7 @@ static void package_player_info(struct player *plr,
       packet->color_green = preferred->g;
       packet->color_blue = preferred->b;
     } else {
+      fc_assert(!game_was_started());
       /* Can't tell the client 'no color', so use dummy values (black). */
       packet->color_red = 0;
       packet->color_green = 0;

@@ -1986,6 +1986,7 @@ void aifill(int amount)
     struct player *pplayer;
 
     pplayer = server_create_player(-1, default_ai_type_name(), NULL);
+    /* !game_was_started() so no need to assign_player_colors() */
     if (!pplayer) {
       break;
     }

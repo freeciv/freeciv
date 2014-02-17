@@ -230,7 +230,8 @@ static void compat_load_020400(struct loaddata *loading)
 
   } player_slots_iterate_end;
 
-  /* Player colors are assigned automatically. */
+  /* Player colors are assigned at the end of player loading, as this
+   * needs information not available here. */
 
   /* Deal with buggy known tiles information from 2.3.0/2.3.1 (and the
    * workaround in later 2.3.x); see gna bug #19029.
