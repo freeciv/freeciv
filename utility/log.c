@@ -430,7 +430,7 @@ static void log_real(enum log_level level, bool print_from_where,
     if (repeated > 0 && repeated != prev) {
       if (repeated == 1) {
         /* just repeat the previous message: */
-        log_write(fs, prev_level, print_from_where, where, msg);
+        log_write(fs, prev_level, print_from_where, where, last_msg);
       } else {
         fc_snprintf(buf, sizeof(buf),
                     PL_("last message repeated %d time", 
