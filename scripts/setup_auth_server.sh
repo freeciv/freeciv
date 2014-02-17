@@ -11,7 +11,10 @@
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 
-# Script to help setup of authentication enabled Freeciv server.
+# Script to help setup of authentication enabled Freeciv server
+# with MySQL. (For new deployments, consider using SQLite instead; it
+# is much simpler and does not need this setup script.)
+# See doc/README.fcdb.
 # I know that this will not work with bare sh. Tested with bash,
 # so I set it in use above. 
 
