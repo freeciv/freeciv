@@ -2218,7 +2218,8 @@ static struct setting settings[] = {
            SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
            N_("Control of simultaneous player/team phases"),
            N_("This setting controls whether players may make "
-              "moves at the same time during a turn."),
+              "moves at the same time during a turn. Change "
+              "in setting takes effect next turn."),
            NULL, NULL, phasemode_name, GAME_DEFAULT_PHASE_MODE)
 
   GEN_INT("nettimeout", game.server.tcptimeout,
