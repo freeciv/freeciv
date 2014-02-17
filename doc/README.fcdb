@@ -26,9 +26,10 @@ authentication is required.
  Quick setup: SQLite
 ================================
 
-The simplest setup is to use the SQLite backend. In this setup, the
-authentication data is stored in a simple file accessed directly by the
-Freeciv server; there is no need for a separate database server process.
+The simplest setup is to use the SQLite backend, and this is probably the
+best option for new deployments. In this setup, the authentication data is
+stored in a simple file accessed directly by the Freeciv server; there is
+no need for a separate database server process.
 
 In order to use this, the server must have been built with
 '--enable-fcdb=sqlite3'.
@@ -78,14 +79,17 @@ crashes (it is not saved in the saved game file). You'll probably need the
 ================================
 
 This setup uses a network connection to a separate MySQL database server.
+MySQL was the only backend supported before Freeciv version 2.4, so is
+supported for backward compatibility, but SQLite is probably a better
+option for new deployments unless you have special requirements.
 
 In order to use this, the server must have been built with
 '--enable-fcdb=mysql'.
 
-Before Freeciv version 2.4, MySQL was the only database backend supported
-by Freeciv. You can still use an existing MySQL authentication database
-with 2.4. Note however that the format of the configuration file has
-changed slightly from that supplied to the --auth option:
+You can still use an existing pre-2.4 MySQL authentication database with
+Freeciv 2.4 or later. Note however that the format of the configuration
+file has changed slightly from that which used to be supplied to the --auth
+option:
  - Section header is now '[fcdb]' instead of '[auth]'
  - You should add 'backend="mysql"'
  - the 'table' directive is now called 'table_user', and the default table
