@@ -524,14 +524,12 @@ bool api_methods_tile_city_exists_within_max_city_map(lua_State *L,
 
 /*****************************************************************************
   Return TRUE if there is a base with rule name name on ptile.
-  If no name is specified return true if there is a base on ptile.
+  If no name is specified return true if there is any base on ptile.
 *****************************************************************************/
 bool api_methods_tile_has_base(lua_State *L, Tile *ptile, const char *name)
 {
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, ptile, FALSE);
-
-  struct base_type *base;
 
   if (!name) {
     base_type_iterate(pbase) {
@@ -540,12 +538,40 @@ bool api_methods_tile_has_base(lua_State *L, Tile *ptile, const char *name)
       }
     } base_type_iterate_end;
 
+    return FALSE;
+  } else {
+    struct base_type *pbase;
+
+    pbase = base_type_by_rule_name(name);
+
+    return tile_has_extra(ptile, base_extra_get(pbase));
+  }
+}
+
+/*****************************************************************************
+  Return TRUE if there is a road with rule name name on ptile.
+  If no name is specified return true if there is any road on ptile.
+*****************************************************************************/
+bool api_methods_tile_has_road(lua_State *L, Tile *ptile, const char *name)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, ptile, FALSE);
+
+  if (!name) {
+    road_type_iterate(proad) {
+      if (tile_has_extra(ptile, road_extra_get(proad))) {
+        return TRUE;
+      }
+    } road_type_iterate_end;
+
 
     return FALSE;
   } else {
-    base = base_type_by_rule_name(name);
+    struct road_type *proad;
+ 
+    proad = road_type_by_rule_name(name);
 
-    return tile_has_base(ptile, base);
+    return tile_has_extra(ptile, road_extra_get(proad));
   }
 }
 
