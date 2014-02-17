@@ -183,7 +183,7 @@ end
 --   logincount int(11) default '0',
 --   PRIMARY KEY  (id),
 --   UNIQUE KEY name (name)
--- ) TYPE=MyISAM;
+-- );
 --
 -- CREATE TABLE fcdb_log (
 --   id int(11) NOT NULL auto_increment,
@@ -192,7 +192,7 @@ end
 --   address varchar(255) default NULL,
 --   succeed enum('S','F') default 'S',
 --   PRIMARY KEY  (id)
--- ) TYPE=MyISAM;
+-- );
 --
 -- N.B. if the tables are not of this format, then the select, insert,
 --      and update syntax in the following functions must be changed.

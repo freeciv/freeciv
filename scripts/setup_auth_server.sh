@@ -24,7 +24,7 @@ then
 else
   PROGRAM_NAME="setup_auth_server.sh"
 fi
-PROGRAM_VERSION="0.9"
+PROGRAM_VERSION="0.10"
 
 #############################################################################
 #
@@ -436,7 +436,7 @@ echo "Now we create the Freeciv tables."
    logincount int(11) default '0', \
    PRIMARY KEY  (id), \
    UNIQUE KEY name (name) \
- ) TYPE=MyISAM;"
+ );"
  echo \
  "CREATE TABLE $TABLE_LOG ( \
    id int(11) NOT NULL auto_increment, \
@@ -445,7 +445,7 @@ echo "Now we create the Freeciv tables."
    address varchar(255) default NULL, \
    succeed enum('S','F') default 'S', \
    PRIMARY KEY  (id) \
- ) TYPE=MyISAM;"
+ );"
 ) | make_query "-"
 
 QUERYRESULT=$?
