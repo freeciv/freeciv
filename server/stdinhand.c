@@ -1121,6 +1121,7 @@ enum rfc_status create_command_pregame(const char *name,
   } else {
     /* add new player */
     pplayer = server_create_player(-1, ai, NULL);
+    /* pregame so no need to assign_player_colors() */
     if (!pplayer) {
       fc_snprintf(buf, buflen,
                   _("Failed to create new player %s."), name);

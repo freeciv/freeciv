@@ -3282,9 +3282,17 @@ static void sg_load_players_basic(struct loaddata *loading)
     /* Get player color */
     if (!rgbcolor_load(loading->file, &prgbcolor, "player%d.color",
                        pslot_id)) {
-      log_verbose("No color defined for player %d.", pslot_id);
-      /* If game is already running, server_create_player() will assign
-       * a color, else colors will be assigned on game start */
+      if (loading->version >= 10 && game_was_started()) {
+        /* 2.4.0 or later savegame. This is not an error in 2.3 savefiles,
+         * as they predate the introduction of configurable player colors. */
+        log_sg("Game has started, yet player %d has no color defined.",
+               pslot_id);
+        /* This will be fixed up later */
+      } else {
+        log_verbose("No color defined for player %d.", pslot_id);
+        /* Colors will be assigned on game start, or at end of savefile
+         * loading if game has already started */
+      }
     }
 
     /* Create player. */
@@ -3535,6 +3543,13 @@ static void sg_load_players(struct loaddata *loading)
     city_refresh(pcity);
     city_thaw_workers(pcity); /* may auto_arrange_workers() */
   } cities_iterate_end;
+
+  /* Player colors are always needed once game has started. Pre-2.4 savegames
+   * lack them. This cannot be in compatibility conversion layer as we need
+   * all the player data available to be able to assign best colors. */
+  if (game_was_started()) {
+    assign_player_colors();
+  }
 }
 
 /****************************************************************************
@@ -3950,7 +3965,14 @@ static void sg_save_player_main(struct savedata *saving,
                      "player%d.name", plrno);
   secfile_insert_str(saving->file, plr->username,
                      "player%d.username", plrno);
-  rgbcolor_save(saving->file, plr->rgb, "player%d.color", plrno);
+  if (plr->rgb != NULL) {
+    rgbcolor_save(saving->file, plr->rgb, "player%d.color", plrno);
+  } else {
+    /* Colorless players are ok in pregame */
+    if (game_was_started()) {
+      log_sg("Game has started, yet player %d has no color defined.", plrno);
+    }
+  }
   secfile_insert_str(saving->file, plr->ranked_username,
                      "player%d.ranked_username", plrno);
   secfile_insert_str(saving->file,
@@ -6243,7 +6265,8 @@ static void compat_load_020400(struct loaddata *loading)
 
   } player_slots_iterate_end;
 
-  /* Player colors are assigned automatically. */
+  /* Player colors are assigned at the end of player loading, as this
+   * needs information not available here. */
 
   /* Deal with buggy known tiles information from 2.3.0/2.3.1 (and the
    * workaround in later 2.3.x); see gna bug #19029.
