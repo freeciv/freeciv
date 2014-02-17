@@ -26,11 +26,10 @@
 /*****************************************************************************
   Return the value for the fcdb setting 'type'.
 *****************************************************************************/
-const char *api_fcdb_option(lua_State *L, enum fcdb_option_type type)
+const char *api_fcdb_option(lua_State *L, const char *type)
 {
   LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_ARG(L, fcdb_option_type_is_valid(type), 2,
-                      "Invalid Freeciv database option type.", NULL);
+  LUASCRIPT_CHECK_ARG_NIL(L, type, 2, string, NULL);
 
   return fcdb_option_get(type);
 }

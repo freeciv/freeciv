@@ -152,8 +152,20 @@ to 'sysconfdir'; depending on the options given to 'configure' at build
 time, this may be a location like /usr/local/etc/freeciv/database.lua.
 
 The supplied version supports basic authentication against a SQLite or
-MySQL database; if that's sufficient for you, it's not necessary to
-read on.
+MySQL database; it supports configuration as shown in the following
+example (for MySQL; SQLite does not need all of these options).
+
+  [fcdb]
+  backend="mysql"
+  host="localhost"
+  user="Freeciv"
+  port="3306"
+  password="s3krit"
+  database="Freeciv"
+  table_user="auth"
+  table_log="loginlog"
+
+If that's sufficient for you, it's not necessary to read on.
 
 Freeciv expects the following lua functions to be defined in database.lua:
 
@@ -198,18 +210,10 @@ The following lua functions are provided by Freeciv:
   -- return a value from the --Database configuration file
   fcdb.option(type)
 
-'type' selects one of the entries in the configuration file. An example
-configuration file is shown on the right:
-
-                                [fcdb]
-  fcdb.param.BACKEND            backend="mysql"
-  fcdb.param.HOST               host="localhost"
-  fcdb.param.USER               user="Freeciv"
-  fcdb.param.PORT               port="3306"
-  fcdb.param.PASSWORD           password="s3krit"
-  fcdb.param.DATABASE           database="Freeciv"
-  fcdb.param.TABLE_USER         table_user="auth"
-  fcdb.param.TABLE_LOG          table_log="loginlog"
+'type' selects one of the entries in the configuration file by name (for
+instance fcdb.option("backend")). For backward compatibility with Freeciv
+2.4, definitions such as fcdb.param.BACKEND are provided for conventional
+option names, but there's no need to use them in new code.
 
 Freeciv also provides some of the same Lua functions that ruleset scripts
 get -- log.*(), _(), etc -- but the script is executing in a separate
@@ -226,7 +230,5 @@ data, etc.
 * Allow setting cmdlevel per-user, etc <http://gna.org/patch/?3388>
 * Give database.lua access to game signals and events
   <http://gna.org/patch/?3385>
-* Allow arbitrary config keys in config file to be read by database.lua
-  <http://gna.org/bugs/?19909>
 * Lua script for postgres <http://gna.org/patch/?3387>
 * Improve this README
