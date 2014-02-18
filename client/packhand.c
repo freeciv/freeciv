@@ -3721,28 +3721,36 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
   struct unit *pdiplomat = player_unit_by_number(client_player(),
                                                  diplomat_id);
 
-  fc_assert_ret_msg(NULL != pdiplomat, "Bad diplomat %d.", diplomat_id);
+  if (!pdiplomat) {
+    log_debug("Bad diplomat %d.", diplomat_id);
+
+    process_diplomat_arrival(NULL, -1);
+    return;
+  }
 
   switch (action_type) {
   case DIPLOMAT_BRIBE:
-    if (punit) {
-      if (NULL != client.conn.playing
-          && !client.conn.playing->ai_controlled) {
-        popup_bribe_dialog(pdiplomat, punit, cost);
-      }
+    if (punit && client.conn.playing
+        && !client.conn.playing->ai_controlled) {
+      popup_bribe_dialog(pdiplomat, punit, cost);
+    } else {
+      log_debug("Bad target %d.", target_id);
+      process_diplomat_arrival(NULL, -1);
     }
     break;
   case DIPLOMAT_INCITE:
-    if (pcity) {
-      if (NULL != client.conn.playing
-          && !client.conn.playing->ai_controlled) {
-        popup_incite_dialog(pdiplomat, pcity, cost);
-      }
+    if (pcity && client.conn.playing
+        && !client.conn.playing->ai_controlled) {
+      popup_incite_dialog(pdiplomat, pcity, cost);
+    } else {
+      log_debug("Bad target %d.", target_id);
+      process_diplomat_arrival(NULL, -1);
     }
     break;
   default:
     log_error("handle_unit_diplomat_answer() invalid action_type (%d).",
               action_type);
+    process_diplomat_arrival(NULL, -1);
     break;
   };
 }
@@ -3770,8 +3778,19 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
   struct unit *pdiplomat = player_unit_by_number(client_player(),
                                                  diplomat_id);
 
-  fc_assert_ret_msg(NULL != pdiplomat, "Bad diplomat %d.", diplomat_id);
-  fc_assert_ret_msg(NULL != pcity, "Bad city %d.", city_id);
+  if (!pdiplomat) {
+    log_debug("Bad diplomat %d.", diplomat_id);
+
+    process_diplomat_arrival(NULL, -1);
+    return;
+  }
+
+  if (!pcity) {
+    log_debug("Bad city %d.", city_id);
+
+    process_diplomat_arrival(NULL, -1);
+    return;
+  }
 
   if (can_client_issue_orders()) {
     improvement_iterate(pimprove) {
@@ -3781,6 +3800,9 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
     } improvement_iterate_end;
 
     popup_sabotage_dialog(pdiplomat, pcity);
+  } else {
+    log_debug("Can't issue orders");
+    process_diplomat_arrival(NULL, -1);
   }
 }
 
