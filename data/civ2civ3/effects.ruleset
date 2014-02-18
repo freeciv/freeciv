@@ -79,7 +79,7 @@ reqs    =
     }
 
 [effect_ai_cheat_defense]
-name    = "Defend_Bonus"
+type    = "Defend_Bonus"
 value   = 50
 reqs    =
     { "type", "name", "range"
@@ -184,7 +184,7 @@ nreqs   =
     }
 
 [effect_fortress_defense]
-name    = "Defend_Bonus"
+type    = "Defend_Bonus"
 value   = 100
 reqs    =
     { "type", "name", "range"
@@ -204,7 +204,7 @@ nreqs   =
     }
 
 [effect_airbase_defense]
-name    = "Defend_Bonus"
+type    = "Defend_Bonus"
 value   = 100
 reqs    =
     { "type", "name", "range"
@@ -2433,7 +2433,7 @@ reqs    =
     }
 
 [effect_palace_gov_center]
-name	= "Gov_Center"
+type    = "Gov_Center"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -3379,7 +3379,7 @@ reqs    =
     }
 
 [effect_statue_of_liberty_1]
-name    = "Any_Government"
+type    = "Any_Government"
 value   = 1
 reqs    =
     { "type", "name", "range"

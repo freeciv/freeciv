@@ -537,7 +537,7 @@ type    = "Size_Adj"
 value   = 10
 
 [effect_aqueduct]
-name	= "Size_Unlimit"
+type    = "Size_Unlimit"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -545,7 +545,7 @@ reqs	=
     }
 
 [effect_bank]
-name	= "Output_Bonus"
+type    = "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -555,7 +555,7 @@ reqs	=
     }
 
 [effect_bank_1]
-name	= "Output_Bonus"
+type    = "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -565,7 +565,7 @@ reqs	=
     }
 
 [effect_barracks]
-name	= "Veteran_Build"
+type    = "Veteran_Build"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -573,7 +573,7 @@ reqs	=
     }
 
 [effect_barracks_ii]
-name	= "Veteran_Build"
+type    = "Veteran_Build"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -585,7 +585,7 @@ nreqs   =
     }
 
 [effect_barracks_iii]
-name	= "Veteran_Build"
+type    = "Veteran_Build"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -598,7 +598,7 @@ nreqs   =
     }
 
 [effect_cathedral]
-name	= "Make_Content"
+type    = "Make_Content"
 value	= 4
 reqs	=
     { "type", "name", "range"
@@ -606,7 +606,7 @@ reqs	=
     }
 
 [effect_city_walls]
-name	= "Defend_Bonus"
+type    = "Defend_Bonus"
 value	= 200
 reqs	=
     { "type", "name", "range"
@@ -619,7 +619,7 @@ nreqs	=
     }
 
 [effect_city_walls_1]
-name	= "Defend_Bonus"
+type    = "Defend_Bonus"
 value	= 200
 reqs	=
     { "type", "name", "range"
@@ -632,7 +632,7 @@ nreqs	=
     }
 
 [effect_city_walls_2]
-name	= "Unit_No_Lose_Pop"
+type    = "Unit_No_Lose_Pop"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -640,7 +640,7 @@ reqs	=
     }
 
 [effect_city_walls_visible]
-name	= "Visible_Walls"
+type    = "Visible_Walls"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -648,7 +648,7 @@ reqs	=
     }
 
 [effect_colosseum]
-name	= "Make_Content"
+type    = "Make_Content"
 value	= 3
 reqs	=
     { "type", "name", "range"
@@ -656,7 +656,7 @@ reqs	=
     }
 
 [effect_courthouse]
-name	= "Output_Waste_Pct"
+type    = "Output_Waste_Pct"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -669,7 +669,7 @@ nreqs	=
     }
 
 ;[effect_courthouse_1]
-;name	= "Output_Waste_Pct"
+;type    = "Output_Waste_Pct"
 ;value	= 50
 ;reqs	=
 ;    { "type", "name", "range"
@@ -682,7 +682,7 @@ nreqs	=
 ;    }
 
 [effect_factory]
-name	= "Output_Bonus"
+type    = "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -695,7 +695,7 @@ nreqs	=
     }
 
 [effect_granary]
-name	= "Growth_Food"
+type    = "Growth_Food"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -703,7 +703,7 @@ reqs	=
     }
 
 [effect_hydro_plant]
-name	= "Output_Bonus"
+type    = "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -717,7 +717,7 @@ nreqs	=
     }
 
 [effect_hydro_plant_1]
-name	= "Pollu_Prod_Pct"
+type    = "Pollu_Prod_Pct"
 value	= -50
 reqs	=
     { "type", "name", "range"
@@ -731,7 +731,7 @@ nreqs	=
     }
 
 [effect_library]
-name	= "Output_Bonus"
+type    = "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -740,7 +740,7 @@ reqs	=
     }
 
 [effect_marketplace]
-name	= "Output_Bonus"
+type    = "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -749,7 +749,7 @@ reqs	=
     }
 
 [effect_marketplace_1]
-name	= "Output_Bonus"
+type    = "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -758,7 +758,7 @@ reqs	=
     }
 
 [effect_mass_transit]
-name	= "Pollu_Pop_Pct"
+type    = "Pollu_Pop_Pct"
 value	= -100
 reqs	=
     { "type", "name", "range"
@@ -766,7 +766,7 @@ reqs	=
     }
 
 [effect_mfg_plant]
-name	= "Output_Bonus"
+type    = "Output_Bonus"
 value	= 100
 reqs	=
     { "type", "name", "range"
@@ -775,7 +775,7 @@ reqs	=
     }
 
 [effect_nuclear_plant]
-name	= "Output_Bonus"
+type    = "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -788,7 +788,7 @@ nreqs	=
     }
 
 [effect_nuclear_plant_1]
-name	= "Pollu_Prod_Pct"
+type    = "Pollu_Prod_Pct"
 value	= -50
 reqs	=
     { "type", "name", "range"
@@ -801,7 +801,7 @@ nreqs	=
     }
 
 [effect_palace]
-name	= "Output_Waste_Pct"
+type    = "Output_Waste_Pct"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -810,7 +810,7 @@ reqs	=
     }
 
 [effect_palace_1]
-name	= "Output_Waste_Pct"
+type    = "Output_Waste_Pct"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -819,7 +819,7 @@ reqs	=
     }
 
 [effect_palace_2]
-name	= "Spy_Resistant"
+type    = "Spy_Resistant"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -827,7 +827,7 @@ reqs	=
     }
 
 [effect_palace_3]
-name	= "No_Incite"
+type    = "No_Incite"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -835,7 +835,7 @@ reqs	=
     }
 
 [effect_palace_4]
-name	= "Capital_City"
+type    = "Capital_City"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -843,7 +843,7 @@ reqs	=
     }
 
 [effect_palace_gov_center]
-name	= "Gov_Center"
+type    = "Gov_Center"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -851,7 +851,7 @@ reqs	=
     }
 
 [effect_power_plant]
-name	= "Output_Bonus"
+type    = "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -866,7 +866,7 @@ nreqs	=
     }
 
 [effect_recycling_center]
-name	= "Pollu_Prod_Pct"
+type    = "Pollu_Prod_Pct"
 value	= -66
 reqs	=
     { "type", "name", "range"
@@ -874,7 +874,7 @@ reqs	=
     }
 
 [effect_sdi_defense]
-name	= "Nuke_Proof"
+type    = "Nuke_Proof"
 value	= 100
 reqs	=
     { "type", "name", "range"
@@ -882,7 +882,7 @@ reqs	=
     }
 
 [effect_space_component]
-name	= "SS_Component"
+type    = "SS_Component"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -890,7 +890,7 @@ reqs	=
     }
 
 [effect_space_module]
-name	= "SS_Module"
+type    = "SS_Module"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -898,7 +898,7 @@ reqs	=
     }
 
 [effect_space_structural]
-name	= "SS_Structural"
+type    = "SS_Structural"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -906,7 +906,7 @@ reqs	=
     }
 
 [effect_temple]
-name	= "Make_Content"
+type    = "Make_Content"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -914,7 +914,7 @@ reqs	=
     }
 
 [effect_temple_1]
-name	= "Make_Content"
+type    = "Make_Content"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -923,7 +923,7 @@ reqs	=
     }
 
 [effect_university]
-name	= "Output_Bonus"
+type    = "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -933,7 +933,7 @@ reqs	=
     }
 
 [effect_apollo_program]
-name	= "Reveal_Cities"
+type    = "Reveal_Cities"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -941,7 +941,7 @@ reqs	=
     }
 
 [effect_apollo_program_1]
-name	= "Enable_Space"
+type    = "Enable_Space"
 value	= 1
 reqs	=
     { "type", "name", "range", "survives"
@@ -949,7 +949,7 @@ reqs	=
     }
 
 [effect_colossus]
-name	= "Output_Inc_Tile"
+type    = "Output_Inc_Tile"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -958,7 +958,7 @@ reqs	=
     }
 
 [effect_copernicus_observatory]
-name	= "Output_Bonus"
+type    = "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -968,7 +968,7 @@ reqs	=
     }
 
 [effect_copernicus_observatory_1]
-name	= "Output_Bonus"
+type    = "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -978,7 +978,7 @@ reqs	=
     }
 
 [effect_copernicus_observatory_2]
-name	= "Output_Bonus"
+type    = "Output_Bonus"
 value	= 100
 reqs	=
     { "type", "name", "range"
@@ -987,7 +987,7 @@ reqs	=
     }
 
 [effect_cure_for_cancer]
-name	= "Force_Content"
+type    = "Force_Content"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -995,7 +995,7 @@ reqs	=
     }
 
 [effect_darwins_voyage]
-name	= "Give_Imm_Tech"
+type    = "Give_Imm_Tech"
 value	= 2
 reqs	=
     { "type", "name", "range"
@@ -1003,7 +1003,7 @@ reqs	=
     }
 
 [effect_great_library]
-name	= "Tech_Parasite"
+type    = "Tech_Parasite"
 value	= 2
 reqs	=
     { "type", "name", "range"
@@ -1011,7 +1011,7 @@ reqs	=
     }
 
 [effect_great_wall]
-name	= "Defend_Bonus"
+type    = "Defend_Bonus"
 value	= 200
 reqs	=
     { "type", "name", "range"
@@ -1021,7 +1021,7 @@ reqs	=
     }
 
 [effect_great_wall_1]
-name	= "Defend_Bonus"
+type    = "Defend_Bonus"
 value	= 200
 reqs	=
     { "type", "name", "range"
@@ -1031,7 +1031,7 @@ reqs	=
     }
 
 [effect_great_wall_visible]
-name	= "Visible_Walls"
+type    = "Visible_Walls"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -1039,7 +1039,7 @@ reqs	=
     }
 
 [effect_hanging_gardens]
-name	= "Make_Happy"
+type    = "Make_Happy"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -1047,7 +1047,7 @@ reqs	=
     }
 
 [effect_hoover_dam]
-name	= "Output_Bonus"
+type    = "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -1056,7 +1056,7 @@ reqs	=
     }
 
 [effect_hoover_dam_1]
-name	= "Pollu_Prod_Pct"
+type    = "Pollu_Prod_Pct"
 value	= -50
 reqs	=
     { "type", "name", "range"
@@ -1068,7 +1068,7 @@ nreqs	=
     }
 
 [effect_isaac_newtons_college]
-name	= "Output_Bonus"
+type    = "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -1078,7 +1078,7 @@ reqs	=
     }
 
 [effect_isaac_newtons_college_1]
-name	= "Output_Bonus"
+type    = "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -1088,7 +1088,7 @@ reqs	=
     }
 
 [effect_js_bachs_cathedral]
-name	= "Force_Content"
+type    = "Force_Content"
 value	= 2
 reqs	=
     { "type", "name", "range"
@@ -1096,7 +1096,7 @@ reqs	=
     }
 
 [effect_lighthouse]
-name	= "Move_Bonus"
+type    = "Move_Bonus"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -1105,7 +1105,7 @@ reqs	=
     }
 
 [effect_magellans_expedition]
-name	= "Move_Bonus"
+type    = "Move_Bonus"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -1114,7 +1114,7 @@ reqs	=
     }
 
 [effect_manhattan_project]
-name	= "Enable_Nuke"
+type    = "Enable_Nuke"
 value	= 1
 reqs	=
     { "type", "name", "range", "survives"
@@ -1122,7 +1122,7 @@ reqs	=
     }
 
 [effect_michelangelos_chapel]
-name	= "Make_Content"
+type    = "Make_Content"
 value	= 4
 reqs	=
     { "type", "name", "range"
@@ -1131,7 +1131,7 @@ reqs	=
     }
 
 [effect_oracle]
-name	= "Make_Content"
+type    = "Make_Content"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -1140,7 +1140,7 @@ reqs	=
     }
 
 [effect_oracle_mysticism]
-name	= "Make_Content"
+type    = "Make_Content"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -1150,7 +1150,7 @@ reqs	=
     }
 
 [effect_pyramids]
-name	= "Any_Government"
+type    = "Any_Government"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -1158,7 +1158,7 @@ reqs	=
     }
 
 [effect_pyramids_1]
-name	= "No_Anarchy"
+type    = "No_Anarchy"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -1166,7 +1166,7 @@ reqs	=
     }
 
 [effect_seti_program]
-name	= "Output_Bonus"
+type    = "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
@@ -1175,7 +1175,7 @@ reqs	=
     }
 
 [effect_shakespeares_theatre]
-name	= "No_Unhappy"
+type    = "No_Unhappy"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -1183,7 +1183,7 @@ reqs	=
     }
 
 [effect_united_nations]
-name	= "Any_Government"
+type    = "Any_Government"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -1191,7 +1191,7 @@ reqs	=
     }
 
 [effect_united_nations_1]
-name	= "No_Anarchy"
+type    = "No_Anarchy"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -1199,7 +1199,7 @@ reqs	=
     }
 
 [effect_womens_suffrage]
-name	= "Make_Content_Mil_Per"
+type    = "Make_Content_Mil_Per"
 value	= 1
 reqs	=
     { "type", "name", "range"
