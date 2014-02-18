@@ -589,9 +589,9 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   if (count > 0) {
     pUnitsDlg->pEndActiveWidgetList = pLast->prev;
     pUnitsDlg->pBeginActiveWidgetList = pUnitsDlg->pBeginWidgetList;
-    if(count > adj_size(80)) {
+    if (count > adj_size(80)) {
       pUnitsDlg->pActiveWidgetList = pUnitsDlg->pEndActiveWidgetList;
-      if(pUnitsDlg->pScroll) {
+      if (pUnitsDlg->pScroll) {
 	pUnitsDlg->pScroll->count = count;
       }
       ww = create_vertical_scrollbar(pUnitsDlg, 8, 10, TRUE, TRUE);
@@ -623,8 +623,6 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   widget_set_position(pWindow,
                       (Main.screen->w - pWindow->size.w) / 2,
                       (Main.screen->h - pWindow->size.h) / 2);
-  
-  ww -= (pWindow->size.w - pWindow->area.w);
   
   /* exit button */
   pBuf = pWindow->prev;
