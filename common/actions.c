@@ -305,14 +305,14 @@ action_enabled_local(const enum gen_action wanted_action,
                      const struct city *actor_city,
                      const struct impr_type *actor_building,
                      const struct tile *actor_tile,
-                     const struct unit_type *actor_unittype,
+                     const struct unit *actor_unit,
                      const struct output_type *actor_output,
                      const struct specialist *actor_specialist,
                      const struct player *target_player,
                      const struct city *target_city,
                      const struct impr_type *target_building,
                      const struct tile *target_tile,
-                     const struct unit_type *target_unittype,
+                     const struct unit *target_unit,
                      const struct output_type *target_output,
                      const struct specialist *target_specialist)
 {
@@ -325,13 +325,13 @@ action_enabled_local(const enum gen_action wanted_action,
     current = mke_and(mke_eval_reqs(actor_player, actor_player,
                                     target_player, actor_city,
                                     actor_building, actor_tile,
-                                    actor_unittype, actor_output,
+                                    actor_unit, actor_output,
                                     actor_specialist,
                                     &enabler->actor_reqs),
                       mke_eval_reqs(actor_player, target_player,
                                     actor_player, target_city,
                                     target_building, target_tile,
-                                    target_unittype, target_output,
+                                    target_unit, target_output,
                                     target_specialist,
                                     &enabler->target_reqs));
     if (current == MKE_TRUE) {
@@ -361,7 +361,7 @@ action_enabled_unit_on_city_local(const enum gen_action wanted_action,
 
   return action_enabled_local(wanted_action,
                               unit_owner(actor_unit), NULL, NULL,
-                              unit_tile(actor_unit), unit_type(actor_unit),
+                              unit_tile(actor_unit), actor_unit,
                               NULL, NULL,
                               city_owner(target_city), target_city, NULL,
                               city_tile(target_city), NULL, NULL, NULL);
@@ -384,12 +384,12 @@ action_enabled_unit_on_unit_local(const enum gen_action wanted_action,
 
   return action_enabled_local(wanted_action,
                               unit_owner(actor_unit), NULL, NULL,
-                              unit_tile(actor_unit), unit_type(actor_unit),
+                              unit_tile(actor_unit), actor_unit,
                               NULL, NULL,
                               unit_owner(target_unit),
                               tile_city(unit_tile(target_unit)), NULL,
                               unit_tile(target_unit),
-                              unit_type(target_unit), NULL, NULL);
+                              target_unit, NULL, NULL);
 }
 
 /**************************************************************************
