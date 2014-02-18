@@ -215,6 +215,19 @@ static void illegal_action(struct player *pplayer, struct unit *actor,
 }
 
 /**************************************************************************
+  Inform the client that something went wrong during a unit diplomat query
+**************************************************************************/
+static void unit_query_impossible(struct connection *pc,
+				  int diplomat_id,
+				  int target_id)
+{
+  dsend_packet_unit_diplomat_answer(pc,
+                                    diplomat_id, target_id,
+                                    0,
+                                    DIPLOMAT_ANY_ACTION);
+}
+
+/**************************************************************************
   Tell the client the cost of bribing a unit, inciting a revolt, or
   any other parameters needed for action.
 
@@ -236,6 +249,7 @@ void handle_unit_diplomat_query(struct connection *pc,
     /* Probably died or bribed. */
     log_verbose("handle_unit_diplomat_query() invalid diplomat %d",
                 diplomat_id);
+    unit_query_impossible(pc, diplomat_id, target_id);
     return;
   }
 
@@ -243,6 +257,7 @@ void handle_unit_diplomat_query(struct connection *pc,
     /* Shouldn't happen */
     log_error("handle_unit_diplomat_query() %s (%d) is not diplomat",
               unit_rule_name(pdiplomat), diplomat_id);
+    unit_query_impossible(pc, diplomat_id, target_id);
     return;
   }
 
@@ -256,6 +271,7 @@ void handle_unit_diplomat_query(struct connection *pc,
 					action_type);
     } else {
       illegal_action(pplayer, pdiplomat, ACTION_SPY_BRIBE_UNIT);
+      unit_query_impossible(pc, diplomat_id, target_id);
     }
     break;
   case DIPLOMAT_INCITE:
@@ -267,6 +283,7 @@ void handle_unit_diplomat_query(struct connection *pc,
 					action_type);
     } else {
       illegal_action(pplayer, pdiplomat, ACTION_SPY_INCITE_CITY);
+      unit_query_impossible(pc, diplomat_id, target_id);
     }
     break;
   case DIPLOMAT_SABOTAGE_TARGET:
@@ -277,10 +294,11 @@ void handle_unit_diplomat_query(struct connection *pc,
     } else {
       illegal_action(pplayer, pdiplomat,
                      ACTION_SPY_TARGETED_SABOTAGE_CITY);
+      unit_query_impossible(pc, diplomat_id, target_id);
     }
     break;
   default:
-    /* Nothing */
+    unit_query_impossible(pc, diplomat_id, target_id);
     break;
   };
 }

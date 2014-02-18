@@ -3747,6 +3747,10 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
       process_diplomat_arrival(NULL, -1);
     }
     break;
+  case DIPLOMAT_ANY_ACTION:
+    log_debug("Server didn't respond to query.");
+    process_diplomat_arrival(NULL, -1);
+    break;
   default:
     log_error("handle_unit_diplomat_answer() invalid action_type (%d).",
               action_type);
