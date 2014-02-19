@@ -95,6 +95,10 @@ extern bool voteinfo_bar_new_at_front;
 extern bool autoaccept_tileset_suggestion;
 extern bool autoaccept_soundset_suggestion;
 
+extern bool sound_enable_effects;
+extern bool sound_enable_menu_music;
+extern bool sound_enable_game_music;
+
 extern bool draw_city_outlines;
 extern bool draw_city_output;
 extern bool draw_map_grid;

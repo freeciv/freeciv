@@ -53,6 +53,7 @@
 #include "connectdlg_common.h"
 #include "global_worklist.h"
 #include "mapview_common.h"
+#include "music.h"
 #include "overview_common.h"
 #include "packhand_gen.h"
 #include "plrdlg_common.h"
@@ -115,6 +116,10 @@ bool voteinfo_bar_new_at_front = FALSE;
 
 bool autoaccept_tileset_suggestion = FALSE;
 bool autoaccept_soundset_suggestion = FALSE;
+
+bool sound_enable_effects = TRUE;
+bool sound_enable_menu_music = TRUE;
+bool sound_enable_game_music = TRUE;
 
 /* This option is currently set by the client - not by the user. */
 bool update_city_text_in_refresh_tile = TRUE;
@@ -1720,6 +1725,7 @@ static void view_option_changed_callback(struct option *poption);
 static void voteinfo_bar_callback(struct option *poption);
 static void font_changed_callback(struct option *poption);
 static void mapimg_changed_callback(struct option *poption);
+static void game_music_enable_callback(struct option *poption);
 
 static struct client_option client_options[] = {
   GEN_STR_OPTION(default_user_name,
@@ -2090,7 +2096,24 @@ static struct client_option client_options[] = {
                      "the ruleset is automatically used; otherwise you "
                      "are prompted to change tileset."),
                   COC_GRAPHICS, GUI_STUB, FALSE, NULL),
- GEN_BOOL_OPTION(autoaccept_soundset_suggestion,
+
+  GEN_BOOL_OPTION(sound_enable_effects,
+                  N_("Enable sound effects"),
+                  N_("Play sound effects, assuming there's suitable "
+                     "sound plugin and soundset with the sounds."),
+                  COC_SOUND, GUI_STUB, TRUE, NULL),
+  GEN_BOOL_OPTION(sound_enable_game_music,
+                  N_("Enable in-game music"),
+                  N_("Play music during the game, assuming there's suitable "
+                     "sound plugin and soundset with the sounds."),
+                  COC_SOUND, GUI_STUB, TRUE, game_music_enable_callback),
+ GEN_BOOL_OPTION(sound_enable_menu_music,
+                  N_("Enable menu music"),
+                  N_("Play music while not in actual game, "
+                     "assuming there's suitable "
+                     "sound plugin and soundset with the sounds."),
+                  COC_SOUND, GUI_STUB, TRUE, NULL),
+  GEN_BOOL_OPTION(autoaccept_soundset_suggestion,
                   N_("Autoaccept soundset suggestions"),
                   N_("If this option is enabled, soundset suggested by "
                      "the ruleset is automatically taken in to use."),
@@ -5564,5 +5587,19 @@ static void mapimg_changed_callback(struct option *poption)
     /* Reset the value to the default value. */
     fc_assert_ret(TRUE == option_reset(poption));
     fc_assert_ret(TRUE == mapimg_client_define());
+  }
+}
+
+/****************************************************************************
+  Callback for music enabling option.
+****************************************************************************/
+static void game_music_enable_callback(struct option *poption)
+{
+  if (client_state() == C_S_RUNNING) {
+    if (sound_enable_game_music) {
+      start_style_music();
+    } else {
+      stop_style_music();
+    }
   }
 }

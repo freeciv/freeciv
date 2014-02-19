@@ -26,6 +26,7 @@
 /* client */
 #include "audio.h"
 #include "client_main.h"
+#include "options.h"
 
 #include "music.h"
 
@@ -47,12 +48,14 @@ void start_style_music(void)
     return;
   }
 
-  stop_style_music();
+  if (sound_enable_game_music) {
+    stop_style_music();
 
-  music = city_styles[client.conn.playing->music_style].music;
-  if (music[0] != '\0') {
-    log_debug("Play %s", music);
-    audio_play_music(music, NULL);
+    music = city_styles[client.conn.playing->music_style].music;
+    if (music[0] != '\0') {
+      log_debug("Play %s", music);
+      audio_play_music(music, NULL);
+    }
   }
 }
 
@@ -60,6 +63,24 @@ void start_style_music(void)
   Stop style music completely.
 ***********************************************************************/
 void stop_style_music(void)
+{
+  audio_stop();
+}
+
+/**********************************************************************
+  Start menu music.
+***********************************************************************/
+void start_menu_music(const char *const tag, char *const alt_tag)
+{
+  if (sound_enable_menu_music) {
+    audio_play_music(tag, alt_tag);
+  }
+}
+
+/**********************************************************************
+  Stop menu music completely.
+***********************************************************************/
+void stop_menu_music(void)
 {
   audio_stop();
 }

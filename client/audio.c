@@ -35,6 +35,7 @@
 #include "audio_sdl.h"
 #endif
 #include "client_main.h"
+#include "options.h"
 
 #include "audio.h"
 
@@ -309,13 +310,15 @@ void audio_play_sound(const char *const tag, char *const alt_tag)
 {
   char *pretty_alt_tag = alt_tag ? alt_tag : "(null)";
 
-  fc_assert_ret(tag != NULL);
+  if (sound_enable_effects) {
+    fc_assert_ret(tag != NULL);
 
-  log_debug("audio_play_sound('%s', '%s')", tag, pretty_alt_tag);
+    log_debug("audio_play_sound('%s', '%s')", tag, pretty_alt_tag);
 
-  /* try playing primary tag first, if not go to alternative tag */
-  if (!audio_play_tag(tag, FALSE) && !audio_play_tag(alt_tag, FALSE)) {
-    log_verbose( "Neither of tags %s or %s found", tag, pretty_alt_tag);
+    /* try playing primary tag first, if not go to alternative tag */
+    if (!audio_play_tag(tag, FALSE) && !audio_play_tag(alt_tag, FALSE)) {
+      log_verbose( "Neither of tags %s or %s found", tag, pretty_alt_tag);
+    }
   }
 }
 

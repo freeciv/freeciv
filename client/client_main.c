@@ -590,7 +590,7 @@ int client_main(int argc, char *argv[])
   tilespec_try_read(tileset_name, user_tileset);
 
   audio_real_init(sound_set_name, sound_plugin_name);
-  audio_play_music("music_start", NULL);
+  start_menu_music("music_start", NULL);
 
   ggz_initialize();
 
@@ -746,7 +746,7 @@ void set_client_state(enum client_states newstate)
     stop_style_music();
 
     /* Back to menu */
-    audio_play_music("music_start", NULL);
+    start_menu_music("music_start", NULL);
   }
 
   civclient_state = newstate;
@@ -804,7 +804,7 @@ void set_client_state(enum client_states newstate)
   case C_S_RUNNING:
     if (oldstate == C_S_PREPARING) {
       popdown_races_dialog();
-      audio_stop();     /* stop intro sound loop. */
+      stop_menu_music();     /* stop intro sound loop. */
     }
 
     init_city_report_game_data();
