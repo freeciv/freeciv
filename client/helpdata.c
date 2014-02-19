@@ -2268,6 +2268,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (utype_has_flag(utype, UTYF_IGZOC)) {
     CATLSTR(buf, bufsz, _("* Ignores zones of control.\n"));
   }
+  if (utype_has_flag(utype, UTYF_NOZOC)) {
+    CATLSTR(buf, bufsz, _("* This unit imposes no zone of control on its"
+                          " adjacent tiles, thus it will not restrict"
+                          " movement of other units.\n"));
+  }
   if (utype_has_flag(utype, UTYF_CIVILIAN)) {
     CATLSTR(buf, bufsz,
             _("* A non-military unit:\n"));

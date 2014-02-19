@@ -1329,6 +1329,7 @@ In the following special cases ZOC does not apply:\n\
 - A unit moving onto a tile occupied by a friendly unit.\n\
 - A unit moving from an ocean tile (disembarking from a boat).\n\
 - A unit type which explicitly ignores ZOC, eg Diplomats and Spies.\n\
+- Around units that have no ZOC.\n\
 - The foreign unit is from a nation with which you have an Alliance \
 pact.\
 "), _("\

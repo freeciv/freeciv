@@ -1692,7 +1692,7 @@ struct unit *unit_occupies_tile(const struct tile *ptile,
   Is this square controlled by the pplayer?
 
   Here "is_my_zoc" means essentially a square which is *not* adjacent to an
-  enemy unit on a land tile.
+  enemy unit (that has a ZOC) on a land tile.
 
   Note this function only makes sense for ground units.
 
@@ -1702,11 +1702,14 @@ struct unit *unit_occupies_tile(const struct tile *ptile,
 **************************************************************************/
 bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
 {
+  struct unit *punit;
+
   square_iterate(ptile0, 1, ptile) {
     if (is_ocean_tile(ptile)) {
       continue;
     }
-    if (is_non_allied_unit_tile(ptile, pplayer)) {
+    if ((punit = is_non_allied_unit_tile(ptile, pplayer))
+        && !unit_has_type_flag(punit, UTYF_NOZOC)) {
       /* Note: in the client, the above function will return NULL 
        * if there is a city there, even if the city is occupied */
       return FALSE;
