@@ -88,15 +88,19 @@ void update_map_canvas_scrollbars_size()
 static bool is_flush_queued = FALSE;
 
 /**************************************************************************
-  Flush the given part of the buffer(s) to the screen.
+  Flush the mapcanvas part of the buffer(s) to the screen.
 **************************************************************************/
-void flush_mapcanvas(int canvas_x , int canvas_y ,
-		     int pixel_width , int pixel_height)
+void flush_mapcanvas(int canvas_x, int canvas_y ,
+                     int pixel_width, int pixel_height)
 {
   SDL_Rect rect = {canvas_x, canvas_y, pixel_width, pixel_height};
-  alphablit(mapview.store->surf, &rect, Main.map, &rect);
+
+  alphablit(mapview.store->surf, &rect, Main.map, &rect, 255);
 }
 
+/**************************************************************************
+  Flush the given part of the buffer(s) to the screen.
+**************************************************************************/
 void flush_rect(SDL_Rect rect, bool force_flush)
 {
   if (is_flush_queued && !force_flush) {
@@ -110,13 +114,13 @@ void flush_rect(SDL_Rect rect, bool force_flush)
       if (C_S_RUNNING == client_state()) {     
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);
       }
-      alphablit(Main.map, &rect, Main.mainsurf, &dst);
+      alphablit(Main.map, &rect, Main.mainsurf, &dst, 255);
       if (Main.guis) {
         while((i < Main.guis_count) && Main.guis[i]) {
           src = rect;
           screen_rect_to_layer_rect(Main.guis[i], &src);
           dst = rect;
-          alphablit(Main.guis[i++]->surface, &src, Main.mainsurf, &dst);
+          alphablit(Main.guis[i++]->surface, &src, Main.mainsurf, &dst, 255);
         }
       }
       i = 0;
@@ -223,12 +227,12 @@ void flush_dirty(void)
       flush_mapcanvas(0, 0, main_window_width(), main_window_height());
       refresh_overview();
     }
-    alphablit(Main.map, NULL, Main.mainsurf, NULL);
+    alphablit(Main.map, NULL, Main.mainsurf, NULL, 255);
     if (Main.guis) {
       while((j < Main.guis_count) && Main.guis[j]) {
         SDL_Rect dst = Main.guis[j]->dest_rect;
 
-        alphablit(Main.guis[j++]->surface, NULL, Main.mainsurf, &dst);
+        alphablit(Main.guis[j++]->surface, NULL, Main.mainsurf, &dst, 255);
       }
     }
     j = 0;
@@ -247,13 +251,14 @@ void flush_dirty(void)
       if (C_S_RUNNING == client_state()) {     
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);
       }
-      alphablit(Main.map, &Main.rects[i], Main.mainsurf, &dst);
+      alphablit(Main.map, &Main.rects[i], Main.mainsurf, &dst, 255);
+
       if (Main.guis) {
         while((j < Main.guis_count) && Main.guis[j]) {
           src = Main.rects[i];
           screen_rect_to_layer_rect(Main.guis[j], &src);
           dst = Main.rects[i];
-          alphablit(Main.guis[j++]->surface, &src, Main.mainsurf, &dst);
+          alphablit(Main.guis[j++]->surface, &src, Main.mainsurf, &dst, 255);
         }
       }
       j = 0;
@@ -502,7 +507,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
   struct widget *pInfo_Window;
   SDL_Rect src, area;
   SDL_Rect dest;
-  SDL_Surface *pBuf_Surf, *pTmpSurf;
+  SDL_Surface *buf_surf;
   SDL_String16 *pStr;
   struct canvas *destcanvas;
   struct unit *pUnit = unit_list_get(punitlist, 0);
@@ -696,36 +701,36 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       area.y = pInfo_Window->area.y + sy;
       area.x = pInfo_Window->area.x + BLOCKU_W + (width - pName->w - BLOCKU_W) / 2;
       dest = area;
-      alphablit(pName, NULL, pInfo_Window->dst->surface, &dest);
+      alphablit(pName, NULL, pInfo_Window->dst->surface, &dest, 255);
       sy += pName->h;
-      if(pVet_Name) {
+      if (pVet_Name) {
 	area.y += pName->h - adj_size(3);
         area.x = pInfo_Window->area.x + BLOCKU_W + (width - pVet_Name->w - BLOCKU_W) / 2;
-        alphablit(pVet_Name, NULL, pInfo_Window->dst->surface, &area);
+        alphablit(pVet_Name, NULL, pInfo_Window->dst->surface, &area, 255);
 	sy += pVet_Name->h - adj_size(3);
         FREESURFACE(pVet_Name);
       }
       FREESURFACE(pName);
-      
+
       /* draw unit sprite */
-      pTmpSurf = ResizeSurfaceBox(get_unittype_surface(unit_type(pUnit), pUnit->facing),
+      buf_surf = ResizeSurfaceBox(get_unittype_surface(unit_type(pUnit),
+                                                       pUnit->facing),
                                   adj_size(80), adj_size(80), 1, TRUE, TRUE);
-      pBuf_Surf = blend_surface(pTmpSurf, 32);
-      FREESURFACE(pTmpSurf);
-      src = (SDL_Rect){0, 0, pBuf_Surf->w, pBuf_Surf->h};
+
+      src = (SDL_Rect){0, 0, buf_surf->w, buf_surf->h};
 
       area.x = pInfo_Window->area.x + BLOCKU_W - adj_size(4) + 
                ((width - BLOCKU_W + adj_size(3) - src.w)/2);
       area.y = pInfo_Window->size.y + sy + (DEFAULT_UNITS_H - sy - src.h)/2;
-      alphablit(pBuf_Surf, &src, pInfo_Window->dst->surface, &area);
-      FREESURFACE(pBuf_Surf);
+      alphablit(buf_surf, &src, pInfo_Window->dst->surface, &area, 32);
+      FREESURFACE(buf_surf);
 
       /* blit unit info text */
       area.x = pInfo_Window->area.x + BLOCKU_W - adj_size(4) + 
                  ((width - BLOCKU_W + adj_size(4) - pInfo->w)/2);
       area.y = pInfo_Window->size.y + sy + (DEFAULT_UNITS_H - sy - pInfo->h)/2;
 
-      alphablit(pInfo, NULL, pInfo_Window->dst->surface, &area);
+      alphablit(pInfo, NULL, pInfo_Window->dst->surface, &area, 255);
       FREESURFACE(pInfo);
 
       if (pInfo_II) {
@@ -737,10 +742,10 @@ void redraw_unit_info_label(struct unit_list *punitlist)
           area.x = pInfo_Window->area.x + BLOCKU_W + 
                    (width - BLOCKU_W - pInfo_II->w) / 2;
         }
-      
+
         /* blit unit info text */
-        alphablit(pInfo_II, NULL, pInfo_Window->dst->surface, &area);
-              
+        alphablit(pInfo_II, NULL, pInfo_Window->dst->surface, &area, 255);
+
         if (right) {
           sy = (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h));
         } else {
@@ -766,6 +771,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	pDock = pInfo_Window;
 	n = 0;
         unit_list_iterate(pTile->units, aunit) {
+          SDL_Surface *tmp_surf;
+
           if (aunit == pUnit) {
 	    continue;
 	  }
@@ -781,32 +788,33 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                 unit_activity_text(aunit),
 		aunit->hp, pUType->hp,
 		pHome_City ? city_name(pHome_City) : _("None"));
-      
-	  pBuf_Surf = create_surf(tileset_full_tile_width(tileset),
-	    				tileset_full_tile_height(tileset), SDL_SWSURFACE);
+
+          buf_surf = create_surf(tileset_full_tile_width(tileset),
+                                 tileset_full_tile_height(tileset), SDL_SWSURFACE);
 
           destcanvas = canvas_create(tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
-  
+
           put_unit(aunit, destcanvas, 1.0, 0, 0);
-          
-          pTmpSurf = adj_surf(destcanvas->surf);
-          
-          alphablit(pTmpSurf, NULL, pBuf_Surf, NULL);
-          
-          FREESURFACE(pTmpSurf);
+
+          tmp_surf = adj_surf(destcanvas->surf);
+
+          alphablit(tmp_surf, NULL, buf_surf, NULL, 255);
+
+          FREESURFACE(tmp_surf);
           canvas_free(destcanvas);
 
-          if (pBuf_Surf->w > 64) {
-            float zoom = 64.0 / pBuf_Surf->w;    
-            SDL_Surface *pZoomed = zoomSurface(pBuf_Surf, zoom, zoom, 1);
-            FREESURFACE(pBuf_Surf);
-            pBuf_Surf = pZoomed;
+          if (buf_surf->w > 64) {
+            float zoom = 64.0 / buf_surf->w;    
+            SDL_Surface *zoomed = zoomSurface(buf_surf, zoom, zoom, 1);
+
+            FREESURFACE(buf_surf);
+            buf_surf = zoomed;
           }
-	    
+
 	  pStr = create_str16_from_char(buffer, 10);
           pStr->style |= SF_CENTER;
-    
-          pBuf = create_icon2(pBuf_Surf, pInfo_Window->dst,
+
+          pBuf = create_icon2(buf_surf, pInfo_Window->dst,
                               WF_FREE_THEME | WF_RESTORE_BACKGROUND
                               | WF_WIDGET_HAS_INFO_LABEL);
           pBuf->info_label = pStr;
@@ -903,20 +911,20 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         pStr = create_str16_from_char(buf, adj_font(14));
         pStr->style = SF_CENTER;
         pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
-        pBuf_Surf = create_text_surf_from_str16(pStr);
+        buf_surf = create_text_surf_from_str16(pStr);
         area.x = pInfo_Window->size.x + BLOCKU_W +
-                          (pInfo_Window->size.w - BLOCKU_W - pBuf_Surf->w)/2;
-        area.y = pInfo_Window->size.y + (pInfo_Window->size.h - pBuf_Surf->h)/2;
-        alphablit(pBuf_Surf, NULL, pInfo_Window->dst->surface, &area);
-        FREESURFACE(pBuf_Surf);
+                          (pInfo_Window->size.w - BLOCKU_W - buf_surf->w)/2;
+        area.y = pInfo_Window->size.y + (pInfo_Window->size.h - buf_surf->h)/2;
+        alphablit(buf_surf, NULL, pInfo_Window->dst->surface, &area, 255);
+        FREESURFACE(buf_surf);
         FREESTRING16(pStr);
       }
     }
 
     /* draw buttons */
     redraw_group(pInfo_Window->private_data.adv_dlg->pBeginWidgetList,
-	    	pInfo_Window->private_data.adv_dlg->pEndWidgetList->prev, 0);
-    
+                 pInfo_Window->private_data.adv_dlg->pEndWidgetList->prev, 0);
+
     widget_mark_dirty(pInfo_Window);
   }
 }
@@ -1087,9 +1095,10 @@ void refresh_overview(void)
       pMMap->area.x + overview_start_x, pMMap->area.x + overview_start_y, 
       overview_canvas->surf->w, overview_canvas->surf->h
     };
-  
-    alphablit(overview_canvas->surf, NULL, pMMap->dst->surface, &overview_area);
-    
+
+    alphablit(overview_canvas->surf, NULL, pMMap->dst->surface, &overview_area,
+              255);
+
     widget_mark_dirty(pMMap);
   }
 }

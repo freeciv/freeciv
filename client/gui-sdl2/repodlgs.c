@@ -270,9 +270,9 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     /* label */
     dst.x = area.x + (area.w - pText->w) / 2;
     dst.y = area.y + adj_size(10);
-    alphablit(pText, NULL, pWindow->theme, &dst);
+    alphablit(pText, NULL, pWindow->theme, &dst, 255);
     FREESURFACE(pText);
-     
+
     /* cancel button */
     pBuf = pWindow->prev;
     pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(10);
@@ -646,9 +646,9 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   
   dst.y += 1;
   dst.x += ((name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5)) - pText3->w) / 2;
-  alphablit(pText3, NULL, pWindow->theme, &dst);
+  alphablit(pText3, NULL, pWindow->theme, &dst, 255);
   FREESURFACE(pText3);
-  
+
   /* total active widget */
   pBuf = pBuf->prev;
   pBuf->size.x = area.x + name_w +
@@ -690,9 +690,9 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   
   dst.y += 1;
   dst.x += ((name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5))- pText4->w) / 2;
-  alphablit(pText4, NULL, pWindow->theme, &dst);
+  alphablit(pText4, NULL, pWindow->theme, &dst, 255);
   FREESURFACE(pText4);
-  
+
   /* active count background and label */  
   dst.x = area.x + adj_size(2) + name_w + tileset_full_tile_width(tileset) * 2 + adj_size(15);
   dst.y = area.y + 1;
@@ -707,7 +707,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 #endif
 
   dst.x += adj_size(3);
-  alphablit(pText1, NULL, pWindow->theme, &dst);
+  alphablit(pText1, NULL, pWindow->theme, &dst, 255);
   ww = pText1->w;
   hh = pText1->h;
   FREESURFACE(pText1);
@@ -727,8 +727,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 
   dst.y = area.y + adj_size(3);
   dst.x += ((ww - pIcons->pBIG_Shield->w) / 2);
-  alphablit(pIcons->pBIG_Shield, NULL, pWindow->theme, &dst);
-  
+  alphablit(pIcons->pBIG_Shield, NULL, pWindow->theme, &dst, 255);
+
   /* food cost background and label */
   dst.x = w + ww + adj_size(10);
   w = dst.x;
@@ -745,8 +745,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   
   dst.y = area.y + adj_size(3);
   dst.x += ((ww - pIcons->pBIG_Food->w) / 2);
-  alphablit(pIcons->pBIG_Food, NULL, pWindow->theme, &dst);
-  
+  alphablit(pIcons->pBIG_Food, NULL, pWindow->theme, &dst, 255);
+
   /* gold cost background and label */
   dst.x = w + ww + adj_size(10);
   w = dst.x;
@@ -760,11 +760,11 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_UNITSREP_FRAME));
 #endif
-  
+
   dst.y = area.y + adj_size(3);
   dst.x += ((ww - pIcons->pBIG_Coin->w) / 2);
-  alphablit(pIcons->pBIG_Coin, NULL, pWindow->theme, &dst);
-  
+  alphablit(pIcons->pBIG_Coin, NULL, pWindow->theme, &dst, 255);
+
   /* building count background and label */
   dst.x = w + ww + adj_size(10);
   dst.y = area.y + 1;
@@ -779,11 +779,11 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_UNITSREP_FRAME));
 #endif
-			  
+
   dst.x += adj_size(3);
-  alphablit(pText2, NULL, pWindow->theme, &dst);
+  alphablit(pText2, NULL, pWindow->theme, &dst, 255);
   FREESURFACE(pText2);
-   
+
   /* building count background and label */
   dst.x = w + ww + adj_size(10);
   dst.y = area.y + 1;
@@ -796,11 +796,11 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_UNITSREP_FRAME));
 #endif
-			  
+
   dst.x += adj_size(3);
-  alphablit(pText5, NULL, pWindow->theme, &dst);
+  alphablit(pText5, NULL, pWindow->theme, &dst, 255);
   FREESURFACE(pText5);
-  
+
   if(count) {
     int start_x = area.x + adj_size(2);
     int start_y = area.y + hh + adj_size(3);
@@ -1647,9 +1647,9 @@ static int popup_sell_impv_callback(struct widget *pWidget)
     /* label */
     dst.x = area.x + (area.w - pText->w) / 2;
     dst.y = area.y + adj_size(10);
-    alphablit(pText, NULL, pWindow->theme, &dst);
+    alphablit(pText, NULL, pWindow->theme, &dst, 255);
     FREESURFACE(pText);
-     
+
     /* cancel button */
     pBuf = pWindow->prev;
     pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(10);
@@ -2075,23 +2075,23 @@ void economy_report_dialog_popup(bool make_modal)
       pZoom = get_building_surface(pImprove);
       pZoom = zoomSurface(pZoom, DEFAULT_ZOOM * ((float)54 / pZoom->w), DEFAULT_ZOOM * ((float)54 / pZoom->w), 1);
 
-      dst.x = (pSurf->w - pZoom->w)/2;
-      dst.y = (pSurf->h/2 - pZoom->h)/2;
-      alphablit(pZoom, NULL, pSurf, &dst);
+      dst.x = (pSurf->w - pZoom->w) / 2;
+      dst.y = (pSurf->h / 2 - pZoom->h) / 2;
+      alphablit(pZoom, NULL, pSurf, &dst, 255);
       dst.y += pZoom->h;
       FREESURFACE(pZoom);
-  
+
       dst.x = (pSurf->w - pText_Name->w)/2;
       dst.y += ((pSurf->h - dst.y) -
-	      (pText_Name->h + (pIcons->pBIG_Coin->h + 2) + pText->h))/2;
-      alphablit(pText_Name, NULL, pSurf, &dst);
-      
+                (pText_Name->h + (pIcons->pBIG_Coin->h + 2) + pText->h)) / 2;
+      alphablit(pText_Name, NULL, pSurf, &dst, 255);
+
       dst.y += pText_Name->h;
-      if(p->cost) {
-	dst.x = (pSurf->w - p->cost * (pIcons->pBIG_Coin->w + 1))/2;
+      if (p->cost) {
+        dst.x = (pSurf->w - p->cost * (pIcons->pBIG_Coin->w + 1))/2;
         for(count = 0; count < p->cost; count++) {
-	  alphablit(pIcons->pBIG_Coin, NULL, pSurf, &dst);
-	  dst.x += pIcons->pBIG_Coin->w + 1;
+          alphablit(pIcons->pBIG_Coin, NULL, pSurf, &dst, 255);
+          dst.x += pIcons->pBIG_Coin->w + 1;
         }
       } else {
         
@@ -2101,18 +2101,18 @@ void economy_report_dialog_popup(bool make_modal)
 	  copy_chars_to_string16(pStr, _("Wonder"));
 	}
         /*pStr->style &= ~TTF_STYLE_BOLD;*/
-  
+
         pZoom = create_text_surf_from_str16(pStr);
-	
-	dst.x = (pSurf->w - pZoom->w)/2;
-	alphablit(pZoom, NULL, pSurf, &dst);
-	FREESURFACE(pZoom);
+
+        dst.x = (pSurf->w - pZoom->w) / 2;
+        alphablit(pZoom, NULL, pSurf, &dst, 255);
+        FREESURFACE(pZoom);
       }
       
       dst.y += (pIcons->pBIG_Coin->h + adj_size(2));
-      dst.x = (pSurf->w - pText->w)/2;
-      alphablit(pText, NULL, pSurf, &dst);
-  
+      dst.x = (pSurf->w - pText->w) / 2;
+      alphablit(pText, NULL, pSurf, &dst, 255);
+
       FREESURFACE(pText);
       FREESURFACE(pText_Name);
             
@@ -2234,40 +2234,40 @@ void economy_report_dialog_popup(bool make_modal)
   /* draw statical strings */
   dst.x = area.x + adj_size(10);
   dst.y = area.y + adj_size(5);
-  
+
   /* "Treasury */
-  alphablit(pTreasuryText, NULL, pWindow->theme, &dst);
+  alphablit(pTreasuryText, NULL, pWindow->theme, &dst, 255);
   dst.y += pTreasuryText->h;  
   FREESURFACE(pTreasuryText);
 
   /* Tax Rate */
-  alphablit(pTaxRateText, NULL, pWindow->theme, &dst);
+  alphablit(pTaxRateText, NULL, pWindow->theme, &dst, 255);
   dst.y += pTaxRateText->h;
   FREESURFACE(pTaxRateText);
 
   /* Total Income */
-  alphablit(pTotalIncomeText, NULL, pWindow->theme, &dst);
+  alphablit(pTotalIncomeText, NULL, pWindow->theme, &dst, 255);
   dst.y += pTotalIncomeText->h;
   FREESURFACE(pTotalIncomeText);
 
   /* Total Cost */
-  alphablit(pTotalCostText, NULL, pWindow->theme, &dst);
+  alphablit(pTotalCostText, NULL, pWindow->theme, &dst, 255);
   dst.y += pTotalCostText->h;
   FREESURFACE(pTotalCostText);
-  
+
   /* Net Income */
-  alphablit(pNetIncomeText, NULL, pWindow->theme, &dst);
+  alphablit(pNetIncomeText, NULL, pWindow->theme, &dst, 255);
   dst.y += pNetIncomeText->h;
   FREESURFACE(pNetIncomeText);
 
   /* gov and taxrate */
   dst.x = area.x + adj_size(10) + w + ((area.w - (w + adj_size(10)) - pMaxRateText->w) / 2);
   dst.y = area.y + adj_size(5);
-	
-  alphablit(pMaxRateText, NULL, pWindow->theme, &dst);
+
+  alphablit(pMaxRateText, NULL, pWindow->theme, &dst, 255);
   dst.y += (pMaxRateText->h + 1);
   FREESURFACE(pMaxRateText);
-  
+
   /* Luxuries Horizontal Scrollbar Background */
   dst.x = area.x + adj_size(10) + w + (area.w - (w + adj_size(10)) - adj_size(184)) / 2;
   dst.w = adj_size(184);
@@ -2411,28 +2411,28 @@ SDL_Surface * create_select_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
     /* draw name tech text */ 
     dst.x = adj_size(35) + (pSurf->w - pText->w - adj_size(35)) / 2;
     dst.y = (pSurf->h - pText->h) / 2;
-    alphablit(pText, NULL, pSurf, &dst);
+    alphablit(pText, NULL, pSurf, &dst, 255);
     FREESURFACE(pText);
-    
+
     /* draw tech icon */
     pText = ResizeSurface(pTmp, adj_size(25), adj_size(25), 1);
     dst.x = (adj_size(35) - pText->w) / 2;
     dst.y = (pSurf->h - pText->h) / 2;
-    alphablit(pText, NULL, pSurf, &dst);
+    alphablit(pText, NULL, pSurf, &dst, 255);
     FREESURFACE(pText);
-    
+
   } else {
   
     /* draw name tech text */ 
     dst.x = (pSurf->w - pText->w) / 2;
     dst.y = adj_size(20);
-    alphablit(pText, NULL, pSurf, &dst);
+    alphablit(pText, NULL, pSurf, &dst, 255);
     dst.y += pText->h + adj_size(10);
     FREESURFACE(pText);
-    
+
     /* draw tech icon */
     dst.x = (pSurf->w - pTmp->w) / 2;
-    alphablit(pTmp, NULL, pSurf, &dst);
+    alphablit(pTmp, NULL, pSurf, &dst, 255);
     dst.y += pTmp->w + adj_size(10);
 
     /* fill array with iprvm. icons */
@@ -2458,7 +2458,7 @@ SDL_Surface * create_select_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
       pBuf_Array = Surf_Array;
       h = 0;
       while (w) {
-        alphablit(*pBuf_Array, NULL, pSurf, &dst);
+        alphablit(*pBuf_Array, NULL, pSurf, &dst, 255);
         dst.x += (*pBuf_Array)->w;
         w--;
         h++;
@@ -2488,15 +2488,15 @@ SDL_Surface * create_select_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
       if (w < 2) {
         /* w == 1 */
         if (Surf_Array[0]->w > 64) {
-	  float zoom = DEFAULT_ZOOM * (64.0 / Surf_Array[0]->w);
-	  SDL_Surface *pZoomed = zoomSurface(Surf_Array[0], zoom, zoom, 1);
-	
-	  dst.x = (pSurf->w - pZoomed->w) / 2;
-	  alphablit(pZoomed, NULL, pSurf, &dst);
-	  FREESURFACE(pZoomed);
+          float zoom = DEFAULT_ZOOM * (64.0 / Surf_Array[0]->w);
+          SDL_Surface *zoomed = zoomSurface(Surf_Array[0], zoom, zoom, 1);
+
+          dst.x = (pSurf->w - zoomed->w) / 2;
+          alphablit(zoomed, NULL, pSurf, &dst, 255);
+          FREESURFACE(zoomed);
         } else {
           dst.x = (pSurf->w - Surf_Array[0]->w) / 2;
-          alphablit(Surf_Array[0], NULL, pSurf, &dst);
+          alphablit(Surf_Array[0], NULL, pSurf, &dst, 255);
         }
       } else {
         float zoom;
@@ -2510,29 +2510,30 @@ SDL_Surface * create_select_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
         pBuf_Array = Surf_Array;
         h = 0;
         while (w) {
-	  SDL_Surface *pZoomed = zoomSurface((*pBuf_Array), zoom, zoom, 1);
-          alphablit(pZoomed, NULL, pSurf, &dst);
-          dst.x += pZoomed->w + 2;
+          SDL_Surface *zoomed = zoomSurface((*pBuf_Array), zoom, zoom, 1);
+
+          alphablit(zoomed, NULL, pSurf, &dst, 255);
+          dst.x += zoomed->w + 2;
           w--;
           h++;
           if (!(h % 2)) {
             if (w >= 2) {
-	      dst.x = (pSurf->w - 2 * pZoomed->w - 2 ) / 2;
+              dst.x = (pSurf->w - 2 * zoomed->w - 2 ) / 2;
             } else {
-	      dst.x = (pSurf->w - pZoomed->w) / 2;
+              dst.x = (pSurf->w - zoomed->w) / 2;
             }
-	    dst.y += pZoomed->h + 2;
+            dst.y += zoomed->h + 2;
             h = 0;
           }	/* h == 2 */
           pBuf_Array++;
-	  FREESURFACE(pZoomed);
+          FREESURFACE(zoomed);
         }	/* while */
       } /* w > 1 */
     }/* if (w) */
   }
-  
+
   FREESURFACE(pTmp);
-  
+
   return pSurf;
 }
 
@@ -2603,10 +2604,10 @@ void real_science_report_dialog_update(void)
     pStr->fgcol = *get_theme_color(COLOR_THEME_SCIENCEDLG_TEXT);
   
     pSurf = create_text_surf_from_str16(pStr);
-      
+
     dest.x = area.x + (area.w - pSurf->w) / 2;
     dest.y = area.y + adj_size(2);
-    alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
+    alphablit(pSurf, NULL, pWindow->dst->surface, &dest, 255);
 
     dest.y += pSurf->h + adj_size(4);
 
@@ -2635,8 +2636,8 @@ void real_science_report_dialog_update(void)
     pSurf = create_text_surf_from_str16(pStr);
     
     dest.x = pChangeResearchButton->size.x + pChangeResearchButton->size.w + adj_size(10);
-    
-    alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
+
+    alphablit(pSurf, NULL, pWindow->dst->surface, &dest, 255);
 
     dest.y += pSurf->h + adj_size(4);
     
@@ -2676,7 +2677,7 @@ void real_science_report_dialog_update(void)
   
     dest.y += adj_size(2);
     for (i = 0; i < cost; i++) {
-      alphablit(pColb_Surface, NULL, pWindow->dst->surface, &dest);
+      alphablit(pColb_Surface, NULL, pWindow->dst->surface, &dest, 255);
       dest.x += step;
     }
 
@@ -2691,7 +2692,7 @@ void real_science_report_dialog_update(void)
         if (VUT_ADVANCE == preq->source.kind
          && advance_number(preq->source.value.advance) == player_research_get(client.conn.playing)->researching) {
           pSurf = adj_surf(get_building_surface(pImprove));
-          alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
+          alphablit(pSurf, NULL, pWindow->dst->surface, &dest, 255);
           dest.x += pSurf->w + 1;
         }
       } requirement_vector_iterate_end;
@@ -2707,20 +2708,20 @@ void real_science_report_dialog_update(void)
         int w = surf->w;
 
 	if (w > 64) {
-	  float zoom = DEFAULT_ZOOM * (64.0 / w);
+          float zoom = DEFAULT_ZOOM * (64.0 / w);
 
-	  pSurf = zoomSurface(surf, zoom, zoom, 1);
-	  alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
+          pSurf = zoomSurface(surf, zoom, zoom, 1);
+          alphablit(pSurf, NULL, pWindow->dst->surface, &dest, 255);
           dest.x += pSurf->w + adj_size(2);          
-	  FREESURFACE(pSurf);
-	} else {
+          FREESURFACE(pSurf);
+        } else {
           pSurf = adj_surf(surf);
-          alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
+          alphablit(pSurf, NULL, pWindow->dst->surface, &dest, 255);
           dest.x += pSurf->w + adj_size(2);
-	}
+        }
       }
     } unit_type_iterate_end;
-  
+
     /* -------------------------------- */
     /* draw separator line */
     dest.x = area.x + adj_size(16);
@@ -2751,7 +2752,7 @@ void real_science_report_dialog_update(void)
       pSurf = create_text_surf_from_str16(pStr);
       
       dest.x = pChangeResearchGoalButton->size.x + pChangeResearchGoalButton->size.w + adj_size(10);
-      alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
+      alphablit(pSurf, NULL, pWindow->dst->surface, &dest, 255);
 
       dest.y += pSurf->h;
       
@@ -2761,7 +2762,7 @@ void real_science_report_dialog_update(void)
       pSurf = create_text_surf_from_str16(pStr);
       
       dest.x = pChangeResearchGoalButton->size.x + pChangeResearchGoalButton->size.w + adj_size(10);
-      alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
+      alphablit(pSurf, NULL, pWindow->dst->surface, &dest, 255);
 
       dest.y += pSurf->h + adj_size(6);
       
@@ -2769,13 +2770,13 @@ void real_science_report_dialog_update(void)
 
       /* buildings */
       improvement_iterate(pImprove) {
-	requirement_vector_iterate(&pImprove->reqs, preq) {  
+        requirement_vector_iterate(&pImprove->reqs, preq) {  
           if (VUT_ADVANCE == preq->source.kind
            && advance_number(preq->source.value.advance) == player_research_get(client.conn.playing)->tech_goal) {
             pSurf = adj_surf(get_building_surface(pImprove));
-            alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
+            alphablit(pSurf, NULL, pWindow->dst->surface, &dest, 255);
             dest.x += pSurf->w + 1;
-        }
+          }
         } requirement_vector_iterate_end;
       } improvement_iterate_end;
 
@@ -2788,22 +2789,22 @@ void real_science_report_dialog_update(void)
           SDL_Surface *surf = get_unittype_surface(un, direction8_invalid());
           int w = surf->w;
 
-	  if (w > 64) {
-	    float zoom = DEFAULT_ZOOM * (64.0 / w);
+          if (w > 64) {
+            float zoom = DEFAULT_ZOOM * (64.0 / w);
 
-	    pSurf = zoomSurface(surf, zoom, zoom, 1);
-	    alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
+            pSurf = zoomSurface(surf, zoom, zoom, 1);
+            alphablit(pSurf, NULL, pWindow->dst->surface, &dest, 255);
             dest.x += pSurf->w + adj_size(2);
-	    FREESURFACE(pSurf);
-	  } else {
+            FREESURFACE(pSurf);
+          } else {
             pSurf = adj_surf(surf);
-            alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
+            alphablit(pSurf, NULL, pWindow->dst->surface, &dest, 255);
             dest.x += pSurf->w + adj_size(2);
-	  }
+          }
         }
       } unit_type_iterate_end;
     }
-  
+
     /* -------------------------------- */
     widget_mark_dirty(pWindow);    
     redraw_group(pScienceDlg->pBeginWidgetList, pWindow->prev, 1);  

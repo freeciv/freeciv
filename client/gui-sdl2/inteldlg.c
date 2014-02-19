@@ -411,31 +411,31 @@ void update_intel_dialog(struct player *p)
     
     dst.x = area.x + (area.w - pText1->w) / 2;
     dst.y = area.y + adj_size(8);
-    
-    alphablit(pText1, NULL, pWindow->theme, &dst);
+
+    alphablit(pText1, NULL, pWindow->theme, &dst, 255);
     dst.y += pText1->h + adj_size(10);
     FREESURFACE(pText1);
-    
+
     /* space ship button */
     pBuf = pBuf->prev;
     dst.x = area.x + (area.w - (pBuf->size.w + adj_size(10) + pInfo->w)) / 2;
     pBuf->size.x = dst.x;
     pBuf->size.y = dst.y;
-    
+
     dst.x += pBuf->size.w + adj_size(10);  
-    alphablit(pInfo, NULL, pWindow->theme, &dst);
+    alphablit(pInfo, NULL, pWindow->theme, &dst, 255);
     dst.y += pInfo->h + adj_size(10);
     FREESURFACE(pInfo);
-        
+
     /* --------------------- */
-      
-    if(n) {
-      
+
+    if (n) {
+
       dst.x = area.x + adj_size(5);
-      alphablit(pText2, NULL, pWindow->theme, &dst);
+      alphablit(pText2, NULL, pWindow->theme, &dst, 255);
       dst.y += pText2->h + adj_size(2);
       FREESURFACE(pText2);
-      
+
       setup_vertical_widgets_position(col,
           area.x, dst.y,
             0, 0, pdialog->pdialog->pBeginActiveWidgetList,

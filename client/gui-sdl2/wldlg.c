@@ -884,14 +884,15 @@ static SDL_Surface * get_progress_icon(int stock, int cost, int *progress)
   }
     
   pIcon = create_bcgnd_surf(pTheme->Edit, 0, adj_size(120), adj_size(30));
-    
-  if(width) {
+
+  if (width) {
     SDL_Rect dst = {2,1,0,0};
     SDL_Surface *pBuf = create_bcgnd_surf(pTheme->Button, 3, width, adj_size(28));
-    alphablit(pBuf, NULL, pIcon, &dst);
+
+    alphablit(pBuf, NULL, pIcon, &dst, 255);
     FREESURFACE(pBuf);
   }
-    
+
   return pIcon;  
 }
 
@@ -1455,20 +1456,20 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
       
       pZoom = get_building_surface(pImprove);
       pZoom = zoomSurface(pZoom, DEFAULT_ZOOM * ((float)54 / pZoom->w), DEFAULT_ZOOM * ((float)54 / pZoom->w), 1);
-      dst.x = (pIcon->w - pZoom->w)/2;
-      dst.y = (pIcon->h/2 - pZoom->h)/2;
-      alphablit(pZoom, NULL, pIcon, &dst);
+      dst.x = (pIcon->w - pZoom->w) / 2;
+      dst.y = (pIcon->h/2 - pZoom->h) / 2;
+      alphablit(pZoom, NULL, pIcon, &dst, 255);
       dst.y += pZoom->h;
       FREESURFACE(pZoom);
-  
-      dst.x = (pIcon->w - pText_Name->w)/2;
-      dst.y += ((pIcon->h - dst.y) - (pText_Name->h + pText->h))/2;
-      alphablit(pText_Name, NULL, pIcon, &dst);
 
-      dst.x = (pIcon->w - pText->w)/2;
+      dst.x = (pIcon->w - pText_Name->w) / 2;
+      dst.y += ((pIcon->h - dst.y) - (pText_Name->h + pText->h)) / 2;
+      alphablit(pText_Name, NULL, pIcon, &dst, 255);
+
+      dst.x = (pIcon->w - pText->w) / 2;
       dst.y += pText_Name->h;
-      alphablit(pText, NULL, pIcon, &dst);
-  
+      alphablit(pText, NULL, pIcon, &dst, 255);
+
       FREESURFACE(pText);
       FREESURFACE(pText_Name);
             
@@ -1553,19 +1554,19 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
       pText = create_text_surf_from_str16(pStr);
   
       pZoom = adj_surf(get_unittype_surface(un, direction8_invalid()));
-      dst.x = (pIcon->w - pZoom->w)/2;
-      dst.y = (pIcon->h/2 - pZoom->h)/2;
-      alphablit(pZoom, NULL, pIcon, &dst);
+      dst.x = (pIcon->w - pZoom->w) / 2;
+      dst.y = (pIcon->h/2 - pZoom->h) / 2;
+      alphablit(pZoom, NULL, pIcon, &dst, 255);
       FREESURFACE(pZoom);
-  
-      dst.x = (pIcon->w - pText_Name->w)/2;
-      dst.y = pIcon->h/2 + (pIcon->h/2 - (pText_Name->h + pText->h))/2;
-      alphablit(pText_Name, NULL, pIcon, &dst);
 
-      dst.x = (pIcon->w - pText->w)/2;
+      dst.x = (pIcon->w - pText_Name->w) / 2;
+      dst.y = pIcon->h/2 + (pIcon->h/2 - (pText_Name->h + pText->h)) / 2;
+      alphablit(pText_Name, NULL, pIcon, &dst, 255);
+
+      dst.x = (pIcon->w - pText->w) / 2;
       dst.y += pText_Name->h;
-      alphablit(pText, NULL, pIcon, &dst);
-  
+      alphablit(pText, NULL, pIcon, &dst, 255);
+
       FREESURFACE(pText);
       FREESURFACE(pText_Name);
       

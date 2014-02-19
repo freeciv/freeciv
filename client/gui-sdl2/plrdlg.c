@@ -436,10 +436,10 @@ void popup_players_dialog(bool raise)
       pStr->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_TEXT);
       pLogo = create_text_surf_from_str16(pStr);
       FREESTRING16(pStr);
-	
+
       dst.x = (pZoomed->w - pLogo->w) / 2;
       dst.y = (pZoomed->h - pLogo->h) / 2;
-      alphablit(pLogo, NULL, pZoomed, &dst);
+      alphablit(pLogo, NULL, pZoomed, &dst, 255);
       FREESURFACE(pLogo);
     }
      
@@ -511,10 +511,10 @@ void popup_players_dialog(bool raise)
       h = MAX(pBuf->size.h, pLogo->h);
       pBuf->size.x = area.x + adj_size(5);
       pBuf->size.y = n + (h - pBuf->size.h) / 2;
-      
+
       dst.x = adj_size(5) + pBuf->size.w + adj_size(6);
       dst.y = n + (h - pLogo->h) / 2;
-      alphablit(pLogo, NULL, pWindow->theme, &dst);
+      alphablit(pLogo, NULL, pWindow->theme, &dst, 255);
       n += h;
       FREESURFACE(pLogo);
   }

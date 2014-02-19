@@ -222,7 +222,8 @@ void screen_rect_to_layer_rect(struct gui_layer *gui_layer, SDL_Rect *dest_rect)
 int pygame_AlphaBlit(SDL_Surface *src, SDL_Rect *srcrect, 
                      SDL_Surface *dst, SDL_Rect *dstrect);
 int alphablit(SDL_Surface *src, SDL_Rect *srcrect, 
-              SDL_Surface *dst, SDL_Rect *dstrect);
+              SDL_Surface *dst, SDL_Rect *dstrect,
+              unsigned char alpha_mod);
 
 SDL_Surface *load_surf(const char *pFname);
 SDL_Surface *load_surf_with_flags(const char *pFname, int iFlags);
@@ -238,8 +239,6 @@ SDL_Surface *crop_rect_from_surface(SDL_Surface *pSource,
 
 SDL_Surface *mask_surface(SDL_Surface * pSrc, SDL_Surface * pMask,
                           int mask_offset_x, int mask_offset_y);
-
-SDL_Surface *blend_surface(SDL_Surface *pSrc, unsigned char alpha);
 
 SDL_Surface *copy_surface(SDL_Surface *pSrc);
 

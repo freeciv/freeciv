@@ -55,10 +55,10 @@ static int redraw_window(struct widget *pWindow)
   if (ret != 0) {
     return ret;
   }
-  
+
   /* Draw theme */
   clear_surface(pWindow->dst->surface, &dst);
-  alphablit(pWindow->theme, NULL, pWindow->dst->surface, &dst);
+  alphablit(pWindow->theme, NULL, pWindow->dst->surface, &dst, 255);
 
   /* window has title string == has title bar */
   if (pWindow->string16) {
@@ -72,9 +72,9 @@ static int redraw_window(struct widget *pWindow)
     /* Draw Text on Window's TitelBar */
     pTmp = create_text_surf_from_str16(pWindow->string16);
     dst.x += adj_size(4);
-    if(pTmp) {
+    if (pTmp) {
       dst.y += ((WINDOW_TITLE_HEIGHT - pTmp->h) / 2);
-      alphablit(pTmp, NULL, pWindow->dst->surface, &dst);
+      alphablit(pTmp, NULL, pWindow->dst->surface, &dst, 255);
       FREESURFACE(pTmp);
     }
 

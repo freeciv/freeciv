@@ -77,7 +77,7 @@ static int redraw_edit_chain(struct EDIT *pEdt)
   /* blit theme */
   Dest = Dest_Copy;
 
-  alphablit(pEdt->pBg, NULL, pEdt->pWidget->dst->surface, &Dest);
+  alphablit(pEdt->pBg, NULL, pEdt->pWidget->dst->surface, &Dest, 255);
 
   /* set start parametrs */
   pInputChain_TMP = pEdt->pBeginTextChain;
@@ -96,7 +96,8 @@ static int redraw_edit_chain(struct EDIT *pEdt)
 
     if (Dest_Copy.x > pEdt->pWidget->size.x) {
       Dest = Dest_Copy;
-      alphablit(pInputChain_TMP->pTsurf, NULL, pEdt->pWidget->dst->surface, &Dest);
+      alphablit(pInputChain_TMP->pTsurf, NULL, pEdt->pWidget->dst->surface, &Dest,
+                255);
     }
 
     iStart_Mod_X = pInputChain_TMP->pTsurf->w;
@@ -176,9 +177,9 @@ static int redraw_edit(struct widget *pEdit_Widget)
     if (!pEdit) {
       return -1;
     }
-    
+
     /* blit theme */
-    alphablit(pEdit, NULL, pEdit_Widget->dst->surface, &rDest);
+    alphablit(pEdit, NULL, pEdit_Widget->dst->surface, &rDest, 255);
 
     /* set position and blit text */
     if (pText) {
@@ -194,7 +195,7 @@ static int redraw_edit(struct widget *pEdit_Widget)
         }
       }
 
-      alphablit(pText, NULL, pEdit_Widget->dst->surface, &rDest);
+      alphablit(pText, NULL, pEdit_Widget->dst->surface, &rDest, 255);
     }
     /* pText */
     iRet = pEdit->h;

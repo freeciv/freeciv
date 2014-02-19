@@ -111,7 +111,7 @@ static SDL_Surface *create_vertical_surface(SDL_Surface * pVert_theme,
   src.y = start_y;
   src.w = pVert_theme->w;
   src.h = tile_len_end;
-  alphablit(pVert_theme, &src, pVerSurf, NULL);
+  alphablit(pVert_theme, &src, pVerSurf, NULL, 255);
 
   src.y = start_y + tile_len_end;
   src.h = tile_len_midd;
@@ -120,13 +120,13 @@ static SDL_Surface *create_vertical_surface(SDL_Surface * pVert_theme,
 
   for (i = 0; i < tile_count_midd; i++) {
     des.y = tile_len_end + i * tile_len_midd;
-    alphablit(pVert_theme, &src, pVerSurf, &des);
+    alphablit(pVert_theme, &src, pVerSurf, &des, 255);
   }
 
   src.y = start_y + tile_len_end + tile_len_midd;
   src.h = tile_len_end;
   des.y = pVerSurf->h - tile_len_end;
-  alphablit(pVert_theme, &src, pVerSurf, &des);
+  alphablit(pVert_theme, &src, pVerSurf, &des, 255);
 
   return pVerSurf;
 }
@@ -252,7 +252,7 @@ static SDL_Surface *create_horizontal_surface(SDL_Surface * pHoriz_theme,
   src.x = start_x;
   src.h = pHoriz_theme->h;
   src.w = tile_len_end;
-  alphablit(pHoriz_theme, &src, pHorSurf, NULL);
+  alphablit(pHoriz_theme, &src, pHorSurf, NULL, 255);
 
   src.x = start_x + tile_len_end;
   src.w = tile_len_midd;
@@ -261,13 +261,13 @@ static SDL_Surface *create_horizontal_surface(SDL_Surface * pHoriz_theme,
 
   for (i = 0; i < tile_count_midd; i++) {
     des.x = tile_len_end + i * tile_len_midd;
-    alphablit(pHoriz_theme, &src, pHorSurf, &des);
+    alphablit(pHoriz_theme, &src, pHorSurf, &des, 255);
   }
 
   src.x = start_x + tile_len_end + tile_len_midd;
   src.w = tile_len_end;
   des.x = pHorSurf->w - tile_len_end;
-  alphablit(pHoriz_theme, &src, pHorSurf, &des);
+  alphablit(pHoriz_theme, &src, pHorSurf, &des, 255);
 
   return pHorSurf;
 }

@@ -271,7 +271,7 @@ void popup_impr_info(Impr_type_id impr)
       pText = create_text_surf_smaller_that_w(pStr, adj_size(100 - 4));
       dst.x = adj_size(40) + (pBackground->w - pText->w - adj_size(40)) / 2;
       dst.y = (pBackground->h - pText->h) / 2;
-      alphablit(pText, NULL, pBackground, &dst);
+      alphablit(pText, NULL, pBackground, &dst, 255);
       FREESURFACE(pText);
 
       /* blit improvement icon */
@@ -279,7 +279,7 @@ void popup_impr_info(Impr_type_id impr)
                                adj_size(36), adj_size(36), 1, TRUE, TRUE);
       dst.x = adj_size(5);
       dst.y = (pBackground->h - pIcon->h) / 2;
-      alphablit(pIcon, NULL, pBackground, &dst);
+      alphablit(pIcon, NULL, pBackground, &dst, 255);
       FREESURFACE(pIcon);
 
       pImprovementButton = create_icon2(pBackground, pWindow->dst,
@@ -688,7 +688,7 @@ void popup_unit_info(Unit_type_id type_id)
       pText = create_text_surf_smaller_that_w(pStr, adj_size(100 - 4));
       dst.x = adj_size(35) + (pBackground->w - pText->w - adj_size(35)) / 2;
       dst.y = (pBackground->h - pText->h) / 2;
-      alphablit(pText, NULL, pBackground, &dst);
+      alphablit(pText, NULL, pBackground, &dst, 255);
       FREESURFACE(pText);
 
       /* blit unit icon */
@@ -696,7 +696,7 @@ void popup_unit_info(Unit_type_id type_id)
                                adj_size(36), adj_size(36), 1, TRUE, TRUE);
       dst.x = (adj_size(35) - pIcon->w) / 2;
       dst.y = (pBackground->h - pIcon->h) / 2;
-      alphablit(pIcon, NULL, pBackground, &dst);
+      alphablit(pIcon, NULL, pBackground, &dst, 255);
       FREESURFACE(pIcon);
 
       pUnitButton = create_icon2(pBackground, pWindow->dst,
@@ -1034,7 +1034,7 @@ static void redraw_tech_info_dlg(void)
               + pStore->pDock->prev->prev->size.h + adj_size(10);
   }
 
-  alphablit(pText0, NULL, pWindow->dst->surface, &dst);
+  alphablit(pText0, NULL, pWindow->dst->surface, &dst, 255);
   FREESURFACE(pText0);
 
   if (pStore->pSub_Targets[0])
@@ -1054,11 +1054,11 @@ static void redraw_tech_info_dlg(void)
       dst.x = pStore->pSub_Targets[i]->size.x - pText0->w;
       dst.y = pStore->pSub_Targets[i]->size.y;
 
-      alphablit(pText0, NULL, pWindow->dst->surface, &dst);
+      alphablit(pText0, NULL, pWindow->dst->surface, &dst, 255);
       dst.x = pStore->pSub_Targets[i]->size.x + pStore->pSub_Targets[i]->size.w;
       dst.y = pStore->pSub_Targets[i]->size.y;
 
-      alphablit(pText1, NULL, pWindow->dst->surface, &dst);
+      alphablit(pText1, NULL, pWindow->dst->surface, &dst, 255);
       i++;
     }
 

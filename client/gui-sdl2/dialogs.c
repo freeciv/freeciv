@@ -580,17 +580,17 @@ void popup_notify_dialog(const char *caption, const char *headline,
   
   dst.x = area.x + (area.w - pHeadline->w) / 2;
   dst.y = area.y + adj_size(10);
-  
-  alphablit(pHeadline, NULL, pWindow->theme, &dst);
-  if(pLines) {
+
+  alphablit(pHeadline, NULL, pWindow->theme, &dst, 255);
+  if (pLines) {
     dst.y += pHeadline->h + adj_size(10);
-    if(pHeadline->w < pLines->w) {
+    if (pHeadline->w < pLines->w) {
       dst.x = area.x + (area.w - pLines->w) / 2;
     }
-     
-    alphablit(pLines, NULL, pWindow->theme, &dst);
+
+    alphablit(pLines, NULL, pWindow->theme, &dst, 255);
   }
-  
+
   FREESURFACE(pHeadline);
   FREESURFACE(pLines);
   
@@ -751,9 +751,9 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   /* label */
   dst.x = area.x + (area.w - pText->w) / 2;
   dst.y = area.y + adj_size(10);
-  alphablit(pText, NULL, pWindow->theme, &dst);
+  alphablit(pText, NULL, pWindow->theme, &dst, 255);
   FREESURFACE(pText);
-   
+
   /* cancel button */
   pBuf = pWindow->prev;
   pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(7);
@@ -945,9 +945,9 @@ void popup_unit_disband_dlg(struct unit *pUnit, bool city)
   /* label */
   dst.x = area.x + (area.w - pText->w) / 2;
   dst.y = area.y + adj_size(10);
-  alphablit(pText, NULL, pWindow->theme, &dst);
+  alphablit(pText, NULL, pWindow->theme, &dst, 255);
   FREESURFACE(pText);
-   
+
   /* cancel button */
   pBuf = pWindow->prev;
   pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(7);
@@ -2990,9 +2990,9 @@ static int nation_button_callback(struct widget *pNationButton)
     
     area2.x = area.x + adj_size(7);
     area2.y = area.y + adj_size(6);
-    alphablit(pText, NULL, pWindow->theme, &area2);
+    alphablit(pText, NULL, pWindow->theme, &area2, 255);
     FREESURFACE(pText);
-  
+
     pOK_Button->size.x = area.x + (area.w - pOK_Button->size.w) / 2;
     pOK_Button->size.y = area.y + area.h - pOK_Button->size.h - adj_size(10);
   
@@ -3206,20 +3206,20 @@ void popup_races_dialog(struct player *pplayer)
     len = pTmp_Surf_zoomed->h +
 	    adj_size(10) + pText_Name->h + (pText_Class ? pText_Class->h : 0);
     dst.y = (pTmp_Surf->h - len) / 2;
-    alphablit(pTmp_Surf_zoomed, NULL, pTmp_Surf, &dst);
+    alphablit(pTmp_Surf_zoomed, NULL, pTmp_Surf, &dst, 255);
     dst.y += (pTmp_Surf_zoomed->h + adj_size(10));
-    
+
     dst.x = (pTmp_Surf->w - pText_Name->w) / 2;
-    alphablit(pText_Name, NULL, pTmp_Surf, &dst);
+    alphablit(pText_Name, NULL, pTmp_Surf, &dst, 255);
     dst.y += pText_Name->h;
     FREESURFACE(pText_Name);
-    
+
     if (pText_Class) {
       dst.x = (pTmp_Surf->w - pText_Class->w) / 2;
-      alphablit(pText_Class, NULL, pTmp_Surf, &dst);
+      alphablit(pText_Class, NULL, pTmp_Surf, &dst, 255);
       FREESURFACE(pText_Class);
     }
-    
+
     pWidget = create_icon2(pTmp_Surf, pWindow->dst,
     			(WF_RESTORE_BACKGROUND|WF_FREE_THEME));
     

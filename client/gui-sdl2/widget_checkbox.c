@@ -62,7 +62,7 @@ static int redraw_icon(struct widget *pIcon)
     area.y += (pIcon->size.h - src.h) / 2;
   }
 
-  return alphablit(pIcon->theme, &src, pIcon->dst->surface, &area);
+  return alphablit(pIcon->theme, &src, pIcon->dst->surface, &area, 255);
 }
 
 /**************************************************************************

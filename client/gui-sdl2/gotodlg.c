@@ -328,7 +328,7 @@ static void popup_goto_airlift_dialog(void)
 
   block_x = dst.x = area.x + area.w - pFlag->w;
   dst.y = area.y;
-  alphablit(pFlag, NULL, pWindow->theme, &dst);
+  alphablit(pFlag, NULL, pWindow->theme, &dst, 255);
   FREESURFACE(pFlag);
 
   widget_set_position(pWindow,

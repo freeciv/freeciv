@@ -601,9 +601,9 @@ void draw_intro_gfx(void)
     FREESURFACE(pIntro);
     pIntro = pTmp;
   }
-  
+
   /* draw intro gfx center in screen */
-  alphablit(pIntro, NULL, Main.map, NULL);
-  
+  alphablit(pIntro, NULL, Main.map, NULL, 255);
+
   FREESURFACE(pIntro);
 }

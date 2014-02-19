@@ -64,7 +64,7 @@ static int combo_redraw(struct widget *combo)
   }
 
   /* Blit theme. */
-  alphablit(surface, NULL, combo->dst->surface, &dest);
+  alphablit(surface, NULL, combo->dst->surface, &dest, 255);
 
   /* Set position and blit text. */
   text = create_text_surf_from_str16(combo->string16);
@@ -81,7 +81,7 @@ static int combo_redraw(struct widget *combo)
       }
     }
 
-    alphablit(text, NULL, combo->dst->surface, &dest);
+    alphablit(text, NULL, combo->dst->surface, &dest, 255);
   }
   /* text. */
   ret = surface->h;

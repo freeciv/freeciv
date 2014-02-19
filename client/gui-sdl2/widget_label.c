@@ -48,7 +48,7 @@ static inline int redraw_themelabel2(struct widget *pLabel)
     src.y = pLabel->size.h;
   }
 
-  return alphablit(pLabel->theme, &src, pLabel->dst->surface, &dst);
+  return alphablit(pLabel->theme, &src, pLabel->dst->surface, &dst, 255);
 }
 
 /**************************************************************************
@@ -507,8 +507,8 @@ int redraw_iconlabel(struct widget *pLabel)
     dst.x = pLabel->size.x + xI;
     dst.y = pLabel->size.y + yI;
 
-    ret = alphablit(pLabel->theme, NULL, pLabel->dst->surface, &dst);
-    
+    ret = alphablit(pLabel->theme, NULL, pLabel->dst->surface, &dst, 255);
+
     if (ret) {
       return ret - 10;
     }
@@ -570,9 +570,8 @@ int redraw_iconlabel(struct widget *pLabel)
     dst.x = pLabel->size.x + x;
     dst.y = pLabel->size.y + y;
 
-    ret = alphablit(pText, NULL, pLabel->dst->surface, &dst);
+    ret = alphablit(pText, NULL, pLabel->dst->surface, &dst, 255);
     FREESURFACE(pText);
-
   }
 
   SDL_SetClipRect(pLabel->dst->surface, NULL);

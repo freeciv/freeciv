@@ -1019,10 +1019,10 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
       
   src.w = pThm->w / 4;
   src.h = pThm->h;
-    
-  alphablit(pThm, &src, pLabel->theme, NULL);
+
+  alphablit(pThm, &src, pLabel->theme, NULL, 255);
   SDL_SetSurfaceAlphaMod(pThm, 255);
-  
+
   widget_redraw(pLabel);
   widget_flush(pLabel);
 
@@ -1038,9 +1038,9 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
       
   src.w = pThm->w / 4;
   src.h = pThm->h;
-    
-  alphablit(pThm, &src, pLabel->theme, NULL);
-  
+
+  alphablit(pThm, &src, pLabel->theme, NULL, 255);
+
   widget_redraw(pLabel);
   widget_flush(pLabel);
 }
@@ -1161,10 +1161,9 @@ static void remove_clause_widget_from_list(int counterpart, int giver,
     pBuf->private_data.cbox->state = FALSE;
     src.w = pBuf->private_data.cbox->pFALSE_Theme->w / 4;
     src.h = pBuf->private_data.cbox->pFALSE_Theme->h;
-    
-    alphablit(pBuf->private_data.cbox->pFALSE_Theme, &src, pBuf->theme, NULL);
+
+    alphablit(pBuf->private_data.cbox->pFALSE_Theme, &src, pBuf->theme, NULL, 255);
   }
-  
 }
 
 /**************************************************************************
@@ -1431,10 +1430,10 @@ static void popup_war_dialog(struct player *pPlayer)
   /* label */
   dst.x = area.x + (area.w - pText->w) / 2;
   dst.y = area.y + 1;
-  alphablit(pText, NULL, pWindow->theme, &dst);
+  alphablit(pText, NULL, pWindow->theme, &dst, 255);
   dst.y += pText->h + adj_size(5);
   FREESURFACE(pText);
-  
+
   /* no */
   pBuf = pWindow->prev;
   pBuf->size.y = dst.y;
@@ -1630,10 +1629,10 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     /* label */
     dst.x = area.x + (area.w - pText->w) / 2;
     dst.y = area.y + 1;
-    alphablit(pText, NULL, pWindow->theme, &dst);
+    alphablit(pText, NULL, pWindow->theme, &dst, 255);
     dst.y += pText->h + adj_size(15);
     FREESURFACE(pText);
-         
+
     pBuf = pWindow;
   
     if(type != DS_WAR) {

@@ -132,14 +132,14 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, Uint8 state,
 
   des.x = 0;
   des.y = 0;
-  alphablit(pTheme, &src, pBackground, &des);
+  alphablit(pTheme, &src, pBackground, &des, 255);
 
   /* copy left middels parts */
   src.y = iStart_y + iTile_width_high_end;
   src.h = iTile_width_high_mid;
   for (i = 0; i < iTile_count_high_mid; i++) {
     des.y = iTile_width_high_end + i * iTile_width_high_mid;
-    alphablit(pTheme, &src, pBackground, &des);
+    alphablit(pTheme, &src, pBackground, &des, 255);
   }
 
   /* copy left boton end */
@@ -147,7 +147,7 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, Uint8 state,
   src.h = iTile_width_high_end;
   des.y = pBackground->h - iTile_width_high_end;
   clear_surface(pBackground, &des);
-  alphablit(pTheme, &src, pBackground, &des);
+  alphablit(pTheme, &src, pBackground, &des, 255);
 
   /* copy middle parts without right end part */
 
@@ -161,14 +161,14 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, Uint8 state,
     des.x = iTile_width_len_end + i * iTile_width_len_mid;
     des.y = 0;
     src.y = iStart_y;
-    alphablit(pTheme, &src, pBackground, &des);
+    alphablit(pTheme, &src, pBackground, &des, 255);
 
     /*  middels */
     src.y = iStart_y + iTile_width_high_end;
     src.h = iTile_width_high_mid;
     for (j = 0; j < iTile_count_high_mid; j++) {
       des.y = iTile_width_high_end + j * iTile_width_high_mid;
-      alphablit(pTheme, &src, pBackground, &des);
+      alphablit(pTheme, &src, pBackground, &des, 255);
     }
 
     /* bottom */
@@ -176,7 +176,7 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, Uint8 state,
     src.h = iTile_width_high_end;
     des.y = pBackground->h - iTile_width_high_end;
     clear_surface(pBackground, &des);    
-    alphablit(pTheme, &src, pBackground, &des);
+    alphablit(pTheme, &src, pBackground, &des, 255);
   }
 
   /* copy right end */
@@ -187,14 +187,14 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, Uint8 state,
   des.x = pBackground->w - iTile_width_len_end;
   des.y = 0;
 
-  alphablit(pTheme, &src, pBackground, &des);
+  alphablit(pTheme, &src, pBackground, &des, 255);
 
   /*  middels */
   src.y = iStart_y + iTile_width_high_end;
   src.h = iTile_width_high_mid;
   for (i = 0; i < iTile_count_high_mid; i++) {
     des.y = iTile_width_high_end + i * iTile_width_high_mid;
-    alphablit(pTheme, &src, pBackground, &des);
+    alphablit(pTheme, &src, pBackground, &des, 255);
   }
 
   /*boton */
@@ -202,8 +202,8 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, Uint8 state,
   src.h = iTile_width_high_end;
   des.y = pBackground->h - iTile_width_high_end;
   clear_surface(pBackground, &des);  
-  alphablit(pTheme, &src, pBackground, &des);
-  
+  alphablit(pTheme, &src, pBackground, &des, 255);
+
   if (zoom)
   {
     SDL_Surface *pZoom = ResizeSurface(pBackground, Width, High, 1);
@@ -516,9 +516,9 @@ void redraw_widget_info_label(SDL_Rect *rect)
     /* draw text */
     dstrect.x = adj_size(6);
     dstrect.y = adj_size(3);
-    
-    alphablit(pText, NULL, pInfo_Label, &dstrect);
-    
+
+    alphablit(pText, NULL, pInfo_Label, &dstrect, 255);
+
     FREESURFACE(pText);    
     
     /* draw frame */
@@ -539,9 +539,9 @@ void redraw_widget_info_label(SDL_Rect *rect)
     srcrect.w = MIN((pInfo_Area->x + pInfo_Area->w), (rect->x + rect->w)) - dstrect.x;
     srcrect.h = MIN((pInfo_Area->y + pInfo_Area->h), (rect->y + rect->h)) - dstrect.y;
 
-    alphablit(pInfo_Label, &srcrect, Main.mainsurf, &dstrect);
+    alphablit(pInfo_Label, &srcrect, Main.mainsurf, &dstrect, 255);
   } else {
-    alphablit(pInfo_Label, NULL, Main.mainsurf, pInfo_Area);
+    alphablit(pInfo_Label, NULL, Main.mainsurf, pInfo_Area, 255);
   }
 
   if (correct_rect_region(pInfo_Area)) {
@@ -1125,19 +1125,19 @@ void draw_frame(SDL_Surface * pDest, Sint16 start_x, Sint16 start_y,
   SDL_Rect tmp,dst = {start_x, start_y, 0, 0};
 
   tmp = dst;
-  alphablit(pTmpLeft, NULL, pDest, &tmp);
-  
+  alphablit(pTmpLeft, NULL, pDest, &tmp, 255);
+
   dst.x += w - pTmpRight->w;
   tmp = dst;
-  alphablit(pTmpRight, NULL, pDest, &tmp);
+  alphablit(pTmpRight, NULL, pDest, &tmp, 255);
 
   dst.x = start_x;
   tmp = dst;
-  alphablit(pTmpTop, NULL, pDest, &tmp);
-  
+  alphablit(pTmpTop, NULL, pDest, &tmp, 255);
+
   dst.y += h - pTmpBottom->h;
   tmp = dst;
-  alphablit(pTmpBottom, NULL, pDest, &tmp);
+  alphablit(pTmpBottom, NULL, pDest, &tmp, 255);
 
   FREESURFACE(pTmpLeft);
   FREESURFACE(pTmpRight);
@@ -1151,10 +1151,10 @@ void draw_frame(SDL_Surface * pDest, Sint16 start_x, Sint16 start_y,
 void refresh_widget_background(struct widget *pWidget)
 {
   if (pWidget) {
-    if (pWidget->gfx && pWidget->gfx->w == pWidget->size.w &&
-      				pWidget->gfx->h == pWidget->size.h) {
+    if (pWidget->gfx && pWidget->gfx->w == pWidget->size.w
+        && pWidget->gfx->h == pWidget->size.h) {
       clear_surface(pWidget->gfx, NULL);
-      alphablit(pWidget->dst->surface, &pWidget->size, pWidget->gfx, NULL);
+      alphablit(pWidget->dst->surface, &pWidget->size, pWidget->gfx, NULL, 255);
     } else {
       FREESURFACE(pWidget->gfx);
       pWidget->gfx = crop_rect_from_surface(pWidget->dst->surface, &pWidget->size);

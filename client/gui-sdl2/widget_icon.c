@@ -64,7 +64,7 @@ static int redraw_icon(struct widget *pIcon)
     area.y += (pIcon->size.h - src.h) / 2;
   }
 
-  return alphablit(pIcon->theme, &src, pIcon->dst->surface, &area);
+  return alphablit(pIcon->theme, &src, pIcon->dst->surface, &area, 255);
 }
 
 /**************************************************************************
@@ -124,11 +124,11 @@ static int redraw_icon2(struct widget *pIcon)
   }
   dest.x += adj_size(2);
   dest.y += adj_size(2);
-  ret = alphablit(pIcon->theme, NULL, pIcon->dst->surface, &dest);
+  ret = alphablit(pIcon->theme, NULL, pIcon->dst->surface, &dest, 255);
   if (ret) {
     return ret;
   }
-#endif
+#endif /* 0 */
 
   return 0;
 }
@@ -161,11 +161,11 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
   dest.y = (pTheme->h - src.h) / 2;
 
   /* normal */
-  alphablit(pIcon, &src, pTheme, &dest);
+  alphablit(pIcon, &src, pTheme, &dest, 255);
 
   /* selected */
   dest.x += (src.w + adj_size(4));
-  alphablit(pIcon, &src, pTheme, &dest);
+  alphablit(pIcon, &src, pTheme, &dest, 255);
   /* draw selected frame */
   putframe(pTheme,
            dest.x - 1, dest.y - 1, dest.x + (src.w), dest.y + src.h,
@@ -173,7 +173,7 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
 
   /* pressed */
   dest.x += (src.w + adj_size(4));
-  alphablit(pIcon, &src, pTheme, &dest);
+  alphablit(pIcon, &src, pTheme, &dest, 255);
   /* draw selected frame */
   putframe(pTheme,
            dest.x - 1, dest.y - 1, dest.x + src.w, dest.y + src.h,
@@ -186,14 +186,14 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
 
   /* disabled */
   dest.x += (src.w + adj_size(4));
-  alphablit(pIcon, &src, pTheme, &dest);
+  alphablit(pIcon, &src, pTheme, &dest, 255);
   dest.w = src.w;
   dest.h = src.h;
 
   SDL_FillRectAlpha(pTheme, &dest, &bg_color);
 
   return pTheme;
-#endif
+#endif /* 0 */
 
   return NULL;
 }
@@ -269,7 +269,8 @@ int draw_icon_from_theme(SDL_Surface * pIcon_theme, Uint8 state,
   src.y = 0;
   src.w = pIcon_theme->w / 4;
   src.h = pIcon_theme->h;
-  return alphablit(pIcon_theme, &src, pDest->surface, &des);
+
+  return alphablit(pIcon_theme, &src, pDest->surface, &des, 255);
 }
 
 /**************************************************************************

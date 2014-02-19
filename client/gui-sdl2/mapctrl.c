@@ -240,10 +240,10 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct widget *pBuf = NULL;
-  
+
     clear_surface(pIcon_Widget->theme, NULL);
-    alphablit(pTheme->MAP_Icon, NULL, pIcon_Widget->theme, NULL);
-  
+    alphablit(pTheme->MAP_Icon, NULL, pIcon_Widget->theme, NULL, 255);
+
     if (get_num_units_in_focus() > 0) {
       undraw_order_widgets();
     }
@@ -267,10 +267,10 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
       /* clear area under old unit info window */
       widget_undraw(pUnits_Info_Window);
       widget_mark_dirty(pUnits_Info_Window);
-  
+
       /* new button direction */
-      alphablit(pTheme->L_ARROW_Icon, NULL, pIcon_Widget->theme, NULL);
-  
+      alphablit(pTheme->L_ARROW_Icon, NULL, pIcon_Widget->theme, NULL, 255);
+
       copy_chars_to_string16(pIcon_Widget->info_label,
                              _("Show Unit Info Window"));
           
@@ -283,19 +283,21 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
       src.y = 0;
       src.w = (pUnits_Info_Window->size.w - pUnits_Info_Window->area.w) + BLOCKU_W;
       src.h = pUnits_Info_Window->theme->h;
-  
-      window_area = pUnits_Info_Window->size;    
-      alphablit(pUnits_Info_Window->theme, &src, pUnits_Info_Window->dst->surface, &window_area);
-  
+
+      window_area = pUnits_Info_Window->size;
+      alphablit(pUnits_Info_Window->theme, &src,
+                pUnits_Info_Window->dst->surface, &window_area, 255);
+
       /* blit right vertical frame */
       pBuf_Surf = ResizeSurface(pTheme->FR_Right, pTheme->FR_Right->w,
                                 pUnits_Info_Window->area.h, 1);
-  
+
       window_area.y = pUnits_Info_Window->area.y;
       window_area.x = pUnits_Info_Window->area.x + pUnits_Info_Window->area.w;
-      alphablit(pBuf_Surf, NULL , pUnits_Info_Window->dst->surface, &window_area);
+      alphablit(pBuf_Surf, NULL,
+                pUnits_Info_Window->dst->surface, &window_area, 255);
       FREESURFACE(pBuf_Surf);
-  
+
       /* redraw widgets */
       
       /* ID_ECONOMY */
@@ -330,9 +332,9 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
         /* SHOW */
         copy_chars_to_string16(pIcon_Widget->info_label,
                                _("Hide Unit Info Window"));
-         
-        alphablit(pTheme->R_ARROW_Icon, NULL, pIcon_Widget->theme, NULL);
-  
+
+        alphablit(pTheme->R_ARROW_Icon, NULL, pIcon_Widget->theme, NULL, 255);
+
         SDL_Client_Flags |= CF_UNITINFO_SHOWN;
   
         set_new_unitinfo_window_pos();
@@ -341,7 +343,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
       
         redraw_unit_info_label(get_units_in_focus());
       } else {
-        alphablit(pTheme->L_ARROW_Icon, NULL, pIcon_Widget->theme, NULL);
+        alphablit(pTheme->L_ARROW_Icon, NULL, pIcon_Widget->theme, NULL, 255);
         widget_redraw(pIcon_Widget);
         widget_mark_dirty(pIcon_Widget);
       }
@@ -364,11 +366,11 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct unit *pFocus = head_of_units_in_focus();
     struct widget *pWidget;
-      
+
     /* make new map icon */
     clear_surface(pMap_Button->theme, NULL);
-    alphablit(pTheme->MAP_Icon, NULL, pMap_Button->theme, NULL);
-  
+    alphablit(pTheme->MAP_Icon, NULL, pMap_Button->theme, NULL, 255);
+
     set_wstate(pMiniMap_Window, FC_WS_NORMAL);
   
     if (pFocus) {
@@ -386,8 +388,8 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
       copy_chars_to_string16(pMap_Button->info_label, _("Show Mini Map"));
 
       /* make new map icon */
-      alphablit(pTheme->R_ARROW_Icon, NULL, pMap_Button->theme, NULL);
-  
+      alphablit(pTheme->R_ARROW_Icon, NULL, pMap_Button->theme, NULL, 255);
+
       SDL_Client_Flags &= ~CF_OVERVIEW_SHOWN;
       
       /* clear area under old map window */
@@ -404,17 +406,18 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
       src.y = 0;
       src.w = BLOCKM_W + pTheme->FR_Right->w;
       src.h = pMiniMap_Window->theme->h;
-        
-      alphablit(pMiniMap_Window->theme, &src , pMiniMap_Window->dst->surface, &map_area);
-    
+
+      alphablit(pMiniMap_Window->theme, &src,
+                pMiniMap_Window->dst->surface, &map_area, 255);
+
       /* blit left vertical frame theme */
       pBuf_Surf = ResizeSurface(pTheme->FR_Left, pTheme->FR_Left->w,
                                 pMiniMap_Window->area.h, 1);
-  
+
       map_area.y += adj_size(2);
-      alphablit(pBuf_Surf, NULL, pMiniMap_Window->dst->surface, &map_area);
+      alphablit(pBuf_Surf, NULL, pMiniMap_Window->dst->surface, &map_area, 255);
       FREESURFACE(pBuf_Surf);
-      
+
       /* redraw widgets */  
       /* ID_NEW_TURN */
       pWidget = pMiniMap_Window->prev;
@@ -463,9 +466,9 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
         /* show MiniMap */
         copy_chars_to_string16(pMap_Button->info_label, _("Hide Mini Map"));
 
-        alphablit(pTheme->L_ARROW_Icon, NULL, pMap_Button->theme, NULL);
+        alphablit(pTheme->L_ARROW_Icon, NULL, pMap_Button->theme, NULL, 255);
         SDL_Client_Flags |= CF_OVERVIEW_SHOWN;
-              
+
         pMiniMap_Window->size.w =
           (pMiniMap_Window->size.w - pMiniMap_Window->area.w) + overview_w + BLOCKM_W;
         pMiniMap_Window->area.w = overview_w + BLOCKM_W;
@@ -476,7 +479,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
         redraw_minimap_window_buttons();
         refresh_overview();
       } else {
-        alphablit(pTheme->R_ARROW_Icon, NULL, pMap_Button->theme, NULL);
+        alphablit(pTheme->R_ARROW_Icon, NULL, pMap_Button->theme, NULL, 255);
         widget_redraw(pMap_Button);
         widget_mark_dirty(pMap_Button);
       }
@@ -1444,8 +1447,8 @@ void popup_unitinfo_window() {
   /* make UNITS Icon */
   pIcon_theme = create_surf_alpha(pTheme->MAP_Icon->w,
 			    pTheme->MAP_Icon->h, SDL_SWSURFACE);
-  alphablit(pTheme->MAP_Icon, NULL, pIcon_theme, NULL);
-  alphablit(pTheme->R_ARROW_Icon, NULL, pIcon_theme, NULL);
+  alphablit(pTheme->MAP_Icon, NULL, pIcon_theme, NULL, 255);
+  alphablit(pTheme->R_ARROW_Icon, NULL, pIcon_theme, NULL, 255);
 
   pWidget = create_themeicon(pIcon_theme, pUnits_Info_Window->dst,
                              WF_FREE_GFX | WF_FREE_THEME |
@@ -1664,8 +1667,8 @@ void popup_minimap_window() {
   /* make Map Icon */
   pIcon_theme =
       create_surf_alpha(pTheme->MAP_Icon->w, pTheme->MAP_Icon->h, SDL_SWSURFACE);
-  alphablit(pTheme->MAP_Icon, NULL, pIcon_theme, NULL);
-  alphablit(pTheme->L_ARROW_Icon, NULL, pIcon_theme, NULL);
+  alphablit(pTheme->MAP_Icon, NULL, pIcon_theme, NULL, 255);
+  alphablit(pTheme->L_ARROW_Icon, NULL, pIcon_theme, NULL, 255);
 
   pWidget = create_themeicon(pIcon_theme, pMiniMap_Window->dst,
                              WF_FREE_GFX | WF_FREE_THEME |

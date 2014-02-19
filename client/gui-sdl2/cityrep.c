@@ -535,7 +535,7 @@ static void real_info_city_report_dialog_update(void)
     if(!worklist_is_empty(&(pCity->worklist))) {
       dst.x = pLogo->w - pIcons->pWorklist->w;
       dst.y = 0;
-      alphablit(pIcons->pWorklist, NULL, pLogo, &dst);
+      alphablit(pIcons->pWorklist, NULL, pLogo, &dst, 255);
       fc_snprintf(cBuf, sizeof(cBuf), "%s\n(%d/%d)\n%s",
       	pName, pCity->shield_stock, togrow, _("worklist"));
     } else {
@@ -678,22 +678,22 @@ static void real_info_city_report_dialog_update(void)
   
   dst.y += (pText2->h - pText3->h) / 2;
   dst.x += ((name_w + adj_size(6)) - pText3->w) / 2;
-  alphablit(pText3, NULL, pWindow->theme, &dst);
+  alphablit(pText3, NULL, pWindow->theme, &dst, 255);
   FREESURFACE(pText3);
-  
+
   /* city size background and label */    
   dst.x = area.x + adj_size(5) + name_w + adj_size(5 + 4);
-  alphablit(pText1, NULL, pWindow->theme, &dst);
+  alphablit(pText1, NULL, pWindow->theme, &dst, 255);
   ww = pText1->w;
   FREESURFACE(pText1);
-  
+
   /* cma icon */
   dst.x += (ww + adj_size(9));
   dst.y = area.y + 1 + (pText2->h - pCMA_Icon->h) / 2;
-  alphablit(pCMA_Icon, NULL, pWindow->theme, &dst);
+  alphablit(pCMA_Icon, NULL, pWindow->theme, &dst, 255);
   ww = pCMA_Icon->w;
   FREESURFACE(pCMA_Icon);
-    
+
   /* -------------- */
   /* populations food unkeep background and label */
   dst.x += (ww + 1);
@@ -713,18 +713,18 @@ static void real_info_city_report_dialog_update(void)
   
   dst.y = area.y + 1 + (pText2->h - pIcons->pBIG_Food->h) / 2;
   dst.x += adj_size(5);
-  alphablit(pIcons->pBIG_Food, NULL, pWindow->theme, &dst);
-  
+  alphablit(pIcons->pBIG_Food, NULL, pWindow->theme, &dst, 255);
+
   /* food surplus Icon */
   w += (pIcons->pBIG_Food->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
-  alphablit(pIcons->pBIG_Food_Surplus, NULL, pWindow->theme, &dst);
-  
+  alphablit(pIcons->pBIG_Food_Surplus, NULL, pWindow->theme, &dst, 255);
+
   /* to grow label */
   w += (pIcons->pBIG_Food_Surplus->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
   dst.y = area.y + 1;
-  alphablit(pText2, NULL, pWindow->theme, &dst);
+  alphablit(pText2, NULL, pWindow->theme, &dst, 255);
   hh = pText2->h;
   ww = pText2->w;
   FREESURFACE(pText2);
@@ -751,25 +751,25 @@ static void real_info_city_report_dialog_update(void)
   
   dst.y = area.y + 1 + (hh - pIcons->pBIG_Trade->h) / 2;
   dst.x += adj_size(5);
-  alphablit(pIcons->pBIG_Trade, NULL, pWindow->theme, &dst);
-  
+  alphablit(pIcons->pBIG_Trade, NULL, pWindow->theme, &dst, 255);
+
   w += (pIcons->pBIG_Trade->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
-  alphablit(pIcons->pBIG_Trade_Corr, NULL, pWindow->theme, &dst);
-  
+  alphablit(pIcons->pBIG_Trade_Corr, NULL, pWindow->theme, &dst, 255);
+
   w += (pIcons->pBIG_Food_Corr->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
-  alphablit(pIcons->pBIG_Coin, NULL, pWindow->theme, &dst);
-  
+  alphablit(pIcons->pBIG_Coin, NULL, pWindow->theme, &dst, 255);
+
   w += (pIcons->pBIG_Coin->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
-  alphablit(pIcons->pBIG_Colb, NULL, pWindow->theme, &dst);
-  
+  alphablit(pIcons->pBIG_Colb, NULL, pWindow->theme, &dst, 255);
+
   w += (pIcons->pBIG_Colb->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
-  alphablit(pIcons->pBIG_Luxury, NULL, pWindow->theme, &dst);
+  alphablit(pIcons->pBIG_Luxury, NULL, pWindow->theme, &dst, 255);
   /* --------------------- */
-  
+
   /* total productions, waste, support, shields surplus background and label */
   w += (pIcons->pBIG_Luxury->w + adj_size(6)) + adj_size(4);
   dst.x = w;
@@ -791,24 +791,24 @@ static void real_info_city_report_dialog_update(void)
   
   dst.y = area.y + 1 + (hh - pIcons->pBIG_Shield->h) / 2;
   dst.x += adj_size(5);
-  alphablit(pIcons->pBIG_Shield, NULL, pWindow->theme, &dst);
-  
+  alphablit(pIcons->pBIG_Shield, NULL, pWindow->theme, &dst, 255);
+
   w += (pIcons->pBIG_Shield->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
-  alphablit(pIcons->pBIG_Shield_Corr, NULL, pWindow->theme, &dst);
-  
+  alphablit(pIcons->pBIG_Shield_Corr, NULL, pWindow->theme, &dst, 255);
+
   w += (pIcons->pBIG_Shield_Corr->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
   dst.y = area.y + 1 + (hh - pUnits_Icon->h) / 2;
-  alphablit(pUnits_Icon, NULL, pWindow->theme, &dst);
-  
+  alphablit(pUnits_Icon, NULL, pWindow->theme, &dst, 255);
+
   w += (pUnits_Icon->w + adj_size(6)) + adj_size(10);
   FREESURFACE(pUnits_Icon);
   dst.x = w + adj_size(3);
   dst.y = area.y + 1 + (hh - pIcons->pBIG_Shield_Surplus->h) / 2;
-  alphablit(pIcons->pBIG_Shield_Surplus, NULL, pWindow->theme, &dst);
-  /* ------------------------------- */ 
-  
+  alphablit(pIcons->pBIG_Shield_Surplus, NULL, pWindow->theme, &dst, 255);
+  /* ------------------------------- */
+
   w += (pIcons->pBIG_Shield_Surplus->w + adj_size(6)) + adj_size(10);
   dst.x = w;
   w += adj_size(2);
@@ -826,9 +826,9 @@ static void real_info_city_report_dialog_update(void)
   
   dst.y = area.y + 1 + (hh - pText4->h) / 2;
   dst.x += (dst.w - pText4->w) / 2;;
-  alphablit(pText4, NULL, pWindow->theme, &dst);
+  alphablit(pText4, NULL, pWindow->theme, &dst, 255);
   FREESURFACE(pText4);
-  
+
   if(count) {
     int start_x = area.x + adj_size(5);
     int start_y = area.y + hh + adj_size(3);
@@ -1076,7 +1076,7 @@ static struct widget *real_city_report_dialog_update_city(struct widget *pWidget
   if(!worklist_is_empty(&(pCity->worklist))) {
     dst.x = pLogo->w - pIcons->pWorklist->w;
     dst.y = 0;
-    alphablit(pIcons->pWorklist, NULL, pLogo, &dst);
+    alphablit(pIcons->pWorklist, NULL, pLogo, &dst, 255);
     fc_snprintf(cBuf, sizeof(cBuf), "%s\n(%d/%d)\n%s",
       	pName, pCity->shield_stock, togrow, _("worklist"));
   } else {

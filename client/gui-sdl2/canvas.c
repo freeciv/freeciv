@@ -89,7 +89,7 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
   SDL_Rect src_rect = {src_x, src_y, width, height};
   SDL_Rect dest_rect = {dest_x, dest_y, width, height};
 
-  alphablit(src->surf, &src_rect, dest->surf, &dest_rect);
+  alphablit(src->surf, &src_rect, dest->surf, &dest_rect, 255);
 }
 
 /****************************************************************************
@@ -102,7 +102,8 @@ void canvas_put_sprite(struct canvas *pcanvas,
 {
   SDL_Rect src = {offset_x, offset_y, width, height};
   SDL_Rect dst = {canvas_x + offset_x, canvas_y + offset_y, 0, 0};
-  alphablit(GET_SURF(sprite), &src, pcanvas->surf, &dst);
+
+  alphablit(GET_SURF(sprite), &src, pcanvas->surf, &dst, 255);
 }
 
 /****************************************************************************
@@ -113,7 +114,8 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
 			 struct sprite *sprite)
 {
   SDL_Rect dst = {canvas_x, canvas_y, 0, 0};
-  alphablit(GET_SURF(sprite), NULL, pcanvas->surf, &dst);
+
+  alphablit(GET_SURF(sprite), NULL, pcanvas->surf, &dst, 255);
 }
 
 /****************************************************************************
@@ -128,13 +130,10 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
   SDL_Rect dst = {canvas_x, canvas_y, 0, 0};
 
   if (fog) {
-    SDL_Surface *tmp_surf = blend_surface(GET_SURF(psprite), 160);
-    alphablit(tmp_surf, NULL, pcanvas->surf, &dst);
-    FREESURFACE(tmp_surf);
+    alphablit(GET_SURF(psprite), NULL, pcanvas->surf, &dst, 160);
   } else {
     canvas_put_sprite_full(pcanvas, canvas_x, canvas_y, psprite);
   }
-
 }
 
 /****************************************************************************
@@ -181,8 +180,9 @@ void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
   SDL_Surface *tmp_surf = create_surf_alpha(GET_SURF(psprite)->w, 
                                             GET_SURF(psprite)->h,
                                             SDL_SWSURFACE);
+
   SDL_FillRect(tmp_surf, NULL, SDL_MapRGBA(tmp_surf->format, 0, 0, 0, 64));
-  alphablit(tmp_surf, NULL, pcanvas->surf, &dst);
+  alphablit(tmp_surf, NULL, pcanvas->surf, &dst, 255);
   FREESURFACE(tmp_surf);
 }
 

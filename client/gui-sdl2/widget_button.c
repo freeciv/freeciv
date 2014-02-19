@@ -89,7 +89,7 @@ static int redraw_ibutton(struct widget *pIButton)
 			      pIButton->size.w, pIButton->size.h);
 
   clear_surface(pIButton->dst->surface, &pIButton->size);
-  alphablit(pButton, NULL, pIButton->dst->surface, &pIButton->size);
+  alphablit(pButton, NULL, pIButton->dst->surface, &pIButton->size, 255);
   FREESURFACE(pButton);
 
   if (pIcon) {			/* Icon */
@@ -131,7 +131,7 @@ static int redraw_ibutton(struct widget *pIButton)
     dest.x = pIButton->size.x + Ix;
     dest.y = pIButton->size.y + Iy;
 
-    ret = alphablit(pIcon, NULL, pIButton->dst->surface, &dest);
+    ret = alphablit(pIcon, NULL, pIButton->dst->surface, &dest, 255);
     if (ret) {
       FREESURFACE(pText);
       return ret - 10;
@@ -202,7 +202,7 @@ static int redraw_ibutton(struct widget *pIButton)
     dest.x = pIButton->size.x + x;
     dest.y = pIButton->size.y + y;
 
-    ret = alphablit(pText, NULL, pIButton->dst->surface, &dest);
+    ret = alphablit(pText, NULL, pIButton->dst->surface, &dest, 255);
   }
 
   FREESURFACE(pText);

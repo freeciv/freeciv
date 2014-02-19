@@ -174,21 +174,24 @@ void screen_rect_to_layer_rect(struct gui_layer *gui_layer, SDL_Rect *dest_rect)
   Execute alphablit.
 **************************************************************************/
 int alphablit(SDL_Surface *src, SDL_Rect *srcrect, 
-              SDL_Surface *dst, SDL_Rect *dstrect) {
+              SDL_Surface *dst, SDL_Rect *dstrect,
+              unsigned char alpha_mod) {
 
   if (!(src && dst)) {
     return 0;
   }
 
 #if 0
-  /* use for RGBA->RGBA blits only */  
+  /* use for RGBA->RGBA blits only */
   if (src->format->Amask && dst->format->Amask) {
     return pygame_AlphaBlit(src, srcrect, dst, dstrect);
   } else
 #endif
  {
+    SDL_SetSurfaceAlphaMod(dst, alpha_mod);
+
     return SDL_BlitSurface(src, srcrect, dst, dstrect);
-  }   
+  }
 }
 
 /**************************************************************************
@@ -197,16 +200,17 @@ int alphablit(SDL_Surface *src, SDL_Rect *srcrect,
   if pRect == NULL then create copy of entire pSource.
 **************************************************************************/
 SDL_Surface * crop_rect_from_surface(SDL_Surface *pSource,
-				    SDL_Rect *pRect)
+                                     SDL_Rect *pRect)
 {
   SDL_Surface *pNew = create_surf_with_format(pSource->format,
-					      pRect ? pRect->w : pSource->w,
-					      pRect ? pRect->h : pSource->h,
-					      SDL_SWSURFACE);
-  if (alphablit(pSource, pRect, pNew, NULL) != 0) {
+                                              pRect ? pRect->w : pSource->w,
+                                              pRect ? pRect->h : pSource->h,
+                                              SDL_SWSURFACE);
+
+  if (alphablit(pSource, pRect, pNew, NULL, 255) != 0) {
     FREESURFACE(pNew);
   }
-  
+
   return pNew;
 }
 
@@ -280,28 +284,6 @@ SDL_Surface *mask_surface(SDL_Surface *pSrc, SDL_Surface *pMask,
 #endif
   
   return pDest;
-}
-
-/**************************************************************************
-  Create new surface by blending source.
-**************************************************************************/
-SDL_Surface *blend_surface(SDL_Surface *pSrc, unsigned char alpha)
-{
-  return NULL;
-
-#if 0
-  SDL_Surface *ret;
-
-  SDL_Surface *pMask = SDL_DisplayFormatAlpha(pSrc);
-  SDL_Color c = {255, 255, 255, alpha}; 
-  SDL_FillRect(pMask, NULL, map_rgba(pMask->format, c));
-
-  ret = mask_surface(pSrc, pMask, 0, 0);
-
-  FREESURFACE(pMask);
-
-  return ret;
-#endif
 }
 
 /**************************************************************************
@@ -466,12 +448,12 @@ int clear_surface(SDL_Surface *pSurf, SDL_Rect *dstrect) {
   color key settings.
 **************************************************************************/
 int blit_entire_src(SDL_Surface * pSrc, SDL_Surface * pDest,
-		    Sint16 iDest_x, Sint16 iDest_y)
+                    Sint16 iDest_x, Sint16 iDest_y)
 {
   SDL_Rect dest_rect = { iDest_x, iDest_y, 0, 0 };
-  return alphablit(pSrc, NULL, pDest, &dest_rect);
-}
 
+  return alphablit(pSrc, NULL, pDest, &dest_rect, 255);
+}
 
 /*
  * this is center main application window function
@@ -3375,7 +3357,7 @@ SDL_Surface *ResizeSurfaceBox(const SDL_Surface * pSrc,
       0, 0
     };
     result = create_surf_alpha(new_width, new_height, SDL_SWSURFACE);
-    alphablit(tmpSurface, NULL, result, &area);
+    alphablit(tmpSurface, NULL, result, &area, 255);
     FREESURFACE(tmpSurface);
   } else {
     result = tmpSurface;

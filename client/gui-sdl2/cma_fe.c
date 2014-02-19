@@ -382,10 +382,10 @@ static int save_cma_callback(struct widget *pWidget)
     /* label */
     dst.x = area.x + (area.w - pText->w) / 2;
     dst.y = area.y + 1;
-    alphablit(pText, NULL, pWindow->theme, &dst);
+    alphablit(pText, NULL, pWindow->theme, &dst, 255);
     dst.y += pText->h + adj_size(5);
     FREESURFACE(pText);
-    
+
     /* edit */
     pBuf = pWindow->prev;
     pBuf->size.w = area.w - adj_size(10);
@@ -751,29 +751,29 @@ void update_city_cma_dialog(void)
                    + result->specialists[SP_SCIENTIST]
                    + result->specialists[SP_TAXMAN]); i++) {
       pText = adj_surf(get_citizen_surface(CITIZEN_CONTENT, i));
-      alphablit(pText, NULL, pBuf->dst->surface, &dst);
+      alphablit(pText, NULL, pBuf->dst->surface, &dst, 255);
       dst.x += step;
     }
-    
+
     pText = get_tax_surface(O_LUXURY);
     for (i = 0; i < result->specialists[SP_ELVIS]; i++) {
-      alphablit(pText, NULL, pBuf->dst->surface, &dst);
+      alphablit(pText, NULL, pBuf->dst->surface, &dst, 255);
       dst.x += step;
     }
 
     pText = get_tax_surface(O_GOLD);
     for (i = 0; i < result->specialists[SP_TAXMAN]; i++) {
-      alphablit(pText, NULL, pBuf->dst->surface, &dst);
+      alphablit(pText, NULL, pBuf->dst->surface, &dst, 255);
       dst.x += step;
     }
 
     pText = get_tax_surface(O_SCIENCE);
     for (i = 0; i < result->specialists[SP_SCIENTIST]; i++) {
-      alphablit(pText, NULL, pBuf->dst->surface, &dst);
+      alphablit(pText, NULL, pBuf->dst->surface, &dst, 255);
       dst.x += step;
     }
   }
-  
+
   /* create result text surface */
   pStr = create_str16_from_char(
       cmafec_get_result_descr(pCma->pCity, result,
@@ -794,9 +794,9 @@ void update_city_cma_dialog(void)
   
   dst.x += adj_size(5);
   dst.y += adj_size(5);
-  alphablit(pText, NULL, pBuf->dst->surface, &dst);
+  alphablit(pText, NULL, pBuf->dst->surface, &dst, 255);
   FREESURFACE(pText);
-  
+
   /* happy factor scrollbar */
   pBuf = pCma->pDlg->pBeginWidgetList->next->next->next->next->next->next->next;
   if(client_under_control && get_checkbox_state(pBuf->prev)) {
@@ -1120,18 +1120,18 @@ void popup_city_cma_dialog(struct city *pCity)
 #endif
   
   area.x = dst.x + text_w + adj_size(10);
-  alphablit(pMinimal, NULL, pWindow->theme, &area);
+  alphablit(pMinimal, NULL, pWindow->theme, &area, 255);
   area.x += pMinimal->w + adj_size(10);
   FREESURFACE(pMinimal);
-  
-  alphablit(pFactor, NULL, pWindow->theme, &area);
+
+  alphablit(pFactor, NULL, pWindow->theme, &area, 255);
   FREESURFACE(pFactor);
-  
+
   area.x = pWindow->area.x + adj_size(22);
   area.y = pWindow->area.y + adj_size(31);
-  alphablit(pCity_Map, NULL, pWindow->theme, &area);
+  alphablit(pCity_Map, NULL, pWindow->theme, &area, 255);
   FREESURFACE(pCity_Map);
-  
+
   output_type_iterate(i) {
     /* min label */
     pBuf = pBuf->prev;
@@ -1174,11 +1174,10 @@ void popup_city_cma_dialog(struct city *pCity)
              area.x, area.y, area.x + area.w - 1, area.y + area.h - 1,
              get_theme_color(COLOR_THEME_CMA_FRAME));
 #endif
-        
-    alphablit(pText[i], NULL, pWindow->theme, &dst);
+
+    alphablit(pText[i], NULL, pWindow->theme, &dst, 255);
     dst.y += pText[i]->h + adj_size(6);
     FREESURFACE(pText[i]);
-    
   } output_type_iterate_end;
   
   /* happy factor label */
@@ -1210,10 +1209,10 @@ void popup_city_cma_dialog(struct city *pCity)
   /* celebrate static text */
   dst.x += (adj_size(10) + pBuf->size.w + adj_size(5));
   dst.y += (pBuf->size.h - pText[O_LAST]->h) / 2;
-  alphablit(pText[O_LAST], NULL, pWindow->theme, &dst);
+  alphablit(pText[O_LAST], NULL, pWindow->theme, &dst, 255);
   FREESURFACE(pText[O_LAST]);
   /* ------------------------ */
-  
+
   /* save as */
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x + x + (w - (pBuf->size.w + adj_size(6)) * 6) / 2;
