@@ -154,7 +154,7 @@ static void diplomat_sabotage_callback(Widget w, XtPointer client_data,
                             diplomat_target_id[ATK_CITY], B_LAST + 1);
   }
 
-  process_diplomat_arrival(NULL, 0);
+  choose_action_queue_next();
 }
 
 /****************************************************************
@@ -172,7 +172,7 @@ static void diplomat_embassy_callback(Widget w, XtPointer client_data,
                             diplomat_target_id[ATK_CITY], 0);
   }
 
-  process_diplomat_arrival(NULL, 0);
+  choose_action_queue_next();
 }
 
 /****************************************************************
@@ -190,7 +190,7 @@ static void diplomat_investigate_callback(Widget w, XtPointer client_data,
                             diplomat_target_id[ATK_CITY], 0);
   }
 
-  process_diplomat_arrival(NULL, 0);
+  choose_action_queue_next();
 }
 
 /****************************************************************
@@ -221,7 +221,7 @@ static void spy_poison_callback(Widget w, XtPointer client_data,
                             diplomat_target_id[ATK_CITY], 0);
   }
 
-  process_diplomat_arrival(NULL, 0);
+  choose_action_queue_next();
 }
 
 /****************************************************************
@@ -239,7 +239,7 @@ static void diplomat_steal_callback(Widget w, XtPointer client_data,
                             diplomat_target_id[ATK_CITY], A_UNSET);
   }
 
-  process_diplomat_arrival(NULL, 0);
+  choose_action_queue_next();
 }
 
 /****************************************************************
@@ -253,7 +253,7 @@ static void spy_close_tech_callback(Widget w, XtPointer client_data,
   XtDestroyWidget(spy_tech_shell);
   spy_tech_shell=0;
 
-  process_diplomat_arrival(NULL, 0);
+  choose_action_queue_next();
 }
 
 /****************************************************************
@@ -267,7 +267,7 @@ static void spy_close_sabotage_callback(Widget w, XtPointer client_data,
   XtDestroyWidget(spy_sabotage_shell);
   spy_sabotage_shell=0;
 
-  process_diplomat_arrival(NULL, 0);
+  choose_action_queue_next();
 }
 
 /****************************************************************
@@ -315,7 +315,7 @@ static void spy_steal_callback(Widget w, XtPointer client_data,
   
   if(!steal_advance){
     log_error("Bug in spy steal tech code");
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
     return;
   }
 
@@ -325,7 +325,7 @@ static void spy_steal_callback(Widget w, XtPointer client_data,
                             diplomat_target_id[ATK_CITY], steal_advance);
   }
 
-  process_diplomat_arrival(NULL, 0);
+  choose_action_queue_next();
 }
 
 /****************************************************************
@@ -339,7 +339,7 @@ static void spy_sabotage_callback(Widget w, XtPointer client_data,
   
   if (sabotage_improvement < -1) {
     log_error("Bug in spy sabotage code");
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
     return;
   }
 
@@ -350,7 +350,7 @@ static void spy_sabotage_callback(Widget w, XtPointer client_data,
                             sabotage_improvement + 1);
   }
 
-  process_diplomat_arrival(NULL, 0);
+  choose_action_queue_next();
 }
 
 /****************************************************************
@@ -621,7 +621,7 @@ static void diplomat_incite_yes_callback(Widget w, XtPointer client_data,
 
   destroy_message_dialog(w);
 
-  process_diplomat_arrival(NULL, 0);
+  choose_action_queue_next();
 }
 
 /****************************************************************
@@ -632,7 +632,7 @@ static void diplomat_incite_no_callback(Widget w, XtPointer client_data,
 {
   destroy_message_dialog(w);
 
-  process_diplomat_arrival(NULL, 0);
+  choose_action_queue_next();
 }
 
 
@@ -711,7 +711,7 @@ static void diplomat_keep_moving_callback_city(Widget w,
     request_diplomat_action(DIPLOMAT_MOVE, diplomat_id,
                             diplomat_target_id[ATK_CITY], ATK_CITY);
   }
-  process_diplomat_arrival(NULL, 0);
+  choose_action_queue_next();
 }
 
 /**************************************************************************
@@ -734,7 +734,7 @@ static void diplomat_keep_moving_callback_unit(Widget w,
     request_diplomat_action(DIPLOMAT_MOVE, diplomat_id,
                             diplomat_target_id[ATK_UNIT], ATK_UNIT);
   }
-  process_diplomat_arrival(NULL, 0);
+  choose_action_queue_next();
 }
 
 /****************************************************************
@@ -745,7 +745,7 @@ static void diplomat_cancel_callback(Widget w, XtPointer a, XtPointer b)
   destroy_message_dialog(w);
   diplomat_dialog = NULL;
 
-  process_diplomat_arrival(NULL, 0);
+  choose_action_queue_next();
 }
 
 

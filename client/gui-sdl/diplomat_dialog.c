@@ -93,7 +93,7 @@ static int diplomat_embassy_callback(struct widget *pWidget)
     }
 
     popdown_diplomat_dialog();
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
   }
 
   return -1;
@@ -117,7 +117,7 @@ static int diplomat_investigate_callback(struct widget *pWidget)
     popdown_diplomat_dialog();
 
     /* FIXME: Wait for the city display in stead? */
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
   }
 
   return -1;
@@ -138,7 +138,7 @@ static int spy_poison_callback( struct widget *pWidget )
     }
   
     popdown_diplomat_dialog();
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
   }
 
   return -1;
@@ -160,7 +160,7 @@ static int spy_sabotage_request(struct widget *pWidget)
     popdown_diplomat_dialog();
   } else {
     popdown_diplomat_dialog();
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
   }
   
   return -1;
@@ -182,7 +182,7 @@ static int diplomat_sabotage_callback(struct widget *pWidget)
     }
     
     popdown_diplomat_dialog();
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
   }
 
   return -1;
@@ -208,7 +208,7 @@ static int exit_spy_steal_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popdown_diplomat_dialog();
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
   }
 
   return -1;  
@@ -232,7 +232,7 @@ static int spy_steal_callback(struct widget *pWidget)
     }
     
     popdown_diplomat_dialog();
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
   }
 
   return -1;
@@ -264,7 +264,7 @@ static int spy_steal_popup(struct widget *pWidget)
   fc_assert_ret_val_msg(!pDiplomat_Dlg, 1, "Diplomat dialog already open");
 
   if (!pVictim) {
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
     return 1;
   }
   
@@ -285,7 +285,7 @@ static int spy_steal_popup(struct widget *pWidget)
 
     request_diplomat_action(DIPLOMAT_STEAL_TARGET, id, target_id, A_UNSET);
 
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
 
     return -1;
   }
@@ -477,7 +477,7 @@ static int diplomat_steal_callback(struct widget *pWidget)
     }
     
     popdown_diplomat_dialog();
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
   }
 
   return -1;
@@ -498,7 +498,7 @@ static int diplomat_incite_callback(struct widget *pWidget)
       popdown_diplomat_dialog();
     } else {
       popdown_diplomat_dialog();
-      process_diplomat_arrival(NULL, 0);
+      choose_action_queue_next();
     }
   }  
   return -1;
@@ -566,7 +566,7 @@ static int diplomat_bribe_callback(struct widget *pWidget)
       popdown_diplomat_dialog();
     } else {
       popdown_diplomat_dialog();
-      process_diplomat_arrival(NULL, 0);
+      choose_action_queue_next();
     }
   }  
   return -1;
@@ -584,7 +584,7 @@ static int spy_sabotage_unit_callback(struct widget *pWidget)
     popdown_diplomat_dialog();
     request_diplomat_action(SPY_SABOTAGE_UNIT, diplomat_id, target_id, 0);
 
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
   }
 
   return -1;
@@ -597,7 +597,7 @@ static int diplomat_close_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popdown_diplomat_dialog();
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
   }
 
   return -1;
@@ -919,7 +919,7 @@ static int sabotage_impr_callback(struct widget *pWidget)
                               diplomat_target_id, sabotage_improvement + 1);
     }
 
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
   }
 
   return -1;
@@ -941,7 +941,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
   fc_assert_ret_msg(!pDiplomat_Dlg, "Diplomat dialog already open");
 
   if (!pUnit) {
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
     return;
   }
   
@@ -1187,7 +1187,7 @@ static int diplomat_incite_yes_callback(struct widget *pWidget)
                               pIncite_Dlg->diplomat_target_id, 0);
     }
     popdown_incite_dialog();
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
   }  
   return -1;
 }
@@ -1199,7 +1199,7 @@ static int exit_incite_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popdown_incite_dialog();
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
   }
   return -1;
 }
@@ -1241,7 +1241,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
   pUnit = head_of_units_in_focus();
   
   if (!pUnit || !is_diplomat_unit(pUnit)) {
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
     return;
   }
   
@@ -1450,7 +1450,7 @@ static int diplomat_bribe_yes_callback(struct widget *pWidget)
                               pBribe_Dlg->diplomat_target_id, 0);
     }
     popdown_bribe_dialog();
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
   }  
   return -1;
 }
@@ -1462,7 +1462,7 @@ static int exit_bribe_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popdown_bribe_dialog();
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
   }
   return -1;
 }
@@ -1504,7 +1504,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
   pDiplomatUnit = head_of_units_in_focus();
   
   if (!pDiplomatUnit || !is_diplomat_unit(pDiplomatUnit)) {
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
     return;
   }
   

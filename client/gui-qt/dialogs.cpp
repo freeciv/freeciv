@@ -907,7 +907,7 @@ bool caravan_dialog_is_open(int *unit_id, int *city_id)
 static void diplomat_queue_handle_primary(void)
 {
   if (!is_more_user_input_needed) {
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
   }
 }
 

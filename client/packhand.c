@@ -384,7 +384,7 @@ void handle_unit_remove(int unit_id)
   if (diplomat_handled_in_diplomat_dialog() == punit->id) {
     close_diplomat_dialog();
     /* Open another diplomat dialog if there are other diplomats waiting */
-    process_diplomat_arrival(NULL, 0);
+    choose_action_queue_next();
   }
 
   need_economy_report_update = (0 < punit->upkeep[O_GOLD]);
@@ -3724,7 +3724,7 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
   if (!pdiplomat) {
     log_debug("Bad diplomat %d.", diplomat_id);
 
-    process_diplomat_arrival(NULL, -1);
+    choose_action_queue_next();
     return;
   }
 
@@ -3735,7 +3735,7 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
       popup_bribe_dialog(pdiplomat, punit, cost);
     } else {
       log_debug("Bad target %d.", target_id);
-      process_diplomat_arrival(NULL, -1);
+      choose_action_queue_next();
     }
     break;
   case DIPLOMAT_INCITE:
@@ -3744,17 +3744,17 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
       popup_incite_dialog(pdiplomat, pcity, cost);
     } else {
       log_debug("Bad target %d.", target_id);
-      process_diplomat_arrival(NULL, -1);
+      choose_action_queue_next();
     }
     break;
   case DIPLOMAT_ANY_ACTION:
     log_debug("Server didn't respond to query.");
-    process_diplomat_arrival(NULL, -1);
+    choose_action_queue_next();
     break;
   default:
     log_error("handle_unit_diplomat_answer() invalid action_type (%d).",
               action_type);
-    process_diplomat_arrival(NULL, -1);
+    choose_action_queue_next();
     break;
   };
 }
@@ -3785,14 +3785,14 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
   if (!pdiplomat) {
     log_debug("Bad diplomat %d.", diplomat_id);
 
-    process_diplomat_arrival(NULL, -1);
+    choose_action_queue_next();
     return;
   }
 
   if (!pcity) {
     log_debug("Bad city %d.", city_id);
 
-    process_diplomat_arrival(NULL, -1);
+    choose_action_queue_next();
     return;
   }
 
@@ -3806,7 +3806,7 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
     popup_sabotage_dialog(pdiplomat, pcity);
   } else {
     log_debug("Can't issue orders");
-    process_diplomat_arrival(NULL, -1);
+    choose_action_queue_next();
   }
 }
 

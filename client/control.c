@@ -911,10 +911,20 @@ void process_caravan_arrival(struct unit *punit)
 }
 
 /**************************************************************************
+  Move along the queue of units that need player input about what action
+  to take.
+**************************************************************************/
+void choose_action_queue_next(void)
+{
+  process_diplomat_arrival(NULL, -1);
+}
+
+/**************************************************************************
   Add punit/pcity to queue of diplomat arrivals, and popup a window for
   the next arrival in the queue, if there is not already a popup, and
   re-checking that a popup is appropriate.
   If punit is NULL, just do for the next arrival in the queue.
+  Please use choose_action_queue_next() to move the queue along.
 **************************************************************************/
 void process_diplomat_arrival(struct unit *pdiplomat, int target_tile_id)
 {

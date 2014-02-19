@@ -175,6 +175,7 @@ double blink_active_unit(void);
 double blink_turn_done_button(void);
 
 void process_caravan_arrival(struct unit *punit);
+void choose_action_queue_next(void);
 void process_diplomat_arrival(struct unit *pdiplomat, int target_tile_id);
 
 void key_cancel_action(void);

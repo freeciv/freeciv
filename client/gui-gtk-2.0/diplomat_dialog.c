@@ -640,7 +640,7 @@ static void diplomat_keep_moving_unit_callback(GtkWidget *w, gpointer data)
 static void diplomat_destroy_callback(GtkWidget *w, gpointer data)
 {
   diplomat_dialog = NULL;
-  process_diplomat_arrival(NULL, 0);
+  choose_action_queue_next();
 }
 
 /****************************************************************
