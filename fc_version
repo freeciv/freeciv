@@ -9,7 +9,29 @@ MINOR_VERSION="5"
 PATCH_VERSION="99"
 VERSION_LABEL="-dev"
 
+# 1) Development until MAJOR and MINOR version numbers are
+#    set to new release series:
+#   - IS_DEVEL_VERSION=1
+#   - IS_FREEZE_VERSION=0
+#   - IS_BETA_VERSION=0
+#
+# 2) Development from version number bump to first beta:
+#   - IS_DEVEL_VERSION=1
+#   - IS_FREEZE_VERSION=1
+#   - IS_BETA_VERSION=0
+#
+# 3) Development from first beta to first RC:
+#   - IS_DEVEL_VERSION=0
+#   - IS_FREEZE_VERSION=0
+#   - IS_BETA_VERSION=1
+#
+# 4) Stable, starting from first RC:
+#   - IS_DEVEL_VERSION=0
+#   - IS_FREEZE_VERSION=0
+#   - IS_BETA_VERSION=0
+
 IS_DEVEL_VERSION=1
+IS_FREEZE_VERSION=0
 IS_BETA_VERSION=0
 
 NEXT_STABLE_VERSION="2.6.0"
