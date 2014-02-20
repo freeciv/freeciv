@@ -1023,6 +1023,8 @@ bool tile_set_label(struct tile *ptile, const char *label)
   if (ptile->label != NULL) {
     if (label == NULL) {
       changed = TRUE;
+    } else if (strcmp(ptile->label, label)) {
+      changed = TRUE;
     }
     FC_FREE(ptile->label);
     ptile->label = NULL;
