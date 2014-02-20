@@ -21,19 +21,10 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define SPECENUM_NAME mk_eval_result
-#define SPECENUM_VALUE0 MKE_FALSE
-#define SPECENUM_VALUE0NAME "Certain_False"
-#define SPECENUM_VALUE1 MKE_UNCERTAIN
-#define SPECENUM_VALUE1NAME "Uncertain"
-#define SPECENUM_VALUE2 MKE_TRUE
-#define SPECENUM_VALUE2NAME "Certain_True"
-#include "specenum_gen.h"
+enum fc_tristate tri_and(enum fc_tristate one,
+                         enum fc_tristate two);
 
-enum mk_eval_result mke_and(enum mk_eval_result one,
-                            enum mk_eval_result two);
-
-enum mk_eval_result
+enum fc_tristate
 mke_eval_req(const struct player *pow_player,
              const struct player *target_player,
              const struct player *other_player,
@@ -45,7 +36,7 @@ mke_eval_req(const struct player *pow_player,
              const struct specialist *target_specialist,
              const struct requirement *req);
 
-enum mk_eval_result
+enum fc_tristate
 mke_eval_reqs(const struct player *pow_player,
               const struct player *target_player,
               const struct player *other_player,

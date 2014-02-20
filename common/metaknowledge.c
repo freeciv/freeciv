@@ -21,19 +21,19 @@
 #include "tile.h"
 
 /**************************************************************************
-  An AND function for mk_eval_result.
+  An AND function for fc_tristate.
 **************************************************************************/
-enum mk_eval_result mke_and(enum mk_eval_result one,
-                            enum mk_eval_result two) {
-  if (MKE_FALSE == one || MKE_FALSE == two) {
-    return MKE_FALSE;
+enum fc_tristate tri_and(enum fc_tristate one,
+                         enum fc_tristate two) {
+  if (TRI_NO == one || TRI_NO == two) {
+    return TRI_NO;
   }
 
-  if (MKE_UNCERTAIN == one || MKE_UNCERTAIN == two) {
-    return MKE_UNCERTAIN;
+  if (TRI_MAYBE == one || TRI_MAYBE == two) {
+    return TRI_MAYBE;
   }
 
-  return MKE_TRUE;
+  return TRI_YES;
 }
 
 /**************************************************************************
@@ -118,7 +118,7 @@ static bool is_req_knowable(const struct player *pow_player,
 
   Note: Assumed to use pow_player's data.
 **************************************************************************/
-enum mk_eval_result
+enum fc_tristate
 mke_eval_req(const struct player *pow_player,
              const struct player *target_player,
              const struct player *other_player,
@@ -134,15 +134,15 @@ mke_eval_req(const struct player *pow_player,
                        target_city, target_building, target_tile,
                        target_unit, target_output,
                        target_specialist, req)) {
-    return MKE_UNCERTAIN;
+    return TRI_MAYBE;
   }
 
   if (is_req_active(target_player, other_player, target_city,
                     target_building, target_tile, unit_type(target_unit),
                     target_output, target_specialist, req, RPT_CERTAIN)) {
-    return MKE_TRUE;
+    return TRI_YES;
   } else {
-    return MKE_FALSE;
+    return TRI_NO;
   }
 }
 
@@ -151,7 +151,7 @@ mke_eval_req(const struct player *pow_player,
 
   Note: Assumed to use pow_player's data.
 **************************************************************************/
-enum mk_eval_result
+enum fc_tristate
 mke_eval_reqs(const struct player *pow_player,
               const struct player *target_player,
               const struct player *other_player,
@@ -162,19 +162,19 @@ mke_eval_reqs(const struct player *pow_player,
               const struct output_type *target_output,
               const struct specialist *target_specialist,
               const struct requirement_vector *reqs) {
-  enum mk_eval_result current;
-  enum mk_eval_result result;
+  enum fc_tristate current;
+  enum fc_tristate result;
 
-  result = MKE_TRUE;
+  result = TRI_YES;
   requirement_vector_iterate(reqs, preq) {
     current = mke_eval_req(pow_player, target_player, other_player,
                            target_city, target_building, target_tile,
                            target_unit, target_output,
                            target_specialist, preq);
-    if (current == MKE_FALSE) {
-      return MKE_FALSE;
-    } else if (current == MKE_UNCERTAIN) {
-      result = MKE_UNCERTAIN;
+    if (current == TRI_NO) {
+      return TRI_NO;
+    } else if (current == TRI_MAYBE) {
+      result = TRI_MAYBE;
     }
   } requirement_vector_iterate_end;
 

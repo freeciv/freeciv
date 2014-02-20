@@ -294,12 +294,12 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
   Assumes to be called from the point of view of the actor. Its knowledge
   is assumed to be given in the parameters.
 
-  Returns MKE_TRUE if the action is enabled, MKE_FALSE if it isn't and
-  MKE_UNCERTAIN if the player don't know enough to tell.
+  Returns TRI_YES if the action is enabled, TRI_NO if it isn't and
+  TRI_MAYBE if the player don't know enough to tell.
 
-  If meta knowledge is missing MKE_UNCERTAIN will be returned.
+  If meta knowledge is missing TRI_MAYBE will be returned.
 **************************************************************************/
-static enum mk_eval_result
+static enum fc_tristate
 action_enabled_local(const enum gen_action wanted_action,
                      const struct player *actor_player,
                      const struct city *actor_city,
@@ -316,13 +316,13 @@ action_enabled_local(const enum gen_action wanted_action,
                      const struct output_type *target_output,
                      const struct specialist *target_specialist)
 {
-  enum mk_eval_result current;
-  enum mk_eval_result result;
+  enum fc_tristate current;
+  enum fc_tristate result;
 
-  result = MKE_FALSE;
+  result = TRI_NO;
   action_enabler_list_iterate(action_enablers_for_action(wanted_action),
                               enabler) {
-    current = mke_and(mke_eval_reqs(actor_player, actor_player,
+    current = tri_and(mke_eval_reqs(actor_player, actor_player,
                                     target_player, actor_city,
                                     actor_building, actor_tile,
                                     actor_unit, actor_output,
@@ -334,10 +334,10 @@ action_enabled_local(const enum gen_action wanted_action,
                                     target_unit, target_output,
                                     target_specialist,
                                     &enabler->target_reqs));
-    if (current == MKE_TRUE) {
-      return MKE_TRUE;
-    } else if (current == MKE_UNCERTAIN) {
-      result = MKE_UNCERTAIN;
+    if (current == TRI_YES) {
+      return TRI_YES;
+    } else if (current == TRI_MAYBE) {
+      result = TRI_MAYBE;
     }
   } action_enabler_list_iterate_end;
 
@@ -348,7 +348,7 @@ action_enabled_local(const enum gen_action wanted_action,
   Find out if the action is enabled, may be enabled or isn't enabled given
   what the actor units owner knowns when done by actor_unit on target_city.
 **************************************************************************/
-static enum mk_eval_result
+static enum fc_tristate
 action_enabled_unit_on_city_local(const enum gen_action wanted_action,
                                   const struct unit *actor_unit,
                                   const struct city *target_city)
@@ -371,7 +371,7 @@ action_enabled_unit_on_city_local(const enum gen_action wanted_action,
   Find out if the action is enabled, may be enabled or isn't enabled given
   what the actor units owner knowns when done by actor_unit on target_unit.
 **************************************************************************/
-static enum mk_eval_result
+static enum fc_tristate
 action_enabled_unit_on_unit_local(const enum gen_action wanted_action,
                                   const struct unit *actor_unit,
                                   const struct unit *target_unit)
@@ -395,16 +395,16 @@ action_enabled_unit_on_unit_local(const enum gen_action wanted_action,
 /**************************************************************************
   Get an action's probability of success
 **************************************************************************/
-static action_probability action_prob(enum mk_eval_result known)
+static action_probability action_prob(enum fc_tristate known)
 {
   switch (known) {
-  case MKE_FALSE:
+  case TRI_NO:
     return ACTPROB_IMPOSSIBLE;
     break;
-  case MKE_UNCERTAIN:
+  case TRI_MAYBE:
     return ACTPROB_NOT_KNOWN;
     break;
-  case MKE_TRUE:
+  case TRI_YES:
     /* TODO: Probabilities for each action. */
     return ACTPROB_NOT_IMPLEMENTED;
     break;
@@ -421,7 +421,7 @@ static action_probability action_prob(enum mk_eval_result known)
 action_probability action_prob_vs_city(struct unit* actor, int action_id,
                                        struct city* victim)
 {
-  enum mk_eval_result known;
+  enum fc_tristate known;
 
   known = action_enabled_unit_on_city_local(action_id, actor, victim);
   return action_prob(known);
@@ -434,7 +434,7 @@ action_probability action_prob_vs_city(struct unit* actor, int action_id,
 action_probability action_prob_vs_unit(struct unit* actor, int action_id,
                                        struct unit* victim)
 {
-  enum mk_eval_result known;
+  enum fc_tristate known;
 
   known = action_enabled_unit_on_unit_local(action_id, actor, victim);
   return action_prob(known);
