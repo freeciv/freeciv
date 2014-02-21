@@ -42,6 +42,7 @@
 #include "research.h"
 #include "spaceship.h"
 #include "specialist.h"
+#include "style.h"
 #include "tech.h"
 #include "terrain.h"
 #include "traderoutes.h"
@@ -536,6 +537,7 @@ void game_ruleset_free(void)
   improvements_free();
   extras_free();
   city_styles_free();
+  styles_free();
   actions_free();
   achievements_free();
   disaster_types_free();

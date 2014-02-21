@@ -11,6 +11,7 @@ pkgdata_DATA =			\
 	governments.ruleset	\
 	nations.ruleset		\
 	script.lua		\
+	styles.ruleset		\
 	techs.ruleset		\
 	terrain.ruleset		\
 	units.ruleset

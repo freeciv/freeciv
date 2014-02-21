@@ -47,6 +47,7 @@
 #include "road.h"
 #include "spaceship.h"
 #include "specialist.h"
+#include "style.h"
 #include "traderoutes.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -2805,6 +2806,7 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
 
   governments_alloc(game.control.government_count);
   nations_alloc(game.control.nation_count);
+  styles_alloc(game.control.num_styles);
   city_styles_alloc(game.control.styles_count);
 
   if (packet->prefered_tileset[0] != '\0') {
@@ -3582,6 +3584,18 @@ void handle_nation_availability(int ncount, const bool *is_pickable)
   }
 
   races_update_pickable();
+}
+
+/****************************************************************************
+  Handle a packet about a particular style.
+****************************************************************************/
+void handle_ruleset_style(const struct packet_ruleset_style *p)
+{
+  struct nation_style *pstyle = style_by_number(p->id);
+
+  fc_assert_ret_msg(NULL != pstyle, "Bad style %d.", p->id);
+
+  names_set(&pstyle->name, NULL, p->name, p->rule_name);
 }
 
 /**************************************************************************

@@ -25,6 +25,7 @@
 #include "government.h"
 #include "movement.h"
 #include "specialist.h"
+#include "style.h"
 #include "unittype.h"
 
 /* server */
@@ -445,6 +446,30 @@ static bool save_buildings_ruleset(const char *filename, const char *name)
    save_strvec(sfile, pb->helptext, path, "helptext");
 
   } improvement_iterate_end;
+
+  return save_ruleset_file(sfile, filename);
+}
+
+/**************************************************************************
+  Save styles.ruleset
+**************************************************************************/
+static bool save_styles_ruleset(const char *filename, const char *name)
+{
+  struct section_file *sfile = create_ruleset_file(name, "styles");
+  int sect_idx;
+
+  if (sfile == NULL) {
+    return FALSE;
+  }
+
+  sect_idx = 0;
+  styles_iterate(pstyle) {
+    char path[512];
+
+    fc_snprintf(path, sizeof(path), "style_%d", sect_idx++);
+
+    save_name_translation(sfile, &(pstyle->name), path);
+  } styles_iterate_end;
 
   return save_ruleset_file(sfile, filename);
 }
@@ -1839,6 +1864,11 @@ bool save_ruleset(const char *path, const char *name)
     if (success) {
       fc_snprintf(filename, sizeof(filename), "%s/buildings.ruleset", path);
       success = save_buildings_ruleset(filename, name);
+    }
+
+    if (success) {
+      fc_snprintf(filename, sizeof(filename), "%s/styles.ruleset", path);
+      success = save_styles_ruleset(filename, name);
     }
 
     if (success) {

@@ -11,6 +11,7 @@ pkgdata_DATA =          \
 	effects.ruleset	\
 	nation_effects.ruleset \
 	script.lua	\
+	styles.ruleset	\
 	game.ruleset	\
 	governments.ruleset \
 	nations.ruleset	\

@@ -53,6 +53,7 @@
 #include "rgbcolor.h"
 #include "road.h"
 #include "specialist.h"
+#include "style.h"
 #include "tech.h"
 #include "traderoutes.h"
 #include "unit.h"
@@ -86,6 +87,7 @@
 #define NATION_SET_SECTION_PREFIX "nset" /* without underscore? */
 #define NATION_GROUP_SECTION_PREFIX "ngroup" /* without underscore? */
 #define NATION_SECTION_PREFIX "nation" /* without underscore? */
+#define STYLE_SECTION_PREFIX "style_"
 #define RESOURCE_SECTION_PREFIX "resource_"
 #define EXTRA_SECTION_PREFIX "extra_"
 #define BASE_SECTION_PREFIX "base_"
@@ -124,6 +126,7 @@ static bool load_unit_names(struct section_file *file);
 static bool load_building_names(struct section_file *file);
 static bool load_government_names(struct section_file *file);
 static bool load_terrain_names(struct section_file *file);
+static bool load_style_names(struct section_file *file);
 static bool load_citystyle_names(struct section_file *file);
 static bool load_nation_names(struct section_file *file);
 static bool load_city_name_list(struct section_file *file,
@@ -153,6 +156,7 @@ static void send_ruleset_extras(struct conn_list *dest);
 static void send_ruleset_bases(struct conn_list *dest);
 static void send_ruleset_roads(struct conn_list *dest);
 static void send_ruleset_governments(struct conn_list *dest);
+static void send_ruleset_styles(struct conn_list *dest);
 static void send_ruleset_cities(struct conn_list *dest);
 static void send_ruleset_game(struct conn_list *dest);
 static void send_ruleset_team_names(struct conn_list *dest);
@@ -4386,6 +4390,37 @@ static bool load_ruleset_nations(struct section_file *file)
 }
 
 /**************************************************************************
+  Load names of nation styles so other rulesets can refer to styles with
+  their name.
+**************************************************************************/
+static bool load_style_names(struct section_file *file)
+{
+  bool ok = TRUE;
+  struct section_list *sec;
+
+  (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
+
+  sec = secfile_sections_by_name_prefix(file, STYLE_SECTION_PREFIX);
+  if (NULL == sec) {
+    ruleset_error(LOG_ERROR, "No available nation styles in this ruleset!");
+    ok = FALSE;
+  } else {
+    game.control.num_styles = section_list_size(sec);
+
+    styles_alloc(game.control.num_styles);
+
+    styles_iterate(ps) {
+      const int i = style_index(ps);
+      const char *sec_name = section_name(section_list_get(sec, i));
+
+      ruleset_load_names(&ps->name, NULL, file, sec_name);
+    } styles_iterate_end;
+  }
+
+  return ok;
+}
+
+/**************************************************************************
   Load names of city styles so other rulesets can refer to city styles with
   their name.
 **************************************************************************/
@@ -6114,6 +6149,23 @@ static void send_ruleset_nations(struct conn_list *dest)
 }
 
 /**************************************************************************
+  Send the nation style ruleset information (each style) to the specified
+  connections.
+**************************************************************************/
+static void send_ruleset_styles(struct conn_list *dest)
+{
+  struct packet_ruleset_style packet;
+
+  styles_iterate(s) {
+    packet.id = style_index(s);
+    sz_strlcpy(packet.name, untranslated_name(&s->name));
+    sz_strlcpy(packet.rule_name, rule_name(&s->name));
+
+    lsend_packet_ruleset_style(dest, &packet);
+  } styles_iterate_end;
+}
+
+/**************************************************************************
   Send the city-style ruleset information (each style) to the specified
   connections.
 **************************************************************************/
@@ -6286,7 +6338,7 @@ static void nullcheck_secfile_destroy(struct section_file *file)
 static bool load_rulesetdir(const char *rsdir, bool act)
 {
   struct section_file *techfile, *unitfile, *buildfile, *govfile, *terrfile;
-  struct section_file *cityfile, *nationfile, *effectfile, *gamefile;
+  struct section_file *stylefile, *cityfile, *nationfile, *effectfile, *gamefile;
   bool ok = TRUE;
 
   log_normal(_("Loading rulesets."));
@@ -6304,6 +6356,7 @@ static bool load_rulesetdir(const char *rsdir, bool act)
   govfile = openload_ruleset_file("governments", rsdir);
   unitfile = openload_ruleset_file("units", rsdir);
   terrfile = openload_ruleset_file("terrain", rsdir);
+  stylefile = openload_ruleset_file("styles", rsdir);
   cityfile = openload_ruleset_file("cities", rsdir);
   nationfile = openload_ruleset_file("nations", rsdir);
   effectfile = openload_ruleset_file("effects", rsdir);
@@ -6314,6 +6367,7 @@ static bool load_rulesetdir(const char *rsdir, bool act)
       || govfile    == NULL
       || unitfile   == NULL
       || terrfile   == NULL
+      || stylefile  == NULL
       || cityfile   == NULL
       || nationfile == NULL
       || effectfile == NULL
@@ -6328,6 +6382,7 @@ static bool load_rulesetdir(const char *rsdir, bool act)
       && load_government_names(govfile)
       && load_unit_names(unitfile)
       && load_terrain_names(terrfile)
+      && load_style_names(stylefile)
       && load_citystyle_names(cityfile)
       && load_nation_names(nationfile);
   }
@@ -6368,6 +6423,7 @@ static bool load_rulesetdir(const char *rsdir, bool act)
   }
 
   nullcheck_secfile_destroy(techfile);
+  nullcheck_secfile_destroy(stylefile);
   nullcheck_secfile_destroy(cityfile);
   nullcheck_secfile_destroy(govfile);
   nullcheck_secfile_destroy(terrfile);
@@ -6474,6 +6530,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_roads(dest);
   send_ruleset_buildings(dest);
   send_ruleset_nations(dest);
+  send_ruleset_styles(dest);
   send_ruleset_cities(dest);
   send_ruleset_cache(dest);
 

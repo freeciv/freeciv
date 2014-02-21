@@ -90,6 +90,8 @@ libfreeciv_la_SOURCES = \
 		spaceship.h	\
 		specialist.c	\
 		specialist.h	\
+		style.c		\
+		style.h		\
 		team.c		\
 		team.h		\
 		tech.c		\
