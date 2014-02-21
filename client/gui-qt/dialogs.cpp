@@ -926,7 +926,8 @@ static void diplomat_queue_handle_secondary(void)
   Popup a dialog giving a diplomatic unit some options when moving into
   the target tile.
 **************************************************************************/
-void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
+void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile,
+                           const action_probability *action_probabilities)
 {
   struct city *pcity;
   struct unit *ptunit;
@@ -964,46 +965,41 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     qv2 = pcity->id;
 
     action_entry(cd,
-                 action_prob_vs_city(punit,
-                                     ACTION_ESTABLISH_EMBASSY, pcity),
+                 action_probabilities[ACTION_ESTABLISH_EMBASSY],
                  QString(_("Establish Embassy")),
                  diplomat_embassy, qv1, qv2);
 
     action_entry(cd,
-                 action_prob_vs_city(punit,
-                                     ACTION_SPY_INVESTIGATE_CITY, pcity),
+                 action_probabilities[ACTION_SPY_INVESTIGATE_CITY],
                  QString(_("Investigate City")),
                  diplomat_investigate, qv1, qv2);
 
     action_entry(cd,
-                 action_prob_vs_city(punit, ACTION_SPY_POISON, pcity),
+                 action_probabilities[ACTION_SPY_POISON],
                  QString(_("Poison City")), spy_poison, qv1, qv2);
 
     action_entry(cd,
-                 action_prob_vs_city(punit,
-                                     ACTION_SPY_SABOTAGE_CITY, pcity),
+                 action_probabilities[ACTION_SPY_SABOTAGE_CITY],
                  QString(_("Sabotage City")),
                  diplomat_sabotage, qv1, qv2);
 
     action_entry(cd,
-                 action_prob_vs_city(punit,
-                     ACTION_SPY_TARGETED_SABOTAGE_CITY, pcity),
+                 action_probabilities[ACTION_SPY_TARGETED_SABOTAGE_CITY],
                  QString(_("Industrial Sabotage")),
                  spy_request_sabotage_list, qv1, qv2);
 
     action_entry(cd,
-                 action_prob_vs_city(punit, ACTION_SPY_STEAL_TECH, pcity),
+                 action_probabilities[ACTION_SPY_STEAL_TECH],
                  QString(_("Steal Technology")),
                  diplomat_steal, qv1, qv2);
 
     action_entry(cd,
-                 action_prob_vs_city(punit, ACTION_SPY_TARGETED_STEAL_TECH,
-                                     pcity),
+                 action_probabilities[ACTION_SPY_TARGETED_STEAL_TECH],
                  QString(_("Industrial espionage")),
                  spy_steal, qv1, qv2);
 
     action_entry(cd,
-                 action_prob_vs_city(punit, ACTION_SPY_INCITE_CITY, pcity),
+                 action_probabilities[ACTION_SPY_INCITE_CITY],
                  QString(_("Incite a Revolt")),
                  diplomat_incite, qv1, qv2);
   }
@@ -1015,13 +1011,12 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     qv2 = ptunit->id;
 
     action_entry(cd,
-                 action_prob_vs_unit(punit, ACTION_SPY_BRIBE_UNIT, ptunit),
+                 action_probabilities[ACTION_SPY_BRIBE_UNIT],
                  QString(_("Bribe Enemy Unit")),
                  diplomat_bribe, qv1, qv2);
 
     action_entry(cd,
-                 action_prob_vs_unit(punit, ACTION_SPY_SABOTAGE_UNIT,
-                                     ptunit),
+                 action_probabilities[ACTION_SPY_SABOTAGE_UNIT],
                  QString(_("Sabotage Enemy Unit")),
                  spy_sabotage_unit, qv1, qv2);
   }

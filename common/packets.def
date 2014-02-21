@@ -259,6 +259,7 @@ type BV_SPACESHIP_STRUCT = bitvector(bv_spaceship_structure)
 type EXTRA              = SINT8
 type BASE               = sint8(Base_type_id)
 type ROAD               = sint8(Road_type_id)
+type ACT_PROB           = uint8(action_probability)
 type CITY               = UINT16
 # city id, with space for special values
 type CITYSPE            = SINT32
@@ -987,6 +988,19 @@ end
 PACKET_UNIT_DIPLOMAT_WANTS_INPUT = 86; sc, dsend, lsend
   UNIT diplomat_id;
   TILE target_tile_id;
+end
+
+PACKET_UNIT_GET_ACTIONS = 87; cs, handle-per-conn, dsend
+  UNIT actor_unit_id;
+  TILE target_tile_id;
+end
+
+PACKET_UNIT_ACTIONS = 90; sc, dsend
+  UNIT actor_unit_id;
+  TILE target_tile_id;
+
+  /* How to interpret action probabilities is documented in actions.h */
+  ACT_PROB action_probabilities[ACTION_COUNT];
 end
 
 PACKET_UNIT_CHANGE_ACTIVITY = 222; cs, dsend

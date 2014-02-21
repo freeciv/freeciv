@@ -193,6 +193,59 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
 }
 
 /**************************************************************************
+  Handle a query for what actions a unit may do.
+
+  MUST always send a reply so the client can move on in the queue. This
+  includes when the client give invalid input. That the acting unit died
+  before the server received a request for what actions it could do should
+  not stop the client from processing the next unit in the queue.
+**************************************************************************/
+void handle_unit_get_actions(struct connection *pc,
+                             int actor_unit_id, int target_tile_id)
+{
+  struct player *actor_player;
+  struct unit *actor_unit;
+  struct tile *target_tile;
+  action_probability probabilities[ACTION_COUNT];
+
+  struct unit *target_unit;
+  struct city *target_city;
+
+  actor_player = pc->playing;
+  actor_unit = game_unit_by_number(actor_unit_id);
+  target_tile = index_to_tile(target_tile_id);
+
+  /* Check if the request is valid. */
+  if (!target_tile || !actor_unit || !actor_player
+      || actor_unit->owner != actor_player) {
+    action_iterate(act) {
+      probabilities[act] = 0;
+    } action_iterate_end;
+
+    dsend_packet_unit_actions(pc, actor_unit_id, target_tile_id,
+                              probabilities);
+  }
+
+  target_unit = is_other_players_unit_tile(target_tile, actor_player);
+  target_city = tile_city(target_tile);
+
+  action_iterate(act) {
+    if (target_city && action_get_target_kind(act) == ATK_CITY) {
+      probabilities[act] = action_prob_vs_city(actor_unit, act,
+                                               target_city);
+    } else if (target_unit && action_get_target_kind(act) == ATK_UNIT) {
+      probabilities[act] = action_prob_vs_unit(actor_unit, act,
+                                               target_unit);
+    } else {
+      probabilities[act] = 0;
+    }
+  } action_iterate_end;
+
+  dsend_packet_unit_actions(pc, actor_unit_id, target_tile_id,
+                            probabilities);
+}
+
+/**************************************************************************
   Tell the client that the action it requested is illegal. This can be
   caused by the player (and therefore the client) not knowing that some
   condition of an action no longer is true.

@@ -752,7 +752,8 @@ static void diplomat_cancel_callback(Widget w, XtPointer a, XtPointer b)
 /****************************************************************
   Popups the diplomat dialog
 *****************************************************************/
-void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
+void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile,
+                           const action_probability *action_probabilities)
 {
   struct city *pcity;
   struct unit *ptunit;
@@ -796,53 +797,51 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
   /* TODO: Use more of the probability information.
    * See the documentation in actions.h for how to use it. */
   if (!pcity
-      || !action_prob_vs_city(punit, ACTION_ESTABLISH_EMBASSY, pcity)) {
+      || !action_probabilities[ACTION_ESTABLISH_EMBASSY]) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button0"), FALSE);
   }
 
   if (!pcity
-      || !action_prob_vs_city(punit, ACTION_SPY_INVESTIGATE_CITY, pcity)) {
+      || !action_probabilities[ACTION_SPY_INVESTIGATE_CITY]) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button1"), FALSE);
   }
 
-  if (!pcity || !action_prob_vs_city(punit, ACTION_SPY_POISON, pcity)) {
+  if (!pcity || !action_probabilities[ACTION_SPY_POISON]) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button2"), FALSE);
   }
 
   if (!pcity
-      || !action_prob_vs_city(punit, ACTION_SPY_SABOTAGE_CITY, pcity)) {
+      || !action_probabilities[ACTION_SPY_SABOTAGE_CITY]) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button3"), FALSE);
   }
 
   if (!pcity
-      || !action_prob_vs_city(punit, ACTION_SPY_TARGETED_SABOTAGE_CITY,
-                              pcity)) {
+      || !action_probabilities[ACTION_SPY_TARGETED_SABOTAGE_CITY]) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button4"), FALSE);
   }
 
   if (!pcity
-      || !action_prob_vs_city(punit, ACTION_SPY_STEAL_TECH, pcity)) {
+      || !action_probabilities[ACTION_SPY_STEAL_TECH]) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button5"), FALSE);
   }
 
   if (!pcity
-      || !action_prob_vs_city(punit, ACTION_SPY_TARGETED_STEAL_TECH,
-                              pcity)) {
+      || !action_probabilities[ACTION_SPY_TARGETED_STEAL_TECH]) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button6"), FALSE);
   }
 
   if (!pcity
-      || !action_prob_vs_city(punit, ACTION_SPY_INCITE_CITY, pcity)) {
+      || !action_probabilities[ACTION_SPY_INCITE_CITY]) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button7"), FALSE);
   }
 
   if (!ptunit
-      || !action_prob_vs_unit(punit, ACTION_SPY_BRIBE_UNIT, ptunit)) {
+      || !action_probabilities[ACTION_SPY_BRIBE_UNIT]) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button8"), FALSE);
   }
 
   if (!ptunit
-      || !action_prob_vs_unit(punit, ACTION_SPY_SABOTAGE_UNIT, ptunit)) {
+      || !action_probabilities[ACTION_SPY_SABOTAGE_UNIT]) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button9"), FALSE);
   }
 

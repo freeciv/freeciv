@@ -3787,6 +3787,39 @@ void handle_unit_diplomat_wants_input(int diplomat_id, int target_tile_id)
 }
 
 /**************************************************************************
+  Handle reply to possible actions.
+
+  Note that it MUST call process_diplomat_arrival() in the end in case
+  there are more elements in the queue.
+**************************************************************************/
+void handle_unit_actions(int actor_unit_id, int target_tile_id,
+                         const action_probability *action_probabilities)
+{
+  struct unit *actor_unit = game_unit_by_number(actor_unit_id);
+  struct tile *target_tile = index_to_tile(target_tile_id);
+  bool ask_user = FALSE;
+
+  /* The dead can't act */
+  if (actor_unit && target_tile) {
+    /* At least one action must be possible */
+    action_iterate(act) {
+      if (action_probabilities[act]) {
+        ask_user = TRUE;
+        break;
+      }
+    } action_iterate_end;
+  }
+
+  /* Let the user choose (if he still has a choise) */
+  if (ask_user) {
+    popup_diplomat_dialog(actor_unit, target_tile, action_probabilities);
+  } else {
+    /* Nothing to do. Go to the next queued dipomat */
+    choose_action_queue_next();
+  }
+}
+
+/**************************************************************************
   Handle list of potenttial buildings to sabotage.
 **************************************************************************/
 void handle_city_sabotage_list(int diplomat_id, int city_id,

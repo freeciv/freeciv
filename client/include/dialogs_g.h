@@ -13,14 +13,18 @@
 #ifndef FC__DIALOGS_G_H
 #define FC__DIALOGS_G_H
 
+/* utility */
 #include "support.h"            /* bool type */
 
+/* common */
+#include "actions.h"
 #include "fc_types.h"
 #include "featured_text.h"      /* struct text_tag_list */
 #include "nation.h"		/* Nation_type_id */
 #include "terrain.h"		/* enum tile_special_type */
 #include "unitlist.h"
 
+/* client */
 #include "gui_proto_constructor.h"
 
 struct packet_nations_selected_info;
@@ -49,7 +53,8 @@ GUI_FUNC_PROTO(bool, caravan_dialog_is_open, int* unit_id, int* city_id)
 GUI_FUNC_PROTO(void, caravan_dialog_update, void)
 
 GUI_FUNC_PROTO(void, popup_diplomat_dialog, struct unit *punit,
-               struct tile *ptile)
+               struct tile *ptile,
+               const action_probability *action_probabilities)
 GUI_FUNC_PROTO(int, diplomat_handled_in_diplomat_dialog, void)
 GUI_FUNC_PROTO(void, close_diplomat_dialog, void)
 GUI_FUNC_PROTO(void, popup_incite_dialog, struct unit *actor,

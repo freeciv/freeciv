@@ -49,6 +49,9 @@
 
 #include "control.h"
 
+/* Move on in the diplomat queue. */
+#define ACTION_CHOOSE_NEXT -1
+
 /* gui-dep code may adjust depending on tile size etc: */
 int num_units_below = MAX_NUM_UNITS_BELOW;
 
@@ -78,6 +81,8 @@ static struct unit *punit_defending = NULL;
 /* unit arrival lists */
 static struct genlist *caravan_arrival_queue = NULL;
 static struct genlist *diplomat_arrival_queue = NULL;
+
+static bool have_asked_server_for_actions = FALSE;
 
 /*
  * This variable is TRUE iff a NON-AI controlled unit was focused this
@@ -916,14 +921,15 @@ void process_caravan_arrival(struct unit *punit)
 **************************************************************************/
 void choose_action_queue_next(void)
 {
-  process_diplomat_arrival(NULL, -1);
+  process_diplomat_arrival(NULL, ACTION_CHOOSE_NEXT);
 }
 
 /**************************************************************************
   Add punit/pcity to queue of diplomat arrivals, and popup a window for
   the next arrival in the queue, if there is not already a popup, and
   re-checking that a popup is appropriate.
-  If punit is NULL, just do for the next arrival in the queue.
+  If punit is NULL and target_tile_id is ACTION_CHOOSE_NEXT, just do for
+  the next arrival in the queue.
   Please use choose_action_queue_next() to move the queue along.
 **************************************************************************/
 void process_diplomat_arrival(struct unit *pdiplomat, int target_tile_id)
@@ -935,55 +941,50 @@ void process_diplomat_arrival(struct unit *pdiplomat, int target_tile_id)
     return;
   }
 
+  /* An unit that isn't there asks for input about what action to take.
+   * This isn't a request to move on. */
+  if (!pdiplomat && (target_tile_id != ACTION_CHOOSE_NEXT)) {
+    return;
+  }
+
   /* diplomat_arrival_queue is a list of individually malloc-ed int[2]s with
      the punit.id of the diplomat and the index of the targeted tile. */
 
   if (pdiplomat) {
+    /* A new unit should be queued */
     p_ids = fc_malloc(2*sizeof(int));
     p_ids[0] = pdiplomat->id;
     p_ids[1] = target_tile_id;
     genlist_prepend(diplomat_arrival_queue, p_ids);
+  } else {
+    /* The queue can move on (verified above)  */
+    have_asked_server_for_actions = FALSE;
   }
 
-  /* There can only be one dialog at a time: */
-  if (diplomat_handled_in_diplomat_dialog() != -1) {
+  /* There can only be one dialog at a time.
+   * Stop if one is (about to pop) up. */
+  if (have_asked_server_for_actions
+      || diplomat_handled_in_diplomat_dialog() != -1) {
     return;
   }
 
+  /* Request a list of actions for the first element in the queue */
   while (genlist_size(diplomat_arrival_queue) > 0) {
     int diplomat_id, target_tile_id;
     struct tile *ptile;
-    struct city *pcity;
-    struct unit *punit;
 
     p_ids = genlist_get(diplomat_arrival_queue, 0);
     diplomat_id = p_ids[0];
     target_tile_id = p_ids[1];
     genlist_remove(diplomat_arrival_queue, p_ids); /* Do free(p_ids). */
+
     pdiplomat = player_unit_by_number(client_player(), diplomat_id);
-
     ptile = index_to_tile(target_tile_id);
-    fc_assert_ret_msg(NULL != ptile, "Unknown tile %i.", target_tile_id);
 
-    pcity = tile_city(ptile);
-    punit = unit_list_get(ptile->units, 0);
-
-    if (!pdiplomat || !unit_has_type_flag(pdiplomat, UTYF_DIPLOMAT))
-      continue;
-
-    if (punit
-	&& is_diplomat_action_available(pdiplomat, DIPLOMAT_ANY_ACTION,
-					ptile)
-	&& diplomat_can_do_action(pdiplomat, DIPLOMAT_ANY_ACTION,
-				  ptile)) {
-      popup_diplomat_dialog(pdiplomat, ptile);
-      return;
-    } else if (pcity
-	       && is_diplomat_action_available(pdiplomat, DIPLOMAT_ANY_ACTION,
-					       ptile)
-	       && diplomat_can_do_action(pdiplomat, DIPLOMAT_ANY_ACTION,
-					 ptile)) {
-      popup_diplomat_dialog(pdiplomat, ptile);
+    if (ptile && pdiplomat && unit_has_type_flag(pdiplomat, UTYF_DIPLOMAT)) {
+      have_asked_server_for_actions = TRUE;
+      dsend_packet_unit_get_actions(&client.conn,
+                                    diplomat_id, target_tile_id);
       return;
     }
   }
