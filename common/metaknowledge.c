@@ -130,6 +130,8 @@ mke_eval_req(const struct player *pow_player,
              const struct specialist *target_specialist,
              const struct requirement *req)
 {
+  const struct unit_type *target_unittype;
+
   if (!is_req_knowable(pow_player, target_player, other_player,
                        target_city, target_building, target_tile,
                        target_unit, target_output,
@@ -137,8 +139,14 @@ mke_eval_req(const struct player *pow_player,
     return TRI_MAYBE;
   }
 
+  if (target_unit) {
+    target_unittype = unit_type(target_unit);
+  } else {
+    target_unittype = NULL;
+  }
+
   if (is_req_active(target_player, other_player, target_city,
-                    target_building, target_tile, unit_type(target_unit),
+                    target_building, target_tile, target_unittype,
                     target_output, target_specialist, req, RPT_CERTAIN)) {
     return TRI_YES;
   } else {
