@@ -259,7 +259,7 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
                                   struct city *pcity)
 {
   struct adv_choice newchoice;
-  struct adv_data *adv = adv_data_get(pplayer);
+  struct adv_data *adv = adv_data_get(pplayer, NULL);
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
   init_choice(&newchoice);
@@ -658,7 +658,7 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
   struct tile *best_tile = NULL; /* May be accessed by log_*() calls. */
   struct tile *pcenter = city_tile(pcity);
   struct player *pplayer = city_owner(pcity);
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer, NULL);
   struct unit_type *unit_type = best_role_unit(pcity, UTYF_SETTLERS);
   Continent_id place = tile_continent(pcenter);
 
@@ -1684,7 +1684,7 @@ static int city_want(struct player *pplayer, struct city *acity,
 static int base_want(struct ai_type *ait, struct player *pplayer,
                      struct city *pcity, struct impr_type *pimprove)
 {
-  struct adv_data *adv = adv_data_get(pplayer);
+  struct adv_data *adv = adv_data_get(pplayer, NULL);
   int final_want = 0;
   int wonder_player_id = WONDER_NOT_OWNED;
   int wonder_city_id = WONDER_NOT_BUILT;
@@ -1768,7 +1768,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
   int v = 0;
   int cities[REQ_RANGE_COUNT];
   int nplayers = normal_player_count();
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer, NULL);
   bool capital = is_capital(pcity);
   bool can_build = TRUE;
   struct government *gov = government_of_player(pplayer);
@@ -1994,7 +1994,7 @@ static bool should_force_recalc(struct city *pcity)
 **************************************************************************/
 void dai_build_adv_init(struct ai_type *ait, struct player *pplayer)
 {
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer, NULL);
 
   /* Find current worth of cities and cache this. */
   city_list_iterate(pplayer->cities, pcity) {

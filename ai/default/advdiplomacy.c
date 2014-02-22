@@ -286,13 +286,16 @@ static int dai_goldequiv_clause(struct ai_type *ait,
 				bool verbose,
 				enum diplstate_type ds_after)
 {
-  struct ai_plr *ai = dai_plr_data_get(ait, pplayer);
+  bool close;
+  struct ai_plr *ai;
   int worth = 0; /* worth for pplayer of what aplayer gives */
   bool give = (pplayer == pclause->from);
   struct player *giver;
   const struct player *penemy;
   struct ai_dip_intel *adip = dai_diplomacy_get(ait, pplayer, aplayer);
   bool is_dangerous;
+
+  ai = dai_plr_data_get(ait, pplayer, &close);
 
   fc_assert_ret_val(pplayer != aplayer, 0);
 
@@ -306,7 +309,7 @@ static int dai_goldequiv_clause(struct ai_type *ait,
       worth -= compute_tech_sell_price(pplayer, aplayer, pclause->value,
                                        &is_dangerous);
       if (is_dangerous) {
-        return -BIG_NUMBER;
+        worth = -BIG_NUMBER;
       }
     } else if (player_invention_state(pplayer, pclause->value) != TECH_KNOWN) {
       worth += compute_tech_sell_price(aplayer, pplayer, pclause->value,
@@ -559,6 +562,10 @@ static int dai_goldequiv_clause(struct ai_type *ait,
     break;
   } /* end of switch */
 
+  if (close) {
+    dai_data_phase_finished(ait, pplayer);
+  }
+
   diplomacy_verbose = TRUE;
   return worth;
 }
@@ -688,11 +695,14 @@ static void dai_treaty_react(struct ai_type *ait,
 void dai_treaty_accepted(struct ai_type *ait, struct player *pplayer,
                          struct player *aplayer, struct Treaty *ptreaty)
 {
-  struct ai_plr *ai = dai_plr_data_get(ait, pplayer);
+  bool close;
+  struct ai_plr *ai;
   int total_balance = 0;
   bool gift = TRUE;
   enum diplstate_type ds_after =
     player_diplstate_get(pplayer, aplayer)->type;
+
+  ai = dai_plr_data_get(ait, pplayer, &close);
 
   fc_assert_ret(pplayer != aplayer);
 
@@ -728,6 +738,10 @@ void dai_treaty_accepted(struct ai_type *ait, struct player *pplayer,
     pplayer->ai_common.love[player_index(aplayer)] += i;
     DIPLO_LOG(ait, LOG_DIPL2, pplayer, aplayer, "gift increased love by %d", i);
   }
+
+  if (close) {
+    dai_data_phase_finished(ait, pplayer);
+  }
 }
 
 /********************************************************************** 
@@ -740,8 +754,8 @@ void dai_treaty_accepted(struct ai_type *ait, struct player *pplayer,
 static int dai_war_desire(struct ai_type *ait, struct player *pplayer,
                           struct player *target)
 {
-  struct ai_plr *ai = dai_plr_data_get(ait, pplayer);
-  struct adv_data *adv = adv_data_get(pplayer);
+  struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
+  struct adv_data *adv = adv_data_get(pplayer, NULL);
   int want = 0, fear = 0, distance = 0, settlers = 0, cities = 0;
   struct player_spaceship *ship = &target->spaceship;
 
@@ -911,8 +925,8 @@ void dai_diplomacy_first_contact(struct ai_type *ait, struct player *pplayer,
 ***********************************************************************/
 void dai_diplomacy_begin_new_phase(struct ai_type *ait, struct player *pplayer)
 {
-  struct ai_plr *ai = dai_plr_data_get(ait, pplayer);
-  struct adv_data *adv = adv_data_get(pplayer);
+  struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
+  struct adv_data *adv = adv_data_get(pplayer, NULL);
   int war_desire[player_slot_count()];
   int best_desire = 0;
   struct player *best_target = NULL;
@@ -1380,7 +1394,7 @@ void static war_countdown(struct ai_type *ait, struct player *pplayer,
 ***********************************************************************/
 void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
 {
-  struct ai_plr *ai = dai_plr_data_get(ait, pplayer);
+  struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
   bool need_targets = TRUE;
   struct player *target = NULL;
   int most_hatred = MAX_AI_LOVE;
@@ -1409,7 +1423,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
   /*** Stop other players from winning by space race ***/
 
   if (ai->diplomacy.strategy != WIN_SPACE) {
-    struct adv_data *adv = adv_data_get(pplayer);
+    struct adv_data *adv = adv_data_get(pplayer, NULL);
 
     players_iterate_alive(aplayer) {
       struct ai_dip_intel *adip = dai_diplomacy_get(ait, pplayer, aplayer);

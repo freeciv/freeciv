@@ -139,7 +139,7 @@ const char *dai_choice_rule_name(const struct adv_choice *choice)
 int military_amortize(struct player *pplayer, struct city *pcity,
                       int value, int delay, int build_cost)
 {
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer, NULL);
   int city_output = (pcity ? pcity->surplus[O_SHIELD] : 1);
   int output = MAX(city_output, ai->stats.average_production);
   int build_time = build_cost / MAX(output, 1);

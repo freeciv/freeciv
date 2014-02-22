@@ -379,7 +379,7 @@ static void dai_choose_trade_route(struct city *pcity,
 void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
                                    struct city *pcity, struct adv_choice *choice)
 {
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer, NULL);
   /* Unit type with certain role */
   struct unit_type *settler_type;
   struct unit_type *founder_type;
@@ -454,7 +454,7 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
       /* We need boats to colonize! */
       /* We might need boats even if there are boats free,
        * if they are blockaded or in inland seas. */
-      struct ai_plr *ai = dai_plr_data_get(ait, pplayer);
+      struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
 
       CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d and asks"
 	       " for a new boat (%d of %d free)",
