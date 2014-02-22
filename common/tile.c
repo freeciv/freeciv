@@ -558,7 +558,14 @@ static void tile_irrigate(struct tile *ptile, struct extra_type *tgt)
   struct terrain *pterrain = tile_terrain(ptile);
 
   if (pterrain == pterrain->irrigation_result) {
-    tile_extra_apply(ptile, tgt);
+    /* Ideally activity should already been cancelled before NULL tgt
+     * gets this far, but it's possible that terrain got changed from
+     * one that gets transformed by irrigation (-> NULL tgt) to one
+     * that does not (-> NULL tgt illegal) since legality of the action
+     * was last checked */
+    if (tgt != NULL) {
+      tile_extra_apply(ptile, tgt);
+    }
   } else if (pterrain->irrigation_result) {
     tile_change_terrain(ptile, pterrain->irrigation_result);
   }
@@ -573,7 +580,14 @@ static void tile_mine(struct tile *ptile, struct extra_type *tgt)
   struct terrain *pterrain = tile_terrain(ptile);
 
   if (pterrain == pterrain->mining_result) {
-    tile_extra_apply(ptile, tgt);
+    /* Ideally activity should already been cancelled before NULL tgt
+     * gets this far, but it's possible that terrain got changed from
+     * one that gets transformed by mining (-> NULL tgt) to one
+     * that does not (-> NULL tgt illegal) since legality of the action
+     * was last checked */
+    if (tgt != NULL) {
+      tile_extra_apply(ptile, tgt);
+    }
   } else if (pterrain->mining_result) {
     tile_change_terrain(ptile, pterrain->mining_result);
   }

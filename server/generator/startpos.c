@@ -49,9 +49,11 @@ static int *islands_index;
 ****************************************************************************/
 static int get_tile_value(struct tile *ptile)
 {
-  int value, irrig_bonus, mine_bonus;
-  struct tile *vtile;
+  int value;
+  int irrig_bonus = 0;
+  int mine_bonus = 0;
   struct tile *roaded;
+  struct extra_type *pextra;
 
   /* Give one point for each food / shield / trade produced. */
   value = 0;
@@ -77,28 +79,35 @@ static int get_tile_value(struct tile *ptile)
     } road_type_iterate_end;
   }
 
-  vtile = tile_virtual_new(roaded);
+  pextra = next_extra_for_tile(roaded, EC_IRRIGATION, NULL, NULL);
 
-  tile_apply_activity(vtile, ACTIVITY_IRRIGATE,
-                      next_extra_for_tile(vtile, EC_IRRIGATION, NULL, NULL));
-  irrig_bonus = -value;
-  output_type_iterate(o) {
-    irrig_bonus += city_tile_output(NULL, vtile, FALSE, o);
-  } output_type_iterate_end;
+  if (pextra != NULL) {
+    struct tile *vtile;
 
-  tile_virtual_destroy(vtile);
+    vtile = tile_virtual_new(roaded);
+    tile_apply_activity(vtile, ACTIVITY_IRRIGATE, pextra);
+    irrig_bonus = -value;
+    output_type_iterate(o) {
+      irrig_bonus += city_tile_output(NULL, vtile, FALSE, o);
+    } output_type_iterate_end;
+    tile_virtual_destroy(vtile);
+  }
+
+  pextra = next_extra_for_tile(roaded, EC_MINE, NULL, NULL);
 
   /* Same set of roads used with mine as with irrigation. */
-  vtile = tile_virtual_new(roaded);
+  if (pextra != NULL) {
+    struct tile *vtile;
 
-  tile_apply_activity(vtile, ACTIVITY_MINE,
-                      next_extra_for_tile(vtile, EC_MINE, NULL, NULL));
-  mine_bonus = -value;
-  output_type_iterate(o) {
-    mine_bonus += city_tile_output(NULL, vtile, FALSE, o);
-  } output_type_iterate_end;
+    vtile = tile_virtual_new(roaded);
+    tile_apply_activity(vtile, ACTIVITY_MINE, pextra);
+    mine_bonus = -value;
+    output_type_iterate(o) {
+      mine_bonus += city_tile_output(NULL, vtile, FALSE, o);
+    } output_type_iterate_end;
+    tile_virtual_destroy(vtile);
+  }
 
-  tile_virtual_destroy(vtile);
   tile_virtual_destroy(roaded);
 
   value += MAX(0, MAX(mine_bonus, irrig_bonus)) / 2;
