@@ -160,7 +160,7 @@ bool is_adv_data_phase_open(struct player *pplayer);
 
 void adv_data_analyze_rulesets(struct player *pplayer);
 
-struct adv_data *adv_data_get(struct player *pplayer);
+struct adv_data *adv_data_get(struct player *pplayer, bool *close);
 
 void adv_best_government(struct player *pplayer);
 

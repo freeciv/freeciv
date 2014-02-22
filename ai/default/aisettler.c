@@ -277,8 +277,8 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
   struct tile *saved_claimer = NULL;
   bool virtual_city = FALSE;
   bool handicap = ai_handicap(pplayer, H_MAP);
-  struct adv_data *adv = adv_data_get(pplayer);
-  struct ai_plr *ai = dai_plr_data_get(ait, pplayer);
+  struct adv_data *adv = adv_data_get(pplayer, NULL);
+  struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
   struct cityresult *result;
 
   fc_assert_ret_val(ai != NULL, NULL);
@@ -500,7 +500,7 @@ static const struct tile_data_cache *tdc_plr_get(struct ai_type *ait,
                                                  struct player *plr,
                                                  int tindex)
 {
-  struct ai_plr *ai = dai_plr_data_get(ait, plr);
+  struct ai_plr *ai = dai_plr_data_get(ait, plr, NULL);
 
   fc_assert_ret_val(ai != NULL, NULL);
   fc_assert_ret_val(ai->settler != NULL, NULL);
@@ -534,7 +534,7 @@ static const struct tile_data_cache *tdc_plr_get(struct ai_type *ait,
 static void tdc_plr_set(struct ai_type *ait, struct player *plr, int tindex,
                         const struct tile_data_cache *ptdc)
 {
-  struct ai_plr *ai = dai_plr_data_get(ait, plr);
+  struct ai_plr *ai = dai_plr_data_get(ait, plr, NULL);
 
   fc_assert_ret(ai != NULL);
   fc_assert_ret(ai->settler != NULL);
@@ -693,7 +693,7 @@ struct cityresult *city_desirability(struct ai_type *ait, struct player *pplayer
                                      struct unit *punit, struct tile *ptile)
 {
   struct city *pcity = tile_city(ptile);
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer, NULL);
   struct cityresult *cr = NULL;
 
   fc_assert_ret_val(punit, NULL);
@@ -1152,7 +1152,7 @@ void dai_auto_settler_cont(struct ai_type *ait, struct player *pplayer,
 **************************************************************************/
 void dai_auto_settler_reset(struct ai_type *ait, struct player *pplayer)
 {
-  struct ai_plr *ai = dai_plr_data_get(ait, pplayer);
+  struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
 
   fc_assert_ret(ai != NULL);
   fc_assert_ret(ai->settler != NULL);

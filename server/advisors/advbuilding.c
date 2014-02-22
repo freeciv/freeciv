@@ -166,7 +166,7 @@ static void ba_human_wants(struct player *pplayer, struct city *wonder_city)
 **************************************************************************/
 void building_advisor(struct player *pplayer)
 {
-  struct adv_data *adv = adv_data_get(pplayer);
+  struct adv_data *adv = adv_data_get(pplayer, NULL);
   struct city *wonder_city = game_city_by_number(adv->wonder_city);
 
   CALL_FUNC_EACH_AI(build_adv_init, pplayer);

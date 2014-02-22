@@ -100,7 +100,7 @@ void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
 void dai_data_phase_finished(struct ai_type *ait, struct player *pplayer);
 bool is_ai_data_phase_open(struct ai_type *ait, struct player *pplayer);
 
-struct ai_plr *dai_plr_data_get(struct ai_type *ait, struct player *pplayer);
+struct ai_plr *dai_plr_data_get(struct ai_type *ait, struct player *pplayer, bool *close);
 
 bool dai_channel(struct ai_type *ait, struct player *pplayer,
                  Continent_id c1, Continent_id c2);
