@@ -123,7 +123,7 @@ void aiferry_init_stats(struct player *pplayer)
 #ifdef LOGLEVEL_FERRY_STATS
 static void aiferry_print_stats(struct player *pplayer)
 {
-  struct ai_plr *ai = ai_plr_data_get(pplayer);
+  struct ai_plr *ai = ai_plr_data_get(pplayer, NULL);
   int n = 1;
 
   log_base(LOGLEVEL_FERRY_STATS, "Boat stats for %s[%d]",
@@ -170,7 +170,7 @@ void dai_ferry_init_ferry(struct unit *ferry)
 {
   if (dai_is_ferry(ferry)) {
     struct unit_ai *unit_data = def_ai_unit_data(ferry);
-    struct ai_plr *ai = ai_plr_data_get(unit_owner(ferry));
+    struct ai_plr *ai = ai_plr_data_get(unit_owner(ferry), NULL);
 
     unit_data->passenger = FERRY_AVAILABLE;
     ai->stats.boats++;
@@ -190,7 +190,7 @@ void aiferry_clear_boat(struct unit *punit)
     struct player *pplayer = unit_owner(punit);
 
     if (is_ai_data_phase_open(pplayer)) {
-      struct ai_plr *ai = ai_plr_data_get(unit_owner(punit));
+      struct ai_plr *ai = ai_plr_data_get(pplayer, NULL);
 
       ai->stats.passengers--;
     }
@@ -205,7 +205,7 @@ void aiferry_clear_boat(struct unit *punit)
         struct player *pplayer = unit_owner(ferry);
 
         if (is_ai_data_phase_open(pplayer)) {
-          ai_plr_data_get(pplayer)->stats.available_boats++;
+          ai_plr_data_get(pplayer, NULL)->stats.available_boats++;
         }
         ferry_data->passenger = FERRY_AVAILABLE;
       }
@@ -221,7 +221,7 @@ void aiferry_clear_boat(struct unit *punit)
 **************************************************************************/
 static void aiferry_request_boat(struct unit *punit)
 {
-  struct ai_plr *ai = ai_plr_data_get(unit_owner(punit));
+  struct ai_plr *ai = ai_plr_data_get(unit_owner(punit), NULL);
   struct unit_ai *unit_data = def_ai_unit_data(punit);
 
   /* First clear the previous assignments (just in case). */
@@ -243,8 +243,9 @@ static void aiferry_request_boat(struct unit *punit)
 static void aiferry_psngr_meet_boat(struct unit *punit, struct unit *pferry)
 {
   struct unit_ai *ferry_data = def_ai_unit_data(pferry);
+  struct player *ferry_owner = unit_owner(pferry);
 
-  fc_assert_ret(unit_owner(punit) == unit_owner(pferry));
+  fc_assert_ret(unit_owner(punit) == ferry_owner);
 
   /* First delete the unit from the list of passengers and 
    * release its previous ferry */
@@ -252,7 +253,7 @@ static void aiferry_psngr_meet_boat(struct unit *punit, struct unit *pferry)
 
   /* If ferry was available, update the stats */
   if (ferry_data->passenger == FERRY_AVAILABLE) {
-    ai_plr_data_get(unit_owner(pferry))->stats.available_boats--;
+    ai_plr_data_get(ferry_owner, NULL)->stats.available_boats--;
   }
 
   /* Exchange the phone numbers */
@@ -268,7 +269,7 @@ static void aiferry_make_available(struct unit *pferry)
   struct unit_ai *ferry_data = def_ai_unit_data(pferry);
 
   if (ferry_data->passenger != FERRY_AVAILABLE) {
-    ai_plr_data_get(unit_owner(pferry))->stats.available_boats++;
+    ai_plr_data_get(unit_owner(pferry), NULL)->stats.available_boats++;
     ferry_data->passenger = FERRY_AVAILABLE;
   }
 }
@@ -279,7 +280,7 @@ static void aiferry_make_available(struct unit *pferry)
 **************************************************************************/
 static int aiferry_avail_boats(struct player *pplayer)
 {
-  struct ai_plr *ai = ai_plr_data_get(pplayer);
+  struct ai_plr *ai = ai_plr_data_get(pplayer, NULL);
 
   /* To developer: Switch this checking on when testing some new 
    * ferry code. */
@@ -817,7 +818,7 @@ static bool aiferry_findcargo(struct unit *pferry)
   /* Path-finding stuff */
   struct pf_map *pfm;
   struct pf_parameter parameter;
-  int passengers = ai_plr_data_get(unit_owner(pferry))->stats.passengers;
+  int passengers = ai_plr_data_get(unit_owner(pferry), NULL)->stats.passengers;
 
   if (passengers <= 0) {
     /* No passangers anywhere */

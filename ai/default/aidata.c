@@ -125,13 +125,14 @@ bool is_ai_data_phase_open(struct player *pplayer)
 void dai_data_phase_begin(struct player *pplayer, bool is_new_phase)
 {
   struct ai_plr *ai = def_ai_player_data(pplayer);
+  bool close;
 
   /* Note that this refreshes advisor data if needed. ai_plr_data_get()
      is expected to refresh advisor data if needed, and ai_plr_data_get()
      depends on this call
      ai_plr_data_get()->ai_data_phase_begin()->adv_data_get() to do it.
      If you change this, you may need to adjust ai_plr_data_get() also. */
-  struct adv_data *adv = adv_data_get(pplayer);
+  struct adv_data *adv;
   int i;
 
   if (ai->phase_initialized) {
@@ -139,6 +140,8 @@ void dai_data_phase_begin(struct player *pplayer, bool is_new_phase)
   }
 
   ai->phase_initialized = TRUE;
+
+  adv = adv_data_get(pplayer, &close);
 
   /* Store current number of known continents and oceans so we can compare
      against it later in order to see if ai data needs refreshing. */
@@ -275,6 +278,10 @@ void dai_data_phase_begin(struct player *pplayer, bool is_new_phase)
       *unit_data->cur_pos = unit_tile(punit);
     } unit_list_iterate_end;
   } players_iterate_alive_end;
+
+  if (close) {
+    adv_data_phase_done(pplayer);
+  }
 }
 
 /****************************************************************************
@@ -295,9 +302,12 @@ void dai_data_phase_finished(struct player *pplayer)
 }
 
 /****************************************************************************
-  Get current default ai data related to player
+  Get current default ai data related to player.
+  If close is set, data phase will be opened even if it's currently closed,
+  and the boolean will be set accordingly to tell caller that phase needs
+  closing.
 ****************************************************************************/
-struct ai_plr *ai_plr_data_get(struct player *pplayer)
+struct ai_plr *ai_plr_data_get(struct player *pplayer, bool *close)
 {
   struct ai_plr *ai = def_ai_player_data(pplayer);
 
@@ -306,8 +316,12 @@ struct ai_plr *ai_plr_data_get(struct player *pplayer)
   /* This assert really is required. See longer comment
      in adv_data_get() for equivalent code. */
 #if defined(DEBUG) || defined(IS_DEVEL_VERSION)
-  fc_assert(ai->phase_initialized || game.info.phase_mode != PMT_CONCURRENT);
+  fc_assert(close != NULL || ai->phase_initialized || game.info.phase_mode != PMT_CONCURRENT);
 #endif
+
+  if (close != NULL) {
+    *close = FALSE;
+  }
 
   if (ai->last_num_continents != map.num_continents
       || ai->last_num_oceans != map.num_oceans) {
@@ -322,7 +336,16 @@ struct ai_plr *ai_plr_data_get(struct player *pplayer)
       log_debug("%s ai data phase closed when dai_plr_data_get() called",
                 player_name(pplayer));
       dai_data_phase_begin(pplayer, FALSE);
-      dai_data_phase_finished(pplayer);
+      if (close != NULL) {
+        *close = TRUE;
+      } else {
+        dai_data_phase_finished(pplayer);
+      }
+    }
+  } else {
+    if (!ai->phase_initialized && close != NULL) {
+      dai_data_phase_begin(pplayer, FALSE);
+      *close = TRUE;
     }
   }
 
@@ -335,8 +358,8 @@ struct ai_plr *ai_plr_data_get(struct player *pplayer)
 **************************************************************************/
 bool ai_channel(struct player *pplayer, Continent_id c1, Continent_id c2)
 {
-  struct ai_plr *ai = ai_plr_data_get(pplayer);
-  struct adv_data *adv = adv_data_get(pplayer);
+  struct ai_plr *ai = ai_plr_data_get(pplayer, NULL);
+  struct adv_data *adv = adv_data_get(pplayer, NULL);
 
   if (c1 >= 0 || c2 >= 0) {
     return FALSE;

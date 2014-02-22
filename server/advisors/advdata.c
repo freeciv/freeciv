@@ -193,7 +193,7 @@ void adv_data_analyze_rulesets(struct player *pplayer)
 **************************************************************************/
 static void count_my_units(struct player *pplayer)
 {
-  struct adv_data *adv = adv_data_get(pplayer);
+  struct adv_data *adv = adv_data_get(pplayer, NULL);
 
   memset(&adv->stats.units, 0, sizeof(adv->stats.units));
 
@@ -548,8 +548,11 @@ void adv_data_phase_done(struct player *pplayer)
 
 /**************************************************************************
   Return a pointer to our data
+  If close is set, data phase will be opened even if it's currently closed,
+  and the boolean will be set accordingly to tell caller that phase needs
+  closing.
 **************************************************************************/
-struct adv_data *adv_data_get(struct player *pplayer)
+struct adv_data *adv_data_get(struct player *pplayer, bool *close)
 {
   struct adv_data *adv = pplayer->server.adv;
 
@@ -593,8 +596,12 @@ struct adv_data *adv_data_get(struct player *pplayer)
        instead of making intrusive fixes for actual bug in stable branch,
        do not assert for non-debug builds of stable versions. */
 #if defined(DEBUG) || defined(IS_DEVEL_VERSION)
-  fc_assert(adv->phase_is_initialized || game.info.phase_mode != PMT_CONCURRENT);
+  fc_assert(close != NULL || adv->phase_is_initialized || game.info.phase_mode != PMT_CONCURRENT);
 #endif
+
+  if (close != NULL) {
+    *close = FALSE;
+  }
 
   if (adv->num_continents != map.num_continents
       || adv->num_oceans != map.num_oceans) {
@@ -619,7 +626,16 @@ struct adv_data *adv_data_get(struct player *pplayer)
       log_debug("%s advisor data phase closed when adv_data_get() called",
                 player_name(pplayer));
       adv_data_phase_init(pplayer, FALSE);
-      adv_data_phase_done(pplayer);
+      if (close != NULL) {
+        *close = TRUE;
+      } else {
+        adv_data_phase_done(pplayer);
+      }
+    }
+  } else {
+    if (!adv->phase_is_initialized && close != NULL) {
+      adv_data_phase_init(pplayer, FALSE);
+      *close = TRUE;
     }
   }
 
@@ -766,7 +782,7 @@ static struct adv_dipl *adv_dipl_get(const struct player *plr1,
 **************************************************************************/
 void adv_best_government(struct player *pplayer)
 {
-  struct adv_data *adv = adv_data_get(pplayer);
+  struct adv_data *adv = adv_data_get(pplayer, NULL);
   int best_val = 0;
   int bonus = 0; /* in percentage */
   struct government *current_gov = government_of_player(pplayer);
@@ -873,7 +889,7 @@ void adv_best_government(struct player *pplayer)
 **************************************************************************/
 bool adv_wants_science(struct player *pplayer)
 {
-  return adv_data_get(pplayer)->wants_science;
+  return adv_data_get(pplayer, NULL)->wants_science;
 }
 
 

@@ -309,10 +309,10 @@ static int calculate_want_for_paratrooper(struct unit *punit,
                 * real_map_distance(ptile_city, ptile);
     }
   } square_iterate_end;
-  
-  total = adv_data_get(pplayer)->stats.units.paratroopers;
+
+  total = adv_data_get(pplayer, NULL)->stats.units.paratroopers;
   total_cities = city_list_size(pplayer->cities);
-  
+
   if (total > total_cities) {
     profit = profit * total_cities / total;
   }
