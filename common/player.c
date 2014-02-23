@@ -512,6 +512,7 @@ static void player_defaults(struct player *pplayer)
   pplayer->is_ready = FALSE;
   pplayer->nturns_idle = 0;
   pplayer->is_alive = TRUE;
+  pplayer->is_winner = FALSE;
 
   pplayer->revolution_finishes = -1;
 

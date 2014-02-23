@@ -1526,6 +1526,8 @@ void report_final_scores(struct conn_list *dest)
       ppacket.category_score[j] = score_categories[j].score(pplayer);
     }
 
+    ppacket.winner = pplayer->is_winner;
+
     lsend_packet_endgame_player(dest, &ppacket);
   }
 }

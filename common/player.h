@@ -215,6 +215,7 @@ struct player {
   bool ai_phase_done; /* Has AI type finished */
   int nturns_idle;
   bool is_alive;
+  bool is_winner;
 
   /* Turn in which the player's revolution is over; see update_revolution. */
   int revolution_finishes;

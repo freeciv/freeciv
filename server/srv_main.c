@@ -325,6 +325,7 @@ bool check_for_game_over(void)
         astr_add(&str, Q_("?winners:the %s"),
                  nation_plural_for_player(pplayer));
       }
+      pplayer->is_winner = TRUE;
       ggz_report_victor(pplayer);
       winners++;
     }
@@ -399,6 +400,7 @@ bool check_for_game_over(void)
                       team_name_translation(pteam));
           /* All players of the team win, even dead and surrended ones. */
           player_list_iterate(members, pplayer) {
+            pplayer->is_winner = TRUE;
             ggz_report_victor(pplayer);
           } player_list_iterate_end;
           ggz_report_victory();
@@ -449,6 +451,7 @@ bool check_for_game_over(void)
             astr_add(&str, Q_("?winners:, the %s"),
                      nation_plural_for_player(pplayer));
           }
+          pplayer->is_winner = TRUE;
           ggz_report_victor(pplayer);
         } player_list_iterate_end;
         notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
@@ -481,6 +484,7 @@ bool check_for_game_over(void)
       if (found) {
         notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                     _("Game ended in victory for %s."), player_name(victor));
+        victor->is_winner = TRUE;
         ggz_report_victor(victor);
         ggz_report_victory();
         return TRUE;
@@ -535,12 +539,14 @@ bool check_for_game_over(void)
                   team_name_translation(victor->team));
       /* All players of the team win, even dead and surrended ones. */
       player_list_iterate(members, pplayer) {
+        pplayer->is_winner = TRUE;
         ggz_report_victor(pplayer);
       } player_list_iterate_end;
       ggz_report_victory();
     } else {
       notify_conn(NULL, NULL, E_GAME_END, ftc_server,
                   _("Game ended in victory for %s."), player_name(victor));
+      victor->is_winner = TRUE;
       ggz_report_victor(victor);
       ggz_report_victory();
     }

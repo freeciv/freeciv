@@ -388,6 +388,7 @@ PACKET_ENDGAME_PLAYER = 223; sc, lsend, no-delta, handle-via-packet
   PLAYER player_id;
   UINT16 score;
   UINT32 category_score[32:category_num];
+  BOOL winner;
 end
 
 /************** Info packets **********************/

@@ -3872,6 +3872,13 @@ void handle_endgame_report(const struct packet_endgame_report *packet)
 ****************************************************************************/
 void handle_endgame_player(const struct packet_endgame_player *packet)
 {
+  if (packet->player_id == player_number(client.conn.playing)) {
+    if (packet->winner) {
+      start_menu_music("music_victory", NULL);
+    } else {
+      start_menu_music("music_defeat", NULL);
+    }
+  }
   endgame_report_dialog_player(packet);
 }
 

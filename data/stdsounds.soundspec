@@ -315,6 +315,8 @@ e_log_fatal = "stdsounds/LrgExpl.ogg" ; [warzone]
 ;e_game_quit = ""
 
 ;music_start = ""
+;music_victory = ""
+;music_defeat = ""
 
 ;music_european = ""
 ;music_classical = ""
