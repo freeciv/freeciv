@@ -71,7 +71,7 @@ install-freeciv-common:
 	# strip 'freeciv-manual' and 'freeciv-mp-<gui>' executables
 	strip install-$(GUI)/freeciv-m*
 	# add start menu files
-	cp freeciv-server.cmd freeciv-modpack.cmd freeciv-$(GUI).cmd Freeciv.url install-$(GUI)/
+	cp freeciv-server.cmd freeciv-mp-$(FCMP).cmd freeciv-$(GUI).cmd Freeciv.url install-$(GUI)/
 
 install-freeciv-gtk3: install-freeciv-common
 

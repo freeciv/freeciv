@@ -106,7 +106,7 @@ cat <<EOF
   CreateDirectory "\$SMPROGRAMS\\\$STARTMENU_FOLDER"
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv.lnk" "\$INSTDIR\freeciv-\${GUI_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-\${GUI_ID}.exe" 0 SW_SHOWMINIMIZED
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Server.lnk" "\$INSTDIR\freeciv-server.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-server.exe" 0 SW_SHOWMINIMIZED
-  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Modpack Installer.lnk" "\$INSTDIR\freeciv-modpack.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-modpack.exe" 0 SW_SHOWMINIMIZED
+  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Modpack Installer.lnk" "\$INSTDIR\freeciv-mp-\${GUI_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-mp-\${GUI_ID}.exe" 0 SW_SHOWMINIMIZED
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Uninstall.lnk" "\$INSTDIR\uninstall.exe"
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Website.lnk" "\$INSTDIR\Freeciv.url"
   !insertmacro MUI_STARTMENU_WRITE_END
