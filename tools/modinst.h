@@ -20,7 +20,7 @@ struct fcmp_params
   const char *autoinstall;
 };
 
-#if IS_DEVEL_VERSION
+#if IS_DEVEL_VERSION && ! IS_FREEZE_VERSION
 #define MODPACK_LIST_URL  "http://www.cazfi.net/freeciv/modinst/" DATASUBDIR "/modpack.list"
 #define DEFAULT_URL_START "http://www.cazfi.net/freeciv/modinst/" DATASUBDIR "/"
 #else  /* IS_DEVEL_VERSION */
