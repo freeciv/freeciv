@@ -768,6 +768,14 @@ static int get_total_score(const struct player *pplayer)
   return pplayer->score.game;
 }
 
+/****************************************************************************
+  Culture score
+****************************************************************************/
+static int get_culture(const struct player *pplayer)
+{
+  return pplayer->score.culture;
+}
+
 /**************************************************************************
   Construct string containing value and its unit.
 **************************************************************************/
@@ -1307,6 +1315,8 @@ void log_civ_score_now(void)
     {"unitsbuilt",      get_units_built}, /* New tags since 2.3.0. */
     {"unitskilled",     get_units_killed},
     {"unitslost",       get_units_lost},
+
+    {"culture",         get_culture}      /* New tag in 2.6.0. */
   };
 
   if (!game.server.scorelog) {
@@ -1478,6 +1488,7 @@ void report_final_scores(struct conn_list *dest)
     /* TRANS: "sq. mi." is abbreviation for "square miles" */
     { N_("Settled Area\n(sq. mi.)"),    get_settledarea },
     { N_("Literacy\n(%)"),              get_literacy },
+    { N_("Culture\n"),                  get_culture },
     { N_("Spaceship\n"),                get_spaceship },
     { N_("Built Units\n"),              get_units_built },
     { N_("Killed Units\n"),             get_units_killed },

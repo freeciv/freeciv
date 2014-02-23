@@ -25,6 +25,7 @@
 #include "shared.h"
 
 /* common */
+#include "culture.h"
 #include "game.h"
 #include "improvement.h"
 #include "map.h"
@@ -272,6 +273,7 @@ void calc_civ_score(struct player *pplayer)
   pplayer->score.mfg = 0;
   pplayer->score.literacy = 0;
   pplayer->score.spaceship = 0;
+  pplayer->score.culture = 0;
 
   if (is_barbarian(pplayer)) {
     return;
@@ -293,6 +295,7 @@ void calc_civ_score(struct player *pplayer)
     pplayer->score.techout += pcity->prod[O_SCIENCE];
     pplayer->score.bnp += pcity->surplus[O_TRADE];
     pplayer->score.mfg += pcity->surplus[O_SHIELD];
+    pplayer->score.culture += city_culture(pcity);
 
     bonus = get_final_city_output_bonus(pcity, O_SCIENCE) - 100;
     bonus = CLIP(0, bonus, 100);
@@ -351,7 +354,8 @@ int get_civ_score(const struct player *pplayer)
           + pplayer->score.techs * 2
           + pplayer->score.wonders * 5
           + get_spaceship_score(pplayer)
-          + get_units_score(pplayer));
+          + get_units_score(pplayer)
+          + pplayer->score.culture / 50);
 }
 
 /**************************************************************************

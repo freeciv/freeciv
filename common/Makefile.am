@@ -33,6 +33,8 @@ libfreeciv_la_SOURCES = \
 		combat.h	\
 		connection.c	\
 		connection.h	\
+		culture.c	\
+		culture.h	\
 		dataio.c	\
 		dataio.h	\
 		diptreaty.c	\

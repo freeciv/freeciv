@@ -439,6 +439,9 @@ City_Image
 Victory
     Positive value means that player wins the game.
 
+Performance
+    Value is how much performance type culture city produces.
+
 
 Details about requirement types
 ===============================
