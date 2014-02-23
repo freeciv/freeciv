@@ -57,8 +57,23 @@ static bool is_req_knowable(const struct player *pow_player,
 {
   fc_assert_ret_val_msg(NULL != pow_player, false, "No point of view");
 
-  if (req->source.kind == VUT_UTFLAG || req->source.kind == VUT_UTYPE) {
-    return target_unit && can_player_see_unit(pow_player, target_unit);
+  if (req->source.kind == VUT_UTFLAG
+      || req->source.kind == VUT_UTYPE
+      || req->source.kind == VUT_UCLASS
+      || req->source.kind == VUT_UCFLAG) {
+    switch (req->range) {
+    case REQ_RANGE_LOCAL:
+      return target_unit && can_player_see_unit(pow_player, target_unit);
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      return FALSE;
+    }
   }
 
   if (req->source.kind == VUT_DIPLREL
