@@ -13,7 +13,8 @@ dist_noinst_DATA = \
 		installer/create-freeciv-sdl-nsi.sh	\
 		installer/freeciv-gtk2.cmd		\
 		installer/freeciv-gtk3.cmd		\
-		installer/freeciv-modpack.cmd		\
+		installer/freeciv-mp-gtk2.cmd		\
+		installer/freeciv-mp-gtk3.cmd		\
 		installer/freeciv-sdl.cmd		\
 		installer/freeciv-server.cmd		\
 		installer/Freeciv.url			\
