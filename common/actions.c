@@ -406,7 +406,8 @@ action_prob(const enum gen_action wanted_action,
     /* TODO */
     break;
   case ACTION_SPY_INVESTIGATE_CITY:
-    /* TODO */
+    /* There is no risk that the city won't get investigated. */
+    chance = 200;
     break;
   case ACTION_COUNT:
     fc_assert(FALSE);
