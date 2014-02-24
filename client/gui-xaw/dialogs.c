@@ -1590,7 +1590,9 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
 				 player_number(races_player),
 				 nation_index(races_toggles_to_nations[selected_index]),
 				 selected_sex ? FALSE : TRUE,
-				 dp, city_style_idx[selected_style]);
+				 dp,
+    style_number(nation_by_number(nation_index(races_toggles_to_nations[selected_index]))->style),
+                                 city_style_idx[selected_style]);
   popdown_races_dialog();
 }
 

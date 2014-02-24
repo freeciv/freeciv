@@ -28,6 +28,7 @@ extern "C" {
 #include "nation.h"
 #include "shared.h"
 #include "spaceship.h"
+#include "style.h"
 #include "tech.h"
 #include "traits.h"
 #include "unitlist.h"
@@ -223,6 +224,7 @@ struct player {
 
   bv_player real_embassy;
   const struct player_diplstate **diplstates;
+  struct nation_style *style;
   int city_style;
   int music_style;
   struct city_list *cities;

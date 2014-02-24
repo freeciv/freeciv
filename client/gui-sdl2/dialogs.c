@@ -2684,6 +2684,7 @@ static int races_dialog_ok_callback(struct widget *pStart_Button)
     dsend_packet_nation_select_req(&client.conn, player_number(races_player),
                                    pSetup->nation,
                                    pSetup->leader_sex, pStr,
+                               style_number(nation_by_number(pSetup->nation)->style),
                                    pSetup->nation_city_style);
     FC_FREE(pStr);
   

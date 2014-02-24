@@ -526,6 +526,7 @@ static void player_defaults(struct player *pplayer)
     }
   } players_iterate_end;
 
+  pplayer->style      = 0;
   pplayer->city_style = 0;            /* should be first basic style */
   pplayer->music_style = -1;          /* even getting value 0 triggers change */
   pplayer->cities = city_list_new();
@@ -656,6 +657,7 @@ void player_ruleset_close(struct player *pplayer)
   pplayer->government = NULL;
   pplayer->target_government = NULL;
   player_set_nation(pplayer, NULL);
+  pplayer->style = NULL;
   pplayer->city_style = 0;
 }
 

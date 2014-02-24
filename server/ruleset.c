@@ -4177,6 +4177,14 @@ static bool load_ruleset_nations(struct section_file *file)
         ok = FALSE;
         break;
       }
+      pnation->style = style_by_rule_name(name);
+      if (pnation->style == NULL) {
+        ruleset_error(LOG_ERROR, "Nation %s: Illegal style \"%s\"",
+                      nation_rule_name(pnation), name);
+        ok = FALSE;
+        break;
+      }
+
       pnation->city_style = city_style_by_rule_name(name);
 
       if (0 <= pnation->city_style && allowed_cstyles) {
@@ -6106,6 +6114,7 @@ static void send_ruleset_nations(struct conn_list *dest)
     } nation_leader_list_iterate_end;
     packet.leader_count = i;
 
+    packet.style = style_number(n->style);
     packet.city_style = n->city_style;
     packet.is_playable = n->is_playable;
     packet.barbarian_type = n->barb_type;

@@ -1842,10 +1842,16 @@ void update_nations_with_startpos(void)
   handled by connection because ctrl users may edit anyone's nation in
   pregame, and editing is possible during a running game.
 **************************************************************************/
-void handle_nation_select_req(struct connection *pc, int player_no,
-                              Nation_type_id nation_no, bool is_male,
-                              const char *name, int city_style)
+void handle_nation_select_req(struct connection *pc,
+                              const struct packet_nation_select_req *packet)
 {
+  int player_no = packet->player_no;
+  Nation_type_id nation_no = packet->nation_no;
+  bool is_male = packet->is_male;
+  const char *name = packet->name;
+  int style = packet->style;
+  int city_style = packet->city_style;
+
   struct nation_type *new_nation;
   struct player *pplayer = player_by_number(player_no);
 
@@ -1859,6 +1865,10 @@ void handle_nation_select_req(struct connection *pc, int player_no,
     char message[1024];
 
     /* check sanity of the packet sent by client */
+    if (style < 0 || style >= game.control.num_styles) {
+      return;
+    }
+
     if (city_style < 0 || city_style >= game.control.styles_count
 	|| city_style_has_requirements(&city_styles[city_style])) {
       return;
@@ -1894,6 +1904,7 @@ void handle_nation_select_req(struct connection *pc, int player_no,
                 player_name(pplayer));
 
     pplayer->is_male = is_male;
+    pplayer->style = style_by_number(style);
     pplayer->city_style = city_style;
   }
 

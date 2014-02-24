@@ -663,6 +663,15 @@ void nations_free(void)
 }
 
 /****************************************************************************
+  Returns nation's style.
+****************************************************************************/
+struct nation_style *style_of_nation(const struct nation_type *pnation)
+{
+  NATION_CHECK(pnation, return 0);
+  return pnation->style;
+}
+
+/****************************************************************************
   Returns nation's city style.
 ****************************************************************************/
 int city_style_of_nation(const struct nation_type *pnation)

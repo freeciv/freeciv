@@ -1995,6 +1995,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
     }
   }
   pplayer->gives_shared_vision = pinfo->gives_shared_vision;
+  pplayer->style = style_by_number(pinfo->style);
   pplayer->city_style = pinfo->city_style;
 
   if (pplayer == client.conn.playing
@@ -3516,6 +3517,7 @@ void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
   name_set(&pnation->noun_plural, pnation->translation_domain, packet->noun_plural);
   sz_strlcpy(pnation->flag_graphic_str, packet->graphic_str);
   sz_strlcpy(pnation->flag_graphic_alt, packet->graphic_alt);
+  pnation->style = style_by_number(packet->style);
   pnation->city_style = packet->city_style;
   for (i = 0; i < packet->leader_count; i++) {
     (void) nation_leader_new(pnation, packet->leader_name[i],

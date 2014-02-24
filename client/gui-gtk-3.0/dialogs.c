@@ -1387,12 +1387,14 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
     }
 
     dsend_packet_nation_select_req(&client.conn,
-				   player_number(races_player), selected_nation,
-				   selected_sex, s, selected_city_style);
+                                   player_number(races_player), selected_nation,
+                                   selected_sex, s,
+                              style_number(nation_by_number(selected_nation)->style),
+                                   selected_city_style);
   } else if (response == GTK_RESPONSE_NO) {
     dsend_packet_nation_select_req(&client.conn,
 				   player_number(races_player),
-				   -1, FALSE, "", 0);
+				   -1, FALSE, "", 0, 0);
   }
 
   popdown_races_dialog();

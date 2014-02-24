@@ -394,6 +394,7 @@ void races_dialog::ok_pressed()
   dsend_packet_nation_select_req(&client.conn, player_number(tplayer),
                                  selected_nation, selected_sex,
                                  leader_name->currentText().toUtf8().data(),
+                              style_number(nation_by_number(selected_nation)->style),
                                  selected_style);
   delete this;
 }
@@ -547,7 +548,7 @@ void races_dialog::cancel_pressed()
 void races_dialog::random_pressed()
 {
   dsend_packet_nation_select_req(&client.conn,player_number(tplayer),-1,
-                                 false, "", 0);
+                                 false, "", 0, 0);
   delete this;
 }
 

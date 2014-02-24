@@ -368,6 +368,7 @@ PACKET_NATION_SELECT_REQ = 10; cs, handle-per-conn, dsend
   NATION nation_no;
   BOOL is_male;
   STRING name[MAX_LEN_NAME];
+  UINT8 style;
   UINT8 city_style;
 end
 
@@ -729,6 +730,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   GOVERNMENT government;
   GOVERNMENT target_government;
   BOOL real_embassy[MAX_NUM_PLAYER_SLOTS];
+  UINT8 style;
   UINT8 city_style;
   UINT8 music_style;
   NATION nation;
@@ -1373,6 +1375,7 @@ PACKET_RULESET_NATION = 148; sc, lsend
   STRING graphic_alt[MAX_LEN_NAME];
   STRING legend[MAX_LEN_MSG];
 
+  UINT8 style;
   UINT8 city_style;
 
   UINT8 leader_count;
@@ -1971,7 +1974,8 @@ PACKET_EDIT_PLAYER = 216; cs, handle-per-conn, lsend
 
   BOOL capital;
   BV_PLAYER embassy;
-  UINT8 city_style;
+#  UINT8 style;
+#  UINT8 city_style;
   GOLD gold;
   PERCENT tax, science, luxury;
 
