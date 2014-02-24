@@ -658,6 +658,9 @@ static void action_entry(GtkWidget *shl,
                          action_probability success_propability,
                          const gchar *label, GCallback handler)
 {
+  gchar *chance_text;
+  gchar *full_label;
+
   /* How to interpret action probabilities like success_propability is
    * documented in actions.h */
   switch (success_propability) {
@@ -674,9 +677,21 @@ static void action_entry(GtkWidget *shl,
     choice_dialog_add(shl, label, handler, NULL, FALSE);
     break;
   default:
-    /* TODO: Display the propability. */
+    /* Should be in the range 1 (0.5%) to 200 (100%) */
+    fc_assert_msg(success_propability < 201,
+                  "Diplomat action probability out of range");
+
+    /* TRANS: the probability that a diplomat action will succeed. */
+    chance_text = g_strdup_printf(_(" (%.1f%% chance of success)"),
+                                  (double)success_propability / 2);
+    full_label = g_strconcat(label, chance_text, NULL);
+
     /* The unit of success_propability is 0.5% chance of success. */
-    choice_dialog_add(shl, label, handler, NULL, FALSE);
+    choice_dialog_add(shl, full_label, handler, NULL, FALSE);
+
+    free(chance_text);
+    free(full_label);
+
     break;
   }
 }
