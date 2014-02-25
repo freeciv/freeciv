@@ -545,6 +545,16 @@ void get_city_dialog_output_text(const struct city *pcity,
     total -= pcity->usage[otype];
   }
 
+  /* This should never happen, but if it does, at least acknowledge to
+   * the user that we are confused, rather than displaying an incorrect
+   * sum. */
+  if (total != pcity->surplus[otype]) {
+    cat_snprintf(buf, bufsz,
+                 /* TRANS: City output that we cannot explain.
+                  * Should never happen. */
+                 _("%+4d : (unknown)\n"), pcity->surplus[otype] - total);
+  }
+
   cat_snprintf(buf, bufsz,
 	       _("==== : Adds up to\n"));
   cat_snprintf(buf, bufsz,
