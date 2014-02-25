@@ -404,7 +404,7 @@ int main(int argc, char *argv[])
     cmdhelp_add(help, NULL,
                 /* TRANS: "scenarios" is exactly what user must type, do not translate. */
                 _("scenarios DIR"),
-                _("Search for scenarios in directory DIR"));
+                _("Save scenarios to directory DIR"));
     cmdhelp_add(help, "S",
                 /* TRANS: "Serverid" is exactly what user must type, do not translate. */
                 _("Serverid ID"),

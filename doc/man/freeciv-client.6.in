@@ -284,6 +284,10 @@ in the user's home directory; and the directory where the files are placed
 by running "make install".  If not set, \fBFREECIV_PATH\fP
 is checked before these defaults are used; in this case Freeciv also
 looks in "scenario" and "scenarios" potential subdirectories.
+
+(This does not affect where the server spawned by the client creates scenario
+files; these are always created in ".freeciv/scenarios" in the user's
+home directory.)
 .TP
 .BI FREECIV_PATH
 A colon separated list of directories to look for various files.
