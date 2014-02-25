@@ -221,6 +221,9 @@ Sets the server \fIid\fP. This is used to identify a particular running game.
 Specifies the \fIdirectory\fP to place save game files created by the server.
 This is especially useful when you're running more than one server on the same
 system, as it inhibits your servers from clobbering other's save game files.
+
+(This does not influence where the server looks when loading save game files;
+see \fBFREECIV_SAVE_PATH\fP for that.)
 .TP
 .BI "\-\-scenarios \fIdirectory\fP"
 Specifies the \fIdirectory\fP to place scenarios saved by the server (for
@@ -342,6 +345,10 @@ in order, for save files: the current directory; and the subdirectory
 ".freeciv/saves" in the user's home directory.  If not set, \fBFREECIV_PATH\fP
 is checked before these defaults are used; in this case Freeciv also
 looks in "saves" potential subdirectories.
+
+(This does not affect where the server creates save game files; see the
+.I \-\-saves
+option for that.)
 .TP
 .BI FREECIV_SCENARIO_PATH
 A colon separated list of directories pointing to the
