@@ -272,6 +272,10 @@ in order, for save files: the current directory; and the subdirectory
 ".freeciv/saves" in the user's home directory.  If not set, \fBFREECIV_PATH\fP
 is checked before these defaults are used; in this case Freeciv also
 looks in "saves" potential subdirectories.
+
+(This does not affect where the server spawned by the client creates save
+game files; these are always created in ".freeciv/saves" in the user's
+home directory.)
 .TP
 .BI FREECIV_SCENARIO_PATH
 A colon separated list of directories pointing to the
