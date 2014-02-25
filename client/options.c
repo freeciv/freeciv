@@ -1726,6 +1726,7 @@ static void voteinfo_bar_callback(struct option *poption);
 static void font_changed_callback(struct option *poption);
 static void mapimg_changed_callback(struct option *poption);
 static void game_music_enable_callback(struct option *poption);
+static void menu_music_enable_callback(struct option *poption);
 
 static struct client_option client_options[] = {
   GEN_STR_OPTION(default_user_name,
@@ -2112,7 +2113,7 @@ static struct client_option client_options[] = {
                   N_("Play music while not in actual game, "
                      "assuming there's suitable "
                      "sound plugin and soundset with the sounds."),
-                  COC_SOUND, GUI_STUB, TRUE, NULL),
+                  COC_SOUND, GUI_STUB, TRUE, menu_music_enable_callback),
   GEN_BOOL_OPTION(autoaccept_soundset_suggestion,
                   N_("Autoaccept soundset suggestions"),
                   N_("If this option is enabled, soundset suggested by "
@@ -5600,6 +5601,20 @@ static void game_music_enable_callback(struct option *poption)
       start_style_music();
     } else {
       stop_style_music();
+    }
+  }
+}
+
+/****************************************************************************
+  Callback for music enabling option.
+****************************************************************************/
+static void menu_music_enable_callback(struct option *poption)
+{
+  if (client_state() != C_S_RUNNING) {
+    if (sound_enable_menu_music) {
+      start_menu_music("music_start", NULL);
+    } else {
+      stop_menu_music();
     }
   }
 }
