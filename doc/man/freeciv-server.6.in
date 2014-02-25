@@ -129,10 +129,31 @@ specified, then the ABRT signal will be used.
 .BI "\-f \fIfilename\fP, \-\-file \fIfilename\fP"
 Loads a saved game (\fIfilename\fP) into the server before initialization,
 instead of starting a new game. This is for reloading saved games, or for 
-loading scenarios. The directory where scenarios are searched for can be
-changed with the
-.I \-\-scenarios
-option.
+loading scenarios. See \fIENVIRONMENT\fP for where the server looks for
+these files.
+
+The distribution comes with several scenarios, typically stored in
+\fI/usr/local/share/freeciv/scenarios\fP, for example:
+
+.IP
+\(bu
+.I british\-isles\-85x80\-v2.80.sav
+
+\(bu
+.I earth\-160x90\-v2.sav
+
+\(bu
+.I earth\-80x50\-v3.sav
+
+\(bu
+.I europe\-200x100\-v2.sav
+
+\(bu
+.I hagworld\-120x60\-v1.2.sav
+
+\(bu
+.I iberian\-peninsula\-136x100\-v1.0.sav
+
 .TP
 .BI "\-G, \-\-Guests"
 Allow guests to login as 'guest' when authentication is enabled.
@@ -202,29 +223,11 @@ This is especially useful when you're running more than one server on the same
 system, as it inhibits your servers from clobbering other's save game files.
 .TP
 .BI "\-\-scenarios \fIdirectory\fP"
-Specifies the \fIdirectory\fP where scenarios are searched for.
-The distribution comes with several scenarios, typically stored in
-\fI/usr/local/share/freeciv/scenarios\fP, for example:
+Specifies the \fIdirectory\fP to place scenarios saved by the server (for
+instance, those created with the in-game editor).
 
-.IP
-\(bu
-.I british\-isles\-85x80\-v2.80.sav
-
-\(bu
-.I earth\-160x90\-v2.sav
-
-\(bu
-.I earth\-80x50\-v3.sav
-
-\(bu
-.I europe\-200x100\-v2.sav
-
-\(bu
-.I hagworld\-120x60\-v1.2.sav
-
-\(bu
-.I iberian\-peninsula\-136x100\-v1.0.sav
-
+(This does not influence where the server looks when loading scenario files;
+see \fBFREECIV_SCENARIO_PATH\fP for that.)
 .TP
 .BI "\-v, \-\-version"
 Causes the server to display its version number and exit.
@@ -351,6 +354,10 @@ in the user's home directory; and the directory where the files are placed
 by running "make install".  If not set, \fBFREECIV_PATH\fP
 is checked before these defaults are used; in this case Freeciv also
 looks in "scenario" and "scenarios" potential subdirectories.
+
+(This does not affect where the server creates scenario files; see the
+.I \-\-scenarios
+option for that.)
 .TP
 .BI FREECIV_PATH
 A colon separated list of directories to look for various files.
