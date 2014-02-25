@@ -23,6 +23,7 @@
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
+#include "rand.h"
 #include "string_vector.h"
 #include "support.h"
 
@@ -875,6 +876,8 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
 	  unit_list_prepend(pcity->units_supported, punit);
       unit_list_iterate_end;
     } players_iterate_end;
+
+    pcity->client.first_citizen_index = fc_rand(MAX_NUM_CITIZEN_SPRITES);
   } else {
     if (client_is_global_observer() || powner == client_player()) {
       city_report_dialog_update_city(pcity);

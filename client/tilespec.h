@@ -115,6 +115,8 @@ enum mapview_layer {
 
 #define NUM_TILES_PROGRESS 8
 
+#define MAX_NUM_CITIZEN_SPRITES 6
+
 enum arrow_type {
   ARROW_RIGHT,
   ARROW_PLUS,

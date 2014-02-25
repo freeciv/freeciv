@@ -109,7 +109,6 @@
 #define NUM_TILES_HP_BAR 11
 #define NUM_TILES_DIGITS 10
 #define NUM_TILES_SELECT 4
-#define MAX_NUM_CITIZEN_SPRITES 6
 #define MAX_NUM_UPKEEP_SPRITES 10
 
 #define SPECENUM_NAME extrastyle_id
@@ -5518,6 +5517,11 @@ struct sprite *get_citizen_sprite(const struct tileset *t,
 				  const struct city *pcity)
 {
   const struct citizen_graphic *graphic;
+  int gfx_index = citizen_index;
+
+  if (pcity != NULL) {
+    gfx_index += pcity->client.first_citizen_index;
+  }
 
   if (type < CITIZEN_SPECIALIST) {
     fc_assert(type >= 0);
@@ -5527,7 +5531,7 @@ struct sprite *get_citizen_sprite(const struct tileset *t,
     graphic = &t->sprites.specialist[type - CITIZEN_SPECIALIST];
   }
 
-  return graphic->sprite[citizen_index % graphic->count];
+  return graphic->sprite[gfx_index % graphic->count];
 }
 
 /**************************************************************************

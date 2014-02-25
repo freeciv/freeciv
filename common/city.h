@@ -427,6 +427,8 @@ struct city {
 
       /* Updates needed for the city. */
       enum city_updates need_updates;
+
+      unsigned char first_citizen_index;
     } client;
   };
 };
