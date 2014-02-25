@@ -1370,7 +1370,9 @@ void transform_unit(struct unit *punit, struct unit_type *to_unit,
                     bool is_free)
 {
   struct player *pplayer = unit_owner(punit);
-  int old_mr = unit_move_rate(punit), old_hp = unit_type(punit)->hp;
+  struct unit_type *old_type = punit->utype;
+  int old_mr = unit_move_rate(punit);
+  int old_hp = unit_type(punit)->hp;
 
   if (!is_free) {
     pplayer->economic.gold -=
@@ -1409,6 +1411,8 @@ void transform_unit(struct unit *punit, struct unit_type *to_unit,
   conn_list_do_buffer(pplayer->connections);
 
   unit_refresh_vision(punit);
+
+  CALL_PLR_AI_FUNC(unit_transformed, pplayer, punit, old_type);
 
   send_unit_info(NULL, punit);
   conn_list_do_unbuffer(pplayer->connections);
