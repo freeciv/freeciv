@@ -262,18 +262,6 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 
   log_debug("embassy: unit: %d", pdiplomat->id);
 
-  /* Check for Barbarian response. */
-  if (get_player_bonus(cplayer, EFT_NO_DIPLOMACY)) {
-    notify_player(pplayer, city_tile(pcity),
-                  E_MY_DIPLOMAT_FAILED, ftc_server,
-                  _("Your %s was executed in %s by primitive %s."),
-                  unit_tile_link(pdiplomat),
-                  city_link(pcity),
-                  nation_plural_for_player(cplayer));
-    wipe_unit(pdiplomat, ULR_EXECUTED, cplayer);
-    return;
-  }
-
   log_debug("embassy: succeeded");
 
   establish_embassy(pplayer, cplayer);
