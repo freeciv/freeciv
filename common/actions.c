@@ -397,7 +397,7 @@ action_prob(const enum gen_action wanted_action,
     /* TODO */
     break;
   case ACTION_ESTABLISH_EMBASSY:
-    /* TODO */
+    chance = 200;
     break;
   case ACTION_SPY_STEAL_TECH:
     /* TODO */
