@@ -43,6 +43,8 @@ int aiferry_avail_boats(struct ai_type *ait, struct player *pplayer);
  */
 void dai_ferry_init_ferry(struct ai_type *ait, struct unit *ferry);
 void dai_ferry_close_ferry(struct ai_type *ait, struct unit *ferry);
+void dai_ferry_transformed(struct ai_type *ait, struct unit *ferry,
+                           struct unit_type *old);
 
 /*
  * Release the boat reserved in punit's ai.ferryboat field.
