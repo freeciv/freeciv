@@ -311,7 +311,8 @@ static void dai_hunter_try_launch(struct ai_type *ait,
         if (move_cost > missile->moves_left / SINGLE_MOVE) {
           break;
         }
-        if (tile_city(ptile) || !can_unit_attack_tile(punit, ptile)) {
+        if (tile_city(ptile)
+            || can_unit_attack_tile(punit, ptile) != ATT_OK) {
           continue;
         }
         unit_list_iterate(ptile->units, victim) {
@@ -434,7 +435,8 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
       return 0;
     }
 
-    if (tile_city(ptile) || !can_unit_attack_tile(punit, ptile)) {
+    if (tile_city(ptile)
+        || can_unit_attack_tile(punit, ptile) != ATT_OK) {
       continue;
     }
 

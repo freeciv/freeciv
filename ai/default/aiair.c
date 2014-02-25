@@ -129,7 +129,7 @@ static int dai_evaluate_tile_for_air_attack(struct unit *punit,
   int sortie_time;
 #define PROB_MULTIPLIER 100 /* should unify with those in combat.c */
 
-  if (!can_unit_attack_tile(punit, dst_tile)
+  if (can_unit_attack_tile(punit, dst_tile) != ATT_OK
       || !(pdefender = get_defender(punit, dst_tile))) {
     return 0;
   }
@@ -222,7 +222,7 @@ static int find_something_to_bomb(struct ai_type *ait, struct unit *punit,
 
     if (is_enemy_unit_tile(ptile, pplayer)
         && dai_should_we_air_attack_tile(ait, punit, ptile)
-        && can_unit_attack_tile(punit, ptile)) {
+        && can_unit_attack_tile(punit, ptile) == ATT_OK) {
       int new_best = dai_evaluate_tile_for_air_attack(punit, ptile);
 
       if (new_best > best) {
