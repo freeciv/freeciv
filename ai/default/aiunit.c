@@ -418,7 +418,7 @@ static int ai_rampage_want(struct unit *punit, struct tile *ptile)
 
   CHECK_UNIT(punit);
 
-  if (can_unit_attack_tile(punit, ptile)
+  if (can_unit_attack_tile(punit, ptile) == ATT_OK
       && (pdef = get_defender(punit, ptile))) {
     /* See description of kill_desire() about these variables. */
     int attack = unit_att_rating_now(punit);
@@ -1259,7 +1259,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         go_by_boat = TRUE;
       }
 
-      if (can_unit_attack_tile(punit, city_tile(acity))
+      if (can_unit_attack_tile(punit, city_tile(acity)) == ATT_OK
           && (pdefender = get_defender(punit, city_tile(acity)))) {
         vulnerability = unit_def_rating_sq(punit, pdefender);
         benefit = unit_build_shield_cost(pdefender);
@@ -1433,7 +1433,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       /* We have to assume the attack is diplomatically ok.
        * We cannot use can_player_attack_tile, because we might not
        * be at war with aplayer yet */
-      if (!can_unit_attack_tile(punit, atile)
+      if (can_unit_attack_tile(punit, atile) != ATT_OK
           || !(aunit == get_defender(punit, atile))) {
         /* We cannot attack it, or it is not the main defender. */
         continue;
@@ -1651,7 +1651,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
                            NULL, &ferryboat, NULL, NULL);
     if (!same_pos(unit_tile(punit), dest_tile)) {
       if (!is_tiles_adjacent(unit_tile(punit), dest_tile)
-          || !can_unit_attack_tile(punit, dest_tile)) {
+          || can_unit_attack_tile(punit, dest_tile) != ATT_OK) {
 
         /* Adjacent and can't attack usually means we are not marines
          * and on a ferry. This fixes the problem (usually). */
