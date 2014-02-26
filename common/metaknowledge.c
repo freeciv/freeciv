@@ -110,8 +110,7 @@ static bool is_req_knowable(const struct player *pow_player,
 
   if (req->source.kind == VUT_ADVANCE || req->source.kind == VUT_TECHFLAG) {
     if (req->range == REQ_RANGE_PLAYER
-        && (pow_player == target_player
-            || player_has_embassy(pow_player, target_player))) {
+        && can_see_techs_of_target(pow_player, target_player)) {
       return TRUE;
     }
   }
@@ -202,4 +201,14 @@ mke_eval_reqs(const struct player *pow_player,
   } requirement_vector_iterate_end;
 
   return result;
+}
+
+/**************************************************************************
+  Can pow_player see the techs of target player?
+**************************************************************************/
+bool can_see_techs_of_target(const struct player *pow_player,
+                             const struct player *target_player)
+{
+  return pow_player == target_player
+      || player_has_embassy(pow_player, target_player);
 }

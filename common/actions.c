@@ -18,6 +18,7 @@
 /* common */
 #include "actions.h"
 #include "city.h"
+#include "game.h"
 #include "unit.h"
 #include "tile.h"
 
@@ -345,6 +346,33 @@ action_enabled_local(const enum gen_action wanted_action,
 }
 
 /**************************************************************************
+  Does the target has any techs the actor don't?
+**************************************************************************/
+static enum fc_tristate
+tech_can_be_stolen(const struct player *actor_player,
+                   const struct player *target_player)
+{
+  if (can_see_techs_of_target(actor_player, target_player)) {
+    advance_iterate(A_FIRST, padvance) {
+      Tech_type_id i = advance_number(padvance);
+
+      if (player_invention_state(target_player, i) == TECH_KNOWN
+          && player_invention_gettable(actor_player, i,
+                                       game.info.tech_steal_allow_holes)
+          && (player_invention_state(actor_player, i) == TECH_UNKNOWN
+              || (player_invention_state(actor_player, i)
+                  == TECH_PREREQS_KNOWN))) {
+        return TRI_YES;
+      }
+    } advance_iterate_end;
+  } else {
+    return TRI_MAYBE;
+  }
+
+  return TRI_NO;
+}
+
+/**************************************************************************
   An action's probability of success.
 **************************************************************************/
 static action_probability
@@ -400,10 +428,20 @@ action_prob(const enum gen_action wanted_action,
     chance = 200;
     break;
   case ACTION_SPY_STEAL_TECH:
-    /* TODO */
+    /* Do the victim have anything worth taking? */
+    known = tri_and(known,
+                    tech_can_be_stolen(actor_player, target_player));
+
+    /* TODO: Calculate actual chance */
+
     break;
   case ACTION_SPY_TARGETED_STEAL_TECH:
-    /* TODO */
+    /* Do the victim have anything worth taking? */
+    known = tri_and(known,
+                    tech_can_be_stolen(actor_player, target_player));
+
+    /* TODO: Calculate actual chance */
+
     break;
   case ACTION_SPY_INVESTIGATE_CITY:
     /* There is no risk that the city won't get investigated. */

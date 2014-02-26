@@ -48,6 +48,10 @@ mke_eval_reqs(const struct player *pow_player,
               const struct specialist *target_specialist,
               const struct requirement_vector *reqs);
 
+
+bool can_see_techs_of_target(const struct player *pow_player,
+                             const struct player *target_player);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
