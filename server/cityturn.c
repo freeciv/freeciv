@@ -35,6 +35,7 @@
 #include "achievements.h"
 #include "citizens.h"
 #include "city.h"
+#include "culture.h"
 #include "events.h"
 #include "disaster.h"
 #include "game.h"
@@ -2439,6 +2440,11 @@ static void update_city_activity(struct city *pcity)
   if (city_build_stuff(pplayer, pcity)) {
     int saved_id;
     int revolution_turns;
+
+    pcity->history += city_history_gain(pcity);
+
+    /* History can decrease, but never go below zero */
+    pcity->history = MAX(pcity->history, 0);
 
     if (city_celebrating(pcity)) {
       pcity->rapture++;

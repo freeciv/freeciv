@@ -374,6 +374,8 @@ struct city {
 
   struct unit_list *units_supported;
 
+  int history;                 /* Cumulative culture */
+
   union {
     struct {
       /* Only used in the server (./ai/ and ./server/). */

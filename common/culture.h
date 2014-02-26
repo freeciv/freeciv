@@ -20,6 +20,7 @@ extern "C" {
 struct city;
 
 int city_culture(struct city *pcity);
+int city_history_gain(struct city *pcity);
 
 #ifdef __cplusplus
 }

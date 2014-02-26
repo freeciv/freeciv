@@ -665,6 +665,8 @@ void handle_city_info(const struct packet_city_info *packet)
     fc_assert(citizens_count(pcity) == city_size_get(pcity));
   }
 
+  pcity->history = packet->history;
+
   pcity->city_radius_sq = packet->city_radius_sq;
 
   pcity->city_options = packet->city_options;

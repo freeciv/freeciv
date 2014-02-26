@@ -442,6 +442,9 @@ Victory
 Performance
     Value is how much performance type culture city produces.
 
+History
+    Value is how much history type (cumulative) culture city produces.
+
 
 Details about requirement types
 ===============================

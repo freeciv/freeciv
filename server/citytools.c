@@ -2088,6 +2088,8 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
     fc_assert(cit == packet->size);
   }
 
+  packet->history = pcity->history;
+
   if (packet->size != ppl) {
     static bool recursion = FALSE;
 

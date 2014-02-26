@@ -254,6 +254,8 @@ struct requirement;
 #define SPECENUM_VALUE97NAME "Victory"
 #define SPECENUM_VALUE98 EFT_PERFORMANCE
 #define SPECENUM_VALUE98NAME "Performance"
+#define SPECENUM_VALUE99 EFT_HISTORY
+#define SPECENUM_VALUE99NAME "History"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"

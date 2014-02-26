@@ -4238,6 +4238,8 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   sg_warn_ret_val(secfile_lookup_int(loading->file, &pcity->shield_stock,
                                     "%s.shield_stock", citystr),
                   FALSE, "%s", secfile_error());
+  pcity->history =
+    secfile_lookup_int_default(loading->file, 0, "%s.history", citystr);
 
   pcity->airlift =
     secfile_lookup_int_default(loading->file, 0, "%s.airlift", citystr);
@@ -4536,6 +4538,8 @@ static void sg_save_player_cities(struct savedata *saving,
     secfile_insert_int(saving->file, pcity->food_stock, "%s.food_stock",
                        buf);
     secfile_insert_int(saving->file, pcity->shield_stock, "%s.shield_stock",
+                       buf);
+    secfile_insert_int(saving->file, pcity->history, "%s.history",
                        buf);
 
     secfile_insert_int(saving->file, pcity->airlift, "%s.airlift",

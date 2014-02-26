@@ -1476,6 +1476,7 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_IRRIG_TF_POSSIBLE:
   case EFT_MINING_TF_POSSIBLE:
   case EFT_PERFORMANCE:
+  case EFT_HISTORY:
     break;
     /* This has no effect for AI */
   case EFT_VISIBLE_WALLS:
