@@ -74,6 +74,7 @@ TerrainClass:  Local, Adjacent, CAdjacent, City
 TerrainFlag:   Local, Adjacent, CAdjacent, City
 TerrainAlter:  Local
 CityTile:      Local, Adjacent, CAdjacent
+Style:         Player
 
 MinSize is the minimum size of a city required.
 AI is ai player difficulty level.

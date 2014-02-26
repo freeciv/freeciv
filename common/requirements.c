@@ -29,6 +29,7 @@
 #include "map.h"
 #include "road.h"
 #include "specialist.h"
+#include "style.h"
 
 #include "requirements.h"
 
@@ -75,6 +76,12 @@ struct universal universal_by_rule_name(const char *kind,
   case VUT_ACHIEVEMENT:
     source.value.achievement = achievement_by_rule_name(value);
     if (source.value.achievement != NULL) {
+      return source;
+    }
+    break;
+  case VUT_STYLE:
+    source.value.style = style_by_rule_name(value);
+    if (source.value.style != NULL) {
       return source;
     }
     break;
@@ -264,6 +271,12 @@ struct universal universal_by_number(const enum universals_n kind,
       return source;
     }
     break;
+  case VUT_STYLE:
+    source.value.style = style_by_number(value);
+    if (source.value.style != NULL) {
+      return source;
+    }
+    break;
   case VUT_IMPROVEMENT:
     source.value.building = improvement_by_number(value);
     if (source.value.building != NULL) {
@@ -396,6 +409,8 @@ int universal_number(const struct universal *source)
     return government_number(source->value.govern);
   case VUT_ACHIEVEMENT:
     return achievement_number(source->value.achievement);
+  case VUT_STYLE:
+    return style_number(source->value.style);
   case VUT_IMPROVEMENT:
     return improvement_number(source->value.building);
   case VUT_EXTRA:
@@ -502,6 +517,7 @@ struct requirement req_from_str(const char *type, const char *range,
       break;
     case VUT_GOVERNMENT:
     case VUT_ACHIEVEMENT:
+    case VUT_STYLE:
     case VUT_ADVANCE:
     case VUT_TECHFLAG:
     case VUT_NATION:
@@ -542,6 +558,7 @@ struct requirement req_from_str(const char *type, const char *range,
     break;
   case VUT_GOVERNMENT:
   case VUT_AI_LEVEL:
+  case VUT_STYLE:
     invalid = (req.range != REQ_RANGE_PLAYER);
     break;
   case VUT_MINSIZE:
@@ -624,6 +641,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_EXTRA:
     case VUT_TECHFLAG:
     case VUT_ACHIEVEMENT:
+    case VUT_STYLE:
     case VUT_DIPLREL:
     case VUT_MAXTILEUNITS:
       /* Most requirements don't support 'survives'. */
@@ -1818,6 +1836,13 @@ bool is_req_active(const struct player *target_player,
     eval = is_achievement_in_range(target_player, req->range,
                                    req->source.value.achievement);
     break;
+  case VUT_STYLE:
+    if (target_player == NULL) {
+      eval = TRI_MAYBE;
+    } else {
+      eval = BOOL_TO_TRISTATE(target_player->style == req->source.value.style);
+    }
+    break;
   case VUT_IMPROVEMENT:
     eval = is_building_in_range(target_player, target_city,
                                 target_building,
@@ -2024,6 +2049,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_SPECIALIST:	/* Only so long as it's at local range only */
   case VUT_AI_LEVEL:
   case VUT_CITYTILE:
+  case VUT_STYLE:
     return TRUE;
   case VUT_ADVANCE:
   case VUT_TECHFLAG:
@@ -2083,6 +2109,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.govern == psource2->value.govern;
   case VUT_ACHIEVEMENT:
     return psource1->value.achievement == psource2->value.achievement;
+  case VUT_STYLE:
+    return psource1->value.style == psource2->value.style;
   case VUT_IMPROVEMENT:
     return psource1->value.building == psource2->value.building;
   case VUT_EXTRA:
@@ -2166,6 +2194,8 @@ const char *universal_rule_name(const struct universal *psource)
     return government_rule_name(psource->value.govern);
   case VUT_ACHIEVEMENT:
     return achievement_rule_name(psource->value.achievement);
+  case VUT_STYLE:
+    return style_rule_name(psource->value.style);
   case VUT_IMPROVEMENT:
     return improvement_rule_name(psource->value.building);
   case VUT_EXTRA:
@@ -2246,6 +2276,10 @@ const char *universal_name_translation(const struct universal *psource,
     return buf;
   case VUT_ACHIEVEMENT:
     fc_strlcat(buf, achievement_name_translation(psource->value.achievement),
+               bufsz);
+    return buf;
+  case VUT_STYLE:
+    fc_strlcat(buf, style_name_translation(psource->value.style),
                bufsz);
     return buf;
   case VUT_IMPROVEMENT:

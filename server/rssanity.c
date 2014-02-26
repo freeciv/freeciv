@@ -159,6 +159,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
      case VUT_AI_LEVEL:
      case VUT_TERRAINALTER: /* Local range only */
      case VUT_CITYTILE:
+     case VUT_STYLE:
        /* There can be only one requirement of these types (with current
         * range limitations)
         * Requirements might be identical, but we consider multiple

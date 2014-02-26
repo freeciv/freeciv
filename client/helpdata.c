@@ -763,6 +763,19 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     break;
 
+  case VUT_STYLE:
+
+    fc_assert(preq->range == REQ_RANGE_PLAYER);
+
+    if (preq->present) {
+      cat_snprintf(buf, bufsz, _("Requires %s style nation.\n"),
+                   style_name_translation(preq->source.value.style));
+    } else {
+      cat_snprintf(buf, bufsz, _("Requires that nation is not %s style.\n"),
+                   style_name_translation(preq->source.value.style));
+    }
+    break;
+
   case VUT_NATIONALITY:
     switch (preq->range) {
     case REQ_RANGE_CITY:

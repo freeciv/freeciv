@@ -295,6 +295,7 @@ typedef union {
   struct extra_type *extra;
   struct resource *resource;
   struct achievement *achievement;
+  struct nation_style *style;
 
   enum ai_level ai_level;
   enum citytile_type citytile;
@@ -378,6 +379,8 @@ typedef union {
 #define SPECENUM_VALUE26NAME "DiplRel"
 #define SPECENUM_VALUE27 VUT_MAXTILEUNITS
 #define SPECENUM_VALUE27NAME "MaxUnitsOnTile"
+#define SPECENUM_VALUE28 VUT_STYLE
+#define SPECENUM_VALUE28NAME "Style"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"
