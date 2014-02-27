@@ -591,12 +591,19 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
   }
 
   /* Put the remaining to tax or science. */
-  if (!adv_wants_science(pplayer) || dai_on_war_footing(ait, pplayer)) {
+  if (!adv_wants_science(pplayer)) {
     rates[AI_RATE_TAX] = MIN(maxrate, rates[AI_RATE_TAX]
                                       + RATE_REMAINS(rates));
     rates[AI_RATE_LUX] = MIN(maxrate, rates[AI_RATE_LUX]
                                       + RATE_REMAINS(rates));
     rates[AI_RATE_SCI] = MIN(maxrate, rates[AI_RATE_SCI]
+                                      + RATE_REMAINS(rates));
+  } else if (dai_on_war_footing(ait, pplayer)) {
+    rates[AI_RATE_TAX] = MIN(maxrate, rates[AI_RATE_TAX]
+                                      + RATE_REMAINS(rates));
+    rates[AI_RATE_SCI] = MIN(maxrate, rates[AI_RATE_SCI]
+                                      + RATE_REMAINS(rates));
+    rates[AI_RATE_LUX] = MIN(maxrate, rates[AI_RATE_LUX]
                                       + RATE_REMAINS(rates));
   } else {
     rates[AI_RATE_SCI] = MIN(maxrate, rates[AI_RATE_SCI]
