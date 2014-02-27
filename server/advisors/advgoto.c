@@ -288,8 +288,8 @@ bool adv_danger_at(struct unit *punit, struct tile *ptile)
     }
     unit_list_iterate(ptile1->units, enemy) {
       if (pplayers_at_war(unit_owner(enemy), unit_owner(punit))
-          && can_unit_attack_unit_at_tile(enemy, punit, ptile) == ATT_OK
-          && can_unit_attack_units_at_tile(enemy, ptile) == ATT_OK) {
+          && unit_attack_unit_at_tile_result(enemy, punit, ptile) == ATT_OK
+          && unit_attack_units_at_tile_result(enemy, ptile) == ATT_OK) {
         a += adv_unit_att_rating(enemy);
         if ((a * a * 10) >= d) {
           /* The enemies combined strength is too big! */

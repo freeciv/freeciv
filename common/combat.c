@@ -118,9 +118,9 @@ bool is_unit_reachable_at(const struct unit *defender,
   2) Adjacency
   3) Diplomatic status
 ***********************************************************************/
-enum unit_attack_result can_unit_attack_unit_at_tile(const struct unit *punit,
-                                                     const struct unit *pdefender,
-                                                     const struct tile *dest_tile)
+enum unit_attack_result unit_attack_unit_at_tile_result(const struct unit *punit,
+                                                        const struct unit *pdefender,
+                                                        const struct tile *dest_tile)
 {
   /* 1. Can we attack _anything_ ? */
   if (!is_military_unit(punit) || !is_attack_unit(punit)) {
@@ -153,8 +153,8 @@ enum unit_attack_result can_unit_attack_unit_at_tile(const struct unit *punit,
   To attack a stack, unit must be able to attack every unit there (not
   including transported units).
 ************************************************************************/
-static enum unit_attack_result can_unit_attack_all_at_tile(const struct unit *punit,
-                                                           const struct tile *ptile)
+static enum unit_attack_result unit_attack_all_at_tile_result(const struct unit *punit,
+                                                              const struct tile *ptile)
 {
   unit_list_iterate(ptile->units, aunit) {
     /* HACK: we don't count transported units here.  This prevents some
@@ -165,7 +165,7 @@ static enum unit_attack_result can_unit_attack_all_at_tile(const struct unit *pu
     if (!unit_transported(aunit)) {
         enum unit_attack_result result;
 
-        result = can_unit_attack_unit_at_tile(punit, aunit, ptile);
+        result = unit_attack_unit_at_tile_result(punit, aunit, ptile);
         if (result != ATT_OK) {
           return result;
         }
@@ -180,8 +180,8 @@ static enum unit_attack_result can_unit_attack_all_at_tile(const struct unit *pu
   To attack a stack, unit must be able to attack some unit there (not
   including transported units).
 ************************************************************************/
-static enum unit_attack_result can_unit_attack_any_at_tile(const struct unit *punit,
-                                                           const struct tile *ptile)
+static enum unit_attack_result unit_attack_any_at_tile_result(const struct unit *punit,
+                                                              const struct tile *ptile)
 {
   enum unit_attack_result result = ATT_OK;
 
@@ -189,7 +189,7 @@ static enum unit_attack_result can_unit_attack_any_at_tile(const struct unit *pu
     /* HACK: we don't count transported units here.  This prevents some
      * bugs like a cargoplane carrying a land unit being vulnerable. */
     if (!unit_transported(aunit)) {
-      result = can_unit_attack_unit_at_tile(punit, aunit, ptile);
+      result = unit_attack_unit_at_tile_result(punit, aunit, ptile);
       if (result == ATT_OK) {
         return result;
       }
@@ -204,13 +204,13 @@ static enum unit_attack_result can_unit_attack_any_at_tile(const struct unit *pu
 /***********************************************************************
   Check if unit can attack unit stack at tile.
 ***********************************************************************/
-enum unit_attack_result can_unit_attack_units_at_tile(const struct unit *punit,
-                                                      const struct tile *ptile)
+enum unit_attack_result unit_attack_units_at_tile_result(const struct unit *punit,
+                                                         const struct tile *ptile)
 {
   if (game.info.unreachable_protects) {
-    return can_unit_attack_all_at_tile(punit, ptile);
+    return unit_attack_all_at_tile_result(punit, ptile);
   } else {
-    return can_unit_attack_any_at_tile(punit, ptile);
+    return unit_attack_any_at_tile_result(punit, ptile);
   }
 }
 
@@ -222,7 +222,7 @@ bool can_unit_attack_tile(const struct unit *punit,
                           const struct tile *dest_tile)
 {
   return (can_player_attack_tile(unit_owner(punit), dest_tile)
-          && can_unit_attack_units_at_tile(punit, dest_tile) == ATT_OK);
+          && unit_attack_units_at_tile_result(punit, dest_tile) == ATT_OK);
 }
 
 /***********************************************************************
@@ -664,7 +664,7 @@ struct unit *get_defender(const struct unit *attacker,
     /* We used to skip over allied units, but the logic for that is
      * complicated and is now handled elsewhere. */
     if (unit_can_defend_here(defender)
-        && can_unit_attack_unit_at_tile(attacker, defender, ptile) == ATT_OK) {
+        && unit_attack_unit_at_tile_result(attacker, defender, ptile) == ATT_OK) {
       bool change = FALSE;
       int build_cost = unit_build_shield_cost(defender);
       int defense_rating = get_defense_rating(attacker, defender);
