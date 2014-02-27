@@ -25,6 +25,10 @@
 static struct action *actions[ACTION_COUNT];
 static struct action_enabler_list *action_enablers_by_action[ACTION_COUNT];
 
+static struct action *action_new(enum gen_action id,
+                                 enum action_target_kind target_kind,
+                                 const char *ui_name);
+
 static bool is_enabler_active(const struct action_enabler *enabler,
 			      const struct player *actor_player,
 			      const struct city *actor_city,
@@ -46,18 +50,39 @@ static bool is_enabler_active(const struct action_enabler *enabler,
 **************************************************************************/
 void actions_init(void)
 {
+  /* Hard code the actions */
+  actions[ACTION_SPY_POISON] = action_new(ACTION_SPY_POISON, ATK_CITY,
+                                          N_("Poison City"));
+  actions[ACTION_SPY_SABOTAGE_UNIT] = action_new(ACTION_SPY_SABOTAGE_UNIT,
+                                                 ATK_UNIT,
+                                                 N_("Sabotage Enemy Unit"));
+  actions[ACTION_SPY_BRIBE_UNIT] = action_new(ACTION_SPY_BRIBE_UNIT,
+                                              ATK_UNIT,
+                                              N_("Bribe Enemy Unit"));
+  actions[ACTION_SPY_SABOTAGE_CITY] = action_new(ACTION_SPY_SABOTAGE_CITY,
+                                                 ATK_CITY,
+                                                 N_("Sabotage City"));
+  actions[ACTION_SPY_TARGETED_SABOTAGE_CITY] =
+      action_new(ACTION_SPY_TARGETED_SABOTAGE_CITY, ATK_CITY,
+                 N_("Industrial Sabotage"));
+  actions[ACTION_SPY_INCITE_CITY] = action_new(ACTION_SPY_INCITE_CITY,
+                                               ATK_CITY,
+                                               N_("Incite a Revolt"));
+  actions[ACTION_ESTABLISH_EMBASSY] = action_new(ACTION_ESTABLISH_EMBASSY,
+                                                 ATK_CITY,
+                                                 N_("Establish Embassy"));
+  actions[ACTION_SPY_STEAL_TECH] = action_new(ACTION_SPY_STEAL_TECH,
+                                              ATK_CITY,
+                                              N_("Steal Technology"));
+  actions[ACTION_SPY_TARGETED_STEAL_TECH] =
+      action_new(ACTION_SPY_TARGETED_STEAL_TECH, ATK_CITY,
+                 N_("Industrial espionage"));
+  actions[ACTION_SPY_INVESTIGATE_CITY] =
+      action_new(ACTION_SPY_INVESTIGATE_CITY, ATK_CITY,
+                 N_("Investigate City"));
+
+  /* Initialize the action enabler list */
   action_iterate(act) {
-    actions[act] = action_new();
-
-    actions[act]->id = act;
-
-    if (act == ACTION_SPY_SABOTAGE_UNIT ||
-        act == ACTION_SPY_BRIBE_UNIT) {
-      actions[act]->target_kind = ATK_UNIT;
-    } else {
-      actions[act]->target_kind = ATK_CITY;
-    }
-
     action_enablers_by_action[act] = action_enabler_list_new();
   } action_iterate_end;
 }
@@ -83,11 +108,17 @@ void actions_free(void)
 /**************************************************************************
   Create a new action.
 **************************************************************************/
-struct action *action_new(void)
+static struct action *action_new(enum gen_action id,
+                                 enum action_target_kind target_kind,
+                                 const char *ui_name)
 {
   struct action *action;
 
   action = fc_malloc(sizeof(*action));
+
+  action->id = id;
+  action->target_kind = target_kind;
+  sz_strlcpy(action->ui_name, ui_name);
 
   return action;
 }
@@ -100,6 +131,16 @@ enum action_target_kind action_get_target_kind(int action_id)
   fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
 
   return actions[action_id]->target_kind;
+}
+
+/**************************************************************************
+  Get the name shown in the UI for the action.
+**************************************************************************/
+const char *action_get_ui_name(int action_id)
+{
+  fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
+
+  return actions[action_id]->ui_name;
 }
 
 /**************************************************************************

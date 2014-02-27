@@ -101,6 +101,8 @@ struct action
 {
   enum gen_action id;
   enum action_target_kind target_kind;
+
+  char ui_name[MAX_LEN_NAME];
 };
 
 struct action_enabler
@@ -141,8 +143,8 @@ struct action_enabler
 void actions_init(void);
 void actions_free(void);
 
-struct action *action_new(void);
 enum action_target_kind action_get_target_kind(int action_id);
+const char *action_get_ui_name(int action_id);
 
 struct action_enabler_list *
 action_enablers_for_action(enum gen_action action);
