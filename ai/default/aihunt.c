@@ -306,7 +306,7 @@ static void ai_hunter_try_launch(struct player *pplayer,
           break;
         }
         if (tile_city(ptile)
-            || can_unit_attack_tile(punit, ptile) != ATT_OK) {
+            || can_unit_attack_tile(punit, ptile)) {
           continue;
         }
         unit_list_iterate(ptile->units, victim) {
@@ -428,7 +428,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
     }
 
     if (tile_city(ptile)
-        || can_unit_attack_tile(punit, ptile) != ATT_OK) {
+        || can_unit_attack_tile(punit, ptile)) {
       continue;
     }
 

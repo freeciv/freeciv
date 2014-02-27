@@ -994,7 +994,7 @@ static bool can_units_attack_at(struct unit_list *punits,
 {
   unit_list_iterate(punits, punit) {
     if (is_attack_unit(punit)
-        && can_unit_attack_tile(punit, ptile) == ATT_OK) {
+        && can_unit_attack_tile(punit, ptile)) {
       return TRUE;
     }
   } unit_list_iterate_end;
