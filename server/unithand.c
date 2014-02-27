@@ -1560,7 +1560,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     /* Depending on 'unreachableprotects' setting, must be physically able
      * to attack EVERY unit there or must be physically able to attack SOME
      * unit there */
-    ua_result = can_unit_attack_units_at_tile(punit, pdesttile);
+    ua_result = unit_attack_units_at_tile_result(punit, pdesttile);
     if (NULL == pcity && ua_result != ATT_OK) {
       struct tile *src_tile = unit_tile(punit);
 
