@@ -36,6 +36,7 @@
 
 /* common */
 #include "achievements.h"
+#include "actions.h"
 #include "city.h"
 #include "effects.h"
 #include "game.h"
@@ -1988,6 +1989,54 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
   }						\
 }
 
+/****************************************************************************
+  Will the specified unit type fullfill the requirements in the list?
+****************************************************************************/
+static bool
+unit_type_fulfills_requirement(struct unit_type *utype,
+                               struct requirement_vector *reqs)
+{
+  bool fulfills = TRUE;
+
+  fc_assert(utype);
+  fc_assert(reqs);
+
+  requirement_vector_iterate(reqs, preq) {
+    bool found = FALSE;
+
+    switch (preq->source.kind) {
+    case VUT_UTYPE:
+      found = utype == preq->source.value.utype;
+      break;
+    case VUT_UCLASS:
+      found = utype_class(utype) == preq->source.value.uclass;
+      break;
+    case VUT_UTFLAG:
+      found = utype_has_flag(utype, preq->source.value.unitflag);
+      break;
+    case VUT_UCFLAG:
+      found = uclass_has_flag(utype_class(utype),
+                              preq->source.value.unitclassflag);
+      break;
+    default:
+      /* Not found and not relevant. */
+      continue;
+    };
+
+    if (found) {
+      if (!preq->present) {
+        fulfills = FALSE;
+      }
+    } else {
+      if (preq->present) {
+        fulfills = FALSE;
+      }
+    }
+  } requirement_vector_iterate_end;
+
+  return fulfills;
+}
+
 /****************************************************************
   Append misc dynamic text for units.
   Transport capacity, unit flags, fuel.
@@ -2213,13 +2262,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   /* FIXME: bases -- but there is no good way to find out which bases a unit
    * can conceivably build currently, so we have to remain silent. */
-  if (utype_has_flag(utype, UTYF_DIPLOMAT)) {
-    if (utype_has_flag(utype, UTYF_SPY)) {
-      CATLSTR(buf, bufsz, _("* Can perform diplomatic actions,"
-			    " plus special spy abilities.\n"));
-    } else {
-      CATLSTR(buf, bufsz, _("* Can perform diplomatic actions.\n"));
-    }
+  if (utype_has_flag(utype, UTYF_SPY)) {
+    CATLSTR(buf, bufsz, _("* Performs better diplomatic actions.\n"));
   }
   if (utype_has_flag(utype, UTYF_DIPLOMAT)
       || utype_has_flag(utype, UTYF_SUPERSPY)) {
@@ -2358,6 +2402,20 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       astr_free(&list);
     }
   }
+  action_iterate(act) {
+    action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
+      if (unit_type_fulfills_requirement(utype, &(enabler->actor_reqs))) {
+        char *target_kind
+            = _(action_target_kind_name(action_get_target_kind(act)));
+
+        cat_snprintf(buf, bufsz,
+                     _("* Can do the action \'%s\' to some %s.\n"),
+                     _(action_get_ui_name(act)),
+                     target_kind);
+        break;
+      }
+    } action_enabler_list_iterate_end;
+  } action_iterate_end;
   if (!can_be_veteran) {
     /* Only mention this if the game generally has veteran levels. */
     if (game.veteran->levels > 1) {
