@@ -2403,6 +2403,10 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
   }
   action_iterate(act) {
+    if (action_get_actor_kind(act) != AAK_UNIT) {
+      continue;
+    }
+
     action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
       if (unit_type_fulfills_requirement(utype, &(enabler->actor_reqs))) {
         char *target_kind

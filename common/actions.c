@@ -117,10 +117,21 @@ static struct action *action_new(enum gen_action id,
   action = fc_malloc(sizeof(*action));
 
   action->id = id;
+  action->actor_kind = AAK_UNIT;
   action->target_kind = target_kind;
   sz_strlcpy(action->ui_name, ui_name);
 
   return action;
+}
+
+/**************************************************************************
+  Get the actor kind of an action.
+**************************************************************************/
+enum action_actor_kind action_get_actor_kind(int action_id)
+{
+  fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
+
+  return actions[action_id]->actor_kind;
 }
 
 /**************************************************************************
@@ -285,6 +296,12 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *target_city)
 {
+  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(wanted_action),
+                        FALSE, "Action %s is performed by %s not units",
+                        gen_action_name(wanted_action),
+                        action_actor_kind_name(
+                          action_get_actor_kind(wanted_action)));
+
   fc_assert_ret_val_msg(ATK_CITY == action_get_target_kind(wanted_action),
                         FALSE, "Action %s is against %s not cities",
                         gen_action_name(wanted_action),
@@ -309,6 +326,12 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct unit *target_unit)
 {
+  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(wanted_action),
+                        FALSE, "Action %s is performed by %s not units",
+                        gen_action_name(wanted_action),
+                        action_actor_kind_name(
+                          action_get_actor_kind(wanted_action)));
+
   fc_assert_ret_val_msg(ATK_UNIT == action_get_target_kind(wanted_action),
                         FALSE, "Action %s is against %s not units",
                         gen_action_name(wanted_action),
@@ -517,6 +540,12 @@ action_probability action_prob_vs_city(struct unit* actor_unit,
                                        int action_id,
                                        struct city* target_city)
 {
+  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
+                        FALSE, "Action %s is performed by %s not units",
+                        gen_action_name(action_id),
+                        action_actor_kind_name(
+                          action_get_actor_kind(action_id)));
+
   fc_assert_ret_val_msg(ATK_CITY == action_get_target_kind(action_id),
                         FALSE, "Action %s is against %s not cities",
                         gen_action_name(action_id),
@@ -541,6 +570,12 @@ action_probability action_prob_vs_unit(struct unit* actor_unit,
                                        int action_id,
                                        struct unit* target_unit)
 {
+  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
+                        FALSE, "Action %s is performed by %s not units",
+                        gen_action_name(action_id),
+                        action_actor_kind_name(
+                          action_get_actor_kind(action_id)));
+
   fc_assert_ret_val_msg(ATK_UNIT == action_get_target_kind(action_id),
                         FALSE, "Action %s is against %s not units",
                         gen_action_name(action_id),

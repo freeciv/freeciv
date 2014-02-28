@@ -23,6 +23,12 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#define SPECENUM_NAME action_actor_kind
+#define SPECENUM_VALUE0 AAK_UNIT
+#define SPECENUM_VALUE0NAME N_("units")
+#define SPECENUM_COUNT AAK_COUNT
+#include "specenum_gen.h"
+
 /* Used in the network protocol. */
 #define SPECENUM_NAME action_target_kind
 #define SPECENUM_VALUE0 ATK_CITY
@@ -100,6 +106,7 @@ typedef int action_probability;
 struct action
 {
   enum gen_action id;
+  enum action_target_kind actor_kind;
   enum action_target_kind target_kind;
 
   char ui_name[MAX_LEN_NAME];
@@ -143,6 +150,7 @@ struct action_enabler
 void actions_init(void);
 void actions_free(void);
 
+enum action_actor_kind action_get_actor_kind(int action_id);
 enum action_target_kind action_get_target_kind(int action_id);
 const char *action_get_ui_name(int action_id);
 
