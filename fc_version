@@ -5,8 +5,8 @@
 # Version definition for Freeciv.
 
 MAJOR_VERSION="2"
-MINOR_VERSION="4"
-PATCH_VERSION="99"
+MINOR_VERSION="5"
+PATCH_VERSION="0"
 VERSION_LABEL="-alpha"
 
 # 1) Development until MAJOR and MINOR version numbers are
@@ -31,7 +31,7 @@ VERSION_LABEL="-alpha"
 #   - IS_BETA_VERSION=0
 
 IS_DEVEL_VERSION=1
-IS_FREEZE_VERSION=0
+IS_FREEZE_VERSION=1
 IS_BETA_VERSION=0
 
 NEXT_STABLE_VERSION="2.5.0"
@@ -39,7 +39,7 @@ NEXT_STABLE_VERSION="2.5.0"
 # 0 to disable display of release month until we can make better estimate
 RELEASE_MONTH=0
 
-DATASUBDIR=test
+DATASUBDIR=2.5
 DEFAULT_FOLLOW_TAG=stable
 
 # Freeciv network capstring: see documentation in common/capstr.c

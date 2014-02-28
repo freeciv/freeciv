@@ -2,7 +2,7 @@
 
 [datafile]
 description="Alien World governments data for Freeciv"
-options="+Freeciv-ruleset-Devel-2013.Apr.23"
+options="+Freeciv-2.5-ruleset"
 
 [governments]
 during_revolution = "Anarchy"

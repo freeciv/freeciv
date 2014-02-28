@@ -14,7 +14,7 @@
 
 [datafile]
 description="Experimental effects data for Freeciv"
-options="+Freeciv-ruleset-Devel-2013.Apr.23"
+options="+Freeciv-2.5-ruleset"
 
 ; /* <-- avoid gettext warnings
 ; */ <-- avoid gettext warnings
