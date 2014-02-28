@@ -558,8 +558,8 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
         || !HOSTILE_PLAYER(ait, pplayer, unit_owner(pvictim))
         || unit_list_size(ptile->units) > 1
         || tile_city(ptile)
-        || is_action_enabled_unit_on_unit(ACTION_SPY_BRIBE_UNIT,
-                                          punit, pvictim)
+        || !is_action_enabled_unit_on_unit(ACTION_SPY_BRIBE_UNIT,
+                                           punit, pvictim)
         || get_player_bonus(unit_owner(pvictim), EFT_UNBRIBABLE_UNITS) > 0) {
       continue;
     }
