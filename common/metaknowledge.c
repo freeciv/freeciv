@@ -17,6 +17,7 @@
 
 /* common */
 #include "diptreaty.h"
+#include "map.h"
 #include "metaknowledge.h"
 #include "tile.h"
 
@@ -120,6 +121,37 @@ static bool is_req_knowable(const struct player *pow_player,
         && (pow_player == target_player
             || could_intel_with_player(pow_player, target_player))) {
       return TRUE;
+    }
+  }
+
+  if (req->source.kind == VUT_MAXTILEUNITS) {
+    switch (req->range) {
+    case REQ_RANGE_LOCAL:
+      return can_player_see_hypotetic_units_at(pow_player, target_tile);
+    case REQ_RANGE_CADJACENT:
+      cardinal_adjc_iterate(target_tile, adjc_tile) {
+        if (!can_player_see_hypotetic_units_at(pow_player, adjc_tile)) {
+          return FALSE;
+        }
+      } cardinal_adjc_iterate_end;
+
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+      adjc_iterate(target_tile, adjc_tile) {
+        if (!can_player_see_hypotetic_units_at(pow_player, adjc_tile)) {
+          return FALSE;
+        }
+      } adjc_iterate_end;
+
+      return TRUE;
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      /* Non existing. */
+      return FALSE;
     }
   }
 

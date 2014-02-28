@@ -338,6 +338,8 @@ bool player_has_real_embassy(const struct player *pplayer,
 bool player_has_embassy_from_effect(const struct player *pplayer,
                                     const struct player *pplayer2);
 
+bool can_player_see_hypotetic_units_at(const struct player *pplayer,
+				       const struct tile *ptile);
 bool can_player_see_unit(const struct player *pplayer,
 			 const struct unit *punit);
 bool can_player_see_unit_at(const struct player *pplayer,

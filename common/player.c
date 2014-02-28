@@ -843,6 +843,43 @@ struct player *player_by_user(const char *name)
   return NULL;
 }
 
+/*************************************************************************
+  Check if pplayer could see all units on ptile if it had units.
+
+  See can_player_see_unit_at() for rules about when an unit is visible.
+**************************************************************************/
+bool can_player_see_hypotetic_units_at(const struct player *pplayer,
+                                       const struct tile *ptile)
+{
+  struct city *pcity;
+
+  /* Can't see invisible units. */
+  if (!fc_funcs->player_tile_vision_get(ptile, pplayer, V_INVIS)) {
+    return FALSE;
+  }
+
+  /* Can't see city units. */
+  pcity = tile_city(ptile);
+  if (pcity && !can_player_see_units_in_city(pplayer, pcity)
+      && unit_list_size(ptile->units) > 0) {
+    return FALSE;
+  }
+
+  /* Can't see non allied units in transports. */
+  unit_list_iterate(ptile->units, punit) {
+    if (unit_type(punit)->transport_capacity > 0
+        && unit_owner(punit) != pplayer) {
+
+      /* An ally could transport a non ally */
+      if (unit_list_size(punit->transporting) > 0) {
+        return FALSE;
+      }
+    }
+  } unit_list_iterate_end;
+
+  return TRUE;
+}
+
 /****************************************************************************
   Checks if a unit can be seen by pplayer at (x,y).
   A player can see a unit if he:
