@@ -1879,47 +1879,12 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
 
     /* Now cancel any less profitable trade route from the home city. */
     if (pcity_out_of_home) {
-      remove_trade_route(pcity_homecity, pcity_out_of_home);
-      fc_assert(pplayer == city_owner(pcity_homecity));
-      if (pplayer == city_owner(pcity_out_of_home)) {
-        notify_player(city_owner(pcity_out_of_home),
-                      city_tile(pcity_out_of_home),
-                      E_CARAVAN_ACTION, ftc_server,
-                      _("Trade route between %s and %s canceled."),
-                      homecity_link,
-                      city_link(pcity_out_of_home));
-      } else {
-        notify_player(city_owner(pcity_out_of_home),
-                      city_tile(pcity_out_of_home),
-                      E_CARAVAN_ACTION, ftc_server,
-                      _("Sorry, the %s canceled the trade route "
-                        "from %s to your city %s."),
-                      nation_plural_for_player(pplayer),
-                      homecity_link,
-                      city_link(pcity_out_of_home));
-      }
+      remove_trade_route(pcity_homecity, pcity_out_of_home, TRUE);
     }
 
     /* And the same for the dest city. */
     if (pcity_out_of_dest) {
-      remove_trade_route(pcity_dest, pcity_out_of_dest);
-      if (city_owner(pcity_dest) == city_owner(pcity_out_of_dest)) {
-        notify_player(city_owner(pcity_out_of_dest),
-                      city_tile(pcity_out_of_dest),
-                      E_CARAVAN_ACTION, ftc_server,
-                      _("Trade route between %s and %s canceled."),
-                      destcity_link,
-                      city_link(pcity_out_of_dest));
-      } else {
-        notify_player(city_owner(pcity_out_of_dest),
-                      city_tile(pcity_out_of_dest),
-                      E_CARAVAN_ACTION, ftc_server,
-                      _("Sorry, the %s canceled the trade route "
-                        "from %s to your city %s."),
-                      nation_plural_for_player(city_owner(pcity_dest)),
-                      destcity_link,
-                      city_link(pcity_out_of_dest));
-      }
+      remove_trade_route(pcity_dest, pcity_out_of_dest, TRUE);
     }
 
     /* Actually create the new trade route */
