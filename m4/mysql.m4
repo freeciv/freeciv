@@ -6,9 +6,9 @@
 
 AC_DEFUN([FC_CHECK_MYSQL],
 [
-  AC_ARG_WITH(mysql-prefix,
-              [  --with-mysql-prefix=PFX Prefix where MySql is installed (optional)],
-              mysql_prefix="$withval", mysql_prefix="")
+  AC_ARG_WITH([mysql-prefix],
+    AS_HELP_STRING([--with-mysql-prefix=PFX], [Prefix where MySql is installed (optional)]),
+[mysql_prefix="$withval"], [mysql_prefix=""])
 
   MYSQL_CFLAGS=""
   MYSQL_LDFLAGS=""

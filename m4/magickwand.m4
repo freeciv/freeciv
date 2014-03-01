@@ -5,8 +5,8 @@
 AC_DEFUN([FC_CHECK_MAGICKWAND],
 [
   AC_ARG_WITH([magickwand],
-              [  --with-magickwand[=DIR]   Imagemagick installation directory (optional)],
-              magickwand_dir="$withval", magickwand_dir="")
+    AS_HELP_STRING([--with-magickwand[=DIR]], [Imagemagick installation directory (optional)]),
+[magickwand_dir="$withval"], [magickwand_dir=""])
 
   WAND_CONFIG_PATH=""
   if test "x$magickwand_dir" = "x" ; then

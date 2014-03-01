@@ -9,8 +9,9 @@ AC_DEFUN([AM_PATH_GTK_3_0],
 [dnl 
 dnl Get the cflags and libraries from pkg-config
 dnl
-AC_ARG_ENABLE(gtktest, [  --disable-gtktest       do not try to compile and run a test GTK+ program],
-		    , enable_gtktest=yes)
+AC_ARG_ENABLE([gtktest],
+  AS_HELP_STRING([--disable-gtktest], [do not try to compile and run a test GTK+ program]),
+[], [enable_gtktest=yes])
 
   pkg_config_args=gtk+-3.0
   for module in . $4

@@ -15,12 +15,17 @@ AC_DEFUN([AM_PATH_SDL2],
 [dnl 
 dnl Get the cflags and libraries from the sdl2-config script
 dnl
-AC_ARG_WITH(sdl2-prefix,[  --with-sdl2-prefix=PFX   Prefix where SDL2 is installed (optional)],
-            sdl2_prefix="$withval", sdl2_prefix="")
-AC_ARG_WITH(sdl2-exec-prefix,[  --with-sdl2-exec-prefix=PFX Exec prefix where SDL2 is installed (optional)],
-            sdl2_exec_prefix="$withval", sdl2_exec_prefix="")
-AC_ARG_ENABLE(sdl2test, [  --disable-sdl2test       Do not try to compile and run a test SDL2 program],
-		    , enable_sdl2test=yes)
+AC_ARG_WITH([sdl2-prefix],
+  AS_HELP_STRING([--with-sdl2-prefix=PFX], [Prefix where SDL2 is installed (optional)]),
+[sdl2_prefix="$withval"], [sdl2_prefix=""])
+
+AC_ARG_WITH([sdl2-exec-prefix],
+  AS_HELP_STRING([--with-sdl2-exec-prefix=PFX], [Exec prefix where SDL2 is installed (optional)]),
+[sdl2_exec_prefix="$withval"], [sdl2_exec_prefix=""])
+
+AC_ARG_ENABLE([sdl2test],
+  AS_HELP_STRING([--disable-sdl2test], [Do not try to compile and run a test SDL2 program]),
+[], [enable_sdl2test=yes])
 
   min_sdl2_version=ifelse([$1], ,2.0.0,$1)
 

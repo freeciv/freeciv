@@ -26,21 +26,18 @@ AC_DEFUN([AC_CHECK_FT2],
   [# Get the cflags and libraries from the freetype-config script
    #
    AC_ARG_WITH([ft-prefix],
-     dnl don't quote AS_HELP_STRING!
      AS_HELP_STRING([--with-ft-prefix=PREFIX],
                     [Prefix where FreeType is installed (optional)]),
      [ft_config_prefix="$withval"],
      [ft_config_prefix=""])
 
    AC_ARG_WITH([ft-exec-prefix],
-     dnl don't quote AS_HELP_STRING!
      AS_HELP_STRING([--with-ft-exec-prefix=PREFIX],
                     [Exec prefix where FreeType is installed (optional)]),
      [ft_config_exec_prefix="$withval"],
      [ft_config_exec_prefix=""])
 
    AC_ARG_ENABLE([freetypetest],
-     dnl don't quote AS_HELP_STRING!
      AS_HELP_STRING([--disable-freetypetest],
                     [Do not try to compile and run a test FreeType program]),
      [],

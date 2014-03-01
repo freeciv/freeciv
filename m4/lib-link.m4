@@ -131,9 +131,9 @@ AC_DEFUN([AC_LIB_RPATH],
   acl_hardcode_direct="$acl_cv_hardcode_direct"
   acl_hardcode_minus_L="$acl_cv_hardcode_minus_L"
   dnl Determine whether the user wants rpath handling at all.
-  AC_ARG_ENABLE(rpath,
-    [  --disable-rpath         do not hardcode runtime library paths],
-    :, enable_rpath=yes)
+  AC_ARG_ENABLE([rpath],
+    AS_HELP_STRING([--disable-rpath], [do not hardcode runtime library paths]),
+    :, [enable_rpath=yes])
 ])
 
 dnl AC_LIB_LINKFLAGS_BODY(name [, dependencies]) searches for libname and

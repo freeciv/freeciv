@@ -6,9 +6,9 @@
 
 AC_DEFUN([FC_CHECK_POSTGRES],
 [
-  AC_ARG_WITH(postgres-prefix,
-              [  --with-postgres-prefix=PFX Prefix where PostgreSQL is installed (optional)],
-              postgres_prefix="$withval", postgres_prefix="")
+  AC_ARG_WITH([postgres-prefix],
+    AS_HELP_STRING([--with-postgres-prefix=PFX], [Prefix where PostgreSQL is installed (optional)]),
+[postgres_prefix="$withval"], [postgres_prefix=""])
 
   POSTGRESQL_CFLAGS=""
   POSTGRESQL_LDFLAGS=""

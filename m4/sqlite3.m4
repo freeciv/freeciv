@@ -7,9 +7,9 @@
 
 AC_DEFUN([FC_CHECK_SQLITE3],
 [
-  AC_ARG_WITH(sqlite3-prefix,
-              [  --with-sqlite3-prefix=PFX Prefix where SQLite3 is installed (optional)],
-              sqlite3_prefix="$withval", sqlite3_prefix="")
+  AC_ARG_WITH([sqlite3-prefix],
+    AS_HELP_STRING([--with-sqlite3-prefix=PFX], [Prefix where SQLite3 is installed (optional)]),
+[sqlite3_prefix="$withval"], [sqlite3_prefix=""])
 
   SQLITE3_CFLAGS=""
   SQLITE3_LDFLAGS=""

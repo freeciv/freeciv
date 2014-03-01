@@ -1,6 +1,6 @@
 AC_DEFUN([FC_DEBUG], [
 AC_ARG_ENABLE(debug,
-[  --enable-debug[[=no/some/yes/checks]] turn on debugging [[default=some]]],
+  AS_HELP_STRING([--enable-debug[[=no/some/yes/checks]]], [turn on debugging [[default=some]]]),
 [case "${enableval}" in
   yes)    enable_debug=yes ;;
   some)   enable_debug=some ;;
