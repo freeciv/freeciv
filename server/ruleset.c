@@ -3438,6 +3438,7 @@ static bool load_nation_names(struct section_file *file)
   } else if (section_list_size(sec) > MAX_NUM_NATIONS) {
     ruleset_error(LOG_ERROR, "Too many nations (max %d, we have %d)!",
                   MAX_NUM_NATIONS, section_list_size(sec));
+    ok = FALSE;
   } else {
     game.control.nation_count = section_list_size(sec);
     nations_alloc(game.control.nation_count);
