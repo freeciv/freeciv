@@ -2072,7 +2072,8 @@ void player_nation_defaults(struct player *pplayer, struct nation_type *pnation,
   player_set_nation(pplayer, pnation);
   fc_assert(pnation == pplayer->nation);
 
-  pplayer->city_style = city_style_of_nation(nation_of_player(pplayer));
+  pplayer->style = style_of_nation(pnation);
+  pplayer->city_style = city_style_of_nation(pnation);
 
   if (set_name) {
     server_player_set_name(pplayer, pick_random_player_name(pnation));
