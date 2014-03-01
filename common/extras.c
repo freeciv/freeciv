@@ -535,6 +535,23 @@ struct extra_type *next_extra_for_tile(const struct tile *ptile, enum extra_caus
                                        const struct player *pplayer,
                                        const struct unit *punit)
 {
+  if (cause == EC_IRRIGATION) {
+    struct terrain *pterrain = tile_terrain(ptile);
+
+    if (pterrain->irrigation_result != pterrain) {
+      /* No extra can be created by irrigation the tile */
+      return NULL;
+    }
+  }
+  if (cause == EC_MINE) {
+    struct terrain *pterrain = tile_terrain(ptile);
+
+    if (pterrain->mining_result != pterrain) {
+      /* No extra can be created by mining the tile */
+      return NULL;
+    }
+  }
+
   extra_type_by_cause_iterate(cause, pextra) {
     if (!tile_has_extra(ptile, pextra)) {
       if (punit != NULL) {
