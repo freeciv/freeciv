@@ -1836,13 +1836,21 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
                       homecity_link,
                       city_link(pcity_out_of_home));
       } else {
+        struct player *plr2 = city_owner(pcity_out_of_home);
+
         notify_player(city_owner(pcity_out_of_home),
                       city_tile(pcity_out_of_home),
                       E_CARAVAN_ACTION, ftc_server,
                       _("Sorry, the %s canceled the trade route "
                         "from %s to your city %s."),
                       nation_plural_for_player(pplayer),
-                      homecity_link,
+                      homecity_link, city_link(pcity_out_of_home));
+        notify_player(city_owner(pcity_homecity),
+                      city_tile(pcity_homecity),
+                      E_CARAVAN_ACTION, ftc_server,
+                      _("We canceled the trade route "
+                        "from %s to %s city %s."),
+                      homecity_link, nation_plural_for_player(plr2),
                       city_link(pcity_out_of_home));
       }
     }
@@ -1858,6 +1866,8 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
                       destcity_link,
                       city_link(pcity_out_of_dest));
       } else {
+        struct player *plr2 = city_owner(pcity_out_of_dest);
+
         notify_player(city_owner(pcity_out_of_dest),
                       city_tile(pcity_out_of_dest),
                       E_CARAVAN_ACTION, ftc_server,
@@ -1865,6 +1875,13 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
                         "from %s to your city %s."),
                       nation_plural_for_player(city_owner(pcity_dest)),
                       destcity_link,
+                      city_link(pcity_out_of_dest));
+        notify_player(city_owner(pcity_dest),
+                      city_tile(pcity_dest),
+                      E_CARAVAN_ACTION, ftc_server,
+                      _("We canceled the trade route "
+                        "from %s to %s city %s."),
+                      destcity_link, nation_plural_for_player(plr2),
                       city_link(pcity_out_of_dest));
       }
     }
