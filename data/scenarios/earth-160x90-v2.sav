@@ -25,7 +25,7 @@ roads_size=3
 roads_vector="Road","Railroad","River"
 
 [game]
-version=20499
+version=20500
 server_state="S_S_INITIAL"
 meta_patches="none"
 meta_usermessage=TRUE
@@ -36,6 +36,7 @@ serverid=""
 skill_level=5
 phase_mode=0
 phase_mode_stored=0
+phase=0
 scoreturn=20
 timeoutint=0
 timeoutintinc=0
