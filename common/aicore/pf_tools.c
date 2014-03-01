@@ -594,6 +594,7 @@ static bool is_possible_base_fuel(const struct tile *ptile,
   /* Check for carriers */
   unit_list_iterate(ptile->units, ptrans) {
     if (can_unit_type_transport(unit_type(ptrans), param->uclass)
+        && !unit_has_orders(ptrans)
         && (get_transporter_occupancy(ptrans)
             < get_transporter_capacity(ptrans))) {
       return TRUE;
