@@ -222,7 +222,7 @@ static Uint16 main_key_down_handler(SDL_Keysym Key, void *pData)
       popup_input_line();
     } else {
       if (map_event_handler(Key)
-		&& C_S_RUNNING == client_state()) {
+          && C_S_RUNNING == client_state()) {
         switch (Key.sym) {
 	  case SDLK_RETURN:
 	  case SDLK_KP_ENTER:
@@ -509,15 +509,15 @@ int FilterMouseMotionEvents(void *data, SDL_Event *event)
 }
 
 /**************************************************************************
-  SDL-client main loop.
+  SDL2-client main loop.
 **************************************************************************/
 Uint16 gui_event_loop(void *pData,
-	void (*loop_action)(void *pData),
-	Uint16 (*key_down_handler)(SDL_Keysym Key, void *pData),
-        Uint16 (*key_up_handler)(SDL_Keysym Key, void *pData),
-	Uint16 (*mouse_button_down_handler)(SDL_MouseButtonEvent *pButtonEvent, void *pData),
-        Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *pButtonEvent, void *pData),
-        Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *pMotionEvent, void *pData))
+       void (*loop_action)(void *pData),
+       Uint16 (*key_down_handler)(SDL_Keysym Key, void *pData),
+       Uint16 (*key_up_handler)(SDL_Keysym Key, void *pData),
+       Uint16 (*mouse_button_down_handler)(SDL_MouseButtonEvent *pButtonEvent, void *pData),
+       Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *pButtonEvent, void *pData),
+       Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *pMotionEvent, void *pData))
 {
   Uint16 ID;
   static struct timeval tv;
@@ -527,8 +527,6 @@ Uint16 gui_event_loop(void *pData,
   static int result;
   /* static int schot_nr = 0;
      static char schot[32]; */
-
-  backtrace_print(LOG_NORMAL);
 
   ID = ID_ERROR;
   t_last_map_scrolling = t_last_unit_anim = real_timer_next_call = SDL_GetTicks();
@@ -636,7 +634,7 @@ Uint16 gui_event_loop(void *pData,
               LALT = FALSE;
             break;
             default:
-              if(key_up_handler) {
+              if (key_up_handler) {
                 ID = key_up_handler(Main.event.key.keysym, pData);
               }
             break;
@@ -679,7 +677,7 @@ Uint16 gui_event_loop(void *pData,
             break;
 
             default:
-              if(key_down_handler) {
+              if (key_down_handler) {
                 ID = key_down_handler(Main.event.key.keysym, pData);
               }
             break;
@@ -687,13 +685,13 @@ Uint16 gui_event_loop(void *pData,
         break;
 
         case SDL_MOUSEBUTTONDOWN:
-          if(mouse_button_down_handler) {
+          if (mouse_button_down_handler) {
             ID = mouse_button_down_handler(&Main.event.button, pData);
-          }	
+          }
         break;
 
         case SDL_MOUSEBUTTONUP:
-          if(mouse_button_up_handler) {
+          if (mouse_button_up_handler) {
             ID = mouse_button_up_handler(&Main.event.button, pData);
           }
         break;
@@ -1106,8 +1104,8 @@ void ui_main(int argc, char *argv[])
 
   /* Main game loop */
   gui_event_loop(NULL, NULL, main_key_down_handler, main_key_up_handler,
-  		 main_mouse_button_down_handler, main_mouse_button_up_handler,
-		 main_mouse_motion_handler); 
+                 main_mouse_button_down_handler, main_mouse_button_up_handler,
+                 main_mouse_motion_handler);
 }
 
 /**************************************************************************

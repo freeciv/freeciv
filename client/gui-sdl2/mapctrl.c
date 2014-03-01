@@ -2272,105 +2272,107 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
 bool map_event_handler(SDL_Keysym Key)
 {
   if (C_S_RUNNING == client_state()) {
-    switch (Key.sym) {
-    
-      /* cancel action */
+    enum direction8 movedir = DIR8_MAGIC_MAX;
+
+    switch (Key.scancode) {
+
+    case SDL_SCANCODE_KP_8:
+      movedir = DIR8_NORTH;
+      break;
+
+    case SDL_SCANCODE_KP_9:
+      movedir = DIR8_NORTHEAST;
+      break;
+
+    case SDL_SCANCODE_KP_6:
+      movedir = DIR8_EAST;
+      break;
+
+    case SDL_SCANCODE_KP_3:
+      movedir = DIR8_SOUTHEAST;
+      break;
+
+    case SDL_SCANCODE_KP_2:
+      movedir = DIR8_SOUTH;
+      break;
+
+    case SDL_SCANCODE_KP_1:
+      movedir = DIR8_SOUTHWEST;
+      break;
+
+    case SDL_SCANCODE_KP_4:
+      movedir = DIR8_WEST;
+      break;
+
+    case SDL_SCANCODE_KP_7:
+      movedir = DIR8_NORTHWEST;
+      break;
+
+    case SDL_SCANCODE_KP_5:
+      key_recall_previous_focus_unit();
+      return FALSE;
+
+    default:
+      switch (Key.sym) {
+
+        /* cancel action */
       case SDLK_ESCAPE:
         key_cancel_action();
         draw_goto_patrol_lines = FALSE;
         update_mouse_cursor(CURSOR_DEFAULT);
         return FALSE;
-  
-      /* *** unit movement *** */
-      
-      /* move north */
+
       case SDLK_UP:
-        /*      case SDLK_KP8: */
-        if(!is_unit_move_blocked) {
-          key_unit_move(DIR8_NORTH);
-        }
-        return FALSE;
-  
-      /* move northeast */
+        movedir = DIR8_NORTH;
+        break;
+
       case SDLK_PAGEUP:
-        /*      case SDLK_KP9: */
-        if(!is_unit_move_blocked) {
-          key_unit_move(DIR8_NORTHEAST);
-        }
-        return FALSE;
-  
-      /* move east */
+        movedir = DIR8_NORTHEAST;
+        break;
+
       case SDLK_RIGHT:
-        /*      case SDLK_KP6: */
-        if(!is_unit_move_blocked) {
-          key_unit_move(DIR8_EAST);
-        }
-        return FALSE;
-  
-      /* move southeast */
+        movedir = DIR8_EAST;
+        break;
+
       case SDLK_PAGEDOWN:
-        /*      case SDLK_KP3: */
-        if(!is_unit_move_blocked) {
-          key_unit_move(DIR8_SOUTHEAST);
-        }
-        return FALSE;
-  
-      /* move south */
+        movedir = DIR8_SOUTHEAST;
+        break;
+
       case SDLK_DOWN:
-        /*      case SDLK_KP2: */
-        if(!is_unit_move_blocked) {
-          key_unit_move(DIR8_SOUTH);
-        }
-        return FALSE;
-  
-      /* move southwest */    
+        movedir = DIR8_SOUTH;
+        break;
+
       case SDLK_END:
-        /*      case SDLK_KP1: */
-        if(!is_unit_move_blocked) {
-          key_unit_move(DIR8_SOUTHWEST);
-        }
-        return FALSE;
-  
-      /* move west */
+        movedir = DIR8_SOUTHWEST;
+        break;
+
       case SDLK_LEFT:
-        /*      case SDLK_KP4: */
-        if(!is_unit_move_blocked) {
-          key_unit_move(DIR8_WEST);
-        }
-        return FALSE;
-  
-      /* move northwest */
+        movedir = DIR8_WEST;
+        break;
+
       case SDLK_HOME:
-        /*      case SDLK_KP7: */
-        if(!is_unit_move_blocked) {
-          key_unit_move(DIR8_NORTHWEST);
-        }
-        return FALSE;
-  
-        /*      case SDLK_KP5:
-        key_recall_previous_focus_unit();
-        return FALSE;
-        */
-  
-      /* *** map view settings *** */
-  
-      /* show city outlines - Ctrl+y */
+        movedir = DIR8_NORTHWEST;
+        break;
+
+        /* *** map view settings *** */
+
+        /* show city outlines - Ctrl+y */
       case SDLK_y:
-        if(LCTRL || RCTRL) {
+        if (LCTRL || RCTRL) {
           key_city_outlines_toggle();
         }
         return FALSE;
-      
-      /* show map grid - Ctrl+g */
+
+        /* show map grid - Ctrl+g */
       case SDLK_g:
-        if(LCTRL || RCTRL) {
+        if (LCTRL || RCTRL) {
           key_map_grid_toggle();
         }
         return FALSE;
-  
-      /* show national borders - Ctrl+b */
+
+        /* show national borders - Ctrl+b */
       case SDLK_b:
-        if(LCTRL || RCTRL) {
+        if (LCTRL || RCTRL) {
           key_map_borders_toggle();
         }
         return FALSE;
@@ -2384,14 +2386,14 @@ bool map_event_handler(SDL_Keysym Key)
           key_city_names_toggle();
         }
         return FALSE;
-  
-      /* show city growth Ctrl+r */
+
+        /* show city growth Ctrl+r */
       case SDLK_r:
         if (LCTRL || RCTRL) {
           key_city_growth_toggle();
         }
         return FALSE;
-  
+
       /* show city productions - Ctrl+p */
       case SDLK_p:
         if (LCTRL || RCTRL) {
@@ -2399,81 +2401,81 @@ bool map_event_handler(SDL_Keysym Key)
         }
         return FALSE;
 
-      /* show city trade routes - Ctrl+d */
+        /* show city trade routes - Ctrl+d */
       case SDLK_d:
         if (LCTRL || RCTRL) {
           key_city_trade_routes_toggle();
         }
         return FALSE;
 
-      /* *** some additional shortcuts that work in the SDL client only *** */
-        
-      /* show terrain - Ctrl+Shift+t */
+        /* *** some additional shortcuts that work in the SDL client only *** */
+
+        /* show terrain - Ctrl+Shift+t */
       case SDLK_t:
         if ((LCTRL || RCTRL) && (LSHIFT || RSHIFT)) {
           key_terrain_toggle();
         }
         return FALSE;
-  
-      /* (show coastline) */
-        
+
+        /* (show coastline) */
+
       /* (show roads and rails) */
-        
+
       /* show irrigation - Ctrl+i */
       case SDLK_i:
         if (LCTRL || RCTRL) {
           key_irrigation_toggle();
         }
         return FALSE;
-  
-      /* show mines - Ctrl+m */
+
+        /* show mines - Ctrl+m */
       case SDLK_m:
         if (LCTRL || RCTRL) {
           key_mines_toggle();
         }
         return FALSE;
-  
-      /* show bases - Ctrl+Shift+f */
+
+        /* show bases - Ctrl+Shift+f */
       case SDLK_f:
         if ((LCTRL || RCTRL) && (LSHIFT || RSHIFT)) {
           request_toggle_bases();
         }
         return FALSE;
-  
-      /* show specials - Ctrl+s */
+
+        /* show specials - Ctrl+s */
       case SDLK_s:
         if (LCTRL || RCTRL) {
           key_specials_toggle();
         }
         return FALSE;
-  
-      /* show pollution - Ctrl+o */
+
+        /* show pollution - Ctrl+o */
       case SDLK_o:
         if (LCTRL || RCTRL) {
           key_pollution_toggle();
         }
         return FALSE;
-  
-      /* show cities - Ctrl+c */
+
+        /* show cities - Ctrl+c */
       case SDLK_c:
         if (LCTRL || RCTRL) {
           request_toggle_cities();
         } else {
-  	 request_center_focus_unit();
+          request_center_focus_unit();
         }
         return FALSE;
 
-      /* show units - Ctrl+u */
+        /* show units - Ctrl+u */
       case SDLK_u:
         if (LCTRL || RCTRL) {
           key_units_toggle();
         }
         return FALSE;
-  
-      /* (show focus unit) */
-      
-      /* show city output - Ctrl+w
-       * show fog of war - Ctrl+Shift+w */
+
+        /* (show focus unit) */
+
+        /* show city output - Ctrl+w
+         * show fog of war - Ctrl+Shift+w */
       case SDLK_w:
         if (LCTRL || RCTRL) {
           if (LSHIFT || RSHIFT) {
@@ -2483,16 +2485,24 @@ bool map_event_handler(SDL_Keysym Key)
           }
         }
         return FALSE;
-  
-      /* toggle minimap mode - currently without effect */
+
+        /* toggle minimap mode - currently without effect */
       case SDLK_BACKSLASH:
         if (LSHIFT || RSHIFT) {
           toggle_minimap_mode_callback(NULL);
         }
         return FALSE;
-              
+
       default:
         break;
+      }
+    }
+
+    if (movedir != DIR8_MAGIC_MAX) {
+      if (!is_unit_move_blocked) {
+        key_unit_move(movedir);
+      }
+      return FALSE;
     }
   }
 
