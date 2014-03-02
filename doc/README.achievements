@@ -22,3 +22,11 @@ Spaceship
 Multicultural
     Achievement is granted when player has citizens of at least
     <value> different nationalities.
+
+Cultured_City
+    Achievement is granted when player has a city with at least
+    <value> culture points.
+
+Cultured_Nation
+    Achievement is granted when player has at least <value>
+    culture points.

@@ -23,6 +23,7 @@
 
 /* common */
 #include "citizens.h"
+#include "culture.h"
 #include "game.h"
 #include "player.h"
 #include "spaceship.h"
@@ -239,6 +240,28 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
     }
 
     return FALSE;
+  case ACHIEVEMENT_CULTURED_CITY:
+    city_list_iterate(pplayer->cities, pcity) {
+      if (city_culture(pcity) >= ach->value) {
+        return TRUE;
+      }
+    } city_list_iterate_end;
+
+    return FALSE;
+  case ACHIEVEMENT_CULTURED_NATION:
+    {
+      int total = 0;
+
+      city_list_iterate(pplayer->cities, pcity) {
+        total += city_culture(pcity);
+      } city_list_iterate_end;
+
+      if (total >= ach->value) {
+        return TRUE;
+      }
+    }
+
+    return FALSE;
   case ACHIEVEMENT_COUNT:
     break;
   }
@@ -273,6 +296,16 @@ const char *achievement_first_msg(struct achievement *pach)
                 _("You're the first one to have %d different nationalities "
                   "in your cities!"), pach->value);
     return buf;
+  case ACHIEVEMENT_CULTURED_CITY:
+    fc_snprintf(buf, sizeof(buf),
+                _("You're the first one to have city of at least %d culture points."),
+                pach->value);
+    return buf;
+  case ACHIEVEMENT_CULTURED_NATION:
+    fc_snprintf(buf, sizeof(buf),
+                _("You're the first one to have at least %d culture points."),
+                pach->value);
+    return buf;
   case ACHIEVEMENT_COUNT:
     break;
   }
@@ -305,6 +338,16 @@ const char *achievement_later_msg(struct achievement *pach)
     fc_snprintf(buf, sizeof(buf),
                 _("You have %d different nationalities "
                   "in your cities!"), pach->value);
+    return buf;
+  case ACHIEVEMENT_CULTURED_CITY:
+    fc_snprintf(buf, sizeof(buf),
+                _("You have city of %d culture points!"),
+                pach->value);
+    return buf;
+  case ACHIEVEMENT_CULTURED_NATION:
+    fc_snprintf(buf, sizeof(buf),
+                _("You have %d culture points!"),
+                pach->value);
     return buf;
   case ACHIEVEMENT_COUNT:
     break;
