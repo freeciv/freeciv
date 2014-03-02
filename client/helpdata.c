@@ -2420,6 +2420,34 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       }
     } action_enabler_list_iterate_end;
   } action_iterate_end;
+  action_iterate(act) {
+    bool vulnerable;
+
+    /* Not relevant */
+    if (action_get_target_kind(act) != ATK_UNIT) {
+      continue;
+    }
+
+    /* All units are immune to this since its not enabled */
+    if (action_enabler_list_size(action_enablers_for_action(act)) == 0) {
+      continue;
+    }
+
+    /* Must be immune in all cases */
+    vulnerable = FALSE;
+    action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
+      if (unit_type_fulfills_requirement(utype, &(enabler->target_reqs))) {
+        vulnerable = TRUE;
+        break;
+      }
+    } action_enabler_list_iterate_end;
+
+    if (!vulnerable) {
+      cat_snprintf(buf, bufsz,
+                   _("* Immune to the action \'%s\'.\n"),
+                   _(action_get_ui_name(act)));
+    }
+  } action_iterate_end;
   if (!can_be_veteran) {
     /* Only mention this if the game generally has veteran levels. */
     if (game.veteran->levels > 1) {
