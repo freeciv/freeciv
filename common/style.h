@@ -24,6 +24,14 @@ struct nation_style
   struct name_translation name;
 };
 
+struct music_style
+{
+  int id;
+  char music_peaceful[MAX_LEN_NAME];
+  char music_combat[MAX_LEN_NAME];
+  struct requirement_vector reqs;
+};
+
 void styles_alloc(int count);
 void styles_free(void);
 int style_count(void);
@@ -42,6 +50,21 @@ struct nation_style *style_by_rule_name(const char *name);
 
 #define styles_iterate_end                               \
   }                                                      \
+}
+
+void music_styles_alloc(int count);
+void music_styles_free(void);
+
+struct music_style *music_style_by_number(int id);
+
+#define music_styles_iterate(_p)                               \
+{                                                              \
+  int _i_;                                                     \
+  for (_i_ = 0; _i_ < game.control.num_music_styles; _i_++) {  \
+    struct music_style *_p = music_style_by_number(_i_);
+
+#define music_styles_iterate_end                               \
+  }                                                            \
 }
 
 #ifdef __cplusplus

@@ -264,6 +264,8 @@ static void game_defaults(void)
   game.control.num_unit_types          = 0;
   game.control.num_disaster_types      = 0;
   game.control.num_achievement_types   = 0;
+  game.control.num_styles              = 0;
+  game.control.num_music_styles        = 0;
   game.control.prefered_tileset[0]     = '\0';
   game.control.resource_count          = 0;
   game.control.styles_count            = 0;
@@ -536,6 +538,7 @@ void game_ruleset_free(void)
   role_unit_precalcs_free();
   improvements_free();
   extras_free();
+  music_styles_free();
   city_styles_free();
   styles_free();
   actions_free();

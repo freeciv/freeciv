@@ -2814,6 +2814,7 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
   nations_alloc(game.control.nation_count);
   styles_alloc(game.control.num_styles);
   city_styles_alloc(game.control.styles_count);
+  music_styles_alloc(game.control.num_music_styles);
 
   if (packet->prefered_tileset[0] != '\0') {
     /* There is tileset suggestion */
@@ -3635,6 +3636,29 @@ void handle_ruleset_city(const struct packet_ruleset_city *packet)
   sz_strlcpy(cs->music, packet->music);
 
   tileset_setup_city_tiles(tileset, id);
+}
+
+/**************************************************************************
+  Handle music style packet.
+**************************************************************************/
+void handle_ruleset_music(const struct packet_ruleset_music *packet)
+{
+  int id, j;
+  struct music_style *pmus;
+
+  id = packet->id;
+  fc_assert_ret_msg(0 <= id && game.control.num_music_styles > id,
+                    "Bad music_style %d.", id);
+
+  pmus = music_style_by_number(id);
+
+  for (j = 0; j < packet->reqs_count; j++) {
+    requirement_vector_append(&pmus->reqs, packet->reqs[j]);
+  }
+  fc_assert(pmus->reqs.size == packet->reqs_count);
+
+  sz_strlcpy(pmus->music_peaceful, packet->music_peaceful);
+  sz_strlcpy(pmus->music_combat, packet->music_combat);
 }
 
 /****************************************************************************

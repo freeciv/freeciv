@@ -82,6 +82,7 @@
 #define ADVANCE_SECTION_PREFIX "advance_"
 #define BUILDING_SECTION_PREFIX "building_"
 #define CITYSTYLE_SECTION_PREFIX "citystyle_"
+#define MUSICSTYLE_SECTION_PREFIX "musicstyle_"
 #define EFFECT_SECTION_PREFIX "effect_"
 #define GOVERNMENT_SECTION_PREFIX "government_"
 #define NATION_SET_SECTION_PREFIX "nset" /* without underscore? */
@@ -141,6 +142,7 @@ static bool load_ruleset_units(struct section_file *file);
 static bool load_ruleset_buildings(struct section_file *file);
 static bool load_ruleset_governments(struct section_file *file);
 static bool load_ruleset_terrain(struct section_file *file);
+static bool load_ruleset_styles(struct section_file *file);
 static bool load_ruleset_cities(struct section_file *file);
 static bool load_ruleset_effects(struct section_file *file);
 
@@ -157,6 +159,7 @@ static void send_ruleset_bases(struct conn_list *dest);
 static void send_ruleset_roads(struct conn_list *dest);
 static void send_ruleset_governments(struct conn_list *dest);
 static void send_ruleset_styles(struct conn_list *dest);
+static void send_ruleset_musics(struct conn_list *dest);
 static void send_ruleset_cities(struct conn_list *dest);
 static void send_ruleset_game(struct conn_list *dest);
 static void send_ruleset_team_names(struct conn_list *dest);
@@ -4426,6 +4429,8 @@ static bool load_style_names(struct section_file *file)
     } styles_iterate_end;
   }
 
+  section_list_destroy(sec);
+
   return ok;
 }
 
@@ -4461,7 +4466,55 @@ static bool load_citystyle_names(struct section_file *file)
 }
 
 /**************************************************************************
-Load cities.ruleset file
+  Load styles.ruleset file
+**************************************************************************/
+static bool load_ruleset_styles(struct section_file *file)
+{
+  const char *filename = secfile_name(file);
+  struct section_list *sec;
+  bool ok = TRUE;
+
+  if (check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename) == NULL) {
+    return FALSE;
+  }
+
+  sec = secfile_sections_by_name_prefix(file, MUSICSTYLE_SECTION_PREFIX);
+
+  if (sec != NULL) {
+    int i;
+
+    game.control.num_music_styles = section_list_size(sec);
+    music_styles_alloc(game.control.num_music_styles);
+    i = 0;
+
+    section_list_iterate(sec, psection) {
+      struct requirement_vector *reqs;
+      struct music_style *pmus = music_style_by_number(i);
+      const char *sec_name = section_name(psection);
+
+      sz_strlcpy(pmus->music_peaceful,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.music_peaceful", sec_name));
+      sz_strlcpy(pmus->music_combat,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.music_combat", sec_name));
+
+      reqs = lookup_req_list(file, sec_name, "reqs", "Music Style");
+      if (reqs == NULL) {
+        ok = FALSE;
+        break;
+      }
+      requirement_vector_copy(&pmus->reqs, reqs);
+
+      i++;
+    } section_list_iterate_end;
+  }
+
+  return ok;
+}
+
+/**************************************************************************
+  Load cities.ruleset file
 **************************************************************************/
 static bool load_ruleset_cities(struct section_file *file)
 {
@@ -6211,6 +6264,32 @@ static void send_ruleset_cities(struct conn_list *dest)
 }
 
 /**************************************************************************
+  Send the music-style ruleset information (each style) to the specified
+  connections.
+**************************************************************************/
+static void send_ruleset_musics(struct conn_list *dest)
+{
+  struct packet_ruleset_music packet;
+
+  music_styles_iterate(pmus) {
+    int j;
+
+    packet.id = pmus->id;
+
+    sz_strlcpy(packet.music_peaceful, pmus->music_peaceful);
+    sz_strlcpy(packet.music_combat, pmus->music_combat);
+
+    j = 0;
+    requirement_vector_iterate(&(pmus->reqs), preq) {
+      packet.reqs[j++] = *preq;
+    } requirement_vector_iterate_end;
+    packet.reqs_count = j;
+
+    lsend_packet_ruleset_music(dest, &packet);
+  } music_styles_iterate_end;
+}
+
+/**************************************************************************
   Send information in packet_ruleset_game (miscellaneous rules) to the
   specified connections.
 **************************************************************************/
@@ -6401,6 +6480,9 @@ static bool load_rulesetdir(const char *rsdir, bool act)
     ok = load_ruleset_techs(techfile);
   }
   if (ok) {
+    ok = load_ruleset_styles(stylefile);
+  }
+  if (ok) {
     ok = load_ruleset_cities(cityfile);
   }
   if (ok) {
@@ -6542,6 +6624,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_nations(dest);
   send_ruleset_styles(dest);
   send_ruleset_cities(dest);
+  send_ruleset_musics(dest);
   send_ruleset_cache(dest);
 
   /* Indicate client that all rulesets have now been sent. */

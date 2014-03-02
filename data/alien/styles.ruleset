@@ -23,3 +23,19 @@ options="+Freeciv-ruleset-Devel-2013.May.14"
 
 [style_human]
 name = _("?style:Human")
+
+; /* <-- avoid gettext warnings
+;
+; Music styles
+;
+; music_peaceful = Music to play when nation in peaceful mood
+; music_combat   = Music to play when nation in combat mood
+; reqs		 = requirements to activate the style (see effects.ruleset
+;		   and README.effects for help on requirements)
+;
+; */ <-- avoid gettext warnings
+
+; Fallback music style for any nation that has nothing else 
+[musicstyle_generic]
+music_peaceful     = "music_peace"
+music_combat       = "music_combat"

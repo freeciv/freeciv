@@ -28,6 +28,8 @@
 
 static struct nation_style *styles = NULL;
 
+static struct music_style *music_styles = NULL;
+
 /****************************************************************************
   Initialise styles structures.
 ****************************************************************************/
@@ -122,4 +124,42 @@ struct nation_style *style_by_rule_name(const char *name)
   } styles_iterate_end;
 
   return NULL;
+}
+
+/****************************************************************************
+  Initialise music styles structures.
+****************************************************************************/
+void music_styles_alloc(int count)
+{
+  int i;
+
+  music_styles = fc_malloc(count * sizeof(struct music_style));
+
+  for (i = 0; i < count; i++) {
+    music_styles[i].id = i;
+    requirement_vector_init(&(music_styles[i].reqs));
+  }
+}
+
+/****************************************************************************
+  Free the memory associated with music styles
+****************************************************************************/
+void music_styles_free(void)
+{
+  music_styles_iterate(pmus) {
+    requirement_vector_free(&(pmus->reqs));
+  } music_styles_iterate_end;
+
+  FC_FREE(music_styles);
+  music_styles = NULL;
+}
+
+/****************************************************************************
+  Return music style of given id.
+****************************************************************************/
+struct music_style *music_style_by_number(int id)
+{
+  fc_assert_ret_val(id >= 0 && id < game.control.num_music_styles, NULL);
+
+  return &music_styles[id];
 }

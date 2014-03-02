@@ -615,6 +615,15 @@ bool sanity_check_ruleset_data(void)
     }
   }
 
+  /* Music styles */
+  music_styles_iterate(pmus) {
+    if (!sanity_check_req_vec(&pmus->reqs, TRUE, -1, "Music Style")) {
+      ruleset_error(LOG_ERROR,
+                    "Music Styles have conflicting or invalid requirements!");
+      ok = FALSE;
+    }
+  } music_styles_iterate_end;
+
   terrain_type_iterate(pterr) {
     unit_class_iterate(uc) {
       if (BV_ISSET(pterr->native_to, uclass_index(uc))) {

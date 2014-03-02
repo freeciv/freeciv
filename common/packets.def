@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 239
+Max id: 240
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -1592,6 +1592,14 @@ PACKET_RULESET_ACTION_ENABLER = 235; sc, lsend
   REQUIREMENT target_reqs[MAX_NUM_REQS:target_reqs_count];
 end
 
+PACKET_RULESET_MUSIC = 240; sc, lsend
+  UINT8  id; 
+  STRING music_peaceful[MAX_LEN_NAME];
+  STRING music_combat[MAX_LEN_NAME];
+  UINT8 reqs_count;
+  REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
+end
+
 /**************************************************************************
   Ruleset control values: single values, all of which are needed before
   sending other ruleset data.  After sending this packet, resend every
@@ -1609,6 +1617,7 @@ PACKET_RULESET_CONTROL = 155; sc, lsend
   UINT16 num_disaster_types;
   UINT16 num_achievement_types;
   UINT16 num_styles;
+  UINT16 num_music_styles;
   UINT16 government_count;
   UINT16 nation_count;
   UINT16 styles_count;

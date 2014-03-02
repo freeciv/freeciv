@@ -471,6 +471,18 @@ static bool save_styles_ruleset(const char *filename, const char *name)
     save_name_translation(sfile, &(pstyle->name), path);
   } styles_iterate_end;
 
+  sect_idx = 0;
+  music_styles_iterate(pmus) {
+    char path[512];
+
+    fc_snprintf(path, sizeof(path), "musicstyle_%d", sect_idx++);
+
+    secfile_insert_str(sfile, pmus->music_peaceful, "%s.music_peaceful", path);
+    secfile_insert_str(sfile, pmus->music_combat, "%s.music_combat", path);
+
+    save_reqs_vector(sfile, &(pmus->reqs), path, "reqs");
+  } music_styles_iterate_end;
+
   return save_ruleset_file(sfile, filename);
 }
 
