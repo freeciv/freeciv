@@ -94,12 +94,8 @@ spaceship (eg, if/when capital-capture effect implemented).
 **********************************************************************/
 void spaceship_init(struct player_spaceship *ship)
 {
-  int i;
-  
   ship->structurals = ship->components = ship->modules = 0;
-  for(i=0; i<NUM_SS_STRUCTURALS; i++) {
-    ship->structure[i] = FALSE;
-  }
+  BV_CLR_ALL(ship->structure);
   ship->fuel = ship->propulsion = 0;
   ship->habitation = ship->life_support = ship->solar_panels = 0;
   ship->state = SSHIP_NONE;
@@ -117,7 +113,7 @@ int num_spaceship_structurals_placed(const struct player_spaceship *ship)
 {
   int i, num = 0;
   for(i=0; i<NUM_SS_STRUCTURALS; i++) {
-    if (ship->structure[i]) num++;
+    if (BV_ISSET(ship->structure, i)) num++;
   }
   return num;
 }

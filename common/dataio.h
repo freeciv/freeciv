@@ -96,9 +96,6 @@ bool dio_get_memory(struct data_in *din, void *dest, size_t dest_size)
     fc__attribute((nonnull (2)));
 bool dio_get_string(struct data_in *din, char *dest, size_t max_dest_size)
     fc__attribute((nonnull (2)));
-bool dio_get_bit_string(struct data_in *din, char *dest,
-			size_t max_dest_size)
-    fc__attribute((nonnull (2)));
 bool dio_get_tech_list(struct data_in *din, int *dest)
     fc__attribute((nonnull (2)));
 bool dio_get_unit_list(struct data_in *din, int *dest)
@@ -136,7 +133,6 @@ void dio_put_float(struct data_out *dout, float value, int float_factor);
 
 void dio_put_memory(struct data_out *dout, const void *value, size_t size);
 void dio_put_string(struct data_out *dout, const char *value);
-void dio_put_bit_string(struct data_out *dout, const char *value);
 void dio_put_city_map(struct data_out *dout, const char *value);
 void dio_put_tech_list(struct data_out *dout, const int *value);
 void dio_put_unit_list(struct data_out *dout, const int *value);

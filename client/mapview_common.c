@@ -3173,7 +3173,7 @@ void put_spaceship(struct canvas *pcanvas, int canvas_x, int canvas_y,
   }
 
   for (i = 0; i < NUM_SS_STRUCTURALS; i++) {
-    if (!ship->structure[i]) {
+    if (!BV_ISSET(ship->structure, i)) {
       continue;
     }
     x = structurals_info[i].x * w / 4 - w / 2;

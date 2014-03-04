@@ -190,7 +190,6 @@ type UINT16             = uint16(int)
 type UINT32             = uint32(int)
 
 # typedefs for arrays/structs
-type BIT_STRING         = bit_string(char)
 type MEMORY             = memory(unsigned char)
 type REQUIREMENT        = requirement(struct requirement)
 type STRING             = string(char)
@@ -251,6 +250,7 @@ type BV_UNIT_CLASSES    = bitvector(bv_unit_classes)
 type BV_UTYPE_FLAGS     = bitvector(bv_unit_type_flags)
 type BV_UTYPE_ROLES     = bitvector(bv_unit_type_roles)
 type BV_DISASTER_EFFECTS = bitvector(bv_disaster_effects)
+type BV_SPACESHIP_STRUCT = bitvector(bv_spaceship_structure)
 
 # typedefs for IDs
 type BASE               = sint8(Base_type_id)
@@ -1174,7 +1174,7 @@ PACKET_SPACESHIP_INFO = 137; sc, lsend
   YEAR launch_year;
   UINT32 population;
   UINT32 mass;
-  BIT_STRING structure[NUM_SS_STRUCTURALS+1];
+  BV_SPACESHIP_STRUCT structure;
   FLOAT support_rate;
   FLOAT energy_rate;
   FLOAT success_rate;
