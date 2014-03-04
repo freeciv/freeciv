@@ -55,7 +55,10 @@ struct nation_style *style_by_rule_name(const char *name);
 void music_styles_alloc(int count);
 void music_styles_free(void);
 
+int music_style_number(const struct music_style *pms);
 struct music_style *music_style_by_number(int id);
+
+struct music_style *player_music_style(struct player *plr);
 
 #define music_styles_iterate(_p)                               \
 {                                                              \

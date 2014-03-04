@@ -116,7 +116,6 @@ partisans_pct = 0               ; percentage of own nationality to inspire parti
 ;                        is omitted, same graphics as for land cities is used
 ; citizens_graphic     = group of citizens tiles to use, see citizens/small
 ;                        spec for more info on citizens tiles
-; music       = music tag to play while player has this citystyle
 ; reqs        = requirements for this city style (see README.effects)
 ; replaced_by = which style replaced this one
 ;
@@ -128,7 +127,6 @@ graphic     = "city.european"
 graphic_alt = "-"
 citizens_graphic     = "ancient"
 citizens_graphic_alt = "generic"
-music       = "music_european"
 ; No reqs
 replaced_by = "Industrial"
 
@@ -138,7 +136,6 @@ graphic     = "city.classical"
 graphic_alt = "-"
 citizens_graphic     = "ancient"
 citizens_graphic_alt = "generic"
-music       = "music_classical"
 ; No reqs
 replaced_by = "Industrial"
 
@@ -148,7 +145,6 @@ graphic     = "city.tropical"
 graphic_alt = "city.european"
 citizens_graphic     = "ancient"
 citizens_graphic_alt = "generic"
-music       = "music_tropical"
 ; No reqs
 replaced_by = "Industrial"
 
@@ -158,7 +154,6 @@ graphic     = "city.asian"
 graphic_alt = "city.classical"
 citizens_graphic     = "ancient"
 citizens_graphic_alt = "generic"
-music       = "music_asian"
 ; No reqs
 replaced_by = "Industrial"
 
@@ -168,7 +163,6 @@ graphic     = "city.babylonian"
 graphic_alt = "city.classical"
 citizens_graphic     = "ancient"
 citizens_graphic_alt = "generic"
-music       = "music_babylonian"
 ; No reqs
 replaced_by = "Industrial"
 
@@ -178,7 +172,6 @@ graphic     = "city.celtic"
 graphic_alt = "city.european"
 citizens_graphic     = "ancient"
 citizens_graphic_alt = "generic"
-music       = "music_celtic"
 ; No reqs
 replaced_by = "Industrial"
 
@@ -188,7 +181,6 @@ graphic     = "city.industrial"
 graphic_alt = "-"
 citizens_graphic     = "industrial"
 citizens_graphic_alt = "generic"
-music       = "music_industrial"
 reqs = { "type", "name", "range"
          "tech", "Railroad", "Player"
        }
@@ -200,7 +192,6 @@ graphic     = "city.electricage"
 graphic_alt = "city.modern"
 citizens_graphic     = "electricage"
 citizens_graphic_alt = "generic"
-music       = "music_electricage"
 reqs = { "type", "name", "range"
          "tech", "Automobile", "Player"
        }
@@ -212,7 +203,6 @@ graphic     = "city.modern"
 graphic_alt = "-"
 citizens_graphic     = "modern"
 citizens_graphic_alt = "generic"
-music       = "music_modern"
 reqs = { "type", "name", "range"
          "tech", "Rocketry", "Player"
        }
@@ -224,7 +214,6 @@ graphic     = "city.postmodern"
 graphic_alt = "-"
 citizens_graphic     = "postmodern"
 citizens_graphic_alt = "generic"
-music       = "music_postmodern"
 reqs = { "type", "name", "range"
          "tech", "Superconductors", "Player"
        }

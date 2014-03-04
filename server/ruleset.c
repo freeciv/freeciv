@@ -4642,7 +4642,6 @@ static bool load_ruleset_cities(struct section_file *file)
     for (i = 0; i < game.control.styles_count; i++) {
       struct requirement_vector *reqs;
       const char *sec_name = section_name(section_list_get(sec, i));
-      const char *music;
 
       sz_strlcpy(city_styles[i].graphic, 
                  secfile_lookup_str(file, "%s.graphic", sec_name));
@@ -4661,12 +4660,6 @@ static bool load_ruleset_cities(struct section_file *file)
       sz_strlcpy(city_styles[i].citizens_graphic_alt, 
                  secfile_lookup_str_default(file, "generic", 
                                             "%s.citizens_graphic_alt", sec_name));
-      music = secfile_lookup_str_default(file, NULL, "%s.music", sec_name);
-      if (music != NULL) {
-        sz_strlcpy(city_styles[i].music, music);
-      } else {
-        city_styles[i].music[0] = '\0';
-      }
 
       reqs = lookup_req_list(file, sec_name, "reqs", city_style_rule_name(i));
       if (reqs == NULL) {
@@ -6256,8 +6249,6 @@ static void send_ruleset_cities(struct conn_list *dest)
     sz_strlcpy(city_p.citizens_graphic, city_styles[k].citizens_graphic);
     sz_strlcpy(city_p.citizens_graphic_alt,
 			 city_styles[k].citizens_graphic_alt);
-
-    sz_strlcpy(city_p.music, city_styles[k].music);
 
     lsend_packet_ruleset_city(dest, &city_p);
   }

@@ -3633,8 +3633,6 @@ void handle_ruleset_city(const struct packet_ruleset_city *packet)
   sz_strlcpy(cs->citizens_graphic, packet->citizens_graphic);
   sz_strlcpy(cs->citizens_graphic_alt, packet->citizens_graphic_alt);
 
-  sz_strlcpy(cs->music, packet->music);
-
   tileset_setup_city_tiles(tileset, id);
 }
 

@@ -35,8 +35,6 @@
 ***********************************************************************/
 void start_style_music(void)
 {
-  const char *music;
-
   if (client_state() != C_S_RUNNING) {
     /* Style music plays in running game only */
     return;
@@ -49,12 +47,19 @@ void start_style_music(void)
   }
 
   if (sound_enable_game_music) {
+    struct music_style *pms;
+
     stop_style_music();
 
-    music = city_styles[client.conn.playing->music_style].music;
-    if (music[0] != '\0') {
-      log_debug("Play %s", music);
-      audio_play_music(music, NULL);
+    pms = music_style_by_number(client.conn.playing->music_style);
+
+    if (pms != NULL) {
+      const char *tag = pms->music_peaceful;
+
+      if (tag[0] != '\0') {
+        log_debug("Play %s", tag);
+        audio_play_music(tag, NULL);
+      }
     }
   }
 }

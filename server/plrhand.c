@@ -939,6 +939,7 @@ static void package_player_common(struct player *plr,
                                   struct packet_player_info *packet)
 {
   int i;
+  struct music_style *music;
 
   packet->playerno = player_number(plr);
   sz_strlcpy(packet->name, player_name(plr));
@@ -954,7 +955,19 @@ static void package_player_common(struct player *plr,
   } else {
     packet->city_style = 0;
   }
-  packet->music_style = packet->city_style;
+
+  /* I think we could safely move the music style selection to
+   * client side to not have it burden server side. Client could
+   * actually avoid it completely when music disabled from the client options.
+   * Client has no use for music styles of other players, and there should
+   * be no such information about the player him/herself needed to determine
+   * the music style that client does not know. */
+  music = player_music_style(plr);
+  if (music != NULL) {
+    packet->music_style = music_style_number(music);
+  } else {
+    packet->music_style = -1; /* No music style available */
+  }
 
   packet->is_alive=plr->is_alive;
   packet->is_connected=plr->is_connected;

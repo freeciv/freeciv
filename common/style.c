@@ -154,6 +154,16 @@ void music_styles_free(void)
   music_styles = NULL;
 }
 
+/**************************************************************************
+  Return the music style id.
+**************************************************************************/
+int music_style_number(const struct music_style *pms)
+{
+  fc_assert_ret_val(NULL != pms, -1);
+
+  return pms->id;
+}
+
 /****************************************************************************
   Return music style of given id.
 ****************************************************************************/
@@ -162,4 +172,22 @@ struct music_style *music_style_by_number(int id)
   fc_assert_ret_val(id >= 0 && id < game.control.num_music_styles, NULL);
 
   return &music_styles[id];
+}
+
+/****************************************************************************
+  Return music style for player
+****************************************************************************/
+struct music_style *player_music_style(struct player *plr)
+{
+  struct music_style *best = NULL;
+
+  music_styles_iterate(pms) {
+    if (are_reqs_active(plr, NULL, NULL, NULL, NULL,
+                        NULL, NULL, NULL, &pms->reqs,
+                        RPT_CERTAIN)) {
+      best = pms;
+    }
+  } music_styles_iterate_end;
+
+  return best;
 }
