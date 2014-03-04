@@ -788,7 +788,6 @@ void adv_best_government(struct player *pplayer)
 {
   struct adv_data *adv = adv_data_get(pplayer, NULL);
   int best_val = 0;
-  int bonus = 0; /* in percentage */
   struct government *current_gov = government_of_player(pplayer);
 
   adv->goal.govt.gov = current_gov;
@@ -803,6 +802,7 @@ void adv_best_government(struct player *pplayer)
   if (adv->govt_reeval == 0) {
     governments_iterate(gov) {
       int val = 0;
+      int bonus = 0; /* in percentage */
       int dist;
       int revolution_turns;
 
