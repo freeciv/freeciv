@@ -3520,6 +3520,16 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
     }
   } unit_type_iterate_end;
 
+  /* Action immunity */
+  action_iterate(act) {
+    if (action_immune_government(gov, act)) {
+      cat_snprintf(buf, bufsz,
+                   _("* Makes your %s immune to the action \'%s\'.\n"),
+                   _(action_target_kind_name(action_get_target_kind(act))),
+                   _(action_get_ui_name(act)));
+    }
+  } action_iterate_end;
+
   if (user_text && user_text[0] != '\0') {
     cat_snprintf(buf, bufsz, "\n%s", user_text);
   }

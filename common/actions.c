@@ -591,3 +591,33 @@ action_probability action_prob_vs_unit(struct unit* actor_unit,
                      unit_tile(target_unit),
                      target_unit, NULL, NULL);
 }
+
+/**************************************************************************
+  Will a player with the government gov be immune to the action act?
+**************************************************************************/
+bool action_immune_government(struct government *gov, int act)
+{
+  /* Always immune since its not enabled. Doesn't count. */
+  if (action_enabler_list_size(action_enablers_for_action(act)) == 0) {
+    return FALSE;
+  }
+
+  action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
+    bool blocked = FALSE;
+
+    requirement_vector_iterate(&(enabler->target_reqs), preq) {
+      if (preq->source.kind == VUT_GOVERNMENT
+          && preq->source.value.govern == gov
+          && !preq->present) {
+        blocked = TRUE;
+        break;
+      }
+    } requirement_vector_iterate_end;
+
+    if (!blocked) {
+      return FALSE;
+    }
+  } action_enabler_list_iterate_end;
+
+  return TRUE;
+}
