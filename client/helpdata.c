@@ -1996,8 +1996,6 @@ static bool
 unit_type_fulfills_requirement(struct unit_type *utype,
                                struct requirement_vector *reqs)
 {
-  bool fulfills = TRUE;
-
   fc_assert(utype);
   fc_assert(reqs);
 
@@ -2025,16 +2023,16 @@ unit_type_fulfills_requirement(struct unit_type *utype,
 
     if (found) {
       if (!preq->present) {
-        fulfills = FALSE;
+        return FALSE;
       }
     } else {
       if (preq->present) {
-        fulfills = FALSE;
+        return FALSE;
       }
     }
   } requirement_vector_iterate_end;
 
-  return fulfills;
+  return TRUE;
 }
 
 /****************************************************************
