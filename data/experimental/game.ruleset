@@ -276,6 +276,11 @@ actor_reqs    =
       "DiplRel", "Alliance", "Local", FALSE
       "DiplRel", "Team", "Local", FALSE
     }
+target_reqs    =
+    { "type",   "name", "range", "present"
+      "Gov", "Democracy", "Player", FALSE
+      "Building", "Palace", "City", FALSE
+    }
 
 [actionenabler_bribe_unit]
 action = "Bribe Unit"
@@ -288,6 +293,7 @@ target_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "Unbribable", "Local", FALSE
       "CityTile", "Center", "Local", FALSE
+      "Gov", "Democracy", "Player", FALSE
     }
 
 [actionenabler_sabotage_unit]
