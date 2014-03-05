@@ -1393,22 +1393,6 @@ reqs    =
       "UnitFlag", "NonMil", "Local", FALSE
     }
 
-[effect_unbribable_republic]
-type    = "Unbribable_Units"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Republic", "Player"
-    }
-
-[effect_unbribable_democracy]
-type    = "Unbribable_Units"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Democracy", "Player"
-    }
-
 [effect_revolution_republic]
 type    = "Revolution_Unhappiness"
 value   = 2

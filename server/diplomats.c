@@ -375,7 +375,6 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   Bribe an enemy unit.
   
   - Can't bribe a unit if:
-    - Owner runs an unbribable government (e.g., democracy).
     - Player doesn't have enough gold.
     - It's not the only unit on the square
       (this is handled outside this function).
@@ -403,14 +402,6 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   }
 
   log_debug("bribe-unit: unit: %d", pdiplomat->id);
-
-  /* Check for unit from a bribable government. */
-  if (get_player_bonus(uplayer, EFT_UNBRIBABLE_UNITS)) {
-    notify_player(pplayer, unit_tile(pdiplomat),
-                  E_MY_DIPLOMAT_FAILED, ftc_server,
-                  _("You can't bribe a unit from this nation."));
-    return;
-  }
 
   /* Get bribe cost, ignoring any previously saved value. */
   bribe_cost = unit_bribe_cost(pvictim, pplayer);

@@ -1458,7 +1458,6 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_MARTIAL_LAW_EACH:
   case EFT_MARTIAL_LAW_MAX:
   case EFT_RAPTURE_GROW:
-  case EFT_UNBRIBABLE_UNITS:
   case EFT_REVOLUTION_UNHAPPINESS:
   case EFT_HAS_SENATE:
   case EFT_INSPIRE_PARTISANS:

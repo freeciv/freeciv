@@ -3269,11 +3269,6 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
           cat_snprintf(buf, bufsz, "\n");
         }
         break;
-      case EFT_UNBRIBABLE_UNITS:
-        if (playerwide && net_value > 0) {
-          CATLSTR(buf, bufsz, _("* Your units cannot be bribed.\n"));
-        }
-        break;
       case EFT_NO_INCITE:
         if (playerwide && net_value > 0) {
           CATLSTR(buf, bufsz, _("* Your cities cannot be incited to "

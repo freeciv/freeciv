@@ -197,7 +197,7 @@ Waste by Dist **  1        1        1        1        1        1        1       
 - "Martial Law": Max 3 units can apply Martial Law (was max 20 for Despotism and Anarchy).
 
 - The bonus "+1 Trade" under Republic and Democracy does not affect oceanic tiles. This way, oceanic tiles are more even to land tiles under any government.
-- Republic receives Revolution_When_Unhappy and Unbribable_Units, Federation receives Has_senate and No_Incite (Democracy receives all them).
+- Republic receives Revolution_When_Unhappy and has unbribable units, Federation receives Has_senate and No_Incite (Democracy receives all them).
 - Under Tribal government, every Military Land unit gains an additional movement point. They are tribal warriors, maintained with Shields instead of Gold.
 - Under Communism you do not pay upkeep for buildings that cost 1 Gold. Communism cancels the bonus from Mysticism and Theology (to Temples and Cathedrals).
 - Under Fundamentalism you receive extra Gold from Tithes, but -50% to Science.

@@ -317,9 +317,6 @@ Martial_Law_Max
 Rapture_Grow
     Can rapture grow cities.
 
-Unbribable_Units
-    Units cannot be bribed.
-
 Revolution_Unhappiness
     If value is greater than zero, it tells how many turns citizens
     will tolerate city disorder before government falls. If value is
