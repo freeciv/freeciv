@@ -760,7 +760,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile,
 
     action_entry(shl,
                  action_probabilities[ACTION_SPY_TARGETED_STEAL_TECH],
-                 _("Industrial espionage"),
+                 _("Indus_trial espionage"),
                  (GCallback)spy_steal_popup);
 
     action_entry(shl,
