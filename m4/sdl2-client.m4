@@ -25,6 +25,11 @@ AC_DEFUN([FC_SDL2_CLIENT],
         missing_2_project="SDL2_image"
       fi
       if test "x$sdl2_h_found" = "xyes" ; then
+        FC_SDL2_PROJECT([SDL2_gfx], [rotozoomSurface], [SDL/SDL_rotozoom.h])
+      else
+        missing_2_project="SDL_ttf"
+      fi
+      if test "x$sdl2_h_found" = "xyes" ; then
         AC_CHECK_FT2([2.1.3], [freetype_found="yes"],[freetype_found="no"])
         if test "$freetype_found" = yes; then
           GUI_sdl2_CFLAGS="$GUI_sdl2_CFLAGS $FT2_CFLAGS"
@@ -32,10 +37,10 @@ AC_DEFUN([FC_SDL2_CLIENT],
           found_sdl2_client=yes
         elif test "x$gui_sdl2" = "xyes"; then
           AC_MSG_ERROR([specified client 'sdl2' not configurable (FreeType2 >= 2.1.3 is needed (www.freetype.org))])
-        fi    
+        fi
       elif test "x$gui_sdl2" = "xyes"; then
         if test "x$missing_2_project" = "x" ; then
-          missing_2_project="SDL2_ttf"
+          missing_2_project="SDL2_gfx"
         fi
         if test "x$sdl2_lib_found" = "xyes" ; then
           missing_type="-devel"

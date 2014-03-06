@@ -7,11 +7,6 @@ AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility \
         $(GUI_sdl2_CFLAGS)
 
 libgui_sdl2_la_SOURCES = \
-	SDL2_gfxPrimitives.c	\
-	SDL2_gfxPrimitives.h	\
-	SDL2_gfxPrimitives_font.h	\
-	SDL2_rotozoom.c	\
-	SDL2_rotozoom.h	\
 	canvas.c	\
 	canvas.h	\
 	caravan_dialog.c \
