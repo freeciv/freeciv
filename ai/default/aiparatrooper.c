@@ -139,10 +139,10 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
     /* Iterate over adjacent tile to find good victim */
     adjc_iterate(ptile, target) {
       if (unit_list_size(target->units) == 0
-          || (can_unit_attack_tile(punit, target))
-	  || is_ocean_tile(target)
-	  || (has_handicap(pplayer, H_FOG)
-	      && !map_is_known_and_seen(target, pplayer, V_MAIN))) {
+          || !can_unit_attack_tile(punit, target)
+          || is_ocean_tile(target)
+          || (has_handicap(pplayer, H_FOG)
+              && !map_is_known_and_seen(target, pplayer, V_MAIN))) {
         continue;
       }
       val = 0;
