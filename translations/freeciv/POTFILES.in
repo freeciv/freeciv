@@ -199,6 +199,7 @@ client/servers.c
 client/text.c
 client/tilespec.c
 common/achievements.c
+common/actions.c
 common/actions.h
 common/ai.c
 common/city.c
