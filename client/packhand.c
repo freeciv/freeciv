@@ -2833,7 +2833,7 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
     if (strcmp(packet->prefered_soundset, sound_set_name)) {
       /* It's not currently in use */
       if (autoaccept_soundset_suggestion) {
-        audio_restart(game.control.prefered_soundset);
+        audio_restart(game.control.prefered_soundset, music_set_name);
       } else {
         popup_soundset_suggestion_dialog();
       }

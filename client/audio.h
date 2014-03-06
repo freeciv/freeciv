@@ -37,14 +37,16 @@ struct audio_plugin {
 struct strvec;
 const struct strvec *get_soundplugin_list(void);
 const struct strvec *get_soundset_list(void);
+const struct strvec *get_musicset_list(void);
 
 void audio_init(void);
-void audio_real_init(const char *const spec_name,
+void audio_real_init(const char *const soundspec_name,
+                     const char *const musicset_name,
 		     const char *const prefered_plugin_name);
 void audio_add_plugin(struct audio_plugin *p);
 void audio_shutdown(void);
 void audio_stop(void);
-void audio_restart(const char *soundset_name);
+  void audio_restart(const char *soundset_name, const char *musicset_name);
 
 void audio_play_sound(const char *const tag, char *const alt_tag);
 void audio_play_music(const char *const tag, char *const alt_tag);

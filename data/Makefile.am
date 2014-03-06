@@ -10,6 +10,7 @@ CLIENT_FILES =				\
 	isophex.tilespec		\
 	isotrident.tilespec		\
 	trident.tilespec		\
+	stdmusic.musicspec		\
 	stdsounds.soundspec		\
 	helpdata.txt
 if CLIENT_GUI_XAW

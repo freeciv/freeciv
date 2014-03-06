@@ -70,6 +70,7 @@ extern char *logfile;
 extern char *scriptfile;
 extern char sound_plugin_name[512];
 extern char sound_set_name[512];
+extern char music_set_name[512];
 extern char server_host[512];
 extern char user_name[512];
 extern char password[MAX_LEN_PASSWORD];

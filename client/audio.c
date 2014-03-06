@@ -41,9 +41,11 @@
 
 #define MAX_NUM_PLUGINS		2
 #define SNDSPEC_SUFFIX		".soundspec"
+#define MUSICSPEC_SUFFIX        ".musicspec"
 
 /* keep it open throughout */
-static struct section_file *tagfile = NULL;
+static struct section_file *ss_tagfile = NULL;
+static struct section_file *ms_tagfile = NULL;
 
 static struct audio_plugin plugins[MAX_NUM_PLUGINS];
 static int num_plugins_used = 0;
@@ -72,19 +74,39 @@ const struct strvec *get_soundplugin_list(void)
 }
 
 /**********************************************************************
-  Returns a static string vector of soundsets available on the system by
-  searching all data directories for files matching SNDSPEC_SUFFIX.
+  Returns a static string vector of audiosets of given type available
+  on the system by searching all data directories for files matching
+  suffix.
   The list is NULL-terminated.
+***********************************************************************/
+static const struct strvec *get_audio_speclist(const char *suffix,
+                                               struct strvec **audio_list)
+{
+  if (NULL == *audio_list) {
+    *audio_list = fileinfolist(get_data_dirs(), suffix);
+  }
+
+  return *audio_list;
+}
+
+/**********************************************************************
+  Returns a static string vector of soundsets available on the system.
 ***********************************************************************/
 const struct strvec *get_soundset_list(void)
 {
-  static struct strvec *audio_list = NULL;
+  static struct strvec *sound_list = NULL;
 
-  if (NULL == audio_list) {
-    audio_list = fileinfolist(get_data_dirs(), SNDSPEC_SUFFIX);
-  }
+  return get_audio_speclist(SNDSPEC_SUFFIX, &sound_list);
+}
 
-  return audio_list;
+/**********************************************************************
+  Returns a static string vector of musicsets available on the system.
+***********************************************************************/
+const struct strvec *get_musicset_list(void)
+{
+  static struct strvec *music_list = NULL;
+
+  return get_audio_speclist(MUSICSPEC_SUFFIX, &music_list);
 }
 
 /**************************************************************************
@@ -151,16 +173,18 @@ void audio_init(void)
 }
 
 /**************************************************************************
-  Returns the filename for the given soundset. Returns NULL if
-  soundset couldn't be found. Caller has to free the return value.
+  Returns the filename for the given audio set. Returns NULL if
+ set couldn't be found. Caller has to free the return value.
 **************************************************************************/
-static const char *soundspec_fullname(const char *soundset_name)
+static const char *audiospec_fullname(const char *audioset_name,
+                                      bool music)
 {
-  const char *soundset_default = "stdsounds";	/* Do not i18n! */
-  char *fname = fc_malloc(strlen(soundset_name) + strlen(SNDSPEC_SUFFIX) + 1);
+  const char *suffix = music ? MUSICSPEC_SUFFIX : SNDSPEC_SUFFIX;
+  const char *audioset_default = music ? "stdmusic" : "stdsounds";/* Do not i18n! */
+  char *fname = fc_malloc(strlen(audioset_name) + strlen(suffix) + 1);
   const char *dname;
 
-  sprintf(fname, "%s%s", soundset_name, SNDSPEC_SUFFIX);
+  sprintf(fname, "%s%s", audioset_name, suffix);
 
   dname = fileinfoname(get_data_dirs(), fname);
   free(fname);
@@ -169,30 +193,69 @@ static const char *soundspec_fullname(const char *soundset_name)
     return fc_strdup(dname);
   }
 
-  if (strcmp(soundset_name, soundset_default) == 0) {
+  if (strcmp(audioset_name, audioset_default) == 0) {
     /* avoid endless recursion */
     return NULL;
   }
 
-  log_error("Couldn't find soundset \"%s\", trying \"%s\".",
-            soundset_name, soundset_default);
-  return soundspec_fullname(soundset_default);
+  log_error("Couldn't find audioset \"%s\", trying \"%s\".",
+            audioset_name, audioset_default);
+
+  return audiospec_fullname(audioset_default, music);
+}
+
+/**************************************************************************
+  Check capabilities of the audio specfile
+**************************************************************************/
+static bool check_audiofile_capstr(struct section_file *sfile,
+                                   const char *filename,
+                                   const char *our_cap,
+                                   const char *opt_path)
+{
+  const char *file_capstr;
+
+  file_capstr = secfile_lookup_str(sfile, "%s", opt_path);
+  if (NULL == file_capstr) {
+    log_fatal("Audio spec-file \"%s\" doesn't have capability string.",
+              filename);
+    exit(EXIT_FAILURE);
+  }
+  if (!has_capabilities(our_cap, file_capstr)) {
+    log_fatal("Audio spec-file appears incompatible:");
+    log_fatal("  file: \"%s\"", filename);
+    log_fatal("  file options: %s", file_capstr);
+    log_fatal("  supported options: %s", our_cap);
+    exit(EXIT_FAILURE);
+  }
+  if (!has_capabilities(file_capstr, our_cap)) {
+    log_fatal("Audio spec-file claims required option(s) "
+              "which we don't support:");
+    log_fatal("  file: \"%s\"", filename);
+    log_fatal("  file options: %s", file_capstr);
+    log_fatal("  supported options: %s", our_cap);
+    exit(EXIT_FAILURE);
+  }
+
+return TRUE;
 }
 
 /**************************************************************************
   Initialize audio system and autoselect a plugin
 **************************************************************************/
-void audio_real_init(const char *const spec_name,
+void audio_real_init(const char *const soundset_name,
+                     const char *const musicset_name,
 		     const char *const prefered_plugin_name)
 {
-  const char *filename;
-  const char *file_capstr;
-  char us_capstr[] = "+soundspec";
+  const char *ss_filename;
+  const char *ms_filename;
+  char us_ss_capstr[] = "+soundspec";
+  char us_ms_capstr[] = "+musicspec";
 
   if (strcmp(prefered_plugin_name, "none") == 0) {
     /* We explicitly choose none plugin, silently skip the code below */
     log_verbose("Proceeding with sound support disabled.");
-    tagfile = NULL;
+    ss_tagfile = NULL;
+    ms_tagfile = NULL;
     return;
   }
   if (num_plugins_used == 1) {
@@ -201,53 +264,53 @@ void audio_real_init(const char *const spec_name,
     log_normal(_("Proceeding with sound support disabled."));
     log_normal(_("For sound support, install SDL_mixer"));
     log_normal("http://www.libsdl.org/projects/SDL_mixer/index.html");
-    tagfile = NULL;
+    ss_tagfile = NULL;
+    ms_tagfile = NULL;
     return;
   }
-  if (!spec_name) {
+  if (!soundset_name) {
     log_fatal("No sound spec-file given!");
     exit(EXIT_FAILURE);
   }
-  log_verbose("Initializing sound using %s...", spec_name);
-  filename = soundspec_fullname(spec_name);
-  if (!filename) {
-    log_error("Cannot find sound spec-file \"%s\".", spec_name);
+  if (!musicset_name) {
+    log_fatal("No music spec-file given!");
+    exit(EXIT_FAILURE);
+  }
+  log_verbose("Initializing sound using %s and %s...",
+              soundset_name, musicset_name);
+  ss_filename = audiospec_fullname(soundset_name, FALSE);
+  ms_filename = audiospec_fullname(musicset_name, TRUE);
+  if (!ss_filename || !ms_filename) {
+    log_error("Cannot find audio spec-file \"%s\" or \"%s\"",
+              soundset_name, musicset_name);
     log_normal(_("To get sound you need to download a sound set!"));
     log_normal(_("Get sound sets from <%s>."),
                "http://www.freeciv.org/wiki/Sounds");
     log_normal(_("Proceeding with sound support disabled."));
-    tagfile = NULL;
+    ss_tagfile = NULL;
+    ms_tagfile = NULL;
     return;
   }
-  if (!(tagfile = secfile_load(filename, TRUE))) {
-    log_fatal(_("Could not load sound spec-file '%s':\n%s"), filename,
+  if (!(ss_tagfile = secfile_load(ss_filename, TRUE))) {
+    log_fatal(_("Could not load sound spec-file '%s':\n%s"), ss_filename,
+              secfile_error());
+    exit(EXIT_FAILURE);
+  }
+  if (!(ms_tagfile = secfile_load(ms_filename, TRUE))) {
+    log_fatal(_("Could not load music spec-file '%s':\n%s"), ms_filename,
               secfile_error());
     exit(EXIT_FAILURE);
   }
 
-  file_capstr = secfile_lookup_str(tagfile, "soundspec.options");
-  if (NULL == file_capstr) {
-    log_fatal("Audio spec-file \"%s\" doesn't have capability string.",
-              filename);
-    exit(EXIT_FAILURE);
-  }
-  if (!has_capabilities(us_capstr, file_capstr)) {
-    log_fatal("sound spec-file appears incompatible:");
-    log_fatal("  file: \"%s\"", filename);
-    log_fatal("  file options: %s", file_capstr);
-    log_fatal("  supported options: %s", us_capstr);
-    exit(EXIT_FAILURE);
-  }
-  if (!has_capabilities(file_capstr, us_capstr)) {
-    log_fatal("sound spec-file claims required option(s) "
-              "which we don't support:");
-    log_fatal("  file: \"%s\"", filename);
-    log_fatal("  file options: %s", file_capstr);
-    log_fatal("  supported options: %s", us_capstr);
-    exit(EXIT_FAILURE);
-  }
+  check_audiofile_capstr(ss_tagfile, ss_filename, us_ss_capstr,
+                         "soundspec.options");
 
-  free((void *) filename);
+  free((void *) ss_filename);
+
+  check_audiofile_capstr(ms_tagfile, ms_filename, us_ms_capstr,
+                         "musicspec.options");
+
+  free((void *) ms_filename);
 
   atexit(audio_shutdown);
 
@@ -268,18 +331,20 @@ void audio_real_init(const char *const spec_name,
 /**************************************************************************
   Switch soundset
 **************************************************************************/
-void audio_restart(const char *soundset_name)
+void audio_restart(const char *soundset_name, const char *musicset_name)
 {
   audio_stop(); /* Fade down old one */
 
   sz_strlcpy(sound_set_name, soundset_name);
-  audio_real_init(sound_set_name, sound_plugin_name);
+  sz_strlcpy(music_set_name, musicset_name);
+  audio_real_init(sound_set_name, music_set_name, sound_plugin_name);
 }
 
 /**************************************************************************
   INTERNAL. Returns TRUE for success.
 **************************************************************************/
-static bool audio_play_tag(const char *tag, bool repeat)
+static bool audio_play_tag(struct section_file *sfile,
+                           const char *tag, bool repeat)
 {
   const char *soundfile;
   const char *fullpath = NULL;
@@ -288,8 +353,8 @@ static bool audio_play_tag(const char *tag, bool repeat)
     return FALSE;
   }
 
-  if (tagfile) {
-    soundfile = secfile_lookup_str(tagfile, "files.%s", tag);
+  if (sfile) {
+    soundfile = secfile_lookup_str(sfile, "files.%s", tag);
     if (NULL == soundfile) {
       log_verbose("No sound file for tag %s (file %s)", tag, soundfile);
     } else {
@@ -301,6 +366,22 @@ static bool audio_play_tag(const char *tag, bool repeat)
   }
 
   return plugins[selected_plugin].play(tag, fullpath, repeat);
+}
+
+/**************************************************************************
+  Play tag from sound set
+**************************************************************************/
+static bool audio_play_sound_tag(const char *tag, bool repeat)
+{
+  return audio_play_tag(ss_tagfile, tag, repeat);
+}
+
+/**************************************************************************
+  Play tag from music set
+**************************************************************************/
+static bool audio_play_music_tag(const char *tag, bool repeat)
+{
+  return audio_play_tag(ms_tagfile, tag, repeat);
 }
 
 /**************************************************************************
@@ -316,7 +397,8 @@ void audio_play_sound(const char *const tag, char *const alt_tag)
     log_debug("audio_play_sound('%s', '%s')", tag, pretty_alt_tag);
 
     /* try playing primary tag first, if not go to alternative tag */
-    if (!audio_play_tag(tag, FALSE) && !audio_play_tag(alt_tag, FALSE)) {
+    if (!audio_play_sound_tag(tag, FALSE)
+        && !audio_play_sound_tag(alt_tag, FALSE)) {
       log_verbose( "Neither of tags %s or %s found", tag, pretty_alt_tag);
     }
   }
@@ -334,7 +416,8 @@ void audio_play_music(const char *const tag, char *const alt_tag)
   log_debug("audio_play_music('%s', '%s')", tag, pretty_alt_tag);
 
   /* try playing primary tag first, if not go to alternative tag */
-  if (!audio_play_tag(tag, TRUE) && !audio_play_tag(alt_tag, TRUE)) {
+  if (!audio_play_music_tag(tag, TRUE)
+      && !audio_play_music_tag(alt_tag, TRUE)) {
     log_verbose("Neither of tags %s or %s found", tag, pretty_alt_tag);
   }
 }
@@ -375,9 +458,13 @@ void audio_shutdown()
   plugins[selected_plugin].wait();
   plugins[selected_plugin].shutdown();
 
-  if (NULL != tagfile) {
-    secfile_destroy(tagfile);
-    tagfile = NULL;
+  if (NULL != ss_tagfile) {
+    secfile_destroy(ss_tagfile);
+    ss_tagfile = NULL;
+  }
+  if (NULL != ms_tagfile) {
+    secfile_destroy(ms_tagfile);
+    ms_tagfile = NULL;
   }
 }
 

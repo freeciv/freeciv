@@ -128,6 +128,7 @@ char *scriptfile = NULL;
 static char tileset_name[512] = "\0";
 char sound_plugin_name[512] = "\0";
 char sound_set_name[512] = "\0";
+char music_set_name[512] = "\0";
 char server_host[512] = "\0";
 char user_name[512] = "\0";
 char password[MAX_LEN_PASSWORD] = "\0";
@@ -409,6 +410,10 @@ int client_main(int argc, char *argv[])
                   /* TRANS: "Sound" is exactly what user must type, do not translate. */
                   _("Sound FILE"),
                   _("Read sound tags from FILE"));
+      cmdhelp_add(help, "m",
+                  /* TRANS: "music" is exactly what user must type, do not translate. */
+                  _("music FILE"),
+                  _("Read music tags from FILE"));
       cmdhelp_add(help, "t",
                   /* TRANS: "tiles" is exactly what user must type, do not translate. */
                   _("tiles FILE"),
@@ -450,6 +455,9 @@ int client_main(int argc, char *argv[])
       free(option);
     } else if ((option = get_option_malloc("--Sound", argv, &i, argc))) {
       sz_strlcpy(sound_set_name, option);
+      free(option);
+    } else if ((option = get_option_malloc("--music", argv, &i, argc))) {
+      sz_strlcpy(music_set_name, option);
       free(option);
     } else if ((option = get_option_malloc("--Plugin", argv, &i, argc))) {
       sz_strlcpy(sound_plugin_name, option);
@@ -554,14 +562,21 @@ int client_main(int argc, char *argv[])
   if (tileset_name[0] == '\0') {
     sz_strlcpy(tileset_name, default_tileset_name);
   }
-  if (sound_set_name[0] == '\0') 
-    sz_strlcpy(sound_set_name, default_sound_set_name); 
-  if (sound_plugin_name[0] == '\0')
+  if (sound_set_name[0] == '\0') {
+    sz_strlcpy(sound_set_name, default_sound_set_name);
+  }
+  if (music_set_name[0] == '\0') {
+    sz_strlcpy(music_set_name, default_music_set_name);
+  }
+  if (sound_plugin_name[0] == '\0') {
     sz_strlcpy(sound_plugin_name, default_sound_plugin_name); 
-  if (server_host[0] == '\0')
+  }
+  if (server_host[0] == '\0') {
     sz_strlcpy(server_host, default_server_host); 
-  if (user_name[0] == '\0')
+  }
+  if (user_name[0] == '\0') {
     sz_strlcpy(user_name, default_user_name); 
+  }
   if (metaserver[0] == '\0') {
     /* FIXME: Find a cleaner way to achieve this. */
     /* www.cazfi.net/freeciv/metaserver/ was default metaserver
@@ -589,7 +604,7 @@ int client_main(int argc, char *argv[])
 
   tilespec_try_read(tileset_name, user_tileset);
 
-  audio_real_init(sound_set_name, sound_plugin_name);
+  audio_real_init(sound_set_name, music_set_name, sound_plugin_name);
   start_menu_music("music_start", NULL);
 
   ggz_initialize();

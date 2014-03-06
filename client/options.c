@@ -73,6 +73,7 @@ int  default_server_port = DEFAULT_SOCK_PORT;
 char default_metaserver[512] = DEFAULT_METASERVER_OPTION;
 char default_tileset_name[512] = "\0";
 char default_sound_set_name[512] = "stdsounds";
+char default_music_set_name[512] = "stdmusic";
 char default_sound_plugin_name[512] = "\0";
 char default_chat_logfile[512] = GUI_DEFAULT_CHAT_LOGFILE;
 
@@ -1760,6 +1761,12 @@ static struct client_option client_options[] = {
                          "this is the same as using the -S command-line "
                          "parameter."),
                       COC_SOUND, GUI_STUB, "stdsounds", get_soundset_list, NULL),
+  GEN_STR_LIST_OPTION(default_music_set_name,
+                      N_("Musicset"),
+                      N_("This is the musicset that will be used.  Changing "
+                         "this is the same as using the -m command-line "
+                         "parameter."),
+                      COC_SOUND, GUI_STUB, "stdmusic", get_musicset_list, NULL),
   GEN_STR_LIST_OPTION(default_sound_plugin_name,
                       N_("Sound plugin"),
                       N_("If you have a problem with sound, try changing "

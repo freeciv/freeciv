@@ -38,7 +38,8 @@ static void soundset_suggestion_callback(GtkWidget *dlg, gint arg)
 {
   if (arg == GTK_RESPONSE_YES) {
     /* User accepted soundset loading */
-    audio_restart(game.control.prefered_soundset);
+    audio_restart(game.control.prefered_soundset,
+                  music_set_name);
   }
 }
 
