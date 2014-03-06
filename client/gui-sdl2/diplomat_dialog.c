@@ -624,7 +624,6 @@ void popdown_diplomat_dialog(void)
   Add an entry for an action in the action choise dialog.
 **************************************************************************/
 static void action_entry(const enum gen_action act,
-                         const char *ui_name,
                          const int *action_probabilities,
                          int (*callback) (struct widget *),
                          struct unit *act_unit,
@@ -636,8 +635,10 @@ static void action_entry(const enum gen_action act,
   struct widget *pBuf;
   SDL_String16 *pStr;
   action_probability prob;
+  const char *ui_name;
 
   prob = action_probabilities[act];
+  ui_name = _(action_get_ui_name(act));
 
   /* How to interpret action probabilities like success_propability is
    * documented in actions.h */
@@ -731,56 +732,48 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile,
     pDiplomat_Dlg->diplomat_target_id[ATK_CITY] = pCity->id;
 
     action_entry(ACTION_ESTABLISH_EMBASSY,
-                 _("Establish Embassy"),
                  action_probabilities,
                  diplomat_embassy_callback,
                  pUnit, pCity, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_INVESTIGATE_CITY,
-                 _("Investigate City"),
                  action_probabilities,
                  diplomat_investigate_callback,
                  pUnit, pCity, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_POISON,
-                 _("Poison City"),
                  action_probabilities,
                  spy_poison_callback,
                  pUnit, pCity, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_SABOTAGE_CITY,
-                 _("Sabotage City"),
                  action_probabilities,
                  diplomat_sabotage_callback,
                  pUnit, pCity, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_TARGETED_SABOTAGE_CITY,
-                 _("Industrial Sabotage"),
                  action_probabilities,
                  spy_sabotage_request,
                  pUnit, pCity, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_STEAL_TECH,
-                 _("Steal Technology"),
                  action_probabilities,
                  diplomat_steal_callback,
                  pUnit, pCity, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_TARGETED_STEAL_TECH,
-                 _("Industrial espionage"),
                  action_probabilities,
                  spy_steal_popup,
                  pUnit, pCity, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_INCITE_CITY,
-                 _("Incite a Revolt"),
                  action_probabilities,
                  diplomat_incite_callback,
                  pUnit, pCity, NULL,
@@ -793,14 +786,12 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile,
     pDiplomat_Dlg->diplomat_target_id[ATK_UNIT] = pTunit->id;
 
     action_entry(ACTION_SPY_BRIBE_UNIT,
-                 _("Bribe Enemy Unit"),
                  action_probabilities,
                  diplomat_bribe_callback,
                  pUnit, NULL, pTunit,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_SABOTAGE_UNIT,
-                 _("Sabotage Enemy Unit"),
                  action_probabilities,
                  spy_sabotage_unit_callback,
                  pUnit, NULL, pTunit,
