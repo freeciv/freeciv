@@ -69,8 +69,9 @@ static void keep_moving(QVariant data1, QVariant data2);
 static void caravan_keep_moving(QVariant data1, QVariant data2);
 static void pillage_something(QVariant data1, QVariant data2);
 static void action_entry(choice_dialog *cd,
-                         action_probability success_propability,
-                         QString title, pfcn_void func, QVariant data1,
+                         gen_action act,
+                         const action_probability *action_probabilities,
+                         pfcn_void func, QVariant data1,
                          QVariant data2);
 
 static int caravan_city_id = 0;
@@ -966,42 +967,43 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile,
     qv2 = pcity->id;
 
     action_entry(cd,
-                 action_probabilities[ACTION_ESTABLISH_EMBASSY],
-                 QString(_("Establish Embassy")),
+                 ACTION_ESTABLISH_EMBASSY,
+                 action_probabilities,
                  diplomat_embassy, qv1, qv2);
 
     action_entry(cd,
-                 action_probabilities[ACTION_SPY_INVESTIGATE_CITY],
-                 QString(_("Investigate City")),
+                 ACTION_SPY_INVESTIGATE_CITY,
+                 action_probabilities,
                  diplomat_investigate, qv1, qv2);
 
     action_entry(cd,
-                 action_probabilities[ACTION_SPY_POISON],
-                 QString(_("Poison City")), spy_poison, qv1, qv2);
+                 ACTION_SPY_POISON,
+                 action_probabilities,
+                 spy_poison, qv1, qv2);
 
     action_entry(cd,
-                 action_probabilities[ACTION_SPY_SABOTAGE_CITY],
-                 QString(_("Sabotage City")),
+                 ACTION_SPY_SABOTAGE_CITY,
+                 action_probabilities,
                  diplomat_sabotage, qv1, qv2);
 
     action_entry(cd,
-                 action_probabilities[ACTION_SPY_TARGETED_SABOTAGE_CITY],
-                 QString(_("Industrial Sabotage")),
+                 ACTION_SPY_TARGETED_SABOTAGE_CITY,
+                 action_probabilities,
                  spy_request_sabotage_list, qv1, qv2);
 
     action_entry(cd,
-                 action_probabilities[ACTION_SPY_STEAL_TECH],
-                 QString(_("Steal Technology")),
+                 ACTION_SPY_STEAL_TECH,
+                 action_probabilities,
                  diplomat_steal, qv1, qv2);
 
     action_entry(cd,
-                 action_probabilities[ACTION_SPY_TARGETED_STEAL_TECH],
-                 QString(_("Industrial espionage")),
+                 ACTION_SPY_TARGETED_STEAL_TECH,
+                 action_probabilities,
                  spy_steal, qv1, qv2);
 
     action_entry(cd,
-                 action_probabilities[ACTION_SPY_INCITE_CITY],
-                 QString(_("Incite a Revolt")),
+                 ACTION_SPY_INCITE_CITY,
+                 action_probabilities,
                  diplomat_incite, qv1, qv2);
   }
 
@@ -1012,13 +1014,13 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile,
     qv2 = ptunit->id;
 
     action_entry(cd,
-                 action_probabilities[ACTION_SPY_BRIBE_UNIT],
-                 QString(_("Bribe Enemy Unit")),
+                 ACTION_SPY_BRIBE_UNIT,
+                 action_probabilities,
                  diplomat_bribe, qv1, qv2);
 
     action_entry(cd,
-                 action_probabilities[ACTION_SPY_SABOTAGE_UNIT],
-                 QString(_("Sabotage Enemy Unit")),
+                 ACTION_SPY_SABOTAGE_UNIT,
+                 action_probabilities,
                  spy_sabotage_unit, qv1, qv2);
   }
 
@@ -1052,12 +1054,16 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile,
   Show the user the action if it is enabled.
 **********************************************************************/
 static void action_entry(choice_dialog *cd,
-                         action_probability success_propability,
-                         QString title, pfcn_void func, QVariant data1,
+                         gen_action act,
+                         const action_probability *action_probabilities,
+                         pfcn_void func, QVariant data1,
                          QVariant data2)
 {
   /* TRANS: the probability that a diplomat action will succeed. */
   QString success = _(" (%1% chance of success)");
+
+  action_probability success_propability = action_probabilities[act];
+  QString title = QString(_(action_get_ui_name(act)));
 
   /* How to interpret action probabilities like success_propability is
    * documented in actions.h */
