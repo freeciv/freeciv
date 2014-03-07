@@ -79,7 +79,7 @@ void actions_init(void)
                                               N_("Steal %sTechnology"));
   actions[ACTION_SPY_TARGETED_STEAL_TECH] =
       action_new(ACTION_SPY_TARGETED_STEAL_TECH, ATK_CITY,
-                 N_("Indus%strial espionage"));
+                 N_("Indus%strial Espionage"));
   actions[ACTION_SPY_INVESTIGATE_CITY] =
       action_new(ACTION_SPY_INVESTIGATE_CITY, ATK_CITY,
                  N_("%sInvestigate City"));
