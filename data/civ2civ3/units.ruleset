@@ -404,39 +404,6 @@ Settlers are one of the key units in the game. As well as building new\
  Settlers reduce the population of the city by 2 when they are built.\
 ")
 
-[unit_worker]
-name          = _("?unit:Workers")
-class         = "Small Land"
-tech_req      = "None"
-obsolete_by   = "Engineers"
-graphic       = "u.worker"
-graphic_alt   = "u.engineers" ; for compatibility
-sound_move    = "m_worker"
-sound_move_alt = "m_generic"
-sound_fight   = "f_worker"
-sound_fight_alt = "f_generic"
-build_cost    = 20
-pop_cost      = 0
-attack        = 0
-defense       = 1
-hitpoints     = 10
-firepower     = 1
-move_rate     = 1
-vision_radius_sq = 2
-transport_cap = 0
-fuel          = 0
-uk_happy      = 0
-uk_shield     = 1
-uk_food       = 0
-uk_gold       = 1
-flags         = "Settlers", "NonMil", "Airbase", "NoVeteran"
-roles         = "Settlers"
-helptext      = _("\
-Workers are similar to Settlers in that they can improve terrain --\
- see the Terrain Alterations section of the help for more details of\
- the available improvements. However, Workers cannot build new cities.\
-")
-
 [unit_migrants]
 name          = _("Migrants")
 class         = "Small Land"
@@ -468,6 +435,39 @@ helptext      = _("\
 Migrants are like Workers in that they can improve terrain.\
  However, Migrants reduce the population by 1 when they are\
  built, and can be used to migrate population to other cities.\
+")
+
+[unit_worker]
+name          = _("?unit:Workers")
+class         = "Small Land"
+tech_req      = "None"
+obsolete_by   = "Engineers"
+graphic       = "u.worker"
+graphic_alt   = "u.engineers" ; for compatibility
+sound_move    = "m_worker"
+sound_move_alt = "m_generic"
+sound_fight   = "f_worker"
+sound_fight_alt = "f_generic"
+build_cost    = 20
+pop_cost      = 0
+attack        = 0
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 1
+flags         = "Settlers", "NonMil", "Airbase", "NoVeteran"
+roles         = "Settlers"
+helptext      = _("\
+Workers are similar to Settlers in that they can improve terrain --\
+ see the Terrain Alterations section of the help for more details of\
+ the available improvements. However, Workers cannot build new cities.\
 ")
 
 [unit_engineers]
