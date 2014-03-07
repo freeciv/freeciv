@@ -229,6 +229,7 @@ data/civ2civ3/cities.ruleset
 data/civ2civ3/game.ruleset
 data/civ2civ3/governments.ruleset
 data/civ2civ3/nations.ruleset
+data/civ2civ3/script.lua
 data/civ2civ3/techs.ruleset
 data/civ2civ3/terrain.ruleset
 data/civ2civ3/units.ruleset
