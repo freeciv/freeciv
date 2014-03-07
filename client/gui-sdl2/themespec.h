@@ -24,7 +24,7 @@
 /* client */
 #include "options.h"
 
-/* gui-sdl */
+/* gui-sdl2 */
 #include "themebackgrounds.h"
 #include "themecolors.h"
 

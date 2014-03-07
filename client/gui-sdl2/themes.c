@@ -38,9 +38,9 @@ void gui_load_theme(const char *directory, const char *theme_name)
 
   /* free previous loaded theme, if any */
   theme_free(theme);
-  
+
   fc_snprintf(buf, sizeof(buf), "%s/%s/theme", directory, theme_name);
-  
+
   themespec_try_read(buf);
   theme_load_sprites(theme);
 }
@@ -73,9 +73,9 @@ char **get_gui_specific_themes_directories(int *count)
 
   *count = strvec_size(data_dirs);
   strvec_iterate(data_dirs, data_dir) {
-    char buf[strlen(data_dir) + strlen("/themes/gui-sdl") + 1];
-    
-    fc_snprintf(buf, sizeof(buf), "%s/themes/gui-sdl", data_dir);
+    char buf[strlen(data_dir) + strlen("/themes/gui-sdl2") + 1];
+
+    fc_snprintf(buf, sizeof(buf), "%s/themes/gui-sdl2", data_dir);
 
     directories[i++] = fc_strdup(buf);
   } strvec_iterate_end;
