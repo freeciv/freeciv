@@ -655,11 +655,17 @@ static void diplomat_cancel_callback(GtkWidget *w, gpointer data)
   Show the user the action if it is enabled.
 *******************************************************************/
 static void action_entry(GtkWidget *shl,
-                         action_probability success_propability,
-                         const gchar *label, GCallback handler)
+                         int action_id,
+                         const action_probability *action_probabilities,
+                         GCallback handler)
 {
+  const gchar *label;
+  action_probability success_propability;
   gchar *chance_text;
   gchar *full_label;
+
+  success_propability = action_probabilities[action_id];
+  label = action_prepare_ui_name(action_id, "_");
 
   /* How to interpret action probabilities like success_propability is
    * documented in actions.h */
@@ -729,43 +735,43 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile,
     diplomat_target_id[ATK_CITY] = pcity->id;
 
     action_entry(shl,
-                 action_probabilities[ACTION_ESTABLISH_EMBASSY],
-                 _("Establish _Embassy"),
+                 ACTION_ESTABLISH_EMBASSY,
+                 action_probabilities,
                  (GCallback)diplomat_embassy_callback);
 
     action_entry(shl,
-                 action_probabilities[ACTION_SPY_INVESTIGATE_CITY],
-                 _("_Investigate City"),
+                 ACTION_SPY_INVESTIGATE_CITY,
+                 action_probabilities,
                  (GCallback)diplomat_investigate_callback);
 
     action_entry(shl,
-                 action_probabilities[ACTION_SPY_POISON],
-                 _("_Poison City"),
+                 ACTION_SPY_POISON,
+                 action_probabilities,
                  (GCallback)spy_poison_callback);
 
     action_entry(shl,
-                 action_probabilities[ACTION_SPY_SABOTAGE_CITY],
-                 _("_Sabotage City"),
+                 ACTION_SPY_SABOTAGE_CITY,
+                 action_probabilities,
                  (GCallback)diplomat_sabotage_callback);
 
     action_entry(shl,
-                 action_probabilities[ACTION_SPY_TARGETED_SABOTAGE_CITY],
-                 _("Industrial _Sabotage"),
+                 ACTION_SPY_TARGETED_SABOTAGE_CITY,
+                 action_probabilities,
                  (GCallback)spy_request_sabotage_list);
 
     action_entry(shl,
-                 action_probabilities[ACTION_SPY_STEAL_TECH],
-                 _("Steal _Technology"),
+                 ACTION_SPY_STEAL_TECH,
+                 action_probabilities,
                  (GCallback)diplomat_steal_callback);
 
     action_entry(shl,
-                 action_probabilities[ACTION_SPY_TARGETED_STEAL_TECH],
-                 _("Indus_trial espionage"),
+                 ACTION_SPY_TARGETED_STEAL_TECH,
+                 action_probabilities,
                  (GCallback)spy_steal_popup);
 
     action_entry(shl,
-                 action_probabilities[ACTION_SPY_INCITE_CITY],
-                 _("Incite a _Revolt"),
+                 ACTION_SPY_INCITE_CITY,
+                 action_probabilities,
                  (GCallback)diplomat_incite_callback);
   }
 
@@ -775,13 +781,13 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile,
     diplomat_target_id[ATK_UNIT] = ptunit->id;
 
     action_entry(shl,
-                 action_probabilities[ACTION_SPY_BRIBE_UNIT],
-                 _("_Bribe Enemy Unit"),
+                 ACTION_SPY_BRIBE_UNIT,
+                 action_probabilities,
                  (GCallback)diplomat_bribe_callback);
 
     action_entry(shl,
-                 action_probabilities[ACTION_SPY_SABOTAGE_UNIT],
-                 _("_Sabotage Enemy Unit"),
+                 ACTION_SPY_SABOTAGE_UNIT,
+                 action_probabilities,
                  (GCallback)spy_sabotage_unit_callback);
   }
 
