@@ -762,7 +762,7 @@ static void action_entry(Widget w, int action_id,
     XtSetSensitive(w, FALSE);
   }
 
-  XtSetArg(arglist[0], "label", _(action_get_ui_name(action_id)));
+  XtSetArg(arglist[0], "label", action_prepare_ui_name(action_id, ""));
   XtSetValues(w, arglist, XtNumber(arglist));
 }
 

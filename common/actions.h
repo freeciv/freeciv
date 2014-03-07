@@ -109,6 +109,7 @@ struct action
   enum action_target_kind actor_kind;
   enum action_target_kind target_kind;
 
+  /* The name of the action shown in the UI */
   char ui_name[MAX_LEN_NAME];
 };
 
@@ -152,7 +153,9 @@ void actions_free(void);
 
 enum action_actor_kind action_get_actor_kind(int action_id);
 enum action_target_kind action_get_target_kind(int action_id);
+
 const char *action_get_ui_name(int action_id);
+const char *action_prepare_ui_name(int action_id, const char* mnemonic);
 
 struct action_enabler_list *
 action_enablers_for_action(enum gen_action action);

@@ -2416,7 +2416,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
         cat_snprintf(buf, bufsz,
                      _("* Can do the action \'%s\' to some %s.\n"),
-                     _(action_get_ui_name(act)),
+                     action_prepare_ui_name(act, ""),
                      target_kind);
         break;
       }
@@ -2447,7 +2447,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     if (!vulnerable) {
       cat_snprintf(buf, bufsz,
                    _("* Immune to the action \'%s\'.\n"),
-                   _(action_get_ui_name(act)));
+                   action_prepare_ui_name(act, ""));
     }
   } action_iterate_end;
   if (!can_be_veteran) {
@@ -3523,7 +3523,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
       cat_snprintf(buf, bufsz,
                    _("* Makes your %s immune to the action \'%s\'.\n"),
                    _(action_target_kind_name(action_get_target_kind(act))),
-                   _(action_get_ui_name(act)));
+                   action_prepare_ui_name(act, ""));
     }
   } action_iterate_end;
 

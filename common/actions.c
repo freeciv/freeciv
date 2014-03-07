@@ -15,6 +15,9 @@
 #include <fc_config.h>
 #endif
 
+/* utility */
+#include "astring.h"
+
 /* common */
 #include "actions.h"
 #include "city.h"
@@ -52,34 +55,34 @@ void actions_init(void)
 {
   /* Hard code the actions */
   actions[ACTION_SPY_POISON] = action_new(ACTION_SPY_POISON, ATK_CITY,
-                                          N_("Poison City"));
+                                          N_("%sPoison City"));
   actions[ACTION_SPY_SABOTAGE_UNIT] = action_new(ACTION_SPY_SABOTAGE_UNIT,
                                                  ATK_UNIT,
-                                                 N_("Sabotage Enemy Unit"));
+                                                 N_("%sSabotage Enemy Unit"));
   actions[ACTION_SPY_BRIBE_UNIT] = action_new(ACTION_SPY_BRIBE_UNIT,
                                               ATK_UNIT,
-                                              N_("Bribe Enemy Unit"));
+                                              N_("%sBribe Enemy Unit"));
   actions[ACTION_SPY_SABOTAGE_CITY] = action_new(ACTION_SPY_SABOTAGE_CITY,
                                                  ATK_CITY,
-                                                 N_("Sabotage City"));
+                                                 N_("%sSabotage City"));
   actions[ACTION_SPY_TARGETED_SABOTAGE_CITY] =
       action_new(ACTION_SPY_TARGETED_SABOTAGE_CITY, ATK_CITY,
-                 N_("Industrial Sabotage"));
+                 N_("Industrial %sSabotage"));
   actions[ACTION_SPY_INCITE_CITY] = action_new(ACTION_SPY_INCITE_CITY,
                                                ATK_CITY,
-                                               N_("Incite a Revolt"));
+                                               N_("Incite a %sRevolt"));
   actions[ACTION_ESTABLISH_EMBASSY] = action_new(ACTION_ESTABLISH_EMBASSY,
                                                  ATK_CITY,
-                                                 N_("Establish Embassy"));
+                                                 N_("Establish %sEmbassy"));
   actions[ACTION_SPY_STEAL_TECH] = action_new(ACTION_SPY_STEAL_TECH,
                                               ATK_CITY,
-                                              N_("Steal Technology"));
+                                              N_("Steal %sTechnology"));
   actions[ACTION_SPY_TARGETED_STEAL_TECH] =
       action_new(ACTION_SPY_TARGETED_STEAL_TECH, ATK_CITY,
-                 N_("Industrial espionage"));
+                 N_("Indus%strial espionage"));
   actions[ACTION_SPY_INVESTIGATE_CITY] =
       action_new(ACTION_SPY_INVESTIGATE_CITY, ATK_CITY,
-                 N_("Investigate City"));
+                 N_("%sInvestigate City"));
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -145,13 +148,27 @@ enum action_target_kind action_get_target_kind(int action_id)
 }
 
 /**************************************************************************
-  Get the name shown in the UI for the action.
+  Get the raw name used when showning the action in the UI.
 **************************************************************************/
 const char *action_get_ui_name(int action_id)
 {
   fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
 
   return actions[action_id]->ui_name;
+}
+
+/**************************************************************************
+  Get the UI name ready to show the action in the UI.
+**************************************************************************/
+const char *action_prepare_ui_name(int action_id, const char* mnemonic)
+{
+  static struct astring str = ASTRING_INIT;
+
+  fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
+
+  astr_set(&str, _(action_get_ui_name(action_id)), mnemonic);
+
+  return astr_str(&str);
 }
 
 /**************************************************************************

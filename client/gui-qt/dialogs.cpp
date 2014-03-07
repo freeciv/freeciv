@@ -1063,7 +1063,7 @@ static void action_entry(choice_dialog *cd,
   QString success = _(" (%1% chance of success)");
 
   action_probability success_propability = action_probabilities[act];
-  QString title = QString(_(action_get_ui_name(act)));
+  QString title = QString(action_prepare_ui_name(act, "&"));
 
   /* How to interpret action probabilities like success_propability is
    * documented in actions.h */

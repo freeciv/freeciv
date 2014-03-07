@@ -638,7 +638,7 @@ static void action_entry(const enum gen_action act,
   const char *ui_name;
 
   prob = action_probabilities[act];
-  ui_name = _(action_get_ui_name(act));
+  ui_name = action_prepare_ui_name(act, "");
 
   /* How to interpret action probabilities like success_propability is
    * documented in actions.h */
