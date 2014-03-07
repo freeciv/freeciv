@@ -205,6 +205,7 @@ common/achievements.c
 common/actions.h
 common/ai.c
 common/city.c
+common/clientutils.c
 common/connection.c
 common/events.c
 common/fc_cmdhelp.c
