@@ -289,6 +289,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
       base_type_iterate(b) {
 	if (base_extra_get(b)->buildable) {
           const char *name = base_name_translation(b);
+
           cat_snprintf(outbuf, outlen,
                        "\n%s%*s %3d",
                        name,
@@ -304,11 +305,14 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
         _("This ruleset has no default veteran levels defined."));
   } else if (0 == strcmp (name, "FreecivVersion")) {
     const char *ver = freeciv_name_version();
+
     cat_snprintf(outbuf, outlen,
                  /* TRANS: First %s is version string, e.g.,
                   * "Freeciv version 2.3.0-beta1 (beta version)" (translated).
                   * Second %s is client_string, e.g., "gui-gtk-2.0". */
                  _("This is %s, %s client."), ver, client_string);
+    insert_client_build_info(outbuf, outlen);
+
     return TRUE;
   }
   log_error("Unknown directive '$%s' in help", name);

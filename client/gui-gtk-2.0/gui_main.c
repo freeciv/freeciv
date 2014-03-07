@@ -2166,3 +2166,13 @@ static void allied_chat_button_toggled(GtkToggleButton *button,
 {
   gui_gtk2_allied_chat_only = gtk_toggle_button_get_active(button);
 }
+
+/**************************************************************************
+  Insert build information to help
+**************************************************************************/
+void insert_client_build_info(char *outbuf, size_t outlen)
+{
+  cat_snprintf(outbuf, outlen, _("\nBuilt against gtk+ %d.%d.%d, using %d.%d.%d"),
+               GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
+               gtk_major_version, gtk_minor_version, gtk_micro_version);
+}

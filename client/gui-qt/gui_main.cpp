@@ -347,3 +347,18 @@ static void populate_unit_pixmap_table(void)
   unit_pixmap = new QPixmap(tileset_unit_width(tileset), 
                             tileset_unit_height(tileset));
 }
+
+/**************************************************************************
+  Insert build information to help
+**************************************************************************/
+void qtg_insert_client_build_info(char *outbuf, size_t outlen)
+{
+  /* There's separate entry about Qt in help menu.
+   * Should we enable this regardless? As then to place to find such information
+   * would be standard over clients. */
+
+  /*
+  cat_snprintf(outbuf, outlen, _("\nBuilt against Qt %s, using %s"),
+               QT_VERSION_STR, qVersion());
+  */
+}

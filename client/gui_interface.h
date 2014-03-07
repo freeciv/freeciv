@@ -33,6 +33,7 @@ struct gui_funcs {
   void (*ui_exit)(void);
 
   enum gui_type (*get_gui_type)(void);
+  void (*insert_client_build_info)(char *outbuf, size_t outlen);
 
   void (*real_output_window_append)(const char *astring,
                                     const struct text_tag_list *tags,

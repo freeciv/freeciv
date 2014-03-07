@@ -301,3 +301,11 @@ void gui_gui_update_font(const char *font_name, const char *font_value)
 {
   /* PORTME */
 }
+
+/**************************************************************************
+  Insert build information to help
+**************************************************************************/
+void gui_insert_client_build_info(char *outbuf, size_t outlen)
+{
+  /* PORTME */
+}

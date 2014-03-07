@@ -98,6 +98,8 @@ enum manuals {
 #define TAIL " "
 #endif
 
+void insert_client_build_info(char *outbuf, size_t outlen);
+
 /* Needed for "About Freeciv" help */
 const char *client_string = "freeciv-manual";
 
@@ -618,4 +620,12 @@ int main(int argc, char **argv)
   registry_module_close();
 
   return retval;
+}
+
+/**************************************************************************
+  Empty function required by helpdata
+**************************************************************************/
+void insert_client_build_info(char *outbuf, size_t outlen)
+{
+  /* Nothing here */
 }
