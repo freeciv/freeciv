@@ -300,6 +300,7 @@ void api_edit_create_base(lua_State *L, Tile *ptile, const char *name,
 
   if (pbase) {
     create_base(ptile, pbase, pplayer);
+    update_tile_knowledge(ptile);
   }
 }
 
