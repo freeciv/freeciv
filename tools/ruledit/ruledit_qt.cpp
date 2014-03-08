@@ -147,7 +147,7 @@ void ruledit_gui::launch_now()
 {
   sz_strlcpy(game.server.rulesetdir, ruleset_select->text().toUtf8().data());
 
-  if (load_rulesets(NULL, FALSE)) {
+  if (load_rulesets(NULL, FALSE, TRUE)) {
 
     log_debug("Terrains:     %d", game.control.terrain_count);
     log_debug("Resources:    %d", game.control.resource_count);

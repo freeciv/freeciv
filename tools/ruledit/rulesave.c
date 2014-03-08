@@ -1865,6 +1865,34 @@ static bool save_units_ruleset(const char *filename, const char *name)
 }
 
 /**************************************************************************
+  Save script.lua
+**************************************************************************/
+static bool save_script_lua(const char *filename, const char *name)
+{
+  char *buffer = get_script_buffer();
+
+  if (buffer != NULL) {
+    FILE *ffile = fc_fopen(filename, "w");
+    int full_len = strlen(buffer);
+    int len;
+
+    if (ffile != NULL) {
+      len = fwrite(buffer, 1, full_len, ffile);
+
+      if (len != full_len) {
+        return FALSE;
+      }
+
+      fclose(ffile);
+    } else {
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
   Save ruleset to directory given.
 **************************************************************************/
 bool save_ruleset(const char *path, const char *name)
@@ -1921,6 +1949,11 @@ bool save_ruleset(const char *path, const char *name)
     if (success) {
       fc_snprintf(filename, sizeof(filename), "%s/units.ruleset", path);
       success = save_units_ruleset(filename, name);
+    }
+
+    if (success) {
+      fc_snprintf(filename, sizeof(filename), "%s/script.lua", path);
+      success = save_script_lua(filename, name);
     }
 
     return success;

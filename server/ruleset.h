@@ -31,7 +31,7 @@ extern "C" {
 struct conn_list;
 
 /* functions */
-bool load_rulesets(const char *restore, bool act);
+bool load_rulesets(const char *restore, bool act, bool save_script);
 bool reload_rulesets_settings(void);
 void send_rulesets(struct conn_list *dest);
 
@@ -45,6 +45,8 @@ void ruleset_error_real(const char *file, const char *function,
     ruleset_error_real(__FILE__, __FUNCTION__, __FC_LINE__,             \
                        level, format, ## __VA_ARGS__);                  \
   }
+
+char *get_script_buffer(void);
 
 /* Default ruleset values that are not settings (in game.h) */
 

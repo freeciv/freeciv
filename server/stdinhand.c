@@ -3827,7 +3827,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
 
     /* load the ruleset (and game settings defined in the ruleset) */
     player_info_freeze();
-    if (!load_rulesets(old, TRUE)) {
+    if (!load_rulesets(old, TRUE, FALSE)) {
       success = FALSE;
 
       /* While loading of the requested ruleset failed, we might
@@ -4720,7 +4720,7 @@ static bool lua_command(struct connection *caller, char *arg, bool check)
 
     if (is_reg_file_for_access(real_filename, FALSE)
         && (script_file = fc_fopen(real_filename, "r"))) {
-      ret = script_server_do_file(caller, real_filename);
+      ret = script_server_do_file(caller, real_filename, NULL);
       goto cleanup;
     } else {
       cmd_reply(CMD_LUA, caller, C_FAIL,

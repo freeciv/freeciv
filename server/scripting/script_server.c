@@ -105,11 +105,15 @@ bool script_server_do_string(struct connection *caller, const char *str)
 /*****************************************************************************
   Parse and execute the script at filename.
 *****************************************************************************/
-bool script_server_do_file(struct connection *caller, const char *filename)
+bool script_server_do_file(struct connection *caller, const char *filename,
+                           char **buf)
 {
-  int status;
+  int status = 1;
   struct connection *save_caller;
   luascript_log_func_t save_output_fct;
+  FILE *ffile;
+  struct stat stats;
+  char *buffer;
 
   /* Set a log callback function which allows to send the results of the
    * command to the clients. */
@@ -118,7 +122,28 @@ bool script_server_do_file(struct connection *caller, const char *filename)
   fcl->output_fct = script_server_cmd_reply;
   fcl->caller = caller;
 
-  status = luascript_do_file(fcl, filename);
+  fc_stat(filename, &stats);
+  ffile = fc_fopen(filename, "r");
+
+  if (ffile != NULL) {
+    int len;
+
+    buffer = fc_malloc(stats.st_size + 1);
+
+    len = fread(buffer, 1, stats.st_size, ffile);
+
+    if (len == stats.st_size) {
+      buffer[len] = '\0';
+      status = luascript_do_string(fcl, buffer, filename);
+
+      if (buf != NULL) {
+        *buf = buffer;
+      } else {
+        FC_FREE(buffer);
+      }
+    }
+    fclose(ffile);
+  }
 
   /* Reset the changes. */
   fcl->caller = save_caller;
