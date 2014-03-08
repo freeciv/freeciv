@@ -68,6 +68,7 @@ EXTRA_DIST = \
 	isophex.tilespec	\
 	isotrident.tilespec \
 	trident.tilespec	\
+	stdmusic.musicspec	\
 	stdsounds.soundspec	\
 	helpdata.txt	\
 	civ1.serv	\
