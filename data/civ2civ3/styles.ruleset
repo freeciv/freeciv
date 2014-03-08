@@ -53,7 +53,82 @@ name = _("?style:Celtic")
 ;
 ; */ <-- avoid gettext warnings
 
-; Fallback music style for any nation that has nothing else 
-[musicstyle_generic]
-music_peaceful     = "music_peace"
-music_combat       = "music_combat"
+[musicstyle_european]
+music_peaceful     = "music_european_peace"
+music_combat       = "music_european_combat"
+reqs	=
+    { "type", "name", "range"
+      "Style", "European", "Player"
+    }
+
+[musicstyle_classical]
+music_peaceful     = "music_classical_peace"
+music_combat       = "music_classical_combat"
+reqs	=
+    { "type", "name", "range"
+      "Style", "Classical", "Player"
+    }
+
+[musicstyle_tropical]
+music_peaceful     = "music_tropical_peace"
+music_combat       = "music_tropical_combat"
+reqs	=
+    { "type", "name", "range"
+      "Style", "Tropical", "Player"
+    }
+
+[musicstyle_asian]
+music_peaceful     = "music_asian_peace"
+music_combat       = "music_asian_combat"
+reqs	=
+    { "type", "name", "range"
+      "Style", "Asian", "Player"
+    }
+
+[musicstyle_babylonian]
+music_peaceful     = "music_babylonian_peace"
+music_combat       = "music_babylonian_combat"
+reqs	=
+    { "type", "name", "range"
+      "Style", "Babylonian", "Player"
+    }
+
+[musicstyle_celtic]
+music_peaceful     = "music_celtic_peace"
+music_combat       = "music_celtic_combat"
+reqs	=
+    { "type", "name", "range"
+      "Style", "Celtic", "Player"
+    }
+
+[musicstyle_industrial]
+music_peaceful     = "music_industrial_peace"
+music_combat       = "music_industrial_combat"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Railroad", "Player"
+    }
+
+[musicstyle_electricage]
+music_peaceful     = "music_electricage_peace"
+music_combat       = "music_electricage_combat"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Automobile", "Player"
+    }
+
+[musicstyle_modern]
+music_peaceful     = "music_modern_peace"
+music_combat       = "music_modern_combat"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Rocketry", "Player"
+    }
+
+[musicstyle_postmodern]
+music_peaceful     = "music_postmodern_peace"
+music_combat       = "music_postmodern_combat"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Superconductors", "Player"
+    }

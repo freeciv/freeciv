@@ -38,7 +38,6 @@ name = _("?style:Human")
 ;
 ; */ <-- avoid gettext warnings
 
-; Fallback music style for any nation that has nothing else 
-[musicstyle_generic]
+[musicstyle_human]
 music_peaceful     = "music_peace"
 music_combat       = "music_combat"
