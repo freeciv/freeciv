@@ -342,6 +342,7 @@ enum object_property_ids {
   OPID_CITY_ID,
   OPID_CITY_XY,
   OPID_CITY_SIZE,
+  OPID_CITY_HISTORY,
   OPID_CITY_BUILDINGS,
   OPID_CITY_FOOD_STOCK,
   OPID_CITY_SHIELD_STOCK,
@@ -1703,6 +1704,9 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       case OPID_CITY_SIZE:
         pv->data.v_int = city_size_get(pcity);
         break;
+      case OPID_CITY_HISTORY:
+        pv->data.v_int = pcity->history;
+        break;
       case OPID_CITY_BUILDINGS:
         pv->data.v_built = fc_malloc(sizeof(pcity->built));
         memcpy(pv->data.v_built, pcity->built, sizeof(pcity->built));
@@ -1929,6 +1933,12 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
         *pmax = MAX_CITY_SIZE;
         *pstep = 1;
         *pbig_step = 5;
+        return TRUE;
+      case OPID_CITY_HISTORY:
+        *pmin = 0;
+        *pmax = USHRT_MAX;
+        *pstep = 1;
+        *pbig_step = 10;
         return TRUE;
       case OPID_CITY_FOOD_STOCK:
         *pmin = 0;
@@ -2438,6 +2448,9 @@ static void objbind_pack_modified_value(struct objbind *ob,
       case OPID_CITY_SIZE:
         packet->size = pv->data.v_int;
         return;
+      case OPID_CITY_HISTORY:
+        packet->history = pv->data.v_int;
+        return;
       case OPID_CITY_FOOD_STOCK:
         packet->food_stock = pv->data.v_int;
         return;
@@ -2905,6 +2918,7 @@ static void objprop_setup_widget(struct objprop *op)
     return;
 
   case OPID_CITY_SIZE:
+  case OPID_CITY_HISTORY:
   case OPID_CITY_SHIELD_STOCK:
   case OPID_PLAYER_GOLD:
   case OPID_GAME_YEAR:
@@ -3096,6 +3110,7 @@ static void objprop_refresh_widget(struct objprop *op,
     break;
 
   case OPID_CITY_SIZE:
+  case OPID_CITY_HISTORY:
   case OPID_CITY_SHIELD_STOCK:
   case OPID_PLAYER_GOLD:
   case OPID_GAME_YEAR:
@@ -4292,6 +4307,8 @@ static void property_page_setup_objprops(struct property_page *pp)
     ADDPROP(OPID_CITY_XY, Q_("?coordinates:X,Y"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
     ADDPROP(OPID_CITY_SIZE, _("Size"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
+    ADDPROP(OPID_CITY_HISTORY, _("History"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
     ADDPROP(OPID_CITY_BUILDINGS, _("Buildings"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BUILT_ARRAY);

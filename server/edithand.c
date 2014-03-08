@@ -947,6 +947,11 @@ void handle_edit_city(struct connection *pc,
     }
   }
 
+  if (packet->history != pcity->history) {
+    pcity->history = packet->history;
+    changed = TRUE;
+  }
+
   /* Handle city improvement changes. */
   improvement_iterate(pimprove) {
     oldcity = NULL;
