@@ -662,10 +662,8 @@ static void action_entry(GtkWidget *shl,
   const gchar *label;
   action_probability success_propability;
   gchar *chance_text;
-  gchar *full_label;
 
   success_propability = action_probabilities[action_id];
-  label = action_prepare_ui_name(action_id, "_");
 
   /* How to interpret action probabilities like success_propability is
    * documented in actions.h */
@@ -676,10 +674,14 @@ static void action_entry(GtkWidget *shl,
   case ACTPROB_NOT_KNOWN:
     /* Unknown because the player don't have the required knowledge to
      * determine the probability of success for this action. */
+    label = action_prepare_ui_name(action_id, "_", "");
+
     choice_dialog_add(shl, label, handler, NULL, TRUE);
     break;
   case ACTPROB_NOT_IMPLEMENTED:
     /* Unknown because of missing server support. */
+    label = action_prepare_ui_name(action_id, "_", "");
+
     choice_dialog_add(shl, label, handler, NULL, FALSE);
     break;
   default:
@@ -690,13 +692,13 @@ static void action_entry(GtkWidget *shl,
     /* TRANS: the probability that a diplomat action will succeed. */
     chance_text = g_strdup_printf(_(" (%.1f%% chance of success)"),
                                   (double)success_propability / 2);
-    full_label = g_strconcat(label, chance_text, NULL);
+
+    label = action_prepare_ui_name(action_id, "_", chance_text);
 
     /* The unit of success_propability is 0.5% chance of success. */
-    choice_dialog_add(shl, full_label, handler, NULL, FALSE);
+    choice_dialog_add(shl, label, handler, NULL, FALSE);
 
     free(chance_text);
-    free(full_label);
 
     break;
   }

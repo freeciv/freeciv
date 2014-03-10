@@ -1059,11 +1059,10 @@ static void action_entry(choice_dialog *cd,
                          pfcn_void func, QVariant data1,
                          QVariant data2)
 {
-  /* TRANS: the probability that a diplomat action will succeed. */
-  QString success = _(" (%1% chance of success)");
+  QString title;
+  QString success;
 
   action_probability success_propability = action_probabilities[act];
-  QString title = QString(action_prepare_ui_name(act, "&"));
 
   /* How to interpret action probabilities like success_propability is
    * documented in actions.h */
@@ -1074,10 +1073,12 @@ static void action_entry(choice_dialog *cd,
   case ACTPROB_NOT_KNOWN:
     /* Unknown because the player don't have the required knowledge to
      * determine the probability of success for this action. */
+    title = QString(action_prepare_ui_name(act, "&", ""));
     cd->add_item(title, func, data1, data2, TRUE);
     break;
   case ACTPROB_NOT_IMPLEMENTED:
     /* Unknown because of missing server support. */
+    title = QString(action_prepare_ui_name(act, "&", ""));
     cd->add_item(title, func, data1, data2, FALSE);
     break;
   default:
@@ -1085,8 +1086,13 @@ static void action_entry(choice_dialog *cd,
     fc_assert_msg(success_propability < 201,
                   "Diplomat action probability out of range");
 
+    /* TRANS: the probability that a diplomat action will succeed. */
+    success = _(" (%1% chance of success)");
+
     /* The unit of success_propability is 0.5% chance of success. */
-    title.append(success.arg((double)success_propability / 2));
+    title = QString(action_prepare_ui_name(act, "&",
+        success.arg((double)success_propability / 2).toUtf8()));
+
     cd->add_item(title, func, data1, data2, FALSE);
 
     break;

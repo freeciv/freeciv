@@ -155,7 +155,8 @@ enum action_actor_kind action_get_actor_kind(int action_id);
 enum action_target_kind action_get_target_kind(int action_id);
 
 const char *action_get_ui_name(int action_id);
-const char *action_prepare_ui_name(int action_id, const char* mnemonic);
+const char *action_prepare_ui_name(int action_id, const char* mnemonic,
+                                   const char* append);
 
 struct action_enabler_list *
 action_enablers_for_action(enum gen_action action);

@@ -55,34 +55,44 @@ void actions_init(void)
 {
   /* Hard code the actions */
   actions[ACTION_SPY_POISON] = action_new(ACTION_SPY_POISON, ATK_CITY,
-                                          N_("%sPoison City"));
-  actions[ACTION_SPY_SABOTAGE_UNIT] = action_new(ACTION_SPY_SABOTAGE_UNIT,
-                                                 ATK_UNIT,
-                                                 N_("%sSabotage Enemy Unit"));
-  actions[ACTION_SPY_BRIBE_UNIT] = action_new(ACTION_SPY_BRIBE_UNIT,
-                                              ATK_UNIT,
-                                              N_("%sBribe Enemy Unit"));
-  actions[ACTION_SPY_SABOTAGE_CITY] = action_new(ACTION_SPY_SABOTAGE_CITY,
-                                                 ATK_CITY,
-                                                 N_("%sSabotage City"));
+      /* TRANS: _Poison City (3% chance of success). */
+      N_("%sPoison City%s"));
+  actions[ACTION_SPY_SABOTAGE_UNIT] =
+      action_new(ACTION_SPY_SABOTAGE_UNIT, ATK_UNIT,
+                 /* TRANS: _Sabotage Enemy Unit (3% chance of success). */
+                 N_("%sSabotage Enemy Unit%s"));
+  actions[ACTION_SPY_BRIBE_UNIT] =
+      action_new(ACTION_SPY_BRIBE_UNIT, ATK_UNIT,
+                 /* TRANS: _Bribe Enemy Unit (3% chance of success). */
+                 N_("%sBribe Enemy Unit%s"));
+  actions[ACTION_SPY_SABOTAGE_CITY] =
+      action_new(ACTION_SPY_SABOTAGE_CITY, ATK_CITY,
+                 /* TRANS: _Sabotage City (3% chance of success). */
+                 N_("%sSabotage City%s"));
   actions[ACTION_SPY_TARGETED_SABOTAGE_CITY] =
       action_new(ACTION_SPY_TARGETED_SABOTAGE_CITY, ATK_CITY,
-                 N_("Industrial %sSabotage"));
-  actions[ACTION_SPY_INCITE_CITY] = action_new(ACTION_SPY_INCITE_CITY,
-                                               ATK_CITY,
-                                               N_("Incite a %sRevolt"));
-  actions[ACTION_ESTABLISH_EMBASSY] = action_new(ACTION_ESTABLISH_EMBASSY,
-                                                 ATK_CITY,
-                                                 N_("Establish %sEmbassy"));
-  actions[ACTION_SPY_STEAL_TECH] = action_new(ACTION_SPY_STEAL_TECH,
-                                              ATK_CITY,
-                                              N_("Steal %sTechnology"));
+                 /* TRANS: Industrial _Sabotage (3% chance of success). */
+                 N_("Industrial %sSabotage%s"));
+  actions[ACTION_SPY_INCITE_CITY] =
+      action_new(ACTION_SPY_INCITE_CITY, ATK_CITY,
+                 /* TRANS: Incite a _Revolt (3% chance of success). */
+                 N_("Incite a %sRevolt%s"));
+  actions[ACTION_ESTABLISH_EMBASSY] =
+      action_new(ACTION_ESTABLISH_EMBASSY, ATK_CITY,
+                 /* TRANS: Establish _Embassy (100% chance of success). */
+                 N_("Establish %sEmbassy%s"));
+  actions[ACTION_SPY_STEAL_TECH] =
+      action_new(ACTION_SPY_STEAL_TECH, ATK_CITY,
+                 /* TRANS: Steal _Technology (3% chance of success). */
+                 N_("Steal %sTechnology%s"));
   actions[ACTION_SPY_TARGETED_STEAL_TECH] =
       action_new(ACTION_SPY_TARGETED_STEAL_TECH, ATK_CITY,
-                 N_("Indus%strial Espionage"));
+                 /* TRANS: Indus_trial Espionage (3% chance of success). */
+                 N_("Indus%strial Espionage%s"));
   actions[ACTION_SPY_INVESTIGATE_CITY] =
       action_new(ACTION_SPY_INVESTIGATE_CITY, ATK_CITY,
-                 N_("%sInvestigate City"));
+                 /* TRANS: _Investigate City (100% chance of success). */
+                 N_("%sInvestigate City%s"));
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -160,13 +170,14 @@ const char *action_get_ui_name(int action_id)
 /**************************************************************************
   Get the UI name ready to show the action in the UI.
 **************************************************************************/
-const char *action_prepare_ui_name(int action_id, const char* mnemonic)
+const char *action_prepare_ui_name(int action_id, const char* mnemonic,
+                                   const char* append)
 {
   static struct astring str = ASTRING_INIT;
 
   fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
 
-  astr_set(&str, _(action_get_ui_name(action_id)), mnemonic);
+  astr_set(&str, _(action_get_ui_name(action_id)), mnemonic, append);
 
   return astr_str(&str);
 }
