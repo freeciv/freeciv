@@ -428,7 +428,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
     }
 
     if (tile_city(ptile)
-        || can_unit_attack_tile(punit, ptile)) {
+        || !can_unit_attack_tile(punit, ptile)) {
       continue;
     }
 
