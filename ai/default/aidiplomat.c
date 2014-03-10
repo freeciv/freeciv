@@ -216,6 +216,8 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
     }
     incite_cost = city_incite_cost(pplayer, acity);
     if (HOSTILE_PLAYER(ait, pplayer, city_owner(acity))
+        && is_action_possible_on_city(ACTION_SPY_INCITE_CITY,
+                                      pplayer, acity)
         && (incite_cost < INCITE_IMPOSSIBLE_COST)
         && (incite_cost < pplayer->economic.gold - expenses)) {
       /* incite gain (FIXME: we should count wonders too but need to
@@ -230,6 +232,10 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
     }
     if ((player_research_get(city_owner(acity))->techs_researched
 	 < player_research_get(pplayer)->techs_researched)
+	&& (is_action_possible_on_city(ACTION_SPY_TARGETED_STEAL_TECH,
+				       pplayer, acity)
+	    || is_action_possible_on_city(ACTION_SPY_STEAL_TECH,
+					  pplayer, acity))
 	&& !pplayers_allied(pplayer, city_owner(acity))) {
       /* tech theft gain */
       gain_theft = total_bulbs_required(pplayer) * TRADE_WEIGHTING;
@@ -258,7 +264,9 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
                              utype_build_shield_cost(ut));
 
     if (!player_has_embassy(pplayer, city_owner(acity))
-        && want < 99) {
+        && want < 99
+        && is_action_possible_on_city(ACTION_ESTABLISH_EMBASSY,
+                                      pplayer, acity)) {
         log_base(LOG_DIPLOMAT_BUILD,
                  "A diplomat desired in %s to establish an embassy with %s "
                  "in %s",
@@ -422,6 +430,7 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
     struct city *acity;
     struct player *aplayer;
     bool can_incite;
+    bool can_steal;
 
     acity = tile_city(ptile);
 
@@ -438,18 +447,27 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
     }
 
     incite_cost = city_incite_cost(pplayer, acity);
-    can_incite = (incite_cost < INCITE_IMPOSSIBLE_COST);
+    can_incite = (incite_cost < INCITE_IMPOSSIBLE_COST)
+        && is_action_possible_on_city(ACTION_SPY_INCITE_CITY,
+                                      pplayer, acity);
+
+    can_steal = is_action_possible_on_city(ACTION_SPY_STEAL_TECH,
+                                           pplayer, acity)
+        || is_action_possible_on_city(ACTION_SPY_TARGETED_STEAL_TECH,
+                                      pplayer, acity);
 
     dipldef = (count_diplomats_on_tile(acity->tile) > 0);
     /* Three actions to consider:
      * 1. establishing embassy OR
      * 2. stealing techs OR
      * 3. inciting revolt */
-    if (!has_embassy
+    if ((!has_embassy
+         && is_action_possible_on_city(ACTION_ESTABLISH_EMBASSY,
+                                       pplayer, acity))
         || (acity->server.steal == 0
+            && !dipldef && can_steal
             && (player_research_get(pplayer)->techs_researched
-                < player_research_get(aplayer)->techs_researched)
-            && !dipldef)
+                < player_research_get(aplayer)->techs_researched))
         || (incite_cost < (pplayer->economic.gold - expenses)
             && can_incite && !dipldef)) {
       if (!is_city_surrounded_by_our_spies(pplayer, acity)) {

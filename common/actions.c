@@ -649,3 +649,47 @@ bool action_immune_government(struct government *gov, int act)
 
   return TRUE;
 }
+
+/**************************************************************************
+  Returns TRUE if the wanted action can be done to the target.
+**************************************************************************/
+static bool is_target_possible(const enum gen_action wanted_action,
+			       const struct player *actor_player,
+			       const struct player *target_player,
+			       const struct city *target_city,
+			       const struct impr_type *target_building,
+			       const struct tile *target_tile,
+			       const struct unit_type *target_unittype,
+			       const struct output_type *target_output,
+			       const struct specialist *target_specialist)
+{
+  action_enabler_list_iterate(action_enablers_for_action(wanted_action),
+                              enabler) {
+    if (are_reqs_active(target_player, actor_player, target_city,
+                        target_building, target_tile, target_unittype,
+                        target_output, target_specialist,
+                        &enabler->target_reqs, RPT_CERTAIN)) {
+      return TRUE;
+    }
+  } action_enabler_list_iterate_end;
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Returns TRUE if the wanted action can be done to the target city.
+**************************************************************************/
+bool is_action_possible_on_city(const enum gen_action action_id,
+                                const struct player *actor_player,
+                                struct city* target_city)
+{
+  fc_assert_ret_val_msg(ATK_CITY == action_get_target_kind(action_id),
+                        FALSE, "Action %s is against %s not cities",
+                        gen_action_name(action_id),
+                        action_target_kind_name(
+                          action_get_target_kind(action_id)));
+
+  return is_target_possible(action_id, actor_player,
+                            city_owner(target_city), target_city, NULL,
+                            city_tile(target_city), NULL, NULL, NULL);
+}
