@@ -436,7 +436,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
     }
 
     if (tile_city(ptile)
-        || can_unit_attack_tile(punit, ptile)) {
+        || !can_unit_attack_tile(punit, ptile)) {
       continue;
     }
 

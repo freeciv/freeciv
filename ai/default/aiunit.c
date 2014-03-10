@@ -1467,8 +1467,8 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
       /* We have to assume the attack is diplomatically ok.
        * We cannot use can_player_attack_tile, because we might not
        * be at war with aplayer yet */
-      if (can_unit_attack_tile(punit, atile)
-          || !(aunit == get_defender(punit, atile))) {
+      if (!can_unit_attack_tile(punit, atile)
+          || aunit != get_defender(punit, atile)) {
         /* We cannot attack it, or it is not the main defender. */
         continue;
       }
@@ -1688,7 +1688,7 @@ static void dai_military_attack(struct ai_type *ait, struct player *pplayer,
                            NULL, &ferryboat, NULL, NULL);
     if (!same_pos(unit_tile(punit), dest_tile)) {
       if (!is_tiles_adjacent(unit_tile(punit), dest_tile)
-          || can_unit_attack_tile(punit, dest_tile)) {
+          || !can_unit_attack_tile(punit, dest_tile)) {
 
         /* Adjacent and can't attack usually means we are not marines
          * and on a ferry. This fixes the problem (usually). */
