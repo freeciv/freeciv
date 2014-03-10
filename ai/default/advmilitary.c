@@ -1189,7 +1189,7 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
                                             &boattype, &move_time);
   if (NULL == ptile
       || ptile == unit_tile(myunit)
-      || can_unit_attack_tile(myunit, ptile)) {
+      || !can_unit_attack_tile(myunit, ptile)) {
     goto cleanup;
   }
 
