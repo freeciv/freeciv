@@ -605,7 +605,7 @@ int client_main(int argc, char *argv[])
   tilespec_try_read(tileset_name, user_tileset);
 
   audio_real_init(sound_set_name, music_set_name, sound_plugin_name);
-  start_menu_music("music_start", NULL);
+  start_menu_music("music_menu", NULL);
 
   ggz_initialize();
 
@@ -761,7 +761,7 @@ void set_client_state(enum client_states newstate)
     stop_style_music();
 
     /* Back to menu */
-    start_menu_music("music_start", NULL);
+    start_menu_music("music_menu", NULL);
   }
 
   civclient_state = newstate;
