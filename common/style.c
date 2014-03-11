@@ -171,6 +171,10 @@ struct music_style *music_style_by_number(int id)
 {
   fc_assert_ret_val(id >= 0 && id < game.control.num_music_styles, NULL);
 
+  if (music_styles == NULL) {
+    return NULL;
+  }
+
   return &music_styles[id];
 }
 

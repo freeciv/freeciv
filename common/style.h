@@ -64,9 +64,11 @@ struct music_style *player_music_style(struct player *plr);
 {                                                              \
   int _i_;                                                     \
   for (_i_ = 0; _i_ < game.control.num_music_styles; _i_++) {  \
-    struct music_style *_p = music_style_by_number(_i_);
+    struct music_style *_p = music_style_by_number(_i_);       \
+    if (_p != NULL) {
 
 #define music_styles_iterate_end                               \
+    }                                                          \
   }                                                            \
 }
 
