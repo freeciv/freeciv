@@ -28,7 +28,8 @@
 #include "traderoutes.h"
 
 const char *trade_route_type_names[] = {
-  "National", "NationalIC", "IN", "INIC"
+  "National", "NationalIC", "IN", "INIC", "Ally", "AllyIC",
+  "Enemy", "EnemyIC", "Team", "TeamIC"
 };
 
 const char *traderoute_cancelling_type_names[] = {
@@ -53,10 +54,51 @@ int max_trade_routes(const struct city *pcity)
 enum trade_route_type cities_trade_route_type(const struct city *pcity1,
                                               const struct city *pcity2)
 {
-  if (city_owner(pcity1) != city_owner(pcity2)) {
+  struct player *plr1 = city_owner(pcity1);
+  struct player *plr2 = city_owner(pcity2);
+
+  if (plr1 != plr2) {
+    struct player_diplstate *ds = player_diplstate_get(plr1, plr2);
+
     if (city_tile(pcity1)->continent != city_tile(pcity2)->continent) {
+      switch (ds->type) {
+      case DS_ALLIANCE:
+        return TRT_ALLY_IC;
+      case DS_WAR:
+        return TRT_ENEMY_IC;
+      case DS_TEAM:
+        return TRT_TEAM_IC;
+      case DS_ARMISTICE:
+      case DS_CEASEFIRE:
+      case DS_PEACE:
+      case DS_NO_CONTACT:
+        return TRT_IN_IC;
+      case DS_LAST:
+        fc_assert(ds->type != DS_LAST);
+        return TRT_IN_IC;
+      }
+      fc_assert(FALSE);
+
       return TRT_IN_IC;
     } else {
+      switch (ds->type) {
+      case DS_ALLIANCE:
+        return TRT_ALLY;
+      case DS_WAR:
+        return TRT_ENEMY;
+      case DS_TEAM:
+        return TRT_TEAM;
+      case DS_ARMISTICE:
+      case DS_CEASEFIRE:
+      case DS_PEACE:
+      case DS_NO_CONTACT:
+        return TRT_IN;
+      case DS_LAST:
+        fc_assert(ds->type != DS_LAST);
+        return TRT_IN;
+      }
+      fc_assert(FALSE);
+
       return TRT_IN;
     }
   } else {
