@@ -1578,19 +1578,3 @@ void handle_save_scenario(struct connection *pc, const char *name)
 
   save_game(name, "Scenario", TRUE);
 }
-
-/****************************************************************************
-  Handle scenario information packet
-****************************************************************************/
-void handle_scenario_info(struct connection *pc,
-                          const struct packet_scenario_info *packet)
-{
-  game.scenario.is_scenario = packet->is_scenario;
-  sz_strlcpy(game.scenario.name, packet->name);
-  sz_strlcpy(game.scenario.description, packet->description);
-  game.scenario.players = packet->players;
-  game.scenario.startpos_nations = packet->startpos_nations;
-
-  /* Send new info to everybody. */
-  send_scenario_info(NULL);
-}
