@@ -1702,7 +1702,7 @@ end
 
 /****************** Scenario Related Packets ******************/
 
-PACKET_SCENARIO_INFO = 180; sc, cs, handle-via-packet, handle-per-conn
+PACKET_SCENARIO_INFO = 180; sc, handle-via-packet, handle-per-conn
   BOOL   is_scenario;
   STRING name[256];
   STRING description[MAX_LEN_PACKET];
