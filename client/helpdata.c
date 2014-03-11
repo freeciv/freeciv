@@ -1088,10 +1088,10 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_AI_LEVEL:
     if (preq->present) {
       cat_snprintf(buf, bufsz, _("Requires AI player of level %s.\n"),
-                   ai_level_name(preq->source.value.ai_level));
+                   ai_level_translated_name(preq->source.value.ai_level));
     } else {
       cat_snprintf(buf, bufsz, _("Does not apply to AI player of level %s.\n"),
-                   ai_level_name(preq->source.value.ai_level));
+                   ai_level_translated_name(preq->source.value.ai_level));
     }
     return TRUE;
 

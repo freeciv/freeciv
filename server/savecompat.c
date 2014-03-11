@@ -562,3 +562,28 @@ static void compat_load_020600(struct loaddata *loading)
     }
   }
 }
+
+/****************************************************************************
+  Convert old ai level value to ai_level
+****************************************************************************/
+enum ai_level ai_level_convert(int old_level)
+{
+  switch (old_level) {
+  case 1:
+    return AI_LEVEL_AWAY;
+  case 2:
+    return AI_LEVEL_NOVICE;
+  case 3:
+    return AI_LEVEL_EASY;
+  case 5:
+    return AI_LEVEL_NORMAL;
+  case 7:
+    return AI_LEVEL_HARD;
+  case 8:
+    return AI_LEVEL_CHEATING;
+  case 10:
+    return AI_LEVEL_EXPERIMENTAL;
+  }
+
+  return ai_level_invalid();
+}

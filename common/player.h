@@ -456,9 +456,7 @@ const char *diplrel_name_translation(int value);
 /* User functions. */
 bool is_valid_username(const char *name);
 
-enum ai_level ai_level_by_name(const char *name);
-const char *ai_level_name(enum ai_level level);
-const char *ai_level_cmd(enum ai_level level);
+#define ai_level_cmd(_level_) ai_level_name(_level_)
 bool is_settable_ai_level(enum ai_level level);
 int number_of_ai_levels(void);
 

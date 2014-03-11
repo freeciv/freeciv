@@ -1307,7 +1307,7 @@ static bool worklist_change_build_target(struct player *pplayer,
                               "Postponing..."),
                             city_link(pcity),
                             city_improvement_name_translation(pcity, ptarget),
-                            ai_level_name(preq->source.value.ai_level));
+                            ai_level_translated_name(preq->source.value.ai_level));
               script_server_signal_emit("building_cant_be_built", 3,
                                         API_TYPE_BUILDING_TYPE, ptarget,
                                         API_TYPE_CITY, pcity,

@@ -1797,10 +1797,10 @@ static void player_load_main(struct player *plr, int plrno,
   plr->ai_common.expand = 100;		 /* set later */
   plr->ai_common.science_cost = 100;	 /* set later */
   plr->ai_common.skill_level =
-    secfile_lookup_int_default(file, game.info.skill_level,
-                               "player%d.ai.skill_level", plrno);
-  if (plr->ai_controlled && plr->ai_common.skill_level==0) {
-    plr->ai_common.skill_level = GAME_OLD_DEFAULT_SKILL_LEVEL;
+    ai_level_convert(secfile_lookup_int_default(file, game.info.skill_level,
+                                                "player%d.ai.skill_level", plrno));
+  if (plr->ai_controlled && !ai_level_is_valid(plr->ai_common.skill_level)) {
+    plr->ai_common.skill_level = ai_level_convert(GAME_OLD_DEFAULT_SKILL_LEVEL);
   }
   if (plr->ai_controlled) {
     /* Set AI parameters */
@@ -3214,6 +3214,7 @@ static void game_load_internal(struct section_file *file)
 
   {
     bool spacerace;
+    int level;
 
     set_meta_patches_string(secfile_lookup_str_default(file, 
                                                 default_meta_patches_string(),
@@ -3249,13 +3250,14 @@ static void game_load_internal(struct section_file *file)
     fc_assert_exit_msg(secfile_lookup_int(file, &game.info.tech,
                                           "game.tech"),
                        "%s", secfile_error());
-    fc_assert_exit_msg(secfile_lookup_int(file, &game.info.skill_level,
+    fc_assert_exit_msg(secfile_lookup_int(file, &level,
                                           "game.skill_level"),
                        "%s", secfile_error());
+    game.info.skill_level = ai_level_convert(level);
     fc_assert_exit_msg(secfile_lookup_int(file, &game.info.timeout,
                                           "game.timeout"),
                        "%s", secfile_error());
-    if (0 == game.info.skill_level) {
+    if (!ai_level_is_valid(game.info.skill_level)) {
       game.info.skill_level = GAME_OLD_DEFAULT_SKILL_LEVEL;
     }
 
@@ -3892,7 +3894,7 @@ static void game_load_internal(struct section_file *file)
         CALL_PLR_AI_FUNC(gained_control, pplayer, pplayer);
         log_normal(_("%s has been added as %s level AI-controlled player "
                      "(%s)."), player_name(pplayer),
-                   ai_level_name(pplayer->ai_common.skill_level),
+                   ai_level_translated_name(pplayer->ai_common.skill_level),
                    ai_name(pplayer->ai));
       } else {
         log_normal(_("%s has been added as human player."),

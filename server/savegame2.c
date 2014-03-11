@@ -1839,6 +1839,7 @@ static void sg_load_game(struct loaddata *loading)
 {
   int game_version;
   const char *string;
+  const char *level;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -1896,9 +1897,20 @@ static void sg_load_game(struct loaddata *loading)
    * so that we can generate new game_identifier, if needed.
    * See sq_load_sanitycheck(). */
 
-  game.info.skill_level
-    = secfile_lookup_int_default(loading->file, GAME_DEFAULT_SKILL_LEVEL,
-                                 "game.skill_level");
+  level = secfile_lookup_str_default(loading->file, NULL,
+                                     "game.level");
+  if (level != NULL) {
+    game.info.skill_level = ai_level_by_name(level, fc_strcasecmp);
+  } else {
+    game.info.skill_level = ai_level_invalid();
+  }
+
+  if (!ai_level_is_valid(game.info.skill_level)) {
+    game.info.skill_level
+      = ai_level_convert(secfile_lookup_int_default(loading->file,
+                                                    GAME_HARDCODED_DEFAULT_SKILL_LEVEL,
+                                                    "game.skill_level"));
+  }
   game.info.phase_mode
     = secfile_lookup_int_default(loading->file, GAME_DEFAULT_PHASE_MODE,
                                  "game.phase_mode");
@@ -1993,8 +2005,8 @@ static void sg_save_game(struct savedata *saving)
   secfile_insert_str(saving->file, server.game_identifier, "game.id");
   secfile_insert_str(saving->file, srvarg.serverid, "game.serverid");
 
-  secfile_insert_int(saving->file, game.info.skill_level,
-                     "game.skill_level");
+  secfile_insert_str(saving->file, ai_level_name(game.info.skill_level),
+                     "game.level");
   secfile_insert_int(saving->file, game.info.phase_mode,
                      "game.phase_mode");
   secfile_insert_int(saving->file, game.server.phase_mode_stored,
@@ -3318,7 +3330,7 @@ static void sg_load_players(struct loaddata *loading)
     if (pplayer->ai_controlled) {
       log_normal(_("%s has been added as %s level AI-controlled player "
                    "(%s)."), player_name(pplayer),
-                 ai_level_name(pplayer->ai_common.skill_level),
+                 ai_level_translated_name(pplayer->ai_common.skill_level),
                  ai_name(pplayer->ai));
     } else {
       log_normal(_("%s has been added as human player."),
@@ -3506,6 +3518,7 @@ static void sg_load_player_main(struct loaddata *loading,
   const char *string;
   struct government *gov;
   struct player_research *research;
+  const char *level;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -3614,9 +3627,23 @@ static void sg_load_player_main(struct loaddata *loading,
   plr->ai_common.fuzzy = 0;
   plr->ai_common.expand = 100;
   plr->ai_common.science_cost = 100;
-  plr->ai_common.skill_level =
-    secfile_lookup_int_default(loading->file, game.info.skill_level,
-                               "player%d.ai.skill_level", plrno);
+
+
+  level = secfile_lookup_str_default(loading->file, NULL,
+                                     "player%d.ai.level", plrno);
+  if (level != NULL) {
+    plr->ai_common.skill_level = ai_level_by_name(level, fc_strcasecmp);
+  } else {
+    plr->ai_common.skill_level = ai_level_invalid();
+  }
+
+  if (!ai_level_is_valid(plr->ai_common.skill_level)) {
+    plr->ai_common.skill_level
+      = ai_level_convert(secfile_lookup_int_default(loading->file,
+                                                    game.info.skill_level,
+                                                    "player%d.ai.skill_level",
+                                                    plrno));
+  }
 
   plr->ai_common.barbarian_type
     = secfile_lookup_int_default(loading->file, 0,
@@ -3956,8 +3983,8 @@ static void sg_save_player_main(struct savedata *saving,
 
   CALL_FUNC_EACH_AI(player_save, plr, saving->file, plrno);
 
-  secfile_insert_int(saving->file, plr->ai_common.skill_level,
-                     "player%d.ai.skill_level", plrno);
+  secfile_insert_str(saving->file, ai_level_name(plr->ai_common.skill_level),
+                     "player%d.ai.level", plrno);
   secfile_insert_int(saving->file, plr->ai_common.barbarian_type,
                      "player%d.ai.is_barbarian", plrno);
   secfile_insert_int(saving->file, plr->economic.gold,

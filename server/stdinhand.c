@@ -1983,7 +1983,7 @@ static enum command_id cmd_of_level(enum ai_level level)
     case AI_LEVEL_HARD         : return CMD_HARD;
     case AI_LEVEL_CHEATING     : return CMD_CHEATING;
     case AI_LEVEL_EXPERIMENTAL : return CMD_EXPERIMENTAL;
-    case AI_LEVEL_LAST         : return CMD_NORMAL;
+    case AI_LEVEL_COUNT        : return CMD_NORMAL;
   }
   log_error("Unknown AI level variant: %d.", level);
   return CMD_NORMAL;
@@ -1999,7 +1999,7 @@ void set_ai_level_direct(struct player *pplayer, enum ai_level level)
   cmd_reply(cmd_of_level(level), NULL, C_OK,
 	_("Player '%s' now has AI skill level '%s'."),
 	player_name(pplayer),
-	ai_level_name(level));
+	ai_level_translated_name(level));
   
 }
 
@@ -2009,7 +2009,8 @@ void set_ai_level_direct(struct player *pplayer, enum ai_level level)
 static bool set_ai_level_named(struct connection *caller, const char *name,
                                const char *level_name, bool check)
 {
-  enum ai_level level = ai_level_by_name(level_name);
+  enum ai_level level = ai_level_by_name(level_name, fc_strcasecmp);
+
   return set_ai_level(caller, name, level, check);
 }
 
@@ -2036,7 +2037,7 @@ static bool set_ai_level(struct connection *caller, const char *name,
       cmd_reply(cmd_of_level(level), caller, C_OK,
 		_("Player '%s' now has AI skill level '%s'."),
 		player_name(pplayer),
-		ai_level_name(level));
+		ai_level_translated_name(level));
     } else {
       cmd_reply(cmd_of_level(level), caller, C_FAIL,
 		_("%s is not controlled by the AI."),
@@ -2052,15 +2053,15 @@ static bool set_ai_level(struct connection *caller, const char *name,
         set_ai_level_directer(pplayer, level);
         send_player_info_c(pplayer, NULL);
         cmd_reply(cmd_of_level(level), caller, C_OK,
-		_("Player '%s' now has AI skill level '%s'."),
+                  _("Player '%s' now has AI skill level '%s'."),
                   player_name(pplayer),
-                  ai_level_name(level));
+                  ai_level_translated_name(level));
       }
     } players_iterate_end;
     game.info.skill_level = level;
     cmd_reply(cmd_of_level(level), caller, C_OK,
-		_("Default AI skill level set to '%s'."),
-              ai_level_name(level));
+              _("Default AI skill level set to '%s'."),
+              ai_level_translated_name(level));
   } else {
     cmd_reply_no_such_player(cmd_of_level(level), caller, name, match_result);
     return FALSE;
@@ -6283,10 +6284,10 @@ void show_players(struct connection *caller)
       } else {
         sz_strlcat(buf, _("Human"));
       }
-      if(pplayer->ai_controlled) {
+      if (pplayer->ai_controlled) {
         cat_snprintf(buf, sizeof(buf), _(", %s"), ai_name(pplayer->ai));
         cat_snprintf(buf, sizeof(buf), _(", difficulty level %s"),
-                     ai_level_name(pplayer->ai_common.skill_level));
+                     ai_level_translated_name(pplayer->ai_common.skill_level));
       }
       n = conn_list_size(pplayer->connections);
       if (n > 0) {

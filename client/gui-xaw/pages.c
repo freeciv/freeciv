@@ -246,7 +246,7 @@ void update_start_page(void)
       if (pplayer->ai_controlled && !pplayer->was_created
           && !pplayer->is_connected) {
         fc_snprintf(name, sizeof(name), _("<%s AI>"),
-                    ai_level_name(pplayer->ai_common.skill_level));
+                    ai_level_translated_name(pplayer->ai_common.skill_level));
       } else {
         sz_strlcpy(name, pplayer->username);
       }
@@ -339,7 +339,7 @@ void start_page_take_callback(Widget w, XtPointer client_data,
       send_chat_printf("/take \"%s\"", player_name(selected_plr));
       if(selected_plr != client_player() && selected_plr->ai_controlled) {
         send_chat("/away");
-        send_chat_printf("/%s",ai_level_name(selected_plr->ai_common.skill_level));
+        send_chat_printf("/%s", ai_level_cmd(selected_plr->ai_common.skill_level));
       }
     }
   }

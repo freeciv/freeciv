@@ -1084,7 +1084,7 @@ void fc_client::update_start_page()
         str = pplayer->username;
 
         if (pplayer->ai_controlled) {
-          str = str + " <" + (ai_level_name(pplayer->ai_common.skill_level))
+          str = str + " <" + (ai_level_translated_name(pplayer->ai_common.skill_level))
               + ">";
         }
 
@@ -1304,9 +1304,9 @@ void fc_client::start_page_menu(QPoint pos)
           submenu_AI.setTitle(_("Set difficulty"));
           menu.addMenu(&submenu_AI);
 
-          for (level = 0; level < AI_LEVEL_LAST; level++) {
+          for (level = 0; level < AI_LEVEL_COUNT; level++) {
             if (is_settable_ai_level(static_cast < ai_level > (level))) {
-              level_name = ai_level_name(static_cast < ai_level > (level));
+              level_name = ai_level_translated_name(static_cast < ai_level > (level));
               level_cmd = ai_level_cmd(static_cast < ai_level > (level));
               action = new QAction(QString(level_name), start_players);
               str = "/" + QString(level_cmd) + " " + sp;

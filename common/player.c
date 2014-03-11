@@ -60,14 +60,6 @@ static void player_diplstate_defaults(const struct player *plr1,
 static void player_diplstate_destroy(const struct player *plr1,
                                      const struct player *plr2);
 
-/* Names of AI levels. These must correspond to enum ai_level in
- * player.h. Also commands to set AI level in server/commands.c
- * must match these. */
-static const char *ai_level_names[] = {
-  NULL, N_("Away"), N_("Novice"), N_("Easy"), NULL, N_("Normal"),
-  NULL, N_("Hard"), N_("Cheating"), NULL, N_("Experimental")
-};
-
 /***************************************************************
   Returns true iff p1 can cancel treaty on p2.
 
@@ -1489,54 +1481,6 @@ bool is_valid_username(const char *name)
           && fc_strcasecmp(name, ANON_USER_NAME) != 0);
 }
 
-/****************************************************************************
-  Returns AI level associated with level name
-****************************************************************************/
-enum ai_level ai_level_by_name(const char *name)
-{
-  enum ai_level level;
-
-  for (level = 0; level < AI_LEVEL_LAST; level++) {
-    if (ai_level_names[level] != NULL) {
-      /* Only consider levels that really have names */
-      if (fc_strcasecmp(ai_level_names[level], name) == 0) {
-        return level;
-      }
-    }
-  }
-
-  /* No level matches name */
-  return AI_LEVEL_LAST;
-}
-
-/***************************************************************
-  Return localized name of the AI level
-***************************************************************/
-const char *ai_level_name(enum ai_level level)
-{
-  fc_assert_ret_val(level >= 0 && level < AI_LEVEL_LAST, NULL);
-
-  if (ai_level_names[level] == NULL) {
-    return NULL;
-  }
-
-  return _(ai_level_names[level]);
-}
-
-/***************************************************************
-  Return cmd that sets given ai level
-***************************************************************/
-const char *ai_level_cmd(enum ai_level level)
-{
-  fc_assert_ret_val(level >= 0 && level < AI_LEVEL_LAST, NULL);
-
-  if (ai_level_names[level] == NULL) {
-    return NULL;
-  }
-
-  return ai_level_names[level];
-}
-
 /***************************************************************
   Return is AI can be set to given level
 ***************************************************************/
@@ -1547,8 +1491,7 @@ bool is_settable_ai_level(enum ai_level level)
     return FALSE;
   }
 
-  /* It's usable if it has name */
-  return ai_level_cmd(level) != NULL;
+  return TRUE;
 }
 
 /***************************************************************
@@ -1556,24 +1499,7 @@ bool is_settable_ai_level(enum ai_level level)
 ***************************************************************/
 int number_of_ai_levels(void)
 {
-  /* We determine this runtime instead of hardcoding correct answer.
-   * But as this is constant, we determine it only once. */
-  static int count = 0;
-  enum ai_level level;
-
-  if (count) {
-    /* Answer already known */
-    return count;
-  }
-
-  /* Determine how many levels are actually usable */
-  for (level = 0; level < AI_LEVEL_LAST; level++) {
-    if (is_settable_ai_level(level)) {
-      count++;
-    }
-  }
-
-  return count;
+  return AI_LEVEL_COUNT - 1; /* AI_LEVEL_AWAY is not real AI */
 }
 
 /**************************************************************************

@@ -556,8 +556,9 @@ extern struct civ_game game;
 
 #define GAME_DEFAULT_AUTOSAVES       (1 << AS_TURN | 1 << AS_GAME_OVER | 1 << AS_QUITIDLE | 1 << AS_INTERRUPT)
 
-#define GAME_DEFAULT_SKILL_LEVEL 3      /* easy */
-#define GAME_OLD_DEFAULT_SKILL_LEVEL 5  /* normal; for old save games */
+#define GAME_DEFAULT_SKILL_LEVEL     AI_LEVEL_EASY
+#define GAME_HARDCODED_DEFAULT_SKILL_LEVEL 3 /* that was 'easy' in old saves */
+#define GAME_OLD_DEFAULT_SKILL_LEVEL 5  /* normal; for oldest save games */
 
 #define GAME_DEFAULT_DEMOGRAPHY      "NASRLPEMOqrb"
 #define GAME_DEFAULT_ALLOW_TAKE      "HAhadOo"

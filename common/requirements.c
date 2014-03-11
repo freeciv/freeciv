@@ -177,8 +177,8 @@ struct universal universal_by_rule_name(const char *kind,
     }
     break;
   case VUT_AI_LEVEL:
-    source.value.ai_level = ai_level_by_name(value);
-    if (source.value.ai_level != AI_LEVEL_LAST) {
+    source.value.ai_level = ai_level_by_name(value, fc_strcasecmp);
+    if (ai_level_is_valid(source.value.ai_level)) {
       return source;
     }
     break;
@@ -2339,7 +2339,7 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_AI_LEVEL:
     /* TRANS: "Hard AI" */
     cat_snprintf(buf, bufsz, _("%s AI"),
-                 ai_level_name(psource->value.ai_level)); /* FIXME */
+                 ai_level_translated_name(psource->value.ai_level)); /* FIXME */
     return buf;
   case VUT_MAXTILEUNITS:
     cat_snprintf(buf, bufsz, _("Max %d unit(s) on the tile"),

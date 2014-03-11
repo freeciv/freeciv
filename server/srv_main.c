@@ -2025,12 +2025,12 @@ void aifill(int amount)
 
     log_normal(_("%s has been added as %s level AI-controlled player (%s)."),
                player_name(pplayer),
-               ai_level_name(pplayer->ai_common.skill_level),
+               ai_level_translated_name(pplayer->ai_common.skill_level),
                ai_name(pplayer->ai));
     notify_conn(NULL, NULL, E_SETTING, ftc_server,
                 _("%s has been added as %s level AI-controlled player (%s)."),
                 player_name(pplayer),
-                ai_level_name(pplayer->ai_common.skill_level),
+                ai_level_translated_name(pplayer->ai_common.skill_level),
                 ai_name(pplayer->ai));
 
     send_player_info_c(pplayer, NULL);

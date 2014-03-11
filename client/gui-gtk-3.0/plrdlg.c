@@ -551,9 +551,9 @@ void create_players_dialog(void)
   sep = gtk_separator_menu_item_new();
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
 
-  for (level = 0; level < AI_LEVEL_LAST; level++) {
+  for (level = 0; level < AI_LEVEL_COUNT; level++) {
     if (is_settable_ai_level(level)) {
-      const char *level_name = ai_level_name(level);
+      const char *level_name = ai_level_translated_name(level);
 
       item = gtk_menu_item_new_with_label(level_name);
       g_signal_connect(item, "activate",
