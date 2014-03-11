@@ -566,6 +566,15 @@ enum diplomacy_mode {
 #define SPECENUM_COUNT ACHIEVEMENT_COUNT
 #include "specenum_gen.h"
 
+/* Used in the network protocol. */
+#define SPECENUM_NAME mood_type
+#define SPECENUM_VALUE0 MOOD_PEACEFUL
+#define SPECENUM_VALUE0NAME "Peaceful"
+#define SPECENUM_VALUE1 MOOD_COMBAT
+#define SPECENUM_VALUE1NAME "Combat"
+#define SPECENUM_COUNT MOOD_COUNT
+#include "specenum_gen.h"
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

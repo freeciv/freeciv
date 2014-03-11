@@ -216,6 +216,7 @@ type EVENT              = sint16(enum event_type)
 type GUI_TYPE           = uint8(enum gui_type)
 type IMPR_GENUS         = uint8(enum impr_genus_id)
 type KNOWN              = uint8(enum known_type)
+type MOOD               = uint8(enum mood_type)
 type ORDERS             = uint8(enum unit_orders)
 type PHASE_MODE         = uint8(enum phase_mode_types)
 type PLACE_TYPE         = uint8(enum spaceship_place_type)
@@ -732,6 +733,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   GOVERNMENT government;
   GOVERNMENT target_government;
   BOOL real_embassy[MAX_NUM_PLAYER_SLOTS];
+  MOOD  mood;
   UINT8 style;
   UINT8 city_style;
   SINT8 music_style;

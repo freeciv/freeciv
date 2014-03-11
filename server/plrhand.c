@@ -52,6 +52,7 @@
 #include "diplhand.h"
 #include "gamehand.h"
 #include "maphand.h"
+#include "mood.h"
 #include "notify.h"
 #include "plrhand.h"
 #include "sernet.h"
@@ -1140,8 +1141,10 @@ static void package_player_info(struct player *plr,
       || (receiver
           && player_diplstate_get(plr, receiver)->type == DS_TEAM)) {
     packet->tech_goal       = research->tech_goal;
+    packet->mood            = player_mood(plr);
   } else {
     packet->tech_goal       = A_UNSET;
+    packet->mood            = MOOD_COUNT;
   }
 
   /* 
