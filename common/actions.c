@@ -465,6 +465,70 @@ tech_can_be_stolen(const struct player *actor_player,
 }
 
 /**************************************************************************
+  The action probability that pattacker will win a diplomatic battle.
+
+  It is assumed that pattacker and pdefender have different owners.
+
+  See diplomat_infiltrate_tile() in server/diplomats.c
+**************************************************************************/
+static action_probability ap_diplomat_battle(const struct unit *pattacker,
+                                             const struct unit *pdefender)
+{
+  /* Keep unconverted until the end to avoid scaling each step */
+  int chance;
+
+  /* Superspy always win */
+  if (unit_has_type_flag(pattacker, UTYF_SUPERSPY)) {
+    return 200;
+  }
+  if (unit_has_type_flag(pdefender, UTYF_SUPERSPY)) {
+    return ACTPROB_IMPOSSIBLE;
+  }
+
+  /* This target is defenseless */
+  if (!unit_has_type_flag(pdefender, UTYF_DIPLOMAT)) {
+    return 200;
+  }
+
+  /* Base chance is 50% */
+  chance = 50;
+
+  /* Spy attack bonus */
+  if (unit_has_type_flag(pattacker, UTYF_SPY)) {
+    chance += 25;
+  }
+
+  /* Spy defense bonus */
+  if (unit_has_type_flag(pdefender, UTYF_SPY)) {
+    chance -= 25;
+  }
+
+  /* Veteran attack and defense bonus */
+  {
+    const struct veteran_level *vatt =
+        utype_veteran_level(unit_type(pattacker), pattacker->veteran);
+    const struct veteran_level *vdef =
+        utype_veteran_level(unit_type(pdefender), pdefender->veteran);
+
+    chance += vatt->power_fact - vdef->power_fact;
+  }
+
+  /* City and base defense bonus */
+  if (tile_city(pdefender->tile)) {
+    /* TODO: take EFT_SPY_RESISTANT into account */
+    return ACTPROB_NOT_IMPLEMENTED;
+  } else {
+    if (tile_has_base_flag_for_unit(pdefender->tile, unit_type(pdefender),
+                                    BF_DIPLOMAT_DEFENSE)) {
+      chance -= chance * 25 / 100;
+    }
+  }
+
+  /* Convert to action probability */
+  return chance * 2;
+}
+
+/**************************************************************************
   An action's probability of success.
 **************************************************************************/
 static action_probability
@@ -502,7 +566,13 @@ action_prob(const enum gen_action wanted_action,
     /* TODO */
     break;
   case ACTION_SPY_SABOTAGE_UNIT:
-    /* TODO */
+    /* Hard coded limit */
+    if (target_unit->hp < 2) {
+      return ACTPROB_IMPOSSIBLE;
+    }
+
+    /* Hard coded limit: The victim unit is alone at the tile */
+    chance = ap_diplomat_battle(actor_unit, target_unit);
     break;
   case ACTION_SPY_BRIBE_UNIT:
     /* TODO */
@@ -586,8 +656,6 @@ action_probability action_prob_vs_city(struct unit* actor_unit,
                      NULL, NULL,
                      city_owner(target_city), target_city, NULL,
                      city_tile(target_city), NULL, NULL, NULL);
-
-
 }
 
 /**************************************************************************
