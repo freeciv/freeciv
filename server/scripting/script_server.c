@@ -111,9 +111,6 @@ bool script_server_do_file(struct connection *caller, const char *filename,
   int status = 1;
   struct connection *save_caller;
   luascript_log_func_t save_output_fct;
-  FILE *ffile;
-  struct stat stats;
-  char *buffer;
 
   /* Set a log callback function which allows to send the results of the
    * command to the clients. */
@@ -122,27 +119,31 @@ bool script_server_do_file(struct connection *caller, const char *filename,
   fcl->output_fct = script_server_cmd_reply;
   fcl->caller = caller;
 
-  fc_stat(filename, &stats);
-  ffile = fc_fopen(filename, "r");
+  if (buf == NULL) {
+    status = luascript_do_file(fcl, filename);
+  } else {
+    FILE *ffile;
+    struct stat stats;
+    char *buffer;
 
-  if (ffile != NULL) {
-    int len;
+    fc_stat(filename, &stats);
+    ffile = fc_fopen(filename, "r");
 
-    buffer = fc_malloc(stats.st_size + 1);
+    if (ffile != NULL) {
+      int len;
 
-    len = fread(buffer, 1, stats.st_size, ffile);
+      buffer = fc_malloc(stats.st_size + 1);
 
-    if (len == stats.st_size) {
-      buffer[len] = '\0';
-      status = luascript_do_string(fcl, buffer, filename);
+      len = fread(buffer, 1, stats.st_size, ffile);
 
-      if (buf != NULL) {
+      if (len == stats.st_size) {
+        buffer[len] = '\0';
+        status = luascript_do_string(fcl, buffer, filename);
+
         *buf = buffer;
-      } else {
-        FC_FREE(buffer);
       }
+      fclose(ffile);
     }
-    fclose(ffile);
   }
 
   /* Reset the changes. */
