@@ -54,9 +54,21 @@ void start_style_music(void)
     pms = music_style_by_number(client.conn.playing->music_style);
 
     if (pms != NULL) {
-      const char *tag = pms->music_peaceful;
+      const char *tag = NULL;
 
-      if (tag[0] != '\0') {
+      switch (client.conn.playing->client.mood) {
+      case MOOD_COUNT:
+        fc_assert(client.conn.playing->client.mood != MOOD_COUNT);
+        /* No break but use default tag */
+      case MOOD_PEACEFUL:
+        tag = pms->music_peaceful;
+        break;
+      case MOOD_COMBAT:
+        tag = pms->music_combat;
+        break;
+      }
+
+      if (tag != NULL && tag[0] != '\0') {
         log_debug("Play %s", tag);
         audio_play_music(tag, NULL);
       }

@@ -2003,10 +2003,21 @@ void handle_player_info(const struct packet_player_info *pinfo)
   pplayer->style = style_by_number(pinfo->style);
   pplayer->city_style = pinfo->city_style;
 
-  if (pplayer == client.conn.playing
-      && pplayer->music_style != pinfo->music_style) {
-    pplayer->music_style = pinfo->music_style;
-    start_style_music();
+  if (pplayer == client.conn.playing) {
+    bool music_change = FALSE;
+
+    if (pplayer->music_style != pinfo->music_style) {
+      pplayer->music_style = pinfo->music_style;
+      music_change = TRUE;
+    }
+    if (pplayer->client.mood != pinfo->mood) {
+      pplayer->client.mood = pinfo->mood;
+      music_change = TRUE;
+    }
+
+    if (music_change) {
+      start_style_music();
+    }
   }
 
   /* Don't use player_iterate or player_slot_count here, because we ignore
