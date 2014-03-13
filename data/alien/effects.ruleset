@@ -433,107 +433,83 @@ reqs    =
 type    = "Irrigation_Pct"
 value   = 100
 reqs    =
-    { "type", "name", "range"
-      "Extra", "Irrigation", "Local"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "CityTile", "Center", "Local"
+    { "type", "name", "range", "present"
+      "Extra", "Irrigation", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
     }
 
 [effect_irrigation_2]
 type    = "Irrigation_Pct"
 value	= 100
 reqs	=
-    { "type", "name", "range"
-      "CityTile", "Center", "Local"
-      "TerrainAlter", "CanIrrigate", "Local"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "Extra", "Mine", "Local"
+    { "type", "name", "range", "present"
+      "CityTile", "Center", "Local", TRUE
+      "TerrainAlter", "CanIrrigate", "Local", TRUE
+      "Extra", "Mine", "Local", FALSE
     }
 
 [effect_farmland]
 type    = "Output_Per_Tile"
 value	= 50
 reqs	=
-    { "type", "name", "range"
-      "Extra", "Farmland", "Local"
-      "OutputType", "Food", "Local"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "CityTile", "Center", "Local"
+    { "type", "name", "range", "present"
+      "Extra", "Farmland", "Local", TRUE
+      "OutputType", "Food", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
     }
 
 [effect_farmland_regeneration]
 type    = "Output_Per_Tile"
 value	= 50
 reqs	=
-    { "type", "name", "range"
-      "Extra", "Farmland", "Local"
-      "OutputType", "Food", "Local"
-      "Tech", "Food Regeneration", "Player"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "CityTile", "Center", "Local"
+    { "type", "name", "range", "present"
+      "Extra", "Farmland", "Local", TRUE
+      "OutputType", "Food", "Local", TRUE
+      "Tech", "Food Regeneration", "Player", TRUE
+      "CityTile", "Center", "Local", FALSE
     }
 
 [effect_citycenter]
 type    = "Output_Per_Tile"
 value	= 50
 reqs	=
-    { "type", "name", "range"
-      "CityTile", "Center", "Local"
-      "TerrainAlter", "CanIrrigate", "Local"
-      "Tech", "Protein Modifications", "Player"
-      "OutputType", "Food", "Local"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "Extra", "Mine", "Local"
+    { "type", "name", "range", "present"
+      "CityTile", "Center", "Local", TRUE
+      "TerrainAlter", "CanIrrigate", "Local", TRUE
+      "Tech", "Protein Modifications", "Player", TRUE
+      "OutputType", "Food", "Local", TRUE
+     "Extra", "Mine", "Local", FALSE
     }
 
 [effect_citycenter_regeneration]
 type    = "Output_Per_Tile"
 value	= 50
 reqs	=
-    { "type", "name", "range"
-      "CityTile", "Center", "Local"
-      "TerrainAlter", "CanIrrigate", "Local"
-      "Tech", "Protein Modifications", "Player"
-      "OutputType", "Food", "Local"
-      "Tech", "Food Regeneration", "Player"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "Extra", "Mine", "Local"
+    { "type", "name", "range", "present"
+      "CityTile", "Center", "Local", TRUE
+      "TerrainAlter", "CanIrrigate", "Local", TRUE
+      "Tech", "Protein Modifications", "Player", TRUE
+      "OutputType", "Food", "Local", TRUE
+      "Tech", "Food Regeneration", "Player", TRUE
+      "Extra", "Mine", "Local", FALSE
     }
 
 [effect_pollution]
 type	= "Output_Tile_Punish_Pct"
 value	= 50
 reqs	=
-    { "type", "name", "range"
-      "Extra", "Pollution", "Local"
-    }
-nreqs	=
-    { "type", "name", "range"
-      "Extra", "Fallout", "Local"
+    { "type", "name", "range", "present"
+      "Extra", "Pollution", "Local", TRUE
+      "Extra", "Fallout", "Local", FALSE
     }
 
 [effect_fallout]
 type	= "Output_Tile_Punish_Pct"
 value	= 50
 reqs	=
-    { "type", "name", "range"
-      "Extra", "Fallout", "Local"
-    }
-nreqs	=
-    { "type", "name", "range"
-      "Extra", "Pollution", "Local"
+    { "type", "name", "range", "present"
+      "Extra", "Fallout", "Local", TRUE
+      "Extra", "Pollution", "Local", FALSE
     }
 
 [effect_pollution_fallout]
@@ -685,12 +661,9 @@ reqs	=
 type    = "Make_Content"
 value   = -2
 reqs    =
-    { "type", "name", "range"
-      "Tech", "Soul", "World"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "Tech", "Soul", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Soul", "World", TRUE
+      "Tech", "Soul", "Player", FALSE
     }
 
 [effect_alien_rights]
