@@ -229,9 +229,10 @@ static Uint16 main_key_down_handler(SDL_Keysym Key, void *pData)
             if (LSHIFT || RSHIFT) {
 	      disable_focus_animation();
 	      key_end_turn();
-            } else {              
+            } else {
               struct unit *pUnit;
               struct city *pCity;
+
               if (NULL != (pUnit = head_of_units_in_focus()) && 
                 (pCity = tile_city(unit_tile(pUnit))) != NULL &&
                 city_owner(pCity) == client.conn.playing) {
