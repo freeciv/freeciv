@@ -1170,6 +1170,8 @@ int server_open_socket(void)
   /* Create socket for server LAN announcements */
   if ((socklan = socket(lan_family, SOCK_DGRAM, 0)) < 0) {
     log_error("socket failed: %s", fc_strerror(fc_get_errno()));
+    return 0; /* FIXME: Should this cause hard error as exit(EXIT_FAILURE).
+               *        It's failure to do as commandline parameters requested after all */
   }
 
   if (setsockopt(socklan, SOL_SOCKET, SO_REUSEADDR,
