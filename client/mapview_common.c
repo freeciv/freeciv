@@ -2172,6 +2172,8 @@ void move_unit_map_canvas(struct unit *punit,
   int dest_x, dest_y, src_x, src_y;
   int prev_x = -1;
   int prev_y = -1;
+  int tuw;
+  int tuh;
 
   /* only works for adjacent-square moves */
   if (dx < -1 || dx > 1 || dy < -1 || dy > 1 || (dx == 0 && dy == 0)) {
@@ -2214,6 +2216,9 @@ void move_unit_map_canvas(struct unit *punit,
     anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
     timer_start(anim_timer);
 
+    tuw = tileset_unit_width(tileset);
+    tuh = tileset_unit_height(tileset);
+
     do {
       int new_x, new_y;
 
@@ -2226,11 +2231,11 @@ void move_unit_map_canvas(struct unit *punit,
         /* Backup the canvas store to the temp store. */
         canvas_copy(mapview.tmp_store, mapview.store,
                     new_x, new_y, new_x, new_y,
-                    tileset_unit_width(tileset), tileset_unit_height(tileset));
+                    tuw, tuh);
 
         /* Draw */
         put_unit(punit, mapview.store, map_zoom, new_x, new_y);
-        dirty_rect(new_x, new_y, tileset_unit_width(tileset), tileset_unit_height(tileset));
+        dirty_rect(new_x, new_y, tuw, tuh);
 
         /* Flush. */
         flush_dirty();
@@ -2239,8 +2244,8 @@ void move_unit_map_canvas(struct unit *punit,
         /* Restore the backup.  It won't take effect until the next flush. */
         canvas_copy(mapview.store, mapview.tmp_store,
                     new_x, new_y, new_x, new_y,
-                    tileset_unit_width(tileset), tileset_unit_height(tileset));
-        dirty_rect(new_x, new_y, tileset_unit_width(tileset), tileset_unit_height(tileset));
+                    tuw, tuh);
+        dirty_rect(new_x, new_y, tuw, tuh);
 
         prev_x = new_x;
         prev_y = new_y;
