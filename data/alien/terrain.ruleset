@@ -810,6 +810,7 @@ reqs           =
       "Tech", "Strong Resistance", "Player"
       "UnitFlag", "Settlers", "Local"
       "TerrainFlag", "Radiating", "Local"
+      "TerrainClass", "Land", "Local" ; Needed explicitly for automatic move type assignment
     }
 move_cost      = 0
 move_mode      = "NoBonus"
