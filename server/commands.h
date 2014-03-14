@@ -61,6 +61,7 @@ enum command_id {
   CMD_DETACH,
   CMD_CREATE,
   CMD_AWAY,
+  CMD_HANDICAPPED,
   CMD_NOVICE,
   CMD_EASY,
   CMD_NORMAL,
