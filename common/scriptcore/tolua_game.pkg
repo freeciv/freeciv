@@ -223,6 +223,8 @@ module Tile {
     @ city (lua_State *L, Tile *self);
   bool api_methods_tile_city_exists_within_max_city_map
     @ city_exists_within_max_city_map (lua_State *L, Tile *self, bool center);
+  bool api_methods_tile_has_extra
+    @ has_extra(lua_State *L, Tile *self, const char *name);
   bool api_methods_tile_has_base
     @ has_base(lua_State *L, Tile *self, const char *name);
   bool api_methods_tile_has_road

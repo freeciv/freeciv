@@ -523,6 +523,32 @@ bool api_methods_tile_city_exists_within_max_city_map(lua_State *L,
 }
 
 /*****************************************************************************
+  Return TRUE if there is a extra with rule name name on ptile.
+  If no name is specified return true if there is a extra on ptile.
+*****************************************************************************/
+bool api_methods_tile_has_extra(lua_State *L, Tile *ptile, const char *name)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, ptile, FALSE);
+
+  if (!name) {
+    extra_type_iterate(pextra) {
+      if (tile_has_extra(ptile, pextra)) {
+        return TRUE;
+      }
+    } extra_type_iterate_end;
+
+    return FALSE;
+  } else {
+    struct extra_type *pextra;
+
+    pextra = extra_type_by_rule_name(name);
+
+    return tile_has_extra(ptile, pextra);
+  }
+}
+
+/*****************************************************************************
   Return TRUE if there is a base with rule name name on ptile.
   If no name is specified return true if there is any base on ptile.
 *****************************************************************************/

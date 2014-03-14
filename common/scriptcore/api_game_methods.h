@@ -107,6 +107,7 @@ City *api_methods_tile_city(lua_State *L, Tile *ptile);
 bool api_methods_tile_city_exists_within_max_city_map(lua_State *L,
                                                       Tile *ptile,
                                                       bool may_be_on_center);
+bool api_methods_tile_has_extra(lua_State *L, Tile *ptile, const char *name);
 bool api_methods_tile_has_base(lua_State *L, Tile *ptile, const char *name);
 bool api_methods_tile_has_road(lua_State *L, Tile *ptile, const char *name);
 int api_methods_tile_num_units(lua_State *L, Tile *ptile);

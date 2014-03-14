@@ -307,6 +307,28 @@ bool api_edit_trait_mod(lua_State *L, Player *pplayer, const char *trait_name,
 }
 
 /*****************************************************************************
+  Create a new extra.
+*****************************************************************************/
+void api_edit_create_extra(lua_State *L, Tile *ptile, const char *name)
+{
+  struct extra_type *pextra;
+
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_ARG_NIL(L, ptile, 2, Tile);
+
+  if (!name) {
+    return;
+  }
+
+  pextra = extra_type_by_rule_name(name);
+
+  if (pextra) {
+    tile_add_extra(ptile, pextra);
+    update_tile_knowledge(ptile);
+  }
+}
+
+/*****************************************************************************
   Create a new base.
 *****************************************************************************/
 void api_edit_create_base(lua_State *L, Tile *ptile, const char *name,

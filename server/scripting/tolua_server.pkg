@@ -99,6 +99,8 @@ module edit {
   void api_edit_create_city
     @ create_city (lua_State *L, Player *pplayer, Tile *ptile,
                    const char *name);
+  void api_edit_create_extra
+    @ create_extra (lua_State *L, Tile *ptile, const char *name);
   void api_edit_create_base
     @ create_base (lua_State *L, Tile *ptile, const char *name,
                    Player *pplayer);
@@ -154,6 +156,10 @@ end
 
 function create_city(player, tile, name)
   edit.create_city (player, tile, name)
+end
+
+function create_extra(tile, name)
+  edit.create_extra(tile, name)
 end
 
 function create_base(tile, name, player)
@@ -238,6 +244,10 @@ function Unit:move(moveto, movecost)
 end
 
 -- Server functions for Tile module
+function Tile:create_extra(name)
+  edit.create_extra(self, name)
+end
+
 function Tile:create_base(name, player)
   edit.create_base(self, name, player)
 end
