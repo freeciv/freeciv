@@ -814,6 +814,7 @@ reqs           =
       "Tech", "Strong Resistance", "Player"
       "UnitFlag", "Settlers", "Local"
       "TerrainFlag", "Radiating", "Local"
+      "TerrainClass", "Land", "Local" ; Needed explicitly for automatic move type assignment
     }
 defense_bonus  = 35
 native_to      = "Earthly"
