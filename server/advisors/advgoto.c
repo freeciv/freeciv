@@ -164,13 +164,13 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
 **************************************************************************/
 static bool adv_could_be_my_zoc(struct unit *myunit, struct tile *ptile)
 {
-  fc_assert_ret_val(is_ground_unit(myunit), TRUE);
-
-  if (same_pos(ptile, unit_tile(myunit)))
+  if (same_pos(ptile, unit_tile(myunit))) {
     return FALSE; /* can't be my zoc */
+  }
   if (is_tiles_adjacent(ptile, unit_tile(myunit))
-      && !is_non_allied_unit_tile(ptile, unit_owner(myunit)))
+      && !is_non_allied_unit_tile(ptile, unit_owner(myunit))) {
     return FALSE;
+  }
 
   adjc_iterate(ptile, atile) {
     if (!is_ocean_tile(atile)
