@@ -1616,6 +1616,9 @@ AC_CONFIG_FILES([Makefile
           tools/freeciv-modpack.appdata.xml:bootstrap/freeciv-modpack.appdata.xml.in])
 AC_CONFIG_FILES([fcgui:bootstrap/fcgui.in], [chmod +x fcgui])
 AC_CONFIG_FILES([fcser:bootstrap/fcser.in], [chmod +x fcser])
+if test "x$ruledit" = "xyes" ; then
+  AC_CONFIG_FILES([fcruledit:bootstrap/fcruledit.in], [chmod +x fcruledit])
+fi
 
 if test "$USE_NLS" != "yes" ; then
 

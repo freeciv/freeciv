@@ -56,6 +56,7 @@ mkinstalldirs
 ref-add.sed
 ref-del.sed
 fcser
+fcruledit
 stamp-cat-id
 stamp-h
 stamp-h1

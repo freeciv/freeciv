@@ -31,6 +31,7 @@ EXTRA_DIST=	autogen.sh 			\
 		diff_ignore			\
 		bootstrap/fcgui.in		\
 		bootstrap/fcser.in		\
+		bootstrap/fcruledit.in		\
 		bootstrap/fc_svnrev_gen.h.tmpl	\
 		bootstrap/generate_svnrev.sh	\
 		bootstrap/fc_gitrev_gen.h.tmpl	\
