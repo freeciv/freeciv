@@ -1056,6 +1056,22 @@ void unit_classes_init(void)
    * num_unit_classes isn't known yet. */
   for (i = 0; i < ARRAY_SIZE(unit_classes); i++) {
     unit_classes[i].item_number = i;
+    unit_classes[i].cache.refuel_bases = NULL;
+  }
+}
+
+/****************************************************************************
+  Free resources allocated for unit classes.
+****************************************************************************/
+void unit_classes_free(void)
+{
+  int i;
+
+  for (i = 0; i < ARRAY_SIZE(unit_classes); i++) {
+    if (unit_classes[i].cache.refuel_bases != NULL) {
+      extra_type_list_destroy(unit_classes[i].cache.refuel_bases);
+      unit_classes[i].cache.refuel_bases = NULL;
+    }
   }
 }
 

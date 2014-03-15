@@ -893,6 +893,21 @@ static enum unit_move_type move_type_from_extra(struct extra_type *pextra,
 }
 
 /****************************************************************************
+  Set refuel bases cache for unit class.
+****************************************************************************/
+static void set_unit_class_refuel_bases(struct unit_class *pclass)
+{
+  pclass->cache.refuel_bases = extra_type_list_new();
+
+  extra_type_iterate(pextra) {
+    if (is_native_extra_to_uclass(pextra, pclass)
+        && extra_has_flag(pextra, EF_REFUEL)) {
+      extra_type_list_append(pclass->cache.refuel_bases, pextra);
+    }
+  } extra_type_iterate_end;
+}
+
+/****************************************************************************
   Lookup optional string, returning allocated memory or NULL.
 ****************************************************************************/
 static char *lookup_string(struct section_file *file, const char *prefix,
@@ -1746,6 +1761,9 @@ static bool load_ruleset_units(struct section_file *file)
       if (!ok) {
         break;
       }
+
+      set_unit_class_refuel_bases(uc);
+
     } unit_class_iterate_end;
   }
 
