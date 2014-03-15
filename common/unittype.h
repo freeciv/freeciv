@@ -88,6 +88,8 @@ enum hut_behavior { HUT_NORMAL, HUT_NOTHING, HUT_FRIGHTEN };
 
 enum move_level { MOVE_NONE, MOVE_PARTIAL, MOVE_FULL };
 
+struct base_type_list;
+
 struct unit_class {
   Unit_Class_id item_number;
   struct name_translation name;
@@ -102,6 +104,11 @@ struct unit_class {
     enum move_level land_move;
     enum move_level sea_move;
   } adv;
+
+  struct {
+    /* Set only on server side */
+    struct base_type_list *refuel_bases;
+  } cache;
 };
 
 /* Unit "special effects" flags:
@@ -581,6 +588,7 @@ void utype_set_ai_data(struct unit_type *ptype, const struct ai_type *ai,
 
 /* Initialization and iteration */
 void unit_classes_init(void);
+void unit_classes_free(void);
 
 struct unit_class *unit_class_array_first(void);
 const struct unit_class *unit_class_array_last(void);

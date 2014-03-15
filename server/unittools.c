@@ -1334,16 +1334,19 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
   struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
   if (!is_non_allied_unit_tile(ptile, pplayer)) {
+    struct unit_class *pclass = utype_class(type);
+
     if (is_allied_city_tile(ptile, pplayer)) {
       return TRUE;
     }
 
-    base_type_iterate(pbase) {
-      if (BV_ISSET(plrtile->bases, base_index(pbase))
-          && is_native_base_to_utype(pbase, type)) {
-        return TRUE;
-      }
-    } base_type_iterate_end;
+    if (pclass->cache.refuel_bases != NULL) {
+      base_type_list_iterate(pclass->cache.refuel_bases, pbase) {
+        if (BV_ISSET(plrtile->bases, base_index(pbase))) {
+          return TRUE;
+        }
+      } base_type_list_iterate_end;
+    }
   }
 
   cap = unit_class_transporter_capacity(ptile, pplayer, utype_class(type));

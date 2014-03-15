@@ -945,6 +945,20 @@ static enum unit_move_type move_type_from_base(struct base_type *pbase,
 }
 
 /****************************************************************************
+  Set refuel bases cache for unit class.
+****************************************************************************/
+static void set_unit_class_refuel_bases(struct unit_class *pclass)
+{
+  pclass->cache.refuel_bases = base_type_list_new();
+
+  base_type_iterate(pbase) {
+    if (is_native_base_to_uclass(pbase, pclass)) {
+      base_type_list_append(pclass->cache.refuel_bases, pbase);
+    }
+  } base_type_iterate_end;
+}
+
+/****************************************************************************
   Lookup optional string, returning allocated memory or NULL.
 ****************************************************************************/
 static char *lookup_string(struct section_file *file, const char *prefix,
@@ -1780,6 +1794,9 @@ static bool load_ruleset_units(struct section_file *file)
       if (!ok) {
         break;
       }
+
+      set_unit_class_refuel_bases(uc);
+
     } unit_class_iterate_end;
   }
 
