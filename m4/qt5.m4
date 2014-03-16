@@ -11,7 +11,7 @@ AC_DEFUN([FC_QT5],
               [FC_QT5_COMPILETEST([$withval])],
 [POTENTIAL_PATHS="/usr/include /usr/include/qt5"
 dnl First test without any additional include paths to see if it works already
-FC_QT_COMPILETEST
+FC_QT5_COMPILETEST
 for TEST_PATH in $POTENTIAL_PATHS
 do
   if test "x$qt5_headers" != "xyes" ; then
