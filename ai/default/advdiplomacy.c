@@ -1624,10 +1624,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
       }
       target = NULL;
       players_iterate(eplayer) {
-        /* Read the countdown check below carefully... Note that we check
-         * our ally's intentions directly here. */
         if (WAR(pplayer, eplayer)
-            && (dai_diplomacy_get(ait, aplayer, eplayer)->countdown == -1)
             && !pplayers_at_war(aplayer, eplayer)) {
           target = eplayer;
           break;
@@ -1644,25 +1641,27 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
         break; /* No need to nag our ally */
       }
 
-      switch (adip->ally_patience--) {
-        case 0:
-          notify(aplayer, _("*%s (AI)* Greetings our most trustworthy "
-                 "ally. We call upon you to destroy our enemy, %s."), 
-                 player_name(pplayer),
-                 player_name(target));
-          break;
-        case -1:
+      if (adip->ally_patience == 0) {
+        notify(aplayer, _("*%s (AI)* Greetings our most trustworthy "
+                          "ally. We call upon you to destroy our enemy, %s."), 
+               player_name(pplayer),
+               player_name(target));
+        adip->ally_patience--;
+      } else if (adip->ally_patience == -1) {
+        if (fc_rand(5) == 1) {
           notify(aplayer, _("*%s (AI)* Greetings ally, I see you have not yet "
-                 "made war with our enemy, %s. Why do I need to remind "
-                 "you of your promises?"),
+                            "made war with our enemy, %s. Why do I need to remind "
+                            "you of your promises?"),
                  player_name(pplayer),
                  player_name(target));
-          break;
-        case -2:
+          adip->ally_patience--;
+        }
+      } else {
+        if (fc_rand(5) == 1) {
           notify(aplayer, _("*%s (AI)* Dishonored one, we made a pact of "
-                 "alliance, and yet you remain at peace with our mortal "
-                 "enemy, %s! This is unacceptable; our alliance is no "
-                 "more!"),
+                            "alliance, and yet you remain at peace with our mortal "
+                            "enemy, %s! This is unacceptable; our alliance is no "
+                            "more!"),
                  player_name(pplayer),
                  player_name(target));
           DIPLO_LOG(ait, LOG_DIPL2, pplayer, aplayer, "breaking useless alliance");
@@ -1675,7 +1674,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
             remove_shared_vision(pplayer, aplayer);
           }
           fc_assert(!gives_shared_vision(pplayer, aplayer));
-          break;
+        }
       }
       break;
 
