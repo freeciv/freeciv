@@ -1,6 +1,6 @@
 [musicspec]
 ; Format and options of this spec file:
-options = "+musicspec"
+options = "+Freeciv-musicspec-Devel-2014.Mar.13"
 
 [info]
 artists = "\

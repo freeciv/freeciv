@@ -1,6 +1,6 @@
 [soundspec]
 ; Format and options of this spec file:
-options = "+soundspec"
+options = "+Freeciv-soundspec-Devel-2014.Mar.13"
 
 [info]
 artists = "\

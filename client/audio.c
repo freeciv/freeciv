@@ -236,7 +236,7 @@ static bool check_audiofile_capstr(struct section_file *sfile,
     exit(EXIT_FAILURE);
   }
 
-return TRUE;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -248,8 +248,8 @@ void audio_real_init(const char *const soundset_name,
 {
   const char *ss_filename;
   const char *ms_filename;
-  char us_ss_capstr[] = "+soundspec";
-  char us_ms_capstr[] = "+musicspec";
+  char us_ss_capstr[] = "+Freeciv-soundspec-Devel-2014.Mar.13";
+  char us_ms_capstr[] = "+Freeciv-musicspec-Devel-2014.Mar.13";
 
   if (strcmp(prefered_plugin_name, "none") == 0) {
     /* We explicitly choose none plugin, silently skip the code below */
