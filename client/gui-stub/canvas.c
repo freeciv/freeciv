@@ -110,15 +110,6 @@ void gui_canvas_fill_sprite_area(struct canvas *pcanvas,
 }
 
 /****************************************************************************
-  Fill the area covered by the sprite with the given color.
-****************************************************************************/
-void gui_canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
-                                int canvas_x, int canvas_y)
-{
-  /* PORTME */
-}
-
-/****************************************************************************
   Draw a 1-pixel-width colored line onto the canvas.
 ****************************************************************************/
 void gui_canvas_put_line(struct canvas *pcanvas, struct color *pcolor,

@@ -183,20 +183,6 @@ void qtg_canvas_fill_sprite_area(struct canvas *pcanvas,
 }
 
 /****************************************************************************
-  Fill the area covered by the sprite with fog.
-****************************************************************************/
-void qtg_canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
-                                int canvas_x, int canvas_y)
-{
-  QPainter p;
-
-  p.begin(&pcanvas->map_pixmap);
-  p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-  p.drawPixmap(canvas_x, canvas_y, *psprite->pm);
-  p.end();
-}
-
-/****************************************************************************
   Draw a 1-pixel-width colored line onto the canvas.
 ****************************************************************************/
 void qtg_canvas_put_line(struct canvas *pcanvas, struct color *pcolor,

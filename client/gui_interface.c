@@ -267,15 +267,6 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
 }
 
 /**************************************************************************
-  Call canvas_fog_sprite_area callback
-**************************************************************************/
-void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
-			    int canvas_x, int canvas_y)
-{
-  funcs.canvas_fog_sprite_area(pcanvas, psprite, canvas_x, canvas_y);
-}
-
-/**************************************************************************
   Call canvas_put_line callback
 **************************************************************************/
 void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,

@@ -59,6 +59,8 @@
 
 static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y,
  				    struct sprite *ssprite);
+static void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
+                                   int canvas_x, int canvas_y);
 
 /* the intro picture is held in this pixmap, which is scaled to
    the screen size */
@@ -484,8 +486,8 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
 /****************************************************************************
   Fill the area covered by the sprite with the given color.
 ****************************************************************************/
-void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
-			    int canvas_x, int canvas_y)
+static void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
+                                   int canvas_x, int canvas_y)
 {
   if (psprite->has_mask) {
     XSetClipOrigin(display, fill_tile_gc, canvas_x, canvas_y);

@@ -70,7 +70,6 @@ void setup_gui_funcs()
   funcs->canvas_put_sprite_fogged = gui_canvas_put_sprite_fogged;
   funcs->canvas_put_rectangle = gui_canvas_put_rectangle;
   funcs->canvas_fill_sprite_area = gui_canvas_fill_sprite_area;
-  funcs->canvas_fog_sprite_area = gui_canvas_fog_sprite_area;
   funcs->canvas_put_line = gui_canvas_put_line;
   funcs->canvas_put_curved_line = gui_canvas_put_curved_line;
   funcs->get_text_size = gui_get_text_size;
