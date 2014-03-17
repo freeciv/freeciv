@@ -51,6 +51,9 @@ bool can_unit_do_connect(struct unit *punit,
                          enum unit_activity activity,
                          struct extra_type *tgt);
 
+int check_recursive_road_connect(struct tile *ptile, const struct extra_type *pextra,
+                                 const struct unit *punit, const struct player *pplayer, int rec);
+
 void do_move_unit(struct unit *punit, struct unit *target_unit);
 void do_unit_goto(struct tile *ptile);
 void do_unit_nuke(struct unit *punit);

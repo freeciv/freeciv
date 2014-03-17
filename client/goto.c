@@ -493,15 +493,20 @@ static int get_activity_time(const struct tile *ptile,
     break;
   case ACTIVITY_GEN_ROAD:
     fc_assert(is_extra_caused_by(connect_tgt, EC_ROAD));
-    {
-      struct road_type *proad = extra_road_get(connect_tgt);
 
-      if (!tile_has_road(ptile, proad)) {
-        if (!player_can_build_road(proad, pplayer, ptile)) {
-          return -1;
-        }
-        activity_mc += terrain_road_time(pterrain, connect_tgt);
+    if (!tile_has_extra(ptile, connect_tgt)) {
+      struct tile *vtile;
+      int single_mc;
+
+      vtile = tile_virtual_new(ptile);
+      single_mc = check_recursive_road_connect(vtile, connect_tgt, NULL, pplayer, 0);
+      tile_virtual_destroy(vtile);
+
+      if (single_mc < 0) {
+        return -1;
       }
+
+      activity_mc += single_mc;
     }
     break;
   default:
@@ -1116,6 +1121,37 @@ void send_patrol_route(void)
 }
 
 /**************************************************************************
+  Fill orders to build recursive roads.
+**************************************************************************/
+static bool order_recursive_roads(struct tile *ptile, struct extra_type *pextra,
+                                 struct packet_unit_orders *p, int rec)
+{
+  if (rec > MAX_EXTRA_TYPES) {
+    return FALSE;
+  }
+
+  if (!is_extra_caused_by(pextra, EC_ROAD)) {
+    return FALSE;
+  }
+
+  extra_deps_iterate(&(pextra->reqs), pdep) {
+    if (!tile_has_extra(ptile, pdep)) {
+      if (!order_recursive_roads(ptile, pdep, p, rec + 1)) {
+        return FALSE;
+      }
+    }
+  } extra_deps_iterate_end;
+
+  p->orders[p->length] = ORDER_ACTIVITY;
+  p->dir[p->length] = -1;
+  p->activity[p->length] = ACTIVITY_GEN_ROAD;
+  p->target[p->length] = extra_index(pextra);
+  p->length++;
+
+  return TRUE;
+}
+
+/**************************************************************************
   Send the current connect route (i.e., the one generated via HOVER_STATE)
   to the server.
 **************************************************************************/
@@ -1162,13 +1198,7 @@ void send_connect_route(enum unit_activity activity,
 	}
 	break;
       case ACTIVITY_GEN_ROAD:
-        if (!tile_has_extra(old_tile, tgt)) {
-          p.orders[p.length] = ORDER_ACTIVITY;
-          p.dir[p.length] = -1;
-          p.activity[p.length] = ACTIVITY_GEN_ROAD;
-          p.target[p.length] = extra_index(tgt);
-          p.length++;
-        }
+        order_recursive_roads(old_tile, tgt, &p, 0);
         break;
       default:
         log_error("Invalid connect activity: %d.", activity);

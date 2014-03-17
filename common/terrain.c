@@ -781,7 +781,7 @@ bool terrain_can_support_alteration(const struct terrain *pterrain,
    Time to complete the base building activity on the given terrain.
 ****************************************************************************/
 int terrain_base_time(const struct terrain *pterrain,
-                      struct extra_type *tgt)
+                      const struct extra_type *tgt)
 {
   struct base_type *pbase = extra_base_get(tgt);
 
@@ -798,7 +798,7 @@ int terrain_base_time(const struct terrain *pterrain,
   Time to complete the road building activity on the given terrain.
 ****************************************************************************/
 int terrain_road_time(const struct terrain *pterrain,
-                      struct extra_type *tgt)
+                      const struct extra_type *tgt)
 {
   struct road_type *proad = extra_road_get(tgt);
 
