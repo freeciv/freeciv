@@ -1128,6 +1128,52 @@ static bool is_activity_on_tile(struct tile *ptile,
 }
 
 /**************************************************************************
+  Fill orders to build recursive roads. This modifies ptile, so virtual
+  copy of the real tile should be passed.
+**************************************************************************/
+int check_recursive_road_connect(struct tile *ptile, const struct road_type *proad,
+                                 const struct unit *punit, const struct player *pplayer, int rec)
+{
+  int activity_mc = 0;
+  struct terrain *pterrain = tile_terrain(ptile);
+
+  if (rec > MAX_ROAD_TYPES) {
+    return -1;
+  }
+
+  road_deps_iterate(&(proad->reqs), pdep) {
+    if (!tile_has_road(ptile, pdep)) {
+      int single_mc;
+
+      single_mc = check_recursive_road_connect(ptile, pdep, punit, pplayer, rec + 1);
+
+      if (single_mc < 0) {
+        return -1;
+      }
+
+      activity_mc += single_mc;
+    }
+  } road_deps_iterate_end;
+
+  /* Can build road after that? */
+  if (punit != NULL) {
+    if (!can_build_road(proad, punit, ptile)) {
+      return -1;
+    }
+  } else if (pplayer != NULL) {
+    if (!player_can_build_road(proad, pplayer, ptile)) {
+      return -1;
+    }
+  }
+
+  tile_add_road(ptile, proad);
+
+  activity_mc += terrain_road_time(pterrain, road_index(proad));
+
+  return activity_mc;
+}
+
+/**************************************************************************
   Return whether the unit can connect with given activity (or with
   any activity if activity arg is set to ACTIVITY_IDLE)
 
@@ -1151,24 +1197,32 @@ bool can_unit_do_connect(struct unit *punit,
   switch (activity) {
   case ACTIVITY_GEN_ROAD:
     fc_assert(tgt->type == ATT_ROAD);
+    {
+      struct tile *vtile;
+      int build_time;
 
-    proad = road_by_number(tgt->obj.road);
+      proad = road_by_number(tgt->obj.road);
 
-    if (proad == NULL) {
-      return FALSE;
+      if (proad == NULL) {
+        return FALSE;
+      }
+
+      if (tile_has_road(ptile, proad)) {
+        /* This tile has road, can unit build road to other tiles too? */
+        return are_reqs_active(NULL, NULL, NULL, NULL,
+                               unit_type(punit), NULL, NULL,
+                               &proad->reqs, RPT_POSSIBLE);
+      }
+
+      /* To start connect, unit must be able to build road to this
+       * particular tile. */
+      vtile = tile_virtual_new(ptile);
+      build_time = check_recursive_road_connect(vtile, proad, punit, NULL, 0);
+      tile_virtual_destroy(vtile);
+
+      return build_time >= 0;
     }
 
-    if (tile_has_road(ptile, proad)) {
-      /* This tile has road, can unit build road to other tiles too? */
-      return are_reqs_active(NULL, NULL, NULL, NULL,
-                             unit_type(punit), NULL, NULL,
-                             &proad->reqs, RPT_POSSIBLE);
-    }
-
-    /* To start connect, unit must be able to build road to this
-     * particular tile. */
-    return can_build_road(proad, punit, ptile);
-    
   case ACTIVITY_IRRIGATE:
     /* Special case for irrigation: only irrigate to make S_IRRIGATION,
      * never to transform tiles. */
@@ -1186,8 +1240,8 @@ bool can_unit_do_connect(struct unit *punit,
 }
 
 /**************************************************************************
-prompt player for entering destination point for unit connect
-(e.g. connecting with roads)
+  Prompt player for entering destination point for unit connect
+  (e.g. connecting with roads)
 **************************************************************************/
 void request_unit_connect(enum unit_activity activity,
                           struct act_tgt *tgt)

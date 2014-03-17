@@ -257,7 +257,7 @@ bool player_can_build_road(const struct road_type *proad,
 /****************************************************************************
   Tells if unit can build road on tile.
 ****************************************************************************/
-bool can_build_road(struct road_type *proad,
+bool can_build_road(const struct road_type *proad,
 		    const struct unit *punit,
 		    const struct tile *ptile)
 {
