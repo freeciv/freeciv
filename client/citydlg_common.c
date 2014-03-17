@@ -478,7 +478,9 @@ void get_city_dialog_output_text(const struct city *pcity,
         const char *name = trade_city ? city_name(trade_city) : _("(unknown)");
 
         cat_snprintf(buf, bufsz, _("%+4d : Trade route with %s\n"),
-                     pcity->trade_value[i], name);
+                     pcity->trade_value[i]
+                     * (100 + get_city_bonus(pcity, EFT_TRADEROUTE_PCT)) / 100,
+                     name);
         total += pcity->trade_value[i];
       }
     }

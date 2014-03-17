@@ -1518,6 +1518,25 @@ static int improvement_effect_value(struct player *pplayer,
       v += trait;
     }
     break;
+  case EFT_TRADEROUTE_PCT:
+    {
+      int trade = 0;
+
+      trait = ai_trait_get_value(TRAIT_TRADER, pplayer);
+
+      trade_routes_iterate(pcity, tgt) {
+        trade += trade_between_cities(pcity, tgt);
+      } trade_routes_iterate_end;
+
+      v += trade * amount * trait / 100 / TRAIT_DEFAULT_VALUE;
+
+      if (city_num_trade_routes(pcity) < max_trade_routes(pcity)
+          && amount > 0) {
+        /* Space for future routes */
+        v += trait * 5 / TRAIT_DEFAULT_VALUE;
+      }
+    }
+    break;
   case EFT_COUNT:
     log_error("Bad effect type.");
     break;

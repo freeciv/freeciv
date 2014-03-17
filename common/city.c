@@ -2670,7 +2670,8 @@ inline void set_city_production(struct city *pcity)
       if (can_trade) {
         pcity->trade_value[i] =
           trade_between_cities(pcity, game_city_by_number(pcity->trade[i]));
-        pcity->prod[O_TRADE] += pcity->trade_value[i];
+        pcity->prod[O_TRADE] += pcity->trade_value[i]
+          * (100 + get_city_bonus(pcity, EFT_TRADEROUTE_PCT)) / 100;
       } else {
         pcity->trade_value[i] = 0;
       }

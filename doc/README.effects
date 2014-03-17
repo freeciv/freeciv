@@ -349,8 +349,13 @@ Not_Tech_Source
     Tech cannot be received from this player by any means.
 
 Trade_Revenue_Bonus
-    Trade revenue is multiplied by pow(2, amount/1000). The amount value is 
-taken from the caravan's home city.
+    One time trade revenue bonus is multiplied by pow(2, amount/1000).
+    The amount value is taken from the caravan's home city.
+
+Traderoute_Pct
+    Percentage bonus for trade from traderoutes. This bonus applies after
+    the value of the traderoute is already calculated. It affects one end
+    of the traderoute only.
 
 Unhappy_Factor
     Multiply unhappy unit upkeep by amount.
