@@ -38,6 +38,7 @@
 #include "srv_main.h"
 
 /* server/advisors */
+#include "advbuilding.h"
 #include "advdata.h"
 #include "advtools.h"
 #include "autosettlers.h"

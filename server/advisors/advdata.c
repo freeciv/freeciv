@@ -37,7 +37,6 @@
 #include "pf_tools.h"
 
 /* server */
-#include "citytools.h"
 #include "cityturn.h"
 #include "diplhand.h"
 #include "maphand.h"
@@ -46,6 +45,7 @@
 #include "unittools.h"
 
 /* server/advisors */
+#include "advbuilding.h"
 #include "advcity.h"
 #include "advtools.h"
 #include "autosettlers.h"

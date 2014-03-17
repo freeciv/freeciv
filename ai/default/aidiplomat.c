@@ -50,6 +50,7 @@
 #include "unittools.h"
 
 /* server/advisors */
+#include "advbuilding.h"
 #include "advdata.h"
 #include "advgoto.h"
 #include "autosettlers.h"

@@ -13,22 +13,10 @@
 #ifndef FC__CITYTOOLS_H
 #define FC__CITYTOOLS_H
 
+/* common */
 #include "events.h"		/* enum event_type */
 #include "packets.h"
 #include "unitlist.h"
-
-#define FOOD_WEIGHTING 25
-#define SHIELD_WEIGHTING 14
-#define TRADE_WEIGHTING 15
-/* The Trade Weighting has to about as large as the Shield Weighting,
-   otherwise the AI will build Barracks to create veterans in cities 
-   with only 1 shields production.
-    8 is too low
-   18 is too high
- */
-#define POLLUTION_WEIGHTING 16 /* tentative */
-#define WARMING_FACTOR 50
-#define COOLING_FACTOR WARMING_FACTOR
 
 int build_points_left(struct city *pcity);
 int do_make_unit_veteran(struct city *pcity,

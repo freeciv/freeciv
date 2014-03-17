@@ -23,8 +23,10 @@
 #include "tile.h"
 
 /* server */
-#include "citytools.h"
 #include "maphand.h"
+
+/* server/advisors */
+#include "advbuilding.h"
 
 #include "infracache.h"
 

@@ -40,7 +40,6 @@
 #include "pf_tools.h"
 
 /* server */
-#include "citytools.h"
 #include "maphand.h"
 #include "plrhand.h"
 #include "srv_log.h"
@@ -48,6 +47,7 @@
 #include "unittools.h"
 
 /* server/advisors */
+#include "advbuilding.h"
 #include "advdata.h"
 #include "advgoto.h"
 #include "advtools.h"

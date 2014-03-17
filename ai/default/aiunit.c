@@ -44,6 +44,23 @@
 #include "caravan.h"
 #include "pf_tools.h"
 
+/* server */
+#include "barbarian.h"
+#include "citytools.h"
+#include "cityturn.h"
+#include "diplomats.h"
+#include "maphand.h"
+#include "srv_log.h"
+#include "unithand.h"
+#include "unittools.h"
+
+/* server/advisors */
+#include "advbuilding.h"
+#include "advgoto.h"
+#include "advtools.h"
+#include "autoexplorer.h"
+#include "autosettlers.h"
+
 /* ai */
 #include "handicaps.h"
 
@@ -61,22 +78,6 @@
 #include "aiparatrooper.h"
 #include "aiplayer.h"
 #include "aitools.h"
-
-/* server */
-#include "barbarian.h"
-#include "citytools.h"
-#include "cityturn.h"
-#include "diplomats.h"
-#include "maphand.h"
-#include "srv_log.h"
-#include "unithand.h"
-#include "unittools.h"
-
-/* server/advisors */
-#include "advgoto.h"
-#include "advtools.h"
-#include "autoexplorer.h"
-#include "autosettlers.h"
 
 #include "aiunit.h"
 
