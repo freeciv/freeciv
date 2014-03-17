@@ -817,7 +817,7 @@ void server_scan_finish(struct server_scan *scan)
   }
 
   if (scan->type == SERVER_SCAN_GLOBAL) {
-    /* Signal metserver scan thread to stop */
+    /* Signal metaserver scan thread to stop */
     fc_allocate_mutex(&scan->meta.mutex);
     scan->meta.status = SCAN_STATUS_ABORT;
     fc_release_mutex(&scan->meta.mutex);
