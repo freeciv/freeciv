@@ -429,10 +429,11 @@ bool can_step_taken_wrt_to_zoc(const struct unit_type *punittype,
   if (tile_city(src_tile) || tile_city(dst_tile)) {
     return TRUE;
   }
-  if (is_ocean_tile(src_tile)
-      || is_ocean_tile(dst_tile)) {
+  if (terrain_has_flag(tile_terrain(src_tile), TER_NO_ZOC)
+      || terrain_has_flag(tile_terrain(dst_tile), TER_NO_ZOC)) {
     return TRUE;
   }
+
   return (is_my_zoc(unit_owner, src_tile)
 	  || is_my_zoc(unit_owner, dst_tile));
 }

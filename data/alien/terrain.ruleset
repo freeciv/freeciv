@@ -124,6 +124,7 @@ ocean_resources = TRUE
 ;                        with the non-FreshWater terrain.
 ;   - NotGenerated     = Map generator never places this terrain type. It can
 ;                        be added from editor only, or by ingame events (lua scripting)
+;   - NoZoc            = Units on this terrain are not generating or subject to zoc
 ; property_*           = specific property % values used by mapgen.  Most
 ;                        terrains will have 0 for most values.
 ;  - mountainous       = degree to which this terrain is mountainous
@@ -422,7 +423,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Amphibious", "Antigravity", "Missile"
-flags                = "UnsafeCoast"
+flags                = "UnsafeCoast", "NoZoc"
 property_ocean_depth = 35
 color.r              = 0
 color.g              = 0
@@ -462,7 +463,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Amphibious", "Antigravity", "Missile"
-flags                = "UnsafeCoast"
+flags                = "UnsafeCoast", "NoZoc"
 property_ocean_depth = 70
 color.r              = 30
 color.g              = 30

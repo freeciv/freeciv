@@ -157,8 +157,6 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
   Similar to is_my_zoc(), but with some changes:
   - destination (x0,y0) need not be adjacent?
   - don't care about some directions?
-  
-  Note this function only makes sense for ground units.
 
   Fix to bizarre did-not-find bug.  Thanks, Katvrr -- Syela
 **************************************************************************/
@@ -173,7 +171,7 @@ static bool adv_could_be_my_zoc(struct unit *myunit, struct tile *ptile)
   }
 
   adjc_iterate(ptile, atile) {
-    if (!is_ocean_tile(atile)
+    if (!terrain_has_flag(tile_terrain(atile), TER_NO_ZOC)
 	&& is_non_allied_unit_tile(atile, unit_owner(myunit))) {
       return FALSE;
     }
