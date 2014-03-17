@@ -40,7 +40,6 @@
 #include "SDL.h"
 
 /* utility */
-#include "fcbacktrace.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
@@ -764,9 +763,6 @@ Uint16 gui_event_loop(void *pData,
 **************************************************************************/
 void ui_init(void)
 {
-  /*  char device[20]; */
-/*  struct widget *pInit_String = NULL;*/
-  SDL_Surface *pBgd;
   Uint32 iSDL_Flags;
 
   button_behavior.counting = FALSE;
@@ -785,24 +781,12 @@ void ui_init(void)
   log_normal(_("Using Video Output: %s"),
              SDL_GetCurrentVideoDriver());
 
-  /* create splash screen */  
-#ifdef SMALL_SCREEN
-  {
-    SDL_Surface *pTmpSurf = load_surf(fileinfoname(get_data_dirs(),
-                                                   "misc/intro.png"));
-    pBgd = zoomSurface(pTmpSurf, DEFAULT_ZOOM, DEFAULT_ZOOM, 0);
-    FREESURFACE(pTmpSurf);
-  }
-#else  /* SMALL_SCREEN */
-  pBgd = load_surf(fileinfoname(get_data_dirs(), "misc/intro.png"));
-#endif /* SMALL_SCREEN */
-
-  set_video_mode(pBgd->w, pBgd->h, 0);
+  set_video_mode(640, 480, 0);
 
 #if 0
   if (pBgd && SDL_GetVideoInfo()->wm_available) {
     set_video_mode(pBgd->w, pBgd->h, SDL_SWSURFACE | SDL_ANYFORMAT);
-#if 0    
+#if 0
     /*
      * call this for other than X enviroments - currently not supported.
      */
@@ -813,31 +797,26 @@ void ui_init(void)
              0, 0, Main.map->w - 1, Main.map->h - 1,
              &(SDL_Color){255, 255, 255, 255});
     FREESURFACE(pBgd);
-    SDL_WM_SetCaption(_("SDL Client for Freeciv"), _("Freeciv"));
-  } else
-#endif
- {
+  } else {
     
 #ifndef SMALL_SCREEN
     set_video_mode(640, 480, SDL_SWSURFACE);
 #else  /* SMALL_SCREEN */
     set_video_mode(320, 240, SDL_SWSURFACE);
 #endif /* SMALL_SCREEN */
-    
-    if(pBgd) {
+
+    if (pBgd) {
       blit_entire_src(pBgd, Main.map, (Main.map->w - pBgd->w) / 2,
-    				      (Main.map->h - pBgd->h) / 2);
+                      (Main.map->h - pBgd->h) / 2);
       FREESURFACE(pBgd);
     } else {
       SDL_FillRect(Main.map, NULL, SDL_MapRGB(Main.map->format, 0, 0, 128));
-#if 0
-      SDL_WM_SetCaption(_("SDL Client for Freeciv"), _("Freeciv"));
-#endif
     }
   }
-  
+#endif
+
 #if 0
-  /* create label beackground */
+  /* create label background */
   pBgd = create_surf_alpha(adj_size(350), adj_size(50), SDL_SWSURFACE);
   
   SDL_FillRect(pBgd, NULL, SDL_MapRGBA(pBgd->format, 255, 255, 255, 128));
@@ -868,16 +847,17 @@ void ui_init(void)
 static void real_resize_window_callback(void *data)
 {
   struct widget *widget;
-  Uint32 flags = Main.mainsurf->flags;
+  Uint32 flags = 0; // Main.mainsurf->flags;
 
-#if 0
   if (gui_sdl2_fullscreen) {
-    flags |= SDL_FULLSCREEN;
+    flags |= SDL_WINDOW_FULLSCREEN;
   } else {
-    flags &= ~SDL_FULLSCREEN;
+    flags &= ~SDL_WINDOW_FULLSCREEN;
   }
-#endif
-  set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height, flags);
+
+  log_normal("Setting size %d, %d", gui_sdl2_screen.width, gui_sdl2_screen.height);
+
+  //set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height, flags);
 
   if (C_S_RUNNING == client_state()) {
     /* Move units window to botton-right corner. */
@@ -907,7 +887,7 @@ static void real_resize_window_callback(void *data)
 }
 
 /****************************************************************************
-  Resize the main window.
+  Resize the main window after option changed.
 ****************************************************************************/
 static void resize_window_callback(struct option *poption)
 {
@@ -916,7 +896,7 @@ static void resize_window_callback(struct option *poption)
 
 /****************************************************************************
   Extra initializers for client options. Here we make set the callback
-  for the specific gui-sdl options.
+  for the specific gui-sdl2 options.
 ****************************************************************************/
 void gui_options_extra_init(void)
 {
@@ -991,7 +971,7 @@ void ui_main(int argc, char *argv[])
   SDL_Event __Info_User_Event;
   SDL_Event __Flush_User_Event;
   SDL_Event __pMap_Scroll_User_Event;
-  
+
   parse_options(argc, argv);
 
   if (!gui_sdl2_migrated_from_sdl) {
@@ -1056,47 +1036,6 @@ void ui_main(int argc, char *argv[])
   clear_double_messages_call();
     
   setup_auxiliary_tech_icons();
-  
-  if (gui_sdl2_fullscreen) {
-    #ifdef SMALL_SCREEN
-      #ifdef UNDER_CE
-        /* set 320x240 fullscreen */
-        set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height,
-                       SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
-      #else  /* UNDER_CE */
-        /* small screen on desktop -> don't set 320x240 fullscreen mode */
-        set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height,
-                       SDL_SWSURFACE | SDL_ANYFORMAT);
-      #endif /* UNDER_CE */
-    #else  /* SMALL_SCREEN */
-      set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height,
-                     SDL_SWSURFACE);
-    #endif /* SMALL_SCREEN */
-    
-  } else {
-    
-    #ifdef SMALL_SCREEN
-      #ifdef UNDER_CE    
-      set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height,
-                     SDL_SWSURFACE | SDL_ANYFORMAT);
-      #else  /* UNDER_CE */
-      set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height,
-                     SDL_SWSURFACE | SDL_ANYFORMAT);
-      #endif /* UNDER_CE */
-    #else  /* SMALL_SCREEN */
-    set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height,
-      SDL_SWSURFACE);
-    #endif /* SMALL_SCREEN */
-    
-#if 0    
-    /*
-     * call this for other that X enviroments - currently not supported.
-     */
-    center_main_window_on_screen();
-#endif /* 0 */
-  }
-
-  /* SDL_WM_SetCaption(_("SDL Client for Freeciv"), _("Freeciv")); */
 
   /* this need correct Main.screen size */
   init_mapcanvas_and_overview();

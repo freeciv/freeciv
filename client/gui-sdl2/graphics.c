@@ -175,10 +175,10 @@ void screen_rect_to_layer_rect(struct gui_layer *gui_layer, SDL_Rect *dest_rect)
 **************************************************************************/
 int alphablit(SDL_Surface *src, SDL_Rect *srcrect, 
               SDL_Surface *dst, SDL_Rect *dstrect,
-              unsigned char alpha_mod) {
-
+              unsigned char alpha_mod)
+{
   if (!(src && dst)) {
-    return 0;
+    return 1;
   }
 
 #if 0
@@ -188,9 +188,17 @@ int alphablit(SDL_Surface *src, SDL_Rect *srcrect,
   } else
 #endif
  {
-    SDL_SetSurfaceAlphaMod(dst, alpha_mod);
+   int ret;
 
-    return SDL_BlitSurface(src, srcrect, dst, dstrect);
+   SDL_SetSurfaceAlphaMod(dst, alpha_mod);
+
+   ret = SDL_BlitSurface(src, srcrect, dst, dstrect);
+
+   if (ret) {
+     log_error("SDL_BlitSurface() fails: %s", SDL_GetError());
+   }
+
+   return ret;
   }
 }
 
@@ -199,8 +207,8 @@ int alphablit(SDL_Surface *src, SDL_Rect *srcrect,
   pSource.
   if pRect == NULL then create copy of entire pSource.
 **************************************************************************/
-SDL_Surface * crop_rect_from_surface(SDL_Surface *pSource,
-                                     SDL_Rect *pRect)
+SDL_Surface *crop_rect_from_surface(SDL_Surface *pSource,
+                                    SDL_Rect *pRect)
 {
   SDL_Surface *pNew = create_surf_with_format(pSource->format,
                                               pRect ? pRect->w : pSource->w,
@@ -209,6 +217,7 @@ SDL_Surface * crop_rect_from_surface(SDL_Surface *pSource,
 
   if (alphablit(pSource, pRect, pNew, NULL, 255) != 0) {
     FREESURFACE(pNew);
+    return NULL;
   }
 
   return pNew;
@@ -292,18 +301,19 @@ SDL_Surface *mask_surface(SDL_Surface *pSrc, SDL_Surface *pMask,
 SDL_Surface *load_surf(const char *pFname)
 {
   SDL_Surface *pBuf;
-  
+
   if(!pFname) {
     return NULL;
   }
-  
+
   if ((pBuf = IMG_Load(pFname)) == NULL) {
     log_error(_("load_surf: Failed to load graphic file %s!"), pFname);
+
     return NULL;
   }
-  
-  if (Main.screen) {
-    SDL_Surface *pNew_sur;
+
+#if 0
+  if (Main.screen) {    SDL_Surface *pNew_sur;
 
     if ((pNew_sur = SDL_ConvertSurfaceFormat(pBuf, SDL_PIXELFORMAT_RGBA4444, 0)) == NULL) {
       log_error(_("load_surf: Unable to convert file %s "
@@ -314,6 +324,7 @@ SDL_Surface *load_surf(const char *pFname)
       return pNew_sur;
     }
   }
+#endif
   
   return pBuf;
 }
@@ -590,7 +601,7 @@ void init_sdl(int iFlags)
   }
   if (error) {
     log_fatal(_("Unable to initialize SDL library: %s"), SDL_GetError());
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   atexit(SDL_Quit);
@@ -598,7 +609,7 @@ void init_sdl(int iFlags)
   /* Initialize the TTF library */
   if (TTF_Init() < 0) {
     log_fatal(_("Unable to initialize SDL_ttf library: %s"), SDL_GetError());
-    exit(2);
+    exit(EXIT_FAILURE);
   }
 
   atexit(TTF_Quit);
@@ -626,7 +637,7 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
                                  iWidth, iHeight,
                                  0);
 
-  Main.mainsurf = SDL_CreateRGBSurface(0, 640, 480, 32,
+  Main.mainsurf = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
 #if SDL_BYTEORDER != SDL_LIL_ENDIAN
 			0x0000FF00, 0x00FF0000, 0xFF000000, 0x000000FF
 #else
@@ -634,7 +645,7 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
 #endif
 );
 
-  Main.map = SDL_CreateRGBSurface(0, 640, 480, 32,
+  Main.map = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
 #if SDL_BYTEORDER != SDL_LIL_ENDIAN
 			0x0000FF00, 0x00FF0000, 0xFF000000, 0x000000FF
 #else
@@ -647,7 +658,7 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
   Main.maintext = SDL_CreateTexture(Main.renderer,
                                     SDL_PIXELFORMAT_ARGB8888,
                                     SDL_TEXTUREACCESS_STREAMING,
-                                    640, 480);
+                                    iWidth, iHeight);
 
 #if 0
   /* find best bpp */
