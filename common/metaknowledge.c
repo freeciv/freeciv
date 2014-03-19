@@ -25,7 +25,8 @@
   An AND function for fc_tristate.
 **************************************************************************/
 enum fc_tristate tri_and(enum fc_tristate one,
-                         enum fc_tristate two) {
+                         enum fc_tristate two)
+{
   if (TRI_NO == one || TRI_NO == two) {
     return TRI_NO;
   }
@@ -215,7 +216,8 @@ mke_eval_reqs(const struct player *pow_player,
               const struct unit *target_unit,
               const struct output_type *target_output,
               const struct specialist *target_specialist,
-              const struct requirement_vector *reqs) {
+              const struct requirement_vector *reqs)
+{
   enum fc_tristate current;
   enum fc_tristate result;
 
