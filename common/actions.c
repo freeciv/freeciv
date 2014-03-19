@@ -736,7 +736,7 @@ static bool is_target_possible(const enum gen_action wanted_action,
     if (are_reqs_active(target_player, actor_player, target_city,
                         target_building, target_tile, target_unittype,
                         target_output, target_specialist,
-                        &enabler->target_reqs, RPT_CERTAIN)) {
+                        &enabler->target_reqs, RPT_POSSIBLE)) {
       return TRUE;
     }
   } action_enabler_list_iterate_end;

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include "registry.h"
 
 /* common */
+#include "actions.h"
 #include "game.h"
 #include "government.h"
 #include "specialist.h"
@@ -1091,6 +1092,55 @@ static int content_effect_value(const struct player *pplayer,
 }
 
 /**************************************************************************
+  How undesirable for the owner of a particular city is the fact that it
+  can be a target of a particular action?
+
+  The negative utility (how undesirable it is) is given as a positive
+  number. If it is desirable to be the target of an action make the
+  negative utility a negative number since double negative is positive.
+
+  Examples:
+   * action_target_neg_util(Add to population) = -50
+   * action_target_neg_util(Subtract from population) = 50
+**************************************************************************/
+static int action_target_neg_util(int action_id,
+                                  const struct city *pcity)
+{
+  fc_assert_ret_val_msg(action_get_target_kind(action_id) == ATK_CITY,
+                        0, "Action not aimed at cities");
+
+  switch (action_id) {
+  case ACTION_SPY_INCITE_CITY:
+    /* Copied from the evaluation of the No_Incite effect */
+    return MAX((game.server.diplchance * 2
+                - game.server.incite_total_factor) / 2
+               - game.server.incite_improvement_factor * 5
+               - game.server.incite_unit_factor * 5, 0);
+
+  /* Bad for the city */
+  case ACTION_SPY_POISON:
+  case ACTION_SPY_SABOTAGE_CITY:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+    /* TODO: Individual and well balanced values */
+    return 10;
+
+  /* Good for an enemy */
+  case ACTION_SPY_STEAL_TECH:
+  case ACTION_SPY_TARGETED_STEAL_TECH:
+    /* TODO: Individual and well balanced values */
+    return 8;
+
+  /* Could be worse */
+  case ACTION_ESTABLISH_EMBASSY:
+  case ACTION_SPY_INVESTIGATE_CITY:
+    /* TODO: Individual and well balanced values */
+    return 1;
+  }
+
+  return 0;
+}
+
+/**************************************************************************
   How desirable is a particular effect for a particular city?
   Expressed as an adjustment of the base value (v)
   given the number of cities in range (c).
@@ -1781,7 +1831,7 @@ static int base_want(struct ai_type *ait, struct player *pplayer,
 **************************************************************************/
 static void adjust_improvement_wants_by_effects(struct ai_type *ait,
                                                 struct player *pplayer,
-                                                struct city *pcity, 
+                                                struct city *pcity,
                                                 struct impr_type *pimprove,
                                                 const bool already)
 {
@@ -1939,6 +1989,75 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
 
     tech_vector_free(&needed_techs);
   } effect_list_iterate_end;
+
+  /* Can the city be the target of an action? */
+  action_iterate (action_id) {
+    bool isPossible;
+    bool willBePossible;
+    int act_neg_util;
+
+    /* Is the action relevant? */
+    if (action_get_target_kind(action_id) != ATK_CITY) {
+      continue;
+    }
+
+    /* Is is possible to do the action to the city right now?
+     *
+     * (DiplRel requirements are ignored since actor_player is NULL) */
+    isPossible = is_action_possible_on_city(action_id, NULL, pcity);
+
+    /* Will it be possible to do the action to the city if the building is
+     * built? */
+    /* TODO: Support caring about ranges if the price is acceptable.
+     * The price: Must look at all action enablers. */
+    action_enabler_list_iterate(action_enablers_for_action(action_id),
+                                enabler) {
+      bool active = TRUE;
+
+      requirement_vector_iterate(&(enabler->target_reqs), preq) {
+        if (VUT_IMPROVEMENT == preq->source.kind
+            && preq->source.value.building == pimprove) {
+          /* Pretend the building is there */
+          if (preq->present) {
+            continue;
+          } else {
+            active = FALSE;
+            break;
+          }
+        }
+
+        if (!is_req_active(pplayer, NULL, pcity, pimprove,
+                           city_tile(pcity), NULL, NULL, NULL, preq,
+                           RPT_POSSIBLE)) {
+          active = FALSE;
+          break;
+        }
+      } requirement_vector_iterate_end;
+
+      if (active) {
+        willBePossible = TRUE;
+        /* One enabler is enough */
+        break;
+      }
+    } action_enabler_list_iterate_end;
+
+    /* Will the building significantly change the ability to target
+     * the city? */
+    if (isPossible == willBePossible) {
+      continue;
+    }
+
+    /* How undersireable is it that the city may be a target? */
+    act_neg_util = action_target_neg_util(action_id, pcity);
+
+    /* Consider the utility of being a potential target.
+     * Remember: act_util is the negative utility of being a target. */
+    if (willBePossible) {
+      v -= act_neg_util;
+    } else {
+      v += act_neg_util;
+    }
+  } action_iterate_end;
 
   if (already) {
     /* Discourage research of the technology that would make this building
