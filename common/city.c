@@ -1563,36 +1563,6 @@ int city_name_compare(const void *p1, const void *p2)
                        (*(const struct city **) p2)->name);
 }
 
-/**************************************************************************
-Evaluate which style should be used to draw a city.
-**************************************************************************/
-int style_of_city(const struct city *pcity)
-{
-  return city_style_of_player(city_owner(pcity));
-}
-
-/**************************************************************************
-  Return the city style (used for drawing the city on the mapview in
-  the client) for this city.  The city style depends on the
-  start-of-game choice by the player as well as techs researched.
-**************************************************************************/
-int city_style_of_player(const struct player *plr)
-{
-  int replace, style, prev;
-
-  style = plr->city_style;
-  prev = style;
-
-  while ((replace = city_styles[prev].replaced_by) != -1) {
-    prev = replace;
-    if (are_reqs_active(plr, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-			&city_styles[replace].reqs, RPT_CERTAIN)) {
-      style = replace;
-    }
-  }
-  return style;
-}
-
 /****************************************************************************
   Returns the city style that has the given (translated) name.
   Returns -1 if none match.
@@ -1645,15 +1615,6 @@ const char *city_style_name_translation(const int style)
 const char* city_style_rule_name(const int style)
 {
    return rule_name(&city_styles[style].name);
-}
-
-/****************************************************************************
-  Return whether the style has any requirements.  Styles without requirements
-  are special cases since only these may be used as starting city styles.
-****************************************************************************/
-bool city_style_has_requirements(const struct citystyle *style)
-{
-  return (requirement_vector_size(&style->reqs) > 0);
 }
 
 /**************************************************************************

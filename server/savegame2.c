@@ -3657,20 +3657,26 @@ static void sg_load_player_main(struct loaddata *loading,
     CALL_PLR_AI_FUNC(gained_control, plr, plr);
   }
 
-  /* Load city style. */
+  /* Load nation style. */
   {
-    int city_style;
+    struct nation_style *style;
 
-    string = secfile_lookup_str(loading->file, "player%d.city_style_by_name",
-                                plrno);
-    sg_failure_ret(string != NULL, "%s", secfile_error());
-    city_style = city_style_by_rule_name(string);
-    if (city_style < 0) {
-      log_sg("Player%d: unsupported city_style_name \"%s\". "
-             "Changed to \"%s\".", plrno, string, city_style_rule_name(0));
-      city_style = 0;
+    string = secfile_lookup_str(loading->file, "player%d.style_by_name", plrno);
+
+    /* Handle pre-2.6 savegames */
+    if (string == NULL) {
+      string = secfile_lookup_str(loading->file, "player%d.city_style_by_name",
+                                  plrno);
     }
-    plr->city_style = city_style;
+
+    sg_failure_ret(string != NULL, "%s", secfile_error());
+    style = style_by_rule_name(string);
+    if (style == NULL) {
+      style = style_by_number(0);
+      log_sg("Player%d: unsupported city_style_name \"%s\". "
+             "Changed to \"%s\".", plrno, string, style_rule_name(style));
+    }
+    plr->style = style;
   }
 
   plr->nturns_idle = 0;
@@ -3937,8 +3943,8 @@ static void sg_save_player_main(struct savedata *saving,
                        "player%d.target_government_name", plrno);
   }
 
-  secfile_insert_str(saving->file, city_style_rule_name(plr->city_style),
-                      "player%d.city_style_by_name", plrno);
+  secfile_insert_str(saving->file, style_rule_name(plr->style),
+                      "player%d.style_by_name", plrno);
 
   secfile_insert_bool(saving->file, plr->is_male,
                       "player%d.is_male", plrno);

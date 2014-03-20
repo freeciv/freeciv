@@ -615,6 +615,16 @@ bool sanity_check_ruleset_data(void)
     }
   }
 
+  /* There must be basic city style for each nation style to start with */
+  styles_iterate(pstyle) {
+    if (basic_city_style_for_style(pstyle) < 0) {
+      ruleset_error(LOG_ERROR,
+                    "There's no basic city style for nation style %s",
+                    style_rule_name(pstyle));
+      ok = FALSE;
+    }
+  } styles_iterate_end;
+
   /* Music styles */
   music_styles_iterate(pmus) {
     if (!sanity_check_req_vec(&pmus->reqs, TRUE, -1, "Music Style")) {

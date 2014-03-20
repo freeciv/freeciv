@@ -145,8 +145,6 @@ void unit_select_all_callback(Widget w, XtPointer client_data,
 static int city_style_idx[64];     /* translation table basic style->city_style  */
 static int city_style_ridx[64];    /* translation table the other way            */
                                    /* they in fact limit the num of styles to 64 */
-static int b_s_num; /* num basic city styles, i.e. those that you can start with */
-
 
 /******************************************************************/
 
@@ -1151,37 +1149,41 @@ void create_races_dialog(struct player *pplayer)
 
   /* find out styles that can be used at the game beginning */
   /* Limit of 64 city_styles should be deleted. -ev */
-  for (i = 0, b_s_num = 0; i < game.control.styles_count && i < 64; i++) {
-    if (!city_style_has_requirements(&city_styles[i])) {
-      city_style_idx[b_s_num] = i;
-      city_style_ridx[i] = b_s_num;
-      b_s_num++;
+  styles_iterate(pstyle) {
+    i = basic_city_style_for_style(pstyle);
+
+    if (i >= 0) {
+      int sn = style_number(pstyle);
+
+      city_style_idx[sn] = i;
+      city_style_ridx[i] = sn;
     }
-  }
+  } styles_iterate_end;
 
   races_style_label =
     I_L(XtVaCreateManagedWidget("racesstylelabel", 
-				labelWidgetClass, 
-				races_form,
-				XtNfromVert, races_sex_form,
-/*				XtNfromHoriz, races_toggles_viewport,*/
-				NULL));  
+                                labelWidgetClass, 
+                                races_form,
+                                XtNfromVert, races_sex_form,
+                                /* XtNfromHoriz, races_toggles_viewport,*/
+                                NULL));
 
   races_style_form =
     XtVaCreateManagedWidget("racesstyleform", 
-			    formWidgetClass, 
-			    races_form, 
-			    XtNfromVert, races_style_label,
-/*			    XtNfromHoriz, races_toggles_viewport,*/
-			    NULL);   
+                            formWidgetClass, 
+                            races_form, 
+                            XtNfromVert, races_style_label,
+                            /* XtNfromHoriz, races_toggles_viewport,*/
+                            NULL);
 
   free(races_style_toggles);
-  races_style_toggles = fc_calloc(b_s_num,sizeof(Widget));
+  races_style_toggles = fc_calloc(game.control.num_styles, sizeof(Widget));
 
-  for( i = 0; i < ((b_s_num-1)/per_row)+1; i++) {
+  for (i = 0; i < ((game.control.num_styles - 1) / per_row) + 1; i++) {
     index = i * per_row;
     fc_snprintf(namebuf, sizeof(namebuf), "racesstyle%d", index);
-    if( i == 0 ) {
+
+    if (i == 0) {
       races_style_toggles[index] =
 	XtVaCreateManagedWidget(namebuf,
 				toggleWidgetClass,
@@ -1203,9 +1205,11 @@ void create_races_dialog(struct player *pplayer)
 
     for( j = 1; j < per_row; j++) {
       index = i * per_row + j;
-      if( index >= b_s_num ) break;
+      if (index >= game.control.num_styles) {
+        break;
+      }
       fc_snprintf(namebuf, sizeof(namebuf), "racesstyle%d", index);
-      if( i == 0 ) {
+      if (i == 0) {
 	races_style_toggles[index] =
 	  XtVaCreateManagedWidget(namebuf,
 				  toggleWidgetClass,
@@ -1310,7 +1314,7 @@ void create_races_dialog(struct player *pplayer)
     }
   }
 
-  for(i=0; i<b_s_num; i++) {
+  for (i = 0; i < game.control.num_styles; i++) {
     XtVaSetValues(races_style_toggles[i], XtNlabel,
 		  (XtArgVal)city_style_name_translation(city_style_idx[i]), NULL);
   }
@@ -1425,7 +1429,7 @@ void races_toggles_callback(Widget w, XtPointer client_data,
 
   x_simulate_button_click
   (
-   races_style_toggles[city_style_ridx[city_style_of_nation(race)]]
+   races_style_toggles[city_style_ridx[style_number(style_of_nation(race))]]
   );
 }
 
@@ -1510,16 +1514,18 @@ int races_style_buttons_get_current(void)
   int i;
   XtPointer dp, yadp;
 
-  if(b_s_num==1)
+  if (game.control.num_styles == 1) {
     return 0;
+  }
 
   if(!(dp=XawToggleGetCurrent(races_style_toggles[0])))
     return -1;
 
-  for(i=0; i<b_s_num; i++) {
+  for (i = 0; i < game.control.num_styles; i++) {
     XtVaGetValues(races_style_toggles[i], XtNradioData, &yadp, NULL);
-    if(dp==yadp)
+    if (dp == yadp) {
       return i;
+    }
   }
 
   return -1;
@@ -1573,8 +1579,8 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
     return;
   }
 
-  if((selected_style=races_style_buttons_get_current())==-1) {
-    output_window_append(ftc_client, _("You must select your city style."));
+  if ((selected_style = races_style_buttons_get_current()) == -1) {
+    output_window_append(ftc_client, _("You must select your style."));
     return;
   }
 
@@ -1591,7 +1597,6 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
 				 nation_index(races_toggles_to_nations[selected_index]),
 				 selected_sex ? FALSE : TRUE,
 				 dp,
-    style_number(nation_by_number(nation_index(races_toggles_to_nations[selected_index]))->style),
                                  city_style_idx[selected_style]);
   popdown_races_dialog();
 }

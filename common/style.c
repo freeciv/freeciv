@@ -195,3 +195,67 @@ struct music_style *player_music_style(struct player *plr)
 
   return best;
 }
+
+/**************************************************************************
+  Evaluate which style should be used to draw a city.
+**************************************************************************/
+int style_of_city(const struct city *pcity)
+{
+  return city_style_of_player(city_owner(pcity));
+}
+
+/**************************************************************************
+  Return the city style (used for drawing the city on the mapview in
+  the client) for this city.  The city style depends on the
+  start-of-game choice by the player as well as techs researched.
+**************************************************************************/
+int city_style_of_player(const struct player *plr)
+{
+  int k;
+
+  for (k = game.control.styles_count - 1; k >= 0; k--) {
+    if (are_reqs_active(plr, NULL, NULL, NULL, NULL,
+                        NULL, NULL, NULL, &(city_styles[k].reqs),
+                        RPT_CERTAIN)) {
+      return k;
+    }
+  }
+
+  return -1;
+}
+
+/**************************************************************************
+  Return basic city style representing nation style.
+**************************************************************************/
+int basic_city_style_for_style(struct nation_style *pstyle)
+{
+  enum fc_tristate style_style;
+  int i;
+
+  for (i = game.control.styles_count - 1; i >= 0; i--) {
+    style_style = TRI_MAYBE;
+
+    requirement_vector_iterate(&city_styles[i].reqs, preq) {
+      if (preq->source.kind == VUT_STYLE
+          && preq->source.value.style == pstyle
+          && style_style != TRI_NO) {
+        style_style = TRI_YES;
+      } else {
+        /* No any other requirements allowed at the moment.
+         * TODO: Allow some other reqs */
+        style_style = TRI_NO;
+        break;
+      }
+    } requirement_vector_iterate_end;
+
+    if (style_style == TRI_YES) {
+      break;
+    }
+  }
+
+  if (style_style == TRI_YES) {
+    return i;
+  }
+
+  return -1;
+}

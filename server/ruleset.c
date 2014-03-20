@@ -4212,56 +4212,18 @@ static bool load_ruleset_nations(struct section_file *file)
       }
       pnation->style = style_by_rule_name(name);
       if (pnation->style == NULL) {
-        ruleset_error(LOG_ERROR, "Nation %s: Illegal style \"%s\"",
-                      nation_rule_name(pnation), name);
-        ok = FALSE;
-        break;
-      }
-
-      pnation->city_style = city_style_by_rule_name(name);
-
-      if (0 <= pnation->city_style && allowed_cstyles) {
-        if (!is_on_allowed_list(name, allowed_cstyles, acscount)) {
-          /* Style exists, but not intended for these nations */
-          pnation->city_style = 0;
-          ruleset_error(LOG_ERROR,
-                        "Nation %s: city style \"%s\" not in "
-                        "allowed_city_styles.",
-                        nation_rule_name(pnation), name);
-          ok = FALSE;
-          break;
-        }
-      } else if (0 > pnation->city_style) {
-        /* City style doesn't exist, so fall back to default; but only
-         * complain if it's not on any list */
-        pnation->city_style = 0;
         if (!allowed_cstyles
             || !is_on_allowed_list(name, allowed_cstyles, acscount)) {
-          ruleset_error(LOG_ERROR, "Nation %s: city style \"%s\" not found.",
+          ruleset_error(LOG_ERROR, "Nation %s: Illegal style \"%s\"",
                         nation_rule_name(pnation), name);
           ok = FALSE;
           break;
         } else {
-          log_verbose("Nation %s: city style \"%s\" not supported in this "
+          log_verbose("Nation %s: style \"%s\" not supported in this "
                       "ruleset; using default.",
                       nation_rule_name(pnation), name);
+          pnation->style = style_by_number(0);
         }
-      }
-
-      while (city_style_has_requirements(city_styles + pnation->city_style)) {
-        if (pnation->city_style == 0) {
-          ruleset_error(LOG_ERROR,
-                        "Nation %s: the default city style is not available "
-                        "from the beginning!", nation_rule_name(pnation));
-          /* Note that we can't use temp_name here. */
-          ok = FALSE;
-          break;
-        }
-        ruleset_error(LOG_ERROR,
-                      "Nation %s: city style \"%s\" is not available "
-                      "from beginning; using default.",
-                      nation_rule_name(pnation), name);
-        pnation->city_style = 0;
       }
 
       /* Civilwar nations */
@@ -6191,7 +6153,6 @@ static void send_ruleset_nations(struct conn_list *dest)
     packet.leader_count = i;
 
     packet.style = style_number(n->style);
-    packet.city_style = n->city_style;
     packet.is_playable = n->is_playable;
     packet.barbarian_type = n->barb_type;
 

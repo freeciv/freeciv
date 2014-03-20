@@ -76,7 +76,7 @@ static GtkWidget  *races_notebook;
 static GtkWidget  *races_properties;
 static GtkWidget  *races_leader;
 static GtkWidget  *races_sex[2];
-static GtkWidget  *races_city_style_list;
+static GtkWidget  *races_style_list;
 static GtkTextBuffer *races_text;
 
 static void create_races_dialog(struct player *pplayer);
@@ -84,14 +84,14 @@ static void races_response(GtkWidget *w, gint response, gpointer data);
 static void races_nation_callback(GtkTreeSelection *select, gpointer data);
 static void races_leader_callback(void);
 static void races_sex_callback(GtkWidget *w, gpointer data);
-static void races_city_style_callback(GtkTreeSelection *select, gpointer data);
+static void races_style_callback(GtkTreeSelection *select, gpointer data);
 static gboolean races_selection_func(GtkTreeSelection *select,
 				     GtkTreeModel *model, GtkTreePath *path,
 				     gboolean selected, gpointer data);
 
 static int selected_nation;
 static int selected_sex;
-static int selected_city_style;
+static int selected_style;
 
 static int is_showing_pillage_dialog = FALSE;
 static int unit_to_use_to_pillage;
@@ -509,7 +509,7 @@ static void populate_leader_list(void)
 *****************************************************************************/
 static void select_nation(int nation,
                           const char *leadername, bool is_male,
-                          int city_style)
+                          int style_id)
 {
   selected_nation = nation;
 
@@ -534,24 +534,23 @@ static void select_nation(int nation,
 
     /* Select the appropriate city style entry. */
     {
-      int i, j;
+      int i;
+      int j = 0;
       GtkTreePath *path;
 
-      for (i = 0, j = 0; i < game.control.styles_count; i++) {
-        if (city_style_has_requirements(&city_styles[i])) {
-          continue;
-        }
+      styles_iterate(pstyle) {
+        i = basic_city_style_for_style(pstyle);
 
-        if (i < city_style) {
+        if (i >= 0 && i < style_id) {
           j++;
         } else {
           break;
         }
-      }
+      } styles_iterate_end;
 
       path = gtk_tree_path_new();
       gtk_tree_path_append_index(path, j);
-      gtk_tree_view_set_cursor(GTK_TREE_VIEW(races_city_style_list), path,
+      gtk_tree_view_set_cursor(GTK_TREE_VIEW(races_style_list), path,
                                NULL, FALSE);
       gtk_tree_path_free(path);
     }
@@ -578,7 +577,7 @@ static void select_nation(int nation,
     /* City style */
     {
       GtkTreeSelection* select
-        = gtk_tree_view_get_selection(GTK_TREE_VIEW(races_city_style_list));
+        = gtk_tree_view_get_selection(GTK_TREE_VIEW(races_style_list));
       gtk_tree_selection_unselect_all(select);
     }
     /* Nation description */
@@ -1066,11 +1065,11 @@ static void create_races_dialog(struct player *pplayer)
       GDK_TYPE_PIXBUF, G_TYPE_STRING);
 
   list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
-  races_city_style_list = list;
+  races_style_list = list;
   g_object_unref(store);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(list), FALSE);
   g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(list)), "changed",
-      G_CALLBACK(races_city_style_callback), NULL);
+      G_CALLBACK(races_style_callback), NULL);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
@@ -1101,26 +1100,26 @@ static void create_races_dialog(struct player *pplayer)
 
   gtk_table_set_row_spacing(GTK_TABLE(table), 1, 12);
 
-  /* Populate city style store. */
-  for (i = 0; i < game.control.styles_count; i++) {
+  /* Populate style store. */
+  styles_iterate(pstyle) {
     GdkPixbuf *img;
     struct sprite *s;
     GtkTreeIter it;
 
-    if (city_style_has_requirements(&city_styles[i])) {
-      continue;
+    i = basic_city_style_for_style(pstyle);
+
+    if (i >= 0) {
+      gtk_list_store_append(store, &it);
+
+      s = crop_blankspace(get_sample_city_sprite(tileset, i));
+      img = sprite_get_pixbuf(s);
+      g_object_ref(img);
+      free_sprite(s);
+      gtk_list_store_set(store, &it, 0, i, 1, img, 2,
+                         city_style_name_translation(i), -1);
+      g_object_unref(img);
     }
-
-    gtk_list_store_append(store, &it);
-
-    s = crop_blankspace(get_sample_city_sprite(tileset, i));
-    img = sprite_get_pixbuf(s);
-    g_object_ref(img);
-    free_sprite(s);
-    gtk_list_store_set(store, &it, 0, i, 1, img, 2,
-                       city_style_name_translation(i), -1);
-    g_object_unref(img);
-  }
+  } styles_iterate_end;
 
   /* Legend pane. */
   label = gtk_label_new_with_mnemonic(_("_Description"));
@@ -1169,7 +1168,7 @@ static void create_races_dialog(struct player *pplayer)
     select_nation(nation_number(races_player->nation),
                   player_name(races_player),
                   races_player->is_male,
-                  races_player->city_style);
+                  style_number(races_player->style));
     /* Make sure selected nation is visible
      * (last page, "All", will certainly contain it) */
     fc_assert(gtk_notebook_get_n_pages(GTK_NOTEBOOK(races_notebook)) > 0);
@@ -1276,7 +1275,7 @@ static void races_nation_callback(GtkTreeSelection *select, gpointer data)
       if (newnation != selected_nation) {
         /* Choose a random leader */
         select_nation(newnation, NULL, FALSE,
-                      city_style_of_nation(nation_by_number(newnation)));
+                      style_number(style_of_nation(nation_by_number(newnation))));
       }
       return;
     }
@@ -1332,15 +1331,15 @@ static gboolean races_selection_func(GtkTreeSelection *select,
 /**************************************************************************
   City style has been chosen
 **************************************************************************/
-static void races_city_style_callback(GtkTreeSelection *select, gpointer data)
+static void races_style_callback(GtkTreeSelection *select, gpointer data)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
 
   if (gtk_tree_selection_get_selected(select, &model, &it)) {
-    gtk_tree_model_get(model, &it, 0, &selected_city_style, -1);
+    gtk_tree_model_get(model, &it, 0, &selected_style, -1);
   } else {
-    selected_city_style = -1;
+    selected_style = -1;
   }
 }
 
@@ -1362,8 +1361,8 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
       return;
     }
 
-    if (selected_city_style == -1) {
-      output_window_append(ftc_client, _("You must select your city style."));
+    if (selected_style == -1) {
+      output_window_append(ftc_client, _("You must select your style."));
       return;
     }
 
@@ -1379,12 +1378,11 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
     dsend_packet_nation_select_req(&client.conn,
                                    player_number(races_player), selected_nation,
                                    selected_sex, s,
-                              style_number(nation_by_number(selected_nation)->style),
-                                   selected_city_style);
+                                   selected_style);
   } else if (response == GTK_RESPONSE_NO) {
     dsend_packet_nation_select_req(&client.conn,
 				   player_number(races_player),
-				   -1, FALSE, "", 0, 0);
+				   -1, FALSE, "", 0);
   }
 
   popdown_races_dialog();

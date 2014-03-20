@@ -370,7 +370,6 @@ PACKET_NATION_SELECT_REQ = 10; cs, handle-per-conn, dsend
   BOOL is_male;
   STRING name[MAX_LEN_NAME];
   UINT8 style;
-  UINT8 city_style;
 end
 
 PACKET_PLAYER_READY = 11; cs, dsend
@@ -1380,7 +1379,6 @@ PACKET_RULESET_NATION = 148; sc, lsend
   STRING legend[MAX_LEN_MSG];
 
   UINT8 style;
-  UINT8 city_style;
 
   UINT8 leader_count;
   STRING leader_name[MAX_NUM_LEADERS:leader_count][MAX_LEN_NAME];
@@ -1987,8 +1985,6 @@ PACKET_EDIT_PLAYER = 216; cs, handle-per-conn, lsend
 
   BOOL capital;
   BV_PLAYER embassy;
-#  UINT8 style;
-#  UINT8 city_style;
   GOLD gold;
   PERCENT tax, science, luxury;
 

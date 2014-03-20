@@ -2629,7 +2629,7 @@ static struct ADVANCED_DLG *pNationDlg = NULL;
 static struct SMALL_DLG *pHelpDlg = NULL;
   
 struct NAT {
-  unsigned char nation_city_style; /* selected city style */
+  unsigned char nation_style;      /* selected style */
   unsigned char selected_leader;   /* if not unique -> selected leader */
   Nation_type_id nation;           /* selected nation */
   bool leader_sex;                 /* selected leader sex */
@@ -2684,8 +2684,7 @@ static int races_dialog_ok_callback(struct widget *pStart_Button)
     dsend_packet_nation_select_req(&client.conn, player_number(races_player),
                                    pSetup->nation,
                                    pSetup->leader_sex, pStr,
-                               style_number(nation_by_number(pSetup->nation)->style),
-                                   pSetup->nation_city_style);
+                                   pSetup->nation_style);
     FC_FREE(pStr);
   
     popdown_races_dialog();  
@@ -2841,24 +2840,25 @@ static int races_dialog_cancel_callback(struct widget *pButton)
 }
 
 /**************************************************************************
-  User interacted with city style widget.
+  User interacted with style widget.
 **************************************************************************/
-static int city_style_callback(struct widget *pWidget)
+static int style_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
     struct widget *pGUI = get_widget_pointer_form_main_list(MAX_ID - 1000 -
-                                              pSetup->nation_city_style);
+                                                            pSetup->nation_style);
+
     set_wstate(pGUI, FC_WS_NORMAL);
     widget_redraw(pGUI);
     widget_mark_dirty(pGUI);
-    
+
     set_wstate(pWidget, FC_WS_DISABLED);
     widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
-    
-    pSetup->nation_city_style = MAX_ID - 1000 - pWidget->ID;
-    
+
+    pSetup->nation_style = MAX_ID - 1000 - pWidget->ID;
+
     flush_dirty();
     pSellected_Widget = NULL;
   }
@@ -2911,11 +2911,11 @@ static int nation_button_callback(struct widget *pNationButton)
     pSetup->nation = MAX_ID - pNationButton->ID;
   
     change_nation_label();
-  
-    enable(MAX_ID - 1000 - pSetup->nation_city_style);
-    pSetup->nation_city_style = city_style_of_nation(nation_by_number(pSetup->nation));
-    disable(MAX_ID - 1000 - pSetup->nation_city_style);
-    
+
+    enable(MAX_ID - 1000 - pSetup->nation_style);
+    pSetup->nation_style = style_number(style_of_nation(nation_by_number(pSetup->nation)));
+    disable(MAX_ID - 1000 - pSetup->nation_style);
+
     select_random_leader(pSetup->nation);
     
     redraw_group(pNationDlg->pBeginWidgetList, pNationDlg->pEndWidgetList, 0);
@@ -3252,10 +3252,10 @@ void popup_races_dialog(struct player *pplayer)
   /* ----------------------------------------------------------------- */
     
   /* nation name */
-  
+
   pSetup->nation = fc_rand(get_playable_nation_count());
-  pSetup->nation_city_style = city_style_of_nation(nation_by_number(pSetup->nation));
-  
+  pSetup->nation_style = style_number(style_of_nation(nation_by_number(pSetup->nation)));
+
   copy_chars_to_string16(pStr, nation_plural_translation(nation_by_number(pSetup->nation)));
   change_ptsize16(pStr, adj_font(24));
   pStr->render = 2;
@@ -3309,51 +3309,55 @@ void popup_races_dialog(struct player *pplayer)
   /* ---------------------------------------------------------- */
   i = 0;
   zoom = DEFAULT_ZOOM * 1.0;
-  while (i < game.control.styles_count) {
-    if (!city_style_has_requirements(&city_styles[i])) {
+
+  styles_iterate(pstyle) {
+    i = basic_city_style_for_style(pstyle);
+
+    if (i >= 0) {
       pTmp_Surf = get_sample_city_surface(i);
 
       if (pTmp_Surf->w > 48) {
         zoom = DEFAULT_ZOOM * (48.0 / pTmp_Surf->w);
       }
-      
+
       pTmp_Surf_zoomed = zoomSurface(get_sample_city_surface(i), zoom, zoom, 0);
 
       pWidget = create_icon2(pTmp_Surf_zoomed, pWindow->dst, WF_RESTORE_BACKGROUND);
-      pWidget->action = city_style_callback;
-      if (i != pSetup->nation_city_style) {
+      pWidget->action = style_callback;
+      if (i != pSetup->nation_style) {
         set_wstate(pWidget, FC_WS_NORMAL);
       }
       len = pWidget->size.w;
       add_to_gui_list(MAX_ID - 1000 - i, pWidget);
-      i++;
       break;
     }
-    i++;
-  }
+  } styles_iterate_end;
 
   len += adj_size(3);
   zoom = DEFAULT_ZOOM * 1.0;
   
-  for (; (i < game.control.styles_count && i < 64); i++) {
-    if (!city_style_has_requirements(&city_styles[i])) {
+  styles_iterate(pstyle) {
+    i = basic_city_style_for_style(pstyle);
+
+    if (i >= 0) {
       pTmp_Surf = get_sample_city_surface(i);
-      
+
       if (pTmp_Surf->w > 48) {
         zoom = DEFAULT_ZOOM * (48.0 / pTmp_Surf->w);
       }
-      
+
       pTmp_Surf_zoomed = zoomSurface(get_sample_city_surface(i), zoom, zoom, 0);
 
       pWidget = create_icon2(pTmp_Surf_zoomed, pWindow->dst, WF_RESTORE_BACKGROUND);
-      pWidget->action = city_style_callback;
-      if (i != pSetup->nation_city_style) {
+      pWidget->action = style_callback;
+      if (i != pSetup->nation_style) {
         set_wstate(pWidget, FC_WS_NORMAL);
       }
       len += (pWidget->size.w + adj_size(3));
       add_to_gui_list(MAX_ID - 1000 - i, pWidget);
     }
-  }
+  } styles_iterate_end;
+
   pLast_City_Style = pWidget;
   /* ---------------------------------------------------------- */
   
@@ -3441,13 +3445,13 @@ void popup_races_dialog(struct player *pplayer)
   pBuf = pBuf->prev;
   pBuf->size.x = area.x + area.w / 2 + (area.w/2 - pBuf->size.w) / 2;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(20);
-  
-  /* First City Style Button */
+
+  /* First Style Button */
   pBuf = pBuf->prev;
   pBuf->size.x = area.x + area.w / 2 + (area.w/2 - len) / 2 - adj_size(20);
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(20);
-  
-  /* Rest City Style Buttons */
+
+  /* Rest Style Buttons */
   if (pBuf != pLast_City_Style) {
     do {
       pBuf = pBuf->prev;
@@ -3551,9 +3555,9 @@ void races_toggles_set_sensitive()
       set_wstate(pSetup->pName_Edit, FC_WS_NORMAL);
     }
     change_nation_label();
-    enable(MAX_ID - 1000 - pSetup->nation_city_style);
-    pSetup->nation_city_style = city_style_of_nation(nation_by_number(pSetup->nation));
-    disable(MAX_ID - 1000 - pSetup->nation_city_style);
+    enable(MAX_ID - 1000 - pSetup->nation_style);
+    pSetup->nation_style = style_number(style_of_nation(nation_by_number(pSetup->nation)));
+    disable(MAX_ID - 1000 - pSetup->nation_style);
     select_random_leader(pSetup->nation);
   }
   redraw_group(pNationDlg->pBeginWidgetList, pNationDlg->pEndWidgetList, 0);

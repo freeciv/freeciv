@@ -58,7 +58,7 @@ class races_dialog:public QDialog
   QComboBox *leader_name;
   QRadioButton *is_male;
   QRadioButton *is_female;
-  QTableWidget *city_styles;
+  QTableWidget *styles;
   QTextEdit *description;
   QPushButton *ok_button;
   QPushButton *random_button;

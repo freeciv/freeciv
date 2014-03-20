@@ -103,8 +103,7 @@ struct nation_type {
   char flag_graphic_alt[MAX_LEN_NAME];
   struct nation_leader_list *leaders;
   struct nation_style *style;
-  int city_style;
-  char *legend;				/* may be empty */
+  char *legend;                         /* may be empty */
 
   bool is_playable;
   enum barbarian_type barb_type;
@@ -184,7 +183,6 @@ const char *nation_plural_translation(const struct nation_type *pnation);
 const char *nation_plural_for_player(const struct player *pplayer);
 
 struct nation_style *style_of_nation(const struct nation_type *pnation);
-int city_style_of_nation(const struct nation_type *pnation);
 
 const struct rgbcolor *nation_color(const struct nation_type *pnation);
 

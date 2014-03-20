@@ -121,10 +121,9 @@ oceanic_graphic      = "city.ocean"
 oceanic_graphic_alt  = "city.classical"
 citizens_graphic     = "human"
 citizens_graphic_alt = "ancient"
-reqs =
-   { "type", "name", "range"
-; No requirements
-   }
+reqs = { "type", "name", "range"
+         "Style", "Human", "Player"
+       }
 replaced_by = "Dual"
 
 [citystyle_dual]

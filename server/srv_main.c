@@ -1842,16 +1842,10 @@ void update_nations_with_startpos(void)
   handled by connection because ctrl users may edit anyone's nation in
   pregame, and editing is possible during a running game.
 **************************************************************************/
-void handle_nation_select_req(struct connection *pc,
-                              const struct packet_nation_select_req *packet)
+void handle_nation_select_req(struct connection *pc, int player_no,
+                              Nation_type_id nation_no, bool is_male,
+                              const char *name, int style)
 {
-  int player_no = packet->player_no;
-  Nation_type_id nation_no = packet->nation_no;
-  bool is_male = packet->is_male;
-  const char *name = packet->name;
-  int style = packet->style;
-  int city_style = packet->city_style;
-
   struct nation_type *new_nation;
   struct player *pplayer = player_by_number(player_no);
 
@@ -1866,11 +1860,6 @@ void handle_nation_select_req(struct connection *pc,
 
     /* check sanity of the packet sent by client */
     if (style < 0 || style >= game.control.num_styles) {
-      return;
-    }
-
-    if (city_style < 0 || city_style >= game.control.styles_count
-	|| city_style_has_requirements(&city_styles[city_style])) {
       return;
     }
 
@@ -1905,7 +1894,6 @@ void handle_nation_select_req(struct connection *pc,
 
     pplayer->is_male = is_male;
     pplayer->style = style_by_number(style);
-    pplayer->city_style = city_style;
   }
 
   (void) player_set_nation(pplayer, new_nation);
@@ -2073,7 +2061,6 @@ void player_nation_defaults(struct player *pplayer, struct nation_type *pnation,
   fc_assert(pnation == pplayer->nation);
 
   pplayer->style = style_of_nation(pnation);
-  pplayer->city_style = city_style_of_nation(pnation);
 
   if (set_name) {
     server_player_set_name(pplayer, pick_random_player_name(pnation));
@@ -2135,7 +2122,7 @@ static void generate_players(void)
           && NULL == pnation->player
           && (pleader = nation_leader_by_name(pnation, name))) {
         player_set_nation(pplayer, pnation);
-        pplayer->city_style = city_style_of_nation(pnation);
+        pplayer->style = style_of_nation(pnation);
         pplayer->is_male = nation_leader_is_male(pleader);
         break;
       }

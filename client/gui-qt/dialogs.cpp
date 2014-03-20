@@ -104,7 +104,7 @@ races_dialog::races_dialog(struct player *pplayer, QWidget * parent):QDialog(par
   main_layout = new QGridLayout;
   nation_tabs = new QToolBox(parent);
   selected_nation_tabs = new QTableWidget;
-  city_styles = new QTableWidget;
+  styles = new QTableWidget;
   ok_button = new QPushButton;
   tplayer = pplayer;
 
@@ -120,14 +120,14 @@ races_dialog::races_dialog(struct player *pplayer, QWidget * parent):QDialog(par
   selected_nation_tabs->setProperty("showGrid", "true");
   selected_nation_tabs->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-  city_styles->setRowCount(0);
-  city_styles->setColumnCount(2);
-  city_styles->setSelectionMode(QAbstractItemView::SingleSelection);
-  city_styles->verticalHeader()->setVisible(false);
-  city_styles->horizontalHeader()->setVisible(false);
-  city_styles->setProperty("showGrid", "false");
-  city_styles->setProperty("selectionBehavior", "SelectRows");
-  city_styles->setEditTriggers(QAbstractItemView::NoEditTriggers);
+  styles->setRowCount(0);
+  styles->setColumnCount(2);
+  styles->setSelectionMode(QAbstractItemView::SingleSelection);
+  styles->verticalHeader()->setVisible(false);
+  styles->horizontalHeader()->setVisible(false);
+  styles->setProperty("showGrid", "false");
+  styles->setProperty("selectionBehavior", "SelectRows");
+  styles->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
   qgroupbox_layout = new QGridLayout;
   no_name = new QGroupBox(parent);
@@ -149,34 +149,36 @@ races_dialog::races_dialog(struct player *pplayer, QWidget * parent):QDialog(par
   no_name->setTitle(_("Your leader name"));
 
   /**
-   * Fill city styles, no need to update them later
+   * Fill styles, no need to update them later
    */
 
-  for (i = 0; i < game.control.styles_count; i++) {
-    if (city_style_has_requirements(&::city_styles[i])) {
-      continue;
+  styles_iterate(pstyle) {
+    i = basic_city_style_for_style(pstyle);
+
+    if (i >= 0) {
+      item = new QTableWidgetItem;
+      styles->insertRow(i);
+      pix = get_sample_city_sprite(tileset, i)->pm;
+      item->setData(Qt::DecorationRole, *pix);
+      item->setData(Qt::UserRole, style_number(pstyle));
+      size.setWidth(pix->width());
+      size.setHeight(pix->height());
+      item->setSizeHint(size);
+      styles->setItem(i, 0, item);
+      item = new QTableWidgetItem;
+      item->setText(style_name_translation(pstyle));
+      styles->setItem(i, 1, item);
     }
-    item = new QTableWidgetItem;
-    city_styles->insertRow(i);
-    pix = get_sample_city_sprite(tileset, i)->pm;
-    item->setData(Qt::DecorationRole, *pix);
-    item->setData(Qt::UserRole, i);
-    size.setWidth(pix->width());
-    size.setHeight(pix->height());
-    item->setSizeHint(size);
-    city_styles->setItem(i, 0, item);
-    item = new QTableWidgetItem;
-    item->setText(city_style_name_translation(i));
-    city_styles->setItem(i, 1, item);
-  }
-  header = city_styles->horizontalHeader();
+  } styles_iterate_end;
+
+  header = styles->horizontalHeader();
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
   header->setSectionResizeMode(QHeaderView::Stretch);
 #else
   header->setResizeMode(QHeaderView::Stretch);
 #endif
   header->resizeSections(QHeaderView::ResizeToContents);
-  header = city_styles->verticalHeader();
+  header = styles->verticalHeader();
   header->resizeSections(QHeaderView::ResizeToContents);
   tab_widget = new QWidget();
   nation_tabs->addItem(tab_widget, _("All Nations"));
@@ -186,7 +188,7 @@ races_dialog::races_dialog(struct player *pplayer, QWidget * parent):QDialog(par
     nation_tabs->addItem(tab_widget, nation_group_name_translation(group));
   }
   connect(nation_tabs, SIGNAL(currentChanged(int)), SLOT(set_index(int)));
-  connect(city_styles->selectionModel(),
+  connect(styles->selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &,
                                   const QItemSelection &)),
           SLOT(style_selected(const QItemSelection &,
@@ -213,7 +215,7 @@ races_dialog::races_dialog(struct player *pplayer, QWidget * parent):QDialog(par
   main_layout->addWidget(ok_button, 8, 2, 1, 1);
   main_layout->addWidget(no_name, 0, 2, 2, 1);
   main_layout->addWidget(nation_tabs, 0, 0, 6, 1);
-  main_layout->addWidget(city_styles, 2, 2, 4, 1);
+  main_layout->addWidget(styles, 2, 2, 4, 1);
   main_layout->addWidget(description, 6, 0, 2, 3);
   main_layout->addWidget(selected_nation_tabs, 0, 1, 6, 1);
 
@@ -318,15 +320,15 @@ void races_dialog::nation_selected(const QItemSelection &selected,
    * select style for nation
    */
 
-  style = city_style_of_nation(nation_by_number(selected_nation));
+  style = style_number(style_of_nation(nation_by_number(selected_nation)));
   qvar = qvar.fromValue<int>(style);
   item = new QTableWidgetItem;
 
-  for (ind = 0; ind < city_styles->rowCount(); ind++) {
-    item = city_styles->item(ind, 0);
+  for (ind = 0; ind < styles->rowCount(); ind++) {
+    item = styles->item(ind, 0);
 
     if (item->data(Qt::UserRole) == qvar) {
-      city_styles->selectRow(ind);
+      styles->selectRow(ind);
     }
   }
 }
@@ -384,7 +386,7 @@ void races_dialog::ok_pressed()
   }
 
   if (selected_style == -1) {
-    output_window_append(ftc_client, _("You must select your city style."));
+    output_window_append(ftc_client, _("You must select your style."));
     return;
   }
 
@@ -395,7 +397,6 @@ void races_dialog::ok_pressed()
   dsend_packet_nation_select_req(&client.conn, player_number(tplayer),
                                  selected_nation, selected_sex,
                                  leader_name->currentText().toUtf8().data(),
-                              style_number(nation_by_number(selected_nation)->style),
                                  selected_style);
   delete this;
 }
@@ -549,7 +550,7 @@ void races_dialog::cancel_pressed()
 void races_dialog::random_pressed()
 {
   dsend_packet_nation_select_req(&client.conn,player_number(tplayer),-1,
-                                 false, "", 0, 0);
+                                 false, "", 0);
   delete this;
 }
 

@@ -641,10 +641,6 @@ const char *city_style_name_translation(const int style);
 int city_style_by_rule_name(const char *s);
 int city_style_by_translated_name(const char *s);
 
-bool city_style_has_requirements(const struct citystyle *style);
-int city_style_of_player(const struct player *plr);
-int style_of_city(const struct city *pcity);
-
 struct city *is_enemy_city_tile(const struct tile *ptile,
 				const struct player *pplayer);
 struct city *is_allied_city_tile(const struct tile *ptile,

@@ -1640,6 +1640,7 @@ static void player_load_main(struct player *plr, int plrno,
   struct government *gov;
   struct player_research *research;
   struct nation_type *pnation;
+  struct nation_style *style;
 
   research = player_research_get(plr);
 
@@ -1764,13 +1765,13 @@ static void player_load_main(struct player *plr, int plrno,
     }
     p = old_order[c_s];
   }
-  c_s = city_style_by_rule_name(p);
-  if (c_s < 0) {
+  style = style_by_rule_name(p);
+  if (style == NULL) {
+    style = style_by_number(0);
     log_error("Player%d: unsupported city_style_name \"%s\". "
-              "Changed to \"%s\".", plrno, p, city_style_rule_name(0));
-    c_s = 0;
+              "Changed to \"%s\".", plrno, p, style_rule_name(style));
   }
-  plr->city_style = c_s;
+  plr->style = style;
 
   plr->nturns_idle=0;
   plr->is_male=secfile_lookup_bool_default(file, TRUE, "player%d.is_male", plrno);

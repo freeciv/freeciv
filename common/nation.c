@@ -672,15 +672,6 @@ struct nation_style *style_of_nation(const struct nation_type *pnation)
 }
 
 /****************************************************************************
-  Returns nation's city style.
-****************************************************************************/
-int city_style_of_nation(const struct nation_type *pnation)
-{
-  NATION_CHECK(pnation, return 0);
-  return pnation->city_style;
-}
-
-/****************************************************************************
   Returns nation's player color preference, or NULL if none.
   Server only function.
 ****************************************************************************/
