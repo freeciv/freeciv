@@ -2932,8 +2932,7 @@ static void key_unit_extra(enum unit_activity act, enum extra_cause cause)
                                                  unit_owner(punit),
                                                  punit);
 
-    if (tgt != NULL
-        && can_unit_do_activity_targeted(punit, act, tgt)) {
+    if (can_unit_do_activity_targeted(punit, act, tgt)) {
       request_new_unit_activity_targeted(punit, act, tgt);
     }
   } unit_list_iterate_end;

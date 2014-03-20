@@ -1195,9 +1195,15 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return FALSE;
 
   case ACTIVITY_BASE:
+    if (target == NULL) {
+      return FALSE;
+    }
     return can_build_base(punit, extra_base_get(target), ptile);
 
   case ACTIVITY_GEN_ROAD:
+    if (target == NULL) {
+      return FALSE;
+    }
     return can_build_road(extra_road_get(target), punit, ptile);
 
   case ACTIVITY_SENTRY:
