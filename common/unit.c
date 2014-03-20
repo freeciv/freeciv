@@ -1706,19 +1706,20 @@ struct unit *unit_occupies_tile(const struct tile *ptile,
 **************************************************************************/
 bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
 {
-  struct unit *punit;
-
   square_iterate(ptile0, 1, ptile) {
     if (terrain_has_flag(tile_terrain(ptile), TER_NO_ZOC)) {
       continue;
     }
-    if ((punit = is_non_allied_unit_tile(ptile, pplayer))
-        && !unit_has_type_flag(punit, UTYF_NOZOC)) {
-      /* Note: in the client, the above function will return NULL 
-       * if there is a city there, even if the city is occupied */
-      return FALSE;
-    }
-    
+
+    /* Note: in the client, this loop will not check units
+       inside city that might be there. */
+    unit_list_iterate(ptile->units, punit) {
+      if (!pplayers_allied(unit_owner(punit), pplayer)
+          && !unit_has_type_flag(punit, UTYF_NOZOC)) {
+        return FALSE;
+      }
+    } unit_list_iterate_end;
+
     if (!is_server()) {
       struct city *pcity = is_non_allied_city_tile(ptile, pplayer);
 
