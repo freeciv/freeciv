@@ -284,17 +284,18 @@ static void metaserver_scan(void *arg)
 
   if (scan->meta.fp) {
 
-    fc_allocate_mutex(&scan->meta.mutex);
-
     if (!begin_metaserver_scan(scan)) {
+      fc_allocate_mutex(&scan->meta.mutex);
       scan->meta.status = SCAN_STATUS_ERROR;
     } else {
 
       rewind(scan->meta.fp);
 
       if (!meta_read_response(scan)) {
+        fc_allocate_mutex(&scan->meta.mutex);
         scan->meta.status = SCAN_STATUS_ERROR;
       } else {
+        fc_allocate_mutex(&scan->meta.mutex);
         scan->meta.status = SCAN_STATUS_DONE;
       }
     }
