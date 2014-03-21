@@ -2312,10 +2312,6 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   int dist, size;
   double cost; /* Intermediate values can get very large */
 
-  if (get_city_bonus(pcity, EFT_NO_INCITE) > 0) {
-    return INCITE_IMPOSSIBLE_COST;
-  }
-
   /* Gold factor */
   cost = city_owner(pcity)->economic.gold + game.server.base_incite_cost;
 

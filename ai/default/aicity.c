@@ -1473,14 +1473,6 @@ static int improvement_effect_value(struct player *pplayer,
       }
     }
     break;
-  case EFT_NO_INCITE:
-    if (get_city_bonus(pcity, EFT_NO_INCITE) <= 0) {
-      v += MAX((game.server.diplchance * 2
-                - game.server.incite_total_factor) / 2
-               - game.server.incite_improvement_factor * 5
-               - game.server.incite_unit_factor * 5, 0);
-    }
-    break;
   case EFT_GAIN_AI_LOVE:
     players_iterate(aplayer) {
       if (aplayer->ai_controlled) {

@@ -655,15 +655,6 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   log_debug("incite: unit: %d", pdiplomat->id);
 
-  /* See if the city is subvertable. */
-  if (get_city_bonus(pcity, EFT_NO_INCITE) > 0) {
-    notify_player(pplayer, city_tile(pcity),
-                  E_MY_DIPLOMAT_FAILED, ftc_server,
-                  _("You can't subvert this city."));
-    log_debug("incite: city is protected");
-    return;
-  }
-
   /* Get incite cost, ignoring any previously saved value. */
   revolt_cost = city_incite_cost(pplayer, pcity);
 

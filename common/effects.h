@@ -138,8 +138,8 @@ struct requirement;
 /* Interacts with F_BADWALLATTACKER, ignored by F_IGWALL */
 #define SPECENUM_VALUE47 EFT_DEFEND_BONUS
 #define SPECENUM_VALUE47NAME "Defend_Bonus"
-#define SPECENUM_VALUE48 EFT_NO_INCITE
-#define SPECENUM_VALUE48NAME "No_Incite"
+#define SPECENUM_VALUE48 EFT_TRADEROUTE_PCT
+#define SPECENUM_VALUE48NAME "Traderoute_Pct"
 #define SPECENUM_VALUE49 EFT_GAIN_AI_LOVE
 #define SPECENUM_VALUE49NAME "Gain_AI_Love"
 #define SPECENUM_VALUE50 EFT_TURN_YEARS
@@ -254,8 +254,6 @@ struct requirement;
 #define SPECENUM_VALUE97NAME "Performance"
 #define SPECENUM_VALUE98 EFT_HISTORY
 #define SPECENUM_VALUE98NAME "History"
-#define SPECENUM_VALUE99 EFT_TRADEROUTE_PCT
-#define SPECENUM_VALUE99NAME "Traderoute_Pct"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"

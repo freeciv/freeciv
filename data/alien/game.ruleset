@@ -224,6 +224,11 @@ actor_reqs    =
       "DiplRel", "Alliance", "Local", FALSE
       "DiplRel", "Team", "Local", FALSE
     }
+target_reqs    =
+    { "type",   "name", "range", "present"
+      "Building", "Bunker", "City", FALSE
+      "Building", "Headquarters", "City", FALSE
+    }
 
 [actionenabler_bribe_unit]
 action = "Bribe Unit"

@@ -1409,22 +1409,6 @@ reqs    =
       "Gov", "Democracy", "Player"
     }
 
-[effect_incite_federation]
-type    = "No_Incite"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Federation", "Player"
-    }
-
-[effect_incite_democracy]
-type    = "No_Incite"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Democracy", "Player"
-    }
-
 [effect_senate_federation]
 type    = "Has_Senate"
 value   = 1
@@ -2236,14 +2220,6 @@ reqs    =
     }
 
 [effect_palace_3]
-type    = "No_Incite"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "Building", "Palace", "City"
-    }
-
-[effect_palace_4]
 type    = "Capital_City"
 value   = 1
 reqs    =
@@ -3062,14 +3038,6 @@ value   = 1
 reqs    =
     { "type", "name", "range"
       "Building", "Courthouse", "City"
-      "Building", "Mausoleum of Mausolos", "Player"
-    }
-
-[effect_mausoleum_of_mausolos_2]
-type    = "No_Incite"
-value   = 1
-reqs    =
-    { "type", "name", "range"
       "Building", "Mausoleum of Mausolos", "Player"
     }
 

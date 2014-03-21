@@ -830,9 +830,6 @@ void adv_best_government(struct player *pplayer)
       bonus += get_player_bonus(pplayer, EFT_VETERAN_BUILD) > 0 ? 3 : 0;
       if (action_immune_government(gov, ACTION_SPY_INCITE_CITY)) {
         bonus += 4;
-      } else {
-        /* Don't give the same bonus twice */
-        bonus += get_player_bonus(pplayer, EFT_NO_INCITE) > 0 ? 4 : 0;
       }
       if (action_immune_government(gov, ACTION_SPY_BRIBE_UNIT)) {
         bonus += 2;

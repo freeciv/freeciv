@@ -529,14 +529,6 @@ reqs	=
       "Building", "Hospital", "City"
     }
 
-[effect_bunker_noincite]
-type    = "No_Incite"
-value	= 1
-reqs	=
-    { "type", "name", "range"
-      "Building", "Bunker", "City"
-    }
-
 [effect_headquarters_capital]
 type    = "Capital_City"
 value	= 1
@@ -547,14 +539,6 @@ reqs	=
 
 [effect_headquarters_gc]
 type    = "Gov_Center"
-value	= 1
-reqs	=
-    { "type", "name", "range"
-      "Building", "Headquarters", "City"
-    }
-
-[effect_headquarters_2]
-type    = "No_Incite"
 value	= 1
 reqs	=
     { "type", "name", "range"

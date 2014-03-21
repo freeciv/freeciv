@@ -273,9 +273,6 @@ will be applied to the _attacking_ unit. The defensive bonus is ignored by
 attackers with "IgWall" flag. Attackers with "BadWallAttacker" flag will have
 their firepower set to 1.
 
-No_Incite
-    City cannot be incited.
-
 Gain_AI_Love
     Gain amount points of "AI love" with AI(s).
 

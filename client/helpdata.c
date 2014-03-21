@@ -3273,12 +3273,6 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
           cat_snprintf(buf, bufsz, "\n");
         }
         break;
-      case EFT_NO_INCITE:
-        if (playerwide && net_value > 0) {
-          CATLSTR(buf, bufsz, _("* Your cities cannot be incited to "
-                                "revolt.\n"));
-        }
-        break;
       case EFT_REVOLUTION_UNHAPPINESS:
         if (playerwide) {
           cat_snprintf(buf, bufsz,
