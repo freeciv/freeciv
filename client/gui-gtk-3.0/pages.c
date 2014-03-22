@@ -275,7 +275,7 @@ GtkWidget *create_main_page(void)
   g_object_unref(size);
   gtk_grid_attach(GTK_GRID(table), button, 1, 2, 1, 1);
   g_signal_connect(button, "clicked",
-                   G_CALLBACK(client_exit), NULL);
+                   G_CALLBACK(quit_gtk_main), NULL);
 
   return widget;
 }

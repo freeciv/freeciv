@@ -265,11 +265,10 @@ GtkWidget *create_main_page(void)
   gtk_size_group_add_widget(size, button);
   gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 2, 3);
   g_signal_connect(button, "clicked",
-                   G_CALLBACK(gtk_main_quit), NULL);
+                   G_CALLBACK(quit_gtk_main), NULL);
 
   return widget;
 }
-
 
 /****************************************************************************
                             GENERIC SAVE DIALOG
