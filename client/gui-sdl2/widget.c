@@ -52,7 +52,7 @@ extern Uint32 widget_info_counter;
 static struct widget *pBeginMainWidgetList;
 /* static struct widget *pEndMainWidgetList; */
 
-static SDL_Surface *pInfo_Label = NULL;
+static SDL_Surface *info_label = NULL;
 
 /**************************************************************************
   Correct backgroud size ( set min size ). Used in create widget
@@ -305,7 +305,7 @@ Uint16 widget_pressed_action(struct widget * pWidget)
   if (pInfo_Area) {
     sdl_dirty_rect(*pInfo_Area);
     FC_FREE(pInfo_Area);
-    FREESURFACE(pInfo_Label);
+    FREESURFACE(info_label);
   }
 
   switch (get_wtype(pWidget)) {
@@ -428,7 +428,7 @@ void unselect_widget_action(void)
   if (pInfo_Area) {
     flush_rect(*pInfo_Area, FALSE);
     FC_FREE(pInfo_Area);
-    FREESURFACE(pInfo_Label);    
+    FREESURFACE(info_label);    
   }
 
   selected_widget = NULL;
@@ -459,72 +459,62 @@ void widget_selected_action(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  Draw or redraw info label to screen.
 **************************************************************************/
 void redraw_widget_info_label(SDL_Rect *rect)
 {
-  SDL_Surface *pText, *pBcgd;
+  SDL_Surface *pText;
   SDL_Rect srcrect, dstrect;
   SDL_Color color;
-
   struct widget *pWidget = selected_widget;
 
   if (!pWidget || !pWidget->info_label) {
     return;
   }
 
-  if (!pInfo_Label) {
+  if (!info_label) {
     pInfo_Area = fc_calloc(1, sizeof(SDL_Rect));
 
     color = pWidget->info_label->fgcol;
     pWidget->info_label->style |= TTF_STYLE_BOLD;
-    pWidget->info_label->fgcol =
-        *get_theme_color(COLOR_THEME_QUICK_INFO_TEXT);
+    pWidget->info_label->fgcol = *get_theme_color(COLOR_THEME_QUICK_INFO_TEXT);
 
     /* create string and bcgd theme */
     pText = create_text_surf_from_str16(pWidget->info_label);
 
     pWidget->info_label->fgcol = color;
 
-    pBcgd = create_filled_surface(pText->w + adj_size(10), pText->h + adj_size(6),
-              SDL_SWSURFACE, get_theme_color(COLOR_THEME_QUICK_INFO_BG), TRUE);
-    
+    info_label = create_filled_surface(pText->w + adj_size(10), pText->h + adj_size(6),
+                                       SDL_SWSURFACE, get_theme_color(COLOR_THEME_QUICK_INFO_BG), TRUE);
+
     /* calculate start position */
-    if ((pWidget->dst->dest_rect.y + pWidget->size.y) - pBcgd->h - adj_size(6) < 0) {
+    if ((pWidget->dst->dest_rect.y + pWidget->size.y) - info_label->h - adj_size(6) < 0) {
       pInfo_Area->y = (pWidget->dst->dest_rect.y + pWidget->size.y) + pWidget->size.h + adj_size(3);
     } else {
-      pInfo_Area->y = (pWidget->dst->dest_rect.y + pWidget->size.y) - pBcgd->h - adj_size(5);
+      pInfo_Area->y = (pWidget->dst->dest_rect.y + pWidget->size.y) - info_label->h - adj_size(5);
     }
-  
-    if ((pWidget->dst->dest_rect.x + pWidget->size.x) + pBcgd->w + adj_size(5) > main_window_width()) {
-      pInfo_Area->x = (pWidget->dst->dest_rect.x + pWidget->size.x) - pBcgd->w - adj_size(5);
+
+    if ((pWidget->dst->dest_rect.x + pWidget->size.x) + info_label->w + adj_size(5) > main_window_width()) {
+      pInfo_Area->x = (pWidget->dst->dest_rect.x + pWidget->size.x) - info_label->w - adj_size(5);
     } else {
       pInfo_Area->x = (pWidget->dst->dest_rect.x + pWidget->size.x) + adj_size(3);
     }
-  
-    pInfo_Area->w = pBcgd->w + adj_size(2);
-    pInfo_Area->h = pBcgd->h + adj_size(3);
 
-#if 0
-    pInfo_Label = SDL_DisplayFormatAlpha(pBcgd);
-#else
-    pInfo_Label = pBcgd;
-#endif
+    pInfo_Area->w = info_label->w + adj_size(2);
+    pInfo_Area->h = info_label->h + adj_size(3);
 
-    FREESURFACE(pBcgd);
-    
     /* draw text */
     dstrect.x = adj_size(6);
     dstrect.y = adj_size(3);
 
-    alphablit(pText, NULL, pInfo_Label, &dstrect, 255);
+    alphablit(pText, NULL, info_label, &dstrect, 255);
 
-    FREESURFACE(pText);    
-    
+    FREESURFACE(pText);
+
     /* draw frame */
 #if 0
-    putframe(pInfo_Label,
-             0, 0, pInfo_Label->w - 1, pInfo_Label->h - 1,
+    putframe(info_label,
+             0, 0, info_label->w - 1, info_label->h - 1,
              get_theme_color(COLOR_THEME_QUICK_INFO_FRAME));
 #endif
  
@@ -533,26 +523,24 @@ void redraw_widget_info_label(SDL_Rect *rect)
   if (rect) {
     dstrect.x = MAX(rect->x, pInfo_Area->x);
     dstrect.y = MAX(rect->y, pInfo_Area->y);
-    
+
     srcrect.x = dstrect.x - pInfo_Area->x;
     srcrect.y = dstrect.y - pInfo_Area->y;
     srcrect.w = MIN((pInfo_Area->x + pInfo_Area->w), (rect->x + rect->w)) - dstrect.x;
     srcrect.h = MIN((pInfo_Area->y + pInfo_Area->h), (rect->y + rect->h)) - dstrect.y;
 
-    alphablit(pInfo_Label, &srcrect, Main.mainsurf, &dstrect, 255);
+    alphablit(info_label, &srcrect, Main.mainsurf, &dstrect, 255);
   } else {
-    alphablit(pInfo_Label, NULL, Main.mainsurf, pInfo_Area, 255);
+    alphablit(info_label, NULL, Main.mainsurf, pInfo_Area, 255);
   }
 
   if (correct_rect_region(pInfo_Area)) {
     update_main_screen();
 #if 0
     SDL_UpdateRect(Main.screen, pInfo_Area->x, pInfo_Area->y,
-				    pInfo_Area->w, pInfo_Area->h);
+                   pInfo_Area->w, pInfo_Area->h);
 #endif
   }
-  
-  return;
 }
 
 /**************************************************************************

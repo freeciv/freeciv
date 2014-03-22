@@ -170,9 +170,10 @@ void queue_flush(void)
   Save Flush area used by "end" flush.
 **************************************************************************/
 void dirty_rect(int canvas_x, int canvas_y,
-		     int pixel_width, int pixel_height)
+                int pixel_width, int pixel_height)
 {
   SDL_Rect Rect = {canvas_x, canvas_y, pixel_width, pixel_height};
+
   if ((Main.rects_count < RECT_LIMIT) && correct_rect_region(&Rect)) {
     Main.rects[Main.rects_count++] = Rect;
     queue_flush();
@@ -190,7 +191,7 @@ void sdl_dirty_rect(SDL_Rect Rect)
 }
 
 /**************************************************************************
-  Sellect entire screen area to "end" flush and block "save" new areas.
+  Select entire screen area to "end" flush and block "save" new areas.
 **************************************************************************/
 void dirty_all(void)
 {
@@ -248,7 +249,7 @@ void flush_dirty(void)
     for (i = 0; i < Main.rects_count; i++) {
       
       dst = Main.rects[i];
-      if (C_S_RUNNING == client_state()) {     
+      if (C_S_RUNNING == client_state()) {
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);
       }
       alphablit(Main.map, &Main.rects[i], Main.mainsurf, &dst, 255);
@@ -262,14 +263,14 @@ void flush_dirty(void)
         }
       }
       j = 0;
-      
+
       /* restore widget info label if it overlaps with this area */
       dst = Main.rects[i];
       if (pInfo_Area && !(((dst.x + dst.w) < pInfo_Area->x)
-                          || (dst.x > (pInfo_Area->x + pInfo_Area->w)) 
-                          || ((dst.y + dst.h) < pInfo_Area->y) 
+                          || (dst.x > (pInfo_Area->x + pInfo_Area->w))
+                          || ((dst.y + dst.h) < pInfo_Area->y)
                           || (dst.y > (pInfo_Area->y + pInfo_Area->h)))) {
-        redraw_widget_info_label(&dst);     
+        redraw_widget_info_label(&dst);
       }
     }
 
