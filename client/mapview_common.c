@@ -74,6 +74,7 @@ struct view mapview;
 bool can_slide = TRUE;
 
 float map_zoom = 1.0;
+struct tile *center_tile = NULL;
 
 static void base_canvas_to_map_pos(int *map_x, int *map_y,
 				   int canvas_x, int canvas_y);
@@ -586,28 +587,41 @@ static void base_set_mapview_origin(int gui_x0, int gui_y0)
 }
 
 /****************************************************************************
-  Change the mapview origin, clip it, and update everything.
+  Adjust mapview origin values. Returns TRUE iff values are different from
+  current mapview.
 ****************************************************************************/
-void set_mapview_origin(int gui_x0, int gui_y0)
+static bool calc_mapview_origin(int *gui_x0, int *gui_y0)
 {
   int xmin, xmax, ymin, ymax, xsize, ysize;
 
   /* Normalize (wrap) the mapview origin. */
-  normalize_gui_pos(tileset, &gui_x0, &gui_y0);
+  normalize_gui_pos(tileset, gui_x0, gui_y0);
 
   /* First wrap/clip the position.  Wrapping is done in native positions
    * while clipping is done in scroll (native) positions. */
   get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
 
   if (!current_topo_has_flag(TF_WRAPX)) {
-    gui_x0 = CLIP(xmin, gui_x0, xmax - xsize);
+    *gui_x0 = CLIP(xmin, *gui_x0, xmax - xsize);
   }
 
   if (!current_topo_has_flag(TF_WRAPY)) {
-    gui_y0 = CLIP(ymin, gui_y0, ymax - ysize);
+    *gui_y0 = CLIP(ymin, *gui_y0, ymax - ysize);
   }
 
-  if (mapview.gui_x0 == gui_x0 && mapview.gui_y0 == gui_y0) {
+  if (mapview.gui_x0 == *gui_x0 && mapview.gui_y0 == *gui_y0) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Change the mapview origin, clip it, and update everything.
+****************************************************************************/
+void set_mapview_origin(int gui_x0, int gui_y0)
+{
+  if (!calc_mapview_origin(&gui_x0, &gui_y0)) {
     return;
   }
 
@@ -821,7 +835,7 @@ void set_mapview_scroll_pos(int scroll_x, int scroll_y)
 struct tile *get_center_tile_mapcanvas(void)
 {
   return canvas_pos_to_nearest_tile(mapview.width / 2,
-				    mapview.height / 2);
+                                    mapview.height / 2);
 }
 
 /**************************************************************************
@@ -845,6 +859,8 @@ void center_tile_mapcanvas(struct tile *ptile)
   gui_y -= (mapview.height - tileset_tile_height(tileset) * map_zoom) / 2;
 
   set_mapview_origin(gui_x, gui_y);
+
+  center_tile = ptile;
 }
 
 /**************************************************************************
@@ -3093,8 +3109,8 @@ bool map_canvas_resized(int width, int height)
     mapview.store = canvas_create(full_width, full_height);
     canvas_set_zoom(mapview.store, map_zoom);
     canvas_put_rectangle(mapview.store,
-			 get_color(tileset, COLOR_MAPVIEW_UNKNOWN),
-			 0, 0, full_width, full_height);
+                         get_color(tileset, COLOR_MAPVIEW_UNKNOWN),
+                         0, 0, full_width, full_height);
 
     mapview.tmp_store = canvas_create(full_width, full_height);
     canvas_set_zoom(mapview.tmp_store, map_zoom);
@@ -3102,6 +3118,21 @@ bool map_canvas_resized(int width, int height)
 
   if (map_exists() && can_client_change_view()) {
     if (tile_size_changed) {
+      if (center_tile != NULL) {
+        int x0, y0;
+        int gui_x, gui_y;
+
+        index_to_map_pos(&x0, &y0, tile_index(center_tile));
+        map_to_gui_pos(tileset, &gui_x, &gui_y, x0, y0);
+
+        /* Put the center pixel of the tile at the exact center of the mapview. */
+        gui_x -= (mapview.width - tileset_tile_width(tileset) * map_zoom) / 2;
+        gui_y -= (mapview.height - tileset_tile_height(tileset) * map_zoom) / 2;
+
+        calc_mapview_origin(&gui_x, &gui_y);
+        mapview.gui_x0 = gui_x;
+        mapview.gui_y0 = gui_y;
+      }
       update_map_canvas_visible();
       center_tile_overviewcanvas();
       unqueue_mapview_updates(TRUE);
@@ -3119,6 +3150,16 @@ bool map_canvas_resized(int width, int height)
   mapview.can_do_cached_drawing = can_do_cached_drawing();
 
   return redrawn;
+}
+
+/**************************************************************************
+  Set map zoom level.
+**************************************************************************/
+void set_map_zoom(float new_zoom)
+{
+  map_zoom = new_zoom;
+
+  map_canvas_resized(mapview.width, mapview.height);
 }
 
 /**************************************************************************
