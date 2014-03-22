@@ -1996,8 +1996,19 @@ static void quit_dialog_response(GtkWidget *dialog, gint response)
 {
   gtk_widget_destroy(dialog);
   if (response == GTK_RESPONSE_YES) {
-    client_exit();
+    quit_gtk_main();
   }
+}
+
+/****************************************************************
+  Exit gtk main loop.
+****************************************************************/
+void quit_gtk_main(void)
+{
+  /* Quit gtk main loop. After this it will return to finish
+   * ui_main() */
+
+  gtk_main_quit();
 }
 
 /****************************************************************

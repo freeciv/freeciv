@@ -72,6 +72,7 @@ gboolean map_canvas_focus(void);
 
 void reset_unit_table(void);
 void popup_quit_dialog(void);
+void quit_gtk_main(void);
 void refresh_chat_buttons(void);
 
 #endif  /* FC__GUI_MAIN_H */
