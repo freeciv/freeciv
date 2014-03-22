@@ -27,7 +27,7 @@ ruler_titles = {
 
 flag="kalmykia"
 flag_alt = "-"
-city_style = "Asian"
+style = "Asian"
 
 init_techs=""
 init_buildings=""

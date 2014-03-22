@@ -19,7 +19,7 @@ leaders = {
 
 flag="ghana_ancient"
 flag_alt = "ghana"
-city_style = "Babylonian"
+style = "Babylonian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Ghana %s"),      _("?female:Ghana %s")

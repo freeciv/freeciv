@@ -29,7 +29,7 @@ ruler_titles = {
 
 flag="ethiopia"
 flag_alt = "italy"
-city_style = "Babylonian"
+style = "Babylonian"
 
 init_techs=""
 init_buildings=""

@@ -39,7 +39,7 @@ ruler_titles = {
 
 flag="frisia"
 flag_alt = "-"
-city_style = "Celtic"
+style = "Celtic"
 init_techs=""
 init_buildings=""
 init_units=""

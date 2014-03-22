@@ -84,7 +84,7 @@ ruler_titles = {
 
 flag="usa"
 flag_alt="-"
-city_style="Celtic"
+style = "Celtic"
 
 init_techs=""
 init_buildings=""
@@ -197,7 +197,7 @@ ruler_titles = {
 
 flag="aztec"
 flag_alt="-"
-city_style="Tropical"
+style = "Tropical"
 
 init_techs=""
 init_buildings=""
@@ -294,7 +294,7 @@ ruler_titles =
 
 flag="babylon"
 flag_alt="-"
-city_style="Babylonian"
+style = "Babylonian"
 
 init_techs=""
 init_buildings=""
@@ -361,7 +361,7 @@ ruler_titles = {
 
 flag="han"
 flag_alt="-"
-city_style="Asian"
+style = "Asian"
 
 init_techs=""
 init_buildings=""
@@ -501,7 +501,7 @@ ruler_titles = {
 
 flag="egypt_ancient"
 flag_alt="-"
-city_style="Babylonian"
+style = "Babylonian"
 
 init_techs=""
 init_buildings=""
@@ -578,7 +578,7 @@ ruler_titles = {
 
 flag="england"
 flag_alt="-"
-city_style="European"
+style = "European"
 
 init_techs=""
 init_buildings=""
@@ -688,7 +688,7 @@ ruler_titles = {
 
 flag="france_old"
 flag_alt="-"
-city_style="Celtic"
+style = "Celtic"
 
 init_techs=""
 init_buildings=""
@@ -811,7 +811,7 @@ ruler_titles = {
 
 flag         = "hre"
 flag_alt     = "-"
-city_style   = "European"
+style        = "European"
 
 init_techs = ""
 init_buildings=""
@@ -959,7 +959,7 @@ ruler_titles = {
 
 flag="greece_ancient"
 flag_alt="-"
-city_style="Classical"
+style = "Classical"
 
 init_techs=""
 init_buildings=""
@@ -1109,7 +1109,7 @@ ruler_titles = {
 
 flag="india"
 flag_alt="-"
-city_style="Asian"
+style = "Asian"
 
 init_techs=""
 init_buildings=""
@@ -1203,7 +1203,7 @@ ruler_titles = {
 
 flag="mongolia"
 flag_alt="-"
-city_style="Asian"
+style = "Asian"
 
 init_techs=""
 init_buildings=""
@@ -1267,7 +1267,7 @@ ruler_titles = {
 
 flag="rome"
 flag_alt="-"
-city_style = "Classical"
+style = "Classical"
 
 init_techs=""
 init_buildings=""
@@ -1323,7 +1323,7 @@ ruler_titles = {
 
 flag="kiev"
 flag_alt = "-"
-city_style = "European"
+style = "European"
 
 init_techs=""
 init_buildings=""
@@ -1410,7 +1410,7 @@ ruler_titles = {
 
 flag="zulu"
 flag_alt="-"
-city_style="Tropical"
+style = "Tropical"
 
 init_techs=""
 init_buildings=""
@@ -1474,7 +1474,7 @@ leaders = {
 
 flag="barbarian"
 flag_alt = "-"
-city_style = "European"
+style = "European"
 
 init_techs=""
 init_buildings=""
@@ -1509,7 +1509,7 @@ leaders = {
 
 flag="pirate"
 flag_alt = "-"
-city_style = "European"
+style = "European"
 
 init_techs=""
 init_buildings=""

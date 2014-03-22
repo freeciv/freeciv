@@ -46,7 +46,7 @@ ruler_titles = {
 
 flag="france"
 flag_alt = "france_old"
-city_style = "Celtic"
+style = "Celtic"
 
 init_techs=""
 init_buildings=""

@@ -26,7 +26,7 @@ ruler_titles = {
 
 flag="bangladesh"
 flag_alt = "-"
-city_style = "Asian"
+style = "Asian"
 
 init_techs=""
 init_buildings=""

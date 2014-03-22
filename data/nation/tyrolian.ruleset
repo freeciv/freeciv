@@ -27,7 +27,7 @@ ruler_titles = {
 
 flag="tyrol"
 flag_alt = "austria"
-city_style = "European"
+style = "European"
 
 init_techs=""
 init_buildings=""

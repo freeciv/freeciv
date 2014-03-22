@@ -16,7 +16,7 @@ leaders = {
 }
 flag="transnistria"
 flag_alt = "-"
-city_style = "european"
+style = "european"
 
 ruler_titles = {
  "government",      "male_title",        "female_title"

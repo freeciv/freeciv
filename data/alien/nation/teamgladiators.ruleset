@@ -17,7 +17,7 @@ leaders = {
 
 flag = "teamgladiators"
 flag_alt = "france"
-city_style = "Human"
+style = "Human"
 
 color.r = 255
 color.g =   0

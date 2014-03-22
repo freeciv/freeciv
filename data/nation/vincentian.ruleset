@@ -27,7 +27,7 @@ ruler_titles = {
 
 flag="svg"
 flag_alt = "-"
-city_style = "Tropical"
+style = "Tropical"
 
 
 init_techs=""

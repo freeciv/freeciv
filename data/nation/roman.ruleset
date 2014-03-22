@@ -55,7 +55,7 @@ ruler_titles = {
 
 flag = "rome"
 flag_alt = "italy"
-city_style = "Classical"
+style = "Classical"
 
 init_techs=""
 init_buildings=""

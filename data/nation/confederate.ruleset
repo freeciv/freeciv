@@ -38,7 +38,7 @@ ruler_titles = {
 
 flag="southern_cross"
 flag_alt="-"
-city_style="European"
+style = "European"
 
 init_techs=""
 init_buildings=""

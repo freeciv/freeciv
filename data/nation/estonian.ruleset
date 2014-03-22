@@ -24,7 +24,7 @@ ruler_titles = {
 
 flag="estonia"
 flag_alt = "-"
-city_style = "European"
+style = "European"
 
 init_techs=""
 init_buildings=""

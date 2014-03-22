@@ -31,7 +31,7 @@ ruler_titles = {
 
 flag="texas"
 flag_alt = "usa"
-city_style = "European"
+style = "European"
 
 init_techs=""
 init_buildings=""

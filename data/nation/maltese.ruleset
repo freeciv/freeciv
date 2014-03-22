@@ -31,7 +31,7 @@ ruler_titles = {
 flag="malta"
 flag_alt = "europe"
                     
-city_style = "Classical"
+style = "Classical"
 
 init_techs=""
 init_buildings=""

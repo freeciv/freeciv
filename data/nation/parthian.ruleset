@@ -26,7 +26,7 @@ leaders = {
 }
 flag="parthia"
 flag_alt = "iran"
-city_style = "Classical"
+style = "Classical"
 
 ruler_titles = {
  "government",    "male_title",      "female_title"

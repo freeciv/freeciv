@@ -30,7 +30,7 @@ ruler_titles = {
 
 flag="zapotec"
 flag_alt = "mexico"
-city_style = "Babylonian"
+style = "Babylonian"
 
 init_techs=""
 init_buildings=""

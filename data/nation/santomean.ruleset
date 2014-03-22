@@ -37,7 +37,7 @@ ruler_titles = {
 
 flag = "sao_tome_and_principe"
 flag_alt = "-"
-city_style = "Tropical"
+style = "Tropical"
 
 init_techs=""
 init_buildings=""

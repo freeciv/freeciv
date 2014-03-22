@@ -16,7 +16,7 @@ leaders = {
 
 flag = "jw"
 flag_alt = "russia"
-city_style = "Human"
+style = "Human"
 
 init_techs=""
 init_buildings=""

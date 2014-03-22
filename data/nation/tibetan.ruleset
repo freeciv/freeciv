@@ -29,7 +29,7 @@ ruler_titles = {
 
 flag="tibet"
 flag_alt = "-"
-city_style = "Asian"
+style = "Asian"
 
 init_techs=""
 init_buildings=""

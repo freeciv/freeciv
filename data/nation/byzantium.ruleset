@@ -34,7 +34,7 @@ ruler_titles = {
 
 flag="byzantium"
 flag_alt = "greek"
-city_style = "Classical"
+style = "Classical"
 
 init_techs=""
 init_buildings=""

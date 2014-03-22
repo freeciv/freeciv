@@ -34,7 +34,7 @@ ruler_titles = {
 
 flag="luna"
 flag_alt="-"
-city_style="European"
+style = "European"
 
 init_techs=""
 init_buildings=""

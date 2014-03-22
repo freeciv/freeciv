@@ -33,7 +33,7 @@ leaders = {
 }
 flag= "novgorod" 
 flag_alt = "-" 
-city_style = "European"
+style = "European"
 ruler_titles = {
 "government",     "male_title",         "female_title"
 "Democracy",      _("Councillor %s"),   _("?female:Councillor %s")

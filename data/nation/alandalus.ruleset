@@ -36,7 +36,7 @@ ruler_titles = {
 
 flag="almohad"
 flag_alt = "morocco"
-city_style = "Classical"
+style = "Classical"
 
 
 init_techs=""

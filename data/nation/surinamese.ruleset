@@ -31,7 +31,7 @@ ruler_titles = {
 
 flag="suriname"
 flag_alt = "-"
-city_style = "Tropical"
+style = "Tropical"
 
 init_techs=""
 init_buildings=""

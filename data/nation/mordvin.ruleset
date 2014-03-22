@@ -22,7 +22,7 @@ ruler_titles={
 
 flag="mordovia" ; flag of the Republic of Mordovia
 flag_alt="-"
-city_style="European"
+style = "European"
 
 init_techs=""
 init_buildings=""

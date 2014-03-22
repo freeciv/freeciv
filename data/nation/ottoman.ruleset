@@ -32,7 +32,7 @@ ruler_titles = {
 
 flag ="ottoman"
 flag_alt = "turkey"
-city_style = "Classical"
+style = "Classical"
 
 init_techs=""
 init_buildings=""

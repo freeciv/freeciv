@@ -16,7 +16,7 @@ leaders = {
 
 flag = "kindergarden"
 flag_alt = "sweden"
-city_style = "Human"
+style = "Human"
 
 color.r = 255
 color.g =   0

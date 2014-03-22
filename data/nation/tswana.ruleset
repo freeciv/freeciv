@@ -22,7 +22,7 @@ leaders = {
 
 flag="bophuthatswana"
 flag_alt = "-"
-city_style = "tropical"
+style = "tropical"
 
 ruler_titles = {
  "government",     "male_title",            "female_title"

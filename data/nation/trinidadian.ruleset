@@ -27,7 +27,7 @@ leaders = {
 
 flag="trinidad_and_tobago"
 flag_alt = "-"
-city_style = "Tropical"
+style = "Tropical"
 
 init_techs=""
 init_buildings=""

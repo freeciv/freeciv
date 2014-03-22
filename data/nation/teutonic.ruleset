@@ -34,7 +34,7 @@ ruler_titles = {
 
 flag="teutonic_order"
 flag_alt = "hre"
-city_style = "European"
+style = "European"
 
 init_techs=""
 init_buildings=""

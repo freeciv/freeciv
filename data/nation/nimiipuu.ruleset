@@ -70,7 +70,7 @@ ruler_titles = {
 
 flag="nez_perce"
 flag_alt = "-"
-city_style = "Celtic"
+style = "Celtic"
 
 init_techs=""
 init_buildings=""

@@ -33,7 +33,7 @@ ruler_titles = {
 
 flag = "monaco_alternative" 
 flag_alt = "indonesia" ;the regular flag is identical to the Indonesian flag
-city_style = "Classical"
+style = "Classical"
 
 init_techs=""
 init_buildings=""

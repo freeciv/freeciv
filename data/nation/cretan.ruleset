@@ -30,7 +30,7 @@ ruler_titles = {
 
 flag="crete"
 flag_alt = "-"
-city_style = "Classical"
+style = "Classical"
 
 init_techs=""
 init_buildings=""

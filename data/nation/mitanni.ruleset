@@ -24,7 +24,7 @@ leaders = {
 }
 flag="mitanni"
 flag_alt = "-"
-city_style = "Babylonian"
+style = "Babylonian"
 
 ruler_titles = { "government",    "male_title",      "female_title"
                  "Anarchy",       _("Usurper %s"),   _("?female:Usurper %s")

@@ -44,7 +44,7 @@ ruler_titles = {
 
 flag="templar"
 flag_alt = "stpatrick"
-city_style = "European"
+style = "European"
 
 init_techs=""
 init_buildings=""

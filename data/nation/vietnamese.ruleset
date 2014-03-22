@@ -24,7 +24,7 @@ ruler_titles = {
 
 flag="vietnam"
 flag_alt = "-"
-city_style = "Asian"
+style = "Asian"
 
 init_techs=""
 init_buildings=""

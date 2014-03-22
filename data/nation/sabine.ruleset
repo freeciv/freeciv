@@ -29,7 +29,7 @@ ruler_titles = {
 }
 flag="sabinium"
 flag_alt = "rome"
-city_style = "Celtic"
+style = "Celtic"
 
 init_techs=""
 init_buildings=""

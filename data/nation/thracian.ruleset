@@ -18,7 +18,7 @@ leaders = {
 ; A dragon was depicted on the standard of the Thracians.
 flag="thrace"
 flag_alt = "-"
-city_style = "Classical"
+style = "Classical"
 
 init_techs=""
 init_buildings=""

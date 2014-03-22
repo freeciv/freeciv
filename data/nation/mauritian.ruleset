@@ -25,7 +25,7 @@ leaders = {
 
 flag = "mauritius"
 flag_alt = "-"
-city_style = "Asian"
+style = "Asian"
 
 init_techs=""
 init_buildings=""

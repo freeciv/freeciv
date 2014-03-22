@@ -29,7 +29,7 @@ ruler_titles = {
 
 flag="dgb"
 flag_alt = "-"
-city_style = "European"
+style = "European"
 
 init_techs=""
 init_buildings=""

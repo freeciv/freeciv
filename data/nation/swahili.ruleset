@@ -27,7 +27,7 @@ leaders = {
 }
 
 flag ="swahili"
-city_style = "babylonian"
+style = "babylonian"
 
 ruler_titles = {
  "government",      "male_title",            "female_title"

@@ -26,7 +26,7 @@ ruler_titles = {
 
 flag = "namibia"
 flag_alt = "rwanda"
-city_style = "Tropical"
+style = "Tropical"
 
 init_techs=""
 init_buildings=""

@@ -30,7 +30,7 @@ ruler_titles = {
 
 flag="r_congo"
 flag_alt = "-"
-city_style = "Tropical"
+style = "Tropical"
 
 init_techs=""
 init_buildings=""

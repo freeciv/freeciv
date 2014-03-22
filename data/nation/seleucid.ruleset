@@ -31,7 +31,7 @@ ruler_titles = {
 
 flag="seleucid"
 flag_alt = "-"
-city_style = "Classical"
+style = "Classical"
 
 
 init_techs=""

@@ -34,7 +34,7 @@ ruler_titles = { "government",     "male_title",   "female_title"
                }
 flag="sardinia"
 flag_alt = "-"
-city_style = "babylonian"
+style = "babylonian"
 
 init_techs=""
 init_buildings=""

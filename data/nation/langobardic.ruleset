@@ -30,7 +30,7 @@ leaders = {
 }
 flag= "lombardy"
 flag_alt = "italy"
-city_style = "European"
+style = "European"
 
 ruler_titles = {
  "government",      "male_title",     "female_title"

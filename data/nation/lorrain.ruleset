@@ -33,7 +33,7 @@ ruler_titles = {
 
 flag="lorraine"
 flag_alt = "france_old"
-city_style = "European"
+style = "European"
 
 
 init_techs=""

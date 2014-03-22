@@ -16,7 +16,7 @@ leaders = {
 
 flag="north_korea"
 flag_alt = "-"
-city_style = "Asian"
+style = "Asian"
 
 ruler_titles = {
  "government",      "male_title",               "female_title"

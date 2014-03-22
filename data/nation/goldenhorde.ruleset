@@ -29,7 +29,7 @@ leaders ={
 }
 flag="golden_horde"
 flag_alt = "-"
-city_style = "Babylonian"
+style = "Babylonian"
 
 ruler_titles = {
  "government",     "male_title",        "female_title"

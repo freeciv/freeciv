@@ -26,7 +26,7 @@ ruler_titles = { "government",     "male_title",       "female_title"
 
 flag="israel"
 flag_alt = "menora"
-city_style = "Babylonian"
+style = "Babylonian"
 
 init_techs=""
 init_buildings=""

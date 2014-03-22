@@ -32,7 +32,7 @@ leaders = {
 }
 flag="latin_empire"
 flag_alt = "-"
-city_style = "European"
+style = "European"
 
 ruler_titles = {
  "government",      "male_title",        "female_title"

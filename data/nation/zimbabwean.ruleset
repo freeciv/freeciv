@@ -27,7 +27,7 @@ ruler_titles = {
 }
 flag="zimbabwe" 
 flag_alt = "-" 
-city_style = "tropical" 
+style = "tropical" 
 
 init_techs="" 
 init_buildings="" 

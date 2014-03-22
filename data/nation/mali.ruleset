@@ -30,7 +30,7 @@ ruler_titles = {
 
 flag="mali_ancient"
 flag_alt = "mali"
-city_style = "Classical"
+style = "Classical"
 
 init_techs=""
 init_buildings=""

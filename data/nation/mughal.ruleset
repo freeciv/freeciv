@@ -23,7 +23,7 @@ ruler_titles = {
 
 flag="mughal"
 flag_alt="-"
-city_style="Asian"
+style = "Asian"
 
 init_techs=""
 init_buildings=""

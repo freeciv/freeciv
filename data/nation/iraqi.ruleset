@@ -24,7 +24,7 @@ ruler_titles = {
 
 flag = "iraq"
 flag_alt = "iraq_old"
-city_style = "Babylonian"
+style = "Babylonian"
 
 init_techs=""
 init_buildings=""

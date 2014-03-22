@@ -30,7 +30,7 @@ ruler_titles = {
 
 flag="french_polynesia"
 flag_alt = "-"
-city_style = "tropical"
+style = "tropical"
 
 init_techs=""
 init_buildings=""

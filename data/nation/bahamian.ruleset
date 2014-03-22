@@ -29,7 +29,7 @@ ruler_titles = {
 
 flag="bahamas"
 flag_alt = "-"
-city_style = "Tropical"
+style = "Tropical"
 
 init_techs=""
 init_buildings=""

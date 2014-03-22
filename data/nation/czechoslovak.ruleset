@@ -23,7 +23,7 @@ leaders = {
 
 flag = "czechoslovakia"
 flag_alt = "czech" ;flag was identical to Czech flag
-city_style = "European"
+style = "European"
 
 ruler_titles = {
  "government",      "male_title",        "female_title"

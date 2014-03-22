@@ -28,7 +28,7 @@ ruler_titles = {
 
 flag="scotland"
 flag_alt = "united_kingdom"
-city_style = "Celtic"
+style = "Celtic"
 
 init_techs=""
 init_buildings=""

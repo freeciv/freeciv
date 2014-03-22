@@ -16,7 +16,7 @@ leaders = {
 
 flag = "adventurers"
 flag_alt = "denmark"
-city_style = "Human"
+style = "Human"
 
 color.r = 124
 color.g = 252

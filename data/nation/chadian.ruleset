@@ -21,7 +21,7 @@ ruler_titles = { "government",     "male_title",       "female_title"
 	       }
 flag="chad"
 flag_alt = "-"
-city_style = "tropical"
+style = "tropical"
 
 init_techs=""
 init_buildings=""

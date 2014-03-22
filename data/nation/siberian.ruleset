@@ -26,7 +26,7 @@ ruler_titles = {
 
 flag= "siberia" 
 flag_alt = "-" 
-city_style = "European" 
+style = "European" 
 
 init_techs="" 
 init_buildings="" 

@@ -30,7 +30,7 @@ ruler_titles = {
 
 flag="wallonia"
 flag_alt = "belgium"
-city_style = "european"
+style = "european"
 
 init_techs=""
 init_buildings=""

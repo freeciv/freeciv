@@ -25,7 +25,7 @@ ruler_titles = {
 
 flag="atlantis"
 flag_alt = "-"
-city_style = "Classical"
+style = "Classical"
 
 
 init_techs=""

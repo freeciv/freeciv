@@ -13,7 +13,7 @@ leaders = {
 
 flag = "madmen"
 flag_alt = "barbarian"
-city_style = "Human"
+style = "Human"
 
 color.r = 153
 color.g =  17

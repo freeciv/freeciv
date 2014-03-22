@@ -42,7 +42,7 @@ ruler_titles = {
 
 flag="uganda"
 flag_alt = "-"
-city_style = "tropical"
+style = "tropical"
 
 init_techs=""
 init_buildings=""

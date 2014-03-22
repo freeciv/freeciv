@@ -28,7 +28,7 @@ ruler_titles = {
 
 flag="raramuri"
 flag_alt = "-"
-city_style = "Celtic"
+style = "Celtic"
 
 init_techs=""
 init_buildings=""

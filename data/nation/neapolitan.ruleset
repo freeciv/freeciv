@@ -28,7 +28,7 @@ ruler_titles = {
 
 flag="naples"
 flag_alt = "sicily"
-city_style = "Classical"
+style = "Classical"
 
 init_techs=""
 init_buildings=""

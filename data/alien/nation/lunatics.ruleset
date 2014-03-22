@@ -13,7 +13,7 @@ leaders = {
 
 flag = "lunatic"
 flag_alt = "pirate"
-city_style = "Human"
+style = "Human"
 
 color.r = 139
 color.g =   0

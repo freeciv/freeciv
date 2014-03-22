@@ -43,7 +43,7 @@ ruler_titles = {
 
 flag         = "el_salvador"
 flag_alt     = "-"
-city_style   = "Tropical"
+style        = "Tropical"
 
 init_techs=""
 init_buildings=""

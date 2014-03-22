@@ -34,7 +34,7 @@ ruler_titles = {
 
 flag= "oman" 
 flag_alt = "arab" 
-city_style = "Tropical" 
+style = "Tropical" 
 
 init_techs="" 
 init_buildings="" 

@@ -34,7 +34,7 @@ ruler_titles = {
 
 flag="israel_ancient"
 flag_alt = "israel"
-city_style = "Babylonian"
+style = "Babylonian"
 
 init_techs=""
 init_buildings=""

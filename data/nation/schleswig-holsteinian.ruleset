@@ -31,7 +31,7 @@ ruler_titles = {
 
 flag="schleswig-holstein" 
 flag_alt = "-" 
-city_style = "european" 
+style = "european" 
 
 init_techs="" 
 init_buildings="" 

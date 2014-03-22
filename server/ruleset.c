@@ -4204,7 +4204,7 @@ static bool load_ruleset_nations(struct section_file *file)
       }
 
       /* City styles */
-      name = secfile_lookup_str(file, "%s.city_style", sec_name);
+      name = secfile_lookup_str(file, "%s.style", sec_name);
       if (!name) {
         ruleset_error(LOG_ERROR, "%s", secfile_error());
         ok = FALSE;

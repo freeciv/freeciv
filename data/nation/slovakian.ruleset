@@ -28,7 +28,7 @@ ruler_titles = {
 flag="slovakia"
 flag_alt = "-" ; former CzechoSlovakia has the same flag as Czech
                ; - the blue triangle in it means Slovakia
-city_style = "European"
+style = "European"
 
 init_techs=""
 init_buildings=""

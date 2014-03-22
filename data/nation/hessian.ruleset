@@ -32,7 +32,7 @@ ruler_titles = {
 
 flag="hesse"
 flag_alt = "germany"
-city_style = "european"
+style = "european"
 
 init_techs=""
 init_buildings=""

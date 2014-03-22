@@ -30,7 +30,7 @@ ruler_titles = {
 
 flag="gael"
 flag_alt = "stpatrick"
-city_style = "Celtic"
+style = "Celtic"
 
 init_techs=""
 init_buildings=""

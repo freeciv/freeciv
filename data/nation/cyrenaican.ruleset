@@ -29,7 +29,7 @@ ruler_titles = {
 }
 
 flag ="cyrenaica"
-city_style = "Classical"
+style = "Classical"
 
 init_techs=""
 init_buildings=""

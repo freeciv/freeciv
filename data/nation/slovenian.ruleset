@@ -20,7 +20,7 @@ ruler_titles = {
 }
 flag="slovenia"
 flag_alt = "-"
-city_style = "European"
+style = "European"
 
 init_techs=""
 init_buildings=""

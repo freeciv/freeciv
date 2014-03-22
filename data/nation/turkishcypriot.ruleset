@@ -19,7 +19,7 @@ leaders = {
 }
 flag="trnc"
 flag_alt = "-"
-city_style = "classical"
+style = "classical"
 
 ruler_titles = {
  "government",      "male_title",        "female_title"

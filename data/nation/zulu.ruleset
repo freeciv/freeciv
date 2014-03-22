@@ -44,7 +44,7 @@ ruler_titles = {
 
 flag="zulu"
 flag_alt = "rwanda"  ; used previously
-city_style = "Tropical"
+style = "Tropical"
 
 init_techs=""
 init_buildings=""

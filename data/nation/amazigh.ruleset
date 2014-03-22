@@ -74,7 +74,7 @@ ruler_titles = {
 
 flag= "amazigh"
 flag_alt = "morocco"
-city_style = "Classical"
+style = "Classical"
 init_techs=""
 init_buildings=""
 init_units=""

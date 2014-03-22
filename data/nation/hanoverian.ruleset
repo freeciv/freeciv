@@ -26,7 +26,7 @@ ruler_titles = {
 
 flag="hanover"
 flag_alt = "westphalia"
-city_style = "European"
+style = "European"
 
 init_techs=""
 init_buildings=""

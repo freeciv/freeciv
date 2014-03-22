@@ -21,7 +21,7 @@ leaders = {
 
 flag="lippe"
 flag_alt = "-"
-city_style = "European"
+style = "European"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Prince %s"),    _("Princess %s")

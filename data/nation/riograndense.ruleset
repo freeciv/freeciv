@@ -22,7 +22,7 @@ ruler_titles = {
 }
 flag = "piratini"
 flag_alt = "-"
-city_style = "European"
+style = "European"
 
 init_techs=""
 init_buildings=""

@@ -30,7 +30,7 @@ ruler_titles = {
 
 flag="han"
 flag_alt="china"
-city_style="Asian"
+style = "Asian"
 
 init_techs=""
 init_buildings=""

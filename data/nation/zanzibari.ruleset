@@ -31,7 +31,7 @@ ruler_titles = {
 
 flag="zanzibar"
 flag_alt = "-"
-city_style = "babylonian"
+style = "babylonian"
 
 init_techs=""
 init_buildings=""

@@ -24,7 +24,7 @@ leaders = {
 
 flag="westphalia"
 flag_alt = "germany"
-city_style = "European"
+style = "European"
 
 ruler_titles = {
  "government",     "male_title",            "female_title"

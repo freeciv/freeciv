@@ -22,7 +22,7 @@ leaders= {
 }
 flag= "epirus" 
 flag_alt = "greece" 
-city_style = "Classical" 
+style = "Classical" 
 
 ruler_titles = { "government", "male_title",     "female_title"
                  "Anarchy",    _("Usurper %s"),  _("?female:Usurper %s")

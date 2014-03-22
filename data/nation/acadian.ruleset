@@ -34,7 +34,7 @@ ruler_titles = {
 
 flag="acadia"
 flag_alt = "-"
-city_style = "Celtic"
+style = "Celtic"
 
 init_techs=""
 init_buildings=""

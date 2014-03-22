@@ -34,7 +34,7 @@ ruler_titles = {
 
 flag="singapore"
 flag_alt = "-"
-city_style = "Asian"
+style = "Asian"
 
 init_techs=""
 init_buildings=""

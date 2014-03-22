@@ -33,7 +33,7 @@ ruler_titles = {
 
 flag="chile"
 flag_alt = "-"
-city_style = "European"
+style = "European"
 
 init_techs=""
 init_buildings=""

@@ -22,7 +22,7 @@ ruler_titles = {
 
 flag="newzealand"
 flag_alt = "australia"
-city_style = "Tropical"
+style = "Tropical"
 
 init_techs=""
 init_buildings=""

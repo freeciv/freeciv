@@ -20,7 +20,7 @@ leaders = {
 }
 flag="samnium"
 flag_alt = "rome"
-city_style = "Classical"
+style = "Classical"
 ruler_titles = {
  "government",      "male_title",      "female_title"
  "Anarchy",         _("Usurper %s"),   _("?female:Usurper %s")

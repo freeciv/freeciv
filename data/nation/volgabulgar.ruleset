@@ -20,7 +20,7 @@ leaders = {
 
 flag= "volga_bulgar" 
 flag_alt = "-" 
-city_style = "celtic" 
+style = "celtic" 
 
 ruler_titles = {
  "government",      "male_title",        "female_title"

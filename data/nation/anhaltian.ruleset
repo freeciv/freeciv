@@ -36,7 +36,7 @@ ruler_titles = {
 
 flag="anhalt"
 flag_alt = "-"
-city_style = "european"
+style = "european"
 
 init_techs=""
 init_buildings=""

@@ -35,7 +35,7 @@ ruler_titles = {
 
 flag = "vatican"
 flag_alt = "constantine"
-city_style = "Classical"
+style = "Classical"
 
 init_techs=""
 init_buildings=""

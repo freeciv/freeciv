@@ -22,7 +22,7 @@ leaders = {
 
 flag="amazon"
 flag_alt = "-"
-city_style = "Classical"
+style = "Classical"
 
 init_techs=""
 init_buildings=""

@@ -32,7 +32,7 @@ ruler_titles = { "government", "male_title",       "female_title"
 
 flag="kuwait"
 flag_alt = "-"
-city_style = "Classical"
+style = "Classical"
 
 init_techs=""
 init_buildings=""
