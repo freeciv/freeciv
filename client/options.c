@@ -4665,16 +4665,20 @@ static void save_cma_presets(struct section_file *file)
 /* Old rc file name. */
 #define OLD_OPTION_FILE_NAME ".civclientrc"
 /* New rc file name. */
-#define NEW_OPTION_FILE_NAME ".freeciv-client-rc-%d.%d"
+#define MID_OPTION_FILE_NAME ".freeciv-client-rc-%d.%d"
+#define NEW_OPTION_FILE_NAME "freeciv-client-rc-%d.%d"
 #define MAJOR_NEW_OPTION_FILE_NAME MAJOR_VERSION
 #if IS_DEVEL_VERSION && ! IS_FREEZE_VERSION
 #define MINOR_NEW_OPTION_FILE_NAME (MINOR_VERSION + 1)
 #else
 #define MINOR_NEW_OPTION_FILE_NAME MINOR_VERSION
 #endif /* IS_DEVEL_VERSION */
-/* The first version the new option name appeared (2.2). */
+/* The first version the new option name appeared (2.6). */
 #define FIRST_MAJOR_NEW_OPTION_FILE_NAME 2
-#define FIRST_MINOR_NEW_OPTION_FILE_NAME 2
+#define FIRST_MINOR_NEW_OPTION_FILE_NAME 6
+/* The first version the mid option name appeared (2.2). */
+#define FIRST_MAJOR_MID_OPTION_FILE_NAME 2
+#define FIRST_MINOR_MID_OPTION_FILE_NAME 2
 /* The first version the new boolean values appeared (2.3). */
 #define FIRST_MAJOR_NEW_BOOLEAN 2
 #define FIRST_MINOR_NEW_BOOLEAN 3
@@ -4704,7 +4708,7 @@ static const char *get_current_option_file_name(void)
       return NULL;
     }
     fc_snprintf(name_buffer, sizeof(name_buffer),
-                "%s/" NEW_OPTION_FILE_NAME, name,
+                "%s/.freeciv/" NEW_OPTION_FILE_NAME, name,
                 MAJOR_NEW_OPTION_FILE_NAME, MINOR_NEW_OPTION_FILE_NAME);
 #endif /* OPTION_FILE_NAME */
   }
@@ -4748,7 +4752,7 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
               ? minor >= FIRST_MINOR_NEW_OPTION_FILE_NAME 
               : minor >= 0); minor--) {
         fc_snprintf(name_buffer, sizeof(name_buffer),
-                    "%s/" NEW_OPTION_FILE_NAME, name, major, minor);
+                    "%s/.freeciv/" NEW_OPTION_FILE_NAME, name, major, minor);
         if (0 == fc_stat(name_buffer, &buf)) {
           if (MAJOR_NEW_OPTION_FILE_NAME != major
               || MINOR_NEW_OPTION_FILE_NAME != minor) {
@@ -4757,16 +4761,35 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
                        get_current_option_file_name() + strlen(name) + 1,
                        name_buffer + strlen(name) + 1);
           }
-          if (FIRST_MAJOR_NEW_BOOLEAN > major
-              || (FIRST_MAJOR_NEW_BOOLEAN == major
-                  && FIRST_MINOR_NEW_BOOLEAN > minor)) {
-            *allow_digital_boolean = TRUE;
-          }
+
           return name_buffer;
         }
       }
       minor = 99;       /* Looks enough big. */
     }
+
+    /* minor having max value of FIRST_MINOR_NEW_OPTION_FILE_NAME
+     * works since MID versioning scheme was used within major version 2
+     * only (2.2 - 2.6) so the last minor is bigger than any earlier minor. */
+    for (major = FIRST_MAJOR_MID_OPTION_FILE_NAME,
+         minor = FIRST_MINOR_NEW_OPTION_FILE_NAME ;
+         minor >= FIRST_MINOR_MID_OPTION_FILE_NAME ;
+         minor--) {
+      fc_snprintf(name_buffer, sizeof(name_buffer),
+                  "%s/" MID_OPTION_FILE_NAME, name, major, minor);
+      if (0 == fc_stat(name_buffer, &buf)) {
+        log_normal(_("Didn't find '%s' option file, "
+                     "loading from '%s' instead."),
+                   get_current_option_file_name() + strlen(name) + 1,
+                   name_buffer + strlen(name) + 1);
+
+        if (FIRST_MINOR_NEW_BOOLEAN > minor) {
+          *allow_digital_boolean = TRUE;
+        }
+        return name_buffer;
+      }
+    }
+
     /* Try with the old one. */
     fc_snprintf(name_buffer, sizeof(name_buffer),
                 "%s/" OLD_OPTION_FILE_NAME, name);
@@ -4786,10 +4809,12 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
   return name_buffer;
 }
 #undef OLD_OPTION_FILE_NAME
+#undef MID_OPTION_FILE_NAME
 #undef NEW_OPTION_FILE_NAME
 #undef FIRST_MAJOR_NEW_OPTION_FILE_NAME
 #undef FIRST_MINOR_NEW_OPTION_FILE_NAME
-#undef FIRST_MAJOR_NEW_BOOLEAN
+#undef FIRST_MAJOR_MID_OPTION_FILE_NAME
+#undef FIRST_MINOR_MID_OPTION_FILE_NAME
 #undef FIRST_MINOR_NEW_BOOLEAN
 
 
@@ -5340,6 +5365,8 @@ void options_save(void)
 {
   struct section_file *sf;
   const char *name = get_current_option_file_name();
+  char dir_name[2048];
+  int i;
 
   if (!name) {
     output_window_append(ftc_client,
@@ -5372,6 +5399,16 @@ void options_save(void)
 
   /* insert global worklists */
   global_worklists_save(sf);
+
+  /* Directory name */
+  strncpy(dir_name, name, sizeof(dir_name));
+  for (i = strlen(dir_name) - 1 ; dir_name[i] != '/' && i >= 0; i--) {
+    /* Nothing */
+  }
+  if (i > 0) {
+    dir_name[i] = '\0';
+    make_dir(dir_name);
+  }
 
   /* save to disk */
   if (!secfile_save(sf, name, 0, FZ_PLAIN)) {
