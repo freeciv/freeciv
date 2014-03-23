@@ -530,6 +530,11 @@ static action_probability ap_diplomat_battle(const struct unit *pattacker,
 
 /**************************************************************************
   An action's probability of success.
+
+  "Success" indicates that the action achieves its goal, not that the
+  actor survives. For actions that cost money it is assumed that the
+  player has and is willing to spend the money. This is so the player can
+  figure out what his odds are before deciding to get the extra money.
 **************************************************************************/
 static action_probability
 action_prob(const enum gen_action wanted_action,
@@ -575,7 +580,9 @@ action_prob(const enum gen_action wanted_action,
     chance = ap_diplomat_battle(actor_unit, target_unit);
     break;
   case ACTION_SPY_BRIBE_UNIT:
-    /* TODO */
+    /* Hard coded limit: The target unit is alone at its tile.
+     * It won't fight a diplomatic battle. */
+    chance = 200;
     break;
   case ACTION_SPY_SABOTAGE_CITY:
     /* TODO */
