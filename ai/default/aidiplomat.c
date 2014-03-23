@@ -641,6 +641,18 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
       } else {
         return FALSE;
       }
+    } else if (diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, pos.tile)
+               && threat) {
+      /* don't stand around waiting for the final blow */
+      handle_unit_diplomat_action(pplayer, punit->id,
+                                  unit_list_get(ptile->units, 0)->id, -1,
+                                  SPY_SABOTAGE_UNIT);
+      /* autoattack might kill us as we move in */
+      if (game_unit_by_number(sanity) && punit->moves_left > 0) {
+        return TRUE;
+      } else {
+        return FALSE;
+      }
     } else {
       /* usually because we ended move early due to another unit */
       UNIT_LOG(LOG_DIPLOMAT, punit, "could not bribe target (%d, %d), "
