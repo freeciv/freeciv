@@ -1762,8 +1762,7 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
 
   cities[REQ_RANGE_CONTINENT] = ai->stats.cities[tile_continent(pcity->tile)];
 
-  cities[REQ_RANGE_CITY] = 1;
-  cities[REQ_RANGE_LOCAL] = 0;
+  cities[REQ_RANGE_CITY] = cities[REQ_RANGE_LOCAL] = 1;
 
   effect_list_iterate(get_req_source_effects(&source), peffect) {
     struct requirement *mypreq = NULL;
