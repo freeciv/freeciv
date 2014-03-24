@@ -109,7 +109,6 @@ partisans_pct = 0               ; percentage of own nationality to inspire parti
 ; citizens_graphic     = group of citizens tiles to use, see citizens/small
 ;                        spec for more info on citizens tiles
 ; reqs        = requirements for this city style (see README.effects)
-; replaced_by = which style replaced this one
 ;
 ; */ <-- avoid gettext warnings
 
@@ -124,7 +123,6 @@ citizens_graphic_alt = "ancient"
 reqs = { "type", "name", "range"
          "Style", "Human", "Player"
        }
-replaced_by = "Dual"
 
 [citystyle_dual]
 name        = _("?citystyle:Dual")
@@ -138,4 +136,3 @@ reqs =
    { "type", "name", "range"
      "Tech", "Alien Rights", "Player"
    }
-replaced_by = "-"

@@ -599,14 +599,6 @@ static bool save_cities_ruleset(const char *filename, const char *name)
     }
 
     save_reqs_vector(sfile, &(city_styles[i].reqs), path, "reqs");
-
-    if (city_styles[i].replaced_by < 0) {
-      secfile_insert_str(sfile, "-", "%s.replaced_by", path);
-    } else {
-      secfile_insert_str(sfile, city_style_rule_name(city_styles[i].replaced_by),
-                         "%s.replaced_by", path);
-    }
-
   }
 
   return save_ruleset_file(sfile, filename);

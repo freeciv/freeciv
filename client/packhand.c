@@ -3632,7 +3632,6 @@ void handle_ruleset_city(const struct packet_ruleset_city *packet)
     requirement_vector_append(&cs->reqs, packet->reqs[j]);
   }
   fc_assert(cs->reqs.size == packet->reqs_count);
-  cs->replaced_by = packet->replaced_by;
 
   names_set(&cs->name, NULL, packet->name, packet->rule_name);
   sz_strlcpy(cs->graphic, packet->graphic);

@@ -4509,7 +4509,6 @@ static bool load_ruleset_styles(struct section_file *file)
 **************************************************************************/
 static bool load_ruleset_cities(struct section_file *file)
 {
-  const char *replacement;
   const char *filename = secfile_name(file);
   const char *item;
   struct section_list *sec;
@@ -4658,17 +4657,6 @@ static bool load_ruleset_cities(struct section_file *file)
         break;
       }
       requirement_vector_copy(&city_styles[i].reqs, reqs);
-
-      replacement = secfile_lookup_str(file, "%s.replaced_by", sec_name);
-      if (0 == strcmp(replacement, "-")) {
-        city_styles[i].replaced_by = -1;
-      } else {
-        city_styles[i].replaced_by = city_style_by_rule_name(replacement);
-        if (city_styles[i].replaced_by < 0) {
-          log_error("\"%s\": style \"%s\" replacement \"%s\" not found",
-                    filename, city_style_rule_name(i), replacement);
-        }
-      }
     }
   }
 
@@ -6222,7 +6210,6 @@ static void send_ruleset_cities(struct conn_list *dest)
 
   for (k = 0; k < game.control.styles_count; k++) {
     city_p.style_id = k;
-    city_p.replaced_by = city_styles[k].replaced_by;
 
     j = 0;
     requirement_vector_iterate(&city_styles[k].reqs, preq) {

@@ -117,7 +117,6 @@ partisans_pct = 0               ; percentage of own nationality to inspire parti
 ; citizens_graphic     = group of citizens tiles to use, see citizens/small
 ;                        spec for more info on citizens tiles
 ; reqs        = requirements for this city style (see README.effects)
-; replaced_by = which style replaced this one
 ;
 ; */ <-- avoid gettext warnings
 
@@ -130,7 +129,6 @@ citizens_graphic_alt = "generic"
 reqs = { "type", "name", "range"
          "Style", "European", "Player"
        }
-replaced_by = "Industrial"
 
 [citystyle_classical]
 name        = _("?citystyle:Classical")
@@ -141,7 +139,6 @@ citizens_graphic_alt = "generic"
 reqs = { "type", "name", "range"
          "Style", "Classical", "Player"
        }
-replaced_by = "Industrial"
 
 [citystyle_tropical]
 name        = _("?citystyle:Tropical")
@@ -152,7 +149,6 @@ citizens_graphic_alt = "generic"
 reqs = { "type", "name", "range"
          "Style", "Tropical", "Player"
        }
-replaced_by = "Industrial"
 
 [citystyle_asian]
 name        = _("?citystyle:Asian")
@@ -163,7 +159,6 @@ citizens_graphic_alt = "generic"
 reqs = { "type", "name", "range"
          "Style", "Asian", "Player"
        }
-replaced_by = "Industrial"
 
 [citystyle_babylonian]
 name        = _("?citystyle:Babylonian")
@@ -174,7 +169,6 @@ citizens_graphic_alt = "generic"
 reqs = { "type", "name", "range"
          "Style", "Babylonian", "Player"
        }
-replaced_by = "Industrial"
 
 [citystyle_celtic]
 name        = _("?citystyle:Celtic")
@@ -185,7 +179,6 @@ citizens_graphic_alt = "generic"
 reqs = { "type", "name", "range"
          "Style", "Celtic", "Player"
        }
-replaced_by = "Industrial"
 
 [citystyle_industrial]
 name        = _("?citystyle:Industrial")
@@ -196,7 +189,6 @@ citizens_graphic_alt = "generic"
 reqs = { "type", "name", "range"
          "tech", "Railroad", "Player"
        }
-replaced_by = "ElectricAge"
 
 [citystyle_electric]
 name        = _("?citystyle:ElectricAge")
@@ -207,7 +199,6 @@ citizens_graphic_alt = "generic"
 reqs = { "type", "name", "range"
          "tech", "Automobile", "Player"
        }
-replaced_by = "Modern"
 
 [citystyle_modern]
 name        = _("?citystyle:Modern")
@@ -218,7 +209,6 @@ citizens_graphic_alt = "generic"
 reqs = { "type", "name", "range"
          "tech", "Rocketry", "Player"
        }
-replaced_by = "PostModern"
 
 [citystyle_postmodern]
 name        = _("?citystyle:PostModern")
@@ -229,4 +219,3 @@ citizens_graphic_alt = "generic"
 reqs = { "type", "name", "range"
          "tech", "Superconductors", "Player"
        }
-replaced_by = "-"
