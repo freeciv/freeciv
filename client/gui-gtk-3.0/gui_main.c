@@ -1689,6 +1689,7 @@ void ui_main(int argc, char **argv)
 
   gtk_main();
 
+  destroy_server_scans();
   free_mapcanvas_and_overview();
   spaceship_dialog_done();
   intel_dialog_done();

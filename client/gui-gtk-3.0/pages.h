@@ -37,5 +37,6 @@ void mapimg_client_save(const char *filename);
 
 void ai_fill_changed_by_server(int aifill);
 
-#endif  /* FC__PAGES_H */
+void destroy_server_scans(void);
 
+#endif  /* FC__PAGES_H */
