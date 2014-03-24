@@ -688,7 +688,7 @@ static void update_server_list(enum server_scan_type sstype,
 /**************************************************************************
   Free the server scans.
 **************************************************************************/
-static void destroy_server_scans(void)
+void destroy_server_scans(void)
 {
   if (meta_scan) {
     server_scan_finish(meta_scan);
@@ -3192,9 +3192,6 @@ void real_set_client_page(enum client_pages new_page)
   switch (old_page) {
   case PAGE_SCENARIO:
   case PAGE_LOAD:
-    break;
-  case PAGE_NETWORK:
-    destroy_server_scans();
     break;
   case PAGE_GAME:
     enable_menus(FALSE);
