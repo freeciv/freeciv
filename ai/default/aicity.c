@@ -1986,12 +1986,16 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
   action_iterate (action_id) {
     bool isPossible;
     bool willBePossible;
+    enum req_range max_range;
     int act_neg_util;
 
     /* Is the action relevant? */
     if (action_get_target_kind(action_id) != ATK_CITY) {
       continue;
     }
+
+    /* No range found yet. Local is the most narrow range. */
+    max_range = REQ_RANGE_LOCAL;
 
     /* Is is possible to do the action to the city right now?
      *
@@ -2000,17 +2004,17 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
 
     /* Will it be possible to do the action to the city if the building is
      * built? */
-    /* TODO: Support caring about ranges if the price is acceptable.
-     * The price: Must look at all action enablers. */
     action_enabler_list_iterate(action_enablers_for_action(action_id),
                                 enabler) {
       bool active = TRUE;
+      enum req_range range = REQ_RANGE_LOCAL;
 
       requirement_vector_iterate(&(enabler->target_reqs), preq) {
         if (VUT_IMPROVEMENT == preq->source.kind
             && preq->source.value.building == pimprove) {
           /* Pretend the building is there */
           if (preq->present) {
+            range = preq->range; /* Assumption: Max one pr vector */
             continue;
           } else {
             active = FALSE;
@@ -2028,8 +2032,15 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
 
       if (active) {
         willBePossible = TRUE;
-        /* One enabler is enough */
-        break;
+
+        /* Store the widest range that enables the action. */
+        if (max_range < range) {
+          max_range = range;
+        }
+
+        /* Don't break the iteration even if the action is enabled. There
+         * could be a wider range in an active action enabler not yet seen.
+         */
       }
     } action_enabler_list_iterate_end;
 
@@ -2041,6 +2052,12 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
 
     /* How undersireable is it that the city may be a target? */
     act_neg_util = action_target_neg_util(action_id, pcity);
+
+    /* Multiply the desire by number of cities in range.
+     * Note: This is a simplification. If the action can be done or not
+     * _may_ be uncanged or changed in the opposite direction in the other
+     * cities in the range. */
+    act_neg_util = cities[max_range] * act_neg_util;
 
     /* Consider the utility of being a potential target.
      * Remember: act_util is the negative utility of being a target. */
