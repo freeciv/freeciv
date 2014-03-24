@@ -90,6 +90,12 @@ void fc_client::create_main_page(void)
   const char *rev_ver;
   QFont f = QApplication::font();
   QFontMetrics fm(f);
+  QPalette warn_color;
+  QLabel *experimental_warning = new QLabel(_("Qt-client is experimental!"));
+  int row = 0;
+#if IS_BETA_VERSION
+  QLabel *beta_label = new QLabel(beta_message());
+#endif
 
   pages_layout[PAGE_MAIN] = new QGridLayout;
 
@@ -109,7 +115,22 @@ void fc_client::create_main_page(void)
                    main_graphics.height()-fm.descent(), msgbuf);
   free_main_pic->setPixmap(main_graphics);
   pages_layout[PAGE_MAIN]->addWidget(free_main_pic,
-                                     0, 0, 1, 2, Qt::AlignCenter);
+                                     row++, 0, 1, 2, Qt::AlignCenter);
+
+  warn_color.setColor(QPalette::WindowText, Qt::red);
+  experimental_warning->setPalette(warn_color);
+  experimental_warning->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Maximum);
+  pages_layout[PAGE_MAIN]->addWidget(experimental_warning,
+                                     row++, 0, 1, 2, Qt::AlignHCenter);
+
+#if IS_BETA_VERSION
+  beta_label->setPalette(warn_color);
+  beta_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Maximum);
+  beta_label->setAlignment(Qt::AlignCenter);
+  pages_layout[PAGE_MAIN]->addWidget(beta_label,
+                                     row++, 0, 1, 2, Qt::AlignHCenter);
+#endif
+
   buttons_names << _("Start new game") << _("Start scenario game")
                 << _("Load saved game") << _("Connect to network game")
                 << _("Options") << _("Quit");
@@ -121,29 +142,29 @@ void fc_client::create_main_page(void)
 
     switch (iter) {
     case 0:
-      pages_layout[PAGE_MAIN]->addWidget(button, 1, 0);
+      pages_layout[PAGE_MAIN]->addWidget(button, row + 1, 0);
       break;
     case 1:
-      pages_layout[PAGE_MAIN]->addWidget(button, 2, 0);
+      pages_layout[PAGE_MAIN]->addWidget(button, row + 2, 0);
       connect(button, SIGNAL(clicked()), switch_page_mapper, SLOT(map()));
       switch_page_mapper->setMapping(button, PAGE_SCENARIO);
       break;
     case 2:
-      pages_layout[PAGE_MAIN]->addWidget(button, 3, 0);
+      pages_layout[PAGE_MAIN]->addWidget(button, row + 3, 0);
       connect(button, SIGNAL(clicked()), switch_page_mapper, SLOT(map()));
       switch_page_mapper->setMapping(button, PAGE_LOAD);
       break;
     case 3:
-      pages_layout[PAGE_MAIN]->addWidget(button, 1, 1);
+      pages_layout[PAGE_MAIN]->addWidget(button, row + 1, 1);
       connect(button, SIGNAL(clicked()), switch_page_mapper, SLOT(map()));
       switch_page_mapper->setMapping(button, PAGE_NETWORK);
       break;
     case 4:
-      pages_layout[PAGE_MAIN]->addWidget(button, 2, 1);
+      pages_layout[PAGE_MAIN]->addWidget(button, row + 2, 1);
       connect(button, SIGNAL(clicked()), this, SLOT(popup_client_options()));
       break;
     case 5:
-      pages_layout[PAGE_MAIN]->addWidget(button, 3, 1);
+      pages_layout[PAGE_MAIN]->addWidget(button, row + 3, 1);
       QObject::connect(button, SIGNAL(clicked()), this, SLOT(quit()));
       break;
     default:
