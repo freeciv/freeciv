@@ -1764,6 +1764,9 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
 
   cities[REQ_RANGE_CITY] = cities[REQ_RANGE_LOCAL] = 1;
 
+  /* Invalid building range */
+  cities[REQ_RANGE_ADJACENT] = cities[REQ_RANGE_CADJACENT] = 0;
+
   effect_list_iterate(get_req_source_effects(&source), peffect) {
     struct requirement *mypreq = NULL;
     bool active = TRUE;
