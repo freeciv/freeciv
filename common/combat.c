@@ -357,9 +357,8 @@ void get_modified_firepower(const struct unit *attacker,
   }
 
   /* In land bombardment both units have their firepower reduced to 1 */
-  if (is_sailing_unit(attacker)
-      && !is_ocean_tile(unit_tile(defender))
-      && is_ground_unit(defender)) {
+  if (!is_native_tile(unit_type(attacker), unit_tile(defender))
+      && !can_exist_at_tile(unit_type(defender), unit_tile(attacker))) {
     *att_fp = 1;
     *def_fp = 1;
   }
