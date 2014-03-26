@@ -55,8 +55,7 @@ static SDL_Surface *pFuture_Tech_Icon;
 do {								  \
   pSpr = theme_lookup_sprite_tag_alt(theme, LOG_FATAL, tag, "", "", ""); \
   fc_assert_action(pSpr != NULL, break);                          \
-  pStruct->pSurf = adj_surf(GET_SURF_REAL(pSpr));                 \
-  FREESURFACE(GET_SURF_REAL(pSpr));                               \
+  pStruct->pSurf = GET_SURF_REAL(pSpr);                           \
 } while(0)
 
 #define load_theme_surface(pSpr, pSurf, tag)		\
@@ -282,7 +281,7 @@ void tilespec_setup_theme(void)
 #endif
   load_theme_surface(pBuf, Vertic, "theme.vertic_scrollbar");
   load_theme_surface(pBuf, Horiz, "theme.horiz_scrollbar");
-  
+
   /* ------------------- */
   load_theme_surface(pBuf, OK_PACT_Icon, "theme.pact_ok");
   load_theme_surface(pBuf, CANCEL_PACT_Icon, "theme.pact_cancel");

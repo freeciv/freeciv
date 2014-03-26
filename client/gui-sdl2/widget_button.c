@@ -34,9 +34,9 @@ static int (*baseclass_redraw)(struct widget *pwidget);
 /**************************************************************************
   Create Icon Button image with text and Icon then blit to Dest(ination)
   on positon pIButton->size.x , pIButton->size.y.
-  WARRING: pDest must exist.
+  WARNING: pDest must exist.
 
-  Text with atributes is taken from pIButton->string16 parameter.
+  Text with attributes is taken from pIButton->string16 parameter.
 
   Graphic for button is taken from pIButton->theme surface 
   and blit to new created image.
@@ -44,7 +44,7 @@ static int (*baseclass_redraw)(struct widget *pwidget);
   Graphic for Icon is taken from pIButton->theme2 surface and blit to new
   created image.
 
-  function return (-1) if there are no Icon and Text.
+  function return (-1) if there are no Icon nor Text.
   Else return 0.
 **************************************************************************/
 static int redraw_ibutton(struct widget *pIButton)
@@ -86,7 +86,7 @@ static int redraw_ibutton(struct widget *pIButton)
 
   /* create Button graphic */
   pButton = create_bcgnd_surf(pIButton->theme, get_wstate(pIButton),
-			      pIButton->size.w, pIButton->size.h);
+                              pIButton->size.w, pIButton->size.h);
 
   clear_surface(pIButton->dst->surface, &pIButton->size);
   alphablit(pButton, NULL, pIButton->dst->surface, &pIButton->size, 255);
@@ -235,7 +235,7 @@ static int redraw_tibutton(struct widget *pTIButton)
   if (iRet != 0) {
     return iRet;
   }
-  
+
   pIcon = create_icon_from_theme(pTIButton->theme2, get_wstate(pTIButton));
   pCopy_Of_Icon_Theme = pTIButton->theme2;
 
@@ -261,8 +261,8 @@ static int redraw_tibutton(struct widget *pTIButton)
 
   function return pointer to allocated Button Widget.
 **************************************************************************/
-struct widget * create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
-			  SDL_String16 *pStr, Uint32 flags)
+struct widget *create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
+                                  SDL_String16 *pStr, Uint32 flags)
 {
   SDL_Rect buf = {0, 0, 0, 0};
   int w = 0, h = 0;
@@ -339,8 +339,9 @@ struct widget * create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
 
   function return pointer to allocated Button Widget.
 **************************************************************************/
-struct widget * create_themeicon_button(SDL_Surface *pIcon_theme,
-		struct gui_layer *pDest, SDL_String16 *pString16, Uint32 flags)
+struct widget *create_themeicon_button(SDL_Surface *pIcon_theme,
+                                       struct gui_layer *pDest, SDL_String16 *pString16,
+                                       Uint32 flags)
 {
   /* extract a single icon */
   SDL_Surface *pIcon = create_icon_from_theme(pIcon_theme, 1);
@@ -374,6 +375,7 @@ int draw_tibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y)
 {
   pButton->size.x = start_x;
   pButton->size.y = start_y;
+
   return redraw_tibutton(pButton);
 }
 

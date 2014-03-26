@@ -79,12 +79,12 @@ void correct_size_bcgnd_surf(SDL_Surface * pTheme,
     state = 2 - pressed
     state = 3 - disabled
 **************************************************************************/
-SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, Uint8 state,
-                               Uint16 Width, Uint16 High)
+SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, Uint8 state,
+                               Uint16 width, Uint16 height)
 {
   bool zoom;
   int iTile_width_len_end, iTile_width_len_mid, iTile_count_len_mid;
-  int iTile_width_high_end, iTile_width_high_mid, iTile_count_high_mid;
+  int iTile_width_height_end, iTile_width_height_mid, iTile_count_height_mid;
   int i, j;
 
   SDL_Rect src, des;
@@ -96,60 +96,60 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, Uint8 state,
   iTile_width_len_mid = pTheme->w - (iTile_width_len_end * 2);
 
   iTile_count_len_mid =
-      (Width - (iTile_width_len_end * 2)) / iTile_width_len_mid;
+      (width - (iTile_width_len_end * 2)) / iTile_width_len_mid;
 
   /* corrections I */
   if (((iTile_count_len_mid *
-	iTile_width_len_mid) + (iTile_width_len_end * 2)) < Width) {
+        iTile_width_len_mid) + (iTile_width_len_end * 2)) < width) {
     iTile_count_len_mid++;
   }
 
-  iTile_width_high_end = pTheme->h / 16;
-  iTile_width_high_mid = (pTheme->h / 4) - (iTile_width_high_end * 2);
-  iTile_count_high_mid =
-      (High - (iTile_width_high_end * 2)) / iTile_width_high_mid;
+  iTile_width_height_end = pTheme->h / 16;
+  iTile_width_height_mid = (pTheme->h / 4) - (iTile_width_height_end * 2);
+  iTile_count_height_mid =
+      (height - (iTile_width_height_end * 2)) / iTile_width_height_mid;
 
   /* corrections II */
-  if (((iTile_count_high_mid *
-	iTile_width_high_mid) + (iTile_width_high_end * 2)) < High) {
-    iTile_count_high_mid++;
+  if (((iTile_count_height_mid *
+	iTile_width_height_mid) + (iTile_width_height_end * 2)) < height) {
+    iTile_count_height_mid++;
   }
 
-  i = MAX(iTile_width_len_end * 2, Width);
-  j = MAX(iTile_width_high_end * 2, High);
-  zoom = ((i != Width) ||  (j != High));
-  
+  i = MAX(iTile_width_len_end * 2, width);
+  j = MAX(iTile_width_height_end * 2, height);
+  zoom = ((i != width) ||  (j != height));
+
   /* now allocate memory */
   pBackground = create_surf_alpha(i, j, SDL_SWSURFACE);
 
   /* copy left end */
 
-  /* copy left top end */
+  /* left top */
   src.x = 0;
   src.y = iStart_y;
   src.w = iTile_width_len_end;
-  src.h = iTile_width_high_end;
+  src.h = iTile_width_height_end;
 
   des.x = 0;
   des.y = 0;
   alphablit(pTheme, &src, pBackground, &des, 255);
 
-  /* copy left middels parts */
-  src.y = iStart_y + iTile_width_high_end;
-  src.h = iTile_width_high_mid;
-  for (i = 0; i < iTile_count_high_mid; i++) {
-    des.y = iTile_width_high_end + i * iTile_width_high_mid;
+  /* left middle */
+  src.y = iStart_y + iTile_width_height_end;
+  src.h = iTile_width_height_mid;
+  for (i = 0; i < iTile_count_height_mid; i++) {
+    des.y = iTile_width_height_end + i * iTile_width_height_mid;
     alphablit(pTheme, &src, pBackground, &des, 255);
   }
 
-  /* copy left boton end */
-  src.y = iStart_y + ((pTheme->h / 4) - iTile_width_high_end);
-  src.h = iTile_width_high_end;
-  des.y = pBackground->h - iTile_width_high_end;
+  /* left bottom */
+  src.y = iStart_y + ((pTheme->h / 4) - iTile_width_height_end);
+  src.h = iTile_width_height_end;
+  des.y = pBackground->h - iTile_width_height_end;
   clear_surface(pBackground, &des);
   alphablit(pTheme, &src, pBackground, &des, 255);
 
-  /* copy middle parts without right end part */
+  /* copy middle parts */
 
   src.x = iTile_width_len_end;
   src.y = iStart_y;
@@ -157,29 +157,31 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, Uint8 state,
 
   for (i = 0; i < iTile_count_len_mid; i++) {
 
-    /* top */
+    /* middle top */
     des.x = iTile_width_len_end + i * iTile_width_len_mid;
     des.y = 0;
     src.y = iStart_y;
     alphablit(pTheme, &src, pBackground, &des, 255);
 
-    /*  middels */
-    src.y = iStart_y + iTile_width_high_end;
-    src.h = iTile_width_high_mid;
-    for (j = 0; j < iTile_count_high_mid; j++) {
-      des.y = iTile_width_high_end + j * iTile_width_high_mid;
+    /* middle middle */
+    src.y = iStart_y + iTile_width_height_end;
+    src.h = iTile_width_height_mid;
+    for (j = 0; j < iTile_count_height_mid; j++) {
+      des.y = iTile_width_height_end + j * iTile_width_height_mid;
       alphablit(pTheme, &src, pBackground, &des, 255);
     }
 
-    /* bottom */
-    src.y = iStart_y + ((pTheme->h / 4) - iTile_width_high_end);
-    src.h = iTile_width_high_end;
-    des.y = pBackground->h - iTile_width_high_end;
-    clear_surface(pBackground, &des);    
+    /* middle bottom */
+    src.y = iStart_y + ((pTheme->h / 4) - iTile_width_height_end);
+    src.h = iTile_width_height_end;
+    des.y = pBackground->h - iTile_width_height_end;
+    clear_surface(pBackground, &des);
     alphablit(pTheme, &src, pBackground, &des, 255);
   }
 
   /* copy right end */
+
+  /* right top */
   src.x = pTheme->w - iTile_width_len_end;
   src.y = iStart_y;
   src.w = iTile_width_len_end;
@@ -189,28 +191,28 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, Uint8 state,
 
   alphablit(pTheme, &src, pBackground, &des, 255);
 
-  /*  middels */
-  src.y = iStart_y + iTile_width_high_end;
-  src.h = iTile_width_high_mid;
-  for (i = 0; i < iTile_count_high_mid; i++) {
-    des.y = iTile_width_high_end + i * iTile_width_high_mid;
+  /* right middle */
+  src.y = iStart_y + iTile_width_height_end;
+  src.h = iTile_width_height_mid;
+  for (i = 0; i < iTile_count_height_mid; i++) {
+    des.y = iTile_width_height_end + i * iTile_width_height_mid;
     alphablit(pTheme, &src, pBackground, &des, 255);
   }
 
-  /*boton */
-  src.y = iStart_y + ((pTheme->h / 4) - iTile_width_high_end);
-  src.h = iTile_width_high_end;
-  des.y = pBackground->h - iTile_width_high_end;
-  clear_surface(pBackground, &des);  
+  /* right bottom */
+  src.y = iStart_y + ((pTheme->h / 4) - iTile_width_height_end);
+  src.h = iTile_width_height_end;
+  des.y = pBackground->h - iTile_width_height_end;
+  clear_surface(pBackground, &des);
   alphablit(pTheme, &src, pBackground, &des, 255);
 
-  if (zoom)
-  {
-    SDL_Surface *pZoom = ResizeSurface(pBackground, Width, High, 1);
+  if (zoom) {
+    SDL_Surface *pZoom = ResizeSurface(pBackground, width, height, 1);
+
     FREESURFACE(pBackground);
     pBackground = pZoom;
   }
-  
+
   return pBackground;
 }
 

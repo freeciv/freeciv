@@ -292,9 +292,9 @@ bool is_in_rect_area(int x, int y, SDL_Rect rect);
 
 int SDL_FillRectAlpha(SDL_Surface *pSurface, SDL_Rect *pRect,
 		      SDL_Color *pColor);
-                      
+
 int clear_surface(SDL_Surface *pSurf, SDL_Rect *dstrect);
-  
+
 /* ================================================================= */
 
 SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,

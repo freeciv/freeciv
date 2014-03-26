@@ -116,7 +116,7 @@ void flush_rect(SDL_Rect rect, bool force_flush)
       }
       alphablit(Main.map, &rect, Main.mainsurf, &dst, 255);
       if (Main.guis) {
-        while((i < Main.guis_count) && Main.guis[i]) {
+        while ((i < Main.guis_count) && Main.guis[i]) {
           src = rect;
           screen_rect_to_layer_rect(Main.guis[i], &src);
           dst = rect;

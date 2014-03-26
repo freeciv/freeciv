@@ -447,6 +447,7 @@ int clear_surface(SDL_Surface *pSurf, SDL_Rect *dstrect) {
   /* SDL_FillRect might change the rectangle, so we create a copy */
   if (dstrect) {
     SDL_Rect _dstrect = *dstrect;
+
     return SDL_FillRect(pSurf, &_dstrect, SDL_MapRGBA(pSurf->format, 0, 0, 0, 0));
   } else {
     return SDL_FillRect(pSurf, NULL, SDL_MapRGBA(pSurf->format, 0, 0, 0, 0));
