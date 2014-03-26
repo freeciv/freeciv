@@ -2306,6 +2306,7 @@ static struct player *split_player(struct player *pplayer)
 {
   struct player_research *new_research, *old_research;
   struct player *cplayer;
+  struct nation_type *rebel_nation;
 
   /* make a new player, or not */
   cplayer = server_create_player(-1, default_ai_type_name(), NULL);
@@ -2315,11 +2316,10 @@ static struct player *split_player(struct player *pplayer)
   server_player_init(cplayer, TRUE, TRUE);
 
   /* Rebel will always be an AI player */
-  player_set_nation(cplayer, pick_a_nation
-      (nation_of_player(pplayer)->server.civilwar_nations,
-       TRUE, FALSE, NOT_A_BARBARIAN));
-  server_player_set_name(cplayer,
-                         pick_random_player_name(nation_of_player(cplayer)));
+  rebel_nation = pick_a_nation(nation_of_player(pplayer)->server.civilwar_nations,
+                               TRUE, FALSE, NOT_A_BARBARIAN);
+  player_nation_defaults(cplayer, rebel_nation, TRUE);
+
   fc_assert(game_was_started());
   /* Find a color for the new player. */
   assign_player_colors();
