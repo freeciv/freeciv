@@ -125,8 +125,7 @@ static struct player *create_barbarian_player(enum barbarian_type type)
   server_player_init(barbarians, TRUE, TRUE);
 
   nation = pick_a_nation(NULL, FALSE, TRUE, type);
-  player_set_nation(barbarians, nation);
-  sz_strlcpy(barbarians->name, pick_random_player_name(nation));
+  player_nation_defaults(barbarians, nation, TRUE);
 
   server.nbarbarians++;
 
