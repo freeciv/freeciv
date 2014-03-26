@@ -101,6 +101,14 @@ reqs	=
       "Style", "Celtic", "Player"
     }
 
+[musicstyle_renaissance]
+music_peaceful     = "music_renaissance_peace"
+music_combat       = "music_renaissance_combat"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "University", "Player"
+    }
+
 [musicstyle_industrial]
 music_peaceful     = "music_industrial_peace"
 music_combat       = "music_industrial_combat"
