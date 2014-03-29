@@ -4836,6 +4836,26 @@ static bool sg_load_player_unit(struct loaddata *loading,
     if (extra_id >= 0 && extra_id < loading->extra.size) {
       pextra = loading->extra.order[extra_id];
       set_unit_activity_targeted(punit, activity, pextra);
+    } else if (activity == ACTIVITY_IRRIGATE) {
+      struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
+                                                   EC_IRRIGATION,
+                                                   unit_owner(punit),
+                                                   punit);
+      if (tgt != NULL) {
+        set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, tgt);
+      } else {
+        set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, NULL);
+      }
+    } else if (activity == ACTIVITY_MINE) {
+      struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
+                                                   EC_MINE,
+                                                   unit_owner(punit),
+                                                   punit);
+      if (tgt != NULL) {
+        set_unit_activity_targeted(punit, ACTIVITY_MINE, tgt);
+      } else {
+        set_unit_activity_targeted(punit, ACTIVITY_MINE, NULL);
+      }
     } else {
       set_unit_activity(punit, activity);
     }
