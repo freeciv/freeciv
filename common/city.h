@@ -299,7 +299,6 @@ struct city {
   struct player *owner; /* Cannot be NULL. */
   struct player *original; /* Cannot be NULL. */
   int id;
-  int style;
 
   /* the people */
   citizens size;

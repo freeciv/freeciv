@@ -150,7 +150,6 @@ bool city_refresh(struct city *pcity)
   retval = city_map_update_radius_sq(pcity);
   city_units_upkeep(pcity); /* update unit upkeep */
   city_refresh_from_main_map(pcity, NULL);
-  city_style_refresh(pcity);
 
   if (retval) {
     /* Force a sync of the city after the change. */
@@ -3302,12 +3301,4 @@ static void check_city_migrations_player(const struct player *pplayer)
       continue;
     }
   } city_list_iterate_safe_end;
-}
-
-/**************************************************************************
-  Recheck and store style of the city.
-**************************************************************************/
-void city_style_refresh(struct city *pcity)
-{
-  pcity->style = city_style(pcity);
 }

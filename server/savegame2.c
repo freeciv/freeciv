@@ -4215,7 +4215,6 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   int id, i, repair, specialists = 0, workers = 0, value;
   int nat_x, nat_y;
   citizens size;
-  const char *stylename;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x", citystr),
                   FALSE, "%s", secfile_error());
@@ -4347,17 +4346,6 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     secfile_lookup_int_default(loading->file, 0,
                                "%s.last_turns_shield_surplus",
                                citystr);
-
-  stylename = secfile_lookup_str_default(loading->file, NULL,
-                                         "%s.style", citystr);
-  if (stylename != NULL) {
-    pcity->style = city_style_by_rule_name(stylename);
-  } else {
-    pcity->style = 0;
-  }
-  if (pcity->style < 0) {
-    pcity->style = city_style(pcity);
-  }
 
   pcity->server.synced = FALSE; /* must re-sync with clients */
 
@@ -4632,9 +4620,6 @@ static void sg_save_player_cities(struct savedata *saving,
                        "%s.disbanded_shields", buf);
     secfile_insert_int(saving->file, pcity->last_turns_shield_surplus,
                        "%s.last_turns_shield_surplus", buf);
-
-    secfile_insert_str(saving->file, city_style_rule_name(pcity->style),
-                       "%s.style", buf);
 
     /* Save the squared city radius and all tiles within the corresponing
      * city map. */
@@ -5899,7 +5884,6 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
   int i, id, size;
   citizens city_size;
   int nat_x, nat_y;
-  const char *stylename;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x",
                                      citystr),
@@ -5966,17 +5950,6 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
                                               "%s.happy", citystr);
   pdcity->unhappy = secfile_lookup_bool_default(loading->file, FALSE,
                                                 "%s.unhappy", citystr);
-  stylename = secfile_lookup_str_default(loading->file, NULL,
-                                             "%s.style", citystr);
-  if (stylename != NULL) {
-    pdcity->style = city_style_by_rule_name(stylename);
-  } else {
-    pdcity->style = 0;
-  }
-  if (pdcity->style < 0) {
-    pdcity->style = 0;
-  }
-
   pdcity->city_image = secfile_lookup_int_default(loading->file, -100,
                                                   "%s.city_image", citystr);
 
@@ -6121,8 +6094,6 @@ static void sg_save_player_vision(struct savedata *saving,
       secfile_insert_bool(saving->file, pdcity->walls, "%s.walls", buf);
       secfile_insert_bool(saving->file, pdcity->happy, "%s.happy", buf);
       secfile_insert_bool(saving->file, pdcity->unhappy, "%s.unhappy", buf);
-      secfile_insert_str(saving->file, city_style_rule_name(pdcity->style),
-                         "%s.style", buf);
       secfile_insert_int(saving->file, pdcity->city_image, "%s.city_image", buf);
 
       /* Save improvement list as bitvector. Note that improvement order

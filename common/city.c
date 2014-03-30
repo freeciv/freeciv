@@ -1612,7 +1612,7 @@ const char *city_style_name_translation(const int style)
   Return the (untranslated) rule name of the city style.
   You don't have to free the return pointer.
 ****************************************************************************/
-const char *city_style_rule_name(const int style)
+const char* city_style_rule_name(const int style)
 {
    return rule_name(&city_styles[style].name);
 }

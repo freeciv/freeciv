@@ -571,7 +571,6 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   PLAYER owner;
   CITIZENS size;
   UINT8 city_radius_sq;
-  UINT8 style;
 
   CITIZENS ppl_happy[FEELING_LAST];
   CITIZENS ppl_content[FEELING_LAST];
@@ -633,7 +632,6 @@ PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO)
 
   PLAYER owner;
   UINT8 size;
-  UINT8 style;
 
   BOOL occupied;
   BOOL walls;
@@ -736,6 +734,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   BOOL real_embassy[MAX_NUM_PLAYER_SLOTS];
   MOOD  mood;
   UINT8 style;
+  UINT8 city_style;
   SINT8 music_style;
   NATION nation;
   TEAM team;

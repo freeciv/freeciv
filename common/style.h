@@ -72,11 +72,11 @@ struct music_style *player_music_style(struct player *plr);
   }                                                            \
 }
 
+int city_style_of_player(const struct player *plr);
 int style_of_city(const struct city *pcity);
 
 int basic_city_style_for_style(struct nation_style *pstyle);
 
-int city_style(struct city *pcity);
 
 #ifdef __cplusplus
 }
