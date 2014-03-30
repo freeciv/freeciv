@@ -2835,6 +2835,10 @@ void handle_rulesets_ready(void)
     } road_type_iterate_end;
   } road_type_iterate_end;
 
+  unit_class_iterate(pclass) {
+    set_unit_class_caches(pclass);
+  } unit_class_iterate_end;
+
   /* We are not going to crop any more sprites from big sprites, free them. */
   finish_loading_sprites(tileset);
 }

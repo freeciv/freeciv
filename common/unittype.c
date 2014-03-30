@@ -1056,6 +1056,8 @@ void unit_classes_init(void)
   for (i = 0; i < ARRAY_SIZE(unit_classes); i++) {
     unit_classes[i].item_number = i;
     unit_classes[i].cache.refuel_bases = NULL;
+    unit_classes[i].cache.native_tile_bases = NULL;
+    unit_classes[i].cache.native_tile_roads = NULL;
   }
 }
 
@@ -1070,6 +1072,14 @@ void unit_classes_free(void)
     if (unit_classes[i].cache.refuel_bases != NULL) {
       base_type_list_destroy(unit_classes[i].cache.refuel_bases);
       unit_classes[i].cache.refuel_bases = NULL;
+    }
+    if (unit_classes[i].cache.native_tile_bases != NULL) {
+      base_type_list_destroy(unit_classes[i].cache.native_tile_bases);
+      unit_classes[i].cache.native_tile_bases = NULL;
+    }
+    if (unit_classes[i].cache.native_tile_roads != NULL) {
+      road_type_list_destroy(unit_classes[i].cache.native_tile_roads);
+      unit_classes[i].cache.native_tile_roads = NULL;
     }
   }
 }
@@ -1216,4 +1226,30 @@ void utype_set_ai_data(struct unit_type *ptype, const struct ai_type *ai,
                        void *data)
 {
   ptype->ais[ai_type_number(ai)] = data;
+}
+
+/****************************************************************************
+  Set caches for unit class.
+****************************************************************************/
+void set_unit_class_caches(struct unit_class *pclass)
+{
+  pclass->cache.refuel_bases = base_type_list_new();
+  pclass->cache.native_tile_bases = base_type_list_new();
+  pclass->cache.native_tile_roads = road_type_list_new();
+
+  base_type_iterate(pbase) {
+    if (is_native_base_to_uclass(pbase, pclass)) {
+      base_type_list_append(pclass->cache.refuel_bases, pbase);
+      if (base_has_flag(pbase, BF_NATIVE_TILE)) {
+        base_type_list_append(pclass->cache.native_tile_bases, pbase);
+      }
+    }
+  } base_type_iterate_end;
+
+  road_type_iterate(proad) {
+    if (is_native_road_to_uclass(proad, pclass)
+        && road_has_flag(proad, RF_NATIVE_TILE)) {
+      road_type_list_append(pclass->cache.native_tile_roads, proad);
+    }
+  } road_type_iterate_end;
 }
