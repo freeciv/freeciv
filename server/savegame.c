@@ -2417,6 +2417,8 @@ static void player_load_cities(struct player *plr, int plrno,
 				 "player%d.c%d.last_turns_shield_surplus",
 				 plrno, i);
 
+    pcity->style = city_style(pcity);
+
     pcity->server.synced = FALSE; /* must re-sync with clients */
 
     /* Fix for old buggy savegames. */
@@ -2865,6 +2867,8 @@ static void player_load_vision(struct player *plr, int plrno,
                                       "player%d.dc%d.happy", plrno, i);
       pdcity->unhappy = secfile_lookup_bool_default(file, FALSE,
                                       "player%d.dc%d.unhappy", plrno, i);
+
+      pdcity->style = 0;
 
       /* Old savegames never have real city image information, so set
        * it to special value "server doesn't know" */

@@ -2167,6 +2167,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->was_happy = pcity->was_happy;
 
   packet->walls = city_got_citywalls(pcity);
+  packet->style = pcity->style;
   packet->city_image = get_city_bonus(pcity, EFT_CITY_IMAGE);
 
   BV_CLR_ALL(packet->improvements);
@@ -2198,6 +2199,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   bool walls = city_got_citywalls(pcity);
   bool happy = city_happy(pcity);
   bool unhappy = city_unhappy(pcity);
+  int style = pcity->style;
   int city_image = get_city_bonus(pcity, EFT_CITY_IMAGE);
 
   BV_CLR_ALL(improvements);
@@ -2222,20 +2224,22 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
               TILE_XY(city_tile(pcity)), player_name(pplayer));
     pdcity->identity = pcity->id;   /* ?? */
   } else if (pdcity->occupied == occupied
-	  && pdcity->walls == walls
-	  && pdcity->happy == happy
-	  && pdcity->unhappy == unhappy
-          && pdcity->city_image == city_image
-	  && BV_ARE_EQUAL(pdcity->improvements, improvements)
-          && vision_site_size_get(pdcity) == city_size_get(pcity)
-	  && vision_site_owner(pdcity) == city_owner(pcity)
-	  && 0 == strcmp(pdcity->name, city_name(pcity))) {
+             && pdcity->walls == walls
+             && pdcity->happy == happy
+             && pdcity->unhappy == unhappy
+             && pdcity->style == style
+             && pdcity->city_image == city_image
+             && BV_ARE_EQUAL(pdcity->improvements, improvements)
+             && vision_site_size_get(pdcity) == city_size_get(pcity)
+             && vision_site_owner(pdcity) == city_owner(pcity)
+             && 0 == strcmp(pdcity->name, city_name(pcity))) {
     return FALSE;
   }
 
   vision_site_update_from_city(pdcity, pcity);
   pdcity->occupied = occupied;
   pdcity->walls = walls;
+  pdcity->style = style;
   pdcity->city_image = city_image;
   pdcity->happy = happy;
   pdcity->unhappy = unhappy;

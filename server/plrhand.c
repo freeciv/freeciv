@@ -951,11 +951,6 @@ static void package_player_common(struct player *plr,
   packet->is_ready = plr->is_ready;
   packet->was_created = plr->was_created;
   packet->style = plr->style ? style_number(plr->style) : 0;
-  if (city_styles != NULL) {
-    packet->city_style = city_style_of_player(plr);
-  } else {
-    packet->city_style = 0;
-  }
 
   /* I think we could safely move the music style selection to
    * client side to not have it burden server side. Client could

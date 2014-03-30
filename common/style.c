@@ -201,27 +201,7 @@ struct music_style *player_music_style(struct player *plr)
 **************************************************************************/
 int style_of_city(const struct city *pcity)
 {
-  return city_style_of_player(city_owner(pcity));
-}
-
-/**************************************************************************
-  Return the city style (used for drawing the city on the mapview in
-  the client) for this city.  The city style depends on the
-  start-of-game choice by the player as well as techs researched.
-**************************************************************************/
-int city_style_of_player(const struct player *plr)
-{
-  int k;
-
-  for (k = game.control.styles_count - 1; k >= 0; k--) {
-    if (are_reqs_active(plr, NULL, NULL, NULL, NULL,
-                        NULL, NULL, NULL, &(city_styles[k].reqs),
-                        RPT_CERTAIN)) {
-      return k;
-    }
-  }
-
-  return -1;
+  return pcity->style;
 }
 
 /**************************************************************************
@@ -258,4 +238,23 @@ int basic_city_style_for_style(struct nation_style *pstyle)
   }
 
   return -1;
+}
+
+/**************************************************************************
+  Return citystyle of the city.
+**************************************************************************/
+int city_style(struct city *pcity)
+{
+  int i;
+  struct player *plr = city_owner(pcity);
+
+  for (i = game.control.styles_count - 1; i >= 0; i--) {
+    if (are_reqs_active(plr, NULL, pcity, NULL, city_tile(pcity),
+                        NULL, NULL, NULL, &city_styles[i].reqs,
+                        RPT_CERTAIN)) {
+      return i;
+    }
+  }
+
+  return 0;
 }

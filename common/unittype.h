@@ -106,8 +106,8 @@ struct unit_class {
   } adv;
 
   struct {
-    /* Set only on server side */
     struct extra_type_list *refuel_bases;
+    struct extra_type_list *native_tile_extras;
   } cache;
 };
 
@@ -590,6 +590,8 @@ void utype_set_ai_data(struct unit_type *ptype, const struct ai_type *ai,
 /* Initialization and iteration */
 void unit_classes_init(void);
 void unit_classes_free(void);
+
+void set_unit_class_caches(struct unit_class *pclass);
 
 struct unit_class *unit_class_array_first(void);
 const struct unit_class *unit_class_array_last(void);

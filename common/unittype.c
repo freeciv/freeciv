@@ -1057,6 +1057,7 @@ void unit_classes_init(void)
   for (i = 0; i < ARRAY_SIZE(unit_classes); i++) {
     unit_classes[i].item_number = i;
     unit_classes[i].cache.refuel_bases = NULL;
+    unit_classes[i].cache.native_tile_extras = NULL;
   }
 }
 
@@ -1071,6 +1072,10 @@ void unit_classes_free(void)
     if (unit_classes[i].cache.refuel_bases != NULL) {
       extra_type_list_destroy(unit_classes[i].cache.refuel_bases);
       unit_classes[i].cache.refuel_bases = NULL;
+    }
+    if (unit_classes[i].cache.native_tile_extras != NULL) {
+      extra_type_list_destroy(unit_classes[i].cache.native_tile_extras);
+      unit_classes[i].cache.native_tile_extras = NULL;
     }
   }
 }
@@ -1217,4 +1222,24 @@ void utype_set_ai_data(struct unit_type *ptype, const struct ai_type *ai,
                        void *data)
 {
   ptype->ais[ai_type_number(ai)] = data;
+}
+
+/****************************************************************************
+  Set caches for unit class.
+****************************************************************************/
+void set_unit_class_caches(struct unit_class *pclass)
+{
+  pclass->cache.refuel_bases = extra_type_list_new();
+  pclass->cache.native_tile_extras = extra_type_list_new();
+
+  extra_type_iterate(pextra) {
+    if (is_native_extra_to_uclass(pextra, pclass)) {
+      if (extra_has_flag(pextra, EF_REFUEL)) {
+        extra_type_list_append(pclass->cache.refuel_bases, pextra);
+      }
+      if (extra_has_flag(pextra, EF_NATIVE_TILE)) {
+        extra_type_list_append(pclass->cache.native_tile_extras, pextra);
+      }
+    }
+  } extra_type_iterate_end;
 }

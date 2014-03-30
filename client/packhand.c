@@ -779,6 +779,7 @@ void handle_city_info(const struct packet_city_info *packet)
   }
 
   pcity->client.walls = packet->walls;
+  pcity->style = packet->style;
   pcity->client.city_image = packet->city_image;
 
   pcity->client.happy = city_happy(pcity);
@@ -1025,6 +1026,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
     }
   }
   pcity->client.walls = packet->walls;
+  pcity->style = packet->style;
   pcity->client.city_image = packet->city_image;
 
   pcity->client.happy = packet->happy;
@@ -2867,6 +2869,10 @@ void handle_rulesets_ready(void)
       }
     } extra_type_iterate_end;
   } extra_type_iterate_end;
+
+  unit_class_iterate(pclass) {
+    set_unit_class_caches(pclass);
+  } unit_class_iterate_end;
 
   unit_type_iterate(u) {
     u->unknown_move_cost = utype_unknown_move_cost(u);

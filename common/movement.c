@@ -335,13 +335,11 @@ bool is_native_to_class(const struct unit_class *punitclass,
     return TRUE;
   }
 
-  extra_type_iterate(pextra) {
-    if (BV_ISSET(extras, extra_index(pextra))
-        && extra_has_flag(pextra, EF_NATIVE_TILE)
-        && is_native_extra_to_uclass(pextra, punitclass)) {
+  extra_type_list_iterate(punitclass->cache.native_tile_extras, pextra) {
+    if (BV_ISSET(extras, extra_index(pextra))) {
       return TRUE;
     }
-  } extra_type_iterate_end;
+  } extra_type_list_iterate_end;
 
   return FALSE;
 }
