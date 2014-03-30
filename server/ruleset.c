@@ -1350,6 +1350,8 @@ static void load_ruleset_units(struct section_file *file)
     fc_strlcat(tmp, ".move_type", 200);
     uc->move_type = lookup_move_type(file, tmp, filename);
 
+    set_unit_class_caches(uc);
+
     if (!unit_move_type_is_valid(uc->move_type)) {
       /* Not explicitly given, determine automatically */
       bool land_moving = FALSE;

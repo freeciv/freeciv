@@ -81,6 +81,15 @@ struct base_type {
 
 #define BASE_NONE       -1
 
+/* get 'struct base_type_list' and related functions: */
+#define SPECLIST_TAG base_type
+#define SPECLIST_TYPE struct base_type
+#include "speclist.h"
+
+#define base_type_list_iterate(baselist, pbase) \
+    TYPED_LIST_ITERATE(struct base_type, baselist, pbase)
+#define base_type_list_iterate_end LIST_ITERATE_END
+
 /* General base accessor functions. */
 Base_type_id base_count(void);
 Base_type_id base_index(const struct base_type *pbase);

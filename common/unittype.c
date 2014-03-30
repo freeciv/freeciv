@@ -1098,6 +1098,22 @@ void unit_classes_init(void)
    * num_unit_classes isn't known yet. */
   for (i = 0; i < ARRAY_SIZE(unit_classes); i++) {
     unit_classes[i].item_number = i;
+    unit_classes[i].cache.native_tile_bases = NULL;
+  }
+}
+
+/****************************************************************************
+  Free resources allocated for unit classes.
+****************************************************************************/
+void unit_classes_free(void)
+{
+  int i;
+
+  for (i = 0; i < ARRAY_SIZE(unit_classes); i++) {
+    if (unit_classes[i].cache.native_tile_bases != NULL) {
+      base_type_list_destroy(unit_classes[i].cache.native_tile_bases);
+      unit_classes[i].cache.native_tile_bases = NULL;
+    }
   }
 }
 
@@ -1226,4 +1242,19 @@ void veteran_system_definition(struct veteran_system *vsystem, int level,
   vlevel->move_bonus = vlist_move;
   vlevel->raise_chance = vlist_raise;
   vlevel->work_raise_chance = vlist_wraise;
+}
+
+/****************************************************************************
+  Set caches for unit class.
+****************************************************************************/
+void set_unit_class_caches(struct unit_class *pclass)
+{
+  pclass->cache.native_tile_bases = base_type_list_new();
+
+  base_type_iterate(pbase) {
+    if (is_native_base_to_uclass(pbase, pclass)
+        && base_has_flag(pbase, BF_NATIVE_TILE)) {
+        base_type_list_append(pclass->cache.native_tile_bases, pbase);
+    }
+  } base_type_iterate_end;
 }

@@ -511,6 +511,7 @@ void game_ruleset_free(void)
   } players_iterate_end;
   game.government_during_revolution = NULL;
 
+  unit_classes_free();
   specialists_free();
   techs_free();
   governments_free();

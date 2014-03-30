@@ -298,13 +298,11 @@ bool is_native_to_class(const struct unit_class *punitclass,
     return TRUE;
   }
 
-  base_type_iterate(pbase) {
-    if (BV_ISSET(bases, base_index(pbase))
-        && base_has_flag(pbase, BF_NATIVE_TILE)
-        && is_native_base_to_uclass(pbase, punitclass)) {
+  base_type_list_iterate(punitclass->cache.native_tile_bases, pbase) {
+    if (BV_ISSET(bases, base_index(pbase))) {
       return TRUE;
     }
-  } base_type_iterate_end;
+  } base_type_list_iterate_end;
 
   return FALSE;
 }

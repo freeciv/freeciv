@@ -96,6 +96,10 @@ struct unit_class {
     enum move_level land_move;
     enum move_level sea_move;
   } adv;
+
+  struct {
+    struct base_type_list *native_tile_bases;
+  } cache;
 };
 
 /* Unit "special effects" flags:
@@ -411,6 +415,9 @@ const struct unit_type *unit_type_array_last(void);
 
 /* Initialization and iteration */
 void unit_classes_init(void);
+void unit_classes_free(void);
+
+void set_unit_class_caches(struct unit_class *pclass);
 
 struct unit_class *unit_class_array_first(void);
 const struct unit_class *unit_class_array_last(void);
