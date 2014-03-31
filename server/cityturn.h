@@ -50,4 +50,6 @@ void check_city_migrations(void);
 
 void check_disasters(void);
 
+void city_style_refresh(struct city *pcity);
+
 #endif  /* FC__CITYTURN_H */

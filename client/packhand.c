@@ -779,6 +779,7 @@ void handle_city_info(const struct packet_city_info *packet)
   }
 
   pcity->client.walls = packet->walls;
+  pcity->style = packet->style;
   pcity->client.city_image = packet->city_image;
 
   pcity->client.happy = city_happy(pcity);
@@ -1025,6 +1026,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
     }
   }
   pcity->client.walls = packet->walls;
+  pcity->style = packet->style;
   pcity->client.city_image = packet->city_image;
 
   pcity->client.happy = packet->happy;
