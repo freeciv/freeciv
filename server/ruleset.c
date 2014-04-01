@@ -3278,6 +3278,30 @@ static bool load_ruleset_terrain(struct section_file *file)
         break;
       }
 
+      slist = secfile_lookup_str_vec(file, &nval, "%s.integrates", section);
+      BV_CLR_ALL(proad->integrates);
+      for (j = 0; j < nval; j++) {
+        const char *sval = slist[j];
+        struct road_type *top = road_type_by_rule_name(sval);
+
+        if (top == NULL) {
+          ruleset_error(LOG_ERROR, "\"%s\" road \"%s\" integrates with unknown road \"%s\".",
+                        filename,
+                        road_rule_name(proad),
+                        sval);
+          ok = FALSE;
+          break;
+        } else {
+          BV_SET(proad->integrates, road_index(top));
+        }
+      }
+      road_integrators_cache_init();
+      free(slist);
+
+      if (!ok) {
+        break;
+      }
+
       slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
       BV_CLR_ALL(proad->flags);
       for (j = 0; j < nval; j++) {
@@ -5925,6 +5949,7 @@ static void send_ruleset_roads(struct conn_list *dest)
 
     packet.compat = r->compat;
 
+    packet.integrates = r->integrates;
     packet.flags = r->flags;
 
     PACKET_STRVEC_COMPUTE(packet.helptext, r->helptext);

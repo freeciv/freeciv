@@ -3897,6 +3897,7 @@ static int fill_road_sprite_array(const struct tileset *t,
   int extra_idx = -1;
   bool cl = FALSE;
   enum extrastyle_id extrastyle;
+  const struct road_type *proad = extra_road_get_const(pextra);
 
   extra_idx = extra_index(pextra);
 
@@ -3939,7 +3940,13 @@ static int fill_road_sprite_array(const struct tileset *t,
     /* Check if there is adjacent road/rail. */
     if (!is_cardinal_only_road(pextra)
         || is_cardinal_tileset_dir(t, dir)) {
-      road_near[dir] = BV_ISSET(textras_near[dir], extra_idx);
+      road_near[dir] = FALSE;
+      road_type_list_iterate(proad->integrators, iroad) {
+        if (BV_ISSET(textras_near[dir], extra_index(road_extra_get(iroad)))) {
+          road_near[dir] = TRUE;
+          break;
+        }
+      } road_type_list_iterate_end;
       if (cl) {
         land_near[dir] = (tterrain_near[dir] != T_UNKNOWN
                           && terrain_type_terrain_class(tterrain_near[dir]) != TC_OCEAN);

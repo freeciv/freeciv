@@ -1554,6 +1554,7 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   UINT16 tile_incr[O_LAST];
   UINT16 tile_bonus[O_LAST];
   ROAD_COMPAT compat;
+  BV_ROADS integrates;
   BV_ROAD_FLAGS flags;
   STRING helptext[MAX_LEN_PACKET];
 end

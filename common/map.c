@@ -736,43 +736,48 @@ static int tile_move_cost_ptrs(const struct unit *punit,
   cardinal_move = is_move_cardinal(t1, t2);
 
   road_type_iterate(proad) {
-    if (proad->move_mode != RMM_NO_BONUS
-        && (!ri || road_has_flag(proad, RF_UNRESTRICTED_INFRA))) {
-      if ((!pclass || is_native_extra_to_uclass(road_extra_get(proad), pclass))
-          && tile_has_road(t1, proad) && tile_has_road(t2, proad)) {
-        if (cost > proad->move_cost) {
-          switch (proad->move_mode) {
+    if ((!ri || road_has_flag(proad, RF_UNRESTRICTED_INFRA))
+        && tile_has_road(t1, proad)
+        && (!pclass
+            || is_native_extra_to_uclass(road_extra_get(proad), pclass))) {
+      road_type_list_iterate(proad->integrators, iroad) {
+        if (iroad->move_mode != RMM_NO_BONUS
+            && cost > iroad->move_cost 
+            && tile_has_road(t2, iroad)
+            && (!pclass
+                || is_native_extra_to_uclass(road_extra_get(iroad), pclass))) {
+          switch (iroad->move_mode) {
           case RMM_CARDINAL:
             if (cardinal_move) {
-              cost = proad->move_cost;
+              cost = iroad->move_cost;
             }
             break;
           case RMM_RELAXED:
             if (cardinal_move) {
-              cost = proad->move_cost;
+              cost = iroad->move_cost;
             } else {
-              if (cost > proad->move_cost * 2) {
+              if (cost > iroad->move_cost * 2) {
                 cardinal_between_iterate(t1, t2, between) {
-                  if (tile_has_road(between, proad)) {
+                  if (tile_has_road(between, iroad)) {
                   /* TODO: Should we restrict this more?
                    * Should we check against enemy cities on between tile?
                    * Should we check against non-native terrain on between tile?
                    */
-                  cost = proad->move_cost * 2;
+                  cost = iroad->move_cost * 2;
                   }
                 } cardinal_between_iterate_end;
               }
             }
             break;
           case RMM_FAST_ALWAYS:
-            cost = proad->move_cost;
+            cost = iroad->move_cost;
             break;
           case RMM_NO_BONUS:
             fc_assert(proad->move_mode != RMM_NO_BONUS);
             break;
           }
         }
-      }
+      } road_type_list_iterate_end;
     }
   } road_type_iterate_end;
 

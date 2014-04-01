@@ -941,6 +941,8 @@ Fortresses improve defense for land units.\
 ; compat_special          = road type used in old savegames with just two road,
 ;                           and one river specials:
 ;                           "Road", "Railroad", "River, or "None"
+; integrates              = List of road types that are suitable next steps
+;                           for travel from this road type.
 ; flags
 ;   - "RequiresBridge"    = Road cannot be built to river tiles without
 ;                           appropriate technologies

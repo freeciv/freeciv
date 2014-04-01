@@ -605,6 +605,19 @@ bool sanity_check_ruleset_data(void)
     }
   } extra_type_iterate_end;
 
+  /* Roads */
+  road_type_iterate(proad) {
+    road_type_list_iterate(proad->integrators, iroad) {
+      if (road_index(proad) != road_index(iroad)
+          && !BV_ISSET(iroad->integrates, road_index(proad))) {
+        ruleset_error(LOG_ERROR,
+                      "Road %s integrates with non integrating road %s!",
+                      road_name_translation(proad),
+                      road_name_translation(iroad));
+      }
+    } road_type_list_iterate_end;
+  } road_type_iterate_end;
+
   /* City styles */
   for (i = 0; i < game.control.styles_count; i++) {
     if (!sanity_check_req_vec(&city_styles[i].reqs, TRUE, -1,

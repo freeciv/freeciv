@@ -45,6 +45,15 @@ extern "C" {
 
 struct road_type;
 
+/* get 'struct road_type_list' and related functions: */
+#define SPECLIST_TAG road_type
+#define SPECLIST_TYPE struct road_type
+#include "speclist.h"
+
+#define road_type_list_iterate(roadlist, proad) \
+    TYPED_LIST_ITERATE(struct road_type, roadlist, proad)
+#define road_type_list_iterate_end LIST_ITERATE_END
+
 struct extra_type;
 
 struct road_type {
@@ -58,7 +67,12 @@ struct road_type {
   int tile_bonus[O_LAST];
   enum road_compat compat;
 
+  bv_roads integrates;
   bv_road_flags flags;
+
+  /* Same information as in integrates, but iterating through this list is much
+   * faster than through all road types to check for compatible roads. */
+  struct road_type_list *integrators;
 
   struct strvec *helptext;
 
@@ -116,8 +130,13 @@ bool is_native_tile_to_road(const struct road_type *proad,
 
 bool is_cardinal_only_road(const struct extra_type *pextra);
 
+/* Sorting */
+int compare_road_move_cost(const struct road_type *const *p,
+                           const struct road_type *const *q);
+
 /* Initialization and iteration */
 void road_type_init(struct extra_type *pextra, int idx);
+void road_integrators_cache_init(void);
 void road_types_free(void);
 
 #define road_type_iterate(_p)                    \

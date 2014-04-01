@@ -87,6 +87,24 @@ struct road_type *road_by_number(Road_type_id id)
 }
 
 /****************************************************************************
+  This function is passed to road_type_list_sort() to sort a list of roads
+  in ascending move_cost (faster roads first).
+****************************************************************************/
+int compare_road_move_cost(const struct road_type *const *p,
+                           const struct road_type *const *q)
+{
+  const struct road_type *proad = *p, *qroad = *q;
+
+  if (proad->move_cost > qroad->move_cost) {
+    return -1; /* q is faster */
+  } else if (proad->move_cost == qroad->move_cost) {
+    return 0;
+  } else {
+    return 1; /* p is faster */
+  }
+}
+
+/****************************************************************************
   Initialize road_type structures.
 ****************************************************************************/
 void road_type_init(struct extra_type *pextra, int idx)
@@ -98,8 +116,29 @@ void road_type_init(struct extra_type *pextra, int idx)
   pextra->data.road = proad;
 
   proad->id = idx;
+  proad->integrators = NULL;
   proad->helptext = NULL;
   proad->self = pextra;
+}
+
+
+/****************************************************************************
+  Initialize the road integrators cache
+****************************************************************************/
+void road_integrators_cache_init(void)
+{
+  road_type_iterate(proad) {
+    proad->integrators = road_type_list_new();
+    /* Roads always integrate with themselves. */
+    road_type_list_append(proad->integrators, proad);
+    road_type_iterate(oroad) {
+      if (BV_ISSET(proad->integrates, road_index(oroad))) {
+        road_type_list_append(proad->integrators, oroad);
+      }
+    } road_type_iterate_end;
+    road_type_list_unique(proad->integrators);
+    road_type_list_sort(proad->integrators, &compare_road_move_cost);
+  } road_type_iterate_end;
 }
 
 /****************************************************************************
@@ -108,6 +147,10 @@ void road_type_init(struct extra_type *pextra, int idx)
 void road_types_free(void)
 {
   road_type_iterate(proad) {
+    if (proad->integrators != NULL) {
+      road_type_list_destroy(proad->integrators);
+      proad->integrators = NULL;
+    }
     if (NULL != proad->helptext) {
       strvec_destroy(proad->helptext);
       proad->helptext = NULL;

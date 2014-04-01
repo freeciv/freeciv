@@ -2874,6 +2874,10 @@ void handle_rulesets_ready(void)
     set_unit_class_caches(pclass);
   } unit_class_iterate_end;
 
+  /* Setup road integrators caches */
+  road_integrators_cache_init();
+
+  /* Setup unit unknown move cost caches */
   unit_type_iterate(u) {
     u->unknown_move_cost = utype_unknown_move_cost(u);
   } unit_type_iterate_end;
@@ -3389,7 +3393,7 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   } output_type_iterate_end;
 
   proad->compat = p->compat;
-
+  proad->integrates = p->integrates;
   proad->flags = p->flags;
 
   PACKET_STRVEC_EXTRACT(proad->helptext, p->helptext);
