@@ -113,8 +113,6 @@ partisans_pct = 0               ; percentage of own nationality to inspire parti
 ;                 ruleset has been released.
 ; graphic              = group of tiles to use, see cities spec for
 ;                        more info on city tiles
-; oceanic_graphic      = group of tiles to use for oceanic cities. If this
-;                        is omitted, same graphics as for land cities is used
 ; citizens_graphic     = group of citizens tiles to use, see citizens/small
 ;                        spec for more info on citizens tiles
 ; reqs        = requirements for this city style (see README.effects)

@@ -3646,8 +3646,6 @@ void handle_ruleset_city(const struct packet_ruleset_city *packet)
   names_set(&cs->name, NULL, packet->name, packet->rule_name);
   sz_strlcpy(cs->graphic, packet->graphic);
   sz_strlcpy(cs->graphic_alt, packet->graphic_alt);
-  sz_strlcpy(cs->oceanic_graphic, packet->oceanic_graphic);
-  sz_strlcpy(cs->oceanic_graphic_alt, packet->oceanic_graphic_alt);
   sz_strlcpy(cs->citizens_graphic, packet->citizens_graphic);
   sz_strlcpy(cs->citizens_graphic_alt, packet->citizens_graphic_alt);
 

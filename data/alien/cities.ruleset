@@ -104,8 +104,6 @@ partisans_pct = 0               ; percentage of own nationality to inspire parti
 ;                 ruleset has been released.
 ; graphic     = group of tiles to use, see cities spec for
 ;               more info on city tiles
-; oceanic_graphic      = group of tiles to use for oceanic cities. If this
-;                        is omitted, same graphics as for land cities is used
 ; citizens_graphic     = group of citizens tiles to use, see citizens/small
 ;                        spec for more info on citizens tiles
 ; reqs        = requirements for this city style (see README.effects)
@@ -116,8 +114,6 @@ partisans_pct = 0               ; percentage of own nationality to inspire parti
 name        = _("?citystyle:Human")
 graphic     = "city.human"
 graphic_alt = "city.classical"
-oceanic_graphic      = "city.ocean"
-oceanic_graphic_alt  = "city.classical"
 citizens_graphic     = "human"
 citizens_graphic_alt = "ancient"
 reqs = { "type", "name", "range"
@@ -128,11 +124,20 @@ reqs = { "type", "name", "range"
 name        = _("?citystyle:Dual")
 graphic     = "city.dual"
 graphic_alt = "city.modern"
-oceanic_graphic      = "city.ocean"
-oceanic_graphic_alt  = "city.modern"
 citizens_graphic     = "dual"
 citizens_graphic_alt = "modern"
 reqs =
    { "type", "name", "range"
      "Tech", "Alien Rights", "Player"
+   }
+
+[citystyle_oceanic]
+name        = _("?citystyle:Oceanic")
+graphic     = "city.ocean"
+graphic_alt = "city.modern"
+citizens_graphic     = "dual"
+citizens_graphic_alt = "modern"
+reqs =
+   { "type", "name", "range"
+     "TerrainClass", "Oceanic", "Local"
    }

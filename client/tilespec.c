@@ -195,8 +195,6 @@ struct city_sprite {
   struct {
     int land_num_thresholds;
     struct city_style_threshold *land_thresholds;
-    int oceanic_num_thresholds;
-    struct city_style_threshold *oceanic_thresholds;
   } *styles;
   int num_styles;
 };
@@ -2293,14 +2291,8 @@ static struct sprite *get_city_sprite(const struct city_sprite *city_sprite,
 
   fc_assert_ret_val(style < city_sprite->num_styles, NULL);
 
-  if (is_ocean_tile(pcity->tile)
-      && city_sprite->styles[style].oceanic_num_thresholds != 0) {
-    num_thresholds = city_sprite->styles[style].oceanic_num_thresholds;
-    thresholds = city_sprite->styles[style].oceanic_thresholds;
-  } else {
-    num_thresholds = city_sprite->styles[style].land_num_thresholds;
-    thresholds = city_sprite->styles[style].land_thresholds;
-  }
+  num_thresholds = city_sprite->styles[style].land_num_thresholds;
+  thresholds = city_sprite->styles[style].land_thresholds;
 
   if (num_thresholds == 0) {
     return NULL;
@@ -2383,10 +2375,6 @@ static struct city_sprite *load_city_sprite(struct tileset *t,
       load_city_thresholds_sprites(t, tag, city_styles[style].graphic,
                                    city_styles[style].graphic_alt,
                                    &city_sprite->styles[style].land_thresholds);
-    city_sprite->styles[style].oceanic_num_thresholds =
-      load_city_thresholds_sprites(t, tag, city_styles[style].oceanic_graphic,
-                                   city_styles[style].oceanic_graphic_alt,
-                                   &city_sprite->styles[style].oceanic_thresholds);
   }
 
   return city_sprite;
@@ -2407,9 +2395,6 @@ static void free_city_sprite(struct city_sprite *city_sprite)
   for (style = 0; style < city_sprite->num_styles; style++) {
     if (city_sprite->styles[style].land_thresholds) {
       free(city_sprite->styles[style].land_thresholds);
-    }
-    if (city_sprite->styles[style].oceanic_thresholds) {
-      free(city_sprite->styles[style].oceanic_thresholds);
     }
   }
   free(city_sprite->styles);
