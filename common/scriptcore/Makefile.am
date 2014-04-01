@@ -57,6 +57,9 @@ BUILT_SOURCES = \
 	tolua_signal_gen.c	\
 	tolua_signal_gen.h
 
+libscriptcore_la_LIBADD =	\
+	$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS)
+
 tolua_common_a_gen.c tolua_common_a_gen.h: tolua_common_a.pkg
 	$(TOLUA) -n common_a -o $(srcdir)/tolua_common_a_gen.c \
 	-H $(srcdir)/tolua_common_a_gen.h $(srcdir)/tolua_common_a.pkg

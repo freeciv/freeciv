@@ -64,7 +64,6 @@ freeciv_manual_LDADD = \
  $(top_builddir)/server/libfreeciv-srv.la \
  ../client/helpdata.lo \
  $(top_builddir)/common/libfreeciv.la \
- $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
  $(INTLLIBS)  $(MAPIMG_WAND_LIBS) \
  $(FCDB_MYSQL_LIBS) $(FCDB_POSTGRES_LIBS) $(FCDB_SQLITE3_LIBS) \
  $(SERVER_LIBS) $(LIB_GGZDMOD)
@@ -90,7 +89,6 @@ freeciv_mp_cli_LDFLAGS = $(MP_cli_LDFLAGS)
 freeciv_mp_cli_LDADD = \
 		libfcmp.la \
 		$(top_builddir)/common/libfreeciv.la \
-		$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
 		$(MAPIMG_WAND_LIBS) \
 		$(MP_cli_LIBS)
 endif
@@ -105,7 +103,6 @@ freeciv_mp_gtk2_LDFLAGS = $(MP_gtk2_LDFLAGS)
 freeciv_mp_gtk2_LDADD = \
 		libfcmp.la \
 		$(top_builddir)/common/libfreeciv.la \
-		$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
 		$(MAPIMG_WAND_LIBS) \
 		$(MP_gtk2_LIBS) \
 		$(MPICON)
@@ -121,7 +118,6 @@ freeciv_mp_gtk3_LDFLAGS = $(MP_gtk3_LDFLAGS)
 freeciv_mp_gtk3_LDADD = \
 		libfcmp.la \
 		$(top_builddir)/common/libfreeciv.la \
-		$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
 		$(MAPIMG_WAND_LIBS) \
 		$(MP_gtk3_LIBS) \
 		$(MPICON)
@@ -149,7 +145,6 @@ CLEANFILES = $(MOC_FILES)
 freeciv_mp_qt_LDADD = \
 		libfcmp.la \
 		$(top_builddir)/common/libfreeciv.la \
-		$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
 		$(MAPIMG_WAND_LIBS) \
 		$(MP_qt_LIBS) \
 		$(MPICON)

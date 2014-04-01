@@ -142,14 +142,14 @@ srvlibs = \
  $(top_builddir)/server/scripting/libscripting_server.la
 
 libfreeciv_srv_la_LIBADD = \
- $(srvlibs)
+ $(srvlibs) \
+ $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS)
 
 exe_ldflags = $(GGZDMOD_LDFLAGS)
 
 exe_ldadd = \
  ./libfreeciv-srv.la \
  $(top_builddir)/common/libfreeciv.la \
- $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
  $(INTLLIBS) \
  $(MAPIMG_WAND_LIBS) \
  $(FCDB_MYSQL_LIBS) $(FCDB_POSTGRES_LIBS) $(FCDB_SQLITE3_LIBS) \
