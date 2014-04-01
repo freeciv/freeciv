@@ -36,7 +36,6 @@ freeciv_ruledit_LDADD = \
  $(ruledit_LIBS) \
  $(top_builddir)/server/libfreeciv-srv.la \
  $(top_builddir)/common/libfreeciv.la \
- $(LUA_LIBS) $(TOLUA_LIBS) $(INTLLIBS) \
  $(MAPIMG_WAND_LIBS) $(SERVER_LIBS)
 
 CLEANFILES = $(MOC_FILES)

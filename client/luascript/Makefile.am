@@ -26,6 +26,9 @@ BUILT_SOURCES = \
 	tolua_client_gen.c	\
 	tolua_client_gen.h
 
+libscripting_client_la_LIBADD = \
+	$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS)
+
 tolua_client_gen.c tolua_client_gen.h: tolua_client.pkg
 	$(TOLUA) -n client -o $(srcdir)/tolua_client_gen.c \
 	-H $(srcdir)/tolua_client_gen.h $(srcdir)/tolua_client.pkg
