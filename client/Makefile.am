@@ -180,7 +180,6 @@ freeciv_gtk2_LDADD = \
  libfcgui-gtk2.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
- $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
  $(MAPIMG_WAND_LIBS) \
  $(GUI_gtk2_LIBS)
 endif
@@ -197,7 +196,6 @@ freeciv_gtk3_LDADD = \
  libfcgui-gtk3.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
- $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
  $(MAPIMG_WAND_LIBS) \
  $(GUI_gtk3_LIBS)
 endif
@@ -214,7 +212,6 @@ freeciv_sdl_LDADD = \
  libfcgui-sdl.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
- $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
  $(MAPIMG_WAND_LIBS) \
  $(GUI_sdl_LIBS)
 endif
@@ -230,7 +227,6 @@ freeciv_xaw_LDADD = \
  libfcgui-xaw.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
- $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
  $(MAPIMG_WAND_LIBS) \
  $(GUI_xaw_LIBS)
 endif
@@ -246,7 +242,6 @@ freeciv_qt_LDADD = \
  libfcgui-qt.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
- $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
  $(MAPIMG_WAND_LIBS) \
  $(GUI_qt_LIBS)
 endif
@@ -262,7 +257,6 @@ freeciv_stub_LDADD = \
  libfcgui-stub.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
- $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
  $(MAPIMG_WAND_LIBS) \
  $(GUI_stub_LIBS)
 endif
