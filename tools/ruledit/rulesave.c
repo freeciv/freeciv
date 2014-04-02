@@ -582,13 +582,6 @@ static bool save_cities_ruleset(const char *filename, const char *name)
 
     secfile_insert_str(sfile, city_styles[i].graphic, "%s.graphic", path);
     secfile_insert_str(sfile, city_styles[i].graphic_alt, "%s.graphic_alt", path);
-    if (strcmp(city_styles[i].oceanic_graphic, "")) {
-      secfile_insert_str(sfile, city_styles[i].oceanic_graphic, "%s.oceanic_graphic", path);
-    }
-    if (strcmp(city_styles[i].oceanic_graphic_alt, "")) {
-      secfile_insert_str(sfile, city_styles[i].oceanic_graphic_alt,
-                         "%s.oceanic_graphic_alt", path);
-    }
     if (strcmp(city_styles[i].citizens_graphic, "-")) {
       secfile_insert_str(sfile, city_styles[i].citizens_graphic,
                          "%s.citizens_graphic", path);
