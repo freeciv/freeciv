@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-21 01:55+0300\n"
-"PO-Revision-Date: 2013-06-28 18:22+0200\n"
+"PO-Revision-Date: 2013-11-02 16:09+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -14529,7 +14529,8 @@ msgstr ""
 #~ msgid "?number_trade_routes:R"
 #~ msgstr "RC"
 
-#~ msgid "Number of Trade Routes"
+#, fuzzy
+#~ msgid "Number (and total value) of trade routes"
 #~ msgstr "Nombre de routes commerciales"
 
 #~ msgid "?pollution [short]:Pol"
@@ -14823,8 +14824,8 @@ msgstr ""
 #~ "Autoconnexion au server \"%s\" port %d en tant que \"%s\" chaque %f "
 #~ "secondes pendant %d essais"
 
-#~ msgid "Starting server..."
-#~ msgstr "Démarrage du serveur..."
+#~ msgid "Starting local server..."
+#~ msgstr "Démarrage du serveur local..."
 
 #~ msgid "Couldn't start the server."
 #~ msgstr "Impossible de démarrer le serveur."
@@ -17176,8 +17177,16 @@ msgstr ""
 #~ msgid "?Upgradable unit [short]:U"
 #~ msgstr "U"
 
+#, fuzzy
+#~ msgid "Upgradable"
+#~ msgstr "Mettre à niveau"
+
 #~ msgid "In-Prog"
 #~ msgstr "En Projet"
+
+#, fuzzy
+#~ msgid "In progress"
+#~ msgstr "Pas d'avancement"
 
 #~ msgid "Active"
 #~ msgstr "Actif"
@@ -17805,6 +17814,13 @@ msgstr ""
 #~ "What are your wishes?"
 #~ msgstr ""
 #~ "Sire, un ambassadeur de %s est arrivé\n"
+#~ "Quels sont vos souhaits ?"
+
+#~ msgid ""
+#~ "Ma'am!, the %s ambassador has arrived\n"
+#~ "What are your wishes?"
+#~ msgstr ""
+#~ "Madame, un ambassadeur de %s est arrivé\n"
 #~ "Quels sont vos souhaits ?"
 
 #~ msgid "Declare WAR"
@@ -19103,12 +19119,24 @@ msgstr ""
 #~ msgid "?clistmore:, %s"
 #~ msgstr ", %s"
 
+#, fuzzy
+#~ msgid "Allows %s (with %s but no %s)."
+#~ msgstr "Autorise %s (avec %s)."
+
+#~ msgid "Allows %s (with %s)."
+#~ msgstr "Autorise %s (avec %s)."
+
+#, fuzzy
+#~ msgid "Allows %s (absent %s)."
+#~ msgstr "Autorise %s (avec %s)."
+
 # AR
 #~ msgid "Allows %s."
 #~ msgstr "Autorise %s."
 
-#~ msgid "Allows %s (with %s)."
-#~ msgstr "Autorise %s (avec %s)."
+#, fuzzy
+#~ msgid "Prevents %s."
+#~ msgstr "Prêtresse %s"
 
 #~ msgid "%*sRivers"
 #~ msgstr "%*sRivières"
@@ -19645,17 +19673,17 @@ msgstr ""
 #~ "* Chacune de vos villes évitera %d mécontentements, incluant celui causé "
 #~ "par les unités.\n"
 
-#~ msgid "* You pay %d times normal %s upkeep for your units.\n"
-#~ msgstr "* Vous payez %d fois l'entretien normal en %s pour vos unités.\n"
-
-#~ msgid "* You pay %d times normal upkeep for your units.\n"
-#~ msgstr "* Vous payez %d fois l'entretien normal pour vos unités.\n"
-
 #~ msgid "* You pay no %s upkeep for your units.\n"
 #~ msgstr "* Vous ne payez pas %s pour l'entretien de vos unités.\n"
 
 #~ msgid "* You pay no upkeep for your units.\n"
 #~ msgstr "* Vous ne payez pas l'entretien de vos unités.\n"
+
+#~ msgid "* You pay %d times normal %s upkeep for your units.\n"
+#~ msgstr "* Vous payez %d fois l'entretien normal en %s pour vos unités.\n"
+
+#~ msgid "* You pay %d times normal upkeep for your units.\n"
+#~ msgstr "* Vous payez %d fois l'entretien normal pour vos unités.\n"
 
 #~ msgid ""
 #~ "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
@@ -19668,8 +19696,8 @@ msgstr ""
 
 #~ msgid "* If you lose your capital, the chance of civil war is %d%%.\n"
 #~ msgstr ""
-#~ "* Si vous perdez votre capitale, les chances de guerre civile sera de %d%"
-#~ "%.\n"
+#~ "* Si vous perdez votre capitale, les chances de guerre civile sera de %d"
+#~ "%%.\n"
 
 #~ msgid ""
 #~ "* When you have %d cities, the first unhappy citizen will appear in each "
@@ -21040,8 +21068,14 @@ msgstr ""
 #~ msgid "AI mode is now OFF."
 #~ msgstr "L'IA est maintenant désactivée."
 
+#~ msgid "noconn"
+#~ msgstr "pas conn."
+
 #~ msgid "waiting"
 #~ msgstr "en attente"
+
+#~ msgid "blocking"
+#~ msgstr "bloqué"
 
 #~ msgid "?Player:Name"
 #~ msgstr "Nom"
@@ -22359,27 +22393,6 @@ msgstr ""
 #~ msgid "?diplomatic_state:Team"
 #~ msgstr "Partenariat"
 
-#~ msgid "World-ranged requirements are only supported for wonders."
-#~ msgstr ""
-#~ "Les pré-requis de portée mondiale ne sont supportés que pour les "
-#~ "merveilles."
-
-#~ msgid "Player-ranged requirements are only supported for wonders."
-#~ msgstr ""
-#~ "Les pré-requis de portée \"joueur\" ne sont supportés que pour les "
-#~ "merveilles."
-
-#~ msgid "Island-ranged requirements are only supported for wonders."
-#~ msgstr ""
-#~ "Les pré-requis de portée \"île\" ne sont supportés que pour les "
-#~ "merveilles."
-
-#~ msgid ""
-#~ "Surviving requirements are only supported at world and player ranges."
-#~ msgstr ""
-#~ "Les exigences de survie ne sont prises en charge qu'à portée du monde et "
-#~ "du joueur."
-
 #~ msgid "Size %d"
 #~ msgstr "Taille %d"
 
@@ -22916,7 +22929,6 @@ msgstr ""
 #~ msgid "Temple"
 #~ msgstr "Temple"
 
-#, fuzzy
 #~ msgid ""
 #~ "Makes one unhappy citizen content.  The Mysticism advance doubles this "
 #~ "effect, as does Oracle wonder.  With both Mysticism and the Oracle, 4 "
@@ -22925,8 +22937,8 @@ msgstr ""
 #~ msgstr ""
 #~ "Rend content un habitant mécontent. Le Mysticisme et la merveille de "
 #~ "l'Oracle doublent cet effet. Ensemble, ce sont 4 habitants qui sont "
-#~ "rendus contents. Cela n'a aucun effet sur les citoyens rendus mécontent à "
-#~ "cause des activités militaires."
+#~ "rendus contents. Cela n'a aucun effet sur les citoyens rendus mécontents "
+#~ "à cause des activités militaires."
 
 #~ msgid "University"
 #~ msgstr "Université"
@@ -23082,15 +23094,12 @@ msgstr ""
 #~ msgid "Oracle"
 #~ msgstr "Oracle"
 
-#, fuzzy
 #~ msgid ""
 #~ "Doubles the effect of a Temple in every city. Does not affect citizens "
 #~ "made unhappy by military activity."
 #~ msgstr ""
-#~ "Rend contents deux citoyens mécontents supplémentaires dans chacune de "
-#~ "vos villes qui se trouvent sur le continent où la merveille a été "
-#~ "construite. Cela n'a aucun effet sur les citoyens rendus mécontent à "
-#~ "cause des activités militaires."
+#~ "Double l'effet d'un Temple dans chaque ville. Cela n'a aucun effet sur "
+#~ "les citoyens rendus mécontent à cause des activités militaires."
 
 #~ msgid "Pyramids"
 #~ msgstr "Pyramides"
@@ -23631,6 +23640,33 @@ msgstr ""
 #~ "centrale vers l'Afrique du sud dès le début du XVIIIème siècle en "
 #~ "soumettant les autochtones Khoisans et en luttant contre les colons "
 #~ "européens."
+
+# AR
+#~ msgid "Barbarian"
+#~ msgstr "Barbare"
+
+#~ msgid "?plural:Barbarians"
+#~ msgstr "Barbares"
+
+#~ msgid ""
+#~ "Since the dawn of civilization, barbarians have been a threat to cultured "
+#~ "peoples everywhere."
+#~ msgstr ""
+#~ "Depuis l'aube des civilisations, les barbares ont été une menace pour les "
+#~ "peuples cultivés où qu'ils soient."
+
+#~ msgid "Pirate"
+#~ msgstr "Pirate"
+
+#~ msgid "?plural:Pirates"
+#~ msgstr "Pirates"
+
+#~ msgid ""
+#~ "As long as honest men have sailed the seas, pirates have been a scourge "
+#~ "of them and of all coastal dwelling peoples."
+#~ msgstr ""
+#~ "Depuis aussi longtemps que les hommes honnêtes ont vogué sur les mers, "
+#~ "les pirates ont été un fléau pour eux, et pour tous les peuples côtiers."
 
 # AR
 #~ msgid "Advanced Flight"
@@ -25132,33 +25168,6 @@ msgstr ""
 
 #~ msgid "?female:%s Jarl"
 #~ msgstr "Jarl %s"
-
-# AR
-#~ msgid "Barbarian"
-#~ msgstr "Barbare"
-
-#~ msgid "?plural:Barbarians"
-#~ msgstr "Barbares"
-
-#~ msgid ""
-#~ "Since the dawn of civilization, barbarians have been a threat to cultured "
-#~ "peoples everywhere."
-#~ msgstr ""
-#~ "Depuis l'aube des civilisations, les barbares ont été une menace pour les "
-#~ "peuples cultivés où qu'ils soient."
-
-#~ msgid "Pirate"
-#~ msgstr "Pirate"
-
-#~ msgid "?plural:Pirates"
-#~ msgstr "Pirates"
-
-#~ msgid ""
-#~ "As long as honest men have sailed the seas, pirates have been a scourge "
-#~ "of them and of all coastal dwelling peoples."
-#~ msgstr ""
-#~ "Depuis aussi longtemps que les hommes honnêtes ont vogué sur les mers, "
-#~ "les pirates ont été un fléau pour eux, et pour tous les peuples côtiers."
 
 #~ msgid "Amphibious Warfare"
 #~ msgstr "Guerre amphibie"
@@ -32458,6 +32467,18 @@ msgstr ""
 #~ msgid "More info"
 #~ msgstr "Plus d'info"
 
+#, fuzzy
+#~ msgid "no %s"
+#~ msgstr "Nabongo"
+
+#, fuzzy
+#~ msgid ""
+#~ "<h1>Freeciv %s governments help</h1>\n"
+#~ "\n"
+#~ msgstr ""
+#~ "<h1>Freeciv %s : aide des merveilles</h1>\n"
+#~ "\n"
+
 #~ msgid "Manual file %s successfully written."
 #~ msgstr "Fichier manuel %s écrit avec succès"
 
@@ -32542,6 +32563,10 @@ msgstr ""
 
 #~ msgid "?license:Unknown"
 #~ msgstr "inconnue"
+
+#, fuzzy
+#~ msgid "?modpack:Type"
+#~ msgstr "Type de modpack illégal"
 
 #~ msgid "License"
 #~ msgstr "Licence"
@@ -32811,6 +32836,14 @@ msgstr ""
 
 #~ msgid ""
 #~ "When %s was disbanded your %s could not get out, and it was therefore "
+#~ "lost."
+#~ msgstr ""
+#~ "Quand %s a été démantelée votre %s ne pouvait pas sortir et a donc été "
+#~ "perdu."
+
+#, fuzzy
+#~ msgid ""
+#~ "When %s was disbanded your %s in %s was trapped, and it was therefore "
 #~ "lost."
 #~ msgstr ""
 #~ "Quand %s a été démantelée votre %s ne pouvait pas sortir et a donc été "
@@ -39672,17 +39705,6 @@ msgstr ""
 #~ msgid "Could not read data directory %s: %s."
 #~ msgstr "Impossible de lire le répertoire de données %s : %s."
 
-#~ msgid "The path may be set via the \"%s\" environment variable."
-#~ msgstr ""
-#~ "Le chemin d'accès peut être spécifié par la variable d'environnement \"%s"
-#~ "\"."
-
-#~ msgid "Current path is: \"%s\""
-#~ msgstr "Le chemin d'accès actuel est : \"%s\""
-
-#~ msgid "The \"%s\" file is required ... aborting!"
-#~ msgstr "Le fichier \"%s\" est nécessaire ... abandon!"
-
 #~ msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 #~ msgstr ""
 #~ "%s : Erreur fatale : vous essayez de m'exécuter en tant que super-"
@@ -39734,6 +39756,38 @@ msgstr ""
 
 #~ msgid "error %d (compiled without strerror)"
 #~ msgstr "erreur %d (compilation sans strerror)"
+
+#~ msgid "World-ranged requirements are only supported for wonders."
+#~ msgstr ""
+#~ "Les pré-requis de portée mondiale ne sont supportés que pour les "
+#~ "merveilles."
+
+#~ msgid "Player-ranged requirements are only supported for wonders."
+#~ msgstr ""
+#~ "Les pré-requis de portée \"joueur\" ne sont supportés que pour les "
+#~ "merveilles."
+
+#~ msgid "Island-ranged requirements are only supported for wonders."
+#~ msgstr ""
+#~ "Les pré-requis de portée \"île\" ne sont supportés que pour les "
+#~ "merveilles."
+
+#~ msgid ""
+#~ "Surviving requirements are only supported at world and player ranges."
+#~ msgstr ""
+#~ "Les exigences de survie ne sont prises en charge qu'à portée du monde et "
+#~ "du joueur."
+
+#~ msgid "The path may be set via the \"%s\" environment variable."
+#~ msgstr ""
+#~ "Le chemin d'accès peut être spécifié par la variable d'environnement \"%s"
+#~ "\"."
+
+#~ msgid "Current path is: \"%s\""
+#~ msgstr "Le chemin d'accès actuel est : \"%s\""
+
+#~ msgid "The \"%s\" file is required ... aborting!"
+#~ msgstr "Le fichier \"%s\" est nécessaire ... abandon!"
 
 #~ msgid ""
 #~ "Oceans cover much of the world, and only sea units (Triremes and other "
@@ -41577,10 +41631,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Mai %s"
 #~ msgstr "à %s"
-
-#, fuzzy
-#~ msgid "Nabongo %s"
-#~ msgstr "Nabongo"
 
 #, fuzzy
 #~ msgid "?female:Nabongo %s"
