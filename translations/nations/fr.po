@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-21 01:55+0300\n"
-"PO-Revision-Date: 2013-08-05 07:49+0200\n"
+"POT-Creation-Date: 2014-04-08 23:41+0300\n"
+"PO-Revision-Date: 2013-11-02 16:09+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -1212,24 +1212,26 @@ msgid "Countess %s"
 msgstr "Comtesse %s"
 
 #: data/nation/anhaltian.ruleset:34 data/nation/badian.ruleset:25
-#: data/nation/centrallithuanian.ruleset:46 data/nation/curonian.ruleset:31
-#: data/nation/florentine.ruleset:41 data/nation/lithuanian.ruleset:29
-#: data/nation/luxembourgish.ruleset:30 data/nation/mecklenburgian.ruleset:32
-#: data/nation/milanese.ruleset:28 data/nation/moravian.ruleset:34
-#: data/nation/occitan.ruleset:29 data/nation/oldenburgian.ruleset:33
-#: data/nation/rhenish.ruleset:39 data/nation/schleswig-holsteinian.ruleset:28
+#: data/nation/carantanian.ruleset:30 data/nation/centrallithuanian.ruleset:46
+#: data/nation/curonian.ruleset:31 data/nation/florentine.ruleset:41
+#: data/nation/lithuanian.ruleset:29 data/nation/luxembourgish.ruleset:30
+#: data/nation/mecklenburgian.ruleset:32 data/nation/milanese.ruleset:28
+#: data/nation/moravian.ruleset:34 data/nation/occitan.ruleset:29
+#: data/nation/oldenburgian.ruleset:33 data/nation/rhenish.ruleset:39
+#: data/nation/schleswig-holsteinian.ruleset:28
 #: data/nation/thuringian.ruleset:44 data/nation/westphalian.ruleset:33
 #, c-format
 msgid "Grand Duke %s"
 msgstr "Grand Duc %s"
 
 #: data/nation/anhaltian.ruleset:34 data/nation/badian.ruleset:25
-#: data/nation/centrallithuanian.ruleset:46 data/nation/curonian.ruleset:31
-#: data/nation/florentine.ruleset:41 data/nation/lithuanian.ruleset:29
-#: data/nation/luxembourgish.ruleset:30 data/nation/mecklenburgian.ruleset:32
-#: data/nation/milanese.ruleset:28 data/nation/moravian.ruleset:34
-#: data/nation/occitan.ruleset:29 data/nation/oldenburgian.ruleset:33
-#: data/nation/rhenish.ruleset:39 data/nation/schleswig-holsteinian.ruleset:28
+#: data/nation/carantanian.ruleset:30 data/nation/centrallithuanian.ruleset:46
+#: data/nation/curonian.ruleset:31 data/nation/florentine.ruleset:41
+#: data/nation/lithuanian.ruleset:29 data/nation/luxembourgish.ruleset:30
+#: data/nation/mecklenburgian.ruleset:32 data/nation/milanese.ruleset:28
+#: data/nation/moravian.ruleset:34 data/nation/occitan.ruleset:29
+#: data/nation/oldenburgian.ruleset:33 data/nation/rhenish.ruleset:39
+#: data/nation/schleswig-holsteinian.ruleset:28
 #: data/nation/thuringian.ruleset:44 data/nation/westphalian.ruleset:33
 #, c-format
 msgid "Grand Duchess %s"
@@ -2071,28 +2073,30 @@ msgstr ""
 
 #: data/nation/bavarian.ruleset:23 data/nation/belarusian.ruleset:32
 #: data/nation/breton.ruleset:33 data/nation/burgundian.ruleset:29
-#: data/nation/curonian.ruleset:29 data/nation/franconian.ruleset:24
-#: data/nation/hanoverian.ruleset:22 data/nation/langobardic.ruleset:37
-#: data/nation/lorrain.ruleset:30 data/nation/moravian.ruleset:33
-#: data/nation/muscovite.ruleset:23 data/nation/norman.ruleset:24
-#: data/nation/prussian.ruleset:27 data/nation/samogitian.ruleset:21
-#: data/nation/savoyard.ruleset:31 data/nation/saxon.ruleset:21
-#: data/nation/schleswig-holsteinian.ruleset:26 data/nation/serbian.ruleset:34
-#: data/nation/westphalian.ruleset:31 data/nation/wuerttembergian.ruleset:23
+#: data/nation/carantanian.ruleset:29 data/nation/curonian.ruleset:29
+#: data/nation/franconian.ruleset:24 data/nation/hanoverian.ruleset:22
+#: data/nation/langobardic.ruleset:37 data/nation/lorrain.ruleset:30
+#: data/nation/moravian.ruleset:33 data/nation/muscovite.ruleset:23
+#: data/nation/norman.ruleset:24 data/nation/prussian.ruleset:27
+#: data/nation/samogitian.ruleset:21 data/nation/savoyard.ruleset:31
+#: data/nation/saxon.ruleset:21 data/nation/schleswig-holsteinian.ruleset:26
+#: data/nation/serbian.ruleset:34 data/nation/westphalian.ruleset:31
+#: data/nation/wuerttembergian.ruleset:23
 #, c-format
 msgid "Duke %s"
 msgstr "Duc %s"
 
 #: data/nation/bavarian.ruleset:23 data/nation/belarusian.ruleset:32
 #: data/nation/breton.ruleset:33 data/nation/burgundian.ruleset:29
-#: data/nation/curonian.ruleset:29 data/nation/franconian.ruleset:24
-#: data/nation/hanoverian.ruleset:22 data/nation/langobardic.ruleset:37
-#: data/nation/lorrain.ruleset:30 data/nation/moravian.ruleset:33
-#: data/nation/muscovite.ruleset:23 data/nation/norman.ruleset:24
-#: data/nation/prussian.ruleset:27 data/nation/samogitian.ruleset:21
-#: data/nation/savoyard.ruleset:31 data/nation/saxon.ruleset:21
-#: data/nation/schleswig-holsteinian.ruleset:26 data/nation/serbian.ruleset:34
-#: data/nation/westphalian.ruleset:31 data/nation/wuerttembergian.ruleset:23
+#: data/nation/carantanian.ruleset:29 data/nation/curonian.ruleset:29
+#: data/nation/franconian.ruleset:24 data/nation/hanoverian.ruleset:22
+#: data/nation/langobardic.ruleset:37 data/nation/lorrain.ruleset:30
+#: data/nation/moravian.ruleset:33 data/nation/muscovite.ruleset:23
+#: data/nation/norman.ruleset:24 data/nation/prussian.ruleset:27
+#: data/nation/samogitian.ruleset:21 data/nation/savoyard.ruleset:31
+#: data/nation/saxon.ruleset:21 data/nation/schleswig-holsteinian.ruleset:26
+#: data/nation/serbian.ruleset:34 data/nation/westphalian.ruleset:31
+#: data/nation/wuerttembergian.ruleset:23
 #, c-format
 msgid "Duchess %s"
 msgstr "Duchesse %s"
@@ -3319,6 +3323,29 @@ msgstr "Amiral %s"
 msgid "?female:Admiral %s"
 msgstr "Amirale %s"
 
+#: data/nation/carantanian.ruleset:3
+#, fuzzy
+msgid "Carantanian"
+msgstr "Carthaginois"
+
+#: data/nation/carantanian.ruleset:4
+#, fuzzy
+msgid "?plural:Carantanians"
+msgstr "Carthaginois"
+
+#: data/nation/carantanian.ruleset:6
+msgid ""
+"The Carantanians or Alpine Slavs were an Early Medieval confederation of "
+"South West Slavic tribes who settled in modern-day Austria. The Duchy of "
+"Carantania was one of the earliest Slav states, existing since the seventh "
+"century CE. In the eighth century, it fell into dependence on the Frankish "
+"kingdom, which led to the adoption of Christianity in the Latin rite by duke "
+"Gorazd. In 819 years Carantania joined the revolt of the Croatian duke "
+"Ljudevit Posavski. After its fall in 822 the state was abolished and "
+"incorporated directly into the realm of the Franks. Slovenians are the "
+"modern descendants of the Carantanians."
+msgstr ""
+
 #: data/nation/castilian.ruleset:3
 msgid "Castilian"
 msgstr "Castillan"
@@ -4542,6 +4569,27 @@ msgstr "Prophète %s"
 msgid "Prophetess %s"
 msgstr "Prophétesse %s"
 
+#: data/nation/dacian.ruleset:3
+#, fuzzy
+msgid "Dacian"
+msgstr "Thrace"
+
+#: data/nation/dacian.ruleset:4
+#, fuzzy
+msgid "?plural:Dacians"
+msgstr "Thraces"
+
+#: data/nation/dacian.ruleset:6
+msgid ""
+"The Dacians were ancient tribes who lived on the left bank of the Lower "
+"Danube in Dacia in what is now Romania. They were probably related to the "
+"Thracians and other Paleo-Balkanic tribes. The unification of Dacian tribes "
+"occurred during the reign of king Burebista. After the wars with Rome, they "
+"were defeated in 106 CE. Dacia became a Roman province and succumbed to "
+"Roman colonization. The remains of the Dacians mingled with East Germanic "
+"tribes and later with Slavs."
+msgstr ""
+
 #: data/nation/dahomean.ruleset:3
 msgid "Dahomean"
 msgstr "Dahoméen"
@@ -5238,6 +5286,28 @@ msgstr "Capitaine %s"
 #, c-format
 msgid "?female:Captain %s"
 msgstr "Capitaine %s"
+
+#: data/nation/formosan.ruleset:3
+msgid "Formosan"
+msgstr ""
+
+#: data/nation/formosan.ruleset:4
+#, fuzzy
+msgid "?plural:Formosans"
+msgstr "Normands"
+
+#: data/nation/formosan.ruleset:6
+#, c-format
+msgid ""
+"Taiwan is home to fourteen officially recognized and twelve unrecognized "
+"tribes,all of whom are traditionally speakers of a group of Austronesian "
+"languagesknown as Formosan. Historical linguists consider the island to be "
+"the homeof the Austronesian family, as it is host to the most diverse set of "
+"Austronesianlanguages. Many of the tribes are traditionally matrilineal. "
+"Starting in the 17thcentury, European and East Asian colonists vied for "
+"control of the island,encroaching on aboriginal lands. Today, Formosans "
+"constitute around 2%of the population of Taiwan."
+msgstr ""
 
 #: data/nation/franconian.ruleset:3
 msgid "Franconian"
@@ -7104,6 +7174,26 @@ msgstr "Tarkhan %s"
 #, c-format
 msgid "?female:Tarkhan %s"
 msgstr "Tarkhan %s"
+
+#: data/nation/khoisan.ruleset:3
+msgid "Khoisan"
+msgstr ""
+
+#: data/nation/khoisan.ruleset:4
+#, fuzzy
+msgid "?plural:Khoisan"
+msgstr "Coréens"
+
+#: data/nation/khoisan.ruleset:6
+msgid ""
+"Khoisan speakers are typically divided between the Khoikhoi, traditionally "
+"herders, and the San, traditionally hunter gatherers. They are traditionally "
+"among the most egalitarian societies on the planet. San society in "
+"particular is organized around the institutions of family and band. Khoisan "
+"peoples carry some of the most ancient genetic lineages in the world. Today "
+"there are over 300,000 Khoisan people, forming significant minorities in and "
+"around the Kalahari desert in Namibia, Botswana, South Africa, and Angola."
+msgstr ""
 
 #: data/nation/khwarezmian.ruleset:3
 msgid "Khwarezmian"
@@ -14571,7 +14661,8 @@ msgstr ""
 #~ msgid "?number_trade_routes:R"
 #~ msgstr "RC"
 
-#~ msgid "Number of Trade Routes"
+#, fuzzy
+#~ msgid "Number (and total value) of trade routes"
 #~ msgstr "Nombre de routes commerciales"
 
 #~ msgid "?pollution [short]:Pol"
@@ -14865,8 +14956,8 @@ msgstr ""
 #~ "Autoconnexion au server \"%s\" port %d en tant que \"%s\" chaque %f "
 #~ "secondes pendant %d essais"
 
-#~ msgid "Starting server..."
-#~ msgstr "Démarrage du serveur..."
+#~ msgid "Starting local server..."
+#~ msgstr "Démarrage du serveur local..."
 
 #~ msgid "Couldn't start the server."
 #~ msgstr "Impossible de démarrer le serveur."
@@ -17218,8 +17309,16 @@ msgstr ""
 #~ msgid "?Upgradable unit [short]:U"
 #~ msgstr "U"
 
+#, fuzzy
+#~ msgid "Upgradable"
+#~ msgstr "Mettre à niveau"
+
 #~ msgid "In-Prog"
 #~ msgstr "En Projet"
+
+#, fuzzy
+#~ msgid "In progress"
+#~ msgstr "Pas d'avancement"
 
 #~ msgid "Active"
 #~ msgstr "Actif"
@@ -17847,6 +17946,13 @@ msgstr ""
 #~ "What are your wishes?"
 #~ msgstr ""
 #~ "Sire, un ambassadeur de %s est arrivé\n"
+#~ "Quels sont vos souhaits ?"
+
+#~ msgid ""
+#~ "Ma'am!, the %s ambassador has arrived\n"
+#~ "What are your wishes?"
+#~ msgstr ""
+#~ "Madame, un ambassadeur de %s est arrivé\n"
 #~ "Quels sont vos souhaits ?"
 
 #~ msgid "Declare WAR"
@@ -19145,12 +19251,24 @@ msgstr ""
 #~ msgid "?clistmore:, %s"
 #~ msgstr ", %s"
 
+#, fuzzy
+#~ msgid "Allows %s (with %s but no %s)."
+#~ msgstr "Autorise %s (avec %s)."
+
+#~ msgid "Allows %s (with %s)."
+#~ msgstr "Autorise %s (avec %s)."
+
+#, fuzzy
+#~ msgid "Allows %s (absent %s)."
+#~ msgstr "Autorise %s (avec %s)."
+
 # AR
 #~ msgid "Allows %s."
 #~ msgstr "Autorise %s."
 
-#~ msgid "Allows %s (with %s)."
-#~ msgstr "Autorise %s (avec %s)."
+#, fuzzy
+#~ msgid "Prevents %s."
+#~ msgstr "Prêtresse %s"
 
 #~ msgid "%*sRivers"
 #~ msgstr "%*sRivières"
@@ -19687,17 +19805,17 @@ msgstr ""
 #~ "* Chacune de vos villes évitera %d mécontentements, incluant celui causé "
 #~ "par les unités.\n"
 
-#~ msgid "* You pay %d times normal %s upkeep for your units.\n"
-#~ msgstr "* Vous payez %d fois l'entretien normal en %s pour vos unités.\n"
-
-#~ msgid "* You pay %d times normal upkeep for your units.\n"
-#~ msgstr "* Vous payez %d fois l'entretien normal pour vos unités.\n"
-
 #~ msgid "* You pay no %s upkeep for your units.\n"
 #~ msgstr "* Vous ne payez pas %s pour l'entretien de vos unités.\n"
 
 #~ msgid "* You pay no upkeep for your units.\n"
 #~ msgstr "* Vous ne payez pas l'entretien de vos unités.\n"
+
+#~ msgid "* You pay %d times normal %s upkeep for your units.\n"
+#~ msgstr "* Vous payez %d fois l'entretien normal en %s pour vos unités.\n"
+
+#~ msgid "* You pay %d times normal upkeep for your units.\n"
+#~ msgstr "* Vous payez %d fois l'entretien normal pour vos unités.\n"
 
 #~ msgid ""
 #~ "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
@@ -19710,8 +19828,8 @@ msgstr ""
 
 #~ msgid "* If you lose your capital, the chance of civil war is %d%%.\n"
 #~ msgstr ""
-#~ "* Si vous perdez votre capitale, les chances de guerre civile sera de %d%"
-#~ "%.\n"
+#~ "* Si vous perdez votre capitale, les chances de guerre civile sera de %d"
+#~ "%%.\n"
 
 #~ msgid ""
 #~ "* When you have %d cities, the first unhappy citizen will appear in each "
@@ -21082,8 +21200,14 @@ msgstr ""
 #~ msgid "AI mode is now OFF."
 #~ msgstr "L'IA est maintenant désactivée."
 
+#~ msgid "noconn"
+#~ msgstr "pas conn."
+
 #~ msgid "waiting"
 #~ msgstr "en attente"
+
+#~ msgid "blocking"
+#~ msgstr "bloqué"
 
 #~ msgid "?Player:Name"
 #~ msgstr "Nom"
@@ -22401,27 +22525,6 @@ msgstr ""
 #~ msgid "?diplomatic_state:Team"
 #~ msgstr "Partenariat"
 
-#~ msgid "World-ranged requirements are only supported for wonders."
-#~ msgstr ""
-#~ "Les pré-requis de portée mondiale ne sont supportés que pour les "
-#~ "merveilles."
-
-#~ msgid "Player-ranged requirements are only supported for wonders."
-#~ msgstr ""
-#~ "Les pré-requis de portée \"joueur\" ne sont supportés que pour les "
-#~ "merveilles."
-
-#~ msgid "Island-ranged requirements are only supported for wonders."
-#~ msgstr ""
-#~ "Les pré-requis de portée \"île\" ne sont supportés que pour les "
-#~ "merveilles."
-
-#~ msgid ""
-#~ "Surviving requirements are only supported at world and player ranges."
-#~ msgstr ""
-#~ "Les exigences de survie ne sont prises en charge qu'à portée du monde et "
-#~ "du joueur."
-
 #~ msgid "Size %d"
 #~ msgstr "Taille %d"
 
@@ -23666,6 +23769,33 @@ msgstr ""
 #~ "centrale vers l'Afrique du sud dès le début du XVIIIème siècle en "
 #~ "soumettant les autochtones Khoisans et en luttant contre les colons "
 #~ "européens."
+
+# AR
+#~ msgid "Barbarian"
+#~ msgstr "Barbare"
+
+#~ msgid "?plural:Barbarians"
+#~ msgstr "Barbares"
+
+#~ msgid ""
+#~ "Since the dawn of civilization, barbarians have been a threat to cultured "
+#~ "peoples everywhere."
+#~ msgstr ""
+#~ "Depuis l'aube des civilisations, les barbares ont été une menace pour les "
+#~ "peuples cultivés où qu'ils soient."
+
+#~ msgid "Pirate"
+#~ msgstr "Pirate"
+
+#~ msgid "?plural:Pirates"
+#~ msgstr "Pirates"
+
+#~ msgid ""
+#~ "As long as honest men have sailed the seas, pirates have been a scourge "
+#~ "of them and of all coastal dwelling peoples."
+#~ msgstr ""
+#~ "Depuis aussi longtemps que les hommes honnêtes ont vogué sur les mers, "
+#~ "les pirates ont été un fléau pour eux, et pour tous les peuples côtiers."
 
 # AR
 #~ msgid "Advanced Flight"
@@ -25038,12 +25168,6 @@ msgstr ""
 #~ "Démocratie, mais les citoyens deviennent très insatisfaits pendant les "
 #~ "guerres."
 
-#~ msgid "Carthaginian"
-#~ msgstr "Carthaginois"
-
-#~ msgid "?plural:Carthaginians"
-#~ msgstr "Carthaginois"
-
 #~ msgid ""
 #~ "The Carthaginians, descendants of Phoenician traders, ran a naval empire "
 #~ "in the Mediterranean from the 5th to 2nd centuries BC. Carthage was "
@@ -25167,33 +25291,6 @@ msgstr ""
 
 #~ msgid "?female:%s Jarl"
 #~ msgstr "Jarl %s"
-
-# AR
-#~ msgid "Barbarian"
-#~ msgstr "Barbare"
-
-#~ msgid "?plural:Barbarians"
-#~ msgstr "Barbares"
-
-#~ msgid ""
-#~ "Since the dawn of civilization, barbarians have been a threat to cultured "
-#~ "peoples everywhere."
-#~ msgstr ""
-#~ "Depuis l'aube des civilisations, les barbares ont été une menace pour les "
-#~ "peuples cultivés où qu'ils soient."
-
-#~ msgid "Pirate"
-#~ msgstr "Pirate"
-
-#~ msgid "?plural:Pirates"
-#~ msgstr "Pirates"
-
-#~ msgid ""
-#~ "As long as honest men have sailed the seas, pirates have been a scourge "
-#~ "of them and of all coastal dwelling peoples."
-#~ msgstr ""
-#~ "Depuis aussi longtemps que les hommes honnêtes ont vogué sur les mers, "
-#~ "les pirates ont été un fléau pour eux, et pour tous les peuples côtiers."
 
 #~ msgid "Amphibious Warfare"
 #~ msgstr "Guerre amphibie"
@@ -31415,9 +31512,6 @@ msgstr ""
 #~ msgid "Korean"
 #~ msgstr "Coréen"
 
-#~ msgid "?plural:Koreans"
-#~ msgstr "Coréens"
-
 #~ msgid ""
 #~ "According to legend, the first Korean kingdom was founded in prehistory "
 #~ "by the ancestral Tangun in southern Manchuria. The Korean kingdoms were "
@@ -32499,6 +32593,18 @@ msgstr ""
 #~ msgid "More info"
 #~ msgstr "Plus d'info"
 
+#, fuzzy
+#~ msgid "no %s"
+#~ msgstr "Nabongo"
+
+#, fuzzy
+#~ msgid ""
+#~ "<h1>Freeciv %s governments help</h1>\n"
+#~ "\n"
+#~ msgstr ""
+#~ "<h1>Freeciv %s : aide des merveilles</h1>\n"
+#~ "\n"
+
 #~ msgid "Manual file %s successfully written."
 #~ msgstr "Fichier manuel %s écrit avec succès"
 
@@ -32583,6 +32689,10 @@ msgstr ""
 
 #~ msgid "?license:Unknown"
 #~ msgstr "inconnue"
+
+#, fuzzy
+#~ msgid "?modpack:Type"
+#~ msgstr "Type de modpack illégal"
 
 #~ msgid "License"
 #~ msgstr "Licence"
@@ -32852,6 +32962,14 @@ msgstr ""
 
 #~ msgid ""
 #~ "When %s was disbanded your %s could not get out, and it was therefore "
+#~ "lost."
+#~ msgstr ""
+#~ "Quand %s a été démantelée votre %s ne pouvait pas sortir et a donc été "
+#~ "perdu."
+
+#, fuzzy
+#~ msgid ""
+#~ "When %s was disbanded your %s in %s was trapped, and it was therefore "
 #~ "lost."
 #~ msgstr ""
 #~ "Quand %s a été démantelée votre %s ne pouvait pas sortir et a donc été "
@@ -39713,17 +39831,6 @@ msgstr ""
 #~ msgid "Could not read data directory %s: %s."
 #~ msgstr "Impossible de lire le répertoire de données %s : %s."
 
-#~ msgid "The path may be set via the \"%s\" environment variable."
-#~ msgstr ""
-#~ "Le chemin d'accès peut être spécifié par la variable d'environnement \"%s"
-#~ "\"."
-
-#~ msgid "Current path is: \"%s\""
-#~ msgstr "Le chemin d'accès actuel est : \"%s\""
-
-#~ msgid "The \"%s\" file is required ... aborting!"
-#~ msgstr "Le fichier \"%s\" est nécessaire ... abandon!"
-
 #~ msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 #~ msgstr ""
 #~ "%s : Erreur fatale : vous essayez de m'exécuter en tant que super-"
@@ -39775,6 +39882,38 @@ msgstr ""
 
 #~ msgid "error %d (compiled without strerror)"
 #~ msgstr "erreur %d (compilation sans strerror)"
+
+#~ msgid "World-ranged requirements are only supported for wonders."
+#~ msgstr ""
+#~ "Les pré-requis de portée mondiale ne sont supportés que pour les "
+#~ "merveilles."
+
+#~ msgid "Player-ranged requirements are only supported for wonders."
+#~ msgstr ""
+#~ "Les pré-requis de portée \"joueur\" ne sont supportés que pour les "
+#~ "merveilles."
+
+#~ msgid "Island-ranged requirements are only supported for wonders."
+#~ msgstr ""
+#~ "Les pré-requis de portée \"île\" ne sont supportés que pour les "
+#~ "merveilles."
+
+#~ msgid ""
+#~ "Surviving requirements are only supported at world and player ranges."
+#~ msgstr ""
+#~ "Les exigences de survie ne sont prises en charge qu'à portée du monde et "
+#~ "du joueur."
+
+#~ msgid "The path may be set via the \"%s\" environment variable."
+#~ msgstr ""
+#~ "Le chemin d'accès peut être spécifié par la variable d'environnement \"%s"
+#~ "\"."
+
+#~ msgid "Current path is: \"%s\""
+#~ msgstr "Le chemin d'accès actuel est : \"%s\""
+
+#~ msgid "The \"%s\" file is required ... aborting!"
+#~ msgstr "Le fichier \"%s\" est nécessaire ... abandon!"
 
 #~ msgid ""
 #~ "Oceans cover much of the world, and only sea units (Triremes and other "
@@ -41618,10 +41757,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Mai %s"
 #~ msgstr "à %s"
-
-#, fuzzy
-#~ msgid "Nabongo %s"
-#~ msgstr "Nabongo"
 
 #, fuzzy
 #~ msgid "?female:Nabongo %s"
